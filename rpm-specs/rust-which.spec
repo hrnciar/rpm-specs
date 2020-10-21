@@ -5,8 +5,8 @@
 %global crate which
 
 Name:           rust-%{crate}
-Version:        3.1.1
-Release:        2%{?dist}
+Version:        4.0.2
+Release:        1%{?dist}
 Summary:        Rust equivalent of Unix command "which"
 
 # Upstream license specification: MIT
@@ -53,18 +53,6 @@ which use "default" feature of "%{crate}" crate.
 %files       -n %{name}+default-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
-%package     -n %{name}+failure-devel
-Summary:        %{summary}
-BuildArch:      noarch
-
-%description -n %{name}+failure-devel %{_description}
-
-This package contains library source intended for building other packages
-which use "failure" feature of "%{crate}" crate.
-
-%files       -n %{name}+failure-devel
-%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
-
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
 %cargo_prep
@@ -84,6 +72,12 @@ which use "failure" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Sep 16 2020 Fabio Valentini <decathorpe@gmail.com> - 4.0.2-1
+- Update to version 4.0.2.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 11 2020 Josh Stone <jistone@redhat.com> - 3.1.1-2
 - Rebuild
 

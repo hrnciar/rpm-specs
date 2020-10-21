@@ -1,6 +1,6 @@
 Name:           perl-Math-Symbolic
 Version:        0.612
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Symbolic calculations
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Math-Symbolic
@@ -58,6 +58,9 @@ perl Build.PL installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.612-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.612-20
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:           clonekeen
 Version:        0.8.4
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        "Commander Keen: Invasion of the Vorticons" clone
 License:        GPLv3+
 URL:            http://clonekeen.sourceforge.net/
@@ -85,6 +85,9 @@ install -p -m 644 %{SOURCE7} \
 %{_datadir}/icons/hicolor/24x24/apps/%{name}.png
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.4-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 28 2020 Hans de Goede <hdegoede@redhat.com> - 0.8.4-19
 - Fix FTBFS (rhbz#1799233)
 

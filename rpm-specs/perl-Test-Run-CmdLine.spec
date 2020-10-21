@@ -1,6 +1,6 @@
 Name:           perl-Test-Run-CmdLine
-Version:        0.0131
-Release:        14%{?dist}
+Version:        0.0132
+Release:        1%{?dist}
 Summary:        Run TAP tests from command line using the Test::Run module
 # lib and other code:   MIT
 # bin/runprove:         GPL+ or Artistic
@@ -12,8 +12,8 @@ Source0:        https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/Test-Run-CmdLi
 BuildArch:      noarch
 BuildRequires:  coreutils
 BuildRequires:  findutils
-BuildRequires:  perl-interpreter
 BuildRequires:  perl-generators
+BuildRequires:  perl-interpreter
 BuildRequires:  perl(Config)
 BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(lib)
@@ -23,7 +23,6 @@ BuildRequires:  perl(Module::Build) >= 0.36
 BuildRequires:  perl(strict)
 BuildRequires:  perl(vars)
 BuildRequires:  perl(warnings)
-BuildRequires:  sed
 # Run-time:
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(Exporter)
@@ -80,10 +79,9 @@ BSD-licensed and quite large examples for %{name} package.
 find lib -type f -exec chmod 0644 {} +
 # Remove unwanted files
 rm --interactive=never examples/eumm-and-test-manifest/MyModule/.cvsignore
-sed -i -e '/^examples\/eumm-and-test-manifest\/MyModule\/.cvsignore/d' MANIFEST
+perl -i -ne 'print $_ unless m{^examples/eumm-and-test-manifest/MyModule/.cvsignore}' MANIFEST
 # Correct shellbangs in examples
-sed -i -e \
-    '1 s|^#!perl |'"$(perl -MConfig -e 'print $Config{startperl}')"' |' \
+perl -MConfig -pi -e 's|^#!perl |$Config{startperl} |' \
     examples/eumm-and-test-manifest/MyModule/t/*.t
 
 %build
@@ -109,6 +107,12 @@ perl Build.PL installdirs=vendor
 %doc examples
 
 %changelog
+* Mon Oct 19 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.0132-1
+- 0.0132 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0131-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.0131-14
 - Perl 5.32 rebuild
 

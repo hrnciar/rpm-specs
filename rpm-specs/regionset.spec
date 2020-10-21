@@ -1,6 +1,6 @@
 Name: regionset
 Version: 0.2
-Release: 14%{?dist}
+Release: 15%{?dist}
 Summary: Reads/sets the region code of DVD drives
 URL: http://linvdr.org/projects/regionset/
 Source: http://linvdr.org/download/regionset/%{name}-%{version}.tar.gz
@@ -28,6 +28,9 @@ install -p -m755 %{name} $RPM_BUILD_ROOT%{_sbindir}
 %attr(755,root,root) %{_sbindir}/%{name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

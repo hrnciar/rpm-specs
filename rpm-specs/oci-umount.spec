@@ -11,7 +11,7 @@
 Name:           oci-umount
 Epoch:          2
 Version:        2.5
-Release:        4.git%{shortcommit}%{?dist}
+Release:        5.git%{shortcommit}%{?dist}
 Summary:        OCI umount hook for docker
 License:        GPLv3+
 URL:            https://%{provider_prefix}
@@ -66,6 +66,9 @@ install -d %{buildroot}%{_datadir}/%{name}/%{name}.d
 %ghost /etc/oci-umount/oci-umount-options.conf
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:2.5-5.gitc3cda1f
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:2.5-4.gitc3cda1f
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

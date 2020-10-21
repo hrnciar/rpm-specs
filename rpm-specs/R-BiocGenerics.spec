@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          0.34.0
-Release:          1%{dist}
+Release:          2%{dist}
 Summary:          Generic functions for Bioconductor
 
 License:          Artistic 2.0
@@ -46,6 +46,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 %{rlibdir}/%{packname}/unitTests
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.34.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.34.0-1
 - update to 0.34.0
 - rebuild for R 4

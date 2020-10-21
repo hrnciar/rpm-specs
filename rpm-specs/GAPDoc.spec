@@ -1,6 +1,6 @@
 Name:           GAPDoc
-Version:        1.6.3
-Release:        3%{?dist}
+Version:        1.6.4
+Release:        4%{?dist}
 Summary:        GAP documentation tool
 
 # The package is all GPLv2+ except for some of the mathml files
@@ -109,11 +109,6 @@ This package contains documentation for GAPDoc.
 %prep
 %autosetup
 
-# Fix character encoding
-iconv -f ISO8859-1 -t UTF-8 3k+1/3k+1.bib > 3k+1/3k+1.bib.utf8
-touch -r 3k+1/3k+1.bib 3k+1/3k+1.bib.utf8
-mv -f 3k+1/3k+1.bib.utf8 3k+1/3k+1.bib
-
 %build
 # Link to main GAP documentation
 ln -s %{_gap_dir}/doc ../../doc
@@ -152,6 +147,12 @@ rm -f %{buildroot}%{_gap_dir}/pkg/%{name}/{CHANGES,GPL,README.md}
 %{_gap_dir}/pkg/%{name}/example/
 
 %changelog
+* Tue Aug 11 2020 Jerry James <loganjerry@gmail.com> - 1.6.4-4
+- Version 1.6.4
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

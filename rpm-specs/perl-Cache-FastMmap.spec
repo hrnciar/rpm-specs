@@ -1,6 +1,6 @@
 Name:           perl-Cache-FastMmap
 Version:        1.49
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Uses an mmap'ed file to act as a shared memory interprocess cache
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/pod/Cache::FastMmap
@@ -67,6 +67,13 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.49-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.49-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.49-2
 - Perl 5.32 rebuild
 

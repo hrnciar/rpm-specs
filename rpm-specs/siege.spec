@@ -1,7 +1,7 @@
 Name:           siege
-Version:        4.0.5
-Release:        1%{?dist}
-Summary:        A HTTP regression testing and benchmarking utility
+Version:        4.0.7
+Release:        2%{?dist}
+Summary:        HTTP regression testing and benchmarking utility
 
 License:        GPLv2+
 URL:            http://www.joedog.org/JoeDog/Siege
@@ -54,6 +54,15 @@ make install DESTDIR=%{buildroot} INSTALL="install -p"
 %config(noreplace) %{_sysconfdir}/siege/siegerc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Fabian Affolter <mail@fabian-affolter.ch> - 4.0.7-1
+- Update to new upstream release 4.0.7 (rhbz#1855989)
+
+* Mon Jul 13 2020 Fabian Affolter <mail@fabian-affolter.ch> - 4.0.6-1
+- Update to new upstream release 4.0.6 (rhbz#1855989)
+
 * Mon Feb 24 2020 Denis Fateyev <denis@fateyev.com> - 4.0.5-1
 - Update to 4.0.5 (#1804857)
 

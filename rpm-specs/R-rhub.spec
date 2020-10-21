@@ -6,7 +6,7 @@
 
 Name:             R-%{packname}
 Version:          1.1.1
-Release:          5%{?dist}
+Release:          6%{?dist}
 Summary:          Connect to 'R-hub'
 
 License:          MIT
@@ -95,6 +95,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.1.1-5
 - rebuild for R 4
 

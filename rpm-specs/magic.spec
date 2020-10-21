@@ -2,7 +2,7 @@
 %undefine   __brp_mangle_shebangs
 
 Name:		magic
-Version:	8.3.11
+Version:	8.3.67
 Release:	1%{?dist}
 Summary:	A very capable VLSI layout tool
 
@@ -170,6 +170,33 @@ rm -f %{buildroot}%{_mandir}/man1/extcheck.1*
 %doc	scmos/
 
 %changelog
+* Sat Oct 17 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 8.3.67-1
+- 8.3.67
+
+* Fri Oct  9 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 8.3.63-1
+- 8.3.63
+
+* Wed Sep 30 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 8.3.61-1
+- 8.3.61
+
+* Tue Sep  8 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 8.3.54-1
+- 8.3.54
+
+* Fri Aug 28 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 8.3.50-1
+- 8.3.50
+
+* Tue Aug 11 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 8.3.49-1
+- 8.3.49
+
+* Fri Aug  7 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 8.3.47-1
+- 8.3.47
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.3.31-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul  2 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 8.3.31-1
+- 8.3.31
+
 * Fri Jun 12 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 8.3.11-1
 - 8.3.11
 
@@ -269,7 +296,7 @@ rm -f %{buildroot}%{_mandir}/man1/extcheck.1*
 * Mon Apr  1 2019 Mamoru TASAKA <mtasaka@fedoraproject.org> - 8.2.102-1
 - 8.2.102
 
-* Mon Mar 16 2019 Mamoru TASAKA <mtasaka@fedoraproject.org> - 8.2.100-1
+* Mon Mar 18 2019 Mamoru TASAKA <mtasaka@fedoraproject.org> - 8.2.100-1
 - 8.2.100
 
 * Mon Feb 25 2019 Mamoru TASAKA <mtasaka@fedoraproject.org> - 8.2.99-1

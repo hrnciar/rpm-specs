@@ -87,8 +87,8 @@ find $bytecode_compilation_path -type f -a -name "*.py" -print0 | xargs -0 $pyth
 Summary:        GNU Image Manipulation Program
 Name:           gimp
 Epoch:          2
-Version:        2.10.20
-%global rel 1
+Version:        2.10.22
+%global rel 2
 Release:        %{?prerelprefix}%{rel}%{dotprerel}%{dotgitrev}%{?dist}
 
 # Compute some version related macros.
@@ -199,6 +199,7 @@ Requires:       hicolor-icon-theme
 %if %{with libunwind}
 Requires:       libunwind%{?_isa} >= 1.1.0
 %endif
+Requires:       lcms2 >= 2.8
 Recommends:     mypaint-brushes
 Requires:       pango >= 1.29.4
 Requires:       pygtk2 >= 2.10.4
@@ -395,7 +396,7 @@ export RHEL_ALLOW_PYTHON2_FOR_BUILD=1
 %endif
     --without-appdata-test
 
-make %{?_smp_mflags}
+%make_build
 
 %if ! %{unstable}
 # Generate RPM macros from pkg-config data:
@@ -444,7 +445,7 @@ EOF
 %endif
 
 %install
-make DESTDIR=%{buildroot} install
+%make_install
 %if ! %unstable
 install -D -m0644 macros.gimp %{buildroot}%{_rpmconfigdir}/macros.d/macros.gimp
 %endif
@@ -718,6 +719,26 @@ make check %{?_smp_mflags}
 %endif
 
 %changelog
+* Sun Oct 11 2020 Kalev Lember <klember@redhat.com> - 2:2.10.22-2
+- Require lcms2 instead of lcms2-devel (#1886811)
+
+* Thu Oct 08 2020 Nils Philippsen <nils@tiptoe.de> - 2:2.10.22-1
+- version 2.10.22
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:2.10.20-2.3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:2.10.20-2.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 2:2.10.20-2.1
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Wed Jun 24 2020 Josef Ridky <jridky@redhat.com> - 2:2.10.20-2
+- fix issue with liblcms2 in rawhide (#1850141)
+
 * Mon Jun 15 2020 Josef Ridky <jridky@redhat.com> - 2:2.10.20-1
 - New upstream release 2.10.20
 

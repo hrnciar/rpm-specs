@@ -1,7 +1,7 @@
 Name: phpwapmail
 Summary: WAP-based e-mail client
 Version: 0.9.5
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2+
 URL: http://phpwapmail.sourceforge.net
 Source: http://dl.sourceforge.net/sourceforge/phpwapmail/phpwapmail-%{version}.tar.gz
@@ -94,6 +94,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

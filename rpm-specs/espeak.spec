@@ -9,7 +9,7 @@
 
 Name:           espeak
 Version:        1.48.04
-Release:        17%{?dist}
+Release:        19%{?dist}
 Summary:        Software speech synthesizer (text-to-speech)
 
 License:        GPLv3+
@@ -81,7 +81,7 @@ rm -f espeak-data/*_dict
 %build
 # Compile espeak
 cd src
-make %{?_smp_mflags} CXXFLAGS="$RPM_OPT_FLAGS" LDFLAGS="$RPM_LD_FLAGS" AUDIO=%{backend}
+%make_build CXXFLAGS="$RPM_OPT_FLAGS" LDFLAGS="$RPM_LD_FLAGS" AUDIO=%{backend}
 
 # Compile the TTS voice dictionaries
 export ESPEAK_DATA_PATH=$RPM_BUILD_DIR/espeak-%{version}-source
@@ -97,7 +97,7 @@ done
 %install
 rm -rf $RPM_BUILD_ROOT
 cd $RPM_BUILD_DIR/espeak-%{version}-source/src
-make install DESTDIR=$RPM_BUILD_ROOT BINDIR=%{_bindir} INCDIR=%{_includedir}/espeak LIBDIR=%{_libdir} AUDIO=%{backend}
+%make_install BINDIR=%{_bindir} INCDIR=%{_includedir}/espeak LIBDIR=%{_libdir} AUDIO=%{backend}
 # Install manpage
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
 cp -pf %{SOURCE1} $RPM_BUILD_ROOT%{_mandir}/man1/
@@ -137,6 +137,13 @@ exit 0
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.48.04-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Tom Stellard <tstellar@redhat.com> - 1.48.04-18
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.48.04-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

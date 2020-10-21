@@ -6,7 +6,7 @@
 
 # https://github.com/hashicorp/serf
 %global goipath         github.com/hashicorp/serf
-Version:                0.8.3
+Version:                0.9.3
 
 %gometa
 
@@ -37,7 +37,7 @@ Here are some example use cases of Serf, though there are many others:
 %global godocs          CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Service orchestration and management tool
 
 # Upstream license specification: MPL-2.0
@@ -88,6 +88,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 21:55:54 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.9.3-1
+- Update to 0.9.3
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

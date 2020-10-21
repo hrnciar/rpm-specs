@@ -1,7 +1,7 @@
 %global snapshot 20060225
 Name:           duel3
 Version:        0.1
-Release:        0.30.%{snapshot}%{?dist}
+Release:        0.32.%{snapshot}%{?dist}
 Summary:        One on one spaceship duel in a 2D arena
 License:        BSD
 # Upstream has vanished
@@ -56,7 +56,7 @@ mv temp music-credits.txt
 %build
 pushd Source
 make %{?_smp_mflags} PREFIX=%{_prefix} \
-  CFLAGS="$RPM_OPT_FLAGS -fsigned-char -Wno-deprecated-declarations -Wno-non-virtual-dtor"
+  CFLAGS="-std=c++14 $RPM_OPT_FLAGS -fsigned-char -Wno-deprecated-declarations -Wno-non-virtual-dtor"
 popd
 
 
@@ -86,6 +86,12 @@ install -p -m 644 %{SOURCE3} \
 
 
 %changelog
+* Tue Aug 18 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.32.20060225
+- Force C++14 as this code is not C++17 ready
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.31.20060225
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.30.20060225
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

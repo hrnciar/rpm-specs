@@ -3,7 +3,7 @@
 
 Name:           rkhunter
 Version:        1.4.6
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        A host-based tool to scan for rootkits, backdoors and local exploits
 
 License:        GPLv2+
@@ -93,6 +93,9 @@ EOF
 %{_mandir}/man8/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.6-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 16 2020 Kevin Fenzi <kevin@scrye.com> - 1.4.6-8
 - Add allow for podman's /dev/shm files (fixes bug #1828698 )
 

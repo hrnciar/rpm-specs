@@ -6,7 +6,7 @@
 Summary:   Cron daemon for executing programs at set times
 Name:      cronie
 Version:   1.5.5
-Release:   2%{?dist}
+Release:   4%{?dist}
 License:   MIT and BSD and ISC and GPLv2+
 URL:       https://github.com/cronie-crond/cronie
 Source0:   https://github.com/cronie-crond/cronie/releases/download/cronie-%{version}/cronie-%{version}.tar.gz
@@ -95,10 +95,10 @@ extra features.
 --enable-pie \
 --enable-relro
 
-make %{?_smp_mflags} V=2
+%make_build V=2
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT DESTMAN=$RPM_BUILD_ROOT%{_mandir}
+%make_install DESTMAN=$RPM_BUILD_ROOT%{_mandir}
 mkdir -pm700 $RPM_BUILD_ROOT%{_localstatedir}/spool/cron
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/
 mkdir -pm755 $RPM_BUILD_ROOT%{_sysconfdir}/cron.d/
@@ -204,6 +204,13 @@ exit 0
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/cron.d/dailyjobs
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.5.5-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

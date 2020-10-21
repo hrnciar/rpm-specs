@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          0.4.32
-Release:          3%{?dist}
+Release:          4%{?dist}
 Summary:          R Unit test framework
 
 License:          GPLv2
@@ -68,6 +68,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.32-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 0.4.32-3
 - Rebuild for R 4
 

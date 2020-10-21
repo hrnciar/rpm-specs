@@ -1,6 +1,6 @@
 Name:           perl-Titanium
 Version:        1.04
-Release:        36%{?dist}
+Release:        39%{?dist}
 Summary:        Strong, lightweight web application framework
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Titanium
@@ -63,6 +63,15 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.04-39
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.04-38
+- Perl 5.32 re-rebuild of bootstrapped packages
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.04-37
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.04-36
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

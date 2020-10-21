@@ -5,7 +5,7 @@
 Summary: PolicyKit integration for the GNOME desktop
 Name:    polkit-gnome
 Version: 0.106
-Release: 0.6%{?commit0:.%{date}git%{shortcommit0}}%{?dist}
+Release: 0.7%{?commit0:.%{date}git%{shortcommit0}}%{?dist}
 License: LGPLv2+
 URL:     http://www.freedesktop.org/wiki/Software/PolicyKit
 Source0: https://github.com/GNOME/PolicyKit-gnome/archive/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
@@ -65,6 +65,9 @@ NOCONFIGURE=1 ./autogen.sh
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.106-0.7.20170423gita0763a2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.106-0.6.20170423gita0763a2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

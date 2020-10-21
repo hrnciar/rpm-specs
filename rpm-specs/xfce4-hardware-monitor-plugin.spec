@@ -2,7 +2,7 @@
 
 Name:           xfce4-hardware-monitor-plugin
 Version:        1.6.0
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Xfce4 panel plugin to monitor various hardware
 
 License:        GPL+ and LGPLv2+
@@ -29,10 +29,6 @@ visualisations or with text
 %autosetup
 
 %build
-# Build in C++11 mode as glibmm headers use C++11 features. This can be dropped
-# when GCC in Fedora switches to C++11 by default (with GCC 6, most likely).
-export CXXFLAGS="%{optflags} -std=c++11"
-
 xdt-autogen
 %configure
 %make_build
@@ -51,6 +47,12 @@ rm -f %{buildroot}/%{_libdir}/xfce4/panel/plugins/libhardwaremonitor.la
 %{_datadir}/xfce4-hardware-monitor-plugin
 
 %changelog
+* Wed Aug 26 2020 Jeff Law <law@redhat.wcom> - 1.6.0-10
+- Do not force C++11 mode
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

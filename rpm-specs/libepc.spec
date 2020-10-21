@@ -7,7 +7,7 @@
 
 Name:           libepc
 Version:        0.4.0
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Easy Publish and Consume library
 
 License:        LGPLv2+
@@ -100,6 +100,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@
 
 Summary: Shared code among cinnamon-session, nemo, etc
 Name:    cinnamon-desktop
-Version: 4.6.2
+Version: 4.6.4
 Release: 1%{?dist}
 License: GPLv2+ and LGPLv2+ and MIT
 URL:     https://github.com/linuxmint/%{name}
@@ -96,6 +96,18 @@ install -m 644 %SOURCE1 %buildroot%{_datadir}/applications/x-cinnamon-mimeapps.l
 %{_datadir}/gir-1.0/C*.gir
 
 %changelog
+* Tue Aug 11 2020 Leigh Scott <leigh123linux@gmail.com> - 4.6.4-1
+- Update to 4.6.4 release
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Leigh Scott <leigh123linux@gmail.com> - 4.6.3-1
+- Update to 4.6.3 release
+
+* Thu Jul 02 2020 Leigh Scott <leigh123linux@gmail.com> - 4.6.2-2
+- Add patch to monitor issue
+
 * Sun Jun 21 2020 Leigh Scott <leigh123linux@gmail.com> - 4.6.2-1
 - Update to 4.6.2 release
 

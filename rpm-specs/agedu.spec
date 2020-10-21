@@ -1,8 +1,8 @@
-%global rel 20171202.8a8299e
+%global rel 20200705.2a7d4a2
 
 Name:           agedu
 Version:        0
-Release:        19.%{rel}%{?dist}
+Release:        22.%{rel}%{?dist}
 Summary:        An utility for tracking down wasted disk space
 License:        MIT
 URL:            http://www.chiark.greenend.org.uk/~sgtatham/agedu/
@@ -19,25 +19,29 @@ files and directories.
 %prep
 %setup -q -n %{name}-%{rel}
 
-
 %build
 %configure
 make %{?_smp_mflags}
 
-
 %install
-rm -rf %{buildroot}
-make install DESTDIR=%{buildroot} INSTALL="install -p"
-
-
+%make_install
 
 %files
 %doc LICENCE TODO
 %{_bindir}/%{name}
 %{_mandir}/man1/%{name}.1.gz
 
-
 %changelog
+* Wed Aug 05 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 0-22.0200705.2a7d4a2
+- Update to 20200705.2a7d4a2.
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-21.20171202.8a8299e
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-20.20171202.8a8299e
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-19.20171202.8a8299e
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

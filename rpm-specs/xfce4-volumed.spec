@@ -5,7 +5,7 @@
 
 Name:           xfce4-volumed
 Version:        0.2.3
-Release:        23%{?dist}
+Release:        26%{?dist}
 Summary:        Daemon to add additional functionality to the volume keys of the keyboard
 License:        GPLv3+
 URL:            https://git.xfce.org/apps/xfce4-volumed-pulse/
@@ -14,7 +14,6 @@ Source0:        https://archive.xfce.org/src/apps/%{upstreamname}/%{minorversion
 BuildRequires:  gcc-c++
 BuildRequires:  xfconf-devel
 BuildRequires:  libnotify-devel
-BuildRequires:  gstreamer-plugins-base-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  gtk3-devel
 BuildRequires:  pulseaudio-libs-devel
@@ -42,10 +41,11 @@ echo "Icon=multimedia-volume-control" >> data/%{name}.desktop
 %make_install
 desktop-file-install \
   --add-category="Utility" \
-  --dir=$RPM_BUILD_ROOT/%{_datadir}/applications \
-  $RPM_BUILD_ROOT/%{_sysconfdir}/xdg/autostart/%{upstreamname}.desktop
+  --dir=%{buildroot}/%{_datadir}/applications \
+  %{buildroot}/%{_sysconfdir}/xdg/autostart/%{upstreamname}.desktop
+
 # one launcher is enough, we don't want to have a daemon in the menu
-rm -rf $RPM_BUILD_ROOT/%{_datadir}/applications/
+rm -rf %{buildroot}/%{_datadir}/applications/
 
 
 %files
@@ -56,6 +56,16 @@ rm -rf $RPM_BUILD_ROOT/%{_datadir}/applications/
 
 
 %changelog
+* Tue Aug 04 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.2.3-26
+- Fix FTBFS (drop BR on gstreamer)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.3-25
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.3-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.3-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

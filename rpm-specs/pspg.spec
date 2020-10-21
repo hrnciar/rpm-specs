@@ -1,6 +1,6 @@
 Summary:	A unix pager optimized for psql
 Name:		pspg
-Version:	3.0.4
+Version:	3.1.4
 Release:	1%{?dist}
 License:	BSD
 URL:		https://github.com/okbob/%{name}
@@ -38,6 +38,21 @@ columns, and lot of color themes are included.
 
 
 %changelog
+* Fri Sep 25 2020 Pavel Raiskup <praiskup@redhat.com> - 3.1.4-1
+- new upstream release, per release notes:
+  https://github.com/okbob/pspg/releases/tag/3.1.4
+
+* Fri Aug 28 2020 Pavel Raiskup <praiskup@redhat.com> - 3.1.3-1
+- new upstream release, per release notes:
+  https://github.com/okbob/pspg/releases/tag/3.1.3
+  https://github.com/okbob/pspg/releases/tag/3.1.2
+  https://github.com/okbob/pspg/releases/tag/3.1.1
+  https://github.com/okbob/pspg/releases/tag/3.0.7
+  https://github.com/okbob/pspg/releases/tag/3.0.6
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 11 2020 Pavel Raiskup <praiskup@redhat.com> - 3.0.4-1
 - new upstream release, per release notes:
   https://github.com/okbob/pspg/releases/tag/3.0.4

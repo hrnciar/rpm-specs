@@ -1,6 +1,6 @@
 Name:       perl-DBIx-Class-DynamicDefault 
 Version:    0.04
-Release:    25%{?dist}
+Release:    26%{?dist}
 # lib/DBIx/Class/DynamicDefault.pm -> GPL+ or Artistic
 License:    GPL+ or Artistic 
 Summary:    Automatically set and update fields 
@@ -63,6 +63,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.04-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.04-25
 - Perl 5.32 rebuild
 

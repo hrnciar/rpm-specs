@@ -1,6 +1,6 @@
 Name:           zeitgeist
-Version:        1.0.2
-Release:        2%{?dist}
+Version:        1.0.3
+Release:        1%{?dist}
 Summary:        Framework providing Desktop activity awareness
 # most of the source code is LGPLv2+, except:
 # datahub/ is LGPLv3+
@@ -14,11 +14,10 @@ License:        LGPLv2+ and LGPLv3+ and GPLv2+
 URL:            https://launchpad.net/zeitgeist
 Source0:        %{url}/1.0/%{version}/+download/%{name}-%{version}.tar.xz
 
-# patch build system to disable building custom python2 bindings
-Patch0:         00-disable-python.patch
-
 BuildRequires:  gcc-c++
 BuildRequires:  gettext
+BuildRequires:  python3-devel
+BuildRequires:  python3-rdflib
 BuildRequires:  systemd
 BuildRequires:  vala
 BuildRequires:  xapian-core-devel
@@ -65,9 +64,6 @@ developing applications that use %{name}.
 %prep
 %autosetup -p1
 
-# make sure to nuke python stuff
-rm -r python
-
 ## nuke unwanted rpaths, see also
 ## https://fedoraproject.org/wiki/Packaging/Guidelines#Beware_of_Rpath
 sed -i -e 's|"/lib /usr/lib|"/%{_lib} %{_libdir}|' configure
@@ -80,6 +76,9 @@ sed -i -e 's|"/lib /usr/lib|"/%{_lib} %{_libdir}|' configure
 %make_install
 
 find %{buildroot} -name '*.la' -delete -print
+
+# Remove unused Python bindings.
+rm -rf %{buildroot}%{python3_sitelib}
 
 # We install AUTHORS and NEWS with %%doc instead
 rm -frv %{buildroot}%{_datadir}/zeitgeist/doc
@@ -131,6 +130,12 @@ make check || true
 %{_datadir}/vala/vapi/zeitgeist-datamodel-2.0.vapi
 
 %changelog
+* Thu Oct 15 2020 David King <amigadave@amigadave.com> - 1.0.3-1
+- Update to 1.0.3 (#1888547)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

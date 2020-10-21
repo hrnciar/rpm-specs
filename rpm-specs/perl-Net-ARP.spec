@@ -1,8 +1,8 @@
 %define real_name Net-ARP
 
 Name:       perl-Net-ARP
-Version:    1.0.9
-Release:    18%{?dist}
+Version:    1.0.11
+Release:    1%{?dist}
 Summary:    Create and Send ARP Packets
 License:    GPLv2
 URL:        https://metacpan.org/release/%{real_name}
@@ -13,7 +13,6 @@ BuildRequires: perl-devel
 BuildRequires: perl-generators
 BuildRequires: perl(ExtUtils::MakeMaker)
 
-Patch0:     Net-Arp-1.0.6-tests.patch
 
 %{?perl_default_filter}
 
@@ -24,9 +23,8 @@ libraries like Libnet to compile this extension. It uses kernel header files
 to create the packets.
 
 %prep
-%setup -q -n %{real_name}
+%setup -q -n %{real_name}-%{version}
 chmod -x README *.pm *.c *.h
-%patch0 -p1 -b .tests
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS=vendor OPTIMIZE="$RPM_OPT_FLAGS"
@@ -53,6 +51,12 @@ find %{buildroot} -type f -name '*.bs' -a -size 0 -exec rm -f {} ';'
 %{perl_vendorarch}/auto/Net/
 
 %changelog
+* Sat Aug  8 2020 Robin Lee <cheeselee@fedoraproject.org> - 1.0.11-1
+- Update to 1.0.11
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.9-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.0.9-18
 - Perl 5.32 rebuild
 

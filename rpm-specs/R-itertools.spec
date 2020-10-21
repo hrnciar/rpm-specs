@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          0.1.3
-Release:          7%{?dist}
+Release:          8%{?dist}
 Summary:          Iterator Tools
 
 License:          GPLv2
@@ -62,6 +62,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.1.3-7
 - rebuild for R 4
 

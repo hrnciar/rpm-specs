@@ -1,9 +1,9 @@
-Summary: Unobtrusive window manager
 Name: metacity
-Version: 3.36.1
+Version: 3.38.0
 Release: 1%{?dist}
+Summary: Unobtrusive window manager
 URL: https://wiki.gnome.org/Projects/Metacity
-Source0: https://download.gnome.org/sources/metacity/3.36/metacity-%{version}.tar.xz
+Source0: https://download.gnome.org/sources/metacity/3.38/metacity-%{version}.tar.xz
 
 License: GPLv2+
 
@@ -19,6 +19,8 @@ BuildRequires: pkgconfig(xrender)
 BuildRequires: pkgconfig(xdamage)
 BuildRequires: pkgconfig(xrender)
 BuildRequires: pkgconfig(xcursor)
+BuildRequires: pkgconfig(xres)
+BuildRequires: pkgconfig(xpresent)
 BuildRequires: pkgconfig(libgtop-2.0)
 BuildRequires: libXinerama-devel
 BuildRequires: libSM-devel, libICE-devel, libX11-devel
@@ -95,11 +97,10 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %ldconfig_scriptlets
 
 %files -f %{name}.lang
-%doc README AUTHORS COPYING NEWS HACKING doc/theme-format.txt doc/metacity-theme.dtd rationales.txt
+%doc README AUTHORS COPYING NEWS HACKING rationales.txt
 %{_bindir}/metacity
 %{_bindir}/metacity-message
 %{_datadir}/glib-2.0/schemas/*
-%{_datadir}/metacity
 %{_datadir}/gnome-control-center/keybindings/*
 %{_libdir}/lib*.so.*
 %{_mandir}/man1/metacity.1.gz
@@ -108,14 +109,18 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 %files devel
 %{_bindir}/metacity-theme-viewer
-%{_bindir}/metacity-window-demo
 %{_includedir}/*
 %{_libdir}/lib*.so
 %{_libdir}/pkgconfig/*
 %{_mandir}/man1/metacity-theme-viewer.1.gz
-%{_mandir}/man1/metacity-window-demo.1.gz
 
 %changelog
+* Mon Oct 12 2020 Yaakov Selkowitz <yselkowi@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 27 2020 Yaakov Selkowitz <yselkowi@redhat.com> - 3.36.1-1
 - Update to 3.36.1
 

@@ -3,7 +3,7 @@
 
 Name:           scidavis
 Version:        2.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Application for Scientific Data Analysis and Visualization
 
 License:        GPLv3+
@@ -135,6 +135,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Alexander Ploumistos <alexpl@fedoraproject.org> - 2.3.0-1
 - Update to 2.3.0
 - Add qwt5-qt5 and all the new BRs

@@ -5,7 +5,7 @@
 %global crate reqwest
 
 Name:           rust-%{crate}
-Version:        0.10.6
+Version:        0.10.8
 Release:        1%{?dist}
 Summary:        Higher level HTTP client library
 
@@ -15,7 +15,6 @@ URL:            https://crates.io/crates/reqwest
 Source:         %{crates_source}
 # Initial patched metadata
 # * No windows/wasm32
-# * Update libflate to 1.0, https://github.com/seanmonstar/reqwest/pull/909
 Patch0:         reqwest-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -400,6 +399,12 @@ which use "webpki-roots" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 0.10.8-1
+- Update to 0.10.8
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Josh Stone <jistone@redhat.com> - 0.10.6-1
 - Update to 0.10.6
 

@@ -7,7 +7,7 @@
 # Please, preserve the changelog entries
 #
 %global bootstrap    0
-%global gh_commit    8a193ac96ebcb3e16b6ee754ac2a889eefacb654
+%global gh_commit    3c91415633cb1be6f9d78683d69b7dcbfe6b4012
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     laminas
 %global gh_project   laminas-feed
@@ -22,7 +22,7 @@
 %endif
 
 Name:           php-%{gh_project}
-Version:        2.12.2
+Version:        2.12.3
 Release:        1%{?dist}
 Summary:        %{namespace} Framework %{library} component
 
@@ -206,6 +206,12 @@ exit $ret
 
 
 %changelog
+* Tue Aug 18 2020 Remi Collet <remi@remirepo.net> - 2.12.3-1
+- update to 2.12.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 Remi Collet <remi@remirepo.net> - 2.12.2-1
 - update to 2.12.2 (no change)
 

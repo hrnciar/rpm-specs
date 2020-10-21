@@ -28,8 +28,8 @@ decompress (on average) 512KB of data to read from any location in the file.}
 
 
 Name:           python-%{srcname}
-Version:        1.2.0
-Release:        1%{?dist}
+Version:        1.3.2
+Release:        2%{?dist}
 Summary:        Fast random access of gzip files in Python
 
 
@@ -37,19 +37,19 @@ License:        zlib
 URL:            https://pypi.python.org/pypi/%{srcname}
 Source0:        %pypi_source
 
-BuildRequires:  python3-devel
-BuildRequires:  gcc
-BuildRequires:  zlib-devel
-
 %description
 %{desc}
 
 %package -n python3-%{srcname}
 Summary:        %{summary}
+BuildRequires:  gcc
+BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist Cython}
-BuildRequires:  %{py3_dist pytest}
 BuildRequires:  %{py3_dist numpy}
+BuildRequires:  %{py3_dist pytest}
 BuildRequires:  %{py3_dist pytest-cov}
+BuildRequires:  %{py3_dist setuptools}
+BuildRequires:  zlib-devel
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
@@ -83,6 +83,15 @@ pytest-%{python3_version} .
 %{python3_sitearch}/%{srcname}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.3.2-1
+- Update to new version
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.2.0-2
+- Explicitly BR setuptools
+
 * Sun Jun 21 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.2.0-1
 - Update to 1.2.0
 

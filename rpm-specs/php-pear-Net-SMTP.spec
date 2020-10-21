@@ -10,7 +10,7 @@
 %global pear_name Net_SMTP
 
 Name:           php-pear-Net-SMTP
-Version:        1.9.1
+Version:        1.9.2
 Release:        1%{?dist}
 Summary:        Provides an implementation of the SMTP protocol
 
@@ -102,6 +102,12 @@ fi
 
 
 %changelog
+* Thu Aug 13 2020 Remi Collet <remi@remirepo.net> 1.9.2-1
+- update to 1.9.2 (no change)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun  8 2020 Remi Collet <remi@remirepo.net> 1.9.1-1
 - update to 1.9.1 (no change)
 

@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        2.2
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        A Python multi-keyword text search engine
 
 License:        BSD
@@ -60,6 +60,9 @@ thousand).
 %{python3_sitearch}/%{pypi_name}*.egg-info
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.2-6
 - Rebuilt for Python 3.9
 

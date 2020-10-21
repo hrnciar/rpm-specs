@@ -1,7 +1,7 @@
 Summary:   A tool to convert documents from/to any format supported by LibreOffice
 Name:      unoconv
 Version:   0.9.0
-Release:   3%{?dist}
+Release:   4%{?dist}
 License:   GPLv2
 URL:       https://github.com/unoconv/unoconv/
 Source:    https://github.com/unoconv/unoconv/archive/%{version}.tar.gz
@@ -51,6 +51,9 @@ make install DESTDIR="%{buildroot}"
 %{_bindir}/%{name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

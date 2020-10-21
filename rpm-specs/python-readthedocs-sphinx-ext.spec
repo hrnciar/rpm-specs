@@ -1,8 +1,8 @@
 %global srcname readthedocs-sphinx-ext
 
 Name:           python-%{srcname}
-Version:        2.0.0
-Release:        1%{?dist}
+Version:        2.1.1
+Release:        2%{?dist}
 Summary:        Sphinx extension for Read the Docs overrides
 
 License:        MIT
@@ -15,7 +15,7 @@ BuildRequires:  pyproject-rpm-macros
 # upstream supports multiple sphinx versions
 # tox specifies dependency on sphinx based on toxenv,
 # so we add it manually here
-BuildRequires:  python3dist(sphinx)
+BuildRequires:  %{py3_dist sphinx}
 
 %global _desc %{expand:
 This module adds extensions that make Sphinx easier to use.  Some of them
@@ -55,6 +55,15 @@ rst2html --no-datestamp README.rst README.html
 %{python3_sitelib}/readthedocs_sphinx_ext*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Jerry James <loganjerry@gmail.com> - 2.1.1-1
+- Version 2.1.1
+
+* Sat Jul 11 2020 Jerry James <loganjerry@gmail.com> - 2.1.0-1
+- Version 2.1.0
+
 * Tue Jun 16 2020 Jerry James <loganjerry@gmail.com> - 2.0.0-1
 - Version 2.0.0
 

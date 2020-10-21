@@ -1,8 +1,10 @@
+%undefine __cmake_in_source_build
+%undefine _cmake_skip_rpath
 %global _hardened_build 1
 
 Name:           nextcloud-client
-Version:        2.6.4
-Release:        5%{?dist}
+Version:        3.0.2
+Release:        2%{?dist}
 Summary:        The Nextcloud Client
 
 # -libs are LGPLv2+, rest GPLv2
@@ -18,10 +20,10 @@ Source1:        nextcloud.appdata.xml
 # These fix are needed because the system wide QtSingleApplication is slightly 
 # different from the bundled one.
 #Patch0:         %%{name}-%%{version}-syslibs.patch
-Patch0:         0001-CloudProviders-Don-t-clear-the-_recentMenu-pointer.patch
-Patch1:         0001-CloudProvider-Use-absolute-path-in-dbus-file.patch
+Patch1: nextcloud-client-picpie.patch
 
 BuildRequires:  check
+BuildRequires:  chrpath
 BuildRequires:  cmake
 BuildRequires:  desktop-file-utils
 BuildRequires:  doxygen
@@ -33,14 +35,16 @@ BuildRequires:  openssl-devel
 BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  python3-sphinx
 BuildRequires:  qtlockedfile-qt5-devel
-BuildRequires:  qtkeychain-qt5-devel >= 0.7.0
+BuildRequires:  qtkeychain-qt5-devel
 BuildRequires:  qtsingleapplication-qt5-devel
 BuildRequires:  qt5-qtbase
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtbase-gui
 BuildRequires:  qt5-qtwebkit-devel
 BuildRequires:  qt5-qtxmlpatterns-devel
-BuildRequires:  qt5-qttools qt5-qttools-devel
+BuildRequires:  qt5-qttools
+BuildRequires:  qt5-qttools-devel
+BuildRequires:  qt5-qtquickcontrols2-devel
 BuildRequires:  qt5-qtwebengine-devel
 BuildRequires:  qt5-qtsvg-devel
 BuildRequires:  extra-cmake-modules
@@ -52,6 +56,10 @@ BuildRequires:  kf5-rpm-macros
 %endif
 BuildRequires:  sqlite-devel
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
+%if 0%{?fedora} && 0%{?fedora} < 33
+# concerning libgnome-keyring read https://bugzilla.redhat.com/show_bug.cgi?id=1652973
+Requires:       libgnome-keyring
+%endif
 
 Provides: mirall = %{version}-%{release}
 Obsoletes: mirall < 1.8.0
@@ -137,23 +145,19 @@ The nextcloud desktop client dolphin extension.
 
 %prep
 %setup -q -n desktop-%{version}
-#rm -rf src/3rdparty/qtlockedfile src/3rdparty/qtsingleapplication
-%patch0 -p1
 %patch1 -p1
+#rm -rf src/3rdparty/qtlockedfile src/3rdparty/qtsingleapplication
 
 
 %build
-mkdir build
-pushd build
-%cmake_kf5 .. -DCMAKE_SHARED_LINKER_FLAGS="-Wl,--as-needed"
-make %{?_smp_mflags}
-popd
+%cmake_kf5 \
+  -DCMAKE_SHARED_LINKER_FLAGS="-Wl,--as-needed"
 
+%cmake_build
 
 %install
-pushd build
-make install DESTDIR=%{buildroot}
-popd
+%cmake_install
+
 %find_lang client --with-qt
 mkdir -p %{buildroot}%{_datadir}/appdata/
 install -m 644 %{SOURCE1} %{buildroot}%{_datadir}/appdata/nextcloud.appdata.xml
@@ -176,6 +180,8 @@ rm -rf %{buildroot}%{_datadir}/caja-python/
 
 %check
 appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/nextcloud.appdata.xml
+# verify rpath/runpath, see https://bugzilla.redhat.com/show_bug.cgi?id=1871655
+test "$(chrpath --list %{buildroot}%{_bindir}/nextcloud)" = "%{buildroot}%{_bindir}/nextcloud: RPATH=%{_libdir}/nextcloud"
 
 %ldconfig_scriptlets libs
 
@@ -186,7 +192,7 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/nextcloud.
 %files -f client.lang
 %{_bindir}/nextcloud
 %{_bindir}/nextcloudcmd
-%{_datadir}/applications/nextcloud.desktop
+%{_datadir}/applications/com.nextcloud.desktopclient.nextcloud.desktop
 %{_datadir}/icons/hicolor/*/apps/*
 %{_datadir}/appdata/nextcloud.appdata.xml
 %{_datadir}/cloud-providers/com.nextcloudgmbh.Nextcloud.ini
@@ -226,6 +232,47 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/nextcloud.
 %endif
 
 %changelog
+* Fri Oct 02 2020 Jeff Law <law@redhat.com> - 3.0.2-2
+- Use -fPIC rather than -fPIE.  Re-enable LTO.
+
+* Sat Sep 26 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 3.0.2-1
+- Update to 3.0.2
+
+* Thu Sep 10 2020 Nick Bebout <nb@fedoraproject.org> - 3.0.1-2
+- Disable LTO 
+
+* Sat Sep 05 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 3.0.1-1
+- Update to 3.0.1
+- Drop upstreamed patches
+
+* Mon Aug 31 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 2.6.5-9
+- Only require libgnome-keyring on Fedora (not EPEL). EPEL8 is getting qtkeychain 0.10.0
+
+* Mon Aug 24 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.6.5-8
+- %%check: verify correct rpath/runpath
+
+* Mon Aug 24 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.6.5-7
+- restore use of %%cmake_kf5, explicitly undefine _cmake_skip_rpath (#1871655)
+
+* Tue Aug 04 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 2.6.5-6
+- Change cmake macros to fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.5-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.6.5-3
+- Require libgnome-keyring only for <=f32
+
+* Tue Jul 14 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.6.5-2
+- Reinstate libgnome-keyring requires.
+
+* Fri Jul 10 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.6.5-1
+- 2.6.5
+
 * Thu Jun 18 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 2.6.4-5
 - Drop requires on libgnome-keyring (not needed with qtkeychain >= 0.10.0)
 

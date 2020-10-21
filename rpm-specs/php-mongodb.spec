@@ -6,18 +6,19 @@
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    dc43ba25fb593d6a2988e6a535b6f5386eda5b15
+# disabled for https://fedoraproject.org/wiki/Changes/MongoDB_Removal
+%bcond_with          tests
+
+%global gh_commit    b35af66631a11ee730ff1fde295f71e89f01f121
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     mongodb
 #global gh_date      20151102
 %global gh_project   mongo-php-library
-# disabled for https://fedoraproject.org/wiki/Changes/MongoDB_Removal
-%global with_tests   0%{?_with_tests:1}
 %global psr0         MongoDB
 #global prever       beta2
 
 Name:           php-%{gh_owner}
-Version:        1.6.0
+Version:        1.7.1
 %if 0%{?gh_date}
 Release:        1%{gh_date}git%{gh_short}%{?dist}
 %else
@@ -31,21 +32,23 @@ Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit
 
 # Autoloader
 Source1:        %{name}-autoload.php
+# Get rid of jean85/pretty-package-versions
+Patch0:         %{name}-rpm.patch
 
 BuildArch:      noarch
-BuildRequires:  php(language) >= 5.6
+BuildRequires:  php(language) >= 7.0
 BuildRequires:  php-cli
 BuildRequires:  php-date
 BuildRequires:  php-hash
 BuildRequires:  php-json
 BuildRequires:  php-spl
-BuildRequires:  php-pecl(mongodb) >= 1.7
-%if %{with_tests}
+BuildRequires:  php-pecl(mongodb) >= 1.8
+%if %{with tests}
 BuildRequires:  mongodb-server >= 2.4
 # From composer.json, "require-dev": {
-#        "phpunit/phpunit": "^5.7.27 || ^6.4 || ^8.3",
-#        "sebastian/comparator": "^1.0 || ^2.0 || ^3.0",
-#        "squizlabs/php_codesniffer": "^3.4",
+#        "phpunit/phpunit": "^6.4 || ^8.3",
+#        "sebastian/comparator": "^2.0 || ^3.0",
+#        "squizlabs/php_codesniffer": "^3.5, <3.5.5",
 #        "symfony/phpunit-bridge": "^4.4@dev"
 %global phpunit %{_bindir}/phpunit8
 BuildRequires:  %{phpunit}
@@ -54,14 +57,15 @@ BuildRequires:  %{phpunit}
 BuildRequires:  php-composer(fedora/autoloader)
 
 # From composer.json, "require": {
-#        "php": "^5.6 || ^7.0"
+#        "php": "^7.0"
 #        "ext-hash": "*",
 #        "ext-json": "*",
 #        "ext-mongodb": "^1.7"
-Requires:       php(language) >= 5.6
+#        "jean85/pretty-package-versions": "^1.2"
+Requires:       php(language) >= 7.0
 Requires:       php-hash
 Requires:       php-json
-Requires:       php-pecl(mongodb) >= 1.7
+Requires:       php-pecl(mongodb) >= 1.8
 # From phpcompatinfo report for 1.5.0
 Requires:       php-date
 Requires:       php-spl
@@ -90,6 +94,12 @@ Autoloader: %{_datadir}/php/%{psr0}/autoload.php
 
 cp %{SOURCE1} src/autoload.php
 
+# Get rid of jean85/pretty-package-versions
+%patch0 -p1 -b .rpm
+sed -e 's/@VERSION@/%{version}/' -i src/Client.php
+find src -name \*.rpm -delete
+grep -F '%{version}' src/Client.php
+
 
 %build
 # Nothing
@@ -107,7 +117,7 @@ require_once "%{buildroot}%{_datadir}/php/%{psr0}/autoload.php";
 exit (class_exists("%{psr0}\\Client") ? 0 : 1);
 '
 
-%if %{with_tests}
+%if %{with tests}
 : Run a server
 mkdir dbtest
 
@@ -160,6 +170,17 @@ exit $ret
 
 
 %changelog
+* Mon Oct 12 2020 Remi Collet <remi@remirepo.net> - 1.7.1-1
+- update to 1.7.1
+
+* Mon Aug 10 2020 Remi Collet <remi@remirepo.net> - 1.7.0-1
+- update to 1.7.0
+- raise dependency on PHP 7.0
+- raise dependency on mongodb extension 1.8
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb  5 2020 Remi Collet <remi@remirepo.net> - 1.6.0-1
 - update to 1.6.0
 - raise dependency on mongodb extension 1.7

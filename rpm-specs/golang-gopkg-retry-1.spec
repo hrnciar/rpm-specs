@@ -21,7 +21,7 @@ invoke the action to be retried, but is intended to be used in a retry loop.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Simple retry mechanism for Go
 
 License:        LGPLv3
@@ -47,6 +47,9 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

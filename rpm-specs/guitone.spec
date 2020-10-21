@@ -2,7 +2,7 @@
 
 Name:		guitone
 Version:	1.0
-Release:	0.25%{?rctag:.%rctag}%{?dist}
+Release:	0.26%{?rctag:.%rctag}%{?dist}
 Summary:	A frontend for Monotone
 License:	GPLv3+
 URL:		http://guitone.thomaskeller.biz/
@@ -123,6 +123,9 @@ EOF
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.26.rc5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.25.rc5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           nogravity
 Version:        2.00
-Release:        34%{?dist}
+Release:        36%{?dist}
 Summary:        Space shooter in 3D
 License:        GPLv2+
 URL:            http://www.realtech-vr.com/nogravity/
@@ -68,6 +68,7 @@ popd
 
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 pushd src/Linux
 
 %configure --enable-sound=sdl_mixer --disable-opengl
@@ -107,6 +108,12 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 2.00-36
+- Force C++14 as this code is not C++17 ready
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.00-35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.00-34
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

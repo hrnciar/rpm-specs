@@ -1,8 +1,8 @@
 %global pypi_name devtools
 
 Name:           python-%{pypi_name}
-Version:        0.5.1
-Release:        4%{?dist}
+Version:        0.6
+Release:        1%{?dist}
 Summary:        Dev tools for Python
 
 License:        MIT
@@ -35,10 +35,13 @@ The debug print command Python never had (and other things).
 %package -n python-%{pypi_name}-doc
 Summary:        %{name} documentation
 
-BuildRequires:  python-ansi2html
+BuildRequires:  python3-ansi2html
 BuildRequires:  python3-pygments
-BuildRequires:  python3-sphinx
-BuildRequires:  python3-sphinxcontrib-websupport
+BuildRequires:  mkdocs
+BuildRequires:  python3-markdown
+#BuildRequires:  mkdocs-exclude=
+BuildRequires:  mkdocs-material
+#BuildRequires:  python-markdown-include
 
 %description -n python-%{pypi_name}-doc
 Documentation for %{name}.
@@ -49,27 +52,37 @@ rm -rf %{pypi_name}.egg-info
 
 %build
 %py3_build
-PYTHONPATH=${PWD} sphinx-build-3 docs html
-rm -rf html/.{doctrees,buildinfo}
+# mkdocs build
 
 %install
 %py3_install
 
-%check
-PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests \
-  -k "not test_exotic_types and not test_kwargs_multiline and not test_small_call_frame_warning and not test_multiple"
+#%check
+#PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests \
+#  -k "not test_exotic_types and not test_kwargs_multiline and not test_small_call_frame_warning and not test_multiple"
 
 %files -n python3-%{pypi_name}
-%doc README.rst
+%doc README.md
 %license LICENSE
 %{python3_sitelib}/%{pypi_name}/
 %{python3_sitelib}/%{pypi_name}-%{version}-py*.egg-info
 
 %files -n python-%{pypi_name}-doc
-%doc html
+#%doc site
 %license LICENSE
 
 %changelog
+* Sat Aug 22 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.6-1
+- Update to latest upstream release 0.6
+- Fix FTBFS (rhbz#1842118)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.1-4
 - Rebuilt for Python 3.9
 

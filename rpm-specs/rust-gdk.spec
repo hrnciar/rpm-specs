@@ -5,7 +5,7 @@
 %global crate gdk
 
 Name:           rust-%{crate}
-Version:        0.12.1
+Version:        0.13.2
 Release:        1%{?dist}
 Summary:        Rust bindings for the GDK 3 library
 
@@ -180,6 +180,18 @@ which use "v3_24" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Thu Aug 27 2020 Josh Stone <jistone@redhat.com> - 0.13.2-1
+- Update to 0.13.2
+
+* Thu Aug 20 2020 Josh Stone <jistone@redhat.com> - 0.13.1-1
+- Update to 0.13.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Josh Stone <jistone@redhat.com> - 0.13.0-1
+- Update to 0.13.0
+
 * Mon Feb 10 2020 Josh Stone <jistone@redhat.com> - 0.12.1-1
 - Update to 0.12.1
 

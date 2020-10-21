@@ -1,14 +1,13 @@
 # Review at https://bugzilla.redhat.com/show_bug.cgi?id=540328
 #
 Name:           gtkhash
-Version:        1.3
-Release:        1%{?dist}
+Version:        1.4
+Release:        2%{?dist}
 Summary:        GTK+ utility for computing message digests or checksums
 
 License:        GPLv2+
 URL:            https://github.com/tristanheaven/gtkhash
 Source0:        https://github.com/tristanheaven/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.gz
-Source1:        %{name}.desktop
 
 BuildRequires:  pkgconfig(gtk+-3.0)
 BuildRequires:  mhash-devel
@@ -108,39 +107,41 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/*.metainfo.xml
 appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/*.appdata.xml
 
-
-%ldconfig_scriptlets
-
-
 %files -f %{name}.lang
 %license COPYING
 %doc AUTHORS NEWS
 %{_bindir}/%{name}
-%{_datadir}/applications/%{name}.desktop
+%{_datadir}/applications/org.%{name}.%{name}.desktop
 %{_datadir}/glib-2.0/schemas/org.%{name}.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.%{name}.plugin.gschema.xml
-%{_datadir}/icons/hicolor/*/apps/%{name}.png
-%{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
-%{_metainfodir}/gtkhash.appdata.xml
+%{_datadir}/icons/hicolor/*/apps/org.%{name}.%{name}.png
+%{_datadir}/icons/hicolor/scalable/apps/org.%{name}.%{name}.svg
+%{_metainfodir}/org.%{name}.%{name}.appdata.xml
 
 %files nautilus
 %{_libdir}/nautilus/extensions-3.0/libgtkhash-properties-nautilus.so
-%{_metainfodir}/nautilus-gtkhash.metainfo.xml
+%{_metainfodir}/org.gtkhash.nautilus.metainfo.xml
 
 %files thunar
 %{_libdir}/thunarx-3/libgtkhash-properties-thunar.so
-%{_metainfodir}/thunar-gtkhash.metainfo.xml
+%{_metainfodir}/org.gtkhash.thunar.metainfo.xml
 
 %files nemo
 %{_libdir}/nemo/extensions-3.0/libgtkhash-properties-nemo.so
-%{_metainfodir}/nemo-gtkhash.metainfo.xml
+%{_metainfodir}/org.gtkhash.nemo.metainfo.xml
 
 %files caja
 %{_libdir}/caja/extensions-2.0/libgtkhash-properties-caja.so
 %{_datadir}/caja/extensions/libgtkhash-properties-caja.caja-extension
-%{_metainfodir}/caja-gtkhash.metainfo.xml
+%{_metainfodir}/org.gtkhash.caja.metainfo.xml
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 1.4-1
+- Update to 1.4
+
 * Tue May 26 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 1.3-1
 - Update to 1.3
 

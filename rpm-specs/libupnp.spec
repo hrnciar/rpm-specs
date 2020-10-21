@@ -1,14 +1,12 @@
-Version: 1.8.4
+Version: 1.12.1
 Summary: Universal Plug and Play (UPnP) SDK
 Name: libupnp
-Release: 4%{?dist}
+Release: 2%{?dist}
 License: BSD
 URL: https://sourceforge.net/projects/pupnp
 Source: https://downloads.sourceforge.net/pupnp/%{name}-%{version}.tar.bz2
-Patch0: libupnp-1.8.4-nobump.patch
-Patch1: 96.patch
 
-BuildRequires: gcc autoconf automake
+BuildRequires: gcc
 
 
 %description
@@ -26,9 +24,6 @@ the UPnP SDK libraries.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
-autoreconf
 
 %build
 %configure \
@@ -51,8 +46,8 @@ sed -i.rpath 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %files
 %license COPYING
 %doc THANKS
-%{_libdir}/libixml.so.10*
-%{_libdir}/libupnp.so.10*
+%{_libdir}/libixml.so.11*
+%{_libdir}/libupnp.so.16*
 
 %files devel
 %{_includedir}/upnp/
@@ -61,6 +56,12 @@ sed -i.rpath 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %{_libdir}/pkgconfig/libupnp.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.12.1-1
+- 1.12.1
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.4-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

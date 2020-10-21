@@ -1,13 +1,14 @@
 Name:		libsysstat
 Version:	0.4.3
-Release:	1%{?dist}
+Release:	4%{?dist}
 License:	GPLv2 and LGPLv2+
 Summary:	Library used to query system info and statistics
 Url:		http://www.lxde.org
-Source0:         https://github.com/lxqt/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
-BuildRequires: 	%{?fedora:cmake >= 3.1.0}%{!?fedora:cmake3 >= 3.3}
+Source0:	https://github.com/lxqt/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
+BuildRequires:	gcc-c++
+BuildRequires:	%{?fedora:cmake >= 3.1.0}%{!?fedora:cmake3 >= 3.3}
 BuildRequires: pkgconfig(Qt5Core)
-BuildRequires: pkgconfig(Qt5Help)
+#BuildRequires: pkgconfig(Qt5Help)
 BuildRequires: lxqt-build-tools >= 0.6.0
 %if 0%{?el7}
 BuildRequires:  devtoolset-7-gcc-c++
@@ -24,27 +25,28 @@ Requires:	pkgconfig
 %description devel
 Sysstat libraries for development.
 
+
 %prep
-%setup -q
+%autosetup
+
 
 %build
 %if 0%{?el7}
 scl enable devtoolset-7 - <<\EOF
 %endif
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-	%{?fedora:%{cmake}}%{!?fedora:%{cmake3}} ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake
+%{cmake_build}
 %if 0%{?el7}
 EOF
 %endif
 
+
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
+
 
 %ldconfig_scriptlets
+
 
 %files
 %doc AUTHORS COPYING
@@ -58,7 +60,18 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_libdir}/pkgconfig/sysstat-qt5.pc
 %{_libdir}/libsysstat-qt5.so
 
+
 %changelog
+* Fri Aug 07 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.3-4
+- Spec fixes against F33
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 03 2020 Zamir SUN <sztsian@gmail.com> - 0.4.3-1
 - Update to 0.4.3
 

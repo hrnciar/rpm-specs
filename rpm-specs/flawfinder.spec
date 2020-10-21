@@ -1,13 +1,14 @@
 Summary: Examines C/C++ source code for security flaws
 Name: flawfinder
 Version: 2.0.11
-Release: 1%{?dist}
+Release: 3%{?dist}
 License: GPLv2
 Source0: http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 URL: http://www.dwheeler.com/flawfinder/
 
 BuildArch: noarch
 BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 
 %description
 Flawfinder scans through C/C++ source code,
@@ -35,6 +36,12 @@ install -p -m644 -D flawfinder.1 %{buildroot}%{_mandir}/man1/flawfinder.1
 %{_mandir}/man1/flawfinder.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.11-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 Athos Ribeiro <athoscr@fedoraproject.org> - 2.0.11-2
+- explicitly BRs setuptools
+
 * Sat Feb 29 2020 Athos Ribeiro <athoscr@fedoraproject.org> - 2.0.11-1
 - Update version
 

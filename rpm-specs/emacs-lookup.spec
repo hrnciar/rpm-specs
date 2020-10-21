@@ -3,7 +3,7 @@
 
 Name:		emacs-%{pkg}
 Version:	1.4.1
-Release:	20%{?dist}
+Release:	21%{?dist}
 Summary:	Search Interface with Electronic Dictionaries for Emacs
 Summary(ja):	Emacs 上で動作する辞書検索インターフェイス
 
@@ -75,6 +75,9 @@ install -m 644 %{name}-init.el ${RPM_BUILD_ROOT}%{_emacs_sitestartdir}/%{pkg}-in
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

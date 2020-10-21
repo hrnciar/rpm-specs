@@ -4,14 +4,9 @@
 # https://github.com/golang/tools
 %global goipath         golang.org/x/tools
 %global forgeurl        https://github.com/golang/tools
-%global commit          5fc56a9a2104ae31a4ac1987ccb98f30dd6d182b
+%global commit          d56e4e40bc9dd04985b18718e43413d9f4399fb5
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-golangorg-tools-devel < 0-28
-}
 
 %global common_description %{expand:
 This package holds the source for various tools that support the Go programming
@@ -33,7 +28,7 @@ Single Assignment form (SSA) representation for Go programs.}
 
 Name:           %{goname}
 Version:        0
-Release:        34%{?dist}
+Release:        36%{?dist}
 Summary:        Various packages and tools that support the Go programming language
 
 # Upstream license specification: BSD-3-Clause
@@ -47,6 +42,8 @@ BuildRequires:  golang(github.com/yuin/goldmark/ast)
 BuildRequires:  golang(github.com/yuin/goldmark/renderer/html)
 BuildRequires:  golang(github.com/yuin/goldmark/text)
 BuildRequires:  golang(golang.org/x/mod/modfile)
+BuildRequires:  golang(golang.org/x/mod/module)
+BuildRequires:  golang(golang.org/x/mod/semver)
 BuildRequires:  golang(golang.org/x/net/context/ctxhttp)
 BuildRequires:  golang(golang.org/x/net/html)
 BuildRequires:  golang(golang.org/x/net/html/atom)
@@ -56,7 +53,8 @@ BuildRequires:  golang(golang.org/x/xerrors)
 BuildRequires:  golang(honnef.co/go/tools/simple)
 BuildRequires:  golang(honnef.co/go/tools/staticcheck)
 BuildRequires:  golang(honnef.co/go/tools/stylecheck)
-BuildRequires:  golang(mvdan.cc/xurls)
+BuildRequires:  golang(mvdan.cc/gofumpt/format)
+BuildRequires:  golang(mvdan.cc/xurls/v2)
 
 %description
 %{common_description}
@@ -441,6 +439,12 @@ mv %{buildroot}%{_bindir}/bundle %{buildroot}%{_bindir}/gobundle
 %gopkgfiles
 
 %changelog
+* Fri Sep 18 03:42:12 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-36.20200918gitd56e4e4
+- Bump to commit d56e4e40bc9dd04985b18718e43413d9f4399fb5
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 19 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0-34.20200419git5fc56a9
 - Bump to commit 5fc56a9a2104ae31a4ac1987ccb98f30dd6d182b
 

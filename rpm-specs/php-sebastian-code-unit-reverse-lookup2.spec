@@ -7,7 +7,7 @@
 # Please, preserve the changelog entries
 #
 %global bootstrap    0
-%global gh_commit    c771130f0e8669104a4320b7101a81c2cc2963ef
+%global gh_commit    ac91f01ccec49fb77bdc6fd1e548bc70f7faa3e5
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sebastianbergmann
 %global gh_project   code-unit-reverse-lookup
@@ -20,13 +20,13 @@
 %global major        2
 %global php_home     %{_datadir}/php
 %if %{bootstrap}
-%global with_tests   0%{?_with_tests:1}
+%bcond_with          tests
 %else
-%global with_tests   0%{!?_without_tests:1}
+%bcond_without       tests
 %endif
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
-Version:        2.0.1
+Version:        2.0.3
 Release:        1%{?dist}
 Summary:        Looks up which function or method a line of code belongs to
 
@@ -38,14 +38,14 @@ Source1:        makesrc.sh
 BuildArch:      noarch
 BuildRequires:  php(language) >= 7.3
 BuildRequires:  php-fedora-autoloader-devel
-%if %{with_tests}
+%if %{with tests}
 # from composer.json, "require-dev": {
-#        "phpunit/phpunit": "^9.0"
-BuildRequires:  phpunit9
+#        "phpunit/phpunit": "^9.3"
+BuildRequires:  phpunit9 >= 9.3
 %endif
 
 # from composer.json, "require": {
-#        "php": "^7.3"
+#        "php": ">=7.3"
 Requires:       php(language) >= 7.3
 # From phpcompatinfo report for version 2.0.0
 Requires:       php-reflection
@@ -76,7 +76,7 @@ cp -pr src %{buildroot}%{php_home}/%{ns_vendor}/%{ns_project}%{major}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 touch vendor/autoload.php
 
@@ -103,6 +103,15 @@ exit $ret
 
 
 %changelog
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 2.0.3-1
+- update to 2.0.3 (no change)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Remi Collet <remi@remirepo.net> - 2.0.2-1
+- update to 2.0.2
+
 * Tue Jun 16 2020 Remi Collet <remi@remirepo.net> - 2.0.1-1
 - update to 2.0.1
 - sources from git snapshot

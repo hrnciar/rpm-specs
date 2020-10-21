@@ -31,7 +31,7 @@
 %global jspspec 2.3
 %global major_version 9
 %global minor_version 0
-%global micro_version 36
+%global micro_version 39
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 4.0
 %global elspec 3.0
@@ -82,6 +82,7 @@ Patch0:        %{name}-%{major_version}.%{minor_version}-bootstrap-MANIFEST.MF.p
 Patch1:        %{name}-%{major_version}.%{minor_version}-tomcat-users-webapp.patch
 Patch2:        %{name}-build.patch
 Patch3:        %{name}-%{major_version}.%{minor_version}-catalina-policy.patch
+Patch4:        rhbz-1857043.patch
 
 BuildArch:     noarch
 
@@ -210,6 +211,7 @@ find . -type f \( -name "*.bat" -o -name "*.class" -o -name Thumbs.db -o -name "
 %patch1 -p0
 %patch2 -p0
 %patch3 -p0
+%patch4 -p0
 
 %{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-impl) webapps/examples/WEB-INF/lib/jstl.jar
 %{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-compat) webapps/examples/WEB-INF/lib/standard.jar
@@ -238,7 +240,9 @@ export OPT_JAR_LIST="xalan-j2-serializer"
       -Dbndlib.jar="$(build-classpath aqute-bnd/biz.aQute.bndlib)" \
       -Dbndlibg.jar="$(build-classpath aqute-bnd/aQute.libg)" \
       -Dbndannotation.jar="$(build-classpath aqute-bnd/biz.aQute.bnd.annotation)" \
+      -Dosgi-annotations.jar="$(build-classpath aqute-bnd/biz.aQute.bnd.annotation)" \
       -Dslf4j-api.jar="$(build-classpath slf4j/slf4j-api)" \
+      -Dosgi-cmpn.jar="$(build-classpath osgi-compendium/osgi.cmpn)" \
       -Dversion="%{version}" \
       -Dversion.build="%{micro_version}" \
       deploy dist-source
@@ -619,6 +623,27 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Mon Oct 12 2020 Hui Wang <huwang@redhat.com> - 1:9.0.39-1
+- Update to 9.0.39
+
+* Wed Sep 16 2020 Hui Wang <huwang@redhat.com> - 1:9.0.38-1
+- Update to 9.0.38
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:9.0.37-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Coty Sutherland <csutherl@redhat.com> - 1:9.0.37-3
+- Related: rhbz#1857043 Temporarily remove OSGi metadata from tomcat jars
+
+* Mon Jul 20 2020 Coty Sutherland <csutherl@redhat.com> - 1:9.0.37-2
+- Resolves: rhbz#1857043 Add patch to reinclude o.a.t.util.net.jsse and o.a.t.util.moduler.modules in tomcat-coyote.jar
+
+* Mon Jul 13 2020 Coty Sutherland <csutherl@redhat.com> - 1:9.0.37-1
+- Update to 9.0.37
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1:9.0.36-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jun 10 2020 Hui Wang <huwang@redhat.com> - 1:9.0.36-1
 - Upgrade to 9.0.36
 

@@ -2,26 +2,25 @@
 %bcond_without perl_DBD_SQLite_enables_optional_test
 
 Name:           perl-DBD-SQLite
-Version:        1.64
-Release:        5%{?dist}
+Version:        1.66
+Release:        2%{?dist}
 Summary:        SQLite DBI Driver
 # lib/DBD/SQLite.pm:        GPL+ or Artistic
 # LICENSE:                  GPL+ or Artistic
 ## unbundled
-# inc/Test/NoWarnings.pm:   LGPLv2+
+# inc/Test/FailWarnings.pm: ASL 2.0
 # sqlite3.c:                Public Domain (copied from sqlite)
 # sqlite3.h:                Public Domain (copied from sqlite)
 # sqlite3ext.h:             Public Domain (copied from sqlite)
 License:        (GPL+ or Artistic) and Public Domain
 URL:            https://metacpan.org/release/DBD-SQLite
 Source0:        https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/DBD-SQLite-%{version}.tar.gz
+# Use system sqlite if it is available
 Patch0:         perl-DBD-SQLite-bz543982.patch
 # Remove notes about bundled sqlite C source from man page and README
 Patch1:         DBD-SQLite-1.62-Remove-bundled-source-extentions.patch
-# Adapt tests to unbundled Test::NoWarnings
-Patch2:         DBD-SQLite-1.60-Unbundle-Test-NoWarnings.patch
-# Initialize filename variable in sqlite_db_filename()
-Patch3:         DBD-SQLite-1.64-Initialize-filename-variable-in-sqlite_db_filename.patch
+# Adapt tests to unbundled Test::FailWarnings
+Patch2:         DBD-SQLite-1.64-Unbundle-Test-FailWarnings.patch
 # if sqlite >= 3.6.0 then
 #   perl-DBD-SQLite uses the external library
 # else
@@ -39,7 +38,7 @@ BuildRequires:  perl(:VERSION) >= 5.6
 BuildRequires:  perl(base)
 BuildRequires:  perl(Config)
 BuildRequires:  perl(constant)
-# Prevent bug #443495
+# Prevent from bug #443495
 BuildRequires:  perl(DBI) >= 1.607
 BuildRequires:  perl(DBI::DBD)
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
@@ -52,11 +51,11 @@ BuildRequires:  perl(locale)
 BuildRequires:  perl(Scalar::Util)
 BuildRequires:  perl(Tie::Hash)
 BuildRequires:  perl(warnings)
-BuildRequires:  sed
 # Tests only
 BuildRequires:  perl(bytes)
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(Data::Dumper)
+BuildRequires:  perl(Digest::MD5)
 BuildRequires:  perl(Encode)
 BuildRequires:  perl(Exporter)
 BuildRequires:  perl(File::Spec::Functions)
@@ -66,7 +65,7 @@ BuildRequires:  perl(if)
 BuildRequires:  perl(lib)
 # POSIX not used
 BuildRequires:  perl(Test::More)
-BuildRequires:  perl(Test::FailWarnings) >= 0.008
+# Test::FailWarnings not used
 # Win32 not used
 %if %{with perl_DBD_SQLite_enables_optional_test}
 # Optional tests
@@ -77,25 +76,27 @@ Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 %{?perl_default_filter}
 
 %description
-SQLite is a public domain RDBMS database engine that you can find at
-http://www.hwaci.com/sw/sqlite/.
-
-This module provides a SQLite RDBMS module that uses the system SQLite 
-libraries.
+SQLite is a public domain, file-based, relational database engine that you can
+find at <https://www.sqlite.org/>. This package provides a Perl DBI driver for
+SQLite.
 
 %prep
 %setup -q -n DBD-SQLite-%{version}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 # Remove bundled sqlite libraries (BZ#1059154)
 # System libraries will be used
 rm sqlite*
-sed -i -e '/^sqlite/ d' MANIFEST
+perl -i -ne 'print $_ unless m{^sqlite}' MANIFEST
 # Remove bundled modules
 rm -rf inc
-sed -i -e '/^inc\// d' MANIFEST
+perl -i -ne 'print $_ unless m{^inc/}' MANIFEST
+# Handle optional tests
+%if !%{with perl_DBD_SQLite_enables_optional_test}
+rm t/virtual_table/21_perldata_charinfo.t
+perl -i -ne 'print $_ unless m{^t/virtual_table/21_perldata_charinfo\.t}' MANIFEST
+%endif
 
 %build
 CFLAGS="%{optflags}" perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
@@ -117,6 +118,17 @@ make test
 %{_mandir}/man3/*.3pm*
 
 %changelog
+* Tue Sep 08 2020 Petr Pisar <ppisar@redhat.com> - 1.66-2
+- Update DBD-SQLite-1.60-Unbundle-Test-NoWarnings.patch
+- Do not build-require unused Test::FailWarnings
+- Update the description
+
+* Mon Aug 31 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.66-1
+- 1.66 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.64-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.64-5
 - Perl 5.32 rebuild
 

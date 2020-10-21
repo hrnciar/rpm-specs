@@ -1,6 +1,6 @@
 Name:		libmongo-client
 Version:	0.1.8
-Release:	14%{?dist}
+Release:	15%{?dist}
 Summary:	Alternative C driver for MongoDB
 
 License:	ASL 2.0
@@ -72,6 +72,9 @@ rm -f %{buildroot}/%{_libdir}/*.{a,la}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.8-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.8-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

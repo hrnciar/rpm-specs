@@ -1,6 +1,6 @@
 Name:		fcitx-configtool
 Version:	0.4.10
-Release:	8%{?dist}
+Release:	11%{?dist}
 Summary:	Gtk+-based configuring tools for Fcitx
 License:	GPLv2+
 URL:		https://github.com/fcitx/fcitx-configtool
@@ -22,15 +22,12 @@ Fcitx.
 %setup -q -n %{name}-%{version}
 
 %build
-mkdir -pv build
-pushd build
-%cmake -DENABLE_GTK3=ON -DENABLE_GTK2=ON ..
-make %{?_smp_mflags} VERBOSE=1
+%cmake -DENABLE_GTK3=ON -DENABLE_GTK2=ON
+%cmake_build
+
 
 %install
-pushd build
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
-popd
+%cmake_install
 
 %find_lang %{name}
 
@@ -41,6 +38,16 @@ popd
 
 
 %changelog
+* Tue Aug 04 2020 Qiyu Yan <yanqiyu@fedoraproject.org> - 0.4.10-11
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.10-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.10-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.10-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

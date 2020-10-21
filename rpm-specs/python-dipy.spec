@@ -18,8 +18,8 @@ Current information can always be found from the DIPY website - http://dipy.org}
 %{?python_enable_dependency_generator}
 
 Name:           python-%{srcname}
-Version:        1.1.1
-Release:        2%{?dist}
+Version:        1.2.0
+Release:        1%{?dist}
 Summary:        Diffusion MRI utilities in python
 
 License:        BSD
@@ -121,7 +121,9 @@ export TEST_WITH_XVFB=True
 %{_bindir}/dipy_align_affine
 %{_bindir}/dipy_align_syn
 %{_bindir}/dipy_apply_transform
-%{_bindir}/dipy_ba
+%{_bindir}/dipy_buan_lmm
+%{_bindir}/dipy_buan_profiles
+%{_bindir}/dipy_buan_shapes
 %{_bindir}/dipy_denoise_lpca
 %{_bindir}/dipy_denoise_mppca
 %{_bindir}/dipy_denoise_nlmeans
@@ -136,14 +138,13 @@ export TEST_WITH_XVFB=True
 %{_bindir}/dipy_horizon
 %{_bindir}/dipy_info
 %{_bindir}/dipy_labelsbundles
-%{_bindir}/dipy_lmm
 %{_bindir}/dipy_mask
 %{_bindir}/dipy_median_otsu
 %{_bindir}/dipy_recobundles
 %{_bindir}/dipy_reslice
 %{_bindir}/dipy_slr
 %{_bindir}/dipy_snr_in_cc
-%{_bindir}/dipy_track_local
+%{_bindir}/dipy_track
 %{_bindir}/dipy_track_pft
 %{_bindir}/dipy_split
 %{python3_sitearch}/%{srcname}
@@ -158,6 +159,12 @@ export TEST_WITH_XVFB=True
 %endif
 
 %changelog
+* Sun Sep 13 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.2.0-1
+- Update to new release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.1-2
 - Rebuilt for Python 3.9
 

@@ -1,5 +1,5 @@
 # Real version
-%global cpan_version v2.4.0
+%global cpan_version v2.4.1
 
 Name:           perl-Test-Compile
 Version:        %(echo '%{cpan_version}' | tr -d 'v')
@@ -57,6 +57,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.4.1-1
+- 2.4.1 bump
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.4.0-2
 - Perl 5.32 rebuild
 

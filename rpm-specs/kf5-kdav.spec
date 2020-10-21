@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 %global framework kdav
 
 # uncomment to enable bootstrap mode
@@ -8,26 +9,32 @@
 %endif
 
 Name:    kf5-%{framework}
-Version: 20.04.2
+Epoch:   1
+Version: 5.75.0
 Release: 1%{?dist}
 Summary: A DAV protocol implementation with KJobs
 
 License: GPLv2+
 URL:     https://cgit.kde.org/%{framework}.git
 
+%global majmin %(echo %{version} | cut -d. -f1-2)
 %global revision %(echo %{version} | cut -d. -f3)
 %if %{revision} >= 50
 %global stable unstable
 %else
 %global stable stable
 %endif
-Source0: http://download.kde.org/%{stable}/release-service/%{version}/src/%{framework}-%{version}.tar.xz
+Source0: http://download.kde.org/%{stable}/frameworks/%{majmin}/%{framework}-%{version}.tar.xz
+
+BuildRequires:  extra-cmake-modules >= %{majmin}
+BuildRequires:  kf5-rpm-macros >= %{majmin}
 
 BuildRequires:  cmake(Qt5Gui)
 BuildRequires:  cmake(Qt5XmlPatterns)
 
-BuildRequires:  extra-cmake-modules
-BuildRequires:  kf5-rpm-macros
+BuildRequires:  kf5-ki18n-devel >= %{majmin}
+BuildRequires:  kf5-kcoreaddons-devel >= %{majmin}
+BuildRequires:  kf5-kio-devel  >= %{majmin}
 
 BuildRequires:  cmake(KF5CoreAddons)
 BuildRequires:  cmake(KF5I18n)
@@ -44,7 +51,7 @@ BuildRequires: xorg-x11-server-Xvfb
 
 %package        devel
 Summary:        Development files for %{name}
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{epoch}:%{version}-%{release}
 Requires:       cmake(KF5CoreAddons)
 %description    devel
 The %{name}-devel package contains libraries and header files for
@@ -56,17 +63,13 @@ developing applications that use %{name}.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%{cmake_kf5} \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{!?tests:OFF}
-popd
-
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -84,7 +87,7 @@ make test ARGS="--output-on-failure --timeout 300" -C %{_target_platform} ||:
 
 %files -f %{name}.lang
 %doc README*
-%license COPYING*
+%license LICENSES/*.txt
 %{_kf5_datadir}/qlogging-categories5/*%{framework}.*
 %{_kf5_libdir}/libKF5DAV.so.5*
 
@@ -98,6 +101,24 @@ make test ARGS="--output-on-failure --timeout 300" -C %{_target_platform} ||:
 
 
 %changelog
+* Wed Oct 14 09:50:02 CDT 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:5.75.0-1
+- 5.75.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 1:5.74.0-1
+- 5.74.0
+
+* Mon Aug 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:5.73.0-1
+- 5.73.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.72.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:5.72-1
+- moved to kde frameworks, epoch++ for upgrade path
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.2-1
 - 20.04.2
 

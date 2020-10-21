@@ -2,7 +2,7 @@
 
 Name:           tryton
 Version:        5.4.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Client for the Tryton application framework
 
 License:        GPLv3+
@@ -74,6 +74,9 @@ install -D -p -m 644 %{SOURCE1} %{buildroot}%{_mandir}/man1/
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.4.0-3
 - Rebuilt for Python 3.9
 

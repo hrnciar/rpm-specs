@@ -1,7 +1,7 @@
 Summary: A terminal program for displaying Unicode on the console
 Name: bogl
 Version: 0.1.18
-Release: 40%{?dist}
+Release: 43%{?dist}
 URL: http://packages.debian.org/unstable/source/bogl
 Source0: http://update2.intellique.com/repository/archive/pool/main/b/bogl/bogl_0.1.18-1.5.tar.gz
 Source1: 14x14cjk.bdf.gz
@@ -19,6 +19,7 @@ License: GPLv2+
 BuildRequires: gcc
 BuildRequires: gd-devel
 BuildRequires: libpng-devel
+BuildRequires: ncurses
 
 %description
 BOGL stands for Ben's Own Graphics Library.  It is a small graphics
@@ -89,6 +90,17 @@ rm $RPM_BUILD_ROOT/%{_datadir}/terminfo/b/bterm
 /usr/share/bogl
 
 %changelog
+* Wed Aug 05 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 0.1.18-43
+- Add ncurses to build required packages
+  Resoves: #1863281
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:0.1.18-42
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:0.1.18-41
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 0.1.18-40
 - Fix source URL
 - Fix multiple definiton of variables (FTBFS with GCC 10)

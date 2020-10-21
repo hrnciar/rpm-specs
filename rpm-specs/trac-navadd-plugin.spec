@@ -2,7 +2,7 @@
 
 Name:           trac-navadd-plugin
 Version:        0.9.0.1
-Release:        20111238svn11020%{?dist}
+Release:        20111239svn11020%{?dist}
 Summary:        Allows the addition of custom items
 
 License:        BSD
@@ -33,6 +33,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python2_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0.1-20111239svn11020
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0.1-20111238svn11020
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

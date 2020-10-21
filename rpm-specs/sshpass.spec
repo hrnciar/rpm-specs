@@ -1,7 +1,7 @@
 Summary:    Non-interactive SSH authentication utility
 Name:       sshpass
 Version:    1.06
-Release:    9%{?dist}
+Release:    10%{?dist}
 License:    GPLv2
 Url:        http://sshpass.sourceforge.net/
 Source0:    http://downloads.sourceforge.net/sshpass/sshpass-%{version}.tar.gz
@@ -28,6 +28,9 @@ make DESTDIR=%{buildroot} install
 %doc AUTHORS COPYING ChangeLog NEWS
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.06-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.06-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

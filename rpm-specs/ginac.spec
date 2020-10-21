@@ -1,8 +1,9 @@
+%define __cmake_in_source_build 1
 %global so_ver 6
 
 Name:             ginac
 Version:          1.7.9
-Release:          1%{?dist}
+Release:          4%{?dist}
 Summary:          C++ library for symbolic calculations
 License:          GPLv2+
 URL:              https://www.ginac.de/
@@ -98,6 +99,16 @@ make check
 %{_bindir}/*
 
 %changelog
+* Wed Sep 23 2020 Jeff Law <law@redhat.com> - 1.7.9-4
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.9-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 12 2020 Till Hofmann <thofmann@fedoraproject.org> - 1.7.9-1
 - Update to 1.7.9
 

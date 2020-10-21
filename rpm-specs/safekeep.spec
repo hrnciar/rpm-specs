@@ -1,6 +1,6 @@
 %define name    safekeep
 %define version 1.5.0
-%define release 3
+%define release 4
 %define homedir %{_localstatedir}/lib/%{name}
 
 Name:           %{name}
@@ -102,6 +102,9 @@ id %{name} >/dev/null 2>&1 || \
 %doc samples/sample.backup
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

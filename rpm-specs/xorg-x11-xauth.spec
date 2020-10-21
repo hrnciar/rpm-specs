@@ -3,13 +3,14 @@
 Summary: X.Org X11 X authority utilities
 Name: xorg-x11-%{pkgname}
 Version: 1.1
-Release: 3%{?dist}
+Release: 6%{?dist}
 # NOTE: Remove Epoch line if package gets renamed
 Epoch: 1
 License: MIT
 URL: https://www.x.org
 
 Source0: https://www.x.org/pub/individual/app/%{pkgname}-%{version}.tar.bz2
+Patch0: ISSOCK.patch
 
 BuildRequires: pkgconfig automake gcc
 BuildRequires: libX11-devel
@@ -29,10 +30,11 @@ used in connecting to an X server.
 
 %prep
 %setup -q -n %{pkgname}-%{version}
+%patch0 -p1
 
 %build
 %configure
-make %{?_smp_mflags}
+%make_build
 
 %install
 %make_install
@@ -48,6 +50,16 @@ make check || cat tests/test-suite.log
 %{_mandir}/man1/xauth.1*
 
 %changelog
+* Thu Aug 20 2020 Tilmann Bubeck <bubeck@fedoraproject.org> - 1:1.1-6
+- Fix RHBZ #1870201
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1:1.1-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,8 +1,9 @@
-# I don't see an obvious way to get a tarball by tag from gitorious, so:
+# force out-of-tree build for spec compatibility with older releases
+%undefine __cmake_in_source_build
 
 Name:		brewtarget
 Version:	2.1.0
-Release:	14%{?dist}
+Release:	16%{?dist}
 Summary:	An open source beer recipe creation tool
 License:	GPLv3 and WTFPL and LGPLv2
 URL:		http://www.brewtarget.org
@@ -26,12 +27,13 @@ It also can export and import recipes in BeerXML.
 
 %build
 %cmake -DDO_RELEASE_BUILD:BOOL=ON 
-make %{?_smp_mflags} 
-
+%cmake_build
 
 %install
-make VERBOSE=1 INSTALL="install -p" CP="cp -p" DESTDIR=%{buildroot} install
+%cmake_install
 /usr/bin/install -m 0644 -Dp doc/brewtarget.1 %buildroot%{_mandir}/man1/brewtarget.1
+
+%check
 desktop-file-validate %buildroot%{_datadir}/applications/%{name}.desktop
 
 %files
@@ -45,6 +47,13 @@ desktop-file-validate %buildroot%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

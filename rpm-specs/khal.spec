@@ -4,7 +4,7 @@
 
 Name:       khal
 Version:    0.9.10
-Release:    7%{?git_tag}%{?dist}
+Release:    8%{?git_tag}%{?dist}
 Summary:    CLI calendar application
 
 License:    MIT
@@ -73,6 +73,9 @@ tox -e py27
 %{_mandir}/man1/%{name}.1.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.10-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.10-7
 - Rebuilt for Python 3.9
 

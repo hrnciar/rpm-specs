@@ -4,7 +4,7 @@
 
 Name:           python-%{srcname}
 Version:        0.6
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        %{sum}
 
 License:        ASL 2.0
@@ -55,6 +55,9 @@ sed -i "1 d" uritemplate/__init__.py
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6-20
 - Rebuilt for Python 3.9
 

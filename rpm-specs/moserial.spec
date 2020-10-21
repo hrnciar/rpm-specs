@@ -1,7 +1,7 @@
 Summary:       Serial terminal for the gnome desktop
 Name:          moserial
 Version:       3.0.12
-Release:       8%{?dist}
+Release:       10%{?dist}
 License:       GPLv3+
 URL:           https://wiki.gnome.org/moserial/
 Source0:       http://ftp.gnome.org/pub/GNOME/sources/moserial/3.0/moserial-%{version}.tar.xz
@@ -48,6 +48,12 @@ desktop-file-install --delete-original         \
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.12-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Terje Rosten <terje.rosten@ntnu.no> - 3.0.12-9
+- Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.12-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

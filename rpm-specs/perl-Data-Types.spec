@@ -1,6 +1,6 @@
 Name:           perl-Data-Types
 Version:        0.17
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Validate and convert data types
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Data-Types
@@ -51,6 +51,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.17-5
 - Perl 5.32 rebuild
 

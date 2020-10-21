@@ -5,20 +5,15 @@
 # https://github.com/grpc/grpc-go
 %global goipath         google.golang.org/grpc
 %global forgeurl        https://github.com/grpc/grpc-go
-Version:                1.24.0
+Version:                1.31.1
 
 %gometa
 
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-grpc-grpc-go-devel < 1.18.0-3
-}
-
 %global goipaths0       google.golang.org/grpc
-%global goipathsex0     google.golang.org/grpc/status google.golang.org/grpc/test google.golang.org/grpc/internal/transport google.golang.org/grpc/xds/internal/proto/envoy/api/v2
+%global goipathsex0     google.golang.org/grpc/status google.golang.org/grpc/test google.golang.org/grpc/internal/transport
 
 %if %{without bootstrap}
-%global goipaths1       google.golang.org/grpc/status google.golang.org/grpc/test google.golang.org/grpc/internal/transport google.golang.org/grpc/xds/internal/proto/envoy/api/v2
+%global goipaths1       google.golang.org/grpc/status google.golang.org/grpc/test google.golang.org/grpc/internal/transport
 %endif
 
 %global common_description %{expand:
@@ -30,7 +25,7 @@ The Go language implementation of GRPC, http/2 based rpc.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Go language implementation of GRPC
 
 # Upstream license specification: Apache-2.0
@@ -39,19 +34,31 @@ URL:            %{gourl}
 Source0:        %{gosource}
 Source1:        glide.yaml
 Source2:        glide.lock
+# Go 1.15: https://github.com/golang/go/issues/32479
+Patch0:         0001-Convert-int-to-string-using-rune.patch
 
+BuildRequires:  golang(github.com/cncf/udpa/go/udpa/data/orca/v1)
+BuildRequires:  golang(github.com/envoyproxy/go-control-plane/envoy/api/v2)
+BuildRequires:  golang(github.com/envoyproxy/go-control-plane/envoy/api/v2/core)
+BuildRequires:  golang(github.com/envoyproxy/go-control-plane/envoy/api/v2/endpoint)
+BuildRequires:  golang(github.com/envoyproxy/go-control-plane/envoy/api/v2/route)
+BuildRequires:  golang(github.com/envoyproxy/go-control-plane/envoy/config/core/v3)
+BuildRequires:  golang(github.com/envoyproxy/go-control-plane/envoy/config/filter/network/http_connection_manager/v2)
+BuildRequires:  golang(github.com/envoyproxy/go-control-plane/envoy/service/discovery/v2)
+BuildRequires:  golang(github.com/envoyproxy/go-control-plane/envoy/service/load_stats/v2)
+BuildRequires:  golang(github.com/envoyproxy/go-control-plane/envoy/type)
 BuildRequires:  golang(github.com/golang/glog)
 BuildRequires:  golang(github.com/golang/mock/gomock)
+BuildRequires:  golang(github.com/golang/protobuf/jsonpb)
 BuildRequires:  golang(github.com/golang/protobuf/proto)
 BuildRequires:  golang(github.com/golang/protobuf/protoc-gen-go/descriptor)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/any)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/duration)
-BuildRequires:  golang(github.com/golang/protobuf/ptypes/empty)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/struct)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/timestamp)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/wrappers)
-BuildRequires:  golang(golang.org/x/net/context)
+BuildRequires:  golang(github.com/google/go-cmp/cmp)
 BuildRequires:  golang(golang.org/x/net/http2)
 BuildRequires:  golang(golang.org/x/net/http2/hpack)
 BuildRequires:  golang(golang.org/x/net/trace)
@@ -60,14 +67,17 @@ BuildRequires:  golang(golang.org/x/oauth2/google)
 BuildRequires:  golang(golang.org/x/oauth2/jwt)
 BuildRequires:  golang(golang.org/x/sys/unix)
 %if %{without bootstrap}
-BuildRequires:  golang(google.golang.org/genproto/googleapis/api/annotations)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/rpc/code)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/rpc/errdetails)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/rpc/status)
+BuildRequires:  golang(google.golang.org/protobuf/compiler/protogen)
+BuildRequires:  golang(google.golang.org/protobuf/types/descriptorpb)
+BuildRequires:  golang(google.golang.org/protobuf/types/pluginpb)
 
 %if %{with check}
 # Tests
-BuildRequires:  golang(github.com/google/go-cmp/cmp)
-BuildRequires:  golang(google.golang.org/genproto/googleapis/rpc/code)
+BuildRequires:  golang(github.com/envoyproxy/go-control-plane/envoy/config/listener/v2)
+BuildRequires:  golang(github.com/google/go-cmp/cmp/cmpopts)
 %endif
 %endif
 
@@ -78,6 +88,7 @@ BuildRequires:  golang(google.golang.org/genproto/googleapis/rpc/code)
 
 %prep
 %goprep
+%patch0 -p1
 cp %{S:1} %{S:2} .
 
 %install
@@ -94,6 +105,16 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Thu Sep 03 21:31:32 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.31.1-1
+- Update to 1.31.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,15 +2,13 @@
 
 Name:           python-%{srcname}
 Version:        2019.1.0
-Release:        6%{?dist}
-Summary:        A compiler for finite element variational forms
+Release:        8%{?dist}
+Summary:        Compiler for finite element variational forms
 
 License:        LGPLv3+
 URL:            http://www.fenicsproject.org
 Source0:        https://bitbucket.org/fenics-project/ufl/downloads/%{srcname}-%{version}.tar.gz
 BuildArch:      noarch
-
-BuildRequires:  python3-devel
 
 %description
 The Unified Form Language (UFL) is a domain specific language for declaration
@@ -19,7 +17,10 @@ defines a flexible interface for choosing finite element spaces and defining
 expressions for weak forms in a notation close to mathematical notation.
 
 %package -n python3-%{srcname}
-Summary:        A compiler for finite element variational forms
+Summary:        %{summery}
+
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
@@ -78,6 +79,12 @@ chmod +x %{buildroot}%{python3_sitelib}/%{srcname}/demo/clean.sh
 %{python3_sitelib}/%{srcname}/test/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.1.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2019.1.0-7
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2019.1.0-6
 - Rebuilt for Python 3.9
 

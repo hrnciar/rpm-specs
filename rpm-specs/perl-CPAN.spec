@@ -10,7 +10,7 @@
 
 Name:           perl-CPAN
 Version:        2.28
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Query, download and build perl modules from CPAN sites
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/CPAN
@@ -153,6 +153,14 @@ BuildRequires:  perl(YAML) >= 0.60
 
 Requires:       make
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
+# Some subpackages modules are not dual-lived. E.g. "open". If a distribution
+# on CPAN declares a dependency on such a module, CPAN client will fail
+# because the only provider is perl distribution.
+# Another issue is with dual-lived modules whose distribution actually does
+# not declare all needed core dependencies and the installation would also
+# fail.
+# As a result, any CPAN client must run-require the complete perl.
+Requires:       perl
 Requires:       perl(Archive::Tar) >= 1.50
 %if !%{defined perl_bootstrap}
 Recommends:     perl(CPAN::DistnameInfo)
@@ -260,6 +268,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Wed Sep 23 2020 Petr Pisar <ppisar@redhat.com> - 2.28-5
+- Run-require complete perl
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.28-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.28-3
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.28-2
 - Perl 5.32 rebuild
 

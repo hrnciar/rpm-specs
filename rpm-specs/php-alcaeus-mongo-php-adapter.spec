@@ -6,18 +6,20 @@
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    43b6add94c8b4cb9890d662cba4c0defde733dcf
+
+# disabled for https://fedoraproject.org/wiki/Changes/MongoDB_Removal
+%bcond_with          tests
+
+%global gh_commit    17f31fffdf3641a4905bca224bc7662c3032fd50
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     alcaeus
 %global gh_project   mongo-php-adapter
-# disabled for https://fedoraproject.org/wiki/Changes/MongoDB_Removal
-%global with_tests   0%{?_with_tests:1}
 %global ns_vendor    Alcaeus
 
 
 Name:           php-%{gh_owner}-%{gh_project}
-Version:        1.1.11
-Release:        2%{?dist}
+Version:        1.1.12
+Release:        1%{?dist}
 Summary:        Mongo PHP Adapter
 
 License:        MIT
@@ -27,7 +29,7 @@ Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit
 BuildArch:      noarch
 BuildRequires:  php-fedora-autoloader-devel
 BuildRequires:  php(language) >= 5.6
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php-ctype
 BuildRequires:  php-hash
 BuildRequires:  php-composer(mongodb/mongodb) >= 1.0.1
@@ -108,7 +110,7 @@ cp -pr lib/%{ns_vendor} %{buildroot}%{_datadir}/php/%{ns_vendor}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 cat << 'EOF' | tee bs.php
 <?php
 require '%{buildroot}%{_datadir}/php/%{ns_vendor}/MongoDbAdapter/autoload.php';
@@ -150,6 +152,12 @@ exit $ret
 
 
 %changelog
+* Mon Oct 19 2020 Remi Collet <remi@remirepo.net> - 1.1.12-1
+- update to 1.1.12
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.11-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.11-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Summary:     Inotify cron system
 Name:        incron
 Version:     0.5.12
-Release:     13%{?dist}
+Release:     15%{?dist}
 
 License:     GPLv2
 URL:         https://github.com/ar-/incron
@@ -33,7 +33,7 @@ filesystem events rather than time periods.
 %patch2 -p1
 
 %build
-make %{?_smp_mflags} CXXFLAGS="%{optflags}" LDFLAGS="%{__global_ldflags}"
+make %{?_smp_mflags} CXXFLAGS="%{optflags} -std=c++14" LDFLAGS="%{__global_ldflags}"
 
 %install
 #install files manually since source Makefile tries to do it as root
@@ -71,6 +71,12 @@ make install-man MANPATH="%{buildroot}%{_mandir}" INSTALL="install -D -p"
 %dir %{_sysconfdir}/%{name}.d
 
 %changelog
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 0.5.12-15
+- Force C++14 as this code is not C++17 ready
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.12-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.12-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

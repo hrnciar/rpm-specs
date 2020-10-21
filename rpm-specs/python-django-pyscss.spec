@@ -4,7 +4,7 @@
 
 Name:           python-%{pypi_name}
 Version:        2.0.2
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Makes it easier to use PySCSS in Django
 
 License:        BSD
@@ -65,6 +65,9 @@ This package provides Python 3 build of %{pypi_name}.
 %{python3_sitelib}/django_pyscss-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.2-16
 - Rebuilt for Python 3.9
 

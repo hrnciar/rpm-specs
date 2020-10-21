@@ -20,7 +20,7 @@
 Summary: Simple Ruby mix-in for CLI interfaces
 Name: rubygem-%{gem_name}
 Version: 1.7.0
-Release: 6%{?dist}
+Release: 7%{?dist}
 License: ASL 2.0
 URL: https://github.com/chef/mixlib-cli
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -108,6 +108,9 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

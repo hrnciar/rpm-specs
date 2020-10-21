@@ -5,8 +5,8 @@
 %global debug_package %{nil}
 
 Name:           geometry-hpp
-Version:        1.0.0
-Release:        4%{?dist}
+Version:        2.0.3
+Release:        1%{?dist}
 Summary:        Generic C++ interfaces for geometry types, collections, and features
 
 License:        ISC
@@ -69,6 +69,18 @@ cp -pr include/mapbox %{buildroot}%{_includedir}
 
 
 %changelog
+* Wed Jul 29 2020 Tom Hughes <tom@compton.nu> - 2.0.3-1
+- Update to 2.0.3 upstream release
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Tom Hughes <tom@compton.nu> - 2.0.1-1
+- Update to 2.0.1 upstream release
+
+* Tue Jun 30 2020 Tom Hughes <tom@compton.nu> - 1.1.0-1
+- Update to 1.1.0 upstream release
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

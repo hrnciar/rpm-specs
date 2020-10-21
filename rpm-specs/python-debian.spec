@@ -1,6 +1,6 @@
 Name:           python-debian
 Version:        0.1.36
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Modules for Debian-related data formats
 # debfile.py, arfile.py, debtags.py are release under GPL v3 or above
 # everything else is GPLv2+
@@ -85,6 +85,9 @@ python3 -m unittest discover lib
 %doc README.rst HISTORY.deb822
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.36-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.36-3
 - Rebuilt for Python 3.9
 

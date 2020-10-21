@@ -1,12 +1,12 @@
 Summary: SELinux Translation Daemon
 Name: mcstrans
-Version: 3.0
-Release: 2%{?dist}
+Version: 3.1
+Release: 3%{?dist}
 License: GPL+
 Url: https://github.com/SELinuxProject/selinux/wiki
-Source: https://github.com/SELinuxProject/selinux/releases/download/20191204/mcstrans-3.0.tar.gz
+Source: https://github.com/SELinuxProject/selinux/releases/download/20200710/mcstrans-3.1.tar.gz
 Source2: secolor.conf.8
-# fedora-selinux/selinux: git format-patch -N mcstrans-3.0 -- mcstrans
+# fedora-selinux/selinux: git format-patch -N mcstrans-3.1 -- mcstrans
 # i=1; for j in 00*patch; do printf "Patch%04d: %s\n" $i $j; i=$((i+1));done
 # Patch list start
 Patch0001: 0001-mcstrans-Fir-RESOURCE_LEAK-and-USE_AFTER_FREE-coveri.patch
@@ -42,7 +42,7 @@ from internal representations to user defined representation.
 %build
 %set_build_flags
 
-make LIBDIR="%{_libdir}" %{?_smp_mflags}
+%make_build LIBDIR="%{_libdir}"
 
 %install
 rm -rf %{buildroot}
@@ -51,7 +51,7 @@ mkdir -p %{buildroot}/%{_libdir}
 mkdir -p %{buildroot}%{_usr}/share/mcstrans
 mkdir -p %{buildroot}%{_sysconfdir}/selinux/mls/setrans.d
 
-make DESTDIR="%{buildroot}" LIBDIR="%{_libdir}" SHLIBDIR="%{_lib}" SBINDIR="%{_sbindir}" install
+%make_install LIBDIR="%{_libdir}" SHLIBDIR="%{_lib}" SBINDIR="%{_sbindir}"
 rm -f %{buildroot}%{_libdir}/*.a
 cp -r share/* %{buildroot}%{_usr}/share/mcstrans/
 # Systemd 
@@ -93,6 +93,16 @@ install -m644 %{SOURCE2} %{buildroot}%{_mandir}/man8/
 %{_usr}/share/mcstrans/util/*
 
 %changelog
+* Tue Jul 28 2020 Tom Stellard <tstellar@redhat.com> - 3.1-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Petr Lautrbach <plautrba@redhat.com> - 3.1-1
+- SELinux userspace 3.1 release
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

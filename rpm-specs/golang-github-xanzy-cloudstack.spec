@@ -3,7 +3,7 @@
 
 # https://github.com/xanzy/go-cloudstack
 %global goipath         github.com/xanzy/go-cloudstack
-Version:                2.5.0
+Version:                2.9.0
 
 %gometa
 
@@ -15,7 +15,7 @@ simple and uniform way.}
 %global godocs          README.md generate/regex.txt
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        CloudStack API client
 
 # Upstream license specification: Apache-2.0
@@ -42,6 +42,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Tue Aug 04 18:48:44 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.9.0-1
+- Update to 2.9.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

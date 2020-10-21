@@ -1,6 +1,6 @@
 Name:           perl-User-Identity
-Version:        0.99
-Release:        10%{?dist}
+Version:        1.00
+Release:        1%{?dist}
 Summary:        Maintains info about a physical person
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/User-Identity
@@ -65,6 +65,12 @@ make test
 %{_mandir}/man3/User::Identity::System.3*
 
 %changelog
+* Wed Oct 14 2020 Tom Callaway <spot@fedoraproject.org> - 1.00-1
+- update to 1.00
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.99-10
 - Perl 5.32 rebuild
 

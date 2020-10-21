@@ -5,7 +5,7 @@
 %global crate time
 
 Name:           rust-%{crate}
-Version:        0.2.16
+Version:        0.2.22
 Release:        1%{?dist}
 Summary:        Date and time library
 
@@ -54,18 +54,6 @@ This package contains library source intended for building other packages
 which use "default" feature of "%{crate}" crate.
 
 %files       -n %{name}+default-devel
-%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
-
-%package     -n %{name}+__doc-devel
-Summary:        %{summary}
-BuildArch:      noarch
-
-%description -n %{name}+__doc-devel %{_description}
-
-This package contains library source intended for building other packages
-which use "__doc" feature of "%{crate}" crate.
-
-%files       -n %{name}+__doc-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %package     -n %{name}+deprecated-devel
@@ -159,6 +147,19 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Thu Oct 01 2020 Fabio Valentini <decathorpe@gmail.com> - 0.2.22-1
+- Update to version 0.2.22.
+
+* Mon Sep 21 2020 Fabio Valentini <decathorpe@gmail.com> - 0.2.21-1
+- Update to version 0.2.21.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.16-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.16-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 2020 Josh Stone <jistone@redhat.com> - 0.2.16-1
 - Update to 0.2.16
 

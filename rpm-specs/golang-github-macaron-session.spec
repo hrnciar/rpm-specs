@@ -4,9 +4,11 @@
 
 # https://github.com/go-macaron/session
 %global goipath         github.com/go-macaron/session
-%global commit          0a0a789bf1934e55fde19629869caa015a40c525
+%global commit          7d919ce6a8d29a256134ca60e9e92da5c76f137f
 
 %gometa
+
+%global goipathsex      github.com/go-macaron/session/couchbase github.com/go-macaron/session/ledis github.com/go-macaron/session/nodb
 
 %global common_description %{expand:
 Middleware session provides session management for Macaron. It can use many
@@ -17,23 +19,20 @@ session providers, including memory, file, Redis, Memcache, PostgreSQL, MySQL.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.6%{?dist}
+Release:        0.8%{?dist}
 Summary:        Middleware that provides the session management of Macaron
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
-
-# disable uncommon databases like nodb and ledis - not packaged
-Patch0:         drop-exotic-dbs.patch
 # ensure tests use in-memory databases and on non-default ports
-Patch1:         local-tests-dbs.patch
+Patch0:         0001-Ensure-tests-use-in-memory-databases-and-on-non-defa.patch
 
 BuildRequires:  golang(github.com/bradfitz/gomemcache/memcache)
 BuildRequires:  golang(github.com/go-sql-driver/mysql)
 BuildRequires:  golang(github.com/lib/pq)
-BuildRequires:  golang(github.com/Unknwon/com)
+BuildRequires:  golang(github.com/unknwon/com)
 BuildRequires:  golang(gopkg.in/ini.v1)
 BuildRequires:  golang(gopkg.in/macaron.v1)
 BuildRequires:  golang(gopkg.in/redis.v2)
@@ -53,7 +52,7 @@ BuildRequires:  golang(github.com/smartystreets/goconvey/convey)
 %prep
 %goprep
 %patch0 -p1
-%patch1 -p1
+sed -i "s|github.com/unknwon/com|github.com/Unknwon/com|" $(find . -iname "*.go" -type f)
 
 %install
 %gopkginstall
@@ -73,7 +72,7 @@ echo "-- Server ports"
 netstat -tulnp | egrep '8130|8131'
 # run the actual tests
 echo "-- Run tests"
-%gocheck
+%gocheck -t couchbase -t ledis -t nodb
 echo "-- Done"
 # stop both the newly-created redis and memcached instances
 printf "shutdown\r\nquit\r\n" | ncat localhost 8131
@@ -83,6 +82,12 @@ redis-cli -p 8130 shutdowm
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 17:35:44 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.8.20200729git7d919ce
+- Bump to commit 7d919ce6a8d29a256134ca60e9e92da5c76f137f
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

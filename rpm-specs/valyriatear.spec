@@ -1,7 +1,7 @@
 %global alias ValyriaTear
 Name:       valyriatear
 Version:    1.0.0
-Release:    19%{?dist}
+Release:    22%{?dist}
 Summary:    Valyria Tear is a free 2D J-RPG based on the Hero of Allacrost engine
 License:    GPLv2
 URL:        http://valyriatear.blogspot.de/
@@ -78,12 +78,13 @@ sed -i dat/config/fonts.lua \
 
 
 %build
-%cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} -DUSE_SYSTEM_LUABIND=ON .
-make %{?_smp_mflags}
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
+%cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} -DUSE_SYSTEM_LUABIND=ON
+%cmake_build
 
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 install -D -p -m644 doc/%{name}.6 %{buildroot}/%{_mandir}/man6/%{name}.6
 
 desktop-file-validate  %{buildroot}/%{_datadir}/applications/%{name}.desktop
@@ -103,6 +104,16 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/*.appdata
 %{_datadir}/%{name}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-22
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Jeff Law <law@redhat.com> - 1.0.0-21
+- Force C++14 as this code is not C++17 ready
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

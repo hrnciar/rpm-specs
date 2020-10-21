@@ -1,7 +1,7 @@
 Summary:	Tools for network auditing and penetration testing
 Name:		dsniff
 Version:	2.4
-Release:	0.31.b1%{?dist}
+Release:	0.33.b1%{?dist}
 License:	BSD
 URL:		http://www.monkey.org/~dugsong/%{name}/
 Source:		http://www.monkey.org/~dugsong/%{name}/beta/%{name}-%{version}b1.tar.gz
@@ -107,10 +107,10 @@ by exploiting weak bindings in ad-hoc PKI.
 
 %build
 %configure
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install_prefix=$RPM_BUILD_ROOT INSTALL='install -p' install
+%make_install install_prefix=$RPM_BUILD_ROOT
 
 %files
 %license LICENSE
@@ -147,6 +147,13 @@ make install_prefix=$RPM_BUILD_ROOT INSTALL='install -p' install
 %{_mandir}/man8/webspy.8*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-0.33.b1
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-0.32.b1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-0.31.b1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

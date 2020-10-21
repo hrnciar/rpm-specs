@@ -1,8 +1,9 @@
+%undefine __cmake_in_source_build
 
 Summary: A viewer for comic book archives
 Name:    qcomicbook
 Version: 0.9.1
-Release: 7%{?dist}
+Release: 8%{?dist}
 
 License: GPLv2
 URL:     https://github.com/stolowski/QComicBook/
@@ -51,16 +52,12 @@ menu option of QComicBook.
 
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake} ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR="$RPM_BUILD_ROOT" -C %{_target_platform}
+%cmake_install
 
 # Register as an application to be visible in the software center
 #
@@ -115,6 +112,9 @@ desktop-file-validate ${RPM_BUILD_ROOT}%{_datadir}/applications/*%{name}.desktop
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

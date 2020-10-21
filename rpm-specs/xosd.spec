@@ -1,6 +1,6 @@
 Name:           xosd
 Version:        2.2.14
-Release:        33%{?dist}
+Release:        34%{?dist}
 Summary:        On-screen display library for X
 License:        GPLv2+
 URL:            https://sourceforge.net/projects/libxosd/
@@ -87,6 +87,9 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/%{name}
 %{_mandir}/man3/xosd*.3*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.14-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 09 2020 Petr Pisar <ppisar@redhat.com> - 2.2.14-33
 - Modernize a spec file
 

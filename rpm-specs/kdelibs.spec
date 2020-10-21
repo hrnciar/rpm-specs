@@ -53,7 +53,7 @@ Summary: KDE Libraries
 # shipped with kde applications, version...
 %global apps_version 17.08.3
 Version: 4.14.38
-Release: 20%{?dist}
+Release: 23%{?dist}
 
 Name: kdelibs
 Epoch: 6
@@ -215,6 +215,9 @@ Patch70: kdelibs-4.14.38-kio-tls1x.patch
 # Cast to the largest
 # possible unsigned integer type to avoid it.
 Patch71: kdelibs-4.14.38-narrowing-warning.patch
+
+# fix FTBFS 
+Patch72: kdelibs-4.14.38-qiodevice.patch
 
 ## upstream
 ## security fixes from the 4.14 branch:
@@ -512,6 +515,7 @@ sed -i -e "s|@@VERSION_RELEASE@@|%{version}-%{release}|" kio/kio/kprotocolmanage
 %patch69 -p1 -b .gcc10
 %patch70 -p1 -b .kio-tls1x
 %patch71 -p1 -b .narror-warning
+%patch72 -p1 -b .qiodevice
 
 # upstream patches
 %patch100 -p1 -b .CVE-2019-14744
@@ -874,6 +878,16 @@ time xvfb-run -a dbus-launch --exit-with-session make -C %{_target_platform}/ te
 
 
 %changelog
+* Thu Aug 27 2020 Than Ngo <than@redhat.com> - 6:4.14.38-23
+- fixed FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6:4.14.38-22
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6:4.14.38-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Than Ngo <than@redhat.com> - 4.14.38-20
 - fix build failure with gcc-10
 

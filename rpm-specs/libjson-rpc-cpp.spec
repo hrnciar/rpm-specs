@@ -2,7 +2,7 @@
 
 Name:           libjson-rpc-cpp
 Version:        1.1.0
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        C++ framework for json-rpc (json remote procedure call)
 
 License:        MIT
@@ -211,6 +211,13 @@ popd
 %{_mandir}/man1/jsonrpcstub.1*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Björn Esser <besser82@fedoraproject.org> - 1.1.0-11
 - Rebuild (jsoncpp)
 

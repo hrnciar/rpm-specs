@@ -2,7 +2,7 @@
 
 Name:		python-spdx-lookup	
 Version:	0.3.2
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	SPDX license list query tool
 
 License:	BSD
@@ -40,6 +40,9 @@ A tool to query the SPDX license list.
 %{_bindir}/spdx-lookup
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.2-3
 - Rebuilt for Python 3.9
 

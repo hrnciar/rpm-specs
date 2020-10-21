@@ -1,6 +1,6 @@
 Name:		congruity
 Version:	20
-Release:	9%{?dist}
+Release:	11%{?dist}
 Summary:	Applications to program Logitech Harmony universal remote controls
 
 # Code is GPLv3+, icons are the other three licenses
@@ -11,6 +11,7 @@ BuildArch:	noarch
 
 BuildRequires:	desktop-file-utils
 BuildRequires:	python3-devel
+BuildRequires:	python3-setuptools
 Requires:	python3-wxpython4
 Requires:	python3-libconcord
 # For mhgui
@@ -53,6 +54,12 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/mhgui.desktop
 %{_mandir}/*/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Scott Talbert <swt@techie.net> - 20-10
+- Add missing BR for setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 20-9
 - Rebuilt for Python 3.9
 

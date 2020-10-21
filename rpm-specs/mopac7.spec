@@ -1,7 +1,7 @@
 Name:           mopac7
 Summary:        Semi-empirical quantum mechanics suite
 Version:        1.15
-Release:        31%{?dist}
+Release:        35%{?dist}
 License:        Public Domain
 URL:            http://sourceforge.net/projects/mopac7/
 Source0:        http://bioinformatics.org/ghemical/download/current/mopac7-%{version}.tar.gz
@@ -73,6 +73,19 @@ find tests -name 'Makefile*' -delete -print
 %{_libdir}/pkgconfig/libmopac7.pc
 
 %changelog
+* Sun Oct 11 2020 Jeff Law <law@redhat.com> - 1.15-35
+- Re-enable LTO
+
+* Fri Aug  7 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.15-34
+- Disable lto for now
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15-33
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15-31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

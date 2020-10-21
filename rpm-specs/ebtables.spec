@@ -2,7 +2,7 @@
 
 Name:			ebtables
 Version:		2.0.11
-Release:		5%{?dist}
+Release:		6%{?dist}
 Summary:		Ethernet Bridge frame table administration tool
 License:		GPLv2+
 URL:			http://ebtables.sourceforge.net/
@@ -164,6 +164,9 @@ manpfx=%{_mandir}/man8/ebtables
 %ghost %{_sysconfdir}/sysconfig/ebtables
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.11-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.11-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

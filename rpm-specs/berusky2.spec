@@ -1,14 +1,14 @@
 Name:           berusky2
-Version:        0.11
-Release:        3%{?dist}
+Version:        0.12
+Release:        2%{?dist}
 License:        GPLv2+
 Summary:        Sokoban clone
-Source:         http://www.anakreon.cz/download/%{name}-%{version}-2.tar.gz
+Source:         http://www.anakreon.cz/download/%{name}-%{version}.tar.gz
 Source1:        berusky2.appdata.xml
 Source2:        berusky2.png
 URL:            http://www.anakreon.cz/en/Berusky2.htm
 
-Requires:       berusky2-data >= 0.9
+Requires:       berusky2-data >= 0.12
 BuildRequires:  gcc-c++
 BuildRequires:  gcc
 BuildRequires:  SDL-devel
@@ -75,6 +75,12 @@ cp %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/appdata/
 %{_var}/games/%{name}/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Martin Stransky <stransky@redhat.com> 0.12-1
+- Updated to 0.12
+
 * Wed Mar 04 2020 Martin Stransky <stransky@redhat.com> 0.11-3
 - More fixes from https://notabug.org/AsDaGo
 

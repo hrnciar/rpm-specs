@@ -21,10 +21,10 @@
 %endif
 
 # first two digits of version
-%global release_version %(echo %{version} | awk -F. '{print $1"."$2}')
+%define release_version %(echo %{version} | awk -F. '{print $1"."$2}')
 
 Name:           mingw-qt5-%{qt_module}
-Version:        5.14.2
+Version:        5.15.1
 Release:        1%{?dist}
 Summary:        Qt5 for Windows - QtDeclarative component
 
@@ -262,6 +262,13 @@ find %{buildroot}%{mingw64_libdir}/qt5 | grep .dll\$ | sed s@"^%{buildroot}"@"%%
 %{mingw32_libdir}/cmake/Qt5QuickShapes/
 %{mingw32_libdir}/cmake/Qt5QuickTest/
 %{mingw32_libdir}/cmake/Qt5QuickWidgets/
+%{mingw32_libdir}/metatypes/qt5qml_metatypes.json
+%{mingw32_libdir}/metatypes/qt5qmlmodels_metatypes.json
+%{mingw32_libdir}/metatypes/qt5qmlworkerscript_metatypes.json
+%{mingw32_libdir}/metatypes/qt5quick_metatypes.json
+%{mingw32_libdir}/metatypes/qt5quickparticles_metatypes.json
+%{mingw32_libdir}/metatypes/qt5quickshapes_metatypes.json
+%{mingw32_libdir}/metatypes/qt5quicktest_metatypes.json
 %{mingw32_libdir}/pkgconfig/Qt5Qml.pc
 %{mingw32_libdir}/pkgconfig/Qt5QmlModels.pc
 %{mingw32_libdir}/pkgconfig/Qt5QmlWorkerScript.pc
@@ -308,6 +315,10 @@ find %{buildroot}%{mingw64_libdir}/qt5 | grep .dll\$ | sed s@"^%{buildroot}"@"%%
 %{mingw32_libdir}/qt5/qml/Qt/labs/wavefrontmesh/plugins.qmltypes
 %{mingw32_libdir}/qt5/qml/Qt/labs/wavefrontmesh/qmldir
 %{mingw32_libdir}/qt5/qml/Qt/labs/wavefrontmesh/qmlwavefrontmeshplugin.dll
+%dir %{mingw32_libdir}/qt5/qml/Qt/test
+%dir %{mingw32_libdir}/qt5/qml/Qt/test/qtestroot
+%{mingw32_libdir}/qt5/qml/Qt/test/qtestroot/plugins.qmltypes
+%{mingw32_libdir}/qt5/qml/Qt/test/qtestroot/qmldir
 %dir %{mingw32_libdir}/qt5/qml/QtQml
 %{mingw32_libdir}/qt5/qml/QtQml/qmlplugin.dll
 %{mingw32_libdir}/qt5/qml/QtQml/plugins.qmltypes
@@ -357,6 +368,7 @@ find %{buildroot}%{mingw64_libdir}/qt5 | grep .dll\$ | sed s@"^%{buildroot}"@"%%
 %{mingw32_libdir}/qt5/qml/QtTest/qmltestplugin.dll
 %{mingw32_libdir}/qt5/qml/QtTest/testlogger.js
 %{mingw32_datadir}/qt5/mkspecs/features/qmlcache.prf
+%{mingw32_datadir}/qt5/mkspecs/features/qmltypes.prf
 %{mingw32_datadir}/qt5/mkspecs/features/qtquickcompiler.prf
 %{mingw32_datadir}/qt5/mkspecs/modules/qt_lib_packetprotocol_private.pri
 %{mingw32_datadir}/qt5/mkspecs/modules/qt_lib_qml.pri
@@ -389,9 +401,11 @@ find %{buildroot}%{mingw64_libdir}/qt5 | grep .dll\$ | sed s@"^%{buildroot}"@"%%
 
 %files -n mingw32-qt5-qmldevtools
 %{_prefix}/%{mingw32_target}/bin/qt5/qmlcachegen
+%{_prefix}/%{mingw32_target}/bin/qt5/qmlformat
 %{_prefix}/%{mingw32_target}/bin/qt5/qmlimportscanner
 %{_prefix}/%{mingw32_target}/bin/qt5/qmllint
 %{_prefix}/%{mingw32_target}/bin/qt5/qmlmin
+%{_prefix}/%{mingw32_target}/bin/qt5/qmltyperegistrar
 %{_prefix}/%{mingw32_target}/lib/libQt5QmlDevTools.so
 
 %files -n mingw32-qt5-qmldevtools-devel
@@ -486,6 +500,13 @@ find %{buildroot}%{mingw64_libdir}/qt5 | grep .dll\$ | sed s@"^%{buildroot}"@"%%
 %{mingw64_libdir}/cmake/Qt5QuickShapes/
 %{mingw64_libdir}/cmake/Qt5QuickTest/
 %{mingw64_libdir}/cmake/Qt5QuickWidgets/
+%{mingw64_libdir}/metatypes/qt5qml_metatypes.json
+%{mingw64_libdir}/metatypes/qt5qmlmodels_metatypes.json
+%{mingw64_libdir}/metatypes/qt5qmlworkerscript_metatypes.json
+%{mingw64_libdir}/metatypes/qt5quick_metatypes.json
+%{mingw64_libdir}/metatypes/qt5quickparticles_metatypes.json
+%{mingw64_libdir}/metatypes/qt5quickshapes_metatypes.json
+%{mingw64_libdir}/metatypes/qt5quicktest_metatypes.json
 %{mingw64_libdir}/pkgconfig/Qt5Qml.pc
 %{mingw64_libdir}/pkgconfig/Qt5QmlModels.pc
 %{mingw64_libdir}/pkgconfig/Qt5QmlWorkerScript.pc
@@ -532,6 +553,10 @@ find %{buildroot}%{mingw64_libdir}/qt5 | grep .dll\$ | sed s@"^%{buildroot}"@"%%
 %{mingw64_libdir}/qt5/qml/Qt/labs/wavefrontmesh/plugins.qmltypes
 %{mingw64_libdir}/qt5/qml/Qt/labs/wavefrontmesh/qmldir
 %{mingw64_libdir}/qt5/qml/Qt/labs/wavefrontmesh/qmlwavefrontmeshplugin.dll
+%dir %{mingw64_libdir}/qt5/qml/Qt/test
+%dir %{mingw64_libdir}/qt5/qml/Qt/test/qtestroot
+%{mingw64_libdir}/qt5/qml/Qt/test/qtestroot/plugins.qmltypes
+%{mingw64_libdir}/qt5/qml/Qt/test/qtestroot/qmldir
 %dir %{mingw64_libdir}/qt5/qml/QtQml
 %{mingw64_libdir}/qt5/qml/QtQml/qmlplugin.dll
 %{mingw64_libdir}/qt5/qml/QtQml/plugins.qmltypes
@@ -581,6 +606,7 @@ find %{buildroot}%{mingw64_libdir}/qt5 | grep .dll\$ | sed s@"^%{buildroot}"@"%%
 %{mingw64_libdir}/qt5/qml/QtTest/qmltestplugin.dll
 %{mingw64_libdir}/qt5/qml/QtTest/testlogger.js
 %{mingw64_datadir}/qt5/mkspecs/features/qmlcache.prf
+%{mingw64_datadir}/qt5/mkspecs/features/qmltypes.prf
 %{mingw64_datadir}/qt5/mkspecs/features/qtquickcompiler.prf
 %{mingw64_datadir}/qt5/mkspecs/modules/qt_lib_packetprotocol_private.pri
 %{mingw64_datadir}/qt5/mkspecs/modules/qt_lib_qml_private.pri
@@ -613,9 +639,11 @@ find %{buildroot}%{mingw64_libdir}/qt5 | grep .dll\$ | sed s@"^%{buildroot}"@"%%
 
 %files -n mingw64-qt5-qmldevtools
 %{_prefix}/%{mingw64_target}/bin/qt5/qmlcachegen
+%{_prefix}/%{mingw64_target}/bin/qt5/qmlformat
 %{_prefix}/%{mingw64_target}/bin/qt5/qmlimportscanner
 %{_prefix}/%{mingw64_target}/bin/qt5/qmllint
 %{_prefix}/%{mingw64_target}/bin/qt5/qmlmin
+%{_prefix}/%{mingw64_target}/bin/qt5/qmltyperegistrar
 %{_prefix}/%{mingw64_target}/lib/libQt5QmlDevTools.so
 
 %files -n mingw64-qt5-qmldevtools-devel
@@ -663,6 +691,12 @@ find %{buildroot}%{mingw64_libdir}/qt5 | grep .dll\$ | sed s@"^%{buildroot}"@"%%
 
 
 %changelog
+* Tue Oct  6 23:26:54 CEST 2020 Sandro Mani <manisandro@gmail.com> - 5.15.1-1
+- Update to 5.15.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.14.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 07 2020 Sandro Mani <manisandro@gmail.com> - 5.14.2-1
 - Update to 5.14.2
 

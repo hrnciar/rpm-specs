@@ -1,6 +1,6 @@
 Name:		demorse
 Version:	1.2
-Release:	13%{?dist}
+Release:	14%{?dist}
 Summary:	Command line tool for decoding Morse code signals
 
 License:	GPLv2+
@@ -38,6 +38,9 @@ make install DESTDIR=%{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

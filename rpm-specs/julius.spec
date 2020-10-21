@@ -2,7 +2,7 @@
 
 Name:		julius
 Version:	4.5
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Large vocabulary continuous speech recognition (LVCSR) decoder software
 License:	Julius
 URL:		https://github.com/julius-speech/julius
@@ -134,6 +134,9 @@ mv %{buildroot}%{_bindir}/jcontrol %{buildroot}%{_bindir}/julius-jcontrol
 %{_datadir}/julius/model/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

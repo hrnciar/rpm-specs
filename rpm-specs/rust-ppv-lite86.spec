@@ -5,7 +5,7 @@
 %global crate ppv-lite86
 
 Name:           rust-%{crate}
-Version:        0.2.8
+Version:        0.2.9
 Release:        1%{?dist}
 Summary:        Implementation of the crypto-simd API for x86
 
@@ -106,6 +106,12 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 0.2.9-1
+- Update to 0.2.9
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 17 07:17:37 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.8-1
 - Update to 0.2.8
 

@@ -11,7 +11,7 @@
 
 Name:           python-%{pypi_name}
 Version:        2.1.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        A comprehensive, fast, pure Python memcached client
 
 License:        ASL 2.0
@@ -122,6 +122,9 @@ py.test-3 ./pymemcache/test/
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.1-7
 - Rebuilt for Python 3.9
 

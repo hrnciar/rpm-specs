@@ -1,8 +1,8 @@
 %global srcname paramiko
 
 Name:          python-%{srcname}
-Version:       2.7.1
-Release:       4%{?dist}
+Version:       2.7.2
+Release:       1%{?dist}
 Summary:       SSH2 protocol library for python
 
 # No version specified.
@@ -84,6 +84,25 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version}
 %doc html/ demos/
 
 %changelog
+* Mon Aug 31 2020 Paul Howarth <paul@city-fan.org> - 2.7.2-1
+- Update to 2.7.2
+  - Update our CI to catch issues with sdist generation, installation and
+    testing
+  - Add missing test suite fixtures directory to MANIFEST.in, reinstating the
+    ability to run Paramiko's tests from an sdist tarball (GH#1727)
+  - Remove leading whitespace from OpenSSH RSA test suite static key fixture,
+    to conform better to spec. (GH#1722)
+  - Fix incorrect string formatting causing unhelpful error message annotation
+    when using Kerberos/GSSAPI
+  - Fix incorrectly swapped order of 'p' and 'q' numbers when loading
+    OpenSSH-format RSA private keys; at minimum this should address a slowdown
+    when using such keys, and it also means Paramiko works with Cryptography
+    3.1 and above, which complains strenuously when this problem appears
+    (GH#1723)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Paul Howarth <paul@city-fan.org> - 2.7.1-4
 - Avoid FTBFS with pytest 5 (pytest-relaxed pulls in pytest 4)
 - Drop explicit dependencies for things that the python dependency generator

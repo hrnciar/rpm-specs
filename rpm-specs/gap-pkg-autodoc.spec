@@ -9,8 +9,8 @@
 %bcond_with bootstrap
 
 Name:           gap-pkg-autodoc
-Version:        2019.09.04
-Release:        2%{?dist}
+Version:        2020.08.11
+Release:        1%{?dist}
 Summary:        Generate documentation from GAP source code
 
 License:        GPLv2+
@@ -45,6 +45,7 @@ This package contains documentation for gap-pkg-%{pkgname}.
 %autosetup -p0 -n %{pkgname}-%{version}
 
 %build
+export LC_ALL=C.UTF-8
 mkdir ../pkg
 ln -s ../AutoDoc-%{version} ../pkg
 gap -l "$PWD/..;%{_gap_dir}" < makedoc.g
@@ -58,6 +59,7 @@ rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}/doc/*.{aux,bbl,blg,idx,ilg,ind,log,
 
 %if %{without bootstrap}
 %check
+export LC_ALL=C.UTF-8
 gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %endif
 
@@ -72,6 +74,12 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}/doc/
 
 %changelog
+* Tue Aug 11 2020 Jerry James <loganjerry@gmail.com> - 2020.08.11-1
+- Version 2020.08.11
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.09.04-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.09.04-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

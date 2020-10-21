@@ -1,8 +1,8 @@
 %global srcname nbformat
 
 Name:           python-%{srcname}
-Version:        5.0.5
-Release:        2%{?dist}
+Version:        5.0.7
+Release:        1%{?dist}
 Summary:        The Jupyter Notebook format
 
 License:        BSD
@@ -11,6 +11,9 @@ Source0:        https://files.pythonhosted.org/packages/source/n/%{srcname}/%{sr
 
 BuildArch:      noarch
 
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  pyproject-rpm-macros
+
 %description
 This package contains the base implementation of the Jupyter Notebook format,
 and Python APIs for working with notebooks.
@@ -18,17 +21,6 @@ and Python APIs for working with notebooks.
 
 %package -n python%{python3_pkgversion}-%{srcname}
 Summary:        The Jupyter Notebook format
-BuildRequires:  python%{python3_pkgversion}-devel
-# For tests
-BuildRequires:  python%{python3_pkgversion}-pytest
-BuildRequires:  python%{python3_pkgversion}-ipython_genutils
-BuildRequires:  python%{python3_pkgversion}-jsonschema
-BuildRequires:  python%{python3_pkgversion}-jupyter-core
-BuildRequires:  python%{python3_pkgversion}-traitlets
-Requires:       python%{python3_pkgversion}-ipython_genutils
-Requires:       python%{python3_pkgversion}-jsonschema
-Requires:       python%{python3_pkgversion}-jupyter-core
-Requires:       python%{python3_pkgversion}-traitlets
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
 
 %description -n python%{python3_pkgversion}-%{srcname}
@@ -39,28 +31,33 @@ and Python APIs for working with notebooks.
 %prep
 %autosetup -p1 -n %{srcname}-%{version}
 
+%generate_buildrequires
+%pyproject_buildrequires -r -x test
 
 %build
-%py3_build
+%pyproject_wheel
 
 
 %install
-%py3_install
-
+%pyproject_install
+%pyproject_save_files %{srcname}
 
 %check
-# test_sign.py needs testpath which isn't packaged yet
-mv %{srcname}/tests/test_sign.py{,.fail}
-py.test-%{python3_version} -v %{srcname}/tests/
+%pytest
 
  
-%files -n python%{python3_pkgversion}-%{srcname}
+%files -n python%{python3_pkgversion}-%{srcname} -f %pyproject_files
 %doc README.md
 %license COPYING.md
-%{python3_sitelib}/*
-
+%{_bindir}/jupyter-trust
 
 %changelog
+* Wed Sep 09 2020 Lumír Balhar <lbalhar@redhat.com> - 5.0.7-1
+- Update to 5.0.7 (#1425643)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 5.0.5-2
 - Rebuilt for Python 3.9
 

@@ -3,7 +3,7 @@
 
 Name:           apache-commons-exec
 Version:        1.3
-Release:        13%{?dist}
+Release:        17%{?dist}
 Summary:        Java library to reliably execute external processes from within the JVM
 License:        ASL 2.0
 URL:            http://commons.apache.org/exec/
@@ -48,6 +48,9 @@ chmod a+x src/test/scripts/*.sh
 # Skip Exec57Test (it is unstable), see rhbz#1202260
 find -name Exec57Test.java -delete
 
+%pom_xpath_set pom:properties/pom:maven.compiler.source 6
+%pom_xpath_set pom:properties/pom:maven.compiler.target 6
+
 %mvn_file :%{short_name} %{short_name} %{name}
 
 
@@ -66,6 +69,18 @@ find -name Exec57Test.java -delete
 %license LICENSE.txt NOTICE.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Jiri Vanek <jvanek@redhat.com> - 1.3-16
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Sat Jul 11 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.3-15
+- Fix build with JDK-11
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.3-14
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

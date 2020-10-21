@@ -1,6 +1,9 @@
+# Fix different output on different architectures
+%global _target_platform %{_vendor}-%{_target_os}
+
 Name:           waylandpp
-Version:        0.2.7
-Release:        3%{?dist}
+Version:        0.2.8
+Release:        4%{?dist}
 Summary:        Wayland C++ bindings
 
 # waylandpp includes part of Wayland under MIT, wayland-scanner++ is GPLv3+
@@ -9,7 +12,7 @@ URL:            https://github.com/NilsBrause/%{name}/
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 # Fix pugixml detection during build
 Patch0:         %{name}-0.2.7-pugixml.patch
-Patch1:		%{name}-0.2.7-gcc10.patch
+Patch1:         %{name}-0.2.7-gcc10.patch
 
 BuildRequires:  cmake
 BuildRequires:  doxygen
@@ -54,19 +57,19 @@ The %{name}-doc package contains development documentation for %{name}.
 
 
 %build
-%cmake . -DCMAKE_INSTALL_DOCDIR=%{_defaultdocdir}/%{name}-doc/
-%make_build
+%cmake -DCMAKE_INSTALL_DOCDIR=%{_defaultdocdir}/%{name}-doc/
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 # Drop LaTeX documentation (HTML documentation is already built)
 rm -r $RPM_BUILD_ROOT%{_defaultdocdir}/%{name}-doc/latex/
 
 
 %check
-ctest -V %{?_smp_mflags}
+%ctest
 
 
 %files
@@ -93,6 +96,19 @@ ctest -V %{?_smp_mflags}
 
 
 %changelog
+* Wed Aug 05 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 0.2.8-4
+- Fix different output on different architectures
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.8-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 0.2.8-1
+- Update to 0.2.8
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:		xjparse
 Version:	1.0
-Release:	21%{?dist}
+Release:	23%{?dist}
 Summary:	Wrapper for the Xerces XML Schema validator
 License:	ASL 2.0
 URL:		http://nwalsh.com/java/xjparse
@@ -42,6 +42,12 @@ install -dm 755 $RPM_BUILD_ROOT%{_bindir}
 %{_bindir}/xjparse
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.0-22
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 Summary: C++/Qt5 wrapper around multiple MIDI interfaces
 Name:    drumstick
 Version: 1.1.3
-Release: 3%{?dist}
+Release: 5%{?dist}
 
 License: GPLv2+
 URL:     http://drumstick.sourceforge.net/
@@ -68,17 +68,14 @@ This package contains the vpiano application.
 %setup -q -n %{name}-%{version}%{?svn}
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%cmake ..
-popd
+%cmake
 
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake_build
 doxygen %{_target_platform}/Doxyfile
 
 
 %install
-make install/fast  DESTDIR=$RPM_BUILD_ROOT -C %{_target_platform}
+%cmake_install
 for i in $RPM_BUILD_ROOT%{_datadir}/applications/* ; do
   desktop-file-validate $i
 done
@@ -146,6 +143,13 @@ done
 %{_datadir}/man/man1/drumstick-vpiano.1.gz
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> - 1.1.3-3
 - Rebuild against fluidsynth2
 

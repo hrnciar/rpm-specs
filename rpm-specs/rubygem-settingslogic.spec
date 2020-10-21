@@ -2,7 +2,7 @@
 
 Name:           rubygem-%{gem_name}
 Version:        2.0.9
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Simple settings solution for Ruby
 
 License:        MIT
@@ -75,6 +75,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.9-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.9-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

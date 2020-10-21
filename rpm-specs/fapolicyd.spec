@@ -1,11 +1,11 @@
 %global selinuxtype targeted
 %global moduletype contrib
-%define semodule_version 0.2
+%define semodule_version 0.3
 
 Summary: Application Whitelisting Daemon
 Name: fapolicyd
 Version: 1.0
-Release: 2%{?dist}
+Release: 4%{?dist}
 License: GPLv3+
 URL: http://people.redhat.com/sgrubb/fapolicyd
 Source0: https://people.redhat.com/sgrubb/fapolicyd/%{name}-%{version}.tar.gz
@@ -22,7 +22,14 @@ Requires(post): systemd-units
 Requires(preun): systemd-units
 Requires(postun): systemd-units
 
-Patch1: selinux.patch
+Patch1: fapolicyd-cli-args.patch
+Patch2: fapolicyd-magic-override.patch
+Patch3: fapolicyd-magic-override2.patch
+Patch4: fapolicyd-man-page.patch
+Patch5: fapolicyd-trust.patch
+Patch6: fapolicyd-cli-empty-db.patch
+Patch7: fapolicyd-cli-big-buffer.patch
+Patch8: fapolicyd-get-line.patch
 
 %description
 Fapolicyd (File Access Policy Daemon) implements application whitelisting
@@ -49,11 +56,18 @@ The %{name}-selinux package contains selinux policy for the %{name} daemon.
 # selinux
 %setup -q -D -T -a 1
 
+%patch1 -p1 -b .cli-args
+%patch2 -p1 -b .magic-override
+%patch3 -p1 -b .magic-override2
+%patch4 -p1 -b .man-page
+%patch5 -p1 -b .trust
+%patch6 -p1 -b .cli-empty-db
+%patch7 -p1 -b .cli-big-buffer
+%patch8 -p1 -b .get-line
+
 sed -i "s/%python2_path%/`readlink -f %{__python2} | sed 's/\//\\\\\//g'`/g" init/%{name}.rules.*
 sed -i "s/%python3_path%/`readlink -f %{__python3} | sed 's/\//\\\\\//g'`/g" init/%{name}.rules.*
 sed -i "s/%ld_so_path%/`find /usr/lib64/ -type f -name 'ld-2\.*.so' | sed 's/\//\\\\\//g'`/g" init/%{name}.rules.*
-
-%patch1 -p1 -b .selinux
 
 %build
 
@@ -152,6 +166,15 @@ fi
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Radovan Sroka <rsroka@redhat.com> - 1.0-3
+- backported few cosmetic small patches from upstream master
+- rebase selinux tarbal to v0.3
+- file context pattern for /run/fapolicyd.pid is missing
+Resolves: rhbz#1834674
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0-2
 - Rebuilt for Python 3.9
 

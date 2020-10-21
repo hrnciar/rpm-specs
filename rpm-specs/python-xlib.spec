@@ -5,8 +5,8 @@
 %endif
 
 Name:           python-xlib
-Version:        0.26
-Release:        3%{?dist}
+Version:        0.28
+Release:        2%{?dist}
 Summary:        X client library for Python
 
 License:        LGPLv2+
@@ -16,7 +16,7 @@ Source1:        xorg.conf
 # tests need to import tohex
 # https://github.com/python-xlib/python-xlib/pull/75
 Patch1:         python-xlib-tohex.patch
-Patch2:         fix-ssh-tunnel-auth 
+Patch2:         fix-ssh-tunnel-auth
 # Remove failing test
 # https://github.com/python-xlib/python-xlib/issues/1
 Patch4:         python-xlib-test.patch
@@ -28,14 +28,15 @@ BuildRequires:  tex(dvips)
 BuildRequires:  xorg-x11-drv-dummy
 
 %description
-The Python X Library is a complete X11R6 client-side implementation, 
-written in pure Python. It can be used to write low-levelish X Windows 
+The Python X Library is a complete X11R6 client-side implementation,
+written in pure Python. It can be used to write low-levelish X Windows
 client applications in Python.
 
 %if %{with python2}
 %package -n python2-xlib
 Summary:        X client library for Python 2
 BuildRequires:  python2-devel
+BuildRequires:  python2-setuptools
 BuildRequires:  python2-setuptools_scm
 BuildRequires:  python2-six >= 1.10.0
 # For tests
@@ -44,14 +45,15 @@ Requires:       python2-six >= 1.10.0
 %{?python_provide:%python_provide python2-xlib}
 
 %description -n python2-xlib
-The Python X Library is a complete X11R6 client-side implementation, 
-written in pure Python. It can be used to write low-levelish X Windows 
+The Python X Library is a complete X11R6 client-side implementation,
+written in pure Python. It can be used to write low-levelish X Windows
 client applications in Python 2.
 %endif
 
 %package -n python%{python3_pkgversion}-xlib
 Summary:        X client library for Python 3
 BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
 BuildRequires:  python%{python3_pkgversion}-setuptools_scm
 BuildRequires:  python%{python3_pkgversion}-six >= 1.10.0
 # For tests
@@ -60,8 +62,8 @@ Requires:       python%{python3_pkgversion}-six >= 1.10.0
 %{?python_provide:%python_provide python%{python3_pkgversion}-xlib}
 
 %description -n python%{python3_pkgversion}-xlib
-The Python X Library is a complete X11R6 client-side implementation, 
-written in pure Python. It can be used to write low-levelish X Windows 
+The Python X Library is a complete X11R6 client-side implementation,
+written in pure Python. It can be used to write low-levelish X Windows
 client applications in Python 3.
 
 %package doc
@@ -110,7 +112,7 @@ export DISPLAY=:99
 %__python3 setup.py test
 kill %1 || :
 cat xorg.log
- 
+
 %if %{with python2}
 %files -n python2-xlib
 %license LICENSE
@@ -129,6 +131,15 @@ cat xorg.log
 
 
 %changelog
+* Mon Oct 05 2020 Orion Poplawski <orion@nwra.com> - 0.28-2
+- Add BR on python-setuptools
+
+* Wed Sep 23 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.28-1
+- Update to 0.28
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.26-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.26-3
 - Rebuilt for Python 3.9
 
@@ -238,7 +249,7 @@ cat xorg.log
 - Rebuilt for https://fedoraproject.org/wiki/Features/Python_2.7/MassRebuild
 
 * Mon Dec 14  2009 Jef Spaleta <jspaleta AT fedoraproject DOT org> - 0.15-0.1.rc1
-- New upstream pre-release and some cherry picked patches from Debian from Fedora bug 537264 
+- New upstream pre-release and some cherry picked patches from Debian from Fedora bug 537264
 
 * Sun Jul 26 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.14-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild

@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.4.3
-Release:        9%{?dist}
+Release:        11%{?dist}
 Summary:        Cross-platform file locks and file duplication
 
 # Upstream license specification: MIT/Apache-2.0
@@ -74,6 +74,13 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.3-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.3-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.3-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

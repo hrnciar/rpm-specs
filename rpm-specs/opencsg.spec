@@ -1,6 +1,6 @@
 Name:           opencsg
 Version:        1.4.2
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Library for Constructive Solid Geometry using OpenGL
 # license.txt contains a linking exception for CGAL
 License:        GPLv2 with exceptions
@@ -76,6 +76,9 @@ cp -p include/opencsg.h %{buildroot}/%{_includedir}/
 %{_libdir}/*so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

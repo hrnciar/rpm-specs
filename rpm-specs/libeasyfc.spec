@@ -1,6 +1,6 @@
 Name:		libeasyfc
 Version:	0.14.0
-Release:	7%{?dist}
+Release:	8%{?dist}
 Summary:	Easy configuration generator interface for fontconfig
 
 License:	LGPLv3+
@@ -94,6 +94,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 %{_datadir}/gir-*/Easyfc-*.gir
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

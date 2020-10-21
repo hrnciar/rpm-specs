@@ -5,7 +5,7 @@
 
 Name:		nodejs-sinon-restore
 Version:	1.0.1
-Release:	9%{?dist}
+Release:	10%{?dist}
 Summary:	Simply adds restoreAll() to sinon
 
 License:	MIT
@@ -64,6 +64,9 @@ cp -pr package.json *.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

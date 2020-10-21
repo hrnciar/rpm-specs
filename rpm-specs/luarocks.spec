@@ -5,8 +5,8 @@
 # %%if 0%%{?fedora} || 0%%{?rhel} >= 7
 # %%{!?luaver: %%global luaver %%(lua -e "print(string.sub(_VERSION, 5))")}
 # %%else
-%global luaver  5.3
-%global luanext 5.4
+%global luaver  5.4
+%global luanext 5.5
 # %%endif
 
 %global luapkgdir %{_libdir}/lua/%{luaver}
@@ -21,7 +21,7 @@
 
 Name:           luarocks
 Version:        3.3.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        A deployment and management system for Lua modules
 
 License:        MIT
@@ -106,6 +106,12 @@ mkdir -p %{buildroot}%{_libdir}/luarocks/rocks-%{luaver}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Miro Hrončok <mhroncok@redhat.com> - 3.3.1-2
+- Rebuilt for Lua 5.4
+
 * Tue Mar  3 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 3.3.1-1
 - Update to 3.3.1
 

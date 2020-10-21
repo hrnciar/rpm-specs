@@ -11,7 +11,7 @@
 
 Name:           mirrormanager2
 Version:        0.14
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Mirror management application
 
 # Most MirrorManager files are licensed under the MIT license. Some
@@ -458,6 +458,9 @@ MM2_SKIP_NETWORK_TESTS=1 ./runtests.sh -v
 %{_bindir}/mirrorlist_statistics
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Nils Philippsen <nils@redhat.com> - 0.14-2
 - explicitly byte-compile Python files outside of the standard locations
 

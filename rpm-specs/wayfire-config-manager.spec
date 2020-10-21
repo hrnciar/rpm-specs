@@ -1,10 +1,6 @@
-# LTO
-%global optflags        %{optflags} -flto
-%global build_ldflags   %{build_ldflags} -flto
-
 Name:           wayfire-config-manager
-Version:        0.4.0
-Release:        2%{?dist}
+Version:        0.5.0
+Release:        1%{?dist}
 Summary:        Wayfire Config Manager
 
 License:        MIT
@@ -17,7 +13,8 @@ BuildRequires:  meson
 BuildRequires:  pkgconfig(gtk+-3.0)
 BuildRequires:  pkgconfig(libxml-2.0)
 BuildRequires:  pkgconfig(wayfire)
-BuildRequires:  pkgconfig(wf-config) >= 0.4.0
+BuildRequires:  pkgconfig(wf-config) >= 0.5.0
+BuildRequires:  pkgconfig(wf-shell) >= 0.5.0
 
 Requires:       hicolor-icon-theme
 
@@ -51,6 +48,16 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Tue Aug 04 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.5.0-1
+- Update to 0.5.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 22 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.4.0-2
 - Enable LTO
 

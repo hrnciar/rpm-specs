@@ -12,7 +12,7 @@
 Name:           tempest
 # There is no version, so we use pre-release style versioning with a date
 Version:        0
-Release:        0.29.%{pkgtimestamp}%{?dist}
+Release:        0.30.%{pkgtimestamp}%{?dist}
 Summary:        Tempest OpenGL screensaver
 License:        GPLv2+
 URL:            http://www.personal.utulsa.edu/~dan-guernsey
@@ -149,6 +149,9 @@ fi
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.30.20081027
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 07 2020 josef radinger <cheese@nosuchhost.net> - 0-0.29.20081027
 - obsolete tempest-gnome-screensaver for fc33 onwards
 - fix bug #1841250

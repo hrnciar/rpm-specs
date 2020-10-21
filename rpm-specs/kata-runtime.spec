@@ -28,7 +28,7 @@
 %global rcstr -%{rcver}
 %endif
 
-Version:                1.11.0
+Version:                1.11.1
 
 # https://github.com/kata-containers/runtime
 %global tag             %{version}%{?rcstr}
@@ -70,7 +70,7 @@ Requires: qemu-kvm-core >= 4.2.0-4
 %if 0%{?fedora}
 Requires: kata-proxy >= %{version}
 %endif
-Requires: kata-shim >= %{version}
+Recommends: kata-shim >= %{version}
 Requires: kata-osbuilder >= %{version}
 
 BuildRequires: libselinux-devel
@@ -195,6 +195,14 @@ Provides: bundled(golang(google.golang.org/grpc/status))
 %define sharedfs "virtio-9p"
 %endif
 
+# FEATURE_SELINUX must be disabled for CentOS till the
+# podman package support it is avaiable.
+%if 0%{?centos}
+%define feature_selinux "no"
+%else
+%define feature_selinux "yes"
+%endif
+
 %global make_vars       QEMUPATH=%{qemupath} \\\
                         DEFSHAREDFS=%{sharedfs} \\\
                         DEFVIRTIOFSDAEMON=%{_libexecdir}/"virtiofsd" \\\
@@ -207,7 +215,7 @@ Provides: bundled(golang(google.golang.org/grpc/status))
                         PREFIX=/usr \\\
                         DEFAULTSDIR=%{_datadir}/kata-containers/defaults \\\
                         CONFDIR=%{_datadir}/kata-containers/defaults \\\
-                        FEATURE_SELINUX=no
+                        FEATURE_SELINUX=%{feature_selinux}
 
 %prep
 %autosetup -p1 -n %{repo}-%{version}%{?rcstr}
@@ -266,6 +274,19 @@ rm %{buildroot}%{_datadir}/kata-containers/defaults/configuration-*.toml
 
 
 %changelog
+* Thu Oct 9 2020 Fabiano Fidêncio <fidencio@redhat.com> - 1.11.1-3
+- Set kata-shim as recommended
+- Don't reenable SELinux support for CentOS
+
+* Thu Jul 30 2020 Fabiano Fidêncio <fidencio@redhat.com> - 1.11.1-2
+- Reenable SELinux as podman 2.0 is already out
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.1-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Pavel Mores <pmores@redhat.com> - 1.11.1-1
+- Update to version 1.11.1
+
 * Fri May 15 2020 Fabiano Fidêncio <fidencio@redhat.com> - 1.11.0-3
 - Use the right machine type according to the architecture
 - Removed non-used / non-tested configuration files

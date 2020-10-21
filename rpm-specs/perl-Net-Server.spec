@@ -1,10 +1,12 @@
 Name:           perl-Net-Server
 Version:        2.009
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Extensible, general Perl server engine
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Net-Server
 Source0:        https://cpan.metacpan.org/modules/by-module/Net/Net-Server-%{version}.tar.gz
+# Fix tests failing with OpenSSL @SECLEVEL=2 (CPAN RT#126923)
+Patch0:         Net-Server-2.009-Generate-2048-bit-keys-for-tests.patch
 BuildArch:      noarch
 BuildRequires:  coreutils
 BuildRequires:  findutils
@@ -71,6 +73,7 @@ be the back end layer of internet protocol servers.
 
 %prep
 %setup -q -n Net-Server-%{version}
+%patch0 -p1
 
 # Do not want to pull in any packaging deps here.
 chmod -c 644 examples/*
@@ -95,6 +98,12 @@ make test
 %{_mandir}/man1/net-server.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.009-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.009-9
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.009-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -5,8 +5,8 @@
 %global crate gstreamer-pbutils
 
 Name:           rust-%{crate}
-Version:        0.15.1
-Release:        2%{?dist}
+Version:        0.16.3
+Release:        1%{?dist}
 Summary:        Rust bindings for GStreamer Base Utils library
 
 # Upstream license specification: MIT/Apache-2.0
@@ -80,6 +80,18 @@ which use "embed-lgpl-docs" feature of "%{crate}" crate.
 %files       -n %{name}+embed-lgpl-docs-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+gstreamer-rs-lgpl-docs-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+gstreamer-rs-lgpl-docs-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "gstreamer-rs-lgpl-docs" feature of "%{crate}" crate.
+
+%files       -n %{name}+gstreamer-rs-lgpl-docs-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+purge-lgpl-docs-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -90,18 +102,6 @@ This package contains library source intended for building other packages
 which use "purge-lgpl-docs" feature of "%{crate}" crate.
 
 %files       -n %{name}+purge-lgpl-docs-devel
-%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
-
-%package     -n %{name}+rustdoc-stripper-devel
-Summary:        %{summary}
-BuildArch:      noarch
-
-%description -n %{name}+rustdoc-stripper-devel %{_description}
-
-This package contains library source intended for building other packages
-which use "rustdoc-stripper" feature of "%{crate}" crate.
-
-%files       -n %{name}+rustdoc-stripper-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %package     -n %{name}+v1_10-devel
@@ -152,6 +152,18 @@ which use "v1_16" feature of "%{crate}" crate.
 %files       -n %{name}+v1_16-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+v1_18-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+v1_18-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "v1_18" feature of "%{crate}" crate.
+
+%files       -n %{name}+v1_18-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
 %cargo_prep
@@ -171,6 +183,15 @@ which use "v1_16" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Sep 09 2020 Josh Stone <jistone@redhat.com> - 0.16.3-1
+- Update to 0.16.3
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Josh Stone <jistone@redhat.com> - 0.16.0-1
+- Update to 0.16.0
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,8 +2,8 @@
 %global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
 
 Name:           liblouis
-Version:        3.12.0
-Release:        3%{?dist}
+Version:        3.15.0
+Release:        2%{?dist}
 Summary:        Braille translation and back-translation library
 
 License:        LGPLv3+
@@ -93,7 +93,7 @@ make check
 
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 rm -f %{buildroot}/%{_infodir}/dir
 rm -f %{buildroot}/%{_libdir}/%{name}.la
 rm -rf %{buildroot}/%{_bindir}/lou_maketable*
@@ -140,6 +140,15 @@ done
 
 
 %changelog
+* Mon Sep 07 2020 Martin Gieseking <martin.gieseking@uos.de> - 3.15.0-2
+- Use make_install macro.
+
+* Tue Sep 01 2020 Martin Gieseking <martin.gieseking@uos.de> - 3.15.0-1
+- Updated to 3.15.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.12.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.12.0-3
 - Rebuilt for Python 3.9
 

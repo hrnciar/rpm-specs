@@ -2,8 +2,8 @@
 
 Summary: Qt5 - Location component
 Name:    qt5-%{qt_module}
-Version: 5.14.2
-Release: 2%{?dist}
+Version: 5.15.1
+Release: 1%{?dist}
 
 # See LGPL_EXCEPTIONS.txt, LICENSE.GPL3, respectively, for exception details
 License: LGPLv2 with exceptions or GPLv3 with exceptions
@@ -56,6 +56,12 @@ Requires: %{name}%{?_isa} = %{version}-%{release}
 %patch0 -p1 -b .gcc10
 
 %build
+# QT is known not to work properly with LTO at this point.  Some of the issues
+# are being worked on upstream and disabling LTO should be re-evaluated as
+# we update this change.  Until such time...
+# Disable LTO
+%define _lto_cflags %{nil}
+
 # no shadow builds until fixed: https://bugreports.qt.io/browse/QTBUG-37417
 %{qmake_qt5}
 
@@ -121,6 +127,19 @@ popd
 
 
 %changelog
+* Thu Sep 10 2020 Jan Grulich <jgrulich@redhat.com> - 5.15.1-1
+- 5.15.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.14.2-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.14.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> - 5.14.2-3
+- Disable LTO
+
 * Sat May 16 2020 Pete Walter <pwalter@fedoraproject.org> - 5.14.2-2
 - Rebuild for ICU 67
 

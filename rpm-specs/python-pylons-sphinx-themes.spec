@@ -5,7 +5,7 @@ projects.
 
 Name: python-%{srcname}
 Version: 1.0.11
-Release: 2%{?dist}
+Release: 3%{?dist}
 BuildArch: noarch
 
 License: BSD
@@ -50,6 +50,9 @@ Summary: %{summary}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.11-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.11-2
 - Rebuilt for Python 3.9
 

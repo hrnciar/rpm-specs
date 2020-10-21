@@ -3,7 +3,7 @@
 
 Name:           osmpbf
 Version:        1.3.3
-Release:        20.20150712git%{shortcommit}%{?dist}
+Release:        23.20150712git%{shortcommit}%{?dist}
 Summary:        C library to read and write OpenStreetMap PBF files
 
 License:        LGPLv3
@@ -84,6 +84,15 @@ rm %{buildroot}/%{_libdir}/libosmpbf.a
 
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 1.3.3-23.20150712git17fd0cc
+- Rebuilt for protobuf 3.13
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-22.20150712git17fd0cc
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.3.3-21.20150712git17fd0cc
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sun Jun 21 2020 Adrian Reber <adrian@lisas.de> - 1.3.3-20.20150712git17fd0cc
 - Rebuilt for protobuf 3.12
 

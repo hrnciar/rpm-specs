@@ -1,8 +1,8 @@
 %global srcname colcon-mixin
 
 Name:           python-%{srcname}
-Version:        0.1.9
-Release:        1%{?dist}
+Version:        0.2.0
+Release:        2%{?dist}
 Summary:        Extension for colcon to read CLI mixins from files
 
 License:        ASL 2.0
@@ -62,6 +62,15 @@ For an example repository containing mixins see colcon-mixin-repository.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Scott K Logan <logans@cottsay.net> - 0.2.0-1
+- Update to 0.2.0 (rhbz#1858470)
+
+* Mon Jun 29 2020 Scott K Logan <logans@cottsay.net> - 0.1.10-1
+- Update to 0.1.10 (rhbz#1850897)
+
 * Fri Jun 12 2020 Scott K Logan <logans@cottsay.net> - 0.1.9-1
 - Update to 0.1.9 (rhbz#1846602)
 

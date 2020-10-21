@@ -1,6 +1,6 @@
 Name:           perl-Code-TidyAll-Plugin-Test-Vars
 Version:        0.04
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Provides Test::Vars plugin for Code::TidyAll
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Code-TidyAll-Plugin-Test-Vars
@@ -57,6 +57,9 @@ This module uses Test::Vars to detect unused variables in Perl modules.
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.04-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.04-12
 - Perl 5.32 rebuild
 

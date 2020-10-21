@@ -1,7 +1,7 @@
 %global _firewalld_dir %{_prefix}/lib/firewalld
 
 Name:           et
-Version:        6.0.7
+Version:        6.0.11
 Release:        2%{?dist}
 Summary:        Remote shell that survives IP roaming and disconnect
 
@@ -9,7 +9,7 @@ License:        ASL 2.0
 URL:            https://mistertea.github.io/EternalTerminal/
 Source0:        https://github.com/MisterTea/EternalTerminal/archive/et-v%{version}.tar.gz
 Source1:        et.xml
-Patch0:         et-6.0.5-full_protobuf.patch
+
 BuildRequires:  boost-devel
 BuildRequires:  cmake3
 BuildRequires:  firewalld-filesystem
@@ -34,20 +34,20 @@ interrupting the session.
 
 
 %prep
-%setup -q -n EternalTerminal-et-v%{version}
-%if 0%{?fedora}
-%else
-%patch0 -p1
-%endif
+%autosetup -p1 -n EternalTerminal-et-v%{version}
 
 
 %build
-%cmake3 .
-%make_build
+%if 0%{?fedora}
+%cmake .
+%else
+%cmake . -DFULL_PROTOBUF:BOOL=ON
+%endif
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 mkdir -p \
   %{buildroot}%{_unitdir} \
   %{buildroot}%{_sysconfdir} \
@@ -58,7 +58,11 @@ install -m 0644 %{SOURCE1} %{buildroot}%{_firewalld_dir}/services/et.xml
 
 
 %check
-ctest3 -V %{?_smp_mflags}
+%if 0%{?fedora}
+%ctest
+%else
+%ctest --verbose
+%endif
 
 
 %post
@@ -89,6 +93,21 @@ ctest3 -V %{?_smp_mflags}
 
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 6.0.11-2
+- Rebuilt for protobuf 3.13
+
+* Mon Aug  3 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 6.0.11-1
+- Update to 6.0.11
+- Use the new option to specify linking against the full protobuf on EPEL
+- Adjust for cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.7-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 6.0.7-2
 - Rebuilt for protobuf 3.12
 

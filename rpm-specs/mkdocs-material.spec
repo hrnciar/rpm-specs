@@ -1,6 +1,6 @@
 Name:           mkdocs-material
 Version:        5.0.2
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        A material design theme for MkDocs
 
 License:        MIT
@@ -9,6 +9,7 @@ Source0:        https://github.com/squidfunk/mkdocs-material/archive/%{version}.
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
+BuildRequires:  python3dist(setuptools)
 BuildRequires:  python3dist(pymdown-extensions) >= 7
 BuildRequires:  python3dist(pygments) >= 2.4
 BuildRequires:  mkdocs
@@ -40,6 +41,12 @@ popd
 %{python3_sitelib}/mkdocs_material-%{version}-py*.egg-info/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.0.2-3
+- BR python3dist(setuptools)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.0.2-2
 - Rebuilt for Python 3.9
 

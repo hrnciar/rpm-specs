@@ -3,13 +3,13 @@
 #
 # remirepo spec file for php-maxminddb
 #
-# Copyright (c) 2018-2019 Remi Collet
+# Copyright (c) 2018-2020 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit   febd4920bf17c1da84cef58e56a8227dfb37fbe4
+%global gh_commit   b566d429ac9aec10594b0935be8ff38302f8d5c8
 %global gh_short    %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner    maxmind
 %global gh_project  MaxMind-DB-Reader-php
@@ -24,15 +24,16 @@
 
 Summary:       MaxMind DB Reader extension
 Name:          php-maxminddb
-Version:       1.6.0
-Release:       2%{?dist}
+Version:       1.8.0
+Release:       1%{?dist}
 License:       ASL 2.0
 URL:           https://github.com/%{gh_owner}/%{gh_project}
 
 Source0:       %{name}-%{version}-%{gh_short}.tgz
 Source1:       makesrc.sh
 
-BuildRequires: php-devel > 5.6
+BuildRequires: php-devel >= 7.2
+BuildRequires: php-pear  >= 1.10
 BuildRequires: pkgconfig(libmaxminddb) >= 1.0.0
 
 Requires:      php(zend-abi) = %{php_zend_api}
@@ -41,6 +42,12 @@ Requires:      php(api) = %{php_core_api}
 # Weak dependencies on databases
 Recommends:    geolite2-country
 Suggests:      geolite2-city
+
+# PECL
+Provides:       php-pecl-%{pecl_name}          = %{version}-%{release}
+Provides:       php-pecl-%{pecl_name}%{?_isa}  = %{version}-%{release}
+Provides:       php-pecl(%{pecl_name})         = %{version}
+Provides:       php-pecl(%{pecl_name})%{?_isa} = %{version}
 
 
 %description
@@ -63,10 +70,11 @@ BuildRequires: php-bcmath
 BuildRequires: php-gmp
 # from composer.json "require-dev": {
 #        "friendsofphp/php-cs-fixer": "2.*",
-#        "phpunit/phpunit": "4.* || 5.*",
-#        "satooshi/php-coveralls": "1.0.*",
+#        "phpunit/phpunit": ">=8.0.0,<10.0.0",
+#        "php-coveralls/php-coveralls": "^2.1",
+#        "phpunit/phpcov": ">=6.0.0",
 #        "squizlabs/php_codesniffer": "3.*"
-BuildRequires: php-composer(phpunit/phpunit)
+BuildRequires: phpunit8
 %endif
 
 # from composer.json "require": {
@@ -158,6 +166,9 @@ make %{?_smp_mflags}
 
 
 %install
+# Install XML package description
+install -D -m 644 package.xml %{buildroot}%{pecl_xmldir}/%{name}.xml
+
 # Install the NTS stuff
 make -C NTS install INSTALL_ROOT=%{buildroot}
 install -D -m 644 %{ini_name} %{buildroot}%{php_inidir}/%{ini_name}
@@ -208,9 +219,9 @@ REPORT_EXIT_STATUS=1 \
 
 cd ..
 : Upstream test suite for the library
-for cmd in php php56 php70 php71 php72 php73; do
+for cmd in php php72 php73 php74 php80; do
   if which $cmd; then
-    $cmd %{_bindir}/phpunit \
+    $cmd %{_bindir}/phpunit8 \
       --bootstrap %{buildroot}%{_datadir}/php/MaxMind/Db/Reader/autoload.php \
       --verbose || ret=1
   fi
@@ -218,7 +229,7 @@ done
 
 : Upstream test suite for the library with the extension
 php --define extension=%{buildroot}%{php_extdir}/%{pecl_name}.so \
-  %{_bindir}/phpunit \
+  %{_bindir}/phpunit8 \
     --bootstrap %{buildroot}%{_datadir}/php/MaxMind/Db/Reader/autoload.php \
     --verbose || ret=1
 %endif
@@ -229,6 +240,7 @@ exit $ret
 %{!?_licensedir:%global license %%doc}
 %license LICENSE
 %doc *.md
+%{pecl_xmldir}/%{name}.xml
 
 %config(noreplace) %{php_inidir}/%{ini_name}
 %{php_extdir}/%{pecl_name}.so
@@ -248,6 +260,15 @@ exit $ret
 
 
 %changelog
+* Fri Oct  2 2020 Remi Collet <remi@remirepo.net> - 1.8.0-1
+- update to 1.8.0
+- now available on pecl
+- raise dependency on PHP 7.2
+- switch to phpunit8
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

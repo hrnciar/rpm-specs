@@ -1,7 +1,7 @@
 %global gstreamer1_version 1.8.0
 
 Name:           python-gstreamer1
-Version:        1.17.1
+Version:        1.18.0
 Release:        1%{?dist}
 Summary:        Python bindings for GStreamer
 
@@ -57,6 +57,18 @@ find -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
 %{_libdir}/gstreamer-1.0/libgstpython.*so
 
 %changelog
+* Tue Sep 8 2020 Wim Taymans <wtaymans@redhat.com> - 1.18.0-1
+- Update to 1.18.0
+
+* Fri Aug 21 2020 Wim Taymans <wtaymans@redhat.com> - 1.17.90-1
+- Update to 1.17.90
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 6 2020 Wim Taymans <wtaymans@redhat.com> - 1.17.2-1
+- Update to 1.17.2
+
 * Mon Jun 22 2020 Wim Taymans <wtaymans@redhat.com> - 1.17.1-1
 - Update to 1.17.1
 

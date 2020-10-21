@@ -2,7 +2,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 0.9.0
-Release: 15%{?dist}
+Release: 16%{?dist}
 Summary: A math parser
 License: MIT
 URL: http://lukaszwrobel.pl/blog/math-parser-part-3-implementation
@@ -72,6 +72,9 @@ popd
 %exclude %{gem_instdir}/parser_spec.rb
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

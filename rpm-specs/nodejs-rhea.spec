@@ -2,7 +2,7 @@
 %{?nodejs_find_provides_and_requires}
 
 Name:       nodejs-rhea
-Version:    1.0.21
+Version:    1.0.24
 Release:    1%{?dist}
 Summary:    A reactive messaging library based on the AMQP protocol
 License:    ASL 2.0
@@ -18,7 +18,6 @@ ExclusiveArch: %{ix86} x86_64 %{arm} noarch
 
 BuildRequires:  nodejs-packaging
 BuildRequires:  nodejs-debug
-BuildRequires:  mocha
 Requires:       nodejs-debug
 
 
@@ -43,8 +42,6 @@ cp -a lib  package.json dist .eslintrc %{buildroot}%{nodejs_sitelib}/rhea
 %check 
 %nodejs_symlink_deps --check
 %{__nodejs} -e 'require("./")'
-#cd %{buildroot}%{nodejs_sitelib}/rhea
-#mocha --exit
 rm -fr test
 
 %files
@@ -54,6 +51,16 @@ rm -fr test
 
 
 %changelog
+* Thu Sep 24 2020 Irina Boverman <iboverma@redhat.com> - 1.0.24-1
+- Rebased to 1.0.24
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.21-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.21-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 14 2020 Irina Boverman <iboverma@redhat.com> - 1.0.21-1
 - Rebased to 1.0.21
 

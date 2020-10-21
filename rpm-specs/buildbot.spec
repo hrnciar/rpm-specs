@@ -8,8 +8,8 @@
 %bcond_with docs
 
 Name:           buildbot
-Version:        2.5.1
-Release:        3%{?dist}
+Version:        2.8.4
+Release:        1%{?dist}
 
 Summary:        Build/test automation system
 License:        GPLv2
@@ -20,8 +20,14 @@ Source2:        %{pypi_source buildbot-www}
 Source3:        %{pypi_source buildbot-waterfall-view}
 Source4:        %{pypi_source buildbot-grid-view}
 Source5:        %{pypi_source buildbot-console-view}
+Source6:        %{pypi_source buildbot-badges}
+Source7:        %{pypi_source buildbot-wsgi-dashboards}
 # Build-time only component for buildbot
-Source6:        %{pypi_source buildbot-pkg}
+Source8:        %{pypi_source buildbot-pkg}
+
+# Service template units for buildbot instances
+Source10:       buildbot-master@.service
+Source11:       buildbot-worker@.service
 
 BuildArch:      noarch
 
@@ -34,7 +40,7 @@ BuildRequires:  python3dist(twisted) >= 17.9
 BuildRequires:  python3dist(jinja2) >= 2.1
 BuildRequires:  python3dist(zope.interface) >= 4.1.1
 BuildRequires:  python3dist(future)
-BuildRequires:  python3dist(sqlalchemy) >= 0.8
+BuildRequires:  python3dist(sqlalchemy) >= 1.2.0
 BuildRequires:  python3dist(sqlalchemy-migrate) >= 0.9
 BuildRequires:  python3dist(python-dateutil) >= 1.5
 BuildRequires:  python3dist(txaio) >= 2.2.2
@@ -66,6 +72,9 @@ BuildRequires:  python3dist(sphinx-jinja)
 BuildRequires:  python3dist(towncrier)
 %endif
 
+# For systemd units
+BuildRequires:  systemd-rpm-macros
+
 # Turns former package into a metapackage for installing everything
 Requires:       %{name}-master = %{version}
 Requires:       %{name}-worker = %{version}
@@ -85,6 +94,7 @@ inconvenienced by the failure.
 
 %package master
 Summary:        Build/test automation system
+Requires(pre):  shadow-utils
 Recommends:     %{name}-www = %{version}-%{release}
 %if ! %{with docs}
 Obsoletes:      %{name}-doc < %{version}-%{release}
@@ -104,7 +114,7 @@ The buildbot-worker package contains the buildworker.
 Summary:        Build/test automation system
 Obsoletes:      %{name}-slave < 0.9.0
 Provides:       %{name}-slave = %{version}-%{release}
-
+Requires(pre):  shadow-utils
 %if ! %{with docs}
 Obsoletes:      %{name}-doc < %{version}-%{release}
 %endif
@@ -147,7 +157,7 @@ Summary:        Buildbot documentation
 %endif
 
 %prep
-%setup -q -b0 -b1 -b2 -b3 -b4 -b5 -b6
+%setup -q -b0 -b1 -b2 -b3 -b4 -b5 -b6 -b7 -b8
 
 
 %build
@@ -170,7 +180,7 @@ export BUILDBOT_VERSION=%{version}
 # So that other modules can use buildbot-pkg import
 export PYTHONPATH=%{_builddir}/%{name}-%{version}/build/lib:%{_builddir}/%{name}-pkg-%{version}/build/lib
 
-bbweb_components=(pkg www waterfall-view grid-view console-view)
+bbweb_components=(pkg www waterfall-view grid-view console-view badges wsgi-dashboards)
 
 for bbweb_component in ${bbweb_components[@]}; do
 	pushd ../%{name}-${bbweb_component}-%{version}
@@ -188,7 +198,7 @@ export BUILDBOT_VERSION=%{version}
 # So that other modules can use buildbot-pkg import
 export PYTHONPATH=%{_builddir}/%{name}-%{version}/build/lib:%{_builddir}/%{name}-pkg-%{version}/build/lib
 
-bbweb_components=(www waterfall-view grid-view console-view)
+bbweb_components=(www waterfall-view grid-view console-view badges wsgi-dashboards)
 
 for bbweb_component in ${bbweb_components[@]}; do
 	pushd ../%{name}-${bbweb_component}-%{version}
@@ -212,10 +222,30 @@ popd
 # Purge windows-only files
 rm -vf %{buildroot}%{_bindir}/*windows*
 
+# Install systemd units
+mkdir -p %{buildroot}%{_unitdir}
+cp -a %{S:10} %{S:11} %{buildroot}%{_unitdir}
+mkdir -p %{buildroot}%{_sharedstatedir}/buildbot/{master,worker}
+
+
 %if %{with check}
 %check
 trial buildbot.test
 %endif
+
+%pre master
+getent group buildbot-master >/dev/null || groupadd -r buildbot-master
+getent passwd buildbot-master >/dev/null || \
+    useradd -r -g buildbot-master -d %{_sharedstatedir}/buildbot/master -s /sbin/nologin \
+    -c "Service account for the Buildbot master" buildbot-master
+exit 0
+
+%pre worker
+getent group buildbot-worker >/dev/null || groupadd -r buildbot-worker
+getent passwd buildbot-worker >/dev/null || \
+    useradd -r -g buildbot-worker -d %{_sharedstatedir}/buildbot/worker -s /sbin/nologin \
+    -c "Service account for the Buildbot worker" buildbot-worker
+exit 0
 
 %files
 # Empty because metapackage
@@ -227,6 +257,9 @@ trial buildbot.test
 %{_mandir}/man1/buildbot.1*
 %{python3_sitelib}/buildbot/
 %{python3_sitelib}/buildbot-*egg-info/
+%dir %{_sharedstatedir}/buildbot
+%dir %attr(-, buildbot-master, buildbot-master) %{_sharedstatedir}/buildbot/master
+%{_unitdir}/buildbot-master@.service
 
 %files worker
 %doc NEWS UPGRADING
@@ -235,6 +268,9 @@ trial buildbot.test
 %{_mandir}/man1/buildbot-worker.1*
 %{python3_sitelib}/buildbot_worker/
 %{python3_sitelib}/buildbot_worker-*egg-info/
+%dir %{_sharedstatedir}/buildbot
+%dir %attr(-, buildbot-worker, buildbot-worker) %{_sharedstatedir}/buildbot/worker
+%{_unitdir}/buildbot-worker@.service
 
 %files www
 %license COPYING
@@ -246,6 +282,10 @@ trial buildbot.test
 %{python3_sitelib}/buildbot_grid_view-*egg-info/
 %{python3_sitelib}/buildbot_console_view/
 %{python3_sitelib}/buildbot_console_view-*egg-info/
+%{python3_sitelib}/buildbot_badges/
+%{python3_sitelib}/buildbot_badges-*egg-info/
+%{python3_sitelib}/buildbot_wsgi_dashboards/
+%{python3_sitelib}/buildbot_wsgi_dashboards-*egg-info/
 
 %if %{with docs}
 %files doc
@@ -253,6 +293,19 @@ trial buildbot.test
 %endif
 
 %changelog
+* Tue Sep 01 2020 Neal Gompa <ngompa13@gmail.com> - 2.8.4-1
+- Update to 2.8.4 (#1873726)
+
+* Sun Aug 23 2020 Neal Gompa <ngompa13@gmail.com> - 2.8.3-2
+- Add missing Requires(pre) for master and worker subpackages
+
+* Sun Aug 23 2020 Neal Gompa <ngompa13@gmail.com> - 2.8.3-1
+- Update to 2.8.3 (#1776032)
+- Add systemd service template units for masters and workers
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.5.1-3
 - Rebuilt for Python 3.9
 

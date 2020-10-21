@@ -1,5 +1,5 @@
 Name:           votca-tools
-Version:        1.6.1
+Version:        1.6.2
 %global         uversion %{version}
 %global         sover 6
 Release:        1%{?dist}
@@ -44,16 +44,14 @@ This package contains development headers and libraries for votca-tools.
 %setup -qn tools-%{uversion}
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} .. -DCMAKE_BUILD_TYPE=Release -DWITH_RC_FILES=OFF -DENABLE_TESTING=ON
-%make_build
+%{cmake} -DCMAKE_BUILD_TYPE=Release -DWITH_RC_FILES=OFF -DENABLE_TESTING=ON
+%cmake_build
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 
 %check
-make -C %{_target_platform} test CTEST_OUTPUT_ON_FAILURE=1 %{?testargs}
+%ctest
 
 %ldconfig_scriptlets
 
@@ -71,6 +69,19 @@ make -C %{_target_platform} test CTEST_OUTPUT_ON_FAILURE=1 %{?testargs}
 %{_libdir}/cmake/VOTCA_TOOLS
 
 %changelog
+* Sat Aug 22 2020 Christoph Junghans <junghans@votca.org> - 1.6.2-1
+- Version bump to v1.6.2 (bug #1871342)
+
+* Tue Aug 04 2020 Christoph Junghans <junghans@votca.org> - 1.6.1-4
+- Fix out-of-source build on F33 (bug#1865610)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Christoph Junghans <junghans@votca.org> - 1.6.1-1
 - Version bump to v1.6.1
 

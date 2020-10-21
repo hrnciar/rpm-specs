@@ -4,7 +4,7 @@
 Summary:         Drive and jump with some kind of car across the moon
 Name:            moon-buggy
 Version:         1.0.51
-Release:         26%{?dist}
+Release:         27%{?dist}
 License:         GPL+
 URL:             http://seehuhn.de/pages/%{name}
 Source0:         http://seehuhn.de/media/programs/%{name}-%{version}.tar.gz
@@ -100,6 +100,9 @@ fi
 %verify(not md5 size mtime) %config(noreplace) %attr(664,root,games) %{_localstatedir}/games/%{name}/mbscore
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.51-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.51-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

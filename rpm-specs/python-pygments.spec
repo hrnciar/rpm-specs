@@ -4,7 +4,7 @@
 
 Name:           python-pygments
 Version:        2.6.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Syntax highlighting engine written in Python
 
 License:        BSD
@@ -30,19 +30,19 @@ need to prettify source code. Highlights are:
 
 %description %_description
 
-%package -n python3-pygments
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
+%package -n python%{python3_pkgversion}-pygments
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
 %if %{with tests}
-BuildRequires:  python3-pytest
+BuildRequires:  python%{python3_pkgversion}-pytest
 %endif
 %if %{with docs}
-BuildRequires:  python3-sphinx
+BuildRequires:  python%{python3_pkgversion}-sphinx
 %endif
 Summary:        Syntax highlighting engine written in Python
-%{?python_provide:%python_provide python3-pygments}
+%{?python_provide:%python_provide python%{python3_pkgversion}-pygments}
 
-%description -n python3-pygments %_description
+%description -n python%{python3_pkgversion}-pygments %_description
 
 %prep
 %autosetup -p1 -n Pygments-%{version}
@@ -69,7 +69,7 @@ make test PYTHON=%{python3}
 %endif
 
 
-%files -n python3-pygments
+%files -n python%{python3_pkgversion}-pygments
 %doc AUTHORS CHANGES doc/reST
 %license LICENSE
 %{python3_sitelib}/pygments/
@@ -81,6 +81,9 @@ make test PYTHON=%{python3}
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 2.6.1-3
 - Rebuilt for Python 3.9
 

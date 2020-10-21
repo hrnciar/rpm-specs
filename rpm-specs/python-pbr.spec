@@ -7,8 +7,8 @@
 %endif
 
 Name:           python-%{pypi_name}
-Version:        5.4.3
-Release:        5%{?dist}
+Version:        5.5.0
+Release:        1%{?dist}
 Summary:        Python Build Reasonableness
 
 License:        ASL 2.0
@@ -19,9 +19,9 @@ BuildArch:      noarch
 
 BuildRequires:  git
 %if %{without bootstrap}
-BuildRequires: python3-sphinx >= 1.1.3
-BuildRequires: python3-openstackdocstheme
-BuildRequires: python3-sphinxcontrib-apidoc
+BuildRequires: python%{python3_pkgversion}-sphinx >= 1.1.3
+BuildRequires: python%{python3_pkgversion}-openstackdocstheme
+BuildRequires: python%{python3_pkgversion}-sphinxcontrib-apidoc
 %endif
 
 
@@ -32,29 +32,29 @@ between all of the OpenStack projects. Around the time that OpenStack hit 18
 different projects each with at least 3 active branches, it seems like a good
 time to make that code into a proper re-usable library.
 
-%package -n python3-%{pypi_name}
+%package -n python%{python3_pkgversion}-%{pypi_name}
 Summary:        Python Build Reasonableness
-%{?python_provide:%python_provide python3-%{pypi_name}}
+%{?python_provide:%python_provide python%{python3_pkgversion}-%{pypi_name}}
 
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
 %if 0%{?do_test} == 1
-BuildRequires:  python3-coverage
-BuildRequires:  python3-hacking
-BuildRequires:  python3-mock
-BuildRequires:  python3-testrepository
-BuildRequires:  python3-testresources
-BuildRequires:  python3-testscenarios
+BuildRequires:  python%{python3_pkgversion}-coverage
+BuildRequires:  python%{python3_pkgversion}-hacking
+BuildRequires:  python%{python3_pkgversion}-mock
+BuildRequires:  python%{python3_pkgversion}-testrepository
+BuildRequires:  python%{python3_pkgversion}-testresources
+BuildRequires:  python%{python3_pkgversion}-testscenarios
 BuildRequires:  gcc
 BuildRequires:  gnupg
 %endif
-Requires:       python3-setuptools
+Requires:       python%{python3_pkgversion}-setuptools
 Requires:       git-core
 
 # /usr/bin/pbr moved from:
 Conflicts:      python2-%{pypi_name} < 5.4.3-2
 
-%description -n python3-%{pypi_name}
+%description -n python%{python3_pkgversion}-%{pypi_name}
 Manage dynamic plugins for Python applications
 
 %prep
@@ -87,7 +87,7 @@ ln -s ./pbr-3 %{buildroot}%{_bindir}/pbr
 %{__python3} setup.py test
 %endif
 
-%files -n python3-pbr
+%files -n python%{python3_pkgversion}-pbr
 %license LICENSE
 %doc README.rst
 %if %{without bootstrap}
@@ -99,6 +99,12 @@ ln -s ./pbr-3 %{buildroot}%{_bindir}/pbr
 %{python3_sitelib}/%{pypi_name}/
 
 %changelog
+* Mon Sep 14 2020 Joel Capitao <jcapitao@redhat.com> - 5.5.0-1
+- Update to 5.5.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 5.4.3-5
 - Rebuilt for Python 3.9
 

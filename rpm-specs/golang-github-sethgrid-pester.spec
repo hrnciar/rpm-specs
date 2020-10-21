@@ -4,8 +4,7 @@
 
 # https://github.com/sethgrid/pester
 %global goipath         github.com/sethgrid/pester
-Version:                1.0.0
-%global tag             1.0.0
+Version:                1.1.0
 
 %gometa
 
@@ -23,7 +22,7 @@ for data.
 %global godocs          README.md README-benchmarks.md
 
 Name:           %{goname}
-Release:        5%{?dist}
+Release:        1%{?dist}
 Summary:        Go http calls with retries and backoff
 
 License:        MIT
@@ -50,6 +49,12 @@ mv benchmarks/README.md README-benchmarks.md
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 17:53:46 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.0-1
+- Update to 1.1.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           quarter
 Version:        1.1.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Lightweight glue library between Coin and Qt
 
 License:        BSD
@@ -56,15 +56,13 @@ BuildArch:      noarch
 
 
 %build
-mkdir build-%_target_cpu && cd build-%_target_cpu
-%cmake -DQUARTER_BUILD_DOCUMENTATION=ON ../
+%cmake -DQUARTER_BUILD_DOCUMENTATION=ON
 
-%make_build
+%cmake_build
 
 
 %install
-cd build-%_target_cpu
-%make_install
+%cmake_install
 
 
 %files
@@ -85,6 +83,13 @@ cd build-%_target_cpu
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 19 2020 Richard Shaw <hobbes1069@gmail.com> - 1.1.0-1
 - Update to 1.1.0.
 

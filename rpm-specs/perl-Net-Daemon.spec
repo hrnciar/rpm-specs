@@ -1,17 +1,17 @@
 Name:           perl-Net-Daemon
-Version:        0.48
-Release:        26%{?dist}
+Version:        0.49
+Release:        1%{?dist}
 Summary:        Perl extension for portable daemons
 
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Net-Daemon
-Source0:        https://cpan.metacpan.org/authors/id/M/MN/MNOONING/Net-Daemon-%{version}.tar.gz
+Source0:        https://cpan.metacpan.org/authors/id/T/TO/TODDR/Net-Daemon-%{version}.tar.gz
 
 BuildArch:      noarch
 BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  make
-BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl-doc
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -41,7 +41,7 @@ BuildRequires:  perl(Fcntl)
 BuildRequires:  perl(lib)
 BuildRequires:  perl(Socket)
 }
-Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+Requires:       perl(:MODULE_COMPAT_%(eval "`/usr/bin/perl -V:version`"; echo $version))
 Suggests:       perl(Sys::Syslog)
 # threads is prefered over Threads
 Suggests:       perl(threads)
@@ -72,14 +72,12 @@ perldoc perlartistic > LICENSE.Artistic
 
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor OPTIMIZE="$RPM_OPT_FLAGS"
-make %{?_smp_mflags}
+/usr/bin/perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="$RPM_OPT_FLAGS" NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 
 %install
-make pure_install PERL_INSTALL_ROOT=$RPM_BUILD_ROOT
-find $RPM_BUILD_ROOT -type f -name .packlist -exec rm -f {} ';'
-find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null ';'
+%{make_install}
 chmod -R u+w $RPM_BUILD_ROOT/*
 
 
@@ -94,7 +92,7 @@ chmod -R u+w $RPM_BUILD_ROOT/*
   rm t/unix.t
 }
 
-make test
+%{make_build} test
 
 
 %files
@@ -105,6 +103,16 @@ make test
 
 
 %changelog
+* Sun Sep 27 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 0.49-1
+- Update to 0.49
+- Pass NO_PACKLIST=1 NO_PERLLOCAL=1 to Makefile.PL
+- Use %%{make_install} instead of "make pure_install"
+- Use %%{make_build} instead of make
+- Replace %%{__perl} with /usr/bin/perl
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.48-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.48-26
 - Perl 5.32 rebuild
 

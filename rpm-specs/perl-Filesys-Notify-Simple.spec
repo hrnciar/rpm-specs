@@ -1,7 +1,7 @@
 Name:           perl-Filesys-Notify-Simple
 Summary:        Simple and dumb file system watcher
 Version:        0.14
-Release:        3%{?dist}
+Release:        4%{?dist}
 License:        GPL+ or Artistic
 Source0:        https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/Filesys-Notify-Simple-%{version}.tar.gz 
 URL:            https://metacpan.org/release/Filesys-Notify-Simple
@@ -56,6 +56,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.14-3
 - Perl 5.32 rebuild
 

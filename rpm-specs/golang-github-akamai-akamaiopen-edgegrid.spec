@@ -3,7 +3,7 @@
 
 # https://github.com/akamai/AkamaiOPEN-edgegrid-golang
 %global goipath         github.com/akamai/AkamaiOPEN-edgegrid-golang
-Version:                0.9.10
+Version:                0.9.18
 
 %gometa
 
@@ -15,13 +15,15 @@ Akamai OPEN Edgegrid Authentication scheme.}
 %global godocs          examples README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Authentication handler for the Akamai OPEN EdgeGrid Authentication scheme
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/akamai/AkamaiOPEN-edgegrid-golang/issues/101
+Patch0:         0001-Convert-id-to-string-using-strconv.Itoa.patch
 
 BuildRequires:  golang(github.com/google/go-querystring/query)
 BuildRequires:  golang(github.com/google/uuid)
@@ -45,6 +47,7 @@ BuildRequires:  golang(gopkg.in/h2non/gock.v1)
 
 %prep
 %goprep
+%patch0 -p1
 
 %install
 %gopkginstall
@@ -58,6 +61,12 @@ BuildRequires:  golang(gopkg.in/h2non/gock.v1)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.18-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 09:24:02 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.9.18-1
+- Update to 0.9.18
+
 * Thu Apr 02 21:38:05 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.9.10-1
 - Update to 0.9.10
 

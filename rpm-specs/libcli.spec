@@ -4,7 +4,7 @@
 
 Name: libcli
 Version: 1.9.7
-Release: 0.20160136git%{shortcommit0}%{?dist}
+Release: 0.20160138git%{shortcommit0}%{?dist}
 Summary: A shared library for a Cisco-like cli
 License: LGPLv2+
 URL: http://sites.dparrish.com/libcli
@@ -59,6 +59,13 @@ ln -s %{_libdir}/libcli.so.1.9 %{buildroot}%{_libdir}/libcli.so
 %{_includedir}/*.h
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.7-0.20160138gite60d4cc
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.7-0.20160137gite60d4cc
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.7-0.20160136gite60d4cc
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

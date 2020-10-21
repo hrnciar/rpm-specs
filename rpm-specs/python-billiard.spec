@@ -14,7 +14,7 @@
 
 Name:           python-%{srcname}
 Version:        3.6.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        A multiprocessing pool extensions
 
@@ -104,6 +104,9 @@ This package contains extensions to the multiprocessing pool.
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.6.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 1:3.6.3.0-1
 - billiard 3.6.3.0
 

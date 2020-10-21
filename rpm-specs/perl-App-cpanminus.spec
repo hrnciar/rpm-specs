@@ -1,6 +1,6 @@
 Name:           perl-App-cpanminus
 Version:        1.7044
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Get, unpack, build and install CPAN modules
 # Other files:  GPL+ or Artistic
 ## unbundled
@@ -149,6 +149,9 @@ make test
 %{_bindir}/cpanm
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7044-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.7044-9
 - Perl 5.32 rebuild
 

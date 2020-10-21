@@ -1,7 +1,7 @@
 Summary:    Classic-analog style software synthesizer
 Name:       xsynth-dssi
 Version:    0.9.4
-Release:    22%{?dist}
+Release:    23%{?dist}
 License:    GPLv2+
 URL:        http://dssi.sourceforge.net/download.html#Xsynth-DSSI
 Source0:    http://download.sf.net/dssi/%{name}-%{version}.tar.gz
@@ -64,6 +64,9 @@ install -pm 644 %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps/%
 %{_datadir}/icons/hicolor/48x48/apps/%{name}.png
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

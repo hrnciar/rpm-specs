@@ -4,7 +4,7 @@
 
 Name:           drat2er
 Version:        0
-Release:        0.3.%{gitdate}.%{shortcommit}%{?dist}
+Release:        0.5.%{gitdate}.%{shortcommit}%{?dist}
 Summary:        Proof transformer for propositional logic
 
 License:        MIT
@@ -58,39 +58,26 @@ This package contains a command line interface to %{name}.
 %prep
 %autosetup -p0 -n %{name}-%{commit}
 
-# Fix the library directory name on 64-bit systems
-if [ "%{_lib}" = "lib64" ]; then
-  sed -i 's,{CMAKE_BINARY_DIR}/lib,&64,g' CMakeLists.txt
-fi
-
 # Do not use the bundled libraries
 rm -fr third-party
 
 %build
-%cmake -DCMAKE_SKIP_RPATH:BOOL=YES -DCMAKE_SKIP_INSTALL_RPATH:BOOL=YES .
-%make_build
-export LD_LIBRARY_PATH=$PWD/%{_lib}
-help2man --version-string=%{gitdate} -N -o %{name}.1 bin/%{name}
+%cmake -DCMAKE_INSTALL_LIBDIR=%{_lib}
+%cmake_build
+export LD_LIBRARY_PATH=$PWD/%{__cmake_builddir}/%{_lib}
+help2man --version-string=%{gitdate} -N -o %{name}.1 \
+  %{__cmake_builddir}/bin/%{name}
 
 %install
-# Install the library
-mkdir -p %{buildroot}%{_libdir}
-cp -a %{_lib}/lib%{name}* %{buildroot}%{_libdir}
-
-# Install the headers
-mkdir -p %{buildroot}%{_includedir}/%{name}
-cp -p include/drat* %{buildroot}%{_includedir}/%{name}
-
-# Install the binary
-mkdir -p %{buildroot}%{_bindir}
-cp -p bin/%{name} %{buildroot}%{_bindir}
+%cmake_install
 
 # Install the man page
 mkdir -p %{buildroot}%{_mandir}/man1
 cp -p %{name}.1 %{buildroot}%{_mandir}/man1
 
 %check
-LD_LIBRARY_PATH=%{buildroot}%{_libdir} make test
+export LD_LIBRARY_PATH=%{buildroot}%{_libdir}
+%ctest
 
 %files
 %license LICENSE
@@ -98,7 +85,7 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} make test
 %{_libdir}/lib%{name}.so.0.*
 
 %files          devel
-%{_includedir}/%{name}/
+%{_includedir}/drat*.h
 %{_libdir}/lib%{name}.so
 
 %files          tools
@@ -107,6 +94,13 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} make test
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5.20190307.521caf1
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4.20190307.521caf1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3.20190307.521caf1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:		python-spdx	
 Version:	2.5.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	SPDX license list database
 
 License:	CC0
@@ -38,6 +38,9 @@ A Python module incorporating an interface to the SPDX license database.
 %{python3_sitelib}/spdx/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.5.0-3
 - Rebuilt for Python 3.9
 

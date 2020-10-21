@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 
 ## 1.11 currently disables tests with BUILD_SHARED_LIBS=ON
 #bcond_without tests
@@ -7,7 +8,7 @@
 Name:       taglib	
 Summary:    Audio Meta-Data Library
 Version:    1.11.1
-Release:    12%{?dist}
+Release:    13%{?dist}
 
 License:    LGPLv2 or MPLv1.1
 #URL:       http://launchpad.net/taglib
@@ -68,28 +69,25 @@ Files needed when building software with %{name}.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} .. \
+%{cmake} \
 %if %{with tests}
   -DBUILD_TESTS:BOOL=ON \
 %endif
   -DCMAKE_BUILD_TYPE:STRING="Release"
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 %if %{with doc}
-make docs -C %{_target_platform}
+%cmake_build --target docs
 %endif
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %if %{with doc}
 rm -fr %{apidocdir} ; mkdir %{apidocdir}
-cp -a %{_target_platform}/doc/html/ %{apidocdir}/
+cp -a %{_vpath_builddir}/doc/html/ %{apidocdir}/
 ln -s html/index.html %{apidocdir}
 find %{apidocdir} -name '*.md5' | xargs rm -fv
 %endif
@@ -102,7 +100,7 @@ test "$(pkg-config --modversion taglib_c)" = "%{version}"
 %if %{with tests}
 #ln -s ../../tests/data %{_target_platform}/tests/
 #LD_LIBRARY_PATH=%{buildroot}%{_libdir}:$LD_LIBRARY_PATH \
-make check -C %{_target_platform}
+%ctest
 %endif
 
 %ldconfig_scriptlets
@@ -129,6 +127,9 @@ make check -C %{_target_platform}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.1-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

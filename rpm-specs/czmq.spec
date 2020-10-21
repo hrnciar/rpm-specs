@@ -1,6 +1,6 @@
 Name:           czmq
 Version:        4.2.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        High-level C binding for 0MQ (ZeroMQ)
 
 License:        MPLv2.0
@@ -12,6 +12,7 @@ BuildRequires:  libuuid-devel
 BuildRequires:  zeromq-devel
 # --with-docs
 BuildRequires:  perl-interpreter
+BuildRequires:  perl(File::Basename)
 BuildRequires:  asciidoc
 BuildRequires:  xmlto
 
@@ -71,6 +72,13 @@ make check
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

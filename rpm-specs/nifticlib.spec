@@ -1,6 +1,6 @@
 Name:           nifticlib
 Version:        2.0.0
-Release:        21%{?dist}
+Release:        24%{?dist}
 Summary:        A set of i/o libraries for reading and writing files in the nifti-1 data format
 
 License:        Public Domain
@@ -40,11 +40,11 @@ make doc %{?_smp_mflags}
 
 # cmake replaces the original makefile so I call it after generating my docs
 %cmake -DBUILD_SHARED_LIBS=ON .
-make %{?_smp_mflags}
+%cmake_build
 
 %install
 rm -rf %{buildroot}
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 ## hack to get this to work for x86_64
 %if "%{_lib}" == "lib64" 
@@ -71,9 +71,17 @@ rm -fv docs/html/Doxy*
 %doc examples
 %doc docs
 
-%ldconfig_scriptlets
-
 %changelog
+* Wed Sep 30 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 2.0.0-24
+- Update to use cmake macros to fix build
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-23
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

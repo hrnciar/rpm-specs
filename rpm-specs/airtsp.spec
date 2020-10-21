@@ -1,10 +1,10 @@
-#
-%global mydocs __tmp_docdir
+# Force out of source build
+%undefine __cmake_in_source_build
 
 #
 Name:           airtsp
 Version:        1.01.7
-Release:        3%{?dist}
+Release:        6%{?dist}
 
 Summary:        C++ Simulated Airline Travel Solution Provider Library
 
@@ -56,24 +56,23 @@ BuildRequires:  graphviz
 %description    doc
 This package contains HTML pages, as well as a PDF reference manual,
 for %{name}. All that documentation is generated thanks to Doxygen
-(http://doxygen.org). The content is the same as what can be browsed
-online (http://%{name}.org).
+(https://doxygen.org). The content is the same as what can be browsed
+online (https://%{name}.org).
 
 
 %prep
-%autosetup -n %{name}-%{name}-%{version} 
+%autosetup -n %{name}-%{name}-%{version}
 
 
 %build
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
-mkdir -p %{mydocs}
-mv $RPM_BUILD_ROOT%{_docdir}/%{name}/html %{mydocs}
-rm -f %{mydocs}/html/installdox
+# Remove the Doxygen installer
+rm -f $RPM_BUILD_ROOT%{_docdir}/%{name}/html/installdox
 
 # Remove additional documentation files (those files are already available
 # in the project top directory)
@@ -84,7 +83,8 @@ rm -f $RPM_BUILD_ROOT%{_docdir}/%{name}/{NEWS,README.md,AUTHORS}
 
 
 %files
-%doc AUTHORS ChangeLog COPYING NEWS README.md
+%doc AUTHORS ChangeLog NEWS README.md
+%license COPYING
 %{_bindir}/%{name}
 %{_libdir}/lib%{name}.so.*
 %{_mandir}/man1/%{name}.1.*
@@ -101,11 +101,21 @@ rm -f $RPM_BUILD_ROOT%{_docdir}/%{name}/{NEWS,README.md,AUTHORS}
 %{_mandir}/man3/%{name}-library.3.*
 
 %files doc
-%doc %{mydocs}/html
-%doc COPYING
+%doc %{_docdir}/%{name}/html
+%license COPYING
 
 
 %changelog
+* Sun Aug 09 2020 Denis Arnaud <denis.arnaud_fedora@m4x.org> - 1.01.7-6
+- Removed the work around for document directory
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.01.7-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.01.7-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 06 2020 Denis Arnaud <denis.arnaud_fedora@m4x.org> - 1.01.7-3
 - Rebuilt for SOCI 4.0.1-alpha2
 

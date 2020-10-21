@@ -3,7 +3,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 0.0.3
-Release: 10%{?dist}
+Release: 11%{?dist}
 Summary: A Ruby wrapper for the MRI 2.0 debug_inspector API
 License: MIT
 URL: https://github.com/banister/debug_inspector
@@ -86,6 +86,9 @@ popd
 %{gem_instdir}/test
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.3-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.3-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

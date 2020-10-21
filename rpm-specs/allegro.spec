@@ -1,6 +1,9 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 Name:           allegro
 Version:        4.4.3.1
-Release:        2%{?dist}
+Release:        4%{?dist}
 
 Summary:        A game programming library
 Summary(es):    Una libreria de programacion de juegos
@@ -226,11 +229,11 @@ developing applications that use logg.
 %autosetup -p1
 
 %build
-mkdir -p build && pushd build
 %cmake3 -DOpenGL_GL_PREFERENCE:STRING=LEGACY -DCMAKE_SKIP_RPATH:BOOL=YES -DCMAKE_SKIP_INSTALL_RPATH:BOOL=YES \
- -DDOCDIR:STRING=%{_pkgdocdir} -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE ..
-%make_build
+ -DDOCDIR:STRING=%{_pkgdocdir} -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE
+%cmake3_build
 
+pushd %{_vpath_builddir}
 # Converting text documentation to UTF-8 encoding.
 for file in docs/AUTHORS docs/CHANGES docs/THANKS \
         docs/info/*.info docs/txt/*.txt docs/man/get_camera_matrix.3 \
@@ -242,8 +245,9 @@ done
 popd
 
 %install
-pushd build
-%make_install
+%cmake3_install
+
+pushd %{_vpath_builddir}
 # installation of these is broken, because they use a cmake GLOB, but
 # that gets "resolved" when runnning cmake, and at that time the files
 # to install aren't generated yet ...
@@ -381,6 +385,13 @@ install -pm 644 addons/jpgalleg/readme.txt \
 
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.3.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.3.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

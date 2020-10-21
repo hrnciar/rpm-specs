@@ -1,6 +1,6 @@
 Name:           radeontool
 Version:        1.6.3
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Backlight and video output configuration tool for radeon cards
 
 License:        zlib
@@ -32,6 +32,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_bindir}/radeonreg
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.3-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.3-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

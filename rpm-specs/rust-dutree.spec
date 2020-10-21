@@ -5,11 +5,12 @@
 
 Name:           rust-%{crate}
 Version:        0.2.16
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Command line tool to analyze disk usage
 
 # Upstream license specification: GPL-3.0
-License:        GPLv3
+# cargo-license was used to determine this set of licenses, based on the bundled libraries.
+License:        GPLv3 and (ASL 2.0 or MIT) and (MIT or Unlicense)
 URL:            https://crates.io/crates/dutree
 Source:         %{crates_source}
 
@@ -39,6 +40,7 @@ Summary:        %{summary}
 
 %package        devel
 Summary:        %{summary}
+License:        GPLv3
 BuildArch:      noarch
 
 %description    devel %{_description}
@@ -53,6 +55,7 @@ which use "%{crate}" crate.
 
 %package     -n %{name}+default-devel
 Summary:        %{summary}
+License:        GPLv3
 BuildArch:      noarch
 
 %description -n %{name}+default-devel %{_description}
@@ -82,6 +85,16 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.16-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.16-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 0.2.16-2
+- Correct the license to reflect the bundled libraries.
+
 * Thu Jun 04 2020 Josh Stone <jistone@redhat.com> - 0.2.16-1
 - Update to 0.2.16
 

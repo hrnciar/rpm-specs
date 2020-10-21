@@ -2,7 +2,7 @@
 
 Name:               python-fedmsg-meta-fedora-infrastructure
 Version:            0.30.0
-Release:            2%{?dist}
+Release:            3%{?dist}
 Summary:            Metadata providers for Fedora Infrastructure's fedmsg deployment
 
 License:            LGPLv2+
@@ -65,6 +65,9 @@ FEDMSG_META_NO_NETWORK=True %{__python3} setup.py test
 %{python3_sitelib}/%{modname}-%{version}*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.30.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.30.0-2
 - Rebuilt for Python 3.9
 

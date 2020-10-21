@@ -1,11 +1,13 @@
 %global inst_xinput %{_sbindir}/update-alternatives --install %{_sysconfdir}/X11/xinit/xinputrc xinputrc %{_sysconfdir}/X11/xinit/xinput.d/uim.conf 50
 %global uninst_xinput %{_sbindir}/update-alternatives --remove xinputrc %{_sysconfdir}/X11/xinit/xinput.d/uim.conf
+%global srcver	1.8.9
+%global	snap	git0c2fbfa6
 
 %bcond_with	canna
 
 Name:		uim
 Version:	1.8.8
-Release:	4%{?dist}
+Release:	6.20200828%{snap}%{?dist}
 # uim itself is licensed under BSD
 # scm/py.scm, helper/eggtrayicon.[ch], qt/pref-kseparator.{cpp,h}
 #   and qt/chardict/chardict-kseparator.{cpp,h} is licensed under LGPLv2+
@@ -26,7 +28,7 @@ BuildRequires:	m17n-lib-devel m17n-db-devel
 BuildRequires:	m17n-db m17n-db-extras
 BuildRequires:	emacs libtool automake autoconf intltool xemacs
 BuildRequires:	gcc gcc-c++
-Source0:	http://uim.googlecode.com/files/%{name}-%{version}.tar.bz2
+Source0:	http://uim.googlecode.com/files/%{name}-%{srcver}-%{snap}.tar.bz2
 Source1:	xinput.d-uim
 Source2:	uim-init.el
 Patch1:		uim-emacs-utf8.patch
@@ -181,7 +183,7 @@ many languages using the input table map from m17n-db.
 
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n uim-%{srcver}
 autoconf
 
 
@@ -483,6 +485,14 @@ fi
 %dir %{_datadir}/uim
 
 %changelog
+* Fri Aug 28 2020 Akira TAGOH <tagoh@redhat.com> - 1.8.8-6.20200828git0c2fbfa6
+- Rebase to snapshot of git 0c2fbfa6.
+- Fix aborting in emacs.
+  Resolves: rhbz#1872512
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.8-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.8-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

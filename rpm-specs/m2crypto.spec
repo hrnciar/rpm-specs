@@ -3,7 +3,7 @@
 
 Name:           m2crypto
 Version:        0.35.2
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Support for using OpenSSL in Python scripts
 
 License:        MIT
@@ -67,6 +67,9 @@ fi
 %{python3_sitearch}/M2Crypto-*.egg-info/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.35.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.35.2-8
 - Rebuilt for Python 3.9
 

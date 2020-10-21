@@ -14,7 +14,7 @@ A library for playing with colors in Go.}
 %global godocs          doc README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Library for playing with colors in Go
 
 License:        MIT
@@ -44,6 +44,13 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

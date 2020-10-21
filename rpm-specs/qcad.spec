@@ -2,8 +2,8 @@
 %global _QT_PLUGINS %{_qt5_plugindir}
 
 Name:    qcad
-Version: 3.24.3.0
-Release: 2%{?dist}
+Version: 3.25.2.0
+Release: 1%{?dist}
 Summary: Powerful 2D CAD system
 
 ## Main license: GPLv3
@@ -85,12 +85,13 @@ You don't need any CAD experience to get started with QCAD immediately.
 #rm -rf src/3rdparty/spatialindexnavel/include/spatialindex
 rm -f src/3rdparty/quazip/src/*.h
 
-# Use Fedora Qt5 scripts
-cp -a src/3rdparty/qt-labs-qtscriptgenerator-5.14.0 src/3rdparty/qt-labs-qtscriptgenerator-5.14.2
-mv src/3rdparty/qt-labs-qtscriptgenerator-5.14.2/qt-labs-qtscriptgenerator-5.14.0.pro \
-src/3rdparty/qt-labs-qtscriptgenerator-5.14.2/qt-labs-qtscriptgenerator-5.14.2.pro
-
 %build
+# QT is known not to work properly with LTO at this point.  Some of the issues
+# are being worked on upstream and disabling LTO should be re-evaluated as
+# we update this change.  Until such time...
+# Disable LTO
+%define _lto_cflags %{nil}
+
 %{_qt5_qmake} -makefile CONFIG+=release %{name}.pro \
  QMAKE_CFLAGS_RELEASE+="%{_qt5_optflags} -I%{_includedir}/quazip5 -I%{_qt5_includedir}/QtUiTools -I$PWD/src/3rdparty/spatialindexnavel/include" \
  QMAKE_CXXFLAGS_RELEASE+="%{_qt5_optflags} -I%{_includedir}/quazip5 -I%{_qt5_includedir}/QtUiTools -I$PWD/src/3rdparty/spatialindexnavel/include" \
@@ -221,6 +222,21 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_mandir}/man1/*
 
 %changelog
+* Fri Sep 04 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.25.2.0-1
+- Release 3.25.2.0
+
+* Mon Aug 31 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.25.1.0-1
+- Release 3.25.1.0
+
+* Thu Aug 20 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.25.0.0-1
+- Release 3.25.0.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.24.3.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  1 2020 Jeff Law <law@redhat.com> - 3.24.3.0-3
+- Disable LTO
+
 * Sat Jun 20 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.24.3.0-2
 - Modification to the desktop file (rhbz#1849265)
 

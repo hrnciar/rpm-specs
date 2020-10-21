@@ -1,6 +1,6 @@
 Name:           latex2rtf
 Version:        2.3.18
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        LaTeX to RTF converter that handles equations, figures, and cross-references
 License:        GPLv2+
 URL:            http://latex2rtf.sourceforge.net/
@@ -93,6 +93,13 @@ make check
 %{_mandir}/man1/latex2rtf.1.*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.18-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.18-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 12 2020 Yaakov Selkowitz <yselkowi@redhat.com> - 2.3.18-1
 - Update to 2.3.18 (#1842187)
 

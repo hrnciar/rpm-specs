@@ -16,7 +16,7 @@ bytes.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.6%{?dist}
+Release:        0.7%{?dist}
 Summary:        Read and write from the serial port as a stream of bytes
 
 # Upstream license specification: BSD-3-Clause
@@ -45,6 +45,9 @@ BuildRequires:  golang(golang.org/x/sys/unix)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

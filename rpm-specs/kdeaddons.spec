@@ -7,7 +7,7 @@
 Name:    kdeaddons
 Summary: K Desktop Environment - Plugins
 Version: 3.5.10
-Release: 24%{?dist}
+Release: 25%{?dist}
 License: GPLv2
 Url: http://www.kde.org/
 Source0: ftp://ftp.kde.org/pub/kde/stable/%{version}/src/%{name}-%{version}.tar.bz2
@@ -68,6 +68,9 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.10-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.10-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

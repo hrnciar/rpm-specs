@@ -1,6 +1,6 @@
 Name:           ykclient
 Version:        2.15
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Yubikey management library and client
 
 License:        BSD
@@ -48,6 +48,9 @@ chrpath -d $RPM_BUILD_ROOT%{_bindir}/ykclient
 %{_libdir}/libykclient.so
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.15-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.15-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

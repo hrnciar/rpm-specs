@@ -1,11 +1,13 @@
+%global __cmake_in_source_build 1
 Name:           chipmunk
 Version:        7.0.3
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Physics engine for 2D games
 
 License:        MIT
 URL:            https://github.com/slembcke/Chipmunk2D/
 Source0:        https://github.com/slembcke/Chipmunk2D/archive/Chipmunk-%{version}.tar.gz
+Patch0:         sysctl.patch
 
 BuildRequires: gcc
 BuildRequires: gcc-c++
@@ -40,6 +42,7 @@ chipmunk library functions.  You'll also need to install the chipmunk package.
 
 %prep
 %setup -qn Chipmunk2D-Chipmunk-%{version}
+%patch0 -p0
 
 %build
 %{cmake}
@@ -63,6 +66,16 @@ chipmunk library functions.  You'll also need to install the chipmunk package.
 
 
 %changelog
+* Tue Aug 04 2020 Gwyn Ciesla <gwync@protonmail.com> - 7.0.3-5
+- Fix FTBFS.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

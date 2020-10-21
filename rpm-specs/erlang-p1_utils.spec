@@ -2,7 +2,7 @@
 
 
 Name:       erlang-%{srcname}
-Version:    1.0.17
+Version:    1.0.20
 Release:    1%{?dist}
 BuildArch:  noarch
 
@@ -33,7 +33,6 @@ sed -i "/.*Created.*/d" src/p1_options.erl
 
 %build
 %{rebar_compile}
-%{rebar_doc}
 
 
 %check
@@ -53,6 +52,17 @@ sed -i "/.*Created.*/d" src/p1_options.erl
 
 
 %changelog
+* Fri Jul 31 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.20-1
+- Update to 1.0.20 (#1807014).
+- https://github.com/processone/p1_utils/blob/1.0.20/CHANGELOG.md
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.17-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.17-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 14 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.17-1
 - Update to 1.0.17 (#1788909).
 - https://github.com/processone/p1_utils/blob/1.0.17/CHANGELOG.md

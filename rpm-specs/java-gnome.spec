@@ -1,15 +1,19 @@
 Summary:	Java GNOME bindings
 Name:		java-gnome
 Version:	4.1.3
-Release:	21%{?dist}
+Release:	26%{?dist}
 URL:		http://java-gnome.sourceforge.net
 Source0:	http://ftp.gnome.org/pub/gnome/sources/java-gnome/4.1/java-gnome-%{version}.tar.xz
 # Workaround for brp-java-repack-jars skipping top-level dot-files
 Patch0:		java-gnome-4.1.3-libdir.patch
 # Disable strict java 8 doclint
-Patch1:         java-gnome-doclint.patch
+Patch1:		java-gnome-doclint.patch
 # Argument -client not supported everywhere.
 Patch2:		java-gnome-4.1.3-javaargs.patch
+# Use "javac -h" instead of "javah" for JDK 11 compatibility
+Patch3:		java-gnome-4.1.3-javah.patch
+# Fix build script for Python 3
+Patch4:		java-gnome-4.1.3-py3.patch
 # This is the "Classpath" exception.
 License:	GPLv2 with exceptions
 BuildRequires:	pkgconfig
@@ -27,7 +31,7 @@ BuildRequires:	pkgconfig(pango)
 BuildRequires:	pkgconfig(librsvg-2.0)
 BuildRequires:	gettext
 BuildRequires:	junit
-BuildRequires:	python2
+BuildRequires:	python3
 BuildRequires:	java-devel >= 1:1.6.0
 BuildRequires:	jpackage-utils
 BuildRequires:	perl
@@ -58,12 +62,22 @@ design documentation and sample code.
 %prep
 %setup -q
 %patch0 -p1
-%patch1
+%patch1 -p1
 %patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 # Remove all binaries
 find . -name "*.jar" -exec rm -f {} \;
 find . -name "*.class" -exec rm -f {} \;
+
+# JDK 11 does not generate pointless empty headers for classes with no native methods
+# so we have to fool the java-gnome build
+mkdir -p tmp/include
+for c in atk_AtkRegistry atk_AtkUtil glib_GBoxed gdk_GdkWindowAttr gdk_GdkPixbufSimpleAnimIter gtk_GtkPlug gtk_GtkFilePath sourceview_GtkSourceViewSearchFlags \
+pango_PangoAnalysis pango_PangoEngine pango_PangoEngineShape pango_PangoEngineLang pango_PangoGlyphGeometry pango_PangoGlyphInfo pango_PangoCairoFcFont pango_PangoFcFont ; do
+	touch tmp/include/org_gnome_${c}.h
+done
 
 %build
 # It'll get two conflicting --libdir parameters, but the last one
@@ -102,6 +116,21 @@ cp -rp doc/api %{buildroot}%{_javadocdir}/%{name}
 %{_javadocdir}/%{name}
 
 %changelog
+* Sun Aug 09 2020 Alexander Boström <abo@root.snowtree.se> - 4.1.3-26
+- Fix date in changelog
+
+* Sun Aug 09 2020 Alexander Boström <abo@root.snowtree.se> - 4.1.3-25
+- Switch to Python 3 for build
+
+* Wed Jul 29 2020 Mat Booth <mat.booth@redhat.com> - 4.1.3-24
+- Fix javah usage for JDK 11 compatibility
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.3-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 4.1.3-22
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.3-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

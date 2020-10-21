@@ -6,7 +6,7 @@
 Summary:        A Firebird interface for perl
 Name:           perl-DBD-Firebird
 Version:        1.32
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/%{pkgname}
 Source:         https://cpan.metacpan.org/authors/id/M/MA/MARIUZ/%{pkgname}-%{version}.tar.gz
@@ -106,6 +106,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.32-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.32-2
 - Perl 5.32 rebuild
 

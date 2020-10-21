@@ -1,28 +1,20 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 %global modulename %{name}-c++
 
 Name:           capnproto
-Version:        0.7.0
-Release:        6%{?dist}
+Version:        0.8.0
+Release:        2%{?dist}
 Summary:        A data interchange format and capability-based RPC system
 
 License:        MIT
 URL:            https://capnproto.org
 Source0:        https://capnproto.org/%{modulename}-%{version}.tar.gz
 
-# Backports from upstream
-## https://github.com/capnproto/capnproto/commit/a5b53be194073895e78fa130a5bb31489871401b
-Patch0001:      0001-Fix-aliasing-violation.patch
-
 # We need C++
 BuildRequires:  gcc-c++
-
-%if 0%{?fedora} || 0%{?rhel} >= 8
 BuildRequires:  cmake >= 3.1
-%endif
-
-%if 0%{?rhel} && 0%{?rhel} < 8
-BuildRequires:  cmake3 >= 3.1
-%endif
 
 # Ensure that we use matching version of libraries
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
@@ -60,19 +52,15 @@ developing applications that use %{name}.
 export CFLAGS="%{optflags} -DHOLES_NOT_SUPPORTED=1"
 export CXXFLAGS="%{optflags} -DHOLES_NOT_SUPPORTED=1"
 
-%{?cmake3:%cmake3}%{!?cmake3:%cmake} .
-
-# Make runs a simple test, and that test needs to be able to find the
-# just-built libraries.
-LD_LIBRARY_PATH=$(pwd)/.libs:$(pwd)/gtest/lib/.libs %make_build
+%cmake
+%cmake_build
 
 %check
-# The make check builds bundled gtest (but doesn't install it!)
-LD_LIBRARY_PATH=$(pwd)/.libs:$(pwd)/gtest/lib/.libs %make_build check
+%ctest
 
 
 %install
-%make_install
+%cmake_install
 find %{buildroot} -name '*.la' -delete
 
 
@@ -93,6 +81,13 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/cmake/CapnProto/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Neal Gompa <ngompa13@gmail.com> - 0.8.0-1
+- Update to 0.8.0 (#1827443)
+- Drop backported patches
+
 * Thu Mar 12 2020 Neal Gompa <ngompa13@gmail.com> - 0.7.0-6
 - Backport patch to fix aliasing violation breaking builds on GCC 10 on ARM (#1807872)
 - Disable "DiskFile holes" test to stop build failures

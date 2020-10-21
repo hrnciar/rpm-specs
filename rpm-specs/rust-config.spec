@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.10.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Layered configuration system for Rust applications
 
 # Upstream license specification: MIT/Apache-2.0
@@ -16,7 +16,10 @@ Source:         %{crates_source}
 # Initial patched metadata
 # * serde-hjson is not packaged, so remove from default features
 # * Update float-cmp to 0.6, https://github.com/mehcode/config-rs/pull/131
+# * Update rust-ini to 0.15, https://github.com/mehcode/config-rs/pull/152
 Patch0:         config-fix-metadata.diff
+# adapt to small API changes between rust-ini 0.13 and 0.15
+Patch1:         00-port-to-ini-0.15.patch
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -183,6 +186,12 @@ which use "yaml-rust" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Mon Sep 28 2020 Fabio Valentini <decathorpe@gmail.com> - 0.10.1-3
+- Bump rust-ini to 0.15.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 23 10:48:06 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.10.1-1
 - Update to 0.10.1
 

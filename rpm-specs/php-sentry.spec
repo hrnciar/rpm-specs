@@ -1,7 +1,7 @@
 #
 # Fedora spec file for php-sentry
 #
-# Copyright (c) 2016-2018 Shawn Iwinski <shawn@iwin.ski>
+# Copyright (c) 2016-2020 Shawn Iwinski <shawn@iwin.ski>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -21,16 +21,25 @@
 %global php_min_ver      5.2.4
 # "monolog/monolog": "*"
 #     NOTE: Min version because autoloader required
+#     NOTE: Adding max version to force v1
 %global monolog_min_ver  1.15.0
+%global monolog_max_ver  2
 
 # Build using "--without tests" to disable tests
 %global with_tests 0%{!?_without_tests:1}
+
+# Range dependencies supported?
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+%global with_range_dependencies 1
+%else
+%global with_range_dependencies 0
+%endif
 
 %{!?phpdir:  %global phpdir  %{_datadir}/php}
 
 Name:          php-%{composer_project}
 Version:       %{github_version}
-Release:       9%{?github_release}%{?dist}
+Release:       11%{?github_release}%{?dist}
 Summary:       PHP client for Sentry
 
 # ASL 2.0:
@@ -53,8 +62,13 @@ BuildRequires: php-cli
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(phpunit/phpunit)
-BuildRequires: php-composer(monolog/monolog) >= %{monolog_min_ver}
 BuildRequires: php-curl
+%if %{with_range_dependencies}
+BuildRequires: (php-composer(monolog/monolog) >= %{monolog_min_ver} with php-composer(monolog/monolog) < %{monolog_max_ver})
+%else
+BuildRequires: php-composer(monolog/monolog) < %{monolog_max_ver}
+BuildRequires: php-composer(monolog/monolog) >= %{monolog_min_ver}
+%endif
 ## phpcompatinfo (computed from version 0.22.0)
 BuildRequires: php-date
 BuildRequires: php-hash
@@ -72,8 +86,13 @@ Requires:      php-cli
 Requires:      ca-certificates
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
-Requires:      php-composer(monolog/monolog) >= %{monolog_min_ver}
 Requires:      php-curl
+%if %{with_range_dependencies}
+Requires:      (php-composer(monolog/monolog) >= %{monolog_min_ver} with php-composer(monolog/monolog) < %{monolog_max_ver})
+%else
+Requires:      php-composer(monolog/monolog) < %{monolog_max_ver}
+Requires:      php-composer(monolog/monolog) >= %{monolog_min_ver}
+%endif
 # phpcompatinfo (computed from version 0.22.0)
 Requires:      php-date
 Requires:      php-hash
@@ -186,6 +205,12 @@ exit $ret
 
 
 %changelog
+* Fri Sep 04 2020 Shawn Iwinski <shawn@iwin.ski> - 0.22.0-11
+- Add max Monolog version
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.22.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.22.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

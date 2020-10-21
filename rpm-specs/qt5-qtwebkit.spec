@@ -16,7 +16,7 @@
 
 Name:           qt5-%{qt_module}
 Version:        5.212.0
-Release:        0.47.%{?prerel}%{?dist}
+Release:        0.52.%{?prerel}%{?dist}
 Summary:        Qt5 - QtWebKit components
 
 License:        LGPLv2 and BSD
@@ -25,6 +25,8 @@ Source0:        https://github.com/qtwebkit/qtwebkit/releases/download/%{qt_modu
 
 # Patch for new CMake policy CMP0071 to explicitly use old behaviour.
 Patch2:         qtwebkit-5.212.0_cmake_cmp0071.patch
+Patch3:         qtwebkit-5.212.0-json.patch
+Patch4:         qtwebkit-bison37.patch
 
 BuildRequires:  bison
 BuildRequires:  cmake
@@ -120,6 +122,12 @@ test -f Source/WebCore/Resources/textAreaResizeCorner.png
 
 
 %build
+# QT is known not to work properly with LTO at this point.  Some of the issues
+# are being worked on upstream and disabling LTO should be re-evaluated as
+# we update this change.  Until such time...
+# Disable LTO
+%define _lto_cflags %{nil}
+
 # The following changes of optflags ietc. are adapted from webkitgtk4 package, which
 # is mostly similar to this one...
 #
@@ -145,7 +153,7 @@ CXXFLAGS="${CXXFLAGS:-%optflags} -fpermissive" ; export CXXFLAGS ;
 %{?__global_ldflags:LDFLAGS="${LDFLAGS:-%__global_ldflags}" ; export LDFLAGS ;}
 # We cannot use default cmake macro here as it overwrites some settings queried
 # by qtwebkit cmake from qmake
-cmake . \
+%cmake \
        -DPORT=Qt \
        -DCMAKE_BUILD_TYPE=Release \
        -DENABLE_TOOLS=OFF \
@@ -161,7 +169,7 @@ cmake . \
        %{?docs:-DGENERATE_DOCUMENTATION=ON} \
        -DPYTHON_EXECUTABLE:PATH="%{__python3}"
 
-%make_build
+%cmake_build
 
 %if 0%{?docs}
 %make_build docs
@@ -169,7 +177,7 @@ cmake . \
 
 
 %install
-%make_install
+%cmake_install
 
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
@@ -234,6 +242,22 @@ test -z "$(pkg-config --cflags Qt5WebKit | grep Qt5WebKit)"
 
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 5.212.0-0.52.alpha4
+- rebuild (qt5)
+
+* Thu Aug 27 2020 Than Ngo <than@redhat.com> - 5.212.0-0.51.alpha4
+- Fixed #1863719, FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.212.0-0.50.alpha4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.212.0-0.49.alpha4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> - 5.212.0-0.48.alpha4
+- Disable LTO
+
 * Wed Jun 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.212.0-0.47.alpha4
 - rebuild (python39)
 

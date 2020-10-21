@@ -3,7 +3,7 @@
 
 Name:  phasex
 Version: 0.12.0
-Release: 15.12.%{prerel}%{?dist}
+Release: 16.12.%{prerel}%{?dist}
 Summary: PHASEX -- Phase Harmonic Advanced Synthesis EXperiment
 License: GPLv2
 URL:  https://github.com/disabled/phasex-dev
@@ -75,6 +75,9 @@ rm %{buildroot}%{_datadir}/phasex/phasex.desktop
 %{_datadir}/icons/hicolor/*/apps/phasex-icon.png
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-16.12.m1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 01 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.12.0-15.12.m1
 - Fix FTBFS with GCC 10
 - Some spec cleanup

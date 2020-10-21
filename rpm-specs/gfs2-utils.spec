@@ -1,18 +1,6 @@
-###############################################################################
-###############################################################################
-##
-##  Copyright (C) 2004-2018 Red Hat, Inc.  All rights reserved.
-##
-##  This copyrighted material is made available to anyone wishing to use,
-##  modify, copy, or redistribute it subject to the terms and conditions
-##  of the GNU General Public License v.2.
-##
-###############################################################################
-###############################################################################
-
 Name: gfs2-utils
-Version: 3.2.0
-Release: 7%{?dist}
+Version: 3.3.0
+Release: 2%{?dist}
 License: GPLv2+ and LGPLv2+
 Summary: Utilities for managing the global file system (GFS2)
 %ifnarch %{arm}
@@ -29,10 +17,9 @@ BuildRequires: flex
 BuildRequires: libblkid-devel
 BuildRequires: libuuid-devel
 BuildRequires: check-devel
+BuildRequires: bzip2-devel
 Source: https://releases.pagure.org/gfs2-utils/gfs2-utils-%{version}.tar.gz
 URL: https://pagure.io/gfs2-utils
-Patch0: 0-Fix_libuuid_linking.patch
-Patch1: 1-Fix_more_linking_errors.patch
 
 %prep
 %autosetup -p1
@@ -40,13 +27,13 @@ Patch1: 1-Fix_more_linking_errors.patch
 %build
 ./autogen.sh
 %configure
-make %{_smp_mflags} V=1
+%make_build
 
 %check
 make check || { cat tests/testsuite.log; exit 1; }
 
 %install
-make -C gfs2 install DESTDIR=%{buildroot}
+%make_install
 # Don't ship gfs2_{trace,lockcapture} in this package
 rm -f %{buildroot}/usr/sbin/gfs2_trace
 rm -f %{buildroot}/usr/sbin/gfs2_lockcapture
@@ -67,14 +54,36 @@ modifying, and correcting inconsistencies in GFS2 file systems.
 %{_sbindir}/gfs2_convert
 %{_sbindir}/gfs2_edit
 %{_sbindir}/tunegfs2
-%{_sbindir}/gfs2_withdraw_helper
 %{_sbindir}/glocktop
+%{_libexecdir}/gfs2_withdraw_helper
 %{_mandir}/man8/*gfs2*
 %{_mandir}/man8/glocktop*
 %{_mandir}/man5/*
 %{_prefix}/lib/udev/rules.d/82-gfs2-withdraw.rules
 
 %changelog
+* Thu Sep 03 2020 Andrew Price <anprice@redhat.com> - 3.3.0-2
+- Version bump to enable gating tests
+
+* Tue Sep 01 2020 Andrew Price <anprice@redhat.com> - 3.3.0-1
+- New upstream version
+- Add dependency on bzip2
+- Drop all patches
+- gfs2_withdraw_helper is now in /usr/libexec/
+
+* Wed Jul 29 2020 Andrew Price <anprice@redhat.com> - 3.2.0-10
+- tests: Don't use fail_unless in unit tests
+  Fixes build failures due to a regression in check-devel
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Andrew Price <anprice@redhat.com> - 3.2.0-8
+- Use make_build and make_install macros
+  https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+- Remove -C gfs2 - it's a remnant from the cluster.git days
+- Remove unnecessary header notice from spec file
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

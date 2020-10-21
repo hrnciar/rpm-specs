@@ -1,33 +1,47 @@
+%undefine __cmake_in_source_build
+
+%define utils_version 1.0
+# FIXME: report to upstream
+%define _lto_cflags %{nil} 
+
 Name:           cbmc
-Version:        5.11
-Release:        5%{?dist}
+Version:        5.15.0
+Release:        1%{?dist}
 Summary:        Bounded Model Checker for ANSI-C and C++ programs
 
 License:        BSD with advertising
 URL:            http://www.cprover.org/cbmc/
 
-Source0:        https://github.com/diffblue/cbmc/archive/%{name}-%{version}.tar.gz
-# Man page link for goto-cc and goto-instrument
-Source1:        goto-cc.1
-# Fedora-specific patch: set up our build options
-Patch0:         %{name}-5.11-fix-build.patch
-# Make -Werror=format-security happy
-Patch1:         %{name}-5.9-format.patch
-# Fix a build failure: https://github.com/diffblue/cbmc/issues/777
-Patch2:         %{name}-5.11-qbf.patch
+Source0:        https://github.com/diffblue/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
+Source1:        https://github.com/vmihalko/%{name}-utils/archive/v%{utils_version}/%{name}-utils-%{utils_version}.tar.gz
+
 # Adapt to recent versions of glpk
-Patch3:         %{name}-5.9-glpk.patch
+Patch0:         %{name}-5.9-glpk.patch
+# Regression test regression/cpp/virtual0 is failing - hotfix
+%if 0%{?fedora} > 32
+Patch1:         %{name}-5.12-fix-f33.patch
+%endif
+# Fedora-specific patch: python => python3 in one test case
+Patch2:         %{name}-5.12.6-fix-f33+.patch
+# Use minisat from Fedora
+Patch3:         %{name}-minisat.patch
+Patch4:         %{name}-32bit-arch-fix.patch
+Patch5:         %{name}-signed-char.patch
+
 
 BuildRequires:  bash
 BuildRequires:  bison
+BuildRequires:  cmake
 BuildRequires:  doxygen-latex
 BuildRequires:  flex
 BuildRequires:  gcc-c++
+BuildRequires:  gdb
 BuildRequires:  glpk-devel
 BuildRequires:  graphviz
 BuildRequires:  minisat2-devel
 BuildRequires:  zlib-devel
 
+Requires:       gcc-c++
 Requires:       sed
 
 %description
@@ -41,32 +55,30 @@ Summary:        Documentation for %{name}
 %description doc
 Documentation for %{name}.
 
-%prep
-%autosetup -p0 -n %{name}-%{name}-%{version}
+%package utils
+Summary:        Output conversion utilities for CBMC 
 
-# Use the right build flags
-sed -e "s|@RPM_OPT_FLAGS@|$RPM_OPT_FLAGS -fpermissive|" \
-    -e "s|@RPM_LD_FLAGS@|$RPM_LD_FLAGS|" \
-    -i src/config.inc
+%description utils
+Output conversion utilities for CBMC (gcc like format) 
+
+%prep
+%setup -T -q -b 1 -n %{name}-utils-%{utils_version}
+%autosetup -p0  
 
 %build
-pushd src
-make %{?_smp_mflags}
+%cmake -DWITH_JBMC=OFF -DWITH_SYSTEM_SAT_SOLVER=ON -DBUILD_SHARED_LIBS:BOOL=OFF
+%cmake_build
 
-# Build the documentation
-doxygen
-popd
+# Build the documentation, TODO: build the doc with cmake
+make -C src doc
 
 %install
-mkdir -p %{buildroot}%{_bindir} %{buildroot}%{_mandir}/man1
-install -p -m 0755 src/cbmc/cbmc %{buildroot}%{_bindir}
-install -p -m 0755 src/goto-analyzer/goto-analyzer %{buildroot}%{_bindir}
-install -p -m 0755 src/goto-cc/goto-cc %{buildroot}%{_bindir}
-install -p -m 0755 src/goto-diff/goto-diff %{buildroot}%{_bindir}
-install -p -m 0755 src/goto-instrument/goto-instrument %{buildroot}%{_bindir}
-install -p -m 0644 doc/man/cbmc.1 %{buildroot}%{_mandir}/man1
-install -p -m 0644 %{SOURCE1} %{buildroot}%{_mandir}/man1
-install -p -m 0644 %{SOURCE1} %{buildroot}%{_mandir}/man1/goto-instrument.1
+%cmake_install
+
+# Remove useless manpages
+rm %{buildroot}%{_mandir}/man1/j{bmc,analyzer,diff}.1 
+
+install -p -m 0755 "%{_builddir}/%{name}-utils-%{utils_version}/cbmc_utils/formatCBMCOutput.py" %{buildroot}%{_bindir}/%{name}-convert-output
 
 # Feed the debuginfo generator
 ln -s xml_y.tab.h src/xmllang/xml_y.tab.hpp
@@ -75,23 +87,51 @@ ln -s xml_y.tab.h src/xmllang/xml_y.tab.hpp
 %check
 # The tests were written with the assumption that they would be executed on
 # an x86_64.  Other platforms suffer a large number of spurious test failures.
-make -C regression
+%ctest --label-regex CORE
+%ctest --tests-regex unit-xfail
 %endif
 
 %files
 %doc CHANGELOG README.md
 %license LICENSE
-%{_bindir}/cbmc
-%{_bindir}/goto-analyzer
-%{_bindir}/goto-cc
-%{_bindir}/goto-diff
-%{_bindir}/goto-instrument
+%{_bindir}/{cbmc,goto-{analyzer,cc,diff,instrument,gcc,harness,ld}}
 %{_mandir}/man1/*
 
 %files doc
 %doc doc/html
+%license LICENSE
+
+%files utils
+%license ../%{name}-utils-%{utils_version}/LICENSE
+%{_bindir}/%{name}-convert-output
+
 
 %changelog
+* Tue Oct 08 2020 Vincent Mihalkovic <vmihalko@redhat.com> - 5.15.0-1
+- New upstream release
+
+* Wed Sep 30 2020 Vincent Mihalkovic <vmihalko@redhat.com> - 5.14.3-1
+- New upstream release
+
+* Tue Sep 29 2020 Vincent Mihalkovic <vmihalko@redhat.com> - 5.13.1-1
+- New upstream release
+- Use CMake instead of plain Makefiles
+- Add cbmc-utils subpackage 
+
+* Tue Sep 01 2020 Vincent Mihalkovic <vmihalko@redhat.com> - 5.13.0-1
+- New upstream release
+
+* Wed Aug 12 2020 Vincent Mihalkovic <vmihalko@redhat.com> - 5.12.6-1
+- Replace custom goto-cc.1 with symlinks to cbmc.1
+- Enable full cbmc testsuite
+- python to python3 fix in one test case
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 9  2020 Vincent Mihalkovic <vmihalko@redhat.com> - 5.12-1
+- New upstream release. Skipping some of regression tests - temporary f33 build fix
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.11-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

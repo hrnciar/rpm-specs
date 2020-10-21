@@ -3,7 +3,7 @@
 
 # https://github.com/huandu/xstrings
 %global goipath         github.com/huandu/xstrings
-Version:                1.2.0
+Version:                1.3.2
 
 %gometa
 
@@ -17,7 +17,7 @@ All functions are well tested and carefully tuned for performance.}
 %global godocs          CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Collection of useful string functions in Go
 
 License:        MIT
@@ -43,6 +43,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 22:25:29 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.3.2-1
+- Update to 1.3.2
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

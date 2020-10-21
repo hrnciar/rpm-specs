@@ -2,7 +2,7 @@
 
 Name:           nodejs-%{npmname}
 Version:        0.99.1007
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        64bit Long Integer on Buffer/Array/ArrayBuffer in Pure JavaScript
 
 License:        MIT
@@ -46,6 +46,13 @@ mocha -R spec *.json ./test/*.js
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99.1007-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99.1007-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 16 2020 Ben Rosser <rosser.bjr@gmail.com> - 0.99.1007-1
 - Updated to latest upstream release (rhbz#1834050).
 

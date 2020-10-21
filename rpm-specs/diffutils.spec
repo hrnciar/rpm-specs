@@ -1,11 +1,12 @@
 Summary: A GNU collection of diff utilities
 Name: diffutils
 Version: 3.7
-Release: 4%{?dist}
+Release: 7%{?dist}
 URL: http://www.gnu.org/software/diffutils/diffutils.html
 Source: ftp://ftp.gnu.org/gnu/diffutils/diffutils-%{version}.tar.xz
 Patch1: diffutils-cmp-s-empty.patch
 Patch2: diffutils-i18n.patch
+Patch3: diffutils-fix-gnulib-tests.patch
 License: GPLv3+
 Provides: bundled(gnulib)
 BuildRequires:  gcc
@@ -31,6 +32,9 @@ Install diffutils if you need to compare text files.
 %patch1 -p1 -b .cmp-s-empty
 
 %patch2 -p1 -b .i18n
+
+# Fix from gnulib upstream, commit 175e0bc (bug #1863423).
+%patch3 -p1 -b .fix-gnulib-tests
 
 # Run autoreconf for aarch64 support (bug #925256).
 autoreconf
@@ -58,6 +62,16 @@ make check
 %{_infodir}/diffutils.info*
 
 %changelog
+* Thu Oct  8 2020 Tim Waugh <twaugh@redhat.com> - 3.7-7
+- Fix from gnulib upstream, commit 175e0bc (bug #1863423).
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

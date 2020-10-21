@@ -1,6 +1,12 @@
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 Name:           iml
 Version:        1.0.5
-Release:        12%{?dist}
+Release:        15%{?dist}
 Summary:        Finds solutions to systems of linear equations over integers
 License:        BSD
 URL:            https://cs.uwaterloo.ca/~astorjoh/iml.html
@@ -8,7 +14,7 @@ Source0:        https://cs.uwaterloo.ca/~astorjoh/%{name}-%{version}.tar.bz2
 
 BuildRequires:  gcc
 BuildRequires:  gmp-devel
-BuildRequires:  openblas-devel
+BuildRequires:  %{blaslib}-devel
 
 
 %description
@@ -23,7 +29,7 @@ functionality is provided:
 %package        devel
 Summary:        Development files for %{name}
 Requires:       %{name}%{?_isa} = %{version}-%{release}
-Requires:       gmp-devel%{?_isa}, openblas-devel%{?_isa}
+Requires:       gmp-devel%{?_isa}, %{blaslib}-devel%{?_isa}
 
 %description    devel
 The %{name}-devel package contains libraries and header files for
@@ -42,8 +48,8 @@ The %{name}-static package contains a static library for %{name}.
 %setup -q
 
 %build
-%configure --enable-shared --with-cblas="-lopenblas" \
-  --with-cblas-include=%{_includedir}/openblas
+%configure --enable-shared --with-cblas="-l%{blaslib}" \
+  --with-cblas-include=%{_includedir}/%{blaslib}
 
 # Get rid of undesirable hardcoded rpaths; workaround libtool reordering
 # -Wl,--as-needed after all the libraries.
@@ -52,11 +58,11 @@ sed -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -e 's|CC=.g..|& -Wl,--as-needed|' \
     -i libtool
 
-make %{?_smp_mflags}
+%make_build
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 rm -fr $RPM_BUILD_ROOT%{_datadir}/%{name}
 
@@ -85,6 +91,16 @@ make check
 
 
 %changelog
+* Thu Aug 13 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.0.5-15
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.0.5-13
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,10 +3,11 @@
 
 # https://github.com/marusama/semaphore
 %global goipath         github.com/marusama/semaphore
-Version:                2.3.0
-%global tag             2.3.0
+Version:                2.4.1
 
 %gometa
+
+%global goaltipaths     github.com/marusama/semaphore/v2
 
 %global common_description %{expand:
 Fast resizable golang semaphore based on CAS:
@@ -19,7 +20,7 @@ Fast resizable golang semaphore based on CAS:
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Fast resizable Golang semaphore
 
 License:        MIT
@@ -39,12 +40,19 @@ Source0:        %{gosource}
 
 %if %{with check}
 %check
+sed -i "s|github.com/marusama/semaphore/v2|github.com/marusama/semaphore|" $(find . -iname "*.go" -type f)
 %gocheck
 %endif
 
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 18:53:21 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.4.1-1
+- Update to 2.4.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

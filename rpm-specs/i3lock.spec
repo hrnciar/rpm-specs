@@ -1,6 +1,6 @@
 Name:           i3lock
 Version:        2.12
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Simple X display locker like slock
 License:        MIT
 URL:            https://i3wm.org/%{name}/
@@ -73,6 +73,9 @@ install -Dpm0644 i3lock.1 %{buildroot}%{_mandir}/man1/i3lock.1
 %{_mandir}/man1/i3lock.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Dan Čermák <dan.cermak@cgc-instruments.com> - 2.12-3
 - Add upstream patch to fix compilation failure with gcc 10
 

@@ -1,7 +1,7 @@
 Summary:        A console-based network monitoring utility
 Name:           iptraf-ng
-Version:        1.1.4
-Release:        24%{?dist}
+Version:        1.2.1
+Release:        2%{?dist}
 Source0:        https://github.com/iptraf-ng/iptraf-ng/archive/v%{version}.tar.gz
 Source1:        %{name}-logrotate.conf
 Source2:        %{name}-tmpfiles.conf
@@ -11,9 +11,6 @@ BuildRequires:  gcc
 BuildRequires:  ncurses-devel
 Obsoletes:      iptraf < 3.1
 Provides:       iptraf = 3.1
-Patch01:        0001-BUGFIX-fix-Floating-point-exception-in-tcplog_flowra.patch
-Patch02:        0002-Makefile-add-Werror-format-security.patch
-Patch03:        0003-fix-segfault-in-adding-interface.patch
 
 %description
 IPTraf-ng is a console-based network monitoring utility.  IPTraf gathers
@@ -21,23 +18,20 @@ data like TCP connection packet and byte counts, interface statistics
 and activity indicators, TCP/UDP traffic breakdowns, and LAN station
 packet and byte counts.  IPTraf-ng features include an IP traffic monitor
 which shows TCP flag information, packet and byte counts, ICMP
-details, OSPF packet types, and oversized IP packet warnings;
+details, OSPF packet types, and oversize IP packet warnings;
 interface statistics showing IP, TCP, UDP, ICMP, non-IP and other IP
-packet counts, IP checksum errors, interface activity and packet size
+packet counts, IP check sum errors, interface activity and packet size
 counts; a TCP and UDP service monitor showing counts of incoming and
 outgoing packets for common TCP and UDP application ports, a LAN
 statistics module that discovers active hosts and displays statistics
 about their activity; TCP, UDP and other protocol display filters so
 you can view just the traffic you want; logging; support for Ethernet,
-FDDI, ISDN, SLIP, PPP, and loopback interfaces; and utilization of the
+FDDI, ISDN, SLIP, PPP, and loop back interfaces; and utilization of the
 built-in raw socket interface of the Linux kernel, so it can be used
 on a wide variety of supported network cards.
 
 %prep
 %setup -q
-%patch01 -p1
-%patch02 -p1
-%patch03 -p1
 
 %build
 make %{?_smp_mflags} V=1 \
@@ -63,12 +57,10 @@ mkdir -p %{buildroot}/run
 install -d -m 0755 %{buildroot}/run/%{name}/
 
 %files
-%doc CHANGES FAQ LICENSE README* RELEASE-NOTES
+%doc CHANGES FAQ LICENSE README*
 %doc Documentation
 %{_sbindir}/iptraf-ng
-%{_sbindir}/rvnamed-ng
 %{_mandir}/man8/iptraf-ng.8*
-%{_mandir}/man8/rvnamed-ng.8*
 %{_localstatedir}/log/iptraf-ng
 %{_localstatedir}/lib/iptraf-ng
 %config(noreplace) %{_sysconfdir}/logrotate.d/iptraf-ng
@@ -76,6 +68,35 @@ install -d -m 0755 %{buildroot}/run/%{name}/
 %{_prefix}/lib/tmpfiles.d/%{name}.conf
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Phil Cameron <pcameron@redhat.com> - 1.2.1-1
+- Makefile: protect mandatory compile flags
+- packet capture: don't reuse socket for multiple receive functions
+- TPACKET_V[23]: continue even if mlock() fails
+- ipmon: fix division by zero
+- fix: detstats(), ifstats(): handle packets with incorrect header checksum
+- fix: positionptr(): properly allocate newly created interfaces
+- fix: detstats(): properly account non-IP packets
+- fix: properly init curses (fixes view on some utf-8 terminals)
+- fix: cidr_split_address(): fix buffer overflow
+- ipmon: printentry(): fix printing of huge values
+- build: use correct libraries (wide version of -lpanel)
+- fix unsafe handling of printf() args (RedHat Bugzilla: 1842690)
+- fix the CPU hog if the interface gets removed (RedHat Bugzilla: 1572750)
+- introduce packet capturing abstraction: add recvmmsg(), TPACKET_V2 and TPACKET_V3 mmap()ed capturing modules: this allow us to capture in multigigabit speeds
+- add partial support for IPoIB interfaces (full support cannot be done because the kernel interface doesn't give us source address) (RedHat Bugzilla: 1140211)
+- merge rvnamed-ng into iptraf-ng
+- allow scrolling with Home, End, PageUp and PageDown keys
+- show dropped packet count
+- pktsize: print in and out counters
+- ifstats: show total packet rate and packet drop across all interfaces
+- ipmon: show OSPF protocol version
+- hostmon, ipmon: update screen only when needed (vastly reduces CPU usage and also reduces packet drops)
+- update source code to compile cleanly on modern gcc
+- numerous code refactoring/cleaning up all over the source tree
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -102,7 +123,7 @@ install -d -m 0755 %{buildroot}/run/%{name}/
 - Build with linker flags from redhat-rpm-config
 
 * Mon Jan 22 2018 Phil Cameron <pcameron@redhat.com> - 1.1.4-16
-- Moved upstream from https://fedorahosted.org/iptraf-ng/ to 
+- Moved upstream from https://fedorahosted.org/iptraf-ng/ to
   https://github.com/iptraf-ng/iptraf-ng/ with release v1.1.4
   Fixes error in patch Patch03 - this fixes 1283773
 
@@ -151,7 +172,7 @@ install -d -m 0755 %{buildroot}/run/%{name}/
 
 * Mon Sep 02 2013 Nikola Pajkovsky <npajkovs@redhat.com> - 1.1.4-3
 - 9b32013 BUGFIX: fix "Floating point exception" in tcplog_flowrate_msg() (Vitezslav Samel)
-  
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 

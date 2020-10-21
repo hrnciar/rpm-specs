@@ -1,6 +1,6 @@
 Name:           perl-IO-Null
 Version:        1.01
-Release:        36%{?dist}
+Release:        37%{?dist}
 Summary:        Class for null filehandles
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/IO-Null
@@ -46,6 +46,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.01-37
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.01-36
 - Perl 5.32 rebuild
 

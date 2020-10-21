@@ -1,6 +1,6 @@
 Name:           brightlight
 Version:        8
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        CLI tool to change screen back-light brightness
 
 License:        ISC
@@ -39,6 +39,9 @@ install -p -m 755 %{name} %{buildroot}%{_bindir}/%{name}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -5,7 +5,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 0.4.2
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: Refer to any model with a URI: gid://app/class/id
 License: MIT
 URL: http://www.rubyonrails.org
@@ -79,6 +79,9 @@ popd
 %doc %{gem_instdir}/README.md
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

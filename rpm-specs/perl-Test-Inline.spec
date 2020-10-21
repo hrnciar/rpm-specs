@@ -1,6 +1,6 @@
 Name: 		perl-Test-Inline
 Version: 	2.213
-Release: 	22%{?dist}
+Release: 	23%{?dist}
 Summary: 	Test::Inline Perl module
 License: 	GPL+ or Artistic
 URL: 		https://metacpan.org/release/Test-Inline
@@ -78,6 +78,9 @@ chmod -R u+w $RPM_BUILD_ROOT/*
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.213-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.213-22
 - Perl 5.32 rebuild
 

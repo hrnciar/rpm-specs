@@ -1,17 +1,19 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 Name: ampache_browser
 
 # Lib and several dirs use this derived name. A change of this name
 # is likely to break API users due to not finding files any longer.
 %global vername %{name}_1
 
-Version: 1.0.2
-Release: 6%{?dist}
+Version: 1.0.3
+Release: 1%{?dist}
 Summary: C++ and Qt based client library for Ampache access
 
 License: GPLv3
 URL: http://ampache-browser.org
 Source0: https://github.com/ampache-browser/ampache_browser/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
-# Source0: https://github.com/ampache-browser/ampache_browser/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires: cmake
 %if 0%{?rhel} && 0%{?rhel} < 8
@@ -19,7 +21,7 @@ BuildRequires: cmake3
 %endif
 BuildRequires: gcc-c++
 BuildRequires: qt5-qtbase-devel
-Patch0: include.patch
+
 %description
 Ampache Browser is a library that implements desktop client access to
 the Ampache service (http://ampache.org). It provides end-user Qt UI and
@@ -44,12 +46,13 @@ developing applications that use %{name}.
 %global __cmake %{_bindir}/cmake3
 %endif
 
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
+
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
@@ -69,6 +72,12 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %{_libdir}/cmake/%{vername}
 
 %changelog
+* Tue Oct  6 2020 Michael Schwendt <mschwendt@fedoraproject.org> - 1.0.3-1
+- Update to 1.0.3 (only the GCC 10 fix).
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Robert Scheck <robert@fedoraproject.org> - 1.0.2-6
 - Added build-time conditionals for RHEL/CentOS 7 (#1846719)
 - Corrected build requirement from qt5-devel to qt5-qtbase-devel

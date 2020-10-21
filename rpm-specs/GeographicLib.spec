@@ -1,3 +1,6 @@
+# Needed as builddir needs to be the same on every arch, otherwise doxygen produces differently named outputs
+%global __cmake_in_source_build 1
+
 #global commit 2a6ccdf99f9b580aff4ef4725720172235fa9da0
 #global shortcommit %(c=%{commit}; echo ${c:0:7})
 
@@ -12,15 +15,15 @@
 
 Name:           GeographicLib
 Version:        1.50.1
-Release:        3%{?commit:.git%{shortcommit}}%{?dist}
-Summary:        Library for geographic coordinate transformations 
+Release:        5%{?commit:.git%{shortcommit}}%{?dist}
+Summary:        Library for geographic coordinate transformations
 
 License:        MIT
 URL:            http://geographiclib.sourceforge.net/
 %if 0%{?commit:1}
 Source0:        https://sourceforge.net/code-snapshots/git/g/ge/geographiclib/code.git/geographiclib-code-%{commit}.zip
 %else
-Source0:        http://downloads.sourceforge.net/geographiclib/%{name}-%{version}.tar.gz 
+Source0:        http://downloads.sourceforge.net/geographiclib/%{name}-%{version}.tar.gz
 %endif
 # Bundle MATLAB scripts into octave packages
 # Not yet submitted upstream
@@ -29,6 +32,8 @@ Patch1:         %{name}-1.48-octave.patch
 Patch2:         %{name}-1.48-nodejs.patch
 # Adapt test conditions to handle some cases -0.000
 Patch3:         %{name}-1.48-test.patch
+# Fix C++17 issues for gcc-11
+Patch4:		%{name}-gcc11.patch
 
 BuildRequires:  cmake
 BuildRequires:  doxygen
@@ -84,7 +89,7 @@ Summary:        Octave implementation of %{name}
 BuildArch:      noarch
 Requires:         octave >= 3.4
 Requires(post):   octave
-Requires(postun): octave 
+Requires(postun): octave
 
 %description -n octave-%{name}
 A translation of some of the GeographicLib C++ functionality to Octave
@@ -106,23 +111,21 @@ A translation of some of the GeographicLib C++ functionality to NodeJS
 sed -i "s|add_subdirectory (python/geographiclib)||" CMakeLists.txt
 
 %build
-mkdir build; pushd build;
-%cmake .. \
+%cmake \
   -DGEOGRAPHICLIB_DATA="%{_datadir}/%{name}" \
   -DCOMMON_INSTALL_PATH=ON \
   -DGEOGRAPHICLIB_DOCUMENTATION=ON \
   -DUSE_RPATH=OFF \
   -DCMAKE_SKIP_INSTALL_RPATH=ON \
   -DPython_ADDITIONAL_VERSIONS=3
-%make_build
-popd
+%cmake_build
 
 pushd python
 %py3_build
 popd
 
 %install
-%make_install -C build
+%cmake_install
 pushd python
 %py3_install
 popd
@@ -134,7 +137,7 @@ mkdir -p %{buildroot}%{_datadir}/%{name}
 
 
 %check
-(cd build && ctest -VV)
+%ctest
 
 
 %ldconfig_scriptlets
@@ -179,7 +182,7 @@ mkdir -p %{buildroot}%{_datadir}/%{name}
 
 %files doc
 %license LICENSE.txt
-%doc build/doc/html
+%doc %{__cmake_builddir}/doc/html
 
 %files -n python3-%{name}
 %license LICENSE.txt
@@ -196,6 +199,12 @@ mkdir -p %{buildroot}%{_datadir}/%{name}
 
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 1.50.1-5
+- Fix to work with C++17 (streamoff is in std:: not std::ios::)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.50.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.50.1-3
 - Rebuilt for Python 3.9
 

@@ -3,7 +3,7 @@
 %global app_id org.gnome.Shell.Extensions.GSConnect
 
 Name:           gnome-shell-extension-gsconnect
-Version:        38
+Version:        43
 Release:        1%{?dist}
 Summary:        KDE Connect implementation for GNOME Shell
 
@@ -12,16 +12,23 @@ URL:            https://github.com/andyholmes/%{name}
 Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 Source1:        nautilus-gsconnect.metainfo.xml
 Source2:        nemo-gsconnect.metainfo.xml
+# Fix Firewalld path
+Patch0:         %{name}-42-firewalld.patch
 
 BuildRequires:  desktop-file-utils
+BuildRequires:  firewalld-filesystem
 BuildRequires:  gcc
 BuildRequires:  gettext
 BuildRequires:  libappstream-glib
 BuildRequires:  meson
 BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  pkgconfig(glib-2.0)
+Requires:       firewalld-filesystem
 Requires:       gnome-shell >= 3.36
+Requires:       openssh
+Requires:       openssh-clients
 Requires:       openssl
+Requires(post): firewalld-filesystem
 Suggests:       evolution-data-server
 Suggests:       gsound
 Suggests:       libcanberra-gtk3
@@ -82,7 +89,10 @@ by SMS.
 
 
 %build
-%meson
+%meson \
+    -Dfirewalld=true \
+    -Dinstalled_tests=false \
+    -Dnemo=true
 %meson_build
 
 
@@ -92,9 +102,6 @@ by SMS.
 # Install AppData files
 install -Dpm 0644 %{SOURCE1} %{SOURCE2} -t $RPM_BUILD_ROOT%{_metainfodir}/
 
-# Remove useless files
-rm $RPM_BUILD_ROOT%{_datadir}/gnome-shell/extensions/gsconnect@andyholmes.github.io/nautilus-gsconnect.py
-
 %find_lang %{app_id}
 
 
@@ -102,7 +109,14 @@ rm $RPM_BUILD_ROOT%{_datadir}/gnome-shell/extensions/gsconnect@andyholmes.github
 desktop-file-validate \
     $RPM_BUILD_ROOT%{_datadir}/applications/%{app_id}.desktop \
     $RPM_BUILD_ROOT%{_datadir}/applications/%{app_id}.Preferences.desktop
-appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_metainfodir}/nautilus-gsconnect.metainfo.xml
+appstream-util validate-relax --nonet \
+    $RPM_BUILD_ROOT%{_metainfodir}/nautilus-gsconnect.metainfo.xml \
+    $RPM_BUILD_ROOT%{_metainfodir}/nemo-gsconnect.metainfo.xml \
+    $RPM_BUILD_ROOT%{_metainfodir}/%{app_id}.metainfo.xml
+
+
+%post
+%firewalld_reload
 
 
 %files -f %{app_id}.lang
@@ -114,6 +128,8 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_metainfodir}/nautilus-gs
 %{_datadir}/dbus-1/services/%{app_id}.service
 %{_datadir}/glib-2.0/schemas/%{app_id}.gschema.xml
 %{_datadir}/icons/hicolor/scalable/apps/*.svg
+%{_prefix}/lib/firewalld/services/*.xml
+%{_metainfodir}/%{app_id}.metainfo.xml
 
 
 %files -n nautilus-gsconnect
@@ -122,7 +138,7 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_metainfodir}/nautilus-gs
 
 
 %files -n nemo-gsconnect
-%{_datadir}/nemo-python/extensions/nautilus-gsconnect.py
+%{_datadir}/nemo-python/extensions/nemo-gsconnect.py
 %{_metainfodir}/nemo-gsconnect.metainfo.xml
 
 
@@ -133,6 +149,25 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_metainfodir}/nautilus-gs
 
 
 %changelog
+* Tue Sep 22 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 43-1
+- Update to 43
+
+* Sun Sep 20 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 42-1
+- Update to 42
+
+* Wed Aug 19 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 41-1
+- Update to 41
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 39-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 39-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 39-1
+- Update to 39
+
 * Fri May 15 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 38-1
 - Update to 38
 

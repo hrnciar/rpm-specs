@@ -4,7 +4,7 @@
 
 Name:          mkrdns
 Version:       3.3
-Release:       2.20190902git%{shortcommit}%{?dist}
+Release:       3.20190902git%{shortcommit}%{?dist}
 Summary:       Automatic reverse DNS zone generator
 
 License:       GPLv2+
@@ -46,6 +46,9 @@ pod2man mkrdns %{buildroot}%{_mandir}/man1/mkrdns.1
 %{_mandir}/man1/mkrdns.1.gz
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-3.20190902git6b3f3a4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-2.20190902git6b3f3a4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

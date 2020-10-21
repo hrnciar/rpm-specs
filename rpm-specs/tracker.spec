@@ -7,8 +7,8 @@
 %global __requires_exclude ^(libtracker-common.so|libtracker-data.so)
 
 Name:           tracker
-Version:        2.3.4
-Release:        2%{?dist}
+Version:        2.3.6
+Release:        1%{?dist}
 Summary:        Desktop-neutral metadata database and search tool
 
 License:        GPLv2+
@@ -147,7 +147,6 @@ rm -rf $RPM_BUILD_ROOT%{_libdir}/tracker-2.0/trackertestutils/
 %{_libexecdir}/tracker-store
 %{_datadir}/dbus-1/services/org.freedesktop.Tracker1.service
 %{_mandir}/man1/tracker*.1*
-%config(noreplace) %{_sysconfdir}/xdg/autostart/tracker-store.desktop
 %dir %{_datadir}/bash-completion
 %dir %{_datadir}/bash-completion/completions
 %{_datadir}/bash-completion/completions/tracker
@@ -197,6 +196,18 @@ rm -rf $RPM_BUILD_ROOT%{_libdir}/tracker-2.0/trackertestutils/
 
 
 %changelog
+* Mon Sep 07 2020 Kalev Lember <klember@redhat.com> - 2.3.6-1
+- Update to 2.3.6
+
+* Tue Aug 25 2020 Kalev Lember <klember@redhat.com> - 2.3.5-1
+- Update to 2.3.5
+
+* Wed Aug 19 2020 Kalev Lember <klember@redhat.com> - 2.3.4-4
+- Rebuild for vala introspection generation regression
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 15 2020 Pete Walter <pwalter@fedoraproject.org> - 2.3.4-2
 - Rebuild for ICU 67
 

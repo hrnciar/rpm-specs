@@ -1,6 +1,6 @@
 Name:      munin
-Version:   2.0.54
-Release:   4%{?dist}
+Version:   2.0.63
+Release:   2%{?dist}
 Summary:   Network-wide resource monitoring tool
 License:   GPLv2
 URL:       http://munin-monitoring.org/
@@ -14,7 +14,6 @@ Source12:  munin.tmpfilesd
 Source13:  munin.cron.d
 Source131: munin.timer
 Source132: munin.service
-Source14:  asyncd-ssh.config
 Source15:  munin-rrdcached.service
 Source16:  httpd_cgi_graphs.conf
 Source17:  httpd_cron_graphs.conf
@@ -40,6 +39,7 @@ Source35:  munin-cgi-html.socket
 # Patches
 Patch101:  21b3d860c17d7997d64267963f91ed75ca8a3e03.patch
 Patch102:  postfix-category.patch
+Patch103:  munin-run_no_systemd.patch
 
 # Use some plugins from munin 3.0 branch
 Source200: mysql_
@@ -282,6 +282,7 @@ sed -i -e '
 
 %patch101 -p1
 %patch102 -p1
+%patch103 -p1
 
 cp %SOURCE16 .
 cp %SOURCE17 .
@@ -386,9 +387,8 @@ mkdir -p %{buildroot}%{_sysconfdir}/cron.d
 cp %{SOURCE13} %{buildroot}%{_sysconfdir}/cron.d/munin
 %endif
 
-# Default ssh config for asyncd
+# ssh for asyncd
 mkdir -p %{buildroot}%{_sharedstatedir}/munin/.ssh
-install -m 0600 %{SOURCE14} %{buildroot}%{_sharedstatedir}/munin/.ssh/config
 
 # rrdcached
 %if 0%{?rhel} >= 7 || 0%{?fedora} >= 16
@@ -446,11 +446,11 @@ exit 0
 %post
 # Create log files
 [ -f %{_localstatedir}/log/munin/munin-html.log ] || \
-    /usr/bin/install -m 0640 -o munin -g adm /dev/null %{_localstatedir}/log/munin/munin-html.log
+    /usr/bin/install -m 0640 -o munin -g root /dev/null %{_localstatedir}/log/munin/munin-html.log
 [ -f %{_localstatedir}/log/munin/munin-limits.log ] || \
-    /usr/bin/install -m 0640 -o munin -g adm /dev/null %{_localstatedir}/log/munin/munin-limits.log
+    /usr/bin/install -m 0640 -o munin -g root /dev/null %{_localstatedir}/log/munin/munin-limits.log
 [ -f %{_localstatedir}/log/munin/munin-update.log ] || \
-    /usr/bin/install -m 0640 -o munin -g adm /dev/null %{_localstatedir}/log/munin/munin-update.log
+    /usr/bin/install -m 0640 -o munin -g root /dev/null %{_localstatedir}/log/munin/munin-update.log
 # On new install only: create simple localhost config.
 if [ "$1" = "1" ]; then
     if [ ! -f %{_sysconfdir}/munin/conf.d/local.conf ]; then
@@ -660,13 +660,12 @@ fi
 %{perl_vendorlib}/Munin/Master
 %attr(-, munin, munin) %dir %{_sharedstatedir}/munin
 %attr(0700, munin, munin) %dir %{_sharedstatedir}/munin/.ssh
-%config(noreplace) %attr(0600, munin, munin) %{_sharedstatedir}/munin/.ssh/config
 %attr(-, munin, munin) %dir %{_localstatedir}/log/munin
 %attr(-, munin, munin) %dir %{_localstatedir}/www/html/munin
 %attr(-, munin, munin) %{_localstatedir}/www/html/munin/cgi
-%attr(0640, munin, adm) %ghost %{_localstatedir}/log/munin/munin-html.log
-%attr(0640, munin, adm) %ghost %{_localstatedir}/log/munin/munin-limits.log
-%attr(0640, munin, adm) %ghost %{_localstatedir}/log/munin/munin-update.log
+%attr(0640, munin, root) %ghost %{_localstatedir}/log/munin/munin-html.log
+%attr(0640, munin, root) %ghost %{_localstatedir}/log/munin/munin-limits.log
+%attr(0640, munin, root) %ghost %{_localstatedir}/log/munin/munin-update.log
 %if 0%{?rhel} >= 7 || 0%{?fedora} >= 16
 %attr(-, munin, munin) %dir %{_sharedstatedir}/munin/rrdcached
 %{_unitdir}/munin-rrdcached.service
@@ -770,6 +769,17 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.63-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul  6 2020 Kim B. Heino <b@bbbs.net> - 2.0.63-1
+- Upgrade to 2.0.63
+- Don't use systemd-run in munin-run, rhbz #1852345
+- Use "Type=notify" for munin-node and munin-asyncd
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.0.54-5
+- Perl 5.32 rebuild
+
 * Tue Mar 24 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.0.54-4
 - Specify all perl's dependencies for build
 

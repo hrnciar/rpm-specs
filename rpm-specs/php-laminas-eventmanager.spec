@@ -6,8 +6,14 @@
 #
 # Please, preserve the changelog entries
 #
-%global bootstrap    0
-%global gh_commit    ce4dc0bdf3b14b7f9815775af9dfee80a63b4748
+%bcond_with          bootstrap
+%if %{with bootstrap}
+%bcond_with          tests
+%else
+%bcond_without       tests
+%endif
+
+%global gh_commit    1940ccf30e058b2fd66f5a9d696f1b5e0027b082
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     laminas
 %global gh_project   laminas-eventmanager
@@ -15,15 +21,10 @@
 %global php_home     %{_datadir}/php
 %global namespace    Laminas
 %global library      EventManager
-%if %{bootstrap}
-%global with_tests   0%{?_with_tests:1}
-%else
-%global with_tests   0%{!?_without_tests:1}
-%endif
 
 Name:           php-%{gh_project}
-Version:        3.2.1
-Release:        3%{?dist}
+Version:        3.3.0
+Release:        1%{?dist}
 Summary:        Trigger and listen to events within a PHP application
 
 License:        BSD
@@ -33,33 +34,33 @@ Source1:        makesrc.sh
 
 BuildArch:      noarch
 # Tests
-%if %{with_tests}
-BuildRequires:  php(language) >= 5.6
+%if %{with tests}
+BuildRequires:  php(language) >= 7.3
 BuildRequires: (php-composer(%{gh_owner}/laminas-zendframework-bridge) >= 1.0 with php-composer(%{gh_owner}/laminas-zendframework-bridge) < 2)
 BuildRequires:  php-reflection
 BuildRequires:  php-spl
 # From composer, "require-dev": {
-#        "athletic/athletic": "^0.1",
-#        "container-interop/container-interop": "^1.1.0",
+#        "container-interop/container-interop": "^1.1",
 #        "laminas/laminas-coding-standard": "~1.0.0",
 #        "laminas/laminas-stdlib": "^2.7.3 || ^3.0",
-#        "phpunit/phpunit": "^5.7.27 || ^6.5.8 || ^7.1.2"
-BuildRequires: (php-composer(container-interop/container-interop) >= 1.1.0 with php-composer(container-interop/container-interop) < 2)
+#        "phpbench/phpbench": "^0.17.1",
+#        "phpunit/phpunit": "^8.5.8"
+BuildRequires: (php-composer(container-interop/container-interop) >= 1.1   with php-composer(container-interop/container-interop) < 2)
 BuildRequires: (php-autoloader(%{gh_owner}/laminas-stdlib)        >= 3.0   with php-autoloader(%{gh_owner}/laminas-stdlib)        < 4)
-%global phpunit %{_bindir}/phpunit7
-BuildRequires:  phpunit7 >= 7.1.2
+%global phpunit %{_bindir}/phpunit8
+BuildRequires:  phpunit8 >= 8.5.8
 # Autoloader
 BuildRequires:  php-fedora-autoloader-devel
 %endif
 
 # From composer, "require": {
-#        "php": "^5.6 || ^7.0",
+#        "php": "^7.3 || ^8.0",
 #        "laminas/laminas-zendframework-bridge": "^1.0"
-Requires:       php(language) >= 5.6
+Requires:       php(language) >= 7.3
 Requires:      (php-composer(%{gh_owner}/laminas-zendframework-bridge) >= 1.0 with php-composer(%{gh_owner}/laminas-zendframework-bridge) < 2)
-%if ! %{bootstrap}
+%if  %{without bootstrap}
 # From composer, "suggest": {
-#        "container-interop/container-interop": "^1.1.0, to use the lazy listeners feature",
+#        "container-interop/container-interop": "^1.1, to use the lazy listeners feature",
 #        "laminas/laminas-stdlib": "^2.7.3 || ^3.0, to use the FilterChain feature"
 Suggests:       php-composer(container-interop/container-interop)
 Suggests:       php-composer(%{gh_owner}/laminas-stdlib)
@@ -71,8 +72,8 @@ Requires:       php-spl
 Requires:       php-composer(fedora/autoloader)
 
 # Compatibily ensure by the bridge
-Obsoletes:      php-zendframework-%{zf_name}              < 3.2.1-99
-Provides:       php-zendframework-%{zf_name}              = %{version}-99
+Obsoletes:      php-zendframework-%{zf_name}              < 3.2.2
+Provides:       php-zendframework-%{zf_name}              = %{version}
 Provides:       php-composer(%{gh_owner}/%{gh_project})   = %{version}
 Provides:       php-composer(zendframework/%{zf_name})    = %{version}
 Provides:       php-autoloader(%{gh_owner}/%{gh_project}) = %{version}
@@ -129,7 +130,7 @@ cp -pr zf.php %{buildroot}%{php_home}/Zend/%{library}/autoload.php
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 cat << 'EOF' | tee vendor/autoload.php
 <?php
@@ -139,10 +140,10 @@ require_once __DIR__ . '/../test/_autoload.php';
 EOF
 
 ret=0
-for cmdarg in "php %{phpunit}" php72 php73 php74; do
+for cmdarg in "php %{phpunit}" php72 php73 php74 php80; do
   if which $cmdarg; then
     set $cmdarg
-    $1 ${2:-%{_bindir}/phpunit7} --verbose || ret=1
+    $1 ${2:-%{_bindir}/phpunit8} --verbose || ret=1
   fi
 done
 
@@ -167,6 +168,14 @@ exit $ret
 
 
 %changelog
+* Tue Aug 25 2020 Remi Collet <remi@remirepo.net> - 3.3.0-1
+- update to 3.3.0
+- raise dependency on PHP 7.3
+- switch to phpunit 8.5
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

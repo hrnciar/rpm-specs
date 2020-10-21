@@ -3,12 +3,13 @@
 
 Name: fstrm
 Summary: Frame Streams implementation in C
-Version: 0.5.0
-Release: 2%{?dist}
+Version: 0.6.0
+Release: 3%{?dist}
 License: MIT
 URL: https://github.com/farsightsec/fstrm
-Source0: https://github.com/farsightsec/fstrm/releases/download/v%{version}/fstrm-%{version}.tar.gz
+Source0: https://dl.farsightsecurity.com/dist/%{name}/%{name}-%{version}.tar.gz
 BuildRequires: autoconf automake libtool
+BuildRequires: libevent-devel
 
 %description
 Frame Streams is a light weight, binary clean protocol that allows for the
@@ -17,6 +18,20 @@ overhead -- just four bytes per data frame. Frame Streams does not specify
 an encoding format for data frames and can be used with any data serialization
 format that produces byte sequences, such as Protocol Buffers, XML, JSON,
 MessagePack, YAML, etc.
+
+%package utils
+Summary: Frame Streams (fstrm) utilities
+Requires: %{name}%{?_isa} = %{version}-%{release}
+
+%description utils
+Frame Streams is a light weight, binary clean protocol that allows for the
+transport of arbitrarily encoded data payload sequences with minimal framing
+overhead -- just four bytes per data frame. Frame Streams does not specify
+an encoding format for data frames and can be used with any data serialization
+format that produces byte sequences, such as Protocol Buffers, XML, JSON,
+MessagePack, YAML, etc.
+
+The fstrm-utils package contains command line utilities.
 
 %package devel
 Summary: Development Files for fstrm library
@@ -30,7 +45,6 @@ using fstrm library.
 Summary: API documentation for fstrm library
 BuildArch: noarch
 BuildRequires: doxygen
-BuildRequires: libevent-devel
 Requires: %{name} = %{version}-%{release}
 
 %description doc
@@ -64,8 +78,8 @@ make check
 %if 0%{?fedora} || 0%{?rhel} > 7
 # https://fedoraproject.org/wiki/Changes/Removing_ldconfig_scriptlets
 %else
-%post libs -p /sbin/ldconfig
-%postun libs -p /sbin/ldconfig
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
 %endif
 
 %files
@@ -73,12 +87,14 @@ make check
 %exclude %{_pkgdocdir}/html
 %{_libdir}/libfstrm.so.*
 
-%files devel
-%doc README.md
+%files utils
 %{_bindir}/fstrm_capture
 %{_bindir}/fstrm_dump
 %{_bindir}/fstrm_replay
 %{_mandir}/man1/fstrm_*
+
+%files devel
+%doc README.md
 %{_includedir}/fstrm.h
 %{_includedir}/fstrm/
 %{_libdir}/pkgconfig/libfstrm.pc
@@ -88,6 +104,18 @@ make check
 %doc %{_pkgdocdir}/html
 
 %changelog
+* Tue Sep 15 2020 Petr Menšík <pemensik@redhat.com> - 0.6.0-3
+- Move command line tools to utils subpackage
+
+* Tue Sep 15 2020 Petr Menšík <pemensik@redhat.com> - 0.6.0-2
+- Rebuilt for libevent rebase
+
+* Tue Aug 11 2020 Michał Kępień <michal@isc.org> - 0.6.0-1
+- Update to new upstream version 0.6.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

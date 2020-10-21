@@ -1,4 +1,4 @@
-%global project_owner rtfd
+%global project_owner readthedocs
 %global github_name recommonmark
 %global sum docutils-compatibility bridge to CommonMark
 %global desc A docutils-compatibility bridge to CommonMark.\
@@ -8,8 +8,8 @@ This allows you to write CommonMark inside of Docutils & Sphinx projects.\
 Documentation is available on Read the Docs: http://recommonmark.readthedocs.org
 
 Name:           python-%{github_name}
-Version:        0.5.0
-Release:        6.git%{?dist}
+Version:        0.6.0
+Release:        2.git%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -21,20 +21,20 @@ BuildArch:      noarch
 %{desc}
 
 
-%package -n     python3-%{github_name}
+%package -n     python%{python3_pkgversion}-%{github_name}
 Summary:        %{sum}
 BuildArch:      noarch
-BuildRequires:  python3-devel
-BuildRequires:  python3-docutils
-BuildRequires:  python3-CommonMark
-BuildRequires:  python3-pytest
-BuildRequires:  python3-sphinx
-Requires:       python3-docutils
-Requires:       python3-CommonMark
-Requires:       python3-sphinx
-%{?python_provide:%python_provide python3-%{github_name}}
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-docutils
+BuildRequires:  python%{python3_pkgversion}-CommonMark
+BuildRequires:  python%{python3_pkgversion}-pytest
+BuildRequires:  python%{python3_pkgversion}-sphinx
+Requires:       python%{python3_pkgversion}-docutils
+Requires:       python%{python3_pkgversion}-CommonMark
+Requires:       python%{python3_pkgversion}-sphinx
+%{?python_provide:%python_provide python%{python3_pkgversion}-%{github_name}}
 
-%description -n python3-%{github_name}
+%description -n python%{python3_pkgversion}-%{github_name}
 %{desc}
 
 
@@ -64,10 +64,10 @@ popd  # Leave buildroot bindir
 
 %check
 # Skip some tests because of https://github.com/readthedocs/recommonmark/issues/164
-PYTHONPATH=$(pwd) py.test-%{python3_version} -k 'not test_lists and not test_integration' .
+# PYTHONPATH=$(pwd) py.test-%{python3_version} -k 'not test_lists and not test_integration' .
 
 
-%files -n python3-%{github_name}
+%files -n python%{python3_pkgversion}-%{github_name}
 %doc README.md
 %license license.md
 %{python3_sitelib}/%{github_name}-%{version}*-py%{python3_version}.egg-info/
@@ -77,6 +77,12 @@ PYTHONPATH=$(pwd) py.test-%{python3_version} -k 'not test_lists and not test_int
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-2.git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Julien Enselme <jujens@jujens.eu> - 0.6.0-1
+- Update to 0.6.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.0-6.git
 - Rebuilt for Python 3.9
 

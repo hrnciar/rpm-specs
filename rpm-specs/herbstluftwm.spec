@@ -1,6 +1,6 @@
 Name:           herbstluftwm
 Version:        0.7.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A manual tiling window manager
 License:        BSD
 URL:            http://herbstluftwm.org
@@ -95,6 +95,9 @@ mv %{buildroot}%{_datadir}/bash-completion/completions/herbstclient-completion \
 %{_datadir}/fish/vendor_completions.d/herbstclient.fish
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

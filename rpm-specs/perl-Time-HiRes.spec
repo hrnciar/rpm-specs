@@ -1,14 +1,11 @@
-%global base_version 1.9760
-
 Name:           perl-Time-HiRes
 Version:        1.9764
-Release:        456%{?dist}
+Release:        458%{?dist}
 Summary:        High resolution alarm, sleep, gettimeofday, interval timers
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Time-HiRes
-Source0:        https://cpan.metacpan.org/authors/id/A/AT/ATOOMIC/Time-HiRes-%{base_version}.tar.gz
-# Unbundled from perl 5.32.0
-Patch0:         Time-HiRes-1.9760-Upgrade-to-1.9764.patch
+Source0:        https://cpan.metacpan.org/authors/id/A/AT/ATOOMIC/Time-HiRes-%{version}.tar.gz
+BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  gcc
 BuildRequires:  make
@@ -41,8 +38,7 @@ ualarm, gettimeofday, and setitimer/getitimer system calls, in other words,
 high resolution time and timers.
 
 %prep
-%setup -q -n Time-HiRes-%{base_version}
-%patch0 -p1
+%setup -q -n Time-HiRes-%{version}
 
 %build
 unset PERL_CORE
@@ -64,6 +60,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Aug 11 2020 Petr Pisar <ppisar@redhat.com> - 1.9764-458
+- Use an upstream release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9764-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.9764-456
 - Upgrade to 1.9764 as provided in perl-5.32.0
 

@@ -3,7 +3,7 @@
 
 Name:           bumpversion
 Version:        0.5.8
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Version-bump your software with a single command
 
 License:        MIT
@@ -49,6 +49,9 @@ mv %{buildroot}%{_bindir}/%{ghname} %{buildroot}%{_bindir}/%{name}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.8-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.8-9
 - Rebuilt for Python 3.9
 

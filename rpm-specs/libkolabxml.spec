@@ -6,12 +6,7 @@
 %global with_csharp 0
 %endif
 %global with_java 1
-%if 0%{?fedora} > 24
-# FTBFS on rawhide -- rex
 %global with_php 1
-%else
-%global with_php 1
-%endif
 %global with_python 1
 
 %if 0%{?with_php} > 0
@@ -50,14 +45,13 @@
 %endif
 
 Name:           libkolabxml
-Version:        1.1.6
-Release:        16%{?dist}
+Version:        1.2.0
+Release:        1%{?dist}
 Summary:        Kolab XML format collection parser library
 
 License:        LGPLv3+
 URL:            http://www.kolab.org
 
-#Source0:       http://mirror.kolabsys.com/pub/releases/libkolabxml-%{version}.tar.gz
 Source0:        https://cgit.kolab.org/libkolabxml/snapshot/libkolabxml-%{version}.tar.gz
 
 BuildRequires:  boost-devel
@@ -65,7 +59,7 @@ BuildRequires:  cmake >= 2.6
 BuildRequires:  e2fsprogs-devel
 BuildRequires:  gcc-c++
 BuildRequires:  libcurl-devel
-# only used in tests?
+# only used in tests
 BuildRequires:  qt4-devel
 BuildRequires:  swig
 BuildRequires:  uuid-devel
@@ -169,8 +163,6 @@ sed -i "s/-php/-php7/g" src/php/CMakeLists.txt
 
 
 %build
-mkdir build
-pushd build
 %cmake .. \
 %if 0%{?with_csharp} > 0
     -DCSHARP_BINDINGS=ON \
@@ -189,12 +181,10 @@ pushd build
     -DPYTHON_INSTALL_DIR=%{python3_sitearch}
 %endif
 
-popd
-
-make -C build
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot} INSTALL='install -p' -C build
+%cmake_install
 
 %if 0%{?with_php} > 0
 mkdir -p \
@@ -208,7 +198,7 @@ EOF
 
 
 %check
-pushd build
+pushd %{_vpath_builddir}
 # Make sure libkolabxml.so.* is found, otherwise the tests fail
 export LD_LIBRARY_PATH=$( pwd )/src/
 pushd tests
@@ -265,6 +255,22 @@ popd
 
 
 %changelog
+* Mon Sep 28 2020 Jeff Law <law@redhat.com> - 1.2.0-1
+- Re-enable LTO
+
+* Sat Aug 15 2020 Timotheus Pokorra <timotheus.pokorra@solidcharity.com> - 1.2.0-0
+- Upgrade to libkolabxml 1.2.0
+
+* Mon Aug 10 2020 Timotheus Pokorra <timotheus.pokorra@solidcharity.com> - 1.1.6-19
+- Adjusted for new cmake macros (out of source builds)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.6-18
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.6-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Jonathan Wakely <jwakely@redhat.com> - 1.1.6-16
 - Rebuilt for Boost 1.73
 

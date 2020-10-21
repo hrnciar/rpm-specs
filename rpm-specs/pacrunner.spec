@@ -1,6 +1,6 @@
 Name:		pacrunner
 Version:	0.16
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Proxy configuration dæmon
 License:	GPLv2
 URL:		http://connman.net/
@@ -42,6 +42,9 @@ make install DESTDIR=$RPM_BUILD_ROOT testdir=%{_libexecdir}/pacrunner
 %{_sysconfdir}/dbus-1/system.d/pacrunner.conf
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

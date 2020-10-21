@@ -1,5 +1,5 @@
 Name:           libgdata
-Version:        0.17.12
+Version:        0.17.13
 Release:        1%{?dist}
 Summary:        Library for the GData protocol
 
@@ -13,7 +13,7 @@ BuildRequires:  glib2-devel
 BuildRequires:  gnome-online-accounts-devel
 BuildRequires:  gobject-introspection-devel
 BuildRequires:  gtk-doc
-%if ! 0%{?rhel}
+%if 0%{?fedora} || 0%{?rhel} >= 9
 BuildRequires:  uhttpmock-devel
 %endif
 BuildRequires:  json-glib-devel
@@ -46,7 +46,9 @@ developing applications that use %{name}.
 %build
 export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 %meson \
-  -Dinstalled_tests=false
+  -Dinstalled_tests=false \
+  -Dgtk_doc=true \
+  %{nil}
 %meson_build
 
 %install
@@ -81,6 +83,15 @@ export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 %{_datadir}/vala/
 
 %changelog
+* Thu Sep 03 2020 Kalev Lember <klember@redhat.com> - 0.17.13-1
+- Update to 0.17.13
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.12-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Merlin Mathesius <mmathesi@redhat.com> - 0.17.12-2
+- Minor conditional fixes for ELN
+
 * Mon Mar 02 2020 Kalev Lember <klember@redhat.com> - 0.17.12-1
 - Update to 0.17.12
 

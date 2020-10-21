@@ -4,9 +4,11 @@
 
 # https://github.com/google/go-github
 %global goipath         github.com/google/go-github
-Version:                27.0.1
+Version:                32.1.0
 
 %gometa
+
+%global goaltipaths     github.com/google/go-github/v32
 
 %global common_description %{expand:
 Package Github provides a client for using the GitHub API.}
@@ -15,7 +17,7 @@ Package Github provides a client for using the GitHub API.}
 %global godocs          example AUTHORS CONTRIBUTING.md README.md
 
 Name:           golang-github-google-go-github
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Go library for accessing the GitHub API
 
 # Upstream license specification: BSD-3-Clause
@@ -24,11 +26,21 @@ URL:            %{gourl}
 Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/google/go-querystring/query)
+BuildRequires:  golang(github.com/PuerkitoBio/goquery)
+BuildRequires:  golang(github.com/xlzd/gotp)
 BuildRequires:  golang(golang.org/x/crypto/openpgp)
 BuildRequires:  golang(golang.org/x/crypto/ssh/terminal)
+BuildRequires:  golang(golang.org/x/net/html)
+BuildRequires:  golang(golang.org/x/net/publicsuffix)
 BuildRequires:  golang(golang.org/x/oauth2)
 BuildRequires:  golang(google.golang.org/appengine)
 BuildRequires:  golang(google.golang.org/appengine/log)
+
+%if %{with check}
+# Tests
+BuildRequires:  golang(github.com/google/go-cmp/cmp)
+BuildRequires:  golang(github.com/pmezard/go-difflib/difflib)
+%endif
 
 %description
 %{common_description}
@@ -49,6 +61,16 @@ BuildRequires:  golang(google.golang.org/appengine/log)
 %gopkgfiles
 
 %changelog
+* Sun Aug 09 16:05:13 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 32.1.0-1
+- Release 32.1.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 27.0.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 27.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 27.0.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

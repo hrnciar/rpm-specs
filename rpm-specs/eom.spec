@@ -13,11 +13,11 @@
 %{!?rel_build:%global git_tar %{name}-%{version}-%{git_ver}.tar.xz}
 
 Name:          eom
-Version:       %{branch}.0
+Version:       %{branch}.1
 %if 0%{?rel_build}
-Release:       2%{?dist}
+Release:       1%{?dist}
 %else
-Release:       0.10%{?git_rel}%{?dist}
+Release:       0.11%{?git_rel}%{?dist}
 %endif
 Summary:       Eye of MATE image viewer
 License:       GPLv2+ and LGPLv2+ 
@@ -28,17 +28,6 @@ URL:           http://mate-desktop.org
 %{?rel_build:Source0:     http://pub.mate-desktop.org/releases/%{branch}/%{name}-%{version}.tar.xz}
 # Source for snapshot-builds.
 %{!?rel_build:Source0:    http://git.mate-desktop.org/%{name}/snapshot/%{name}-%{commit}.tar.xz#/%{git_tar}}
-
-# https://github.com/mate-desktop/eom/commit/ebd973c
-Patch1:        eom_0001-Update-authors.patch
-# https://github.com/mate-desktop/eom/pull/260
-Patch2:        eom_0001-Use-user-page-on-github-when-user-email-is-private.patch
-# https://github.com/mate-desktop/eom/commit/a05604a
-Patch3:        eom_0001-help-Fix-Image-Collection-shortcut-263.patch
-# https://github.com/mate-desktop/eom/commit/c76bfbc
-Patch4:        eom_0002-help-Fix-some-incongruencies.patch
-# https://github.com/mate-desktop/eom/pull/266
-Patch5:        eom_0003-eom.desktop-Do-not-collect-the-translation-for-Icon.patch
 
 BuildRequires: mate-common
 BuildRequires: zlib-devel
@@ -53,7 +42,6 @@ BuildRequires: libexif-devel
 BuildRequires: exempi-devel
 BuildRequires: librsvg2-devel
 BuildRequires: lcms2-devel
-BuildRequires: dbus-glib-devel
 BuildRequires: desktop-file-utils
 
 #fix rhbz (#1008249)
@@ -90,9 +78,6 @@ Development files for eom
 # needed for git snapshots
 NOCONFIGURE=1 ./autogen.sh
 %endif # 0%{?rel_build}
-
-# patch3
-NOCONFIGURE=1 ./autogen.sh
 
 %build
 %configure \
@@ -145,6 +130,12 @@ find ${RPM_BUILD_ROOT} -type f -name "*.la" -exec rm -f {} ';'
 
 
 %changelog
+* Sun Aug 16 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- update to 1.24.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 15 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-2
 - add upstream patches
 - update authors in about

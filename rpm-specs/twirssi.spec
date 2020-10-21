@@ -1,6 +1,6 @@
 Name:           twirssi
 Version:        2.6.4
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        An Irssi script to interact with Twitter
 License:        GPLv2
 URL:            http://twirssi.com/
@@ -51,6 +51,9 @@ install -m 644 -p %{SOURCE2} $RPM_BUILD_ROOT%{_pkgdocdir}
 %doc %{_pkgdocdir}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.4-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.4-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

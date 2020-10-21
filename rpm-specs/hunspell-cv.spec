@@ -1,7 +1,7 @@
 Name: hunspell-cv
 Summary: Chuvash hunspell dictionaries
 Version: 1.06
-Release: 5%{?dist}
+Release: 6%{?dist}
 Source: http://hunspell.chv.su/files/Chuvash_Spell-1.06.oxt
 URL: http://hunspell.chv.su/download.shtml
 License: GPLv3+ or LGPLv3+ or MPLv1.1
@@ -33,6 +33,9 @@ cp -p cv_RU.* $RPM_BUILD_ROOT/%{_datadir}/myspell/
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.06-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.06-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

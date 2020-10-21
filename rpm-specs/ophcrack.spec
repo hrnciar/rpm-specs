@@ -1,6 +1,6 @@
 Name:           ophcrack
 Version:        3.8.0
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Free Windows password cracker based on rainbow tables
 License:        GPLv2+ with exceptions
 URL:            https://ophcrack.sourceforge.io
@@ -12,7 +12,6 @@ Patch0:         0001-correct-FSF-address.patch
 
 # upstreamable
 BuildRequires:  automake libtool
-BuildRequires:  qt5-devel
 BuildRequires:  openssl-devel
 BuildRequires:  expat-devel
 BuildRequires:  desktop-file-utils
@@ -76,6 +75,12 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %{_datadir}/applications/%{name}.desktop
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Jeff Law <law@redhat.com> - 3.8.0-5
+- Drop build requirement for qt5-devel
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

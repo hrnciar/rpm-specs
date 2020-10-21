@@ -1,6 +1,6 @@
 Name:           perl-CGI-FastTemplate
 Version:        1.09
-Release:        36%{?dist}
+Release:        37%{?dist}
 Summary:        Perl extension for managing templates and performing variable interpolation
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/CGI-FastTemplate
@@ -40,6 +40,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.09-37
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.09-36
 - Perl 5.32 rebuild
 

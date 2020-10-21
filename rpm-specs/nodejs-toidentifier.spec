@@ -2,7 +2,7 @@
 
 Name:           nodejs-%{npmname}
 Version:        1.0.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Convert a string of words to a JavaScript identifier
 
 License:        MIT
@@ -47,5 +47,12 @@ mocha --reporter spec --bail --check-leaks test/
 %doc README.md
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 2020 Ben Rosser <rosser.bjr@gmail.com> - 1.0.0-1
 - Initial package for Fedora.

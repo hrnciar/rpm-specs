@@ -1,6 +1,6 @@
 Name:           perl-SQL-Interp
 Version:        1.26
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Interpolate Perl variables into SQL statements
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/SQL-Interp
@@ -59,6 +59,9 @@ perl Build.PL installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.26-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.26-2
 - Perl 5.32 rebuild
 

@@ -1,8 +1,9 @@
+%global __cmake_in_source_build 1
 %global         _with_cppunit 1
 
 Name:           xournalpp
 Version:        1.0.18
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Handwriting note-taking software with PDF annotation support
 
 License:        GPLv2+
@@ -57,15 +58,16 @@ sed -i 's|tlh-AA|tlh|g' po/tlh.po
 
 %build
 %cmake3 \
-        %{_with_cppunit: -DENABLE_CPPUNIT=ON} \
-        .
+        %{?_with_cppunit: -DENABLE_CPPUNIT=ON} \
+	%{nil}
 
+%cmake3_build
 # Add translations parameter
 # https://github.com/xournalpp/xournalpp/issues/1596
-%make_build translations
+%cmake3_build --target translations
 
 %install
-%make_install
+%cmake3_install
 
 #Remove depreciated key from desktop file
 #Fix desktop file associated with application
@@ -105,6 +107,13 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/com.github.%{n
 %{_datadir}/%{name}/ui
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.18-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.18-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.0.18-2
 - Set value key on desktop file associated with application (#1826395)
 

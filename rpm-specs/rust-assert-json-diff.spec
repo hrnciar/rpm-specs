@@ -5,8 +5,8 @@
 %global crate assert-json-diff
 
 Name:           rust-%{crate}
-Version:        1.0.3
-Release:        1%{?dist}
+Version:        1.1.0
+Release:        2%{?dist}
 Summary:        Easily compare two JSON values and get great output
 
 # Upstream license specification: MIT
@@ -71,6 +71,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Josh Stone <jistone@redhat.com> - 1.1.0-1
+- Update to 1.1.0
+
 * Tue Mar 10 2020 Josh Stone <jistone@redhat.com> - 1.0.3-1
 - Update to 1.0.3
 

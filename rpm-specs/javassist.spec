@@ -1,21 +1,20 @@
+Name:           javassist
+Version:        3.27.0
+Release:        1%{?dist}
+Summary:        Java Programming Assistant for Java bytecode manipulation
+License:        MPLv1.1 or LGPLv2+ or ASL 2.0
+
 %global upstream_version rel_%(sed s/\\\\./_/g <<<"%{version}")_ga
 
-Name:           javassist
-Version:        3.21.0
-Release:        1%{?dist}
-Summary:        The Java Programming Assistant provides simple Java bytecode manipulation
-License:        MPLv1.1 or LGPLv2+ or ASL 2.0
 URL:            https://www.javassist.org/
+Source0:        https://github.com/jboss-%{name}/%{name}/archive/%{upstream_version}/%{name}-%{version}.tar.gz
+
 BuildArch:      noarch
-
-Source0:        https://github.com/jboss-%{name}/%{name}/archive/%{upstream_version}.tar.gz
-
-Patch0:         0001-Remove-usage-of-junit.awtui-and-junit.swingui.patch
 
 BuildRequires:  maven-local
 BuildRequires:  mvn(junit:junit)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
-BuildRequires:  mvn(org.apache.maven.plugins:maven-source-plugin)
+BuildRequires:  mvn(org.hamcrest:hamcrest-all)
 
 %description
 Javassist enables Java programs to define a new class at runtime and to
@@ -29,38 +28,60 @@ source text; Javassist compiles it on the fly. On the other hand, the
 bytecode-level API allows the users to directly edit a class file as
 other editors.
 
+
 %package javadoc
-Summary:           Javadocs for javassist
-Requires:          jpackage-utils
+Summary:        Javadocs for javassist
 
 %description javadoc
 javassist development documentation.
 
+
 %prep
 %setup -q -n %{name}-%{upstream_version}
-find . -name \*.jar -type f -delete
-mkdir runtest
-%patch0 -p1
-%pom_xpath_remove "pom:profile[pom:id='default-tools']"
-%pom_add_dep com.sun:tools
 
-%mvn_file : %{name}
+# remove unnecessary maven plugins
+%pom_remove_plugin :maven-source-plugin
+
+# disable profiles that only add com.sun:tools dependency
+%pom_xpath_remove "pom:profiles"
+
+# add compatibility alias for old maven artifact coordinates
 %mvn_alias : %{name}:%{name}
 
+# add compatibility symlink for old classpath
+%mvn_file : %{name}
+
+
 %build
-# TODO: enable tests
-%mvn_build -f
+%mvn_build
+
+# remove bundled jar and class files *after* they were used for running tests
+rm javassist.jar src/test/resources/*.jar
+find src/test -name "*.class" -print -delete
+
 
 %install
 %mvn_install
 
+
 %files -f .mfiles
-%doc License.html Readme.html
+%license License.html
+%doc Readme.html
 
 %files javadoc -f .mfiles-javadoc
-%doc License.html
+%license License.html
+
 
 %changelog
+* Wed Sep 02 2020 Fabio Valentini <decathorpe@gmail.com> - 3.27.0-1
+- Update to version 3.27.0.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.21.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.21.0-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Mar 25 2020 Dinesh Prasanth <dmoluguw@redhat.com> - 3.21.0-1
 - Rebase to 3.21.0
 
@@ -169,3 +190,4 @@ mkdir runtest
 
 * Tue Dec 16 2008 Sandro Mathys <red at fedoraproject.org> - 3.9.0-1
 - initial build
+

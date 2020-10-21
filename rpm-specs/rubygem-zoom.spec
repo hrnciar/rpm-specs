@@ -7,7 +7,7 @@
 
 Name:		rubygem-%{gem_name}
 Version:	0.5.0
-Release:	17%{?dist}
+Release:	18%{?dist}
 Summary:	Ruby binding to ZOOM
 
 License:	LGPLv2+
@@ -117,6 +117,9 @@ popd
 %exclude	%{gem_instdir}/test/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -5,7 +5,7 @@
 %global crate zincati
 
 Name:           rust-%{crate}
-Version:        0.0.11
+Version:        0.0.13
 Release:        1%{?dist}
 Summary:        Update agent for Fedora CoreOS
 
@@ -14,8 +14,11 @@ License:        ASL 2.0
 URL:            https://crates.io/crates/zincati
 Source:         %{crates_source}
 # Initial patched metadata
-# - Update actix from ^0.9 to 0.10.0-alpha.2
+# - Update actix from ^0.9 to 0.10.0
 Patch0:         zincati-fix-metadata.diff
+# Port to the new actix. Can drop after next upstream release.
+# https://github.com/coreos/zincati/commit/231d7cb
+Patch1:         0001-update_agent-adapt-to-actix-0.10-API-changes.patch
 
 ExclusiveArch:  %{rust_arches}
 
@@ -31,16 +34,16 @@ Update agent for Fedora CoreOS.}
 
 %package     -n %{crate}
 Summary:        %{summary}
-# * (MIT or ASL 2.0) and BSD
-# * ASL 2.0
-# * ASL 2.0 or Boost
-# * ASL 2.0 or MIT
-# * BSD
-# * MIT
-# * MIT or ASL 2.0
-# * MPLv2.0
-# * Unlicense or MIT
-License:        ASL 2.0 and BSD and MIT and MPLv2.0
+# (MIT or ASL 2.0) and BSD
+# ASL 2.0
+# ASL 2.0 or Boost
+# BSD
+# MIT
+# MIT or ASL 2.0
+# MPLv2.0
+# Unlicense or MIT
+# zlib
+License:        ASL 2.0 and BSD and MIT and MPLv2.0 and zlib
 
 %description -n %{crate} %{_description}
 
@@ -68,10 +71,6 @@ License:        ASL 2.0 and BSD and MIT and MPLv2.0
 %{_tmpfilesdir}/zincati.conf
 %{_datadir}/polkit-1/rules.d/zincati.rules
 
-%pre         -n %{crate}
-%sysusers_create_package %{crate} 50-zincati.conf
-%tmpfiles_create_package %{crate} zincati.conf
-
 %post        -n %{crate}
 %systemd_post zincati.service
 
@@ -83,8 +82,6 @@ License:        ASL 2.0 and BSD and MIT and MPLv2.0
 
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
-# Port to the new actix
-sed -i -e "s/Box::new/Box::pin/g" src/update_agent/actor.rs
 %cargo_prep
 
 %generate_buildrequires
@@ -122,6 +119,28 @@ ln -snf /run/%{crate}/public/metrics.promsock %{buildroot}/run/%{crate}/private/
 %endif
 
 %changelog
+* Tue Sep 29 2020 Dusty Mabe <dusty@dustymabe.com> - 0.0.13-1
+- Update to 0.0.13
+
+* Wed Sep 23 2020 Kelvin Fan <kfan@redhat.com> - 0.0.12-6
+- Remove unnecessary usage of systemd RPM macro in %pre
+
+* Sun Aug 16 15:01:58 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.0.12-5
+- Rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.12-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.12-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Robert Fairley <rfairley@redhat.com> - 0.0.12-2
+- Correct date in previous changelog
+
+* Mon Jun 29 2020 Robert Fairley <rfairley@redhat.com> - 0.0.12-1
+- Update to 0.0.12
+
 * Fri May 22 12:14:40 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.0.11-1
 - Update to 0.0.11
 

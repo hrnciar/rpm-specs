@@ -1,6 +1,6 @@
 Name:           SoapySDR
-Version:        0.7.1
-Release:        6%{?dist}
+Version:        0.7.2
+Release:        9%{?dist}
 Summary:        A Vendor Neutral and Platform Independent SDR Support Library
 
 License:        Boost
@@ -45,20 +45,19 @@ library header file documentation.
     
     
 %prep
-%autosetup -n %{name}-%{version}
-
-# https://github.com/pothosware/SoapySDR/issues/228
-sed -i 's/ -Wl,--no-undefined//g' cmake/Modules/SoapySDRConfig.cmake
+%autosetup -n %{name}-soapy-sdr-%{version}
 
 %build
 export Python_ADDITIONAL_VERSIONS="%{python3_version}"
-%cmake .  -DUSE_PYTHON_CONFIG=ON -DPYTHON3_EXECUTABLE=%{__python3}
-%make_build
-
+%cmake -DUSE_PYTHON_CONFIG=ON -DPYTHON3_EXECUTABLE=%{__python3}
+%cmake_build
 
 %install
-%make_install
-mkdir -p $RPM_BUILD_ROOT/%{_libdir}/%{name}/modules0.7
+%cmake_install
+mkdir -p %{buildroot}%{_libdir}/%{name}/modules0.7
+# install docs
+mkdir -p %{buildroot}%{_pkgdocdir}
+cp -a %{__cmake_builddir}/docs/html/* %{buildroot}%{_pkgdocdir}
 
 %check
 ctest -V %{?_smp_mflags}
@@ -67,7 +66,7 @@ ctest -V %{?_smp_mflags}
 %files
 %license LICENSE_1_0.txt
 %{_bindir}/SoapySDRUtil
-%{_libdir}/libSoapySDR.so.0.7.1
+%{_libdir}/libSoapySDR.so.0.7.2
 %{_libdir}/libSoapySDR.so.0.7
 %{_mandir}/man1/*
 %doc README.md
@@ -79,7 +78,6 @@ ctest -V %{?_smp_mflags}
 %license LICENSE_1_0.txt
 %{python3_sitearch}/SoapySDR.py
 %{python3_sitearch}/_SoapySDR.so
-%{python3_sitearch}/__pycache__/SoapySDR.cpython-*.opt-1.pyc
 %{python3_sitearch}/__pycache__/SoapySDR.cpython-*.pyc
 
 
@@ -92,11 +90,22 @@ ctest -V %{?_smp_mflags}
 
 %files -n %{name}-doc
 %license LICENSE_1_0.txt
-%doc docs/html/*
+%{_pkgdocdir}/*
 
 
 
 %changelog
+* Sat Aug 01 2020 Matt Domsch <matt@domsch.com> - 0.7.2-9
+- Upstream 0.7.2, drop now-included patch
+- fixes for F33 cmake
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.1-6
 - Rebuilt for Python 3.9
 

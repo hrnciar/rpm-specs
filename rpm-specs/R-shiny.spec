@@ -1,14 +1,15 @@
 %global packname shiny
-%global packver  1.4.0.2
+%global packver  1.5.0
 %global rlibdir  %{_datadir}/R/library
 
-%global __suggests_exclude ^R\\((reactlog)\\)
+%global __suggests_exclude ^R\\((dygraphs|reactlog)\\)
 
-%global with_loop 0
+%bcond_without bootstrap
+%global with_suggests 0
 
 Name:             R-%{packname}
-Version:          %{packver}
-Release:          2%{?dist}
+Version:          1.5.0
+Release:          1%{?dist}
 Summary:          Web Application Framework for R
 
 License:          GPLv3
@@ -17,8 +18,8 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 
 # Here's the R view of the dependencies world:
 # Depends:   R-methods
-# Imports:   R-utils, R-grDevices, R-httpuv >= 1.5.2, R-mime >= 0.3, R-jsonlite >= 0.9.16, R-xtable, R-digest, R-htmltools >= 0.4.0, R-R6 >= 2.0, R-sourcetools, R-later >= 1.0.0, R-promises >= 1.1.0, R-tools, R-crayon, R-rlang >= 0.4.0, R-fastmap >= 1.0.0
-# Suggests:  R-datasets, R-Cairo >= 1.5-5, R-testthat >= 2.1.1, R-knitr >= 1.6, R-markdown, R-rmarkdown, R-ggplot2, R-reactlog >= 1.0.0, R-magrittr, R-yaml
+# Imports:   R-utils, R-grDevices, R-httpuv >= 1.5.2, R-mime >= 0.3, R-jsonlite >= 0.9.16, R-xtable, R-digest, R-htmltools >= 0.4.0.9003, R-R6 >= 2.0, R-sourcetools, R-later >= 1.0.0, R-promises >= 1.1.0, R-tools, R-crayon, R-rlang >= 0.4.0, R-fastmap >= 1.0.0, R-withr, R-commonmark >= 1.7, R-glue >= 1.3.2
+# Suggests:  R-datasets, R-Cairo >= 1.5-5, R-testthat >= 2.1.1, R-knitr >= 1.6, R-markdown, R-rmarkdown, R-ggplot2, R-reactlog >= 1.0.0, R-magrittr, R-shinytest, R-yaml, R-future, R-dygraphs, R-ragg, R-showtext
 # LinkingTo:
 # Enhances:
 
@@ -33,7 +34,7 @@ BuildRequires:    R-mime >= 0.3
 BuildRequires:    R-jsonlite >= 0.9.16
 BuildRequires:    R-xtable
 BuildRequires:    R-digest
-BuildRequires:    R-htmltools >= 0.4.0
+BuildRequires:    R-htmltools >= 0.4.0.9003
 BuildRequires:    R-R6 >= 2.0
 BuildRequires:    R-sourcetools
 BuildRequires:    R-later >= 1.0.0
@@ -42,6 +43,9 @@ BuildRequires:    R-tools
 BuildRequires:    R-crayon
 BuildRequires:    R-rlang >= 0.4.0
 BuildRequires:    R-fastmap >= 1.0.0
+BuildRequires:    R-withr
+BuildRequires:    R-commonmark >= 1.7
+BuildRequires:    R-glue >= 1.3.2
 BuildRequires:    R-datasets
 BuildRequires:    R-Cairo >= 1.5.5
 BuildRequires:    R-testthat >= 2.1.1
@@ -51,8 +55,15 @@ BuildRequires:    R-rmarkdown
 BuildRequires:    R-ggplot2
 BuildRequires:    R-magrittr
 BuildRequires:    R-yaml
-%if %{with_loop}
+BuildRequires:    R-future
+BuildRequires:    R-ragg
+BuildRequires:    R-showtext
+%if %{without bootstrap}
 BuildRequires:    R-reactlog >= 1.0.0
+BuildRequires:    R-shinytest
+%endif
+%if %{with_suggests}
+BuildRequires:    R-dygraphs
 %endif
 
 #
@@ -73,9 +84,6 @@ Requires:         xstatic-bootstrap-datepicker-common
 Provides:         bundled(fontawesome-fonts) = 5.3.1
 Provides:         bundled(fontawesome-fonts-web) = 5.3.1
 
-# Broken in Fedora
-#BuildRequires:    js-highlight >= 6.2
-#Requires:         js-highlight >= 6.2
 Provides:         bundled(js-highlight) = 6.2
 
 Provides:         bundled(js-ionrangeslider) = 2.1.6
@@ -91,8 +99,7 @@ Provides:         bundled(json2) = 2014.02.04
 
 Provides:         bundled(selectize) = 0.11.2
 
-BuildRequires:    nodejs-showdown >= 0.3.1
-Requires:         nodejs-showdown >= 0.3.1
+Provides:         bundled(nodejs-showdown) = 0.3.1
 
 Provides:         bundled(js-strftime) = 0.9.2
 
@@ -115,9 +122,6 @@ mkdir -p %{buildroot}%{rlibdir}
 %{_bindir}/R CMD INSTALL -l %{buildroot}%{rlibdir} %{packname}
 test -d %{packname}/src && (cd %{packname}/src; rm -f *.o *.so)
 rm -f %{buildroot}%{rlibdir}/R.css
-
-# Not needed.
-rm %{buildroot}%{rlibdir}/%{packname}/_pkgdown.yml
 
 # Unbundle things; can't be done before install since it copies symlink targets.
 
@@ -158,17 +162,9 @@ rm -r %{buildroot}%{rlibdir}/%{packname}/www/shared/jqueryui
 ln -s /usr/share/javascript/jquery_ui \
     %{buildroot}%{rlibdir}/%{packname}/www/shared/jqueryui
 
-rm -r %{buildroot}%{rlibdir}/%{packname}/www/shared/showdown/*
-mkdir %{buildroot}%{rlibdir}/%{packname}/www/shared/showdown/compressed
-ln -s /usr/lib/node_modules/showdown/compressed/showdown.js \
-    %{buildroot}%{rlibdir}/%{packname}/www/shared/showdown/compressed/showdown.js
-mkdir %{buildroot}%{rlibdir}/%{packname}/www/shared/showdown/src
-ln -s /usr/lib/node_modules/showdown/src/showdown.js \
-    %{buildroot}%{rlibdir}/%{packname}/www/shared/showdown/src/showdown.js
-
 
 %check
-%if %{with_loop}
+%if %{without bootstrap}
 %{_bindir}/R CMD check %{packname}
 %else
 _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
@@ -186,6 +182,7 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 %{rlibdir}/%{packname}/Meta
 %{rlibdir}/%{packname}/R
 %{rlibdir}/%{packname}/help
+%{rlibdir}/%{packname}/app_template
 %{rlibdir}/%{packname}/examples
 %{rlibdir}/%{packname}/template
 %{rlibdir}/%{packname}/www-dir
@@ -193,6 +190,15 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 
 
 %changelog
+* Fri Aug 14 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.5.0-1
+- Update to latest version (#1850173)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.4.0.2-3
+- Re-bundle showdown
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.4.0.2-2
 - rebuild for R 4
 

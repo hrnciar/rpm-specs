@@ -1,13 +1,10 @@
 Name:           perl-Email-Stuffer
-Version:        0.017
-Release:        8%{?dist}
+Version:        0.018
+Release:        2%{?dist}
 Summary:        More casual approach to creating and sending emails
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Email-Stuffer
 Source0:        https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Email-Stuffer-%{version}.tar.gz
-# Adjust to the changes in Email::MIME 1.949, bug #1843862,
-# proposed to an upstream <https://github.com/rjbs/Email-Stuffer/issues/54>.
-Patch0:         Email-Stuffer-0.017-Allow-un-quoted-name-in-content-type-attribute.patch
 BuildArch:      noarch
 # Build
 BuildRequires:  make
@@ -47,7 +44,6 @@ tolerable Email:: modules.
 
 %prep
 %setup -q -n Email-Stuffer-%{version}
-%patch0 -p1
 
 %build
 perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
@@ -67,6 +63,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.018-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.018-1
+- 0.018 bump
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.017-9
+- Perl 5.32 rebuild
+
 * Fri Jun 05 2020 Petr Pisar <ppisar@redhat.com> - 0.017-8
 - Adjust to the changes in Email::MIME 1.949 (bug #1843862)
 

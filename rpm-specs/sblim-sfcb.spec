@@ -8,7 +8,7 @@ Name: sblim-sfcb
 Summary: Small Footprint CIM Broker
 URL: http://sblim.wiki.sourceforge.net/
 Version: 1.4.9
-Release: 18%{?dist}
+Release: 20%{?dist}
 License: EPL-1.0
 Source0: http://downloads.sourceforge.net/sblim/%{name}-%{version}.tar.bz2
 Source1: sfcb.service
@@ -126,7 +126,7 @@ cat _pkg_list
 %post 
 %{_datadir}/sfcb/genSslCert.sh %{_sysconfdir}/sfcb &>/dev/null || :
 /sbin/ldconfig
-%{_bindir}/sfcbrepos -f > /dev/null 2>1
+%{_bindir}/sfcbrepos -f > /dev/null 2>&1
 %systemd_post sblim-sfcb.service
 
 %preun
@@ -142,6 +142,12 @@ fi;
 %files -f _pkg_list
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.9-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 08 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 1.4.9-19
+- Fix sfcbrepos redirection
+
 * Wed Feb 12 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 1.4.9-18
 - Fixes multiple definiton of variables (FTBFS with GCC 10)
   Resolves: #1800074

@@ -2,7 +2,7 @@
 
 Name:               python-%{modname}
 Version:            1.1.2
-Release:            17%{?dist}
+Release:            18%{?dist}
 Summary:            Easy to use mocking/stub/spy framework
 
 License:            BSD
@@ -56,6 +56,9 @@ rm tests/comparator_py2.py
 %{python3_sitelib}/%{modname}-%{version}-*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.2-17
 - Rebuilt for Python 3.9
 

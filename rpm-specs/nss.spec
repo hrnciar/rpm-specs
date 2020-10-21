@@ -1,5 +1,5 @@
-%global nspr_version 4.25.0
-%global nss_version 3.53.0
+%global nspr_version 4.29.0
+%global nss_version 3.58.0
 %global unsupported_tools_directory %{_libdir}/nss/unsupported-tools
 %global saved_files_dir %{_libdir}/nss/saved
 %global dracutlibdir %{_prefix}/lib/dracut
@@ -7,7 +7,7 @@
 %global dracut_conf_dir %{dracutlibdir}/dracut.conf.d
 
 %bcond_without tests
-%bcond_without dbm
+%bcond_with dbm
 
 # Produce .chk files for the final stripped binaries
 #
@@ -44,7 +44,7 @@ rpm.define(string.format("nss_release_tag NSS_%s_RTM",
 Summary:          Network Security Services
 Name:             nss
 Version:          %{nss_version}
-Release:          2%{?dist}
+Release:          1%{?dist}
 License:          MPLv2.0
 URL:              http://www.mozilla.org/projects/security/pki/nss/
 Requires:         nspr >= %{nspr_version}
@@ -112,8 +112,6 @@ Patch12:          nss-signtool-format.patch
 Patch20:          nss-gcm-param-default-pkcs11v2.patch
 %endif
 %endif
-# Upstream bug https://bugzilla.mozilla.org/show_bug.cgi?id=1643528
-Patch30:          nss-3.53-strict-proto-fix.patch
 
 %description
 Network Security Services (NSS) is a set of libraries designed to
@@ -251,6 +249,8 @@ find nss/lib/libpkix -perm /u+x -type f -exec chmod -x {} \;
 
 
 %build
+# This package fails its testsuite with LTO.  Disable LTO for now
+%global _lto_cflags %{nil}
 
 export FREEBL_NO_DEPEND=1
 
@@ -631,6 +631,20 @@ install -p -m 644 %{SOURCE28} $RPM_BUILD_ROOT/%{_sysconfdir}/crypto-policies/loc
 # from previous versions of nss.spec
 /usr/bin/setup-nsssysinit.sh on
 
+%post
+%if %{with dbm}
+%else
+# Upon upgrade, ensure that the existing database locations are migrated to SQL
+# database.
+if test $1 -eq 2; then
+    for dbdir in %{_sysconfdir}/pki/nssdb; do
+        if test ! -e ${dbdir}/pkcs11.txt; then
+            /usr/bin/certutil --merge -d ${dbdir} --source-dir ${dbdir}
+        fi
+    done
+fi
+%endif
+
 %posttrans
 update-crypto-policies &> /dev/null || :
 
@@ -741,6 +755,7 @@ update-crypto-policies &> /dev/null || :
 %{_includedir}/nss3/p12plcy.h
 %{_includedir}/nss3/p12t.h
 %{_includedir}/nss3/pk11func.h
+%{_includedir}/nss3/pk11hpke.h
 %{_includedir}/nss3/pk11pqg.h
 %{_includedir}/nss3/pk11priv.h
 %{_includedir}/nss3/pk11pub.h
@@ -887,6 +902,36 @@ update-crypto-policies &> /dev/null || :
 
 
 %changelog
+* Tue Oct 20 2020 Daiki Ueno <dueno@redhat.com> - 3.58.0-1
+- Update to NSS 3.58
+
+* Sat Sep 19 2020 Daiki Ueno <dueno@redhat.com> - 3.57.0-1
+- Update to NSS 3.57
+
+* Mon Aug 24 2020 Daiki Ueno <dueno@redhat.com> - 3.56.0-1
+- Update to NSS 3.56
+
+* Thu Aug 13 2020 Daiki Ueno <dueno@redhat.com> - 3.55.0-3
+- Fix DBM backend disablement
+- Add scriptlet to auto-migrated known database locations
+
+* Sat Aug  8 2020 Daiki Ueno <dueno@redhat.com> - 3.55.0-2
+- Disable LTO
+
+* Sun Aug  2 2020 Daiki Ueno <dueno@redhat.com> - 3.55.0-1
+- Update to NSS 3.55
+- Disable building DBM backend
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.54.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.54.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Daiki Ueno <dueno@redhat.com> - 3.54.0-1
+- Update to NSS 3.54
+
 * Thu Jun  4 2020 Bob Relyea <rrelyea@redhat.com> - 3.53.0-2
 - Fix non-strict prototype in pk11pub.h
 

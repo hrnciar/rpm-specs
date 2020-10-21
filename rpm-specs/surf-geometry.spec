@@ -1,7 +1,7 @@
 Name:		surf-geometry
 Version:	1.0.6
 Summary:	Tool to visualize some real algebraic geometry
-Release:	26%{?dist}
+Release:	28%{?dist}
 Source0:	http://downloads.sourceforge.net/surf/surf-%{version}.tar.gz
 Source1:	%{name}.module.in
 Patch0:		%{name}-min-max.patch
@@ -35,7 +35,7 @@ chmod -x gtkgui/PrintImageDialog.{cc,h}
 
 %build
 export CFLAGS="%{optflags} -fPIC"
-export CXXFLAGS=$CFLAGS
+export CXXFLAGS="-std=c++14 $CFLAGS"
 
 %configure \
     --bindir=%{_libdir}/%{name} \
@@ -68,6 +68,12 @@ mv $RPM_BUILD_ROOT%{_mandir}/man1/surf.1 \
 %{_datadir}/modulefiles/%{name}-%{_arch}
 
 %changelog
+* Tue Aug 14 2020 Jeff Law <law@redhat.com> - 1.0.6-28
+- Force C++14 as this code is not C++17 ready
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

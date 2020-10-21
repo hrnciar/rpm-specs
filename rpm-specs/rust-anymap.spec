@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.12.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Safe and convenient store for one value of each type
 
 # Upstream license specification: MIT/Apache-2.0
@@ -83,5 +83,8 @@ which use "bench" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 22 15:15:07 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.12.1-1
 - Initial package

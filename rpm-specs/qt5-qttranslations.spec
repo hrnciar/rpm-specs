@@ -2,8 +2,8 @@
 
 Summary: Qt5 - QtTranslations module
 Name:    qt5-%{qt_module}
-Version: 5.14.2
-Release: 2%{?dist}
+Version: 5.15.1
+Release: 1%{?dist}
 
 License: LGPLv2 with exceptions or GPLv3 with exceptions and GFDL
 Url:     http://www.qt.io
@@ -99,12 +99,19 @@ make install INSTALL_ROOT=%{buildroot}
 %lang(sk) %{_qt5_translationdir}/*_sk.qm
 %lang(sl) %{_qt5_translationdir}/*_sl.qm
 %lang(sv) %{_qt5_translationdir}/*_sv.qm
+%lang(sv) %{_qt5_translationdir}/*_tr.qm
 %lang(uk) %{_qt5_translationdir}/*_uk.qm
 %lang(zh_CN) %{_qt5_translationdir}/*_zh_CN.qm
 %lang(zh_TW) %{_qt5_translationdir}/*_zh_TW.qm
 
 
 %changelog
+* Thu Sep 10 2020 Jan Grulich <jgrulich@redhat.com> - 5.15.1-1
+- 5.15.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.14.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 14 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.14.2-2
 - rebuild
 

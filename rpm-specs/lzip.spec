@@ -1,6 +1,6 @@
 Name:           lzip
 Version:        1.21
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        LZMA compressor with integrity checking
 
 License:        GPLv3+
@@ -48,6 +48,9 @@ make check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.21-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.21-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

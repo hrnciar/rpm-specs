@@ -1,7 +1,7 @@
 Summary:	Waveform Viewer
 Name:		gtkwave
-Version:	3.3.104
-Release:	2%{?dist}
+Version:	3.3.107
+Release:	1%{?dist}
 License:	GPLv2+
 URL:		http://gtkwave.sourceforge.net/
 Source0:	http://gtkwave.sourceforge.net/gtkwave-gtk3-%{version}.tar.gz
@@ -189,6 +189,36 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/gtkwave.ap
 %{_mandir}/man5/gtkwaverc.5*
 
 %changelog
+* Mon Oct  5 2020 Paul Howarth <paul@city-fan.org> - 3.3.107-1
+- Update to 3.3.107
+  - Fix left shift overflow in cvt_fpsudec for fixed point
+  - Added Find First One trace type options
+  - Fixed bug in Show-Change All Highlighted
+
+* Sat Aug  8 2020 Paul Howarth <paul@city-fan.org> - 3.3.106-1
+- Update to 3.3.106
+  - Fix Shift-Up/Down highlight to traverse inside groups
+  - Resync ghwlib to handle unbounded array
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.105-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul  6 2020 Paul Howarth <paul@city-fan.org> - 3.3.105-1
+- Update to 3.3.105
+  - Fix bad (void) of is_closing in fstDestroyMmaps when using Cygwin or MinGW
+  - Fix left shift overflow in cvt_fpsdec()
+  - Add in missing file/translate/process filter for reals
+  - Fix for bitvec merging in GHW so integers arrays can be viewed
+  - Added Shift-Up/Down highlight with scroll in order to assist with
+    left/right arrow based transition movement
+  - Fix Show Wave Highlight so it is not dependent on Show Grid
+  - Fix negative MSBs on VCD loaders for vectors
+  - Fix getpwuid() null pointer exception
+  - Add missing recursion case to treenamefix()
+  - Fix lock/unlock misuse of pthread mutexes across threads
+  - Examine env var $HOME for home dir on geteuid failure
+  - Fix blurring on use_fat_lines rc variable usage
+
 * Sun May 17 2020 Paul Howarth <paul@city-fan.org> - 3.3.104-2
 - Use gtk3 toolkit rather than gtk2 (#1836549)
 - Own directories under and including %%{_datadir}/icons/gnome/ to avoid

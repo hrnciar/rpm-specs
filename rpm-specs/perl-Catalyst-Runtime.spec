@@ -1,7 +1,7 @@
 Name:           perl-Catalyst-Runtime
 Summary:        Catalyst Framework Runtime
 Version:        5.90126
-Release:        3%{?dist}
+Release:        5%{?dist}
 License:        GPL+ or Artistic
 
 Source0:        https://cpan.metacpan.org/authors/id/J/JJ/JJNAPIORK/Catalyst-Runtime-%{version}.tar.gz
@@ -197,6 +197,12 @@ make clean
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.90126-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 5.90126-4
+- Perl 5.32 rebuild
+
 * Tue Mar 24 2020 Jitka Plesnikova <jplesnik@redhat.com> - 5.90126-3
 - Add perl-doc for build
 

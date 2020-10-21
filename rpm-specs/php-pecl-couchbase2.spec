@@ -23,7 +23,7 @@
 Summary:       Couchbase Server PHP extension
 Name:          php-pecl-couchbase2
 Version:       2.6.2
-Release:       1%{?dist}
+Release:       2%{?dist}
 License:       PHP
 URL:           https://pecl.php.net/package/couchbase
 Source0:       https://pecl.php.net/get/%{pecl_name}-%{version}%{?prever}.tgz
@@ -185,6 +185,9 @@ done
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb  4 2020 Remi Collet <remi@remirepo.net> - 2.6.2-1
 - update to 2.6.2
 

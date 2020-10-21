@@ -1,7 +1,7 @@
 Name: fedora-remix-logos
 Summary: Fedora Remix logos
 Version: 1.0.0
-Release: 17%{?dist}
+Release: 18%{?dist}
 URL: https://fedoraproject.org/wiki/Legal/Secondary_trademark_usage_guidelines
 Source0: https://fedorahosted.org/releases/f/e/fedora-logos/fedora-remix-logos-%{version}.tar.bz2
 License: Licensed only for approved usage, see COPYING for details.
@@ -35,6 +35,9 @@ install -p -m 644 Fedora-Remix-*.png %{buildroot}/%{_datadir}/pixmaps/%{name}/
 %{_datadir}/pixmaps/%{name}/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

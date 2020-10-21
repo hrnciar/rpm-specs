@@ -3,7 +3,7 @@
 
 Name:           trac-accountmanager-plugin
 Version:        0.6
-Release:        0.1.r17619%{?dist}
+Release:        0.2.r17619%{?dist}
 Summary:        Trac plugin for account registration and management
 License:        Copyright only
 URL:            http://trac-hacks.org/wiki/AccountManagerPlugin
@@ -138,6 +138,9 @@ rm %{buildroot}%{python2_sitelib}/acct_mgr/locale/.placeholder
 %{python2_sitelib}/TracAccountManager-%{version}*-py2.7.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-0.2.r17619
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Paul Howarth <paul@city-fan.org> - 0.6-0.1.r17619
 - Update to svn revision 17619
 - Add patch to fix test suite for compatibility with trac 1.4

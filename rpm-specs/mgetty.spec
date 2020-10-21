@@ -8,7 +8,7 @@
 Summary: A getty replacement for use with data and fax modems
 Name: mgetty
 Version: 1.2.1
-Release: 8%{?dist}
+Release: 10%{?dist}
 Source: ftp://mgetty.greenie.net/pub/mgetty/source/1.2/mgetty-%{version}.tar.gz
 Source1: ftp://mgetty.greenie.net/pub/mgetty/source/1.2/mgetty-%{version}.tar.gz.asc
 Source2: logrotate.mgetty
@@ -47,6 +47,7 @@ Patch25: mgetty-1.1.36-sd.patch
 Patch26: mgetty-1.1.36-makefiles.patch
 Patch27: mgetty-1.2.1-lockdev.patch
 Patch28: mgetty-1.2.1-hardening.patch
+Patch29: mgetty-sys_nerr-removed.patch
 
 License: GPLv2+
 BuildRequires: libX11-devel, libXext-devel, perl-generators, texinfo-tex, texlive-dvips, lockdev-devel, systemd, gsm-devel
@@ -141,6 +142,7 @@ rm -r voice/libmgsm
 %patch26 -p1 -b .makefile
 %patch27 -p1 -b .lockdev
 %patch28 -p1 -b .hardening
+%patch29 -p1 -b .sys_nerr-removed
 
 %build
 %define makeflags CFLAGS="$RPM_OPT_FLAGS -Wall -DAUTO_PPP -D_FILE_OFFSET_BITS=64 -DHAVE_LOCKDEV -fno-strict-aliasing" LIBS="-llockdev" prefix=%{_prefix} spool=%{_var}/spool BINDIR=%{_bindir} SBINDIR=%{_sbindir} LIBDIR=%{_libdir}/mgetty+sendfax HELPDIR=%{_libdir}/mgetty+sendfax CONFDIR=%{_sysconfdir}/mgetty+sendfax MANDIR=%{_mandir} MAN1DIR=%{_mandir}/man1 MAN4DIR=%{_mandir}/man4 MAN5DIR=%{_mandir}/man5 MAN8DIR=%{_mandir}/man8 INFODIR=%{_infodir} ECHO='"echo -e"' INSTALL=%{__install}
@@ -373,6 +375,12 @@ exit 0
 %{_mandir}/man1/viewfax.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.2.1-9
+- 1856765 - mgetty-1.2.1-8.fc33 FTBFS: logfile.c:354:20: error: 'sys_nerr' undeclared
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

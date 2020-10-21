@@ -6,7 +6,7 @@
 
 Name:           pnglite
 Version:        0.1.17
-Release:        %{abi_minor}%{?dist}.20
+Release:        %{abi_minor}%{?dist}.21
 Summary:        A lightweight C library for loading PNG images
 
 License:        zlib
@@ -69,6 +69,9 @@ ln -s libpnglite.so.%{abi_major}.%{abi_minor} %{buildroot}%{_libdir}/libpnglite.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.17-1.21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.17-1.20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

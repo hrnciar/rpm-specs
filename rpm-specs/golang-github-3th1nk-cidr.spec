@@ -15,7 +15,7 @@ Golang library to calculate CIDR network.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.1%{?dist}
+Release:        0.2%{?dist}
 Summary:        Golang lib to calculate CIDR network
 
 License:        MIT
@@ -41,6 +41,9 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0-0.1.20200524gitac57bd3
 - Initial package
 

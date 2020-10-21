@@ -2,7 +2,7 @@
 
 Name:           python-%{modname}
 Version:        0.14.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Ultra fast implementation of asyncio event loop on top of libuv
 
 License:        MIT or ASL 2.0
@@ -58,6 +58,9 @@ rm -vf %{buildroot}%{python3_sitearch}/%{modname}/__pycache__/_testbase.*
 %{python3_sitearch}/%{modname}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Itamar Reis Peixoto <itamar@ispbrasil.com.br> - 0.14.0-1
 - Update to 0.14.0
 

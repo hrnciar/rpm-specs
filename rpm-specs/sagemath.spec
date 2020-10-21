@@ -11,8 +11,14 @@
 %bcond_without bundled_widgetsnbextension
 %bcond_without install_hack
 
-# jmol has been retired from Fedora; set this if it ever comes back
-%bcond_with jmol
+%if 0%{?fedora} >= 33
+%bcond_without flexiblas
+%endif
+%if %{with flexiblas}
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
 
 # for faster full rpm test builds
 %ifarch %{ix86} x86_64
@@ -76,7 +82,7 @@
 %endif
 
 # Spkg equivalents of required rpms; we pretend they are installed as spkgs.
-%global SAGE_REQUIRED_PKGS 4ti2-1.6.9 bliss-0.73 cbc-2.10.4 CoCoALib-0.99650 coxeter3-3.1 cryptominisat-5.6.8 database_cremona_ellcurve-%{cremona_ver} gap_packages-4.10.2 gmp-6.1.2 libsirocco-2.0.2 lrslib-070 mcqd-1.0 meataxe-1.0 primecount-5.3 qepcad-B.1.72 saclib-2.2.7 surf-1.0.6-gcc6 tdlib-0.9.0
+%global SAGE_REQUIRED_PKGS 4ti2-1.6.9 bliss-0.73 CoCoALib-0.99710 coxeter3-3.1 cryptominisat-5.7.1 database_cremona_ellcurve-%{cremona_ver} gap_packages-4.11.0 libsirocco-2.0.2 lrslib-071 mcqd-1.0 meataxe-1.0 primecount-6.0 qepcad-B.1.72 saclib-2.2.7 surf-1.0.6-gcc6 tdlib-0.9.0
 
 %ifarch %{ix86} x86_64
 %global SAGE_REQUIRED_PKGS %{SAGE_REQUIRED_PKGS} fes-0.2
@@ -93,8 +99,8 @@
 
 Name:		sagemath
 Summary:	A free open-source mathematics software system
-Version:	9.0
-Release:	8%{?dist}
+Version:	9.1
+Release:	4%{?dist}
 # The file ${SAGE_ROOT}/COPYING.txt is the upstream license breakdown file
 # Additionally, every $files section has a comment with the license name
 # before files with that license
@@ -152,17 +158,14 @@ Patch10:	%{name}-cremona.patch
 # adapt to python 3 and cython running in python 3 mode
 Patch11:	%{name}-python3.patch
 
-# correct path to the nauty geng program
-Patch12:	%{name}-nauty.patch
+# adapt to ecl 20.4.24
+Patch12:	%{name}-ecl.patch
 
 # remove the buildroot path from Cython output
 Patch13:	%{name}-buildroot.patch
 
 # update c++ standard to fix FTBFS
 Patch14:	%{name}-lcalc.patch
-
-# avoid assertion in coin backend
-Patch15:	%{name}-cbc.patch
 
 # Use system gap directories and modernize libgap interface
 Patch16:	%{name}-libgap.patch
@@ -186,8 +189,8 @@ Patch21:	%{name}-arb.patch
 # Add missing include paths
 Patch22:	%{name}-includes.patch
 
-# Use openblas
-Patch23:	%{name}-openblas.patch
+# Use [flexi/open]blas
+Patch23:	%{name}-%{blaslib}.patch
 
 # Fix paths to latte-integrale binaries
 Patch24:	%{name}-latte.patch
@@ -218,6 +221,7 @@ BuildRequires:	arb-devel
 BuildRequires:	bliss-devel
 BuildRequires:	boost-devel
 BuildRequires:	brial-devel
+BuildRequires:	cddlib-devel
 BuildRequires:	cddlib-tools
 BuildRequires:	cliquer-devel
 BuildRequires:	coin-or-Cbc-devel
@@ -231,7 +235,7 @@ BuildRequires:	factory-devel
 BuildRequires:	fes-devel
 %endif
 BuildRequires:	flint-devel
-BuildRequires:	gap
+BuildRequires:	gap-devel
 BuildRequires:	gap-pkg-cohomolo
 BuildRequires:	gap-pkg-corelg
 BuildRequires:	gap-pkg-crime
@@ -270,18 +274,15 @@ BuildRequires:	gmp-ecm-devel
 BuildRequires:	gsl-devel
 BuildRequires:	ImageMagick
 BuildRequires:	iml-devel
-%if %{with jmol}
 BuildRequires:	jmol
 # To have a proper link
 BuildRequires:	jsmol
-%endif
 BuildRequires:	jsmath-fonts
 BuildRequires:	L-function-devel
-BuildRequires:	lapack-devel
 BuildRequires:	latte-integrale
 BuildRequires:	libbraiding-devel
 BuildRequires:	libfplll-devel
-BuildRequires:	libgap-devel
+BuildRequires:	libgap
 BuildRequires:	libhomfly-devel
 BuildRequires:	libmpc-devel
 BuildRequires:	libpng-devel
@@ -296,7 +297,7 @@ BuildRequires:	mcqd-devel
 BuildRequires:	mpfi-devel
 BuildRequires:	nauty
 BuildRequires:	ntl-devel
-BuildRequires:	openblas-devel
+BuildRequires:	%{blaslib}-devel
 BuildRequires:	openssl
 BuildRequires:	palp
 BuildRequires:	pari-devel
@@ -315,54 +316,53 @@ BuildRequires:	python3-cysignals-devel
 BuildRequires:	python3-pillow-devel
 BuildRequires:	python3-pplpy-devel
 BuildRequires:	python3-tdlib-devel
-BuildRequires:	python3dist(brial)
-BuildRequires:	python3dist(cvxopt)
-BuildRequires:	python3dist(cython)
-BuildRequires:	python3dist(docutils)
-BuildRequires:	python3dist(fpylll)
-BuildRequires:	python3dist(future)
-BuildRequires:	python3dist(gmpy2)
+BuildRequires:	%{py3_dist brial}
+BuildRequires:	%{py3_dist cvxopt}
+BuildRequires:	%{py3_dist cython}
+BuildRequires:	%{py3_dist docutils}
+BuildRequires:	%{py3_dist fpylll}
+BuildRequires:	%{py3_dist future}
+BuildRequires:	%{py3_dist gmpy2}
 %if %{with sphinx_hack}
-BuildRequires:	python3dist(html5lib)
-BuildRequires:	python3dist(imagesize)
+BuildRequires:	%{py3_dist html5lib}
+BuildRequires:	%{py3_dist imagesize}
 %endif
-BuildRequires:	python3dist(ipykernel)
+BuildRequires:	%{py3_dist ipykernel}
 %if %{without bundled_ipython}
-BuildRequires:	python3dist(ipython)
+BuildRequires:	%{py3_dist ipython}
 %endif
-BuildRequires:	python3dist(kiwisolver)
-BuildRequires:	python3dist(matplotlib)
-BuildRequires:	python3dist(networkx)
-BuildRequires:	python3dist(notebook)
+BuildRequires:	%{py3_dist kiwisolver}
+BuildRequires:	%{py3_dist matplotlib}
+BuildRequires:	%{py3_dist networkx}
+BuildRequires:	%{py3_dist notebook}
 %if %{with bundled_ipython}
-BuildRequires:	python3dist(path.py)
+BuildRequires:	%{py3_dist path.py}
 %endif
 %if %{without bundled_pexpect}
-BuildRequires:	python3dist(pexpect)
+BuildRequires:	%{py3_dist pexpect}
 %endif
 %if %{with bundled_ipython}
-BuildRequires:	python3dist(pickleshare)
+BuildRequires:	%{py3_dist pickleshare}
 %endif
-BuildRequires:	python3dist(pip)
-BuildRequires:	python3dist(pkgconfig)
-BuildRequires:	python3dist(psutil)
-BuildRequires:	python3dist(ptyprocess)
-BuildRequires:	python3dist(pycryptosat)
+BuildRequires:	%{py3_dist pip}
+BuildRequires:	%{py3_dist pkgconfig}
+BuildRequires:	%{py3_dist psutil}
+BuildRequires:	%{py3_dist ptyprocess}
+BuildRequires:	%{py3_dist pycryptosat}
 %if %{with bundled_ipython}
-BuildRequires:	python3dist(pyzmq)
+BuildRequires:	%{py3_dist pyzmq}
 %endif
-BuildRequires:	python3dist(rpy2)
-BuildRequires:	python3dist(scipy)
-BuildRequires:	python3dist(scons)
-BuildRequires:	python3dist(setuptools)
+BuildRequires:	%{py3_dist rpy2}
+BuildRequires:	%{py3_dist scipy}
+BuildRequires:	%{py3_dist scons}
+BuildRequires:	%{py3_dist setuptools}
 %if %{with bundled_ipython}
-BuildRequires:	python3dist(simplegeneric)
+BuildRequires:	%{py3_dist simplegeneric}
 %endif
-BuildRequires:	python3dist(six)
-BuildRequires:	python3dist(speaklater)
-BuildRequires:	python3dist(sphinx)
-BuildRequires:	python3dist(sympy)
-BuildRequires:	python3dist(zodb3)
+BuildRequires:	%{py3_dist six}
+BuildRequires:	%{py3_dist sphinx}
+BuildRequires:	%{py3_dist sympy}
+BuildRequires:	%{py3_dist zodb3}
 BuildRequires:	qepcad-B
 BuildRequires:	R
 BuildRequires:	ratpoints-devel
@@ -444,10 +444,8 @@ Requires:	gap-pkg-toric
 Requires:	gap-pkg-utils
 Requires:	gfan
 Requires:	gmp-ecm
-%if %{with jmol}
 Requires:	jmol
 Requires:	jsmol
-%endif
 Requires:	jsmath-fonts
 Requires:	latte-integrale
 Requires:	libgap-devel
@@ -460,50 +458,50 @@ Requires:	pari-galdata
 Requires:	pari-gp
 Requires:	pari-seadata
 Requires:	python3-tdlib
-Requires:	python3dist(brial)
-Requires:	python3dist(cypari2)
-Requires:	python3dist(cysignals)
-Requires:	python3dist(cvxopt)
-Requires:	python3dist(cython)
-Requires:	python3dist(docutils)
-Requires:	python3dist(fpylll)
-Requires:	python3dist(future)
-Requires:	python3dist(gmpy2)
+Requires:	%{py3_dist brial}
+Requires:	%{py3_dist cypari2}
+Requires:	%{py3_dist cysignals}
+Requires:	%{py3_dist cvxopt}
+Requires:	%{py3_dist cython}
+Requires:	%{py3_dist docutils}
+Requires:	%{py3_dist fpylll}
+Requires:	%{py3_dist future}
+Requires:	%{py3_dist gmpy2}
 %if %{with sphinx_hack}
-Requires:	python3dist(html5lib)
-Requires:	python3dist(imagesize)
+Requires:	%{py3_dist html5lib}
+Requires:	%{py3_dist imagesize}
 %endif
-Requires:	python3dist(ipykernel)
+Requires:	%{py3_dist ipykernel}
 %if %{without bundled_ipython}
-Requires:	python3dist(ipython)
+Requires:	%{py3_dist ipython}
 %endif
-Requires:	python3dist(matplotlib)
-Requires:	python3dist(networkx)
+Requires:	%{py3_dist matplotlib}
+Requires:	%{py3_dist networkx}
 %if %{with bundled_ipython}
-Requires:	python3dist(path.py)
+Requires:	%{py3_dist path.py}
 %endif
 %if %{without bundled_pexpect}
-Requires:	python3dist(pexpect)
+Requires:	%{py3_dist pexpect}
 %endif
 %if %{with bundled_ipython}
-Requires:	python3dist(pickleshare)
+Requires:	%{py3_dist pickleshare}
 %endif
-Requires:	python3dist(pplpy)
-Requires:	python3dist(psutil)
-Requires:	python3dist(ptyprocess)
-Requires:	python3dist(pycryptosat)
+Requires:	%{py3_dist pplpy}
+Requires:	%{py3_dist psutil}
+Requires:	%{py3_dist ptyprocess}
+Requires:	%{py3_dist pycryptosat}
 %if %{with bundled_ipython}
-Requires:	python3dist(pyzmq)
+Requires:	%{py3_dist pyzmq}
 %endif
-Requires:	python3dist(rpy2)
-Requires:	python3dist(scipy)
+Requires:	%{py3_dist rpy2}
+Requires:	%{py3_dist scipy}
 %if %{with bundled_ipython}
-Requires:	python3dist(simplegeneric)
+Requires:	%{py3_dist simplegeneric}
 %endif
-Requires:	python3dist(six)
-Requires:	python3dist(sphinx)
-Requires:	python3dist(sympy)
-Requires:	python3dist(zodb3)
+Requires:	%{py3_dist six}
+Requires:	%{py3_dist sphinx}
+Requires:	%{py3_dist sympy}
+Requires:	%{py3_dist zodb3}
 Requires:	qepcad-B
 Requires:	Singular
 # Required by thebe; remove when it is unbundled
@@ -742,7 +740,7 @@ Eric Dietz (GPL) http://www.wrongway.org/?rubiksource
 %package	sagetex
 Summary:	Sagemath into LaTeX documents
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-Requires:	python3dist(pillow)
+Requires:	%{py3_dist pillow}
 Requires:	tex(color.sty)
 Requires:	tex(fancyvrb.sty)
 Requires:	tex(graphicx.sty)
@@ -896,7 +894,6 @@ popd
 %patch12
 %patch13
 %patch14
-%patch15
 %patch16
 
 %if %{with fes}
@@ -942,18 +939,18 @@ sed -e "s,\(SINGULAR_SO = \)SAGE.*,\1'%{_libdir}/libSingular-$singver.so'," \
 
 # fix shebangs; some paths contains spaces, so use the null byte facility
 grep -FrlZ '#!%{_bindir}/env python3' | \
-  xargs -0 sed -i 's,#!%{_bindir}/env python3,#!%{__python3},g'
+  xargs -0 sed -i 's,#!%{_bindir}/env python3,#!%{python3},g'
 grep -FrlZ '#!%{_bindir}/env python' | \
-  xargs -0 sed -i 's,#!%{_bindir}/env python,#!%{__python3},g'
+  xargs -0 sed -i 's,#!%{_bindir}/env python,#!%{python3},g'
 grep -FrlZ '#!%{_bindir}/env sage-system-python' | \
-  xargs -0 sed -i 's,#!%{_bindir}/env sage-system-python,#!%{__python3},g'
+  xargs -0 sed -i 's,#!%{_bindir}/env sage-system-python,#!%{python3},g'
 grep -FrlZ '#!%{_bindir}/env sage-python' | \
-  xargs -0 sed -i 's,#!%{_bindir}/env sage-python,#!%{__python3},g'
+  xargs -0 sed -i 's,#!%{_bindir}/env sage-python,#!%{python3},g'
 grep -FrlZ 'sage-python23' | xargs -0 sed -i 's,sage-python23,python3,g'
 grep -FrlZ '#!%{_bindir}/env' | \
   xargs -0 sed -i 's,#!%{_bindir}/env ,#!%{_bindir}/,'
 grep -rlZ '#!%{_bindir}/python$' | xargs -0 sed -i 's,#!%{_bindir}/python$,&3,'
-sed -i 's,%{_bindir}/env python,%{__python3},' \
+sed -i 's,%{_bindir}/env python,%{python3},' \
 %if %{with bundled_pexpect}
     build/pkgs/pexpect/src/examples/python.py \
 %endif
@@ -962,6 +959,7 @@ sed -i 's,%{_bindir}/python,&3,' src/sage/misc/dev_tools.py
 sed -e 's,local/bin/python,bin/python,' \
     -e 's,#!%{_bindir}/python,&3,' \
     -i src/sage/repl/preparse.py
+sed -i 's,"$SAGE_LOCAL"/bin/python,%{_bindir}/python,g' src/bin/sage
 %if %{with bundled_ipython}
 sed -e "s|'%{_bindir}/env', 'which'|'%{_bindir}/which'|" \
     -i build/pkgs/ipython/src/IPython/utils/_process_posix.py
@@ -973,6 +971,7 @@ sed -i 's/64m/256m/' src/sage/interfaces/gap.py
 
 ########################################################################
 %build
+export LC_ALL=C.UTF-8
 export CC=%{__cc}
 export CFLAGS="%{optflags}"
 export CXXFLAGS="%{optflags}"
@@ -1130,8 +1129,7 @@ ln -sf %{_includedir} $SAGE_LOCAL/include
 ln -sf %{_datadir} $SAGE_LOCAL/share
 
 #------------------------------------------------------------------------
-cp -a src/ext $SAGE_ETC
-rm -fr $SAGE_ETC/doctest
+cp -a src/sage/ext_data $SAGE_ETC
 cp -p %{SOURCE2} $SAGE_ETC
 
 #------------------------------------------------------------------------
@@ -1162,9 +1160,7 @@ pushd src/bin
     mkdir -p $SAGE_LOCAL/bin
     cp -fa sage-* $SAGE_LOCAL/bin
     pushd $SAGE_LOCAL/bin
-%if %{with jmol}
 	ln -sf %{_bindir}/jmol jmol
-%endif
 	ln -sf %{_bindir}/python3 sage.bin
 	ln -sf %{_bindir}/python3 python
 	ln -sf %{_bindir}/gp sage_pari
@@ -1241,8 +1237,8 @@ popd
 
 #------------------------------------------------------------------------
 pushd build/pkgs/combinatorial_designs
-    chmod a+x spkg-install
-    bash -c '. ../../../src/bin/sage-dist-helpers; ./spkg-install'
+    mkdir -p $SAGE_SHARE/combinatorial_designs
+    cp -fa src/* $SAGE_SHARE/combinatorial_designs
 popd
 
 #------------------------------------------------------------------------
@@ -1286,13 +1282,13 @@ popd
 #------------------------------------------------------------------------
 %if %{with bundled_ipython}
 mv %{_builddir}%{python3_sitelib}/IPython %{buildroot}%{SAGE_PYTHONPATH}
-mv %{_builddir}%{python3_sitelib}/prompt_toolkit %{buildroot}%{SAGE_PYTHONPATH}
+mv %{_builddir}%{python3_sitelib}/prompt_toolkit* %{buildroot}%{SAGE_PYTHONPATH}
 mv %{_builddir}%{_bindir}/ip* %{buildroot}%{SAGE_LOCAL}/bin
 %endif
 
 #------------------------------------------------------------------------
 %if %{with bundled_ipywidgets}
-mv %{_builddir}%{python3_sitelib}/ipywidgets %{buildroot}%{SAGE_PYTHONPATH}
+mv %{_builddir}%{python3_sitelib}/ipywidgets* %{buildroot}%{SAGE_PYTHONPATH}
 %endif
 
 #------------------------------------------------------------------------
@@ -1404,7 +1400,7 @@ pushd src/doc
     # python -m sage_setup.docbuild
     # Build with an X server running, required by some doc builders
     SAGE_NUM_THREADS=2 \
-	xvfb-run -a -n 1 %__python3 -m docbuild --no-pdf-links -k all html -j
+	xvfb-run -d %__python3 -m docbuild --no-pdf-links -k all html -j
     rm -f %{buildroot}%{SAGE_SRC}/doc
     ln -sf %{SAGE_DOC} %{buildroot}%{SAGE_SRC}/doc
 
@@ -1454,7 +1450,7 @@ ln -sf %{SAGE_SHARE} $SAGE_ROOT/share
 ln -sf src $SAGE_ROOT/devel
 
 # Install menu and icons
-install -p -m644 -D src/ext/notebook-ipython/logo.svg \
+install -p -m644 -D src/sage/ext_data/notebook-ipython/logo.svg \
   %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/sagemath.svg
 mkdir -p %{buildroot}%{_datadir}/applications
 cat > %{buildroot}%{_datadir}/applications/%{name}.desktop << EOF
@@ -1552,12 +1548,12 @@ chmod +x %{buildroot}%{SAGE_LOCAL}/bin/sage-list-packages
 
 #------------------------------------------------------------------------
 # Byte compile python files in nonstandard places
-%py_byte_compile %{__python3} %{buildroot}%{_texmf}/tex/latex/sagetex
+%py_byte_compile %{python3} %{buildroot}%{_texmf}/tex/latex/sagetex
 
 #------------------------------------------------------------------------
 # Jupyter integration
 pushd src
-%{__python3} << EOF
+%{python3} << EOF
 from sage.repl.ipython_kernel.install import SageKernelSpec
 SageKernelSpec.update(prefix='%{buildroot}%{_prefix}')
 EOF
@@ -1615,9 +1611,7 @@ rm -fr %{SAGE_LOCAL}/var/lib/sage/installed/database_cremona_ellcurve-%{cremona_
 %{SAGE_LOCAL}/bin/QuadraticSieve
 %{SAGE_LOCAL}/bin/ecm
 %{SAGE_LOCAL}/bin/gap
-%if %{with jmol}
 %{SAGE_LOCAL}/bin/jmol
-%endif
 %if %{with bundled_ipython}
 %{SAGE_LOCAL}/bin/ip*
 %endif
@@ -1659,10 +1653,10 @@ rm -fr %{SAGE_LOCAL}/var/lib/sage/installed/database_cremona_ellcurve-%{cremona_
 %endif
 %if %{with bundled_ipython}
 %{SAGE_PYTHONPATH}/IPython
-%{SAGE_PYTHONPATH}/prompt_toolkit
+%{SAGE_PYTHONPATH}/prompt_toolkit*
 %endif
 %if %{with bundled_ipywidgets}
-%{SAGE_PYTHONPATH}/ipywidgets
+%{SAGE_PYTHONPATH}/ipywidgets*
 %endif
 
 #------------------------------------------------------------------------
@@ -1698,12 +1692,14 @@ rm -fr %{SAGE_LOCAL}/var/lib/sage/installed/database_cremona_ellcurve-%{cremona_
 #------------------------------------------------------------------------
 %files		data-etc
 # GPLv2+
+%{SAGE_ETC}/doctest
 %{SAGE_ETC}/gap
 %{SAGE_ETC}/images
 %{SAGE_ETC}/kenzo
 %{SAGE_ETC}/magma
 %{SAGE_ETC}/mwrank
 %{SAGE_ETC}/nbconvert
+%{SAGE_ETC}/nodoctest
 %{SAGE_ETC}/pari
 %{SAGE_ETC}/singular
 %{SAGE_ETC}/threejs
@@ -1817,6 +1813,22 @@ rm -fr %{SAGE_LOCAL}/var/lib/sage/installed/database_cremona_ellcurve-%{cremona_
 
 ########################################################################
 %changelog
+* Wed Sep 30 2020 Jerry James <loganjerry@gmail.com> - 9.1-4
+- Rebuild for primecount 6.1
+- Bring back jmol/jsmol support
+
+* Thu Aug 13 2020 Iñaki Úcar <iucar@fedoraproject.org> - 9.1-3
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jerry James <loganjerry@gmail.com> - 9.1-1
+- Version 9.1
+- Drop upstreamed -nauty patch
+- Drop -cbc patch; upstream uses the system Cbc now
+- Add -ecl patch for ecl 20.4.24
+
 * Wed May 27 2020 Miro Hrončok <mhroncok@redhat.com> - 9.0-8
 - Rebuilt for Python 3.9
 

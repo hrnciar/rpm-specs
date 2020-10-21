@@ -16,7 +16,7 @@
 Name:		php-PHPMailer
 Summary:	PHP email transport class with a lot of features
 Version:	5.2.28
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	LGPLv2+
 URL:		https://github.com/%{github_user}/%{github_app}
 
@@ -140,6 +140,9 @@ version_compare($mailer->Version, "%{version}", "=") or exit(1);
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.28-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Patrick Monnerat <patrick@monnerat.net> 5.2.28-2
 - Patch "cve2020-13625" fixes CVE-2020-13625 vulnerability. This is a backport
   of https://github.com/PHPMailer/PHPMailer/commit/c2796cb.

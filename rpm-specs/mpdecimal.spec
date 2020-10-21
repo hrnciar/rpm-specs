@@ -2,8 +2,8 @@
 %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 Name:           mpdecimal
-Version:        2.4.2
-Release:        13%{?dist}
+Version:        2.5.0
+Release:        3%{?dist}
 Summary:        Library for general decimal arithmetic
 License:        BSD
 
@@ -12,7 +12,11 @@ Source0:        http://www.bytereef.org/software/mpdecimal/releases/mpdecimal-%{
 Source1:        http://speleotrove.com/decimal/dectest.zip
 
 BuildRequires:  gcc
+BuildRequires:  gcc-c++
 BuildRequires:  unzip
+
+# Patch provided by upstream
+Patch0:         mpdecimal-2.5.0-tests-fix.patch
 
 %description
 The package contains a library limpdec implementing General Decimal Arithmetic
@@ -42,10 +46,15 @@ Provides:       bundled(js-underscore) = 1.4.4
 The package contains documentation for the mpdecimal library.
 
 %prep
-%autosetup
+%autosetup -p1
 unzip -d tests/testdata %{SOURCE1}
 
 %build
+# Force -ffat-lto-objects so that configure tests are assembled which
+# is required for ASM configure tests.  -ffat-lto-objects is the default
+# for F33, but will not be the default in F34
+#define _lto_cflags -flto=auto -ffat-lto-objects
+
 %configure
 make %{?_smp_mflags}
 
@@ -68,10 +77,13 @@ fi
 %files
 %license LICENSE.txt
 %{_libdir}/libmpdec.so.*
+%{_libdir}/libmpdec++.so.*
 
 %files devel
 %{_libdir}/libmpdec.so
+%{_libdir}/libmpdec++.so
 %{_includedir}/mpdecimal.h
+%{_includedir}/decimal.hh
 
 %files doc
 %license doc/LICENSE.txt
@@ -80,6 +92,27 @@ fi
 %ldconfig_scriptlets
 
 %changelog
+* Mon Aug 31 2020 Jeff Law <law@redhat.com> - 2.5.0-3
+- Force -ffat-lto-objects and re-enable LTO
+
+* Thu Aug  6 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 2.5.0-2
+- Re-enabled tests
+
+* Wed Aug  5 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 2.5.0-1
+- New version
+  Resolves: rhbz#1851761
+- Fixed changelog
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.2-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 2.4.2-14
+- Disable LTO
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.2-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

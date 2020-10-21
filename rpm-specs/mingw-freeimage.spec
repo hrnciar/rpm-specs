@@ -6,10 +6,11 @@
 
 %global pkgname freeimage
 %global ver_major 3
+%global svn_rev 1859
 
 Name:          mingw-%{pkgname}
-Version:       3.18.0
-Release:       8%{?dist}
+Version:       3.19.0
+Release:       0.1%{?svn_rev:.svn%svn_rev}%{?dist}
 Summary:       MinGW Windows %{pkgname} library
 
 # freeimage is tripple-licensed, see
@@ -18,14 +19,16 @@ Summary:       MinGW Windows %{pkgname} library
 License:       GPLv2 or GPLv3 or MPLv1.0
 BuildArch:     noarch
 URL:           http://freeimage.sourceforge.net/
+%if 0%{?svn_rev:1}
+# https://sourceforge.net/p/freeimage/svn/%{svn_rev}/tarball?path=/FreeImage/trunk
+Source:        freeimage-svn-r%{svn_rev}-FreeImage-trunk.zip
+%else
 Source:        http://downloads.sourceforge.net/%{pkgname}/FreeImage%(echo %{version} | sed 's|\.||g').zip
+%endif
 # Unbundle bundled libraries
 Patch0:        FreeImage_unbundle.patch
 # MinGW makefile fixes
 Patch1:        FreeImage_mingw.patch
-# Backport fixes for CVE-2019-12211 and 2019-12213
-# https://sourceforge.net/p/freeimage/svn/1825/tree//FreeImage/trunk/Source/FreeImage/PluginTIFF.cpp?diff=5a0ca8dd5a4a1f6b3942a079:1824
-Patch2:         CVE-2019-12211_2019-12213.patch
 
 
 BuildRequires: mingw32-filesystem >= 95
@@ -93,7 +96,11 @@ Requires:      mingw64-%{pkgname} = %{version}-%{release}
 
 
 %prep
+%if 0%{?svn_rev:1}
+%autosetup -p1 -n freeimage-svn-r%{svn_rev}-FreeImage-trunk
+%else
 %autosetup -p1 -n FreeImage
+%endif
 
 # remove all included libs to make sure these don't get used during compile
 rm -r Source/Lib* Source/ZLib Source/OpenEXR
@@ -177,6 +184,9 @@ install -Dpm 0644 %{win64dir}/Dist/FreeImagePlus.h %{buildroot}%{mingw64_include
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.18.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.18.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

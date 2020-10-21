@@ -1,6 +1,6 @@
 Name:           antlrworks
 Version:        1.5.2
-Release:        16%{?dist}
+Release:        18%{?dist}
 Summary:        Grammar development environment for ANTLR v3 grammars
 
 License:        BSD
@@ -97,6 +97,12 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/appdata/%{name}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.5.2-17
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jun 03 2020 Fabio Valentini <decathorpe@gmail.com> - 1.5.2-16
 - Override javac source and target version to fix builds using Java 11.
 

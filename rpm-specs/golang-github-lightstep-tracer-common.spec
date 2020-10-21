@@ -3,7 +3,7 @@
 
 # https://github.com/lightstep/lightstep-tracer-common
 %global goipath         github.com/lightstep/lightstep-tracer-common
-Version:                1.0.3
+Version:                1.1.0
 
 %gometa
 
@@ -11,7 +11,7 @@ Version:                1.0.3
 Files shared by most or all of the LightStep tracer implementations.}
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Files shared by most or all of the LightStep tracer implementations
 
 # https://github.com/lightstep/lightstep-tracer-common/issues/28
@@ -22,11 +22,11 @@ Source0:        %{gosource}
 BuildRequires:  golang(github.com/gogo/protobuf/proto)
 BuildRequires:  golang(github.com/gogo/protobuf/types)
 BuildRequires:  golang(github.com/golang/protobuf/proto)
+BuildRequires:  golang(github.com/golang/protobuf/ptypes/duration)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/timestamp)
 BuildRequires:  golang(golang.org/x/net/context)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/api/annotations)
 BuildRequires:  golang(google.golang.org/grpc)
-BuildRequires:  golang(google.golang.org/grpc/internal/transport)
 
 %description
 %{common_description}
@@ -47,6 +47,12 @@ BuildRequires:  golang(google.golang.org/grpc/internal/transport)
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 22:38:34 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.0-1
+- Update to 1.1.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

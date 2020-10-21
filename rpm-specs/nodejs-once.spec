@@ -2,7 +2,7 @@
 
 Name:           nodejs-once
 Version:        1.3.3
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Run a function exactly one time
 BuildArch:      noarch
 ExclusiveArch:  %{nodejs_arches} noarch
@@ -34,6 +34,9 @@ cp -pr package.json once.js %{buildroot}%{nodejs_sitelib}/once
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

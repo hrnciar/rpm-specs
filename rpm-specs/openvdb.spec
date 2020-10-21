@@ -1,9 +1,12 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 # Set to 1 to enable testsuite. Fails everywhere with GCC 8+.
 %global with_tests 0
 
 Name:           openvdb
-Version:        7.0.0
-Release:        7%{?dist}
+Version:        7.1.0
+Release:        2%{?dist}
 Summary:        C++ library for sparse volumetric data discretized on three-dimensional grids
 License:        MPLv2.0
 URL:            http://www.openvdb.org/
@@ -95,10 +98,8 @@ sed -i \
     -e 's|lib$|%{_lib}|g' \
     %{name}/CMakeLists.txt %{name}/python/CMakeLists.txt
 
-mkdir build
 
 %build
-pushd build
 export CXXFLAGS="%{optflags} -Wl,--as-needed"
 # Ignore versions (python 3, etc.)
 %cmake \
@@ -115,19 +116,16 @@ export CXXFLAGS="%{optflags} -Wl,--as-needed"
     -DOPENVDB_ENABLE_RPATH=OFF \
     -DOPENVDB_INSTALL_CMAKE_MODULES=OFF \
     -DPYOPENVDB_INSTALL_DIRECTORY=%{python3_sitearch} \
-    ..
-%make_build
-popd
+    .
+%cmake_build
 
 %if 0%{?with_tests}
 %check
-%make test
+%ctest test
 %endif
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 
 # Let RPM pick up HTML documents in the files section
 mv %{buildroot}%{_prefix}/doc/html .
@@ -141,7 +139,8 @@ find %{buildroot} -name '*.a' -delete
 %files libs
 %license %{name}/LICENSE %{name}/COPYRIGHT
 %doc README.md CHANGES
-%{_libdir}/*.so.*
+%{_libdir}/lib%{name}.so.%{version}
+%{_libdir}/lib%{name}.so.7.1
 
 %if 0%{?fedora}
 %files -n python3-%{name}
@@ -151,9 +150,23 @@ find %{buildroot} -name '*.a' -delete
 %files devel
 %doc html
 %{_includedir}/*
-%{_libdir}/*.so
+%{_libdir}/lib%{name}.so
 
 %changelog
+* Mon Aug 24 2020 Simone Caronni <negativo17@gmail.com> - 7.1.0-2
+- List shared object versions.
+
+* Fri Aug 14 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 7.1.0-1
+- Update to 7.1.0
+- Adhere to https://docs.fedoraproject.org/en-US/packaging-guidelines/CMake/
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.0-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 7.0.0-7
 - Disable jemalloc build for RHEL and its derivative
 

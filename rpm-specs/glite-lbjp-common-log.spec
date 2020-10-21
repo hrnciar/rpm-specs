@@ -2,7 +2,7 @@
 
 Name:           glite-lbjp-common-log
 Version:        1.3.11
-Release:        12%{?dist}
+Release:        14%{?dist}
 Summary:        Definitions of glite common logging formats for LB and JP
 
 License:        ASL 2.0
@@ -72,6 +72,13 @@ rm -f %{buildroot}%{_libdir}/*.la
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.11-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.11-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.11-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

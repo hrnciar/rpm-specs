@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47.1
-%global winemono  5.0.0
+%global winemono  5.1.1
 #global _default_patch_fuzz 2
 %ifarch %{ix86} x86_64
 %global wineacm acm
@@ -44,7 +44,7 @@
 %endif
 
 Name:           wine
-Version:        5.10
+Version:        5.19
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -75,7 +75,6 @@ Source109:      wine-oleview.desktop
 Source150:      wine.appdata.xml
 
 # wine bugs
-Patch100:       wine-staging-5.10-ntdll.patch
 
 # desktop dir
 Source200:      wine.menu
@@ -129,7 +128,6 @@ BuildRequires:  libstdc++-devel
 BuildRequires:  libusb-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  libxslt-devel
-BuildRequires:  ncurses-devel
 %if 0%{?fedora}
 BuildRequires:  ocl-icd-devel
 BuildRequires:  opencl-headers
@@ -142,7 +140,7 @@ BuildRequires:  systemd-devel
 BuildRequires:  zlib-devel
 BuildRequires:  fontforge freetype-devel
 BuildRequires:  libgphoto2-devel
-%if 0%{?fedora} <= 30
+%if 0%{?fedora} && 0%{?fedora} <= 30
 BuildRequires:  isdn4k-utils-devel
 %endif
 BuildRequires:  libpcap-devel
@@ -176,6 +174,7 @@ BuildRequires:  mpg123-devel
 %endif
 BuildRequires:  SDL2-devel
 BuildRequires:  libvkd3d-devel
+BuildRequires:  libvkd3d-shader-devel
 BuildRequires:  vulkan-devel
 BuildRequires:  libFAudio-devel
 BuildRequires:  libappstream-glib
@@ -220,6 +219,9 @@ Requires:       wine-mono = %winemono
 Requires:       /usr/bin/ntlm_auth
 Requires:       mesa-dri-drivers(x86-32)
 %endif
+%if 0%{?fedora} >= 33
+Recommends:     wine-dxvk(x86-32)
+%endif
 %endif
 
 # x86-64 parts
@@ -241,6 +243,9 @@ Requires:       mingw64-wine-gecko = %winegecko
 Requires:       wine-mono = %winemono
 %endif
 Requires:       mesa-dri-drivers(x86-64)
+%if 0%{?fedora} >= 33
+Recommends:     wine-dxvk(x86-64)
+%endif
 %endif
 
 # ARM parts
@@ -455,6 +460,7 @@ Obsoletes:     wine-times-new-roman-fonts-system <= %{version}-%{release}
 %endif
 # 0%%{?wine_staging}
 Requires:      wine-symbol-fonts = %{version}-%{release}
+Requires:      wine-webdings-fonts = %{version}-%{release}
 Requires:      wine-wingdings-fonts = %{version}-%{release}
 # intermediate fix for #593140
 Requires:      liberation-sans-fonts liberation-serif-fonts liberation-mono-fonts
@@ -576,6 +582,14 @@ Requires:      fontpackages-filesystem
 %description symbol-fonts
 %{summary}
 
+%package webdings-fonts
+Summary:       Wine Webdings font family
+BuildArch:     noarch
+Requires:      fontpackages-filesystem
+
+%description webdings-fonts
+%{summary}
+
 %package wingdings-fonts
 Summary:       Wine Wingdings font family
 BuildArch:     noarch
@@ -693,16 +707,8 @@ This package adds the opencl driver for wine.
 %if 0%{?wine_staging}
 # setup and apply wine-staging patches
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
-%patch100 -p1 -b.ntdll
 
-%ifarch %{arm} aarch64
-patches/patchinstall.sh DESTDIR="`pwd`" --all \
- -W ntdll-NtContinue \
- -W ntdll-Syscall_Emulation \
- -W winebuild-Fake_Dlls
-%else
 patches/patchinstall.sh DESTDIR="`pwd`" --all
-%endif
 
 # fix parallelized build
 sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
@@ -711,6 +717,13 @@ sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
 # 0%%{?wine_staging}
 
 %build
+# This package uses top level ASM constructs which are incompatible with LTO.
+# Top level ASMs are often used to implement symbol versioning.  gcc-10
+# introduces a new mechanism for symbol versioning which works with LTO.
+# Converting packages to use that mechanism instead of toplevel ASMs is
+# recommended.
+# Disable LTO
+%define _lto_cflags %{nil}
 
 # disable fortify as it breaks wine
 # http://bugs.winehq.org/show_bug.cgi?id=24606
@@ -1114,7 +1127,6 @@ fi
 %doc documentation/README.*
 %if 0%{?wine_staging}
 %{_bindir}/msidb
-%{_libdir}/wine/runas.%{wineexe}
 %endif
 %{_bindir}/winedump
 %{_libdir}/wine/explorer.%{wineexe}
@@ -1212,6 +1224,7 @@ fi
 %{_libdir}/wine/termsv.%{wineexe}
 %{_libdir}/wine/view.%{wineexe}
 %{_libdir}/wine/wevtutil.%{wineexe}
+%{_libdir}/wine/where.%{wineexe}
 %{_libdir}/wine/whoami.%{wineexe}
 %{_libdir}/wine/wineboot.%{wineexe}
 %{_libdir}/wine/winebrowser.exe.so
@@ -1232,7 +1245,7 @@ fi
 %{_libdir}/wine/actxprxy.%{winedll}
 %{_libdir}/wine/adsldp.%{winedll}
 %{_libdir}/wine/adsldpc.%{winedll}
-%{_libdir}/wine/advapi32.dll.so
+%{_libdir}/wine/advapi32.%{winedll}
 %{_libdir}/wine/advpack.%{winedll}
 %{_libdir}/wine/amsi.%{winedll}
 %{_libdir}/wine/amstream.%{winedll}
@@ -1271,6 +1284,8 @@ fi
 %{_libdir}/wine/api-ms-win-core-file-l2-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-file-l2-1-1.%{winedll}
 %{_libdir}/wine/api-ms-win-core-file-l2-1-2.%{winedll}
+%{_libdir}/wine/api-ms-win-core-file-ansi-l2-1-0.%{winedll}
+%{_libdir}/wine/api-ms-win-core-file-fromapp-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-handle-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-heap-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-heap-l1-2-0.%{winedll}
@@ -1305,10 +1320,12 @@ fi
 %{_libdir}/wine/api-ms-win-core-memory-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-memory-l1-1-1.%{winedll}
 %{_libdir}/wine/api-ms-win-core-memory-l1-1-2.%{winedll}
+%{_libdir}/wine/api-ms-win-core-memory-l1-1-3.%{winedll}
 %{_libdir}/wine/api-ms-win-core-memory-l1-1-4.%{winedll}
 %{_libdir}/wine/api-ms-win-core-misc-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-namedpipe-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-namedpipe-l1-2-0.%{winedll}
+%{_libdir}/wine/api-ms-win-core-namedpipe-ansi-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-namespace-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-normalization-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-path-l1-1-0.%{winedll}
@@ -1349,6 +1366,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-2-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-2-1.%{winedll}
+%{_libdir}/wine/api-ms-win-core-systemtopology-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-threadpool-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-threadpool-l1-2-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-threadpool-legacy-l1-1-0.%{winedll}
@@ -1469,7 +1487,8 @@ fi
 %{_libdir}/wine/avicap32.dll.so
 %{_libdir}/wine/avifil32.%{winedll}
 %{_libdir}/wine/avrt.%{winedll}
-%{_libdir}/wine/bcrypt.dll.so
+%{_libdir}/wine/bcrypt.so
+%{_libdir}/wine/bcrypt.%{winedll}
 %{_libdir}/wine/bluetoothapis.%{winedll}
 %{_libdir}/wine/browseui.%{winedll}
 %{_libdir}/wine/bthprops.%{winecpl}
@@ -1564,7 +1583,7 @@ fi
 %{_libdir}/wine/dxgkrnl.%{winesys}
 %{_libdir}/wine/dxgmms1.%{winesys}
 %endif
-%{_libdir}/wine/dxva2.dll.so
+%{_libdir}/wine/dxva2.%{winedll}
 %{_libdir}/wine/esent.%{winedll}
 %{_libdir}/wine/evr.%{winedll}
 %{_libdir}/wine/explorerframe.%{winedll}
@@ -1675,7 +1694,7 @@ fi
 %{_libdir}/wine/jscript.%{winedll}
 %{_libdir}/wine/jsproxy.%{winedll}
 %{_libdir}/wine/kerberos.dll.so
-%{_libdir}/wine/kernel32.dll.so
+%{_libdir}/wine/kernel32.%{winedll}
 %{_libdir}/wine/kernelbase.%{winedll}
 %{_libdir}/wine/ksecdd.%{winesys}
 %{_libdir}/wine/ksproxy.%{wineax}
@@ -1762,6 +1781,7 @@ fi
 %{_libdir}/wine/msvcp120.%{winedll}
 %{_libdir}/wine/msvcp120_app.%{winedll}
 %{_libdir}/wine/msvcp140.%{winedll}
+%{_libdir}/wine/msvcp140_1.%{winedll}
 %{_libdir}/wine/msvcr70.dll.so
 %{_libdir}/wine/msvcr71.dll.so
 %{_libdir}/wine/msvcr80.dll.so
@@ -1791,13 +1811,16 @@ fi
 %{_libdir}/wine/netio.%{winesys}
 %{_libdir}/wine/netprofm.%{winedll}
 %{_libdir}/wine/netsh.%{wineexe}
+%if 0%{?wine_staging}
+%{_libdir}/wine/netutils.%{winedll}
+%endif
 %{_libdir}/wine/newdev.%{winedll}
 %{_libdir}/wine/ninput.%{winedll}
 %{_libdir}/wine/normaliz.%{winedll}
 %{_libdir}/wine/npmshtml.%{winedll}
 %{_libdir}/wine/npptools.%{winedll}
 %{_libdir}/wine/ntdll.so
-%{_libdir}/wine/ntdll.dll.so
+%{_libdir}/wine/ntdll.%{winedll}
 %{_libdir}/wine/ntdsapi.%{winedll}
 %{_libdir}/wine/ntprint.%{winedll}
 %if 0%{?wine_staging}
@@ -1805,7 +1828,8 @@ fi
 %{_libdir}/wine/nvcuvid.dll.so
 %endif
 %{_libdir}/wine/objsel.%{winedll}
-%{_libdir}/wine/odbc32.dll.so
+%{_libdir}/wine/odbc32.so
+%{_libdir}/wine/odbc32.%{winedll}
 %{_libdir}/wine/odbcbcp.%{winedll}
 %{_libdir}/wine/odbccp32.%{winedll}
 %{_libdir}/wine/odbccu32.%{winedll}
@@ -1830,6 +1854,7 @@ fi
 %{_libdir}/wine/propsys.%{winedll}
 %{_libdir}/wine/psapi.%{winedll}
 %{_libdir}/wine/pstorec.%{winedll}
+%{_libdir}/wine/pwrshplugin.%{winedll}
 %{_libdir}/wine/qasf.%{winedll}
 %{_libdir}/wine/qcap.dll.so
 %{_libdir}/wine/qdvd.%{winedll}
@@ -1882,6 +1907,9 @@ fi
 %{_libdir}/wine/softpub.%{winedll}
 %{_libdir}/wine/spoolsv.%{wineexe}
 %{_libdir}/wine/srclient.%{winedll}
+%if 0%{?wine_staging}
+%{_libdir}/wine/srvcli.%{winedll}
+%endif
 %{_libdir}/wine/sspicli.%{winedll}
 %{_libdir}/wine/stdole2.%{winetlb}
 %{_libdir}/wine/stdole32.%{winetlb}
@@ -1912,7 +1940,8 @@ fi
 %{_libdir}/wine/url.%{winedll}
 %{_libdir}/wine/urlmon.%{winedll}
 %{_libdir}/wine/usbd.%{winesys}
-%{_libdir}/wine/user32.dll.so
+%{_libdir}/wine/user32.so
+%{_libdir}/wine/user32.%{winedll}
 %{_libdir}/wine/usp10.%{winedll}
 %{_libdir}/wine/utildll.%{winedll}
 %{_libdir}/wine/uxtheme.dll.so
@@ -1938,10 +1967,15 @@ fi
 %{_libdir}/wine/webservices.%{winedll}
 %{_libdir}/wine/wer.%{winedll}
 %{_libdir}/wine/wevtapi.%{winedll}
+%{_libdir}/wine/wevtsvc.%{winedll}
 %{_libdir}/wine/wiaservc.%{winedll}
 %{_libdir}/wine/wimgapi.%{winedll}
 %if 0%{?wine_staging}
 %{_libdir}/wine/win32k.%{winesys}
+%{_libdir}/wine/windows.gaming.input.%{winedll}
+%{_libdir}/wine/windows.globalization.%{winedll}
+%{_libdir}/wine/windows.media.speech.%{winedll}
+%{_libdir}/wine/windows.networking.connectivity.%{winedll}
 %endif
 %{_libdir}/wine/windowscodecs.dll.so
 %{_libdir}/wine/windowscodecsext.%{winedll}
@@ -2009,6 +2043,19 @@ fi
 %{_libdir}/wine/x3daudio1_5.dll.so
 %{_libdir}/wine/x3daudio1_6.dll.so
 %{_libdir}/wine/x3daudio1_7.dll.so
+%if 0%{?wine_staging}
+%{_libdir}/wine/xactengine2_0.dll.so
+%{_libdir}/wine/xactengine2_1.dll.so
+%{_libdir}/wine/xactengine2_2.dll.so
+%{_libdir}/wine/xactengine2_3.dll.so
+%{_libdir}/wine/xactengine2_4.dll.so
+%{_libdir}/wine/xactengine2_5.dll.so
+%{_libdir}/wine/xactengine2_6.dll.so
+%{_libdir}/wine/xactengine2_7.dll.so
+%{_libdir}/wine/xactengine2_8.dll.so
+%{_libdir}/wine/xactengine2_9.dll.so
+%{_libdir}/wine/xactengine2_10.dll.so
+%endif
 %{_libdir}/wine/xactengine3_0.dll.so
 %{_libdir}/wine/xactengine3_1.dll.so
 %{_libdir}/wine/xactengine3_2.dll.so
@@ -2236,6 +2283,10 @@ fi
 %doc COPYING.LIB
 %{_datadir}/wine/fonts/symbol.ttf
 
+%files webdings-fonts
+%doc COPYING.LIB
+%{_datadir}/wine/fonts/webdings.ttf
+
 %files wingdings-fonts
 %doc COPYING.LIB
 %{_datadir}/wine/fonts/wingding.ttf
@@ -2336,6 +2387,42 @@ fi
 %endif
 
 %changelog
+* Sat Oct 10 2020 Michael Cronenworth <mike@cchtml.com> 5.19-1
+- version update
+
+* Mon Sep 28 2020 Michael Cronenworth <mike@cchtml.com> 5.18-2
+- Enable vkd3d shader support
+
+* Mon Sep 28 2020 Michael Cronenworth <mike@cchtml.com> 5.18-1
+- version update
+
+* Tue Sep 15 2020 Michael Cronenworth <mike@cchtml.com> 5.17-1
+- version update
+
+* Tue Sep 01 2020 Michael Cronenworth <mike@cchtml.com> 5.16-1
+- version update
+
+* Sun Aug 16 2020 Michael Cronenworth <mike@cchtml.com> 5.15-1
+- version update
+
+* Mon Aug 10 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 5.14-2
+- Recommend wine-dxvk as part of https://fedoraproject.org/wiki/Changes/DXVKwined3d
+
+* Mon Aug 03 2020 Michael Cronenworth <mike@cchtml.com> 5.14-1
+- version update
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Michael Cronenworth <mike@cchtml.com> 5.13-1
+- version update
+
+* Tue Jul 14 2020 Michael Cronenworth <mike@cchtml.com> 5.12-1
+- version update
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> 5.10-2
+- Disable LTO
+
 * Sun Jun 07 2020 Michael Cronenworth <mike@cchtml.com> 5.10-1
 - version update
 

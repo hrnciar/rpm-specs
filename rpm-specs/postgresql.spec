@@ -60,8 +60,8 @@
 Summary: PostgreSQL client programs
 Name: postgresql
 %global majorversion 12
-Version: %{majorversion}.3
-Release: 4%{?dist}
+Version: %{majorversion}.4
+Release: 3%{?dist}
 
 # The PostgreSQL license is very similar to other MIT licenses, but the OSI
 # recognizes it as an independent license, so we do as well.
@@ -73,7 +73,7 @@ Url: http://www.postgresql.org/
 # that this be kept up with the latest minor release of the previous series;
 # but update when bugs affecting pg_dump output are fixed.
 %global prevmajorversion 11
-%global prevversion %{prevmajorversion}.8
+%global prevversion %{prevmajorversion}.9
 %global prev_prefix %{_libdir}/pgsql/postgresql-%{prevmajorversion}
 %global precise_version %{?epoch:%epoch:}%version-%release
 
@@ -368,11 +368,6 @@ Requires:	llvm => 5.0
 %endif
 Provides:	postgresql-llvmjit >= %{version}-%{release}
 
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
 BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
 
 %description llvmjit
@@ -413,6 +408,10 @@ find . -type f -name .gitignore | xargs rm
 
 
 %build
+# Avoid LTO on armv7hl as it runs out of memory
+%ifarch armv7hl s390x
+%define _lto_cflags %{nil}
+%endif
 # fail quickly and obviously if user tries to build as root
 %if %runselftest
 	if [ x"`id -u`" = x0 ]; then
@@ -1259,6 +1258,22 @@ make -C postgresql-setup-%{setup_version} check
 
 
 %changelog
+* Fri Oct 09 2020 Honza Horak <hhorak@redhat.com> - 12.4-3
+- Removing problematic requirements on ppc64 arch
+  Resolves: #1882642
+
+* Fri Aug 21 2020 Jeff Law <law@redhat.com> - 12.4-2
+- Re-enable LTO
+
+* Tue Aug 18 2020 Patrik Novotný <panovotn@redhat.com> - 12.4-1
+- Rebase to upstream release 12.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 12.3-5
+- Disable LTO
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 12.3-4
 - Perl 5.32 rebuild
 

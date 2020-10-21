@@ -3,7 +3,7 @@
 Summary: The NTP daemon and utilities
 Name: ntp
 Version: 4.2.8p15
-Release: 1%{?dist}
+Release: 4%{?dist}
 # primary license (COPYRIGHT) : MIT
 # kernel/sys/ppsclock.h (not used) : BSD with advertising
 # include/ntif.h (not used) : BSD
@@ -302,6 +302,15 @@ popd
 %{ntpdocdir}/html
 
 %changelog
+* Tue Sep 15 2020 Miroslav Lichvar <mlichvar@redhat.com> 4.2.8p15-4
+- rebuild for new libevent
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.8p15-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Miroslav Lichvar <mlichvar@redhat.com> 4.2.8p15-2
+- rebuild for autogen (#1852712)
+
 * Tue Jun 23 2020 Miroslav Lichvar <mlichvar@redhat.com> 4.2.8p15-1
 - update to 4.2.8p15 (CVE-?)
 

@@ -8,7 +8,7 @@
 
 Name:    syslog-ng
 Version: %{syslog_ng_ver}
-Release: 2%{?dist}
+Release: 5%{?dist}
 Summary: Next-generation syslog server
 
 License: GPLv2+
@@ -457,6 +457,15 @@ fi
 
 
 %changelog
+* Thu Aug 27 2020 Josef Řídký <jridky@redhat.com> - 3.27.1-5
+- Rebuilt for new net-snmp release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.27.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 3.27.1-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon Jun 15 2020 Peter Czanik <peter@czanik.hu> - 3.27.1-2
 - do not mask syslog-ng modules to fix rhbz#1846777
 

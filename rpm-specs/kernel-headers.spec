@@ -1,7 +1,7 @@
 # For a stable, released kernel, released_kernel should be 1. For rawhide
 # and/or a kernel built from an rc or git snapshot, released_kernel should
 # be 0.
-%global released_kernel 0
+%global released_kernel 1
 
 # define buildid .local
 
@@ -21,7 +21,7 @@
 # base_sublevel is the kernel version we're starting with and patching
 # on top of -- for example, 3.1-rc7-git1 starts with a 3.0 base,
 # which yields a base_sublevel of 0.
-%define base_sublevel 7
+%define base_sublevel 9
 
 ## If this is a released kernel ##
 %if 0%{?released_kernel}
@@ -40,7 +40,7 @@
 # The next upstream release sublevel (base_sublevel+1)
 %define upstream_sublevel %(echo $((%{base_sublevel} + 1)))
 # The rc snapshot level
-%global rcrev 1
+%global rcrev 0
 # The git snapshot level
 %define gitrev 0
 # Set rpm version accordingly
@@ -170,6 +170,45 @@ done
 %{_prefix}/*-linux-gnu/*
 
 %changelog
+* Mon Oct 12 10:09:39 CDT 2020 Justin M. Forbes <jforbes@fedoraproject.org>  - 5.9.0-1
+- Linux v5.9.0
+
+* Mon Oct  5 14:54:56 CDT 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.0-0.rc8.git0.1
+- Linux v5.9-rc8.git0
+
+* Mon Sep 28 13:47:22 CDT 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.0-0.rc7.git0.1
+- Linux v5.9-rc7.git0
+
+* Mon Sep 21 10:06:55 CDT 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.0-0.rc6.git0.1
+- Linux v5.9-rc6.git0
+
+* Tue Sep 15 08:45:34 CDT 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.0-0.rc5.git0.1
+- Linux v5.9-rc5.git0
+
+* Mon Aug 31 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.0-0.rc3.git0.1
+- Linux v5.9-rc3.git0
+
+* Tue Aug 25 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.0-0.rc2.git0.1
+- Linux v5.9-rc2.git0
+
+* Mon Aug 17 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.0-1
+- Linux v5.9-rc1.git0
+
+* Mon Aug 03 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.0-1
+- Linux v5.8.0
+
+* Mon Jul 27 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.0-0.rc7.git0.1
+- Linux v5.8-rc7.git0
+
+* Mon Jul 13 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.0-0.rc5.git0.1
+- Linux v5.8-rc5.git0
+
+* Mon Jul 06 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.0-0.rc4.git0.1
+- Linux v5.8-rc4.git0
+
+* Mon Jun 29 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.0-0.rc3.git0.1
+- Linux v5.8-rc3.git0
+
 * Mon Jun 15 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.0-0.rc1.git0.1
 - Linux v5.8-rc1.git0
 

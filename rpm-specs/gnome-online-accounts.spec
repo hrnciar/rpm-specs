@@ -2,16 +2,16 @@
 %global glib2_version 2.52
 %global gtk3_version 3.19.12
 %global libsoup_version 2.42
-%global webkit2gtk3_version 2.12.0
+%global webkit2gtk3_version 2.26.0
 
 Name:		gnome-online-accounts
-Version:	3.36.0
+Version:	3.38.0
 Release:	1%{?dist}
 Summary:	Single sign-on framework for GNOME
 
 License:	LGPLv2+
 URL:		https://wiki.gnome.org/Projects/GnomeOnlineAccounts
-Source0:	https://download.gnome.org/sources/gnome-online-accounts/3.36/%{name}-%{version}.tar.xz
+Source0:	https://download.gnome.org/sources/gnome-online-accounts/3.38/%{name}-%{version}.tar.xz
 
 # https://pagure.io/fedora-workstation/issue/83
 Patch0:		0001-Remove-Documents-support.patch
@@ -119,6 +119,19 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{_datadir}/vala/
 
 %changelog
+* Fri Oct 16 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Mon Aug 10 2020 Debarshi Ray <rishi@fedoraproject.org> - 3.37.90-1
+- Update to 3.37.90
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 10 2020 Kalev Lember <klember@redhat.com> - 3.36.0-1
 - Update to 3.36.0
 

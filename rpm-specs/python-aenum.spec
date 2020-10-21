@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        2.2.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Advanced Enumerations, NamedTuples and NamedConstants for Python
 
 License:        BSD
@@ -70,6 +70,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} %{pypi_name}/test.py
 %{python3_sitelib}/%{pypi_name}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.2.3-3
 - Rebuilt for Python 3.9
 

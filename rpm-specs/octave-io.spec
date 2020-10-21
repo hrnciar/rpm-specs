@@ -1,7 +1,7 @@
 %global octpkg io
 
 Name:           octave-%{octpkg}
-Version:        2.6.1
+Version:        2.6.2
 Release:        1%{?dist}
 Summary:        Input/Output in external formats
 License:        GPLv3+ and BSD
@@ -51,6 +51,12 @@ Input/Output in external formats.
 
 
 %changelog
+* Mon Oct 12 2020 Orion Poplawski <orion@nwra.com> - 2.6.2-1
+- Update to 2.6.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 18 2020 Orion Poplawski <orion@nwra.com> - 2.6.1-1
 - Update to 2.6.1
 

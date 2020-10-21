@@ -5,7 +5,7 @@
 
 Name:           %{fontname}-fonts
 Version:        0.2.0
-Release:        0.25.beta%{?dist}
+Release:        0.26.beta%{?dist}
 Summary:        Compact Chinese fonts derived from Droid
 
 License:        ASL 2.0 or GPLv3 with exceptions
@@ -51,6 +51,9 @@ ln -s %{_fontconfig_templatedir}/%{fontconf} \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-0.26.beta
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-0.25.beta
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

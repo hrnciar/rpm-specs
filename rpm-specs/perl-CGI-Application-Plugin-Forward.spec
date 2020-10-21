@@ -1,6 +1,6 @@
 Name:           perl-CGI-Application-Plugin-Forward
 Version:        1.06
-Release:        31%{?dist}
+Release:        32%{?dist}
 Summary:        Pass control from one run mode to another in CGI::Application
 License:        GPL+ or Artistic
 
@@ -47,6 +47,9 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.06-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.06-31
 - Perl 5.32 rebuild
 

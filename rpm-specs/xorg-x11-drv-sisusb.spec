@@ -7,7 +7,7 @@
 Summary:    Xorg X11 sisusb video driver
 Name:	    xorg-x11-drv-sisusb
 Version:    0.9.6
-Release:    33%{?dist}
+Release:    34%{?dist}
 URL:	    http://www.x.org
 License:    MIT
 
@@ -48,6 +48,9 @@ find $RPM_BUILD_ROOT -regex ".*.la$" | xargs rm -f --
 %{_mandir}/man4/*.4*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.6-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.6-33
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

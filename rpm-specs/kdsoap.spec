@@ -1,6 +1,6 @@
 Name:           kdsoap
 Version:        1.9.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        A Qt-based client-side and server-side SOAP component
 
 # The entire source code is the GPLv3 expect libkdsoap-server which is AGPLv3
@@ -44,19 +44,19 @@ Documentation for %{name}
 
 
 %build
-%cmake -DCMAKE_BUILD_TYPE=Release -DKDSoap_EXAMPLES=false -DCMAKE_SKIP_RPATH=true .
-%make_build
+%cmake -DCMAKE_BUILD_TYPE=Release -DKDSoap_EXAMPLES=false -DCMAKE_SKIP_RPATH=true
+%cmake_build
 dos2unix doc/config/doxygen.css
 
 
 %install
-%make_install
+%cmake_install
 rm -rf $RPM_BUILD_ROOT/%{_datarootdir}/doc/KDSoap
-find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
+find $RPM_BUILD_ROOT -name '*.la' -print -delete
 
 
 %check
-ctest -V %{?_smp_mflags}
+%ctest
 
 
 %files
@@ -82,6 +82,9 @@ ctest -V %{?_smp_mflags}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 20 2020 Casper Meijn <casper@meijn.net> - 1.9.0-6
 - Update to KDSoap 1.9.0
 - Disable building examples

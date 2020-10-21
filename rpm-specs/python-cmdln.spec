@@ -4,7 +4,7 @@
 Summary:        An improved cmd.py for Writing Multi-command Scripts and Shells
 Name:           python-cmdln
 Version:        2.0.0
-Release:        16%{?dist}
+Release:        17%{?dist}
 Source0:        https://github.com/trentm/cmdln/archive/%{commit}/cmdln-%{version}-%{shortcommit}.tar.gz
 License:        MIT
 BuildRequires:  python3-devel
@@ -72,6 +72,9 @@ export CFLAGS="%{optflags}"
 %doc README.md docs/* examples/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.0-16
 - Rebuilt for Python 3.9
 

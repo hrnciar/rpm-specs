@@ -17,7 +17,7 @@
 %global build_openmpi 1
 
 Name:           netgen-mesher
-Version:        6.2.2006
+Version:        6.2.2008
 Release:        1%{?dist}
 Summary:        Automatic mesh generation tool
 
@@ -121,6 +121,7 @@ Python3 interface for netgen.
 %package        openmpi
 Summary:        Netgen compiled against openmpi
 BuildRequires:  openmpi-devel
+BuildRequires:  python3-mpi4py-openmpi
 # Require explicitly for dir ownership and to guarantee the pickup of the right runtime
 Requires:       %{name}-common = %{version}-%{release}
 Requires:       %{name}-openmpi-libs%{?_isa} = %{version}-%{release}
@@ -159,6 +160,7 @@ Python3 interface for netgen compiled against openmpi.
 %package        mpich
 Summary:        Netgen compiled against mpich
 BuildRequires:  mpich-devel
+BuildRequires:  python3-mpi4py-mpich
 # Require explicitly for dir ownership and to guarantee the pickup of the right runtime
 Requires:       %{name}-common = %{version}-%{release}
 Requires:       %{name}-mpich-libs%{?_isa} = %{version}-%{release}
@@ -215,7 +217,7 @@ mkdir serial
   -DUSE_JPEG=1 -DUSE_OCC=1 \
   -DOpenGL_GL_PREFERENCE=GLVND \
   ..
-%make_build
+%cmake_build
 )
 
 ### openmpi version ###
@@ -234,7 +236,7 @@ mkdir openmpi
   -DNG_INSTALL_DIR_PYTHON=%{_libdir}/openmpi/python%{python3_version}/site-packages/%{name} \
   -DUSE_JPEG=1 -DUSE_OCC=1 -DUSE_MPI=1 \
   ..
-%make_build
+%cmake_build
 )
 %{_openmpi_unload}
 %endif
@@ -255,7 +257,7 @@ mkdir mpich
   -DNG_INSTALL_DIR_PYTHON=%{_libdir}/mpich/python%{python3_version}/site-packages/%{name} \
   -DUSE_JPEG=1 -DUSE_OCC=1 -DUSE_MPI=1 \
    ..
-%make_build
+%cmake_build
 )
 %{_mpich_unload}
 %endif
@@ -282,7 +284,7 @@ EOF\
 ### openmpi version ###
 %if %{build_openmpi}
 %{_openmpi_load}
-%make_install -C openmpi
+(cd openmpi && %cmake_install)
 %writepkgconfig
 %{_openmpi_unload}
 %endif
@@ -290,13 +292,13 @@ EOF\
 ### mpich version ###
 %if %{build_mpich}
 %{_mpich_load}
-%make_install -C mpich
+(cd mpich && %cmake_install)
 %writepkgconfig
 %{_mpich_unload}
 %endif
 
 ### serial version ###
-%make_install -C serial
+(cd serial && %cmake_install)
 export MPI_LIB=%{_libdir}
 export MPI_INCLUDE=%{_includedir}
 %writepkgconfig
@@ -390,6 +392,15 @@ install -Dpm 0644 nglib/nglib.h %{buildroot}%{_includedir}/%{name}/nglib.h
 
 
 %changelog
+* Thu Sep 17 2020 Sandro Mani <manisandro@gmail.com> - 6.2.2008-1
+- Update to 6.2.2008
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2.2007-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Sandro Mani <manisandro@gmail.com> - 6.2.2007-1
+- Update to 6.2.2007
+
 * Fri Jun 19 2020 Sandro Mani <manisandro@gmail.com> - 6.2.2006-1
 - Update to 6.2.2006
 

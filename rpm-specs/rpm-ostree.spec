@@ -3,7 +3,7 @@
 
 Summary: Hybrid image/package system
 Name: rpm-ostree
-Version: 2020.3
+Version: 2020.5
 Release: 1%{?dist}
 #VCS: https://github.com/cgwalters/rpm-ostree
 # This tarball is generated via "cd packaging && make -f Makefile.dist-packaging dist-snapshot"
@@ -124,12 +124,17 @@ The %{name}-devel package includes the header files for %{name}-libs.
 %autosetup -Sgit -n %{name}-%{version}
 
 %build
+# gobject introspection does not work with LTO.  There is an effort to fix this
+# in the appropriate project upstreams, so hopefully LTO can be enabled someday
+# Disable LTO.
+%define _lto_cflags %{nil}
+
 env NOCONFIGURE=1 ./autogen.sh
 %configure --disable-silent-rules --enable-gtk-doc
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p -c"
+%make_install INSTALL="install -p -c"
 find $RPM_BUILD_ROOT -name '*.la' -delete
 
 # I try to do continuous delivery via rpmdistro-gitoverlay while
@@ -189,6 +194,28 @@ $PYTHON autofiles.py > files.devel \
 
 %files devel -f files.devel
 %changelog
+* Tue Sep 15 2020 Jonathan Lebon <jonathan@jlebon.com> - 2020.5-1
+- New upstream version
+  https://github.com/coreos/rpm-ostree/releases/tag/v2020.5
+
+* Mon Aug 17 2020 Colin Walters <walters@verbum.org> - 2020.4.15.g8b0bcd7b-2
+- Update to latest upstream git for
+  https://bugzilla.redhat.com/show_bug.cgi?id=1865397
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.4-2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Jonathan Lebon <jonathan@jlebon.com> - 2020.4-1
+- New upstream version
+  https://github.com/coreos/rpm-ostree/releases/tag/v2020.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <aw@redhat.com> - 2020.3-2
+- Disable LTO
+
 * Wed Feb 05 2020 Jonathan Lebon <jonathan@jlebon.com> - 2020.3-1
 - New upstream version
   https://github.com/coreos/rpm-ostree/releases/tag/v2020.3

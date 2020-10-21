@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.3.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Procedural macro implementation of quote!
 
 # Upstream license specification: MIT/Apache-2.0
@@ -71,6 +71,13 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 26 08:33:59 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.3.2-1
 - Update to 0.3.2
 

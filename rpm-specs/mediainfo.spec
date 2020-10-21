@@ -1,7 +1,7 @@
 %global libzen_version  0.4.38
 
 Name:           mediainfo
-Version:        20.03
+Version:        20.08
 Release:        1%{?dist}
 Summary:        Supplies technical and tag information about a video or audio file (CLI)
 Summary(ru):    Предоставляет полную информацию о медиа файле (CLI)
@@ -255,6 +255,16 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 
 
 %changelog
+* Thu Aug 13 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 20.08-1
+- Update to 20.08
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.03-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.03-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 03 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 20.03-1
 - Update to 20.03
 

@@ -1,7 +1,7 @@
 Summary:        Tools collection to control LXI enabled instruments
 Name:           lxi-tools
 Version:        1.21
-Release:        3%{?dist}
+Release:        4%{?dist}
 License:        BSD
 URL:            https://lxi-tools.github.io/
 Source0:        https://github.com/lxi/lxi-tools/releases/download/v%{version}/%{name}-%{version}.tar.xz
@@ -39,6 +39,9 @@ gpgv2 --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %{_mandir}/man1/lxi.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.21-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.21-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

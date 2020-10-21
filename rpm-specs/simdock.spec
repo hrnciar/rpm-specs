@@ -4,7 +4,7 @@
 Summary:       Fast and customizable dockbar
 Name:          simdock
 Version:       1.5.3
-Release:       4%{?dist}
+Release:       5%{?dist}
 License:       GPLv2+
 URL:           https://github.com/onli/simdock
 Source0:       https://github.com/onli/simdock/archive/%{commit}/simdock-%{version}-%{scommit}.tar.gz
@@ -38,6 +38,9 @@ make DESTDIR=%{buildroot} install
 %{_datadir}/pixmaps/simdock.png
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

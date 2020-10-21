@@ -3,7 +3,7 @@
 
 # https://github.com/anacrolix/envpprof
 %global goipath         github.com/anacrolix/envpprof
-Version:                1.1.0
+Version:                1.1.1
 
 %gometa
 
@@ -14,7 +14,7 @@ environment variables.}
 %global golicenses      LICENSE
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Run time configuration of Go's pprof features
 
 License:        MIT
@@ -42,6 +42,12 @@ BuildRequires:  golang(github.com/anacrolix/log)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 15:02:09 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.1-1
+- Update to 1.1.1
+
 * Sun Jan 26 23:14:24 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.0-1
 - Update to 1.1.0
 

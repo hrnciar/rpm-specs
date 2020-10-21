@@ -1,7 +1,7 @@
 Summary:        Modified version of the Athena Widgets with N*XTSTEP appearance
 Name:           neXtaw
 Version:        0.15.1
-Release:        33%{?dist}
+Release:        34%{?dist}
 
 URL:            http://siag.nu/neXtaw/
 Source0:        http://siag.nu/pub/neXtaw/%{name}-%{version}.tar.gz
@@ -75,6 +75,9 @@ rm __docs/{Makefile*,TODO,app-defaults/Makefile*}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.1-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.1-33
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

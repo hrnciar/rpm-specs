@@ -1,6 +1,6 @@
 Name:           heimdall
 Version:        1.4.2
-Release:        9%{?dist}
+Release:        13%{?dist}
 Summary:        Flash firmware on to Samsung Galaxy S devices
 License:        MIT
 URL:            http://glassechidna.com.au/heimdall/
@@ -9,7 +9,10 @@ Source2:        %{name}.desktop
 Patch0:         heimdall-1.4.2-support_files_bigger_than_3.5gb.patch
 
 BuildRequires:  cmake
-BuildRequires:  qt5-devel
+BuildRequires:  gcc
+BuildRequires:  gcc-c++
+BuildRequires:  qt5-qtbase-devel
+BuildRequires:  systemd-rpm-macros
 BuildRequires:  libusb1-devel >= 1.0.8
 BuildRequires:  zlib-devel
 BuildRequires:  desktop-file-utils
@@ -36,12 +39,13 @@ rm -rf Win32
 rm -rf OSX
 
 %build
-%{cmake} .
-%{make_build}
+%{cmake}
+%{cmake_build}
 
 %install
-install -D -m 0755 bin/heimdall %{buildroot}%{_bindir}/heimdall
-install -D -m 0755 bin/heimdall-frontend %{buildroot}%{_bindir}/heimdall-frontend
+%{cmake_install}
+install -D -m 0755 %{_vpath_builddir}/bin/heimdall %{buildroot}%{_bindir}/heimdall
+install -D -m 0755 %{_vpath_builddir}/bin/heimdall-frontend %{buildroot}%{_bindir}/heimdall-frontend
 install -D -m 0644 heimdall/60-heimdall.rules %{buildroot}%{_udevrulesdir}/60-heimdall.rules
 desktop-file-install \
     --dir %{buildroot}%{_datadir}/applications \
@@ -54,8 +58,8 @@ desktop-file-install \
 #
 # See http://www.freedesktop.org/software/appstream/docs/ for more details.
 #
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/appdata
-cat > $RPM_BUILD_ROOT%{_datadir}/appdata/%{name}.appdata.xml <<EOF
+mkdir -p %{buildroot}%{_datadir}/appdata
+cat > %{buildroot}%{_datadir}/appdata/%{name}.appdata.xml <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 EmailAddress: contact@glassechidna.com.au
@@ -94,6 +98,19 @@ EOF
 %{_datadir}/applications/%{name}.desktop
 
 %changelog
+* Tue Aug 04 2020 Juan Orti Alcaine <jortialc@redhat.com> - 1.4.2-13
+- Add missing BuildRequires. Fix RHBZ#1863848
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Jeff Law <law@redhat.com> - 1.4.2-10
+- Drop build requirement for qt5-devel
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

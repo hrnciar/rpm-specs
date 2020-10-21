@@ -3,7 +3,7 @@
 
 Name:          vecmath
 Version:       1.6.0
-Release:       0.13.20130710git41fddda%{?dist}
+Release:       0.16.20130710git41fddda%{?dist}
 Summary:       The 3D vector math Java package, javax.vecmath
 # License is GNU General Public License, version 2, with the Classpath Exception
 License:       GPLv2 with exceptions
@@ -14,6 +14,7 @@ Source0:       https://github.com/hharrison/vecmath/archive/%{commit}/%{name}-%{
 Source1:       https://repo1.maven.org/maven2/javax/vecmath/vecmath/1.5.2/vecmath-1.5.2.pom
 # Fix link to javadoc and javadoc errors
 Patch0:        vecmath-javadoc.patch
+Patch1:        javac-1.8-source-target.patch
 BuildArch:     noarch
 
 BuildRequires: ant
@@ -35,6 +36,8 @@ This package contains javadoc for %{name}.
 %prep
 %setup -qn %{name}-%{commit}
 %patch0 -p1
+%patch1 -p1
+
 sed -e "s|<version>1.5.2</version>|<version>1.6.0</version>|" %{SOURCE1} > %{name}.pom
 %mvn_file javax.vecmath:vecmath %{name}
 
@@ -52,6 +55,15 @@ sed -e "s|<version>1.5.2</version>|<version>1.6.0</version>|" %{SOURCE1} > %{nam
 %doc COPYRIGHT.txt LICENSE.txt LICENSE-SPEC.html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-0.16.20130710git41fddda
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Fabio Valentini <decathorpe@gmail.com> - 1.6.0-0.15.20130710git41fddda
+- Override javac source / target version with 1.8 to fix building with Java 11.
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.6.0-0.14.20130710git41fddda
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-0.13.20130710git41fddda
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,14 +1,6 @@
-%global spectool_version 1.0.10
-
-%if 0%{?fedora}
-%bcond_without python3
-%else
-%bcond_with python3
-%endif
-
 Name:           rpmdevtools
-Version:        8.10
-Release:        11%{?dist}
+Version:        9.2
+Release:        1%{?dist}
 Summary:        RPM Development Tools
 
 # rpmdev-setuptree is GPLv2, everything else GPLv2+
@@ -16,29 +8,17 @@ License:        GPLv2+ and GPLv2
 URL:            https://pagure.io/rpmdevtools
 Source0:        https://releases.pagure.org/rpmdevtools/%{name}-%{version}.tar.xz
 
-# Backports from upstream
-Patch0001:      0001-bumpspec-checksig-Avoid-python-3.6-regex-related-dep.patch
-Patch0002:      0001-Limit-newVersion-s-re.sub-to-a-single-replacement.patch
-
 BuildArch:      noarch
 # help2man, pod2man, *python for creating man pages
 BuildRequires:  help2man
 BuildRequires:  %{_bindir}/pod2man
 BuildRequires:  perl-generators
-# perl dependencies for spectool
+# python dependencies for spectool
 # spectool is executed for creating man page
-BuildRequires:  perl(FileHandle)
-BuildRequires:  perl(File::Spec)
-BuildRequires:  perl(File::Temp)
-BuildRequires:  perl(Getopt::Long)
-BuildRequires:  perl(strict)
-%if %{with python3}
-BuildRequires:  python3
-BuildRequires:  rpm-python3
-%else
-BuildRequires:  python >= 2.7
-BuildRequires:  rpm-python
-%endif
+BuildRequires:  python3-devel
+BuildRequires:  python3dist(progressbar2)
+BuildRequires:  python3dist(requests-download)
+BuildRequires:  python3dist(rpm)
 # emacs-common >= 1:22.3-3 for macros.emacs
 BuildRequires:  emacs-common >= 1:22.3-3
 BuildRequires:  bash-completion
@@ -46,7 +26,6 @@ BuildRequires:  bash-completion
 # xemacs-common >= 21.5.29-8 for macros.xemacs
 BuildRequires:  xemacs-common >= 21.5.29-8
 %endif
-Provides:       spectool = %{spectool_version}
 Requires:       curl
 Requires:       diffutils
 Requires:       fakeroot
@@ -55,12 +34,10 @@ Requires:       findutils
 Requires:       gawk
 Requires:       grep
 Requires:       rpm-build >= 4.4.2.3
-%if %{with python3}
-Requires:       rpm-python3
-%else
-Requires:       python >= 2.4
-Requires:       rpm-python
-%endif
+Requires:       python%{python3_version}dist(argcomplete)
+Requires:       python%{python3_version}dist(progressbar2)
+Requires:       python%{python3_version}dist(requests-download)
+Requires:       python%{python3_version}dist(rpm)
 Requires:       sed
 Requires:       emacs-filesystem
 %if 0%{?fedora}
@@ -78,7 +55,7 @@ rpmdev-checksig     Check package signatures using alternate RPM keyring
 rpminfo             Print information about executables and libraries
 rpmdev-md5/sha*     Display checksums of all files in an archive file
 rpmdev-vercmp       RPM version comparison checker
-spectool            Expand and download sources and patches in specfiles
+rpmdev-spectool     Expand and download sources and patches in specfiles
 rpmdev-wipetree     Erase all files within dirs created by rpmdev-setuptree
 rpmdev-extract      Extract various archives, "tar xvf" style
 rpmdev-bumpspec     Bump revision in specfile
@@ -87,10 +64,8 @@ rpmdev-bumpspec     Bump revision in specfile
 
 %prep
 %autosetup -p1
-%if %{with python3}
 grep -lF "%{_bindir}/python " * \
 | xargs sed -i -e "s|%{_bindir}/python |%{_bindir}/python3 |"
-%endif
 
 
 %build
@@ -99,12 +74,10 @@ grep -lF "%{_bindir}/python " * \
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
 %make_install
 
 echo %%{_datadir}/bash-completion > %{name}.files
-[ -d $RPM_BUILD_ROOT%{_sysconfdir}/bash_completion.d ] && \
+[ -d %{buildroot}%{_sysconfdir}/bash_completion.d ] && \
 echo %%{_sysconfdir}/bash_completion.d > %{name}.files
 
 %if 0%{?fedora}
@@ -112,10 +85,14 @@ for dir in %{_emacs_sitestartdir} %{_xemacs_sitestartdir} ; do
 %else
 for dir in %{_emacs_sitestartdir} ; do
 %endif
-  install -dm 755 $RPM_BUILD_ROOT$dir
-  ln -s %{_datadir}/rpmdevtools/rpmdev-init.el $RPM_BUILD_ROOT$dir
-  touch $RPM_BUILD_ROOT$dir/rpmdev-init.elc
+  install -dm 755 %{buildroot}$dir
+  ln -s %{_datadir}/rpmdevtools/rpmdev-init.el %{buildroot}$dir
+  touch %{buildroot}$dir/rpmdev-init.elc
 done
+
+# For backwards compatibility
+ln -sr %{buildroot}%{_bindir}/rpmdev-spectool %{buildroot}%{_bindir}/spectool
+echo ".so man1/rpmdev-spectool.1" > %{buildroot}%{_mandir}/man1/spectool.1
 
 
 %files -f %{name}.files
@@ -134,6 +111,21 @@ done
 
 
 %changelog
+* Mon Oct 05 2020 Neal Gompa <ngompa13@gmail.com> - 9.2-1
+- Update to 9.2
+
+* Thu Aug 20 2020 Neal Gompa <ngompa13@gmail.com> - 9.1-1
+- Update to 9.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Neal Gompa <ngompa13@gmail.com> - 9.0-2
+- Backport fix for python spec template
+
+* Tue Jul 14 2020 Neal Gompa <ngompa13@gmail.com> - 9.0-1
+- Update to 9.0
+
 * Wed Mar 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 8.10-11
 - Add perl dependencies needed for build
 

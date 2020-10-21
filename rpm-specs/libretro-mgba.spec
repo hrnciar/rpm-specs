@@ -6,7 +6,7 @@
 
 Name:           libretro-%{corename}
 Version:        0.1.1
-Release:        0.2.%{date}git%{shortcommit}%{?dist}
+Release:        0.3.%{date}git%{shortcommit}%{?dist}
 Summary:        mGBA Game Boy Advance Emulator
 
 License:        MPLv2.0
@@ -46,6 +46,9 @@ install -Dp -m 0644 %{SOURCE1} %{buildroot}%{_libdir}/libretro/%{corename}.libre
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-0.3.20191026git429d2f2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-0.2.20191026git429d2f2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

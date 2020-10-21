@@ -2,7 +2,7 @@
 
 Name:		libgadu
 Version:	1.12.2
-Release:	11%{?dist}
+Release:	13%{?dist}
 Summary:	A Gadu-gadu protocol compatible communications library
 License:	LGPLv2
 Source0:	https://github.com/wojtekka/libgadu/releases/download/%{version}%{?rcver}/libgadu-%{version}%{?rcver}.tar.gz
@@ -96,6 +96,12 @@ make check
 %doc docs/protocol.html docs/html
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 1.12.2-13
+- Rebuilt for protobuf 3.13
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 1.12.2-11
 - Rebuilt for protobuf 3.12
 

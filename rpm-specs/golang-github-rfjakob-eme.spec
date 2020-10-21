@@ -3,7 +3,7 @@
 
 # https://github.com/rfjakob/eme
 %global goipath         github.com/rfjakob/eme
-Version:                1.1
+Version:                1.1.1
 
 %gometa
 
@@ -18,7 +18,7 @@ bigger block size (in multiples of 16 bytes, up to 2048 bytes).}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        9%{?dist}
+Release:        1%{?dist}
 Summary:        EME (Encrypt-Mix-Encrypt) wide-block encryption for Go
 
 License:        MIT
@@ -44,6 +44,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 21:44:54 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.1-1
+- Update to 1.1.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

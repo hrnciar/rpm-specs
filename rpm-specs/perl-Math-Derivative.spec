@@ -1,6 +1,6 @@
 Name:           perl-Math-Derivative
 Version:        1.01
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Numeric 1st and 2nd order differentiation
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Math-Derivative
@@ -60,6 +60,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.01-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.01-9
 - Perl 5.32 rebuild
 

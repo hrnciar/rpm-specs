@@ -1,6 +1,6 @@
 Name:           gimp-dds-plugin
 Version:        3.0.1
-Release:        13%{?dist}
+Release:        15%{?dist}
 Summary:        A plugin for GIMP allows you to load/save in the DDS format
 Summary(ru):    Плагин GIMP для работы с форматом DDS
 
@@ -45,6 +45,13 @@ install dds $RPM_BUILD_ROOT$GIMP_PLUGINS_DIR/plug-ins
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-15
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

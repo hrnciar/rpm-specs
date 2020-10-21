@@ -1,7 +1,8 @@
+%global __cmake_in_source_build 1
 Name:		dolfin
 Version:	2019.1.0.post0
 %global fenics_version 2019.1
-Release:        5%{?dist}
+Release:        11%{?dist}
 Summary:        FEniCS computational backend and problem solving environment
 
 License:        LGPLv3+
@@ -9,6 +10,12 @@ URL:            https://fenicsproject.org/
 Source0:        https://bitbucket.org/fenics-project/dolfin/downloads/dolfin-%{version}.tar.gz
 Source1:        https://bitbucket.org/fenics-project/dolfin/downloads/dolfin-%{version}.tar.gz.asc
 Source2:        3083BE4C722232E28AD0828CBED06106DD22BAB3.gpg
+
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
 
 BuildRequires:  gcc-c++
 BuildRequires:  gnupg2
@@ -19,8 +26,7 @@ BuildRequires:  petsc-devel
 BuildRequires:  sundials-devel
 BuildRequires:  scotch-devel
 # ptscotch-mpich-devel?
-BuildRequires:  blas-devel
-# openblas-devel?
+BuildRequires:  %{blaslib}-devel
 BuildRequires:  hdf5-devel
 # hdf5-mpich-devel?
 BuildRequires:  zlib-devel
@@ -93,7 +99,9 @@ sed -r -i 's|boost/detail/endian.hpp|boost/endian/arithmetic.hpp|' \
 %build
 # %%_mpich_load
 mkdir -p build && cd build
-CFLAGS=-Wno-unused-variable %cmake .. -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=off
+CFLAGS=-Wno-unused-variable %cmake .. \
+  -DBLAS_LIBRARIES=-l%{blaslib} \
+  -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=off
 %make_build
 
 # "temporary install" so the python build can find the stuff it needs
@@ -156,6 +164,25 @@ ctest -V %{?_smp_mflags}
 %{python3_sitearch}/fenics_dolfin-%{fenics_version}*-py%{python3_version}.egg-info/
 
 %changelog
+* Mon Oct  5 07:22:07 CEST 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 2019.1.0.post0-11
+- Rebuilt for sundials 5.4.0
+
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 2019.1.0.post0-10
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Aug 04 2020 Gwyn Ciesla <gwync@protonmail.com> - 2019.1.0.post0-9
+- Fix FTBFS.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.1.0.post0-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.1.0.post0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 2019.1.0.post0-6
+- Rebuild for hdf5 1.10.6
+
 * Tue Jun 23 2020 Gwyn Ciesla <gwync@protonmail.com> - 2019.1.0.post0-5
 - Directly BR python3-setuptools.
 

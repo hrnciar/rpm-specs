@@ -1,6 +1,6 @@
 Name:           perl-Mail-Alias
 Version:        1.12
-Release:        41%{?dist}
+Release:        42%{?dist}
 Summary:        Module for manipulating e-mail alias files
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Mail-Alias
@@ -43,6 +43,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-42
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.12-41
 - Perl 5.32 rebuild
 

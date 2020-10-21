@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform Rust API for memory-mapped file IO
 
 # Upstream license specification: MIT/Apache-2.0
@@ -73,5 +73,8 @@ rm -vr ci/
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 29 13:45:08 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.1.0-1
 - Initial package

@@ -4,7 +4,7 @@
 Summary:   Library for reading Jcat files
 Name:      libjcat
 Version:   0.1.3
-Release:   1%{?dist}
+Release:   3%{?dist}
 License:   LGPLv2+
 URL:       https://github.com/hughsie/libjcat
 Source0:   https://people.freedesktop.org/~hughsient/releases/%{name}-%{version}.tar.xz
@@ -89,6 +89,13 @@ Executable and data files for installed tests.
 %dir %{_datadir}/installed-tests/libjcat
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 16 2020 Richard Hughes <richard@hughsie.com> 0.1.3-1
 - New upstream release
 - Export the JcatBlobKind and JcatBlobMethod on the result

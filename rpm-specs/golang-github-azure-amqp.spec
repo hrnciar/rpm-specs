@@ -15,7 +15,7 @@ github.com/Azure/go-amqp is an AMQP 1.0 client implementation for Go.}
                         SECURITY.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        AMQP 1.0 client library for Go
 
 License:        MIT
@@ -47,5 +47,8 @@ BuildRequires:  golang(github.com/google/go-cmp/cmp/cmpopts)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 22:34:12 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.12.7-1
 - Initial package

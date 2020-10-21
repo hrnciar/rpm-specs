@@ -9,13 +9,14 @@
 %global _docdir_fmt %{name}
 
 Name:       vdirsyncer
-Version:    0.16.7
-Release:    8%{?git_tag}%{?dist}
+Version:    0.16.8
+Release:    2%{?dist}
 Summary:    %{sum}
 
 License:    BSD
 URL:        https://github.com/pimutils/%{name}
 Source0:    %{pypi_source}
+Patch0:     vdirsyncer-0.16.8-click_compatibility.patch
 
 BuildArch:  noarch
 Obsoletes:  python2-%{srcname} <= 0.12.1
@@ -41,7 +42,7 @@ Requires:       python3-click-log >= 0.3
 Requires:       python3-click-threading >= 0.4.0
 Requires:       python3-icalendar
 Requires:       python3-lxml >= 3.1
-Requires:       python3-requests >= 2.4.1
+Requires:       python3-requests >= 2.10
 Requires:       python3-requests-oauthlib
 Requires:       python3-requests-toolbelt >= 0.4.0
 Requires:       python3-vdirsyncer = %{version}
@@ -64,7 +65,7 @@ Requires:       python3-click-log >= 0.3
 Requires:       python3-click-threading >= 0.4.0
 Requires:       python3-icalendar
 Requires:       python3-lxml >= 3.1
-Requires:       python3-requests >= 2.4.1
+Requires:       python3-requests >= 2.10
 Requires:       python3-requests-oauthlib
 Requires:       python3-requests-toolbelt >= 0.4.0
 
@@ -85,6 +86,7 @@ for the vdirsyncer calendar/address-book synchronization utility.
 
 %prep
 %setup -q
+%patch -p1
 
 %build
 # Here we set upstream version based on setuptools_scm documentation
@@ -144,6 +146,12 @@ sh build.sh tests
 %doc docs/_build/html docs/_build/text
 
 %changelog
+* Thu Aug 13 2020 David Kaufmann <astra@ionic.at> - 0.16.8-1
+- Update to v0.16.8
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.7-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.16.7-8
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           tilp2
 Version:        1.18
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Texas Instruments handheld(s) <-> PC communication program
 
 License:        GPLv2+
@@ -64,6 +64,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/*.appdata
 %license COPYING
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

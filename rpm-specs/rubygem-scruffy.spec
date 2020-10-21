@@ -15,7 +15,7 @@
 Summary: A powerful, clean graphing library for Ruby
 Name: rubygem-%{gem_name}
 Version: 0.3.0
-Release: 19%{?prerelease}%{?dist}
+Release: 20%{?prerelease}%{?dist}
 License: MIT
 URL: https://github.com/brasten/scruffy
 Source0: http://rubygems.org/gems/%{gem_name}-%{version}%{?prerelease}.gem
@@ -70,6 +70,9 @@ popd
 %doc %{gem_instdir}/spec
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-20.beta1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 02 2020 Björn Esser <besser82@fedoraproject.org> - 0.3.0-19.beta1
 - Fix string quoting for rpm >= 4.16
 

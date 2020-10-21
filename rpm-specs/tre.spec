@@ -3,7 +3,7 @@
 
 Name: tre
 Version: 0.8.0
-Release: 30.20140228git%{shortcommit}%{?dist}
+Release: 31.20140228git%{shortcommit}%{?dist}
 License: BSD
 Source0: https://github.com/laurikari/tre/archive/%{commit}/tre-%{commit}.tar.gz
 # based on https://github.com/laurikari/tre/pull/19
@@ -122,7 +122,7 @@ rm $RPM_BUILD_ROOT%{_libdir}/*.la
 %{_includedir}/*
 
 %files -n python3-%{name}
-%attr(0755,root,root) %{python3_sitearch}/tre.cpython-%{python3_version_nodots}*-%{_arch}-linux%{_gnu}.so
+%attr(0755,root,root) %{python3_sitearch}/tre%{python3_ext_suffix}
 %{python3_sitearch}/tre-%{version}-py%{python3_version}.egg-info
 
 %files -n agrep
@@ -130,6 +130,9 @@ rm $RPM_BUILD_ROOT%{_libdir}/*.la
 %{_mandir}/man1/agrep.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-31.20140228gitc2f5d13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.0-30.20140228gitc2f5d13
 - Rebuilt for Python 3.9
 

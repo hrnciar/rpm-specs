@@ -4,7 +4,7 @@
 
 Name:           astrometry-tycho2
 Version:        2.0
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Tycho-2 catalogue for astrometry.net
 
 License:        BSD
@@ -41,6 +41,9 @@ make install DESTDIR=%{buildroot}/usr
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 29 2020 Mattia Verga <mattia.verga@protonmail.com> - 2.0-8
 - Temporarily disable s390 due to astrometry dependency
 

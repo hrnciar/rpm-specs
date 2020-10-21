@@ -1,6 +1,6 @@
 Name:           pynac
 Version:        0.7.26
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Manipulation of symbolic expressions
 License:        GPLv2+
 URL:            http://pynac.org/
@@ -74,6 +74,12 @@ rm -f %{buildroot}%{_libdir}/*.la
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.26-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 Jerry James <loganjerry@gmail.com> - 0.7.26-3
+- Rebuild for flint 2.6.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.26-2
 - Rebuilt for Python 3.9
 

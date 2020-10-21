@@ -4,8 +4,8 @@
 # https://github.com/kubernetes/csi-api
 %global goipath         k8s.io/csi-api
 %global forgeurl        https://github.com/kubernetes/csi-api
-Version:                1.14.3
-%global tag             kubernetes-1.14.3
+Version:                1.14.10
+%global tag             kubernetes-1.14.10
 %global distprefix      %{nil}
 
 %gometa
@@ -21,7 +21,7 @@ of the APIs.}
 %global godocs          README.md code-of-conduct.md CONTRIBUTING.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Type definitions and client code for the CSI APIs
 
 # Upstream license specification: Apache-2.0
@@ -64,6 +64,12 @@ BuildRequires:  golang(k8s.io/client-go/util/flowcontrol)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 11:53:33 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.14.10-1
+- Update to 1.14.10
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

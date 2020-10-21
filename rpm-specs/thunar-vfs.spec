@@ -4,7 +4,7 @@
 
 Name:           thunar-vfs
 Version:        1.2.0
-Release:        26%{?dist}
+Release:        27%{?dist}
 Summary:        Virtual filesystem shipped with Thunar 1.0 and earlier releases
 
 License:        LGPLv2+
@@ -79,6 +79,9 @@ make tests
 %{_libdir}/pkgconfig/thunar-vfs-*.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

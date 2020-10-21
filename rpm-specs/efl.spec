@@ -25,7 +25,7 @@
 
 
 Name:		efl
-Version:	1.24.2
+Version:	1.25.1
 Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
@@ -33,11 +33,14 @@ URL:		http://enlightenment.org/
 Source0:	http://download.enlightenment.org/rel/libs/efl/efl-%{version}.tar.xz
 # There is probably a way to conditionalize this in the code that could go upstream
 # but this works for now.
-Patch1:		efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
+#Patch1:		efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
 # If luaL_reg is not defined, define it.
-Patch2:		efl-1.23.1-luajitfix.patch
+#Patch2:		efl-1.23.1-luajitfix.patch
 # Our armv7 builds do not use neon
-Patch3:		efl-1.23.1-no-neon.patch
+Patch3:		efl-1.25.0-no-neon.patch
+# This is hacky, but it gets us building in rawhide again.
+# Upstream efl probably needs to rework how they use check in their C tests
+Patch4:		efl-1.25.0-check-fix.patch
 
 %ifnarch s390 s390x
 BuildRequires:	libunwind-devel
@@ -50,7 +53,7 @@ BuildRequires:	fribidi-devel pulseaudio-libs-devel libsndfile-devel libX11-devel
 BuildRequires:	libXau-devel libXcomposite-devel libXdamage-devel libXdmcp-devel
 BuildRequires:	libXext-devel libXfixes-devel libXinerama-devel libXrandr-devel
 BuildRequires:	libXrender-devel libXScrnSaver-devel libXtst-devel libXcursor-devel
-BuildRequires:	libXp-devel libXi-devel mesa-libGL-devel mesa-libEGL-devel
+BuildRequires:	libXi-devel mesa-libGL-devel mesa-libEGL-devel
 BuildRequires:	libblkid-devel libmount-devel systemd-devel harfbuzz-devel
 BuildRequires:	libwebp-devel tslib-devel SDL2-devel SDL-devel c-ares-devel
 BuildRequires:	libxkbcommon-devel uuid-devel libxkbcommon-x11-devel avahi-devel
@@ -59,6 +62,7 @@ BuildRequires:	pkgconfig(poppler-cpp) >= 0.12
 BuildRequires:	pkgconfig(libspectre) pkgconfig(libraw)
 BuildRequires:	pkgconfig(librsvg-2.0) >= 2.14.0 
 BuildRequires:	pkgconfig(cairo) >= 1.0.0
+BuildRequires:	pkgconfig(libavif)
 %if %{with_scim}
 BuildRequires:	scim-devel
 %endif
@@ -192,10 +196,11 @@ Development files for EFL.
 %prep
 %setup -q
 %if 0%{?rhel} && 0%{?rhel} <= 7
-%patch1 -p1 -b .old
+#%patch1 -p1 -b .old
 %endif
-%patch2 -p1 -b .luajitfix
+#%patch2 -p1 -b .luajitfix
 %patch3 -p1 -b .noneon
+%patch4 -p1 -b .checkfix
 
 # This is why hardcoding paths is bad.
 # sed -i -e 's|/opt/efl-%{version}/share/|%{_datadir}/|' \
@@ -221,11 +226,11 @@ Development files for EFL.
  -Dwl=true \
 %endif
  -Ddrm=true \
- -Dopengl=full \
  -Dinstall-eo-files=true \
 %if 0%{?has_luajit}
- -Dbindings=luajit,cxx \
+ -Dbindings=lua,cxx \
  -Dlua-interpreter=luajit \
+ -Delua=true \
 %else
  -Dbindings=cxx \
  -Dlua-interpreter=lua \
@@ -561,6 +566,32 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Mon Oct 12 2020 Tom Callaway <spot@fedoraproject.org> - 1.25.1-1
+- update to 1.25.1
+
+* Wed Sep 30 2020 Adam Jackson <ajax@redhat.com> - 1.25.0-2
+- Drop unused BuildRequires: libXp-devel
+
+* Tue Sep 22 2020 Tom Callaway <spot@fedoraproject.org> - 1.25.0-1
+- update to 1.25.0
+
+* Wed Aug  5 2020 Tom Callaway <spot@fedoraproject.org> - 1.24.3-4
+- fix build against check in rawhide
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Ding-Yi Chen <dchen@redhat.com> - 1.24.3-1
+- update to 1.24.3
+- Remove meson flag -Dopengl=full
+- Remove Patch1 efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
+- Remove Patch2 efl-1.23.1-luajitfix.patch 
+  as luaL_reg is no longer required
+
 * Tue May 26 2020 Tom Callaway <spot@fedoraproject.org> - 1.24.2-1
 - update to 1.24.2
 

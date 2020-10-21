@@ -1,20 +1,20 @@
+Name:    ima-evm-utils
+Version: 1.3.1
+Release: 1%{?dist}
 Summary: IMA/EVM support utilities
-Name: ima-evm-utils
-Version: 1.2.1
-Release: 3%{?dist}
 License: GPLv2
-Url:  http://linux-ima.sourceforge.net/
-Source: http://sourceforge.net/projects/linux-ima/files/ima-evm-utils/%{name}-%{version}.tar.gz
-BuildRequires: gcc
+Url:     http://linux-ima.sourceforge.net/
+Source:  http://sourceforge.net/projects/linux-ima/files/ima-evm-utils/%{name}-%{version}.tar.gz
+
+BuildRequires: asciidoc
 BuildRequires: autoconf
 BuildRequires: automake
+BuildRequires: gcc
+BuildRequires: keyutils-libs-devel
 BuildRequires: libtool
-BuildRequires: m4
-BuildRequires: asciidoc
 BuildRequires: libxslt
 BuildRequires: openssl-devel
-BuildRequires: keyutils-libs-devel
-Requires: tss2
+BuildRequires: tpm2-tss-devel
 
 %description
 The Trusted Computing Group(TCG) run-time Integrity Measurement Architecture
@@ -26,40 +26,58 @@ ima-evm-utils is used to prepare the file system for these extended attributes.
 
 %package devel
 Summary: Development files for %{name}
+Requires: %{name} = %{version}-%{release}
 
 %description devel
 This package provides the header files for %{name}
 
 %prep
-%setup -q
+%autosetup -p1
 
 %build
-mkdir -p m4
-autoreconf -f -i
+autoreconf -vif
 %configure --disable-static
-make %{?_smp_mflags}
+%make_build
 
 %install
-make DESTDIR=%{buildroot} install
+%make_install
 find %{buildroot}%{_libdir} -type f -name "*.la" -print -delete
 
 %ldconfig_scriptlets
+
+%files
+%license COPYING
+%doc NEWS README AUTHORS
+%{_bindir}/*
+# if you need to bump the soname version, coordinate with dependent packages
+%{_libdir}/libimaevm.so.2
+%{_libdir}/libimaevm.so.2.0.0
+%{_mandir}/man1/*
 
 %files devel
 %{_pkgdocdir}/*.sh
 %{_includedir}/*
 %{_libdir}/libimaevm.so
 
-%files
-%doc ChangeLog README AUTHORS
-%license COPYING
-%{_bindir}/*
-# if you need to bump the soname version, coordinate with dependent packages
-%{_libdir}/libimaevm.so.1
-%{_libdir}/libimaevm.so.1.0.0
-%{_mandir}/man1/*
-
 %changelog
+* Tue Aug 11 2020 Bruno Meneguele <bmeneg@redhat.com> - 1.3.1-1
+- Rebase to new upstream v1.3.1 minor release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.3-2
+- Fix devel deps
+
+* Sun Jul 26 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.3-1
+- Update to 1.3
+- Use tpm2-tss instead of tss2
+- Minor spec cleanups
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.2.1-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

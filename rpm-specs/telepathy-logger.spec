@@ -1,6 +1,6 @@
 Name:           telepathy-logger
 Version:        0.8.2
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Telepathy framework logging daemon
 
 License:        LGPLv2+
@@ -90,6 +90,9 @@ make check
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Debarshi Ray <rishi@fedoraproject.org> - 0.8.2-11
 - Fix the build with Python 3 (RH #1800190)
 - Disambiguate the Python shebangs

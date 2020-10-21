@@ -1,7 +1,7 @@
 Summary:	LZO bindings for Python
 Name:		python-lzo
 Version:	1.09
-Release:	18%{?dist}
+Release:	19%{?dist}
 Source0:	https://pypi.python.org/packages/source/p/%{name}/%{name}-%{version}.tar.gz
 URL:		http://www.oberhumer.com/opensource/lzo/
 License:	GPLv2+
@@ -38,6 +38,9 @@ PYTHONPATH=%{buildroot}/%{python3_sitearch} %{__python3} ./test.py
 %{python3_sitearch}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.09-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.09-18
 - Rebuilt for Python 3.9
 

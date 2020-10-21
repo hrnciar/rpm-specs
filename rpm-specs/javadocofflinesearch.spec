@@ -2,7 +2,7 @@
 
 Name:           javadocofflinesearch
 Version:        2.2
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        Tool for offline searching in your docs via browser
 BuildArch:      noarch
 
@@ -117,6 +117,12 @@ echo 'run ${@}' >> $RPM_BUILD_ROOT/%{_bindir}/%{name}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.2-12
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Feb 23 2020 Jiri Vanek <jvanek@redhat.com> - 2.2-11
 - fixed for new lucene
 

@@ -1,9 +1,9 @@
-%global libosmium_version 2.15.2
+%global libosmium_version 2.15.6
 %global protozero_version 1.6.3
 %global rapidjson_version 1.1.0
 
 Name:           osmium-tool
-Version:        1.12.0
+Version:        1.12.1
 Release:        2%{?dist}
 Summary:        Command line tool for working with OpenStreetMap data
 
@@ -29,27 +29,24 @@ based on the Osmium library
 
 
 %prep
-%autosetup -p 1 -n %{name}-%{version}
+%autosetup -p 1
 sed -i -e "s/-O3 -g//" CMakeLists.txt
 rm -rf include/rapidjson
 
 
 %build
-mkdir build
-cd build
-%cmake ..
-%make_build
+%cmake
+%cmake_build
 
 
 %install
-%make_install -C build
+%cmake_install
 mkdir -p %{buildroot}%{_datadir}/zsh/site-functions
 install -p -m644 zsh_completion/* %{buildroot}%{_datadir}/zsh/site-functions
 
 
 %check
-cd build
-ctest -V
+%ctest
 
 
 %files
@@ -64,6 +61,12 @@ ctest -V
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jun 28 2020 Tom Hughes <tom@compton.nu> - 1.12.1-1
+- Update to 1.12.1 upstream release
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 1.12.0-2
 - Rebuilt for Boost 1.73
 

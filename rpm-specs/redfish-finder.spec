@@ -1,6 +1,6 @@
 Name: redfish-finder 
 Version: 0.4
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: Utility for parsing SMBIOS information and configuring canonical BMC access
 BuildArch: noarch
 
@@ -50,6 +50,9 @@ install -D -p -m 0644 ./redfish-finder.service %{buildroot}/%{_unitdir}/redfish-
 %{_unitdir}/redfish-finder.service
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

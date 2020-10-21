@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.1.0
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Processing of data: URL according to WHATWG’s Fetch Standard
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -71,6 +71,13 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 27 12:57:17 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.1.0-4
 - Regenerate
 

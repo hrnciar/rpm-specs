@@ -1,6 +1,6 @@
 Name: argbash
-Version: 2.8.1
-Release: 4%{?dist}
+Version: 2.10.0
+Release: 1%{?dist}
 Summary: Bash argument parsing code generator
 License: BSD
 URL: https://argbash.io
@@ -68,8 +68,38 @@ cd resources && make check
 %{_datarootdir}/bash-completion/completions/argbash
 
 %changelog
-* Tue Jul 16 2019 Stephen Gallagher <sgallagh@redhat.com> - 2.8.1-4
-- Fix bash completion directory
+* Wed Sep 23 2020 Stephen Gallagher <sgallagh@redhat.com> - 2.10.0-1
+- Update to 2.10.0
+- Bugfixes
+  * argbash-init is able to handle empty string as the only argument without
+    being puzzled.
+  * Error handling of script working directory detection now more robust.
+- New features
+  * Argbash in the container has no longer the terminal output limitation
+    caused by the crlf line ending.
+  * The ARG_USE_PROG implementation was missing. Therefore, it was implemented
+    as ARG_USE_PROGRAM using a slightly different interface.
+
+* Mon Aug 03 2020 Stephen Gallagher <sgallagh@redhat.com> - 2.9.0-2
+- Build for epel8 as well
+
+* Mon Aug 03 2020 Stephen Gallagher <sgallagh@redhat.com> - 2.9.0-1
+- Update to 2.9.0
+- Bugfixes
+  * Fixed typo in `argbash-init` and updated obsolete/inaccurate hints
+  * Fixed incorrect permission of non-script output files
+  * Increased MacOS compatibility by removing terminator from the `chmod`
+    invocation
+- New Features
+  * Increased flexibility of the help option
+  * Improved `argbash-init` script template
+  * Increased flexibility of the version option
+  * Added a convenience function for module loading
+  * Added a possibility to the `argbash` tool to generate the script in-place,
+    exposed as the `-i` option
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild

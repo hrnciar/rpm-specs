@@ -9,10 +9,17 @@
 # Prevent broken links 
 %undefine _ld_as_needed
 
+# FlexiBLAS takes advantage of openblas-openmp by default.
+# OpenMP sub-package will be obsoleted in future.
+%if 0%{?fedora} && 0%{?fedora} >= 33
+%global with_openmp 1
+%endif
+%if 0%{?rhel} || 0%{?fedora} < 33
 %ifarch %{openblas_arches}
 %global with_openmp 1
 %else
 %global with_openmp 0
+%endif
 %endif
 
 %global with_mpich 1
@@ -33,13 +40,13 @@
 
 # Workarounf for GCC-10
 # https://gcc.gnu.org/gcc-10/porting_to.html
- %if 0%{?fedora} || 0%{?rhel} >= 9
+%if 0%{?fedora} || 0%{?rhel} >= 9
 %global build_fflags %{build_fflags} -fallow-argument-mismatch
 %endif
 
 Name: MUMPS
-Version: 5.3.1
-Release: 2%{?dist}
+Version: %{soname_version}.4
+Release: 1%{?dist}
 Summary: A MUltifrontal Massively Parallel sparse direct Solver
 License: CeCILL-C 
 URL: http://mumps.enseeiht.fr/
@@ -65,10 +72,14 @@ Patch6: %{name}-shared-seq-openmp.patch
 Patch7: %{name}-examples-openmp.patch
 
 BuildRequires: gcc-gfortran
+%if 0%{?fedora} >= 33
+BuildRequires: pkgconfig(flexiblas)
+%else
 BuildRequires: openblas-srpm-macros, openblas-devel
 %ifnarch %{openblas_arches}
 BuildRequires: blas-devel
 BuildRequires: lapack-devel
+%endif
 %endif
 BuildRequires: metis-devel
 BuildRequires: scotch-devel >= 6.0.1
@@ -87,6 +98,7 @@ C interfaces, and can interface with ordering tools such as Scotch.
 Summary: The MUMPS headers and development-related files
 Requires: %{name}%{?_isa} = %{version}-%{release}
 Requires: gcc-gfortran%{?_isa}
+Requires: %{name}-srpm-macros = %{version}-%{release}
 %description devel
 Shared links and header files.
 This package contains dummy MPI header file 
@@ -105,16 +117,26 @@ BuildArch: noarch
 %description common
 This package contains common documentation files for MUMPS.
 
+%package srpm-macros
+Summary: Additional RPM macros for MUMPS
+BuildArch: noarch
+%description srpm-macros
+Additional RPM macros for MUMPS.
+
 ########################################################
 %if 0%{?with_openmp}
 %package openmp
 Summary: MUMPS libraries with OpenMP support
 
+%if 0%{?fedora} >= 33
+BuildRequires: pkgconfig(flexiblas)
+%else
 %ifarch %{openblas_arches}
 BuildRequires: openblas-devel, openblas-srpm-macros
 %else
 BuildRequires: blas-devel
 BuildRequires: lapack-devel
+%endif
 %endif
 Requires: %{name}-common = %{version}-%{release}
 %description openmp
@@ -124,6 +146,7 @@ MUMPS libraries with OpenMP support.
 Summary: The MUMPS headers and development-related files
 Requires: %{name}-openmp%{?_isa} = %{version}-%{release}
 Requires: %{name}-devel%{?_isa} = %{version}-%{release}
+Requires: %{name}-srpm-macros = %{version}-%{release}
 %description openmp-devel
 Shared links, header files for MUMPS OpenMP.
 
@@ -162,6 +185,7 @@ Summary: The MUMPS headers and development-related files
 BuildRequires: openmpi-devel
 Requires: %{name}-openmpi%{?_isa} = %{version}-%{release}
 Requires: gcc-gfortran%{?_isa}
+Requires: %{name}-srpm-macros = %{version}-%{release}
 %if 0%{?fedora}
 Requires: rpm-mpi-hooks
 %endif
@@ -207,6 +231,7 @@ MUMPS libraries compiled against MPICH.
 Summary: The MUMPS headers and development-related files
 BuildRequires: mpich-devel
 Requires: %{name}-mpich%{?_isa} = %{version}-%{release}
+Requires: %{name}-srpm-macros = %{version}-%{release}
 %if 0%{?fedora}
 Requires: rpm-mpi-hooks
 %endif
@@ -287,10 +312,9 @@ LSCOTCH=" -L$MPI_LIB -lesmumps -lscotch -lscotcherr -lptesmumps -lptscotch -lpts
 IPORD=" -I$PWD/PORD/include/"
 LPORD=" -L$PWD/PORD/lib -lpord"
 
-%if 0%{?rhel} || 0%{?fedora} < 32
+%if (0%{?rhel} && 0%{?rhel} < 9) || (0%{?fedora} && 0%{?fedora} < 32)
 export MPIBLACSLIBS="-L$MPI_LIB -lmpiblacs"
-%endif
-%if 0%{?fedora} && 0%{?fedora} >= 32
+%else
 export MPIBLACSLIBS=""
 %endif
 export MPI_COMPILER_NAME=openmpi
@@ -301,12 +325,17 @@ mkdir -p %{name}-%{version}-$MPI_COMPILER_NAME/lib
 mkdir -p %{name}-%{version}-$MPI_COMPILER_NAME/examples
 mkdir -p %{name}-%{version}-$MPI_COMPILER_NAME/modules
 
+%if 0%{?fedora} >= 33
+export LIBBLAS="-L%{_libdir} -lflexiblas"
+export INCBLAS=-I%{_includedir}/flexiblas
+%else
 %ifarch %{openblas_arches}
 export LIBBLAS="-L%{_libdir} -lopenblas"
 export INCBLAS=-I%{_includedir}/openblas
 %else
 export LIBBLAS="-L%{_libdir} -lblas -llapack"
 export INCBLAS=-I%{_includedir}
+%endif
 %endif
 
 make all \
@@ -367,10 +396,9 @@ LSCOTCH=" -L$MPI_LIB -lesmumps -lscotch -lscotcherr -lptesmumps -lptscotch -lpts
 export IPORD=" -I$PWD/PORD/include/"
 export LPORD=" -L$PWD/PORD/lib -lpord"
 
-%if 0%{?rhel} || 0%{?fedora} < 32
+%if (0%{?rhel} && 0%{?rhel} < 9) || (0%{?fedora} && 0%{?fedora} < 32)
 export MPIBLACSLIBS="-L$MPI_LIB -lmpiblacs"
-%endif
-%if 0%{?fedora} && 0%{?fedora} >= 32
+%else
 export MPIBLACSLIBS=""
 %endif
 export MPI_COMPILER_NAME=mpich
@@ -381,12 +409,17 @@ mkdir -p %{name}-%{version}-$MPI_COMPILER_NAME/lib
 mkdir -p %{name}-%{version}-$MPI_COMPILER_NAME/examples
 mkdir -p %{name}-%{version}-$MPI_COMPILER_NAME/modules
 
+%if 0%{?fedora} >= 33
+export LIBBLAS="-L%{_libdir} -lflexiblas"
+export INCBLAS=-I%{_includedir}/flexiblas
+%else
 %ifarch %{openblas_arches}
 export LIBBLAS="-L%{_libdir} -lopenblas"
 export INCBLAS=-I%{_includedir}/openblas
 %else
 export LIBBLAS="-L%{_libdir} -lblas -llapack"
 export INCBLAS=-I%{_includedir}
+%endif
 %endif
 
 make all \
@@ -437,12 +470,17 @@ mkdir -p %{name}-%{version}/modules
 IPORD=" -I$PWD/PORD/include/"
 LPORD=" -L$PWD/PORD/lib -lpord"
 
+%if 0%{?fedora} >= 33
+export LIBBLAS="-L%{_libdir} -lflexiblas"
+export INCBLAS=-I%{_includedir}/flexiblas
+%else
 %ifarch %{openblas_arches}
 export LIBBLAS="-L%{_libdir} -lopenblas"
 export INCBLAS=-I%{_includedir}/openblas
 %else
 export LIBBLAS="-L%{_libdir} -lblas -llapack"
 export INCBLAS=-I%{_includedir}
+%endif
 %endif
 
 export LDFLAGS="%{__global_ldflags} -Wl,-z,now"
@@ -500,12 +538,17 @@ mkdir -p %{name}-%{version}-openmp/modules
 IPORD=" -I$PWD/PORD/include/"
 LPORD=" -L$PWD/PORD/lib -lpordo"
 
+%if 0%{?fedora} >= 33
+export LIBBLAS="-L%{_libdir} -lflexiblas"
+export INCBLAS=-I%{_includedir}/flexiblas
+%else
 %ifarch %{openblas_arches}
 export LIBBLAS="-L%{_libdir} -lopenblaso"
 export INCBLAS=-I%{_includedir}/openblas
 %else
 export LIBBLAS="-L%{_libdir} -lblas -llapack"
 export INCBLAS=-I%{_includedir}
+%endif
 %endif
 
 export LDFLAGS="%{__global_ldflags} -fopenmp -lgomp -lrt"
@@ -741,6 +784,13 @@ install -cpm 644 %{name}-%{version}/include/*.h $RPM_BUILD_ROOT%{_includedir}/%{
 install -cpm 644 libseq/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}
 install -cpm 644 PORD/include/* $RPM_BUILD_ROOT%{_includedir}/%{name}
 
+# rpm macro for version checking
+mkdir -p $RPM_BUILD_ROOT%{_rpmmacrodir}
+cat > $RPM_BUILD_ROOT%{_rpmmacrodir}/macros.MUMPS <<EOF
+# MUMPS version is
+%%_MUMPS_version %{version}
+EOF
+
 #######################################################
 %if 0%{?with_openmpi}
 %files openmpi
@@ -821,7 +871,32 @@ install -cpm 644 PORD/include/* $RPM_BUILD_ROOT%{_includedir}/%{name}
 %doc doc/*.pdf ChangeLog README
 %license LICENSE
 
+%files srpm-macros
+%{_rpmmacrodir}/macros.MUMPS
+
 %changelog
+* Tue Oct 06 2020 Antonio Trande <sagitter@fedoraproject.org> - 5.3.4-1
+- Release 5.3.4
+
+* Sat Aug 15 2020 Antonio Trande <sagitter@fedoraproject.org> - 5.3.3-2
+- Add an RPM macro for checking MUMPS version
+
+* Tue Aug 04 2020 Antonio Trande <sagitter@fedoraproject.org> - 5.3.3-1
+- Release 5.3.3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Iñaki Úcar <iucar@fedoraproject.org> - 5.3.1-4
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Fri Jul 17 2020 Merlin Mathesius <mmathesi@redhat.com> - 5.3.1-3
+- Minor conditional fixes for ELN
+
 * Sat Jun 13 2020 Antonio Trande <sagitter@fedoraproject.org> - 5.3.1-2
 - Modified for building on ELN
 

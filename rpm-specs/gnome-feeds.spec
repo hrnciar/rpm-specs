@@ -1,51 +1,51 @@
 %global newname gfeeds
-%global uuid    org.gabmus.%{newname}
+%global uuid org.gabmus.%{newname}
 
-Name:           gnome-feeds
-Version:        0.13.4
-Release:        5%{?dist}
-Summary:        RSS/Atom feed reader for GNOME
+Name: gnome-feeds
+Version: 0.15
+Release: 1%{?dist}
+Summary: RSS/Atom feed reader for GNOME
+BuildArch: noarch
 
-License:        GPLv3+
-URL:            https://gabmus.gitlab.io/gnome-feeds
-Source0:        https://gitlab.com/gabmus/%{name}/-/archive/%{version}/%{name}-%{version}.tar.gz
-BuildArch:      noarch
+License: GPLv3+
+URL: https://gabmus.gitlab.io/gnome-feeds
+Source0: https://gitlab.com/gabmus/%{name}/-/archive/%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:  desktop-file-utils
-BuildRequires:  intltool
-BuildRequires:  libappstream-glib
-BuildRequires:  meson >= 0.50.0
-BuildRequires:  python3-devel
-BuildRequires:  pkgconfig(glib-2.0)
-BuildRequires:  pkgconfig(gobject-introspection-1.0)
-BuildRequires:  pkgconfig(gtk+-3.0)
+BuildRequires: desktop-file-utils
+BuildRequires: intltool
+BuildRequires: libappstream-glib
+BuildRequires: meson >= 0.50.0
+BuildRequires: python3-devel
+BuildRequires: pkgconfig(glib-2.0)
+BuildRequires: pkgconfig(gobject-introspection-1.0)
+BuildRequires: pkgconfig(gtk+-3.0)
 
-Requires:       dbus-common
-Requires:       glib2
-Requires:       hicolor-icon-theme
-Requires:       libhandy >= 0.0.11
-Requires:       python3-beautifulsoup4
-Requires:       python3-brotli
-Requires:       python3-feedparser
-Requires:       python3-html5lib
-Requires:       python3-listparser
-Requires:       python3-lxml
-Requires:       python3-pillow
-Requires:       python3-pygments
-Requires:       python3-pytz
-Requires:       python3-readability-lxml
-Requires:       python3-requests
+Requires: dbus-common
+Requires: glib2
+Requires: hicolor-icon-theme
+Requires: libhandy1
+Requires: python3-beautifulsoup4
+Requires: python3-brotli
+Requires: python3-feedparser
+Requires: python3-html5lib
+Requires: python3-listparser
+Requires: python3-lxml
+Requires: python3-pillow
+Requires: python3-pygments
+Requires: python3-pytz
+Requires: python3-readability-lxml
+Requires: python3-requests
 
 %description
-GNOME Feeds is a minimal RSS/Atom feed reader built with speed and simplicity in
-mind.
+GNOME Feeds is a minimal RSS/Atom feed reader built with speed and simplicity
+in mind.
 
 It offers a simple user interface that only shows the latest news from your
 subscriptions.
 
 Articles are shown in a web view by default, with javascript disabled for a
-faster and less intrusive user experience. There's also a reader mode included,
-built from the one GNOME Web/Epiphany uses.
+faster and less intrusive user experience. There's also a reader mode
+included, built from the one GNOME Web/Epiphany uses.
 
 Feeds can be imported and exported via OPML.
 
@@ -65,7 +65,7 @@ Feeds can be imported and exported via OPML.
 
 
 %check
-appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.xml
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
@@ -83,6 +83,19 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Wed Sep 23 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.15-1
+- Update to 0.15
+
+* Sat Aug 08 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.14.1-3
+- Add libhandy1 compatibility patch
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.14.1-1
+- Updato to 0.14.1
+- Migrate to 'libhandy1'
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.13.4-5
 - Rebuilt for Python 3.9
 

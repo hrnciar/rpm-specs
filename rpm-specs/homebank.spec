@@ -1,5 +1,5 @@
 Name:           homebank
-Version:        5.4.2
+Version:        5.4.3
 Release:        1%{?dist}
 Summary:        Free easy personal accounting for all  
 
@@ -41,14 +41,14 @@ chmod -x src/*.*
 %make_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL='install -p'
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/pixmaps
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
+make install DESTDIR=%{buildroot} INSTALL='install -p'
+mkdir -p %{buildroot}%{_datadir}/pixmaps
+mkdir -p %{buildroot}%{_datadir}/applications
 desktop-file-install                                    \
         --delete-original                               \
-        --dir $RPM_BUILD_ROOT%{_datadir}/applications   \
+        --dir %{buildroot}%{_datadir}/applications   \
         --mode 0644                                     \
-        $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
+        %{buildroot}%{_datadir}/applications/%{name}.desktop
 %find_lang %{name}
 appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/%{name}.appdata.xml
 
@@ -74,6 +74,12 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/%{name}.a
 %{_datadir}/%{name}/help
 
 %changelog
+* Sat Sep 05 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 5.4.3-1
+- Update to 5.4.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 16 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 5.4.2-1
 - Update to 5.4.2
 

@@ -1,6 +1,6 @@
 Name:           perl-Config-Augeas
 Version:        1.000
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Edit configuration files through Augeas C library
 License:        LGPLv2+
 URL:            https://metacpan.org/release/Config-Augeas
@@ -46,6 +46,9 @@ LANG=C ./Build test verbose=1
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.000-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.000-18
 - Perl 5.32 rebuild
 

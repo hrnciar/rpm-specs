@@ -12,7 +12,7 @@
 
 Name:           godot
 Version:        3.2.1
-Release:        %{?prerel:0.%{status}.}1%{?dist}
+Release:        %{?prerel:0.%{status}.}1%{?dist}.1
 Summary:        Multi-platform 2D and 3D game engine with a feature-rich editor
 %if 0%{?mageia}
 Group:          Development/Tools
@@ -289,6 +289,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{rdnsname}.desktop
 appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/%{rdnsname}.appdata.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 11 2020 Rémi Verschelde <akien@fedoraproject.org> - 3.2.1-1
 - Version 3.2.1-stable
 - Bundles assimp, requires development version not packaged anywhere

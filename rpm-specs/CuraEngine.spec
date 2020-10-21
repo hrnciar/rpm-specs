@@ -1,6 +1,6 @@
 Name:           CuraEngine
 Epoch:          1
-Version:        4.6.1
+Version:        4.7.1
 Release:        2%{?dist}
 Summary:        Engine for processing 3D models into G-code instructions for 3D printers
 License:        AGPLv3+
@@ -25,6 +25,9 @@ BuildRequires:  git-core
 Patch0:         %{name}-rpath.patch
 Patch1:         %{name}-static-libstdcpp.patch
 
+# Get Fedora 33++ behavior on anything older
+%undefine __cmake_in_source_build
+
 %description
 %{name} is a C++ console application for 3D printing G-code generation. It
 has been made as a better and faster alternative to the old Skeinforge engine.
@@ -44,12 +47,12 @@ rm -rf libs
 sed -i 's/"DEV"/"%{version}"/' src/settings/Settings.h
 
 %build
-%{cmake} -DBUILD_SHARED_LIBS:BOOL=OFF  -DCURA_ENGINE_VERSION:STRING=%{version} -DUSE_SYSTEM_LIBS:BOOL=ON -DCMAKE_CXX_FLAGS_RELEASE_INIT:STRING="%{optflags} -fPIC" -DStb_INCLUDE_DIRS:PATH=./stb-%{stb_commit} .
-make %{?_smp_mflags}
+%cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DCURA_ENGINE_VERSION:STRING=%{version} -DUSE_SYSTEM_LIBS:BOOL=ON -DCMAKE_CXX_FLAGS_RELEASE_INIT:STRING="%{optflags} -fPIC" -DStb_INCLUDE_DIRS:PATH=${PWD}
+%cmake_build
 
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 
 %check
@@ -61,6 +64,18 @@ make install DESTDIR=%{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Wed Sep 23 2020 Adrian Reber <adrian@lisas.de> - 1:4.7.1-2
+- Rebuilt for protobuf 3.13
+
+* Thu Sep 03 2020 Miro Hrončok <mhroncok@redhat.com> - 1:4.7.1-1
+- Update to 4.7.1
+
+* Mon Aug 31 2020 Gabriel Féron <feron.gabriel@gmail.com> - 4.7.0-1
+- Update to 4.7.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.6.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 1:4.6.1-2
 - Rebuilt for protobuf 3.12
 

@@ -1,7 +1,7 @@
 Summary: A specialized packet sniffer designed for displaying and logging HTTP traffic
 Name: httpry
 Version: 0.1.8
-Release: 13%{?dist}
+Release: 14%{?dist}
 License: GPLv2 and BSD
 URL: http://dumpsterventures.com/jason/httpry/
 Source: http://dumpsterventures.com/jason/httpry/httpry-%{version}.tar.gz
@@ -36,6 +36,9 @@ install -Dp -m 0644 %{name}.1 %{buildroot}%{_mandir}/man1/%{name}.1
 %{_mandir}/man1/httpry.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.8-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.8-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

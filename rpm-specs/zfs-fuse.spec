@@ -1,7 +1,7 @@
 %define _hardened_build 1
 Name:             zfs-fuse
 Version:          0.7.2.2
-Release:          14%{?dist}
+Release:          17%{?dist}
 Summary:          ZFS ported to Linux FUSE
 License:          CDDL
 URL:              https://github.com/gordan-bobic/zfs-fuse
@@ -10,6 +10,9 @@ Source01:         zfs-fuse.service
 Source02:         zfs-fuse.scrub
 Source03:         zfs-fuse.sysconfig
 Source04:         zfs-fuse-helper
+Source05:         zfs-fuse-scrub.service
+Source06:         zfs-fuse-scrub.timer
+
 Patch0:           zfs-fuse-0.7.2.2-stack.patch
 Patch1:           zfs-fuse-0.7.2.2-python3.patch
 Patch2:           tirpc.patch
@@ -57,7 +60,7 @@ chmod -x contrib/test-datasets
 chmod -x contrib/find-binaries
 chmod -x contrib/solaris/fixfiles.py
 chmod -x contrib/zfsstress.py
-cp -f /usr/lib/rpm/config.{guess,sub} src/lib/libumem/
+cp -f /usr/lib/rpm/redhat/config.{guess,sub} src/lib/libumem/
 
 %build
 export CCFLAGS="%{optflags}"
@@ -69,9 +72,11 @@ scons debug=2 optim='%{optflags}'
 pushd src
 scons debug=1 install install_dir=%{buildroot}%{_sbindir} man_dir=%{buildroot}%{_mandir}/man8/ cfg_dir=%{buildroot}/%{_sysconfdir}/%{name}
 install -Dp -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
-install -Dp -m 0755 %{SOURCE2} %{buildroot}%{_sysconfdir}/cron.weekly/98-%{name}-scrub
+install -Dp -m 0755 %{SOURCE2} %{buildroot}%{_libexecdir}/%{name}-scrub
 install -Dp -m 0644 %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 install -Dp -m 0755 %{SOURCE4} %{buildroot}%{_sbindir}/zfs-fuse-helper
+install -Dp -m 0644 %{SOURCE5} %{buildroot}%{_unitdir}/%{name}-scrub.service
+install -Dp -m 0644 %{SOURCE6} %{buildroot}%{_unitdir}/%{name}-scrub.timer
 
 %ifnarch aarch64 ppc64le
 #set stack not executable, BZ 911150
@@ -119,7 +124,9 @@ rm -rf /var/lock/zfs
 %{_sbindir}/ztest
 %{_sbindir}/mount.zfs
 %{_unitdir}/%{name}.service
-%{_sysconfdir}/cron.weekly/98-%{name}-scrub
+%{_unitdir}/%{name}-scrub.service
+%{_unitdir}/%{name}-scrub.timer
+%{_libexecdir}/%{name}-scrub
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %{_sysconfdir}/%{name}/
 %{_mandir}/man8/zfs-fuse.8.gz
@@ -129,6 +136,16 @@ rm -rf /var/lock/zfs
 %{_mandir}/man8/zstreamdump.8.gz
 
 %changelog
+* Wed Sep 02 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.7.2.2-17
+- Move from cron.weekly to systemd timer unit.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2.2-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.7.2.2-14
 - Fix FTBFS.
 

@@ -1,20 +1,23 @@
 %global varnishver %(pkg-config --silence-errors --modversion varnishapi || echo 0)
+%global commit 4d6593c2c97ecbabd3bd68203bace9cdbd6e960c
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 %if 0%{?rhel} == 7 || 0%{?rhel} == 6
 %global docutils python34-docutils
+%global rst2man rst2man-3.4
 %else
 %global docutils python3-docutils
+%global rst2man rst2man
 %endif
 
 Name:    varnish-modules
-Version: 0.16.0
-Release: 1%{?dist}
+Version: 0.17.0
+Release: 0.2.klarlack.20200916git%{shortcommit}%{?dist}
 Summary: A collection of modules ("vmods") extending Varnish VCL
 
 License: BSD
-URL:     https://github.com/varnish/%{name}
-#Source:  https://download.varnish-software.com/varnish-modules/#{name}-#{version}.tar.gz
-Source:  https://github.com/varnish/varnish-modules/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
+URL:     https://github.com/nigoroll/varnish-modules
+Source:  https://github.com/nigoroll/%{name}/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
 
 BuildRequires: gcc
 BuildRequires: make
@@ -41,24 +44,26 @@ Provides: vmod-xkey = %{version}-%{release}
 %description
 This is a collection of modules ("vmods") extending Varnish VCL used
 for describing HTTP request/response policies with additional
-capabilities. This collection contains the following vmods (previously
-kept individually): vsthrottle, header, saintmode, softpurge,
-tcp, var, xkey
+capabilities. This collection contains the following vmods:
+bodyaccess, header, saintmode, tcp, var, vsthrottle, xkey
 
 
 %prep
-%autosetup
+%autosetup -n %{name}-%{commit}
 
 
 %build
+sh bootstrap
+export RST2MAN=%{rst2man}
 %configure 
-
 %make_build
+
 
 %install
 %make_install docdir=%_pkgdocdir
 find %{buildroot}/%{_libdir}/ -name '*.la' -exec rm -f {} ';'
 rm %{buildroot}%{_pkgdocdir}/LICENSE # Rather use license macro
+
 
 %check
 %ifarch %ix86 %arm ppc
@@ -74,7 +79,23 @@ sed -i 's,tests/xkey/test12.vtc,,' src/Makefile
 %{_libdir}/varnish/vmods/*
 %{_mandir}/man3/*.3*
 
+
 %changelog
+* Tue Sep 29 2020 Ingvar Hagelund <ingvar@redpill-linpro.com> - 0.17.0-0.2.klarlack.20200916git
+- Rebuilt for varnish-6.5.1
+
+* Wed Sep 16 2020 Ingvar Hagelund <ingvar@redpill-linpro.com> - 0.17.0-0.1.klarlack.20200916git
+- Switched upstream to Nils Goroll's fork which is the defacto current upstream
+- Synced description to reality
+- This is a snapshot build that needs autotools for building
+- Rebuilt for varnish-6.5.0
+
+* Mon Aug 17 2020 Ingvar Hagelund <ingvar@redpill-linpro.com> - 0.16.0-3
+- Rebuilt for varnish-6.4.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 28 2020 Ingvar Hagelund <ingvar@redpill-linpro.com> - 0.16.0-1
 - New upstream release
 

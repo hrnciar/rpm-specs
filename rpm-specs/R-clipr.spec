@@ -1,14 +1,15 @@
-%global packname  clipr
+%global packname clipr
+%global packver  0.7.1
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          0.7.0
-Release:          3%{?dist}
+Version:          0.7.1
+Release:          1%{?dist}
 Summary:          Read and Write from the System Clipboard
 
 License:          GPLv3
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
@@ -72,6 +73,12 @@ TRAVIS=true TRAVIS_CLIP=xsel CLIPR_ALLOW=TRUE \
 
 
 %changelog
+* Sat Oct 10 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.7.1-1
+- Update to latest version (#1886514)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 0.7.0-3
 - rebuild for R 4
 

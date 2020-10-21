@@ -1,10 +1,3 @@
-# https://fedoraproject.org/wiki/Packaging:DistTag?rd=Packaging/DistTag#Conditionals
-%if 0%{?fedora} < 30
-%global with_py2 1
-%else
-%global with_py2 0
-%endif
-
 %global srcname petlink
 
 %global desc %{expand: \
@@ -13,7 +6,7 @@ The encode and decode routines are written in C and are wrapped with Python.}
 
 Name:           python-%{srcname}
 Version:        0.3.4
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        Decode and encode Petlink data streams (32 and 64 bit)
 
 License:        BSD
@@ -27,22 +20,11 @@ BuildRequires:  gcc
 %description
 %{desc}
 
-%if %{with_py2}
-%package -n python2-%{srcname}
-Summary:        %{summary}
-BuildRequires:  python2-devel
-BuildRequires:  %{py2_dist simplewrap} >= 0.3.3
-Requires:       %{py2_dist numpy}
-Requires:       %{py2_dist simplewrap} >= 0.3.3
-%{?python_provide:%python_provide python2-%{srcname}}
-
-%description -n python2-%{srcname}
-%{desc}
-%endif
 
 %package -n python3-%{srcname}
 Summary:        %{summary}
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  %{py3_dist simplewrap} >= 0.3.3
 Requires:       %{py3_dist numpy}
 Requires:       %{py3_dist simplewrap} >= 0.3.3
@@ -61,30 +43,11 @@ rm -rfv %{srcname}.egg-info
 %build
 %py3_build
 
-%if %{with_py2}
-%py2_build
-%endif
-
 %install
-%if %{with_py2}
-%py2_install
-%endif
-
 %py3_install
 
 %check
-%if %{with_py2}
-%{__python2} setup.py test
-%endif
 %{__python3} setup.py test
-
-%if %{with_py2}
-%files -n python2-%{srcname}
-%license LICENSE
-%doc README.rst
-%{python2_sitearch}/%{srcname}-%{version}-py2.?.egg-info
-%{python2_sitearch}/%{srcname}
-%endif
 
 %files -n python3-%{srcname}
 %license LICENSE
@@ -93,6 +56,13 @@ rm -rfv %{srcname}.egg-info
 %{python3_sitearch}/%{srcname}
 
 %changelog
+* Mon Oct 05 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.3.4-8
+- Explicitly require setuptools
+- drop py2 subpackage
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.4-6
 - Rebuilt for Python 3.9
 

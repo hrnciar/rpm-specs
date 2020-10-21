@@ -1,6 +1,9 @@
+# Store keys in a temp directory
+%global gnupghome %(mktemp --directory)
+
 Name:           perl-Module-Signature
-Version:        0.83
-Release:        7%{?dist}
+Version:        0.87
+Release:        2%{?dist}
 Summary:        CPAN signature management utilities and modules
 License:        CC0
 URL:            https://metacpan.org/release/Module-Signature
@@ -13,6 +16,7 @@ BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
 BuildRequires:  perl(inc::Module::Install) >= 0.92
+BuildRequires:  perl(lib)
 BuildRequires:  perl(Module::Install::Can)
 BuildRequires:  perl(Module::Install::External)
 BuildRequires:  perl(Module::Install::Makefile)
@@ -37,7 +41,6 @@ BuildRequires:  perl(Data::Dumper)
 BuildRequires:  perl(File::Path)
 BuildRequires:  perl(Getopt::Long)
 BuildRequires:  perl(IPC::Run)
-BuildRequires:  perl(lib)
 BuildRequires:  perl(Pod::Usage)
 BuildRequires:  perl(Test::More)
 # Module runtime
@@ -57,15 +60,13 @@ SIGNATURE files for Perl CPAN distributions.
 
 %prep
 %setup -q -n Module-Signature-%{version}
+
 # Remove bundled modules
 rm -r ./inc/*
 sed -i -e '/^inc\//d' MANIFEST
 
-# Create a GPG directory for testing, to avoid using ~/.gnupg
-mkdir --mode=0700 gnupghome
-
 %build
-export GNUPGHOME=$(pwd)/gnupghome
+export GNUPGHOME=%{gnupghome}
 perl Makefile.PL INSTALLDIRS=vendor --skipdeps </dev/null
 make %{?_smp_mflags}
 
@@ -75,8 +76,11 @@ find %{buildroot} -type f -name .packlist -delete
 %{_fixperms} -c %{buildroot}
 
 %check
-export GNUPGHOME=$(pwd)/gnupghome
+export GNUPGHOME=%{gnupghome}
 make test
+
+%clean
+rm -rf %{buildroot} %{gnupghome}
 
 %files
 %doc AUTHORS Changes README *.pub
@@ -86,6 +90,23 @@ make test
 %{_mandir}/man3/Module::Signature.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.87-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul  4 2020 Paul Howarth <paul@city-fan.org> - 0.87-1
+- Update to 0.87
+  - Skip 3-verify.t on Crypt::OpenPGP installations
+
+* Sat Jun 27 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.86-2
+- Perl 5.32 re-rebuild updated packages
+
+* Thu Jun 25 2020 Paul Howarth <paul@city-fan.org> - 0.86-1
+- Update to 0.86
+  - Update PAUSE and ANDK keys to 2020
+  - Update documentation pertaining to SHA1
+  - Fix compatibility with Crypt::OpenPGP
+- Use mktemp to create temporary GPG directory
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.83-7
 - Perl 5.32 rebuild
 

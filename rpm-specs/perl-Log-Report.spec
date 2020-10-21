@@ -3,7 +3,7 @@
 
 Name:           perl-Log-Report
 Version:        1.29
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Report a problem with exceptions and translation support
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Log-Report
@@ -225,6 +225,12 @@ make test
 %{_mandir}/man3/MojoX::Log::Report.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.29-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.29-3
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.29-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

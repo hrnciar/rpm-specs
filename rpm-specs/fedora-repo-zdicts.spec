@@ -1,5 +1,5 @@
 Name:           fedora-repo-zdicts
-Version:        2004.2
+Version:        2010.1
 Release:        1%{?dist}
 Summary:        Zstd dictionaries for Fedora repository metadata
 License:        BSD
@@ -36,7 +36,14 @@ metadata to improve their compression.
 %doc README.md
 %{_datadir}/fedora-repo-zdicts
 
+
 %changelog
+* Thu Oct 08 2020 Jonathan Dieter <jdieter@gmail.com> - 2010.1-1
+- Update with F33 dictionaries
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2004.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 04 2020 Jonathan Dieter <jdieter@gmail.com> - 2004.2-1
 - Update with F32 dictionaries
 

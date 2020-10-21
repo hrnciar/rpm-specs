@@ -1,6 +1,6 @@
 Name:           libaccounts-glib
 Version:        1.25
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Accounts framework for Linux and POSIX based platforms
 License:        LGPLv2
 
@@ -121,6 +121,13 @@ mkdir -p %{buildroot}%{_datadir}/accounts/{applications,providers,services,servi
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.25-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.25-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.25-2
 - Rebuilt for Python 3.9
 

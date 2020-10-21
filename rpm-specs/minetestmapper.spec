@@ -1,6 +1,6 @@
 Name:           minetestmapper
 Version:        20200328
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Generates a overview image of a minetest map
 
 License:        BSD
@@ -25,11 +25,11 @@ details than the deprecated Python script.
 sed 's/get_setting/read_setting/g' -i db-postgresql.cpp
 
 %build
-%cmake -DENABLE_LEVELDB=1 -DENABLE_REDIS=1 -DENABLE_POSTGRESQL=1 .
-%make_build
+%cmake -DENABLE_LEVELDB=1 -DENABLE_REDIS=1 -DENABLE_POSTGRESQL=1
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 # Install colors.txt into /usr/share/minetest.
 mkdir -p %{buildroot}%{_datadir}/minetest
@@ -47,6 +47,13 @@ rm -rf %{buildroot}%{_pkgdocdir}/COPYING
 %doc AUTHORS README.rst
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200328-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200328-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Ben Rosser <rosser.bjr@gmail.com> - 20200328-1
 - Update to latest upstream release (rhbz#1818531).
 

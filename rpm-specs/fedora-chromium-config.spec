@@ -1,6 +1,6 @@
 Name:           fedora-chromium-config
 Version:        1.1
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Fedora customizations for Chromium/Chrome
 License:        GPLv2+
 # The upstream for this is a dist-git
@@ -8,17 +8,28 @@ URL:            https://src.fedoraproject.org/rpms/fedora-chromium-config
 Source0:        https://src.fedoraproject.org/rpms/fedora-chromium-config/raw/master/f/LICENSE
 Source1:        https://raw.githubusercontent.com/tpopela/fedora-user-agent-chrome/master/hojggiaghnldpcknpbciehjcaoafceil.json
 # Configuration to support Kerberos GSSAPI logins to the Fedora Account System
-Source2:    00_gssapi.json
+Source2:        00_gssapi.json
+Source3:        %{name}-tmpfiles.conf
 
 BuildArch:      noarch
 
+# For the _tmpfilesdir macro
+BuildRequires:  systemd-rpm-macros
+
 Obsoletes:      fedora-user-agent-chrome < 0.0.0.5
 Provides:       fedora-user-agent-chrome = %{version}-%{release}
+
+# Starting with Chromium 83, the Kerberos support works properly
+Conflicts:      chromium < 83
 
 
 %description
 This package is used to install customizations for Chromium/Chrome that are
 recommended by Fedora.
+
+It includes a GSSAPI configuration that enables access to many Fedora Project
+services. To add support for other domains, replace the symlink
+/etc/chromium/policies/managed/00_gssapi.json with your own content.
 
 
 %prep
@@ -41,18 +52,22 @@ cp -a %{SOURCE1} %{buildroot}%{_datadir}/chromium/extensions
 # The managed policy directory does not merge identical keys and we don't want
 # to accidentally override any configuration that a site has installed here, so
 # we install it as 00_gssapi.json. If another file is present in this directory
-# that includes the same keys, it will supersede this file.
-#
-# At the moment, we cannot do the same for Chromium because of
-# https://bugzilla.redhat.com/show_bug.cgi?id=1640158
-# which results in a segfault if more than one TGT is present, which is common
-# for Red Hat employees working on Fedora.
+# that includes the same keys and a filename that sorts alphabetically higher,
+# it will supersede this file. "00" is chosen to sort as low as possible.
+mkdir -p %{buildroot}%{_tmpfilesdir}
+install -m 0644 %{SOURCE3} %{buildroot}%{_tmpfilesdir}/%{name}-tmpfiles.conf
 
-mkdir -p %{buildroot}%{_sysconfdir}/opt/chrome/policies/managed
-cp -a %{SOURCE2} %{buildroot}%{_sysconfdir}/opt/chrome/policies/managed/
+mkdir -p %{buildroot}%{_sysconfdir}/opt/chrome/policies/managed \
+         %{buildroot}%{_sysconfdir}/chromium/policies/managed \
+         %{buildroot}%{_datadir}/chromium/policies/managed
+
+cp -a %{SOURCE2} %{buildroot}%{_datadir}/chromium/policies/managed
 
 
 %files
+%license licenses/LICENSE
+
+# Fedora User Agent Extension
 %dir %{_datadir}/google-chrome
 %dir %{_datadir}/google-chrome/extensions
 %dir %{_datadir}/chromium
@@ -60,13 +75,37 @@ cp -a %{SOURCE2} %{buildroot}%{_sysconfdir}/opt/chrome/policies/managed/
 %{_datadir}/google-chrome/extensions/hojggiaghnldpcknpbciehjcaoafceil.json
 %{_datadir}/chromium/extensions/hojggiaghnldpcknpbciehjcaoafceil.json
 
-%dir %{_sysconfdir}/opt/chrome/policies/managed/
-%config(noreplace)%{_sysconfdir}/opt/chrome/policies/managed/00_gssapi.json
+# GSSAPI default configuration for fedoraproject.org
+%{_datadir}/chromium/policies/managed/00_gssapi.json
 
-%license licenses/LICENSE
+# Chromium GSSAPI configuration symlinks
+# By default, the Chromium configuration is symlinked to the
+# default configuration in /usr/share/chromium using tmpfiles.d
+%dir %{_sysconfdir}/chromium/
+%dir %{_sysconfdir}/chromium/policies
+%dir %{_sysconfdir}/chromium/policies/managed
+%ghost %{_sysconfdir}/chromium/policies/managed/00_gssapi.json
+
+# Google Chrome GSSAPI configuration symlinks
+# By default, the Chrome configuration is symlinked to the Chromium
+# policy. That way there is a single place to modify both together.
+%dir %{_sysconfdir}/opt/chrome/
+%dir %{_sysconfdir}/opt/chrome/policies
+%dir %{_sysconfdir}/opt/chrome/policies/managed
+%ghost %{_sysconfdir}/opt/chrome/policies/managed/00_gssapi.json
+
+# systemd-tmpfilesd configuration for symlinks
+%{_tmpfilesdir}/%{name}-tmpfiles.conf
 
 
 %changelog
+* Mon Jul 27 2020 Stephen Gallagher <sgallagh@redhat.com> - 1.1-6
+- Enable GSSAPI support for Chromium
+- Make the default configuration a symlink to /usr/share
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

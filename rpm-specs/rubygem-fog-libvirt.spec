@@ -3,7 +3,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 0.7.0
-Release: 1%{?dist}
+Release: 3%{?dist}
 Summary: Module for the 'fog' gem to support libvirt
 License: MIT
 URL: http://github.com/fog/fog-libvirt
@@ -70,6 +70,13 @@ popd
 %{gem_instdir}/minitests
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Pavel Valena <pvalena@redhat.com> - 0.7.0-1
 - Update to fog-libvirt 0.7.0.
 

@@ -1,6 +1,6 @@
 Name:           qt5ct
-Version:        0.38
-Release:        9%{?dist}
+Version:        1.1
+Release:        2%{?dist}
 Summary:        Qt5 Configuration Tool
 
 License:        BSD
@@ -55,6 +55,22 @@ install -D -pm 644 src/%{name}/translations/*.qm %{buildroot}%{_datadir}/%{name}
 %{_qt5_plugindir}/styles/libqt5ct-style.so
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 1.1-2
+- rebuild (qt5)
+
+* Tue Aug 25 2020 Christian Dersch <lupinix@mailbox.org> - 1.1-1
+- new version
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Christian Dersch <lupinix@fedoraproject.org> - 1.0-1
+- new version
+
 * Mon Apr 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.38-9
 - rebuild (qt5)
 

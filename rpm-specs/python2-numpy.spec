@@ -3,9 +3,17 @@
 
 %global modname numpy
 
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+%global blaslib flexiblas
+%global blasvar %{nil}
+%else
+%global blaslib openblas
+%global blasvar p
+%endif
+
 Name:           python2-numpy
 Version:        1.16.4
-Release:        7%{?dist}
+Release:        10%{?dist}
 Epoch:          1
 Summary:        A fast multidimensional array facility for Python 2
 
@@ -15,22 +23,12 @@ URL:            http://www.numpy.org/
 Source0:        https://github.com/%{modname}/%{modname}/releases/download/v%{version}/%{modname}-%{version}.tar.gz
 Source1:        https://docs.scipy.org/doc/numpy/numpy-html-1.16.1.zip
 
-BuildRequires:  python2-devel lapack-devel python2-setuptools gcc-gfortran gcc
+BuildRequires:  python2-devel python2-setuptools gcc-gfortran gcc
 BuildRequires:  Cython
-%ifarch %{openblas_arches}
-BuildRequires: openblas-devel
-%else
-BuildRequires: atlas-devel
-%endif
+BuildRequires: %{blaslib}-devel
 %{?python_provide:%python_provide python2-%{modname}}
 Provides:       libnpymath-static = %{epoch}:%{version}-%{release}
 Provides:       libnpymath-static%{?_isa} = %{epoch}:%{version}-%{release}
-
-# General provides of plain 'numpy' that is in use by 1 package as of F24
-Provides:       numpy = %{epoch}:%{version}-%{release}
-Provides:       numpy%{?_isa} = %{epoch}:%{version}-%{release}
-Obsoletes:      numpy < 1:1.10.1-3
-
 
 %description
 NumPy is a general-purpose array-processing package designed to
@@ -49,9 +47,6 @@ this package is a version of f2py that works properly with NumPy.
 Summary:        f2py for numpy
 Requires:       %{name}%{?_isa} = %{epoch}:%{version}-%{release}
 Requires:       python2-devel
-Provides:       f2py = %{epoch}:%{version}-%{release}
-Provides:       numpy-f2py = %{epoch}:%{version}-%{release}
-Obsoletes:      numpy-f2py < 1:1.10.1-3
 %{?python_provide:%python_provide python2-numpy-f2py}
 
 
@@ -75,32 +70,18 @@ This package provides the complete documentation for NumPy.
 # Force re-cythonization (ifed for PKG-INFO presence in setup.py)
 rm PKG-INFO
 
-%ifarch %{openblas_arches}
+# openblas is provided by flexiblas by default; otherwise,
 # Use openblas pthreads as recommended by upstream (see comment in site.cfg.example)
 cat >> site.cfg <<EOF
 [openblas]
-libraries = openblasp
+libraries = %{blaslib}%{blasvar}
 library_dirs = %{_libdir}
 EOF
-%else
-# Atlas 3.10 library names
-%if 0%{?fedora} || 0%{?rhel} > 7
-cat >> site.cfg <<EOF
-[atlas]
-library_dirs = %{_libdir}/atlas
-atlas_libs = satlas
-EOF
-%endif
-%endif
 
 %build
 %set_build_flags
 
-%ifarch %{openblas_arches}
 env OPENBLAS=%{_libdir} \
-%else
-env ATLAS=%{_libdir} \
-%endif
     BLAS=%{_libdir} \
     LAPACK=%{_libdir} CFLAGS="%{optflags}" \
     %{__python2} setup.py build
@@ -113,11 +94,7 @@ popd
 
 #%%{__python2} setup.py install -O1 --skip-build --root %%{buildroot}
 # skip-build currently broken, this works around it for now
-%ifarch %{openblas_arches}
 env OPENBLAS=%{_libdir} \
-%else
-env ATLAS=%{_libdir} \
-%endif
     FFTW=%{_libdir} BLAS=%{_libdir} \
     LAPACK=%{_libdir} CFLAGS="%{optflags}" \
     %{__python2} setup.py install --root %{buildroot}
@@ -157,6 +134,15 @@ popd &> /dev/null
 
 
 %changelog
+* Fri Aug 21 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1:1.16.4-10
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.16.4-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Gwyn Ciesla <gwync@protonmail.com> - 1:1.16.4-8
+- Move old numpy provides to python3-numpy.
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.16.4-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

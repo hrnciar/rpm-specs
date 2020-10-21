@@ -28,7 +28,7 @@
 
 Name:           php-pecl-http
 Version:        %{upstream_version}%{?upstream_prever:~%{upstream_prever}}
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Extended HTTP support
 
 License:        BSD
@@ -256,6 +256,12 @@ NO_INTERACTION=1 \
 
 
 %changelog
+* Tue Sep 15 2020 Remi Collet <remi@remirepo.net> - 3.2.3-4
+- rebuild for new libevent
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 15 2020 Pete Walter <pwalter@fedoraproject.org> - 3.2.3-2
 - Rebuild for ICU 67
 

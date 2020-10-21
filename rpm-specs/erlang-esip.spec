@@ -1,11 +1,11 @@
 %global srcname esip
 
-%global fast_tls_ver 1.1.3
-%global p1_utils_ver 1.0.17
-%global stun_ver 1.0.30
+%global fast_tls_ver 1.1.8
+%global p1_utils_ver 1.0.20
+%global stun_ver 1.0.37
 
 Name: erlang-%{srcname}
-Version: 1.0.31
+Version: 1.0.37
 Release: 1%{?dist}
 
 License: ASL 2.0
@@ -65,6 +65,17 @@ install -pm755 priv/lib/*.so $RPM_BUILD_ROOT%{_erllibdir}/esip-%{version}/priv/l
 
 
 %changelog
+* Fri Jul 31 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.37
+- Update to 1.0.37 (#1807285).
+- https://github.com/processone/esip/blob/1.0.37/CHANGELOG.md
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.31-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.31-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.31-1
 - Update to 1.0.31 (#1789165).
 - https://github.com/processone/esip/blob/1.0.31/CHANGELOG.md

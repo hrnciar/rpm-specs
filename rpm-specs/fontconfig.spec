@@ -5,7 +5,7 @@
 Summary:	Font configuration and customization library
 Name:		fontconfig
 Version:	2.13.92
-Release:	11%{?dist}
+Release:	12%{?dist}
 # src/ftglue.[ch] is in Public Domain
 # src/fccache.c contains Public Domain code
 # fc-case/CaseFolding.txt is in the UCD
@@ -190,6 +190,9 @@ fi
 %doc fontconfig-devel.txt fontconfig-devel
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.13.92-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 23 2020 Akira TAGOH <tagoh@redhat.com> - 2.13.92-11
 - deal with system caches as always latest on Silverblue. (#1750891)
 

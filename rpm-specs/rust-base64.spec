@@ -5,8 +5,8 @@
 %global crate base64
 
 Name:           rust-%{crate}
-Version:        0.12.2
-Release:        1%{?dist}
+Version:        0.12.3
+Release:        2%{?dist}
 Summary:        Encodes and decodes base64 as bytes or utf8
 
 # Upstream license specification: MIT/Apache-2.0
@@ -95,6 +95,12 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Josh Stone <jistone@redhat.com> - 0.12.3-1
+- Update to 0.12.3
+
 * Fri Jun 19 2020 Josh Stone <jistone@redhat.com> - 0.12.2-1
 - Update to 0.12.2
 

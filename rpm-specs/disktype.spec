@@ -1,6 +1,6 @@
 Name:           disktype
 Version:        9
-Release:        31%{?dist}
+Release:        32%{?dist}
 Summary:        Detect the content format of a disk or disk image
 
 License:        MIT
@@ -37,6 +37,9 @@ install -p -m 644 disktype.1 %{buildroot}%{_mandir}/man1
 %{_mandir}/*/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Richard Fearn <richardfearn@gmail.com> - 9-31
 - Add file systems: btrfs, ext4, f2fs, exfat
 - Add LUKS encryption container detection/identification

@@ -1,8 +1,8 @@
 %global srcname regex
 
 Name:           python-%{srcname}
-Version:        2020.6.8
-Release:        2%{?dist}
+Version:        2020.10.11
+Release:        1%{?dist}
 Summary:        Alternative regular expression module, to replace re
 # see also https://code.google.com/p/mrab-regex-hg/issues/detail?id=124
 License:        Python and CNRI
@@ -61,6 +61,18 @@ rst2html README.rst > README.html
 
 
 %changelog
+* Mon Oct 12 2020 Thomas Moschny <thomas.moschny@gmx.de> - 2020.10.11-1
+- Update to 2020.10.11.
+
+* Tue Sep 29 2020 Thomas Moschny <thomas.moschny@gmx.de> - 2020.9.27-1
+- Update to 2020.9.27.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.7.14-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Thomas Moschny <thomas.moschny@gmx.de> - 2020.7.14-1
+- Update to 2020.7.14.
+
 * Sat Jun 20 2020 Thomas Moschny <thomas.moschny@gmx.de> - 2020.6.8-2
 - Update to 2020.6.8.
 

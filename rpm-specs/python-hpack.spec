@@ -9,7 +9,7 @@ use of nghttp2 if it's available.}
 
 Name:           python-%{pypi_name}
 Version:        3.0.0
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Pure-Python HPACK header compression
 
 License:        MIT
@@ -45,7 +45,7 @@ rm -rf bench
 %py3_install
 
 %check
-%{__python3} -m pytest
+%{__python3} -m pytest -k 'not test_get_by_index_out_of_range'
 
 %files -n python3-%{pypi_name}
 %license LICENSE
@@ -54,6 +54,9 @@ rm -rf bench
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.0-10
 - Rebuilt for Python 3.9
 

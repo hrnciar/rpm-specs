@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        2.0.14
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Python module and programs for SPF (Sender Policy Framework)
 
 License:        Python
@@ -70,6 +70,9 @@ sed -i -e '/^#!\//, 1d' %{buildroot}%{python3_sitelib}/*.py
 %{python3_sitelib}/pyspf-%{version}-py*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.14-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.14-4
 - Rebuilt for Python 3.9
 

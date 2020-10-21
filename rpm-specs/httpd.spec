@@ -12,8 +12,8 @@
 
 Summary: Apache HTTP Server
 Name: httpd
-Version: 2.4.43
-Release: 3%{?dist}
+Version: 2.4.46
+Release: 4%{?dist}
 URL: https://httpd.apache.org/
 Source0: https://www.apache.org/dist/httpd/httpd-%{version}.tar.bz2
 Source1: https://www.apache.org/dist/httpd/httpd-%{version}.tar.bz2.asc
@@ -72,6 +72,7 @@ Patch22: httpd-2.4.43-mod_systemd.patch
 Patch23: httpd-2.4.43-export.patch
 Patch24: httpd-2.4.43-corelimit.patch
 Patch25: httpd-2.4.43-selinux.patch
+Patch26: httpd-2.4.43-gettid.patch
 Patch27: httpd-2.4.43-icons.patch
 Patch30: httpd-2.4.43-cachehardmax.patch
 Patch31: httpd-2.4.43-sslmultiproxy.patch
@@ -82,12 +83,12 @@ Patch40: httpd-2.4.43-r1861269.patch
 Patch41: httpd-2.4.43-r1861793+.patch
 Patch42: httpd-2.4.43-r1828172+.patch
 Patch43: httpd-2.4.43-sslcoalesce.patch
+Patch44: httpd-2.4.46-lua-resume.patch
 
 # Bug fixes
 # https://bugzilla.redhat.com/show_bug.cgi?id=1397243
 Patch60: httpd-2.4.43-enable-sslv3.patch
 Patch62: httpd-2.4.43-r1870095+.patch
-Patch63: httpd-2.4.43-r1876548.patch
 
 # Security fixes
 
@@ -98,7 +99,6 @@ BuildRequires: zlib-devel, libselinux-devel, lua-devel, brotli-devel
 BuildRequires: apr-devel >= 1.5.0, apr-util-devel >= 1.5.0, pcre-devel >= 5.0
 BuildRequires: gnupg2
 Requires: /etc/mime.types, system-logos-httpd
-Obsoletes: httpd-suexec
 Provides: webserver
 Provides: mod_dav = %{version}-%{release}, httpd-suexec = %{version}-%{release}
 Provides: httpd-mmn = %{mmn}, httpd-mmn = %{mmnisa}
@@ -214,6 +214,7 @@ interface for storing and accessing per-user session data.
 %patch23 -p1 -b .export
 %patch24 -p1 -b .corelimit
 %patch25 -p1 -b .selinux
+%patch26 -p1 -b .gettid
 %patch27 -p1 -b .icons
 %patch30 -p1 -b .cachehardmax
 #patch31 -p1 -b .sslmultiproxy
@@ -224,10 +225,10 @@ interface for storing and accessing per-user session data.
 %patch41 -p1 -b .r1861793+
 %patch42 -p1 -b .r1828172+
 %patch43 -p1 -b .sslcoalesce
+%patch44 -p1 -b .luaresume
 
 %patch60 -p1 -b .enable-sslv3
 %patch62 -p1 -b .r1870095
-%patch63 -p1 -b .r1876548
 
 # Patch in the vendor string
 sed -i '/^#define PLATFORM/s/Unix/%{vstring}/' os/unix/os.h
@@ -332,12 +333,12 @@ export LYNX_PATH=/usr/bin/links
         --disable-http2 \
         --disable-md \
         $*
-make %{?_smp_mflags}
+%make_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-make DESTDIR=$RPM_BUILD_ROOT install
+%make_install
 
 # Install systemd service files
 mkdir -p $RPM_BUILD_ROOT%{_unitdir}
@@ -429,7 +430,7 @@ echo %{mmnisa} > $RPM_BUILD_ROOT%{_includedir}/httpd/.mmn
 mkdir -p $RPM_BUILD_ROOT%{_rpmconfigdir}/macros.d
 cat > $RPM_BUILD_ROOT%{_rpmconfigdir}/macros.d/macros.httpd <<EOF
 %%_httpd_mmn %{mmnisa}
-%%_httpd_apxs %%{_bindir}/apxs
+%%_httpd_apxs %%{_libdir}/httpd/build/vendor-apxs
 %%_httpd_modconfdir %%{_sysconfdir}/httpd/conf.modules.d
 %%_httpd_confdir %%{_sysconfdir}/httpd/conf.d
 %%_httpd_contentdir %{contentdir}
@@ -524,6 +525,23 @@ sed -i '/.*DEFAULT_..._LIBEXECDIR/d;/DEFAULT_..._INSTALLBUILDDIR/d' \
 sed -i '/instdso/s,top_srcdir,top_builddir,' \
     $RPM_BUILD_ROOT%{_libdir}/httpd/build/special.mk
 
+# vendor-apxs uses an unsanitized config_vars.mk which may
+# have dependencies on redhat-rpm-config.  apxs uses the
+# config_vars.mk with a sanitized config_vars.mk
+cp -p $RPM_BUILD_ROOT%{_libdir}/httpd/build/config_vars.mk \
+      $RPM_BUILD_ROOT%{_libdir}/httpd/build/vendor_config_vars.mk
+
+# Sanitize CFLAGS in standard config_vars.mk
+sed '/^CFLAGS/s,=.*$,= -O2 -g -Wall,' \
+    -i $RPM_BUILD_ROOT%{_libdir}/httpd/build/config_vars.mk
+
+sed 's/config_vars.mk/vendor_config_vars.mk/' \
+    $RPM_BUILD_ROOT%{_bindir}/apxs \
+    > $RPM_BUILD_ROOT%{_libdir}/httpd/build/vendor-apxs
+touch -r $RPM_BUILD_ROOT%{_bindir}/apxs \
+      $RPM_BUILD_ROOT%{_libdir}/httpd/build/vendor-apxs
+chmod 755 $RPM_BUILD_ROOT%{_libdir}/httpd/build/vendor-apxs
+
 # Remove unpackaged files
 rm -vf \
       $RPM_BUILD_ROOT%{_libdir}/*.exp \
@@ -553,17 +571,6 @@ exit 0
 
 %postun
 %systemd_postun httpd.service htcacheclean.service httpd.socket
-
-# Trigger for conversion from SysV, per guidelines at:
-# https://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Systemd
-%triggerun -- httpd < 2.2.21-5
-# Save the current service runlevel info
-# User must manually run systemd-sysv-convert --apply httpd
-# to migrate them to systemd targets
-/usr/bin/systemd-sysv-convert --save httpd.service >/dev/null 2>&1 ||:
-
-# Run these because the SysV package being removed won't do them
-/sbin/chkconfig --del httpd >/dev/null 2>&1 || :
 
 %posttrans
 test -f /etc/sysconfig/httpd-disable-posttrans || \
@@ -645,7 +652,6 @@ exit $rv
 %exclude %{_sysconfdir}/httpd/conf.modules.d/01-session.conf
 
 %config(noreplace) %{_sysconfdir}/sysconfig/htcacheclean
-%ghost %{_sysconfdir}/sysconfig/httpd
 %{_prefix}/lib/tmpfiles.d/httpd.conf
 
 %dir %{_libexecdir}/initscripts/legacy-actions/httpd
@@ -749,9 +755,38 @@ exit $rv
 %dir %{_libdir}/httpd/build
 %{_libdir}/httpd/build/*.mk
 %{_libdir}/httpd/build/*.sh
+%{_libdir}/httpd/build/vendor-apxs
 %{_rpmconfigdir}/macros.d/macros.httpd
 
 %changelog
+* Thu Aug 27 2020 Joe Orton <jorton@redhat.com> - 2.4.46-4
+- use make macros (Tom Stellard)
+
+* Thu Aug 27 2020 Joe Orton <jorton@redhat.com> - 2.4.46-3
+- strip /usr/bin/apxs CFLAGS further
+
+* Thu Aug 27 2020 Joe Orton <jorton@redhat.com> - 2.4.46-2
+- sanitize CFLAGS used by /usr/bin/apxs by default (#1873020)
+- add $libdir/httpd/build/vendor-apxs which exposes full CFLAGS
+- redefine _httpd_apxs RPM macro to use vendor-apxs
+
+* Tue Aug 25 2020 Lubos Uhliarik <luhliari@redhat.com> - 2.4.46-1
+- new version 2.4.46
+- remove obsolete parts of this spec file
+- fix systemd detection patch
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.43-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Lubos Uhliarik <luhliari@redhat.com> - 2.4.43-6
+- fix macro in mod_lua for lua 4.5
+
+* Thu Jul 09 2020 Lubos Uhliarik <luhliari@redhat.com> - 2.4.43-5
+- Remove %ghosted /etc/sysconfig/httpd file (#1850082)
+
+* Tue Jul  7 2020 Joe Orton <jorton@redhat.com> - 2.4.43-4
+- use gettid() directly and use it for built-in ErrorLogFormat
+
 * Fri Apr 17 2020 Joe Orton <jorton@redhat.com> - 2.4.43-3
 - mod_ssl: updated coalescing filter to improve TLS efficiency
 

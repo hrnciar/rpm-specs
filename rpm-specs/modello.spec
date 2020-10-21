@@ -5,7 +5,7 @@ Name:           modello
 Summary:        Modello Data Model toolkit
 Epoch:          0
 Version:        1.11
-Release:        1%{?dist}
+Release:        3%{?dist}
 # The majority of files are under MIT license, but some of them are ASL 2.0.
 # Some parts of the project are derived from the Exolab project,
 # and are licensed under a 5-clause BSD license.
@@ -106,6 +106,12 @@ sed -i s/maven-project/maven-core/ modello-maven-plugin/pom.xml
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.11-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0:1.11-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu May 14 2020 Fabio Valentini <decathorpe@gmail.com> - 0:1.11-1
 - Update to version 1.11.
 

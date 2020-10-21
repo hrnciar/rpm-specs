@@ -4,7 +4,7 @@
 
 Name:          mingw-%{pkgname}
 Version:       1.3.14
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       MinGW Windows %{pkgname} library
 
 License:       LGPLv2+
@@ -116,6 +116,9 @@ rm -rf %{buildroot}%{mingw64_datadir}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.14-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 08 2020 Sandro Mani <manisandro@gmail.com> - 1.3.14-1
 - Update to 1.3.14
 

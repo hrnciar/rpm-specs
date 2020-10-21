@@ -14,7 +14,7 @@
 #global native_llvm_suffix 6.0
 
 Name:          mingw-%{pkgname}
-Version:       10.0.0
+Version:       11.0.0
 Release:       1%{?dist}
 Summary:       LLVM for MinGW
 
@@ -23,7 +23,7 @@ URL:           http://llvm.org
 Source0:       https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}/llvm-%{version}.src.tar.xz
 
 # Don't link llvm tools against both shared library and static libraries from which shared library was created (results in multiple definitions errors)
-Patch0:        mingw-llvm_build.patch
+# Patch0:        mingw-llvm_build.patch
 
 BuildRequires: cmake
 BuildRequires: gcc-c++
@@ -225,6 +225,12 @@ rm -rf %{buildroot}%{mingw64_datadir}/opt-viewer
 
 
 %changelog
+* Wed Oct 14 2020 Sandro Mani <manisandro@gmail.com> - 11.0.0-1
+- Update to 11.0.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 25 2020 Sandro Mani <manisandro@gmail.com> - 10.0.0-1
 - Update to 10.0.0
 

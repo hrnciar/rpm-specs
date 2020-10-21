@@ -7,14 +7,9 @@
 # https://github.com/golang/net
 %global goipath         golang.org/x/net
 %global forgeurl        https://github.com/golang/net
-%global commit          c0dbc17a35534bf2e581d7a942408dc936316da4
+%global commit          ab34263943818b32f575efc978a3d24e80b04bd7
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-golang-org-net-devel < 0-0.51
-}
 
 %global goipaths0       golang.org/x/net
 %global goipathsex0     golang.org/x/net/http golang.org/x/net/http2 golang.org/x/net/html/charset golang.org/x/net/idna golang.org/x/net/publicsuffix
@@ -33,7 +28,7 @@ This package holds supplementary Go networking libraries.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.56%{?dist}
+Release:        0.59%{?dist}
 Summary:        Go supplementary network libraries
 
 # Upstream license specification: BSD-3-Clause
@@ -85,6 +80,16 @@ rm -rf http2/h2demo
 %gopkgfiles
 
 %changelog
+* Fri Aug 07 20:28:58 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.59.20200807gitab34263
+- Bump to commit ab34263943818b32f575efc978a3d24e80b04bd7
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.58
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.57
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.56
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

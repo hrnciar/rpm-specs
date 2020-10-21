@@ -1,18 +1,15 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:           sugar-physics
 Version:        35
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        A physical world simulator and playground for Sugar
 
 License:        GPLv3+
 URL:            http://wiki.sugarlabs.org/go/Activities/Physics
 Source0:        https://download.sugarlabs.org/sources/honey/Physics/Physics-%{version}.tar.bz2
 
-BuildRequires:  sugar-toolkit-gtk3
 BuildRequires:  gettext
+BuildRequires:  python3-devel
+BuildRequires:  sugar-toolkit-gtk3
 Requires:       sugar
 Requires:       python3-pybox2d
 BuildArch:      noarch
@@ -39,6 +36,9 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 chmod a+x $RPM_BUILD_ROOT%{sugaractivitydir}Physics.activity/physics.py
 chmod a-x $RPM_BUILD_ROOT%{sugaractivitydir}Physics.activity/activity/{activity.info,activity-physics.svg}
 
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}/%{sugaractivitydir}/Physics.activity/
+
 %find_lang org.laptop.physics
 
 %files -f org.laptop.physics.lang
@@ -47,6 +47,13 @@ chmod a-x $RPM_BUILD_ROOT%{sugaractivitydir}Physics.activity/activity/{activity.
 %{sugaractivitydir}/Physics.activity/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 35-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 35-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 7 2020 Ibiam Chihurumnaya <ibiamchihurumnaya@gmail.com> - 35-2
 - Remove python3-elements dependency as package isn't provided in f32
 

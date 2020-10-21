@@ -1,7 +1,7 @@
 %global         extraver        arduino11
 Name:           arduino-ctags
 Version:        5.8
-Release:        11.%{extraver}%{?dist}
+Release:        12.%{extraver}%{?dist}
 Summary:        A mix of ctags and anjuta-tags for the perfect C++ ctags
 
 License:        GPLv2
@@ -43,6 +43,9 @@ rm -r gnu_regex
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.8-12.arduino11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.8-11.arduino11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

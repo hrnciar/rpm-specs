@@ -19,7 +19,7 @@ ESX, ESXi, and vCenter.
 
 Name:           python-%{srcname}
 Version:        6.7.3
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        vSphere Python SDK
 License:        ASL 2.0
 URL:            https://github.com/vmware/%{srcname}
@@ -178,6 +178,9 @@ find %{buildroot} -name requires.txt -print -delete
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.7.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 6.7.3-5
 - Rebuilt for Python 3.9
 

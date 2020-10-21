@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.8.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Macros to generate types in the phf crate
 
 # Upstream license specification: MIT
@@ -70,5 +70,8 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 15 14:01:18 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.8.0-1
 - Initial package

@@ -2,7 +2,7 @@
 
 Name:           mingw-binutils
 Version:        2.34
-Release:        0%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-compiled version of binutils for Win32 and Win64 environments
 
 License:        GPLv2+ and LGPLv2+ and GPLv3+ and LGPLv3+
@@ -95,6 +95,8 @@ Patch16: binutils-CVE-2019-1010204.patch
 
 ### MINGW specific patches
 
+Patch102:	  binutils-config.patch
+
 BuildRequires:  gcc
 BuildRequires:  flex
 BuildRequires:  bison
@@ -107,6 +109,7 @@ BuildRequires:  dejagnu
 BuildRequires:  sharutils
 %endif
 Provides:       bundled(libiberty)
+BuildRequires:	autoconf, automake
 
 
 %description
@@ -146,8 +149,27 @@ understand Windows executables and DLLs.
 %prep
 %autosetup -p1 -n binutils-%{version}
 
+# See Patch02
+sed -i -e 's/%''{release}/%{release}/g' bfd/Makefile{.am,.in}
+
 
 %build
+# Dependencies are not set up to rebuild the configure files
+# in the subdirectories.  So we just rebuild the ones we care
+# about
+pushd libiberty
+autoconf
+popd
+pushd intl
+autoconf
+popd
+
+# We call configure directly rather than via macros, thus if
+# we are using LTO, we have to manually fix the broken configure
+# scripts
+[ %{_lto_cflags}x != x ] && %{_fix_broken_configure_for_lto}
+
+
 mkdir build_win32
 pushd build_win32
 CFLAGS="%{optflags}" \
@@ -335,6 +357,15 @@ rm -rf %{buildroot}/multilib
 
 
 %changelog
+* Wed Jul 29 2020 Sandro Mani <manisandro@gmail.com> - 2.34-3
+- Fix ld --version output
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.34-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Jeff Law <law@redhat.com> - 2.34.0-2
+- Fix configure tests compromised by LTO
+
 * Fri Jun 19 2020 Sandro Mani <manisandro@gmail.com> - 2.34.0-1
 - Update to 2.34.0
 - Modernize spec

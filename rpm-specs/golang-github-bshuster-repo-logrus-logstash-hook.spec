@@ -3,7 +3,7 @@
 
 # https://github.com/bshuster-repo/logrus-logstash-hook
 %global goipath         github.com/bshuster-repo/logrus-logstash-hook
-Version:                0.4.1
+Version:                1.0.0
 
 %gometa
 
@@ -14,7 +14,7 @@ Use this hook to send the logs to Logstash.}
 %global godocs          CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Logstash hook for logrus
 
 License:        MIT
@@ -30,8 +30,6 @@ BuildRequires:  golang(github.com/sirupsen/logrus)
 
 %prep
 %goprep
-# Go 1.14 change, see https://github.com/bshuster-repo/logrus-logstash-hook/issues/58
-sed -i 's|"Get http://example.com: The error"|`Get "http://example.com": The error`|' logstash_formatter_test.go
 
 %install
 %gopkginstall
@@ -44,6 +42,12 @@ sed -i 's|"Get http://example.com: The error"|`Get "http://example.com": The err
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 16:02:35 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-1
+- Update to 1.0.0
+
 * Wed Jan 29 17:06:18 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.4.1-4
 - Fix test error with Go 1.14
 

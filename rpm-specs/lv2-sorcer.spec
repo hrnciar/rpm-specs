@@ -4,7 +4,7 @@
 
 Name:           lv2-sorcer
 Version:        1.1
-Release:        25%{prerelease}git%{shortcommit}%{?dist}
+Release:        26%{prerelease}git%{shortcommit}%{?dist}
 Summary:        An audio compressor for JACK
 
 License:        GPLv3+
@@ -55,6 +55,9 @@ chmod 644 %{buildroot}%{_libdir}/lv2/*/*.ttl
 %{_libdir}/lv2/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-2620131104git18e6891
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 03 2020 Petr Viktorin <pviktori@redhat.com> - 1.1-2520131104git18e6891
 - Remove BuildRequires on python2
 

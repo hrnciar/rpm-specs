@@ -3,7 +3,7 @@
 
 Name:           dahdi-tools
 Version:        %{tools_version}
-Release:        17%{?dist}
+Release:        19%{?dist}
 Summary:        Userspace tools to configure the DAHDI kernel modules
 
 License:        GPLv2 and LGPLv2
@@ -222,6 +222,12 @@ install -D -p -m 0644 dahdi.service %{buildroot}%{_unitdir}/dahdi.service
 %{_libdir}/*.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.1-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.11.1-18
+- Perl 5.32 rebuild
+
 * Tue May 26 2020 Jeff Law <law@redhat.com> - 2.11.1-17
 - Fix inline vs static inline exposed by LTO.
 

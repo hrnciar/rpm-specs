@@ -59,19 +59,22 @@
 %global postgresql_devel_pkg libpq-devel
 %endif
 
+# Fix EL-6 compatibility (%%make_build only defined from EL-7, F-21 onwards)
+%{!?make_build:%global make_build make %{_smp_mflags}}
+
 # Do a hardened build where possible
 %global _hardened_build 1
 
 # Dynamic modules contain references to symbols in main dæmon, so we need to disable linker checks for undefined symbols
 %undefine _strict_symbol_defs_build
 
-#global prever rc3
-%global baserelease 1
+#global prever rc4
+%global baserelease 3
 %global mod_vroot_version 0.9.5
 
 Summary:		Flexible, stable and highly-configurable FTP server
 Name:			proftpd
-Version:		1.3.6d
+Version:		1.3.7a
 Release:		%{?prever:0.}%{baserelease}%{?prever:.%{prever}}%{?dist}
 License:		GPLv2+
 URL:			http://www.proftpd.org/
@@ -87,16 +90,14 @@ Source8:		proftpd-welcome.msg
 Source9:		proftpd.sysconfig
 Source10:		http://github.com/Castaglia/proftpd-mod_vroot/archive/v%{mod_vroot_version}.tar.gz
 
-Patch1:			proftpd-1.3.6c-shellbang.patch
+Patch1:			proftpd-1.3.7-shellbang.patch
 Patch2:			proftpd.conf-no-memcached.patch
 Patch3:			proftpd-1.3.4rc1-mod_vroot-test.patch
 Patch4:			proftpd-1.3.6-no-mod-wrap.patch
 Patch5:			proftpd-1.3.6-no-mod-geoip.patch
-Patch7:			proftpd-1.3.6c-logoptions.patch
-Patch8:			proftpd-1.3.6c-logging-not-systemd.patch
-
-Patch100:		0001-Move-definition-of-recvd_signal_flags-for-API-tests.patch
-Patch116:		proftpd-1.3.6-ENOATTR.patch
+Patch6:			proftpd-1.3.7rc3-logging-not-systemd.patch
+Patch7:			proftpd-1.3.7a-check-api.patch
+Patch8:			proftpd-1.3.7a-netaddr-test.patch
 
 BuildRequires:		coreutils
 BuildRequires:		gcc
@@ -109,6 +110,7 @@ BuildRequires:		libcap-devel
 %if 0%{?have_libmemcached:1}
 BuildRequires:		libmemcached-devel >= 0.41
 %endif
+BuildRequires:		logrotate
 BuildRequires:		%{mysql_devel_pkg}
 BuildRequires:		ncurses-devel
 BuildRequires:		openldap-devel
@@ -152,6 +154,9 @@ BuildRequires:		perl(Time::HiRes)
 %if %{rundir_tmpfs}
 Requires:		%{systemd_units}
 %endif
+
+# Logs should be rotated periodically
+Requires:		logrotate
 
 # Scriptlet dependencies
 Requires(preun):	coreutils, findutils
@@ -301,21 +306,6 @@ mv contrib/README contrib/README.contrib
 %patch5 -b .nogeoip
 %endif
 
-# Add options to vary logging format
-# https://bugzilla.redhat.com/show_bug.cgi?id=1808989
-# http://bugs.proftpd.org/show_bug.cgi?id=4185
-# https://github.com/proftpd/proftpd/issues/1002
-# https://github.com/proftpd/proftpd/pull/1009
-%patch7
-
-# Fix API tests compile failure with GCC 10
-# https://github.com/proftpd/proftpd/pull/886
-%patch100 -p1
-
-# Don't assume ENOATTR is defined in test suite
-# https://github.com/proftpd/proftpd/pull/730
-%patch116 -p1
-
 # OpenSSL Cipher Profiles introduced in Fedora 21
 # Elsewhere, we use the default of DEFAULT:!ADH:!EXPORT:!DES
 %if (0%{?rhel} && 0%{?rhel} <= 7) || (0%{?fedora} && 0%{?fedora} <= 20)
@@ -328,8 +318,16 @@ sed -i -e '/killall/s/test.*/systemctl reload proftpd.service/' \
 	contrib/dist/rpm/proftpd.logrotate
 %else
 # Not using systemd, so we want hostname and timestamp in log messages
-%patch8
+%patch6
 %endif
+
+# Handle changed API in check 0.15
+# https://bugzilla.redhat.com/show_bug.cgi?id=1850198
+%patch7
+
+# getaddrinfo() can return EAGAIN in netaddr api test
+# https://github.com/proftpd/proftpd/pull/1075
+%patch8
 
 # Avoid docfile dependencies
 chmod -c -x contrib/xferstats.holger-preiss
@@ -368,14 +366,10 @@ SMOD6=mod_sftp:mod_sftp_pam:mod_sftp_sql:mod_tls_shmcache%{?have_libmemcached::m
 			--with-includes="%{_includedir}/mysql" \
 			--with-modules=mod_readme:mod_auth_pam:mod_tls \
 			--with-shared=${SMOD1}:${SMOD2}:${SMOD3}:${SMOD4}:${SMOD5}:${SMOD6}:mod_ifsession
-
-make %{?_smp_mflags}
+%{make_build}
 
 %install
-make install DESTDIR=%{buildroot} \
-	rundir="%{rundir}/proftpd" \
-	INSTALL_USER=`id -un` \
-	INSTALL_GROUP=`id -gn`
+%{make_install} INSTALL_USER=`id -un` INSTALL_GROUP=`id -gn`
 mkdir -p %{buildroot}%{_sysconfdir}/proftpd/conf.d
 install -D -p -m 640 proftpd.conf	%{buildroot}%{_sysconfdir}/proftpd.conf
 install -D -p -m 640 anonftp.conf	%{buildroot}%{_sysconfdir}/proftpd/anonftp.conf
@@ -488,9 +482,7 @@ fi
 %doc COPYING
 %endif
 %doc CREDITS ChangeLog NEWS README.md
-%doc README.DSO README.modules README.IPv6 README.PAM
-%doc README.capabilities README.classes README.controls README.facl
-%doc contrib/README.contrib contrib/README.ratio
+%doc README.modules contrib/README.contrib contrib/README.ratio
 %doc doc/* sample-configurations/
 %dir %{_localstatedir}/ftp/
 %dir %{_localstatedir}/ftp/pub/
@@ -606,6 +598,32 @@ fi
 %{_mandir}/man1/ftpwho.1*
 
 %changelog
+* Wed Jul 29 2020 Paul Howarth <paul@city-fan.org> - 1.3.7a-3
+- Handle changed API in check 0.15
+  (see https://bugzilla.redhat.com/show_bug.cgi?id=1850198)
+- Work around getaddrinfo() returning EAGAIN in netaddr api test
+  (https://github.com/proftpd/proftpd/pull/1075)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.7a-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Paul Howarth <paul@city-fan.org> - 1.3.7a-1
+- Update to 1.3.7a
+  - Fix build-time regression when using the --localstatedir configure option
+    (https://github.com/proftpd/proftpd/issues/1055)
+- Modernize spec using %%{make_build} and %%{make_install}
+
+* Tue Jul 21 2020 Paul Howarth <paul@city-fan.org> - 1.3.7-1
+- Update to 1.3.7 (see RELEASE_NOTES for details)
+- Fix regression in configure script
+  https://github.com/proftpd/proftpd/issues/1055
+  https://github.com/proftpd/proftpd/pull/1056
+
+* Tue Jul 21 2020 Paul Howarth <paul@city-fan.org> - 1.3.6e-1
+- Update to 1.3.6e
+  - Fixed null pointer dereference in mod_sftp when using SCP incorrectly
+    (https://github.com/proftpd/proftpd/issues/1043)
+
 * Sun May 31 2020 Paul Howarth <paul@city-fan.org> - 1.3.6d-1
 - Update to 1.3.6d
   - Fixed issue with FTPS uploads of large files using TLSv1.3

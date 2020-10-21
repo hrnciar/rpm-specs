@@ -1,8 +1,8 @@
 %global pypi_name pytest-timeout
 
 Name:           python-%{pypi_name}
-Version:        1.4.1
-Release:        1%{?dist}
+Version:        1.4.2
+Release:        2%{?dist}
 Summary:        py.test plugin to abort hanging tests
 
 License:        MIT
@@ -15,6 +15,7 @@ BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist pexpect}
 BuildRequires:  %{py3_dist pytest} >= 3.6.0
 BuildRequires:  %{py3_dist pytest-cov}
+BuildRequires:  %{py3_dist setuptools}
 
 %global _description %{expand:
 This is a plugin which will terminate tests after a certain timeout. When doing
@@ -40,7 +41,7 @@ Summary:        %{summary}
 %py3_install
 
 %check
-PYTHONPATH=%{buildroot}%{python3_sitelib} PYTHONDONTWRITEBYTECODE=1 py.test-%{python3_version}
+%pytest
 
 
 %files -n python3-%{pypi_name}
@@ -50,6 +51,15 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} PYTHONDONTWRITEBYTECODE=1 py.test-%{py
 %{python3_sitelib}/__pycache__/pytest_timeout*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Scott Talbert <swt@techie.net> - 1.4.2-1
+- Update to new upstream release 1.4.2 (#1857421)
+
+* Fri Jun 26 2020 Scott Talbert <swt@techie.net> - 1.4.1-2
+- Add missing BR for setuptools
+
 * Tue Jun 16 2020 Scott Talbert <swt@techie.net> - 1.4.1-1
 - Update to new upstream release 1.4.1 (#1846923)
 - Modernize packaging

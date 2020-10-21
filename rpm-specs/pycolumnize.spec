@@ -2,16 +2,13 @@
 
 Name:           pycolumnize
 Version:        0.3.9
-Release:        15%{?dist}
-Summary:        A Python module to align in columns a simple list
+Release:        17%{?dist}
+Summary:        Python module to align in columns a simple list
 
 License:        MIT
 URL:            https://github.com/rocky/pycolumnize
 Source0:        https://files.pythonhosted.org/packages/source/c/%{srcname}/%{srcname}-%{version}.tar.gz
 BuildArch:      noarch
-
-BuildRequires:  python3-devel
-BuildRequires:  python3-nose
 
 %description
 A Python module to format a simple (i.e. not nested) list into aligned columns.
@@ -19,6 +16,10 @@ A string with embedded newline characters is returned.
 
 %package -n python3-%{srcname}
 Summary:        %{summary}
+
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
+BuildRequires:  python3-nose
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
@@ -42,6 +43,12 @@ A string with embedded newline characters is returned.
 %{python3_sitelib}/%{srcname}.py*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.9-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.3.9-15
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.9-15
 - Rebuilt for Python 3.9
 

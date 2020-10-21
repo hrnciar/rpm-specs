@@ -1,6 +1,6 @@
 Name:           perl-Mail-AuthenticationResults
-Version:        1.20200331.1
-Release:        2%{?dist}
+Version:        1.20200824.1
+Release:        1%{?dist}
 Summary:        Object Oriented Authentication-Results Headers
 License:        GPL+ or Artistic
 URL:            http://search.cpan.org/dist/Mail-AuthenticationResults/
@@ -55,6 +55,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Aug 25 2020 Xavier Bachelot <xavier@bachelot.org> 1.20200824.1
+- Update to 1.20200824.1 (RHBZ#1871904)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.20200331.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.20200331.1-2
 - Perl 5.32 rebuild
 

@@ -1,12 +1,13 @@
 Name:           perl-Getopt-Long
 Epoch:          1
-Version:        2.51
-Release:        456%{?dist}
+Version:        2.52
+Release:        1%{?dist}
 Summary:        Extended processing of command line options
 License:        GPLv2+ or Artistic
 URL:            https://metacpan.org/release/Getopt-Long
 Source0:        https://cpan.metacpan.org/authors/id/J/JV/JV/Getopt-Long-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -59,6 +60,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Aug 18 2020 Petr Pisar <ppisar@redhat.com> - 1:2.52-1
+- 2.52 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.51-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:2.51-456
 - Increase release to favour standalone package
 

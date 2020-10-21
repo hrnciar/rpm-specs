@@ -1,15 +1,11 @@
-# LTO
-%global optflags        %{optflags} -flto
-%global build_ldflags   %{build_ldflags} -flto
-
 # libgnome-volume-control
 # * This project is only intended to be used as a subproject
-%global gvc_commit      468022b708fc1a56154f3b0cc5af3b938fb3e9fb
+%global gvc_commit      e2be83ee4a47da9c4c4fbf302a63f04b8d5683b9
 %global gvc_shortcommit %(c=%{gvc_commit}; echo ${c:0:7})
 
 Name:           wf-shell
-Version:        0.4.0
-Release:        2%{?dist}
+Version:        0.5.0
+Release:        1%{?dist}
 Summary:        GTK3-based panel for wayfire
 
 License:        MIT
@@ -26,7 +22,7 @@ BuildRequires:  pkgconfig(libpulse)
 BuildRequires:  pkgconfig(wayfire)
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-protocols)
-BuildRequires:  pkgconfig(wf-config) >= 0.4.0
+BuildRequires:  pkgconfig(wf-config) >= 0.5.0
 
 Provides:       bundled(gvc) = 0.git%{gvc_shortcommit}
 
@@ -34,6 +30,14 @@ Provides:       bundled(gvc) = 0.git%{gvc_shortcommit}
 wf-shell is a repository which contains the various components needed to built a
 fully functional DE based around wayfire. Currently it has only a GTK-based
 panel and background client.
+
+
+%package        devel
+Summary:        Development files for %{name}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description    devel
+Development files for %{name}.
 
 
 %prep
@@ -60,8 +64,21 @@ mv GNOME-libgnome-volume-control-%{gvc_shortcommit}/* \
 %{_bindir}/wf-panel
 %{_datadir}/wayfire/
 
+%files devel
+%{_libdir}/pkgconfig/*.pc
+
 
 %changelog
+* Tue Aug 04 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.5.0-1
+- Update 0.5.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 22 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.4.0-2
 - Add example configuration file
 - Enable LTO

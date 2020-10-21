@@ -1,6 +1,6 @@
 Name:           isoimagewriter
 Version:        0.8
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        KDE ISO Image Writer, a tool to write a .iso file to a USB disk
 
 License:        GPLv3+
@@ -40,16 +40,12 @@ The KDE ISO Image Writer is a tool to write a .iso file to a USB disk.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. 
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake_kf5 
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -74,6 +70,16 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.%{name}.d
 
 
 %changelog
+* Tue Aug 25 2020 Christian Dersch <lupinix@mailbox.org> - 0.8-5
+- Use new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

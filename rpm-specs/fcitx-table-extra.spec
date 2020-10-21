@@ -1,6 +1,6 @@
 Name:		fcitx-table-extra
 Version:	0.3.8
-Release:	7%{?dist}
+Release:	10%{?dist}
 Summary:	Extra tables for Fcitx
 License:	GPLv2+
 URL:		http://fcitx-im.org/wiki/Fcitx
@@ -22,16 +22,11 @@ Boshiamy table and its icon are released under their own license.
 
 
 %build
-mkdir -pv build
-pushd build
-%cmake ..
-make VERBOSE=1 %{?_smp_mflags}
+%cmake
+%cmake_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-pushd build
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
-popd
+%cmake_install
 
 %find_lang %{name}
 
@@ -45,6 +40,16 @@ popd
 
 
 %changelog
+* Tue Aug 04 2020 Qiyu Yan <yanqiyu@fedoraproject.org> - 0.3.8-10
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.8-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.8-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.8-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

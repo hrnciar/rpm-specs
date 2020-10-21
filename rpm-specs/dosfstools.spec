@@ -1,7 +1,7 @@
 Name: dosfstools
 Summary: Utilities for making and checking MS-DOS FAT filesystems on Linux
 Version: 4.1
-Release: 10%{?dist}
+Release: 12%{?dist}
 License: GPLv3+
 Source0: http://github.com/%{name}/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.xz
 URL: http://github.com/dosfstools/dosfstools
@@ -21,10 +21,10 @@ drives or on floppies.
 
 %build
 %configure --enable-compat-symlinks
-make %{?_smp_mflags} CFLAGS="%{optflags} -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -fno-strict-aliasing"
+%make_build CFLAGS="%{optflags} -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -fno-strict-aliasing"
 
 %install
-make DESTDIR=%{buildroot} install PREFIX=%{_prefix}
+%make_install PREFIX=%{_prefix}
 
 %files
 %license COPYING
@@ -34,6 +34,13 @@ make DESTDIR=%{buildroot} install PREFIX=%{_prefix}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 4.1-11
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

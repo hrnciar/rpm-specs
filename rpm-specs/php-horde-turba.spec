@@ -12,7 +12,7 @@
 
 Name:           php-horde-turba
 Version:        4.2.25
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A web based address book
 
 License:        ASL 1.0
@@ -265,6 +265,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.25-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun  2 2020 Remi Collet <remi@remirepo.net> - 4.2.25-4
 - requires php(httpd)
 

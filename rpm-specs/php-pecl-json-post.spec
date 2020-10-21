@@ -19,7 +19,7 @@
 Summary:        JSON POST handler
 Name:           php-pecl-json-post
 Version:        1.0.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        BSD
 URL:            https://pecl.php.net/package/%{pecl_name}
 Source0:        https://pecl.php.net/get/%{pecl_name}-%{version}%{?prever}.tgz
@@ -166,6 +166,9 @@ cd ../ZTS
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Remi Collet <remi@remirepo.net> - 1.0.2-1
 - Update to 1.0.2
 

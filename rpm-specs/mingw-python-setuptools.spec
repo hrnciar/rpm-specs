@@ -4,7 +4,7 @@
 
 Name:          mingw-python-%{pkgname}
 Summary:       MinGW Windows Python %{pkgname} library
-Version:       47.1.1
+Version:       50.1.0
 Release:       1%{?dist}
 BuildArch:     noarch
 
@@ -81,6 +81,21 @@ rm -f %{buildroot}%{mingw64_bindir}/easy_install
 
 
 %changelog
+* Fri Sep 11 2020 Sandro Mani <manisandro@gmail.com> - 50.1.0-1
+- Update to 50.1.0
+
+* Thu Aug 27 2020 Sandro Mani <manisandro@gmail.com> - 49.6.0-1
+- Update to 49.6.0
+
+* Thu Jul 30 2020 Sandro Mani <manisandro@gmail.com> - 49.1.3-1
+- Update to 49.1.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 47.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Sandro Mani <manisandro@gmail.com> - 47.3.1-1
+- Update to 47.3.1
+
 * Fri Jun 12 2020 Sandro Mani <manisandro@gmail.com> - 47.1.1-1
 - Update to 47.1.1
 

@@ -1,9 +1,9 @@
 %global pypi_name pypcapkit
 
 Name:           python-%{pypi_name}
-Version:        0.14.5
-Release:        3%{?dist}
-Summary:        A Python multi-engine PCAP analyse kit
+Version:        0.15.3
+Release:        1%{?dist}
+Summary:        Python multi-engine PCAP analyse kit
 
 License:        MPLv2.0
 URL:            https://github.com/JarryShaw/pypcapkit
@@ -19,6 +19,7 @@ dictdumper, it shall support multiple output report formats.
 Summary:        %{summary}
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
 %description -n python3-%{pypi_name}
@@ -44,6 +45,18 @@ chmod -x LICENSE
 %{python3_sitelib}/%{pypi_name}*.egg-info
 
 %changelog
+* Fri Sep 25 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.15.3-1
+- Update to latest upstream release 0.15.3
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.15.2-1
+- Update to latest upstream release 0.15.2
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.14.5-4
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.14.5-3
 - Rebuilt for Python 3.9
 

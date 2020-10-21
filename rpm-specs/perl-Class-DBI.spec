@@ -1,6 +1,6 @@
 Name:           perl-Class-DBI
 Version:        3.0.17
-Release:        36%{?dist}
+Release:        38%{?dist}
 Summary:        Simple Database Abstraction
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Class-DBI
@@ -8,7 +8,9 @@ Source0:        https://cpan.metacpan.org/authors/id/T/TM/TMTM/Class-DBI-v%{vers
 BuildArch:      noarch
 BuildRequires:  findutils
 BuildRequires:  make
+%if ! 0%{?el8}
 BuildRequires:  perl-doc
+%endif
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
 BuildRequires:  perl(base)
@@ -68,6 +70,12 @@ find $RPM_BUILD_ROOT -type f -name .packlist -delete
 %{_mandir}/man3/*.3*
 
 %changelog
+* Thu Aug 20 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 3.0.17-38
+- Improve compatibility with EL8
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.17-37
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.0.17-36
 - Perl 5.32 rebuild
 

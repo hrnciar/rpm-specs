@@ -11,7 +11,7 @@ Version:        3.6
 
 %forgemeta -i
 
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Tool for Red Hat Enterprise Linux Driver Update Disk creation
 
 License:        GPLv3
@@ -19,28 +19,13 @@ URL:            %{forgeurl}
 Source0:        %{forgesource}
 
 BuildArch:      noarch
-%if 0%{?fedora} >= 25
-%if 0%{?fedora} >= 30
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
-%else
-BuildRequires:  python2-devel
-BuildRequires:  python2-setuptools
-%endif
-%else
-BuildRequires:  python2-devel
-BuildRequires:  python-setuptools
-%endif
 
 Requires:       rpm createrepo genisoimage
-%if 0%{?fedora} >= 23
 Suggests:       quilt git
 Recommends:     kernel-devel redhat-rpm-config rpm-build
 Recommends:     mock
-%else
-Requires:       kernel-devel redhat-rpm-config rpm-build
-Requires:       mock
-%endif
 
 %description -n %{name}
 Ddiskit is a little framework for simplifying creation of proper
@@ -51,37 +36,19 @@ kernel modules.
 %forgesetup
 
 %build
-%if 0%{?fedora} >= 30
-sed -i "s|/usr/bin/python$|/usr/bin/python3|g" bin/ddiskit
-sed -i "s|/usr/bin/python$|/usr/bin/python3|g" setup.py
 %py3_build
-%else
-%py2_build
-%endif
 
 %install
-%if 0%{?fedora} >= 30
 %py3_install
-%else
-%py2_install
-%endif
 find %{buildroot} -size 0 -delete
 
 %check
-%if 0%{?fedora} >= 30
 %{__python3} setup.py test
-%else
-%{__python2} setup.py test
-%endif
 
 %files -n %{name}
 %doc README
 %license COPYING
-%if 0%{?fedora} >= 30
 %{python3_sitelib}/*
-%else
-%{python2_sitelib}/*
-%endif
 %{_bindir}/ddiskit
 %{_mandir}/man1/ddiskit.1*
 %{_datadir}/bash-completion/completions/ddiskit
@@ -100,6 +67,13 @@ find %{buildroot} -size 0 -delete
 %config(noreplace) /etc/ddiskit.config
 
 %changelog
+* Wed Oct 14 2020 Cestmir Kalina <ckalina@redhat.com> - 3.6-10
+- Remove Python 2 relevant chunks
+- Fixes #1885256
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - Packaging variables read or set by %forgemeta
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - Packaging variables read or set by %forgemeta
 - Rebuilt for Python 3.9
 

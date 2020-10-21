@@ -6,16 +6,13 @@ networking protocol. Working with pydicom, it allows the easy creation of
 DICOM Service Class Users (SCUs) and Service Class Providers (SCPs).}
 
 Name:           python-%{modname}
-Version:        1.5.0
+Version:        1.5.3
 Release:        2%{?dist}
 Summary:        A Python implementation of the DICOM networking protocol
 
 License:        MIT and (BSD or ASL 2.0)
 URL:            https://github.com/pydicom/%{modname}
 Source0:        https://github.com/pydicom/%{modname}/archive/v%{version}/%{modname}-%{version}.tar.gz
-# Release 1.5.0 requires pydicom >= 2.0.0
-# https://github.com/pydicom/pynetdicom/issues/493
-Patch0:         requiresv2.patch
 
 BuildArch:      noarch
 
@@ -61,10 +58,11 @@ rm -rf docs/_build/html/{.doctrees,.buildinfo,.nojekyll} -vf
 %check
 # test_tls_yes_server_yes_client and test_tls_transfer are disabled. Upstream is investigating.
 # https://github.com/pydicom/pynetdicom/issues/406 and https://github.com/pydicom/pynetdicom/issues/364
+# PYTHONPATH=%{buildroot}/%{python3_sitelib} %{__python3} -m pytest -k "not test_tls_yes_server_yes_client and not test_tls_transfer"
+
 # tests in the apps/ part not reliable, upstream advice to disable them
 # https://github.com/pydicom/pynetdicom/issues/498
-# PYTHONPATH=%{buildroot}/%{python3_sitelib} %{__python3} -m pytest -k "not test_tls_yes_server_yes_client and not test_tls_transfer"
-PYTHONPATH=%{buildroot}/%{python3_sitelib} %{__python3} -m pytest -k "not apps"
+PYTHONPATH=%{buildroot}/%{python3_sitelib} %{__python3} -m pytest --deselect=pynetdicom/apps/tests -vvv
 
 %files -n python3-%{modname}
 %license LICENCE.txt
@@ -77,6 +75,21 @@ PYTHONPATH=%{buildroot}/%{python3_sitelib} %{__python3} -m pytest -k "not apps"
 %doc docs/_build/html
 
 %changelog
+* Mon Aug 24 2020 Alessio <alciregi AT fedoraproject DOT org> - 1.5.3-2
+- Re-enable test_fsm in pytest
+
+* Mon Aug 24 2020 Alessio <alciregi AT fedoraproject DOT org> - 1.5.3-1
+- 1.5.3 release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 2020 Alessio <alciregi AT fedoraproject DOT org> - 1.5.2-1
+- 1.5.2 release
+
+* Wed Jun 24 2020 Alessio <alciregi AT fedoraproject DOT org> - 1.5.1-1
+- 1.5.1 release
+
 * Fri Jun 05 2020 Alessio <alciregi AT fedoraproject DOT org> - 1.5.0-2
 - Fixed dependecy with pydicom
 

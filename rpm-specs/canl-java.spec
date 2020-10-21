@@ -1,6 +1,6 @@
 Name:		canl-java
 Version:	2.6.0
-Release:	6%{?dist}
+Release:	9%{?dist}
 Summary:	EMI Common Authentication library - bindings for Java
 
 #		The main parts of the code are BSD
@@ -51,8 +51,8 @@ Javadoc documentation for EMI caNl.
 # GPG signing requires a GPG key
 %pom_remove_plugin org.apache.maven.plugins:maven-gpg-plugin
 
-%if %{?rhel}%{!?rhel:0} == 8
-# EPEL 8 doesn't use the maven-javadoc-plugin to generate javadoc
+%if %{?fedora}%{!?fedora:0} >= 33 || %{?rhel}%{!?rhel:0} >= 8
+# F33+ and EPEL8+ doesn't use the maven-javadoc-plugin to generate javadoc
 # Remove maven-javadoc-plugin configuration to avoid build failure
 %pom_remove_plugin org.apache.maven.plugins:maven-javadoc-plugin
 %endif
@@ -78,7 +78,16 @@ Javadoc documentation for EMI caNl.
 %license LICENSE.txt
 
 %changelog
-* Tue May  5 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 2.6.0-6
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 2.6.0-8
+- Fedora 33 builds javadoc the same way EPEL 8 does
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.6.0-7
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Tue May 05 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 2.6.0-6
 - Only remove the maven-javadoc-plugin configuration on EPEL 8
 - Fix javadoc issues with JDK 11
 

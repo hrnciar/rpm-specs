@@ -1,7 +1,7 @@
 %global gittag 1.3.1
 Name:           tlp
 Version:        1.3.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Advanced power management tool for Linux
 License:        GPLv2+
 URL:            http://linrunner.de/en/tlp/tlp.html
@@ -129,6 +129,9 @@ fi
 /bin/systemctl enable NetworkManager-dispatcher.service >/dev/null 2>&1 || :
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 6 2020 Jeremy Newton <alexjnewt AT hotmail DOT com> - 1.3.1-1
 - Update to 1.3.1
 

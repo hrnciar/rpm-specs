@@ -11,7 +11,7 @@
 
 Name:    drupal%{drupalver}-%{modname}
 Version: 1.0
-Release: 15%{?dist}
+Release: 16%{?dist}
 Summary: Keeps track of the language by means of a cookie
 License: GPLv2+
 URL:     http://drupal.org/project/%{modname}
@@ -48,6 +48,9 @@ find . -type f -exec install -m 0644 -D '{}' %{buildroot}%{drupaldir}/modules/%{
 %{drupaldir}/modules/%{modname}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

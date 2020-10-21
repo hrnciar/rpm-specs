@@ -2,7 +2,7 @@ Summary: A utility for creating TTY dialog boxes
 Name: dialog
 %global dialogsubversion 20200327
 Version: 1.3
-Release: 26.%{dialogsubversion}%{?dist}
+Release: 27.%{dialogsubversion}%{?dist}
 License: LGPLv2
 URL: https://invisible-island.net/dialog/dialog.html
 Source0: https://invisible-mirror.net/archives/dialog/dialog-%{version}-%{dialogsubversion}.tgz
@@ -77,6 +77,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libdialog.{,l}a
 %{_mandir}/man3/dialog.*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-27.20200327
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 31 2020 Miroslav Lichvar <mlichvar@redhat.com> - 1.3-26.20200327
 - update to 1.3-20200327
 

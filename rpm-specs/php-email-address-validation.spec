@@ -1,40 +1,62 @@
 Name:		php-email-address-validation
-Version:	0
-Release:	0.18.20090910svn%{?dist}
+Version:	2.0.1
+Release:	1%{?dist}
 Summary:	A PHP class for validating email addresses
 License:	BSD
-URL:		http://code.google.com/p/php-email-address-validation/
-# The source for this package was pulled from the upstream's vcs.
-# The following commands can be used to generate the tarball.
-# svn export -r10 http://php-email-address-validation.googlecode.com/svn/trunk/ php-email-address-validation
-# tar cjvf rpmbuild/SOURCES/php-email-address-validation-0-0.1.20090910svn.tar.bz2 php-email-address-validation/ 
-Source0:	%{name}-0-0.2.20090910svn.tar.bz2
+
+%global repo_owner	aziraphale
+%global repo_name	email-address-validator
+URL:		https://github.com/%{repo_owner}/%{repo_name}
+Source0:	%{URL}/archive/%{version}/%{repo_name}-%{version}.tar.gz
+
 BuildArch:	noarch
-Requires:	php-common
+
+BuildRequires:	php-composer(phpunit/phpunit) >= 5.7
+
 Requires:	php
+Requires:	php-common
+Requires:	php-pcre
+
+Provides:	php-composer(aziraphale/email-address-validator) = %{version}
+
 
 %description
 This PHP class is used to check email addresses for technical validity.
 
+
 %prep
-%setup -q -n %{name}
-sed -i 's/\r//' tests/EmailAddressValidatorTest.php
+%setup -q -n %{repo_name}-%{version}
+# Replace \r\n endlines with \n
+sed -i 's/\r$//g' ./EmailAddressValidator.php tests/EmailAddressValidatorTest.php
+
 
 %build
 # nothing to do here
 
-%install
-rm -rf $RPM_BUILD_ROOT
-install -d -p $RPM_BUILD_ROOT%{_datadir}/php/%{name}
-cp -rp EmailAddressValidator.php $RPM_BUILD_ROOT%{_datadir}/php/%{name}/
 
+%install
+install -d -p %{buildroot}%{_datadir}/php/%{name}
+cp -rp EmailAddressValidator.php %{buildroot}%{_datadir}/php/%{name}/
+
+
+%check
+phpunit --verbose --bootstrap %{buildroot}%{_datadir}/php/%{name}/EmailAddressValidator.php
 
 
 %files
 %doc tests/
+%doc composer.json
 %{_datadir}/php/%{name}
 
+
 %changelog
+* Mon Aug 31 2020 Artur Iwicki <fedora@svgames.pl> - 2.0.1-1
+- Switch main source to a fork (composer: aziraphale/email-address-validator)
+- Run the test suite during %%check
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.19.20090910svn
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.18.20090910svn
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

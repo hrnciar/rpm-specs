@@ -1,6 +1,6 @@
 Name:           tkgate
 Version:        2.0
-Release:        32.beta10%{?dist}
+Release:        33.beta10%{?dist}
 Summary:        An event driven digital circuit simulator
 
 License:        GPLv2+
@@ -232,6 +232,9 @@ cp -p site-preferences %{buildroot}%{_datadir}/%{name}/site-preferences
 %exclude %{_datadir}/%{name}/locale/ja
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-33.beta10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-32.beta10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

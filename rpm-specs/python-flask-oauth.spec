@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.13
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Adds OAuth support to Flask
 
 License:        BSD
@@ -47,6 +47,9 @@ Python 3 version.
 %{python3_sitelib}/__pycache__/flask_oauth.*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.13-15
 - Rebuilt for Python 3.9
 

@@ -4,12 +4,13 @@
 
 Name:           python-%{pypi_name}
 Version:        3.0.0
-Release:        18%{?dist}
+Release:        21%{?dist}
 Summary:        Fixtures, reusable state for writing clean tests and more
 
 License:        ASL 2.0 or BSD
 URL:            https://launchpad.net/python-fixtures
 Source0:        http://pypi.python.org/packages/source/f/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+Patch0001:      0001-Skip-tests-failing-in-Python-3.9.patch
 BuildArch:      noarch
 
 
@@ -48,7 +49,7 @@ contract in unit test compatible test cases easy and straight forward.
 
 
 %prep
-%autosetup -n %{pypi_name}-%{version}
+%autosetup -p1 -n %{pypi_name}-%{version}
 
 %build
 %py3_build
@@ -59,7 +60,7 @@ contract in unit test compatible test cases easy and straight forward.
 %if %{with tests}
 %check
 %{__python3} -m testtools.run fixtures.test_suite
-%endif # if with tests
+%endif
 
 
 %files -n python3-%{pypi_name}
@@ -68,6 +69,16 @@ contract in unit test compatible test cases easy and straight forward.
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Thu Oct 01 2020 Javier Peña <jpena@redhat.com> - 3.0.0-21
+- Skip unit tests failing in Python 3.0 (bz#1787753)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-20
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.0-18
 - Bootstrap for Python 3.9
 

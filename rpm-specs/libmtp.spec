@@ -3,7 +3,7 @@
 
 Name:           libmtp
 Version:        1.1.16
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A software library for MTP media players
 URL:            http://libmtp.sourceforge.net/
 
@@ -106,6 +106,9 @@ chrpath --delete $RPM_BUILD_ROOT{%{_bindir},/usr/lib/udev}/mtp*
 %{_libdir}/pkgconfig/libmtp.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.16-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.16-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

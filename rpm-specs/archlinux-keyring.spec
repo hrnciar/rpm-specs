@@ -1,5 +1,5 @@
 Name:           archlinux-keyring
-Version:        20200422
+Version:        20200817
 Release:        1%{?dist}
 Url:            https://projects.archlinux.org/archlinux-keyring.git/
 Source0:        https://projects.archlinux.org/%{name}.git/snapshot/%{name}-%{version}.tar.gz
@@ -38,6 +38,15 @@ ln -s %{_datadir}/pacman/keyrings/archlinux.gpg %{buildroot}%{_keyringsdir}/
 %{_keyringsdir}/archlinux.gpg
 
 %changelog
+* Tue Aug 18 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 20200817-1
+- New upstream release (#1843508).
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200622-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 20200622-1
+- New upstream release (#1843508).
+
 * Tue May 05 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 20200422-1
 - New upstream release (#1826747).
 

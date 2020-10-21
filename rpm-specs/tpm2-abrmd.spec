@@ -1,8 +1,8 @@
 %global selinuxtype targeted
 
 Name: tpm2-abrmd
-Version: 2.3.1
-Release: 2%{?dist}
+Version: 2.3.3
+Release: 1%{?dist}
 Summary: A system daemon implementing TPM2 Access Broker and Resource Manager
 
 License: BSD
@@ -88,6 +88,18 @@ required to build applications that use tpm2-abrmd.
 %systemd_postun tpm2-abrmd.service
 
 %changelog
+* Sat Aug 29 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2.3.3-1
+- Update to 2.3.3
+
+* Wed Aug 05 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2.3.2-3
+- Rebuild for tpm2-tss 3.0.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2.3.2-1
+- Update to 2.3.2 release
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

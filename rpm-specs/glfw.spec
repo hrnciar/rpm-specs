@@ -1,6 +1,6 @@
 Name:           glfw
 Version:        3.3.2
-Release:        2%{?dist}
+Release:        6%{?dist}
 Epoch:          1
 Summary:        A cross-platform multimedia library
 Summary(fr):    Une bibliothèque multimédia multi-plateforme
@@ -73,11 +73,11 @@ with %{name}.
 find . -type f | xargs sed -i 's/\r//'
 
 %build
-%cmake .
-%make_build all
+%cmake
+%cmake_build --target all
 
 %install
-%make_install
+%cmake_install
 
 %files
 %license LICENSE.md
@@ -91,9 +91,22 @@ find . -type f | xargs sed -i 's/\r//'
 %{_libdir}/cmake/glfw3/
 
 %files doc
-%doc docs/html/*
+%doc %{_vpath_builddir}/docs/html/*
 
 %changelog
+* Fri Sep 04 2020 Till Hofmann <thofmann@fedoraproject.org> - 1:3.3.2-6
+- Adapt to cmake out-of-source builds
+
+* Tue Aug 04 2020 Dave Airlie <airlied@redhat.com> - 3.3.2-5
+- Update cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.3.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.3.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.3.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

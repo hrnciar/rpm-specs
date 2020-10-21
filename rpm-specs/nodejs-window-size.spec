@@ -5,7 +5,7 @@
 
 Name:               nodejs-window-size
 Version:            0.1.0
-Release:            11%{?dist}
+Release:            12%{?dist}
 Summary:            Get the height and width of the terminal in a node.js environment
 
 License:            MIT
@@ -48,6 +48,9 @@ cp -pr package.json index.js \
 %{nodejs_sitelib}/window-size/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

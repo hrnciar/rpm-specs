@@ -6,7 +6,7 @@
 
 Name:           ocaml-%{pkgname}
 Version:        0.4
-Release:        15%{?dist}
+Release:        19%{?dist}
 Summary:        Simplex algorithm for solving systems of linear inequalities
 
 # The same exception to clause 6 as provided by ocaml applies to this package.
@@ -81,6 +81,19 @@ make local-tests
 %{_libdir}/ocaml/*/*.mli
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.4-19
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.4-18
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-17
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 0.4-15
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

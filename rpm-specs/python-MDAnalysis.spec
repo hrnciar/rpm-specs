@@ -3,7 +3,7 @@
 
 Name: python-%{pname}
 Version: 0.20.1
-Release: 3%{?dist}
+Release: 5%{?dist}
 Summary: Analyze and manipulate molecular dynamics trajectories
 License: GPLv2+ and BSD and MIT and CC-BY-ND
 # BSD:
@@ -24,6 +24,8 @@ Source2: https://github.com/%{pname}/mdanalysis/files/1935925/pypidoc.zip
 # force rebuild of cythonized intermediate sources
 Patch1: %{name}-cython.patch
 Patch2: %{name}-flags.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=1853117
+Patch3: 2763.patch
 # 32-bit archs: https://github.com/MDAnalysis/mdanalysis/issues/2342
 # ppc64le, aarch64: https://github.com/MDAnalysis/mdanalysis/issues/2343
 ExcludeArch: i686 armv7hl s390x ppc64le aarch64
@@ -108,6 +110,7 @@ This package contains the documentation
 %setup -q -n %{pname}-%{version} -a 1
 %patch1 -p1 -b .cython
 %patch2 -p1 -b .flags
+%patch3 -p1
 # force rebuild of Egg Metadata
 rm -r %{pname}.egg-info
 rm -r %{pname}Tests-%{version}/%{pname}Tests.egg-info
@@ -182,6 +185,12 @@ PYTHONPATH=%{buildroot}%{python3_sitelib}:%{buildroot}%{python3_sitearch} \
 %doc doc/html/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Christoph Junghans <junghans@votca.org> - 0.20.1-4
+- Fix build with matplotlib 3.3.0rc1 (bug #1853117)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.20.1-3
 - Rebuilt for Python 3.9
 

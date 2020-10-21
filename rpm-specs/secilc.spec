@@ -1,19 +1,19 @@
-%global libsepolver 3.0-1
+%global libsepolver 3.1
 
 Name:           secilc
-Version:        3.0
+Version:        3.1
 Release:        2%{?dist}
 Summary:        The SELinux CIL Compiler
 
 License:        BSD
 URL:            https://github.com/SELinuxProject/selinux/wiki
-Source0:        https://github.com/SELinuxProject/selinux/releases/download/20191204/secilc-3.0.tar.gz
-# fedora-selinux/selinux: git format-patch -N secilc-3.0 -- secilc
+Source0:        https://github.com/SELinuxProject/selinux/releases/download/20200710/secilc-3.1.tar.gz
+# fedora-selinux/selinux: git format-patch -N secilc-3.1 -- secilc
 # i=1; for j in 00*patch; do printf "Patch%04d: %s\n" $i $j; i=$((i+1));done
 # Patch list start
 # Patch list end
 BuildRequires:  gcc
-BuildRequires:  libsepol-static >= %{libsepolver}, dblatex, flex, xmlto, pandoc
+BuildRequires:  libsepol-static >= %{libsepolver}, dblatex, flex, xmlto, pandoc-pdf, texlive-mdwtools
 
 %description
 The SELinux CIL Compiler is a compiler that converts the CIL language as
@@ -62,6 +62,12 @@ make %{?_smp_mflags} DESTDIR="%{buildroot}" SBINDIR="%{buildroot}%{_sbindir}" LI
 %license COPYING
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Petr Lautrbach <plautrba@redhat.com> - 3.1-1
+- SELinux userspace 3.1 release
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

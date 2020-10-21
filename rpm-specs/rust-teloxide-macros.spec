@@ -5,7 +5,7 @@
 %global crate teloxide-macros
 
 Name:           rust-%{crate}
-Version:        0.2.1
+Version:        0.3.2
 Release:        1%{?dist}
 Summary:        Teloxide's procedural macros
 
@@ -71,6 +71,16 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Thu Oct 15 2020 Fabio Valentini <decathorpe@gmail.com> - 0.3.2-1
+- Update to version 0.3.2.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 25 11:36:45 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.1-1
 - Update to 0.2.1
 

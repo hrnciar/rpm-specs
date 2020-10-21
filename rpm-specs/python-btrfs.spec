@@ -7,12 +7,12 @@ data structures, presenting them as python objects with interesting attributes\
 and references to other objects.
 
 Name:           python-btrfs
-Version:        11
-Release:        6%{?dist}
+Version:        12
+Release:        1%{?dist}
 Summary:        Python module to inspect btrfs filesystems
 License:        LGPLv3+ and MIT
 URL:            https://github.com/knorrie/python-btrfs
-Source0:        https://github.com/knorrie/%{name}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source0:        https://github.com/knorrie/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  python3-sphinx
@@ -69,6 +69,12 @@ install -m 0644 man/* %{buildroot}%{_mandir}/man1
 %license COPYING.LESSER
 
 %changelog
+* Wed Oct 14 2020 Juan Orti Alcaine <jortialc@redhat.com> - 12-1
+- Version 12 (#1888096)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 11-6
 - Rebuilt for Python 3.9
 

@@ -2,7 +2,7 @@
 
 Name:           xfdesktop
 Version:        4.14.2
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Desktop manager for the Xfce Desktop Environment
 
 License:        GPLv2+
@@ -69,6 +69,13 @@ desktop-file-validate \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

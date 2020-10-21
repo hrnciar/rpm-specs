@@ -1,7 +1,7 @@
 Summary:	LaTeX editor
 Name:		texmaker
 Version:	5.0.4
-Release:	4%{?dist}
+Release:	6%{?dist}
 Epoch:		1
 License:	GPLv2+
 URL:		http://www.xm1math.net/texmaker/
@@ -94,6 +94,12 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/%{name}.a
 %{_datadir}/metainfo/%{name}.appdata.xml
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 1:5.0.4-6
+- rebuild (qt5)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.0.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:5.0.4-4
 - rebuild (qt5)
 

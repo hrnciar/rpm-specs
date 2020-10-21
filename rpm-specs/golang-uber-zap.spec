@@ -5,7 +5,7 @@
 # https://github.com/uber-go/zap
 %global goipath         go.uber.org/zap
 %global forgeurl        https://github.com/uber-go/zap
-Version:                1.13.0
+Version:                1.15.0
 
 %gometa
 
@@ -73,6 +73,12 @@ BuildRequires:  golang(gopkg.in/inconshreveable/log15.v2)
 %gopkgfiles
 
 %changelog
+* Fri Aug 07 17:14:44 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.15.0-1
+- Update to 1.15.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 06 22:13:19 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.13.0-1
 - Update to 1.13.0
 

@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.2.1
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Your current git repository information inside a beautiful shell prompt
 
 # Upstream license specification: MIT
@@ -58,6 +58,12 @@ License:        MIT
 %endif
 
 %changelog
+* Sun Aug 16 15:01:38 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.1-4
+- Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 15 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.1-2
 - Rebuild for libgit2 1.0.0
 

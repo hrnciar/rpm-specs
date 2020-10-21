@@ -5,7 +5,7 @@
 
 Name:           qxtglobalshortcut
 Version:        0.0.1
-Release:        0.13.%{commitdate}git%{shortcommit}%{?dist}
+Release:        0.14.%{commitdate}git%{shortcommit}%{?dist}
 Summary:        Cross-platform library for handling system-wide shortcuts in Qt applications
 License:        BSD
 URL:            https://github.com/hluk/qxtglobalshortcut
@@ -36,12 +36,12 @@ rm -rf utils/appveyor/
 rm -f appveyor.yml
 
 %build
-%cmake . \
+%cmake \
  -DCMAKE_SHARED_LINKER_FLAGS="-Wl,--as-needed"
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %ldconfig_scriptlets
 
@@ -57,6 +57,9 @@ rm -f appveyor.yml
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.1-0.14.20171021git1644620
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 20 2020 Martin Gansser <martinkg@fedoraproject.org> - 0.0.1-0.13.20171021git1644620
 - Rebuild for rawhide
 - Add BR qt5-qtbase-private-devel for fedora > 32

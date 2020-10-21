@@ -5,7 +5,7 @@
 
 Name:          tesseract-tessdata
 Version:       4.0.0
-Release:       7%{?pre:.%pre}%{?commit:.git%{shortcommit}}%{?dist}
+Release:       9%{?pre:.%pre}%{?commit:.git%{shortcommit}}%{?dist}
 Summary:       Trained models for the Tesseract Open Source OCR Engine
 BuildArch:     noarch
 
@@ -59,7 +59,7 @@ BuildArch:     noarch\
 Requires:      tesseract\
 Requires:      %{name}-doc = %{version}-%{release}\
 %{-l:Provides:      %{name}-langpack-%{langcode} = %{version}-%{release}\
-Supplements:   (%{name} = %{version}-%{release} and langpacks-%{langcode})}\
+Supplements:   (tesseract and langpacks-%{langcode})}\
 \
 %description -n tesseract-langpack-%{macrolang}\
 This package contains the fast integer version of the %{langname} language \
@@ -286,6 +286,12 @@ rm -f %{buildroot}/%{_datadir}/tesseract/tessdata/README.md
 
 
 %changelog
+* Tue Sep 29 2020 Sandro Mani <manisandro@gmail.com> - 4.0.0-9
+- Fix supplements
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

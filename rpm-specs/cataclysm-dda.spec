@@ -8,12 +8,13 @@
 
 Name:           cataclysm-dda
 Version:        0.E.2
-Release:        1%{?dist}
+Release:        7%{?dist}
 Summary:        Turn-based survival game set in a post-apocalyptic world
 
 License:        CC-BY-SA
 URL:            http://cataclysmdda.org
 Source0:        https://github.com/CleverRaven/Cataclysm-DDA/archive/0.E-2/%{name}-0.E-2.tar.gz
+Patch0:         cataclysm-dda-gcc11.patch
 
 # Due virtual memory exhausted and build fail
 ExcludeArch:    i686
@@ -91,6 +92,12 @@ Data files for %{name}-tiles.
 
 
 %build
+%ifarch armv7hl
+# This package is triggering a compiler error on armv7hl when
+# LTO is enabled.  Disable on armv7hl for now
+%define _lto_cflags %{nil}
+%endif
+
 %set_build_flags
 
 # Note: Don't use LTO for builds in COPR due to limited resources. COPR build
@@ -191,6 +198,26 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Mon Oct 19 2020 Jeff Law <law@redhat.com> - 0.E.2-7
+- Fix range-loop-construct diagnostic from gcc-11
+
+* Tue Sep 15 2020 Jeff Law <law@redhat.com> - 0.E.2-6
+- Fix uninitialized variable caught by gcc-11.  Fix dynamic casts
+  to avoid gcc-11 diagnostic
+
+* Sat Aug 01 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.E.2-5
+- Fix Fedora build flags invocation
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.E.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 0.E.2-3
+- Disable LTO on armv7hl
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.E.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 20 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.E.2-1
 - Update to 0.E-2
 - Disable LTO

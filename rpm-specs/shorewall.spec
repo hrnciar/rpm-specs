@@ -1,11 +1,11 @@
-%global mainver 5.2.4
+%global mainver 5.2.8
 %global baseurl http://www.shorewall.net/pub/shorewall/5.2/shorewall-%{mainver}/
 
 # A very helpful document for packaging Shorewall is "Anatomy of Shorewall 4.0"
 # which is found at http://www.shorewall.net/Anatomy.html
 
 Name:           shorewall
-Version:        %{mainver}.5
+Version:        %{mainver}
 Release:        1%{?dist}
 Summary:        An iptables front end for firewall configuration
 License:        GPLv2+
@@ -19,11 +19,10 @@ Source3:        %{baseurl}/%{name}6-lite-%{version}.tar.bz2
 Source4:        %{baseurl}/%{name}-init-%{version}.tar.bz2
 Source5:        %{baseurl}/%{name}-core-%{version}.tar.bz2
 
-Patch0:         %{name}-init-5.2.2-nm-dispatcher-dir.patch
+Patch0:         %{name}-init-5.2.7-nm-dispatcher-dir.patch
 
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
-BuildRequires:  perl-sort
 BuildRequires:  perl(autouse)
 BuildRequires:  perl(constant)
 BuildRequires:  perl(Cwd)
@@ -36,6 +35,8 @@ BuildRequires:  perl(FindBin)
 BuildRequires:  perl(Getopt::Long)
 BuildRequires:  perl(lib)
 BuildRequires:  perl(Scalar::Util)
+BuildRequires:  perl(Sys::Hostname)
+BuildRequires:  perl(sort)
 BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
 BuildRequires:  systemd
@@ -344,6 +345,15 @@ sed -i.rpmbak -e '/^MODULE_SUFFIX=ko$/s/=ko$/="ko.xz ko"/' /etc/shorewall6/shore
 
 
 %changelog
+* Fri Sep 25 2020 Michele Baldessari <michele@acksyn.org> - 5.2.8-1
+- New upstream
+
+* Thu Aug 13 2020 Michele Baldessari <michele@acksyn.org> - 5.2.7-1
+- New upstream
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.4.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 14 2020 Michele Baldessari <michele@acksyn.org> - 5.2.4.5-1
 - New upstream
 

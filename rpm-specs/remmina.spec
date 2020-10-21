@@ -1,7 +1,7 @@
-%global commit0 cc52d09668b01c99229d8869e9694a8be363a2f9
+%global commit0 7ebc497062de66881b71bbe7f54dabfda0129ac2
 
 Name:          remmina
-Version:       1.4.4
+Version:       1.4.8
 Release:       1%{?dist}
 Summary:       Remote Desktop Client
 License:       GPLv2+ and MIT
@@ -245,14 +245,16 @@ sed -i -e '/x-scheme-handler/d' data/desktop/remmina-file.desktop.in
 %build
 mkdir -p build
 
+%if 0%{?fedora}
 # Workaround for Pango on Fedora 31+
 export CFLAGS="%{optflags} -I%{_includedir}/harfbuzz"
-
-%if 0%{?fedora} || 0%{?rhel} >= 8
-%cmake --build=build \
-%else
-%cmake3 --build=build \
 %endif
+
+%if 0%{?rhel} == 7
+export CFLAGS="%{optflags} -std=gnu99"
+%endif
+
+%cmake \
     -DCMAKE_INSTALL_LIBDIR=%{_lib} \
     -DCMAKE_INSTALL_PREFIX=%{_prefix} \
     -DWITH_APPINDICATOR=ON \
@@ -260,16 +262,16 @@ export CFLAGS="%{optflags} -I%{_includedir}/harfbuzz"
     -DWITH_FREERDP=ON \
     -DWITH_GCRYPT=ON \
     -DWITH_GETTEXT=ON \
+    -DWITH_KIOSK_SESSION=ON \
     -DWITH_LIBSSH=ON \
     -DWITH_SPICE=ON \
     -DWITH_TELEPATHY=OFF \
-    -DWITH_VTE=ON \
-    .
+    -DWITH_VTE=ON
 
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 mkdir -p %{buildroot}/%{_libdir}/cmake/%{name}/
 cp -pr cmake/*.cmake %{buildroot}/%{_libdir}/cmake/%{name}/
@@ -355,6 +357,22 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/*.appdat
 %{_mandir}/man1/remmina-gnome.1.*
 
 %changelog
+* Fri Sep 11 2020 Simone Caronni <negativo17@gmail.com> - 1.4.8-1
+- Update to 1.4.8.
+
+* Mon Sep 07 2020 Than Ngo <than@redhat.com> - 1.4.7-4
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.7-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Simone Caronni <negativo17@gmail.com> - 1.4.7-1
+- Update to 1.4.7.
+
 * Fri May 22 2020 Simone Caronni <negativo17@gmail.com> - 1.4.4-1
 - Update to 1.4.4.
 

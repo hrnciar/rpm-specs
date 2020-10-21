@@ -2,13 +2,13 @@
 %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}}
 
 %define GPG_CHECK 1
-%define VERSION 2.9.5
+%define VERSION 3.0.1
 %define repodir %{_builddir}/%{name}-%{version}
 
 Summary:	High-performance authoritative DNS server
 Name:		knot
 Version:	%{VERSION}
-Release:	2%{?dist}
+Release:	1%{?dist}
 License:	GPL-3.0-or-later
 URL:		https://www.knot-dns.cz
 Source0:	https://secure.nic.cz/files/knot-dns/%{name}-%{version}.tar.xz
@@ -36,6 +36,7 @@ BuildRequires:	pkgconfig(libcap-ng)
 BuildRequires:	pkgconfig(libfstrm)
 BuildRequires:	pkgconfig(libidn2)
 BuildRequires:	pkgconfig(libmaxminddb)
+BuildRequires:	pkgconfig(libnghttp2)
 BuildRequires:	pkgconfig(libprotobuf-c)
 BuildRequires:	pkgconfig(libsystemd)
 BuildRequires:	pkgconfig(systemd)
@@ -54,6 +55,13 @@ BuildRequires:	lmdb-devel
 %if 0%{?fedora} || 0%{?rhel} > 7
 BuildRequires:	python3-sphinx
 BuildRequires:	pkgconfig(lmdb)
+%endif
+%if 0%{?rhel} >= 8 || 0%{?suse_version}
+%define configure_xdp --enable-xdp=yes
+BuildRequires:	pkgconfig(libelf)
+%endif
+%if 0%{?fedora} >= 31
+BuildRequires: pkgconfig(libbpf) >= 0.0.6
 %endif
 
 Requires(post):		systemd %{_sbindir}/runuser
@@ -127,6 +135,7 @@ CFLAGS="%{optflags} -DNDEBUG -Wno-unused"
   --with-rundir=/run/knot \
   --with-storage=/var/lib/knot \
   %{?configure_db_sizes} \
+  %{?configure_xdp} \
   --disable-static \
   --enable-dnstap=yes \
   --with-module-dnstap=yes
@@ -139,7 +148,7 @@ make install DESTDIR=%{buildroot}
 # install documentation
 install -d -m 0755 %{buildroot}%{_pkgdocdir}/samples
 install -p -m 0644 -t %{buildroot}%{_pkgdocdir}/samples samples/*.zone*
-install -p -m 0644 NEWS README %{buildroot}%{_pkgdocdir}
+install -p -m 0644 NEWS README.md %{buildroot}%{_pkgdocdir}
 cp -av doc/_build/html %{buildroot}%{_pkgdocdir}
 [ -r %{buildroot}%{_pkgdocdir}/html/index.html ] || exit 1
 rm -f %{buildroot}%{_pkgdocdir}/html/.buildinfo
@@ -155,10 +164,9 @@ install -p -m 0644 -D %{repodir}/distro/common/%{name}.tmpfiles %{buildroot}%{_t
 ln -s service %{buildroot}/%{_sbindir}/rcknot
 %endif
 
-# create storage dir and key dir
+# create storage dir
 install -d %{buildroot}%{_sharedstatedir}
-install -d -m 0775 -D %{buildroot}%{_sharedstatedir}/%{name}
-install -d -m 0770 -D %{buildroot}%{_sharedstatedir}/%{name}/keys
+install -d -m 0770 -D %{buildroot}%{_sharedstatedir}/knot
 
 # remove libarchive files
 find %{buildroot} -type f -name "*.la" -delete -print
@@ -206,16 +214,16 @@ systemd-tmpfiles --create %{_tmpfilesdir}/knot.conf &>/dev/null || :
 
 %files
 %license COPYING
-%{_pkgdocdir}/NEWS
-%{_pkgdocdir}/README
-%{_pkgdocdir}/samples
-%dir %attr(750,root,knot) %{_sysconfdir}/%{name}
-%config(noreplace) %attr(640,root,knot) %{_sysconfdir}/%{name}/%{name}.conf
-%dir %attr(775,root,knot) %{_sharedstatedir}/%{name}
-%dir %attr(770,root,knot) %{_sharedstatedir}/%{name}/keys
+%doc %{_pkgdocdir}
+%exclude %{_pkgdocdir}/html
+%attr(770,root,knot) %dir %{_sysconfdir}/knot
+%config(noreplace) %attr(640,root,knot) %{_sysconfdir}/knot/knot.conf
+%attr(770,root,knot) %dir %{_sharedstatedir}/knot
 %{_unitdir}/knot.service
-%{_tmpfilesdir}/%{name}.conf
+%{_tmpfilesdir}/knot.conf
 %{_bindir}/kzonecheck
+%{_bindir}/kzonesign
+%{_sbindir}/kcatalogprint
 %{_sbindir}/kjournalprint
 %{_sbindir}/keymgr
 %{_sbindir}/knotc
@@ -224,18 +232,24 @@ systemd-tmpfiles --create %{_tmpfilesdir}/knot.conf &>/dev/null || :
 %{_sbindir}/rcknot
 %endif
 %{_mandir}/man1/kzonecheck.*
+%{_mandir}/man1/kzonesign.*
 %{_mandir}/man5/knot.conf.*
+%{_mandir}/man8/kcatalogprint.*
 %{_mandir}/man8/kjournalprint.*
 %{_mandir}/man8/keymgr.*
 %{_mandir}/man8/knotc.*
 %{_mandir}/man8/knotd.*
-%ghost /run/knot
+%ghost %attr(770,root,knot) %dir %{_rundir}/knot
 
 %files utils
 %{_bindir}/kdig
 %{_bindir}/khost
 %{_bindir}/knsec3hash
 %{_bindir}/knsupdate
+%if 0%{?rhel} >= 8 || 0%{?suse_version} || 0%{?fedora} >= 31
+%{_sbindir}/kxdpgun
+%{_mandir}/man8/kxdpgun.*
+%endif
 %{_mandir}/man1/kdig.*
 %{_mandir}/man1/khost.*
 %{_mandir}/man1/knsec3hash.*
@@ -244,7 +258,7 @@ systemd-tmpfiles --create %{_tmpfilesdir}/knot.conf &>/dev/null || :
 %files libs
 %license COPYING
 %doc NEWS
-%doc README
+%doc README.md
 %{_libdir}/libdnssec.so.*
 %{_libdir}/libknot.so.*
 %{_libdir}/libzscanner.so.*
@@ -264,9 +278,26 @@ systemd-tmpfiles --create %{_tmpfilesdir}/knot.conf &>/dev/null || :
 
 %files doc
 %dir %{_pkgdocdir}
-%{_pkgdocdir}/html
+%doc %{_pkgdocdir}/html
 
 %changelog
+* Mon Oct 12 2020 Jakub Ružička <jakub.ruzicka@nic.cz> - 3.0.1-1
+- Update to 3.0.1
+- Sync packaging from upstream
+
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 3.0.0-2
+- Rebuilt for protobuf 3.13
+
+* Thu Sep 10 2020 Jakub Ružička <jakub.ruzicka@nic.cz> 3.0.0-1
+- New major upstream release 3.0.0
+- Sync packaging from upstream
+
+* Wed Sep 02 2020 Jakub Ružička <jakub.ruzicka@nic.cz> 2.9.6-1
+- Update to 2.9.6
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 2.9.5-2
 - Rebuilt for protobuf 3.12
 

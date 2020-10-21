@@ -1,6 +1,6 @@
 Name:           lxqt-themes
 Version:        0.15.0
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        LXQt standard themes
 
 License:        LGPLv2+
@@ -18,7 +18,6 @@ BuildRequires:  lxqt-build-tools >= 0.6.0
 BuildRequires:  pkgconfig(lxqt) >= 0.14.0
 
 Requires:       hicolor-icon-theme
-Requires:       fedora-logos
 Requires:       desktop-backgrounds-compat
 Requires:       breeze-cursor-themes
 Requires:       breeze-icon-theme
@@ -40,6 +39,12 @@ Summary: Default Fedora theme for LXQt
 Requires: lxqt-theme = %{version}
 Requires: breeze-cursor-theme
 Requires: breeze-icon-theme
+%if 0%{?rhel}
+Requires: redhat-logos
+%endif
+%if 0%{?fedora}
+Requires: fedora-logos
+%endif
 # Obsolete and provide the old subpackage of lxqt-common
 Provides:       lxqt-theme-fedora = %{version}-%{release}
 Obsoletes:      lxqt-theme-fedora < %{version}-%{release}
@@ -52,29 +57,23 @@ Obsoletes:      lxqt-theme-fedora < %{version}-%{release}
 %setup -b 1
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-#    %%{cmake_lxqt} -DPULL_TRANSLATIONS=NO ..
-     %{cmake} ..
-popd
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake3 -DPULL_TRANSLATIONS=NO
+
+%cmake_build
 
 %if 0%{?fedora} >= 29
 
 pushd %{_builddir}/lxqt-themes-fedora-1.0
 tar Jxf %{SOURCE1}
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-     %{cmake} ..
-popd
+%cmake3
 popd
 
 %endif
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 pushd %{_builddir}/lxqt-themes-fedora-1.0
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 popd
 exit
 
@@ -91,6 +90,16 @@ exit
 %{_datadir}/lxqt/themes/fedora-lxqt
 
 %changelog
+* Tue Aug 11 2020 Zamir SUN <sztsian@gmail.com> - 0.15.0-4
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 03 2020 Zamir SUN <sztsian@gmail.com> - 0.15.0-1
 - Update to 0.15.0
 

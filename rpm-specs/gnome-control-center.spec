@@ -7,15 +7,16 @@
 %define gtk3_version 3.22.20
 %define cheese_version 3.28.0
 %define gnome_bluetooth_version 3.18.2
+%define nm_version 1.24
 
 Name:           gnome-control-center
-Version:        3.36.3
-Release:        1%{?dist}
+Version:        3.38.1
+Release:        2%{?dist}
 Summary:        Utilities to configure the GNOME desktop
 
 License:        GPLv2+ and CC-BY-SA
 URL:            http://www.gnome.org
-Source0:        https://download.gnome.org/sources/gnome-control-center/3.36/gnome-control-center-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/gnome-control-center/3.38/gnome-control-center-%{version}.tar.xz
 
 # https://bugzilla.gnome.org/show_bug.cgi?id=695691
 Patch0:         distro-logo.patch
@@ -52,8 +53,8 @@ BuildRequires:  pkgconfig(gudev-1.0)
 BuildRequires:  pkgconfig(ibus-1.0)
 BuildRequires:  pkgconfig(libcanberra-gtk3)
 BuildRequires:  pkgconfig(libgtop-2.0)
-BuildRequires:  pkgconfig(libhandy-0.0)
-BuildRequires:  pkgconfig(libnm)
+BuildRequires:  pkgconfig(libhandy-1)
+BuildRequires:  pkgconfig(libnm) >= %{nm_version}
 BuildRequires:  pkgconfig(libnma)
 BuildRequires:  pkgconfig(libpulse)
 BuildRequires:  pkgconfig(libpulse-mainloop-glib)
@@ -101,7 +102,11 @@ Requires: dbus
 Requires: glx-utils
 # For the user languages
 Requires: iso-codes
+# For the network panel
 Recommends: NetworkManager-wifi
+Recommends: nm-connection-editor
+# For Show Details in the color panel
+Recommends: gnome-color-manager
 # For the sharing panel
 Recommends: gnome-remote-desktop
 %if 0%{?fedora}
@@ -192,6 +197,40 @@ chrpath --delete $RPM_BUILD_ROOT%{_bindir}/gnome-control-center
 %dir %{_datadir}/gnome/wm-properties
 
 %changelog
+* Tue Oct 13 2020 Kalev Lember <klember@redhat.com> - 3.38.1-2
+- Add Recommends: nm-connection-editor for the network panel (#1887891)
+
+* Mon Oct  5 2020 Kalev Lember <klember@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Sat Sep 19 2020 Yaroslav Fedevych <yaroslav@fedevych.name> - 3.38.0-2
+- Specify the minimum libnm version needed to build the package
+
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Sun Sep 06 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Tue Aug 04 2020 Michael Catanzaro <mcatanzaro@redhat.com> - 3.37.3-4
+- Add Recommends: gnome-color-manager for the color panel
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Kalev Lember <klember@redhat.com> - 3.37.3-1
+- Update to 3.37.3
+
+* Mon Jul 20 2020 Kalev Lember <klember@redhat.com> - 3.36.4-1
+- Update to 3.36.4
+
 * Wed Jun 03 2020 Kalev Lember <klember@redhat.com> - 3.36.3-1
 - Update to 3.36.3
 

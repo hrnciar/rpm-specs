@@ -1,6 +1,6 @@
 Name:           vmaf
 Version:        1.5.1
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Video Multi-Method Assessment Fusion
 
 License:        BSD-2-Clause-Patent
@@ -11,6 +11,7 @@ Patch1:         0002-Unbundle-pugixml.patch
 Patch3:         0003-Fix-soname.patch
 Patch4:         0004-Avoid-x86cpudetection-code-when-not-relevant.patch
 Patch5:         0005-Use-shared-for-vmafossexec.patch
+Patch6:         %{url}/commit/ea25229433f7f8ff087c63db9509156c01a8e291.patch#/mark_abi_c.patch
 
 # This project relies on AVX
 ExclusiveArch:  x86_64
@@ -113,6 +114,12 @@ touch -r LICENSE %{buildroot}%{rpmmacrodir}/macros.%{name}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Leigh Scott <leigh123linux@gmail.com> - 1.5.1-4
+- Add upstream commit to mark ABI as C
+
 * Sat May 23 2020 Leigh Scott <leigh123linux@gmail.com> - 1.5.1-3
 - Fix pkconfig version
 

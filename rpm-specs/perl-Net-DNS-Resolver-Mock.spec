@@ -1,6 +1,6 @@
 Name:           perl-Net-DNS-Resolver-Mock
 Version:        1.20200215
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Mock a DNS Resolver object for testing
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Net-DNS-Resolver-Mock
@@ -48,6 +48,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.20200215-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.20200215-2
 - Perl 5.32 rebuild
 

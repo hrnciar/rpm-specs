@@ -6,9 +6,9 @@
 %global crate proc-macro2
 
 Name:           rust-%{crate}
-Version:        1.0.18
+Version:        1.0.24
 Release:        1%{?dist}
-Summary:        Substitute implementation of the compiler's `proc_macro` API
+Summary:        Substitute implementation of the Rust compiler's proc_macro API
 
 # Upstream license specification: MIT OR Apache-2.0
 License:        MIT or ASL 2.0
@@ -109,6 +109,18 @@ which use "span-locations" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Thu Oct 01 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.24-1
+- Update to version 1.0.24.
+
+* Wed Sep 09 2020 Josh Stone <jistone@redhat.com> - 1.0.21-1
+- Update to 1.0.21
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.19-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Josh Stone <jistone@redhat.com> - 1.0.19-1
+- Update to 1.0.19
+
 * Sun May 31 20:36:57 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.0.18-1
 - Update to 1.0.18
 

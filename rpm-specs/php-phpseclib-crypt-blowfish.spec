@@ -4,7 +4,7 @@
 
 Name:           php-phpseclib-crypt-blowfish
 Version:        0.3.9
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Pure-PHP implementation of Blowfish
 
 License:        MIT
@@ -73,6 +73,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.9-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.9-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

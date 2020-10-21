@@ -1,6 +1,6 @@
 Name:           usbtop
 Version:        1.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Utility to show USB bandwidth
 License:        BSD
 URL:            https://github.com/aguinet/usbtop
@@ -25,12 +25,12 @@ rm -rf third-party
 
 
 %build
-%cmake -DCMAKE_BUILD_TYPE=Release .
-%make_build
+%cmake -DCMAKE_BUILD_TYPE=Release
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 install -d %{buildroot}%{_modulesloaddir}
 echo usbmon > %{buildroot}%{_modulesloaddir}/usbtop.conf
 
@@ -47,6 +47,9 @@ modprobe usbmon &> /dev/null || :
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

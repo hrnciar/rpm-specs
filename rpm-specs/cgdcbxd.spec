@@ -2,7 +2,7 @@
 
 Name:		cgdcbxd
 Version:	1.0.2
-Release:	11%{?dist}
+Release:	12%{?dist}
 Summary:	DCB network priority management daemon	
 License:	GPLv2
 URL:		https://github.com/jrfastab/cgdcbxd
@@ -53,6 +53,9 @@ install -D -p -m 0644 %{SOURCE1} $RPM_BUILD_ROOT%{_unitdir}/cgdcbxd.service
 %systemd_postun_with_restart cgdcbxd.service
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

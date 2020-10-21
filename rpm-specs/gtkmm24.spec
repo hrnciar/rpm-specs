@@ -5,7 +5,7 @@
 
 Name:           gtkmm24
 Version:        2.24.5
-Release:        9%{?dist}
+Release:        10%{?dist}
 
 Summary:        C++ interface for GTK2 (a GUI library for X)
 
@@ -96,6 +96,9 @@ find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 %doc %{_datadir}/devhelp/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.24.5-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.24.5-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

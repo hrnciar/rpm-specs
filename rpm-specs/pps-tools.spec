@@ -1,6 +1,6 @@
 Name:		pps-tools
 Version:	1.0.2
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	LinuxPPS user-space tools
 
 License:	GPLv2+
@@ -40,6 +40,9 @@ install -p -m644 -t $RPM_BUILD_ROOT%{_includedir}/sys timepps.h
 %{_includedir}/sys/timepps.h
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

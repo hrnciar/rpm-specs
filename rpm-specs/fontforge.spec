@@ -3,7 +3,7 @@
 
 Name:           fontforge
 Version:        20200314
-Release:        6%{?dist}
+Release:        9%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
@@ -14,6 +14,7 @@ Source0:        https://github.com/fontforge/%{name}/archive/%{gittag0}.tar.gz#/
 Patch0:         fontforge-20200314-Call-gdk_set_allowed_backends-before-gdk_init.patch
 # https://github.com/fontforge/fontforge/pull/4269
 Patch1:         fontforge-20200314-sphinx-make-changes-to-support-Sphinx-3.patch
+Patch2:         fontforge-20200314-fix-glossary.rst-file.patch
 
 Requires:       xdg-utils
 Requires:       autotrace
@@ -72,6 +73,7 @@ This package contains documentation files for %{name}.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p0
 
 # Remove tests that requires Internet access
 sed -i '45d;83d;101d;102d;114d;115d;125d' tests/CMakeLists.txt
@@ -79,22 +81,15 @@ rm tests/test003.pe tests/test130.pe tests/test0101.py tests/test929.py
 # Remove tests for s390x
 rm tests/test0004.py tests/test1009.py tests/test1010.py
 
+
 %build
-rm -rf build && mkdir build
-pushd build
 export CFLAGS="%{optflags} -fno-strict-aliasing"
-
-%cmake .. -DCMAKE_BUILD_TYPE=Release \
+%cmake -DCMAKE_BUILD_TYPE=Release \
           -DENABLE_WOFF2=ON
-
-%{make_build}
-popd
+%cmake_build
 
 %install
-pushd build
-%{make_install}
-popd
-
+%cmake_install
 
 desktop-file-install \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications            \
@@ -109,7 +104,7 @@ rm -f %{buildroot}%{_datadir}/doc/fontforge/{.buildinfo,.nojekyll}
 appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 
 %check
-pushd build
+pushd %{__cmake_builddir}
 make check
 popd
 
@@ -138,6 +133,16 @@ popd
 %doc %{_pkgdocdir}
 
 %changelog
+* Wed Aug 05 2020 Parag Nemade <pnemade AT redhat DOT com> - 20200314-9
+- Fix FTBFS bug by fixing glossary.rst and using new CMake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200314-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200314-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 20200314-6
 - Rebuilt for Python 3.9
 

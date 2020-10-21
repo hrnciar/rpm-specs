@@ -1,6 +1,6 @@
 Summary:   GLib wrapper around libusb1
 Name:      libgusb
-Version:   0.3.4
+Version:   0.3.5
 Release:   1%{?dist}
 License:   LGPLv2+
 URL:       https://github.com/hughsie/libgusb
@@ -55,6 +55,14 @@ GLib headers and libraries for gusb.
 %{_datadir}/vala/vapi/gusb.vapi
 
 %changelog
+* Thu Jul 30 2020 Richard Hughes <richard@hughsie.com> 0.3.5-1
+- New upstream version
+- Add a way to get iConfiguration
+- Allow building GtkDoc when building as a subproject
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 20 2020 Richard Hughes <richard@hughsie.com> 0.3.4-1
 - New upstream version
 - Include the USB bus in the generated platform_id

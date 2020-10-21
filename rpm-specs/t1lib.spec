@@ -1,6 +1,6 @@
 Name:           t1lib
 Version:        5.1.2
-Release:        26%{?dist}
+Release:        27%{?dist}
 
 Summary:        PostScript Type 1 font rasterizer
 
@@ -146,6 +146,9 @@ touch $RPM_BUILD_ROOT%{_datadir}/t1lib/{FontDatabase,t1lib.config}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.2-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.2-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

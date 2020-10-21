@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.2.0
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        Simple Python client for the YOURLS URL shortener
 
 License:        GPLv2+
@@ -60,6 +60,9 @@ popd
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.0-22
 - Rebuilt for Python 3.9
 

@@ -1,11 +1,11 @@
 Name:           file-roller
-Version:        3.36.2
+Version:        3.38.0
 Release:        1%{?dist}
 Summary:        Tool for viewing and creating archives
 
 License:        GPLv2+
 URL:            https://wiki.gnome.org/Apps/FileRoller
-Source0:        https://download.gnome.org/sources/%{name}/3.36/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires:  meson >= 0.43
 BuildRequires:  gcc
@@ -84,6 +84,15 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.FileRoller.
 %endif
 
 %changelog
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Kalev Lember <klember@redhat.com> - 3.36.2-1
 - Update to 3.36.2
 

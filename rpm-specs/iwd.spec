@@ -1,5 +1,5 @@
 Name:           iwd
-Version:        1.8
+Version:        1.9
 Release:        1%{?dist}
 Summary:        Wireless daemon for Linux
 License:        LGPLv2+
@@ -48,7 +48,7 @@ mkdir -p %{buildroot}%{_sharedstatedir}/ead
 
 %files
 %license COPYING
-%doc AUTHORS README TODO ChangeLog
+%doc AUTHORS ChangeLog
 %{_bindir}/iwctl
 %{_bindir}/iwmon
 %{_bindir}/hwsim
@@ -62,16 +62,21 @@ mkdir -p %{buildroot}%{_sharedstatedir}/ead
 %{_datadir}/dbus-1/system.d/iwd-dbus.conf
 %{_datadir}/dbus-1/system.d/ead-dbus.conf
 %{_datadir}/dbus-1/system.d/hwsim-dbus.conf
-%{_mandir}/man1/iwmon.1*
+%{_mandir}/man*/*
 %{_sharedstatedir}/iwd
 %{_sharedstatedir}/ead
-%{_datadir}/man/man*/*
 
 # Don't let iwd adjust interface naming. It would break user configurations.
 %exclude /usr/lib/systemd/network/80-iwd.link
 
 
 %changelog
+* Sun Sep 06 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.9-1
+- Update to 1.9
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.8-1
 - Update to 1.8 release
 

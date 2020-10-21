@@ -1,6 +1,6 @@
 Name:           perl-MooX-HasEnv
 Version:        0.004
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Making attributes based on ENV variables
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/MooX-HasEnv
@@ -51,6 +51,9 @@ RELEASE_TESTING=1 make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.004-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.004-17
 - Perl 5.32 rebuild
 

@@ -1,3 +1,4 @@
+%global __cmake_in_source_build 1
 #%%global git_commit 4a068f565b21f313cb39d9e855d84c886ecfe393
 #%%global git_date 20130403
 
@@ -12,7 +13,7 @@
 Name:             rtl-sdr
 URL:              http://sdr.osmocom.org/trac/wiki/rtl-sdr
 Version:          0.6.0
-Release:          3%{?dist}
+Release:          8%{?dist}
 License:          GPLv2+
 BuildRequires:    gcc
 BuildRequires:    cmake
@@ -41,21 +42,18 @@ rm -f src/getopt/*
 rmdir src/getopt
 
 %build
-mkdir build
-cd build
-%cmake .. -DDETACH_KERNEL_DRIVER=ON
-make %{?_smp_mflags}
+%cmake -DDETACH_KERNEL_DRIVER=ON
+%cmake_build
 
 %install
-cd build
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 # remove static libs
 rm -f %{buildroot}%{_libdir}/*.a
 
 # Fix udev rules and allow access only to users in rtlsdr group
-sed -i 's/MODE:="0666"/GROUP:="rtlsdr", MODE:="0660", ENV{ID_SOFTWARE_RADIO}="1"/' ../rtl-sdr.rules
-install -Dpm 644 ../rtl-sdr.rules %{buildroot}%{_prefix}/lib/udev/rules.d/10-rtl-sdr.rules
+sed -i 's/MODE:="0666"/GROUP:="rtlsdr", MODE:="0660", ENV{ID_SOFTWARE_RADIO}="1"/' ./rtl-sdr.rules
+install -Dpm 644 ./rtl-sdr.rules %{buildroot}%{_prefix}/lib/udev/rules.d/10-rtl-sdr.rules
 
 %pre
 getent group rtlsdr >/dev/null || \
@@ -77,6 +75,24 @@ exit 0
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Wed Aug  5 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 0.6.0-8
+- Fixed FTBFS
+  Resolves: rhbz#1865404
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 0.6.0-4
+- Use __cmake_in_source_build
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 0.6.0-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Mon Mar 09 2020 Dan Horák <dan[at]danny.cz> - 0.6.0-3
 - Fix pkgconfig
 

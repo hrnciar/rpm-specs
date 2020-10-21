@@ -2,7 +2,7 @@
 
 Name:           opencl-utils
 Version:        1
-Release:        11.svn%{svnversion}%{?dist}
+Release:        12.svn%{svnversion}%{?dist}
 Summary:        Useful OpenCL tools and utilities
 
 License:        MIT
@@ -80,6 +80,9 @@ install -m 0644 -D %{SOURCE1} %{buildroot}%{_libdir}/pkgconfig/%{name}.pc
 %ldconfig_scriptlets
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-12.svn16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-11.svn16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

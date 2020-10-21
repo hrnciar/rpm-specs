@@ -10,7 +10,7 @@
 Name:           qbs
 # qbs was previously packaged as part of qt-creator, using the qt-creator version, hence the epoch bump
 Epoch:          1
-Version:        1.16.0
+Version:        1.17.0
 Release:        1%{?commit:.git%{shortcommit}}%{?dist}
 Summary:        Cross platform build tool
 
@@ -138,8 +138,8 @@ QBS_AUTOTEST_PROFILE=qt5 make check || :
 %{_bindir}/%{name}*
 %{_libdir}/%{name}/
 %{_libdir}/libqbs*.so.1
-%{_libdir}/libqbs*.so.1.16
-%{_libdir}/libqbs*.so.1.16.*
+%{_libdir}/libqbs*.so.1.17
+%{_libdir}/libqbs*.so.1.17.*
 %{_libexecdir}/qbs/
 %{_datadir}/%{name}/
 %{_mandir}/man1/%{name}.1*
@@ -159,6 +159,12 @@ QBS_AUTOTEST_PROFILE=qt5 make check || :
 %doc %{_docdir}/%{name}/html/
 
 %changelog
+* Mon Sep 07 2020 Marie Loise Nolden <loise@kde.org> - 1:1.17.0-1
+- Update to 1.17.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.16.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 07 2020 Sandro Mani <manisandro@gmail.com> - 1:1.16.0-1
 - Update to 1.16.0
 

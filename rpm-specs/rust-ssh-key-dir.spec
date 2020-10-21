@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.1.2
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        sshd AuthorizedKeysCommand to read ~/.ssh/authorized_keys.d
 
 # Upstream license specification: Apache-2.0
@@ -72,6 +72,16 @@ install -Dpm0644 -t %{buildroot}%{_sysconfdir}/ssh/sshd_config.d conf/40-ssh-key
 %endif
 
 %changelog
+* Sun Aug 16 15:01:47 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.1.2-5
+- Rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 26 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.1.2-2
 - Fixup license
 

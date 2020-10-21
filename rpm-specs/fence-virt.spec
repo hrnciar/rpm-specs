@@ -13,7 +13,7 @@
 Name:    fence-virt
 Summary: A pluggable fencing framework for virtual machines
 Version: 1.0.0
-Release: 2%{?numcomm:.%{numcomm}}%{?alphatag:.%{alphatag}}%{?dirty:.%{dirty}}%{?dist}
+Release: 3%{?numcomm:.%{numcomm}}%{?alphatag:.%{alphatag}}%{?dirty:.%{dirty}}%{?dist}
 License: GPLv2+
 URL:     https://github.com/ClusterLabs/fence-virt
 Source0: %{name}-%{version}%{?rcver:%{rcver}}%{?numcomm:.%{numcomm}}%{?alphatag:-%{alphatag}}%{?dirty:-%{dirty}}.tar.bz2
@@ -164,6 +164,9 @@ are located on corosync cluster nodes.
 %{_libdir}/%{name}/cpg.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Oyvind Albrigtsen <oalbrigt@redhat.com> - 1.0.0-2
 - Rebuilt for libqb2.0
 

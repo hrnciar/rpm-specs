@@ -7,7 +7,7 @@
 Name:    kdocker
 Summary: Dock any application in the system tray
 Version: 5.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 License: GPLv2+
 URL:     https://github.com/user-none/%{project}
@@ -80,6 +80,9 @@ desktop-file-install \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 04 2020 Raphael Groner <projects.rg@smart.ms> - 5.3-1
 - new version
 

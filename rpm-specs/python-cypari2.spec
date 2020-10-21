@@ -2,7 +2,7 @@
 
 Name:		python-%{modname}
 Version:	2.1.1
-Release:	7%{?dist}
+Release:	8%{?dist}
 Summary:	A Python interface to the number theory library pari
 License:	GPLv2+
 URL:		https://github.com/sagemath/%{modname}
@@ -33,13 +33,11 @@ A Python interface to the number theory library pari.
 
 %package	-n python3-%{modname}
 Summary:	%{summary}
-%{?python_provide:%python_provide python3-%{modname}}
 
 %description	-n python3-%{modname} %{_description}
 
 %package	-n python3-%{modname}-devel
 Summary:	Header files for the pari python interface
-%{?python_provide:%python_provide python3-%{modname}-devel}
 Requires:	python3-%{modname}
 
 %description	-n python3-%{modname}-devel %{_description}
@@ -102,6 +100,9 @@ export PATH PYTHONPATH
 %{_docdir}/%{name}/html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.1-7
 - Rebuilt for Python 3.9
 

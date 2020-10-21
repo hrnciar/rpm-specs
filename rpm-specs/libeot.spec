@@ -1,6 +1,6 @@
 Name: libeot
 Version: 0.01
-Release: 13%{?dist}
+Release: 15%{?dist}
 Summary: A library for parsing Embedded OpenType font files
 
 License: MPLv2.0
@@ -38,10 +38,10 @@ sed -i \
     -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -e 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' \
     libtool
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=%{buildroot} INSTALL='install -p'
+%make_install
 rm -f %{buildroot}/%{_libdir}/*.la
 
 %ldconfig_scriptlets
@@ -60,6 +60,13 @@ rm -f %{buildroot}/%{_libdir}/*.la
 %{_bindir}/eot2ttf
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.01-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 0.01-14
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.01-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

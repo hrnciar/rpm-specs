@@ -4,7 +4,7 @@
 
 Name:		adobe-source-han-mono-fonts
 Version:	1.002
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	Adobe OpenType monospaced font for mixed Latin and CJK text
 
 License:	OFL
@@ -59,6 +59,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 %{_metainfodir}/%{fontname}.metainfo.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.002-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.002-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

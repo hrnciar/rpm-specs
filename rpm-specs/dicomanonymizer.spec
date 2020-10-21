@@ -4,8 +4,8 @@
 %global snap 20191125git%{shortcommit}
 
 Name:    dicomanonymizer
-Version: 0
-Release: 0.2.%{?snap}%{?dist}
+Version: 1
+Release: 0.4.%{?snap}%{?dist}
 Summary: A multi-threaded anonymizer for DICOM files
 
 License: Unlicense and MIT
@@ -40,12 +40,12 @@ operation performed is a de-identification (permits a later re-identification).
 %autosetup -n %{real_name}-%{commit}
 
 %build
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 %install
 mkdir -p %{buildroot}%{_bindir}
-install -pm 0755 anonymize %{buildroot}%{_bindir}/dicomanonymize
+install -pm 0755 %{_target_platform}/anonymize %{buildroot}%{_bindir}/dicomanonymize
 
 %files
 %license LICENSE
@@ -53,6 +53,16 @@ install -pm 0755 anonymize %{buildroot}%{_bindir}/dicomanonymize
 %{_bindir}/dicomanonymize
 
 %changelog
+* Tue Aug 11 2020 Alessio <alciregi@fedoraproject.org> - 1-0.1.20191125gited06792
+- Using %cmake_build macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4.20191125gited06792
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3.20191125gited06792
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2.20191125gited06792
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

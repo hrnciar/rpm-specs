@@ -15,7 +15,7 @@
 
 Name:           php-mock-phpunit%{major}
 Version:        2.6.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Mock built-in PHP functions with PHPUnit.
 
 License:        WTFPL
@@ -145,6 +145,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Remi Collet <remi@remirepo.net> - 2.6.0-1
 - update to 2.6.0
 - raise dependency on php-mock2 2.2

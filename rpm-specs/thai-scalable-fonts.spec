@@ -9,7 +9,7 @@
 
 Name:      %{fontname}-fonts
 Version:   0.7.2
-Release:   1%{?dist}
+Release:   2%{?dist}
 Summary:   Thai TrueType fonts
 License:   GPLv2+ and Bitstream Vera
 URL:       http://linux.thai.net/projects/thaifonts-scalable
@@ -307,6 +307,9 @@ install -Dm 0644 -p %{SOURCE23} \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May  7 2020 Peng Wu <pwu@redhat.com> - 0.7.2-1
 - Update to 0.7.2
 - Switch to use OpenType Font Format

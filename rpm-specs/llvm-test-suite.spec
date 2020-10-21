@@ -1,11 +1,11 @@
 %global _binaries_in_noarch_packages_terminate_build %{nil}
 
 #%%global rc_ver 6
-%global baserelease 2
+%global baserelease 1
 %global test_suite_srcdir test-suite-%{version}%{?rc_ver:rc%{rc_ver}}.src.fedora
 
 Name:		llvm-test-suite
-Version:	10.0.0
+Version:	11.0.0
 Release:	%{baserelease}%{?rc_ver:.rc%{rc_ver}}%{?dist}
 Summary:	C/C++ Compiler Test Suite
 
@@ -15,15 +15,20 @@ URL:		http://llvm.org
 # be removed.  Some of the unknown licenses may be OK, but until they are reviewed,
 # we will remove them.
 # Use the pkg_test_suite.sh script to generate the test-suite tarball:
-# wget http://llvm.org/releases/%%{version}/%%{test_suite_srcdir}.tar.xz
-# ./pkg_test_suite.sh %%{test_suite_srcdir}.tar.xz
+# ./pkg_test_suite.sh
+
+# this condition is set by ./pkg_test_suite.sh to retrieve original sources
+%if 0%{?original_sources:1}
+Source0:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}%{?rc_ver:-rc%{rc_ver}}/test-suite-%{version}%{?rc_ver:rc%{rc_ver}}.src.tar.xz
+%else
 Source0:	%{test_suite_srcdir}.tar.xz
+%endif
 Source1:	license-files.txt
 Source2:	pkg_test_suite.sh
 BuildArch:	noarch
 
-Patch: 0001-Fix-extra-Python3-print-statements.patch
-Patch: 0001-CLAMR-Fix-build-with-newer-glibc.patch
+Patch0: 0001-Fix-extra-Python3-print-statements.patch
+Patch1: 0001-CLAMR-Fix-build-with-newer-glibc.patch
 
 # We need python3-devel for pathfix.py.
 BuildRequires: python3-devel
@@ -75,6 +80,36 @@ cp -R %{_builddir}/%{test_suite_srcdir}/* %{buildroot}%{_datadir}/llvm-test-suit
 
 
 %changelog
+* Thu Oct 15 2020 sguelton@redhat.com - 11.0.0-1
+- Fix NVR
+
+* Mon Oct 12 2020 sguelton@redhat.com - 11.0.0-0.5
+- llvm 11.0.0 - final release
+
+* Thu Oct 08 2020 sguelton@redhat.com - 11.0.0-0.4.rc6
+- 11.0.0-rc6
+
+* Fri Oct 02 2020 sguelton@redhat.com - 11.0.0-0.3.rc5
+- 11.0.0-rc5 Release
+
+* Sun Sep 27 2020 sguelton@redhat.com - 11.0.0-0.2.rc3
+- Fix NVR
+
+* Thu Sep 24 2020 sguelton@redhat.com - 11.0.0-0.1.rc3
+- 11.0.0-rc3 Release
+
+* Tue Sep 01 2020 sguelton@redhat.com - 11.0.0-0.1.rc2
+- 11.0.0-rc2 Release
+
+* Wed Aug 19 2020 Tom Stellard <tstellar@redhat.com> - 11.0.0-0.2.rc1
+- Fix build failure with clang 11
+
+* Mon Aug 10 2020 Tom Stellard <tstellar@redhat.com> - 11.0.0-0.1.rc1
+- 11.0.0-rc1 Release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Tom Stellard <tstellar@redhat.com> - 10.0.0-2
 - Fix build with newer glibc
 

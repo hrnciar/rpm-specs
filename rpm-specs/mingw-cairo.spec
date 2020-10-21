@@ -2,7 +2,7 @@
 
 Name:           mingw-cairo
 Version:        1.16.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows Cairo library
 
 License:        LGPLv2 or MPLv1.1
@@ -207,6 +207,12 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 
 
 %changelog
+* Wed Aug 12 13:35:01 GMT 2020 Sandro Mani <manisandro@gmail.com> - 1.16.0-5
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

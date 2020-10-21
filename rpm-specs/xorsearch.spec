@@ -1,6 +1,6 @@
 Name:           xorsearch
 Version:        1.11.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Search for a given string in an XOR, ROL, ROT or SHIFT encoded binary file
 
 License:        Public Domain
@@ -46,6 +46,9 @@ install -m 755 -D %{name} "%{buildroot}/%{_bindir}/%{name}"
 %{_bindir}/%{name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

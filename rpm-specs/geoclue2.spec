@@ -1,11 +1,14 @@
 Name:           geoclue2
 Version:        2.5.6
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Geolocation service
 
 License:        GPLv2+
 URL:            http://www.freedesktop.org/wiki/Software/GeoClue/
 Source0:        https://gitlab.freedesktop.org/geoclue/geoclue/-/archive/%{version}/geoclue-%{version}.tar.bz2
+
+# https://gitlab.freedesktop.org/geoclue/geoclue/-/merge_requests/70
+Patch0:         fix-location-access-setting.patch
 
 BuildRequires:  avahi-glib-devel
 BuildRequires:  gettext
@@ -150,6 +153,12 @@ exit 0
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Michael Catanzaro <mcatanzaro@redhat.com> - 2.5.6-2
+- Add patch to fix location privacy setting
+
 * Wed Feb 26 2020 Kalev Lember <klember@redhat.com> - 2.5.6-1
 - Update to 2.5.6
 

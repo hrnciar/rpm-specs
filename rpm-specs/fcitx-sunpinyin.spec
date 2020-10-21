@@ -1,6 +1,6 @@
 Name:			fcitx-sunpinyin
 Version:		0.4.2
-Release:		8%{?dist}
+Release:		11%{?dist}
 Summary:		Sunpinyin Wrapper for Fcitx
 License:		GPLv2+
 URL:			http://fcitx-im.org/wiki/Fcitx
@@ -32,16 +32,11 @@ trigram language model.
 
 
 %build
-mkdir -pv build
-pushd build
-%cmake ..
-make %{?_smp_mflags}
-popd
+%cmake
+%cmake_build
 
 %install
-pushd build
-make install DESTDIR=$RPM_BUILD_ROOT
-popd
+%cmake_install
 
 %find_lang %{name}
 
@@ -65,6 +60,16 @@ popd
 
 
 %changelog
+* Tue Aug 04 2020 Qiyu Yan <yanqiyu@fedoraproject.org> - 0.4.2-11
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

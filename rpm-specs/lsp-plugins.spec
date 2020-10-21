@@ -1,11 +1,12 @@
 Name:           lsp-plugins
-Version:        1.1.22
-Release:        1%{?dist}
+Version:        1.1.26
+Release:        2%{?dist}
 Summary:        Linux Studio Plugins
 
 License:        LGPLv3+ and zlib
 URL:            https://lsp-plug.in/
 Source0:        https://downloads.sourceforge.net/%{name}/%{name}-src-%{version}.tar.gz
+# Source0:        https://github.com/sadko4u/%{name}/releases/download/%{name}-%{version}/%{name}-src-%{version}.tar.gz
 
 BuildRequires:  gcc-c++
 BuildRequires:  make
@@ -125,6 +126,22 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Thu Oct 01 2020 Jeff Law  <law@redhat.com> - 1.1.26-2
+- Re-enable LTO
+
+* Fri Sep 18 2020 Vasiliy Glazov <vascom2@gmail.com> - 1.1.26-1
+- Update to 1.1.26
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.24-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.24-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Vasiliy Glazov <vascom2@gmail.com> - 1.1.24-1
+- Update to 1.1.24
+
 * Sun May 31 2020 Vasiliy Glazov <vascom2@gmail.com> - 1.1.22-1
 - Update to 1.1.22
 

@@ -22,7 +22,7 @@
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
 Version:        3.1.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        A more advanced JSONRPC implementation
 
 License:        ISC
@@ -38,7 +38,7 @@ BuildRequires:  php(language) >= 7.0
 BuildRequires:  php-reflection
 BuildRequires:  php-json
 %if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
-BuildRequires:  (php-composer(netresearch/jsonmapper)            >= 1.0 with php-composer(netresearch/jsonmapper)            <  3)
+BuildRequires:  (php-composer(netresearch/jsonmapper)            >= 1.0 with php-composer(netresearch/jsonmapper)            <  4)
 BuildRequires:  (php-composer(phpdocumentor/reflection-docblock) >= 4.0 with php-composer(phpdocumentor/reflection-docblock) <  6)
 %else
 BuildRequires:  php-netresearch-jsonmapper
@@ -57,7 +57,7 @@ BuildRequires:  php-composer(fedora/autoloader)
 #        "phpdocumentor/reflection-docblock": "^4.0.0 || ^5.0.0"
 Requires:       php(language) >= 7.0
 %if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
-Requires:       (php-composer(netresearch/jsonmapper)            >= 1.0 with php-composer(netresearch/jsonmapper)            <  3)
+Requires:       (php-composer(netresearch/jsonmapper)            >= 1.0 with php-composer(netresearch/jsonmapper)            <  4)
 Requires:       (php-composer(phpdocumentor/reflection-docblock) >= 4.0 with php-composer(phpdocumentor/reflection-docblock) <  6)
 %else
 Requires:       php-netresearch-jsonmapper
@@ -127,7 +127,7 @@ require '%{buildroot}%{php_home}/%{ns_project}%{major}/autoload.php';
 EOF
 
 ret=0
-for cmd in php php72 php73 php74; do
+for cmd in php php72 php73 php74 php80; do
   if which $cmd; then
     $cmd %{_bindir}/phpunit6 --bootstrap bootstrap.php --verbose tests || ret=1
   fi
@@ -147,6 +147,12 @@ exit $ret
 
 
 %changelog
+* Tue Aug 11 2020 Remi Collet <remi@remirepo.net> - 3.1.1-3
+- allow netresearch/jsonmapper 3.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 14 2020 Remi Collet <remi@remirepo.net> - 3.1.1-1
 - update to 3.1.1 (no change)
 - allow netresearch/jsonmapper 2.0

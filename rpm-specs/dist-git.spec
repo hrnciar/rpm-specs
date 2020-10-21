@@ -3,8 +3,8 @@
 %global installdir /var/lib/dist-git
 
 Name:           dist-git
-Version:        1.15
-Release:        1%{?dist}
+Version:        1.16
+Release:        3%{?dist}
 Summary:        Package source version control system
 
 # upload.cgi uses GPLv1
@@ -21,7 +21,11 @@ BuildRequires:  systemd
 
 Requires:       httpd
 Requires:       perl(Sys::Syslog)
+%if 0%{?fedora} || 0%{?rhel} > 7
+Requires:       (dist-git-selinux if selinux-policy-targeted)
+%else
 Requires:       dist-git-selinux
+%endif
 Requires:       git
 Requires:       git-daemon
 Requires:       mod_ssl
@@ -44,7 +48,7 @@ Requires:       moreutils
 %else
 Requires:       python3-requests
 Recommends:     python3-grokmirror
-Recommends:     python3-fedmsg
+Suggests:       python3-fedmsg
 Suggests:       fedora-messaging
 BuildRequires:  python3-nose
 BuildRequires:  python3-parameterized
@@ -161,6 +165,7 @@ ln -s %{_datadir}/dist-git/setup_git_package %{buildroot}%{_bindir}/setup_git_pa
 ln -s %{_datadir}/dist-git/mkbranch %{buildroot}%{_bindir}/mkbranch
 ln -s %{_datadir}/dist-git/mkbranch_branching %{buildroot}%{_bindir}/mkbranch_branching
 ln -s %{_datadir}/dist-git/remove_unused_sources %{buildroot}%{_bindir}/remove_unused_sources
+mv %{buildroot}%{_datadir}/dist-git/dist-git-gc %{buildroot}%{_bindir}/dist-git-gc
 
 # ------------------------------------------------------------------------------
 # SELinux
@@ -222,6 +227,8 @@ fi
 
 %{_unitdir}/dist-git@.service
 %{_unitdir}/dist-git.socket
+%{_unitdir}/dist-git-gc.service
+%{_unitdir}/dist-git-gc.timer
 
 # ------------------------------------------------------------------------------
 # /var/lib/ ...... dynamic persistent files
@@ -251,6 +258,20 @@ fi
 %{_bindir}/*
 
 %changelog
+* Mon Oct 5 2020 clime <clime@fedoraproject.com> - 1.16-3
+- return back 1.16-1 state
+
+* Mon Oct 5 2020 clime <clime@fedoraproject.com> - 1.16-2
+- use simpler dist-git-selinux require due to build-system problem
+
+* Mon Oct 5 2020 clime <clime@fedoraproject.com> - 1.16-1
+- fixed exceptions for fedora-messaging
+- fixed topic for fedora-messaging (to git.lookaside.new)
+- spec tweak not to require distgit-selinux in containers
+- only Suggests fedmsg
+- garbage collection (git gc) script and systemd timer
+  for its periodic run added
+
 * Fri Jun 12 2020 clime <clime@fedoraproject.com> - 1.15-1
 - added support for fedora-messaging
 

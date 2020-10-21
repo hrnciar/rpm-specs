@@ -1,6 +1,6 @@
 Name: qmapshack
 Version: 1.15.0
-Release: 1%{?dist}
+Release: 3%{?dist}
 Summary: GPS mapping and management tool
 
 License: GPLv3+ and BSD
@@ -67,19 +67,14 @@ QMapShack.
 %patch2 -p1
 %endif
 
-# create build directory
-mkdir build
-
 
 %build
-cd build
-%cmake -DBUILD_SHARED_LIBS:BOOL=OFF ..
-make VERBOSE=1 %{?_smp_mflags}
+%cmake -DBUILD_SHARED_LIBS:BOOL=OFF
+%cmake_build
 
 
 %install
-cd build
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 desktop-file-validate %{buildroot}%{_datadir}/applications/qmaptool.desktop
@@ -109,6 +104,13 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/qmaptool.desktop
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Dan Horák <dan@danny.cz> - 1.15.0-1
 - update to 1.15.0 (#1751288)
 

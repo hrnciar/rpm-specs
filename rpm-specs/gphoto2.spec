@@ -1,6 +1,6 @@
 Name:           gphoto2
 Version:        2.5.23
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Software for accessing digital cameras
 License:        GPLv2+
 Url:            http://www.gphoto.org/
@@ -45,6 +45,9 @@ rm %{buildroot}%{_docdir}/%{name}/test-hook.sh
 %{_mandir}/man1/gphoto2.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.23-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.23-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

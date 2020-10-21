@@ -5,8 +5,8 @@ Simple function that returns the first true value from an iterable, or None if\
 there is none.
 
 Name:           python-%{srcname}
-Version:        2.0.1
-Release:        10%{?dist}
+Version:        2.0.2
+Release:        1%{?dist}
 Summary:        Return the first true value of an iterable
 
 License:        MIT
@@ -16,8 +16,7 @@ Source0:        https://github.com/hynek/first/archive/%{version}/%{srcname}-%{v
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
-BuildRequires:  python3dist(pytest)
-BuildRequires:  python3dist(setuptools)
+BuildRequires:  pyproject-rpm-macros
 
 %description %_description
 
@@ -29,27 +28,31 @@ Summary:        %{summary}
 
 %prep
 %autosetup -n %{srcname}-%{version}
-# Remove bundled egg-info
-rm -rf %{srcname}.egg-info
+
+%generate_buildrequires
+%pyproject_buildrequires -t
 
 %build
-%py3_build
+%pyproject_wheel
 
 %install
-%py3_install
+%pyproject_install
+%pyproject_save_files %{srcname}
 
 %check
-# from upstream's tox.ini
-pytest-3 --doctest-glob='*.rst' --doctest-modules --ignore=setup.py -v
+%tox
 
-%files -n python3-%{srcname}
+%files -n python3-%{srcname} -f %pyproject_files
 %license LICENSE
 %doc README.rst
-%{python3_sitelib}/__pycache__/*
-%{python3_sitelib}/%{srcname}.py
-%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Sep 08 2020 Lumír Balhar <lbalhar@redhat.com> - 2.0.2-1
+- Update to 2.0.2 (#1713970)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.1-10
 - Rebuilt for Python 3.9
 

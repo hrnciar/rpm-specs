@@ -22,7 +22,7 @@ changes ClientHello part of it and provides low-level access.}
                         README.md README.upstream.md
 
 Name:           %{goname}
-Release:        2.1%{?dist}
+Release:        3.1%{?dist}
 Summary:        Fork of the Go standard TLS library, providing access to the ClientHello
 
 # Upstream license specification: BSD-3-Clause and GPL-3.0-only
@@ -58,6 +58,9 @@ BuildRequires:  golang(golang.org/x/net/http2)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.11-3.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.11-2.1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           libgsystem
 Version:        2015.2
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        GIO-based library with Unix/Linux specific API
 
 License:        LGPLv2+
@@ -64,6 +64,9 @@ make check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2015.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2015.2-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

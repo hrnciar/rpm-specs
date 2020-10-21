@@ -14,16 +14,17 @@
 %global __provides_exclude ^(%{privlibs})\\.so
 %global __requires_exclude ^(%{privlibs})\\.so
 
-# Filter flags not supported by clang
-#  -fstack-clash-protection
-#  -specs=
-%global dotnet_cflags %(echo %optflags | sed -e 's/-fstack-clash-protection//' | sed -re 's/-specs=[^ ]*//g')
-%global dotnet_ldflags %(echo %{__global_ldflags} | sed -re 's/-specs=[^ ]*//g')
+# LTO triggers a compilation error for a source level issue.  Given that LTO should not
+# change the validity of any given source and the nature of the error (undefined enum), I
+# suspect a generator program is mis-behaving in some way.  This needs further debugging,
+# until that's done, disable LTO.  This has to happen before setting the flags below.
+%define _lto_cflags %{nil}
 
-%global host_version 3.1.5
-%global runtime_version 3.1.5
+
+%global host_version 3.1.9
+%global runtime_version 3.1.9
 %global aspnetcore_runtime_version %{runtime_version}
-%global sdk_version 3.1.105
+%global sdk_version 3.1.109
 # upstream can update releases without revving the SDK version so these don't always match
 %global src_version %{sdk_version}
 %global templates_version %(echo %{runtime_version} | awk 'BEGIN { FS="."; OFS="." } {print $1, $2, $3+1 }')
@@ -39,6 +40,10 @@
 %global use_bundled_libunwind 1
 %endif
 
+%ifarch aarch64
+%global use_bundled_libunwind 1
+%endif
+
 %ifarch x86_64
 %global runtime_arch x64
 %endif
@@ -46,19 +51,11 @@
 %global runtime_arch arm64
 %endif
 
-%if 0%{?fedora}
-%global runtime_id fedora.%{fedora}-%{runtime_arch}
-%else
-%if 0%{?centos}
-%global runtime_id centos.%{centos}-%{runtime_arch}
-%else
-%global runtime_id rhel.%{rhel}-%{runtime_arch}
-%endif
-%endif
+%{!?runtime_id:%global runtime_id %(. /etc/os-release ; echo "${ID}.${VERSION_ID%%.*}")-%{runtime_arch}}
 
 Name:           dotnet3.1
 Version:        %{sdk_rpm_version}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        .NET Core Runtime and SDK
 License:        MIT and ASL 2.0 and BSD and LGPLv2+ and CC-BY and CC0 and MS-PL and EPL-1.0 and GPL+ and GPLv2 and ISC and OFL and zlib
 URL:            https://github.com/dotnet/
@@ -68,6 +65,8 @@ URL:            https://github.com/dotnet/
 Source0:        dotnet-v%{src_version}-SDK.tar.gz
 Source1:        check-debug-symbols.py
 Source2:        dotnet.sh.in
+
+Patch1:         source-build-warnings-are-not-errors.patch
 
 # Fix building with our additional CFLAGS/CXXFLAGS/LDFLAGS
 Patch100:       corefx-optflags-support.patch
@@ -82,6 +81,9 @@ Patch103:       corefx-39633-cgroupv2-mountpoints.patch
 Patch200:       coreclr-hardening-flags.patch
 # Fix build with clang 10; Already applied at tarball-build time
 # Patch201:       coreclr-clang10.patch
+# Fix build on recent versions of gcc/clang
+# https://github.com/libunwind/libunwind/pull/166
+Patch202:       coreclr-libunwind-fno-common.patch
 
 # Build with with hardening flags, including -pie
 Patch300:       core-setup-hardening-flags.patch
@@ -89,7 +91,11 @@ Patch300:       core-setup-hardening-flags.patch
 # Disable telemetry by default; make it opt-in
 Patch500:       cli-telemetry-optout.patch
 
+%if 0%{?fedora} > 32 || 0%{?rhel} > 8
 ExclusiveArch:  aarch64 x86_64
+%else
+ExclusiveArch:  x86_64
+%endif
 
 BuildRequires:  clang
 BuildRequires:  cmake
@@ -344,6 +350,8 @@ sed -i 's|/usr/share/dotnet|%{_libdir}/dotnet|' src/core-setup.*/src/corehost/co
 # Disable warnings
 sed -i 's|skiptests|skiptests ignorewarnings|' repos/coreclr.proj
 
+%patch1 -p1
+
 pushd src/corefx.*
 %patch100 -p1
 %patch101 -p1
@@ -354,6 +362,7 @@ popd
 pushd src/coreclr.*
 %patch200 -p1
 #%%patch201 -p1
+%patch202 -p1
 popd
 
 pushd src/core-setup.*
@@ -365,11 +374,16 @@ pushd src/cli.*
 popd
 
 # If CLR_CMAKE_USE_SYSTEM_LIBUNWIND=TRUE is misisng, add it back
-grep CLR_CMAKE_USE_SYSTEM_LIBUNWIND repos/coreclr.proj || \
-    sed -i 's|\$(BuildArguments) </BuildArguments>|$(BuildArguments) cmakeargs -DCLR_CMAKE_USE_SYSTEM_LIBUNWIND=TRUE</BuildArguments>|' repos/coreclr.proj
+grep CLR_CMAKE_USE_SYSTEM_LIBUNWIND repos/coreclr.common.props || \
+    sed -i 's|\$(BuildArguments) </BuildArguments>|$(BuildArguments) cmakeargs -DCLR_CMAKE_USE_SYSTEM_LIBUNWIND=TRUE</BuildArguments>|' repos/coreclr.common.props
 
 %if %{use_bundled_libunwind}
-sed -i 's|-DCLR_CMAKE_USE_SYSTEM_LIBUNWIND=TRUE|-DCLR_CMAKE_USE_SYSTEM_LIBUNWIND=FALSE|' repos/coreclr.proj
+sed -i 's|-DCLR_CMAKE_USE_SYSTEM_LIBUNWIND=TRUE|-DCLR_CMAKE_USE_SYSTEM_LIBUNWIND=FALSE|' repos/coreclr.common.props
+%endif
+
+%ifnarch x86_64
+mkdir -p artifacts/obj/%{runtime_arch}/Release
+cp artifacts/obj/x64/Release/PackageVersions.props artifacts/obj/%{runtime_arch}/Release/PackageVersions.props
 %endif
 
 cat source-build-info.txt
@@ -385,9 +399,34 @@ cat /etc/os-release
 cp -a %{_libdir}/dotnet previously-built-dotnet
 %endif
 
+%if 0%{?fedora} > 32 || 0%{?rhel} > 8
+# Setting this macro ensures that only clang supported options will be
+# added to ldflags and cflags.
+%global toolchain clang
+%set_build_flags
+%else
+# Filter flags not supported by clang
+#  -specs=
+%global dotnet_cflags %(echo %optflags | sed -re 's/-specs=[^ ]*//g')
+%global dotnet_ldflags %(echo %{__global_ldflags} | sed -re 's/-specs=[^ ]*//g')
 export CFLAGS="%{dotnet_cflags}"
 export CXXFLAGS="%{dotnet_cflags}"
 export LDFLAGS="%{dotnet_ldflags}"
+%endif
+
+%ifarch aarch64
+# mbranch-protection=standard breaks unwinding in CoreCLR through libunwind
+CFLAGS=$(echo $CFLAGS | sed -e 's/-mbranch-protection=standard //')
+CXXFLAGS=$(echo $CXXFLAGS | sed -e 's/-mbranch-protection=standard //')
+%endif
+
+# fstack-clash-protection breaks CoreCLR
+CFLAGS=$(echo $CFLAGS  | sed -e 's/-fstack-clash-protection//' )
+CXXFLAGS=$(echo $CXXFLAGS  | sed -e 's/-fstack-clash-protection//' )
+
+echo $CFLAGS
+echo $CXXFLAGS
+echo $LDFLAGS
 
 #%%if %%{without bootstrap}
 #  --with-ref-packages %%{_libdir}/dotnet/reference-packages/ \
@@ -512,10 +551,54 @@ echo "Testing build results for debug symbols..."
 
 
 %changelog
+* Wed Oct 14 2020 Omair Majid <omajid@redhat.com> - 3.1.109-1
+- Update to .NET Core SDK 3.1.109 and Runtime 3.1.9
+
+* Mon Sep 21 2020 Tom Stellard <tstellar@redhat.com> - 3.1.108-2
+- Use toolchain macro for setting clang-specific c/ld flags
+
+* Wed Sep 16 2020 Troy Dawson <tdawson@redhat.com> - 3.1.108-1
+- Generate runtime_id the same way that it does in the various build scripts
+
+* Fri Sep 11 2020 Omair Majid <omajid@redhat.com> - 3.1.108-1
+- Update to .NET Core SDK 3.1.108 and Runtime 3.1.8
+
+* Wed Sep 09 2020 Omair Majid <omajid@redhat.com> - 3.1.107-1
+- Add Fedora 34 RID
+- Fix build of bundled libunwind
+
+* Wed Aug 19 2020 Omair Majid <omajid@redhat.com> - 3.1.107-1
+- Update to .NET Core Runtime 3.1.7 and SDK 3.1.107
+
+* Thu Aug 13 2020 Omair Majid <omajid@redhat.com> - 3.1.106-3
+- Filter out -mbranch-protection=standard from cflags
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.106-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.106-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Jo Shields <joshield@microsoft.com> - 3.1.106-1
+- Update to .NET Core Runtime 3.1.6 and SDK 3.1.106
+
+* Tue Jul 21 2020 Omair Majid <omajid@redhat.com> - 3.1.105-5
+- Fix up commented-out define for disabling LTO
+
+* Mon Jul 20 2020 Jeff Law <law@redhat.com> - 3.1.105-5
+- Disable LTO
+
+* Sat Jun 27 2020 Omair Majid <omajid@redhat.com> - 3.1.105-4
+- Disable bootstrap
+
+* Fri Jun 26 2020 Omair Majid <omajid@redhat.com> - 3.1.105-3
+- Re-bootstrap aarch64
+
 * Fri Jun 19 2020 Omair Majid <omajid@redhat.com> - 3.1.105-3
 - Disable bootstrap
 
-* Thu Jun 18 2020 Omair Majid <omajid@redhat.com> - 3.1.105-2
+* Thu Jun 18 2020 Omair Majid <omajid@redhat.com> - 3.1.105-1
 - Bootstrap aarch64
 
 * Tue Jun 16 2020 Chris Rummel <crummel@microsoft.com> - 3.1.105-1

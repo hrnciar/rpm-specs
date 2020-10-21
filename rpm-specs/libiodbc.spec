@@ -5,7 +5,7 @@
 Summary: iODBC Driver Manager
 Name: libiodbc
 Version: 3.52.13
-Release: 2%{?dist}
+Release: 4%{?dist}
 License: LGPLv2 or BSD
 URL: http://www.iodbc.org/
 #URL: https://github.com/openlink/iODBC
@@ -17,6 +17,7 @@ Source0: https://github.com/openlink/iODBC/archive/v%{version}/%{name}-%{version
 
 ## downstream patches
 Patch100: libiodbc-3.52.12-multilib.patch
+Patch101: libiodbc-3.52.12-configure.patch
 
 %{?_enable_gui:BuildRequires: gtk2-devel}
 BuildRequires: gcc
@@ -111,6 +112,12 @@ rm -rfv %{buildroot}%{_datadir}/libiodbc/samples
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.52.13-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 3.52.13-3
+- Ignore annobin symbols in configure test
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.52.13-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

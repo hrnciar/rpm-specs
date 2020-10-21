@@ -7,14 +7,14 @@
 %global _hardened_build 1
 
 Name:           haproxy
-Version:        2.1.7
+Version:        2.2.4
 Release:        1%{?dist}
 Summary:        HAProxy reverse proxy for high availability environments
 
 License:        GPLv2+
 
 URL:            http://www.haproxy.org/
-Source0:        %{url}/download/2.1/src/haproxy-%{version}.tar.gz
+Source0:        %{url}/download/2.2/src/haproxy-%{version}.tar.gz
 Source1:        %{name}.service
 Source2:        %{name}.cfg
 Source3:        %{name}.logrotate
@@ -132,6 +132,30 @@ exit 0
 %{_mandir}/man1/*
 
 %changelog
+* Thu Oct 01 2020 Ryan O'Hara <rohara@redhat.com> - 2.2.4-1
+- Update to 2.2.4 (#1883742)
+    
+* Thu Sep 17 2020 Ryan O'Hara <rohara@redhat.com> - 2.2.3-2
+- Fix build for late loading of libgcc_s
+
+* Mon Sep 14 2020 Ryan O'Hara <rohara@redhat.com> - 2.2.3-1
+- Update to 2.2.3 (#1876932)
+    
+* Fri Jul 31 2020 Ryan O'Hara <rohara@redhat.com> - 2.2.2-1
+- Update to 2.2.2 (#1862400)
+
+* Mon Jul 27 2020 Ryan O'Hara <rohara@redhat.com> - 2.2.1-1
+- Update to 2.2.1 (#1859846)
+
+* Wed Jul 15 2020 Ryan O'Hara <rohara@redhat.com> - 2.2.0-3
+- Update systemd service file
+
+* Fri Jul 10 2020 Tom Callaway <spot@fedoraproject.org> - 2.2.0-2
+- Fix build against lua 5.4
+
+* Thu Jul 09 2020 Ryan O'Hara <rohara@redhat.com> - 2.2.0-1
+- Update to 2.2.0 (#1854519)
+
 * Mon Jun 15 2020 Ryan O'Hara <rohara@redhat.com> - 2.1.7-1
 - Update to 2.1.7 (#1845001)
 

@@ -1,6 +1,6 @@
 Name:           perl-Tie-Sub
 Version:        1.001
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Tying a subroutine, function or method to a hash
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Tie-Sub
@@ -53,6 +53,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.001-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.001-13
 - Perl 5.32 rebuild
 

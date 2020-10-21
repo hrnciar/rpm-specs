@@ -2,7 +2,7 @@
 #%%global prever RC1
 
 Name:           openttd
-Version:        1.10.2
+Version:        1.10.3
 Release:        1%{?prever:.%{prever}}%{?dist}
 Summary:        Transport system simulation game
 
@@ -147,6 +147,12 @@ EOF
 
 
 %changelog
+* Thu Aug 13 2020 Felix Kaechele <heffer@fedoraproject.org> - 1.10.3-1
+- update to 1.10.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Felix Kaechele <heffer@fedoraproject.org> - 1.10.2-1
 - update to 1.10.2
 

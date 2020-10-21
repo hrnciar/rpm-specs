@@ -6,7 +6,7 @@
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    714629ed782537f638fe23c4346637659b779a77
+%global gh_commit    ce10831d4ddc2686c1348a98069771dd314534a8
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     phpmd
 %global gh_project   phpmd
@@ -17,7 +17,7 @@
 %global with_tests   0%{!?_without_tests:1}
 
 Name:           php-phpmd-PHP-PMD
-Version:        2.8.2
+Version:        2.9.1
 Release:        1%{?dist}
 Summary:        PHPMD - PHP Mess Detector
 
@@ -38,6 +38,8 @@ BuildArch:      noarch
 #    "squizlabs/php_codesniffer": "^2.0",
 #    "mikey179/vfsstream": "^1.6.4",
 #    "gregwar/rst": "^1.0",
+#    "ext-simplexml": "*",
+#    "ext-json": "*",
 #    "easy-doc/easy-doc": "0.0.0 || ^1.3.2"
 BuildRequires:  php-composer(phpunit/phpunit) >= 4.8.36
 BuildRequires:  php(language) >= 5.3.9
@@ -53,6 +55,7 @@ BuildRequires:  php-composer(composer/xdebug-handler) >= 1.0
 BuildRequires:  php-composer(mikey179/vfsstream)      <  2
 BuildRequires:  php-composer(mikey179/vfsstream)      >= 1.6.4
 %endif
+BuildRequires:  php-reflection
 BuildRequires:  php-date
 BuildRequires:  php-json
 BuildRequires:  php-libxml
@@ -79,7 +82,8 @@ Requires:       php-composer(composer/xdebug-handler) <  2
 Requires:       php-composer(composer/xdebug-handler) >= 1.0
 %endif
 Requires:       php-xml
-# From phpcompatinfo report for version 2.7.0
+# From phpcompatinfo report for version 2.9.0
+Requires:       php-reflection
 Requires:       php-date
 Requires:       php-json
 Requires:       php-libxml
@@ -176,6 +180,15 @@ fi
 
 
 %changelog
+* Thu Sep 24 2020 Remi Collet <remi@remirepo.net> - 2.9.1-1
+- update to 2.9.1
+
+* Wed Sep  2 2020 Remi Collet <remi@remirepo.net> - 2.9.0-1
+- update to 2.9.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 25 2020 Remi Collet <remi@remirepo.net> - 2.8.2-1
 - update to 2.8.2
 - raise dependency on pdepend/pdepend version 2.7.1

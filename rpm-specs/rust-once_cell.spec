@@ -5,7 +5,7 @@
 %global crate once_cell
 
 Name:           rust-%{crate}
-Version:        1.4.0
+Version:        1.4.1
 Release:        1%{?dist}
 Summary:        Single assignment cells and lazy values
 
@@ -95,6 +95,12 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Tue Aug 18 2020 Jan Staněk <jstanek@redhat.com> - 1.4.1-1
+- Update to 1.4.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 14 2020 Josh Stone <jistone@redhat.com> - 1.4.0-1
 - Update to 1.4.0
 

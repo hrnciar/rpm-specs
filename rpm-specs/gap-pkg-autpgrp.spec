@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        1.10.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Compute the automorphism group of a p-Group in GAP
 
 License:        GPLv2+
@@ -77,6 +77,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}-%{version}/htm/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb  1 2020 Jerry James <loganjerry@gmail.com> - 1.10.2-1
 - Version 1.10.2
 

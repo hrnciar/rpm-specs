@@ -4,14 +4,17 @@
 %global crate tokei
 
 Name:           rust-%{crate}
-Version:        11.2.1
-Release:        1%{?dist}
+Version:        12.0.4
+Release:        5%{?dist}
 Summary:        Utility that allows you to count code, quickly
 
 # Upstream license specification: MIT/Apache-2.0
 License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/tokei
 Source:         %{crates_source}
+# Initial patched metadata
+# * Bump to parking_lot 0.11, https://github.com/XAMPPRocky/tokei/pull/575
+Patch0:         tokei-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -104,18 +107,6 @@ which use "hex" feature of "%{crate}" crate.
 %files       -n %{name}+hex-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
-%package     -n %{name}+json-devel
-Summary:        %{summary}
-BuildArch:      noarch
-
-%description -n %{name}+json-devel %{_description}
-
-This package contains library source intended for building other packages
-which use "json" feature of "%{crate}" crate.
-
-%files       -n %{name}+json-devel
-%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
-
 %package     -n %{name}+serde_cbor-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -126,18 +117,6 @@ This package contains library source intended for building other packages
 which use "serde_cbor" feature of "%{crate}" crate.
 
 %files       -n %{name}+serde_cbor-devel
-%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
-
-%package     -n %{name}+serde_json-devel
-Summary:        %{summary}
-BuildArch:      noarch
-
-%description -n %{name}+serde_json-devel %{_description}
-
-This package contains library source intended for building other packages
-which use "serde_json" feature of "%{crate}" crate.
-
-%files       -n %{name}+serde_json-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %package     -n %{name}+serde_yaml-devel
@@ -183,6 +162,22 @@ which use "yaml" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Fri Sep 11 2020 Josh Stone <jistone@redhat.com> - 12.0.4-5
+- Bump to parking_lot 0.11
+
+* Sun Aug 16 15:01:53 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 12.0.4-4
+- Rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12.0.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12.0.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 12.0.4-1
+- Update to 12.0.4
+
 * Sat Jun 06 2020 Josh Stone <jistone@redhat.com> - 11.2.1-1
 - Update to 11.2.1
 

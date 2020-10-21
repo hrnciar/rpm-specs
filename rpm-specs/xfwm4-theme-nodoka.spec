@@ -1,6 +1,6 @@
 Name:           xfwm4-theme-nodoka
 Version:        0.2
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Nodoka theme for xfwm4
 
 License:        GPLv2+
@@ -36,6 +36,9 @@ install -p -m 644 xfwm4/themerc $RPM_BUILD_ROOT%{_datadir}/themes/Nodoka/xfwm4/
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

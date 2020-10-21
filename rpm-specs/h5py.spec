@@ -1,7 +1,7 @@
 Summary:        A Python interface to the HDF5 library
 Name:           h5py
 Version:        2.10.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 License:        BSD
 URL:            http://www.h5py.org/
 Source0:        https://files.pythonhosted.org/packages/source/h/h5py/h5py-%{version}.tar.gz
@@ -18,6 +18,13 @@ BuildRequires:  python%{python3_pkgversion}-pkgconfig
 BuildRequires:  python%{python3_pkgversion}-pytest
 BuildRequires:  python%{python3_pkgversion}-six
 BuildRequires:  python%{python3_pkgversion}-sphinx
+# MPI builds
+BuildRequires:  hdf5-openmpi-devel
+BuildRequires:  openmpi-devel
+BuildRequires:  python%{python3_pkgversion}-mpi4py-openmpi
+BuildRequires:  hdf5-mpich-devel
+BuildRequires:  mpich-devel
+BuildRequires:  python%{python3_pkgversion}-mpi4py-mpich
 
 %global _description\
 The h5py package provides both a high- and low-level interface to the\
@@ -40,6 +47,18 @@ Requires:       python%{python3_pkgversion}-six
 %{?python_provide:%python_provide python%{python3_pkgversion}-h5py}
 %description -n python%{python3_pkgversion}-h5py %_description
 
+%package     -n python%{python3_pkgversion}-h5py-openmpi
+Summary:        A Python interface to the HDF5 library using OpenMPI
+Requires:       python3-mpi4py-openmpi
+Requires:       openmpi
+%description -n python%{python3_pkgversion}-h5py-openmpi %_description
+
+%package     -n python%{python3_pkgversion}-h5py-mpich
+Summary:        A Python interface to the HDF5 library using MPICH
+Requires:       python3-mpi4py-mpich
+Requires:       mpich
+%description -n python%{python3_pkgversion}-h5py-mpich %_description
+
 %prep
 %setup -q
 # use system libzlf and remove private copy
@@ -49,19 +68,72 @@ rm -rf lzf/lzf
 %{__python3} api_gen.py
 
 %build
+# serial
 export CFLAGS="%{optflags} -fopenmp"
 %py3_build
+mv build serial
+
+# openmpi
+%{_openmpi_load}
+export CFLAGS="%{optflags} -fopenmp -I${MPI_INCLUDE}"
+%{__python3} setup.py configure --mpi
+%py3_build
+mv build openmpi
+%{__python3} setup.py configure --reset
+%{_openmpi_unload}
+
+# mpich
+%{_mpich_load}
+export CFLAGS="%{optflags} -fopenmp -I${MPI_INCLUDE}"
+%{__python3} setup.py configure --mpi
+%py3_build
+mv build mpich
+%{__python3} setup.py configure --reset
+%{_mpich_unload}
 
 %install
+# openmpi
+%{_openmpi_load}
+mv openmpi build
+export CFLAGS="%{optflags} -fopenmp -I${MPI_INCLUDE}"
+%{__python3} setup.py configure --mpi
 %py3_install
+mkdir -p %{buildroot}%{python3_sitearch}/openmpi
+mv %{buildroot}%{python3_sitearch}/%{name}/ \
+   %{buildroot}%{python3_sitearch}/%{name}*.egg-info \
+   %{buildroot}%{python3_sitearch}/openmpi
+%{__python3} setup.py configure --reset
+mv build openmpi
+%{_openmpi_unload}
+
+# mpich
+%{_mpich_load}
+mv mpich build
+export CFLAGS="%{optflags} -fopenmp -I${MPI_INCLUDE}"
+%{__python3} setup.py configure --mpi
+%py3_install
+mkdir -p %{buildroot}%{python3_sitearch}/mpich
+mv %{buildroot}%{python3_sitearch}/%{name}/ \
+   %{buildroot}%{python3_sitearch}/%{name}*.egg-info \
+   %{buildroot}%{python3_sitearch}/mpich
+mv build mpich
+%{__python3} setup.py configure --reset
+%{_mpich_unload}
+
+# serial part must be last (not to overwrite files)
+mv serial build
+%py3_install
+mv build serial
 
 %check
+mv serial build
 # https://github.com/h5py/h5py/issues/1337
 %ifnarch %ix86
 %{__python3} setup.py test
 %else
 %{__python3} setup.py test || :
 %endif
+mv build serial
 
 %files -n python%{python3_pkgversion}-h5py
 %license licenses/*.txt
@@ -69,7 +141,25 @@ export CFLAGS="%{optflags} -fopenmp"
 %{python3_sitearch}/%{name}/
 %{python3_sitearch}/%{name}-%{version}-*.egg-info
 
+%files -n python%{python3_pkgversion}-h5py-openmpi
+%license licenses/*.txt
+%doc ANN.rst README.rst
+%{python3_sitearch}/openmpi/%{name}/
+%{python3_sitearch}/openmpi/%{name}-%{version}-*.egg-info
+
+%files -n python%{python3_pkgversion}-h5py-mpich
+%license licenses/*.txt
+%doc ANN.rst README.rst
+%{python3_sitearch}/mpich/%{name}/
+%{python3_sitearch}/mpich/%{name}-%{version}-*.egg-info
+
 %changelog
+* Mon Jul 27 2020 Terje Rosten <terje.rosten@ntnu.no> - 2.10.0-4
+- Add openmpi and mpich subpackages
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 2.10.0-3
+- Rebuild for hdf5 1.10.6
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.10.0-2
 - Rebuilt for Python 3.9
 

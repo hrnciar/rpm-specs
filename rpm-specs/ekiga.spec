@@ -1,6 +1,6 @@
 Name:		ekiga
 Version:	4.0.1
-Release:	48%{?dist}
+Release:	50%{?dist}
 Summary:	A Gnome based SIP/H323 teleconferencing application
 License:	GPLv2+
 URL:		https://www.ekiga.org/
@@ -188,6 +188,12 @@ scrollkeeper-update -q || :
 %{_sysconfdir}/gconf/schemas/ekiga.schemas
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.1-50
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Milan Crha <mcrha@redhat.com> - 4.0.1-49
+- Rebuilt for evolution-data-server soname version bump
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.1-48
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

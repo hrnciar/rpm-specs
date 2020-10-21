@@ -1,3 +1,5 @@
+%global __cmake_in_source_build 1
+
 %bcond_without perl
 %bcond_without ruby
 %bcond_with    octave
@@ -34,7 +36,7 @@
 
 Name:           libsbml
 Version:        5.18.0
-Release:        14%{?dist}
+Release:        18%{?dist}
 Summary:        Systems Biology Markup Language library
 License:        LGPLv2+
 URL:            http://sbml.org/Software/libSBML
@@ -412,6 +414,19 @@ popd
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.18.0-18
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.18.0-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Antonio Trande <sagitter@fedoraproject.org> - 5.18.0-16
+- Enable cmake_in_source_build (rhbz#1859845)
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 5.18.0-15
+- Perl 5.32 rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.18.0-14
 - Rebuilt for Python 3.9
 

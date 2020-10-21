@@ -1,6 +1,6 @@
 Name:           perl-Alien-pkgconf
 Version:        0.17
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Discover pkgconf and libpkgconf
 # Other files:              GPL+ or Artistic
 ## Not used
@@ -78,6 +78,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Aug 04 2020 Petr Pisar <ppisar@redhat.com> - 0.17-5
+- Rebuild against pkgconf 1.7.3 (bug #1864519)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.17-3
 - Perl 5.32 rebuild
 

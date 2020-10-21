@@ -3,11 +3,11 @@
 %global debug_package %{nil}
 
 %global crate curl-sys
-%global upstream_version 0.4.31+curl-7.70.0
+%global upstream_version 0.4.36+curl-7.71.1
 
 Name:           rust-%{crate}
-Version:        0.4.31
-Release:        2%{?dist}
+Version:        0.4.36
+Release:        1%{?dist}
 Summary:        Native bindings to the libcurl library
 
 # Upstream license specification: MIT
@@ -18,6 +18,7 @@ Source:         %{crates_source %{crate} %{upstream_version}}
 # * Remove curl version from version field
 # * No windows
 # * Drop unused dependencies
+# * No zlib-ng features
 Patch0:         curl-sys-fix-metadata.diff
 # Make static-curl/static-ssl features a noop, not for upstream
 Patch0001:      0001-Make-static-curl-static-ssl-features-a-noop.patch
@@ -178,6 +179,22 @@ echo 'pkgconfig(libcurl)'
 %endif
 
 %changelog
+* Thu Aug 20 2020 Josh Stone <jistone@redhat.com> - 0.4.36-1
+- Update to 0.4.36+curl-7.71.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.33-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.33-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Josh Stone <jistone@redhat.com> - 0.4.33-1
+- Update to 0.4.33+curl-7.71.1
+
+* Fri Jun 26 2020 Josh Stone <jistone@redhat.com> - 0.4.32-1
+- Update to 0.4.32+curl-7.70.0
+
 * Sun May 17 16:07:18 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.4.31-2
 - Drop move unneeded dependencies
 - Add static features back, but make them noop

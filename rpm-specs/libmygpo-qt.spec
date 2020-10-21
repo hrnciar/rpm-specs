@@ -6,7 +6,7 @@
 Name:    libmygpo-qt
 Summary: Qt4 Library that wraps the gpodder.net Web API
 Version: 1.1.0
-Release: 4%{?dist}
+Release: 7%{?dist}
 
 License: LGPLv2+
 #Url:     http://wiki.gpodder.org/wiki/Libmygpo-qt
@@ -56,26 +56,22 @@ Requires: libmygpo-qt5%{?_isa} = %{version}-%{release}
 
 %build
 %if 0%{?qt4}
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake} .. \
+%global _vpath_builddir %{_target_platform}
+%cmake .. \
   -DBUILD_WITH_QT4:BOOL=ON \
   -DINCLUDE_INSTALL_DIR:PATH=%{_qt4_headerdir}/mygpo-qt \
   -DLIB_INSTALL_DIR:PATH=%{_qt4_libdir}/mygpo-qt
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 %endif
 
-mkdir -p %{_target_platform}-qt5
-pushd %{_target_platform}-qt5
-%{cmake} .. \
+%global _vpath_builddir %{_target_platform}-qt5
+%cmake .. \
   -DBUILD_WITH_QT4:BOOL=OFF \
   -DINCLUDE_INSTALL_DIR:PATH=%{_qt5_headerdir}/mygpo-qt \
   -DLIB_INSTALL_DIR:PATH=%{_qt5_libdir}/mygpo-qt
-popd
 
-%make_build -C %{_target_platform}-qt5
+%cmake_build
 
 
 %install
@@ -129,6 +125,16 @@ make test -C %{_target_platform}-qt5 ||:
 
  
 %changelog
+* Mon Sep 07 2020 Than Ngo <than@redhat.com> - 1.1.0-7
+- Fixed FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

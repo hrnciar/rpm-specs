@@ -1,6 +1,6 @@
 Name:           libsexymm
 Version:        0.1.9
-Release:        29%{?dist}
+Release:        30%{?dist}
 
 Summary:        C++ wrapper for libsexy
 
@@ -63,6 +63,9 @@ find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.9-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.9-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

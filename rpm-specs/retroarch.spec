@@ -17,17 +17,19 @@
 %global short_url https://github.com/libretro
 
 # Assets
-%global commit1 4ebe9abfe80dd58489d7ed0922cd4789c1999f07
+# * https://github.com/libretro/retroarch-assets
+%global commit1 7a9a84956099404e26e2010ffd913b247e1e2dd4
 %global shortcommit1 %(c=%{commit1}; echo ${c:0:7})
-%global date 20200524
+%global date 20200808
 
 # Joypad Autoconfig Files
-%global commit4 7d6c1d42c6bc87aaf9c17870df210d7cbd45e1e2
+# * https://github.com/libretro/retroarch-joypad-autoconfig
+%global commit4 c13eb4653f733f9d2d5d52929f0e87182c27bd61
 %global shortcommit4 %(c=%{commit4}; echo ${c:0:7})
-%global date4 20200524
+%global date4 20200730
 
 Name:           %{appname}%{?p_suffix}
-Version:        1.8.8
+Version:        1.9.0
 Release:        1%{?dist}
 Summary:        Cross-platform, sophisticated frontend for the libretro API. %{?sum_suffix}
 
@@ -101,7 +103,7 @@ Source1:        %{short_url}/%{appname}-assets/archive/%{commit1}/%{appname}-ass
 
 # AppData manifest
 # * https://github.com/flathub/org.libretro.RetroArch/blob/master/org.libretro.RetroArch.appdata.xml
-Source2:        https://raw.githubusercontent.com/flathub/%{uuid}/cadddc6bff0a0b5f788c6c896ee7b7f309b5ae34/%{uuid}.appdata.xml
+Source2:        https://raw.githubusercontent.com/flathub/%{uuid}/a10c8384ac6e24749f70139c75174ec06ed17ad4/%{uuid}.appdata.xml
 
 # Libretro's core info
 Source3:        %{short_url}/libretro-core-info/archive/v%{version}/libretro-core-info-%{version}.tar.gz
@@ -385,7 +387,8 @@ rm  %{buildroot}%{_datadir}/libretro/assets%{?p_suffix}/pkg/osd-font.ttf \
 install -m 0644 -Dp %{SOURCE2} %{buildroot}%{_metainfodir}/%{uuid}.appdata.xml
 
 # Joypad Autoconfig Files
-%make_install -C %{appname}-joypad-autoconfig-%{commit4}
+%make_install -C %{appname}-joypad-autoconfig-%{commit4} \
+    DOC_DIR=%{_datadir}/libretro/autoconfig/doc
 %if %{with freeworld}
 mv  %{buildroot}%{_datadir}/libretro/autoconfig/ \
     %{buildroot}%{_datadir}/libretro/autoconfig-freeworld/
@@ -465,6 +468,15 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.xml
 
 
 %changelog
+* Sat Aug 08 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.9.0-1
+- Update to 1.9.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 20 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.8.9-1
+- Update to 1.8.9
+
 * Wed May 27 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.8.8-1
 - Update to 1.8.8
 

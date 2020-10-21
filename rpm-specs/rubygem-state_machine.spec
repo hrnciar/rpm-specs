@@ -13,7 +13,7 @@
 Summary:       Adds support for creating state machines for attributes on any Ruby class
 Name:          rubygem-%{gem_name}
 Version:       1.1.2
-Release:       20%{?dist}
+Release:       21%{?dist}
 License:       MIT
 URL:           http://www.pluginaweek.org
 Source0:       http://rubygems.org/downloads/%{gem_name}-%{version}.gem
@@ -98,6 +98,9 @@ rm %{buildroot}%{gem_instdir}/state_machine.gemspec
 %doc %{gem_instdir}/Rakefile
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

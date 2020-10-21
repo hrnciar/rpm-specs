@@ -4,7 +4,7 @@ Name: sox
 # This workaround will go away with rebase to 14.4.3
 # it affects Source, %%prep and Version
 Version: 14.4.2.0
-Release: 28%{?dist}
+Release: 29%{?dist}
 License: GPLv2+ and LGPLv2+ and MIT
 # Modified source tarball with libgsm license, without unlicensed liblpc10:
 # _Source: http://downloads.sourceforge.net/%%{name}/%%{name}-%%{version}.tar.gz
@@ -147,6 +147,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/sox/*.a
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 14.4.2.0-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Jiri Kucera <jkucera@redhat.com> - 14.4.2.0-28
 - fix CVE-2017-18189
   resolves #1545867

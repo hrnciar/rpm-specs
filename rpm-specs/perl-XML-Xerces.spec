@@ -3,7 +3,7 @@
 
 Name:           perl-XML-Xerces
 Version:        %{ver}_%{PatchLevel}
-Release:        47%{?dist}
+Release:        48%{?dist}
 Summary:        Perl API to Xerces XML parser
 
 License:        ASL 2.0
@@ -89,6 +89,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0_0-48
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.7.0_0-47
 - Perl 5.32 rebuild
 

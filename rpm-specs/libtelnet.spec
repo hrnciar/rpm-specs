@@ -1,6 +1,6 @@
 Name:		libtelnet
 Version:	0.21
-Release:	17%{?dist}
+Release:	18%{?dist}
 Summary:	TELNET protocol parsing framework
 
 License:	Public Domain
@@ -65,6 +65,9 @@ rm "$RPM_BUILD_ROOT%{_libdir}"/*.la
 %{_bindir}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.21-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.21-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,13 +1,13 @@
 # % global setools_pre_ver rc
 # % global gitver f1e5b20
 
-%global sepol_ver 2.9-1
-%global selinux_ver 2.9-1
+%global sepol_ver 2.3-1
+%global selinux_ver 2.3-1
 
 
 Name:           setools
 Version:        4.3.0
-Release:        2%{?setools_pre_ver:.%{setools_pre_ver}}%{?dist}
+Release:        5%{?setools_pre_ver:.%{setools_pre_ver}}%{?dist}
 Summary:        Policy analysis tools for SELinux
 
 License:        GPLv2
@@ -144,6 +144,16 @@ Python modules designed to facilitate SELinux policy analysis.
 %{_mandir}/ru/man1/apol*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Petr Lautrbach <plautrba@redhat.com> - 4.3.0-3
+- rebuild with SELinux userspace 3.1 release
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.3.0-2
 - Rebuilt for Python 3.9
 

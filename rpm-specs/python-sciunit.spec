@@ -21,7 +21,7 @@ experimental-data-driven unit tests.}
 
 Name:           python-%{pypi_name}
 Version:        0.2.2.2
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Framework for test-driven validation of scientific models
 
 License:        MIT
@@ -48,6 +48,7 @@ BuildRequires:  %{py3_dist beautifulsoup4}
 BuildRequires:  %{py3_dist cerberus}
 BuildRequires:  %{py3_dist pip}
 BuildRequires:  %{py3_dist sphinx}
+BuildRequires:  %{py3_dist setuptools}
 
 %if %{with tests}
 BuildRequires:  %{py3_dist cypy}
@@ -114,6 +115,12 @@ PYTHONPATH=%{buildroot}/%{python3_sitelib} %{__python3} -m sciunit.unit_test buf
 %doc html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.2.2.2-3
+- Explicitly BR setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.2.2-2
 - Rebuilt for Python 3.9
 

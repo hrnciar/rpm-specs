@@ -1,6 +1,6 @@
 Name:           root-tail
 Version:        1.3
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Displays a given file anywhere on your X11 root window
 License:        GPLv2+
 URL:            http://software.schmorp.de/pkg/%{name}.html
@@ -51,6 +51,13 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

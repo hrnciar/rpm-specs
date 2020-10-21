@@ -1,6 +1,6 @@
 Name:           tremulous-data
 Version:        1.2.0
-Release:        0.17.beta1%{?dist}
+Release:        0.18.beta1%{?dist}
 Summary:        Data files for tremulous the FPS game
 
 License:        CC-BY-SA
@@ -46,6 +46,9 @@ install -p -m 0644 base/*.cfg $RPM_BUILD_ROOT%{_datadir}/tremulous/base/
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-0.18.beta1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-0.17.beta1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

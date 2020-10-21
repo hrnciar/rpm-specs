@@ -1,6 +1,6 @@
 Name:           perl-IPC-Filter
 Version:        0.005
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Filter data through an external process
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/IPC-Filter
@@ -55,6 +55,9 @@ perl Build.PL installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.005-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.005-9
 - Perl 5.32 rebuild
 

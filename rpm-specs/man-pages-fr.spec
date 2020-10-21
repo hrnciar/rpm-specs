@@ -5,7 +5,7 @@
 Summary:   French version of the Linux man-pages
 Name:      man-pages-fr
 Version:   3.70
-Release:   20%{?dist}
+Release:   21%{?dist}
 License:   GPL+ and GPLv2 and GPLv2+ and LGPLv2+ and GPLv3+ and ImageMagick and ISC and Public Domain and BSD and MIT and ASL 2.0 and UCD and IBM and TCL and xinetd
 URL:       https://alioth.debian.org/projects/perkamon/
 Source0:   https://alioth.debian.org/frs/download.php/file/4119/%{name}-%{version}-%{SUBREV}.tar.xz
@@ -143,6 +143,9 @@ rm -f $RPM_BUILD_ROOT%{_mandir}/fr/man2/getitimer.2
 %{_mandir}/fr/man?/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.70-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.70-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

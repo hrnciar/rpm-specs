@@ -1,17 +1,15 @@
 
 %global kf5_version 5.42.0
 
-# FIXME Remove once updated to 5.19.3
-%global plasma_version 5.19.2
-
 Name:    powerdevil
-Version: 5.19.2.1
-Release: 2%{?dist}
+Version: 5.20.1
+Release: 1%{?dist}
 Summary: Manages the power consumption settings of a Plasma Shell
 
 License: GPLv2+
 URL:     https://cgit.kde.org/%{name}.git
 
+%global plasma_version %(echo %{version} | cut -d. -f1,2,3)
 %global revision %(echo %{version} | cut -d. -f3)
 %if %{revision} >= 50
 %global majmin_ver %(echo %{version} | cut -d. -f1,2).50
@@ -29,7 +27,7 @@ Source0: http://download.kde.org/%{stable}/plasma/%{plasma_version}/%{name}-%{ve
 
 # plasma deps
 BuildRequires:  plasma-workspace-devel >= %{plasma_version}
-Requires: libkworkspace5%{?_isa} >= %{version}
+Requires: libkworkspace5%{?_isa} >= %{plasma_version}
 
 # kf5
 BuildRequires:  extra-cmake-modules
@@ -72,16 +70,12 @@ of a daemon (a KDED module) and a KCModule for its configuration.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%{cmake_kf5}
 
-%make_build -C %{_target_platform}
-
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang powerdevil5 --with-html --all-name
 
@@ -97,10 +91,15 @@ rm -fv %{buildroot}/%{_libdir}/libpowerdevil{configcommonprivate,core,ui}.so
 %{_datadir}/dbus-1/system.d/org.kde.powerdevil.discretegpuhelper.conf
 %{_datadir}/dbus-1/system-services/org.kde.powerdevil.backlighthelper.service
 %{_datadir}/dbus-1/system-services/org.kde.powerdevil.discretegpuhelper.service
+%{_datadir}/dbus-1/system-services/org.kde.powerdevil.chargethresholdhelper.service
+%{_datadir}/dbus-1/system.d/org.kde.powerdevil.chargethresholdhelper.conf
 %{_datadir}/polkit-1/actions/org.kde.powerdevil.backlighthelper.policy
 %{_datadir}/polkit-1/actions/org.kde.powerdevil.discretegpuhelper.policy
+%{_datadir}/polkit-1/actions/org.kde.powerdevil.chargethresholdhelper.policy
+%{_datadir}/qlogging-categories5/powerdevil.categories
 %{_kf5_libexecdir}/kauth/backlighthelper
 %{_kf5_libexecdir}/kauth/discretegpuhelper
+%{_kf5_libexecdir}/kauth/chargethresholdhelper
 %{_sysconfdir}/xdg/autostart/powerdevil.desktop
 %{_libexecdir}/org_kde_powerdevil
 %{_kf5_libdir}/libpowerdevilconfigcommonprivate.so.*
@@ -114,6 +113,30 @@ rm -fv %{buildroot}/%{_libdir}/libpowerdevil{configcommonprivate,core,ui}.so
 
 
 %changelog
+* Tue Oct 20 15:30:50 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.1-1
+- 5.20.1
+
+* Sun Oct 11 19:50:05 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.0-1
+- 5.20.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.90-1
+- 5.19.90
+
+* Tue Sep 01 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.5-1
+- 5.19.5
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.19.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.4-1
+- 5.19.4
+
+* Tue Jul 07 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.3-1
+- 5.19.3
+
+* Thu Jun 25 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.19.2.1-3
+- tweak plasma_version, use with libworkspace versioned dep
+
 * Tue Jun 23 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.2.1-1
 - 5.19.2.1
 

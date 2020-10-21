@@ -1,6 +1,9 @@
+# Disable debuginfo because I cannot get -g passed to ocamlopt -a
+%global debug_package %{nil}
+
 Name:           ocaml-cil
 Version:        1.7.3
-Release:        60%{?dist}
+Release:        65%{?dist}
 Summary:        CIL - Infrastructure for C Program Analysis and Transformation
 License:        BSD
 
@@ -201,6 +204,22 @@ cp doc/html/cil/CIL.pdf doc/ocaml-cil/cil-manual.pdf
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.7.3-65
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.7.3-64
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.3-63
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.3-62
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.7.3-61
+- Perl 5.32 rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 1.7.3-60
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

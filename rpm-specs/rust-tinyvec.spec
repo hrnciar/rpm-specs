@@ -5,12 +5,13 @@
 %global crate tinyvec
 
 Name:           rust-%{crate}
-Version:        0.3.3
+Version:        1.0.1
 Release:        1%{?dist}
-Summary:        Just, really the littlest Vec you could need
+Summary:        100% safe vec-like data structures
 
-# Upstream license specification: Zlib
-License:        zlib
+# Upstream license specification: Zlib OR Apache-2.0 OR MIT
+# https://github.com/Lokathor/tinyvec/issues/119
+License:        zlib or ASL 2.0 or MIT
 URL:            https://crates.io/crates/tinyvec
 Source:         %{crates_source}
 
@@ -22,7 +23,7 @@ BuildArch:      noarch
 BuildRequires:  rust-packaging
 
 %global _description %{expand:
-Just, really the littlest Vec you could need. So smol.}
+`tinyvec` provides 100% safe vec-like data structures.}
 
 %description %{_description}
 
@@ -39,6 +40,7 @@ which use "%{crate}" crate.
 %license LICENSE-ZLIB.md
 %doc README.md
 %{cargo_registry}/%{crate}-%{version_no_tilde}/
+%exclude %{cargo_registry}/%{crate}-%{version_no_tilde}/gen-array-impls.sh
 
 %package     -n %{name}+default-devel
 Summary:        %{summary}
@@ -112,6 +114,42 @@ which use "nightly_slice_partition_dedup" feature of "%{crate}" crate.
 %files       -n %{name}+nightly_slice_partition_dedup-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+rustc_1_40-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+rustc_1_40-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "rustc_1_40" feature of "%{crate}" crate.
+
+%files       -n %{name}+rustc_1_40-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+serde-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+serde-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "serde" feature of "%{crate}" crate.
+
+%files       -n %{name}+serde-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+tinyvec_macros-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+tinyvec_macros-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "tinyvec_macros" feature of "%{crate}" crate.
+
+%files       -n %{name}+tinyvec_macros-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
 %cargo_prep
@@ -131,5 +169,15 @@ which use "nightly_slice_partition_dedup" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Oct 07 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.1-1
+- Update to version 1.0.1.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 12:39:02 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 0.3.3-1
 - Initial package

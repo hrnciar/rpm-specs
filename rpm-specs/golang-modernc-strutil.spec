@@ -6,9 +6,8 @@
 # https://gitlab.com/cznic/strutil
 %global goipath         modernc.org/strutil
 %global forgeurl        https://gitlab.com/cznic/strutil
-Version:                1.0.0
-%global commit          0ced29f8491c6b9941c30b09d7c63b78fc5b31bf
-%global distprefix      %{nil}
+Version:                1.1.0
+%global tag             v1.1.0
 
 %gometa
 
@@ -19,7 +18,7 @@ Package strutil collects utils supplemental to the standard strings package.}
 %global godocs          AUTHORS CONTRIBUTORS README
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Utils supplemental to the standard strings package
 
 # Upstream license specification: BSD-3-Clause
@@ -51,6 +50,16 @@ BuildRequires:  golang(modernc.org/mathutil)
 %gopkgfiles
 
 %changelog
+* Thu Aug 06 19:20:05 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.0-1
+- Update to 1.1.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

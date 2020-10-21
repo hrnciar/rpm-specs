@@ -1,6 +1,6 @@
 Name:           chafa
 Version:        1.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 %global sum     Image-to-text converter for terminal
 Summary:        %{sum}
 License:        LGPLv3+
@@ -109,6 +109,9 @@ sed -i -e 's|hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

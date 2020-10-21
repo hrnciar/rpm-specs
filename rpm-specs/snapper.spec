@@ -1,6 +1,6 @@
 Name:           snapper
 Version:        0.8.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tool for filesystem snapshot management
 
 License:        GPLv2
@@ -149,6 +149,9 @@ make %{?_smp_mflags} check
 %{_mandir}/man8/pam_snapper.8*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 12 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.8.9-1
 - Update to 0.8.9
 

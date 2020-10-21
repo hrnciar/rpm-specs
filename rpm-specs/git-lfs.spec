@@ -2,7 +2,7 @@
 
 # https://github.com/git-lfs/git-lfs
 %global goipath         github.com/git-lfs/git-lfs
-Version:                2.11.0
+Version:                2.12.0
 
 %gometa
 
@@ -20,10 +20,11 @@ Summary:        Git extension for versioning large files
 License:        MIT
 URL:            https://git-lfs.github.io/
 Source0:        https://github.com/%{name}/%{name}/releases/download/v%{version}/%{name}-v%{version}.tar.gz
+Source1:        README.Fedora
 
 BuildRequires:  golang(github.com/dpotapov/go-spnego)
-BuildRequires:  golang(github.com/git-lfs/gitobj) >= 1.4.1
-BuildRequires:  golang(github.com/git-lfs/gitobj/errors) >= 1.4.1
+BuildRequires:  golang(github.com/git-lfs/gitobj/v2) >= 2
+BuildRequires:  golang(github.com/git-lfs/gitobj/v2/errors) >= 2
 BuildRequires:  golang(github.com/git-lfs/go-netrc/netrc) >= 0-0.1.20180827gite0e9ca4
 BuildRequires:  golang(github.com/git-lfs/go-ntlm/ntlm)
 BuildRequires:  golang(github.com/git-lfs/wildmatch) >= 1.0.4
@@ -63,6 +64,7 @@ storing the file contents on a remote server.
 
 %prep
 %goprep
+cp -p %SOURCE1 .
 
 # Modify Makefile so that it expects binaries where we build them.
 sed -i -e 's!\.\./bin/!/%{gobuilddir}/bin/!g' t/Makefile
@@ -85,21 +87,27 @@ for cmd in t/cmd/*.go; do
 done
 %gobuild -o "%{gobuilddir}/bin/git-lfs-test-server-api" t/git-lfs-test-server-api/*.go
 
+# Move man pages out of docs so they don't get installed twice.
+mv docs/man .
+
 
 %install
 %gopkginstall
 install -Dpm0755 %{gobuilddir}/bin/git-lfs %{buildroot}%{_bindir}/%{name}
 install -d -p %{buildroot}%{_mandir}/man1/
-install -Dpm0644 docs/man/*.1 %{buildroot}%{_mandir}/man1/
+install -Dpm0644 man/*.1 %{buildroot}%{_mandir}/man1/
 install -d -p %{buildroot}%{_mandir}/man5/
-install -Dpm0644 docs/man/*.5 %{buildroot}%{_mandir}/man5/
+install -Dpm0644 man/*.5 %{buildroot}%{_mandir}/man5/
 
 
 %post
+if [ "x$(git config --type=bool --get 'fedora.git-lfs.no-modify-config')" != "xtrue" ]; then
 %{_bindir}/%{name} install --system --skip-repo
+fi
 
 %preun
-if [ $1 -eq 0 ]; then
+if [ $1 -eq 0 ] && \
+   [ "x$(git config --type=bool --get 'fedora.git-lfs.no-modify-config')" != "xtrue" ]; then
     %{_bindir}/%{name} uninstall --system --skip-repo
 fi
 exit 0
@@ -114,7 +122,7 @@ PATH=%{buildroot}%{_bindir}:%{gobuilddir}/bin:$PATH \
 
 
 %files
-%doc README.md CHANGELOG.md docs
+%doc README.md README.Fedora CHANGELOG.md docs
 %license LICENSE.md
 %{_bindir}/%{name}
 %{_mandir}/man1/%{name}*.1*
@@ -124,6 +132,18 @@ PATH=%{buildroot}%{_bindir}:%{gobuilddir}/bin:$PATH \
 
 
 %changelog
+* Thu Sep 03 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.12.0-1
+- Update to latest version (#1874604)
+- Remove duplicate docs/man directory (#1852765)
+- Add an option to disable modifying the git filter config (#1768060)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 10 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.11.0-1
 - Update to latest version
 

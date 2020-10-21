@@ -1,6 +1,6 @@
 Name:           xcalc
 Version:        1.1.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Scientific Calculator X11 Client
 
 License:        MIT
@@ -8,21 +8,16 @@ URL:            http://xorg.freedesktop.org
 Source0:        http://xorg.freedesktop.org/releases/individual/app/xcalc-%{version}.tar.bz2
 Source1:        xcalc.desktop
 
+BuildRequires:  gcc make
+BuildRequires:  xorg-x11-proto-devel
 BuildRequires:  libXaw-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  xorg-x11-util-macros
-BuildRequires:  libfontenc-devel
 BuildRequires:  libX11-devel
 BuildRequires:  libXmu-devel
 BuildRequires:  libXext-devel
 BuildRequires:  libXt-devel
 BuildRequires:  libXpm-devel
-BuildRequires:  libXft-devel
-BuildRequires:  libXrender-devel
-BuildRequires:  libxkbfile-devel
-BuildRequires:  libXcursor-devel
-BuildRequires:  libpng-devel
-BuildRequires:  libXfixes-devel
 
 %description
 xcalc is a scientific calculator X11 client.
@@ -33,14 +28,11 @@ cp -p %{SOURCE1} .
 
 %build
 %configure
-make %{?_smp_mflags}
+make V=1 %{?_smp_mflags}
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
-%if 0%{?el5}
-echo 'Encoding=UTF-8' >> xcalc.desktop
-%endif
+%make_install
+
 install -d ${RPM_BUILD_ROOT}%{_datadir}/applications
 install -p -m 644 xcalc.desktop ${RPM_BUILD_ROOT}%{_datadir}/applications
 desktop-file-validate ${RPM_BUILD_ROOT}%{_datadir}/applications/xcalc.desktop
@@ -54,6 +46,13 @@ desktop-file-validate ${RPM_BUILD_ROOT}%{_datadir}/applications/xcalc.desktop
 %doc ChangeLog README.md
 
 %changelog
+* Wed Sep 02 2020 Peter Hutterer <peter.hutterer@redhat.com> 1.1.0-4
+- Reduce the BuildRequires to the set actually needed
+- update the rest of the spec a bit, drop RHEL5 conditional
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

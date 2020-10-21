@@ -3,11 +3,11 @@
 
 # https://github.com/go-acme/lego
 %global goipath         github.com/go-acme/lego
-Version:                3.5.0
+Version:                3.8.0
 
 %gometa
 
-%global goaltipaths     github.com/xenolf/lego
+%global goaltipaths     github.com/xenolf/lego github.com/go-acme/lego/v3
 
 %global common_description %{expand:
 Let's Encrypt client and ACME library written in Go.}
@@ -16,12 +16,15 @@ Let's Encrypt client and ACME library written in Go.}
 %global godocs          docs CHANGELOG.md CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Let's Encrypt client and ACME library written in Go
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
+# Remove version which is not provided anymore by linodego
+Patch0:         0001-Remove-version-which-is-not-provided-anymore-by-lino.patch
+
 
 BuildRequires:  golang(cloud.google.com/go/compute/metadata)
 BuildRequires:  golang(github.com/akamai/AkamaiOPEN-edgegrid-golang/configdns-v1)
@@ -38,16 +41,15 @@ BuildRequires:  golang(github.com/aws/aws-sdk-go/service/lightsail)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/service/route53)
 BuildRequires:  golang(github.com/Azure/azure-sdk-for-go/services/dns/mgmt/2017-09-01/dns)
 BuildRequires:  golang(github.com/Azure/go-autorest/autorest)
-BuildRequires:  golang(github.com/Azure/go-autorest/autorest/adal)
-BuildRequires:  golang(github.com/Azure/go-autorest/autorest/azure)
 BuildRequires:  golang(github.com/Azure/go-autorest/autorest/azure/auth)
 BuildRequires:  golang(github.com/Azure/go-autorest/autorest/to)
 BuildRequires:  golang(github.com/BurntSushi/toml)
-BuildRequires:  golang(github.com/cenkalti/backoff)
+BuildRequires:  golang(github.com/cenkalti/backoff/v4)
 BuildRequires:  golang(github.com/cloudflare/cloudflare-go)
 BuildRequires:  golang(github.com/cpu/goacmedns)
 BuildRequires:  golang(github.com/dnsimple/dnsimple-go/dnsimple)
 BuildRequires:  golang(github.com/exoscale/egoscale)
+BuildRequires:  golang(github.com/google/go-querystring/query)
 BuildRequires:  golang(github.com/gophercloud/gophercloud)
 BuildRequires:  golang(github.com/gophercloud/gophercloud/openstack)
 BuildRequires:  golang(github.com/gophercloud/gophercloud/openstack/dns/v2/recordsets)
@@ -68,12 +70,13 @@ BuildRequires:  golang(github.com/OpenDNS/vegadns2client)
 BuildRequires:  golang(github.com/oracle/oci-go-sdk/common)
 BuildRequires:  golang(github.com/oracle/oci-go-sdk/dns)
 BuildRequires:  golang(github.com/ovh/go-ovh/ovh)
+BuildRequires:  golang(github.com/pquerna/otp/totp)
 BuildRequires:  golang(github.com/rainycape/memcache)
 BuildRequires:  golang(github.com/sacloud/libsacloud/api)
 BuildRequires:  golang(github.com/sacloud/libsacloud/sacloud)
 BuildRequires:  golang(github.com/timewasted/linode/dns)
-BuildRequires:  golang(github.com/transip/gotransip)
-BuildRequires:  golang(github.com/transip/gotransip/domain)
+BuildRequires:  golang(github.com/transip/gotransip/v6)
+BuildRequires:  golang(github.com/transip/gotransip/v6/domain)
 BuildRequires:  golang(github.com/urfave/cli)
 BuildRequires:  golang(github.com/vultr/govultr)
 BuildRequires:  golang(golang.org/x/crypto/ocsp)
@@ -98,6 +101,7 @@ BuildRequires:  golang(github.com/stretchr/testify/mock)
 BuildRequires:  golang(github.com/stretchr/testify/require)
 BuildRequires:  golang(github.com/stretchr/testify/suite)
 BuildRequires:  golang(github.com/timewasted/linode)
+BuildRequires:  golang(github.com/transip/gotransip/v6/rest)
 %endif
 
 %description
@@ -107,7 +111,7 @@ BuildRequires:  golang(github.com/timewasted/linode)
 
 %prep
 %goprep
-find . -name "*.go" -exec sed -i "s|github.com/cenkalti/backoff/v4|github.com/cenkalti/backoff|" "{}" +;
+%patch0 -p1
 
 %build
 %gobuild -o %{gobuilddir}/bin/lego %{goipath}/cmd/lego
@@ -121,7 +125,8 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %check
 # Needs network
 %gocheck -d challenge/dns01 \
-         -t providers/dns
+         -t providers/dns \
+         -d platform/wait
 %endif
 
 %files
@@ -132,6 +137,15 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Fri Aug 21 17:53:08 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.8.0-3
+- Add patch to remove obsoleted linodego version
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 00:27:19 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.8.0-1
+- Update to 3.8.0
+
 * Thu Apr 02 18:22:42 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.5.0-1
 - Update to 3.5.0
 

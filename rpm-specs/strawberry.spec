@@ -1,6 +1,9 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 Name:           strawberry
-Version:        0.6.12
-Release:        2%{?dist}
+Version:        0.7.2
+Release:        4%{?dist}
 Summary:        Audio player and music collection organizer
 
 # Main program: GPLv3
@@ -10,7 +13,7 @@ Summary:        Audio player and music collection organizer
 # 3rdparty/utf8-cpp: Boost
 # src/core/timeconstants.h and ext/libstrawberry-common/core/logging and ext/libstrawberry-common/core/messagehandler: ASL 2.0
 License:        GPLv2 and GPLv3+ amd LGPLv2 and ASL 2.0 and MIT and Boost
-URL:            http://www.strawbs.org/
+URL:            https://www.strawberrymusicplayer.org/
 Source0:        https://github.com/strawberrymusicplayer/strawberry/archive/%{version}/%{name}-%{version}.tar.gz
 
 Patch4:         strawberry-udisks-headers.patch
@@ -102,17 +105,15 @@ mv 3rdparty/singleapplication/LICENSE 3rdparty/singleapplication/LICENSE-singlea
 mv 3rdparty/taglib/COPYING 3rdparty/taglib/COPYING-taglib
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} \
-  -DBUILD_WERROR:BOOL=OFF \
-  -DCMAKE_BUILD_TYPE:STRING=Release \
-  ..
-popd
-%make_build -C %{_target_platform}
+# QT applications need to avoid local binding and copy relocations.  Forcing them to build with
+# -fPIC solves that problem
+export CXXFLAGS="-fPIC $RPM_OPT_FLAGS"
+%{cmake} -DBUILD_WERROR:BOOL=OFF \
+         -DCMAKE_BUILD_TYPE:STRING=Release
+%cmake_build
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/org.strawberrymusicplayer.strawberry.desktop
@@ -130,6 +131,29 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/org.strawberry
 %{_mandir}/man1/strawberry-tagreader.1.*
 
 %changelog
+* Thu Oct 01 2020 Jeff Law <law@redhat.com> - 0.7.2-4
+- Force -fPIC into build flags.  Re-enable LTO
+
+* Wed Sep 30 15:15:27 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.7.2-3
+- Disable LTO
+- Fix #1878315
+
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 0.7.2-2
+- Rebuilt for protobuf 3.13
+
+* Mon Aug 24 20:19:01 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.7.2-1
+- Update to 0.7.2 (#1869008)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.13-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 05:56:51 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.6.13-1
+- Update to 0.6.13 (#1856599)
+
 * Sun Jun 21 2020 Adrian Reber <adrian@lisas.de> - 0.6.12-2
 - Rebuilt for protobuf 3.12
 

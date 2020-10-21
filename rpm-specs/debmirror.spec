@@ -1,6 +1,6 @@
 Name:		debmirror
 Version:	2.33
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Debian partial mirror script, with ftp and package pool support
 
 License:	GPLv2+
@@ -52,6 +52,9 @@ pod2man %{name} %{buildroot}%{_mandir}/man1/%{name}.1
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.33-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.33-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

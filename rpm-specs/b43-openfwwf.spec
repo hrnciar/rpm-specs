@@ -1,6 +1,6 @@
 Name:		b43-openfwwf
 Version:	5.2
-Release:	23%{?dist}
+Release:	25%{?dist}
 Summary:	Open firmware for some Broadcom 43xx series WLAN chips
 License:	GPLv2
 URL:		http://www.ing.unibs.it/openfwwf/
@@ -25,7 +25,7 @@ install -p -m 0644 %{SOURCE1} .
 install -p -m 0644 %{SOURCE2} .
 
 %build
-make %{?_smp_mflags}
+%make_build
 
 
 %install
@@ -44,6 +44,13 @@ install -p -D -m 0644 openfwwf.conf %{buildroot}%{_prefix}/lib/modprobe.d/openfw
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 5.2-24
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

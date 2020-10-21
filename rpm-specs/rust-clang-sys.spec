@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.29.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Rust bindings for libclang
 
 # Upstream license specification: Apache-2.0
@@ -375,6 +375,9 @@ echo 'clang-devel >= 3.5'
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.29.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Josh Stone <jistone@redhat.com> - 0.29.3-2
 - Bump to libloading 0.6
 

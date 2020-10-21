@@ -2,9 +2,9 @@
 %global gem_name hashdiff
 
 Name: rubygem-%{gem_name}
-Version: 0.3.2
-Release: 7%{?dist}
-Summary: HashDiff is a diff lib to compute the smallest difference between two hashes
+Version: 1.0.1
+Release: 1%{?dist}
+Summary: Hashdiff is a diff lib to compute the smallest difference between two hashes
 License: MIT
 URL: https://github.com/liufengyun/hashdiff
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -15,7 +15,7 @@ BuildRequires: rubygem(rspec)
 BuildArch: noarch
 
 %description
-HashDiff is a diff lib to compute the smallest difference between two hashes.
+Hashdiff is a diff lib to compute the smallest difference between two hashes.
 
 
 %package doc
@@ -27,26 +27,16 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-gem unpack %{SOURCE0}
-
-%setup -q -D -T -n  %{gem_name}-%{version}
-
-gem spec %{SOURCE0} -l --ruby > %{gem_name}.gemspec
+%setup -q -n %{gem_name}-%{version}
 
 %build
-# Create the gem as gem install only works on a gem file
-gem build %{gem_name}.gemspec
-
-# %%gem_install compiles any C extensions and installs the gem into ./%%gem_dir
-# by default, so that we can move it into the buildroot in %%install
+gem build ../%{gem_name}-%{version}.gemspec
 %gem_install
 
 %install
 mkdir -p %{buildroot}%{gem_dir}
 cp -a .%{gem_dir}/* \
         %{buildroot}%{gem_dir}/
-
-
 
 
 # Run the test suite
@@ -74,6 +64,12 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Thu Aug 20 23:23:44 GMT 2020 Pavel Valena <pvalena@redhat.com> - 1.0.1-1
+- Update to hashdiff 1.0.1.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

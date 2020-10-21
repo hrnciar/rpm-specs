@@ -4,7 +4,7 @@ Version:         2.0
 %forgemeta
 
 Name:            multi-git-status
-Release:         1%{?dist}
+Release:         2%{?dist}
 Summary:         Show uncommitted, untracked and unpushed changes for multiple Git repos
 URL:             %{forgeurl}
 # Ideally this would be %{forgesource} but the upstream is doing something different
@@ -57,6 +57,9 @@ bash -c ". build.sla && test"
 %doc %{_mandir}/man1/mgitstatus.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 21 2020 Brian (bex) Exelbierd <bex@pobox.com> - 2.0-1
 * New Version
 

@@ -1,6 +1,6 @@
 Name:           perl-Mail-DKIM
-Version:        1.20200513.1
-Release:        2%{?dist}
+Version:        1.20200907
+Release:        1%{?dist}
 Summary:        Sign and verify Internet mail with DKIM/DomainKey signatures
 License:        GPL+ or Artistic
 URL:            http://dkimproxy.sourceforge.net/
@@ -43,12 +43,12 @@ Mail::SpamAssassin::Plugin::DKIM plugin.
 # Make the example scripts non-executable
 chmod -x scripts/*.pl
 # Use the real path in the shebang
-perl -pi -e 's|^#!/usr/bin/env perl|#!/usr/bin/perl|' scripts/arcverify.pl
+/usr/bin/perl -pi -e 's|^#!/usr/bin/env perl|#!/usr/bin/perl|' scripts/arcverify.pl
 # Remove dos-type line endings
-perl -pi -e 's/\r//' doc/qp1.txt
+/usr/bin/perl -pi -e 's/\r//' doc/qp1.txt
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+/usr/bin/perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
 %{make_build}
 
 
@@ -66,6 +66,21 @@ perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
 %{_mandir}/man3/*.3*
 
 %changelog
+* Sun Sep 13 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 1.20200907-1
+- Update to 1.20200907
+
+* Sun Aug 30 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 1.20200824-1
+- Update to 1.20200824
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.20200724-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 1.20200724-1
+- Update to 1.20200724
+
+* Sun Jul 12 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 1.20200708-1
+- Update to 1.20200708
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.20200513.1-2
 - Perl 5.32 rebuild
 

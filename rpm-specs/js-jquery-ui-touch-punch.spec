@@ -5,7 +5,7 @@
 
 Name:		js-%{jsname}
 Version:	0.2.3
-Release:	0.6.20141219git%{shortcommit}%{?dist}
+Release:	0.8.20141219git%{shortcommit}%{?dist}
 Summary:	Touch Event Support for jQuery UI
 
 License:	MIT or GPLv2
@@ -17,9 +17,10 @@ BuildRequires:	uglify-js
 BuildRequires:	web-assets-devel
 #		This matches js-jquery1, js-jquery2 or js-jquery
 Requires:	jquery >= 1.0
-%if %{?fedora}%{!?fedora:0} || %{?rhel}%{!?rhel:0} >= 8
+%if %{?fedora}%{!?fedora:0}
 Requires:	xstatic-jquery-ui-common >= 1.0
-%else
+%endif
+%if %{?rhel}%{!?rhel:0} == 7
 Requires:	python-XStatic-jquery-ui >= 1.0
 %endif
 Requires:	web-assets-filesystem
@@ -48,6 +49,12 @@ install -m 644 -p *.js %{buildroot}/%{_jsdir}/%{jsname}
 %doc README.md
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.3-0.8.20141219git4bc0091
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 0.2.3-0.7.20141219git4bc0091
+- Drop jquery-ui dependency for EPEL 8, package not available.
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.3-0.6.20141219git4bc0091
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

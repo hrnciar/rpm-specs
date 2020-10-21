@@ -1,6 +1,6 @@
 Name:           perl-Text-TabularDisplay
 Version:        1.38
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Display text in formatted table output
 # see TabularDisplay.pm's header
 License:        GPLv2
@@ -42,6 +42,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.38-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.38-17
 - Perl 5.32 rebuild
 

@@ -9,7 +9,7 @@ Hebrew from the Culmus project.
 
 Name:           %{fontname}-fonts
 Version:        0.130
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Fonts for Hebrew from Culmus project
 
 License:        GPLv2
@@ -341,6 +341,9 @@ install -Dm 0644 -p %{SOURCE66} \
 %{_datadir}/appdata/%{fontname}.metainfo.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.130-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.130-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

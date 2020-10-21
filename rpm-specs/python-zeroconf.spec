@@ -2,7 +2,7 @@
 %global pypi_name zeroconf
 
 Name:           python-%{pypi_name}
-Version:        0.27.1
+Version:        0.28.5
 Release:        1%{?dist}
 Summary:        Pure Python Multicast DNS Service Discovery Library
 
@@ -66,6 +66,24 @@ rm -rf %{pypi_name}.egg-info
 
 
 %changelog
+* Fri Sep 11 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.28.5-1
+- Update to 0.28.5
+
+* Wed Sep 09 2020 Yatin Karel <ykarel@redhat.com> - 0.28.4-1
+- Update to 0.28.4 (#1874041)
+
+* Thu Aug 27 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.28.2-1
+- Update to 0.28.2
+
+* Mon Aug 24 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.28.1-1
+- Update to 0.28.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.28.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.28.0-1
+- Update to 0.28.0
+
 * Fri Jun 05 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.27.1-1
 - Update to 0.27.1
 

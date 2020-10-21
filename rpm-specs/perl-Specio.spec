@@ -9,7 +9,7 @@
 
 Name:		perl-Specio
 Version:	0.46
-Release:	2%{?dist}
+Release:	4%{?dist}
 Summary:	Type constraints and coercions for Perl
 # lib/Specio/PartialDump.pm:	GPL+ or Artistic
 #				<https://github.com/houseabsolute/Specio/issues/17>
@@ -164,6 +164,12 @@ make test
 %{_mandir}/man3/Test::Specio.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.46-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.46-3
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.46-2
 - Perl 5.32 rebuild
 

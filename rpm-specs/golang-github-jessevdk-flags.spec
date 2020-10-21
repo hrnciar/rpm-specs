@@ -4,14 +4,9 @@
 # https://github.com/jessevdk/go-flags
 %global goipath         github.com/jessevdk/go-flags
 Version:                1.4.0
-%global commit          c0795c8afcf41dd1d786bebce68636c199b3bb45
+%global commit          c17162fe8fd74f119ff938c5c67af63e3bac5ded
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-jessevdk-go-flags-devel < 0-0.17
-}
 
 %global common_description %{expand:
 Package Flags provides an extensive command line option parser. The flags
@@ -23,13 +18,17 @@ specifying command line options.}
 %global godocs          examples README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        7%{?dist}
 Summary:        Go command line option parser
 
 # Upstream license specification: BSD-3-Clause
 License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
+# FTBFS: Compare date using SOURCE_DATE_EPOCH in both cases
+Patch0:         0001-Compare-date-using-SOURCE_DATE_EPOCH-in-both-cases.patch
+
+BuildRequires:  golang(golang.org/x/sys/unix)
 
 %description
 %{common_description}
@@ -38,6 +37,7 @@ Source0:        %{gosource}
 
 %prep
 %goprep
+%patch0 -p1
 
 %install
 %gopkginstall
@@ -50,6 +50,15 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 14:32:09 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.0-7.20200728gitc17162f
+- Fix FTBFS
+
+* Tue Jul 28 14:32:09 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.0-6.20200728gitc17162f
+- Bump to commit c17162fe8fd74f119ff938c5c67af63e3bac5ded
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

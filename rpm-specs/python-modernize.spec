@@ -2,7 +2,7 @@
 
 Name:           python-modernize
 Version:        0.7
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Modernizes Python code for eventual Python 3 migration
 
 License:        BSD
@@ -24,7 +24,6 @@ codebase.  The code that it generates needs python2.6+ and has a runtime
 dependency on python-six.
 
 %package -n python3-modernize
-Summary:            Fancy python dictionary types
 %{?python_provide:%python_provide python3-modernize}
 Provides: python-modernize = %{version}-%{release}
 Obsoletes: python-modernize < 0.4-3
@@ -55,6 +54,9 @@ dependency on python-six.
 %{_bindir}/python-modernize
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7-6
 - Rebuilt for Python 3.9
 

@@ -2,12 +2,13 @@
 
 Name:           python-%{srcname}
 Version:        0.3
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        A (new) cairo backend for Matplotlib
 
 License:        MIT
 URL:            https://github.com/matplotlib/mplcairo
 Source0:        %pypi_source
+Patch0001:      https://github.com/matplotlib/mplcairo/commit/d2a95cad1f605c45d55d4a8aa64a546d2b96c93f.patch
 
 BuildRequires:  gcc-c++
 
@@ -46,7 +47,52 @@ BuildRequires:  python3dist(pytest-xdist)
 BuildRequires:  python3dist(setuptools)
 BuildRequires:  python3dist(setuptools-scm)
 BuildRequires:  python3dist(sphinx)
-BuildRequires:  texlive-cm
+
+# LaTeX dependencies for tests, copied from python-matplotlib.
+BuildRequires:  texlive-latex-bin
+BuildRequires:  texlive-tex-bin
+BuildRequires:  texlive-xetex-bin
+# Search for documentclass and add the classes here.
+BuildRequires:  tex(article.cls)
+BuildRequires:  tex(minimal.cls)
+# Search for inputenc and add any encodings used with it.
+BuildRequires:  tex(utf8.def)
+BuildRequires:  tex(utf8x.def)
+# Found with: rg -Io 'usepackage(\[.+\])?\{.+\}' lib | rg -o '\{.+\}' | sort -u
+# and then removing duplicates in one line, etc.
+BuildRequires:  tex(avant.sty)
+BuildRequires:  tex(bm.sty)
+BuildRequires:  tex(chancery.sty)
+BuildRequires:  tex(charter.sty)
+BuildRequires:  tex(color.sty)
+BuildRequires:  tex(courier.sty)
+BuildRequires:  tex(euler.sty)
+BuildRequires:  tex(fontenc.sty)
+BuildRequires:  tex(fontspec.sty)
+BuildRequires:  tex(geometry.sty)
+BuildRequires:  tex(graphicx.sty)
+BuildRequires:  tex(helvet.sty)
+BuildRequires:  tex(import.sty)
+BuildRequires:  tex(inputenc.sty)
+BuildRequires:  tex(mathpazo.sty)
+BuildRequires:  tex(mathptmx.sty)
+BuildRequires:  tex(pgf.sty)
+BuildRequires:  tex(preview.sty)
+BuildRequires:  tex(psfrag.sty)
+BuildRequires:  tex(sfmath.sty)
+BuildRequires:  tex(textcomp.sty)
+BuildRequires:  tex(txfonts.sty)
+BuildRequires:  tex(type1cm.sty)
+BuildRequires:  tex(type1ec.sty)
+BuildRequires:  tex(unicode-math.sty)
+# See BakomaFonts._fontmap in lib/matplotlib/mathtext.py
+BuildRequires:  tex(cmb10.tfm)
+BuildRequires:  tex(cmex10.tfm)
+BuildRequires:  tex(cmmi10.tfm)
+BuildRequires:  tex(cmr10.tfm)
+BuildRequires:  tex(cmss10.tfm)
+BuildRequires:  tex(cmsy10.tfm)
+BuildRequires:  tex(cmtt10.tfm)
 
 Requires:       cairo >= 1.15.4
 Requires:       libraqm >= 0.7.0
@@ -88,9 +134,9 @@ export SETUPTOOLS_SCM_PRETEND_VERSION=%{version}
 %check
 export PYTHONPATH="%{buildroot}%{python3_sitearch}" PYTHONDONTWRITEBYTECODE=1
 
-%{__python3} -c 'import mplcairo.base'
+%{python3} -c 'import mplcairo.base'
 
-MPLBACKEND=module://mplcairo.base %{__python3} - <<EOF
+MPLBACKEND=module://mplcairo.base %{python3} - <<EOF
 import matplotlib.pyplot as plt
 print(plt.get_backend())
 fig, ax = plt.subplots()
@@ -98,7 +144,7 @@ fig.savefig("/dev/null", format="png")
 EOF
 
 # 50 is upstream recommended tolerance since results won't match MPL exactly.
-%{__python3} run-mpl-test-suite.py --tolerance=50 -m 'not network' -v -n auto
+%{python3} run-mpl-test-suite.py --tolerance=50 -m 'not network' -v -n auto
 
 
 %files -n python3-%{srcname}
@@ -106,10 +152,20 @@ EOF
 %doc README.rst
 %{python3_sitearch}/%{srcname}
 %{python3_sitearch}/%{srcname}.pth
-%{python3_sitearch}/%{srcname}-%{version}-py*.egg-info
+%{python3_sitearch}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.3-2
+- Backport fix for Matplotlib 3.3.0rc1
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3-2
 - Rebuilt for Python 3.9
 

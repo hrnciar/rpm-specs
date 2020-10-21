@@ -1,7 +1,8 @@
+%undefine __cmake_in_source_build
 %global framework kdelibs4support
 
 Name:    kf5-%{framework}
-Version: 5.71.0
+Version: 5.75.0
 Release: 1%{?dist}
 Summary: KDE Frameworks 5 Tier 4 module with porting aid from KDELibs 4
 License: GPLv2+ and LGPLv2+ and BSD
@@ -117,20 +118,17 @@ developing applications that use %{name}.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
 # Set absolute BIN_INSTALL_DIR, otherwise CMake will complain about mixed use of
 # absolute and relative paths for some reason
 # Remove once fixed upstream
-%{cmake_kf5} .. \
+%{cmake_kf5} \
         -DBIN_INSTALL_DIR=%{_kf5_bindir}
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang all --all-name --with-man %{?_with_html}
 
@@ -197,6 +195,21 @@ rm -fv %{buildroot}%{_kf5_sysconfdir}/xdg/kdebugrc
 
 
 %changelog
+* Wed Oct 14 09:51:27 CDT 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.75.0-1
+- 5.75.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.74.0-1
+- 5.74.0
+
+* Mon Aug 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.73.0-1
+- 5.73.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.72.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-1
+- 5.72.0
+
 * Tue Jun 16 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.71.0-1
 - 5.71.0
 

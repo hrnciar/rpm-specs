@@ -1,6 +1,6 @@
 Name:           pachi
 Version:        1.0
-Release:        30%{?dist}
+Release:        31%{?dist}
 Summary:        Pachi El Marciano - Platform Game
 License:        GPLv2+
 URL:            http://dragontech.sourceforge.net/index.php?main=pachi&lang=en
@@ -76,6 +76,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

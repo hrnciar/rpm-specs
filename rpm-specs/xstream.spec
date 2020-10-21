@@ -41,7 +41,7 @@
 
 Name:           xstream
 Version:        1.4.12
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        Java XML serialization library
 License:        BSD
 URL:            http://x-stream.github.io/
@@ -54,6 +54,7 @@ Patch0:         xstream-java-8-target.patch
 
 BuildRequires:  maven-local
 BuildRequires:  mvn(cglib:cglib)
+BuildRequires:  mvn(com.sun.activation:jakarta.activation)
 BuildRequires:  mvn(javax.xml.bind:jaxb-api)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-antrun-plugin)
@@ -61,6 +62,7 @@ BuildRequires:  mvn(org.apache.maven.plugins:maven-enforcer-plugin)
 BuildRequires:  mvn(org.codehaus.mojo:build-helper-maven-plugin)
 BuildRequires:  mvn(xpp3:xpp3)
 BuildRequires:  mvn(xpp3:xpp3_min)
+
 
 %if %{with dom4j}
 BuildRequires:  mvn(dom4j:dom4j)
@@ -185,9 +187,6 @@ find . -name "*.jar" -print -delete
 
 %pom_remove_plugin :maven-javadoc-plugin xstream
 
-# provided by JDK
-%pom_remove_dep javax.activation:activation xstream
-
 %pom_xpath_set "pom:project/pom:dependencies/pom:dependency[pom:groupId = 'cglib' ]/pom:artifactId" cglib xstream-hibernate
 %pom_xpath_inject "pom:project/pom:dependencies/pom:dependency[pom:groupId = 'junit' ]" "<scope>test</scope>" xstream-hibernate
 %pom_remove_plugin :maven-dependency-plugin xstream-hibernate
@@ -195,6 +194,9 @@ find . -name "*.jar" -print -delete
 
 %pom_xpath_inject "pom:project/pom:dependencies/pom:dependency[pom:groupId = 'junit' ]" "<scope>test</scope>" xstream-benchmark
 %pom_remove_plugin :maven-javadoc-plugin xstream-benchmark
+
+# Fix dep on activation
+%pom_change_dep javax.activation:activation com.sun.activation:jakarta.activation . xstream
 
 %if %{without dom4j}
 %pom_remove_dep -r dom4j:dom4j
@@ -288,6 +290,15 @@ rm xstream-benchmark/src/java/com/thoughtworks/xstream/tools/benchmark/products/
 %license LICENSE.txt
 
 %changelog
+* Fri Aug 07 2020 Mat Booth <mat.booth@redhat.com> - 1.4.12-6
+- Allow building on JDK11
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.12-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.4.12-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jun 17 2020 Fabio Valentini <decathorpe@gmail.com> - 1.4.12-3
 - Disable unused optional dom4j, jdom, jdom2, kxml, and woodstox support.
 

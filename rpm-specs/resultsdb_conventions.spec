@@ -21,11 +21,11 @@ to help with reporting results that conform to the conventions.
 
 %global pagure_namespace    taskotron
 %global pagure_name         resultsdb_conventions
-%global pagure_version      2.0.3
+%global pagure_version      2.1.0
 
 Name:           resultsdb_conventions
 Version:        %{pagure_version}
-Release:        13%{?dist}
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        GPLv3+
@@ -116,6 +116,8 @@ dependencies. This is the Python 3 build.
 
 %prep
 %autosetup -p1
+# this is needed for doing sdist, but not for anything else
+sed -i -e '/setuptools_git/d' setup.py
 
 %build
 %if 0%{?with_python2}
@@ -157,13 +159,30 @@ dependencies. This is the Python 3 build.
 %doc README.md CHANGELOG.md
 %license COPYING
 %{python3_sitelib}/resultsdb_conventions*
-%exclude %{python3_sitelib}/resultsdb_conventions/fedora.py*
+%exclude %{python3_sitelib}/resultsdb_conventions/fedora.py
+%pycached %exclude %{python3_sitelib}/resultsdb_conventions/fedora.py
+%exclude %{python3_sitelib}/resultsdb_conventions/fedoracoreos.py
+%pycached %exclude %{python3_sitelib}/resultsdb_conventions/fedoracoreos.py
 
 %files -n python%{python3_pkgversion}-resultsdb_conventions-fedora
-%{python3_sitelib}/resultsdb_conventions/fedora.py*
+%{python3_sitelib}/resultsdb_conventions/fedora.py
+%pycached %{python3_sitelib}/resultsdb_conventions/fedora.py
+%{python3_sitelib}/resultsdb_conventions/fedoracoreos.py
+%pycached %{python3_sitelib}/resultsdb_conventions/fedoracoreos.py
+
 %endif # with_python3
 
 %changelog
+* Fri Aug 28 2020 Adam Williamson <awilliam@redhat.com> - 2.1.0-2
+- Move fedora cache file into fedora subpackage
+- Move fedoracores files into fedora subpackage
+
+* Thu Aug 27 2020 Adam Williamson <awilliam@redhat.com> - 2.1.0-1
+- New release 2.1.0 (adds Fedora CoreOS conventions)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.3-13
 - Rebuilt for Python 3.9
 

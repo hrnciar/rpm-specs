@@ -4,7 +4,7 @@
 
 Name:           xdg-desktop-portal-wlr
 Version:        0.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        xdg-desktop-portal backend for wlroots
 
 License:        MIT
@@ -71,5 +71,8 @@ remote-desktop xdg-desktop-portal interfaces for wlroots based compositors.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 06 2020 Aleksei Bavshin <alebastr89@gmail.com> - 0.1.0-1
 - Initial import (#1831981)

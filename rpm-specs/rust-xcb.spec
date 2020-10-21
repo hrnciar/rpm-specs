@@ -9,7 +9,7 @@
 
 Name:           rust-%{crate}
 Version:        0.9.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Rust bindings and wrappers for XCB
 
 # Upstream license specification: MIT
@@ -464,6 +464,9 @@ which use "xvmc" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 27 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.9.0-3
 - devel package now pulls in pkgconfig(xcb) for building dependents
 

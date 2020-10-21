@@ -2,41 +2,33 @@
 %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 Name:       suil
-Version:    0.10.6
-Release:    2%{?dist}
+Version:    0.10.8
+Release:    1%{?dist}
 Summary:    A lightweight C library for loading and wrapping LV2 plugin UIs
 
 License:    MIT 
 URL:        http://drobilla.net/software/suil/
 Source0:    http://download.drobilla.net/%{name}-%{version}.tar.bz2
-# Patch sent upstream https://github.com/drobilla/suil/pull/10
-Patch0:     %{name}-wrong-cocoa-detection.patch
 
 
 BuildRequires:  doxygen
 BuildRequires:  graphviz
 # https://fedoraproject.org/wiki/Packaging:Python#Dependencies
 BuildRequires:  python3
-BuildRequires:  lv2-devel >= 1.12.0
+BuildRequires:  lv2-devel >= 1.16.0
 # we need to track changess to these toolkits manually due to the 
 # requires filtering below
 BuildRequires:  gtk2-devel >= 2.18.0
 BuildRequires:  gtk3-devel >= 3.14.0
 BuildRequires:  qt4-devel >= 4.4.0
-BuildRequires:  qt5-devel >= 5.1.0
 BuildRequires:  gcc-c++
+BuildRequires:  pkgconfig(Qt5Core) >= 5.1.0
+BuildRequires:  pkgconfig(Qt5Widgets) >= 5.1.0
+BuildRequires:  pkgconfig(Qt5X11Extras) >= 5.1.0
 
-# lets not necessarily pull in toolkits dependancies. They will be provided by
+# Lets not necessarily pull in toolkits dependancies. They will be provided by
 # the host and or the plugin
-%filter_from_requires /.*libatk.*/d
-%filter_from_requires /.*libcairo.*/d
-%filter_from_requires /.*libfont.*/d
-%filter_from_requires /.*libfree.*/d
-%filter_from_requires /.*libg.*/d
-%filter_from_requires /.*libpango.*/d
-%filter_from_requires /.*libQt.*/d
-%filter_from_requires /.*libX*/d
-%filter_setup
+%define __requires_exclude ^lib.*$
 
 %description
 %{name} makes it possible to load a UI of any toolkit in a host using any other 
@@ -54,23 +46,22 @@ This package contains the headers and development libraries for %{name}.
 
 %prep
 %autosetup
-# we'll run ldconfig, and add our optflags 
+# Don't run ldconfig
 sed -i -e "s|bld.add_post_fun(autowaf.run_ldconfig)||" wscript
 
 %build
-export CXXFLAGS="%{optflags}"
-export LINKFLAGS="%{__global_ldflags}"
-python3 waf configure \
+%set_build_flags
+%{python3} waf configure \
     --prefix=%{_prefix} \
     --libdir=%{_libdir} \
     --mandir=%{_mandir} \
     --docdir=%{_pkgdocdir} \
     --no-cocoa \
     --docs 
-python3 waf build -v %{?_smp_mflags}
+%{python3} waf build -v %{?_smp_mflags}
 
 %install
-DESTDIR=%{buildroot} python3 waf install
+DESTDIR=%{buildroot} %{python3} waf install
 chmod +x %{buildroot}%{_libdir}/lib%{name}-0.so.*
 install -pm 644 AUTHORS COPYING NEWS README.md %{buildroot}%{_pkgdocdir}
 
@@ -80,7 +71,7 @@ install -pm 644 AUTHORS COPYING NEWS README.md %{buildroot}%{_pkgdocdir}
 %exclude %{_pkgdocdir}/COPYING
 %license COPYING
 %dir %{_libdir}/suil-%{maj}
-%{_libdir}/lib%{name}-*.so.*
+%{_libdir}/lib%{name}-*.so.%{maj}*
 %{_libdir}/suil-%{maj}/libsuil_gtk2_in_qt4.so
 %{_libdir}/suil-%{maj}/libsuil_qt4_in_gtk2.so
 %{_libdir}/suil-%{maj}/libsuil_x11_in_qt4.so
@@ -100,6 +91,29 @@ install -pm 644 AUTHORS COPYING NEWS README.md %{buildroot}%{_pkgdocdir}
 %{_mandir}/man3/%{name}.3*
 
 %changelog
+* Sun Oct 04 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.10.8-1
+- Update to 0.10.8
+
+* Thu Sep 03 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.10.6-7
+- Remove old style dependency generators
+- Correctly glob shared libraries
+- Set all compiler flags
+
+* Wed Aug 12 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.10.6-6
+- Fix FTBFS in Fedora rawhide/f33
+- Add minimal qt5 BRs
+- Correct wrong date in changelog
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.6-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Jeff Law <law@redhat.com> - 0.10.6-3
+- Drop qt5-devel buildrequires
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

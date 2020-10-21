@@ -67,7 +67,7 @@
 
 Name:          %{composer_project}
 Version:       %{github_version}
-Release:       6%{?github_release}%{?dist}
+Release:       7%{?github_release}%{?dist}
 Summary:       Command line shell and scripting interface for Drupal
 
 License:       GPLv2+
@@ -371,6 +371,9 @@ UNISH_DRUSH=%{buildroot}%{drush_dir}/drush \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.1.16-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Shawn Iwinski <shawn@iwin.ski> - 8.1.16-6
 - Bump max php-composer(consolidation/annotated-command) and
   php-composer(consolidation/output-formatters) dependency versions

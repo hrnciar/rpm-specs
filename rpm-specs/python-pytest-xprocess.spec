@@ -2,20 +2,20 @@
 %global pypi_name pytest-xprocess
 
 Name:           python-%{pypi_name}
-Version:        0.12.1
-Release:        6%{?dist}
+Version:        0.13.1
+Release:        2%{?dist}
 Summary:        Pytest plugin to manage external processes across test runs
 
 License:        MIT
 URL:            https://github.com/pytest-dev/pytest-xprocess/
 Source0:        %{pypi_source}
 BuildArch:      noarch
- 
+
 BuildRequires:  python3-devel
 BuildRequires:  python3dist(psutil)
 BuildRequires:  python3dist(pytest)
-BuildRequires:  python3dist(pytest-cache)
 BuildRequires:  python3dist(setuptools)
+BuildRequires:  python3dist(setuptools-scm)
 
 %description
 Experimental py.test <>_ plugin for managing processes across test runs.Usage
@@ -28,10 +28,9 @@ line...
 %package -n     python3-%{pypi_name}
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{pypi_name}}
- 
+
 Requires:       python3dist(psutil)
 Requires:       python3dist(pytest)
-Requires:       python3dist(pytest-cache)
 Requires:       python3dist(setuptools)
 %description -n python3-%{pypi_name}
 Experimental py.test <>_ plugin for managing processes across test runs.Usage
@@ -64,6 +63,12 @@ chmod -x README.rst
 %{python3_sitelib}/pytest_xprocess-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 0.13.1-1
+- Update to pytest-xprocess-0.13.1
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.12.1-6
 - Rebuilt for Python 3.9
 

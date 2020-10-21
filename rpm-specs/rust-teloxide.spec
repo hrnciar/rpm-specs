@@ -5,17 +5,14 @@
 %global crate teloxide
 
 Name:           rust-%{crate}
-Version:        0.2.0
-Release:        2%{?dist}
+Version:        0.3.1
+Release:        1%{?dist}
 Summary:        Elegant Telegram bots framework for Rust
 
 # Upstream license specification: MIT
 License:        MIT
 URL:            https://crates.io/crates/teloxide
 Source:         %{crates_source}
-# Initial patched metadata
-# * Update tokio-util to 0.3, https://github.com/teloxide/teloxide/commit/b7a551a937ac9f98626e3316ac945f3a192d22b2
-Patch0:         teloxide-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -55,6 +52,102 @@ which use "default" feature of "%{crate}" crate.
 %files       -n %{name}+default-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+bincode-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+bincode-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "bincode" feature of "%{crate}" crate.
+
+%files       -n %{name}+bincode-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+bincode-serializer-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+bincode-serializer-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "bincode-serializer" feature of "%{crate}" crate.
+
+%files       -n %{name}+bincode-serializer-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+cbor-serializer-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+cbor-serializer-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "cbor-serializer" feature of "%{crate}" crate.
+
+%files       -n %{name}+cbor-serializer-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+frunk-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+frunk-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "frunk" feature of "%{crate}" crate.
+
+%files       -n %{name}+frunk-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+frunk--devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+frunk--devel %{_description}
+
+This package contains library source intended for building other packages
+which use "frunk-" feature of "%{crate}" crate.
+
+%files       -n %{name}+frunk--devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+redis-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+redis-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "redis" feature of "%{crate}" crate.
+
+%files       -n %{name}+redis-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+redis-storage-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+redis-storage-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "redis-storage" feature of "%{crate}" crate.
+
+%files       -n %{name}+redis-storage-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+serde_cbor-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+serde_cbor-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "serde_cbor" feature of "%{crate}" crate.
+
+%files       -n %{name}+serde_cbor-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
 # https://github.com/teloxide/teloxide/issues/173
@@ -76,6 +169,16 @@ find -type f -executable -exec chmod -x "{}" +
 %endif
 
 %changelog
+* Thu Oct 15 2020 Fabio Valentini <decathorpe@gmail.com> - 0.3.1-1
+- Update to version 0.3.1.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 14 19:55:18 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.0-2
 - Update tokio-util to 0.3
 

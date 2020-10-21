@@ -1,6 +1,6 @@
 Name:           perl-Test-Pod-LinkCheck
 Version:        0.008
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        Tests POD for invalid links
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test-Pod-LinkCheck
@@ -71,6 +71,9 @@ unset RELEASE_TESTING
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.008-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.008-23
 - Perl 5.32 rebuild
 

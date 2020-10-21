@@ -1,11 +1,11 @@
 %global packname Cairo
-%global packver  1.5-12
+%global packver  1.5-12.2
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          1.5.12
+Version:          1.5.12.2
 Release:          2%{?dist}
-Summary:          Use Cairo for high-quality bitmap, vector and display output
+Summary:          Use Cairo for high-quality bitmap, vector, and display output
 
 License:          GPLv2
 URL:              https://CRAN.R-project.org/package=%{packname}
@@ -72,6 +72,15 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.12.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.5.12.2-1
+- Update to latest version
+
+* Thu Jun 25 2020 José Abílio Matos <jamatos@fc.up.pt> - 1.5.12-3
+- bump version to ensure upgrade path (due to a F32 rebuild)
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 1.5.12-2
 - Rebuild for R 4
 

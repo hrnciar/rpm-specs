@@ -1,6 +1,6 @@
 Name:           notification-daemon-engine-nodoka
 Version:        0.1.0
-Release:        30%{?dist}
+Release:        31%{?dist}
 Summary:        The Nodoka theme engine for the notification daemon
 
 License:        GPLv3+
@@ -55,6 +55,9 @@ find $RPM_BUILD_ROOT -name *.la | xargs rm -f || true
 %{_libdir}/notification-daemon-1.0/engines/libnodoka.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

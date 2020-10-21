@@ -1,11 +1,12 @@
 Name:		fuse3
-Version:	3.9.2
-Release:	1%{?dist}
+Version:	3.10.0
+Release:	2%{?dist}
 Summary:	File System in Userspace (FUSE) v3 utilities
 License:	GPL+
 URL:		http://fuse.sf.net
 Source0:	https://github.com/libfuse/libfuse/archive/fuse-%{version}.tar.gz
 Source1:	fuse.conf
+Patch0:         fuse3-gcc11.patch
 
 BuildRequires:	which
 %if ! 0%{?el6}
@@ -65,6 +66,7 @@ Common files for FUSE v2 and FUSE v3.
 
 %prep
 %setup -n libfuse-fuse-%{version}
+%patch0 -p1
 
 %build
 export LC_ALL=en_US.UTF-8
@@ -154,6 +156,22 @@ rm -f %{buildroot}/usr/lib/udev/rules.d/99-fuse3.rules
 %endif
 
 %changelog
+* Wed Oct 14 2020 Jeff Law <law@redhat.com> - 3.10.0-2
+- Add missing #include for gcc-11
+
+* Mon Oct 12 2020 Tom Callaway <spot@fedoraproject.org> - 3.10.0-1
+- update to 3.10.0
+- enable lto
+
+* Mon Aug 10 2020 Tom Callaway <spot@fedoraproject.org> - 3.9.4-1
+- update to 3.9.4
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  1 2020 Jeff Law <law@redhat.com> - 3.9.2-2
+- Disable LTO
+
 * Thu Jun 18 2020 Tom Callaway <spot@fedoraproject.org> - 3.9.2-1
 - update to 3.9.2
 

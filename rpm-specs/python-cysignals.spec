@@ -5,7 +5,7 @@
 
 Name:		python-%{modname}
 Version:	1.10.2
-Release:	7%{?dist}
+Release:	9%{?dist}
 Summary:	Interrupt and signal handling for Cython
 License:	LGPLv3+
 URL:		https://github.com/sagemath/%{modname}
@@ -44,7 +44,6 @@ See http://cysignals.readthedocs.org/ for the full documentation.}
 
 %package	-n python3-%{modname}
 Summary:	%{summary}
-%{?python_provide:%python_provide python3-%{modname}}
 BuildRequires:	python3-devel
 BuildRequires:	python3-docs
 BuildRequires:	python3dist(cython)
@@ -54,7 +53,6 @@ BuildRequires:	python3dist(setuptools)
 
 %package	-n python3-%{modname}-devel
 Summary:	%{summary} headers files
-%{?python_provide:%python_provide python3-%{modname}-devel}
 Requires:	python3-%{modname}
 
 %description	-n python3-%{modname}-devel %{_description}
@@ -118,6 +116,13 @@ export PATH PYTHONPATH
 %{_docdir}/%{name}/html
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.2-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.10.2-7
 - Rebuilt for Python 3.9
 

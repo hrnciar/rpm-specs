@@ -15,7 +15,7 @@
 
 Name:           nettle
 Version:        3.6
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        A low-level cryptographic library
 
 License:        LGPLv3+ or GPLv2+
@@ -79,7 +79,7 @@ sed 's/ecc-secp224r1.c//g' -i Makefile.in
 %build
 autoreconf -ifv
 %configure --enable-shared --enable-fat
-make %{?_smp_mflags}
+%make_build
 
 %if 0%{?bootstrap}
 pushd bootstrap_ver
@@ -121,7 +121,7 @@ chmod 0755 $RPM_BUILD_ROOT%{_libdir}/libnettle.so.%{nettle_so_ver_old}.*
 chmod 0755 $RPM_BUILD_ROOT%{_libdir}/libhogweed.so.%{hogweed_so_ver_old}.*
 %endif
 
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
+%make_install
 make install-shared DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 mkdir -p $RPM_BUILD_ROOT%{_infodir}
 install -p -m 644 nettle.info $RPM_BUILD_ROOT%{_infodir}/
@@ -170,6 +170,13 @@ make check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 3.6-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Mon May  4 2020 Daiki Ueno <dueno@redhat.com> - 3.6-1
 - Update to nettle 3.6
 

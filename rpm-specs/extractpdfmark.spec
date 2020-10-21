@@ -1,18 +1,16 @@
 Name:           extractpdfmark
 Version:        1.1.0
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Extract page mode and named destinations as PDFmark from PDF
 
 License:        GPLv3+
 URL:            https://github.com/trueroad/extractpdfmark/
 Source0:        https://github.com/trueroad/extractpdfmark/releases/download/v%{version}/%{name}-%{version}.tar.gz
 
-Patch0:         extractpdfmark-1.1.0-poppler-0.84.0.patch
-
 BuildRequires:  automake
 BuildRequires:  gcc-c++
 BuildRequires:  gettext-devel
-BuildRequires:  poppler-devel
+BuildRequires:  poppler-cpp-devel
 
 %description
 When you create a PDF document using something like a TeX system you may include
@@ -47,7 +45,7 @@ PDF. By using this you can get the small PDF files that have preserved them.
 
 
 %build
-%configure
+%configure --with-poppler=cpp
 %make_build
 
 
@@ -69,6 +67,12 @@ make check
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Marek Kasik <mkasik@redhat.com> - 1.1.0-5
+- Use stable cpp front-end of poppler
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

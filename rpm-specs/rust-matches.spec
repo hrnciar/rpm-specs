@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.1.8
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Macro to evaluate, as a boolean, whether an expression matches a pattern
 
 # Upstream license specification: MIT
@@ -70,6 +70,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.8-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.8-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

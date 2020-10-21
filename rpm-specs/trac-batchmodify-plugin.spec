@@ -1,6 +1,6 @@
 Name:           trac-batchmodify-plugin
 Version:        0.8.0
-Release:        20151235svn11791%{?dist}
+Release:        20151236svn11791%{?dist}
 Summary:        Batch modification of tickets
 
 License:        BSD
@@ -31,6 +31,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python2_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-20151236svn11791
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-20151235svn11791
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

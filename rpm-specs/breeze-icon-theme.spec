@@ -6,7 +6,7 @@
 
 Name:    breeze-icon-theme
 Summary: Breeze icon theme
-Version: 5.71.0
+Version: 5.75.0
 Release: 1%{?dist}
 
 # http://techbase.kde.org/Policies/Licensing_Policy
@@ -72,16 +72,13 @@ sed -i -e "s|%{version}|%{kf5_version}|g" CMakeLists.txt
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 ## icon optimizations
 #du -s  .
@@ -148,6 +145,25 @@ fi
 
 
 %changelog
+* Wed Oct 14 09:42:50 CDT 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.75.0-1
+- 5.75.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.74.0-1
+- 5.74.0
+
+* Mon Aug 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.73.0-1
+- 5.73.0, use %%cmake_build %%cmake_install
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.72.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.72.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-1
+- 5.72.0
+
 * Tue Jun 16 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.71.0-1
 - 5.71.0
 

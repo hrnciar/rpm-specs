@@ -1,7 +1,7 @@
 %global pkgname transgrp
 
 Name:           gap-pkg-%{pkgname}
-Version:        2.0.5
+Version:        3.0
 Release:        1%{?dist}
 Summary:        Transitive groups library
 BuildArch:      noarch
@@ -56,8 +56,8 @@ This package contains documentation for gap-pkg-%{pkgname}.
 %setup -q -n %{pkgname}
 %setup -q -T -D -a 1 -n %{pkgname}
 
-# Remove MacOS X save files
-find . -name ._\* -delete
+# Fix the test options
+sed -i 's/\(ignoreComments.*)\)/testOptions:=rec(\1)/' tst/testall.g
 
 %build
 # Compress large group files
@@ -94,6 +94,12 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}/htm/
 
 %changelog
+* Sat Aug  1 2020 Jerry James <loganjerry@gmail.com> - 3.0-1
+- Version 3.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 25 2020 Jerry James <loganjerry@gmail.com> - 2.0.5-1
 - Version 2.0.5
 

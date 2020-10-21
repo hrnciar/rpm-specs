@@ -1,95 +1,82 @@
-%global _hardened_build 1
-
 Name:           fcgi
 Version:        2.4.0
-Release:        37%{?dist}
+Release:        38%{?dist}
 Summary:        FastCGI development kit
 
 License:        OML
 URL:            http://www.fastcgi.com/#TheDevKit
 Source0:        http://fastcgi.com/dist/fcgi-%{version}.tar.gz
-Source1:        fcgi-autogen.sh
-Patch0:         fcgi-2.4.0-autotools.patch
-# Patch0 created with Source1 after patching Patch1 and Patch2
-Patch1:         fcgi-2.4.0-configure.in.patch
-Patch2:         fcgi-2.4.0-Makefile.am-CPPFLAGS.patch
-Patch3:         fcgi-2.4.0-gcc44_fixes.patch
+
+Patch1:         fcgi-2.4.0-autotools.patch
+Patch2:         fcgi-2.4.0-gcc44_fixes.patch
 # CVE-2012-6687
-Patch4:         fcgi-2.4.0-poll.patch
+Patch3:         fcgi-2.4.0-poll.patch
+
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
+BuildRequires:  sed
+BuildRequires:  coreutils
 
 %description
 FastCGI is a language independent, scalable, open extension to CGI that
 provides high performance without the limitations of server specific APIs.
 
-
 %package        devel
 Summary:        Development files for %{name}
 Requires:       %{name} = %{version}-%{release}
-
 
 %description    devel
 The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
 
-
 %prep
-%setup -q
-%patch0 -p1
-%patch3 -p1 -b .gcc44_fixes
-%patch4 -p1 -b .poll
+%autosetup -p 1
 
 # remove DOS End Of Line Encoding
 sed -i 's/\r//' doc/fastcgi-prog-guide/ch2c.htm
-# fix file permissions
-chmod a-x include/fcgios.h libfcgi/os_unix.c
 
+# fix file permissions
+chmod a-x include/fcgios.h libfcgi/os_unix.c LICENSE.TERMS doc/fastcgi-prog-guide/*
 
 %build
 %configure
-# does not build with parallel make flags
-make
 
+%make_build -j1
 
 %install
-rm -rf $RPM_BUILD_ROOT
-mkdir $RPM_BUILD_ROOT
+%make_install
 
-make install DESTDIR=$RPM_BUILD_ROOT
-rm $RPM_BUILD_ROOT/%{_libdir}/libfcgi{++,}.{l,}a
-install -p -m 0644 -D doc/cgi-fcgi.1 $RPM_BUILD_ROOT%{_mandir}/man1/cgi-fcgi.1
+rm %{buildroot}%{_libdir}/libfcgi{++,}.{l,}a
+
+install -p -m 0644 -D doc/cgi-fcgi.1 %{buildroot}%{_mandir}/man1/cgi-fcgi.1
+
 for manpage in doc/*.3
 do
-install -p -m 0644 -D $manpage $RPM_BUILD_ROOT%{_mandir}/man3/$(basename $manpage)
+install -p -m 0644 -D $manpage %{buildroot}%{_mandir}/man3/$(basename $manpage)
 done
+
 rm -f -- doc/*.1
 rm -f -- doc/*.3
-
-
-%ldconfig_scriptlets
-
 
 %files
 %{_bindir}/cgi-fcgi
 %{_libdir}/libfcgi.so.*
 %{_libdir}/libfcgi++.so.*
 %{_mandir}/man1/*
-%defattr(0644,root,root,0755)
 %license LICENSE.TERMS
 %doc LICENSE.TERMS
-
 
 %files devel
 %{_includedir}/*
 %{_libdir}/libfcgi.so
 %{_libdir}/libfcgi++.so
 %{_mandir}/man3/*
-%defattr(0644,root,root,0755)
 %doc doc/
 
-
 %changelog
+* Tue Jul 28 2020 Andrew Bauer <zonexpertconsulting@outlook.com> - 2.4.0-38
+- Modernize specfile
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-37
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

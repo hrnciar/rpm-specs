@@ -11,8 +11,13 @@
 %global debug_package   %{nil}
 %endif
 
+%if 0%{?rhel} > 7 && ! 0%{?fedora}
+%define gobuild(o:) \
+go build -buildmode pie -compiler gc -tags="rpm_crashtraceback libtrust_openssl ${BUILDTAGS:-}" -ldflags "${LDFLAGS:-} -compressdwarf=false -B 0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \\n') -extldflags '%__global_ldflags'" -a -v -x %{?**};
+%else
 %if ! 0%{?gobuild:1}
-%define gobuild(o:) GO111MODULE=off go build -buildmode pie -compiler gc -tags="rpm_crashtraceback ${BUILDTAGS:-}" -ldflags "${LDFLAGS:-} -B 0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n') -extldflags '-Wl,-z,relro -Wl,--as-needed  -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld '" -a -v -x %{?**};
+%define gobuild(o:) GO111MODULE=off go build -buildmode pie -compiler gc -tags="rpm_crashtraceback ${BUILDTAGS:-}" -ldflags "${LDFLAGS:-} -B 0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \\n') -extldflags '-Wl,-z,relro -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld '" -a -v -x %{?**};
+%endif
 %endif
 
 %global provider github
@@ -20,26 +25,20 @@
 %global project containers
 %global repo oci-seccomp-bpf-hook
 # https://github.com/containers/oci-seccomp-bpf-hook
-%global import_path %{provider}.%{provider_tld}/%{project}/%{repo}
-%global git0 https://%{import_path}
-%global commit0 05a82a1227fb47c34a28537699d3c05e8d4463f8
-%global shortcommit0 %(c=%{commit0}; echo ${c:0:8})
+%global provider_prefix %{provider}.%{provider_tld}/%{project}/%{repo}
+%global import_path %{provider_prefix}
+%global git0 https://%{provider}.%{provider_tld}/%{project}/%{repo}
 
-# bcc is built only for these arches
-ExclusiveArch: x86_64 %{power64} aarch64 s390x
-
-# Used for comparing with latest upstream tag
-# to decide whether to autobuild (non-rawhide only)
-%define built_tag v1.1.0
-%define built_tag_strip %(b=%{built_tag}; echo ${b:1})
+# use the same arch definitions as present in the bcc package
+ExclusiveArch:  x86_64 %{power64} aarch64 s390x armv7hl
 
 Name: oci-seccomp-bpf-hook
-Version: 1.1.0
-Release: 1.1.git%{shortcommit0}%{?dist}
+Version: 1.2.0
+Release: 4%{?dist}
 Summary: OCI Hook to generate seccomp json files based on EBF syscalls used by container
 License: ASL 2.0
 URL: %{git0}
-Source0: %{git0}/archive/%{commit0}/%{repo}-%{shortcommit0}.tar.gz
+Source0: %{git0}/archive/v%{version}.tar.gz
 BuildRequires: golang
 BuildRequires: go-md2man
 BuildRequires: glib2-devel
@@ -58,26 +57,34 @@ Enhances: cri-o
 the Container Pod concept popularized by Kubernetes.
 
 %prep
-%autosetup -Sgit -n %{repo}-%{commit0}
+%autosetup -Sgit
+sed -i '/$(MAKE) -C docs install/d' Makefile
+sed -i 's/HOOK_BIN_DIR/\%{_usr}\/libexec\/oci\/hooks.d/' %{name}.json
+sed -i '/$(HOOK_DIR)\/%{name}.json/d' Makefile
 
 %build
+export GO111MODULE=off
+export GOPATH=$(pwd):$(pwd)/_build
+export CGO_CFLAGS="%{optflags} -D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
+
 mkdir _build
 pushd _build
 mkdir -p src/%{provider}.%{provider_tld}/%{project}
 ln -s ../../../../ src/%{import_path}
 popd
 ln -s vendor src
+
 export GOPATH=$(pwd)/_build:$(pwd)
+export LDFLAGS="-X main.version=%{version}"
 %gobuild -o bin/%{name} %{import_path}
-%{__make} GOMD2MAN=go-md2man -C docs
+
+pushd docs
+go-md2man -in %{name}.md -out %{name}.1
+popd
 
 %install
-%{__make} \
-      DESTDIR=%{buildroot} \
-      PREFIX=%{_prefix} \
-      OCI-SECCOMP-BPF_VERSION=%{version} \
-      install-nobuild \
-      install.docs-nobuild
+%{__make} DESTDIR=%{buildroot} PREFIX=%{_prefix} install-nobuild
+%{__make} DESTDIR=%{buildroot} PREFIX=%{_prefix} GOMD2MAN=go-md2man -C docs install-nobuild
 
 %check
 %if 0%{?with_check} && 0%{?with_unit_test} && 0%{?with_devel}
@@ -102,16 +109,39 @@ export GOPATH=%{buildroot}/%{gopath}:$(pwd)/vendor:%{gopath}
 %files
 %license LICENSE
 %doc README.md
-%dir %{_libexecdir}/oci
 %dir %{_libexecdir}/oci/hooks.d
 %{_libexecdir}/oci/hooks.d/%{name}
-%dir %{_datadir}/containers
-%dir %{_datadir}/containers/oci
-%dir %{_datadir}/containers/oci/hooks.d
 %{_datadir}/containers/oci/hooks.d/%{name}.json
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Fri Oct 02 2020 Jindrich Novy <jnovy@redhat.com> - 1.2.0-4
+- use the same arch definitions as present in the bcc package
+
+* Fri Oct 02 2020 Jindrich Novy <jnovy@redhat.com> - 1.2.0-3
+- exclude also armv7hl arch as bcc is not built there
+
+* Wed Sep 30 2020 Jindrich Novy <jnovy@redhat.com> - 1.2.0-2
+- fix spec file to accommodate the new upstream release
+
+* Wed Sep 30 2020 Jindrich Novy <jnovy@redhat.com> - 1.2.0-1
+- update to
+  https://github.com/containers/oci-seccomp-bpf-hook/releases/tag/v1.2.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Jindrich Novy <jnovy@redhat.com> - 1.1.1-1
+- update to
+  https://github.com/containers/oci-seccomp-bpf-hook/releases/tag/v1.1.1
+
+* Fri Jul 17 2020 Jindrich Novy <jnovy@redhat.com> - 1.1.0-2
+- switch to mainline releases
+
 * Tue May 19 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 1.1.0-1.1.git05a82a1
 - bump version
 - reuse Makefile targets

@@ -1,8 +1,8 @@
 %global srcname cftime
 
 Name:           python-%{srcname}
-Version:        1.1.3
-Release:        2%{?dist}
+Version:        1.2.1
+Release:        1%{?dist}
 Summary:        Time-handling functionality from netcdf4-python
 
 # calendar calculation routines in _cftime.pyx derived from calcalcs.c by David
@@ -51,6 +51,12 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} py.test-%{python3_version} -v
 %{python3_sitearch}/%{srcname}/
 
 %changelog
+* Thu Sep 17 2020 Orion Poplawski <orion@nwra.com> - 1.2.1-1
+- Update to 1.2.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.3-2
 - Rebuilt for Python 3.9
 

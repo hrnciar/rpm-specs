@@ -1,7 +1,3 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 %global __python %{__python3}
 
 %global glib2_version 2.64
@@ -16,16 +12,19 @@
 
 Name:		gedit
 Epoch:		2
-Version:	3.37.2
+Version:	3.38.0
 Release:	1%{?dist}
 Summary:	Text editor for the GNOME desktop
 
 License:	GPLv2+ and GFDL
 URL:		https://wiki.gnome.org/Apps/Gedit
-Source0:	https://download.gnome.org/sources/%{name}/3.37/%{name}-%{version}.tar.xz
+Source0:	https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 # https://gitlab.gnome.org/GNOME/gnome-build-meta/issues/252#note_742198
 Patch1:         restore-overlay-scrollbars.patch
+# Override meson default change so Gedit.py installs to %%{python3_sitearch}
+# as expected (instead of %%{python3_sitelib})
+Patch2:         python3-install-path-fix.patch
 
 BuildRequires: pkgconfig(glib-2.0) >= %{glib2_version}
 BuildRequires: pkgconfig(gobject-introspection-1.0)
@@ -107,6 +106,8 @@ Install gedit-devel if you want to write plugins for gedit.
 
 %install
 %meson_install
+%py_byte_compile %{__python3} %{buildroot}%{python3_sitearch}/gi/overrides
+%py_byte_compile %{__python3} %{buildroot}%{_libdir}/gedit/plugins/
 
 %find_lang %{name} --with-gnome
 
@@ -170,6 +171,28 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.gedit.de
 %{_datadir}/vala/
 
 %changelog
+* Fri Sep 11 2020 Kalev Lember <klember@redhat.com> - 2:3.38.0-1
+- Update to 3.38.0
+
+* Fri Sep 04 2020 Kalev Lember <klember@redhat.com> - 2:3.37.92-2
+- Byte-compile all plugin python files, not just the snippets plugin
+
+* Fri Sep 04 2020 Kalev Lember <klember@redhat.com> - 2:3.37.92-1
+- Update to 3.37.92
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 2:3.37.3-1
+- Update to 3.37.3
+
+* Wed Aug 05 2020 Merlin Mathesius <mmathesi@redhat.com> - 2:3.37.2-3
+- FTBFS fixes for Rawhide and ELN
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:3.37.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:3.37.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Kalev Lember <klember@redhat.com> - 2:3.37.2-1
 - Update to 3.37.2
 

@@ -1,7 +1,7 @@
 Summary:  Validating XML Parser
 Name:     xerces-c27
 Version:  2.7.0
-Release:  31%{?dist}
+Release:  33%{?dist}
 License:  ASL 2.0
 URL:      http://xml.apache.org/xerces-c/
 Source0:  http://archive.apache.org/dist/xml/xerces-c/Xerces-C_2_7_0/source/xerces-c-src_2_7_0.tar.gz
@@ -132,6 +132,13 @@ mv $RPM_BUILD_ROOT%{_includedir}/xercesc $RPM_BUILD_ROOT%{_includedir}/xercesc-2
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-33
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

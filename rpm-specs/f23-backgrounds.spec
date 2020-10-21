@@ -7,7 +7,7 @@
 
 Name:           %{bgname}-backgrounds
 Version:        23.1.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Fedora %{relnum} default desktop background
 
 License:        CC-BY-SA
@@ -176,6 +176,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 23.1.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 23.1.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

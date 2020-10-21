@@ -1,6 +1,7 @@
+%undefine __cmake_in_source_build
 Name:           kcm_systemd
 Version:        1.2.1
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Systemd control module for KDE
 
 License:        GPLv2+
@@ -38,14 +39,11 @@ KDE.
 %setup -q -n systemd-kcm-%{version}
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ../
-popd
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 %find_lang systemd-kcm
 # fix file conflict with plasma-systemsettings >= 5.16.90
 rm -f %{buildroot}%{_kf5_datadir}/kservices5/settings-system-administration.desktop
@@ -61,6 +59,9 @@ rm -f %{buildroot}%{_kf5_datadir}/kservices5/settings-system-administration.desk
 %{_kf5_datadir}/polkit-1/actions/org.kde.kcontrol.kcmsystemd.policy
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

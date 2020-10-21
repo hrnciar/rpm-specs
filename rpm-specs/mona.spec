@@ -3,7 +3,7 @@
 
 Name:           mona
 Version:        %{upver}r%{uprel}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A decision procedure for the WS1S and WS2S logics
 
 License:        GPLv2+
@@ -143,6 +143,9 @@ mv $RPM_BUILD_ROOT%{_datadir}/mona-mode.el .
 %{_xemacs_sitelispdir}/mona-mode.el*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4r18-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Jerry James <loganjerry@gmail.com> - 1.4r18-1
 - Update to 1.4-18
 

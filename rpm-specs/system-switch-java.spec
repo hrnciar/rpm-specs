@@ -1,10 +1,10 @@
 # This package depends on automagic byte compilation
 # https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
+%global py_byte_compile 1
 
 Name: system-switch-java
 Version: 1.1.8
-Release: 2%{?dist}
+Release: 4%{?dist}
 Summary: A tool for changing the default Java toolset
 
 
@@ -76,6 +76,16 @@ desktop-file-install \
 %config(noreplace) /etc/security/console.apps/%{name}
 
 %changelog
+* Mon Aug 03 2020 Petra Alice Mikova <pmikova@redhat.com> - 1.1.8-4
+- replace %_python_bytecompile_extra with %py_byte_compile 
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.8-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.8-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 5.1.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: Fast Gherkin lexer/parser
 License: MIT
 URL: https://github.com/cucumber/gherkin-ruby
@@ -86,6 +86,9 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

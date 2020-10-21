@@ -13,7 +13,7 @@
 %global srcname kombu
 
 Name:           python-%{srcname}
-Version:        4.6.10
+Version:        5.0.2
 Release:        1%{?dist}
 Epoch:          1
 Summary:        An AMQP Messaging Framework for Python
@@ -85,7 +85,7 @@ also provide proven and tested solutions to common messaging problems.
 %if %{with python3}
 %package -n python3-%{srcname}
 Summary:        %{summary}
-Requires:       python3-amqp >= 2.6.0
+Requires:       python3-amqp >= 5.0.1
 Requires:       python3-vine
 
 BuildRequires:  python3-devel
@@ -94,7 +94,7 @@ BuildRequires:  python3-setuptools
 BuildRequires:  python3-mock
 BuildRequires:  python3-nose-cover3
 BuildRequires:  python3-coverage
-BuildRequires:  python3-amqp
+BuildRequires:  python3-amqp >= 5.0.1
 BuildRequires:  python3-pymongo
 BuildRequires:  python3-nose
 BuildRequires:  python3-vine
@@ -151,6 +151,15 @@ py.test-3 --ignore=t/unit/transport/test_pyro.py
 %endif
 
 %changelog
+* Tue Sep 29 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 1:5.0.2-1
+- kombu 5.0.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.6.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 1:4.6.11-1
+- kombu 4.6.11
+
 * Wed Jun 03 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 1:4.6.10-1
 - kombu 4.6.10
 

@@ -1,6 +1,6 @@
 Name:           alex4
 Version:        1.0
-Release:        32%{?dist}
+Release:        34%{?dist}
 Summary:        Alex the Allegator 4 - Platform game
 License:        GPL+
 URL:            https://obiot.github.io/Alex4-WE/readme.html
@@ -65,6 +65,13 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-34
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 14 2020 Hans de Goede <hdegoede@redhat.com> - 1.0-32
 - Fix FTBFS (rhbz#1799146)
 

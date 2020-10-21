@@ -1,6 +1,6 @@
 Name:           veusz
 Version:        3.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GUI scientific plotting package
 
 # The entire source code is GPLv2+ except helpers/src/_nc_cntr.c which is Python
@@ -124,6 +124,9 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} \
 %{python3_sitearch}/veusz
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.2.1-2
 - Rebuilt for Python 3.9
 

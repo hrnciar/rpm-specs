@@ -1,6 +1,6 @@
 Name:           ocaml-benchmark
 Version:        1.5
-Release:        14%{?dist}
+Release:        18%{?dist}
 Summary:        Benchmarking module for OCaml
 
 License:        LGPLv3+ with exceptions
@@ -75,6 +75,19 @@ dune runtest --profile release
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.5-18
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.5-17
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 1.5-14
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

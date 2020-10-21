@@ -1,7 +1,7 @@
 Summary: An ircII chat client
 Name: epic
-Version: 2.10.8
-Release: 2%{?dist}
+Version: 2.10.9
+Release: 1%{?dist}
 Epoch: 4
 # The entire source code is Freely redistributable without restriction except some
 # files (notably, glob.c, and compat.c) may contain some source covered by BSD
@@ -18,8 +18,7 @@ Source8: http://splitfire.sourceforge.net/schemes/sf-perry-scheme.irc.gz
 Patch0: epic-default.patch
 #Patch1: patch by Michael Jennings, accepted by upstream
 Patch1: epic4-2.10.1-sighandling.patch
-Patch2: epic4-2.10.8-fix-multiple-definition-of-signals_caught.patch
-Patch3: epic4-2.10.8-remove-package-breaking-changes.patch
+Patch2: epic4-2.10.8-remove-package-breaking-changes.patch
 URL: http://www.epicsol.org/
 BuildRequires: gcc
 BuildRequires: openssl-devel
@@ -36,8 +35,7 @@ rm -rf $RPM_BUILD_DIR/ircii-EPIC%{prog_version}
 %setup -q -n epic4-%{version} -a 1
 %patch0 -p0 -b .default
 %patch1 -p1 -b .sighandling
-%patch2 -p1 -b .fix-multiple-definition-of-signals_caught
-%patch3 -p1 -b .remove-package-breaking-changes
+%patch2 -p1 -b .remove-package-breaking-changes
 
 %build
 %configure
@@ -87,6 +85,13 @@ rm -f $RPM_BUILD_ROOT/%{_libexecdir}/wserv
 %{_datadir}/epic/help/*
 
 %changelog
+* Mon Aug 31 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.10.9-1
+- Update to epic4-2.10.9
+  Resolves: #1870717
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4:2.10.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 20 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.10.8-2
 - Remove changes made in epic4-2.10.8 that broke the package
   Resolves: #1836642

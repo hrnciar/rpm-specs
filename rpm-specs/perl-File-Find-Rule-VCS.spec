@@ -1,6 +1,6 @@
 Name:           perl-File-Find-Rule-VCS
 Version:        1.08
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        Exclude files/directories for Version Control Systems
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/File-Find-Rule-VCS
@@ -53,6 +53,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.08-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.08-27
 - Perl 5.32 rebuild
 

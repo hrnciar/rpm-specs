@@ -20,7 +20,7 @@
 
 Name:		scalasca
 Version:	2.5
-Release:	4%{?dist}
+Release:	6%{?dist}
 Summary:	Toolset for performance analysis of large-scale parallel applications
 
 # ScoutPatternParser and SilasConfigParser are GPL
@@ -201,6 +201,13 @@ make check VERBOSE=1
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

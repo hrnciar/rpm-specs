@@ -1,6 +1,6 @@
 Name:           perl-Email-Send
 Version:        2.201
-Release:        16%{?dist}
+Release:        18%{?dist}
 Summary:        Module for sending email
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Email-Send
@@ -54,6 +54,12 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.201-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.201-17
+- Perl 5.32 rebuild
+
 * Fri Mar 20 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.201-16
 - Specify all dependencies
 

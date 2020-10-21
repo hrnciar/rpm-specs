@@ -1,18 +1,18 @@
-%global date          20190917
-%global commit0       1c29a279484ee4850611b76a6571566e0ec133bb
+%global date          20191120
+%global commit0       c106c94d1a5a84e8582c936528303528608776c2
 %global shortcommit0  %(c=%{commit0}; echo ${c:0:7})
 %global the_owner     srdgame
 
 Name:           librs232
-Version:        1.0.3
-Release:        10.%{date}git%{shortcommit0}%{?dist}
+Version:        1.0.4
+Release:        3.%{date}git%{shortcommit0}%{?dist}
 Summary:        Library for serial communications over RS-232 with Lua bindings
 License:        MIT
 Url:            https://github.com/%{the_owner}/%{name}/
 Source:         https://github.com/%{the_owner}/%{name}/archive/%{commit0}.tar.gz#/%{name}-%{version}-%{date}git%{shortcommit0}.tar.gz
-# Fix compilation error
-# Upstrem reference: https://patch-diff.githubusercontent.com/raw/srdgame/librs232/pull/7.patch
-Patch0:         https://patch-diff.githubusercontent.com/raw/%{the_owner}/%{name}/pull/7.patch#/%{name}-%{version}-fix-compilation-error.patch
+# Allow to compile using lua >=5.4
+# Upstrem reference: https://patch-diff.githubusercontent.com/raw/srdgame/librs232/pull/8.patch
+Patch0:         https://patch-diff.githubusercontent.com/raw/%{the_owner}/%{name}/pull/8.patch#/%{name}-%{version}-Remove-upper-limit-of-lua-version.patch
 
 BuildRequires:  /usr/bin/git
 BuildRequires:  gcc
@@ -89,6 +89,20 @@ find %{buildroot} -name '*.la' -exec rm {} \;
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-3.20191120gitc106c94
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Damian Wrobel <dwrobel@ertelnet.rybnik.pl> - 1.0.4-2.20191120gitc106c94
+- Upload new-sources
+
+* Tue Jun 30 2020 Damian Wrobel <dwrobel@ertelnet.rybnik.pl> - 1.0.4-1.20191120gitc106c94
+- Drop patch upstream merged
+- Update to the latest available version
+- Add patch to support lua >=5.4 (#rhbz 1852144)
+
+* Tue Jun 30 2020 Björn Esser <besser82@fedoraproject.org> - 1.0.3-11.20190917git1c29a27
+- Rebuilt for Lua 5.4
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-10.20190917git1c29a27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

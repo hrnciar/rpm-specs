@@ -1,19 +1,20 @@
-# This package seems to fail to generate debuginfo on > F26.
+%ifnarch %{ocaml_native_compiler}
 %global debug_package %{nil}
+%endif
 
 Name:           ocaml-result
-Version:        1.2
-Release:        26%{?dist}
+Version:        1.5
+Release:        5%{?dist}
 Summary:        Compat result type
 
 %global libname %(echo %{name} | sed -e 's/^ocaml-//')
 
 License:        BSD
 URL:            https://github.com/janestreet/result/
-Source0:        https://github.com/janestreet/result/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:        %{URL}/archive/%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  ocaml
-BuildRequires:  ocaml-findlib
+BuildRequires:  ocaml-dune >= 1.0
 
 %description
 Projects that want to use the new result type defined in
@@ -31,45 +32,64 @@ files for developing applications that use %{name}.
 %prep
 %autosetup -n %{libname}-%{version}
 
-# Generate debuginfo, or try to.
-sed 's/ocamlc/ocamlc -g/g' -i Makefile
-sed 's/ocamlopt/ocamlopt -g/g' -i Makefile
-
 %build
-%make_build byte
-%ifarch %{ocaml_native_compiler}
-%make_build native
-%endif
+dune build %{?_smp_mflags}
 
 %install
-# Currently result installs itself with ocamlfind.
-export DESTDIR=%{buildroot}
-export OCAMLFIND_DESTDIR=%{buildroot}/%{_libdir}/ocaml
-mkdir -p $OCAMLFIND_DESTDIR
-make install
+dune install --destdir=%{buildroot}
+
+# We install the documentation with the doc macro
+rm -fr %{buildroot}%{_prefix}/doc
+
+%ifarch %{ocaml_native_compiler}
+# Add missing executable bits
+find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod a+x {} \+
+%endif
+
+%check
+dune runtest
 
 %files
-%doc README.md
-%license LICENSE
-%{_libdir}/ocaml/%{libname}
+%doc CHANGES.md README.md
+%license LICENSE.md
+%dir %{_libdir}/ocaml/%{libname}/
+%{_libdir}/ocaml/%{libname}/%{libname}.cma
+%{_libdir}/ocaml/%{libname}/%{libname}.cmi
 %ifarch %{ocaml_native_compiler}
-%exclude %{_libdir}/ocaml/%{libname}/*.a
-%exclude %{_libdir}/ocaml/%{libname}/*.cmxa
-%exclude %{_libdir}/ocaml/%{libname}/*.cmx
-%exclude %{_libdir}/ocaml/%{libname}/*.ml
+%{_libdir}/ocaml/%{libname}/%{libname}.cmxs
 %endif
 
 %files devel
-%license LICENSE
+%license LICENSE.md
 %ifarch %{ocaml_native_compiler}
-%{_libdir}/ocaml/%{libname}/*.a
-%{_libdir}/ocaml/%{libname}/*.cmxa
-%{_libdir}/ocaml/%{libname}/*.cmx
-# There's no .mli file, so I believe we should distribute this.
-%{_libdir}/ocaml/%{libname}/*.ml
+%{_libdir}/ocaml/%{libname}/%{libname}.a
+%{_libdir}/ocaml/%{libname}/%{libname}.cmxa
+%{_libdir}/ocaml/%{libname}/%{libname}.cmx
 %endif
+# There's no .mli file, so I believe we should distribute this.
+%{_libdir}/ocaml/%{libname}/%{libname}.ml
+%{_libdir}/ocaml/%{libname}/%{libname}.cmt
+%{_libdir}/ocaml/%{libname}/META
+%{_libdir}/ocaml/%{libname}/dune-package
+%{_libdir}/ocaml/%{libname}/opam
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.5-5
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.5-4
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 15 2020 Jerry James <loganjerry@gmail.com> - 1.5-1
+- Version 1.5
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 1.2-26
 - Bump release and rebuild.
 

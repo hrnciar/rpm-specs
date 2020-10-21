@@ -1,3 +1,4 @@
+%define __cmake_in_source_build 1
 %global git_snapshot 1
 
 %if 0%{?git_snapshot}
@@ -9,7 +10,7 @@
 
 Name:           glyr
 Version:        1.0.10
-Release:        13%{?git_version:.%{?git_version}}%{?dist}
+Release:        16%{?git_version:.%{?git_version}}%{?dist}
 Summary:        Search engine for music related metadata
 
 # Source0 was generated as follows:
@@ -101,6 +102,16 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Wed Sep 23 2020 Jeff Law <law@redhat.com> - 1.0.10-16.20180824git618c418e
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-15.20180824git618c418e
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-14.20180824git618c418e
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-13.20180824git618c418e
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

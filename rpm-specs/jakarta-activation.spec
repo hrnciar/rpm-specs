@@ -1,8 +1,8 @@
 %global srcname jaf
 
 Name:           jakarta-activation
-Version:        1.2.1
-Release:        5%{?dist}
+Version:        1.2.2
+Release:        1%{?dist}
 Summary:        Jakarta Activation Specification and Implementation
 License:        BSD
 
@@ -74,6 +74,16 @@ sed -i "s/\${activation.osgiversion}/%{version}/g" activation/pom.xml
 
 
 %changelog
+* Wed Jul 29 2020 Fabio Valentini <decathorpe@gmail.com> - 1.2.2-1
+- Update to version 1.2.2.
+- Drop custom maven-compiler-plugin overrides in favor of upstream settings.
+
+* Wed Jul 29 2020 Fabio Valentini <decathorpe@gmail.com> - 1.2.1-7
+- Override javac source / target versions with 1.8 to fix build with Java 11.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 20 2020 Fabio Valentini <decathorpe@gmail.com> - 1.2.1-5
 - Package unretired and renamed from jaf.
 

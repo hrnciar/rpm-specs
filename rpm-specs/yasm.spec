@@ -1,12 +1,13 @@
 Summary: Modular Assembler
 Name: yasm
 Version: 1.3.0
-Release: 11%{?dist}
+Release: 12%{?dist}
 # See COPYING for the detail, there is quite a lot!
 License: BSD and (GPLv2+ or Artistic or LGPLv2+) and LGPLv2
 
 URL: http://yasm.tortall.net/
 Source: http://www.tortall.net/projects/yasm/releases/yasm-%{version}.tar.gz
+Patch1: 0001-Update-elf-objfmt.c.patch
 
 BuildRequires:  gcc
 BuildRequires: bison
@@ -42,6 +43,7 @@ Install this package if you need to rebuild applications that use yasm.
 
 %prep
 %setup -q
+%patch1 -p1
 
 
 %build
@@ -72,6 +74,9 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

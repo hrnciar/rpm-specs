@@ -1,6 +1,6 @@
 Name:           sysreporter
 Version:        3.0.4
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Basic system reporter with emailing
 License:        MIT
 URL:            https://github.com/onesimus-systems/sysreporter
@@ -29,6 +29,9 @@ Basic system reporter with emailing
 %{_mandir}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -17,7 +17,7 @@ Go dependency management tool.}
                         CONTRIBUTING.md CONTRIBUTORS MAINTAINERS.md README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Go dependency management tool
 
 # Upstream license specification: BSD-3-Clause
@@ -80,6 +80,13 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

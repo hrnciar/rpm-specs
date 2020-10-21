@@ -1,24 +1,24 @@
-%{?python_enable_dependency_generator}
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 %global mod_name	Flask-Silk
 
 Name:		python-flask-silk
 Version:	0.2
-Release:	11%{?dist}
+Release:	13%{?dist}
 Summary:	Adds silk icons to your Flask application or module, or extension
 # The code is BSD.  The icons are CC-BY-SA.
 License:	BSD and CC-BY-SA
 URL:		http://github.com/sublee/flask-silk/
 Source0:	https://files.pythonhosted.org/packages/source/F/%{mod_name}/%{mod_name}-%{version}.tar.gz
+# Fix icon paths
+Patch0:         %{name}-icons.patch
+# Fix imports.  See
+# https://github.com/sublee/flask-silk/commit/3a8166550f9a0ec52edae7bf31d9818c4c15c531
+Patch1:         %{name}-import.patch
 BuildArch:	noarch
 BuildRequires:	python3-devel
-BuildRequires:	python3-flask
-BuildRequires:	python3-flask-sphinx-themes
-BuildRequires:	python3-setuptools
-BuildRequires:	python3-sphinx
+BuildRequires:	%{py3_dist flask}
+BuildRequires:	%{py3_dist flask-sphinx-themes}
+BuildRequires:	%{py3_dist setuptools}
+BuildRequires:	%{py3_dist sphinx}
 
 %global _description\
 Adds silk icons to your Flask application or module, or extension.
@@ -38,13 +38,13 @@ Summary:	Documentation for %{name}
 HTML documentation for %{name}.
 
 %prep
-%setup -q -n %{mod_name}-%{version}
+%autosetup -p1 -n %{mod_name}-%{version}
 
 # Remove bundled flask-sphinx-themes
 rm -fr docs/_themes
 
 # Remove prebuilt .pyc
-find . -name \*.pyc -exec rm {} \+
+find . -name \*.pyc -delete
 
 # The icons should not be executable
 chmod a-x flask_silk/icons/*.png
@@ -52,14 +52,8 @@ chmod a-x flask_silk/icons/*.png
 # Fix table percentages that make the icons invisible
 sed -i 's/1 99/10 90/' flask_silk/icons/__init__.py
 
-# Fix version number and icon path in the documentation
-sed -e 's/0\.1\.2/%{version}/' \
-    -e 's,flaskext/silk/icons,flask_silk/icons,' \
-    -i docs/conf.py
-
-# Fix test script
-sed -i 's/flask\.ext\.silk/flask_silk/' test.py
-
+# Fix version number in the documentation
+sed -i 's/0\.1\.2/%{version}/' docs/conf.py
 
 
 %build
@@ -72,7 +66,7 @@ sphinx-build-%{python3_version} docs html
 %py3_install
 
 %check
-%{__python3} test.py
+%{python3} test.py
 
 %files -n python3-flask-silk
 %doc README
@@ -84,6 +78,17 @@ sphinx-build-%{python3_version} docs html
 %doc html/*
 
 %changelog
+* Mon Oct  5 2020 Jerry James <loganjerry@gmail.com> - 0.2-13
+- Add -icons patch to fix paths to icons
+- Add -import patch from upstream
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2-11
 - Rebuilt for Python 3.9
 

@@ -1,7 +1,7 @@
 Summary: A graphical tool to search DNS for answers
 Name: lookup
 Version: 2.2.3
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: BSD
 URL: http://www.dnssec-tools.org/
 Source0: https://www.dnssec-tools.org/download/%{name}-%{version}.tar.gz
@@ -53,6 +53,9 @@ install -p -D -m 644 man/lookup.1 %{buildroot}/%{_mandir}/man1/lookup.1
 %{_datadir}/applications/lookup.desktop
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

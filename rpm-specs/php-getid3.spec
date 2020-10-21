@@ -6,7 +6,7 @@
 #
 # Please preserve changelog entries
 #
-%global gh_commit    c6fd499a690ae67eea2eec6b2edba5df13f60f6f
+%global gh_commit    3c15e353b9bb1252201c73394bb8390b573a751d
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     JamesHeinrich
 %global gh_project   getID3
@@ -14,7 +14,7 @@
 %global pk_project   getid3
 
 Name:      php-%{pk_project}
-Version:   1.9.19
+Version:   1.9.20
 Release:   2%{?dist}
 Epoch:     1
 License:   LGPLv3+
@@ -97,6 +97,12 @@ exit ($ok ? 0 : 1);
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.9.20-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  1 2020 Remi Collet <remi@remirepo.net> - 1.9.20-1
+- update to 1.9.20
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.9.19-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

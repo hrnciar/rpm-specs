@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 # NOTICE - Updating this package requires updating python-boto3
-Version:        1.17.8
+Version:        1.19.1
 Release:        1%{?dist}
 Summary:        Low-level, data-driven core of boto 3
 
@@ -10,10 +10,6 @@ License:        ASL 2.0
 URL:            https://github.com/boto/botocore
 Source0:        %{pypi_source}
 BuildArch:      noarch
-
-# Fix runtime dependency issue with docutils version 0.16
-# Upstream report: https://github.com/boto/botocore/issues/1942
-Patch0:         fix-docutils-dependency.patch
 
 %description
 A low-level interface to a growing number of Amazon Web Services. The
@@ -24,6 +20,7 @@ Summary:        Low-level, data-driven core of boto 3
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 %{?python_provide:%python_provide python3-%{pypi_name}}
+Requires:       python3-jmespath
 
 %description -n python3-%{pypi_name}
 A low-level interface to a growing number of Amazon Web Services. The
@@ -34,9 +31,6 @@ botocore package is the foundation for the AWS CLI as well as boto3.
 rm -vr %{pypi_name}.egg-info
 # Remove online tests
 rm -vr tests/integration
-
-# Temporary fix for Python 3.9, fix coming in https://github.com/boto/botocore/issues/2002
-find . -type f -name '*.py' | xargs sed -i s/cElementTree/ElementTree/g
 
 %build
 %py3_build
@@ -51,6 +45,231 @@ find . -type f -name '*.py' | xargs sed -i s/cElementTree/ElementTree/g
 %{python3_sitelib}/%{pypi_name}-*.egg-info/
 
 %changelog
+* Tue Oct 20 21:05:38 CDT 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.19.1-1
+- 1.19.1
+
+* Tue Oct 20 08:09:45 CDT 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.19.0-1
+- 1.19.0
+
+* Fri Oct 16 14:54:26 CDT 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.18.18-1
+- 1.18.18
+
+* Fri Oct 16 08:08:23 CDT 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.18.17-1
+- 1.18.17
+
+* Sat Oct 10 16:03:11 CDT 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.18.16-1
+- 1.18.16
+
+* Thu Oct  8 14:29:56 CDT 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.18.15-1
+- 1.18.15
+
+* Thu Oct  8 08:59:46 CDT 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.18.14-1
+- 1.18.14
+
+* Wed Oct  7 08:55:36 CDT 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.18.13-1
+- 1.18.13
+
+* Fri Oct  2 15:33:49 CDT 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.18.11-1
+- 1.18.11
+
+* Fri Oct  2 08:18:33 CDT 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.18.10-1
+- 1.18.10
+
+* Thu Oct  1 08:14:54 CDT 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.18.9-1
+- 1.18.9
+
+* Wed Sep 30 09:03:15 CDT 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.18.8-1
+- 1.18.8
+
+* Tue Sep 29 09:13:43 CDT 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.18.7-1
+- 1.18.7
+
+* Mon Sep 28 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.18.6-1
+- 1.18.6
+
+* Fri Sep 25 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.18.5-1
+- 1.18.5
+
+* Wed Sep 23 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.18.4-1
+- 1.18.4
+
+* Wed Sep 23 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.18.3-1
+- 1.18.3
+
+* Mon Sep 21 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.18.2-1
+- 1.18.2
+
+* Fri Sep 18 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.18.1-1
+- 1.18.1
+
+* Fri Sep 18 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.18.0-1
+- 1.18.0
+
+* Wed Sep 16 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.63-1
+- 1.17.63
+
+* Tue Sep 15 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.62-1
+- 1.17.62
+
+* Tue Sep 15 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.61-1
+- 1.17.61
+
+* Mon Sep 14 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.60-1
+- 1.17.60
+
+* Fri Sep 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.59-1
+- 1.17.59
+
+* Thu Sep 10 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.58-1
+- 1.17.58
+
+* Wed Sep 09 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.57-1
+- 1.17.57
+
+* Tue Sep 08 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.56-1
+- 1.17.56
+
+* Fri Sep 04 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.55-1
+- 1.17.55
+
+* Wed Sep 02 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.54-1
+- 1.17.54
+
+* Wed Sep 02 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.53-1
+- 1.17.53
+
+* Tue Sep 01 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.52-1
+- 1.17.52
+
+* Mon Aug 31 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.51-1
+- 1.17.51
+
+* Fri Aug 28 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.50-1
+- 1.17.50
+
+* Thu Aug 27 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.49-1
+- 1.17.49
+
+* Tue Aug 25 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.48-1
+- 1.17.48
+
+* Fri Aug 21 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.47-1
+- 1.17.47
+
+* Wed Aug 19 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.46-1
+- 1.17.46
+
+* Wed Aug 19 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.45-1
+- 1.17.45
+
+* Tue Aug 18 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.44-1
+- 1.17.44
+
+* Mon Aug 17 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.43-1
+- 1.17.43
+
+* Fri Aug 14 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.42-1
+- 1.17.42
+
+* Thu Aug 13 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.41-1
+- 1.17.41
+
+* Wed Aug 12 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.40-1
+- 1.17.40
+
+* Tue Aug 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.39-1
+- 1.17.39
+
+* Mon Aug 10 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.38-1
+- 1.17.38
+
+* Thu Aug 06 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.37-1
+- 1.17.37
+
+* Thu Aug 06 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.36-1
+- 1.17.36
+
+* Wed Aug 05 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.35-1
+- 1.17.35
+
+* Tue Aug 04 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.34-1
+- 1.17.34
+
+* Fri Jul 31 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.33-1
+- 1.17.33
+
+* Fri Jul 31 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.32-1
+- 1.17.32
+
+* Thu Jul 30 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.31-1
+- 1.17.31
+
+* Wed Jul 29 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.30-1
+- 1.17.30
+
+* Tue Jul 28 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.29-1
+- 1.17.29
+
+* Fri Jul 24 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.28-1
+- 1.17.28
+
+* Fri Jul 24 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.27-1
+- 1.17.27
+
+* Thu Jul 23 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.26-1
+- 1.17.26
+
+* Wed Jul 22 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.25-1
+- 1.17.25
+
+* Tue Jul 21 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.24-1
+- 1.17.24
+
+* Mon Jul 20 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.23-1
+- 1.17.23
+
+* Fri Jul 17 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.22-1
+- 1.17.22
+
+* Thu Jul 16 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.21-1
+- 1.17.21
+
+* Fri Jul 10 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.20-1
+- 1.17.20
+
+* Thu Jul 09 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.19-1
+- 1.17.19
+
+* Wed Jul 08 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.18-1
+- 1.17.18
+
+* Tue Jul 07 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.17-1
+- 1.17.17
+
+* Fri Jul 03 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.16-1
+- 1.17.16
+
+* Thu Jul 02 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.15-1
+- 1.17.15
+
+* Wed Jul 01 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.14-1
+- 1.17.14
+
+* Tue Jun 30 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.13-1
+- 1.17.13
+
+* Sat Jun 27 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.12-1
+- 1.17.12
+
+* Fri Jun 26 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.11-1
+- 1.17.11
+
+* Thu Jun 25 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.10-1
+- 1.17.10
+
+* Wed Jun 24 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.9-1
+- 1.17.9
+
 * Tue Jun 23 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.17.8-1
 - 1.17.8
 

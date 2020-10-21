@@ -1,8 +1,8 @@
 %{?python_enable_dependency_generator}
 
 Name:           pungi
-Version:        4.2.3
-Release:        2%{?dist}
+Version:        4.2.5
+Release:        1%{?dist}
 Summary:        Distribution compose tool
 
 License:        GPLv2
@@ -135,6 +135,15 @@ nosetests-3 --exe
 %{_bindir}/%{name}-wait-for-signed-ostree-handler
 
 %changelog
+* Fri Sep 25 2020 Lubomír Sedlář <lsedlar@redhat.com> - 4.2.5-1
+- New upstream release
+
+* Tue Aug 18 2020 Lubomír Sedlář <lsedlar@redhat.com> - 4.2.4-1
+- New upstream version
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 11 2020 Lubomír Sedlář <lsedlar@redhat.com> - 4.2.3-2
 - Stop building PDF documentation
 

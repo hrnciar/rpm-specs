@@ -1,8 +1,8 @@
 Name:           perl-Catalyst-Manual
 Summary:        Catalyst web framework manual
 Epoch:          1
-Version:        5.9010
-Release:        5%{?dist}
+Version:        5.9011
+Release:        2%{?dist}
 License:        GPL+ or Artistic
 Source0:        https://cpan.metacpan.org/authors/id/H/HA/HAARG/Catalyst-Manual-%{version}.tar.gz
 URL:            https://metacpan.org/release/Catalyst-Manual
@@ -10,7 +10,7 @@ Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $versi
 BuildArch:      noarch
 
 BuildRequires:  perl-generators
-BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.36
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(Test::More)
 
 %{?perl_default_filter}
@@ -25,18 +25,15 @@ This is the manual to the Catalyst web framework.
 find -name .gitignore -print0 | xargs -0 rm -f
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor --skipdeps
-make %{?_smp_mflags}
+%{__perl} Makefile.PL INSTALLDIRS=vendor --skipdeps NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=%{buildroot}
-
-find %{buildroot} -type f -name .packlist -exec rm -f {} \;
-
+%{make_install}
 %{_fixperms} %{buildroot}/*
 
 %check
-make test
+%{make_build} test
 
 %files
 %doc Changes README t/
@@ -44,6 +41,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.9011-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 1:5.9011-1
+- Update to 5.9011
+- Pass NO_PACKLIST=1 NO_PERLLOCAL=1 to Makefile.PL
+- Call %%{make_install} instead of "make pure_install"
+- Call %%{make_build} instead of make
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:5.9010-5
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:           ocaml-zip
 Version:        1.10
-Release:        5%{?dist}
+Release:        8%{?dist}
 Summary:        OCaml library for reading and writing zip, jar and gzip files
 License:        LGPLv2 with exceptions
 
@@ -98,6 +98,15 @@ cmp Makefile Makefile.uncompressed
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.10-8
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.10-7
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 1.10-5
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

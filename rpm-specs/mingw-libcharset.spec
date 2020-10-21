@@ -8,7 +8,7 @@
 Name:          mingw-%{pkgname}
 Version:       1.4.0
 Summary:       MinGW Windows libcharset library
-Release:       6%{?dist}
+Release:       7%{?dist}
 
 BuildArch:     noarch
 License:       LGPLv2+
@@ -82,6 +82,9 @@ find %{buildroot} -name *.la -delete
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

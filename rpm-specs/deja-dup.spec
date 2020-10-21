@@ -1,6 +1,6 @@
 Name:           deja-dup
-Version:        41.3
-Release:        1%{?dist}
+Version:        42.4
+Release:        2%{?dist}
 Summary:        Simple backup tool and frontend for duplicity
 
 License:        GPLv3+
@@ -14,7 +14,6 @@ BuildRequires:  libtool glib2-devel libnotify-devel
 BuildRequires:  libpeas-devel
 BuildRequires:  libsecret-devel
 BuildRequires:  gtk3-devel itstool
-BuildRequires:  PackageKit-glib-devel
 BuildRequires:  libappstream-glib
 BuildRequires:  gnome-online-accounts-devel
 BuildRequires:  libgpg-error-devel
@@ -23,6 +22,7 @@ BuildRequires:  json-glib-devel libsoup-devel
 BuildRequires:  libhandy-devel
 Requires:       duplicity >= 0.6.23
 Requires:       python3-gobject-base
+Requires:       python3-PyDrive
 Requires:       dconf
 Recommends:	gvfs-fuse
 # Remove in f34+
@@ -63,7 +63,7 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/*.appdat
 %license LICENSES/
 %doc NEWS.md README.md
 %{_bindir}/deja-dup
-%{_mandir}/man1/deja-dup.1.gz
+%{_mandir}/man1/deja-dup.1*
 %{_datadir}/glib-2.0/schemas/org.gnome.DejaDup.gschema.xml
 %{_sysconfdir}/xdg/autostart/org.gnome.DejaDup.Monitor.desktop
 %{_libdir}/deja-dup/
@@ -75,6 +75,27 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/*.appdat
 %{_datadir}/help/*
 
 %changelog
+* Wed Sep 23 2020 Gwyn Ciesla <gwync@protonmail.com> - 42.4-2
+- Explicitly require python3-PyDrive, BZ 1881990.
+
+* Mon Sep 14 2020 Gwyn Ciesla <gwync@protonmail.com> - 42.4-1
+- 42.4
+
+* Wed Sep 09 2020 Gwyn Ciesla <gwync@protonmail.com> - 42.3-1
+- 42.3
+
+* Tue Aug 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 42.2-1
+- 42.2
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 42.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Gwyn Ciesla <gwync@protonmail.com> - 42.1-1
+- 42.1
+
+* Wed Jun 24 2020 Gwyn Ciesla <gwync@protonmail.com> - 42.0-1
+- 42.0
+
 * Mon Jun 22 2020 Gwyn Ciesla <gwync@protonmail.com> - 41.3-1
 - 41.3
 

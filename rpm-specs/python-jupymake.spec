@@ -8,7 +8,7 @@
 
 Name:           python-jupymake
 Version:        0.9
-Release:        4.%{gitdate}.%{shortcommit}%{?dist}
+Release:        9.%{gitdate}.%{shortcommit}%{?dist}
 Summary:        Python wrapper for the polymake shell
 
 License:        GPLv2+
@@ -29,7 +29,6 @@ It is meant to be used in the Jupyter interface for polymake.}
 %package     -n python3-jupymake
 Summary:        Python wrapper for the polymake shell
 Requires:       polymake%{?_isa}
-%{?python_provide:%python_provide python3-%{srcname}}
 
 # This can be removed when Fedora 31 reaches EOL
 Obsoletes:      python3-%{srcname} < 0.9
@@ -52,6 +51,21 @@ Provides:       pytnon3-%{srcname} = %{version}-%{release}
 %{python3_sitearch}/%{srcname}*
 
 %changelog
+* Wed Sep 30 2020 Jerry James <loganjerry@gmail.com> - 0.9-9.20190509.031cc3a
+- Rebuild for normaliz 3.8.9
+
+* Mon Sep 28 2020 Jerry James <loganjerry@gmail.com> - 0.9-8.20190509.031cc3a
+- Rebuild for polymake 4.2
+
+* Mon Aug 31 2020 Jerry James <loganjerry@gmail.com> - 0.9-7.20190509.031cc3a
+- Rebuild for normaliz 3.8.8
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-6.20190509.031cc3a
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jerry James <loganjerry@gmail.com> - 0.9-5.20190509.031cc3a
+- Rebuild for polymake 4.1
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9-4.20190509.031cc3a
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:		libvpd
-Version:	2.2.6
-Release:	7%{?dist}
+Version:	2.2.7
+Release:	2%{?dist}
 Summary:	VPD Database access library for lsvpd
 
 License:	LGPLv2+
@@ -64,6 +64,12 @@ popd
 %{_libdir}/pkgconfig/libvpd_cxx-2.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Than Ngo <than@redhat.com> - 2.2.7-1
+- rebase to 2.2.7
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.6-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

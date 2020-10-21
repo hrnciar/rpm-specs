@@ -3,7 +3,7 @@
 
 # https://github.com/mmarkdown/mmark
 %global goipath         github.com/mmarkdown/mmark
-Version:                2.0.46
+Version:                2.2.8
 
 %gometa
 
@@ -13,11 +13,11 @@ IETF documents. It is, however, also suited for writing complete books and other
 technical documentation, like the Learning Go book (mmark source, and I-D text
 output).}
 
-%global golicenses      LICENSE.txt
-%global godocs          README.md Syntax.md mmark.1.md
+%global golicenses      LICENSE
+%global godocs          FAQ.md README.md mmark.1.md Syntax.md 
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        Powerful markdown processor in Go geared towards the IETF
 
 # Upstream license specification: BSD-2-Clause
@@ -62,13 +62,19 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %endif
 
 %files
-%license LICENSE.txt
-%doc README.md Syntax.md mmark.1.md
+%license LICENSE
+%doc FAQ.md README.md mmark.1.md Syntax.md
 %{_bindir}/*
 
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 23:05:23 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.2.8-1
+- Update to 2.2.8
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.46-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.46-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

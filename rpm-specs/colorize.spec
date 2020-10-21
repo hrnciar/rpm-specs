@@ -3,7 +3,7 @@ Summary(pl):	Skrypt w Perlu do kolorowania logów
 Summary(ru):	Perl скрипт для раскрашивания логов
 Name:		colorize
 Version:		0.3.4
-Release:		18%{?dist}
+Release:		19%{?dist}
 License:		GPLv2+
 Source0:		http://web.archive.org/web/20040604132106/http://colorize.raszi.hu/downloads/colorize_0.3.4.tar.bz2
 # http://web.archive.org/web/20040607115833/colorize.raszi.hu/
@@ -48,6 +48,9 @@ install colorizerc %{buildroot}%{_sysconfdir}/colorizerc
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/colorizerc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

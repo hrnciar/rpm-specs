@@ -1,6 +1,6 @@
 Name:           dash
 Version:        0.5.10.2
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Small and fast POSIX-compliant shell
 # BSD: DASH in general
 # GPLv2+: From src/mksignames.c
@@ -45,6 +45,9 @@ fi
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.10.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 2020 Huzaifa Sidhpurwala <huzaifas@redhat.com> - 0.5.10.2-6
 - Add Provides
 

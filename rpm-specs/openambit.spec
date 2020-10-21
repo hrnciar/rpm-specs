@@ -3,7 +3,7 @@
 
 Name:           openambit
 Version:        0.5
-Release:        2%{?commit:.git%shortcommit}%{?dist}
+Release:        3%{?commit:.git%shortcommit}%{?dist}
 Summary:        Open software for the Suunto Ambit(2)
 
 License:        GPLv3+
@@ -90,16 +90,17 @@ rm -rf src/libambit/hidapi
   -DBUILD_EXTRAS=ON \
   -DCMAKE_INSTALL_WIRESHARKPLUGINSDIR=%{_libdir}/wireshark/plugins/ \
 %endif
-  .
+%cmake_build
 
 
 %install
-%make_install
-
+%cmake_install
 %{_bindir}/appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.appdata.xml
 %{_bindir}/desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 
+
 %ldconfig_scriptlets libs
+
 
 %files
 %license src/openambit/COPYING
@@ -130,6 +131,9 @@ rm -rf src/libambit/hidapi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -27,8 +27,8 @@ the purposes of CI/CD tasks.
 
 Name:       %srcname
 Summary:    %sum - client tooling
-Version:    3.2
-Release:    1%{?dist}
+Version:    3.3
+Release:    2%{?dist}
 License:    GPLv2+
 URL:        https://github.com/praiskup/resalloc
 BuildArch:  noarch
@@ -234,6 +234,13 @@ useradd -r -g "$group" -G "$group" -s /bin/bash \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Pavel Raiskup <praiskup@redhat.com> - 3.3-1
+- new release, mostly fixing one bug causing traceback on too-long stdout output
+  from AllocWorker script
+
 * Tue Jun 02 2020 Pavel Raiskup <praiskup@redhat.com> - 3.2-1
 - new configuration option cmd_release - command to be run before we mark the
   resource as reusable again

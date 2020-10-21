@@ -5,7 +5,7 @@
 
 Name:       nodejs-lru-cache
 Version:    4.1.2
-Release:    5%{?dist}
+Release:    6%{?dist}
 Summary:    A least recently used cache object for Node.js
 License:    MIT
 URL:        https://github.com/isaacs/node-lru-cache
@@ -63,6 +63,9 @@ cp -pr index.js package.json %{buildroot}%{nodejs_sitelib}/lru-cache
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

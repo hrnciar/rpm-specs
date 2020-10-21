@@ -1,6 +1,6 @@
 Name:          reflections
 Version:       0.9.12
-Release:       2%{?dist}
+Release:       4%{?dist}
 Summary:       Java run-time meta-data analysis
 License:       WTFPL
 URL:           https://github.com/ronmamo/reflections
@@ -72,6 +72,12 @@ find -name "*.jar" -print -delete
 %license COPYING.txt
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.12-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0.9.12-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat Apr 25 2020 Fabio Valentini <decathorpe@gmail.com> - 0.9.12-2
 - Clean up BuildRequires with xmvn-builddep.
 

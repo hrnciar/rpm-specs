@@ -7,7 +7,7 @@
 
 Name:		xs
 Version:	1.2
-Release:	1.git%{shortcommit0}%{?dist}
+Release:	2.git%{shortcommit0}%{?dist}
 Summary:	Shell supporting functional programming
 
 License:	Public Domain
@@ -68,6 +68,9 @@ git remote add origin "%URL"
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-2.git9592d9b
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May  2 2020 Jens Petersen <petersen@redhat.com> - 1.2-1.git9592d9b1
 - update to git 9592d9b1: fixes FTBFS (#1800280)
 

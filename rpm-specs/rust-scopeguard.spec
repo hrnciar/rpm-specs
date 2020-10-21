@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        1.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        RAII scope guard that will run a given closure when it goes out of scope
 
 # Upstream license specification: MIT/Apache-2.0
@@ -87,6 +87,9 @@ which use "use_std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 17:34:01 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.1.0-1
 - Update to 1.1.0
 

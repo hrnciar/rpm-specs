@@ -6,7 +6,7 @@
 
 Name:           python-%{srcname}
 Version:        1.0.2
-Release:        6.git%{shortcommit}%{?dist}
+Release:        7.git%{shortcommit}%{?dist}
 Summary:        %{sum}
 
 License:        GPLv3+
@@ -78,6 +78,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-7.gitd1fa38c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.2-6.gitd1fa38c
 - Rebuilt for Python 3.9
 

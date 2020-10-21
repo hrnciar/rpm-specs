@@ -1,7 +1,6 @@
-
 Name:           python-gnupg
-Version:        0.4.4
-Release:        7%{?dist}
+Version:        0.4.6
+Release:        2%{?dist}
 Summary:        A wrapper for the Gnu Privacy Guard (GPG or GnuPG)
 
 License:        BSD
@@ -39,6 +38,12 @@ GnuPG bindings for python. This uses the gpg command.
 %{python3_sitelib}/python_gnupg-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 Fabio Alessandro Locati <fale@fedoraproject.org> - 0.4.6-1
+- Update to 0.4.6
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.4-7
 - Rebuilt for Python 3.9
 

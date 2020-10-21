@@ -1,6 +1,6 @@
 Name:           liberasurecode
 Version:        1.6.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Erasure Code API library written in C with pluggable backends
 
 # Main license is a 2-clause BSD with clause numbers removed for some reason.
@@ -90,6 +90,9 @@ find $RPM_BUILD_ROOT%{_datadir}/doc -type f -exec chmod a-x {} ';'
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 05 2020  Pete Zaitcev <zaitcev@redhat.com> 1.6.1-1
 - Upstream 1.6.1
 - Add a patch for using strncpy on binary data

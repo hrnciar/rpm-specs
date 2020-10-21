@@ -1,7 +1,7 @@
 Summary:   Password cracker
 Name:      crack
 Version:   5.0a
-Release:   34%{?dist}
+Release:   35%{?dist}
 License:   Artistic clarified
 Source:    ftp://ftp.cerias.purdue.edu/pub/tools/unix/pwdutils/crack/%{name}5.0.tar.gz
 Patch0:    %{name}-chris.patch
@@ -75,6 +75,9 @@ fi
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0a-35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0a-34
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

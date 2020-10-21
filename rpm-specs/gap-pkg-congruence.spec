@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        1.2.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Congruence subgroups of SL(2,Integers)
 
 License:        GPLv2+
@@ -62,6 +62,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}-%{version}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

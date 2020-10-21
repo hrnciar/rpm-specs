@@ -2,14 +2,16 @@
 # Needs network
 %bcond_with check
 
-%global __requires_exclude %{?__requires_exclude:%{__requires_exclude}|}^golang\\(cloud.google.com/go/.*\\)$
-%global __requires_exclude %{?__requires_exclude:%{__requires_exclude}|}^golang\\(google.golang.org/api/.*\\)$
-
+# We just want httputil
+# The rest will be deprecated soon because Golang is moving to pkg.go.dev
 # https://github.com/golang/gddo
 %global goipath         github.com/golang/gddo
-%global commit          7365cb292b8bfd13dfe514a18b207b9cc70e6ceb
+%global commit          721e228c7686d830b5decc691a4dc7e6a6e94888
 
 %gometa
+
+%global goname golang-github-gddo
+%global godevelname golang-github-gddo-httputil-devel
 
 %global common_description %{expand:
 The code in this project is designed to be used by godoc.org.}
@@ -17,11 +19,9 @@ The code in this project is designed to be used by godoc.org.}
 %global golicenses      LICENSE
 %global godocs          CONTRIBUTING.md README.markdown
 
-%global gosupfiles      ${vendor[@]}
-
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.7%{?dist}
 Summary:        Go doc dot org
 
 # Upstream license specification: BSD-3-Clause
@@ -29,46 +29,7 @@ License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
 
-# Cloud v16, use vendored instead
-# BuildRequires:  golang(cloud.google.com/go/compute/metadata)
-# BuildRequires:  golang(cloud.google.com/go/logging)
-# BuildRequires:  golang(cloud.google.com/go/pubsub)
-# BuildRequires:  golang(cloud.google.com/go/trace)
-BuildRequires:  golang(github.com/garyburd/redigo/redis)
-BuildRequires:  golang(github.com/golang/lint)
-BuildRequires:  golang(github.com/golang/snappy)
-BuildRequires:  golang(github.com/googleapis/gax-go)
-BuildRequires:  golang(github.com/gregjones/httpcache)
-BuildRequires:  golang(github.com/gregjones/httpcache/memcache)
-BuildRequires:  golang(github.com/inconshreveable/log15)
-BuildRequires:  golang(github.com/spf13/pflag)
-BuildRequires:  golang(github.com/spf13/viper)
-BuildRequires:  golang(golang.org/x/oauth2/google)
-BuildRequires:  golang(golang.org/x/time/rate)
-BuildRequires:  golang(golang.org/x/tools/present)
-# google.golang.org/api < 9, use vendored instead
-# BuildRequires:  golang(google.golang.org/api/cloudtrace/v1)
-# BuildRequires:  golang(google.golang.org/api/gensupport)
-# BuildRequires:  golang(google.golang.org/api/option)
-# BuildRequires:  golang(google.golang.org/api/support/bundler)
-# BuildRequires:  golang(google.golang.org/api/transport/http)
-BuildRequires:  golang(google.golang.org/appengine)
-BuildRequires:  golang(google.golang.org/appengine/datastore)
-BuildRequires:  golang(google.golang.org/appengine/log)
-BuildRequires:  golang(google.golang.org/appengine/memcache)
-BuildRequires:  golang(google.golang.org/appengine/remote_api)
-BuildRequires:  golang(google.golang.org/appengine/search)
-BuildRequires:  golang(google.golang.org/appengine/urlfetch)
-BuildRequires:  golang(google.golang.org/grpc)
-BuildRequires:  golang(google.golang.org/grpc/internal/transport)
-BuildRequires:  golang(google.golang.org/grpc/metadata)
-BuildRequires:  golang(google.golang.org/grpc/status)
-
-%if %{with check}
-# Tests
 BuildRequires:  golang(github.com/google/go-cmp/cmp)
-BuildRequires:  golang(google.golang.org/appengine/aetest)
-%endif
 
 %description
 %{common_description}
@@ -76,33 +37,33 @@ BuildRequires:  golang(google.golang.org/appengine/aetest)
 %gopkg
 
 %prep
-%goprep -k
-find vendor -mindepth 2 -maxdepth 2 -type d -not -wholename "vendor/cloud.google.com/go" -not -wholename "vendor/google.golang.org/api" -not -wholename "vendor" -exec rm -rf {} \;
-
-%build
-for cmd in gae-service-proxy gddo-admin gosrc gddo-server; do
-  %gobuild -o %{gobuilddir}/bin/$(basename $cmd) %{goipath}/$cmd
-done
+%goprep
+find . -mindepth 1 -maxdepth 1 -type d -not -name "httputil" -and -not -name "_build" -exec rm -rf "{}" \;
 
 %install
-mapfile -t vendor <<< $(find vendor -type f)
 %gopkginstall
-install -m 0755 -vd                     %{buildroot}%{_bindir}
-install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
 %gocheck
 %endif
 
-%files
-%license LICENSE
-%doc CONTRIBUTING.md README.markdown
-%{_bindir}/*
-
 %gopkgfiles
 
 %changelog
+* Wed Sep 09 03:16:38 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.7.20200903git721e228
+- Fix packaging
+
+* Thu Sep 03 22:48:24 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.6.20200903git721e228
+- Bump to commit 721e228c7686d830b5decc691a4dc7e6a6e94888
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 20:10:39 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.3.20200128git7365cb2
 - Bump to commit 7365cb292b8bfd13dfe514a18b207b9cc70e6ceb
 - Use vendored cloud.google.com/go and google.golang.org/api

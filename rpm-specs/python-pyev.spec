@@ -29,14 +29,15 @@ URL:            https://github.com/gabrielfalcao/pyev
 %global         build_release    0
 
 %if 0%{?build_release}  > 0
-Release:        10%{?dist}
+Release:        12%{?dist}
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 %else
-Release:        0.10.%{gitdate}git%{shortcommit}%{?dist}
+Release:        0.12.%{gitdate}git%{shortcommit}%{?dist}
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{commit}/%{name}-%{version}-%{shortcommit}.tar.gz
 %endif #build_release
 
-
+# https://bugzilla.redhat.com/show_bug.cgi?id=1817984
+Patch1:         python3.9.patch
 
 BuildRequires:  gcc
 BuildRequires:  libtool
@@ -73,11 +74,11 @@ to libev library to be called from Python scripts.
 %prep
 %if 0%{?build_release} > 0
 # Build from git release version
-%autosetup -n %{gitname}-%{version}
+%autosetup -p1 -n %{gitname}-%{version}
 
 %else
 # Build from git commit
-%autosetup  -n %{gitname}-%{commit}
+%autosetup -p1 -n %{gitname}-%{commit}
 %endif
 
 
@@ -108,6 +109,13 @@ to libev library to be called from Python scripts.
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-0.12.20130610gite31d137
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-0.11.20130610gite31d137
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.0-0.10.20130610gite31d137
 - Rebuilt for Python 3.9
 

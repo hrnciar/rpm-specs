@@ -4,7 +4,7 @@
 
 Name:           xfburn
 Version:        0.6.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Simple CD burning tool for Xfce
 
 License:        GPLv2+
@@ -76,6 +76,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.xfce.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 07 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.6.2-1
 - Update to 0.6.2
 

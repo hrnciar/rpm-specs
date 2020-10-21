@@ -8,7 +8,7 @@ Version:               0
 
 %forgemeta
 
-Release:               4%{?dist}
+Release:               6%{?dist}
 Summary:               Software defined receiver for wireless M-Bus with RTL-SDR
 License:               BSD
 Url:                   %{forgeurl}
@@ -76,6 +76,13 @@ install -p -m 0755 -D build/%{the_binary} %{buildroot}%{_bindir}/%{the_binary}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 23 2020 Damian Wrobel <dwrobel@ertelnet.rybnik.pl> - 0-4.20191213git6a04c45
 - Split the LICENSE from the README.md
 - Remove -v from forgemeta

@@ -13,7 +13,7 @@
 Name:          sipwitch
 Summary:       A secure peer-to-peer VoIP server for the SIP protocol
 Version:       1.9.15
-Release:       12%{?dist}
+Release:       13%{?dist}
 
 License:       GPLv3+
 URL:           http://www.gnu.org/software/sipwitch
@@ -128,13 +128,12 @@ remote voip service provider.
 %cmake \
       -DCMAKE_INSTALL_SYSCONFDIR=%{_sysconfdir} \
       -DCMAKE_INSTALL_CGIBINDIR=/var/www/cgi-bin \
-      -DSYSTEM_CONFIG:BOOL=TRUE \
-      .
-make %{?_smp_mflags}
+      -DSYSTEM_CONFIG:BOOL=TRUE
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %post
@@ -195,6 +194,9 @@ make %{?_smp_mflags}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.15-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.15-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -5,7 +5,7 @@
 %global crate subtle
 
 Name:           rust-%{crate}
-Version:        2.2.3
+Version:        2.3.0
 Release:        1%{?dist}
 Summary:        Pure-Rust traits and utilities for constant-time cryptographic implementations
 
@@ -107,6 +107,16 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Sep 23 2020 Fabio Valentini <decathorpe@gmail.com> - 2.3.0-1
+- Update to version 2.3.0.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 14:04:55 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 2.2.3-1
 - Update to 2.2.3
 

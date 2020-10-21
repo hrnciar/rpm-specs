@@ -2,7 +2,7 @@
 %global with_check 0
 
 Name:           python-%{srcname}
-Version:        5.1.10
+Version:        5.1.11
 Release:        1%{?dist}
 Summary:        A bridge from Glyphs source files to UFOs
 
@@ -62,6 +62,12 @@ This library provides a bridge from Glyphs source files (.glyphs) to UFOs
 %{_bindir}/ufo2glyphs
 
 %changelog
+* Sat Aug 01 2020 Athos Ribeiro <athoscr@fedoraproject.org> - 5.1.11-1
+- Update version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Athos Ribeiro <athoscr@fedoraproject.org> - 5.1.10-1
 - Update version
 

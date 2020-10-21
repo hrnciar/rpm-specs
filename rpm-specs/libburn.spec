@@ -9,7 +9,7 @@
 Summary:         Library for reading, mastering and writing optical discs
 Name:            libburn
 Version:         1.5.2
-Release:         2%{?dist}
+Release:         3%{?dist}
 License:         GPLv2+
 URL:             http://libburnia-project.org/
 Source0:         http://files.libburnia-project.org/releases/%{pkgname}-%{version}.tar.gz
@@ -136,6 +136,9 @@ fi
 %{_mandir}/man1/%{cdrskin}.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

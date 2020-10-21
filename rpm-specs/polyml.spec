@@ -2,16 +2,13 @@
 %undefine _hardened_build
 
 Name:           polyml
-Version:        5.8
-Release:        4%{?dist}
+Version:        5.8.1
+Release:        2%{?dist}
 Summary:        Poly/ML compiler and runtime system
 
 License:        LGPLv2+
 URL:            http://www.polyml.org/
 Source0:        https://github.com/%{name}/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
-# Fixes from the upstream fixes-5.8 branch.  This currently contains fixes up
-# to commit 185b1ce7aa334ba7f27c4184fda77dc6831f2e4f.
-Patch0:         polyml-fixes.patch
 
 # The standard solution to kill the libtool-induced RPATH is to edit the
 # libtool script to kill it.  However, that causes problems for us as we need
@@ -71,7 +68,7 @@ sed -i '2iraise NotApplicable;' Tests/Succeed/Test174.ML
 # is bad news for people running SELinux.  The execstack flag is not really
 # needed, so we go through the contortions below to keep it off.
 %configure --enable-shared --disable-static --with-system-libffi \
-%if 0%{?__isa_bits} == 64
+%ifarch x86_64
   --enable-compact32bit \
 %endif
   CPPFLAGS="-D_GNU_SOURCE" \
@@ -79,7 +76,7 @@ sed -i '2iraise NotApplicable;' Tests/Succeed/Test174.ML
   CXXFLAGS="${RPM_OPT_FLAGS} -fno-strict-aliasing -Wa,--noexecstack" \
   CCASFLAGS="-Wa,--noexecstack" \
   LDFLAGS="$RPM_LD_FLAGS -Wl,-z,noexecstack"
-make %{?_smp_mflags}
+%make_build
 chrpath -d .libs/poly
 chrpath -d .libs/polyimport
 
@@ -88,7 +85,7 @@ chrpath -d .libs/polyimport
 sed -i 's/-Wl,-rpath,\${LIBDIR} //;s/-lffi //;s/-lgmp //' polyc
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 
 %check
@@ -115,6 +112,13 @@ make check
 %{_libdir}/libpolyml.so.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Jerry James <loganjerry@gmail.com> - 5.8.1-1
+- Version 5.8.1
+- Drop upstreamed -fixes patch
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.8-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

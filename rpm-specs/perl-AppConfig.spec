@@ -1,6 +1,6 @@
 Name:           perl-AppConfig
 Version:        1.71
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Perl module for reading configuration files
 
 License:        GPL+ or Artistic
@@ -84,6 +84,9 @@ AUTOMATED_TESTING=1 make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.71-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.71-18
 - Perl 5.32 rebuild
 

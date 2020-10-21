@@ -1,8 +1,10 @@
+%undefine __cmake_in_source_build
+
 %global base_name    xdg-desktop-portal-kde
 
 Name:    xdg-desktop-portal-kde
 Summary: Backend implementation for xdg-desktop-portal using Qt/KF5
-Version: 5.19.2
+Version: 5.20.1
 Release: 1%{?dist}
 
 License: GPLv2+
@@ -22,13 +24,12 @@ BuildRequires:  qt5-qtdeclarative-devel
 BuildRequires:  qt5-qtquickcontrols2-devel
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtbase-private-devel
+BuildRequires:  qt5-qtwayland-devel
 # libQt5PrintSupport.so.5(Qt_5_PRIVATE_API)(64bit)
 %{?_qt5:Requires: %{_qt5}%{?_isa} = %{_qt5_version}}
 
-BuildRequires:  glib2-devel
-BuildRequires:  libepoxy-devel
-BuildRequires:  mesa-libgbm-devel
-BuildRequires:  pipewire-devel
+BuildRequires:  plasma-wayland-protocols-devel
+BuildRequires:  wayland-devel
 
 BuildRequires:  cmake(KF5Config)
 BuildRequires:  cmake(KF5CoreAddons)
@@ -58,16 +59,12 @@ pieces of KDE infrastructure.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang xdg-desktop-portal-kde
 
@@ -82,6 +79,30 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_datadir}/knotifications5/xdg-desktop-portal-kde.notifyrc
 
 %changelog
+* Tue Oct 20 15:31:01 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.1-1
+- 5.20.1
+
+* Sun Oct 11 19:50:05 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.0-1
+- 5.20.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.90-1
+- 5.19.90
+
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.5-2
+- rebuild (qt5)
+
+* Tue Sep 01 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.5-1
+- 5.19.5
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.19.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.4-1
+- 5.19.4
+
+* Tue Jul 07 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.3-1
+- 5.19.3
+
 * Tue Jun 23 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.2-1
 - 5.19.2
 

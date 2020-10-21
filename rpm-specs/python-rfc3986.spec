@@ -3,8 +3,8 @@
 %global pypi_name rfc3986
 
 Name:           python-%{pypi_name}
-Version:        1.2.0
-Release:        8%{?dist}
+Version:        1.4.0
+Release:        3%{?dist}
 Summary:        Validating URI References per RFC 3986
 
 License:        ASL 2.0
@@ -18,10 +18,12 @@ Summary:        Validating URI References per RFC 3986
 
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
+BuildRequires:  python3-pytest
 
 %description -n python3-%{pypi_name}
 A Python implementation of RFC 3986 including validation and authority parsing.
 
+%{?python_extras_subpkg:%python_extras_subpkg -n python3-%{pypi_name} -i %{python3_sitelib}/*.egg-info idna2008}
 
 %description
 A Python implementation of RFC 3986 including validation and authority parsing.
@@ -40,6 +42,9 @@ rm -rf %{pypi_name}.egg-info
 
 %py3_install
 
+%check
+%pytest
+
 %files -n python3-%{pypi_name}
 %doc README.rst LICENSE
 %{python3_sitelib}/%{pypi_name}
@@ -47,6 +52,17 @@ rm -rf %{pypi_name}.egg-info
 
 
 %changelog
+* Thu Sep 03 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.0-3
+- Add metapackage for rfc3986[idna2008]
+- https://fedoraproject.org/wiki/Changes/PythonExtras
+- Fixes: rhbz#1875490
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Charalampos Stratakis <cstratak@redhat.com> - 1.4.0-1
+- Update to 1.4.0 (#1844405)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.0-8
 - Rebuilt for Python 3.9
 

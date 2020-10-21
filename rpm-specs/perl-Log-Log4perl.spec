@@ -1,12 +1,12 @@
 %bcond_without RRD
 
 Name:           perl-Log-Log4perl
-Version:        1.49
-Release:        11%{?dist}
+Version:        1.53
+Release:        1%{?dist}
 Summary:        Log4j implementation for Perl
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Log-Log4perl
-Source0:        https://cpan.metacpan.org/authors/id/M/MS/MSCHILLI/Log-Log4perl-%{version}.tar.gz
+Source0:        https://cpan.metacpan.org/authors/id/E/ET/ETJ/Log-Log4perl-%{version}.tar.gz
 BuildArch:      noarch
 BuildRequires:  coreutils
 BuildRequires:  findutils
@@ -26,7 +26,7 @@ BuildRequires:  perl(Encode)
 BuildRequires:  perl(Exporter)
 BuildRequires:  perl(Fcntl)
 BuildRequires:  perl(File::Basename)
-BuildRequires:  perl(File::Path)
+BuildRequires:  perl(File::Path) >= 2.07
 BuildRequires:  perl(File::Spec) >= 0.82
 BuildRequires:  perl(File::Spec::Functions)
 BuildRequires:  perl(File::Temp)
@@ -47,10 +47,10 @@ BuildRequires:  perl(Storable)
 BuildRequires:  perl(strict)
 BuildRequires:  perl(Sys::Hostname)
 # Term::ANSIColor is not needed for runing tests
-# Time::HiRes id not needed for runing tests
+# Time::HiRes is not needed for runing the tests
 BuildRequires:  perl(vars)
 BuildRequires:  perl(warnings)
-BuildRequires:  perl(XML::DOM)
+BuildRequires:  perl(XML::DOM) >= 1.29
 # Tests
 BuildRequires:  perl(Benchmark)
 BuildRequires:  perl(fields)
@@ -63,10 +63,10 @@ BuildRequires:  perl(Test::More) >= 0.45
 BuildRequires:  perl(utf8)
 # Optional tests
 %if ! (0%{?rhel} >= 7)
-BuildRequires:  perl(DBD::CSV)
-BuildRequires:  perl(DBI)
+BuildRequires:  perl(DBD::CSV) >= 0.33
+BuildRequires:  perl(DBI) >= 1.607
 BuildRequires:  perl(Log::Dispatch)
-BuildRequires:  perl(SQL::Statement)
+BuildRequires:  perl(SQL::Statement) >= 1.20
 BuildRequires:  perl(Sys::Syslog)
 %endif
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
@@ -171,6 +171,24 @@ make test
 %{_mandir}/man3/Log::Log4perl::Config::DOMConfigurator.*
 
 %changelog
+* Fri Sep 18 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.53-1
+- 1.53 bump
+
+* Wed Sep 16 2020 Petr Pisar <ppisar@redhat.com> - 1.52-2
+- Build-require Time::HiRes because of a bug in Time::HiRes detection
+
+* Mon Sep 07 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.52-1
+- 1.52 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.50-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Petr Pisar <ppisar@redhat.com> - 1.50-1
+- 1.50 bump
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.49-12
+- Perl 5.32 rebuild
+
 * Thu Mar 19 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.49-11
 - Specify all dependencies
 

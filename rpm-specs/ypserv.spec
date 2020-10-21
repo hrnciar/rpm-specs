@@ -2,7 +2,7 @@ Summary: The NIS (Network Information Service) server
 Url: http://www.linux-nis.org/nis/ypserv/index.html
 Name: ypserv
 Version: 4.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2
 Source0: https://github.com/thkukuk/%{name}/archive/v%{version}.tar.gz
 Source1: ypserv.service
@@ -172,6 +172,9 @@ install -m 755 %{SOURCE4} $RPM_BUILD_ROOT%{_libexecdir}/rpc.yppasswdd.env
 %{_includedir}/rpcsvc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

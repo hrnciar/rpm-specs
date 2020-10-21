@@ -1,6 +1,6 @@
 Name:           cppi
 Version:        1.18
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        C preprocessor directive indenter
 
 License:        GPLv3+
@@ -40,6 +40,9 @@ make check
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

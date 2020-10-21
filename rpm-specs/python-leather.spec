@@ -18,7 +18,7 @@ care if they’re perfect.\
 
 Name:           python-%{pypi_name}
 Version:        0.3.3
-Release:        16.git%{shortcommit}%{?dist}
+Release:        17.git%{shortcommit}%{?dist}
 Summary:        Python charting for 80% of humans
 
 License:        MIT
@@ -93,6 +93,9 @@ nosetests-%{python3_version} tests -v
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-17.gite85dd30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.3-16.gite85dd30
 - Rebuilt for Python 3.9
 

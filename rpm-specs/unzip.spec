@@ -7,7 +7,7 @@
 Summary: A utility for unpacking zip files
 Name: unzip
 Version: 6.0
-Release: 47%{?dist}
+Release: 49%{?dist}
 License: BSD
 Source: http://downloads.sourceforge.net/infozip/unzip60.tar.gz
 
@@ -120,8 +120,8 @@ a zip archive.
 # IZ_HAVE_UXUIDGID is needed for right functionality of unzip -X
 # NOMEMCPY solve problem with memory overlapping - decomression is slowly,
 # but successfull.
-make -f unix/Makefile CF_NOOPT="-I. -DUNIX $RPM_OPT_FLAGS -DNOMEMCPY -DIZ_HAVE_UXUIDGID -DNO_LCHMOD" \
-                      LFLAGS2="%{?__global_ldflags}" generic_gcc %{?_smp_mflags}
+%make_build -f unix/Makefile CF_NOOPT="-I. -DUNIX $RPM_OPT_FLAGS -DNOMEMCPY -DIZ_HAVE_UXUIDGID -DNO_LCHMOD" \
+                      LFLAGS2="%{?__global_ldflags}" generic_gcc
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -134,6 +134,13 @@ make -f unix/Makefile prefix=$RPM_BUILD_ROOT%{_prefix} MANDIR=$RPM_BUILD_ROOT/%{
 %{_mandir}/*/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0-49
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 6.0-48
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0-47
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@
 
 Name:		nodejs-invert-kv
 Version:	1.0.0
-Release:	8%{?dist}
+Release:	10%{?dist}
 Summary:	Invert the key/value of an object. Example: {foo: 'bar'} → {bar: 'foo'}
 
 License:	MIT
@@ -71,6 +71,13 @@ cp -pr package.json *.js \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

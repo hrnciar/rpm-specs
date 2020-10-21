@@ -4,7 +4,7 @@
 
 Name:           python-%{srcname}
 Version:        0.11.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        The Swiss Army Knife of the Bitcoin protocol
 
 License:        LGPLv3+
@@ -14,8 +14,7 @@ BuildArch:      noarch
  
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-BuildRequires:  python3-sphinx
+BuildRequires:  pyproject-rpm-macros
 
 %description
 This Python 2/3 library provides an easy interface to the bitcoin data
@@ -33,25 +32,31 @@ a focus on providing tools to manipulate the internals of how Bitcoin works.
 
 %prep
 %autosetup -n %{pypi_name}-%{version}
-# Remove bundled egg-info
-rm -rf %{pypi_name}.egg-info
+
+%generate_buildrequires
+%pyproject_buildrequires
 
 %build
-%py3_build
+%pyproject_wheel
 
 %install
-%py3_install
+%pyproject_install
+%pyproject_save_files bitcoin
 
 %check
 %{__python3} -m unittest discover
 
-%files -n python3-%{srcname}
+%files -n python3-%{srcname} -f %pyproject_files
 %license LICENSE
 %doc README.md
-%{python3_sitelib}/bitcoin
-%{python3_sitelib}/python_bitcoinlib-%{version}*
 
 %changelog
+* Tue Sep 15 2020 Charalampos Stratakis <cstratak@redhat.com> - 0.11.0-3
+- Update the package to use pyproject macros
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 2020 Charalampos Stratakis <cstratak@redhat.com> - 0.11.0-1
 - Update to 0.11.0 (#1811230)
 

@@ -9,7 +9,7 @@
 
 Name:           kcov
 Version:        38
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Code coverage tool without special compilation options
 
 # Licenses of kcov itself and its bundled js libraries (see below)
@@ -107,6 +107,9 @@ tests/tools/run-tests build/src/kcov /tmp/ build-tests/ $(pwd) -v
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 38-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 38-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@
 
 Name:		gnome-shell-extension-pidgin
 Version:	1.0.3
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	Make Pidgin IM conversations appear in the Gnome Shell message tray
 
 License:	GPLv2+
@@ -71,6 +71,9 @@ fi
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

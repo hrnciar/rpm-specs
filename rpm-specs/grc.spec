@@ -1,6 +1,6 @@
 Name:           grc
 Version:        1.11.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Generic Colorizer
 
 License:        GPLv2
@@ -41,6 +41,9 @@ mv $RPM_BUILD_ROOT%{_sysconfdir}/profile.d/grc.{bashrc,sh}
 %{_mandir}/man1/grcat.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

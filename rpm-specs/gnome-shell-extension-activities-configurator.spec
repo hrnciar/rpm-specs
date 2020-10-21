@@ -1,7 +1,7 @@
 Name:       gnome-shell-extension-activities-configurator
 Summary:    Configure the top bar and Activities button in GNOME Shell
 URL:        https://extensions.gnome.org/extension/358/activities-configurator/
-Version:    85
+Version:    87
 Release:    1%{?dist}
 License:    GPLv2
 BuildArch:  noarch
@@ -11,7 +11,6 @@ BuildArch:  noarch
 # With the changelog here:
 # https://nls1729.github.io/latestupdate.html
 Source0: https://extensions.gnome.org/extension-data/activities-confignls1729.v%{version}.shell-extension.zip
-Source1: ./README.md
 
 BuildRequires: glib2
 
@@ -40,16 +39,36 @@ threshold for the hot corner, or disable it altogether.
 %global  gnome_extensions_dir  %{_datadir}/gnome-shell/extensions/
 %global  final_install_dir     %{buildroot}/%{gnome_extensions_dir}/%{UUID}
 
+
 %prep
 %autosetup -c %{name}-%{version}
+
+cat > ./README-fedora.md << EOF
+After installing, each user that wants it must still manually enable
+Activities Configurator before it will take effect. You can do so a few
+different ways.
+
+First, restart GNOME Shell (Open the command dialog with Alt-F2, type
+\`r\`, and hit enter), or log out and log back in. Then:
+
+- If you've already set up the GNOME Shell web browser plugin, go to
+  <https://extensions.gnome.org/local/>, find the extension, and click
+  the switch to "ON."
+- Open GNOME Tweaks, go to the Extensions tab, find the extension,
+  and click the switch to "ON."
+- Open a terminal or the desktop's command dialog, and (as your normal
+  user account) run:
+  \`gnome-extensions enable %{UUID}\`
+EOF
+
 
 %build
 # No compilation necessary.
 
+
 %install
 mkdir -p %{final_install_dir}
 cp --recursive --preserve=mode,timestamps  ./*  %{final_install_dir}
-cp --recursive --preserve=mode,timestamps  %{SOURCE1}  ./README-fedora.md
 
 # License and README get copied to system directories for docs and license.
 rm  %{final_install_dir}/COPYING  %{final_install_dir}/README.txt
@@ -74,6 +93,18 @@ mv  %{final_install_dir}/locale  %{buildroot}/%{_datadir}/
 
 
 %changelog
+* Fri Aug 07 2020 Andrew Toskin <andrew@tosk.in> - 87-1
+- Bump to upstream version 87, which reimplements how it handles the
+  GNOME Shell "hot corner".
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 86-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Andrew Toskin <andrew@tosk.in> - 86-1
+- Bump to upstream version 86, which adds an option controlling the
+  delayed extension restart after resuming GNOME Shell from the lock
+  screen.
+
 * Tue Jun 16 2020 Andrew Toskin <andrew@tosk.in> - 85-1
 - Bump to upstream version 85, which fixes a cosmetic bug on the lock
   screen.
@@ -81,16 +112,3 @@ mv  %{final_install_dir}/locale  %{buildroot}/%{_datadir}/
 * Tue Mar 31 2020 Andrew Toskin <andrew@tosk.in> - 84-1
 - Bump to upstream version 84, which fixes remaining compatibility
   issues on GNOME 3.36.
-
-* Fri Mar 27 2020 Andrew Toskin <andrew@tosk.in> - 80-1
-- Bump to upstream version 80, which fixes support for GNOME 3.36.
-
-* Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 78-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
-
-* Wed Dec 11 2019 Andrew Toskin <andrew@tosk.in> - 78-1
-- Bump to upstream version 78, which fixes support in GNOME 3.34.
-
-* Tue Nov 05 2019 Andrew Toskin <andrew@tosk.in> - 77-1
-- Bump to upstream version 77, which adds a fix for changed APIs around
-  the hot corner.

@@ -1,7 +1,7 @@
 %global module	redisearch
 Name:		RediSearch
 Version:	1.2.2
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	Full-text search over Redis
 
 %global disable_tests 0
@@ -9,6 +9,9 @@ Summary:	Full-text search over Redis
 License:	AGPLv3
 URL:		https://goodformcode.com/
 Source0:	https://github.com/GoodFORM/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
+
+# "RediSearch is developed and tested on Linux and Mac OS, on x86_64 CPUs." from docs/index.md
+ExclusiveArch:  x86_64
 
 BuildRequires:	gcc
 BuildRequires:	git
@@ -50,5 +53,11 @@ install -pDm755 src/%{module}.so %{buildroot}%{redis_modules_dir}/%{module}.so
 %{redis_modules_dir}/%{module}.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Andreas Gerstmayr <agerstmayr@redhat.com> - 1.2.2-2
+- Add ExclusiveArch: x86_64
+
 * Sun Mar 29 2020 Nathan Scott <nathans@redhat.com> - 1.2.2-1
 - Initial package (BZ #1820391)

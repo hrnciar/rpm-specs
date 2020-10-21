@@ -3,15 +3,9 @@
 
 # https://github.com/PuerkitoBio/goquery
 %global goipath         github.com/PuerkitoBio/goquery
-Version:                1.5.0
+Version:                1.5.1
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-PuerkitoBio-goquery-devel < 1.1.0-5
-Obsoletes:      golang-github-PuerkitoBio-goquery-unit-test-devel < 1.1.0-5
-}
 
 %global common_description %{expand:
 Goquery brings a syntax and a set of features similar to jQuery to the Go
@@ -24,13 +18,15 @@ have been left off.}
 %global godocs          doc README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Set of features similar to jQuery for the Go language
 
 # Upstream license specification: BSD-3-Clause
 License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/PuerkitoBio/goquery/issues/341
+Patch0:         0001-Convert-int-to-string-using-fmt.Sprintf.patch
 
 BuildRequires:  golang(github.com/andybalholm/cascadia)
 BuildRequires:  golang(golang.org/x/net/html)
@@ -42,6 +38,7 @@ BuildRequires:  golang(golang.org/x/net/html)
 
 %prep
 %goprep
+%patch0 -p1
 
 %install
 %gopkginstall
@@ -54,6 +51,16 @@ BuildRequires:  golang(golang.org/x/net/html)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 31 23:46:36 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.5.1-1
+- Update to 1.5.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

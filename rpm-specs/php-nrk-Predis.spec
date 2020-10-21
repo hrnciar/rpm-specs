@@ -1,59 +1,62 @@
 # remirepo/fedora spec file for php-nrk-Predis
 #
-# Copyright (c) 2013-2018 Remi Collet
+# Copyright (c) 2013-2020 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
 # Please, preserve the changelog entries
 #
-%{!?__pear: %global __pear %{_bindir}/pear}
+
+%if 0%{?fedora} >= 31 || 0%{?rhel} >= 8
+%bcond_without  tests
+%else
+%bcond_with     tests
+%endif
+
+%global gh_owner     nrk
+%global gh_project   predis
+%global gh_commit    9930e933c67446962997b05201c69c2319bf26de
+%global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
+
+%global ns_project   Predis
+
 %global pear_name    Predis
 %global pear_channel pear.nrk.io
 
-%if 0%{?fedora} >= 21 || 0%{?rhel} >= 7
-%global with_tests   0%{!?_without_tests:1}
-%else
-%global with_tests   0%{?_with_tests:1}
-%endif
-
 Name:           php-nrk-Predis
-Version:        1.1.1
-Release:        9%{?dist}
+Version:        1.1.6
+Release:        1%{?dist}
 Summary:        PHP client library for Redis
 
 License:        MIT
-URL:            http://%{pear_channel}
-Source0:        http://%{pear_channel}/get/%{pear_name}-%{version}.tgz
-
-# https://github.com/nrk/predis/pull/393
-Patch0:         %{name}-pr393.patch
-# https://github.com/nrk/predis/pull/486
-Patch1:         %{name}-pr486.patch
+URL:            https://github.com/%{gh_owner}/%{gh_project}
+Source0:        %{name}-%{version}-%{gh_short}.tgz
+Source1:        makesrc.sh
 
 BuildArch:      noarch
 BuildRequires:  php(language) >= 5.3.9
-BuildRequires:  php-pear(PEAR)
-BuildRequires:  php-channel(%{pear_channel})
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php-phpunit-PHPUnit
-BuildRequires:  redis > 2.8
+BuildRequires:  redis
 %endif
 
-Requires(post): %{__pear}
-Requires(postun): %{__pear}
 Requires:       php(language) >= 5.3.9
 Requires:       php-reflection
-Requires:       php-curl
 Requires:       php-filter
 Requires:       php-pcre
 Requires:       php-session
 Requires:       php-sockets
 Requires:       php-spl
-Requires:       php-pear(PEAR)
-Requires:       php-channel(%{pear_channel})
+%if 0%{?fedora} >= 30 || 0%{?rhel} >=8
+Recommends:     php-curl
+Recommends:     php-phpiredis
+%endif
 
 Provides:       php-pear(%{pear_channel}/%{pear_name}) = %{version}
 Provides:       php-composer(predis/predis) = %{version}
+
+# This pkg was the only one in this channel so the channel is no longer needed
+Obsoletes:     php-channel-nrk < 1.4
 
 
 %description
@@ -61,40 +64,25 @@ Flexible and feature-complete PHP client library for Redis.
 
 
 %prep
-%setup -q -c
-
-cd %{pear_name}-%{version}
-%patch0 -p1
-%patch1 -p1
-sed -e '/test/s/md5sum="[^"]*"//' ../package.xml >%{name}.xml
+%setup -q -n %{gh_project}-%{gh_commit}
 
 
 %build
-cd %{pear_name}-%{version}
-# Empty build section, most likely nothing required.
-
+: nothing
 
 %install
-cd %{pear_name}-%{version}
-%{__pear} install --nodeps --packagingroot %{buildroot} %{name}.xml
+mkdir -p   %{buildroot}%{_datadir}/php/
+cp -pr src %{buildroot}%{_datadir}/php/%{ns_project}
 
-# Clean up unnecessary files
-rm -rf %{buildroot}%{pear_metadir}/.??*
-
-# Install XML package description
-mkdir -p %{buildroot}%{pear_xmldir}
-install -pm 644 %{name}.xml %{buildroot}%{pear_xmldir}
-
-# Relocate PATH so test suite can be run from install dir
-sed -e 's:tests/::' \
-    %{buildroot}%{pear_testdir}/%{pear_name}/phpunit.xml.dist \
-  > %{buildroot}%{pear_testdir}/%{pear_name}/phpunit.xml
+# for compatibility with PEAR installation
+mkdir -p   %{buildroot}%{_datadir}/pear/%{ns_project}
+ln -s ../../php/Predis/Autoloader.php %{buildroot}%{_datadir}/pear/%{ns_project}/Autoloader.php
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 : Launch redis server
-port=6379
+port=$(expr 6379 + %{?fedora}%{?rhel})
 pidfile=$PWD/redis.pid
 mkdir -p data
 redis-server                   \
@@ -106,13 +94,16 @@ redis-server                   \
     --pidfile   $pidfile
 
 : Run the installed test Suite against the installed library
-pushd %{buildroot}%{pear_testdir}/%{pear_name}
+sed -e "s/6379/$port/" phpunit.xml.dist > phpunit.xml
+sed -e "/expectedExceptionMessageRegExp/s/6379/$port/" -i tests/PHPUnit/PredisConnectionTestCase.php
+
+# testReturnsCommandInfoOnExistingCommand failing on recent Redis version
 
 ret=0
 php -d memory_limit=1G %{_bindir}/phpunit \
-    --include-path=%{buildroot}%{pear_phpdir} \
+    --include-path=%{buildroot}%{_datadir}/pear \
+    --filter '^((?!(testReturnsCommandInfoOnExistingCommand)).)*$' \
     --verbose || ret=1
-popd
 
 : Cleanup
 if [ -f $pidfile ]; then
@@ -125,25 +116,49 @@ exit $ret
 %endif
 
 
-%post
-%{__pear} install --nodeps --soft --force --register-only \
-    %{pear_xmldir}/%{name}.xml >/dev/null || :
-
-%postun
-if [ $1 -eq 0 ] ; then
-    %{__pear} uninstall --nodeps --ignore-errors --register-only \
-        %{pear_channel}/%{pear_name} >/dev/null || :
+%pre
+if [ -x %{_bindir}/pear ]; then
+   %{_bindir}/pear uninstall --nodeps --ignore-errors --register-only \
+      %{pear_channel}/%{pear_name} >/dev/null || :
 fi
 
 
 %files
-%doc %{pear_docdir}/%{pear_name}
-%{pear_xmldir}/%{name}.xml
-%{pear_phpdir}/%{pear_name}
-%{pear_testdir}/%{pear_name}
+%license LICENSE
+%doc composer.json
+%doc *md
+%doc examples
+%{_datadir}/php/%{ns_project}
+%{_datadir}/pear/%{ns_project}
 
 
 %changelog
+* Sat Sep 12 2020 Remi Collet <remi@remirepo.net> - 1.1.6-1
+- update to 1.1.6
+
+* Fri Sep 11 2020 Remi Collet <remi@remirepo.net> - 1.1.5-1
+- update to 1.1.5
+
+* Mon Aug 31 2020 Remi Collet <remi@remirepo.net> - 1.1.4-1
+- update to 1.1.4
+
+* Wed Aug 19 2020 Remi Collet <remi@remirepo.net> - 1.1.3-1
+- update to 1.1.3 (no change)
+
+* Wed Aug 12 2020 Remi Collet <remi@remirepo.net> - 1.1.2-1
+- update to 1.1.2
+- sources from git snapshot
+- obsolete php-channel-nrk
+- drop dependency on pear
+- move to /usr/share/php with autoloader link for BC
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

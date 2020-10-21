@@ -1,11 +1,13 @@
 Name:         amtterm
 License:      GPLv2+
 Version:      1.6
-Release:      9%{?dist}
+Release:      12%{?dist}
 Summary:      Serial-over-lan (sol) client for Intel AMT
 URL:          http://www.kraxel.org/blog/linux/amtterm/
 Source:       http://www.kraxel.org/releases/%{name}/%{name}-%{version}.tar.gz
+
 Requires:     xdg-utils
+Requires:     perl(SOAP::Lite)
 
 BuildRequires:  gcc
 BuildRequires: desktop-file-utils
@@ -43,6 +45,17 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications/ \
 %{_datadir}/applications/gamt.desktop
 
 %changelog
+* Wed Aug 19 2020 Gerd Hoffman <kraxel@redhat.com> - 1.6-12
+- Add missing perl dependency for amttool.
+- Resolves: rhbz#1869766
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

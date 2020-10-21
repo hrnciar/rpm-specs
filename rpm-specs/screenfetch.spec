@@ -1,6 +1,6 @@
 Name:           screenfetch
 Version:        3.9.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A "Bash Screenshot Information Tool"
 
 License:        GPLv3+
@@ -40,6 +40,9 @@ install -m 644 -p -D screenfetch.1 %{buildroot}%{_mandir}/man1/screenfetch.1
 %{_mandir}/man1/screenfetch.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Itamar Reis Peixoto <itamar@ispbrasil.com.br> - 3.9.1-2
 - requires pciutils
 

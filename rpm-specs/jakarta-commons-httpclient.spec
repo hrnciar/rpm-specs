@@ -2,22 +2,23 @@
 
 Name:           jakarta-commons-httpclient
 Version:        3.1
-Release:        33%{?dist}
+Release:        36%{?dist}
 Summary: Jakarta Commons HTTPClient implements the client side of HTTP standards
 License:        ASL 2.0 and (ASL 2.0 or LGPLv2+)
 URL:            http://jakarta.apache.org/commons/httpclient/
 Epoch:          1
 Source0:        http://archive.apache.org/dist/httpcomponents/commons-httpclient/source/commons-httpclient-3.1-src.tar.gz
 Source1:        http://repo.maven.apache.org/maven2/commons-httpclient/commons-httpclient/%{version}/commons-httpclient-%{version}.pom
-Patch0:         %{name}-disablecryptotests.patch
+Patch0:         0000-disable-crypto-tests.patch
 # Add OSGi MANIFEST.MF bits
-Patch1:         %{name}-addosgimanifest.patch
-Patch2:         %{name}-encoding.patch
+Patch1:         0001-add-osgi-manifest.patch
+Patch2:         0002-encoding.patch
 # CVE-2012-5783: missing connection hostname check against X.509 certificate name
 # https://fisheye6.atlassian.com/changelog/httpcomponents?cs=1422573
-Patch3:         %{name}-CVE-2012-5783.patch
-Patch4:         %{name}-CVE-2014-3577.patch
-Patch5:         %{name}-CVE-2015-5262.patch
+Patch3:         0003-CVE-2012-5783.patch
+Patch4:         0004-CVE-2014-3577.patch
+Patch5:         0005-CVE-2015-5262.patch
+Patch6:         0006-java-1.8.patch
 
 BuildArch:      noarch
 
@@ -84,17 +85,13 @@ mkdir lib # duh
 build-jar-repository -p lib commons-codec commons-logging junit
 rm -rf docs/apidocs docs/*.patch docs/*.orig docs/*.rej
 
-%patch0
-
-pushd src/conf
-%{__sed} -i 's/\r//' MANIFEST.MF
-%patch1
-popd
-
-%patch2
-%patch3 -p2
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 # Use javax classes, not com.sun ones
 # assume no filename contains spaces
@@ -146,6 +143,16 @@ ln -s %{_javadocdir}/%{name} dist/docs/apidocs
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.1-36
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Fabio Valentini <decathorpe@gmail.com> - 1:3.1-35
+- Override javac source / target version with 1.8 to fix Java 11 issues.
+- Simplified patch structure.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1:3.1-34
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.1-33
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

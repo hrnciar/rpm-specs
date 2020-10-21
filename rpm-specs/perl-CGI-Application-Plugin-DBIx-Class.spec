@@ -1,6 +1,6 @@
 Name:           perl-CGI-Application-Plugin-DBIx-Class
 Version:        1.000101
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Access a DBIx::Class Schema from a CGI::Application
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/CGI-Application-Plugin-DBIx-Class
@@ -50,6 +50,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.000101-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.000101-20
 - Perl 5.32 rebuild
 

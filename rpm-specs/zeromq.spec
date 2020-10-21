@@ -1,18 +1,20 @@
 %bcond_without pgm
 
 Name:           zeromq
-Version:        4.3.2
-Release:        3%{?dist}
+Version:        4.3.3
+Release:        1%{?dist}
 Summary:        Software library for fast, message-based applications
 
 License:        LGPLv3+
 URL:            https://zeromq.org
-Source0:        https://github.com/zeromq/libzmq/archive/v%{version}/libzmq-%{version}.tar.gz
+Source0:        https://github.com/%{name}/libzmq/archive/v%{version}/libzmq-%{version}.tar.gz
 
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  gcc-c++
 BuildRequires:  libtool
+BuildRequires:  asciidoc
+BuildRequires:  xmlto
 BuildRequires:  libsodium-devel
 BuildRequires:  libunwind-devel
 
@@ -74,8 +76,9 @@ rm %{buildroot}%{_libdir}/libzmq.la
 
 
 %check
+%ifarch s390x
 make check V=1 || ( cat test-suite.log && exit 1 )
-
+%endif
 
 
 %ldconfig_scriptlets
@@ -86,6 +89,9 @@ make check V=1 || ( cat test-suite.log && exit 1 )
 %license COPYING COPYING.LESSER
 %{_bindir}/curve_keygen
 %{_libdir}/libzmq.so.5*
+%{_mandir}/man3/zmq_*
+%{_mandir}/man7/zmq_*
+%{_mandir}/man7/zmq.*
 
 %files devel
 %{_libdir}/libzmq.so
@@ -94,6 +100,17 @@ make check V=1 || ( cat test-suite.log && exit 1 )
 
 
 %changelog
+* Tue Sep 15 2020 Denis Arnaud <denis.arnaud_fedora@m4x.org> - 4.3.3-1
+- Upstream upgrade
+- Fixes #1876738 and #1876689
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.2-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 15 2020 Dan Horák <dan[at]danny.cz> - 4.3.2-3
 - libunwind is available on all Fedora arches
 

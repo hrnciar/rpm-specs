@@ -1,6 +1,6 @@
 Name:		qbrew
 Version:	0.4.1
-Release:	25%{?dist}
+Release:	26%{?dist}
 Summary:	A Brewing Recipe Calculator
 
 License:	BSD
@@ -79,6 +79,9 @@ cp translations/*.ts translations/*.qm \
 %doc AUTHORS ChangeLog TODO *.qbrew LICENSE README
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

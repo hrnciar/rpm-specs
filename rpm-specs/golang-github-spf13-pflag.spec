@@ -18,7 +18,7 @@ command-line options.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Drop-in replacement for Go's flag package, implementing posix/gnu-style --flags
 
 # Upstream license specification: BSD-3-Clause
@@ -48,6 +48,9 @@ Patch0:         https://patch-diff.githubusercontent.com/raw/spf13/pflag/pull/17
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.0.5-1
 - Update to latest version
 

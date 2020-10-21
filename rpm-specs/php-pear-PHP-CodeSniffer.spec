@@ -13,7 +13,7 @@
 %global pear_name     PHP_CodeSniffer
 
 Name:           php-pear-PHP-CodeSniffer
-Version:        3.5.5
+Version:        3.5.6
 Release:        1%{?dist}
 Summary:        PHP coding standards enforcement tool
 
@@ -95,6 +95,7 @@ rm src/Standards/Generic/Tests/Debug/JSHintUnitTest.*
 
 # Version 3.4.0: Tests: 364, Assertions: 419, Skipped: 3.
 ret=0
+# TODO php80
 for cmdarg in "php %{phpunit}" php71 php72 php73 php74; do
   if which $cmdarg; then
     set $cmdarg
@@ -127,6 +128,12 @@ fi
 
 
 %changelog
+* Tue Aug 11 2020 Remi Collet <remi@remirepo.net> - 3.5.6-1
+- update to 3.5.6
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Remi Collet <remi@remirepo.net> - 3.5.5-1
 - update to 3.5.5
 

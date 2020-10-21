@@ -1,6 +1,6 @@
 Name:           dfuzzer
 Version:        1.4
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        D-Bus fuzz testing tool
 
 %global commit 884972e7f115bf22121328803af2910cd16c4c20
@@ -53,6 +53,9 @@ install -pm 0644 src/dfuzzer.conf %{buildroot}%{_sysconfdir}/dfuzzer.conf
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Summary: Converts text and other types of files to PostScript
 Name: a2ps
 Version: 4.14
-Release: 43%{?dist}
+Release: 45%{?dist}
 License: GPLv3+
 Source0: http://ftp.gnu.org/gnu/a2ps/%{name}-%{version}.tar.gz
 Source1: ftp://ftp.enst.fr/pub/unix/a2ps/i18n-fonts-0.1.tar.gz
@@ -274,6 +274,13 @@ exit 0
 %{_emacs_sitelispdir}/%{name}
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14-45
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14-44
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14-43
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

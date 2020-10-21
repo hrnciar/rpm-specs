@@ -3,7 +3,7 @@
 %endif
 
 Name:           python-beautifulsoup4
-Version:        4.9.1
+Version:        4.9.3
 Release:        1%{?dist}
 Summary:        HTML/XML parser for quick-turnaround applications like screen-scraping
 License:        MIT
@@ -102,6 +102,12 @@ pushd %{py3dir}
 %{python3_sitelib}/bs4
 
 %changelog
+* Sun Oct 11 2020 Terje Rosten <terje.rosten@ntnu.no> - 4.9.3-1
+- 4.9.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 07 2020 Terje Rosten <terje.rosten@ntnu.no> - 4.9.1-1
 - 4.9.1
 

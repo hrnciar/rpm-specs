@@ -1,6 +1,6 @@
 Name:           perl-PDF-API2
-Version:        2.037
-Release:        2%{?dist}
+Version:        2.038
+Release:        1%{?dist}
 Summary:        Perl module for creation and modification of PDF files
 
 License:        LGPLv2+
@@ -57,6 +57,7 @@ Requires:       dejavu-serif-fonts
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:       perl(Compress::Zlib) >= 1.0
 Requires:       perl(Storable)
+Recommends:     perl(PDF::API2::XS)
 
 # Filter under-specified dependencies
 %global __requires_exclude %{?__requires_exclude:%__requires_exclude|}^perl\\(Compress::Zlib\\)$
@@ -64,7 +65,6 @@ Requires:       perl(Storable)
 %description
 A Perl Module Chain to facilitate the Creation and Modification of High-Quality
 "Portable Document Format (aka. PDF)" Files.
-
 
 %prep
 %setup -q -n PDF-API2-%{version}
@@ -113,6 +113,12 @@ make test
 
 
 %changelog
+* Tue Sep 01 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.038-1
+- 2.038 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.037-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.037-2
 - Perl 5.32 rebuild
 

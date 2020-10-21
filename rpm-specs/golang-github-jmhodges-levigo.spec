@@ -16,7 +16,7 @@ Package Levigo provides the ability to create and access LevelDB databases.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Go wrapper for LevelDB
 
 License:        MIT
@@ -56,6 +56,13 @@ end
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

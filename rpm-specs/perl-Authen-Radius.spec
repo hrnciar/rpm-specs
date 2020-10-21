@@ -1,6 +1,6 @@
 Name:           perl-Authen-Radius
-Version:        0.31
-Release:        4%{?dist}
+Version:        0.32
+Release:        1%{?dist}
 Summary:        Provide simple Radius client facilities
 License:        Artistic 2.0
 URL:            https://metacpan.org/release/Authen-Radius
@@ -77,6 +77,17 @@ make test
 %{_mandir}/man3/Authen::Radius.3*
 
 %changelog
+* Mon Oct 19 2020 Paul Howarth <paul@city-fan.org> - 0.32-1
+- Update to 0.32
+  - Fixed MIN_PERL_VERSION in Makefile.PL, required by ExtUtils::MakeMaker 7.48
+
+
+* Thu Oct 08 2020 Petr Pisar <ppisar@redhat.com> - 0.31-6
+- Adapt to ExtUtils-MakeMaker-7.48 (CPAN RT#133490)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.31-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.31-4
 - Perl 5.32 rebuild
 

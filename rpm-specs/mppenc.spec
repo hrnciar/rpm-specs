@@ -1,7 +1,7 @@
 Summary: Musepack SV7 audio file encoder
 Name: mppenc
 Version: 1.16
-Release: 19%{?dist}
+Release: 22%{?dist}
 
 # Some source files by one of the authors lack a license header.
 # Musepack website acknowledges the licensing as "LGPL".
@@ -39,12 +39,12 @@ advanced stage in which it contains heavily optimized and patentless code.
 
 
 %build
-%cmake .
-%make_build VERBOSE=1
+%cmake
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %files
@@ -53,6 +53,16 @@ advanced stage in which it contains heavily optimized and patentless code.
 
 
 %changelog
+* Sat Aug  8 2020 Michael Schwendt <mschwendt@fedoraproject.org> - 1.16-22
+- Update cmake RPM macros to fix FTBFS.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

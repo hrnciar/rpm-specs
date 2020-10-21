@@ -1,9 +1,10 @@
+%define __cmake_in_source_build 1
 # unversionned doc dir F20 change https://fedoraproject.org/wiki/Changes/UnversionedDocdirs
 %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 Name:						gridftp-ifce
 Version:					2.3.1
-Release:					13%{?dist}
+Release:					16%{?dist}
 Summary:					GridFTP library for FTS and lcgutil
 License:					ASL 2.0
 URL:						https://svnweb.cern.ch/trac/lcgutil
@@ -56,6 +57,16 @@ make %{?_smp_mflags} DESTDIR=$RPM_BUILD_ROOT install
 %{_pkgdocdir}/LICENSE
 
 %changelog
+* Wed Sep 23 2020 Jeff Law <law@redhat.com> - 2.3.1-16
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-15
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

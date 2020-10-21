@@ -5,8 +5,8 @@
 %global pkgname lablgtk3
 
 Name:           ocaml-%{pkgname}
-Version:        3.1.0
-Release:        6%{?dist}
+Version:        3.1.1
+Release:        3%{?dist}
 Summary:        OCaml interface to gtk3
 
 License:        LGPLv2+ with exceptions
@@ -14,9 +14,6 @@ URL:            http://lablgtk.forge.ocamlcore.org/
 Source0:        https://github.com/garrigue/lablgtk/releases/download/%{version}/%{pkgname}-%{version}.tbz
 # Fedora only patch: unbundle xml-light
 Patch0:         %{name}-xml-light.patch
-# Fix the build with -fno-common
-# https://github.com/garrigue/lablgtk/pull/105
-Patch1:         %{name}-fno-common.patch
 
 BuildRequires:  help2man
 BuildRequires:  ocaml >= 4.05.0
@@ -92,6 +89,10 @@ files for developing applications that use %{name}-sourceview3.
 
 %prep
 %autosetup -n %{pkgname}-%{version} -p1
+
+# https://github.com/garrigue/lablgtk/issues/115
+mv examples/dialog-thread.ml examples/dialog_thread.ml
+sed -i -e 's/dialog-thread/dialog_thread/' examples/dune
 
 # This file is empty, so drop it before we make assemble the docs
 rm doc/FAQ.text
@@ -234,6 +235,23 @@ dune runtest
 %{_libdir}/ocaml/lablgtk3-sourceview3/opam
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 3.1.1-3
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 3.1.1-2
+- OCaml 4.11.0 rebuild
+
+* Wed Aug  5 2020 Jerry James <loganjerry@gmail.com> - 3.1.1-1
+- Version 3.1.1
+- Drop upstreamed -fno-common patch
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 3.1.0-6
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

@@ -7,7 +7,7 @@ terminals.
 
 Name: bitmap-fonts
 Version: 0.3
-Release: 33%{?dist}
+Release: 35%{?dist}
 License: GPLv2 and MIT and Lucida
 Source0: bitmap-fonts-%{version}.tar.bz2
 Source1: fixfont-3.5.tar.bz2
@@ -16,7 +16,6 @@ Source3: 66-bitmap-console.conf
 Source4: 66-bitmap-fangsongti.conf
 Source5: 66-bitmap-fixed.conf
 Source6: 66-bitmap-lucida-typewriter.conf
-Source7: bitmapfonts2otb.py
 BuildArch: noarch
 Summary: Selected set of bitmap fonts
 BuildRequires: xorg-x11-font-utils
@@ -82,7 +81,7 @@ Conflicts: bitmap-lucida-typewriter-fonts
 %description -n bitmap-lucida-typewriter-opentype-fonts
 %common_desc
 
-%_font_pkg -n lucida-typewriter-opentype -f %{fontconf}-lucida-typewriter.conf LucidaTypewriter*.otb
+%_font_pkg -n lucida-typewriter-opentype -f %{fontconf}-lucida-typewriter.conf lut*.otb
 %doc LU_LEGALNOTICE
 
 %package -n bitmap-fangsongti-fonts
@@ -109,7 +108,7 @@ Conflicts: bitmap-fangsongti-fonts
 %description -n %{fontname}-fangsongti-opentype-fonts
 %common_desc
 
-%_font_pkg -n fangsongti-opentype -f %{fontconf}-fangsongti.conf Fangsong*.otb
+%_font_pkg -n fangsongti-opentype -f %{fontconf}-fangsongti.conf fangsongti*.otb
 %doc LICENSE
 
 %package -n bitmap-console-fonts
@@ -132,7 +131,7 @@ Conflicts: bitmap-console-fonts
 %description -n %{fontname}-console-opentype-fonts
 %common_desc
 
-%_font_pkg -n console-opentype -f %{fontconf}-console.conf Console*.otb
+%_font_pkg -n console-opentype -f %{fontconf}-console.conf console8x16*.otb
 
 %package -n bitmap-fixed-fonts
 Summary: Selected set of bitmap fonts
@@ -154,12 +153,12 @@ Conflicts: bitmap-fixed-fonts
 %description -n %{fontname}-fixed-opentype-fonts
 %common_desc
 
-%_font_pkg -n fixed-opentype -f %{fontconf}-fixed.conf Fixed*.otb
+%_font_pkg -n fixed-opentype -f %{fontconf}-fixed.conf console9*.otb
+
 
 %prep
 %setup -q -a 1
 cp %{SOURCE2} .
-cp %{SOURCE7} .
 
 
 %build
@@ -170,9 +169,9 @@ rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
 
-cd fixfont-3.5
-
+pushd fixfont-3.5
 make install DESTDIR=$RPM_BUILD_ROOT
+popd
 
 mv $RPM_BUILD_ROOT/usr/share/fonts/bitmap-fonts %{buildroot}%{_fontdir}
 
@@ -181,8 +180,21 @@ rm %{buildroot}%{_fontdir}/console8x8.pcf
 rm README
 
 # Convert to OpenType Bitmap Font
-pushd %{buildroot}%{_fontdir}
-python3 %{_sourcedir}/bitmapfonts2otb.py *.pcf
+rm [0-9]*.bdf fixfont-3.5/[0-9]*.bdf
+
+for bdf in `ls *.bdf`;
+do fonttosfnt -b -c -g 2 -m 2 -o ${bdf%%bdf}otb  $bdf;
+done
+install -m 0644 -p *.otb %{buildroot}%{_fontdir}
+
+pushd fixfont-3.5
+for bdf in `ls *.bdf`;
+do fonttosfnt -b -c -g 2 -m 2 -o ${bdf%%bdf}otb  $bdf;
+done
+# For console9x15.otb
+fonttosfnt -b -c -g 2 -m 2 -o console9x15.otb console9x15.pcf
+
+install -m 0644 -p *.otb %{buildroot}%{_fontdir}
 popd
 
 gzip %{buildroot}%{_fontdir}/*.pcf
@@ -214,6 +226,12 @@ done
 
 
 %changelog
+* Fri Sep  4 2020 Peng Wu <pwu@redhat.com> - 0.3-35
+- Use BDF fonts for OpenType conversion
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb  6 2020 Peng Wu <pwu@redhat.com> - 0.3-33
 - Provide OpenType Bitmap fonts
 - Use bitmapfonts2otb.py to combine bitmap fonts

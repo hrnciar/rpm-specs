@@ -1,5 +1,5 @@
 Name:		purple-telegram
-Version:	1.4.3
+Version:	1.4.4
 Release:	1%{?dist}
 Summary:	Libpurple protocol plugin for Telegram support
 License:	GPLv2+ and LGPLv2+
@@ -36,7 +36,7 @@ chmod 755 %{buildroot}/%{_libdir}/purple-2/telegram-purple.so
 %find_lang telegram-purple
 
 %check
-appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/telegram-purple.metainfo.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/telegram-purple.metainfo.xml
 
 %files -f telegram-purple.lang
 %license COPYING
@@ -48,9 +48,16 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/telegram-
 %{_datadir}/pixmaps/pidgin/protocols/*/telegram.png
 
 #AppStream metadata
-%{_datadir}/appdata/telegram-purple.metainfo.xml
+%{_metainfodir}/telegram-purple.metainfo.xml
 
 %changelog
+* Fri Oct 02 2020 Jiri Eischmann <eischmann@redhat.com> - 1.4.4-1
+- Update to 1.4.4
+- Changing the metainfo file location
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Jiri Eischmann <eischmann@redhat.com> - 1.4.3-1
 -Update to 1.4.3
 -Adding macro for no debug info

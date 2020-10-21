@@ -1,6 +1,6 @@
 Name:             datanommer
 Version:          0.2.0
-Release:          19%{?dist}
+Release:          20%{?dist}
 Summary:          A storage consumer for the Fedora Message Bus (fedmsg)
 
 License:          GPLv3+
@@ -44,6 +44,9 @@ database.
 %{python3_sitelib}/%{name}-%{version}*egg-info/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.0-19
 - Rebuilt for Python 3.9
 

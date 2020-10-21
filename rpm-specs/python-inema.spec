@@ -7,8 +7,8 @@ international postal products like post cards and letters of all weight\
 classes and service classes (normal, registered, ...).
 
 Name:           python-%{srcname}
-Version:        0.8.1
-Release:        4%{?dist}
+Version:        0.8.2
+Release:        3%{?dist}
 Summary:        A Python interface to the Deutsche Post Internetmarke Online Franking
 
 License:        AGPLv3+
@@ -19,6 +19,8 @@ BuildArch:      noarch
 
 # required for py3_build macro
 BuildRequires:  python3-devel
+
+BuildRequires:  python3-setuptools
 
 # from setup.py
 BuildRequires: python3-pytz
@@ -55,6 +57,16 @@ sed -i '1,1s@^#!.*$@@' inema/frank.py inema/inema.py
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Georg Sauthoff <mail@gms.tf> - 0.8.2-2
+- Be more explicit regarding setuptools depenency,
+  cf. https://lists.fedoraproject.org/archives/list/devel@lists.fedoraproject.org/message/GCPGM34ZGEOVUHSBGZTRYR5XKHTIJ3T7/
+
+* Fri Jun 26 2020 Georg Sauthoff <mail@gms.tf> - 0.8.2-1
+- Bump to latest upstream release (COVID-19 VAT updates)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.1-4
 - Rebuilt for Python 3.9
 

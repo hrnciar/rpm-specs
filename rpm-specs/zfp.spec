@@ -1,6 +1,9 @@
+%undefine __cmake_in_source_build
+%undefine __cmake3_in_source_build
+
 Name:           zfp
-Version:        0.5.4
-Release:        3%{?dist}
+Version:        0.5.5
+Release:        1%{?dist}
 Summary:        Library for compressed numerical arrays with high throughput R/W random access
 
 License:        BSD
@@ -53,14 +56,12 @@ developing applications that use %{name}.
 
 
 %build
-mkdir build
-cd build
-%cmake3 ..
-%make_build
+%cmake3
+%cmake3_build
 
 
 %install
-%make_install -C build
+%cmake3_install
 
 
 %ldconfig_scriptlets
@@ -79,6 +80,12 @@ cd build
 
 
 %changelog
+* Sat Aug 08 2020 Orion Poplawski <orion@nwra.com> - 0.5.5-1
+- Update to 0.5.5
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

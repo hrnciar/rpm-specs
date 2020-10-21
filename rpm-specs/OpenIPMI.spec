@@ -3,8 +3,8 @@
 Summary: IPMI (Intelligent Platform Management Interface) library and tools
 Name: OpenIPMI
 
-Version:    2.0.28
-Release:    5%{?dist}
+Version:    2.0.29
+Release:    1%{?dist}
 License:    LGPLv2+ and GPLv2+ or BSD
 URL:        http://sourceforge.net/projects/openipmi/
 Source:     http://downloads.sourceforge.net/openipmi/%{name}-%{version}.tar.gz
@@ -12,7 +12,6 @@ Source1:    openipmi.sysconf
 Source2:    openipmi-helper
 Source3:    ipmi.service
 Patch1:     0001-man.patch
-Patch2:     0002-readline-includes.patch
 
 BuildRequires:    gdbm-devel swig glib2-devel net-snmp-devel ncurses-devel
 BuildRequires:    openssl-devel python3-devel perl-devel perl-generators
@@ -198,6 +197,15 @@ echo ".so man1/openipmish.1" > %{buildroot}%{_mandir}/man1/ipmish.1
 %{_mandir}/man5/ipmi_sim_cmd.5*
 
 %changelog
+* Thu Sep 17 2020 Josef Řídký <jridky@redhat.com> - 2.0.29-1
+- New upstream release 2.0.29 (#1846675)
+
+* Thu Aug 27 2020 Josef Řídký <jridky@redhat.com> - 2.0.28-7
+- Rebuilt for new net-snmp release
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.28-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.0.28-5
 - Perl 5.32 rebuild
 

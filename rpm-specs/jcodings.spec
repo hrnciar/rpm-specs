@@ -1,48 +1,84 @@
-%global commit_hash d50ee0e
-%global tag_hash d50ee0e
-
 # Prevent brp-java-repack-jars from being run.
 %define __jar_repack %{nil}
 
 Name:           jcodings
-Version:        1.0.9
-Release:        17%{?dist}
+Version:        1.0.36
+Release:        2%{?dist}
 Summary:        Java-based codings helper classes for Joni and JRuby
 
 License:        MIT
-URL:            http://github.com/jruby/%{name}
-Source0:        https://github.com/jruby/jcodings/tarball/%{version}/jruby-%{name}-%{version}-0-g%{commit_hash}.tar.gz
-
-BuildArch:      noarch
+URL:            https://github.com/jruby/%{name}
+Source0:        https://github.com/jruby/%{name}/archive/%{name}-%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  maven-local
-BuildRequires:  maven-source-plugin
+BuildRequires:  mvn(junit:junit)
+BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
+
+BuildArch: noarch
 
 %description
 Java-based codings helper classes for Joni and JRuby.
 
+%package javadoc
+Summary: API documentation for %{name}
+
+%description javadoc
+%{summary}.
 
 %prep
-%setup -q -n jruby-%{name}-%{tag_hash}
+%setup -q -n %{name}-%{name}-%{version}
 
 find -name '*.class' -delete
 find -name '*.jar' -delete
 
 %mvn_file : %{name}
 
-%build
-echo "See %{url} for more info about the %{name} project." > README.txt
+# Remove pointless parent pom
+%pom_remove_parent
 
+# Remove wagon extension
 %pom_xpath_remove "pom:build/pom:extensions"
+
+# Remove plugins not relevant for downstream RPM builds
+%pom_remove_plugin :maven-javadoc-plugin
+%pom_remove_plugin :maven-source-plugin
+
+# Generate OSGi metadata by using bundle packaging
+%pom_xpath_inject pom:project "<packaging>bundle</packaging>"
+%pom_add_plugin org.apache.felix:maven-bundle-plugin "<extensions>true</extensions>"
+
+%build
 %mvn_build
 
 %install
 %mvn_install
 
 %files -f .mfiles
-%doc README.txt
+%license LICENSE.txt
+%doc README.md
+
+%files javadoc -f .mfiles-javadoc
 
 %changelog
+* Wed Sep 02 2020 Mat Booth <mat.booth@redhat.com> - 1.0.36-2
+- Add OSGi metadata
+
+* Wed Sep 02 2020 Mat Booth <mat.booth@redhat.com> - 1.0.36-1
+- Update to a version that properly supports JDK 9+
+- Modernise specfile
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.9-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.9-19
+- Remove unnecessary dependency on maven-javadoc-plugin.
+- Fixes build and javadoc generation with both Java 8 and 11.
+- Remove maven-compiler-plugin configuration that's broken with Java 11.
+- Override javac source and target version with 1.8.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.0.9-18
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.9-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

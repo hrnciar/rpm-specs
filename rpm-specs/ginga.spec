@@ -17,7 +17,7 @@ thumbnails, etc.
 
 Name:           ginga
 Version:        2.7.2
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        %{sum}
 # License breakdown
 #
@@ -134,6 +134,13 @@ find %{buildroot}/%{python3_sitelib}/%{name} -name '*.py' | xargs sed -i '1s|^#!
 %doc examples-py3/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.2-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.7.2-6
 - Rebuilt for Python 3.9
 

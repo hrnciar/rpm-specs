@@ -2,8 +2,8 @@
 %global sum A fast and thorough lazy object proxy
 
 Name:           python-%{srcname}
-Version:        1.5.0
-Release:        1%{?dist}
+Version:        1.5.1
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        BSD
@@ -48,6 +48,12 @@ A fast and thorough lazy object proxy.
 %exclude %{python3_sitearch}/lazy_object_proxy/cext.c
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.5.1-1
+- 1.5.1
+
 * Fri Jun 05 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.5.0-1
 - 1.5.0
 

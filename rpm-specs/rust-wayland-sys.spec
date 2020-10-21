@@ -5,7 +5,7 @@
 %global crate wayland-sys
 
 Name:           rust-%{crate}
-Version:        0.26.6
+Version:        0.28.1
 Release:        1%{?dist}
 Summary:        FFI bindings to the various libwayland-*.so libraries
 
@@ -38,8 +38,8 @@ This package contains library source intended for building other packages
 which use "%{crate}" crate.
 
 %files          devel
-# one license file for a repo with multiple crates
-# https://github.com/Smithay/wayland-rs/pull/323
+%license LICENSE.txt
+%doc README.md
 %{cargo_registry}/%{crate}-%{version_no_tilde}/
 
 %package     -n %{name}+default-devel
@@ -169,7 +169,19 @@ which use "server" feature of "%{crate}" crate.
 %endif
 
 %changelog
-* Thu Jun 04 2020 Michel Alexandre Salim <michel@michel-slm.name> - 0.26.6-1
+* Thu Oct 15 2020 Stefano Figura <stefano@figura.im> - 0.28.1-1
+- Update to version 0.28.1.
+
+* Sun Oct 04 2020 Fabio Valentini <decathorpe@gmail.com> - 0.28.0-1
+- Update to version 0.28.0.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.26.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.26.6-2
+- Package license and docs
+
+* Thu Jun 04 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.26.6-1
 - Update to 0.26.6
 
 * Fri May 22 14:31:57 PDT 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.26.5-1

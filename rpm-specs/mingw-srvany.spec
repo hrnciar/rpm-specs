@@ -10,7 +10,7 @@
 
 Name:		mingw-srvany
 Version:	1.0
-Release:	24.%{gitdate}git%{shortcommit}%{?dist}
+Release:	25.%{gitdate}git%{shortcommit}%{?dist}
 Summary:	Utility for creating services for Windows
 
 License:	GPLv2+
@@ -64,6 +64,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-25.20150115gitfd659e77
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-24.20150115gitfd659e77
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name: openoffice.org-dict-cs_CZ
 Version: 20080822
-Release: 12%{?dist}
+Release: 13%{?dist}
 Summary: Czech spellchecker and hyphenation dictionaries for LibreOffice
 License: GPL+
 URL: http://extensions.services.openoffice.org/en/project/dict-cs
@@ -55,6 +55,9 @@ install -m 644 hyph*.dic $RPM_BUILD_ROOT%{hyphendir}
 %{hunspelldir}/cs*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20080822-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20080822-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

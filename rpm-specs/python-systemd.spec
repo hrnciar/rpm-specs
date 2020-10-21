@@ -1,6 +1,6 @@
 Name:           python-systemd
 Version:        234
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Python module wrapping systemd functionality
 
 License:        LGPLv2+
@@ -74,6 +74,9 @@ make PYTHON=%{__python3} check
 %doc %{_pkgdocdir}/html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 234-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 234-13
 - Rebuilt for Python 3.9
 

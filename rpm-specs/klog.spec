@@ -1,10 +1,10 @@
 Name:           klog
-Version:        1.0
-Release:        2%{?dist}
+Version:        1.3.1
+Release:        1%{?dist}
 Summary:        A Ham radio logging program for KDE
 
 License:        GPLv2+
-URL:            https://jaime.robles.es/klog/klog-intro/
+URL:            https://www.klog.xyz/
 
 Source0:        http://download.savannah.gnu.org/releases/%{name}/%{name}-%{version}.tar.gz
 Source100:      klog.desktop
@@ -15,9 +15,9 @@ Source104:      klog_256x256.png
 Source105:      klog_512x512.png
 
 BuildRequires:  hamlib-devel
-BuildRequires:  qt5-devel
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtcharts-devel
+BuildRequires:  qt5-qtserialport-devel
 BuildRequires:  qt5-qttools-devel
 BuildRequires:  gettext dos2unix
 BuildRequires:  desktop-file-utils
@@ -54,9 +54,6 @@ install -p %{SOURCE101} %{SOURCE102} %{SOURCE103} %{SOURCE104} %{SOURCE105} .
 
 # Fix line endings
 dos2unix TODO
-
-# For some reason all files in 0.9.2.9 are marked executale
-find ./ -type f -exec chmod -x {} \;
 
 
 %build
@@ -96,6 +93,22 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications \
 
 
 %changelog
+* Tue Oct 06 2020 Richard Shaw <hobbes1069@gmail.com> - 1.3.1-1
+- Update to 1.3.1.
+
+* Sun Sep 20 2020 Richard Shaw <hobbes1069@gmail.com> - 1.2.2-1
+- Update to 1.2.2.
+
+* Tue Aug 11 2020 Richard Shaw <hobbes1069@gmail.com> - 1.2-1
+- Update to 1.2.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 31 2020 Richard Shaw <hobbes1069@gmail.com> - 1.0-2
 - Rebuild for hamlib 4.
 

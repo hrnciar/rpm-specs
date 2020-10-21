@@ -4,7 +4,7 @@ Version:        1.3.0
 %forgemeta
 
 Name:           libpasastro
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Pascal interface for standard astronomy libraries
 
 License:        GPLv2+
@@ -54,6 +54,9 @@ make install PREFIX=%{buildroot}%{_prefix}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 18 2020 Mattia Verga <mattia.verga@protonmail.com> - 1.3.0-1
 - Update to 1.3.0
 - libpasraw is now in a separate package on its own

@@ -1,6 +1,6 @@
 Name:           perl-Test-TCP
 Version:        2.22
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Testing TCP program
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test-TCP
@@ -54,6 +54,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.22-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.22-3
 - Perl 5.32 rebuild
 

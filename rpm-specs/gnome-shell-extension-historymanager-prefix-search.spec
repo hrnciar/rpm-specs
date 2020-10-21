@@ -5,7 +5,7 @@
 Name:       gnome-shell-extension-historymanager-prefix-search
 Summary:    Use PageUp and PageDown to search for previous GNOME Shell commands
 Version:    12
-Release:    4%{?dist}
+Release:    5%{?dist}
 URL:        https://github.com/sustmi/gnome-shell-extension-historymanager-prefix-search
 License:    GPLv3+
 BuildArch:  noarch
@@ -13,7 +13,6 @@ BuildArch:  noarch
 # See the latest releases here:
 # https://github.com/sustmi/gnome-shell-extension-historymanager-prefix-search/releases
 Source0: https://github.com/sustmi/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
-Source1: ./README.md
 
 BuildRequires: gettext
 BuildRequires: glib2
@@ -44,6 +43,25 @@ previous commands which match the prefix you typed.
 %prep
 %autosetup
 
+cat > ./README-fedora.md << EOF
+After installing, each user that wants it must still manually enable
+HistoryManager Prefix Search before it will take effect. You can do so a
+few different ways.
+
+First, restart GNOME Shell (Open the command dialog with Alt-F2, type
+\`r\`, and hit enter), or log out and log back in. Then:
+
+- If you've already set up the GNOME Shell web browser plugin, go to
+  <https://extensions.gnome.org/local/>, find the extension, and click
+  the switch to "ON."
+- Open GNOME Tweaks, go to the Extensions tab, find the extension,
+  and click the switch to "ON."
+- Open a terminal or the desktop's command dialog, and (as your normal
+  user account) run:
+  \`gnome-extensions enable %{UUID}\`
+EOF
+
+
 
 
 %build
@@ -54,7 +72,6 @@ previous commands which match the prefix you typed.
 %install
 mkdir -p %{install_destination}
 cp --recursive --preserve=mode,timestamps  ./*  %{install_destination}/
-cp --recursive --preserve=mode,timestamps  %{SOURCE1}  ./README-fedora.md
 # Remove duplicate copies of license and README.
 rm  %{install_destination}/README.md  %{install_destination}/COPYING
 # Makefile is only used in upstream's builds for the GNOME Extensions website.
@@ -88,6 +105,9 @@ rm --recursive  %{install_destination}/po/  %{install_destination}/locale/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 31 2020 Andrew Toskin <andrew@tosk.in> - 12-4
 - Add explicit Recommend for GNOME Shell Extensions preferences tool.
 

@@ -9,7 +9,7 @@
 
 Name:		perl-B-Hooks-EndOfScope
 Version:	0.24
-Release:	10%{?dist}
+Release:	12%{?dist}
 License:	GPL+ or Artistic
 Summary:	Execute code after scope compilation finishes
 URL:		https://metacpan.org/release/B-Hooks-EndOfScope
@@ -129,6 +129,12 @@ make test TEST_FILES="$(echo $(find xt/ -name '*.t'))"
 %{_mandir}/man3/B::Hooks::EndOfScope::XS.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.24-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.24-11
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.24-10
 - Perl 5.32 rebuild
 

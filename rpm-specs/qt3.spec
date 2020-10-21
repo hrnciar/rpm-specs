@@ -6,7 +6,7 @@
 Name: qt3
 Summary: The shared library for the Qt 3 GUI toolkit
 Version: 3.3.8b
-Release: 81%{?dist}
+Release: 84%{?dist}
 License: QPL or GPLv2 or GPLv3
 Url: http://www.troll.no
 Source0: ftp://ftp.trolltech.com/qt/source/qt-x11-free-%{version}.tar.gz
@@ -75,6 +75,9 @@ Patch53: qt-x11-free-3.3.6-qt-x11-immodule-unified-qt3.3.5-20060318-resetinputco
 
 # mariadb support
 Patch60: qt-x11-free-3.3.8b-mariadb.patch
+
+# compile with PostgreSQL 12
+Patch70: qt-x11-free-3.3.8b-PostgreSQL12.patch
 
 # qt-copy patches
 Patch100: 0038-dragobject-dont-prefer-unknown.patch
@@ -339,6 +342,9 @@ sed -i.KDE3_PLUGIN_PATH \
 # mariadb
 %patch60 -p1 -b .mariadb
 
+# PostgreSQL 12
+%patch70 -p1 -b .PostgreSQL12
+
 # qt-copy patches
 %patch100 -p0 -b .0038-dragobject-dont-prefer-unknown
 %patch101 -p0 -b .0047-fix-kmenu-width
@@ -446,7 +452,7 @@ echo yes | ./configure \
   -xft \
   -tablet
 
-make $SMP_MFLAGS src-qmake
+%make_build src-qmake
 
 %if 0%{?rhel} && 0%{?rhel} < 7
 # build sqlite plugin
@@ -470,9 +476,9 @@ pushd plugins/src/sqldrivers/odbc
 qmake -o Makefile "LIBS+=-lodbc" odbc.pro
 popd
 
-make $SMP_MFLAGS src-moc
-make $SMP_MFLAGS sub-src
-make $SMP_MFLAGS sub-tools UIC="$QTDIR/bin/uic -nostdlib -L $QTDIR/plugins"
+%make_build src-moc
+%make_build sub-src
+%make_build sub-tools UIC="$QTDIR/bin/uic -nostdlib -L $QTDIR/plugins"
 
 %install
 rm -rf %{buildroot}
@@ -642,6 +648,15 @@ mkdir -p %{buildroot}%{qtdir}/plugins/styles
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.8b-84
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Than Ngo <than@redhat.com> - 3.3.8b-83
+- Use make macros, https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Thu Jul 16 2020 Than Ngo <than@redhat.com> - 3.3.8b-82
+- fixed 1839125 - compile with PostgreSQL 12, FTBFS
+
 * Thu Apr 02 2020 Björn Esser <besser82@fedoraproject.org> - 3.3.8b-81
 - Fix string quoting for rpm >= 4.16
 

@@ -4,7 +4,7 @@
 
 Name:           python-%{srcname}
 Version:        4.1.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Blessed package to manage your versions by SCM tags
 
 License:        MIT
@@ -36,6 +36,8 @@ BuildRequires:  python%{python3_pkgversion}-toml
 Setuptools_scm handles managing your python package versions in SCM metadata.
 It also handles file finders for the supported SCMs.
 
+%{?python_extras_subpkg:%{python_extras_subpkg -n python3-setuptools_scm -i %{python3_sitelib}/%{srcname}-*.egg-info toml}}
+
 %prep
 %autosetup -n %{srcname}-%{version}
 
@@ -57,6 +59,12 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v -k 'not test_pip_download'
 %{python3_sitelib}/%{srcname}-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Miro Hrončok <mhroncok@redhat.com> - 4.1.2-2
+- Add setuptools_scm[toml] subpackage
+
 * Mon Jun 01 2020 Charalampos Stratakis <cstratak@redhat.com> - 4.1.2-1
 - Update to 4.1.2 (#1839497)
 

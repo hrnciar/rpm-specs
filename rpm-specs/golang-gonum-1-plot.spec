@@ -4,7 +4,7 @@
 # https://github.com/gonum/plot
 %global goipath         gonum.org/v1/plot
 %global forgeurl        https://github.com/gonum/plot
-%global commit          e2840ee46a6b612972d746f9fea9920d329a0605
+Version:                0.7.0
 
 %gometa
 
@@ -15,8 +15,7 @@ Plot provides an API for building and drawing plots in Go.}
 %global godocs          AUTHORS README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.3%{?dist}
+Release:        1%{?dist}
 Summary:        Package for plotting and visualizing data
 
 License:        BSD
@@ -58,6 +57,12 @@ BuildRequires:  golang(gonum.org/v1/gonum/mat)
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 14:35:18 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.7.0-1
+- Update to 0.7.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

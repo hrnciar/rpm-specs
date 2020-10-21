@@ -1,6 +1,6 @@
 Name:           mscgen
 Version:        0.20
-Release:        27%{?dist}
+Release:        30%{?dist}
 Summary:        Message Sequence Chart rendering program
 License:        GPLv2+
 URL:            http://www.mcternan.me.uk/mscgen/
@@ -18,6 +18,8 @@ Patch1:         %{name}-0.20-uninitialized-ymax.patch
 # Fixes language.c:464:5: error: conflicting types for 'yyparse'
 # https://code.google.com/p/mscgen/issues/detail?id=83
 Patch2:         %{name}-0.20-language.patch
+# Fixes crash in tests
+Patch3:         https://salsa.debian.org/debian/mscgen/-/raw/638a985eed63f6849c77c03216780a671757165d/debian/patches/width-never-less-than-zero.patch#/%{name}-0.20-width-never-less-than-zero.patch
 
 %global test_with_valgrind %{?_with_valgrind:1}%{!?_with_valgrind:0}
 
@@ -54,6 +56,7 @@ transformed into common image formats for display or printing.
 %patch0 -p1 -b .escape
 %patch1 -p1 -b .initialization
 %patch2 -p1 -b .language
+%patch3 -p1 -b .zero
 #this ensures that they get regenerated
 rm -f src/language.{c,h} src/lexer.c
 
@@ -87,6 +90,16 @@ cp -p TODO %{buildroot}%{_defaultdocdir}/%{name}/
 
 
 %changelog
+* Mon Aug 03 2020 Damian Wrobel <dwrobel@ertelnet.rybnik.pl> - 0.20-30
+- Fix crash in tests
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20-29
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

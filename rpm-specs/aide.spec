@@ -1,7 +1,7 @@
 Summary:        Intrusion detection environment
 Name:           aide
 Version:        0.16
-Release:        13%{?dist}
+Release:        16%{?dist}
 URL:            http://sourceforge.net/projects/aide
 License:        GPLv2+
 
@@ -80,6 +80,17 @@ mkdir -p -m0700 %{buildroot}%{_localstatedir}/lib/aide
 %dir %attr(0700,root,root) %{_localstatedir}/log/aide
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Radovan Sroka <rsroka@redhat.com> 0.16-14
+- AIDE breaks when setting report_ignore_e2fsattrs
+  Resolves: rhbz#1850276
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,11 +1,10 @@
+%undefine __cmake_in_source_build
+
 %global krita_python 1
 
-# try to workaround f32+ FTBFS
-#global _legacy_common_support 1
-
 Name:           krita
-Version:        4.2.9
-Release:        4%{?dist}
+Version:        4.3.0
+Release:        2%{?dist}
 Summary:        Krita is a sketching and painting program
 License:        GPLv2+
 URL:            http://krita.org
@@ -99,16 +98,12 @@ Requires:       %{name} = %{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -143,6 +138,12 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Rex Dieter <rdieter@fedoraproject.org> - 4.3.0-1
+- 5.3.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.2.9-4
 - Rebuilt for Python 3.9
 

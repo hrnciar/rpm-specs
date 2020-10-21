@@ -4,7 +4,7 @@
 %forgemeta
 
 Version: 3.604
-Release: 1%{?dist}
+Release: 2%{?dist}
 URL:     https://www.behance.net/gallery/28579883/Cormorant-an-open-source-display-font-family
 
 %global foundry           Catharsis Fonts
@@ -148,6 +148,9 @@ This package provides optional documentation files shipped with
 %doc 5.*Specimens*Test*Files/*pdf
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 3.604-1.20200422git3f27825
 🐞 Workaround Fedora problems created by rpm commit 93604e2

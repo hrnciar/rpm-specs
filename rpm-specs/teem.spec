@@ -1,6 +1,6 @@
 Name:		teem
 Version:	1.11.0
-Release:	10%{?dist}
+Release:	13%{?dist}
 Summary:	Libraries for scientific raster data processing and visualizing
 
 License:	LGPLv2+
@@ -55,42 +55,28 @@ files.
 
 %prep
 %autosetup -n %{name}-%{version}-src -p1
-mkdir build
 
 
 %build
-pushd build
-
 %cmake \
     -DCMAKE_SKIP_INSTALL_RPATH=ON \
     -DTeem_USE_LIB_INSTALL_SUBDIR=ON \
     -DTeem_FFTW3=ON \
-    ..
-%make_build
-
-popd
+%cmake_build
 
 
 %install
-pushd build
-%make_install
-popd
-
+%cmake_install
 
 %check
-pushd build
-
 # tests fail on 32-bit arches
 # seems that computation accuracy is arch-dependant
+%global _smp_mflags -j1
 %ifarch x86_64
-ctest -VV
+%ctest
 %endif
 
-popd
-
-
 %ldconfig_scriptlets libs
-
 
 %files
 %doc README.txt
@@ -108,6 +94,16 @@ popd
 
 
 %changelog
+* Fri Sep 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.11.0-13
+- Use cmake macros to fix build
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.0-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

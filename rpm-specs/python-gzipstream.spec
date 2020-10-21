@@ -9,7 +9,7 @@
 Summary: Streaming zlib (gzip) support for python
 Name: python-gzipstream
 Version: 2.8.6
-Release: 10%{?dist}
+Release: 11%{?dist}
 URL:        https://github.com/spacewalkproject/spacewalk/wiki/Projects_python-gzipstream
 Source0:    https://github.com/spacewalkproject/spacewalk/archive/python-gzipstream-%{version}.tar.gz
 License: GPLv2
@@ -61,6 +61,9 @@ cd ../py3
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.6-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.8.6-10
 - Rebuilt for Python 3.9
 

@@ -1,11 +1,11 @@
 Name:           amtk
-Version:        5.1.1
+Version:        5.2.0
 Release:        1%{?dist}
 Summary:        Actions, Menus and Toolbars Kit for GTK+ applications
 
 License:        LGPLv2+
 URL:            https://wiki.gnome.org/Projects/Amtk
-Source0:        https://download.gnome.org/sources/amtk/5.1/amtk-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/amtk/5.2/amtk-%{version}.tar.xz
 
 BuildRequires:  gcc
 BuildRequires:  gettext
@@ -78,6 +78,19 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 
 
 %changelog
+* Thu Sep 10 2020 Kalev Lember <klember@redhat.com> - 5.2.0-1
+- Update to 5.2.0
+
+* Fri Sep 04 2020 Kalev Lember <klember@redhat.com> - 5.1.2-1
+- Update to 5.1.2
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Kalev Lember <klember@redhat.com> - 5.1.1-1
 - Update to 5.1.1
 

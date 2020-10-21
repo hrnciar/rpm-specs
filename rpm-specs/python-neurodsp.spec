@@ -30,7 +30,7 @@ https://doi.org/10.21105/joss.01272}
 
 Name:           python-%{pypi_name}
 Version:        2.0.0
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        A tool for digital signal processing for neural time series
 
 License:        ASL 2.0
@@ -48,6 +48,7 @@ BuildArch:      noarch
 %package -n python3-%{pypi_name}
 Summary:        %{summary}
 BuildRequires:  python3-devel
+BuildRequires:  %{py3_dist setuptools}
 BuildRequires:  %{py3_dist numpy}
 BuildRequires:  %{py3_dist scipy}
 BuildRequires:  %{py3_dist matplotlib}
@@ -87,6 +88,12 @@ pytest-3
 %{python3_sitelib}/%{pypi_name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Aniket Pradhan <major AT fedoraproject DOT org> - 2.0.0-5
+- Added setuptools to BuildRequires
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.0-4
 - Rebuilt for Python 3.9
 

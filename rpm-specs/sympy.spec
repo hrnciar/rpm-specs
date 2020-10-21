@@ -1,5 +1,5 @@
 Name:           sympy
-Version:        1.6
+Version:        1.6.2
 Release:        1%{?dist}
 Summary:        A Python library for symbolic mathematics
 License:        BSD
@@ -22,19 +22,20 @@ BuildRequires:  librsvg2-tools
 BuildRequires:  parallel
 BuildRequires:  procps
 BuildRequires:  python3-devel
-BuildRequires:  python3dist(cython)
-BuildRequires:  python3dist(docutils)
-BuildRequires:  python3dist(fastcache)
-BuildRequires:  python3dist(gmpy2)
-BuildRequires:  python3dist(matplotlib)
-BuildRequires:  python3dist(mpmath)
-BuildRequires:  python3dist(numexpr)
-BuildRequires:  python3dist(numpy)
+BuildRequires:  %{py3_dist cython}
+BuildRequires:  %{py3_dist docutils}
+BuildRequires:  %{py3_dist fastcache}
+BuildRequires:  %{py3_dist gmpy2}
+BuildRequires:  %{py3_dist matplotlib}
+BuildRequires:  %{py3_dist mpmath}
+BuildRequires:  %{py3_dist numexpr}
+BuildRequires:  %{py3_dist numpy}
 BuildRequires:  python3-numpy-f2py
-BuildRequires:  python3dist(scipy)
-BuildRequires:  python3dist(sphinx-math-dollar)
-BuildRequires:  python3dist(theano)
-BuildRequires:  python3dist(wurlitzer)
+BuildRequires:  %{py3_dist scipy}
+BuildRequires:  %{py3_dist setuptools}
+BuildRequires:  %{py3_dist sphinx-math-dollar}
+BuildRequires:  %{py3_dist theano}
+BuildRequires:  %{py3_dist wurlitzer}
 BuildRequires:  tex(latex)
 BuildRequires:  tex-dvipng
 BuildRequires:  xorg-x11-fonts-Type1
@@ -51,15 +52,15 @@ Python and does not require any external libraries.
 %package -n python3-%{name}
 Summary:        A Python3 library for symbolic mathematics
 Requires:       mesa-libGLU
-Requires:       python3dist(cython)
-Requires:       python3dist(fastcache)
-Requires:       python3dist(gmpy2)
-Requires:       python3dist(matplotlib)
-Requires:       python3dist(pyglet)
+Requires:       %{py3_dist cython}
+Requires:       %{py3_dist fastcache}
+Requires:       %{py3_dist gmpy2}
+Requires:       %{py3_dist matplotlib}
+Requires:       %{py3_dist pyglet}
 
-Recommends:     python3dist(numexpr)
-Recommends:     python3dist(scipy)
-Recommends:     python3dist(theano)
+Recommends:     %{py3_dist numexpr}
+Recommends:     %{py3_dist scipy}
+Recommends:     %{py3_dist theano}
 
 %description -n python3-%{name}
 SymPy aims to become a full-featured computer algebra system (CAS)
@@ -105,7 +106,7 @@ done
 
 # Build the documentation
 pushd doc
-make html SPHINXOPTS=%{?_smp_mflags} PYTHON=%{__python3}
+make html SPHINXOPTS=%{?_smp_mflags} PYTHON=%{python3}
 make cheatsheet
 popd
 
@@ -145,7 +146,7 @@ if [ "%{maxpyint}" != "7fffffff" ]; then
 
   xvfb-run -a -n $dnum \
       parallel %{?_smp_mflags} \
-      %{__python3} bin/test -v --split {}/$jobs \
+      %{python3} bin/test -v --split {}/$jobs \
       ::: $(bash -c "echo {1..$jobs}")
 fi
 
@@ -173,6 +174,20 @@ fi
 %{_docdir}/%{name}-doc/html
 
 %changelog
+* Mon Aug 10 2020 Jerry James <loganjerry@gmail.com> - 1.6.2-1
+- Version 1.6.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul  2 2020 Jerry James <loganjerry@gmail.com> - 1.6.1-1
+- Version 1.6.1
+- Drop upstreamed -ast patch
+
+* Wed Jun 24 2020 Jerry James <loganjerry@gmail.com> - 1.6-2
+- Add setuptools BR
+- Add -ast patch to fix compilation with python 3.9
+
 * Fri May 29 2020 Jerry James <loganjerry@gmail.com> - 1.6-1
 - Version 1.6
 - Drop upstreamed -doc and -sample-set patches

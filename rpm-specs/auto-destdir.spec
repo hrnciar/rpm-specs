@@ -1,6 +1,6 @@
 Name:		auto-destdir
 Version:	1.11
-Release:	17%{?dist}
+Release:	18%{?dist}
 Summary:	Automate DESTDIR support for "make install"
 
 License:	MIT
@@ -43,6 +43,9 @@ chmod a-x %{buildroot}/%{_mandir}/man1/*
 %license COPYING
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

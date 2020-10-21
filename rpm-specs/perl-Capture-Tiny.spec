@@ -1,15 +1,16 @@
 Name:           perl-Capture-Tiny
 Version:        0.48
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Capture STDOUT and STDERR from Perl, XS or external programs
 License:        ASL 2.0
 URL:            https://metacpan.org/release/Capture-Tiny
 Source0:        https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Capture-Tiny-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  make
-BuildRequires:  perl-interpreter
 BuildRequires:  perl-devel
 BuildRequires:  perl-generators
+BuildRequires:  perl-interpreter
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
@@ -43,11 +44,11 @@ in any particular situation and just use this one.
 %setup -q -n Capture-Tiny-%{version}
 
 %build
-perl Makefile.PL INSTALLDIRS=perl NO_PACKLIST=1
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=perl NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=%{buildroot}
+%{make_install}
 %{_fixperms} %{buildroot}/*
 
 %check
@@ -60,6 +61,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Petr Pisar <ppisar@redhat.com> - 0.48-9
+- Modernize a spec file
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.48-8
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:		perl-MCE-Shared
-Version:	1.872
-Release:	2%{?dist}
+Version:	1.873
+Release:	1%{?dist}
 Summary:	MCE extension for sharing data, supporting threads and processes
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/MCE-Shared
@@ -21,7 +21,7 @@ BuildRequires:	perl(constant)
 BuildRequires:	perl(Errno)
 BuildRequires:	perl(if)
 BuildRequires:	perl(IO::Handle)
-BuildRequires:	perl(MCE) >= 1.872
+BuildRequires:	perl(MCE) >= 1.873
 BuildRequires:	perl(MCE::Mutex)
 BuildRequires:	perl(MCE::Signal)
 BuildRequires:	perl(MCE::Util)
@@ -45,7 +45,7 @@ BuildRequires:	perl(utf8)
 # Runtime
 Requires:	perl(:MODULE_COMPAT_%(eval "$(perl -V:version)"; echo $version))
 Requires:	perl(IO::FDPass) >= 1.2
-Requires:	perl(MCE) >= 1.872
+Requires:	perl(MCE) >= 1.873
 Requires:	perl(overloading)
 Requires:	perl(POSIX)
 Requires:	perl(Storable) >= 2.04
@@ -93,6 +93,14 @@ make test
 %{_mandir}/man3/MCE::Shared::Server.3*
 
 %changelog
+* Sun Aug  2 2020 Paul Howarth <paul@city-fan.org> - 1.873-1
+- Update to 1.873
+  - Resolved construction MCE::Shared->share hanging when specifying a module
+    that does not exist
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.872-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.872-2
 - Perl 5.32 rebuild
 
@@ -104,7 +112,7 @@ make test
   - Added hsetnx method to MCE::Shared::Minidb
   - Updated keys, pairs, and values in
     MCE::Shared::{ Array, Cache, Hash and Ordhash }
-  - The MCE::Shared project is completed
+  - The MCE::Shared project is feature complete
 
 * Wed May 13 2020 Paul Howarth <paul@city-fan.org> - 1.871-1
 - Update to 1.871

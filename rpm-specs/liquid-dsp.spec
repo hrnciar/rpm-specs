@@ -1,27 +1,27 @@
-%global commit 4892ebbc04ef57dd6f603d3f4ece253d8c2bd571
+%global commit 7ad249625eb42ab4b9ed9697c2f72aaed551a5f4
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global snapshotdate 20190728
+%global snapshotdate 20201010
 %global fedora_soname 2.0
 Name:           liquid-dsp
 Version:        1.3.2
-#Release:        1.%{snapshotdate}git%{shortcommit}%{?dist}
-Release:        1%{?dist}
+Release:        3.%{snapshotdate}git%{shortcommit}%{?dist}
 Summary:        Digital Signal Processing Library for Software-Defined Radios
 
 License:        MIT
 URL:            http://liquidsdr.org/
-#Source0:        https://github.com/jgaeddert/%{name}/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
-Source0:        liquid-dsp-1.3.2.tar.gz
+Source0:        https://github.com/jgaeddert/%{name}/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
+# upstream autotools files not in the tarball
+Source1:        config.h.in
 # set soname ourselves as upstream doesn't
 Patch0:         soname-version.patch
 # Patch configure.ac for ppc64
 Patch1:         ppc64-configureac.patch
-# add autotooling as upstream doesn't
-Patch2:         autotools.patch
 # fixes ppc64 altivec, other 64-bit problems. Patch by Dan Horák.
 # https://github.com/jgaeddert/liquid-dsp/pull/136
 Patch3:         ppc64.patch
-BuildRequires:  gcc fftw-libs-single gcovr
+BuildRequires:  gcc
+BuildRequires:  fftw-devel fftw-libs-single
+BuildRequires:  autoconf automake libtool
 
 %description
 Digital signal processing library for software-defined radios
@@ -34,10 +34,11 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 Digital signal processing library for software-defined radios
 
 %prep
-%autosetup -p1 -n %{name}-%{version}
-chmod a+x configure
+%autosetup -p1 -n %{name}-%{commit}
+cp %{SOURCE1} .
+autoreconf -f -i
 %build
-%configure --exec_prefix=/ --enable-coverage
+%configure --exec_prefix=/ --enable-simdoverride
 %make_build
 
 %check
@@ -63,6 +64,16 @@ popd > /dev/null 2>&1
 
 
 %changelog
+* Mon Oct 12 2020 Matt Domsch <matt@domsch.com> 1.3.2-3.20201010git7ad2496
+- Upstream removed the exit() calls https://github.com/jgaeddert/liquid-dsp/issues/134
+- invoke autoreconf at build time, as upstream doesn't package what we need
+- Add BR: fftw-devel
+- Remove BR: gcovr and --enable-coverage. It was keeping the exit call in the library,
+  and we aren't looking at the coverage results anyhow.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr  7 2020 Matt Domsch <matt@domsch.com> 1.3.2-1
 - upstream 1.3.2
 - upstream constantly changes the ABI in backwards-incompatible ways without versioning

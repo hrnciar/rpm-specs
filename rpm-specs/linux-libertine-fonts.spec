@@ -14,7 +14,7 @@ proprietary standard fonts.
 
 Name:           %{fontname}-fonts
 Version:        5.3.0
-Release:        17.%{posttag}%{?dist}
+Release:        18.%{posttag}%{?dist}
 Summary:        Linux Libertine Open Fonts
 
 License:        GPLv2+ with exceptions or OFL
@@ -108,6 +108,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 %{_metainfodir}/biolinum.metainfo.xml
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.0-18.2012_07_02
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.0-17.2012_07_02
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

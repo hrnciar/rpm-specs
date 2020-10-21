@@ -8,7 +8,7 @@ twisted.python.constants from the Twisted project.}
 
 Name:           python-%{pypi_name}
 Version:        15.1.0
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Symbolic constants in Python
 
 License:        MIT
@@ -47,6 +47,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{pypi_name}-%{version}-py*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 15.1.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 15.1.0-10
 - Rebuilt for Python 3.9
 

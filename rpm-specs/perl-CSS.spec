@@ -1,6 +1,6 @@
 Name:           perl-CSS
 Version:        1.09
-Release:        19%{?dist}
+Release:        21%{?dist}
 Summary:        Object oriented access to Cascading Style Sheets (CSS)
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/CSS
@@ -61,6 +61,12 @@ make test
 %{_mandir}/man3/CSS::*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.09-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Terje Rosten <terje.rosten@ntnu.no> - 1.09-20
+- Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.09-19
 - Perl 5.32 rebuild
 

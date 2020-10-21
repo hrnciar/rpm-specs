@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 Version: 1.10
-Release: 42%{?dist}
+Release: 43%{?dist}
 License: Bitstream Vera
 URL:     http://www.gnome.org/fonts/
 
@@ -92,6 +92,9 @@ Summary:  The Bitstream Vera font families
 %fontfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 1.10-42
 🐞 Workaround Fedora problems created by rpm commit 93604e2

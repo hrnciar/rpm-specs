@@ -5,7 +5,7 @@
 Name:          lout
 Summary:       A document formatting system
 Version:       3.40
-Release:       16%{?dist}
+Release:       17%{?dist}
 License:       GPLv2+
 URL:           http://savannah.nongnu.org/projects/lout/
 Source0:       http://download.savannah.gnu.org/releases/lout/lout-%{version}.tar.gz
@@ -101,6 +101,9 @@ make BINDIR=$RPM_BUILD_ROOT%{_bindir} \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.40-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.40-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

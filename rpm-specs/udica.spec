@@ -1,7 +1,7 @@
 Summary: A tool for generating SELinux security policies for containers
 Name: udica
-Version: 0.2.1
-Release: 3%{?dist}
+Version: 0.2.3
+Release: 1%{?dist}
 Source0: https://github.com/containers/udica/archive/v%{version}.tar.gz
 License: GPLv3+
 BuildArch: noarch
@@ -60,6 +60,15 @@ install -m 0644 udica/man/man8/udica.8 %{buildroot}%{_mandir}/man8/udica.8
 %endif
 
 %changelog
+* Thu Aug 13 2020 Lukas Vrabec <lvrabec@redhat.com> - 0.2.3-1
+- New rebase https://github.com/containers/udica/releases/tag/v0.2.3
+
+* Mon Aug 03 2020 Lukas Vrabec <lvrabec@redhat.com> - 0.2.2-1
+- New rebase https://github.com/containers/udica/releases/tag/v0.2.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.1-3
 - Rebuilt for Python 3.9
 

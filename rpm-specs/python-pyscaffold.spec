@@ -18,7 +18,7 @@ own Python package as easy as possible.
 
 Name:           python-%{pypi_name}
 Version:        3.2.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Template tool for putting up the scaffold of a Python project
 
 License:        MIT
@@ -136,6 +136,9 @@ PYTHONPATH=%{buildroot}/%{python3_sitelib} pytest-3 . -k "not test_update_versio
 %doc html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.2.1-5
 - Rebuilt for Python 3.9
 

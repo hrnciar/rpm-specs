@@ -2,13 +2,10 @@
 # %global gitcommit %(c=%{gitcommit_full}; echo ${c:0:7})
 # %global date 20200420
 
-%global optflags %{optflags} -flto=auto
-%global build_ldflags %{build_ldflags} -flto
-
 Name:           stlink
 Version:        1.6.1
 # Release:        0.1.%{date}git%{gitcommit}%{?dist}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        STM32 discovery line Linux programmer
 License:        BSD
 
@@ -52,23 +49,14 @@ sed -i 's|find_package(libusb REQUIRED)|find_package(libusb REQUIRED)\nset(STLIN
 
 
 %build
-mkdir build
-pushd build
-    %cmake3 \
-        -DCMAKE_AR=/usr/bin/gcc-ar \
-        -DCMAKE_RANLIB=/usr/bin/gcc-ranlib \
-        -DCMAKE_NM=/usr/bin/gcc-nm \
-        -DSTLINK_UDEV_RULES_DIR="%{_udevrulesdir}" \
-        -DSTLINK_STATIC_LIB=OFF \
-        -DSTLINK_GENERATE_MANPAGES=ON \
-        ..
-    %make_build
-popd
+%cmake3 \
+    -DSTLINK_UDEV_RULES_DIR="%{_udevrulesdir}" \
+    -DSTLINK_STATIC_LIB=OFF \
+    -DSTLINK_GENERATE_MANPAGES=ON
+%cmake_build
 
 %install
-pushd build
-    %make_install
-popd
+%cmake_install
 # Remove static library
 rm %{buildroot}%{_libdir}/lib%{name}.a
 
@@ -98,6 +86,13 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}-gui.desktop
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 1.6.0-1
 - Update to 1.6.1
 

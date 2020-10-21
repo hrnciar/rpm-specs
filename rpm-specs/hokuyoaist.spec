@@ -1,9 +1,11 @@
+%undefine __cmake_in_source_build
 %global commit b87a88aa66853d3c9d901d4e6be729c5fe69aae0
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
+%global soversion 3
 
 Name:           hokuyoaist
 Version:        3.0.2
-Release:        32%{?dist}
+Release:        34%{?dist}
 Summary:        Hokuyo Laser SCIP driver
 
 License:        LGPLv3
@@ -65,29 +67,29 @@ Python bindings for %{name}
 #sed -i 's/\"lib\"/\"%{_lib}\"/' CMakeLists.txt 
 # The "breathe" module is not available, so don't use it
 sed -i 's/extensions/#extensions/' doc/conf.py.in
+# Correct the project version in the CMakeLists.txt
+sed -i 's/3.0.1/3.0.2/' CMakeLists.txt
 
 %build
-mkdir build
-pushd build
-%cmake -DBUILD_EXAMPLES=OFF -DBOOST_LIB_SUFFIX="" ..
-popd
-make -C build %{?_smp_mflags}
+%cmake -DBUILD_EXAMPLES=OFF -DBOOST_LIB_SUFFIX="" -DCMAKE_BUILD_TYPE=Release
+%cmake_build
 
 %install
-%make_install -C build
+%cmake_install
 
 # Get rid of hidden junk doxygen generates, and remove the installed
 # documentation so we can install it with the doc macro
-rm -rf build/doc/html/.buildinfo
-rm -rf build/doc/html/.doctrees
+rm -rf %{_vpath_builddir}/doc/html/.buildinfo
+rm -rf %{_vpath_builddir}/doc/html/.doctrees
 rm -rf %{buildroot}%{_docdir}/%{name}-3
 
 %files
 %doc COPYING COPYING.LESSER
-%{_libdir}/*.so.*
+%{_libdir}/*.so.%{version}
+%{_libdir}/*.so.%{soversion}
 
 %files devel
-%doc build/doc/html
+%doc %{_vpath_builddir}/doc/html
 %{_datadir}/%{name}-3
 %{_includedir}/%{name}-3
 %{_libdir}/*.so
@@ -98,6 +100,13 @@ rm -rf %{buildroot}%{_docdir}/%{name}-3
 %{python3_sitearch}/*.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-34
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Jonathan Wakely <jwakely@redhat.com> - 3.0.2-32
 - Rebuilt for Boost 1.73
 

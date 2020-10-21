@@ -1,7 +1,3 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 %global gtk3_version 3.20.0
 %global libdmapsharing_version 2.9.19
 %global libsecret_version 0.18
@@ -9,7 +5,7 @@
 Name: rhythmbox
 Summary: Music Management Application
 Version: 3.4.4
-Release: 3%{?dist}
+Release: 6%{?dist}
 License: GPLv2+ with exceptions and GFDL
 URL: https://wiki.gnome.org/Apps/Rhythmbox
 #VCS: git://git.gnome.org/rhythmbox
@@ -24,7 +20,7 @@ BuildRequires: pkgconfig(gudev-1.0)
 BuildRequires: pkgconfig(json-glib-1.0)
 BuildRequires: pkgconfig(libbrasero-media3)
 BuildRequires: pkgconfig(libdmapsharing-3.0) >= %{libdmapsharing_version}
-%if ! 0%{?rhel}
+%if 0%{?fedora} || 0%{?rhel} >= 9
 BuildRequires: pkgconfig(libgpod-1.0)
 %endif
 BuildRequires: pkgconfig(libmtp)
@@ -47,7 +43,7 @@ BuildRequires: yelp-tools
 ExcludeArch:    s390 s390x
 
 Requires: gtk3%{?_isa} >= %{gtk3_version}
-%if ! 0%{?rhel}
+%if 0%{?fedora} || 0%{?rhel} >= 9
 Requires: gvfs-afc
 %endif
 Requires: libdmapsharing%{?_isa} >= %{libdmapsharing_version}
@@ -92,6 +88,9 @@ a Rhythmbox plugin.
 
 %install
 %make_install
+
+# Byte-compile Python plugins that are outside the standard Python paths
+%py_byte_compile %{__python3} %{buildroot}%{_libdir}/rhythmbox
 
 # Remove libtool .la files
 find %{buildroot} -name "*.la" -type f -delete
@@ -179,6 +178,18 @@ appstream-util replace-screenshots $RPM_BUILD_ROOT%{_datadir}/metainfo/rhythmbox
 %{_datadir}/gir-1.0/*.gir
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.4-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Merlin Mathesius <mmathesi@redhat.com> - 3.4.4-4
+- Add explicit % py_byte_compile since % _python_bytecompile_extra has been discontinued
+  See: https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+- Minor conditional fixes for ELN
+
 * Fri Feb 14 2020 Bastien Nocera <bnocera@redhat.com> - 3.4.4-3
 + rhythmbox-3.4.4-3
 - Disable "iPod" support on RHEL, it doesn't work on any modern devices

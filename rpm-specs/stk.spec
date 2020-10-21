@@ -1,18 +1,17 @@
 Name:           stk
-Version:        4.5.0
-Release:        14%{?dist}
+Version:        4.6.1
+Release:        1%{?dist}
 Summary:        Synthesis ToolKit in C++
 License:        MIT
-URL:            http://ccrma.stanford.edu/software/stk/
+URL:            https://ccrma.stanford.edu/software/stk/
 Source0:        %{name}-%{version}.stripped.tar.gz
 # Original tarfile can be found at %%{url}/release/%%{name}-%%{version}.tar.gz
 # We remove legeally questionable files as well as accidentally packed
 # object files.
 Source1:        README.fedora
-Patch0:         stk-4.5.0-header.patch
-Patch1:         stk-4.5.0-cflags-lib.patch
-Patch2:         stk-4.5.0-sharedlib.patch
-Patch3:         stk-4.5.0-projects.patch
+Patch0:         stk-4.6.1-header.patch
+Patch1:         stk-4.6.1-cflags-lib.patch
+BuildRequires:  make
 BuildRequires:  gcc-c++
 BuildRequires:  alsa-lib-devel
 BuildRequires:  jack-audio-connection-kit-devel
@@ -58,31 +57,24 @@ C++ Sound Synthesis ToolKit.
 
 
 %prep
-%setup0 -q
-%patch0 -p1 -b .header
-%patch1 -p1 -b .cflags
-%patch2 -p1 -b .sharedlib
-%patch3 -p1 -b .projects
+%autosetup -p1
 
 # we patched configure.ac
 autoconf
 
 cp -a %{SOURCE1} README.fedora
 
-# remove backup files
+# remove backup and other extra files
 find . -name '*~' -exec rm {} \;
+find . -name '._*' -exec rm {} \;
 
 
 %build
 %configure --with-jack --with-alsa \
   --disable-static --enable-shared \
   RAWWAVE_PATH=%{_datadir}/stk/rawwaves/
-make %{?_smp_mflags} -C src
-make %{?_smp_mflags} -C projects/demo libdemo libMd2Skini
-make %{?_smp_mflags} -C projects/examples -f libMakefile
-make %{?_smp_mflags} -C projects/effects libeffects
-make %{?_smp_mflags} -C projects/ragamatic libragamat
-make %{?_smp_mflags} -C projects/eguitar libeguitar
+%make_build
+%make_build -C projects/demo libMd2Skini
 
 
 %install
@@ -98,17 +90,16 @@ mkdir -p \
   %{buildroot}%{_datadir}/stk/eguitar
 
 cp -p include/* %{buildroot}%{_includedir}/stk
-cp -pd src/libstk.* %{buildroot}%{_libdir}
+cp -pd src/libstk*.so %{buildroot}%{_libdir}
 cp -p rawwaves/*.raw %{buildroot}%{_datadir}/stk/rawwaves
 
 cp -pr projects/demo/tcl %{buildroot}%{_datadir}/stk/demo
 cp -pr projects/demo/scores %{buildroot}%{_datadir}/stk/demo
-cp -p projects/demo/demo %{buildroot}%{_bindir}/stk-demo
+cp -p projects/demo/stk-demo %{buildroot}%{_bindir}/stk-demo
 cp -p projects/demo/Md2Skini %{buildroot}%{_bindir}/Md2Skini
 for f in Banded Drums Modal Physical Shakers StkDemo Voice ; do
   chmod +x projects/demo/$f
-  sed -e 's,\./demo,%{_bindir}/stk-demo,' -e '1i#! /bin/sh' \
-    -i projects/demo/$f
+  sed -e '1i#! /bin/sh' -i projects/demo/$f
   cp -p projects/demo/$f %{buildroot}%{_datadir}/stk/demo
 done
 
@@ -151,7 +142,10 @@ mv doc/doxygen/index.txt.tmp doc/doxygen/index.txt
 # fix symlinks
 symlinks -crv %{buildroot}
 
-# finally, fix permissions
+# fix permissions
+find %{buildroot} \( -name '*.h' -o -name '*.raw' -o -name '*.tcl' \
+     -o -name '*.xbm' -o -name '*.bmp' -o -name 'README' \) -a -exec chmod -x {} \;
+find doc README.md README.fedora -type f -exec chmod -x {} \;
 chmod -R u=rwX,go=rX %{buildroot}
 
 
@@ -160,7 +154,7 @@ chmod -R u=rwX,go=rX %{buildroot}
 
 %files
 %doc README.md
-%{_libdir}/libstk.so.*
+%{_libdir}/libstk-*.so
 %dir %{_datadir}/stk
 %{_datadir}/stk/rawwaves
 
@@ -183,6 +177,23 @@ chmod -R u=rwX,go=rX %{buildroot}
 
 
 %changelog
+* Sat Sep 12 2020 Thomas Moschny <thomas.moschny@gmx.de> - 4.6.1-1
+- Update to 4.6.1.
+
+* Sat Sep 12 2020 Thomas Moschny <thomas.moschny@gmx.de> - 4.6.0-1
+- Update to 4.6.0.
+
+* Sat Sep 12 2020 Thomas Moschny <thomas.moschny@gmx.de> - 4.5.1-1
+- Update to 4.5.1.
+- Rebase patches.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.0-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

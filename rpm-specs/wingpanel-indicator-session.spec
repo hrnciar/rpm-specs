@@ -5,11 +5,15 @@
 Name:           wingpanel-indicator-session
 Summary:        Session Indicator for wingpanel
 Version:        2.2.8
-Release:        1%{?dist}
+Release:        4%{?dist}
 License:        GPLv2+
 
 URL:            https://github.com/elementary/%{name}
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+
+# upstream patch to fix vala / gee API issue
+# backported from https://github.com/elementary/wingpanel-indicator-session/commit/85347e6
+Patch0:         00-vala-gee-api-fix.patch
 
 BuildRequires:  gettext
 BuildRequires:  libappstream-glib
@@ -31,7 +35,7 @@ A session Indicator for wingpanel.
 
 
 %prep
-%autosetup
+%autosetup -p1
 
 
 %build
@@ -60,6 +64,16 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Sun Aug 09 2020 Fabio Valentini <decathorpe@gmail.com> - 2.2.8-4
+- Include patch to fix gee API issues with latest vala.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.8-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 02 2020 Fabio Valentini <decathorpe@gmail.com> - 2.2.8-1
 - Update to version 2.2.8.
 

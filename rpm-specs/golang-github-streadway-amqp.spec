@@ -3,7 +3,7 @@
 
 # https://github.com/streadway/amqp
 %global goipath         github.com/streadway/amqp
-%global commit          75d898a42a940fbc854dfd1a4199eabdc00cf024
+Version:                1.0.0
 
 %gometa
 
@@ -14,8 +14,7 @@ Package Amqp is an AMQP 0.9.1 client with RabbitMQ extensions.}
 %global godocs          _examples CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.7%{?dist}
+Release:        1%{?dist}
 Summary:        Go client for AMQP 0.9.1
 
 # Upstream license specification: BSD-2-Clause
@@ -42,6 +41,16 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 21:55:08 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-1
+- Update to 1.0.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

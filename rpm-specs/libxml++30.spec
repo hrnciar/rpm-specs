@@ -1,18 +1,21 @@
 %global api_ver 3.0
 
 Name:           libxml++30
-Version:        3.2.0
-Release:        2%{?dist}
+Version:        3.2.2
+Release:        1%{?dist}
 Summary:        C++ wrapper for the libxml2 XML parser library
 
 License:        LGPLv2+
 URL:            http://libxmlplusplus.sourceforge.net/
 Source0:        https://download.gnome.org/sources/libxml++/3.2/libxml++-%{version}.tar.xz
 
-BuildRequires:  gcc-c++
+BuildRequires:  docbook-style-xsl
 BuildRequires:  doxygen, graphviz
+BuildRequires:  gcc-c++
 BuildRequires:  glibmm24-devel
 BuildRequires:  libxml2-devel
+BuildRequires:  libxslt
+BuildRequires:  meson
 
 %description
 libxml++ is a C++ wrapper for the libxml2 XML parser library. Its original
@@ -43,16 +46,12 @@ This package contains the full API documentation for %{name}.
 
 
 %build
-%configure --disable-static
-%make_build
+%meson -Dbuild-documentation=true
+%meson_build
 
 
 %install
-%make_install
-find $RPM_BUILD_ROOT -name '*.la' -delete
-
-
-%ldconfig_scriptlets
+%meson_install
 
 
 %files
@@ -74,6 +73,13 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 
 
 %changelog
+* Mon Oct  5 2020 Kalev Lember <klember@redhat.com> - 3.2.2-1
+- Update to 3.2.2
+- Switch to meson build system
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

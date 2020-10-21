@@ -1,6 +1,6 @@
 Name:           centerim
 Version:        4.22.10
-Release:        31%{?dist}
+Release:        33%{?dist}
 Epoch:          1
 
 Summary:        Text mode menu- and window-driven IM
@@ -57,6 +57,7 @@ mv ChangeLog.utf8 ChangeLog
 
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 # The doubleslash path touches Makefile.am
 autoreconf -vfi
 autoconf
@@ -99,6 +100,12 @@ desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications %{SOURCE2}
 
 
 %changelog
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 1:4.22.10-33
+- Force C++14 as the code is not ready for C++17
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.22.10-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.22.10-31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

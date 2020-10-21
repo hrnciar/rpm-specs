@@ -2,29 +2,17 @@
 
 Summary: Qt5 - Wayland platform support and QtCompositor module
 Name:    qt5-%{qt_module}
-Version: 5.14.2
-Release: 3%{?dist}
+Version: 5.15.1
+Release: 1%{?dist}
 
 License: LGPLv3
 Url:     http://www.qt.io
 %global majmin %(echo %{version} | cut -d. -f1-2)
 Source0: https://download.qt.io/official_releases/qt/%{majmin}/%{version}/submodules/%{qt_module}-everywhere-src-%{version}.tar.xz
 
-# Upstream patches
-
-# Bold fonts in qt applications appear much too heavy
-# https://bugzilla.redhat.com/show_bug.cgi?id=1823984
-Patch0:  qtwayland-dont-force-gamma-correction-off.patch
-
-# Transferring large amounts of data via clipboard may lead to
-# stack overflow and segmentation fault because of recursion in
-# QtWaylandClient::QWaylandMimeData::readData().
-Patch1:  qtwayland-remove-recursion-in-data-offer-retrieval.patch
 
 # Upstreamable patches
-# https://fedoraproject.org/wiki/Changes/Qt_Wayland_By_Default_On_Gnome
-# https://bugzilla.redhat.com/show_bug.cgi?id=1732129
-Patch50: qtwayland-use-gnome-platform-theme-on-gnome-based-desktops.patch
+
 
 # filter qml provides
 %global __provides_exclude_from ^%{_qt5_archdatadir}/qml/.*\\.so$
@@ -131,6 +119,20 @@ popd
 
 
 %changelog
+* Thu Sep 10 2020 Jan Grulich <jgrulich@redhat.com> - 5.15.1-1
+- 5.15.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.14.2-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.14.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jan Grulich <jgrulich@redhat.com> - 5.14.2-4
+- Backport upstream patches
+  Resolves: bz#1860455
+
 * Thu Apr 30 2020 Ivan Mironov <mironov.ivan@gmail.com> - 5.14.2-3
 - Cherry-pick fix for clipboard related crash from v5.15.0
 

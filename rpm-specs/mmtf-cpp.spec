@@ -1,4 +1,5 @@
 %global debug_package %{nil}
+%global __cmake_in_source_build 1
 
 %bcond_without doc
 
@@ -9,7 +10,7 @@
 
 Name:    mmtf-cpp
 Version: 1.0.0
-Release: 5%{?dist}
+Release: 7%{?dist}
 Summary: The Macromolecular Transmission Format (MMTF) header only files
 License: MIT
 URL:     https://github.com/rcsb/%{name}
@@ -74,6 +75,13 @@ popd
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 2020 Antonio Trande <sagitter@fedoraproject.org> - 1.0.0-5
 - BR reorganized
 - Add msgpack-devel BR

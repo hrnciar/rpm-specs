@@ -131,7 +131,7 @@
 
 Name:           uwsgi
 Version:        2.0.18
-Release:        10%{?dist}
+Release:        14%{?dist}
 Summary:        Fast, self-healing, application container server
 # uwsgi is licensed under GPLv2 with a linking exception
 # docs are licensed under MIT
@@ -1775,6 +1775,19 @@ fi
 
 
 %changelog
+* Tue Sep 15 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.18-14
+- Rebuilt for libevent soname change
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.18-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.18-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.0.18-11
+- Perl 5.32 rebuild
+
 * Sun May 31 2020 Björn Esser <besser82@fedoraproject.org> - 2.0.18-10
 - Rebuild (gloox)
 

@@ -1,11 +1,17 @@
 Name: libfilezilla
-Version: 0.22.0
-Release: 1%{?dist}
+Version: 0.25.0
+Release: 2%{?dist}
 URL: https://lib.filezilla-project.org/
 Summary: C++ Library for FileZilla
 License: GPLv2+
 
 Source0: https://download.filezilla-project.org/%{name}/%{name}-%{version}.tar.bz2
+Patch0: %{name}-gcc11.patch
+
+%if 0%{?rhel} == 8
+# libuv-devel not present on s390x on EL-8
+ExcludeArch: s390x
+%endif
 
 BuildRequires: gcc-c++
 BuildRequires: gettext
@@ -43,7 +49,7 @@ This package contains files needed to compile code using libfilezilla.
 %files -f %{name}.lang
 %license COPYING
 %doc AUTHORS ChangeLog NEWS README
-%{_libdir}/libfilezilla.so.7*
+%{_libdir}/libfilezilla.so.10*
 
 %files devel
 %exclude %{_libdir}/*.la
@@ -53,6 +59,27 @@ This package contains files needed to compile code using libfilezilla.
 %{_libdir}/pkgconfig/libfilezilla.pc
 
 %changelog
+* Mon Oct 19 2020 Jeff Law <law@redhat.com> - 0.25.0-2
+- Fix missing #include for gcc-11
+
+* Tue Oct 13 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.25.0-1
+- 0.25.0
+
+* Thu Aug 27 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.24.1-1
+- 0.24.1
+
+* Fri Aug 21 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.24.0-1
+- 0.24.0
+
+* Wed Aug 12 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.23.0-3
+- Exclude s390x on EL-8 due to missing libuv-devel
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.23.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.23.0-1
+- 0.23.0
+
 * Tue May 12 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.22.0-1
 - 0.22.0
 

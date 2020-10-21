@@ -21,8 +21,8 @@
 %endif
 
 Name:           freerdp
-Version:        2.1.1
-Release:        1%{?dist}
+Version:        2.2.0
+Release:        4%{?dist}
 Epoch:          2
 Summary:        Free implementation of the Remote Desktop Protocol (RDP)
 License:        ASL 2.0
@@ -214,15 +214,10 @@ find . -name "*.c" -exec chmod 664 {} \;
 %endif
     .
 
-%make_build
-
-pushd winpr/tools/makecert-cli
-%make_build
-popd
+%cmake_build
 
 %install
-%make_install
-%make_install COMPONENT=tools
+%cmake_install
 
 find %{buildroot} -name "*.a" -delete
 
@@ -300,6 +295,22 @@ find %{buildroot} -name "*.a" -delete
 %{_libdir}/pkgconfig/winpr-tools2.pc
 
 %changelog
+* Tue Aug 11 2020 Ondrej Holy <oholy@redhat.com> - 2:2.2.0-4
+- Use %%cmake_ macros to fix out-of-source builds (#1863586)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:2.2.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:2.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Simone Caronni <negativo17@gmail.com> - 2:2.2.0-1
+- Update to 2.2.0.
+
+* Tue Jun 30 2020 Simone Caronni <negativo17@gmail.com> - 2:2.1.2-1
+- Update to 2.1.2.
+
 * Thu May 21 2020 Ondrej Holy <oholy@redhat.com> - 2:2.1.1-1
 - Update to 2.1.1.
 

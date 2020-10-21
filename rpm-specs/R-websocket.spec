@@ -1,25 +1,24 @@
-%global packname  websocket
+%global packname websocket
+%global packver  1.3.1
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          1.1.0
-Release:          3%{?dist}
+Version:          1.3.1
+Release:          1%{?dist}
 Summary:          'WebSocket' Client Library
 
 License:          GPLv2
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
-# For testing only.
-Source1:          echo.py
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 # https://github.com/rstudio/websocket/issues/59
 Patch0001:        0001-Unbundle-websocketpp.patch
 # For no-network testing.
-Patch0002:        0002-Use-local-echo-server-for-testing-websockets.patch
+Patch0002:        0002-Remove-SSL-websocket-test-entirely.patch
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-Rcpp, R-R6, R-later
-# Suggests:  R-testthat, R-knitr, R-rmarkdown
+# Imports:   R-Rcpp, R-R6, R-later >= 1.1.0
+# Suggests:  R-httpuv, R-testthat, R-knitr, R-rmarkdown
 # LinkingTo: R-Rcpp, R-BH, R-AsioHeaders
 # Enhances:
 
@@ -27,15 +26,15 @@ BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    R-Rcpp-devel
 BuildRequires:    R-R6
-BuildRequires:    R-later
+BuildRequires:    R-later-devel >= 1.1.0
+BuildRequires:    R-httpuv
 BuildRequires:    R-testthat
 BuildRequires:    R-knitr
 BuildRequires:    R-rmarkdown
 BuildRequires:    R-BH-devel
 BuildRequires:    R-AsioHeaders-devel
-BuildRequires:    pkgconfig(openssl)
-BuildRequires:    pkgconfig(websocketpp)
-BuildRequires:    python3dist(websockets)
+BuildRequires:    pkgconfig(openssl) >= 1.0.2
+BuildRequires:    pkgconfig(websocketpp) >= 0.8.2
 
 %description
 Provides a WebSocket client interface for R. WebSocket is a protocol for
@@ -68,7 +67,6 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %check
-%{__python3} %SOURCE1 &
 %{_bindir}/R CMD check %{packname}
 
 
@@ -88,6 +86,16 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Wed Aug 19 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.3.1-1
+- Update to latest version (#1846157)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.1.0-3
 - rebuild for R 4
 

@@ -1,7 +1,7 @@
 Summary:	Command line tool that displays bandwidth usage on an interface
 Name:		iftop
 Version:	1.0
-Release:	0.23.pre4%{?dist}
+Release:	0.24.pre4%{?dist}
 License:	GPLv2+
 URL:		http://www.ex-parrot.com/~pdw/%{name}/
 Source:		http://www.ex-parrot.com/~pdw/%{name}/download/%{name}-%{version}pre4.tar.gz
@@ -37,6 +37,9 @@ touch -c -r configure.ac{.ncursesw,}
 %{_mandir}/man8/%{name}.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.24.pre4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 02 2020 Robert Scheck <robert@fedoraproject.org> 1.0-0.23.pre4
 - Added patch to declare variables as extern in header files
 

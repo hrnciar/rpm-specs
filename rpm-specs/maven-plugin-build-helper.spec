@@ -1,8 +1,8 @@
 %global srcname build-helper-maven-plugin
 
 Name:           maven-plugin-build-helper
-Version:        3.1.0
-Release:        1%{?dist}
+Version:        3.2.0
+Release:        2%{?dist}
 Summary:        Build Helper Maven Plugin
 License:        MIT
 
@@ -49,6 +49,15 @@ This package provides %{summary}.
 %license LICENSE.txt
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Fabio Valentini <decathorpe@gmail.com> - 3.2.0-1
+- Update to version 3.2.0.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.1.0-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat May 09 2020 Fabio Valentini <decathorpe@gmail.com> - 3.1.0-1
 - Update to version 3.1.0.
 

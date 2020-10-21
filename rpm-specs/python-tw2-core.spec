@@ -1,8 +1,8 @@
 %global modname tw2.core
 
 Name:           python-tw2-core
-Version:        2.2.9
-Release:        2%{?dist}
+Version:        2.3.0
+Release:        1%{?dist}
 Summary:        Web widget creation toolkit based on TurboGears widgets
 
 License:        MIT
@@ -93,6 +93,12 @@ PYTHONPATH=$(pwd) %{__python3} setup.py test
 %{python3_sitelib}/%{modname}-%{version}*
 
 %changelog
+* Sat Sep 12 2020 Ján ONDREJ (SAL) <ondrejj(at)salstar.sk> - 2.3.0-1
+- Update to upstream
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.9-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.2.9-2
 - Rebuilt for Python 3.9
 

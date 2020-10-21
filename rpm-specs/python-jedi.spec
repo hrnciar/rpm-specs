@@ -20,8 +20,8 @@ than all other static analysis frameworks for Python.}
 %bcond_with tests
 
 Name:           python-%{pkgname}
-Version:        0.15.1
-Release:        3%{?dist}
+Version:        0.17.1
+Release:        2%{?dist}
 Summary:        An auto completion tool for Python that can be used for text editors
 License:        MIT
 URL:            https://jedi.readthedocs.org
@@ -107,6 +107,12 @@ py.test-%{python3_version} --verbose
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.17.1-1
+- Update to 0.17.1
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 0.15.1-3
 - Rebuilt for Python 3.9
 

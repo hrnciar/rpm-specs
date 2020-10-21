@@ -1,6 +1,6 @@
 Name:     primesieve
 Version:  7.5
-Release:  2%{?dist}
+Release:  6%{?dist}
 Summary:  Fast prime number generator
 License:  BSD
 URL:      https://github.com/kimwalisch/primesieve
@@ -38,12 +38,12 @@ It also contains the API documentation of the library.
 
 %build
 %cmake . -DBUILD_STATIC_LIBS=OFF -DBUILD_TESTS=ON -DBUILD_MANPAGE=ON -DBUILD_DOC=ON
-%make_build
-%make_build doc
-find doc/html -name '*.md5' -exec rm {} +
+%cmake_build
+%cmake_build --target doc
+find %{_vpath_builddir}/doc/html -name '*.md5' -exec rm {} +
 
 %install
-%make_install
+%cmake_install
 
 %ldconfig_scriptlets -n primesieve-libs
 
@@ -60,7 +60,7 @@ make test
 %{_libdir}/libprimesieve.so.*
 
 %files -n primesieve-devel
-%doc doc/html examples
+%doc examples %{_vpath_builddir}/doc/html
 %{_libdir}/libprimesieve.so
 %{_includedir}/primesieve.h
 %{_includedir}/primesieve.hpp
@@ -74,6 +74,19 @@ make test
 %{_libdir}/pkgconfig/primesieve.pc
 
 %changelog
+* Tue Aug 04 2020 Kim Walisch <walki@fedoraproject.org> - 7.5-6
+- Fix CMake doc target issue, indicate path
+
+* Tue Aug 04 2020 Kim Walisch <walki@fedoraproject.org> - 7.5-5
+- Fix CMake issue, CMake build directory changed in Fedora 33
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.5-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

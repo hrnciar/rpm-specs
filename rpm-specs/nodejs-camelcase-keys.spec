@@ -6,7 +6,7 @@
 
 Name:		nodejs-camelcase-keys
 Version:	4.1.0
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	Convert object keys to camelCase
 
 License:	MIT
@@ -66,6 +66,9 @@ cp -pr package.json *.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

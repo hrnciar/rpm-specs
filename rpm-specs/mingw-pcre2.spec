@@ -4,7 +4,7 @@
 
 Name:          mingw-%{pkgname}
 Version:       10.35
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       MinGW Windows %{pkgname} library
 
 License:       BSD
@@ -179,6 +179,9 @@ chmod 0644 %{buildroot}%{mingw64_libdir}/*.dll.a
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.35-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 09 2020 Sandro Mani <manisandro@gmail.com> - 10.35-1
 - Update to 10.35
 

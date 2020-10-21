@@ -1,6 +1,6 @@
 Name:           perl-JSON-Color
-Version:        0.12
-Release:        7%{?dist}
+Version:        0.130
+Release:        3%{?dist}
 Summary:        Encode to colored JSON
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/JSON-Color/
@@ -14,7 +14,13 @@ BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
 # Run-time
+BuildRequires:  perl(Color::ANSI::Util)
+BuildRequires:  perl(ColorThemeBase::Static::FromStructColors)
 BuildRequires:  perl(Exporter)
+BuildRequires:  perl(Graphics::ColorNamesLite::WWW)
+BuildRequires:  perl(Module::Load::Util)
+BuildRequires:  perl(parent)
+BuildRequires:  perl(Role::Tiny)
 # Not used for tests - Scalar::Util::LooksLikeNumber
 BuildRequires:  perl(Term::ANSIColor) >= 3.00
 # Tests
@@ -24,6 +30,9 @@ BuildRequires:  perl(IO::Handle)
 BuildRequires:  perl(IPC::Open3)
 BuildRequires:  perl(Test::More)
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
+Requires:       perl(ColorThemeRole::ANSI)
+Requires:       perl(Module::Load::Util)
+Requires:       perl(Role::Tiny)
 Requires:       perl(Term::ANSIColor) >= 3.00
 Recommends:     perl(Scalar::Util::LooksLikeNumber)
 
@@ -44,6 +53,7 @@ perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
+unset AUTHOR_TESTING
 make test
 
 %files
@@ -53,6 +63,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.130-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.130-2
+- Specify all dependencies
+
+* Fri Jul 03 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.130-1
+- 0.130 bump
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.12-7
 - Perl 5.32 rebuild
 

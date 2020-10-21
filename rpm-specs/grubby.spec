@@ -1,6 +1,6 @@
 Name: grubby
 Version: 8.40
-Release: 45%{?dist}
+Release: 47%{?dist}
 Summary: Command line tool for updating bootloader configs
 License: GPLv2+
 URL: https://github.com/rhinstaller/grubby
@@ -27,6 +27,7 @@ Patch0009: 0009-Improve-man-page-for-info-option.patch
 Patch0010: 0010-Fix-GCC-warnings-about-possible-string-truncations-a.patch
 Patch0011: 0011-Fix-stringop-overflow-warning.patch
 Patch0012: 0012-Fix-maybe-uninitialized-warning.patch
+Patch0013: 0013-Fix-build-with-rpm-4.16.patch
 
 BuildRequires: gcc
 BuildRequires: pkgconfig glib2-devel popt-devel 
@@ -136,6 +137,13 @@ current boot environment.
  %{_mandir}/man8/*.8*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.40-47
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Javier Martinez Canillas <javierm@redhat.com> - 8.40-46
+- fix build with rpm-4.16
+- grubby-bls: fix --extra-initrd option not adding the correct path
+
 * Wed May 13 2020 Javier Martinez Canillas <javierm@redhat.com> - 8.40-45
 - grubby-bls: don't replace options with kernelopts if values are the same
 

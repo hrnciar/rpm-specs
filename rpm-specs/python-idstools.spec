@@ -7,14 +7,12 @@
 %global		pname		idstools
 
 Name:		python-%{pname}
-Version:	0.6.3
-Release:	12%{?dist}
+Version:	0.6.4
+Release:	1%{?dist}
 Summary:	Snort and Suricata Rule and Event Utilities
 License:	BSD
 URL:		https://github.com/jasonish/py-idstools
 Source0:	https://github.com/jasonish/py-idstools/archive/%{version}.tar.gz#/%{upstream_name}-%{version}.tar.gz
-# The tests have detection of python2 that fails on Python 3, so we fix it:
-Patch0:		%{name}-tests_has_python2.patch
 BuildArch:	noarch
 
 %global desc_base \
@@ -33,6 +31,7 @@ Conflicts:	python2-%{pname} < 0.6.3-7
 
 BuildRequires:	python%{python3_pkgversion}-devel
 BuildRequires:	python%{python3_pkgversion}-nose
+BuildRequires:	python%{python3_pkgversion}-setuptools
 Requires:	python%{python3_pkgversion}-dateutil
 
 %description -n python%{python3_pkgversion}-%{pname}
@@ -72,6 +71,15 @@ Requires:	python%{python3_pkgversion}-dateutil
 %doc README.rst
 
 %changelog
+* Mon Sep 07 2020 Marcin Dulak <Marcin.Dulak@gmail.com> - 0.6.4-1
+- New upstream release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Marcin Dulak <Marcin.Dulak@gmail.com> - 0.6.3-13
+- Add explicit python3-setuptools br
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.3-12
 - Rebuilt for Python 3.9
 

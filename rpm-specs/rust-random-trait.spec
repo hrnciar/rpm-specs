@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.1.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Rust library for a random trait meant to produce random generic types
 
 # Upstream license specification: MIT/Apache-2.0
@@ -99,5 +99,12 @@ which use "u128" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 12 10:16:56 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.1.1-1
 - Initial package

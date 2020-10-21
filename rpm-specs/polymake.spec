@@ -12,13 +12,18 @@
 # itextpdf 5.3.2, whose license is problematic.
 %bcond_with jreality
 
-%global upver   4.0r1
+# Disable LTO on arm due to lack of memory.
+%ifarch %{arm}
+%global _lto_cflags %{nil}
+%endif
+
+%global upver   4.2
 %global majver  %(cut -dr -f1 <<< %{upver})
 %global polydir %{_libdir}/%{name}
 
 Name:           polymake
 Version:        %(tr r . <<< %{upver})
-Release:        4%{?dist}
+Release:        2%{?dist}
 
 Summary:        Algorithms on convex polytopes and polyhedra
 License:        GPLv2+
@@ -38,12 +43,12 @@ Patch0:         %{name}-fedora.patch
 Patch1:         %{name}-no-hardening.patch
 # Fix detection of LattE
 Patch2:         %{name}-latte.patch
-# Work around a problem with the scope of size_t
-Patch3:         %{name}-sizet.patch
 
+BuildRequires:  4ti2
 %if %{with jreality}
 BuildRequires:  ant
 %endif
+BuildRequires:  azove
 BuildRequires:  boost-devel
 BuildRequires:  cddlib-devel
 BuildRequires:  cmake
@@ -51,6 +56,7 @@ BuildRequires:  doxygen
 BuildRequires:  flint-devel
 BuildRequires:  gcc-c++
 BuildRequires:  gmp-devel
+BuildRequires:  graphviz
 %if %{with jreality}
 BuildRequires:  java-devel
 BuildRequires:  javapackages-tools
@@ -58,6 +64,7 @@ BuildRequires:  javapackages-tools
 BuildRequires:  libnormaliz-devel
 BuildRequires:  lrslib-devel
 BuildRequires:  ninja-build
+BuildRequires:  ocaml-tplib-tools
 BuildRequires:  perl-devel
 BuildRequires:  perl-generators
 BuildRequires:  perl(Archive::Tar)
@@ -80,8 +87,10 @@ BuildRequires:  pkgconfig(mpfr)
 BuildRequires:  pkgconfig(nauty)
 BuildRequires:  pkgconfig(Singular)
 BuildRequires:  ppl-devel
+BuildRequires:  qhull
 BuildRequires:  sympol-devel
 BuildRequires:  TOPCOM
+BuildRequires:  vinci
 BuildRequires:  xhtml1-dtds
 
 # Both packages are required for normal operation
@@ -119,7 +128,7 @@ Requires:       libnormaliz-devel%{?_isa}
 Requires:       make
 Requires:       mpfr-devel%{?_isa}
 Requires:       perl(:MODULE_COMPAT_%{perl_version})
-Requires:       perl-interpreter = 4:%{perl_version}
+Requires:       perl-interpreter = 4:%{?perl_version}%{!?perl_version:0}
 Requires:       perl(Term::ReadKey)
 Requires:       perl(Term::ReadLine::Gnu)
 Requires:       permlib-devel
@@ -222,7 +231,7 @@ sed -i 's,\${NINJA},& -j 1 -v,' Makefile
 
 %build
 export LC_ALL=C.UTF-8
-export CFLAGS="%{optflags} -I%{_includedir}/eigen3 -I%{_includedir}/gfanlib -I%{_includedir}/nauty -Wno-unused-local-typedefs"
+export CFLAGS="%{optflags} -I%{_includedir}/arb -I%{_includedir}/eigen3 -I%{_includedir}/gfanlib -I%{_includedir}/nauty -Wno-unused-local-typedefs"
 export CXXFLAGS="$CFLAGS"
 export LDFLAGS="$RPM_LD_FLAGS -lnormaliz -ldl"
 %if 0%{?__isa_bits} == 32
@@ -236,9 +245,11 @@ export Arch=%{_arch}
   --with-cdd-include=%{_includedir}/cddlib/ \
   --with-cdd-lib=%{_libdir} \
   --with-flint=%{_prefix} \
+  --with-libnormaliz=%{_prefix} \
   --with-lrs=%{_prefix} \
   --with-nauty-src=%{_prefix} \
   --with-permlib=%{_prefix} \
+  --with-ppl=%{_prefix} \
   --with-singular=%{_prefix} \
   --with-sympol-include=%{_includedir}/sympol/ \
   --with-sympol-lib=%{_libdir} \
@@ -327,6 +338,29 @@ rm -fr %{buildroot}%{_datadir}/%{name}/resources/{JuPyMake,jupyter-polymake}
 %doc doc/*
 
 %changelog
+* Wed Sep 30 2020 Jerry James <loganjerry@gmail.com> - 4.2-2
+- Rebuild for normaliz 3.8.9
+
+* Thu Sep 24 2020 Jerry James <loganjerry@gmail.com> - 4.2-1
+- Version 4.2
+
+* Mon Aug 31 2020 Jerry James <loganjerry@gmail.com> - 4.1-5
+- Rebuild for normaliz 3.8.8
+
+* Mon Aug 10 2020 Jerry James <loganjerry@gmail.com> - 4.1-4
+- Rebuild for normaliz 3.8.7
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 Jerry James <loganjerry@gmail.com> - 4.1-1
+- Version 4.1
+- Drop upstreamed -sizet patch
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.0.1-4
 - Perl 5.32 rebuild
 

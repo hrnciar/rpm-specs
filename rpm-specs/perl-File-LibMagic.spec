@@ -2,8 +2,8 @@
 %{?perl_default_filter}
 
 Name:		perl-File-LibMagic
-Version:	1.22
-Release:	2%{?dist}
+Version:	1.23
+Release:	1%{?dist}
 Summary:	Perl wrapper/interface for libmagic
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/File-LibMagic
@@ -75,6 +75,14 @@ make test
 %{_mandir}/man3/File::LibMagic::Constants.3*
 
 %changelog
+* Sat Aug 29 2020 Paul Howarth <paul@city-fan.org> - 1.23-1
+- Update to 1.23
+  - Fixed a bug with the Makefile.PL that caused every call to "make" to
+    recompile the object file for the package's XS code (GH#28)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.22-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.22-2
 - Perl 5.32 rebuild
 

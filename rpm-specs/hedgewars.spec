@@ -1,6 +1,6 @@
 Name:           hedgewars
 Version:        1.0.0
-Release:        8%{?dist}
+Release:        13%{?dist}
 Summary:        Funny turn-based artillery game, featuring fighting Hedgehogs!
 License:        GPL+
 URL:            http://www.hedgewars.org/
@@ -18,8 +18,14 @@ Patch6:         rpath-fix.patch
 # cmake check for mask failing with ghc8
 # https://issues.hedgewars.org/show_bug.cgi?id=152
 Patch8:         hedgewars-cmake-ghc8-mask.patch
-# Try to use gcc instead of clang
+# Tweak CFLAGS for clang
 Patch9:         hedgewars-clang.patch
+# Use haskell network version 3
+Patch10:        hedgewars-%{version}-server-network3.patch
+# Install hwengine.desktop
+Patch11:        hedgewars-%{version}-install-hwengine.patch
+
+Patch12:        hedgewars-qt-5.15.patch
 
 BuildRequires:  cmake gcc-c++ fpc desktop-file-utils
 BuildRequires:  libatomic
@@ -53,6 +59,7 @@ Summary:        Standalone server for hedgewars
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 BuildRequires:  ghc-stm-devel
 BuildRequires:  ghc-network-devel
+BuildRequires:  ghc-network-bsd-devel
 BuildRequires:  ghc-utf8-string-devel
 BuildRequires:  ghc-hslogger-devel
 BuildRequires:  ghc-deepseq-devel
@@ -65,6 +72,7 @@ BuildRequires:  ghc-bytestring-show-devel
 BuildRequires:  ghc-sandi-devel
 BuildRequires:  ghc-regex-tdfa-devel
 BuildRequires:  ghc-containers-devel
+BuildRequires:  ghc-process-devel
 BuildRequires:  compat-lua-devel
 BuildRequires:  systemd
 %{?systemd_requires}
@@ -94,6 +102,12 @@ done
 
 
 %build
+# We follow upstream and build with clang, which does not support the
+# Fedora LTO flags, so disable them
+%define _lto_cflags %{nil}
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=1878396
+%define _legacy_common_support 1
 
 # -DMINIMAL_FLAGS=1 uses distro complie flags as much as possible
 
@@ -113,20 +127,15 @@ done
 %cmake -DMINIMAL_FLAGS=1 -DNOVIDEOREC=1 -DBUILD_ENGINE_C=1 -DGHFLAGS=-dynamic -DFONTS_DIRS="`find %{_datadir}/fonts -type d -printf '%p;'`" .
 %endif
 
-%make_build
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 # below is the desktop file and icon stuff.
-mkdir -p %{buildroot}%{_datadir}/applications
-desktop-file-install                            \
-  --dir %{buildroot}%{_datadir}/applications \
-  %{buildroot}%{_datadir}/hedgewars/Data/misc/hedgewars.desktop
-desktop-file-install                            \
-  --dir %{buildroot}%{_datadir}/applications \
-  %{buildroot}%{_datadir}/hedgewars/Data/misc/hwengine.desktop
+desktop-file-validate %{buildroot}/%{_datadir}/applications/hedgewars.desktop
+desktop-file-validate %{buildroot}/%{_datadir}/applications/hwengine.desktop
 mkdir -p %{buildroot}%{_datadir}/icons/hicolor/32x32/apps
 install -p -m 644 misc/hedgewars_ico.png \
   %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/hedgewars.png
@@ -199,6 +208,23 @@ find %{buildroot} -type f -name '*.ttc' | xargs rm -f
 
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 1.0.0-13
+- rebuild (qt5)
+
+* Tue Aug 04 2020 Hans de Goede <hdegoede@redhat.com> - 1.0.0-12
+- Fix FTBFS (rhbz#1863847)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Nikolay Nikolov <nickysn@gmail.com> - 1.0.0-9
+- Applied patch to fix build with Haskell network version 3
+- Support CMAKE out-of-source builds
+
 * Mon Apr 13 2020 Bruno Wolff III <bruno@wolff.to> - 1.0.0-8
 - Search for fonts from the top
 

@@ -1,6 +1,10 @@
+
+# set this until when/if we port to new cmake macros
+%global __cmake_in_source_build 1
+
 Name:		ebook-tools
 Version:	0.2.2
-Release:	16%{?dist}
+Release:	19%{?dist}
 Summary:	Tools for accessing and converting various ebook file formats
 
 License:	MIT
@@ -73,6 +77,16 @@ rm -f %{buildroot}%{_bindir}/lit2epub
 
 
 %changelog
+* Tue Aug 11 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.2.2-19
+- fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-18
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

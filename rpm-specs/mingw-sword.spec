@@ -5,7 +5,7 @@
 Summary:	MinGW build of a cross-platform scripture text library
 Name:		mingw-%{_pkg_name}
 Version:	1.8.1
-Release:	11%{?dist}
+Release:	12%{?dist}
 License:	GPLv2
 URL:		http://www.crosswire.org/sword
 Source0:	http://crosswire.org/ftpmirror/pub/sword/source/v1.8/sword-%{version}.tar.gz
@@ -139,6 +139,9 @@ MINGW64_CMAKE_ARGS=-DICU_CONFIG_BIN_PATH=%{mingw64_bindir}
 %{mingw64_sysconfdir}/sword.conf
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 19 2020 Sandro Mani <manisandro@gmail.com> - 1.8.1-11
 - Rebuild (icu)
 

@@ -2,7 +2,7 @@
 
 Name:           perl-%{cpan_name}
 Version:        0.3
-Release:        30%{?dist}
+Release:        31%{?dist}
 Summary:        FTP client class with automatic reconnect on failure
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/%{cpan_name}
@@ -46,6 +46,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.3-30
 - Perl 5.32 rebuild
 

@@ -8,7 +8,7 @@
 Name:       python-oslo-config
 Epoch:      2
 Version:    8.0.2
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    OpenStack common configuration library
 
 Group:      Development/Languages
@@ -142,6 +142,9 @@ PYTHON=python3 stestr-3 run
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:8.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Joel Capitao <jcapitao@redhat.com> 2:8.0.2-1
 - Update to upstream version 8.0.2
 

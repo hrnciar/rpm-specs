@@ -1,10 +1,12 @@
+%global gitver rel-2-4-19
+
 Summary: Utilities for the IBM Power Linux RAID adapters
 Name:    iprutils
-Version: 2.4.17.1
-Release: 4%{?dist}
+Version: 2.4.19
+Release: 2%{?dist}
 License: CPL
-URL:     http://sourceforge.net/projects/iprdd/
-Source0: https://sourceforge.net/projects/iprdd/files/iprutils%20for%202.6%20kernels/2.4.17/%{name}-%{version}.tar.gz
+URL:     https://github.com/bjking1/iprutils
+Source0: https://github.com/bjking1/iprutils/archive/%{gitver}/%{name}-%{version}.tar.gz
 
 # missing man page
 Source1: iprdbg.8.gz
@@ -23,7 +25,7 @@ supported by the ipr SCSI storage device driver.
 
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name}-%{gitver}
 
 autoreconf -vif
 
@@ -72,6 +74,12 @@ rm %{buildroot}/%{_sysconfdir}/ha.d/resource.d/iprha
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.19-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Than Ngo <than@redhat.com> - 2.4.19-1
+- rebase to 2.4.19
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.17.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.0.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Rust API wrapper for radio-browser.info
 
 # Upstream license specification: GPL-3.0
@@ -74,6 +74,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 05 2020 Josh Stone <jistone@redhat.com> - 0.0.2-4
 - Update restson to 0.6
 

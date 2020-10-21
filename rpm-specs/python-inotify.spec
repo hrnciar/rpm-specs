@@ -3,13 +3,13 @@
 Summary:       Monitor filesystem events with Python under Linux
 Name:          python-inotify
 Version:       0.9.6
-Release:       21%{?dist}
+Release:       22%{?dist}
 License:       MIT
 URL:           https://github.com/seb-m/pyinotify
 Source0:       http://seb.dbzteam.org/pub/pyinotify/releases/pyinotify-%{version}.tar.gz
 Patch01:       pyinotify-0.9.6-epoint.patch
 BuildRequires: gmp-devel
-BuildRequires: python3-devel
+BuildRequires: python%{python3_pkgversion}-devel
 BuildArch:     noarch
 %global _description \
 This is a Python module for watching filesystems changes. pyinotify \
@@ -18,10 +18,10 @@ is an event-driven notifier, where notifications are exported from \
 kernel space to user space.
 %description %_description
 
-%package    -n python3-inotify
+%package    -n python%{python3_pkgversion}-inotify
 Summary:       %{summary}
-%{?python_provide:%python_provide python3-inotify}
-%description -n python3-inotify %_description
+%{?python_provide:%python_provide python%{python3_pkgversion}-inotify}
+%description -n python%{python3_pkgversion}-inotify %_description
 
 %prep
 %setup -q -n %{oname}-%{version}
@@ -34,7 +34,7 @@ sed -i '1c#! %{__python3}' python3/pyinotify.py
 %install
 %py3_install
 
-%files -n python3-inotify
+%files -n python%{python3_pkgversion}-inotify
 %license COPYING
 %doc ACKS README.md
 %{_bindir}/%{oname}
@@ -42,6 +42,9 @@ sed -i '1c#! %{__python3}' python3/pyinotify.py
 %{python3_sitelib}/__pycache__/%{oname}*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.6-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.6-21
 - Rebuilt for Python 3.9
 

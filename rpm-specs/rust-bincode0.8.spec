@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}0.8
 Version:        0.8.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Binary serialization / deserialization strategy that uses Serde
 
 # Upstream license specification: MIT
@@ -76,6 +76,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 20:22:59 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.8.0-9
 - Regenerate
 

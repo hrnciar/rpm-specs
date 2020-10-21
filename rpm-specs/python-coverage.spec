@@ -4,8 +4,8 @@
 
 Name:           python-coverage
 Summary:        Code coverage testing module for Python
-Version:        5.1
-Release:        2%{?prever}%{?dist}
+Version:        5.3
+Release:        1%{?prever}%{?dist}
 # jquery(MIT):
 #  coverage/htmlfiles/jquery.min.js
 # MIT or GPL:
@@ -14,8 +14,7 @@ Release:        2%{?prever}%{?dist}
 #  coverage/htmlfiles/jquery.isonscreen.js
 License:        ASL 2.0 and MIT and (MIT or GPL)
 URL:            http://nedbatchelder.com/code/modules/coverage.html
-Source0:        http://pypi.python.org/packages/source/c/coverage/coverage-%{version}%{?prever}.tar.gz
-
+Source0:        https://pypi.python.org/packages/source/c/coverage/coverage-%{version}%{?prever}.tar.gz
 BuildRequires:  gcc
 
 %description
@@ -48,14 +47,14 @@ have been executed.
 
 %endif
 
-%package -n python3-coverage
+%package -n python%{python3_pkgversion}-coverage
 Summary:        Code coverage testing module for Python 3
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
 # As the "coverage" executable requires the setuptools at runtime (#556290),
 # so the "python3-coverage" executable requires python3-setuptools:
-Requires:       python3-setuptools
-%{?python_provide:%python_provide python3-coverage}
+Requires:       python%{python3_pkgversion}-setuptools
+%{?python_provide:%python_provide python%{python3_pkgversion}-coverage}
 Provides:       bundled(js-jquery) = 1.11.1
 Provides:       bundled(js-jquery-debounce) = 1.1
 Provides:       bundled(js-jquery-hotkeys) = 0.8
@@ -63,7 +62,7 @@ Provides:       bundled(js-jquery-isonscreen) = 1.2.0
 Provides:       bundled(js-jquery-tablesorter)
 Conflicts:      python2-coverage < 4.5.4-2
 
-%description -n python3-coverage
+%description -n python%{python3_pkgversion}-coverage
 Coverage.py is a Python 3 module that measures code coverage during Python
 execution. It uses the code analysis tools and tracing hooks provided in the 
 Python standard library to determine which lines are executable, and which 
@@ -74,7 +73,6 @@ have been executed.
 
 find . -type f -exec chmod 0644 \{\} \;
 sed -i 's/\r//g' README.rst
-
 
 %build
 %if %{py2support}
@@ -100,7 +98,6 @@ ln -s coverage-%{python3_version} coverage-3
 ln -s coverage-%{python3_version} coverage
 popd
 
-
 %if %{py2support}
 %files -n python2-coverage
 %license LICENSE.txt NOTICE.txt
@@ -111,7 +108,7 @@ popd
 %{python2_sitearch}/coverage*.egg-info/
 %endif
 
-%files -n python3-coverage
+%files -n python%{python3_pkgversion}-coverage
 %license LICENSE.txt NOTICE.txt
 %doc README.rst
 %{_bindir}/coverage
@@ -121,6 +118,18 @@ popd
 %{python3_sitearch}/coverage*.egg-info/
 
 %changelog
+* Mon Sep 14 2020 Tom Callaway <spot@fedoraproject.org> - 5.3-1
+- update to 5.3
+
+* Thu Aug 13 2020 Tom Callaway <spot@fedoraproject.org> - 5.2.1-1
+- update to 5.2.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul  9 2020 Tom Callaway <spot@fedoraproject.org> - 5.2-1
+- update to 5.2
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 5.1-2
 - Rebuilt for Python 3.9
 

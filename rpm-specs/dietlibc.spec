@@ -24,7 +24,7 @@
 Summary:	Small libc implementation
 Name:		dietlibc
 Version:	0.34
-Release:	4%{?dist}
+Release:	6%{?dist}
 License:	GPLv2
 URL:		http://www.fefe.de/dietlibc/
 %if !0%{?prerelease:1}
@@ -109,6 +109,11 @@ sed -i \
 
 
 %build
+# This package strips .o files as they are created which removes the LTO
+# sections.  It's likely this would work if those strip commands were
+# changed to leave the LTO sections alone.  For now, disable LTO
+%define _lto_cflags %{nil}
+
 make %makeflags all %{?_smp_mflags}
 
 # 'dyn' target is not SMP safe
@@ -147,6 +152,12 @@ ulimit -m $[ 128*1024 ] -v $[ 256*1024 ] -d $[ 128*1024 ] -s 512
 %pkglibdir
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.34-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Jeff Law <law@redhat.com> - 0.34-5
+- Disable LTO
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.34-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

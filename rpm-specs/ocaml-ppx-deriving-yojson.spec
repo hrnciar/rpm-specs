@@ -6,7 +6,7 @@
 %global upname  ppx_deriving_yojson
 
 Name:           ocaml-%{srcname}
-Version:        3.5.2
+Version:        3.5.3
 Release:        4%{?dist}
 Summary:        JSON codec generator for OCaml
 
@@ -14,18 +14,15 @@ License:        MIT
 URL:            https://github.com/ocaml-ppx/%{upname}
 Source0:        %{url}/archive/v%{version}/%{upname}-%{version}.tar.gz
 
-# Fix for OCaml 4.11.  Sent upstream 2020-04-22.
-Patch1:         ocaml-411.patch
-
 BuildRequires:  ocaml >= 4.04.0
 BuildRequires:  ocaml-biniou-devel
 BuildRequires:  ocaml-cppo
-BuildRequires:  ocaml-dune
+BuildRequires:  ocaml-dune >= 1.0
 BuildRequires:  ocaml-easy-format-devel
 BuildRequires:  ocaml-findlib
 BuildRequires:  ocaml-odoc
 BuildRequires:  ocaml-ounit-devel >= 2.0.0
-BuildRequires:  ocaml-ppx-deriving-devel >= 4.0
+BuildRequires:  ocaml-ppx-deriving-devel >= 4.5
 BuildRequires:  ocaml-ppxfind
 BuildRequires:  ocaml-ppx-tools-devel
 BuildRequires:  ocaml-result-devel
@@ -89,7 +86,7 @@ ln -s ../../src/ppx_deriving_yojson.cppo.ml _build/default
 dune runtest
 
 %files
-%doc CHANGELOG.md CONTRIBUTING.md README.md
+%doc CHANGELOG.md README.md
 %license LICENSE.txt
 %dir %{_libdir}/ocaml/%{upname}/
 %dir %{_libdir}/ocaml/%{upname}/runtime/
@@ -125,6 +122,26 @@ dune runtest
 %doc _build/default/_doc/_odoc/
 
 %changelog
+* Wed Sep 02 2020 Richard W.M. Jones <rjones@redhat.com> - 3.5.3-4
+- Bump release and rebuild.
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 3.5.3-3
+- OCaml 4.11.1 rebuild
+
+* Sat Aug 22 2020 Richard W.M. Jones <rjones@redhat.com> - 3.5.3-2
+- OCaml 4.11.0 rebuild
+
+* Wed Aug  5 2020 Jerry James <loganjerry@gmail.com> - 3.5.3-1
+- Version 3.5.3
+- Drop upstreamed ocaml-411.patch
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.2-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 3.5.2-4
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

@@ -1,6 +1,6 @@
 Name:           gtimelog
 Version:        0.11.3
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        Unobtrusively keep track of your time
 
 License:        GPLv2
@@ -11,6 +11,7 @@ BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  python3-freezegun
 BuildRequires:  python3-mock
+BuildRequires:  python3-setuptools
 BuildRequires:  /usr/bin/appstream-util
 BuildRequires:  /usr/bin/desktop-file-install
 BuildRequires:  /usr/bin/msgfmt
@@ -64,6 +65,12 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/%{name}.a
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 David King <amigadave@amigadave.com> - 0.11.3-7
+- BuildRequire python3-setuptools explicitly
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.11.3-6
 - Rebuilt for Python 3.9
 

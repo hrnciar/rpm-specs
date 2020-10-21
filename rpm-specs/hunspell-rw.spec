@@ -2,7 +2,7 @@ Name: hunspell-rw
 Summary: Kinyarwanda hunspell dictionaries
 %global upstreamid 20050109
 Version: 0.%{upstreamid}
-Release: 20%{?dist}
+Release: 21%{?dist}
 Source: http://download.services.openoffice.org/contrib/dictionaries/rw_RW.zip
 URL: http://borel.slu.edu/crubadan/apps.html
 License: GPLv2+
@@ -29,6 +29,9 @@ cp -p rw_RW.* $RPM_BUILD_ROOT/%{_datadir}/myspell/
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20050109-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20050109-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

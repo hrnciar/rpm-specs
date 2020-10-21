@@ -4,7 +4,7 @@
 
 Name:           deepin-dock
 Version:        5.0.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Deepin desktop-environment - Dock module
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/dde-dock
@@ -33,6 +33,7 @@ BuildRequires:  pkgconfig(xcb-image)
 BuildRequires:  qt5-linguist
 BuildRequires:  deepin-icon-theme
 BuildRequires:  fedora-logos
+BuildRequires:  qt5-qtbase-private-devel
 Requires:       deepin-daemon
 Requires:       deepin-launcher
 Requires:       deepin-menu
@@ -62,11 +63,11 @@ sed -i 's|deepin-launcher|%{start_logo}|' frame/item/launcheritem.cpp
 
 %build
 export PATH=%{_qt5_bindir}:$PATH
-%cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} -DARCHITECTURE=%{_arch} .
-%make_build
+%cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} -DARCHITECTURE=%{_arch}
+%cmake_build
 
 %install
-%make_install INSTALL_ROOT=%{buildroot}
+%cmake_install
 for theme in deepin deepin-dark; do
     for dir in %{_datadir}/icons/$theme/places/*; do
         size=$(basename $dir)
@@ -96,6 +97,17 @@ done
 %{_libdir}/cmake/DdeDock/DdeDockConfig.cmake
 
 %changelog
+* Fri Aug  7 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.0.0-4
+- BR: qt5-qtbase-private-devel
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,17 +1,17 @@
-%global commit0 cd2610e0fa1c6a90e8e4e4cfe06db1b474e752bb
+%global commit0 d12308775684cf43ab923227235b4ad43060015e
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
-%global snapdate 20200517
+%global snapdate 20200806
 
 %global __python %{__python3}
 
 Name:           icestorm
 Version:        0
-Release:        0.12.%{snapdate}git%{shortcommit0}%{?dist}
+Release:        0.14.%{snapdate}git%{shortcommit0}%{?dist}
 Summary:        Lattice iCE40 FPGA bitstream creation/analysis/programming tools
 License:        ISC
 URL:            http://www.clifford.at/%{name}/
-Source0:        https://github.com/cliffordwolf/%{name}/archive/%{commit0}/%{name}-%{shortcommit0}.tar.gz
+Source0:        https://github.com/YosysHQ/%{name}/archive/%{commit0}/%{name}-%{shortcommit0}.tar.gz
 
 # Fedora-specific patch for datadir
 Patch1:         %{name}-datadir.patch
@@ -59,6 +59,13 @@ install -pm644 icefuzz/timings_*.txt %{buildroot}%{_datarootdir}/%{name}
 %{_datarootdir}/%{name}
 
 %changelog
+* Thu Aug 06 2020 Gabriel Somlo <gsomlo@gmail.com> - 0-0.14.20200806gitd123087
+- Update to newer snapshot
+- Spec file: update github URL
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.13.20200517gitcd2610e
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 17 2020 Gabriel Somlo <gsomlo@gmail.com> - 0-0.12.20200517gitcd2610e
 - Update to newer snapshot
 - Spec file: remove gcc10 patch (now in upstream)

@@ -5,7 +5,7 @@ support for 12-factor applications and extensions for Flask and Django
 
 Name:           %{srcname}
 Version:        2.2.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A dynamic configurator for python projects
 
 License:        MIT
@@ -51,6 +51,9 @@ BuildRequires:  python3-toml
 %{_bindir}/%{srcname}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.2.0-4
 - Rebuilt for Python 3.9
 

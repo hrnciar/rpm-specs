@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        5.6.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Converting Jupyter Notebooks
 
 License:        BSD and MIT
@@ -132,6 +132,9 @@ export PYTHONPATH=%{buildroot}%{python3_sitelib}
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.6.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 5.6.1-3
 - Rebuilt for Python 3.9
 

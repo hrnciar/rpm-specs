@@ -11,7 +11,7 @@
 Name:           asl
 URL:            http://john.ccac.rwth-aachen.de:8000/as/index.html
 Version:        1.42
-Release:        0.42.%{patchlevel}%{?dist}
+Release:        0.43.%{patchlevel}%{?dist}
 License:        GPLv2+
 Summary:        Macro Assembler AS
 Source:         http://john.ccac.rwth-aachen.de:8000/ftp/as/source/c_version/asl-current-142-%{patchlevel}.tar.bz2
@@ -102,6 +102,9 @@ done
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.42-0.43.bld134
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.42-0.42.bld134
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

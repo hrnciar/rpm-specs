@@ -1,7 +1,7 @@
 Summary: A tool which displays the status of serial port modem lines
 Name: statserial
 Version: 1.1
-Release: 60%{?dist}
+Release: 61%{?dist}
 License: GPLv2+
 URL: ftp://metalab.unc.edu/pub/Linux/system/serial/
 Source: ftp://metalab.unc.edu/pub/Linux/system/serial/statserial-1.1.tar.gz
@@ -42,6 +42,9 @@ install -m 644 statserial.1 ${RPM_BUILD_ROOT}%{_mandir}/man1/statserial.1
 %{_mandir}/man1/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-61
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-60
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

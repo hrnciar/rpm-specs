@@ -16,7 +16,7 @@ calls with Kerberos authentication.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.1%{?dist}
+Release:        0.2%{?dist}
 Summary:        Cross-platform HTTP calls with Kerberos authentication
 
 License:        MIT
@@ -46,6 +46,9 @@ BuildRequires:  golang(gopkg.in/jcmturner/gokrb5.v5/credentials)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 20 20:31:02 EST 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0-0.1.20200220gitc2c6091
 - Initial package
 

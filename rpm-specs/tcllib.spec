@@ -4,7 +4,7 @@
 Summary:    The standard Tcl library
 Name:       tcllib
 Version:    1.19
-Release:    4%{?dist}
+Release:    5%{?dist}
 License:    BSD
 Source:     https://downloads.sourceforge.net/tcllib/%{name}-%{version}.tar.xz
 URL:        http://tcllib.sourceforge.net/
@@ -61,6 +61,9 @@ find %{buildroot}/%{_datadir} -name \*.tcl -exec chmod 0644 {} \;
 %{_bindir}/tcldocstrip
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.19-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.19-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

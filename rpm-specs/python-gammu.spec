@@ -2,7 +2,7 @@
 %global gammu_ver 1.40.0
 
 Name:       python-gammu
-Version:    3.0
+Version:    3.1
 Release:    1%{?dist}
 Summary:    Python bindings for Gammu
 License:    GPLv2+
@@ -54,6 +54,12 @@ system for feature requests.
 %{python3_sitearch}/python_gammu-*.egg-info
 
 %changelog
+* Sat Aug 22 2020 Sérgio Basto <sergio@serjux.com> - 3.1-1
+- Update to 3.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 3.0-1
 - Update to 3.0 (#1846915)
 

@@ -1,18 +1,19 @@
-%global packname  R.utils
+%global packname R.utils
+%global packver  2.10.1
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          2.9.2
-Release:          3%{?dist}
+Version:          2.10.1
+Release:          1%{?dist}
 Summary:          Various Programming Utilities
 
 License:          LGPLv2+
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:   R-R.oo >= 1.23.0
-# Imports:   R-methods, R-utils, R-tools, R-R.methodsS3 >= 1.7.1
+# Imports:   R-methods, R-utils, R-tools, R-R.methodsS3 >= 1.8.0
 # Suggests:  R-digest >= 0.6.10
 # LinkingTo:
 # Enhances:
@@ -24,7 +25,7 @@ BuildRequires:    R-R.oo >= 1.23.0
 BuildRequires:    R-methods
 BuildRequires:    R-utils
 BuildRequires:    R-tools
-BuildRequires:    R-R.methodsS3 >= 1.7.1
+BuildRequires:    R-R.methodsS3 >= 1.8.0
 BuildRequires:    R-digest >= 0.6.10
 
 %description
@@ -64,6 +65,12 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Thu Aug 27 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.10.1-1
+- Update to latest version (#1872929)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun  6 2020 Tom Callaway <spot@fedoraproject.org> - 2.9.2-3
 - rebuild for R 4
 

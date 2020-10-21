@@ -2,8 +2,8 @@
 # python 2 not supported
 
 Name:		urh
-Version:	2.8.8
-Release:	2%{?dist}
+Version:	2.8.9
+Release:	1%{?dist}
 Summary:	Universal Radio Hacker: investigate wireless protocols like a boss
 License:	ASL 2.0 and GPLv2
 URL:		https://github.com/jopohl/urh
@@ -71,6 +71,13 @@ desktop-file-install --add-category="Utility" \
 %{python3_sitearch}/urh-%{version}-*.egg-info
 
 %changelog
+* Mon Sep 21 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 2.8.9-1
+- New version
+  Resolves: rhbz#1876872
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.8.8-2
 - Rebuilt for Python 3.9
 

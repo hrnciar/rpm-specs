@@ -1,6 +1,6 @@
 Name: libdmapsharing
-Version: 2.9.39
-Release: 2%{?dist}
+Version: 2.9.41
+Release: 3%{?dist}
 License: LGPLv2+
 Source: http://www.flyn.org/projects/libdmapsharing/%{name}-%{version}.tar.gz
 URL: http://www.flyn.org/projects/libdmapsharing/
@@ -55,6 +55,12 @@ rm -f ${RPM_BUILD_ROOT}%{_libdir}/libdmapsharing-3.0.la
 %ldconfig_scriptlets
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.41-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 07 2020 W. Michael Petullo <mike[@]flyn.org> - 2.9.41-1
+- New upstream version
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.39-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

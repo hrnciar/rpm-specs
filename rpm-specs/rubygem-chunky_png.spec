@@ -1,14 +1,12 @@
-# Generated from chunky_png-1.2.0.gem by gem2rpm -*- rpm-spec -*-
 %global gem_name chunky_png
 
 Summary: Pure ruby library for read/write, chunk-level access to PNG files
 Name: rubygem-%{gem_name}
-Version: 1.3.11
-Release: 3%{?dist}
+Version: 1.3.12
+Release: 1%{?dist}
 License: MIT
-URL: http://wiki.github.com/wvanbergen/chunky_png
+URL: https://chunkypng.com
 Source0: http://rubygems.org/gems/%{gem_name}-%{version}.gem
-Patch0: fix-failing-spec-with-dimension-hash.patch
 BuildRequires: ruby
 BuildRequires: rubygems-devel
 BuildRequires: rubygem(rspec)
@@ -33,12 +31,7 @@ RMagick for interoperability.
 %setup -q -c -T
 %gem_install -n %{SOURCE0}
 
-pushd .%{gem_instdir}
-%patch0 -p1
-popd
-
 %build
-
 
 %install
 rm -rf %{buildroot}
@@ -47,15 +40,15 @@ cp -a .%{gem_dir}/* %{buildroot}%{gem_dir}/
 find %{buildroot} -iname .gitignore -exec rm -f {} \;
 find %{buildroot} -iname .yardopts -exec rm -f {} \;
 rm -f %{buildroot}%{gem_instdir}/.infinity_test
+rm -rf %{buildroot}%{gem_instdir}/bin
 
 %check
 pushd .%{gem_instdir}
 # Don't use Bundler.
-sed -i "/require 'bundler\/setup'/ s/^/#/" spec/spec_helper.rb
+sed -i "/require \"bundler\/setup\"/ s/^/#/" spec/spec_helper.rb
 
 rspec spec
 popd
-
 
 %files
 %dir %{gem_instdir}
@@ -76,6 +69,12 @@ popd
 
 
 %changelog
+* Mon Sep 07 2020 Christopher Brown <chris.brown@redhat.com> - 1.3.12-1
+- Update to chunky_png 1.3.12
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.11-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.11-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 Name:     sylfilter
 Summary:  A generic message filter library and command-line tools
 Version:  0.8
-Release:  18%{?dist}
+Release:  19%{?dist}
 License:  BSD
 URL:      http://sylpheed.sraoss.jp/sylfilter/
 Source0:  http://sylpheed.sraoss.jp/sylfilter/src/sylfilter-%{version}.tar.gz
@@ -61,6 +61,9 @@ rm %{buildroot}%{_libdir}/*.la
 %{_includedir}/sylfilter
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

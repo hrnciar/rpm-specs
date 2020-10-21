@@ -1,6 +1,7 @@
+%global __cmake_in_source_build 1
 %define _hardened_build 1
 Name: ettercap
-Version: 0.8.3
+Version: 0.8.3.1
 Release: 1%{?dist}
 Summary: Network traffic sniffer/analyser, NCURSES interface version
 License: GPLv2+
@@ -12,8 +13,7 @@ Source2: ettercap-README.fedora
 Source3: ettercap_easter_egg_license.txt
 Patch1: ettercap-0.8.1-radius-stack-overflow.patch
 Patch2: harfbuzz.patch
-Patch3: 8acf07e7a4fbc3364be60501e0c1d082c31964d5.patch
-Patch4: 2168090f5b023573ebea0f83574950401ed5d67b.patch
+Patch3: 2168090f5b023573ebea0f83574950401ed5d67b.patch
 
 BuildRequires: desktop-file-utils
 BuildRequires: ImageMagick
@@ -27,6 +27,7 @@ BuildRequires: flex
 BuildRequires: cmake
 BuildRequires: libcurl-devel
 BuildRequires: groff-base
+BuildRequires: libappstream-glib
 #some requirements are available in fedora but not in stock epel
 #build for epel requires libnet which is only available from rpmforge
 %if 0%{?rhel}
@@ -56,7 +57,6 @@ analysis.
 %patch1 -p1
 %patch2 -p0
 %patch3 -p1
-%patch4 -p1
 
 %build
 mkdir build
@@ -86,6 +86,10 @@ install -p -m 644 ../share/ettercap.png \
   %{buildroot}%{_datadir}/icons/hicolor/32x32/apps
 rm -f ettercap*png
 
+popd
+install -c -m 644 desktop/ettercap.appdata.xml %{buildroot}%{_metainfodir}/ettercap.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
+
 
 %ldconfig_scriptlets
 
@@ -108,9 +112,20 @@ rm -f ettercap*png
 %{_datadir}/icons/hicolor/32x32/apps/ettercap.png
 %{_datadir}/pixmaps/ettercap.svg
 %{_datadir}/polkit-1/actions/org.pkexec.ettercap.policy
-%{_datadir}/appdata/ettercap.appdata.xml
+%{_metainfodir}/ettercap.appdata.xml
+%{_metainfodir}/ettercap.metainfo.xml
 
 %changelog
+* Mon Aug 03 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.8.3.1-1
+- 0.8.3.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.8.3-1
 - 0.8.3
 

@@ -1,6 +1,6 @@
 Name:           aoetools
 Version:        36
-Release:        19%{?dist}
+Release:        21%{?dist}
 Summary:        ATA over Ethernet Tools
 License:        GPLv2
 URL:            http://aoetools.sourceforge.net
@@ -36,6 +36,13 @@ install -pm 644 %{SOURCE1} %{buildroot}/%{_udevrulesdir}
 %config(noreplace) %{_udevrulesdir}/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 36-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 36-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 36-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

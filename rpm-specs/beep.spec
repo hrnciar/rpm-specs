@@ -1,7 +1,7 @@
 Summary:        Beep the PC speaker any number of ways
 Name:           beep
 Version:        1.4.7
-Release:        2%{?dist}
+Release:        3%{?dist}
 
 License:        GPLv2+
 URL:            https://github.com/spkr-beep/beep/
@@ -88,6 +88,9 @@ exit 0
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.7-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,14 +3,18 @@
 
 %if 0%{?fedora} <= 29 && 0%{?rhel} <= 7
 %bcond_without python2
+%else
+%bcond_with    python2
 %endif
 %if 0%{?fedora} || 0%{?rhel} > 7
 %bcond_without python3
+%else
+%bcond_with    python3
 %endif
 
 Name:           python-%{srcname}
 Version:        3.0.21
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        %{sum}
 
 License:        ASL 2.0
@@ -225,6 +229,9 @@ rm %{buildroot}/usr/setup_requirements.txt
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.21-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.21-6
 - Rebuilt for Python 3.9
 

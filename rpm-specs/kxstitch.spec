@@ -1,7 +1,9 @@
+%undefine __cmake_in_source_build
+
 Name: kxstitch
 Summary: Program to create cross stitch patterns
 Version: 2.1.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+
 URL: https://userbase.kde.org/KXStitch
 Source0: http://download.kde.org/stable/%{name}/%{version}/%{name}-%{version}.tar.xz
@@ -38,15 +40,11 @@ a Sane supported scanner.
 #%patch1 -p1
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 %find_lang %{name} --with-kde || touch %{name}.lang
 
 # move docs to Fedora standard directory
@@ -74,6 +72,9 @@ desktop-file-validate "%{buildroot}%{_datadir}/applications/org.kde.%{name}.desk
 %{_mandir}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

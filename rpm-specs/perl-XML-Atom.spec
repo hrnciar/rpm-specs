@@ -1,6 +1,6 @@
 Name:           perl-XML-Atom
 Version:        0.42
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Atom feed and API implementation
 License:        GPL+ or Artistic
 
@@ -99,6 +99,9 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/XML::Atom::Server.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.42-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.42-13
 - Perl 5.32 rebuild
 

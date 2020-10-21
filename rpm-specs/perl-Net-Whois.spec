@@ -1,6 +1,6 @@
 Name:           perl-Net-Whois
 Version:        1.9
-Release:        26%{?dist}
+Release:        27%{?dist}
 Summary:        Get and parse "whois" domain data from InterNIC
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Net-Whois
@@ -48,6 +48,9 @@ find %{buildroot} -type f -name .packlist -delete
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.9-26
 - Perl 5.32 rebuild
 

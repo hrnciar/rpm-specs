@@ -9,7 +9,7 @@
 
 Name:           gnome-keyring-sharp
 Version:        1.0.1
-Release:        0.32.%{svn_rev}svn%{?dist}
+Release:        0.34.%{svn_rev}svn%{?dist}
 Summary:        Mono implementation of GNOME Keyring
 
 License:        MIT
@@ -94,6 +94,13 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-0.34.133722svn
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-0.33.133722svn
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 29 2020 Timotheus Pokorra <timotheus.pokorra@solidcharity.com> - 1.0.1-0.32.133722svn
 - Rebuilt to fix issues with monodoc
 

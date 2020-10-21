@@ -1,11 +1,11 @@
 Name:           perl-Minion-Backend-SQLite
-Version:        4.005
-Release:        3%{?dist}
+Version:        5.0.3
+Release:        1%{?dist}
 Summary:        SQLite backend for Minion job queue
 License:        Artistic 2.0
 
 URL:            https://metacpan.org/release/Minion-Backend-SQLite/
-Source0:        https://cpan.metacpan.org/authors/id/D/DB/DBOOK/Minion-Backend-SQLite-%{version}.tar.gz
+Source0:        https://cpan.metacpan.org/authors/id/D/DB/DBOOK/Minion-Backend-SQLite-v%{version}.tar.gz
 
 BuildArch:      noarch
 # build deps
@@ -42,7 +42,7 @@ named minion. If no connection string or :temp: is provided, the database
 will be created in a temporary directory.
 
 %prep
-%setup -q -n Minion-Backend-SQLite-%{version}
+%setup -q -n Minion-Backend-SQLite-v%{version}
 
 %build
 /usr/bin/perl Build.PL --installdirs=vendor
@@ -62,6 +62,21 @@ will be created in a temporary directory.
 %{_mandir}/man3/Minion*
 
 %changelog
+* Sun Aug 09 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 5.0.3-1
+- Update to 5.0.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 5.0.2-1
+- Update to 5.0.2
+
+* Mon Jun 29 2020 Jitka Plesnikova <jplesnik@redhat.com> - 5.0.1-2
+- Perl 5.32 re-rebuild updated packages
+
+* Sun Jun 28 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 5.0.1-1
+- Update to 5.0.1
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.005-3
 - Perl 5.32 rebuild
 

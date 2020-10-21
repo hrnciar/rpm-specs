@@ -3,7 +3,7 @@
 
 Name:           perl-%{mod_basename}
 Version:        0.2.1
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        Read and Write STL (STereo Lithography) format files 
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/%{mod_basename}
@@ -53,6 +53,9 @@ rm -rf %{buildroot}
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.2.1-22
 - Perl 5.32 rebuild
 

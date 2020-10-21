@@ -1,6 +1,6 @@
 Name:      pyee
 Version:   7.0.2
-Release:   1%{?dist}
+Release:   2%{?dist}
 Summary:   A port of node.js's EventEmitter to python
 License:   MIT
 URL:       https://pypi.python.org/pypi/pyee
@@ -48,6 +48,9 @@ A port of node.js's EventEmitter to python.
 %{python3_sitelib}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 08 2020 Peter Robinson <pbrobinson@fedoraproject.org> 7.0.2-1
 - Update to 7.0.2
 

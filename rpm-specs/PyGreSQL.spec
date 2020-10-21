@@ -3,8 +3,8 @@
 %{!?runselftest:%global runselftest 1}
 
 Name:		%{srcname}
-Version:	5.1.2
-Release:	2%{?dist}
+Version:	5.2.1
+Release:	1%{?dist}
 Summary:	Python client library for PostgreSQL
 
 URL:		http://www.pygresql.org/
@@ -15,7 +15,7 @@ URL:		http://www.pygresql.org/
 # recognizes it as an independent license, so we do as well.
 License:	PostgreSQL or Python
 
-Source0:	http://www.pygresql.org/files/PyGreSQL-%{version}.tar.gz
+Source0:	https://github.com/PyGreSQL/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:	libpq-devel
@@ -87,6 +87,19 @@ EOF
 
 
 %changelog
+* Thu Oct 01 2020 Ondrej Dubaj <odubaj@redhat.com> - 5.2.1-1
+- rebase to the latest upstream version (rhbz#1882813)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Patrik Novotný <panovotn@redhat.com> - 5.2-1
+- Rebase to upstream release 5.2
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.1.2-2
 - Rebuilt for Python 3.9
 

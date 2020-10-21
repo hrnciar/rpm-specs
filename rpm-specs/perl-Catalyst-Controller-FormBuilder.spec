@@ -1,6 +1,6 @@
 Name:           perl-Catalyst-Controller-FormBuilder
 Version:        0.06
-Release:        27%{?dist}
+Release:        29%{?dist}
 Summary:        Catalyst FormBuilder Base Controller
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Catalyst-Controller-FormBuilder
@@ -91,6 +91,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.06-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.06-28
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.06-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

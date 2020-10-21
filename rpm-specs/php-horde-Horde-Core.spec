@@ -13,7 +13,7 @@
 %global with_sysjs   0
 
 Name:           php-horde-Horde-Core
-Version:        2.31.14
+Version:        2.31.16
 Release:        1%{?dist}
 Summary:        Horde Core Framework libraries
 
@@ -348,6 +348,15 @@ fi
 
 
 %changelog
+* Mon Sep  7 2020 Remi Collet <remi@remirepo.net> - 2.31.16-1
+- update to 2.31.16
+
+* Fri Aug 28 2020 Remi Collet <remi@remirepo.net> - 2.31.15-1
+- update to 2.31.15
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.31.14-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun  9 2020 Remi Collet <remi@remirepo.net> - 2.31.14-1
 - update to 2.31.14
 

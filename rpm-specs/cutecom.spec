@@ -1,20 +1,24 @@
+%undefine __cmake_in_source_build
 %global commit cce2e5ec01df09ca4b05f055f21942e0de7eb7dd
 
 Name:    cutecom
 Version: 0.51.0
 Summary: A graphical serial terminal, like minicom or Hyperterminal on Windows
-Release: 4%{?dist}
+Release: 8%{?dist}
 License: GPLv3
 URL:     http://gitlab.com/cutecom/cutecom
 
 Source0: https://gitlab.com/%{name}/%{name}/-/archive/v%{version}/%{name}-%{version}.tar.gz
+# Add upstream patch to provide an appdata entry
+# rhbz#1476499
 Patch0:  3944c431-add-appdata.patch
-
+# Update appdata file to specify cutecom.desktop as the launchable item
+# rhbz#1476499
+Patch1:  cutecom-0.51.0-desktopfix.patch
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
 BuildRequires: libappstream-glib
-BuildRequires: qt5-devel
 BuildRequires: qt5-qtserialport-devel
 
 %description
@@ -24,18 +28,16 @@ a terminal to talk to their devices.
 
 %prep
 %autosetup -n %{name}-v%{version}-%{commit}
-# Change icon to "utilities-terminal":
-sed 's/=openterm/=utilities-terminal/' cutecom.desktop > cutecom.desktop.new
-mv -f cutecom.desktop.new cutecom.desktop
 
 %build
-%cmake .
-make VERBOSE=1 %{?_smp_mflags}
+%cmake -DCMAKE_BUILD_TYPE=Release
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 install -p -D -m 644 $(pwd)/cutecom.1 ${RPM_BUILD_ROOT}%{_mandir}/man1/cutecom.1
-install -p -D -m 644 com.gitlab.cutecom.cutecom.appdata.xml %{buildroot}%{_metainfodir}/com.gitlab.cutecom.cutecom.appdata.xml
+install -p -D -m 644 com.gitlab.cutecom.cutecom.appdata.xml %{buildroot}%{_metainfodir}/cutecom.appdata.xml
+install -p -D -m 644 images/cutecom.svg %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/cutecom.svg
 
 # Upstream script does not install the .desktop file if KDE is not installed, 
 # so we install it manually:
@@ -54,9 +56,24 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_bindir}/cutecom
 %{_mandir}/man1/cutecom.1*
 %{_datadir}/applications/cutecom.desktop 
-%{_metainfodir}/*
+%{_datadir}/icons/hicolor/scalable/apps/cutecom.svg
+%{_metainfodir}/cutecom.appdata.xml
 
 %changelog
+* Sun Aug 09 2020 Rich Mattes <richmattes@gmail.com> - 0.51.0-8
+- Install the cutecom.svg icon
+- Patch cutecom appdata to associate with cutecom.desktop
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.51.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.51.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Jeff Law <law@redhat.com> - 0.51.0-5
+- Drop build requirement for qt5-devel
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.51.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 # https://github.com/haproxytech/client-native
 %global goipath         github.com/haproxytech/client-native
-Version:                2.0.2
+Version:                2.1.0
 
 %gometa
 
@@ -15,7 +15,7 @@ Go client for HAProxy configuration and runtime API.}
 %global godocs          README.md runtime/README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Go client for HAProxy configuration and runtime API
 
 # Upstream license specification: Apache-2.0
@@ -67,6 +67,16 @@ rm runtime/README.md
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Brandon Perkins <bperkins@redhat.com> - 2.1.0-1
+- Update to version 2.1.0 (#1859323)
+
 * Mon May 18 2020 Brandon Perkins <bperkins@redhat.com> - 2.0.2-1
 - Update to version 2.0.2
 

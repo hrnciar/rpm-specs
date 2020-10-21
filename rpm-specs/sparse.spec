@@ -1,5 +1,5 @@
 Name: sparse
-Version: 0.6.2
+Version: 0.6.3
 Release: 1%{?dist}
 Summary:    A semantic parser of source files
 License:    MIT
@@ -54,13 +54,22 @@ make clean
 %files
 %doc LICENSE README FAQ
 %{_bindir}/sparse
-%{_bindir}/sindex
+%{_bindir}/semind
 %{_bindir}/cgcc
 %{_bindir}/c2xml
 %{_bindir}/test-inspect
 %{_mandir}/man1/*
 
 %changelog
+* Mon Oct 19 2020 Jeff Layton <jlayton@redhat.com> - 0.6.3-1
+- Update to 0.6.3 release
+
+* Mon Aug 17 2020 Jeff Layton <jlayton@redhat.com> - 0.6.2-3
+- Add some patches from upstream maint-v0.6.2 branch
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Jeff Layton <jlayton@redhat.com> - 0.6.2-1
 - Update to 0.6.2 release
 

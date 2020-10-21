@@ -1,6 +1,6 @@
 %define		mainver		0.996
 #%%define		betaver		pre3
-%define		fedorarel	2
+%define		fedorarel	3
 
 # Note:
 # mecab dictionary requires mecab-devel to rebuild it,
@@ -9,9 +9,9 @@
 Name:		mecab
 Version:	%{mainver}
 %if %{?betaver:0}%{!?betaver:1}
-Release:	%{fedorarel}%{?dist}.4
+Release:	%{fedorarel}%{?dist}
 %else
-Release:	0.%{fedorarel}.%{betaver}%{?dist}.15
+Release:	0.%{fedorarel}.%{betaver}%{?dist}
 %endif
 Summary:	Yet Another Part-of-Speech and Morphological Analyzer
 
@@ -64,12 +64,10 @@ find . -name \*.cpp -print0 | xargs -0 %{__chmod} 0644
 	-e 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' \
 	libtool
 
-%{__make} %{?_smp_mflags}
+%make_build
 
 %install
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT \
-	INSTALL="%{__install} -c -p"
+%make_install
 
 %{__rm} -f $RPM_BUILD_ROOT%{_libdir}/lib*.{a,la}
 %{__rm} -f doc/Makefile*
@@ -107,6 +105,12 @@ cd ..
 %{_includedir}/%{name}.h
 
 %changelog
+* Thu Aug 20 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 0.996-3
+- Use recent rpm macros
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.996-2.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.996-2.4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

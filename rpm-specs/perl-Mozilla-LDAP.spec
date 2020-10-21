@@ -1,7 +1,7 @@
 Summary: LDAP Perl module that wraps the OpenLDAP C SDK
 Name: perl-Mozilla-LDAP
 Version: 1.5.3
-Release: 34%{?dist}
+Release: 35%{?dist}
 License: GPLv2+ and LGPLv2+ and MPLv1.1
 URL: http://www.mozilla.org/directory/perldap.html
 Requires: perl-interpreter >= 2:5.8.0
@@ -95,6 +95,9 @@ fi
 %doc CREDITS ChangeLog README MPL-1.1.txt
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.3-35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.5.3-34
 - Perl 5.32 rebuild
 

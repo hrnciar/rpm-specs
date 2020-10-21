@@ -4,12 +4,13 @@
 
 Name:           sblim-cim-client2
 Version:        2.2.5
-Release:        12%{?dist}
+Release:        16%{?dist}
 Summary:        Java CIM Client library
 
 License:        EPL
 URL:            http://sourceforge.net/projects/sblim/
 Source0:        http://downloads.sourceforge.net/project/sblim/%{name}/%{version}/%{name}-%{version}-src.zip
+Patch0:         sblim-cim-client2-2.2.5-fix-for-java-11-openjdk.patch
 
 BuildArch:      noarch
 
@@ -46,6 +47,7 @@ Manual and sample code for %{name}.
 
 %prep
 %setup -q -n %{project_folder}
+%patch0 -p1 -b .fix-for-java-11-openjdk
 
 dos2unixConversion() {
         fileName=$1
@@ -109,6 +111,20 @@ cp -pr %{archive_folder}/doc/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}
 
 
 %changelog
+* Mon Aug 03 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.2.5-16
+- Fix for java-11-openjdk as sytem JDK
+  Resolves: #1858089
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.5-15
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.5-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 2.2.5-13
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.5-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

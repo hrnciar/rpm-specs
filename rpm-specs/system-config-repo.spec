@@ -1,7 +1,3 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 %global __python    %{__python3}
 
 %global commit      ae3eff1063a6fc75cf1a99d72470c58ca0333f3e
@@ -10,7 +6,7 @@
 
 Name:           system-config-repo
 Version:        0
-Release:        24.%{gitdate}git%{shortcommit}%{?dist}
+Release:        27.%{gitdate}git%{shortcommit}%{?dist}
 Summary:        Administrate a single yum repository file
 
 License:        MIT
@@ -53,6 +49,7 @@ cp %{SOURCE1} version
 make DESTDIR=%{buildroot} install
 desktop-file-validate \
     %{buildroot}%{_datadir}/applications/system-config-repo.desktop
+%py_byte_compile %{__python3} %{buildroot}%{_datadir}/%{name}/scripts/
 
 %files
 %doc README.md LICENSE
@@ -67,6 +64,16 @@ desktop-file-validate \
 
 
 %changelog
+* Mon Sep 07 2020 Than Ngo <than@redhat.com> - 0-27.20140518gitae3eff1
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-26.20140518gitae3eff1
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-25.20140518gitae3eff1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0-24.20140518gitae3eff1
 - Rebuilt for Python 3.9
 

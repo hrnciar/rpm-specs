@@ -3,7 +3,7 @@
 
 Name:           %{fontname}-fonts
 Version:        1.001
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        An Arabic script unicode font
 
 License:        OFL
@@ -56,6 +56,9 @@ install -Dm 0644 -p %{SOURCE2} \
 %{_datadir}/appdata/%{fontname}.metainfo.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.001-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.001-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

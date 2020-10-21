@@ -1,12 +1,14 @@
 Name:           dtkcore
-Version:        2.1.1
-Release:        2%{?dist}
+Version:        5.2.2.15
+Release:        1%{?dist}
 Summary:        Deepin tool kit core modules
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/dtkcore
+%if 0%{?fedora}
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
-# https://github.com/linuxdeepin/dtkcore.git
-Patch0:         0001-Fix-shebang.patch
+%else
+Source0:        %{name}_%{version}.orig.tar.xz
+%endif
 BuildRequires:  gcc-c++
 BuildRequires:  annobin
 BuildRequires:  pkgconfig(Qt5Core)
@@ -23,14 +25,13 @@ Deepin tool kit core modules.
 %package devel
 Summary:        Development package for %{name}
 Requires:       %{name}%{?_isa} = %{version}-%{release}
-Requires:       qt5-qtbase-devel
+Requires:       qt5-qtbase-devel%{?_isa}
 
 %description devel
 Header files and libraries for %{name}.
 
 %prep
-%setup -q
-%patch0 -p1
+%autosetup
 
 %build
 # help find (and prefer) qt5 utilities, e.g. qmake, lrelease
@@ -38,21 +39,24 @@ export PATH=%{_qt5_bindir}:$PATH
 %qmake_qt5 PREFIX=%{_prefix} \
            DTK_VERSION=%{version} \
            LIB_INSTALL_DIR=%{_libdir} \
-           BIN_INSTALL_DIR=%{_libexecdir}/dtk2 \
-           TOOL_INSTALL_DIR=%{_libexecdir}/dtk2
+           BIN_INSTALL_DIR=%{_libexecdir}/dtk5 \
+           TOOL_INSTALL_DIR=%{_libexecdir}/dtk5
 %make_build
 
 %install
 %make_install INSTALL_ROOT=%{buildroot}
 
+# no-op since Fedora 28
+%ldconfig_scriptlets
+
 %files
 %doc README.md
 %license LICENSE
-%{_libdir}/lib%{name}.so.2*
-%{_libexecdir}/dtk2/dtk-settings
-%{_libexecdir}/dtk2/dtk-license.py
-%{_libexecdir}/dtk2/dtk-translate.py
-%{_libexecdir}/dtk2/deepin-os-release
+%{_libdir}/lib%{name}.so.5*
+%{_libexecdir}/dtk5/dtk-settings
+%{_libexecdir}/dtk5/dtk-license.py
+%{_libexecdir}/dtk5/dtk-translate.py
+%{_libexecdir}/dtk5/deepin-os-release
 
 %files devel
 %doc doc/Specification.md
@@ -62,10 +66,18 @@ export PATH=%{_qt5_bindir}:$PATH
 %{_libdir}/cmake/Dtk/
 %{_libdir}/cmake/DtkCore/
 %{_libdir}/cmake/DtkCMake/
+%{_libdir}/cmake/DtkTools/
 %{_libdir}/pkgconfig/dtkcore.pc
 %{_libdir}/lib%{name}.so
+%{_datadir}/glib-2.0/schemas/*
 
 %changelog
+* Tue Sep 22 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.2.2.15-1
+- new upstream release: 5.2.2.15
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

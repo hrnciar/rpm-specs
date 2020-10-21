@@ -10,9 +10,9 @@ Summary: Gimp plug-in for texture synthesis
 Name: gimp-resynthesizer
 Version: 2.0.3
 %if %{with_snapshot}
-Release:	3.20190428git%{shortcommit}%{?dist}
+Release:	5.20190428git%{shortcommit}%{?dist}
 %else
-Release:	2%{?dist}
+Release:	4%{?dist}
 %endif
 License: GPLv2+
 Requires: gimp
@@ -88,6 +88,13 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-5.20190428gitadfa25a
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-4.20190428gitadfa25a
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-3.20190428gitadfa25a
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

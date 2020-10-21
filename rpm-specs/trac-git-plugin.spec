@@ -1,6 +1,6 @@
 Name:           trac-git-plugin
 Version:        0.12.0.5
-Release:        18.20111119git%{?dist}
+Release:        19.20111119git%{?dist}
 Summary:        GIT version control plugin for Trac
 
 License:        GPLv2+
@@ -43,6 +43,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0.5-19.20111119git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0.5-18.20111119git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

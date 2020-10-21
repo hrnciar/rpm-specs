@@ -4,7 +4,7 @@
 
 Name:           %{fontname}-fonts
 Version:        1.0.0
-Release:        0.17.rc1%{?dist}
+Release:        0.19.rc1%{?dist}
 Summary:        WenQuanYi Bitmap Chinese Fonts
 
 License:        GPLv2 with exceptions
@@ -13,7 +13,7 @@ Source0:        http://downloads.sourceforge.net/wqy/wqy-bitmapsong-bdf-1.0.0-RC
 Source1:        61-wqy-bitmapsong.conf
 
 BuildArch:      noarch
-BuildRequires:  fontpackages-devel, bdftopcf
+BuildRequires:  fontpackages-devel, bdftopcf, perl
 Requires:       fontpackages-filesystem
 
 %description
@@ -55,6 +55,13 @@ ln -s %{_fontconfig_templatedir}/%{fontconf} \
 %doc AUTHORS ChangeLog COPYING README LOGO.png
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-0.19.rc1
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-0.18.rc1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-0.17.rc1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

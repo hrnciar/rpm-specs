@@ -1,6 +1,6 @@
 Name:           dmtx-utils
 Version:        0.7.6
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Tools for working with Data Matrix 2D bar-codes
 
 License:        LGPLv2+
@@ -53,6 +53,9 @@ libdmtx.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.6-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.6-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

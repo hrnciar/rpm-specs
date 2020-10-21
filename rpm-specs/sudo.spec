@@ -1,13 +1,10 @@
-%global patchlevel b4
-%global upstream_version %{version}%{patchlevel}
-
 Summary: Allows restricted root access for specified users
 Name: sudo
-Version: 1.9.0
-Release: 0.1.%{patchlevel}%{?dist}
+Version: 1.9.3p1
+Release: 1%{?dist}
 License: ISC
 URL: http://www.courtesan.com/sudo/
-Source0: https://www.sudo.ws/dist/beta/%{name}-%{upstream_version}.tar.gz
+Source0: https://www.sudo.ws/dist/%{name}-%{version}.tar.gz
 Source1: sudoers
 Requires: pam
 Recommends: vim-minimal
@@ -24,11 +21,10 @@ BuildRequires: libselinux-devel
 BuildRequires: sendmail
 BuildRequires: gettext
 BuildRequires: zlib-devel
+BuildRequires: python3-devel
 
 # don't strip
 Patch1: sudo-1.6.7p5-strip.patch
-# https://www.sudo.ws/repos/sudo/rev/1064b906ca68
-Patch2: sudo-1.9-RLIMIT_CORE.patch
 
 %description
 Sudo (superuser do) allows a system administrator to give certain
@@ -49,11 +45,21 @@ Requires:       %{name} = %{version}-%{release}
 The %{name}-devel package contains header files developing sudo
 plugins that use %{name}.
 
+
+%package        logsrvd
+Summary:        High-performance log server for %{name}
+Requires:       %{name} = %{version}-%{release}
+BuildRequires:  openssl-devel
+
+
+%description    logsrvd
+%{name}-logsrvd is a high-performance log server that accepts event and I/O logs from sudo.
+It can be used to implement centralized logging of sudo logs.
+
 %prep
-%setup -q -n %{name}-%{upstream_version}
+%setup -q
 
 %patch1 -p1 -b .strip
-%patch2 -p1 -b .orig
 
 %build
 # Remove bundled copy of zlib
@@ -73,6 +79,7 @@ export CFLAGS="$RPM_OPT_FLAGS $F_PIE" LDFLAGS="-pie -Wl,-z,relro -Wl,-z,now"
         --sbindir=%{_sbindir} \
         --libdir=%{_libdir} \
         --docdir=%{_pkgdocdir} \
+	--enable-openssl \
         --disable-root-mailer \
         --with-logging=syslog \
         --with-logfac=authpriv \
@@ -85,6 +92,7 @@ export CFLAGS="$RPM_OPT_FLAGS $F_PIE" LDFLAGS="-pie -Wl,-z,relro -Wl,-z,now"
         --with-ldap \
         --with-selinux \
         --with-passprompt="[sudo] password for %p: " \
+	--enable-python \
         --with-linux-audit \
         --with-sssd
 #       --without-kerb5 \
@@ -152,13 +160,14 @@ EOF
 
 
 %files -f sudo_all.lang
+%defattr(-,root,root)
 %attr(0440,root,root) %config(noreplace) /etc/sudoers
 %attr(0750,root,root) %dir /etc/sudoers.d/
 %config(noreplace) /etc/pam.d/sudo
 %config(noreplace) /etc/pam.d/sudo-i
 %attr(0644,root,root) %{_tmpfilesdir}/sudo.conf
-%attr(0644,root,root) /etc/dnf/protected.d/sudo.conf
-%attr(0644,root,root) /etc/sudo.conf
+%attr(0644,root,root) %config(noreplace) /etc/dnf/protected.d/sudo.conf
+%attr(0640,root,root) %config(noreplace) /etc/sudo.conf
 %dir /var/db/sudo
 %dir /var/db/sudo/lectured
 %attr(4111,root,root) %{_bindir}/sudo
@@ -167,13 +176,12 @@ EOF
 %attr(0755,root,root) %{_sbindir}/visudo
 %{_bindir}/cvtsudoers
 %dir %{_libexecdir}/sudo
-%attr(0755,root,root) %{_sbindir}/sudo_logsrvd
-%attr(0755,root,root) %{_sbindir}/sudo_sendlog
 %attr(0755,root,root) %{_libexecdir}/sudo/sesh
 %attr(0644,root,root) %{_libexecdir}/sudo/sudo_noexec.so
 %attr(0644,root,root) %{_libexecdir}/sudo/sudoers.so
 %attr(0644,root,root) %{_libexecdir}/sudo/audit_json.so
 %attr(0644,root,root) %{_libexecdir}/sudo/group_file.so
+%attr(0644,root,root) %{_libexecdir}/sudo/python_plugin.so
 %attr(0644,root,root) %{_libexecdir}/sudo/sample_approval.so
 %attr(0644,root,root) %{_libexecdir}/sudo/system_group.so
 %attr(0644,root,root) %{_libexecdir}/sudo/libsudo_util.so.?.?.?
@@ -188,11 +196,7 @@ EOF
 %{_mandir}/man8/visudo.8*
 %{_mandir}/man1/cvtsudoers.1.gz
 %{_mandir}/man5/sudoers_timestamp.5.gz
-%{_mandir}/man5/sudo_logsrv.proto.5.gz
-%{_mandir}/man5/sudo_logsrvd.conf.5.gz
-%{_mandir}/man8/sudo_logsrvd.8.gz
 %{_mandir}/man8/sudo_plugin_python.8.gz
-%{_mandir}/man8/sudo_sendlog.8.gz
 %dir %{_pkgdocdir}/
 %{_pkgdocdir}/*
 %{!?_licensedir:%global license %%doc}
@@ -204,7 +208,46 @@ EOF
 %{_includedir}/sudo_plugin.h
 %{_mandir}/man8/sudo_plugin.8*
 
+%files logsrvd
+%attr(0640,root,root) %config(noreplace) /etc/sudo_logsrvd.conf
+%attr(0755,root,root) %{_sbindir}/sudo_logsrvd
+%attr(0755,root,root) %{_sbindir}/sudo_sendlog
+%{_mandir}/man5/sudo_logsrv.proto.5.gz
+%{_mandir}/man5/sudo_logsrvd.conf.5.gz
+%{_mandir}/man8/sudo_logsrvd.8.gz
+%{_mandir}/man8/sudo_sendlog.8.gz
+
 %changelog
+* Mon Oct 05 2020 Radovan Sroka <rsroka@redhat.com> - 1.9.3p1-1
+- rebase to 1.9.3p1
+- enable python modules
+Resolves: rhbz#1881112
+
+* Tue Sep 15 2020 Radovan Sroka <rsroka@redhat.com> - 1.9.2-1
+- rebase to 1.9.2
+Resolves: rhbz#1859577
+- added logsrvd subpackage
+- added openssl-devel buildrequires
+Resolves: rhbz#1860653
+- fixed sudo runstatedir path
+- it was generated as /sudo instead of /run/sudo
+Resolves: rhbz#1868215
+- added /var/lib/snapd/snap/bin to secure_path variable
+Resolves: rhbz#1691996
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 08 2020 Attila Lakatos <alakatos@redhat.com> - 1.9.1-1
+- rebase to 1.9.1
+Resolves: rhbz#1848788
+- fix rpmlint errors
+Resolves: rhbz#1817139
+
 * Wed Mar 25 2020 Attila Lakatos <alakatos@redhat.com> - 1.9.0-0.1.b4
 - update to latest development version 1.9.0b4
 Resolves: rhbz#1816593

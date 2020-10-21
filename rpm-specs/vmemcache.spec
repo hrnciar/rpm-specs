@@ -1,11 +1,15 @@
+# The tests are failing for some reason if built out-of-source
+%global __cmake_in_source_build 1
+
 Name:		vmemcache
 Version:	0.8
-Release:	3%{?dist}
+Release:	7%{?dist}
 Summary:	Buffer-based LRU cache
 
 License:	BSD
 URL:		https://github.com/pmem/vmemcache
 Source0:	https://github.com/pmem/vmemcache/archive/%{version}/%{name}-%{version}.tar.gz
+Patch0:		0001-Don-t-let-gcc-replace-Zalloc-by-calloc.patch
 ExclusiveArch:	x86_64 ppc64 ppc64le s390x aarch64
 
 BuildRequires:	cmake
@@ -31,19 +35,20 @@ developing applications that use %{name}.
 
 %prep
 %setup -q
+%patch0 -p1
 
 
 %build
 %cmake
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %check
-ctest %{?_smp_mflags} --output-on-failure
+%ctest
 
 
 %files
@@ -59,6 +64,20 @@ ctest %{?_smp_mflags} --output-on-failure
 
 
 %changelog
+* Tue Aug 25 2020 Adam Borowski <kilobyte@angband.pl> 0.8-7
+- Re-enable LTO
+- Disable optimizations for a function miscompiled by new GCC.
+
+* Thu Aug 06 2020 Jeff Law <law@redhat.com> - 0.8-6
+- Disable LTO
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

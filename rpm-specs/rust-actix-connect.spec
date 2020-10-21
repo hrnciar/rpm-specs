@@ -5,11 +5,11 @@
 %global crate actix-connect
 
 Name:           rust-%{crate}
-Version:        2.0.0~alpha.3
+Version:        2.0.0
 Release:        1%{?dist}
-Summary:        Actix connect - tcp connector service
+Summary:        TCP connector service for Actix ecosystem
 
-# Upstream license specification: MIT/Apache-2.0
+# Upstream license specification: MIT OR Apache-2.0
 License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/actix-connect
 Source:         %{crates_source}
@@ -22,7 +22,7 @@ BuildArch:      noarch
 BuildRequires:  rust-packaging
 
 %global _description %{expand:
-Actix connect - tcp connector service.}
+TCP connector service for Actix ecosystem.}
 
 %description %{_description}
 
@@ -162,6 +162,8 @@ which use "webpki" feature of "%{crate}" crate.
 
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
+# integration tests are broken (missing deps in Cargo.toml)
+rm -r tests
 %cargo_prep
 
 %generate_buildrequires
@@ -179,6 +181,12 @@ which use "webpki" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Mon Sep 21 2020 Fabio Valentini <decathorpe@gmail.com> - 2.0.0-1
+- Update to version 2.0.0.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0~alpha.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 14 19:44:35 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 2.0.0~alpha.3-1
 - Update to 2.0.0-alpha.3
 

@@ -1,6 +1,6 @@
 Name:		qmpdclient
 Version:	1.2.2
-Release:	19%{?dist}
+Release:	21%{?dist}
 Summary:	Qt4 based MPD client
 
 License:	GPLv2+
@@ -77,6 +77,13 @@ desktop-file-install					\
 %lang(zh_TW) %{_datadir}/QMPDClient/translations/zh_TW.qm
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

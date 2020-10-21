@@ -12,7 +12,7 @@ true of requests in terms of caching.}
 Name:           python-%{pypi_name}
 Summary:        httplib2 caching for requests
 Version:        0.12.6
-Release:        4%{?dist}
+Release:        6%{?dist}
 License:        MIT
 
 URL:            https://github.com/ionrock/cachecontrol
@@ -43,11 +43,15 @@ BuildRequires:  python3-redis
 BuildRequires:  python3-requests
 
 # optional dependencies
-Recommends:     python3dist(lockfile) >= 0.9
-Recommends:     python3dist(redis) >= 2.10.5
+%{?python_extras_subpkg:Recommends:  python3-%{pypi_name}+filecache}
+%{!?python_extras_subpkg:Recommends: python3dist(lockfile) >= 0.9}
+
+%{?python_extras_subpkg:Recommends:  python3-%{pypi_name}+redis}
+%{!?python_extras_subpkg:Recommends: python3dist(redis) >= 2.10.5}
 
 %description -n python3-%{pypi_name} %{common_description}
 
+%{?python_extras_subpkg:%python_extras_subpkg -n python3-%{pypi_name} -i %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info filecache redis}
 
 %prep
 %autosetup -n %{pypi_name_lower}-%{version} -p1
@@ -77,6 +81,12 @@ Recommends:     python3dist(redis) >= 2.10.5
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.6-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Miro Hrončok <mhroncok@redhat.com> - 0.12.6-5
+- Add cachecontrol[filecache] and cachecontrol[redis] subpackages
+
 * Fri Jun 05 2020 Miro Hrončok <mhroncok@redhat.com> - 0.12.6-4
 - Rebuilt with cherrypy tests
 

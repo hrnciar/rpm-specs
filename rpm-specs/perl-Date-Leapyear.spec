@@ -1,6 +1,6 @@
 Name:           perl-Date-Leapyear
 Version:        1.72
-Release:        30%{?dist}
+Release:        31%{?dist}
 Summary:        Is a particular year a leap year?
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Date-Leapyear
@@ -41,6 +41,9 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.72-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.72-30
 - Perl 5.32 rebuild
 

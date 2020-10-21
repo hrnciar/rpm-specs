@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        2019.1.8
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        PyTest Helpers Namespace
 
 License:        ASL 2.0
@@ -54,6 +54,9 @@ rm -rf %{srcname}.egg-info
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.1.8-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2019.1.8-7
 - Rebuilt for Python 3.9
 

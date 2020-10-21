@@ -10,7 +10,7 @@
 Summary: X.Org X11 libXp runtime library
 Name: libXp
 Version: 1.0.3
-Release: 6%{?dist}
+Release: 7%{?dist}
 License: MIT
 URL: http://www.x.org
 
@@ -81,6 +81,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 %{_libdir}/pkgconfig/xp.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

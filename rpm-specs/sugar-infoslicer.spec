@@ -4,7 +4,7 @@
 
 Name:           sugar-infoslicer
 Version:        25
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Downloader for articles from Wikipedia
 License:        GPLv2+
 URL:            http://sugarlabs.org/go/Activities/InfoSlicer
@@ -43,6 +43,13 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 25-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 25-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 25-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

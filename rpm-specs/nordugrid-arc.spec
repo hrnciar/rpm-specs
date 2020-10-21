@@ -59,8 +59,8 @@
 %global _bashcompdir %(pkg-config --variable=completionsdir bash-completion 2>/dev/null || echo %{_sysconfdir}/bash_completion.d)
 
 Name:		nordugrid-arc
-Version:	6.6.0
-Release:	2%{?dist}
+Version:	6.8.1
+Release:	1%{?dist}
 Summary:	Advanced Resource Connector Middleware
 License:	ASL 2.0
 URL:		http://www.nordugrid.org/
@@ -846,6 +846,8 @@ if pkg-config --atleast-version 2.6 sigc++-2.0 ; then
   if [ `echo __GNUC__ | gcc -E - | tail -1` -lt 6 ] ; then
     # Workaround for too new libsigc++/glibmm, too old gcc combination
     export CXXFLAGS="%{optflags} -std=c++11"
+  else
+    export CXXFLAGS="%{optflags} -std=c++14"
   fi
 fi
 
@@ -890,13 +892,13 @@ fi
      --disable-doc \
      --docdir=%{_pkgdocdir}
 
-make %{?_smp_mflags}
+%make_build
 
 %check
-make %{?_smp_mflags} check
+%make_build check
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 
 # Install Logrotate.
 mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
@@ -936,7 +938,6 @@ mkdir -p %{buildroot}%{_localstatedir}/log/arc
 mkdir -p %{buildroot}%{_localstatedir}/spool/arc
 mkdir -p %{buildroot}%{_localstatedir}/spool/arc/ssm
 mkdir -p %{buildroot}%{_localstatedir}/spool/arc/urs
-mkdir -p %{buildroot}%{_localstatedir}/spool/arc/jura/archive
 
 %find_lang %{name}
 
@@ -1250,7 +1251,7 @@ fi
 %endif
 
 %files -f %{name}.lang
-%doc src/doc/arc.conf.reference src/doc/arc.conf.DELETED
+%doc src/doc/arc.conf.reference src/doc/arc.conf.DELETED src/doc/arc.conf.DELETED-6.8.0
 %doc README AUTHORS
 %license LICENSE NOTICE
 %{_libdir}/libarccompute.so.*
@@ -1303,8 +1304,6 @@ fi
 %endif
 %dir %{_datadir}/%{pkgdir}
 %{_datadir}/%{pkgdir}/arc.parser.defaults
-%dir %{_datadir}/%{pkgdir}/sql-schema
-%{_datadir}/%{pkgdir}/sql-schema/legacy_jura_archivedb_schema.sql
 %dir %{_datadir}/%{pkgdir}/test-jobs
 %{_datadir}/%{pkgdir}/test-jobs/test-job-*
 %{_datadir}/%{pkgdir}/schema
@@ -1472,7 +1471,6 @@ fi
 %{_libexecdir}/%{pkgdir}/gm-jobs
 %{_libexecdir}/%{pkgdir}/gm-kick
 %{_libexecdir}/%{pkgdir}/inputcheck
-%{_libexecdir}/%{pkgdir}/jura
 %{_libexecdir}/%{pkgdir}/jura-ng
 %{_libexecdir}/%{pkgdir}/smtp-send
 %{_libexecdir}/%{pkgdir}/smtp-send.sh
@@ -1527,7 +1525,6 @@ fi
 %doc %{_mandir}/man1/arc-config-check.1*
 %doc %{_mandir}/man1/cache-clean.1*
 %doc %{_mandir}/man1/cache-list.1*
-%doc %{_mandir}/man1/jura.1*
 %doc %{_mandir}/man8/a-rex-backtrace-collect.8*
 %doc %{_mandir}/man8/arc-blahp-logger.8*
 %doc %{_mandir}/man8/gm-delegations-converter.8*
@@ -1537,39 +1534,31 @@ fi
 %dir %{_localstatedir}/spool/arc
 %dir %{_localstatedir}/spool/arc/ssm
 %dir %{_localstatedir}/spool/arc/urs
-%dir %{_localstatedir}/spool/arc/jura
-%dir %{_localstatedir}/spool/arc/jura/archive
 %{_libexecdir}/%{pkgdir}/ssmsend
 %if %{py3default}
 %{python3_sitearch}/%{pkgdir}/ssm
 %{python3_sitearch}/%{pkgdir}/control/AccountingDB.py
-%{python3_sitearch}/%{pkgdir}/control/AccountingLegacy.py
 %{python3_sitearch}/%{pkgdir}/control/AccountingPublishing.py
 %{python3_sitearch}/%{pkgdir}/control/Accounting.py
 %{python3_sitearch}/%{pkgdir}/control/Cache.py
+%{python3_sitearch}/%{pkgdir}/control/DataStaging.py
 %{python3_sitearch}/%{pkgdir}/control/Jobs.py
-%{python3_sitearch}/%{pkgdir}/control/JuraArchive.py
-%{python3_sitearch}/%{pkgdir}/control/JuraArchiveSQLite.py
 %{python3_sitearch}/%{pkgdir}/control/RunTimeEnvironment.py
 %{python3_sitearch}/%{pkgdir}/control/__pycache__/AccountingDB.*
-%{python3_sitearch}/%{pkgdir}/control/__pycache__/AccountingLegacy.*
 %{python3_sitearch}/%{pkgdir}/control/__pycache__/AccountingPublishing.*
 %{python3_sitearch}/%{pkgdir}/control/__pycache__/Accounting.*
 %{python3_sitearch}/%{pkgdir}/control/__pycache__/Cache.*
+%{python3_sitearch}/%{pkgdir}/control/__pycache__/DataStaging.*
 %{python3_sitearch}/%{pkgdir}/control/__pycache__/Jobs.*
-%{python3_sitearch}/%{pkgdir}/control/__pycache__/JuraArchive.*
-%{python3_sitearch}/%{pkgdir}/control/__pycache__/JuraArchiveSQLite.*
 %{python3_sitearch}/%{pkgdir}/control/__pycache__/RunTimeEnvironment.*
 %else
 %{python2_sitearch}/%{pkgdir}/ssm
 %{python2_sitearch}/%{pkgdir}/control/AccountingDB.py*
-%{python2_sitearch}/%{pkgdir}/control/AccountingLegacy.py*
 %{python2_sitearch}/%{pkgdir}/control/AccountingPublishing.py*
 %{python2_sitearch}/%{pkgdir}/control/Accounting.py*
 %{python2_sitearch}/%{pkgdir}/control/Cache.py*
+%{python2_sitearch}/%{pkgdir}/control/DataStaging.py*
 %{python2_sitearch}/%{pkgdir}/control/Jobs.py*
-%{python2_sitearch}/%{pkgdir}/control/JuraArchive.py*
-%{python2_sitearch}/%{pkgdir}/control/JuraArchiveSQLite.py*
 %{python2_sitearch}/%{pkgdir}/control/RunTimeEnvironment.py*
 %endif
 %{_libexecdir}/%{pkgdir}/arccandypond
@@ -1805,6 +1794,26 @@ fi
 %attr(4755,root,root) %{_bindir}/arc-job-cgroup
 
 %changelog
+* Mon Oct 12 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 6.8.1-1
+- Update to version 6.8.1
+
+* Wed Oct 07 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 6.8.0-1
+- Update to version 6.8.0
+
+* Fri Aug 28 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 6.7.0-4
+- xrootd 5 compatibility
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.7.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 6.7.0-2
+- Always specify C++11 or C++14 rather than using the default
+  (which will be C++17 in the near future and this code is not C++17
+  ready).
+
+* Fri Jul 03 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 6.7.0-1
+- Update to version 6.7.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 6.6.0-2
 - Rebuilt for Python 3.9
 

@@ -7,7 +7,7 @@ Easy python bindings to write to Carbon (Re-write of carbonclient).
 
 Name:           python-%{srcname}
 Version:        0.10.0
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        %{sum}
 
 License:        ASL 2.0
@@ -57,6 +57,9 @@ This is the package with python%{python3_pkgversion} support.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.10.0-14
 - Rebuilt for Python 3.9
 

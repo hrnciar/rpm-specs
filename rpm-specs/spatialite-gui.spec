@@ -1,6 +1,6 @@
 Name:           spatialite-gui
 Version:        1.7.1
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        GUI to manage Spatialite databases
 
 License:        GPLv3+
@@ -59,6 +59,9 @@ desktop-file-install \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 14 2020 Sandro Mani <manisandro@gmail.com> - 1.7.1-23
 - Fix FTBFS
 - Modernize spec

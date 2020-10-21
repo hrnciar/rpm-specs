@@ -1,7 +1,7 @@
 Summary:        A fast, feature rich Window Manager
 Name:           WindowMaker
 Version:        0.95.9
-Release:        1%{?dist}
+Release:        3%{?dist}
 License:        GPLv2+
 URL:            http://www.windowmaker.org 
 Source0:        http://windowmaker.org/pub/source/release/WindowMaker-%{version}.tar.gz
@@ -301,6 +301,13 @@ chrpath --delete %{buildroot}%{_libdir}/libWINGs.so.3.1.0
 %{_includedir}/wraster.h
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.95.9-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.95.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 11 2020 Jani Juhani Sinervo <jani@sinervo.fi> - 0.95.9-1
 - Update to 0.95.9
 

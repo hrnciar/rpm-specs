@@ -8,45 +8,19 @@
 %endif
 
 Name:           python-%{srcname}
-Version:        2.8.1
-Release:        6%{?dist}
+Version:        2.10.1
+Release:        1%{?dist}
 Summary:        Pytest plugin for coverage reporting
 
 License:        MIT
 URL:            https://pypi.python.org/pypi/%{srcname}
 Source0:        https://github.com/pytest-dev/%{srcname}/archive/v%{version}/%{srcname}-%{version}.tar.gz
 
-# Python 3.9 support
-Patch1:         https://github.com/pytest-dev/%{srcname}/commit/32d8c0665ea044f9682a89633d75442d1a4d2dc4.patch
-
 BuildArch:      noarch
 
 %description
 Py.test plugin for coverage reporting with support for both centralised and
 distributed testing, including subprocesses and multiprocessing for Python.
-
-
-%if %{with python2}
-%package -n python2-%{srcname}
-Summary:        Pytest plugin for coverage reporting
-BuildRequires:  python2-devel
-BuildRequires:  python2-setuptools
-# For tests
-#  Not packaged: python2-fields
-#BuildRequires:  python2-pytest
-#BuildRequires:  python2-coverage >= 4.4
-#BuildRequires:  python2-fields
-#BuildRequires:  python2-process-tests
-#BuildRequires:  python2-six
-#BuildRequires:  python2-virtualenv
-#BuildRequires:  python2-pytest-xdist
-%{?python_provide:%python_provide python2-%{srcname}}
-
-%description -n python2-%{srcname}
-Py.test plugin for coverage reporting with support for both centralised and
-distributed testing, including subprocesses and multiprocessing for Python 2.
-%endif
-
 
 %package -n python%{python3_pkgversion}-%{srcname}
 Summary:        Pytest plugin for coverage reporting
@@ -66,44 +40,21 @@ BuildRequires:  python%{python3_pkgversion}-pytest-xdist
 Py.test plugin for coverage reporting with support for both centralised and
 distributed testing, including subprocesses and multiprocessing for Python 3.
 
-
 %prep
 %autosetup -p1 -n %{srcname}-%{version}
 rm -rf *.egg-info
 
-
 %build
-%if %{with python2}
-%py2_build
-%endif
 %py3_build
-
 
 %install
 %py3_install
-%if %{with python2}
-%py2_install
-%endif
-
 
 %check
-# Python 2 tests have unpackaged dependencies
-# test_dist_missing_data needs internet
-# test_central_subprocess/dist_subprocess https://github.com/pytest-dev/pytest-cov/issues/90
-# test_subprocess_with_path_aliasing and test_dist_combine_racecondition tries to match strings and fails, mostly version mismatch
-# To read a custom pth-file we need to add that path to site-dir, needed for tests at RPM build time
 echo "import site;site.addsitedir(\"$(pwd)/src\")" > tests/sitecustomize.py
 export PYTHONPATH="$(pwd)"/build/lib
 py.test-%{python3_version} -vv \
     -k "not test_dist_missing_data and not test_subprocess_with_path_aliasing and not test_dist_combine_racecondition and not central_subprocess and not dist_subprocess"
-
-
-%if %{with python2}
-%files -n python2-%{srcname}
-%license LICENSE
-%doc AUTHORS.rst CHANGELOG.rst CONTRIBUTING.rst README.rst
-%{python2_sitelib}/*
-%endif
 
 %files -n python%{python3_pkgversion}-%{srcname}
 %license LICENSE
@@ -112,6 +63,15 @@ py.test-%{python3_version} -vv \
 
 
 %changelog
+* Fri Aug 14 2020 Chedi Toueiti <chedi.toueiti@gmail.com> - 2.10.1-1
+- Update to 2.10.1 (#1868968)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 9 2020 Chedi Toueiti <chedi.toueiti@gmail.com> - 2.10.0
+- Update to 2.10.0
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 2.8.1-6
 - Rebuilt for Python 3.9
 

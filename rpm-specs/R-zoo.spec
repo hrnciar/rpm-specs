@@ -11,7 +11,7 @@
 
 Name:             R-%{packname}
 Version:          %{packver}.%{packrel}
-Release:          2%{?dist}
+Release:          4%{?dist}
 License:          GPLv2 or GPLv3
 URL:              https://CRAN.R-project.org/package=%{packname}
 Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}-%{packrel}.tar.gz
@@ -94,6 +94,13 @@ rm -rf $RPM_BUILD_ROOT%{_libdir}/R/library/R.css
 %{_libdir}/R/library/%{packname}/include
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.8-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 1.8.8-2
 - rebuild for R 4
 

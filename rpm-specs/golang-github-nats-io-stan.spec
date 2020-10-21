@@ -3,7 +3,7 @@
 
 # https://github.com/nats-io/stan.go
 %global goipath         github.com/nats-io/stan.go
-Version:                0.6.0
+Version:                0.7.0
 
 %gometa
 
@@ -34,7 +34,7 @@ BuildRequires:  golang(github.com/nats-io/nuid)
 
 %if %{with check}
 # Tests
-BuildRequires:  golang(github.com/nats-io/nats-server/test)
+BuildRequires:  golang(github.com/nats-io/nats-server/v2/test)
 BuildRequires:  golang(github.com/nats-io/nats-streaming-server/server)
 %endif
 
@@ -45,7 +45,6 @@ BuildRequires:  golang(github.com/nats-io/nats-streaming-server/server)
 
 %prep
 %goprep
-sed -i "s|github.com/nats-io/nats-server/v2|github.com/nats-io/nats-server|" $(find . -type f -name "*.go")
 
 %install
 %gopkginstall
@@ -58,5 +57,11 @@ sed -i "s|github.com/nats-io/nats-server/v2|github.com/nats-io/nats-server|" $(f
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 07:16:04 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.7.0-1
+- Update to 0.7.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 01 21:27:01 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.6.0-1
 - Initial package

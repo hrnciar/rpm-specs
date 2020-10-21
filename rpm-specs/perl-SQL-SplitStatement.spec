@@ -1,6 +1,6 @@
 Name:           perl-SQL-SplitStatement
 Version:        1.00020
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Split any SQL code into atomic statements
 License:        GPL+ or Artistic
 
@@ -65,6 +65,9 @@ make test
 %{_mandir}/man3/SQL*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00020-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.00020-17
 - Perl 5.32 rebuild
 

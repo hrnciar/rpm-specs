@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          1.10.0
-Release:          4%{?dist}
+Release:          6%{?dist}
 Summary:          Polygon Clipping
 
 License:          Boost
@@ -65,6 +65,13 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 1.10.0-4
 - rebuild for R 4
 

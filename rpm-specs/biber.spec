@@ -1,6 +1,6 @@
 Name:           biber
 Version:        2.14
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Command-line bibliographic manager, BibTeX replacement
 License:        (GPL+ or Artistic 2.0) and Artistic 2.0
 URL:            http://biblatex-biber.sourceforge.net/
@@ -92,7 +92,10 @@ BuildRequires:  perl(XML::LibXML::Simple)
 BuildRequires:  perl(XML::LibXSLT)
 BuildRequires:  perl(XML::Writer)
 # For tests
+# Break build cycle biber -> texlive-plain -> texlive-biblatex -> biber
+%if !%{defined perl_bootstrap}
 BuildRequires:  texlive-plain
+%endif
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:       perl(autovivification)
 Requires:       perl(Business::ISBN)
@@ -158,7 +161,9 @@ chmod u+w %{buildroot}%{_bindir}/*
 
 
 %check
+%if !%{defined perl_bootstrap}
 ./Build test verbose=1
+%endif
 
 
 %files
@@ -170,6 +175,15 @@ chmod u+w %{buildroot}%{_bindir}/*
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.14-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.14-3
+- Perl 5.32 re-rebuild of bootstrapped packages
+
+* Wed Jun 24 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.14-2
+- Perl 5.32 rebuild
+
 * Thu May 14 2020 Tom Callaway <spot@fedoraproject.org> - 2.14-1
 - update to 2.14 for TL 2020
 

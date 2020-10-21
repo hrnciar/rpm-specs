@@ -1,3 +1,6 @@
+# Tests cannot be run at the moment since the Python build breaks the makefiles
+%bcond_with tests
+
 %if 0%{?fedora}
 %bcond_without python3
 %else
@@ -15,11 +18,13 @@
 Name:           libxc
 Summary:        Library of exchange and correlation functionals for density-functional theory
 Version:        5.0.0
-Release:        2%{?dist}
+Release:        6%{?dist}
 License:        MPLv2.0
 Source0:        http://www.tddft.org/programs/libxc/down.php?file=%{version}/libxc-%{version}.tar.gz
 # Don't rebuild libxc for pylibxc
 Patch0:         libxc-5.0.0-pylibxc.patch
+# link with libm explicitly: https://bugzilla.redhat.com/show_bug.cgi?id=1883501
+Patch1:         libxc-5.0.0-libm.patch
 
 URL:            http://www.tddft.org/programs/octopus/wiki/index.php/Libxc
 
@@ -33,6 +38,7 @@ BuildRequires:  python2-numpy
 %if %{with python3}
 BuildRequires:  python3-devel
 BuildRequires:  python3-numpy
+BuildRequires:  python3-setuptools
 %endif
 
 %if ! %{with python2}
@@ -106,6 +112,7 @@ This package contains the Python3 interface library to libxc.
 %prep
 %setup -q
 %patch0 -p1 -b .pylibxc
+%patch1 -p1 -b .lm
 # Plug in library soversion
 sed -i "s|@SOVERSION@|%{soversion}|g" pylibxc/core.py
 
@@ -158,8 +165,15 @@ rm -f %{buildroot}%{_includedir}/libxc.bib
 %ldconfig_scriptlets
 %endif
 
+# Run tests
+%if %{with tests}
+%check
+make check
+%endif
+
 %files
-%doc README NEWS COPYING AUTHORS ChangeLog TODO libxc.bib
+%doc README NEWS AUTHORS ChangeLog TODO libxc.bib
+%license COPYING
 %{_bindir}/xc-info
 %{_bindir}/xc-threshold
 %{_libdir}/libxc.so.%{soversion}*
@@ -187,6 +201,18 @@ rm -f %{buildroot}%{_includedir}/libxc.bib
 %endif
 
 %changelog
+* Thu Oct 01 2020 Dominik Mierzejewski <rpm@greysector.net> - 5.0.0-6
+- Link with libm directly (rhbz#1883501)
+
+* Tue Sep 08 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.0.0-5
+- Enable tests.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.0.0-3
+- BR: python3-setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.0.0-2
 - Rebuilt for Python 3.9
 

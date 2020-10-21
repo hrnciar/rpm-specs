@@ -2,7 +2,7 @@
 
 Name:           trackballs
 Version:        1.3.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Steer a marble ball through a labyrinth
 License:        GPLv2+
 URL:            https://trackballs.github.io/
@@ -30,12 +30,12 @@ mv share/%{name}.6.tmp share/%{name}.6
 
 
 %build
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 %find_lang %{name}
 
 # Replace bundled fonts with symlinks to system fonts
@@ -53,7 +53,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 
 
 %check
-ctest -V %{?_smp_mflags}
+%ctest
 
 
 %files -f %{name}.lang
@@ -70,6 +70,9 @@ ctest -V %{?_smp_mflags}
 %{_datadir}/appdata/%{name}.appdata.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 20 2020 Tomas Korbar <tkorbar@redhat.com> - 1.3.1-1
 - Rebase to 1.3.1 (rhbz#1510133)
 - New Upstream (rhbz#1821064)

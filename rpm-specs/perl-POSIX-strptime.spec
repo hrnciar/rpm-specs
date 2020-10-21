@@ -1,6 +1,6 @@
 Name:           perl-POSIX-strptime
 Version:        0.13
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Perl extension to the POSIX date parsing strptime(3) function
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/POSIX-strptime
@@ -59,6 +59,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.13-15
 - Perl 5.32 rebuild
 

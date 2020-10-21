@@ -3,7 +3,7 @@
 
 Name:             jboss-logging-tools
 Version:          2.2.1
-Release:          1%{?dist}
+Release:          3%{?dist}
 Summary:          JBoss Logging I18n Annotation Processor
 # Not available license file https://issues.jboss.org/browse/LOGTOOL-107
 # ./annotations/src/main/java/org/jboss/logging/annotations/*.java: Apache (v2.0)
@@ -59,6 +59,12 @@ rm processor/src/test/java/org/jboss/logging/processor/generated/GeneratedSource
 %doc README.adoc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.2.1-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat May 09 2020 Fabio Valentini <decathorpe@gmail.com> - 2.2.1-1
 - Update to version 2.2.1.
 

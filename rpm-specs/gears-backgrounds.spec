@@ -1,6 +1,6 @@
 Name:           gears-backgrounds
 Version:        0.0.1
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Gears desktop backgrounds
 
 License:        CC-BY-SA
@@ -41,6 +41,9 @@ cp -a $RPM_BUILD_DIR/gears-%{version}/desktop-backgrounds-gears.xml \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.1-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.1-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

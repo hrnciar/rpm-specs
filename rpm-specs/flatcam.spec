@@ -10,7 +10,7 @@
 
 Name:           flatcam
 Version:        8.5
-Release:        19.%{date}git%{shortcommit0}%{?dist}
+Release:        20.%{date}git%{shortcommit0}%{?dist}
 Summary:        2D Computer-Aided PCB Manufacturing
 License:        MIT
 Url:            http://flatcam.org/
@@ -89,6 +89,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/*.appdata
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.5-20.20180606git46454c293a9b
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Damian Wrobel <dwrobel@ertelnet.rybnik.pl> - 8.5-19.20180606git46454c293a9b
 - Add BR python3-setuptools
 

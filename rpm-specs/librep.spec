@@ -1,6 +1,6 @@
 Name:           librep
 Version:        0.92.7
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        A lightweight Lisp environment
 License:        GPLv2+
 URL:            http://sawfish.wikia.com/
@@ -46,12 +46,12 @@ Link libraries and C header files for librep development.
 %build
 ./autogen.sh --nocfg
 %configure --with-readline --enable-shared --disable-static
-make %{?_smp_mflags}
+%make_build
 %{_emacs_bytecompile} rep-debugger.el
 
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 rm -f %{buildroot}%{_infodir}/dir
 chrpath --delete %{buildroot}%{_bindir}/rep
 install -m 644 rep-debugger.elc %{buildroot}%{_emacs_sitelispdir}
@@ -89,6 +89,13 @@ find %{buildroot}%{_libdir} -name \*.la -exec rm '{}' \;
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.92.7-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 0.92.7-11
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.92.7-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

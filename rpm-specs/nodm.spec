@@ -1,6 +1,6 @@
 Name:           nodm
 Version:        0.13
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        A display manager automatically starting an X session
 
 # xsession-child.c is under BSD (3 clause) and GPLv2+, all other sources with GPLv2+,
@@ -74,6 +74,9 @@ install -m0644 %SOURCE2 -D %{buildroot}%{_sysconfdir}/%{name}.conf
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

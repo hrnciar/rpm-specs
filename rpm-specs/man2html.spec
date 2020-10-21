@@ -3,7 +3,7 @@
 
 Name:       man2html
 Version:    1.6
-Release:    25.%{posttag}%{?dist}
+Release:    26.%{posttag}%{?dist}
 Summary:    Convert man pages to HTML - CGI scripts
 
 # man2html.c and debian/sources/man2html.cgi.c are Copyright Only
@@ -198,6 +198,9 @@ rm -f %{_localstatedir}/cache/man2html/* || :
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-26.g
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-25.g
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

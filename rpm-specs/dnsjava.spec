@@ -4,7 +4,7 @@
 
 Name:          dnsjava
 Version:       2.1.3
-Release:       18%{?dist}
+Release:       21%{?dist}
 Summary:       Java DNS implementation
 License:       BSD and MIT
 URL:           http://www.dnsjava.org/
@@ -87,6 +87,16 @@ ant -Dj2se.javadoc=%{_javadocdir}/java run_tests
 %license LICENSE
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.3-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.3-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.1.3-19
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.3-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

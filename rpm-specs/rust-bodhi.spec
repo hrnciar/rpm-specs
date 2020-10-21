@@ -5,7 +5,7 @@
 %global crate bodhi
 
 Name:           rust-%{crate}
-Version:        0.6.0
+Version:        0.6.2
 Release:        1%{?dist}
 Summary:        Bodhi REST API client
 
@@ -119,6 +119,15 @@ which use "online-tests" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Fri Aug 28 2020 Fabio Valentini <decathorpe@gmail.com> - 0.6.2-1
+- Update to version 0.6.2.
+
+* Sun Aug 16 2020 Fabio Valentini <decathorpe@gmail.com> - 0.6.1-1
+- Update to version 0.6.1.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Fabio Valentini <decathorpe@gmail.com> - 0.6.0-1
 - Update to version 0.6.0.
 

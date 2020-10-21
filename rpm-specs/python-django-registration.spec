@@ -3,7 +3,7 @@
 
 Name:           python-%{pypi_name}
 Version:        2.1.2
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        %{summary}
 
 License:        BSD
@@ -80,6 +80,9 @@ This package provides Python 3 build of %{pypi_name}.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.2-14
 - Rebuilt for Python 3.9
 

@@ -3,9 +3,11 @@
 
 # https://github.com/ajstarks/deck
 %global goipath         github.com/ajstarks/deck
-%global commit          b22ec51b2c1e28a2cdaf016c16a22456e10188df
+%global commit          91efe3db76b2ca01c7fd73834f8472d04f89110a
 
 %gometa
+
+%global goipathsex      github.com/ajstarks/deck/cmd
 
 %global common_description %{expand:
 Deck is a library for clients to make scalable presentations, using a standard
@@ -18,7 +20,7 @@ produce standard formats such as SVG or PDF.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.4%{?dist}
+Release:        0.7%{?dist}
 Summary:        Slide Decks
 
 License:        CC-BY
@@ -63,6 +65,15 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 14:48:12 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.6.20200723git91efe3d
+- Exclude cmd/ from install
+
+* Thu Jul 23 08:20:15 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200723git91efe3d
+- Bump to commit 91efe3db76b2ca01c7fd73834f8472d04f89110a
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

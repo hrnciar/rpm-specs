@@ -1,7 +1,7 @@
 Name:    lxqt-config
 Summary: Config tools for LXQt desktop suite
 Version: 0.15.0
-Release: 1%{?dist}
+Release: 3%{?dist}
 License: LGPLv2+
 URL:     http://lxqt.org/
 Source0: https://github.com/lxqt/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
@@ -138,6 +138,13 @@ desktop-file-edit \
 %{_datadir}/lxqt/translations/lxqt-config-monitor/lxqt-config-monitor_ast.qm
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 03 2020 Zamir SUN <sztsian@gmail.com> - 0.15.0-1
 - Update to 0.15.0
 

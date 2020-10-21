@@ -1,6 +1,6 @@
 Name:           frei0r-plugins
 Version:        1.7.0
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Frei0r - a minimalist plugin API for video effects
 
 License:        GPLv2+
@@ -46,17 +46,13 @@ developing applications that use %{name}.
 
 
 %build
-mkdir -p build
-cd build
 %cmake -DCMAKE_INSTALL_LIBDIR=%{_lib} \
-  ..
 
-%make_build
+%cmake_build
 
 
 %install
-cd build
-%make_install
+%cmake_install
 
 #Remove installed doc
 rm -rf %{buildroot}%{_docdir}/%{name}
@@ -79,6 +75,14 @@ rm -rf %{buildroot}%{_docdir}/%{name}
 %{_libdir}/pkgconfig/frei0r.pc
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+- Fix cmake build
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Nicolas Chauvet <kwizart@gmail.com> - 1.7.0-8
 - Rebuilt for OpenCV 4.3
 

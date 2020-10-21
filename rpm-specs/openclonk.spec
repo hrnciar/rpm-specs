@@ -1,3 +1,5 @@
+%global __cmake_in_source_build 1
+
 %global commit 570ba7a8adc7973327ae612a3d535fd8621c41dd
 %global date 20180321
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
@@ -9,13 +11,14 @@
 Name:           openclonk
 Summary:        Multiplayer action, tactics and skill game
 Version:        8.1
-Release:        10.%{date}git%{shortcommit}%{?dist}
+Release:        13.%{date}git%{shortcommit}%{?dist}
 URL:            http://www.openclonk.org/
 Source0:        https://github.com/openclonk/openclonk/archive/%{commit}/%{name}-%{commit}.tar.gz
 License:        ISC and CC-BY-SA
 
 Source1:        %{name}-html.desktop
 Source2:        %{name}-docs.png
+Patch0:         %{name}-gcc11.patch
 
 BuildRequires:  boost-devel
 BuildRequires:  cmake, gcc, gcc-c++
@@ -89,7 +92,7 @@ This package contains documentation needed for developing with %{name}.
 %endif
 
 %prep
-%autosetup -n %{name}-%{commit}
+%autosetup -p1 -n %{name}-%{commit}
 
 # remove bundled tinyxml
 rm -rf thirdparty/tinyxml
@@ -197,6 +200,16 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %endif
 
 %changelog
+* Thu Oct 15 2020 Jeff Law <law@redhat.com> - 8.1-13.20180321git570ba7a
+- Fix missing #include for gcc-11
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.1-12.20180321git570ba7a
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.1-11.20180321git570ba7a
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 26 2020 Antonio Trande <sagitter@fedoraproject.org> - 8.1-10.20180321git570ba7a
 - Use python3 but disable documentation building
 

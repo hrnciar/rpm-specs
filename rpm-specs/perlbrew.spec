@@ -1,23 +1,25 @@
 Name:           perlbrew
-Version:        0.88
-Release:        2%{?dist}
+Version:        0.89
+Release:        1%{?dist}
 Summary:        Manage perl installations in your $HOME
 License:        MIT
 URL:            https://metacpan.org/release/App-perlbrew
 Source0:        https://cpan.metacpan.org/authors/id/G/GU/GUGOD/App-perlbrew-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
 BuildRequires:  perl(Module::Build::Tiny) >= 0.034
 # Run-time
 BuildRequires:  perl(Capture::Tiny) >= 0.36
 BuildRequires:  perl(Config)
-BuildRequires:  perl(CPAN::Perl::Releases) >= 5.20191220
+BuildRequires:  perl(CPAN::Perl::Releases) >= 5.20200920
 BuildRequires:  perl(Cwd)
-BuildRequires:  perl(Devel::PatchPerl) >= 1.80
+BuildRequires:  perl(Devel::PatchPerl) >= 2.00
 BuildRequires:  perl(Exporter)
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 7.22
 BuildRequires:  perl(File::Basename)
+BuildRequires:  perl(File::Copy)
 BuildRequires:  perl(File::Glob)
 BuildRequires:  perl(File::Path)
 BuildRequires:  perl(File::Spec)
@@ -51,13 +53,11 @@ BuildRequires:  perl(Test::Spec) >= 0.47
 BuildRequires:  wget
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:       perl(Capture::Tiny) >= 0.36
-Requires:       perl(CPAN::Perl::Releases) >= 5.20191220
+Requires:       perl(CPAN::Perl::Releases) >= 5.20200920
 Requires:       perl(Cwd)
 Requires:       perl(Data::Dumper)
-Requires:       perl(Devel::PatchPerl) >= 1.80
+Requires:       perl(Devel::PatchPerl) >= 2.00
 Requires:       perl(ExtUtils::MakeMaker) >= 7.22
-Requires:       perl(File::Basename)
-Requires:       perl(File::Copy)
 Requires:       perl(File::Spec)
 Requires:       perl(File::Temp)
 Requires:       perl(FindBin)
@@ -102,6 +102,12 @@ perl -V
 %{_mandir}/man3/*
 
 %changelog
+* Mon Oct 19 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.89-1
+- 0.89 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.88-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.88-2
 - Perl 5.32 rebuild
 

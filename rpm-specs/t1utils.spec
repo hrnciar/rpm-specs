@@ -1,6 +1,6 @@
 Name:		t1utils
 Version:	1.41
-Release:	3%{?dist}
+Release:	4%{?dist}
 
 Summary:	Collection of Type 1 and 2 font manipulation utilities
 
@@ -37,6 +37,9 @@ autoreconf -if
 %{_mandir}/man1/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.41-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 14 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.41-3
 - Patch for segfault in t1asm.
 

@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+%global libversion 1.0.0
 Name:           gearbox
 Version:        10.11
-Release:        21%{?dist}
+Release:        23%{?dist}
 Summary:        A collection of usable peer-reviewed robotics-related libraries
 
 License:        LGPLv2+ and GPLv2+
@@ -14,7 +16,8 @@ Patch1:         gearbox-9.11.fixdso.patch
 Patch2:         gearbox-9.11.gcc47.patch
 # Mark any 64-bit architecture as such
 Patch3:         gearbox-64bit.patch
-
+# Disable version check on gcc
+Patch4:         gearbox-10.11-gcc10.patch
 
 
 BuildRequires:  gcc
@@ -50,6 +53,7 @@ you will need to install %{name}-devel.
 %patch1 -p1 -b .fixdso
 %patch2 -p0 -b .gcc48
 %patch3 -p1 -b .64bit
+%patch4 -p1 -b .gcc10
 %build
 %cmake \
   -DENABLE_LIB_FLEXIPORT=OFF \
@@ -65,27 +69,23 @@ you will need to install %{name}-devel.
 %else
  -DENABLE_LIB_GBXSICKACFR=ON\
 %endif
-.
+ -DCMAKE_BUILD_TYPE=Release
 
-make VERBOSE=1
+%cmake_build
 pushd doc
 doxygen doxyfile
 popd
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
-
+%cmake_install
 # Remove the examples that gearbox installs.  If needed
 # they can be built from source contained in the datadir
 rm $RPM_BUILD_ROOT%{_bindir}/*
 
-%ldconfig_scriptlets
-
 
 %files
 %doc LICENSE
-%{_libdir}/*.so.*
+%{_libdir}/*.so.%{libversion}
 
 %files devel
 %doc doc/html
@@ -99,6 +99,13 @@ rm $RPM_BUILD_ROOT%{_bindir}/*
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.11-23
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.11-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.11-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

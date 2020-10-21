@@ -10,7 +10,7 @@
 
 Name:          clutter
 Version:       1.26.4
-Release:       1%{?dist}
+Release:       3%{?dist}
 Summary:       Open Source software library for creating rich graphical user interfaces
 
 License:       LGPLv2+
@@ -88,6 +88,11 @@ the functionality of the installed clutter package.
 %autosetup -p1
 
 %build
+# gobject introspection does not work with LTO.  There is an effort to fix this
+# in the appropriate project upstreams, so hopefully LTO can be enabled someday
+# Disable LTO.
+%define _lto_cflags %{nil}
+
 %configure \
 	--enable-xinput \
         --enable-gdk-backend \
@@ -139,6 +144,12 @@ find %{buildroot} -name '*.la' -delete
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.26.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 1.26.4-2
+Disable LTO
+
 * Mon Mar 09 2020 Kalev Lember <klember@redhat.com> - 1.26.4-1
 - Update to 1.26.4
 - Include clutter.supp valgrind suppression file

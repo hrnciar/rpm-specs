@@ -9,13 +9,13 @@ http://readthedocs.org/docs/libneuroml/en/latest/
 
 
 Name:           python-%{srcname}
-Version:        0.2.50
+Version:        0.2.52
 Release:        1%{?dist}
 Summary:        Python libNeuroML for working with neuronal models specified in NeuroML
 
 License:        BSD
 URL:            http://neuroml.org/
-Source0:        https://github.com/NeuralEnsemble/%{srcname}/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:        https://github.com/NeuralEnsemble/%{srcname}/archive/v%{version}/%{srcname}-%{version}.tar.gz
 # These require a mongodb db set up, so we disable them
 Patch0:         %{srcname}-0.2.45-disable-mongodb-test.patch
 
@@ -34,6 +34,7 @@ BuildRequires:  %{py3_dist tables}
 BuildRequires:  %{py3_dist jsonpickle}
 BuildRequires:  %{py3_dist pymongo}
 BuildRequires:  %{py3_dist sphinx}
+BuildRequires:  %{py3_dist setuptools}
 Requires:  %{py3_dist lxml}
 Requires:  %{py3_dist numpy}
 Requires:  %{py3_dist tables}
@@ -89,6 +90,15 @@ nosetests-3
 %doc neuroml/examples doc/_build/html/
 
 %changelog
+* Fri Sep 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.2.52-1
+- Update to new upstream release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.50-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.2.50-2
+- Explicitly BR setuptools
+
 * Sun Jun 07 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.2.50-1
 - Update to 0.2.50
 

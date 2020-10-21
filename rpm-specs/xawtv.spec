@@ -3,11 +3,12 @@
 Summary: TV applications for video4linux compliant devices
 Name: xawtv
 Version: 3.107
-Release: 1%{?dist}
+Release: 3%{?dist}
 License: GPLv2+
 URL: http://linuxtv.org/wiki/index.php/Xawtv
 
 Source0: http://linuxtv.org/downloads/xawtv/%{name}-%{version}.tar.bz2
+Patch0: xawtv-strsignal.patch
 
 BuildRequires:  gcc
 BuildRequires: mesa-libGL-devel, libXaw-devel, libXext-devel
@@ -56,6 +57,7 @@ which support teletext.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS -Wno-pointer-sign -fcommon"
@@ -151,7 +153,13 @@ ln -s consolehelper $RPM_BUILD_ROOT%{_bindir}/v4l-conf
 
 
 %changelog
-* Sat May 16 2020 Mauro Carvalho Chehab <mchehab+samsung@kernel.org> - 3.107.1
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.107-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Jeff Law <law@redhta.com> - 3.107-2
+- Use strsignal, not sys_siglist
+
+* Sat May 16 2020 Mauro Carvalho Chehab <mchehab+samsung@kernel.org> - 3.107-1
 - upgrade to version 3.107
 
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.106-6

@@ -1,7 +1,7 @@
 Name:          msv
 Epoch:         1
 Version:       2013.6.1
-Release:       16%{?dist}
+Release:       19%{?dist}
 Summary:       Multi-Schema Validator
 License:       BSD and ASL 1.1
 URL:           http://msv.java.net/
@@ -135,6 +135,10 @@ done
 %pom_xpath_replace "pom:dependency[pom:groupId[text()='com.sun.xml.bind.jaxb']]/pom:groupId" "<groupId>isorelax</groupId>"
 %pom_xpath_replace "pom:dependency[pom:groupId[text()='com.sun.xml.bind.jaxb']]/pom:groupId" "<groupId>isorelax</groupId>" msv
 
+# remove maven-compiler-plugin configuration that is broken with Java 11
+%pom_xpath_remove 'pom:plugin[pom:artifactId="maven-compiler-plugin"]/pom:configuration/pom:source'
+%pom_xpath_remove 'pom:plugin[pom:artifactId="maven-compiler-plugin"]/pom:configuration/pom:target'
+
 # Change encoding of non utf-8 files
 for m in $(find . -name copyright.txt) ; do
   iconv -f iso-8859-1 -t utf-8 < $m > $m.utf8
@@ -153,7 +157,7 @@ done
 %mvn_package ":%{name}{,-core}::{}:" %{name}-msv
 
 %build
-%mvn_build -s
+%mvn_build -s -- -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 %install
 %mvn_install
@@ -219,6 +223,15 @@ cp -pr xsdlib/examples/* %{buildroot}%{_datadir}/%{name}/xsdlib
 %{_datadir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2013.6.1-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Fabio Valentini <decathorpe@gmail.com> - 1:2013.6.1-18
+- Set javac source and target to 1.8 to fix Java 11 builds.
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1:2013.6.1-17
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2013.6.1-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

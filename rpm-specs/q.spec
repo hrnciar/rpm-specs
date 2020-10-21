@@ -1,6 +1,6 @@
 Name: 		q
 Version: 	7.11
-Release: 	40%{?dist}
+Release: 	41%{?dist}
 Summary: 	Equational programming language
 License: 	GPLv2+
 Source: 	http://ovh.dl.sourceforge.net/sourceforge/q-lang/q-%{version}.tar.gz
@@ -152,6 +152,9 @@ mv $RPM_BUILD_ROOT%{_datadir}/q/examples _docs_staging
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.11-41
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.11-40
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

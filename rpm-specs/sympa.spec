@@ -32,7 +32,7 @@
 # Not available
 %global unbundle_foundation        0
 # Not available for EL
-%global unbundle_html5shiv         0%{?fedora}
+%global unbundle_html5shiv         0%{?f31}%{?f32}
 # Not available for EL
 %global unbundle_jquery            0%{?fedora}
 # Available version is too old
@@ -42,9 +42,9 @@
 # Not available for EL6
 %global unbundle_jquery_ui         0%{?fedora}%{?el7}
 # Only available for Fedora
-%global unbundle_jqplot            0%{?fedora}
+%global unbundle_jqplot            0%{?f31}%{?f32}
 #
-%global unbundle_respond           0%{?fedora}%{?el6}%{?el7}
+%global unbundle_respond           0%{?f31}%{?f32}%{?el6}%{?el7}
 
 # Licenses
 # Sympa itself is GPLv2+.
@@ -92,7 +92,7 @@
 #global pre_rel b.2
 
 Name:        sympa
-Version:     6.2.56
+Version:     6.2.58
 Release:     %{?pre_rel:0.}1%{?pre_rel:.%pre_rel}%{?dist}
 Summary:     Powerful multilingual List Manager
 Summary(fr): Gestionnaire de listes électroniques
@@ -120,7 +120,7 @@ Source130:   sympa-sysconfig
 # Add path to MHonArc::UTF8 so that sympa_wizard won't miss it
 Patch5:      sympa-6.2.36-wizard-mhonarc.patch
 # RPM specific customization of site defaults
-Patch13:     sympa-6.2.19b.1-confdef.patch
+Patch13:     sympa-6.2.57b.1-confdef.patch
 # Disable sympa service by default
 Patch14:     sympa-6.2-initdefault.patch
 
@@ -994,6 +994,15 @@ fi
 
 
 %changelog
+* Tue Oct 20 2020 Xavier Bachelot <xavier@bachelot.org> 6.2.58-1
+- Update to 6.2.58
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2.56-2.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Xavier Bachelot <xavier@bachelot.org> 6.2.56-2
+- Prepare for some js packages retirement in Fedora
+
 * Sun May 24 2020 Xavier Bachelot <xavier@bachelot.org> 6.2.56-1
 - Update to 6.2.56 (Fixes CVE-2020-10936)
 - Fix typo in url and also socket location in lighttpd configuration (RHBZ#1812325)

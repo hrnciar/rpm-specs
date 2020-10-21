@@ -1,6 +1,6 @@
 Name:           perl-Mail-Box-Parser-C
 Version:        3.010
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        Parsing folders for MailBox with C routines
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Mail-Box-Parser-C
@@ -55,6 +55,12 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.010-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.010-8
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.010-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

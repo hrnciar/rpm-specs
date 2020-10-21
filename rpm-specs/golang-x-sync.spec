@@ -4,7 +4,7 @@
 # https://github.com/golang/sync
 %global goipath         golang.org/x/sync
 %global forgeurl        https://github.com/golang/sync
-%global commit          56d357773e8497dfd526f0727e187720d1093757
+%global commit          6e8e738ad208923de99951fe0b48239bfd864f28
 
 %gometa
 
@@ -17,7 +17,7 @@ provided by the language and "sync" and "sync/atomic" packages.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.10%{?dist}
+Release:        0.12%{?dist}
 Summary:        Go concurrency primitives
 
 # Upstream license specification: BSD-3-Clause
@@ -44,6 +44,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Fri Aug 07 20:53:43 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.12.20200807git6e8e738
+- Bump to commit 6e8e738ad208923de99951fe0b48239bfd864f28
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

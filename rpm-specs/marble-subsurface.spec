@@ -2,7 +2,7 @@
 Name:       marble-subsurface
 Summary:    Marble Subsurface branch
 Version:    4.6.2
-Release:    9%{?dist}
+Release:    12%{?dist}
 
 License:    LGPLv2+
 URL:        http://git.subsurface-divelog.org/index.cgi?p=marble.git
@@ -43,9 +43,7 @@ sed -i -e 's|add_subdirectory(data)|#add_subdirectory(data)|g' CMakeLists.txt
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} .. \
+%cmake \
   -DBUILD_MARBLE_APPS:BOOL=OFF \
   -DBUILD_MARBLE_TESTS:BOOL=OFF \
   -DBUILD_TESTING:BOOL=OFF \
@@ -53,13 +51,12 @@ pushd %{_target_platform}
   -DQT5BUILD:BOOL=ON \
   -DQTONLY:BOOL=ON \
   -DWITH_DESIGNER_PLUGIN:BOOL=OFF
-popd
 
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 ## unpackaged files
 rm -rfv %{buildroot}%{_datadir}/appdata/
@@ -82,6 +79,16 @@ rm -rfv %{buildroot}%{_includedir}/astro/
 
 
 %changelog
+* Mon Sep 07 2020 Than Ngo <than@redhat.com> - 4.6.2-12
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.2-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.2-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

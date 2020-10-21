@@ -1,6 +1,6 @@
 Name: pcmanfm-qt
 Version: 0.15.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: LxQt file manager PCManFM
 License: GPLv2+
 URL: http://lxqt.org
@@ -126,6 +126,9 @@ done
 %dir %{_datadir}/%{name}/translations
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 03 2020 Zamir SUN <sztsian@gmail.com> - 0.15.0-1
 - Update to 0.15.0
 

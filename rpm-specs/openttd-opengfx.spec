@@ -3,7 +3,7 @@
 
 Name:           openttd-opengfx
 Version:        0.6.0
-Release:        2%{?prever:.%{prever}}%{?dist}
+Release:        3%{?prever:.%{prever}}%{?dist}
 Summary:        OpenGFX replacement graphics for OpenTTD
 
 License:        GPLv2
@@ -54,6 +54,9 @@ make check _V= PYTHON=/usr/bin/python3
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 16 2020 Felix Kaechele <heffer@fedoraproject.org> - 0.6.0-2
 - fix docs
 - fix make check

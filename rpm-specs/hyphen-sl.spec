@@ -2,7 +2,7 @@ Name: hyphen-sl
 Summary: Slovenian hyphenation rules
 %global upstreamid 20070127
 Version: 0.%{upstreamid}
-Release: 20%{?dist}
+Release: 21%{?dist}
 Source: http://download.services.openoffice.org/contrib/dictionaries/hyph_sl_SI.zip
 URL: http://wiki.services.openoffice.org/wiki/Dictionaries
 License: LGPLv2+
@@ -29,6 +29,9 @@ cp -p hyph_sl_SI.dic $RPM_BUILD_ROOT/%{_datadir}/hyphen
 %{_datadir}/hyphen/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20070127-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20070127-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

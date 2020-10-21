@@ -11,8 +11,8 @@
 
 %global github_owner     doctrine
 %global github_name      data-fixtures
-%global github_version   1.4.3
-%global github_commit    7ebac50901eb4516816ac39100dba1759d843943
+%global github_version   1.4.4
+%global github_commit    16a03fadb5473f49aad70384002dfd5012fe680e
 %global github_short     %(c=%{github_commit}; echo ${c:0:7})
 
 %global composer_vendor  doctrine
@@ -20,24 +20,21 @@
 
 # "php": "^7.2 || ^8.0"
 %global php_min_ver 7.2
-# "doctrine/common": "~2.11"
-%global doctrine_common_min_ver 2.11
-%global doctrine_common_max_ver 3.0
+# "doctrine/common": "~2.13|^3.0"
+%global doctrine_common_min_ver 2.13
+%global doctrine_common_max_ver 4
 # "doctrine/orm": "^2.7.0"
 %global doctrine_orm_min_ver 2.7.0
 %global doctrine_orm_max_ver 3.0
 # "doctrine/dbal": "^2.5.4"
 %global doctrine_dbal_min_ver 2.5.4
 %global doctrine_dbal_max_ver 3.0
-# "doctrine/persistence": "^1.3.3"
+# "doctrine/persistence": "^1.3.3|^2.0"
 %global doctrine_pers_min_ver 1.3.3
-%global doctrine_pers_max_ver 2
-# "alcaeus/mongo-php-adapter": "^1.1"
-%global alcaeus_mongo_min_ver 1.1
-%global alcaeus_mongo_max_ver 2
+%global doctrine_pers_max_ver 3
 
 # Build using "--without tests" to disable tests
-%global with_tests 0%{!?_without_tests:1}
+%bcond_without tests
 
 %{!?phpdir:  %global phpdir  %{_datadir}/php}
 
@@ -54,28 +51,14 @@ Source1:       makesrc.sh
 
 BuildArch:     noarch
 # Tests
-%if %{with_tests}
+%if %{with tests}
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
 BuildRequires:(php-composer(doctrine/common) >= %{doctrine_common_min_ver} with php-composer(doctrine/common) < %{doctrine_common_max_ver})
 BuildRequires:(php-composer(doctrine/orm)    >= %{doctrine_orm_min_ver}    with php-composer(doctrine/orm)    < %{doctrine_orm_max_ver})
 BuildRequires:(php-composer(doctrine/dbal)   >= %{doctrine_dbal_min_ver}   with php-composer(doctrine/dbal)   < %{doctrine_dbal_max_ver})
 BuildRequires:(php-composer(doctrine/persistence) >= %{doctrine_pers_min_ver}   with php-composer(doctrine/persistence) < %{doctrine_pers_max_ver})
-BuildRequires:(php-composer(alcaeus/mongo-php-adapter) >= %{alcaeus_mongo_min_ver} with php-composer(alcaeus/mongo-php-adapter) < %{alcaeus_mongo_max_ver})
 # missing doctrine/mongodb-odm
-%else
-BuildRequires: php-composer(doctrine/common) <  %{doctrine_common_max_ver}
-BuildRequires: php-composer(doctrine/common) >= %{doctrine_common_min_ver}
-BuildRequires: php-composer(doctrine/orm)    <  %{doctrine_orm_max_ver}
-BuildRequires: php-composer(doctrine/orm)    >= %{doctrine_orm_min_ver}
-BuildRequires: php-composer(doctrine/dbal)   < %{doctrine_dbal_max_ver}
-BuildRequires: php-composer(doctrine/dbal)   >= %{doctrine_dbal_min_ver}
-BuildRequires: php-composer(doctrine/persistence) <  %{doctrine_pers_max_ver}
-BuildRequires: php-composer(doctrine/persistence) >= %{doctrine_pers_min_ver}
-BuildRequires: php-composer(alcaeus/mongo-php-adapter) <  %{alcaeus_mongo_max_ver}
-BuildRequires: php-composer(alcaeus/mongo-php-adapter) >= %{alcaeus_mongo_min_ver}
-%endif
 BuildRequires: phpunit7
 ## phpcompatinfo (computed from version 1.0.2)
 BuildRequires: php-json
@@ -87,18 +70,11 @@ BuildRequires: php-composer(fedora/autoloader)
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
 Requires:     (php-composer(doctrine/common) >= %{doctrine_common_min_ver} with php-composer(doctrine/common) < %{doctrine_common_max_ver})
 Requires:     (php-composer(doctrine/persistence) >= %{doctrine_pers_min_ver}   with php-composer(doctrine/persistence) < %{doctrine_pers_max_ver})
-# composer.json: optional
+# composer.json: optional and deprecated
 Suggests:      php-composer(alcaeus/mongo-php-adapter)
 # missing option doctrine/mongodb-odm
-%else
-Requires:      php-composer(doctrine/common) <  %{doctrine_common_max_ver}
-Requires:      php-composer(doctrine/common) >= %{doctrine_common_min_ver}
-Requires:      php-composer(doctrine/persistence) <  %{doctrine_pers_max_ver}
-Requires:      php-composer(doctrine/persistence) >= %{doctrine_pers_min_ver}
-%endif
 # phpcompatinfo (computed from version 1.0.2)
 Requires:      php-json
 Requires:      php-reflection
@@ -135,8 +111,13 @@ require_once '%{phpdir}/Fedora/Autoloader/autoload.php';
 \Fedora\Autoloader\Autoload::addPsr4('Doctrine\\Common\\DataFixtures\\', __DIR__);
 
 \Fedora\Autoloader\Dependencies::required([
-    '%{phpdir}/Doctrine/Common/autoload.php',
-    '%{phpdir}/Doctrine/Persistence/autoload.php',
+    [
+        '%{phpdir}/Doctrine/Common3/autoload.php',
+        '%{phpdir}/Doctrine/Common/autoload.php',
+    ], [
+        '%{phpdir}/Doctrine/Persistence2/autoload.php',
+        '%{phpdir}/Doctrine/Persistence/autoload.php',
+    ]
 ]);
 
 \Fedora\Autoloader\Dependencies::optional([
@@ -152,7 +133,7 @@ cp -rp lib/* %{buildroot}%{phpdir}/
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 : Create tests bootstrap
 cat << 'BOOTSTRAP' | tee bootstrap.php
 <?php
@@ -178,7 +159,6 @@ exit $RETURN_CODE
 
 
 %files
-%{!?_licensedir:%global license %%doc}
 %license LICENSE
 %doc *.md
 %doc UPGRADE
@@ -187,6 +167,14 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Sep  1 2020 Remi Collet <remi@remirepo.net> - 1.4.4-1
+- update to 1.4.4
+- raise dependency on doctrine/common 2.13 and allow v3
+- allow doctrine/persistence v2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Remi Collet <remi@remirepo.net> - 1.4.3-1
 - update to 1.4.3 (no change)
 

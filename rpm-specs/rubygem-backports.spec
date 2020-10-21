@@ -3,7 +3,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 3.17.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Backports of Ruby features for older Ruby
 License: MIT
 URL: http://github.com/marcandre/backports
@@ -72,6 +72,9 @@ popd
 %{gem_instdir}/backports.gemspec
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.17.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 24 2020 Vít Ondruch <vondruch@redhat.com> - 3.17.1-1
 - Update to backports 3.17.1.
   Resolves: rhbz#1679034

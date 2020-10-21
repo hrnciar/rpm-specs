@@ -1,16 +1,16 @@
 Name:      schismtracker
-Version:   20190805
-Release:   3%{?dist}
+Version:   20200412
+Release:   4%{?dist}
 Summary:   Sound module composer/player
 License:   GPLv2
 URL:       http://schismtracker.org/
 Source0:   https://github.com/schismtracker/schismtracker/archive/%{version}.tar.gz
 Source1:   schismtracker.desktop
-
+Excludearch: s390x
 Requires: hicolor-icon-theme
 BuildRequires: autoconf automake
 BuildRequires:  gcc
-BuildRequires: SDL-devel desktop-file-utils python2 >= 2.4
+BuildRequires: SDL-devel desktop-file-utils python3
 %if 0%{!?_without_x:1}
 BuildRequires: libXt-devel libXv-devel
 %endif
@@ -59,6 +59,19 @@ desktop-file-install \
 %{_datadir}/pixmaps/schism*.png
 
 %changelog
+* Wed Sep 09 2020 Petr Viktorin <pviktori@redhat.com> - 20200412-4
+- Switch BuildRequires to python3
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200412-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Jindrich Novy <jnovy@redhat.com> - 20200412-2
+- exclude s390x arch as windres can't recognize it
+
+* Fri Jul 17 2020 Jindrich Novy <jnovy@redhat.com> - 20200412-1
+- update to
+  https://github.com/schismtracker/schismtracker/releases/tag/20200412
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190805-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -135,11 +148,11 @@ desktop-file-install \
 * Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20100101-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
-* Thu Feb 18 2010 Jindrich Novy	<jnovy@redhat.com> 20100101-1
+* Thu Feb 18 2010 Jindrich Novy <jnovy@redhat.com> 20100101-1
 - update to the latest upstream
 - link with -ldl (#564956)
 
-* Sat Nov 07 2009 Jindrich Novy	<jnovy@redhat.com> 20090817-1
+* Sat Nov 07 2009 Jindrich Novy <jnovy@redhat.com> 20090817-1
 - update to the latest upstream
 
 * Wed Sep 23 2009 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> - 0.5-0.10.rc1

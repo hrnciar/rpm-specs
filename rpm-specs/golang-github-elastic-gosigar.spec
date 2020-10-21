@@ -5,7 +5,7 @@
 
 # https://github.com/elastic/gosigar
 %global goipath         github.com/elastic/gosigar
-Version:                0.10.2
+Version:                0.11.0
 
 %gometa
 
@@ -18,7 +18,7 @@ rather than cgo bindings for libsigar.}
 %global godocs          examples CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Gathers system and per process statistics
 
 # Upstream license specification: Apache-2.0
@@ -27,7 +27,6 @@ URL:            %{gourl}
 Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/pkg/errors)
-BuildRequires:  golang(github.com/Sirupsen/logrus)
 BuildRequires:  golang(golang.org/x/sys/unix)
 
 %if %{with check}
@@ -54,6 +53,12 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 15:54:58 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.11.0-1
+- Update to 0.11.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

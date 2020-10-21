@@ -3,7 +3,7 @@
 
 Name:           adobe-source-serif-pro-fonts
 Version:        3.001
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A set of OpenType fonts designed to complement Source Sans Pro
 
 License:        OFL
@@ -54,6 +54,9 @@ appstream-util --nonet validate-relax \
 %license LICENSE.md
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.001-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.001-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

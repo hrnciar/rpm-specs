@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 %global framework akonadi-search
 
 # uncomment to enable bootstrap mode
@@ -8,7 +9,7 @@
 %endif
 
 Name:    kf5-%{framework}
-Version: 20.04.2
+Version: 20.08.1
 Release: 1%{?dist}
 Summary: The Akonadi Search library and indexing agent
 
@@ -72,17 +73,14 @@ developing applications that use %{name}.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%cmake_kf5 \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{!?tests:OFF}
-popd
 
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -100,7 +98,7 @@ make test ARGS="--output-on-failure --timeout 30" -C %{_target_platform} ||:
 %ldconfig_scriptlets
 
 %files -f %{name}.lang
-%license COPYING*
+%license LICENSES/*
 %{_kf5_datadir}/qlogging-categories5/*%{framework}.*
 %{_kf5_libdir}/libKF5AkonadiSearchPIM.so.*
 %{_kf5_libdir}/libKF5AkonadiSearchCore.so.*
@@ -109,11 +107,10 @@ make test ARGS="--output-on-failure --timeout 30" -C %{_target_platform} ||:
 
 %{_kf5_bindir}/akonadi_indexing_agent
 %{_kf5_datadir}/akonadi/agents/akonadiindexingagent.desktop
-%{_kf5_datadir}/kservices5/plasma-krunner-pimcontacts.desktop
 %{_kf5_datadir}/kservices5/plasma-krunner-pimcontacts_config.desktop
 %{_kf5_qtplugindir}/akonadi/
 %{_kf5_qtplugindir}/kcm_krunner_pimcontacts.so
-%{_kf5_qtplugindir}/krunner_pimcontacts.so
+%{_kf5_plugindir}/krunner/krunner_pimcontacts.so
 
 %files devel
 %{_kf5_libdir}/libKF5AkonadiSearchPIM.so
@@ -126,6 +123,21 @@ make test ARGS="--output-on-failure --timeout 30" -C %{_target_platform} ||:
 
 
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-2
+- rebuild (krunner)
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.2-1
 - 20.04.2
 

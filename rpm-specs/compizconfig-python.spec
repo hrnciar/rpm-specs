@@ -2,7 +2,7 @@
 
 Name:           compizconfig-python
 Version:        0.8.16
-Release:        5%{?dist}
+Release:        6%{?dist}
 Epoch:          1
 Summary:        Python bindings for the Compiz Configuration System
 License:        LGPLv2+
@@ -18,13 +18,6 @@ BuildRequires:  libtool
 BuildRequires:  automake
 
 Requires:       compiz >= %{basever}
-
-# prevent rpm's auto-generated provides mechanism to include private
-# libraries
-%{?filter_setup:
-%filter_provides_in %{python_sitearch}/.*\.so$ 
-%filter_setup
-}
 
 %description
 The Compiz Project brings 3D desktop visual effects that improve
@@ -58,6 +51,9 @@ find %{buildroot} -type f -name "*.a" -o -name "*.la" | xargs rm -f
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.8.16-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1:0.8.16-5
 - Rebuilt for Python 3.9
 

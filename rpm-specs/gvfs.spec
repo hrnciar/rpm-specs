@@ -8,30 +8,27 @@
 %global libarchive_version 3.0.22
 %global libcdio_paranoia_version 0.78.2
 %global libgcrypt_version 1.2.2
-%global libgdata_version 0.17.9
+%global libgdata_version 0.17.11
 %global libgphoto2_version 2.5.0
 %global libimobiledevice_version 1.2
-%global libmtp_version 1.1.12
+%global libmtp_version 1.1.15
 %global libnfs_version 1.9.8
 %global libplist_version 2.2
-%global libsmbclient_version 3.4.0
-%global libsoup_version 2.42.0
+%global libsmbclient_version 4.12.0
+%global libsoup_version 2.58.0
 %global libusb_version 1.0.21
 %global systemd_version 206
 %global talloc_version 1.3.0
 %global udisks2_version 1.97
 
 Name: gvfs
-Version: 1.45.2
-Release: 2%{?dist}
+Version: 1.46.1
+Release: 1%{?dist}
 Summary: Backends for the gio framework in GLib
 
 License: GPLv3 and LGPLv2+ and BSD and MPLv2.0
 URL: https://wiki.gnome.org/Projects/gvfs
-Source0: https://download.gnome.org/sources/gvfs/1.45/gvfs-%{version}.tar.xz
-
-# https://gitlab.gnome.org/GNOME/gvfs/-/merge_requests/88
-Patch0: 0001-afc-Add-support-for-libplist-2.2.patch
+Source0: https://download.gnome.org/sources/gvfs/1.46/gvfs-%{version}.tar.xz
 
 BuildRequires: meson
 BuildRequires: gcc
@@ -119,6 +116,7 @@ This package provides support for reading and writing files on windows
 shares (SMB) to applications using gvfs.
 
 
+%if ! (0%{?rhel} >= 9)
 %package archive
 Summary: Archiving support for gvfs
 Requires: %{name}%{?_isa} = %{version}-%{release}
@@ -128,6 +126,7 @@ BuildRequires: pkgconfig(libarchive) >= %{libarchive_version}
 %description archive
 This package provides support for accessing files inside Zip and Tar archives,
 as well as ISO images, to applications using gvfs.
+%endif
 
 
 %package gphoto2
@@ -135,7 +134,6 @@ Summary: gphoto2 support for gvfs
 Requires: %{name}%{?_isa} = %{version}-%{release}
 Requires: %{name}-client%{?_isa} = %{version}-%{release}
 BuildRequires: pkgconfig(libgphoto2) >= %{libgphoto2_version}
-BuildRequires: libusb-devel >= %{libusb_version}
 BuildRequires: libexif-devel
 
 %description gphoto2
@@ -145,6 +143,7 @@ media players (Media Transfer Protocol) to applications using gvfs.
 
 
 %ifnarch s390 s390x
+%if ! 0%{?rhel}
 %package afc
 Summary: AFC support for gvfs
 Requires: %{name}%{?_isa} = %{version}-%{release}
@@ -157,8 +156,10 @@ BuildRequires: pkgconfig(libplist-2.0) >= %{libplist_version}
 This package provides support for reading files on mobile devices
 including phones and music players to applications using gvfs.
 %endif
+%endif
 
 
+%if ! (0%{?rhel} >= 9)
 %package afp
 Summary: AFP support for gvfs
 Requires: %{name}%{?_isa} = %{version}-%{release}
@@ -171,6 +172,7 @@ Obsoletes: %{name} < 1.9.4-1
 This package provides support for reading and writing files on
 Mac OS X and original Mac OS network shares via Apple Filing Protocol
 to applications using gvfs.
+%endif
 
 
 %package mtp
@@ -178,6 +180,7 @@ Summary: MTP support for gvfs
 Requires: %{name}%{?_isa} = %{version}-%{release}
 Requires: %{name}-client%{?_isa} = %{version}-%{release}
 BuildRequires: pkgconfig(libmtp) >= %{libmtp_version}
+BuildRequires: pkgconfig(libusb-1.0) >= %{libusb_version}
 
 %description mtp
 This package provides support for reading and writing files on
@@ -229,6 +232,11 @@ the functionality of the installed gvfs package.
 %if 0%{?rhel}
        -Dnfs=false \
        -Dbluray=false \
+       -Dafc=false \
+%endif
+%if 0%{?rhel} >= 9
+       -Darchive=false \
+       -Dafp=false \
 %endif
         %{nil}
 %meson_build
@@ -255,18 +263,24 @@ killall -USR1 gvfsd >&/dev/null || :
 %post goa
 killall -USR1 gvfsd >&/dev/null || :
 %ifnarch s390 s390x
+%if ! 0%{?rhel}
 %post afc
 killall -USR1 gvfsd >&/dev/null || :
 %endif
+%endif
 
+%if ! (0%{?rhel} >= 9)
 %post archive
 killall -USR1 gvfsd >&/dev/null || :
+%endif
 %if ! 0%{?rhel}
 %post nfs
 killall -USR1 gvfsd >&/dev/null || :
 %endif
+%if ! (0%{?rhel} >= 9)
 %post afp
 killall -USR1 gvfsd >&/dev/null || :
+%endif
 
 
 %files
@@ -348,9 +362,11 @@ killall -USR1 gvfsd >&/dev/null || :
 %{_datadir}/gvfs/mounts/smb.mount
 
 
+%if ! (0%{?rhel} >= 9)
 %files archive
 %{_libexecdir}/gvfsd-archive
 %{_datadir}/gvfs/mounts/archive.mount
+%endif
 
 
 %files gphoto2
@@ -362,6 +378,7 @@ killall -USR1 gvfsd >&/dev/null || :
 %{_userunitdir}/gvfs-gphoto2-volume-monitor.service
 
 %ifnarch s390 s390x
+%if ! 0%{?rhel}
 %files afc
 %{_libexecdir}/gvfsd-afc
 %{_datadir}/gvfs/mounts/afc.mount
@@ -370,12 +387,15 @@ killall -USR1 gvfsd >&/dev/null || :
 %{_datadir}/gvfs/remote-volume-monitors/afc.monitor
 %{_userunitdir}/gvfs-afc-volume-monitor.service
 %endif
+%endif
 
+%if ! (0%{?rhel} >= 9)
 %files afp
 %{_libexecdir}/gvfsd-afp
 %{_libexecdir}/gvfsd-afp-browse
 %{_datadir}/gvfs/mounts/afp.mount
 %{_datadir}/gvfs/mounts/afp-browse.mount
+%endif
 
 %files mtp
 %{_libexecdir}/gvfsd-mtp
@@ -406,6 +426,28 @@ killall -USR1 gvfsd >&/dev/null || :
 %{_datadir}/installed-tests
 
 %changelog
+* Mon Oct  5 2020 Kalev Lember <klember@redhat.com> - 1.46.1-1
+- Update to 1.46.1
+
+* Fri Sep 11 2020 Kalev Lember <klember@redhat.com> - 1.46.0-1
+- Update to 1.46.0
+
+* Fri Sep 04 2020 Kalev Lember <klember@redhat.com> - 1.45.92-1
+- Update to 1.45.92
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 1.45.90-1
+- Update to 1.45.90
+
+* Tue Aug 04 2020 Ondrej Holy <oholy@redhat.com> - 1.45.3-1
+- Update to 1.45.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.45.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Bastien Nocera <bnocera@redhat.com> - 1.45.2-3
++ gvfs-1.45.2-3
+- Disable afc backend in RHEL
+
 * Wed Jun 17 2020 Bastien Nocera <bnocera@redhat.com> - 1.45.2-2
 + gvfs-1.45.2-2
 - Rebuild with libplist 2.2 support

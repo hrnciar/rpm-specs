@@ -3,7 +3,8 @@
 
 # https://github.com/casbin/casbin
 %global goipath         github.com/casbin/casbin
-Version:                1.8.1
+# do NOT update to 2.x
+Version:                1.9.1
 
 %gometa
 
@@ -16,7 +17,8 @@ access control models.}
 %global godocs          examples README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Epoch:          1
+Release:        2%{?dist}
 Summary:        Authorization library that supports access control models in Go
 
 # Upstream license specification: Apache-2.0
@@ -45,6 +47,12 @@ BuildRequires:  golang(github.com/Knetic/govaluate)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 20:30:48 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1:1.9.1-1
+- Update to 1.9.1
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

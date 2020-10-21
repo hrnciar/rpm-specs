@@ -8,8 +8,8 @@
 %global seamonkey_inst_dir %{moz_extensions}/%{seamonkey_app_id}
 
 Name:           mozilla-https-everywhere
-Version:        2019.11.7
-Release:        2%{?dist}
+Version:        2020.5.20
+Release:        1%{?dist}
 Summary:        HTTPS enforcement extension for Mozilla Firefox
 
 License:        GPLv2+
@@ -74,6 +74,22 @@ DESTDIR=%{buildroot} appstream-util install %{SOURCE1}
 
 
 %changelog
+* Fri Jul 31 2020 Russell Golden <niveusluna@fedoraproject.org> - 2020.5.20-1
+- EASE HTTP Once CSS fix
+- Allow users to whitelist hosts from the option page
+- EASE mode fixes for locale issue
+- Fetch Test Prep, TLS 1.2 update
+- Fetch Test Prep, Updated check rules script
+- Fix options page appearance on Firefox when dark mode is on
+- Dark mode adjustments
+- Reverting Onboarding page for the time being
+- Patch for whitelisting rules and EASE mode issue
+- Double rule load patch in update channels
+- Fix minor JS and UX issues
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.11.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.11.7-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

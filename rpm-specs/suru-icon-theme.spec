@@ -4,7 +4,7 @@
 
 Name:           suru-icon-theme
 Version:        0
-Release:        5.%{date}git%{shortcommit}%{?dist}
+Release:        6.%{date}git%{shortcommit}%{?dist}
 Summary:        Suru icon and cursor set
 
 # For a breakdown of the licensing, see COPYING LICENSE_CCBYSA LICENSE_GPL3
@@ -51,6 +51,9 @@ gtk-update-icon-cache --force %{_datadir}/icons/Suru &>/dev/null || :
 %ghost %{_datadir}/icons/Suru/icon-theme.cache
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-6.20180927git2d81020
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-5.20180927git2d81020
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

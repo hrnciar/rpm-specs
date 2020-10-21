@@ -3,7 +3,7 @@
 # This spec file assumes you are building on a Fedora version
 # that's still supported by the vendor. It may work on other distros
 # or versions, but no effort will be made to ensure that going forward.
-%define min_fedora 30
+%define min_fedora 31
 
 %if 0%{?fedora} && 0%{?fedora} >= %{min_fedora}
     %define supported_platform 1
@@ -32,8 +32,8 @@
 %endif
 
 Name:           mingw-libvirt
-Version:        6.4.0
-Release:        1%{?dist}
+Version:        6.6.0
+Release:        2%{?dist}
 Summary:        MinGW Windows libvirt virtualization library
 
 License:        LGPLv2+
@@ -387,6 +387,18 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_libexecdir}/libvirt-guests.sh
 
 
 %changelog
+* Wed Aug 12 13:43:38 GMT 2020 Sandro Mani <manisandro@gmail.com> - 6.6.0-2
+- Rebuild (mingw-gettext)
+
+* Tue Aug 04 2020 Cole Robinson <crobinso@redhat.com> - 6.6.0-1
+- Update to version 6.6.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Cole Robinson <crobinso@redhat.com> - 6.5.0-1
+- Update to version 6.5.0
+
 * Tue Jun 02 2020 Cole Robinson <crobinso@redhat.com> - 6.4.0-1
 - Update to version 6.4.0
 

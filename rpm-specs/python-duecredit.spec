@@ -13,7 +13,7 @@ software provides multiple citeable implementations.}
 
 Name:           python-%{srcname}
 Version:        0.8.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Automated collection and reporting of citations
 
 License:        BSD
@@ -22,18 +22,6 @@ Source0:        %pypi_source
 
 BuildArch:      noarch
 
-BuildRequires:  %{py3_dist pytest}
-BuildRequires:  %{py3_dist six}
-BuildRequires:  %{py3_dist lxml}
-BuildRequires:  %{py3_dist citeproc-py}
-BuildRequires:  %{py3_dist requests}
-BuildRequires:  %{py3_dist vcrpy}
-BuildRequires:  %{py3_dist contextlib2}
-
-Requires:       %{py3_dist six}
-Requires:       %{py3_dist citeproc-py}
-Requires:       %{py3_dist requests}
-
 %description
 %{_description}
 
@@ -41,6 +29,19 @@ Requires:       %{py3_dist requests}
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
 BuildRequires:  python3-devel
+BuildRequires:  %{py3_dist citeproc-py}
+BuildRequires:  %{py3_dist contextlib2}
+BuildRequires:  %{py3_dist lxml}
+BuildRequires:  %{py3_dist pytest}
+BuildRequires:  %{py3_dist requests}
+BuildRequires:  %{py3_dist six}
+BuildRequires:  %{py3_dist setuptools}
+BuildRequires:  %{py3_dist vcrpy}
+
+Requires:       %{py3_dist six}
+Requires:       %{py3_dist citeproc-py}
+Requires:       %{py3_dist requests}
+
 
 %description -n python3-%{srcname}
 %{_description}
@@ -74,6 +75,12 @@ PYTHONPATH=%{buildroot}/%{python3_sitelib} pytest-3 duecredit/tests --ignore=due
 %doc examples/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.8.0-3
+- Explicitly BR setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.0-2
 - Rebuilt for Python 3.9
 

@@ -5,8 +5,8 @@
 %undefine __brp_mangle_shebangs
 
 Name:		cdist
-Version:	6.5.5
-Release:	3%{?dist}
+Version:	6.8.0
+Release:	1%{?dist}
 Summary:	Usable configuration management
 License:	GPLv3
 URL:		https://www.cdi.st/
@@ -66,6 +66,18 @@ HTML documentation for the cdist configuration management tool.
 %doc docs/dist/html
 
 %changelog
+* Sun Sep 13 2020 Timothée Floure <fnux@fedoraprojecct.org> - 6.8.0-1
+- New upstream release.
+
+* Wed Sep 09 2020 Timothée Floure <fnux@fedoraprojecct.org> - 6.7.0-1
+- New upstream release.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Timothée Floure <fnux@fedoraprojecct.org> - 6.6.0-1
+- New upstream release.
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 6.5.5-3
 - Rebuilt for Python 3.9
 

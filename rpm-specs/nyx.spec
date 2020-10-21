@@ -5,17 +5,16 @@ connections, logs, and much more.
 
 Name:           nyx
 Version:        2.1.0
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Command-line monitor for Tor
 License:        GPLv3
 URL:            https://nyx.torproject.org
 Source0:        %{pypi_source}
 BuildArch:      noarch
 BuildRequires:  python3-devel
-# Tests disabled
-#BuildRequires:  python3-stem
-#BuildRequires:  python3-pytest-flakes
-#BuildRequires:  python3-pytest-pep8
+# Tests
+BuildRequires:  python3-stem
+BuildRequires:  python3-pyflakes
 Suggests:       %{name}-doc = %{version}-%{release}
 Provides:       tor-arm = %{version}-%{release}
 Obsoletes:      tor-arm <= 1.4.5.0-17
@@ -40,8 +39,7 @@ Summary:        %summary
 install -D -m 0644 nyx.1 %{buildroot}%{_mandir}/man1/nyx.1
 
 %check
-# Tests disabled
-#%%{__python3} run_tests.py
+%{__python3} run_tests.py
 
 %files
 %license LICENSE
@@ -55,6 +53,12 @@ install -D -m 0644 nyx.1 %{buildroot}%{_mandir}/man1/nyx.1
 %{_mandir}/man1/nyx.1*
 
 %changelog
+* Mon Aug 03 2020 Juan Orti Alcaine <jortialc@redhat.com> - 2.1.0-6
+- Enable tests
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.0-4
 - Rebuilt for Python 3.9
 

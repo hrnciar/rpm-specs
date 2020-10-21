@@ -4,7 +4,7 @@
 
 # https://github.com/wjdp/htmltest
 %global goipath         github.com/wjdp/htmltest
-Version:                0.12.1
+Version:                0.13.0
 
 %gometa
 
@@ -74,6 +74,16 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Thu Aug 13 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.13.0-1
+- Update to latest version (#1868545)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 22 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.12.1-1
 - Update to latest version
 

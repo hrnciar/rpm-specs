@@ -1,6 +1,6 @@
 Name:           perl-Module-CPANTS-Analyse
 Version:        1.01
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Generate Kwalitee ratings for a distribution
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Module-CPANTS-Analyse
@@ -129,6 +129,9 @@ make test
 %{_mandir}/man3/Module::CPANTS::Kwalitee::Version.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.01-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.01-3
 - Perl 5.32 rebuild
 

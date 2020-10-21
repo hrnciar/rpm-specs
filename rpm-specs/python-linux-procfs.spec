@@ -5,7 +5,7 @@
 
 Name: python-linux-procfs
 Version: 0.6.1
-Release: 7%{?dist}
+Release: 8%{?dist}
 License: GPLv2
 Summary: Linux /proc abstraction classes
 Source: https://cdn.kernel.org/pub/software/libs/python/%{name}/%{name}-%{version}.tar.xz
@@ -46,6 +46,9 @@ rm -rf %{buildroot}
 %license COPYING
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.1-7
 - Rebuilt for Python 3.9
 

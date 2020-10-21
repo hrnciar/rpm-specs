@@ -1,6 +1,6 @@
 Name:       copr-dist-git
 Version:    0.47
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    Copr services for Dist Git server
 
 License:    GPLv2+
@@ -124,6 +124,9 @@ touch %{buildroot}%{_var}/log/copr-dist-git/main.log
 %ghost %{_var}/log/copr-dist-git/*.log
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.47-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.47-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

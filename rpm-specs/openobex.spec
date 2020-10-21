@@ -1,9 +1,11 @@
 %global udevdir %{_prefix}/lib/udev
 
+%undefine __cmake_in_source_build
+
 Summary: Library for using OBEX
 Name: openobex
 Version: 1.7.2
-Release: 11%{?dist}
+Release: 15%{?dist}
 License: GPLv2+ and LGPLv2+
 URL: http://openobex.sourceforge.net
 # git clone https://git.gitorious.org/openobex/mainline.git
@@ -57,11 +59,11 @@ export CFLAGS="%{optflags} -std=gnu99 -D_POSIX_C_SOURCE=200809L -D_DEFAULT_SOURC
        -DCMAKE_INSTALL_DOCDIR=%{_pkgdocdir} \
        -DCMAKE_INSTALL_UDEVRULESDIR=%{udevdir}/rules.d
 
-make %{?_smp_mflags}
-make openobex-apps %{?_smp_mflags}
+%cmake_build
+%cmake_build --target openobex-apps
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 # we do not want .la files
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 # don't ship obex_test program, that is for testing purposes only
@@ -103,6 +105,19 @@ rm -f $RPM_BUILD_ROOT%{_mandir}/man1/obex_test.1*
 %{_mandir}/man1/obex_push.1*
 
 %changelog
+* Wed Aug 05 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.7.2-15
+- comply to FPG with cmake macros
+
+* Tue Aug 04 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.7.2-14
+- use a workaround for cmake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.2-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.2-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

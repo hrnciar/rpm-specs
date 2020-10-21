@@ -7,7 +7,7 @@
 
 Name:           gecode
 Version:        6.2.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Generic constraint development environment
 
 License:        MIT
@@ -17,7 +17,7 @@ Patch0:         gecode-4.0.0-no_examples.patch
 
 BuildRequires:  automake
 BuildRequires:  bison
-%if 0%{?rhel}
+%if 0%{?rhel} && 0%{?rhel} < 9
 BuildRequires:  boost148-devel
 %else
 BuildRequires:  boost-devel
@@ -99,7 +99,7 @@ export LDFLAGS="%{__global_ldflags} -fPIC"
  --disable-examples \
  --enable-float-vars \
  --enable-leak-debug \
-%if 0%{?rhel}
+%if 0%{?rhel} && 0%{?rhel} < 9
  --with-boost-include=%{_includedir}/boost148
 %else
  --with-boost-include=%{_includedir}/boost
@@ -166,6 +166,12 @@ make check
 %license LICENSE
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Merlin Mathesius <mmathesi@redhat.com> - 6.2.0-2
+- Minor conditional fixes for ELN
+
 * Sun May 03 2020 Vasiliy Glazov <vascom2@gmail.com> - 6.2.0-2
 - Switch to Qt5
 

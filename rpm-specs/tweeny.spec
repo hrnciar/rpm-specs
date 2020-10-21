@@ -1,10 +1,12 @@
+%undefine __cmake_in_source_build
+
 # This is a header-only library, but it install also cmake
 # scripts to %%{_libdir}, so it cannot be noarch.
 %global debug_package %{nil}
 
 Name: tweeny
 Summary: Modern C++ tweening library
-Version: 3.1.0
+Version: 3.1.1
 Release: 1%{?dist}
 
 License: MIT
@@ -32,17 +34,14 @@ mkdir -p %{_target_platform}
 sed -e 's@lib/@%{_lib}/@g' -i cmake/SetupExports.cmake
 
 %build
-pushd %{_target_platform}
-    %cmake -G Ninja \
+%cmake -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
     -DTWEENY_BUILD_EXAMPLES=OFF \
-    -DTWEENY_BUILD_DOCUMENTATION=OFF \
-    ..
-popd
-%ninja_build -C %{_target_platform}
+    -DTWEENY_BUILD_DOCUMENTATION=OFF
+%cmake_build
 
 %install
-%ninja_install -C %{_target_platform}
+%cmake_install
 
 %files devel
 %doc README.md CHANGELOG.md
@@ -51,6 +50,9 @@ popd
 %{_libdir}/cmake/Tweeny
 
 %changelog
+* Tue Jul 28 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 3.1.1-1
+- Updated to version 3.1.1.
+
 * Sun Mar 15 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 3.1.0-1
 - Updated to version 3.1.0.
 

@@ -13,7 +13,7 @@
 
 Name:           libint
 Version:        1.2.1
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        A library for computing electron repulsion integrals efficiently
 # Libint is two things: a code generator, and a generated
 # library. This package builds and runs the compiler (GPLv3), and
@@ -45,7 +45,7 @@ BuildRequires:  /usr/bin/pdflatex
 
 %if 0%{?fedora} > 17 || 0%{?rhel} > 6
 # Required to build documentation
-BuildRequires:  texlive-collection-latex
+BuildRequires:  texlive-collection-latexrecommended
 BuildRequires:  texlive-bibtex
 %endif
 
@@ -162,6 +162,13 @@ EOF
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

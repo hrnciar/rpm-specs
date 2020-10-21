@@ -1,16 +1,8 @@
-%if 0%{?fedora} || 0%{?rhel} > 7
-%bcond_with    python2
-%bcond_without python3
-%else
-%bcond_without python2
-%bcond_with    python3
-%endif
-
 %global pypi_name sphinxcontrib-seqdiag
 
 Name:           python-%{pypi_name}
-Version:        0.8.4
-Release:        22%{?dist}
+Version:        2.0.0
+Release:        1%{?dist}
 Summary:        Sphinx "seqdiag" extension
 
 License:        BSD
@@ -18,23 +10,6 @@ URL:            http://github.com/blockdiag/sphinxcontrib-seqdiag
 Source0:        https://pypi.python.org/packages/source/s/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
  
-%if %{with python2}
-%package -n python2-%{pypi_name}
-Summary:        Sphinx "seqdiag" extension
-%{?python_provide:%python_provide python2-%{pypi_name}}
-
-BuildRequires:  python2-devel
-BuildRequires:  python2-setuptools
-
-Requires:       python2-blockdiag >= 1.5.0
-Requires:       python2-seqdiag >= 0.9.3
-Requires:       python2-sphinx >= 0.6
-
-%description -n python2-%{pypi_name}
-A sphinx extension for embedding sequence diagram using seqdiag_.
-%endif
-
-%if %{with python3}
 %package -n python3-%{pypi_name}
 Summary:        Sphinx "seqdiag" extension
 
@@ -43,11 +18,10 @@ BuildRequires:  python3-devel
 
 Requires:       python3-blockdiag >= 1.5.0
 Requires:       python3-seqdiag >= 0.9.3
-Requires:       python3-sphinx >= 0.6
+Requires:       python3-sphinx >= 2.0
 
 %description -n python3-%{pypi_name}
 A sphinx extension for embedding sequence diagram using seqdiag_.
-%endif
 
 %description
 A sphinx extension for embedding sequence diagram using seqdiag_.
@@ -56,34 +30,11 @@ A sphinx extension for embedding sequence diagram using seqdiag_.
 %setup -q -n %{pypi_name}-%{version}
 
 %build
-%if %{with python2}
-%py2_build
-%endif
-
-%if %{with python3}
 %py3_build
-%endif # with_python3
 
 %install
-%if %{with python2}
-%py2_install
-%endif
-
-%if %{with python3}
 %py3_install
-%endif
 
-%if %{with python2}
-%files -n python2-%{pypi_name}
-%doc README.rst
-%license LICENSE
-%{python2_sitelib}/sphinxcontrib
-%{python2_sitelib}/*.egg-info
-%{python2_sitelib}/*-nspkg.pth
-%exclude %{python2_sitelib}/tests/
-%endif
-
-%if %{with python3}
 %files -n python3-%{pypi_name}
 %doc README.rst
 %license LICENSE
@@ -91,9 +42,15 @@ A sphinx extension for embedding sequence diagram using seqdiag_.
 %{python3_sitelib}/*.egg-info
 %{python3_sitelib}/*-nspkg.pth
 %exclude %{python3_sitelib}/tests/
-%endif
+
 
 %changelog
+* Mon Sep 14 2020 Javier Peña <jpena@redhat.com> - 2.0.0-1
+- Update to version 2.0.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.4-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.4-22
 - Rebuilt for Python 3.9
 

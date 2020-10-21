@@ -1,6 +1,6 @@
 Name:           libQGLViewer
 Version:        2.6.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Qt based OpenGL generic 3D viewer library
 
 License:        GPLv2 with exceptions or GPLv3 with exceptions 
@@ -181,6 +181,9 @@ rm $RPM_BUILD_ROOT%{_libdir}/libQGLViewer-qt5.so.%{version}\\* || true
 %doc examples
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.4-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

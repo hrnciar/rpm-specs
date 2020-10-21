@@ -7,7 +7,7 @@
 Summary:    Utility for getting and setting Xv attributes
 Name:       xvattr
 Version:    1.3
-Release:    40%{?dist}
+Release:    41%{?dist}
 License:    GPLv2+
 URL:        http://www.dtek.chalmers.se/groups/dvd/
 Source:     http://ajax.fedorapeople.org/%{name}/%{name}-%{version}.tar.gz
@@ -72,6 +72,9 @@ make install DESTDIR=%{buildroot}
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-41
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-40
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

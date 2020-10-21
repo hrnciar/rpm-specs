@@ -2,7 +2,7 @@
 
 Name:           rubygem-%{gem_name}
 Version:        3.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Hiera backend for decrypting encrypted yaml properties
 
 License:        MIT
@@ -58,5 +58,8 @@ rm -v %{buildroot}%{gem_cache}
 %{gem_instdir}/{Gemfile,Rakefile,%{gem_name}.gemspec}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 16 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 3.2.0-1
 - Initial package

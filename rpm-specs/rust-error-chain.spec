@@ -5,7 +5,7 @@
 %global crate error-chain
 
 Name:           rust-%{crate}
-Version:        0.12.2
+Version:        0.12.4
 Release:        1%{?dist}
 Summary:        Error boilerplate library
 
@@ -96,6 +96,12 @@ find -type f -exec chmod -c -x '{}' '+'
 %endif
 
 %changelog
+* Thu Aug 20 2020 Josh Stone <jistone@redhat.com> - 0.12.4-1
+- Update to 0.12.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 20 2020 Josh Stone <jistone@redhat.com> - 0.12.2-1
 - Update to 0.12.2
 

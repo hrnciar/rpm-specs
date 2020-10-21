@@ -7,7 +7,7 @@
 
 Name:           perl-Exporter
 Version:        5.74
-Release:        456%{?dist}
+Release:        458%{?dist}
 Summary:        Implements default import method for modules
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Exporter
@@ -59,6 +59,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.74-458
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 5.74-457
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 5.74-456
 - Increase release to favour standalone package
 

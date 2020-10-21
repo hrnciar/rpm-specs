@@ -4,7 +4,7 @@
 Summary: Library for working with files using the mp4 container format
 Name: libmp4v2
 Version: 2.1.0
-Release: 0.21%{gver}%{?dist}
+Release: 0.22%{gver}%{?dist}
 License: MPLv1.1
 URL: http://code.google.com/p/mp4v2
 # mp4v2-trunk-r507.tar.bz2 made with ./make-svn-snapshot.sh
@@ -83,6 +83,9 @@ find %{buildroot} -name '*.la' -delete
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-0.22.trunkREV507
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-0.21.trunkREV507
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

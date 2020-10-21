@@ -3,7 +3,7 @@
 
 # https://github.com/pquerna/ffjson
 %global goipath         github.com/pquerna/ffjson
-%global commit          e517b90714f7c0eabe6d2e570a5886ae077d6db6
+%global commit          aa0246cd15f76c96de6b96f22a305bdfb2d1ec02
 
 %gometa
 
@@ -20,7 +20,7 @@ faster with no additional code changes.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Faster JSON serialization for Go
 
 # Upstream license specification: Apache-2.0
@@ -65,6 +65,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 22:25:06 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200730gitaa0246c
+- Bump to commit aa0246cd15f76c96de6b96f22a305bdfb2d1ec02
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 
 # https://github.com/Azure/azure-storage-blob-go
 %global goipath         github.com/Azure/azure-storage-blob-go
-Version:                0.8.0
+Version:                0.10.0
 
 %gometa
 
@@ -26,7 +26,7 @@ Blob Storage:
 %global godocs          BreakingChanges.md ChangeLog.md README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Microsoft Azure Blob Storage Library for Go
 
 License:        MIT
@@ -34,6 +34,14 @@ URL:            %{gourl}
 Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/Azure/azure-pipeline-go/pipeline)
+BuildRequires:  golang(github.com/google/uuid)
+BuildRequires:  golang(golang.org/x/sys/unix)
+
+%if %{with check}
+# Tests
+BuildRequires:  golang(github.com/Azure/go-autorest/autorest/adal)
+BuildRequires:  golang(gopkg.in/check.v1)
+%endif
 
 %description
 %{common_description}
@@ -54,6 +62,16 @@ BuildRequires:  golang(github.com/Azure/azure-pipeline-go/pipeline)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 23:31:17 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.10.0-1
+- Update to 0.10.0
+
 * Wed Jan 29 02:37:03 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.8.0-1
 - Update to 0.8.0
 

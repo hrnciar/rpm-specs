@@ -1,7 +1,7 @@
 Summary: A set of basic GNU tools commonly used in shell scripts
 Name:    coreutils
 Version: 8.32
-Release: 6%{?dist}
+Release: 13%{?dist}
 License: GPLv3+
 Url:     https://www.gnu.org/software/coreutils/
 Source0: https://ftp.gnu.org/gnu/%{name}/%{name}-%{version}.tar.xz
@@ -18,6 +18,9 @@ Patch1:   coreutils-8.32-ls-removed-dir.patch
 
 # du: simplify leaf optimization for XFS (#1823247)
 Patch2:   coreutils-8.32-leaf-opt-xfs.patch
+
+# cp: default to --reflink=auto (#1861108)
+Patch3:   coreutils-8.32-cp-reflink-auto.patch
 
 # disable the test-lock gnulib test prone to deadlock
 Patch100: coreutils-8.26-test-lock.patch
@@ -94,7 +97,6 @@ BuildRequires: glibc-langpack-ko
 %endif
 
 Requires: %{name}-common = %{version}-%{release}
-Requires: ncurses
 
 Provides: coreutils-full = %{version}-%{release}
 %include %{SOURCE51}
@@ -125,6 +127,7 @@ packaged as a single multicall binary.
 # yum obsoleting rules explained at:
 # https://bugzilla.redhat.com/show_bug.cgi?id=1107973#c7
 Obsoletes: %{name} < 8.24-100
+Recommends: ncurses
 Summary:  coreutils common optional components
 %description common
 Optional though recommended components,
@@ -138,20 +141,19 @@ sed src/dircolors.hin \
         -e 's| 00;36$| 01;36|' \
         > DIR_COLORS
 sed src/dircolors.hin \
-        -e 's| 01;31$| 38;5;9|'  \
-        -e 's| 01;35$| 38;5;13|' \
-        -e 's| 01;36$| 38;5;45|' \
-        > DIR_COLORS.256color
-sed src/dircolors.hin \
         -e 's| 01;31$| 00;31|' \
         -e 's| 01;35$| 00;35|' \
         > DIR_COLORS.lightbgcolor
 
-# git add DIR_COLORS{,.256color,.lightbgcolor}
+# git add DIR_COLORS{,.lightbgcolor}
 # git commit -m "clone DIR_COLORS before patching"
 
 # apply all patches
 %autopatch -p1
+
+# replace weirdo constant in gnulib tests causing test failures on armv7hl
+sed -e 's/1729576/EPERM/' \
+    -i gnulib-tests/test-{perror2,strerror_r}.c
 
 (echo ">>> Fixing permissions on tests") 2>/dev/null
 find tests -name '*.sh' -perm 0644 -print -exec chmod 0755 '{}' '+'
@@ -161,6 +163,11 @@ autoreconf -fiv
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing -fpic"
+
+# disable -flto on ppc64le to make test-float pass (#1789115)
+%ifarch ppc64le
+CFLAGS="$CFLAGS -fno-lto"
+%endif
 
 # Upstream suggests to build with -Dlint for static analyzers:
 # https://lists.gnu.org/archive/html/coreutils/2018-06/msg00110.html
@@ -172,10 +179,13 @@ CFLAGS="$CFLAGS -Dlint"
 # make mknod work again in chroot without /proc being mounted (#1811038)
 export ac_cv_func_lchmod="no"
 
+# needed for out-of-tree build
+%global _configure ../configure
+
 %{expand:%%global optflags %{optflags} -D_GNU_SOURCE=1}
 for type in separate single; do
-  mkdir $type && \
-  (cd $type && ln -s ../configure || exit 1
+  mkdir -p $type && \
+  (cd $type || exit $?
   if test $type = 'single'; then
     config_single='--enable-single-binary'
     config_single="$config_single --without-openssl"  # smaller/slower sha*sum
@@ -189,10 +199,10 @@ for type in separate single; do
              --enable-no-install-program=kill,uptime \
              --with-tty-group \
              DEFAULT_POSIX2_VERSION=200112 alternative=199209 || :
-  make %{?_smp_mflags} all V=1
+  %make_build all V=1
 
   # make sure that parse-datetime.{c,y} ends up in debuginfo (#1555079)
-  ln -v ../lib/parse-datetime.{c,y} .
+  ln -fv ../lib/parse-datetime.{c,y} .
   )
 done
 
@@ -230,8 +240,7 @@ for type in separate single; do
 done
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
-install -p -c -m644 DIR_COLORS{,.256color,.lightbgcolor} \
-    $RPM_BUILD_ROOT%{_sysconfdir}
+install -p -c -m644 DIR_COLORS{,.lightbgcolor} $RPM_BUILD_ROOT%{_sysconfdir}
 install -p -c -m644 %SOURCE105 $RPM_BUILD_ROOT%{_sysconfdir}/profile.d/colorls.sh
 install -p -c -m644 %SOURCE106 $RPM_BUILD_ROOT%{_sysconfdir}/profile.d/colorls.csh
 
@@ -266,6 +275,29 @@ rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 %license COPYING
 
 %changelog
+* Wed Oct 14 2020 Kamil Dudka <kdudka@redhat.com> - 8.32-13
+- make the %%build section idempotent
+
+* Mon Aug 17 2020 Kamil Dudka <kdudka@redhat.com> - 8.32-12
+- do not install /etc/DIR_COLORS.256color (#1830318)
+
+* Thu Jul 30 2020 Kamil Dudka <kdudka@redhat.com> - 8.32-11
+- cp: default to --reflink=auto (#1861108)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Kamil Dudka <kdudka@redhat.com> - 8.32-9
+- disable -flto on ppc64le to make test-float pass (#1789115)
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 8.32-8
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Fri Jun 26 2020 James Cassell <cyberpear@fedoraproject.org> - 8.32-7
+- move ncurses to -common package since it's needed for colorls.sh
+- make ncurses optional
+
 * Fri May 15 2020 Kamil Dudka <kdudka@redhat.com> - 8.32-6
 - compile with -Dlint to enable optional initialization and cleanup code
 

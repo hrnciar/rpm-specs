@@ -4,9 +4,9 @@
 %bcond_without tests
 
 Name:           Cython
-Version:        0.29.19
+Version:        0.29.21
 %global upver %{version_no_tilde %{nil}}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Language for writing Python extension modules
 
 License:        ASL 2.0
@@ -118,6 +118,15 @@ cp -p cython-mode-init.el cython-mode-init.elc %{buildroot}%{_emacs_sitestartdir
 %{_emacs_sitestartdir}/cython*.el*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.29.21-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.29.21-2
+- Re-enable tests.
+
+* Wed Jul 22 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.29.21-1
+- 0.29.21
+
 * Wed May 27 2020 sguelton@redhat.com - 0.29.19-1
 - Update to 0.29.19
 

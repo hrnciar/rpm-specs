@@ -3,7 +3,7 @@
 
 # https://github.com/digitalocean/godo
 %global goipath         github.com/digitalocean/godo
-Version:                1.15.0
+Version:                1.42.0
 
 %gometa
 
@@ -16,22 +16,22 @@ Godo is a Go client library for accessing the DigitalOcean V2 API.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        DigitalOcean Go API client
 
-License:        MIT and BSD
+License:        MIT and BSD
 URL:            %{gourl}
 Source0:        %{gosource}
 Source1:        glide.yaml
 Source2:        glide.lock
 
 BuildRequires:  golang(github.com/google/go-querystring/query)
+BuildRequires:  golang(golang.org/x/oauth2)
 
 %if %{with check}
 # Tests
 BuildRequires:  golang(github.com/stretchr/testify/assert)
 BuildRequires:  golang(github.com/stretchr/testify/require)
-BuildRequires:  golang(golang.org/x/oauth2)
 %endif
 
 %description
@@ -54,6 +54,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.42.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 21:45:56 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.42.0-1
+- Update to 1.42.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

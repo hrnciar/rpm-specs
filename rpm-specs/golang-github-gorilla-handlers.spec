@@ -22,7 +22,7 @@ requests and responses.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Collection of useful handlers for go's net/http package
 
 # Upstream license specification: BSD-2-Clause
@@ -61,6 +61,13 @@ end
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.4.2-1
 - Update to latest version
 

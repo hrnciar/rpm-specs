@@ -1,16 +1,20 @@
-%global commit 67f4838659f475d618c120e13d1a196d7e00ba4b
+%undefine __cmake_in_source_build
+
+%global commit 92a71657fcbae77caf79181f655fabe8be7e0d84
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global commit_date 20200421
+%global commit_date 20200803
 %global gitrel .%{commit_date}.git%{shortcommit}
 
 Name:           spirv-tools
-Version:        2019.5
-Release:        2%{?gitrel}%{?dist}
+Version:        2020.5
+Release:        1%{?gitrel}%{?dist}
 Summary:        API and commands for processing SPIR-V modules
 
 License:        ASL 2.0
 URL:            https://github.com/KhronosGroup/SPIRV-Tools
 Source0:        %url/archive/%{commit}.tar.gz#/%{name}-%{commit}.tar.gz
+
+Patch0: 0001-Revert-CMake-Enable-building-with-BUILD_SHARED_LIBS-.patch
 
 BuildRequires:  cmake3
 BuildRequires:  gcc-c++
@@ -46,18 +50,15 @@ Development files for %{name}
 %autosetup -p1 -n SPIRV-Tools-%{commit}
 
 %build
-%__mkdir_p %_target_platform
-pushd %_target_platform
 %cmake3 -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_LIBDIR=%{_lib} \
         -DSPIRV-Headers_SOURCE_DIR=%{_prefix} \
         -DPYTHON_EXECUTABLE=%{__python3} \
-        -GNinja ..
-%ninja_build
-popd
+        -GNinja
+%cmake3_build
 
 %install
-%ninja_install -C %_target_platform
+%cmake3_install
 
 %ldconfig_scriptlets libs
 
@@ -76,9 +77,9 @@ popd
 %files libs
 %{_libdir}/libSPIRV-Tools-link.so
 %{_libdir}/libSPIRV-Tools-opt.so
-%{_libdir}/libSPIRV-Tools-shared.so
-%{_libdir}/libSPIRV-Tools-reduce.so
 %{_libdir}/libSPIRV-Tools.so
+%{_libdir}/libSPIRV-Tools-reduce.so
+%{_libdir}/libSPIRV-Tools-shared.so
 
 %files devel
 %{_includedir}/spirv-tools/
@@ -87,6 +88,12 @@ popd
 %{_libdir}/pkgconfig/SPIRV-Tools.pc
 
 %changelog
+* Tue Aug 04 2020 Dave Airlie <airlied@redhat.com> - 2029.5-1.20200803.git92a71657
+- update to latest spirv-tools
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.5-3.20200421.git67f4838
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Dave Airlie <airlied@redhat.cvom> - 2019.5-2
 - git snapshot for newer glslang/validation layers
 

@@ -1,7 +1,7 @@
 Name: dcmtk
 Summary: Offis DICOM Toolkit (DCMTK)
 Version: 3.6.4
-Release: 5%{?dist}
+Release: 8%{?dist}
 License: BSD
 Source0: ftp://dicom.offis.de/pub/dicom/offis/software/dcmtk/dcmtk364/dcmtk-3.6.4.tar.gz
 URL: http://dicom.offis.de/dcmtk.php.en
@@ -94,10 +94,10 @@ export LDFLAGS="%{__global_ldflags} -fPIC"
  -DDCMTK_WITH_CHARLS=ON \
  -DDCMTK_WITH_ZLIB:BOOL=ON \
  -DDCMTK_ENABLE_CXX11:BOOL=ON .
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 # Remove zero-lenght file
 rm -f $RPM_BUILD_ROOT%{_datadir}/%{name}/wlistdb/OFFIS/lockfile
@@ -105,7 +105,7 @@ rm -f $RPM_BUILD_ROOT%{_datadir}/%{name}/wlistdb/OFFIS/lockfile
 %ldconfig_scriptlets
 
 %check
-ctest %{?_smp_mflags} .
+%ctest
 
 %files
 %license COPYRIGHT
@@ -129,6 +129,16 @@ ctest %{?_smp_mflags} .
 %{_libdir}/cmake/%{name}/
 
 %changelog
+* Fri Sep 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.6.4-8
+- Update cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.4-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.4-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.4-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 
 Name:          percol
 Version:       0.1.1
-Release:       0.18%{?shortcommit0:.git.%{shortcommit0}}%{?dist}
+Release:       0.19%{?shortcommit0:.git.%{shortcommit0}}%{?dist}
 Summary:       Interactive selection to the traditional pipe concept on UNIX
 
 License:       MIT
@@ -54,6 +54,9 @@ used in command-chains with | in your shell (UNIX philosophy!).
 %{python3_sitelib}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-0.19.git.b567f41
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.1-0.18.git.b567f41
 - Rebuilt for Python 3.9
 

@@ -1,7 +1,7 @@
 %global pypi_name power
 Name:           python-%{pypi_name}
 Version:        1.4
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Cross-platform system power status information
 License:        MIT
 URL:            https://github.com/Kentzo/Power
@@ -38,6 +38,9 @@ Python module that allows you to get power and battery status of the system.
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4-20
 - Rebuilt for Python 3.9
 

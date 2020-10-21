@@ -4,7 +4,7 @@ Plette implements Pipfile and Pipfile.lock parsers}
 
 Name:           python-%{pypi_name}
 Version:        0.2.2
-Release:        5%{?dist}
+Release:        6%{?dist}
 License:        ISC
 URL:            https://github.com/sarugaku/plette
 Source0:        https://github.com/sarugaku/plette/archive/%{version}/plette-%{version}.tar.gz
@@ -45,6 +45,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} -m pytest -v -k 'not test
 %{python3_sitelib}/%{pypi_name}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.2-5
 - Rebuilt for Python 3.9
 

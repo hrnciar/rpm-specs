@@ -7,7 +7,7 @@
 
 Name:		%{fontname}-fonts
 Version:	1.0.3.1
-Release:	22%{?dist}
+Release:	23%{?dist}
 Summary:	A Latin typeface inspired by feudal calligraphy
 License:	OFL
 URL:		http://www.drehatlas.de/
@@ -58,6 +58,9 @@ install -Dm 0644 -p %{SOURCE2} \
 %doc drehatlas-fonts-%{metapkgver}/Widelands-%{version}/LICENSE drehatlas-fonts-%{metapkgver}/Widelands-%{version}/FONTLOG
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3.1-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3.1-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -9,8 +9,8 @@ A library to do [jobs, tasks, flows] in a HA manner using \
 different backends to be used with OpenStack projects.
 
 Name:           python-%{pypi_name}
-Version:        4.1.0
-Release:        2%{?dist}
+Version:        4.5.0
+Release:        1%{?dist}
 Summary:        Taskflow structured state management library
 
 License:        ASL 2.0
@@ -40,7 +40,7 @@ Requires:       python3-automaton >= 1.9.0
 Requires:       python3-futurist >= 1.2.0
 Requires:       python3-fasteners >= 0.7.0
 Requires:       python3-pbr >= 2.0.0
-Requires:       python3-tenacity >= 4.4.0
+Requires:       python3-tenacity >= 6.0.0
 Requires:       python3-pydot >= 1.2.4
 Requires:       python3-networkx >= 2.1.0
 
@@ -115,6 +115,15 @@ rm -rf doc/build/html/.{doctrees,buildinfo}
 %endif
 
 %changelog
+* Tue Sep 01 2020 Eric Harney <eharney@redhat.com> - 4.4.0-1
+- Update to 4.4.0
+
+* Thu Aug 06 2020 Eric Harney <eharney@redhat.com> - 4.3.1-1
+- Update to 4.3.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Eric Harney <eharney@redhat.com> - 4.1.0-2
 - Remove dependency on python3-networkx-core
 

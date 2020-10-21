@@ -2,19 +2,16 @@
 %global gtkver		3
 
 Name:		libextractor
-Version:	1.9
-Release:	6%{?dist}
+Version:	1.10
+Release:	2%{?dist}
 Summary:	Simple library for keyword extraction
 
 License:	GPLv3+
-URL:		http://www.gnu.org/software/libextractor
-Source0:	http://ftp.gnu.org/gnu/libextractor/%{name}-%{version}.tar.gz
-Source1:	http://ftp.gnu.org/gnu/libextractor/%{name}-%{version}.tar.gz.sig
+URL:		https://www.gnu.org/software/libextractor
+Source0:	https://ftp.gnu.org/gnu/libextractor/%{name}-%{version}.tar.gz
+Source1:	https://ftp.gnu.org/gnu/libextractor/%{name}-%{version}.tar.gz.sig
+Source2:        https://ftp.gnu.org/gnu/gnu-keyring.gpg
 Source10:	README.fedora
-
-Patch0:         libextractor-1.7-segfault.patch
-Patch1:         libextractor-1.8-exiv2-0.27.patch
-Patch2:         d2b032452241708bee68d02aa02092cfbfba951a.patch
 
 BuildRequires:  gcc
 ## exiv2 config check uses g++
@@ -22,6 +19,7 @@ BuildRequires:  gcc-c++
 BuildRequires:	gettext zzuf
 BuildRequires:	libtool-ltdl-devel
 BuildRequires:	bzip2-devel zlib-devel
+BuildRequires:  gnupg2
 
 %package devel
 Summary:	Development files for %{name}
@@ -124,11 +122,9 @@ developing applications that use %{name}.
 
 
 %prep
-%setup -q
+%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
 
-%patch0 -p0
-%patch1 -p1 -b .exiv2_027
-%patch2 -p1
+%setup -q
 
 install -pm644 %{SOURCE10} .
 rm -f README.debian
@@ -223,7 +219,8 @@ fi
 %license COPYING
 %doc AUTHORS ChangeLog NEWS README* TODO
 %{_bindir}/*
-%{_libdir}/*.so.*
+%{_libdir}/libextractor.so.2*
+%{_libdir}/libextractor_common.so.1*
 %{_infodir}/*info*
 %{_mandir}/man1/*
 %dir %plugindir
@@ -240,6 +237,12 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.10-1
+- 1.10
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -8,7 +8,7 @@ This module provides a plugin for flake8, the Python code checker. \
 
 Name:           python-%{srcname}
 Version:        0.11.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Check PEP-8 naming conventions, a plugin for flake8
 
 License:        MIT
@@ -18,9 +18,9 @@ Source0:        %pypi_source
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-flake8
+BuildRequires:  python3dist(setuptools)
+BuildRequires:  python3dist(flake8)
 BuildRequires:  (python3dist(flake8-polyfill) >= 1.0.2 with python3dist(flake8-polyfill) < 2)
-
 
 %description %{_description}
 
@@ -28,8 +28,7 @@ BuildRequires:  (python3dist(flake8-polyfill) >= 1.0.2 with python3dist(flake8-p
 %package -n python3-%{srcname}
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
-Requires:       python3-flake8
-
+Requires:       python3dist(flake8)
 
 %description -n python3-%{srcname} %{_description}
 
@@ -55,10 +54,13 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{python3} run_tests.py
 %license LICENSE
 %{python3_sitelib}/pep8ext_naming.py
 %{python3_sitelib}/__pycache__/pep8ext_naming.*.py*
-%{python3_sitelib}/%{srcname_}-%{version}-py*.egg-info
+%{python3_sitelib}/%{srcname_}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.11.1-1
 - Update to latest version
 

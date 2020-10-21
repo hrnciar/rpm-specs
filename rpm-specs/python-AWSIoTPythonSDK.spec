@@ -1,15 +1,15 @@
 %global pypi_name AWSIoTPythonSDK
 
 Name:           python-%{pypi_name}
-Version:        1.4.8
-Release:        4%{?dist}
+Version:        1.4.9
+Release:        1%{?dist}
 Summary:        SDK for connecting to AWS IoT using Python
 
 # ASL 2.0: main library
 # EPL-1.0: core/protocol/paho
 License:        ASL 2.0 and EPL-1.0
 URL:            https://github.com/aws/aws-iot-device-sdk-python
-Source0:        https://github.com/aws/aws-iot-device-sdk-python/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
+Source0:        %{url}/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
 
 %description
@@ -52,6 +52,12 @@ chmod -x {LICENSE.txt,README.rst,samples/*/*.py}
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Mon Sep 07 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.4.9-1
+- Update to latest upstream release 1.4.9
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.8-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.8-4
 - Rebuilt for Python 3.9
 

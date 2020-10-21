@@ -1,8 +1,8 @@
 %global srcname relval
 
 Name:           relval
-Version:        2.5.0
-Release:        2%{?dist}
+Version:        2.5.2
+Release:        1%{?dist}
 Summary:        Tool for interacting with Fedora QA wiki pages
 
 License:        GPLv3+
@@ -48,6 +48,15 @@ rm -rf %{buildroot}
 %{_bindir}/relval
 
 %changelog
+* Tue Aug 25 2020 Adam Williamson <awilliam@redhat.com> - 2.5.2-1
+- New release 2.5.2: bump Workstation live size limit to 2.1GB
+
+* Mon Aug 17 2020 Adam Williamson <awilliam@redhat.com> - 2.5.1-1
+- New release 2.5.1: size-check warn if blocker trackers not found
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.5.0-2
 - Rebuilt for Python 3.9
 

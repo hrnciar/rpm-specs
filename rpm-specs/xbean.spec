@@ -1,11 +1,10 @@
 %bcond_with     equinox
 %bcond_with     groovy
-%bcond_with     spring
 
 Name:           xbean
 Summary:        Java plugin based web server
 Version:        4.15
-Release:        2%{?dist}
+Release:        6%{?dist}
 License:        ASL 2.0
 
 URL:            http://geronimo.apache.org/xbean/
@@ -20,8 +19,8 @@ BuildArch:      noarch
 BuildRequires:  maven-local
 BuildRequires:  mvn(commons-logging:commons-logging-api)
 BuildRequires:  mvn(junit:junit)
-BuildRequires:  mvn(log4j:log4j:1.2.12)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
+BuildRequires:  mvn(org.apache.logging.log4j:log4j-1.2-api)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-source-plugin)
 BuildRequires:  mvn(org.osgi:osgi.core)
 BuildRequires:  mvn(org.ow2.asm:asm)
@@ -36,23 +35,6 @@ BuildRequires:  mvn(org.eclipse:osgi)
 BuildRequires:  mvn(org.codehaus.groovy:groovy-all)
 %endif
 
-%if %{with spring}
-BuildRequires:  mvn(ant:ant)
-BuildRequires:  mvn(commons-logging:commons-logging)
-BuildRequires:  mvn(com.thoughtworks.qdox:qdox)
-BuildRequires:  mvn(org.apache.maven:maven-archiver)
-BuildRequires:  mvn(org.apache.maven:maven-artifact)
-BuildRequires:  mvn(org.apache.maven:maven-plugin-api)
-BuildRequires:  mvn(org.apache.maven:maven-project)
-BuildRequires:  mvn(org.apache.maven.plugins:maven-antrun-plugin)
-BuildRequires:  mvn(org.apache.maven.plugins:maven-plugin-plugin)
-BuildRequires:  mvn(org.codehaus.plexus:plexus-archiver)
-BuildRequires:  mvn(org.codehaus.plexus:plexus-utils)
-BuildRequires:  mvn(org.springframework:spring-beans)
-BuildRequires:  mvn(org.springframework:spring-context)
-BuildRequires:  mvn(org.springframework:spring-web)
-%endif
-
 %description
 The goal of XBean project is to create a plugin based server
 analogous to Eclipse being a plugin based IDE. XBean will be able to
@@ -61,35 +43,6 @@ repository. In addition, we include support for multiple IoC systems,
 support for running with no IoC system, JMX without JMX code,
 lifecycle and class loader management, and a rock solid Spring
 integration.
-
-
-%if %{with spring}
-# blueprint module fails to compile
-%package        blueprint
-Summary:        Schema-driven namespace handler for Apache Aries Blueprint
-
-%description    blueprint
-This package provides %{summary}.
-
-%package        classloader
-Summary:        A flexibie multi-parent classloader
-
-%description    classloader
-This package provides %{summary}.
-
-%package        spring
-Summary:        Schema-driven namespace handler for spring contexts
-Requires:       %{name} = %{version}-%{release}
-
-%description    spring
-This package provides %{summary}.
-
-%package        -n maven-%{name}-plugin
-Summary:        XBean plugin for Apache Maven
-
-%description    -n maven-%{name}-plugin
-This package provides %{summary}.
-%endif
 
 
 %package        javadoc
@@ -115,6 +68,9 @@ rm src/site/site.xml
 # use osgi-core instead of felix-osgi-core
 %pom_change_dep -r :org.osgi.core org.osgi:osgi.core
 
+# switch from log4j 1.2 compat package to log4j 1.2 API shim
+%pom_change_dep -r log4j:log4j org.apache.logging.log4j:log4j-1.2-api
+
 # Unshade ASM
 %pom_remove_dep -r :xbean-asm7-shaded
 %pom_remove_dep -r :xbean-finder-shaded
@@ -125,20 +81,21 @@ rm src/site/site.xml
 %pom_xpath_remove 'pom:scope[text()="provided"]' xbean-reflect xbean-asm-util
 sed -i 's/org\.apache\.xbean\.asm7/org.objectweb.asm/g' `find xbean-reflect -name '*.java'`
 
-# Prevent modules depending on springframework from building.
-%if %{without spring}
-   %pom_remove_dep org.springframework:
-   #%%pom_disable_module xbean-blueprint
-   %pom_disable_module xbean-classloader
-   %pom_disable_module xbean-spring
-   %pom_disable_module maven-xbean-plugin
-%else
-   %mvn_package :xbean-classloader classloader
-   %mvn_package :xbean-spring spring
-   %mvn_package :maven-xbean-plugin maven-xbean-plugin
-%endif
-# blueprint FTBFS, disable for now
+# Springframework is not available in Fedora
+%pom_remove_dep org.springframework:
 %pom_disable_module xbean-blueprint
+%pom_disable_module xbean-classloader
+%pom_disable_module xbean-spring
+%pom_disable_module maven-xbean-plugin
+
+# Disable uneeded modules that cannot be built on JDK 11
+%pom_disable_module xbean-classpath
+
+# Disable one test that fails on JDK 11
+sed -i '/testGetBytecode/i@org.junit.Ignore' xbean-finder/src/test/java/org/apache/xbean/finder/archive/MJarJarArchiveTest.java
+
+# Unused import which is not available in OpenJDK 11
+sed -i '/import com.sun.org.apache.regexp.internal.RE/d' xbean-reflect/src/main/java/org/apache/xbean/propertyeditor/PropertyEditors.java
 
 %if %{without equinox}
   %pom_remove_dep :xbean-bundleutils xbean-finder
@@ -153,12 +110,9 @@ sed -i 's/org\.apache\.xbean\.asm7/org.objectweb.asm/g' `find xbean-reflect -nam
 # maven-xbean-plugin invocation makes no sense as there are no namespaces
 %pom_remove_plugin :maven-xbean-plugin xbean-classloader
 
-# As auditing tool RAT is useful for upstream only.
+# Remove plugins useful for upstream only.
 %pom_remove_plugin :apache-rat-plugin
-
-# disable copy of internal aries-blueprint
-sed -i "s|<Private-Package>|<!--Private-Package>|" xbean-blueprint/pom.xml
-sed -i "s|</Private-Package>|</Private-Package-->|" xbean-blueprint/pom.xml
+%pom_remove_plugin :maven-source-plugin
 
 
 %build
@@ -170,27 +124,27 @@ sed -i "s|</Private-Package>|</Private-Package-->|" xbean-blueprint/pom.xml
 
 
 %files -f .mfiles
-%doc LICENSE NOTICE
-
-%if %{with spring}
-%files blueprint -f .mfiles-blueprint
-%doc LICENSE NOTICE %{name}-blueprint/target/restaurant.xsd*
-
-%files classloader -f .mfiles-classloader
-%doc LICENSE NOTICE
-
-%files spring -f .mfiles-spring
-%doc LICENSE NOTICE
-
-%files -n maven-%{name}-plugin -f .mfiles-maven-%{name}-plugin
-%doc LICENSE NOTICE
-%endif
+%license LICENSE NOTICE
 
 %files javadoc -f .mfiles-javadoc
-%doc LICENSE NOTICE
+%license LICENSE NOTICE
 
 
 %changelog
+* Wed Sep 09 2020 Fabio Valentini <decathorpe@gmail.com> - 4.15-6
+- Switch from log4j 1.2 compat package to log4j 1.2 API shim.
+
+* Wed Jul 29 2020 Mat Booth <mat.booth@redhat.com> - 4.15-5
+- Remove springframework conditionals, the deps are a long time removed from
+  Fedora and this simplifies the spec a bit
+- Disable unused modules that can't build on JDK 11
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 4.15-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jun 25 2020 Jeff Johnston <jjohnstn@redhat.com> - 4.15-3
+- Fix JVM as 1.8.0 as package cannot be built with Java 9 and above
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.15-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 %global rev 25
 Name:           gsm-ussd
 Version:        0.4.0
-Release:        0.25.%{rev}%{?dist}
+Release:        0.26.%{rev}%{?dist}
 Source:         http://linux.zum-quadrat.de/downloads/%{name}_%{version}-%{rev}.tar.gz
 BuildArch:      noarch 
 Summary:        USSD query tool
@@ -63,6 +63,9 @@ rm $RPM_BUILD_ROOT%{_mandir}/de/man1/xussd*
 %{_bindir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-0.26.25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.4.0-0.25.25
 - Perl 5.32 rebuild
 

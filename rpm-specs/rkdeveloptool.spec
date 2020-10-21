@@ -1,6 +1,6 @@
 Name:          rkdeveloptool
 Version:       1.3
-Release:       3%{?dist}
+Release:       5%{?dist}
 Summary:       A simple way to read/write Rock Chips rockusb devices
 License:       GPLv2
 URL:           http://opensource.rock-chips.com/wiki_Rkdeveloptool
@@ -42,6 +42,13 @@ install -D -m 644 %{SOURCE1} %{buildroot}%{_udevrulesdir}/99-rkdeveloptool.rules
 %{_udevrulesdir}/99-rkdeveloptool.rules
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

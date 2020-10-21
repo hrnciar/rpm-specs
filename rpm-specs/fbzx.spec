@@ -1,6 +1,6 @@
 Name:           fbzx
 Version:        4.0.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A ZX Spectrum emulator for FrameBuffer
 
 License:        GPLv3+
@@ -84,6 +84,9 @@ install -p -m 644 %{SOURCE2} %{buildroot}%{_pkgdocdir}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

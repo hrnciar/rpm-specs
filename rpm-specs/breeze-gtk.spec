@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 Name:    breeze-gtk
-Version: 5.19.2
+Version: 5.20.1
 Release: 1%{?dist}
 Summary: Breeze widget theme for Gtk2 and Gtk3
 
@@ -45,20 +45,16 @@ Requires:       gtk2-engines
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%{cmake_kf5}
 
-%make_build -C %{_target_platform}
-
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 
 %files
-%license COPYING.LIB
+%license LICENSES/*.txt
 %doc README.md
 # consider putting these in some -common/-data noarch subpkg -- rex
 %{_datadir}/themes/Breeze/
@@ -66,6 +62,27 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Oct 20 15:27:25 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.1-1
+- 5.20.1
+
+* Sun Oct 11 19:50:01 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.0-1
+- 5.20.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.90-1
+- 5.19.90
+
+* Tue Sep 01 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.5-1
+- 5.19.5
+
+* Tue Jul 28 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.4-1
+- 5.19.4
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.19.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.3-1
+- 5.19.3
+
 * Tue Jun 23 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.2-1
 - 5.19.2
 

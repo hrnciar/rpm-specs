@@ -1,6 +1,6 @@
 Name:           pari
-Version:        2.11.3
-Release:        1%{?dist}
+Version:        2.11.4
+Release:        2%{?dist}
 Summary:        Number Theory-oriented Computer Algebra System
 License:        GPLv2+
 URL:            http://pari.math.u-bordeaux.fr/
@@ -96,7 +96,7 @@ sed -i -e "s|@OPTFLAGS@|%{optflags} -Wextra -Wstrict-prototypes -Wno-implicit-fa
 sed -i "s|runpathprefix='.*'|runpathprefix=''|" config/get_ld
 
 # Verify the source file
-gpgv2 --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
+%{gpgverify} --keyring=%{SOURCE2} --signature=%{SOURCE1} --data=%{SOURCE0}
 
 %build
 ./Configure \
@@ -108,13 +108,10 @@ gpgv2 --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
     --datadir=%{_datadir}/pari \
     --includedir=%{_includedir} \
     --with-gmp
-make %{?_smp_mflags} gp
+%make_build gp
 
 %install
-make install \
-  DESTDIR=%{buildroot} \
-  INSTALL="install -p" \
-  STRIP=/bin/true
+%make_install INSTALL="install -p" STRIP=%{_bindir}/true
 
 # We move pari.cfg to the docdir
 rm -fr %{buildroot}%{_prefix}/lib/pari
@@ -172,6 +169,12 @@ make test-all
 %{_libdir}/libpari.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Jerry James <loganjerry@gmail.com> - 2.11.4-1
+- Update to 2.11.4 (see CHANGES for details)
+
 * Thu Mar  5 2020 Jerry James <loganjerry@gmail.com> - 2.11.3-1
 - Update to 2.11.3 (see CHANGES for details)
 

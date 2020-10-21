@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          1.0.1
-Release:          3%{?dist}
+Release:          4%{?dist}
 Summary:          Flights that Departed NYC in 2013
 
 License:          CC0
@@ -60,6 +60,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.0.1-3
 - rebuild for R 4
 

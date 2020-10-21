@@ -13,7 +13,7 @@
 
 Name: mod_suphp
 Version: 0.7.2
-Release: 12%{?dist}
+Release: 14%{?dist}
 Summary: An apache2 module for executing PHP scripts with the permissions of their owners
 
 License: GPLv2+
@@ -61,6 +61,7 @@ sed -e 's|###HANDLER###|%{handler}|g;' %{SOURCE3} > README.fedora
 
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 aclocal
 libtoolize --force
 automake --add-missing
@@ -116,6 +117,12 @@ cp doc/apache/CONFIG CONFIG.apache
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 0.7.2-13
+- Use C++14 as this code is not C++17 ready
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

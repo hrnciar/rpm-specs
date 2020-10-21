@@ -1,6 +1,6 @@
 Name:       flare
 Version:    1.07
-Release:    4%{?dist}
+Release:    7%{?dist}
 Summary:    A single player, 2D-isometric, action Role-Playing Game
 License:    CC-BY-SA and CC-BY and CC0 and Public Domain
 URL:        http://www.flarerpg.org
@@ -43,11 +43,11 @@ preferred (png, ogg). The game code is C++.
 %build
 # Do not use /usr/games or /usr/share/games/
 %cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} -DBINDIR="bin" -DDATADIR="share/%{name}/" .
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 # Use system font
 find %{buildroot}%{_datadir}/%{name}/ -name "*.ttf" -delete -print
@@ -121,6 +121,17 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 
 
 %changelog
+* Wed Oct 07 2020 Erik Schilling <git@ablu.org> - 1.07-7
+- Fixes for
+  https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds#Migration
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.07-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.07-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.07-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

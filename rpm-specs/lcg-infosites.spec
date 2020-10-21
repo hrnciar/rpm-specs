@@ -1,29 +1,25 @@
-Name:				lcg-infosites
-Version:			3.1.0
-Release:			17%{?dist}
-Summary:			Command line tool for the WLCG information system
-License:			ASL 2.0
-URL:				http://svnweb.cern.ch/trac/gridinfo/wiki
-# The source for this package was pulled from upstream's vcs.  Use the
-# following commands to generate the tarball:
-#   svn export http://svnweb.cern.ch/guest/gridinfo/lcg-infosites/tags/R_3_1_0 %{name}-%{version}
-#   tar --gzip -czvf %{name}-%{version}.tar.gz %{name}-%{version}
-Source0:			%{name}-%{version}.tar.gz
+%global gittag R_3_1_0
+Name:                           lcg-infosites
+Version:                        3.1.0
+Release:                        19%{?dist}
+Summary:                        Command line tool for the WLCG information system
+License:                        ASL 2.0
+URL:                            https://github.com/EGI-Foundation/lcg-infosites
+Source0:                        https://github.com/EGI-Foundation/lcg-infosites/archive/%{gittag}/%{name}-%{version}.tar.gz
 
-BuildArch:			noarch
-BuildRequires:			perl-generators
+BuildArch:                      noarch
+BuildRequires:                  perl-generators
 
 %description
 lcg-infosites is a simple command line tool in Perl for 
 the WLCG information system
 
 %prep
-%setup -q
+%autosetup -n lcg-infosites-%{gittag}
 
 %build
 
 %install
-rm -rf %{buildroot}
 make install prefix=%{buildroot}
 
 %files
@@ -31,6 +27,12 @@ make install prefix=%{buildroot}
 %{_mandir}/man1/lcg-infosites.*
 
 %changelog
+* Tue Aug 25 2020 Steve Traylen <steve.traylen@cern.ch> - 3.1.0-19
+- Upstream changed, URL and SOURCE URL
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -17,7 +17,7 @@
 Name:           freecad
 Epoch:          1
 Version:        0.18.4
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        A general purpose 3D CAD modeler
 
 License:        GPLv2+
@@ -137,8 +137,6 @@ dos2unix -k src/Mod/Test/unittestgui.py \
 
 
 %build
-mkdir build && pushd build
-
 %cmake -DCMAKE_INSTALL_PREFIX=%{_libdir}/%{name} \
        -DCMAKE_INSTALL_DATADIR=%{_datadir}/%{name} \
        -DCMAKE_INSTALL_DOCDIR=%{_docdir}/%{name} \
@@ -170,16 +168,13 @@ mkdir build && pushd build
        -DPYCXX_INCLUDE_DIR=$(pkg-config --variable=includedir PyCXX) \
        -DPYCXX_SOURCE_DIR=$(pkg-config --variable=srcdir PyCXX) \
 %endif
-       -DMEDFILE_INCLUDE_DIRS=%{_includedir}/med \
-       ../
+       -DMEDFILE_INCLUDE_DIRS=%{_includedir}/med
 
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 
 # Symlink binaries to /usr/bin
 mkdir -p %{buildroot}%{_bindir}
@@ -251,6 +246,13 @@ desktop-file-validate \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.18.4-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.18.4-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 20 2020 Miro Hrončok <mhroncok@redhat.com> - 1:0.18.4-10
 - Bytecompile Python modules
 

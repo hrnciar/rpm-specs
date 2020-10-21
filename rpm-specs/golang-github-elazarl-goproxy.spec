@@ -4,6 +4,7 @@
 # https://github.com/elazarl/goproxy
 %global goipath         github.com/elazarl/goproxy
 Version:                1.1
+%global commit          0581fc3aee2d07555835bed1a876aca196a4a511
 
 %gometa
 
@@ -17,7 +18,7 @@ connection using "Man in the Middle" style attack.}
 %global godocs          examples README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        HTTP proxy library for Go
 
 # Upstream license specification: BSD-3-Clause
@@ -25,6 +26,7 @@ License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
 
+BuildRequires:  golang(github.com/gorilla/websocket)
 BuildRequires:  golang(github.com/inconshreveable/go-vhost)
 BuildRequires:  golang(github.com/rogpeppe/go-charset/charset)
 BuildRequires:  golang(github.com/rogpeppe/go-charset/data)
@@ -49,6 +51,12 @@ BuildRequires:  golang(github.com/rogpeppe/go-charset/data)
 %gopkgfiles
 
 %changelog
+* Sun Aug 16 18:50:21 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1-5.20200816git0581fc3
+- Bump to commit 0581fc3aee2d07555835bed1a876aca196a4a511
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

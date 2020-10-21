@@ -1,6 +1,6 @@
 Name:       kup
 Version:    0.3.6
-Release:    7%{?dist}
+Release:    8%{?dist}
 Summary:    Kernel.org Uploader
 
 License:    GPLv2
@@ -91,6 +91,9 @@ touch %{buildroot}%{_localstatedir}/run/kup/lock
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.6-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.6-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

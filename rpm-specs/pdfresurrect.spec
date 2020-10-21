@@ -1,6 +1,6 @@
 Name:		pdfresurrect
 Version:	0.18
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	PDF Analysis and Scrubbing Utility
 License:	GPLv3+
 URL:		https://github.com/enferex/%{name}
@@ -43,6 +43,9 @@ make %{?_smp_mflags}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

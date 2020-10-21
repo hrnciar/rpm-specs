@@ -4,7 +4,7 @@
 
 Name:           lilyterm
 Version:        0.9.9.2
-Release:        16%{?prerelease:.%{?prerelease}}%{?dist}
+Release:        17%{?prerelease:.%{?prerelease}}%{?dist}
 Summary:        Light and easy to use X Terminal Emulator
 
 License:        GPLv3+
@@ -74,6 +74,9 @@ rm -rf ${RPM_BUILD_ROOT}%{_datadir}/doc/lilyterm/
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.9.2-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.9.2-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

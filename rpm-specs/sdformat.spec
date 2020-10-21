@@ -1,9 +1,10 @@
+%undefine __cmake_in_source_build
 %global apiver_major 6
 %global apiver %{apiver_major}.0
 
 Name:		sdformat
 Version:	6.0.0
-Release:	6%{?dist}
+Release:	8%{?dist}
 Summary:	The Simulation Description Format
 
 License:	ASL 2.0
@@ -62,14 +63,11 @@ The %{name}-doc package contains development documentation for
 %patch1 -p1
 # Remove bundled urdf components
 rm -rf src/urdf
+sed -i 's/unset/#unset/g' CMakeLists.txt
 
 %build
-mkdir build
-pushd build
-%cmake .. \
-  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-  -DCMAKE_C_FLAGS_RELWITHDEBINFO="-std=c++11 %{optflags}" \
-  -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="-std=c++11 %{optflags}" \
+%cmake \
+  -DCMAKE_BUILD_TYPE=Release \
   -DLIB_INSTALL_DIR:STRING=%{_lib} \
   -DRUBY_LIB_INSTALL_DIR:STRING=%{ruby_vendorlibdir} \
   -DUSE_EXTERNAL_URDF=ON \
@@ -83,19 +81,18 @@ pushd build
   -DUSE_UPSTREAM_CFLAGS=false \
 
 
-popd
-make -C build %{?_smp_mflags}
-make -C build doc
+%cmake_build
+%cmake_build --target doc
 
 %install
-make -C build install DESTDIR=%{buildroot}
+%cmake_install
 
 %check
 # The INTEGRATION_schema_test uses xmllint to validate flies
 # against schemas.  It requires an internet connection, so it
 # fails when built on koji
 export GTEST_COLOR=no
-make -C build test ARGS="-V -E INTEGRATION_schema_test"
+%ctest --verbose --exclude-regex INTEGRATION_schema_test
 
 %files
 %license LICENSE COPYING
@@ -114,9 +111,16 @@ make -C build test ARGS="-V -E INTEGRATION_schema_test"
 
 %files doc
 %license LICENSE COPYING
-%doc build/doxygen/html
+%doc %{_vpath_builddir}/doxygen/html
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.0-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Rich Mattes <richmattes@gmail.com> - 6.0.0-6
 - Switch from python2 to python3 for tests (rhbz#1808342)
 - Update spec to install libraries by version and soversion

@@ -20,7 +20,7 @@ Go-deadlock provides (RW)Mutex drop-in replacements for sync.(RW)Mutex..}
 %global godocs          Readme.md
 
 Name:           %{goname}
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Online deadlock detection in Go
 
 # Upstream license specification: Apache-2.0
@@ -49,6 +49,9 @@ BuildRequires:  golang(github.com/petermattis/goid)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

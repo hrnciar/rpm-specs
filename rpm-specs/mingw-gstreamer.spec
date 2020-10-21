@@ -2,7 +2,7 @@
 
 Name:           mingw-gstreamer
 Version:        0.10.36
-Release:        18%{?dist}
+Release:        20%{?dist}
 Summary:        MinGW Windows Streaming-Media Framework Runtime
 
 License:        LGPLv2+
@@ -218,6 +218,12 @@ rm -f $RPM_BUILD_ROOT%{mingw64_datadir}/aclocal/gst-element-check-0.10.m4
 
 
 %changelog
+* Wed Aug 12 13:37:45 GMT 2020 Sandro Mani <manisandro@gmail.com> - 0.10.36-20
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.36-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 0.10.36-18
 - Rebuild (gettext)
 

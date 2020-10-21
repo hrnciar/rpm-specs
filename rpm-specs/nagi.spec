@@ -2,7 +2,7 @@
 Summary: An interpreter for AGI games
 Name: nagi
 Version: 2.06
-Release: 26%{?dist}
+Release: 27%{?dist}
 License: MIT
 URL: http://www.agidev.com/projects/nagi/
 Source0: http://www.agidev.com/dl_files/nagi/nagi_src_-_2002-11-14.tar.gz
@@ -52,6 +52,9 @@ install -Dp -m644 src/nagi.1 %{buildroot}%{_mandir}/man1
 %{_mandir}/man1/nagi.1.gz
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.06-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 06 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.06-26
 - Fix FTBFS.
 

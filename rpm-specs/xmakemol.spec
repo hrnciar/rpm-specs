@@ -1,6 +1,6 @@
 Name:           xmakemol
 Version:        5.16
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Program for visualizing atomic and molecular systems
 License:        GPLv2+
 URL:            https://www.nongnu.org/xmakemol/
@@ -67,6 +67,9 @@ bonds.  Features include:
 %{_bindir}/xmake_anim.pl
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.16-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 01 2020 Susi Lehtola <susi.lehtola@gmail.com> - 5.16-8
 - Patch out multiple definition of bbox.
 

@@ -7,7 +7,7 @@
 
 # https://github.com/hashicorp/raft
 %global goipath         github.com/hashicorp/raft
-Version:                1.0.1
+Version:                1.1.2
 
 %gometa
 
@@ -20,7 +20,7 @@ Golang implementation of the Raft consensus protocol.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Golang implementation of the Raft consensus protocol
 
 # Upstream license specification: MPL-2.0
@@ -31,6 +31,7 @@ Source1:        glide.yaml
 Source2:        glide.lock
 
 BuildRequires:  golang(github.com/armon/go-metrics)
+BuildRequires:  golang(github.com/hashicorp/go-hclog)
 BuildRequires:  golang(github.com/hashicorp/go-msgpack/codec)
 
 %if %{without bootstrap}
@@ -53,15 +54,6 @@ cp %{S:1} %{S:2} .
 %install
 %gopkginstall
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{without bootstrap}
 %if %{with check}
 %check
@@ -73,6 +65,12 @@ end
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 21:12:14 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.2-1
+- Update to 1.1.2
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

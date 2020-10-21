@@ -1,6 +1,6 @@
 Name:           perl-Catalyst-Engine-Apache
 Version:        1.16
-Release:        25%{?dist}
+Release:        27%{?dist}
 Summary:        Catalyst Apache Engines
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Catalyst-Engine-Apache
@@ -46,6 +46,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.16-26
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,9 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 Name:		allegro5
 Version:	5.2.4
-Release:	4%{?dist}
+Release:	6%{?dist}
 Summary:	A game programming library
 License:	zlib
 URL:		http://liballeg.org/
@@ -143,12 +146,13 @@ addon.
 
 
 %build
-%cmake -DWANT_DOCS=OFF .
-make %{?_smp_mflags}
+%cmake -DWANT_DOCS=OFF
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
+
 mkdir %buildroot/%{_sysconfdir}
 install -p -m 644 allegro5.cfg %buildroot/%{_sysconfdir}/allegro5rc
 # install man pages
@@ -280,6 +284,13 @@ install -p -m 644 docs/man/*.3 $RPM_BUILD_ROOT%{_mandir}/man3
 
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.4-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.4-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

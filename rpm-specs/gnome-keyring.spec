@@ -4,7 +4,7 @@
 
 Name: gnome-keyring
 Version: 3.36.0
-Release: 1%{?dist}
+Release: 4%{?dist}
 Summary: Framework for managing passwords and other secrets
 
 License: GPLv2+ and LGPLv2+
@@ -61,7 +61,7 @@ automatically unlock the "login" keyring when the user logs in.
 # avoid unneeded direct dependencies
 sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0 /g' libtool
 
-make %{?_smp_mflags}
+%make_build
 
 
 %install
@@ -104,6 +104,17 @@ rm $RPM_BUILD_ROOT%{_libdir}/gnome-keyring/devel/*.la
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 3.36.0-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Mar 11 2020 Kalev Lember <klember@redhat.com> - 3.36.0-1
 - Update to 3.36.0
 

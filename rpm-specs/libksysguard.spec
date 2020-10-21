@@ -1,6 +1,6 @@
 Name:    libksysguard
 Summary: Library for managing processes running on the system
-Version: 5.19.2
+Version: 5.20.1
 Release: 1%{?dist}
 
 License: GPLv2+
@@ -34,6 +34,7 @@ BuildRequires:  cmake(KF5NewStuff)
 # kf5 optional
 BuildRequires:  cmake(KF5Plasma)
 # qt5 required
+BuildRequires:  qt5-qttools-devel
 BuildRequires:  cmake(Qt5DBus)
 BuildRequires:  cmake(Qt5Network)
 BuildRequires:  cmake(Qt5Widgets)
@@ -80,17 +81,14 @@ developing applications that use %{name}.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%{cmake_kf5} \
   -DKDE_INSTALL_INCLUDEDIR:PATH=%{_kf5_includedir}
-popd
 
-make %{?_smp_mflags} -C %{_target_platform}
-
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
+
 %find_lang ksysguard_qt5 --with-qt --with-kde --all-name
 
 
@@ -109,6 +107,8 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/ksysguard
 %{_kf5_datadir}/qlogging-categories5/libksysguard.categories
 %{_qt5_plugindir}/kpackage/packagestructure/sensorface_packagestructure.so
+%{_qt5_plugindir}/designer/ksignalplotter5widgets.so
+%{_qt5_plugindir}/designer/ksysguard*.so
 %{_qt5_qmldir}/org/kde/ksysguard/*
 
 %files common
@@ -128,8 +128,28 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_libdir}/cmake/KSysGuard/*
 %{_kf5_libdir}/cmake/KF5SysGuard/*
 
-
 %changelog
+* Tue Oct 20 15:29:05 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.1-1
+- 5.20.1
+
+* Sun Oct 11 19:50:03 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.0-1
+- 5.20.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.90-1
+- 5.19.90
+
+* Tue Sep 01 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.5-1
+- 5.19.5
+
+* Tue Jul 28 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.4-1
+- 5.19.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.19.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.3-1
+- 5.19.3
+
 * Tue Jun 23 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.2-1
 - 5.19.2
 

@@ -1,4 +1,4 @@
-%global maj 19.12
+%global maj 20.06
 
 Name:          rosegarden4
 Version:       %{maj}
@@ -46,15 +46,12 @@ musicians, music students, and small studio or home recording environments.
 chmod 644 src/gui/widgets/BaseTextFloat.*
 
 %build
-mkdir build
-cd build
-%cmake .. -DCMAKE_INSTALL_PREFIX=%{_prefix}
-%make_build
+%cmake
+%cmake_build
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
+
 # Update the screenshot shown in the software center
 #
 # NOTE: It would be *awesome* if this file was pushed upstream.
@@ -83,6 +80,17 @@ desktop-file-install \
 %{_datadir}/metainfo/rosegarden.appdata.xml
 
 %changelog
+* Thu Aug 06 2020 Guido Aulisi <guido.aulisi@gmail.com> - 20.06-1
+- Update to 20.06
+- FTBFS in Fedora rawhide/f33
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.12-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 18 2020 Guido Aulisi <guido.aulisi@gmail.com> - 19.12-1
 - Update to 19.12
 - Some spec cleanup

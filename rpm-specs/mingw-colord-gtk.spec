@@ -2,7 +2,7 @@
 
 Name:           mingw-colord-gtk
 Version:        0.1.26
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        MinGW GTK support library for colord
 
 License:        GPLv2+ and LGPLv2+
@@ -109,6 +109,12 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/man
 %{mingw64_libdir}/libcolord-gtk.a
 
 %changelog
+* Wed Aug 12 13:35:26 GMT 2020 Sandro Mani <manisandro@gmail.com> - 0.1.26-13
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.26-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 0.1.26-11
 - Rebuild (gettext)
 

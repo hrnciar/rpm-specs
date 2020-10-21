@@ -8,7 +8,7 @@
 Name:		perl-Test-CleanNamespaces
 Summary:	Check for uncleaned imports
 Version:	0.24
-Release:	8%{?dist}
+Release:	10%{?dist}
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Test-CleanNamespaces
 Source0:	https://cpan.metacpan.org/modules/by-module/Test/Test-CleanNamespaces-%{version}.tar.gz
@@ -99,6 +99,12 @@ make test AUTOMATED_TESTING=1
 %{_mandir}/man3/Test::CleanNamespaces.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.24-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.24-9
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.24-8
 - Perl 5.32 rebuild
 

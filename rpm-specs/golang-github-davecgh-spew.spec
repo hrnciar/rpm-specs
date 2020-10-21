@@ -23,7 +23,7 @@ provided to ensure proper functionality.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Implements a deep pretty printer for go data structures to aid in debugging
 
 License:        ISC
@@ -52,6 +52,9 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

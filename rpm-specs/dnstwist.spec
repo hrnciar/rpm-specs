@@ -2,7 +2,7 @@ Name: dnstwist
 Summary: Domain name permutation engine
 License: ASL 2.0
 
-Version: 20200521
+Version: 20200916
 Release: 1%{?dist}
 
 URL:     https://github.com/elceef/%{name}/
@@ -14,6 +14,7 @@ Patch0: dnstwist--no-win32-check.patch
 Patch1: dnstwist--modules-always-present.patch
 
 BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 BuildArch: noarch
 
 Requires: GeoIP-GeoLite-data >= 2016.09
@@ -62,6 +63,18 @@ install -m 644 -p docs/%{name}.1 %{buildroot}%{_mandir}/man1/%{name}.1
 
 
 %changelog
+* Fri Sep 18 2020 Artur Frenszek-Iwicki <fedora@svgames.pl> - 20200916-1
+- Update to latest upstream release
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200707-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Artur Iwicki <fedora@svgames.pl> - 20200707-1
+- Update to latest upstream release
+
+* Thu Jun 25 2020 Artur Iwicki <fedora@svgames.pl> - 20200521-2
+- Add an explicit BuildRequires on python3-setuptools
+
 * Fri May 22 2020 Artur Iwicki <fedora@svgames.pl> - 20200521-1
 - Update to latest upstream release
 

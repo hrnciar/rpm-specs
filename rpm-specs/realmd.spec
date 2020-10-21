@@ -1,6 +1,6 @@
 Name:		realmd
 Version:	0.16.3
-Release:	23%{?dist}
+Release:	26%{?dist}
 Summary:	Kerberos realm enrollment service
 License:	LGPLv2+
 URL:		https://freedesktop.org/software/realmd/
@@ -45,6 +45,12 @@ Patch26:	0004-doc-fix-discover-name-only.patch
 Patch27:	0005-doc-add-see-also-to-man-pages.patch
 Patch28:	0006-doc-extend-description-of-config-handling.patch
 Patch29:	0007-service-use-kerberos-method-secrets-and-keytab.patch
+
+# Sync with upstream
+Patch30:	0001-Fix-for-ini-config-test-issue.patch
+Patch31:	0002-Use-startTLS-with-FreeIPA.patch
+Patch32:	0003-service-use-net-ads-join-with-k-for-user-join-as-wel.patch
+Patch33:	0004-service-use-additional-dns-hostnames-with-net-ads-jo.patch
 
 BuildRequires:	gcc
 BuildRequires:	automake
@@ -113,6 +119,16 @@ make install DESTDIR=%{buildroot}
 %doc ChangeLog
 
 %changelog
+* Wed Aug 12 2020 Sumit Bose <sbose@redhat.com> - 0.16.3-25
+- Sync with latest upstream patches
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.3-25
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.3-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 18 2020 Sumit Bose <sbose@redhat.com> - 0.16.3-23
 - Sync with latest upstream patches and fix package URL
   Resolves: rhbz#1800897

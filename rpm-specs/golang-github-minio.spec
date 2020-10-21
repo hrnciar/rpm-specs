@@ -3,9 +3,11 @@
 
 # https://github.com/minio/minio-go
 %global goipath         github.com/minio/minio-go
-Version:                6.0.49
+Version:                7.0.5
 
 %gometa
+
+%global goaltipaths github.com/minio/minio-go/v7
 
 %global common_description %{expand:
 The MinIO Go Client SDK provides simple APIs to access any Amazon S3 compatible
@@ -16,7 +18,7 @@ object storage.}
                         README.md README_zh_CN.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinIO Client SDK for Go
 
 # Upstream license specification: Apache-2.0
@@ -24,8 +26,12 @@ License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
+BuildRequires:  golang(github.com/google/uuid)
+BuildRequires:  golang(github.com/json-iterator/go)
+BuildRequires:  golang(github.com/minio/md5-simd)
 BuildRequires:  golang(github.com/minio/sha256-simd)
 BuildRequires:  golang(github.com/mitchellh/go-homedir)
+BuildRequires:  golang(github.com/rs/xid)
 BuildRequires:  golang(golang.org/x/crypto/argon2)
 BuildRequires:  golang(golang.org/x/net/http/httpguts)
 BuildRequires:  golang(golang.org/x/net/publicsuffix)
@@ -38,8 +44,6 @@ BuildRequires:  golang(gopkg.in/ini.v1)
 
 %prep
 %goprep
-# https://github.com/minio/minio-go/issues/1225
-sed -i 's|parse %%%%%%%%:|parse "%%%%%%%%":|' pkg/credentials/iam_aws_test.go
 
 %install
 %gopkginstall
@@ -53,6 +57,20 @@ sed -i 's|parse %%%%%%%%:|parse "%%%%%%%%":|' pkg/credentials/iam_aws_test.go
 %gopkgfiles
 
 %changelog
+* Thu Sep 10 14:21:27 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 7.0.5-2
+- Add alternate import path
+
+* Sun Aug 30 2020 Steve Miller (copart) <code@rellims.com> - 7.0.5-1
+- Bumped to upstream
+- Resolves: #1863766 and #1813756
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.49-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.49-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 9 2020 Steve Miller (copart) <code@rellims.com> - 6.0.49-1
 - Bumped to upstream 6.0.49
 - Resolves: #1803307

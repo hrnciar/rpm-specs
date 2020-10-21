@@ -1,9 +1,15 @@
 %global		module		Cbc
 
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 Name:		coin-or-%{module}
 Summary:	Coin-or branch and cut
 Version:	2.10.5
-Release:	2%{?dist}
+Release:	4%{?dist}
 License:	EPL-1.0
 URL:		https://github.com/coin-or/%{module}
 Source0:	%{url}/archive/releases/%{version}/%{module}-%{version}.tar.gz
@@ -15,7 +21,7 @@ BuildRequires:	doxygen
 BuildRequires:	gcc-c++
 BuildRequires:	mp-devel
 BuildRequires:	MUMPS-devel
-BuildRequires:	openblas-devel
+BuildRequires:  %{blaslib}-devel
 BuildRequires:	pkgconfig(cgl)
 BuildRequires:	pkgconfig(clp)
 BuildRequires:	pkgconfig(coindatamiplib3)
@@ -87,12 +93,12 @@ sed -i 's/ @CBCLIB_PCLIBS@/\nLibs.private:&/' Cbc/cbc.pc.in
 %configure \
   --with-asl-incdir=%{_includedir}/asl \
   --with-asl-lib=-lasl \
-  --with-blas-incdir=%{_includedir}/openblas \
-  --with-blas-lib=-lopenblas \
+  --with-blas-incdir=%{_includedir}/%{blaslib} \
+  --with-blas-lib=-l%{blaslib} \
   --with-glpk-incdir=%{_includedir} \
   --with-glpk-lib=-lglpk \
-  --with-lapack-incdir=%{_includedir}/openblas \
-  --with-lapack-lib=-lopenblas \
+  --with-lapack-incdir=%{_includedir}/%{blaslib} \
+  --with-lapack-lib=-l%{blaslib} \
   --with-mumps-incdir=%{_includedir}/MUMPS \
   --with-mumps-lib=-ldmumps \
   --with-nauty-incdir=%{_includedir}/nauty \
@@ -144,6 +150,12 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} make test
 %{_docdir}/%{name}/cbc_doxy.tag
 
 %changelog
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 2.10.5-4
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun  2 2020 Jerry James <loganjerry@gmail.com> - 2.10.5-2
 - Rebuild for nauty 2.7.1
 

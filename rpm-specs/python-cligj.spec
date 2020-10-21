@@ -1,33 +1,34 @@
-%global pypi_name cligj
-Name:           python-%{pypi_name}
-Version:        0.5.0
-Release:        7%{?dist}
+%global srcname cligj
+
+Name:           python-%{srcname}
+Version:        0.6.0
+Release:        1%{?dist}
 Summary:        Click params for GeoJSON CLI
-License:        MIT
+
+License:        BSD
 URL:            https://github.com/mapbox/cligj
-Source0:        https://files.pythonhosted.org/packages/source/c/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
-Source1:        https://raw.githubusercontent.com/mapbox/%{pypi_name}/%{version}/LICENSE
+Source0:        %{pypi_source}
+
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
+BuildRequires:  python3dist(setuptools)
+BuildRequires:  (python3dist(click) >= 4 with python3dist(click) < 8)
+BuildRequires:  python3dist(pytest)
 
 %description
 Common arguments and options for GeoJSON processing commands, using Click.
 
 
-%package -n     python3-%{pypi_name}
-Summary:        %{summary} (Python 3)
-%{?python_provide:%python_provide python3-%{pypi_name}}
-Requires:       python3-click >= 3.0
+%package -n     python3-%{srcname}
+Summary:        %{summary}
 
-%description -n python3-%{pypi_name}
+%description -n python3-%{srcname}
 Common arguments and options for GeoJSON processing commands, using Click.
 
 
 %prep
-%setup -q -n %{pypi_name}-%{version}
-cp %{SOURCE1} .
+%autosetup -n %{srcname}-%{version}
 
 # README is executable
 chmod -x README.rst
@@ -41,14 +42,28 @@ chmod -x README.rst
 %py3_install
 
 
-%files -n python3-%{pypi_name}
+%check
+%{pytest}
+
+
+%files -n python3-%{srcname}
 %license LICENSE
 %doc README.rst
-%{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
+%{python3_sitelib}/%{srcname}
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog
+* Tue Oct 20 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.6.0-1
+- Update to latest version (#1889450)
+
+* Thu Oct 15 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.6~b1-1
+- Update to latest beta version
+- Fix License to BSD
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.0-7
 - Rebuilt for Python 3.9
 

@@ -1,10 +1,17 @@
+# Desired jbig2dec header files and library version
+# Apparantly, jbig2dec complains even about newer versions.
+# Please update if needed.
+%global jbig2dec_version 0.19
+
 Name:             zathura-pdf-mupdf
-Version:          0.3.5
-Release:          2%{?dist}
+
+Version:          0.3.6
+Release:          4%{?dist}
 Summary:          PDF support for zathura via mupdf
 License:          zlib
-URL:              http://pwmt.org/projects/zathura/plugins/%{name}
-Source0:          http://pwmt.org/projects/zathura/plugins/download/%{name}-%{version}.tar.xz
+URL:              https://pwmt.org/projects/%{name}/
+Source0:          %{url}/download/%{name}-%{version}.tar.xz
+Patch0:           0001-link-against-gumbo-for-mupdf-1.18.patch
 BuildRequires:    binutils
 BuildRequires:    cairo-devel
 # Needed to validate the desktop file
@@ -12,15 +19,21 @@ BuildRequires:    desktop-file-utils
 BuildRequires:    gcc
 BuildRequires:    girara-devel
 BuildRequires:    glib2-devel
-BuildRequires:    jbig2dec-devel
 # Needed to validate appdata
 BuildRequires:    libappstream-glib
 BuildRequires:    libjpeg-turbo-devel
 BuildRequires:    meson >= 0.43
-BuildRequires:    mupdf-static >= 1.14
+BuildRequires:    mupdf-static >= 1.17
 BuildRequires:    openjpeg2-devel
 BuildRequires:    zathura-devel >= 0.3.9
+BuildRequires:    gumbo-parser-devel
 Requires:         zathura >= 0.3.9
+# Depend on exact versions like mupdf does
+# https://src.fedoraproject.org/rpms/mupdf/c/02d93ee0f097415aa095ffcea4d768e5f43fac91?branch=master
+BuildRequires:  jbig2dec-devel = %{jbig2dec_version}
+BuildRequires:  jbig2dec-libs = %{jbig2dec_version}
+Requires:       jbig2dec-libs = %{jbig2dec_version}
+
 # Old plugins used alternatives
 Conflicts:        zathura-pdf-poppler < 0.2.9
 
@@ -28,7 +41,7 @@ Conflicts:        zathura-pdf-poppler < 0.2.9
 This plugin adds PDF support to zathura using the mupdf rendering engine.
 
 %prep
-%setup -q
+%autosetup
 
 %build
 %meson -Dlink-external=true
@@ -51,6 +64,25 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.metainf
 %{_datadir}/metainfo/org.pwmt.zathura-pdf-mupdf.metainfo.xml
 
 %changelog
+* Fri Oct 09 2020 Michael J Gruber <mjg@fedoraproject.org> - 0.3.6-4
+- link against gumbo
+
+* Thu Oct 08 2020 Michael J Gruber <mjg@fedoraproject.org> - 0.3.6-3
+- rebuild for mupdf 1.18.0
+
+* Fri Sep 18 2020 Michael J Gruber <mjg@fedoraproject.org> - 0.3.6-2
+- rebuild with jbig2dec 0.19
+
+* Mon Sep 07 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.3.6-1
+- Update to new release
+
+* Tue Jul 28 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.3.5-4
+- Rebuild to require exact jgib2dec version
+- #1860987
+
+* Sat May 16 2020 Michael J Gruber <mjg@fedoraproject.org> - 0.3.5-3
+- Adjust to mupdf 1.17
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,18 +1,16 @@
-%global commit ea068b43aba040ece617eb9dcc7ca16bfbabf816
-%global gittag 20.03.20
+%global forgeurl    https://github.com/numixproject/numix-icon-theme
+%global tag         %{version}
 
-%global gitdate %(date -d %(echo %{gittag} | tr -d '.') +%Y%m%d)
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
+%forgemeta
 
 Name:		numix-icon-theme
-Version:	0.1.0
-Release:	24.%{gitdate}.git%{shortcommit}%{?dist}
 Summary:	Numix Project icon theme
-
-Source:		https://github.com/numixproject/numix-icon-theme/archive/%{commit}/%{name}-%{commit}.tar.gz
-
+Version:	20.06.07
+Release:	1%{?dist}
 License:	GPLv3
-URL:		https://github.com/numixproject/numix-icon-theme
+
+URL:		%{forgeurl}
+Source:     %{forgesource}
 
 BuildArch:	noarch
 Requires:	filesystem
@@ -25,7 +23,7 @@ It is heavily inspired by, and based upon parts of the Elementary,
 Humanity and Gnome icon themes.
 
 %prep
-%autosetup -n %{name}-%{commit}
+%forgesetup
 
 %build
 find -type f -executable -exec chmod -x {} \;
@@ -60,6 +58,13 @@ fi
 %{_datadir}/icons/Numix-Light
 
 %changelog
+* Thu Aug 06 2020 Brendan Early <mymindstorm@evermiss.net> - 20.06.07-1
+- Update to release 20.06.07
+- Switch to forge marcos
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-25.20200320.gitea068b4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 21 2020 Brendan Early <mymindstorm@evermiss.net> - 0.1.0-24.20200320.gitea068b4
 - Update to release 20.03.20
 

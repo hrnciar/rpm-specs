@@ -16,7 +16,7 @@ as the Real-Time Messaging protocol over websocket, in a fully managed way.}
 %global godocs          examples CHANGELOG.md TODO.txt README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Slack API in Go
 
 # Upstream license specification: BSD-2-Clause
@@ -51,6 +51,13 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 01 23:37:32 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.6.0-1
 - Update to 0.6.0
 

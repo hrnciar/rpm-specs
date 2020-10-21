@@ -4,7 +4,7 @@
 
 Name:          drupal7-%{module_name}
 Version:       3.2
-Release:       12%{?dist}
+Release:       13%{?dist}
 Summary:       Converts non-Latin text to US-ASCII and sanitizes file names
 
 License:       GPLv2+
@@ -54,6 +54,9 @@ cp -pr * %{buildroot}%{drupal7_modules}/%{module_name}/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 3.2-12
 - Bump build requires drupal7-rpmbuild to ">= 7.70-2" to fix F32+ auto provides
 

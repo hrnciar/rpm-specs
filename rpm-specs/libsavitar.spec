@@ -1,6 +1,6 @@
 Name:           libsavitar
-Version:        4.6.1
-Release:        2%{?dist}
+Version:        4.7.1
+Release:        1%{?dist}
 Summary:        C++ implementation of 3mf loading with SIP Python bindings
 License:        LGPLv3+
 URL:            https://github.com/Ultimaker/libSavitar
@@ -19,6 +19,9 @@ BuildRequires:  pugixml-devel
 BuildRequires:  python3-devel
 BuildRequires:  python3-sip-devel
 BuildRequires:  /usr/bin/sip
+
+# Get Fedora 33++ behavior on anything older
+%undefine __cmake_in_source_build
 
 %description
 Savitar is a C++ implementation of 3mf loading with SIP Python bindings.
@@ -64,11 +67,11 @@ sed -i 's/Python3_SITELIB/Python3_SITEARCH/' cmake/SIPMacros.cmake
 
 %build
 export CXXFLAGS="%{optflags} -Wl,--as-needed"
-%{cmake} -DCMAKE_SKIP_RPATH:BOOL=ON .
-%make_build
+%cmake -DCMAKE_SKIP_RPATH:BOOL=ON .
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %files
 %license LICENSE
@@ -88,10 +91,19 @@ export CXXFLAGS="%{optflags} -Wl,--as-needed"
 %{python3_sitearch}/Savitar.so
 
 %changelog
+* Thu Sep 03 2020 Miro Hrončok <mhroncok@redhat.com> - 4.7.1-1
+- Update to 4.7.1
+
+* Mon Aug 31 2020 Gabriel Féron <feron.gabriel@gmail.com> - 4.7.0-1
+- Update to 4.7.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.6.1-2
 - Rebuilt for Python 3.9
 
-* Tue May 5 2020 Gabriel Féron <feron.gabriel@gmail.com> - 4.6.0-1
+* Tue May 5 2020 Gabriel Féron <feron.gabriel@gmail.com> - 4.6.1-1
 - Update to 4.6.1
 
 * Tue Apr 21 2020 Gabriel Féron <feron.gabriel@gmail.com> - 4.6.0-1

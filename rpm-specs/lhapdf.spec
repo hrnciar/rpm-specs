@@ -5,29 +5,23 @@
 %endif
 
 Name:		lhapdf
-Version:	6.2.1
-Release:	10%{?dist}
+Version:	6.3.0
+Release:	1%{?dist}
 Summary:	Les Houches Accord PDF Interface
 
 License:	GPLv3+
 URL:		https://lhapdf.hepforge.org/
-Source0:	https://www.hepforge.org/archive/lhapdf/LHAPDF-6.2.1.tar.gz
+Source0:	https://www.hepforge.org/archive/lhapdf/LHAPDF-%{version}.tar.gz
 #		Add soname to the shared library, cf. SuSE's spec file.
 Patch0:		%{name}-soname.patch
-#		Make Cython checking script usable with Python3 (backport)
-#		https://phab.hepforge.org/rLHAPDFHGedf5d6cc4adbbcaac712f8a6b094b7f572bb4966
-Patch1:		%{name}-cython-configure.patch
 
 BuildRequires:	gcc-c++
 BuildRequires:	/usr/bin/cython
 %if ! %{py3default}
 BuildRequires:	python2-devel
 %endif
-%if %{?fedora}%{!?fedora:0} || %{?rhel}%{!?rhel:0} >= 8
-BuildRequires:	python3-devel
-%endif
-%if %{?rhel}%{!?rhel:0} == 7
 BuildRequires:	python%{python3_pkgversion}-devel
+%if %{?rhel}%{!?rhel:0} == 7
 BuildRequires:	python%{python3_other_pkgversion}-devel
 %endif
 BuildRequires:	doxygen
@@ -120,16 +114,15 @@ This package provides API documentation and examples for LHAPDF.
 %prep
 %setup -q -n LHAPDF-%{version}
 %patch0 -p1
-%patch1 -p1
 
 # Remove cython generated file
 rm wrappers/python/lhapdf.cpp
 
 # Fix shebangs
 %if %{py3default}
-sed 's!/usr/bin/env python!%{__python3}!' -i bin/lhapdf.in examples/*.py
+sed 's!/usr/bin/env python!%{__python3}!' -i bin/lhapdf examples/*.py
 %else
-sed 's!/usr/bin/env python!%{__python2}!' -i bin/lhapdf.in examples/*.py
+sed 's!/usr/bin/env python!%{__python2}!' -i bin/lhapdf examples/*.py
 %endif
 sed 's!/usr/bin/env bash!/bin/bash!' -i bin/lhapdf-config.in
 
@@ -212,6 +205,13 @@ rm examples/Makefile*
 %license COPYING
 
 %changelog
+* Sun Aug 23 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 6.3.0-1
+- Update to version 6.3.0
+- Drop patch lhapdf-cython-configure.patch (previously backported)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 6.2.1-10
 - Rebuilt for Python 3.9
 
@@ -288,7 +288,7 @@ rm examples/Makefile*
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 5.9.1-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
-* Mon Jul 6 2015 Orion Poplawski <orion@cora.nwra.com> - 5.9.1-12
+* Mon Jul 06 2015 Orion Poplawski <orion@cora.nwra.com> - 5.9.1-12
 - Rebuild for octave 4.0
 
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 5.9.1-11

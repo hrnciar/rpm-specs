@@ -1,10 +1,6 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:       odcs
-Version:    0.2.46
-Release:    2%{?dist}
+Version:    0.2.50
+Release:    1%{?dist}
 Summary:    The On Demand Compose Service
 
 
@@ -55,6 +51,7 @@ BuildRequires:    python3-psutil
 BuildRequires:    python3-flufl-lock
 BuildRequires:    python3-celery
 BuildRequires:    python3-kobo
+BuildRequires:    python3-prometheus_client
 
 %{?systemd_requires}
 
@@ -80,7 +77,11 @@ Requires:    python3-systemd
 Requires:    python3-ldap
 Requires:    python3-defusedxml
 Requires:    python3-flask-script
+Requires:    python3-flask-migrate
+Requires:    python3-fedora-messaging
+Requires:    fedora-messaging
 Requires:    python3-kobo
+Requires:    python3-prometheus_client
 
 Requires:    python3-odcs-common = %{version}-%{release}
 
@@ -213,10 +214,29 @@ nosetests-%{python3_version} -v
 
 
 %changelog
+* Tue Sep 08 2020 Lubomír Sedlář <lsedlar@redhat.com> - 0.2.50-1
+- New upstream release
+
+* Wed Aug 19 2020 Jan Kaluza <jkaluza@redhat.com> - 0.2.49-1
+- new version
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.48-2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 31 2020 Jan Kaluza <jkaluza@redhat.com> - 0.2.48-1
+- new version
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.46-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.46-2
 - Rebuilt for Python 3.9
 
 * Wed Apr 29 2020 Jan Kaluza <jkaluza@redhat.com> - 0.2.46-1
+- new version
+
+* Tue Apr 21 2020 Jan Kaluza <jkaluza@redhat.com> - 0.2.45-1
 - new version
 
 * Mon Apr 20 2020 Jan Kaluza <jkaluza@redhat.com> - 0.2.44-1
@@ -237,8 +257,11 @@ nosetests-%{python3_version} -v
 * Tue Feb 25 2020 Jan Kaluza <jkaluza@redhat.com> - 0.2.38-1
 - new version
 
-* Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.36-3
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+* Thu Oct 24 2019 Jan Kaluza <jkaluza@redhat.com> - 0.2.36-4
+- add fedora-messaging requirement.
+
+* Wed Oct 23 2019 Jan Kaluza <jkaluza@redhat.com> - 0.2.36-3
+- backport patch to support fedora-messaging.
 
 * Tue Oct 22 2019 Jan Kaluza <jkaluza@redhat.com> - 0.2.36-2
 - Add missing requires, backport patch to disable SNI when not needed.

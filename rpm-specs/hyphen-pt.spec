@@ -2,7 +2,7 @@ Name: hyphen-pt
 Summary: Portuguese hyphenation rules
 %global upstreamid 20021021
 Version: 0.%{upstreamid}
-Release: 21%{?dist}
+Release: 22%{?dist}
 Source: http://download.services.openoffice.org/contrib/dictionaries/hyph_pt_PT.zip
 URL: http://wiki.services.openoffice.org/wiki/Dictionaries
 License: GPL+
@@ -35,6 +35,9 @@ done
 %{_datadir}/hyphen/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20021021-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20021021-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

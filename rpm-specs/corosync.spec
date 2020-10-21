@@ -17,8 +17,8 @@
 
 Name: corosync
 Summary: The Corosync Cluster Engine and Application Programming Interfaces
-Version: 3.0.4
-Release: 3%{?gitver}%{?dist}
+Version: 3.1.0
+Release: 1%{?gitver}%{?dist}
 License: BSD
 URL: http://corosync.github.io/corosync/
 Source0: http://build.clusterlabs.org/corosync/releases/%{name}-%{version}%{?gittarver}.tar.gz
@@ -27,14 +27,16 @@ Source0: http://build.clusterlabs.org/corosync/releases/%{name}-%{version}%{?git
 # The automatic dependency overridden in favor of explicit version lock
 Requires: corosynclib%{?_isa} = %{version}-%{release}
 
+# Support crypto reload
+Requires: libknet1 >= 1.18
 # NSS crypto plugin should be always installed
-Requires: libknet1-crypto-nss-plugin
+Requires: libknet1-crypto-nss-plugin >= 1.18
 
 # Build bits
 BuildRequires: gcc
 BuildRequires: groff
 BuildRequires: libqb-devel
-BuildRequires: libknet1-devel
+BuildRequires: libknet1-devel >= 1.18
 BuildRequires: zlib-devel
 %if %{with runautogen}
 BuildRequires: autoconf automake libtool
@@ -106,10 +108,10 @@ BuildRequires: readline-devel
 	--with-systemddir=%{_unitdir} \
 	--docdir=%{_docdir}
 
-make %{_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 
 %if %{with dbus}
 mkdir -p -m 0700 %{buildroot}/%{_sysconfdir}/dbus-1/system.d
@@ -285,6 +287,19 @@ network splits)
 %endif
 
 %changelog
+* Tue Oct 20 2020 Jan Friesse <jfriesse@redhat.com> - 3.1.0-1
+- New upstream release
+
+* Thu Aug 27 2020 Josef Řídký <jridky@redhat.com> - 3.0.4-6
+- Rebuilt for new net-snmp release
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 3.0.4-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed May 13 2020 Jan Friesse <jfriesse@redhat.com> - 3.0.4-3
 - Fix typo in the changelog
 

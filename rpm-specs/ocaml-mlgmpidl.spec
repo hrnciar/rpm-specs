@@ -2,7 +2,7 @@
 
 Name:           ocaml-%{srcname}
 Version:        1.2.12
-Release:        7%{?dist}
+Release:        10%{?dist}
 Summary:        OCaml interface to GMP and MPFR libraries
 # The license includes a linking exception
 License:        LGPLv2 with exceptions
@@ -188,6 +188,15 @@ cp -p opam/opam $RPM_BUILD_ROOT%{my_ocaml_lib_dir}
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.2.12-10
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.2.12-9
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.12-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 1.2.12-7
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

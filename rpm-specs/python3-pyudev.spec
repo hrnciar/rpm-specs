@@ -1,7 +1,7 @@
 %global srcname pyudev
 Name:             python3-%{srcname}
 Version:          0.20.0
-Release:          9%{?dist}
+Release:          11%{?dist}
 Summary:          A libudev binding
 
 License:          LGPLv2+
@@ -60,6 +60,13 @@ rm -rf pyudev.egg-info
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.0-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

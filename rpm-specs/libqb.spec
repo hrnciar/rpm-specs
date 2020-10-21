@@ -1,13 +1,15 @@
 %bcond_without check
 
 Name:           libqb
-Version:        2.0.0
-Release:        1%{?dist}
+Version:        2.0.1
+Release:        2%{?dist}
 Summary:        Library providing high performance logging, tracing, ipc, and poll
 
 License:        LGPLv2+
 URL:            https://github.com/ClusterLabs/libqb
 Source0:        https://github.com/ClusterLabs/libqb/releases/download/v%{version}/%{name}-%{version}.tar.xz
+
+Patch1:         libqb-2.0.1-remove-deprecated-check-macros.patch
 
 BuildRequires:  autoconf automake libtool
 BuildRequires:  check-devel
@@ -83,6 +85,16 @@ This package contains a program to create nicely-formatted man pages from Doxyge
 
 
 %changelog
+* Wed Jul 29 2020 Christine Caulfield <ccaulfie@redhat.com> 2.0.1-2
+- Replace deprecated check macros fail_if() and fail_unless() with ck_assert()
+  see check BZ: bz1850198
+
+* Wed Jul 29 2020 Christine Caulfield <ccaulfie@redhat.com> 2.0.1-1
+- Rebase to version 2.0.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 13 2020 Christine Caulfield <ccaulfie@redhat.com> 2.0.0-1
 - Rebase to version 2.0.0
 

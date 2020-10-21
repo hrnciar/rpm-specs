@@ -1,7 +1,9 @@
+%undefine __cmake_in_source_build
+
 %global unstable 0
 
 Name:           kpmcore
-Version:        4.1.0
+Version:        4.2.0
 Release:        1%{?dist}
 Summary:        Library for managing partitions by KDE programs
 License:        GPLv3+
@@ -19,16 +21,15 @@ BuildRequires:  kf5-kauth-devel >= 5.56
 BuildRequires:  kf5-kcoreaddons-devel
 BuildRequires:  kf5-ki18n-devel
 BuildRequires:  kf5-kwidgetsaddons-devel
-BuildRequires:  qt5-qtbase-devel >= 5.10
+BuildRequires:  qt5-qtbase-devel >= 5.14
 BuildRequires:  kf5-rpm-macros
 
 BuildRequires:  pkgconfig
 BuildRequires:  pkgconfig(blkid) >= 2.33.2
-BuildRequires:  pkgconfig(qca2-qt5)
+BuildRequires:  pkgconfig(polkit-qt5-1)
 
 Requires:       e2fsprogs
 Requires:       kf5-filesystem
-Requires:       qca-qt5-ossl
 
 Recommends:     f2fs-tools
 Recommends:     fatresize
@@ -58,27 +59,24 @@ developing applications that use %{name}
 %autosetup -p1
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast -C %{_target_platform} DESTDIR=%{buildroot}
+%cmake_install
 %find_lang %{name} --with-kde
 
 
 %files -f %{name}.lang
-%license COPYING.md
-%{_kf5_libdir}/libkpmcore.so.9
+%license LICENSES/*
+%doc README.md
+%{_kf5_libdir}/libkpmcore.so.10
 %{_kf5_libdir}/libkpmcore.so.%{version}
 %{_kf5_qtplugindir}/libpm*.so
-%{_kf5_libexecdir}/kauth/kpmcore_externalcommand
+%{_libexecdir}/kpmcore_externalcommand
 %{_datadir}/dbus-1/system.d/org.kde.kpmcore.*.conf
-%{_datadir}/dbus-1/system-services/org.kde.kpmcore.externalcommand.service
+%{_datadir}/dbus-1/system-services/org.kde.kpmcore.*.service
 %{_datadir}/polkit-1/actions/org.kde.kpmcore.externalcommand.policy
 
 %files devel
@@ -87,8 +85,13 @@ make install/fast -C %{_target_platform} DESTDIR=%{buildroot}
 %{_kf5_libdir}/libkpmcore.so
 
 
-
 %changelog
+* Sat Oct 17 2020 Mattia Verga <mattia.verga@protonmail.com> - 4.2.0-1
+- Update to stable release 4.2.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Mattia Verga <mattia.verga@protonmail.com> - 4.1.0-1
 - Update to stable release 4.1.0
 

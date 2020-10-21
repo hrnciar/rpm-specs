@@ -1,7 +1,7 @@
 Name:		globus-gram-job-manager
 %global _name %(tr - _ <<< %{name})
 Version:	15.4
-Release:	4%{?dist}
+Release:	6%{?dist}
 Summary:	Grid Community Toolkit - GRAM Jobmanager
 
 License:	ASL 2.0
@@ -152,6 +152,13 @@ GLOBUS_HOSTNAME=localhost make %{?_smp_mflags} check VERBOSE=1
 %{_libdir}/libglobus_seg_job_manager.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 15.4-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 15.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 10 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 15.4-4
 - Add additional perl build dependencies due to perl package split
 

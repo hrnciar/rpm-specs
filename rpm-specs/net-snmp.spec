@@ -5,12 +5,12 @@
 %global multilib_arches %{ix86} ia64 ppc ppc64 s390 s390x x86_64 sparc sparcv9 sparc64 aarch64
 
 # actual soname version
-%global soname  35
+%global soname  40
 
 Summary:    A collection of SNMP protocol tools and libraries
 Name:       net-snmp
-Version:    5.8
-Release:    21%{?dist}
+Version:    5.9
+Release:    2%{?dist}
 Epoch:      1
 
 License:    BSD
@@ -27,40 +27,40 @@ Source8:    snmpd.service
 Source9:    snmptrapd.service
 Source10:   IETF-MIB-LICENSE.txt
 
-Patch1:     net-snmp-5.7.2-pie.patch
-Patch2:     net-snmp-5.8-dir-fix.patch
-Patch3:     net-snmp-5.8-multilib.patch
-Patch4:     net-snmp-5.8-test-debug.patch
-Patch5:     net-snmp-5.7.2-autoreconf.patch
-Patch6:     net-snmp-5.8-agentx-disconnect-crash.patch
-Patch7:     net-snmp-5.7.2-cert-path.patch
-Patch8:     net-snmp-5.8-cflags.patch
-Patch9:     net-snmp-5.8-Remove-U64-typedef.patch
-Patch10:    net-snmp-5.8-libnetsnmptrapd-against-MYSQL_LIBS.patch
-Patch11:    net-snmp-5.7.3-iterator-fix.patch
-Patch12:    net-snmp-5.8-autofs-skip.patch
-Patch13:    net-snmp-5.8-key-leak-backport.patch
-Patch14:    net-snmp-5.8-python-ld-flags.patch
-Patch15:    net-snmp-5.8-ipv6-clientaddr.patch
-Patch16:    net-snmp-5.8-licensing.patch
-Patch17:    net-snmp-5.8-agent-of-death.patch
-Patch18:    net-snmp-5.8-trapsink.patch
-Patch19:    net-snmp-5.8-v3-forward.patch
-Patch20:    net-snmp-5.8-usage-exit.patch
-Patch21:    net-snmp-5.8-coverity.patch
-Patch22:    net-snmp-5.8-flood-messages.patch
-Patch23:    net-snmp-5.8-sec-counter.patch
+Patch1:     net-snmp-5.9-pie.patch
+Patch2:     net-snmp-5.9-dir-fix.patch
+Patch3:     net-snmp-5.9-multilib.patch
+Patch4:     net-snmp-5.9-test-debug.patch
+Patch5:     net-snmp-5.7.2-cert-path.patch
+Patch6:     net-snmp-5.9-cflags.patch
+Patch7:     net-snmp-5.8-Remove-U64-typedef.patch
+Patch8:     net-snmp-5.9-libnetsnmptrapd-against-MYSQL_LIBS.patch
+Patch9:     net-snmp-5.7.3-iterator-fix.patch
+Patch10:    net-snmp-5.9-autofs-skip.patch
+Patch11:    net-snmp-5.9-python-ld-flags.patch
+Patch12:    net-snmp-5.9-usage-exit.patch
+Patch13:    net-snmp-5.9-coverity.patch
+Patch14:    net-snmp-5.9-proxy-getnext.patch
+Patch15:    net-snmp-5.9-dskTable-dynamic.patch
+Patch16:    net-snmp-5.8-expand-SNMPCONFPATH.patch
+Patch17:    net-snmp-5.8-duplicate-ipAddress.patch
+Patch18:    net-snmp-5.9-memory-reporting.patch
+Patch19:    net-snmp-5.8-man-page.patch
+Patch20:    net-snmp-5.8-ipAddress-faster-load.patch
+Patch21:    net-snmp-5.8-rpm-memory-leak.patch
+Patch22:    net-snmp-5.9-aes-config.patch
+Patch23:    net-snmp-5.9-available-memory.patch
 
 # Modern RPM API means at least EL6
 Patch101:   net-snmp-5.8-modern-rpm-api.patch
 
 #disable this patch due compatibility issues
-Patch102:   net-snmp-5.8-python3.patch
+Patch102:   net-snmp-5.9-python3.patch
 
 Requires:        %{name}-libs%{?_isa} = %{epoch}:%{version}-%{release}
 Requires:        %{name}-agent-libs%{?_isa} = %{epoch}:%{version}-%{release}
 # This is actually needed for the %%triggerun script but Requires(triggerun)
-# is not valid.  We can use %%post because this particular %triggerun script
+# is not valid.  We can use %%post because this particular %%triggerun script
 # should fire just after this package is installed.
 %{?systemd_requires}
 BuildRequires:   systemd
@@ -179,21 +179,6 @@ Requires:  %{name}-libs%{?_isa} = %{epoch}:%{version}-%{release}
 The net-snmp-agent-libs package contains the runtime agent libraries for shared
 binaries and applications.
 
-#%package -n python2-net-snmp
-#%%{?python_provide:%%python_provide python2-net-snmp}
-#%%{?python_obsolete:%%python_obsolete python3-net-snmp}
-# Remove before F30
-#Provides:  %%{name}-python = %%{version}-%%{release}
-#Provides:  %%{name}-python%%{?_isa} = %%{version}-%%{release}
-#Obsoletes: %%{name}-python < %%{version}-%%{release}
-#Summary:   The Python 'netsnmp' module for the Net-SNMP
-#Requires:  %%{name}-libs%%{?_isa} = %%{epoch}:%%{version}-%%{release}
-#
-#%%description -n python2-net-snmp
-#The 'netsnmp' module provides a full featured, tri-lingual SNMP (SNMPv3,
-#SNMPv2c, SNMPv1) client API. The 'netsnmp' module internals rely on the
-#Net-SNMP toolkit library.
-
 %package -n python3-net-snmp
 %{?python_provide:%python_provide python3-net-snmp}
 # Remove before F30
@@ -219,26 +204,25 @@ cp %{SOURCE10} .
 %patch2 -p1 -b .dir-fix
 %patch3 -p1 -b .multilib
 %patch4 -p1
-%patch5 -p1 -b .autoreconf
-%patch6 -p1 -b .agentx-disconnect-crash
-%patch7 -p1 -b .cert-path
-%patch8 -p1 -b .cflags
-%patch9 -p1 -b .u64-remove
-%patch10 -p1 -b .perlfix
-%patch11 -p1 -b .iterator-fix
-%patch12 -p1 -b .autofs-skip
-%patch13 -p1 -b .leak-backport
-%patch14 -p1 -b .python-ld-flags
-%patch15 -p1 -b .ipv6-clientaddr
-%patch16 -p1
-%patch17 -p1 -b .agent-of-death
-%patch18 -p1 -b .trapsink
-%patch19 -p1 -b .v3-forward
-%patch20 -p1 -b .usage-fix
-%patch21 -p1 -b .coverity
-%patch22 -p1 -b .flood-messages
-%patch23 -p1 -b .sec-counter
-
+%patch5 -p1 -b .cert-path
+%patch6 -p1 -b .cflags
+%patch7 -p1 -b .u64-remove
+%patch8 -p1 -b .perlfix
+%patch9 -p1 -b .iterator-fix
+%patch10 -p1 -b .autofs-skip
+%patch11 -p1 -b .python-ld-flags
+%patch12 -p1 -b .usage-fix
+%patch13 -p1 -b .coverity
+%patch14 -p1 -b .proxy-getnext
+%patch15 -p1 -b .dskTable-dynamic
+%patch16 -p1 -b .expand-SNMPCONFPATH
+%patch17 -p1 -b .duplicate-ipAddress
+%patch18 -p1 -b .memory-reporting
+%patch19 -p1 -b .man-page
+%patch20 -p1 -b .ipAddress-faster-load
+%patch21 -p1 -b .rpm-memory-leak
+%patch22 -p1 -b .aes-config
+%patch23 -p1 -b .available-memory
 
 %patch101 -p1 -b .modern-rpm-api
 %patch102 -p1
@@ -267,6 +251,7 @@ MIBS="$MIBS ucd-snmp/lmsensorsMib"
 %configure \
     --disable-static --enable-shared \
     --enable-as-needed \
+    --enable-blumenthal-aes \
     --enable-embedded-perl \
     --enable-ipv6 \
     --enable-local-smux \
@@ -274,7 +259,7 @@ MIBS="$MIBS ucd-snmp/lmsensorsMib"
     --enable-ucd-snmp-compatibility \
     --sysconfdir=%{_sysconfdir} \
     --with-cflags="$RPM_OPT_FLAGS -fPIE" \
-    --with-ldflags="$RPM_LD_FLAGS" \
+    --with-ldflags="$RPM_LD_FLAGS -lm" \
     --with-logfile="/var/log/snmpd.log" \
     --with-mib-modules="$MIBS" \
     --with-mysql \
@@ -285,9 +270,10 @@ MIBS="$MIBS ucd-snmp/lmsensorsMib"
     --with-security-modules=tsm  \
     --with-sys-location="Unknown" \
     --with-systemd \
-    --with-temp-file-pattern=/var/run/net-snmp/snmp-tmp-XXXXXX \
+    --with-temp-file-pattern=/run/net-snmp/snmp-tmp-XXXXXX \
     --with-transports="DTLSUDP TLSTCP" \
-    --with-sys-contact="root@localhost" <<EOF
+    --with-sys-contact="root@localhost" \
+    --without-pcre <<EOF
 EOF
 
 # store original libtool file, we will need it later
@@ -382,10 +368,6 @@ done
 # remove executable bit from documentation samples
 chmod 644 local/passtest local/ipf-mod.pl
 
-# dirty hack for #603243, until it's fixed properly upstream
-install -m 755 -d %{buildroot}/usr/include/net-snmp/agent/util_funcs
-install -m 644  agent/mibgroup/util_funcs/*.h %{buildroot}/usr/include/net-snmp/agent/util_funcs
-
 # systemd stuff
 install -m 755 -d %{buildroot}/%{_tmpfilesdir}
 install -m 644 %SOURCE7 %{buildroot}/%{_tmpfilesdir}/net-snmp.conf
@@ -457,7 +439,8 @@ LD_LIBRARY_PATH=%{buildroot}/%{_libdir} make test
 
 %files devel
 %{_libdir}/lib*.so
-/usr/include/*
+%{_libdir}/pkgconfig/*
+%{_includedir}/*
 %attr(0644,root,root) %{_mandir}/man3/*.3.*
 %attr(0755,root,root) %{_bindir}/net-snmp-config*
 %attr(0644,root,root) %{_mandir}/man1/net-snmp-config*.1.*
@@ -507,6 +490,36 @@ LD_LIBRARY_PATH=%{buildroot}/%{_libdir} make test
 %{_libdir}/libnetsnmptrapd*.so.%{soname}*
 
 %changelog
+* Tue Sep 01 2020 Josef Ridky <jridky@redhat.com> - 1:5.9-2
+- Disable pcre binding
+- Add support for available memory report
+
+* Mon Aug 17 2020 Josef Ridky <jridky@redhat.com> - 1:5.9-1
+- New upstream release 5.9
+
+* Tue Aug 04 2020 Josef Ridky <jridky@redhat.com> - 1:5.8-25
+- link math library to fix FTBFS for hplip (#1863855)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.8-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Josef Ridky <jridky@redhat.com> - 1:5.8-23
+- change /var/run/net-snmp to /run/net-snmp (#1737631)
+
+* Tue Jul 07 2020 Josef Ridky <jridky@redhat.com> - 1:5.8-22
+- proxied OIDs unspecified in proxy statement in snmpd.conf
+- UCD-SNMP-MIB::dskTable doesn't update dynamically
+- expand SNMPCONFPATH variable
+- log meningful message on duplicate IP address
+- memory reporting adjustment
+- fix typos in man page
+- speedup ipAddressTable loading
+- fix memory leak when shut down librpm
+- services starts after network-online.target
+- add missing part of memory leak patch
+- add support for AES192 and AES256
+- fix net-snmp-config wrapper script (#1815984)
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:5.8-21
 - Perl 5.32 rebuild
 

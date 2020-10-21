@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          0.3.6
-Release:          3%{?dist}
+Release:          4%{?dist}
 Summary:          Wes Anderson Palette Generator
 
 License:          MIT
@@ -59,6 +59,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.3.6-3
 - rebuild for R 4
 

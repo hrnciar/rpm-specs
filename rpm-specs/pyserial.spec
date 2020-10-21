@@ -1,7 +1,7 @@
 Summary: Python serial port access library
 Name: pyserial
 Version: 3.4
-Release: 8%{?dist}
+Release: 9%{?dist}
 Source0: %pypi_source
 License: Python
 URL: http://pypi.python.org/pypi/pyserial
@@ -48,6 +48,9 @@ ln -sf %{_bindir}/miniterm-3.py %{buildroot}/%{_bindir}/miniterm.py
 %{_bindir}/miniterm-%{python3_version}.py
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 3.4-8
 - Rebuilt for Python 3.9
 

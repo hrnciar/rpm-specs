@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}0.8
 Version:        0.8.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Traits for cryptographic hash functions
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -106,5 +106,12 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 24 11:21:37 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.8.1-1
 - Initial package

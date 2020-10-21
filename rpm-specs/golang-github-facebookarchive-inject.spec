@@ -27,7 +27,7 @@ do as opposed to a code-gen system with respect to private fields.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.6%{?dist}
+Release:        0.7%{?dist}
 Summary:        Reflect based injector
 
 License:        MIT
@@ -55,6 +55,9 @@ BuildRequires:  golang(github.com/facebookgo/structtag)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

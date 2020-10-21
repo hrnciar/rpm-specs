@@ -2,12 +2,12 @@
 %bcond_with bootstrap
 
 %global packname rlang
-%global packver  0.4.6
+%global packver  0.4.8
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          0.4.6
-Release:          3%{?dist}
+Version:          0.4.8
+Release:          1%{?dist}
 Summary:          Functions for Base Types and Core R and 'Tidyverse' Features
 
 License:          GPLv3
@@ -17,22 +17,23 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 # Here's the R view of the dependencies world:
 # Depends:
 # Imports:
-# Suggests:  R-cli, R-covr, R-crayon, R-glue, R-magrittr, R-methods, R-pillar, R-rmarkdown, R-testthat >= 2.3.0, R-vctrs >= 0.2.3
+# Suggests:  R-cli, R-covr, R-crayon, R-glue, R-magrittr, R-methods, R-pillar, R-rmarkdown, R-testthat >= 2.3.0, R-vctrs >= 0.2.3, R-withr
 # LinkingTo:
 # Enhances:
 
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
+%if %{without bootstrap}
 BuildRequires:    R-cli
 BuildRequires:    R-crayon
 BuildRequires:    R-glue
 BuildRequires:    R-magrittr
 BuildRequires:    R-methods
-%if %{without bootstrap}
 BuildRequires:    R-pillar
 BuildRequires:    R-rmarkdown
 BuildRequires:    R-testthat >= 2.3.0
 BuildRequires:    R-vctrs >= 0.2.3
+BuildRequires:    R-withr
 %endif
 
 %description
@@ -61,8 +62,6 @@ rm -f %{buildroot}%{rlibdir}/R.css
 export LANG=C.UTF-8
 %if %{without bootstrap}
 %{_bindir}/R CMD check %{packname}
-%else
-_R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --no-tests
 %endif
 
 
@@ -82,6 +81,22 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --no-tests
 
 
 %changelog
+* Sat Oct 10 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.4.8-1
+- Update to latest version (#1886418)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.7-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.4.7-1
+- Update to latest version
+
+* Fri Jul  3 2020 José Matos <jamatos@fedoraproject.org> - 0.4.6-4
+- skip check on bootstrap (testthat is required for tests)
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.4.6-3
 - bootstrap off
 

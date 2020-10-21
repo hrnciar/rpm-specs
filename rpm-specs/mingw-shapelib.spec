@@ -5,7 +5,7 @@
 
 Name:          mingw-%{pkgname}
 Version:       1.5.0
-Release:       4%{?pre:.%pre}%{?dist}
+Release:       5%{?pre:.%pre}%{?dist}
 Summary:       MinGW Windows %{pkgname} library
 
 # The core library is dual-licensed LGPLv2 or MIT.
@@ -125,6 +125,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{mingw64_bindir}/*.exe
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

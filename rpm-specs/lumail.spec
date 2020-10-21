@@ -1,6 +1,6 @@
 Name:           lumail
 Version:        3.1
-Release:        5%{?dist}
+Release:        8%{?dist}
 Summary:        Modern console-based e-mail client
 
 License:        GPLv2+
@@ -16,6 +16,7 @@ Patch3:         https://github.com/lumail/lumail/commit/ddd4078.patch#/0002-glob
 Patch4:         https://github.com/lumail/lumail/commit/1edffc9.patch#/0003-imap_proxy-spin-for-10-seconds-for-the-IMAP-proxy-so.patch
 Patch5:         https://github.com/lumail/lumail/commit/05079ed.patch#/0004-perl-imap-proxy-avoid-calling-a-noop-on-an-empty-han.patch
 Patch6:         https://github.com/lumail/lumail/commit/9650e8b.patch#/0005-perl-imap-proxy-croak-early-on-bad-params.patch
+Patch7:         lumail-3.1-lua54.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  make
@@ -40,6 +41,7 @@ scripting, implemented in the Lua programming language.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 
 %build
@@ -61,6 +63,16 @@ make %{?_smp_mflags} CPPFLAGS="%{optflags}" LVER=lua
 
 
 %changelog
+* Mon Sep 28 2020 Than Ngo <than@redhat.com> - 3.1-8
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

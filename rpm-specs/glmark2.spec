@@ -1,16 +1,20 @@
-%global commit0 0003eff782938daf852a70f6ca4cdf8fafd02854
+%global commit0 ed9ac857059f3b29fb4dd5ca3a2ec1256bdb0aae
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
-%global commitdate0 20180717
+%global commitdate0 20200428
 
 Name:		glmark2
-Version:	2017.07
-Release:	4.%{commitdate0}git%{shortcommit0}%{?dist}
+Version:	2020.04
+Release:	1%{?dist}
 Summary:	Benchmark for OpenGL 2.0
 
 
 License:	GPLv3
 URL:		https://github.com/glmark2/glmark2
-Source0:	%{url}/archive/%{commit0}/%{name}-%{shortcommit0}.tar.gz
+Source0:	%{url}/archive/%{version}/%{name}-%{version}.tar.gz
+# fix build with python3
+Patch0:		%{url}/commit/06e4728ba7312efa0fd595e30745e60ce88f1a4f.patch
+# fix build with waf2
+Patch1:		%{name}-%{version}-waf2.patch
 
 
 ## The bellow sources are carried by Fedora package maintaners
@@ -94,7 +98,7 @@ BuildRequires:	pkgconfig(libdrm)
 BuildRequires:	pkgconfig(libudev)
 BuildRequires:	pkgconfig(wayland-client)
 BuildRequires:	pkgconfig(wayland-egl)
-BuildRequires:	python2-devel
+BuildRequires:	pkgconfig(wayland-protocols)
 BuildRequires:	desktop-file-utils
 BuildRequires:	appdata-tools
 BuildRequires:	waf
@@ -127,7 +131,7 @@ Common graphical assets for Glmark2 benchmark suite
 
 
 %prep
-%autosetup -p1 -n %{name}-%{commit0}
+%autosetup -p1
 
 # Remove bundled libraries!
 rm -r src/libjpeg-turbo src/libpng
@@ -226,6 +230,19 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 
 
 %changelog
+* Mon Aug 31 2020 Dominik Mierzejewski <rpm@greysector.net> - 2020.04-1
+- update to 2020.04 release
+- backport upstream fix for building with python3
+- fix building with waf 2.0
+- add missing build dependency
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2017.07-6.20180717git0003eff
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2017.07-5.20180717git0003eff
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2017.07-4.20180717git0003eff
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

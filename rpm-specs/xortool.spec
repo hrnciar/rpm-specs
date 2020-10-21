@@ -2,8 +2,8 @@
 
 Name:           %{pypi_name}
 Version:        0.99
-Release:        2%{?dist}
-Summary:        A tool for XOR cipher analysis
+Release:        4%{?dist}
+Summary:        Tool for XOR cipher analysis
 
 License:        MIT
 URL:            https://github.com/hellman/xortool
@@ -11,6 +11,7 @@ Source0:        https://github.com/hellman/xortool/archive/v%{version}/%{pypi_na
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-wheel
 
 %description
@@ -36,6 +37,12 @@ sed -i -e '/^#!\//, 1d' xortool/*.py
 %{python3_sitelib}/%{pypi_name}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.99-3
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.99-2
 - Rebuilt for Python 3.9
 

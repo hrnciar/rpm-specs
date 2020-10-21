@@ -7,30 +7,30 @@
 %endif
 
 
-Name:		python-%{pypi_name}
-Version:	0.7.99.post20
-Release:	16%{?dist}
-Summary:	Interface to the %{pypi_name} library
+Name:     python-%{pypi_name}
+Version:  0.9.0.post2
+Release:  2%{?dist}
+Summary:  Interface to the %{pypi_name} library
 
-License:	GPLv3+ or BSD or Public Domain
-URL:		https://pypi.python.org/pypi/%{pypi_name}
-Source0:	https://files.pythonhosted.org/packages/source/h/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+License:  GPLv3+ or BSD or Public Domain
+URL:      https://pypi.python.org/pypi/%{pypi_name}
+Source0:  https://files.pythonhosted.org/packages/source/h/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 
 BuildRequires:  gcc
-BuildRequires:	hidapi-devel
-BuildRequires:	libusb-devel
-BuildRequires:	libudev-devel
+BuildRequires:  hidapi-devel
+BuildRequires:  libusb-devel
+BuildRequires:  libudev-devel
 
 %description
 %{summary}.
 
 
 %package -n python3-%{pypi_name}
-Summary:	%{summary}
+Summary:  %{summary}
 
-BuildRequires:	python3-Cython
-BuildRequires:	python3-devel
-BuildRequires:	python3-setuptools
+BuildRequires:  python3-Cython
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
@@ -41,8 +41,8 @@ BuildRequires:	python3-setuptools
 %prep
 %autosetup -n %{pypi_name}-%{version}
 
-# Remove pre-built and bundled crap.
-%{__rm} -fr %{pypi_name} %{pypi_name}.egg-info
+# Remove pre-built and bundled hidapi.
+rm -rf hidapi %{pypi_name}.egg-info
 
 
 %build
@@ -65,8 +65,13 @@ export PYTHONPATH="%{buildroot}%{python3_sitearch}"
 %{python3_sitearch}/hidraw.%{py3_so_suffix}.so
 %{python3_sitearch}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
-
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0.post2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jonny Heggheim <hegjon@gmail.com> - 0.9.0.post2-1
+- Updated to 0.9.0.post2
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.99.post20-16
 - Rebuilt for Python 3.9
 

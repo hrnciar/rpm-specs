@@ -2,7 +2,7 @@
 
 Name:           powerline
 Version:        2.8
-Release:        2%{?dist}
+Release:        3%{?dist}
 
 Summary:        The ultimate status-line/prompt utility
 License:        MIT
@@ -331,6 +331,9 @@ install -m 0644 powerline/dist/systemd/powerline-daemon.service %{buildroot}%{_u
 %{_datadir}/tmux/powerline*.conf
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.8-2
 - Rebuilt for Python 3.9
 

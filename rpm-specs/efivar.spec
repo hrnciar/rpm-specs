@@ -1,8 +1,8 @@
 Name:           efivar
 Version:        37
-Release:        8%{?dist}
+Release:        13%{?dist}
 Summary:        Tools to manage UEFI variables
-License:        LGPLv2.1
+License:        LGPL-2.1
 URL:            https://github.com/rhboot/efivar
 Requires:       %{name}-libs = %{version}-%{release}
 ExclusiveArch:  %{efi}
@@ -48,7 +48,11 @@ git config --unset user.email
 git config --unset user.name
 
 %build
-make LIBDIR=%{_libdir} BINDIR=%{_bindir} CFLAGS="$RPM_OPT_FLAGS -flto" LDFLAGS="$RPM_LD_FLAGS -flto"
+# This package implements symbol versioning with toplevel ASM statments which is
+# incompatible with LTO.  Disable LTO
+%define _lto_cflags %{nil}
+
+make LIBDIR=%{_libdir} BINDIR=%{_bindir} CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="$RPM_LD_FLAGS"
 
 %install
 %makeinstall
@@ -79,6 +83,22 @@ make abicheck
 %{_libdir}/*.so.*
 
 %changelog
+* Thu Aug 06 2020 Jeff Law <law@redhat.com>
+- Remove explicit LTO bits from flags
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 37-11
+- Disable LTO
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Javier Martinez Canillas <javierm@redhat.com> - 37-9
+- Change License field to LGPL-2.1 to prevent rpminspect test to fail
+
 * Wed Apr 22 2020 Hans de Goede <hdegoede@redhat.com> - 37-8
 - Add a patch to fix eMMC sysfs path parsing
   Resolves: rhbz#1826864

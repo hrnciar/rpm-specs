@@ -1,7 +1,7 @@
 Name:           libqtxdg
 Summary:        QtXdg, a Qt5 implementation of XDG standards
 Version:        3.5.0
-Release:        1%{?dist}
+Release:        5%{?dist}
 License:        LGPLv2+
 URL:            http://lxqt.org
 Source0:        https://github.com/lxqt/libqtxdg/archive/%{version}/%{name}-%{version}.tar.gz
@@ -46,17 +46,15 @@ Files used for developing and building software that uses qtxdg.
 scl enable devtoolset-7 - <<\EOF
 %endif
 
-mkdir %{_target_platform}-qt5
-pushd %{_target_platform}-qt5
-    %{?fedora:%{cmake}}%{!?fedora:%{cmake3}} ..
-popd
+%cmake3 -DPULL_TRANSLATIONS=NO
 
-%make_build -C %{_target_platform}-qt5
+%cmake_build
+
 %if 0%{?el7}
 EOF
 %endif
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}-qt5
+%cmake_install
 
 %ldconfig_scriptlets
 
@@ -79,6 +77,19 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}-qt5
 %{_qt5_archdatadir}/plugins/iconengines/libQt5XdgIconPlugin.so
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 3.5.0-5
+- rebuild (qt5)
+
+* Tue Aug 11 2020 Zamir SUN <sztsian@gmail.com> - 3.5.0-4
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 03 2020 Zamir SUN <sztsian@gmail.com> - 3.5.0-1
 - Update to 3.5.0
 

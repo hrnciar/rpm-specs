@@ -1,6 +1,6 @@
 # Fedora spec file for php-pecl-uuid
 #
-# Copyright (c) 2012-2019 Remi Collet
+# Copyright (c) 2012-2020 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
@@ -16,11 +16,11 @@
 
 Summary:       Universally Unique Identifier extension for PHP
 Name:          php-pecl-uuid
-Version:       1.1.0
-Release:       2%{?dist}
+Version:       1.2.0
+Release:       1%{?dist}
 License:       LGPLv2+
-URL:           http://pecl.php.net/package/uuid
-Source:        http://pecl.php.net/get/%{pecl_name}-%{version}.tgz
+URL:           https://pecl.php.net/package/%{pecl_name}
+Source:        https://pecl.php.net/get/%{pecl_name}-%{version}.tgz
 
 BuildRequires: php-devel > 7
 BuildRequires: php-pear
@@ -160,6 +160,12 @@ fi
 
 
 %changelog
+* Tue Oct  6 2020 Remi Collet <remi@remirepo.net> - 1.2.0-1
+- Update to 1.2.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

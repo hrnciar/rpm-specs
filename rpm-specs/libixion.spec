@@ -1,17 +1,18 @@
-%global apiversion 0.15
+%global apiversion 0.16
 
 Name: libixion
-Version: 0.15.0
-Release: 4%{?dist}
+Version: 0.16.1
+Release: 1%{?dist}
 Summary: A general purpose formula parser & interpreter library
 
 License: MPLv2.0
 URL: https://gitlab.com/ixion/ixion
-Source0: http://kohei.us/files/ixion/src/%{name}-%{version}.tar.xz
+Source0: https://kohei.us/files/ixion/src/%{name}-%{version}.tar.xz
 
 BuildRequires: boost-devel
 BuildRequires: gcc-c++
 BuildRequires: help2man
+BuildRequires: automake
 BuildRequires: pkgconfig(mdds-1.5)
 BuildRequires: pkgconfig(python3)
 BuildRequires: pkgconfig(spdlog)
@@ -76,6 +77,7 @@ API documentation for %{name}.
 %autosetup -p1
 
 %build
+autoreconf
 %configure --disable-silent-rules --disable-static
 sed -i \
     -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
@@ -130,6 +132,15 @@ make %{?_smp_mflags} check
 %doc doc/python
 
 %changelog
+* Tue Sep 29 2020 Caolán McNamara <colanm@redhat.com> - 0.16.1-1
+- new upstream release
+
+* Thu Sep 24 2020 Caolán McNamara <colanm@redhat.com> - 0.16.0-1
+- new upstream release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 0.15.0-4
 - Rebuilt for Boost 1.73
 

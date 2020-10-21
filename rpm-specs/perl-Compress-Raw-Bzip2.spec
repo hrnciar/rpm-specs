@@ -7,8 +7,8 @@
 
 Name:           perl-Compress-Raw-Bzip2
 Summary:        Low-level interface to bzip2 compression library
-Version:        2.093
-Release:        456%{?dist}
+Version:        2.096
+Release:        1%{?dist}
 # Other files:  GPL+ or Artistic
 ## unbundled
 # bzip2-src:    BSD
@@ -96,6 +96,21 @@ make test
 %{_mandir}/man3/Compress::Raw::Bzip2.3*
 
 %changelog
+* Sat Aug  1 2020 Paul Howarth <paul@city-fan.org> - 2.096-1
+- 2.096 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.095-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Petr Pisar <ppisar@redhat.com> - 2.095-1
+- 2.095 bump
+
+* Mon Jul 13 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.094-1
+- 2.094 bump
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.093-457
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.093-456
 - Increase release to favour standalone package
 

@@ -6,7 +6,7 @@
 
 Name:             R-%{packname}
 Version:          0.8
-Release:          5%{?dist}
+Release:          6%{?dist}
 Summary:          Syntax Highlighting for R Source Code
 
 License:          GPLv2+
@@ -71,6 +71,9 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --ignore-vignettes
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 0.8-5
 - disable with_doc to break knitr loop
 - rebuild for R 4

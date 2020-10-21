@@ -3,7 +3,7 @@
 
 # https://github.com/dnsimple/dnsimple-go
 %global goipath         github.com/dnsimple/dnsimple-go
-Version:                0.23.0
+Version:                0.63.0
 
 %gometa
 
@@ -14,7 +14,7 @@ This library is a Go client you can use to interact with the DNSimple API v2.}
 %global godocs          CHANGELOG.md CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Go client for the DNSimple API v2
 
 License:        MIT
@@ -22,11 +22,7 @@ URL:            %{gourl}
 Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/google/go-querystring/query)
-
-%if %{with check}
-# Tests
 BuildRequires:  golang(golang.org/x/oauth2)
-%endif
 
 %description
 %{common_description}
@@ -47,6 +43,12 @@ BuildRequires:  golang(golang.org/x/oauth2)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.63.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 06:41:32 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.63.0-1
+- Update to 0.63.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.23.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

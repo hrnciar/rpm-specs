@@ -3,7 +3,7 @@
 
 Name:       erlang-%{srcname}
 Version:    0.3
-Release:    5%{?dist}
+Release:    6%{?dist}
 BuildArch:  noarch
 
 License:    ASL 2.0
@@ -46,6 +46,9 @@ dos2unix examples/hello/hello2-3.lua
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

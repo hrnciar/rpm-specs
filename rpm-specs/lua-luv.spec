@@ -1,8 +1,8 @@
-%global lua_53_version 5.3
-%global lua_53_incdir %{_includedir}/lua-%{lua_53_version}
-%global lua_53_libdir %{_libdir}/lua/%{lua_53_version}
-%global lua_53_pkgdir %{_datadir}/lua/%{lua_53_version}
-%global lua_53_builddir obj-lua53
+%global lua_54_version 5.4
+%global lua_54_incdir %{_includedir}/lua-%{lua_54_version}
+%global lua_54_libdir %{_libdir}/lua/%{lua_54_version}
+%global lua_54_pkgdir %{_datadir}/lua/%{lua_54_version}
+%global lua_54_builddir obj-lua54
 
 %global lua_51_version 5.1
 %global lua_51_incdir %{_includedir}/lua-%{lua_51_version}
@@ -16,23 +16,24 @@
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  libuv-devel
-BuildRequires:  lua >= %{lua_53_version}
-BuildRequires:  lua-devel >= %{lua_53_version}
+BuildRequires:  lua >= %{lua_54_version}
+BuildRequires:  lua-devel >= %{lua_54_version}
 BuildRequires:  compat-lua >= %{lua_51_version}
 BuildRequires:  compat-lua-devel >= %{lua_51_version}
 BuildRequires:  lua5.1-compat53
 
 Name:           lua-luv
 Version:        %{real_version}.%{extra_version}
-Release:        1%{?dist}
+Release:        4%{?dist}
 
 License:        ASL 2.0
 Summary:        Bare libuv bindings for lua
 Url:            https://github.com/luvit/luv
 
-Requires:       lua(abi) = %{lua_53_version}
+Requires:       lua(abi) = %{lua_54_version}
 
 Source0:        https://github.com/luvit/luv/archive/%{real_version}-%{extra_version}/luv-%{version}.tar.gz
+Patch0:         luv-1.36.0-lua-5.4.patch
 
 %if 0%{?el8}
 # libuv-devel is from the CentOS Devel repo, only available on
@@ -97,18 +98,19 @@ rm -f tests/test-dns.lua
 
 %build
 # lua
-mkdir %{lua_53_builddir}
+mkdir %{lua_54_builddir}
 
-pushd %{lua_53_builddir}
+pushd %{lua_54_builddir}
 %cmake .. \
     -DWITH_SHARED_LIBUV=ON \
     -DBUILD_MODULE=ON \
     -DBUILD_SHARED_LIBS=ON \
     -DWITH_LUA_ENGINE=Lua \
     -DLUA_BUILD_TYPE=System \
-    -DINSTALL_LIB_DIR=%{_libdir}
+    -DINSTALL_LIB_DIR=%{_libdir} \
+    -DLUA_INCLUDE_DIR=%{lua_54_incdir}
 
-%make_build
+%cmake_build
 popd
 
 # lua-compat
@@ -126,22 +128,22 @@ pushd %{lua_51_builddir}
     -DLUA_INCLUDE_DIR=%{lua_51_incdir} \
     -DLUA_LIBRARY=%{_libdir}/liblua-%{lua_51_version}.so
 
-%make_build
+%cmake_build
 popd
 
 %install
 # lua-5.3
-install -d -m 0755 %{buildroot}%{lua_53_libdir}
-install -m 0755 -p %{lua_53_builddir}/luv.so %{buildroot}%{lua_53_libdir}/luv.so
+install -d -m 0755 %{buildroot}%{lua_54_libdir}
+install -m 0755 -p %{lua_54_builddir}/%{_vpath_builddir}/luv.so %{buildroot}%{lua_54_libdir}/luv.so
 
-install -d -m 0755 %{buildroot}%{lua_53_incdir}/luv
+install -d -m 0755 %{buildroot}%{lua_54_incdir}/luv
 for f in lhandle.h lreq.h luv.h util.h; do
-    install -m 0644 -p src/$f %{buildroot}%{lua_53_incdir}/luv/$f
+    install -m 0644 -p src/$f %{buildroot}%{lua_54_incdir}/luv/$f
 done
 
 # lua-5.1
 install -d -m 0755 %{buildroot}%{lua_51_libdir}
-install -m 0755 -p %{lua_51_builddir}/luv.so %{buildroot}%{lua_51_libdir}/luv.so
+install -m 0755 -p %{lua_51_builddir}/%{_vpath_builddir}/luv.so %{buildroot}%{lua_51_libdir}/luv.so
 
 install -d -m 0755 %{buildroot}%{lua_51_incdir}/luv
 for f in lhandle.h lreq.h luv.h util.h; do
@@ -150,8 +152,12 @@ done
 
 %check
 # lua-5.1
-ln -sf %{lua_51_builddir}/luv.so luv.so
+ln -sf %{lua_51_builddir}/%{_vpath_builddir}/luv.so luv.so
 lua-5.1 tests/run.lua
+rm luv.so
+# lua-5.4
+ln -sf %{lua_54_builddir}/%{_vpath_builddir}/luv.so luv.so
+lua tests/run.lua
 rm luv.so
 
 %files
@@ -160,12 +166,12 @@ rm luv.so
 %{lua_libdir}/luv.so
 
 %files devel
-%dir %{lua_53_incdir}
-%dir %{lua_53_incdir}/luv/
-%{lua_53_incdir}/luv/lhandle.h
-%{lua_53_incdir}/luv/lreq.h
-%{lua_53_incdir}/luv/luv.h
-%{lua_53_incdir}/luv/util.h
+%dir %{lua_54_incdir}
+%dir %{lua_54_incdir}/luv/
+%{lua_54_incdir}/luv/lhandle.h
+%{lua_54_incdir}/luv/lreq.h
+%{lua_54_incdir}/luv/luv.h
+%{lua_54_incdir}/luv/util.h
 
 %files -n lua5.1-luv
 %doc README.md
@@ -181,6 +187,16 @@ rm luv.so
 %{lua_51_incdir}/luv/util.h
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.36.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Tom Callaway <spot@fedoraproject.org> - 1.36.0.0-3
+- fix for lua 5.4
+- adjust logic for new cmake weirdness (f33+)
+
+* Tue Jun 30 2020 Björn Esser <besser82@fedoraproject.org> - 1.36.0.0-2
+- Rebuilt for Lua 5.4
+
 * Tue Apr 28 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 1.36.0.0-1
 - Update to version 1.36.0-0
 - Support building on EPEL 8

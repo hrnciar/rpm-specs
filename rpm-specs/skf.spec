@@ -5,8 +5,6 @@
 #%%define usescm 1
 %undefine	usescm
 
-%{!?python_sitearch:	%global	python_sitearch	%(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
-
 %global	repoid		72126
 
 %global	mainver	2.10.12
@@ -15,7 +13,7 @@
 %undefine	betaver
 %define	betarel	%(echo %betaver | sed -e 's|-|_|' | sed -e 's|^_||')
 
-%global	fedoraver	1
+%global	fedoraver	2
 
 %global	enable_python2	1
 %if 0%{?fedora} >= 32
@@ -32,7 +30,7 @@
 
 Name:		skf
 Version:	%{mainver}
-Release:	%{?betaver:0.}%{fedoraver}%{?betaver:.%betarel}%{?dist}.3
+Release:	%{?betaver:0.}%{fedoraver}%{?betaver:.%betarel}%{?dist}
 Summary:	Utility binary files in Simple Kanji Filter
 
 License:	BSD and MIT and UCD
@@ -421,6 +419,12 @@ sh skf-basic-test.sh
 %{perl_vendorarch}/auto/skf/
 
 %changelog
+* Mon Aug  3 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 2.10.12-2
+- Remove no longer used macros
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.12-1.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.10.12-1.3
 - Perl 5.32 rebuild
 
@@ -540,7 +544,7 @@ sh skf-basic-test.sh
 * Sun Dec 06 2015 Mamoru TASAKA <mtasaka@fedoraproject.org> - 2.00.2-1
 - 2.00.2
 
-* Mon Jun 23 2015 Mamoru TASAKA <mtasaka@fedoraproject.org> - 2.00.1-1
+* Tue Jun 23 2015 Mamoru TASAKA <mtasaka@fedoraproject.org> - 2.00.1-1
 - 2.00.1
 
 * Fri Jun 19 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.00-1.2

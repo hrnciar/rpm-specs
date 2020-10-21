@@ -1,11 +1,11 @@
 Name:           lightsoff
-Version:        3.36.0
+Version:        3.38.0
 Release:        1%{?dist}
 Summary:        GNOME Lightsoff game
 
 License:        GPLv2+ and CC-BY-SA
 URL:            https://wiki.gnome.org/Apps/Lightsoff
-Source0:        https://download.gnome.org/sources/%{name}/3.36/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires:  clutter-gtk-devel
 BuildRequires:  desktop-file-utils
@@ -54,6 +54,15 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.LightsOf
 
 
 %changelog
+* Fri Sep 11 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 08 2020 Kalev Lember <klember@redhat.com> - 3.36.0-1
 - Update to 3.36.0
 

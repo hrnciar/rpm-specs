@@ -1,6 +1,6 @@
 Summary: Client and protocol library for the Couchbase project
 Name: libcouchbase
-Version: 2.10.6
+Version: 2.10.8
 Release: 1%{?dist}
 License: ASL 2.0
 BuildRequires: gcc, gcc-c++
@@ -66,7 +66,7 @@ Development files for the Couchbase client Library.
 
 %prep
 %autosetup -p1
-%cmake -DLCB_NO_MOCK=1 .
+%cmake -DLCB_NO_MOCK=1 -B . -S .
 
 %build
 %make_build
@@ -108,6 +108,19 @@ make %{_smp_mflags} alltests test ARGS=%{_smp_mflags}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Thu Sep 24 2020 Sergey Avseyev <sergey.avseyev@gmail.com> - 2.10.8-1
+- Update to 2.10.8
+
+- Mon Sep  7 2020 Remi Collet <remi@remirepo.net> - 2.10.6-3
+- fix FTBFS #1863985
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.6-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 27 2020 Sergey Avseyev <sergey.avseyev@gmail.com> - 2.10.6-1
 - Update to 2.10.6
 

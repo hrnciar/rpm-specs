@@ -1,6 +1,6 @@
 Name: libfli
 Version: 1.7
-Release: 26%{?dist}
+Release: 29%{?dist}
 Summary: Library for FLI CCD Camera & Filter Wheels
 
 %define majorver 1
@@ -33,10 +33,10 @@ These are the header files needed to develop a %{name} application
 
 %build
 %cmake
-make VERBOSE=1 %{?_smp_mflags}
+%cmake_build 
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 %ldconfig_scriptlets
 
@@ -49,6 +49,16 @@ make install DESTDIR=%{buildroot}
 %{_libdir}/*.so
 
 %changelog
+* Mon Aug 24 2015 Sergio Pascual <sergiopr@fedoraproject.org> -  1.7-29
+- Fix cmake build
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-28
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

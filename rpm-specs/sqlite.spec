@@ -4,15 +4,15 @@
 %bcond_with static
 %bcond_without check
 
-%define realver 3320200
-%define docver 3320200
-%define rpmver 3.32.2
+%define realver 3330000
+%define docver 3330000
+%define rpmver 3.33.0
 %define year 2020
 
 Summary: Library that implements an embeddable SQL database engine
 Name: sqlite
 Version: %{rpmver}
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: Public Domain
 URL: http://www.sqlite.org/
 
@@ -146,12 +146,14 @@ autoconf # Rerun with new autoconf to add support for aarm64
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS $RPM_LD_FLAGS -DSQLITE_ENABLE_COLUMN_METADATA=1 \
-               -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_ENABLE_FTS3=3 \
+               -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_ENABLE_FTS3=1 \
                -DSQLITE_ENABLE_RTREE=1 -DSQLITE_SECURE_DELETE=1 \
                -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 \
                -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1 \
+               -DSQLITE_ENABLE_FTS4=1 \
                -Wall -fno-strict-aliasing"
 %configure %{!?with_tcl:--disable-tcl} \
+           --enable-fts4 \
            --enable-fts5 \
            --enable-threadsafe \
            --enable-threads-override-locks \
@@ -162,21 +164,21 @@ export CFLAGS="$RPM_OPT_FLAGS $RPM_LD_FLAGS -DSQLITE_ENABLE_COLUMN_METADATA=1 \
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
-make %{?_smp_mflags}
+%make_build
 
 # Build sqlite3_analyzer
 # depends on tcl
 %if %{with tcl}
-make %{?_smp_mflags} sqlite3_analyzer
+%make_build sqlite3_analyzer
 %endif
 
 # Build sqldiff
 %if %{with tcl}
-make %{?_smp_mflags} sqldiff
+%make_build sqldiff
 %endif
 
 %install
-make DESTDIR=${RPM_BUILD_ROOT} install
+%make_install
 
 install -D -m0644 sqlite3.1 $RPM_BUILD_ROOT/%{_mandir}/man1/sqlite3.1
 install -D -m0755 lemon $RPM_BUILD_ROOT/%{_bindir}/lemon
@@ -257,6 +259,22 @@ make test
 %endif
 
 %changelog
+* Fri Oct 09 2020 Sheng Mao <shngmao@gmail.com> - 3.33.0-2
+- Enable FTS4 extensions (rhbz#1887106)
+
+* Fri Aug 14 2020 Ondrej Dubaj <odubaj@redhat.com> - 3.33.0-1
+- Updated to version 3.33.0 (https://sqlite.org/releaselog/3_33_0.html)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.32.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 3.32.3-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Fri Jun 19 2020 Ondrej Dubaj <odubaj@redhat.com> - 3.32.3-1
+- Updated to version 3.32.3 (https://sqlite.org/releaselog/3_32_3.html)
+
 * Fri Jun 05 2020 Ondrej Dubaj <odubaj@redhat.com> - 3.32.2-1
 - Updated to version 3.32.2 (https://sqlite.org/releaselog/3_32_2.html)
 

@@ -13,7 +13,7 @@
 
 Name:		emacs-%{pkg}
 Version:	1.2.25
-Release:	23%{?dist}
+Release:	24%{?dist}
 Summary:	SPICE Mode for GNU Emacs
 
 License:	GPLv2+
@@ -66,6 +66,9 @@ install -pm 644 %{SOURCE1} %{buildroot}%{emacs_startdir}
 %{emacs_lispdir}/%{pkg}/*.el
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.25-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.25-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

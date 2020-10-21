@@ -2,7 +2,7 @@
 
 Name:           ocamlmod
 Version:        0.0.9
-Release:        18%{?dist}
+Release:        21%{?dist}
 Summary:        Generate OCaml modules from source files
 
 License:        LGPLv2+ with exceptions
@@ -68,6 +68,15 @@ file $RPM_BUILD_ROOT%{_bindir}/ocamlmod | grep -vq "script executable"
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.0.9-21
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.0.9-20
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.9-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 0.0.9-18
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

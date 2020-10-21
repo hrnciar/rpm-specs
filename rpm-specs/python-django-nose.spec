@@ -1,8 +1,8 @@
 %global pkgname django-nose
 
 Name:           python-django-nose
-Version:        1.4.5
-Release:        12%{?dist}
+Version:        1.4.7
+Release:        2%{?dist}
 Summary:        Django test runner that uses nose
 
 License:        BSD
@@ -23,9 +23,6 @@ Django test runner that uses nose.
 Summary:        Django test runner that uses nose
 Requires:       python3-nose
 Requires:       python3-django
-
-Obsoletes: python-%{pkgname} < 1.4.5-3
-Obsoletes: python2-%{pkgname} < 1.4.5-3
 
 %description -n python3-%{pkgname} %_description
 
@@ -51,6 +48,15 @@ rm -rf %{buildroot}/%{python3_sitelib}/testapp
 
 
 %changelog
+* Tue Sep 08 2020 Joel Capitao <jcapitao@redhat.com> - 1.4.7-2
+- fix hash sum mismatch
+
+* Tue Sep 08 2020 Joel Capitao <jcapitao@redhat.com> - 1.4.7-1
+- update to 1.4.7
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.5-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.5-12
 - Rebuilt for Python 3.9
 

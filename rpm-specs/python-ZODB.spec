@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        5.6.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Zope Object Database and persistence
 
 License:        ZPLv2.1
@@ -40,7 +40,6 @@ Database (ZODB).
 
 %package -n python3-%{srcname}
 Summary:        Zope Object Database and persistence
-%{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
 %{common_desc}
@@ -99,6 +98,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest
 %doc doc/build/html
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 16 2020 Jerry James <loganjerry@gmail.com> - 5.6.0-1
 - Version 5.6.0
 

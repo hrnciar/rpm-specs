@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.2.4
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Zabbix API Python Library
 
 License:        LGPLv2
@@ -51,6 +51,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/zabbix_api_erigones-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.4-12
 - Rebuilt for Python 3.9
 

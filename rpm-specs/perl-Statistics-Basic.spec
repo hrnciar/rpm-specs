@@ -3,7 +3,7 @@
 
 Name:           perl-Statistics-Basic
 Version:        1.6611
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        A collection of very basic statistics modules
 # lib/Statistics/Basic/Mean.pod:    LGPLv2+
 # lib/Statistics/Basic.pod:         LGPLv2
@@ -80,6 +80,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6611-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.6611-17
 - Perl 5.32 rebuild
 

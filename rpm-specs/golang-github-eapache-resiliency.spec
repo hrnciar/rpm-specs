@@ -3,14 +3,9 @@
 
 # https://github.com/eapache/go-resiliency
 %global goipath         github.com/eapache/go-resiliency
-Version:                1.1.0
+Version:                1.2.0
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-eapache-go-resiliency-devel < 1.1.0-3
-}
 
 %global common_description %{expand:
 Resiliency patterns for golang.}
@@ -21,7 +16,7 @@ Resiliency patterns for golang.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        6%{?dist}
+Release:        2%{?dist}
 Summary:        Resiliency patterns for golang
 
 License:        MIT
@@ -50,6 +45,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 15:36:40 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.2.0-1
+- Update to 1.2.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

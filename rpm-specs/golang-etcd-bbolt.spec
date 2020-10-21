@@ -5,7 +5,7 @@
 # https://github.com/etcd-io/bbolt
 %global goipath         go.etcd.io/bbolt
 %global forgeurl        https://github.com/etcd-io/bbolt
-Version:                1.3.3
+Version:                1.3.5
 
 %gometa
 
@@ -29,7 +29,7 @@ The design of Bolt is based on Howard Chu's LMDB database project.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Embedded key/value database for Go
 
 License:        MIT
@@ -67,6 +67,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 23:32:41 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.3.5-1
+- Update to 1.3.5
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

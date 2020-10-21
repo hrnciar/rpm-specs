@@ -15,7 +15,7 @@ Version:                3.0.13
 #global godocs          RELEASE.md CHANGELOG.md CONTRIBUTING.md README.md
 
 Name:           exercism
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Exercism command-line interface
 
 License:        MIT
@@ -88,6 +88,9 @@ install -Dpm0644 shell/exercism_completion.zsh %{buildroot}%{_datadir}/zsh/site-
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.13-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 01 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 3.0.13-3
 - Move fish completions to vendor directory (#1733321)
 

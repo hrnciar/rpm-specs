@@ -23,7 +23,7 @@
 
 Name:           bigloo
 Version:        4.3h
-Release:        1%{?patch_ver:.%{patch_ver}}%{?prerel:.%{prerel}}%{?dist}
+Release:        7%{?patch_ver:.%{patch_ver}}%{?prerel:.%{prerel}}%{?dist}
 Summary:        A compiler for the Scheme programming language
 
 License:        GPLv2+
@@ -48,6 +48,8 @@ Patch6:         %{name}-test.patch
 Patch7:         %{name}-callcc.patch
 # Additional linkage for underlinked plugins
 Patch8:         %{name}-underlink.patch
+# Adapt to Java 11
+Patch9:         %{name}-javac.patch
 
 BuildRequires:  emacs
 BuildRequires:  xemacs
@@ -174,6 +176,10 @@ sed -i 's/a \. b/+inf.0 . +inf.0/' recette/error.scm
 %endif
 
 %build
+# We're still seeing failures on ppc64 and aarch64
+%ifarch ppc64le aarch64
+%define _lto_cflags %{nil}
+%endif
 %define inplace $PWD/inplace
 
 # Large stack needed to build
@@ -183,7 +189,6 @@ ulimit -s unlimited
 export LOCALE="C.utf8"
 export CFLAGS="$RPM_OPT_FLAGS -fwrapv -D_FILE_OFFSET_BITS=64 -Wno-unused"
 export LDFLAGS="-Wl,-z,relro -Wl,--as-needed"
-sed -i -e "s/^jcflags=-O$/jcflags=-deprecation/" configure
 ./configure \
         --prefix=%{_prefix} \
         --bindir=%{_bindir} \
@@ -342,6 +347,25 @@ make test
 
 
 %changelog
+* Fri Oct 09 2020 Jeff Law <law@redhat.com> - 4.3h-8
+- Re-enable LTO except on aarch64 and ppc64le
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3h-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3h-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Jerry James <loganjerry@gmail.com> - 4.3h-4
+- Support Java 11
+
+* Mon Jul 13 2020 Jeff Law <law@redhat.com> - 4.3h-3
+- Disable LTO
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 4.3h-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu May 14 2020 Jerry James <loganjerry@gmail.com> - 4.3h-1
 - Update to 4.3h
 - Drop upstreamed -gstreamer1 and -return patches

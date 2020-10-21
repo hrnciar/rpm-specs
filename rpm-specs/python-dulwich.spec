@@ -2,7 +2,7 @@
 %global __provides_exclude_from ^(%{python3_sitearch}/.*\\.so)$
 
 Name:           python-%{srcname}
-Version:        0.20.5
+Version:        0.20.6
 Release:        1%{?dist}
 Summary:        Python implementation of the Git file formats and protocols
 
@@ -21,7 +21,7 @@ Mrs. Git live in the Monty Python sketch.
 Summary:        %{summary}
 
 BuildRequires:  python3-devel
-
+BuildRequires:  python3-setuptools
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
@@ -70,6 +70,15 @@ rm -rf %{buildroot}%{python3_sitearch}/docs/tutorial/
 %doc html
 
 %changelog
+* Mon Aug 31 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.20.6-1
+- Update to latest upstream release 0.20.6 (rhbz#1873748)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.20.5-2
+- Add python3-setuptools as BR
+
 * Mon Jun 22 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.20.5-1
 - Update to latest upstream release 0.20.5 (rhbz#1846933)
 

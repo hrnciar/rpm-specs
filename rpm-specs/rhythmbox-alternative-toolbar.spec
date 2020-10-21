@@ -3,7 +3,7 @@
 
 Name:		rhythmbox-alternative-toolbar
 Version:	0.18.4
-Release:	2%{?dist}
+Release:	4%{?dist}
 Summary:	Client-side decorated compact toolbar for Rhythmbox
 License:	GPLv3
 
@@ -15,7 +15,6 @@ BuildRequires:	glib2-devel
 BuildRequires:	python3-gobject
 BuildRequires:	gtk3
 BuildRequires:	gobject-introspection
-BuildRequires:	pygobject2
 BuildRequires:	rhythmbox-devel
 Requires:	rhythmbox
 
@@ -47,6 +46,12 @@ rm -f %{buildroot}%{_libdir}/rhythmbox/plugins/alternative-toolbar/LICENSE
 %doc readme.html
 
 %changelog
+* Wed Sep 09 2020 Petr Viktorin <pviktori@redhat.com> - 0.18.4-4
+- Remove BuildRequires on pygobject2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

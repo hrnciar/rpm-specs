@@ -3,7 +3,7 @@
 
 Name:           spnavcfg
 Version:        0.3
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Spacenav daemon interactive configuration program
 
 License:        GPLv3+
@@ -65,6 +65,9 @@ icons/%{name}.desktop
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

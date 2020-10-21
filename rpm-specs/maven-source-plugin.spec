@@ -1,7 +1,7 @@
 Name:           maven-source-plugin
 Summary:        Plugin creating source JAR
 Version:        3.2.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 License:        ASL 2.0
 
 URL:            http://maven.apache.org/plugins/maven-source-plugin/
@@ -56,6 +56,12 @@ API documentation for %{name}.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.2.1-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon Mar 02 2020 Fabio Valentini <decathorpe@gmail.com> - 3.2.1-1
 - Update to version 3.2.1.
 

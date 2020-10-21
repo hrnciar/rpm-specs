@@ -3,7 +3,7 @@
 
 Name:           %{fontname}-fonts
 Version:        3.001
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Modern style true type font
 
 License:        OFL
@@ -60,6 +60,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/%{fontnam
 %{_datadir}/appdata/%{fontname}.metainfo.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.001-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.001-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

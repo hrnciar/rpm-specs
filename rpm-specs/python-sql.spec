@@ -2,8 +2,8 @@
 %global module_name sql
 
 Name:           python-%{module_name}
-Version:        0.9
-Release:        13%{?dist}
+Version:        1.2.1
+Release:        1%{?dist}
 Summary:        %{sum}
 
 License:        BSD
@@ -12,6 +12,7 @@ Source0:        https://files.pythonhosted.org/packages/source/p/%{name}/%{name}
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 
 %description
 %{name} is a library to write SQL queries in a pythonic way.
@@ -51,6 +52,15 @@ rm -rf */*.egg-info
 
 
 %changelog
+* Mon Oct 12 2020 Dan Horák <dan[at]danny.cz> - 1.2.1-1
+- updated to 1.2.1 (#1886384)
+
+* Mon Oct 05 2020 Dan Horák <dan[at]danny.cz> - 1.2.0-1
+- updated to 1.2.0 (#1885348)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9-13
 - Rebuilt for Python 3.9
 

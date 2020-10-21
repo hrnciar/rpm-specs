@@ -17,7 +17,7 @@
 
 Name:           python-datadog
 Version:        0.23.0
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Python wrapper for the Datadog API
 License:        BSD
 
@@ -116,6 +116,9 @@ rm %{buildroot}/%{python3_sitelib}/datadog/dogstatsd/context_async.py*
 %{_bindir}/dogshellwrap
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.23.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.23.0-8
 - Rebuilt for Python 3.9
 

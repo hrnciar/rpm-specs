@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        7.1.2
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Simple wrapper around optparse for powerful command line utilities
 
 License:        BSD
@@ -20,32 +20,39 @@ comes with good defaults out of the box.
 
 %package -n     python%{python3_pkgversion}-%{pypi_name}
 Summary:        %{summary}
-%{?python_provide:%python_provide python%{python3_pkgversion}-%{pypi_name}}
+
 BuildRequires:  python%{python3_pkgversion}-devel
-BuildRequires:  python%{python3_pkgversion}-setuptools
-BuildRequires:  python%{python3_pkgversion}-pytest
+BuildRequires:  pyproject-rpm-macros
 
 %description -n python%{python3_pkgversion}-%{pypi_name} %{_description}
 
 %prep
 %autosetup -n %{pypi_name}-%{version} -p1
 
+%generate_buildrequires
+%pyproject_buildrequires -t
+
 %build
-%py3_build
+%pyproject_wheel
 
 %install
-%py3_install
+%pyproject_install
+%pyproject_save_files %{pypi_name}
 
 %check
-PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests
+%tox
 
-%files -n python%{python3_pkgversion}-%{pypi_name}
+%files -n python%{python3_pkgversion}-%{pypi_name} -f %pyproject_files
 %license LICENSE.rst
 %doc README.rst CHANGES.rst
-%{python3_sitelib}/%{pypi_name}/
-%{python3_sitelib}/%{pypi_name}-*.egg-info/
 
 %changelog
+* Fri Sep 11 2020 Charalampos Stratakis <cstratak@redhat.com> - 7.1.2-4
+- Modernize the SPEC and convert it to pyproject macros
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.1.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 7.1.2-2
 - Rebuilt for Python 3.9
 

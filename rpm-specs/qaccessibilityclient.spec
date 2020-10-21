@@ -1,8 +1,9 @@
+%undefine __cmake_in_source_build
 
 Name:    qaccessibilityclient
 Summary: Accessibility client library for Qt4
 Version: 0.1.1
-Release: 17%{?dist}
+Release: 18%{?dist}
 
 # KDE e.V. may determine that future LGPL versions are accepted
 License: LGPLv2 or LGPLv3
@@ -49,17 +50,13 @@ Requires: qt4-devel
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} .. \
+%{cmake} \
   -DQT4_BUILD:BOOL=ON
-popd
-
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 ## unpackaged files
 # consider putting into -tools subpkg?
@@ -81,6 +78,9 @@ rm -f %{buildroot}%{_bindir}/accessibleapps
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

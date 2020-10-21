@@ -1,6 +1,6 @@
 Name:           sanlock
 Version:        3.8.1
-Release:        2%{?dist}
+Release:        7%{?dist}
 Summary:        A shared storage lock manager
 
 License:        GPLv2 and GPLv2+ and LGPLv2+
@@ -21,12 +21,14 @@ Requires(post): systemd-sysv
 Requires(preun): systemd-units
 Requires(postun): systemd-units
 Source0:        https://releases.pagure.org/sanlock/%{name}-%{version}.tar.gz
+Patch0: 0001-python-Remove-extra-link-args.patch
 
 %description
 The sanlock daemon manages leases for applications on hosts using shared storage.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %set_build_flags
@@ -178,6 +180,23 @@ common sanlock lockspace.
 
 
 %changelog
+
+* Sat Aug 08 2020 Nir Soffer <nsoffer@redhat.com> - 3.8.1-7
+- Enable LTO
+
+* Sun Aug 02 2020 Nir Soffer <nsoffer@redhat.com> - 3.8.1-6
+- Removing extra linkeer args, hopefully fix python build
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 08 2020 Jeff Law <law@redhat.com> - 3.8.1-3
+- Disable LTO
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.8.1-2
 - Rebuilt for Python 3.9
 

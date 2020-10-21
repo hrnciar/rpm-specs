@@ -1,15 +1,15 @@
 %global gem_name capybara
 
 Name: rubygem-%{gem_name}
-Version: 3.8.1
-Release: 4%{?dist}
+Version: 3.33.0
+Release: 1%{?dist}
 Summary: Capybara aims to simplify the process of integration testing Rack applications
 License: MIT
 URL: https://github.com/teamcapybara/capybara
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
-# git clone https://github.com/teamcapybara/capybara.git && cd capybara
-# git checkout 3.8.1 && tar czvf capybara-3.8.1-tests.tgz features/
-Source1: %{gem_name}-%{version}-tests.tgz
+# git clone https://github.com/teamcapybara/capybara.git --no-checkout
+# cd capybara && git archive -v -o capybara-3.33.0-tests.txz 3.33.0 features/
+Source1: %{gem_name}-%{version}-tests.txz
 
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
@@ -25,6 +25,7 @@ BuildRequires: rubygem(xpath)
 BuildRequires: rubygem(rack-test)
 BuildRequires: rubygem(mini_mime)
 BuildRequires: rubygem(cucumber)
+BuildRequires: rubygem(regexp_parser)
 BuildArch: noarch
 
 %description
@@ -56,13 +57,14 @@ mkdir -p %{buildroot}%{gem_dir}
 cp -a .%{gem_dir}/* \
         %{buildroot}%{gem_dir}/
 
-
-
-# Run the test suite
 %check
 pushd .%{gem_instdir}
 # Move the tests into place
 ln -s %{_builddir}/features features
+
+# Do not collect statistics
+sed -i '/^require..selenium_statistics.$/ s/^/#/' spec/spec_helper.rb
+sed -i '/SeleniumStatistics/ s/^/#/g' ./spec/spec_helper.rb
 
 # it "should support SSL": Puma Timeouts, instead of EOFing on http connection
 sed -i '/end.to raise_error(EOFError)/ s/EOFError/Net::ReadTimeout/' \
@@ -82,6 +84,7 @@ popd
 %license %{gem_instdir}/License.txt
 %{gem_libdir}
 %exclude %{gem_cache}
+%exclude %{gem_instdir}/.*
 %{gem_spec}
 
 %files doc
@@ -91,6 +94,13 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Tue Aug 11 03:02:23 GMT 2020 Pavel Valena <pvalena@redhat.com> - 3.33.0-1
+- Update to capybara 3.33.0.
+  Resolves: rhbz#1668957
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

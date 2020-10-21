@@ -11,12 +11,16 @@
 %endif
 %endif
 
+%if 0%{?fedora} >= 33
+%bcond_without flexiblas
+%endif
+
 # We are linking FORTRAN symbols.  Thus we cannot link --as-needed.
 %undefine _ld_as_needed
 
 Name:		arpack
 Version:	3.7.0
-Release:	6%{dist}
+Release:	8%{dist}
 Summary:	Fortran 77 subroutines for solving large scale eigenvalue problems
 
 License:	BSD
@@ -29,10 +33,14 @@ Patch1:         239.patch
 
 BuildRequires:	gcc-c++
 BuildRequires:	gcc-gfortran
+%if %{with flexiblas}
+BuildRequires:  pkgconfig(flexiblas)
+%else
 %if %{with atlas}
 BuildRequires:	atlas-devel
 %else
 BuildRequires:	openblas-devel
+%endif
 %endif
 BuildRequires:	libtool >= 2.4.2
 Provides:	arpack-ng = %{version}-%{release}
@@ -97,6 +105,9 @@ cp -pr src src64
 
 
 %build
+%if %{with flexiblas}
+%global blaslib -lflexiblas
+%else
 %if %{with atlas}
 %if 0%{?fedora} || 0%{?rhel} >= 7
 %global blaslib -L%{_libdir}/atlas -ltatlas
@@ -105,6 +116,7 @@ cp -pr src src64
 %endif
 %else
 %global blaslib -lopenblasp
+%endif
 %endif
 pushd src
 %configure --enable-shared --enable-static \
@@ -183,6 +195,12 @@ popd
 
 
 %changelog
+* Fri Aug 07 2020 Iñaki Úcar <iucar@fedoraproject.org> - 3.7.0-8
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 29 2020 Orion Poplawski <orion@nwra.com> - 3.7.0-6
 - Tests no longer failing on ppc64le 
 

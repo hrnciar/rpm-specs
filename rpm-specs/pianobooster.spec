@@ -1,7 +1,8 @@
+%define __cmake_in_source_build 1
 Name:            pianobooster
 Summary:         A MIDI file player that teaches you how to play the piano
 Version:         0.6.4b
-Release:         22%{?dist}
+Release:         25%{?dist}
 License:         GPLv3+
 URL:             http://pianobooster.sourceforge.net/
 Source0:         http://downloads.sourceforge.net/%{name}/%{name}-src-%{version}.tar.gz
@@ -40,6 +41,7 @@ find -name '*.cpp' -exec chmod a-x {} \;
 find -name '*.h' -exec chmod a-x {} \;
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 pushd build
 %cmake ../src
 make %{?_smp_mflags}
@@ -70,6 +72,17 @@ install -m 644 -p src/images/logo64x64.png $RPM_BUILD_ROOT%{_datadir}/icons/hico
 %{_datadir}/icons/hicolor/*/apps/*
 
 %changelog
+* Tue Sep 22 2020 Jeff Law <law@redhat.com> - 0.6.4b-25
+- Use  __cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+  Force C++14 as this code is not C++17 ready
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4b-24
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4b-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4b-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

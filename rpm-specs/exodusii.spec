@@ -1,6 +1,6 @@
 Name:           exodusii
 Version:        6.09
-Release:        10%{?dist}
+Release:        13%{?dist}
 Summary:        Library to store and retrieve transient finite element data
 License:        BSD
 Url:            http://sourceforge.net/projects/exodusii/
@@ -63,14 +63,13 @@ sed -i '/FATAL_ERROR.*ZLib/s/^/#/' exodus/CMakeLists.txt
 
 %build
 cd exodus
-mkdir %{_target_platform}
-pushd %{_target_platform}
 export LDFLAGS="%{__global_ldflags} -Wl,--as-needed"
-%{cmake} -DBUILD_SHARED=ON -DHDF5HL_LIBRARY="" -DHDF5_LIBRARY="" -DCMAKE_DISABLE_FIND_PACKAGE_ZLIB=ON -DZLIB_LIBRARY="" -DPYTHON=FALSE ..
-%make_build
+%{cmake} -DBUILD_SHARED=ON -DHDF5HL_LIBRARY="" -DHDF5_LIBRARY="" -DCMAKE_DISABLE_FIND_PACKAGE_ZLIB=ON -DZLIB_LIBRARY="" -DPYTHON=FALSE
+%cmake_build
 
 %install
-%make_install -C exodus/%{_target_platform}
+cd exodus
+%cmake_install
 [[ %{_lib} = lib ]] || mv %{buildroot}/%{_prefix}/{lib,%{_lib}}
 pushd %{buildroot}/%{_prefix}/%{_lib}
 ln -s libexodus-*.so "%buildroot/%_libdir/libexodus.so"
@@ -79,7 +78,8 @@ mkdir -p %{buildroot}/%{_docdir}/%{name}
 cp -p %{S:1} %{S:2} %{buildroot}/%{_docdir}/%{name}
 
 %check
-make -C exodus/%{_target_platform}  check f_check
+cd exodus
+%cmake_build --target check f_check
 
 %ldconfig_scriptlets
 
@@ -97,6 +97,16 @@ make -C exodus/%{_target_platform}  check f_check
 %{_docdir}/%{name}
 
 %changelog
+* Mon Aug 03 2020 Christoph Junghans <junghans@votca.org> - 6.09-13
+- Fix out-of-source build on F33 (bug #1863520)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.09-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.09-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.09-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

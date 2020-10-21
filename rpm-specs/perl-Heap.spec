@@ -1,6 +1,6 @@
 Name:           perl-Heap
 Version:        0.80
-Release:        33%{?dist}
+Release:        34%{?dist}
 Summary:        Perl extension for keeping data partially sorted
 
 License:        GPL+ or Artistic
@@ -57,6 +57,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.80-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.80-33
 - Perl 5.32 rebuild
 

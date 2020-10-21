@@ -1,9 +1,7 @@
 #
-%global mydocs __tmp_docdir
-#
 Name:           sevmgr
 Version:        1.00.5
-Release:        3%{?dist}
+Release:        5%{?dist}
 
 Summary:        C++ Simulation-Oriented Discrete Event Management Library
 
@@ -25,7 +23,7 @@ functions, exclusively targeting simulation purposes.
 
 %{name} makes an extensive use of existing open-source libraries for
 increased functionality, speed and accuracy. In particular the
-Boost (C++ Standard Extensions: http://www.boost.org) library is used.
+Boost (C++ Standard Extensions: https://www.boost.org) library is used.
 
 Install the %{name} package if you need a library of basic C++ objects
 for the discrete event queue management of your simulation project.
@@ -60,26 +58,26 @@ online (http://%{name}.org).
 
 
 %build
-%cmake .
-%make_build
+%cmake 
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
-mkdir -p %{mydocs}
-mv $RPM_BUILD_ROOT%{_docdir}/%{name}/html %{mydocs}
-rm -f %{mydocs}/html/installdox
+# Remove the Doxygen installer
+rm -f %{buildroot}%{_docdir}/%{name}/html/installdox
 
 # Remove additional documentation files (those files are already available
 # in the project top directory)
-rm -f $RPM_BUILD_ROOT%{_docdir}/%{name}/{NEWS,README.md,AUTHORS}
+rm -f %{buildroot}%{_docdir}/%{name}/{NEWS,README.md,AUTHORS}
 
 %check
 #ctest
 
 
 %files
-%doc AUTHORS ChangeLog COPYING NEWS README.md
+%doc AUTHORS ChangeLog NEWS README.md
+%license COPYING
 %{_bindir}/%{name}
 %{_bindir}/%{name}_demo
 %{_libdir}/lib%{name}.so.*
@@ -98,11 +96,18 @@ rm -f $RPM_BUILD_ROOT%{_docdir}/%{name}/{NEWS,README.md,AUTHORS}
 %{_mandir}/man3/%{name}-library.3.*
 
 %files doc
-%doc %{mydocs}/html
-%doc COPYING
+%doc %{_docdir}/%{name}/html
+%license COPYING
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00.5-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Denis Arnaud <denis.arnaud_fedora@m4x.org> - 1.00.5-3
 - Rebuilt for SOCI 4.0.1-alpha2
 

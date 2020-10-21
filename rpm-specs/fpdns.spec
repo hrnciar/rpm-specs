@@ -1,8 +1,9 @@
 %global gittag 20190131
 
 Name:           fpdns
+Epoch:          1
 Version:        0.10.0
-Release:        3.%{gittag}%{?dist}
+Release:        5.%{gittag}%{?dist}
 Summary:        Fingerprint DNS servers
 License:        BSD
 URL:            https://github.com/kirei/fpdns
@@ -46,13 +47,19 @@ make test
 %{_bindir}/fpdns
 
 %changelog
+* Tue Aug 04 2020 Petr Pisar <ppisar@redhat.com> - 1:0.10.0-5.20190131
+- Bump an epoch to keep ascending NEVRAs (bug #1864486)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-4.20190131
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.10.0-3.20190131
 - Perl 5.32 rebuild
 
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-2.20190131
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
-* Fri Jan 24 2020 Mark McKinstry <mmckinst@fedoraproject.org> - 0.10.0-1.20190131%
+* Fri Jan 24 2020 Mark McKinstry <mmckinst@fedoraproject.org> - 0.10.0-1.20190131
 - fix release tag
 
 * Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-20190131.2

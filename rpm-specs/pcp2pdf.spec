@@ -1,9 +1,6 @@
-# sitelib for noarch packages, sitearch for others (remove the unneeded one)
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
-
 Name:           pcp2pdf
 Version:        0.3
-Release:        19%{?dist}
+Release:        21%{?dist}
 Summary:        Utility to create PDF reports from PCP archives
 
 License:        GPLv2+
@@ -17,6 +14,7 @@ Requires:       python3-pcp
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 
 %description
 Utility to create PDF reports from Performance Co-Pilot archives. It allows to
@@ -51,6 +49,12 @@ rm -rf $RPM_BUILD_ROOT%{_sysconfdir}/bash_completion.d
 
 
 %changelog
+* Mon Oct 05 2020 Michele Baldessari <michele@acksyn.org> - 0.3-21
+- Add python3-setuptools BR
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3-19
 - Rebuilt for Python 3.9
 

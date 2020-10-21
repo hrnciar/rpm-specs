@@ -2,8 +2,8 @@
 %global pkgname markdown
 
 Name:           python-%{pkgname}
-Version:        3.2.2
-Release:        3%{?dist}
+Version:        3.3.1
+Release:        1%{?dist}
 Summary:        Markdown implementation in Python
 License:        BSD
 URL:            https://python-markdown.github.io/
@@ -66,6 +66,12 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} \
 
 
 %changelog
+* Tue Oct 13 2020 Thomas Moschny <thomas.moschny@gmx.de> - 3.3.1-1
+- Update to 3.3.1.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 3.2.2-3
 - Rebuilt for Python 3.9
 

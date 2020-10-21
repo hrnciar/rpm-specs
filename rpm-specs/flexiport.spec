@@ -1,8 +1,10 @@
+%undefine __cmake_in_source_build
 %global gitrev 1b6103d
+%global soversion 2
 
 Name:           flexiport
 Version:        2.0.0
-Release:        18.20120701git1b6103d%{?dist}
+Release:        20.20120701git1b6103d%{?dist}
 Summary:        Flexible communications library
 
 License:        LGPLv3
@@ -41,19 +43,16 @@ sed -i 's/extensions/#extensions/' doc/conf.py.in
 sed -i 's/\"lib\"/\"%{_lib}\"/' CMakeLists.txt
 
 %build
-%cmake -DBUILD_EXAMPLES=OFF  .
-make %{?_smp_mflags}
-
+%cmake -DBUILD_EXAMPLES=OFF -DCMAKE_BUILD_TYPE=Release
+%cmake_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
-rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}-2/html/{.doctrees,.buildinfo}
-
-%ldconfig_scriptlets
+%cmake_install
 
 %files
 %doc COPYING COPYING.LESSER
-%{_libdir}/*.so.*
+%{_libdir}/*.so.%{version}
+%{_libdir}/*.so.%{soversion}
 
 %files devel
 %{_docdir}/%{name}-2
@@ -65,6 +64,13 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}-2/html/{.doctrees,.buildinfo}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-20.20120701git1b6103d
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-19.20120701git1b6103d
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-18.20120701git1b6103d
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:		gtk-v4l
 Version:	0.4
-Release:	19%{?dist}
+Release:	20%{?dist}
 Summary:	Video4Linux Device Preferences
 License:	LGPLv2+
 URL:		http://fedorahosted.org/gtk-v4l
@@ -59,6 +59,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

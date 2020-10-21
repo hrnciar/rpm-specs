@@ -1,10 +1,10 @@
-%global gitdate 20200125
-%global commit  a89ef603a8873f2a12e54ec5dcb6ff13e745cc62
+%global gitdate 20200605
+%global commit  9afad0f7156a1e9c6ce19dce5d72cf1cb9a3ef27
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           drat-trim
 Version:        0
-Release:        0.5.%{gitdate}.%{shortcommit}%{?dist}
+Release:        0.7.%{gitdate}.%{shortcommit}%{?dist}
 Summary:        Proof checker for DIMACS proofs
 
 License:        MIT
@@ -102,6 +102,12 @@ export LD_LIBRARY_PATH=$PWD
 %{_mandir}/man1/drat-trim.1*
 
 %changelog
+* Mon Aug  3 2020 Jerry James <loganjerry@gmail.com> - 0-0.7.20200605.9afad0f
+- Update for comment support and expandable literal lists
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6.20200125.a89ef60
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar  5 2020 Jerry James <loganjerry@gmail.com> - 0-0.5.20200125.a89ef60
 - Update to latest git snapshot for derivation fixes
 

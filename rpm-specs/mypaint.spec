@@ -1,7 +1,7 @@
 %global prerel beta.0
 Name:           mypaint
 Version:        2.0.0
-Release:        0.6.%{prerel}%{?dist}
+Release:        0.7.%{prerel}%{?dist}
 Summary:        A fast and easy graphics application for digital painters
 
 # MyPaint is GPLv2+, brush library LGPLv2+
@@ -102,6 +102,9 @@ find %{buildroot} -name '*.a' -exec rm -f {} ';'
 %{_datadir}/%{name}/pixmaps
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-0.7.beta.0
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-0.6.beta.0
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@
 
 Name:       python-%{pypi_name}
 Version:    1.9
-Release:    13%{?dist}
+Release:    15%{?dist}
 Summary:    %{sum}
 
 License:    BSD
@@ -15,7 +15,9 @@ Source0:    https://github.com/getpelican/%{pypi_name}/archive/%{commit}/%{pypi_
 
 BuildArch:  noarch
 BuildRequires:  python3-devel
-BuildRequires:  %{py3_dist six pytz}
+BuildRequires:  %{py3_dist pytz}
+BuildRequires:  %{py3_dist setuptools}
+BuildRequires:  %{py3_dist six}
 
 %description
 FeedGenerator is a standalone version of Django’s feedgenerator module. It has
@@ -59,6 +61,12 @@ done
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.9-14
+- Explicitly BR setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.9-13
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           perl-HTTP-Headers-Fast
 Version:        0.22
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Faster implementation of HTTP::Headers
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/HTTP-Headers-Fast
@@ -53,6 +53,9 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.22-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.22-5
 - Perl 5.32 rebuild
 

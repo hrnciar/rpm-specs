@@ -2,8 +2,8 @@
 %global pypi_name gitlab
 
 Name:           python-%{pypi_name}
-Version:        1.15.0
-Release:        3%{?dist}
+Version:        2.4.0
+Release:        1%{?dist}
 Summary:        Interact with GitLab API
 
 License:        LGPLv3
@@ -18,6 +18,8 @@ BuildRequires:  python3dist(six)
 BuildRequires:  python3dist(sphinx)
 BuildRequires:  python3dist(httmock)
 BuildRequires:  python3dist(mock)
+BuildRequires:  python3dist(responses)
+BuildRequires:  python3dist(pytest)
 
 %description
 Interact with GitLab API
@@ -68,6 +70,12 @@ rm -rf html/.{doctrees,buildinfo}
 %doc html
 
 %changelog
+* Fri Aug 21 2020 Steve Traylen <steve.traylen@cern.ch> - 2.4.0-1
+- New 2.4.0 version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.15.0-3
 - Rebuilt for Python 3.9
 

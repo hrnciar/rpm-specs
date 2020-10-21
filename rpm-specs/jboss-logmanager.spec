@@ -3,7 +3,7 @@
 
 Name:             jboss-logmanager
 Version:          2.0.4
-Release:          8%{?dist}
+Release:          10%{?dist}
 Summary:          JBoss Log Manager
 License:          ASL 2.0
 URL:              https://github.com/jboss-logging/jboss-logmanager
@@ -45,6 +45,12 @@ This package contains the API documentation for %{name}.
 %license LICENSE.txt
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.4-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.0.4-9
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.4-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

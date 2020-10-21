@@ -1,7 +1,7 @@
 Summary: Fast compression and decompression utilities
 Name: ncompress
 Version: 4.2.4.4
-Release: 17%{?dist}
+Release: 18%{?dist}
 License: Public Domain
 URL:    http://ncompress.sourceforge.net/
 Source: http://prdownloads.sourceforge.net/sourceforge/%{name}/%{name}-%{version}.tar.gz
@@ -97,6 +97,9 @@ ln -sf compress.1 $RPM_BUILD_ROOT%{_mandir}/man1/uncompress.1
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.4.4-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.4.4-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

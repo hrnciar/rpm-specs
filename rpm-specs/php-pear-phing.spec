@@ -1,6 +1,6 @@
 # remirepo/fedora spec file for php-pear-phing
 #
-# Copyright (c) 2013-2018 Remi Collet
+# Copyright (c) 2013-2020 Remi Collet
 # Copyright (c) 2010-2013 Christof Damian
 # Copyright (c) 2007-2010 Alexander Kahl
 #
@@ -16,7 +16,7 @@
 Summary:       A project build system based on Apache Ant
 Name:          php-pear-phing
 Version:       2.16.1
-Release:       6%{?dist}
+Release:       8%{?dist}
 
 License:       LGPLv2
 URL:           http://phing.info/trac/
@@ -41,16 +41,18 @@ Requires:      php(language) >= 5.2.0
 Requires:      php-pear(PEAR) >= 1.8.0
 Requires:      php-channel(%{pear_channel})
 # From package.xml, Optional
-Requires:      php-pear(pear.phpunit.de/PHP_CodeCoverage) >= 1.1.0
-Requires:      php-pear(pear.phpunit.de/phploc) >= 1.6.4
 Requires:      php-pear(Archive_Tar) >= 1.3.8
 Requires:      php-pear(HTTP_Request2) >= 2.1.1
 Requires:      php-pear(PHP_CodeSniffer) >= 1.5.0
 Requires:      php-pear(pear.pdepend.org/PHP_Depend) >= 0.10.0
 Requires:      php-pear(pear.phpmd.org/PHP_PMD) >= 1.1.0
+%if 0%{?fedora} >= 21 || 0%{?rhel} >= 8
 # Removed from package.xml as no more available in pear
-Requires:      php-phpunit-PHPUnit
-Requires:      php-phpunit-phpcpd
+Recommends:    phpunit
+Recommends:    phploc
+Recommends:    phpcpd
+Recommends:    phpcov
+%endif
 
 # TODO
 # pear.phing.info/phingdocs >= 2.9.0
@@ -119,6 +121,12 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Remi Collet <remi@remirepo.net> - 2.16.1-7
+- use weak dependencies for phpunit, phploc, phpcpd and phpcov
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

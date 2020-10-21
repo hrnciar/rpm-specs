@@ -2,8 +2,8 @@
 %bcond_without perl_HTTP_Message_enables_Clone
 
 Name:           perl-HTTP-Message
-Version:        6.24
-Release:        2%{?dist}
+Version:        6.26
+Release:        1%{?dist}
 Summary:        HTTP style message
 # CONTRIBUTING.md:  CC0
 # other files:      GPL+ or Artistic
@@ -11,6 +11,7 @@ License:        (GPL+ or Artistic) and CC0
 URL:            https://metacpan.org/release/HTTP-Message
 Source0:        https://cpan.metacpan.org/authors/id/O/OA/OALDERS/HTTP-Message-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -102,6 +103,21 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Thu Sep 10 2020 Petr Pisar <ppisar@redhat.com> - 6.26-1
+- 6.26 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.25-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Jitka Plesnikova <jplesnik@redhat.com> - 6.25-3
+- Perl 5.32 re-rebuild
+
+* Mon Jun 29 2020 Jitka Plesnikova <jplesnik@redhat.com> - 6.25-2
+- Perl 5.32 re-rebuild
+
+* Mon Jun 29 2020 Petr Pisar <ppisar@redhat.com> - 6.25-1
+- 6.25 bump
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 6.24-2
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:		icfg 
 Version:	0.9	
-Release:	19%{?dist}
+Release:	20%{?dist}
 Summary:	Command line utility to edit network configuration (icfg-*) files
 License:	GPLv2
 URL:		https://fedorahosted.org/icfg
@@ -41,6 +41,9 @@ install -m644 -p doc/icfg.1 $RPM_BUILD_ROOT/usr/share/man/man1/icfg.1
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

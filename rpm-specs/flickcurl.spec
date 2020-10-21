@@ -1,6 +1,6 @@
 Name:           flickcurl
 Version:        1.26
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        C library for the Flickr API
 License:        LGPLv2+ or GPLv2+ or ASL 2.0
 URL:            http://librdf.org/flickcurl
@@ -70,6 +70,9 @@ chrpath --delete %{buildroot}%{_bindir}/flickrdf
 %{_mandir}/man1/%{name}-config.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.26-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.26-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

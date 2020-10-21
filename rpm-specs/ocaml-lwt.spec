@@ -1,6 +1,6 @@
 Name:           ocaml-lwt
-Version:        5.2.0
-Release:        3%{?dist}
+Version:        5.3.0
+Release:        6%{?dist}
 Summary:        OCaml lightweight thread library
 
 # The openssl linking exception is granted.
@@ -26,9 +26,8 @@ BuildRequires:  ocaml-ocplib-endian-devel
 BuildRequires:  ocaml-react-devel
 
 # lwt_ppx dependencies.
-BuildRequires:  ocaml-ppx-tools-versioned-devel >= 5.2.3
+BuildRequires:  ocaml-ppx-tools-versioned-devel >= 5.3.0
 
-#BuildRequires:  chrpath
 BuildRequires:  glib2-devel
 BuildRequires:  libev-devel
 
@@ -40,9 +39,9 @@ is part of the Ocsigen project.
 %package        devel
 Summary:        Development files for %{name}
 Requires:       %{name}%{?_isa} = %{version}-%{release}
-# This is probably a packaging or dependency bug, but if we don't
-# have it then any package that builds using LWT fails with:
-# ocamlfind: Package `seq' not found - required by `lwt'
+Requires:       ocaml-mmap-devel
+Requires:       ocaml-ocplib-endian-devel%{?_isa}
+Requires:       ocaml-result-devel%{?_isa}
 Requires:       ocaml-seq-devel%{?_isa}
 Requires:       libev-devel%{?_isa}
 
@@ -88,14 +87,6 @@ developing applications that use %{name}-ppx.
 %prep
 %autosetup -n lwt-%{version}
 
-# Enable libev and pthread.
-sed 's/-use-libev false/-use-libev true -use-pthread true/g' -i Makefile
-
-# Remove '-dev' from the jbuilder command line.
-# This stops 'ambiguous documentation comment' from being a fatal error.
-sed 's/build --dev/build/g' -i Makefile
-sed 's/runtest --dev/runtest/g' -i Makefile
-
 # It looks like one test fails.
 # Actually, it looks like all the "mcast" tests fail in koji.
 # They should probably be disabled via a patch, but this works for now.
@@ -104,12 +95,10 @@ sed 's,test_mcast "mcast-join-noloop" true false;,(*test_mcast "mcast-join-noloo
 sed 's,test_mcast "mcast-nojoin-loop" false true;,(*test_mcast "mcast-nojoin-loop" false true;*),' -i test/unix/test_mcast.ml
 sed 's,test_mcast "mcast-nojoin-noloop" false false;,(*test_mcast "mcast-nojoin-noloop" false false;*),' -i test/unix/test_mcast.ml
 
-# Some lwt.unix tests fail because we can't seem to look up the
-# user/group name from inside koji. I guess that makes sense?
-# Those tests have guards not to run on win32; we can hack them to not run here either.
-sed 's,Sys.win32 && not is_wsl,Sys.unix,g' -i test/unix/test_lwt_unix.cppo.ml
-
 %build
+# Enable libev and pthread.
+dune exec src/unix/config/discover.exe -- --save \
+     --use-libev true --use-pthread true
 dune build --profile=release --verbose
 
 # Relink the stublib with RPM_LD_FLAGS
@@ -121,9 +110,7 @@ cd -
 %install
 dune install --profile=release --destdir %{buildroot}
 
-#chrpath --delete $OCAMLFIND_DESTDIR/stublibs/dll*.so
-
-# Remove spurious jbuilder-installed documentation.
+# Remove spurious dune-installed documentation.
 rm -rf %{buildroot}/%{_prefix}/doc
 
 %ifarch %{ocaml_native_compiler}
@@ -227,6 +214,24 @@ dune runtest --profile=release
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 5.3.0-6
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 5.3.0-5
+- OCaml 4.11.0 rebuild
+
+* Mon Aug 03 2020 Richard W.M. Jones <rjones@redhat.com> - 5.3.0-4
+- Bump and rebuild to fix Dynlink dependency.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Richard W.M. Jones <rjones@redhat.com> - 5.3.0-2
+- Rebuild to resolve build order symbol problems.
+
+* Mon Jun 15 2020 Jerry James <loganjerry@gmail.com> - 5.3.0-1
+- New upstream version 5.3.0
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 5.2.0-3
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

@@ -1,6 +1,6 @@
 Name:           newlisp
 Version:        10.7.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Lisp-like general purpose scripting
 
 License:        GPLv3+
@@ -59,6 +59,9 @@ make install_home HOME=%{buildroot}/usr/
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.7.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 19 2020 Filipe Rosset <rosset.filipe@gmail.com> - 10.7.5-1
 - Update to 10.7.5 fixes rhbz#1709040 and rhbz#1494229
 

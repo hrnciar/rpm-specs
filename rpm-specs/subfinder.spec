@@ -17,7 +17,7 @@ safe for penetration testing.}
 %global godocs          ISSUE_TEMPLATE.md THANKS.md README.md DISCLAIMER.md
 
 Name:           subfinder
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Subdomain discovery tool
 
 License:        MIT
@@ -69,6 +69,13 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.5-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 28 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.3.5-1
 - Update to latest upstream release 2.3.5
 

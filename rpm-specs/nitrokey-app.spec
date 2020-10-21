@@ -1,15 +1,13 @@
 Name:           nitrokey-app
-Version:        1.4
-Release:        2%{?dist}
+Version:        1.4.2
+Release:        1%{?dist}
 Summary:        Nitrokey's Application
 
 License:        GPLv3+
 URL:            https://github.com/Nitrokey/nitrokey-app
-Source0:        %{url}/archive/v%{version}%{?rctag:-%{rctag}}/%{name}-%{version}%{?rctag:-%{rctag}}.tar.gz
+Source0:        %{url}/archive/v%{version_no_tilde -}/%{name}-%{version}.tar.gz
 # Non-upstreamable, required to unbundle libraries
 Patch0001:      0001-don-t-show-information-about-3rd-party-licenses.patch
-# https://github.com/Nitrokey/nitrokey-app/pull/439
-Patch0002:      0001-metainfo-Move-1.4.0-release-to-the-top.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  cmake >= 3.1.0
@@ -66,6 +64,12 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/com.nitrokey.%
 %{_datadir}/bash-completion/completions/%{name}
 
 %changelog
+* Sun Aug 23 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.4.2-1
+- Update to 1.4.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

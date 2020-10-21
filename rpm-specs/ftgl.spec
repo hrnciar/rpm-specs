@@ -1,6 +1,6 @@
 Name:           ftgl
 Version:        2.1.3
-Release:        0.22.rc5%{?dist}
+Release:        0.23.rc5%{?dist}
 Summary:        OpenGL frontend to Freetype 2
 
 License:        LGPLv2
@@ -100,6 +100,9 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/doc
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.3-0.23.rc5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.3-0.22.rc5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

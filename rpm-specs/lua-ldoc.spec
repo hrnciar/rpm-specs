@@ -1,11 +1,11 @@
-%global luaver 5.3
+%global luaver 5.4
 %global luapkgdir %{_datadir}/lua/%{luaver}
 
 %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 Name:		lua-ldoc
 Version:	1.4.6
-Release:	8%{?dist}
+Release:	11%{?dist}
 BuildArch:	noarch
 Summary:	Lua documentation generator
 # the included css code is BSD licensed
@@ -15,6 +15,7 @@ Source0:	https://github.com/stevedonovan/LDoc/archive/%{version}/LDoc-%{version}
 BuildRequires:	lua >= %{luaver}
 BuildRequires:	lua-markdown
 BuildRequires:	lua-penlight >= 1.4.0
+BuildRequires:	make
 Requires:	lua >= %{luaver}
 Requires:	lua-markdown
 Requires:	lua-penlight >= 1.4.0
@@ -101,6 +102,17 @@ cp -av %{!?_licensedir:COPYRIGHT} readme.html changes.html out/* \
 
 
 %changelog
+* Wed Aug  5 2020 Thomas Moschny <thomas.moschny@gmx.de> - 1.4.6-11
+- Update for Lua 5.4.
+- Add BR on make.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.6-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.6-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.6-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

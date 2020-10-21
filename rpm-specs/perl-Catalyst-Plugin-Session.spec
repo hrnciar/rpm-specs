@@ -1,7 +1,7 @@
 Name:           perl-Catalyst-Plugin-Session
 Summary:        Catalyst generic session plugin
 Version:        0.41
-Release:        6%{?dist}
+Release:        9%{?dist}
 License:        GPL+ or Artistic
 
 Source0:        https://cpan.metacpan.org/authors/id/J/JJ/JJNAPIORK/Catalyst-Plugin-Session-%{version}.tar.gz 
@@ -102,6 +102,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.41-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.41-8
+- Perl 5.32 re-rebuild of bootstrapped packages
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.41-7
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.41-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

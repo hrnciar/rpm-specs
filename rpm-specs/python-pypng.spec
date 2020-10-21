@@ -2,7 +2,7 @@
 
 Name:               python-pypng
 Version:            0.0.18
-Release:            19%{?dist}
+Release:            20%{?dist}
 Summary:            Pure Python PNG image encoder/decoder
 
 License:            MIT
@@ -65,6 +65,9 @@ nosetests-3 code/png.py
 %{python3_sitelib}/%{modname}-%{version}-*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.18-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.0.18-19
 - Rebuilt for Python 3.9
 

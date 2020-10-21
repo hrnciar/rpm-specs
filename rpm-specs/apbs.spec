@@ -1,3 +1,6 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 # Workaround for GCC-10
 %define _legacy_common_support 1
 
@@ -13,7 +16,7 @@
 Name: apbs
 Summary: Adaptive Poisson Boltzmann Solver
 Version: 3.0.0
-Release: 3%{datecommit}%{shortcommit}%{?dist}
+Release: 5%{datecommit}%{shortcommit}%{?dist}
 # iAPBS looks licensed with a LGPLv2+, APBS is released under BSD license.
 License: LGPLv2+ and BSD
 URL: https://www.poissonboltzmann.org/
@@ -83,7 +86,9 @@ cp -p apbs/contrib/iapbs/COPYING apbs/contrib/iapbs/iapbs-COPYING
 cp -p %{SOURCE1} apbs/contrib/iapbs/iapbs-LGPLv2
 
 %build
-pushd apbs
+# Set the source directory
+%global _vpath_srcdir apbs
+
 export CFLAGS="%{build_cflags} -fopenmp -lm"
 export CXXFLAGS="%{build_cxxflags} -fopenmp -lm"
 %cmake3 -DBUILD_DOC:BOOL=OFF -DCMAKE_BUILD_TYPE:STRING=Release \
@@ -92,12 +97,11 @@ export CXXFLAGS="%{build_cxxflags} -fopenmp -lm"
 %if %{with python}
  -DENABLE_PYTHON:BOOL=ON \
 %endif
- .
-%make_build
-popd
+ %{nil}
+%cmake_build
 
 %install
-%make_install -C apbs
+%cmake_install
 
 # tools
 for bin in %{buildroot}%{_bindir}/{coulomb,born,mgmesh,dxmath,mergedx2,mergedx,value,uhbd_asc2bin,smooth,dx2mol,dx2uhbd,similarity,multivalue,benchmark,analysis,del2dx,tensor2dx}; do
@@ -110,7 +114,10 @@ mkdir -p %{buildroot}%{python3_sitearch}/apbs
 install -pm 755 apbs/tools/manip/psize.py %{buildroot}%{python3_sitearch}/apbs/
 pathfix.py -pn -i "%{__python3}" %{buildroot}%{python3_sitearch}/apbs/psize.py
 ln -s %{python3_sitearch}/apbs/psize.py %{buildroot}%{_bindir}/apbs-psize.py
-install -pm 755 apbs/lib/_apbslib.so %{buildroot}%{python3_sitearch}/apbs/
+install -pm 755 %{_vpath_builddir}/lib/_apbslib.so %{buildroot}%{python3_sitearch}/apbs/
+
+# Remove redundant tools binary files in /usr/share
+rm -rf %{buildroot}%{_datadir}/apbs
 
 # Remove static libraries
 for i in `find %{buildroot} -type f \( -name "*.a" \)`; do
@@ -164,6 +171,13 @@ sed -i 's|../build/bin/apbs|../bin/apbs|g' ./apbs_tester.py
 %doc doc/_build/html
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.0.0-3
 - Use cmake3 macro
 

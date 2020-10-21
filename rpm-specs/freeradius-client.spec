@@ -1,7 +1,7 @@
 Summary: RADIUS protocol client library
 Name: freeradius-client
 Version: 1.1.7
-Release: 21%{?dist}
+Release: 22%{?dist}
 # For a breakdown of the licensing, see PACKAGE-LICENSING 
 License: BSD and MIT
 URL: http://freeradius.org/freeradius-client/
@@ -101,6 +101,9 @@ cp %{SOURCE3} %{buildroot}%{_datadir}/radiusclient/dictionary
 %{_sbindir}/radembedded
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.7-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.7-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

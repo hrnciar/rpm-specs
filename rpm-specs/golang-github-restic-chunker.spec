@@ -3,7 +3,7 @@
 
 # https://github.com/restic/chunker
 %global goipath         github.com/restic/chunker
-Version:                0.3.0
+Version:                0.4.0
 
 %gometa
 
@@ -42,6 +42,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 19:36:49 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.4.0-1
+- Update to 0.4.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 6 2020 Steve Miller <copart@gmail.com> - 0.3.0-1
 - Bumped to upstream 0.3.0
   Resolves: #1802535

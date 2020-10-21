@@ -3,7 +3,7 @@
 %{?python_disable_dependency_generator}
 
 Name:           python-%{pypi_name}
-Version:        0.9.1
+Version:        0.12.0
 Release:        1%{?dist}
 Summary:        Minimal low-level HTTP client
 
@@ -53,5 +53,20 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Fri Oct  9 16:39:18 -03 2020 Itamar Reis Peixoto <itamar@ispbrasil.com.br> - 0.12.0-1
+- Update to latest upstream release 0.12.0
+
+* Wed Sep 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.11.1-1
+- Update to latest upstream release 0.11.1 (#1883308)
+
+* Wed Sep 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.11.0-1
+- Update to latest upstream release 0.11.0 (#1881374)
+
+* Thu Sep 03 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.10.2-1
+- Update to latest upstream release 0.10.2 (#1875285)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.9.1-1
 - Initial package for Fedora

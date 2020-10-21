@@ -1,7 +1,7 @@
 %global rhel7_minor %(%{__grep} -o "7.[0-9]*" /etc/redhat-release |%{__sed} -s 's/7.//')
 
 # we don't want to provide private python extension libs
-%define __provides_exclude_from %{python3_sitearch}/.*\.so$|%{_libdir}/%{name}/modules/libwbclient.so.*$
+%define __provides_exclude_from %{python3_sitearch}/.*\.so$
 
 # SSSD fails to build with -Wl,-z,defs
 %undefine _strict_symbol_defs_build
@@ -23,27 +23,19 @@
 
     %global with_gdm_pam_extensions 1
 
-%if (0%{?fedora} > 28)
+%if (0%{?fedora} > 28) || (0%{?rhel} > 7)
     %global use_openssl 1
 %endif
 
-%global libwbc_alternatives_version 0.14
-%global libwbc_lib_version %{libwbc_alternatives_version}.0
-%global libwbc_alternatives_suffix %nil
-%if 0%{?__isa_bits} == 64
-%global libwbc_alternatives_suffix -64
-%endif
-
 Name: sssd
-Version: 2.3.0
+Version: 2.4.0
 Release: 2%{?dist}
 Summary: System Security Services Daemon
 License: GPLv3+
 URL: https://github.com/SSSD/sssd/
-Source0: https://github.com/SSSD/sssd/releases/download/sssd-2_3_0/sssd-2.3.0.tar.gz
+Source0: https://github.com/SSSD/sssd/releases/download/sssd-2_4_0/sssd-2.4.0.tar.gz
 
 ### Patches ###
-Patch0001: 0001-test-avoid-endian-issues-in-network-tests.patch
 
 ### Downstream only patches ###
 Patch0502: 0502-SYSTEMD-Use-capabilities.patch
@@ -317,7 +309,6 @@ Requires: sssd-krb5-common = %{version}-%{release}
 Requires: sssd-common-pac = %{version}-%{release}
 Recommends: bind-utils
 Recommends: adcli
-Suggests: sssd-libwbclient = %{version}-%{release}
 Suggests: sssd-winbind-idmap = %{version}-%{release}
 
 %description ad
@@ -426,24 +417,6 @@ Requires: libsss_simpleifp = %{version}-%{release}
 %description -n libsss_simpleifp-devel
 Provides library that simplifies D-Bus API for the SSSD InfoPipe responder.
 
-%package libwbclient
-Summary: The SSSD libwbclient implementation
-License: GPLv3+ and LGPLv3+
-Conflicts: libwbclient < 4.2.0-0.2.rc2
-Conflicts: sssd-common < %{version}-%{release}
-
-%description libwbclient
-The SSSD libwbclient implementation.
-
-%package libwbclient-devel
-Summary: Development libraries for the SSSD libwbclient implementation
-License: GPLv3+ and LGPLv3+
-Requires: sssd-libwbclient = %{version}-%{release}
-Conflicts: libwbclient-devel < 4.2.0-0.2.rc2
-
-%description libwbclient-devel
-Development libraries for the SSSD libwbclient implementation.
-
 %package winbind-idmap
 Summary: SSSD's idmap_sss Backend for Winbind
 License: GPLv3+ and LGPLv3+
@@ -513,6 +486,11 @@ for p in %patches ; do
 done
 
 %build
+# This package uses -Wl,-wrap to wrap calls at link time.  This is incompatible
+# with LTO.
+# Disable LTO
+%define _lto_cflags %{nil}
+
 autoreconf -ivf
 
 %configure \
@@ -524,6 +502,7 @@ autoreconf -ivf
     --with-gpo-cache-path=%{gpocachepath} \
     --with-init-dir=%{_initrddir} \
     --with-krb5-rcache-dir=%{_localstatedir}/cache/krb5rcache \
+    --with-pid-path=%{_rundir} \
     --enable-nsslibdir=%{_libdir} \
     --enable-pammoddir=%{_libdir}/security \
     --enable-nfsidmaplibdir=%{_libdir}/libnfsidmap \
@@ -541,24 +520,18 @@ autoreconf -ivf
     %{?with_cifs_utils_plugin_option} \
     %{?enable_systemtap_opt}
 
-make %{?_smp_mflags} all docs
+%make_build all docs runstatedir=%{_rundir}
 
 sed -i -e 's:/usr/bin/python:/usr/bin/python3:' src/tools/sss_obfuscate
 
 %check
 export CK_TIMEOUT_MULTIPLIER=10
-make %{?_smp_mflags} check VERBOSE=yes
+%make_build check VERBOSE=yes
 unset CK_TIMEOUT_MULTIPLIER
 
 %install
 
-make install DESTDIR=$RPM_BUILD_ROOT
-
-if [ ! -f $RPM_BUILD_ROOT/%{_libdir}/%{name}/modules/libwbclient.so.%{libwbc_lib_version} ]
-then
-    echo "Expected libwbclient version not found, please check if version has changed."
-    exit -1
-fi
+%make_install
 
 # Prepare language files
 /usr/lib/rpm/find-lang.sh $RPM_BUILD_ROOT sssd
@@ -930,16 +903,6 @@ done
 %files -n python3-libipa_hbac
 %{python3_sitearch}/pyhbac.so
 
-%files libwbclient
-%dir %{_libdir}/%{name}
-%dir %{_libdir}/%{name}/modules
-%{_libdir}/%{name}/modules/libwbclient.so.*
-
-%files libwbclient-devel
-%{_includedir}/wbclient_sssd.h
-%{_libdir}/%{name}/modules/libwbclient.so
-%{_libdir}/pkgconfig/wbclient_sssd.pc
-
 %files winbind-idmap -f sssd_winbind_idmap.lang
 %dir %{_libdir}/samba/idmap
 %{_libdir}/samba/idmap/sss.so
@@ -1050,30 +1013,35 @@ fi
 %posttrans common
 %systemd_postun_with_restart sssd.service
 
-%posttrans libwbclient
-%{_sbindir}/update-alternatives \
-    --install %{_libdir}/libwbclient.so.%{libwbc_alternatives_version} \
-              libwbclient.so.%{libwbc_alternatives_version}%{libwbc_alternatives_suffix} \
-              %{_libdir}/%{name}/modules/libwbclient.so.%{libwbc_lib_version} 5
-/sbin/ldconfig
-
-%preun libwbclient
-%{_sbindir}/update-alternatives \
-    --remove libwbclient.so.%{libwbc_alternatives_version}%{libwbc_alternatives_suffix} \
-             %{_libdir}/%{name}/modules/libwbclient.so.%{libwbc_lib_version}
-/sbin/ldconfig
-
-%posttrans libwbclient-devel
-%{_sbindir}/update-alternatives --install %{_libdir}/libwbclient.so \
-                                libwbclient.so%{libwbc_alternatives_suffix} \
-                                %{_libdir}/%{name}/modules/libwbclient.so 5
-
-%preun libwbclient-devel
-%{_sbindir}/update-alternatives --remove \
-                                libwbclient.so%{libwbc_alternatives_suffix} \
-                                %{_libdir}/%{name}/modules/libwbclient.so
-
 %changelog
+* Mon Oct 12 2020 Pavel Březina <pbrezina@redhat.com> - 2.4.0-2
+- Remove old patches
+
+* Mon Oct 12 2020 Pavel Březina <pbrezina@redhat.com> - 2.4.0-1
+- Rebase to SSSD 2.4.0
+
+* Tue Jul 28 2020 Pavel Březina <pbrezina@redhat.com> - 2.3.1-4
+- Actually include 2.3.1 source
+
+* Tue Jul 28 2020 Pavel Březina <pbrezina@redhat.com> - 2.3.1-3
+- Fix test compilation with check-0.15
+
+* Mon Jul 27 2020 Pavel Březina <pbrezina@redhat.com> - 2.3.1-2
+- Use correct run dir (RHBZ#1557622)
+
+* Fri Jul 24 2020 Pavel Březina <pbrezina@redhat.com> - 2.3.1-1
+- Rebase to SSSD 2.3.1
+
+* Fri Jul 24 2020 Merlin Mathesius <mmathesi@redhat.com> - 2.3.0-5
+- Minor ELN conditional fix
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 2.3.0-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Wed Jul  1 2020 Jeff Law <law@redhat.com>
+- Disable LTO
+
 * Fri Jun 19 2020 Peter Jones <pjones@redhat.com>
 - Fix github url typo
 

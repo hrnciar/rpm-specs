@@ -27,7 +27,7 @@
 
 Name:          php-%{composer_vendor}-jmespath-php
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       Declaratively specify how to extract elements from a JSON document
 
 License:       MIT
@@ -130,6 +130,9 @@ sed 's/function testTokenizesJsonNumbers/function SKIP_testTokenizesJsonNumbers/
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 12 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.5.0-1
 - Update to 2.5.0 (RHBZ #1787856)
 

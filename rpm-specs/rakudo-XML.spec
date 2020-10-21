@@ -23,7 +23,7 @@
 
 Name:		rakudo-XML
 Version:	0.0.3
-Release:	0.7.20190728git417f637%{?dist}
+Release:	0.8.20190728git417f637%{?dist}
 Summary:	An Object-Oriented XML Library for Perl 6 
 
 License:	Artistic 2.0
@@ -75,6 +75,9 @@ prove -e 'perl6 -Ilib' t
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.3-0.8.20190728git417f637
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.3-0.7.20190728git417f637
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

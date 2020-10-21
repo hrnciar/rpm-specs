@@ -2,7 +2,7 @@
 
 Name:           jakarta-annotations
 Version:        1.3.5
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        Jakarta Annotations
 License:        EPL-2.0 or GPLv2 with exceptions
 
@@ -46,9 +46,9 @@ that applies across a variety of Java technologies.
 %pom_remove_plugin :findbugs-maven-plugin api
 
 # provide aliases for the old artifact coordinates
-%mvn_alias jakarta.annotation:jakarta.annotation-api      javax.annotation:javax.annotation-api
-%mvn_alias jakarta.annotation:jakarta.annotation-api:pom: javax.annotation:javax.annotation-api:pom:
-
+%mvn_alias jakarta.annotation:jakarta.annotation-api \
+  javax.annotation:javax.annotation-api \
+  javax.annotation:jsr250-api
 
 %build
 %mvn_build
@@ -64,6 +64,15 @@ that applies across a variety of Java technologies.
 
 
 %changelog
+* Thu Aug 13 2020 Jerry James <loganjerry@gmail.com> - 1.3.5-6
+- Remove duplicate aliases
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Alexander Kurtakov <akurtako@redhat.com> 1.3.5-4
+- Add alias for jsr250-api
+
 * Fri Jun 19 2020 Mat Booth <mat.booth@redhat.com> - 1.3.5-3
 - Remove uneeded plugin invokations
 
@@ -72,4 +81,3 @@ that applies across a variety of Java technologies.
 
 * Fri May 08 2020 Fabio Valentini <decathorpe@gmail.com> - 1.3.5-1
 - Initial package renamed from glassfish-annotation-api.
-

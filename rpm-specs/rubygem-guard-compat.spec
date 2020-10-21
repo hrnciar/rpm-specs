@@ -3,7 +3,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 1.2.1
-Release: 6%{?dist}
+Release: 7%{?dist}
 Summary: Tools for developing Guard compatible plugins
 URL: https://github.com/guard/guard-compat
 License: MIT
@@ -70,6 +70,9 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

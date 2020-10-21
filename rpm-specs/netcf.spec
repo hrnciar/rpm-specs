@@ -1,6 +1,6 @@
 Name:           netcf
 Version:        0.2.8
-Release:        15%{?dist}%{?extra_release}
+Release:        16%{?dist}%{?extra_release}
 Summary:        Cross-platform network configuration library
 
 License:        LGPLv2+
@@ -211,6 +211,9 @@ fi
 %{_libdir}/pkgconfig/netcf.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.8-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.8-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

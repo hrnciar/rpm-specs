@@ -3,7 +3,7 @@
 
 # https://github.com/fluent/fluent-logger-golang
 %global goipath         github.com/fluent/fluent-logger-golang
-Version:                1.4.0
+Version:                1.5.0
 
 %gometa
 
@@ -14,7 +14,7 @@ A structured logger for Fluentd.}
 %global godocs          _examples CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Structured logger for Fluentd
 
 # Upstream license specification: Apache-2.0
@@ -48,6 +48,12 @@ BuildRequires:  golang(github.com/bmizerany/assert)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 17:23:48 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.5.0-1
+- Update to 1.5.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

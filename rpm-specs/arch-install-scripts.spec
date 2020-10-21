@@ -1,6 +1,6 @@
 Name:           arch-install-scripts
 Version:        23
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Scripts to bootstrap Arch Linux distribution
 License:        GPLv2
 URL:            https://projects.archlinux.org/arch-install-scripts.git
@@ -50,6 +50,9 @@ make check
 %{_mandir}/man8/pacstrap.8*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 23-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 31 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 23-1
 - Update to latest version (#1717676)
 

@@ -5,7 +5,7 @@
 %global crate path-dedot
 
 Name:           rust-%{crate}
-Version:        3.0.0
+Version:        3.0.7
 Release:        1%{?dist}
 Summary:        Parse path with dots in `Path` and `PathBuf`
 
@@ -53,6 +53,18 @@ which use "default" feature of "%{crate}" crate.
 %files       -n %{name}+default-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+lazy_static-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+lazy_static-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "lazy_static" feature of "%{crate}" crate.
+
+%files       -n %{name}+lazy_static-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+lazy_static_cache-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -63,6 +75,18 @@ This package contains library source intended for building other packages
 which use "lazy_static_cache" feature of "%{crate}" crate.
 
 %files       -n %{name}+lazy_static_cache-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+once_cell_cache-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+once_cell_cache-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "once_cell_cache" feature of "%{crate}" crate.
+
+%files       -n %{name}+once_cell_cache-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %package     -n %{name}+unsafe_cache-devel
@@ -96,6 +120,12 @@ which use "unsafe_cache" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 3.0.7-1
+- Update to 3.0.7
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 09:05:59 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 3.0.0-1
 - Update to 3.0.0
 

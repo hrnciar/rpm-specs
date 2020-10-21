@@ -1,6 +1,7 @@
+%define __cmake_in_source_build 1
 Name:           bifcl
 Version:        1.2
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        A built-in-function (BIF) compiler/generator
 
 License:        BSD
@@ -45,6 +46,16 @@ cd build
 %{_bindir}/%{name}
 
 %changelog
+* Mon Oct 12 2020 Jeff Law <law@redhat.com> - 1.2-4
+- Use  __cmake_in_source_build
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.2-1
 - Update to latest upstream release 1.2
 

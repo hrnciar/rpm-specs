@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          0.3.0
-Release:          7%{?dist}
+Release:          9%{?dist}
 Summary:          Threshold independent performance measures for probabilistic classifiers
 
 License:          GPLv2+
@@ -62,6 +62,12 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 José Abílio Matos <jamatos@fedoraproject.org> - 0.3.0-8
+- bump version to ensure upgrade path (due to a F32 rebuild)
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 0.3.0-7
 - rebuild for R 4.0.0
 

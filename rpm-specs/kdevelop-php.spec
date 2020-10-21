@@ -1,7 +1,8 @@
+%undefine __cmake_in_source_build
 
 Name:           kdevelop-php
 Summary:        Php language and documentation plugins for KDevelop
-Version:        5.5.2
+Version:        5.6.0
 Release:        1%{?dist}
 
 # Most files LGPLv2+/GPLv2+
@@ -41,16 +42,12 @@ BuildRequires:  qt5-qtwebkit-devel
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 # TODO Enable translations in stable build
 %find_lang %{name} --all-name
@@ -69,6 +66,12 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Sep 08 2020 Jan Grulich <jgrulich@redhat.com> - 5.6.0-1
+- 5.6.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.5.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Jan Grulich <jgrulich@redhat.com> - 5.5.2-1
 - 5.5.2
 

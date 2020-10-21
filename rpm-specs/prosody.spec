@@ -1,16 +1,12 @@
-%if 0%{?fedora} > 19 && 0%{?fedora} <= 30
-%global lua_version 5.1
-%else
 %{!?lua_version: %global lua_version %{lua: print(string.sub(_VERSION, 5))}}
-%endif
 
 %global sslcert    %{_sysconfdir}/pki/%{name}/localhost.crt
 %global sslkey     %{_sysconfdir}/pki/%{name}/localhost.key
 
 Summary:           Flexible communications server for Jabber/XMPP
 Name:              prosody
-Version:           0.11.5
-Release:           1%{?dist}
+Version:           0.11.7
+Release:           2%{?dist}
 License:           MIT
 URL:               https://prosody.im/
 Source0:           https://prosody.im/downloads/source/%{name}-%{version}.tar.gz
@@ -25,6 +21,8 @@ Source8:           prosody-localhost.cfg.lua
 Source9:           prosody-example.com.cfg.lua
 Patch0:            prosody-0.11.0-config.patch
 Patch1:            prosody-0.11.4-lua53.patch
+Patch2:            prosody-0.11.5-lua54.patch
+Patch3:            prosody-0.11.7-epel6.patch
 BuildRequires:     gcc, libidn-devel, openssl-devel
 BuildRequires:     gnupg2
 Requires:          %{_bindir}/openssl
@@ -39,22 +37,16 @@ Requires(post):    /sbin/chkconfig, %{_bindir}/openssl
 Requires(preun):   /sbin/service, /sbin/chkconfig
 Requires(postun):  /sbin/service
 %endif
-%if 0%{?fedora} > 19 && 0%{?fedora} <= 30
-Requires:          compat-lua, lua-filesystem-compat, lua5.1-bitop
-Requires:          lua-expat-compat, lua-socket-compat, lua-sec-compat
-BuildRequires:     compat-lua, compat-lua-devel
-%else
 %if 0%{?rhel} > 6 || 0%{?fedora} > 15
 Requires:          lua(abi) = %{lua_version}
 %else
 Requires:          lua >= %{lua_version}
 %endif
 Requires:          lua-filesystem, lua-expat, lua-socket, lua-sec
-%if 0%{?rhel} >= 6 && 0%{?rhel} <= 7
+%if 0%{?rhel} == 6 || 0%{?rhel} == 7
 Requires:          lua-bitop
 %endif
 BuildRequires:     lua, lua-devel
-%endif
 
 %description
 Prosody is a flexible communications server for Jabber/XMPP written in Lua.
@@ -63,19 +55,19 @@ to be easy to extend and give a flexible system on which to rapidly develop
 added functionality, or prototype new protocols.
 
 %prep
-gpgv2 --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
+%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
 %setup -q
 %patch0 -p1 -b .config
 %patch1 -p1 -b .lua53
+%patch2 -p1 -b .lua54
+%if 0%{?rhel} == 6
+%patch3 -p1 -b .epel6
+%endif
 
 %build
 ./configure \
   --prefix=%{_prefix} \
   --libdir=%{_libdir} \
-%if 0%{?fedora} > 19 && 0%{?fedora} <= 30
-  --lua-version=%{lua_version} \
-  --with-lua-include=%{_includedir}/lua-%{lua_version} \
-%endif
   --add-cflags="$RPM_OPT_FLAGS" \
 %if 0%{?rhel} > 6 || 0%{?fedora}
   --add-ldflags="$RPM_LD_FLAGS" \
@@ -214,6 +206,24 @@ fi
 %{_mandir}/man1/%{name}*.1*
 
 %changelog
+* Thu Oct 08 2020 Robert Scheck <robert@fedoraproject.org> 0.11.7-2
+- Added upstream patches for better Lua 5.4 support (#1886456)
+
+* Thu Oct 01 2020 Robert Scheck <robert@fedoraproject.org> 0.11.7-1
+- Upgrade to 0.11.7 (#1877424)
+
+* Wed Sep 09 2020 Robert Scheck <robert@fedoraproject.org> 0.11.6-1
+- Upgrade to 0.11.6 (#1877424)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Tom Callaway <spot@fedoraproject.org> - 0.11.5-3
+- fix build with lua 5.4
+
+* Tue Jun 30 2020 Björn Esser <besser82@fedoraproject.org> - 0.11.5-2
+- Rebuilt for Lua 5.4
+
 * Mon Apr 06 2020 Robert Scheck <robert@fedoraproject.org> 0.11.5-1
 - Upgrade to 0.11.5 (#1816855)
 

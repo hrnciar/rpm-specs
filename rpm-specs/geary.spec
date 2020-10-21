@@ -5,7 +5,7 @@
 %endif
 
 Name:		geary
-Version:	3.37.1
+Version:	3.38.1
 Release:	1%{?dist}
 Summary:	A lightweight email program designed around conversations
 # Geary is under LGPLv2+.
@@ -15,7 +15,7 @@ Summary:	A lightweight email program designed around conversations
 # COPYING.icons).
 License:	LGPLv2+ and BSD and CC-BY and CC-BY-SA and Public Domain
 URL:		https://wiki.gnome.org/Apps/Geary
-Source0:	https://download.gnome.org/sources/geary/3.37/%{name}-%{version}.tar.xz
+Source0:	https://download.gnome.org/sources/geary/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires:	meson >= 0.49
 BuildRequires:	vala >= 0.26.0
@@ -34,6 +34,7 @@ BuildRequires:	pkgconfig(gcr-3) >= 3.10.1
 BuildRequires:	pkgconfig(gdk-3.0) >= 3.24.7
 BuildRequires:	pkgconfig(gee-0.8) >= 0.8.5
 BuildRequires:	pkgconfig(gio-2.0) >= 2.54
+BuildRequires:	pkgconfig(gladeui-2.0)
 BuildRequires:	pkgconfig(goa-1.0)
 BuildRequires:	pkgconfig(gsound)
 BuildRequires:	pkgconfig(gspell-1)
@@ -42,7 +43,7 @@ BuildRequires:	pkgconfig(iso-codes)
 BuildRequires:	pkgconfig(javascriptcoregtk-4.0) >= 2.24
 BuildRequires:	pkgconfig(json-glib-1.0) >= 1.0
 BuildRequires:	pkgconfig(libcanberra) >= 0.28
-BuildRequires:	pkgconfig(libhandy-0.0) >= 0.0.9
+BuildRequires:	pkgconfig(libhandy-1)
 BuildRequires:	pkgconfig(libnotify) >= 0.7.5
 BuildRequires:	pkgconfig(libpeas-1.0)
 BuildRequires:	pkgconfig(libsecret-1) >= 0.11
@@ -100,7 +101,7 @@ popd
 
 %files -f %{name}.lang
 %license COPYING COPYING.icons COPYING.snowball
-%doc AUTHORS NEWS README THANKS
+%doc AUTHORS NEWS README.md THANKS
 %{_bindir}/geary
 %{_libdir}/geary
 %{_datadir}/geary
@@ -114,6 +115,27 @@ popd
 
 
 %changelog
+* Sun Oct  4 2020 Thomas Moschny <thomas.moschny@gmx.de> - 3.38.1-1
+- Update to 3.38.1.
+
+* Mon Sep 14 2020 Kalev Lember <klember@redhat.com> - 3.38.0.1-1
+- Update to 3.38.0.1
+
+* Sun Sep 13 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Sun Sep 06 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Thu Aug 27 2020 Kalev Lember <klember@redhat.com> - 3.37.91-1
+- Update to 3.37.91
+
+* Wed Aug 19 2020 Kalev Lember <klember@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Kalev Lember <klember@redhat.com> - 3.37.1-1
 - Update to 3.37.1
 

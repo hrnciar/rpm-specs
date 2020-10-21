@@ -3,7 +3,7 @@
 
 # https://github.com/bsphere/le_go
 %global goipath         github.com/bsphere/le_go
-%global commit          7a984a84b5492ae539b79b62fb4a10afc63c7bcf
+%global commit          fc06dab2caa8d5942abe0a1ced1adf7d5369843e
 
 %gometa
 
@@ -16,7 +16,7 @@ TCP connection.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Go library for logentries.com
 
 License:        MIT
@@ -43,6 +43,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 18:16:09 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200724gitfc06dab
+- Bump to commit fc06dab2caa8d5942abe0a1ced1adf7d5369843e
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

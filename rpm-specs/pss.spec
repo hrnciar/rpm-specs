@@ -1,6 +1,6 @@
 Name:           pss
 Version:        1.40
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        A power-tool for searching inside source code files
 
 License:        Public Domain
@@ -38,6 +38,9 @@ colors its output in a helpful way, and does much more.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.40-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.40-18
 - Rebuilt for Python 3.9
 

@@ -5,9 +5,9 @@
 %global libnma_version  1.8.27
 %global obsoletes_ver   1:0.9.7
 
-%global rpm_version 1.16.0
-%global real_version 1.16.0
-%global release_version 2
+%global rpm_version 1.18.0
+%global real_version 1.18.0
+%global release_version 1
 
 %global real_version_major %(printf '%s' '%{real_version}' | sed -n 's/^\\([1-9][0-9]*\\.[1-9][0-9]*\\)\\.[1-9][0-9]*$/\\1/p')
 
@@ -20,7 +20,7 @@
 Name: network-manager-applet
 Summary: A network control and status applet for NetworkManager
 Version: %{rpm_version}
-Release: %{release_version}%{?dist}
+Release: %{release_version}%{?dist}.1
 License: GPLv2+
 URL: http://www.gnome.org/projects/NetworkManager/
 Obsoletes: NetworkManager-gnome < %{obsoletes_ver}
@@ -130,6 +130,16 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/nm-connection-edit
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.0-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Thomas Haller <thaller@redhat.com> - 1.18.0-1
+- Update to 1.18.0 release
+- Enable build with appindicator by default.
+- Add WireGuard support to the editor.
+- Support OWE (Opportunistic Wireless Encryption) in the editor.
+- Fix crash when disposing VPN secret dialog.
+
 * Thu Apr 30 2020 Ivan Mironov <mironov.ivan@gmail.com> - 1.16.0-2
 - Build with libappindicator which enables Status Notifier Item support
 

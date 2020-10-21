@@ -2,8 +2,8 @@
 %global optflags %{optflags} -fdiagnostics-color=always
 
 Name:           springlobby
-Version:        0.269
-Release:        1%{?dist}
+Version:        0.270
+Release:        3%{?dist}
 Summary:        Free cross-platform lobby client for the Spring RTS project
 
 # License clarification: http://springlobby.info/issues/show/810
@@ -11,10 +11,6 @@ License:        GPLv2
 URL:            https://springlobby.springrts.com/
 Source0:        https://springlobby.springrts.com/dl/stable/springlobby-%{version}.tar.bz2
 ExclusiveArch:  %{ix86} x86_64
-
-# Build fails with new GCC 10
-# * https://github.com/springlobby/springlobby/issues/951
-Patch0:         https://github.com/springlobby/springlobby/pull/958.patch#/gcc10.patch
 
 BuildRequires:  alure-devel
 BuildRequires:  boost-devel
@@ -53,7 +49,6 @@ SpringLobby is a free cross-platform lobby client for the Spring RTS project.
 
 %prep
 %autosetup -p1
-mkdir -p %{_target_platform}
 
 # Unbunle libs
 rm -rf \
@@ -61,16 +56,13 @@ rm -rf \
 
 
 %build
-pushd %{_target_platform}
 %cmake \
-    -G Ninja \
-    ..
-popd
-%ninja_build -C %{_target_platform}
+    -B $PWD/%{_vpath_builddir} \
+    -G Ninja
 
 
 %install
-%ninja_install -C %{_target_platform}
+%ninja_install -C %{_vpath_builddir}
 %find_lang %{name}
 rm -rf %{buildroot}%{_docdir}/%{name}/COPYING
 
@@ -91,6 +83,14 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.270-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.270-1
+- Update to 0.270
+- Drop GCC 10 patch (upstreamed)
+- Switch CMake to do out-of-source builds
+
 * Wed Jun 03 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.269-1
 - Update to 0.269
 - Fix compilation with GCC 10 | GH-951

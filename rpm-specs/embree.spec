@@ -1,3 +1,5 @@
+%global __cmake_in_source_build 1
+
 %global		with_snapshot	0
 %global		with_examples	0
 #%%global		prerelease	beta
@@ -5,8 +7,8 @@
 #%%global		shortcommit	%%(c=%%{commit}; echo ${c:0:7})
 
 Name:		embree
-Version:	3.10.0
-Release:	2%{?dist}
+Version:	3.11.0
+Release:	4%{?dist}
 Summary:	Collection of high-performance ray tracing kernels developed at Intel
 
 License:	ASL 2.0
@@ -39,7 +41,7 @@ BuildRequires:	pkgconfig(OpenImageIO)
 BuildRequires:	pkgconfig(tbb)
 
 # Use 64bit architectures because of SSE2 and up
-ExclusiveArch:	x86_64
+ExclusiveArch:	x86_64 aarch64
 
 %description
 A collection of high-performance ray tracing kernels intended to graphics 
@@ -80,6 +82,7 @@ export CXXFLAGS="%{optflags} -Wl,--as-needed"
 	-DCMAKE_BUILD_TYPE=Release \
 	-DEMBREE_IGNORE_CMAKE_CXX_FLAGS=OFF \
 	-DEMBREE_TUTORIALS=OFF \
+	-DEMBREE_COMPACT_POLYS=ON\
 	..
 popd
 %make_build -C %{_target_platform}
@@ -109,6 +112,21 @@ rm %{buildroot}%{_docdir}/%{name}/LICENSE.txt
 %endif
 
 %changelog
+* Sun Aug 02 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 3.11.0-4
+- Rebuild for ispc 1.14.1 (#1855915)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.11.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 3.11.0-2
+- Use __cmake_in_source_build
+
+* Thu Jun 25 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 3.11.0-1
+- Update to 3.11.0 (#1850917)
+
+* Tue Jun 09 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 3.10.0-3
+- Enable double indexed polygons
+
 * Tue Jun 09 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 3.10.0-2
 - Rebuild for ispc 1.13.0 and Blender 2.83.0
 

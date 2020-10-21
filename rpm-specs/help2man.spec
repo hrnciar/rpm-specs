@@ -5,7 +5,7 @@
 Name:           help2man
 Summary:        Create simple man pages from --help output
 Version:        1.47.14
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv3+
 URL:            http://www.gnu.org/software/help2man
 Source:         ftp://ftp.gnu.org/gnu/help2man/help2man-%{version}.tar.xz
@@ -57,6 +57,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.47.14-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 25 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 1.47.14-1
 - Upstream update.
 

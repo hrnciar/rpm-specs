@@ -1,7 +1,7 @@
 Name:           perl-UNIVERSAL-ref
 Summary:        Turns ref() into a multimethod
 Version:        0.14
-Release:        30%{?dist}
+Release:        31%{?dist}
 License:        GPL+ or Artistic
 Source0:        https://cpan.metacpan.org/authors/id/J/JJ/JJORE/UNIVERSAL-ref-%{version}.tar.gz
 # Restore compatibility with Perl 5.26.0, CPAN RT#118008
@@ -53,6 +53,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.14-30
 - Perl 5.32 rebuild
 

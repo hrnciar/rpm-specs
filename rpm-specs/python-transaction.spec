@@ -1,6 +1,6 @@
 Name:           python-transaction
-Version:        2.4.0
-Release:        8%{?dist}
+Version:        3.0.0
+Release:        2%{?dist}
 Summary:        Transaction management for Python
 
 License:        ZPLv2.1
@@ -28,9 +28,7 @@ Summary:        Transaction management for Python 3
 Requires:       python3-zope-interface
 %{?python_provide:%python_provide python3-transaction}
 
-%description -n python3-transaction
-This package contains a generic transaction implementation for Python. It is
-mainly used by the ZODB, though.
+%description -n python3-transaction %_description
 
 
 %prep
@@ -59,6 +57,13 @@ PYTHONPATH=$(pwd) %{__python3} setup.py test
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Mar 27 2020 Ján ONDREJ (SAL) <ondrejj(at)salstar.sk> - 3.0.0-1
+- Initial epel8 build
+- Update to upstream
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 2.4.0-8
 - Rebuilt for Python 3.9
 

@@ -9,7 +9,7 @@
 
 Name:          mingw-%{pkgname}
 Version:       2.1.0
-Release:       4%{?dist}
+Release:       5%{?dist}
 Summary:       MinGW Windows GLEW library
 License:       BSD and MIT
 
@@ -134,6 +134,9 @@ Tools for the MinGW Windows GLEW library.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

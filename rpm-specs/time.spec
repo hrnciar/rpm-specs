@@ -1,7 +1,7 @@
 Summary:    A GNU utility for monitoring a program's use of system resources
 Name:       time
 Version:    1.9
-Release:    8%{?dist}
+Release:    10%{?dist}
 # src/time.c:               GPLv3+
 # COPYING:                  GPLv3 text
 # doc/time.texi:            GFDL
@@ -46,6 +46,9 @@ Source:     ftp://ftp.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
 Patch0:     time-1.8-Prefer-clock_gettime-CLOCK_MONOTONIC.patch
 # Fix info directory entry
 Patch1:     time-1.9-Improve-info-directory-index-entry-description.patch
+# Clarify RSS size as kibibytes in a documentation, proposed to an upstream,
+# <https://lists.gnu.org/archive/html/bug-time/2020-07/msg00000.html>
+Patch2:     time-1.9-Use-kibibytes-instead-of-kilobytes-in-a-documentatio.patch
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  bash
@@ -65,19 +68,20 @@ the results.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 autoreconf -fi
 
 %build
 %configure
-%make_build
+%{make_build}
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 # Remove info index, it's updated by file triggers
 rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 
 %check
-make %{?_smp_mflags} check
+%{make_build} check
 
 %files
 %license COPYING
@@ -87,6 +91,12 @@ make %{?_smp_mflags} check
 # time(1) manual page lives in man-pages package, bug #1612294.
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Petr Pisar <ppisar@redhat.com> - 1.9-9
+- Clarify RSS size as kibibytes in a documentation
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

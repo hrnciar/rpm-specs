@@ -1,6 +1,6 @@
 Name:           tofrodos
 Version:        1.7.13
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Converts text files between MSDOS and Unix file formats
 License:        GPLv2
 URL:            http://www.thefreecountry.com/tofrodos/
@@ -37,6 +37,9 @@ make -C src/ install INSTALL="install -p" BINDIR="%{buildroot}%{_bindir}" MANDIR
 %{_mandir}/man1/todos.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.13-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.13-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

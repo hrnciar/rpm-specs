@@ -3,7 +3,7 @@
 
 Name:    icat
 Version: 0.5
-Release: 6%{?dist}
+Release: 7%{?dist}
 Summary: Output images in terminal
 
 License: BSD
@@ -39,6 +39,9 @@ install -m 755 ./icat.man %{buildroot}/%{_mandir}/man1/%{name}.1
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

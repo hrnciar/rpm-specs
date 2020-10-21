@@ -1,5 +1,5 @@
 %global packname sp
-%global packver  1.4-2
+%global packver  1.4-4
 %global rlibdir  %{_libdir}/R/library
 
 %global __suggests_exclude ^R\\((gstat|maptools)\\)
@@ -10,8 +10,8 @@
 %global with_loop 0
 
 Name:             R-%{packname}
-Version:          1.4.2
-Release:          2%{?dist}
+Version:          1.4.4
+Release:          1%{?dist}
 Summary:          Classes and Methods for Spatial Data
 
 License:          GPLv2+
@@ -112,6 +112,16 @@ _R_CHECK_FORCE_SUGGESTS_=0 \
 
 
 %changelog
+* Thu Oct 08 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.4.4-1
+- Update to latest version (#1886138)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 1.4.2-2
 - rebuild for R 4
 

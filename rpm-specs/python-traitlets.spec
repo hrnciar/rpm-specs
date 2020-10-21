@@ -1,17 +1,14 @@
 %global srcname traitlets
 
 Name:           python-%{srcname}
-Version:        4.3.3
-Release:        3%{?dist}
+Version:        5.0.5
+Release:        1%{?dist}
 Summary:        A lightweight derivative of Enthought Traits for configuring Python objects
 
 License:        BSD
 URL:            https://github.com/ipython/traitlets
 Source0:        https://github.com/ipython/traitlets/archive/%{version}.tar.gz#/%{srcname}-%{version}.tar.gz
 BuildArch:      noarch
-# Fix SyntaxWarnings with python 3.8
-# https://bugzilla.redhat.com/show_bug.cgi?id=1750843
-Patch0:         python-traitlets-py38.patch
 
 %description
 A lightweight pure-Python derivative of Enthought Traits, used for
@@ -65,6 +62,21 @@ py.test-%{python3_version} -v %{srcname}/tests/
 
 
 %changelog
+* Fri Oct 16 2020 Orion Poplawski <orion@nwra.com> - 5.0.5-1
+- Update to 5.0.5
+
+* Mon Sep 07 2020 Orion Poplawski <orion@nwra.com> - 5.0.4-1
+- Update to 5.0.4
+
+* Sun Sep 06 2020 Orion Poplawski <orion@nwra.com> - 5.0.3-1
+- Update to 5.0.3
+
+* Thu Sep  3 2020 Orion Poplawski <orion@nwra.com> - 5.0.2-1
+- Update to 5.0.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 4.3.3-3
 - Rebuilt for Python 3.9
 

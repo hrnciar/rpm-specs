@@ -13,7 +13,7 @@
 
 Name:           trader
 Version:        7.14
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Star Traders, a simple game of interstellar trading
 License:        GPLv3+
 Url:            https://www.zap.org.au/projects/trader/
@@ -50,6 +50,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.14-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.14-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,13 +1,13 @@
-%define glib2_version 2.38.0
+%define glib2_version 2.58.0
 
 Name: libsoup
-Version: 2.70.0
-Release: 1%{?dist}
+Version: 2.72.0
+Release: 3%{?dist}
 Summary: Soup, an HTTP library implementation
 
 License: LGPLv2
 URL: https://wiki.gnome.org/Projects/libsoup
-Source0: https://download.gnome.org/sources/%{name}/2.70/%{name}-%{version}.tar.xz
+Source0: https://download.gnome.org/sources/%{name}/2.72/%{name}-%{version}.tar.xz
 
 BuildRequires: gettext
 BuildRequires: glib2-devel >= %{glib2_version}
@@ -20,6 +20,7 @@ BuildRequires: pkgconfig(libbrotlidec)
 BuildRequires: pkgconfig(libxml-2.0)
 BuildRequires: pkgconfig(libpsl)
 BuildRequires: pkgconfig(sqlite3)
+BuildRequires: pkgconfig(sysprof-capture-4)
 BuildRequires: vala
 BuildRequires: /usr/bin/ntlm_auth
 
@@ -55,19 +56,26 @@ you to develop applications that use the libsoup library.
 %install
 %meson_install
 
+# Avoid automatic requires on sysprof-devel package as it's a private
+# dependency (and libsoup doesn't ship a static library which is when
+# this dep would be useful)
+sed -i -e 's/sysprof-capture-4, //' $RPM_BUILD_ROOT%{_libdir}/pkgconfig/*.pc
+
 %find_lang libsoup
 
 %files -f libsoup.lang
 %license COPYING
 %doc README NEWS AUTHORS
-%{_libdir}/lib*.so.*
+%{_libdir}/libsoup-2.4.so.1*
+%{_libdir}/libsoup-gnome-2.4.so.1*
 %dir %{_libdir}/girepository-1.0
 %{_libdir}/girepository-1.0/Soup*2.4.typelib
 
 %files devel
-%{_includedir}/%{name}-2.4
-%{_includedir}/%{name}-gnome-2.4
-%{_libdir}/*.so
+%{_includedir}/libsoup-2.4
+%{_includedir}/libsoup-gnome-2.4
+%{_libdir}/libsoup-2.4.so
+%{_libdir}/libsoup-gnome-2.4.so
 %{_libdir}/pkgconfig/*.pc
 %dir %{_datadir}/gir-1.0
 %{_datadir}/gir-1.0/Soup*2.4.gir
@@ -80,6 +88,26 @@ you to develop applications that use the libsoup library.
 %{_datadir}/vala/vapi/libsoup-2.4.vapi
 
 %changelog
+* Sun Sep 20 2020 Kalev Lember <klember@redhat.com> - 2.72.0-3
+- Try harder to avoid sysprof-devel dependency
+
+* Sun Sep 20 2020 Kalev Lember <klember@redhat.com> - 2.72.0-2
+- Tighten soname globs
+- Avoid automatic requires on sysprof-devel package
+- Update required glib2 version
+
+* Mon Sep 14 2020 Kalev Lember <klember@redhat.com> - 2.72.0-1
+- Update to 2.72.0
+
+* Sun Sep 06 2020 Kalev Lember <klember@redhat.com> - 2.71.1-1
+- Update to 2.71.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.71.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Kalev Lember <klember@redhat.com> - 2.71.0-1
+- Update to 2.71.0
+
 * Sat Mar 07 2020 Kalev Lember <klember@redhat.com> - 2.70.0-1
 - Update to 2.70.0
 

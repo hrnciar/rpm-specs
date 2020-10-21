@@ -1,10 +1,10 @@
 Name:           lilypond-doc
-Version:        2.21.1
+Version:        2.21.6
 Release:        1%{?dist}
 Summary:        HTML documentation for LilyPond
 
 License:        GPLv3
-URL:            http://www.lilypond.org
+URL:            https://www.lilypond.org
 Source0:        http://www.lilypond.org/downloads/binaries/documentation/lilypond-%{version}-1.documentation.tar.bz2
 BuildArch:      noarch
 
@@ -38,6 +38,24 @@ mkdir -p $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Sep 15 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.21.6-1
+- 2.21.6
+
+* Mon Aug 31 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.21.5-1
+- 2.21.5
+
+* Fri Jul 31 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.21.4-1
+- 2.21.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.21.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.21.3-1
+- 2.21.3
+
+* Wed Jul 08 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.21.2-1
+- 2.21.2
+
 * Wed May 06 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.21.1-1
 - 2.21.1
 

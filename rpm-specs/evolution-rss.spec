@@ -6,7 +6,7 @@ Name:		evolution-rss
 Summary:	Evolution RSS Reader
 Epoch:		1
 Version:	0.3.96
-Release:	2%{?dist}
+Release:	4%{?dist}
 License:	GPLv2 and GPLv2+
 URL:		http://gnome.eu.org/evo/index.php/Evolution_RSS_Reader_Plugin
 Source:		https://download.gnome.org/sources/evolution-rss/0.3/%{name}-%{version}.tar.xz
@@ -67,6 +67,12 @@ find %{buildroot} -name \*\.la -print | xargs rm -f
 %{_libdir}/evolution/modules/evolution-module-rss.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.3.96-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Milan Crha <mcrha@redhat.com> - 1:0.3.96-3
+- Rebuilt for evolution-data-server soname version bump
+
 * Fri Jun 05 2020 Milan Crha <mcrha@redhat.com> - 1:0.3.96-2
 - Add patch to build against Evolution 3.37.2
 

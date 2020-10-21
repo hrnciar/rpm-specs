@@ -2,9 +2,13 @@
 %bcond_without check
 %bcond_with bootstrap
 
+%global __requires_exclude %{?__requires_exclude:%{__requires_exclude}|}^golang\\(.*\\)$
+
 # https://github.com/docker/compose-on-kubernetes
 %global goipath         github.com/docker/compose-on-kubernetes
-Version:                0.4.23
+Version:                0.4.25
+%global tag             v0.4.25-alpha1
+%global distprefix      %{nil}
 
 %gometa
 
@@ -21,101 +25,103 @@ Deploy applications described in Compose onto Kubernetes clusters.}
 %global golicenses      LICENSE
 %global godocs          docs CONTRIBUTING.md README.md
 
+%global gosupfiles      "${vendor[@]}"
+
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2.alpha1%{?dist}
 Summary:        Deploy applications described in Compose onto Kubernetes clusters
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
-# Use healthz.InstallHandler instead of DefaultHealthz
-Patch0:         0001-Use-healthz.InstallHandler-instead-of-DefaultHealthz.patch
 
-BuildRequires:  golang(github.com/containerd/console)
-%if %{without bootstrap}
-BuildRequires:  golang(github.com/docker/cli/cli/compose/loader)
-BuildRequires:  golang(github.com/docker/cli/cli/compose/types)
-BuildRequires:  golang(github.com/docker/cli/opts)
-%endif
-BuildRequires:  golang(github.com/docker/docker/api/types/swarm)
-BuildRequires:  golang(github.com/docker/docker/pkg/homedir)
-BuildRequires:  golang(github.com/go-openapi/spec)
-BuildRequires:  golang(github.com/golang/glog)
-BuildRequires:  golang(github.com/Masterminds/semver)
-BuildRequires:  golang(github.com/mitchellh/go-homedir)
-BuildRequires:  golang(github.com/morikuni/aec)
-BuildRequires:  golang(github.com/onsi/ginkgo)
-BuildRequires:  golang(github.com/pkg/errors)
-BuildRequires:  golang(github.com/simonferquel/yaml)
-BuildRequires:  golang(github.com/sirupsen/logrus)
-BuildRequires:  golang(github.com/spf13/cobra)
-BuildRequires:  golang(github.com/spf13/pflag)
-BuildRequires:  golang(golang.org/x/sync/errgroup)
-BuildRequires:  golang(k8s.io/api/apps/v1beta2)
-BuildRequires:  golang(k8s.io/api/core/v1)
-BuildRequires:  golang(k8s.io/api/rbac/v1)
-BuildRequires:  golang(k8s.io/api/storage/v1)
-BuildRequires:  golang(k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1)
-BuildRequires:  golang(k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset)
-BuildRequires:  golang(k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/api/equality)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/api/errors)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/api/meta)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/api/resource)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/apis/meta/v1)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/apis/meta/v1beta1)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/conversion)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/fields)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/labels)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/runtime)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/runtime/schema)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/runtime/serializer)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/types)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/util/errors)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/util/intstr)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/util/sets)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/util/validation)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/util/validation/field)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/util/wait)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/version)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/watch)
-BuildRequires:  golang(k8s.io/apiserver/pkg/endpoints/openapi)
-BuildRequires:  golang(k8s.io/apiserver/pkg/endpoints/request)
-BuildRequires:  golang(k8s.io/apiserver/pkg/registry/generic)
-BuildRequires:  golang(k8s.io/apiserver/pkg/registry/generic/registry)
-BuildRequires:  golang(k8s.io/apiserver/pkg/registry/rest)
-BuildRequires:  golang(k8s.io/apiserver/pkg/server)
-BuildRequires:  golang(k8s.io/apiserver/pkg/server/filters)
-BuildRequires:  golang(k8s.io/apiserver/pkg/server/healthz)
-BuildRequires:  golang(k8s.io/apiserver/pkg/server/options)
-BuildRequires:  golang(k8s.io/apiserver/pkg/storage)
-BuildRequires:  golang(k8s.io/apiserver/pkg/storage/names)
-BuildRequires:  golang(k8s.io/client-go/discovery)
-BuildRequires:  golang(k8s.io/client-go/informers/apps/v1beta2)
-BuildRequires:  golang(k8s.io/client-go/informers/core/v1)
-BuildRequires:  golang(k8s.io/client-go/kubernetes)
-BuildRequires:  golang(k8s.io/client-go/kubernetes/typed/apps/v1beta2)
-BuildRequires:  golang(k8s.io/client-go/kubernetes/typed/core/v1)
-BuildRequires:  golang(k8s.io/client-go/kubernetes/typed/rbac/v1)
-BuildRequires:  golang(k8s.io/client-go/kubernetes/typed/storage/v1)
-BuildRequires:  golang(k8s.io/client-go/plugin/pkg/client/auth/gcp)
-BuildRequires:  golang(k8s.io/client-go/rest)
-BuildRequires:  golang(k8s.io/client-go/tools/cache)
-BuildRequires:  golang(k8s.io/client-go/tools/clientcmd)
-BuildRequires:  golang(k8s.io/client-go/util/cert)
-BuildRequires:  golang(k8s.io/client-go/util/flowcontrol)
-BuildRequires:  golang(k8s.io/client-go/util/keyutil)
-BuildRequires:  golang(k8s.io/component-base/logs)
-BuildRequires:  golang(k8s.io/kube-aggregator/pkg/apis/apiregistration/v1beta1)
-BuildRequires:  golang(k8s.io/kube-aggregator/pkg/client/clientset_generated/clientset/typed/apiregistration/v1beta1)
-BuildRequires:  golang(k8s.io/kube-openapi/pkg/common)
+# BuildRequires:  golang(github.com/containerd/console)
+# %%if %%{without bootstrap}
+# BuildRequires:  golang(github.com/docker/cli/cli/compose/loader)
+# BuildRequires:  golang(github.com/docker/cli/cli/compose/types)
+# BuildRequires:  golang(github.com/docker/cli/opts)
+# %%endif
+# BuildRequires:  golang(github.com/docker/docker/api/types/swarm)
+# BuildRequires:  golang(github.com/docker/docker/pkg/homedir)
+# BuildRequires:  golang(github.com/go-openapi/spec)
+# BuildRequires:  golang(github.com/golang/glog)
+# BuildRequires:  golang(github.com/Masterminds/semver)
+# BuildRequires:  golang(github.com/mitchellh/go-homedir)
+# BuildRequires:  golang(github.com/morikuni/aec)
+# BuildRequires:  golang(github.com/onsi/ginkgo)
+# BuildRequires:  golang(github.com/pkg/errors)
+# BuildRequires:  golang(github.com/sirupsen/logrus)
+# BuildRequires:  golang(github.com/spf13/cobra)
+# BuildRequires:  golang(github.com/spf13/pflag)
+# BuildRequires:  golang(golang.org/x/sync/errgroup)
+# BuildRequires:  golang(github.com/googleapis/gnostic/openapiv2)
+# BuildRequires:  golang(bitbucket.org/ww/goautoneg)
+# BuildRequires:  golang(github.com/pborman/uuid)
+# BuildRequires:  golang(k8s.io/api/apps/v1)
+# BuildRequires:  golang(k8s.io/api/core/v1)
+# BuildRequires:  golang(k8s.io/api/rbac/v1)
+# BuildRequires:  golang(k8s.io/api/storage/v1)
+# BuildRequires:  golang(k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1)
+# BuildRequires:  golang(k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset)
+# BuildRequires:  golang(k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/api/equality)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/api/errors)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/api/meta)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/api/resource)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/apis/meta/v1)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/apis/meta/v1beta1)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/conversion)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/fields)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/labels)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/runtime)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/runtime/schema)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/runtime/serializer)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/types)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/util/errors)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/util/intstr)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/util/sets)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/util/validation)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/util/validation/field)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/util/wait)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/version)
+# BuildRequires:  golang(k8s.io/apimachinery/pkg/watch)
+# BuildRequires:  golang(k8s.io/apiserver/pkg/endpoints/openapi)
+# BuildRequires:  golang(k8s.io/apiserver/pkg/endpoints/request)
+# BuildRequires:  golang(k8s.io/apiserver/pkg/registry/generic)
+# BuildRequires:  golang(k8s.io/apiserver/pkg/registry/generic/registry)
+# BuildRequires:  golang(k8s.io/apiserver/pkg/registry/rest)
+# BuildRequires:  golang(k8s.io/apiserver/pkg/server)
+# BuildRequires:  golang(k8s.io/apiserver/pkg/server/filters)
+# BuildRequires:  golang(k8s.io/apiserver/pkg/server/healthz)
+# BuildRequires:  golang(k8s.io/apiserver/pkg/server/options)
+# BuildRequires:  golang(k8s.io/apiserver/pkg/storage)
+# BuildRequires:  golang(k8s.io/apiserver/pkg/storage/names)
+# BuildRequires:  golang(k8s.io/client-go/discovery)
+# BuildRequires:  golang(k8s.io/client-go/informers/apps/v1)
+# BuildRequires:  golang(k8s.io/client-go/informers/core/v1)
+# BuildRequires:  golang(k8s.io/client-go/kubernetes)
+# BuildRequires:  golang(k8s.io/client-go/kubernetes/typed/apps/v1)
+# BuildRequires:  golang(k8s.io/client-go/kubernetes/typed/core/v1)
+# BuildRequires:  golang(k8s.io/client-go/kubernetes/typed/rbac/v1)
+# BuildRequires:  golang(k8s.io/client-go/kubernetes/typed/storage/v1)
+# BuildRequires:  golang(k8s.io/client-go/plugin/pkg/client/auth/gcp)
+# BuildRequires:  golang(k8s.io/client-go/rest)
+# BuildRequires:  golang(k8s.io/client-go/tools/cache)
+# BuildRequires:  golang(k8s.io/client-go/tools/clientcmd)
+# BuildRequires:  golang(k8s.io/client-go/util/cert)
+# BuildRequires:  golang(k8s.io/client-go/util/flowcontrol)
+# BuildRequires:  golang(k8s.io/client-go/util/keyutil)
+# BuildRequires:  golang(k8s.io/component-base/logs)
+# BuildRequires:  golang(k8s.io/kube-aggregator/pkg/apis/apiregistration/v1beta1)
+# BuildRequires:  golang(k8s.io/kube-aggregator/pkg/client/clientset_generated/clientset/typed/apiregistration/v1beta1)
+# BuildRequires:  golang(k8s.io/kube-openapi/pkg/common)
 
 %if %{with check}
 # Tests
-BuildRequires:  golang(github.com/stretchr/testify/assert)
-BuildRequires:  golang(k8s.io/apiserver/pkg/authentication/user)
-BuildRequires:  golang(k8s.io/client-go/kubernetes/fake)
+# BuildRequires:  golang(github.com/stretchr/testify/assert)
+# BuildRequires:  golang(k8s.io/apiserver/pkg/authentication/user)
+# BuildRequires:  golang(k8s.io/client-go/kubernetes/fake)
 %endif
 
 %description
@@ -124,9 +130,7 @@ BuildRequires:  golang(k8s.io/client-go/kubernetes/fake)
 %gopkg
 
 %prep
-%goprep
-%patch0 -p1
-find . -name "*.go" -exec sed -i "s|gopkg.in/yaml.v2|github.com/simonferquel/yaml|" "{}" +;
+%goprep -k
 
 %if %{without bootstrap}
 %build
@@ -136,6 +140,7 @@ done
 %endif
 
 %install
+mapfile -t vendor <<< $(find vendor -type f)
 %gopkginstall
 %if %{without bootstrap}
 install -m 0755 -vd                     %{buildroot}%{_bindir}
@@ -166,6 +171,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.25-2.alpha1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 00:20:33 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.4.25-1.alpha1
+- Update to 0.4.25-alpha1
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.23-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

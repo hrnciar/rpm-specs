@@ -21,9 +21,9 @@
 %undefine _missing_build_ids_terminate_build
 %endif
 
-%global xamarinrelease 123
+%global xamarinrelease 104
 Name:           mono
-Version:        6.8.0
+Version:        6.10.0
 Release:        1%{?dist}
 Summary:        Cross-platform, Open Source, .NET development framework
 
@@ -49,7 +49,6 @@ Patch5:         mono-6.6.0-roslyn-binaries.patch
 Patch6:         mono-5.18.0-use-mcs.patch
 Patch7:         mono-5.18.0-reference-assemblies-fix.patch
 Patch8:         mono-5.18.0-sharpziplib-parent-path-traversal.patch
-Patch9:         mono-6.6.0-python3.patch
 # Fix NRE bug in api-doc-tools: https://github.com/mono/api-doc-tools/pull/464
 Patch10:        0001-DocumentationEnumerator.cs-Declare-iface-and-ifaceMe.patch
 # Replace new Csharp features with old to allow mdoc to build
@@ -57,6 +56,8 @@ Patch10:        0001-DocumentationEnumerator.cs-Declare-iface-and-ifaceMe.patch
 Patch11:        0001-Replace-new-Csharp-features-with-old-ones.patch
 # Reenable mdoc build. To be upstreamed after Patch 10 and 11
 Patch12:        0001-Reenable-mdoc.exe-build.patch
+# fix issue with conflicts between i686 and x86_64 package (#1853724)
+Patch13:	mono-6.6.0-fix-multi-arch-issue.patch
 
 BuildRequires:  bison
 BuildRequires:  python%{python3_pkgversion}
@@ -76,8 +77,8 @@ BuildRequires:  perl-Getopt-Long
 # which results in not deleting the binaries in %%prep.
 
 %if %{without bootstrap}
-BuildRequires:  mono-core >= 6.8
-BuildRequires:  mono-devel >= 6.8
+BuildRequires:  mono-core >= 6.10
+BuildRequires:  mono-devel >= 6.10
 %endif
 
 # JIT only available on these:
@@ -96,7 +97,7 @@ metadata access libraries.
 %package core
 Summary:        The Mono CIL runtime, suitable for running .NET code
 Requires:       libgdiplus
-#dependency requiered for install
+#dependency required for install
 Provides:       mono(System.Collections.Immutable) = 1.2.0.0
 Provides:       mono(System.Diagnostics.StackTrace) = 4.0.2.0
 Provides:       mono(System.IO) = 4.0.10.0
@@ -341,12 +342,12 @@ not install anything from outside the mono source (XSP, mono-basic, etc.).
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%patch9 -p1
 pushd external/api-doc-tools
 %patch10 -p1
 %patch11 -p1
 popd
 %patch12 -p1
+%patch13 -p1
 
 # don't build mono-helix-client which requires the helix-binaries to build
 sed -i 's|mono-helix-client||g' mcs/tools/Makefile
@@ -374,6 +375,11 @@ cd external/binary-reference-assemblies && mv v4.7.1 v4.7.1.tobuild && ln -s /us
 %endif
 
 %build
+# This package fails to build with LTO on ppc64le.  Root cause analysis has not been
+# done.  For now disable LTO
+%ifarch ppc64le
+%define _lto_cflags %{nil}
+%endif
 %ifarch s390x
 # either mono C code relies on undefined behaviour or gcc is even more broken than earlier
 RPM_OPT_FLAGS=$(echo $RPM_OPT_FLAGS | sed -e 's/-O2 /-O1 /g')
@@ -413,7 +419,7 @@ cp external/binary-reference-assemblies/v4.7.1/*.dll %{buildroot}%{_monodir}/4.7
 rm -f %{buildroot}%{_libdir}/*.la
 # remove Windows-only stuff
 rm -rf %{buildroot}%{_monodir}/*/Mono.Security.Win32*
-rm -f %{buildroot}%{_libdir}/libMonoSupportW.*
+#rm -f %{buildroot}%{_libdir}/libMonoSupportW.*
 # remove .a files for libraries that are really only for us
 rm %{buildroot}%{_libdir}/*.a
 # remove libgc cruft
@@ -445,9 +451,11 @@ rm -f %{buildroot}%{_libdir}/pkgconfig/mono-nunit.pc
 # remove dmcs because it requires the .net 4.0 sdk but we only deliver 4.5 with Fedora (#1294967)
 rm -f %{buildroot}%{_bindir}/dmcs
 
-# remove csc
+# remove wrapper scripts for roslyn-binaries
 rm -f %{buildroot}%{_bindir}/csc
 rm -f %{buildroot}%{_bindir}/csc-dim
+rm -f %{buildroot}%{_bindir}/csi
+rm -f %{buildroot}%{_bindir}/vbc
 
 # drop prj2make because the binary is not built anymore
 rm -f %{buildroot}%{_bindir}/prj2make
@@ -484,6 +492,10 @@ install -p -m755 %{SOURCE2} %{SOURCE3} %{buildroot}%{_prefix}/lib/rpm/
 install -p -m644 %{SOURCE4} %{buildroot}%{_prefix}/lib/rpm/fileattrs/
 %endif
 
+# remove these files, we are using the files installed in /usr/lib/rpm/
+rm %{buildroot}%{_bindir}/mono-find-requires
+rm %{buildroot}%{_bindir}/mono-find-provides
+
 %find_lang mcs
 
 %post core
@@ -517,11 +529,9 @@ cert-sync /etc/pki/tls/certs/ca-bundle.crt
 %mono_bin ikdasm
 %mono_bin lc
 %{_bindir}/gacutil2
-%{_bindir}/csi
 %{_bindir}/mcs
 %{_monodir}/4.5/mcs.*
 %{_monodir}/4.5/mono-api-diff.*
-%{_bindir}/vbc
 %mono_bin mozroots
 %mono_bin pdb2mdb
 %mono_bin setreg
@@ -542,6 +552,7 @@ cert-sync /etc/pki/tls/certs/ca-bundle.crt
 %{_mandir}/man1/lc.1.gz
 %{_mandir}/man1/mprof-report.1.gz
 %{_libdir}/libMonoPosixHelper.so*
+%{_libdir}/libMonoSupportW.so*
 %{_libdir}/libmono-native.so*
 %dir %{_monodir}
 %dir %{_monodir}/4.5
@@ -658,8 +669,6 @@ cert-sync /etc/pki/tls/certs/ca-bundle.crt
 %mono_bin mkbundle
 %mono_bin makecert
 %mono_bin mono-cil-strip
-%{_bindir}/mono-find-provides
-%{_bindir}/mono-find-requires
 %{_bindir}/monodis
 %{_bindir}/monolinker
 %mono_bin mono-shlib-cop
@@ -931,6 +940,28 @@ cert-sync /etc/pki/tls/certs/ca-bundle.crt
 %files complete
 
 %changelog
+* Mon Oct 12 2020 Timotheus Pokorra <timotheus.pokorra@solidcharity.com> - 6.10.0-1
+- fix issue with conflicts between i686 and x86_64 package (#1853724)
+
+* Mon Sep 28 2020 Timotheus Pokorra <timotheus.pokorra@solidcharity.com> - 6.10.0-0
+- Upgrade to Mono 6.10.0.104
+
+* Fri Aug 21 2020 François Cami <fcami@redhat.com> - 6.8.0-6
+- Ship libMonoSupportW.so
+
+* Tue Aug 11 2020 Jeff Law <law@redhat.com> - 6.8.0-5
+- Disable LTO on ppc64le
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.8.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.8.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Jeff Smith <whydoubt@gmail.com> - 6.8.0-2
+- Remove wrapper scripts for unbuilt csi.exe and vbc.exe
+
 * Fri Jun 19 2020 Timotheus Pokorra <timotheus.pokorra@solidcharity.com> - 6.8.0-1
 - build without bootstrap
 

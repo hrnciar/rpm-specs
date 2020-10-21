@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        1.2.5
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Sesquilinear and quadratic forms
 
 License:        GPLv2+
@@ -34,6 +34,7 @@ This package contains documentation for gap-pkg-%{pkgname}.
 %autosetup -n %{pkgname}
 
 %build
+export LC_ALL=C.UTF-8
 mkdir -p ../pkg
 ln -s ../%{pkgname} ../pkg
 ln -s %{_gap_dir}/doc ../../doc
@@ -47,6 +48,7 @@ rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}/doc/clean
 rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}/doc/*.{aux,bbl,blg,idx,ilg,ind,log,out,pnr,tex}
 
 %check
+export LC_ALL=C.UTF-8
 gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 
 %files
@@ -62,6 +64,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}/examples/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

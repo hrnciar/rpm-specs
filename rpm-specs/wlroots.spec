@@ -1,8 +1,8 @@
 # Version of the .so library
-%global abi_ver 5
+%global abi_ver 6
 
 Name:           wlroots
-Version:        0.10.1
+Version:        0.11.0
 Release:        2%{?dist}
 Summary:        A modular Wayland compositor library
 
@@ -17,40 +17,45 @@ Summary:        A modular Wayland compositor library
 License:        MIT
 URL:            https://github.com/swaywm/%{name}
 Source0:        %{url}/releases/download/%{version}/%{name}-%{version}.tar.gz
+Source1:        %{url}/releases/download/%{version}/%{name}-%{version}.tar.gz.sig
+# 7BC79407090047CA: Drew DeVault <sir@cmpwn.com>
+# https://drewdevault.com/publickey.txt
+# 52CB6609B22DA89A: Drew DeVault (sway signing key) <sway@cmpwn.com>
+# Imported from http://pgp.mit.edu/pks/lookup?op=vindex&search=0x52CB6609B22DA89A
+Source2:        gpgkey-7BC79407090047CA-52CB6609B22DA89A.gpg
+
 # this file is a modification of examples/meson.build so as to:
 # - make it self-contained
 # - only has targets for examples known to compile well (cf. "examples) global)
-Source1:        examples.meson.build
-
-# Fix build with GCC 10 (-fno-common); upstreamed in next release
-Patch:          https://github.com/swaywm/wlroots/commit/f2943bdf61afe0a3ad2227d72fcbcac8b3088b1a.patch
-
-# https://bugzilla.redhat.com/show_bug.cgi?id=1829212
-# https://github.com/swaywm/wlroots/pull/2167
-Patch:          wlroots.combined-modeset-and-enable-pr2167.patch
+Source3:        examples.meson.build
 
 BuildRequires:  gcc
-BuildRequires:  meson >= 0.51.2
+BuildRequires:  gnupg2
+BuildRequires:  meson >= 0.54.0
 # FIXME: wlroots require `pkgconfig(egl)`, but assumes mesa provides it
 # (and uses it's extension header `<EGL/eglmesaext.h>).
 # Upstream is working on not needing that: https://github.com/swaywm/wlroots/issues/1899
 # Until it is fixed, pull mesa-libEGL-devel manually
-BuildRequires:  pkgconfig(egl) mesa-libEGL-devel
+BuildRequires:  (mesa-libEGL-devel if libglvnd-devel < 1:1.3.2)
+BuildRequires:  pkgconfig(egl)
 BuildRequires:  pkgconfig(gbm) >= 17.1.0
 BuildRequires:  pkgconfig(glesv2)
-BuildRequires:  pkgconfig(libcap)
 BuildRequires:  pkgconfig(libdrm) >= 2.4.95
 BuildRequires:  pkgconfig(libinput) >= 1.9.0
+BuildRequires:  pkgconfig(libsystemd) >= 237
 BuildRequires:  pkgconfig(libudev)
 BuildRequires:  pkgconfig(pixman-1)
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-egl)
 BuildRequires:  pkgconfig(wayland-protocols) >= 1.17
-BuildRequires:  pkgconfig(wayland-server) >= 1.16
+BuildRequires:  pkgconfig(wayland-scanner)
+BuildRequires:  pkgconfig(wayland-server) >= 1.18
+BuildRequires:  pkgconfig(x11-xcb)
+BuildRequires:  pkgconfig(xcb)
 BuildRequires:  pkgconfig(xcb-icccm)
 BuildRequires:  pkgconfig(xkbcommon)
 
-# only select examples are supported for being readily compilable (see SOURCE1)
+# only select examples are supported for being readily compilable (see SOURCE3)
 %global examples \
     cat multi-pointer output-layout pointer rotation screencopy simple tablet touch
 
@@ -62,12 +67,12 @@ BuildRequires:  pkgconfig(xkbcommon)
 Summary:        Development files for %{name}
 Requires:       %{name}%{?_isa} == %{version}-%{release}
 # FIXME: See the rationale above for this require; remove when no longer needed
-Requires:       mesa-libEGL-devel
+Requires:       (mesa-libEGL-devel if libglvnd-devel < 1:1.3.2)
 # not required per se, so not picked up automatically by RPM
 Recommends:     pkgconfig(xcb-icccm)
 # for examples
 Suggests:       gcc
-Suggests:       meson >= 0.48.0
+Suggests:       meson >= 0.51.2
 Suggests:       pkgconfig(libpng)
 
 %description    devel
@@ -75,6 +80,7 @@ Development files for %{name}.
 
 
 %prep
+%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
 %autosetup -p1
 
 
@@ -83,6 +89,8 @@ MESON_OPTIONS=(
     # Disable options requiring extra/unpackaged dependencies
     -Dexamples=false
     -Dxcb-errors=disabled
+    # select systemd logind provider
+    -Dlogind-provider=systemd
 
 %ifarch s390x
     # Disable -Werror on s390x: https://github.com/swaywm/wlroots/issues/2018
@@ -101,7 +109,7 @@ EXAMPLES=( %{examples} )  # Normalize whitespace by creating an array
 for example in "${EXAMPLES[@]}"; do
     install -pm0644 -Dt '%{buildroot}/%{_pkgdocdir}/examples' examples/"${example}".[ch]
 done
-install -pm0644 -D '%{SOURCE1}' '%{buildroot}/%{_pkgdocdir}/examples/meson.build'
+install -pm0644 -D '%{SOURCE3}' '%{buildroot}/%{_pkgdocdir}/examples/meson.build'
 
 
 %check
@@ -123,6 +131,12 @@ install -pm0644 -D '%{SOURCE1}' '%{buildroot}/%{_pkgdocdir}/examples/meson.build
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Aleksei Bavshin <alebastr89@gmail.com> - 0.11.0-1
+- Updated to version 0.11.0
+
 * Sat May 09 2020 Till Hofmann <thofmann@fedoraproject.org> - 0.10.1-2
 - Add patch from upstream #2167 to fix #1829212
 

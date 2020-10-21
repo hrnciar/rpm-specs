@@ -8,7 +8,7 @@ Name:	 	log4net
 URL:		http://logging.apache.org/log4net/
 License:	ASL 2.0
 Version:	2.0.8
-Release:	10%{?dist}
+Release:	11%{?dist}
 Summary:	A .NET framework for logging
 Source:		http://mirror.reverse.net/pub/apache/logging/log4net/source/%{name}-%{version}-src.zip
 Patch0:		log4net-2.0.8-xmlconfigurator.patch
@@ -90,6 +90,9 @@ gacutil -i build/bin/net/*/debug/log4net.dll -f -package log4net -root ${RPM_BUI
 %{_libdir}/pkgconfig/log4net.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.8-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 15 2020 Timotheus Pokorra <timotheus.pokorra@solidcharity.com> - 2.0.8-10
 - apply security fix for xml configurator: [CVE-2018-1285] XXE vulnerability in Apache log4net
 

@@ -4,7 +4,7 @@
 Summary: Ruby library for creating navigation for your Rails or Sinatra application
 Name: rubygem-%{gem_name}
 Version: 4.1.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: MIT
 URL: http://github.com/codeplant/simple-navigation
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -89,6 +89,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Athos Ribeiro <athoscr@fedoraproject.org> - 4.1.0-1
 - Update version
 

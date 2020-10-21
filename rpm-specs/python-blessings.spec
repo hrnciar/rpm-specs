@@ -3,7 +3,7 @@
 
 Name:           python-%{upstream_name}
 Version:        1.7
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Python library for terminal coloring, styling, and positioning
 License:        MIT
 URL:            https://github.com/erikrose/blessings
@@ -52,6 +52,9 @@ nosetests-3 build/lib
 %{python3_sitelib}/blessings*.egg-info
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7-10
 - Rebuilt for Python 3.9
 

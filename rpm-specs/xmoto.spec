@@ -1,20 +1,16 @@
+%global __cmake_in_source_build 1
 Name:		xmoto
-Version:	0.5.11
-Release:	20%{?dist}
+Version:	0.6.1
+Release:	3%{?dist}
 Summary:	Challenging 2D Motocross Platform Game
 
 License:	GPLv2+
 URL:		http://xmoto.sourceforge.net/
-Source0:	xmoto_xmoto-trunk.tar.gz
+Source0:	https://github.com/xmoto/xmoto/archive/%{version}/%{version}.tar.gz
 Source1:	xmoto.desktop
 Source2:	xmoto.png
-Patch1:		xmoto-0.3.4-Environment-cstlib.patch
-Patch3:		xmoto-0.4.0-Environment-string.patch
-Patch7:		xmoto-0.5.0-xmargs-include.patch
-Patch8:		xmoto-0.5.0-helpers-text-includes.patch
-Patch9:		xmoto-0.5.0-helpers-log-include.patch
-Patch13:	xmoto-0.5.10-skip-NULL-collision-objects.patch
-Patch15:	xmoto-0.5.11-pointer-comparison.patch
+Patch0:		xmoto-0.5.0-helpers-text-includes.patch
+Patch1:		xmoto-0.5.0-helpers-log-include.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:	desktop-file-utils
@@ -34,6 +30,8 @@ BuildRequires:	libxdg-basedir-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	pkgconfig
 BuildRequires:	gettext
+BuildRequires:  cmake
+BuildRequires:  zlib-devel
 Requires: dejavu-sans-fonts
 
 
@@ -47,40 +45,20 @@ yourself and others, racing against the clock.
 
 
 %prep
-%setup -qn trunk
+%setup -q
+%patch0 -p0
 %patch1 -p0
-%patch3 -p0
-%patch7 -p0
-%patch8 -p0
-%patch9 -p0
-%patch13 -p1
-%patch15 -p0
-
-#fix encoding
-sed -i 's/\r//' src/xmscene/Camera.cpp
-sed -i 's/\r//' src/xmscene/Camera.h
-
-#fix permissions
-chmod 644 src/xmscene/Camera.*
-chmod -x src/*.cpp
-chmod -x src/*.h
-chmod -x src/*/*.cpp
-chmod -x src/*/*.h
-chmod -x src/*/*/*.cpp
-chmod -x src/*/*/*.h
-
-#use system ode
-rm -rf src/ode
-ln -s /usr/include/ode src/ode
 
 %build
-./bootstrap
-%configure
-make %{_smp_mflags}
-
+mkdir build
+pushd build
+%cmake -DPREFER_SYSTEM_BZip2=ON -DPREFER_SYSTEM_Lua=ON -DPREFER_SYSTEM_ODE=ON -DPREFER_SYSTEM_XDG=ON ..
+%make_build
+popd
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
+pushd build
+%make_install
 
 # Install icon and desktop file
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps
@@ -133,6 +111,7 @@ SentUpstream: 2014-09-25
   </screenshots>
 </application>
 EOF
+popd
 
 rm $RPM_BUILD_ROOT%{_datadir}/xmoto/Textures/Fonts/DejaVuSans.ttf 
 ln -s ../../../fonts/dejavu-sans-fonts/DejaVuSans.ttf $RPM_BUILD_ROOT%{_datadir}/xmoto/Textures/Fonts/DejaVuSans.ttf 
@@ -141,15 +120,27 @@ ln -s ../../../fonts/dejavu-sans-fonts/DejaVuSans.ttf $RPM_BUILD_ROOT%{_datadir}
 %find_lang %{name} %{name}.lang
 
 %files -f %{name}.lang
-%doc ChangeLog COPYING README
+%license COPYING
+%doc ChangeLog README.md
 %{_bindir}/xmoto
 %{_datadir}/xmoto
 %{_datadir}/appdata/%{name}.appdata.xml
 %{_datadir}/applications/xmoto.desktop
 %{_datadir}/icons/hicolor/48x48/apps/xmoto.png
 %{_mandir}/man6/xmoto.6.gz
+%{_datadir}/pixmaps/xmoto.xpm
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.6.1-1
+- 0.6.1
+
 * Mon Mar 16 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.5.11-20
 - Fix dejavu symlink
 

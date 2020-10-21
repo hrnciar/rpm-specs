@@ -1,11 +1,10 @@
 
-## (re)enable qt5 support
-#global qt5 1
+%undefine __cmake_in_source_build
 
 Name:           prison
 Summary:        A Qt-based barcode abstraction library
 Version:        1.1.1
-Release:        14%{?dist}
+Release:        17%{?dist}
 
 License:        MIT
 URL:            https://projects.kde.org/projects/kdesupport/prison
@@ -66,32 +65,13 @@ Requires: %{name}-qt5%{?_isa} = %{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} ..
-popd
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake
 
-%if 0%{?qt5}
-mkdir %{_target_platform}-qt5
-pushd %{_target_platform}-qt5
-%{cmake_kf5} .. \
-  -DQT5_BUILD:BOOL=ON
-popd
-make %{?_smp_mflags} -C %{_target_platform}-qt5
-%endif
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
-
-%if 0%{?qt5}
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}-qt5
-
-# fix up prison-qt5 include paths
-sed -i -e 's|#include <prison/|#include <prison-qt5/|g' \
-  %{buildroot}%{_includedir}/prison-qt5/*
-%endif
+%cmake_install
 
 
 %ldconfig_scriptlets
@@ -105,19 +85,18 @@ sed -i -e 's|#include <prison/|#include <prison-qt5/|g' \
 %{_libdir}/libprison.so
 %{_libdir}/cmake/Prison/
 
-%if 0%{?qt5}
-%files qt5
-%license LICENSE
-%{_libdir}/libprison-qt5.so.0*
-
-%files qt5-devel
-%{_includedir}/prison-qt5/
-%{_libdir}/libprison-qt5.so
-%{_libdir}/cmake/Prison-qt5/
-%endif
-
 
 %changelog
+* Mon Aug 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.1.1-17
+- FTBFS, use new cmake macros, drop qt5 support (in kf5-prison these days)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

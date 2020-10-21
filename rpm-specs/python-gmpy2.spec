@@ -1,16 +1,14 @@
 %global srcname gmpy2
-%global prerelease b4
+%global prerelease b5
 
 Name:           python-%{srcname}
 Version:        2.1.0
-Release:        0.16%{?prerelease:.%{prerelease}}%{?dist}
+Release:        0.19%{?prerelease:.%{prerelease}}%{?dist}
 Summary:        Python interface to GMP, MPFR, and MPC
 
 License:        LGPLv3+
 URL:            https://pypi.python.org/pypi/gmpy2
 Source0:        https://github.com/aleaxit/gmpy/archive/%{srcname}-%{version}%{?prerelease}.tar.gz
-# Work around an apparent inflooping bug in MPFR on 32-bit systems
-Patch0:         %{name}-factorial-32bit.patch
 
 BuildRequires:  gcc
 BuildRequires:  gmp-devel
@@ -36,24 +34,19 @@ functionality.
 
 %package -n python3-%{srcname}
 Summary:        Python 3 interface to GMP, MPFR, and MPC
-
 Provides:       bundled(jquery)
-%{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
 %{common_desc}
 
 %prep
-%autosetup -N -n gmpy-%{srcname}-%{version}%{?prerelease}
-%if 0%{?__isa_bits} == 32
-%patch0 -p1
-%endif
+%autosetup -n gmpy-%{srcname}-%{version}%{?prerelease}
 
 # Update the sphinx theme name
 sed -i "s/'default'/'classic'/" docs/conf.py
 
-# Version 2.1.0b4 still calls itself 2.1.0b1
-sed -i "s/b1/b4/" docs/conf.py
+# Version 2.1.0b5 still calls itself 2.1.0b1
+sed -i "s/b1/b5/" docs/conf.py
 
 # Symbols from the math library are also used
 sed -i "s/'mpfr','gmp'/&,'m'/" setup.py
@@ -83,6 +76,16 @@ cd -
 %{python3_sitearch}/%{srcname}*
 
 %changelog
+* Fri Jul 31 2020 Jerry James <loganjerry@gmail.com> - 2.1.0-0.19.b5
+- Version 2.1.0 beta5
+- Drop all patches
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-0.18.b4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Jerry James <loganjerry@gmail.com> - 2.1.0-0.17.b4
+- Add -endian patch to fix s390x problems
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.0-0.16.b4
 - Rebuilt for Python 3.9
 

@@ -3,7 +3,7 @@
 %global pkgname qtkeychain
 
 Name:           mingw-%{pkgname}
-Version:        0.10.0
+Version:        0.11.1
 Release:        1%{?dist}
 Summary:        MinGW Windows %{pkgname} library
 BuildArch:      noarch
@@ -55,15 +55,15 @@ MinGW Windows %{pkgname} library.
 %build
 %mingw_cmake \
     -DBUILD_WITH_QT4:BOOL=OFF
-%mingw_make %{?_smp_mflags}
+%mingw_make_build
 
 
 %install
-%mingw_make DESTDIR=%{buildroot} install
+%mingw_make_install
 
 %find_lang %{pkgname} --with-qt
-grep %{mingw32_datadir}/qt5/translations %{pkgname}.lang > mingw32_%{pkgname}-qt5.lang
-grep %{mingw64_datadir}/qt5/translations %{pkgname}.lang > mingw64_%{pkgname}-qt5.lang
+grep %{mingw32_datadir}/qt5keychain/translations %{pkgname}.lang > mingw32_%{pkgname}-qt5.lang
+grep %{mingw64_datadir}/qt5keychain/translations %{pkgname}.lang > mingw64_%{pkgname}-qt5.lang
 
 
 
@@ -84,6 +84,12 @@ grep %{mingw64_datadir}/qt5/translations %{pkgname}.lang > mingw64_%{pkgname}-qt
 %{mingw64_datadir}/qt5/mkspecs/modules/qt_Qt5Keychain.pri
 
 %changelog
+* Tue Sep 15 2020 Sandro Mani <manisandro@gmail.com> - 0.11.1-1
+- Update to 0.11.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Sandro Mani <manisandro@gmail.com> - 0.10.0-1
 - Update to 0.10.0
 

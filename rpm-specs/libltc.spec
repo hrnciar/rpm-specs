@@ -1,6 +1,6 @@
 Name:       libltc
 Version:    1.3.1
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    Linear/Longitudinal Time Code (LTC) Library
 
 License:    LGPLv3+
@@ -57,6 +57,9 @@ make check
 %{_mandir}/man3/ltc.h.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

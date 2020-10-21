@@ -3,7 +3,7 @@
 
 Name:           libnice
 Version:        0.1.17
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GLib ICE implementation
 
 License:        LGPLv2 and MPLv1.1
@@ -141,6 +141,9 @@ make check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.17-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Stefan Becker <chemobejk@gmail.com> - 0.1.17-2
 - Update to 0.1.17 (#1839335)
 

@@ -1,13 +1,10 @@
 Name:           mate-media
-Version:        1.24.0
-Release:        2%{?dist}
+Version:        1.24.1
+Release:        1%{?dist}
 Summary:        MATE media programs
 License:        GPLv2+ and LGPLv2+
 URL:            http://mate-desktop.org
 Source0:        http://pub.mate-desktop.org/releases/1.24/%{name}-%{version}.tar.xz
-
-# https://github.com/mate-desktop/mate-media/pull/157
-Patch1:         mate-media_0001-panel-applet-ensure-speaker-can-be-shown-alongside-o.patch
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gtk3-devel
@@ -64,6 +61,12 @@ rm -rf %{buildroot}%{_sysconfdir}/xdg/autostart/mate-volume-control-status-icon.
 
 
 %changelog
+* Fri Aug 14 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- update to 1.24.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 08 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-2
 - fix volume-applet for vertical panels
 - rhbz (#1794568)

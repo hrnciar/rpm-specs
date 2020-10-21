@@ -33,7 +33,7 @@
 
 Name:           bsh
 Version:        2.0
-Release:        16.%{reltag}%{?dist}
+Release:        19.%{reltag}%{?dist}
 Epoch:          0
 Summary:        Lightweight Scripting for Java
 URL:            http://www.beanshell.org/
@@ -47,6 +47,12 @@ Source1:        %{name}-desktop.desktop
 # Remove bundled jars which cannot be easily verified for licensing
 # Remove code marked as SUN PROPRIETARY/CONFIDENTAIL
 Source2:        generate-tarball.sh
+
+# compatibility with Java 11:
+# - set javac / javadoc source and target values to 1.8
+Patch0:         0000-source-target-1.8.patch
+# - remove references to invisible symbols and methods
+Patch1:         0001-java-11-compatibility.patch
 
 BuildRequires:  javapackages-local
 BuildRequires:  ant
@@ -109,6 +115,8 @@ This package provides %{summary}.
 
 %prep
 %setup -q -n beanshell-%{version}%{reltag}
+%patch0 -p1
+%patch1 -p1
 
 sed -i 's,org.apache.xalan.xslt.extensions.Redirect,http://xml.apache.org/xalan/redirect,' docs/manual/xsl/*.xsl
 
@@ -170,6 +178,15 @@ cat scripts/bshdoc.bsh >> %{buildroot}%{_bindir}/bshdoc
 %license LICENSE NOTICE
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:2.0-19.b6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Fabio Valentini <decathorpe@gmail.com> - 0:2.0-18.b6
+- Make adjustments for Java 11 compatibility.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0:2.0-17.b6
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:2.0-16.b6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

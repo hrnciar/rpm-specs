@@ -2,7 +2,7 @@
 
 Name: libvisio
 Version: 0.1.7
-Release: 4%{?dist}
+Release: 6%{?dist}
 Summary: A library for import of Microsoft Visio diagrams
 
 License: MPLv2.0
@@ -59,10 +59,10 @@ sed -i \
     -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -e 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' \
     libtool
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 rm -f %{buildroot}/%{_libdir}/*.la
 # rhbz#1001240 we install API docs directly from build
 rm -rf %{buildroot}/%{_docdir}/%{name}
@@ -111,6 +111,13 @@ make check %{?_smp_mflags}
 %{_mandir}/man1/vss2xhtml.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.7-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 0.1.7-5
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Sat May 16 2020 Pete Walter <pwalter@fedoraproject.org> - 0.1.7-4
 - Rebuild for ICU 67
 

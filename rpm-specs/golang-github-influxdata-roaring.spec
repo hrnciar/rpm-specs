@@ -14,7 +14,7 @@ This is a Go version of the Roaring bitmap data structure.}
 %global godocs          AUTHORS README.md CONTRIBUTORS
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Roaring bitmaps in Go
 
 # Upstream license specification: Apache-2.0
@@ -51,6 +51,13 @@ BuildRequires:  golang(github.com/willf/bitset)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.12-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.12-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.12-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

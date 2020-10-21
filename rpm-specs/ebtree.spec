@@ -2,7 +2,7 @@
 
 Name:		ebtree
 Version:	6.0.8
-Release:	13%{?dist}
+Release:	14%{?dist}
 Summary:	Elastic binary tree library
 
 License:	LGPLv2
@@ -88,6 +88,9 @@ mkdir -p %{buildroot}%{_datadir}/pkgconfig
 %ldconfig_scriptlets
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.8-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.8-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

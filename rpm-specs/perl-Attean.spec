@@ -3,7 +3,7 @@
 
 Name:           perl-Attean
 Version:        0.026
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Semantic web framework
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Attean
@@ -171,6 +171,12 @@ make test
 %{perl_vendorlib}/Test/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.026-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.026-2
+- Perl 5.32 rebuild
+
 * Thu Feb 20 2020 Petr Pisar <ppisar@redhat.com> - 0.026-1
 - 0.026 bump
 

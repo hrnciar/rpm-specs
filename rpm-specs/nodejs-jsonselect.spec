@@ -5,7 +5,7 @@
 
 Name:		nodejs-jsonselect
 Version:	0.4.0
-Release:	14%{?dist}
+Release:	15%{?dist}
 Summary:	CSS-like selectors for JSON
 
 License:	ISC
@@ -90,6 +90,9 @@ cp -pr package.json src/ \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

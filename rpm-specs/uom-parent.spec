@@ -1,6 +1,6 @@
 Name: uom-parent
 Version: 1.0.3
-Release: 7%{?dist}
+Release: 9%{?dist}
 Summary: Units of Measurement Project Parent POM
 License: BSD
 URL: https://github.com/unitsofmeasurement/uom-parent
@@ -28,6 +28,12 @@ Main parent POM for all Units of Measurement Maven projects.
 %license LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.0.3-8
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

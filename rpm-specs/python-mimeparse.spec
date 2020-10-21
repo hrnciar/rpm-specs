@@ -18,7 +18,7 @@ and matching them against a list of media-ranges.}
 
 Name:           python-%{pkgname}
 Version:        1.6.0
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Python module for parsing mime-type names
 License:        MIT
 URL:            https://github.com/dbtsai/python-mimeparse
@@ -95,6 +95,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} mimeparse_test.py --verbo
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 1.6.0-14
 - Rebuilt for Python 3.9
 

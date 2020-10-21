@@ -1,6 +1,6 @@
 Name: libaio
 Version: 0.3.111
-Release: 7%{?dist}
+Release: 10%{?dist}
 Summary: Linux-native asynchronous I/O access library
 License: LGPLv2+
 Source: http://releases.pagure.org/libaio/libaio-0.3.111.tar.gz
@@ -38,6 +38,10 @@ for the Linux-native asynchronous I/O facility ("async I/O", or "aio").
 mv %{name}-%{version} compat-%{name}-%{version}
 
 %build
+# This package uses ASMs to implement symbol versioning and is thus
+# incompatible with LTO
+%define _lto_cflags %{nil}
+
 # A library with a soname of 1.0.0 was inadvertantly released.  This
 # build process builds a version of the library with the broken soname in
 # the compat-libaio-0.3.103 directory, and then builds the library again
@@ -69,6 +73,16 @@ find %{buildroot} -name '*.a' -delete
 %attr(0755,root,root) %{usrlibdir}/libaio.so
 
 %changelog
+* Fri Aug 07 2020 Jeff Law <law@redhat.com> - 0.3.111-10
+- Disable LTO
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.111-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.111-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.111-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

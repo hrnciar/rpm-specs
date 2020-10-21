@@ -1,8 +1,8 @@
 
 Summary:       Official JDBC driver for MySQL
 Name:          mysql-connector-java
-Version:       8.0.16
-Release:       7%{?dist}
+Version:       8.0.21
+Release:       2%{?dist}
 Epoch:         1
 License:       GPLv2 with exceptions
 URL:           http://dev.mysql.com/downloads/connector/j/
@@ -43,11 +43,13 @@ BuildRequires: git
 BuildRequires: javassist
 BuildRequires: java-devel >= 1:1.6.0
 BuildRequires: javapackages-local
-BuildRequires: junit
+BuildRequires: junit5
 BuildRequires: protobuf-java
 BuildRequires: slf4j
+BuildRequires: java-1.8.0-openjdk-devel
 
 Requires:      slf4j
+Requires: java
 
 %description
 MySQL Connector/J is a native Java driver that converts JDBC (Java Database
@@ -84,7 +86,7 @@ rm src/test/java/testsuite/regression/ConnectionRegressionTest.java
 rm src/test/java/testsuite/regression/DataSourceRegressionTest.java
 rm src/test/java/testsuite/simple/StatementsTest.java
 
-ant -Dcom.mysql.cj.build.jdk=%{java_home} \
+ant -Dcom.mysql.cj.build.jdk=/usr/lib/jvm/java-1.8.0-openjdk \
     -Dcom.mysql.cj.extra.libs=%{_javadir} \
     test dist
 
@@ -99,6 +101,25 @@ ant -Dcom.mysql.cj.build.jdk=%{java_home} \
 %license LICENSE
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 1:8.0.21-2
+- Rebuilt for protobuf 3.13
+
+* Tue Aug 25 2020 Ondrej Dubaj <odubaj@redhat.com> - 1:8.0.21-1
+- rebase to version 8.0.21
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:8.0.20-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1:8.0.20-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Fri Jun 26 2020 Ondrej Dubaj <odubaj@redhat.com> - 1:8.0.20-2
+- remove *-headless dependecny
+
+* Thu Jun 25 2020 Ondrej Dubaj <odubaj@redhat.com> - 1:8.0.20-1
+- new upstream release
+- compatibility with jdk-11
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 1:8.0.16-7
 - Rebuilt for protobuf 3.12
 

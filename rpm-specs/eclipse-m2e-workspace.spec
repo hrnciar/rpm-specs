@@ -2,7 +2,7 @@
 
 Name:           eclipse-m2e-workspace
 Version:        0.4.0
-Release:        14%{?dist}
+Release:        16%{?dist}
 Summary:        M2E CLI workspace resolver
 License:        EPL-1.0
 URL:            https://www.eclipse.org/m2e/
@@ -88,6 +88,12 @@ popd
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0.4.0-15
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

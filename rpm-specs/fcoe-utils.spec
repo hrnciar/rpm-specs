@@ -1,22 +1,23 @@
 # https://fedoraproject.org/wiki/Packaging:Guidelines#Compiler_flags
 %global _hardened_build 1
 
-# v1.0.32-3-g9834b340d82
-%global commit0      9834b340d8289bab48d961b6bb2698bab1f3965f
+# v1.0.33-6-gfe376de5343
+%global commit0      fe376de5343c58f108a14e67819626424054591b
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Name:               fcoe-utils
-Version:            1.0.32
-Release:            10.git%{shortcommit0}%{?dist}
+Version:            1.0.33
+Release:            0.git%{shortcommit0}%{?dist}
 Summary:            Fibre Channel over Ethernet utilities
 License:            GPLv2
 URL:                http://www.open-fcoe.org
-Source0:            https://github.com/morbidrsa/fcoe-utils/archive/%{commit0}.tar.gz#/%{name}-%{version}-%{shortcommit0}.tar.gz
+Source0:            https://github.com/openSUSE/fcoe-utils/archive/%{commit0}.tar.gz#/%{name}-%{version}-%{shortcommit0}.tar.gz
 Source1:            quickstart.txt
 Source2:            fcoe.service
 Source3:            fcoe.config
 ExcludeArch:        ppc s390
-Patch0:             0001-string-warning-fixes.patch
+Patch1:             0001-21-string-op-truncation-format-truncation-and-format.patch
+Patch2:             0002-use-of-uninitialized-values-detected-during-LTO.patch
 BuildRequires:      autoconf
 BuildRequires:      automake
 BuildRequires:      libpciaccess-devel
@@ -78,10 +79,21 @@ rm -f %{buildroot}/%{_sysconfdir}/fcoe/config
 %{_sysconfdir}/fcoe/
 %config(noreplace) %{_sysconfdir}/fcoe/cfg-ethx
 %config(noreplace) %{_sysconfdir}/sysconfig/fcoe
-%{_sysconfdir}/bash_completion.d/*
+%{_datadir}/bash-completion/completions/*
 %{_libexecdir}/fcoe/
 
 %changelog
+* Mon Sep 21 2020 Chris Leech <cleech@redhat.com> - 1.0.33-0.gitfe376de
+- FTBFS: fix gcc 10.2 truncation and overflow errors
+- rebase to 1.0.33+ from new upstream location
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.32-12.git9834b34
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.32-11.git9834b34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.32-10.git9834b34
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

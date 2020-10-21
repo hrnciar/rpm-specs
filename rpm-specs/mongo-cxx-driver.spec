@@ -3,7 +3,7 @@
 
 Name:           mongo-cxx-driver
 Version:        3.4.1
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        A C++ Driver for MongoDB
 License:        ASL 2.0
 URL:            https://github.com/mongodb/mongo-cxx-driver/wiki
@@ -79,11 +79,11 @@ export LDFLAGS="$LDFLAGS $RPM_LD_FLAGS"
     -DBSONCXX_POLY_USE_BOOST=1 \
     .
 
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 %files
 %doc README.md
@@ -106,6 +106,16 @@ make %{?_smp_mflags}
 %{_libdir}/cmake/libbsoncxx*
 
 %changelog
+* Tue Aug 11 2020 Honza Horak <hhorak@redhat.com> - 3.4.1-4
+- Fix FTBFS caused by cmake changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 09 2020 Honza Horak <hhorak@redhat.com> - 3.4.1-1
 - Update to 3.4.1
 - Add libzstd-devel and mongocrypt as BR

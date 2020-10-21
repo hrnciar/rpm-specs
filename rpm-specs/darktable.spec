@@ -14,17 +14,19 @@
 ###
 
 Name: darktable
-Version: 3.0.2
-Release: 1%{?dist}
+Version: 3.2.1
+Release: 8%{?dist}
 
 Summary: Utility to organize and develop raw images
-
 License: GPLv3+
 URL: http://www.darktable.org/
-Source0: https://github.com/darktable-org/darktable/releases/download/release-%(echo %{version} | sed 's/~//')/darktable-%(echo %{version} | sed 's/~/./').tar.xz
+
+Source0: https://github.com/darktable-org/darktable/releases/download/release-%{version}/%{name}-%{version}.tar.xz
 
 # https://github.com/darktable-org/darktable/pull/4445
 Patch0: appdata-file.patch
+# https://github.com/darktable-org/darktable/pull/6380
+Patch1: 0001.patch
 
 BuildRequires: cairo-devel
 BuildRequires: clang >= 3.9
@@ -60,6 +62,10 @@ BuildRequires: json-glib-devel
 BuildRequires: lcms2-devel
 BuildRequires: lensfun-devel
 BuildRequires: libappstream-glib
+# libavif is not available in EPEL 8
+%if ((0%{?el} > 8) || (0%{?fedora} >= 33))
+BuildRequires: cmake(libavif)
+%endif
 BuildRequires: libcurl-devel >= 7.18.0
 BuildRequires: libgphoto2-devel >= 2.4.5
 BuildRequires: libjpeg-devel
@@ -69,10 +75,6 @@ BuildRequires: libsecret-devel
 BuildRequires: libsoup-devel
 BuildRequires: libtiff-devel
 BuildRequires: libwebp-devel
-# Fedora uses Fedora lua, EPEL7 uses bundled lua
-%if 0%{?fedora}
-BuildRequires: lua-devel >= 5.3
-%endif
 BuildRequires: opencl-headers
 BuildRequires: OpenEXR-devel >= 1.6
 BuildRequires: openjpeg2-devel
@@ -80,6 +82,12 @@ BuildRequires: openjpeg2-devel
 BuildRequires: osm-gps-map-devel >= 1.0
 %endif
 BuildRequires: perl-interpreter
+BuildRequires: perl(FindBin)
+# perl-lib contains lib.pm, that was used to be included in perl-interpreter
+# but on Fedora >= 33 it has been splitted to perl-lib
+%if ((0%{?el} > 8) || (0%{?fedora} > 32))
+BuildRequires: perl-lib
+%endif
 BuildRequires: pkgconfig >= 0.22
 BuildRequires: po4a
 BuildRequires: /usr/bin/pod2man
@@ -96,9 +104,7 @@ Requires: iso-codes >= 3.66
 # Concerning rawspeed bundled library, see
 # https://fedorahosted.org/fpc/ticket/550#comment:9
 Provides: bundled(rawspeed)
-%if 0%{?el7}
 Provides: bundled(lua)
-%endif
 
 # uses xmmintrin.h
 %if (0%{?fedora} || 0%{?el7})
@@ -142,25 +148,18 @@ Another option to solve the same problem might be the darktable-chart module
 from the darktable package.
 
 %prep
-%autosetup -p1 -n 'darktable-%{version}'
+%autosetup -p1
 
 # Remove bundled OpenCL headers.
 rm -rf src/external/CL
 sed -i -e 's, \"external/CL/\*\.h\" , ,' src/CMakeLists.txt
 
-# Remove bundled lua on Fedora
-%if 0%{?fedora}
-rm -rf src/external/lua/
-%endif
 
 %build
 %if 0%{?el7}
 . /opt/rh/devtoolset-7/enable
-%endif
 mkdir %{_target_platform} 
 pushd %{_target_platform}
-# bundled lua is enabled on EPEL7
-%if 0%{?el7}
 %cmake3 \
         -DCMAKE_LIBRARY_PATH:PATH=%{_libdir} \
         -DUSE_GEO:BOOLEAN=ON \
@@ -173,37 +172,56 @@ pushd %{_target_platform}
         -DUSE_OPENCL=OFF \
         %endif
         ..
-%else
-# Concerning %%ifarch ppc64le aarch64 read https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91920
+%endif
+#
+# Germano Massullo: I wanted to use %%elseif but it is not yet active in
+# Fedora, etc., despite is supported upstream. I did not compare the Fedora RPM version
+# but I empirically verified that %%elseif and %%elif do not work here, even if you don't get
+# errors during builds
+# https://github.com/rpm-software-management/rpm/issues/311
+# https://github.com/debbuild/debbuild/issues/182
+# 
+#
+%if (0%{?el8} || (0%{?fedora} < 33))
+mkdir %{_target_platform} 
+pushd %{_target_platform}
 %cmake \
         -DCMAKE_LIBRARY_PATH:PATH=%{_libdir} \
         -DUSE_GEO:BOOLEAN=ON \
         -DCMAKE_BUILD_TYPE:STRING=Release \
         -DBINARY_PACKAGE_BUILD=1 \
-        -DDONT_USE_INTERNAL_LUA=ON \
+        -DDONT_USE_INTERNAL_LUA=OFF \
         -DBUILD_NOISE_TOOLS=ON \
         -DRAWSPEED_ENABLE_LTO=%{_use_rawspeed_lto} \
-        %ifarch ppc64le
-        -DUSE_OPENCL=OFF \
-        %endif
-        %if 0%{?fedora} >= 30
-        %ifarch ppc64le aarch64
-        -DUSE_OPENMP=OFF \
-        %endif
-        %endif
         ..
+%else
+%cmake \
+        -DCMAKE_LIBRARY_PATH:PATH=%{_libdir} \
+        -DUSE_GEO:BOOLEAN=ON \
+        -DCMAKE_BUILD_TYPE:STRING=Release \
+        -DBINARY_PACKAGE_BUILD=1 \
+        -DDONT_USE_INTERNAL_LUA=OFF \
+        -DBUILD_NOISE_TOOLS=ON \
+        -DRAWSPEED_ENABLE_LTO=%{_use_rawspeed_lto}
+%endif
+
+%if ((0%{?el} > 8) || (0%{?fedora} > 32))
+%cmake_build
+%else
+%make_build
+popd
 %endif
 
 
-%make_build VERBOSE=1
-popd
-
-
 %install
-pushd %{_target_platform} 
+%if ((0%{?el} > 8) || (0%{?fedora} > 32))
+%cmake_install
+%else
+pushd %{_target_platform}
 %make_install
 popd
-find %{buildroot} -name '*.la' -exec rm -f {} ';'
+%endif
+
 %find_lang %{name}
 rm -rf %{buildroot}%{_datadir}/doc/darktable
 appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/darktable.appdata.xml
@@ -214,9 +232,8 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/darktable
 %{_bindir}/darktable
 %{_bindir}/darktable-chart
 %{_bindir}/darktable-cli
-%ifnarch ppc64le
+
 %{_bindir}/darktable-cltest
-%endif
 %{_bindir}/darktable-cmstest
 %{_bindir}/darktable-generate-cache
 %{_bindir}/darktable-rs-identify
@@ -238,6 +255,43 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/darktable
 %{_libexecdir}/darktable/tools/subr.sh
 
 %changelog
+* Mon Oct 19 2020 Andreas Schneider <asn@redhat.com> - 3.2.1-8
+- Rebuild for libavif 0.8.2
+
+* Sat Oct 03 2020 Germano Massullo <germano.massullo@gmail.com> - 3.2.1-7
+- enabled bundled Lua, because darktable does not support Lua 5.4 that is shipped in Fedora and EPEL 8
+
+* Sat Oct 03 2020 Germano Massullo <germano.massullo@gmail.com> - 3.2.1-6
+- Added BuildRequires: perl-lib for Fedora > 32 and EL > 8
+
+* Fri Oct 02 2020 Germano Massullo <germano.massullo@gmail.com> - 3.2.1-5
+- Fixed Lua macros
+- Fixed errors of new cmake macros
+
+* Sat Sep 26 2020 Andreas Schneider <asn@redhat.com> - 3.2.1-4
+- Fix build with new cmake macros
+
+* Fri Sep 25 2020 Germano Massullo <germano.massullo@gmail.com> - 3.2.1-3
+- resumed OpenMP on ppc64le aarch64
+- resumed OpenCL on ppc64le
+- added 0001.patch
+- removed %%ifnarch ppc64le %%{_bindir}/darktable-cltest
+
+* Fri Sep 25 2020 Germano Massullo <germano.massullo@gmail.com> - 3.2.1-2
+- Introduced new cmake macros for Fedora >= 33 and EL >= 9 https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+- Added BuildRequires: perl(FindBin)
+- Added BuildRequires: cmake(libavif) for Fedora >= 33 and EL >= 9
+
+* Mon Aug 10 2020 Germano Massullo <germano.massullo@gmail.com> - 3.2.1-1
+- 3.2.1 release
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 18 2020 Germano Massullo <germano.massullo@gmail.com> - 3.0.2-1
 - 3.0.2 release
 - Removed 4447-legacy_params.patch

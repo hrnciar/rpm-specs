@@ -1,3 +1,6 @@
+# workaround LTO related issue when stripping the target files (#1863378)
+%global __brp_strip_lto %{nil}
+
 %global cross cross
 %global rpmprefix %{nil}
 
@@ -67,9 +70,9 @@
 # The gcc versioning information.  In a sed command below, the specfile winds
 # pre-release version numbers in BASE-VER back to the last actually-released
 # number.
-%global DATE 20200507
+%global DATE 20200826
 %global gitrev 563509ad4338c7193d06f4008e9df657990628a5
-%global gcc_version 10.1.1
+%global gcc_version 10.2.1
 %global gcc_major 10
 
 # Note, cross_gcc_release must be integer, if you want to add suffixes
@@ -77,7 +80,7 @@
 # line.  gcc_release is the Fedora gcc release that the patches were
 # taken from.
 %global gcc_release 1
-%global cross_gcc_release 1
+%global cross_gcc_release 3
 %global cross_binutils_version 2.34-2
 %global isl_version 0.16.1
 %global isl_libmajor 15
@@ -94,7 +97,7 @@ Release: %{cross_gcc_release}%{?dist}
 # GCC Runtime Exception.
 License: GPLv3+ and GPLv3+ with exceptions and GPLv2+ with exceptions and LGPLv2+ and BSD
 URL: http://gcc.gnu.org
-BuildRequires: gcc-c++
+BuildRequires: gcc-c++ autoconf
 BuildRequires: isl-devel >= %{isl_version}
 
 # The source for this package was pulled from upstream's vcs.  Use the
@@ -118,9 +121,13 @@ Patch8: gcc10-foffload-default.patch
 Patch9: gcc10-Wno-format-security.patch
 Patch10: gcc10-rh1574936.patch
 Patch11: gcc10-d-shared-libphobos.patch
+Patch12: gcc10-pr96383.patch
+Patch13: gcc10-pr96385.patch
+Patch14: gcc10-pr96690.patch
 
 Patch900: cross-intl-filename.patch
 Patch901: cross-gcc-format-config.patch
+Patch902: cross-gcc-config.patch
 
 %if 0%{?fedora} >= 29 || 0%{?rhel} > 7
 BuildRequires: binutils >= 2.31
@@ -284,13 +291,24 @@ cd %{srcdir}
 %patch10 -p0 -b .rh1574936~
 %endif
 %patch11 -p0 -b .d-shared-libphobos~
+%patch12 -p0 -b .pr96383~
+%patch13 -p0 -b .pr96385~
+%patch14 -p0 -b .pr96690~
 
 %patch900 -p0 -b .cross-intl~
 %patch901 -p0 -b .format-config~
+%patch902 -p0 -b .config
 
 echo 'Red Hat Cross %{version}-%{cross_gcc_release}' > gcc/DEV-PHASE
 
 echo 'TM_H += $(srcdir)/config/rs6000/rs6000-modes.h' >> gcc/config/rs6000/t-rs6000
+
+pushd libiberty
+autoconf -f
+popd
+pushd intl
+autoconf -f
+popd
 
 ./contrib/gcc_update --touch
 
@@ -382,6 +400,7 @@ export CONFIG_SITE=NONE
 CC=gcc
 CXX=g++
 OPT_FLAGS=`echo %{optflags}|sed -e 's/\(-Wp,\)\?-D_FORTIFY_SOURCE=[12]//g'`
+OPT_FLAGS=`echo $OPT_FLAGS|sed -e 's/-flto=auto//g;s/-flto//g;s/-ffat-lto-objects//g'`
 OPT_FLAGS=`echo $OPT_FLAGS|sed -e 's/-m64//g;s/-m32//g;s/-m31//g'`
 OPT_FLAGS=`echo $OPT_FLAGS|sed -e 's/-mfpmath=sse/-mfpmath=sse -msse2/g'`
 OPT_FLAGS=`echo $OPT_FLAGS|sed -e 's/ -pipe / /g'`
@@ -861,6 +880,20 @@ chmod +x %{__ar_no_strip}
 %do_files xtensa-linux-gnu	%{build_xtensa}
 
 %changelog
+* Fri Sep 04 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 10.2.1-3
+- GCC 10.2.0 release
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.1.1-2.2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.1.1-2.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Jeff Law <law@redhat.com> - 10.1.1-2
+- Fix broken configure files compromised by LTO
+- Add autoconf to BuildRequires
+
 * Fri May 08 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 10.1.1-1
 - GCC 10.1.0 release
 

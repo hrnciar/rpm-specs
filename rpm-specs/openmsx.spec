@@ -1,23 +1,20 @@
 Name:           openmsx
-Version:        0.15.0
-Release:        5%{?dist}
+Version:        16.0
+Release:        1%{?dist}
 Summary:        An emulator for the MSX home computer system
-License:        GPL+
-URL:            http://openmsx.org/
-Source0:        https://github.com/openMSX/openMSX/releases/download/RELEASE_0_15_0/%{name}-%{version}.tar.gz
-Source1:        https://github.com/openMSX/openMSX/releases/download/RELEASE_0_15_0/%{name}-catapult-%{version}.tar.gz
-Patch1:         openmsx-0.15.0-archs.patch
-Patch2:         openmsx-0.15.0-convert-build-to-python3.patch
-Patch3:         openmsx-catapult-0.15.0-python3-build-fix.patch
+License:        GPLv2
+URL:            https://openmsx.org/
+Source0:        https://github.com/openMSX/openMSX/releases/download/RELEASE_16_0/%{name}-%{version}.tar.gz
+Source1:        https://github.com/openMSX/openMSX/releases/download/RELEASE_16_0/%{name}-catapult-%{version}.tar.gz
 BuildRequires:  desktop-file-utils libappstream-glib
 BuildRequires:  docbook-utils
 BuildRequires:  gcc-c++
-BuildRequires:  glew-devel >= 1.3.2
+BuildRequires:  glew-devel >= 2.1.0
 BuildRequires:  jack-audio-connection-kit-devel
 BuildRequires:  libpng-devel
 BuildRequires:  libxml2-devel
-BuildRequires:  SDL_image-devel SDL_ttf-devel freetype-devel
-BuildRequires:  tcl-devel >= 8.4.0
+BuildRequires:  SDL2_image-devel SDL2_ttf-devel freetype-devel
+BuildRequires:  tcl-devel >= 8.6.0
 BuildRequires:  zlib-devel
 BuildRequires:  python3
 BuildRequires:  libvorbis-devel
@@ -29,14 +26,14 @@ Requires:       hicolor-icon-theme
 
 %description
 openMSX is an emulator for the MSX home computer system. Its goal is to emulate
-all aspects of the MSX with 100% accuracy. In addition to emulating MSX, MSX2,
+all aspects of the MSX with high accuracy. In addition to emulating MSX, MSX2,
 MSX2+, MSX Turbo R and many of it's peripherals, it also support emulating the
 ColecoVision game console and the SpectraVideo SVI-318 and SVI-328 home
 computer systems.
 
 
 %package        catapult
-Summary:        Graphical interface for openMSX
+Summary:        Graphical front-end for openMSX
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description    catapult
@@ -163,9 +160,9 @@ SentUpstream: 2014-09-25
 <component type="desktop">
   <id>openmsx.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>GPL-2.0+</project_license>
+  <project_license>GPL-2.0</project_license>
   <name>openMSX</name>
-  <summary>Emulate all aspects of the MSX with 100% accuracy</summary>
+  <summary>Emulate all aspects of the MSX with high accuracy</summary>
   <description>
     <p>
       OpenMSX is an emulator for the MSX home computer system. MSX is an old
@@ -217,6 +214,12 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Fri Oct 16 2020 Robert de Rooy <robert.de.rooy@gmail.com> - 16.0-1
+- New upstream version 16.0 (rhbz#1886301)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 27 2020 Hans de Goede <hdegoede@redhat.com> - 0.15.0-5
 - Add upstream "build" dir changes to build with python3
 - Change BuildRequires to python3 (rhbz#1807947)

@@ -1,6 +1,6 @@
 Name: fmf
 Version: 0.12
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 Summary: Flexible Metadata Format
 License: GPLv2+
@@ -149,6 +149,9 @@ export LANG=en_US.utf-8
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Petr Šplíchal <psplicha@redhat.com> - 0.12-1
 - Do git pull in utils.fetch
 - Make fetch._run official as utils.run

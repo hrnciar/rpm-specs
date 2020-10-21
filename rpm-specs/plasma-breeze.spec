@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+
 ## bootstrap, omit problematic optional build deps)
 #global bootstrap 1
 
@@ -10,7 +12,7 @@
 %endif
 
 Name:    plasma-breeze
-Version: 5.19.2
+Version: 5.20.1
 Release: 1%{?dist}
 Summary: Artwork, styles and assets for the Breeze visual style for the Plasma Desktop
 
@@ -108,31 +110,27 @@ Supplements: (kde-runtime and plasma-workspace)
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %if 0%{?build_kde4}
-mkdir %{_target_platform}_kde4
-pushd %{_target_platform}_kde4
-%{cmake_kde4} -DUSE_KDE4=TRUE ..
-popd
-
-%make_build -C %{_target_platform}_kde4
+%global _vpath_builddir %{_target_platform}-kde4
+%{cmake_kde4} -DUSE_KDE4=TRUE -B %{_vpath_builddir}
+%cmake_build
+%undefine _vpath_builddir
 %endif
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang breeze --all-name
 
 %if 0%{?build_kde4}
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}_kde4
+%global _vpath_builddir %{_target_platform}-kde4
+%cmake_install
+%undefine _vpath_builddir
 %endif
 
 # omit/rename kde4breeze.upd, seems to be causing problems for
@@ -145,7 +143,7 @@ mv %{buildroot}%{_kf5_datadir}/kconf_update/kde4breeze.upd \
 %ldconfig_scriptlets
 
 %files
-%license COPYING
+%license LICENSES/*.txt
 %{_kf5_qtplugindir}/org.kde.kdecoration2/breezedecoration.so
 %{_kf5_qtplugindir}/styles/breeze.so
 %{_kf5_datadir}/kstyle/themes/breeze.themerc
@@ -193,6 +191,27 @@ mv %{buildroot}%{_kf5_datadir}/kconf_update/kde4breeze.upd \
 
 
 %changelog
+* Tue Oct 20 15:27:44 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.1-1
+- 5.20.1
+
+* Sun Oct 11 19:50:02 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.0-1
+- 5.20.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.90-1
+- 5.19.90
+
+* Tue Sep 01 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.5-1
+- 5.19.5
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.19.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.4-1
+- 5.19.4
+
+* Tue Jul 07 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.3-1
+- 5.19.3
+
 * Tue Jun 23 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.2-1
 - 5.19.2
 

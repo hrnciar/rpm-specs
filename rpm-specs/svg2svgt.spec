@@ -1,9 +1,11 @@
+%global __cmake_in_source_build 1
+
 #global commit 5760c9d30e793de3d65475167ad1a0a652f3a16f
 #global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           svg2svgt
 Version:        0.9.6
-Release:        7%{?commit:.git%shortcommit}%{?dist}
+Release:        9%{?commit:.git%shortcommit}%{?dist}
 Summary:        SVG to SVG Tiny converter
 
 License:        LGPLv2+
@@ -81,6 +83,12 @@ make check %{?_smp_mflags}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.6-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 0.9.6-8
+- Use __cmake_in_source_build
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.6-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

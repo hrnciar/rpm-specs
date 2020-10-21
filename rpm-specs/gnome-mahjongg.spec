@@ -1,11 +1,11 @@
 Name:           gnome-mahjongg
-Version:        3.37.1
+Version:        3.38.2
 Release:        1%{?dist}
 Summary:        GNOME Mahjongg game
 
 License:        GPLv2+ and CC-BY-SA
 URL:            https://wiki.gnome.org/Apps/Mahjongg
-Source0:        https://download.gnome.org/sources/%{name}/3.37/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires:  gcc
 BuildRequires:  desktop-file-utils
@@ -58,6 +58,22 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Mon Oct  5 2020 Kalev Lember <klember@redhat.com> - 3.38.2-1
+- Update to 3.38.2
+
+* Sat Sep 19 2020 Kalev Lember <klember@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Fri Sep 18 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 30 2020 Kalev Lember <klember@redhat.com> - 3.37.1-1
 - Update to 3.37.1
 

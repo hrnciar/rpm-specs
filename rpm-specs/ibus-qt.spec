@@ -1,6 +1,6 @@
 Name:       ibus-qt
 Version:    1.3.3
-Release:    25%{?dist}
+Release:    28%{?dist}
 Summary:    Qt IBus library and Qt input method plugin
 License:    GPLv2+
 URL:        https://github.com/ibus/ibus/wiki
@@ -42,17 +42,11 @@ The ibus-qt-docs package contains developer documentation for ibus qt library.
 %cmake \
     -DCMAKE_INSTALL_PREFIX=%{_usr} \
     -DLIBDIR=%{_libdir}
-make \
-    VERBOSE=1 \
-    C_DEFINES="$RPM_OPT_FLAGS" \
-    CXX_DEFINES="$RPM_OPT_FLAGS" \
-    %{?_smp_mflags}
-make docs \
-    %{?_smp_mflags}
+%cmake_build
+%cmake_build -- docs
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
-# find_lang {name}
+%cmake_install
 
 %ldconfig_scriptlets
 
@@ -67,9 +61,19 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_libdir}/libibus-qt.so
 
 %files docs
-%doc docs/html
+%doc %__cmake_builddir/docs/html
 
 %changelog
+* Fri Aug 07 2020 Takao Fujiwara <tfujiwar@redhat.com> - 1.3.3-28
+- Resolves: #1863871 replace make with cmake_build
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-27
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 15 2020 Pete Walter <pwalter@fedoraproject.org> - 1.3.3-25
 - Rebuild for ICU 67
 

@@ -1,6 +1,6 @@
 Name:           xpad
 Version:        5.3.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Sticky notepad for GTK
 
 License:        GPLv3+
@@ -53,6 +53,9 @@ desktop-file-install  \
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

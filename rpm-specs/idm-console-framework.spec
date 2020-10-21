@@ -9,7 +9,7 @@ License:          LGPLv2
 BuildArch:        noarch
 
 Version:          1.2.0
-Release:          4%{?_timestamp}%{?_commit_id}%{?dist}
+Release:          7%{?_timestamp}%{?_commit_id}%{?dist}
 # global           _phase -a1
 
 # To create a tarball from a version tag:
@@ -26,6 +26,7 @@ Source: https://github.com/dogtagpki/idm-console-framework/archive/v%{version}%{
 #     <version tag> \
 #     > idm-console-framework-VERSION-RELEASE.patch
 # Patch: idm-console-framework-VERSION-RELEASE.patch
+Patch1: 0001-Force-JDK8-support-for-the-time-being.patch
 
 ################################################################################
 # Build Dependencies
@@ -86,6 +87,15 @@ install -m644 built/release/jars/idm-console-* $RPM_BUILD_ROOT%{_javadir}
 
 ################################################################################
 %changelog
+* Tue Aug 18 2020 Alexander Scheel <ascheel@redhat.com> - 1.2.0-7
+- Rebuilt for JDK8 compatibility
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.2.0-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

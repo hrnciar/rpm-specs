@@ -1,7 +1,7 @@
 Summary:       Libraries to move files to a trash-folder on delete
 Name:          libtrash
-Version:       3.3
-Release:       14%{dist} 
+Version:       3.6
+Release:       1%{dist} 
 License:       GPLv2+
 URL:           http://pages.stern.nyu.edu/~marriaga/software/libtrash
 Source:        http://pages.stern.nyu.edu/~marriaga/software/libtrash/%{name}-%{version}.tgz
@@ -11,6 +11,7 @@ Patch2:        libtrash-3.3-license.patch
 
 BuildRequires: gcc
 BuildRequires: perl-interpreter
+BuildRequires: perl(English)
 BuildRequires: python3
 
 %description
@@ -29,10 +30,7 @@ This package contains the libtrash.so dynamic library which, when preloaded,
 implements a trash can under GNU/Linux.
 
 %prep
-%setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
+%autosetup -p1
 
 # enforce use of python3 during the build
 sed -e 's|print \(.*\)$|print(\1)|' -i scripts/get_symbol_versions.py
@@ -54,16 +52,32 @@ ln -sf libtrash.so.%{version} $RPM_BUILD_ROOT/%{_libdir}/libtrash.so.3
 %ldconfig_scriptlets
 
 %files
-%doc README TODO COPYING CHANGE.LOG config.txt 
+%doc README.md TODO COPYING CHANGE.LOG config.txt 
 %attr(644, root, root) %{_sysconfdir}/libtrash.conf
 %config(noreplace) %{_sysconfdir}/libtrash.conf
 %{_libdir}/libtrash.so.*
 
 %files devel
 %{_libdir}/libtrash.so
-%doc README TODO COPYING CHANGE.LOG config.txt 
 
 %changelog
+* Thu Aug 06 2020 Kamil Dudka <kdudka@redhat.com> - 3.6-1
+- update to new upstream release
+
+* Tue Aug 04 2020 Kamil Dudka <kdudka@redhat.com> - 3.5-1
+- use `readelf -s -W` to avoid truncation of long symbol names (#1864057)
+- update to new upstream release
+
+* Tue Aug 04 2020 Kamil Dudka <kdudka@redhat.com> - 3.3-17
+- require perl(English) for build (#1864057)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

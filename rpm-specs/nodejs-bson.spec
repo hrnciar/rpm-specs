@@ -8,7 +8,7 @@
 Summary:       A bson parser for node.js and the browser
 Name:          nodejs-%{npm_name}
 Version:       0.4.23
-Release:       9%{?dist}
+Release:       10%{?dist}
 License:       ASL 2.0
 URL:           https://github.com/mongodb/js-bson
 Source0:       http://registry.npmjs.org/%{npm_name}/-/%{npm_name}-%{version}.tgz
@@ -54,6 +54,9 @@ nodeunit ./test/node && TEST_NATIVE=TRUE nodeunit ./test/node
 %{nodejs_sitelib}/%{npm_name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.23-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.23-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

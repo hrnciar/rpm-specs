@@ -1,10 +1,6 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:    sugar-terminal
 Version: 47
-Release: 2%{?dist}
+Release: 4%{?dist}
 Summary: Terminal for Sugar
 License: GPLv2+
 URL:     http://wiki.laptop.org/go/Terminal
@@ -37,6 +33,9 @@ mkdir -p $RPM_BUILD_ROOT%{sugaractivitydir}
 python3 ./setup.py install --prefix=$RPM_BUILD_ROOT/%{_prefix}
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}%{_datadir}/{sugaractivitydir}/Terminal.activity/
+
 %find_lang org.laptop.Terminal
 
 %files -f org.laptop.Terminal.lang
@@ -44,6 +43,13 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 %{sugaractivitydir}/Terminal.activity/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 47-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 47-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 47-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

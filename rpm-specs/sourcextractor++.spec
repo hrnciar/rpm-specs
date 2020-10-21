@@ -1,7 +1,7 @@
 Summary:        A program that extracts a catalog of sources from astronomical images, and the successor of SExtractor
 Name:           sourcextractor++
-Version:        0.10
-Release:        4%{?dist}
+Version:        0.11
+Release:        3%{?dist}
 License:        LGPLv3+
 URL:            https://github.com/astrorama/sourcextractorplusplus
 Source0:        https://github.com/astrorama/sourcextractorplusplus/archive/%{version}/%{name}-%{version}.tar.gz
@@ -14,19 +14,22 @@ Patch0:         sourcex_remove_benchmarks.patch
 Patch1:         sourcex_remove_testimage.patch
 # We do not want to override the compilation flags
 Patch2:         sourcex_remove_custom_flags.patch
-# Wrapping wcslib7 on its own namespace gives namespace trouble
-Patch3:         sourcex_wcslib_namespace.patch
+# boost::io::quoted changed in boost 1.73
+Patch3:         sourcex_boost_quoted.patch
+# Fix an out of bounds access
+Patch4:         sourcex_flux_radius.patch
 
-%global elements_version 5.8
-%global alexandria_version 2.14.1
+%global elements_version 5.10
+%global alexandria_version 2.16
 
 BuildRequires: CCfits-devel
 BuildRequires: boost-devel >= 1.53
 BuildRequires: cfitsio-devel
 BuildRequires: cppunit-devel
-BuildRequires: log4cpp-devel
 BuildRequires: fftw-devel >= 3
 BuildRequires: levmar-devel >= 2.5
+BuildRequires: log4cpp-devel
+BuildRequires: ncurses-devel
 BuildRequires: wcslib-devel
 %if 0%{?fedora} >= 30
 BuildRequires: gsl-devel >= 2.2.1
@@ -48,13 +51,13 @@ BuildRequires: gcc-c++ > 4.7
 BuildRequires: cmake >= 2.8.5
 %if 0%{?fedora} >= 30
 BuildRequires: python3
-BuildRequires: python3-pytest
 BuildRequires: python3-devel
+BuildRequires: python3-pytest
 BuildRequires: boost-python3-devel >= 1.53
 %else
 BuildRequires: python2
-BuildRequires: python2-pytest
 BuildRequires: python2-devel
+BuildRequires: python2-pytest
 BuildRequires: boost-python-devel >= 1.53
 %endif
 
@@ -109,22 +112,25 @@ EXTRA_CMAKE_FLAGS="${EXTRA_CMAKE_FLAGS} -DPYTHON_EXPLICIT_VERSION=3"
 %else
 EXTRA_CMAKE_FLAGS="${EXTRA_CMAKE_FLAGS} -DPYTHON_EXPLICIT_VERSION=2"
 %endif
-mkdir build
-# Copy cppreference-doxygen-web.tag.xml into the build directory
-mkdir -p build/doc/doxygen
-cp "%{SOURCE1}" "build/doc/doxygen"
 # Build
-cd build
-%cmake -DELEMENTS_BUILD_TESTS=OFF -DSQUEEZED_INSTALL:BOOL=ON -DINSTALL_DOC:BOOL=ON \
+%cmake -B "%{_vpath_builddir}" -DELEMENTS_BUILD_TESTS=ON -DELEMENTS_INSTALL_TESTS=OFF -DSQUEEZED_INSTALL:BOOL=ON -DINSTALL_DOC:BOOL=ON \
     -DUSE_SPHINX=OFF --no-warn-unused-cli \
     -DCMAKE_LIB_INSTALL_SUFFIX=%{_lib} -DUSE_VERSIONED_LIBRARIES=ON ${EXTRA_CMAKE_FLAGS} \
-    ..
-%make_build
+    .
+# Copy cppreference-doxygen-web.tag.xml into the build directory
+mkdir -p "%{_vpath_builddir}/doc/doxygen"
+cp "%{SOURCE1}" "%{_vpath_builddir}/doc/doxygen"
+# Disable FULL_PATH_NAMES on Doxygen, to avoid problems when building in different architectures
+sed -i "s?^\\(EXCLUDE = .*\\)?\\1 $(pwd)/%{_vpath_builddir}?g" "%{_vpath_builddir}/doc/doxygen/Doxyfile"
+# Disable interactive svg, so _org.svg files are not generated
+# For some reason, some of these files go missing on s390x
+sed -i "s?INTERACTIVE_SVG = YES?INTERACTIVE_SVG = NO?g" "%{_vpath_builddir}/doc/doxygen/Doxyfile"
+
+%make_build -C "%{_vpath_builddir}"
 
 %install
 export VERBOSE=1
-cd build
-%make_install
+%make_install -C "%{_vpath_builddir}"
 
 # Because of limitations of Elements, ++ can not be used as part of the
 # project name. For consistency, we rename some of the destination directories
@@ -136,10 +142,9 @@ mkdir -p %{buildroot}/%{_sysconfdir}
 mv %{buildroot}/%{_datadir}/conf/sourcextractor++.conf %{buildroot}/%{_sysconfdir}/sourcextractor++.conf
 rm -r %{buildroot}/%{_datadir}/conf/
 
-# Conflicts with a file installed by elements
-rm %{buildroot}/%{cmakedir}/modules/FindGSL.cmake
-
 %check
+export ELEMENTS_AUX_PATH="%{_builddir}/SEFramework/auxdir/"
+make test -C "%{_vpath_builddir}"
 %{buildroot}/%{_bindir}/sourcextractor++ --help
 
 %files
@@ -190,13 +195,22 @@ rm %{buildroot}/%{cmakedir}/modules/FindGSL.cmake
 %{cmakedir}/SEImplementationExport.cmake
 %{cmakedir}/SEMainExport.cmake
 %{cmakedir}/SEUtilsExport.cmake
-%{cmakedir}/modules/*.cmake
 
 %files doc
 %license LICENSE
 %{_docdir}/sourcextractor++
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Alejandro Alvarez Ayllon <aalvarez@fedoraproject.org> 0.11-1
+- Update for upstream release 0.11
+
 * Sat May 30 2020 Jonathan Wakely <jwakely@redhat.com> - 0.10-4
 - Rebuilt for Boost 1.73
 

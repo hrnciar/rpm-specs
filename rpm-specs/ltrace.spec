@@ -1,7 +1,7 @@
 Summary: Tracks runtime library calls from dynamically linked executables
 Name: ltrace
 Version: 0.7.91
-Release: 37%{?dist}
+Release: 39%{?dist}
 URL: http://ltrace.alioth.debian.org/
 License: GPLv2+
 
@@ -177,10 +177,10 @@ execution of processes.
 %build
 autoreconf -i
 %configure --docdir=%{?_pkgdocdir}%{!?_pkgdocdir:%{_docdir}/%{name}-%{version}}
-make %{?_smp_mflags}
+%make_build
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT bindir=%{_bindir} install
+%make_install bindir=%{_bindir}
 
 # The testsuite is useful for development in real world, but fails in
 # koji for some reason.  Disable it, but have it handy.
@@ -200,6 +200,13 @@ echo ====================TESTING END=====================
 %{_datadir}/ltrace
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.91-39
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 0.7.91-38
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Thu Feb  6 2020 DJ Delorie <dj@redhat.com> - 0.7.91-37
 - Initialize some variables to avoid gcc warning (#1799619)
 

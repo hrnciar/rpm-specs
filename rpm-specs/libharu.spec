@@ -2,7 +2,7 @@
 
 Name:           libharu
 Version:        2.3.0
-Release:        9%{?dist}
+Release:        12%{?dist}
 Summary:        C library for generating PDF files
 License:        zlib with acknowledgement
 URL:            http://libharu.org
@@ -39,15 +39,12 @@ developing applications that use %{name}.
 %patch2 -p1 -b .smallnumber
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%cmake -DLIBHPDF_STATIC=NO ..
-popd
+%cmake -DLIBHPDF_STATIC=NO
 
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake_build
 
 %install
-make install/fast -C %{_target_platform}  DESTDIR=%{buildroot}
+%cmake_install
 
 %ldconfig_scriptlets
 
@@ -61,6 +58,16 @@ make install/fast -C %{_target_platform}  DESTDIR=%{buildroot}
 %{_libdir}/libhpdf.so
 
 %changelog
+* Sat Aug 01 2020 Dmitrij S. Kryzhevich <kryzhev@ispms.ru> - 2.3.0-12
+- Fix for new cmake macros.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 11 2020 Dmitrij S. Kryzhevich <kryzhev@ispms.ru> - 2.3.0-9
 - Update to RC3
 - Apply 157 and 187 upstream github pull requests. See rhbz #1833318

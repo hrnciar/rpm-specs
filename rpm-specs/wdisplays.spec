@@ -2,19 +2,19 @@
 
 Name:     wdisplays
 Version:  1.0
-Release:  1%{?dist}
+Release:  3%{?dist}
 Summary:  GUI display configurator for wlroots compositors
 License:  MIT and GPLv3+ and CC0 and CC-BY-SA
 URL:      https://github.com/cyclopsian/wdisplays
 
 Source:  %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+Patch:   %{url}/pull/20.patch#/use-correct-versions-when-binding-globals.patch
 
 BuildRequires: desktop-file-utils
 BuildRequires: gcc
 BuildRequires: gtk3-devel
 BuildRequires: meson
 BuildRequires: wayland-devel
-BuildRequires: wlroots-devel
 
 Conflicts: wlroots < 0.7.0
 Requires:  hicolor-icon-theme
@@ -29,7 +29,7 @@ of this project is to allow precise adjustment of display settings in
 kiosks, digital signage, and other elaborate multi-monitor setups.
 
 %prep
-%autosetup
+%autosetup -p1
 
 %build
 %meson
@@ -54,6 +54,13 @@ desktop-file-install --dir %{buildroot}/%{_datadir}/applications \
 %license LICENSES/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Aleksei Bavshin <alebastr89@gmail.com> - 1.0-2
+- Add patch for sway 1.5 compatibility
+- Remove unnecessary BR: wlroots-devel
+
 * Fri May 15 2020 Bob Hepple <bob.hepple@gmail.com> - 1.0-1
 - new release
 

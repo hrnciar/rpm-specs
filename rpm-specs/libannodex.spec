@@ -1,6 +1,6 @@
 Name:           libannodex
 Version:        0.7.3
-Release:        31%{?dist}
+Release:        32%{?dist}
 Summary:        Library for annotating and indexing networked media
 
 License:        BSD
@@ -86,6 +86,9 @@ rm -f $RPM_BUILD_ROOT%{_datadir}/doc/libannodex/doxygen-build.stamp
 %ldconfig_scriptlets
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.3-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.3-31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

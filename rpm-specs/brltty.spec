@@ -33,7 +33,7 @@
 
 Name: brltty
 Version: %{pkg_version}
-Release: 6%{?dist}
+Release: 12%{?dist}
 License: LGPLv2+
 URL: http://brltty.app/
 Source0: http://brltty.app/archive/%{name}-%{version}.tar.xz
@@ -54,7 +54,6 @@ BuildRequires: espeak-ng-devel
 BuildRequires: /usr/bin/2to3
 BuildRequires: autoconf automake
 
-Requires: brlapi%{?_isa} = %{api_version}-%{release}
 # work around a bug in the install process:
 Requires(post): coreutils
 Requires(post): systemd
@@ -127,7 +126,7 @@ This package provides the eSpeak-NG driver for BRLTTY.
 Version: %{api_version}
 License: LGPLv2+
 Summary: Application Programming Interface for BRLTTY
-Requires: %{name}%{?_isa} = %{pkg_version}-%{release}
+Recommends: %{name} = %{pkg_version}-%{release}
 Requires(pre): glibc-common, shadow-utils
 Requires(post): coreutils, util-linux
 %description -n brlapi
@@ -382,6 +381,7 @@ rm -rf $RPM_BUILD_ROOT/%{_libdir}/libbrlapi.a
 
 # ghost brlapi.key
 touch ${RPM_BUILD_ROOT}%{_sysconfdir}/brlapi.key
+chmod 0640 ${RPM_BUILD_ROOT}%{_sysconfdir}/brlapi.key
 
 # disable xbrlapi gdm autostart, there is already orca
 rm -f ${RPM_BUILD_ROOT}%{_datadir}/gdm/greeter/autostart/xbrlapi.desktop
@@ -484,7 +484,7 @@ fi
 %{_bindir}/xbrlapi
 %{_libdir}/brltty/libbrlttybba.so
 %{_libdir}/libbrlapi.so.*
-%ghost %{_sysconfdir}/brlapi.key
+%ghost %verify(not group) %{_sysconfdir}/brlapi.key
 %doc Drivers/Braille/XWindow/README
 %doc Documents/Manual-BrlAPI/
 %doc %{_mandir}/man1/xbrlapi.*
@@ -530,6 +530,26 @@ fi
 %config(noreplace) %verify(not size md5 mtime) %{_sysconfdir}/brltty/Initramfs/cmdline
 
 %changelog
+* Tue Oct 20 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 6.1-12
+- Fixed brlapi.key to pass the RPM verification
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 6.1-11
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 6.1-10
+- OCaml 4.11.0 rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 6.1-8
+- Dropped explicit brlapi dependency (brltty) and relaxed brltty
+  dependency (brlapi)
+  Related: rhbz#1765611
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 6.1-7
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 6.1-6
 - Rebuilt for Python 3.9
 

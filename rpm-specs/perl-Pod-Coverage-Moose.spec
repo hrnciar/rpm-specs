@@ -1,6 +1,6 @@
 Name:           perl-Pod-Coverage-Moose
 Version:        0.07
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Pod::Coverage extension for Moose
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Pod-Coverage-Moose
@@ -62,6 +62,9 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/Pod::Coverage::Moose.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.07-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.07-15
 - Perl 5.32 rebuild
 

@@ -1,11 +1,13 @@
 Name:           libocxl
 Version:        1.1.0
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Allows to implement a user-space driver for an OpenCAPI accelerator
 
 License:        ASL 2.0
 URL:            https://github.com/OpenCAPI/libocxl
 Source0:        https://github.com/OpenCAPI/libocxl/archive/%{version}.tar.gz
+Patch1:         remove_2_backslashes_in_shell_call.patch
+Patch2:         remove_eng_inc_in_version_pl.patch
 
 ExclusiveArch:  ppc64le
 
@@ -56,6 +58,14 @@ LDFLAGS="%{build_ldflags}" CFLAGS="%{build_cflags}" make %{?_smp_mflags} V=1
 %{_pkgdocdir}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Michel Normand <normand@linux.vnet.ibm.com> 1.1.0-5
+- Add remove_2_backslashes_in_shell_call.patch
+  Add remove_eng_inc_in_version_pl.patch
+  to avoid f33 build failure
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

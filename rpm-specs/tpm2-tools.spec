@@ -1,7 +1,7 @@
 #global candidate rc2
 
 Name:    tpm2-tools
-Version: 4.2.1
+Version: 4.3.0
 Release: 1%{?candidate:.%{candidate}}%{?dist}
 Summary: A bunch of TPM testing toolS build upon tpm2-tss
 
@@ -32,6 +32,11 @@ tpm2-tools is a batch of tools for tpm2.0. It is based on tpm2-tss.
 %autosetup -p1 -n %{name}-%{version}%{?candidate:-%{candidate}}
 
 %build
+# LTO exposes a latent uninitialized variable "value" in the function # "nt".
+# This has been reported to the maintainer (Yunying), but they have not
+# responded and I am not comfortable enough with the code to know if a trivial
+# initialization to zero is appropriate/safe.  So LTO is disabled for now.
+%define _lto_cflags %{nil}
 %configure --prefix=/usr --disable-static --disable-silent-rules
 %make_build
 
@@ -49,6 +54,18 @@ tpm2-tools is a batch of tools for tpm2.0. It is based on tpm2-tss.
 %{_mandir}/man1/tss2_*.1.gz
 
 %changelog
+* Sat Aug 29 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 4.3.0-1
+- Update to 4.3.0
+
+* Mon Aug 10 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 4.2.1-4
+- Rebuild for tpm2-tss 3.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 4.2.1-2
+- Disable LTO due to latent uninitialized variable exposed by LTO
+
 * Wed May 27 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 4.2.1-1
 - Update to 4.2.1
 

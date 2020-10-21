@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.18.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Native bindings to the libsqlite3 library
 
 # Upstream license specification: MIT
@@ -247,6 +247,9 @@ echo 'pkgconfig(sqlite3) >= 3.7.16'
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Josh Stone <jistone@redhat.com> - 0.18.0-2
 - Bump to bindgen 0.54
 

@@ -2,7 +2,7 @@
 %global common_description %{summary}.
 
 Name:           python-%{srcname}
-Version:        0.6.3
+Version:        0.6.4
 Release:        2%{?dist}
 Summary:        The runtime library "msrestazure" for AutoRest generated Python clients
 
@@ -47,12 +47,15 @@ This package provides documentation for %{name}.
 %prep
 %autosetup -n %{srcname}-for-python-%{version}
 
+# Remove bundled egg-info
+rm -rf *.egg-info
+
 
 %build
 %py3_build
 
 pushd doc/
-sphinx-build-3 -b html -d _build/doctrees/ . _build/html/
+sphinx-build -b html -d _build/doctrees/ . _build/html/
 rm _build/html/.buildinfo
 popd
 
@@ -62,7 +65,7 @@ popd
 
 
 %check
-py.test-3
+pytest-%{python3_version}
 
 
 %files -n python3-%{srcname}
@@ -78,6 +81,12 @@ py.test-3
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 0.6.4-1
+- Update to 0.6.4
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.3-2
 - Rebuilt for Python 3.9
 

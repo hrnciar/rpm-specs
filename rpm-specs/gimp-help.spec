@@ -5,7 +5,7 @@
 Summary: Help files for GIMP
 Name: gimp-help
 Version: 2.10.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: GFDL and GPLv2+
 URL: http://docs.gimp.org/
 Source0: http://download.gimp.org/pub/gimp/help/gimp-help-%{version}.tar.bz2
@@ -229,6 +229,9 @@ popd
 # END: LANGUAGE FILE LISTS
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

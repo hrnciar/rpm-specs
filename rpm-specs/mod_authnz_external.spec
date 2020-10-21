@@ -1,7 +1,4 @@
-%{!?_httpd_confdir:    %{expand: %%global _httpd_confdir    %%{_sysconfdir}/httpd/conf.d}}
-# /etc/httpd/conf.d with httpd < 2.4 and defined as /etc/httpd/conf.modules.d with httpd >= 2.4
-%{!?_httpd_modconfdir: %{expand: %%global _httpd_modconfdir %%{_sysconfdir}/httpd/conf.d}}
-%{!?_httpd_moddir:     %{expand: %%global _httpd_moddir     %%{_libdir}/httpd/modules}}
+%{!?_httpd_mmn: %global _httpd_mmn %(cat %{_includedir}/httpd/.mmn 2>/dev/null || echo 0-0)}
 
 %global modsuffix authnz_external
 %global conffile %{modsuffix}.conf
@@ -10,13 +7,13 @@
 Summary: An Apache module used for authentication
 Name: mod_%{modsuffix}
 Version: 3.3.2
-Release: 12%{?dist}
+Release: 14%{?dist}
 License: ASL 1.0
 URL: http://code.google.com/p/mod-auth-external/
 Source: http://mod-auth-external.googlecode.com/files/%{name}-%{version}.tar.gz
 Source1: %{conffile}
 Source2: %{conffile2}
-Requires: pwauth, httpd-mmn = %(cat %{_includedir}/httpd/.mmn || echo missing)
+Requires: pwauth, httpd-mmn = %{_httpd_mmn}
 BuildRequires:  gcc
 BuildRequires: httpd-devel
 
@@ -31,7 +28,7 @@ caution.
 %setup -q
 
 %build
-apxs -c -I . %{name}.c
+%{_httpd_apxs} -c -I . %{name}.c
 
 
 %install
@@ -54,6 +51,12 @@ install -p -m 644 -t %{buildroot}%{_httpd_modconfdir}/ %{SOURCE2}
 
 
 %changelog
+* Fri Aug 28 2020 Joe Orton <jorton@redhat.com> - 3.3.2-14
+- use _httpd_apxs, _httpd_mmn macros
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 13 2020 Philip Prindeville <philipp@fedoraproject.org> - 3.3.2-12
 - Don't duplicate the .d in the configuration directory names.
 

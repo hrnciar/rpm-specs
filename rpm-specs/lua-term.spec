@@ -6,7 +6,7 @@
 
 Name:           lua-term
 Version:        0.07
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        Terminal functions for Lua
 
 License:        MIT
@@ -19,7 +19,8 @@ BuildRequires:  lua-devel >= %{luaminver}
 Requires:       lua >= %{luaminver}
 Requires:       lua < 5.2
 %else
-Requires:       lua(abi) >= %{luaminver}
+Requires:       lua(abi) = %{lua_version}
+Requires:       lua >= %{lua_version}
 %endif
 
 
@@ -60,6 +61,12 @@ cp -p core.so %{buildroot}%{lualibdir}/term/
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.07-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Björn Esser <besser82@fedoraproject.org> - 0.07-11
+- Rebuilt for Lua 5.4
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.07-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,5 +1,5 @@
 Name:           pcsc-tools
-Version:        1.5.4
+Version:        1.5.7
 Release:        2%{?dist}
 Summary:        Tools to be used with smart cards and PC/SC
 
@@ -69,6 +69,12 @@ desktop-file-install --mode=644 \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tomáš Mráz <tmraz@redhat.com> - 1.5.7-1
+- New upstream version 1.5.7
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

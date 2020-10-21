@@ -3,7 +3,7 @@
 Summary: A Kerberos context manager
 Name: python-%{src_name}
 Version: 0.10
-Release: 5%{?dist}
+Release: 6%{?dist}
 Source0: https://files.pythonhosted.org/packages/source/k/%{src_name}/%{src_name}-%{version}.tar.gz
 License: GPLv3
 Url: https://github.com/krbcontext/python-krbcontext
@@ -81,6 +81,9 @@ PYTHONPATH=. py.test-%{python3_version} test/
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.10-5
 - Rebuilt for Python 3.9
 

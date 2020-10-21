@@ -3,11 +3,11 @@
 %global with_tests 0
 
 Name: bandit
-Version: 1.4.0
-Release: 13%{?dist}
+Version: 1.6.2
+Release: 1%{?dist}
 Summary: A framework for performing security analysis of Python source code
 License: ASL 2.0
-URL: https://wiki.openstack.org/wiki/Security/Projects/Bandit
+URL: https://github.com/PyCQA/bandit
 Source0: https://files.pythonhosted.org/packages/source/b/%{name}/%{name}-%{version}.tar.gz
 BuildArch: noarch
 Requires: python3-PyYAML
@@ -20,10 +20,6 @@ BuildRequires: python3-pip
 %endif
 BuildRequires: python3-pbr
 
-Patch0: bandit-1.4.0-2-setup.cfg.patch
-Patch1: bandit-1.4.0-3-formatter-yaml.patch
-Patch2: bandit-1.4.0-4-formatter-custom.patch
-
 %description
 Bandit provides a framework for performing security analysis of Python source
 code, utilizing the ast module from the Python standard library.
@@ -33,7 +29,7 @@ syntax nodes. Bandit allows users to define custom tests that are performed
 against those nodes. At the completion of testing, a report is generated
 that lists security issues identified within the target source code.
 %prep
-%autosetup -p1
+%autosetup
 
 %build
 %{__python3} setup.py build
@@ -58,6 +54,12 @@ tox -epy27
 %{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Oct 06 2020 Mikel Olasagasti Uranga <mikel@olasagasti.info> - 1.6.2-1
+- Version bump
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.0-13
 - Rebuilt for Python 3.9
 

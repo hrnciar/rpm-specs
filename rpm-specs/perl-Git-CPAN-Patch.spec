@@ -1,7 +1,7 @@
 Name:           perl-Git-CPAN-Patch
 Summary:        Patch CPAN modules using Git
 Version:        2.3.4
-Release:        6%{?dist}
+Release:        8%{?dist}
 License:        GPL+ or Artistic
 Source0:        https://cpan.metacpan.org/authors/id/Y/YA/YANICK/Git-CPAN-Patch-%{version}.tar.gz
 URL:            https://metacpan.org/release/Git-CPAN-Patch
@@ -130,6 +130,12 @@ make test
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.4-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.3.4-7
+- Perl 5.32 rebuild
+
 * Thu Mar 12 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.3.4-6
 - Add BR: perl(blib)
 

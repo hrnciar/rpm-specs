@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.1.0
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Use geometric objects as Matplotlib paths and patches
 %global _description \
 A Python module that allows using Shapely or GeoJSON-like geometric objects as \
@@ -10,7 +10,7 @@ Matplotlib paths and patches.
 
 License:        BSD
 URL:            https://pypi.python.org/pypi/%{srcname}
-Source0:        https://files.pythonhosted.org/packages/source/d/%{srcname}/%{srcname}-%{version}.tar.gz
+Source0:        %pypi_source
 
 BuildArch:      noarch
 
@@ -22,11 +22,10 @@ Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-numpy
-BuildRequires:  python3-matplotlib
-BuildRequires:  python3-shapely
-Requires:       python3-numpy
-Requires:       python3-matplotlib
+BuildRequires:  python3dist(setuptools)
+BuildRequires:  python3dist(numpy)
+BuildRequires:  python3dist(matplotlib)
+BuildRequires:  python3dist(shapely)
 
 %description -n python3-%{srcname} %{_description}
 
@@ -54,6 +53,9 @@ Requires:       python3-matplotlib
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.0-15
 - Rebuilt for Python 3.9
 

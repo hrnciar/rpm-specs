@@ -1,4 +1,5 @@
-%global packname  igraph
+%global packname igraph
+%global packver  1.2.6
 %global rlibdir  %{_libdir}/R/library
 
 %global __suggests_exclude ^R\\((graph|igraphdata|rgl)\\)
@@ -9,25 +10,23 @@
 %bcond_with network
 
 # Use the system arpack?
-%global sys_arpack 0
+%bcond_with sys_arpack
 
 Name:             R-%{packname}
-Version:          1.2.5
-Release:          2%{?dist}
+Version:          1.2.6
+Release:          1%{?dist}
 Summary:          Network Analysis and Visualization
 
 # Main: GPLv2+; html_library.tcl: TCL
 License:          GPLv2+ and TCL
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 # https://github.com/igraph/rigraph/pull/290
 Patch0001:        0001-Update-FSF-address.patch
 # Unbundle some things:
 Patch0002:        0002-Unbundle-uuid.patch
 Patch0003:        0003-Unbundle-arpack.patch
 Patch0004:        0004-Increase-tolerances-to-work-on-all-arches.patch
-Patch0005:        0005-Update-test-results-for-Rawhide.patch
-Patch0006:        0006-Fix-wrap.f.patch
 
 # Here's the R view of the dependencies world:
 # Depends:   R-methods
@@ -58,7 +57,7 @@ BuildRequires:    R-igraphdata
 BuildRequires:    R-rgl
 BuildRequires:    R-scales
 %endif
-%if %{sys_arpack}
+%if %{with sys_arpack}
 BuildRequires:    arpack-devel
 %else
 # This is their fork of arpack.
@@ -86,14 +85,10 @@ graph visualization, centrality methods and much more.
 pushd %{packname}
 %patch0001 -p1
 %patch0002 -p1
-%if 0%{?sys_arpack}
+%if %{with sys_arpack}
 %patch0003 -p1
-%patch0006 -p1
 %endif
 %patch0004 -p1
-%if %{fedora} > 28
-%patch0005 -p1
-%endif
 
 # Fix executable files.
 chmod -x src/simpleraytracer/*.*
@@ -147,6 +142,15 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} $ARGS
 
 
 %changelog
+* Thu Oct 08 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.2.6-1
+- Update to latest version (#1885643)
+
+* Mon Aug 10 2020 Tom Callaway <spot@fedoraproject.org> - 1.2.5-4
+- rebuild for FlexiBLAS R
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 1.2.5-2
 - move ape within the with_suggests conditional to break the loop
 - rebuild for R 4

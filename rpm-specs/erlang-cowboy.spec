@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	2.7.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 BuildArch:	noarch
 Summary:	Small, fast, modular HTTP server written in Erlang
 License:	ISC
@@ -87,6 +87,9 @@ done
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

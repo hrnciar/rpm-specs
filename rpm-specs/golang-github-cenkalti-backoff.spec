@@ -3,9 +3,11 @@
 
 # https://github.com/cenkalti/backoff
 %global goipath         github.com/cenkalti/backoff
-Version:                3.0.0
+Version:                4.0.2
 
 %gometa
+
+%global goaltipaths     github.com/cenkalti/backoff/v4
 
 %global common_description %{expand:
 This is a Go port of the exponential backoff algorithm from Google's HTTP
@@ -22,7 +24,7 @@ threshold is met.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Exponential backoff algorithm in Go
 
 License:        MIT
@@ -51,6 +53,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 00:09:32 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 4.0.2-1
+- Update to 4.0.2
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

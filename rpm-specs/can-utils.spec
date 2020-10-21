@@ -5,7 +5,7 @@
 
 Name:		can-utils
 Version:	2020.02.04
-Release:	1%{?snapdate:.%{snapdate}}%{?dist}
+Release:	2%{?snapdate:.%{snapdate}}%{?dist}
 Summary:	SocketCAN user space utilities and tools
 
 # most utilities are dual-licensed but some are GPLv2 only
@@ -87,6 +87,9 @@ head -39 asc2log.c | tail -37 | cut -c4- > COPYING
 %{_bindir}/testj1939
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.02.04-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 22 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2020.02.04-1
 - Update to 2020.02.04
 

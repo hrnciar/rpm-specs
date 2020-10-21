@@ -5,7 +5,7 @@
 
 Name: python-%{srcname}
 Version: %{srcversion}
-Release: 18%{?dist}
+Release: 19%{?dist}
 Summary: Test-ordering plugin for pytest
 
 License: GPLv3+
@@ -65,6 +65,9 @@ instead of the "almost alphabetical" order Pytest normally uses.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5-18
 - Rebuilt for Python 3.9
 

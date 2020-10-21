@@ -1,6 +1,6 @@
 Name:           perl-Excel-Writer-XLSX
-Version:        1.03
-Release:        3%{?dist}
+Version:        1.07
+Release:        1%{?dist}
 Summary:        Create a new file in the Excel 2007+ XLSX format
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Excel-Writer-XLSX
@@ -71,6 +71,12 @@ make test
 %{_bindir}/*
 
 %changelog
+* Mon Aug 24 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.07-1
+- 1.07 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.03-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.03-3
 - Perl 5.32 rebuild
 

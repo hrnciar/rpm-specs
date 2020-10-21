@@ -15,7 +15,7 @@
 
 Name:       python-copr-common
 Version:    0.8
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Python code used by Copr
 
 License:    GPLv2+
@@ -104,6 +104,9 @@ version=%version %py2_install
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 09 2020 Pavel Raiskup <praiskup@redhat.com> 0.8-1
 - non-devel version 0.8
 

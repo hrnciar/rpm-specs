@@ -21,7 +21,7 @@ which nobody trusts.  But you can trust it.  Trust me.}
 
 Name:           python-%{pkgname}
 Version:        0.6.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        #1 quality TLS certs while you wait, for the discerning tester
 License:        MIT or ASL 2.0
 URL:            https://github.com/python-trio/trustme
@@ -32,23 +32,17 @@ BuildArch:      noarch
 %description %{common_description}
 
 
-%package -n python%{python3_pkgversion}-%{pkgname}
+%package -n python3-%{pkgname}
 Summary:        %{summary}
-BuildRequires:  python%{python3_pkgversion}-devel
-BuildRequires:  python%{python3_pkgversion}-setuptools
+BuildRequires:  python3-devel
+BuildRequires:  %{py3_dist setuptools}
 %if %{with tests}
-BuildRequires:  python%{python3_pkgversion}-pytest
-BuildRequires:  python%{python3_pkgversion}-pyOpenSSL
-BuildRequires:  python%{python3_pkgversion}-service-identity
-BuildRequires:  python%{python3_pkgversion}-cryptography
-BuildRequires:  python%{python3_pkgversion}-idna
+BuildRequires:  %{py3_dist pytest pyopenssl service-identity cryptography idna}
 %endif
-Requires:       python%{python3_pkgversion}-cryptography
-Requires:       python%{python3_pkgversion}-idna
-%{?python_provide:%python_provide python%{python3_pkgversion}-%{pkgname}}
+%{?python_provide:%python_provide python3-%{pkgname}}
 
 
-%description -n python%{python3_pkgversion}-%{pkgname} %{common_description}
+%description -n python3-%{pkgname} %{common_description}
 
 
 %prep
@@ -66,11 +60,19 @@ rm -rf %{eggname}.egg-info
 
 %if %{with tests}
 %check
-PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} --verbose
+%if %{defined el8}
+# The upstream test suite uses cryptography's rfc4514_string method, which
+# wasn't added until version 2.5.  RHEL 8 currently only provides version 2.3.
+# https://cryptography.io/en/latest/changelog/?highlight=rfc4514_string#v2-5
+%pytest --verbose -k "not (test_ca_custom_names or test_issue_cert_custom_names)"
+%else
+%pytest --verbose
+%endif
+
 %endif
 
 
-%files -n python%{python3_pkgversion}-%{pkgname}
+%files -n python3-%{pkgname}
 %license LICENSE LICENSE.MIT LICENSE.APACHE2
 %doc README.rst
 %{python3_sitelib}/%{libname}
@@ -78,6 +80,12 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} --verbose
 
 
 %changelog
+* Wed Oct 07 2020 Carl George <carl@george.computer> - 0.6.0-4
+- Remove explicit run time requires in favor of automatically generated ones
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.0-2
 - Rebuilt for Python 3.9
 

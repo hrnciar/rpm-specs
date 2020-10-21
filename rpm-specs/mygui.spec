@@ -2,7 +2,7 @@ Name:           mygui
 Version:        3.2.2
 %global commit 8a05127d7c5bb6772df88185b1f99d8052c379a4
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-Release:        13%{?dist}
+Release:        15%{?dist}
 Summary:        Fast, simple and flexible GUI library for Ogre
 # UnitTests include agg-2.4, which is under a BSD variant (not built or installed here)
 License:        MIT
@@ -219,6 +219,13 @@ cp -a %{_lib}/libCommon.so* %{buildroot}%{_libdir}/
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.2-15
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.2-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

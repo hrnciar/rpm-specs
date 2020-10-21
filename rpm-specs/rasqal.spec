@@ -1,6 +1,6 @@
 Name:           rasqal
 Version:        0.9.33
-Release:        12%{?dist}
+Release:        15%{?dist}
 Summary:        RDF Query Library
 
 License:        LGPLv2+ or ASL 2.0
@@ -12,6 +12,7 @@ BuildRequires:  libxml2-devel
 BuildRequires:  mpfr-devel
 BuildRequires:  pcre-devel
 BuildRequires:  raptor2-devel
+BuildRequires:  libgcrypt-devel
 # for the testsuite
 BuildRequires:  perl(Pod::Usage)
 BuildRequires:  perl(XML::DOM)
@@ -41,6 +42,7 @@ sed -i -e 's|"/lib /usr/lib|"/%{_lib} %{_libdir}|' configure
 
 %build
 %configure \
+  --with-digest-library=gcrypt\
   --disable-static\
   --enable-release
 
@@ -91,6 +93,17 @@ fi
 
 
 %changelog
+* Fri Sep 11 2020 Ben Beasley <code@musicinmybrain.net> - 0.9.33-15
+- BR: libgcrypt-devel, enforce use of non-bundled crypto digest implementations
+  (RHBZ #1099251)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.33-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.33-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.33-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -28,7 +28,7 @@
 %global provider_prefix %{provider}.%{provider_tld}/%{project}/%{repo}
 %global import_path %{provider_prefix}
 %global git0 https://%{import_path}
-%global commit0 7815c8ac6fb0131ada95bad020d4f28c9e432e6b
+%global commit0 362f70b056a1f5d2bd4184527a0ae0d20c4d35d3
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 # Used for comparing with latest upstream tag
@@ -45,8 +45,8 @@ Epoch: 1
 %else
 Epoch: 2
 %endif
-Version: 1.1.1
-Release: 4.dev.git%{shortcommit0}%{?dist}
+Version: 1.2.1
+Release: 10.dev.git%{shortcommit0}%{?dist}
 Summary: Inspect container images and repositories on registries
 License: ASL 2.0
 URL: %{git0}
@@ -79,7 +79,9 @@ BuildRequires: go-md2man
 BuildRequires: gpgme-devel
 BuildRequires: libassuan-devel
 # Dependencies for containers/storage
+%if 0%{?fedora} && ! 0%{?centos} >= 8 && ! 0%{?eln}
 BuildRequires: btrfs-progs-devel
+%endif
 BuildRequires: pkgconfig(devmapper)
 BuildRequires: ostree-devel
 BuildRequires: glib2-devel
@@ -277,6 +279,7 @@ Requires: bats
 Requires: gnupg
 Requires: jq
 Requires: podman
+Requires: httpd-tools
 
 %description tests
 %{summary}
@@ -285,6 +288,8 @@ This package contains system tests for %{name}
 
 %prep
 %autosetup -Sgit -n %{name}-%{commit0}
+sed -i 's/install-binary: bin\/%{name}/install-binary:/' Makefile
+sed -i 's/install-docs: docs/install-docs:/' Makefile
 
 %build
 mkdir -p src/github.com/containers
@@ -305,19 +310,25 @@ export GOPATH=$(pwd)
 export GOPATH=$(pwd):$(pwd)/vendor
 %endif
 
-%gobuild -o %{name} ./cmd/%{name}
-%{__make} docs
+mkdir -p bin
+%gobuild -o bin/%{name} ./cmd/%{name}
+pushd docs
+for file in $(ls | grep 1.md)
+do
+export FILE_OUT=$(echo $file | sed -e 's/\.md//')
+go-md2man -in $file -out $FILE_OUT 
+done
+popd
 
 %install
 make \
-   DESTDIR=%{buildroot} \
-   SIGSTOREDIR=%{buildroot}%{_sharedstatedir}/containers/sigstore \
-   install
-mkdir -p %{buildroot}%{_sysconfdir}
-mkdir -p %{buildroot}%{_sysconfdir}/containers/{certs.d,oci/hooks.d}
-mkdir -p %{buildroot}%{_mandir}/man5
+    DESTDIR=%{buildroot} \
+    SIGSTOREDIR=%{buildroot}%{_sharedstatedir}/containers/sigstore \
+    install
+install -dp %{buildroot}%{_sysconfdir}/containers/{certs.d,oci/hooks.d}
 install -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/containers/storage.conf
-install -p -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/containers/
+install -m0644 %{SOURCE5} %{buildroot}%{_sysconfdir}/containers/registries.conf
+install -dp %{buildroot}%{_mandir}/man5
 go-md2man -in %{SOURCE2} -out %{buildroot}%{_mandir}/man5/containers-storage.conf.5
 go-md2man -in %{SOURCE4} -out %{buildroot}%{_mandir}/man5/containers-registries.conf.5
 go-md2man -in %{SOURCE6} -out %{buildroot}%{_mandir}/man5/containers-policy.json.5
@@ -330,7 +341,7 @@ go-md2man -in %{SOURCE14} -out %{buildroot}%{_mandir}/man5/containers.conf.5
 go-md2man -in %{SOURCE15} -out %{buildroot}%{_mandir}/man5/containers-auth.json.5
 go-md2man -in %{SOURCE16} -out %{buildroot}%{_mandir}/man5/containers-registries.conf.d.5
 
-mkdir -p %{buildroot}%{_datadir}/containers
+install -dp %{buildroot}%{_datadir}/containers
 install -m0644 %{SOURCE3} %{buildroot}%{_datadir}/containers/mounts.conf
 install -m0644 %{SOURCE7} %{buildroot}%{_datadir}/containers/seccomp.json
 install -m0644 %{SOURCE13} %{buildroot}%{_datadir}/containers/containers.conf
@@ -438,6 +449,186 @@ export GOPATH=%{buildroot}/%{gopath}:$(pwd)/vendor:%{gopath}
 %{_datadir}/%{name}/test
 
 %changelog
+* Thu Oct 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.2.1-10.dev.git362f70b
+- autobuilt 362f70b
+
+* Sat Oct 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.2.1-9.dev.git10da9f7
+- autobuilt 10da9f7
+
+* Thu Oct  8 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.2.1-8.dev.git4cc72b9
+- autobuilt 4cc72b9
+
+* Tue Oct  6 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 1:1.2.1-7.dev.git027d7e4
+- no btrfs for eln or centos >= 8
+- use old style changelogs without timezone/timestamp
+
+* Sat Oct  3 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.2.1-6.dev.git027d7e4
+- autobuilt 027d7e4
+
+* Fri Oct 2 2020 Dan Walsh <dwalsh@fedoraproject.org> - 1:1.2.1-5.dev.gitd8bc8b6
+- Add SETFCAP back into default capabilities
+- Remove AUDIT_WRITE from default capabilities
+
+* Fri Oct  2 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.2.1-4.dev.gitd8bc8b6
+- autobuilt d8bc8b6
+
+* Wed Sep 30 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.2.1-3.dev.git6dabefa
+- autobuilt 6dabefa
+
+* Fri Sep 25 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.2.1-2.dev.git44beab6
+- bump to 1.2.1
+- autobuilt 44beab6
+
+* Fri Sep 25 2020 Dan Walsh <dwalsh@fedoraproject.org> - 1:1.1.1-51.dev.git5d5756c
+- Modify the range of groups used in net.ipv4.ping_group_range to be 1 so that
+- it will work more easily with User Namespaces
+- Also turn back on AUDIT_WRITE until seccomp.json file is fixed
+
+* Mon Sep 21 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-50.dev.git8151b89
+- autobuilt 8151b89
+
+* Mon Sep 21 2020 Dan Walsh <dwalsh@fedoraproject.org> - 1:1.1.1-49.dev.git5d5756c
+- Add SYS_CHROOT back into default capabilities
+
+* Mon Sep 21 2020 Dan Walsh <dwalsh@fedoraproject.org> - 1:1.1.1-48.dev.git5d5756c
+- Remove fchmodat2 from seccomp.json (This syscall does not exist yet)
+
+* Fri Sep 18 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-47.dev.git77293ff
+- autobuilt 77293ff
+
+* Thu Sep 17 2020 Dan Walsh <dwalsh@fedoraproject.org> - 1:1.1.1-46.dev.git5d5756c
+- Remove NET_RAW, SYS_CHROOT, MKNOD and AUDIT_WRITE from default list of capabilities
+- Turn on ping for 65k users
+
+* Tue Sep 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-45.dev.gitbbd800f
+- autobuilt bbd800f
+
+* Mon Sep 14 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-44.dev.git12ab19f
+- autobuilt 12ab19f
+
+* Sat Sep 12 2020 Dan Walsh <dwalsh@fedoraproject.org> - 1:1.1.1-43.dev.git5d5756c
+- update man pages
+- Update seccomp rules
+- Update configuration files in containers-common
+- Update configuration files in containers-storage
+
+* Fri Sep 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-42.dev.git45a9efb
+- autobuilt 45a9efb
+
+* Wed Sep  9 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-41.dev.git5dd09d7
+- autobuilt 5dd09d7
+
+* Wed Sep  9 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-40.dev.git23cb1b7
+- autobuilt 23cb1b7
+
+* Wed Sep  2 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-39.dev.git662f9ac
+- autobuilt 662f9ac
+
+* Wed Sep  2 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-38.dev.gitae26454
+- autobuilt ae26454
+
+* Fri Aug 28 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-37.dev.gitc4998eb
+- autobuilt c4998eb
+
+* Thu Aug 27 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-36.dev.gita13b581
+- autobuilt a13b581
+
+* Mon Aug 24 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-35.dev.git87484a1
+- autobuilt 87484a1
+
+* Wed Aug 19 2020 Dan Walsh <dwalsh@fedoraproject.org> - 1:1.1.1-34.dev.git5d5756c
+- Update configuration files in containers-common
+- Update configuration files in containers-storage
+
+* Wed Aug 19 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-33.dev.git5d5756c
+- autobuilt 5d5756c
+
+* Wed Aug 19 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-32.dev.git88c8c47
+- autobuilt 88c8c47
+
+* Tue Aug 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-31.dev.gitea10e61
+- autobuilt ea10e61
+
+* Mon Aug 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-30.dev.git0c2c7f4
+- autobuilt 0c2c7f4
+
+* Sun Aug 09 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-29.dev.git0f94dbc
+- autobuilt 0f94dbc
+
+* Sat Aug 08 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-28.dev.gitbaeaad6
+- autobuilt baeaad6
+
+* Fri Aug 07 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-27.dev.git78d2f67
+- autobuilt 78d2f67
+
+* Mon Aug 03 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-26.dev.gitc052ed7
+- autobuilt c052ed7
+
+* Mon Aug 03 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-25.dev.git5e88eb5
+- autobuilt 5e88eb5
+
+* Sun Aug 2 2020 Dan Walsh <dwalsh@fedoraproject.org> - 1:1.1.1-23.dev.git62fd5a7
+- Update configuration files in containers-common
+- Update configuration files in containers-storage
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.1.1-23.dev.git62fd5a7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 31 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-22.dev.git62fd5a7
+- autobuilt 62fd5a7
+
+* Thu Jul 30 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-21.dev.git6252c22
+- autobuilt 6252c22
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.1.1-20.dev.git153f18d
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-19.dev.git153f18d
+- autobuilt 153f18d
+
+* Sat Jul 18 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-18.dev.git494d237
+- autobuilt 494d237
+
+* Fri Jul 17 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-17.dev.git89fb89a
+- autobuilt 89fb89a
+
+* Thu Jul 16 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-16.dev.git29eec32
+- autobuilt 29eec32
+
+* Thu Jul 16 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-15.dev.git2fa7b99
+- autobuilt 2fa7b99
+
+* Sat Jul 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-14.dev.git6284ceb
+- autobuilt 6284ceb
+
+* Sat Jul 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-13.dev.git6e295a2
+- autobuilt 6e295a2
+
+* Fri Jul 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-12.dev.gitf63685f
+- autobuilt f63685f
+
+* Thu Jul 09 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-11.dev.gitdc5f68f
+- autobuilt dc5f68f
+
+* Thu Jul 09 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-10.dev.git840c487
+- autobuilt 840c487
+
+* Wed Jul 08 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-9.dev.gitee72e80
+- autobuilt ee72e80
+
+* Thu Jul 02 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-8.dev.git6182aa3
+- autobuilt 6182aa3
+
+* Wed Jul 01 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-7.dev.gitac6b871
+- autobuilt ac6b871
+
+* Tue Jun 30 2020 Dan Walsh <dwalsh@fedoraproject.org> - 1:1.1.1-6.dev.gitba8cbf5
+- Update configuration files in containers-common
+
+* Fri Jun 26 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-5.dev.gitba8cbf5
+- autobuilt ba8cbf5
+
 * Mon Jun 22 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1:1.1.1-4.dev.git7815c8a
 - autobuilt 7815c8a
 

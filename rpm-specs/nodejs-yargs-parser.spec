@@ -5,7 +5,7 @@
 
 Name:		nodejs-yargs-parser
 Version:	7.0.0
-Release:	6%{?dist}
+Release:	8%{?dist}
 Summary:	The mighty option parser used by yargs
 
 License:	ISC
@@ -62,6 +62,13 @@ cp -pr package.json *.js lib/ \
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.0-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

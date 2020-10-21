@@ -1,6 +1,6 @@
 Name:           perl-Log-Dispatch-Configurator-Any
 Version:        1.122640
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Configurator implementation with Config::Any
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Log-Dispatch-Configurator-Any
@@ -53,6 +53,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.122640-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.122640-20
 - Perl 5.32 rebuild
 

@@ -6,7 +6,7 @@
 %define libexif_version 0.6.14
 
 Name:    eog
-Version: 3.37.1
+Version: 3.38.0
 Release: 1%{?dist}
 Summary: Eye of GNOME image viewer
 
@@ -14,9 +14,7 @@ Summary: Eye of GNOME image viewer
 # There is no need to add the + here.
 License: GPLv2+ and GFDL
 URL:     https://wiki.gnome.org/Apps/EyeOfGnome
-Source0: https://download.gnome.org/sources/%{name}/3.37/%{name}-%{version}.tar.xz
-
-Patch0: use-portals-for-open-with.patch
+Source0: https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires: pkgconfig(exempi-2.0)
 BuildRequires: pkgconfig(gdk-pixbuf-2.0)
@@ -29,6 +27,7 @@ BuildRequires: pkgconfig(lcms2)
 BuildRequires: pkgconfig(libexif) >= %{libexif_version}
 BuildRequires: pkgconfig(libpeas-1.0) >= 0.7.4
 BuildRequires: pkgconfig(libpeas-gtk-1.0) >= 0.7.4
+BuildRequires: pkgconfig(libportal)
 BuildRequires: pkgconfig(librsvg-2.0)
 BuildRequires: pkgconfig(shared-mime-info)
 BuildRequires: pkgconfig(x11)
@@ -73,7 +72,6 @@ the functionality of the installed %{name} package.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 %meson -Dgtk_doc=true -Dinstalled_tests=true
@@ -112,6 +110,18 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/org.gnome.eog.deskto
 %{_datadir}/installed-tests/
 
 %changelog
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Sun Sep 06 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 30 2020 Kalev Lember <klember@redhat.com> - 3.37.1-1
 - Update to 3.37.1
 

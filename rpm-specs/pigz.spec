@@ -1,6 +1,6 @@
 Name:           pigz
 Version:        2.4
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Parallel implementation of gzip
 
 License:        zlib
@@ -40,6 +40,9 @@ make tests CFLAGS="$RPM_OPT_FLAGS"
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

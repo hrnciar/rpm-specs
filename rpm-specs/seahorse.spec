@@ -1,5 +1,5 @@
 Name:           seahorse
-Version:        3.37.1
+Version:        3.37.2
 Release:        1%{?dist}
 Summary:        A GNOME application for managing encryption keys
 
@@ -79,6 +79,12 @@ desktop-file-validate ${RPM_BUILD_ROOT}%{_datadir}/applications/org.gnome.seahor
 %{_mandir}/man1/*.1*
 
 %changelog
+* Mon Aug 24 2020 Kalev Lember <klember@redhat.com> - 3.37.2-1
+- Update to 3.37.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Kalev Lember <klember@redhat.com> - 3.37.1-1
 - Update to 3.37.1
 

@@ -1,6 +1,6 @@
 Name:           perl-CGI-Application-Plugin-LinkIntegrity
 Version:        0.06
-Release:        28%{?dist}
+Release:        29%{?dist}
 Summary:        Make tamper-resistant links in CGI::Application
 License:        GPL+ or Artistic
 
@@ -52,6 +52,9 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.06-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.06-28
 - Perl 5.32 rebuild
 

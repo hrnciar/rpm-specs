@@ -2,17 +2,20 @@
 %global gem_name temple
 
 Name: rubygem-%{gem_name}
-Version: 0.8.0
-Release: 7%{?dist}
+Version: 0.8.2
+Release: 1%{?dist}
 Summary: Template compilation framework in Ruby
 License: MIT
 URL: https://github.com/judofyr/temple
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
+# Replace Erubi by Erubis.
+# https://github.com/judofyr/temple/pull/132
+Patch0: rubygem-temple-0.8.2-Use-Erubi-instead-of-Erubis.patch
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby
 BuildRequires: %{_bindir}/bacon
-BuildRequires: rubygem(erubis)
+BuildRequires: rubygem(erubi)
 BuildRequires: rubygem(tilt)
 BuildArch: noarch
 
@@ -33,15 +36,24 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -c -T
-%gem_install -n %{SOURCE0}
+%setup -q -n %{gem_name}-%{version}
+
+%patch0 -p1
 
 %build
+# Create the gem as gem install only works on a gem file
+gem build ../%{gem_name}-%{version}.gemspec
+
+# %%gem_install compiles any C extensions and installs the gem into ./%%gem_dir
+# by default, so that we can move it into the buildroot in %%install
+%gem_install
 
 %install
 mkdir -p %{buildroot}%{gem_dir}
 cp -a .%{gem_dir}/* \
         %{buildroot}%{gem_dir}/
+
+
 
 %check
 pushd .%{gem_instdir}
@@ -67,6 +79,14 @@ popd
 %{gem_instdir}/test
 
 %changelog
+* Wed Aug 19 2020 Vít Ondruch <vondruch@redhat.com> - 0.8.2-1
+- Update to Temple 0.8.2.
+  Resolves: rhbz#1684883
+- Use Erubi instead of Erubis.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

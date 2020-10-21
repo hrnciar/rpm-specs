@@ -1,14 +1,14 @@
-%global vergit  20200617
+%global vergit  20200926
 
 Name:           gnome-shell-theme-flat-remix
 Version:        0.0.%{vergit}
 Release:        1%{?dist}
 Summary:        Pretty simple theme inspired on material design
+BuildArch:      noarch
 
 License:        CC-BY-SA
 URL:            https://drasite.com/flat-remix-gnome
 Source:         https://github.com/daniruiz/flat-remix-gnome/archive/%{vergit}/%{name}-%{version}.tar.gz
-BuildArch:      noarch
 
 Requires:       gnome-shell
 
@@ -46,37 +46,23 @@ cp -ap Flat-Remix* %{buildroot}%{_datadir}/themes/
 %files
 %license LICENSE
 %doc README.md CHANGELOG
-%{_datadir}/themes/Flat-Remix-Blue/
-%{_datadir}/themes/Flat-Remix-Blue-Dark/
-%{_datadir}/themes/Flat-Remix-Blue-Darkest/
-%{_datadir}/themes/Flat-Remix-Blue-Darkest-fullPanel/
-%{_datadir}/themes/Flat-Remix-Blue-Dark-fullPanel/
-%{_datadir}/themes/Flat-Remix-Blue-fullPanel/
-%{_datadir}/themes/Flat-Remix-Green/
-%{_datadir}/themes/Flat-Remix-Green-Dark/
-%{_datadir}/themes/Flat-Remix-Green-Darkest/
-%{_datadir}/themes/Flat-Remix-Green-Darkest-fullPanel/
-%{_datadir}/themes/Flat-Remix-Green-Dark-fullPanel/
-%{_datadir}/themes/Flat-Remix-Green-fullPanel/
-%{_datadir}/themes/Flat-Remix-Miami/
-%{_datadir}/themes/Flat-Remix-Miami-Dark/
-%{_datadir}/themes/Flat-Remix-Miami-Dark-fullPanel/
-%{_datadir}/themes/Flat-Remix-Miami-fullPanel/
-%{_datadir}/themes/Flat-Remix-Red/
-%{_datadir}/themes/Flat-Remix-Red-Dark/
-%{_datadir}/themes/Flat-Remix-Red-Darkest/
-%{_datadir}/themes/Flat-Remix-Red-Darkest-fullPanel/
-%{_datadir}/themes/Flat-Remix-Red-Dark-fullPanel/
-%{_datadir}/themes/Flat-Remix-Red-fullPanel/
-%{_datadir}/themes/Flat-Remix-Yellow/
-%{_datadir}/themes/Flat-Remix-Yellow-Dark/
-%{_datadir}/themes/Flat-Remix-Yellow-Darkest/
-%{_datadir}/themes/Flat-Remix-Yellow-Darkest-fullPanel/
-%{_datadir}/themes/Flat-Remix-Yellow-Dark-fullPanel/
-%{_datadir}/themes/Flat-Remix-Yellow-fullPanel/
+%{_datadir}/themes/Flat-Remix-Blue*/
+%{_datadir}/themes/Flat-Remix-Green*/
+%{_datadir}/themes/Flat-Remix-Miami*/
+%{_datadir}/themes/Flat-Remix-Red*/
+%{_datadir}/themes/Flat-Remix-Yellow*/
 
 
 %changelog
+* Sun Sep 27 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.0.20200926-1
+- Update to 20200926
+
+* Sat Sep 12 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.0.20200905-1
+- Update to 20200905
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.20200617-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.0.20200617-1
 - Update to 20200617
 

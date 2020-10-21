@@ -1,18 +1,8 @@
-# LTO
-# Disabled by default because it not give performance boost
-# more than 1-3% but increases build time
-%bcond_with lto
-
 # Enable Ninja build
 %bcond_without ninja_build
 
-%if %{with lto}
-%global optflags        %{optflags} -flto
-%global build_ldflags   %{build_ldflags} -flto
-%endif
-
 Name:           ddnet
-Version:        13.2.2
+Version:        15.1.3
 Release:        1%{?dist}
 Summary:        DDraceNetwork, a cooperative racing mod of Teeworlds
 
@@ -20,15 +10,11 @@ Summary:        DDraceNetwork, a cooperative racing mod of Teeworlds
 ExcludeArch: s390x
 
 #
-# zlib
-# --------------------------------------
-# src/engine/external/md5/
-#
 # CC-BY-SA
 # --------------------------------------
 # data/languages/
-# data/fonts/DejaVuSansCJKName.ttf
-# data/fonts/DejavuWenQuanYiMicroHei.ttf
+# data/fonts/DejaVuSans.ttf
+# data/fonts/SourceHanSansSC-Regular.otf
 #
 # ASL 2.0
 # --------------------------------------
@@ -49,13 +35,16 @@ URL:            https://ddnet.tw/
 Source0:        https://github.com/ddnet/ddnet/archive/%{version}/%{name}-%{version}.tar.gz
 
 # Disable network lookup test because without internet access tests not pass
-Patch1:         0001-disabled-network-lookup-test.patch
+Patch1:         0001-Disabled-network-lookup-test.patch
 
 # Unbundle md5
-Patch2:         0002-unbundled-md5.patch
+Patch2:         0002-Unbundle-md5.patch
 
 # Unbundle json-parser
-Patch3:         0003-unbundled-json-parser.patch
+Patch3:         0003-Unbundle-json-parser.patch
+
+# Fix missing header for gcc-11
+Patch4:         ddnet-gcc11.patch
 
 # Fix warning: Could not complete Guile gdb module initialization from:
 # /usr/share/gdb/guile/gdb/boot.scm
@@ -83,6 +72,7 @@ BuildRequires:  pkgconfig(openssl)
 BuildRequires:  pkgconfig(opus)
 BuildRequires:  pkgconfig(opusfile)
 BuildRequires:  pkgconfig(sdl2)
+BuildRequires:  pkgconfig(sqlite3)
 BuildRequires:  pkgconfig(wavpack)
 BuildRequires:  pkgconfig(zlib)
 
@@ -93,7 +83,7 @@ Requires:       %{name}-data = %{version}-%{release}
 
 # https://github.com/ddnet/ddnet/issues/2019
 Provides:       bundled(dejavu-sans-cjkname-fonts)
-Provides:       bundled(dejavu-wenquanyi-micro-hei-fonts)
+Provides:       bundled(adobe-source-han-sans-sc-fonts)
 
 
 %description
@@ -132,25 +122,20 @@ touch CMakeLists.txt
 # Remove bundled stuff...
 rm -rf src/engine/external
 
-mkdir -p %{_target_platform}
-
 
 %build
-# TODO: Add mysql support
 # WebSockets disable because it freezes all GUI | https://github.com/ddnet/ddnet/issues/1900
-pushd %{_target_platform}
 %cmake \
     %{?with_ninja_build: -GNinja} \
     -DCMAKE_BUILD_TYPE=RelWithDebInfo \
     -DPREFER_BUNDLED_LIBS=OFF \
     -DAUTOUPDATE=OFF \
     ..
-popd
 
 %if %{with ninja_build}
 %ninja_build -C %{_target_platform}
 %else
-%make_build -C %{_target_platform}
+%cmake_build -C %{_target_platform}
 %endif
 
 
@@ -158,7 +143,7 @@ popd
 %if %{with ninja_build}
 %ninja_install -C %{_target_platform}
 %else
-%make_install -C %{_target_platform}
+%cmake_install -C %{_target_platform}
 %endif
 
 # Install man pages...
@@ -170,7 +155,7 @@ install -Dp -m 0644 man/DDNet-Server.6 %{buildroot}%{_mandir}/man6/DDNet-Server.
 %if %{with ninja_build}
 %ninja_build run_tests -C %{_target_platform}
 %else
-%make_build run_tests -C %{_target_platform}
+%cmake_build run_tests -C %{_target_platform}
 %endif
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
@@ -198,6 +183,51 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 
 
 %changelog
+* Thu Oct 15 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 15.1.3-1
+- Update to 15.1.3 (#1888766)
+
+* Tue Oct 13 2020 Jeff Law <law@redhat.com> - 15.1.2-2
+- Fix missing #include for gcc-11
+* Mon Oct 12 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 15.1.2-1
+- Update to 15.1.2 (#1887463)
+
+* Sun Oct 11 21:25:06 +03 2020 ElXreno <elxreno@gmail.com> - 15.1.1-1
+- Update to version 15.1.1
+
+* Sun Sep 27 20:47:43 +03 2020 ElXreno <elxreno@gmail.com> - 15.0.5-1
+- Update to version 15.0.5
+
+* Mon Sep 21 2020 ElXreno <elxreno@gmail.com> - 15.0.4-1
+- Update to version 15.0.4
+
+* Wed Sep 09 2020 ElXreno <elxreno@gmail.com> - 14.7.1-1
+- Update to version 14.7.1
+
+* Sun Aug 30 2020 ElXreno <elxreno@gmail.com> - 14.5.1-1
+- Update to version 14.5.1
+
+* Wed Aug 19 2020 ElXreno <elxreno@gmail.com> - 14.4-1
+- Update to version 14.4
+
+* Tue Aug 11 2020 ElXreno <elxreno@gmail.com> - 14.3.2-1
+- Update to version 14.3.2
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 14.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 14.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 ElXreno <elxreno@gmail.com> - 14.2-1
+- Updated to version 14.2
+
+* Tue Jul 07 2020 ElXreno <elxreno@gmail.com> - 14.1-1
+- Updated to version 14.1
+
+* Mon Jun 29 2020 ElXreno <elxreno@gmail.com> - 14.0.3-1
+- Updated to version 14.0.3
+
 * Sat Jun 06 2020 ElXreno <elxreno@gmail.com> - 13.2.2-1
 - Updated to version 13.2.2
 

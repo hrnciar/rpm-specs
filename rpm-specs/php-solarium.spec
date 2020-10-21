@@ -15,7 +15,7 @@
 Name:           php-%{gh_project}
 Summary:        Solarium PHP Solr client library
 Version:        3.8.1
-Release:        11%{?dist}
+Release:        12%{?dist}
 
 URL:            http://www.solarium-project.org/
 License:        BSD
@@ -128,6 +128,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.1-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

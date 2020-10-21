@@ -11,8 +11,8 @@
 
 Summary:        Python helpers for common CLI tasks
 Name:           python-cli-helpers
-Version:        1.2.1
-Release:        5%{?dist}
+Version:        2.1.0
+Release:        1%{?dist}
 License:        BSD
 URL:            https://github.com/dbcli/cli_helpers
 Source0:        https://files.pythonhosted.org/packages/source/c/cli_helpers/cli_helpers-%{version}.tar.gz
@@ -66,6 +66,8 @@ Requires:       python3-tabulate >= 0.8.2
 Requires:       python3-terminaltables >= 3.0.0
 Requires:       python3-wcwidth
 %description -n python3-cli-helpers %_description
+
+%{?python_extras_subpkg:%python_extras_subpkg -n python3-cli-helpers -i %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info styles}
 %endif
 
 %prep
@@ -113,6 +115,18 @@ PYTHONPATH=build/lib/ py.test-3 || :
 %endif
 
 %changelog
+* Fri Jul 31 2020 Terje Rosten <terje.rosten@ntnu.no> - 2.1.0-1
+- 2.1.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Terje Rosten <terje.rosten@ntnu.no> - 2.0.1-1
+- 2.0.1
+
+* Fri Jul 10 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.1-6
+- Add cli-helpers[styles] subpackage
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.1-5
 - Rebuilt for Python 3.9
 

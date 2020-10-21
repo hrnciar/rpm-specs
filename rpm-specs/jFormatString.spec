@@ -4,7 +4,7 @@
 
 Name:           jFormatString
 Version:        0
-Release:        0.34.20131227git%{shortcommit}%{?dist}
+Release:        0.36.20131227git%{shortcommit}%{?dist}
 Summary:        Java format string compile-time checker
 
 License:        GPLv2 with exceptions
@@ -89,6 +89,12 @@ end
 %{_javadocdir}/%{name}*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.36.20131227gitf159b88
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0-0.35.20131227gitf159b88
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat May 23 2020 Richard Fearn <richardfearn@gmail.com> - 0-0.34.20131227gitf159b88
 - Enable building with JDK 11: use source/target 1.8
 

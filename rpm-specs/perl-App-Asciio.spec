@@ -1,6 +1,6 @@
 Name:       perl-App-Asciio 
 Version:    1.51.3
-Release:    15%{?dist}
+Release:    16%{?dist}
 # see lib/App/Asciio.pm
 License:    GPL+ or Artistic
 Summary:    Asciio back-end libraries 
@@ -142,6 +142,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications asciio.desktop
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.51.3-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.51.3-15
 - Perl 5.32 rebuild
 

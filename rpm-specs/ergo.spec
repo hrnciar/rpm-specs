@@ -1,19 +1,31 @@
+%if 0%{?fedora} >= 33
+%bcond_without flexiblas
+%endif
+%if %{with flexiblas}
+%global blaslib flexiblas
+%else
+# OpenBLAS causes tests to fail on multiple architectures...
+%global blaslib atlas
+%endif
+
 Name:		ergo
 Version:	3.8
-Release:	1%{?dist}
+Release:	5%{?dist}
 Summary:	A program for large-scale self-consistent field calculations
 License:	GPLv3+
 URL:		http://www.ergoscf.org
 Source0:	http://ergoscf.org/source/tarfiles/ergo-%{version}.tar.gz
 
-# OpenBLAS causes tests to fail on multiple architectures...
-BuildRequires:	atlas-devel
+BuildRequires:	%{blaslib}-devel
 BuildRequires:	gcc
 BuildRequires:	gcc-c++
 BuildRequires:	gcc-gfortran
 BuildRequires:	doxygen
 # For tests
 BuildRequires:	bc
+
+# Package does not work properly on i386 architectures
+ExcludeArch:    %{ix86}
 
 %description
 Ergo is a quantum chemistry program for large-scale self-consistent
@@ -65,11 +77,16 @@ export CXXFLAGS="${CFLAGS}"
 export FFLAGS="${CFLAGS}"
 
 # Linker flags
+%if %{with flexiblas}
+export LIBS="-lflexiblas"
+export FLEXIBLAS=netlib
+%else
 export LDFLAGS="-L%{_libdir}/atlas"
 %if 0%{?fedora} >= 20 || 0%{?rhel} >= 7
 export LIBS="-lsatlas"
 %else
 export LIBS="-llapack -lf77blas -latlas"
+%endif
 %endif
 
 # Build program
@@ -103,6 +120,19 @@ make check VERBOSE=1
 %doc COPYING documentation/html/*
 
 %changelog
+* Sun Aug 16 2020 Iñaki Úcar <iucar@fedoraproject.org> - 3.8-5
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Aug 11 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 3.8-4
+- Disable i386 architectures they are no longer supported.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 04 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 3.8-1
 - Update to 3.8.
 

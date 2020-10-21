@@ -2,8 +2,8 @@
 %global debug_package %{nil}
 
 Name:           python-%{srcname}
-Version:        3.6.2
-Release:        4%{?dist}
+Version:        3.6.3
+Release:        1%{?dist}
 Summary:        Python HTTP client/server for asyncio
 
 License:        ASL 2.0
@@ -58,6 +58,12 @@ with middlewares and pluggable routing.
 %{python3_sitearch}/%{srcname}/
 
 %changelog
+* Wed Oct 14 2020 Fabian Affolter <mail@fabian-affolter.ch> - 3.6.3-1
+- Update to new upstream version 3.6.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 3.6.2-4
 - Rebuilt for Python 3.9
 

@@ -15,7 +15,7 @@
 Name:           pipewire0.2
 Summary:        Media Sharing Server compat libraries
 Version:        0.2.7
-Release:        2%{?snap:.%{snap}git%{shortcommit}}%{?dist}
+Release:        4%{?snap:.%{snap}git%{shortcommit}}%{?dist}
 License:        LGPLv2+
 URL:            https://pipewire.org/
 %if 0%{?gitrel}
@@ -125,6 +125,13 @@ rm -rf $RPM_BUILD_ROOT%{_sysconfdir}/*
 %{_libdir}/pkgconfig/libspa-%{spaversion}.pc
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 07 2020 Wim Taymans <wtaymans@redhat.com> - 0.2.7-2
 - Add compat -devel package
 

@@ -9,7 +9,7 @@
 
 Name:    upm
 Version: 2.0.0
-Release: 7%{?dist}
+Release: 8%{?dist}
 Summary: A high level library for sensors and actuators
 License: MIT
 URL:     https://projects.eclipse.org/projects/iot.upm/
@@ -75,16 +75,11 @@ NodeJS bindings for sensors and actuators
 find . -name \*.cxx -exec chmod -x {} \;
 
 %build
-if [ "%{_libdir}" = "%{_prefix}/lib64" ]; then
-  %cmake -DBUILDSWIGNODE=%{BUILD_NODEJS} -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_SKIP_RPATH=ON -DUSE_LIB64:BOOL=ON -DVERSION:STRING=%{version} -DWERROR=OFF .
-else
-  %cmake -DBUILDSWIGNODE=%{BUILD_NODEJS} -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_SKIP_RPATH=ON -DUSE_LIB64:BOOL=OFF -DVERSION:STRING=%{version} -DWERROR=OFF .
-fi
-
-%make_build
+%cmake -DBUILDSWIGNODE=%{BUILD_NODEJS} -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_SKIP_RPATH=ON -DUSE_LIB64:BOOL=%["%{?_isa_bits}" == "64" ? "ON" : "OFF"] -DVERSION:STRING=%{version} -DWERROR=OFF
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 rm -f %{buildroot}/%{_includedir}/upm/upm_utilities.hpp
 sed -i '/Requires: jpeg/d' %{buildroot}/%{_libdir}/pkgconfig/upm-vcap.pc
@@ -116,6 +111,9 @@ sed -i '/Requires: jpeg/d' %{buildroot}/%{_libdir}/pkgconfig/upm-vcap.pc
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.0-7
 - Rebuilt for Python 3.9
 

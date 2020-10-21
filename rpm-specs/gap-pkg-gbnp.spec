@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        1.0.3
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Computing Gröbner bases of noncommutative polynomials
 
 License:        LGPLv2+
@@ -78,6 +78,9 @@ make tests
 %{_gap_dir}/pkg/%{pkgname}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

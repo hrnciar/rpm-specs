@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.1.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Tiger implementation following the Rust Digest Traits
 
 # Upstream license specification: Apache-2.0
@@ -82,5 +82,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 13 12:59:53 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 0.1.1-1
 - Initial package

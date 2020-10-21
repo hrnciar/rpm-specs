@@ -3,7 +3,7 @@
 
 Name:           immix
 Version:        %{maj_version}.%{min_version}
-Release:        36%{?dist}
+Release:        37%{?dist}
 Summary:        An image mixer
 
 License:        GPLv3+
@@ -57,6 +57,9 @@ desktop-file-install \
 %{_datadir}/pixmaps/immix.svg
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-37
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-36
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

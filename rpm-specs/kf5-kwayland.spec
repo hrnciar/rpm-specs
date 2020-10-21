@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 %global  framework kwayland
 
 %global  wayland_min_version 1.3
@@ -13,7 +14,7 @@
 %endif
 
 Name:    kf5-%{framework}
-Version: 5.71.0
+Version: 5.75.0
 Release: 1%{?dist}
 Summary: KDE Frameworks 5 library that wraps Client and Server Wayland libraries
 
@@ -39,6 +40,7 @@ BuildRequires:  wayland-protocols-devel
 BuildRequires:  qt5-qttools-devel
 
 BuildRequires:  cmake(Qt5WaylandClient)
+BuildRequires:  cmake(PlasmaWaylandProtocols) > 1.1
 
 %if 0%{?tests}
 BuildRequires: dbus-x11
@@ -68,17 +70,14 @@ developing applications that use %{name}.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%cmake_kf5 \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{!?tests:OFF}
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 
 %check
@@ -94,7 +93,7 @@ make test ARGS="--output-on-failure --timeout 20" -C %{_target_platform} ||:
 %ldconfig_scriptlets
 
 %files
-%license COPYING.LIB
+%license LICENSES/*.txt
 %{_kf5_datadir}/qlogging-categories5/*categories
 %{_kf5_libdir}/libKF5WaylandClient.so.5*
 %{_kf5_libdir}/libKF5WaylandServer.so.5*
@@ -112,6 +111,24 @@ make test ARGS="--output-on-failure --timeout 20" -C %{_target_platform} ||:
 
 
 %changelog
+* Wed Oct 14 10:06:16 CDT 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.75.0-1
+- 5.75.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.74.0-1
+- 5.74.0
+
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 5.73.0-2
+- rebuild (qt5)
+
+* Mon Aug 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.73.0-1
+- 5.73.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.72.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-1
+- 5.72.0
+
 * Tue Jun 16 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.71.0-1
 - 5.71.0
 

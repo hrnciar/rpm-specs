@@ -6,7 +6,7 @@
 
 Name:             R-%{packname}
 Version:          %{packver}.%{packrel}
-Release:          4%{?dist}
+Release:          5%{?dist}
 Source0:          ftp://cran.r-project.org/pub/R/contrib/main/%{packname}_%{packver}-%{packrel}.tar.gz
 License:          GPLv2+
 URL:              http://cran.r-project.org/web/packages/%{packname}/index.html
@@ -53,6 +53,9 @@ export _R_CHECK_FORCE_SUGGESTS_=0
 %{_datadir}/R/library/%{packname}/RunSnow*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 0.4.3-4
 - rebuild for R 4
 

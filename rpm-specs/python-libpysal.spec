@@ -7,7 +7,7 @@
 %endif
 
 Name:           python-%{srcname}
-Version:        4.2.2
+Version:        4.3.0
 Release:        2%{?dist}
 Summary:        Python Spatial Analysis Library core components
 
@@ -16,21 +16,11 @@ URL:            https://pysal.org
 # PyPI source doesn't include test data or docs.
 Source0:        https://github.com/pysal/libpysal/archive/v%{version}/%{srcname}-%{version}.tar.gz
 # Test example datasets.
-Source1:        https://s3.amazonaws.com/geoda/data/ncovr.zip
+Source1:        https://geodacenter.github.io/data-and-lab//data/ncovr.zip
 Source2:        https://github.com/sjsrey/newHaven/archive/master/newHaven.zip
 Source3:        https://github.com/sjsrey/rio_grande_do_sul/archive/master/rio_grande_do_sul.zip
-# Fix bs4 -> beautifulsoup4.
-Patch0001:      https://github.com/pysal/libpysal/commit/3775ab64b3da870801400772c59ed612c6f52f93.patch
 # Hard-code the list of datasets to not use the network.
-Patch0002:      0001-Hard-code-list-of-example-datasets.patch
-# https://github.com/pysal/libpysal/pull/240
-Patch0003:      0002-Remove-calls-to-deprecated-removed-time.clock.patch
-# https://github.com/pysal/libpysal/pull/242
-Patch0004:      0003-Fix-syntax-errors.patch
-# https://github.com/pysal/libpysal/pull/243
-Patch0005:      0004-DOC-Fix-invalid-section-headings.patch
-# https://github.com/pysal/libpysal/pull/244
-Patch0006:      0005-Fix-and-simplify-filter_adjlist.patch
+Patch0001:      0001-Hard-code-list-of-example-datasets.patch
 
 BuildArch:      noarch
 
@@ -47,9 +37,8 @@ BuildRequires:  python3dist(geomet)
 BuildRequires:  python3dist(geopandas) >= 0.2
 BuildRequires:  python3dist(matplotlib) >= 1.5.1
 BuildRequires:  python3dist(networkx)
-BuildRequires:  python3dist(nose)
-BuildRequires:  python3dist(nose-exclude)
-BuildRequires:  python3dist(nose-progressive)
+BuildRequires:  python3dist(pytest)
+BuildRequires:  python3dist(pytest-runner)
 #BuildRequires:  python3dist(numba)
 BuildRequires:  python3dist(rtree) >= 0.8
 BuildRequires:  python3dist(sqlalchemy)
@@ -122,7 +111,7 @@ mv docs html
 
 %check
 export PYSALDATA=$PWD/pysal_data
-%{__python3} setup.py test
+%{python3} setup.py test
 
 
 %files -n python3-%{srcname}
@@ -137,6 +126,12 @@ export PYSALDATA=$PWD/pysal_data
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 4.3.0-1
+- Update to latest version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.2.2-2
 - Rebuilt for Python 3.9
 

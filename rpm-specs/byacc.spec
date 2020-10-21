@@ -1,9 +1,9 @@
-%define byaccdate 20191125
+%define byaccdate 20200330
 
 Summary: Berkeley Yacc, a parser generator
 Name: byacc
 Version: 1.9.%{byaccdate}
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: Public Domain
 URL: http://invisible-island.net/byacc/byacc.html
 Source: ftp://invisible-island.net/byacc/byacc-%{byaccdate}.tgz
@@ -50,6 +50,16 @@ echo ====================TESTING END=====================
 %{_mandir}/man1/byacc.1*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.20200330-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.20200330-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 Arjun Shankar <arjun@redhat.com> - 1.9.20200330-1
+- Rebase to 20200330 (#1819022)
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.20191125-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

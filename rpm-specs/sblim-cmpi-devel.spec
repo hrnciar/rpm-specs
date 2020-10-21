@@ -1,7 +1,7 @@
 
 Name:           sblim-cmpi-devel
 Version:        2.0.3
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        SBLIM CMPI Provider Development Support
 
 License:        EPL
@@ -58,6 +58,9 @@ cp %{SOURCE1} $RPM_BUILD_ROOT%{_rpmconfigdir}/macros.d
 %{_libdir}/libcmpiCppImpl.so*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

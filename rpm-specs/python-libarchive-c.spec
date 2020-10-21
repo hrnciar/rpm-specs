@@ -1,6 +1,6 @@
 Name:          python-libarchive-c
 Version:       2.9
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       Python interface to libarchive
 License:       CC0
 URL:           https://github.com/Changaco/python-libarchive-c
@@ -58,6 +58,9 @@ pytest-%{python3_version} -s -vv tests %{?el7:-k "not test_check_archiveentry_us
 %{python3_sitelib}/libarchive*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.9-2
 - Rebuilt for Python 3.9
 

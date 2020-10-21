@@ -1,13 +1,6 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
-
 Name:           sugar-record
 Version:        201
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Recording tool for Sugar
 
 License:        MIT
@@ -20,6 +13,7 @@ BuildRequires:  gobject-introspection-devel
 BuildRequires:	gstreamer1-devel
 BuildRequires:	gstreamer1-plugins-base-devel
 BuildRequires:  sugar-toolkit-gtk3-devel
+BuildRequires:  python3-devel
 
 Requires:       sugar
 Requires:       sugar-toolkit-gtk3
@@ -45,6 +39,9 @@ python3 ./setup.py build
 python3 ./setup.py install --prefix=%{buildroot}/%{_prefix}
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}/%{sugaractivitydir}/Record.activity/
+
 %find_lang org.laptop.RecordActivity
 
 %files -f org.laptop.RecordActivity.lang
@@ -53,6 +50,9 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 %{sugaractivitydir}/Record.activity/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 201-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 2020 Ibiam Chihurumnaya <ibiamchihurumnaya@gmail.com> - 201-1
 - v201
 

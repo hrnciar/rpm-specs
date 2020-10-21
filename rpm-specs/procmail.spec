@@ -8,7 +8,7 @@
 Summary: Mail processing program
 Name: procmail
 Version: 3.22
-Release: 52%{?dist}
+Release: 53%{?dist}
 License: GPLv2+ or Artistic
 # Source: ftp://ftp.procmail.org/pub/procmail/procmail-%{version}.tar.gz
 # The original source doesn't seem to be available anymore, using mirror
@@ -80,6 +80,9 @@ cp -p %{SOURCE2} telsas_procmailrc
 %{_mandir}/man[15]/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.22-53
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.22-52
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

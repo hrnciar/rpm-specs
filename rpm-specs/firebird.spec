@@ -1,4 +1,4 @@
-%global         upversion 3.0.5.33220
+%global         upversion 3.0.6.33328
 %global         pkgversion Firebird-%{upversion}-0
 
 %global         major 3.0
@@ -6,13 +6,13 @@
 
 Name:           firebird
 Version:        %{upversion}
-Release:        2%{?dist}
+Release:        4%{?dist}
 
 Summary:        SQL relational database management system
 License:        Interbase
 URL:            http://www.firebirdsql.org/
 
-Source0:        https://github.com/FirebirdSQL/firebird/releases/download/R3_0_5/%{pkgversion}.tar.bz2
+Source0:        https://github.com/FirebirdSQL/firebird/releases/download/R3_0_6/%{pkgversion}.tar.bz2
 Source1:        firebird-logrotate
 Source2:        README.Fedora
 Source3:        firebird-superserver.service
@@ -199,6 +199,11 @@ in production systems, under a variety of names, since 1981.
 %patch401 -p1
 
 %build
+# firebird is mis-compiled on s390x when LTO is enabled.  A root
+# cause analysis has not yet been completed.  Disable LTO for now
+%ifarch s390x
+%global _lto_cflags %{nil}
+%endif
 export CFLAGS="%{optflags} -fno-strict-aliasing"
 export CXXFLAGS="${CFLAGS} -fno-delete-null-pointer-checks"
 NOCONFIGURE=1 ./autogen.sh
@@ -375,6 +380,19 @@ fi
 
 
 %changelog
+* Mon Aug 10 2020 Jeff Law <law@fedoraproject.org> - 3.0.6.33328-4
+- Disable LTO on s390x for now
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.6.33328-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.6.33328-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 08 2020 Philippe Makowski <makowski@fedoraproject.org> - 3.0.6.33328-1
+- new upstream release fix #1850675
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.5.33220-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

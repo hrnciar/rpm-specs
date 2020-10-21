@@ -3,7 +3,7 @@
 Summary:        CONE mail reader
 Name:           cone
 Version:        0.96.2
-Release:        8%{?dist}
+Release:        9%{?dist}
 URL:            http://www.courier-mta.org/cone/
 Source0:        http://downloads.sourceforge.net/project/courier/cone/%{version}/cone-%{version}.tar.bz2
 Source1:        http://downloads.sourceforge.net/project/courier/cone/%{version}/cone-%{version}.tar.bz2.sig
@@ -99,6 +99,9 @@ fi
 %doc cone/html
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.96.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.96.2-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           nodejs-amdefine
 Version:        0.0.4
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Provide AMD's define() API for declaring modules in the AMD format
 BuildArch:      noarch
 
@@ -35,6 +35,9 @@ cp -pr package.json amdefine.js %{buildroot}%{nodejs_sitelib}/amdefine
 %doc LICENSE README.md
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.4-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.4-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

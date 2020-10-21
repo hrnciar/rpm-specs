@@ -1,4 +1,4 @@
-%global nspr_version 4.25.0
+%global nspr_version 4.29.0
 
 # The upstream omits the trailing ".0", while we need it for
 # consistency with the pkg-config version:
@@ -148,6 +148,18 @@ done
 %{_mandir}/man*/*
 
 %changelog
+* Sat Sep 19 2020 Daiki Ueno <dueno@redhat.com> - 4.29.0-1
+- Update to NSPR 4.29
+
+* Mon Aug 24 2020 Daiki Ueno <dueno@redhat.com> - 4.28.0-1
+- Update to NSPR 4.28
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.26.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Daiki Ueno <dueno@redhat.com> - 4.26.0-1
+- Update to NSPR 4.26
+
 * Mon Feb 17 2020 Daiki Ueno <dueno@redhat.com> - 4.25.0-1
 - Update to NSPR 4.25
 

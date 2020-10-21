@@ -4,7 +4,7 @@
 # https://github.com/golang/mod
 %global goipath         golang.org/x/mod
 %global forgeurl        https://github.com/golang/mod
-Version:                0.2.0
+Version:                0.3.0
 
 %gometa
 
@@ -59,6 +59,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Fri Aug 07 20:06:39 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.3.0-1
+- Update to 0.3.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 05 18:57:56 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.2.0-1
 - Update to 0.2.0
 

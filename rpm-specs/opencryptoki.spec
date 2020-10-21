@@ -1,7 +1,7 @@
 Name:			opencryptoki
 Summary:		Implementation of the PKCS#11 (Cryptoki) specification v2.11
-Version:		3.14.0
-Release:		2%{?dist}
+Version:		3.15.0
+Release:		1%{?dist}
 License:		CPL
 URL:			https://github.com/opencryptoki/opencryptoki
 Source0:		https://github.com/opencryptoki/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -12,8 +12,8 @@ Patch0:			opencryptoki-3.11.0-group.patch
 # bz#1373833, change tmpfiles snippets from /var/lock/* to /run/lock/*
 Patch1:			opencryptoki-3.11.0-lockdir.patch
 
-# upstream fix, regression - segfault in C_SetPin
-Patch2:			opencryptoki-3.14.0-crash-in-c_setpin.patch
+# https://github.com/opencryptoki/opencryptoki/issues/330
+Patch2:			opencryptoki-3.15.0-timeb.patch
 
 # Use --no-undefined to debug missing symbols
 #Patch100:			%%{name}-3.2-no-undefined.patch
@@ -188,11 +188,11 @@ configured with Enterprise PKCS#11 (EP11) firmware.
     --disable-icatok --disable-ccatok --disable-ep11tok --disable-pkcsep11_migrate
 %endif
 
-make %{?_smp_mflags} CHGRP=/bin/true
+%make_build CHGRP=/bin/true
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT CHGRP=/bin/true
+%make_install CHGRP=/bin/true
 install -Dpm 644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/p11-kit/modules/opencryptoki.module
 
 
@@ -222,9 +222,11 @@ fi
 %{_tmpfilesdir}/%{name}.conf
 %{_unitdir}/pkcsslotd.service
 %{_sbindir}/p11sak
+%{_sbindir}/pkcstok_migrate
 %{_sbindir}/pkcsconf
 %{_sbindir}/pkcsslotd
 %{_mandir}/man1/p11sak.1*
+%{_mandir}/man1/pkcstok_migrate.1*
 %{_mandir}/man1/pkcsconf.1*
 %{_mandir}/man5/%{name}.conf.5*
 %{_mandir}/man7/%{name}.7*
@@ -310,6 +312,22 @@ fi
 
 
 %changelog
+* Mon Oct 19 2020 Dan Horák <dan[at]danny.cz> - 3.15.0-1
+- Rebase to 3.15.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 3.14.0-5
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Wed Jul 08 2020 Than Ngo <than@redhat.com> - 3.14.0-4
+- added PIN conversion tool
+
+* Wed Jul 01 2020 Than Ngo <than@redhat.com> - 3.14.0-3
+- upstream fix - handle early error cases in C_Initialize
+
 * Wed May 27 2020 Than Ngo <than@redhat.com> - 3.14.0-2
 - fix regression, segfault in C_SetPin
 

@@ -1,6 +1,6 @@
 Name:          libdwarf
-Version:       20200114
-Release:       2%{?dist}
+Version:       20201017
+Release:       1%{?dist}
 Summary:       Library to access the DWARF Debugging file format 
 
 License:       LGPLv2
@@ -88,6 +88,21 @@ LD_LIBRARY_PATH=$PWD/libdwarf/.libs %__make check
 
 
 %changelog
+* Tue Oct 20 2020 Tom Hughes <tom@compton.nu> - 20201017-1
+- Update to 20201017 upstream release
+
+* Tue Aug 25 2020 Tom Hughes <tom@compton.nu> - 20200825-1
+- Update to 20200825 upstream release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200719-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 19 2020 Tom Hughes <tom@compton.nu> - 20200719-1
+- Update to 20200719 upstream release
+
+* Sat Jul  4 2020 Tom Hughes <tom@compton.nu> - 20200703-1
+- Update to 20200703 upstream release
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200114-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

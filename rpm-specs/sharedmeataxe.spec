@@ -1,6 +1,8 @@
+# Watch https://github.com/simon-king-jena/SharedMeatAxe
+
 Name:           sharedmeataxe
 Version:        1.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Matrix representations over finite fields
 
 License:        GPLv2+
@@ -75,6 +77,11 @@ API documentation for %{name}.
 # Remove timestamp from the documentation for repeatable builds
 sed -i 's/, generated on \$datetime//' etc/meataxe-footer.html
 
+# Set the default binary directory
+sed -i.orig 's,/usr/local/mtx/bin,%{_libdir}/%{name}/bin,' src/args.c
+touch -r src/args.c.orig src/args.c
+rm src/args.c.orig
+
 %build
 %configure --disable-silent-rules
 
@@ -144,6 +151,9 @@ LD_LIBRARY_PATH=$PWD/src/.libs make check
 %doc html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

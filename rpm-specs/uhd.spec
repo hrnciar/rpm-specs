@@ -32,7 +32,7 @@
 Name:           uhd
 URL:            http://github.com/EttusResearch/uhd
 Version:        %{ver}
-Release:        0.5.rc2%{?dist}
+Release:        0.8.rc2%{?dist}
 License:        GPLv3+
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
@@ -75,9 +75,9 @@ Requires:       %{name} = %{version}-%{release}
 %description devel
 Development files for the Universal Hardware Driver (UHD).
 
+# arch due to bug in doxygen
 %package doc
 Summary:        Documentation files for UHD
-BuildArch:      noarch
 
 %description doc
 Documentation for the Universal Hardware Driver (UHD).
@@ -127,13 +127,11 @@ make %{?_smp_mflags} images
 popd
 %endif
 
-mkdir -p host/build
-pushd host/build
+pushd host
 %cmake %{?have_neon} -DPYTHON_EXECUTABLE="%{__python3}" \
   -DUHD_VERSION="%{version}" \
   -DENABLE_TESTS=off ../
-make %{?_smp_mflags}
-#make -j1
+%cmake_build
 popd
 
 # tools
@@ -148,8 +146,8 @@ for d in %{wireshark_dissectors}
 do
   mkdir "build_$d"
   pushd "build_$d"
-  %cmake -DETTUS_DISSECTOR_NAME="$d" ../
-  make %{?_smp_mflags}
+  %cmake -DETTUS_DISSECTOR_NAME="$d" -S ".."
+  %cmake_build
   popd
 done
 popd
@@ -163,8 +161,8 @@ popd
 # fix python shebangs (run again for generated scripts)
 find . -type f -name "*.py" -exec sed -i '/^#!/ s|.*|#!%{__python3}|' {} \;
 
-pushd host/build
-make install DESTDIR=%{buildroot}
+pushd host
+%cmake_install
 
 # Fix udev rules and use dynamic ACL management for device
 sed -i 's/BUS==/SUBSYSTEM==/;s/SYSFS{/ATTRS{/;s/MODE:="0666"/GROUP:="usrp" MODE:="0660", ENV{ID_SOFTWARE_RADIO}="1"/' %{buildroot}%{_libdir}/uhd/utils/uhd-usrp.rules
@@ -208,9 +206,9 @@ install -Dpm 0755 tools/uhd_dump/chdr_log %{buildroot}%{_bindir}/chdr_log
 %if %{with wireshark}
 # wireshark dissectors
 pushd tools/dissectors
-for d in %{wireshark_dissectors}
+for d in build_*/*
 do
-  pushd "build_$d"
+  pushd "$d"
   %make_install
   popd
 done
@@ -268,6 +266,18 @@ exit 0
 %endif
 
 %changelog
+* Wed Aug  5 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 3.15.0.0-0.8.rc2
+- Fixed FTBFS
+  Resolves: rhbz#1865590
+- Made doc arch due to bug in doxygen
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.15.0.0-0.7.rc2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.15.0.0-0.6.rc2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Jonathan Wakely <jwakely@redhat.com> - 3.15.0.0-0.5.rc2
 - Rebuilt and patched for Boost 1.73
 

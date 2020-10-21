@@ -1,6 +1,6 @@
 Name: fmt-ptrn
 Version: 1.3.22
-Release: 16%{?dist}
+Release: 17%{?dist}
 License: GPLv2+
 Source: http://www.flyn.org/projects/%name/%{name}-%{version}.tar.gz
 URL: http://www.flyn.org
@@ -147,6 +147,9 @@ rm -f ${RPM_BUILD_ROOT}%{_libdir}/libnewtemplate.la
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.22-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.22-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

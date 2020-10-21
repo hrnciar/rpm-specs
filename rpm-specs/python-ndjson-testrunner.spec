@@ -4,7 +4,7 @@
 
 Name:           python-%{srcname}
 Version:        1.0.0
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        A test runner that outputs newline delimited JSON results
 
 License:        GPLv3+
@@ -60,6 +60,9 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}" \
 %{python3_sitelib}/%{srcname_}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.0-10
 - Rebuilt for Python 3.9
 

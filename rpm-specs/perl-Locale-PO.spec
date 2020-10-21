@@ -1,6 +1,6 @@
 Name:           perl-Locale-PO
 Version:        0.27
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Perl module for manipulating .po entries from GNU gettext
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Locale-PO
@@ -50,6 +50,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.27-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.27-16
 - Perl 5.32 rebuild
 

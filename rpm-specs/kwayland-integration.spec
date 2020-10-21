@@ -1,7 +1,8 @@
+%undefine __cmake_in_source_build
 %global  wayland_min_version 1.3
 
 Name:    kwayland-integration
-Version: 5.19.2
+Version: 5.20.1
 Release: 1%{?dist}
 Summary: Provides integration plugins for various KDE Frameworks for Wayland
 
@@ -37,16 +38,12 @@ Requires:       kf5-filesystem
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 
 %ldconfig_scriptlets
@@ -54,12 +51,33 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %files
 %license COPYING.LIB
 %{_kf5_plugindir}/org.kde.kidletime.platforms/KF5IdleTimeKWaylandPlugin.so
-%{_kf5_plugindir}/org.kde.kwindowsystem.platforms/KF5WindowSystemKWaylandPlugin.so
+%{_kf5_plugindir}/kwindowsystem/KF5WindowSystemKWaylandPlugin.so
 %{_kf5_datadir}/qlogging-categories5/kwindowsystem.kwayland.categories
 %{_qt5_plugindir}/kf5/kguiaddons/kmodifierkey/kmodifierkey_wayland.so
 
 
 %changelog
+* Tue Oct 20 15:28:46 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.1-1
+- 5.20.1
+
+* Sun Oct 11 19:50:03 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.0-1
+- 5.20.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.90-1
+- 5.19.90
+
+* Tue Sep 01 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.5-1
+- 5.19.5
+
+* Tue Jul 28 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.4-1
+- 5.19.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.19.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.3-1
+- 5.19.3
+
 * Tue Jun 23 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.2-1
 - 5.19.2
 

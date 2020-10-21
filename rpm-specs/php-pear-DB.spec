@@ -13,7 +13,7 @@
 
 Name:           php-pear-DB
 Version:        1.10.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        PEAR: Database Abstraction Layer
 
 License:        PHP
@@ -139,6 +139,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Remi Collet <remi@remirepo.net> - 1.10.0-1
 - update to 1.10.0
 

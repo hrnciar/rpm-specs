@@ -28,19 +28,18 @@
 
 %define min_libfabric_ver 1.4.2
 %define min_ndctl_ver 60.1
-%define upstreamversion 1.8
+%define upstreamversion 1.9.1
 
 Name:		nvml
-Version:	1.8
-Release:	2%{?dist}
+Version:	1.9.1
+Release:	1%{?dist}
 Summary:	Persistent Memory Development Kit (formerly NVML)
 License:	BSD
 URL:		http://pmem.io/pmdk
 
 Source0:	https://github.com/pmem/pmdk/releases/download/%{upstreamversion}/pmdk-%{upstreamversion}.tar.gz
-Patch0:		0001-test-py-add-require_free_space.patch
-Patch1:		0002-test-Fix-obj_zones-for-ppc64le.patch
-Patch2:		0003-test-build-obj_defrag_advanced-with-some-optimizatio.patch
+Patch0:		0001-test-fix-symbol-format-in-the-scope-tests.patch
+Patch1:         nvml-gcc11.patch
 
 BuildRequires:	gcc
 BuildRequires:	make
@@ -50,6 +49,8 @@ BuildRequires:	automake
 BuildRequires:	man
 BuildRequires:	pkgconfig
 BuildRequires:	python3
+BuildRequires:	pandoc
+BuildRequires:	groff
 
 %if %{with ndctl}
 BuildRequires:	ndctl-devel >= %{min_ndctl_ver}
@@ -534,10 +535,14 @@ provided in the command line options to check whether files are in a consistent 
 %setup -q -n pmdk-%{upstreamversion}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 
 %build
+# This package calls binutils components directly and would need to pass
+# in flags to enable the LTO plugins
+# Disable LTO
+%define _lto_cflags %{nil}
+
 # For debug build default flags may be overriden to disable compiler
 # optimizations.
 CFLAGS="%{optflags}" \
@@ -579,10 +584,16 @@ cp utils/pmdk.magic %{buildroot}%{_datadir}/pmdk/
 	echo "  'fs': 'all',"                   >> src/test/testconfig.py
 	echo "  'unittest_log_level': 1,"       >> src/test/testconfig.py
 	echo "  'keep_going': False,"           >> src/test/testconfig.py
-	echo "  'timeout': '3m',"               >> src/test/testconfig.py
+	echo "  'timeout': '30m',"              >> src/test/testconfig.py
 	echo "  'dump_lines': 30,"              >> src/test/testconfig.py
 	echo "  'force_enable': None,"          >> src/test/testconfig.py
 	echo "  'device_dax_path': [],"         >> src/test/testconfig.py
+	echo "  'granularity': 'cacheline',"    >> src/test/testconfig.py
+	echo "  'enable_admin_tests': False,"   >> src/test/testconfig.py
+	echo "  'fail_on_skip': False,"         >> src/test/testconfig.py
+	echo "  'cacheline_fs_dir': '/tmp',"    >> src/test/testconfig.py
+	echo "  'force_cacheline': True,"       >> src/test/testconfig.py
+	echo "  'granularity': 'cacheline',"    >> src/test/testconfig.py
 	echo "}"                                >> src/test/testconfig.py
 
 	make pycheck
@@ -605,6 +616,32 @@ cp utils/pmdk.magic %{buildroot}%{_datadir}/pmdk/
 
 
 %changelog
+* Fri Oct 2 2020 Adam Borowski <kilobyte@angband.pl> - 1.9.1-1
+- Update to PMDK version 1.9.1
+
+* Tue Sep 15 2020 Jeff Law <law@redhat.com> - 1.9-5
+- Fix uninitialized variable in tests caught by gcc-11
+
+* Tue Aug 18 2020 Adam Borowski <kilobyte@angband.pl> - 1.9-4
+- Fix FTBFS with new binutils.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 7 2020 Adam Borowski <kilobyte@angband.pl> - 1.9-1
+- Update to PMDK version 1.9
+- Drop upstreamed patches.
+- Add pandoc and groff to B-Reqs.
+- Add required testconfig.py fields.
+- Increase test timeout.
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 1.8-3
+Disable LTO
+
 * Wed Feb 26 2020 Marcin Ślusarz <marcin.slusarz@intel.com> - 1.8-2
 - Enable PPC64LE packages
 

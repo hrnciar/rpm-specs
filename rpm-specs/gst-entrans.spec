@@ -3,7 +3,7 @@
 
 Name:           gst-entrans
 Version:        1.4.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Plug-ins and tools for transcoding and recording with GStreamer
 
 License:        LGPLv2+
@@ -118,6 +118,9 @@ ln -s enplayer-1.0 $RPM_BUILD_ROOT%{_bindir}/enplayer
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

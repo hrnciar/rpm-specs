@@ -1,6 +1,6 @@
 Name:           glibd
-Version:        2.1.0
-Release:        5%{?dist}
+Version:        2.2.0
+Release:        1%{?dist}
 Summary:        D bindings for the GLib C Utility Library
 
 License:        LGPLv3+ with exceptions
@@ -67,6 +67,12 @@ export DFLAGS="%{_d_optflags}"
 
 
 %changelog
+* Mon Sep 21 2020 Neal Gompa <ngompa13@gmail.com> - 2.2.0-1
+- Update to 2.2.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 19 2020 Neal Gompa <ngompa13@gmail.com> - 2.1.0-5
 - Drop backported fix that has been reverted upstream due to glib2 changes
 - Rebuild against Meson 0.53.2 snapshot to fix glibd build

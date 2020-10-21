@@ -1,5 +1,5 @@
 Name:           qmmp-plugin-pack
-Version:        1.3.2
+Version:        1.4.0
 Release:        1%{?dist}
 Summary:        A set of extra plugins for Qmmp
 
@@ -7,7 +7,7 @@ License:        GPLv2+
 URL:            http://qmmp.ylsoftware.com/plugins.php
 Source0:        http://qmmp.ylsoftware.com/files/plugins/%{name}-%{version}.tar.bz2
 
-BuildRequires:  qmmp-devel >= 1.3.0
+BuildRequires:  qmmp-devel >= 1.4.0
 BuildRequires:  cmake
 BuildRequires:  libsamplerate-devel
 BuildRequires:  libxmp-devel
@@ -23,6 +23,7 @@ Plugin pack is a set of extra plugins for Qmmp.
  * SRC - sample rate converter
  * XMP - module player with use of the libxmp library
  * Goom - audio visualization based on goom project
+ * Ytb - audio playback from YouTube (uses youtube-dl)
 
 
 %prep
@@ -34,11 +35,11 @@ Plugin pack is a set of extra plugins for Qmmp.
         -D USE_FFVIDEO:BOOL=FALSE \
         -D PLUGIN_DIR=%{_lib}/qmmp \
         .
-make %{?_smp_mflags}
+%cmake_build %{?_smp_mflags}
 
 
 %install
-%make_install
+%cmake_install
 
 
 %files
@@ -46,10 +47,21 @@ make %{?_smp_mflags}
 %license COPYING
 %{_libdir}/qmmp/Effect/*.so
 %{_libdir}/qmmp/Input/*.so
+%{_libdir}/qmmp/Transports/*.so
 %{_libdir}/qmmp/Visual/*.so
+%{_metainfodir}/%{name}.appdata.xml
 
 
 %changelog
+* Fri Jul 31 2020 Karel Volný <kvolny@redhat.com> 1.4.0-1
+- new version 1.4.0 (rhbz#1828956)
+- see the upstream changelog at http://qmmp.ylsoftware.com/
+- adds YouTube plugin
+- adds appdata
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 Karel Volný <kvolny@redhat.com> 1.3.2-1
 - new version 1.3.2 (rhbz#1817642)
 - see the upstream changelog at http://qmmp.ylsoftware.com/

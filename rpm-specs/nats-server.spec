@@ -8,12 +8,7 @@ Version:                2.1.7
 %gometa
 
 %global goname          nats-server
-%global goaltipaths     github.com/nats-io/gnatsd
-
-# Remove in F33
-%global godevelheader %{expand:
-Obsoletes:      golang-github-nats-io-gnatsd-devel < 2.0.2-1
-}
+%global goaltipaths     github.com/nats-io/gnatsd github.com/nats-io/nats-server/v2
 
 %global common_description %{expand:
 A High Performance NATS Server written in Go and hosted by the Cloud Native
@@ -24,7 +19,7 @@ Computing Foundation (CNCF).}
                         ROADMAP.md TODO.md README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        High-Performance server for NATS, the cloud native messaging system
 
 # Upstream license specification: Apache-2.0
@@ -105,6 +100,12 @@ exit 0
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 06:57:58 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.1.7-3
+- Add alternative import path
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 15:09:38 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.1.7-1
 - Update to 2.1.7
 

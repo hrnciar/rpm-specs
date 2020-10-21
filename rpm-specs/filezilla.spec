@@ -2,16 +2,19 @@
 %define run_autogen 0
 
 Name: filezilla
-Version: 3.48.1
+Version: 3.51.0
 Release: 1%{?dist}
 Summary: FTP, FTPS and SFTP client
 License: GPLv2+
 URL: https://filezilla-project.org/
 
 Source0: https://download.filezilla-project.org/FileZilla_%{version}_src.tar.bz2
+#Patch0: appdata.patch
 
-# Fix error: 'std::list' has not been declared.
-Patch0001: filezilla-3.47.2.1-interface_Mainfrm_h_include_list.patch
+%if 0%{?rhel} == 8
+# libuv-devel not present on s390x on EL-8
+ExcludeArch: s390x
+%endif
 
 %if 0%{?run_autogen}
 BuildRequires: autoconf
@@ -35,6 +38,7 @@ BuildRequires: pugixml-devel >= 1.7
 BuildRequires: sqlite-devel
 BuildRequires: wxGTK3-devel >= 3.0.4
 BuildRequires: xdg-utils
+BuildRequires: golang-storj-uplink-devel
 
 Requires: xdg-utils
 
@@ -51,7 +55,7 @@ FileZilla is a FTP, FTPS and SFTP client for Linux with a lot of features.
 - Network configuration wizard 
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name}-%{version}
 %if 0%{?run_autogen}
 autoreconf -if
 %endif
@@ -67,7 +71,6 @@ export WXRC=%{_bindir}/wxrc-3.0
   --enable-locales \
   --disable-manualupdatecheck \
   --with-pugixml=system \
-  --enable-storj \
   --with-wx-config=wx-config-3.0 \
   --with-dbus \
   --enable-gnutlssystemciphers \
@@ -123,7 +126,7 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/%{name}/docs
 %{_bindir}/%{name}
 %{_bindir}/fzputtygen
 %{_bindir}/fzsftp
-%{_bindir}/fzstorj
+#%%{_bindir}/fzstorj
 %{_datadir}/%{name}/
 %{_datadir}/appdata/%{name}.appdata.xml
 %{_datadir}/applications/%{name}.desktop
@@ -131,10 +134,35 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/%{name}/docs
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 %{_mandir}/man1/*
 %{_mandir}/man5/*
+%{_libdir}/libfzclient-private*
 
 %changelog
+* Tue Oct 20 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.51.0-1
+- 3.51.0
+
+* Tue Oct 13 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.50.0-1
+- 3.50.0
+
+* Fri Aug 21 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.49.1-4
+- libfilezilla rebuild
+
+* Wed Aug 12 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.49.1-3
+- Exclude s390x on EL-8 due to missing libuv-devel
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.49.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.49.1-1
+- 3.49.1
+
+* Tue Jul 14 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.49.0-1
+- 3.49.0 final
+
+* Tue Jul 07 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.49.0-0.rc1
+- 3.49.0 rc1
+
 * Tue May 19 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.48.1-1
-- 3.38.1 final
+- 3.48.1 final
 
 * Tue May 12 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.48.1-0.rc1
 - 3.48.1 rc1

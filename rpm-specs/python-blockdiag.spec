@@ -18,7 +18,7 @@ Enjoy documentation with blockdiag !
 
 Name:           python-%{srcname}
 Version:        2.0.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Generate block-diagram images from text
 
 License:        ASL 2.0
@@ -91,6 +91,9 @@ install -pm 644 -D %{srcname}.1 %{buildroot}%{_mandir}/man1/%{srcname}.1
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.1-2
 - Rebuilt for Python 3.9
 

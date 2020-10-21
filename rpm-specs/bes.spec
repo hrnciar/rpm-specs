@@ -6,7 +6,7 @@
 
 Name:           bes
 Version:        3.20.6
-Release:        4%{?dist}
+Release:        7%{?dist}
 Summary:        Back-end server software framework for OPeNDAP
 
 License:        LGPLv2+
@@ -17,6 +17,8 @@ Source1:        bes.service
 Patch1:         bes-link.patch
 # Drop dmrpp_module - needs modified hdf5
 Patch2:         bes-dmrpp_module.patch
+# Fix configure test compromised by LTO
+Patch3:		bes-config.patch
 
 BuildRequires:  gcc-c++
 # For autoreconf
@@ -100,6 +102,8 @@ Documentation of OPeNDAP BES.
 %setup -q
 %patch1 -p1 -b .link
 %patch2 -p1 -b .dmrpp_module
+%patch3 -p1 -b .cofnig
+
 # Fixes rpaths
 autoreconf --install
 chmod a-x dispatch/BESStreamResponseHandler*
@@ -212,6 +216,15 @@ exit 0
 %doc __distribution_docs/api-html/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.20.6-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Jeff Law <law@redhat.com> - 3.20.6-6
+- Fix configure test compromised by LTO
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 3.20.6-5
+- Rebuild for hdf5 1.10.6
+
 * Thu May 21 2020 Sandro Mani <manisandro@gmail.com> - 3.20.6-4
 - Rebuild (gdal)
 

@@ -18,7 +18,7 @@ an unbounded data stream within low memory and CPU bounds.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.20%{?dist}
+Release:        0.23%{?dist}
 Summary:        Effective Computation of approximate quantiles
 
 License:        MIT
@@ -51,6 +51,15 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Sat Aug 22 23:05:33 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.23.20140716gitd9a9656
+- There was no FTBFS, probably a random issue during testing.
+
+* Sat Aug 22 22:15:55 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.22.20140716gitd9a9656
+- Fix FTBFS
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

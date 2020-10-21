@@ -1,6 +1,6 @@
 Name:           maven-install-plugin
 Version:        2.5.2
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        Maven Install Plugin
 
 License:        ASL 2.0
@@ -58,6 +58,12 @@ API documentation for %{name}.
 %doc LICENSE NOTICE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.5.2-12
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.2-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

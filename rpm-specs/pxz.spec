@@ -3,7 +3,7 @@
 Summary:	Parallel LZMA compressor using XZ
 Name:		pxz
 Version:	4.999.9
-Release:	19.beta.%{git_date}git%{?dist}
+Release:	20.beta.%{git_date}git%{?dist}
 License:	GPLv2+
 URL:		https://jnovy.fedorapeople.org/pxz/
 # source created as "make dist" in checked out GIT tree: git clone git://github.com/jnovy/pxz.git
@@ -36,6 +36,9 @@ export CFLAGS="%{optflags} -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE"
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.999.9-20.beta.20200421git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Robert Scheck <robert@fedoraproject.org> 4.999.9-19.beta.20200421git
 - Update to GIT 20200421
 - Added patch against race condition in setting permissions on output file (#1182024)

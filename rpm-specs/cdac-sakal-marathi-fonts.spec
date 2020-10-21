@@ -3,7 +3,7 @@
 
 Name:        %{fontname}-fonts
 Version:     9.21
-Release:     13%{?dist}
+Release:     14%{?dist}
 Summary:     Marathi language font from CDAC
 
 License:     OFL
@@ -44,6 +44,9 @@ ln -s %{_fontconfig_templatedir}/%{fontconf} \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.21-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.21-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

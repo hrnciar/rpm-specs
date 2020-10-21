@@ -5,7 +5,7 @@
 
 Name:           nodejs-minimatch
 Version:        3.0.4
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        JavaScript glob matcher
 
 License:        MIT
@@ -56,6 +56,13 @@ cp -p package.json minimatch.js %{buildroot}%{nodejs_sitelib}/minimatch
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

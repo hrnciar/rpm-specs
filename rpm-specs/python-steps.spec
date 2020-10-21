@@ -6,6 +6,12 @@
 %bcond_without mpich
 %bcond_without openmpi
 
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 # Do not currently use system sundials
 # https://bugzilla.redhat.com/show_bug.cgi?id=1820991
 %global system_sundials  0
@@ -43,7 +49,7 @@ http://steps.sourceforge.net/manual/manual_index.html
 Name:           python-%{module_name}
 Version:        3.5.0
 
-Release:        2%{?dist}
+Release:        6%{?dist}
 Summary:        STochastic Engine for Pathway Simulation
 
 License:        GPLv2
@@ -78,7 +84,8 @@ BuildRequires:  petsc-devel
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist Cython}
 BuildRequires:  %{py3_dist numpy}
-BuildRequires:  openblas-devel
+BuildRequires:  %{py3_dist setuptools}
+BuildRequires:  %{blaslib}-devel
 BuildRequires:  Random123-devel
 
 %if "%{system_sundials}" == "1"
@@ -177,6 +184,7 @@ pushd build$MPI_COMPILE_TYPE  &&
         -DCMAKE_SKIP_RPATH:BOOL=ON \\\
         -DUSE_MPI:BOOL=$MPI_YES \\\
         -DUSE_PETSC:BOOL=False \\\
+        -DBLAS_LIBRARIES=-l%{blaslib} \\\
         -DCMAKE_INSTALL_PREFIX:PATH=$MPI_HOME \\\
         -DBUILD_SHARED_LIBS:BOOL=ON \\\
 %if "%{_lib}" == "lib64"
@@ -298,6 +306,18 @@ export MPI_COMPILE_TYPE="-openmpi"
 %endif
 
 %changelog
+* Tue Oct 06 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.5.0-6
+- Rebuild for sundials-5.4.0
+
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 3.5.0-5
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.5.0-3
+- Explicitly BR setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.5.0-2
 - Rebuilt for Python 3.9
 

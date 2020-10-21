@@ -8,6 +8,8 @@ Version:                5.0.3
 
 %gometa
 
+%global goaltipaths     github.com/godbus/dbus/v5
+
 %global common_description %{expand:
 Dbus is a simple library that implements native Go client bindings for the D-Bus
 message bus system.}
@@ -18,7 +20,7 @@ message bus system.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Native Go bindings for D-Bus
 
 # Upstream license specification: BSD-2-Clause
@@ -40,15 +42,6 @@ cp %{S:1} %{S:2} .
 %install
 %gopkginstall
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck
@@ -57,6 +50,12 @@ end
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 14:41:53 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 5.0.3-2
+- Add alternative import path
+
 * Sun Feb 16 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 5.0.3-1
 - Update to latest version
 

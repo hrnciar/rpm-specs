@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.2.1
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        UTF-8 encoded string with configurable byte storage
 
 # Upstream license specification: MIT
@@ -83,6 +83,13 @@ which use "bytes" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

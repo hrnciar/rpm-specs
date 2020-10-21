@@ -1,5 +1,5 @@
 Name:		distribution-gpg-keys
-Version:	1.39
+Version:	1.44
 Release:	1%{?dist}
 Summary:	GPG keys of various Linux distributions
 
@@ -53,6 +53,31 @@ cp -a keys/* %{buildroot}%{_datadir}/%{name}/
 %{_datadir}/%{name}/copr
 
 %changelog
+* Mon Oct 19 2020 Miroslav Suchý <msuchy@redhat.com> 1.44-1
+- update copr keys
+- update link to fedora rawhide
+- add Fedora ELN keys
+- add Zoom gpg key
+- Add Oracle Linux GPG keys
+
+* Wed Oct 07 2020 Miroslav Suchý <msuchy@redhat.com> 1.43-1
+- now really add f33
+- add f33 releasers
+
+* Mon Oct 05 2020 Miroslav Suchý <msuchy@redhat.com> 1.42-1
+- update copr keys
+- add rpmfusion 33 and update latest links
+
+* Thu Aug 06 2020 Miroslav Suchý <msuchy@redhat.com> 1.41-1
+- add Fedora 34 key
+- update copr keys
+- add Qubes signing keys
+
+* Mon Jul 13 2020 Miroslav Suchý <msuchy@redhat.com> 1.40-1
+- update copr keys
+- Add Datto's third party repository GPG keys
+- Add EuroLinux keys
+
 * Thu May 28 2020 Miroslav Suchý <msuchy@redhat.com> 1.39-1
 - update copr keys
 - add intel gpg key

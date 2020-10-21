@@ -8,60 +8,72 @@
 %bcond_without tests
 %endif
 
+# Similar to what we have in pythonX.Y.spec files.
+# If enabled, provides unversioned executables and other stuff.
+# Disable it if you build this package in an alternative stack.
+%bcond_without main_python
+
 %global pypi_name wheel
 %global python_wheelname %{pypi_name}-%{version}-py2.py3-none-any.whl
 %global python_wheeldir %{_datadir}/python-wheels
 
 Name:           python-%{pypi_name}
-Version:        0.33.6
-Release:        5%{?dist}
+Version:        0.35.1
+Release:        1%{?dist}
 Epoch:          1
 Summary:        Built-package format for Python
 
-License:        MIT
+# packaging is ASL 2.0 or BSD
+License:        MIT and (ASL 2.0 or BSD)
 URL:            https://github.com/pypa/wheel
 Source0:        %{url}/archive/%{version}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
 
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
+
+# python3 bootstrap: this is rebuilt before the final build of python3, which
+# adds the dependency on python3-rpm-generators, so we require it manually
+BuildRequires:  python3-rpm-generators
+
 %if %{with tests}
+BuildRequires:  python%{python3_pkgversion}-pytest
 # several tests compile extensions
 # those tests are skipped if gcc is not found
 BuildRequires:  gcc
 %endif
 
-%{?python_enable_dependency_generator}
+%global _description %{expand:
+Wheel is the reference implementation of the Python wheel packaging standard,
+as defined in PEP 427.
 
-%global _description \
-A built-package format for Python.\
-\
-A wheel is a ZIP-format archive with a specially formatted filename and the\
-.whl extension. It is designed to contain all the files for a PEP 376\
-compatible install in a way that is very close to the on-disk format.
+It has two different roles:
+
+ 1. A setuptools extension for building wheels that provides the bdist_wheel
+    setuptools command.
+ 2. A command line tool for working with wheel files.}
 
 %description %{_description}
 
+# Virtual provides for the packages bundled by wheel.
+# Actual version is written in src/wheel/vendored/packaging/_typing.py
+# and src/wheel/vendored/packaging/tags.py
+%global bundled %{expand:
+Provides:       bundled(python3dist(packaging)) = 20.4
+}
 
-%package -n     python3-%{pypi_name}
+
+%package -n     python%{python3_pkgversion}-%{pypi_name}
 Summary:        %{summary}
-BuildRequires:  python3-devel
-# python3 bootstrap: this is rebuilt before the final build of python3, which
-# adds the dependency on python3-rpm-generators, so we require it manually
-BuildRequires:  python3-rpm-generators
-BuildRequires:  python3-setuptools
-%if %{with tests}
-BuildRequires:  python3-pytest
-%endif
-%{?python_provide:%python_provide python3-%{pypi_name}}
-Conflicts:      python-%{pypi_name} < %{version}-%{release}
+%{bundled}
 
-%description -n python3-%{pypi_name} %{_description}
-
-Python 3 version.
+%description -n python%{python3_pkgversion}-%{pypi_name} %{_description}
 
 
 %if %{without bootstrap}
 %package wheel
 Summary:        The Python wheel module packaged as a wheel
+%{bundled}
 
 %description wheel
 A Python wheel of wheel to use with virtualenv.
@@ -71,25 +83,23 @@ A Python wheel of wheel to use with virtualenv.
 %prep
 %autosetup -n %{pypi_name}-%{version} -p1
 
-# Empty files make rpmlint sad
-test -s wheel/cli/install.py || echo "# empty" > wheel/cli/install.py
-
 
 %build
 %py3_build
-
-%if %{without bootstrap}
-%py3_build_wheel
-%endif
 
 
 %install
 %py3_install
 mv %{buildroot}%{_bindir}/%{pypi_name}{,-%{python3_version}}
+%if %{with main_python}
 ln -s %{pypi_name}-%{python3_version} %{buildroot}%{_bindir}/%{pypi_name}-3
 ln -s %{pypi_name}-3 %{buildroot}%{_bindir}/%{pypi_name}
+%endif
 
 %if %{without bootstrap}
+# We can only use bdist_wheel when wheel is installed, hence we don't build the wheel in %%build
+export PYTHONPATH=%{buildroot}%{python3_sitelib}
+%py3_build_wheel
 mkdir -p %{buildroot}%{python_wheeldir}
 install -p dist/%{python_wheelname} -t %{buildroot}%{python_wheeldir}
 %endif
@@ -97,17 +107,19 @@ install -p dist/%{python_wheelname} -t %{buildroot}%{python_wheeldir}
 
 %if %{with tests}
 %check
-rm setup.cfg
-PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-3 -v --ignore build
+rm setup.cfg  # to drop pytest coverage options configured there
+%pytest -v --ignore build
 %endif
 
-%files -n python3-%{pypi_name}
+%files -n python%{python3_pkgversion}-%{pypi_name}
 %license LICENSE.txt
 %doc README.rst
+%{_bindir}/%{pypi_name}-%{python3_version}
+%if %{with main_python}
 %{_bindir}/%{pypi_name}
 %{_bindir}/%{pypi_name}-3
-%{_bindir}/%{pypi_name}-%{python3_version}
-%{python3_sitelib}/%{pypi_name}*
+%endif
+%{python3_sitelib}/%{pypi_name}*/
 
 %if %{without bootstrap}
 %files wheel
@@ -118,6 +130,18 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-3 -v --ignore build
 %endif
 
 %changelog
+* Thu Sep 10 2020 Tomas Hrnciar <thrnciar@redhat.com> - 1:0.35.1-1
+- Update to 0.35.1
+- Fixes: rhbz#1868821
+
+* Mon Aug 10 2020 Miro Hrončok <mhroncok@redhat.com> - 1:0.34.2-1
+- Update to 0.34.2
+- Drops Python 3.4 support
+- Fixes: rhbz#1795134
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.33.6-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 1:0.33.6-5
 - Rebuilt for Python 3.9
 

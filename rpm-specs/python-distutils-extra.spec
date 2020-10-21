@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        2.39
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        %{sum}
 
 License:        GPLv2+
@@ -43,6 +43,9 @@ scrollkeeper based documentation into Python's distutils.
 %{python3_sitelib}/python_distutils_extra*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.39-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.39-17
 - Rebuilt for Python 3.9
 

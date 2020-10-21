@@ -1,6 +1,6 @@
 Name:           lbzip2-utils
 Version:        1.0
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Utilities for working with bzip2 compressed files
 License:        GPLv3+
 URL:            http://lbzip2.org/
@@ -43,6 +43,9 @@ make check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

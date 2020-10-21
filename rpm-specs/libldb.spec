@@ -18,16 +18,16 @@
 %global tevent_version 0.10.2
 
 Name: libldb
-Version: 2.1.3
-Release: 2%{?dist}
+Version: 2.2.0
+Release: 4%{?dist}
 Summary: A schema-less, ldap like, API and database
 Requires: libtalloc%{?_isa} >= %{talloc_version}
 Requires: libtdb%{?_isa} >= %{tdb_version}
 Requires: libtevent%{?_isa} >= %{tevent_version}
 License: LGPLv3+
 URL: http://ldb.samba.org/
-Source0: http://samba.org/ftp/ldb/ldb-%{version}.tar.gz
-Source1: http://samba.org/ftp/ldb/ldb-%{version}.tar.asc
+Source0: https://www.samba.org/ftp/ldb/ldb-%{version}.tar.gz
+Source1: https://www.samba.org/ftp/ldb/ldb-%{version}.tar.asc
 # gpg2 --no-default-keyring --keyring ./ldb.keyring --recv-keys 9147A339719518EE9011BCB54793916113084025
 Source2: ldb.keyring
 
@@ -141,7 +141,7 @@ export python_LDFLAGS=""
            %{?without_lmdb_flags} \
            --with-privatelibdir=%{_libdir}/ldb
 
-make %{?_smp_mflags} V=1
+%make_build
 doxygen Doxyfile
 
 %check
@@ -151,10 +151,10 @@ sed -e '/test_guid_indexed_v1_db/,+18{/toggle_guidindex_check_pack/d}' -i tests/
 %endif
 
 
-make %{?_smp_mflags} check
+%make_build check
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 
 # Install API docs
 cp -a apidocs/man/* $RPM_BUILD_ROOT/%{_mandir}
@@ -224,6 +224,19 @@ rm -f $RPM_BUILD_ROOT/%{_mandir}/man3/_*
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 2.2.0-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Thu Jul 09 2020 Lukas Slebodnik <lslebodn@fedoraproject.org> - 2.2.0-2
+- libldb-2.2.0 is required for samba 4.13rc1
+
+* Thu Jul 02 2020 Lukas Slebodnik <lslebodn@fedoraproject.org> - 2.1.4-1
+- rhbz#1837364 - libldb-2.1.4 is available
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.3-2
 - Rebuilt for Python 3.9
 

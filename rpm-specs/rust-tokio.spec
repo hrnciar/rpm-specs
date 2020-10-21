@@ -6,8 +6,8 @@
 %global crate tokio
 
 Name:           rust-%{crate}
-Version:        0.2.21
-Release:        1%{?dist}
+Version:        0.2.22
+Release:        4%{?dist}
 Summary:        Platform for writing asynchronous I/O backed applications
 
 # Upstream license specification: MIT
@@ -16,6 +16,7 @@ URL:            https://crates.io/crates/tokio
 Source:         %{crates_source}
 # Initial patched metadata
 # * No windows
+# * Bump to parking_lot 0.11, https://github.com/tokio-rs/tokio/pull/2676
 Patch0:         tokio-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -441,6 +442,18 @@ which use "tokio-macros" feature of "%{crate}" crate.
 %files       -n %{name}+tokio-macros-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+tracing-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+tracing-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "tracing" feature of "%{crate}" crate.
+
+%files       -n %{name}+tracing-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+udp-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -484,6 +497,19 @@ which use "uds" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Fri Sep 11 2020 Josh Stone <jistone@redhat.com> - 0.2.22-4
+- Bump to parking_lot 0.11
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.22-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.22-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Josh Stone <jistone@redhat.com> - 0.2.22-1
+- Update to 0.2.22
+
 * Thu May 14 2020 Josh Stone <jistone@redhat.com> - 0.2.21-1
 - Update to 0.2.21
 

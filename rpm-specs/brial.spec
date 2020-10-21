@@ -1,6 +1,6 @@
 Name:		brial
-Version:	1.2.8
-Release:	2%{?dist}
+Version:	1.2.10
+Release:	1%{?dist}
 Summary:	Framework for Boolean Rings
 # The entire source code is GPLv2+ except the Cudd directory that is BSD
 License:	GPLv2+ and BSD
@@ -38,7 +38,6 @@ Requires:	boost-devel%{?_isa}
 Development headers and libraries for %{name}.
 
 %package	-n python3-%{name}
-%{?python_provide:%python_provide python3-%{name}}
 Summary:	Python 3 interface to %{name}
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 
@@ -93,6 +92,12 @@ make check
 %{python3_sitelib}/%{name}*
 
 %changelog
+* Mon Oct  5 2020 Jerry James <loganjerry@gmail.com> - 1.2.10-1
+- Version 1.2.10
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.8-2
 - Rebuilt for Python 3.9
 

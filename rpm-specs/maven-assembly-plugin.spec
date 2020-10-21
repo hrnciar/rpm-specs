@@ -1,7 +1,7 @@
 Name:           maven-assembly-plugin
 Summary:        Maven Assembly Plugin
 Version:        3.3.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 License:        ASL 2.0
 
 URL:            https://maven.apache.org/plugins/maven-assembly-plugin/
@@ -68,6 +68,12 @@ This package provides %{summary}.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.3.0-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu May 07 2020 Fabio Valentini <decathorpe@gmail.com> - 3.3.0-1
 - Update to version 3.3.0.
 

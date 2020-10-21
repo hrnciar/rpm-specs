@@ -2,7 +2,7 @@
 
 Name:           OpenMolcas
 Version:        19.11
-Release:        2%{?dist}
+Release:        7%{?dist}
 Summary:        A multiconfigurational quantum chemistry software package
 License:        LGPLv2
 URL:            https://gitlab.com/Molcas/OpenMolcas
@@ -17,7 +17,11 @@ Patch2:         OpenMolcas-19.11-int8.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc-gfortran
+%if 0%{?fedora} >= 33
+BuildRequires:  pkgconfig(flexiblas)
+%else
 BuildRequires:  openblas-devel
+%endif
 
 # Required by runtime
 %if 0%{?rhel} == 7
@@ -26,6 +30,7 @@ Requires:       pyparsing
 %else
 BuildRequires:  python3-devel
 Requires:       python3-pyparsing
+Requires:       python3-setuptools
 %endif
 
 %description
@@ -49,10 +54,18 @@ therefore not included in OpenMolcas.
 %patch2 -p1 -b .int8
 
 # Name of OpenBLAS library to use is
+%if 0%{?fedora} >= 33
+%if 0%{?__isa_bits} == 64
+sed -i 's|@OPENBLAS_LIBRARY@|flexiblas64|g' CMakeLists.txt
+%else
+sed -i 's|@OPENBLAS_LIBRARY@|flexiblas|g' CMakeLists.txt
+%endif
+%else
 %if 0%{?__isa_bits} == 64
 sed -i 's|@OPENBLAS_LIBRARY@|openblaso64|g' CMakeLists.txt
 %else
 sed -i 's|@OPENBLAS_LIBRARY@|openblaso|g' CMakeLists.txt
+%endif
 %endif
 
 # Location python modules are installed
@@ -65,29 +78,23 @@ sed -i 's|#!/usr/bin/env python|#!/usr/bin/python3|g' Tools/pymolcas/pymolcas.py
 %endif
 
 %build
-mkdir objdir
-cd objdir
-
 export CC=gcc
 export FC=gfortran
 
-export CFLAGS="%{optflags} -fopenmp -std=gnu99"
-export FFLAGS="%{optflags} -cpp -fopenmp -fdefault-integer-8"
+export CFLAGS="%{optflags} -fopenmp -std=gnu99 -fPIC"
+export FFLAGS="%{optflags} -cpp -fopenmp -fdefault-integer-8 -fPIC"
 
 # GCC10 compatibility
 %if 0%{?fedora} > 31
 export FFLAGS="$FFLAGS -fallow-argument-mismatch"
 %endif
 
-%cmake .. -DCMAKE_INSTALL_PREFIX:PATH=%{_libdir}/%{name}/ \
+%cmake -DCMAKE_INSTALL_PREFIX:PATH=%{_libdir}/%{name}/ \
     -DLINALG=OpenBLAS -DOPENMP=ON -DHDF5=OFF -DCHEMPS2=OFF
-
-%{make_build} VERBOSE=1
+%{cmake_build}
 
 %install
-cd objdir
-%{make_install}
-cd ..
+%{cmake_install}
 
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 cat > %{buildroot}%{_sysconfdir}/profile.d/%{name}.sh <<EOF
@@ -117,6 +124,22 @@ cp -p Tools/pymolcas/pymolcas.py %{buildroot}%{_bindir}/pymolcas
 %{_bindir}/pymolcas
 
 %changelog
+* Fri Aug 07 2020 Iñaki Úcar <iucar@fedoraproject.org> - 19.11-7
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Wed Aug 05 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 19.11-6
+- Adapt to new CMake macros.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.11-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.11-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 19.11-3
+- Explicit buildrequire python3-setuptools.
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.11-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

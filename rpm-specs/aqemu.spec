@@ -1,6 +1,9 @@
+# force out-of-tree build for spec compatibility with older releases
+%undefine __cmake_in_source_build
+
 Name: aqemu
 Version: 0.9.2
-Release: 13%{?dist}
+Release: 16%{?dist}
 Summary: A QT graphical interface to QEMU and KVM
 License: GPLv2+
 URL: http://aqemu.sourceforge.net
@@ -12,6 +15,7 @@ BuildRequires: libvncserver-devel
 BuildRequires: desktop-file-utils
 BuildRequires: gnutls-devel
 BuildRequires: hicolor-icon-theme
+BuildRequires: zlib-devel
 
 %description
 AQEMU is a graphical user interface to QEMU and KVM, written in Qt4. The
@@ -27,10 +31,10 @@ majority of QEMU and KVM options on their virtual machines.
 # to be # parallel-installable with Qt4 ones
 PATH=%{_qt5_bindir}:$PATH; export PATH
 %cmake
-make %{?_smp_mflags}
+%cmake_build
 
 %install
-make DESTDIR=%{buildroot} install
+%cmake_install
 # Copy 48x48 and 64x64 icons to correct location.
 mkdir -p %{buildroot}%{_datadir}/icons/hicolor/{48x48,64x64}/apps
 mv %{buildroot}%{_datadir}/pixmaps/%{name}_48x48.png \
@@ -55,6 +59,16 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Jeff Law <law@redhat.com> - 0.9.2-14
+- Require zlib-devel for building
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

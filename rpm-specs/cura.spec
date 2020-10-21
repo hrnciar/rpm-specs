@@ -1,7 +1,7 @@
 Name:           cura
 Epoch:          1
-Version:        4.6.1
-Release:        2%{?dist}
+Version:        4.7.1
+Release:        1%{?dist}
 Summary:        3D printer control software
 
 # https://lists.fedoraproject.org/archives/list/legal@lists.fedoraproject.org/thread/MOUNX6I3POCDMYWBNJ7JPLLIKVYWVRBJ/
@@ -11,11 +11,6 @@ URL:            https://ultimaker.com/en/products/cura-software
 Source0:        https://github.com/Ultimaker/Cura/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
 BuildArch:      noarch
-
-# There are Python plugins in /usr/lib/cura
-%global _python_bytecompile_extra 0
-# For backwards compatibility (not needed on F29+):
-%global __python %{__python3}
 
 BuildRequires:  cmake
 BuildRequires:  gcc
@@ -48,6 +43,9 @@ Requires:       libglvnd-devel
 # So that it just works
 Requires:       3dprinter-udev-rules
 
+# Get Fedora 33++ behavior on anything older
+%undefine __cmake_in_source_build
+
 %description
 Cura is a project which aims to be an single software solution for 3D printing.
 While it is developed to be used with the Ultimaker 3D printer, it can be used
@@ -72,14 +70,14 @@ dos2unix docs/How_to_use_the_flame_graph_profiler.md
 sed -i '1s=^#!/usr/bin/\(python\|env python\)3*=#!%{__python3}=' cura_app.py
 
 %build
-%{cmake} \
+%cmake \
   -DCURA_VERSION:STRING=%{version} \
   -DCURA_BUILDTYPE=RPM \
   -DCURA_CLOUD_API_ROOT:STRING=%{cura_cloud_api_root} \
   -DCURA_CLOUD_API_VERSION:STRING=%{cura_cloud_api_version} \
   -DCURA_CLOUD_ACCOUNT_API_ROOT:STRING=%{cura_cloud_account_api_root} \
-  -DLIB_SUFFIX:STR= .
-make %{?_smp_mflags}
+  -DLIB_SUFFIX:STR=
+%cmake_build
 
 # rebuild locales
 cd resources/i18n
@@ -95,7 +93,7 @@ cd -
 
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 # Sanitize the location of locale files
 pushd %{buildroot}%{_datadir}
@@ -138,6 +136,15 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_prefix}/lib/%{name}
 
 %changelog
+* Thu Sep 03 2020 Miro Hrončok <mhroncok@redhat.com> - 1:4.7.1-1
+- Update to 4.7.1
+
+* Mon Aug 31 2020 Gabriel Féron <feron.gabriel@gmail.com> - 4.7.0-1
+- Update to 4.7.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.6.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1:4.6.1-2
 - Rebuilt for Python 3.9
 

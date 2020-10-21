@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}0.6
 Version:        0.6.5
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Bindings to D-Bus
 
 # Upstream license specification: Apache-2.0/MIT
@@ -83,5 +83,12 @@ which use "no-string-validation" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.5-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 21 20:17:57 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.6.5-1
 - Initial package

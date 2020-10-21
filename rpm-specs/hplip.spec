@@ -6,7 +6,7 @@
 
 Summary: HP Linux Imaging and Printing Project
 Name: hplip
-Version: 3.20.6
+Version: 3.20.9
 Release: 2%{?dist}
 License: GPLv2+ and MIT and BSD and IJG and Public Domain and GPLv2+ with exceptions and ISC
 
@@ -156,6 +156,11 @@ Patch55: hplip-clean-ldl.patch
 # - it will cause malfunction of printing and scanning for them
 # https://bugs.launchpad.net/hplip/+bug/1883898
 Patch56: hplip-revert-plugins.patch
+# python3.9 removes threading.Thread.isAlive() and it is substituted
+# by threading.Thread.is_alive()
+# https://bugzilla.redhat.com/show_bug.cgi?id=1861055
+# reported upstream https://bugs.launchpad.net/fedora/+bug/1889280
+Patch57: hplip-thread-isalive-removed.patch
 
 
 Requires: %{name}-libs%{?_isa} = %{version}-%{release}
@@ -189,6 +194,8 @@ BuildRequires: gcc-c++
 
 BuildRequires: autoconf automake libtool
 BuildRequires: net-snmp-devel
+BuildRequires: pkgconfig(avahi-client)
+BuildRequires: pkgconfig(avahi-core)
 BuildRequires: cups-devel
 BuildRequires: python3-devel
 BuildRequires: libjpeg-devel
@@ -225,6 +232,7 @@ Requires: python3
 %description libs
 Libraries needed by HPLIP.
 
+%if 0%{?rhel} <= 8 || 0%{?fedora}
 %package gui
 Summary: HPLIP graphical tools
 License: BSD
@@ -238,6 +246,7 @@ Requires: libsane-hpaio%{?_isa} = %{version}-%{release}
 
 %description gui
 HPLIP graphical tools.
+%endif
 
 %package -n libsane-hpaio
 Summary: SANE driver for scanners in HP's multi-function devices
@@ -425,6 +434,8 @@ rm prnt/hpcups/ErnieFilter.{cpp,h} prnt/hpijs/ernieplatform.h
 # 1833308 - hp-clean cannot clean HP PSC1410 - Device I/O error
 %patch55 -p1 -b .clean-ldl
 %patch56 -p1 -b .revert-plugins
+# 1861055 - hplip: remove threading.Thread.isAlive method calls - use threading.Thread.is_alive()
+%patch57 -p1 -b .thread-isalive-removed
 
 sed -i.duplex-constraints \
     -e 's,\(UIConstraints.* \*Duplex\),//\1,' \
@@ -458,12 +469,12 @@ autoreconf --verbose --force --install
         --enable-hpijs-install \
         --disable-policykit --with-mimedir=%{_datadir}/cups/mime PYTHON=%{__python3}
 
-make %{?_smp_mflags}
+%make_build
 
 
 %install
 mkdir -p %{buildroot}%{_bindir}
-make install DESTDIR=%{buildroot} PYTHON=%{__python3}
+%make_install PYTHON=%{__python3}
 
 # Create /run/hplip & /var/lib/hp
 mkdir -p %{buildroot}/run/hplip
@@ -507,6 +518,37 @@ rm -f   %{buildroot}%{_bindir}/foomatic-rip \
         %{buildroot}%{_datadir}/applications/hplip.desktop \
         %{buildroot}%{_datadir}/ppd/HP/*.ppd
 
+%if 0%{?rhel} > 8
+rm -rf %{buildroot}%{_bindir}/hp-check \
+       %{buildroot}%{_bindir}/hp-devicesettings \
+       %{buildroot}%{_bindir}/hp-faxsetup \
+       %{buildroot}%{_bindir}/hp-linefeedcal \
+       %{buildroot}%{_bindir}/hp-makecopies \
+       %{buildroot}%{_bindir}/hp-print \
+       %{buildroot}%{_bindir}/hp-printsettings \
+       %{buildroot}%{_bindir}/hp-systray \
+       %{buildroot}%{_bindir}/hp-toolbox \
+       %{buildroot}%{_bindir}/hp-uiscan \
+       %{buildroot}%{_bindir}/hp-wificonfig \
+       %{buildroot}%{_datadir}/applications/*.desktop \
+       %{buildroot}%{_datadir}/metainfo/hplip.appdata.xml \
+       %{buildroot}%{_datadir}/icons/hicolor/*/apps/* \
+       %{buildroot}%{_datadir}/hplip/check.py* \
+       %{buildroot}%{_datadir}/hplip/devicesettings.py* \
+       %{buildroot}%{_datadir}/hplip/faxsetup.py* \
+       %{buildroot}%{_datadir}/hplip/linefeedcal.py* \
+       %{buildroot}%{_datadir}/hplip/makecopies.py* \
+       %{buildroot}%{_datadir}/hplip/print.py* \
+       %{buildroot}%{_datadir}/hplip/printsettings.py* \
+       %{buildroot}%{_datadir}/hplip/systray.py* \
+       %{buildroot}%{_datadir}/hplip/toolbox.py* \
+       %{buildroot}%{_datadir}/hplip/uiscan.py* \
+       %{buildroot}%{_datadir}/hplip/wificonfig.py* \
+       %{buildroot}%{_datadir}/hplip/data/images \
+       %{buildroot}%{_datadir}/hplip/ui5
+%endif
+
+%if 0%{?rhel} <= 8 || 0%{?fedora}
 mkdir -p %{buildroot}%{_datadir}/metainfo
 cp %{SOURCE3} %{buildroot}%{_datadir}/metainfo/
 
@@ -544,6 +586,7 @@ desktop-file-install \
           --add-category Scanning \
           --add-category Application \
           hp-uiscan.desktop
+%endif
 
 # Regenerate hpcups PPDs on upgrade if necessary (bug #579355).
 install -p -m755 %{SOURCE1} %{buildroot}%{_bindir}/hpcups-update-ppds
@@ -687,6 +730,7 @@ rm -f %{buildroot}%{_sysconfdir}/xdg/autostart/hplip-systray.desktop
 # Python extension
 %{python3_sitearch}/*
 
+%if 0%{?rhel} <= 8 || 0%{?fedora}
 %files gui
 %{_bindir}/hp-check
 %{_bindir}/hp-devicesettings
@@ -717,6 +761,7 @@ rm -f %{buildroot}%{_sysconfdir}/xdg/autostart/hplip-systray.desktop
 # Directories
 %{_datadir}/hplip/data/images
 %{_datadir}/hplip/ui5
+%endif
 
 %files -n libsane-hpaio
 %{_libdir}/sane/libsane-*.so
@@ -725,6 +770,53 @@ rm -f %{buildroot}%{_sysconfdir}/xdg/autostart/hplip-systray.desktop
 %config(noreplace) %{_sysconfdir}/sane.d/dll.d/hpaio
 
 %changelog
+* Tue Oct 13 2020 Zdenek Dohnal <zdohnal@redhat.com> - 3.20.9-2
+- downloading gpg key for plugin can take some time and wayland can
+  kill the connection, work it around to prefer more stable keyservers
+
+* Mon Oct 12 2020 Zdenek Dohnal <zdohnal@redhat.com> - 3.20.9-2
+- fix the patch for adding uncompressed ppd via CLI
+- fix the patch for GUI too
+
+* Fri Oct 02 2020 Zdenek Dohnal <zdohnal@redhat.com> - 3.20.9-1
+- 3.20.9
+
+* Wed Sep 30 2020 Zdenek Dohnal <zdohnal@redhat.com> - 3.20.6-13
+- fix bashisms in hplip-configure-python.patch
+- thanks for Daniel Pielmeier from Gentoo for review
+
+* Fri Sep 11 2020 Zdenek Dohnal <zdohnal@redhat.com> - 3.20.6-12
+- move ifdef for removing hplip-gui a little in install phase
+
+* Thu Aug 27 2020 Josef Ridky <jridky@redhat.com> - 3.20.6-11
+- Rebuilt for new net-snmp release
+
+* Tue Aug 25 2020 Zdenek Dohnal <zdohnal@redhat.com> - 3.20.6-10
+- fix eln build - remove unpackaged files
+
+* Tue Aug 25 2020 Zdenek Dohnal <zdohnal@redhat.com> - 3.20.6-9
+- 1772698 - dont use uninitialized value as an index
+
+* Mon Aug 24 2020 Zdenek Dohnal <zdohnal@redhat.com> - 3.20.6-8
+- typo in hplip-model-mismatch.patch causes regression for 1772698
+
+* Wed Aug 05 2020 Zdenek Dohnal <zdohnal@redhat.com> - 3.20.6-7
+- don't build gui for newer RHELs
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.20.6-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Zdenek Dohnal <zdohnal@redhat.com> - 3.20.6-5
+- 1861055 - hplip: remove threading.Thread.isAlive method calls - use threading.Thread.is_alive()
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.20.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 3.20.6-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jun 23 2020 Zdenek Dohnal <zdohnal@redhat.com> - 3.20.6-2
 - appdata.xml needs to be in %%{_datadir}/metainfo
 

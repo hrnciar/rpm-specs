@@ -1,20 +1,14 @@
-%global revision 68
+%global revision 70
 %global releasedate 2012.02.01
 
 Name:             fontaine
 Version:          0
-Release:          24.svn%{revision}%{?dist}
+Release:          26.svn%{revision}%{?dist}
 Summary:          Font file meta information utility
 License:          GPLv2+
 URL:              http://unifont.org/fontaine/
 
-# To create a tarball from svn 
-#
-# svn co -r %{revision} https://fontaine.svn.sourceforge.net/svnroot/fontaine/trunk fontaine-%{version}-svn%{revision}
-# tar cf fontaine-%{version}-svn%{revision}.tar.xz -J --xz --exclude .svn fontaine-%{version}-svn%{revision}
-Source0:          %{name}-%{version}-svn%{revision}.tar.xz
-# Or upstream made some kind of release
-#Source0: http://downloads.sourceforge.net/%{name}/%{name}_svn_r%{revision}_%{releasedate}.tar.gz
+Source0:          https://sourceforge.net/code-snapshots/svn/f/fo/fontaine/code/fontaine-code-r%{revision}-trunk.zip
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -28,16 +22,15 @@ glyph count, character count, copyright, license information  and
 orthographic coverage.
 
 %prep
-%setup -q -n %{name}-%{version}-svn%{revision}
-#setup -q -n %{name}_svn_r%{revision}_%{releasedate}
+%setup -q -n fontaine-code-r%{revision}-trunk
 find -type d -name .svn | xargs -r rm -rf
 
 %build
-%cmake . -DCMAKE_POLICY_DEFAULT_CMP0057=NEW
-make %{?_smp_mflags}
+%cmake -DCMAKE_POLICY_DEFAULT_CMP0057=NEW
+%cmake_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 
 %find_lang %{name}
 
@@ -46,6 +39,12 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_bindir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Yanko Kaneti <yaneti@declera.com> - 0-26.svn70
+- Latest revision. Rework source and cmake bits
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-25.svn68
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-24.svn68
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

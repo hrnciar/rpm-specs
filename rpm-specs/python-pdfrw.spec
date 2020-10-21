@@ -3,7 +3,7 @@
 
 Name: python-%{srcname}
 Version: 0.4
-Release: 10%{?dist}
+Release: 12%{?dist}
 Summary: Python library to read and write PDF files
 License: MIT
 
@@ -11,6 +11,7 @@ URL:     https://github.com/pmaupin/pdfrw
 Source0: %{pypi_source}
 
 BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 BuildArch: noarch
 
 %description
@@ -44,6 +45,12 @@ of existing PDFs in new PDFs created with reportlab.
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 0.4-11
+- add python3-setuptools to BuildRequires
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4-10
 - Rebuilt for Python 3.9
 

@@ -4,7 +4,7 @@
 
 Name:       nodejs-grunt-contrib-nodeunit
 Version:    2.0.0
-Release:    4%{?dist}
+Release:    5%{?dist}
 Summary:    Run Nodeunit unit tests with grunt
 License:    MIT
 URL:        https://github.com/gruntjs/grunt-contrib-nodeunit
@@ -63,6 +63,9 @@ cp -pr package.json tasks/ \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 2020 Ben Rosser <rosser.bjr@gmail.com> - 2.0.0-4
 - Correctly load nodeunit-x as nodeunit.
 

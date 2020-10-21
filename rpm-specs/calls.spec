@@ -1,5 +1,5 @@
 Name:       calls
-Version:    0.1.6
+Version:    0.1.8
 Release:    1%{?dist}
 Summary:    A phone dialer and call handler
 
@@ -86,6 +86,18 @@ SH
 %license COPYING
 
 %changelog
+* Fri Sep 18 2020 Torrey Sorensen <sorensentor@tuta.io> - 0.1.8-1
+- Update version 0.1.8
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Torrey Sorensen <sorensentor@tuta.io> - 0.1.7-1
+- Update version 0.1.7
+
+* Wed Jun 24 2020 Torrey Sorensen <sorensentor@tuta.io> - 0.1.6-2
+- Rebuild for broken libebook-contacts
+
 * Fri Jun 12 2020 Torrey Sorensen <sorensentor@tuta.io> - 0.1.6-1
 - Update version 0.1.6
 

@@ -1,6 +1,8 @@
+%define __cmake_in_source_build 1
+
 Name:           swami
 Version:        2.0.0
-Release:        22.20110806svn386%{?dist}
+Release:        25.20110806svn386%{?dist}
 Summary:        MIDI instrument and sound editor
 License:        GPLv2
 URL:            http://www.swamiproject.org/
@@ -93,6 +95,16 @@ desktop-file-install                                    \
 
 
 %changelog
+* Tue Sep 22 2020 Jeff Law <law@redhat.com> - 2.0.0-25.20110806svn386
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-24.20110806svn386
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-23.20110806svn386
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> - 2.0.0-22.20110806svn386
 - Rebuild against fluidsynth2
 

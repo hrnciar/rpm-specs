@@ -6,7 +6,7 @@
 
 Name:           nodejs-source-map
 Version:        0.7.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Node.js library that generates and consumes source maps
 
 BuildArch:      noarch
@@ -81,6 +81,9 @@ cp -p dist/*.js %{buildroot}%{_datadir}/%{name}/
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.7.3-1
 - Update to latest upstream release 0.7.3
 

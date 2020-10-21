@@ -1,6 +1,7 @@
+%undefine __cmake_in_source_build
 Name: luminance-hdr
 Version: 2.6.0
-Release: 6%{?dist}
+Release: 9%{?dist}
 Summary: A graphical tool for creating and tone-mapping HDR images
 
 License: GPLv2+
@@ -8,7 +9,6 @@ URL: http://qtpfsgui.sourceforge.net/
 Source0: http://downloads.sourceforge.net/qtpfsgui/%{name}-%{version}.tar.bz2
 # fix build on non-x86 arches
 Patch0: luminance-hdr-2.6.0-non-x86.patch
-
 
 BuildRequires: qt5-qtbase-devel
 BuildRequires: qt5-qtdeclarative-devel
@@ -44,7 +44,6 @@ Luminance is a graphical program for assembling bracketed photos into High
 Dynamic Range (HDR) images.  It also provides a number of tone-mapping
 operators for creating low dynamic range versions of HDR images.
 
-
 %prep
 %setup -q -n %{name}-%{version}%{?pre:-%{pre}}
 
@@ -55,17 +54,14 @@ operators for creating low dynamic range versions of HDR images.
 # fix inconsistant newlines
 %{__sed} -i 's/\r//' Changelog
 
-
 %build
 %{cmake} -DBUILD_SHARED_LIBS:BOOL=OFF -DCMAKE_BUILD_TYPE=Release .
-
-make %{?_smp_mflags}
-
+%{cmake_build} %{?_smp_mflags}
 
 %install
 rm -rf %{buildroot}
-make install/fast DESTDIR=%{buildroot}
-cp -pf *.qm %{buildroot}/%{_datadir}/%{name}/i18n
+%{cmake_install}
+cp -pf %{_vpath_builddir}/*.qm %{buildroot}/%{_datadir}/%{name}/i18n
 mkdir -p %{buildroot}/%{_datadir}/mime/packages
 cp -pf luminance-hdr.xml %{buildroot}/%{_datadir}/mime/packages
 cp -pf net.sourceforge.qtpfsgui.LuminanceHDR.desktop %{buildroot}/%{_datadir}/applications
@@ -82,7 +78,6 @@ touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 /bin/touch --no-create %{_datadir}/mime/packages &>/dev/null || :
 /usr/bin/update-desktop-database &> /dev/null || :
 
-
 %files
 %doc AUTHORS Changelog README.md TODO
 %license LICENSE
@@ -94,8 +89,17 @@ touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 %{_datadir}/applications/net.sourceforge.qtpfsgui.LuminanceHDR.desktop
 %{_datadir}/icons/hicolor/48x48/apps/%{name}.png
 
-
 %changelog
+* Tue Aug 04 2020 Franco Comida <francocomida@gmail.com> - 2.6.0-9
+- fix build on f33/rawhide
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 2.6.0-6
 - Rebuilt for Boost 1.73
 

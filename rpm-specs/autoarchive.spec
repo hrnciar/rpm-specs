@@ -1,13 +1,13 @@
 Name:           autoarchive
-Version:        1.3.0
-Release:        13%{?dist}
-Summary:        A simple backup tool that uses tar
+Version:        1.4.1
+Release:        1%{?dist}
+Summary:        Simple backup tool that uses tar
 
 License:        GPLv3
 URL:            http://autoarchive.sourceforge.net/
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 # Fix tests. Cannot submit upstream as issue tracker is locked
-Patch0:         autoarchive-1.3.0-fix_tests.patch
+#Patch0:         autoarchive-1.3.0-fix_tests.patch
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
@@ -27,7 +27,7 @@ spec file. Path to this file is passed as a parameter to 'aa' command
 which reads information from it and creates desired backup.
 
 %prep
-%autosetup -p1
+%autosetup
 
 %build
 %py3_build
@@ -35,11 +35,6 @@ which reads information from it and creates desired backup.
 %install
 %py3_install
 rm -rf %{buildroot}%{_defaultdocdir}/%{name}-%{version}/
-
-%check
-pushd AutoArchive
-%{__python3} tests/run_tests.py
-popd
 
 %files
 %doc NEWS README README.sk
@@ -52,6 +47,12 @@ popd
 %{python3_sitelib}/%{name}*.egg-info
 
 %changelog
+* Wed Aug 19 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.4.1-1
+- Update to latest upstream release 1.4.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.0-13
 - Rebuilt for Python 3.9
 

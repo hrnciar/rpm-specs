@@ -3,7 +3,7 @@
 
 Name:           dayplanner
 Version:        0.11
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        An easy and clean Day Planner
 Summary(pl):    Prosty i elegancki organizer
 Summary(de):    Ein einfacher und klarer Tagesplaner
@@ -123,6 +123,9 @@ find %{buildroot}%{_datadir}/%{name} -name \*.pm -exec chmod 0644 {} \;
 %{_mandir}/man1/dayplanner*.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 02 2020 Björn Esser <besser82@fedoraproject.org> - 0.11-14
 - Fix string quoting for rpm >= 4.16
 

@@ -1,21 +1,21 @@
 %global gem_name jekyll-feed
 
 Name:           rubygem-%{gem_name}
-Version:        0.13.0
-Release:        3%{?dist}
+Version:        0.15.1
+Release:        1%{?dist}
 Summary:        Jekyll plugin to generate an Atom feed of your Jekyll posts
 License:        MIT
 
 URL:            https://github.com/jekyll/jekyll-feed
 Source0:        https://rubygems.org/gems/%{gem_name}-%{version}.gem
+Source1:        %{url}/archive/v%{version}/%{gem_name}-%{version}.tar.gz
 
-BuildRequires:  ruby >= 2.3
+BuildRequires:  ruby >= 2.4.0
 BuildRequires:  rubygems-devel
 BuildRequires:  ruby(release)
 
-BuildRequires:  rubygem(jekyll)
+BuildRequires:  (rubygem(jekyll) >= 3.7 with rubygem(jekyll) < 5.0)
 BuildRequires:  (rubygem(nokogiri) >= 1.6 with rubygem(nokogiri) < 2)
-BuildRequires:  rubygem(racc)
 BuildRequires:  (rubygem(rspec) >= 3.0 with rubygem(rspec) < 4)
 BuildRequires:  rubygem(typhoeus)
 
@@ -36,6 +36,12 @@ Documentation for %{name}.
 %prep
 %setup -q -n %{gem_name}-%{version}
 
+# extract test files not shipped with the gem
+mkdir upstream && pushd upstream
+tar -xzvf %{SOURCE1}
+mv %{gem_name}-%{version}/spec ../spec
+popd && rm -r upstream
+
 
 %build
 gem build ../%{gem_name}-%{version}.gemspec
@@ -49,30 +55,19 @@ cp -a .%{gem_dir}/* %{buildroot}%{gem_dir}/
 
 
 %check
-pushd .%{gem_instdir}
-
 # Tests fail when LANG is not set to a UTF-8 locale
 LANG=C.UTF-8 rspec spec
-
-popd
 
 
 %files
 %license %{gem_instdir}/LICENSE.txt
 
 %dir %{gem_instdir}
-%{gem_instdir}/script
 
 %{gem_libdir}
 %{gem_spec}
 
 %exclude %{gem_cache}
-
-%exclude %{gem_instdir}/.gitignore
-%exclude %{gem_instdir}/.rubocop.yml
-%exclude %{gem_instdir}/.travis.yml
-%exclude %{gem_instdir}/appveyor.yml
-%exclude %{gem_instdir}/jekyll-feed.gemspec
 
 %files doc
 %doc %{gem_instdir}/History.markdown
@@ -80,14 +75,19 @@ popd
 
 %doc %{gem_docdir}
 
-%{gem_instdir}/Gemfile
-%{gem_instdir}/Rakefile
-%{gem_instdir}/spec
-
-%exclude %{gem_instdir}/.rspec
-
 
 %changelog
+* Fri Oct 09 2020 Fabio Valentini <decathorpe@gmail.com> - 0.15.1-1
+- Update to version 0.15.1.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Fabio Valentini <decathorpe@gmail.com> - 0.15.0-1
+- Update to version 0.15.0.
+- Include spec files from GitHub since they're no longer shipped with the gem.
+- Drop packaging fixes for files that are no longer included in the gem.
+
 * Fri Jan 31 2020 Fabio Valentini <decathorpe@gmail.com> - 0.13.0-3
 - Add BR: rubygem(racc) to fix FTBFS issue.
 

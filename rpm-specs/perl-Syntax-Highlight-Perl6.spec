@@ -1,6 +1,6 @@
 Name:           perl-Syntax-Highlight-Perl6
 Version:        0.88
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        Perl 6 Syntax Highlighter
 License:        (GPL+ or Artistic) and Artistic 2.0 and (MIT or GPLv2) 
 URL:            https://metacpan.org/release/Syntax-Highlight-Perl6
@@ -82,6 +82,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.88-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.88-27
 - Perl 5.32 rebuild
 

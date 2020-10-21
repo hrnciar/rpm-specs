@@ -8,7 +8,7 @@
 
 Name:			4Pane
 Version:		6.0
-Release:		2%{?dist}
+Release:		3%{?dist}
 Summary:		Multi-pane, detailed-list file manager
 
 License:		GPLv3
@@ -111,6 +111,9 @@ rm -rf %{buildroot}%{_docdir}/%{name}
 %{_datadir}/icons/hicolor/*/apps/%{name}*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

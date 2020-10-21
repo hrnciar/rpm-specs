@@ -1,6 +1,6 @@
 Name: 		preferences-menus
 Version: 	1
-Release:	17%{?dist}
+Release:	18%{?dist}
 Summary:	Categorized submenus for the Preferences menu
 
 License:	GPLv2+
@@ -27,6 +27,9 @@ install -p -m 0644 %{SOURCE0} $RPM_BUILD_ROOT%{_sysconfdir}/xdg/menus/preference
 %config(noreplace) %{_sysconfdir}/xdg/menus/preferences-merged/preferences-categories.menu
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

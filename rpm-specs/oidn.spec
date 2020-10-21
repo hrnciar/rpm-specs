@@ -1,58 +1,63 @@
-Name:		oidn
-Version:	1.2.1
-Release:	1%{?dist}
-Summary:	Library of denoising filters for images rendered with ray tracing
+# Force out of source build
+%undefine __cmake_in_source_build
 
-License:	ASL 2.0
-URL:		https://openimagedenoise.github.io/
-Source0:	https://github.com/OpenImageDenoise/%{name}/releases/download/v%{version}/%{name}-%{version}.src.tar.gz
+Name:       oidn
+Version:    1.2.3
+Release:    1%{?dist}
+Summary:    Library of denoising filters for images rendered with ray tracing
+License:    ASL 2.0
+URL:        https://openimagedenoise.github.io/
 
-# Library only available of x86_64 arch
-ExclusiveArch:	x86_64
+Source0:    https://github.com/OpenImageDenoise/%{name}/releases/download/v%{version}/%{name}-%{version}.src.tar.gz
 
-BuildRequires:	cmake >= 3.13.0
-BuildRequires:	gcc-c++
-BuildRequires:	ispc
-BuildRequires:	pkgconfig(python3)
-BuildRequires:	pkgconfig(tbb)
-BuildRequires:	redhat-rpm-config
+# Library only available on x86_64
+ExclusiveArch:  x86_64
+
+BuildRequires:  cmake >= 3.13.0
+BuildRequires:  gcc-c++
+BuildRequires:  ispc
+BuildRequires:  pkgconfig(OpenImageIO)
+BuildRequires:  pkgconfig(python3)
+BuildRequires:  pkgconfig(tbb)
 
 %description
-An open source library of high-performance, high-quality denoising
-filters for images rendered with ray tracing.
+An open source library of high-performance, high-quality denoising filters for
+images rendered with ray tracing.
 
-%package	libs
-Summary:	Libraries for %{name}
+%package    libs
+Summary:    Libraries for %{name}
 
-%description	libs
+%description libs
 The %{name}-libs package contains shared library for %{name}.
 
-%package        devel
-Summary:	Development files for %{name}
-Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+%package    devel
+Summary:    Development files for %{name}
+Requires:   %{name}-libs%{?_isa} = %{version}-%{release}
 
-%description	devel
-The %{name}-devel package contains libraries and header files for
-developing applications that use %{name}.
+%description devel
+The %{name}-devel package contains libraries and header files for developing
+applications that use %{name}.
 
-%package	docs
-Summary:	Documentation for %{name}
-Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
-BuildArch:	noarch
+%package    docs
+Summary:    Documentation for %{name}
+Requires:   %{name}-libs%{?_isa} = %{version}-%{release}
+BuildArch:  noarch
 
-%description	docs
+%description docs
 The %{name}-docs package contains documentation for %{name}.
 
 %prep
 %autosetup
 
 %build
-%cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
-	.
-%make_build
+%cmake \
+    -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
+    .
+
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 # Remove duplicated documentation
 rm -rf %{buildroot}%{_docdir}/OpenImageDenoise
@@ -63,17 +68,36 @@ rm -rf %{buildroot}%{_docdir}/OpenImageDenoise
 %{_bindir}/%{name}{Denoise,Test,Benchmark}
 
 %files libs
-%{_libdir}/cmake/OpenImageDenoise
 %{_libdir}/libOpenImageDenoise.so.*
 
 %files docs
 %doc README.md readme.pdf 
 
 %files devel
+%{_libdir}/cmake/OpenImageDenoise
 %{_includedir}/OpenImageDenoise
 %{_libdir}/libOpenImageDenoise.so
 
 %changelog
+* Sun Sep 13 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.2.3-1
+- Update to 1.2.3
+- Follow new Fedora cmake guideline
+
+* Thu Aug 20 2020 Simone Caronni <negativo17@gmail.com> - 1.2.2-4
+- Move cmake files to devel subpackage.
+- rpmlint fixes.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.2.2-1
+- Update to 1.2.2 (#1855832)
+- Add OpenImageIO dependency
+
 * Tue Jun 16 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.2.1-1
 - Update to 1.2.1
 

@@ -4,7 +4,7 @@
 
 Name:           vim-gitgutter
 Version:        0
-Release:        4.%{date}git%{shortcommit}%{?dist}
+Release:        5.%{date}git%{shortcommit}%{?dist}
 Summary:        Shows a git diff in the gutter and stages/undoes hunks and partial hunks
 
 License:        MIT
@@ -51,6 +51,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-5.20200501gitb356cc9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0-4.20200501gitb356cc9
 - Update to latest git snapshot
 

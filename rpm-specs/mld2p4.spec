@@ -17,24 +17,35 @@ BuildRequires: %{?dts}gcc, %{?dts}gcc-c++
 %global major_minor %{major_version}.2
 %global postrelease_version %{nil}
 
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 # -Werror=format-security flag is not valid for Fortran
 %global fc_optflags $(echo "%optflags" | sed -e 's/-Werror=format-security//')
 
-%global mumps_version 5.3.1
+%if 0%{?fedora}
+%global mumps_version 5.3.3
+%endif
+%if 0%{?rhel}
+%global mumps_version 5.2.1
+%endif
 
 %global libname libmld_prec
 
 Name: mld2p4
 Summary: MultiLevel Domain Decomposition Parallel Preconditioners Package based on PSBLAS
 Version: %{major_minor}.2
-Release: 1%{?dist}
+Release: 6%{?dist}
 License: BSD
 URL: https://github.com/sfilippone/mld2p4-2
 Source0: https://github.com/sfilippone/mld2p4-2/archive/v%{version}%{?postrelease_version}/mld2p4-2-%{version}%{?postrelease_version}.tar.gz
 
 BuildRequires: gcc-gfortran
 BuildRequires: suitesparse-devel
-BuildRequires: openblas-devel, openblas-srpm-macros
+BuildRequires: %{blaslib}-devel
 
 %description
 The MULTI-LEVEL DOMAIN DECOMPOSITION PARALLEL PRECONDITIONERS PACKAGE BASED
@@ -216,8 +227,8 @@ cp -a serial-build mpich-build
 %build
 %if 0%{?with_serial}
 cd serial-build
-export LIBBLAS=-lopenblas
-export INCBLAS=-I%{_includedir}/openblas
+export LIBBLAS=-l%{blaslib}
+export INCBLAS=-I%{_includedir}/%{blaslib}
 
 %if 0%{?el7}
 %{?dts:source /opt/rh/devtoolset-8/enable}
@@ -241,7 +252,7 @@ export FCFLAGS="%{?fc_optflags} -fPIC"
   --with-umfpack=-lumfpack --with-umfpackincdir=%{_includedir}/suitesparse
 #cat config.log
 #exit 1
-%make_build
+make -j1
 
 # Make shared libraries
 pushd lib
@@ -262,15 +273,15 @@ pushd openmpi-build
 
 %{_openmpi_load}
 export CC=mpicc
-export LIBBLAS=-lopenblas
-export INCBLAS=-I%{_includedir}/openblas
+export LIBBLAS=-l%{blaslib}
+export INCBLAS=-I%{_includedir}/%{blaslib}
 %if %{with debug}
-export FCFLAGS="-O0 -g -fPIC"
+export FCFLAGS="-O0 -g -fPIC %{__global_ldflags}"
 export CFLAGS="-O0 -g -fPIC"
   ./configure --with-fcopt="-O0 -g -fPIC -I${MPI_FORTRAN_MOD_DIR} $INCBLAS" --with-ccopt="-O0 -g -fPIC $INCBLAS" \
   LDFLAGS="%{__global_ldflags} -fPIC" CPPFLAGS="-I$MPI_INCLUDE/psblas3 $INCBLAS" \
 %else
-export FCFLAGS="%{?fc_optflags} -fPIC"
+export FCFLAGS="%{?fc_optflags} -fPIC %{__global_ldflags}"
   %configure --with-fcopt="%{?fc_optflags} -fPIC $INCBLAS" --with-ccopt="%{optflags} -fPIC $INCBLAS" \
   LDFLAGS="%{__global_ldflags} -fPIC" CPPFLAGS="-I$MPI_INCLUDE/psblas3 $INCBLAS" \
 %endif
@@ -281,7 +292,8 @@ export FCFLAGS="%{?fc_optflags} -fPIC"
   --with-mumpsmoddir=$MPI_FORTRAN_MOD_DIR/MUMPS-%{mumps_version} \
   --with-superludist=-lsuperlu_dist --with-superludistincdir=$MPI_INCLUDE/superlu_dist \
   --with-umfpack=-lumfpack --with-umfpackincdir=%{_includedir}/suitesparse
-%make_build
+#cat config.log && exit 1
+make -j1
 
 # Make shared libraries
 cd lib
@@ -300,15 +312,15 @@ pushd mpich-build
 
 %{_mpich_load}
 export CC=mpicc
-export LIBBLAS=-lopenblas
-export INCBLAS=-I%{_includedir}/openblas
+export LIBBLAS=-l%{blaslib}
+export INCBLAS=-I%{_includedir}/%{blaslib}
 %if %{with debug}
-export FCFLAGS="-O0 -g -fPIC"
+export FCFLAGS="-O0 -g -fPIC %{__global_ldflags}"
 export CFLAGS="-O0 -g -fPIC"
   ./configure --with-fcopt="-O0 -g -fPIC -I${MPI_FORTRAN_MOD_DIR} $INCBLAS" --with-ccopt="-O0 -g -fPIC $INCBLAS" \
   LDFLAGS="%{__global_ldflags} -fPIC" CPPFLAGS="-I$MPI_INCLUDE/psblas3 $INCBLAS" \
 %else
-export FCFLAGS="%{?fc_optflags} -fPIC"
+export FCFLAGS="%{?fc_optflags} -fPIC %{__global_ldflags}"
   %configure --with-fcopt="%{?fc_optflags} -fPIC $INCBLAS" --with-ccopt="%{optflags} -fPIC $INCBLAS" \
   LDFLAGS="%{__global_ldflags} -fPIC" CPPFLAGS="-I$MPI_INCLUDE/psblas3 $INCBLAS" \
 %endif
@@ -319,7 +331,7 @@ export FCFLAGS="%{?fc_optflags} -fPIC"
   --with-mumpsmoddir=$MPI_FORTRAN_MOD_DIR/MUMPS-%{mumps_version} \
   --with-superludist=-lsuperlu_dist --with-superludistincdir=$MPI_INCLUDE/superlu_dist \
   --with-umfpack=-lumfpack --with-umfpackincdir=%{_includedir}/suitesparse
-%make_build
+make -j1
 
 # Make shared libraries
 cd lib
@@ -446,6 +458,22 @@ popd
 ######################################################
 
 %changelog
+* Sat Aug 15 2020 Antonio Trande <sagitter@fedoraproject.org> - 2.2.2-6
+- Fix MUMPS versions
+
+* Sat Aug 15 2020 Antonio Trande <sagitter@fedoraproject.org> - 2.2.2-5
+- Fix conftest build error in the MPI builds
+
+* Thu Aug 13 2020 Antonio Trande <sagitter@fedoraproject.org> - 2.2.2-4
+- Use flexiblas on Fedora 33+
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 09 2020 Antonio Trande <sagitter@fedoraproject.org> - 2.2.2-1
 - Release 2.2.2
 

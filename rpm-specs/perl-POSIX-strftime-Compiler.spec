@@ -1,6 +1,6 @@
 Name:           perl-POSIX-strftime-Compiler
-Version:        0.42
-Release:        12%{?dist}
+Version:        0.44
+Release:        1%{?dist}
 Summary:        GNU C library compatible strftime for loggers and servers
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/POSIX-strftime-Compiler
@@ -12,8 +12,7 @@ BuildRequires:  perl-generators
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(Exporter)
 BuildRequires:  perl(File::Basename)
-BuildRequires:  perl(File::Spec)
-BuildRequires:  perl(Module::Build)
+BuildRequires:  perl(Module::Build::Tiny) >= 0.035
 BuildRequires:  perl(POSIX)
 BuildRequires:  perl(Test::More) >= 0.98
 BuildRequires:  perl(Time::Local)
@@ -34,11 +33,11 @@ useful when you want to write loggers, servers and portable applications.
 %setup -q -n POSIX-strftime-Compiler-%{version}
 
 %build
-%{__perl} Build.PL installdirs=vendor
+%{__perl} Build.PL --installdirs=vendor
 ./Build
 
 %install
-./Build install destdir=$RPM_BUILD_ROOT create_packlist=0
+./Build install --destdir=$RPM_BUILD_ROOT --create_packlist=0
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
@@ -51,6 +50,16 @@ useful when you want to write loggers, servers and portable applications.
 %{_mandir}/man3/*
 
 %changelog
+* Sun Aug 23 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 0.44-1
+- Update to 0.44.
+
+* Fri Jul 31 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 0.43-1
+- Update to 0.43.
+- Reflect package having switched to Module::Build::Tiny.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.42-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.42-12
 - Perl 5.32 rebuild
 

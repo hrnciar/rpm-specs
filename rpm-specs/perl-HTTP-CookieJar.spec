@@ -1,6 +1,6 @@
 Name:           perl-HTTP-CookieJar
-Version:        0.008
-Release:        15%{?dist}
+Version:        0.010
+Release:        1%{?dist}
 Summary:        Minimalist HTTP user agent cookie jar
 License:        ASL 2.0
 URL:            https://metacpan.org/release/HTTP-CookieJar
@@ -56,6 +56,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Mon Sep 21 2020 Yanko Kaneti <yaneti@declera.com> 0.010-1
+- Update to 0.010
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.008-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.008-15
 - Perl 5.32 rebuild
 

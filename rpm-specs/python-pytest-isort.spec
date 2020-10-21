@@ -1,13 +1,13 @@
 %global pypi_name pytest-isort
 
 Name:           python-%{pypi_name}
-Version:        0.3.1
-Release:        4%{?dist}
+Version:        1.2.0
+Release:        1%{?dist}
 Summary:        Pytest plugin to check import ordering using isort
 
 License:        BSD
 URL:            http://github.com/moccu/pytest-isort/
-Source0:        http://github.com/moccu/pytest-isort/archive/%{version}/%{pypi_name}-%{version}.tar.gz
+Source0:        %{pypi_source}
 BuildArch:      noarch
 
 %description
@@ -49,6 +49,15 @@ rm -rf %{buildroot}%{python3_sitelib}/__pycache__/pytest_isort.cpython-%{python3
 %{python3_sitelib}/pytest_isort-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Fri Sep 11 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.2.0-1
+- Update to latest upstream release 1.2.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.1.0-1
+- Update to latest upstream release 1.1.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.1-4
 - Rebuilt for Python 3.9
 

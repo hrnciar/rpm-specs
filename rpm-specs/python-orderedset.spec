@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        2.0.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Ordered set implementation in Cython
 
 License:        BSD
@@ -38,7 +38,6 @@ Summary:        Ordered set implementation in Cython
 
 Provides:       bundled(jquery)
 Provides:       bundled(js-underscore)
-%{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
 %common_desc
@@ -68,6 +67,9 @@ PYTHONPATH=$PWD %{__python3} setup.py test
 %{python3_sitearch}/%{srcname}*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.3-2
 - Rebuilt for Python 3.9
 

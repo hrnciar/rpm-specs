@@ -6,7 +6,7 @@
 
 Name:           python-%{pkgname}
 Version:        0.2.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        %{sum}
 
 License:        GPLv3
@@ -126,6 +126,9 @@ exit 0
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{pkgname}.conf
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.0-2
 - Rebuilt for Python 3.9
 

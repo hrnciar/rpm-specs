@@ -1,16 +1,14 @@
 %global pypi_name rarfile
 
 Name:           python-%{pypi_name}
-Version:        3.1
-Release:        3%{?dist}
-Summary:        A RAR archive reader for Python
+Version:        4.0
+Release:        1%{?dist}
+Summary:        RAR archive reader for Python
 
 License:        ISC
 URL:            https://github.com/markokr/rarfile
-Source0:        https://github.com/markokr/rarfile/archive/%{pypi_name}_3_1.tar.gz
+Source0:        %{url}/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
 Buildarch:      noarch
-
-BuildRequires:  python3-devel
 
 %description
 This is Python module for RAR archive reading. The interface is made as
@@ -18,6 +16,9 @@ zipfile like as possible.
 
 %package -n python3-%{pypi_name}
 Summary:        %{summary}
+
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
 %description -n python3-%{pypi_name}
@@ -25,7 +26,7 @@ This is Python module for RAR archive reading. The interface is made as
 zipfile like as possible.
 
 %prep
-%autosetup -n %{pypi_name}-%{pypi_name}_3_1
+%autosetup -n %{pypi_name}-%{version}
 
 %build
 %py3_build
@@ -41,6 +42,15 @@ zipfile like as possible.
 %{python3_sitelib}/__pycache__/%{pypi_name}*
 
 %changelog
+* Thu Aug 06 2020 Fabian Affolter <mail@fabian-affolter.ch> - 4.0-1
+- Update to latest upstream release 4.0 (rhbz#1858640)
+
+* Tue Jul 28 2020 Fabian Affolter <mail@fabian-affolter.ch> - 3.3-1
+- Update to latest upstream release 3.3 (rhbz#1858640)
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 3.1-4
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.1-3
 - Rebuilt for Python 3.9
 

@@ -12,15 +12,13 @@ database system. The Python wrappers allow you to store Python string objects of
 any length.}
 
 Name:           python-%{srcname}
-Version:        6.2.6
-Release:        10%{?dist}
+Version:        6.2.7
+Release:        1%{?dist}
 Summary:        Python 3 bindings for Berkeley DB
 
 License:        BSD
 URL:            https://pypi.org/project/bsddb3
 Source0:        %{pypi_source}
-
-Patch:          bsddb3-collections-abc.patch
 
 BuildRequires:  gcc libdb-devel
 
@@ -116,6 +114,12 @@ rm -f %{buildroot}%{_includedir}/python3.*/%{srcname}/bsddb.h
 %endif
 
 %changelog
+* Tue Oct 20 2020 Jan Staněk <jstanek@redhat.com> - 6.2.7-1
+- Upgrade to version 6.2.7
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2.6-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 6.2.6-10
 - Rebuilt for Python 3.9
 

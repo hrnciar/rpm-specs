@@ -5,7 +5,7 @@
 
 Name:           aseman-qt-tools
 Version:        1.0.0
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Shared tools and functions, used in the aseman's projects
 
 License:        GPLv3+
@@ -52,6 +52,9 @@ popd
 %{_qt5_qmldir}/AsemanTools/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

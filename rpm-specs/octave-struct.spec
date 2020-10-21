@@ -2,7 +2,7 @@
 
 Name:           octave-%{octpkg}
 Version:        1.0.16
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Structure handling for Octave
 License:        GPLv3+
 URL:            https://octave.sourceforge.io/struct/
@@ -49,6 +49,9 @@ included in the octave core.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.16-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.16-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:		megaglest
 Version:	3.13.0
-Release:	4%{?dist}
+Release:	6%{?dist}
 Summary:	Open Source 3d real time strategy game
 License:	GPLv3+ and GPL+
 Url:		http://megaglest.org/
@@ -99,6 +99,13 @@ install -d $RPM_BUILD_ROOT%{_datadir}/megaglest
 %{_datadir}/megaglest/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.13.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.13.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 3.13.0-4
 - Correct Fedora 32 FTBFS (#1799642)
 

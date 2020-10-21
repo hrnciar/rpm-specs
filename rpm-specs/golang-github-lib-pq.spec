@@ -3,7 +3,7 @@
 
 # https://github.com/lib/pq
 %global goipath         github.com/lib/pq
-Version:                1.3.0
+Version:                1.8.0
 
 %gometa
 
@@ -28,6 +28,10 @@ Source2:        glide.lock
 Patch0001:      0001-Skip-TestCloseBadConn-if-PGHOST-is-a-Unix-domain-soc.patch
 
 BuildRequires:  postgresql-test-rpm-macros
+BuildRequires:  golang(github.com/jcmturner/gokrb5/v8/client)
+BuildRequires:  golang(github.com/jcmturner/gokrb5/v8/config)
+BuildRequires:  golang(github.com/jcmturner/gokrb5/v8/credentials)
+BuildRequires:  golang(github.com/jcmturner/gokrb5/v8/spnego)
 
 %description
 %{common_description}
@@ -53,6 +57,16 @@ export PGUSER=$(id -un) PGPASSWORD=$(id -un) PGDATABASE=$(id -un)
 %gopkgfiles
 
 %changelog
+* Sat Aug 15 00:22:00 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.8.0-1
+- Update to 1.8.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.3.0-1
 - Update to latest version
 

@@ -3,8 +3,7 @@
 
 # https://github.com/sendgrid/sendgrid-go
 %global goipath         github.com/sendgrid/sendgrid-go
-Version:                3.4.1
-%global commit          df2105ec04e32aff6b9e9a2fd1ca8e5c16a836c5
+Version:                3.6.0
 
 %gometa
 
@@ -17,20 +16,19 @@ Go.}
                         CONTRIBUTING.md README.md TROUBLESHOOTING.md USAGE.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Official SendGrid Led, Community Driven Golang API Library
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
-# Fix Sprintf format for p.To, p.CC and p.BCC
-Patch0:         0001-Fix-Sprintf-format-for-p.To-p.CC-and-p.BCC.patch
 
 BuildRequires:  golang(github.com/sendgrid/rest)
 
 %if %{with check}
 # Tests
 BuildRequires:  golang(github.com/stretchr/testify/assert)
+BuildRequires:  golang(github.com/stretchr/testify/require)
 %endif
 
 %description
@@ -40,7 +38,6 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 
 %prep
 %goprep
-%patch0 -p1
 
 %install
 %gopkginstall
@@ -54,6 +51,12 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 17:37:25 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.6.0-1
+- Update to 3.6.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

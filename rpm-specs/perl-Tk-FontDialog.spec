@@ -2,7 +2,7 @@
 
 Name:           perl-Tk-FontDialog
 Version:        0.18
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        Font dialog widget for perl/Tk
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Tk-FontDialog
@@ -60,6 +60,12 @@ perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.18-11
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

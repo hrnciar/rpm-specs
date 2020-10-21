@@ -16,7 +16,7 @@
 Summary:	Rspec 2 doubles (mocks and stubs)
 Name:		rubygem-%{rpmgem_name}
 Version:	%{majorver}
-Release:	%{?preminorver:0.}%{fedorarel}%{?preminorver:%{rpmminorver}}%{?dist}.4
+Release:	%{?preminorver:0.}%{fedorarel}%{?preminorver:%{rpmminorver}}%{?dist}.5
 
 License:	MIT
 URL:		http://github.com/rspec/rspec-mocks
@@ -68,7 +68,7 @@ rm -f %{buildroot}%{gem_instdir}/{.document,.gitignore,.travis.yml,.yardopts}
 pushd .%{gem_instdir}
 sed -i.yaml spec/rspec/mocks/serialization_spec.rb \
 	-e '\@::YAML::ENGINE.yamler@d'
-%if 0%{?fedora} >= 28
+%if 0%{?fedora} >= 28 || 0%{?rhel} >= 9
 # ruby 2.5 changed toplevel constant behavior, disabling no longer applicable test
 sed -i.toplevel spec/rspec/mocks/mutate_const_spec.rb \
 	-e '\@expect.TestClass::Hash.@d'
@@ -92,6 +92,12 @@ ruby -rrubygems -Ilib/ -S rspec2 spec/
 %exclude	%{gem_instdir}/spec/
 
 %changelog
+* Wed Aug 05 2020 Merlin Mathesius <mmathesi@redhat.com> - 2.14.6-6.5
+- Minor conditional fix for ELN
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.14.6-6.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.14.6-6.4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

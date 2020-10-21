@@ -1,7 +1,7 @@
 Name:           xml-maven-plugin
 Summary:        Maven XML Plugin
 Version:        1.0.2
-Release:        5%{?dist}
+Release:        7%{?dist}
 License:        ASL 2.0
 
 URL:            https://www.mojohaus.org/xml-maven-plugin/
@@ -60,6 +60,12 @@ sed -i 's|stylesheet |stylesheet version="1.0" |'  src/it/it8/src/main/xsl/it8.x
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.0.2-6
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

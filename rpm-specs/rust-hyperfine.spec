@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        1.10.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Command-line benchmarking tool
 
 # Upstream license specification: MIT/Apache-2.0
@@ -80,6 +80,12 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
 %endif
 
 %changelog
+* Sun Aug 16 15:01:31 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.10.0-4
+- Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 07:34:32 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.10.0-2
 - Update indicatif to 0.15
 

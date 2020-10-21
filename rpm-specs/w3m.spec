@@ -1,7 +1,7 @@
 # These are the build option passed to ./configure command
 %global build_options  --enable-m17n --enable-unicode --enable-nls --with-editor=/bin/vi --with-mailer="gnome-open mailto:%s" --with-browser=gnome-open --with-charset=UTF-8 --with-gc --with-termlib=ncurses --enable-nntp --enable-gopher --enable-image=x11,fb --with-imagelib=gtk2 --enable-keymap=w3m
 
-%global gitdate 20190105
+%global gitdate 20200502
 
 # This is for file encoding/conversions
 %global   with_utf8 1
@@ -10,12 +10,16 @@
 
 Name:     w3m
 Version:  0.5.3
-Release:  46.git%{gitdate}%{?dist}
+Release:  48.git%{gitdate}%{?dist}
 # UCD is added for EastAsianWidth.txt source
 License:  MIT and UCD
 URL:      http://w3m.sourceforge.net/
 BuildRequires:  ncurses-devel
+%if 0%{?fedora} || 0%{?rhel} > 7
 BuildRequires:  openssl-devel
+%else
+BuildRequires:  openssl11-devel
+%endif
 BuildRequires:  perl-generators
 BuildRequires:  pkgconfig
 BuildRequires:  gettext-devel
@@ -67,7 +71,7 @@ w3m-img package as well.
 %package img
 Summary: A helper program to display the inline images for w3m
 Requires: ImageMagick
-Requires: %{name} = %{version}-%{release}
+Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %description img
 w3m-img package provides a helper program for w3m to display the inline
@@ -116,14 +120,18 @@ for file in scripts/w3mhelp-funcdesc.ja.pl.in; do
 done
 
 %build
+%if 0%{?rhel} == 7
+export SSL_CFLAGS="$(pkg-config --cflags-only-I openssl11)"
+export SSL_LIBS="$(pkg-config --libs-only-L openssl11)"
+%endif
+
 %configure %{build_options}
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=%{buildroot} INSTALL="install -p"
+%make_install
 
-mkdir -p %{buildroot}%{_sysconfdir}/w3m
-install -p -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/w3m/config
+install -D -p -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/w3m/config
 
 rm -f doc*/w3m.1
 
@@ -148,6 +156,12 @@ rm -f doc*/w3m.1
 %{_libexecdir}/w3m/w3mimgdisplay
 
 %changelog
+* Tue Oct 06 2020 Robert Scheck <robert@fedoraproject.org> - 0.5.3-48.git20200502
+- Rebase to latest upstream gitrev 20200502
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-47.git20190105
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.5.3-46.git20190105
 - Perl 5.32 rebuild
 

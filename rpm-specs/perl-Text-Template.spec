@@ -2,8 +2,8 @@
 %bcond_without perl_Text_Template_enables_optional_test
 
 Name:           perl-Text-Template
-Version:        1.58
-Release:        3%{?dist}
+Version:        1.59
+Release:        2%{?dist}
 Summary:        Expand template text with embedded Perl
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Text-Template
@@ -69,6 +69,12 @@ make test
 %{_mandir}/man3/*.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.59-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Tom Callaway <spot@fedoraproject.org> - 1.59-1
+- update to 1.59
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.58-3
 - Perl 5.32 rebuild
 

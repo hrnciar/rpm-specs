@@ -18,7 +18,7 @@
 
 Name:           toped
 Version:        0.9.81
-Release:        25.svn2211%{?dist}
+Release:        27.svn2211%{?dist}
 Summary:        VLSI IC Layout Editor
 
 License:        GPLv2
@@ -59,7 +59,7 @@ Toped is listed among Fedora Electronic Lab packages.
 # -n %{name}-%{version}
 
 # RHBZ#679511 - toped 0.9.70-1 not built with $RPM_OPT_FLAGS
-sed -i.cflags "s|CXXFLAGS=\".*\"|CXXFLAGS=\"\%{optflags} -DNDEBUG\"|g" configure
+sed -i.cflags "s|CXXFLAGS=\".*\"|CXXFLAGS=\"-std=c++14 \%{optflags} -DNDEBUG\"|g" configure
 
 %if %{?devel}
 %{__make} -f Makefile.cvs
@@ -142,6 +142,12 @@ source %{_sysconfdir}/profile.d/toped.sh
 
 
 %changelog
+* Wed Aug 19 2020 Jeff Law <law@redhat.com> - 0.9.81-27.svn2211
+- Force C++14 as this code is not C++17 ready
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.81-26.svn2211
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.81-25.svn2211
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

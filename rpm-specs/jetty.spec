@@ -40,7 +40,7 @@
 %global appdir      %{jettylibdir}/webapps
 
 
-%global addver  .v20200611
+%global addver  .v20200723
 
 # minimal version required to build eclipse and thermostat
 # eclipse needs: util, server, http, continuation, io, security, servlet
@@ -49,8 +49,8 @@
 %bcond_without  jp_minimal
 
 Name:           jetty
-Version:        9.4.30
-Release:        1%{addver}%{?dist}
+Version:        9.4.31
+Release:        3%{?dist}
 Summary:        Java Webserver and Servlet Container
 
 # Jetty is dual licensed under both ASL 2.0 and EPL 1.0, see NOTICE.txt
@@ -64,6 +64,7 @@ Source5:        %{name}.service
 Source6:        LICENSE-MIT
 
 Patch1:         0001-Distro-jetty.home.patch
+Patch2:         0002-Port-to-servlet-api-4-5.patch
 
 BuildRequires:  maven-local
 BuildRequires:  mvn(javax.servlet:javax.servlet-api)
@@ -587,6 +588,7 @@ License:        (ASL 2.0 or EPL-1.0) and MIT
 %setup -q -n %{name}.project-%{name}-%{version}%{addver}
 
 %patch1 -p1
+%patch2 -p1
 
 find . -name "*.?ar" -exec rm {} \;
 find . -name "*.class" -exec rm {} \;
@@ -611,6 +613,10 @@ find . -name "*.class" -exec rm {} \;
 %pom_remove_plugin -r :flatten-maven-plugin jetty-bom
 
 %pom_disable_module aggregates/jetty-all
+
+# Reflective use of classes that might not be present in the JDK should be optional OSGi-wise
+%pom_xpath_inject "pom:configuration/pom:instructions" \
+"<Import-Package>sun.misc;resolution:=optional,com.sun.nio.file;resolution:=optional,*</Import-Package>"
 
 # Use proper groupId for apache ant
 %pom_xpath_replace "pom:groupId[text()='ant']" "<groupId>org.apache.ant</groupId>" jetty-ant/pom.xml
@@ -970,6 +976,23 @@ exit 0
 %license LICENSE NOTICE.txt LICENSE-MIT
 
 %changelog
+* Wed Aug 19 2020 Mat Booth <mat.booth@redhat.com> - 9.4.31-3
+- Rebuild to regenerate OSGi metadata for dependency on servlet-api
+- Add patch to build against new APIs in servlet 4
+
+* Thu Aug 13 2020 Mat Booth <mat.booth@redhat.com> - 9.4.31-2
+- Reflective use of classes that might not be present in the JDK should be
+  optional when expressed as OSGi dependencies
+
+* Wed Aug 12 2020 Mat Booth <mat.booth@redhat.com> - 9.4.31-1
+- Update to latest upstream release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.4.30-3.v20200611
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 9.4.30-2.v20200611
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jun 18 2020 Mat Booth <mat.booth@redhat.com> - 9.4.30-1.v20200611
 - Update to latest upstream release
 

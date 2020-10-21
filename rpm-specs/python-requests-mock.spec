@@ -1,13 +1,3 @@
-%if 0%{?fedora} || 0%{?rhel} > 7
-# Enable python3 build by default
-%bcond_without python3
-# Disable python2 build by default
-%bcond_with python2
-%else
-%bcond_with python3
-%bcond_without python2
-%endif
-
 %if 0%{?rhel} >= 8
 # Disable tests on epel8 - dependencies dont exist.
 %bcond_with tests
@@ -16,8 +6,8 @@
 %endif
 
 Name:           python-requests-mock
-Version:        1.7.0
-Release:        3%{?dist}
+Version:        1.8.0
+Release:        1%{?dist}
 Summary:        A requests mocking tool for python
 
 License:        ASL 2.0
@@ -33,47 +23,7 @@ BuildArch:      noarch
 requests-mock provides a simple way to do HTTP mocking at the
 python-requests layer.
 
-%if %{with python2}
-%package -n python2-requests-mock
-Summary:        A requests mocking tool for python
 
-Requires:       python2-requests
-Requires:       python2-six
-
-# This {?fedora:2} syntax is because it's python2- on f28+ but just python- on
-# epel still. Hopefully this can be removed when epel is fixed.
-BuildRequires:  python%{?fedora:2}-urllib3
-
-# standard requirements needed for testing
-BuildRequires:  python2-requests
-BuildRequires:  python2-six
-
-BuildRequires:  python2-devel
-BuildRequires:  python2-pbr
-BuildRequires:  python2-setuptools
-
-%if 0%{?rhel} && 0%{?rhel} <= 6
-BuildRequires:  python-discover
-%endif
-
-%if %{with tests}
-BuildRequires:  python2-mock
-BuildRequires:  python2-pytest
-BuildRequires:  python%{?fedora:2}-fixtures
-BuildRequires:  python%{?fedora:2}-testtools
-%endif
-
-
-%{?python_provide:%python_provide python2-requests-mock}
-
-
-%description -n python2-requests-mock
-requests-mock provides a simple way to do HTTP mocking at the
-python-requests layer.
-%endif
-
-
-%if %{with python3}
 %package -n python%{python3_pkgversion}-requests-mock
 Summary:        A requests mocking tool for python
 
@@ -102,7 +52,6 @@ BuildRequires:  python%{python3_pkgversion}-pytest
 %description -n python%{python3_pkgversion}-requests-mock
 requests-mock provides a simple way to do HTTP mocking at the
 python-requests layer.
-%endif
 
 
 %prep
@@ -115,58 +64,35 @@ rm -rf requests_mock.egg-info
 
 
 %build
-%if %{with python2}
-%py2_build
-%endif
-
-%if %{with python3}
 %py3_build
-%endif
 
 
 %install
-%if %{with python2}
-%py2_install
-%endif
-
-%if %{with python3}
 %py3_install
-%endif
 
 
 %check
 %if %{with tests}
-%if %{with python2}
-%{__python2} -m testtools.run discover
-%{__python2} -m pytest tests/pytest
-%endif
-
-%if %{with python3}
 %{__python3} -m testtools.run discover
 %{__python3} -m pytest tests/pytest
 %endif
-%endif
 
 
-%if %{with python2}
-%files -n python2-requests-mock
-%license LICENSE
-%doc README.rst ChangeLog
-%{python2_sitelib}/requests_mock
-%{python2_sitelib}/requests_mock-%{version}-py%{python2_version}.egg-info
-%endif
-
-
-%if %{with python3}
 %files -n python%{python3_pkgversion}-requests-mock
 %license LICENSE
 %doc README.rst ChangeLog
 %{python3_sitelib}/requests_mock
 %{python3_sitelib}/requests_mock-%{version}-py%{python3_version}.egg-info
-%endif
 
 
 %changelog
+* Tue Sep 15 2020 Joel Capitao <jcapitao@redhat.com> - 1.8.0-1
+- Update to 1.8.0
+- Remove Python 2 subpackage
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.0-3
 - Rebuilt for Python 3.9
 

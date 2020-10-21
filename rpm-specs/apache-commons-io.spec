@@ -1,46 +1,96 @@
+# unit tests do not finish or crash the JVM
+%bcond_with tests
+
+%global srcname commons-io
+
 Name:           apache-commons-io
 Epoch:          1
-Version:        2.6
-Release:        8%{?dist}
+Version:        2.8.0
+Release:        1%{?dist}
 Summary:        Utilities to assist with developing IO functionality
 License:        ASL 2.0
-URL:            http://commons.apache.org/io
+
+URL:            https://commons.apache.org/io
+Source0:        https://archive.apache.org/dist/commons/io/source/%{srcname}-%{version}-src.tar.gz
+
 BuildArch:      noarch
 
-Source0:        http://archive.apache.org/dist/commons/io/source/commons-io-%{version}-src.tar.gz
-
 BuildRequires:  maven-local
-BuildRequires:  mvn(junit:junit)
 BuildRequires:  mvn(org.apache.commons:commons-parent:pom:)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-antrun-plugin)
+
+%if %{with tests}
+BuildRequires:  mvn(junit:junit)
+BuildRequires:  mvn(org.junit.jupiter:junit-jupiter)
+BuildRequires:  mvn(org.mockito:mockito-core)
+BuildRequires:  mvn(org.apache.maven.surefire:surefire-junit-platform)
+%endif
 
 %description
 Commons-IO contains utility classes, stream implementations,
 file filters, and endian classes. It is a library of utilities
 to assist with developing IO functionality.
 
-%{?javadoc_package}
+
+%package javadoc
+Summary:        Javadoc for %{name}
+
+%description javadoc
+API documentation for %{name}.
+
 
 %prep
-%setup -q -n commons-io-%{version}-src
+%setup -q -n %{srcname}-%{version}-src
 sed -i 's/\r//' *.txt
 
-%build
+%if %{with tests}
+# com.google.jimfs:jimfs is not packaged for fedora
+%pom_remove_dep com.google.jimfs:jimfs
+rm src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamFile.java
+
+# junit-pioneer is not packaged for fedora
+%pom_remove_dep :junit-pioneer
+rm src/test/java/org/apache/commons/io/input/XmlStreamReaderTest.java
+rm src/test/java/org/apache/commons/io/output/XmlStreamWriterTest.java
+%endif
+
 %mvn_file  : commons-io %{name}
 %mvn_alias : org.apache.commons:
 
-# NOTE: tests *may* fail because commons-io is on surefire's classpath and causes
-# tests to be run against the system version and not the one we just built
+
+%build
+%if %{with tests}
 %mvn_build -- -Dcommons.osgi.symbolicName=org.apache.commons.io
+%else
+%mvn_build -f -- -Dcommons.osgi.symbolicName=org.apache.commons.io
+%endif
+
 
 %install
 %mvn_install
+
 
 %files -f .mfiles
 %license LICENSE.txt NOTICE.txt
 %doc RELEASE-NOTES.txt
 
+%files javadoc -f .mfiles-javadoc
+%license LICENSE.txt NOTICE.txt
+
+
 %changelog
+* Fri Oct 16 2020 Fabio Valentini <decathorpe@gmail.com> - 1:2.8.0-1
+- Update to version 2.8.0.
+
+* Tue Aug 18 2020 Fabio Valentini <decathorpe@gmail.com> - 1:2.7-1
+- Update to version 2.7.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.6-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1:2.6-9
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.6-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -170,3 +220,4 @@ sed -i 's/\r//' *.txt
 * Tue May 11 2010 Stanislav Ochotnicky <sochotnicky@redhat.com> - 1:1.4-1
 - Rename and rebase of jakarta-commons-io
 - Clean up whole spec
+

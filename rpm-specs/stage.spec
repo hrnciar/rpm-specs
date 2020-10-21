@@ -1,8 +1,9 @@
+%undefine __cmake_in_source_build
 %global abiversion 4.3
 
 Name:           stage
 Version:        4.3.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        A 2.5D multi-robot simulator
 
 License:        GPLv2+
@@ -66,14 +67,10 @@ and manipulated through the Player server.
 %patch0 -p0
 %patch5 -p1 -b .libdir
 %patch6 -p1 -b .printf
-%build
-mkdir build
-pushd build
-%cmake ..
-popd
 
-# Parallel build causes strange errors
-make -C build %{?_smp_mflags}
+%build
+%cmake -DCMAKE_BUILD_TYPE=Release
+%cmake_build
 
 # Documentation builds separately
 pushd docsrc
@@ -82,7 +79,7 @@ mv stage html
 popd
 
 %install
-%make_install -C build
+%cmake_install
 chmod +x %{buildroot}%{_datadir}/stage/worlds/*.sh
 
 # These config files are broken, remove them
@@ -111,6 +108,13 @@ rm -rf %{buildroot}%{_datadir}/stage/worlds/wifi*
 %{_includedir}/Stage-%{abiversion}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

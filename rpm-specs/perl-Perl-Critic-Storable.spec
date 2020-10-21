@@ -1,6 +1,6 @@
 Name:           perl-Perl-Critic-Storable
 Version:        0.01
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        Policy for Storable.pm
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Perl-Critic-Storable
@@ -47,6 +47,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.01-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.01-27
 - Perl 5.32 rebuild
 

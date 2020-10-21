@@ -4,13 +4,13 @@
 # trim changelog included in binary rpms
 %global _changelog_trimtime %(date +%s -d "1 year ago")
 
-Name:           libkgapi
-Version: 20.04.2
+Name:    libkgapi
+Version: 20.08.1
 Release: 1%{?dist}
-Summary:        Library to access to Google services
+Summary: Library to access to Google services
 
-License:        GPLv2+
-URL:            https://cgit.kde.org/%{name}.git
+License: GPLv2+
+URL:     https://cgit.kde.org/%{name}.git
 
 %global revision %(echo %{version} | cut -d. -f3)
 %if %{revision} >= 50
@@ -66,16 +66,13 @@ resources.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang_kf5 libkgapi_qt
 
@@ -84,7 +81,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 %files -f libkgapi_qt.lang
 %doc README*
-%license LICENSE
+%license LICENSES/*
 %{_kf5_datadir}/qlogging-categories5/*%{framework}.*
 %{_kf5_libdir}/libKPimGAPIBlogger.so.5*
 %{_kf5_libdir}/libKPimGAPICalendar.so.*
@@ -120,6 +117,25 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Mon Aug 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-4
+- use new cmake macros, cosmetics
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.2-1
 - 20.04.2
 

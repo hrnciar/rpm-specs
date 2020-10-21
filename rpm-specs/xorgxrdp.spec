@@ -1,14 +1,13 @@
 %global xorg_server_version %(pkg-config --silence-errors --modversion xorg-server 2>/dev/null || echo 65536)
 
 Name:           xorgxrdp
-Version:        0.2.13
-Release:        2%{?dist}
+Version:        0.2.14
+Release:        3%{?dist}
 Summary:        Implementation of xrdp backend as Xorg modules
 
 License:        MIT
 URL:            https://github.com/neutrinolabs/xorgxrdp
 Source0:        https://github.com/neutrinolabs/xorgxrdp/releases/download/v%{version}/%{name}-%{version}.tar.gz
-Patch0:         xorgxrdp-0.2.12-xrandr-resize-revert.patch
 
 BuildRequires:  nasm
 BuildRequires:  xorg-x11-server-devel
@@ -56,6 +55,22 @@ for screen resizing and multiple monitors.
 
 
 %changelog
+* Mon Oct 12 2020 Bojan Smojver <bojan@rexursive.com> - 0.2.14-3
+- Rebuild against xorg-x11-server 1.20.9
+
+* Tue Sep  1 2020 Bojan Smojver <bojan@rexursive.com> - 0.2.14-2
+- Enable s390x
+
+* Tue Sep  1 2020 Bojan Smojver <bojan@rexursive.com> - 0.2.14-1
+- Bump up to 0.2.14
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.13-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.13-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 16 2020 Bojan Smojver <bojan@rexursive.com> - 0.2.13-2
 - Rebuild against Xorg 1.20.8
 

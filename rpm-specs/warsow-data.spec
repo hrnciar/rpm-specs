@@ -1,6 +1,6 @@
 Name:           warsow-data
 Version:        2.1.2
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Game data for Warsow
 
 # For a breakdown of the licensing, see license.txt
@@ -51,6 +51,9 @@ cp -a basewsw $RPM_BUILD_ROOT%{_datadir}/warsow/
 %{_datadir}/warsow/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

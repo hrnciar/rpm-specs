@@ -1,12 +1,13 @@
 Name:           simspark
 Version:        0.3.0
-Release:        17%{?dist}
+Release:        19%{?dist}
 Summary:        Spark physical simulation system
 
 License:        GPLv2
 URL:            http://simspark.sourceforge.net
 Source0:        http://downloads.sourceforge.net/simspark/%{name}-%{version}.tar.gz
 Patch0:         %{name}-confscript-mlibfix.patch
+Patch1:         %{name}-gcc11.patch
 
 BuildRequires:  gcc gcc-c++ cmake boost-devel ruby ruby-devel SDL-devel tex(latex)
 BuildRequires:  ode-devel libGL-devel DevIL-devel freetype-devel libGLU-devel
@@ -34,6 +35,7 @@ developing applications that use %{name}.
 %prep
 %setup -q
 %patch0 -p1 -b .mlibfix
+%patch1 -p1 -b .gcc11
 
 %build
 mkdir build
@@ -76,6 +78,12 @@ rm -rf %{buildroot}/%{_datadir}/doc
 %doc doc/devel/howtos doc/devel/manual.pdf
 
 %changelog
+* Sat Oct 17 2020 Jeff Law <law@redhat.com> - 0.3.0-19
+- Fix missing #include for gcc-11
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 0.3.0-17
 - Rebuilt for Boost 1.73
 

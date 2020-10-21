@@ -7,7 +7,7 @@ application.
 
 Name:       python-%{pkg_name}
 Version:    2.0.2
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    Flask html response minifier
 License:    BSD
 URL:        https://github.com/hamidfzm/%{mod_name}
@@ -51,6 +51,9 @@ Requires:  python%{python3_pkgversion}-htmlmin
 %{python3_sitelib}/*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.2-2
 - Rebuilt for Python 3.9
 

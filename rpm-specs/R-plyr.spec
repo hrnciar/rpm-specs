@@ -7,7 +7,7 @@
 
 Name:             R-%{packname}
 Version:          1.8.6
-Release:          2%{?dist}
+Release:          4%{?dist}
 Summary:          Tools for Splitting, Applying and Combining Data
 
 License:          MIT
@@ -86,6 +86,13 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.6-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 1.8.6-2
 - rebuild for R 4
 

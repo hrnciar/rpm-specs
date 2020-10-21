@@ -1,6 +1,6 @@
 Name:           perl-YAML-PP
-Version:        0.022
-Release:        2%{?dist}
+Version:        0.026
+Release:        1%{?dist}
 Summary:        YAML 1.2 processor
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/YAML-PP/
@@ -16,7 +16,6 @@ BuildRequires:  perl(Config)
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
-BuildRequires:  sed
 # Run-time
 BuildRequires:  perl(B)
 BuildRequires:  perl(B::Deparse)
@@ -36,12 +35,15 @@ BuildRequires:  perl(Module::Load)
 BuildRequires:  perl(overload)
 BuildRequires:  perl(Scalar::Util) >= 1.07
 BuildRequires:  perl(Term::ANSIColor) >= 4.02
+BuildRequires:  perl(Tie::Array)
 BuildRequires:  perl(Tie::Hash)
+BuildRequires:  perl(Tie::StdArray)
 BuildRequires:  perl(Tie::StdHash)
 # Tests
 BuildRequires:  perl(blib) >= 1.01
 BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(FindBin)
+BuildRequires:  perl(IO::File)
 BuildRequires:  perl(IO::Handle)
 BuildRequires:  perl(IPC::Open3)
 BuildRequires:  perl(lib)
@@ -57,6 +59,12 @@ Requires:       perl(JSON::PP)
 Requires:       perl(Scalar::Util) >= 1.07
 Requires:       perl(Term::ANSIColor)
 Requires:       perl(Tie::IxHash)
+# bin/yamlpp-load can use various YAML implementations on user's request:
+Suggests:       perl(YAML)
+Suggests:       perl(YAML::PP::LibYAML)
+Suggests:       perl(YAML::Syck)
+Suggests:       perl(YAML::Tiny)
+Suggests:       perl(YAML::XS)
 
 %global __requires_exclude %{?__requires_exclude:__requires_exclude|}^perl\\(Scalar::Util\\)$
 
@@ -67,9 +75,9 @@ It aims to support YAML 1.2 and YAML 1.1. See http://yaml.org/.
 %prep
 %setup -q -n YAML-PP-%{version}
 
-for i in `find e* -type f`; do
-    chmod -x $i
-    sed -i -e '1s|#!.*perl|%(perl -MConfig -e 'print $Config{startperl}')|' $i
+for i in $(find e* -type f); do
+    chmod -x "$i"
+    perl -i -MConfig -pe 's{\A#!.*perl}{$Config{startperl}}' "$i"
 done
 
 %build
@@ -85,12 +93,27 @@ make test
 
 %files
 %license LICENSE
-%doc Changes CONTRIBUTING.md etc examples README
+%doc Changes CONTRIBUTING.md etc examples README.md
 %{_bindir}/*
 %{perl_vendorlib}/*
 %{_mandir}/man3/*
 
 %changelog
+* Fri Sep 11 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.026-1
+- 0.026 bump
+
+* Mon Sep 07 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.025-1
+- 0.025 bump
+
+* Wed Aug 19 2020 Petr Pisar <ppisar@redhat.com> - 0.024-1
+- 0.024 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.023-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.023-1
+- 0.023 bump
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.022-2
 - Perl 5.32 rebuild
 

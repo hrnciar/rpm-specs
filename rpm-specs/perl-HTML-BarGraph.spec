@@ -1,6 +1,6 @@
 Name:           perl-HTML-BarGraph
 Version:        0.5
-Release:        29%{?dist}
+Release:        30%{?dist}
 Summary:        Generate multiset bar graphs using plain HTML
 License:        GPL+ or Artistic
 
@@ -48,6 +48,9 @@ make test
 %{_datadir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.5-29
 - Perl 5.32 rebuild
 

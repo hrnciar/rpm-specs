@@ -2,7 +2,7 @@
 
 Name:     opus
 Version:  1.3.1
-Release:  3%{?candidate:.%{candidate}}%{?dist}
+Release:  7%{?candidate:.%{candidate}}%{?dist}
 Summary:  An audio codec for use in low-delay speech and audio communication
 License:  BSD
 URL:      https://www.opus-codec.org/
@@ -64,6 +64,19 @@ make check %{?_smp_mflags} V=1
 %{_datadir}/man/man3/opus_*.3.gz
 
 %changelog
+* Mon Sep 28 2020 Jeff Law <law@redhat.com> - 1.3.1-7
+- Re-enable LTO as upstream GCC target/96939 has been fixed
+
+* Mon Aug 10 2020 Jeff Law <law@redhat.com> - 1.3.1-6
+- Disable LTO for now
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

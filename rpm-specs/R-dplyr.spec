@@ -1,15 +1,15 @@
 %global packname dplyr
-%global packver  0.8.5
+%global packver  1.0.2
 %global rlibdir  %{_libdir}/R/library
 
-%global __suggests_exclude ^R\\((Lahman|RMySQL|RPostgreSQL|broom)\\)
+%global __suggests_exclude ^R\\((Lahman|RMySQL|RPostgreSQL)\\)
 
 # When we are bootstrapping, we drop some dependencies, and/or build time tests.
-%bcond_without bootstrap
+%bcond_with bootstrap
 
 Name:             R-%{packname}
-Version:          0.8.5
-Release:          2%{?dist}
+Version:          1.0.2
+Release:          1%{?dist}
 Summary:          A Grammar of Data Manipulation
 
 License:          MIT
@@ -18,72 +18,60 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-ellipsis, R-assertthat >= 0.2.0, R-glue >= 1.3.0, R-magrittr >= 1.5, R-methods, R-pkgconfig, R-R6, R-Rcpp >= 1.0.1, R-rlang >= 0.4.0, R-tibble >= 2.0.0, R-tidyselect >= 0.2.5, R-utils
-# Suggests:  R-bit64, R-callr, R-covr, R-crayon >= 1.3.4, R-DBI, R-dbplyr, R-dtplyr, R-ggplot2, R-hms, R-knitr, R-Lahman, R-lubridate, R-MASS, R-mgcv, R-microbenchmark, R-nycflights13, R-rmarkdown, R-RMySQL, R-RPostgreSQL, R-RSQLite, R-testthat, R-withr, R-broom, R-purrr, R-readr
-# LinkingTo: R-BH, R-plogr >= 0.2.0, R-Rcpp >= 1.0.1
+# Imports:   R-ellipsis, R-generics, R-glue >= 1.3.2, R-lifecycle >= 0.2.0, R-magrittr >= 1.5, R-methods, R-R6, R-rlang >= 0.4.7, R-tibble >= 2.1.3, R-tidyselect >= 1.1.0, R-utils, R-vctrs >= 0.3.2
+# Suggests:  R-bench, R-broom, R-callr, R-covr, R-DBI, R-dbplyr >= 1.4.3, R-knitr, R-Lahman, R-lobstr, R-microbenchmark, R-nycflights13, R-purrr, R-rmarkdown, R-RMySQL, R-RPostgreSQL, R-RSQLite, R-testthat >= 2.1.0, R-withr
+# LinkingTo:
 # Enhances:
 
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    R-ellipsis
-BuildRequires:    R-assertthat >= 0.2.0
-BuildRequires:    R-glue >= 1.3.0
+BuildRequires:    R-generics
+BuildRequires:    R-glue >= 1.3.2
+BuildRequires:    R-lifecycle >= 0.2.0
 BuildRequires:    R-magrittr >= 1.5
 BuildRequires:    R-methods
-BuildRequires:    R-pkgconfig
 BuildRequires:    R-R6
-BuildRequires:    R-Rcpp-devel >= 1.0.1
-BuildRequires:    R-rlang >= 0.4.0
-BuildRequires:    R-tibble >= 2.0.0
-BuildRequires:    R-tidyselect >= 0.2.5
+BuildRequires:    R-rlang >= 0.4.7
+BuildRequires:    R-tibble >= 2.1.3
+BuildRequires:    R-tidyselect >= 1.1.0
 BuildRequires:    R-utils
-BuildRequires:    R-BH-devel
-BuildRequires:    R-plogr-devel >= 0.2.0
-BuildRequires:    R-bit64
+BuildRequires:    R-vctrs >= 0.3.2
 BuildRequires:    R-callr
-BuildRequires:    R-crayon >= 1.3.4
 BuildRequires:    R-DBI
-BuildRequires:    R-hms
 BuildRequires:    R-knitr
-BuildRequires:    R-lubridate
-BuildRequires:    R-MASS
-BuildRequires:    R-mgcv
+BuildRequires:    R-lobstr
 BuildRequires:    R-microbenchmark
+BuildRequires:    R-purrr
 BuildRequires:    R-rmarkdown
 BuildRequires:    R-RSQLite
-BuildRequires:    R-testthat
+BuildRequires:    R-testthat >= 2.1.0
 BuildRequires:    R-withr
-BuildRequires:    R-purrr
-BuildRequires:    R-readr
 %if %{without bootstrap}
-BuildRequires:    R-dbplyr
-BuildRequires:    R-dtplyr
-BuildRequires:    R-ggplot2
-BuildRequires:    R-Lahman
-BuildRequires:    R-nycflights13
-BuildRequires:    R-RMySQL
-BuildRequires:    R-RPostgreSQL
+BuildRequires:    R-bench
 BuildRequires:    R-broom
+BuildRequires:    R-dbplyr >= 1.4.3
+BuildRequires:    R-nycflights13
 %endif
+
+Obsoletes: %{name}-devel < 0.8.5-4
 
 %description
 A fast, consistent tool for working with data frame like objects, both in
 memory and out of memory.
 
 
-%package devel
-Summary:          Development files for %{name}
-Requires:         %{name}%{?_isa} = %{version}-%{release}
-
-%description devel
-Development files for %{name}.
-
-
 %prep
 %setup -q -c -n %{packname}
 
 # Don't need coverage; it's not packaged either.
-sed -i 's/covr, //g' %{packname}/DESCRIPTION
+# Lahman is not yet packaged.
+# RMySQL/RPostgreSQL are old wrappers, so won't be packaged by me at least.
+sed -i \
+    -e 's/covr, //g' \
+    -e 's/Lahman, //g' \
+    -e 's/RMySQL, RPostgreSQL, //g' \
+    %{packname}/DESCRIPTION
 
 
 %build
@@ -121,13 +109,18 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 %dir %{rlibdir}/%{packname}/libs
 %{rlibdir}/%{packname}/libs/%{packname}.so
 
-%files devel
-%{rlibdir}/%{packname}/include
-
 
 %changelog
+* Sat Sep 12 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.0.2-1
+- Update to latest version (#1841868)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.8.5-2
 - rebuild for R 4
+- broom is now an R package so it does not need to be excluded
+- remove from BuildRequires other packages that are not yet available
 
 * Sun Mar 15 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.8.5-1
 - Update to latest version

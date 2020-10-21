@@ -6,7 +6,7 @@
 Name:		coin-or-%{module}
 Summary:	Optimization Services
 Version:	2.10.2
-Release:	4%{?dist}
+Release:	6%{?dist}
 License:	EPL-1.0
 URL:		http://projects.coin-or.org/%{module}
 Source0:	http://www.coin-or.org/download/pkgsource/%{module}/%{module}-%{version}.tgz
@@ -103,7 +103,7 @@ sed -i 's/ @OSLIB_PCLIBS@/\nLibs.private:&/' os.pc.in
 # requires that, in some situations, this == NULL.  Tell GCC not to optimize
 # those checks away.  The code should really be fixed to not need this.
 export CFLAGS="%{optflags} -fno-delete-null-pointer-checks"
-export CXXFLAGS="$CFLAGS"
+export CXXFLAGS="$CFLAGS -std=c++14"
 
 # --with-flex-bison is to force parser regeneration; and ensure the
 # package is fully rebuildable from sources.
@@ -159,6 +159,12 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} make test
 %{_docdir}/%{name}/os_doxy.tag
 
 %changelog
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 2.10.2-6
+- Force C++14 as the code is not C++17 ready
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 21 2020 Jerry James <loganjerry@gmail.com> - 2.10.2-4
 - Make the -doc subpackage be arch-specific to work around FTBFS
 

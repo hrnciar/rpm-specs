@@ -23,12 +23,12 @@
 %global mathjax_short               27
 %global rstudio_version_major       1
 %global rstudio_version_minor       3
-%global rstudio_version_patch       959
-%global rstudio_git_revision_hash   3a09be39fd51a8fafa8ae330007937d31924b395
+%global rstudio_version_patch       1093
+%global rstudio_git_revision_hash   aee44535570639672cf61c0545113e7a62c90b5b
 
 Name:           rstudio
 Version:        %{rstudio_version_major}.%{rstudio_version_minor}.%{rstudio_version_patch}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        RStudio base package
 
 # AGPLv3:       RStudio, hunspell, tree.hh
@@ -51,8 +51,6 @@ Patch0:         0000-unbundle-dependencies-common.patch
 Patch1:         0001-unbundle-qtsingleapplication.patch
 # Remove the installation prefix from the exec path in the .desktop file
 Patch2:         0002-fix-rstudio-exec-path.patch
-# https://github.com/rstudio/rstudio/pull/6017
-Patch4:         0004-fix-build-under-Rv4.0.patch
 # https://github.com/rstudio/rstudio/pull/7011
 Patch6:         0006-boost-173-global-placeholders.patch
 
@@ -163,7 +161,7 @@ export RSTUDIO_VERSION_PATCH=%{rstudio_version_patch}
 export RSTUDIO_GIT_REVISION_HASH=%{rstudio_git_revision_hash}
 export GIT_COMMIT=%{rstudio_git_revision_hash}
 export PACKAGE_OS=$(cat /etc/redhat-release)
-%cmake . \
+%cmake -B build \
 %ifarch %{qt5_qtwebengine_arches}
     -DRSTUDIO_TARGET=Desktop \
     -DRSTUDIO_SERVER=TRUE \
@@ -175,12 +173,12 @@ export PACKAGE_OS=$(cat /etc/redhat-release)
     -DRSTUDIO_USE_SYSTEM_BOOST=Yes \
     -DBOOST_ROOT=%{_prefix} -DBOOST_LIBRARYDIR=%{_lib} \
     -DCMAKE_INSTALL_PREFIX=%{_libexecdir}/%{name}
-%make_build # ALL
+%make_build -C build # ALL
 export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
-%make_build gwt_build
+%make_build -C build gwt_build
 
 %install
-%make_install
+%make_install -C build
 # expose symlinks in /usr/bin
 install -d -m 0755 %{buildroot}%{_bindir}
 %ifarch %{qt5_qtwebengine_arches}
@@ -303,8 +301,32 @@ exit 0
 %config(noreplace) %{_sysconfdir}/pam.d/%{name}
 
 %changelog
-* Fri Jun 19 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.3.959-3
+* Sat Sep 19 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.3.1093-1
+- Update to 1.3.1093
+
+* Wed Aug 12 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.3.1073-1
+- Update to 1.3.1073
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1056-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1056-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Jiri Vanek <jvanek@redhat.com> - 1.3.1056-2
+- Rebuilt for JDK-11, attempt 2. see
+  https://fedoraproject.org/wiki/Changes/Java11
+
+* Wed Jul 15 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.3.1056-1
+- Update to 1.3.1056
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.3.959-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Fri Jul 03 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.3.959-3
 - Set PACKAGE_OS env variable
+- Move to out-of-source build
 
 * Tue Jun 16 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.3.959-2
 - Add R-rmarkdown to Recommends

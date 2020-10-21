@@ -1,6 +1,6 @@
 Name:           spim
 Version:        20200117
-Release:        0.1.svn%{?dist}
+Release:        0.2.svn%{?dist}
 Summary:        An assembly language MIPS32 simulator
 License:        BSD
 URL:            http://spimsimulator.sourceforge.net/
@@ -53,6 +53,9 @@ install -p -m 644 -D Documentation/spim.man %{buildroot}%{_mandir}/man1/spim.1
 %doc README
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200117-0.2.svn
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 08 2020 W. Michael Petullo <mike[@]flyn.org> - 20200117-0.1.svn
 - New upstream version
 

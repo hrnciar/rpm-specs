@@ -2,7 +2,7 @@
 %global pkg_name portlet-api_%{api_version}_spec
 Name:          portlet-2.0-api
 Version:       1.0
-Release:       19%{?dist}
+Release:       22%{?dist}
 Summary:       Java Portlet Specification V2.0
 License:       ASL 2.0
 Url:           http://portals.apache.org/
@@ -44,12 +44,14 @@ sed -i "s|javax.servlet.http;version=2.4,*|javax.servlet.http;version=3.0,*|" po
 %pom_remove_dep javax.servlet:servlet-api
 %pom_add_dep org.apache.tomcat:tomcat-servlet-api::provided
 
+# remove maven-compiler-plugin configuration that is broken with Java 11
+%pom_xpath_remove 'pom:plugin[pom:artifactId="maven-compiler-plugin"]/pom:configuration'
+
 %mvn_file :%{pkg_name} %{name}
 %mvn_alias :%{pkg_name} javax.portlet:portlet-api
 
 %build
-
-%mvn_build -- -Dproject.build.sourceEncoding=UTF-8
+%mvn_build -- -Dproject.build.sourceEncoding=UTF-8 -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 %install
 %mvn_install
@@ -61,6 +63,15 @@ sed -i "s|javax.servlet.http;version=2.4,*|javax.servlet.http;version=3.0,*|" po
 %license LICENSE NOTICE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0-21
+- Set javac source and target to 1.8 to fix Java 11 builds.
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.0-20
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

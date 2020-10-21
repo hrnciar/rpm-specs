@@ -1,6 +1,6 @@
 Name:           libosip2
 Version:        3.6.0
-Release:        18%{?dist}
+Release:        19%{?dist}
 
 Summary:        oSIP is an implementation of SIP
 
@@ -67,6 +67,9 @@ mv %{buildroot}%{_mandir}/man1/osip.1 %{buildroot}%{_mandir}/man1/osip2.1
 %{_mandir}/man1/osip2.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.0-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

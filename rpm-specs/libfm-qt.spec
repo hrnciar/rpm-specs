@@ -1,6 +1,6 @@
 Name: libfm-qt
 Version: 0.15.0
-Release: 1%{?dist}
+Release: 3%{?dist}
 Summary: Companion library for PCManFM
 License: GPLv2+
 URL: http://lxqt.org
@@ -108,6 +108,12 @@ sed -i "s/Requires:.*/Requires: Qt5Widgets Qt5X11Extras/" %{buildroot}/%{_libdir
 %dir %{_datadir}/libfm-qt/translations
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 0.15.0-3
+- rebuild (qt5)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 03 2020 Zamir SUN <sztsian@gmail.com> - 0.15.0-1
 - Update to 0.15.0
 

@@ -2,7 +2,7 @@
 
 Name:           trac-customfieldadmin-plugin
 Version:        0.2.5
-Release:        0.17.svn9652%{?dist}
+Release:        0.18.svn9652%{?dist}
 Summary:        Expose ticket custom fields via the web admin interface
 
 # BSD license derived from metadata in setup.py
@@ -37,6 +37,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python2_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.5-0.18.svn9652
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.5-0.17.svn9652
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,8 @@
+%global __cmake_in_source_build 1
 Summary:        A freely licensed alternative to the GLUT library
 Name:           freeglut
 Version:        3.2.1
-Release:        3%{?dist}
+Release:        6%{?dist}
 URL:            http://freeglut.sourceforge.net
 Source0:        https://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 # For the manpages
@@ -80,6 +81,16 @@ install -p -m 644 doc/man/*.3 $RPM_BUILD_ROOT/%{_mandir}/man3
 %{_libdir}/cmake/FreeGLUT/*
 
 %changelog
+* Tue Aug 04 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.2.1-6
+- Fix FTBFS.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.2.1-3
 - Fix FTBFS
 

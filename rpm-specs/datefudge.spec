@@ -1,12 +1,11 @@
 Name:		datefudge
-Version:	1.23
+Version:	1.24
 Release:	1%{?dist}
 Summary:	Fake the system date
 
 License:	GPLv2+
 URL:		http://packages.qa.debian.org/d/datefudge.html
 Source0:	http://cdn.debian.net/debian/pool/main/d/datefudge/%{name}_%{version}.tar.xz
-Patch1:		datefudge_1.23-tz.patch
 
 BuildRequires:  gcc
 %description
@@ -36,6 +35,12 @@ chmod +x %{buildroot}/%{_libexecdir}/%{name}/datefudge.so #for stripping
 %{_bindir}/datefudge
 
 %changelog
+* Mon Oct 12 2020 Nikos Mavrogiannopoulos <nmav@redhat.com> - 1.24-1
+- New upstream release
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.23-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 2020 Nikos Mavrogiannopoulos <nmav@redhat.com> - 1.23-1
 - New upstream release
 

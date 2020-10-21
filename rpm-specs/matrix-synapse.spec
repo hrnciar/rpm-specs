@@ -6,14 +6,16 @@
 %{?python_enable_dependency_generator}
 
 Name:       matrix-%{srcname}
-Version:    1.13.0
-Release:    2%{?dist}
+Version:    1.18.0
+Release:    1%{?dist}
 Summary:    A Matrix reference homeserver written in Python using Twisted
 License:    ASL 2.0
 URL:        https://github.com/matrix-org/%{srcname}
 Source0:    %{url}/archive/v%{version}%{rcx}/%{srcname}-%{version}%{rcx}.tar.gz
 Source1:    synapse.sysconfig
 Source2:    synapse.service
+# https://github.com/matrix-org/synapse/pull/8208
+Patch1:     0001-Use-TLSv1.2-for-fake-servers-in-tests.patch
 BuildArch:  noarch
 
 BuildRequires:  python3-devel
@@ -21,12 +23,13 @@ BuildRequires:  python3-setuptools
 
 # Test dependencies
 BuildRequires:  python3-mock >= 2.0
-BuildRequires:  python3-parameterized
+BuildRequires:  python3-parameterized >= 0.7.0
 BuildRequires:  /usr/bin/openssl
 
 # Package dependencies
 #BuildRequires:  python3-txacme >= 0.9.2
-BuildRequires:  python3-attrs >= 17.4.0
+BuildRequires:  python3-attrs >= 19.1.0
+BuildRequires:  python3-authlib
 BuildRequires:  python3-bcrypt >= 3.1.0
 BuildRequires:  python3-bleach >= 1.4.3
 BuildRequires:  python3-canonicaljson >= 1.1.3
@@ -35,13 +38,14 @@ BuildRequires:  python3-frozendict >= 1.0
 BuildRequires:  python3-idna >= 2.5
 BuildRequires:  python3-jinja2 >= 2.9
 BuildRequires:  python3-jsonschema >= 2.5.1
+BuildRequires:  python3-jwt
 BuildRequires:  python3-lxml >= 3.5.0
 BuildRequires:  python3-matrix-synapse-ldap3 >= 0.1
 BuildRequires:  python3-msgpack >= 0.5.2
 BuildRequires:  python3-netaddr >= 0.7.18
 BuildRequires:  python3-phonenumbers >= 8.2.0
 BuildRequires:  python3-pillow >= 4.3.0
-BuildRequires:  python3-prometheus_client >= 0.0.18, python3-prometheus_client < 0.8.0
+BuildRequires:  python3-prometheus_client < 0.9.0
 BuildRequires:  python3-pyOpenSSL >= 16.0.0
 BuildRequires:  python3-pyasn1 >= 0.1.9
 BuildRequires:  python3-pyasn1-modules >= 0.0.7
@@ -51,7 +55,6 @@ BuildRequires:  python3-pysaml2 >= 4.5.0
 BuildRequires:  python3-pyyaml >= 3.11
 BuildRequires:  python3-service-identity >= 18.1.0
 BuildRequires:  python3-signedjson >= 1.1.0
-BuildRequires:  python3-six >= 1.10
 BuildRequires:  python3-sortedcontainers >= 1.4.4
 BuildRequires:  python3-systemd >= 231
 BuildRequires:  python3-treq >= 15.1
@@ -133,6 +136,16 @@ exit 0
 
 
 %changelog
+* Sat Aug 29 2020 Kai A. Hiller <V02460@gmail.com> - 1.18.0-1
+- Update to v1.18.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.13.0-2
 - Rebuilt for Python 3.9
 

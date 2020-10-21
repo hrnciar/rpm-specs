@@ -9,7 +9,7 @@ including Qt-things.}
 
 Name:           python-%{pypi_name}
 Version:        0.6.10
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        HelpDev - Extracts information about the Python environment easily
 
 License:        MIT
@@ -59,6 +59,9 @@ sed -i "s|import importlib_metadata|import importlib.metadata as importlib_metad
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.10-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.10-4
 - Rebuilt for Python 3.9
 

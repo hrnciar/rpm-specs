@@ -1,19 +1,19 @@
 Name:           fldigi
-Version:        4.1.13
+Version:        4.1.15
 Release:        1%{?dist}
 Summary:        Digital modem program for Linux
 
 License:        GPLv3+  
 URL:            http://www.w1hkj.com/Fldigi.html
 Source0:        http://www.w1hkj.com/files/%{name}/%{name}-%{version}.tar.gz
-Source1:        http://www.w1hkj.com/files/%{name}/%{name}_%{version}-help.pdf
-Source2:        http://www.w1hkj.com/files/%{name}/flarq-help.pdf
 Source100:      fldigi.appdata.xml
 
+BuildRequires:  asciidoc
 BuildRequires:  gcc gcc-c++
 BuildRequires:  hamlib-devel
 BuildRequires:  fltk-devel >= 1.3
-%if 0%{?rhel} && 0%{?rhel} < 8
+%{?fedora:BuildRequires:  flxmlrpc-devel}
+%if 0%{?rhel} < 8
 BuildRequires:  fltk-static libXcursor-devel
 %endif
 BuildRequires:  libjpeg-devel
@@ -25,9 +25,6 @@ BuildRequires:  libsamplerate-devel
 BuildRequires:  pulseaudio-libs-devel
 BuildRequires:  gettext
 BuildRequires:  libXinerama-devel
-
-Provides:       bundled(xmlrpc)
-
 %if 0%{?fedora}
 # For appstream-util
 BuildRequires:  libappstream-glib
@@ -36,6 +33,8 @@ BuildRequires:  libappstream-glib
 %{?fedora:Recommends:     trustedqsl}
 
 Provides:       flarq = %{version}-%{release}
+
+Obsoletes:      fldigi-doc < 4.1.14-1
 
 %description
 Fldigi is a modem program which supports most of the digital modes used by 
@@ -47,15 +46,6 @@ GUI. Fldigi is a fast moving project many added features with each update.
 Flarq (Fast Light Automatic Repeat Request) is a file transfer application
 that is based on the ARQ specification developed by Paul Schmidt, K9PS.
 It is capable of transmitting and receiving frames of ARQ data via fldigi.
-
-
-%package doc
-Summary:      PDF User Manual for %{name}
-Requires:     %{name} = %{version}-%{release}
-BuildArch:    noarch
-
-%description doc
-PDF User Manual for %{name} and flarq.
 
 
 %prep
@@ -87,15 +77,13 @@ install -pm 0644 data/fldigi-psk.png \
 
 %find_lang %{name}
 
-# Copy in the user manual.
-cp %{SOURCE1} %{SOURCE2} .
-
 %if 0%{?fedora}
 # Install and validate appdata file
 mkdir -p %{buildroot}%{_datadir}/appdata
 install %{SOURCE100} -pm 0644 %{buildroot}%{_datadir}/appdata/
 appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.xml
 %endif
+
 
 %files -f %{name}.lang
 %license COPYING
@@ -111,11 +99,25 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/applications/flarq.desktop
 %{_datadir}/%{name}/
 
-%files doc
-%doc fldigi_%{version}-help.pdf flarq-help.pdf
-
 
 %changelog
+* Mon Oct 19 2020 Richard Shaw <hobbes1069@gmail.com> - 4.1.15-1
+- Update to 4.1.15.
+
+* Mon Oct 12 2020 Richard Shaw <hobbes1069@gmail.com> - 4.1.14-1
+- Update to 4.1.14.
+- Remove large PDF docs, they can be downloaded seprately.
+- Remove forced C++14 as the fixes patch has been updated to support C++17.
+
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 4.1.13-4
+- Force C++14 as this code is not C++17 ready
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.13-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Richard Shaw <hobbes1069@gmail.com> - 4.1.13-2
+- Add patch to fix various memory leaks and other type issues.
+
 * Tue May 26 2020 Richard Shaw <hobbes1069@gmail.com> - 4.1.13-1
 - Update to 4.1.13.
 

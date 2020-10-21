@@ -18,7 +18,7 @@ Generate static golang bindings for GObject.}
 %global godocs          CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Generate static golang bindings for GObject
 
 License:        GPLv3
@@ -61,6 +61,9 @@ rm -rf lib.in out src test
 %{gopath}/src/pkg.deepin.io/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar  9 2020 Robin Lee <cheeselee@fedoraproject.org> - 2.0.2-5
 - Deploy a patch to fix FTBFS of startdde
 

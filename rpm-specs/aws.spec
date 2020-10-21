@@ -3,7 +3,7 @@
 %global with_gps 0
 Name:       aws 
 Version:    2019
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    Ada Web Server
 
 License:    GPLv3+ with exceptions and GPLv2+ 
@@ -157,6 +157,9 @@ rm -rf %{buildroot}%{_GNAT_project_dir}/manifests
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb  9 2020 Pavel Zhukov <pzhukov@redhat.com> - 2019-2
 - New release (2019) build with gcc10 (#1800306)
 

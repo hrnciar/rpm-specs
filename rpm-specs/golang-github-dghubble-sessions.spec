@@ -14,7 +14,7 @@ Minimalist Go sessions with a secure cookie Store implementation.}
 %global godocs          README.md CHANGES.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Sessions with a secure cookie Store implementation
 
 License:        MIT
@@ -42,6 +42,9 @@ BuildRequires:  golang(github.com/gorilla/securecookie)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 08 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.1.0-1
 - Initial package
 

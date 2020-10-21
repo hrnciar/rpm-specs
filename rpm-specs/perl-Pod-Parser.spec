@@ -7,15 +7,19 @@
 
 Name:           perl-Pod-Parser
 Version:        1.63
-Release:        442%{?dist}
+Release:        444%{?dist}
 Summary:        Basic perl modules for handling Plain Old Documentation (POD)
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Pod-Parser
 Source0:        https://cpan.metacpan.org/authors/id/M/MA/MAREKR/Pod-Parser-%{version}.tar.gz
 BuildArch:      noarch
-BuildRequires:  perl-interpreter
+BuildRequires:  coreutils
+BuildRequires:  findutils
+BuildRequires:  make
 BuildRequires:  perl-generators
-BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl-interpreter
+BuildRequires:  perl(:VERSION) >= 5.5.0
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(File::Spec) >= 0.82
 # Run-time:
 BuildRequires:  perl(Carp)
@@ -33,12 +37,11 @@ BuildRequires:  perl(File::Basename)
 BuildRequires:  perl(FileHandle)
 BuildRequires:  perl(Test)
 BuildRequires:  perl(Test::More) >= 0.6
-# Circular dependency Pod::Checker <-> Pod::Parser
-BuildRequires:  perl(Pod::Checker) >= 1.40
 # VMS::Filespec not used
-%if %{with perl_Pod_Parser_enables_optional_test} && !%{defined perl_bootstrap}
+%if %{with perl_Pod_Parser_enables_optional_test}
 # Optional tests:
 BuildRequires:  perl(IO::String)
+BuildRequires:  perl(Pod::Checker) >= 1.40
 %endif
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:       perl(Config)
@@ -60,12 +63,11 @@ for F in ANNOUNCE CHANGES README TODO; do
 done
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
-find $RPM_BUILD_ROOT -type f -name .packlist -exec rm -f {} \;
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
@@ -79,6 +81,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Petr Pisar <ppisar@redhat.com> - 1.63-444
+- Modernize a spec file
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.63-443
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.63-442
 - Perl 5.32 rebuild
 

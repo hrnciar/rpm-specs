@@ -17,7 +17,7 @@
 %endif
 
 Name:       python-%{library}
-Version:    1.18.0
+Version:    1.21.3
 Release:    1%{?dist}
 Epoch:      1
 Summary:    Google Auth Python Library
@@ -114,6 +114,24 @@ sed -i 's/<3\.2/<5.0/g' setup.py
 %endif
 
 %changelog
+* Thu Sep 24 2020 Jason Montleon <jmontleo@redhat.com> - 1:1.21.3-1
+- Update to 1.21.3 (#1879308)
+
+* Fri Sep 04 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 1:1.21.1-1
+- Update to 1.21.1 (#1875665)
+
+* Fri Aug 28 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 1:1.21.0-1
+- Update to 1.21.0 (#1866978)
+
+* Wed Jul 29 2020 Jason Montleon <jmontleo@redhat.com> - 1:1.20.0-1
+- Update to 1.20.0 (#1858426)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.19.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Jason Montleon <jmontleo@redhat.com> - 1:1.19.1-1
+- Update to 1.19.1 (#1856662)
+
 * Fri Jun 19 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 1:1.18.0-1
 - Update to 1.18.0 (#1846258)
 

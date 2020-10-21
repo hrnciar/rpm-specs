@@ -6,7 +6,7 @@
 %global crate dashmap
 
 Name:           rust-%{crate}
-Version:        3.11.4
+Version:        3.11.10
 Release:        1%{?dist}
 Summary:        Blazing fast concurrent HashMap for Rust
 
@@ -14,6 +14,10 @@ Summary:        Blazing fast concurrent HashMap for Rust
 License:        MIT
 URL:            https://crates.io/crates/dashmap
 Source:         %{crates_source}
+# Initial patched metadata
+# * Bump ahash from 0.3.8 to 0.4.4 (matching hashbrown 0.9.1)
+# * Bump hashbrown from 0.8.0 to 0.9.0
+Patch0:         dashmap-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -120,6 +124,19 @@ which use "serde" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Mon Sep 28 2020 Fabio Valentini <decathorpe@gmail.com> - 3.11.10-1
+- Update to version 3.11.10.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.11.7-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.11.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 3.11.7-1
+- Update to 3.11.7
+
 * Sat Jun 06 2020 Josh Stone <jistone@redhat.com> - 3.11.4-1
 - Update to 3.11.4
 

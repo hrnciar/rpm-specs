@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.7.1
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        Python client for Prometheus
 
 License:        ASL 2.0
@@ -61,8 +61,19 @@ sed -i -e '1{/^#!/d}' prometheus_client/__init__.py
 %{python3_sitelib}/%{srcname}-*.egg-info/
 
 %files -n python3-%{srcname}+twisted
+%{?python_extras_subpkg:%ghost %{python3_sitelib}/%{srcname}-*.egg-info/}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.1-4
+- Add metadata for Python extras subpackages
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.1-3
 - Rebuilt for Python 3.9
 

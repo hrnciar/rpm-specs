@@ -3,14 +3,15 @@
 
 Summary:	Graphical X.509 certificate management tool
 Name:		xca
-Version:	2.2.1
+Version:	2.3.0
 Release:	1%{?dist}
 License:	BSD
 URL:		https://hohnstaedt.de/xca/
 Source0:	https://github.com/%{gitowner0}/%{gitproject0}/releases/download/RELEASE.%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:	gcc-c++
-BuildRequires:	qt5-devel
+BuildRequires:	qt5-qtbase-devel
+BuildRequires:	qt5-linguist
 BuildRequires:	openssl-devel
 BuildRequires:	xdg-utils
 BuildRequires:	ImageMagick
@@ -65,7 +66,7 @@ touch -r img/xdb.ico xdb.png
 %install
 #-------------------------------------------------------------------------------
 
-make destdir="${RPM_BUILD_ROOT}" install
+make DESTDIR="${RPM_BUILD_ROOT}" install
 
 # Do not include db statistics program and man.
 find "${RPM_BUILD_ROOT}" -name 'xca_db_stat*' -delete
@@ -128,6 +129,16 @@ rm -rf "${RPM_BUILD_ROOT}%{_docdir}/xca"
 #-------------------------------------------------------------------------------
 %changelog
 #-------------------------------------------------------------------------------
+
+* Thu Aug  6 2020 Patrick Monnerat <patrick@monnerat.net> 2.3.0-1
+- New upstream relase.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
 * Sat Feb  8 2020 Patrick Monnerat <patrick@monnerat.net> 2.2.1-1
 - New upstream relase.

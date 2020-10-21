@@ -2,7 +2,7 @@
 
 Name:		mingw-libffi
 Version:	3.1
-Release:	9%{?dist}
+Release:	10%{?dist}
 Summary:	A portable foreign function interface library for MinGW
 
 License:	BSD
@@ -105,6 +105,9 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 12 2020 Sandro Mani <manisandro@gmail.com> - 3.1-9
 - Drop libffi-3.1-fix-include-path.patch, it just breaks the pkgconfig file
 

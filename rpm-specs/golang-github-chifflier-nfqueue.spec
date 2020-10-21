@@ -17,7 +17,7 @@ filter.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.2%{?dist}
+Release:        0.3%{?dist}
 Summary:        Go wrapper library for libnetfilter-queue
 
 License:        GPLv2
@@ -48,6 +48,9 @@ Requires:       libnetfilter_queue
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 24 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0-0.2.20200404git61ca646
 - Bump release to avoid confusion (rhbz#1820891)
 

@@ -18,10 +18,10 @@
 Summary: Round Robin Database Tool to store and display time-series data
 Name: rrdtool
 Version: 1.7.2
-Release: 9%{?dist}
+Release: 14%{?dist}
 License: GPLv2+ with exceptions
-URL: http://oss.oetiker.ch/rrdtool/
-Source0: http://oss.oetiker.ch/%{name}/pub/%{name}-%{version}.tar.gz
+URL: https://oss.oetiker.ch/rrdtool/
+Source0: https://oss.oetiker.ch/%{name}/pub/%{name}-%{version}.tar.gz
 Source1: php4-%{svnrev}.tar.gz
 Patch1: rrdtool-1.4.4-php54.patch
 # disable logo for php 5.5.
@@ -230,13 +230,12 @@ perl Makefile.PL INSTALLDIRS=vendor
 perl -pi.orig -e 's|/lib/perl|/%{_lib}/perl|g' Makefile
 popd
 
-#{__make} %{?_smp_mflags}
-make
+%{make_build}
 
 # Build the php module, the tmp install is required
 %if %{with_php}
 %global rrdtmp %{_tmppath}/%{name}-%{version}-tmpinstall
-make install DESTDIR="%{rrdtmp}"
+%{__make} install DESTDIR="%{rrdtmp}"
 pushd php4/
 
 export PYTHON=%{__python3}
@@ -244,8 +243,7 @@ export PYTHON=%{__python3}
 %configure \
     --with-rrdtool="%{rrdtmp}%{_prefix}" \
     --disable-static
-#{__make} %{?_smp_mflags}
-make PYTHON="$PYTHON"
+%{make_build} PYTHON="$PYTHON"
 popd
 rm -rf %{rrdtmp}
 %endif
@@ -263,7 +261,7 @@ popd
 
 %install
 export PYTHON=%{__python3}
-make DESTDIR="$RPM_BUILD_ROOT" PYTHON="$PYTHON" install
+%{make_install} PYTHON="$PYTHON"
 
 # Install the php module
 %if %{with_php}
@@ -395,6 +393,22 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} php -n \
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.2-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 1.7.2-12
+- Used macros for make
+
+* Tue Jun 30 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.2-11
+- Rebuilt for Lua 5.4
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.7.2-10
+- Perl 5.32 rebuild
+
 * Mon Jun  8 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 1.7.2-9
 - Fixed FTBFS
   Resolves: rhbz#1845126

@@ -5,7 +5,7 @@
 
 Name:           lv2-fabla
 Version:        1.3
-Release:        0.13.%{prerelease}git%{shortcommit}%{?dist}
+Release:        0.16.%{prerelease}git%{shortcommit}%{?dist}
 Summary:        An LV2 drum sequencer
 
 License:        GPLv2+
@@ -39,11 +39,11 @@ sed -i -e 's|-msse2 -mfpmath=sse||g' CMakeLists.txt
 
 %build
 %cmake .
-make %{?_smp_mflags}
+%cmake_build
 
 %install
 mkdir -p %{buildroot}/%{_libdir}/lv2
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 %files
 %doc README.md CHANGELOG
@@ -51,6 +51,17 @@ make install DESTDIR=%{buildroot}
 %{_libdir}/lv2/*
 
 %changelog
+* Mon Aug 03 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 1.3-0.16.20150303gitcfbd4b3
+- Change to new cmake macros
+- Resolves: rhbz #1864102
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-0.15.20150303gitcfbd4b3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-0.14.20150303gitcfbd4b3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-0.13.20150303gitcfbd4b3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

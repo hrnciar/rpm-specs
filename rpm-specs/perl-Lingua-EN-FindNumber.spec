@@ -1,6 +1,6 @@
 Name:           perl-Lingua-EN-FindNumber
 Version:        1.32
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Locate (written) numbers in English text
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Lingua-EN-FindNumber
@@ -49,6 +49,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.32-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.32-14
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 # Fedora spec file for php-pecl-solr2
 #
-# Copyright (c) 2011-2019 Remi Collet
+# Copyright (c) 2011-2020 Remi Collet
 # Copyright (c) 2010 Johan Cwiklinski
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
@@ -15,20 +15,21 @@
 %global with_zts  0%{?__ztsphp:1}
 # After 20-curl, 40-json
 %global ini_name  50-%{pecl_name}.ini
+
 # For full test (using localhost server) use --with tests
 # retrieve: docker pull omars/solr53
 # create:   docker run -d -p 8983:8983 --name solr5 -t omars/solr53
 # cleanup:  docker stop solr5 && docker rm solr5
-%global with_tests 0%{?_with_tests:1}
+%bcond_with     tests
 
 Summary:        Object oriented API to Apache Solr
 Name:           php-pecl-solr2
-Version:        2.5.0
-Release:        4%{?dist}
+Version:        2.5.1
+Release:        1%{?dist}
 License:        PHP
-URL:            http://pecl.php.net/package/solr
+URL:            https://pecl.php.net/package/solr
 
-Source0:        http://pecl.php.net/get/%{pecl_name}-%{version}%{?prever}.tgz
+Source0:        https://pecl.php.net/get/%{pecl_name}-%{version}%{?prever}.tgz
 
 BuildRequires:  php-devel > 7
 BuildRequires:  php-pear
@@ -87,8 +88,8 @@ sed -e 's/role="test"/role="src"/' \
 mv %{pecl_name}-%{version}%{?prever} NTS
 
 cd NTS
-# Check version
-DIR=src/php$(%{__php} -r 'echo PHP_MAJOR_VERSION;')
+: Check version
+DIR=src/php7
 extver=$(sed -n '/#define PHP_SOLR_VERSION /{s/.* "//;s/".*$//;p}' $DIR/php_solr_version.h)
 if test "x${extver}" != "x%{version}%{?prever}"; then
    : Error: Upstream version is ${extver}, expecting %{version}%{?prever}.
@@ -143,7 +144,7 @@ done
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 sed -e '/SOLR_SERVER_CONFIGURED/s/false/true/' \
     -e '/SOLR_SERVER_HOSTNAME/s/solr.test/localhost/' \
     -i ?TS/tests/test.config.inc
@@ -152,17 +153,18 @@ sed -e '/SOLR_SERVER_CONFIGURED/s/true/false/' \
     -i ?TS/tests/test.config.inc
 %endif
 
+OPT="-n"
+[ -f %{php_extdir}/curl.so ] && OPT="$OPT -d extension=curl.so"
+[ -f %{php_extdir}/json.so ] && OPT="$OPT -d extension=json.so"
+
 : Minimal load test for NTS installed extension
-%{__php} \
-   -n \
-   -d extension=curl \
-   -d extension=json \
+%{__php} $OPT \
    -d extension=%{buildroot}%{php_extdir}/%{pecl_name}.so \
    -m | grep %{pecl_name}
 
 : Upstream test suite for NTS extension
 cd NTS
-TEST_PHP_ARGS="-n -d extension=curl.so -d extension=json.so -d extension=%{buildroot}%{php_extdir}/%{pecl_name}.so" \
+TEST_PHP_ARGS="$OPT -d extension=%{buildroot}%{php_extdir}/%{pecl_name}.so" \
 REPORT_EXIT_STATUS=1 \
 NO_INTERACTION=1 \
 TEST_PHP_EXECUTABLE=%{__php} \
@@ -170,16 +172,13 @@ TEST_PHP_EXECUTABLE=%{__php} \
 
 %if %{with_zts}
 : Minimal load test for ZTS installed extension
-%{__ztsphp} \
-   -n \
-   -d extension=curl \
-   -d extension=json \
+%{__ztsphp} $OPT \
    -d extension=%{buildroot}%{php_ztsextdir}/%{pecl_name}.so \
    -m | grep %{pecl_name}
 
 : Upstream test suite for ZTS extension
 cd ../ZTS
-TEST_PHP_ARGS="-n -d extension=curl -d extension=json -d extension=%{buildroot}%{php_ztsextdir}/%{pecl_name}.so" \
+TEST_PHP_ARGS="$OPT -d extension=%{buildroot}%{php_ztsextdir}/%{pecl_name}.so" \
 REPORT_EXIT_STATUS=1 \
 NO_INTERACTION=1 \
 TEST_PHP_EXECUTABLE=%{__ztsphp} \
@@ -202,6 +201,12 @@ TEST_PHP_EXECUTABLE=%{__ztsphp} \
 
 
 %changelog
+* Wed Sep  9 2020 Remi Collet <remi@remirepo.net> - 2.5.1-1
+- update to 2.5.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

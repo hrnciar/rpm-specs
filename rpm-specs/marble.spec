@@ -2,8 +2,8 @@
 Name:    marble
 Summary: Virtual globe and world atlas 
 Epoch:   1
-Version: 20.04.2
-Release: 2%{?dist}
+Version: 20.08.1
+Release: 1%{?dist}
 
 License: LGPLv2+
 URL:     http://edu.kde.org/marble/
@@ -147,20 +147,17 @@ mv src/3rdparty/zlib src/3rdparty/zlib.UNUSED ||:
 
 
 %build
-mkdir %{_target_platform}-qt5
-pushd %{_target_platform}-qt5
-%{cmake_kf5} .. \
+%cmake_kf5 \
   -DBUILD_MARBLE_TESTS:BOOL=OFF \
   -DMARBLE_DATA_PATH:PATH="%{_datadir}/marble/data" \
   -DMARBLE_PRI_INSTALL_USE_QT_SYS_PATHS:BOOL=TRUE \
   -DWITH_DESIGNER_PLUGIN:BOOL=OFF
 
-%make_build
-popd
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}-qt5
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 # hack around buggy --with-qt ^^
@@ -253,6 +250,25 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.kde.marble-qt.des
 
 
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:20.08.1-1
+- 20.08.1
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:20.08.0-1
+- 20.08.0
+
+* Mon Aug 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:20.04.3-4
+- use new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:20.04.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:20.04.3-1
+- 20.04.3
+
 * Thu Jun 18 2020 Björn Esser <besser82@fedoraproject.org> - 1:20.04.2-2
 - Rebuild (gpsd)
 

@@ -2,22 +2,19 @@
 
 Summary:        A datafile for Berusky
 Name:           berusky2-data
-Version:        0.9
-Release:        12%{?dist}
+Version:        0.12
+Release:        2%{?dist}
 License:        GPLv2+
-Source:         http://downloads.sourceforge.net/%{game_name}/%{name}-%{version}.tar.bz2
+Source:         http://downloads.sourceforge.net/%{game_name}/%{name}-%{version}.tar.xz
 URL:            http://www.anakreon.cz/en/Berusky2.htm
 BuildArch:      noarch
-
 
 %description
 This package contains the game data for %{game_name}, i.e. files with graphics,
 levels, game rules and configuration.
 
-
 %prep
 %setup -q
-
 
 %install
 mkdir -p %{buildroot}%{_datadir}/%{game_name}
@@ -34,12 +31,19 @@ mv bitmap \
    sound \
    %{buildroot}%{_datadir}/%{game_name}
 
-
 %files
 %{_datadir}/%{game_name}
 
-
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Martin Stransky <stransky@redhat.com> - 0.12-1
+- new upstream tarball (0.12)
+
+* Fri Jun 19 2020 Martin Stransky <stransky@redhat.com> - 0.10-1
+- new upstream tarball (0.10)
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:    kasumi
 Version: 2.5
-Release: 26%{?dist}
+Release: 28%{?dist}
 
 License: GPLv2+
 URL:     http://kasumi.sourceforge.jp/
@@ -21,6 +21,7 @@ Kasumi is a dictionary management tool for Anthy.
 autoreconf -f -i
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure
 make %{?_smp_mflags}
 
@@ -43,6 +44,12 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 2.5-28
+- Force C++14 as this code is not C++17 ready
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

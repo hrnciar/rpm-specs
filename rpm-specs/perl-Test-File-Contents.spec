@@ -1,6 +1,6 @@
 Name:           perl-Test-File-Contents
 Version:        0.23
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Test routines for examining the contents of files
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test-File-Contents
@@ -53,6 +53,9 @@ perl Build.PL installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.23-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.23-13
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:           xxkb
 Version:        1.11.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Keyboard layout indicator and switcher
 
 License:        Artistic 2.0
@@ -46,6 +46,9 @@ sed -i "s|EXTRA_LDOPTIONS =|EXTRA_LDOPTIONS = %{build_ldflags}|" Makefile
 %{_prefix}/lib/X11/app-defaults
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

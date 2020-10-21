@@ -1,6 +1,6 @@
 Name: nled
 Version: 2.52
-Release: 24%{?dist}
+Release: 25%{?dist}
 Summary: Nifty Little EDitor
 License: GPLv2+
 URL: http://cdot.senecac.on.ca/software/nled/
@@ -32,6 +32,9 @@ install -p nled %{buildroot}/%{_bindir}
 %doc nled.txt
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.52-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.52-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

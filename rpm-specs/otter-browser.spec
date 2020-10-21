@@ -3,14 +3,32 @@
 %global qt5_qtwebengine_arches %{ix86} x86_64 %{arm} aarch64 mips mipsel mips64el
 %endif
 
+#For git snapshots, set to 0 to use release instead:
+%global usesnapshot 1
+%if 0%{?usesnapshot}
+%global commit0 3dc40e89dc538abe712a65d02ec3d4e3851ab1fb
+%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+%global snapshottag .git%{shortcommit0}
+%endif
+
 Name:           otter-browser
 Summary:        Web browser controlled by the user, not vice-versa
 # Files in 3rdparty/libmimeapps and 3rdparty/mousegestures are BSD (2 clause)
 License:        GPLv3+ and BSD
+%if 0%{?usesnapshot}
+Version:        1.0.81
+Release:        0.1%{snapshottag}%{?dist}
+%else
 Version:        1.0.01
-Release:        4%{?dist}
+Release:        1%{?dist}
+%endif
 URL:            http://otter-browser.org/
+
+%if 0%{?usesnapshot}
+Source0:        https://github.com/OtterBrowser/%{name}/archive/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
+%else
 Source0:        https://github.com/OtterBrowser/%{name}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+%endif
 
 BuildRequires:  cmake
 BuildRequires:  desktop-file-utils
@@ -32,17 +50,21 @@ BuildRequires:  libappstream-glib
 Web browser aiming to recreate classic Opera (12.x) UI using Qt5.
 
 %prep
-%setup -qn %{name}-%{version}
+%if 0%{?usesnapshot}
+%autosetup -n %{name}-%{commit0}
+%else
+%autosetup -n %{name}-%{version}
+%endif
 #################################################
 #rm -rf 3rdparty/sonnet
 #################################################
 
 %build
 %cmake .
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 mkdir -p %{buildroot}%{_datadir}/{applications,appdata}
 install -Dm 0644 packaging/otter-browser.appdata.xml %{buildroot}%{_datadir}/appdata/otter-browser.appdata.xml
@@ -63,7 +85,7 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_bindir}/otter-browser
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/appdata/otter-browser.appdata.xml
-%{_datadir}/icons/hicolor/*/apps/otter-browser.png
+%{_datadir}/icons/hicolor/*/apps/otter-browser.*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/locale/otter-browser_jbo.qm
 %{_datadir}/%{name}/locale/otter-browser_yue.qm
@@ -71,6 +93,19 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 
 
 %changelog
+* Fri Aug 14 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.0.81-0.1.git3dc40e8
+- Update to 1.0.81-0.1.git3dc40e8
+
+* Thu Aug 06 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.0.01-7
+- Fixes FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.01-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.01-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.01-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

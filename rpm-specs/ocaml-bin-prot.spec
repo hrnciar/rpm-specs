@@ -2,9 +2,9 @@
 %global upname  bin_prot
 
 Name:           ocaml-%{srcname}
-Version:        0.13.0
+Version:        0.14.0
 Epoch:          1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Read and write OCaml values in a type-safe binary protocol
 
 # The project as a whole is MIT, but code in the src subdirectory is BSD.
@@ -13,14 +13,15 @@ URL:            https://github.com/janestreet/%{upname}
 Source0:        %{url}/archive/v%{version}/%{upname}-%{version}.tar.gz
 
 BuildRequires:  ocaml >= 4.04.2
-BuildRequires:  (ocaml-base-devel >= 0.13 and ocaml-base-devel < 0.14)
-BuildRequires:  ocaml-dune >= 1.5.1
+BuildRequires:  ocaml-base-devel >= 0.14
+BuildRequires:  ocaml-dune >= 2.0.0
 BuildRequires:  ocaml-odoc
-BuildRequires:  (ocaml-ppx-compare-devel >= 0.13 and ocaml-ppx-compare-devel < 0.14)
-BuildRequires:  (ocaml-ppx-custom-printf-devel >= 0.13 and ocaml-ppx-custom-printf-devel < 0.14)
-BuildRequires:  (ocaml-ppx-fields-conv-devel >= 0.13 and ocaml-ppx-fields-conv-devel < 0.14)
-BuildRequires:  (ocaml-ppx-sexp-conv-devel >= 0.13 and ocaml-ppx-sexp-conv-devel < 0.14)
-BuildRequires:  (ocaml-ppx-variants-conv-devel >= 0.13 and ocaml-ppx-variants-conv-devel < 0.14)
+BuildRequires:  ocaml-ppx-compare-devel >= 0.14
+BuildRequires:  ocaml-ppx-custom-printf-devel >= 0.14
+BuildRequires:  ocaml-ppx-fields-conv-devel >= 0.14
+BuildRequires:  ocaml-ppx-optcomp-devel >= 0.14
+BuildRequires:  ocaml-ppx-sexp-conv-devel >= 0.14
+BuildRequires:  ocaml-ppx-variants-conv-devel >= 0.14
 
 %description
 This library contains functionality for reading and writing OCaml
@@ -37,7 +38,14 @@ substantial increase in memory footprint when they are read back in.
 
 %package        devel
 Summary:        Development files for %{name}
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name} = 1:%{version}-%{release}
+Requires:       ocaml-base-devel%{?_isa}
+Requires:       ocaml-ppx-compare-devel%{?_isa}
+Requires:       ocaml-ppx-custom-printf-devel%{?_isa}
+Requires:       ocaml-ppx-fields-conv-devel%{?_isa}
+Requires:       ocaml-ppx-optcomp-devel%{?_isa}
+Requires:       ocaml-ppx-sexp-conv-devel%{?_isa}
+Requires:       ocaml-ppx-variants-conv-devel%{?_isa}
 
 %description    devel
 The %{name}-devel package contains libraries and signature files
@@ -104,6 +112,28 @@ find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod 0755 {} \+
 %{_libdir}/ocaml/%{upname}/*/*.mli
 
 %changelog
+* Wed Sep 02 2020 Richard W.M. Jones <rjones@redhat.com> - 1:0.14.0-3
+- OCaml 4.11.1 rebuild
+
+* Mon Aug 24 2020 Richard W.M. Jones <rjones@redhat.com> - 1:0.14.0-2
+- OCaml 4.11.0 rebuild
+
+* Wed Aug 19 2020 Jerry James <loganjerry@gmail.com> - 1:0.14.0-1
+- Version 0.14.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.13.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.13.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Richard W.M. Jones <rjones@redhat.com> - 1:0.13.0-3
+- Rebuild to resolve build order symbol problems.
+
+* Wed Jun 24 2020 Jerry James <loganjerry@gmail.com> - 1:0.13.0-2
+- Fix the -devel subpackage dependency on the main package
+
 * Mon Jun 15 2020 Jerry James <loganjerry@gmail.com> - 1:0.13.0-1
 - Version 0.13.0
 - Add Epoch to deal with new version numbering scheme

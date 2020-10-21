@@ -5,8 +5,8 @@
 %global crate wayland-scanner
 
 Name:           rust-%{crate}
-Version:        0.26.6
-Release:        2%{?dist}
+Version:        0.28.1
+Release:        1%{?dist}
 Summary:        Wayland Scanner for generating rust APIs from XML wayland protocol files
 
 # Upstream license specification: MIT
@@ -76,6 +76,15 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Thu Oct 15 2020 Stefano Figura <stefano@figura.im> - 0.28.1-1
+- Update to version 0.28.1.
+
+* Sun Oct 04 2020 Fabio Valentini <decathorpe@gmail.com> - 0.28.0-1
+- Update to version 0.28.0.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.26.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 09:34:56 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.26.6-2
 - Include license and readme
 

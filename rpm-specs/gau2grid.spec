@@ -1,6 +1,6 @@
 Name:           gau2grid
 Version:        1.3.1
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Fast computation of a gaussian function and its derivative on a grid
 License:        BSD
 URL:            https://github.com/dgasmith/gau2grid
@@ -33,14 +33,11 @@ This package contains the development headers for gau2grid.
 %autosetup
 
 %build
-mkdir objdir
-cd objdir
-%cmake .. -DCARTESIAN_ORDER=row -DSPHERICAL_ORDER=gaussian -DCMAKE_INSTALL_LIBDIR=%{_lib}
-%{make_build}
-cd ..
+%cmake -DCARTESIAN_ORDER=row -DSPHERICAL_ORDER=gaussian -DCMAKE_INSTALL_LIBDIR=%{_lib}
+%{cmake_build}
 
 %install
-%{make_install} -C objdir
+%{cmake_install}
 
 %files
 %license LICENSE
@@ -53,6 +50,16 @@ cd ..
 %{_libdir}/libgg.so
 
 %changelog
+* Wed Aug 05 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 1.3.1-5
+- Adapt to new CMake macros.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -24,7 +24,7 @@
 Name:           php-phpunit-PHP-TokenStream
 Epoch:          1
 Version:        1.4.12
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Wrapper around PHP tokenizer extension
 
 License:        BSD
@@ -109,6 +109,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.4.12-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.4.12-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

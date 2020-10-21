@@ -57,17 +57,20 @@
 %global major_version 3
 %global minor_version 18
 # Set to RC version if building RC, else %%{nil}
-%global rcsuf rc2
+#global rcsuf rc1
 %{?rcsuf:%global relsuf .%{rcsuf}}
 %{?rcsuf:%global versuf -%{rcsuf}}
+
+# For handling bump release by rpmdev-bumpspec and mass rebuild
+%global baserelease 1
 
 # Uncomment if building for EPEL
 #global name_suffix %%{major_version}
 %global orig_name cmake
 
 Name:           %{orig_name}%{?name_suffix}
-Version:        %{major_version}.%{minor_version}.0
-Release:        0.2%{?relsuf}%{?dist}
+Version:        %{major_version}.%{minor_version}.4
+Release:        %{baserelease}%{?relsuf}%{?dist}
 Summary:        Cross-platform make system
 
 # most sources are BSD
@@ -98,7 +101,8 @@ Patch101:       %{name}-fedora-flag_release.patch
 # Add dl to CMAKE_DL_LIBS on MINGW
 # https://gitlab.kitware.com/cmake/cmake/issues/17600
 Patch102:       %{name}-mingw-dl.patch
-
+# rhbz#1871346
+Patch103:       %{name}-3.18.3-findblas.patch
 
 # Patch for renaming on EPEL
 %if 0%{?name_suffix:1}
@@ -174,6 +178,9 @@ BuildRequires:  %{name}-rpm-macros
 Requires:       %{name}-data = %{version}-%{release}
 Requires:       %{name}-rpm-macros = %{version}-%{release}
 Requires:       %{name}-filesystem%{?_isa} = %{version}-%{release}
+
+# Explicitly require make.  (rhbz#1862014)
+Requires:       make
 
 # Provide the major version name
 Provides: %{orig_name}%{major_version} = %{version}-%{release}
@@ -502,6 +509,60 @@ mv -f Modules/FindLibArchive.disabled Modules/FindLibArchive.cmake
 
 
 %changelog
+* Tue Oct 13 10:03:16 CEST 2020 Björn Esser <besser82@fedoraproject.org> - 3.18.4-1
+- Update to 3.18.4
+
+* Wed Sep 30 12:49:57 CEST 2020 Björn Esser <besser82@fedoraproject.org> - 3.18.3-1
+- Update to 3.18.3
+- Explicitly require make
+- Add patch to support FlexiBLAS
+
+* Tue Sep 29 2020 Christoph Junghans <junghans@votca.org> - 3.18.2-2
+- Make %ctest non-verbose by default
+
+* Thu Aug 20 2020 Björn Esser <besser82@fedoraproject.org> - 3.18.2-1
+- Update to 3.18.2
+
+* Sat Aug 01 2020 Björn Esser <besser82@fedoraproject.org> - 3.18.1-1
+- Update to 3.18.1
+
+* Wed Jul 29 2020 Orion Poplawski <orion@nwra.com> - 3.18.0-5
+- Handle arguments for ctest3 macro
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.18.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Björn Esser <besser82@fedoraproject.org> - 3.18.0-3
+- Default to --verbose for ctest as well
+
+* Sun Jul 19 2020 Neal Gompa <ngompa13@gmail.com> - 3.18.0-2
+- Make in-source builds behave like before
+
+* Sat Jul 18 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 3.18.0-1.1
+- Enable out-of-source builds by default
+
+* Thu Jul 16 2020 Björn Esser <besser82@fedoraproject.org> - 3.18.0-1
+- Update to 3.18.0
+
+* Sat Jul 04 2020 Björn Esser <besser82@fedoraproject.org> - 3.18.0-0.8.rc3
+- Update to 3.18.0-rc3
+
+* Fri Jul 03 2020 Neal Gompa <ngompa13@gmail.com> - 3.18.0-0.7.rc2
+- Switch to implementation that is backwards compatible to older RPM
+- Change control macro for in-source/out-of-source to %%__cmake_in_source_build
+
+* Fri Jul 03 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 3.18.0-0.6.rc2
+- Add out-of-source builds controlled by a macro (%%__cmake_out_of_source_build)
+
+* Wed Jul 01 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 3.18.0-0.5.rc2
+- Undo out-of-source-builds
+
+* Tue Jun 30 2020 Tom Callaway <spot@fedoraproject.org> - 3.18.0-0.4.rc2
+- fix FindLua to support lua 5.4
+
+* Mon Jun 29 2020 Björn Esser <besser82@fedoraproject.org> - 3.18.0-0.3.rc2
+- Apply change: CMake to do out-of-source builds (#1852036)
+
 * Sat Jun 20 2020 Björn Esser <besser82@fedoraproject.org> - 3.18.0-0.2.rc2
 - Update to 3.18.0-rc2
 

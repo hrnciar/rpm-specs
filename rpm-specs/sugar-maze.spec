@@ -1,10 +1,6 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:      sugar-maze
 Version:   29
-Release:   2%{?dist}
+Release:   4%{?dist}
 Summary:   Maze game for Sugar
 License:   GPLv3+
 URL:       http://wiki.laptop.org/go/Maze
@@ -35,6 +31,9 @@ find  %{buildroot}%{sugaractivitydir}Maze.activity/activity.py  -type f -name \*
 mv player.py %{buildroot}%{sugaractivitydir}/Maze.activity/player.py
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}%{_datadir}/{sugaractivitydir}/Maze.activity/
+
 %find_lang vu.lux.olpc.Maze
 
 %files -f vu.lux.olpc.Maze.lang
@@ -42,6 +41,13 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 %{sugaractivitydir}/Maze.activity/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 29-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 29-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 29-2
 - fix python3 env
 

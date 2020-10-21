@@ -3,9 +3,11 @@
 
 # https://github.com/oracle/oci-go-sdk
 %global goipath         github.com/oracle/oci-go-sdk
-Version:                19.4.0
+Version:                25.0.0
 
 %gometa
+
+%global goaltipaths     github.com/oracle/oci-go-sdk/v25
 
 %global common_description %{expand:
 This is the Go SDK for Oracle Cloud Infrastructure. This project is open source
@@ -21,6 +23,8 @@ Summary:        Go SDK for Oracle Cloud Infrastructure
 License:        UPL or ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+
+BuildRequires:  golang(github.com/fnproject/fdk-go)
 
 %if %{with check}
 # Tests
@@ -47,6 +51,12 @@ BuildRequires:  golang(github.com/stretchr/testify/mock)
 %gopkgfiles
 
 %changelog
+* Thu Sep 17 20:42:24 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 25.0.0-1
+- Update to 25.0.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 06 2020 Carl George <carl@george.computer> - 19.4.0-1
 - Latest upstream rhbz#1742072
 

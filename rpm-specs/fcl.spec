@@ -1,6 +1,7 @@
+%undefine __cmake_in_source_build
 Name:           fcl
 Version:        0.6.1
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Flexible Collision Library
 
 
@@ -48,19 +49,17 @@ find . -type f -perm /111 -name "*.h" -print -exec chmod -x '{}' \;
 find . -type f -perm /111 -name "*.cpp" -print -exec chmod -x '{}' \;
 
 %build
-mkdir -p build; cd build
-%cmake .. \
+%cmake \
   -DCMAKE_BUILD_TYPE=Release \
   -DFCL_USE_X64_SSE=OFF
-
-make %{?_smp_mflags}
+%cmake_build
 
 %install
-%make_install -C build
+%cmake_install
 
 %check
 export LD_LIBRARY_PATH=$RPM_BUILD_ROOT%{_libdir}
-make -C build test ARGS="-V" || exit 0
+%ctest --verbose || exit 0
 
 %files
 %license LICENSE
@@ -75,6 +74,16 @@ make -C build test ARGS="-V" || exit 0
 %{_libdir}/*.so
 
 %changelog
+* Sat Aug 08 2020 Rich Mattes <richmattes@gmail.com> - 0.6.1-4
+- Rebuild for flann-1.9.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 18 2020 Rich Mattes <richmattes@gmail.com> - 0.6.1-1
 - Update to release 0.6.1 (rhbz#1742044)
 

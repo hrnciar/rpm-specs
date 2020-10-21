@@ -1,7 +1,7 @@
 Summary: Powerful interactive shell
 Name: zsh
 Version: 5.8
-Release: 1%{?dist}
+Release: 3%{?dist}
 License: MIT
 URL: http://zsh.sourceforge.net/
 Source0: https://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.xz
@@ -86,7 +86,7 @@ export zsh_cv_sys_nis='no'
 make -C Src headers
 make -C Src -f Makemod zsh{path,xmod}s.h version.h
 
-make %{?_smp_mflags} all html
+%make_build all html
 
 %check
 # Run the testsuite
@@ -154,6 +154,13 @@ fi
 %doc Doc/*.html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 5.8-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Mon Feb 24 2020 Kamil Dudka <kdudka@redhat.com> - 5.8-1
 - update to latest upstream release
 

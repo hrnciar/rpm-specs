@@ -3,7 +3,7 @@
 
 Name:		qd
 Version:	2.3.22
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Double-Double and Quad-Double Arithmetic
 License:	LBNL BSD
 URL:		http://crd.lbl.gov/~dhbailey/mpdist/
@@ -123,6 +123,9 @@ LD_LIBRARY_PATH=$PWD/src/.libs:$PWD/fortran/.libs make check
 %{_libdir}/pkgconfig/qd.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.22-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.22-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

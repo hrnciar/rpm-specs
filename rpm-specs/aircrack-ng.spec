@@ -1,9 +1,15 @@
+# This package appears to want to use two different assembly syntaxes which
+# can not work in an LTO world.  It may be possible to work around using
+# fat lto objects, but that has not really been tested
+# Disable LTO
+%define _lto_cflags %{nil}
+
 # https://github.com/aircrack-ng/aircrack-ng/issues/2138
 %global optflags %(echo %{optflags} -fcommon)
 
 Name: aircrack-ng
 Version: 1.6
-Release: 2%{?dist}
+Release: 7%{?dist}
 
 Summary: 802.11 (wireless) sniffer and WEP/WPA-PSK key cracker
 License: GPLv2+
@@ -88,9 +94,25 @@ find %{buildroot} -type f -name '*.la' -delete
 %{_includedir}/%{name}/
 
 %files doc
-%doc test/*.cap test/*.pcap test/password.lst test/*.py patches/
+%doc test/*.cap test/*.pcap test/password.lst test/*.py
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Jeff Law <law@redhat.com> - 1.6-5
+- Move LTO disablement so that it impacts the optflags override too
+
+* Wed Jul 08 2020 Jeff Law <law@redhat.com> - 1.6-4
+- Disable LTO
+
+* Wed Jul 01 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1.6-3
+- Removed useless patches from doc subpackage.
+
 * Thu Apr 09 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1.6-2
 - Moved libraries to main package.
 - Moved OUI database to data directory.

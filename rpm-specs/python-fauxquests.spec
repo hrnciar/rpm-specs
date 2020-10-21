@@ -8,7 +8,7 @@
 
 Name:           python-%{modname}
 Version:        1.1
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Mock HTTP requests sent with the requests package
 
 License:        BSD
@@ -54,6 +54,9 @@ Python 3 version.
 %{python3_sitelib}/%{modname}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1-15
 - Rebuilt for Python 3.9
 

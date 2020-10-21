@@ -3,7 +3,7 @@
 
 Name:       postproof
 Version:    0
-Release:    0.12.20150331git65bcbbb9%{?dist}
+Release:    0.13.20150331git65bcbbb9%{?dist}
 Summary:    Mail abuse incident tool
 
 License:    LGPLv3
@@ -37,6 +37,9 @@ install -pm 0644 *.1 %{buildroot}%{_mandir}/man1
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.13.20150331git65bcbbb9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.12.20150331git65bcbbb9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

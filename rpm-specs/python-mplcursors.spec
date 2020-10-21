@@ -2,13 +2,16 @@
 
 Name:           python-%{srcname}
 Version:        0.3
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Interactive data selection cursors for Matplotlib
 
 License:        MIT
 URL:            https://github.com/anntzer/mplcursors
 Source0:        %pypi_source
-Patch0001:      https://github.com/anntzer/mplcursors/commit/6f089d9a4d05e031ea443f7543c8f9b1c62e9135.patch
+Patch0001:      https://github.com/anntzer/mplcursors/commit/b12a791f6f8fc8a2b920e2ccb2d8ae2dae79dba0.patch
+Patch0002:      https://github.com/anntzer/mplcursors/commit/6f089d9a4d05e031ea443f7543c8f9b1c62e9135.patch
+Patch0003:      https://github.com/anntzer/mplcursors/commit/6dbf40796b9774ae988fc650596880d31cbc0e89.patch
+Patch0004:      https://github.com/anntzer/mplcursors/commit/ef2a5a5e81c1a6dfd9c253032f003c45aec39431.patch
 
 BuildArch:      noarch
 
@@ -64,8 +67,7 @@ rm -rf html/.{doctrees,buildinfo}
 
 
 %check
-PYTHONPATH=%{buildroot}%{python3_sitelib} \
-    %{python3} -m pytest
+%{pytest}
 
 
 %files -n python3-%{srcname}
@@ -73,7 +75,7 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} \
 %doc README.rst examples/README.txt
 %{python3_sitelib}/%{srcname}
 %{python3_sitelib}/%{srcname}.pth
-%{python3_sitelib}/%{srcname}-%{version}-py*.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 
 %files -n python-%{srcname}-doc
@@ -82,6 +84,16 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} \
 
 
 %changelog
+* Sun Aug 02 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.3-5
+- Backport fixes to work with Matplotlib 3.3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3-3
 - Rebuilt for Python 3.9
 

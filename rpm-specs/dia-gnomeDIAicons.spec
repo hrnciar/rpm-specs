@@ -1,6 +1,6 @@
 Name:           dia-gnomeDIAicons
 Version:        0.1
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Beautiful icon set for dia diagram editor
 
 License:        GPL+
@@ -30,6 +30,9 @@ cp -av * %{buildroot}%{_datadir}/dia
 %{_datadir}/dia/sheets/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

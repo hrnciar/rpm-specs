@@ -1,6 +1,6 @@
 Name:           lwtools
 Version:        4.17
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Cross-development tool chain for Motorola 6809 and Hitachi 6309
 
 License:        GPLv3
@@ -58,6 +58,9 @@ cp -a 00README.txt %{buildroot}%{_docdir}/%{name}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.17-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 06 2020 John W. Linville <linville@tuxdriver.com> 4.17-4
 - Correct FBTFS due to variable defined in a header file
 

@@ -1,6 +1,6 @@
 Name:           pisg
 Version:        0.73
-Release:        23%{?dist}
+Release:        25%{?dist}
 Summary:        IRC Statistics generator
 License:        GPLv2+
 URL:            http://pisg.sourceforge.net/
@@ -53,6 +53,12 @@ install -p -D -m644 docs/pisg.1 %{buildroot}%{_mandir}/man1/pisg.1
 %config(noreplace)%{_sysconfdir}/%{name}.cfg
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.73-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.73-24
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.73-23
 - Perl 5.32 rebuild
 

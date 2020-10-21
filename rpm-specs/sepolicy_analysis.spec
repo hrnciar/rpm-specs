@@ -1,12 +1,13 @@
 Name:           sepolicy_analysis
 Version:        0.1
-Release:        12%{?dist}
+Release:        14%{?dist}
 Summary:        SELinux policy analysis tool
 
 License:        GPLv3
 URL:            https://github.com/vmojzis/sepolicy_analysis
 #./setup.py egg_info --egg-base /tmp sdist
 Source0:        https://github.com/vmojzis/sepolicy_analysis/releases/download/%{version}/%{name}-%{version}.tar.gz
+Patch0:         0001-Update-to-work-with-setools-4.3.patch
 
 BuildArch:      noarch
 
@@ -14,6 +15,7 @@ BuildRequires:  python3-devel
 
 Requires: python3-setools >= 4.0
 Requires: python3-networkx >= 1.11
+Requires: python3-matplotlib
 
 %description
 Tool designed to help increase the quality of SELinux policy by identifying
@@ -21,7 +23,7 @@ possibly dangerous permission pathways, simplifying regression testing and
 providing policy visualization.
 
 %prep
-%autosetup
+%autosetup -p 1
 
 %build
 %py3_build
@@ -49,6 +51,13 @@ providing policy visualization.
 %doc %{_mandir}/man1/se*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Vit Mojzis <vmojzis@redhat.com> - 0.1-13
+- Update to work with setools-4.3
+- Add missing dependency on python3-matplotlib
+
 * Thu Jun 04 2020 Vit Mojzis <vmojzis@redhat.com> - 0.1-12
 - Add dependency on python3-networkx
 - Fix setools dependency (setools-python3 got renamed to python3-setools)

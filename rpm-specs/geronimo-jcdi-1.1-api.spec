@@ -6,7 +6,7 @@
 
 Name:          geronimo-jcdi-1.1-api
 Version:       1.0
-Release:       8%{?dist}
+Release:       10%{?dist}
 Summary:       Apache Geronimo JCDI Spec 1.1
 License:       ASL 2.0
 URL:           http://geronimo.apache.org/
@@ -61,6 +61,12 @@ sed -i 's,${artifactId},${project.artifactId},;s,${version},${project.version},'
 %license LICENSE NOTICE
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.0-9
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

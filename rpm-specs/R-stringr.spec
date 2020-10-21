@@ -6,7 +6,7 @@
 
 Name:             R-%{packname}
 Version:          1.4.0
-Release:          6%{?dist}
+Release:          7%{?dist}
 Summary:          Simple, Consistent Wrappers for Common String Operations
 
 License:          GPLv2
@@ -83,6 +83,9 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --ignore-vignettes
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 1.4.0-6
 - rebuild for R 4
 

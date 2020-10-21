@@ -1,6 +1,6 @@
 Name:          fritzing-parts
 Version:       0.9.3b
-Release:       6%{?dist}
+Release:       7%{?dist}
 Summary:       Parts library for the Fritzing electronic design application
 
 # The overall distribution is licensed as CC-BY-SA (see LICENSE.txt), but
@@ -61,6 +61,9 @@ rmdir %{buildroot}%{_datadir}/fritzing/pdb
 %{_datadir}/fritzing
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3b-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3b-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 Name:            cifs-utils
 Version:         6.9
-Release:         3%{pre_release}%{?dist}
+Release:         4%{pre_release}%{?dist}
 Summary:         Utilities for mounting and managing CIFS mounts
 
 License:         GPLv3
@@ -105,6 +105,9 @@ fi
 %{_mandir}/man8/pam_cifscreds.8.gz
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.9-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.9-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

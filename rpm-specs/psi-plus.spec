@@ -1,312 +1,175 @@
-%global version_l10n 1.4.636
-%global genericplugins attentionplugin autoreplyplugin birthdayreminderplugin chessplugin cleanerplugin clientswitcherplugin conferenceloggerplugin contentdownloaderplugin enummessagesplugin extendedmenuplugin extendedoptionsplugin gnupgplugin gomokugameplugin historykeeperplugin httpuploadplugin icqdieplugin imageplugin imagepreviewplugin jabberdiskplugin juickplugin messagefilterplugin omemoplugin otrplugin pepchangenotifyplugin qipxstatusesplugin screenshotplugin skinsplugin stopspamplugin storagenotesplugin translateplugin videostatusplugin watcherplugin
-# %%global unixplugins
-%global devplugins pstoplugin ripperccplugin
-%global desc_common Psi+ is a development branch of Psi XMPP client.
+%undefine __cmake_in_source_build
+%global version_l10n 1.4.1514
 
-Summary:        Jabber client based on Qt
 Name:           psi-plus
-Version:        1.4.654
-Release:        6%{?dist}
+Version:        1.4.1515
+Release:        1%{?dist}
 Epoch:          1
 
+# GPLv2+ - core project.
+# LGPLv2.1+ - iris library, widgets, several tools.
+# zlib/libpng - bundled minizip library.
+# MIT - bundled http-parser and qhttp libraries.
+# ASL 2.0 - bundled libqite library.
+License:        GPLv2+ and LGPLv2+ and zlib and MIT and ASL 2.0
+Summary:        Jabber client based on Qt
 URL:            https://%{name}.com
-# GPLv2+ - core of Psi+
-# LGPLv2.1+ - iris library, Psi+ widgets, several Psi+ tools
-# zlib/libpng - UnZip 0.15 additionnal library
-License:        GPLv2+ and LGPLv2+ and zlib
-Source0:        https://github.com/%{name}/%{name}-snapshots/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
-Source1:        https://github.com/%{name}/%{name}-l10n/archive/%{version_l10n}.tar.gz#/%{name}-l10n-%{version_l10n}.tar.gz
 
-BuildRequires:  cmake
-BuildRequires:  gcc-c++
+Source0:        https://github.com/%{name}/%{name}-snapshots/archive/%{version}/%{name}-%{version}.tar.gz
+Source1:        https://github.com/%{name}/%{name}-l10n/archive/%{version_l10n}/%{name}-l10n-%{version_l10n}.tar.gz
 
+BuildRequires:  cmake(Qt5LinguistTools)
+BuildRequires:  cmake(Qt5XmlPatterns)
+BuildRequires:  cmake(Qt5Multimedia)
+BuildRequires:  cmake(Qt5X11Extras)
+BuildRequires:  cmake(Qt5WebEngine)
+BuildRequires:  cmake(Qt5Keychain)
+BuildRequires:  cmake(Qt5Network)
+BuildRequires:  cmake(QJDns-qt5)
 BuildRequires:  cmake(Qt5Core)
+BuildRequires:  cmake(Qt5DBus)
+BuildRequires:  cmake(Qca-qt5)
 BuildRequires:  cmake(Qt5Gui)
-BuildRequires:  cmake(Qt5Widgets)
-BuildRequires:  cmake(Qt5WebKit)
-BuildRequires:  cmake(Qt5WebKitWidgets)
 BuildRequires:  cmake(Qt5Svg)
 BuildRequires:  cmake(Qt5Xml)
-BuildRequires:  cmake(Qt5XmlPatterns)
-BuildRequires:  cmake(Qt5Network)
-BuildRequires:  cmake(Qt5Concurrent)
-BuildRequires:  cmake(Qt5DBus)
-BuildRequires:  cmake(Qt5Sql)
-BuildRequires:  cmake(Qt5Script)
-BuildRequires:  cmake(Qt5X11Extras)
-BuildRequires:  cmake(Qt5Multimedia)
-BuildRequires:  cmake(Qt5Keychain)
-BuildRequires:  pkgconfig(qca2-qt5)
-BuildRequires:  pkgconfig(qjdns-qt5)
-BuildRequires:  qt5-linguist
 
-BuildRequires:  pkgconfig(zlib)
-BuildRequires:  pkgconfig(enchant)
+BuildRequires:  pkgconfig(libsignal-protocol-c)
+BuildRequires:  pkgconfig(gstreamer-audio-1.0)
+BuildRequires:  pkgconfig(gstreamer-video-1.0)
+BuildRequires:  pkgconfig(gstreamer-base-1.0)
+BuildRequires:  pkgconfig(gstreamer-app-1.0)
+BuildRequires:  pkgconfig(gstreamer-1.0)
 BuildRequires:  pkgconfig(xscrnsaver)
-BuildRequires:  pkgconfig(openssl)
-# FIXME drop compatibility to zlic when F29 becomes EOL
-# https://src.fedoraproject.org/rpms/psi/blob/master/f/psi.spec#_38
-%if 0%{?fedora} && 0%{?fedora} < 30
-BuildRequires:  pkgconfig(minizip-compat)
-%else
-Provides:       bundled(minizip) = 1.2
-%endif
+BuildRequires:  pkgconfig(hunspell)
 BuildRequires:  pkgconfig(glib-2.0)
+BuildRequires:  pkgconfig(openssl)
 BuildRequires:  pkgconfig(libotr)
 BuildRequires:  pkgconfig(libidn)
-BuildRequires:  pkgconfig(libsignal-protocol-c)
+BuildRequires:  pkgconfig(zlib)
+BuildRequires:  pkgconfig(tidy)
 
 BuildRequires:  desktop-file-utils
-BuildRequires:  gettext
-BuildRequires:  libtidy-devel
+BuildRequires:  libappstream-glib
+BuildRequires:  libgcrypt-devel
+BuildRequires:  ninja-build
+BuildRequires:  gcc-c++
+BuildRequires:  cmake
+BuildRequires:  gcc
 
-Requires:       %{name}-common = %{epoch}:%{version}-%{release}
-Requires:       sox%{?_isa}
-Requires:       gnupg
-Requires:       qca-qt5-ossl%{?_isa}
-
+Recommends:     %{name}-plugins%{?_isa}
 Requires:       qca-qt5-gnupg%{?_isa}
-
+Requires:       qca-qt5-ossl%{?_isa}
 Requires:       hicolor-icon-theme
 
-# New Fedora rules allow to use bundled libraries
-# https://bugzilla.redhat.com/show_bug.cgi?id=737304#c15
-Provides:       bundled(iris)
+Provides:       bundled(iris) = 0~git
+Provides:       bundled(minizip) = 1.2.11
+Provides:       bundled(qhttp) = 2.0.0
+Provides:       bundled(http-parser) = 2.9.4
+Provides:       bundled(libqite) = 0~git
+
+# Obsolete and remove old subpackages
+Provides:       %{name}-i18n = %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      %{name}-i18n < %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       %{name}-icons = %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      %{name}-icons < %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       %{name}-common = %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      %{name}-common < %{?epoch:%{epoch}:}%{version}-%{release}
+
+# Required qt5-qtwebengine is not available on some arches.
+ExclusiveArch: %{qt5_qtwebengine_arches}
 
 %description
-%{desc_common}
+%{name} is the premiere Instant Messaging application designed for Microsoft
+Windows, Apple Mac OS X and GNU/Linux. Built upon an open protocol named
+Jabber, %{name} is a fast and lightweight messaging client that utilises the best
+in open source technologies. %{name} contains all the features necessary to chat,
+with no bloated extras that slow your computer down. The Jabber protocol
+provides gateways to other protocols as AIM, ICQ, MSN and Yahoo!.
 
-%package        i18n
-Summary:        Language packs for Psi
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-BuildArch:      noarch
+%package plugins
+# GPLv2+ is used for the most plugins.
+# BSD - screenshot plugin.
+License:        GPLv2+ and BSD
+Summary:        Additional plugins for %{name}
+Requires:       %{name}%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 
-%description    i18n
-%{desc_common}
-This package adds internationalization to Psi+.
-
-%package        common
-Summary:        Noarch resources for Psi+
-BuildArch:      noarch
-
-%description    common
-%{desc_common}
-This package contains huge of base mandatory resources for Psi+.
-
-%package        plugins
-Summary:        Plugins pack for Psi+
-# GPLv2 is used for the most plugins
-# BSD - screenshot plugin
-# Beerware - icqdie plugin
-License:        GPLv2+ and BSD and Beerware
-Requires:       %{name}%{?_isa} = %{epoch}:%{version}-%{release}
-# Filter out plugins from provides
-%global __provides_exclude_from ^%{_libdir}/%{name}
-
-
-%description    plugins
-%{desc_common}
-
- * Attention Plugin
-This plugin is designed to send and receive special messages such as
-Attentions.
-
- * Autoreply Plugin
-This plugin acts as an auto-answering machine.
-
- * Birthday Reminder Plugin
-This plugin is designed to show reminders of upcoming birthdays.
-
- * Chess Plugin
-This plugin allows you to play chess with your friends.
-The plugin is compatible with a similar plugin for Tkabber.
-
- * Cleaner Plugin
-This plugin is designed to clear the avatar cache, saved local copies
-of vCards and history logs.
-
- * Client Switcher Plugin
-This plugin is intended to spoof version of the Jabber client, the
-name and type of operating system. It is possible to manually specify
-the version of the client and the operating system or choose from a
-predefined list.
-
- * Conference Logger Plugin
-This plugin is designed to save conference logs in which the Psi+
-user sits.
-
- * Content Downloader Plugin
-This plugin can currently be used to download and install roster
-iconsets and emoticons.
-
- * Enum Messages Plugin
-The plugin is designed to enumerate messages, adding the messages
-numbers in chat logs and notification of missed messages. Supports
-per contact on / off message enumeration via the buttons on the chats
-toolbar.
-
- * Extended Menu Plugin
-This plugin adds roster submenu 'Extended Actions' to contact's
-context menu. At the moment we have the following items: 'Copy JID',
-'Copy the nickname', 'Copy the status message' and 'Ping'.
-
- * Extended Options Plugin
-This plugin is designed to allow easy configuration of some advanced
-options in Psi+. This plugin gives you access to advanced application
-options, which do not have a graphical user interface.
-
- * GnuPG Key Manager
-GnuPG Key Manager can create, remove, export and import GnuPG keys.
-It can do only the base operations but I hope it will be enough for
-your needs.
-
- * History Keeper Plugin
-This plugin is designed to remove the history of selected contacts
-when the Psi+ is closed.
-
- * HTTP Upload Plugin
-This plugin allows uploading images and other files via XEP-0363.
-
- * ICQ Must Die Plugin
-This plugin is designed to help you transfer as many contacts as
-possible from ICQ to Jabber.
-
- * Image Plugin
-This plugin is designed to send images to roster contacts.
-
- * Image Preview Plugin
-This plugin shows the preview image for an image URL.
-
- * Juick Plugin
-This plugin is designed to work efficiently and comfortably with the
-Juick microblogging service.
-
- * PEP Change Notify Plugin
-The plugin is designed to display popup notifications on change of
-moods, activities and tunes at the contacts of the roster. In the
-settings you can choose which ones to include notification of events,
-specify the time within which a notice will appear, as well as play a
-sound specify.
-
- * Qip X-statuses Plugin
-This plugin is designed to display X-statuses of contacts using the
-QIP Infium jabber client.
-
- * Screenshot Plugin
-This plugin allows you to make a snapshot (screenshot) of the screen,
-edit the visible aria to make a screenshot and save the image to a
-local drive or upload to HTTP/FTP server.
-
- * Stop Spam Plugin
-This plugin is designed to block spam messages and other unwanted
-information from Psi+ users.
-
- * Storage Notes Plugin
-This plugin is an implementation of XEP-0049: Private XML Storage.
-The plugin is fully compatible with notes saved using Miranda IM.
-The plugin is designed to keep notes on the jabber server with the
-ability to access them from anywhere using Psi+ or Miranda IM.
-
- * Translate Plugin
-This plugin allows you to convert selected text into another language.
-
- * Video Status Changer Plugin
-This plugin is designed to set the custom status when you see the
-video in selected video player. Communication with players made by
-D-Bus.
-
- * Skins Plugin
-This plugin is designed to create, store and apply skins to Psi+.
-
- * Off-the-Record Messaging Plugin
-a cryptographic protocol that provides strong encryption for instant
-messaging conversations. OTR uses a combination of the AES
-symmetric-key algorithm, the Diffie–Hellman key exchange, and the SHA-1
-hash function. In addition to authentication and encryption, OTR
-provides perfect forward secrecy and malleable encryption.
-
- * PSTO Plugin
-Instant bloging service.
-
- * OMEMO Plugin
-A plugin that adds support for OMEMO encryption.
-
+%description plugins
+This package adds additional plugins to %{name}.
 
 %prep
-%autosetup -n %{name}-snapshots-%{version}
+%autosetup -n %{name}-snapshots-%{version} -p1
 
-# fix rpmlint spurious-executable-perm
-find . -name '*.cpp' -or -name '*.h' | xargs chmod 644
+# Unpacking tarball with additional locales...
+tar -xf %{SOURCE1} %{name}-l10n-%{version_l10n}/translations --strip=1
 
-# Remove bundled libraries
-%if 0%{?fedora} && 0%{?fedora} < 30
-rm -rf src/libpsi/tools/zip/minizip
-%endif
-rm -fr iris/src/jdns
-
-# Psi+ always uses last iris version. So I need to provide bundled
-# iris to guarantee efficiency of program.
-# rm -fr iris
-
-tar xf %{SOURCE1} -C .
-
+# Removing bundled libraries...
+rm -rf iris/src/jdns
 
 %build
-mkdir build
-pushd build
-%cmake .. \
- -DUSE_ENCHANT=ON \
- -DUSE_HUNSPELL=OFF \
- -DUSE_KEYCHAIN=ON \
- -DENABLE_PLUGINS=ON
-popd
-%make_build -C build
-
-pushd %{name}-l10n-%{version_l10n}/translations
-lrelease-qt5 *.ts
-popd
-
+%cmake -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DUSE_QT5:BOOL=ON \
+    -DUSE_ENCHANT:BOOL=OFF \
+    -DUSE_HUNSPELL:BOOL=ON \
+    -DUSE_QJDNS:BOOL=ON \
+    -DSEPARATE_QJDNS:BOOL=ON \
+    -DENABLE_PLUGINS:BOOL=ON \
+    -DUSE_KEYCHAIN:BOOL=ON \
+    -DBUILD_PSIMEDIA:BOOL=ON \
+    -DINSTALL_EXTRA_FILES:BOOL=ON \
+    -DUSE_DBUS:BOOL=ON \
+    -DPRODUCTION:BOOL=ON \
+    -DCHAT_TYPE:STRING=WEBENGINE
+%cmake_build
 
 %install
-%make_install -C build
-install -p -m0644 -D psi.appdata.xml $RPM_BUILD_ROOT%{_datadir}/appdata/%{name}.appdata.xml
-for p in 16 32 48 64 128
-do
- install -p -m0644 -D iconsets/system/default/psiplus/logo_${p}.png \
- $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/${p}x${p}/apps/%{name}.png
-done
-
-# Install languages
-cp -p %{name}-l10n-%{version_l10n}/translations/*.qm $RPM_BUILD_ROOT%{_datadir}/%{name}
+%cmake_install
 %find_lang psi --with-qt
-
+rm -rf %{buildroot}%{_datadir}/%{name}/COPYING
 
 %check
-desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdata.xml
+desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
-
-%files
+%files -f psi.lang
 %license COPYING
 %doc README
 %{_bindir}/%{name}
-%{_datadir}/appdata/%{name}.appdata.xml
+%dir %{_datadir}/%{name}
+%{_datadir}/%{name}/certs
+%{_datadir}/%{name}/iconsets
+%{_datadir}/%{name}/sound
+%{_datadir}/%{name}/*.{txt,html}
+%{_metainfodir}/%{name}.appdata.xml
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 %{_datadir}/pixmaps/%{name}.png
 
-%files i18n -f psi.lang
-
 %files plugins
-%{_libdir}/%{name}/
-
-%files common
-%license COPYING
-%{_datadir}/%{name}/
-%exclude %{_datadir}/%{name}/*.qm
-
+%{_libdir}/%{name}
 
 %changelog
+* Thu Oct 15 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1:1.4.1515-1
+- Updated to version 1.4.1515.
+
+* Fri Sep 25 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1:1.4.1511-1
+- Updated to version 1.4.1511.
+
+* Sat Sep 05 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1:1.4.1490-1
+- Updated to version 1.4.1490.
+
+* Fri Jul 31 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1:1.4.1472-2
+- Added virtual provides for the bundled libraries.
+
+* Fri Jul 31 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1:1.4.1472-1
+- Updated to version 1.4.1472.
+- Performed major SPEC cleanup and unification.
+- Switched from QtWebKit to QtWebEngine.
+- Enabled voice and video plugin.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.4.654-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.4.654-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

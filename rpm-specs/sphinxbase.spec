@@ -1,8 +1,14 @@
 %global extraver prealpha
 
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 Name:           sphinxbase
 Version:        5
-Release:        0.4.%{extraver}%{?dist}
+Release:        0.8.%{extraver}%{?dist}
 Epoch:          1
 Summary:        Common library for CMU Sphinx voice recognition products
 
@@ -19,7 +25,7 @@ BuildRequires:  doxygen-latex
 BuildRequires:  gcc-c++
 BuildRequires:  ghostscript
 BuildRequires:  libtool
-BuildRequires:  openblas-devel
+BuildRequires:  %{blaslib}-devel
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
 BuildRequires:  perl(Pod::Usage)
@@ -61,13 +67,13 @@ Python 3 interface to sphinxbase.
 %prep
 %setup -q -n sphinxbase-%{version}%{extraver}
 
-# Use openblas instead of the blas reference implementation
-sed -ri 's/blas|lapack/openblas/' configure.ac
+# Use blaslib instead of the blas reference implementation
+sed -ri 's/blas|lapack/%{blaslib}/' configure.ac
 
 # Use system-provided ax_python_devel.m4
 rm -f m4/ax_python_devel.m4
 
-# Regenerate configure files due to openblas and m4 changes
+# Regenerate configure files due to blaslib and m4 changes
 autoreconf -fi
 
 # Fix encoding
@@ -88,7 +94,7 @@ done
 %patch0 -p1 -b .fix-doxy2swig
 
 %build
-export CPPFLAGS="-I %{_includedir}/openblas"
+export CPPFLAGS="-I %{_includedir}/%{blaslib}"
 export PYTHON="python3"
 %configure --disable-static --with-python=%{__python3}
 
@@ -119,7 +125,7 @@ perl args2man.pl ../src/sphinx_adtools/sphinx_pitch < sphinx_pitch.1.in > sphinx
 
 %install
 # Install the binaries and libraries
-mkdir -p %{buildroot}%{python_sitearch}
+mkdir -p %{buildroot}%{python3_sitearch}
 %make_install
 
 # Install the man pages
@@ -152,6 +158,19 @@ rm -f %{buildroot}%{_libdir}/*.la
 %{python3_sitearch}/sphinxbase
 
 %changelog
+* Sun Aug 16 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1:5-0.8.prealpha
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Sat Aug 01 2020 W. Michael Petullo <mike@flyn.org> - 1:5-0.7.prealpha
+- Fix errant use of python_sitearch macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5-0.6.prealpha
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5-0.5.prealpha
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1:5-0.4.prealpha
 - Rebuilt for Python 3.9
 

@@ -4,7 +4,7 @@
 Summary: Simple Video for Linux radio card programs
 Name:    fmtools
 Version: 2.0.7
-Release: 19%{?dist}
+Release: 20%{?dist}
 License: GPLv2+
 URL:     http://benpfaff.org/fmtools
 
@@ -98,6 +98,9 @@ install -Dpm 0644 %{SOURCE8} %{buildroot}%{_datadir}/%{name}/radio.gif
 %{_datadir}/%{name}/radio.gif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.7-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.7-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

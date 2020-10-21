@@ -1,6 +1,6 @@
 Name: wxmacmolplt
 Version: 7.7
-Release: 13%{?dist}
+Release: 15%{?dist}
 Summary: A graphics program for plotting 3-D molecular structures and normal modes
 License: GPLv2+
 URL: http://brettbode.github.io/wxmacmolplt/
@@ -40,6 +40,7 @@ MacMolPlt is:
 %setup -q
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 autoreconf -vif
 %configure \
   --docdir=%{_pkgdocdir} \
@@ -65,6 +66,12 @@ rm %{buildroot}%{_pkgdocdir}/LICENSE
 %{_datadir}/wxmacmolplt
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 7.7-15
+- Force C++14 as this code is not C++17 ready
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.7-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.7-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

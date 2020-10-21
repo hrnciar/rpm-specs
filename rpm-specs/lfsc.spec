@@ -2,11 +2,11 @@
 # We check the code out of git and use the date of the last commit as the
 # version number.
 %global owner    CVC4
-%global gittag   7f2dc5255234105cf4f6b9f06d35dcc3c5dcae97
+%global gittag   1d1c55fa17b08e2bc8cb686b9d07ec63bf0dd4a2
 %global shorttag %(cut -b -7 <<< %{gittag})
 
 Name:           lfsc
-Version:        0.20200115
+Version:        0.20200815
 Release:        1%{?dist}
 Summary:        SMT proof checker
 
@@ -27,6 +27,7 @@ Source9:        http://clc.cs.uiowa.edu/lfsc/color_euf.plf
 Patch0:         %{name}-map.patch
 
 BuildRequires:  cmake
+BuildRequires:  flex
 BuildRequires:  gcc-c++
 BuildRequires:  gmp-devel
 BuildRequires:  help2man
@@ -63,14 +64,14 @@ if [ "%{_lib}" = "lib64" ]; then
 fi
 
 # Fix the test script
-sed -i 's,%{_bindir}/env python,%{__python3},' tests/run_test.py
+sed -i 's,%{_bindir}/env python,%{python3},' tests/run_test.py
 
 %build
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 # Install the proof files
 mkdir -p %{buildroot}%{_datadir}/%{name}
@@ -78,17 +79,20 @@ cp -p %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} \
    %{SOURCE7} %{SOURCE8} %{SOURCE9} %{buildroot}%{_datadir}/%{name}
 
 # Generate a man page
-cd src
+cd %{_vpath_builddir}/src
 mkdir -p %{buildroot}%{_mandir}/man1
 export LD_LIBRARY_PATH=$PWD
 help2man -N --version-string=%{version} ./lfscc > \
   %{buildroot}%{_mandir}/man1/lfscc.1
 # Fix line breaks in the man page
 sed -i 's/\\fB/.TP\n&/;s/\\fR: /\\fR\n/' %{buildroot}%{_mandir}/man1/lfscc.1
+
+# Help the debuginfo generator
+cp -p ../../src/lexer.flex .
 cd -
 
 %check
-make test
+%ctest
 
 %files
 %license COPYING
@@ -103,6 +107,16 @@ make test
 %{_libdir}/liblfscc.so
 
 %changelog
+* Mon Aug 24 2020 Jerry James <loganjerry@gmail.com> - 0.20200815-1
+- Update to 20200815 git snapshot
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20200719-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Jerry James <loganjerry@gmail.com> - 0.20200719-1
+- Update to 20200719 git snapshot
+- Adapt to cmake changes in Rawhide
+
 * Thu Mar  5 2020 Jerry James <loganjerry@gmail.com> - 0.20200115-1
 - Update to latest git snapshot
 - Link the library with gmp

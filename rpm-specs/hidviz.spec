@@ -1,6 +1,6 @@
 Name:		hidviz
 Version:	0.1.5
-Release:	6%{?dist}
+Release:	10%{?dist}
 Summary:	A tool for in-depth analysis of USB HID devices communication
 License:	GPLv3+
 URL:		https://github.com/ondrejbudai/hidviz
@@ -20,11 +20,11 @@ Hidviz is a GUI application for in-depth analysis of USB HID class devices.
 %patch0 -p1 -b .build-fix
 
 %build
-%cmake .
-make %{?_smp_mflags}
+%cmake
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 # icon not yet available, temporal hack to make and install one :)
 convert hidviz/images/usb.png -resize 128x128 -background transparent \
@@ -47,6 +47,20 @@ desktop-file-install --add-category="Utility" \
 %{_datadir}/applications/hidviz.desktop
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 0.1.5-10
+- Rebuilt for protobuf 3.13
+
+* Wed Aug  5 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 0.1.5-9
+- New version
+  Resolves: rhbz#1863849
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.5-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.5-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Adrian Reber <adrian@lisas.de> - 0.1.5-6
 - Rebuilt for protobuf 3.12
 

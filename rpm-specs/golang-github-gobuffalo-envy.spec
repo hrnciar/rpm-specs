@@ -14,7 +14,7 @@ Envy makes working with ENV variables in Go trivial.}
 %global godocs          README.md SHOULDERS.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Work with ENV variables in Go trivially
 
 License:        MIT
@@ -48,6 +48,9 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 07 02:39:17 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.9.0-1
 - Update to 1.9.0
 

@@ -3,7 +3,7 @@
 
 Name:           perl-Types-URI
 Version:        0.007
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Type constraints and coercions for URIs
 # COPYRIGHT:    Public Domain
 # other files:  GPL+ or Artistic
@@ -76,6 +76,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.007-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.007-4
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.007-3
 - Perl 5.32 rebuild
 

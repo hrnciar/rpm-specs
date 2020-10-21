@@ -16,7 +16,7 @@
 
 Name:           libclastfm
 Version:        0.5
-Release:        0.16%{?git_version:.%{?git_version}}%{?dist}
+Release:        0.17%{?git_version:.%{?git_version}}%{?dist}
 Summary:        Unofficial C-API for the Last.fm web service
 
 License:        GPLv3+
@@ -78,6 +78,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-0.17.20120314git968af0ab
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-0.16.20120314git968af0ab
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

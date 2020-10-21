@@ -26,7 +26,7 @@
 
 Name:           json-c
 Version:        0.14
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        JSON implementation in C
 
 License:        MIT
@@ -88,7 +88,6 @@ doxygen -s -u doc/Doxyfile.in
 
 
 %build
-mkdir -p %{_vpath_builddir}
 %cmake \
   -DBUILD_STATIC_LIBS:BOOL=OFF       \
   -DCMAKE_BUILD_TYPE:STRING=RELEASE  \
@@ -97,32 +96,28 @@ mkdir -p %{_vpath_builddir}
   -DDISABLE_WERROR:BOOL=ON           \
   -DENABLE_RDRAND:BOOL=ON            \
   -DENABLE_THREADING:BOOL=ON         \
-  -G Ninja                           \
-  -B $PWD/%{_vpath_builddir}         \
-  -S $PWD
-%ninja_build -C %{_vpath_builddir} all doc
+  -G Ninja
+%cmake_build --target all doc
 
 
 %install
-%ninja_install -C %{_vpath_builddir}
+%cmake_install
 
 # Documentation
 mkdir -p %{buildroot}%{_pkgdocdir}
-cp -a %{_vpath_builddir}/doc/html ChangeLog README README.* \
+cp -a %{__cmake_builddir}/doc/html ChangeLog README README.* \
   %{buildroot}%{_pkgdocdir}
 hardlink -cfv %{buildroot}%{_pkgdocdir}
 
 
 %check
-pushd %{_vpath_builddir}
 export USE_VALGRIND=0
-ctest %{_smp_mflags} --force-new-ctest-process --output-on-failure
+%ctest
 %ifarch %{valgrind_arches}
 export USE_VALGRIND=1
-ctest %{_smp_mflags} --force-new-ctest-process --output-on-failure
+%ctest
 %endif
 unset USE_VALGRIND
-popd
 
 
 %ldconfig_scriptlets
@@ -152,6 +147,9 @@ popd
 
 
 %changelog
+* Mon Jul 27 2020 Björn Esser <besser82@fedoraproject.org> - 0.14-7
+- Use new cmake macros
+
 * Tue May 26 2020 Björn Esser <besser82@fedoraproject.org> - 0.14-6
 - Build using Ninja instead of Make
 - Add a patch to move Doxyfile into doc subdir

@@ -7,7 +7,7 @@
 
 Name:           nodejs-%{modname}
 Version:        1.8.1
-Release:        15%{?dist}
+Release:        17%{?dist}
 Summary:        Nodejs option parser with generated usage and commands
 License:        MIT
 URL:            https://github.com/harthur/nomnom
@@ -45,6 +45,13 @@ cp -p package.json nomnom.js %{buildroot}%{nodejs_sitelib}/%{modname}/
 %{nodejs_sitelib}/%{modname}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-17
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

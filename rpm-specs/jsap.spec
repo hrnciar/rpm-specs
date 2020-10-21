@@ -29,7 +29,7 @@
 
 Name:           jsap
 Version:        2.1
-Release:        14.3%{?dist}
+Release:        17.3%{?dist}
 Summary:        A Java-based Simple Argument Parser
 License:        LGPLv3+
 Source0:        http://prdownloads.sourceforge.net/jsap/JSAP-2.1-src.tar.gz
@@ -121,6 +121,15 @@ mv doc/javadoc .
 %doc LICENSE.TXT
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-17.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 19 2020 Fabio Valentini <decathorpe@gmail.com> - 2.1-16.3
+- Set javac source and target to 1.8 to fix Java 11 builds.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.1-15.3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-14.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,8 @@
+%undefine __cmake_in_source_build
 %global uuid    org.%{name}.%{name}
 
 Name:           corectrl
-Version:        1.1.0
+Version:        1.1.1
 Release:        1%{?dist}
 Summary:        Friendly hardware control
 
@@ -85,22 +86,18 @@ sed -e 's@DESTINATION lib@DESTINATION %{_lib}@g' -i src/CMakeLists.txt
 # lib soversion fix
 echo "set_property(TARGET corectrl_lib PROPERTY SOVERSION 0)" >> src/CMakeLists.txt
 
-mkdir -p %{_target_platform}
-
 
 %build
-pushd %{_target_platform}
-    %cmake -G Ninja                     \
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo   \
-    -DBUILD_TESTING=ON                  \
-    ..
-popd
-%ninja_build -C %{_target_platform}
+%cmake \
+    -G Ninja \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DBUILD_TESTING=ON
+%ninja_build -C %{_vpath_builddir}
 
 
 %install
-%ninja_install -C %{_target_platform}
-install -m 0644 -Dp %{SOURCE1} %{buildroot}%{_docdir}/%{name}/README.fedora.md
+%ninja_install -C %{_vpath_builddir}
+install -m0644 -Dp %{SOURCE1} %{buildroot}%{_docdir}/%{name}/README.fedora.md
 find README.md -type f -perm /111 -exec chmod 644 {} \;
 find %{buildroot}/%{_datadir}/. -type f -executable -exec chmod -x "{}" \;
 
@@ -109,7 +106,7 @@ rm %{buildroot}/%{_libdir}/libcorectrl.so
 
 
 %check
-appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.xml
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
@@ -132,6 +129,15 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Wed Aug 19 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.1.1-1
+- Update to 1.1.1
+
+* Tue Jul 28 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.1.0-3
+- Rebuild with out-of-source builds new CMake macros
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 31 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.1.0-1
 - Update to 1.1.0
 - Disable LTO

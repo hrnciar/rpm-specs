@@ -3,7 +3,7 @@
 
 # https://github.com/rclone/rclone
 %global goipath         github.com/rclone/rclone
-Version:                1.51.0
+Version:                1.53.1
 
 %gometa
 
@@ -26,12 +26,12 @@ Source0:        %{gosource}
 BuildRequires:  golang(bazil.org/fuse)
 BuildRequires:  golang(bazil.org/fuse/fs)
 BuildRequires:  golang(github.com/a8m/tree)
+BuildRequires:  golang(github.com/aalpar/deheap)
 BuildRequires:  golang(github.com/abbot/go-http-auth)
 BuildRequires:  golang(github.com/anacrolix/dms/dlna)
 BuildRequires:  golang(github.com/anacrolix/dms/soap)
 BuildRequires:  golang(github.com/anacrolix/dms/ssdp)
 BuildRequires:  golang(github.com/anacrolix/dms/upnp)
-BuildRequires:  golang(github.com/anacrolix/dms/upnpav)
 BuildRequires:  golang(github.com/atotto/clipboard)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/aws)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/aws/awserr)
@@ -41,12 +41,13 @@ BuildRequires:  golang(github.com/aws/aws-sdk-go/aws/credentials/ec2rolecreds)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/aws/credentials/stscreds)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/aws/defaults)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/aws/ec2metadata)
+BuildRequires:  golang(github.com/aws/aws-sdk-go/aws/endpoints)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/aws/request)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/aws/session)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/service/s3)
 BuildRequires:  golang(github.com/Azure/azure-pipeline-go/pipeline)
 BuildRequires:  golang(github.com/Azure/azure-storage-blob-go/azblob)
-BuildRequires:  golang(github.com/djherbis/times)
+BuildRequires:  golang(github.com/coreos/go-semver/semver)
 BuildRequires:  golang(github.com/dropbox/dropbox-sdk-go-unofficial/dropbox)
 BuildRequires:  golang(github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/auth)
 BuildRequires:  golang(github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/common)
@@ -54,9 +55,11 @@ BuildRequires:  golang(github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/file
 BuildRequires:  golang(github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/sharing)
 BuildRequires:  golang(github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/team)
 BuildRequires:  golang(github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/users)
-BuildRequires:  golang(go.etcd.io/bbolt)
+BuildRequires:  golang(github.com/hanwen/go-fuse/v2/fs)
+BuildRequires:  golang(github.com/hanwen/go-fuse/v2/fuse)
 BuildRequires:  golang(github.com/jlaffaye/ftp)
 BuildRequires:  golang(github.com/jzelinskie/whirlpool)
+BuildRequires:  golang(github.com/klauspost/compress/huff0)
 BuildRequires:  golang(github.com/koofr/go-httpclient)
 BuildRequires:  golang(github.com/koofr/go-koofrclient)
 BuildRequires:  golang(github.com/mattn/go-colorable)
@@ -69,7 +72,9 @@ BuildRequires:  golang(github.com/okzk/sdnotify)
 BuildRequires:  golang(github.com/patrickmn/go-cache)
 BuildRequires:  golang(github.com/pkg/errors)
 BuildRequires:  golang(github.com/pkg/sftp)
-BuildRequires:  golang(github.com/putdotio/go-putio/putio)
+BuildRequires:  golang(github.com/prometheus/client_golang/prometheus)
+BuildRequires:  golang(github.com/prometheus/client_golang/prometheus/promhttp)
+BuildRequires:  golang(github.com/putdotio/go-putio)
 BuildRequires:  golang(github.com/rfjakob/eme)
 BuildRequires:  golang(github.com/sevlyar/go-daemon)
 BuildRequires:  golang(github.com/sirupsen/logrus)
@@ -83,10 +88,11 @@ BuildRequires:  golang(github.com/t3rm1n4l/go-mega)
 BuildRequires:  golang(github.com/Unknwon/goconfig)
 BuildRequires:  golang(github.com/xanzy/ssh-agent)
 BuildRequires:  golang(github.com/youmark/pkcs8)
-BuildRequires:  golang(github.com/yunify/qingstor-sdk-go/config)
-BuildRequires:  golang(github.com/yunify/qingstor-sdk-go/request/errors)
-BuildRequires:  golang(github.com/yunify/qingstor-sdk-go/service)
-BuildRequires:  golang(github.com/goftp/server)
+BuildRequires:  golang(github.com/yunify/qingstor-sdk-go/v3/config)
+BuildRequires:  golang(github.com/yunify/qingstor-sdk-go/v3/request/errors)
+BuildRequires:  golang(github.com/yunify/qingstor-sdk-go/v3/service)
+BuildRequires:  golang(go.etcd.io/bbolt)
+BuildRequires:  golang(goftp.io/server/core)
 BuildRequires:  golang(golang.org/x/crypto/nacl/secretbox)
 BuildRequires:  golang(golang.org/x/crypto/scrypt)
 BuildRequires:  golang(golang.org/x/crypto/ssh)
@@ -108,15 +114,14 @@ BuildRequires:  golang(google.golang.org/api/drive/v3)
 BuildRequires:  golang(google.golang.org/api/googleapi)
 BuildRequires:  golang(google.golang.org/api/storage/v1)
 BuildRequires:  golang(gopkg.in/yaml.v2)
+BuildRequires:  golang(storj.io/uplink)
 
 %description
 %{common_description}
 
 %prep
 %goprep
-sed -i "s|github.com/yunify/qingstor-sdk-go/v3|github.com/yunify/qingstor-sdk-go|" $(find . -name "*.go")
-sed -i "s|goftp.io/server|github.com/goftp/server|" $(find . -name "*.go")
-sed -i "s|github.com/etcd-io/bbolt|go.etcd.io/bbolt|" $(find . -name "*.go")
+sed -i "s|github.com/putdotio/go-putio/putio|github.com/putdotio/go-putio|" $(find . -name "*.go")
 
 %build
 LDFLAGS="-X github.com/ncw/rclone/fs.Version=v%{version} "
@@ -135,6 +140,16 @@ install -Dpm 0644 ./rclone.1 %{buildroot}%{_mandir}/man1/rclone.1
 %{_mandir}/man1/rclone.1*
 
 %changelog
+* Fri Sep 18 11:05:08 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.53.1-1
+- Update to 1.53.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.51.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.51.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 26 23:53:19 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.51.0-1
 - Update to 1.51.0
 

@@ -1,6 +1,6 @@
 Name:           yadex
 Version:        1.7.0
-Release:        50%{?dist}
+Release:        51%{?dist}
 Summary:        Doom level editor
 License:        GPLv2+
 
@@ -108,6 +108,9 @@ install -p -m 644 %{SOURCE2} %{buildroot}/%{_datadir}/icons/hicolor/48x48/apps/
 %license COPYING COPYING.LIB
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-51
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-50
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

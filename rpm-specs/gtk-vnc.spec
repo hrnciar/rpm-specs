@@ -12,7 +12,7 @@
 Summary: A GTK widget for VNC clients
 Name: gtk-vnc
 Version: 1.0.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: LGPLv2+
 Source: http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.5/%{name}-%{version}.tar.xz
 URL: https://wiki.gnome.org/Projects/gtk-vnc
@@ -186,6 +186,9 @@ chmod -x examples/*.pl examples/*.js examples/*.py
 %{_datadir}/gir-1.0/GtkVnc-2.0.gir
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 # https://github.com/opencontainers/image-spec
 %global goipath         github.com/opencontainers/image-spec
 Version:                1.0.1
-%global commit          da296dcb1e473a9b4e2d148941d7faa9ac8fea3f
+%global commit          79b036d80240ae530a8de15e1d21c7ab9292c693
 
 %gometa
 
@@ -20,7 +20,7 @@ container image format spec (OCI Image Format).}
                         media-types.md project.md spec.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        OCI Image Format Specification
 
 # Upstream license specification: Apache-2.0
@@ -53,6 +53,12 @@ BuildRequires:  golang(go4.org/errorutil)
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 17:39:24 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.1-5.20200730git79b036d
+- Bump to commit 79b036d80240ae530a8de15e1d21c7ab9292c693
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

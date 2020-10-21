@@ -25,7 +25,7 @@ Methods included:
 
 Name:           python-%{srcname}
 Version:        1.3.11
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Sensitivity Analysis Library
 
 License:        MIT
@@ -41,6 +41,7 @@ BuildArch:      noarch
 %package -n python3-%{srcname}
 Summary:        %{summary}
 BuildRequires:  python3-devel
+BuildRequires:  %{py3_dist setuptools}
 
 # Not mentioned in setup.py, so won't be picked up by the generator
 Requires:  %{py3_dist pandas}
@@ -124,6 +125,12 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python3_sitelib} pytest-%{python3_version}
 %doc html-docs
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.11-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.3.11-3
+- Explicitly BR setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.11-2
 - Rebuilt for Python 3.9
 

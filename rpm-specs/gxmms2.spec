@@ -1,7 +1,7 @@
 Name:		gxmms2
 Summary: 	A graphical audio player
 Version:	0.7.1
-Release:	19%{?dist}
+Release:	20%{?dist}
 License:	GPLv2
 # If we need to use a git checkout to support an xmms2 release...
 # git clone git://git.xmms.se/xmms2/gxmms2.git
@@ -60,6 +60,9 @@ desktop-file-install --dir %{buildroot}%{_datadir}/applications %{SOURCE1}
 %{_libdir}/gkrellm2/plugins/gkrellxmms2.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

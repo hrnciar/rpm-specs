@@ -1,6 +1,6 @@
 Name:           pinpoint
 Version:        0.1.8
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        A tool for making hackers do excellent presentations
 
 License:        LGPLv2+
@@ -42,6 +42,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.8-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.8-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

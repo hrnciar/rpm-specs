@@ -3,7 +3,7 @@
 #
 
 %global ubuntu_release 13
-%global my_release 1
+%global my_release 2
 %global _hardened_build 1
 
 Name:           wide-dhcpv6
@@ -14,7 +14,7 @@ License:        BSD and GPLv2+
 Summary:        DHCP Client and Server for IPv6
 Version:        20080615
 Url:            https://launchpad.net/ubuntu/+source/%{name}/%{version}-%{ubuntu_release}
-Release:        %{ubuntu_release}.%{my_release}%{dist}.10
+Release:        %{ubuntu_release}.%{my_release}%{dist}
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Source1:        CHANGELOG-LINUX
 Source2:        COPYRIGHT
@@ -23,6 +23,7 @@ Source4:        dhcp6c.service
 Source5:        dhcp6r.service
 Source6:        dhcp6s.service
 Source7:        RELEASENOTES
+Source8:        dhcp6c@.service
 Patch1:         wide-dhcpv6-0001-Fix-manpages.patch
 Patch2:         wide-dhcpv6-0002-Don-t-strip-binaries.patch
 Patch3:         wide-dhcpv6-0003-Close-inherited-file-descriptors.patch
@@ -77,6 +78,7 @@ mkdir -p %{buildroot}%{_sbindir}
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}
 mkdir -p %{buildroot}%{_mandir}/man{8,5}
 mkdir -p %{buildroot}%{_defaultdocdir}/%{name}
+mkdir -p %{buildroot}%{_unitdir}
 install -p -m 755 dhcp6c dhcp6s dhcp6relay dhcp6ctl %{buildroot}%{_sbindir}
 install -p -m 644 dhcp6c.8 dhcp6s.8 dhcp6relay.8 dhcp6ctl.8 %{buildroot}/%{_mandir}/man8
 install -p -m 644 dhcp6c.conf.5 dhcp6s.conf.5 %{buildroot}/%{_mandir}/man5
@@ -87,11 +89,15 @@ install -p -m 644 %{SOURCE4} %{buildroot}%{_defaultdocdir}/%{name}
 install -p -m 644 %{SOURCE5} %{buildroot}%{_defaultdocdir}/%{name}
 install -p -m 644 %{SOURCE6} %{buildroot}%{_defaultdocdir}/%{name}
 install -p -m 644 %{SOURCE7} %{buildroot}%{_defaultdocdir}/%{name}
+install -p -m 644 %{SOURCE8} %{buildroot}%{_unitdir}
 install -p -m 644 README CHANGES %{buildroot}%{_defaultdocdir}/%{name}
 install -p -m 644 dhcp6c.conf.sample %{buildroot}%{_defaultdocdir}/%{name}
 install -p -m 644 dhcp6s.conf.sample %{buildroot}%{_defaultdocdir}/%{name}
 
 %preun
+if [ $1 -lt 1 ] ; then
+%systemd_preun dhcp6c@.service
+fi
 %systemd_preun dhcp6c.service
 %systemd_preun dhcp6r.service
 %systemd_preun dhcp6s.service
@@ -106,8 +112,16 @@ install -p -m 644 dhcp6s.conf.sample %{buildroot}%{_defaultdocdir}/%{name}
 %{_defaultdocdir}/%{name}/*
 %{_sbindir}/*
 %{_mandir}/man?/*
+%{_unitdir}/*
 
 %changelog
+* Fri Aug 14 2020 dave@bevhost.com 20080615-13.2
+- Added parameterized systemd unit file for client
+- Added more complete usage example to RELEASENOTES
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20080615-13.1.11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20080615-13.1.10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

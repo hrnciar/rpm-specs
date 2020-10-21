@@ -2,14 +2,11 @@
 
 Summary:	Jabber client written in PyGTK
 Name:		gajim
-%global		majorver 1.1
-Version:	1.1.3
-Release:	6%{?dist}
+Version:	1.2.0
+Release:	2%{?dist}
 License:	GPLv3
 URL:		https://gajim.org/
-Source0:	https://gajim.org/downloads/%{majorver}/%{name}-%{version}.tar.bz2
-Patch0001:	0001-Prefer-X11-to-Wayland-GDK-backend.patch
-Patch0002:	0002-setup.cfg-bump-nbxmpp-version.patch
+Source0:	https://dev.gajim.org/gajim/gajim/-/archive/gajim-%{version}/gajim-gajim-%{version}.tar.bz2
 BuildArch:	noarch
 
 ## Hard requirements
@@ -66,7 +63,7 @@ to provide a full featured and easy to use xmpp client for the GTK+ users.
 Gajim does not require GNOME to run, even though it exists with it nicely.
 
 %prep
-%autosetup -p1
+%autosetup -n gajim-gajim-%{version} -p1
 
 %build
 %py3_build
@@ -89,7 +86,6 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/%{appid}.
 %{_bindir}/%{name}-remote
 %{_datadir}/applications/%{appid}.desktop
 %{_datadir}/metainfo/%{appid}.appdata.xml
-%{_datadir}/icons/hicolor/*x*/apps/%{appid}.png
 %{_datadir}/icons/hicolor/scalable/apps/%{appid}.svg
 %{_datadir}/icons/hicolor/symbolic/apps/%{appid}-symbolic.svg
 
@@ -97,6 +93,12 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/%{appid}.
 %{python3_sitelib}/%{name}-%{version}*.egg-info
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Michal Schmidt <mschmidt@redhat.com> - 1.2.0-1
+- Upstream release 1.2.0.
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.3-6
 - Rebuilt for Python 3.9
 

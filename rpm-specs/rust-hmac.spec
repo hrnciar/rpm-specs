@@ -5,8 +5,8 @@
 %global crate hmac
 
 Name:           rust-%{crate}
-Version:        0.8.0
-Release:        1%{?dist}
+Version:        0.8.1
+Release:        2%{?dist}
 Summary:        Generic implementation of Hash-based Message Authentication Code (HMAC)
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -71,6 +71,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 17:14:36 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.8.1-1
+- Update to 0.8.1
+
 * Sun Jun 21 09:21:52 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.8.0-1
 - Update to 0.8.0
 

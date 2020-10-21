@@ -1,6 +1,6 @@
 Name:           KoboDeluxe
 Version:        0.5.1
-Release:        31%{?dist}
+Release:        32%{?dist}
 Summary:        Third person scrolling 2D shooter
 License:        GPLv2+
 URL:            http://olofson.net/kobodl/
@@ -84,6 +84,9 @@ exit 0
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar  4 2020 Hans de Goede <hdegoede@redhat.com> - 0.5.1-31
 - Add 32x32 and 64x64 icons for cases where we need a lower res icon
 

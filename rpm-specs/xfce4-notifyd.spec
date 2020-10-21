@@ -4,7 +4,7 @@
 %global xfceversion 4.14
 
 Name:           xfce4-notifyd
-Version:        0.6.1
+Version:        0.6.2
 Release:        1%{?dist}
 Summary:        Simple notification daemon for Xfce
 
@@ -57,9 +57,8 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}-config.deskto
 %find_lang %{name}
 
 # remove libtool archives
-find $RPM_BUILD_ROOT -name \*.la -exec rm {} \;
+find %{buildroot} -name \*.la -exec rm {} \;
 
-%ldconfig_scriptlets
 
 %files -f %{name}.lang
 %license COPYING
@@ -68,8 +67,6 @@ find $RPM_BUILD_ROOT -name \*.la -exec rm {} \;
 %{_libdir}/xfce4/notifyd/
 %{_libdir}/xfce4/panel/plugins/libnotification-plugin.so
 %{_datadir}/applications/xfce4-notifyd-config.desktop
-%{_datadir}/dbus-1/services/org.xfce.xfce4-notifyd.Notifications.service
-%{_datadir}/icons/hicolor/48x48/apps/xfce4-notifyd.png
 %{_datadir}/themes/Default/xfce-notify-4.0/
 %{_datadir}/themes/Smoke/
 %{_datadir}/themes/ZOMG-PONIES!/
@@ -78,9 +75,15 @@ find $RPM_BUILD_ROOT -name \*.la -exec rm {} \;
 %{_datadir}/icons/hicolor/*/*/*
 %{_datadir}/xfce4/panel/plugins/notification-plugin.desktop
 %{_mandir}/man1/xfce4-notifyd-config.1.*
-%{_userunitdir}/xfce4-notifyd.service
+%{_sysconfdir}/xdg/autostart/%{name}.desktop
 
 %changelog
+* Mon Aug 31 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.6.2-1
+- Update to 0.6.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.6.1-1
 - Update to 0.6.1
 

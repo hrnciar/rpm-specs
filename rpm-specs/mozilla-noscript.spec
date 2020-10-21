@@ -10,7 +10,7 @@
 %global extension_id \{73a6fe31-595d-460b-a920-fcc0f8843232\}
 
 Name:           mozilla-noscript
-Version:        11.0.26
+Version:        11.0.46
 Release:        1%{?dist}
 Summary:        JavaScript white list extension for Mozilla Firefox
 
@@ -77,6 +77,24 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/%{name}.m
 %endif
 
 %changelog
+* Mon Oct 05 2020 Dominik Mierzejewski <rpm@greysector.net> - 11.0.46-1
+- update to 11.0.46 (#1877073)
+
+* Tue Sep 08 2020 Dominik Mierzejewski <rpm@greysector.net> - 11.0.42-1
+- update to 11.0.42 (#1876014)
+
+* Mon Aug 31 2020 Dominik Mierzejewski <rpm@greysector.net> - 11.0.41-1
+- update to 11.0.41 (#1870896)
+
+* Thu Aug 20 2020 Dominik Mierzejewski <rpm@greysector.net> - 11.0.38-1
+- update to 11.0.38 (#1861922)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.0.34-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Dominik Mierzejewski <rpm@greysector.net> - 11.0.34-1
+- update to 11.0.34 (#1841091)
+
 * Tue May 19 2020 Dominik Mierzejewski <rpm@greysector.net> - 11.0.26-1
 - update to 11.0.26 (#1836699)
 

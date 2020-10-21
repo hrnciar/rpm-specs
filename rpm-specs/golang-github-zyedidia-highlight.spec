@@ -15,7 +15,7 @@ A Go package for syntax highlighting.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.1%{?dist}
+Release:        0.2%{?dist}
 Summary:        Go package for syntax highlighting
 
 License:        MIT
@@ -56,6 +56,9 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 12:03:21 EET 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0-0.1.20200217git291680f
 - Initial package
 

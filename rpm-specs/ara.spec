@@ -13,8 +13,8 @@
 %global srcname ara
 
 Name:           %{srcname}
-Version:        1.4.0
-Release:        4%{?dist}
+Version:        1.5.1
+Release:        2%{?dist}
 Summary:        Records Ansible playbooks and makes them easier to understand and troubleshoot
 
 License:        GPLv3
@@ -36,6 +36,8 @@ BuildRequires:  python3-devel
 BuildRequires:  python3-pbr
 
 Requires:       python3-requests
+Requires:       python3-cliff
+Requires:       python3-pbr
 
 %description -n python3-%{srcname}
 %{summary}
@@ -58,7 +60,7 @@ BuildRequires:  python3-dynaconf
 BuildRequires:  python3-factory-boy
 BuildRequires:  python3-faker
 BuildRequires:  python3-pygments
-BuildRequires:  python3-PyYAML
+BuildRequires:  python3-ruamel-yaml
 BuildRequires:  python3-requests
 BuildRequires:  python3-tzlocal
 BuildRequires:  python3-whitenoise
@@ -71,7 +73,7 @@ Requires:       python3-django-filter
 Requires:       python3-django-rest-framework
 Requires:       python3-dynaconf
 Requires:       python3-pygments
-Requires:       python3-PyYAML
+Requires:       python3-ruamel-yaml
 Requires:       python3-tzlocal
 Requires:       python3-whitenoise
 
@@ -147,6 +149,7 @@ ARA_TIME_ZONE=UTC %{__python3} manage.py test %{srcname}
 %{python3_sitelib}/%{srcname}
 %{python3_sitelib}/%{srcname}-*.egg-info
 %exclude %{python3_sitelib}/%{srcname}/api/tests
+%{_bindir}/ara
 # TODO: ara-manage probably shouldn't get set up if django isn't installed
 %exclude %{_bindir}/ara-manage
 
@@ -171,6 +174,20 @@ ARA_TIME_ZONE=UTC %{__python3} manage.py test %{srcname}
 %endif
 
 %changelog
+* Wed Sep 23 2020 David Moreau Simard <moi@dmsimard.com> - 1.5.1-2
+- Add missing requirement on pbr
+
+* Wed Sep 23 2020 David Moreau Simard <moi@dmsimard.com> - 1.5.1-1
+- Update to latest upstream release
+- Add requirement on python3-cliff (new CLI client)
+
+* Tue Aug 11 2020 David Moreau Simard <moi@dmsimard.com> - 1.4.3-1
+- Update to latest upstream release
+- Change pyyaml to ruamel.yaml as preferred by dynaconf
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 08 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.0-4
 - Rebuilt for Python 3.9
 

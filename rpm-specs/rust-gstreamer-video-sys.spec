@@ -5,8 +5,8 @@
 %global crate gstreamer-video-sys
 
 Name:           rust-%{crate}
-Version:        0.8.1
-Release:        2%{?dist}
+Version:        0.9.1
+Release:        1%{?dist}
 Summary:        FFI bindings to libgstvideo-1.0
 
 # Upstream license specification: MIT
@@ -144,6 +144,19 @@ which use "v1_16" feature of "%{crate}" crate.
 %files       -n %{name}+v1_16-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+v1_18-devel
+Summary:        %{summary}
+BuildArch:      noarch
+Requires:       pkgconfig(gstreamer-video-1.0) >= 1.18
+
+%description -n %{name}+v1_18-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "v1_18" feature of "%{crate}" crate.
+
+%files       -n %{name}+v1_18-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+v1_2-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -229,6 +242,15 @@ echo 'pkgconfig(gstreamer-video-1.0) >= 1.0'
 %endif
 
 %changelog
+* Wed Sep 09 2020 Josh Stone <jistone@redhat.com> - 0.9.1-1
+- Update to 0.9.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Josh Stone <jistone@redhat.com> - 0.9.0-1
+- Update to 0.9.0
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

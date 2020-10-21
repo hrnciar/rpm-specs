@@ -4,8 +4,8 @@
 
 Name:           wingpanel-indicator-datetime
 Summary:        Datetime Indicator for wingpanel
-Version:        2.2.4
-Release:        1%{?dist}
+Version:        2.2.5
+Release:        2%{?dist}
 License:        GPLv3+
 
 URL:            https://github.com/elementary/wingpanel-indicator-datetime
@@ -62,6 +62,12 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 Fabio Valentini <decathorpe@gmail.com> - 2.2.5-1
+- Update to version 2.2.5.
+
 * Thu May 28 2020 Fabio Valentini <decathorpe@gmail.com> - 2.2.4-1
 - Update to version 2.2.4.
 

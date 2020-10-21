@@ -1,6 +1,6 @@
 Name: jcommon-serializer
 Version: 0.3.0
-Release: 22%{?dist}
+Release: 24%{?dist}
 Summary: JFree Java General Serialization Framework
 License: LGPLv2+
 Source0: http://downloads.sourceforge.net/jfreereport/%{name}-%{version}.tar.gz
@@ -50,6 +50,12 @@ cp -rp javadoc/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}
 %{_javadocdir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0.3.0-23
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue May 05 2020 Caolán McNamara <caolanm@redhat.com> - 0.3.0-22
 - allow rebuild with java 11
 

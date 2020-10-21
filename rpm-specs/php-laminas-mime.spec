@@ -20,7 +20,7 @@
 
 Name:           php-%{gh_project}
 Version:        2.7.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        %{namespace} Framework %{library} component
 
 License:        BSD
@@ -169,6 +169,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 Remi Collet <remi@remirepo.net> - 2.7.4-1
 - update to 2.7.4 (no change)
 - not bootstrap build

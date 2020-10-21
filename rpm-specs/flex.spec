@@ -1,9 +1,9 @@
 %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
-Summary: A tool for creating scanners (text pattern recognizers)
+Summary: A tool for generating scanners (text pattern recognizers)
 Name: flex
 Version: 2.6.4
-Release: 4%{?dist}
+Release: 6%{?dist}
 # parse.c and parse.h are under GPLv3+ with exception which allows
 #	relicensing.  Since flex is shipped under BDS-style license,
 #	let's  assume that the relicensing was done.
@@ -33,23 +33,54 @@ application development.
 
 # We keep the libraries in separate sub-package to allow for multilib
 # installations of flex.
-%package devel
-Summary: Libraries for flex scanner generator
+
+%define somajor 2
+
+%package -n libfl%{somajor}
+Summary: Libraries for the flex scanner generator
+
+%description -n libfl%{somajor}
+flex is a tool for generating scanners.
+
+This package contains the shared library with default implementations of
+`main' and `yywrap' functions that binaries using flex can choose to link
+against instead of implementing on their own.
+
+%package -n libfl-devel
+Summary: Development files for the flex scanner generator
+Requires: libfl%{somajor} = %{version}-%{release}
+
+%description -n libfl-devel
+flex is a tool for generating scanners.
+
+This package contains files required to build programs that use flex
+libraries.
+
+%package -n libfl-static
+Summary: Static libraries for the flex scanner generator
+# We renamed flex-static to flex-devel in version 2.5.35-15:
 Obsoletes: flex-static < 2.5.35-15
 Provides: flex-static
+# We renamed flex-devel to libfl-static in version 2.6.4-6.  This clarifies
+# the nature of the package and brings us in line with naming used by SUSE
+# and Debian:
+Obsoletes: flex-devel < 2.6.4-6
+Provides: flex-devel
 
-%description devel
+%description -n libfl-static
 
-This package contains the library with default implementations of
-`main' and `yywrap' functions that the client binary can choose to use
-instead of implementing their own.
+flex is a tool for generating scanners.
+
+This package contains the static library with default implementations of
+`main' and `yywrap' functions that binaries using flex can choose to
+statically link against instead of implementing their own.
 
 %package doc
-Summary: Documentation for flex scanner generator
+Summary: Documentation for the flex scanner generator
 
 %description doc
 
-This package contains documentation for flex scanner generator in
+This package contains documentation for the flex scanner generator in
 plain text and PDF formats.
 
 %prep
@@ -66,15 +97,8 @@ rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 rm -f $RPM_BUILD_ROOT/%{_infodir}/dir
 rm -f $RPM_BUILD_ROOT/%{_pkgdocdir}/{README.cvs,TODO}
-# For now, excluding the new .la and .so files as we haven't had
-# any requests for them and adding them will require a new subpackage.
-# The .so files contain 2 optional implementations of main and yywrap
-# for developer convenience. They are also available in the .a file
-# provided in flex-devel.
+# Exclude libtool archives (.la) as per Fedora packaging guidelines
 find %{buildroot} -name '*.la' -delete
-find %{buildroot} -name '*.so' -delete
-find %{buildroot} -name '*.so.2' -delete
-find %{buildroot} -name '*.so.2.0.0' -delete
 
 ( cd ${RPM_BUILD_ROOT}
   ln -sf flex .%{_bindir}/lex
@@ -101,7 +125,14 @@ echo ============END TESTING===========
 %{_includedir}/FlexLexer.h
 %{_infodir}/flex.info*
 
-%files devel
+%files -n libfl%{somajor}
+%{_libdir}/libfl.so.%{somajor}*
+
+%files -n libfl-devel
+%{_includedir}/FlexLexer.h
+%{_libdir}/libfl.so
+
+%files -n libfl-static
 %dir %{_pkgdocdir}
 %license COPYING
 %{_libdir}/*.a
@@ -110,6 +141,16 @@ echo ============END TESTING===========
 %{_pkgdocdir}
 
 %changelog
+* Fri Aug 21 2020 Arjun Shankar <arjun@redhat.com> - 2.6.4-6
+- Re-work flex subpackages and provide shared libraries (#1327851):
+- Remove and obsolete the flex-devel subpackage containing static libraries
+- Provide shared libraries in a new subpackage named libfl2
+- Provide development files in a new subpackage named libfl-devel
+- Provide static libraries in a new subpackage named libfl-static
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.4-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

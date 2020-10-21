@@ -1,11 +1,13 @@
-%global oname oss-parent
+%global srcname oss-parent
+
 Name:          fasterxml-oss-parent
-Version:       38
-Release:       2%{?dist}
+Version:       41
+Release:       1%{?dist}
 Summary:       FasterXML parent pom
 License:       ASL 2.0
-URL:           http://fasterxml.com/
-Source0:       https://github.com/FasterXML/oss-parent/archive/oss-parent-%{version}.tar.gz
+
+URL:           https://github.com/FasterXML/oss-parent
+Source0:       %{url}/archive/%{srcname}-%{version}.tar.gz
 
 BuildRequires: maven-local
 BuildRequires: mvn(org.apache.felix:maven-bundle-plugin)
@@ -24,10 +26,12 @@ and extension.
 This package contains the parent pom file for FasterXML.com projects.
 
 %prep
-%setup -q -n %{oname}-%{oname}-%{version}
+%setup -q -n %{srcname}-%{srcname}-%{version}
 
 # Stuff unnecessary for RPM builds
+%pom_remove_plugin :jacoco-maven-plugin
 %pom_remove_plugin :maven-enforcer-plugin
+%pom_remove_plugin :maven-javadoc-plugin
 %pom_remove_plugin :maven-pmd-plugin
 %pom_remove_plugin :maven-scm-plugin
 %pom_remove_plugin :maven-site-plugin
@@ -36,19 +40,8 @@ This package contains the parent pom file for FasterXML.com projects.
 %pom_remove_plugin :taglist-maven-plugin
 %pom_xpath_remove "pom:build/pom:extensions"
 
-# remove unavailable com.google.doclava doclava 1.0.3
-%pom_xpath_remove "pom:reporting/pom:plugins/pom:plugin[pom:artifactId='maven-javadoc-plugin']/pom:configuration"
-%pom_xpath_inject "pom:reporting/pom:plugins/pom:plugin[pom:artifactId='maven-javadoc-plugin']" '
-<configuration>
-  <encoding>UTF-8</encoding>
-  <quiet>true</quiet>
-  <source>${javac.src.version}</source>
-  <additionalJOption>-J-Xmx1024m</additionalJOption>
-  <maxmemory>${javadoc.maxmemory}</maxmemory>
-</configuration>'
-
 %build
-%mvn_build -j
+%mvn_build
 
 %install
 %mvn_install
@@ -58,6 +51,18 @@ This package contains the parent pom file for FasterXML.com projects.
 %license LICENSE NOTICE
 
 %changelog
+* Fri Oct 16 2020 Fabio Valentini <decathorpe@gmail.com> - 41-1
+- Update to version 41.
+
+* Mon Aug 10 2020 Fabio Valentini <decathorpe@gmail.com> - 40-1
+- Update to version 40.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 38-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 38-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 38-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

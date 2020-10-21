@@ -1,6 +1,6 @@
 Name:             mandoc
 Version:          1.14.5
-Release:          12%{?dist}
+Release:          13%{?dist}
 Summary:          A suite of tools for compiling mdoc and man
 
 License:          ISC
@@ -225,6 +225,9 @@ fi
 %{_mandir}/man3/tbl.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14.5-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 20 2020 David Cantrell <dcantrell@redhat.com> - 1.14.5-12
 - Drop explicit Requires for libmandoc package (#1837690)
 

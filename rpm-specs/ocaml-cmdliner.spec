@@ -1,6 +1,6 @@
 Name:           ocaml-cmdliner
 Version:        1.0.4
-Release:        13%{?dist}
+Release:        17%{?dist}
 Summary:        Declarative definition of command line interfaces for OCaml
 
 # In order for this to work as a "global" macro it has to come after the
@@ -103,6 +103,19 @@ chmod -x %{buildroot}%{_libdir}/ocaml/%{libname}/opam
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.0.4-17
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.0.4-16
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-15
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 1.0.4-13
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

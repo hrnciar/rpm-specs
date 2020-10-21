@@ -3,7 +3,7 @@
 Summary: Editor/admin tool for GConf
 Name: gconf-editor
 Version: 3.0.1
-Release: 19%{?dist}
+Release: 21%{?dist}
 URL: http://www.gnome.org
 #VCS: git:git://git.gnome.org/gconf-editor
 Source0: http://download.gnome.org/sources/gconf-editor/3.0/%{name}-%{version}.tar.xz
@@ -75,6 +75,13 @@ fi
 %dir %{_datadir}/omf/gconf-editor
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

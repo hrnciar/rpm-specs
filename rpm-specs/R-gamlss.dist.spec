@@ -1,9 +1,9 @@
 %global packname gamlss.dist
-%global packver  5.1-6
+%global packver  5.1-7
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          5.1.6
+Version:          5.1.7
 Release:          2%{?dist}
 Summary:          Distributions for Generalized Additive Models for Location Scale and Shape
 
@@ -74,6 +74,12 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 5.1.7-1
+- Update to latest version
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 5.1.6-2
 - rebuild for R 4
 

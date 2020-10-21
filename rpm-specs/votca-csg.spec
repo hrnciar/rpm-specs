@@ -1,5 +1,5 @@
 Name:           votca-csg
-Version:        1.6.1
+Version:        1.6.2
 %global         uversion %{version}
 %global         sover 6
 Release:        1%{?dist}
@@ -8,6 +8,7 @@ License:        ASL 2.0
 URL:            http://www.votca.org
 Source0:        https://github.com/votca/csg/archive/v%{uversion}.tar.gz#/%{name}-%{uversion}.tar.gz
 Source1:        https://github.com/votca/csg/releases/download/v%{uversion}/votca-csg-manual-%{uversion}.pdf
+Patch0:         585.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  cmake3
@@ -96,15 +97,14 @@ This package contains architecture independent documentation for VOTCA CSG.
 
 %prep
 %setup -qn csg-%{uversion}
+%patch0 -p1
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake3} .. -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTING=ON -DREGRESSIONTEST_TOLERANCE="3e-5"
-%make_build
+%{cmake3} -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTING=ON -DREGRESSIONTEST_TOLERANCE="3e-5"
+%cmake_build
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 # Install bash completion file
 mkdir -p %{buildroot}%{_datadir}/bash_completion
 mv %{buildroot}%{_datadir}/votca/rc/csg-completion.bash %{buildroot}%{_datadir}/bash_completion/votca
@@ -113,7 +113,7 @@ mkdir -p %{buildroot}%{_docdir}/%{name}
 cp %{S:1} %{buildroot}%{_docdir}/%{name}
 
 %check
-make -C %{_target_platform} test CTEST_OUTPUT_ON_FAILURE=1 %{?testargs}
+%ctest
 
 %ldconfig_scriptlets libs
 
@@ -144,6 +144,22 @@ make -C %{_target_platform} test CTEST_OUTPUT_ON_FAILURE=1 %{?testargs}
 %{_datadir}/bash_completion/votca
 
 %changelog
+* Sat Aug 22 2020 Christoph Junghans <junghans@votca.org> - 1.6.2-1
+- Version bump to v1.6.2 (bug #1871344)
+
+* Tue Aug 04 2020 Christoph Junghans <junghans@votca.org> - 1.6.1-5
+- Fix out-of-source build on F33 (bug#1865609)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 1.6.1-2
+- Rebuild for hdf5 1.10.6
+
 * Sun Jun 21 2020 Christoph Junghans <junghans@votca.org> - 1.6.1-1
 - Version bump to v1.6.1
 

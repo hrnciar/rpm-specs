@@ -2,8 +2,8 @@
 
 Name:           python-%{srcname}
 Version:        0.2.1
-Release:        6%{?dist}
-Summary:        A Python Vehicle Interface Toolkit
+Release:        8%{?dist}
+Summary:        Python Vehicle Interface Toolkit
 
 License:        GPLv3+
 URL:            https://github.com/linklayer/pyvit
@@ -18,6 +18,7 @@ common hardware interfaces and protocols used in the automotive systems.
 Summary:        %{summary}
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
@@ -45,6 +46,12 @@ common hardware interfaces and protocols used in the automotive systems.
 %exclude %{python3_sitelib}/test/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.2.1-7
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.1-6
 - Rebuilt for Python 3.9
 

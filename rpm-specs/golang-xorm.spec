@@ -4,7 +4,7 @@
 # https://gitea.com/xorm/xorm
 %global goipath         xorm.io/xorm
 %global forgeurl        https://gitea.com/xorm/xorm
-Version:                0.8.1
+Version:                1.0.3
 %global repo            xorm
 %global archivename     %{repo}-%{version}
 %global archiveext      tar.gz
@@ -36,19 +36,18 @@ Summary:        ORM for Go
 License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
-
 # session_update_test.go uses an 11 digit ph number as an int
-Patch0:         000-fix-32bit-int-overflow.patch
+Patch0:         0001-fix-32bit-int-overflow.patch
 
-BuildRequires:  golang(github.com/go-sql-driver/mysql)
-BuildRequires:  golang(github.com/lib/pq)
-BuildRequires:  golang(github.com/mattn/go-sqlite3)
-BuildRequires:  golang(xorm.io/builder) >= 0.3.6
-BuildRequires:  golang(xorm.io/core)
+BuildRequires:  golang(github.com/syndtr/goleveldb/leveldb)
+BuildRequires:  golang(xorm.io/builder)
 
 %if %{with check}
 # Tests
 BuildRequires:  golang(github.com/denisenkom/go-mssqldb)
+BuildRequires:  golang(github.com/go-sql-driver/mysql)
+BuildRequires:  golang(github.com/lib/pq)
+BuildRequires:  golang(github.com/mattn/go-sqlite3)
 BuildRequires:  golang(github.com/stretchr/testify/assert)
 BuildRequires:  golang(github.com/ziutek/mymysql/godrv)
 %endif
@@ -73,5 +72,11 @@ BuildRequires:  golang(github.com/ziutek/mymysql/godrv)
 %gopkgfiles
 
 %changelog
+* Fri Aug 07 21:51:36 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.3-1
+- Update to 1.0.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 15 2020 Mark Goodwin <mgoodwin@redhat.com> - 0.8.1-1
 - Initial package

@@ -1,20 +1,16 @@
 %global srcname msgpack
-%global sum A Python MessagePack (de)serializer
+%bcond_with tests
 
 Name:           python-%{srcname}
-Version:        0.6.2
-Release:        3%{?dist}
-Summary:        %{sum}
+Version:        1.0.0
+Release:        2%{?dist}
+Summary:        Python MessagePack (de)serializer
 
 License:        ASL 2.0
 URL:            https://msgpack.org/
-Source0:        %pypi_source
+Source0:        https://github.com/msgpack/msgpack-python/archive/v%{version}/%{srcname}-%{version}.tar.gz
 
 BuildRequires:  gcc-c++
-BuildRequires:  python%{python3_pkgversion}-Cython
-BuildRequires:  python%{python3_pkgversion}-devel
-BuildRequires:  python%{python3_pkgversion}-setuptools
-BuildRequires:  python%{python3_pkgversion}-pytest
 
 %description
 MessagePack is a binary-based efficient data interchange format that is
@@ -22,7 +18,12 @@ focused on high performance. It is like JSON, but very fast and small.
 This is a Python (de)serializer for MessagePack.
 
 %package -n python%{python3_pkgversion}-%{srcname}
-Summary:        %{sum}
+Summary:        %{summary}
+
+BuildRequires:  python%{python3_pkgversion}-Cython
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
+BuildRequires:  python%{python3_pkgversion}-pytest
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
 
 # For backwards compatibility
@@ -35,7 +36,9 @@ focused on high performance. It is like JSON, but very fast and small.
 This is a Python %{python3_version} (de)serializer for MessagePack.
 
 %prep
-%autosetup -n %{srcname}-%{version}
+%autosetup -n %{srcname}-python-%{version}
+# There is a circular dependency with python-msgpack-ext
+rm -rf test/test_timestamp.py
 
 %build
 %py3_build
@@ -43,17 +46,26 @@ This is a Python %{python3_version} (de)serializer for MessagePack.
 %install
 %py3_install
 
+%if %{with network}
 %check
-export PYTHONPATH=$(pwd)
-py.test-%{python3_version} -v test
+PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v test \
+  -k "not test_unicode and not test_read_array_header and not test_partialdata \
+  and not test_read_map_header and not test_issue124"
+%endif
 
 %files -n python%{python3_pkgversion}-%{srcname}
-%doc README.rst
+%doc README.md
 %license COPYING
 %{python3_sitearch}/%{srcname}/
 %{python3_sitearch}/%{srcname}*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 06 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.0.0-1
+- Update to latest upstream release 1.0.0 (rhbz#1816567)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.2-3
 - Rebuilt for Python 3.9
 

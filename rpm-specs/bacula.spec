@@ -2,7 +2,7 @@
 %global username bacula
 
 Name:               bacula
-Version:            9.6.3
+Version:            9.6.6
 Release:            1%{?dist}
 Summary:            Cross platform network backup for Linux, Unix, Mac and Windows
 # See LICENSE for details
@@ -37,7 +37,6 @@ Patch7:             %{name}-non-free-code.patch
 # desktop-file-install not supported on RHEL 6
 Patch8:             %{name}-desktop.patch
 Patch9:             %{name}-g++-options.patch
-Patch10:            %{name}-s3-configure.patch
 Patch11:            %{name}-ftbfs-f_type.patch
 Patch12:            %{name}-install.patch
 # Original patch removed by mistake, upstream is not willing to add it again:
@@ -743,6 +742,15 @@ fi
 %{_libdir}/nagios/plugins/check_bacula
 
 %changelog
+* Wed Oct 07 2020 Simone Caronni <negativo17@gmail.com> - 9.6.6-1
+- Update to 9.6.6.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.6.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Simone Caronni <negativo17@gmail.com> - 9.6.5-1
+- Update to 9.6.5.
+
 * Tue Mar 17 2020 Simone Caronni <negativo17@gmail.com> - 9.6.3-1
 - Update to 9.6.3.
 

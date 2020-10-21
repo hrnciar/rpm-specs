@@ -4,7 +4,7 @@
 # https://github.com/golang/debug
 %global goipath         golang.org/x/debug
 %global forgeurl        https://github.com/golang/debug
-%global commit          621e2d3f35dac46daf912f8d9d2fabd57d022520
+%global commit          66ec140f2f72d15dc6133502edd2bb7238b1740c
 
 %gometa
 
@@ -16,7 +16,7 @@ This repository holds utilities and libraries for debugging Go programs.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.6%{?dist}
+Release:        0.8%{?dist}
 Summary:        Go debugging tools
 
 # Upstream license specification: BSD-3-Clause
@@ -59,6 +59,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Fri Aug 07 19:06:27 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.8.20200807git66ec140
+- Bump to commit 66ec140f2f72d15dc6133502edd2bb7238b1740c
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

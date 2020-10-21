@@ -1,6 +1,6 @@
 Name:           abi-compliance-checker
 Version:        2.3
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        An ABI Compliance Checker
 
 License:        GPLv2+ or LGPLv2+
@@ -24,8 +24,9 @@ Requires:       gcc-c++ >= 4.5
 Requires:       binutils
 Requires:       findutils
 Requires:       ctags >= 5.8
-Requires:       ccache >= 3.1.2
 Requires:       abi-dumper >= 0.99.15
+
+Conflicts:      ccache < 3.1.2
 
 %{?perl_default_filter}
 
@@ -56,6 +57,9 @@ perl Makefile.pl -install --prefix=%{_prefix} --destdir=%{buildroot}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.3-6
 - Add perl dependencies needed for build
 

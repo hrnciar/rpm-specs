@@ -4,8 +4,7 @@
 
 # https://github.com/moby/buildkit
 %global goipath         github.com/moby/buildkit
-Version:                0.6.4
-%global commit          d5108d038d214c7b30c1e9678882135146163df7
+Version:                0.7.2
 
 %gometa
 
@@ -31,12 +30,14 @@ Summary:        Concurrent, cache-efficient, and Dockerfile-agnostic builder too
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+# update fsutil to c3ed55f3b4
+Patch0:         https://github.com/moby/buildkit/commit/dc9552519110719a042b442873472023dc9d8135.patch#/0001-update-fsutil-to-c3ed55f3b4.patch
 
+BuildRequires:  golang(github.com/AkihiroSuda/containerd-fuse-overlayfs)
 BuildRequires:  golang(github.com/BurntSushi/toml)
 BuildRequires:  golang(github.com/containerd/console)
 BuildRequires:  golang(github.com/containerd/containerd)
 BuildRequires:  golang(github.com/containerd/containerd/api/services/content/v1)
-BuildRequires:  golang(github.com/containerd/containerd/api/services/introspection/v1)
 BuildRequires:  golang(github.com/containerd/containerd/archive)
 BuildRequires:  golang(github.com/containerd/containerd/archive/compression)
 BuildRequires:  golang(github.com/containerd/containerd/cio)
@@ -50,6 +51,7 @@ BuildRequires:  golang(github.com/containerd/containerd/diff/apply)
 BuildRequires:  golang(github.com/containerd/containerd/diff/walking)
 BuildRequires:  golang(github.com/containerd/containerd/errdefs)
 BuildRequires:  golang(github.com/containerd/containerd/filters)
+BuildRequires:  golang(github.com/containerd/containerd/gc)
 BuildRequires:  golang(github.com/containerd/containerd/images)
 BuildRequires:  golang(github.com/containerd/containerd/images/archive)
 BuildRequires:  golang(github.com/containerd/containerd/leases)
@@ -74,7 +76,7 @@ BuildRequires:  golang(github.com/containerd/continuity/fs)
 BuildRequires:  golang(github.com/containerd/continuity/sysx)
 BuildRequires:  golang(github.com/containerd/go-cni)
 BuildRequires:  golang(github.com/containerd/go-runc)
-BuildRequires:  golang(github.com/coreos/go-systemd/daemon)
+BuildRequires:  golang(github.com/coreos/go-systemd/v22/daemon)
 %if %{without bootstrap}
 BuildRequires:  golang(github.com/docker/cli/cli/config)
 BuildRequires:  golang(github.com/docker/cli/cli/config/configfile)
@@ -103,6 +105,7 @@ BuildRequires:  golang(github.com/gogo/protobuf/types)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/timestamp)
 BuildRequires:  golang(github.com/google/shlex)
 BuildRequires:  golang(github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc)
+BuildRequires:  golang(github.com/tonistiigi/go-immutable-radix)
 BuildRequires:  golang(github.com/hashicorp/golang-lru/simplelru)
 BuildRequires:  golang(github.com/mitchellh/hashstructure)
 BuildRequires:  golang(github.com/morikuni/aec)
@@ -153,8 +156,8 @@ BuildRequires:  golang(google.golang.org/grpc/status)
 # Tests
 BuildRequires:  golang(github.com/containerd/continuity/fs/fstest)
 BuildRequires:  golang(github.com/google/go-cmp/cmp)
-BuildRequires:  golang(gotest.tools/assert)
-BuildRequires:  golang(gotest.tools/assert/cmp)
+BuildRequires:  golang(gotest.tools/v3/assert)
+BuildRequires:  golang(gotest.tools/v3/assert/cmp)
 BuildRequires:  git-core
 %endif
 
@@ -165,8 +168,10 @@ BuildRequires:  git-core
 
 %prep
 %goprep
-find . -name "*.go" -exec sed -i "s|github.com/hashicorp/go-immutable-radix|github.com/tonistiigi/go-immutable-radix|" "{}" +;
-find . -name "*.go" -exec sed -i "s|github.com/jaguilar/vt100|github.com/tonistiigi/vt100|" "{}" +;
+%patch0 -p1
+sed -i "s|github.com/hashicorp/go-immutable-radix|github.com/tonistiigi/go-immutable-radix|" $(find . -iname "*.go" -type f)
+sed -i "s|github.com/jaguilar/vt100|github.com/tonistiigi/vt100|" $(find . -iname "*.go" -type f)
+sed -i "s|gotest.tools|gotest.tools/v3|" $(find . -iname "*.go" -type f)
 
 %if %{without bootstrap}
 %build
@@ -184,6 +189,7 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
+# cache: operation not permitted
 %if %{with bootstrap}
 %gocheck -t cmd \
          -d client/connhelper/dockercontainer \
@@ -193,14 +199,16 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
          -d client \
          -d frontend \
          -d frontend/dockerfile \
-         -t source
+         -t source \
+         -d cache
 %else
 %gocheck -t cmd \
          -d cache/contenthash \
          -d client \
          -d frontend \
          -d frontend/dockerfile \
-         -t source
+         -t source \
+         -d cache
 %endif
 %endif
 
@@ -214,6 +222,16 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 23:14:10 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.7.2-1
+- Update to 0.7.2
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 01 2020 Olivier Lemasle <o.lemasle@gmail.com> - 0.6.4-1
 - Update to upstream 0.6.4
 

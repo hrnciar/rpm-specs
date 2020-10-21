@@ -10,7 +10,7 @@ Sushy is a Python library to communicate with Redfish based systems (http://redf
 
 Name: python-%{sname}
 Version: 3.2.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Sushy is a Python library to communicate with Redfish based systems
 License: ASL 2.0
 URL: http://launchpad.net/%{sname}/
@@ -111,6 +111,9 @@ rm -rf doc/build/html/.{doctrees,buildinfo}
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Joel Capitao <jcapitao@redhat.com> 3.2.0-1
 - Update to upstream version 3.2.0
 

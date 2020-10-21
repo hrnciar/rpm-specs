@@ -1,9 +1,9 @@
 %global packname servr
-%global packver  0.17
+%global packver  0.20
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          0.17
+Version:          0.20
 Release:          1%{?dist}
 Summary:          Simple HTTP Server to Serve Static Files or Dynamic Documents
 
@@ -13,7 +13,7 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-mime >= 0.2, R-httpuv >= 1.4.0, R-xfun, R-jsonlite
+# Imports:   R-mime >= 0.2, R-httpuv >= 1.5.2, R-xfun, R-jsonlite
 # Suggests:  R-tools, R-later, R-rstudioapi, R-knitr >= 1.9, R-rmarkdown
 # LinkingTo:
 # Enhances:
@@ -22,7 +22,7 @@ BuildArch:        noarch
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    R-mime >= 0.2
-BuildRequires:    R-httpuv >= 1.4.0
+BuildRequires:    R-httpuv >= 1.5.2
 BuildRequires:    R-xfun
 BuildRequires:    R-jsonlite
 BuildRequires:    R-tools
@@ -70,6 +70,18 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Tue Oct 20 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.20-1
+- Update to latest version (#1889245)
+
+* Thu Oct 08 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.19-1
+- Update to latest version (#1885787)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.17-2
+- Rebuild for R 4
+
 * Thu Jun 25 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.17-1
 - Update to 0.17
 

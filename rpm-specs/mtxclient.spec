@@ -1,12 +1,17 @@
-%bcond_without clang
+%undefine __cmake_in_source_build
+%bcond_with clang
 
 %if %{with clang}
+%if 0%{?fedora} && 0%{?fedora} >= 33
+%global toolchain clang
+%else
 %global optflags %(echo %{optflags} | sed -e 's/-mcet//g' -e 's/-fcf-protection//g' -e 's/-fstack-clash-protection//g' -e 's/$/ -Qunused-arguments -Wno-unknown-warning-option -Wno-deprecated-declarations/')
+%endif
 %endif
 
 Name: mtxclient
 Version: 0.3.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 License: MIT
 Summary: Client API library for Matrix, built on top of Boost.Asio
@@ -44,11 +49,9 @@ Requires: %{name}%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %prep
 %autosetup -p1
-mkdir -p %{_target_platform}
 
 %build
-pushd %{_target_platform}
-    %cmake -G Ninja \
+%cmake -G Ninja \
 %if %{with clang}
     -DCMAKE_C_COMPILER=%{_bindir}/clang \
     -DCMAKE_CXX_COMPILER=%{_bindir}/clang++ \
@@ -72,13 +75,11 @@ pushd %{_target_platform}
     -DUSE_BUNDLED_OPENSSL:BOOL=OFF \
     -DUSE_BUNDLED_SODIUM:BOOL=OFF \
     -DBUILD_LIB_TESTS:BOOL=OFF \
-    -DBUILD_LIB_EXAMPLES:BOOL=OFF \
-    ..
-popd
-%ninja_build -C %{_target_platform}
+    -DBUILD_LIB_EXAMPLES:BOOL=OFF
+%cmake_build
 
 %install
-%ninja_install -C %{_target_platform}
+%cmake_install
 ln -s libmatrix_client.so.%{version} %{buildroot}%{_libdir}/libmatrix_client.so.0
 
 %files
@@ -94,6 +95,9 @@ ln -s libmatrix_client.so.%{version} %{buildroot}%{_libdir}/libmatrix_client.so.
 %{_libdir}/*.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 0.3.1-1
 - Updated to version 0.3.1.
 

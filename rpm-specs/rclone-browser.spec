@@ -1,6 +1,9 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 Name:           rclone-browser
 Version:        1.8.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Simple cross platform GUI for rclone
 
 License:        Unlicense
@@ -45,13 +48,11 @@ Features:
 %autosetup -n RcloneBrowser-%{version}
 
 %build
-mkdir %{_target_platform}
-cd %{_target_platform}
-%cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
-%make_build
+%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo
+%cmake_build
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 install -Dpm 0644 assets/rclone-browser.appdata.xml %{buildroot}%{_metainfodir}/%{name}.appdata.xml
 
 %check
@@ -67,6 +68,13 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 %{_metainfodir}/%{name}.appdata.xml
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 23:35:18 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.8.0-1
 - Update to 1.8.0
 

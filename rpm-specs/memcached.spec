@@ -11,8 +11,8 @@
 %global selinuxmoduledir	%{selinuxmodulename}-selinux-%{selinuxmodulever}
 
 Name:           memcached
-Version:        1.6.6
-Release:        1%{?dist}
+Version:        1.6.7
+Release:        2%{?dist}
 Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -173,6 +173,22 @@ fi
 %license ../%{selinuxmoduledir}/COPYING
 
 %changelog
+* Tue Sep 15 2020 Tomas Korbar <tkorbar@redhat.com> - 0:1.6.7-2
+- Rebuilt with libevent-2.1.12
+
+* Mon Sep 07 2020 Tomas Korbar <tkorbar@redhat.com> - 0:1.6.7-1
+- Update to 1.6.7
+
+* Tue Aug 04 2020 Tomas Korbar <tkorbar@redhat.com> - 0:1.6.6-4
+- Resolve FTBFS (#1863678)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.6.6-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.6.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Tomas Korbar <tkorbar@redhat.com> - 0:1.6.6-1
 - Update to 1.6.6
 

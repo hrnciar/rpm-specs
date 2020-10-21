@@ -1,6 +1,6 @@
 Name:             hawtjni
 Version:          1.17
-Release:          3%{?dist}
+Release:          6%{?dist}
 Summary:          Code generator that produces the JNI code
 # Maven plugin is under ASL 2.0.
 # stdint.h, shipped in JAR as resource, used only with M$ VC++, is under BSD.
@@ -10,14 +10,18 @@ License:          ASL 2.0 and EPL-1.0 and BSD
 URL:              http://hawtjni.fusesource.org/
 Source0:          https://github.com/fusesource/hawtjni/archive/%{name}-project-%{version}.tar.gz
 
+# trivially port from commons-lang to commons-lang3
+Patch0:           00-port-to-commons-lang3.patch
+
 BuildArch:        noarch
 
 BuildRequires:    maven-local
 BuildRequires:    mvn(commons-cli:commons-cli)
-BuildRequires:    mvn(commons-lang:commons-lang)
+BuildRequires:    mvn(org.apache.commons:commons-lang3)
 BuildRequires:    mvn(org.apache.maven:maven-archiver)
 BuildRequires:    mvn(org.apache.maven:maven-artifact)
 BuildRequires:    mvn(org.apache.maven:maven-artifact-manager)
+BuildRequires:    mvn(org.apache.maven:maven-compat)
 BuildRequires:    mvn(org.apache.maven:maven-plugin-api)
 BuildRequires:    mvn(org.apache.maven:maven-project)
 BuildRequires:    mvn(org.apache.maven.plugins:maven-plugin-plugin)
@@ -63,9 +67,7 @@ This package allows to use HawtJNI from a maven plugin.
 
 %prep
 %setup -q -n %{name}-%{name}-project-%{version}
-
-# this dependency seems to be missing
-%pom_add_dep commons-lang:commons-lang hawtjni-generator
+%patch0 -p1
 
 # This package needs maven compat for ArtifactResolver class
 %pom_add_dep org.apache.maven:maven-compat hawtjni-maven-plugin
@@ -99,6 +101,15 @@ This package allows to use HawtJNI from a maven plugin.
 %files -n maven-hawtjni-plugin -f .mfiles-maven-plugin
 
 %changelog
+* Thu Jul 30 2020 Fabio Valentini <decathorpe@gmail.com> - 1.17-6
+- Port to commons-lang3.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.17-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Mar 25 2020 Severin Gehwolf <sgehwolf@redhat.com> - 1.17-3
 - Add maven-compat to hawtjni-maven-plugin as it is using
   the ArtifactResolver class in the maven-compat.jar

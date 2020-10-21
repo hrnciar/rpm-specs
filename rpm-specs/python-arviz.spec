@@ -3,8 +3,8 @@
 %global srcname arviz
 
 Name:           python-%{srcname}
-Version:        0.8.0
-Release:        2%{?dist}
+Version:        0.10.0
+Release:        1%{?dist}
 Summary:        Exploratory analysis of Bayesian models
 
 License:        ASL 2.0
@@ -46,6 +46,15 @@ BuildRequires:  python3-devel
 %exclude %{python3_sitelib}/benchmarks/
 
 %changelog
+* Tue Sep 29 2020 Sergio Pascual <sergiopr@fedoraproject.org> - 0.10.0-1
+- New upstream release (0.10.0)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jun 28 2020 Sergio Pascual <sergiopr@fedoraproject.org> - 0.9.0-1
+- New upstream release (0.9.0)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.0-2
 - Rebuilt for Python 3.9
 

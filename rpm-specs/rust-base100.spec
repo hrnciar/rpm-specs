@@ -6,12 +6,14 @@
 
 Name:           rust-%{crate}
 Version:        0.4.1
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        Encode your data into emoji
 
 # Upstream license specification: AGPL-3.0
 # The copyright headers do allow "any later version"
-License:        AGPLv3+
+# cargo-license was used to determine the licenses of the bundled dependencies to determine this set
+# of licenses in the produced executable.
+License:        AGPLv3+ and (Apache 2.0 or MIT) and MIT
 URL:            https://crates.io/crates/base100
 Source:         %{crates_source}
 
@@ -53,6 +55,12 @@ Summary:        %{summary}
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jan 20 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 0.4.1-11
+- Update the license to include the licenses of bundled dependencies.
+
 * Tue Feb 18 04:15:03 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.4.1-10
 - Regenerate
 

@@ -1,6 +1,6 @@
 Name:           libplacebo
-Version:        1.29.1
-Release:        1%{?dist}
+Version:        2.72.0
+Release:        2%{?dist}
 Summary:        Reusable library for GPU-accelerated video/image rendering primitives
 
 License:        LGPLv2+
@@ -12,7 +12,9 @@ BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  meson
 BuildRequires:  lcms2-devel
+BuildRequires:  libepoxy-devel
 BuildRequires:  libshaderc-devel >= 2018.0-1
+BuildRequires:  python3-mako
 # Use a more modern compiler toolchain on EL7
 %if 0%{?rhel} == 7
 BuildRequires:  devtoolset-7-toolchain, devtoolset-7-libatomic-devel
@@ -77,7 +79,7 @@ developing applications that use %{name}.
 %files
 %license LICENSE
 %doc README.md
-%{_libdir}/libplacebo.so.29
+%{_libdir}/libplacebo.so.72
 
 %files devel
 %{_includedir}/*
@@ -86,6 +88,12 @@ developing applications that use %{name}.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.72.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Leigh Scott <leigh123linux@gmail.com> - 2.72.0-1
+- Update to 2.72.0
+
 * Sat Feb 08 2020 Leigh Scott <leigh123linux@gmail.com> - 1.29.1-1
 - Update to 1.29.1
 

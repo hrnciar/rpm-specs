@@ -1,14 +1,18 @@
 Name:		perl-Apache-Session-LDAP
-Version:	0.4
-Release:	14%{?dist}
+Version:	0.5
+Release:	1%{?dist}
 Summary:	LDAP implementation of Apache::Session
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Apache-Session-LDAP
-Source0:	https://cpan.metacpan.org/authors/id/C/CO/COUDOT/Apache-Session-LDAP-%{version}.tar.gz
+Source0:	https://cpan.metacpan.org/modules/by-module/Apache/Apache-Session-LDAP-%{version}.tar.gz
+Patch0:		Apache-Session-LDAP-0.5-synopsis-cafile.patch
 BuildArch:	noarch
 # Module Build
-BuildRequires:	perl-interpreter
+BuildRequires:	coreutils
+BuildRequires:	findutils
+BuildRequires:	make
 BuildRequires:	perl-generators
+BuildRequires:	perl-interpreter
 BuildRequires:	perl(ExtUtils::MakeMaker)
 # Module Runtime
 BuildRequires:	perl(Apache::Session)
@@ -31,26 +35,48 @@ inside a branch.
 %prep
 %setup -q -n Apache-Session-LDAP-%{version}
 
+# Fix certificate bundle location in SYNOPSIS
+%patch0
+
 %build
 perl Makefile.PL INSTALLDIRS=vendor
 make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
 make pure_install DESTDIR=%{buildroot}
-find %{buildroot} -name .packlist -exec rm -f {} \;
-%{_fixperms} %{buildroot}
+find %{buildroot} -name .packlist -delete
+%{_fixperms} -c %{buildroot}
 
 %check
 make test
 
 %files
-%doc Changes README
+%if 0%{?_licensedir:1}
+%license LICENSE
+%else
+%doc LICENSE
+%endif
+%doc Changes COPYRIGHT README.md
 %{perl_vendorlib}/Apache/
 %{_mandir}/man3/Apache::Session::LDAP.3*
 %{_mandir}/man3/Apache::Session::Store::LDAP.3*
 
 %changelog
+* Sun Sep  6 2020 Paul Howarth <paul@city-fan.org> - 0.5-1
+- Update to 0.5
+  - Add ldapVerify option for SSL cert validation (GH#4)
+  - Add specific error handling for old versions (GH#5)
+- Add patch to fix example certificate bundle location in SYNOPSIS to reflect
+  distribution defaults
+- Package LICENSE and COPYRIGHT files
+- Switch upstream from search.cpan.org to metacpan.org
+- Drop redundant buildroot cleaning in %%install section
+- Simplify find command using -delete
+- Fix permissions verbosely
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.4-14
 - Perl 5.32 rebuild
 
@@ -92,6 +118,7 @@ make test
 
 * Sat Jun 20 2015 Paul Howarth <paul@city-fan.org> - 0.4-1
 - Update to 0.4
+  - Configuration of objectclass and attributes (GH#3)
 
 * Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild

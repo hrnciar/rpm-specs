@@ -1,15 +1,23 @@
+%undefine __cmake_in_source_build
+# Disable LTO for now - fails to build
+%undefine _lto_cflags
+
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+%bcond_without flexiblas
+%endif
+
 Name:           InsightToolkit
 Summary:        Insight Toolkit library for medical image processing
 %global version_major_minor 4.13
-Version:        %{version_major_minor}.1
+Version:        %{version_major_minor}.3
 %global version_doc_major_minor 4.13
 %global version_doc %{version_doc_major_minor}.0
-Release:        4%{?dist}
+Release:        2%{?dist}
 License:        ASL 2.0
-Source0:        https://sourceforge.net/projects/itk/files/itk/%{version_major_minor}/%{name}-%{version}.tar.xz
+Source0:        https://github.com/InsightSoftwareConsortium/ITK/releases/download/v%{version}/InsightToolkit-%{version}.tar.gz
 Source1:        https://downloads.sourceforge.net/project/itk/itk/%{version_doc_major_minor}/InsightSoftwareGuide-Book1-%{version_doc}.pdf
 Source2:        https://downloads.sourceforge.net/project/itk/itk/%{version_doc_major_minor}/InsightSoftwareGuide-Book2-%{version_doc}.pdf
-Source3:        https://sourceforge.net/projects/itk/files/itk/%{version_major_minor}/InsightData-%{version}.tar.xz
+Source3:        https://github.com/InsightSoftwareConsortium/ITK/releases/download/v%{version}/InsightData-%{version}.tar.gz
 URL:            https://www.itk.org/
 Patch0:         InsightToolkit-0001-Set-lib-lib64-according-to-the-architecture.patch
 Patch2:         InsightToolkit-sse.patch
@@ -36,8 +44,12 @@ BuildRequires:  qtwebkit-devel
 BuildRequires:  vxl-devel
 BuildRequires:  vtk-devel
 BuildRequires:  zlib-devel
-BuildRequires:  blas-devel
+%if %{with flexiblas}
+BuildRequires:	flexiblas-devel
+%else
+BuildRequires:	blas-devel
 BuildRequires:  lapack-devel
+%endif
 BuildRequires:  netcdf-cxx-devel
 BuildRequires:  jsoncpp-devel
 BuildRequires:  expat-devel
@@ -130,7 +142,7 @@ find Modules/ThirdParty/* \( -name DICOMParser -o -name DoubleConversion -o -nam
     -prune -o -regextype posix-extended -type f \
     -regex ".*\.(h|hxx|hpp|c|cc|cpp|cxx|txx)$" -not -iname "itk*" -print0 | xargs -0 rm -fr
 
-tar xJvf %{SOURCE3} -C ..
+tar xvf %{SOURCE3} -C ..
 
 # short-circuit a wrapper header that causes declaration conflicts
 echo '#include "vnl/vnl_complex_traits.h"' >Modules/ThirdParty/VNLInstantiation/include/vnl_complex_traits+char-.h
@@ -148,10 +160,6 @@ sed -r -i 's/resample->SetDefaultPixelValue/\/\/\0/' \
     Modules/Registration/Metricsv4/test/itkMeanSquaresImageToImageMetricv4VectorRegistrationTest.cxx
 
 %build
-
-mkdir -p build
-pushd build
-
 extra_cflags=(
 	-DITK_LEGACY_FUTURE_REMOVE # fix build with new vtk
 	-Wno-deprecated-copy       # reduce noise in the logs...
@@ -165,6 +173,8 @@ extra_cflags=(
        -DCMAKE_VERBOSE_MAKEFILE=ON\
        -DCMAKE_CXX_FLAGS:STRING="-std=gnu++11 %{optflags} ${extra_cflags[*]}" \
        -DBUILD_TESTING=ON\
+       %{?with_flexiblas:-DBLAS_LIBRARIES=-lflexiblas} \
+       -DITK_USE_GOLD_LINKER:BOOL=OFF \
        -DITK_FORBID_DOWNLOADS=ON \
        -DITKV3_COMPATIBILITY:BOOL=OFF \
        -DITK_BUILD_DEFAULT_MODULES:BOOL=ON \
@@ -196,12 +206,10 @@ extra_cflags=(
        -DITK_INSTALL_RUNTIME_DIR:PATH=%{_bindir} \
        -DITK_INSTALL_DOC_DIR=share/doc/%{name}/
 
-popd
-
-make %{?_smp_mflags} -C build
+%cmake_build
 
 %install
-%make_install -C build
+%cmake_install
 
 # Install examples
 mkdir -p %{buildroot}%{_datadir}/%{name}/examples
@@ -210,7 +218,7 @@ cp -ar Examples/* %{buildroot}%{_datadir}/%{name}/examples/
 %check
 # There are a couple of tests randomly failing on f19 and rawhide and I'm debugging
 # it with upstream. Making the tests informative for now
-make test -C build || exit 0
+%ctest || exit 0
 
 # In F31 rawhide (some most likely related to the patching done above):
 # The following tests FAILED:
@@ -262,6 +270,25 @@ make test -C build || exit 0
 %{_libdir}/cmake/%{name}/Modules/ITKVtkGlue.cmake
 
 %changelog
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 4.13.3-2
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Wed Aug 05 2020 Orion Poplawski <orion@nwra.com> - 4.13.3-1
+- Update to 4.13.3
+- Use new cmake macros
+- Disable LTO for now
+- Disable gold linker
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.13.1-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.13.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 4.13.1-5
+- Rebuild for hdf5 1.10.6
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.13.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

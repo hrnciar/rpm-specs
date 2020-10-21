@@ -1,6 +1,6 @@
 Name:           enigma
 Version:        1.21
-Release:        18.20160222git0027b3b8e694%{?dist}
+Release:        19.20160222git0027b3b8e694%{?dist}
 Summary:        Game where you control a marble with the mouse
 
 License:        GPLv2+
@@ -98,6 +98,9 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/appdata/enigma.
 %{_datadir}/enigma
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.21-19.20160222git0027b3b8e694
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 14 2020 Bruno Wolff III <bruno@wolff.to> - 1.21-18.20160222git0027b3b8e694
 - Automate finding font paths at build time
 

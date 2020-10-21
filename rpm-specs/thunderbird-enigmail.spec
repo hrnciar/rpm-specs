@@ -20,7 +20,7 @@
 Summary:        Authentication and encryption extension for Mozilla Thunderbird
 Name:           thunderbird-enigmail
 Version:        2.1.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 URL:            https://enigmail.net/
 # All files licensed under MPL 1.1/GPL 2.0/LGPL 2.1
 License:        MPLv1.1 or GPLv2+ or LGPLv2+
@@ -106,6 +106,9 @@ unzip -q build-tb/enigmail-*.xpi -d $RPM_BUILD_ROOT%{enigmail_extname}
 #===============================================================================
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 03 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 2.1.6-1
 - update to 2.1.6
 

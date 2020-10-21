@@ -2,7 +2,7 @@
 
 Name:           trac-workflowadmin-plugin
 Version:        0.12
-Release:        20120645svn11062%{?dist}
+Release:        20120646svn11062%{?dist}
 Summary:        Web interface for workflow administration for Trac
 
 License:        BSD
@@ -33,6 +33,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python2_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-20120646svn11062
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-20120645svn11062
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

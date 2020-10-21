@@ -3,7 +3,7 @@
 
 Name:           python-%{module_name}
 Version:        4.0.2
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Library to access Tryton's internal objects
 
 License:        GPLv3+
@@ -45,6 +45,9 @@ A client library to access Tryton's internal objects like Models and Wizards.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.0.2-13
 - Rebuilt for Python 3.9
 

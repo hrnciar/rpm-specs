@@ -4,7 +4,7 @@
 
 Name:           libxfce4ui
 Version:        4.14.1
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Commonly used Xfce widgets
 
 License:        LGPLv2+
@@ -127,6 +127,12 @@ desktop-file-install \
 %{_datadir}/glade/pixmaps/hicolor/*/actions/*
 
 %changelog
+* Fri Oct  2 2020 Kalev Lember <klember@redhat.com> - 4.14.1-6
+- Rebuilt for libgladeui soname bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Kalev Lember <klember@redhat.com> - 4.14.1-4
 - Rebuilt for libgladeui soname bump
 

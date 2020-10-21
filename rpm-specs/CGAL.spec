@@ -4,21 +4,24 @@
 %global debug_package %{nil}
 
 # Min dependencies
-%global boost_version 1.57
+%global boost_version 1.66
 %global qt_version 5.9
-%global cmake_version 3.1
+%global cmake_version 3.12
 
-%global fullversion 5.0.2
-%global alphatag %nil
+%global fullversion %{version}
+%global alphatag %{nil}
+#global fullversion 5.1-beta2
+#global alphatag .beta2
+
 
 Name:           CGAL
-Version:        5.0.2
-Release:        2%{alphatag}%{?dist}
+Version:        5.1
+Release:        1%{alphatag}%{?dist}
 Summary:        Computational Geometry Algorithms Library
 
 License:        LGPLv3+ and GPLv3+ and Boost
 URL:            http://www.cgal.org/
-Source0:        https://github.com/CGAL/cgal/releases/download/releases/%{name}-%{fullversion}/%{name}-%{fullversion}.tar.xz
+Source0:        https://github.com/CGAL/cgal/releases/download/v%{fullversion}/%{name}-%{fullversion}.tar.xz
 
 
 # Required devel packages.
@@ -57,7 +60,7 @@ Israel. The goal is to make the most important of the solutions and
 methods developed in computational geometry available to users in
 industry and academia in a C++ library. The goal is to provide easy
 access to useful, reliable geometric algorithms.
-The %{name}-devel package provides the headers files and tools you may need to 
+The %{name}-devel package provides the headers files and tools you may need to
 develop applications using CGAL.
 
 
@@ -114,8 +117,8 @@ EOF
 
 mkdir build
 pushd build
-%cmake -DCGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE=ON -DCGAL_INSTALL_CMAKE_DIR=%{_datadir}/CGAL/cmake -DCGAL_INSTALL_DOC_DIR= ..
-make VERBOSE=1 %{?_smp_mflags}
+%cmake -DCGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE=ON -DCGAL_INSTALL_LIB_DIR=%{_datadir} -DCGAL_INSTALL_DOC_DIR= ..
+%cmake_build
 popd
 
 
@@ -124,7 +127,7 @@ rm -rf %{buildroot}
 
 pushd build
 
-make install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 
 popd
 
@@ -134,6 +137,14 @@ touch -r demo %{buildroot}%{_datadir}/CGAL/
 cp -a demo %{buildroot}%{_datadir}/CGAL/demo
 cp -a examples %{buildroot}%{_datadir}/CGAL/examples
 
+%check
+rm -rf include/
+mkdir build-example
+cd build-example
+cmake -L "-DCMAKE_PREFIX_PATH=%{buildroot}/usr" %{buildroot}%{_datadir}/CGAL/examples/Triangulation_2
+make constrained_plus
+ldd ./constrained_plus
+./constrained_plus
 
 %files devel
 %license AUTHORS LICENSE LICENSE.FREE_USE LICENSE.LGPL LICENSE.GPL
@@ -141,15 +152,15 @@ cp -a examples %{buildroot}%{_datadir}/CGAL/examples
 %{_includedir}/CGAL
 %exclude %{_includedir}/CGAL/Qt
 %dir %{_datadir}/CGAL
-%{_datadir}/CGAL/cmake
-%exclude %{_datadir}/CGAL/cmake/demo
+%{_datadir}/cmake/CGAL
+%exclude %{_datadir}/cmake/CGAL/demo
 %{_bindir}/*
-%exclude %{_bindir}/cgal_make_macosx_app`
+%exclude %{_bindir}/cgal_make_macosx_app
 %{_mandir}/man1/cgal_create_cmake_script.1.gz
 
 %files qt5-devel
 %{_includedir}/CGAL/Qt
-%{_datadir}/CGAL/cmake/demo
+%{_datadir}/cmake/CGAL/demo
 
 %files demos-source
 %{_datadir}/CGAL/demo
@@ -157,9 +168,25 @@ cp -a examples %{buildroot}%{_datadir}/CGAL/examples
 %exclude %{_datadir}/CGAL/*/*/skip_vcproj_auto_generation
 
 %changelog
+* Tue Sep  8 2020 Laurent Rineau <laurent.rineau@cgal.org> - 5.1-1
+- New upstream release
+
+* Tue Jul 28 2020 Laurent Rineau <laurent.rineau@cgal.org> - 5.1-0.2.beta2
+- Install CMake files in `/usr/share/cmake/CGAL/`.
+- Add a `%%check` section.
+
+* Tue Jul 28 2020 Laurent Rineau <laurent.rineau@cgal.org> - 5.1-0.1-beta2
+- New upstream release 5.1-beta2
+
+* Mon Jul 27 2020 Laurent Rineau <laurent.rineau@cgal.org> - 5.0.2-4
+- Fix for Fedora 33
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar  9 2020 Laurent Rineau <laurent.rineau@cgal.org> - 5.0.2-2
 - Fix Bug 1811647:
-      %{?_isa} qualifier unnecessary / broken for BuildRequires
+      %%{?_isa} qualifier unnecessary / broken for BuildRequires
   https://bugzilla.redhat.com/show_bug.cgi?id=1811647
 
 * Tue Feb 25 2020 Laurent Rineau <laurent.rineau@cgal.org> - 5.0.2-1
@@ -244,4 +271,3 @@ cp -a examples %{buildroot}%{_datadir}/CGAL/examples
 
 * Mon Jan 22 2018 Jonathan Wakely <jwakely@redhat.com> - 4.11-2
 - Rebuilt for Boost 1.66
-

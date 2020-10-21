@@ -1,3 +1,5 @@
+%global __cmake_in_source_build 1
+
 %global truename CombBLAS
 
 %bcond_without openmpi
@@ -21,7 +23,7 @@
 
 Name:          combblas
 Version:       1.6.2
-Release:       0.8.beta2%{?dist}
+Release:       0.10.beta2%{?dist}
 Summary:       The Combinatorial BLAS Library
 
 # Main license for CombBLAS is BSD.
@@ -262,6 +264,13 @@ popd
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.2-0.10.beta2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.2-0.9.beta2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Antonio Trande <sagitter@fedoraproject.org> - 1.6.2-0.8.beta2
 - Use devtools-7 on EPEL 7
 

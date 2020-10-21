@@ -5,7 +5,7 @@
 
 Name:           afpfs-ng
 Version:        0.8.1
-Release:        30%{?dist}
+Release:        32%{?dist}
 Summary:        Apple Filing Protocol client
 
 License:        GPL+
@@ -102,6 +102,13 @@ cp -p include/* %{buildroot}%{_includedir}/afpfs-ng
 
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-32
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Michal Ambroz <rebus _AT seznam.cz> - 0.8.1-30
 - fix FTBFS - multiple definition of - build legacy code with -fcommon
 

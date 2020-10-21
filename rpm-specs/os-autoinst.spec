@@ -25,31 +25,42 @@
 # them to the perl vendor dir, but they wouldn't bite.
 # https://github.com/os-autoinst/os-autoinst/issues/387
 %global __provides_exclude_from %{_libexecdir}/os-autoinst
-%global __requires_exclude perl\\((autotest|backend|basetest|bmwqemu|commands|consoles|cv|distribution|lockapi|mmapi|myjsonrpc|needle|ocr|osutils|testapi|OpenQA::Exceptions|OpenQA::Benchmark::Stopwatch|OpenQA::Qemu|OpenQA::Isotovideo)
+%global __requires_exclude perl\\((autotest|backend|basetest|bmwqemu|commands|consoles|cv|distribution|lockapi|mmapi|myjsonrpc|needle|ocr|osutils|signalblocker|testapi|OpenQA::Exceptions|OpenQA::Benchmark::Stopwatch|OpenQA::Qemu|OpenQA::Isotovideo)
 %{?perl_default_filter}
 
 %global github_owner    os-autoinst
 %global github_name     os-autoinst
 %global github_version  4.6
-%global github_commit   f38e8b174dc1a0cace4d624a197a297f9efdc2bb
+%global github_commit   b781299edace8743b63e826d85c4f7a24ac70817
 # if set, will be a post-release snapshot build, otherwise a 'normal' build
-%global github_date     20200610
+%global github_date     20200804
 %global shortcommit     %(c=%{github_commit}; echo ${c:0:7})
 
 Name:           os-autoinst
 Version:        %{github_version}
-Release:        17%{?github_date:.%{github_date}git%{shortcommit}}%{?dist}
+Release:        27%{?github_date:.%{github_date}git%{shortcommit}}%{?dist}
 Summary:        OS-level test automation
 License:        GPLv2+
 URL:            https://os-autoinst.github.io/openQA/
 Source0:        https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{github_name}-%{github_commit}.tar.gz
+# Fix a test regex to be multiline
+# https://github.com/os-autoinst/os-autoinst/commit/c2a1e23ce3347359a868d287379710e603cff523
+# https://bugzilla.redhat.com/show_bug.cgi?id=1873028
+Patch0:         0001-t-Fix-regex-for-warning-multiline.patch
+# Add click-and-drag support to testapi (from lruzicka)
+# https://github.com/os-autoinst/os-autoinst/pull/1508
+Patch1:         1508.patch
 
 # on SUSE this is conditional, for us it doesn't have to be but we
 # still use a macro just to keep build_requires similar for ease of
 # cross-comparison
 %define opencv_require pkgconfig(opencv)
 # The following line is generated from dependencies.yaml (upstream)
-%define build_requires %opencv_require autoconf automake gcc-c++ libtool make perl(ExtUtils::Embed) perl(ExtUtils::MakeMaker) >= 7.12 perl(Module::CPANfile) perl(Pod::Html) pkg-config pkgconfig(fftw3) pkgconfig(libpng) pkgconfig(sndfile) pkgconfig(theoraenc)
+%define build_base_requires %opencv_require gcc-c++ perl(Pod::Html) pkg-config pkgconfig(fftw3) pkgconfig(libpng) pkgconfig(sndfile) pkgconfig(theoraenc)
+%define build_legacy_requires %build_base_requires autoconf automake libtool make perl(ExtUtils::Embed) perl(ExtUtils::MakeMaker) >= 6.66 perl(Module::CPANfile)
+# diff from SUSE: SUSE has 'ninja', Fedora has 'ninja-build'
+# The following line is generated from dependencies.yaml (upstream)
+%define build_requires %build_base_requires cmake ninja-build
 # this is stuff we added to requires, we put it in its own macro
 # to make resyncing with upstream spec changes easier. SUSE has
 # perl-base, we have perl(base)
@@ -58,15 +69,18 @@ Source0:        https://github.com/%{github_owner}/%{github_name}/archive/%{gith
 # which does not exist in Fedora - we have perl(base) in
 # main_requires_additional and the perl(:MODULE_COMPAT) require below
 # The following line is generated from dependencies.yaml (upstream)
-%define main_requires %main_requires_additional git-core perl(B::Deparse) perl(Carp) perl(Carp::Always) perl(Class::Accessor::Fast) perl(Config) perl(Cpanel::JSON::XS) perl(Crypt::DES) perl(Cwd) perl(Data::Dumper) perl(Digest::MD5) perl(DynaLoader) perl(English) perl(Errno) perl(Exception::Class) perl(Exporter) perl(ExtUtils::testlib) perl(Fcntl) perl(File::Basename) perl(File::Find) perl(File::Path) perl(File::Spec) perl(File::Temp) perl(File::Touch) perl(File::Which) perl(IO::Handle) perl(IO::Scalar) perl(IO::Select) perl(IO::Socket) perl(IO::Socket::INET) perl(IO::Socket::UNIX) perl(IPC::Open3) perl(IPC::Run::Debug) perl(IPC::System::Simple) perl(List::MoreUtils) perl(List::Util) perl(Mojo::IOLoop::ReadWriteProcess) >= 0.23 perl(Mojo::JSON) perl(Mojo::Log) perl(Mojo::URL) perl(Mojo::UserAgent) perl(Mojolicious) >= 8.42 perl(Mojolicious::Lite) perl(Net::DBus) perl(Net::IP) perl(Net::SNMP) perl(Net::SSH2) perl(POSIX) perl(Scalar::Util) perl(Socket) perl(Socket::MsgHdr) perl(Term::ANSIColor) perl(Thread::Queue) perl(Time::HiRes) perl(Try::Tiny) perl(XML::LibXML) perl(XML::SemanticDiff) perl(autodie) perl(base) perl(constant) perl(integer) perl(strict) perl(warnings)
+%define main_requires %main_requires_additional git-core perl(B::Deparse) perl(Carp) perl(Carp::Always) perl(Class::Accessor::Fast) perl(Config) perl(Cpanel::JSON::XS) perl(Crypt::DES) perl(Cwd) perl(Data::Dumper) perl(Digest::MD5) perl(DynaLoader) perl(English) perl(Errno) perl(Exception::Class) perl(Exporter) perl(ExtUtils::testlib) perl(Fcntl) perl(File::Basename) perl(File::Find) perl(File::Path) perl(File::Spec) perl(File::Temp) perl(File::Touch) perl(File::Which) perl(IO::Handle) perl(IO::Scalar) perl(IO::Select) perl(IO::Socket) perl(IO::Socket::INET) perl(IO::Socket::UNIX) perl(IPC::Open3) perl(IPC::Run::Debug) perl(IPC::System::Simple) perl(List::MoreUtils) perl(List::Util) perl(Mojo::IOLoop::ReadWriteProcess) >= 0.26 perl(Mojo::JSON) perl(Mojo::Log) perl(Mojo::URL) perl(Mojo::UserAgent) perl(Mojolicious) >= 8.42 perl(Mojolicious::Lite) perl(Net::DBus) perl(Net::IP) perl(Net::SNMP) perl(Net::SSH2) perl(POSIX) perl(Scalar::Util) perl(Socket) perl(Socket::MsgHdr) perl(Term::ANSIColor) perl(Thread::Queue) perl(Time::HiRes) perl(Try::Tiny) perl(XML::LibXML) perl(XML::SemanticDiff) perl(autodie) perl(base) perl(constant) perl(integer) perl(strict) perl(warnings)
 # all requirements needed by the tests, do not require on this in the package
 # itself or any sub-packages
-# diff from SUSE: replaced qemu-tools with qemu-img, replaced qemu-x86
-# with qemu-system-i386, dropped spellcheck requirement stuff as this
-# isn't needed in package builds IMO, dropped critic stuff as we don't
-# run those tests in our build
+# diff from SUSE: replaced qemu with qemu-kvm, qemu-tools with
+# qemu-img, and qemu-x86 with qemu-system-i386
 # The following line is generated from dependencies.yaml (upstream)
-%define test_requires %build_requires %main_requires perl(Benchmark) perl(Devel::Cover) perl(FindBin) perl(Pod::Coverage) perl(Test::Exception) perl(Test::Fatal) perl(Test::Mock::Time) perl(Test::MockModule) perl(Test::MockObject) perl(Test::Mojo) perl(Test::More) perl(Test::Output) perl(Test::Pod) perl(Test::Strict) perl(Test::Warnings) >= 0.029 perl(YAML::PP) qemu-kvm /usr/bin/qemu-img /usr/bin/qemu-system-i386
+%define test_base_requires %main_requires perl(Benchmark) perl(Devel::Cover) perl(FindBin) perl(Pod::Coverage) perl(Test::Exception) perl(Test::Fatal) perl(Test::Mock::Time) perl(Test::MockModule) perl(Test::MockObject) perl(Test::Mojo) perl(Test::More) perl(Test::Output) perl(Test::Pod) perl(Test::Strict) perl(Test::Warnings) >= 0.029 procps python3-setuptools qemu-kvm /usr/bin/qemu-img /usr/bin/qemu-system-i386
+# The following line is generated from dependencies.yaml (upstream)
+%define test_legacy_requires %build_legacy_requires %test_base_requires
+# diff from SUSE: SUSE has python3-yamllint, Fedora has just yamllint
+# The following line is generated from dependencies.yaml (upstream)
+%define test_requires %build_requires %test_base_requires perl(YAML::PP) yamllint
 # diff from SUSE: dropped perl(Devel::Cover::Report::Codecov) as it's
 # not currently packaged for Fedora
 # The following line is generated from dependencies.yaml (upstream)
@@ -124,46 +138,35 @@ sed  -i 's/ my $thisversion = qx{git.*rev-parse HEAD}.*;/ my $thisversion = "%{v
 
 %if 0%{?no_fullstack}
 rm -f t/99-full-stack.t
-sed -i -e '/99-full-stack.t/d' Makefile.am
 %endif # no_fullstack
 
 %if 0%{?no_options}
 rm -f t/18-qemu-options.t
-sed -i -e '/18-qemu-options.t/d' Makefile.am
 %endif
 
 %if 0%{?no_isotovideo}
 rm -f t/14-isotovideo.t
-sed -i -e '/14-isotovideo.t/d' Makefile.am
 %endif
 
 # Tesseract 4.0.0 (in Rawhide as of 2018-11) fails utterly to OCR
 # the test needle properly:
 # https://github.com/tesseract-ocr/tesseract/issues/2052
 rm -f t/02-test_ocr.t
-sed -i -e '/02-test_ocr.t/d' Makefile.am
 
 # https://progress.opensuse.org/issues/60755
 rm -f t/07-commands.t
-sed -i -e '/07-commands.t/d' Makefile.am
 
 %build
-mkdir -p m4
-autoreconf -f -i
-%configure --docdir=%{_pkgdocdir}
-make INSTALLDIRS=vendor %{?_smp_mflags}
+%cmake -DOS_AUTOINST_DOC_DIR:STRING=%{_docdir}/%{name} -DOS_AUTOINST_DATA_DIR:STRING=libexec/%{name} -GNinja
+%ninja_build -C %{__cmake_builddir}
 
 %install
-%make_install INSTALLDIRS=vendor
-# only internal stuff
-rm -r %{buildroot}%{_libexecdir}/os-autoinst/tools/
+%ninja_install -C %{__cmake_builddir} install-openvswitch
 # we don't really need to ship this in the package, usually the web UI
 # is much better for needle editing
 rm %{buildroot}%{_libexecdir}/os-autoinst/crop.py*
 # we're going to %%license this
 rm %{buildroot}%{_pkgdocdir}/COPYING
-# This is no use for package users
-rm %{buildroot}%{_pkgdocdir}/INSTALL.asciidoc
 ls -lR %buildroot
 find %{buildroot} -type f -name .packlist -exec rm -f {} \;
 find %{buildroot} -depth -type d -and -not -name distri -exec rmdir {} \;
@@ -172,15 +175,10 @@ find %{buildroot} -depth -type d -and -not -name distri -exec rmdir {} \;
 export NO_BRP_STALE_LINK_ERROR=yes
 
 %check
-# we may not pull Perl::Critic in for RPM builds as we don't run code
-# quality checks, so cut it from cpanfile ahead of the next check
-sed '/Perl::Critic/d' -i cpanfile
-# should work offline
-for p in $(cpanfile-dump); do rpm -q --whatprovides "perl($p)"; done
 # 00-compile-check-all.t fails if this is present and Perl::Critic is
 # not installed
 rm tools/lib/perlcritic/Perl/Critic/Policy/*.pm
-make test VERBOSE=1
+%ninja_build -C %{__cmake_builddir} check-pkg-build
 
 %post openvswitch
 %systemd_post os-autoinst-openvswitch.service
@@ -212,6 +210,7 @@ make test VERBOSE=1
 %{_libexecdir}/os-autoinst/cv.pm
 %{_libexecdir}/os-autoinst/ocr.pm
 %{_libexecdir}/os-autoinst/osutils.pm
+%{_libexecdir}/os-autoinst/signalblocker.pm
 %{_libexecdir}/os-autoinst/needle.pm
 %{_libexecdir}/os-autoinst/backend
 %{_libexecdir}/os-autoinst/OpenQA
@@ -229,13 +228,44 @@ make test VERBOSE=1
 %files devel
 
 %changelog
-* Fri Jun 12 2020 Adam Williamson <awilliam@redhat.com> - 4.6-17.20200610gitf38e8b17
-- Drop -devel dep that doesn't exist in Fedora
+* Fri Aug 28 2020 Adam Williamson <awilliam@redhat.com> - 4.6-27.20200804gitb781299
+- Backport click-and-drag support by lruzicka
 
-* Wed Jun 10 2020 Adam Williamson <awilliam@redhat.com> - 4.6-16.20200610gitf38e8b17
+* Thu Aug 27 2020 Adam Williamson <awilliam@redhat.com> - 4.6-26.20200804gitb781299
+- Backport fix for a test regex with recent qemu
+
+* Wed Aug 05 2020 Adam Williamson <awilliam@redhat.com> - 4.6-25.20200804gitb781299
+- Fix OS_AUTOINST_DATA_DIR definition so @INC comes out right
+
+* Wed Aug 05 2020 Adam Williamson <awilliam@redhat.com> - 4.6-24.20200804gitb781299
+- Exclude new private module Requires from latest bump (signalblocker)
+
+* Tue Aug 04 2020 Adam Williamson <awilliam@redhat.com> - 4.6-23.20200804gitb781299
 - Bump to latest git, resync spec again
 
-* Mon Jun 08 2020 Adam Williamson <awilliam@redhat.com> - 4.6-15.20200608gitbcbc6c41
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6-22.20200623git5038d8c
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6-21.20200623git5038d8c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Adam Williamson <awilliam@redhat.com> - 4.6-20.20200623git5038d8c
+- Backport (modified) PR #1468 - make local VM host IP configurable
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.6-19.20200623git5038d8c
+- Perl 5.32 rebuild
+
+* Wed Jun 24 2020 Adam Williamson <awilliam@redhat.com> - 4.6-18.20200623git5038d8c
+- Bump to latest git, resync spec again
+
+* Fri Jun 12 2020 Adam Williamson <awilliam@redhat.com> - 4.6-17.20200610gitf38e8b1
+- Drop -devel dep that doesn't exist in Fedora
+
+* Wed Jun 10 2020 Adam Williamson <awilliam@redhat.com> - 4.6-16.20200610gitf38e8b1
+- Bump to latest git, resync spec again
+
+* Mon Jun 08 2020 Adam Williamson <awilliam@redhat.com> - 4.6-15.20200608gitbcbc6c4
 - Bump to latest git, resync spec with upstream
 
 * Thu Jun 04 2020 Nicolas Chauvet <kwizart@gmail.com> - 4.6-14.20200430git85fa4f1

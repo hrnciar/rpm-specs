@@ -4,7 +4,7 @@
 
 Name:    ark
 Summary: Archive manager
-Version: 20.04.2
+Version: 20.08.1
 Release: 1%{?dist}
 
 License: GPLv2+
@@ -25,7 +25,7 @@ Source0: http://download.kde.org/%{stable}/release-service/%{version}/src/%{name
 BuildRequires: bzip2-devel
 BuildRequires: desktop-file-utils
 
-BuildRequires: extra-cmake-modules
+BuildRequires: extra-cmake-modules >= 5.71
 BuildRequires: kf5-rpm-macros
 BuildRequires: kf5-karchive-devel
 BuildRequires: kf5-kconfig-devel
@@ -99,16 +99,13 @@ Provides: ark-part%{?_isa} = %{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html --with-man
 
@@ -147,6 +144,28 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.ark.deskt
 
 
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Mon Aug 31 2020 Than Ngo <than@redhat.com> - 20.08.0-2
+- backport security fix for CVE-2020-24654
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 31 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-3
+- backport security fix for CVE-2020-16116
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.2-1
 - 20.04.2
 

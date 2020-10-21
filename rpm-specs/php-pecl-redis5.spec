@@ -16,19 +16,19 @@
 %global pecl_name   redis
 %global with_zts    0%{!?_without_zts:%{?__ztsphp:1}}
 %ifarch s390x
-%global with_tests  0%{?_with_tests:1}
+%bcond_with         tests
 %else
-%global with_tests  0%{!?_without_tests:1}
+%bcond_without      tests
 %endif
 # after 20-json, 40-igbinary and 40-msgpack
 %global ini_name    50-%{pecl_name}.ini
-%global upstream_version 5.2.2
+%global upstream_version 5.3.1
 #global upstream_prever  RC2
 
 Summary:       Extension for communicating with the Redis key-value store
 Name:          php-pecl-redis5
 Version:       %{upstream_version}%{?upstream_prever:~%{upstream_prever}}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Source0:       https://pecl.php.net/get/%{pecl_name}-%{upstream_version}%{?upstream_prever}.tgz
 License:       PHP
 URL:           https://pecl.php.net/package/redis
@@ -39,10 +39,11 @@ BuildRequires: php-pear
 BuildRequires: php-json
 BuildRequires: php-pecl-igbinary-devel
 BuildRequires: php-pecl-msgpack-devel >= 2.0.3
-BuildRequires: liblzf-devel
-BuildRequires: libzstd-devel >= 1.3.0
+BuildRequires: pkgconfig(liblzf)
+BuildRequires: pkgconfig(libzstd) >= 1.3.0
+BuildRequires: pkgconfig(liblz4)
 # to run Test suite
-%if %{with_tests}
+%if %{with tests}
 BuildRequires: redis >= 3
 %endif
 
@@ -149,6 +150,7 @@ extension = %{pecl_name}.so
 ;redis.pconnect.pooling_enabled = 1
 ;redis.pconnect.connection_limit = 0
 ;redis.pconnect.echo_check_liveness = 1
+;redis.pconnect.pool_pattern => ''
 ;redis.session.lock_expire = 0
 ;redis.session.lock_retries = 10
 ;redis.session.lock_wait_time = 2000
@@ -159,8 +161,7 @@ EOF
 %build
 %{?dtsenable}
 
-cd NTS
-%{_bindir}/phpize
+peclconf() {
 %configure \
     --enable-redis \
     --enable-redis-session \
@@ -170,22 +171,20 @@ cd NTS
     --with-liblzf \
     --enable-redis-zstd \
     --with-libzstd \
-    --with-php-config=%{_bindir}/php-config
+    --enable-redis-lz4 \
+    --with-liblz4 \
+    --with-php-config=$1
+}
+
+cd NTS
+%{_bindir}/phpize
+peclconf %{_bindir}/php-config
 make %{?_smp_mflags}
 
 %if %{with_zts}
 cd ../ZTS
 %{_bindir}/zts-phpize
-%configure \
-    --enable-redis \
-    --enable-redis-session \
-    --enable-redis-igbinary \
-    --enable-redis-msgpack \
-    --enable-redis-lzf \
-    --with-liblzf \
-    --enable-redis-zstd \
-    --with-libzstd \
-    --with-php-config=%{_bindir}/zts-php-config
+peclconf %{_bindir}/zts-php-config
 make %{?_smp_mflags}
 %endif
 
@@ -229,7 +228,7 @@ DEPS="$DEPS --define extension=msgpack.so"
     --modules | grep %{pecl_name}
 %endif
 
-%if %{with_tests}
+%if %{with tests}
 cd NTS/tests
 
 : Launch redis server
@@ -281,6 +280,17 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 Remi Collet <remi@remirepo.net> - 5.3.1-1
+- update to 5.3.1
+
+* Wed Jul  1 2020 Remi Collet <remi@remirepo.net> - 5.3.0-1
+- update to 5.3.0
+- enable lz4 compression support
+- add new option in provided configuration file
+
 * Wed May  6 2020 Remi Collet <remi@remirepo.net> - 5.2.2-1
 - update to 5.2.2
 - refresh options in provided configuration file

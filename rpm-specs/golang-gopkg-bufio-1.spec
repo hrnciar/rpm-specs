@@ -8,17 +8,7 @@ Version:                1
 
 %gometa
 
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-gopkg-1-bufio-devel < 1.0.0-2
-}
-
 %global goaltipaths     github.com/go-bufio/bufio
-
-# Remove in F33:
-%global goaltheader %{expand:
-Obsoletes:      golang-github-bufio-v1-devel < 1.0.0-2
-}
 
 %global common_description %{expand:
 Package bufio implements buffered I/O. It wraps an io.Reader or io.Writer
@@ -29,13 +19,15 @@ interface but provides buffering and some help for textual I/O. }
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        Buffered I/O implementation
 
 # Upstream license specification: BSD-3-Clause
 License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/golang/go/issues/32479 (dead upstream)
+Patch0:         0001-Convert-int-to-string-using-rune.patch
 
 %description
 %{common_description}
@@ -44,6 +36,7 @@ Source0:        %{gosource}
 
 %prep
 %goprep
+%patch0 -p1
 
 %install
 %gopkginstall
@@ -56,6 +49,13 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

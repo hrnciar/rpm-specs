@@ -1,5 +1,6 @@
+%undefine __cmake_in_source_build
 Name:       timew
-Version:    1.3.0
+Version:    1.4.2
 Release:    1%{?dist}
 Summary:    Timewarrior tracks and reports time
 
@@ -22,7 +23,6 @@ extensions.
 
 %prep
 %autosetup
-mkdir %{_target_platform}
 cp -v %{SOURCE1} .
 chmod -x ext/*.py doc/holidays/*
 for lib in ext/* doc/holidays/*; do
@@ -34,14 +34,12 @@ done
 
 
 %build
-pushd %{_target_platform}
-    %cmake ..
-popd
-%make_build -C %{_target_platform}
+%cmake
+%cmake_build
 
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 # Theme goes to datadir
 mv -v $RPM_BUILD_ROOT/%{_docdir}/%{name}/doc $RPM_BUILD_ROOT/%{_datadir}/%{name}
 
@@ -63,6 +61,12 @@ mv -v README.Fedora $RPM_BUILD_ROOT/%{_docdir}/%{name}/
 %{_docdir}/%{name}
 
 %changelog
+* Mon Aug 31 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.4.2-1
+- Update to latest release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Aniket Pradhan <major AT fedoraproject DOT org> - 1.3.0-1
 - Version update to 1.3.0
 

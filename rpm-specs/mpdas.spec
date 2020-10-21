@@ -1,6 +1,6 @@
 Name:           mpdas
 Version:        0.4.4
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        An MPD audioscrobbling client
 
 License:        BSD
@@ -41,6 +41,13 @@ install -m 0644 mpdas.1 %{buildroot}%{_mandir}/man1/mpdas.1
 %{_bindir}/mpdas
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.4-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.4-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.4-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

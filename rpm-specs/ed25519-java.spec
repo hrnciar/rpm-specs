@@ -1,6 +1,6 @@
 Name:          ed25519-java
 Version:       0.3.0
-Release:       5%{?dist}
+Release:       8%{?dist}
 Summary:       Implementation of EdDSA (Ed25519) in Java
 License:       CC0
 URL:           https://github.com/str4d/ed25519-java
@@ -48,7 +48,7 @@ This package contains javadoc for %{name}.
 %mvn_file net.i2p.crypto:eddsa %{name} eddsa
 
 %build
-%mvn_build
+%mvn_build -- -Dsource=1.8
 
 %install
 %mvn_install
@@ -61,6 +61,15 @@ This package contains javadoc for %{name}.
 %license LICENSE.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0.3.0-7
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Fri Jun 26 2020 Roland Grunberg <rgrunber@redhat.com> - 0.3.0-6
+- Set maven-javadoc-plugin source to 1.8 for Java 11 build.
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

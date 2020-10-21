@@ -13,7 +13,7 @@ Summary:	Rake is a Make-like program implemented in Ruby
 Name:		rubygem-%{gem_name}
 
 Version:	%{majorver}
-Release:	%{?preminorver:0.}%{fedorarel}%{?preminorver:%{rpmminorver}}%{?dist}
+Release:	%{?preminorver:0.}%{fedorarel}%{?preminorver:%{rpmminorver}}%{?dist}.1
 License:	MIT
 URL:		https://github.com/ruby/rake
 Source0:	https://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -107,6 +107,9 @@ popd
 %doc %{gem_instdir}/*.rdoc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 13.0.1-203.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 18 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 13.0.1-203
 - Again use rake for test, as this is rake package
 - Remove files again instead of using %%exclude

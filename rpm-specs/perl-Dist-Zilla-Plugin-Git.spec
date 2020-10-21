@@ -2,13 +2,14 @@
 %bcond_without perl_Dist_Zilla_Plugin_Git_enables_optional_test
 
 Name:           perl-Dist-Zilla-Plugin-Git
-Version:        2.046
-Release:        5%{?dist}
+Version:        2.047
+Release:        1%{?dist}
 Summary:        Update your git repository after release
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Dist-Zilla-Plugin-Git
 Source0:        https://cpan.metacpan.org/authors/id/E/ET/ETHER/Dist-Zilla-Plugin-Git-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  git-core >= 1.5.4
 BuildRequires:  make
 BuildRequires:  perl-generators
@@ -119,6 +120,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Mon Sep 14 2020 Petr Pisar <ppisar@redhat.com> - 2.047-1
+- 2.047 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.046-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.046-5
 - Perl 5.32 rebuild
 

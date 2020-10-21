@@ -3,7 +3,7 @@
 
 Name:		%{fontname}-fonts
 Version:	3.0.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 Summary:	Open Type Fonts for Malayalam script
 License:	OFL
@@ -64,6 +64,9 @@ appstream-util validate-relax --nonet \
 %{_datadir}/metainfo/%{fontname}.metainfo.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Vishal Vijayraghavan <vishalvvr@fedoraproject.org> - 1:3.0.2-1
 - New release smc-dyuthi-fonts-3.0.2
 

@@ -2,7 +2,7 @@
 
 Name:           mingw-rest
 Version:        0.8.0
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        A library for access to RESTful web services
 
 License:        LGPLv2
@@ -135,6 +135,12 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 %{mingw64_libdir}/librest-extras-0.7.a
 
 %changelog
+* Wed Aug 12 13:45:37 GMT 2020 Sandro Mani <manisandro@gmail.com> - 0.8.0-12
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

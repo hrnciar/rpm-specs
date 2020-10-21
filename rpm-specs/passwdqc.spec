@@ -1,7 +1,7 @@
 Summary: A password/passphrase strength checking and policy enforcement toolset
 Name: passwdqc
 Version: 1.4.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 # Two manual pages (pam_passwdqc.8 and passwdqc.conf.5) are under the
 # 3-clause BSD-style license as specified within the files themselves.
 # The rest of the files in this package fall under the terms of
@@ -130,6 +130,9 @@ make install install_locales \
 %_mandir/man1/*.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 08 2020 Dmitry V. Levin <ldv@altlinux.org> - 1.4.0-1
 - 1.3.0 -> 1.4.0 (#1748553).
 - Imported package from ALT Sisyphus.

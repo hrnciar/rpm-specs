@@ -1,6 +1,6 @@
 Name:           perl-Statistics-Descriptive
-Version:        3.0702
-Release:        7%{?dist}
+Version:        3.0800
+Release:        1%{?dist}
 Summary:        Perl module of basic descriptive statistical functions
 # lib/Statistics/Descriptive.pm:            GPL+ or Artistic
 # lib/Statistics/Descriptive/Full.pm:       GPL+ or Artistic
@@ -12,13 +12,13 @@ License:        (GPL+ or Artistic) and MIT
 URL:            https://metacpan.org/release/Statistics-Descriptive
 Source0:        https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/Statistics-Descriptive-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
 BuildRequires:  perl(Module::Build) >= 0.28
 BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
 # Run-time:
-BuildRequires:  perl(base)
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(List::MoreUtils)
 BuildRequires:  perl(List::Util)
@@ -68,6 +68,12 @@ perl Build.PL installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Mon Oct 19 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.0800-1
+- 3.0800 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0702-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.0702-7
 - Perl 5.32 rebuild
 

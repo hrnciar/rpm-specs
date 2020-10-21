@@ -6,7 +6,7 @@
 
 Name:           gitweb-caching
 Version:        1.6.5.2
-Release:        24.%{SHA1SHORT}%{?dist}
+Release:        25.%{SHA1SHORT}%{?dist}
 Summary:        Simple web interface to git repositories w/ caching support
 License:        GPLv2
 URL:            http://git.kernel.org/?p=git/warthog9/gitweb.git;a=summary
@@ -85,6 +85,9 @@ install -pm 0644 %{SOURCE2} $RPM_BUILD_ROOT/%{_sysconfdir}/httpd/conf.d/%{name}.
 %attr(0755, apache, apache) %{_var}/cache/gitweb-caching
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.5.2-25.b1ab8b5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.5.2-24.b1ab8b5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

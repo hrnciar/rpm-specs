@@ -9,7 +9,7 @@
 
 Name:           perl-LDAP
 Version:        0.66
-Release:        8%{?dist}
+Release:        9%{?dist}
 Epoch:          1
 Summary:        LDAP Perl module
 License:        GPL+ or Artistic
@@ -226,6 +226,9 @@ make test
 %{_libexecdir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.66-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:0.66-8
 - Perl 5.32 rebuild
 

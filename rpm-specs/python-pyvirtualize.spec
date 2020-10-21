@@ -25,7 +25,7 @@ And of course, you can use it to access all the API through python.
 Name:           python-%{modname}
 # pypi tells current version
 Version:        0.10
-Release:        3.%{date}git%(c=%commit0; echo ${c:0:7} )%{?dist}
+Release:        4.%{date}git%(c=%commit0; echo ${c:0:7} )%{?dist}
 Summary:        Another python frontend to access and manage pyvmomi
 
 License:        ASL 2.0
@@ -116,6 +116,9 @@ ln -fs %{_jsdir}/jquery/3/jquery.js docs/build/html/_static
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10-4.20191018gitdc2d971
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.10-3.20191018gitdc2d971
 - Rebuilt for Python 3.9
 

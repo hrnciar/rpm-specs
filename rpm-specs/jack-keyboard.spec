@@ -1,6 +1,6 @@
 Name:		jack-keyboard
-Version:	2.7.1
-Release:	18%{?dist}
+Version:	2.7.2
+Release:	1%{?dist}
 Summary:	Virtual keyboard for JACK MIDI
 License:	BSD
 URL:		http://sourceforge.net/projects/jack-keyboard/
@@ -9,11 +9,8 @@ Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Source1:	%{name}.png
 # Upstreamable patch. Fix DSO linking
 Patch0:		%{name}-dso-linking.patch
-Patch1:		jack-keyboard-2.7.1-format-security.patch
-# Backported hardware keycodes fix from trunk SVN rev28
-Patch2:		jack-keyboard-svnr28.patch
 # cmake should look for gcc only
-Patch3:		jack-keyboard-cproject.patch
+Patch1:		jack-keyboard-cproject.patch
 BuildRequires:	cmake
 BuildRequires:	desktop-file-utils
 BuildRequires:	gcc
@@ -31,9 +28,7 @@ so you have two and half octaves under your fingers.
 %prep
 %setup -q
 %patch0 -p1 -b .dso.linking
-%patch1 -p1 -b .format.security
-%patch2 -p2 -b .keyboard
-%patch3 -p1 -b .cproject
+%patch1 -p1 -b .cproject
 
 # Add GenericName to the desktop file
 echo "GenericName=Virtual MIDI Keyboard" >> src/%{name}.desktop
@@ -42,15 +37,11 @@ echo "GenericName=Virtual MIDI Keyboard" >> src/%{name}.desktop
 sed -i 's|man/man1|%{_mandir}/man1|' CMakeLists.txt
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake} ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 rm -fr $RPM_BUILD_ROOT/%{_datadir}/pixmaps/
 mkdir -p $RPM_BUILD_ROOT/%{_datadir}/icons/hicolor/72x72/apps/
@@ -63,7 +54,8 @@ desktop-file-install						\
 	$RPM_BUILD_ROOT/%{_datadir}/applications/%{name}.desktop
 
 %files
-%doc AUTHORS COPYING NEWS README TODO
+%doc AUTHORS NEWS README.md TODO
+%license COPYING
 %{_bindir}/%{name}
 %{_mandir}/man1/%{name}*
 %{_datadir}/icons/hicolor/72x72/apps/%{name}.png
@@ -71,6 +63,16 @@ desktop-file-install						\
 
 
 %changelog
+* Tue Aug 04 2020 Guido Aulisi <guido.aulisi@gmail.com> - 2.7.2-1
+- Update to 2.7.2
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.1-20
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.1-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.1-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

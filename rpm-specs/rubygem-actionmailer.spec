@@ -3,17 +3,22 @@
 
 Name: rubygem-%{gem_name}
 Epoch: 1
-Version: 5.2.3
-Release: 3%{?dist}
-Summary: Email composition, delivery, and receiving framework (part of Rails)
+Version: 6.0.3.4
+Release: 1%{?dist}
+Summary: Email composition and delivery framework (part of Rails)
 License: MIT
-URL: http://rubyonrails.org
-Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
+URL: https://rubyonrails.org
+Source0: https://rubygems.org/gems/%{gem_name}-%{version}%{?prerelease}.gem
 # ActionMailer gem doesn't ship with the test suite.
 # You may check it out like so
-# git clone http://github.com/rails/rails.git && cd rails/actionmailer/
-# git checkout v5.2.3 && tar czvf actionmailer-5.2.3-tests.tgz test/
-Source1: actionmailer-%{version}-tests.tgz
+# git clone http://github.com/rails/rails.git
+# cd rails/actionmailer && git archive -v -o actionmailer-6.0.3.4-tests.txz v6.0.3.4 test/
+Source1: actionmailer-%{version}%{?prerelease}-tests.txz
+# The tools are needed for the test suite, are however unpackaged in gem file.
+# You may get them like so
+# git clone http://github.com/rails/rails.git --no-checkout
+# cd rails && git archive -v -o rails-6.0.3.4-tools.txz v6.0.3.4 tools/
+Source2: rails-%{version}%{?prerelease}-tools.txz
 
 # Let's keep Requires and BuildRequires sorted alphabeticaly
 BuildRequires: ruby(release)
@@ -25,7 +30,7 @@ BuildRequires: rubygem(mail) >= 2.5.4
 BuildArch: noarch
 
 %description
-Email on Rails. Compose, deliver, receive, and test emails using the familiar
+Email on Rails. Compose, deliver, and test emails using the familiar
 controller/view pattern. First-class support for multipart email and
 attachments.
 
@@ -39,10 +44,11 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -c -T
-%gem_install -n %{SOURCE0}
+%setup -q -n %{gem_name}-%{version}%{?prerelease} -b1 -b2
 
 %build
+gem build ../%{gem_name}-%{version}%{?prerelease}.gemspec
+%gem_install
 
 %install
 mkdir -p %{buildroot}%{gem_dir}
@@ -51,9 +57,8 @@ cp -a .%{gem_dir}/* \
 
 %check
 pushd .%{gem_instdir}
-
-# Move the tests into place.
-tar xzvf %{SOURCE1}
+ln -s %{_builddir}/tools ..
+mv %{_builddir}/test .
 
 ruby -Ilib:test -e 'Dir.glob "./test/**/*_test.rb", &method(:require)'
 popd
@@ -71,6 +76,25 @@ popd
 %doc %{gem_instdir}/README.rdoc
 
 %changelog
+* Thu Oct  8 11:51:52 CEST 2020 Pavel Valena <pvalena@redhat.com> - 1:6.0.3.4-1
+- Update to actionmailer 6.0.3.4.
+  Resolves: rhbz#1877505
+
+* Tue Sep 22 00:50:52 CEST 2020 Pavel Valena <pvalena@redhat.com> - 1:6.0.3.3-1
+- Update to actionmailer 6.0.3.3.
+  Resolves: rhbz#1877505
+
+* Mon Aug 17 05:10:02 GMT 2020 Pavel Valena <pvalena@redhat.com> - 1:6.0.3.2-1
+- Update to actionmailer 6.0.3.2.
+  Resolves: rhbz#1742789
+
+* Mon Aug 03 07:01:37 GMT 2020 Pavel Valena <pvalena@redhat.com> - 1:6.0.3.1-1
+- Update to ActionMailer 6.0.3.1.
+  Resolves: rhbz#1742789
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.2.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.2.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

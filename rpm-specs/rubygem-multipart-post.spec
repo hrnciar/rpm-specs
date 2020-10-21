@@ -4,7 +4,7 @@
 Summary: Creates a multipart form post accessory for Net::HTTP
 Name: rubygem-%{gem_name}
 Version: 2.0.0
-Release: 10%{?dist}
+Release: 11%{?dist}
 License: MIT
 URL: http://github.com/nicksieger/multipart-post
 Source0: http://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -80,6 +80,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

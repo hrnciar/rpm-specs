@@ -1,6 +1,6 @@
 Name:           pingus
 Version:        0.7.6
-Release:        36%{?dist}
+Release:        37%{?dist}
 Summary:        Guide the penguins safely home before they drop of the cliff
 License:        GPLv2+
 URL:            http://pingus.seul.org/
@@ -104,6 +104,9 @@ EOF
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.6-37
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.6-36
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

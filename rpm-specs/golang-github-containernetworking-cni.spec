@@ -3,7 +3,7 @@
 
 # https://github.com/containernetworking/cni
 %global goipath         github.com/containernetworking/cni
-Version:                0.7.0
+Version:                0.8.0
 
 %gometa
 
@@ -22,7 +22,7 @@ implement.}
                         SPEC.md Documentation
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Container Network Interface - networking for Linux containers
 
 # Upstream license specification: Apache-2.0
@@ -56,6 +56,12 @@ BuildRequires:  golang(github.com/onsi/gomega)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 18:19:28 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.8.0-1
+- Update to 0.8.0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

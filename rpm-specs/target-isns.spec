@@ -1,8 +1,10 @@
+%define __cmake_in_source_build 1
+
 Name:           target-isns
 License:        GPLv2+
 Summary:        An iSNS client for the Linux LIO iSCSI target 
 Version:        0.6.8
-Release:        1%{?dist}
+Release:        4%{?dist}
 URL:            https://github.com/cvubrugier/target-isns
 Source:         https://github.com/open-iscsi/target-isns/releases/download/v%{version}/%{name}-%{version}.tar.gz
 Patch0:         0001-disable-stringop-overflow-and-stringop-truncation-er.patch
@@ -47,6 +49,16 @@ install -m 644 target-isns.service %{buildroot}%{_unitdir}
 %license COPYING
 
 %changelog
+* Tue Sep 22 2020 Jeff Law <law@redhat.com> - 0.6.8-4
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.8-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 25 2020 Maurizio Lombardi <mlombard@redhat.com> - 0.6.8-1
 - Update to new upstream version 0.6.8
 

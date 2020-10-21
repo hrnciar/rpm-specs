@@ -1,26 +1,32 @@
+%if 0%{?el7}
+%global dts devtoolset-9-
+%endif
+
 Name:           pstoedit
-Version:        3.73
-Release:        6%{?dist}
+Version:        3.75
+Release:        1%{?dist}
 Summary:        Translates PostScript and PDF graphics into other vector formats
-
 License:        GPLv2+
-URL:            http://www.pstoedit.net/
-Source0:        http://downloads.sourceforge.net/pstoedit/pstoedit-%{version}.tar.gz
+URL:            http://www.pstoedit.net
+Source0:        https://sourceforge.net/projects/pstoedit/files/pstoedit/%{version}/pstoedit-%{version}.tar.gz
 
-Requires:       ghostscript
-BuildRequires:  texlive-latex2man
-BuildRequires:  texlive-latex
-BuildRequires:  texlive-collection-langeuropean
-BuildRequires:  texlive-collection-latex
+# Fix cflags of the pkg-config file
+Patch0:         pstoedit-pkglibdir.patch
+
 BuildRequires:  gd-devel
 BuildRequires:  dos2unix
 BuildRequires:  ghostscript
 BuildRequires:  plotutils-devel
-BuildRequires:  automake
-BuildRequires:  gcc-c++
-%ifnarch ia64
+BuildRequires:  %{?dts}gcc-c++, %{?dts}gcc
+BuildRequires:  libzip-devel
+BuildRequires:  ImageMagick-c++-devel
+%if 0%{?fedora} || 0%{?rhel} > 7
 BuildRequires:  libEMF-devel
 %endif
+%if 0%{?fedora}
+BuildRequires:  ming-devel
+%endif
+Requires:       ghostscript%{?_isa}
 
 %description
 Pstoedit converts PostScript and PDF files to various vector graphic
@@ -31,7 +37,7 @@ drivers
 
 %package devel
 Summary:        Headers for developing programs that will use %{name}
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description devel
 This package contains the header files needed for developing %{name}
@@ -39,50 +45,61 @@ applications
 
 
 %prep
-%setup -q
+%autosetup -p1
 
 dos2unix doc/*.htm doc/readme.txt
 
-aclocal
-automake
-
 %build
-# Buildling without ImageMagick support, to work around bug 507035
-%configure --disable-static --with-emf --without-swf --without-magick
+%if 0%{?el7}
+%{?dts:source /opt/rh/devtoolset-9/enable}
+%endif
 
-# http://fedoraproject.org/wiki/Packaging/Guidelines#Removing_Rpath
-sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
-sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
+%configure --disable-static --enable-docs=no --with-libzip-include=%{_includedir} \
+%if 0%{?rhel} == 7
+ --without-emf
+%endif
 
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
-install -m 644 doc/pstoedit.1 $RPM_BUILD_ROOT%{_mandir}/man1/
+install -pm 644 doc/pstoedit.1 $RPM_BUILD_ROOT%{_mandir}/man1/
 find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 
-
-%ldconfig_scriptlets
+%if 0%{?el7}
+rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/pstoedit
+%endif
 
 
 %files
-%doc copying doc/readme.txt doc/pstoedit.htm doc/changelog.htm doc/pstoedit.pdf
-%{_datadir}/pstoedit
+%doc doc/readme.txt doc/pstoedit.htm doc/changelog.htm doc/pstoedit.pdf
+%license copying
+%{_datadir}/pstoedit/
 %{_mandir}/man1/*
 %{_bindir}/pstoedit
 %{_libdir}/*.so.*
-%{_libdir}/pstoedit
+%{_libdir}/pstoedit/
 
 %files devel
 %doc doc/changelog.htm
-%{_includedir}/pstoedit
+%{_includedir}/pstoedit/
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/*.pc
 %{_datadir}/aclocal/*.m4
 
 
 %changelog
+* Mon Oct 05 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.75-1
+- Rebase to 3.75
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.73-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.73-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.73-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -100,7 +117,7 @@ the buildroot default packages set.
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
 * Mon Jul 09 2018 Sebastian Kisela <skisela@redhat.com> - 3.73-1
-- Rebase to 3.73.
+- Rebase to 3.73
 - Add automake call to regenerate Makefile, as libpstoedit.so was not generated at the right time.
 
 * Mon Apr 16 2018 Sebastian Kisela <skisela@redhat.com> - 3.70-11

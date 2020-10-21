@@ -3,7 +3,7 @@
 
 Name:		rubygem-%{gem_name}
 Version:	0.14.0
-Release:	8%{?dist}
+Release:	9%{?dist}
 Summary:	Faster pure Ruby implementation of Pathname with extra bits
 
 License:	MIT
@@ -63,6 +63,9 @@ This package contains the documentation files for %{name}.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

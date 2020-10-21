@@ -2,7 +2,7 @@
 
 Name:    compiz-plugins-main
 Version: 0.8.16
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch:   1
 Summary: Collection of Compiz Fusion plugins for Compiz
 License: GPLv2+
@@ -74,6 +74,9 @@ find $RPM_BUILD_ROOT -name '*.a' -exec rm -f {} ';'
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.8.16-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 1:0.8.16-4
 - Fixed FTBFS with gcc-10
   Resolves: rhbz#1799250

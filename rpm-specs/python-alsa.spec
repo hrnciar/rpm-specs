@@ -3,7 +3,7 @@
 Summary:	Python binding for the ALSA library
 Name:		python-alsa
 Version:	%{baseversion}
-Release:	12%{?dist}
+Release:	13%{?dist}
 License:	LGPLv2+
 Source0:	ftp://ftp.alsa-project.org/pub/pyalsa/pyalsa-%{version}.tar.bz2
 URL:		http://www.alsa-project.org/
@@ -39,6 +39,9 @@ Summary: %summary
 %{python3_sitearch}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.6-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.1.6-12
 - BR python3-setuptools
 

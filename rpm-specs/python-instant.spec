@@ -2,23 +2,25 @@
 
 Name:           python-%{srcname}
 Version:        2016.1.0
-Release:        14%{?dist}
-Summary:        A Python module for instant inlining of C and C++ code
+Release:        16%{?dist}
+Summary:        Python module for instant inlining of C and C++ code
 
 License:        BSD
 URL:            http://www.fenicsproject.org
 Source0:        https://bitbucket.org/fenics-project/instant/downloads/%{srcname}-%{version}.tar.gz
 BuildArch:      noarch
-BuildRequires:  python3-devel
 
 %description
 Instant is a Python module that allows for instant inlining of C and
 C++ code in Python. It is a small Python module built on top of SWIG
 and Distutils.
 
-
 %package -n python3-%{srcname}
-Summary:        %{summary} - Python 3 version
+Summary:        %{summary}
+
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
+
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
@@ -47,6 +49,12 @@ chmod 0644 test/*
 %{python3_sitelib}/%{srcname}*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2016.1.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2016.1.0-15
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2016.1.0-14
 - Rebuilt for Python 3.9
 

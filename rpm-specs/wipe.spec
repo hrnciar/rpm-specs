@@ -1,6 +1,6 @@
 Name:           wipe
 Version:        0.21
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Secure file erasing tool
 
 License:        GPL+
@@ -42,6 +42,9 @@ mv wipe.tr.1 wipe.1 && \
 %{_mandir}/tr/man1/wipe.1.gz
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.21-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.21-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

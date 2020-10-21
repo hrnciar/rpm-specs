@@ -5,7 +5,7 @@
 
 Name:           %{fontname}-fonts
 Version:        2.006
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        A Manchu OpenType (TrueType-flavored) font
 
 License:        GPLv2+
@@ -51,6 +51,9 @@ install -Dm 0644 -p %{SOURCE2} \
 %{_datadir}/appdata/%{fontname}.metainfo.xml
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.006-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.006-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

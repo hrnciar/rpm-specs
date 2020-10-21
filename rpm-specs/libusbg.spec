@@ -1,6 +1,6 @@
 Name:          libusbg
 Version:       0.2.0
-Release:       7%{?dist}
+Release:       8%{?dist}
 Summary:       Library for USB gadget-configfs userspace functionality
 License:       LGPLv2+
 
@@ -73,6 +73,9 @@ make check
 %{_libdir}/*.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

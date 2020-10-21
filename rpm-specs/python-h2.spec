@@ -11,7 +11,7 @@ speak HTTP/2 regardless of your programming paradigm.}
 
 Name:           python-%{pypi_name}
 Version:        3.2.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        HTTP/2 State-Machine based protocol implementation
 
 License:        MIT
@@ -103,6 +103,9 @@ ln -s /usr/share/javascript/jquery/3.2.1/jquery.js html/_static/jquery-3.2.1.js
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 3.2.0-3
 - Rebuilt for Python 3.9
 

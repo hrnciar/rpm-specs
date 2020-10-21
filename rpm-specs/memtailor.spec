@@ -1,12 +1,12 @@
 # There have been no releases, so we use a git snapshot
-%global gitdate         20160311
-%global gittag          e85453b5bded99ffeccb645f8d400e989c970753
+%global gitdate         20200526
+%global gittag          1d13f96bc7d84b7ac401e6b8c936fad26f08786c
 %global shorttag        %(cut -b -7 <<< %{gittag})
 %global user            Macaulay2
 
 Name:           memtailor
 Version:        1.0
-Release:        11.%{gitdate}.git%{shorttag}%{?dist}
+Release:        13.%{gitdate}.git%{shorttag}%{?dist}
 Summary:        C++ library of special-purpose memory allocators
 
 License:        BSD
@@ -48,12 +48,10 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 Files for developing applications that use memtailor.
 
 %prep
-%setup -q -n %{user}-%{name}-%{shorttag}
-%patch0
+%autosetup -p0 -n %{user}-%{name}-%{shorttag}
 
-# Every file is marked executable; only a few need to be.
-find . -type f -perm /0111 | xargs chmod a-x
-chmod a+x autogen.sh fixspace replace
+# Remove spurious executable bits
+chmod a-x src/test/*.cpp
 
 # Upstream doesn't generate the configure script
 autoreconf -fi
@@ -70,7 +68,7 @@ sed -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -e 's|CC=.g..|& -Wl,--as-needed|' \
     -i libtool
 
-make %{?_smp_mflags}
+%make_build
 
 %install
 %make_install
@@ -78,11 +76,8 @@ make %{?_smp_mflags}
 # We don't want the libtool archive
 rm -f %{buildroot}%{_libdir}/lib%{name}.la
 
-%ldconfig_scriptlets
-
 %check
-export LD_LIBRARY_PATH=$PWD/.libs
-make check
+LD_LIBRARY_PATH=$PWD/.libs make check
 
 %files
 %doc README.md
@@ -96,6 +91,12 @@ make check
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-13.20200526.git1d13f96
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  1 2020 Jerry James <loganjerry@gmail.com> - 1.0-12.20200526.git1d13f96
+- Update to latest upstream snapshot
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-11.20160311.gite85453b
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

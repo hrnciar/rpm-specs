@@ -2,7 +2,7 @@
 
 Name:           libnitrokey
 Version:        3.5
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Communicate with Nitrokey stick devices in a clean and easy manner
 
 License:        LGPLv3+
@@ -64,6 +64,13 @@ rm -vr hidapi libnitrokey/hidapi
 %{_includedir}/libnitrokey/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

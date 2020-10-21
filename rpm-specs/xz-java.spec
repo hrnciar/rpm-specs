@@ -1,6 +1,6 @@
 Name:           xz-java
 Version:        1.8
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        Java implementation of XZ data compression
 License:        Public Domain
 URL:            http://tukaani.org/xz/java.html
@@ -53,6 +53,12 @@ ant maven -Dsourcever=1.8
 %license COPYING
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.8-8
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jun 19 2020 Mat Booth <mat.booth@redhat.com> - 1.8-7
 - Allow building against Java 11
 

@@ -1,7 +1,7 @@
 Summary:   General-purpose stream-handling tool
 Name:      cstream
 Version:   3.1.1
-Release:   15%{?dist}
+Release:   16%{?dist}
 
 License:   MIT
 URL:       http://www.cons.org/cracauer/cstream.html
@@ -53,6 +53,9 @@ Data limits and throughput rate calculation will work for files > 4 GB.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.1-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.1-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

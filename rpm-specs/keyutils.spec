@@ -8,7 +8,7 @@
 
 Name:    keyutils
 Version: %{version}
-Release: 4%{?buildid}%{?dist}
+Release: 5%{?buildid}%{?dist}
 Summary: Linux Key Management Utilities
 License: GPLv2+ and LGPLv2+
 Url:     http://people.redhat.com/~dhowells/keyutils/
@@ -99,6 +99,9 @@ make \
 %{_libdir}/pkgconfig/libkeyutils.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

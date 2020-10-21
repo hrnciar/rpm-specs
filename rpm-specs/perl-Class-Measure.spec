@@ -1,6 +1,6 @@
 Name:           perl-Class-Measure
-Version:        0.07
-Release:        5%{?dist}
+Version:        0.08
+Release:        1%{?dist}
 Summary:        Create, compare and convert units of measurement
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Class-Measure
@@ -15,6 +15,7 @@ BuildRequires:  perl(strict)
 BuildRequires:  perl(base)
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(overload)
+BuildRequires:  perl(Scalar::Util)
 BuildRequires:  perl(Sub::Exporter) >= 0.982
 BuildRequires:  perl(warnings)
 # Tests:
@@ -50,6 +51,12 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Aug 18 2020 Petr Pisar <ppisar@redhat.com> - 0.08-1
+- 0.08 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.07-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.07-5
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:           perl-match-simple
 Version:        0.010
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Simplified clone of smartmatch operator
 License:        GPL+ or Artistic
 URL:            http://search.cpan.org/dist/match-simple/
@@ -76,6 +76,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.010-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.010-7
 - Perl 5.32 rebuild
 

@@ -6,7 +6,7 @@
 %global crate fever_api
 
 Name:           rust-%{crate}
-Version:        0.2.7
+Version:        0.2.9
 Release:        1%{?dist}
 Summary:        Rust implementation of the FEVER-API
 
@@ -14,9 +14,6 @@ Summary:        Rust implementation of the FEVER-API
 License:        GPLv3+
 URL:            https://crates.io/crates/fever_api
 Source:         %{crates_source}
-# Initial patched metadata
-# * Fixup deps, https://pagure.io/fedora-rust/rust2rpm/issue/109
-Patch0:         fever_api-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -75,6 +72,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 0.2.9-1
+- Update to 0.2.9
+
+* Tue Jul 14 2020 Josh Stone <jistone@redhat.com> - 0.2.8-1
+- Update to 0.2.8
+
 * Fri May 22 20:07:22 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.7-1
 - Update to 0.2.7
 

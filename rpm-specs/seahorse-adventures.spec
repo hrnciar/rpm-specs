@@ -3,7 +3,7 @@ Summary: Help barbie the seahorse float on bubbles to the moon
 License: GPLv2+
 
 Version: 1.2
-Release: 2%{?dist}
+Release: 3%{?dist}
 
 URL: http://www.imitationpickles.org/barbie/
 
@@ -89,6 +89,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 19 2020 Artur Iwicki <fedora@svgames.pl> - 1.2-2
 - Use fc-match to find font locations instead of hard-coding paths
 

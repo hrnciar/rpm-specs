@@ -12,7 +12,7 @@ language is provided by default.
 
 Name:           python-zope-configuration
 Version:        4.0.3
-Release:        21%{?dist}
+Release:        23%{?dist}
 Summary:        %{sum}
 
 License:        ZPLv2.1
@@ -71,6 +71,13 @@ rm -r %{buildroot}%{python3_sitelib}/zope/configuration/tests
 %{python3_sitelib}/%{modname}*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.3-23
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.3-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 4.0.3-21
 - Rebuilt for Python 3.9
 

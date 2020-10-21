@@ -1,6 +1,6 @@
 Name:		biniax
 Version:	1.2
-Release:	28%{?dist}
+Release:	30%{?dist}
 Summary:	A unique arcade logic game
 
 License:	zlib
@@ -77,6 +77,13 @@ install -p -m 0644 %{SOURCE2} \
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-30
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.2-28
 - Fix FTBFS
 

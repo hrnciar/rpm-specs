@@ -1,11 +1,12 @@
 Name:           perl-Class-Unload
 Version:        0.11
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        Unload given class
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Class-Unload
 Source0:        https://cpan.metacpan.org/authors/id/I/IL/ILMARI/Class-Unload-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-interpreter
 BuildRequires:  perl-generators
@@ -35,11 +36,11 @@ from %%INC.
 %setup -q -n Class-Unload-%{version}
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
@@ -52,6 +53,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Fri Aug 21 2020 Petr Pisar <ppisar@redhat.com> - 0.11-12
+- Modernize a spec file
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.11-10
 - Perl 5.32 rebuild
 

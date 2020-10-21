@@ -4,7 +4,7 @@
 
 Name:           rpcbind
 Version:        1.2.5
-Release:        5.rc1%{?dist}.1
+Release:        5.rc1%{?dist}.3
 Summary:        Universal Addresses to RPC Program Number Mapper
 License:        BSD
 URL:            http://nfsv4.bullopensource.org
@@ -122,6 +122,13 @@ fi
 %attr(0700, %{rpcbind_user_group}, %{rpcbind_user_group}) %dir %{rpcbind_state_dir}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.5-5.rc1.3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.5-5.rc1.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.5-5.rc1.1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

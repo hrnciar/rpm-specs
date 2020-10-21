@@ -1,6 +1,6 @@
 Name:           xmltool
 Version:        3.3
-Release:        25%{?dist}
+Release:        28%{?dist}
 Summary:        Tool to manage XML documents through a Fluent Interface
 
 License:        ASL 2.0
@@ -50,10 +50,12 @@ sed -i 's/\r//' LICENSE.txt
 %pom_xpath_remove "pom:build/pom:extensions"
 %pom_remove_plugin com.google.code.maven-license-plugin:maven-license-plugin
 
+# remove maven-compiler-plugin configuration that is broken with Java 11
+%pom_xpath_remove 'pom:plugin[pom:artifactId="maven-compiler-plugin"]/pom:configuration'
 
 %build
 # Disable tests because they require an internet connection to run!
-%mvn_build -f
+%mvn_build -f -- -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 %install
 %mvn_install
@@ -65,6 +67,15 @@ sed -i 's/\r//' LICENSE.txt
 %doc LICENSE.txt
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Fabio Valentini <decathorpe@gmail.com> - 3.3-27
+- Set javac source and target to 1.8 to fix Java 11 builds.
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 3.3-26
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

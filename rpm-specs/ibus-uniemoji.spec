@@ -1,6 +1,4 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
 
 %global __python %{__python3}
 
@@ -8,7 +6,7 @@
 Summary:  Input method for entering unicode symbols and emoji by name
 Name: ibus-uniemoji
 Version: 0.6.0
-Release: 9%{?dist}
+Release: 12%{?dist}
 # emojione.json is in MIT
 # UnicodeData.txt is in Unicode
 # uniemoji is in GPLv3+
@@ -32,6 +30,8 @@ enter unicode emoji and other symbols by name.
 mkdir -p %{buildroot}/%{_datadir}/ibus/component
 make install DESTDIR=%{buildroot}
 
+%py_byte_compile %{python3} %{buildroot}%{_datadir}/ibus-uniemoji
+
 %files
 %license COPYING COPYING.*
 %doc HISTORY README.md
@@ -40,6 +40,16 @@ make install DESTDIR=%{buildroot}
 %{_sysconfdir}/xdg/uniemoji
 
 %changelog
+* Wed Aug  5 2020 Peng Wu <pwu@redhat.com> - 0.6.0-12
+- Use py_byte_compile macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

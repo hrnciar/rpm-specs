@@ -3,7 +3,7 @@
 
 # https://github.com/gdamore/tcell
 %global goipath         github.com/gdamore/tcell
-Version:                1.3.0
+Version:                1.4.0
 
 %gometa
 
@@ -15,7 +15,7 @@ xterm. It was inspired by termbox, but includes many additional improvements.}
 %global godocs          AUTHORS README.adoc
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Alternate terminal package
 
 # Upstream license specification: Apache-2.0
@@ -36,9 +36,11 @@ BuildRequires:  golang(golang.org/x/text/encoding/traditionalchinese) >= 0.3.0
 BuildRequires:  golang(golang.org/x/text/transform) >= 0.3.0
 
 # These are all needed for rebuilding the terminfo database.
-BuildRequires: ncurses-base
-BuildRequires: ncurses-term
-BuildRequires: rxvt-unicode
+BuildRequires:  kitty-terminfo
+BuildRequires:  ncurses
+BuildRequires:  ncurses-base
+BuildRequires:  ncurses-term
+BuildRequires:  rxvt-unicode
 
 %description
 %{common_description}
@@ -47,14 +49,17 @@ BuildRequires: rxvt-unicode
 
 %prep
 %goprep
-rm -rf terminfo/database terminfo/term_*.go
-mkdir terminfo/database
+rm terminfo/?/*/term.go
+sed -i 's/go run mkinfo.go/$1/g' terminfo/gen.sh
+# Add missing models.
+echo alacritty >> terminfo/models.txt
+echo xterm-kitty >> terminfo/models.txt
 
 %build
 # Rebuild database from source.
 %gobuild -o %{gobuilddir}/bin/mkinfo terminfo/mkinfo.go
 pushd terminfo
-%{gobuilddir}/bin/mkinfo -all
+bash gen.sh %{gobuilddir}/bin/mkinfo
 popd
 
 %install
@@ -75,6 +80,17 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Thu Aug 27 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.4.0-1
+- Update to latest version
+- Fix regeneration of terminfo
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

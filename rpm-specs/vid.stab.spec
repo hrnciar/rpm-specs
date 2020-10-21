@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 # https://github.com/georgmartius/vid.stab/commit/aeabc8daa7904f9edf7441a11f293965a5ef53b8
 %global commit aeabc8daa7904f9edf7441a11f293965a5ef53b8
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
@@ -5,7 +6,7 @@
 
 Name:           vid.stab
 Version:        1.1.0
-Release:        13.%{commitdate}git%{shortcommit}%{?dist}
+Release:        15.%{commitdate}git%{shortcommit}%{?dist}
 Summary:        Video stabilize library for fmpeg, mlt or transcode
 License:        GPLv2+
 URL:            http://public.hronopik.de/vid.stab
@@ -41,17 +42,17 @@ sed -i 's|-Wall -O0|-Wall -O|' tests/CMakeLists.txt
 sed -i 's|return units_failed==0;|return units_failed>0;|' tests/testframework.c
 
 %build
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 # build the tests program
 pushd tests
-%cmake .
-%make_build
+%cmake
+%cmake_build
 popd
 
 %install
-%make_install
+%cmake_install
 
 %check
 LD_LIBRARY_PATH=%{buildroot}%{_libdir} tests/tests || :
@@ -69,6 +70,14 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} tests/tests || :
 %{_libdir}/pkgconfig/vidstab.pc
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-15.20190213gitaeabc8d
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+- Fix cmake build
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-14.20190213gitaeabc8d
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-13.20190213gitaeabc8d
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

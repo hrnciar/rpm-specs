@@ -1,7 +1,7 @@
 Summary: Creates a boot floppy disk for booting a system
 Name: mkbootdisk
 Version:  1.5.5
-Release: 24%{?dist}
+Release: 25%{?dist}
 License: GPLv2+
 Source: mkbootdisk-%{version}.tar.xz
 Patch0: mkbootdisk-1.5.5-fix-long-volid.patch
@@ -39,6 +39,9 @@ make BUILDROOT=$RPM_BUILD_ROOT mandir=%{_mandir} install
 %attr(644,root,root) %{_mandir}/man8/mkbootdisk.8*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.5-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.5-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

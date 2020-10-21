@@ -3,7 +3,7 @@
 
 Name:           freedv
 Version:        1.4
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        FreeDV Digital Voice
 License:        GPLv2+
 
@@ -58,23 +58,20 @@ Speech codec used in FreeDV are also open source.
 
 
 %build
-mkdir build_linux && pushd build_linux
 export CFLAGS="%{optflags} -fPIC -pie -Wl,-z,relro -Wl,-z,now"
 export CXXFLAGS="%{optflags} -fPIC -pie -Wl,-z,relro -Wl,-z,now"
 export LDFLAGS="-Wl,--as-needed"
 %cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo \
        -DWXCONFIG="%{_bindir}/wx-config-3.0" \
        -DWXRC="%{_bindir}/wxrc-3.0" \
-       -DUSE_STATIC_CODEC2=FALSE \
        -DUSE_STATIC_SPEEXDSP=FALSE \
        ../
 
-%make_build
+%cmake_build
 
 
 %install
-pushd build_linux
-%make_install
+%cmake_install
 
 # Install desktop file
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
@@ -88,7 +85,7 @@ appstream-util validate-relax --nonet \
 %endif
 
 
-%if 0%{?rhel} && 0%{?rhel} <= 7
+%if 0%{?rhel} && 0%{?rhel} < 8
 %post
 /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 
@@ -97,9 +94,6 @@ if [ $1 -eq 0 ] ; then
     /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
     /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 fi
-
-%posttrans
-/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %endif
 
 
@@ -113,6 +107,13 @@ fi
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Richard Shaw <hobbes1069@gmail.com> - 1.4-2
 - Rebuild with lpcnetfreedv.
 

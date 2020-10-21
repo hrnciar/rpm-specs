@@ -10,7 +10,7 @@ HTTP requests that may be running over a single HTTP/2 connection.}
 
 Name:           python-%{pypi_name}
 Version:        1.3.0
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        A pure-Python implementation of the HTTP/2 priority tree
 
 License:        MIT
@@ -67,6 +67,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib}:$PYTHONPATH %{__python3} -m pytest
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.0-10
 - Rebuilt for Python 3.9
 

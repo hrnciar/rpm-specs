@@ -1,7 +1,7 @@
 Summary: A library that hides the complexity of using the SIP protocol
 Name: libeXosip2
 Version: 3.6.0
-Release: 21%{?dist}
+Release: 22%{?dist}
 License: GPLv2+
 URL: http://savannah.nongnu.org/projects/eXosip
 Source0: http://download.savannah.nongnu.org/releases/exosip/libeXosip2-%{version}.tar.gz
@@ -65,6 +65,9 @@ cp help/doxygen/doc/man/man3/*.3* %{buildroot}%{_mandir}/man3
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.0-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.0-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

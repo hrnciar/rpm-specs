@@ -1,14 +1,18 @@
 Name:           liferea
 Epoch:          1
-Version:        1.13.1
-Release:        1%{?dist}
+Version:        1.13.3
+Release:        4%{?dist}
 Summary:        An RSS/RDF feed reader
 
 License:        GPLv2+
 URL:            http://lzone.de/liferea/
 Source0:        https://github.com/lwindolf/liferea/releases/download/v%{version}/liferea-%{version}.tar.bz2
 
+%if 0%{?rhel} < 8
+BuildRequires:  webkitgtk4-devel
+%else
 BuildRequires:  webkit2gtk3-devel
+%endif
 BuildRequires:  intltool
 BuildRequires:  libxslt-devel
 BuildRequires:  sqlite-devel
@@ -19,7 +23,13 @@ BuildRequires:  json-glib-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  libnotify-devel
 BuildRequires:  xorg-x11-server-Xvfb
+BuildRequires:  libappstream-glib
+
+%if 0%{?rhel} >= 7
+Requires:       libpeas-loader-python%{python3_pkgversion}
+%else
 Requires:       libpeas-loader-python3
+%endif
 
 %description
 Liferea (Linux Feed Reader) is an RSS/RDF feed reader. 
@@ -29,12 +39,15 @@ browse through their items, and show their contents.
 
 %prep
 %autosetup -p1 -n %{name}-%{version}
-iconv -f iso8859-1 -t utf-8 man/pl/liferea.1 > man/pl/liferea.1.conv && \
-mv -f man/pl/liferea.1.conv man/pl/liferea.1
 
 %build
-%configure  --enable-libnotify  
+%configure  --enable-libnotify
+
+%if 0%{?rhel} < 8
+xvfb-run -- make V=1 %{?_smp_mflags} CFLAGS="${RPM_OPT_FLAGS} --std=c99"
+%else
 xvfb-run -- make V=1 %{?_smp_mflags}
+%endif
 
 %install
 make install DESTDIR=${RPM_BUILD_ROOT}
@@ -45,18 +58,19 @@ make install DESTDIR=${RPM_BUILD_ROOT}
 desktop-file-edit --set-key=Version --set-value=1.0 ${RPM_BUILD_ROOT}/%{_datadir}/applications/net.sourceforge.liferea.desktop
 desktop-file-validate ${RPM_BUILD_ROOT}/%{_datadir}/applications/net.sourceforge.liferea.desktop
 
+%check
+appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/net.sourceforge.liferea.appdata.xml
 
 
 %files -f %{name}.lang
 %doc AUTHORS ChangeLog
 %license COPYING
 %{_mandir}/man1/%{name}.1.gz
-%{_mandir}/pl/man1/%{name}.1.gz
 %{_bindir}/%{name}
 %{_bindir}/%{name}-add-feed
 %{_libdir}/%{name}
 %{_datadir}/%{name}/
-%{_datadir}/appdata/%{name}.appdata.xml
+%{_datadir}/metainfo/net.sourceforge.liferea.appdata.xml
 %{_datadir}/applications/net.sourceforge.liferea.desktop
 %{_datadir}/dbus-1/services/net.sourceforge.liferea.service
 %{_datadir}/glib-2.0/schemas/net.sf.liferea.gschema.xml
@@ -70,6 +84,26 @@ desktop-file-validate ${RPM_BUILD_ROOT}/%{_datadir}/applications/net.sourceforge
 
 
 %changelog
+* Thu Oct 15 2020 josef radinger <cheese@nosuchhost.net> - 1:1.13.3-4
+- fix build for epel7 (thanks tis)
+
+* Sun Oct 11 2020 josef radinger <cheese@nosuchhost.net> - 1:1.13.3-3
+- fix build for epel7
+
+* Sat Oct 10 2020 josef radinger <cheese@nosuchhost.net> - 1:1.13.3-2
+- drop outdated polish man-page
+- metainfo instead of appdata
+- add check-section
+
+* Sat Oct 10 2020 josef radinger <cheese@nosuchhost.net> - 1:1.13.3-1
+- bump version
+
+* Tue Sep 01 2020 josef radinger <cheese@nosuchhost.net> - 1:1.13.2-1
+- New development release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.13.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 12 2020 josef radinger <cheese@nosuchhost.net> - 1:1.13.1-1
 - New development release
 

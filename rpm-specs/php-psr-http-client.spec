@@ -8,7 +8,7 @@
 #
 
 # Github
-%global gh_commit    496a823ef742b632934724bf769560c2a5c7c44e
+%global gh_commit    2dfb5f6c5eff0e91e20e913f8c5452ed95b86621
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     php-fig
 %global gh_project   http-client
@@ -21,7 +21,7 @@
 %global ns_sub       Client
 
 Name:           php-%{pk_vendor}-%{pk_project}
-Version:        1.0.0
+Version:        1.0.1
 Release:        2%{?dist}
 Summary:        Common interface for HTTP clients
 
@@ -38,7 +38,7 @@ BuildRequires: (php-composer(%{pk_vendor}/http-message) >= 1.0  with php-compose
 BuildRequires:  php-fedora-autoloader-devel
 
 # From composer.json,    "require": {
-#        "php": "^7.0",
+#        "php": "^7.0 || ^8.0",
 #        "psr/http-message": "^1.0"
 Requires:       php(language) >= 7.0
 Requires:      (php-composer(%{pk_vendor}/http-message) >= 1.0  with php-composer(%{pk_vendor}/http-message) < 2)
@@ -96,6 +96,12 @@ exit (interface_exists("%{ns_vendor}\\%{ns_project}\\%{ns_sub}\\ClientInterface"
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Remi Collet <remi@remirepo.net> - 1.0.1-1
+- update to 1.0.1 (no change)
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -5,7 +5,7 @@
 
 Name:		nodejs-mime-db
 Version:	1.26.0
-Release:	8%{?dist}
+Release:	10%{?dist}
 Summary:	This is a database of all mime types
 
 License:	MIT
@@ -62,6 +62,13 @@ cp -pr package.json *.js db.json src/ scripts/ \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.26.0-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.26.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.26.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

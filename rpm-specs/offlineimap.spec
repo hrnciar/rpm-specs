@@ -4,7 +4,7 @@
 
 Name:           offlineimap
 Version:        7.3.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Powerful IMAP/Maildir synchronization and reader support
 
 License:        GPLv2+
@@ -141,6 +141,9 @@ install -p docs/offlineimapui.7.gz %{buildroot}/%{_mandir}/man7/
 %{_mandir}/man7/%{name}ui.7*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.3.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 5 2020 sguelton@redhat.com - 7.3.3-2
 - Update and fix gssapi dependency
 

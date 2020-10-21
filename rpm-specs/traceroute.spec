@@ -2,7 +2,7 @@ Summary: Traces the route taken by packets over an IPv4/IPv6 network
 Name: traceroute
 Epoch: 3
 Version: 2.1.0
-Release: 10%{?dist}
+Release: 12%{?dist}
 License: GPLv2+
 URL:  http://traceroute.sourceforge.net
 Source0: http://downloads.sourceforge.net/project/traceroute/traceroute/traceroute-%{version}/traceroute-%{version}.tar.gz
@@ -30,7 +30,7 @@ problems.
 
 
 %build
-make %{?_smp_mflags} CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="$RPM_LD_FLAGS"
+%make_build CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="$RPM_LD_FLAGS"
 
 
 %install
@@ -60,6 +60,13 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3:2.1.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 3:2.1.0-11
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3:2.1.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

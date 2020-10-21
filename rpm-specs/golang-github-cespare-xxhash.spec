@@ -3,9 +3,11 @@
 
 # https://github.com/cespare/xxhash
 %global goipath         github.com/cespare/xxhash
-Version:                2.0.0
+Version:                2.1.1
 
 %gometa
+
+%global goaltipaths     github.com/cespare/xxhash/v2
 
 %global common_description %{expand:
 xxhash is a Go implementation of the 64-bit xxHash algorithm, XXH64. This is a
@@ -16,18 +18,12 @@ standard library.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Go implementation of the 64-bit xxHash algorithm (XXH64)
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
-
-%if %{with check}
-# Tests
-BuildRequires:  golang(github.com/OneOfOne/xxhash)
-BuildRequires:  golang(github.com/spaolacci/murmur3)
-%endif
 
 %description
 %{common_description}
@@ -60,6 +56,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 22:02:00 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.1.1-1
+- Update to 2.1.1
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

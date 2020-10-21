@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.18.1
-Release:        3%{?dist}
+Release:        7%{?dist}
 Summary:        Comprehensive HTTP client library
 License:        MIT
 URL:            https://pypi.python.org/pypi/httplib2
@@ -37,9 +37,7 @@ BuildRequires:  python3-pytest
 BuildRequires:  python3-pytest-cov
 BuildRequires:  python3-pytest-forked
 BuildRequires:  python3-pytest-flake8
-BuildRequires:  python3-pytest-randomly
 BuildRequires:  python3-pytest-timeout
-BuildRequires:  python3-pytest-xdist
 BuildRequires:  python3-six
 BuildRequires:  python3-mock
 
@@ -85,7 +83,15 @@ popd
 
 %check
 pushd python3
-PYTHONPATH=%{buildroot}%{python3_sitelib} pytest -k 'not test_unknown_server'
+PYTHONPATH=%{buildroot}%{python3_sitelib} pytest -k "not test_unknown_server \
+	and not test_socks5_auth and not \
+	test_server_not_found_error_is_raised_for_invalid_hostname and not \
+	test_functional_noproxy_star_https and not \
+	test_sni_set_servername_callback and not test_not_trusted_ca and not \
+	test_invalid_ca_certs_path and not test_max_tls_version and not \
+	test_get_301_via_https and not test_client_cert_password_verified and not\
+	test_get_via_https and not test_min_tls_version and not\
+	test_client_cert_verified"
 popd
 
 
@@ -100,6 +106,19 @@ popd
 %{python3_sitelib}/%{srcname}/
 
 %changelog
+* Fri Sep 04 2020 Joel Capitao <jcapitao@redhat.com> - 0.18.1-7
+- Remove unused BR
+
+* Wed Aug 05 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.18.1-6
+- Disable tests related to PySocks bug.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.18.1-3
 - BR fixes.
 

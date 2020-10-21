@@ -2,8 +2,8 @@
 %global modname aiofiles
 
 Name:           python-%{modname}
-Version:        0.4.0
-Release:        8%{?dist}
+Version:        0.5.0
+Release:        2%{?dist}
 Summary:        File support for asyncio
 
 License:        ASL 2.0
@@ -47,6 +47,12 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -v
 %{python3_sitelib}/%{modname}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Nicolas Chauvet <kwizart@gmail.com> - 0.5.0-1
+- Update to 0.5.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.0-8
 - Rebuilt for Python 3.9
 

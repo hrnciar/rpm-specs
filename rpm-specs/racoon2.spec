@@ -2,7 +2,7 @@
 
 Name:           racoon2
 Version:        20100526a
-Release:        41%{?dist}
+Release:        44%{?dist}
 Summary:        An implementation of key management system for IPsec
 License:        BSD
 URL:            http://www.racoon2.wide.ad.jp/
@@ -24,6 +24,9 @@ Patch7:         %{name}-20100526a-Adjust-for-OpenSSL-v1.1.patch
 # 4/4 Adapt to OpenSSL 1.1.1, bug #1606070, taken from a fork at
 # <https://github.com/zoulasc/racoon2>
 Patch8:         %{name}-20100526a-Fix-for-OpenSSL-1.1.patch
+# Stop including unused sysctl.h that was removed from glibc-2.32,
+# bug # #1856775, <https://github.com/zoulasc/racoon2>
+Patch9:         %{name}-20100526a-Linux-does-not-need-sysctl.h.patch
 BuildRequires:  byacc
 BuildRequires:  coreutils
 BuildRequires:  flex
@@ -60,6 +63,7 @@ and KINK protocols. It works on FreeBSD, NetBSD, Linux, and Mac OS X.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 sed -i '/yyget_leng/d' lib/cftoken.l
 
@@ -164,6 +168,16 @@ fi
 %endif
 
 %changelog
+* Thu Sep 17 2020 Petr Pisar <ppisar@redhat.com> - 20100526a-44
+- Stop including unused sysctl.h that was removed from glibc-2.32 (bug #1856775)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20100526a-43
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20100526a-42
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20100526a-41
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

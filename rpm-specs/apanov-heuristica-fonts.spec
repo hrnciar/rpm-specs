@@ -6,7 +6,7 @@
 
 Name:    %{fontname}-fonts
 Version: 1.0.2
-Release: 13%{?dist}
+Release: 14%{?dist}
 Epoch:   1
 Summary: A serif latin & cyrillic font
 
@@ -57,6 +57,9 @@ install -Dm 0644 -p %{SOURCE2} \
 %{_datadir}/appdata/%{fontname}.metainfo.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.0.2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.0.2-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

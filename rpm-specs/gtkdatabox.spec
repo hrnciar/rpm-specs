@@ -1,6 +1,6 @@
 Name:           gtkdatabox
 Version:        0.9.3.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        GTK+ widget for fast data display
 License:        LGPLv2+
 URL:            http://sourceforge.net/projects/gtkdatabox
@@ -69,6 +69,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libglade/2.0/libdatabox.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 06 2020 Eric Work <work.eric@gmail.com> - 0.9.3.1-4
 - Remove glade3 subpackage since libgladeui-2.0 is not supported
 

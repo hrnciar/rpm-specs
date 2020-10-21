@@ -1,7 +1,9 @@
+%global __cmake_in_source_build 1
+
 Name:		yubico-piv-tool
-Version:	2.0.0
+Version:	2.1.1
 Release:	1%{?dist}
-Summary:	Tool for interacting with the PIV applet on a YubiKey NEO
+Summary:	Tool for interacting with the PIV applet on a YubiKey
 
 License:	GPLv3+
 URL:		https://developers.yubico.com/yubico-piv-tool/
@@ -12,24 +14,25 @@ Source2:	gpgkey-C4686BFE.gpg
 BuildRequires:	pcsc-lite-devel openssl-devel chrpath
 BuildRequires:	gnupg2 gengetopt help2man
 BuildRequires:	check-devel
-BuildRequires:	gcc
+BuildRequires:	gcc gcc-c++
+BuildRequires:	cmake3
 Requires:		pcsc-lite-ccid
 
 %description
 The Yubico PIV tool is used for interacting with the
-Privilege and Identification Card (PIV) applet on a YubiKey NEO.
+Privilege and Identification Card (PIV) applet on a YubiKey.
 
 With it you may generate keys on the device, importing keys and certificates,
 and create certificate requests, and other operations. A shared library and
 a command-line tool is included.
 
 %package devel
-Summary: Tool for interacting with the PIV applet on a YubiKey NEO
+Summary: Tool for interacting with the PIV applet on a YubiKey
 Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %description devel
 The Yubico PIV tool is used for interacting with the
-Privilege and Identification Card (PIV) applet on a YubiKey NEO.
+Privilege and Identification Card (PIV) applet on a YubiKey.
 This package includes development files.
 
 
@@ -38,19 +41,17 @@ gpgv2 --quiet --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %setup -q
 
 %build
-%{?el7:export CFLAGS="%{optflags} -std=gnu99"}
-%configure --with-backend="pcsc"
-make %{?_smp_mflags}
-
+%cmake3 . -DYKPIV_INSTALL_PKGCONFIG_DIR=%{_libdir}/pkgconfig/
+%make_build VERBOSE=1
 
 %check
-make check
-
+make test
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 chrpath --delete $RPM_BUILD_ROOT%{_bindir}/yubico-piv-tool
 chrpath --delete $RPM_BUILD_ROOT%{_libdir}/libykcs11.so.*
+chrpath --delete $RPM_BUILD_ROOT%{_libdir}/libykpiv.so.*
 rm -f $RPM_BUILD_ROOT%{_libdir}/libykpiv.{la,a}
 rm -f $RPM_BUILD_ROOT%{_libdir}/libykcs11.{la,a}
 
@@ -62,7 +63,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libykcs11.{la,a}
 %license COPYING
 %{_bindir}/yubico-piv-tool
 %{_libdir}/libykpiv.so.1*
+%{_libdir}/libykpiv.so.2*
 %{_libdir}/libykcs11.so.1*
+%{_libdir}/libykcs11.so.2*
 
 
 %doc
@@ -75,10 +78,19 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libykcs11.{la,a}
 %attr(0644,root,root) %{_libdir}/pkgconfig/ykcs11.pc
 %dir %{_includedir}/ykpiv
 %attr(0644,root,root) %{_includedir}/ykpiv/ykpiv.h
-%attr(0644,root,root) %{_includedir}/ykpiv/ykpiv-version.h
+%attr(0644,root,root) %{_includedir}/ykpiv/ykpiv-config.h
 
 
 %changelog
+* Thu Jul 30 2020 Jakub Jelen <jjelen@redhat.com> - 2.1.1-1
+- New upstream release (#1859119)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Jakub Jelen <jjelen@redhat.com> - 2.1.0-1
+- New upstream release (#1855024)
+
 * Fri Feb  7 2020 Orion Poplawski <orion@nwra.com> - 2.0.0-1
 - Update to 2.0.0 (#1796170)
 

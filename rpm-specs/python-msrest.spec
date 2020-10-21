@@ -1,16 +1,16 @@
 %global srcname msrest
-%global common_description %{summary}.
+%global _description %{summary}.
 
 Name:           python-%{srcname}
-Version:        0.6.13
-Release:        2%{?dist}
+Version:        0.6.19
+Release:        1%{?dist}
 Summary:        The runtime library "msrest" for AutoRest generated Python clients
 
 License:        MIT
 URL:            https://github.com/Azure/msrest-for-python
 Source0:        %{url}/archive/v%{version}/%{srcname}-%{version}.tar.gz
-# Disable tests requiring an Internet connection
-Patch0:         %{name}-0.6.1-tests.patch
+# Fix Python requirement versions
+Patch0:         %{name}-0.6.17-requirements.patch
 
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist aiodns}
@@ -25,6 +25,7 @@ BuildRequires:  %{py3_dist requests}
 BuildRequires:  %{py3_dist setuptools}
 BuildRequires:  %{py3_dist trio}
 # Required for documentation
+BuildRequires:  fontpackages-devel
 BuildRequires:  %{py3_dist pip}
 BuildRequires:  %{py3_dist recommonmark}
 BuildRequires:  %{py3_dist sphinx-rtd-theme}
@@ -32,20 +33,27 @@ BuildRequires:  %{py3_dist sphinx}
 BuildArch:      noarch
 
 %description
-%{common_description}
+%{_description}
 
 
 %package -n python3-%{srcname}
 Summary:        %{summary}
+# Extras requirements
+Requires:       %{py3_dist aiodns}
+Requires:       %{py3_dist aiohttp}
 Requires:       %{py3_dist trio}
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
-%{common_description}
+%{_description}
 
 
 %package doc
 Summary:        Documentation for %{name}
+Requires:       google-roboto-slab-fonts
+Requires:       lato-fonts
+Requires:       fontawesome-fonts
+Requires:       fontawesome-fonts-web
 
 %description doc
 This package provides documentation for %{name}.
@@ -54,13 +62,36 @@ This package provides documentation for %{name}.
 %prep
 %autosetup -p1 -n %{srcname}-for-python-%{version}
 
+# Remove bundled egg-info
+rm -rf *.egg-info
+
 
 %build
 %py3_build
 
 pushd doc/
-sphinx-build-3 -b html -d _build/doctrees/ . _build/html/
+sphinx-build-%{python3_version} -b html -d _build/doctrees/ . _build/html/
 rm _build/html/.buildinfo
+popd
+
+# Drop bundled web fonts in HTML documentation
+pushd ./doc/_build/html/_static/fonts/
+rm fontawesome-webfont.*
+ln -s %{_fontbasedir}/fontawesome/fontawesome-webfont.* .
+
+pushd Lato/
+rm *.ttf
+for i in Bold BoldItalic Italic Regular; do
+    ln -s %{_fontbasedir}/lato/Lato-$i.ttf lato-${i,,}.ttf
+done
+popd
+
+pushd RobotoSlab/
+rm *.ttf
+for i in Bold Regular; do
+    ln -s %{_fontbasedir}/google-roboto-slab/RobotoSlab-$i.ttf roboto-slab-v7-${i,,}.ttf
+done
+popd
 popd
 
 
@@ -69,7 +100,17 @@ popd
 
 
 %check
-py.test-3
+# Test requiring an Internet connection are disabled
+%pytest \
+    --deselect=tests/asynctests/test_pipeline.py::test_basic_aiohttp \
+    --deselect=tests/asynctests/test_pipeline.py::test_basic_async_requests \
+    --deselect=tests/asynctests/test_pipeline.py::test_conf_async_requests \
+    --deselect=tests/asynctests/test_pipeline.py::test_conf_async_trio_requests \
+    --deselect=tests/asynctests/test_polling.py::test_poller \
+    --deselect=tests/asynctests/test_universal_http.py::test_basic_aiohttp \
+    --deselect=tests/asynctests/test_universal_http.py::test_basic_async_requests \
+    --deselect=tests/asynctests/test_universal_http.py::test_conf_async_requests \
+    --deselect=tests/asynctests/test_universal_http.py::test_conf_async_trio_requests
 
 
 %files -n python3-%{srcname}
@@ -85,6 +126,19 @@ py.test-3
 
 
 %changelog
+* Wed Sep 09 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 0.6.19-1
+- Update to 0.6.19
+
+* Wed Jul 29 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 0.6.18-1
+- Update to 0.6.18
+- Drop bundled fonts in documentation subpackage
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.17-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 0.6.17-1
+- Update to 0.6.17
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.13-2
 - Rebuilt for Python 3.9
 

@@ -11,7 +11,7 @@
 Name:		lightdm
 Summary:	A cross-desktop Display Manager
 Version:	1.30.0
-Release:	10%{?dist}
+Release:	11%{?dist}
 
 %if 0%{?rhel} >= 8
 # Exclude failing arch
@@ -320,6 +320,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.30.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 08 2020 Leigh Scott <leigh123linux@gmail.com> - 1.30.0-10
 - Remove pam_console dependency (rhbz#1822212)
 

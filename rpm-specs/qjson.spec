@@ -3,6 +3,9 @@
 #global gittag0 GIT-TAG
 #global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
+# Always build out-of-source
+%undefine __cmake_in_source_build
+
 # define to support qjson-qt5(-devel)
 %if 0%{?fedora} || 0%{?rhel} > 6
 %global qt5 1
@@ -10,7 +13,7 @@
 
 Name:           qjson
 Version:        0.9.0
-Release:        9%{?dist}
+Release:        11%{?dist}
 Summary:        A qt-based library that maps JSON data to QVariant objects
 
 License:        GPLv2+
@@ -67,24 +70,20 @@ Requires: %{name}-qt5%{?_isa} = %{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
+%global _vpath_builddir %{_target_platform}
 %{cmake} .. \
   -DQJSON_BUILD_TESTS:BOOL=ON \
   -DQT4_BUILD:BOOL=ON
 
-make %{?_smp_mflags}
-popd
+%cmake_build
 
 %if 0%{?qt5}
-mkdir %{_target_platform}-qt5
-pushd %{_target_platform}-qt5
+%global _vpath_builddir %{_target_platform}-qt5
 %{cmake} .. \
   -DQJSON_BUILD_TESTS:BOOL=ON \
   -DQT4_BUILD:BOOL=OFF
 
-make %{?_smp_mflags}
-popd
+%cmake_build
 %endif
 
 # build docs
@@ -145,6 +144,13 @@ xvfb-run -a make test -C %{_target_platform}-qt5 ||:
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

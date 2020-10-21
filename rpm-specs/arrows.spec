@@ -1,6 +1,6 @@
 Name:           arrows
 Version:        0.6
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        Neat little maze game
 License:        GPLv2+
 URL:            http://noreason.ca/?file=software
@@ -45,6 +45,9 @@ install -p -m 644 %{SOURCE2}\
 %{_datadir}/icons/hicolor/24x24/apps/%{name}.png
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

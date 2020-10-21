@@ -1,14 +1,12 @@
 Name:		sar2
-Version:	2.4.3
-Release:	1%{?dist}
+Version:	2.5.0
+Release:	2%{?dist}
 Summary:	An open source helicopter simulator
 # Code is GPLv2+
 # Content is either GPLv2+ or Public Domain
 License:	GPLv2+
 URL:		https://github.com/SearchAndRescue2/sar2
 Source0:	https://github.com/SearchAndRescue2/sar2/archive/v%{version}.tar.gz
-# Fix optflags handling
-Patch0:		sar2-2.4.3-fix-optflags.patch
 BuildRequires:  gcc-c++
 BuildRequires:  gcc
 BuildRequires:	scons, desktop-file-utils
@@ -30,7 +28,6 @@ Entertainment.
 
 %prep
 %setup -q
-%patch0 -p1 -b .fix-optflags
 
 %build
 scons --optflags="%{optflags}"
@@ -64,6 +61,12 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications extra/%{name}.de
 %{_mandir}/man6/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Tom Callaway <spot@fedoraproject.org> - 2.5.0-1
+- update to 2.5.0
+
 * Wed May 27 2020 Tom Callaway <spot@fedoraproject.org> - 2.4.3-1
 - update to 2.4.3
 

@@ -29,14 +29,14 @@
 #
 
 %bcond_without tests
-%bcond_without javadoc
+%bcond_with javadoc
 %bcond_without junit5
 
 %global ant_home %{_datadir}/ant
 
 Name:           ant
 Epoch:          0
-Version:        1.10.8
+Version:        1.10.9
 Release:        1%{?dist}
 Summary:        Java build tool
 Summary(it):    Tool per la compilazione di programmi java
@@ -65,7 +65,7 @@ BuildRequires:  mvn(commons-net:commons-net)
 BuildRequires:  mvn(javax.mail:mail)
 BuildRequires:  mvn(jdepend:jdepend)
 BuildRequires:  mvn(junit:junit)
-BuildRequires:  mvn(log4j:log4j:1.2.13)
+BuildRequires:  mvn(org.apache.logging.log4j:log4j-1.2-api)
 BuildRequires:  mvn(org.tukaani:xz)
 BuildRequires:  mvn(oro:oro)
 BuildRequires:  mvn(regexp:regexp)
@@ -362,7 +362,7 @@ rm src/tests/junit/org/apache/tools/ant/types/selectors/SignedSelectorTest.java 
    src/tests/junit/org/apache/tools/mail/MailMessageTest.java
 
 #install jars
-build-jar-repository -s -p lib/optional antlr bcel javamail/mailapi jdepend junit log4j-1 oro regexp bsf commons-logging commons-net jsch xalan-j2 xml-commons-resolver xalan-j2-serializer hamcrest/core hamcrest/library xz-java
+build-jar-repository -s -p lib/optional antlr bcel javamail/mailapi jdepend junit log4j/log4j-1.2-api oro regexp bsf commons-logging commons-net jsch xalan-j2 xml-commons-resolver xalan-j2-serializer hamcrest/core hamcrest/library xz-java
 %if %{with junit5}
 build-jar-repository -s -p lib/optional junit5 opentest4j
 %endif
@@ -394,6 +394,9 @@ mv LICENSE.utf8 LICENSE
 
 # fix javamail dependency coordinates (remove once javamail is updated)
 %pom_change_dep -r com.sun.mail:jakarta.mail javax.mail:mail src/etc/poms/ant-javamail/pom.xml
+
+# switch from log4j 1.2 compat package to log4j 1.2 API shim
+%pom_change_dep log4j:log4j org.apache.logging.log4j:log4j-1.2-api:2.13.3 src/etc/poms/ant-apache-log4j/pom.xml
 
 %build
 %{ant} jars test-jar
@@ -482,7 +485,7 @@ echo "apache-commons-logging ant/ant-commons-logging" > $RPM_BUILD_ROOT%{_syscon
 echo "apache-commons-net ant/ant-commons-net" > $RPM_BUILD_ROOT%{_sysconfdir}/%{name}.d/commons-net
 #echo "jai ant/ant-jai" > $RPM_BUILD_ROOT%%{_sysconfdir}/%%{name}.d/jai
 echo "bcel ant/ant-apache-bcel" > $RPM_BUILD_ROOT%{_sysconfdir}/%{name}.d/apache-bcel
-echo "log4j12 ant/ant-apache-log4j" > $RPM_BUILD_ROOT%{_sysconfdir}/%{name}.d/apache-log4j
+echo "log4j/log4j-1.2-api log4j/log4j-api log4j/log4j-core ant/ant-apache-log4j" > $RPM_BUILD_ROOT%{_sysconfdir}/%{name}.d/apache-log4j
 echo "oro ant/ant-apache-oro" > $RPM_BUILD_ROOT%{_sysconfdir}/%{name}.d/apache-oro
 echo "regexp ant/ant-apache-regexp" > $RPM_BUILD_ROOT%{_sysconfdir}/%{name}.d/apache-regexp
 echo "xalan-j2 xalan-j2-serializer ant/ant-apache-xalan2" > $RPM_BUILD_ROOT%{_sysconfdir}/%{name}.d/apache-xalan2
@@ -656,6 +659,26 @@ LC_ALL=C.UTF-8 %{ant} test
 # -----------------------------------------------------------------------------
 
 %changelog
+* Fri Oct 16 2020 Fabio Valentini <decathorpe@gmail.com> - 0:1.10.9-1
+- Update to version 1.10.9.
+- Addresses: CVE-2020-11979
+
+* Wed Sep 16 2020 Fabio Valentini <decathorpe@gmail.com> - 0:1.10.8-6
+- Remove workaround for jarsigner issues / RHBZ#1869017.
+
+* Wed Sep 09 2020 Fabio Valentini <decathorpe@gmail.com> - 0:1.10.8-5
+- Switch from log4j 1.2 compat package to log4j 1.2 API shim.
+
+* Sun Aug 23 2020 Fabio Valentini <decathorpe@gmail.com> - 0:1.10.8-4
+- Temporarily disable some jarsigner tests to work around RHBZ#1869017.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.10.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0:1.10.8-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+- disabled javadoc, as it fails in jdk11, and ant should not be an FTBFS to soon
+
 * Sat May 16 2020 Fabio Valentini <decathorpe@gmail.com> - 0:1.10.8-1
 - Update to version 1.10.8.
 - Addresses: CVE-2020-1945

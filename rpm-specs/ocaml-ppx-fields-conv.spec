@@ -6,8 +6,8 @@
 %global upname  ppx_fields_conv
 
 Name:           ocaml-%{srcname}
-Version:        0.13.0
-Release:        2%{?dist}
+Version:        0.14.0
+Release:        3%{?dist}
 Summary:        Generate accessor & iteration functions for OCaml records
 
 License:        MIT
@@ -15,10 +15,10 @@ URL:            https://github.com/janestreet/%{upname}
 Source0:        %{url}/archive/v%{version}/%{upname}-%{version}.tar.gz
 
 BuildRequires:  ocaml >= 4.04.2
-BuildRequires:  (ocaml-base-devel >= 0.13 and ocaml-base-devel < 0.14)
-BuildRequires:  ocaml-dune >= 1.5.1
-BuildRequires:  (ocaml-fieldslib-devel >= 0.13 and ocaml-fieldslib-devel < 0.14)
-BuildRequires:  ocaml-ppxlib-devel >= 0.9.0
+BuildRequires:  ocaml-base-devel >= 0.14
+BuildRequires:  ocaml-dune >= 2.0.0
+BuildRequires:  ocaml-fieldslib-devel >= 0.14
+BuildRequires:  ocaml-ppxlib-devel >= 0.11.0
 BuildRequires:  ocaml-ppx-inline-test-devel
 BuildRequires:  ocaml-odoc
 
@@ -90,6 +90,22 @@ dune runtest
 %{_libdir}/ocaml/%{upname}/*.mli
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.14.0-3
+- OCaml 4.11.1 rebuild
+
+* Mon Aug 24 2020 Richard W.M. Jones <rjones@redhat.com> - 0.14.0-2
+- OCaml 4.11.0 rebuild
+
+* Wed Aug 19 2020 Jerry James <loganjerry@gmail.com> - 0.14.0-1
+- Version 0.14.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Jerry James <loganjerry@gmail.com> - 0.13.0-2
 - Drop CONTRIBUTING.md
 - Use boolean dependencies to more fully reflect upstream version dependencies

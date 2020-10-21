@@ -1,9 +1,12 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 # TODO:
 # Python Module
 
 Name:           alembic
-Version:        1.7.12
-Release:        2%{?dist}
+Version:        1.7.15
+Release:        1%{?dist}
 Summary:        Open framework for storing and sharing scene data
 License:        BSD
 URL:            http://alembic.io/
@@ -20,8 +23,8 @@ BuildRequires:  hdf5-devel
 
 # Per https://github.com/alembic/alembic/blob/master/README.txt
 # alembic actually needs ilmbase, not OpenEXR.
-BuildRequires:  ilmbase-devel
-BuildRequires:  zlib-devel
+BuildRequires:  pkgconfig(IlmBase)
+BuildRequires:  pkgconfig(zlib)
 
 %description
 Alembic is an open computer graphics interchange framework. Alembic distills
@@ -58,10 +61,7 @@ sed -i -e 's/ConfigPackageLocation lib/ConfigPackageLocation %{_lib}/g' \
 iconv -f iso8859-1 -t utf-8 ACKNOWLEDGEMENTS.txt > ACKNOWLEDGEMENTS.txt.conv && \
     mv -f ACKNOWLEDGEMENTS.txt.conv ACKNOWLEDGEMENTS.txt
 
-mkdir build
-
 %build
-pushd build
 export CXXFLAGS="%{optflags} -Wl,--as-needed"
 %cmake %{?_cmake_skip_rpath} \
     -DALEMBIC_LIB_INSTALL_DIR=%{_libdir} \
@@ -72,16 +72,12 @@ export CXXFLAGS="%{optflags} -Wl,--as-needed"
     -DUSE_PYALEMBIC=OFF \
     -DUSE_STATIC_BOOST=OFF \
     -DUSE_STATIC_HDF5=OFF \
-    -DUSE_TESTS=ON \
-    ..
+    -DUSE_TESTS=ON
 
-%make_build
-popd
+%cmake_build
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 
 %files
 %{_bindir}/abcconvert
@@ -103,6 +99,22 @@ popd
 %{_libdir}/libAlembic.so
 
 %changelog
+* Sun Sep 13 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.7.15-1
+- Update to 1.7.15 (#1856031)
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.13-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1.7.13-1
+- Update to 1.7.13 (#1856031)	
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 1.7.12-3
+- Rebuild for hdf5 1.10.6
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.12-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

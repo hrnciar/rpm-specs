@@ -1,6 +1,11 @@
+%undefine __cmake_in_source_build
+
+# Avoid architecture-specific name of build-dir to fix per-arch reproducibility with doxygen
+%global _vpath_builddir %{_vendor}-%{_target_os}-build
+
 Name:           zipios
-Version:        2.2.1.0
-Release:        3%{?dist}
+Version:        2.2.5.0
+Release:        1%{?dist}
 # Most of the project is under LGPLv2+ but two source filesa are GPLv2+ so the
 # combined work is GPLv2+.
 License:        GPLv2+
@@ -61,23 +66,20 @@ sed -i "s/\-std=c++11//g" CMakeLists.txt
 
 
 %build
-rm -rf build && mkdir build && pushd build
 %cmake -DCATCH_INCLUDE_DIR=%{_includedir}/catch \
        -DCMAKE_MODULES_INSTALL_DIR=%{_datadir}/cmake/Modules \
-       -DBUILD_ZIPIOS_TESTS=FALSE \
-       ../
-make %{?_smp_mflags}
+       -DBUILD_ZIPIOS_TESTS=TRUE \
+       %{nil}
+%cmake_build
 
 
 %install
-pushd build
-%make_install
+%cmake_install
 # Create man pages
 mkdir -p %{buildroot}%{_mandir}/man1
 for bin in appendzip dosdatetime zipios; do
-    help2man -s 1 -N tools/$bin > %{buildroot}%{_mandir}/man1/$bin.1
+    help2man -s 1 -N %{_vpath_builddir}/tools/$bin > %{buildroot}%{_mandir}/man1/$bin.1
 done
-popd
 
 
 %check
@@ -86,7 +88,9 @@ popd
 # Test executable no longer compiles with gcc 7
 # https://bugzilla.redhat.com/show_bug.cgi?id=1424569
 # https://sourceforge.net/p/zipios/bugs/10/
-#pushd build
+# Still broken, gcc 10.2.1
+# https://github.com/Zipios/Zipios/issues/4
+#pushd %{_vpath_builddir}
 #make run_zipios_tests
 
 
@@ -112,6 +116,16 @@ popd
 
 
 %changelog
+* Mon Aug 10 2020 Richard Shaw <hobbes1069@gmail.com> - 2.2.5.0-1
+- Update to 2.2.5.0.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -21,7 +21,7 @@
 
 Name:           php-%{pk_vendor}-%{pk_project}
 Version:        1.7.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        PHP Enum implementation
 
 License:        MIT
@@ -121,6 +121,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 14 2020 Remi Collet <remi@remirepo.net> - 1.7.6-1
 - update to 1.7.6
 

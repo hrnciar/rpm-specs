@@ -1,6 +1,6 @@
 Name:		unity-gtk-module
 Version:	0.0.0+17.04.20170403
-Release:	9%{?dist}
+Release:	12%{?dist}
 Summary:	GTK+ module for exporting old-style menus as GMenuModels
 
 License:	LGPLv3
@@ -11,7 +11,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libX11-devel
 BuildRequires:	libtool
-BuildRequires:	python2-devel
+BuildRequires:	python3-devel
 
 %description
 GTK+ module for exporting old-style menus as GMenuModels.
@@ -135,7 +135,7 @@ f="data/%{name}.service"
 
 
 %build
-export PYTHON="%{__python2}"
+export PYTHON="%{__python3}"
 export SRC_DIR="$(%{_bindir}/pwd)"
 for i in 2 3 ; do
 	pushd build/gtk${i}
@@ -167,7 +167,7 @@ done
 
 # Those files are not needed during runtime.
 %{__rm} -rf %{buildroot}%{_datadir}/upstart/			\
-	%{buildroot}%{python2_sitelib}
+	%{buildroot}%{python3_sitelib}
 
 # Prepare demos for inclusion in %%doc.
 %{__rm} -f demos/Makefile*
@@ -214,6 +214,16 @@ done
 
 
 %changelog
+* Wed Sep 09 2020 Petr Viktorin <pviktori@redhat.com> - 0.0.0+17.04.20170403-12
+- Switch BuildRequires to python3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.0+17.04.20170403-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.0+17.04.20170403-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.0+17.04.20170403-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

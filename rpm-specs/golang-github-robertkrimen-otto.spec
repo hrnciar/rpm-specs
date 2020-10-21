@@ -7,7 +7,7 @@
 
 # https://github.com/robertkrimen/otto
 %global goipath         github.com/robertkrimen/otto
-%global commit          15f95af6e78dcd2030d8195a138bd88d4f403546
+%global commit          c382bd3c16ff2fef9b5fe0dd8bf4c4ec6bfe62c1
 
 %gometa
 
@@ -19,12 +19,14 @@ Package Otto is a JavaScript parser and interpreter written natively in Go.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.10%{?dist}
+Release:        0.13%{?dist}
 Summary:        JavaScript interpreter in Go
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/robertkrimen/otto/issues/384
+Patch0:         0001-Convert-int-to-string-using-rune.patch
 
 BuildRequires:  golang(gopkg.in/readline.v1)
 BuildRequires:  golang(gopkg.in/sourcemap.v1)
@@ -36,6 +38,7 @@ BuildRequires:  golang(gopkg.in/sourcemap.v1)
 
 %prep
 %goprep
+%patch0 -p1
 
 %install
 %gopkginstall
@@ -48,6 +51,16 @@ BuildRequires:  golang(gopkg.in/sourcemap.v1)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 22:10:11 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.13.20200801gitc382bd3
+- Bump to commit c382bd3c16ff2fef9b5fe0dd8bf4c4ec6bfe62c1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,12 @@
-#global candidate RC1
+%ifarch s390x
+# https://bugzilla.redhat.com/show_bug.cgi?id=1861276 -> Disable LTO for now
+%define _lto_cflags %{nil}
+%endif
+
+#global candidate RC0
 
 Name:		tpm2-pkcs11
-Version:	1.2.0
+Version:	1.4.0
 Release:	2%{?candidate:.%{candidate}}%{?dist}
 Summary:	PKCS#11 interface for TPM 2.0 hardware
 
@@ -11,6 +16,7 @@ Source0:	https://github.com/tpm2-software/%{name}/releases/download/%{version}%{
 Source1:	https://github.com/tpm2-software/%{name}/releases/download/%{version}%{?candidate:-%{candidate}}/%{name}-%{version}%{?candidate:-%{candidate}}.tar.gz.asc
 # William Roberts (Bill Roberts) key from pgp.mit.edu
 Source2:	gpgkey-8E1F50C1.gpg
+Patch0:         tpm2-pkcs11-gcc11.patch
 
 BuildRequires:	gcc
 BuildRequires:	make
@@ -27,6 +33,7 @@ BuildRequires:	libcmocka-devel
 BuildRequires:	dbus-daemon
 # for tools
 BuildRequires:	python3-devel
+BuildRequires:	python3-setuptools
 BuildRequires:	python3-pyasn1-modules
 BuildRequires:	python3-pyyaml
 BuildRequires:	python3-cryptography
@@ -93,6 +100,24 @@ cd tools
 
 
 %changelog
+* Tue Sep 15 2020 Jeff Law <law@redhat.com> - 1.4.0-2
+- Fix two source over-reads detected by gcc-11
+
+* Mon Aug 24 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.4.0-1
+- Update to 1.4.0
+
+* Mon Aug 10 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.3.2-1
+- Update to 1.3.2
+
+* Mon Jul 27 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.3.1-1
+- Update to 1.3.1
+
+* Tue Jul 07 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.3.0-1
+- Update to 1.3.0
+
+* Thu Jul 02 2020 Jakub Jelen <jjelen@redhat.com> - 1.3.0-0.1-RC0
+- Update to 1.3.0-RC0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.0-2
 - Rebuilt for Python 3.9
 

@@ -8,7 +8,7 @@
 
 Name:    analitza
 Summary: Library of mathematical features
-Version: 20.04.2
+Version: 20.08.1
 Release: 1%{?dist}
 
 License: GPLv2+
@@ -57,26 +57,24 @@ Requires: %{name}%{?_isa} = %{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%cmake_kf5 \
   %{?tests:-DBUILD_TESTING:BOOL=ON}
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang_kf5 analitza_qt
 
 
 %check
 %if 0%{?tests}
-export CTEST_OUTPUT_ON_FAILURE=1
+pushd "%{__cmake_builddir}"
 xvfb-run -a \
-make test -C %{_target_platform} ARGS="--output-on-failure --timeout 300" ||:
+ctest --output-on-failure --force-new-ctest-process %{?_smp_mflags} --timeout 300 ||:
+popd
 %endif
 
 
@@ -103,6 +101,28 @@ make test -C %{_target_platform} ARGS="--output-on-failure --timeout 300" ||:
 
 
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 20.08.0-2
+- rebuild (qt5)
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Mon Aug 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-4
+- .spec cosmetics
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.2-1
 - 20.04.2
 

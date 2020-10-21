@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.5.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Library for async wake signals
 
 # Upstream license specification: Apache-2.0
@@ -79,6 +79,9 @@ which use "callback" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

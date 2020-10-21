@@ -1,7 +1,7 @@
 Name:           univocity-output-tester
 Summary:        Simple project to validate expected outputs of univocity parsers
 Version:        2.1
-Release:        2%{?dist}
+Release:        4%{?dist}
 License:        ASL 2.0
 
 URL:            https://github.com/uniVocity/univocity-output-tester
@@ -30,6 +30,7 @@ API documentation for %{name}.
 %prep
 %autosetup
 
+%pom_remove_plugin :maven-javadoc-plugin
 %pom_remove_plugin :maven-source-plugin
 %pom_remove_plugin :nexus-staging-maven-plugin
 
@@ -52,6 +53,12 @@ API documentation for %{name}.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Fabio Valentini <decathorpe@gmail.com> - 2.1-3
+- Drop unnecessary dependency on maven-javadoc-plugin.
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

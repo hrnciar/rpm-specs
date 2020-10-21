@@ -11,7 +11,7 @@
 
 Name:           lxc
 Version:        3.2.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Linux Resource Containers
 License:        LGPLv2+ and GPLv2
 URL:            http://linuxcontainers.org/lxc
@@ -252,6 +252,9 @@ make check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Timotheus Pokorra <timotheus.pokorra@solidcharity.com> - 3.2.1-3
 - reapplying patch to fix cgroups cpuset initialization (rhbz#1816949)
 

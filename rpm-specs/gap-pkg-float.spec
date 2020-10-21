@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        0.9.1
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        GAP access to mpfr, mpfi, mpc, fplll and cxsc
 
 License:        GPLv3+
@@ -82,6 +82,12 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}-%{version}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 Jerry James <loganjerry@gmail.com> - 0.9.1-9
+- Rebuild for libfplll 5.3.3
+
 * Wed Mar 11 2020 Jerry James <loganjerry@gmail.com> - 0.9.1-8
 - Rebuild for gap 4.11.0
 

@@ -2,8 +2,9 @@
 %global fontconf 60-%{fontname}.conf
 
 Name:		%{fontname}-fonts
+Epoch:		1
 Version:	4.7.0
-Release:	8%{?dist}
+Release:	10%{?dist}
 
 Summary:	Iconic font set
 License:	OFL
@@ -27,7 +28,7 @@ locally.
 
 %package web
 License:	OFL and MIT
-Requires:	%{fontname}-fonts = %{version}-%{release}
+Requires:	%{fontname}-fonts = %{?epoch:%{epoch}:}%{version}-%{release}
 Summary:	Iconic font set, web files
 
 %description web
@@ -79,6 +80,22 @@ cp -a css less scss %{buildroot}%{_datadir}/font-awesome-web/
 %{_datadir}/fonts/fontawesome/fontawesome-webfont.eot
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.7.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 08 2020 Miro Hrončok <mhroncok@redhat.com> - 1:4.7.0-9
+- Add epoch to inter-subpackages requirement
+
+* Wed Jul 08 2020 Fabio Alessandro Locati <fale@fedoraproject.org> - 1:4.7.0-8
+- Rollback to FA4
+
+* Tue Jul 07 2020 Fabio Alessandro Locati <fale@fedoraproject.org> - 5.13.1-2
+- Provide the right font configuration
+- Drop ttf format since upstream affirms that otf is to be preferred
+
+* Sun Jul 05 2020 Fabio Alessandro Locati <fale@fedoraproject.org> - 5.13.1-1
+- Update to 5.13.1
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.7.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -100,23 +117,23 @@ cp -a css less scss %{buildroot}%{_datadir}/font-awesome-web/
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 4.7.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
-* Thu Oct 27 2016 Fabio Alessandro Locati <fale@redhat.com> - 4.7.0-1
+* Thu Oct 27 2016 Fabio Alessandro Locati <fale@fedoraproject.org> - 4.7.0-1
 - Update to 4.7.0
 
-* Sun May 22 2016 Fabio Alessandro Locati <fale@redhat.com> - 4.6.3-1
+* Sun May 22 2016 Fabio Alessandro Locati <fale@fedoraproject.org> - 4.6.3-1
 - Update to 4.6.3
 - Update the brand icons list using the script
 
-* Thu May 05 2016 Fabio Alessandro Locati <fale@redhat.com> - 4.6.2-1
+* Thu May 05 2016 Fabio Alessandro Locati <fale@fedoraproject.org> - 4.6.2-1
 - Update to 4.6.1
 - Update the brand icons list using a new script
 - Add the script to create brand icons list
 
-* Wed Apr 13 2016 Fabio Alessandro Locati <fale@redhat.com> - 4.6.1-1
+* Wed Apr 13 2016 Fabio Alessandro Locati <fale@fedoraproject.org> - 4.6.1-1
 - Update to 4.6.0
 - Update the brand list with the icons new in 4.6.0
 
-* Tue Mar 29 2016 Fabio Alessandro Locati <fale@redhat.com> - 4.5.0-1
+* Tue Mar 29 2016 Fabio Alessandro Locati <fale@fedoraproject.org> - 4.5.0-1
 - Update to 4.5.0
 - Update the brand list with the icons new in 4.5.0
 

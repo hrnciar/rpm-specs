@@ -1,8 +1,8 @@
 %global __cargo_skip_build 0
 
 Name:           newsflash
-Version:        1.0~rc1
-Release:        5%{?dist}
+Version:        1.0.5
+Release:        3%{?dist}
 Summary:        Modern feed reader
 
 # (MIT or ASL 2.0) and BSD
@@ -18,16 +18,7 @@ Summary:        Modern feed reader
 # zlib
 License:        GPLv3+ and BSD and ASL 2.0 and MIT and Unlicense and zlib
 URL:            https://gitlab.com/news-flash/news_flash_gtk
-Source0:        https://gitlab.com/news-flash/news_flash_gtk/-/archive/%{version_no_tilde}/news_flash_gtk-%{version_no_tilde}.tar.gz
-# https://gitlab.com/news-flash/news_flash_gtk/-/issues/66
-# https://gitlab.com/news-flash/news_flash_gtk/-/commit/38361e7c8d644b10d9b6747c26eeec2b50d42845
-Patch0001:      0001-use-usize-where-possible.patch
-# https://gitlab.com/news-flash/news_flash_gtk/-/issues/74
-# https://gitlab.com/news-flash/news_flash_gtk/-/commit/dfea2df583a9995796bc7ac01f6048d47f35393a
-Patch0002:      0001-dont-inhibit-all-key-press-signals-in-webview.patch
-# https://gitlab.com/news-flash/news_flash_gtk/-/issues/77
-# https://gitlab.com/news-flash/news_flash_gtk/-/commit/2a9405ea8148329fa8973b7d7098a8b6ba6495a8
-Patch0003:      0001-dont-call-show_all-in-app-constructor.patch
+Source0:        https://gitlab.com/news-flash/news_flash_gtk/-/archive/%{version_no_tilde}/news_flash_gtk-%{version_no_tilde}.tar.bz2
 
 ExclusiveArch:  %{rust_arches}
 
@@ -50,7 +41,7 @@ shortcuts and having access to all your articles as long as you like.
 # Use packaged crates with proper versions
 sed -i \
   -e '/tokio/s/=0.2/0.2/' \
-  -e 's/news-flash = .*/news-flash = "1"/' \
+  -e '/gettext-rs/s/0\.4/0.5/' \
   Cargo.toml
 # We will build by cargo ourselves
 sed -i -e '/\(build_by_default\|install\)/s/true/false/' src/meson.build
@@ -89,6 +80,22 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/com.gitla
 %{_datadir}/metainfo/com.gitlab.newsflash.appdata.xml
 
 %changelog
+* Fri Oct 09 2020 Jan Staněk <jstanek@redhat.com> - 1.0.5-3
+- Bump gettext-rs dependency to 0.5
+
+* Fri Sep 11 2020 Josh Stone <jistone@redhat.com> - 1.0.5-2
+- Update to
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0~rc1-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0~rc1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Josh Stone <jistone@redhat.com> - 1.0~rc1-6
+- Update gtk-rs
+
 * Sat Jun 13 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.0~rc1-5
 - Add secrets for various services
 

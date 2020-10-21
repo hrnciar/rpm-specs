@@ -1,8 +1,8 @@
 %global modname flask-migrate
 
 Name:               python-flask-migrate
-Version:            2.1.1
-Release:            9%{?dist}
+Version:            2.5.3
+Release:            1%{?dist}
 Summary:            SQLAlchemy database migrations for Flask applications using Alembic
 
 License:            MIT
@@ -55,6 +55,12 @@ chmod 0644 flask_migrate/templates/flask/*
 %{python3_sitelib}/Flask_Migrate-%{version}*
 
 %changelog
+* Tue Sep 29 2020 José Lemos Neto <LemosJoseX@protonmail.com> - 2.5.3-1
+- Update to version 2.5.3
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.1-9
 - Rebuilt for Python 3.9
 

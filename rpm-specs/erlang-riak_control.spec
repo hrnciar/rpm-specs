@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	2.1.7
-Release:	7%{?dist}
+Release:	8%{?dist}
 BuildArch:	noarch
 Summary:	Admin UI for Riak
 License:	ASL 2.0
@@ -55,6 +55,9 @@ cp -arv priv/ templates/ %{buildroot}%{erlang_appdir}/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.7-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.7-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

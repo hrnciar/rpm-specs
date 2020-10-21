@@ -1,10 +1,12 @@
 %global srcname pyglet
-%global srcversion 1.4.6
+%global srcversion 1.5.7
 %global versionedname %{srcname}-%{srcversion}
+
+%bcond_without tests
 
 Name: python-%{srcname}
 Version: %{srcversion}
-Release: 3%{?dist}
+Release: 1%{?dist}
 Summary: A cross-platform windowing and multimedia library for Python
 
 License: BSD
@@ -20,10 +22,26 @@ Source1: pyglet-get-tarball.sh
 
 BuildArch: noarch
 
-BuildRequires: python3-devel
-BuildRequires: python3-setuptools
+# Tests (and possibly sound synthesis?) fail on big-endian.
+# Reported: https://github.com/pyglet/pyglet/issues/278
+# Fedora bug: https://bugzilla.redhat.com/show_bug.cgi?id=1877849
+ExcludeArch: s390x
 
-%description
+BuildRequires: python3-devel
+BuildRequires: pyproject-rpm-macros
+
+# Tests need OpenGL
+# See also: https://bugzilla.redhat.com/show_bug.cgi?id=904851
+%global __pytest xvfb-run -s '-screen 0 640x480x24' pytest
+%if %{with tests}
+BuildRequires: /usr/bin/xvfb-run mesa-dri-drivers
+BuildRequires: python3-pytest
+# libpurple has sound files unbundled in the repacked tarball
+BuildRequires: libpurple
+%endif
+
+
+%global _description %{expand:
 This library provides an object-oriented programming interface for developing
 games and other visually-rich applications with Python.
 pyglet has virtually no external dependencies. For most applications and game
@@ -32,6 +50,13 @@ distribution and installation. It also handles multiple windows and
 fully aware of multi-monitor setups.
 
 pyglet might be seen as an alternative to PyGame.
+}
+
+%generate_buildrequires
+%pyproject_buildrequires
+
+
+%description %_description
 
 
 %package -n python3-%{srcname}
@@ -39,24 +64,26 @@ Summary: A cross-platform windowing and multimedia library for Python 3
 
 %{?python_provide:%python_provide python3-%{srcname}}
 
-Requires: python3
-Requires: python3-pillow
-Requires: python3-future
-
 # The libraries are imported dynamically using ctypes, so rpm can't find them.
 Requires: libGL
 Requires: libGLU
 Requires: libX11
+Requires: fontconfig
 
-%description -n python3-%{srcname}
-This library provides an object-oriented programming interface for developing
-games and other visually-rich applications with Python 3.
-pyglet has virtually no external dependencies. For most applications and game
-requirements, pyglet needs nothing else besides Python, simplifying
-distribution and installation. It also handles multiple windows and
-fully aware of multi-monitor setups.
+# Pillow is technically optional, but in Fedora we always pull it in.
+# It can open PNG images, so we can remove the bundled "png.py"
+Requires: python3-pillow
 
-pyglet might be seen as an alternative to PyGame.
+%if %{with tests}
+BuildRequires: libGL
+BuildRequires: libGLU
+BuildRequires: libX11
+BuildRequires: fontconfig
+BuildRequires: python3-pillow
+%endif
+
+
+%description -n python3-%{srcname} %_description
 
 
 %prep
@@ -66,30 +93,59 @@ pyglet might be seen as an alternative to PyGame.
 rm pyglet/image/codecs/png.py
 rm pyglet/extlibs/png.py
 
-# The future library can be unbundled (upstream even does it for the wheel distribution)
-rm -r pyglet/extlibs/future
-
 # Get rid of hashbang lines. This is a library, it has no executable scripts.
 # Also remove Windows newlines
 find . -name '*.py' | xargs sed --in-place -e's|#!/usr/bin/\(env \)\?python||;s/\r//'
 
 
 %build
-%py3_build
+%pyproject_wheel
 
 %install
-%py3_install
+%pyproject_install
 
-%files -n python3-%{srcname}
+%pyproject_save_files pyglet
+
+
+%if %{with tests}
+%check
+# Skip flaky tests
+export CI=on
+
+# The files are unbundled in the repacked tarball
+ln -s %{_datadir}/sounds/purple/*.wav tests/data/media/
+
+# Interactive tests are skipped for obvious reasons.
+# Media player tests are skipped -- we don't have PulseAudio running.
+# test_find_font_match & test_have_font skipped -- they look for a font named 'arial'
+# test_freetype_face tests are is skipped -- they depend on non-free font we remove
+%pytest \
+    -vv \
+    --non-interactive \
+    --ignore=tests/interactive \
+    --ignore=tests/integration/media \
+    -m 'not (requires_user_action or requires_user_validation or only_interactive)' \
+    -k 'not (test_find_font_match or test_have_font or test_freetype_face)' \
+    tests
+%endif
+
+
+%files -n python3-%{srcname} -f %%{pyproject_files}
 %license LICENSE
 %doc README.md
 %doc RELEASE_NOTES
 %doc NOTICE
-%{python3_sitelib}/%{versionedname}-py%{python3_version}.egg-info
-%{python3_sitelib}/%{srcname}
 
 
 %changelog
+* Wed Sep 09 2020 Petr Viktorin <pviktori@redhat.com> - 1.5.7-1
+- Update to 1.5.7
+- Switch to pyproject macros
+- Run tests
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.6-3
 - Rebuilt for Python 3.9
 

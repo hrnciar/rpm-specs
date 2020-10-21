@@ -2,7 +2,7 @@
 
 Name:           python-pypandoc
 Version:        1.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Thin wrapper for pandoc
 
 License:        MIT
@@ -76,6 +76,9 @@ sed -i -r 's/\b(test_convert_with_custom_writer|test_basic_conversion_from_file|
 %{python3_sitelib}/pypandoc-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5-2
 - Rebuilt for Python 3.9
 

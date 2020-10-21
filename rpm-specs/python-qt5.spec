@@ -3,7 +3,7 @@
 %global python3_dbus_dir %(%{__python3} -c "import dbus.mainloop; print(dbus.mainloop.__path__[0])" 2>/dev/null || echo "%{python3_sitearch}/dbus/mainloop")
 %endif
 # sip too old for python2 in EPEL
-%if 0%{?fedora} < 32
+%if 0%{?fedora} < 32 && 0%{?rhel} < 9
 %global with_python2 1
 %global python2_dbus_dir %(%{__python2} -c "import dbus.mainloop; print(dbus.mainloop.__path__[0])" 2>/dev/null || echo "%{python2_sitearch}/dbus/mainloop")
 %global enginio 1
@@ -30,7 +30,7 @@
 %global py3_sip %{_bindir}/python3-sip
 %endif
 
-%global sip_ver 4.19.20
+%global sip_ver 4.19.23
 
 # see also https://lists.fedoraproject.org/archives/list/devel@lists.fedoraproject.org/thread/JQQ66XJSIT2FGTK2YQY7AXMEH5IXMPUX/
 %undefine _strict_symbol_defs_build
@@ -39,13 +39,13 @@
 
 Summary: PyQt5 is Python bindings for Qt5
 Name:    python-qt5
-Version: 5.14.2
-Release: 3%{?dist}
+Version: 5.15.0
+Release: 2%{?dist}
 
 License: GPLv3
 Url:     http://www.riverbankcomputing.com/software/pyqt/
 #Source0: https://www.riverbankcomputing.com/static/Downloads/PyQt5/%{version}/PyQt5-%{version}%{?snap:.%{snap}}.tar.gz
-Source0: https://files.pythonhosted.org/packages/4d/81/b9a66a28fb9a7bbeb60e266f06ebc4703e7e42b99e3609bf1b58ddd232b9/PyQt5-%{version}.tar.gz
+Source0: https://files.pythonhosted.org/packages/8c/90/82c62bbbadcca98e8c6fa84f1a638de1ed1c89e85368241e9cc43fcbc320/PyQt5-%{version}.tar.gz
 
 Source1: macros.pyqt5
 # wrapper, see https://bugzilla.redhat.com/show_bug.cgi?id=1193107#c9
@@ -561,6 +561,22 @@ sed -i \
 
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 5.15.0-2
+- rebuild (qt5)
+
+* Mon Aug 17 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.15.0-1
+- 5.15.0
+
+* Tue Aug 11 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.14.2-6
+- fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.14.2-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.14.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 5.14.2-3
 - Rebuilt for Python 3.9
 

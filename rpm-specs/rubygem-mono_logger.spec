@@ -2,7 +2,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 1.1.0
-Release: 13%{?dist}
+Release: 14%{?dist}
 Summary: A lock-free logger compatible with Ruby 2.0
 License: MIT
 URL: https://github.com/steveklabnik/mono_logger
@@ -71,6 +71,9 @@ popd
 %{gem_instdir}/test
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

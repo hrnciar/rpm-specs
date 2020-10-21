@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        2.2.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Pure Python sorted container types
 
 License:        ASL 2.0
@@ -18,30 +18,30 @@ pure-Python, and fast as C-extensions.
 
 %description %{_description}
 
-%package -n python3-%{srcname}
+%package -n python%{python3_pkgversion}-%{srcname}
 Summary:        %{summary}
-%{?python_provide:%python_provide python3-%{srcname}}
+%{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
 
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
 
 %bcond_without tests
 %if %{with tests}
-BuildRequires:  python3-pytest
-BuildRequires:  python3-matplotlib
-BuildRequires:  python3-numpy
-BuildRequires:  python3-scipy
+BuildRequires:  python%{python3_pkgversion}-pytest
+BuildRequires:  python%{python3_pkgversion}-matplotlib
+BuildRequires:  python%{python3_pkgversion}-numpy
+BuildRequires:  python%{python3_pkgversion}-scipy
 %endif
 
 %bcond_without docs
 %if %{with docs}
-BuildRequires:  python3-sphinx
+BuildRequires:  python%{python3_pkgversion}-sphinx
 BuildRequires:  dvipng
 BuildRequires:  tex(anyfontsize.sty)
 BuildRequires:  tex(bm.sty)
 %endif
 
-%description -n python3-%{srcname} %{_description}
+%description -n python%{python3_pkgversion}-%{srcname} %{_description}
 
 
 %package -n python-%{srcname}-doc
@@ -79,7 +79,7 @@ popd
 %endif
 
 
-%files -n python3-%{srcname}
+%files -n python%{python3_pkgversion}-%{srcname}
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/%{srcname}
@@ -94,6 +94,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 08 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.2.2-1
 - Update to latest version
 

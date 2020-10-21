@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Rust platform registry with information about valid Rust platforms
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -96,5 +96,8 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 18 14:51:10 EET 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.2.1-1
 - Initial package

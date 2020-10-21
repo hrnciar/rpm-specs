@@ -1,19 +1,20 @@
-%global packname  htmltools
+%global packname htmltools
+%global packver  0.5.0
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          0.4.0
-Release:          3%{?dist}
+Version:          0.5.0
+Release:          1%{?dist}
 Summary:          Tools for HTML
 
 License:          GPLv2+
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-utils, R-digest, R-Rcpp, R-rlang
-# Suggests:  R-markdown, R-testthat, R-withr
+# Imports:   R-utils, R-digest, R-grDevices, R-base64enc, R-rlang
+# Suggests:  R-markdown, R-testthat, R-withr, R-Cairo, R-ragg
 # LinkingTo:
 # Enhances:
 
@@ -21,11 +22,14 @@ BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    R-utils
 BuildRequires:    R-digest
-BuildRequires:    R-Rcpp-devel
+BuildRequires:    R-grDevices
+BuildRequires:    R-base64enc
 BuildRequires:    R-rlang
 BuildRequires:    R-markdown
 BuildRequires:    R-testthat
 BuildRequires:    R-withr
+BuildRequires:    R-Cairo
+BuildRequires:    R-ragg
 
 %description
 Tools for HTML generation and output.
@@ -65,6 +69,12 @@ export LANG=C.UTF-8
 
 
 %changelog
+* Fri Aug 14 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.5.0-1
+- Update to latest version (#1865734)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 0.4.0-3
 - rebuild for R 4
 

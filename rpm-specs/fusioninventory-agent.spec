@@ -9,7 +9,7 @@ License:     GPLv2+
 URL:         http://fusioninventory.org/
 
 Version:     2.5.2
-Release:     4%{?dist}
+Release:     5%{?dist}
 Source0:     https://github.com/fusioninventory/%{name}/releases/download/%{version}/FusionInventory-Agent-%{version}.tar.gz
 Source1:     %{name}.cron
 Source10:    %{name}.service
@@ -301,6 +301,9 @@ install -m 644 -D  %{SOURCE10}   %{buildroot}%{_unitdir}/%{name}.service
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.5.2-4
 - Perl 5.32 rebuild
 

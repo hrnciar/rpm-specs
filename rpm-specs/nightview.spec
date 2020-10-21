@@ -1,6 +1,6 @@
 Name:           nightview
 Version:        0.3.3
-Release:        34%{?dist}
+Release:        35%{?dist}
 Summary:        A general astronomical software package to control of a CCD camera
 
 License:        GPLv2
@@ -229,6 +229,9 @@ make -f Makefile.nightview -C doc install DESTDIR=%{buildroot} || :
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-34
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

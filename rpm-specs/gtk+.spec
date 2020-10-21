@@ -2,10 +2,10 @@ Summary:	The GIMP ToolKit
 Name:		gtk+
 Epoch:		1
 Version:	1.2.10
-Release:	93%{?dist}
+Release:	95%{?dist}
 License:	LGPLv2+
 URL:		http://www.gtk.org/
-Source0:	http://download.gimp.org/pub/gtk/v1.2/gtk+-%{version}.tar.gz
+Source0:	https://ftp.gnome.org/pub/gnome/sources/gtk+/1.2/gtk+-%{version}.tar.gz
 
 Provides:	gtk1 = %{version}-%{release}
 Provides:	gtk1%{?_isa} = %{version}-%{release}
@@ -16,6 +16,15 @@ Source3:	gtkrc.ja.utf8
 Source4:	gtkrc.ko.utf8
 Source5:	gtkrc.zh_CN.utf8
 Source6:	gtkrc.zh_TW.utf8
+
+# We need newer versions of config.guess and config.sub to be able to
+# handle exotic new architectures (at the time this software was released)
+# such as x86_64
+#
+# http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD
+Source7:	config.guess
+# http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD
+Source8:	config.sub
 
 Patch1:		gtk+-1.2.10-ahiguti.patch
 Patch5:		gtk+-1.2.8-wrap-alnum.patch
@@ -74,7 +83,7 @@ Patch35:	gtk+-1.2.10-unused-deps.patch
 Patch36:	gtk+-1.2.10-autotools.patch
 # Use format strings properly
 Patch37:	gtk+-1.2.10-format.patch
-# C99 compiler support.
+# C99 compiler support
 Patch38:	gtk+-1.2.10-c99.patch
 
 BuildRequires:	coreutils
@@ -87,6 +96,9 @@ BuildRequires:	libXext-devel
 BuildRequires:	libXi-devel
 BuildRequires:	libXt-devel
 BuildRequires:	make
+
+# Fix EL-6 compatibility (%%make_build only defined from EL-7, F-21 onwards)
+%{!?make_build:%global make_build make %{_smp_mflags}}
 
 %description
 The gtk+ package contains the GIMP ToolKit (GTK+), a library for
@@ -146,8 +158,8 @@ Libraries, header files and documentation for developing GTK+
 
 # The original config.{guess,sub} do not work on x86_64, aarch64 etc.
 #
-# The following /usr/lib cannot be %%_libdir !!
-cp -p /usr/lib/rpm/config.{guess,sub} .
+cp -p %{SOURCE7} %{SOURCE8} .
+chmod -c +x config.{guess,sub}
 
 # Recode docs as UTF-8
 for doc in ChangeLog examples/calendar/calendar.c; do
@@ -162,10 +174,10 @@ LIBTOOL=/usr/bin/libtool \
 	--with-xinput=xfree \
 	--with-native-locale
 
-make %{?_smp_mflags} LIBTOOL=/usr/bin/libtool
+%{make_build} LIBTOOL=/usr/bin/libtool
 
 %install
-make install DESTDIR=%{buildroot} LIBTOOL=/usr/bin/libtool INSTALL="install -p"
+%{make_install} LIBTOOL=/usr/bin/libtool
 
 #
 # Make cleaned-up versions of examples and tutorial for installation
@@ -196,12 +208,12 @@ for i in %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6}; do
 done
 
 # We don't ship the info files
-rm -rf %{buildroot}%{_infodir}
+rm -rvf %{buildroot}%{_infodir}
 
 # .la fies... die die die.
-rm -rf %{buildroot}%{_libdir}/lib*.la
+rm -rvf %{buildroot}%{_libdir}/lib*.la
 # despite use of --disable-static, delete static libs that get built anyway
-rm -rf %{buildroot}%{_libdir}/lib*.a
+rm -rvf %{buildroot}%{_libdir}/lib*.a
 
 %find_lang %{name}
 
@@ -240,6 +252,15 @@ make check LIBTOOL=/usr/bin/libtool
 %{_mandir}/man1/gtk-config.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.2.10-95
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Paul Howarth <paul@city-fan.org> - 1:1.2.10-94
+- The config.guess and config.sub scripts are no longer packaged with rpm 4.16
+  onwards so we have to supply them ourselves
+- Fix source URL to point to somewhere that still works
+- Modernize spec using %%{make_build} and %%{make_install}
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.2.10-93
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -256,8 +277,8 @@ make check LIBTOOL=/usr/bin/libtool
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
 * Wed Feb 14 2018 Rex Dieter <rdieter@fedoraproject.org> - 1:1.2.10-88
-- drop using arch-dependent BuildRequires (#1545186)
-- -devel: drop explicit Requires: pkgconfig
+- Drop using arch-dependent BuildRequires (#1545186)
+- -devel: Drop explicit Requires: pkgconfig
 
 * Wed Feb  7 2018 Paul Howarth <paul@city-fan.org> - 1:1.2.10-87
 - ldconfig scriptlets replaced by RPM File Triggers from Fedora 28

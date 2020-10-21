@@ -1,5 +1,5 @@
 # When we are bootstrapping, we drop some dependencies, and/or build time tests.
-%bcond_without bootstrap
+%bcond_with bootstrap
 
 %global packname purrr
 %global packver  0.3.4
@@ -7,7 +7,7 @@
 
 Name:             R-%{packname}
 Version:          0.3.4
-Release:          2%{?dist}
+Release:          4%{?dist}
 Summary:          Functional Programming Tools
 
 License:          GPLv3
@@ -81,6 +81,13 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --no-examples
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 0.3.4-2
 - move tibble under bootstrap conditional
 - bootstrap build for R 4

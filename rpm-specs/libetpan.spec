@@ -1,6 +1,6 @@
 Name:           libetpan
 Version:        1.9.4
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Portable, efficient middle-ware for different kinds of mail access
 
 License:        BSD
@@ -8,6 +8,16 @@ URL:            http://www.etpan.org/
 Source0:        https://github.com/dinhviethoa/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 # system crypto policy (see rhbz#1179310)
 Patch10:        libetpan-1.9.2-cryptopolicy.patch
+# Upstream patches
+#
+# CVE-2020-15953
+# https://github.com/dinhvh/libetpan/issues/386
+# Detect extra data after STARTTLS response and exit
+# https://github.com/dinhvh/libetpan/pull/387
+Patch101:       libetpan-1.9.4-0001-Detect-extra-data-after-STARTTLS-response-and-exit-3.patch
+# Detect extra data after STARTTLS responses in SMTP and POP3 and exit
+# https://github.com/dinhvh/libetpan/pull/388
+Patch102:       libetpan-1.9.4-0002-Detect-extra-data-after-STARTTLS-responses-in-SMTP-a.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  liblockfile-devel
@@ -43,6 +53,8 @@ with %{name}.
 sed -i.flags libetpan.pc.in \
     -e 's|-letpan@LIBSUFFIX@.*$|-letpan@LIBSUFFIX@|'
 %patch10 -p1 -b .crypto-policy
+%patch101 -p1 -b .CVE-2020-15953-1
+%patch102 -p1 -b .CVE-2020-15953-2
 
 # 2013-08-05 F20 development, bz 992070: The configure scripts adds some
 # extra libs to the GnuTLS link options, which cause rebuilds to fail, since
@@ -84,6 +96,12 @@ iconv -f iso8859-1 -t utf-8 ChangeLog > ChangeLog.conv && mv -f ChangeLog.conv C
 %{_libdir}/%{name}.so
 
 %changelog
+* Mon Aug 10 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.9.4-4
+- Address CVE-2020-15953 (bug 1861068)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

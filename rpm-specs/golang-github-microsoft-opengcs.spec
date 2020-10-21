@@ -14,7 +14,7 @@ Guest Compute Service for Linux Hyper-V Container.}
 %global godocs          docs README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Guest Compute Service for Linux Hyper-V Container
 
 License:        MIT
@@ -60,6 +60,13 @@ find . -name "*.go" -exec sed -i "s|github.com/docker/containerd|github.com/cont
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.9-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.9-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.9-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

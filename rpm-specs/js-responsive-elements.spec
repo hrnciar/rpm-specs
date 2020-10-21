@@ -1,6 +1,6 @@
 Name:       js-responsive-elements
 Version:    1.0.2
-Release:    6%{?dist}
+Release:    7%{?dist}
 BuildArch:  noarch
 
 License:    MIT
@@ -38,6 +38,9 @@ install -D -p -m 0644 *.js %{buildroot}/%{_jsdir}/responsive-elements/
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -7,12 +7,12 @@
 
 Name:		perl-Cpanel-JSON-XS
 Summary:	JSON::XS for Cpanel, fast and correct serializing
-Version:	4.19
-Release:	2%{?dist}
+Version:	4.24
+Release:	1%{?dist}
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Cpanel-JSON-XS
 Source0:	https://cpan.metacpan.org/authors/id/R/RU/RURBAN/Cpanel-JSON-XS-%{version}.tar.gz
-Patch0:		Cpanel-JSON-XS-4.04-signature.patch
+Patch0:		Cpanel-JSON-XS-4.20-signature.patch
 # Module Build
 BuildRequires:	coreutils
 BuildRequires:	findutils
@@ -54,6 +54,8 @@ BuildRequires:	perl(POSIX)
 BuildRequires:	perl(Test)
 BuildRequires:	perl(Test::More) >= 0.88
 BuildRequires:	perl(Test::Simple)
+BuildRequires:	perl(threads)
+BuildRequires:	perl(threads::shared) >= 1.21
 BuildRequires:	perl(Tie::Array)
 BuildRequires:	perl(Tie::Hash)
 BuildRequires:	perl(utf8)
@@ -70,7 +72,7 @@ BuildRequires:	perl(utf8)
 %if !%{defined perl_bootstrap}
 BuildRequires:	perl(common::sense) >= 3.5
 BuildRequires:	perl(Hash::Util)
-BuildRequires:	perl(JSON)
+BuildRequires:	perl(JSON) >= 2.09
 BuildRequires:	perl(JSON::PP) >= 2.09
 BuildRequires:	perl(JSON::XS)
 BuildRequires:	perl(Math::BigFloat) >= 1.16
@@ -187,6 +189,41 @@ make test
 %{_mandir}/man3/Cpanel::JSON::XS::Type.3*
 
 %changelog
+* Fri Oct  2 2020 Paul Howarth <paul@city-fan.org> - 4.24-1
+- Update to 4.24
+  - Fix decode_json(scalar, 0), check 2nd arg for true-ness (GH#171)
+
+* Sat Sep  5 2020 Paul Howarth <paul@city-fan.org> - 4.23-1
+- Update to 4.23
+  - Fix t/54_stringify needs JSON 2.09 for allow_unknown (GH#169)
+  - Fix t/118_type.t for 5.6
+  - Fix t/96_interop.t for missing JSON::XS
+  - Possible fix for s390x with long double, untested (GH#83)
+
+* Thu Aug 13 2020 Paul Howarth <paul@city-fan.org> - 4.21-1
+- Update to 4.21
+  - Fix not enough HEK memory allocation for the new canonical tied hashes
+    feature (GH#168)
+  - TODO broken JSON::PP::Boolean versions 2.9x - 4.0 with threads::shared in
+    125_shared_boolean.t
+
+* Wed Aug 12 2020 Paul Howarth <paul@city-fan.org> - 4.20-1
+- Update to 4.20
+  - New feature: sort tied hashes with canonical (GH#167)
+  - Fix encode of threads::shared boolean (GH#166); this was broken with 4.00
+  - Fix some stringify overload cases via convert_blessed (GH#105)
+  - Fix a compat case with JSON::XS, when convert_blessed is set, but
+    allow_blessed not (GH#105)
+  - Improve blessed and stringify tests
+  - Work on better inf/nan detection on AIX (GH#165)
+  - Fix documentation for booleans and their types (GH#162)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.19-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.19-3
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.19-2
 - Perl 5.32 rebuild
 

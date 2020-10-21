@@ -1,6 +1,6 @@
 Name:           libpar2
 Version:        0.2       
-Release:        32%{?dist}
+Release:        33%{?dist}
 Summary:        Library for performing comman tasks related to PAR recovery sets
      
 License:        GPLv2+        
@@ -76,6 +76,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %{_libdir}/%{name}/include/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-32
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

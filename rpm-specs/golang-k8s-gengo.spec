@@ -4,7 +4,7 @@
 # https://github.com/kubernetes/gengo
 %global goipath         k8s.io/gengo
 %global forgeurl        https://github.com/kubernetes/gengo
-%global commit          3a45101e95ac3a2015e6bf3e41269d624610c946
+%global commit          7794989d00002eae09b50e95c3a221245260a20e
 
 %gometa
 
@@ -19,7 +19,7 @@ in Kubernetes and is split out here for ease of reuse and maintainability.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.4%{?dist}
+Release:        0.6%{?dist}
 Summary:        Gengo library for code generation
 
 # Upstream license specification: Apache-2.0
@@ -30,7 +30,7 @@ Source0:        %{gosource}
 BuildRequires:  golang(github.com/google/gofuzz)
 BuildRequires:  golang(github.com/spf13/pflag)
 BuildRequires:  golang(golang.org/x/tools/imports)
-BuildRequires:  golang(k8s.io/klog)
+BuildRequires:  golang(k8s.io/klog/v2)
 BuildRequires:  golang(sigs.k8s.io/yaml)
 
 %if %{with check}
@@ -45,7 +45,6 @@ BuildRequires:  golang(github.com/davecgh/go-spew/spew)
 
 %prep
 %goprep
-sed -i "s|k8s.io/klog/v2|k8s.io/klog|" $(find . -name "*.go")
 
 %install
 mapfile -t examples <<< $(find examples -type f)
@@ -59,6 +58,12 @@ mapfile -t examples <<< $(find examples -type f)
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 08:15:07 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.6.20200930git7794989
+- Bump to commit 7794989d00002eae09b50e95c3a221245260a20e
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 13 23:54:19 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200413git3a45101
 - Bump to commit 3a45101e95ac3a2015e6bf3e41269d624610c946
 

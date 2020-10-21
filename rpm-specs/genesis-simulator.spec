@@ -11,7 +11,7 @@
 Name:       %{realname}-simulator
 Summary:    A general purpose simulation platform
 Version:    2.4
-Release:    5.20181209git374cdbc%{?dist}
+Release:    6.20181209git374cdbc%{?dist}
 Url:        http://www.genesis-sim.org/GENESIS/
 Source0:    https://github.com/genesis-sim/%{realname}-%{version}/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
 # Fix for format-security issues. Sent upstream:
@@ -174,6 +174,9 @@ rm -rf %{buildroot}%{_libdir}/%{realname}/Scripts
 %doc Doc Hyperdoc Tutorials Scripts
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-6.20181209git374cdbc
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-5.20181209git374cdbc
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

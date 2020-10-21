@@ -2,7 +2,7 @@
 
 Name:           perl-%{shortname}
 Version:        0.02
-Release:        38%{?dist}
+Release:        39%{?dist}
 Summary:        Simple file-name and pathname matching
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/%{shortname}
@@ -63,6 +63,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.02-39
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.02-38
 - Perl 5.32 rebuild
 

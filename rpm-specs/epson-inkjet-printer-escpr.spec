@@ -6,14 +6,12 @@
 Name:           epson-inkjet-printer-escpr
 Summary:        Drivers for Epson inkjet printers
 Epoch:          1
-Version:        1.6.41
-Release:        3.%{lsb}%{?dist}
+Version:        1.7.7
+Release:        1.%{lsb}%{?dist}
 License:        GPLv2+
 URL:            http://download.ebz.epson.net/dsc/search/01/search/?OSC=LX
 # Download address is garbled on web page
-Source0:        https://download3.ebz.epson.net/dsc/f/03/00/09/33/79/927867e2774c98c0fdedb15fc7712f363fe16f41/epson-inkjet-printer-escpr-%{version}-%{lsb}.tar.gz
-# Fix includes
-Patch0:         epson-inkjet-printer-escpr-inc.patch
+Source0:        https://download3.ebz.epson.net/dsc/f/03/00/10/49/18/f3016be6120a7271a6d9cb64872f817bce1920b8/epson-inkjet-printer-escpr-%{version}-%{lsb}.tar.gz
 # Patch from Arch Linux
 # https://aur.archlinux.org/packages/epson-inkjet-printer-escpr/
 Patch1:         epson-inkjet-printer-escpr-filter.patch
@@ -58,7 +56,6 @@ http://avasys.jp/english/linux_e/
 
 %prep
 %setup -q 
-%patch0 -p1 -b .inc
 %patch1 -p1 -b .filter
 # Fix permissions
 find . -name \*.h -exec chmod 644 {} \;
@@ -99,6 +96,12 @@ rm %{buildroot}%{_libdir}/libescpr.so
 %{_libdir}/libescpr.so.*
 
 %changelog
+* Mon Jul 27 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 1:1.7.7-1.1lsb3.2
+- Update to 1.7.7.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.6.41-4.1lsb3.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.6.41-3.1lsb3.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

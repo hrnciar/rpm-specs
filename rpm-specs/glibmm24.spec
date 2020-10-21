@@ -6,7 +6,7 @@
 
 Name:           glibmm24
 Version:        2.64.2
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        C++ interface for the GLib library
 
 License:        LGPLv2+
@@ -23,6 +23,10 @@ BuildRequires:  perl(Getopt::Long)
 
 Requires:       glib2%{?_isa} >= %{glib2_version}
 Requires:       libsigc++20%{?_isa} >= %{libsigc_version}
+
+# Do not export private Perl modules
+%global __provides_exclude %{?__provides_exclude:%{__provides_exclude}|}^perl\\(
+%global __requires_exclude %{?__requires_exclude:%{__requires_exclude}|}^perl\\((DocsParser|Enum|Function|FunctionBase|GtkDefs|Object|Output|Property|Util|WrapParser)\\)
 
 %description
 glibmm is the official C++ interface for the popular cross-platform
@@ -86,6 +90,16 @@ find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.64.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.64.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Petr Pisar <ppisar@redhat.com> - 2.64.2-2
+- Do not export private Perl modules
+
 * Fri Mar 27 2020 Kalev Lember <klember@redhat.com> - 2.64.2-1
 - Update to 2.64.2
 

@@ -5,7 +5,7 @@
 %global crate copypasta
 
 Name:           rust-%{crate}
-Version:        0.7.0
+Version:        0.7.1
 Release:        1%{?dist}
 Summary:        Cross-platform clipboard library with Wayland support
 
@@ -13,8 +13,9 @@ Summary:        Cross-platform clipboard library with Wayland support
 License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/copypasta
 Source:         %{crates_source}
-# Remove other platforms (e.g. macOS)
-Patch0:         copypasta-rm-other-platforms.diff
+# Initial patched metadata
+# * drop Windows and mac OS dependencies
+Patch0:         copypasta-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -25,7 +26,7 @@ BuildRequires:  rust-packaging
 
 %global _description %{expand:
 Cross-platform library for getting and setting the contents of the OS-level
-clipboard, with support for the Wayland clipboard.}
+clipboard.}
 
 %description %{_description}
 
@@ -122,5 +123,11 @@ which use "x11-clipboard" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sun Oct 04 2020 Fabio Valentini <decathorpe@gmail.com> - 0.7.1-1
+- Update to version 0.7.1.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 12:14:07 PDT 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.7.0-1
 - Initial package

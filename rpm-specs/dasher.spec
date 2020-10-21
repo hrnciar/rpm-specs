@@ -1,7 +1,7 @@
 Summary: A predictive text input system
 Name: dasher
 Version: 5.0.0
-Release: 0.13.beta%{?dist}
+Release: 0.14.beta%{?dist}
 License: GPLv2+
 URL: http://www.inference.phy.cam.ac.uk/dasher/
 Source0: https://github.com/ipomoena/dasher/archive/DASHER_5_0_0_beta.tar.gz
@@ -63,6 +63,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/dasher.desktop
 %{_mandir}/*/dasher.1.gz
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-0.14.beta
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-0.13.beta
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

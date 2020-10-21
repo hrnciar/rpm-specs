@@ -1,6 +1,6 @@
 Name:           perl-File-Which
 Version:        1.23
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Portable implementation of the 'which' utility
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/File-Which
@@ -51,6 +51,9 @@ make test
 %{_mandir}/man3/File::Which.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.23-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.23-6
 - Perl 5.32 rebuild
 

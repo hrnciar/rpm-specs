@@ -1,6 +1,6 @@
 Name:           perl-Lingua-Preferred
 Version:        0.2.4
-Release:        34%{?dist}
+Release:        35%{?dist}
 Summary:        Perl extension to choose a language
 
 License:        GPLv2+ or Artistic
@@ -51,6 +51,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.4-35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.2.4-34
 - Perl 5.32 rebuild
 

@@ -8,13 +8,14 @@
 %endif
 
 Name:           libstoragemgmt
-Version:        1.8.4
-Release:        2%{?dist}
+Version:        1.8.5
+Release:        3%{?dist}
 Summary:        Storage array management library
 License:        LGPLv2+
 URL:            https://github.com/libstorage/libstoragemgmt
 Source0:        https://github.com/libstorage/libstoragemgmt/releases/download/%{version}/%{name}-%{version}.tar.gz
 Patch1:         0001-change-run-dir.patch
+Patch2:         0002-test-build.patch
 Requires:       python3-%{name}
 BuildRequires:  gcc gcc-c++
 BuildRequires:  autoconf automake libtool libxml2-devel check-devel perl-interpreter
@@ -243,12 +244,12 @@ cp -a . %{py2_build_dir}
 %endif
 
 %configure --with-python3 --disable-static
-V=1 make %{?_smp_mflags}
+%make_build
 
 %if %{with python2}
 pushd %{py2_build_dir}
 %configure --disable-static
-V=1 make %{?_smp_mflags}
+%make_build
 popd
 %endif
 
@@ -257,13 +258,13 @@ rm -rf %{buildroot}
 
 %if %{with python2}
 pushd %{py2_build_dir}
-make install DESTDIR=%{buildroot}
+%make_install
 rm -rf %{buildroot}/%{python_sitelib}/lsm/plugin
 rm -rf %{buildroot}/%{_bindir}/lsmcli
 popd
 %endif
 
-make install DESTDIR=%{buildroot}
+%make_install
 
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
@@ -508,7 +509,7 @@ fi
 %{_bindir}/sim_lsmplugin
 %dir %{_libexecdir}/lsm.d
 %{_libexecdir}/lsm.d/find_unused_lun.py*
-%{_libexecdir}/lsm.d/local_sanity_check.py*
+%{_libexecdir}/lsm.d/local_check.py*
 %config(noreplace) %{_sysconfdir}/lsm/pluginconf.d/sim.conf
 %{_mandir}/man1/sim_lsmplugin.1*
 
@@ -622,6 +623,28 @@ fi
 %{_mandir}/man1/local_lsmplugin.1*
 
 %changelog
+* Thu Oct 1 2020 Tony Asleson <tasleson@redhat.com> - 1.8.5-3
+- Remove pywbem version check as its not needed and breaks
+  now that epoch is used in it.
+
+* Fri Sep 4 2020 Tony Asleson <tasleson@redhat.com> - 1.8.5-2
+- Fix test compile error for i386
+
+* Tue Aug 11 2020 Tony Asleson <tasleson@redhat.com> - 1.8.5-1
+- Upgrade to 1.8.5
+- Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1864052
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.4-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.8.4-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.8.4-2
 - Rebuilt for Python 3.9
 

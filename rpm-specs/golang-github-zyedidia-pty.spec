@@ -14,7 +14,7 @@ Pty is a Go package for using unix pseudo-terminals.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        PTY interface for Go
 
 License:        MIT
@@ -40,6 +40,9 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 20:38:53 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.0.0-1
 - Update to 2.0.0
 

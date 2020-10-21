@@ -1,6 +1,8 @@
+%global fonts font(dejavusans) font(dejavusansmono)
+
 Name:           scorched3d
 Version:        44
-Release:        22%{?dist}
+Release:        25%{?dist}
 Summary:        Game based loosely on the classic DOS game Scorched Earth
 License:        GPLv2+ and CC-BY-SA
 URL:            http://www.scorched3d.co.uk/
@@ -14,19 +16,16 @@ Patch3:         %{name}-freetype-buildfix.patch
 Patch4:         %{name}-sys-lua.patch
 Patch5:         %{name}-returntype.patch
 Patch6:         %{name}-wx3.0.patch
+Patch7:         %{name}-lua54.patch
+Patch8:         %{name}-fix-hang-on-fast-machines.patch
 BuildRequires:  gcc-c++
 BuildRequires:  wxGTK3-devel SDL_net-devel libGLU-devel
 BuildRequires:  expat-devel libvorbis-devel glew-devel fftw-devel libjpeg-devel
 BuildRequires:  freetype-devel openal-soft-devel freealut-devel >= 1.1.0-10
 BuildRequires:  lua-devel libtool autoconf automake
 BuildRequires:  ImageMagick desktop-file-utils
-
-# Handle font moves more automatically
-%global fonts font(dejavusans) font(dejavusansmono)
-BuildRequires: fontconfig %{fonts}
-Requires: %{fonts}
-
-Requires:       hicolor-icon-theme opengl-games-utils
+BuildRequires:  fontconfig %{fonts}
+Requires:       hicolor-icon-theme opengl-games-utils %{fonts}
 # Upstream naming compatibility
 Provides:       Scorched3D = %{version}-%{release}
 
@@ -50,12 +49,12 @@ conditions and terrains to be dealt with.
 pushd scorched
 %patch1 -p1
 %patch2 -p1
-%if 0%{?fedora} >= 21
 %patch3 -p1
-%endif
 %patch4 -p1
 %patch5 -p0
 %patch6 -p1
+%patch7 -p1
+%patch8 -p1
 touch NEWS AUTHORS ChangeLog
 autoreconf -ivf
 install -m 755 %{SOURCE2} .
@@ -138,6 +137,7 @@ SentUpstream: 2014-09-25
 </application>
 EOF
 
+
 %files
 %doc scorched/COPYING scorched/apoc
 %{_bindir}/%{name}*
@@ -148,6 +148,17 @@ EOF
 
 
 %changelog
+* Tue Aug 11 2020 Hans de Goede <hdegoede@redhat.com> - 44-25
+- Fix FTBFS (rhbz#1865470)
+- Fix hang of non-networked games on fast machines
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 44-24
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 44-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 13 2020 Bruno Wolff III <bruno@wolff.to> - 44-22
 - Automate finding font paths during build
 

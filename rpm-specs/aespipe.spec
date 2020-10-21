@@ -1,11 +1,10 @@
 Summary:        AES-based encryption tool for tar/cpio and loop-aes imagemore 
 Name:           aespipe
-Version:        2.4e
-Release:        5%{?dist}
+Version:        2.4f
+Release:        1%{?dist}
 License:        GPLv2+
 URL:            http://loop-aes.sourceforge.net/
 Source:         http://loop-aes.sourceforge.net/aespipe/aespipe-v%{version}.tar.bz2
-Patch0:         aespipe-v2.4e-configure.patch
 BuildRequires:  gcc
 BuildRequires:  gpg
 Requires:       gpg
@@ -24,8 +23,6 @@ kernel module.
 
 %prep
 %setup -q -n %{name}-v%{version}
-%global _default_patch_fuzz 3
-%patch0 -p1
 
 %build
 # Package calls CC to link
@@ -58,6 +55,16 @@ install -Dp -m0755 aespipe %{buildroot}%{_bindir}/aespipe
 %{_bindir}/aespipe
 
 %changelog
+* Sun Aug 09 2020 Jirka Hladky <hladky.jiri@gmail.com> - 2.4f-1
+- Update to version 2.4f
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4e-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4e-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4e-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

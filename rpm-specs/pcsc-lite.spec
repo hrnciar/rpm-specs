@@ -1,6 +1,6 @@
 Name:           pcsc-lite
 Version:        1.9.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        PC/SC Lite smart card framework and applications
 
 License:        BSD
@@ -85,13 +85,13 @@ done
   --disable-static \
   --enable-polkit \
   --enable-usbdropdir=%{_libdir}/pcsc/drivers
-make %{?_smp_mflags}
+%make_build
 doxygen doc/doxygen.conf ; rm -f doc/api/*.{map,md5}
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" src/spy/pcsc-spy
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 rm -f $RPM_BUILD_ROOT%{_datadir}/polkit-1/actions/org.debian.pcsc-lite.policy
 
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/polkit-1/actions/
@@ -160,6 +160,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Jakub Jelen <jjelen@redhat.com> - 1.9.0-1
 - New upstream release (#1846925)
 

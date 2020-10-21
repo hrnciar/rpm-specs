@@ -1,5 +1,5 @@
 Name:			Rex
-Version:		1.11.0
+Version:		1.13.0
 Release:		1%{?dist}
 Summary:		The friendly automation framework on basis of Perl
 
@@ -19,6 +19,7 @@ Requires:		perl(Parallel::ForkManager)
 
 BuildRequires:	perl-generators perl-interpreter
 BuildRequires:	perl(attributes)
+BuildRequires:	perl(autodie)
 BuildRequires:	perl(AWS::Signature4)
 BuildRequires:	perl(base)
 BuildRequires:	perl(Carp)
@@ -37,6 +38,8 @@ Buildrequires:	perl(File::Basename)
 Buildrequires:	perl(File::Spec)
 Buildrequires:	perl(File::Spec::Unix)
 Buildrequires:	perl(File::Spec::Win32)
+Buildrequires:	perl(File::ShareDir)
+Buildrequires:	perl(File::ShareDir::Install)
 Buildrequires:	perl(File::Temp)
 Buildrequires:	perl(FindBin)
 Buildrequires:	perl(Hash::Merge)
@@ -52,6 +55,7 @@ Buildrequires:	perl(List::MoreUtils)
 Buildrequires:	perl(List::Util)
 Buildrequires:	perl(LWP::UserAgent)
 Buildrequires:	perl(MIME::Base64)
+BuildRequires:	perl(Module::Metadata)
 Buildrequires:	perl(Net::OpenSSH::ShellQuoter)
 BuildRequires:	perl(Net::SFTP::Foreign)
 BuildRequires:	perl(overload)
@@ -67,6 +71,7 @@ Buildrequires:	perl(Term::ReadKey)
 Buildrequires:	perl(Test::Builder::Module)
 BuildRequires:	perl(Test::Deep)
 BuildRequires:	perl(Test::More)
+BuildRequires:	perl(Test::Output)
 
 # Disable the mysqld test, see RHBZ#1793510
 #BuildRequires:	perl(Test::mysqld)
@@ -136,12 +141,31 @@ sed -i "s|/usr/bin/env perl|/usr/bin/perl|" $RPM_BUILD_ROOT/%{_bindir}/rex
 %{_mandir}/man1/rexify.1*
 %{_mandir}/man3/%{name}*
 %attr(644, root, root) %{perl_vendorlib}/%{name}.pm
+%attr(644, root, root) %{perl_vendorlib}/auto/share/dist/%{name}/
 %{perl_vendorlib}/%{name}/
 %attr(755, root, root) %{_bindir}/rex
 %attr(755, root, root) %{_bindir}/rexify
 
 
 %changelog
+* Tue Oct 06 2020 Dominic Hopf <dmaphy@fedoraproject.org> - 1.13.0-1
+- Upgrade to Rex 1.13.0
+
+* Sat Sep 05 2020 Dominic Hopf <dmaphy@fedoraproject.org> - 1.12.2-1
+- Upgrade to Rex 1.12.2
+
+* Sun Aug 09 2020 Dominic Hopf <dmaphy@fedoraproject.org> - 1.12.1-1
+- Upgrade to Rex 1.12.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 2020 Dominic Hopf <dmaphy@fedoraproject.org> - 1.12.0-1
+- Upgrade to Rex 1.12.0
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.11.0-2
+- Perl 5.32 rebuild
+
 * Fri Jun 05 2020 Dominic Hopf <dmaphy@fedoraproject.org> - 1.11.0-1
 - Upgrade to Rex 1.11.0
 

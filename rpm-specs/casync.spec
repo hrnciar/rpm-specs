@@ -3,7 +3,7 @@
 
 Name:           casync
 Version:        2
-Release:        12%{?commit:.git%{shortcommit}}%{?dist}
+Release:        13%{?commit:.git%{shortcommit}}%{?dist}
 Summary:        Content Addressable Data Synchronizer
 
 License:        LGPLv2+
@@ -70,6 +70,9 @@ have to be transferred during an update.
 %_udevrulesdir/75-casync.rules
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2-13.gitb3337dd
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2-12.gitb3337dd
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

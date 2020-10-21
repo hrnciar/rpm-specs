@@ -1,7 +1,7 @@
 %global uuid    com.github.phase1geo.%{name}
 
 Name:           minder
-Version:        1.8.0
+Version:        1.11.2
 Release:        1%{?dist}
 Summary:        Mind-mapping application
 
@@ -55,11 +55,7 @@ Use the power of mind-mapping to make your ideas come to life.
 
 
 %check
-# FIXME Check failed again and again even after upstream fixes:
-# * Unknown tag 'h3'
-# * https://github.com/phase1geo/Minder/pull/79
-#appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
-
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.xml
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
@@ -76,6 +72,30 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Sat Oct 17 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.11.2-1
+- build(update): 1.11.2
+
+* Fri Sep 25 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.11.1-1
+- Update to 1.11.1
+
+* Tue Sep 15 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.11.0-1
+- Update to 1.11.0
+
+* Thu Aug 27 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.10.0-1
+- Update to 1.10.0
+
+* Sat Aug 08 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.9.2-1
+- Update to 1.9.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.9.1-1
+- Update to 1.9.1
+
+* Wed Jul 01 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.9.0-1
+- Update to 1.9.0
+
 * Sun May 17 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.8.0-1
 - Update to 1.8.0
 

@@ -1,6 +1,6 @@
 Name:           mrbs
 Version:        1.7.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Meeting Room Booking System
 
 License:        GPLv2
@@ -92,6 +92,9 @@ install -m 0644 %{SOURCE1} \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

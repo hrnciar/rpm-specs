@@ -1,7 +1,7 @@
 %global         majorminor      1.0
 
 Name:           gstreamer1-rtsp-server
-Version:        1.17.1
+Version:        1.18.0
 Release:        1%{?dist}
 Summary:        GStreamer RTSP server library
 
@@ -84,6 +84,18 @@ chrpath --delete %{buildroot}%{_libdir}/libgstrtspserver-%{majorminor}.so*
 %endif
 
 %changelog
+* Tue Sep 8 2020 Wim Taymans <wtaymans@redhat.com> - 1.18.0-1
+- Update to 1.18.0
+
+* Fri Aug 21 2020 Wim Taymans <wtaymans@redhat.com> - 1.17.90-1
+- Update to 1.17.90
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 6 2020 Wim Taymans <wtaymans@redhat.com> - 1.17.2-1
+- Update to 1.17.2
+
 * Mon Jun 22 2020 Wim Taymans <wtaymans@redhat.com> - 1.17.1-1
 - Update to 1.17.1
 

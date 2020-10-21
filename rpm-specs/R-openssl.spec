@@ -1,4 +1,5 @@
-%global packname  openssl
+%global packname openssl
+%global packver  1.4.3
 %global rlibdir  %{_libdir}/R/library
 
 # Skip examples or tests that use the network.
@@ -8,18 +9,18 @@
 %global with_doc 0
 
 Name:             R-%{packname}
-Version:          1.4.1
-Release:          3%{?dist}
+Version:          1.4.3
+Release:          1%{?dist}
 Summary:          Toolkit for Encryption, Signatures and Certificates Based on OpenSSL
 
 License:          MIT
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
 # Imports:   R-askpass
-# Suggests:  R-testthat, R-digest, R-knitr, R-rmarkdown, R-jsonlite, R-jose, R-sodium
+# Suggests:  R-testthat >= 2.1.0, R-digest, R-knitr, R-rmarkdown, R-jsonlite, R-jose, R-sodium
 # LinkingTo:
 # Enhances:
 
@@ -27,7 +28,7 @@ BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    openssl-devel >= 1.0.1
 BuildRequires:    R-askpass
-BuildRequires:    R-testthat
+BuildRequires:    R-testthat >= 2.1.0
 BuildRequires:    R-sodium
 %if %{with_doc}
 BuildRequires:    R-digest
@@ -54,7 +55,7 @@ multibyte integers.
 %prep
 %setup -q -c -n %{packname}
 
-%if !%{with network}
+%if %{without network}
 rm %{packname}/tests/testthat/test_google.R
 %endif
 
@@ -70,7 +71,7 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %check
-%if !%{with network}
+%if %{without network}
 args="--no-examples"
 %endif
 %if %{with_doc}
@@ -98,6 +99,19 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --ignore-vignettes
 
 
 %changelog
+* Fri Sep 18 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.4.3-1
+- Update to latest version (#1880406)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.4.2-1
+- Update to latest version
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.4.1-3
 - turn off with_doc to break loop
 - rebuild for R 4

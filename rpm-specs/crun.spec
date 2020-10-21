@@ -1,7 +1,7 @@
 Summary: OCI runtime written in C
 Name: crun
-Version: 0.13
-Release: 2%{?dist}
+Version: 0.15
+Release: 5%{?dist}
 Source0: https://github.com/containers/crun/releases/download/%{version}/%{name}-%{version}.tar.gz
 License: GPLv3+
 URL: https://github.com/containers/crun
@@ -22,11 +22,13 @@ BuildRequires: libtool
 BuildRequires: go-md2man
 Provides: oci-runtime = 2
 
+Patch0: 0001-exec-check-read-bytes-from-sync.patch
+
 %description
 crun is a runtime for running OCI containers
 
 %prep
-%autosetup -n %{name}-%{version}
+%autosetup -p1 -n %{name}-%{version}
 
 %build
 ./autogen.sh
@@ -44,6 +46,36 @@ rm -rf $RPM_BUILD_ROOT/usr/lib*
 %{_mandir}/man1/*
 
 %changelog
+* Wed Sep 30 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 0.15-5
+- rebuild to bump release tag ahead of older fedoras
+
+* Wed Sep 30 2020 Giuseppe Scrivano <gscrivan@redhat.com> - 0.15-3
+- backport "exec: check read bytes from sync"
+
+* Wed Sep 23 2020 Giuseppe Scrivano <gscrivan@redhat.com> - 0.15-2
+- rebuild
+
+* Wed Sep 23 2020 Giuseppe Scrivano <gscrivan@redhat.com> - 0.15-1
+- build version 0.15
+
+* Mon Sep 14 2020 Giuseppe Scrivano <gscrivan@redhat.com> - 0.14.1-5
+- backport 4453af4c060e380051552ee589af5cad37f2ae82
+
+* Mon Aug 31 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 0.14.1-4
+- rebuild
+
+* Thu Aug 27 2020 Giuseppe Scrivano <gscrivan@redhat.com> - 0.14.1-3
+- backport ed9c3e6f466dfb6d2e79802060fabd5f4b66f78e
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 08 2020 Giuseppe Scrivano <gscrivan@redhat.com> - 0.14.1-1
+- built version 0.14.1
+
+* Thu Jul 02 2020 Giuseppe Scrivano <gscrivan@redhat.com> - 0.14-1
+- built version 0.14
+
 * Wed Apr 15 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 0.13-2
 - release bump for correct upgrade path
 

@@ -15,7 +15,7 @@ Package Resty provides Simple HTTP and REST client library for Go.}
 %global godocs          README.md .testdata/text-file.txt
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Simple HTTP and REST client library for Go
 
 License:        MIT
@@ -52,6 +52,9 @@ sed -i 's|"Get "+ts.URL+"/set-retrycount-test"|"Get \\\""+ts.URL+"/set-retrycoun
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

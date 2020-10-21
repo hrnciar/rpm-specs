@@ -4,7 +4,7 @@
 
 Name: libtdb
 Version: 1.4.3
-Release: 3%{?dist}
+Release: 5%{?dist}
 Summary: The tdb library
 License: LGPLv3+
 URL: http://tdb.samba.org/
@@ -63,10 +63,10 @@ zcat %{SOURCE0} | gpgv2 --quiet --keyring %{SOURCE2} %{SOURCE1} -
            --bundled-libraries=NONE \
            --builtin-libraries=replace
 
-make %{?_smp_mflags} V=1
+%make_build
 
 %check
-make %{?_smp_mflags} check
+%make_build check
 
 %install
 make install DESTDIR=$RPM_BUILD_ROOT
@@ -100,6 +100,13 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %ldconfig_scriptlets
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.4.3-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.3-3
 - Rebuilt for Python 3.9
 

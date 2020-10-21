@@ -1,5 +1,5 @@
 Name:          plexus-pom
-Version:       6.2
+Version:       6.4
 Release:       1%{?dist}
 Summary:       Root Plexus Projects POM
 License:       ASL 2.0
@@ -21,13 +21,9 @@ Plexus packages.
 %prep
 %setup -q -n plexus-pom-plexus-%{version}
 
-# * require: org.codehaus.plexus plexus-stylus-skin 1.0
-# org.apache.maven.wagon wagon-webdav-jackrabbit 1.0
-
+%pom_remove_plugin :findbugs-maven-plugin
 %pom_remove_plugin :maven-site-plugin
-
-%pom_remove_plugin org.codehaus.mojo:findbugs-maven-plugin
-%pom_remove_plugin org.codehaus.mojo:taglist-maven-plugin
+%pom_remove_plugin :taglist-maven-plugin
 
 cp -p %{SOURCE1} LICENSE
 
@@ -41,6 +37,18 @@ cp -p %{SOURCE1} LICENSE
 %license LICENSE
 
 %changelog
+* Sun Aug 16 2020 Fabio Valentini <decathorpe@gmail.com> - 6.4-1
+- Update to version 6.4.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Fabio Valentini <decathorpe@gmail.com> - 6.3-1
+- Update to version 6.3.
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 6.2-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon Mar 02 2020 Fabio Valentini <decathorpe@gmail.com> - 6.2-1
 - Update to version 6.2.
 

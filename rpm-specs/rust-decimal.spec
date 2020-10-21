@@ -8,7 +8,7 @@
 
 Name:           rust-%{crate}
 Version:        2.0.4
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        Decimal floating point arithmetic for Rust
 
 # Upstream license specification: Apache-2.0
@@ -113,6 +113,13 @@ find -type f -exec sed -i -e "s/\r//" {} \+
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.4-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 04:08:25 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 2.0.4-6
 - Regenerate
 

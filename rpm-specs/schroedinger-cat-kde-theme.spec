@@ -2,7 +2,7 @@
 
 Name:		schroedinger-cat-kde-theme
 Version:	18.91.6
-Release:	12%{?dist}
+Release:	13%{?dist}
 Summary:	Schrödinger's Cat KDE Theme
 
 License:	GPLv2+ and CC-BY-SA
@@ -84,6 +84,9 @@ ln -s ../../../../../../pixmaps/system-logo-white.png %{buildroot}%{_kde4_appsdi
 %{_kde4_appsdir}/ksplash/Themes/SchroedingerCat/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 18.91.6-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 18.91.6-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

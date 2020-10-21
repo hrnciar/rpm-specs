@@ -1,6 +1,6 @@
 Name:           SDL2
 Version:        2.0.12
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Cross-platform multimedia library
 
 License:        zlib and MIT
@@ -98,7 +98,7 @@ sed -i -e 's/\r//g' TODO.txt README.txt WhatsNew.txt BUGS.txt COPYING.txt CREDIT
     --disable-altivec \
 %endif
 
-make %{?_smp_mflags}
+%make_build
 
 %install
 %make_install
@@ -134,6 +134,17 @@ rm -vf %{buildroot}%{_libdir}/*.la
 %{_libdir}/lib*.a
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.12-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.12-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 2.0.12-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Mar 11 2020 Pete Walter <pwalter@fedoraproject.org> - 2.0.12-1
 - Update to 2.0.12
 

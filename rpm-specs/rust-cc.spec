@@ -8,7 +8,7 @@
 %global crate cc
 
 Name:           rust-%{crate}
-Version:        1.0.54
+Version:        1.0.61
 Release:        1%{?dist}
 Summary:        Build-time dependency for Cargo build scripts to invoke the native C compiler
 
@@ -108,6 +108,24 @@ echo '/usr/bin/gcc'
 %endif
 
 %changelog
+* Sun Oct 11 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.61-1
+- Update to version 1.0.61.
+
+* Thu Sep 17 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.60-1
+- Update to version 1.0.60.
+
+* Thu Aug 20 2020 Josh Stone <jistone@redhat.com> - 1.0.59-1
+- Update to 1.0.59
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.58-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 1.0.58-1
+- Update to 1.0.58
+
+* Fri Jun 26 2020 Josh Stone <jistone@redhat.com> - 1.0.55-1
+- Update to 1.0.55
+
 * Wed May 20 2020 Josh Stone <jistone@redhat.com> - 1.0.54-1
 - Update to 1.0.54
 

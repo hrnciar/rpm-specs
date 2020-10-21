@@ -4,8 +4,8 @@
 %global xfceversion 4.13
 
 Name:           xfce4-dict
-Version:        0.8.3
-Release:        2%{?dist}
+Version:        0.8.4
+Release:        1%{?dist}
 Summary:        A Dictionary Client for the Xfce desktop environment
 Summary(de):    Ein Wörterbuch-Client für die Xfce Desktop-Umgebung
 
@@ -71,7 +71,8 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %doc AUTHORS ChangeLog README
 %{_bindir}/%{name}
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
+%{_datadir}/icons/hicolor/*/apps/org.xfce.Dictionary.png
+%{_datadir}/icons/hicolor/scalable/apps/org.xfce.Dictionary.svg
 %{_mandir}/man1/%{name}.1.gz
 
 %files plugin
@@ -79,6 +80,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_datadir}/xfce4/panel/plugins/*.desktop
 
 %changelog
+* Sun Oct 18 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.8.4-1
+- Update to 0.8.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

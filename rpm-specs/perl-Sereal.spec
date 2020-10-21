@@ -6,14 +6,15 @@
 %endif
 
 Name:           perl-Sereal
-Version:        4.014
-Release:        2%{?dist}
+Version:        4.018
+Release:        1%{?dist}
 Summary:        Fast, compact, powerful binary (de-)serialization
 # Makefile.PL defines LICENSE
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Sereal
 Source0:        https://cpan.metacpan.org/authors/id/Y/YV/YVES/Sereal-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -30,8 +31,8 @@ BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
 # Run-time:
 BuildRequires:  perl(Exporter)
-BuildRequires:  perl(Sereal::Decoder) >= 4.014
-BuildRequires:  perl(Sereal::Encoder) >= 4.014
+BuildRequires:  perl(Sereal::Decoder) >= 4.018
+BuildRequires:  perl(Sereal::Encoder) >= 4.018
 # Tests:
 # Benchmark not used
 BuildRequires:  perl(Carp)
@@ -98,6 +99,18 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Aug 04 2020 Petr Pisar <ppisar@redhat.com> - 4.018-1
+- 4.018 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.017-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Petr Pisar <ppisar@redhat.com> - 4.017-1
+- 4.017 bump
+
+* Wed Jul 08 2020 Petr Pisar <ppisar@redhat.com> - 4.015-1
+- 4.015 bump
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.014-2
 - Perl 5.32 rebuild
 

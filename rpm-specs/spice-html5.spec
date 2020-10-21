@@ -1,6 +1,6 @@
 Name:           spice-html5
 Version:        0.1.7
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Pure Javascript SPICE client
 
 License:        LGPLv3
@@ -30,6 +30,9 @@ file for Apache, but should work with any web server.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.7-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.7-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+
 # python3 is not available on RHEL <= 7
 %if 0%{?fedora} || 0%{?rhel} > 7
 %bcond_without python3
@@ -13,13 +15,17 @@
 %endif
 
 Name:       csdiff
-Version:    1.7.2
-Release:    3%{?dist}
+Version:    1.9.0
+Release:    1%{?dist}
 Summary:    Non-interactive tools for processing code scan results in plain-text
 
 License:    GPLv3+
 URL:        https://github.com/kdudka/csdiff
 Source0:    https://github.com/kdudka/csdiff/releases/download/%{name}-%{version}/%{name}-%{version}.tar.xz
+
+# the following upstream commit is needed to work with up2date csdiff/csgrep
+# https://github.com/kdudka/csmock/commit/48b09b3a
+Conflicts:  csmock-plugin-shellcheck <= 2.5
 
 BuildRequires: boost-devel
 BuildRequires: cmake
@@ -34,7 +40,6 @@ defect lists using various filtering predicates.
 %if %{with python2}
 %package -n python2-%{name}
 Summary:        Python interface to csdiff for Python 2
-Conflicts:      %{name} <= 1.2.3
 %if 0%{?fedora} > 28
 BuildRequires:  boost-python2-devel
 %endif
@@ -44,11 +49,6 @@ BuildRequires:  python2-devel
 %description -n python2-%{name}
 This package contains the Python 2 binding for the csdiff tool for comparing
 code scan defect lists to find out added or fixed defects.
-
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%{!?__python2: %global __python2 /usr/bin/python2}
-%{!?python2_sitearch: %global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
-%endif
 %endif
 
 %if %{with python3}
@@ -68,44 +68,40 @@ code scan defect lists to find out added or fixed defects.
 
 %build
 make version.cc
-mkdir csdiff_build
-cd csdiff_build
-%cmake .. -DBUILD_PYCSDIFF=OFF
-make %{?_smp_mflags} VERBOSE=yes
+%cmake -DBUILD_PYCSDIFF=OFF
+%cmake_build
 
 %if %{with python2}
-mkdir ../csdiff_build_py2
-cd ../csdiff_build_py2
-%cmake .. -DPYTHON_EXECUTABLE=%{__python2}
-make %{?_smp_mflags} VERBOSE=yes
+%global _vpath_builddir %{_target_platform}-py2
+%cmake -DPYTHON_EXECUTABLE=%{__python2}
+%cmake_build
+%undefine _vpath_builddir
 %endif
 
 %if %{with python3}
-mkdir ../csdiff_build_py3
-cd ../csdiff_build_py3
-%cmake .. \
+%global _vpath_builddir %{_target_platform}-py3
+%cmake \
     -DPYTHON_EXECUTABLE=%{__python3} \
     -DBOOST_PYTHON_LIB_NAME=boost_python%{python3_version_nodots}
-make %{?_smp_mflags} VERBOSE=yes pycsdiff
+%cmake_build --target pycsdiff
+%undefine _vpath_builddir
 %endif
 
 %install
 %if %{with python2}
 mkdir -vp %{buildroot}%{python2_sitearch}
-install -vm0644 csdiff_build_py2/pycsdiff.so %{buildroot}%{python2_sitearch}
+install -vm0644 %{_target_platform}-py2/pycsdiff.so %{buildroot}%{python2_sitearch}
 %endif
 
 %if %{with python3}
 mkdir -vp %{buildroot}%{python3_sitearch}
-install -vm0644 csdiff_build_py3/pycsdiff.so %{buildroot}%{python3_sitearch}
+install -vm0644 %{_target_platform}-py3/pycsdiff.so %{buildroot}%{python3_sitearch}
 %endif
 
-cd csdiff_build
-make install DESTDIR="$RPM_BUILD_ROOT"
+%cmake_install
 
 %check
-cd csdiff_build
-ctest %{?_smp_mflags} --output-on-failure
+%ctest
 
 %files
 %{_bindir}/csdiff
@@ -135,6 +131,15 @@ ctest %{?_smp_mflags} --output-on-failure
 %endif
 
 %changelog
+* Tue Oct 20 2020 Kamil Dudka <kdudka@redhat.com> 1.9.0-1
+- update to latest upstream release
+
+* Wed Aug 19 2020 Kamil Dudka <kdudka@redhat.com> 1.8.0-1
+- update to latest upstream release
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Jonathan Wakely <jwakely@redhat.com> - 1.7.2-3
 - Rebuilt for Boost 1.73
 

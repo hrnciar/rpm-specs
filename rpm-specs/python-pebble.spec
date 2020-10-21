@@ -2,7 +2,7 @@
 
 Name:           python-%{modname}
 Version:        4.5.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Threading and multiprocessing eye-candy for Python
 License:        LGPLv3+
 URL:            https://github.com/noxdafox/pebble
@@ -45,5 +45,8 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest
 %{python3_sitelib}/Pebble-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 13 2020 Martin Liška <mliska@suse.cz> - 4.5.3-1
 - Initial Fedora package

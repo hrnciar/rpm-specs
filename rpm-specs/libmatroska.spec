@@ -1,14 +1,16 @@
+%undefine __cmake_in_source_build
+
 Summary:	Open audio/video container format library
 Name:		libmatroska
-Version:	1.5.2
-Release:	2%{?dist}
+Version:	1.6.2
+Release:	1%{?dist}
 License:	LGPLv2+
 URL:		https://www.matroska.org/
 Source0:	https://dl.matroska.org/downloads/%{name}/%{name}-%{version}.tar.xz
 BuildRequires:	cmake3
 BuildRequires:	gcc-c++
-BuildRequires:	libebml-devel >= 1.3.8
-Requires:	libebml%{_isa} >= 1.3.8
+BuildRequires:	libebml-devel >= 1.4.0
+Requires:	libebml%{_isa} >= 1.4.0
 
 %description
 Matroska is an extensible open standard Audio/Video container.  It
@@ -21,7 +23,7 @@ is usually found as .mkv files (matroska video) and .mka files
 Summary:	Matroska container format library development files
 Requires:	%{name}%{_isa} = %{version}-%{release}
 Requires:	%{_libdir}/cmake
-Requires:	libebml-devel >= 1.3.8
+Requires:	libebml-devel >= 1.4.0
 Requires:	pkgconfig
 
 %description	devel
@@ -39,12 +41,12 @@ will use the Matroska container format.
 
 
 %build
-%cmake3 .
-%make_build
+%cmake3
+%cmake3_build
 
 
 %install
-%make_install
+%cmake3_install
 
 
 %ldconfig_scriptlets
@@ -53,7 +55,7 @@ will use the Matroska container format.
 %files
 %license LICENSE.LGPL
 %doc ChangeLog
-%{_libdir}/%{name}.so.6*
+%{_libdir}/%{name}.so.7*
 
 %files devel
 %{_includedir}/matroska/
@@ -67,6 +69,20 @@ will use the Matroska container format.
 
 
 %changelog
+* Fri Aug 21 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.6.2-1
+- update to 1.6.2 (#1862780)
+- use new cmake macros (#1864019)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.6.0-1
+- update to 1.6.0 (#1851594), ABI bump
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Summary:        Free firewire audio driver library
 Name:           libffado
 Version:        2.4.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 # src/libutil/float_cast.h is LGPLv2+.
 # The rest is (GPLv2 or GPLv3)
 License:        LGPLv2+ and (GPLv2 or GPLv3)
@@ -160,6 +160,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Nils Philippsen <nils@tiptoe.de> - 2.4.3-2
 - work around a bug in scons < 3.0.2
 

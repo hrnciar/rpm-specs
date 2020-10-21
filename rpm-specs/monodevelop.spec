@@ -5,7 +5,7 @@
 
 Name:           monodevelop
 Version:        %{version}
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        A full-featured IDE for Mono and Gtk#
 
 License:        GPLv2+
@@ -171,6 +171,9 @@ EOF
 %{_libdir}/pkgconfig/monodevelop*.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.10.0-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.10.0-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

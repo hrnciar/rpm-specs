@@ -32,7 +32,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       Fedora Autoloader
 
 License:       MIT
@@ -159,6 +159,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 12 2020 Shawn Iwinski <shawn@iwin.ski> - 1.0.1-2
 - Add tests bootstrap to fix EPEL6 build
 

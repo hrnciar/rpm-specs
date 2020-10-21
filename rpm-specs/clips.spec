@@ -2,7 +2,7 @@
 Summary:	Language for developing expert systems
 Name:		clips
 Version:	6.30.0
-Release:	0.22%{?svnver}%{?dist}
+Release:	0.23%{?svnver}%{?dist}
 Url:		http://clipsrules.sourceforge.net
 License:	GPLv2
 Source0:	http://downloads.sourceforge.net/clipsmm/%{name}-%{version}%{?svnver}.tar.bz2
@@ -188,6 +188,9 @@ desktop-file-install \
 %{_datadir}/emacs/site-lisp/inf-clips.el
  
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.30.0-0.23.20090722svn
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Till Hofmann <thofmann@fedoraproject.org> - 6.30.0-0.22.20090722svn
 - Allow linking with `-fcommon`
 

@@ -12,7 +12,7 @@
 
 Name:           msitools
 Version:        0.100
-Release:        4%{?dist}
+Release:        7%{?dist}
 Summary:        Windows Installer tools
 
 License:        GPLv2+
@@ -33,6 +33,8 @@ Patch0009: 0009-Update-file-manifest-for-gstreamer1-plugins-bad-free.patch
 # Upstream fixed as side effect of the switch to meson.
 Patch0010: 0010-Add-brotli-files-missing-in-upstream-release-tarball.patch
 Patch0011: 0011-wixl-switch-spice-glib-back-to-dsound-driver.patch
+# from upstream
+Patch0012: 0001-data-wixl-fix-wxi-for-rawhide.patch
 
 Requires:       libgsf >= 1.14.24-2
 
@@ -100,14 +102,6 @@ BuildRequires:  mingw32-gstreamer1-plugins-good
 BuildRequires:  mingw64-gstreamer1-plugins-good
 BuildRequires:  mingw32-gstreamer1
 BuildRequires:  mingw64-gstreamer1
-BuildRequires:  mingw32-gstreamer-plugins-bad-free
-BuildRequires:  mingw64-gstreamer-plugins-bad-free
-BuildRequires:  mingw32-gstreamer-plugins-base
-BuildRequires:  mingw64-gstreamer-plugins-base
-BuildRequires:  mingw32-gstreamer-plugins-good
-BuildRequires:  mingw64-gstreamer-plugins-good
-BuildRequires:  mingw32-gstreamer
-BuildRequires:  mingw64-gstreamer
 BuildRequires:  mingw32-gtk2
 BuildRequires:  mingw64-gtk2
 BuildRequires:  mingw32-gtk3
@@ -289,6 +283,17 @@ make -C data check-wxi
 
 
 %changelog
+* Sun Oct 04 2020 Marc-André Lureau <marcandre.lureau@redhat.com> - 0.100-7
+- Fix FTBFS. rhbz#1864178
+- Drop mingw-gstreamer* checks, it's outdated.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.100-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.100-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 14 2020 Daniel P. Berrangé <berrange@redhat.com> - 0.100-4
 - Switch spice back to dsound instead of wasapi
 

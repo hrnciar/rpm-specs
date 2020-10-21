@@ -3,7 +3,7 @@
 
 Name:           testng
 Version:        6.14.3
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        Java-based testing framework
 License:        ASL 2.0
 URL:            http://testng.org/
@@ -114,6 +114,12 @@ cp -p ./src/main/java/*.dtd.html ./src/main/resources/.
 %license LICENSE.txt
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.14.3-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 6.14.3-12
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Feb 19 2020 Fabio Valentini <decathorpe@gmail.com> - 6.14.3-11
 - Drop unnecessary dependency on parent POM.
 

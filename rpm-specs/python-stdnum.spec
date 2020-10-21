@@ -1,8 +1,8 @@
 %global srcname stdnum
 
 Name:           python-%{srcname}
-Version:        1.13
-Release:        2%{?dist}
+Version:        1.14
+Release:        1%{?dist}
 Summary:        Python module to handle standardized numbers and codes
 
 License:        LGPLv2+
@@ -58,6 +58,12 @@ LANG=C.utf-8 nosetests-%{python3_version} -v
 
 
 %changelog
+* Mon Aug 10 2020 Dan Horák <dan[at]danny.cz> - 1.14-1
+- updated to 1.14 (#1867401)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.13-2
 - Rebuilt for Python 3.9
 

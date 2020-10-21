@@ -3,24 +3,20 @@
 # tests at all until we are able to add ppx_jane to Fedora, and even then we
 # will only be able to run the tests in non-bootstrap mode.
 
-%ifnarch %{ocaml_native_compiler}
-%global debug_package %{nil}
-%endif
-
 %global srcname base
 
 Name:           ocaml-%{srcname}
-Version:        0.13.2
-Release:        1%{?dist}
+Version:        0.14.0
+Release:        4%{?dist}
 Summary:        Jane Street standard library for OCaml
 
 License:        MIT
 URL:            https://github.com/janestreet/%{srcname}
 Source0:        %{url}/archive/v%{version}/%{srcname}-%{version}.tar.gz
 
-BuildRequires:  ocaml >= 4.04.2
-BuildRequires:  ocaml-dune-devel >= 1.5.1
-BuildRequires:  ocaml-sexplib0-devel >= 0.13
+BuildRequires:  ocaml >= 4.07.0
+BuildRequires:  ocaml-dune-devel >= 2.0.0
+BuildRequires:  ocaml-sexplib0-devel >= 0.14
 
 %description
 Base is a standard library for OCaml.  It provides a standard set of
@@ -50,17 +46,17 @@ dune build %{?_smp_mflags}
 # TODO: Once odoc is available, BR it and run this to generate documentation:
 # dune build %{?_smp_mflags} @doc
 
-# Dune passes RPM_LD_FLAGS to ocamlmklib without -ldopt, resulting in "Unknown
-# option" warnings from ocamlmklib and a library that has not been linked with
-# the correct flags.  We can't add -ldopt ourselves, since that breaks
-# compilation of the cmxs files.  This seems to be a weakness of dune; linker
-# flags and libraries to be linked with have to be specified together, and
-# nothing takes care of separating them and adding ldopt as necessary.  We
+# Dune passes %%build_ldflags to ocamlmklib without -ldopt, resulting in
+# "Unknown option" warnings from ocamlmklib and a library that has not been
+# linked with the correct flags.  We can't add -ldopt ourselves, since that
+# breaks compilation of the cmxs files.  This seems to be a weakness of dune;
+# linker flags and libraries to be linked with have to be specified together,
+# and nothing takes care of separating them and adding ldopt as necessary.  We
 # relink manually to address the problem.
 pushd _build/default/src
-ocamlmklib -g -ldopt "$RPM_LD_FLAGS" -o base_stubs *.o
+ocamlmklib -g -ldopt "%build_ldflags" -o base_stubs *.o
 cd ../hash_types/src
-ocamlmklib -g -ldopt "$RPM_LD_FLAGS" -o base_internalhash_types_stubs *.o
+ocamlmklib -g -ldopt "%build_ldflags" -o base_internalhash_types_stubs *.o
 popd
 
 %install
@@ -75,7 +71,7 @@ find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod a+x {} \+
 %endif
 
 %files
-%doc CHANGES.md CONTRIBUTING.md README.org ROADMAP.md
+%doc CHANGES.md README.org ROADMAP.md
 %license LICENSE.md
 %dir %{_libdir}/ocaml/%{srcname}/
 %dir %{_libdir}/ocaml/%{srcname}/base_internalhash_types/
@@ -118,6 +114,18 @@ find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod a+x {} \+
 %{_libdir}/ocaml/%{srcname}/*/*.mli
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.14.0-4
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.14.0-3
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 17 2020 Jerry James <loganjerry@gmail.com> - 0.14.0-1
+- Version 0.14.0
+
 * Tue May 12 2020 Jerry James <loganjerry@gmail.com> - 0.13.2-1
 - Version 0.13.2
 

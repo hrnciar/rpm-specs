@@ -14,7 +14,7 @@ Forked and modified Go standard library packages to work around issues.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Forked Go standard library packages with work arounds
 
 # Upstream license specification: BSD-3-Clause
@@ -41,5 +41,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 20 21:23:05 EST 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.0.0-1
 - Initial package

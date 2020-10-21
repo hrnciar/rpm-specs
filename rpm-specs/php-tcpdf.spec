@@ -16,7 +16,7 @@
 Name:           php-tcpdf
 Summary:        PHP class for generating PDF documents and barcodes
 Version:        6.3.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 URL:            http://www.tcpdf.org
 License:        LGPLv3
@@ -238,7 +238,7 @@ install -m 0755 tools/%{real_name}_addfont.php \
 # Fonts
 list=""
 for ttf in \
-    /usr/share/fonts/dejavu/*ttf \
+    /usr/share/fonts/dejav*/*ttf \
     /usr/share/fonts/gnu-free/*ttf \
 ; do
    list=$ttf${list:+,${list}}
@@ -249,6 +249,14 @@ php -d memory_limit=1G tools/tcpdf_addfont.php \
     --fonts $list \
     --link \
     --outpath %{buildroot}%{_datadir}/php/%{real_name}/fonts/
+
+ls %{buildroot}%{_datadir}/php/%{real_name}/fonts/dejavuserif* |
+    sed -e 's:^%{buildroot}::' | tee dejavu-serif.lst
+
+if [ -f %{buildroot}%{_datadir}/php/%{real_name}/fonts/dejavumathtexgyre ]; then
+ ls %{buildroot}%{_datadir}/php/%{real_name}/fonts/dejavumathtexgyre* |
+    sed -e 's:^%{buildroot}::' | tee -a dejavu-serif.lst
+fi
 
 
 %check
@@ -291,8 +299,7 @@ php -r 'require "%{buildroot}%{_datadir}/php/%{real_name}/autoload.php";
 %files dejavu-sans-mono-fonts
 %{_datadir}/php/%{real_name}/fonts/dejavusansmono*
 
-%files dejavu-serif-fonts
-%{_datadir}/php/%{real_name}/fonts/dejavuserif*
+%files dejavu-serif-fonts -f dejavu-serif.lst
 
 %files gnu-free-mono-fonts
 %{_datadir}/php/%{real_name}/fonts/freemono*
@@ -305,6 +312,10 @@ php -r 'require "%{buildroot}%{_datadir}/php/%{real_name}/autoload.php";
 
 
 %changelog
+* Wed Aug 12 2020 Remi Collet <remi@remirepo.net> - 6.3.5-2
+- fix dejavu fonts path, FTBFS #1865226
+- add DejaVuMathTeXGyre.ttf
+
 * Fri Feb 14 2020 Remi Collet <remi@remirepo.net> - 6.3.5-1
 - update to 6.3.5
 

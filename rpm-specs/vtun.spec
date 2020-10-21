@@ -1,6 +1,6 @@
 Name: vtun
 Version: 3.0.4
-Release: 10%{?dist}
+Release: 11%{?dist}
 Summary: Virtual tunnel over TCP/IP networks
 License: GPLv2+
 Url: http://vtun.sourceforge.net
@@ -81,6 +81,9 @@ EOT
 %{_mandir}/man8/vtund.8*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

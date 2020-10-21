@@ -1,5 +1,5 @@
 Name:           mlpack
-Version:        3.3.2
+Version:        3.4.1
 Release:        1%{?dist}
 Summary:        Scalable, fast C++ machine learning library
 
@@ -30,7 +30,7 @@ BuildRequires:  cmake >= 2.8.5
 
 BuildRequires:  armadillo-devel >= 8.400.0
 BuildRequires:  ensmallen-devel >= 2.10.0
-BuildRequires:  boost-devel, boost-program-options, boost-math, boost-serialization >= 1.49
+BuildRequires:  boost-devel, cli11-devel, boost-math, boost-serialization >= 1.49
 BuildRequires:  pkg-config
 
 # For generating man pages (CMake configuration takes care of this assuming
@@ -125,6 +125,9 @@ margins.  This package provides the Python bindings for mlpack.
 # %%{_pkgdocdir} if on F20 and %%{_docdir}/%%{name}-%%{version} otherwise.
 %global our_docdir %{?_pkgdocdir}%{!?_pkgdocdir:%{_docdir}/%{name}-%{version}}
 
+# Disable LTO: it takes too much memory.
+%define _lto_cflags %{nil}
+
 %prep
 %autosetup -p1
 
@@ -140,23 +143,33 @@ sed -i 's/WARN_AS_ERROR          = YES/WARN_AS_ERROR = NO/' Doxyfile;
 # On RHEL6, the Boost CMake scripts fail for some reason.  I don't have the
 # time (or patience) to investigate, but if we force CMake to find Boost "the
 # hard way" by specifying Boost_NO_BOOST_CMAKE=1, it works.
-%{cmake28} -D Boost_NO_BOOST_CMAKE=1 -D CMAKE_INSTALL_LIBDIR=%{_libdir} -D DEBUG=OFF -D PROFILE=OFF -D BUILD_TESTS=OFF -D PYTHON_EXECUTABLE=$(which python3) -D BUILD_GO_BINDINGS=OFF -D BUILD_JULIA_BINDINGS=OFF -D STB_IMAGE_INCLUDE_DIR=stb/ .
+%{cmake28} -D Boost_NO_BOOST_CMAKE=1 -D CMAKE_INSTALL_LIBDIR=%{_libdir} -D DEBUG=OFF -D PROFILE=OFF -D BUILD_TESTS=OFF -D BUILD_PYTHON_BINDINGS=ON -D PYTHON_EXECUTABLE=$(which python3) -D BUILD_GO_BINDINGS=OFF -D BUILD_JULIA_BINDINGS=OFF -D STB_IMAGE_INCLUDE_DIR=stb/
 %else
-%{cmake} -D CMAKE_INSTALL_LIBDIR=%{_libdir} -D DEBUG=OFF -D PROFILE=OFF -D BUILD_TESTS=OFF -D PYTHON_EXECUTABLE=$(which python3) -D BUILD_GO_BINDINGS=OFF -D BUILD_JULIA_BINDINGS=OFF -D STB_IMAGE_INCLUDE_DIR=stb/ .
+%{cmake} -D CMAKE_INSTALL_LIBDIR=%{_libdir} -D DEBUG=OFF -D PROFILE=OFF -D BUILD_TESTS=OFF -D BUILD_PYTHON_BINDINGS=ON -D PYTHON_EXECUTABLE=$(which python3) -D BUILD_GO_BINDINGS=OFF -D BUILD_JULIA_BINDINGS=OFF -D STB_IMAGE_INCLUDE_DIR=stb/
 %endif
 
 # Try and reduce RAM usage.
 %ifarch armv7hl
+cd %{_vpath_builddir};
 cmake -D CMAKE_C_FLAGS="`echo %{optflags} | sed 's/-pipe//g' | sed 's/$/ --param ggc-min-heapsize=32768 --param ggc-min-expand=1/'`" -D CMAKE_CXX_FLAGS="`echo %{optflags} | sed 's/-pipe//g' | sed 's/$/ --param ggc-min-heapsize=32768 --param ggc-min-expand=1/'`" .
+cd ..;
+%endif
+
+%ifarch i686
+cd %{_vpath_builddir};
+cmake -D CMAKE_C_FLAGS="`echo %{optflags} | sed 's/-pipe//g' | sed 's/$/ --param ggc-min-heapsize=32768 --param ggc-min-expand=1/'`" -D CMAKE_CXX_FLAGS="`echo %{optflags} | sed 's/-pipe//g' | sed 's/$/ --param ggc-min-heapsize=32768 --param ggc-min-expand=1/'`" .
+cd ..;
 %endif
 
 # Don't use %make because it could use too much RAM with multiple cores on Koji...
-make
+%{cmake_build}
 # Build documentation ('doc' is not in the list of default targets).
+cd %{_vpath_builddir};
 make doc
+cd ..;
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install
+%{cmake_install}
 
 cp stb/stb_image.h $RPM_BUILD_ROOT/%{_includedir}/;
 cp stb/stb_image_write.h $RPM_BUILD_ROOT/%{_includedir}/;
@@ -173,12 +186,13 @@ cp LICENSE.txt $RPM_BUILD_ROOT/%{our_docdir}
 
 %files
 %{_libdir}/libmlpack.so.3
-%{_libdir}/libmlpack.so.3.3
+%{_libdir}/libmlpack.so.3.4
 %{our_docdir}/LICENSE.txt
 
 %files bin
 %{_bindir}/mlpack_adaboost
 %{_bindir}/mlpack_approx_kfn
+%{_bindir}/mlpack_bayesian_linear_regression
 %{_bindir}/mlpack_cf
 %{_bindir}/mlpack_dbscan
 %{_bindir}/mlpack_decision_stump
@@ -217,6 +231,7 @@ cp LICENSE.txt $RPM_BUILD_ROOT/%{our_docdir}
 %{_bindir}/mlpack_preprocess_binarize
 %{_bindir}/mlpack_preprocess_describe
 %{_bindir}/mlpack_preprocess_imputer
+%{_bindir}/mlpack_preprocess_one_hot_encoding
 %{_bindir}/mlpack_preprocess_scale
 %{_bindir}/mlpack_preprocess_split
 %{_bindir}/mlpack_radical
@@ -226,6 +241,7 @@ cp LICENSE.txt $RPM_BUILD_ROOT/%{our_docdir}
 %{_bindir}/mlpack_sparse_coding
 %{_mandir}/mlpack_adaboost.1*
 %{_mandir}/mlpack_approx_kfn.1*
+%{_mandir}/mlpack_bayesian_linear_regression.1*
 %{_mandir}/mlpack_cf.1*
 %{_mandir}/mlpack_dbscan.1*
 %{_mandir}/mlpack_decision_stump.1*
@@ -264,6 +280,7 @@ cp LICENSE.txt $RPM_BUILD_ROOT/%{our_docdir}
 %{_mandir}/mlpack_preprocess_binarize.1*
 %{_mandir}/mlpack_preprocess_describe.1*
 %{_mandir}/mlpack_preprocess_imputer.1*
+%{_mandir}/mlpack_preprocess_one_hot_encoding.1*
 %{_mandir}/mlpack_preprocess_scale.1*
 %{_mandir}/mlpack_preprocess_split.1*
 %{_mandir}/mlpack_radical.1*
@@ -291,6 +308,19 @@ cp LICENSE.txt $RPM_BUILD_ROOT/%{our_docdir}
 %{python3_sitearch}/mlpack-*.egg-info
 
 %changelog
+* Wed Sep 09 2020 Ryan Curtin <ryan@ratml.org> - 3.4.1-1
+- Update to latest stable version.
+
+* Tue Aug 04 2020 Ryan Curtin <ryan@ratml.org> - 3.3.2-4
+- Update for CMake out-of-source build fixes.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Ryan Curtin <ryan@ratml.org> - 3.3.2-1
 - Update to latest stable version.
 

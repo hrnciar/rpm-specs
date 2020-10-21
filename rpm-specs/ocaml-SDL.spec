@@ -2,7 +2,7 @@
 
 Name:           ocaml-SDL
 Version:        0.9.1
-Release:        44%{?dist}
+Release:        47%{?dist}
 Summary:        OCaml bindings for SDL
 License:        LGPLv2+
 
@@ -74,6 +74,15 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.9.1-47
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.9.1-46
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-45
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 0.9.1-44
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

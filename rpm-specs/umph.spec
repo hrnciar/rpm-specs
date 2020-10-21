@@ -1,6 +1,6 @@
 Name:           umph
 Version:        0.2.5
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Command line tool for parsing video links from Youtube feeds
 
 License:        GPLv3+
@@ -42,6 +42,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_mandir}/man1/%{name}.1.*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.5-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.5-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

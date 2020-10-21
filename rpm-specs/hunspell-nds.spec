@@ -1,7 +1,7 @@
 Name: hunspell-nds
 Summary: Lowlands Saxon hunspell dictionaries
 Version: 0.1
-Release: 19%{?dist}
+Release: 20%{?dist}
 Source: http://downloads.sourceforge.net/aspell-nds/hunspell-nds-0.1.zip
 URL: http://aspell-nds.sourceforge.net/
 License: GPLv2+
@@ -36,6 +36,9 @@ popd
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

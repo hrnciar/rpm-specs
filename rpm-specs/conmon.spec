@@ -1,4 +1,4 @@
-%global with_debug 0
+%global with_debug 1
 %global with_check 0
 
 %if 0%{?with_debug}
@@ -14,18 +14,18 @@
 %global repo conmon
 # https://github.com/containers/conmon
 %global import_path %{provider}.%{provider_tld}/%{project}/%{repo}
-%global commit0 42414b87310fc99a8e987e692e01d823b7ebe7f3
+%global commit0 e5e2b93f68a1d06ab322c72584a31eee3ce00c70
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global git0 https://%{import_path}
 
 # Used for comparing with latest upstream tag
 # to decide whether to autobuild (non-rawhide only)
-%global built_tag v2.0.14
+%global built_tag v2.0.20
 
 Name: %{repo}
 Epoch: 2
-Version: 2.0.19
-Release: 0.3.dev.git%{shortcommit0}%{?dist}
+Version: 2.0.22
+Release: 0.7.dev.git%{shortcommit0}%{?dist}
 Summary: OCI container runtime monitor
 License: ASL 2.0
 URL: %{git0}
@@ -33,7 +33,10 @@ Source0: %{git0}/archive/%{commit0}/%{name}-%{shortcommit0}.tar.gz
 BuildRequires: gcc
 BuildRequires: git
 BuildRequires: glib2-devel
+BuildRequires: systemd-devel
+BuildRequires: systemd-libs
 Requires: glib2
+Requires: systemd-libs
 
 %description
 %{summary}.
@@ -42,7 +45,7 @@ Requires: glib2
 %autosetup -Sgit -n %{name}-%{commit0}
 
 %build
-%{__make} all
+%{__make} DEBUGTAG="enable_debug" all
 
 %install
 %{__make} PREFIX=%{buildroot}%{_prefix} install install.crio
@@ -57,6 +60,81 @@ Requires: glib2
 %{_libexecdir}/crio/%{name}
 
 %changelog
+* Sat Oct 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.22-0.7.dev.gite5e2b93
+- autobuilt e5e2b93
+
+* Tue Oct  6 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.22-0.6.dev.git162c363
+- autobuilt 162c363
+
+* Fri Sep 18 09:34:35 EDT 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 2:2.0.22-0.5.dev.git59c2817
+- build with journald support
+
+* Wed Sep 16 16:12:47 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.22-0.4.dev.git59c2817
+- autobuilt 59c2817
+
+* Tue Sep 15 13:12:54 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.22-0.3.dev.gitd213bfa
+- autobuilt d213bfa
+
+* Mon Sep 14 14:12:03 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.22-0.2.dev.giteb93261
+- autobuilt eb93261
+
+* Tue Sep  8 22:12:10 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.22-0.1.dev.gitdd4fc17
+- bump to 2.0.22
+- autobuilt dd4fc17
+
+* Tue Sep  8 21:12:42 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.21-0.11.dev.gitbc88ac5
+- autobuilt bc88ac5
+
+* Thu Sep  3 14:13:45 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.21-0.10.dev.git668b748
+- autobuilt 668b748
+
+* Wed Sep 02 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 2:2.0.21-0.9.dev.git1d7b3a5
+- Resolves: #1786090 - build with -g for debuginfo
+
+* Thu Aug 27 14:14:25 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.21-0.8.dev.git1d7b3a5
+- autobuilt 1d7b3a5
+
+* Wed Aug 26 13:11:37 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.21-0.7.dev.git6eb222d
+- autobuilt 6eb222d
+
+* Tue Aug 25 15:11:33 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.21-0.6.dev.git9d61f0f
+- autobuilt 9d61f0f
+
+* Mon Aug 24 14:11:36 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.21-0.5.dev.git76548e1
+- autobuilt 76548e1
+
+* Fri Aug 21 15:10:39 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.21-0.4.dev.git7ab6aa1
+- autobuilt 7ab6aa1
+
+* Wed Aug 05 16:10:09 GMT 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.21-0.3.dev.git5a6b2ac
+- autobuilt 5a6b2ac
+
+* Tue Aug 04 2020 Peter Hunt <pehunt@redhat.com> - 2:2.0.21-0.2.dev.gitfe1563c
+- rebuild
+
+* Tue Jul 28 14:09:38 GMT 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.21-0.1.dev.gitfe1563c
+- bump to 2.0.21
+- autobuilt fe1563c
+
+* Mon Jul 27 21:09:33 GMT 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.20-0.3.dev.git5bc12e0
+- autobuilt 5bc12e0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:2.0.20-0.2.dev.git3c396d4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.20-0.1.dev.git3c396d4
+- bump to 2.0.20
+- autobuilt 3c396d4
+
+* Wed Jul 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.19-0.6.dev.git4fea27e
+- autobuilt 4fea27e
+
+* Wed Jul 08 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.19-0.5.dev.giteff699e
+- autobuilt eff699e
+
+* Mon Jun 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.19-0.4.dev.git9a1d403
+- autobuilt 9a1d403
+
 * Mon Jun 22 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.0.19-0.3.dev.git42414b8
 - autobuilt 42414b8
 

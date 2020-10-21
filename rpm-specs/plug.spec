@@ -2,7 +2,7 @@
 
 Name:           plug
 Version:        1.2.1
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Linux software for Fender Mustang amplifiers
 
 License:        GPLv3+
@@ -57,6 +57,13 @@ install -D -m 644 %{SOURCE2} ${RPM_BUILD_ROOT}%{_usr}/lib/udev/rules.d/50-mustan
 %{_usr}/lib/udev/rules.d/50-mustang.rules
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

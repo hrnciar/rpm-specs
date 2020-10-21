@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        3.1.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        HTML Sanitization
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -71,6 +71,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 11 2020 Josh Stone <jistone@redhat.com> - 3.1.0-2
 - Rebuild
 

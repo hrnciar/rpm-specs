@@ -7,7 +7,7 @@
 
 Name:             R-%{packname}
 Version:          %{packver}
-Release:          2%{?dist}
+Release:          5%{?dist}
 Source0:          ftp://cran.r-project.org/pub/R/contrib/main/%{packname}_%{packver}.tar.gz
 License:          MIT
 URL:              https://cran.r-project.org/package=testthat
@@ -79,6 +79,16 @@ export _R_CHECK_FORCE_SUGGESTS_=0 LANG=C.UTF-8
 %{_libdir}/R/library/%{packname}/include/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.2-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 José Abílio Matos <jamatos@fc.up.pt> - 2.3.2-3
+- bump version to ensure upgrade path (due to a F32 rebuild)
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 2.3.2-2
 - rebuild for R 4
 

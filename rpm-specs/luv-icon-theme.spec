@@ -9,7 +9,7 @@ License: CC-BY-SA
 %global git_commit_short  %(c="%{git_commit}"; echo ${c:0:8})
 
 Version: 0.4.9.31
-Release: 2.%{git_date}git%{git_commit_short}%{?dist}
+Release: 3.%{git_date}git%{git_commit_short}%{?dist}
 
 URL: https://github.com/Nitrux/%{name}
 Source0: %{url}/archive/%{git_commit}/%{name}-%{git_commit}.tar.gz
@@ -97,6 +97,9 @@ gtk-update-icon-cache --force %{_datadir}/icons/Luv &>/dev/null || :
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.9.31-3.20200623git42387fe9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Artur Iwicki <fedora@svgames.pl> - 0.4.9.31-2.20200623git42387fe9
 - Update to latest git snapshot
 - Remove executable bits found on some files

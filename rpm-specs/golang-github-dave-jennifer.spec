@@ -3,7 +3,7 @@
 
 # https://github.com/dave/jennifer
 %global goipath         github.com/dave/jennifer
-Version:                1.3.0
+Version:                1.4.0
 
 %gometa
 
@@ -14,7 +14,7 @@ Jennifer is a code generator for Go.}
 %global godocs          README.md README.md.tpl README-gennames.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Code generator for Go
 
 License:        MIT
@@ -53,6 +53,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 20:34:18 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.0-1
+- Update to 1.4.0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

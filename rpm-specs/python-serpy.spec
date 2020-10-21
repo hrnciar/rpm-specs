@@ -4,7 +4,7 @@
 
 Name:           python-%{modname}
 Version:        0.3.1
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Ridiculously fast object serialization
 
 License:        MIT
@@ -57,6 +57,9 @@ Python 3 version.
 %{python3_sitelib}/%{modname}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.1-8
 - Rebuilt for Python 3.9
 

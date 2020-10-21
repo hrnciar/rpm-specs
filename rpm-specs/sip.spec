@@ -1,5 +1,5 @@
 %bcond_without python3
-%if 0%{?fedora} < 32
+%if (0%{?fedora} && 0%{?fedora} < 32) || (0%{?rhel} && 0%{?rhel} < 9)
 %bcond_without python2
 %endif
 
@@ -10,7 +10,7 @@
 %{!?python2_sitearch:%global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
 %{!?python2_inc:%global python2_inc %(%{__python2} -c "from distutils.sysconfig import get_python_inc; print get_python_inc(1)")}
 
-%if %{fedora} > 31
+%if 0%{?fedora} > 31 || 0%{?rhel} > 8
 %global PYINCLUDE %{_includedir}/python%{python3_version}
 %else
 %global PYINCLUDE %{_includedir}/python%{python3_version}m
@@ -26,13 +26,13 @@
 
 # provide non-namespace python modules
 # needed by at least some legacy/non-qt consumers, e.g. pykde4
-%if 0%{?fedora} < 31
+%if 0%{?fedora} && 0%{?fedora} < 31
 %global no_namespace 1
 %endif
 
 Summary: SIP - Python/C++ Bindings Generator
 Name: sip
-Version: 4.19.23
+Version: 4.19.24
 Release: 1%{?dist}
 
 # sipgen/parser.{c.h} is GPLv3+ with exceptions (bison)
@@ -431,6 +431,15 @@ popd
 
 
 %changelog
+* Mon Aug 17 2020 Rex Dieter <rdieter@fedoraproject.org> - 4.19.24-1
+- 4.19.24
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.19.23-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Merlin Mathesius <mmathesi@redhat.com> - 4.19.23-1
+- Minor conditional fixes for ELN
+
 * Mon Jun 08 2020 Rex Dieter <rdieter@fedoraproject.org> - 4.19.23-1
 - 4.19.23
 

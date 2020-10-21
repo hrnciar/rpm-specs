@@ -19,12 +19,15 @@ Library for writing system daemons in Go.}
 %global godocs          examples README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Library for writing system daemons in Go
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
+# Remove "darwin/386" pair as it has been obsoleted in Go 1.15
+# https://github.com/sevlyar/go-daemon/pull/69
+Patch0:         https://patch-diff.githubusercontent.com/raw/sevlyar/go-daemon/pull/69.patch#/0001-Remove-darwin-386-pair.patch
 
 BuildRequires:  golang(golang.org/x/sys/unix)
 
@@ -35,6 +38,7 @@ BuildRequires:  golang(golang.org/x/sys/unix)
 
 %prep
 %goprep
+%patch0 -p1
 
 %install
 %gopkginstall
@@ -47,6 +51,12 @@ BuildRequires:  golang(golang.org/x/sys/unix)
 %gopkgfiles
 
 %changelog
+* Sun Aug 23 23:33:10 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.1.5-5
+- Fix FTBFS
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

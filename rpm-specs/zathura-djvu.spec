@@ -1,6 +1,6 @@
 Name:             zathura-djvu
 Version:          0.2.9
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          DjVu support for zathura
 License:          zlib
 URL:              http://pwmt.org/projects/zathura/plugins/%{name}
@@ -44,6 +44,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.metainf
 %{_datadir}/metainfo/org.pwmt.zathura-djvu.metainfo.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 15 2020 Petr Šabata <contyk@redhat.com> - 0.2.9-1
 - 0.2.9 bump
 

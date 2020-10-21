@@ -1,7 +1,7 @@
 Name: switchdesk
 Summary: A desktop environment switcher
 Version: 5.0.1
-Release: 6%{?dist}
+Release: 7%{?dist}
 Url: http://than.fedorapeople.org/
 Source: http://than.fedorapeople.org/%{name}/%{name}-%{version}.tar.xz
 Patch1: switchdesk-5.0.1-loadicon.patch
@@ -66,6 +66,9 @@ install -p -m 644 %{name}.desktop %{buildroot}%{_datadir}/applications/
 %{_datadir}/pixmaps/*.png
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

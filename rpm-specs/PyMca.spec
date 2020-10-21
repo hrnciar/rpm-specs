@@ -1,6 +1,6 @@
 Name:           PyMca
 Version:        5.5.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        X-ray Fluorescence Toolkit
 License:        GPLv2+
 URL:            http://pymca.sourceforge.net/
@@ -215,6 +215,9 @@ PYMCA_DOC_DIR=%{buildroot}/usr/share/doc/PyMca \
 %{_pkgdocdir}/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.5.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.5.0-5
 - Rebuilt for Python 3.9
 

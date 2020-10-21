@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 %global         framework baloo
 
 # uncomment to enable bootstrap mode
@@ -9,7 +10,7 @@
 
 Name:    kf5-%{framework}
 Summary: A Tier 3 KDE Frameworks 5 module that provides indexing and search functionality
-Version: 5.71.0
+Version: 5.75.0
 Release: 1%{?dist}
 
 # libs are LGPL, tools are GPL
@@ -28,6 +29,8 @@ URL:     https://community.kde.org/Baloo
 Source0:        http://download.kde.org/%{stable}/frameworks/%{majmin}/%{framework}-%{version}.tar.xz
 
 Source1:        97-kde-baloo-filewatch-inotify.conf
+# shutdown script to explictly stop baloo_file on logout
+Source2:        baloo_file_shutdown.sh
 
 ## upstreamable patches
 # http://bugzilla.redhat.com/1235026
@@ -113,22 +116,19 @@ License:        LGPLv2 or LGPLv3
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%{cmake_kf5} \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{!?tests:OFF}
-popd
-
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast  DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 # baloodb not installed unless BUILD_EXPERIMENTAL is enabled, so omit translations
 rm -fv %{buildroot}%{_datadir}/locale/*/LC_MESSAGES/baloodb5.*
 
 install -p -m644 -D %{SOURCE1} %{buildroot}%{_prefix}/lib/sysctl.d/97-kde-baloo-filewatch-inotify.conf
+install -p -m755 -D %{SOURCE2} %{buildroot}%{_sysconfdir}/xdg/plasma-workspace/shutdown/baloo_file.sh
 
 %find_lang kio5_baloosearch
 %find_lang kio5_tags
@@ -162,7 +162,7 @@ make test ARGS="--output-on-failure --timeout 300" -C %{_target_platform} ||:
 
 
 %files -f %{name}.lang
-%license COPYING
+%license LICENSES/*.txt
 #{_kf5_bindir}/baloodb
 %{_kf5_bindir}/baloosearch
 %{_kf5_bindir}/balooshow
@@ -171,6 +171,7 @@ make test ARGS="--output-on-failure --timeout 300" -C %{_target_platform} ||:
 
 %files file -f %{name}-file.lang
 %{_prefix}/lib/sysctl.d/97-kde-baloo-filewatch-inotify.conf
+%{_sysconfdir}/xdg/plasma-workspace/shutdown/baloo_file.sh
 %{_kf5_bindir}/baloo_file
 %{_kf5_bindir}/baloo_file_extractor
 %{_kf5_sysconfdir}/xdg/autostart/baloo_file.desktop
@@ -178,7 +179,7 @@ make test ARGS="--output-on-failure --timeout 300" -C %{_target_platform} ||:
 %ldconfig_scriptlets libs
 
 %files libs
-%license COPYING.LIB
+%license LICENSES/*.txt
 %{_kf5_libdir}/libKF5Baloo.so.*
 %{_kf5_libdir}/libKF5BalooEngine.so.*
 # multilib'd plugins and friends
@@ -203,6 +204,27 @@ make test ARGS="--output-on-failure --timeout 300" -C %{_target_platform} ||:
 
 
 %changelog
+* Wed Oct 14 09:44:03 CDT 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.75.0-1
+- 5.75.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.74.0-1
+- 5.74.0
+
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.73.0-3
+- shutdown scripts must be executable+valid shell (apparently)
+
+* Mon Sep 14 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.73.0-2
+- add explicit shutdown script for baloo_file (parent bug #1861700)
+
+* Mon Aug 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.73.0-1
+- 5.73.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.72.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-1
+- 5.72.0
+
 * Tue Jun 16 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.71.0-1
 - 5.71.0
 

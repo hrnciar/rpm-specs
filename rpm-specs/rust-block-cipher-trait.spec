@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.6.2
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Traits for description of block ciphers
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -109,6 +109,13 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 20 2020 Josh Stone <jistone@redhat.com> - 0.6.2-4
 - Bump generic-array to 0.13
 

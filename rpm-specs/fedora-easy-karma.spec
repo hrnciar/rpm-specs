@@ -1,6 +1,6 @@
 Name:           fedora-easy-karma
 Version:        0
-Release:        0.44.20200427git6fc0f39%{?dist}
+Release:        0.45.20200427git6fc0f39%{?dist}
 Summary:        Fedora update feedback made easy
 License:        GPLv2+
 URL:            https://fedoraproject.org/wiki/Fedora_Easy_Karma
@@ -43,6 +43,9 @@ sed -i 's,useragent="Fedora Easy Karma/GIT",useragent="Fedora Easy Karma/%{versi
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.45.20200427git6fc0f39
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 0-0.44.20200427git6fc0f39
 - Fix wrong password handling (RHBZ#1818453)
 - Support for oraculum endpoint

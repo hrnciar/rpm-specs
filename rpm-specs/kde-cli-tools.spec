@@ -1,5 +1,6 @@
+%undefine __cmake_in_source_build
 Name:    kde-cli-tools
-Version: 5.19.2
+Version: 5.20.1
 Release: 1%{?dist}
 Summary: Tools based on KDE Frameworks 5 to better interact with the system
 
@@ -67,16 +68,12 @@ Conflicts: kde-runtime-docs < 14.12.3-2
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 %find_lang kdeclitools_qt --with-qt --with-kde --all-name
 
 ln -s %{_kf5_libexecdir}/kdesu %{buildroot}%{_bindir}/kdesu
@@ -94,6 +91,7 @@ ln -s %{_kf5_libexecdir}/kdesu %{buildroot}%{_bindir}/kdesu
 %{_bindir}/ksvgtopng5
 %{_bindir}/ktraderclient5
 %{_bindir}/kbroadcastnotification
+%{_bindir}/kde-inhibit
 %{_kf5_libexecdir}/kdeeject
 %{_kf5_qtplugindir}/kcm_filetypes.so
 %{_kf5_datadir}/kservices5/filetypes.desktop
@@ -110,6 +108,27 @@ ln -s %{_kf5_libexecdir}/kdesu %{buildroot}%{_bindir}/kdesu
 
 
 %changelog
+* Tue Oct 20 15:28:05 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.1-1
+- 5.20.1
+
+* Sun Oct 11 19:50:02 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.0-1
+- 5.20.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.90-1
+- 5.19.90
+
+* Tue Sep 01 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.5-1
+- 5.19.5
+
+* Tue Jul 28 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.4-1
+- 5.19.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.19.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.3-1
+- 5.19.3
+
 * Tue Jun 23 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.2-1
 - 5.19.2
 

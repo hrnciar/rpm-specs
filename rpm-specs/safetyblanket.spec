@@ -1,6 +1,6 @@
 Name:           safetyblanket
 Version:        1.01
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Creepy blanket simulator
 
 #See LICENSE.txt file in source for details
@@ -72,6 +72,9 @@ install -p -D -m 0644 res/gfx/title_text1.png \
 %{_datadir}/appdata/*.appdata.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.01-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 12 2020 Jeremy Newton <alexjnewt at hotmail dot com> - 1.01-8
 - Rebuilt for correct exclusive arch
 - Fix some LOVE 11 issues

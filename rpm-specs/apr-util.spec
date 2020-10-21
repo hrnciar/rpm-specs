@@ -16,7 +16,7 @@
 Summary: Apache Portable Runtime Utility library
 Name: apr-util
 Version: 1.6.1
-Release: 13%{?dist}
+Release: 14%{?dist}
 License: ASL 2.0
 URL: https://apr.apache.org/
 Source0: https://www.apache.org/dist/apr/%{name}-%{version}.tar.bz2
@@ -219,6 +219,9 @@ export LD_LIBRARY_PATH=%{buildroot}/%{_libdir}/apr-util-%{apuver}
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Tom Stellard <tstellar@redhat.com> - 1.6.1-13
 - Use make_build and make_install macros
 - https://docs.fedoraproject.org/en-US/packaging-guidelines/#_parallel_make

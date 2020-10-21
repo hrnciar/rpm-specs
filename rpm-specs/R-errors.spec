@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          0.3.3
-Release:          3%{?dist}
+Release:          4%{?dist}
 Summary:          Uncertainty Propagation for R Vectors
 
 License:          MIT
@@ -54,6 +54,9 @@ export _R_CHECK_FORCE_SUGGESTS_=0
 %{rlibdir}/%{packname}/data
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 0.3.3-3
 - rebuild for R 4
 

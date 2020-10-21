@@ -1,6 +1,6 @@
 Name:		fontopia
 Version:	1.8
-Release:	9%{?dist}
+Release:	10%{?dist}
 Summary:	The console font editor
 
 License:	GPLv3+
@@ -45,6 +45,9 @@ install -m 0644 -p -D info/fontopia.info* %{buildroot}%{_infodir}/fontopia.info
 %license COPYING
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 08 2020 Mohammed Isam <mohammed_isam1984@yahoo.com> 1.8-9
 - Bugfixes
 

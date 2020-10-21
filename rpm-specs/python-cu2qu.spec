@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.6.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cubic-to-quadratic bezier curve conversion
 
 License:        ASL 2.0
@@ -77,6 +77,9 @@ sed -i -e '/filterwarnings:/d' -e '/^\s*ignore:\.\*bytes:DeprecationWarning:fs\.
 %{_bindir}/%{srcname}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Athos Ribeiro <athoscr@fedoraproject.org> - 1.6.7-1
 - Ship cu2qu binary
 - Make package arch specific

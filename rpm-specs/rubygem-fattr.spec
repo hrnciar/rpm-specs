@@ -3,7 +3,7 @@
 Name:           rubygem-%{gem_name}
 Summary:        Fatter attribute for Ruby
 Version:        2.2.2
-Release:        10%{?dist}
+Release:        11%{?dist}
 License:        BSD or Ruby
 URL:            https://github.com/ahoward/fattr
 Source0:        https://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -64,6 +64,9 @@ popd
 %doc %{gem_instdir}/test
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

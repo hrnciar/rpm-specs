@@ -10,8 +10,8 @@ of the REST API. Low level functionality can still be accessed via the connectio
 which has get, head, put, post, delete methods for more directly calling the REST API.}
 
 Name:           python-%{pypi_name}
-Version:        0.3.22
-Release:        2%{?dist}
+Version:        0.3.24
+Release:        1%{?dist}
 Summary:        A new XNAT client that exposes XNAT objects/functions as python objects/functions.
 License:        ASL 2.0
 URL:            http://pypi.python.org/pypi/%{pypi_name}/%{version}
@@ -61,6 +61,12 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/xnat*.egg-info
 
 %changelog
+* Sat Aug 08 2020 Luis Bazan <lbazan@fedoraproject.org> - 0.3.24-1
+- New upstream version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.22-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.22-2
 - Rebuilt for Python 3.9
 

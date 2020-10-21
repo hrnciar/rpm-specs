@@ -3,7 +3,7 @@
 
 Name:           ocaml-cudf
 Version:        0.9
-Release:        20%{?dist}
+Release:        24%{?dist}
 Summary:        Format for describing upgrade scenarios
 
 %global libname %(echo %{name} | sed -e 's/^ocaml-//')
@@ -111,6 +111,19 @@ make test
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.9-24
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.9-23
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-22
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Richard W.M. Jones <rjones@redhat.com> - 0.9-20
 - Rebuild for updated ocaml-extlib (RHBZ#1837823).
 

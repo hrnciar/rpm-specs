@@ -4,7 +4,7 @@
 
 Name:		libbind
 Version:	6.0
-Release:	21%{?dist}
+Release:	22%{?dist}
 Summary:	ISC's standard resolver library
 
 License:	ISC
@@ -100,6 +100,9 @@ install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_libdir}/pkgconfig/libbind.pc
 %{_mandir}/man7/libbind_*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

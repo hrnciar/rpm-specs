@@ -4,13 +4,13 @@
 
 Name:		erlang-%{realname}
 Version:	0
-Release:	0.16.gita085181%{?dist}
+Release:	0.19.gita085181%{?dist}
 BuildArch:	noarch
 Summary:	Flame Graph profiler for Erlang
 License:	MIT
 URL:		https://github.com/%{upstream}/%{realname}
 VCS:		scm:git:https://github.com/%{upstream}/%{realname}.git
-#Source0:	https://github.com/%{upstream}/%{realname}/archive/%{version}/%{realname}-%{version}.tar.gz
+#Source0:	https://github.com/%%{upstream}/%%{realname}/archive/%%{version}/%%{realname}-%%{version}.tar.gz
 Source0:	https://github.com/%{upstream}/%{realname}/archive/a08518142126f5fc541a3a3c4a04c27f24448bae/%{realname}-%{version}.tar.gz
 BuildRequires:	erlang-rebar
 BuildRequires:	perl-generators
@@ -47,6 +47,15 @@ install -D -p -m 0755 flamegraph.riak-color.pl %{buildroot}%{erlang_appdir}/bin/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.19.gita085181
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0-0.18.gita085181
+- Perl 5.32 rebuilt after bootstrapping
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0-0.17.gita085181
+- Perl 5.32 rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.16.gita085181
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

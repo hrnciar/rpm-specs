@@ -3,7 +3,7 @@
 
 Name:		openigtlink
 Version:	2.1
-Release:	6%{?dist}
+Release:	10%{?dist}
 Summary:	Implementation of the OpenIGTLink network communication protocol
 
 License:	BSD
@@ -51,38 +51,24 @@ Development files for the OpenIGTLink library.
 %prep
 %autosetup -n %{srcname}-%{version} -p1
 find . -type f -executable -a \( -name '*.h' -o -name '*.cxx' \) -exec chmod a-x {} +
-mkdir build
 
 
 %build
-pushd build
-
 # disable gtest due to upstream bug #122
 %cmake \
     -DUSE_GTEST=OFF \
     -D%{srcname}_INSTALL_LIB_DIR=%{_lib} \
     -D%{srcname}_INSTALL_PACKAGE_DIR=%{_lib}/cmake/%{srcname} \
     -D%{srcname}_LEGACY_REMOVE=ON \
-    ..
-%make_build
-
-popd
+%cmake_build
 
 
 %install
-pushd build
-%make_install
-popd
-
+%cmake_install
 
 %check
-pushd build
-ctest -VV %{?_smp_mflags}
-popd
-
-
-%ldconfig_scriptlets
-
+%global _smp_mflags -j1
+%ctest
 
 %files
 %license LICENSE.txt
@@ -96,6 +82,19 @@ popd
 
 
 %changelog
+* Fri Sep 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 2.1-10
+- Make ctest run serially
+
+* Fri Sep 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 2.1-9
+- Use cmake macros to fix build
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

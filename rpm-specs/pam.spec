@@ -1,9 +1,9 @@
-%global pam_redhat_version 1.1.2
+%global pam_redhat_version 1.1.3
 
 Summary: An extensible library which provides authentication for applications
 Name: pam
-Version: 1.3.1
-Release: 28%{?dist}
+Version: 1.4.0
+Release: 5%{?dist}
 # The library is BSD licensed with option to relicense as GPLv2+
 # - this option is redundant as the BSD license allows that anyway.
 # pam_timestamp, pam_loginuid, and pam_console modules are GPLv2+.
@@ -24,58 +24,37 @@ Source15: pamtmp.conf
 Source16: postlogin.pamd
 Source17: postlogin.5
 Source18: https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
-Patch1:  pam-1.3.1-redhat-modules.patch
-Patch9:  pam-1.3.1-noflex.patch
-Patch10: pam-1.1.3-nouserenv.patch
+Patch1:  pam-1.4.0-redhat-modules.patch
+Patch9:  pam-1.4.0-noflex.patch
+# https://github.com/linux-pam/linux-pam/commit/cbdef051ab5d4031656d14ac6cdb1f6c2d8d6595
+Patch10: pam-1.4.0-nouserenv.patch
+# https://github.com/linux-pam/linux-pam/commit/adc037167ad293242d9c69c4d427da1001f26706
 Patch13: pam-1.1.6-limits-user.patch
-Patch15: pam-1.1.8-full-relro.patch
-# Upstreamed partially
-Patch29: pam-1.3.0-pwhistory-helper.patch
+Patch15: pam-1.4.0-full-relro.patch
+# https://github.com/linux-pam/linux-pam/commit/f787845843da96cc29ea1f864e29fb17379b36b7
+Patch29: pam-1.4.0-pwhistory-helper.patch
 Patch31: pam-1.1.8-audit-user-mgmt.patch
 Patch33: pam-1.3.0-unix-nomsg.patch
-Patch34: pam-1.3.1-coverity.patch
-# https://github.com/linux-pam/linux-pam/commit/a2b72aeb86f297d349bc9e6a8f059fedf97a499a
-Patch36: pam-1.3.1-unix-remove-obsolete-_unix_read_password-prototype.patch
-# https://github.com/linux-pam/linux-pam/commit/f7abb8c1ef3aa31e6c2564a8aaf69683a77c2016.patch
-Patch37: pam-1.3.1-unix-bcrypt_b.patch
-# https://github.com/linux-pam/linux-pam/commit/dce80b3f11b3c3aa137d18f22699809094dd64b6
-Patch38: pam-1.3.1-unix-gensalt-autoentropy.patch
-# https://github.com/linux-pam/linux-pam/commit/4da9febc39b955892a30686e8396785b96bb8ba5
-Patch39: pam-1.3.1-unix-crypt_checksalt.patch
-# https://github.com/linux-pam/linux-pam/commit/16bd523f85ede9fa9115f80e826f2d803d7e61d4
-Patch40: pam-1.3.1-unix-yescrypt.patch
-# To be upstreamed soon.
-Patch41: pam-1.3.1-unix-no-fallback.patch
-# https://github.com/linux-pam/linux-pam/commit/f9c9c72121eada731e010ab3620762bcf63db08f
-# https://github.com/linux-pam/linux-pam/commit/8eaf5570cf011148a0b55c53570df5edaafebdb0
-Patch42: pam-1.3.1-motd-multiple-paths.patch
-# https://github.com/linux-pam/linux-pam/commit/86eed7ca01864b9fd17099e57f10f2b9b6b568a1
-Patch43: pam-1.3.1-unix-checksalt_syslog.patch
-# https://github.com/linux-pam/linux-pam/commit/d8d11db2cef65da5d2afa7acf21aa9c8cd88abed
-Patch44: pam-1.3.1-unix-fix_checksalt_syslog.patch
-Patch45: pam-1.3.1-namespace-mntopts.patch
-Patch46: pam-1.3.1-lastlog-no-showfailed.patch
-Patch47: pam-1.3.1-lastlog-unlimited-fsize.patch
-Patch48: pam-1.3.1-unix-improve-logging.patch
-Patch49: pam-1.3.1-tty-audit-manfix.patch
-Patch50: pam-1.3.1-fds-closing.patch
-Patch51: pam-1.3.1-authtok-verify-fix.patch
-Patch52: pam-1.3.1-add-pam_usertype.patch
-Patch53: pam-1.3.1-add-pam_usertype-fix-backport.patch
-Patch54: pam-1.3.1-pam_selinux-check-unknown-objects.patch
-# Upstreamed
-Patch55: pam-1.3.1-audit-error.patch
-# Upstreamed
-Patch56: pam-1.3.1-pam-modutil-close-write.patch
-# Upstreamed
-Patch57: pam-1.3.1-determinine-user-exists.patch
-# Upstreamed
+# https://github.com/linux-pam/linux-pam/commit/655b5e3cf32cb2bd6606cb8ab696b8f00f87051e
+# https://github.com/linux-pam/linux-pam/commit/a6a1b9f788a79b2a09827c72a755f471c2e05100
+# https://github.com/linux-pam/linux-pam/commit/2bae5daf16d4466185fac89539d653b269a3ea01
+# https://github.com/linux-pam/linux-pam/commit/276ad5b8e48aa77c24ef25e18d2e97f66c83d68c
+Patch34: pam-1.4.0-coverity.patch
+# https://github.com/linux-pam/linux-pam/commit/af0faf666c5008e54dfe43684f210e3581ff1bca
+# https://github.com/linux-pam/linux-pam/commit/0e9b286afe1224b91ff00936058b084ad4b776e4
+Patch57: pam-1.4.0-determine-user-exists.patch
+# https://github.com/linux-pam/linux-pam/commit/395915dae1571e10e2766c999974de864655ea3a
 Patch58: pam-1.3.1-faillock-change-file-permissions.patch
+# https://github.com/linux-pam/linux-pam/commit/16cebfeb30a8bd7c7dc269190a054c25b0f8d044
+# https://github.com/linux-pam/linux-pam/commit/ad8b6feaf8ea989368676acaea905998a807986e
+Patch59: pam-1.4.0-motd-filter-files.patch
 
 %global _pamlibdir %{_libdir}
 %global _moduledir %{_libdir}/security
 %global _secconfdir %{_sysconfdir}/security
 %global _pamconfdir %{_sysconfdir}/pam.d
+%global _pamvendordir %{_datadir}/pam.d
+%global _systemdlibdir /usr/lib/systemd/system
 
 %if %{?WITH_SELINUX:0}%{!?WITH_SELINUX:1}
 %global WITH_SELINUX 1
@@ -85,12 +64,10 @@ Patch58: pam-1.3.1-faillock-change-file-permissions.patch
 %endif
 %global _performance_build 1
 
-Recommends: cracklib-dicts >= 2.8
 Requires: libpwquality >= 0.9.9
 BuildRequires: autoconf >= 2.60
 BuildRequires: automake, libtool
 BuildRequires: bison, flex, sed
-BuildRequires: cracklib-devel
 BuildRequires: perl-interpreter, pkgconfig, gettext-devel
 BuildRequires: libtirpc-devel, libnsl2-devel
 %if %{WITH_AUDIT}
@@ -101,12 +78,15 @@ Requires: audit-libs >= 1.0.8
 BuildRequires: libselinux-devel >= 1.33.2
 Requires: libselinux >= 1.33.2
 %endif
+BuildRequires: libeconf-devel >= 0.3.5
+Requires: libeconf >= 0.3.5
 Requires: glibc >= 2.3.90-37
 BuildRequires: libxcrypt-devel >= 4.3.3-2
 BuildRequires: libdb-devel
 # Following deps are necessary only to build the pam library documentation.
 BuildRequires: linuxdoc-tools, elinks, libxslt
 BuildRequires: docbook-style-xsl, docbook-dtds
+BuildRequires: gcc
 
 URL: http://www.linux-pam.org/
 
@@ -156,29 +136,9 @@ cp %{SOURCE18} .
 %patch31 -p1 -b .audit-user-mgmt
 %patch33 -p1 -b .nomsg
 %patch34 -p1 -b .coverity
-%patch36 -p1 -b .remove-prototype
-%patch37 -p1 -b .bcrypt_b
-%patch38 -p1 -b .gensalt-autoentropy
-%patch39 -p1 -b .crypt_checksalt
-%patch40 -p1 -b .yescrypt
-%patch41 -p1 -b .no-fallback
-%patch42 -p1 -b .multiple-paths
-%patch43 -p1 -b .checksalt_syslog
-%patch44 -p1 -b .fix_checksalt_syslog
-%patch45 -p1 -b .mntopts
-%patch46 -p1 -b .no-showfailed
-%patch47 -p1 -b .unlimited-fsize
-%patch48 -p1 -b .improve-logging
-%patch49 -p1 -b .tty-audit-manfix
-%patch50 -p1 -b .fds-closing
-%patch51 -p1 -b .authtok-verify-fix
-%patch52 -p1 -b .add-pam_usertype
-%patch53 -p1 -b .add-pam_usertype-backport
-%patch54 -p1 -b .pam_selinux-check-unknown-objects
-%patch55 -p1 -b .audit-error
-%patch56 -p1 -b .pam-modutil-close-write
-%patch57 -p1 -b .determinine-user-exists
+%patch57 -p1 -b .determine-user-exists
 %patch58 -p1 -b .faillock-change-file-permissions
+%patch59 -p1 -b .motd-filter-files
 
 autoreconf -i
 
@@ -187,6 +147,7 @@ autoreconf -i
 	--disable-rpath \
 	--libdir=%{_pamlibdir} \
 	--includedir=%{_includedir}/security \
+	--enable-vendordir=%{_datadir} \
 %if ! %{WITH_SELINUX}
 	--disable-selinux \
 %endif
@@ -223,6 +184,7 @@ rm -f $RPM_BUILD_ROOT%{_sysconfdir}/environment
 
 # Install default configuration files.
 install -d -m 755 $RPM_BUILD_ROOT%{_pamconfdir}
+install -d -m 755 $RPM_BUILD_ROOT%{_pamvendordir}
 install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_pamconfdir}/other
 install -m 644 %{SOURCE6} $RPM_BUILD_ROOT%{_pamconfdir}/system-auth
 install -m 644 %{SOURCE7} $RPM_BUILD_ROOT%{_pamconfdir}/password-auth
@@ -284,8 +246,10 @@ if [ -d ${dir} ] ; then
 %if ! %{WITH_AUDIT}
 	[ ${dir} = "modules/pam_tty_audit" ] && continue
 %endif
+	# pam_tally, pam_tally2 and pam_cracklib have been deprecated and will be removed in next upstream release. So, they have been removed downstream
 	[ ${dir} = "modules/pam_tally" ] && continue
 	[ ${dir} = "modules/pam_tally2" ] && continue
+	[ ${dir} = "modules/pam_cracklib" ] && continue
 	if ! ls -1 $RPM_BUILD_ROOT%{_moduledir}/`basename ${dir}`*.so ; then
 		echo ERROR `basename ${dir}` did not build a module.
 		exit 1
@@ -308,6 +272,7 @@ done
 
 %files -f Linux-PAM.lang
 %dir %{_pamconfdir}
+%dir %{_pamvendordir}
 %config(noreplace) %{_pamconfdir}/other
 %config(noreplace) %{_pamconfdir}/system-auth
 %config(noreplace) %{_pamconfdir}/password-auth
@@ -322,6 +287,7 @@ done
 %{_pamlibdir}/libpamc.so.*
 %{_pamlibdir}/libpam_misc.so.*
 %{_sbindir}/pam_console_apply
+%{_sbindir}/pam_namespace_helper
 %{_sbindir}/faillock
 %attr(4755,root,root) %{_sbindir}/pam_timestamp_check
 %attr(4755,root,root) %{_sbindir}/unix_chkpwd
@@ -332,7 +298,6 @@ done
 %{_moduledir}/pam_access.so
 %{_moduledir}/pam_chroot.so
 %{_moduledir}/pam_console.so
-%{_moduledir}/pam_cracklib.so
 %{_moduledir}/pam_debug.so
 %{_moduledir}/pam_deny.so
 %{_moduledir}/pam_echo.so
@@ -366,6 +331,7 @@ done
 %{_moduledir}/pam_sepermit.so
 %endif
 %{_moduledir}/pam_securetty.so
+%{_moduledir}/pam_setquota.so
 %{_moduledir}/pam_shells.so
 %{_moduledir}/pam_stress.so
 %{_moduledir}/pam_succeed_if.so
@@ -386,6 +352,7 @@ done
 %{_moduledir}/pam_wheel.so
 %{_moduledir}/pam_xauth.so
 %{_moduledir}/pam_filter
+%{_systemdlibdir}/pam_namespace.service
 %dir %{_secconfdir}
 %config(noreplace) %{_secconfdir}/access.conf
 %config(noreplace) %{_secconfdir}/chroot.conf
@@ -431,6 +398,26 @@ done
 %doc doc/sag/*.txt doc/sag/html
 
 %changelog
+* Wed Oct 14 2020 Iker Pedrosa <ipedrosa@redhat.com> - 1.4.0-5
+- pam_motd: read motd files with target user credentials skipping unreadable ones (#1861640)
+- Clarify upstreamed patches
+
+* Tue Aug 04 2020 Tom Stellard <tstellar@redhat.com> - 1.4.0-4
+- Add BuildRequires: gcc
+- https://docs.fedoraproject.org/en-US/packaging-guidelines/C_and_C++/#_packaging
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul  2 2020 Iker Pedrosa <ipedrosa@redhat.com> - 1.4.0-2
+- Enable layered configuration with distribution configs in /usr/share/pam.d
+- Added new pam-redhat tarball to lookaside cache
+
+* Wed Jun 24 2020 Iker Pedrosa <ipedrosa@redhat.com> - 1.4.0-1
+- Rebased to release 1.4.0
+- Rebased to pam-redhat-1.1.3
+- Removed pam_cracklib as it has been deprecated
+
 * Mon Jun 22 2020 Iker Pedrosa <ipedrosa@redhat.com> - 1.3.1-28
 - pam_faillock: change /run/faillock/$USER permissions to 0660 (#1661822)
 

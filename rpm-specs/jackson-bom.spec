@@ -1,5 +1,5 @@
 Name:          jackson-bom
-Version:       2.11.0
+Version:       2.11.3
 Release:       1%{?dist}
 Summary:       Bill of materials POM for Jackson projects
 License:       ASL 2.0
@@ -36,6 +36,21 @@ A "bill of materials" POM for Jackson dependencies.
 %license LICENSE
 
 %changelog
+* Wed Oct 14 2020 Fabio Valentini <decathorpe@gmail.com> - 2.11.3-1
+- Update to version 2.11.3.
+
+* Sat Aug 08 2020 Fabio Valentini <decathorpe@gmail.com> - 2.11.2-1
+- Update to version 2.11.2.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.11.1-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Mon Jul 06 2020 Fabio Valentini <decathorpe@gmail.com> - 2.11.1-1
+- Update to version 2.11.1.
+
 * Mon May 25 2020 Fabio Valentini <decathorpe@gmail.com> - 2.11.0-1
 - Update to version 2.11.0.
 

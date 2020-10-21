@@ -1,6 +1,6 @@
 Name:           python-libdiscid
 Version:        0.4.1
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        Python bindings for libdiscid
 
 License:        MIT
@@ -60,6 +60,9 @@ rm build/html/.buildinfo
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.1-24
 - Rebuilt for Python 3.9
 

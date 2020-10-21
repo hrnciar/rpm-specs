@@ -1,12 +1,11 @@
 %global _hardened_build 1
-%global prerelease -pre2
-%global clknetsim_ver 0a5e99
+%global clknetsim_ver c4ccc2
 %bcond_without debug
 %bcond_without nts
 
 Name:           chrony
 Version:        4.0
-Release:        0.3.pre2%{?dist}
+Release:        1%{?dist}
 Summary:        An NTP client/server
 
 License:        GPLv2
@@ -15,15 +14,15 @@ Source0:        https://download.tuxfamily.org/chrony/chrony-%{version}%{?prerel
 Source1:        https://download.tuxfamily.org/chrony/chrony-%{version}%{?prerelease}-tar-gz-asc.txt
 Source2:        https://chrony.tuxfamily.org/gpgkey-8B1F4A9ADA73D401E3085A0B5FF06F29BA1E013B.asc
 Source3:        chrony.dhclient
-Source4:        chrony.helper
 Source5:        chrony-dnssrv@.service
 Source6:        chrony-dnssrv@.timer
 # simulator for test suite
 Source10:       https://github.com/mlichvar/clknetsim/archive/%{clknetsim_ver}/clknetsim-%{clknetsim_ver}.tar.gz
 %{?gitpatch:Patch0: chrony-%{version}%{?prerelease}-%{gitpatch}.patch.gz}
 
-# add NTP servers from DHCP when starting service
-Patch2:         chrony-service-helper.patch
+# add Fedora/RHEL-specific bits to DHCP dispatcher, including
+# deferring to dhclient if installled, and using /etc/sysconfig
+Patch1:         chrony-nm-dispatcher-dhcp.patch
 
 BuildRequires:  libcap-devel libedit-devel nettle-devel pps-tools-devel
 %ifarch %{ix86} x86_64 %{arm} aarch64 mipsel mips64el ppc64 ppc64le s390 s390x
@@ -34,9 +33,6 @@ BuildRequires:  gcc gcc-c++ bison systemd gnupg2 net-tools
 
 Requires(pre):  shadow-utils
 %{?systemd_requires}
-
-# required by chrony-helper
-Requires:       coreutils
 
 # Old NetworkManager expects the dispatcher scripts in a different place
 Conflicts:      NetworkManager < 1.20
@@ -59,18 +55,19 @@ service to other computers in the network.
 %{gpgverify} --keyring=%{SOURCE2} --signature=%{SOURCE1} --data=%{SOURCE0}
 %setup -q -n %{name}-%{version}%{?prerelease} -a 10
 %{?gitpatch:%patch0 -p1}
-%patch2 -p1 -b .service-helper
+%patch1 -p1 -b .nm-dispatcher-dhcp
 
 %{?gitpatch: echo %{version}-%{gitpatch} > version.txt}
 
 # review changes in packaged configuration files and scripts
 md5sum -c <<-EOF | (! grep -v 'OK$')
-        47ad7eccc410b981d2f2101cf5682616  examples/chrony-wait.service
-        e473a9fab7fe200cacce3dca8b66290b  examples/chrony.conf.example2
+        bc563c1bcf67b2da774bd8c2aef55a06  examples/chrony-wait.service
+        2d01b94bc1a7b7fb70cbee831488d121  examples/chrony.conf.example2
         96999221eeef476bd49fe97b97503126  examples/chrony.keys.example
         6a3178c4670de7de393d9365e2793740  examples/chrony.logrotate
-        8748a663f0b1943ea491858f414a6b26  examples/chrony.nm-dispatcher
-        b23bcc3bd78e195ca2849459e459f3ed  examples/chronyd.service
+        e051740bb4b21e2e12e6dc63f5195c48  examples/chrony.nm-dispatcher.dhcp
+        8f5a98fcb400a482d355b929d04b5518  examples/chrony.nm-dispatcher.onoffline
+        32c34c995c59fd1c3ad1616d063ae4a0  examples/chronyd.service
 EOF
 
 # don't allow packaging without vendor zone
@@ -80,9 +77,11 @@ test -n "%{vendorzone}"
 # - use our vendor zone (2.*pool.ntp.org names include IPv6 addresses)
 # - enable leapsectz to get TAI-UTC offset and leap seconds from tzdata
 # - enable keyfile
+# - use NTP servers from DHCP
 sed -e 's|^\(pool \)\(pool.ntp.org\)|\12.%{vendorzone}\2|' \
     -e 's|#\(leapsectz\)|\1|' \
     -e 's|#\(keyfile\)|\1|' \
+    -e 's|^pool.*pool.ntp.org.*|&\n\n# Use NTP servers from DHCP.\nsourcedir /run/chrony-dhcp|' \
         < examples/chrony.conf.example2 > chrony.conf
 
 touch -r examples/chrony.conf.example2 chrony.conf
@@ -93,20 +92,27 @@ rm -f getdate.c
 mv clknetsim-%{clknetsim_ver}* test/simulation/clknetsim
 
 %build
+# This package fails its testsuite when LTO is enabled on s390x
+# Disable LTO for now
+%ifarch s390x
+%define _lto_cflags %{nil}
+%endif
 %configure \
 %{?with_debug: --enable-debug} \
         --enable-ntp-signd \
         --enable-scfilter \
 %{!?with_nts: --disable-nts} \
+        --chronyrundir=/run/chrony \
         --docdir=%{_docdir} \
         --with-ntp-era=$(date -d '1970-01-01 00:00:00+00:00' +'%s') \
         --with-user=chrony \
         --with-hwclockfile=%{_sysconfdir}/adjtime \
+        --with-pidfile=/run/chrony/chronyd.pid \
         --with-sendmail=%{_sbindir}/sendmail
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 
 rm -rf $RPM_BUILD_ROOT%{_docdir}
 
@@ -128,14 +134,14 @@ install -m 644 -p examples/chrony.logrotate \
 
 install -m 644 -p examples/chronyd.service \
         $RPM_BUILD_ROOT%{_unitdir}/chronyd.service
-install -m 755 -p examples/chrony.nm-dispatcher \
-        $RPM_BUILD_ROOT%{_prefix}/lib/NetworkManager/dispatcher.d/20-chrony
+install -m 755 -p examples/chrony.nm-dispatcher.onoffline \
+        $RPM_BUILD_ROOT%{_prefix}/lib/NetworkManager/dispatcher.d/20-chrony-onoffline
+install -m 755 -p examples/chrony.nm-dispatcher.dhcp \
+        $RPM_BUILD_ROOT%{_prefix}/lib/NetworkManager/dispatcher.d/20-chrony-dhcp
 install -m 644 -p examples/chrony-wait.service \
         $RPM_BUILD_ROOT%{_unitdir}/chrony-wait.service
 install -m 644 -p %{SOURCE5} $RPM_BUILD_ROOT%{_unitdir}/chrony-dnssrv@.service
 install -m 644 -p %{SOURCE6} $RPM_BUILD_ROOT%{_unitdir}/chrony-dnssrv@.timer
-
-install -m 755 -p %{SOURCE4} $RPM_BUILD_ROOT%{_libexecdir}/chrony-helper
 
 cat > $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/chronyd <<EOF
 # Command-line options for chronyd
@@ -150,7 +156,7 @@ echo 'chronyd.service' > \
 %check
 # set random seed to get deterministic results
 export CLKNETSIM_RANDOM_SEED=24505
-make %{?_smp_mflags} -C test/simulation/clknetsim
+%make_build -C test/simulation/clknetsim
 make quickcheck
 
 %pre
@@ -160,16 +166,18 @@ getent passwd chrony > /dev/null || /usr/sbin/useradd -r -g chrony \
 :
 
 %post
-# fix PIDFile in local chronyd.service on upgrades from chrony < 3.3-2
-if grep -q 'PIDFile=%{_localstatedir}/run/chronyd.pid' \
-                %{_sysconfdir}/systemd/system/chronyd.service 2> /dev/null && \
-        ! grep -qi '^[ '$'\t'']*pidfile' %{_sysconfdir}/chrony.conf 2> /dev/null
-then
-        sed -i '/PIDFile=/s|/run/|/run/chrony/|' \
-                %{_sysconfdir}/systemd/system/chronyd.service
-fi
 # workaround for late reload of unit file (#1614751)
 %{_bindir}/systemctl daemon-reload
+# migrate from chrony-helper to sourcedir directive
+if test -a %{_libexecdir}/chrony-helper; then
+        grep -qi 'sourcedir /run/chrony-dhcp$' %{_sysconfdir}/chrony.conf 2> /dev/null || \
+                echo -e '\n# Use NTP servers from DHCP.\nsourcedir /run/chrony-dhcp' >> \
+                        %{_sysconfdir}/chrony.conf
+        mkdir -p /run/chrony-dhcp
+        for f in %{_localstatedir}/lib/dhclient/chrony.servers.*; do
+                sed 's|.*|server &|' < $f > /run/chrony-dhcp/"${f##*servers.}.sources"
+        done 2> /dev/null
+fi
 %systemd_post chronyd.service chrony-wait.service
 
 %preun
@@ -189,18 +197,45 @@ fi
 %{_sysconfdir}/dhcp/dhclient.d/chrony.sh
 %{_bindir}/chronyc
 %{_sbindir}/chronyd
-%{_libexecdir}/chrony-helper
 %{_prefix}/lib/NetworkManager
 %{_prefix}/lib/systemd/ntp-units.d/*.list
 %{_unitdir}/chrony*.service
 %{_unitdir}/chrony*.timer
 %{_mandir}/man[158]/%{name}*.[158]*
-%dir %attr(-,chrony,chrony) %{_localstatedir}/lib/chrony
+%dir %attr(750,chrony,chrony) %{_localstatedir}/lib/chrony
 %ghost %attr(-,chrony,chrony) %{_localstatedir}/lib/chrony/drift
 %ghost %attr(-,chrony,chrony) %{_localstatedir}/lib/chrony/rtc
-%dir %attr(-,chrony,chrony) %{_localstatedir}/log/chrony
+%dir %attr(750,chrony,chrony) %{_localstatedir}/log/chrony
 
 %changelog
+* Wed Oct 07 2020 Miroslav Lichvar <mlichvar@redhat.com> 4.0-1
+- update to 4.0
+- update directory permissions to follow upstream
+
+* Wed Sep 16 2020 Miroslav Lichvar <mlichvar@redhat.com> 4.0-0.9.pre4
+- update to 4.0-pre4
+
+* Wed Aug 26 2020 Miroslav Lichvar <mlichvar@redhat.com> 4.0-0.8.pre3
+- update to 4.0-pre3
+- switch to sourcedir directive for loading servers from DHCP
+- add NetworkManager dispatcher script to save servers from DHCP when
+  dhclient is not installed (Robert Fairley)
+- drop old migration code from scriptlet
+- move default paths in /var/run to /run
+
+* Mon Aug 10 2020 Jeff Law <law@redhat.com> - 4.0-0.7.pre2
+- Disable LTO on s390x
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0-0.6.pre2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0-0.5.pre2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> 4.0-0.4.pre2
+- use make macros
+
 * Mon May 04 2020 Miroslav Lichvar <mlichvar@redhat.com> 4.0-0.3.pre2
 - rebuild for new nettle
 

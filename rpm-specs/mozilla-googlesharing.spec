@@ -9,7 +9,7 @@
 
 Name:           mozilla-googlesharing
 Version:        0.18
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Anonymizing proxy service for Googlesharing system
 License:        GPLv3+
 URL:            http://www.googlesharing.net/
@@ -66,6 +66,9 @@ ln -s %{inst_dir} %{buildroot}%{sym_link_dir}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

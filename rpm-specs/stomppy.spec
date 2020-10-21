@@ -1,8 +1,8 @@
 %global         srcname stomppy
 
 Name:           stomppy
-Version:        5.0.1
-Release:        3%{?dist}
+Version:        6.1.0
+Release:        1%{?dist}
 Summary:        Python stomp client for messaging
 
 License:        ASL 2.0
@@ -43,10 +43,15 @@ This module is for the python3.
 %files -n python3-%{srcname}
 %{python3_sitelib}/*
 %{_bindir}/stomp
-%doc CHANGELOG stomp.log.conf
 %license LICENSE
 
 %changelog
+* Thu Aug 20 2020 Steve Traylen <steve.traylen@cern.ch> - 6.1.0-1
+- Update to 6.1.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.0.1-3
 - Rebuilt for Python 3.9
 

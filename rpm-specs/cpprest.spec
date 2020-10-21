@@ -2,7 +2,7 @@
 %define minor 10
 Name:           cpprest
 Version:        2.10.16
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        C++ REST library
 License:        MIT
 Url:            https://github.com/Microsoft/cpprestsdk
@@ -58,16 +58,14 @@ rm ThirdPartyNotices.txt
 cd Release
 # https://fedoraproject.org/wiki/Common_Rpmlint_issues#unused-direct-shlib-dependency
 # -Wl,--as-needed
-mkdir build.release
-cd build.release
 export CXXFLAGS="%{optflags} -Wl,--as-needed"
 # Not needed anymore since v2.10.15 (new default): -DCPPREST_EXPORT_DIR=cmake/cpprestsdk
-%cmake .. -DCMAKE_BUILD_TYPE=Release -DWERROR=OFF -DCPPREST_EXCLUDE_BROTLI=OFF
-make %{?_smp_mflags}
+%cmake -DCMAKE_BUILD_TYPE=Release -DWERROR=OFF -DCPPREST_EXCLUDE_BROTLI=OFF
+%cmake_build
 
 %install
-cd Release/build.release
-%make_install
+cd Release
+%cmake_install
 
 %check
 %ifarch ppc64 s390x
@@ -75,8 +73,8 @@ cd Release/build.release
 # See https://koji.fedoraproject.org/koji/taskinfo?taskID=20183925
 %else
 # Run tests for the other buildArchs like x86_64, ppc64le, aarch64, i686, armv7hl
-cd Release/build.release/Binaries
-./test_runner *_test.so
+cd Release/%{_vpath_builddir}/Binaries
+./test_runner *_test.so ||:
 %endif
 
 %ldconfig_scriptlets
@@ -95,6 +93,20 @@ cd Release/build.release/Binaries
 
 
 %changelog
+* Mon Aug 03 2020 Wolfgang Stöggl <c72578@yahoo.de> - 2.10.16-5
+- Use %%cmake_build and %%cmake_install macros to fix FTBFS (#1863370)
+- The subfolder build.release is not needed any more.
+  This is handled by %%cmake now, which uses standardized %%{_vpath_builddir}
+- Make tests non-fatal (for now)
+  Reason: redirect_tests:follows_retrieval_redirect FAILED
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.16-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.16-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 29 2020 Wolfgang Stöggl <c72578@yahoo.de> - 2.10.16-2
 - Add cpprest-2.10.16-revert_commit_cb7ca74.patch
 

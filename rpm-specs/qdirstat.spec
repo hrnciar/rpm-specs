@@ -1,5 +1,5 @@
 Name:           qdirstat
-Version:        1.6.1
+Version:        1.7
 Release:        1%{?dist}
 Summary:        Qt-based directory statistics
 
@@ -50,6 +50,12 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/%{name}.a
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 
 %changelog
+* Mon Aug 24 22:14:44 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.7-1
+- Update to 1.7 (#1860727)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 00:59:03 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.6.1-1
 - Update to 1.6.1
 

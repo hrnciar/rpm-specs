@@ -1,5 +1,5 @@
 Name:           mate-system-monitor
-Version:        1.24.0
+Version:        1.24.1
 Release:        1%{?dist}
 Summary:        Process and resource monitor
 License:        GPLv2+
@@ -61,6 +61,12 @@ desktop-file-install --delete-original             \
 
 
 %changelog
+* Fri Aug 21 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- update to 1.24.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-1
 - update to 1.24.0
 

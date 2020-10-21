@@ -1,6 +1,6 @@
 Name:           lv2-invada-plugins
 Version:        1.2.0
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        A collection of LV2 plugins from Invada Records
 
 # The file plugingui/lv2_ui.h is LGPLv2+.  The rest are GPLv2+.
@@ -45,6 +45,9 @@ make install-sys DESTDIR="$RPM_BUILD_ROOT" INSTALL_SYS_PLUGINS_DIR="%{_libdir}/l
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           xonsh
-Version:        0.9.17
-Release:        2%{?dist}
+Version:        0.9.21
+Release:        1%{?dist}
 Summary:        A general purpose, Python-ish shell
 
 # xonsh is BSD-2-Clause.
@@ -11,20 +11,29 @@ Source0:        %pypi_source
 BuildArch:      noarch
 
 BuildRequires:  python%{python3_pkgversion}-devel
-BuildRequires:  python%{python3_pkgversion}-setuptools
+BuildRequires:  %{py3_dist setuptools}
 BuildRequires:  %{py3_dist ply}
 BuildRequires:  %{py3_dist prompt-toolkit}
 BuildRequires:  %{py3_dist pygments}
 BuildRequires:  %{py3_dist pytest}
-BuildRequires:  git
+BuildRequires:  git-core
 BuildRequires:  man-db
-Requires:       python3 >= 3.4
-Requires:       %{py3_dist ply}
+# needed for tests:
+BuildRequires:  /usr/bin/python
+
+# required by "ptk" extra:
 Requires:       %{py3_dist prompt-toolkit}
+
+# required by "setproctitle" extra:
 Requires:       %{py3_dist setproctitle}
+
+# required by "full" extra:
+#Requires:      %%{py3_dist ptk} -- not available
 Requires:       %{py3_dist pygments}
 Requires:       %{py3_dist distro}
 
+# unbundled in %%prep
+Requires:       %{py3_dist ply}
 
 %description
 xonsh is a Python-powered, cross-platform, Unix-gazing shell language and
@@ -35,34 +44,37 @@ and novices alike.
 %prep
 %autosetup -n %{name}-%{version}
 
-%build
-# Remove shebang.
-sed --in-place "s:#!\s*/usr.*::" xonsh/xoreutils/_which.py
+# Unbundle ply
+sed --in-place '/xonsh\.ply/d' setup.py
+sed --in-place -e 's/xonsh\.ply\.ply/ply/' \
+               -e 's/from xonsh\.ply //' \
+               $(grep -rl --include='*.py' 'xonsh\.ply')
+rm -r xonsh/ply
 
+# Remove shebang.
+sed --in-place "s:#!\s*/usr.*::" xonsh/xoreutils/_which.py xonsh/webconfig/main.py
+
+%build
 %py3_build
 
 %install
 %py3_install
 
-# py3_build produces erroneous shebangs. Fix them.
-# https://bugzilla.redhat.com/show_bug.cgi?id=1335203
-pathfix.py -i "%{__python3} %{py3_shbang_opts}u" -p -n %{buildroot}%{_bindir}/xonsh
-pathfix.py -i "%{__python3} %{py3_shbang_opts}u" -p -n %{buildroot}%{_bindir}/xonsh-cat
-
 %check
+# test_parser.py is mostly incompatible with Python 3.8+
+sed --in-place "s:ignores = \[\]:ignores = \['--ignore', 'tests/test_parser.py'\]:" run-tests.xsh
+
+# let upstream do the linting
+sed --in-place '/flake8/d' run-tests.xsh
+
 # The tests only succeed if:
 #
 # - They are run from within a xonsh shell.
-# - They are run with the `py.test-3` executable instead of `python3 -m pytest`.
+# - They are run with xonsh directly instead of `python3 -m pytest`.
 #
 # The run-tests.xsh script does those things for us.
-
-if [ "%{python3_version_nodots}" -ge "38" ]; then
-  sed --in-place "s:ignores = \[\]:ignores = \['--ignore', 'tests/test_parser.py'\]:" run-tests.xsh
-fi
-
-sed --in-place "s:pytest:py.test-3:" run-tests.xsh
-PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=%{buildroot}%{python3_sitelib} PATH="%{buildroot}%{_bindir}:$PATH" %{buildroot}%{_bindir}/xonsh run-tests.xsh
+%global __pytest xonsh run-tests.xsh
+%pytest
 
 %post
 if [ "$1" -ge 1 ]; then
@@ -94,8 +106,13 @@ fi
 %{python3_sitelib}/xonsh-%{version}*-py%{python3_version}.egg-info/
 
 %changelog
-* Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.17-2
+* Thu Sep 10 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.21-1
 - Rebuilt for Python 3.9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+- Update to 0.9.21
+- Unbundle ply
+- Fixes: rhbz#1817770
+- Fixes: rhbz#1822355
 
 * Fri Apr 10 2020 Carmen Bianca Bakker <carmenbianca@fedoraproject.org> - 0.9.17-1
 - new version

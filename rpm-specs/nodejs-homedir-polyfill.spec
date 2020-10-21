@@ -7,7 +7,7 @@
 
 Name:		nodejs-homedir-polyfill
 Version:	1.0.1
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	Node.js os.homedir polyfill for older versions of node.js
 
 License:	MIT
@@ -61,6 +61,9 @@ HOME=/builddir %{_bindir}/mocha -R spec
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

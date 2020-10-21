@@ -1,7 +1,7 @@
 %global uuid    com.github.unrud.VideoDownloader
 
 Name:           video-downloader
-Version:        0.3.0
+Version:        0.5.8
 Release:        1%{?dist}
 Summary:        Download videos from websites like YouTube and many others
 
@@ -20,6 +20,7 @@ BuildRequires:  pkgconfig(glib-2.0)
 
 Requires:       gtk3
 Requires:       hicolor-icon-theme
+Requires:       libhandy1 >= 0.90.0
 Requires:       python3-xlib
 Requires:       youtube-dl
 
@@ -50,7 +51,7 @@ Based on youtube-dl.
 
 
 %check
-appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.xml
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
@@ -67,6 +68,40 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Sun Oct  4 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.5.8-1
+- Update to 0.5.8
+
+* Sun Sep 20 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.5.7-1
+- Update to 0.5.7
+
+* Sat Sep 19 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.5.6-1
+- Update to 0.5.6
+
+* Mon Sep  7 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.5.5-1
+- Update to 0.5.5
+
+* Mon Aug 31 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.5.3-1
+- Update to 0.5.3
+
+* Wed Aug 26 19:19:37 EEST 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.4.1-1
+- Update to 0.4.1
+
+* Sun Aug 16 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.4.0-1
+- Update to 0.4.0
+- Add new dep: libhandy1
+
+* Tue Aug 11 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.3.3-1
+- Update to 0.3.3
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.3.2-1
+- Update to 0.3.2
+
+* Mon Jul 06 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.3.1-1
+- Update to 0.3.1
+
 * Sat Jun 20 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.3.0-1
 - Update to 0.3.0
 

@@ -14,7 +14,7 @@
 
 Name:           php-horde-Horde-Notification
 Version:        2.0.4
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Horde Notification System
 
 License:        LGPLv2
@@ -101,6 +101,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.4-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.4-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

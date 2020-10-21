@@ -1,7 +1,7 @@
 %global project		CopyQ
 Name:		copyq	
 Summary:	Advanced clipboard manager
-Version:	3.11.1
+Version:	3.13.0
 Release:	1%{?dist}
 License:	GPLv3+
 Url:		https://hluk.github.io/%{project}/
@@ -11,6 +11,10 @@ BuildRequires:	libXtst-devel, libXfixes-devel, desktop-file-utils
 BuildRequires:	kf5-rpm-macros, qt5-qtbase-devel, qt5-qtwebkit-devel, qt5-qtsvg-devel
 BuildRequires:	qt5-qttools-devel, qt5-qtscript-devel, qwt-qt5-devel, qt5-qtx11extras-devel
 BuildRequires:	extra-cmake-modules, appstream-qt-devel, libappstream-glib
+BuildRequires:	qt5-qtbase-private-devel
+
+# Following line used to track qt5 private api usage
+%{?_qt5:Requires: %{_qt5}%{?_isa} = %{_qt5_version}}
 
 %description
 CopyQ is advanced clipboard manager with searchable and editable history with
@@ -22,16 +26,16 @@ chmod 644 %{SOURCE0}
 sed -i '/DQT_RESTRICTED_CAST_FROM_ASCII/d' CMakeLists.txt
 
 %build
-%{cmake_kf5}	-DCMAKE_SKIP_RPATH=TRUE \
+%cmake_kf5 \
 				-DWITH_QT5=ON \
 				-DWITH_TESTS=TRUE \
-				-DCMAKE_INSTALL_PREFIX=%{_prefix} \
 				-DPLUGIN_INSTALL_PREFIX=%{_libdir}/%{name}/plugins \
-				-DTRANSLATION_INSTALL_PREFIX:PATH=%{_datadir}/%{name}/locale .
-make %{?_smp_mflags}
+				-DTRANSLATION_INSTALL_PREFIX:PATH=%{_datadir}/%{name}/locale
+
+%cmake_build
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install
+%cmake_install
 %find_lang %{name} --with-qt
 
 %check
@@ -53,6 +57,29 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/metainfo/com.gi
 %{_mandir}/man1/%{name}.1.*
 
 %changelog
+* Fri Oct 16 2020 Gerald Cox <gbcox@fedoraproject.org> - 3.13.0-1
+- Reverse 3.12.0-6 changes (#1888764)
+- Upstream release - rhbz#1888986
+
+* Thu Oct 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 3.12.0-6
+- drop BR: qt5-qtbase-private-devel, minor cleanup (#1888764)
+
+* Thu Oct 15 2020 Gerald Cox <gbcox@fedoraproject.org> - 3.12.0-5
+- rhbz#1888764
+
+* Thu Aug 06 2020 Gerald Cox <gbcox@fedoraproject.org> - 3.12.0-4
+- rhbz#1863364
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.12.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.12.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Gerald Cox <gbcox@fedoraproject.org> - 3.12.0-1
+- Upstream release rhbz#1856080
+
 * Fri May 08 2020 Gerald Cox <gbcox@fedoraproject.org> - 3.11.1-1
 - Upstream release rhbz#1830240
 

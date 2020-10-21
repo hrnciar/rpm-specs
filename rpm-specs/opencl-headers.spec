@@ -1,18 +1,18 @@
-%global commit0 5cc337c890dab1c996cc97b617c578d37a7247bf
-%global date 20200512
+%global commit0 d65bcc5123f93ce7c6b2a3c164fed35c423fc83d
+%global date 20201007
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
-%global cl_hpp_ver 2.0.11
+%global cl_hpp_ver 2.0.12
 
 Name:           opencl-headers
 Version:        3.0
-Release:        0%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+Release:        3%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        OpenCL (Open Computing Language) header files
 
 License:        MIT
 URL:            https://www.khronos.org/registry/cl/
 
 Source0:        https://github.com/KhronosGroup/OpenCL-Headers/archive/%{commit0}/OpenCL-Headers-%{commit0}.tar.gz#/OpenCL-Headers-%{shortcommit0}.tar.gz
-Source1:        https://github.com/KhronosGroup/OpenCL-CLHPP/releases/download/v%{cl_hpp_ver}/cl2.hpp
+Source1:        https://github.com/KhronosGroup/OpenCL-CLHPP/archive/v%{cl_hpp_ver}.zip#/OpenCL-CLHPP-%{cl_hpp_ver}.zip
 # OCL 1.2 compatibility
 Source2:        https://www.khronos.org/registry/cl/api/2.1/cl.hpp
 
@@ -24,7 +24,8 @@ BuildArch:      noarch
 %prep
 %autosetup -n OpenCL-Headers-%{commit0}
 
-cp -p %{SOURCE1} %{SOURCE2} .
+%{uncompress:%{SOURCE1}}
+cp -p OpenCL-CLHPP-%{cl_hpp_ver}/include/CL/cl2.hpp %{SOURCE2} .
 
 %build
 # Nothing to build
@@ -53,6 +54,17 @@ rm -vf %{buildroot}%{_includedir}/CL/cl_{dx9,d3d}*
 %{_includedir}/CL/cl.hpp
 
 %changelog
+* Wed Oct 07 2020 Dave Airlie <airlied@redhat.com> - 3.0-2git20201007gitd65bcc5
+- Update latest headers
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Karol Herbst <kherbst@redhat.com> - 3.0-1.20200512gitd082d42
+- Update to latest upstream, pick up new extensions for OpenCL-CTS build fix
+- Rework CLHPP handling as file is not downloadable anymore
+- Bump CLHPP version to 2.0.12
+
 * Wed May 20 2020 Karol Herbst <kherbst@redhat.com> - 3.0-0.20200512git5cc337c
 - Update to latest upstream, pick up new extensions for OpenCL-CTS build fix
 - Bump CLHPP version to 2.0.11

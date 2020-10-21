@@ -1,6 +1,6 @@
 Name:           hstr
 Version:        2.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Suggest box like shell history completion
 
 License:        ASL 2.0
@@ -41,6 +41,9 @@ autoreconf -fiv
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

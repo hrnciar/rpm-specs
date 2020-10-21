@@ -1,6 +1,6 @@
 Name:           babeltrace2
 Version:        2.0.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A trace manipulation toolkit
 # # For a breakdown of the licensing, see LICENSE
 License:        MIT and GPLv2
@@ -121,6 +121,9 @@ rm -f %{buildroot}/%{_pkgdocdir}/std-ext-lib.txt
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.3-2
 - Rebuilt for Python 3.9
 

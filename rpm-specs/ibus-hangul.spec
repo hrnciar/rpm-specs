@@ -1,13 +1,9 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 %global require_ibus_version 1.3.99
 %global require_libhangul_version 0.1.0
 
 Name:       ibus-hangul
-Version:    1.5.3
-Release:    2%{?dist}
+Version:    1.5.4
+Release:    3%{?dist}
 Summary:    The Hangul engine for IBus input platform
 License:    GPLv2+
 URL:        https://github.com/libhangul/ibus-hangul
@@ -23,8 +19,9 @@ BuildRequires:  libhangul-devel >= %{require_libhangul_version}
 BuildRequires:  pkgconfig
 BuildRequires:  ibus-devel >= %{require_ibus_version}
 BuildRequires:  desktop-file-utils
-BuildRequires:  python3
+BuildRequires:  python3-devel
 BuildRequires:  gnome-common
+BuildRequires:  gtk3-devel
 
 Requires:   ibus >= %{require_ibus_version}
 Requires:   libhangul >= %{require_libhangul_version}
@@ -35,57 +32,33 @@ Requires:   python3
 The Hangul engine for IBus platform. It provides Korean input method from
 libhangul.
 
+%package tests
+Summary:        Tests for the %{name} package
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description tests
+The %{name}-tests package contains tests that can be used to verify
+the functionality of the installed %{name} package.
+
 %prep
 %setup -q
 %patch1 -p1 -b .setup-abspath
 
-# autopoint -f
-# AUTOPOINT='intltoolize --automake --copy' autoreconf -fi
-
 %build
 ./autogen.sh
-%configure --disable-static --with-python=python3 %{?_with_hotkeys}
-# make -C po update-gmo
+%configure \
+           --disable-static \
+           --with-python=python3 \
+           %{?_with_hotkeys} \
+           --enable-installed-tests \
+           %{nil}
+
 make %{?_smp_mflags}
 
 %install
 make DESTDIR=${RPM_BUILD_ROOT} install INSTALL="install -p"
 
-# Register as an AppStream component to be visible in the software center
-#
-# NOTE: It would be *awesome* if this file was maintained by the upstream
-# project, translated and installed into the right place during `make install`.
-#
-# See http://www.freedesktop.org/software/appstream/docs/ for more details.
-#
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/appdata
-cat > $RPM_BUILD_ROOT%{_datadir}/appdata/hangul.appdata.xml <<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<component type="inputmethod">
-  <id>hangul.xml</id>
-  <metadata_license>CC0-1.0</metadata_license>
-  <name>Hangul</name>
-  <summary>Korean input method</summary>
-  <description>
-    <p>
-      The Hangul input method is designed for entering Korean text.
-    </p>
-    <p>
-      Input methods are typing systems allowing users to input complex languages.
-      They are necessary because these contain too many characters to simply be laid
-      out on a traditional keyboard.
-    </p>
-  </description>
-  <url type="homepage">http://code.google.com/p/ibus/</url>
-  <compulsory_for_desktop>GNOME</compulsory_for_desktop>
-  <project_group>GNOME</project_group>
-  <developer_name>The GNOME Project</developer_name>
-  <url type="bugtracker">https://code.google.com/p/ibus/issues/list</url>
-  <url type="donation">http://www.gnome.org/friends/</url>
-  <url type="help">https://code.google.com/p/ibus/wiki/FAQ</url>
-  <update_contact><!-- upstream-contact_at_email.com --></update_contact>
-</component>
-EOF
+%py_byte_compile %{python3} $RPM_BUILD_ROOT%{_datadir}/ibus-hangul/setup
 
 rm -f ${RPM_BUILD_ROOT}%{_bindir}/ibus-setup-hangul
 sed -i 's!^Exec=ibus-setup-hangul!Exec=%{_libexecdir}/ibus-setup-hangul!' ${RPM_BUILD_ROOT}%{_datadir}/applications/ibus-setup-hangul.desktop
@@ -93,6 +66,11 @@ sed -i 's!^Exec=ibus-setup-hangul!Exec=%{_libexecdir}/ibus-setup-hangul!' ${RPM_
 desktop-file-validate ${RPM_BUILD_ROOT}%{_datadir}/applications/ibus-setup-hangul.desktop
 
 %find_lang %{name}
+
+%check
+make check \
+    DISABLE_GUI_TESTS="ibus-hangul" \
+    VERBOSE=1
 
 %post
 [ -x %{_bindir}/ibus ] && \
@@ -106,7 +84,6 @@ desktop-file-validate ${RPM_BUILD_ROOT}%{_datadir}/applications/ibus-setup-hangu
 %doc AUTHORS COPYING README
 %{_libexecdir}/ibus-engine-hangul
 %{_libexecdir}/ibus-setup-hangul
-%{_datadir}/appdata/*.appdata.xml
 %{_datadir}/metainfo/*.metainfo.xml
 %{_datadir}/glib-2.0/schemas/*.gschema.xml
 %{_datadir}/ibus-hangul
@@ -114,7 +91,28 @@ desktop-file-validate ${RPM_BUILD_ROOT}%{_datadir}/applications/ibus-setup-hangu
 %{_datadir}/applications/ibus-setup-hangul.desktop
 %{_datadir}/icons/hicolor/*/apps/*
 
+%files tests
+%dir %{_libexecdir}/installed-tests
+%{_libexecdir}/installed-tests/ibus-hangul
+%dir %{_datadir}/installed-tests
+%{_datadir}/installed-tests/ibus-hangul
+
 %changelog
+* Thu Sep 10 2020 Peng Wu <pwu@redhat.com> - 1.5.4-3
+- Add tests sub package
+
+* Wed Sep  2 2020 Peng Wu <pwu@redhat.com> - 1.5.4-2
+- Clean up the spec file
+
+* Mon Aug 24 2020 Peng Wu <pwu@redhat.com> - 1.5.4-1
+- Update to 1.5.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Peng Wu <pwu@redhat.com> - 1.5.3-3
+- Switch to use py_byte_compile rpm macro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

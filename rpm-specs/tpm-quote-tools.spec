@@ -1,6 +1,6 @@
 Name:		tpm-quote-tools
 Version:	1.0.4
-Release:	5%{?dist}
+Release:	6%{?dist}
 Source0:	http://downloads.sourceforge.net/tpmquotetools/%{name}-%{version}.tar.gz
 
 URL:		http://sf.net/projects/tpmquotetools
@@ -31,6 +31,9 @@ make DESTDIR=%{buildroot} install
 %{_mandir}/man8/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

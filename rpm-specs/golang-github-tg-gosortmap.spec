@@ -16,7 +16,7 @@ comparator can be provided to support custom types and ordering.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.5%{?dist}
+Release:        0.6%{?dist}
 Summary:        Sort maps in Go
 
 License:        MIT
@@ -42,6 +42,9 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

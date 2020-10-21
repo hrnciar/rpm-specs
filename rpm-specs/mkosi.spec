@@ -1,6 +1,6 @@
 Name:           mkosi
-Version:        5
-Release:        3%{?dist}
+Version:        6
+Release:        1%{?dist}
 Summary:        Create legacy-free OS images
 
 License:        LGPLv2+
@@ -8,7 +8,9 @@ URL:            https://github.com/systemd/mkosi
 Source0:        https://github.com/systemd/mkosi/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildArch:      noarch
-BuildRequires:  python3
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
+BuildRequires:  pip
 
 Recommends:     dnf
 Recommends:     debootstrap
@@ -41,19 +43,27 @@ supported (not plain MBR/BIOS).
 # no build required
 
 %install
-# It's just one file, and setup.py install would copy useless .egg-info
-install -Dpt %{buildroot}%{_bindir}/ mkosi
+python3 -m pip install --root=%{buildroot} .
 
 %files
 %license LICENSE
 %doc README.md
 %_bindir/mkosi
+%{python3_sitelib}/mkosi/
+%{python3_sitelib}/mkosi-%{version}-py*.egg-info/
+%_mandir/man1/mkosi.1*
 
 %check
 # just a smoke test for syntax or import errors
 %buildroot/usr/bin/mkosi --help
 
 %changelog
+* Sat Oct  3 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 6-1
+- Update to latest version (#1884879)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

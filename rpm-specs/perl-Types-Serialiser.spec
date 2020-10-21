@@ -1,7 +1,7 @@
 Name:		perl-Types-Serialiser
 Summary:	Simple data types for common serialization formats
 Version:	1.0
-Release:	19%{?dist}
+Release:	20%{?dist}
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Types-Serialiser
 Source0:	https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/Types-Serialiser-%{version}.tar.gz 
@@ -61,6 +61,9 @@ make test
 %{_mandir}/man3/Types::Serialiser::Error.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.0-19
 - Perl 5.32 rebuild
 

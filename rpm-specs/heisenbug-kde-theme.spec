@@ -2,7 +2,7 @@
 
 Name:		heisenbug-kde-theme
 Version:	19.90.5
-Release:	12%{?dist}
+Release:	13%{?dist}
 Summary:	Heisenbug KDE Theme
 
 License:	GPLv2+ and CC-BY-SA
@@ -84,6 +84,9 @@ ln -s ../../../../../../pixmaps/system-logo-white.png %{buildroot}%{_kde4_appsdi
 %{_kde4_appsdir}/ksplash/Themes/Heisenbug/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.90.5-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.90.5-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,8 @@
+%global __cmake_in_source_build 1
+
 Name:           soxr
 Version:        0.1.3
-Release:        5%{?dist}
+Release:        8%{?dist}
 Summary:        The SoX Resampler library
 
 License:        LGPLv2+
@@ -28,24 +30,21 @@ developing applications that use %{name}.
 
 
 %build
-rm -rf build && mkdir build && pushd build
 export LDFLAGS="-Wl,--as-needed"
 %cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-       ../
-%make_build
+       -DWITH_CR32S=FALSE
+%cmake_build
 
 
 %install
-pushd build
-%make_install
+%cmake_install
 
 # Remove docs and use the rpmbuild macro instead
 rm -rf %{buildroot}%{_docdir}/*
 
 
 %check
-pushd build
-make test
+%ctest
 
 %ldconfig_scriptlets
 
@@ -64,6 +63,16 @@ make test
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <lwa@redhat.com> - 0.1.3-6
+- Use __cmake_in_source_build
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,19 +1,17 @@
 %bcond_with check
 
 %global packname processx
-%global packver  3.4.2
+%global packver  3.4.4
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          3.4.2
-Release:          2%{?dist}
+Version:          3.4.4
+Release:          1%{?dist}
 Summary:          Execute and Control System Processes
 
 License:          MIT
 URL:              https://CRAN.R-project.org/package=%{packname}
 Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
-# Fix curl test with no network.
-Patch0001:        https://github.com/r-lib/processx/commit/4e3715af514b0187bd47d87e8fd99e17ad1d341c.patch
 
 # Here's the R view of the dependencies world:
 # Depends:
@@ -50,12 +48,8 @@ with a timeout. It can also poll several processes at once.
 %prep
 %setup -q -c -n %{packname}
 
-pushd %{packname}
-%patch0001 -p1
-
 # Don't need coverage; it's not packaged either.
-sed -i 's/covr, //g' DESCRIPTION
-popd
+sed -i 's/covr, //g' %{packname}/DESCRIPTION
 
 
 %build
@@ -97,6 +91,19 @@ install -pm 0644 %{packname}/README.md %{buildroot}%{rlibdir}/%{packname}/
 
 
 %changelog
+* Sat Sep 05 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 3.4.4-1
+- Update to latest version (#1875519)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 3.4.3-1
+- Update to latest version
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 3.4.2-2
 - rebuild for R 4
 - conditionalize check to break testthat loop

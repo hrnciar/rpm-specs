@@ -2,14 +2,19 @@
 Name:             pki-core
 ################################################################################
 
-Summary:          PKI Core Package
+%global           vendor_id dogtag
+%global           brand Dogtag
+
+Summary:          %{brand} PKI Core Package
 URL:              http://www.dogtagpki.org/
 # The entire source code is GPLv2 except for 'pki-tps' which is LGPLv2
 License:          GPLv2 and LGPLv2
 
-Version:          10.9.0
-Release:          0.2%{?_timestamp}%{?_commit_id}%{?dist}
-%global           _phase -a2
+# For development (unsupported) releases, use x.y.z-0.n.unstable with alpha/beta phase.
+# For official (supported) releases, use x.y.z-r where r >=1 without alpha/beta phase.
+Version:          10.9.4
+Release:          3%{?_timestamp}%{?_commit_id}%{?dist}
+#global           _phase -a1
 
 # To create a tarball from a version tag:
 # $ git archive \
@@ -25,6 +30,9 @@ Source: https://github.com/dogtagpki/pki/archive/v%{version}%{?_phase}/pki-%{ver
 #     <version tag> \
 #     > pki-VERSION-RELEASE.patch
 # Patch: pki-VERSION-RELEASE.patch
+Patch1: 0001-Add-dependencies-in-Java11-specific-libraries.patch
+Patch2: 0002-Make-PKI_JAVA_PATH-respect-PKI_JAVA_PATH.patch
+Patch3: 0003-Fix-java_version-java_version.patch
 
 ################################################################################
 # NSS
@@ -46,7 +54,15 @@ Source: https://github.com/dogtagpki/pki/archive/v%{version}%{?_phase}/pki-%{ver
 # Java
 ################################################################################
 
-%define java_home %{_usr}/lib/jvm/jre-1.8.0-openjdk
+%define java_home /usr/lib/jvm/jre-openjdk
+%define java_devel java-devel
+%define java_headless java-headless
+
+%if 0%{?fedora} && 0%{?fedora} >= 33
+%define min_java_version 1:11
+%else
+%define min_java_version 1:1.8.0
+%endif
 
 ################################################################################
 # RESTEasy
@@ -86,27 +102,18 @@ Source: https://github.com/dogtagpki/pki/archive/v%{version}%{?_phase}/pki-%{ver
 # Define --with <package> or --without <package> options depending on
 # package selection method.
 
-# package_option base
 %global with_base 1
-# package_option server
 %global with_server 1
-# package_option ca
 %global with_ca 1
-# package_option kra
 %global with_kra 1
-# package_option ocsp
 %global with_ocsp 1
-# package_option tks
 %global with_tks 1
-# package_option tps
 %global with_tps 1
-# package_option javadoc
 %global with_javadoc 1
-# package_option console
 %global with_console 1
-# package_option theme
-# package_option meta
-# package_option debug
+%global without_theme 1
+%global without_meta 1
+%global without_tests 1
 %global with_debug 1
 
 %if ! %{with debug}
@@ -127,8 +134,6 @@ Source: https://github.com/dogtagpki/pki/archive/v%{version}%{?_phase}/pki-%{ver
 %define pki_groupname pkiuser
 %define pki_gid 17
 %define pki_homedir /usr/share/pki
-
-%global brand dogtag
 
 %global saveFileContext() \
 if [ -s /etc/selinux/config ]; then \
@@ -159,7 +164,8 @@ BuildRequires:    make
 BuildRequires:    cmake >= 3.0.2
 BuildRequires:    gcc-c++
 BuildRequires:    zip
-BuildRequires:    java-1.8.0-openjdk-devel
+BuildRequires:    %java_devel >= %{min_java_version}
+BuildRequires:    javapackages-tools
 BuildRequires:    redhat-rpm-config
 BuildRequires:    ldapjdk >= 4.22.0
 BuildRequires:    apache-commons-cli
@@ -200,6 +206,7 @@ BuildRequires:    resteasy-jackson2-provider >= 3.0.17-1
 
 BuildRequires:    python3 >= 3.5
 BuildRequires:    python3-devel
+BuildRequires:    python3-setuptools
 BuildRequires:    python3-cryptography
 BuildRequires:    python3-lxml
 BuildRequires:    python3-ldap
@@ -216,7 +223,7 @@ BuildRequires:    python3-pytest-runner
 
 BuildRequires:    junit
 BuildRequires:    jpackage-utils >= 0:1.7.5-10
-BuildRequires:    jss >= 4.7.0
+BuildRequires:    jss >= 4.7.3
 BuildRequires:    tomcatjss >= 7.5.0
 BuildRequires:    systemd-units
 
@@ -256,10 +263,10 @@ BuildRequires:    nss-tools
 BuildRequires:    openssl
 
 # description for top-level package (if there is a separate meta package)
-%if "%{name}" != "%{brand}-pki"
+%if "%{name}" != "%{vendor_id}-pki"
 %description
 
-Dogtag PKI is an enterprise software system designed
+%{brand} PKI is an enterprise software system designed
 to manage enterprise Public Key Infrastructure deployments.
 
 PKI consists of the following components:
@@ -273,18 +280,18 @@ PKI consists of the following components:
 %endif
 
 %if %{with meta}
-%if "%{name}" != "%{brand}-pki"
+%if "%{name}" != "%{vendor_id}-pki"
 ################################################################################
-%package -n       %{brand}-pki
+%package -n       %{vendor_id}-pki
 ################################################################################
 
-Summary:          Dogtag PKI Package
+Summary:          %{brand} PKI Package
 %endif
 
 # Make certain that this 'meta' package requires the latest version(s)
 # of ALL PKI theme packages
-Requires:         %{brand}-pki-server-theme = %{version}
-Requires:         %{brand}-pki-console-theme = %{version}
+Requires:         %{vendor_id}-pki-server-theme = %{version}
+Requires:         %{vendor_id}-pki-console-theme = %{version}
 
 # Make certain that this 'meta' package requires the latest version(s)
 # of ALL PKI core packages
@@ -304,13 +311,13 @@ Requires:         pki-javadoc = %{version}
 Requires:         esc >= 1.1.1
 
 # description for top-level package (unless there is a separate meta package)
-%if "%{name}" == "%{brand}-pki"
+%if "%{name}" == "%{vendor_id}-pki"
 %description
 %else
-%description -n   %{brand}-pki
+%description -n   %{vendor_id}-pki
 %endif
 
-Dogtag PKI is an enterprise software system designed
+%{brand} PKI is an enterprise software system designed
 to manage enterprise Public Key Infrastructure deployments.
 
 PKI consists of the following components:
@@ -331,9 +338,9 @@ PKI consists of the following components:
 
 Summary:          PKI Symmetric Key Package
 
-Requires:         java-1.8.0-openjdk-headless
+Requires:         %java_headless >= %{min_java_version}
 Requires:         jpackage-utils >= 0:1.7.5-10
-Requires:         jss >= 4.7.0
+Requires:         jss >= 4.7.3
 Requires:         nss >= 3.38.0
 
 # Ensure we end up with a useful installation
@@ -399,7 +406,7 @@ This package contains PKI client library for Python 3.
 Summary:          PKI Base Java Package
 BuildArch:        noarch
 
-Requires:         java-1.8.0-openjdk-headless
+Requires:         %java_headless >= %{min_java_version}
 Requires:         apache-commons-cli
 Requires:         apache-commons-codec
 Requires:         apache-commons-io
@@ -411,7 +418,7 @@ Requires:         glassfish-jaxb-api
 Requires:         slf4j
 Requires:         slf4j-jdk14
 Requires:         jpackage-utils >= 0:1.7.5-10
-Requires:         jss >= 4.7.0
+Requires:         jss >= 4.7.3
 Requires:         ldapjdk >= 4.22.0
 Requires:         pki-base = %{version}-%{release}
 
@@ -423,6 +430,11 @@ Requires:         resteasy-client >= 3.0.17-1
 Requires:         resteasy-jaxb-provider >= 3.0.17-1
 Requires:         resteasy-core >= 3.0.17-1
 Requires:         resteasy-jackson2-provider >= 3.0.17-1
+%endif
+
+%if 0%{?fedora} && 0%{?fedora} >= 33
+Requires:         jaxb-impl >= 2.3.3
+Requires:         jakarta-activation >= 1.2.2
 %endif
 
 Requires:         xalan-j2
@@ -492,6 +504,8 @@ Requires:         tomcat >= 1:9.0.7
 %endif
 
 Requires:         velocity
+Requires:         sudo
+Requires:         systemd
 Requires(post):   systemd-units
 Requires(preun):  systemd-units
 Requires(postun): systemd-units
@@ -741,10 +755,10 @@ The PKI Console is a Java application used to administer PKI server.
 
 %if %{with theme}
 ################################################################################
-%package -n       %{brand}-pki-server-theme
+%package -n       %{vendor_id}-pki-server-theme
 ################################################################################
 
-Summary:          Dogtag PKI Server Theme Package
+Summary:          %{brand} PKI Server Theme Package
 BuildArch:        noarch
 
 Provides:         pki-server-theme = %{version}
@@ -754,15 +768,16 @@ Conflicts:        pki-base < %{version}
 Conflicts:        pki-symkey < %{version}
 Conflicts:        pki-console-theme < %{version}
 Conflicts:        pki-javadoc < %{version}
-%description -n   %{brand}-pki-server-theme
+
+%description -n   %{vendor_id}-pki-server-theme
 This PKI Server Theme Package contains
-Dogtag textual and graphical user interface for PKI Server.
+%{brand} textual and graphical user interface for PKI Server.
 
 ################################################################################
-%package -n       %{brand}-pki-console-theme
+%package -n       %{vendor_id}-pki-console-theme
 ################################################################################
 
-Summary:          Dogtag PKI Console Theme Package
+Summary:          %{brand} PKI Console Theme Package
 BuildArch:        noarch
 
 Provides:         pki-console-theme = %{version}
@@ -773,9 +788,9 @@ Conflicts:        pki-symkey < %{version}
 Conflicts:        pki-server-theme < %{version}
 Conflicts:        pki-javadoc < %{version}
 
-%description -n   %{brand}-pki-console-theme
+%description -n   %{vendor_id}-pki-console-theme
 This PKI Console Theme Package contains
-Dogtag textual and graphical user interface for PKI Console.
+%{brand} textual and graphical user interface for PKI Console.
 
 # with theme
 %endif
@@ -804,6 +819,13 @@ This package contains PKI test suite.
 %build
 ################################################################################
 
+# get Java <major>.<minor> version number
+java_version=`%{java_home}/bin/java -XshowSettings:properties -version 2>&1 | sed -n 's/ *java.version *= *\([0-9]\+\.[0-9]\+\).*/\1/p'`
+
+# if <major> == 1, get <minor> version number
+# otherwise get <major> version number
+java_version=`echo $java_version | sed -e 's/^1\.//' -e 's/\..*$//'`
+
 # get Tomcat <major>.<minor> version number
 tomcat_version=`/usr/sbin/tomcat version | sed -n 's/Server number: *\([0-9]\+\.[0-9]\+\).*/\1/p'`
 
@@ -813,14 +835,19 @@ else
     app_server=tomcat-$tomcat_version
 fi
 
+%if 0%{?rhel}
 %{__mkdir_p} build
 cd build
+%endif
+
 %cmake \
     --no-warn-unused-cli \
     -DVERSION=%{version}-%{release} \
     -DVAR_INSTALL_DIR:PATH=/var \
     -DP11_KIT_TRUST=/etc/alternatives/libnssckbi.so.%{_arch} \
-    -DJAVA_HOME=%{java_home} \
+    -DJAVA_VERSION=${java_version} \
+    -DJAVA_HOME=%java_home \
+    -DPKI_JAVA_PATH=%java \
     -DJAVA_LIB_INSTALL_DIR=%{_jnidir} \
     -DSYSTEMD_LIB_INSTALL_DIR=%{_unitdir} \
     -DAPP_SERVER=$app_server \
@@ -835,8 +862,16 @@ cd build
 %endif
     -DWITH_JAVADOC:BOOL=%{?with_javadoc:ON}%{!?with_javadoc:OFF} \
     -DBUILD_PKI_CONSOLE:BOOL=%{?with_console:ON}%{!?with_console:OFF} \
-    -DTHEME=%{?with_theme:%{brand}} \
+    -DTHEME=%{?with_theme:%{vendor_id}} \
+%if 0%{?rhel}
     ..
+%else
+    -B %{_vpath_builddir}
+%endif
+
+%if 0%{?fedora}
+cd %{_vpath_builddir}
+%endif
 
 # Do not use _smp_mflags to preserve build order
 %{__make} \
@@ -851,7 +886,11 @@ cd build
 %install
 ################################################################################
 
+%if 0%{?rhel}
 cd build
+%else
+cd %{_vpath_builddir}
+%endif
 
 %{__make} \
     VERBOSE=%{?_verbose} \
@@ -870,7 +909,7 @@ ctest --output-on-failure
 
 cat > %{buildroot}%{_datadir}/doc/pki/README << EOF
 This package is a "meta-package" whose dependencies pull in all of the
-packages comprising the Dogtag Public Key Infrastructure (PKI) Suite.
+packages comprising the %{brand} Public Key Infrastructure (PKI) Suite.
 EOF
 
 # with meta
@@ -957,9 +996,9 @@ fi
 %endif
 
 %if %{with meta}
-%if "%{name}" != "%{brand}-pki"
+%if "%{name}" != "%{vendor_id}-pki"
 ################################################################################
-%files -n %{brand}-pki
+%files -n %{vendor_id}-pki
 ################################################################################
 %else
 %files
@@ -1277,10 +1316,10 @@ fi
 
 %if %{with theme}
 ################################################################################
-%files -n %{brand}-pki-server-theme
+%files -n %{vendor_id}-pki-server-theme
 ################################################################################
 
-%license themes/%{brand}/common-ui/LICENSE
+%license themes/%{vendor_id}/common-ui/LICENSE
 %dir %{_datadir}/pki
 %{_datadir}/pki/CS_SERVER_VERSION
 %{_datadir}/pki/common-ui/
@@ -1295,10 +1334,10 @@ fi
 %{_datadir}/pki/server/webapps/pki/tks
 
 ################################################################################
-%files -n %{brand}-pki-console-theme
+%files -n %{vendor_id}-pki-console-theme
 ################################################################################
 
-%license themes/%{brand}/console-ui/LICENSE
+%license themes/%{vendor_id}/console-ui/LICENSE
 %{_javadir}/pki/pki-console-theme.jar
 
 # with theme
@@ -1316,6 +1355,48 @@ fi
 
 ################################################################################
 %changelog
+* Fri Sep 18 2020 Dogtag PKI Team <pki-devel@redhat.com> - 10.9.4-3
+- Fix issue with JAXB JAR linking -- update .spec file
+
+* Fri Sep 18 2020 Dogtag PKI Team <pki-devel@redhat.com> - 10.9.4-2
+- Fix issue with JAXB JAR linking
+
+* Fri Sep 11 2020 Dogtag PKI Team <pki-devel@redhat.com> - 10.9.4-1
+- Rebase to stable upstream v10.9.4 release
+
+* Tue Sep 08 2020 Dogtag PKI Team <pki-devel@redhat.com> - 10.9.2-3
+- Fix Fedora 31/32 to Fedora 33/rawhide upgrade path
+  Resolves: rh-bz#1871990
+
+* Tue Aug 18 2020 Dogtag PKI Team <pki-devel@redhat.com> - 10.9.2-2
+- Fix permission issue during clone installation; reported by FreeIPA
+
+* Tue Aug 18 2020 Dogtag PKI Team <pki-devel@redhat.com> - 10.9.2-1
+- Second attempt at JDK11 Support
+
+* Tue Aug 18 2020 Dogtag PKI Team <pki-devel@redhat.com> - 10.9.1-3
+- Force JDK8 at runtime as well
+
+* Tue Aug 18 2020 Dogtag PKI Team <pki-devel@redhat.com> - 10.9.1-2
+- Rebuilt to fix packaging issues introduced upstream
+
+* Mon Aug 17 2020 Dogtag PKI Team <pki-devel@redhat.com> - 10.9.1-1
+- Rebuilt with v10.9.1 and patches to fix JDK11 build issues
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.9.0-0.7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.9.0-0.6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Dogtag PKI Team <pki-devel@redhat.com> - 10.9.0-0.5
+- Rebuild -b2 with Java 11 changes
+
+* Tue Jun 30 2020 Dogtag PKI Team <pki-devel@redhat.com> - 10.9.0-0.4
+- Rebase to match upstream beta version v10.9.0-b2
+- pki password fix for FIPS
+
 * Wed Jun 10 2020 Dogtag PKI Team <pki-devel@redhat.com> - 10.9.0-0.2
 - Rebase to match upstream alpha version 10.9.0-a2
 

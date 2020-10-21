@@ -4,7 +4,7 @@
 Name:            gnome-guitar
 Summary:         A small suite of applications for the guitarist
 Version:         0.8.1
-Release:         30%{?dist}
+Release:         32%{?dist}
 License:         GPLv3+
 URL:             http://gnome-chord.sourceforge.net/
 Source0:         http://downloads.sourceforge.net/gnome-chord/%{name}_cs-%{version}.tar.gz
@@ -119,6 +119,13 @@ gconftool-2 --makefile-install-rule \
 %{_libdir}/pkgconfig/libgnomeguitarui.pc
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-32
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

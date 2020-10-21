@@ -10,16 +10,17 @@
 # For compatibility with SCL
 %undefine __brp_mangle_shebangs
 
-%global gh_commit    956608ea4f7de9e58c53dfb019d85ae62b193c39
+%bcond_without       tests
+
+%global gh_commit    547c9ee73fe26c77af09a0ea16419176b1cdbd12
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_branch    1.0-dev
 %global gh_owner     composer
 %global gh_project   composer
-%global with_tests   %{?_without_tests:0}%{!?_without_tests:1}
 %global api_version  1.1.0
 %global run_version  1.0.0
 
-%global upstream_version 1.10.7
+%global upstream_version 1.10.15
 #global upstream_prever  RC
 
 %if 0
@@ -50,7 +51,7 @@ Patch0:         %{name}-rpm.patch
 
 BuildArch:      noarch
 BuildRequires:  php-cli
-%if %{with_tests}
+%if %{with tests}
 %if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
 BuildRequires:  (php-composer(composer/ca-bundle)        >= 1.0    with  php-composer(composer/ca-bundle)        <  2)
 BuildRequires:  (php-composer(composer/semver)           >= 1.0    with  php-composer(composer/semver)           <  2)
@@ -76,7 +77,7 @@ BuildRequires:  %{symfony_prefix}-filesystem
 BuildRequires:  %{symfony_prefix}-process
 BuildRequires:  php-zip
 # From composer.json, "require-dev": {
-#        "symfony/phpunit-bridge": "^3.4",
+#        "symfony/phpunit-bridge": "^4.2",
 #        "phpspec/prophecy": "^1.10"
 BuildRequires:  phpunit
 # For autoloader
@@ -236,7 +237,7 @@ install -Dpm 755 bin/%{name} %{buildroot}%{_bindir}/%{name}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 : Online tests
 rm tests/Composer/Test/Util/RemoteFilesystemTest.php
 
@@ -273,6 +274,27 @@ exit $ret
 
 
 %changelog
+* Tue Oct 13 2020 Remi Collet <remi@remirepo.net> - 1.10.15-1
+- update to 1.10.15
+
+* Wed Sep  9 2020 Remi Collet <remi@remirepo.net> - 1.10.13-1
+- update to 1.10.13
+
+* Wed Sep  9 2020 Remi Collet <remi@remirepo.net> - 1.10.12-1
+- update to 1.10.12
+
+* Tue Aug  4 2020 Remi Collet <remi@remirepo.net> - 1.10.10-1
+- update to 1.10.10
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Remi Collet <remi@remirepo.net> - 1.10.9-1
+- update to 1.10.9
+
+* Thu Jun 25 2020 Remi Collet <remi@remirepo.net> - 1.10.8-1
+- update to 1.10.8
+
 * Wed Jun  3 2020 Remi Collet <remi@remirepo.net> - 1.10.7-1
 - update to 1.10.7
 - raise dependency on justinrainbow/json-schema 5.2.10

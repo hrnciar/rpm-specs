@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        1.4.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Internal implementation of diesels migration mechanism
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -82,5 +82,8 @@ which use "barrel" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 15 08:04:33 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 1.4.1-1
 - Initial package

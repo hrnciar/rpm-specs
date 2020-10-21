@@ -1,13 +1,13 @@
 %global git_repo    candy-icons
 %global git_url     https://github.com/EliverLara/%{git_repo}
-%global git_commit  4be1a05e38e80a145132fc6ac26fe5ae0f9ace34
-%global git_date    20200620
+%global git_commit  b68fb3b6702fa5bd89eac6decd7b7bb8dc9aa724
+%global git_date    20200926
 
 %global git_commit_short  %(c="%{git_commit}"; echo ${c:0:8})
 
 Name:           candy-icon-theme
 Version:        0
-Release:        13.%{git_date}git%{git_commit_short}%{?dist}
+Release:        17.%{git_date}git%{git_commit_short}%{?dist}
 Summary:        Sweet gradient icon theme
 
 License:        GPLv3
@@ -44,8 +44,7 @@ CANDY_DIR="%{buildroot}%{_datadir}/icons/Candy"
 install -m 755 -d "${CANDY_DIR}"
 install -m 644 index.theme "${CANDY_DIR}/"
 
-cp -a apps/ "${CANDY_DIR}/"
-cp -a places/ "${CANDY_DIR}/"
+cp -a apps devices places "${CANDY_DIR}/"
 
 touch "${CANDY_DIR}/icon-theme.cache"
 
@@ -64,6 +63,18 @@ gtk-update-icon-cache --force %{_datadir}/icons/Candy &>/dev/null || :
 
 
 %changelog
+* Mon Sep 28 2020 Artur Frenszek-Iwicki <fedora@svgames.pl> - 0.17.20200926gitb68fb3b6
+- Update to latest upstream snapshot
+
+* Fri Aug 07 2020 Artur Iwicki <fedora@svgames.pl> - 0.16.20200731git5df1fcdf
+- Update to latest upstream snapshot
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-15.20200704git8c144f59
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 05 2020 Artur Iwicki <fedora@svgames.pl> - 0.14.20200704git8c144f59
+- Update to latest upstream snapshot
+
 * Tue Jun 23 2020 Artur Iwicki <fedora@svgames.pl> - 0.13.20200620git4be1a05e
 - Update to latest upstream snapshot
 

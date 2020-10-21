@@ -12,8 +12,8 @@
 %global github_name FeatherPad
 
 Name:           featherpad
-Version:        0.9.3
-Release:        3%{?dist}
+Version:        0.15.0
+Release:        1%{?dist}
 Summary:        Lightweight Qt5 Plain-Text Editor
 
 License:        GPLv3+
@@ -24,12 +24,16 @@ Source0:        %{url}/archive/V%{version}.tar.gz#/%{github_name}-%{version}.tar
 Source0:        %{url}/archive/%{commit}.tar.gz#/%{github_name}-%{version}%{?git_ver}.tar.gz
 %endif # 0%%{?relbuild}
 
+BuildRequires:  cmake
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc-c++
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtsvg-devel
 BuildRequires:  qt5-qttools-devel
 BuildRequires:  qt5-qtx11extras-devel
+BuildRequires:  pkgconfig(x11-xcb)
+BuildRequires:  pkgconfig(hunspell) >= 1.6
+BuildRequires:  pkgconfig(xext)
 
 Requires:       hicolor-icon-theme
 
@@ -52,30 +56,23 @@ of any desktop environment and has:
 * Text zooming;
 * Appropriate but non-interrupting prompts;
 
-
 %prep
 %if 0%{?relbuild}
 %autosetup -n %{github_name}-%{version} -p 1
-%else  # 0%%{?relbuild}
+%else  
 %autosetup -n %{github_name}-%{commit} -p 1
-%endif # 0%%{?relbuild}
+%endif 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{qmake_qt5} ..
-%make_build
-popd
-
+%cmake
+%cmake_build
 
 %install
-make install INSTALL_ROOT=%{buildroot} -C %{_target_platform}
+%cmake_install
 %find_lang %{name} --with-qt
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
-
-
 
 %files -f %{name}.lang
 %license COPYING
@@ -85,11 +82,17 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/help
-%{_datadir}/%{name}/help_ja_JP
+%{_datadir}/%{name}/help_*
 %dir %{_datadir}/%{name}/translations
 
-
 %changelog
+* Sun Sep 13 2020 Joe Walker <grumpey0@gmail.com> - 0.15.0-1
+- Update to 0.15.0
+- Switch to cmake
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

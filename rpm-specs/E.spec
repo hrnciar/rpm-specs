@@ -1,6 +1,6 @@
 Name:		E
-Version:	2.4
-Release:	2%{?dist}
+Version:	2.5
+Release:	1%{?dist}
 Summary:	Equational Theorem Prover
 License:	GPLv2+ or LGPLv2+
 URL:		http://www.eprover.org/
@@ -99,6 +99,12 @@ diff -u test-results test-expected-results
 %{_mandir}/man1/*
 
 %changelog
+* Mon Aug  3 2020 Jerry James <loganjerry@gmail.com> - 2.5-1
+- Version 2.5
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

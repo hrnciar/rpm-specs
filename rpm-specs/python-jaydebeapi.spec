@@ -6,7 +6,7 @@ Java JDBC. It provides a Python DB-API v2.0 to that database.
 
 Name:           python-%{srcname}
 Version:        1.2.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        GPLv3
@@ -53,6 +53,9 @@ Requires:       python%{python3_pkgversion}-jpype
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Jakub Jedelsky <jakub.jedelsky@gmail.com> - 1.2.3-1
 - Bump to new version
 

@@ -2,8 +2,8 @@
 %global ostree_version 2018.9
 
 Name:           flatpak
-Version:        1.7.3
-Release:        1%{?dist}
+Version:        1.8.2
+Release:        2%{?dist}
 Summary:        Application deployment framework for desktop apps
 
 License:        LGPLv2+
@@ -11,6 +11,10 @@ URL:            http://flatpak.org/
 Source0:        https://github.com/flatpak/flatpak/releases/download/%{version}/%{name}-%{version}.tar.xz
 # Add Fedora flatpak repositories
 Source1:        flatpak-add-fedora-repos.service
+# Various OCI fixes backported from upstream
+Patch0:         3845.patch
+Patch1:         3849.patch
+Patch2:         3850.patch
 
 BuildRequires:  pkgconfig(appstream-glib)
 BuildRequires:  pkgconfig(dconf)
@@ -127,6 +131,11 @@ This package contains installed tests for %{name}.
 
 
 %build
+# gobject introspection does not work with LTO.  There is an effort to fix this
+# in the appropriate project upstreams, so hopefully LTO can be enabled someday
+# Disable LTO.
+%define _lto_cflags %{nil}
+
 (if ! test -x configure; then NOCONFIGURE=1 ./autogen.sh; CONFIGFLAGS=--enable-gtk-doc; fi;
  # Generate consistent IDs between runs to avoid multilib problems.
  export XMLTO_FLAGS="--stringparam generate.consistent.ids=1"
@@ -206,8 +215,6 @@ fi
 %{_datadir}/dbus-1/services/org.freedesktop.portal.Flatpak.service
 %{_datadir}/dbus-1/system-services/org.freedesktop.Flatpak.SystemHelper.service
 %{_datadir}/fish/
-# Co-own directory.
-%{_datadir}/gdm/env.d
 %{_datadir}/%{name}
 %{_datadir}/polkit-1/actions/org.freedesktop.Flatpak.policy
 %{_datadir}/polkit-1/rules.d/org.freedesktop.Flatpak.rules
@@ -263,6 +270,24 @@ fi
 
 
 %changelog
+* Fri Sep 11 2020 Kalev Lember <klember@redhat.com> - 1.8.2-2
+- Backport various OCI fixes from upstream
+
+* Fri Aug 21 2020 Kalev Lember <klember@redhat.com> - 1.8.2-1
+- Update to 1.8.2
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 David King <amigadave@amigadave.com> - 1.8.1-1
+- Update to 1.8.1 (#1853667)
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 1.8.0-2
+- Disable LTO
+
+* Wed Jun 24 2020 David King <amigadave@amigadave.com> - 1.8.0-1
+- Update to 1.8.0 (#1850676)
+
 * Wed Jun 10 2020 David King <amigadave@amigadave.com> - 1.7.3-1
 - Update to 1.7.3 (#1820762)
 

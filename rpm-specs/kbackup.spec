@@ -1,8 +1,6 @@
-%global optflags %{optflags} -flto=auto
-%global build_ldflags %{build_ldflags} -flto
 
 Name:           kbackup
-Version:        20.04.2
+Version:        20.08.1
 Release:        1%{?dist}
 Summary:        Back up your data in a simple, user friendly way
 Summary(fr):    Sauvegarder vos données de manière simple et conviviale
@@ -60,20 +58,11 @@ KBackup позволяет делать резервное копировани�
 %autosetup
 
 %build
-mkdir build
-pushd build
-    %cmake_kf5 \
-        -DCMAKE_AR=/usr/bin/gcc-ar \
-        -DCMAKE_RANLIB=/usr/bin/gcc-ranlib \
-        -DCMAKE_NM=/usr/bin/gcc-nm \
-        ..
-    %make_build
-popd
+%cmake_kf5
+%cmake_build
 
 %install
-pushd build
-    %make_install
-popd
+%cmake_install
 
 %find_lang %{name} --with-html --all-name
 
@@ -95,6 +84,18 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.kde.%{name}.deskt
 
 
 %changelog
+* Wed Sep 23 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 20.08.1-1
+- Update to 20.08.1
+
+* Thu Aug 20 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 20.08.0-1
+- Update to 20.08.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 20.04.3-1
+- Update to 20.04.3
+
 * Sat Jun 13 2020 Marie Loise Nolden <loise@kde.org> - 20.04.2-1
 - Update to 20.04.2
 

@@ -1,13 +1,15 @@
 Name:           perl-ExtUtils-HasCompiler
-Version:        0.021
-Release:        10%{?dist}
+Version:        0.022
+Release:        2%{?dist}
 Summary:        Check for the presence of a compiler
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/ExtUtils-HasCompiler
 Source0:        https://cpan.metacpan.org/authors/id/L/LE/LEONT/ExtUtils-HasCompiler-%{version}.tar.gz
 BuildArch:      noarch
-BuildRequires:  perl-interpreter
+BuildRequires:  coreutils
+BuildRequires:  make
 BuildRequires:  perl-generators
+BuildRequires:  perl-interpreter
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
@@ -39,11 +41,11 @@ linking and loading an XS module.
 %setup -q -n ExtUtils-HasCompiler-%{version}
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
@@ -56,6 +58,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.022-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Petr Pisar <ppisar@redhat.com> - 0.022-1
+- 0.022 bump
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.021-10
 - Perl 5.32 rebuild
 

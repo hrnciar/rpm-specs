@@ -1,6 +1,6 @@
 Name:           perl-Test-DBICSchemaLoaderDigest
 Version:        0.04
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        Test the DBIC::Schema::Loader's MD5 sum
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test-DBICSchemaLoaderDigest
@@ -50,6 +50,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.04-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.04-23
 - Perl 5.32 rebuild
 

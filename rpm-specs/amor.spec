@@ -1,7 +1,7 @@
 Name:    amor
 Summary: Amusing misuse of resources
 Version: 15.08.3
-Release: 11%{?dist}
+Release: 13%{?dist}
 
 License: GPLv2+ and GFDL
 URL:     https://cgit.kde.org/amor.git/
@@ -60,6 +60,13 @@ desktop-file-validate %{buildroot}/%{_kde4_datadir}/applications/kde4/%{name}.de
 
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 15.08.3-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 15.08.3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 15.08.3-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

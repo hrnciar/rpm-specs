@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        3.0.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A comprehensive Markdown editor built for Django
 
 License:        BSD
@@ -64,6 +64,9 @@ chmod 0644 README.rst
 %{python3_sitelib}/django_markdownx-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.1-3
 - Rebuilt for Python 3.9
 

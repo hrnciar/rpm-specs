@@ -3,7 +3,7 @@
 Name: freetds
 Summary: Implementation of the TDS (Tabular DataStream) protocol
 Version: 1.1.20
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: LGPLv2+ and GPLv2+
 URL: http://www.freetds.org/
 
@@ -145,6 +145,9 @@ find docdir -type f -print0 | xargs -0 chmod -x
  
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.20-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.20-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

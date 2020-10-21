@@ -2,8 +2,8 @@
 %global gem_name bootsnap
 
 Name: rubygem-%{gem_name}
-Version: 1.3.2
-Release: 5%{?dist}
+Version: 1.4.7
+Release: 1%{?dist}
 Summary: Boot large ruby/rails apps faster
 License: MIT
 URL: https://github.com/Shopify/bootsnap
@@ -11,11 +11,9 @@ Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
 
 # The bootsnap gem doesn't ship with the test suite.
 # You may check it out like so:
-# git clone http://github.com/Shopify/bootsnap.git && cd bootsnap
-# git checkout v1.3.2 && tar czvf bootsnap-1.3.2-tests.tgz test/
-Source1: %{gem_name}-%{version}-tests.tgz
-# https://github.com/Shopify/bootsnap/commit/a163c7cddfccd68277f6ea43b1831378509817c9
-Patch1:  rubygem-bootsnap-ruby27.patch
+# git clone http://github.com/Shopify/bootsnap.git --no-checkout
+# cd bootsnap && git archive -v -o bootsnap-1.4.7-tests.txz v1.4.7 test/
+Source1: %{gem_name}-%{version}-tests.txz
 
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
@@ -28,15 +26,6 @@ BuildRequires: rubygem(msgpack)
 # Compiler is required for build of gem binary extension.
 # https://fedoraproject.org/wiki/Packaging:C_and_C++#BuildRequires_and_Requires
 BuildRequires: gcc
-
-# Tests crash on armv7hl. Upstream issues:
-# https://github.com/Shopify/bootsnap/issues/67
-# https://bugs.ruby-lang.org/issues/13670
-ExcludeArch: armv7hl
-
-# Note - rpmlint shows error:
-# call-to-mktemp /usr/lib64/gems/ruby/bootsnap-1.3.0/bootsnap/bootsnap.so
-# https://github.com/Shopify/bootsnap/issues/174
 
 %description
 Bootsnap is a library that plugs into Ruby, with optional support
@@ -52,7 +41,6 @@ Documentation for %{name}.
 
 %prep
 %setup -q -n %{gem_name}-%{version} -a 1
-%patch1 -p1
 
 sed -i -e "/^\s*\$CFLAGS / s/^/#/g" \
   ext/bootsnap/extconf.rb
@@ -80,20 +68,20 @@ pushd .%{gem_instdir}
 
 # Remove bundler dependency, also, we have
 # newer minitest than upstream is testing with.
-sed -i -e "/require 'bundler/ s/^/#/g" \
-       -e "/require 'mocha\/minitest/ s/minitest/mini_test/g" \
+sed -i -e "/^require('bundler/ s/^/#/" \
   test/test_helper.rb
+mv test/bundler_test.rb{,.disable}
 
 # '/usr/share/ruby/time.rb' is expected to be in stable prefix,
 # but that is failing for some reason. Same issue with bundler.
 # https://github.com/Shopify/bootsnap/issues/173
-sed -i -e "/^\s*assert stable.stable?,/ s/^/#/g" \
-       -e "/^\s*refute stable.volatile?,/ s/^/#/g" \
-       -e "/^\s*assert bundler.stable?,/ s/^/#/g" \
+sed -i -e "/^\s*assert(stable.stable?,/ s/^/#/g" \
+       -e "/^\s*refute(stable.volatile?,/ s/^/#/g" \
+       -e "/^\s*assert(bundler.stable?,/ s/^/#/g" \
        -e "/^\s*Bundler/ s/^/#/g" \
   test/load_path_cache/path_test.rb
 
-ruby -Ilib:test:ext -e 'Dir.glob "./test/**/*_test.rb", &method(:require)'
+ruby -rpathname -rset -Ilib:test:ext -e 'Dir.glob "./test/**/*_test.rb", &method(:require)'
 popd
 
 
@@ -121,6 +109,16 @@ popd
 %doc %{gem_instdir}/CODE_OF_CONDUCT.md
 
 %changelog
+* Fri Jul 31 09:47:28 GMT 2020 Pavel Valena <pvalena@redhat.com> - 1.4.7-1
+- Update to bootsnap 1.4.7.
+  Resolves: rhbz#1862090
+
+* Fri Jul 31 09:19:53 GMT 2020 Vít Ondruch <vondruch@redhat.com> - 1.3.2-7
+- Re-enable ARM support. The problem should be gone since Ruby 2.6+.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

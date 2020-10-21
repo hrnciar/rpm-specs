@@ -1,17 +1,18 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 %global somajor 0
 
 Name:           libeconf
-Version:        0.3.5
-Release:        1%{?dist}
+Version:        0.3.8
+Release:        4%{?dist}
 Summary:        Enhanced config file parser library
 
 License:        MIT
 URL:            https://github.com/openSUSE/libeconf
-Source0:        %{url}/releases/download/v%{version}/%{name}-%{version}.tar.xz
+Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:  autoconf
-BuildRequires:  automake
-BuildRequires:  libtool
+BuildRequires:  cmake >= 3.12
 BuildRequires:  gcc
 BuildRequires:  make
 
@@ -31,22 +32,20 @@ developing applications that use %{name}.
 
 
 %prep
-%autosetup
+%autosetup -p1
 
 
 %build
-autoreconf -fiv
-%configure --disable-static
-%make_build
+%cmake
+%cmake_build
 
 
 %install
-%make_install
-find %{buildroot} -name '*.la' -print -delete
+%cmake_install
 
 
 %check
-%make_build check
+%cmake_build --target check
 
 
 %files
@@ -58,10 +57,23 @@ find %{buildroot} -name '*.la' -print -delete
 %doc example/
 %{_includedir}/*
 %{_libdir}/%{name}.so
+%{_libdir}/cmake/%{name}/
 %{_libdir}/pkgconfig/%{name}.pc
 
 
 %changelog
+* Sat Aug 08 2020 Neal Gompa <ngompa13@gmail.com> - 0.3.8-4
+- Use backend-agnostic CMake macro for building and running tests
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Neal Gompa <ngompa13@gmail.com> - 0.3.8-2
+- Switch to updated and fixed tarball
+
+* Fri Jul 10 2020 Neal Gompa <ngompa13@gmail.com> - 0.3.8-1
+- Update to 0.3.8 (RH#1844005)
+
 * Thu Feb 06 2020 Neal Gompa <ngompa13@gmail.com> - 0.3.5-1
 - Update to 0.3.5 (RH#1797753)
 

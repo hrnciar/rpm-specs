@@ -3,7 +3,7 @@
 
 # https://github.com/prometheus/tsdb
 %global goipath         github.com/prometheus/tsdb
-Version:                0.9.1
+Version:                0.10.0
 
 %gometa
 
@@ -15,7 +15,7 @@ Package Tsdb implements a time series storage for float64 sample data.}
                         README-tsdb.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Prometheus time series database layer
 
 # Upstream license specification: Apache-2.0
@@ -71,6 +71,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Fri Jul 31 23:17:59 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.10.0-1
+- Update to 0.10.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

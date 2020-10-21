@@ -2,7 +2,7 @@
 
 
 Name:       erlang-%{srcname}
-Version:    1.0.12
+Version:    1.0.16
 Release:    1%{?dist}
 BuildArch:  noarch
 
@@ -43,6 +43,13 @@ This is an Erlang MySQL driver, used by ejabberd.
 
 
 %changelog
+* Fri Jul 31 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.16-1
+- Update to 1.0.16 (#1807012).
+- https://github.com/processone/p1_mysql/blob/1.0.16/CHANGELOG.md
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 14 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.12-1
 - Update to 1.0.12 (#1788908).
 - https://github.com/processone/p1_mysql/blob/1.0.12/CHANGELOG.md

@@ -8,7 +8,7 @@ file into your code cleanly.
 
 Name:           python-%{pypi_name}
 Version:        0.1.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Helps pull configuration into a project
 
 License:        MIT
@@ -46,6 +46,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/apply_defaults-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.4-4
 - Rebuilt for Python 3.9
 

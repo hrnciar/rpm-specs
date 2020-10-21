@@ -1,6 +1,6 @@
 Name:           perl-Font-AFM
 Version:        1.20
-Release: 	32%{?dist}
+Release: 	34%{?dist}
 Summary:        Perl interface to Adobe Font Metrics files
 
 License:	(GPL+ or Artistic) and Copyright only
@@ -44,6 +44,12 @@ make test METRICS=%{_datadir}/a2ps/afm
 %{_mandir}/man3/Font*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.20-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.20-33
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.20-32
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

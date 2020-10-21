@@ -5,7 +5,7 @@
 
 Name:           %{fontname}-fonts
 Version:        20050524
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        A serif decorative latin font
 
 License:        CC-BY
@@ -51,6 +51,9 @@ install -Dm 0644 -p %{SOURCE2} \
 %{_datadir}/appdata/%{fontname}.metainfo.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20050524-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20050524-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

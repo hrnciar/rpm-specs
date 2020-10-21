@@ -1,6 +1,6 @@
 Name:           perl-Lingua-StopWords
 Version:        0.09
-Release:        34%{?dist}
+Release:        35%{?dist}
 Summary:        Stop words for several languages
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Lingua-StopWords
@@ -46,6 +46,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.09-35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.09-34
 - Perl 5.32 rebuild
 

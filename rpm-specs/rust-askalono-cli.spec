@@ -5,8 +5,8 @@
 %global crate askalono-cli
 
 Name:           rust-%{crate}
-Version:        0.4.2
-Release:        3%{?dist}
+Version:        0.4.3
+Release:        1%{?dist}
 Summary:        Tool to detect the contents of license files
 
 # Upstream license specification: Apache-2.0
@@ -30,12 +30,11 @@ Summary:        %{summary}
 # * ASL 2.0 or Boost
 # * ASL 2.0 or MIT
 # * BSD
-# * ISC
 # * MIT
 # * MIT or ASL 2.0
-# * (MIT or ASL 2.0) and BSD
 # * Unlicense or MIT
-License:        ASL 2.0 and BSD and ISC and MIT
+# * zlib
+License:        ASL 2.0 and BSD and MIT and zlib
 
 %description -n %{crate} %{_description}
 
@@ -63,6 +62,15 @@ License:        ASL 2.0 and BSD and ISC and MIT
 %endif
 
 %changelog
+* Thu Oct 01 2020 Fabio Valentini <decathorpe@gmail.com> - 0.4.3-1
+- Update to version 0.4.3.
+
+* Sun Aug 16 15:01:11 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.4.2-5
+- Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 02 08:21:10 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.4.2-3
 - Fixup license
 

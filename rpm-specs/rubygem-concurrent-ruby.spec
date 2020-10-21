@@ -3,7 +3,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 1.1.5
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: Modern concurrency tools for Ruby
 License: MIT
 URL: http://www.concurrent-ruby.com
@@ -91,6 +91,9 @@ popd
 %{gem_instdir}/Rakefile
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

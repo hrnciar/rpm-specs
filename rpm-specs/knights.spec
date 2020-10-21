@@ -1,5 +1,7 @@
+%undefine __cmake_in_source_build
+
 Name:		knights
-Version:	20.04.2
+Version:	20.08.2
 Release:	1%{?dist}
 Summary:	A chess board for KDE
 
@@ -39,17 +41,14 @@ checking, themes, and nice animations
 %patch0 -p0
 
 %build
-mkdir build
-pushd build
-%cmake_kf5 ..
-popd
-
-make %{?_smp_mflags} -C build
+%cmake_kf5
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C build
+%cmake_install
 
+%check
 desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.knights.desktop
 
 %files
@@ -67,6 +66,27 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.knights.d
 %{_datadir}/qlogging-categories5/knights.categories
 
 %changelog
+* Sat Oct 10 2020 Gwyn Ciesla <gwync@protonmail.com> - 20.08.2-1
+- 20.08.02
+
+* Thu Sep 03 2020 Gwyn Ciesla <gwync@protonmail.com> - 20.08.1-1
+- 20.08.1
+
+* Fri Aug 14 2020 Gwyn Ciesla <gwync@protonmail.com> - 20.08.0-1
+- 20.08.0
+
+* Mon Aug 03 2020 Gwyn Ciesla <gwync@protonmail.com> - 20.07.90-1
+- 20.07.90
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.07.80-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Gwyn Ciesla <gwync@protonmail.com> - 20.07.80-1
+- 20.07.80
+
+* Fri Jul 10 2020 Gwyn Ciesla <gwync@protonmail.com> - 20.04.3-1
+- 20.04.3
+
 * Thu Jun 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 20.04.2-1
 - 20.04.2
 

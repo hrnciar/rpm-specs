@@ -6,17 +6,14 @@
 %global crate bytes
 
 Name:           rust-%{crate}
-Version:        0.5.5
-Release:        1%{?dist}
+Version:        0.5.6
+Release:        2%{?dist}
 Summary:        Types and traits for working with bytes
 
 # Upstream license specification: MIT
 License:        MIT
 URL:            https://crates.io/crates/bytes
 Source:         %{crates_source}
-# Initial patched metadata
-# * Remove unpackaged loom dependency, only for testing
-Patch0:         bytes-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -99,6 +96,12 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Josh Stone <jistone@redhat.com> - 0.5.6-1
+- Update to 0.5.6
+
 * Fri Jun 19 2020 Josh Stone <jistone@redhat.com> - 0.5.5-1
 - Update to 0.5.5
 

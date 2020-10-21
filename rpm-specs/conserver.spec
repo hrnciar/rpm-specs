@@ -12,7 +12,7 @@
 
 Name:           conserver
 Version:        8.2.2
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Serial console server daemon/client
 
 License:        BSD with advertising and zlib
@@ -131,6 +131,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_mandir}/man1/console.1.gz
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.2.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar  3 2020 Jiri Kastner <jkastner@fedoraproject.org> - 8.2.2-6
 - fix systemd scriplets
 

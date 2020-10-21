@@ -8,7 +8,7 @@ Client for OpenStack Octavia (Load Balancer as a Service)
 
 Name:           python-%{pypi_name}
 Version:        2.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Client for OpenStack Octavia (Load Balancer as a Service)
 
 License:        ASL 2.0
@@ -143,6 +143,9 @@ stestr --test-path $OS_TEST_PATH run
 %{python3_sitelib}/%{pypi_name}/tests
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Joel Capitao <jcapitao@redhat.com> 2.0.1-1
 - Update to upstream version 2.0.1
 

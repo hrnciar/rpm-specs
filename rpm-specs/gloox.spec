@@ -1,7 +1,7 @@
 Name:           gloox
 Epoch:          1
 Version:        1.0.23
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        A rock-solid, full-featured Jabber/XMPP client C++ library
 License:        GPLv3
 URL:            https://camaya.net/gloox
@@ -60,6 +60,13 @@ find %{buildroot} -name '*.la' -delete -print
 %{_libdir}/libgloox.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.0.23-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.0.23-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 14 2020 Jorge A Gallegos <kad@blegh.net> - 1:1.0.23-1
 - Bumped to latest stable from camaya.net
 - Replaced tabs with spaces in spec to placate rpmlint (mixed tabs n spaces)

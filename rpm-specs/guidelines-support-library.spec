@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name: guidelines-support-library
 Version: 3.1.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 
 License: MIT
 URL: https://github.com/Microsoft/GSL
@@ -29,19 +31,15 @@ Provides: %{name}-static = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %prep
 %autosetup -n GSL-%{version} -p1
-mkdir -p %{_target_platform}
 
 %build
-pushd %{_target_platform}
-    %cmake -G Ninja \
+%cmake -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
-    -DGSL_TEST:BOOL=OFF \
-    ..
-popd
-%ninja_build -C %{_target_platform}
+    -DGSL_TEST:BOOL=OFF
+%cmake_build
 
 %install
-%ninja_install -C %{_target_platform}
+%cmake_install
 
 %files devel
 %doc README.md CONTRIBUTING.md
@@ -50,6 +48,9 @@ popd
 %{_includedir}/gsl/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 06 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 3.1.0-2
 - Added patch with architecture independent fixes.
 

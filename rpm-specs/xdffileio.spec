@@ -1,6 +1,6 @@
 Name:           xdffileio
 Version:        0.3
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Unified interface to read/write EEG file format in realtime
 
 License:        LGPLv3+
@@ -64,6 +64,9 @@ rm -vrf doc/example/{.dirstamp,.deps,*.o}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

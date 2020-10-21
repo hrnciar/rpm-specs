@@ -1,6 +1,6 @@
 Name:     gprolog
 Version:	1.4.5
-Release:	4%{?dist}
+Release:	6%{?dist}
 Summary: 	GNU Prolog is a free Prolog compiler
 
 License:	GPLv2+
@@ -43,6 +43,12 @@ Documentation for GNU Prolog.
 %autosetup -p1
 
 %build
+# This package fails to build with LTO due to undefined symbols.  LTO
+# was disabled in OpenSuSE as well, but with no real explanation why
+# beyond the undefined symbols.  It really shold be investigated further.
+# Disable LTO
+%define _lto_cflags %{nil}
+
 cd src
 
 # BZ #1799464
@@ -95,6 +101,12 @@ done
 %doc src/dist-doc/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.5-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> - 1.4.5-5
+- Disable LTO
+
 * Mon Feb 17 2020 Till Hofmann <thofmann@fedoraproject.org> - 1.4.5-4
 - Add -fcommon to fix FTBFS #1799464
 - Add BR: gdb-headless

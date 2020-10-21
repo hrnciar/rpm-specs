@@ -1,14 +1,16 @@
 Name:           perl-Devel-ArgNames
 Version:        0.03
-Release:        17%{?dist}
+Release:        19%{?dist}
 Summary:        Figure out the names of variables passed into subroutines
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Devel-ArgNames
 Source0:        https://cpan.metacpan.org/authors/id/N/NU/NUFFIN/Devel-ArgNames-%{version}.tar.gz
 BuildArch:      noarch
-BuildRequires:  perl-interpreter
+BuildRequires:  coreutils
+BuildRequires:  make
 BuildRequires:  perl-generators
-BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl-interpreter
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(strict)
 # Run-time:
 BuildRequires:  perl(base)
@@ -30,12 +32,11 @@ with the variables found on @_.
 %setup -q -n Devel-ArgNames-%{version}
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
-find $RPM_BUILD_ROOT -type f -name .packlist -exec rm -f {} \;
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
@@ -46,6 +47,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Fri Aug 21 2020 Petr Pisar <ppisar@redhat.com> - 0.03-19
+- Modernize a spec file
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.03-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.03-17
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:           python-beanbag
 Version:        1.9.2
-Release:        17%{?dist}
+Release:        19%{?dist}
 Summary:        A helper module for accessing REST APIs
 License:        MIT
 URL:            https://github.com/ajtowns/beanbag
@@ -69,6 +69,13 @@ See http://beanbag.readthedocs.org/ for more information.
 %{python3_sitelib}/beanbag*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.2-19
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.2-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 1.9.2-17
 - Rebuilt for Python 3.9
 

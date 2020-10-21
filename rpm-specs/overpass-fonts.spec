@@ -4,7 +4,7 @@
 
 Name:		%{fontname}-fonts
 Version:	3.0.4
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Typeface based on the U.S. interstate highway road signage type system
 License:	OFL or LGPLv2+
 URL:		https://github.com/RedHatBrand/overpass/
@@ -82,6 +82,9 @@ install -Dm 0644 -p %{SOURCE4} \
 %{_datadir}/appdata/%{fontname}-mono.metainfo.xml
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

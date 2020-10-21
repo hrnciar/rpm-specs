@@ -6,7 +6,7 @@
 
 Name:		erlang-%{realname}
 Version:	0
-Release:	0.12.20161011git%{short_tag}%{?dist}
+Release:	0.14.20161011git%{short_tag}%{?dist}
 Summary:	An implementation of the HyperLogLog algorithm in Erlang
 License:	MIT
 URL:		https://github.com/%{upstream}/%{realname}
@@ -56,6 +56,13 @@ of two filters is lossless.
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.14.20161011git4b1abc4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.13.20161011git4b1abc4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar  5 2020 Peter Lemenkov <lemenkov@gmail.com> - 0-0.12.20161011git4b1abc4
 - Remove ExcludeArch for s390 - we've got a workaround fr rhbz #1770256
 

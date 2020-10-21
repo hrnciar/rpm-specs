@@ -3,7 +3,7 @@
 Name: libwpd
 Summary: A library for import of WordPerfect documents
 Version: 0.10.3
-Release: 4%{?dist}
+Release: 6%{?dist}
 Source: http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.xz
 URL: http://libwpd.sf.net/
 License: LGPLv2+ or MPLv2.0
@@ -49,10 +49,10 @@ The %{name}-doc package contains API documentation for %{name}.
 %configure --disable-static --disable-silent-rules
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
-make %{?_smp_mflags}
+%make_build
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install
+%make_install
 rm -f $RPM_BUILD_ROOT/%{_libdir}/*.la
 # we install API docs directly from build
 rm -rf $RPM_BUILD_ROOT/%{_docdir}/%{name}
@@ -93,6 +93,13 @@ install -m 0644 wpd2*.1 %{buildroot}/%{_mandir}/man1
 %doc docs/%{name}.png
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 0.10.3-5
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

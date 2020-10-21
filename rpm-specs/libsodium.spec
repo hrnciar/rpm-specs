@@ -10,7 +10,7 @@
 
 Name:           libsodium
 Version:        1.0.18
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        The Sodium crypto library
 License:        ISC
 URL:            http://libsodium.org/
@@ -60,6 +60,15 @@ linking applications to use %{name}.
 
 
 %build
+# This package has a configure test which uses ASMs, but does not link the
+# resultant .o files.  As such the ASM test is always successful, even on
+# architectures were the ASM is not valid when compiling with LTO.
+#
+# -ffat-lto-objects is sufficient to address this issue.  It is the default
+# for F33, but is expected to only be enabled for packages that need it in
+# F34, so we use it here explicitly
+%define _lto_cflags -flto=auto -ffat-lto-objects
+
 %configure \
   --disable-silent-rules \
   --disable-opt
@@ -95,6 +104,15 @@ make check
 
 
 %changelog
+* Fri Aug 21 2020 Jeff Law <law@redhat.com> - 1.0.18-6
+- Re-enable LTO
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.18-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Jeff Law <law@redhat.com> - 1.0.18-4
+- Disable LTO
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.18-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

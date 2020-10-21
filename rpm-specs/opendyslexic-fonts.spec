@@ -5,7 +5,7 @@
 
 Name:		%{fontname}-fonts
 Version:	0.600
-Release:	14%{?dist}
+Release:	15%{?dist}
 Summary:	Font designed for dyslexics and high readability
 License:	Bitstream Vera and CC-BY
 URL:		http://dyslexicfonts.com/
@@ -54,6 +54,9 @@ ln -s %{_fontconfig_templatedir}/%{fontconf} \
 %doc README.md
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.600-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.600-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

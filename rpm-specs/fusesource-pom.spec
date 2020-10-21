@@ -1,6 +1,6 @@
 Name:             fusesource-pom
 Version:          1.12
-Release:          2%{?dist}
+Release:          5%{?dist}
 Summary:          Parent POM for FuseSource Maven projects
 License:          ASL 2.0
 URL:              http://fusesource.com/
@@ -20,6 +20,9 @@ cp -p %{SOURCE1} LICENSE
 
 %pom_remove_plugin :maven-scm-plugin
 
+# source/target of 1.4 is not supported in fedora
+sed -i -e 's/>1\.4</>1.8</' pom.xml
+
 # WebDAV wagon is not available in Fedora.
 %pom_xpath_remove "pom:extension[pom:artifactId[text()='wagon-webdav-jackrabbit']]"
 
@@ -33,6 +36,15 @@ cp -p %{SOURCE1} LICENSE
 %license LICENSE
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.12-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Fri Jun 26 2020 Mat Booth <mat.booth@redhat.com> - 1.12-3
+- Allow dependent packages to build on Java 11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

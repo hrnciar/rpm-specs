@@ -1,7 +1,7 @@
 Summary:        A lightweight C++ utility library
 Name:           elements-alexandria
-Version:        2.14.1
-Release:        7%{?dist}
+Version:        2.16
+Release:        3%{?dist}
 License:        LGPLv3+
 URL:            https://github.com/astrorama/Alexandria.git
 Source0:        https://github.com/astrorama/Alexandria/archive/%{version}/%{name}-%{version}.tar.gz
@@ -9,8 +9,12 @@ Source0:        https://github.com/astrorama/Alexandria/archive/%{version}/%{nam
 # It is downloaded from:
 # https://upload.cppreference.com/w/File:cppreference-doxygen-web.tag.xml
 Source1:        cppreference-doxygen-web.tag.xml
+# Fix a bad memory access when fixing an axis
+Patch0:         elements-alexandria_fixaxis.patch
+# Fixes for failing tests on architectures other than x86_64
+Patch1:         elements-alexandria_arch.patch
 
-%global elements_version 5.8
+%global elements_version 5.10
 
 BuildRequires: CCfits-devel
 BuildRequires: boost-devel >= 1.53
@@ -90,22 +94,22 @@ EXTRA_CMAKE_FLAGS="${EXTRA_CMAKE_FLAGS} -DPYTHON_EXPLICIT_VERSION=3"
 %else
 EXTRA_CMAKE_FLAGS="${EXTRA_CMAKE_FLAGS} -DPYTHON_EXPLICIT_VERSION=2"
 %endif
-mkdir build
-# Copy cppreference-doxygen-web.tag.xml into the build directory
-mkdir -p build/doc/doxygen
-cp "%{SOURCE1}" "build/doc/doxygen"
 # Build
-cd build
-%cmake -DELEMENTS_BUILD_TESTS=OFF -DSQUEEZED_INSTALL:BOOL=ON -DINSTALL_DOC:BOOL=ON \
+%cmake -B "%{_vpath_builddir}" -DELEMENTS_BUILD_TESTS=ON -DELEMENTS_INSTALL_TESTS=OFF -DSQUEEZED_INSTALL:BOOL=ON -DINSTALL_DOC:BOOL=ON \
     -DUSE_SPHINX=OFF --no-warn-unused-cli \
-    -DCMAKE_LIB_INSTALL_SUFFIX=%{_lib} -DUSE_VERSIONED_LIBRARIES=ON ${EXTRA_CMAKE_FLAGS} \
-    ..
-%make_build
+    -DCMAKE_LIB_INSTALL_SUFFIX=%{_lib} -DUSE_VERSIONED_LIBRARIES=ON ${EXTRA_CMAKE_FLAGS}
+# Copy cppreference-doxygen-web.tag.xml into the build directory
+mkdir -p "%{_vpath_builddir}/doc/doxygen"
+cp -v "%{SOURCE1}" "%{_vpath_builddir}/doc/doxygen"
+
+%make_build -C "%{_vpath_builddir}"
 
 %install
 export VERBOSE=1
-cd build
-%make_install
+%make_install -C "%{_vpath_builddir}"
+
+%check
+make test -C "%{_vpath_builddir}"
 
 %files
 %license LICENSE
@@ -114,6 +118,7 @@ cd build
 %{_libdir}/libAlexandriaKernel.so.%{version}
 %{_libdir}/libConfiguration.so.%{version}
 %{_libdir}/libGridContainer.so.%{version}
+%{_libdir}/libHistogram.so.%{version}
 %{_libdir}/libNdArray.so.%{version}
 %{_libdir}/libMathUtils.so.%{version}
 %{_libdir}/libPhysicsUtils.so.%{version}
@@ -132,6 +137,7 @@ cd build
 %{_libdir}/libAlexandriaKernel.so
 %{_libdir}/libConfiguration.so
 %{_libdir}/libGridContainer.so
+%{_libdir}/libHistogram.so
 %{_libdir}/libNdArray.so
 %{_libdir}/libMathUtils.so
 %{_libdir}/libPhysicsUtils.so
@@ -146,6 +152,7 @@ cd build
 %{_includedir}/Table/
 %{_includedir}/XYDataset/
 %{_includedir}/GridContainer/
+%{_includedir}/Histogram/
 %{_includedir}/NdArray/
 %{_includedir}/SourceCatalog/
 %{_includedir}/Configuration/
@@ -161,6 +168,7 @@ cd build
 %{cmakedir}/TableExport.cmake
 %{cmakedir}/XYDatasetExport.cmake
 %{cmakedir}/GridContainerExport.cmake
+%{cmakedir}/HistogramExport.cmake
 %{cmakedir}/NdArrayExport.cmake
 %{cmakedir}/SourceCatalogExport.cmake
 %{cmakedir}/ConfigurationExport.cmake
@@ -175,6 +183,16 @@ cd build
 %{docdir}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Alejandro Alvarez Ayllon <alejandro.alvarezayllon@unige.ch> 2.16-1
+- New upstream release 2.16
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 2.14.1-7
 - Rebuilt for Boost 1.73
 

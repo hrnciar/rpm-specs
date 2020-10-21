@@ -6,20 +6,25 @@
 %endif
 
 Name:           perl-IO-Socket-IP
-Version:        0.39
-Release:        456%{?dist}
+Version:        0.41
+Release:        2%{?dist}
 Summary:        Drop-in replacement for IO::Socket::INET supporting both IPv4 and IPv6
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/IO-Socket-IP
 Source0:        https://cpan.metacpan.org/authors/id/P/PE/PEVANS/IO-Socket-IP-%{version}.tar.gz
+# IO-Socket-IP-0.41 moved from ExtUtils::MakeMaker to Module::Build.
+# It will make problems, because IO::Socket::IP is a dual-lived package and
+# needs to be built very early on Perl bootstrap, but Module::Build is not
+# a core package and thus not available in the early stage of bootstrapping.
+# For this reason, we create Makefile.PL and use it instead of Build.PL.
+Source1:        Makefile.PL
 BuildArch:      noarch
 # Build
 BuildRequires:  coreutils
-BuildRequires:  findutils
 BuildRequires:  make
-BuildRequires:  perl-interpreter
 BuildRequires:  perl-generators
-BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl-interpreter
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 # Runtime
 BuildRequires:  perl(base)
 BuildRequires:  perl(Carp)
@@ -29,7 +34,7 @@ BuildRequires:  perl(IO::Socket)
 BuildRequires:  perl(POSIX)
 BuildRequires:  perl(Socket) >= 1.97
 BuildRequires:  perl(strict)
-BuildRequires:  perl(warnings)
+buildrequires:  perl(warnings)
 # Tests only
 BuildRequires:  perl(IO::Socket::INET)
 BuildRequires:  perl(Test::More)
@@ -44,25 +49,23 @@ Requires:       perl(:MODULE_COMPAT_%(eval "$(perl -V:version)"; echo $version))
 
 %description
 This module provides a protocol-independent way to use IPv4 and IPv6
-sockets, as a drop-in replacement for IO::Socket::INET. Most constructor
+sockets, intended as a replacement for IO::Socket::INET. Most constructor
 arguments and methods are provided in a backward-compatible way.
 
 %prep
 %setup -q -n IO-Socket-IP-%{version}
+cp %{SOURCE1} .
 chmod -x lib/IO/Socket/IP.pm
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=%{buildroot}
-find %{buildroot} -type f -name .packlist -delete
+%{make_install}
 %{_fixperms} %{buildroot}/*
 
 %check
-# Don't do the live test
-rm -f t/21nonblocking-connect-internet.t
 make test
 
 %files
@@ -72,6 +75,18 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Thu Sep 17 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.41-2
+- Create Makefile.PL, use ExtUtils::MakeMaker instead of Module::Build
+
+* Wed Sep 16 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.41-1
+- 0.41 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.39-458
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.39-457
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.39-456
 - Increase release to favour standalone package
 

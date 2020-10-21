@@ -13,7 +13,7 @@
 
 Name:           php-horde-Horde-Alarm
 Version:        2.2.10
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Horde Alarm Libraries
 
 License:        LGPLv2
@@ -142,6 +142,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.10-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.10-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

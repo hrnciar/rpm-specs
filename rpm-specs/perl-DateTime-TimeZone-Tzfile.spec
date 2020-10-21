@@ -7,7 +7,7 @@
 
 Name:           perl-DateTime-TimeZone-Tzfile
 Version:        0.011
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Tzfile (zoneinfo) timezone files
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/DateTime-TimeZone-Tzfile
@@ -68,6 +68,9 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/DateTime::TimeZone::Tzfile.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.011-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.011-10
 - Perl 5.32 rebuild
 

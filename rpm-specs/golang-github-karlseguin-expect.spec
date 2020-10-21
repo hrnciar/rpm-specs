@@ -3,8 +3,7 @@
 
 # https://github.com/karlseguin/expect
 %global goipath         github.com/karlseguin/expect
-Version:                1.0.1
-%global commit          778a5f0c600305097a09c66558691650b2f5b4b5
+Version:                1.0.7
 
 %gometa
 
@@ -19,7 +18,7 @@ A library to help you write tests in Go.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        6%{?dist}
+Release:        1%{?dist}
 Summary:        Testing framework for Go
 
 License:        MIT
@@ -43,15 +42,6 @@ cp %{S:1} %{S:2} .
 %install
 %gopkginstall
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck -d . -d build
@@ -60,6 +50,12 @@ end
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 18:16:08 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.7-1
+- Update to 1.0.7
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

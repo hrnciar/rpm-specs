@@ -46,7 +46,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       Symfony PSR HTTP message bridge
 
 License:       MIT
@@ -195,6 +195,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 08 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.3.0-1
 - Update to 1.3.0 (RHBZ #1687504)
 - Use PHPUnit 8

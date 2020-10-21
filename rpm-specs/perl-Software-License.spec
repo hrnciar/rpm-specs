@@ -13,7 +13,7 @@
 
 Name:           perl-Software-License
 Version:        0.103014
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        Package that provides templated software licenses
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Software-License
@@ -88,6 +88,12 @@ make test TEST_FILES="$(echo $(find xt/ -name '*.t'))"
 %{_mandir}/man3/Software::LicenseUtils.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.103014-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.103014-8
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.103014-7
 - Perl 5.32 rebuild
 

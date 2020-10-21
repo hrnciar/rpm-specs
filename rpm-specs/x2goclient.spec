@@ -1,6 +1,6 @@
 Name:           x2goclient
 Version:        4.1.2.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        X2Go Client application
 
 License:        GPLv2+
@@ -105,6 +105,9 @@ mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.2.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 17 2020 Orion Poplawski <orion@nwra.com> - 4.1.2.2-2
 - Select X11 backend on wayland for created desktop files (bz#1820989)
 

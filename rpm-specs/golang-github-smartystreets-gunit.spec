@@ -3,8 +3,7 @@
 
 # https://github.com/smartystreets/gunit
 %global goipath         github.com/smartystreets/gunit
-Version:                1.2.0
-%global tag             1.2.0
+Version:                1.3.5
 
 %gometa
 
@@ -15,20 +14,12 @@ xUnit-style test fixture adapter for Go test.}
 %global godocs          CONTRIBUTING.md README.md advanced_examples basic_examples
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        xUnit-style test fixture adapter for Go test
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
-# https://github.com/smartystreets/gunit/pull/20
-Patch0:         0001-Fix-missing-ellipsis-in-args-forwarded-to-printf-lik.patch
-
-%if %{with check}
-# Tests
-BuildRequires:  golang(github.com/smartystreets/assertions)
-BuildRequires:  golang(github.com/smartystreets/assertions/should)
-%endif
 
 %description
 %{common_description}
@@ -37,19 +28,24 @@ BuildRequires:  golang(github.com/smartystreets/assertions/should)
 
 %prep
 %goprep
-%patch0 -p1
 
 %install
 %gopkginstall
 
 %if %{with check}
 %check
-%gocheck
+%gocheck -d .
 %endif
 
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 20:51:18 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.3.5-1
+- Update to 1.3.5
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

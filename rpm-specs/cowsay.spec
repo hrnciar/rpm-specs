@@ -3,7 +3,7 @@
 
 Name:           cowsay
 Version:        3.04
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Configurable speaking/thinking cow
 License:        GPLv3+
 URL:            https://github.com/tnalpgge/rank-amateur-cowsay
@@ -75,6 +75,9 @@ cp %{SOURCE1} $RPM_BUILD_ROOT%{compdir}/
 %(dirname %{compdir})
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.04-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.04-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

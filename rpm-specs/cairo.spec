@@ -11,7 +11,7 @@
 
 Name:		cairo
 Version:	1.16.0
-Release:	8%{?dist}
+Release:	9%{?dist}
 Summary:	A 2D graphics library
 
 License:	LGPLv2 or MPLv1.1
@@ -182,6 +182,9 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{_libdir}/cairo/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 24 2020 Marek Kasik <mkasik@redhat.com> - 1.16.0-8
 - Allow empty array of operands for certain operators in CFF fonts
 - Resolves: #1817958

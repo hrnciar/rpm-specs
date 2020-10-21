@@ -1,14 +1,17 @@
+%undefine __cmake_in_source_build
+
 # trim changelog included in binary rpms
 %global _changelog_trimtime %(date +%s -d "1 year ago")
 
 Summary: Graphical user interface for Maxima
 Name:    wxMaxima
-Version: 20.06.2
-Release: 1%{?dist}
+Version: 20.07.0
+Release: 3%{?dist}
 
 License: GPLv2+
 URL:     https://wxmaxima-developers.github.io/wxmaxima/
 Source0: https://github.com/wxMaxima-developers/wxmaxima/archive/Version-%{version}.tar.gz
+Patch0:  wxmaxima-gcc11.patch
 
 ## upstream patches
 # none at this time
@@ -46,16 +49,12 @@ desktop-file-validate data/io.github.wxmaxima_developers.wxMaxima.desktop
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%cmake ..
-popd
-
-%make_build -C %{_target_platform}
+%cmake
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 # app icon
 mkdir -p %{buildroot}%{_datadir}/icons/hicolor/{scalable,48x48,64x64,128x128}/apps/
@@ -106,6 +105,15 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/io.github.wxmaxima_de
 
 
 %changelog
+* Tue Sep 15 2020 Jeff Law <law@redhat.com> - 20.07.0-3
+- Add missing include of cstddef for gcc-11
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.07.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 José Matos <jamatos@fedoraproject.org> - 20.07.0-1
+- update to 20.07.0
+
 * Fri Jun  5 2020 José Matos <jamatos@fedoraproject.org> - 20.06.2-1
 - update to 20.06.2
 

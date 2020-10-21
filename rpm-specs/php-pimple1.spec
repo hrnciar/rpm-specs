@@ -27,7 +27,7 @@
 
 Name:          php-%{composer_project}1
 Version:       %{github_version}
-Release:       13%{?dist}
+Release:       14%{?dist}
 Summary:       A simple dependency injection container for PHP
 
 License:       MIT
@@ -98,6 +98,9 @@ BOOTSTRAP
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

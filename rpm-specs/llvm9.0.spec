@@ -14,7 +14,7 @@
 %global min_ver 0
 %global patch_ver 1
 #%%global rc_ver 3
-%global baserelease 8
+%global baserelease 10
 
 
 %if %{with compat_build}
@@ -66,6 +66,8 @@ Patch6: 0001-BPF-annotate-DIType-metadata-for-builtin-preseve_arr.patch
 
 # Fix Rust codegen bug, https://github.com/rust-lang/rust/issues/69225
 Patch7:	0001-Revert-SCEV-add-no-wrap-flag-for-SCEVAddExpr.patch
+
+Patch10:        0001-llvm-Avoid-linking-llvm-cfi-verify-to-duplicate-libs.patch
 
 BuildRequires:	gcc
 BuildRequires:	gcc-c++
@@ -173,8 +175,16 @@ pathfix.py -i %{__python3} -pn \
 	tools/opt-viewer/*.py
 
 %build
-mkdir -p _build
-cd _build
+
+# Disable LTO on s390x, this causes some test failures:
+# LLVM-Unit :: Target/AArch64/./AArch64Tests/InstSizes.Authenticated
+# LLVM-Unit :: Target/AArch64/./AArch64Tests/InstSizes.PATCHPOINT
+# LLVM-Unit :: Target/AArch64/./AArch64Tests/InstSizes.STACKMAP
+# LLVM-Unit :: Target/AArch64/./AArch64Tests/InstSizes.TLSDESC_CALLSEQ
+# Also LTO builds on s390x take a really long time.
+%ifarch s390x
+%global _lto_cflags %{nil}
+%endif
 
 %ifarch s390 %{arm} %ix86
 # Decrease debuginfo verbosity to reduce memory consumption during final library linking
@@ -182,16 +192,11 @@ cd _build
 %endif
 
 # force off shared libs as cmake macros turns it on.
-#
-# -DCMAKE_INSTALL_RPATH=";" is a workaround for llvm manually setting the
-# rpath of libraries and binaries.  llvm will skip the manual setting
-# if CAMKE_INSTALL_RPATH is set to a value, but cmake interprets this value
-# as nothing, so it sets the rpath to "" when installing.
-%cmake .. -G Ninja \
+%cmake  -G Ninja \
 	-DBUILD_SHARED_LIBS:BOOL=OFF \
 	-DLLVM_PARALLEL_LINK_JOBS=1 \
 	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
-	-DCMAKE_INSTALL_RPATH=";" \
+	-DCMAKE_SKIP_RPATH:BOOL=ON \
 %ifarch s390 %{arm} %ix86
 	-DCMAKE_C_FLAGS_RELWITHDEBINFO="%{optflags} -DNDEBUG" \
 	-DCMAKE_CXX_FLAGS_RELWITHDEBINFO="%{optflags} -DNDEBUG" \
@@ -253,11 +258,11 @@ cd _build
 # Build libLLVM.so first.  This ensures that when libLLVM.so is linking, there
 # are no other compile jobs running.  This will help reduce OOM errors on the
 # builders without having to artificially limit the number of concurrent jobs.
-%ninja_build LLVM
-%ninja_build
+%cmake_build --target LLVM
+%cmake_build
 
 %install
-%ninja_install -C _build
+%cmake_install
 
 
 %if %{without compat_build}
@@ -273,7 +278,7 @@ mv %{buildroot}%{_mandir}/man1/tblgen.1 %{buildroot}%{_mandir}/man1/llvm-tblgen.
 
 for f in %{test_binaries}
 do
-    install -m 0755 ./_build/bin/$f %{buildroot}%{_bindir}
+    install -m 0755 %{_vpath_builddir}/bin/$f %{buildroot}%{_bindir}
 done
 
 
@@ -281,9 +286,9 @@ done
 
 # Install libraries needed for unittests
 %if 0%{?__isa_bits} == 64
-%global build_libdir _build/lib64
+%global build_libdir %{_vpath_builddir}/lib64
 %else
-%global build_libdir _build/lib
+%global build_libdir %{_vpath_builddir}/lib
 %endif
 
 install %{build_libdir}/libLLVMTestingSupport.a %{buildroot}%{_libdir}
@@ -300,8 +305,8 @@ cp -R utils/unittest %{install_srcdir}/utils/
 
 # Generate lit config files.  Strip off the last line that initiates the
 # test run, so we can customize the configuration.
-head -n -1 _build/test/lit.site.cfg.py >> %{lit_cfg}
-head -n -1 _build/test/Unit/lit.site.cfg.py >> %{lit_unit_cfg}
+head -n -1 %{_vpath_builddir}/test/lit.site.cfg.py >> %{lit_cfg}
+head -n -1 %{_vpath_builddir}/test/Unit/lit.site.cfg.py >> %{lit_unit_cfg}
 
 # Install custom fedora config file
 cp %{SOURCE2} %{buildroot}%{lit_fedora_cfg}
@@ -321,7 +326,7 @@ tar -czf %{install_srcdir}/test.tar.gz test/
 
 # Install the unit test binaries
 mkdir -p %{build_llvm_libdir}
-cp -R _build/unittests %{build_llvm_libdir}/
+cp -R %{_vpath_builddir}/unittests %{build_llvm_libdir}/
 rm -rf `find %{build_llvm_libdir} -iname 'cmake*'`
 
 # Install libraries used for testing
@@ -332,6 +337,12 @@ install -m 0755 %{build_libdir}/LLVMHello.so %{buildroot}%{_libdir}
 echo "%{_datadir}/llvm/src/unittests/DebugInfo/PDB" > %{build_llvm_libdir}/unittests/DebugInfo/PDB/llvm.srcdir.txt
 mkdir -p %{buildroot}%{_datadir}/llvm/src/unittests/DebugInfo/PDB/
 cp -R unittests/DebugInfo/PDB/Inputs %{buildroot}%{_datadir}/llvm/src/unittests/DebugInfo/PDB/
+
+%if %{with gold}
+# Add symlink to lto plugin in the binutils plugin directory.
+%{__mkdir_p} %{buildroot}%{_libdir}/bfd-plugins/
+ln -s %{_libdir}/LLVMgold.so %{buildroot}%{_libdir}/bfd-plugins/
+%endif
 
 %else
 
@@ -372,7 +383,8 @@ rm -Rf %{build_install_prefix}/share/opt-viewer
 
 %check
 # TODO: Fix test failures on arm
-ninja check-all -C _build || \
+# FIXME: use %%cmake_build instead of %%__ninja
+LD_LIBRARY_PATH=%{buildroot}/%{pkg_libdir}  %{__ninja} check-all -C %{_vpath_builddir} || \
 %ifarch %{arm}
   :
 %else
@@ -394,6 +406,7 @@ fi
 %endif
 
 %files
+%license LICENSE.TXT
 %exclude %{_mandir}/man1/llvm-config*
 %{_mandir}/man1/*
 %{_bindir}/*
@@ -413,10 +426,12 @@ fi
 %endif
 
 %files libs
+%license LICENSE.TXT
 %{pkg_libdir}/libLLVM-%{maj_ver}.so
 %if %{without compat_build}
 %if %{with gold}
 %{_libdir}/LLVMgold.so
+%{_libdir}/bfd-plugins/LLVMgold.so
 %endif
 %{_libdir}/libLLVM-%{maj_ver}.%{min_ver}*.so
 %{_libdir}/libLTO.so*
@@ -491,6 +506,17 @@ fi
 %endif
 
 %changelog
+* Wed Aug 12 2020 Jens Petersen <petersen@redhat.com> - 9.0.1-11
+- Backport upstream patch to fix build with -flto.
+- Backport cmake changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.0.1-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.0.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 26 2020 Josh Stone <jistone@redhat.com> - 9.0.1-8
 - Copy gating tests from llvm8.0
 

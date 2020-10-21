@@ -4,7 +4,7 @@
 
 Name:          drupal7-%{module}
 Version:       3.24
-Release:       2%{?pre_release:.%{pre_release}}%{?dist}
+Release:       3%{?pre_release:.%{pre_release}}%{?dist}
 Summary:       Create customized lists and queries from your database
 
 License:       GPLv2+
@@ -76,6 +76,9 @@ cp -pr * %{buildroot}%{drupal7_modules}/%{module}/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.24-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Shawn Iwinski <shawn@iwin.ski> - 3.24-2
 - Bump build requires drupal7-rpmbuild to ">= 7.70-2" to fix F32+ auto provides
 

@@ -1,7 +1,10 @@
 Name:       bemenu
-Version:    0.4.1
+Version:    0.5.0
 Release:    2%{?dist}
 Summary:    Dynamic menu library and client program inspired by dmenu
+
+# In case upstream do not bump program version when tagging; this should usually just resolve to %%{version}
+%global     soversion   0.4.1
 
 # Library and bindings are LGPLv3+, other files are GPLv3+
 License:    GPLv3+ and LGPLv3+
@@ -54,8 +57,8 @@ Development files for extending %{name}.
 %{_bindir}/%{name}-run
 %{_mandir}/man1/%{name}*.1*
 # Long live escaping! %%%% resolves to %%; ${v%%.*} strips everything after first dot
-%{_libdir}/lib%{name}.so.%(v=%{version}; echo ${v%%%%.*})
-%{_libdir}/lib%{name}.so.%{version}
+%{_libdir}/lib%{name}.so.%(v=%{soversion}; echo ${v%%%%.*})
+%{_libdir}/lib%{name}.so.%{soversion}
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/%{name}-renderer-curses.so
 %{_libdir}/%{name}/%{name}-renderer-wayland.so
@@ -70,6 +73,12 @@ Development files for extending %{name}.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Jan Staněk <jstanek@redhat.com> - 0.5.0-1
+- Upgrade to version 0.5.0
+
 * Mon Apr 20 2020 Jan Staněk <jstanek@redhat.com> - 0.4.1-2
 - Fix build-time path definitions (PREFIX, libdir, …)
 

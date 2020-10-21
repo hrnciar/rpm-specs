@@ -5,7 +5,7 @@
 Summary:          Re-implementation for Unix of the Plan 9 shell
 Name:             rc
 Version:          1.7.4
-Release:          13%{?dist}
+Release:          14%{?dist}
 License:          zlib
 URL:              http://tobold.org/article/rc
 Source0:          http://static.tobold.org/%{name}/%{name}-%{version}.tar.gz
@@ -59,6 +59,9 @@ fi
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.4-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.4-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

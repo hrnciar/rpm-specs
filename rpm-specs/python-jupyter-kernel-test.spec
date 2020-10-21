@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.3
-Release:        14%{?dist}
+Release:        16%{?dist}
 Summary:        Machinery for testing Jupyter kernels via the messaging protocol
 
 License:        BSD
@@ -12,16 +12,16 @@ Source0:        https://github.com/jupyter/%{srcname_}/archive/%{version}/%{srcn
 
 # https://github.com/jupyter/jupyter_kernel_test/issues/42
 Patch0:         https://github.com/jupyter/jupyter_kernel_test/commit/0b78c2835fad5df3be182ddd5013a73a63c4f81e.patch
+# flit 3.0.0 expects pyproject.toml file instead of flit.ini.
+# When a new version of jupyter_kernel_test is released
+# this patch can be removed.
+Patch1:         0001-Replace-flit.ini-file-with-pyproject.toml.patch
 
 BuildArch:      noarch
 
 # No support for Python 2.
 BuildRequires:  python3-devel
-BuildRequires:  python3-pip
-BuildRequires:  python3-flit
-BuildRequires:  python3-traitlets
-BuildRequires:  python3-jupyter-client
-BuildRequires:  python3-nose
+BuildRequires:  pyproject-rpm-macros
 
 BuildRequires:  python3-ipykernel
 
@@ -44,19 +44,20 @@ jupyter_kernel_test is a tool for testing Jupyter kernels. It tests kernels for
 successful code execution and conformance with the Jupyter Messaging Protocol
 (currently 5.0).
 
+%generate_buildrequires
+%pyproject_buildrequires -r
+
 
 %prep
 %autosetup -n %{srcname_}-%{version} -p1
 
 
 %build
-export FLIT_NO_NETWORK=1
-XDG_CACHE_HOME=$PWD/.cache flit build --format wheel
-
+%pyproject_wheel
 
 %install
-%py3_install_wheel %{srcname_}-%{version}-py3-none-any.whl
-
+%pyproject_install
+%pyproject_save_files %{srcname_}
 
 %check
 PYTHONPATH="%{buildroot}%{python3_sitelib}" \
@@ -65,14 +66,19 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}" \
 
 # Note that there is no %%files section for the unversioned python module if we
 # are building for several python runtimes
-%files -n python3-%{srcname}
+%files -n python3-%{srcname} -f %{pyproject_files}
 %license COPYING.md
 %doc README.rst
-%{python3_sitelib}/%{srcname_}
-%{python3_sitelib}/%{srcname_}-%{version}.dist-info
 
 
 %changelog
+* Fri Oct 02 2020 Tomas Hrnciar <thrnciar@redhat.com> - 0.3-16
+- Backport patch to replace flit.ini with pyproject.toml needed by flit 3.0.0
+- Convert spec to use pyproject-rpm-macros
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3-14
 - Rebuilt for Python 3.9
 

@@ -5,7 +5,7 @@
 %global crate rand_distr
 
 Name:           rust-%{crate}
-Version:        0.2.2
+Version:        0.3.0
 Release:        1%{?dist}
 Summary:        Sampling from random number distributions
 
@@ -52,6 +52,30 @@ which use "default" feature of "%{crate}" crate.
 %files       -n %{name}+default-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+alloc-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+alloc-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "alloc" feature of "%{crate}" crate.
+
+%files       -n %{name}+alloc-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+std-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+std-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "std" feature of "%{crate}" crate.
+
+%files       -n %{name}+std-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
 %cargo_prep
@@ -71,5 +95,11 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Tue Oct 20 2020 Fabio Valentini <decathorpe@gmail.com> - 0.3.0-1
+- Update to version 0.3.0.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 16 07:32:47 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.2-1
 - Initial package

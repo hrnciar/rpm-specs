@@ -1,14 +1,21 @@
 Name:           dtkwidget
-Version:        2.1.1
-Release:        5%{?dist}
+Version:        5.2.2.16
+Release:        1%{?dist}
 Summary:        Deepin tool kit widget modules
-License:        GPLv3
+License:        LGPLv3+
+%if 0%{?fedora}
 URL:            https://github.com/linuxdeepin/dtkwidget
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+%else
+URL:            https://shuttle.deepin.com/cache/repos/apricot/release-candidate/RERFLWR0a2NvcmXmm7TmlrA1Njg/pool/main/d/dtkwidget/
+Source0:        %{name}_%{version}.orig.tar.xz
+%endif
 
 BuildRequires:  gcc-c++
 BuildRequires:  qt5-linguist
 BuildRequires:  qt5-qtbase-static
+BuildRequires:  dtkgui-devel
+BuildRequires:  dtkcore-devel
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Concurrent)
 BuildRequires:  pkgconfig(Qt5DBus)
@@ -18,7 +25,6 @@ BuildRequires:  pkgconfig(Qt5Network)
 BuildRequires:  pkgconfig(Qt5Svg)
 BuildRequires:  pkgconfig(Qt5Widgets)
 BuildRequires:  pkgconfig(Qt5X11Extras)
-BuildRequires:  pkgconfig(dtkcore)
 BuildRequires:  pkgconfig(dframeworkdbus)
 BuildRequires:  pkgconfig(gsettings-qt)
 BuildRequires:  pkgconfig(libudev)
@@ -42,6 +48,7 @@ DtkWidget is Deepin graphical user interface for deepin desktop development.
 Summary:        Development package for %{name}
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       dtkcore-devel%{?_isa}
+Requires:       dtkgui-devel%{?_isa}
 
 %description devel
 Header files and libraries for %{name}.
@@ -52,9 +59,7 @@ Header files and libraries for %{name}.
 %build
 # help find (and prefer) qt5 utilities, e.g. qmake, lrelease
 export PATH=%{_qt5_bindir}:$PATH
-%qmake_qt5 PREFIX=%{_prefix} LIB_INSTALL_DIR=%{_libdir} \
-           BIN_INSTALL_DIR=%{_libexecdir}/dtk2 \
-           TOOL_INSTALL_DIR=%{_libexecdir}/dtk2
+%qmake_qt5 PREFIX=%{_prefix} LIB_INSTALL_DIR=%{_libdir} DBUS_VERSION_0_4_2=YES
 %make_build
 
 %install
@@ -63,8 +68,8 @@ export PATH=%{_qt5_bindir}:$PATH
 %files
 %doc README.md
 %license LICENSE
-%{_libdir}/lib%{name}.so.2*
-%{_libexecdir}/dtk2/dtk-svgc
+%{_libdir}/lib%{name}.so.5*
+%{_libdir}/libdtk-*/
 %{_datadir}/libdtk-*/
 
 %files devel
@@ -75,6 +80,15 @@ export PATH=%{_qt5_bindir}:$PATH
 %{_libdir}/lib%{name}.so
 
 %changelog
+* Sun Sep 27 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.2.2.16-1
+- new upstream release: 5.2.2.16
+
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 2.1.1-7
+- rebuild (qt5)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.1.1-5
 - rebuild (qt5)
 

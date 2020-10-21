@@ -1,12 +1,12 @@
 %global mod_name Flask-SQLAlchemy
 
 Name:           python-flask-sqlalchemy
-Version:        2.4.0
-Release:        6%{?dist}
+Version:        2.4.4
+Release:        2%{?dist}
 Summary:        Adds SQLAlchemy support to Flask application
 
 License:        BSD
-URL:            https://github.com/mitsuhiko/flask-sqlalchemy
+URL:            https://github.com/pallets/flask-sqlalchemy
 Source0:        https://pypi.io/packages/source/F/%{mod_name}/%{mod_name}-%{version}.tar.gz
 
 BuildArch:      noarch
@@ -60,6 +60,12 @@ PYTHONPATH=%{buildroot}/%{python3_sitelib} py.test-3
 %{python3_sitelib}/flask_sqlalchemy/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 2.4.4-1
+- Update to flask-sqlalchemy 2.4.4
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.4.0-6
 - Rebuilt for Python 3.9
 

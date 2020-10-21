@@ -3,7 +3,7 @@
 
 Name:           %{fontname}-fonts
 Version:        2.0
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        A humanist sans serif font
 
 License:        OFL
@@ -58,6 +58,9 @@ install -Dm 0644 -p %{SOURCE2} \
 %{_datadir}/appdata/%{fontname}.metainfo.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

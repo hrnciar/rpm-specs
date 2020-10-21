@@ -3,7 +3,7 @@
 
 # https://github.com/go-logfmt/logfmt
 %global goipath         github.com/go-logfmt/logfmt
-Version:                0.4.0
+Version:                0.5.0
 
 %gometa
 
@@ -15,17 +15,12 @@ format. It provides an API similar to encoding/json and encoding/xml.}
 %global godocs          CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Marshals and unmarshals logfmt messages
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
-
-%if %{with check}
-# Tests
-BuildRequires:  golang(github.com/kr/logfmt)
-%endif
 
 %description
 %{common_description}
@@ -46,6 +41,12 @@ BuildRequires:  golang(github.com/kr/logfmt)
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 15:02:19 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.5.0-1
+- Update to 0.5.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

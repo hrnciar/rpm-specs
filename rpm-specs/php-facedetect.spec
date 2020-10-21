@@ -6,17 +6,19 @@
 
 %global github_owner    infusion
 %global github_name     PHP-Facedetect
-%global github_commit   c7179418c4e62c3afb55cdb5a59d089353129134
-%global commitdate      20180306
+%global github_commit   135c72ace26cd95fd5fd255053bc2eb694d87ad9
+%global commitdate      20200129
 %global shortcommit     %(c=%{github_commit}; echo ${c:0:7})
 
 Name:		php-facedetect
 Version:	1.2.0
-Release:	0.13.%{commitdate}git%{shortcommit}%{?dist}
+Release:	0.17.%{commitdate}git%{shortcommit}%{?dist}
 Summary:	PHP extension to access the OpenCV library
 License:	BSD
 URL:		http://www.xarg.org/project/php-facedetect/
 Source0:	https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{github_name}-%{shortcommit}.tar.gz
+# https://github.com/infusion/PHP-Facedetect/pull/37
+Patch0:	PHP-Facedetect-opencv_fix.patch
 
 BuildRequires:	gcc-c++
 BuildRequires:	php-devel
@@ -35,7 +37,8 @@ of their coordinates.
 
 
 %prep
-%setup -q -n %{github_name}-%{github_commit}
+%autosetup -n %{github_name}-%{github_commit}
+sed -i -e 's/includedir_new/includedir/g' config.m4
 
 %{__cat} <<'EOF' >%{ini_name}
 extension=facedetect.so
@@ -65,6 +68,19 @@ php --no-php-ini \
 %{php_extdir}/facedetect.so
 
 %changelog
+* Tue Oct 20 2020 Nicolas Chauvet <kwizart@gmail.com> - 1.2.0-0.17.20200129git135c72a
+- Fix build with opencv 4.5.0
+
+* Tue Oct 20 2020 Nicolas Chauvet <kwizart@gmail.com> - 1.2.0-0.16.20200129git135c72a
+- Update snapshot
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-0.15.20180306gitc717941
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-0.14.20180306gitc717941
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Nicolas Chauvet <kwizart@gmail.com> - 1.2.0-0.13.20180306gitc717941
 - Rebuilt for OpenCV 4.3
 

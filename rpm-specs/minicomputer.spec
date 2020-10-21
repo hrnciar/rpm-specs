@@ -1,6 +1,6 @@
 Name:		minicomputer
 Version:	1.41
-Release:	28%{?dist}
+Release:	29%{?dist}
 Summary:	Software Synthesizer
 License:	GPLv3+
 URL:		http://minicomputer.sourceforge.net/
@@ -70,6 +70,9 @@ install -pm 644 %{name}.xpm \
 %{_datadir}/icons/hicolor/32x32/apps/%{name}.xpm
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.41-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 12 2020 Petr Viktorin <pviktori@redhat.com> - 1.41-28
 - Make the scons script compatible with Python 3
 

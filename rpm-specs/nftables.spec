@@ -1,6 +1,6 @@
 Name:           nftables
-Version:        0.9.3
-Release:        4%{?dist}
+Version:        0.9.6
+Release:        1%{?dist}
 # Upstream released a 0.100 version, then 0.4. Need Epoch to get back on track.
 Epoch:          1
 Summary:        Netfilter Tables userspace utillites
@@ -57,7 +57,7 @@ The nftables python module provides an interface to libnftables via ctypes.
 #./autogen.sh
 %configure --disable-silent-rules --with-xtables --with-json \
 	--enable-python --with-python-bin=%{__python3}
-make %{?_smp_mflags}
+%make_build
 
 %install
 %make_install
@@ -118,10 +118,20 @@ sed -i -e 's/\(sofile=\)".*"/\1"'$sofile'"/' \
 %{python3_sitelib}/nftables/
 
 %changelog
+* Sat Sep 05 2020 Neal Gompa <ngompa13@gmail.com> - 1:0.9.6-1
+- Update to 0.9.6 (RH#1846663)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.9.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1:0.9.3-5
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1:0.9.3-4
 - Rebuilt for Python 3.9
 
-* Fri May 15 2020 root <hobbes1069@gmail.com> - 1:0.9.3-3
+* Fri May 15 2020 Richard Shaw <hobbes1069@gmail.com> - 1:0.9.3-3
 - Add patch for json performance with ipsets, fixes RHBZ#1834853.
 
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.9.3-2

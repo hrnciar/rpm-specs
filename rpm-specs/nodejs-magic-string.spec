@@ -6,7 +6,7 @@
 
 Name:		nodejs-magic-string
 Version:	0.22.4
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	Modify strings, generate sourcemaps
 
 License:	MIT
@@ -76,6 +76,9 @@ NODE_ENV=test %{_bindir}/mocha -R spec
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.22.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.22.4-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@
 # https://github.com/mongodb/mongo-go-driver
 %global goipath         go.mongodb.org/mongo-driver
 %global forgeurl        https://github.com/mongodb/mongo-go-driver
-Version:                1.3.0
+Version:                1.3.6
 
 %gometa
 
@@ -24,6 +24,8 @@ Summary:        Go driver for MongoDB
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/golang/go/issues/32479
+Patch0:         0001-Convert-int-to-string-using-rune.patch
 
 BuildRequires:  golang(github.com/go-stack/stack)
 BuildRequires:  golang(github.com/gobuffalo/packr/v2)
@@ -54,6 +56,7 @@ BuildRequires:  golang(github.com/tidwall/pretty)
 
 %prep
 %goprep
+%patch0 -p1
 sed -i 's|parse not-valid-%%%%%%%%://|parse \\\"not-valid-%%%%%%%%://\\\"|' bson/bsoncodec/default_value_decoders_test.go
 
 %build
@@ -84,6 +87,16 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Thu Aug 06 19:53:50 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.3.6-1
+- Update to 1.3.6
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 06 20:24:08 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.3.0-1
 - Update to 1.3.0
 

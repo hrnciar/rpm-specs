@@ -5,7 +5,7 @@
 Summary: Audio effects processing rack for guitar
 Name:    rakarrack
 Version: 0.6.2
-Release: 0.19.20150814git%{shortcommit}%{?dist}
+Release: 0.20.20150814git%{shortcommit}%{?dist}
 License: GPLv2
 URL:     http://%{name}.sourceforge.net/
 #S#ource0: http://downloads.sourceforge.net/%#{name}/%#{name}-%#{version}.tar.bz2
@@ -121,6 +121,9 @@ desktop-file-install --vendor "" \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-0.20.20150814gita620840
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-0.19.20150814gita620840
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

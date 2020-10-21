@@ -10,7 +10,7 @@
 
 Name:       nodejs-underscore
 Version:    1.10.2
-Release:    1%{?dist}
+Release:    3%{?dist}
 Summary:    JavaScript's functional programming helper library
 License:    MIT
 URL:        http://underscorejs.org/
@@ -62,18 +62,17 @@ rm -f underscore-min.*
 
 
 %build
-/usr/bin/uglifyjs underscore.js -m --source-map underscore-min.map \
-    -o underscore-min.js
+/usr/bin/uglifyjs underscore.js -m --source-map -o underscore-min.js
 
 
 %install
 mkdir -p %{buildroot}%{nodejs_sitelib}/underscore
-cp -pr package.json underscore.js underscore-min.js underscore-min.map \
+cp -pr package.json underscore.js underscore-min.js underscore-min.js.map \
     %{buildroot}%{nodejs_sitelib}/underscore
 
 # Install browser version
 mkdir -p %{buildroot}%{installdir}
-cp -pr underscore.js underscore-min.js underscore-min.map \
+cp -pr underscore.js underscore-min.js underscore-min.js.map \
     %{buildroot}%{installdir}
 
 # No dependencies.
@@ -98,6 +97,13 @@ cp -pr underscore.js underscore-min.js underscore-min.map \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 13 2020 Dan Callaghan <djc@djc.id.au> - 1.10.2-1
 - upstream release 1.10.2
 

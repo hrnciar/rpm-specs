@@ -1,13 +1,18 @@
 Name:		gssproxy
 
 Version:	0.8.3
-Release:	1%{?dist}
+Release:	5%{?dist}
 Summary:	GSSAPI Proxy
 
 License:	MIT
 URL:		https://github.com/gssapi/gssproxy
 Source0:	https://github.com/gssapi/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.gz
 Source1:	rwtab
+
+Patch0: Initialize-our-epoll_event-structures.patch
+Patch1: Avoid-leak-of-special-mechs-in-gss_mech_interposer.patch
+Patch2: Fix-leak-of-mech-OID-in-gssi_inquire_context.patch
+Patch3: Document-config-file-non-merging.patch
 
 %global servicename gssproxy
 %global pubconfpath %{_sysconfdir}/gssproxy
@@ -109,6 +114,18 @@ install -m644 %{SOURCE1} $RPM_BUILD_ROOT/%{_sysconfdir}/rwtab.d/gssproxy
 %systemd_postun_with_restart gssproxy.service
 
 %changelog
+* Mon Oct 12 2020 Robbie Harwood <rharwood@redhat.com> - 0.8.3-5
+- Document config file non-merging
+
+* Wed Aug 26 2020 Robbie Harwood <rharwood@redhat.com> - 0.8.3-4
+- Fix leak of mech OID in gssi_inquire_context()
+
+* Fri Jul 31 2020 Robbie Harwood <rharwood@redhat.com> - 0.8.3-3
+- Avoid leak of special mechs in gss_mech_interposer()
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 17 2020 Robbie Harwood <rharwood@redhat.com> - 0.8.3-1
 - New upstream release (0.8.3)
 

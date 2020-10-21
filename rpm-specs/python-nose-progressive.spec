@@ -3,7 +3,7 @@
 
 Name:           python-%{upstream_name}
 Version:        1.5.1
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Nose plugin to show a progress bar and tracebacks during tests
 License:        GPLv2+
 URL:            https://github.com/erikrose/nose-progressive
@@ -67,6 +67,9 @@ nosetests-%{python3_version} build/lib
 %{python3_sitelib}/nose_progressive*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5.1-21
 - Rebuilt for Python 3.9
 

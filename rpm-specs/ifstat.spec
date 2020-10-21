@@ -1,7 +1,7 @@
 Summary: Interface statistics
 Name: ifstat
 Version: 1.1
-Release: 31%{?dist}
+Release: 33%{?dist}
 License: GPLv2+
 URL: http://gael.roualland.free.fr/ifstat/
 Source0: http://gael.roualland.free.fr/ifstat/ifstat-%{version}.tar.gz
@@ -38,6 +38,12 @@ need to have snmpd running for this though).
 %{_bindir}/ifstat
 
 %changelog
+* Thu Aug 27 2020 Josef Řídký <jridky@redhat.com> - 1.1-33
+- Rebuilt for new net-snmp release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

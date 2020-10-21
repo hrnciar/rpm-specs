@@ -3,8 +3,8 @@
 %global pkgname leptonica
 
 Name:          mingw-%{pkgname}
-Version:       1.79.0
-Release:       2%{?dist}
+Version:       1.80.0
+Release:       1%{?dist}
 Summary:       MinGW Windows Leptonica library
 
 License:       Leptonica
@@ -77,11 +77,11 @@ Static version of the MinGW Windows Leptonica library.
 %build
 autoreconf -ifv
 %mingw_configure
-%mingw_make %{?_smp_mflags}
+%mingw_make_build
 
 
 %install
-%mingw_make install DESTDIR=%{buildroot}
+%mingw_make_install
 
 # Delete *.la files
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
@@ -121,6 +121,12 @@ rm -rf %{buildroot}%{mingw64_bindir}/*.exe
 
 
 %changelog
+* Thu Jul 30 2020 Sandro Mani <manisandro@gmail.com> - 1.80.0-1
+- Update to 1.80.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.79.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.79.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           perl-Pod-PseudoPod
 Version:        0.19
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Framework for extending the POD tags for book manuscripts
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Pod-PseudoPod
@@ -58,6 +58,9 @@ tables, sidebars, etc. For further information see Pod::PseudoPod::Tutorial.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.19-3
 - Perl 5.32 rebuild
 

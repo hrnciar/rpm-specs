@@ -3,7 +3,7 @@
 
 Name:       java-atk-wrapper
 Version:    %{major_version}.%{minor_version}
-Release:    1%{?dist}
+Release:    4%{?dist}
 Summary:    Java ATK Wrapper
 
 License:    LGPLv2+
@@ -22,7 +22,7 @@ BuildRequires:  atk-devel
 BuildRequires:  GConf2-devel
 BuildRequires:  glib2-devel
 BuildRequires:  gtk2-devel
-BuildRequires:  xorg-x11-utils
+BuildRequires:  xprop
 BuildRequires:  gtk3-devel
 BuildRequires:  at-spi2-atk-devel
 BuildRequires:  at-spi2-core-devel
@@ -30,7 +30,7 @@ BuildRequires:  gobject-introspection-devel
 
 
 Requires:   java
-Requires:   xorg-x11-utils
+Requires:   xprop
 
 %description
 Java ATK Wrapper is a implementation of ATK by using JNI technic. It
@@ -74,6 +74,15 @@ ln -s %{_libdir}/%{name}/libatk-wrapper.so \
 
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 0.38.0-4
+- Require xprop not xorg-x11-utils
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.38.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0.38.0-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Mar 06 2020 Kalev Lember <klember@redhat.com> - 0.38.0-1
 - Update to 0.38.0
 - Update source URLs

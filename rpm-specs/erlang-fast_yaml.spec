@@ -1,9 +1,9 @@
 %global srcname fast_yaml
 
-%global p1_utils_ver 1.0.17
+%global p1_utils_ver 1.0.20
 
 Name: erlang-%{srcname}
-Version: 1.0.22
+Version: 1.0.27
 Release: 1%{?dist}
 
 License: ASL 2.0
@@ -54,6 +54,17 @@ install -pm755 priv/lib/* $RPM_BUILD_ROOT%{_libdir}/erlang/lib/%{srcname}-%{vers
 
 
 %changelog
+* Fri Jul 31 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.27-1
+- Update to 1.0.27 (#1807286).
+- https://github.com/processone/fast_yaml/blob/1.0.27/CHANGELOG.md
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.22-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.22-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.22-1
 - Update to 1.0.22 (#1789167).
 - https://github.com/processone/fast_yaml/blob/1.0.22/CHANGELOG.md

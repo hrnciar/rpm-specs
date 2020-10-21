@@ -2,7 +2,7 @@
 
 Name:           megatools
 Version:        1.10.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Command line client for MEGA
 License:        GPLv3+
 URL:            http://megatools.megous.com/
@@ -67,6 +67,9 @@ make check
 %{_mandir}/man7/*.7*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 15 2020 Gerald Cox <gbcox@fedoraproject.org> - 1.10.3-1
 - Upstream release rhbz#1824110
 

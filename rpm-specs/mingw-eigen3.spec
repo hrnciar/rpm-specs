@@ -3,8 +3,8 @@
 %global pkgname eigen3
 
 Name:           mingw-%{pkgname}
-Version:        3.3.7
-Release:        4%{?dist}
+Version:        3.3.8
+Release:        2%{?dist}
 Summary:        MinGW lightweight C++ template library for vector and matrix math
 BuildArch:      noarch
 # See COPYING.README
@@ -14,17 +14,14 @@ Source0:        https://gitlab.com/libeigen/eigen/-/archive/%{version}/eigen-%{v
 # Since we are crosscompiling, read the comment in the file for details
 Source1:        TryRunResults.cmake
 
-# Fix pkgconfig file
-Patch0:         eigen_pkgconfig.patch
 # Fix cmake error due to buggy FindCUDA.cmake
 # CMake Error at /usr/share/cmake/Modules/FindCUDA.cmake:675 (find_host_program):
 #  Unknown CMake command "find_host_program".
 # See https://gitlab.kitware.com/cmake/cmake/issues/16509
-Patch1:         eigen_disable-cuda.patch
-# Tweak installation dir for cmake modules
-Patch2:         eigen_cmake-dir.patch
-# Fix the include paths in the new Eigen3Config.cmake file
-Patch3:         eigen_fixcmake.patch
+Patch0:         eigen_disable-cuda.patch
+
+# Drop reference to undefined Eigen::eigen_assert_exception (FIXME??)
+Patch1:         eigen_assert_exception.patch
 
 BuildRequires:  mingw32-filesystem >= 95
 BuildRequires:  mingw32-gcc-c++
@@ -67,12 +64,12 @@ Summary:                %{summary}
 %build
 mkdir build_win32
 pushd build_win32
-%mingw32_cmake -C%{SOURCE1} -DEIGEN_BUILD_PKGCONFIG:BOOL=ON -DINCLUDE_INSTALL_DIR=%{mingw32_includedir}/eigen3 -DEIGEN_TEST_CXX11=ON
+%mingw32_cmake -C%{SOURCE1} -DEIGEN_BUILD_PKGCONFIG:BOOL=ON -DINCLUDE_INSTALL_DIR=include/%{pkgname} -DCMAKEPACKAGE_INSTALL_DIR=share/cmake/%{pkgname} -DEIGEN_TEST_CXX11=ON
 popd
 
 mkdir build_win64
 pushd build_win64
-%mingw64_cmake -C%{SOURCE1} -DEIGEN_BUILD_PKGCONFIG:BOOL=ON -DINCLUDE_INSTALL_DIR=%{mingw64_includedir}/eigen3 -DEIGEN_TEST_CXX11=ON
+%mingw64_cmake -C%{SOURCE1} -DEIGEN_BUILD_PKGCONFIG:BOOL=ON -DINCLUDE_INSTALL_DIR=include/%{pkgname} -DCMAKEPACKAGE_INSTALL_DIR=share/cmake/%{pkgname} -DEIGEN_TEST_CXX11=ON
 popd
 # Just as a sanity check
 #mingw_make #{?_smp_mflags} buildtests
@@ -84,20 +81,27 @@ popd
 
 %files -n mingw32-%{pkgname}
 %license COPYING.BSD COPYING.LGPL COPYING.MPL2 COPYING.README
-%{mingw32_includedir}/eigen3
-%{mingw32_datadir}/pkgconfig/*
-%dir %{mingw32_datadir}/cmake/Modules
-%{mingw32_datadir}/cmake/Modules/*.cmake
+%{mingw32_includedir}/%{pkgname}
+%{mingw32_datadir}/pkgconfig/%{pkgname}.pc
+%{mingw32_datadir}/cmake/%{pkgname}/
 
 %files -n mingw64-%{pkgname}
 %license COPYING.BSD COPYING.LGPL COPYING.MPL2 COPYING.README
-%{mingw64_includedir}/eigen3
-%{mingw64_datadir}/pkgconfig/*
-%dir %{mingw64_datadir}/cmake/Modules
-%{mingw64_datadir}/cmake/Modules/*.cmake
+%{mingw64_includedir}/%{pkgname}
+%{mingw64_datadir}/pkgconfig/%{pkgname}.pc
+%{mingw64_datadir}/cmake/%{pkgname}/
 
 
 %changelog
+* Mon Oct 05 2020 Sandro Mani <manisandro@gmail.com> - 3.3.8-2
+- Drop reference to undefined Eigen::eigen_assert_exception
+
+* Mon Oct 05 2020 Sandro Mani <manisandro@gmail.com> - 3.3.8-1
+- Update to 3.3.8
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.7-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.7-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

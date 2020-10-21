@@ -14,7 +14,7 @@ http://readthedocs.org/docs/cliff/en/latest/
 %global common_desc_tests This package contains tests for the python cliff library.
 
 Name:             python-%{modname}
-Version:          3.1.0
+Version:          3.4.0
 Release:          1%{?dist}
 Summary:          Command Line Interface Formulation Framework
 
@@ -106,6 +106,12 @@ PYTHON=python3 python3 setup.py test
 %{python3_sitelib}/%{modname}/tests
 
 %changelog
+* Sun Sep 27 2020 Kevin Fenzi <kevin@scrye.com> - 3.4.0-1
+- Update to 3.4.0. Fixes #1783966
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Joel Capitao <jcapitao@redhat.com> 3.1.0-1
 - Update to upstream version 3.1.0
 

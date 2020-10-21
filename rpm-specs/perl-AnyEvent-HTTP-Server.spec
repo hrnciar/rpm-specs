@@ -6,7 +6,7 @@
 
 Name:           perl-AnyEvent-HTTP-Server
 Version:        1.99981
-Release:        7.%{codate}git%{shortcommit0}%{?dist}
+Release:        8.%{codate}git%{shortcommit0}%{?dist}
 Summary:        AnyEvent HTTP/1.1 Server
 License:        GPL+ or Artistic
 URL:            https://github.com/Mons/AnyEvent-HTTP-Server-II
@@ -80,6 +80,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.99981-8.20190523gitb09c2c7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.99981-7.20190523gitb09c2c7
 - Perl 5.32 rebuild
 

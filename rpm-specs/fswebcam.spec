@@ -1,6 +1,6 @@
 Name:           fswebcam
 Version:        20140113
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Tiny and flexible webcam program
 
 License:        GPLv2
@@ -30,6 +30,9 @@ make install DESTDIR=%{buildroot} INSTALL="install -p"
 %{_bindir}/%{name}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20140113-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20140113-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

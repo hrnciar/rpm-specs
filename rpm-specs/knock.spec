@@ -7,7 +7,7 @@
 Summary: A port-knocking server/client
 Name: knock
 Version: 0.7.8
-Release: 9.%{posttag}%{?dist}
+Release: 10.%{posttag}%{?dist}
 License: GPLv2+
 URL: http://www.zeroflux.org/projects/%{name}
 Source0: https://github.com/jvinet/%{name}/archive/%{commit}/%{name}-%{commit}.tar.gz
@@ -94,6 +94,9 @@ iconv -f iso8859-1 -t utf-8 ChangeLog > ChangeLog.conv && mv -f ChangeLog.conv C
 %{_mandir}/man?/%{name}d.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.8-10.20151227git258a27e
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.8-9.20151227git258a27e
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

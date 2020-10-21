@@ -1,6 +1,6 @@
 Name:           perl-Test-TempDir
-Version:        0.10
-Release:        16%{?dist}
+Version:        0.11
+Release:        1%{?dist}
 Summary:        Temporary files support for testing
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test-TempDir
@@ -8,7 +8,7 @@ Source0:        https://cpan.metacpan.org/authors/id/E/ET/ETHER/Test-TempDir-%{v
 BuildArch:      noarch
 BuildRequires:  perl-generators
 BuildRequires:  perl(Directory::Scratch)
-BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(File::NFSLock)
 BuildRequires:  perl(Module::Build::Tiny)
 BuildRequires:  perl(Moose) >= 0.87
@@ -21,7 +21,7 @@ BuildRequires:  perl(Test::CheckDeps)
 BuildRequires:  perl(Test::Requires)
 BuildRequires:  perl(Test::use::ok)
 Requires:       perl(File::NFSLock)
-Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+Requires:       perl(:MODULE_COMPAT_%(eval "`/usr/bin/perl -V:version`"; echo $version))
 
 %{?perl_default_filter}
 
@@ -32,19 +32,15 @@ Test::TempDir provides temporary directory creation with testing in mind.
 %setup -q -n Test-TempDir-%{version}
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags}
+/usr/bin/perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install PERL_INSTALL_ROOT=$RPM_BUILD_ROOT
-
-find $RPM_BUILD_ROOT -type f -name .packlist | xargs rm -f
-find $RPM_BUILD_ROOT -depth -type d -empty -exec rmdir {} \;
-
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
-make test
+%{make_build} test
 
 %files
 %doc Changes README
@@ -52,6 +48,16 @@ make test
 %{_mandir}/man3/Test::TempDir*
 
 %changelog
+* Sun Aug 02 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 0.11-1
+- Update to 0.11
+- Pass NO_PACKLIST and NO_PERLLOCAL to Makefile.PL
+- Use /usr/bin/perl instead of %%{__perl}
+- Use %%{make_install} instead of "make pure_install"
+- Use %%{make_build} instead of make
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.10-16
 - Perl 5.32 rebuild
 

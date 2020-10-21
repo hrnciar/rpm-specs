@@ -11,13 +11,13 @@ I’ve converted the 3.4 implementation into a single file, entitytrans.py which
 so far seems to work (all tests pass on 2.7, 3.3, and 3.4).
 
 Name:           python-%{pypi_name}
-Version:        0.9.0
-Release:        6%{?dist}
+Version:        0.9.1
+Release:        2%{?dist}
 Summary:        Python parser for the CommonMark Markdown spec
 
 License:        BSD
 URL:            https://pypi.python.org/pypi/%{pypi_name}
-Source0:        https://files.pythonhosted.org/packages/ac/9d/a9ff7efaf06fb2b6fcc7a035760ba0971250832e37f0c554c335d86c160b/commonmark-0.9.0.tar.gz
+Source0:        https://files.pythonhosted.org/packages/60/48/a60f593447e8f0894ebb7f6e6c1f25dafc5e89c5879fdc9360ae93ff83f0/commonmark-0.9.1.tar.gz
 
 BuildArch:      noarch
 
@@ -34,16 +34,16 @@ Summary:        Documentation for python-%{pypi_name}
 Documentation package.
 
 
-%package -n     python3-%{pypi_name}
-BuildRequires:  python3-devel
-BuildRequires:  python3-future
-BuildRequires:  python3-hypothesis
-Requires:       python3-future
+%package -n     python%{python3_pkgversion}-%{pypi_name}
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-future
+BuildRequires:  python%{python3_pkgversion}-hypothesis
+Requires:       python%{python3_pkgversion}-future
 Suggests: python-CommonMark-doc
 Summary:        %{summary}
-%{?python_provide:%python_provide python3-%{pypi_name}}
+%{?python_provide:%python_provide python%{python3_pkgversion}-%{pypi_name}}
 
-%description -n python3-%{pypi_name}
+%description -n python%{python3_pkgversion}-%{pypi_name}
 %{desc}
 
 
@@ -68,7 +68,7 @@ export PYTHONIOENCODING=UTF-8
 PYTHONPATH=$(pwd) %{__python3} setup.py test
 
 
-%files -n python3-%{pypi_name}
+%files -n python%{python3_pkgversion}-%{pypi_name}
 %license LICENSE
 %{_bindir}/cmark
 %{python3_sitelib}/commonmark-%{version}-py%{python3_version}.egg-info
@@ -81,6 +81,12 @@ PYTHONPATH=$(pwd) %{__python3} setup.py test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Julien Enselme <jujens@jujens.eu> - 0.9.1-1
+- Update to 0.9.1
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.0-6
 - Rebuilt for Python 3.9
 

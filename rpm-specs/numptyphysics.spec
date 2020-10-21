@@ -4,7 +4,7 @@
 Name:           numptyphysics
 # Last known version number
 Version:        0.4
-Release:        0.20.20151231git%{shortcommit}%{?dist}
+Release:        0.21.20151231git%{shortcommit}%{?dist}
 Summary:        A crayon-drawing based physics puzzle game 
 
 License:        GPLv3+
@@ -52,6 +52,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/numptyphysics.desktop
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-0.21.20151231gitc0abd47
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-0.20.20151231gitc0abd47
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

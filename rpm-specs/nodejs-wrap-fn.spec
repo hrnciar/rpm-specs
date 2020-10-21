@@ -6,7 +6,7 @@
 
 Name:		nodejs-wrap-fn
 Version:	0.1.5
-Release:	9%{?dist}
+Release:	10%{?dist}
 Summary:	Support sync, async, and generator functions
 
 License:	MIT
@@ -73,6 +73,9 @@ NODE_ENV=test %{_bindir}/mocha -R spec
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.5-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.5-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

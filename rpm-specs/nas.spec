@@ -1,7 +1,7 @@
 Name:       nas 
 Summary:    The Network Audio System (NAS)
 Version:    1.9.4
-Release:    19%{?dist}
+Release:    22%{?dist}
 URL:        http://radscan.com/nas.html
 # README:               MIT (main license)
 # config/aclocal.m4:    FSFULLR
@@ -50,17 +50,15 @@ BuildRequires:  libX11-devel
 BuildRequires:  libXau-devel
 BuildRequires:  libXaw-devel
 BuildRequires:  libXext-devel
-BuildRequires:  libXp-devel
 BuildRequires:  libXt-devel
 BuildRequires:  make
 BuildRequires:  perl-generators
-BuildRequires:  systemd
+BuildRequires:  systemd-rpm-macros
 # Update config.sub to support aarch64, bug #926196
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  libtool
-Requires:           %{name}-libs = %{version}-%{release}
-%{?systemd_requires}
+Requires:       %{name}-libs = %{version}-%{release}
 
 
 %package devel
@@ -115,23 +113,23 @@ done
 %build
 xmkmf
 # See HISTORY file how to modify CDEBUGFLAGS
-make WORLDOPTS='-k CDEBUGFLAGS="%{optflags}" -k EXTRA_LDOPTIONS="%{__global_ldflags}"' %{?_smp_mflags} World
+%make_build WORLDOPTS='-k CDEBUGFLAGS="%{optflags}" -k EXTRA_LDOPTIONS="%{__global_ldflags}"' World
 
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT BINDIR=%{_bindir} INCROOT=%{_includedir} \
+%make_install BINDIR=%{_bindir} INCROOT=%{_includedir} \
   LIBDIR=%{_libdir}/X11  SHLIBDIR=%{_libdir} USRLIBDIR=%{_libdir} \
   MANPATH=%{_mandir} INSTALLFLAGS='-p' EXTRA_LDOPTIONS='%{__global_ldflags}' \
-  install install.man
+  install.man
 
+# Systemd integration
 install -p -m644 -D %{SOURCE1} $RPM_BUILD_ROOT%{_unitdir}/%{daemon}.service
 install -p -m644 -D %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/%{daemon}
 
-# Rename config file
+# Rename a config file
 mv $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/nasd.conf{.eg,}
 
-## unpackaged files
-# Remove static libraries
+# Remove the static libraries
 rm -fv $RPM_BUILD_ROOT%{_libdir}/lib*.a
 
 
@@ -143,9 +141,6 @@ rm -fv $RPM_BUILD_ROOT%{_libdir}/lib*.a
 
 %postun
 %systemd_postun_with_restart %{daemon}.service
-
-
-%ldconfig_scriptlets libs
 
 
 %files
@@ -171,6 +166,17 @@ rm -fv $RPM_BUILD_ROOT%{_libdir}/lib*.a
 
 
 %changelog
+* Wed Sep 30 2020 Adam Jackson <ajax@redhat.com> - 1.9.4-22
+- Remove unused BuildRequires: libXp-devel
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.4-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.9.4-20
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+- Modernize systemd and ldconfig packaging
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.4-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           libgit2_0.28
 Version:        0.28.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        C implementation of the Git core methods as a library with a solid API
 License:        GPLv2 with exceptions
 URL:            https://libgit2.org/
@@ -72,6 +72,9 @@ rm -frv deps
 %{_includedir}/git2/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.28.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 15 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.28.5-2
 - Rebuild for http-parser 2.9.4
 

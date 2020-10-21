@@ -1,7 +1,7 @@
-%global gittag 5.8.0.202006091008-r
+%global gittag 5.8.1.202007141445-r
 
 Name:           jgit
-Version:        5.8.0
+Version:        5.8.1
 Release:        1%{?dist}
 Summary:        A pure java implementation of git
 
@@ -12,8 +12,6 @@ Source0:        https://git.eclipse.org/c/jgit/jgit.git/snapshot/jgit-%{gittag}.
 
 # Set the correct classpath for the command line tools
 Patch0: 0001-Ensure-the-correct-classpath-is-set-for-the-jgit-com.patch
-# Remove dep on assertj-core from bc bundle
-Patch1: 0002-Unnecessary-dep-on-assertj-core-in-bc-bundle.patch
 
 BuildArch: noarch
 
@@ -61,7 +59,6 @@ Summary:        API documentation for %{name}
 %prep
 %setup -n jgit-%{gittag} -q
 %patch0 -p1
-%patch1 -p1
 
 # Disable multithreaded build
 rm .mvn/maven.config
@@ -101,6 +98,10 @@ sed -i -e '/org\.junit/s/4\.13/4.12/' $(grep -r -l --include MANIFEST.MF org.jun
 # Relax jsch restriction
 sed -i -e '/jsch/s/1\.55/1.54/' org.eclipse.jgit.junit.ssh/META-INF/MANIFEST.MF
 
+# Relax servlet restriction
+sed -i -e '/javax\.servlet/s/4\.0\.0/5.0.0/' org.eclipse.jgit.lfs.server/META-INF/MANIFEST.MF org.eclipse.jgit.pgm/META-INF/MANIFEST.MF
+sed -i -e '/javax\.servlet/s/3\.2\.0/5.0.0/' org.eclipse.jgit.junit.http/META-INF/MANIFEST.MF org.eclipse.jgit.http.server/META-INF/MANIFEST.MF
+
 # Remove unnecessary dep on org.apache.log4j
 %pom_remove_dep log4j:log4j . org.eclipse.jgit.pgm
 %pom_change_dep org.slf4j:slf4j-log4j12 org.slf4j:slf4j-simple . org.eclipse.jgit.pgm
@@ -113,7 +114,7 @@ sed -i -e '/\.test<\/module>/d' pom.xml
 
 %build
 # Don't run tests due to missing dependencies
-%mvn_build -f -- -Pjavac
+%mvn_build -f -- -Pjavac -Dsource=1.8
 
 %install
 %mvn_install
@@ -138,6 +139,21 @@ EOF
 %license LICENSE
 
 %changelog
+* Fri Aug 21 2020 Mat Booth <mat.booth@redhat.com> - 5.8.1-1
+- Update to latest upstream release
+
+* Fri Aug 21 2020 Mat Booth <mat.booth@redhat.com> - 5.8.0-5
+- Rebuild against new servlet API
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.8.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 5.8.0-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jun 25 2020 Roland Grunberg <rgrunber@redhat.com> - 5.8.0-2
+- Set maven-javadoc-plugin source to 1.8 for Java 11 build.
+
 * Mon Jun 22 2020 Mat Booth <mat.booth@redhat.com> - 5.8.0-1
 - Update to latest upstream release
 

@@ -2,7 +2,7 @@
 
 Name:           taxi
 Version:        0.0.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        The FTP Client that drives you anywhere
 
 License:        GPLv3+
@@ -53,6 +53,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{appname}.desktop
 %{_metainfodir}/*.appdata.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

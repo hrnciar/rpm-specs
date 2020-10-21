@@ -1,17 +1,13 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:           sugar-words
 Version:        24
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        A multi lingual dictionary with speech synthesis
 
 License:        GPLv3+
 URL:            https://github.com/sugarlabs/words-activity
 Source0:        http://download.sugarlabs.org/sources/honey/Words/Words-%{version}.tar.bz2
 
-BuildRequires:  python3-devel sugar-toolkit-gtk3 gettext
+BuildRequires:  python3 python3-devel sugar-toolkit-gtk3 gettext
 BuildArch:      noarch
 Requires:       sugar
 
@@ -33,6 +29,9 @@ python3 ./setup.py build
 python3 ./setup.py install --prefix=%{buildroot}/%{_prefix}
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}%/&{sugaractivitydir}/Words.activity/
+
 %find_lang org.laptop.Words
 
 %files -f org.laptop.Words.lang
@@ -40,6 +39,16 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 %{sugaractivitydir}/Words.activity/
 
 %changelog
+* Tue Aug 11 2020 Ibiam Chihurumnaya <ibiamchihurumnaya@gmail.com> - 24-4
+- add missing % in update for python bytecompile changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 24-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 24-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 20 2020 Chihurumnaya Ibiam <ibiamchihurumnaya@gmail.com> - 24-1
 - v24
 - Update Python 3 depedency declarations

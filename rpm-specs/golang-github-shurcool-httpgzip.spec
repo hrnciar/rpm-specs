@@ -3,7 +3,7 @@
 
 # https://github.com/shurcooL/httpgzip
 %global goipath         github.com/shurcooL/httpgzip
-%global commit          1c7afaae1203372ed94503bdace04778df5cf0a8
+%global commit          320755c1c1b0484e6179c9a5b68aabcc0dae5ac2
 
 %gometa
 
@@ -16,10 +16,9 @@ when serving HTTP requests.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.7%{?dist}
+Release:        0.10%{?dist}
 Summary:        Net/http-like primitives that use gzip compression when serving HTTP requests
 
-# https://github.com/shurcooL/httpgzip/issues/7
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
@@ -45,6 +44,16 @@ BuildRequires:  golang(golang.org/x/net/http/httpguts)
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 19:06:54 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.10.20200802git320755c
+- Bump to commit 320755c1c1b0484e6179c9a5b68aabcc0dae5ac2
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           dnscap
 Version:        141
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        DNS traffic capture utility
 
 License:        ISC
@@ -37,6 +37,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_mandir}/man1/dnscap.1.gz
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 141-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 141-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

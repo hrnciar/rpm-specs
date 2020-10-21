@@ -1,10 +1,6 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:           sugar-portfolio
 Version:        52
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        A simple tool for generating slide show from starred Journal entries
 
 License:        GPLv3+
@@ -33,6 +29,9 @@ python3 ./setup.py build
 python3 ./setup.py install --prefix=%{buildroot}/%{_prefix}
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}%{_datadir}/{sugaractivitydir}/Portfolio.activity/
+
 %find_lang org.sugarlabs.PortfolioActivity
 
 %files -f org.sugarlabs.PortfolioActivity.lang
@@ -41,6 +40,13 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 %{sugaractivitydir}/Portfolio.activity/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 52-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 52-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 2020 Chihurumnaya Ibiam <ibiamchihurumnaya@gmail.com> - 52-1
 - v52
 - Update Python 3 dependency declarations

@@ -21,7 +21,7 @@
 
 Name:           lxde-common
 Version:        0.99.2
-Release:        10%{?git_version:.%{?git_version}}%{?dist}
+Release:        13%{?git_version:.%{?git_version}}%{?dist}
 Summary:        Default configuration files for LXDE
 
 License:        GPLv2+
@@ -57,7 +57,7 @@ Requires:       lxmenu-data
 Requires:       xorg-x11-server-utils
 Requires:       xorg-x11-xinit
 # needed because of new gdm
-Requires:       xorg-x11-utils
+Requires:       xprop
 # Use vendor's artwork
 Requires:       system-logos
 %if 0%{?fedora} < 9
@@ -143,6 +143,15 @@ install -cpm 0644 %{SOURCE10} %{buildroot}%{_sysconfdir}/xdg/lxsession/gtk-2.0/g
 
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 0.99.2-13
+- Require xprop not xorg-x11-utils
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Adam Williamson <awilliam@redhat.com> - 0.99.2-11
+- Change desktop.conf icon theme to Adwaita (bug 1853462)
+
 * Thu May  7 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 0.99.2-10
 - Install custom gtkrc to enable gtk-menu-images by default (bug 1830588)
 

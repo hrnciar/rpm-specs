@@ -1,6 +1,6 @@
 Name:		pmemkv
 Version:	1.1
-Release:	1%{?dist}
+Release:	4%{?dist}
 Summary:	Key/Value Datastore for Persistent Memory
 
 License:	BSD
@@ -43,11 +43,11 @@ developing applications that use %{name}.
 
 %build
 %cmake
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %check
@@ -67,6 +67,16 @@ PMEM_IS_PMEM_FORCE=1 ctest --output-on-failure -j1
 
 
 %changelog
+* Mon Oct  5 2020 Adam Borowski <kilobyte@angband.pl> 1.1-4
+- Adjust to changed Fedora cmake macros.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 12 2020 Adam Borowski <kilobyte@angband.pl> 1.1-1
 - Upstream release 1.1
 - Bump BReqs for pmemobj and pmemobj-cpp.

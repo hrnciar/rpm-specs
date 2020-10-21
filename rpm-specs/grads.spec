@@ -1,6 +1,6 @@
 Name:           grads
 Version:        2.0.2
-Release:        32%{?dist}
+Release:        34%{?dist}
 Summary:        Tool for easy acces, manipulation, and visualization of data
 
 # gxeps is under the MIT, other programs are GPLv2
@@ -90,6 +90,12 @@ cp -a doc __dist_docs/html
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 2.0.2-33
+- Rebuild for hdf5 1.10.6
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-32
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

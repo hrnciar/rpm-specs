@@ -1,5 +1,5 @@
 %global release_name Generic
-%global dist_version 33
+%global dist_version 34
 
 
 Summary:	Generic release files
@@ -186,6 +186,9 @@ install -Dm0644 %{SOURCE9} -t $RPM_BUILD_ROOT%{_prefix}/lib/systemd/user-preset/
 
 
 %changelog
+* Mon Aug 24 2020 Tom Callaway <spot@fedoraproject.org> - 34-0.1
+- bump to 34 for rawhide
+
 * Fri May  8 2020 Tom Callaway <spot@fedoraproject.org> - 33-0.1
 - bump to 33 for rawhide
 

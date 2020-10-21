@@ -1,6 +1,6 @@
 Name:           kcheckers
 Version:        0.8.1
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        Checkers board game
 
 License:        GPLv2+
@@ -58,6 +58,9 @@ cp -p -r themes $RPM_BUILD_ROOT/%{_datadir}/%{name}/
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

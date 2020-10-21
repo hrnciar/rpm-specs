@@ -3,7 +3,7 @@
 
 # https://github.com/VividCortex/mysqlerr
 %global goipath         github.com/VividCortex/mysqlerr
-%global commit          6c6b55f8796f578c870b7e19bafb16103bc40095
+%global commit          c28746d985dd74db2b516333144a0bedebf35db9
 
 %gometa
 
@@ -15,7 +15,7 @@ MySQL Server Error Constants for Golang.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.4%{?dist}
+Release:        0.6%{?dist}
 Summary:        MySQL Server Error Constants for Golang
 
 License:        MIT
@@ -41,6 +41,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Tue Aug 04 00:49:13 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.6.20200804gitc28746d
+- Bump to commit c28746d985dd74db2b516333144a0bedebf35db9
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

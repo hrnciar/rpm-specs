@@ -3,7 +3,7 @@
 %global debug_package %{nil}
 Name:       libecb
 Version:    0.%{snapshot}
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Compiler built-ins
 License:    BSD or GPLv2+
 URL:        http://software.schmorp.de/pkg/libecb.html
@@ -58,6 +58,9 @@ install -m 0644 -t %{buildroot}%{_mandir}/man3 *.3
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20200430-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 30 2020 Petr Pisar <ppisar@redhat.com> - 0.20200430-1
 - CVS snapshot taken on 2020-04-30 (added ECB_OPTIMIZE_SIZE, unaligned load and
   store, host order conversions, bit rotations)

@@ -1,6 +1,6 @@
 Name:           gl-117
 Version:        1.3.2
-Release:        28%{?dist}
+Release:        30%{?dist}
 Summary:        Action flight simulator
 License:        GPLv2
 URL:            http://www.heptargon.de/gl-117/gl-117.htm
@@ -59,6 +59,13 @@ ln -s opengl-game-wrapper.sh $RPM_BUILD_ROOT%{_bindir}/%{name}-wrapper
 %{_mandir}/man6/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-30
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-28
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

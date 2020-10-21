@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.26.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-platform, datalink layer networking
 
 # Upstream license specification: MIT/Apache-2.0
@@ -16,6 +16,7 @@ URL:            https://crates.io/crates/pnet_datalink
 Source:         %{crates_source}
 # Initial patched metadata
 # * No windows
+# * ipnetwork 0.17.0: https://github.com/libpnet/libpnet/pull/454
 Patch0:         pnet_datalink-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -109,6 +110,12 @@ which use "pcap" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.26.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Dusty Mabe <dusty@dustymabe.com> - 0.26.0-2
+- Respin. We updated rust-ipnetwork to 0.17.0
+
 * Sat May 16 20:43:49 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.26.0-1
 - Update to 0.26.0
 

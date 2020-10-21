@@ -1,6 +1,6 @@
 Name:       recode
-Version:    3.7.6
-Release:    2%{?dist}
+Version:    3.7.7
+Release:    1%{?dist}
 Summary:    Conversion between character sets and surfaces
 # COPYING:              GPLv3 text
 # COPYING-LIB:          LGPLv3 text
@@ -60,9 +60,8 @@ BuildRequires:  automake
 BuildRequires:  coreutils
 BuildRequires:  gcc
 BuildRequires:  gettext-devel
-# help2man needed because Version-the-shared-library-fix-22.patch patches
-# configure.ac
-BuildRequires:  help2man
+# help2man is executed from ./src/Makefile if main.c or configure.ac is newer
+# than recode.1.
 BuildRequires:  make
 BuildRequires:  libtool
 BuildRequires:  texinfo
@@ -71,11 +70,11 @@ BuildRequires:  python3-Cython
 BuildRequires:  python3-devel >= 3.7.5
 
 %description
-The recode tool and library convert files between character sets and usages.
+The recode tool and library convert files between character sets and surfaces.
 It recognizes or produces over 200 different character sets (or about 300 if
 combined with an iconv library) and transliterates files between almost any
-pair. When exact transliteration are not possible, it gets rid of the
-offending characters or falls back on approximations.
+pair. When exact transliteration is not possible, it gets rid of the offending
+character or falls back on an approximations.
 
 %package devel
 Summary:    Header files for development using recode library
@@ -84,7 +83,7 @@ License:    LGPLv3+
 Requires:   %{name}%{?_isa} = %{version}-%{release}
 
 %description devel
-This package provides deader files for recode library.
+This package provides the header files for a recode library.
 
 %prep
 %setup -q
@@ -131,6 +130,15 @@ rm $RPM_BUILD_ROOT%{_libdir}/*.la
 %{_includedir}/*
 
 %changelog
+* Thu Jul 30 2020 Petr Pisar <ppisar@redhat.com> - 3.7.7-1
+- 3.7.7 bump
+
+* Wed Jul 29 2020 Petr Pisar <ppisar@redhat.com> - 3.7.6-4
+- Correct a description
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

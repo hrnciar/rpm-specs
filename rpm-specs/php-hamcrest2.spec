@@ -1,22 +1,22 @@
 # remirepo/fedora spec file for php-hamcrest
 #
-# Copyright (c) 2015-2018 Remi Collet
+# Copyright (c) 2015-2020 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    776503d3a8e85d4f9a1148614f95b7a608b046ad
+%global gh_commit    8c3d0a3f6af734494ad8f6fbbee0ba92422859f3
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     hamcrest
 %global gh_project   hamcrest-php
 %global ns_project   Hamcrest
 %global major        2
-%global with_tests   0%{!?_without_tests:1}
+%bcond_without       tests
 
 Name:           php-hamcrest2
-Version:        2.0.0
-Release:        4%{?dist}
+Version:        2.0.1
+Release:        2%{?dist}
 Summary:        PHP port of Hamcrest Matchers
 
 License:        BSD
@@ -28,14 +28,13 @@ Patch0:         bootstrap-autoload.patch
 
 BuildArch:      noarch
 BuildRequires:  php-fedora-autoloader-devel
-%if %{with_tests}
+%if %{with tests}
 # From composer.json, require-dev:
-#               "satooshi/php-coveralls": "^1.0",
-#               "phpunit/php-file-iterator": "1.3.3",
-#               "phpunit/phpunit": "~4.0"
-BuildRequires:  php-composer(phpunit/phpunit)
+#               "phpunit/php-file-iterator": "^1.4 || ^2.0",
+#               "phpunit/phpunit": "^4.8.36 || ^5.7 || ^6.5 || ^7.0"
+BuildRequires:  phpunit7
 # composer.json, require:
-#      "php": "^5.3|^7.0"
+#      "php": "^5.3|^7.0|^8.0"
 BuildRequires:  php(language) >= 5.3
 # From phpcompatinfo report for 2.0.0
 BuildRequires:  php-reflection
@@ -98,12 +97,12 @@ cp -pr hamcrest/%{ns_project} %{buildroot}%{_datadir}/php/%{ns_project}%{major}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 cd tests
 ret=0
-for cmd in php php56 php70 php71 php72 php73; do
+for cmd in php php72 php73 php74; do
   if which $cmd; then
-    $cmd %{_bindir}/phpunit --verbose || ret=1
+    $cmd %{_bindir}/phpunit7 --verbose || ret=1
   fi
 done
 exit $ret
@@ -115,12 +114,19 @@ exit $ret
 %files
 %{!?_licensedir:%global license %%doc}
 %license LICENSE.txt
-%doc CHANGES.txt README.md TODO.txt
+%doc CHANGES.txt README.md
 %doc composer.json
 %{_datadir}/php/%{ns_project}%{major}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul  9 2020 Remi Collet <remi@remirepo.net> - 2.0.1-1
+- update to 2.0.1
+- switch to phpunit7
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

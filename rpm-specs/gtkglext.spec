@@ -3,7 +3,7 @@
 Summary:	OpenGL Extension to GTK
 Name:		gtkglext
 Version:	1.2.0
-Release:	36%{?dist}
+Release:	38%{?dist}
 
 License:	LGPLv2+ or GPLv2+
 URL:		http://gtkglext.sourceforge.net/
@@ -11,6 +11,8 @@ Source0:	ftp://ftp.gnome.org/pub/gnome/sources/gtkglext/1.2/gtkglext-%{version}.
 # Upstream changes, addressing BZ 677457
 Patch0:		0001-gtkglext-1.2.0-bz677457.patch
 Patch1:		0002-GCC-8-fixes.patch
+# HACK: Disable pangox features
+Patch2:		gtkglext-1.2.0-no-pangox.patch
 
 BuildRequires:  gcc
 BuildRequires:	gtk2-devel
@@ -20,7 +22,7 @@ BuildRequires:	libGL-devel
 BuildRequires:	libXmu-devel
 # The configure script checks for X11/Intrinsic.h
 BuildRequires:	libXt-devel
-BuildRequires:  pangox-compat-devel
+# BuildRequires:  pangox-compat-devel
 
 Requires(postun):	/sbin/ldconfig
 Requires(post):		/sbin/ldconfig
@@ -57,6 +59,7 @@ and developer docs for GtkGLExt.
 %setup -q -n gtkglext-%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1 -b .nopangox
 
 %build
 %configure --disable-gtk-doc --disable-static
@@ -90,6 +93,12 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 %doc %{_datadir}/gtk-doc/html/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-38
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Callaway <spot@fedoraproject.org> - 1.2.0-37
+- patch out pangox support to get this building again.
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-36
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

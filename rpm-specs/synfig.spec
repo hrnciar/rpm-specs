@@ -1,6 +1,6 @@
 Name:           synfig
 Version:        1.2.2
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Vector-based 2D animation rendering backend
 
 License:        GPLv2+
@@ -118,6 +118,13 @@ touch -r README $RPM_BUILD_ROOT%{_bindir}/synfig-config
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 1.2.2-8
 - Rebuilt for Boost 1.73
 

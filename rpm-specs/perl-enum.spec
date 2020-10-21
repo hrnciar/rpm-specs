@@ -1,6 +1,6 @@
 Name:           perl-enum
 Version:        1.11
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        C-style enumerated types and bitmask flags in Perl
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/enum
@@ -58,6 +58,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.11-14
 - Perl 5.32 rebuild
 

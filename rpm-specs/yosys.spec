@@ -7,7 +7,7 @@
 
 Name:           yosys
 Version:        0.9
-Release:        4%{?dist}
+Release:        8%{?dist}
 #Release:        1.1.%%{snapdate}git%%{shortcommit0}%%{?dist}
 Summary:        Yosys Open SYnthesis Suite, including Verilog synthesizer
 License:        ISC and MIT
@@ -32,6 +32,9 @@ Patch1:         yosys-cfginc.patch
 # relative path for includes, as they're not installed in build host
 # filesystem.
 Patch2:         yosys-mancfginc.patch
+
+# Fix missing #includes caught by gcc-11
+Patch3:         %{name}-gcc11.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  bison flex readline-devel pkgconfig
@@ -91,6 +94,7 @@ Development files to build Yosys synthesizer plugins.
 
 %patch1 -p1 -b .cfginc
 %patch2 -p1 -b .mancfginc
+%patch3 -p1 -b .gcc11
 
 # Ensure that Makefile doesn't wget viz.js
 cp %{SOURCE1} .
@@ -119,6 +123,8 @@ done
 
 
 %build
+# disable LTO to allow building for f33 rawhide (BZ 1865657):
+%define _lto_cflags %{nil}
 %set_build_flags
 make %{?_smp_mflags} PREFIX="%{_prefix}" ABCEXTERNAL=%{_bindir}/abc PRETTY=0 all manual
 
@@ -170,6 +176,19 @@ make test ABCEXTERNAL=%{_bindir}/abc SEED=314159265359
 
 
 %changelog
+* Sat Oct 17 2020 Jeff Law <law@redhat.com> - 0.9-8
+- Fix missing #include for gcc-11
+
+* Thu Aug 06 2020 Gabriel Somlo <gsomlo@gmail.com> - 0.9-7
+- Disable LTO for f33 rebuild (BZ 1865657)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 23 2020 Dan Horák <dan[at]danny.cz> - 0.9-4
 - updated Requires for yosys-devel
 

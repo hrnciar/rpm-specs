@@ -5,20 +5,14 @@
 %global crate ostree-sys
 
 Name:           rust-%{crate}
-Version:        0.5.4
+Version:        0.6.0
 Release:        1%{?dist}
 Summary:        FFI bindings to libostree-1
 
 # Upstream license specification: MIT
-# * https://gitlab.com/fkrull/ostree-rs/-/issues/4
 License:        MIT
 URL:            https://crates.io/crates/ostree-sys
 Source:         %{crates_source}
-# Initial patched metadata
-# * https://gitlab.com/fkrull/ostree-rs/-/merge_requests/13
-#   * Bump deps
-#   - shell-words to 1.0.0
-Patch0:         ostree-sys-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -43,6 +37,7 @@ This package contains library source intended for building other packages
 which use "%{crate}" crate.
 
 %files          devel
+%license LICENSE
 %{cargo_registry}/%{crate}-%{version_no_tilde}/
 
 %package     -n %{name}+default-devel
@@ -504,5 +499,8 @@ echo 'pkgconfig(ostree-1) >= 2014.9'
 %endif
 
 %changelog
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 0.6.0-1
+- Update to 0.6.0
+
 * Fri Jun 19 02:59:46 EEST 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.5.4-1
 - Initial package

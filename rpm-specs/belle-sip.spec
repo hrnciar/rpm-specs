@@ -1,6 +1,6 @@
 Name:           belle-sip
 Version:        1.4.2
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Linphone SIP stack
 License:        GPLv2+ and BSD and BSD with advertising and MIT
 URL:            http://www.linphone.org/technical-corner/belle-sip/overview
@@ -73,6 +73,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/belle-sip.pc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

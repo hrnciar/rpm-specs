@@ -9,7 +9,7 @@ encapsulates the core to event subscription and event firing and feels like a\
 
 Name:           python-events
 Version:        0.3
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Bringing the elegance of C# EventHandler to Python
 
 License:        BSD
@@ -49,6 +49,9 @@ Summary:        %{summary}
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3-9
 - Rebuilt for Python 3.9
 

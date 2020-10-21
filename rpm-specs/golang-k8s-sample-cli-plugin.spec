@@ -4,8 +4,8 @@
 # https://github.com/kubernetes/sample-cli-plugin
 %global goipath         k8s.io/sample-cli-plugin
 %global forgeurl        https://github.com/kubernetes/sample-cli-plugin
-Version:                1.15.0
-%global tag             kubernetes-1.15.0
+Version:                1.18.9
+%global tag             kubernetes-1.18.9
 %global distprefix      %{nil}
 
 %gometa
@@ -19,7 +19,7 @@ possible, no existing contexts are modified.}
 %global godocs          CONTRIBUTING.md README.md code-of-conduct.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Sample kubectl plugin
 
 # Upstream license specification: Apache-2.0
@@ -62,6 +62,18 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 01:50:08 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.9-1
+- Update to 1.18.9
+
+* Mon Aug 24 01:16:25 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-3
+- Rebuilt
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 15:49:53 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-1
+- Update to 1.18.3
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@
 
 Name:    ptpd
 Version: 2.3.1
-Release: 16%{?gitshort:.%{gitshort}}%{?dist}
+Release: 18%{?gitshort:.%{gitshort}}%{?dist}
 Summary: PTPd implements the Precision Time protocol (PTP) as defined by the IEEE 1588
 License: BSD
 URL:     https://github.com/ptpd/ptpd/wiki
@@ -87,6 +87,12 @@ touch %{buildroot}%{_localstatedir}/log/ptpd2_kernelclock.drift
 %{_datadir}/ptpd/
 
 %changelog
+* Wed Sep 02 2020 Josef Ridky <jridky@redhat.com> - 2.3.1-18.235e9b4
+- Rebuilt for new net-snmp release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-17.235e9b4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-16.235e9b4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

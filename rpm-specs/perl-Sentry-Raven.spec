@@ -1,5 +1,5 @@
 Name:           perl-Sentry-Raven
-Version:        1.12
+Version:        1.14
 Release:        1%{?dist}
 Summary:        Perl sentry client
 License:        MIT
@@ -20,6 +20,7 @@ BuildRequires:  perl(Devel::StackTrace)
 BuildRequires:  perl(English)
 BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(File::Basename)
+BuildRequires:  perl(File::Slurp)
 BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(HTTP::Request::Common)
 BuildRequires:  perl(HTTP::Response)
@@ -72,6 +73,18 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Mon Oct 12 2020 Xavier Bachelot <xavier@bachelot.org> 1.14-1
+- Update to 1.14 (RHBZ#1887303)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Xavier Bachelot <xavier@bachelot.org> 1.13-1
+- Update to 1.13 (RHBZ#1853577)
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.12-2
+- Perl 5.32 rebuild
+
 * Mon Feb 03 2020 Xavier Bachelot <xavier@bachelot.org> 1.12-1
 - Update to 1.12 (RHBZ#1797378).
 

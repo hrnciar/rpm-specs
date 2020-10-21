@@ -2,7 +2,7 @@ Summary: Amateur Station Tracking and Reporting system for amateur radio
 Name:    xastir
 Epoch:   1
 Version: 2.1.4
-Release: 6%{?dist}
+Release: 8%{?dist}
 License: GPLv2+
 Source0: https://github.com/Xastir/Xastir/archive/Release-%{version}.tar.gz
 Source1: %{name}.desktop
@@ -19,8 +19,8 @@ BuildRequires: motif-devel
 BuildRequires: lesstif-devel
 %endif
 BuildRequires: dos2unix, libax25-devel, curl-devel, pcre-devel, proj-devel
-BuildRequires: python2-devel, gpsman, gdal-devel, db4-devel
-BuildRequires: desktop-file-utils, xorg-x11-apps, hdf5-devel
+BuildRequires: python2-devel, gpsman, gdal-devel, libdb-devel
+BuildRequires: desktop-file-utils, xfontsel, hdf5-devel
 
 %description
 Xastir is a graphical application that interfaces HAM radio
@@ -77,6 +77,12 @@ desktop-file-install \
 %doc README.MAPS UPGRADE
 
 %changelog
+* Mon Sep 21 2020 Jeff Law <law@redhat.com> - 2.1.4-8
+- Depend on libdb-devel rather than db4-devel
+
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 2.1.4-7
+- BuildRequire xfontsel not xorg-x11-apps
+
 * Thu Mar 26 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1:2.1.4-6
 - Fix epoch, can't be decremented
 

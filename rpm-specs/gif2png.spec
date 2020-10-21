@@ -3,7 +3,7 @@
 Summary:	A GIF to PNG converter
 Name:		gif2png
 Version:	2.5.14
-Release:	4%{?dist}
+Release:	6%{?dist}
 License:	BSD
 URL:		http://www.catb.org/~esr/gif2png/
 Source0:	http://www.catb.org/~esr/gif2png/%name-%version.tar.gz
@@ -57,6 +57,13 @@ rm %{buildroot}%{_mandir}/man1/web2png*
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.14-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.14-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.14-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

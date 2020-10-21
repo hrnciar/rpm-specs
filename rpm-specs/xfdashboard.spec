@@ -1,9 +1,9 @@
 %global majorversion 0.7
-%global libversion 0.700.7
+%global libversion 0.700.8
 
 Name:		xfdashboard
-Version:	0.7.7
-Release:	2%{?dist}
+Version:	0.7.8
+Release:	1%{?dist}
 Summary:	GNOME shell like dashboard for Xfce
 
 License:	GPLv2+
@@ -70,7 +70,7 @@ desktop-file-validate %{buildroot}%{_sysconfdir}/xdg/autostart/%{name}-autostart
 
 %files -f %{name}.lang
 %license COPYING
-%doc AUTHORS README
+%doc AUTHORS
 %{_bindir}/%{name}
 %{_bindir}/%{name}-settings
 %{_datadir}/%{name}/bindings.xml
@@ -85,6 +85,7 @@ desktop-file-validate %{buildroot}%{_sysconfdir}/xdg/autostart/%{name}-autostart
 %{_libdir}/lib%{name}.so.%{libversion}
 %{_libdir}/%{name}/plugins/clock-view.so
 %{_libdir}/%{name}/plugins/gnome-shell-search-provider.so
+%{_libdir}/%{name}/plugins/example-search-provider.so
 %{_libdir}/%{name}/plugins/hot-corner.so
 %{_libdir}/%{name}/plugins/middle-click-window-close.so
 
@@ -97,6 +98,16 @@ desktop-file-validate %{buildroot}%{_sysconfdir}/xdg/autostart/%{name}-autostart
 %{_libdir}/lib%{name}.so
 
 %changelog
+* Tue Sep 22 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.7.8-1
+- Update to 0.7.8
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.7-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.7-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Summary: Open source version of IBM's Visualization Data Explorer
 Name: dx
 Version: 4.4.4
-Release: 51%{?dist}
+Release: 53%{?dist}
 URL: http://www.opendx.org/
 Source0: http://opendx.informatics.jax.org/source/dx-%{version}.tar.gz
 Source1: %{name}.desktop
@@ -79,6 +79,7 @@ Editor, or in the scripting language, you will need this package.
 chmod a-x src/exec/{dxmods,dpexec,hwrender}/*.{c,h}
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 autoreconf --force --install
 %configure \
 	--disable-static \
@@ -129,6 +130,12 @@ rm     $RPM_BUILD_ROOT%{_libdir}/*.la
 %{_libdir}/lib*.so
 
 %changelog
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 4.4.4-53
+- Force C++14 as this code is not C++17 ready
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.4-52
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.4-51
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

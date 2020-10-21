@@ -8,7 +8,7 @@
 
 Name:           rust-%{crate}
 Version:        1.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Test CLI Applications
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -74,6 +74,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 31 10:15:39 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.0.1-1
 - Update to 1.0.1
 

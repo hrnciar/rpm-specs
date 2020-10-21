@@ -3,7 +3,7 @@
 
 Name:           python-frozen-flask
 Version:        0.12
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Frozen-Flask freezes a Flask application into a set of static files
 
 License:        BSD
@@ -50,6 +50,9 @@ rm -rf %{pypi_name}.egg-info
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.12-17
 - Rebuilt for Python 3.9
 

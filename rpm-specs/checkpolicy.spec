@@ -1,18 +1,17 @@
-%define libselinuxver 3.0-1
-%define libsepolver 3.0-1
+%define libselinuxver 3.1
+%define libsepolver 3.1
 
 Summary: SELinux policy compiler
 Name: checkpolicy
-Version: 3.0
+Version: 3.1
 Release: 3%{?dist}
 License: GPLv2
-Source0: https://github.com/SELinuxProject/selinux/releases/download/20191204/checkpolicy-3.0.tar.gz
+Source0: https://github.com/SELinuxProject/selinux/releases/download/20200710/checkpolicy-3.1.tar.gz
 # $ git clone https://github.com/fedora-selinux/selinux.git
 # $ cd selinux
-# $ git format-patch -N checkpolicy-3.0 -- checkpolicy
+# $ git format-patch -N checkpolicy-3.1 -- checkpolicy
 # $ i=1; for j in 00*patch; do printf "Patch%04d: %s\n" $i $j; i=$((i+1));done
 # Patch list start
-Patch0001: 0001-checkpolicy-remove-unused-te_assertions.patch
 # Patch list end
 BuildRequires: gcc
 BuildRequires: byacc bison flex flex-static libsepol-static >= %{libsepolver} libselinux-devel  >= %{libselinuxver} 
@@ -38,14 +37,13 @@ Only required for building policies.
 
 %set_build_flags
 
-make clean
-make LIBDIR="%{_libdir}"
+%make_build LIBDIR="%{_libdir}"
 cd test
-make LIBDIR="%{_libdir}"
+%make_build LIBDIR="%{_libdir}"
 
 %install
 mkdir -p ${RPM_BUILD_ROOT}%{_bindir}
-make LIBDIR="%{_libdir}" DESTDIR="${RPM_BUILD_ROOT}" install
+%make_install LIBDIR="%{_libdir}"
 install test/dismod ${RPM_BUILD_ROOT}%{_bindir}/sedismod
 install test/dispol ${RPM_BUILD_ROOT}%{_bindir}/sedispol
 
@@ -62,6 +60,16 @@ install test/dispol ${RPM_BUILD_ROOT}%{_bindir}/sedispol
 %{_bindir}/sedispol
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 3.1-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Fri Jul 10 2020 Petr Lautrbach <plautrba@redhat.com> - 3.1-1
+- SELinux userspace 3.1 release
+
 * Tue Jan 28 2020 Petr Lautrbach <plautrba@redhat.com> - 3.0-3
 - Fix -fno-common issues discovered by GCC 10
 

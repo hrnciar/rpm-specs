@@ -5,16 +5,17 @@
 
 Summary: Implementation of the JPEG-2000 standard, Part 1
 Name:    jasper
-Version: 2.0.16
-Release: 2%{?dist}
+Version: 2.0.22
+Release: 1%{?dist}
 
 License: JasPer
 URL:     http://www.ece.uvic.ca/~frodo/jasper/
-Source0: http://www.ece.uvic.ca/~frodo/jasper/software/jasper-version-%{version}.tar.gz
+Source0: https://github.com/jasper-software/jasper/archive/version-%{version}.tar.gz
 
 # skip hard-coded prefix/lib rpath
 Patch2: jasper-2.0.14-rpath.patch
 Patch3: jasper-freeglut.patch
+
 # architecture related patches
 Patch100: jasper-2.0.2-test-ppc64-disable.patch
 Patch101: jasper-2.0.2-test-ppc64le-disable.patch
@@ -65,7 +66,7 @@ Requires: %{name}-libs%{?_isa} = %{version}-%{release}
 %patch2 -p1 -b .rpath
 # Need to disable one test to be able to build it on ppc64 arch
 # At ppc64 this test just stuck (nothing happend - no exception or error)
-%patch3 -p0 -b .freeglut
+%patch3 -p1 -b .freeglut
 
 %if "%{_arch}" == "ppc64"
 %patch100 -p1 -b .test-ppc64-disable
@@ -81,10 +82,9 @@ Requires: %{name}-libs%{?_isa} = %{version}-%{release}
 
 %build
 mkdir builder
-pushd builder
-%cmake .. \
-  -DJAS_ENABLE_DOC:BOOL=OFF
-popd
+%cmake \
+  -DJAS_ENABLE_DOC:BOOL=OFF \
+  -B builder
 
 %make_build -C builder
 
@@ -127,6 +127,19 @@ make test -C builder
 
 
 %changelog
+* Wed Oct 07 2020 Josef Ridky <jridky@redhat.com> - 2.0.22-1
+- New upstream release 2.0.22 (#1876161)
+
+* Thu Aug 27 2020 Than Ngo <than@redhat.com> - 2.0.17-3
+- add correct version
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.17-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Josef Ridky <jridky@redhat.com> - 2.0.17-1
+- new upstream release (2.0.17)
+- change of source URL to GitHub of Jasper
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.16-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

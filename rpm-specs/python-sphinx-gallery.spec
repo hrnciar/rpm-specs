@@ -1,12 +1,12 @@
 %global srcname sphinx-gallery
 
 Name:           python-%{srcname}
-Version:        0.7.0
-Release:        2%{?dist}
+Version:        0.8.1
+Release:        1%{?dist}
 Summary:        Sphinx extension to automatically generate an examples gallery
 
 License:        BSD
-URL:            http://sphinx-gallery.readthedocs.io/en/latest/
+URL:            https://sphinx-gallery.github.io/stable/index.html
 Source0:        https://github.com/sphinx-gallery/sphinx-gallery/archive/v%{version}/%{srcname}-%{version}.tar.gz
 
 BuildArch:      noarch
@@ -14,30 +14,6 @@ BuildArch:      noarch
 %description
 A Sphinx extension that builds an HTML version of any Python script and puts
 it into an examples gallery.
-
-
-%if 0%{?fedora} < 30
-%package -n python2-%{srcname}
-Summary:        %{summary}
-BuildRequires:  python2-devel
-BuildRequires:  python2-setuptools
-# For tests
-BuildRequires:  python2-coverage
-BuildRequires:  python2-matplotlib
-BuildRequires:  python2-pillow
-BuildRequires:  python2-pytest-cov
-BuildRequires:  python2-pytest-runner
-BuildRequires:  python2-scipy
-BuildRequires:  python2-sphinx
-Requires:       python2-matplotlib
-Requires:       python2-pillow
-Requires:       python2-sphinx
-%{?python_provide:%python_provide python2-%{srcname}}
-
-%description -n python2-%{srcname}
-A Sphinx extension that builds an HTML version of any Python script and puts
-it into an examples gallery.
-%endif
 
 
 %package -n     python%{python3_pkgversion}-%{srcname}
@@ -71,37 +47,18 @@ sed -i -e '/^addopt/s/$/ -k "not test_embed_code_links_get_data and not test_emb
 
 
 %build
-%if 0%{?fedora} < 30
-%py2_build
-%endif
 %py3_build
 
 
 %install
-%if 0%{?fedora} < 30
-%py2_install
-%endif
 %py3_install
 # No need for copy_sphinxgallery.sh
 rm -r %{buildroot}%{_bindir}
 
 
 %check
-#export LANG=en_US.UTF-8
-%if 0%{?fedora} < 30
-%__python2 setup.py test
-rm .coverage
-%endif
 %__python3 setup.py test
 
-
-%if 0%{?fedora} < 30
-%files -n python2-%{srcname}
-%license LICENSE
-%doc CHANGES.rst README.rst
-%{python2_sitelib}/sphinx_gallery-%{version}-py%{python2_version}.egg-info/
-%{python2_sitelib}/sphinx_gallery/
-%endif
 
 %files -n python%{python3_pkgversion}-%{srcname}
 %license LICENSE
@@ -111,6 +68,15 @@ rm .coverage
 
 
 %changelog
+* Thu Sep 10 2020 Orion Poplawski <orion@nwra.com> - 0.8.1-1
+- Update to 0.8.1
+
+* Thu Aug 06 2020 Orion Poplawski <orion@nwra.com> - 0.7.0-4
+- Completely drop python2 support
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.0-2
 - Rebuilt for Python 3.9
 

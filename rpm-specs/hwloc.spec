@@ -1,10 +1,10 @@
 Summary:   Portable Hardware Locality - portable abstraction of hierarchical architectures
 Name:      hwloc
-Version:   2.0.4
-Release:   3%{?dist}
+Version:   2.2.0
+Release:   1%{?dist}
 License:   BSD
 URL:       http://www.open-mpi.org/projects/hwloc/
-Source0:   http://www.open-mpi.org/software/hwloc/v2.0/downloads/%{name}-%{version}.tar.bz2
+Source0:   http://www.open-mpi.org/software/hwloc/v2.2/downloads/%{name}-%{version}.tar.bz2
 Requires:  %{name}-libs%{?_isa} = %{version}-%{release}
 
 BuildRequires: gcc
@@ -12,7 +12,6 @@ BuildRequires: gcc
 BuildRequires: gcc-c++
 BuildRequires: cairo-devel
 BuildRequires: libpciaccess-devel
-BuildRequires: libtool-ltdl-devel
 BuildRequires: libX11-devel
 BuildRequires: libxml2-devel
 BuildRequires: libXNVCtrl-devel
@@ -134,8 +133,10 @@ LD_LIBRARY_PATH=$PWD/hwloc/.libs make check
 %ldconfig_scriptlets libs
 
 %files
+%{_sysconfdir}/bash_completion.d/*
 %{_bindir}/%{name}*
 %{_bindir}/lstopo-no-graphics
+%{_datadir}/hwloc/hwloc-ps.www/
 %{_mandir}/man1/%{name}*
 %{_mandir}/man1/lstopo-no-graphics*
 %ifarch %{ix86} x86_64
@@ -173,6 +174,16 @@ LD_LIBRARY_PATH=$PWD/hwloc/.libs make check
 %{_libdir}/%{name}/hwloc*
 
 %changelog
+* Mon Aug 03 2020 Orion Poplawski <orion@nwra.com> - 2.2.0-1
+- Update to 2.2.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.4-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

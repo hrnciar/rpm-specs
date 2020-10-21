@@ -1,6 +1,6 @@
 Name:           libgsasl
 Version:        1.8.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GNU SASL library
 License:        LGPLv2+
 URL:            https://www.gnu.org/software/gsasl/
@@ -54,6 +54,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/libgsasl.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar  6 2020 Peter Lemenkov <lemenkov@gmail.com> - 1.8.1-1
 - Ver. 1.8.1
 

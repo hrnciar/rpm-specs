@@ -23,7 +23,7 @@ framework.}
 
 Name:           python-%{pkgname}
 Version:        2.4.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Extensions to the Python unit testing framework
 
 License:        MIT
@@ -98,6 +98,9 @@ make PYTHON=%{__python3} check
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 2.4.0-6
 - Rebuilt for Python 3.9
 

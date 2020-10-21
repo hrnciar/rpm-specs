@@ -7,7 +7,7 @@ Summary:       Programs for backing up and restoring ext2/ext3/ext4 filesystems
 Name:          dump
 Epoch:         1
 Version:       0.4
-Release:       0.43.%{PREVER}%{?dist}
+Release:       0.44.%{PREVER}%{?dist}
 License:       BSD
 URL:           http://dump.sourceforge.net/
 Source:        http://downloads.sourceforge.net/dump/dump-%{DUMP_VERSION}.tar.gz
@@ -70,14 +70,14 @@ export CFLAGS="$RPM_OPT_FLAGS -Wall -Wpointer-arith -Wstrict-prototypes \
     --with-mangrp=root \
     --with-manmode=0644
 
-make %{?_smp_mflags}
+%make_build
 
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_sbindir}
 mkdir -p %{buildroot}%{_mandir}/man8
 
-%makeinstall INSTALL="install -p" \
+%make_install \
     SBINDIR=%{buildroot}%{_sbindir} \
     BINDIR=%{buildroot}%{_sbindir} \
     MANDIR=%{buildroot}%{_mandir}/man8 \
@@ -107,6 +107,9 @@ popd
 %{_mandir}/man8/rrestore.8*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.4-0.44.b46
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 12 2020 Václav Doležal <vdolezal@redhat.com> - 1:0.4-0.43.b46
 - Use library functions for manipulating xattrs (#1795953)
 

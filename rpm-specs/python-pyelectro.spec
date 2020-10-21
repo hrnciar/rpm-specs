@@ -12,7 +12,7 @@ and other projects.}
 
 Name:           python-%{pypi_name}
 Version:        0.1.10
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        A library for analysis of electrophysiological data
 
 License:        BSD
@@ -30,11 +30,12 @@ Summary:        %{summary}
 BuildRequires:  python3-devel
 
 # For documentation
-BuildRequires:  %{py3_dist sphinx}
-BuildRequires:  %{py3_dist scipy}
-BuildRequires:  %{py3_dist numpy}
 BuildRequires:  %{py3_dist mock}
+BuildRequires:  %{py3_dist numpy}
 BuildRequires:  %{py3_dist nose}
+BuildRequires:  %{py3_dist scipy}
+BuildRequires:  %{py3_dist sphinx}
+BuildRequires:  %{py3_dist setuptools}
 
 Requires:       %{py3_dist scipy}
 Requires:       %{py3_dist numpy}
@@ -81,6 +82,12 @@ nosetests-%{python3_version}
 %doc doc/_build/html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.10-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.1.10-5
+- Explicitly BR setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.10-4
 - Rebuilt for Python 3.9
 

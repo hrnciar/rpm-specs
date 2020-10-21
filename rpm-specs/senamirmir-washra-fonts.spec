@@ -2,7 +2,7 @@
 %global archivename washra_fonts4-1
 
 Version: 4.1
-Release: 27%{?dist}
+Release: 29%{?dist}
 URL:     http://www.senamirmir.org/projects/typography/typeface.html
 
 %global foundry           Senamirmir
@@ -132,9 +132,6 @@ Obsoletes: senamirmir-washra-zelan-fonts < %{version}-%{release}
 %{common_description}
 This package consists of the “Ethiopic Zelan” font.}
 
-%fontmeta
-
-%global source_files %{expand:
 Source0: http://www.senamirmir.org/downloads/%{archivename}.zip
 # We need upstream or someone who knows local Ethiopian usage to suggest a
 # classification we could relay to fontconfig. In the meanwhile, only three
@@ -149,39 +146,45 @@ Source16: 65-%{fontpkgname6}.xml
 Source17: 65-%{fontpkgname7}.xml
 Source18: 65-%{fontpkgname8}.xml
 Source19: 65-%{fontpkgname9}.xml
-}
 
-%fontpkg
+%fontpkg -a
 
 %fontmetapkg
 
-%new_package doc
-Summary:   Optional documentation files of %{source_name}
+%package doc
+Summary:   Optional documentation files of %{name}
 BuildArch: noarch
 %description doc
 This package provides optional documentation files shipped with
-%{source_name}.
+%{name}.
 
 %prep
 %setup -c -q
 %linuxtext *.txt
 
 %build
-%fontbuild
+%fontbuild -a
 
 %install
-%fontinstall
+%fontinstall -a
 
 %check
-%fontcheck
+%fontcheck -a
 
-%fontfiles
+%fontfiles -a
 
 %files doc
 %license OFL.txt
 %doc *.doc *.pdf
 
 %changelog
+* Mon Sep 14 2020 Parag Nemade <pnemade AT redhat DOT com>
+- 4.1-29
+- Fix this spec file to build for F33+
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 4.1-27
 🐞 Workaround Fedora problems created by rpm commit 93604e2

@@ -13,7 +13,7 @@
 # https://fedoraproject.org/wiki/Packaging:Versioning
 Name: cppad
 Version: %{yyyymmdd}.0
-Release: 3%{?dist}
+Release: 6%{?dist}
 Summary: C++ Algorithmic Differentiation (AD), %{name}-devel and %{name}-doc
 
 # As of yet there is no debug version installed for cppad_lib.
@@ -30,6 +30,9 @@ Source2: https://github.com/coin-or/CppAD/archive/%{yyyymmdd}.doc.tar.gz
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires: cmake >= 2.8
+
+# Starting with f33, need to define this maco to build in source directory
+%define __cmake_in_source_build 1
 
 %description
 C++ Algorithmic Differentiation (AD), see %{name}-devel, %{name}-doc.
@@ -85,7 +88,7 @@ mv CppAD-%{version}/uw_copy_040507.html uw_copy_040507.html
 #
 # cppad_lib: replace soversion number and ensure build type is release 
 sed -i.bak CppAD-%{version}/cppad_lib/CMakeLists.txt \
-    -e "s|\${soversion}|%{soversion}|" \
+    -e "s|print_variable(soversion)|SET(soversion %{soversion} )\n&|" \
     -e "s|\${cppad_debug_which}|debug_none|"
 #
 # configure.hpp.in: Make sure CPPAD_DEBUG_AND_RELEASE is defined 
@@ -146,7 +149,7 @@ sed -i.bak CppAD-%{version}/test_more/general/pow.cpp \
 # -----------------------------------------------------------------------------
 %build
 #
-# 1. Cannot use %%{_includedir}, $${_libdir}, %%{_datadir}, %%{_docdir} 
+# 1. Cannot use %%{_includedir}, %%{_libdir}, %%{_datadir}, %%{_docdir} 
 # because they are absolute paths. Relative values would be more flexible 
 # because they can be combined with %%{_prefix} to get absolute values.
 #
@@ -217,6 +220,18 @@ make check
 
 # ----------------------------------------------------------------------------
 %changelog
+* Sat Aug 01 2020 Brad Bell <bradbell at seanet dot com> - 20200000.0-6
+- define __cmake_in_source_build see:
+  https://docs.fedoraproject.org/en-US/packaging-guidelines/CMake/
+- Change soversion edit so modified soversion displayed during cmake command
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200000.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200000.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200000.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

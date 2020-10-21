@@ -1,6 +1,6 @@
 Name:       libndn-cxx
 Version:    0.6.6
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    C++ library implementing Named Data Networking primitives
 License:    LGPLv3+ and (BSD or LGPLv3+) and (GPLv3+ or LGPLv3+)
 URL:        http://named-data.net
@@ -60,6 +60,9 @@ export LD_LIBRARY_PATH=$PWD/build
 %{_libdir}/pkgconfig/libndn-cxx.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 31 2020 Jonathan Wakely <jwakely@redhat.com> - 0.6.6-3
 - Rebuilt for Boost 1.73
 

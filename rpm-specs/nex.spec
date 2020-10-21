@@ -7,7 +7,7 @@
 
 Name:           nex
 Version:        20200222
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        A lexer generator for Go that is similar to Lex/Flex
 License:        GPLv3
 URL:            http://www-cs-students.stanford.edu/~blynn/nex/
@@ -35,6 +35,13 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %{_bindir}/nex
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200222-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200222-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 08 2020 W. Michael Petullo <mike@flyn.org> 20200222-1
 - Update to 20200222
 

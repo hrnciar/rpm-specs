@@ -1,6 +1,6 @@
 Name:           maven-compiler-plugin
 Version:        3.8.1
-Release:        4%{?dist}
+Release:        7%{?dist}
 Summary:        Maven Compiler Plugin
 License:        ASL 2.0
 URL:            http://maven.apache.org/plugins/maven-compiler-plugin
@@ -9,7 +9,10 @@ BuildArch:      noarch
 Source0:        http://archive.apache.org/dist/maven/plugins/%{name}-%{version}-source-release.zip
 
 # port to plexus-languages 1.0.3
-Patch0:         00-plexus-languages-1.0.patch
+Patch0:         0001-plexus-languages-1.0.patch
+
+# Taken from upstream commit: https://github.com/apache/maven-compiler-plugin/commit/116b98153ef5ce7b13c0275324baa28bca8bc887
+Patch1:         0002-MCOMPILER-359-Fix-for-NPE.patch
 
 BuildRequires:  maven-local
 BuildRequires:  mvn(org.apache.maven:maven-artifact)
@@ -39,6 +42,7 @@ API documentation for %{name}.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %mvn_build -f
@@ -53,6 +57,15 @@ API documentation for %{name}.
 %license LICENSE NOTICE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Mat Booth <mat.booth@redhat.com> - 3.8.1-6
+- Add patch for NPE during testCompile
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.8.1-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

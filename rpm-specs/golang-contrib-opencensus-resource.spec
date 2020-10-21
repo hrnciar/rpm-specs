@@ -4,8 +4,7 @@
 # https://github.com/census-ecosystem/opencensus-go-resource
 %global goipath         contrib.go.opencensus.io/resource
 %global forgeurl        https://github.com/census-ecosystem/opencensus-go-resource
-%global commit          87ca538ec76b3961839940406845ef624d794fa8
-
+Version:                0.1.2
 %gometa
 
 %global common_description %{expand:
@@ -18,8 +17,7 @@ used by the other packages.}
                         README-ocdiscover.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.4%{?dist}
+Release:        2%{?dist}
 Summary:        Go packages for auto discovery of resource information in various environments
 
 # Upstream license specification: Apache-2.0
@@ -65,6 +63,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 23:08:50 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.1.2-1
+- Update to 0.1.2
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,8 +1,8 @@
 %global srcname numcodecs
 
 Name:           python-%{srcname}
-Version:        0.6.4
-Release:        3%{?dist}
+Version:        0.7.2
+Release:        1%{?dist}
 Summary:        Buffer compression and transformation for data storage and communication
 
 License:        MIT
@@ -61,6 +61,9 @@ rm -rf %{srcname}.egg-info
 # Remove bundled blosc
 rm -rf c-blosc
 
+# Remove generated Cython files
+rm numcodecs/{blosc,compat_ext,lz4,vlen,zstd}.c
+
 
 %build
 %py3_build
@@ -78,8 +81,7 @@ rm -rf html/.{doctrees,buildinfo} html/_static/donotdelete
 %check
 cd docs  # Avoid using unbuilt existing copy.
 ln -s ../fixture
-PYTHONPATH=%{buildroot}%{python3_sitearch} PYTHONDONTWRITEBYTECODE=1 \
-    %{__python3} -m pytest --pyargs numcodecs
+%{pytest} --pyargs numcodecs
 
 
 %files -n python3-%{srcname}
@@ -94,6 +96,22 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} PYTHONDONTWRITEBYTECODE=1 \
 
 
 %changelog
+* Wed Sep 16 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.7.2-1
+- Update to latest version (#1879444)
+
+* Fri Sep 11 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.7.1-1
+- Update to latest version (#1877913)
+
+* Wed Sep 09 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.7.0-1
+- Update to latest version (#1877567)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.4-3
 - Rebuilt for Python 3.9
 

@@ -16,7 +16,7 @@
 
 Name:           python-%{modname}
 Version:        1.15.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python 2 and 3 compatibility utilities
 
 License:        MIT
@@ -49,20 +49,20 @@ Python 2 version.
 %endif
 
 
-%package -n python3-%{modname}
+%package -n python%{python3_pkgversion}-%{modname}
 Summary:        %{summary}
-%{?python_provide:%python_provide python3-%{modname}}
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-BuildRequires:  python3-pip
-BuildRequires:  python3-wheel
+%{?python_provide:%python_provide python%{python3_pkgversion}-%{modname}}
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
+BuildRequires:  python%{python3_pkgversion}-pip
+BuildRequires:  python%{python3_pkgversion}-wheel
 
 %if %{with tests}
 BuildRequires:  python3-pytest
 BuildRequires:  python3-tkinter
 %endif
 
-%description -n python3-%{modname} %{_description}
+%description -n python%{python3_pkgversion}-%{modname} %{_description}
 Python 3 version.
 
 
@@ -102,7 +102,7 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -rfsxX test_six.py
 %{python2_sitelib}/%{modname}.py*
 %endif
 
-%files -n python3-%{modname}
+%files -n python%{python3_pkgversion}-%{modname}
 %license LICENSE
 %doc README.rst documentation/index.rst
 %{python3_sitelib}/%{modname}-*.dist-info/
@@ -111,6 +111,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -rfsxX test_six.py
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 2020 Charalampos Stratakis <cstratak@redhat.com> - 1.15.0-1
 - Update to 1.15.0 (#1838702)
 

@@ -2,8 +2,8 @@
 
 Summary: A privileged helper for utmp/wtmp updates
 Name: libutempter
-Version: 1.2.0
-Release: 1%{?dist}
+Version: 1.2.1
+Release: 3%{?dist}
 License: LGPLv2+
 URL: ftp://ftp.altlinux.org/pub/people/ldv/utempter
 
@@ -35,7 +35,7 @@ make CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="$RPM_LD_FLAGS" \
     libdir="%{_libdir}" libexecdir="%{_libexecdir}"
 
 %install
-make install DESTDIR="$RPM_BUILD_ROOT" libdir="%{_libdir}" libexecdir="%{_libexecdir}"
+%make_install libdir="%{_libdir}" libexecdir="%{_libexecdir}"
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 
@@ -51,7 +51,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 %license COPYING
 %doc README
 %{_libdir}/libutempter.so.0
-%{_libdir}/libutempter.so.1.2.0
+%{_libdir}/libutempter.so.1.*
 %dir %attr(755,root,utempter) %{_libexecdir}/utempter
 %attr(2711,root,utmp) %{_libexecdir}/utempter/utempter
 
@@ -61,6 +61,16 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 %{_mandir}/man3/*
 
 %changelog
+* Thu Aug 13 2020 Tomas Korbar <tkorbar@redhat.com> - 1.2.1-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Tomas Korbar <tkorbar@redhat.com> - 1.2.1-1
+- Update to 1.2.1 (#1854129)
+
 * Mon May 25 2020 Tomas Korbar <tkorbar@redhat.com> - 1.2.0-1
 - Update to 1.2.0 (#1831940)
 

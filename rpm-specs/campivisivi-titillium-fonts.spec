@@ -3,7 +3,7 @@
 
 Name:		%{fontname}-fonts
 Version:	20120913
-Release:	19%{?dist}
+Release:	20%{?dist}
 Summary:	Sans-serif typeface designed inside Campi Visivi's Type Design course
 
 License:	OFL
@@ -57,6 +57,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/%{name}.m
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20120913-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20120913-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

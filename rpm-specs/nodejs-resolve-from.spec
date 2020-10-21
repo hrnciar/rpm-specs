@@ -1,10 +1,10 @@
-#disabled as ava module upstream is not available
+# Disabled as ava module upstream is not available
 %global enable_tests 0
 %global module_name resolve-from
 
 Name:           nodejs-%{module_name}
-Version:        4.0.0
-Release:        6%{?dist}
+Version:        5.0.0
+Release:        1%{?dist}
 Summary:        Resolve the path of a module like require.resolve() but from a given path
 
 License:        MIT
@@ -15,6 +15,7 @@ BuildArch:      noarch
 ExclusiveArch:  %{nodejs_arches} noarch
 
 BuildRequires:  nodejs-packaging
+BuildRequires:  nodejs(engine)
 
 %if 0%{?enable_tests}
 BuildRequires:  npm(ava)
@@ -26,7 +27,6 @@ BuildRequires:  npm(ava)
 %prep
 %autosetup -n package
 rm -rf node_modules
-
 cp -p %{SOURCE1} .
 
 %build
@@ -53,6 +53,12 @@ node test.js
 %{nodejs_sitelib}/%{module_name}
 
 %changelog
+* Wed Aug 19 2020 Fabian Affolter <mail@fabian-affolter.ch> - 5.0.0-1
+- Update to latest upstream release 5.0.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

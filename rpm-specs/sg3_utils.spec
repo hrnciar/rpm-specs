@@ -3,7 +3,7 @@
 Summary: Utilities for devices that use SCSI command sets
 Name: sg3_utils
 Version: 1.45
-Release: 1%{?dist}
+Release: 3%{?dist}
 License: GPLv2+ and BSD
 Source0: http://sg.danny.cz/sg/p/sg3_utils-%{version}.tar.xz
 Source2: scsi-rescan.8
@@ -63,11 +63,11 @@ developing applications.
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
-make %{?_smp_mflags}
+%make_build
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 rm -rf $RPM_BUILD_ROOT/%{_libdir}/*.la
 
 install -p -m 755 scripts/%{rescan_script} $RPM_BUILD_ROOT%{_bindir}
@@ -108,6 +108,13 @@ install -p -m 755 scripts/fc_wwpn_id $RPM_BUILD_ROOT/usr/lib/udev
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.45-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1.45-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Thu Mar 12 2020 Dan Horák <dan@danny.cz> - 1.45-1
 - update to version 1.45 (#1809392)
 

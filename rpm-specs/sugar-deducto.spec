@@ -1,10 +1,6 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:		sugar-deducto
-Version:	9
-Release:	16%{?dist}
+Version:	11
+Release:	1%{?dist}
 Summary:	A learning activity aimed towards improving children’s skills to deducing logic
 
 # sprites.py is in MIT and all other files in GPLv3+
@@ -13,10 +9,10 @@ URL:		http://activities.sugarlabs.org/en-US/sugar/addon/4220
 Source0:	http://download.sugarlabs.org/sources/honey/Deducto/Deducto-%{version}.tar.bz2
 
 BuildRequires:	gettext
-BuildRequires:	python2-devel
-BuildRequires:	sugar-toolkit
+BuildRequires:	python3-devel
+BuildRequires:	sugar-toolkit-gtk3
 Requires:	sugar
-Requires:	sugar-toolkit
+Requires:	sugar-toolkit-gtk3
 BuildArch:	noarch
 
 %description
@@ -25,25 +21,38 @@ to deducing logic through pattern recognition.
 
 %prep
 %setup -q -n Deducto-%{version}
-rm po/aym.po
-sed -i "s|\r||g" README.txt
-sed -i "s|python|python2|g" setup.py
+#sed -i "s|python|python2|g" setup.py
 
 %build
-%{__python2} ./setup.py build
+python3 ./setup.py build
 
 %install
-%{__python2} ./setup.py install --prefix=%{buildroot}%{_prefix}
+python3 ./setup.py install --prefix=%{buildroot}%{_prefix}
+rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
+
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}/%{sugaractivitydir}/Deducto.activity/
+
 %find_lang  in.seeta.Deducto
 
 
 %files -f in.seeta.Deducto.lang
 %license COPYING
-%doc README.txt NEWS
+%doc NEWS
 %{sugaractivitydir}/Deducto.activity/
 
 
 %changelog
+* Wed Aug 12 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 11-1
+- Update to 11, migrate to python3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9-18
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jul 27 2019 Fedora Release Engineering <releng@fedoraproject.org> - 9-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 

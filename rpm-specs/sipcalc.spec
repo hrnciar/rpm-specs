@@ -1,7 +1,7 @@
 
 Name: sipcalc
 Version: 1.1.6
-Release: 17%{?dist}
+Release: 18%{?dist}
 Summary: An "advanced" console based ip subnet calculator
 
 License: BSD
@@ -36,6 +36,9 @@ make DESTDIR=%{buildroot} INSTALL="install -p" install
 %{_mandir}/man1/sipcalc.1.*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.6-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.6-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

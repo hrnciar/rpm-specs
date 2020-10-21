@@ -2,7 +2,7 @@
 
 Name:           nodejs-tar
 Version:        6.0.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Tar for Node.js
 
 License:        BSD
@@ -45,6 +45,13 @@ mkdir -p %{buildroot}%{nodejs_sitelib}/tar
 %{nodejs_sitelib}/tar
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Fabian Affolter <mail@fabian-affolter.ch> - 6.0.2-1
 - Update to latest upstream release 6.0.2
 

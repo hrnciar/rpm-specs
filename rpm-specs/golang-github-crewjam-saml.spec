@@ -3,8 +3,7 @@
 
 # https://github.com/crewjam/saml
 %global goipath         github.com/crewjam/saml
-Version:                0.4.0
-%global tag             v0.4.0
+Version:                0.4.1
 
 %gometa
 
@@ -59,6 +58,11 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Sun Aug 23 01:15:03 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.4.1-1
+- Update to 0.4.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 11:19:56 CET 2020 Andreas Gerstmayr <agerstmayr@redhat.com> - 0.4.0-1
 - Initial package
-

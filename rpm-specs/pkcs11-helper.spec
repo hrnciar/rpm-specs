@@ -1,6 +1,6 @@
 Name:           pkcs11-helper
 Version:        1.22
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        A library for using PKCS#11 providers
 
 License:        GPLv2 or BSD
@@ -72,6 +72,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.22-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 24 2020 David Woodhouse <dwmw2@infradead.org> - 1.22-10
 - Fix serialisation of attributes with NUL bytes in (#1825496)
 

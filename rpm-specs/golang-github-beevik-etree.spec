@@ -15,7 +15,7 @@ Parse and generate XML easily in go.}
 %global godocs          README.md RELEASE_NOTES.md CONTRIBUTORS
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Parse and generate XML easily in go
 
 # Upstream license specification: BSD-2-Clause
@@ -42,6 +42,9 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 07 16:34:05 CET 2020 Andreas Gerstmayr <agerstmayr@redhat.com> - 1.1.0-1
 - Initial package
 

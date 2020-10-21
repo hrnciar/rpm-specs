@@ -6,7 +6,7 @@
 
 Name:           mingw-icu
 Version:        67.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW compilation of International Components for Unicode Tools
 
 License:        MIT and UCD and Public Domain
@@ -197,6 +197,9 @@ rm %{buildroot}%{mingw64_libdir}/icu/pkgdata.inc
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 67.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Sandro Mani <manisandro@gmail.com> - 67.1-1
 - Update to 67.1
 

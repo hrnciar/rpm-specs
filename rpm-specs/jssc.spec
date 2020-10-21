@@ -1,7 +1,7 @@
 Summary:	Java Simple Serial Connector
 Name:		jssc
 Version:	2.8.0
-Release:	15%{?dist}
+Release:	18%{?dist}
 License:	GPLv3+
 URL:		http://jssc.scream3r.org
 Source:		https://github.com/scream3r/java-simple-serial-connector/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
@@ -60,7 +60,7 @@ mkdir -p classes/
 mkdir -p javadoc/
 (cd src/java; javadoc -Xdoclint:none -d ../../javadoc/ -encoding UTF-8 jssc/*.java)
 # compile native library
-g++ %{optflags} %{?__global_ldflags} -std=c++11 -fPIC -shared \
+g++ %{optflags} %{?__global_ldflags} -fPIC -shared \
     -D jSSC_NATIVE_LIB_VERSION=\"$(echo %{version} | sed 's/\([1-9]\.[0-9]\).*/\1/')\" \
     -I %{java_home}/include \
     -I %{java_home}/include/linux \
@@ -91,6 +91,15 @@ ln -srf %{buildroot}%{jni}/%{jniFullSoName} %{buildroot}%{jni}/%{jniSoName}
 
 
 %changelog
+* Wed Aug 26 2020 Jeff Law <law@redhat.com> - 2.8.0-18
+- Do not force C++11 mode
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.0-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.8.0-16
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jun 11 2020 Damian Wrobel <dwrobel@ertelnet.rybnik.pl> - 2.8.0-15
 - Fix for java-11
 

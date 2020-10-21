@@ -6,7 +6,7 @@
 
 Name:		cpulimit
 Version:	0.2
-Release:	10.%{posttag}%{?dist}
+Release:	12.%{posttag}%{?dist}
 Summary:	CPU Usage Limiter for Linux
 
 License:	GPLv2+
@@ -39,6 +39,13 @@ rm -rf $RPM_BUILD_ROOT
 %license LICENSE
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.2-12.20151118gitf4d2682
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.2-11.20151118gitf4d2682
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.2-10.20151118gitf4d2682
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

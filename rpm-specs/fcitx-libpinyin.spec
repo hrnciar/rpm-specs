@@ -1,6 +1,6 @@
 Name:		fcitx-libpinyin
 Version:	0.5.3
-Release:	8%{?dist}
+Release:	11%{?dist}
 Summary:	Libpinyin Wrapper for Fcitx
 License:	GPLv2+
 URL:		https://fcitx-im.org/wiki/Libpinyin
@@ -27,17 +27,11 @@ Libpinyin is a Frontend of the Intelligent Pinyin IME Backend.
 
 
 %build
-mkdir -pv build
-pushd build
-%cmake ..
-make VERBOSE=1 %{?_smp_mflags}
-popd
+%cmake
+%cmake_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-pushd build
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
-popd
+%cmake_install
 
 %find_lang %{name}
 
@@ -54,6 +48,16 @@ popd
 %{_datadir}/icons/hicolor/48x48/status/fcitx-*.png
 
 %changelog
+* Tue Aug 04 2020 Qiyu Yan <yanqiyu@fedoraproject.org> - 0.5.3-11
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -9,7 +9,7 @@ The fslpy project is a FSL programming library written in Python. It is used by 
 FSLeyes.
 
 Name:           python-%{srcname}
-Version:        3.2.0
+Version:        3.3.3
 Release:        1%{?dist}
 Summary:        The FSL Python Library
 
@@ -21,19 +21,20 @@ Source0:        %pypi_source
 BuildArch:      noarch
 BuildRequires:  python3-devel
 
-BuildRequires:  %{py3_dist sphinx}
-BuildRequires:  %{py3_dist pytest pytest-cov}
+BuildRequires:  dcm2niix
 BuildRequires:  %{py3_dist coverage}
+BuildRequires:  %{py3_dist deprecation}
+BuildRequires:  %{py3_dist h5py}
 BuildRequires:  %{py3_dist mock}
 BuildRequires:  %{py3_dist numpy}
-BuildRequires:  %{py3_dist scipy}
-BuildRequires:  %{py3_dist h5py}
 BuildRequires:  %{py3_dist nibabel} > 2.2.1
-BuildRequires:  %{py3_dist deprecation}
-BuildRequires:  %{py3_dist wxpython}
+BuildRequires:  %{py3_dist pytest pytest-cov}
 BuildRequires:  %{py3_dist pillow}
+BuildRequires:  %{py3_dist scipy}
+BuildRequires:  %{py3_dist setuptools}
+BuildRequires:  %{py3_dist sphinx}
+BuildRequires:  %{py3_dist wxpython}
 BuildRequires:  xorg-x11-server-Xvfb
-BuildRequires:  dcm2niix
 
 
 %description
@@ -67,7 +68,7 @@ cat requirements-extra.txt >> requirements.txt
 # Remove * from versions, rpm dep generator can't handle it:
 # https://bugzilla.redhat.com/show_bug.cgi?id=1758141
 # Fixed in F32+, but keeping it here for F31
-sed -i -e 's/numpy.*/numpy>=1.0,<2.0/' -e 's/six.*/six>=1.0,<2.0/' -e 's/wxpython.*/wxpython>=4.0,<5.0/' requirements.txt
+sed -i -e 's/numpy.*/numpy>=1.0,<2.0/' -e 's/six.*/six>=1.0,<2.0/' -e 's/wxpython.*/wxpython>=4.0,<5.0/' -e '/dataclasses/ d' requirements.txt
 
 
 # remove unneeded shebangs
@@ -91,6 +92,11 @@ rm -frv html/.doctrees
 rm -rfv %{buildroot}/%{python3_sitelib}/tests/
 
 %check
+# For F < 33: ppc64le bug with numpy, pillow
+# https://bugzilla.redhat.com/show_bug.cgi?id=1738752
+# https://lists.fedoraproject.org/archives/list/devel@lists.fedoraproject.org/message/BEKJIVVK4D73RAV6C26ZBV47S4R7DULX/
+%if 0%{?fedora} >= 33
+
 %if %{with xvfb_tests}
 # From https://git.fmrib.ox.ac.uk/fsl/fslpy/blob/master/.ci/test_template.sh
 xvfb-run pytest-3 tests/test_idle.py
@@ -106,7 +112,17 @@ xvfb-run pytest-3 tests/test_platform.py || exit 0
 # Ignore test using dcm2niix
 # Ignore failing test: https://github.com/pauldmccarthy/fslpy/issues/10
 pytest-3 tests  -m "not longtest" \
---ignore=tests/test_idle.py --ignore=tests/test_platform.py --ignore=tests/test_immv_imcp.py --ignore=tests/test_atlases.py --ignore=tests/test_atlases_query.py --ignore=tests/test_scripts/test_atlasq_list_summary.py --ignore=tests/test_scripts/test_atlasq_ohi.py --ignore=tests/test_scripts/test_atlasq_query.py --ignore=tests/test_callfsl.py --ignore=tests/test_mesh.py --ignore=tests/test_dicom.py --ignore=tests/test_parse_data.py --ignore=tests/test_scripts/test_fsl_apply_x5.py
+  --ignore=tests/test_idle.py --ignore=tests/test_platform.py \
+  --ignore=tests/test_immv_imcp.py --ignore=tests/test_atlases.py \
+  --ignore=tests/test_atlases_query.py \
+  --ignore=tests/test_scripts/test_atlasq_list_summary.py \
+  --ignore=tests/test_scripts/test_atlasq_ohi.py \
+  --ignore=tests/test_scripts/test_atlasq_query.py --ignore=tests/test_callfsl.py \
+  --ignore=tests/test_mesh.py --ignore=tests/test_dicom.py \
+  --ignore=tests/test_parse_data.py \
+  --ignore=tests/test_scripts/test_fsl_apply_x5.py
+%endif
+
 
 %files -n python3-%{srcname}
 %license LICENSE COPYRIGHT
@@ -122,17 +138,49 @@ pytest-3 tests  -m "not longtest" \
 %{_bindir}/imglob
 %{_bindir}/immv
 %{_bindir}/resample_image
+%{_bindir}/Text2Vest
+%{_bindir}/Vest2Text
+%{_bindir}/fsl_abspath
+%{_bindir}/imln
+%{_bindir}/imrm
+%{_bindir}/imtest
+%{_bindir}/remove_ext
 
 %files doc
 %license LICENSE COPYRIGHT
 %doc html
 
 %changelog
+* Sun Oct 18 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.3.3-1
+- Update to latest patch release
+
+* Thu Oct 01 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.3.0-2
+- Disable tests to make it build on F32 ppc
+
+* Thu Oct 01 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.3.0-1
+- Update to latest release
+
+* Mon Sep 07 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.2.2-3
+- Use quotes
+
+* Mon Sep 07 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.2.2-2
+- Add workaround to fix tests
+
+* Fri Sep 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.2.2-1
+- Update to new release
+
+* Mon Jul 06 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.2.0-4
+- Include patch to dump data
+
+* Fri Jul 03 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.2.0-3
+- Remove dataclasses that is part of Python 3.7+
+- rhbz#1851358
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.2.0-2
+- Explicitly BR setuptools
+
 * Sun Jun 21 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.2.0-1
 - Update to 3.2.0
-
-* Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.1-2
-- Rebuilt for Python 3.9
 
 * Fri May 01 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.0.1-1
 - Update to 3.0.1

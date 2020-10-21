@@ -1,11 +1,6 @@
-%if 0%{?__isa_bits} == 64
-%global optflags %{optflags} -flto
-%global build_ldflags %{build_ldflags} -flto
-%endif
-
 Name:           cryptopp
 Version:        8.2.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        C++ class library of cryptographic schemes
 License:        Boost
 URL:            http://www.cryptopp.com/
@@ -65,11 +60,6 @@ perl -pi -e 's/\r$//g' License.txt Readme.txt
 
 
 %build
-%if 0%{?__isa_bits} == 64
-export AR=%{_bindir}/gcc-ar
-export RANLIB=%{_bindir}/gcc-ranlib
-export NM=%{_bindir}/gcc-nm
-%endif
 %ifarch i686 x86_64
 ./rdrand-nasm.sh
 %endif
@@ -127,6 +117,9 @@ rm  %{buildroot}%{_libdir}/libcryptopp.a
 %{_datadir}/%{name}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.2.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.2.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

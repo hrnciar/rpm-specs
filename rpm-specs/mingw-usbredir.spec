@@ -2,7 +2,7 @@
 
 Name:           mingw-usbredir
 Version:        0.8.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW USB network redirection protocol libraries
 
 License:        LGPLv2+
@@ -117,6 +117,9 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

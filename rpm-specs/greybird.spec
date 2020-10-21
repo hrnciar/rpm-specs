@@ -2,7 +2,7 @@
 
 Name:           greybird
 Version:        3.22.12
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A clean minimalistic theme for Xfce, GTK+ 2 and 3
 
 License:        GPLv2+ or CC-BY-SA
@@ -171,6 +171,9 @@ rm -fr dark/unity
 %{_datadir}/themes/%{theme_name}-dark/plank/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.22.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 23 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 3.22.12-1
 - Update to 3.22.12
 

@@ -3,8 +3,11 @@
 %global efi_ia32 1
 %endif
 
-# Resulting binary formats we want from iPXE
-%global formats rom
+# With the addition of HTTPS support, we need to drop
+# efi_ia32 so qemu roms still stay in the expected size
+# range. If no one complains we can drop the efi_ia32
+# infrastructure in 2021 IMO
+%global efi_ia32 0
 
 # PCI IDs (vendor,product) of the ROMS we want for QEMU
 #
@@ -45,12 +48,12 @@
 #
 # And then change these two:
 
-%global hash 36a4c85f
-%global date 20190125
+%global hash 4bd064de
+%global date 20200823
 
 Name:    ipxe
 Version: %{date}
-Release: 4.git%{hash}%{?dist}
+Release: 1.git%{hash}%{?dist}
 Summary: A network boot loader
 
 License: GPLv2 with additional permissions and BSD
@@ -66,6 +69,10 @@ Patch0002: 0002-Use-spec-compliant-timeouts.patch
 %ifarch %{buildarches}
 BuildRequires: perl-interpreter
 BuildRequires: perl-Getopt-Long
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+BuildRequires: perl-FindBin
+BuildRequires: perl-lib
+%endif
 BuildRequires: syslinux
 BuildRequires: mtools
 BuildRequires: genisoimage
@@ -190,13 +197,11 @@ pushd src/bin/
 
 cp -a undionly.kpxe ipxe.{iso,usb,dsk,lkrn} %{buildroot}/%{_datadir}/%{name}/
 
-for fmt in %{formats};do
- for img in *.${fmt};do
-      if [ -e $img ]; then
-   cp -a $img %{buildroot}/%{_datadir}/%{name}/
-   echo %{_datadir}/%{name}/$img >> ../../${fmt}.list
+for img in *.rom; do
+  if [ -e $img ]; then
+    cp -a $img %{buildroot}/%{_datadir}/%{name}/
+    echo %{_datadir}/%{name}/$img >> ../../rom.list
   fi
- done
 done
 popd
 
@@ -205,13 +210,10 @@ cp -a src/bin-x86_64-efi/ipxe.efi %{buildroot}/%{_datadir}/%{name}/ipxe-x86_64.e
 
 # the roms supported by qemu will be packaged separatedly
 # remove from the main rom list and add them to qemu.list
-for fmt in rom ;do
- for rom in %{qemuroms} ; do
-  sed -i -e "/\/${rom}.${fmt}/d" ${fmt}.list
-  echo %{_datadir}/%{name}/${rom}.${fmt} >> qemu.${fmt}.list
- done
-done
 for rom in %{qemuroms}; do
+  sed -i -e "/\/${rom}.rom/d" rom.list
+  echo %{_datadir}/%{name}/${rom}.rom >> qemu.rom.list
+
   cp src/bin-combined/${rom}.rom %{buildroot}/%{_datadir}/%{name}.efi/
   echo %{_datadir}/%{name}.efi/${rom}.rom >> qemu.rom.list
 done
@@ -240,6 +242,26 @@ done
 %endif
 
 %changelog
+* Tue Sep 15 2020 Cole Robinson <aintdiscole@gmail.com> - 20200823-1.git4bd064de.git
+- Update to newer git snapshot, synced with qemu.git
+- Re-enable HTTPS support, with edk2 fix included (bz 1820836)
+
+* Fri Sep 04 2020 Merlin Mathesius <mmathesi@redhat.com> - 20190125-9.git36a4c85f
+- Workaound fatal GCC 9 compilation/link errors
+- Fix conditionals for perl BuildRequires
+
+* Mon Aug 17 2020 Cole Robinson <aintdiscole@gmail.com> - 20190125-8.git36a4c85f
+- Revert HTTPS support, causes boot hangs with UEFI (bz 1869102)
+
+* Tue Aug 11 2020 Cole Robinson <aintdiscole@gmail.com> - 20190125-7.git36a4c85f
+- Enable HTTPS support (bug 1820836)
+
+* Wed Jul 29 2020 Richard W.M. Jones <rjones@redhat.com> - 20190125-6.git36a4c85f
+- Explicitly BR perl-FindBin and perl-lib.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190125-5.git36a4c85f
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190125-4.git36a4c85f
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

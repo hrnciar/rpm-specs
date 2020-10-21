@@ -6,7 +6,7 @@
 
 Name: mod_revocator
 Version: 1.0.3
-Release: 34%{?dist}
+Release: 35%{?dist}
 Summary: CRL retrieval module for the Apache HTTP server
 License: ASL 2.0
 URL: http://directory.fedoraproject.org/wiki/Mod_revocator
@@ -133,6 +133,9 @@ ln -s %{_libexecdir}/crlhelper $RPM_BUILD_ROOT%{_bindir}/crlhelper
 %{_bindir}/crlhelper
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-34
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@
 Summary:	Test::Unit::RR - RR adapter for Test::Unit
 Name:		rubygem-%{gem_name}
 Version:	1.0.5
-Release:	9%{?dist}
+Release:	10%{?dist}
 # https://github.com/test-unit/test-unit-rr/issues/1
 License:	LGPLv2+
 URL:		http://rubyforge.org/projects/test-unit/
@@ -104,6 +104,9 @@ ruby -Ilib test/run-test.rb
 %exclude	%{gem_instdir}/test/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

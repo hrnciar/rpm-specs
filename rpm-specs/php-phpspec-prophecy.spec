@@ -7,19 +7,19 @@
 # Please, preserve the changelog entries
 #
 %global bootstrap    0
-%global gh_commit    451c3cd1418cf640de218914901e51b064abb093
+%global gh_commit    8ce87516be71aae9b956f81906aaf0338e0d8a2d
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     phpspec
 %global gh_project   prophecy
 %if %{bootstrap}
 # no test because of circular dependency with phpspec
-%global with_tests   0%{?_with_tests:1}
+%bcond_with          tests
 %else
-%global with_tests   0%{!?_without_tests:1}
+%bcond_without       tests
 %endif
 
 Name:           php-phpspec-prophecy
-Version:        1.10.3
+Version:        1.12.1
 Release:        1%{?dist}
 Summary:        Highly opinionated mocking framework for PHP
 
@@ -28,47 +28,34 @@ URL:            https://github.com/%{gh_owner}/%{gh_project}
 Source0:        %{name}-%{version}-%{gh_short}.tgz
 Source2:        makesrc.sh
 
-# Autoloader
-Source1:        %{name}-autoload.php
-
 BuildArch:      noarch
-%if %{with_tests}
+BuildRequires:  php(language) >= 7.2
+%if %{with tests}
+BuildRequires:  (php-composer(phpdocumentor/reflection-docblock) >= 5.2   with php-composer(phpdocumentor/reflection-docblock) < 6)
+BuildRequires:  (php-composer(sebastian/comparator)              >= 3.0   with php-composer(sebastian/comparator)              < 5)
+BuildRequires:  (php-composer(sebastian/recursion-context)       >= 3.0   with php-composer(sebastian/recursion-context)       < 5)
+BuildRequires:  (php-composer(doctrine/instantiator)             >= 1.2   with php-composer(doctrine/instantiator)             < 2)
 # from composer.json, "require-dev": {
-#        "phpspec/phpspec": "^2.5|^3.2"
-#        "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.5 || ^7.1"
-BuildRequires:  php-composer(phpspec/phpspec) >= 2.5
-# Autoloader
-BuildRequires:  php-composer(fedora/autoloader)
+#        "phpspec/phpspec": "^6.0"
+#        "phpunit/phpunit": "^8.0 || ^9.0 <9.3"
+BuildRequires:  php-composer(phpspec/phpspec) >= 6.0
+BuildRequires:  phpunit8
 %endif
+# Autoloader
+BuildRequires:  php-fedora-autoloader-devel
 
 # from composer.json, "requires": {
-#        "php":                               "^5.3|^7.0",
-#        "phpdocumentor/reflection-docblock": "^2.0|^3.0.2|^4.0|^5.0",
-#        "sebastian/comparator":              "^1.2.3|^2.0|^3.0|^4.0",
-#        "doctrine/instantiator":             "^1.0.2",
-#        "sebastian/recursion-context":       "^1.0|^2.0|^3.0|^4.0"
-Requires:       php(language) >= 5.3
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
-Requires:       (php-composer(phpdocumentor/reflection-docblock) >= 2.0   with php-composer(phpdocumentor/reflection-docblock) < 6)
-Requires:       (php-composer(sebastian/comparator)              >= 1.2.3 with php-composer(sebastian/comparator)              < 5)
-# recursion-context will be pulled by phpspec or phpunit or phpunit6
-#Requires:      (php-composer(sebastian/recursion-context)       >= 1.0   with php-composer(sebastian/recursion-context)       < 4)
-# use 1.0.4 to ensure we have the autoloader
-Requires:       (php-composer(doctrine/instantiator)             >= 1.0.4 with php-composer(doctrine/instantiator)             < 2)
-%else
-Requires:       php-composer(phpdocumentor/reflection-docblock) >= 2.0
-# ignore v4 for now
-Requires:       php-composer(phpdocumentor/reflection-docblock) <  4
-Requires:       php-composer(sebastian/comparator)              >= 1.2.3
-Requires:       php-composer(sebastian/comparator)              <  3
-# recursion-context will be pulled by phpspec or phpunit or phpunit6
-#Requires:       php-composer(sebastian/recursion-context)       >= 1.0
-#Requires:       php-composer(sebastian/recursion-context)       <  4
-# use 1.0.4 to ensure we have the autoloader
-Requires:       php-composer(doctrine/instantiator)             >= 1.0.4
-Requires:       php-composer(doctrine/instantiator)             <  2
-%endif
-# From phpcompatinfo report for version 1.1.0
+#        "php":                               "^7.2 || ~8.0, <8.1",
+#        "phpdocumentor/reflection-docblock": "^5.2",
+#        "sebastian/comparator":              "^3.0|^4.0",
+#        "doctrine/instantiator":             "^1.2",
+#        "sebastian/recursion-context":       "^3.0|^4.0"
+Requires:       php(language) >= 7.2
+Requires:       (php-composer(phpdocumentor/reflection-docblock) >= 5.2   with php-composer(phpdocumentor/reflection-docblock) < 6)
+Requires:       (php-composer(sebastian/comparator)              >= 3.0   with php-composer(sebastian/comparator)              < 5)
+Requires:       (php-composer(sebastian/recursion-context)       >= 3.0   with php-composer(sebastian/recursion-context)       < 5)
+Requires:       (php-composer(doctrine/instantiator)             >= 1.2   with php-composer(doctrine/instantiator)             < 2)
+# From phpcompatinfo report for version 1.11.0
 Requires:       php-pcre
 Requires:       php-reflection
 Requires:       php-spl
@@ -89,11 +76,32 @@ to be used inside any testing framework out there with minimal effort.
 %prep
 %setup -q -n %{gh_project}-%{gh_commit}
 
-cp %{SOURCE1} src/Prophecy/autoload.php
-
 
 %build
-# Nothing
+phpab --template fedora --output src/Prophecy/autoload.php src
+cat << 'EOF' | tee -a src/Prophecy/autoload.php
+
+\Fedora\Autoloader\Dependencies::required([
+    '%{_datadir}/php/Doctrine/Instantiator/autoload.php',
+    '%{_datadir}/php/phpDocumentor/Reflection/DocBlock5/autoload.php',
+]);
+if (!class_exists('SebastianBergmann\\Comparator\\Comparator')) { // v2 from phpunit, v1 from phpspec
+    \Fedora\Autoloader\Dependencies::required([
+        [
+            '%{_datadir}/php/SebastianBergmann/Comparator4/autoload.php',
+            '%{_datadir}/php/SebastianBergmann/Comparator3/autoload.php',
+        ],
+    ]);
+}
+if (!class_exists('SebastianBergmann\\RecursionContext\\Context')) { // v2 from phpunit, v1 from phpspec
+    \Fedora\Autoloader\Dependencies::required([
+        [
+            '%{_datadir}/php/SebastianBergmann/RecursionContext4/autoload.php',
+            '%{_datadir}/php/SebastianBergmann/RecursionContext3/autoload.php',
+        ],
+    ]);
+}
+EOF
 
 
 %install
@@ -102,23 +110,29 @@ cp -pr src/* %{buildroot}%{_datadir}/php
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
+: Dev autoloader
+mkdir vendor
+phpab --output vendor/autoload.php fixtures
+
+cat << 'EOF' | tee -a vendor/autoload.php
+require_once '%{buildroot}%{_datadir}/php/Prophecy/autoload.php';
+EOF
+
 : check autoloader
 php %{buildroot}%{_datadir}/php/Prophecy/autoload.php
 
 : check phpspec
 phpspec --version
-VER=$(phpspec --version | sed -n -e 's/.* //;s/\..*$//;p')
-if [ $VER -ge 4 ]; then
-  : phpspec $VER is too recent
-  exit 0
-fi
 
 ret=0
-for cmd in php php70 php71 php72 php73 php74; do
+for cmd in php php72 php73 php74; do
   if which $cmd; then
-    $cmd -d include_path=.:%{buildroot}%{_datadir}/php:%{_datadir}/php \
+    $cmd -d auto_prepend_file=vendor/autoload.php \
       %{_bindir}/phpspec run --format pretty --verbose --no-ansi || ret=1
+
+    $cmd -d auto_prepend_file=vendor/autoload.php \
+      %{_bindir}/phpunit8 || ret=1
   fi
 done
 exit $ret
@@ -128,17 +142,37 @@ exit $ret
 
 
 %files
-%{!?_licensedir:%global license %%doc}
 %license LICENSE
 %doc *.md
 %doc composer.json
 %{_datadir}/php/Prophecy
 
 
-# TODO ignore phpdocumentor/reflection-docblock 5.0
-# not yet packaged
-
 %changelog
+* Tue Sep 29 2020 Remi Collet <remi@remirepo.net> - 1.12.1-1
+- update to 1.12.1
+
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 1.12.0-2
+- switch to classmap autoloader
+
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 1.12.0-1
+- update to 1.12.0
+- raise dependency on phpdocumentor/reflection-docblock 5.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 Remi Collet <remi@remirepo.net> - 1.11.1-1
+- update to 1.11.1
+
+* Wed Jul  8 2020 Remi Collet <remi@remirepo.net> - 1.11.0-1
+- update to 1.11.0
+- raise dependency on PHP 7.2
+- raise dependency on phpdocumentor/reflection-docblock 5.0
+- raise dependency on sebastian/comparator 3.0
+- raise dependency on doctrine/instantiator 1.2
+- raise dependency on sebastian/recursion-context 3.0
+
 * Fri Mar  6 2020 Remi Collet <remi@remirepo.net> - 1.10.3-1
 - update to 1.10.3
 - allow phpdocumentor/reflection-docblock 5.0

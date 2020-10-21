@@ -1,6 +1,6 @@
 Name:		clc
 Version:	0.03
-Release:	20%{?dist}
+Release:	21%{?dist}
 Summary:	Command-line client for MUDs
 
 License:	Public Domain
@@ -33,6 +33,9 @@ install -m 755 -D clc "%{buildroot}%{_bindir}/clc"
 %{_bindir}/clc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.03-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.03-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

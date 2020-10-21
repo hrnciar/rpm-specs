@@ -1,6 +1,6 @@
 Name:           IPAddress
 Version:        5.2.1
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Library for handling IP addresses and subnets, both IPv4 and IPv6
 License:        ASL 2.0
 URL:            https://github.com/seancfoley/IPAddress
@@ -43,6 +43,12 @@ mv dist/IPAddress*.jar dist/IPAddress.jar
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 5.2.1-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri May 08 2020 Jiri Vanek <jvanek@redhat.com> - 5.2.1-3
 - hack with LANG did not worked, pathcing out non asci chars
 

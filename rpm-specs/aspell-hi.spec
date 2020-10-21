@@ -4,7 +4,7 @@
 
 Name:           aspell-hi
 Version:        0.02
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        GNU Aspell Hindi Dictionary Package
 
 License:        GPLv2
@@ -46,6 +46,9 @@ make install DESTDIR=%{buildroot}
 %{_libdir}/aspell-0.60/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.02-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.02-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

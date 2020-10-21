@@ -3,13 +3,13 @@
 %define glib2_version 2.44.0
 
 Name:           mingw-%{pkgname}
-Version:        1.4.4
-Release:        3%{?dist}
+Version:        1.6.0
+Release:        1%{?dist}
 Summary:        MinGW compiled library for JavaScript Object Notation format
 
 License:        LGPLv2+
 URL:            https://wiki.gnome.org/Projects/JsonGlib
-Source0:        http://download.gnome.org/sources/%{pkgname}/1.4/%{pkgname}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{pkgname}/1.6/%{pkgname}-%{version}.tar.xz
 
 BuildArch:      noarch
 
@@ -58,7 +58,7 @@ MinGW compiled %{pkgname} library for the Win64 target.
 
 
 %build
-%mingw_meson -Dintrospection=false
+%mingw_meson -Dintrospection=disabled
 %mingw_ninja
 
 
@@ -100,6 +100,18 @@ export DESTDIR=%{buildroot}
 
 
 %changelog
+* Sat Sep 12 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.6.0-1
+- Update to 1.6.0 (#1878227)
+
+* Sat Sep 05 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.5.2-1
+- Update to 1.5.2 (#1871973)
+
+* Wed Aug 12 13:41:23 GMT 2020 Sandro Mani <manisandro@gmail.com> - 1.4.4-5
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 1.4.4-3
 - Rebuild (gettext)
 

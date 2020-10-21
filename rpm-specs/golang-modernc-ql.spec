@@ -5,9 +5,8 @@
 # https://gitlab.com/cznic/ql
 %global goipath         modernc.org/ql
 %global forgeurl        https://gitlab.com/cznic/ql
-Version:                1.0.0
-%global commit          dcc29145ec49b99634bacbcdd6637bc0b30483c2
-%global distprefix      %{nil}
+Version:                1.1.0
+%global tag             v1.1.0
 
 %gometa
 
@@ -20,7 +19,7 @@ Package Ql is a pure Go embedded SQL database.}
 %global godocs          AUTHORS README.md CONTRIBUTORS
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Pure Go embedded SQL database
 
 # Upstream license specification: BSD-3-Clause
@@ -56,6 +55,12 @@ BuildRequires:  golang(modernc.org/strutil)
 %gopkgfiles
 
 %changelog
+* Thu Aug 06 18:00:22 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - v1.1.0-1
+- Update to 1.1.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 %global pypi_name django_compressor
 Name:           python-django-compressor
-Version:        2.2
-Release:        10%{?dist}
+Version:        2.4
+Release:        1%{?dist}
 Summary:        Compresses linked and inline JavaScript or CSS into single cached files
 
 License:        MIT
@@ -63,6 +63,12 @@ processed with optional, configurable compilers and filters.
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Sep 09 2020 Yatin Karel <ykarel@redhat.com> - 2.4-1
+- Update to 2.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.2-10
 - Rebuilt for Python 3.9
 

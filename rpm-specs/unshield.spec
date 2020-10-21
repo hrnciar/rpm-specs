@@ -1,6 +1,6 @@
 Name:           unshield
 Version:        1.4.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Install InstallShield applications on a Pocket PC
 
 License:        MIT
@@ -20,23 +20,21 @@ that is rather less likely to be the primary use case.
 
 %package devel
 Summary:        Files needed for software development with %{name}
-Requires:       %{name} = %{version}-%{release}
-Requires:       pkgconfig
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description devel
 The %{name}-devel package contains the files needed for development with
 %{name}.
 
 %prep
-%autosetup -n %{name}-%{version}
+%autosetup
 
 %build
 %cmake
-%make_build
+%cmake_build
 
 %install
-%make_install
-rm -f $RPM_BUILD_ROOT%{_libdir}/libunshield.{,l}a
+%cmake_install
 
 %ldconfig_scriptlets
 
@@ -54,6 +52,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libunshield.{,l}a
 %{_libdir}/pkgconfig/libunshield.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 07 2020 Ben Rosser <rosser.bjr@gmail.com> - 1.4.3-1
 - Update to latest upstream release; some packaging modernization.
 

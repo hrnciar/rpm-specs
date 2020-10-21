@@ -2,7 +2,7 @@
 
 Name:    thunarx-python
 Version: 0.5.1
-Release: 27%{?dist}
+Release: 28%{?dist}
 Summary: Python bindings for the Thunar Extension Framework	
 
 License: LGPLv2+
@@ -63,6 +63,9 @@ mkdir -p %{buildroot}/%{_datadir}/thunarx-python/extensions
 %doc %{_pkgdocdir}/examples/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.5.1-27
 - Add patch to fix building with gcc-10
 

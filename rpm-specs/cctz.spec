@@ -1,7 +1,7 @@
 Name:           cctz
 Version:        2.3
 %global sover   2
-Release:        3%{?dist}
+Release:        5%{?dist}
 License:        ASL 2.0
 Summary:        Translating between absolute and civil times using time zone rules
 Url:            https://github.com/google/cctz
@@ -45,21 +45,17 @@ Development files for %{name} library.
 
 
 %build
-# Build in subdirectory to check example build, but artifacts are not kept.
-mkdir build
-cd build
 # Version and shared library version match Debian's.
-%cmake .. -DVERSION=%{version} -DSOVERSION=%{sover}
-%make_build
+%cmake -DVERSION=%{version} -DSOVERSION=%{sover}
+%cmake_build
 
 
 %install
-%make_install -C build
+%cmake_install
 
 
 %check
-cd build
-ctest -V %{?_smp_mflags}
+%ctest
 
 
 %files
@@ -77,6 +73,13 @@ ctest -V %{?_smp_mflags}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

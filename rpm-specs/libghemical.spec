@@ -1,14 +1,12 @@
 Name:           libghemical
 Summary:        Libraries for the Ghemical chemistry package
 Version:        3.0.0
-Release:        12%{?dist}
+Release:        14%{?dist}
 License:        GPLv2+
 URL:            http://www.bioinformatics.org/ghemical/ghemical/index.html
 Source0:        http://www.bioinformatics.org/ghemical/download/current/%{name}-%{version}.tar.gz
 
-BuildRequires:  atlas-devel
-BuildRequires:  blas-devel
-BuildRequires:  lapack-devel
+BuildRequires:  flexiblas-devel
 BuildRequires:  flex
 BuildRequires:  glib2-devel
 BuildRequires:  gcc-c++
@@ -42,13 +40,13 @@ Libraries and header include files for developing programs based on %{name}.
 #%%patch0 -p0
 
 %build
+sed -i 's/blas/flexiblas/g' configure.ac
+sed -i 's/lapack/flexiblas/g' configure.ac
 autoreconf -v -f -i
 #libtoolize --copy --force
 #aclocal -I m4
 #autoconf
 #automake
-ATLASLIBDIR="-L%{_libdir}/atlas"
-export ATLASLIBDIR
 %configure --enable-mopac7 --enable-mpqc --disable-static --disable-sctest
 make %{?_smp_mflags}
 sed -ir -e 's/^Libs:.*/Libs: -L${libdir} -lghemical/g' libghemical.pc
@@ -74,6 +72,12 @@ find %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 
 
 %changelog
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 3.0.0-14
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@
 Summary: An interface to OSU FlowTools
 Name: pyflowtools
 Version: 0.3.4.2
-Release: 6%{?dist}
+Release: 7%{?dist}
 Source0: http://pyflowtools.googlecode.com/files/%{name}-%{version}.tar.gz
 # No version specified.
 License: GPL+
@@ -37,6 +37,9 @@ export libdirname=%{_lib}
 %{python3_sitearch}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.4.2-6
 - Rebuilt for Python 3.9
 

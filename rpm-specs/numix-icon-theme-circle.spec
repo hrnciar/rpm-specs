@@ -1,18 +1,16 @@
-%global commit cc59306034aa4f558a5c5015fc801e8d0149532e
-%global gittag 19.12.27
+%global forgeurl    https://github.com/numixproject/numix-icon-theme-circle
+%global tag         %{version}
 
-%global gitdate %(date -d %(echo %{gittag} | tr -d '.') +%Y%m%d)
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
+%forgemeta
 
 Name:		numix-icon-theme-circle
-Version:	0.1.0
-Release:	27.%{gitdate}.git%{shortcommit}%{?dist}
 Summary:	Numix Project circle icon theme
-
-Source:		https://github.com/numixproject/numix-icon-theme-circle/archive/%{commit}/%{name}-%{commit}.tar.gz
-
+Version:	20.09.19
+Release:	1%{?dist}
 License:	GPLv3
-URL:		https://github.com/numixproject/numix-icon-theme-circle
+
+URL:		%{forgeurl}
+Source:     %{forgesource}
 
 BuildArch:	noarch
 Requires:	filesystem
@@ -24,7 +22,7 @@ It is heavily inspired by, and based upon parts of the Elementary,
 Humanity and Gnome icon themes.
 
 %prep
-%autosetup -n %{name}-%{commit}
+%forgesetup
 
 %build
 find -type f -executable -exec chmod -x {} \;
@@ -59,6 +57,16 @@ fi
 %{_datadir}/icons/Numix-Circle-Light
 
 %changelog
+* Sat Oct 10 2020 Brendan Early <mymindstorm@evermiss.net> - 20.09.19-1
+- Update to release 20.09.19
+
+* Thu Aug 06 2020 Brendan Early <mymindstorm@evermiss.net> - 20.07.11-1
+- Update to release 20.07.11
+- Switch to forge marcos
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-28.20191227.gitcc59306
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-27.20191227.gitcc59306
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:		libnova
 Version:	0.15.0
-Release:	14%{?dist}
+Release:	16%{?dist}
 Summary:	Libnova is a general purpose astronomy & astrodynamics library
 License:	LGPLv2+
 URL:		http://sourceforge.net/projects/libnova/
@@ -47,6 +47,13 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

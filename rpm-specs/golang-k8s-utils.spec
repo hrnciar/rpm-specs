@@ -4,7 +4,7 @@
 # https://github.com/kubernetes/utils
 %global goipath         k8s.io/utils
 %global forgeurl        https://github.com/kubernetes/utils
-%global commit          c1c6865ac45113491fd8207923d28d4bcff03a88
+%global commit          4140de9c8800f5b18f8fc59798e11862f2bb00cb
 
 %gometa
 
@@ -18,7 +18,7 @@ supplementing the Go standard libs.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.5%{?dist}
+Release:        0.7%{?dist}
 Summary:        Non-Kubernetes-specific utility libraries consumed by multiple projects
 
 # Upstream license specification: Apache-2.0
@@ -27,7 +27,7 @@ URL:            %{gourl}
 Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/davecgh/go-spew/spew)
-BuildRequires:  golang(k8s.io/klog)
+BuildRequires:  golang(k8s.io/klog/v2)
 
 %if %{with check}
 # Tests
@@ -42,7 +42,6 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 
 %prep
 %goprep
-sed -i "s|k8s.io/klog/v2|k8s.io/klog|" $(find . -type f -iname "*.go")
 
 %install
 %gopkginstall
@@ -55,6 +54,12 @@ sed -i "s|k8s.io/klog/v2|k8s.io/klog|" $(find . -type f -iname "*.go")
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 01:05:19 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.7.20200930git4140de9
+- Bump to commit 4140de9c8800f5b18f8fc59798e11862f2bb00cb
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 15:12:26 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200615gitc1c6865
 - Bump to commit c1c6865ac45113491fd8207923d28d4bcff03a88
 

@@ -10,7 +10,7 @@
 
 Name:           nodejs-%{modname}
 Version:        1.3.3
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Models, Views, Collections, and Events for JavaScript applications (Nodejs module)
 License:        MIT
 URL:            http://backbonejs.org/
@@ -53,7 +53,7 @@ all to your existing application over a RESTful JSON interface.
 rm backbone-min.{js,map}
 
 %build
-uglifyjs backbone.js -m --source-map backbone-min.map -o backbone-min.js
+uglifyjs backbone.js -m --source-map -o backbone-min.js
 
 %if %{with tests}
 %check
@@ -63,7 +63,7 @@ uglifyjs backbone.js -m --source-map backbone-min.map -o backbone-min.js
 
 %install
 mkdir -p %{buildroot}%{_jsdir}/%{modname}
-cp -p backbone.js backbone-min.js backbone-min.map %{buildroot}%{_jsdir}/%{modname}/
+cp -p backbone.js backbone-min.js backbone-min.js.map %{buildroot}%{_jsdir}/%{modname}/
 mkdir -p %{buildroot}%{nodejs_sitelib}/%{modname}
 cp -p backbone.js package.json %{buildroot}%{nodejs_sitelib}/%{modname}/
 %nodejs_symlink_deps
@@ -77,6 +77,13 @@ cp -p backbone.js package.json %{buildroot}%{nodejs_sitelib}/%{modname}/
 %{_jsdir}/%{modname}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

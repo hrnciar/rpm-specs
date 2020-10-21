@@ -3,7 +3,7 @@
 
 Name: libabigail
 Version: 1.7
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Set of ABI analysis tools
 
 License: LGPLv3+
@@ -155,6 +155,9 @@ fi
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 25 2020 Dodji Seketeli <dodji@redhat.com> - 1.7-1
 - Update to upstream 1.7
 

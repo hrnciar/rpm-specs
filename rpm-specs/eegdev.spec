@@ -1,6 +1,6 @@
 Name:           eegdev
 Version:        0.2
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Library to acquire data from various EEG recording devices
 
 License:        LGPLv3+
@@ -103,6 +103,9 @@ make check
 %{_mandir}/man5/%{name}-*.5*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

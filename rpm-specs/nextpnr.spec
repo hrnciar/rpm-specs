@@ -1,11 +1,11 @@
-%global commit 85f4452b0a3bd47ccb25be023859542ffef888f7
+%global commit b39a2a502065ec1407417ffacdac2154385bf80f
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
-%global snapdate 20200129
+%global snapdate 20200806
 
 Name:		nextpnr
 Version:	0
-Release:	0.12.%{snapdate}git%{shortcommit}%{?dist}
+Release:	0.15.%{snapdate}git%{shortcommit}%{?dist}
 Summary:	FPGA place and route tool
 
 License:	ISC and BSD and MIT and (MIT or Public Domain)
@@ -16,6 +16,7 @@ BuildRequires:	cmake
 BuildRequires:	gcc-c++
 BuildRequires:	make
 BuildRequires:	python3-devel
+BuildRequires:	python3-setuptools
 BuildRequires:	libglvnd-devel
 BuildRequires:	boost-filesystem
 BuildRequires:	boost-thread
@@ -24,9 +25,10 @@ BuildRequires:	boost-iostreams
 BuildRequires:	qt5-qtconfiguration-devel
 BuildRequires:	cmake(QtConfiguration)
 BuildRequires:	boost-python3-devel
-BuildRequires:	icestorm >= 0-0.7.20190311
-BuildRequires:	trellis-devel
 BuildRequires:	eigen3-devel
+# NOTE: remember to update icestorm & trellis before rebuilding nextpnr!!!
+BuildRequires:	icestorm >= 0-0.14
+BuildRequires:	trellis-devel >= 1.0-0.12
 
 # License: ISC
 Provides:	bundled(qtimgui)
@@ -56,16 +58,16 @@ cp 3rdparty/python-console/LICENSE LICENSE-python-console.txt
 
 %build
 %cmake . -DARCH=all \
-	-DICEBOX_ROOT=%{_datadir}/icestorm \
-	-DTRELLIS_ROOT=%{_datadir}/trellis
-%make_build
+	-DICEBOX_DATADIR=%{_datadir}/icestorm \
+	-DTRELLIS_LIBDIR=%{_libdir}/trellis
+%cmake_build
 # prepare examples doc. directory:
 mkdir -p examples/ice40
 cp -r ice40/examples/* examples/ice40
 
 
 %install
-%make_install
+%cmake_install
 
 
 %files
@@ -80,6 +82,17 @@ cp -r ice40/examples/* examples/ice40
 
 
 %changelog
+* Thu Aug 06 2020 Gabriel Somlo <gsomlo@gmail.com> - 0-0.15.20200806gitb39a2a5
+- Update to newer snapshot
+- Update cmake build commands (fix FTBFS BZ 1864193)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.14.20200129git85f4452
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.13.20200129git85f4452
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 31 2020 Jonathan Wakely <jwakely@redhat.com> - 0-0.12.20200129git85f4452
 - Rebuilt for Boost 1.73
 

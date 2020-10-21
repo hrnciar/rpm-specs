@@ -1,6 +1,6 @@
 Name:           perl-Log-Dispatch-FileRotate
 Version:        1.36
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Log to files that archive/rotate themselves
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Log-Dispatch-FileRotate
@@ -67,6 +67,9 @@ make test
 %{_mandir}/man3/Log::Dispatch::FileRotate::Mutex.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.36-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.36-6
 - Perl 5.32 rebuild
 

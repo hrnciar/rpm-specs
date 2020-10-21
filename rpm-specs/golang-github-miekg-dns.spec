@@ -4,7 +4,7 @@
 
 # https://github.com/miekg/dns
 %global goipath         github.com/miekg/dns
-Version:                1.1.8
+Version:                1.1.30
 
 %gometa
 
@@ -19,7 +19,7 @@ and resolvers with it.}
 %global godocs          AUTHORS CONTRIBUTORS README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        DNS library in Go
 
 # Upstream license specification: BSD-3-Clause
@@ -56,6 +56,12 @@ BuildRequires:  golang(golang.org/x/sync/errgroup)
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 22:21:01 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.30-1
+- Update to 1.1.30
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.8-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,22 +3,16 @@
 
 # https://github.com/ceph/go-ceph
 %global goipath         github.com/ceph/go-ceph
-%global commit          e32f9f0f2e941422937c0a6c4f0a61b8f0c82995
+Version:                0.4.0
 
 %gometa
 
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-noahdesu-go-ceph-devel < 0.3.0-0.11
-Obsoletes:      golang-github-noahdesu-go-ceph-unit-test < 0.3.0-0.11
-}
-
 %global goaltipaths     github.com/noahdesu/go-ceph
 
-# Remove in F33:
 %global godevelheader %{expand:
 Requires:       librados-devel
-Requires:       librbd-devel}
+Requires:       librbd-devel
+Requires:       libcephfs-devel}
 
 %global common_description %{expand:
 Set of wrappers around Ceph APIs.}
@@ -27,26 +21,29 @@ Set of wrappers around Ceph APIs.}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.14%{?dist}
+Release:        2%{?dist}
 Summary:        Go bindings for Ceph
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
 
-BuildRequires:  golang(github.com/sirupsen/logrus)
 BuildRequires:  librados-devel
 BuildRequires:  librbd-devel
+BuildRequires:  libcephfs-devel
 
 # 32 bits is not supported by Ceph
 ExcludeArch:    i686 armv7hl
 
+BuildRequires:  golang(golang.org/x/sys/unix)
+
 %if %{with check}
 # Tests
+BuildRequires:  golang(github.com/gofrs/uuid)
 BuildRequires:  golang(github.com/stretchr/testify/assert)
+BuildRequires:  golang(github.com/stretchr/testify/require)
+BuildRequires:  golang(github.com/stretchr/testify/suite)
 %endif
-
 %description
 %{common_description}
 
@@ -60,12 +57,18 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 
 %if %{with check}
 %check
-%gocheck
+%gocheck -d cephfs -d rados -d rbd
 %endif
 
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 20:59:30 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.4.0-1
+- Update to 0.4.0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

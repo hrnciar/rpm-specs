@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+
 %global commit          48fa2ccedfebcffa7f41dfa29ffaf8d7758518b3
 %global shortcommit     %(c=%{commit}; echo ${c:0:7})
 %global snapshotdate    20200617
@@ -5,7 +7,7 @@
 Name:       quentier
 Summary:    Cross-platform desktop Evernote client
 Version:    0.5.0
-Release:    0.1.%{snapshotdate}git%{shortcommit}%{?dist}
+Release:    0.2.%{snapshotdate}git%{shortcommit}%{?dist}
 
 License:    GPLv3
 URL:        https://github.com/d1vanov/quentier
@@ -63,17 +65,14 @@ sed -i "/tango.qrc/d; /oxygen.qrc/d" CMakeLists.txt
 sed -i "s/QStringLiteral(\"tango\")/QStringLiteral(\"Tango\")/" bin/quentier/src/MainWindow.cpp
 
 %build
-mkdir build && cd build
-%cmake ../  -DQt5_LUPDATE_EXECUTABLE=%{_bindir}/lupdate-qt5 \
-            -DQt5_LRELEASE_EXECUTABLE=%{_bindir}/lrelease-qt5
-%make_build
-make lupdate
-make lrelease
+%cmake -DQt5_LUPDATE_EXECUTABLE=%{_bindir}/lupdate-qt5 \
+       -DQt5_LRELEASE_EXECUTABLE=%{_bindir}/lrelease-qt5
+%cmake_build
+%cmake_build --target lupdate
+%cmake_build --target lrelease
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 
 rm -rf %{buildroot}%{_datadir}/icons/hicolor/1024x1024
 
@@ -114,6 +113,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/org.quentier.Q
 %{_datadir}/quentier/translations
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-0.2.20200617git48fa2cc
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 19:31:43 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.5.0-0.1.20200617git48fa2cc
 - Bump to commit 48fa2ccedfebcffa7f41dfa29ffaf8d7758518b3
 

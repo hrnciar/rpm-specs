@@ -6,7 +6,7 @@
 
 Name:		nodejs-code-point-at
 Version:	1.0.0
-Release:	9%{?dist}
+Release:	10%{?dist}
 Summary:	ES2015 String#codePointAt() ponyfill
 
 License:	MIT
@@ -64,6 +64,9 @@ cp -pr package.json index.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

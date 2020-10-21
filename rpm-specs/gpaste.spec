@@ -1,7 +1,7 @@
 %global alt_name GPaste
 
 Name:           gpaste
-Version:        3.36.3
+Version:        3.38.2
 Release:        1%{?dist}
 Summary:        Clipboard management system
 
@@ -11,7 +11,6 @@ Source0:        https://www.imagination-land.org/files/%{name}/%{name}-%{version
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc
-BuildRequires:  libappstream-glib
 BuildRequires:  meson
 BuildRequires:  pkgconfig(appstream-glib)
 BuildRequires:  pkgconfig(dbus-1)
@@ -24,7 +23,7 @@ BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  pkgconfig(gnome-keybindings)
 BuildRequires:  pkgconfig(gobject-2.0)
 BuildRequires:  pkgconfig(gtk+-3.0)
-BuildRequires:  pkgconfig(mutter-clutter-6)
+BuildRequires:  pkgconfig(mutter-clutter-7)
 BuildRequires:  pkgconfig(pango)
 BuildRequires:  pkgconfig(systemd)
 BuildRequires:  pkgconfig(x11)
@@ -62,8 +61,6 @@ applications that use %{name}.
 Summary:        Graphical interface for GPaste
 Requires:       %{name} = %{version}-%{release}
 Requires:       control-center-filesystem
-# GPaste applet is not available anymore since GPaste 3.23.90
-Obsoletes:      %{name}-applet < 3.23.90-1
 %{?systemd_requires}
 
 %description ui
@@ -139,7 +136,7 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/metainfo/org.gn
 %files libs -f %{alt_name}.lang
 %license COPYING
 %{_libdir}/girepository-1.0/%{alt_name}-1.0.typelib
-%{_libdir}/*.so.11*
+%{_libdir}/*.so.*
 
 
 %files devel
@@ -165,6 +162,25 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/metainfo/org.gn
 
 
 %changelog
+* Mon Oct 05 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 3.38.2-1
+- Update to 3.38.2
+
+* Thu Oct 01 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 3.38.1-1
+- Update to 3.38.1
+
+* Thu Sep 17 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 3.38.0-1
+- Update to 3.38.0
+
+* Thu Aug 13 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 3.36.3-4
+- Fix mutter 7 detection
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 28 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 3.36.3-1
 - Update to 3.36.3
 

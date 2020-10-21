@@ -1,6 +1,6 @@
 Name:		svgalib
 Version:	1.9.25
-Release:	27%{?dist}
+Release:	28%{?dist}
 Summary:	Low-level fullscreen SVGA graphics library
 License:	Public Domain
 URL:		http://www.svgalib.org/
@@ -130,6 +130,9 @@ touch $RPM_BUILD_ROOT/etc/vga/textregs
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.25-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.25-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

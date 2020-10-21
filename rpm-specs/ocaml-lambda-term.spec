@@ -1,5 +1,5 @@
 Name:           ocaml-lambda-term
-Version:        2.0.3
+Version:        3.1.0
 Release:        3%{?dist}
 Summary:        Terminal manipulation library for OCaml
 
@@ -9,21 +9,16 @@ License:        BSD
 URL:            https://github.com/ocaml-community/lambda-term
 Source0:        https://github.com/ocaml-community/lambda-term/archive/%{version}/%{libname}-%{version}.tar.gz
 
-BuildRequires:  ocaml
-BuildRequires:  ocaml-camomile-devel
-BuildRequires:  ocaml-findlib-devel
-BuildRequires:  ocaml-lwt-devel
+BuildRequires:  ocaml >= 4.02.3
+BuildRequires:  ocaml-camomile-devel >= 1.0.1
+BuildRequires:  ocaml-lwt-devel >= 4.0.0
 BuildRequires:  ocaml-lwt-react-devel
 BuildRequires:  ocaml-lwt-log-devel
+BuildRequires:  ocaml-mew-vi-devel >= 0.5.0
 BuildRequires:  ocaml-react-devel
-BuildRequires:  ocaml-zed-devel
-BuildRequires:  ocaml-result-devel
-BuildRequires:  ocaml-mmap-devel
-BuildRequires:  ocaml-charinfo-width-devel
-BuildRequires:  ocaml-ocplib-endian-devel
-BuildRequires:  ocaml-bisect-ppx-devel
+BuildRequires:  ocaml-zed-devel >= 3.0.0
 
-BuildRequires:  ocaml-dune
+BuildRequires:  ocaml-dune >= 1.1.0
 
 %description
 Lambda-term is a cross-platform library for manipulating the terminal. It
@@ -40,6 +35,13 @@ console applications.
 %package        devel
 Summary:        Development files for %{name}
 Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       ocaml-camomile-devel%{?_isa}
+Requires:       ocaml-lwt-devel%{?_isa}
+Requires:       ocaml-lwt-log-devel%{?_isa}
+Requires:       ocaml-lwt-react-devel%{?_isa}
+Requires:       ocaml-mew-vi-devel%{?_isa}
+Requires:       ocaml-react-devel%{?_isa}
+Requires:       ocaml-zed-devel%{?_isa}
 
 %description    devel
 The %{name}-devel package contains libraries and signature files for
@@ -104,6 +106,22 @@ make test
 
 
 %changelog
+* Wed Sep 02 2020 Richard W.M. Jones <rjones@redhat.com> - 3.1.0-3
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 3.1.0-2
+- OCaml 4.11.0 rebuild
+
+* Fri Aug  7 2020 Jerry James <loganjerry@gmail.com> - 3.1.0-1
+- Version 3.1.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 2.0.3-3
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

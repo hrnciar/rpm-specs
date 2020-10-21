@@ -1,6 +1,3 @@
-%global commit          5339fb6ae33c72c27f2769d0fc3dabb6191b5d3a
-%global shortcommit     %(c=%{commit}; echo ${c:0:7})
-%global snapshotdate    20180821
 %global debug_package   %nil
 
 # this enforces us to create non-noarch package
@@ -9,21 +6,16 @@
 %global __brp_python_bytecompile :
 
 Name:           textern
-Version:        0
-Release:        0.8.%{snapshotdate}git%shortcommit%{?dist}
+Version:        0.7
+Release:        2%{?dist}
 Summary:        Firefox add-on for editing text in your favorite external editor
 
 License:        GPLv3+
 URL:            https://github.com/jlebon/textern
 
-Source0:        %url/archive/%{shortcommit}/%{name}-%{commit}.tar.gz
+Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
 
-# Original Makefile's LIBEXEC doesn't respect $(DESTDIR)
-# https://github.com/jlebon/textern/pull/36
-Patch0:         textern-5339fb6-build.patch
-
-# https://github.com/jlebon/textern/pull/57
-Patch1:         compat-for-new-inotify-simple.patch
+Patch0:         textern-0.7-system-inotify-simple.patch
 
 Requires:       mozilla-filesystem
 Requires:       python3-inotify_simple
@@ -42,7 +34,7 @@ used by Add-on named "textern".  Please install the Add-on manually.
 
 
 %prep
-%autosetup -p1 -n %name-%commit
+%autosetup -p1
 
 
 %build
@@ -65,6 +57,12 @@ make native-install \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Pavel Raiskup <praiskup@redhat.com> - 0.7-1
+- new upstream release
+
 * Tue Feb 18 2020 Pavel Raiskup <praiskup@redhat.com> - 0-0.8.20180821git5339fb6
 - compat with new inotify simple
 

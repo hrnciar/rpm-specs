@@ -1,7 +1,7 @@
 Name:           keepassx
 Epoch:          1
 Version:        2.0.3
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Cross-platform password manager
 License:        GPLv2+
 URL:            http://www.keepassx.org/
@@ -34,10 +34,11 @@ sed -i s/keepassx/keepassx2/g CMakeLists.txt
 sed -i s/keepassx/keepassx2/g share/linux/keepassx.desktop
 
 %build
-%cmake .
+%cmake
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 # Associate KDB files
 cat > x-keepass.desktop << EOF
@@ -66,7 +67,7 @@ ln -s %{_bindir}/keepassx2 %{buildroot}/%{_bindir}/keepassx
 %find_lang keepassx --with-qt
 
 %check
-ctest -V %{?_smp_mflags}
+%ctest
 desktop-file-validate %{_datadir}/applications/keepassx2.desktop &> /dev/null || :
 
 %files -f keepassx.lang
@@ -82,6 +83,9 @@ desktop-file-validate %{_datadir}/applications/keepassx2.desktop &> /dev/null ||
 %{_datadir}/icons/hicolor/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.0.3-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.0.3-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

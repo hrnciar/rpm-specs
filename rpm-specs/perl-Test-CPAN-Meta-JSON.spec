@@ -1,6 +1,6 @@
 Name:		perl-Test-CPAN-Meta-JSON
 Version:	0.16
-Release:	17%{?dist}
+Release:	18%{?dist}
 Summary:	Validate a META.json file within a CPAN distribution
 License:	Artistic 2.0
 URL:		https://metacpan.org/release/Test-CPAN-Meta-YAML
@@ -69,6 +69,9 @@ make test AUTOMATED_TESTING=1
 %{_mandir}/man3/Test::CPAN::Meta::JSON::Version.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.16-17
 - Perl 5.32 rebuild
 

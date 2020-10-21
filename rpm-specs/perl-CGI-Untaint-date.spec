@@ -1,6 +1,6 @@
 Name:           perl-CGI-Untaint-date
 Version:        1.00
-Release:        40%{?dist}
+Release:        41%{?dist}
 Summary:        Validate a date
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/CGI-Untaint-date
@@ -63,6 +63,9 @@ chmod -R u+w $RPM_BUILD_ROOT/*
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00-41
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.00-40
 - Perl 5.32 rebuild
 

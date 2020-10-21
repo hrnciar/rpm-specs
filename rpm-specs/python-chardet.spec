@@ -1,7 +1,7 @@
 %global pypi_name chardet
 Name:           python-%{pypi_name}
 Version:        3.0.4
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Character encoding auto-detection in Python
 License:        LGPLv2
 URL:            https://github.com/%{pypi_name}/%{pypi_name}
@@ -58,6 +58,9 @@ sed -ie '1d' %{pypi_name}/cli/chardetect.py
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.4-17
 - Rebuilt for Python 3.9
 

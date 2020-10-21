@@ -1,6 +1,6 @@
 Name:    osgi-annotation
 Version: 7.0.0
-Release: 4%{?dist}
+Release: 6%{?dist}
 Summary: Annotations for use in compiling OSGi bundles
 
 License: ASL 2.0
@@ -72,6 +72,12 @@ cp -p %{SOURCE1} pom.xml
 %doc LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 7.0.0-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

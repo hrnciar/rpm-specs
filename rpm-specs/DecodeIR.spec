@@ -1,6 +1,6 @@
 Name:           DecodeIR
 Version:        2.45
-Release:        14%{?dist}
+Release:        16%{?dist}
 Summary:        Infrared remote controls decoding library
 
                 # hifiremote/decodeir/DecodeIRCaller.java is GPLv2
@@ -92,6 +92,12 @@ cp %{SOURCE2} .
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.45-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.45-15
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.45-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

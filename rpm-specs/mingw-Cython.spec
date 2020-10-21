@@ -4,8 +4,8 @@
 
 Name:          mingw-%{pkgname}
 Summary:       MinGW Windows Python %{pkgname} library
-Version:       0.29.19
-Release:       1%{?dist}
+Version:       0.29.21
+Release:       3%{?dist}
 BuildArch:     noarch
 
 License:       ASL 2.0
@@ -85,6 +85,15 @@ find %{buildroot}%{mingw64_prefix} | grep -E '.(exe|dll|pyd)$' | sed 's|^%{build
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.29.21-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Sandro Mani <manisandro@gmail.com> - 0.29.21-2
+- Drop BR: mingw-dlfcn
+
+* Thu Jul 23 2020 Sandro Mani <manisandro@gmail.com> - 0.29.21-1
+- Update to 0.29.21
+
 * Sat May 30 2020 Sandro Mani <manisandro@gmail.com> - 0.29.19-1
 - Update to 0.29.19
 

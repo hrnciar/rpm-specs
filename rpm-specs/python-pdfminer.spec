@@ -2,8 +2,8 @@
 %global pypi_name pdfminer.six
 
 Name:           python-pdfminer
-Version:        20181108
-Release:        7%{?dist}
+Version:        20200517
+Release:        2%{?dist}
 Summary:        PDF parser and analyzer
 
 License:        MIT
@@ -98,10 +98,8 @@ make cmap
 # Also, ship symlinks of the scripts without the .py syntax.
 
 %py3_install
-sed 's/python2 -s/python3 -s/' -i %{buildroot}/%{_bindir}/*.py
 ln -sf %{_bindir}/pdf2txt.py %{buildroot}/%{_bindir}/pdf2txt
 ln -sf %{_bindir}/dumppdf.py %{buildroot}/%{_bindir}/dumppdf
-ln -sf %{_bindir}/latin2ascii.py %{buildroot}/%{_bindir}/latin2ascii
 
 
 %check
@@ -114,13 +112,17 @@ PYTHONPATH=%{buildroot}/%{python3_sitelib} \
 %{_bindir}/pdf2txt.py
 %{_bindir}/dumppdf
 %{_bindir}/dumppdf.py
-%{_bindir}/latin2ascii
-%{_bindir}/latin2ascii.py
 %{python3_sitelib}/pdfminer
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %doc docs/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200517-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 20200517-1
+- Update to latest version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 20181108-7
 - Rebuilt for Python 3.9
 

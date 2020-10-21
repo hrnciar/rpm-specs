@@ -3,7 +3,7 @@
 
 Name:           perl-Inline-Filters
 Version:        0.20
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Common source code filters for Inline modules
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Inline-Filters
@@ -62,6 +62,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.20-13
 - Perl 5.32 rebuild
 

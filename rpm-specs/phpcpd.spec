@@ -6,15 +6,16 @@
 # Please, preserve the changelog entries
 #
 
+%bcond_without tests
+
 # For compatibility with SCL
 %undefine __brp_mangle_shebangs
 
-%global gh_commit    8724382966b1861df4e12db915eaed2165e10bf3
+%global gh_commit    4f130523214c755c69d1d59297afdff206c7b029
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sebastianbergmann
 %global gh_project   phpcpd
 %global php_home     %{_datadir}/php
-%global with_tests   %{?_without_tests:0}%{!?_without_tests:1}
 # Packagist
 %global pk_vendor    sebastian
 %global pk_project   phpcpd
@@ -23,13 +24,14 @@
 %global ns_project   PHPCPD
 
 Name:           %{pk_project}
-Version:        5.0.2
+Version:        6.0.2
 Release:        1%{?dist}
 Summary:        Copy/Paste Detector (CPD) for PHP code
 
 License:        BSD
 URL:            https://github.com/%{gh_owner}/%{gh_project}
-Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit}/%{name}-%{version}-%{gh_short}.tar.gz
+Source0:        %{name}-%{version}-%{gh_short}.tgz
+Source1:        makesrc.sh
 
 # Fix for RPM, use autoload
 Patch0:         %{gh_project}-rpm.patch
@@ -37,27 +39,27 @@ Patch0:         %{gh_project}-rpm.patch
 BuildArch:      noarch
 BuildRequires:  php(language)  >= 7.3
 BuildRequires:  php-fedora-autoloader-devel
-%if %{with_tests}
-BuildRequires:  phpunit8
-BuildRequires:  (php-composer(sebastian/finder-facade) >= 2.0   with php-composer(sebastian/finder-facade) < 3)
-BuildRequires:  (php-composer(sebastian/version)       >= 3.0   with php-composer(sebastian/version)       < 4)
-BuildRequires:  (php-composer(symfony/console)         >= 4.0   with php-composer(symfony/console)         < 6)
-BuildRequires:  (php-composer(phpunit/php-timer)       >= 3.0   with php-composer(phpunit/php-timer)       < 4)
+%if %{with tests}
+BuildRequires:  phpunit9
+BuildRequires:  (php-composer(sebastian/cli-parser)      >= 1.0   with php-composer(sebastian/cli-parser)      < 2)
+BuildRequires:  (php-composer(sebastian/version)         >= 3.0   with php-composer(sebastian/version)         < 4)
+BuildRequires:  (php-composer(phpunit/php-file-iterator) >= 3.0   with php-composer(phpunit/php-file-iterator) < 4)
+BuildRequires:  (php-composer(phpunit/php-timer)         >= 5.0   with php-composer(phpunit/php-timer)         < 6)
 %endif
 
 # From composer.json, requires
 #        "php": "^7.3",
 #        "ext-dom": "*",
-#        "sebastian/finder-facade": "^2.0",
+#        "sebastian/cli-parser": "^1.0",
 #        "sebastian/version": "^3.0",
-#        "symfony/console": "^4.0|^5.0",
-#        "phpunit/php-timer": "^3.0"
+#        "phpunit/php-file-iterator": "^3.0",
+#        "phpunit/php-timer": "^5.0"
 Requires:       php(language) >= 7.3
 Requires:       php-dom
-Requires:       (php-composer(sebastian/finder-facade) >= 2.0   with php-composer(sebastian/finder-facade) < 3)
-Requires:       (php-composer(sebastian/version)       >= 3.0   with php-composer(sebastian/version)       < 4)
-Requires:       (php-composer(symfony/console)         >= 4.0   with php-composer(symfony/console)         < 6)
-Requires:       (php-composer(phpunit/php-timer)       >= 3.0   with php-composer(phpunit/php-timer)       < 4)
+Requires:       (php-composer(sebastian/cli-parser)      >= 1.0   with php-composer(sebastian/cli-parser)      < 2)
+Requires:       (php-composer(sebastian/version)         >= 3.0   with php-composer(sebastian/version)         < 4)
+Requires:       (php-composer(phpunit/php-file-iterator) >= 3.0   with php-composer(phpunit/php-file-iterator) < 4)
+Requires:       (php-composer(phpunit/php-timer)         >= 5.0   with php-composer(phpunit/php-timer)         < 6)
 # From phpcompatinfo report for version 3.0.0
 Requires:       php-cli
 Requires:       php-mbstring
@@ -94,13 +96,10 @@ phpab \
 cat << 'EOF' | tee -a src/autoload.php
 // Dependencies
 \Fedora\Autoloader\Dependencies::required([
-    '%{php_home}/%{ns_vendor}/FinderFacade2/autoload.php',
+    '%{php_home}/%{ns_vendor}/CliParser/autoload.php',
+    '%{php_home}/%{ns_vendor}/FileIterator3/autoload.php',
+    '%{php_home}/%{ns_vendor}/Timer5/autoload.php',
     '%{php_home}/%{ns_vendor}/Version3/autoload.php',
-    [
-        '%{php_home}/Symfony5/Component/Console/autoload.php',
-        '%{php_home}/Symfony4/Component/Console/autoload.php',
-    ],
-    '%{php_home}/SebastianBergmann/Timer3/autoload.php',
 ]);
 EOF
 
@@ -113,14 +112,14 @@ install -D -p -m 755 phpcpd %{buildroot}%{_bindir}/phpcpd
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 ln -s %{buildroot}%{php_home}/%{ns_vendor}/%{ns_project}/autoload.php vendor/autoload.php
 
 ret=0;
-for cmd in php php73 php74; do
+for cmd in php php73 php74 php80; do
    if which $cmd; then
-      $cmd %{_bindir}/phpunit8 --verbose || ret=1
+      $cmd %{_bindir}/phpunit9 --verbose || ret=1
    fi
 done
 exit $ret
@@ -137,6 +136,19 @@ exit $ret
 
 
 %changelog
+* Tue Aug 18 2020 Remi Collet <remi@remirepo.net> - 6.0.2-1
+- update to 6.0.2
+- add dependency on phpunit/php-file-iterator
+- add dependency on sebastian/cli-parser
+- raise dependency on phpunit/php-timer 5
+- drop depency on sebastian/finder-facade
+- drop depency on symfony/console
+- sources from git snapshot
+- switch to phpunit9
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 22 2020 Remi Collet <remi@remirepo.net> - 5.0.2-1
 - update to 5.0.2
 - raise depency on phpunit/php-timer 3

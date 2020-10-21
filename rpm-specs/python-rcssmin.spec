@@ -3,7 +3,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.0.6
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        CSS Minifier
 
 License:        ASL 2.0
@@ -64,6 +64,9 @@ rm -r %{buildroot}/%{_docdir}/%{pypi_name}/
 %{python3_sitearch}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.6-20
 - Rebuilt for Python 3.9
 

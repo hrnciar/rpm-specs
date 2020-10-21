@@ -2,7 +2,7 @@
 
 Name:           chrome-gnome-shell
 Version:        10.1
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Support for managing GNOME Shell Extensions through web browsers
 
 License:        GPLv3+
@@ -36,19 +36,13 @@ and the corresponding extensions repository https://extensions.gnome.org.
 %autosetup
 
 %build
-mkdir build
-pushd build
-  %cmake -DBUILD_EXTENSION=OFF \
-         -DCMAKE_INSTALL_LIBDIR=%{_lib} \
-         -DPython_ADDITIONAL_VERSIONS=3 \
-         ..
-  %make_build
-popd
+%cmake -DBUILD_EXTENSION=OFF \
+    -DCMAKE_INSTALL_LIBDIR=%{_lib} \
+    -DPython_ADDITIONAL_VERSIONS=3
+%cmake_build
 
 %install
-pushd build
-  %make_install
-popd
+%cmake_install
 
 %check
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.ChromeGnomeShell.desktop
@@ -65,6 +59,13 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.ChromeGn
 %{_datadir}/icons/gnome/*/apps/org.gnome.ChromeGnomeShell.png
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.1-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 10.1-8
 - Rebuilt for Python 3.9
 

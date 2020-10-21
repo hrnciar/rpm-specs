@@ -4,14 +4,11 @@
 # https://github.com/cpuguy83/go-md2man
 %global goipath         github.com/cpuguy83/go-md2man
 Version:                2.0.0
-%global commit          f79a8a8ca69da163eee19ab442bedad7a35bba5a
+%global commit          1029f53b6507e27158d89cd489669559c1c700a3
 
 %gometa
 
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-cpuguy83-go-md2man-devel < 1.0.8-4
-}
+%global goaltipaths     github.com/cpuguy83/go-md2man/v2
 
 %global common_description %{expand:
 Converts markdown into roff (man pages).}
@@ -22,7 +19,7 @@ Converts markdown into roff (man pages).}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        0.5%{?dist}
+Release:        2%{?dist}
 Summary:        Converts markdown into roff (man pages)
 
 License:        MIT
@@ -33,8 +30,6 @@ Source2:        glide.lock
 
 BuildRequires:  golang(github.com/russross/blackfriday/v2)
 Provides:       go-md2man = %{version}-%{release}
-# Remove in F33:
-Obsoletes:      golang-github-cpuguy83-go-md2man < 1.0.8-4
 
 %description
 %{common_description}
@@ -66,6 +61,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 19:30:39 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.0.0-1.20200725git1029f53
+- Bump to commit 1029f53b6507e27158d89cd489669559c1c700a3
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-0.5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

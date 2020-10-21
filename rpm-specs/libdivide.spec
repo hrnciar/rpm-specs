@@ -3,7 +3,7 @@
 
 Name:           libdivide
 Version:        3.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Optimized integer division
 
 License:        zlib or Boost
@@ -40,14 +40,14 @@ Provides:       libdivide-static = %{version}-%{release}
 %autosetup
 
 %build
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %check
-make test
+%ctest
 
 %files devel
 %doc CHANGELOG.md README.md doc
@@ -56,6 +56,9 @@ make test
 %{_libdir}/cmake/%{name}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

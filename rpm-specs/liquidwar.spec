@@ -1,7 +1,7 @@
 %define _hardened_build 1
 Name:           liquidwar
 Version:        5.6.5
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Multiplayer wargame with liquid armies
 License:        GPLv2+
 URL:            http://www.ufoot.org/liquidwar/v5
@@ -147,6 +147,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.6.5-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 06 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.6.5-5
 - Fix FTBFS.
 

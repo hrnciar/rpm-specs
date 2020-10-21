@@ -10,18 +10,19 @@
 
 Name:           python-%{srcname}
 Version:        1.0.6
-Release:        14%{?dist}
+Release:        17%{?dist}
 Summary:        %{sum}
 
 License:        MIT
 URL:            https://pypi.python.org/pypi/%{srcname}
 Source0:        https://github.com/F5Networks/%{srcname}/archive/v%{version}/%{srcname}-%{version}.tar.gz
 
-Patch0:         python-bigsuds-1.0.6-Fix_deps_on_mox.patch
+Patch0:         python-bigsuds-1.0.6-Fix_deps_on_suds_and_mox.patch
 
 BuildArch:      noarch
 %if 0%{?with_python2}
 BuildRequires:  python2-devel
+BuildRequires:  python2-setuptools
 %if 0%{?el6}%{?el7}
 BuildRequires:  python-suds
 BuildRequires:  python-nose
@@ -37,6 +38,7 @@ BuildRequires:  python2-mock
 %endif
 %if 0%{?with_python3}
 BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
 BuildRequires:  python%{python3_pkgversion}-suds
 BuildRequires:  python%{python3_pkgversion}-nose
 BuildRequires:  python%{python3_pkgversion}-mock
@@ -114,6 +116,15 @@ sed -i -e '/^#!\//, 1d' bigsuds.py
 
 
 %changelog
+* Mon Oct 05 2020 Xavier Bachelot <xavier@bachelot.org> - 1.0.6-17
+- Explicitely BR: python-setuptools
+
+* Fri Aug 14 2020 Xavier Bachelot <xavier@bachelot.org> - 1.0.6-16
+- Fix FTI on F33 (RHBZ#1838948)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.6-14
 - Rebuilt for Python 3.9
 

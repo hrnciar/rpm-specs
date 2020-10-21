@@ -8,7 +8,7 @@
 
 Name:          mingw-%{pkgname}
 Version:       4.1.1
-Release:       2%{?pre:.%pre}%{?commit:.git%{shortcommit}}%{?dist}
+Release:       3%{?pre:.%pre}%{?commit:.git%{shortcommit}}%{?dist}
 Summary:       MinGW Windows tesseract-ocr library
 
 License:       ASL 2.0
@@ -145,6 +145,9 @@ rm -rf %{buildroot}%{mingw64_mandir}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,47 +1,47 @@
 Name:           perl-Data-Visitor
-Version:        0.30
-Release:        19%{?dist}
+Version:        0.31
+Release:        1%{?dist}
 Summary:        Visitor style traversal of Perl data structures
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Data-Visitor
 Source0:        https://cpan.metacpan.org/modules/by-module/Data/Data-Visitor-%{version}.tar.gz
 BuildArch:      noarch
-# Module Build
+# Build
 BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
 BuildRequires:  perl(ExtUtils::MakeMaker)
-BuildRequires:  sed
-# Module Runtime
+# Module
 BuildRequires:  perl(Carp)
-BuildRequires:  perl(Class::Load)
 BuildRequires:  perl(constant)
 BuildRequires:  perl(Moose) >= 0.89
 BuildRequires:  perl(namespace::clean) >= 0.19
+BuildRequires:  perl(overload)
 BuildRequires:  perl(Scalar::Util)
+BuildRequires:  perl(strict)
 BuildRequires:  perl(Sub::Name)
-BuildRequires:  perl(Task::Weaken)
+BuildRequires:  perl(Symbol)
 BuildRequires:  perl(Tie::ToObject) >= 0.01
+BuildRequires:  perl(warnings)
 # Test Suite
-BuildRequires:  perl(File::Temp)
+BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(Test::More) >= 0.88
-BuildRequires:  perl(Test::Requires)
+BuildRequires:  perl(Test::Needs)
 BuildRequires:  perl(Tie::RefHash)
+# Optional Tests
+BuildRequires:  perl(CPAN::Meta) > 2.120900
+BuildRequires:  perl(CPAN::Meta::Prereqs)
 # Dependencies
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:       perl(Sub::Name)
-Requires:       perl(Task::Weaken)
 
 %description
 This module is a simple visitor implementation for Perl values.
 
 %prep
 %setup -q -n Data-Visitor-%{version}
-
-# Silence rpmlint warnings
-sed -i '1s,^#!.*perl,#!%{__perl},' t/*.t
 
 %build
 perl Makefile.PL INSTALLDIRS=vendor
@@ -57,16 +57,24 @@ make test
 
 %files
 %if 0%{?_licensedir:1}
-%license LICENSE
+%license LICENCE
 %else
-%doc LICENSE
+%doc LICENCE
 %endif
-%doc Changes README t/
+%doc Changes CONTRIBUTING README t/
 %{perl_vendorlib}/Data/
 %{_mandir}/man3/Data::Visitor.3*
 %{_mandir}/man3/Data::Visitor::Callback.3*
 
 %changelog
+* Mon Aug  3 2020 Paul Howarth <paul@city-fan.org> - 0.31-1
+- Update to 0.31
+  - Updated distribution tooling (resolves CPAN RT#133059, a problem with the
+    compilation test when the installed perl has whitespace in its path)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.30-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.30-19
 - Perl 5.32 rebuild
 

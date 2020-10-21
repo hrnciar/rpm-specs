@@ -5,7 +5,7 @@
 
 Name:          drupal7-%{module}
 Version:       3.0
-Release:       0.9%{?pre_release:.%{pre_release}}%{?dist}
+Release:       0.10%{?pre_release:.%{pre_release}}%{?dist}
 Summary:       Translation template extractor
 
 License:       GPLv2+
@@ -67,6 +67,9 @@ cp -pr * %{buildroot}%{drupal7_modules}/%{module}/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-0.10.alpha2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 3.0-0.9.alpha2
 - Bump build requires drupal7-rpmbuild to ">= 7.70-2" to fix F32+ auto provides
 

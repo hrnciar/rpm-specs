@@ -1,6 +1,6 @@
 Name:           perl-Archive-Zip
 Version:        1.68
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Perl library for accessing Zip archives
 # lib/Archive/Zip/Member.pm:    (GPL+ or Artistic) and BSD
 #                               (The _mapPermissionsToUnix() comments are
@@ -43,7 +43,6 @@ BuildRequires:  perl(vars)
 BuildRequires:  perl(File::Spec::Unix)
 # IO::Scalar not used
 BuildRequires:  perl(lib)
-BuildRequires:  perl(Test::MockModule)
 BuildRequires:  perl(Test::More) >= 0.88
 BuildRequires:  perl(utf8)
 BuildRequires:  perl(warnings)
@@ -93,6 +92,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Petr Pisar <ppisar@redhat.com> - 1.68-3
+- Remove an unused build-time dependency on Test::MockModule
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.68-2
 - Perl 5.32 rebuild
 

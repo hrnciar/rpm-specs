@@ -5,7 +5,7 @@
 
 # https://github.com/google/trillian
 %global goipath         github.com/google/trillian
-Version:                1.2.1
+Version:                1.3.10
 
 %gometa
 
@@ -22,22 +22,21 @@ layer, to allow scalability to extremely large trees.}
                         CONTRIBUTORS README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Transparent, highly scalable and cryptographically verifiable data store
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/golang/go/issues/32479
+Patch0:         0001-Convert-int-to-string-using-strconv.Itoa.patch
 
 BuildRequires:  golang(bitbucket.org/creachadair/shell)
+BuildRequires:  golang(cloud.google.com/go/pubsub)
 BuildRequires:  golang(cloud.google.com/go/spanner)
+BuildRequires:  golang(cloud.google.com/go/spanner/spansql)
 BuildRequires:  golang(contrib.go.opencensus.io/exporter/stackdriver)
-BuildRequires:  golang(github.com/benlaurie/objecthash/go/objecthash)
-BuildRequires:  golang(go.etcd.io/etcd/clientv3)
-BuildRequires:  golang(go.etcd.io/etcd/clientv3/concurrency)
-BuildRequires:  golang(go.etcd.io/etcd/clientv3/naming)
-BuildRequires:  golang(go.etcd.io/etcd/embed)
 BuildRequires:  golang(github.com/go-sql-driver/mysql)
 BuildRequires:  golang(github.com/golang/glog)
 BuildRequires:  golang(github.com/golang/mock/gomock)
@@ -48,38 +47,51 @@ BuildRequires:  golang(github.com/golang/protobuf/ptypes/duration)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/empty)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/timestamp)
 BuildRequires:  golang(github.com/google/btree)
-BuildRequires:  golang(github.com/google/certificate-transparency-go)
-BuildRequires:  golang(github.com/google/certificate-transparency-go/client)
-BuildRequires:  golang(github.com/google/certificate-transparency-go/jsonclient)
 BuildRequires:  golang(github.com/google/certificate-transparency-go/tls)
-BuildRequires:  golang(github.com/google/certificate-transparency-go/x509)
+BuildRequires:  golang(github.com/google/go-cmp/cmp)
+BuildRequires:  golang(github.com/google/go-cmp/cmp/cmpopts)
 BuildRequires:  golang(github.com/grpc-ecosystem/go-grpc-middleware)
-BuildRequires:  golang(github.com/grpc-ecosystem/grpc-gateway/runtime)
-BuildRequires:  golang(github.com/grpc-ecosystem/grpc-gateway/utilities)
-BuildRequires:  golang(github.com/kylelemons/godebug/pretty)
+BuildRequires:  golang(github.com/lib/pq)
 BuildRequires:  golang(github.com/prometheus/client_golang/prometheus)
 BuildRequires:  golang(github.com/prometheus/client_golang/prometheus/promhttp)
 BuildRequires:  golang(github.com/prometheus/client_model/go)
+BuildRequires:  golang(go.etcd.io/etcd/clientv3)
+BuildRequires:  golang(go.etcd.io/etcd/clientv3/concurrency)
+BuildRequires:  golang(go.etcd.io/etcd/clientv3/naming)
+BuildRequires:  golang(go.etcd.io/etcd/embed)
 BuildRequires:  golang(go.opencensus.io/plugin/ocgrpc)
 BuildRequires:  golang(go.opencensus.io/plugin/ochttp)
 BuildRequires:  golang(go.opencensus.io/stats/view)
 BuildRequires:  golang(go.opencensus.io/trace)
-BuildRequires:  golang(golang.org/x/net/context)
+BuildRequires:  golang(golang.org/x/crypto/ed25519)
+BuildRequires:  golang(golang.org/x/sync/errgroup)
+BuildRequires:  golang(golang.org/x/sync/semaphore)
+BuildRequires:  golang(golang.org/x/sys/unix)
+BuildRequires:  golang(golang.org/x/time/rate)
+BuildRequires:  golang(google.golang.org/api/option)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/api/annotations)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/rpc/status)
 BuildRequires:  golang(google.golang.org/genproto/protobuf/field_mask)
 BuildRequires:  golang(google.golang.org/grpc)
 BuildRequires:  golang(google.golang.org/grpc/codes)
 BuildRequires:  golang(google.golang.org/grpc/credentials)
-BuildRequires:  golang(google.golang.org/grpc/grpclog)
-BuildRequires:  golang(google.golang.org/grpc/naming)
+# Does not exist anymore
+# BuildRequires:  golang(google.golang.org/grpc/naming)
 BuildRequires:  golang(google.golang.org/grpc/reflection)
 BuildRequires:  golang(google.golang.org/grpc/status)
+BuildRequires:  golang(google.golang.org/protobuf/reflect/protoreflect)
+BuildRequires:  golang(google.golang.org/protobuf/reflect/protoregistry)
+BuildRequires:  golang(google.golang.org/protobuf/runtime/protoimpl)
+BuildRequires:  golang(google.golang.org/protobuf/testing/protocmp)
+BuildRequires:  golang(gopkg.in/redis.v6)
 
 %if %{with check}
 # Tests
-BuildRequires:  golang(github.com/google/certificate-transparency-go/x509/pkix)
+BuildRequires:  golang(cloud.google.com/go/spanner/admin/database/apiv1)
+BuildRequires:  golang(cloud.google.com/go/spanner/spannertest)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/rpc/code)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/spanner/admin/database/v1)
+BuildRequires:  golang(google.golang.org/protobuf/proto)
 %endif
 
 %description
@@ -89,24 +101,39 @@ BuildRequires:  golang(google.golang.org/genproto/googleapis/rpc/code)
 
 %prep
 %goprep
-find . -name "*.go" -exec sed -i "s|github.com/coreos/etcd|go.etcd.io/etcd|" "{}" +;
+%patch0 -p1
+sed -i "s|github.com/go-redis/redis|gopkg.in/redis.v6|" $(find . -name "*.go")
+# No more google.golang.org/grpc/naming)
+rm -rf monitoring/prometheus/etcdiscover cmd/internal/serverutil
 
 %install
 %gopkginstall
 
 %if %{with check}
 %check
-# client/rpcflags, cmd/get_tree_public_key, storage/testdb: needs network
+# client/rpcflags, cmd/get_tree_public_key, storage/testdb, quota/redis/redistb: needs network
 %gocheck -d client/rpcflags \
          -d cmd/get_tree_public_key \
          -d server \
          -d storage/testdb \
-         -d util/election
+         -d util/election \
+         -d quota/redis/redistb \
+         -d crypto
 %endif
 
 %gopkgfiles
 
 %changelog
+* Mon Aug 10 01:16:14 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.3.10-1
+- Update to 1.3.10
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

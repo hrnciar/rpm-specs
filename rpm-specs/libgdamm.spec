@@ -4,7 +4,7 @@
 
 Name:           libgdamm
 Version:        4.99.11
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        C++ wrappers for libgda
 License:        LGPLv2+
 URL:            http://www.gtkmm.org/
@@ -71,6 +71,9 @@ find %{buildroot} -type f -name "*.la" -exec rm -f {} ';'
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.99.11-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.99.11-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

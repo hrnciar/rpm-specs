@@ -14,7 +14,7 @@ A JSON-LD processor for Go.}
 %global godocs          examples CONTRIBUTORS.md README.md CHANGELOG.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        JSON-LD processor
 
 License:        ASL 2.0
@@ -42,6 +42,9 @@ BuildRequires:  golang(github.com/pquerna/cachecontrol)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 07 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.3.0-1
 - Initial package
 

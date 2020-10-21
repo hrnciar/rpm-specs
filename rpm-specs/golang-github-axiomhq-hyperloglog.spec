@@ -7,6 +7,8 @@
 
 %gometa
 
+%global goipathsex      github.com/axiomhq/hyperloglog/demo
+
 %global common_description %{expand:
 An improved version of HyperLogLog for the count-distinct problem, approximating
 the number of distinct elements in a multiset using 33-50% less space than other
@@ -17,7 +19,7 @@ usual HyperLogLog implementations.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.4%{?dist}
+Release:        0.5%{?dist}
 Summary:        HyperLogLog with lots of sugar
 
 License:        MIT
@@ -25,7 +27,6 @@ URL:            %{gourl}
 Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/dgryski/go-metro)
-BuildRequires:  golang(github.com/influxdata/influxdb/pkg/hll)
 
 %if %{with check}
 # Tests
@@ -39,7 +40,6 @@ BuildRequires:  golang(github.com/davecgh/go-spew/spew)
 
 %prep
 %goprep
-sed -i "s|github.com/influxdata/influxdb/pkg/estimator/hll|github.com/influxdata/influxdb/pkg/hll|" $(find . -name "*.go")
 
 %install
 %gopkginstall
@@ -52,8 +52,11 @@ sed -i "s|github.com/influxdata/influxdb/pkg/estimator/hll|github.com/influxdata
 %gopkgfiles
 
 %changelog
-* Sun Jun 14 19:39:10 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200128gita4c4c47
-- Move hll import path to github.com/influxdata/influxdb/pkg/hll (#1831517)
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 20:36:57 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200128gita4c4c47
+- Remove demo/ from import path to break cyclic dep
 
 * Tue Jan 28 19:57:35 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.3.20200128gita4c4c47
 - Bump to commit a4c4c47bc57fa695d962fbd4abdb04d9cc62513a

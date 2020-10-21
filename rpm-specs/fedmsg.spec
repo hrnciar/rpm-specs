@@ -1,8 +1,8 @@
 %global modname fedmsg
 
 Name:           fedmsg
-Version:        1.1.1
-Release:        10%{?dist}
+Version:        1.1.2
+Release:        1%{?dist}
 Summary:        Tools for Fedora Infrastructure real-time messaging
 License:        LGPLv2+
 URL:            https://github.com/fedora-infra/fedmsg
@@ -282,6 +282,12 @@ chmod 0644 %{buildroot}/%{_sysconfdir}/logrotate.d/%{modname}
 
 
 %changelog
+* Sun Sep 20 2020 Kevin Fenzi <kevin@scrye.com> - 1.1.2-1
+- Update to 1.1.2. Fixes 1880772
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.1-10
 - Rebuilt for Python 3.9
 

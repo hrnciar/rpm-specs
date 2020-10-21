@@ -1,7 +1,7 @@
 Name:           qperf
 Summary:        Measure socket and RDMA performance
 Version:        0.4.9
-Release:        17%{?dist}
+Release:        20%{?dist}
 License:        GPLv2 or BSD
 Source:         http://www.openfabrics.org/downloads/%{name}/%{name}-%{version}.tar.gz
 Url:            http://www.openfabrics.org
@@ -9,6 +9,8 @@ BuildRequires:  gcc
 BuildRequires:  libibverbs-devel >= 1.2.0
 BuildRequires:  librdmacm-devel >= 1.0.21
 BuildRequires:  perl-interpreter
+BuildRequires:  perl-diagnostics
+BuildRequires:  perl-POSIX
 # RDMA is not currently built on 32-bit ARM: #1484155
 ExcludeArch:    %{arm}
 
@@ -21,10 +23,10 @@ Measure socket and RDMA performance.
 %build
 export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 %configure
-make %{?_smp_mflags}
+%make_build
 
 %install
-make DESTDIR=%{buildroot} install
+%make_install
 
 %files
 %license COPYING
@@ -32,6 +34,16 @@ make DESTDIR=%{buildroot} install
 %_mandir/man1/qperf.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.9-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Tom Stellard <tstellar@redhat.com> - 0.4.9-19
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Sun Jul 19 2020 Honggang Li <honli@redhat.com> - 0.4.9-18
+- Add BR perl-diagnostics and perl-POSIX
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.9-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

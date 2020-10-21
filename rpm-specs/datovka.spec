@@ -1,11 +1,12 @@
 Name: datovka
-Version: 4.15.0
+Version: 4.15.5
 Release: 1%{?dist}
 Summary: A free graphical interface for Czech Databox (Datové schránky)
 
 License: GPLv3+ with exceptions
 URL: https://www.datovka.cz/
 Source0: https://secure.nic.cz/files/datove_schranky/%{version}/datovka-%{version}.tar.xz
+Patch0: datovka-gcc11.patch
 BuildRequires: qt5-qtbase-devel qt5-qttools-devel libisds-devel openssl-devel
 BuildRequires: qt5-linguist qt5-qtsvg-devel desktop-file-utils
 
@@ -15,6 +16,7 @@ interface endorsed by the Czech government.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 lrelease-qt5 datovka.pro
@@ -37,10 +39,36 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %doc %{_pkgdocdir}
 %{_bindir}/datovka
 %{_datadir}/applications/datovka.desktop
-%{_datadir}/appdata/datovka.appdata.xml
 %{_datadir}/icons/hicolor/*/apps/datovka.png
+%{_datadir}/metainfo/datovka.metainfo.xml
 
 %changelog
+* Thu Oct 15 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.15.5-1
+- New version
+  Resolves: rhbz#1888637
+
+* Tue Oct 13 2020 Jeff Law <law@redhat.com> - 4.15.4-2
+- Fix missing #include for gcc-11
+
+* Tue Oct 13 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.15.4-1
+- New version
+  Resolves: rhbz#1887872
+
+* Mon Sep 21 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.15.3-1
+- New version
+  Resolves: rhbz#1879146
+
+* Mon Aug 31 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.15.2-1
+- New version
+  Resolves: rhbz#1873149
+
+* Fri Jul 31 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.15.1-1
+- New version
+  Resolves: rhbz#1862482
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.15.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar  5 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.15.0-1
 - New version
   Resolves: rhbz#1810453

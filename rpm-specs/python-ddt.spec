@@ -17,7 +17,7 @@ combination with other testing frameworks like unittest and nose.}
 
 Name:           python-%{pkgname}
 Version:        1.4.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python library to multiply test cases
 License:        MIT
 URL:            https://github.com/datadriventests/ddt
@@ -68,6 +68,9 @@ rm -rf %{eggname}.egg-info
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 06 2020 Carl George <carl@george.computer> - 1.4.1-1
 - Latest upstream rhbz#1778594
 

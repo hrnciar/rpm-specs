@@ -1,7 +1,7 @@
 Name: imapsync
 Summary: Tool to migrate email between IMAP servers
 Version: 1.882
-Release: 5%{?dist}
+Release: 6%{?dist}
 License: NLPL
 
 URL: http://fedorahosted.org/imapsync
@@ -117,6 +117,9 @@ iconv -f iso-8859-1 -t utf-8 -o TODO.utf8 TODO && %{__mv} TODO.utf8 TODO
 %attr(644, root, root) %{_mandir}/man1/imapsync.1*
 
 %ChangeLog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.882-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.882-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -7,12 +7,13 @@
 %global with_tests 0
 
 Name:           python-keyring
-Version:        21.2.0
-Release:        2%{?dist}
+Version:        21.3.1
+Release:        1%{?dist}
 Summary:        Store and access your passwords safely
 License:        MIT and Python
 URL:            https://github.com/jaraco/keyring
 Source0:        https://files.pythonhosted.org/packages/source/k/keyring/keyring-%{version}.tar.gz
+# patch is for f32 and earlier; presumably not needed for f33, but haven't tested thoroughly
 Patch0:         fix-setuptools.patch
 BuildArch:      noarch
 
@@ -74,7 +75,7 @@ BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-setuptools
 BuildRequires:  python%{python3_pkgversion}-setuptools_scm
 %if 0%{?with_tests}
-%if 0%{?fedora} < 32
+%if (0%{?fedora} && 0%{?fedora} < 32) || (0%{?rhel} && 0%{?rhel} < 9)
 BuildRequires:  python%{python3_pkgversion}-importlib-metadata
 %endif
 BuildRequires:  python%{python3_pkgversion}-pytest
@@ -83,7 +84,7 @@ BuildRequires:  python%{python3_pkgversion}-pytest-flakes
 %endif
 
 Requires:       python%{python3_pkgversion}-SecretStorage
-%if 0%{?fedora} < 32
+%if (0%{?fedora} && 0%{?fedora} < 32) || (0%{?rhel} && 0%{?rhel} < 9)
 Requires:       python%{python3_pkgversion}-importlib-metadata
 %endif
 
@@ -151,6 +152,18 @@ nosetests-%{python2_version}
 %endif
 
 %changelog
+* Mon Aug 24 2020 Christopher Tubbs <ctubbsii@fedoraproject.org> - 21.3.1-1
+- new version 21.3.1 (rhbz#1871352)
+
+* Wed Aug 12 2020 Merlin Mathesius <mmathesi@redhat.com> - 21.3.0-2
+- Drop manual (Build)Requires on python3-importlib-metadata for RHEL9+ and ELN.
+
+* Mon Aug 03 2020 Christopher Tubbs <ctubbsii@fedoraproject.org> - 21.3.0-1
+- new version 21.3.0 (rhbz#1810846)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 21.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 21.2.0-2
 - Rebuilt for Python 3.9
 

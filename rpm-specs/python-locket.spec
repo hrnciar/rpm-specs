@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.2.0
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        File-based locks for Python for Linux and Windows
 
 License:        BSD
@@ -132,6 +132,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} nosetests-%{python3_version}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.0-15
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           espeak-ng
 Version:        1.50
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        eSpeak NG Text-to-Speech
 
 License:        GPLv3+
@@ -51,7 +51,7 @@ rm -rf src/include/compat/endian.h src/compat/getopt.c android/
 %build
 ./autogen.sh
 %configure
-make %{?_smp_mflags} src/espeak-ng src/speak-ng
+%make_build src/espeak-ng src/speak-ng
 make
 # Force utf8 for docs building
 LC_ALL=C.UTF-8 make docs
@@ -99,6 +99,13 @@ ESPEAK_DATA_PATH=`pwd` LD_LIBRARY_PATH=src:${LD_LIBRARY_PATH} src/espeak-ng ...
 %doc docs/*.html
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.50-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.50-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.50-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

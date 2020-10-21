@@ -1,6 +1,6 @@
 Name:           algobox
 Version:        1.0.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Algorithmic software
 Summary(fr):    Logiciel d'algorithmique
 
@@ -57,5 +57,8 @@ desktop-file-validate \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 03 2020 Nicolas Chauvet <kwizart@gmail.com> - 1.0.3-1
 - Initial spec file

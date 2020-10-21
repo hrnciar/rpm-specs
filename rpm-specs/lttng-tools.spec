@@ -8,7 +8,7 @@
 
 
 Name:           lttng-tools
-Version:        2.12.1
+Version:        2.12.2
 Release:        2%{?dist}
 License:        GPLv2 and LGPLv2
 URL:            http://lttng.org
@@ -173,6 +173,18 @@ exit 0
 %endif
 
 %changelog
+* Fri Aug 21 2020 Jeff Law <law@redhat.com> - 2.12.2-2
+- Re-enable LTO
+
+* Wed Aug 05 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.2-1
+- New upstream release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 2.12.1-3
+- Disable LTO
+
 * Wed May 27 2020 Miro Hrončok <mhroncok@redhat.com> - 2.12.1-2
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           paprefs
 Version:        1.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Management tool for PulseAudio
 
 License:        GPLv2+
@@ -49,6 +49,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Julian Sikorski <belegdol@fedoraproject.org> - 1.1-6
 - Fix crash when attempting to install a module using a patch from upstream git
   (RH #1715245)

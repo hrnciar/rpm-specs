@@ -2,7 +2,7 @@
 
 Name:           xfce4-session
 Version:        4.14.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Xfce session manager
 
 License:        GPLv2+
@@ -25,7 +25,7 @@ BuildRequires:  libxfce4ui-devel >= %{xfceversion}
 BuildRequires:  startup-notification-devel
 BuildRequires:  xfce4-panel-devel >= %{xfceversion}
 BuildRequires:  xfconf-devel >= %{xfceversion}
-BuildRequires:  xorg-x11-server-utils
+BuildRequires:  iceauth xrdb xset
 # Build tools
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext 
@@ -35,7 +35,7 @@ BuildRequires:  libxslt
 BuildRequires:  systemd-devel >= 195
 BuildRequires:  polkit-devel
 BuildRequires:  libtool
-Requires:       xorg-x11-server-utils
+Requires:       iceauth xrdb xset
 Requires:       xfce-polkit >= 0.2-2
 Requires:       systemd >= 195
 # Needed for exo desktop preferred applications
@@ -96,6 +96,9 @@ cp -a %{SOURCE2} %{buildroot}%{_datadir}/applications/xfce-mimeapps.list
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 4.14.2-2
+- {Build,}Require iceauth xrdb xset, not xorg-x11-server-utils
+
 * Sun Mar 29 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 4.14.2-1
 - Update to 4.14.2
 

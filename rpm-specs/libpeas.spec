@@ -1,17 +1,13 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 %global apiver 1.0
 
 Name:           libpeas
-Version:        1.26.0
-Release:        2%{?dist}
+Version:        1.28.0
+Release:        1%{?dist}
 Summary:        Plug-ins implementation convenience library
 
 License:        LGPLv2+
 URL:            https://wiki.gnome.org/Projects/Libpeas
-Source0:        https://download.gnome.org/sources/%{name}/1.26/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/1.28/%{name}-%{version}.tar.xz
 
 BuildRequires:  gcc
 BuildRequires:  gettext
@@ -110,6 +106,20 @@ that are needed to write applications that use libpeas.
 %{_datadir}/glade/catalogs/libpeas-gtk.xml
 
 %changelog
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 1.28.0-1
+- Update to 1.28.0
+
+* Tue Aug 04 2020 Bastien Nocera <bnocera@redhat.com> - 1.26.0-5
++ libpeas-1.26.0-5
+- Remove unused Python macro that caused errors on install (#1863667)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.26.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.26.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.26.0-2
 - Rebuilt for Python 3.9
 

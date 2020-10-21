@@ -1,6 +1,8 @@
+%global __cmake_in_source_build 1
+
 Name:    hyperscan
 Version: 5.3.0
-Release: 1%{?dist}
+Release: 5%{?dist}
 Summary: High-performance regular expression matching library
 
 License: BSD
@@ -54,11 +56,15 @@ needed for developing Hyperscan applications.
 %autosetup
 
 %build
+# LTO seems to be losing the target prefix on ifunc targets leading to
+# multiply defined symbols.  This seems like a GCC bug
+# Disable LTO
+%define _lto_cflags %{nil}
 %cmake -DBUILD_SHARED_LIBS:BOOL=ON -DBUILD_STATIC_AND_SHARED:BOOL=OFF .
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %files
 %doc %{_defaultdocdir}/%{name}/examples/README.md
@@ -74,6 +80,19 @@ needed for developing Hyperscan applications.
 %{_includedir}/hs/
 
 %changelog
+* Mon Aug 10 2020 Jason Taylor <jtfas90@gmail.com> - 5.3.0-5
+- Updated to new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 08 2020 Jeff Law <law@redhat.com> - 5.3.0-2
+- Disable LTO
+
 * Thu May 28 2020 Jason Taylor <jtfas90@gmail.com> - 5.3.0-1
 - Latest upstream release
 

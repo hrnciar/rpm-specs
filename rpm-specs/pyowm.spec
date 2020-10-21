@@ -4,7 +4,7 @@
 
 Name:           pyowm
 Version:        2.6.1
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        A Python wrapper around the OpenWeatherMap web API
 
 License:        MIT
@@ -58,6 +58,9 @@ sed -i -e '1{\@^#!/usr/bin/env python@d}' %{buildroot}%{python3_sitelib}/%{pypi_
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.6.1-12
 - Rebuilt for Python 3.9
 

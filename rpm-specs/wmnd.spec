@@ -1,6 +1,6 @@
 Name:		wmnd
 Version:	0.4.17
-Release:	18%{?dist}
+Release:	19%{?dist}
 Summary:	Dockapp for monitoring network interfaces
 
 License:	GPLv2+
@@ -41,6 +41,9 @@ cp -p AUTHORS COPYING NEWS README THANKS TODO %{buildroot}%{_pkgdocdir}
 %{_mandir}/man1/wmnd.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.17-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.17-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

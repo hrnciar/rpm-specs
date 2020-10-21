@@ -3,7 +3,7 @@
 Summary:          Fast NTLM authentication proxy with tunneling
 Name:             cntlm
 Version:          0.92.3
-Release:          17%{?dist}
+Release:          18%{?dist}
 License:          GPLv2+
 
 URL:              http://cntlm.sourceforge.net/
@@ -79,6 +79,9 @@ exit 0
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.92.3-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.92.3-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

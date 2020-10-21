@@ -7,11 +7,10 @@
 Use fixtures in pytest.mark.parametrize.}
 
 Name:           python-%{pypi_name}
-Version:        0.5.2
-Release:        7%{?dist}
+Version:        0.6.3
+Release:        1%{?dist}
 Summary:        Use fixtures in pytest.mark.parametrize
 
-# https://fedoraproject.org/wiki/Licensing:Main?rd=Licensing#Good_Licenses
 License:        MIT
 URL:            https://pypi.python.org/pypi/%{pypi_name}
 Source0:        %pypi_source %{pypi_name}
@@ -26,6 +25,7 @@ BuildArch:      noarch
 Summary:        %{summary}
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist pytest}
+BuildRequires:  %{py3_dist setuptools}
 
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
@@ -54,6 +54,17 @@ PYTHONPATH="%{buildroot}/%{python3_sitelib}/" pytest-3
 %{python3_sitelib}/__pycache__
 
 %changelog
+* Thu Aug 20 2020 Aniket Pradhan <major AT fedoraproject DOT org> - 0.6.3-1
+- Updated to 0.6.3
+- Fixes failing tests
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.2-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.2-7
 - Rebuilt for Python 3.9
 

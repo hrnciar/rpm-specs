@@ -1,7 +1,7 @@
 Name:		globus-gssapi-gsi
 %global _name %(tr - _ <<< %{name})
 Version:	14.11
-Release:	2%{?dist}
+Release:	4%{?dist}
 Summary:	Grid Community Toolkit - GSSAPI library
 
 License:	ASL 2.0
@@ -124,6 +124,13 @@ make %{?_smp_mflags} check VERBOSE=1
 %{?_licensedir: %license GLOBUS_LICENSE}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 14.11-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 14.11-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 14.11-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

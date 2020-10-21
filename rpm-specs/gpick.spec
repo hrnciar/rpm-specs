@@ -1,10 +1,11 @@
+%define __cmake_in_source_build 1
 %global commit 3b17cf9e8b8514bdf16c49ca970e6f47da34e6ae
 %global shortcommit %%(c=%%{commit}; echo ${c:0:7})
 %global date 20181011
 
 Name:		gpick
 Version:	0.2.6
-Release:	0.rc1%{?date:.%{date}git}.2%{?dist}.2
+Release:	0.rc1%{?date:.%{date}git}.2%{?dist}.5
 Summary:	Advanced color picker
 
 License:	BSD
@@ -92,6 +93,16 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 %{_libdir}/*.so
 
 %changelog
+* Wed Sep 23 2020 Jeff Law <law@redhat.com> - 0.2.6-0.rc1.20181011git.2.5
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.6-0.rc1.20181011git.2.4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.6-0.rc1.20181011git.2.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 0.2.6-0.rc1.20181011git.2.2
 - Rebuilt for Boost 1.73
 

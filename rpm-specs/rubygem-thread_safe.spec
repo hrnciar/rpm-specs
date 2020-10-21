@@ -3,7 +3,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 0.3.6
-Release: 7%{?dist}
+Release: 8%{?dist}
 Summary: Thread-safe collections and utilities for Ruby
 # jsr166e.LondAdder, jsr166e.Striped64, jsr166e.ConcurrentHashMapV8
 # and their Ruby ports are Public Domain
@@ -85,6 +85,9 @@ rspec -Ilib spec
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.6-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.6-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

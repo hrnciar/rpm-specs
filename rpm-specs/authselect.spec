@@ -3,12 +3,15 @@
 
 Name:           authselect
 Version:        1.2.1
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Configures authentication and identity sources from supported profiles
 URL:            https://github.com/authselect/authselect
 
 License:        GPLv3+
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+
+Patch0001:  0001-utils-correctly-remove-the-whole-line-if-str-does-no.patch
+Patch0002:  0002-profiles-add-support-for-resolved.patch
 
 %global makedir %{_builddir}/%{name}-%{version}
 
@@ -262,6 +265,13 @@ exit 0
 exit 0
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Pavel Březina <pbrezina@redhat.com> - 1.2.1-3
+- Add resolved by default to nis and minimal profiles
+- Fix parsing of multiple conditionals on the same line
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.1-2
 - Rebuilt for Python 3.9
 

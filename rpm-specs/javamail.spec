@@ -1,6 +1,6 @@
 Name:           javamail
 Version:        1.5.2
-Release:        11%{?dist}
+Release:        15%{?dist}
 Summary:        Java Mail API
 License:        CDDL-1.0 or GPLv2 with exceptions
 URL:            http://www.oracle.com/technetwork/java/javamail
@@ -10,12 +10,12 @@ Source:        https://java.net/projects/javamail/downloads/download/source/java
 
 BuildRequires:  maven-local
 BuildRequires:  mvn(junit:junit)
-BuildRequires:  mvn(net.java:jvnet-parent:pom:)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-dependency-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-enforcer-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-source-plugin)
 BuildRequires:  mvn(org.codehaus.mojo:build-helper-maven-plugin)
+BuildRequires:  java-1.8.0-openjdk-devel
 
 # Adapted from the classpathx-mail (and JPackage glassfish-javamail) Provides.
 Provides:       javamail-monolithic = %{version}-%{release}
@@ -36,6 +36,9 @@ Summary:        Javadoc for %{name}
 
 %prep
 %setup -q -c
+
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
 
 add_dep() {
     %pom_xpath_inject pom:project "<dependencies/>" ${2}
@@ -67,6 +70,7 @@ add_dep javax.mail mailapijar
 %mvn_file "com.sun.mail:{javax.mail}" %{name}/@1 %{name}/mail
 
 %build
+export JAVA_HOME="/usr/lib/jvm/java-1.8.0"
 # Some tests fail on Koji due to networking limitations
 %mvn_build -- -Dmaven.test.failure.ignore=true
 
@@ -85,6 +89,18 @@ ln -sf ../%{name}/javax.mail.jar %{buildroot}%{_javadir}/javax.mail/
 %doc mail/src/main/resources/META-INF/LICENSE.txt
 
 %changelog
+* Tue Aug 25 2020 Fabio Valentini <decathorpe@gmail.com> - 1.5.2-15
+- Remove unnecessary dependency on parent POM.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.5.2-13
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Fri Jun 26 2020 Jeff Johnston <jjohnstn@redhat.com> - 1.5.2-12
+- Fix to use Java 8 as source 1.5 is required
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

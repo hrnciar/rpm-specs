@@ -1,5 +1,5 @@
 Name: libteam
-Version: 1.30
+Version: 1.31
 Release: 2%{?dist}
 Summary: Library for controlling team network device
 License: LGPLv2+
@@ -130,9 +130,24 @@ install -p -m 755 utils/bond2team $RPM_BUILD_ROOT%{_bindir}/bond2team
 %{_sysconfdir}/sysconfig/network-scripts/ifdown-TeamPort
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.31-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Jiri Pirko <jiri@resnulli.us> - 1.31-1
+1.31 release
+utils/bond2team: remove TYPE in ifcfg file
+utils/bond2team: keep delivering config to file if stdout not supplied
+teamd/lacp: silence ignore none LACP frames
+teamd: fix ctx->hwaddr value assignment
+Send LACP PDU right after the Actor state has been changed
+Skip setting the same hwaddr to a lag port if not needed
+Make all netlink socket RCVBUF sizes configurable
+Don't return an error when timerfd socket return 0
+Fix ifinfo_link_with_port race condition with newlink
+teamd: fix possible race in master ifname callback
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.30-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
-
 
 * Thu Jan 09 2020 Jiri Pirko <jiri@resnulli.us> - 1.30-1
 - 1.30 release

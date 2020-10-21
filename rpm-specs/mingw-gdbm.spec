@@ -2,7 +2,7 @@
 
 Name:           mingw-gdbm
 Version:        1.11
-Release:        11%{?dist}
+Release:        14%{?dist}
 Summary:        MinGW port of GNU database routines
 
 License:        GPLv3+
@@ -18,6 +18,8 @@ Source0:        ftp://ftp.gnu.org/gnu/gdbm/gdbm-%{version}.tar.gz
 # See https://bugzilla.redhat.com/show_bug.cgi?id=4457
 # See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=208927
 Patch0:         gdbm-1.10-zeroheaders.patch
+# Fix GCC10 FTBFS: multiple definition of parseopt_program_doc/parseopt_program_args
+Patch1:         gdbm_gcc_10.patch
 
 # Win32 compatibility
 Patch1000:      gdbm-win32-support.patch
@@ -96,6 +98,7 @@ Static version of the MinGW Windows GDBM library.
 %prep
 %setup -q -n gdbm-%{version}
 %patch0 -p1 -b .zeroheaders
+%patch1 -p1 -b .gcc10
 
 %patch1000 -p0 -b .windows
 
@@ -163,6 +166,16 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 
 
 %changelog
+* Wed Aug 12 13:36:29 GMT 2020 Sandro Mani <manisandro@gmail.com> - 1.11-14
+- Rebuild (mingw-gettext)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 1.11-11
 - Rebuild (gettext)
 

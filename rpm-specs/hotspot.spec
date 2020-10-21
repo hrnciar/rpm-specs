@@ -1,7 +1,8 @@
+%undefine __cmake_in_source_build
 
 Name:    hotspot
-Version: 1.2.0
-Release: 3%{?dist}
+Version: 1.3.0
+Release: 1%{?dist}
 Summary: The Linux perf GUI for performance analysis
 
 License: GPLv2+
@@ -20,6 +21,7 @@ BuildRequires:  kf5-kio-devel
 BuildRequires:  kf5-kwindowsystem-devel
 
 BuildRequires:  qt5-qtbase-devel
+BuildRequires:  qt5-qtsvg-devel
 
 BuildRequires:  elfutils-devel
 
@@ -33,17 +35,13 @@ KCachegrind around Linux perf.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%{cmake_kf5}
 
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
-
+%cmake_install
 
 %files
 %license LICENSE.GPL.txt
@@ -53,6 +51,16 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_libexecdir}/elevate_perf_privileges.sh
 
 %changelog
+* Thu Oct 01 2020 Jan Grulich <jgrulich@redhat.com> - 1.3.0-1
+- 1.3.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,12 +1,12 @@
 
-%define git_long  e8e3d20f20da5ee3e37d347207b01890829a5475
-%define git_short e8e3d20
-%define snap 20130812
+%global git_long  e8e3d20f20da5ee3e37d347207b01890829a5475
+%global git_short e8e3d20
+%global snap 20130812
 
 Summary:	A C++ port of Lucene
 Name:		clucene
 Version:	2.3.3.4
-Release:	36.%{snap}.%{git_short}git%{?dist}
+Release:	39.%{snap}.%{git_short}git%{?dist}
 License:	LGPLv2+ or ASL 2.0
 URL:		http://www.sourceforge.net/projects/clucene
 %if 0%{?snap}
@@ -38,6 +38,10 @@ Patch51: clucene-core-2.3.3.4-install_contribs_lib.patch
 Patch52: clucene-core-2.3.3.4-CLuceneConfig.patch
 # Fix tests for undefined usleep
 Patch53: clucene-core-2.3.3.4-usleep.patch
+# Upstream at <https://sourceforge.net/p/clucene/bugs/232/> "Patches for
+# TestIndexSearcher failures":
+Patch54: 0001-Make-sure-to-return-value-from-non-void-function.patch
+Patch55: 0002-Avoid-deadlock-in-TestIndexSearcher.patch
 
 %description
 CLucene is a C++ port of the popular Apache Lucene search engine
@@ -79,26 +83,24 @@ Requires:	%{name}-core%{?_isa} = %{version}-%{release}
 %patch51 -p1 -b .install_contribs_lib
 %patch52 -p1 -b .CLuceneConfig
 %patch53 -p1 -b .usleep
+%patch54 -p1 -b .return-value
+%patch55 -p1 -b .avoid-deadlock
 
 # nuke bundled code
 rm -rfv src/ext/{boost/,zlib/}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
 %{cmake} \
   -DBUILD_CONTRIBS_LIB:BOOL=ON \
   -DLIB_DESTINATION:PATH=%{_libdir} \
-  -DLUCENE_SYS_INCLUDES:PATH=%{_libdir} \
-  ..
-popd
+  -DLUCENE_SYS_INCLUDES:PATH=%{_libdir}
 
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 
 %check
@@ -140,6 +142,18 @@ time make -C %{_target_platform} test ARGS="--timeout 300 --output-on-failure" |
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.3.4-39.20130812.e8e3d20git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.3.3.4-38.20130812.e8e3d20.git
+- pull in some upstream fixes (PR, previous commit)
+- use latest %%cmake macros
+- s/define/global/
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 2.3.3.4-37.20130812.e8e3d20git
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.3.4-36.20130812.e8e3d20git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           python-dotenv
-Version:        0.13.0
-Release:        2%{?dist}
+Version:        0.14.0
+Release:        3%{?dist}
 Summary:        Add .env support to your Django/Flask apps in development and deployments
 
 License:        BSD
@@ -21,8 +21,8 @@ Reads the key/value pair from .env file and adds them to environment variable.
 
 %package -n     python3-dotenv
 Summary:        %{summary}
-Requires:       python3-click
-Requires:       python3-setuptools
+%{!?python_extras_subpkg:Requires: python3-click}
+%{?python_extras_subpkg:Recommends: python3-dotenv+cli}
 %{?python_provide:%python_provide python3-dotenv}
 
 %description -n python3-dotenv
@@ -44,20 +44,30 @@ sed -i 's/import mock/from unittest import mock/' tests/test_*.py
 
 
 %check
-export PATH=%{buildroot}%{_bindir}:$PATH
-export PYTHONPATH=%{buildroot}%{python3_sitelib}
-%{python3} -m pytest -v tests
+%pytest -v
 
 
 %files -n python3-dotenv
 %license LICENSE
 %doc README.md
-%{_bindir}/dotenv
 %{python3_sitelib}/dotenv/
 %{python3_sitelib}/python_dotenv-%{version}-py%{python3_version}.egg-info/
 
+%{?python_extras_subpkg:%{python_extras_subpkg -n python3-dotenv -i %{python3_sitelib}/*.egg-info cli}}
+%{_bindir}/dotenv
+
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Miro Hrončok <mhroncok@redhat.com> - 0.14.0-2
+- Add python-dotenv[cli] subpackage with /usr/bin/dotenv
+
+* Thu Jul 09 2020 Miro Hrončok <mhroncok@redhat.com> - 0.14.0-1
+- Update to 0.14.0
+- Fixes rhbz#1709002
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.13.0-2
 - Rebuilt for Python 3.9
 

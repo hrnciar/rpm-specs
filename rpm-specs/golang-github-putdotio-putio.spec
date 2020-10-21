@@ -3,7 +3,7 @@
 
 # https://github.com/putdotio/go-putio
 %global goipath         github.com/putdotio/go-putio
-%global commit          19b9c636c877741bdbc4a461dea101d871b09b3c
+Version:                1.3.2
 
 %gometa
 
@@ -14,8 +14,7 @@ Putio is a Go client library for accessing the Put.io API v2.}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.2%{?dist}
+Release:        1%{?dist}
 Summary:        Put.io Go API client
 
 License:        MIT
@@ -46,6 +45,12 @@ BuildRequires:  golang(golang.org/x/oauth2)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 00:53:02 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.3.2-1
+- Update to 1.3.2
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

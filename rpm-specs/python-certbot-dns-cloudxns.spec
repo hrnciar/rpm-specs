@@ -13,7 +13,7 @@
 %endif
 
 Name:           python-%{pypi_name}
-Version:        1.5.0
+Version:        1.9.0
 Release:        1%{?dist}
 Summary:        CloudXNS DNS Authenticator plugin for Certbot
 
@@ -141,11 +141,11 @@ rm -rf html/.{doctrees,buildinfo}
 
 %check
 %if %{with python2}
-%{__python2} setup.py test
+%{__python2} -m pytest
 %endif
 
 %if %{with python3}
-%{__python3} setup.py test
+%{__python3} -m pytest
 %endif
 
 %if %{with python2}
@@ -168,6 +168,21 @@ rm -rf html/.{doctrees,buildinfo}
 %endif
 
 %changelog
+* Thu Oct 08 2020 Nick Bebout <nb@fedoraproject.org> - 1.9.0-1
+- Update to 1.9.0
+
+* Tue Oct 06 2020 Nick Bebout <nb@fedoraproject.org> - 1.8.0-1
+- Update to 1.8.0
+
+* Sun Aug 16 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.7.0-1
+- Update to 1.7.0 (#1866065)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.6.0-1
+- Update to 1.6.0 (#1854618)
+
 * Sat Jun 06 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.5.0-1
 - Update to 1.5.0 (#1843205)
 

@@ -1,6 +1,6 @@
 Name:           perl-Plack
 Version:        1.0047
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Plack
@@ -138,6 +138,12 @@ t/Plack-Handler/apache2.t t/Plack-Handler/apache2-registry.t
 %{perl_vendorlib}/auto/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0047-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.0047-9
+- Perl 5.32 rebuild
+
 * Wed Mar 18 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.0047-8
 - Add perl(DirHandle) needed for build
 

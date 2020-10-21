@@ -5,7 +5,7 @@ Name: xorg-x11-%{pkgname}
 # NOTE: The Version field should be the version of the xsm tarball.
 Version: 1.0.4
 # Bump the release on rebuilds/bugfixes/etc.
-Release: 6%{?dist}
+Release: 7%{?dist}
 License: MIT
 URL: http://www.x.org
 
@@ -103,6 +103,9 @@ sed -i -e '/./,$!d' $RPM_BUILD_ROOT%{_bindir}/rstartd
 %config %{_sysconfdir}/X11/xsm/system.xsm
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -13,7 +13,7 @@
 
 Name:           %{fontname}-fonts
 Version:	1.1
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:	Dark Garden is a decorative outline font of unusual shape
 
 License:        GPLv2
@@ -69,6 +69,9 @@ install -Dm 0644 -p %{SOURCE2} \
 %{_datadir}/appdata/%{fontname}.metainfo.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

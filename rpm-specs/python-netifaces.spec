@@ -2,7 +2,7 @@
 
 Name:           python-netifaces
 Version:        0.10.6
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Python library to retrieve information about network interfaces 
 License:        MIT
 URL:            https://pypi.python.org/pypi/netifaces
@@ -44,6 +44,9 @@ from network interfaces.
 %{python3_sitearch}/%{pypi_name}*.so
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.6-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.10.6-11
 - Rebuilt for Python 3.9
 

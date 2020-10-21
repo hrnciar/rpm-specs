@@ -5,8 +5,8 @@
 %global crate cairo-rs
 
 Name:           rust-%{crate}
-Version:        0.8.1
-Release:        1%{?dist}
+Version:        0.9.1
+Release:        2%{?dist}
 Summary:        Rust bindings for the Cairo library
 
 # Upstream license specification: MIT
@@ -74,6 +74,18 @@ This package contains library source intended for building other packages
 which use "embed-lgpl-docs" feature of "%{crate}" crate.
 
 %files       -n %{name}+embed-lgpl-docs-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+freetype-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+freetype-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "freetype" feature of "%{crate}" crate.
+
+%files       -n %{name}+freetype-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %package     -n %{name}+glib-devel
@@ -172,6 +184,18 @@ which use "purge-lgpl-docs" feature of "%{crate}" crate.
 %files       -n %{name}+purge-lgpl-docs-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+script-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+script-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "script" feature of "%{crate}" crate.
+
+%files       -n %{name}+script-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+svg-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -263,6 +287,12 @@ which use "xlib" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.9.1-1
+- Update to 0.9.1
+
 * Thu Feb 20 2020 Josh Stone <jistone@redhat.com> - 0.8.1-1
 - Update to 0.8.1
 

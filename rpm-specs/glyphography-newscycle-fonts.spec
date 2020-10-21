@@ -1,5 +1,5 @@
 Version:        0.5.2
-Release:        3%{?dist}
+Release:        5%{?dist}
 URL:            https://launchpad.net/newscycle
 
 %global foundry           glyphography
@@ -46,6 +46,12 @@ rm -f *~ *.svg
 %fontfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Iñaki Úcar <iucar@fedoraproject.org> - 0.5.2-4
+- Fix path to fonts.dtd
+
 * Wed Feb 26 2020 Iñaki Úcar <iucar@fedoraproject.org> - 0.5.2-3
 - Add "glyphography" as foundry name, rename package
 

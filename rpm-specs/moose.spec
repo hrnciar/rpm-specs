@@ -1,10 +1,14 @@
+# for F < 33
+# If it isn't defined, undefine doesn't do anything, so no conditional required
+%undefine __cmake_in_source_build
+
 #global commit 0e12e41b52deb8ea746bc760cddd6e100ca5cfd8
 #global shortcommit %%(c=%{commit}; echo ${c:0:7})
 
 Name:           moose
-Version:        3.1.4
+Version:        3.1.5
 %global codename chamcham
-Release:        11%{?dist}%{?prerelease:.%{prerelease}}%{?commit:.git%{shortcommit}}
+Release:        4%{?dist}%{?prerelease:.%{prerelease}}%{?commit:.git%{shortcommit}}
 Summary:        Multiscale Neuroscience and Systems Biology Simulator
 License:        GPLv3
 URL:            http://moose.ncbs.res.in/
@@ -14,18 +18,17 @@ Source0:        https://github.com/BhallaLab/moose-core/archive/%{commit}.tar.gz
 Source0:        https://github.com/BhallaLab/moose-core/archive/v%{version}.tar.gz#/moose-core-%{version}.tar.gz
 %endif
 
-# https://github.com/BhallaLab/moose-core/pull/282
-Patch0001:      0001-Avoid-open-coded-strdup-that-cause-compilation-failu.patch
-Patch0002:      0002-Avoid-open-coded-strdup-that-causes-a-warning.patch
-Patch0003:      0003-Use-sys.executable-to-execute-test.-It-breaks-on-pyt.patch
-Patch0004:      0004-Do-not-try-to-access-position-1-in-string.patch
-
-# https://github.com/BhallaLab/moose-core/pull/375
-Patch0005:       https://github.com/BhallaLab/moose-core/pull/375/commits/137e348313436782f8cf5eccc8e707ebbdc07170.patch
+# Fix segfault on py3.9
+# https://github.com/BhallaLab/moose-core/pull/420
+Patch0:         c570f7c057f9c0ca7360c82a8932bcb0df222da9.patch
+Patch1:         665c532745987fb1c7a8fc2a9a57bffa330480b4.patch
+# ppc defines a different suffix which breaks the build
+Patch2:         0001-Use-.so-suffix-for-all-arches.patch
 
 ExcludeArch: s390x
 
 BuildRequires:  gcc-c++
+BuildRequires:  git-core
 BuildRequires:  make
 BuildRequires:  cmake
 BuildRequires:  rsync
@@ -72,11 +75,20 @@ Requires: python3-lxml
 This package contains the %{summary}.
 
 %prep
-%autosetup -p1 -n moose-core-%{version}
+%autosetup -n moose-core-%{version} -S git
+
+# Remove O3 flag set in CMakeLists
+sed -i 's/-O3//' CMakeLists.txt
 
 %global py_setup setup.cmake.py
 
 %build
+# On armv7 we get a failure with LTO.
+# Disable LTO for armv7
+%ifarch armv7hl
+%define _lto_cflags %{nil}
+%endif
+
 cmake_opts=(
         -DBUILD_SHARED_LIBS:BOOL=OFF
         -DCMAKE_SKIP_RPATH:BOOL=ON
@@ -90,20 +102,19 @@ cmake_opts=(
         -DPYTHON_EXECUTABLE=%{__python3}
 )
 
-mkdir -p build
-pushd build
 CXXFLAGS="%optflags" \
-%cmake .. "${cmake_opts[@]}"
-%make_build VERBOSE=1
-cd python
+%cmake "${cmake_opts[@]}"
+%cmake_build
+
+pushd %{__cmake_builddir}/python
 %py3_build
 popd
 
 %install
-install -vD build/moose.bin %{buildroot}%{_bindir}/moose
-install -vDt %{buildroot}%{_libdir}/ build/libmoose.so
+install -vD %{__cmake_builddir}/moose.bin %{buildroot}%{_bindir}/moose
+install -vDt %{buildroot}%{_libdir}/ %{__cmake_builddir}/libmoose.so
 
-pushd build/python
+pushd %{__cmake_builddir}/python
 %py3_install \--install-lib=%{python3_sitearch}
 # this is necessary for the dependency generator to work
 chmod +x %{buildroot}%{python3_sitearch}/moose/_moose*.so
@@ -112,9 +123,10 @@ popd
 %check
 checksec --file=%{buildroot}%{_bindir}/moose
 
-pushd build
+pushd %{__cmake_builddir}
 # test_streamer fails randomly when quitting moose every once in a while.
-ctest --output-on-failure -V -E test_streamer
+ctest --output-on-failure -V -E 'test_streamer'
+# ctest --output-on-failure -V -E 'test_streamer|test_pyrun'
 popd
 
 PYTHONPATH=%{buildroot}%{python3_sitearch} %{__python3} -c \
@@ -136,6 +148,34 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} %{__python3} -c \
 %doc README.md
 
 %changelog
+* Mon Aug 31 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.1.5-4
+- Undefine cmake macro for F < 33
+
+* Sat Aug 29 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.1.5-3
+- Update patch
+
+* Thu Aug 27 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.1.5-2
+- Add patch to fix ppc build
+- Disable lto on arm
+
+* Wed Aug 26 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.1.5-1
+- Update to 3.1.5
+- Use new cmake macros
+- Include patch to fix on Py3.9
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.4-15
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.4-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 3.1.4-13
+- Use __cmake_in_source_build
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 3.1.4-12
+- Rebuild for hdf5 1.10.6
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.1.4-11
 - Rebuilt for Python 3.9
 

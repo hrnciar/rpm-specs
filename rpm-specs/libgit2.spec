@@ -1,6 +1,6 @@
 Name:           libgit2
 Version:        1.0.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        C implementation of the Git core methods as a library with a solid API
 License:        GPLv2 with exceptions
 URL:            https://libgit2.org/
@@ -77,6 +77,9 @@ rm -vr deps
 %{_includedir}/git2/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.0.1-2
 - Fix removing untracked files by path in subdirectories
 

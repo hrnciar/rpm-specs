@@ -14,13 +14,14 @@
 %global httpd_pkg_cache_dir /var/cache/httpd/mod_auth_openidc
 
 Name:		mod_auth_openidc
-Version:	2.4.2.1
+Version:	2.4.4.1
 Release:	1%{?dist}
 Summary:	OpenID Connect auth module for Apache HTTP Server
 
 License:	ASL 2.0
 URL:		https://github.com/zmartzone/mod_auth_openidc
 Source0:	https://github.com/zmartzone/mod_auth_openidc/archive/v%{version}.tar.gz
+Patch0:         mod_auth_openidc-2.4.3-nonlto.patch
 
 BuildRequires:  gcc
 BuildRequires:	httpd-devel
@@ -41,6 +42,7 @@ an OpenID Connect Relying Party and/or OAuth 2.0 Resource Server.
 
 %prep
 %setup -q
+%patch0 -p1 -b .nonlto
 
 %build
 # workaround rpm-buildroot-usage
@@ -50,14 +52,15 @@ autoreconf
 %configure \
   --with-jq=/usr/lib64/ \
   %{?_with_hiredis} \
-  %{?_without_hiredis}
+  %{?_without_hiredis} \
+  --with-apxs2=%{_httpd_apxs}
 
 %{make_build}
 
 %check
 export MODULES_DIR=%{_httpd_moddir}
 export APXS2_OPTS='-S LIBEXECDIR=${MODULES_DIR}'
-%{make_build} test
+make test
 
 %install
 mkdir -p $RPM_BUILD_ROOT%{_httpd_moddir}
@@ -93,6 +96,28 @@ install -m 700 -d $RPM_BUILD_ROOT%{httpd_pkg_cache_dir}/cache
 %dir %attr(0700, apache, apache) %{httpd_pkg_cache_dir}/cache
 
 %changelog
+* Fri Sep  4 2020 Jakub Hrozek <jhrozek@redhat.com> - 2.4.4.1-1
+- New upstream version 2.4.4.1
+
+* Tue Sep  1 2020 Jakub Hrozek <jhrozek@redhat.com> - 2.4.4-1
+- New upstream version 2.4.4
+
+* Thu Aug 27 2020 Joe Orton <jorton@redhat.com> - 2.4.3-5
+- update to use correct apxs via _httpd_apxs macro
+
+* Thu Aug 27 2020 Joe Orton <jorton@redhat.com> - 2.4.3-4
+- work around LTO build failure
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Jakub Hrozek <jhrozek@redhat.com> - 2.4.3
+- New upstream version 2.4.3
+
 * Sun May 10 2020 Jakub Hrozek <jhrozek@redhat.com> - 2.4.2.1-1
 - New upstream version 2.4.2.1
 - Resolves: rhbz#1805104 - CVE-2019-20479 mod_auth_openidc: open redirect

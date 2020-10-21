@@ -1,6 +1,6 @@
 Name:           perl-List-AllUtils
-Version:        0.16
-Release:        2%{?dist}
+Version:        0.18
+Release:        1%{?dist}
 Summary:        Combines List::Util and List::SomeUtils
 # CODE_OF_CONDUCT.md:   CC-BY
 # lib/List/AllUtils.pm: Artistic 2.0
@@ -8,6 +8,7 @@ License:        Artistic 2.0 and CC-BY
 URL:            https://metacpan.org/release/List-AllUtils
 Source0:        https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/List-AllUtils-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -55,6 +56,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Mon Sep 07 2020 Petr Pisar <ppisar@redhat.com> - 0.18-1
+- 0.18 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.16-2
 - Perl 5.32 rebuild
 

@@ -1,27 +1,17 @@
-
 Summary: KDE Micro-Blogging Client
-Name: choqok
-Version: 1.6.0
-Release: 12%{?dist}
+Name:    choqok
+Version: 1.7.0
+Release: 2%{?dist}
 
 License: GPLv3
-URL: http://choqok.gnufolks.org/
-Source0: http://download.kde.org/stable/choqok/1.6/src/choqok-%{version}.tar.xz
+URL:     https://choqok.kde.org/
+Source0: https://download.kde.org/stable/%{name}/1.7/src/%{name}-%{version}.tar.xz
+Source1: %{name}.rpmlintrc
 
-## upstream patches
-Patch5: 0005-SVN_SILENT-made-messages-after-extraction.patch
-Patch6: 0006-GIT_SILENT-made-messages-after-extraction.patch
-Patch7: 0007-GIT_SILENT-made-messages-after-extraction.patch
-Patch9: 0009-Add-AppData-summary-and-update-description.patch
-Patch29: 0029-Do-not-hardcode-choqok-use-applicationName-instead.patch
-Patch31: 0031-Add-X-DocPath-to-settings-desktop-files.patch
-Patch46: 0046-Explicitly-call-KAboutData-setDesktopFileName.patch
-
-## upstreamable patches
-# see also https://ayoy.lighthouseapp.com/projects/32547/tickets/20-qoauth-qt4qt5-parallel-installability
-# FIXME/TODO: make more upstreamable to allow for both qoauth-qt5 and (old) qoauth ?
-Patch100: choqok-1.6.0-qoauth-qt5.patch
-Patch101: choqok-1.6.0-FTBFS-qmap.patch
+# PATCH-FIX-UPSTREAM
+Patch001: choqok-1.7.0-kde417193-Fix-retrieving-Twitter-conversations.patch
+Patch002: choqok-1.7.0-Link-to-the-original-post-for-retweets.patch
+Patch003: choqok-1.7.0-kde370260-twitter-Dont-overwrite-contents-of-retweets.patch
 
 BuildRequires: desktop-file-utils
 BuildRequires: gettext
@@ -52,7 +42,9 @@ BuildRequires: cmake(KF5WidgetsAddons)
 BuildRequires: cmake(KF5XmlGui)
 
 BuildRequires: cmake(Qca-qt5)
-BuildRequires: pkgconfig(qoauth-qt5)
+BuildRequires: qt5-qtnetworkauth-devel
+BuildRequires: kf5-purpose-devel
+BuildRequires: extra-cmake-modules
 
 # optional features
 BuildRequires: cmake(TelepathyQt5)
@@ -60,15 +52,14 @@ BuildRequires: cmake(KF5Attica)
 BuildRequires: cmake(KF5Parts)
 BuildRequires: cmake(KF5WebKit)
 
-# drop/omit -devel subpkg for now, upgrade path
-Obsoletes: choqok-devel < 1.6.0
-
 Requires: %{name}-libs%{?_isa} = %{version}-%{release}
 
 %description
 A Free/Open Source micro-blogging client for K Desktop Environment.
 The name comes from an ancient Persian word, which means Sparrow!
-Choqok currently supports Twitter.com and Identi.ca services.
+Choqok currently supports:
+Twitter, Friendica, Mastodon social, Pump.io network, GNU social
+and Open Collaboration Services.
 
 %package libs
 Summary: Runtime libraries for %{name}
@@ -79,45 +70,27 @@ Requires: %{name} = %{version}-%{release}
 %package devel
 Summary:  Development files for %{name}
 Requires: %{name}-libs%{?_isa} = %{version}-%{release}
-Requires: kdelibs4-devel
 %description devel
 %{summary}
-
 
 %prep
 %autosetup -p1
 
-
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
-
+%{cmake_kf5}
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --with-html
-
-## unpackaged files
-rm -fv %{buildroot}%{_kf5_libdir}/lib*helper.so
-# omit -devel stuff (for now)
-rm -frv %{buildroot}%{_includedir}/choqok/
-rm -fv %{buildroot}%{_kf5_libdir}/libchoqok.so
-# this is bogus anyway, wrong path --rex
-rm -fv %{buildroot}%{_kf5_datadir}/cmake/modules/FindChoqok.cmake
-
 
 %check
 appstream-util validate-relax --nonet %{buildroot}%{_kf5_metainfodir}/org.kde.choqok.appdata.xml
 desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.choqok.desktop
 
-
 %files -f %{name}.lang
-%doc README AUTHORS changelog TODO
+%doc README AUTHORS changelog
 %license COPYING
 %{_kf5_bindir}/choqok
 %{_kf5_qtplugindir}/choqok_*.so
@@ -129,9 +102,10 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.choqok.de
 %{_kf5_datadir}/config.kcfg/*.kcfg
 %{_kf5_datadir}/kservices5/choqok_*.desktop
 %{_kf5_datadir}/choqok/
-%{_kf5_datadir}/knotifications5/choqok/
+%{_kf5_datadir}/knotifications5/choqok.notifyrc
 %{_kf5_datadir}/kxmlgui5/*choqok*/
 %{_kf5_plugindir}/parts/konqchoqokplugin.so
+%{_kf5_plugindir}/purpose/purposeplugin.so
 %{_kf5_datadir}/kservices5/ServiceMenus/choqok_*.desktop
 %{_kf5_datadir}/kservices5/konqchoqok.desktop
 %{_kf5_datadir}/kservicetypes5/choqok*.desktop
@@ -140,18 +114,23 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.choqok.de
 
 %files libs
 %{_kf5_libdir}/libchoqok.so.*
-%{_kf5_libdir}/libgnusocialapihelper.so.1*
-%{_kf5_libdir}/libtwitterapihelper.so.1*
+%{_kf5_libdir}/libgnusocialapihelper.so.*
+%{_kf5_libdir}/libtwitterapihelper.so.*
 
-%if 0
 %files devel
 %{_includedir}/choqok/
 %{_kf5_libdir}/libchoqok.so
 %{_kf5_datadir}/cmake/modules/FindChoqok.cmake
-%endif
-
+%{_kf5_libdir}/libgnusocialapihelper.so
+%{_kf5_libdir}/libtwitterapihelper.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Gerald Cox <gbcox@fedoraproject.org> - 1.7.0-1
+- Upstream release rhbz#1851805
+
 * Mon Feb 17 2020 Than Ngo <than@redhat.com> - 1.6.0-12
 - Fixed FTBFS
 

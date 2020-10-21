@@ -3,7 +3,7 @@
 
 Name:           python-versiontools
 Version:        1.9.1
-Release:        26%{?dist}
+Release:        27%{?dist}
 Summary:        Smart replacement for plain tuple used in __version__
 
 License:        LGPLv3
@@ -64,6 +64,9 @@ PYTHONPATH="${PWD}" %{__python3} setup.py nosetests
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.9.1-26
 - Rebuilt for Python 3.9
 

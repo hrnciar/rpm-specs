@@ -8,7 +8,7 @@
 
 Name:       %{client}
 Version:    1.1.0
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    OpenStack Tacker client
 License:    ASL 2.0
 URL:        http://launchpad.net/%{client}/
@@ -162,6 +162,9 @@ PYTHON=%{__python3} stestr --test-path $OS_TEST_PATH run
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Joel Capitao <jcapitao@redhat.com> 1.1.0-1
 - Update to upstream version 1.1.0
 

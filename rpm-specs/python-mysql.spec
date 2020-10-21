@@ -3,7 +3,7 @@
 Summary:  An interface to MySQL
 Name:     python-mysql
 Version:  1.4.6
-Release:  3%{?dist}
+Release:  5%{?dist}
 License:  GPLv2+
 URL:      https://github.com/PyMySQL/mysqlclient-python
 
@@ -81,7 +81,7 @@ Python3 interface to MySQL, built for the CPython debug runtime
 %doc README.md doc/*
 %license LICENSE
 %dir %{python3_sitearch}/MySQLdb
-%{python3_sitearch}/MySQLdb/_mysql.cpython-3?*.so
+%{python3_sitearch}/MySQLdb/_mysql.cpython-%{python3_version_nodots}-*.so
 %{python3_sitearch}/MySQLdb/*.py
 %dir %{python3_sitearch}/MySQLdb/__pycache__
 %{python3_sitearch}/MySQLdb/__pycache__/*.pyc
@@ -93,10 +93,16 @@ Python3 interface to MySQL, built for the CPython debug runtime
 
 %if %{with python3_debug}
 %files -n python3-mysql-debug
-%{python3_sitearch}/MySQLdb/_mysql.cpython-3?d*.so
+%{python3_sitearch}/MySQLdb/_mysql.cpython-%{python3_version_nodots}d-*.so
 %endif # with debug
 
 %changelog
+* Fri Aug 28 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.4.6-5
+- Do not put debug version into the main package
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.6-3
 - Rebuilt for Python 3.9
 

@@ -2,7 +2,7 @@
 
 Name:           python-%{mod_name}
 Version:        0.4
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Setuptools plugin for Mercurial version control
 
 License:        GPLv2
@@ -55,6 +55,9 @@ Python 3 version.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4-14
 - Rebuilt for Python 3.9
 

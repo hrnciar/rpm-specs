@@ -1,6 +1,6 @@
 Name: rancid
 Version: 3.12
-Release: 1%{?dist}
+Release: 3%{?dist}
 Summary: Really Awesome New Cisco confIg Differ
 
 License: BSD with advertising
@@ -112,6 +112,13 @@ exit 0
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.12-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Charles R. Anderson <cra@wpi.edu> - 3.12-1
 - Update to 3.12
 

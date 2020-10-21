@@ -3,7 +3,7 @@
 
 Name: reiserfs-utils
 Version: 3.6.27
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: Tools for creating, repairing, and debugging ReiserFS filesystems
 URL: http://ftp.kernel.org/pub/linux/utils/fs/reiserfs/
 Source0: https://www.kernel.org/pub/linux/kernel/people/jeffm/reiserfsprogs/%{version}/reiserfsprogs-%{version}.tar.xz
@@ -59,6 +59,9 @@ install -m644 mkreiserfs/mkreiserfs.8 $RPM_BUILD_ROOT%{_mandir}/man8
 %{_libdir}/pkgconfig/reiserfscore.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:3.6.27-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:3.6.27-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

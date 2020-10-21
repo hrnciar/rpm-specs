@@ -2,7 +2,7 @@
 
 Name: libetonyek
 Version: 0.1.9
-Release: 7%{?dist}
+Release: 9%{?dist}
 Summary: A library for import of Apple iWork documents
 
 License: MPLv2.0
@@ -63,10 +63,10 @@ sed -i \
     -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -e 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' \
     libtool
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 rm -f %{buildroot}/%{_libdir}/*.la
 # we install API docs directly from build
 rm -rf %{buildroot}/%{_docdir}/%{name}
@@ -83,7 +83,7 @@ install -m 0644 key2*.1 numbers2*.1 pages2*.1 %{buildroot}/%{_mandir}/man1
 
 %check
 export LD_LIBRARY_PATH=%{buildroot}/%{_libdir}${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-if ! make %{?_smp_mflags} check; then
+if ! %make_build check; then
     cat src/test/*.log
     exit 1
 fi
@@ -124,6 +124,13 @@ fi
 %{_mandir}/man1/pages2text.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.9-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 0.1.9-8
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Thu Jun 04 2020 David Tardon <dtardon@redhat.com> - 0.1.9-7
 - fix build with latest boost
 

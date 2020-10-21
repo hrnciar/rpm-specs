@@ -1,6 +1,6 @@
 Name:           perl-Mojolicious-Plugin-AssetPack
-Version:        2.08
-Release:        5%{?dist}
+Version:        2.09
+Release:        1%{?dist}
 Summary:        Compress and convert CSS, Less, Sass, JavaScript and CoffeeScript files
 License:        Artistic 2.0
 
@@ -10,7 +10,6 @@ Source0:        https://cpan.metacpan.org/authors/id/J/JH/JHTHORSEN/Mojolicious-
 BuildArch:      noarch
 BuildRequires:  coffee-script
 BuildRequires:  make
-BuildRequires:  nodejs-less
 BuildRequires:  perl-interpreter
 BuildRequires:  perl-generators
 BuildRequires:  perl(constant)
@@ -83,6 +82,13 @@ make test
 %{_mandir}/man3/Mojolicious*
 
 %changelog
+* Sun Oct 04 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 2.09-1
+- Update to 2.09 (#1876287)
+- Drop nodejs-less dependency, no longer in Fedora (#1884161)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.08-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.08-5
 - Perl 5.32 rebuild
 

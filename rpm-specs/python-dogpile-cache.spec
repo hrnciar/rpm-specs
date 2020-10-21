@@ -22,13 +22,19 @@ dogpile.cache in a more efficient and succinct manner, and all the cruft\
 heap.
 
 Name:               python-dogpile-cache
-Version:            0.9.0
-Release:            3%{?dist}
+Version:            1.0.2
+Release:            1%{?dist}
 Summary:            %{sum}
 
 License:            MIT
 URL:                https://pypi.io/project/dogpile.cache
 Source0:            https://pypi.io/packages/source/d/%{modname}/%{modname}-%{version}.tar.gz
+
+#
+# It is unclear why this is pinned at 3.0.0 upstream
+# So remove the constraint for now until the fedora stevedore package
+# is updated
+Patch1:             dogpile.cache-1.0.2-older-stevedore.patch
 
 BuildArch:          noarch
 
@@ -38,6 +44,7 @@ BuildRequires:      python3-mako
 BuildRequires:      python3-mock
 BuildRequires:      python3-pytest-cov
 BuildRequires:      python3-setuptools
+BuildRequires:      python3-stevedore
 
 
 %description
@@ -60,6 +67,7 @@ Obsoletes: python3-dogpile-core < 0.4.1-12
 
 %prep
 %setup -q -n %{modname}-%{version}
+%patch1 -p1
 
 # Remove bundled egg-info in case it exists
 rm -rf %{modname}.egg-info
@@ -82,6 +90,17 @@ rm -rf %{modname}.egg-info
 %{python3_sitelib}/%{modname}-%{version}-*
 
 %changelog
+* Sat Oct 10 2020 Kevin Fenzi <kevin@scrye.com> - 1.0.2-1
+- Update to 1.0.2.
+- Add patch to use older python-stevedore package in fedora for now for tests.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.0-3
 - Rebuilt for Python 3.9
 

@@ -4,9 +4,11 @@
 # https://github.com/kubernetes-sigs/structured-merge-diff
 %global goipath         sigs.k8s.io/structured-merge-diff
 %global forgeurl        https://github.com/kubernetes-sigs/structured-merge-diff
-Version:                3.0.0
+Version:                4.0.1
 
 %gometa
+
+%global goaltipaths     sigs.k8s.io/structured-merge-diff/v4
 
 %global common_description %{expand:
 This package contains code which implements the Kubernetes "apply" operation.}
@@ -51,6 +53,15 @@ BuildRequires:  golang(github.com/google/gofuzz)
 %gopkgfiles
 
 %changelog
+* Sat Sep 19 20:18:36 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 4.0.1-1
+- Update to 4.0.1
+
+* Tue Aug 18 01:23:38 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.0.0-3
+- Add alternate import path
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 12 21:31:55 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.0.0-1
 - Update to 3.0.0
 

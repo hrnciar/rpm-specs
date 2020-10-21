@@ -16,7 +16,7 @@ RRID:SCR_001376.}
 
 Name:           python-%{pypi_name}
 Version:        1.4.4
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        File-format to store metadata in an organized way
 
 License:        BSD
@@ -32,6 +32,7 @@ BuildArch:      noarch
 %package -n python3-%{pypi_name}
 Summary:        %{summary}
 BuildRequires:  python3-devel
+BuildRequires:  %{py3_dist setuptools}
 
 %if %{with tests}
 BuildRequires:  %{py3_dist pytest}
@@ -93,6 +94,12 @@ PYTHONPATH=. pytest-%{python3_version} --deselect test/test_version_converter.py
 %doc html examples
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Aniket Pradhan <major AT fedoraproject DOT org> - 1.4.4-3
+- Added setuptools to BuildRequires
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.4-2
 - Rebuilt for Python 3.9
 

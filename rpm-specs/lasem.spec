@@ -2,7 +2,7 @@
 
 Name:           lasem
 Version:        0.4.3
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        A library for rendering SVG and Mathml, implementing a DOM like API
 
 License:        LGPLv2+ and GPLv2+
@@ -82,6 +82,9 @@ rm -rf $RPM_BUILD_ROOT%{_prefix}/doc
 %{_mandir}/man1/%{name}-render-%{apiver}.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.3-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.3-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

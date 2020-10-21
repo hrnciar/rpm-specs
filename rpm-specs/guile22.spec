@@ -7,7 +7,7 @@
 Summary: A GNU implementation of Scheme for application extensibility
 Name: guile22
 Version: 2.2.6
-Release: 4%{?dist}
+Release: 6%{?dist}
 Source: ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz
 URL: http://www.gnu.org/software/guile/
 License: LGPLv3+
@@ -112,10 +112,6 @@ rm $RPM_BUILD_ROOT%{_libdir}/guile/%{mver}/extensions/guile-readline.la
 make %{?_smp_mflags} check
 
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
-
-
 %triggerin -- slib >= 3b4-1
 rm -f %{_datadir}/guile/site/%{mver}/slibcat
 export SCHEME_LIBRARY_PATH=%{_datadir}/slib/
@@ -171,6 +167,12 @@ fi
 
 
 %changelog
+* Wed Aug 19 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 2.2.6-6
+- Drop useless ldconfig scriptlets
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.6-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.6-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

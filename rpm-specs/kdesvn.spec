@@ -1,6 +1,7 @@
+%undefine __cmake_in_source_build
 Name:           kdesvn
 Version:        2.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Subversion client for KDE
 
 License:        GPLv2+
@@ -51,17 +52,12 @@ for konqueror and/or kate will made.
 # erase invalid tag order (2.0 before 2.1)
 sed -i -e '/release version="2.0" date="2016-12-10"/d' src/org.kde.kdesvn.appdata.xml
 
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-    %cmake_kf5 ..
-    %make_build
-popd
+%cmake_kf5
+%cmake_build
 
 
 %install
-pushd %{_target_platform}
-    %make_install
-popd
+%cmake_install
 
 
 %find_lang %{name} --with-html
@@ -98,6 +94,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 20 2020 Marie Loise Nolden <loise@kde.org> - 2.1.0-1
 - Update to 2.1.0-1
 

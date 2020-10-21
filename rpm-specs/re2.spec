@@ -4,7 +4,7 @@
 Name:           re2
 Version:        %{shortver}
 Epoch:          1
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        C++ fast alternative to backtracking RE engines
 License:        BSD
 URL:            http://github.com/google/%{name}/
@@ -51,7 +51,7 @@ you will need to install %{name}-devel.
 # http://groups.google.com/forum/?fromgroups=#!topic/re2-dev/bkUDtO5l6Lo
 # The RPM macro for the linker flags does not exist on EPEL
 %{!?__global_ldflags: %global __global_ldflags -Wl,-z,relro}
-CXXFLAGS="${CXXFLAGS:-%optflags} -pthread -std=c++11"
+CXXFLAGS="${CXXFLAGS:-%optflags} -pthread"
 LDFLAGS="${LDFLAGS:-%__global_ldflags} -pthread"
 
 %make_build \
@@ -85,6 +85,12 @@ rm -fv %{buildroot}%{_libdir}/libre2.a
 %{_libdir}/pkgconfig/re2.pc
 
 %changelog
+* Wed Aug 26 2020 Jeff Law <law@redhat.com> - 1:20190801-6
+- No longer force C++11
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:20190801-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:20190801-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

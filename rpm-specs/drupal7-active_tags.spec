@@ -5,7 +5,7 @@
 
 Name:          drupal7-%{module}
 Version:       2.0
-Release:       0.18%{?pre_release:.%{pre_release}}%{?dist}
+Release:       0.19%{?pre_release:.%{pre_release}}%{?dist}
 Summary:       Enhanced tag widget for free tagging vocabularies
 
 License:       GPLv2+
@@ -52,6 +52,9 @@ cp -pr * %{buildroot}%{drupal7_modules}/%{module}/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-0.19.alpha1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.0-0.18.alpha1
 - Bump build requires drupal7-rpmbuild to ">= 7.70-2" to fix F32+ auto provides
 

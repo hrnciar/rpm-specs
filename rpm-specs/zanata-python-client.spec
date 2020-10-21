@@ -1,6 +1,6 @@
 Name:          zanata-python-client
 Version:       1.5.3
-Release:       6%{?dist}
+Release:       7%{?dist}
 Summary:       Python3 Client for Zanata Server
 License:       LGPLv2+
 URL:           http://zanata.org
@@ -47,6 +47,9 @@ rm -rf $RPM_BUILD_ROOT/%{_docdir}
 %{python3_sitelib}/zanata_python_client-%{version}-py3.?.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5.3-6
 - Rebuilt for Python 3.9
 

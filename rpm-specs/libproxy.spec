@@ -4,7 +4,7 @@
 
 Name:           libproxy
 Version:        0.4.15
-Release:        19%{?dist}
+Release:        27%{?dist}
 Summary:        A library handling all the details of proxy configuration
 
 License:        LGPLv2+
@@ -23,6 +23,14 @@ Patch3:         libproxy-0.4.15-mozjs52.patch
 Patch4:         libproxy-0.4.15-mozjs60.patch
 # https://github.com/libproxy/libproxy/pull/106
 Patch5:         libproxy-0.4.15-python39.patch
+# https://github.com/libproxy/libproxy/pull/109
+Patch6:         libproxy-0.4.15-mozjs68.patch
+# https://github.com/libproxy/libproxy/pull/118
+Patch7:         libproxy-0.4.15-mozjs-use-after-free.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=1880350
+Patch8:         libproxy-0.4.15-fix-CVE-2020-25219.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=1883584
+Patch9:         libproxy-0.4.15-fix-pac-buffer-overflow.patch
 
 BuildRequires:  cmake >= 2.6.0
 BuildRequires:  gcc-c++
@@ -31,8 +39,6 @@ BuildRequires:  libmodman-devel >= 2.0.1
 %if ! 0%{?bootstrap}
 # gnome
 BuildRequires:  pkgconfig(gio-2.0) >= 2.26
-# mozjs
-BuildRequires:  pkgconfig(mozjs-60)
 # NetworkManager
 BuildRequires:  pkgconfig(libnm)
 # pacrunner (and NetworkManager)
@@ -63,7 +69,7 @@ libproxy offers the following features:
     * only 3 functions in the stable external API
     * dynamic adjustment to changing network topology
     * a standard way of dealing with proxy settings across all scenarios
-    * a sublime sense of joy and accomplishment 
+    * a sublime sense of joy and accomplishment
 
 
 %package        bin
@@ -98,14 +104,6 @@ Requires:       /usr/bin/kreadconfig5
 %description    kde
 The %{name}-kde package contains the %{name} plugin for kde.
 
-%package        mozjs
-Summary:        Plugin for %{name} and mozjs
-Requires:       %{name}%{?_isa} = %{version}-%{release}
-Provides:       %{name}-pac = %{version}-%{release}
-
-%description    mozjs
-The %{name}-mozjs package contains the %{name} plugin for mozjs.
-
 %package        networkmanager
 Summary:        Plugin for %{name} and networkmanager
 Requires:       %{name}%{?_isa} = %{version}-%{release}
@@ -118,6 +116,7 @@ for networkmanager.
 Summary:        Plugin for %{name} and webkitgtk3
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Provides:       %{name}-pac = %{version}-%{release}
+Obsoletes:      %{name}-mozjs <= %{version}-%{release}
 
 %description    webkitgtk4
 The %{name}-webkitgtk4 package contains the %{name} plugin for
@@ -148,25 +147,27 @@ developing applications that use %{name}.
 
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %{cmake} \
   -DMODULE_INSTALL_DIR=%{_libdir}/%{name}/%{version}/modules \
+  -DBIPR=OFF \
   -DWITH_PERL=OFF \
 %if ! 0%{?bootstrap}
   -DWITH_GNOME3=ON \
   -DWITH_PYTHON2=OFF \
   -DWITH_PYTHON3=ON \
   -DWITH_WEBKIT3=ON \
-  -DWITH_MOZJS=ON \
+  -DWITH_MOZJS=OFF \
 %else
   -DWITH_PYTHON2=OFF \
   -DWITH_PYTHON3=OFF \
 %endif
    .
-%make_build
+%cmake_build
 
 
 %install
-%make_install INSTALL="install -p"
+%cmake_install
 
 #In case all modules are disabled
 mkdir -p %{buildroot}%{_libdir}/%{name}/%{version}/modules
@@ -176,12 +177,12 @@ install -Dpm 0644 %{SOURCE1} %{buildroot}/%{_mandir}/man1/proxy.1
 
 
 %check
-make test
+%ctest
 
 %ldconfig_scriptlets
 
 
-%files 
+%files
 %doc AUTHORS README
 %license COPYING
 %{_libdir}/*.so.*
@@ -205,9 +206,6 @@ make test
 %files kde
 %{_libdir}/%{name}/%{version}/modules/config_kde.so
 
-%files mozjs
-%{_libdir}/%{name}/%{version}/modules/pacrunner_mozjs.so
-
 %files networkmanager
 %{_libdir}/%{name}/%{version}/modules/network_networkmanager.so
 
@@ -226,6 +224,32 @@ make test
 
 
 %changelog
+* Tue Oct 06 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 0.4.15-27
+- Disable mozjs backend by default, obsolete it by webkit subpackage
+
+* Tue Sep 29 2020 David King <amigadave@amigadave.com> - 0.4.15-26
+- Fix PAC buffer overflow (#1883584)
+
+* Fri Sep 18 2020 David King <amigadave@amigadave.com> - 0.4.15-25
+- Fix CVE-2020-25219 (#1880350)
+
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 0.4.15-24
+- Force C++14 as this code is not C++17 ready
+
+* Tue Aug 04 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 0.4.15-23
+- build with mozjs68
+- backport use after free fix for mozjs backend
+
+* Tue Aug 04 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 0.4.15-22
+- Fix build by switching to cmake macros instead of make
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.15-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.15-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.15-19
 - Rebuilt for Python 3.9
 
@@ -451,7 +475,7 @@ make test
 - Update to 0.3.0
 
 * Thu Sep 17 2009 kwizart < kwizart at gmail.com > - 0.2.3-12
-- Remove Requirement of %%{name}-pac virtual provides 
+- Remove Requirement of %%{name}-pac virtual provides
   from the main package - #524043
 
 * Sat Jul 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.2.3-11
@@ -466,7 +490,7 @@ make test
 
 * Thu Jan 22 2009 kwizart < kwizart at gmail.com > - 0.2.3-8
 - Merge NetworkManager module into the main libproxy package
-- Main Requires the -python and -bin subpackage 
+- Main Requires the -python and -bin subpackage
  (splitted for multilibs compliance).
 
 * Fri Oct 24 2008 kwizart < kwizart at gmail.com > - 0.2.3-7
@@ -493,7 +517,7 @@ make test
 - Add Requires: gecko-libs >= %%{gecko_version}
 - Fix some descriptions
 - Add plugin-webkit package
- 
+
 * Fri Jul 11 2008 kwizart < kwizart at gmail.com > - 0.2.3-1
 - Convert to Fedora spec
 

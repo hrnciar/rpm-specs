@@ -1,4 +1,4 @@
-%global _hardened_build 1
+%undefine __cmake_in_source_build
 %global __provides_exclude_from ^%{_libdir}/weechat/plugins/.*$
 
 %if %{?_pkgdocdir:1}0
@@ -13,8 +13,8 @@
 %endif
 
 Name:      weechat
-Version:   2.8
-Release:   3%{?dist}
+Version:   2.9
+Release:   2%{?dist}
 Summary:   Portable, fast, light and extensible IRC client
 Group:     Applications/Communications
 URL:       http://weechat.org
@@ -36,7 +36,11 @@ BuildRequires: docbook-style-xsl
 BuildRequires: enchant-devel
 BuildRequires: gettext
 BuildRequires: gnutls-devel
+%if 0%{?fedora} >= 30 || 0%{?rhel} > 8
+BuildRequires: guile22-devel
+%else
 BuildRequires: guile-devel
+%endif
 BuildRequires: libcurl-devel
 BuildRequires: libgcrypt-devel
 BuildRequires: lua-devel
@@ -61,7 +65,13 @@ BuildRequires: zlib-devel
 BuildRequires: cmake3
 %endif
 
-Requires:       hicolor-icon-theme
+Requires:      hicolor-icon-theme
+
+%if 0%{?el8}
+# enchant-devel from AppStream is not available on s390x
+# bz# 1869383
+ExcludeArch:   s390x
+%endif
 
 %description
 WeeChat (Wee Enhanced Environment for Chat) is a portable, fast, light and
@@ -90,8 +100,6 @@ sed -i 's/NAMES python3.7/NAMES python%{python3_version}m python%{python3_versio
 
 
 %build
-mkdir build
-pushd build
 %cmake3 \
   -DPREFIX=%{_prefix} \
   -DLIBDIR=%{_libdir} \
@@ -107,16 +115,12 @@ pushd build
 %endif
   -DENABLE_JAVASCRIPT=OFF \
   -DCA_FILE=/etc/pki/tls/certs/ca-bundle.crt \
-  ..
-%make_build VERBOSE=1
-popd
+  %{nil}
+%cmake_build
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
-pushd build
-%make_install
-popd
+%cmake_install
 
 %find_lang %name
 
@@ -157,6 +161,15 @@ popd
 
 
 %changelog
+* Mon Sep 14 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2.9-2
+- Use guile 2.2 where possible
+
+* Mon Aug 17 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 2.9-1
+- Update to 2.9
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.8-3
 - Perl 5.32 rebuild
 

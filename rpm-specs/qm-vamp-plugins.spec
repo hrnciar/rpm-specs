@@ -1,6 +1,12 @@
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 Name:           qm-vamp-plugins
 Version:        1.7.1
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        Vamp audio feature extraction plugin
 
 License:        GPLv2+
@@ -15,7 +21,7 @@ Patch0:         qm-vamp-plugins-build.patch
 # (not intended for upstream)
 Patch1:         qm-vamp-plugins-unbundle.patch
 
-BuildRequires:  atlas-devel
+BuildRequires:  %{blaslib}-devel
 BuildRequires:  gcc-c++
 BuildRequires:  kiss-fft-static
 BuildRequires:  qm-dsp-static
@@ -47,13 +53,6 @@ rm -rf qm-dsp
 
 
 %build
-# atlas libraries
-%if 0%{?rhel} >= 7 || 0%{?fedora}
-ATLAS_LIBS="-L%{_libdir}/atlas -ltatlas"
-%else
-ATLAS_LIBS="-L%{_libdir}/atlas -llapack -lcblas"
-%endif
-
 # extra cflags used in upstream
 %ifarch %{ix86}
 EXTRA_CFLAGS="-msse -mfpmath=sse"
@@ -64,7 +63,7 @@ EXTRA_CFLAGS="-msse -msse2 -mfpmath=sse"
 
 CFLAGS="-I%{_includedir}/qm-dsp $EXTRA_CFLAGS %{?optflags}" \
 LDFLAGS="%{?__global_ldflags}" \
-ATLAS_LIBS="$ATLAS_LIBS" \
+BLAS_LIBS="-l%{blaslib}" \
 make %{?_smp_mflags}
 
 
@@ -84,6 +83,12 @@ install -p -m 0755 qm-vamp-plugins.so %{buildroot}%{_libdir}/vamp/
 
 
 %changelog
+* Sun Aug 16 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.7.1-13
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

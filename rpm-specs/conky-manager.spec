@@ -3,7 +3,7 @@
 Summary:		Conky scripts manager
 Name:			conky-manager
 Version:		2.3.4
-Release:		11%{?dist}
+Release:		12%{?dist}
 License:		GPLv3+
 URL:			http://teejeetech.blogspot.in/p/conky-manager.html
 Source0:		https://launchpad.net/~teejee2008/+archive/ppa/+files/%{name}_%{version}%{build_no}.tar.xz
@@ -54,6 +54,9 @@ desktop-file-install \
 %{_datadir}/conky-manager
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.4-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.4-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

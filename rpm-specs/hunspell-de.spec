@@ -2,7 +2,7 @@ Name: hunspell-de
 Summary: German hunspell dictionaries
 %global upstreamid 20161207
 Version: 0.%{upstreamid}
-Release: 5%{?dist}
+Release: 6%{?dist}
 Source: https://www.j3e.de/ispell/igerman98/dict/igerman98-%{upstreamid}.tar.bz2
 URL: https://www.j3e.de/ispell/igerman98
 License: GPLv2 or GPLv3
@@ -59,6 +59,9 @@ popd
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20161207-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20161207-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

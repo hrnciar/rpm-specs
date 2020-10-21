@@ -39,9 +39,9 @@
 %global katalocalstatecachedir  %{_localstatedir}/cache/kata-containers
 
 
-Version: 1.11.0
+Version: 1.11.1
 Name: kata-agent
-Release: 1%{?rcrel}%{?dist}
+Release: 1%{?rcrel}%{?dist}.1
 License: ASL 2.0
 Summary: Kata guest agent
 URL: https://%{download}
@@ -144,6 +144,12 @@ touch kata-agent
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.1-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Pavel Mores <pmores@redhat.com> - 1.11.1-1
+- Update to version 1.11.1
+
 * Fri May 08 2020 Cole Robinson <crobinso@redhat.com> - 1.11.0-1
 - Update to version 1.11.0
 

@@ -1,8 +1,9 @@
+%undefine __cmake_in_source_build
 %global framework kinit
 %global rpm_macros_dir %(d=%{_rpmconfigdir}/macros.d; [ -d $d ] || d=%{_sysconfdir}/rpm; echo $d)
 
 Name:           kf5-%{framework}
-Version: 5.71.0
+Version: 5.75.0
 Release: 1%{?dist}
 Summary:        KDE Frameworks 5 tier 3 solution for process launching
 
@@ -60,16 +61,12 @@ developing applications that use %{name}.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang kinit5_qt --with-man --with-qt --all-name
 
@@ -82,7 +79,7 @@ install -p -m644 -D %{SOURCE10} \
 
 %files -f kinit5_qt.lang
 %doc README.md
-%license COPYING.LIB
+%license LICENSES/*.txt
 %{_kf5_datadir}/qlogging-categories5/%{framework}.*
 %{_kf5_bindir}/*
 %{_kf5_libdir}/libkdeinit5_klauncher.so
@@ -96,6 +93,21 @@ install -p -m644 -D %{SOURCE10} \
 
 
 %changelog
+* Wed Oct 14 09:56:56 CDT 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.75.0-1
+- 5.75.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.74.0-1
+- 5.74.0
+
+* Mon Aug 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.73.0-1
+- 5.73.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.72.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-1
+- 5.72.0
+
 * Tue Jun 16 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.71.0-1
 - 5.71.0
 

@@ -1,6 +1,6 @@
 Name:		ndctl
-Version:	68
-Release:	2%{?dist}
+Version:	70.1
+Release:	1%{?dist}
 Summary:	Manage "libnvdimm" subsystem devices (Non-volatile Memory)
 License:	GPLv2
 Url:		https://github.com/pmem/ndctl
@@ -9,7 +9,12 @@ Source0:	https://github.com/pmem/%{name}/archive/v%{version}.tar.gz#/%{name}-%{v
 Requires:	ndctl-libs%{?_isa} = %{version}-%{release}
 Requires:	daxctl-libs%{?_isa} = %{version}-%{release}
 BuildRequires:	autoconf
+%if 0%{?rhel} < 9
+BuildRequires:	asciidoc
+%define asciidoc --disable-asciidoctor
+%else
 BuildRequires:	rubygem-asciidoctor
+%endif
 BuildRequires:	xmlto
 BuildRequires:	automake
 BuildRequires:	libtool
@@ -86,7 +91,7 @@ control API for these devices.
 %build
 echo %{version} > version
 ./autogen.sh
-%configure --disable-static --disable-silent-rules
+%configure --disable-static --disable-silent-rules %{?asciidoc}
 make %{?_smp_mflags}
 
 %install
@@ -143,6 +148,18 @@ make check
 
 
 %changelog
+* Sat Oct 10 2020 Vishal Verma <vishal.l.verma@intel.com> - 70.1-1
+- release v70.1
+
+* Tue Oct 06 2020 Vishal Verma <vishal@stellar.sh> - 70-1
+- release v70
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 69-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Vishal Verma <vishal.l.verma@intel.com> - 69-1
+- release v69
+
 * Tue Apr 21 2020 Björn Esser <besser82@fedoraproject.org> - 68-2
 - Rebuild (json-c)
 

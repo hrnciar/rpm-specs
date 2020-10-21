@@ -1,5 +1,5 @@
 Name:          muffin
-Version:       4.6.2
+Version:       4.6.3
 Release:       1%{?dist}
 Summary:       Window and compositing manager based on Clutter
 
@@ -53,6 +53,11 @@ utilities for testing Metacity/Muffin themes.
 NOCONFIGURE=1 ./autogen.sh
 
 %build
+# gobject introspection does not work with LTO.  There is an effort to fix this
+# in the appropriate project upstreams, so hopefully LTO can be enabled someday
+# Disable LTO.
+%define _lto_cflags %{nil}
+
 %configure --disable-static \
            --enable-startup-notification=yes \
            --disable-silent-rules \
@@ -118,6 +123,15 @@ desktop-file-install --delete-original \
 %{_mandir}/man1/muffin-*
 
 %changelog
+* Tue Aug 11 2020 Leigh Scott <leigh123linux@gmail.com> - 4.6.3-1
+- Update to 4.6.3 release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 4.6.2-2
+- Disable LTO
+
 * Sat Jun 06 2020 Leigh Scott <leigh123linux@gmail.com> - 4.6.2-1
 - Update to 4.6.2 release
 

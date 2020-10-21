@@ -1,6 +1,6 @@
 Name:		rakudo-MIME-Base64
 Version:	1.2.1
-Release:	7%{?dist}
+Release:	8%{?dist}
 Summary:	A Perl6 implementation of MIME::Base64 for ASCII strings
 
 License:	Artistic 2.0
@@ -44,6 +44,9 @@ perl6 -Ilib t/*.t
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

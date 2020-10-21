@@ -1,6 +1,6 @@
 Name:           w_scan
 Version:        20170107
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Tool for scanning DVB transponders
 
 License:        GPLv2+
@@ -41,6 +41,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20170107-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 25 2020 Than Ngo <than@redhat.com> - 20170107-8
 - Fixed FTBFS
 

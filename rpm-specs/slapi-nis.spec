@@ -11,7 +11,7 @@
 
 Name:		slapi-nis
 Version:	0.56.5
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	NIS Server and Schema Compatibility plugins for Directory Server
 License:	GPLv2
 URL:		http://pagure.io/slapi-nis/
@@ -35,7 +35,7 @@ BuildRequires:	libtirpc-devel
 %else
 BuildRequires:  libnsl2-devel
 %endif
-%if 0%{?fedora} > 27
+%if 0%{?fedora} > 27 || 0%{?rhel} >= 9
 ExcludeArch: %{ix86}
 %endif
 Requires: 389-ds-base >= 1.3.5.6
@@ -83,6 +83,9 @@ make check
 %{_sbindir}/nisserver-plugin-defs
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.56.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 06 2020 Alexander Bokovoy <abokovoy@redhat.com> - 0.56.5-2
 - Initialize map locks in NIS plugin to prevent crash
 

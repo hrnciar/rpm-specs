@@ -4,13 +4,11 @@
 # https://github.com/robfig/cron
 %global goipath         gopkg.in/robfig/cron.v3
 %global forgeurl        https://github.com/robfig/cron
-Version:                3.0.0
-%global tag             v3.0.0-rc1
-%global distprefix      %{nil}
+Version:                3.0.1
 
 %gometa
 
-%global goaltipaths     github.com/robfig/cron
+%global goaltipaths     github.com/robfig/cron/v3
 
 %global common_description %{expand:
 Package Cron implements a cron spec parser and job runner.}
@@ -19,7 +17,7 @@ Package Cron implements a cron spec parser and job runner.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1.rc1%{?dist}.2
+Release:        1%{?dist}
 Summary:        Cron library for go
 
 License:        MIT
@@ -45,6 +43,16 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 21:31:31 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.0.1-1
+- Update to 3.0.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-1.rc1.4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-1.rc1.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-1.rc1.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

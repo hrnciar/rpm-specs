@@ -5,7 +5,7 @@
 
 Name:           mingw-gtkmm30
 Version:        3.24.2
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows C++ interface for the GTK+ library
 
 License:        LGPLv2+
@@ -115,6 +115,12 @@ rm $RPM_BUILD_ROOT%{mingw64_libdir}/*.la
 
 
 %changelog
+* Wed Aug 12 13:39:40 GMT 2020 Sandro Mani <manisandro@gmail.com> - 3.24.2-4
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.24.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.24.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

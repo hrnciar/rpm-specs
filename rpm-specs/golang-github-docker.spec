@@ -9,8 +9,8 @@
 
 # https://github.com/docker/docker
 %global goipath         github.com/docker/docker
-%global forgeurl        https://github.com/docker/engine
-Version:                19.03.5
+%global forgeurl        https://github.com/moby/moby
+Version:                19.03.13
 
 %gometa
 
@@ -37,7 +37,7 @@ other tools and projects.}
 %endif
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        Collaborative project for the container ecosystem
 
 # Upstream license specification: BSD-2-Clause and Apache-2.0 and BSD-3-Clause
@@ -46,6 +46,10 @@ Summary:        Collaborative project for the container ecosystem
 License:        BSD and ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+# update adapters to new buildkit interfaces
+Patch0:         0001-update-adapters-to-new-buildkit-interfaces.patch
+# Fix to use new runc
+Patch1:         0001-vendor-runc-67169a9.patch
 
 %if %{without bootstrap}
 BuildRequires:  golang(cloud.google.com/go/compute/metadata)
@@ -60,7 +64,7 @@ BuildRequires:  golang(github.com/aws/aws-sdk-go/service/cloudwatchlogs)
 BuildRequires:  golang(github.com/Azure/go-ansiterm)
 BuildRequires:  golang(github.com/bsphere/le_go)
 BuildRequires:  golang(github.com/BurntSushi/toml)
-BuildRequires:  golang(github.com/containerd/cgroups)
+BuildRequires:  golang(github.com/containerd/cgroups/stats/v1)
 BuildRequires:  golang(github.com/containerd/containerd)
 BuildRequires:  golang(github.com/containerd/containerd/api/events)
 BuildRequires:  golang(github.com/containerd/containerd/api/types)
@@ -190,7 +194,7 @@ BuildRequires:  golang(github.com/moby/buildkit/session)
 BuildRequires:  golang(github.com/moby/buildkit/session/auth)
 BuildRequires:  golang(github.com/moby/buildkit/session/filesync)
 BuildRequires:  golang(github.com/moby/buildkit/snapshot)
-BuildRequires:  golang(github.com/moby/buildkit/snapshot/blobmapping)
+BuildRequires:  golang(github.com/moby/buildkit/snapshot/containerd)
 BuildRequires:  golang(github.com/moby/buildkit/solver)
 BuildRequires:  golang(github.com/moby/buildkit/solver/bboltcachestorage)
 BuildRequires:  golang(github.com/moby/buildkit/solver/llbsolver/ops)
@@ -252,11 +256,11 @@ BuildRequires:  golang(google.golang.org/grpc)
 BuildRequires:  golang(google.golang.org/grpc/codes)
 BuildRequires:  golang(google.golang.org/grpc/metadata)
 BuildRequires:  golang(google.golang.org/grpc/status)
-BuildRequires:  golang(gotest.tools/assert)
-BuildRequires:  golang(gotest.tools/assert/cmp)
-BuildRequires:  golang(gotest.tools/icmd)
-BuildRequires:  golang(gotest.tools/poll)
-BuildRequires:  golang(gotest.tools/skip)
+BuildRequires:  golang(gotest.tools/v3/assert)
+BuildRequires:  golang(gotest.tools/v3/assert/cmp)
+BuildRequires:  golang(gotest.tools/v3/icmd)
+BuildRequires:  golang(gotest.tools/v3/poll)
+BuildRequires:  golang(gotest.tools/v3/skip)
 
 %if %{with check}
 # Tests
@@ -264,8 +268,8 @@ BuildRequires:  golang(github.com/gogo/protobuf/io)
 BuildRequires:  golang(github.com/google/go-cmp/cmp)
 BuildRequires:  golang(github.com/google/go-cmp/cmp/cmpopts)
 BuildRequires:  golang(github.com/google/uuid)
-BuildRequires:  golang(gotest.tools/env)
-BuildRequires:  golang(gotest.tools/fs)
+BuildRequires:  golang(gotest.tools/v3/env)
+BuildRequires:  golang(gotest.tools/v3/fs)
 %endif
 %endif
 BuildRequires:  git-core
@@ -283,10 +287,13 @@ BuildRequires:  pkgconfig(libseccomp)
 sed -i -E 's/([\. ])Cleanup/\1cleanup/g' vendor/gotest.tools/x/subtest/context.go
 %else
 %goprep
+%patch0 -p1
+%patch1 -p1
+sed -i 's|gotest.tools|gotest.tools/v3|' $(find . -iname "*.go" -type f)
 %endif
+
 # https://github.com/moby/moby/issues/40434
 sed -i 's|`Get I%27m%20not%20an%20url: unsupported protocol scheme ""`|`Get "I%27m%20not%20an%20url": unsupported protocol scheme ""`|' registry/resumable/resumablerequestreader_test.go
-
 
 # %%build
 # for cmd in cmd/* ; do
@@ -299,7 +306,7 @@ mapfile -t vendor <<< $(find vendor -type f)
 %endif
 %gopkginstall
 # install -m 0755 -vd                     %%{buildroot}%%{_bindir}
-# install -m 0755 -vp %{gobuilddir}/bin/* %%{buildroot}%%{_bindir}/
+# install -m 0755 -vp %%{gobuilddir}/bin/* %%{buildroot}%%{_bindir}/
 
 %if %{with check}
 %check
@@ -324,6 +331,18 @@ mapfile -t vendor <<< $(find vendor -type f)
 %gopkgfiles
 
 %changelog
+* Sun Aug 23 02:25:48 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 19.03.13-1
+- Update to 19.03.13
+
+* Sun Aug 23 02:25:48 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 19.03.12-3
+- Fix FTBFS
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.03.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 22:11:51 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 19.03.12-1
+- Update to 19.03.12
+
 * Wed Apr 01 2020 Olivier Lemasle <o.lemasle@gmail.com> - 19.03.5-4
 - Unbootstrap
 

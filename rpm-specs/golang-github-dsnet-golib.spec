@@ -3,7 +3,7 @@
 
 # https://github.com/dsnet/golib
 %global goipath         github.com/dsnet/golib
-%global commit          1ea1667757804fdcccc5a1810e09aba618885ac2
+%global commit          c110804dfa93bca2af549c31569ac62958555798
 
 %gometa
 
@@ -17,7 +17,7 @@ are pulled out and placed here.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.7%{?dist}
+Release:        0.9%{?dist}
 Summary:        Collection of mostly unrelated helper Go packages
 
 # Upstream license specification: BSD-3-Clause
@@ -50,6 +50,12 @@ BuildRequires:  golang(github.com/google/go-cmp/cmp/cmpopts)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 15:14:19 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.8.20200726gitc110804
+- Bump to commit c110804dfa93bca2af549c31569ac62958555798
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

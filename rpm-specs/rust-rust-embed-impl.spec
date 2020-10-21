@@ -5,12 +5,11 @@
 %global crate rust-embed-impl
 
 Name:           rust-%{crate}
-Version:        5.5.1
-Release:        1%{?dist}
+Version:        5.6.0
+Release:        2%{?dist}
 Summary:        Custom Derive Macro which loads files into the rust binary
 
 # Upstream license specification: MIT
-# https://github.com/pyros2097/rust-embed/pull/107
 License:        MIT
 URL:            https://crates.io/crates/rust-embed-impl
 Source:         %{crates_source}
@@ -38,6 +37,7 @@ This package contains library source intended for building other packages
 which use "%{crate}" crate.
 
 %files          devel
+%license license
 %doc readme.md
 %{cargo_registry}/%{crate}-%{version_no_tilde}/
 
@@ -120,5 +120,11 @@ which use "shellexpand" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Josh Stone <jistone@redhat.com> - 5.6.0-1
+- Update to 5.6.0
+
 * Thu May 14 08:34:07 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 5.5.1-1
 - Initial package

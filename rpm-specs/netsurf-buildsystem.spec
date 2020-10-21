@@ -2,7 +2,7 @@
 
 Name:           netsurf-buildsystem
 Version:        1.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Makefiles shared by NetSurf projects
 License:        MIT
 URL:            http://www.netsurf-browser.org/
@@ -28,6 +28,9 @@ chmod +x testtools/testrunner.pl
 %{_datadir}/%{name}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 David Tardon <dtardon@redhat.com> - 1.9-1
 - new upstream release
 

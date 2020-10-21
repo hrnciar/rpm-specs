@@ -1,6 +1,6 @@
 Name:          group-service
 Version:       1.2.0
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       Dbus Group management CLI tool
 License:       GPLv3+ 
 URL:           https://github.com/zhuyaliang/%{name}
@@ -83,6 +83,9 @@ sed -i s/"meson_version : '>=0.50.0',"/"meson_version : '>=0.46.0',"/g meson.bui
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

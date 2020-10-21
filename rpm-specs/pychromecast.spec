@@ -2,7 +2,7 @@
 %global with_tests 0
 
 Name:           pychromecast
-Version:        6.0.0
+Version:        7.5.0
 Release:        1%{?dist}
 Summary:        Python library to communicate with the Google Chromecast
 
@@ -67,6 +67,24 @@ currently supports:
 %{python3_sitelib}/*
 
 %changelog
+* Sat Oct 03 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 7.5.0-1
+- Update to 7.5.0
+
+* Mon Aug 24 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 7.2.1-1
+- Update to 7.2.1
+
+* Sun Aug 02 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 7.2.0-1
+- Update to 7.2.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 7.1.2-1
+- Update to 7.1.2
+
+* Tue Jul 14 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 7.1.1-1
+- Update to 7.1.1
+
 * Thu Jun 04 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 6.0.0-1
 - Update to 6.0.0
 

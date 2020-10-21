@@ -1,6 +1,6 @@
 Name:           sl
 Version:        5.02
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Joke command for when you type 'sl' instead of 'ls'
 License:        Copyright only
 URL:            https://github.com/mtoyoda/sl
@@ -42,6 +42,9 @@ install -p -m644 sl.1.ja %{buildroot}%{_mandir}/ja/man1/
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.02-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 07 2020 Vojtech Trefny <vtrefny@redhat.com> - 5.02-13
 - Remove libtermcap-devel from BuildRequires
 

@@ -1,6 +1,6 @@
 Name:           perl-Gtk2-Ex-FormFactory
 Version:        0.67
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        Framework for GTK2 Perl applications
 License:        LGPLv2+
 URL:            http://www.exit1.org/Gtk2-Ex-FormFactory/
@@ -68,6 +68,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.67-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.67-24
 - Perl 5.32 rebuild
 

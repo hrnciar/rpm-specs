@@ -2,13 +2,13 @@
 %global module_name caller-callsite
 
 Name:           nodejs-%{module_name}
-Version:        2.0.0
-Release:        8%{?dist}
+Version:        4.1.0
+Release:        1%{?dist}
 Summary:        Get the callsite of the caller function
 
 License:        MIT
 URL:            https://github.com/sindresorhus/caller-callsite
-Source0:        https://github.com/sindresorhus/caller-callsite/archive/v%{version}.tar.gz
+Source0:        http://registry.npmjs.org/%{module_name}/-/%{module_name}-%{version}.tgz
 BuildArch:      noarch
 ExclusiveArch:  %{nodejs_arches} noarch
 
@@ -22,7 +22,7 @@ BuildRequires:  npm(ava)
 %{summary}.
 
 %prep
-%autosetup -n %{module_name}-%{version}
+%autosetup -n package
 rm -rf node_modules
 
 %build
@@ -46,6 +46,12 @@ node test.js
 %{nodejs_sitelib}/%{module_name}
 
 %changelog
+* Thu Aug 20 2020 Fabian Affolter <mail@fabian-affolter.ch> - 4.1.0-1
+- Update to latest upstream release 4.1.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

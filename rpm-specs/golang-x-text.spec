@@ -4,14 +4,9 @@
 # https://github.com/golang/text
 %global goipath         golang.org/x/text
 %global forgeurl        https://github.com/golang/text
-Version:                0.3.2
+Version:                0.3.3
 
 %gometa
-
-# Remove after F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-golangorg-text-devel < 0.3.0-3
-}
 
 %global common_description %{expand:
 Text is a repository of text-related packages related to internationalization
@@ -22,7 +17,7 @@ transformations, and locale-specific text handling.}
 %global godocs          AUTHORS CONTRIBUTING.md CONTRIBUTORS README.md
 
 Name:           %{goname}
-Release:        6%{?dist}
+Release:        1%{?dist}
 Summary:        Go text processing support
 
 # Upstream license specification: BSD-3-Clause
@@ -68,6 +63,16 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Fri Aug 07 21:06:39 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.3.3-1
+- Update to 0.3.3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

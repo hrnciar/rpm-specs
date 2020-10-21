@@ -5,11 +5,18 @@
 %bcond_without lua
 %endif
 
-%bcond_without llvm_static
+%bcond_with llvm_static
+
+%if %{without llvm_static}
+%global with_llvm_shared 1
+%endif
+
+# Force out of source build
+%undefine __cmake_in_source_build
 
 Name:           bcc
-Version:        0.15.0
-Release:        1%{?dist}
+Version:        0.16.0
+Release:        3%{?dist}
 Summary:        BPF Compiler Collection (BCC)
 License:        ASL 2.0
 URL:            https://github.com/iovisor/bcc
@@ -17,9 +24,12 @@ URL:            https://github.com/iovisor/bcc
 Source0:        %{url}/releases/download/v%{version}/%{name}-src-with-submodule.tar.gz
 #Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
+Patch0:         %{name}-0.15.0-Reinstate-bpf_detach_kfunc.patch
+Patch1:         0001-tests-only-run-arg-parser-test-on-supported-arches.patch
+
 # Arches will be included as upstream support is added and dependencies are
 # satisfied in the respective arches
-ExclusiveArch:  x86_64 %{power64} aarch64 s390x
+ExclusiveArch:  x86_64 %{power64} aarch64 s390x armv7hl
 
 BuildRequires:  bison
 BuildRequires:  cmake >= 2.8.7
@@ -110,11 +120,11 @@ Command line tools for BPF Compiler Collection (BCC)
         -DREVISION_LAST=%{version} -DREVISION=%{version} -DPYTHON_CMD=python3 \
         -DCMAKE_USE_LIBBPF_PACKAGE:BOOL=TRUE \
         %{?with_llvm_shared:-DENABLE_LLVM_SHARED=1}
-%make_build
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 # Fix python shebangs
 find %{buildroot}%{_datadir}/%{name}/{tools,examples} -type f -exec \
@@ -179,6 +189,32 @@ rm -rf %{buildroot}%{_datadir}/%{name}/tools/old/
 
 
 %changelog
+* Mon Oct 12 2020 Jerome Marchand <jmarchan@redhat.com> - 0.16.0.3
+- Rebuild for LLVM 11.0.0-rc6
+
+* Fri Aug 28 2020 Rafael dos Santos <rdossant@redhat.com> - 0.16.0-2
+- Enable build for armv7hl
+
+* Sun Aug 23 2020 Rafael dos Santos <rdossant@redhat.com> - 0.16.0-1
+- Rebase to latest upstream (#1871417)
+
+* Tue Aug 04 2020 Rafael dos Santos <rdossant@redhat.com> - 0.15.0-6
+- Fix build with cmake (#1863243)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Tom Stellard <tstellar@redhat.com> - 0.15.0-3
+- Drop llvm-static dependency
+- https://docs.fedoraproject.org/en-US/packaging-guidelines/#_statically_linking_executables
+
+* Thu Jul 02 2020 Rafael dos Santos <rdossant@redhat.com> - 0.15.0-2
+- Reinstate a function needed by bpftrace
+
 * Tue Jun 23 2020 Rafael dos Santos <rdossant@redhat.com> - 0.15.0-1
 - Rebase to latest upstream version (#1849239)
 

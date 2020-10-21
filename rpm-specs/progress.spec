@@ -1,6 +1,6 @@
 Name:		progress
 Version:	0.14
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	Coreutils Viewer
 
 License:	GPLv3
@@ -46,6 +46,9 @@ install -pm 0644 *.1 %{buildroot}%{_mandir}/man1
 %{_mandir}/man1/*.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

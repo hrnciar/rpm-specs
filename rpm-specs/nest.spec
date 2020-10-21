@@ -16,7 +16,7 @@ Version:        2.20.0
 
 %global gittag v%{version}
 
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        The neural simulation tool
 
 License:        GPLv2+
@@ -218,6 +218,12 @@ find %{name}-simulator-%{version}/ -name "*.py" -exec sed -i 's|#!/usr/bin/env p
 %endif
 
 %build
+# On armv7 we get a failure with LTO.  The log has no useful information in it
+# but my guess is we ran out of memory on the builder.  Disable LTO for armv7
+%ifarch armv7hl
+%define _lto_cflags %{nil}
+%endif
+
 %set_build_flags
 
 %global do_cmake_config \
@@ -609,6 +615,16 @@ export MPI_SITEARCH=$MPI_PYTHON3_SITEARCH
 %endif
 
 %changelog
+* Mon Aug 10 2020 Jeff Law <law@redhat.com> - 2.20.0-5
+- Disable LTO on armv7hl for now
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.20.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.20.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.20.0-2
 - Rebuilt for Python 3.9
 

@@ -8,7 +8,7 @@ and writing passive aggressive office memos.
 
 
 Name:           %{fontname}-fonts
-Version:        2.5
+Version:        2.51
 Release:        1%{?dist}
 Summary:        A typeface family inspired by Comic Sans
 
@@ -48,6 +48,15 @@ Requires:       %{name}-common = %{version}-%{release}
 The Comic Neue Angular variant features angular terminals rather than round.
 
 
+%package -n %{fontname}-web-fonts
+Summary:        A typeface family inspired by Comic Sans, web files
+Requires:       %{name}-common = %{version}-%{release}
+
+%description -n %{fontname}-web-fonts
+%common_desc
+
+This package contains Web Open Font Format versions 1 and 2 files.
+
 
 %prep
 %setup -q -c
@@ -59,6 +68,8 @@ The Comic Neue Angular variant features angular terminals rather than round.
 %install
 install -m 0755 -d %{buildroot}%{_fontdir}
 install -m 0644 -p %{fontname}-%{version}/OTF/*/*.otf %{buildroot}%{_fontdir}
+install -m 0644 -p %{fontname}-%{version}/WebFonts/*.woff %{buildroot}%{_fontdir}
+install -m 0644 -p %{fontname}-%{version}/WebFonts/*.woff2 %{buildroot}%{_fontdir}
 
 install -m 0755 -d %{buildroot}%{_fontconfig_templatedir} \
                    %{buildroot}%{_fontconfig_confdir}
@@ -77,6 +88,7 @@ done
 
 %_font_pkg -f %{fontconf}.conf ComicNeue-*.otf
 %_font_pkg -n angular -f %{fontconf}-angular.conf ComicNeueAngular-*.otf
+%_font_pkg -n web ComicNeue*.woff ComicNeue*.woff2
 
 
 %files common
@@ -86,6 +98,13 @@ done
 
 
 %changelog
+* Tue Sep 29 2020 Karel Volný <kvolny@redhat.com> 2.51-1
+- new version 2.51 (#1883149)
+- updated to improve web font files/added web subpackage in Fedora
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 16 2020 Karel Volný <kvolny@redhat.com> 2.5-1
 - new version 2.5 (#1823698)
 - updated to be compatible with the Google Fonts Library

@@ -13,7 +13,7 @@
 Summary: The GNOME virtual file-system libraries
 Name: gnome-vfs2
 Version: 2.24.4
-Release: 30%{?dist}
+Release: 33%{?dist}
 License: LGPLv2+ and GPLv2+
 # the daemon and the library are LGPLv2+
 # the modules are LGPLv2+ and GPLv2+
@@ -32,7 +32,7 @@ BuildRequires: autoconf
 BuildRequires: gtk-doc 
 BuildRequires: perl-XML-Parser 
 BuildRequires: libsmbclient-devel 
-BuildRequires: compat-openssl10-devel gamin-devel
+BuildRequires: openssl-devel gamin-devel
 BuildRequires: krb5-devel
 BuildRequires: pkgconfig(avahi-client) pkgconfig(avahi-glib)
 %if %{with hal}
@@ -90,6 +90,7 @@ Patch7: gnome-vfs-2.24.5-file-method-chmod-flags.patch
 # fix compilation against new glib2
 Patch8: gnome-vfs-2.24.4-enable-deprecated.patch
 
+Patch9: openssl.patch
 
 %description
 GNOME VFS is the GNOME virtual file system. It is the foundation of
@@ -137,6 +138,7 @@ shares (SMB) to applications using GNOME VFS.
 %patch6 -p1 -b .mailto-command
 %patch7 -p1 -b .file-method-chmod-flags
 %patch8 -p1 -b .enable-deprecated
+%patch9 -p0 -b .openssl11
 
 # send to upstream
 %patch101 -p1 -b .schema_about
@@ -254,6 +256,16 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -fv {} ';'
 %config %{_sysconfdir}/gnome-vfs-2.0/modules/smb-module.conf
 
 %changelog
+* Thu Sep 17 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.24.4-33
+- Migrate to modern openssl.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.24.4-32
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.24.4-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.24.4-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

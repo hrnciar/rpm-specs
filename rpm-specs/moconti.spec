@@ -1,6 +1,6 @@
 Name:           moconti
 Version:        102609
-Release:        16%{?dist}
+Release:        18%{?dist}
 Summary:        Web Application Server for Sleep
 
 License:        LGPLv2
@@ -67,6 +67,12 @@ cp -rp javadoc $RPM_BUILD_ROOT%{_javadocdir}/%{name}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 102609-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 102609-17
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat May 02 2020 Orion Poplawski <orion@nwra.com> - 102609-16
 - Bump java source/target to 1.6
 

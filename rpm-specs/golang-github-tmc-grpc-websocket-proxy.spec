@@ -3,7 +3,7 @@
 
 # https://github.com/tmc/grpc-websocket-proxy
 %global goipath         github.com/tmc/grpc-websocket-proxy
-%global commit          0ad062ec5ee553a48f6dbd280b7a1b5638e8a113
+%global commit          3cfed13b99662c5c5740aa3bed7a81170f3ef94f
 
 %gometa
 
@@ -16,7 +16,7 @@ websockets.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.4%{?dist}
+Release:        0.7%{?dist}
 Summary:        Proxy to upgrade grpc-gateway streaming endpoints to use websockets
 
 License:        MIT
@@ -57,6 +57,16 @@ BuildRequires:  golang(google.golang.org/grpc/status)
 %gopkgfiles
 
 %changelog
+* Mon Aug 03 20:11:08 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.7.20200803git3cfed13
+- Bump to commit 3cfed13b99662c5c5740aa3bed7a81170f3ef94f
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

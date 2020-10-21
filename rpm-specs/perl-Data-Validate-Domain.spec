@@ -1,6 +1,6 @@
 Name:           perl-Data-Validate-Domain
 Version:        0.14
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Domain validation methods Perl module
 
 License:        GPL+ or Artistic
@@ -63,6 +63,9 @@ find lib -name "*.pm" -exec chmod -c a-x {} +
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.14-13
 - Perl 5.32 rebuild
 

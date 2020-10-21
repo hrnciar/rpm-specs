@@ -3,7 +3,8 @@
 
 # https://github.com/jedisct1/xsecretbox
 %global goipath         github.com/jedisct1/xsecretbox
-%global commit          855e18301bf05f96b551af3986061926758be0ca
+Version:                1.0.0
+%global tag             1.0.0
 
 %gometa
 
@@ -14,8 +15,7 @@ Go implementation of crypto_secretbox_xchacha20poly1305.}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.7%{?dist}
+Release:        1%{?dist}
 Summary:        Go implementation of crypto_secretbox_xchacha20poly1305
 
 License:        MIT
@@ -45,6 +45,12 @@ BuildRequires:  golang(golang.org/x/crypto/curve25519)
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 14:14:04 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-1
+- Update to 1.0.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

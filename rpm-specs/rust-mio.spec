@@ -5,7 +5,7 @@
 %global crate mio
 
 Name:           rust-%{crate}
-Version:        0.7.0
+Version:        0.7.2
 Release:        1%{?dist}
 Summary:        Lightweight non-blocking IO
 
@@ -14,7 +14,7 @@ License:        MIT
 URL:            https://crates.io/crates/mio
 Source:         %{crates_source}
 # Initial patched metadata
-# no cfg(windows) deps, exclude more CI files
+# * No windows deps
 Patch0:         mio-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -147,6 +147,15 @@ export RUST_BACKTRACE=1
 %endif
 
 %changelog
+* Wed Oct 07 2020 Fabio Valentini <decathorpe@gmail.com> - 0.7.2-1
+- Update to version 0.7.2.
+
+* Thu Oct 01 2020 Fabio Valentini <decathorpe@gmail.com> - 0.7.1-1
+- Update to version 0.7.1.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 29 01:28:15 CEST 2020 Marc-André Lureau <marcandre.lureau@redhat.com> - 0.7.0-1
 - Update to 0.7.0
 

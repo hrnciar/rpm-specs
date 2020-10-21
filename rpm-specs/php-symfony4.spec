@@ -12,8 +12,8 @@
 
 %global github_owner     symfony
 %global github_name      symfony
-%global github_version   4.4.10
-%global github_commit    7eef70427b37763aebfe4ba8aa33e052f91fee3f
+%global github_version   4.4.15
+%global github_commit    d6cc026bc1fa3a7b126357103c3c2fc74595608b
 
 %global composer_vendor  symfony
 %global composer_project symfony
@@ -36,20 +36,19 @@
 # "doctrine/event-manager": "~1.0"
 %global doctrine_event_manager_min_ver 1.0
 %global doctrine_event_manager_max_ver 2
-# "doctrine/persistence": "^1.3"
+# "doctrine/persistence": "^1.3|^2"
 %global doctrine_persistence_min_ver 1.3
-%global doctrine_persistence_max_ver 2
+%global doctrine_persistence_max_ver 3
 # "doctrine/reflection": "~1.0"
 %global doctrine_reflection_min_ver 1.0
 %global doctrine_reflection_max_ver 2
-# "doctrine/data-fixtures": "1.0.*"
+# "doctrine/data-fixtures": "^1.1"
 # ignore max version
-%global doctrine_datafixtures_min_ver 1.0.0
+%global doctrine_datafixtures_min_ver 1.1
 %global doctrine_datafixtures_max_ver 2
-# "doctrine/dbal": "^2.5|^3.0"
-# ignore 3.0 for now, no yet packaged
-%global doctrine_dbal_min_ver 2.5
-%global doctrine_dbal_max_ver 3.0
+# "doctrine/dbal": "^2.6|^3.0"
+%global doctrine_dbal_min_ver 2.6
+%global doctrine_dbal_max_ver 4
 # "doctrine/doctrine-bundle": "^1.5|^2.0"
 %global doctrine_bundle_min_ver 1.5
 %global doctrine_bundle_max_ver 3
@@ -68,10 +67,10 @@
 # "ocramius/proxy-manager": "~2.1"
 %global proxy_manager_min_ver 2.1
 %global proxy_manager_max_ver 3.0
-# "phpdocumentor/reflection-docblock": "^3.0|^4.0"
+# "phpdocumentor/reflection-docblock": "^3.0|^4.0|^5.0"
 # conflicts: "phpdocumentor/reflection-docblock": "<3.0||>=3.2.0,<3.2.2"
 %global phpdocumentor_reflection_docblock_min_ver 3.2.2
-%global phpdocumentor_reflection_docblock_max_ver 5.0
+%global phpdocumentor_reflection_docblock_max_ver 6
 # "psr/cache": "~1.0"
 %global psr_cache_min_ver 1.0
 %global psr_cache_max_ver 2.0
@@ -99,8 +98,8 @@
 # "symfony/security-acl": "~2.8|~3.0"
 %global symfony_security_acl_min_ver 2.8
 %global symfony_security_acl_max_ver 4
-# "symfony/*-contracts": "~1.1.8"
-%global symfony_contracts_min_ver 1.1.8
+# "symfony/*-contracts": "~1.1.10"
+%global symfony_contracts_min_ver 1.1.10
 %global symfony_contracts_max_ver 2
 # "twig/twig": "^1.41|^2.10|^3.0"
 %global twig_min_ver 1.41
@@ -223,8 +222,7 @@ BuildRequires: php-composer(masterminds/html5) <  %{masterminds_max_ver}
 BuildRequires: php-composer(masterminds/html5) >= %{masterminds_min_ver}
 BuildRequires: php-composer(mongodb/mongodb) <  %{mongodb_max_ver}
 BuildRequires: php-composer(mongodb/mongodb) >= %{mongodb_min_ver}
-BuildRequires: php-composer(monolog/monolog) <  %{monolog_max_ver}
-BuildRequires: php-composer(monolog/monolog) >= %{monolog_min_ver}
+BuildRequires: php-Monolog >= %{monolog_min_ver}
 BuildRequires: php-composer(nyholm/psr7) <  %{nyholm_psr7_max_ver}
 BuildRequires: php-composer(nyholm/psr7) >= %{nyholm_psr7_min_ver}
 BuildRequires: php-composer(ocramius/proxy-manager) <  %{proxy_manager_max_ver}
@@ -439,8 +437,7 @@ Suggests: php-composer(%{composer_vendor}/console)
 Suggests: php-composer(%{composer_vendor}/security-core)
 Suggests: php-composer(%{composer_vendor}/var-dumper)
 %else
-Requires: php-composer(monolog/monolog) >= %{monolog_min_ver}
-Requires: php-composer(monolog/monolog) <  %{monolog_max_ver}
+Requires: php-Monolog >= %{monolog_min_ver}
 Requires: php-composer(%{composer_vendor}/service-contracts) <  %{symfony_contracts_max_ver}
 Requires: php-composer(%{composer_vendor}/service-contracts) >= %{symfony_contracts_min_ver}
 %endif
@@ -1425,6 +1422,7 @@ Requires: php-composer(%{composer_vendor}/event-dispatcher) = %{version}
 Requires: php-composer(%{composer_vendor}/http-foundation) = %{version}
 %if %{with_range_dependencies}
 Requires:(php-composer(psr/log) >= %{psr_log_min_ver} with php-composer(psr/log) <  %{psr_log_max_ver})
+Requires:(php-composer(%{composer_vendor}/contracts) >= %{symfony_contracts_min_ver} with php-composer(%{composer_vendor}/contracts) <  %{symfony_contracts_max_ver})
 Requires:(php-composer(%{composer_vendor}/polyfill-php73) >= %{symfony_polyfill_min_ver} with php-composer(%{composer_vendor}/polyfill-php73) <  %{symfony_polyfill_max_ver})
 # composer.json: optional
 Suggests: php-composer(%{composer_vendor}/browser-kit)
@@ -1434,6 +1432,8 @@ Suggests: php-composer(%{composer_vendor}/dependency-injection)
 %else
 Requires: php-composer(psr/log) >= %{psr_log_min_ver}
 Requires: php-composer(psr/log) <  %{psr_log_max_ver}
+Requires: php-composer(%{composer_vendor}/contracts) <  %{symfony_contracts_max_ver}
+Requires: php-composer(%{composer_vendor}/contracts) >= %{symfony_contracts_min_ver}
 Requires: php-composer(%{composer_vendor}/polyfill-php73) <  %{symfony_polyfill_max_ver}
 Requires: php-composer(%{composer_vendor}/polyfill-php73) >= %{symfony_polyfill_min_ver}
 %endif
@@ -3294,6 +3294,33 @@ exit $RET
 # ##############################################################################
 
 %changelog
+* Mon Oct  5 2020 Remi Collet <remi@remirepo.net> - 4.4.15-1
+- update to 4.4.15
+
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 4.4.14-1
+- update to 4.4.14
+- raise dependency on symfony/contracts 1.1.10
+- http-kernel: add dependency on symfony/contracts
+
+* Wed Sep  2 2020 Remi Collet <remi@remirepo.net> - 4.4.13-1
+- update to 4.4.13
+
+* Mon Aug 31 2020 Remi Collet <remi@remirepo.net> - 4.4.12-1
+- update to 4.4.12
+- allow doctrine/dbal 3.0
+
+* Tue Aug 25 2020 Remi Collet <remi@remirepo.net> - 4.4.11-3
+- fix autoloader path for doctrine/persistence 2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Remi Collet <remi@remirepo.net> - 4.4.11-1
+- update to 4.4.11
+- raise dependency on doctrine/data-fixtures 1.1
+- allow doctrine/persistence 2
+- allow phpdocumentor/reflection-docblock 5
+
 * Mon Jun 15 2020 Remi Collet <remi@remirepo.net> - 4.4.10-1
 - update to 4.4.10
 

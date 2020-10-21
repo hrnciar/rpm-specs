@@ -2,7 +2,7 @@
 
 Name:    drupal7-workbench
 Version: 1.2
-Release: 11%{?dist}
+Release: 12%{?dist}
 Summary: Provides overall improvements for managing content
 
 License: GPLv2+
@@ -40,6 +40,9 @@ cp -pr * %{buildroot}%{drupaldir}/modules/workbench
 %exclude %{drupaldir}/modules/workbench/*.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

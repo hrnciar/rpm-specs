@@ -9,7 +9,7 @@
 Name:    blogilo
 Summary: Blogging Client
 Version: 17.08.3
-Release: 16%{?dist}
+Release: 19%{?dist}
 
 # code (generally) GPLv2, docs GFDL
 License: GPLv2 and GFDL
@@ -24,6 +24,7 @@ URL:     https://www.kde.org/applications/internet/blogilo
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 
 Patch0:  blogilo-17.08.3-fix-dependencies.patch
+Patch1:  blogilo-17.08.3-no-disable-deprecated.patch
 
 # handled by qt5-srpm-macros, which defines %%qt5_qtwebengine_arches
 %{?qt5_qtwebengine_arches:ExclusiveArch: %{qt5_qtwebengine_arches}}
@@ -89,7 +90,7 @@ Requires: %{name} = %{version}-%{release}
 %build
 mkdir %{_target_platform}
 pushd %{_target_platform}
-%{cmake_kf5} .. \
+%{cmake_kf5} .. -B. \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{!?tests:OFF}
 popd
 
@@ -140,6 +141,17 @@ make test ARGS="--output-on-failure --timeout 20" -C %{_target_platform} ||:
 
 
 %changelog
+* Mon Aug 03 2020 Kevin Kofler <Kevin@tigcc.ticalc.org> - 17.08.3-19
+- Don't use -DQT_DISABLE_DEPRECATED_BEFORE=0x060000 moving target (#1799192)
+- Pass -B. to cmake to work around incompatible RPM macro change (#1863271)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 17.08.3-18
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 17.08.3-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 17.08.3-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

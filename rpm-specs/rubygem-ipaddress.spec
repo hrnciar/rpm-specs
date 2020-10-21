@@ -2,7 +2,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 0.8.3
-Release: 7%{?dist}
+Release: 8%{?dist}
 Summary: IPv4/IPv6 address manipulation library
 License: MIT
 URL: https://github.com/bluemonk/ipaddress
@@ -67,6 +67,9 @@ popd
 %{gem_instdir}/CHANGELOG.rdoc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.3-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

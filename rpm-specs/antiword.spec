@@ -1,7 +1,7 @@
 Summary:    MS Word to ASCII/Postscript converter
 Name:       antiword
 Version:    0.37
-Release:    28%{?dist}
+Release:    30%{?dist}
 Source0:    http://www.winfield.demon.nl/linux/%{name}-%{version}.tar.gz
 Source1:    antiword.sh
 URL:        http://www.winfield.demon.nl/
@@ -54,6 +54,13 @@ iconv -f iso-8859-1 -t utf-8 Docs/Netscape > Docs/Netscape.utf8
 %{_datadir}/%{name}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.37-30
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.37-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.37-28
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

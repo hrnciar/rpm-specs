@@ -14,7 +14,7 @@ OpenStack.
 
 Name:       python-oslo-sphinx
 Version:    4.18.0
-Release:    9%{?dist}
+Release:    10%{?dist}
 Summary:    OpenStack Sphinx Extensions
 
 License:    ASL 2.0
@@ -74,6 +74,9 @@ rm -rf {test-,}requirements.txt
 %{python3_sitelib}/oslosphinx*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.18.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.18.0-9
 - Rebuilt for Python 3.9
 

@@ -1,7 +1,7 @@
 %global srcname joblib
 
 Name:           python-%{srcname}
-Version:        0.15.1
+Version:        0.16.0
 Release:        3%{?dist}
 Summary:        Lightweight pipelining: using Python functions as pipeline jobs
 
@@ -9,6 +9,10 @@ License:        BSD
 URL:            https://joblib.readthedocs.io
 Source0:        %{pypi_source}
 #Patch0:         joblib-unbundle-cloudpickle.patch
+
+# Add Python 3.9 compatibility
+# From upstream: https://github.com/joblib/loky/pull/265
+Patch1:         fix-python39-compat.patch
 
 BuildArch:      noarch
 
@@ -43,7 +47,7 @@ Provides:       bundled(python3dist(cloudpickle)) = 1.4.1
 %description -n python3-%{srcname} %_description
 
 %prep
-%autosetup -n %{srcname}-%{version} 
+%autosetup -n %{srcname}-%{version} -p1
 
 %build
 %py3_build
@@ -52,11 +56,10 @@ Provides:       bundled(python3dist(cloudpickle)) = 1.4.1
 %py3_install
 
 %check
-# Some tests fail due to missing package threadpoolctl
 export PYTHONDONTWRITEBYTECODE=1
 export PYTEST_ADDOPTS='-p no:cacheprovider'
 pushd %{buildroot}%{python3_sitelib} 
-  py.test-%{python3_version} -v joblib || :
+  pytest-%{python3_version} -v joblib
 popd
 
 %files -n python3-%{srcname}
@@ -66,6 +69,16 @@ popd
 %{python3_sitelib}/%{srcname}/
 
 %changelog
+* Mon Sep 07 2020 Charalampos Stratakis <cstratak@redhat.com> - 0.16.0-3
+- Add Python 3.9 compatibility
+Resolves: rhbz#1871994
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Sergio Pascual <sergiopr@fedoraproject.org> - 0.16.0-1
+- New upstream source (0.16.0)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.15.1-3
 - Rebuilt for Python 3.9
 

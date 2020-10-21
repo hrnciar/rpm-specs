@@ -1,8 +1,8 @@
 %global snapshot 0
 
 Name:           libpinyin
-Version:        2.3.0
-Release:        3%{?dist}
+Version:        2.4.91
+Release:        1%{?dist}
 Summary:        Library to deal with pinyin
 
 License:        GPLv3+
@@ -65,13 +65,13 @@ The libzhuyin package contains libzhuyin compatibility library.
 %configure --disable-static \
            --with-dbm=KyotoCabinet \
            --enable-libzhuyin
-make %{?_smp_mflags}
+%make_build
 
 %check
 make check
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
+%make_install
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
@@ -106,6 +106,18 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libzhuyin*.so.*
 
 %changelog
+* Wed Aug 26 2020 Peng Wu <pwu@redhat.com> - 2.4.91-1
+- Update to 2.4.91
+- improve full pinyin auto correction
+- bug fixes
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Tom Stellard <tstellar@redhat.com> - 2.3.0-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

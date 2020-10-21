@@ -1,7 +1,7 @@
 Summary: A tool for monitoring the progress of data through a pipeline
 Name: pv
 Version: 1.6.6
-Release: 8%{?dist}
+Release: 9%{?dist}
 License: Artistic 2.0
 Source0: http://www.ivarch.com/programs/sources/%{name}-%{version}.tar.gz
 URL: http://www.ivarch.com/programs/pv.shtml
@@ -52,6 +52,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.6-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.6-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

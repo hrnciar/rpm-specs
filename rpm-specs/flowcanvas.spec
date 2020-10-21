@@ -1,7 +1,7 @@
 Name:           flowcanvas
 Summary:        Interactive widget for "boxes and lines" environments
 Version:        0.7.1
-Release:        34%{?dist}
+Release:        35%{?dist}
 License:        GPLv2+
 URL:            http://drobilla.net/software/flowcanvas/
 Source0:        http://download.drobilla.net/%{name}-%{version}.tar.bz2
@@ -73,6 +73,9 @@ chmod +x $RPM_BUILD_ROOT%{_libdir}/lib%{name}.so.*
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-34
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

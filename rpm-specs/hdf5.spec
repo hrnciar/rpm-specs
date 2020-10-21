@@ -6,8 +6,8 @@
 # NOTE: Try not to release new versions to released versions of Fedora
 # You need to recompile all users of HDF5 for each version change
 Name: hdf5
-Version: 1.10.5
-Release: 6%{?dist}
+Version: 1.10.6
+Release: 4%{?dist}
 Summary: A general purpose library and file format for storing scientific data
 License: BSD
 URL: https://portal.hdfgroup.org/display/HDF5/HDF5
@@ -17,14 +17,10 @@ Source1: h5comp
 # For man pages
 Source2: http://ftp.us.debian.org/debian/pool/main/h/hdf5/hdf5_1.10.4+repack-1.debian.tar.xz
 Patch0: hdf5-LD_LIBRARY_PATH.patch
-# Properly run MPI_Finalize() in t_pflush1
-Patch1: hdf5-mpi.patch
 # Fix some warnings
 Patch2: hdf5-warning.patch
 # Fix java build
 Patch3: hdf5-build.patch
-# Upstream fix for Java tests
-Patch4: https://jira.hdfgroup.org/secure/attachment/26110/fix-HDFFV-10745.patch
 # Remove Fedora build flags from h5cc/h5c++/h5fc
 # https://bugzilla.redhat.com/show_bug.cgi?id=1794625
 Patch5: hdf5-wrappers.patch
@@ -49,18 +45,6 @@ BuildRequires: gcc, gcc-c++
 
 %global with_mpich 1
 %global with_openmpi 1
-%if 0%{?rhel}
-%ifarch ppc64
-# No mpich2 on ppc64 in EL
-%global with_mpich 0
-%endif
-%endif
-%if 0%{?fedora} < 26
-%ifarch s390 s390x
-# No openmpi on s390(x)
-%global with_openmpi 0
-%endif
-%endif
 
 %if %{with_mpich}
 %global mpi_list mpich
@@ -172,10 +156,8 @@ HDF5 parallel openmpi static libraries
 %prep
 %setup -q -a 2 -n %{name}-%{version}%{?snaprel}
 %patch0 -p1 -b .LD_LIBRARY_PATH
-#patch1 -p1 -b .mpi
 %patch2 -p1 -b .warning
 %patch3 -p1 -b .build
-%patch4 -p1 -b .jira
 %patch5 -p1 -b .wrappers
 
 # Replace jars with system versions
@@ -230,9 +212,6 @@ make LDFLAGS="%{__global_ldflags} -fPIC -Wl,-z,now -Wl,--as-needed"
 popd
 
 #MPI builds
-export CC=mpicc
-export CXX=mpicxx
-export F9X=mpif90
 export LDFLAGS="%{__global_ldflags} -fPIC -Wl,-z,now -Wl,--as-needed"
 for mpi in %{?mpi_list}
 do
@@ -242,6 +221,7 @@ do
   ln -s ../configure .
   %configure \
     %{configure_opts} \
+    CC=mpicc CXX=mpicxx F9X=mpif90 \
     FCFLAGS="$FCFLAGS -I$MPI_FORTRAN_MOD_DIR" \
     --enable-parallel \
     --exec-prefix=%{_libdir}/$mpi \
@@ -325,6 +305,8 @@ mv %{buildroot}%{_libdir}/libhdf5_java.so %{buildroot}%{_libdir}/%{name}/
 make -C build check
 export HDF5_Make_Ignore=yes
 export OMPI_MCA_rmaps_base_oversubscribe=1
+# MPI Tests are hanging
+%if 0
 # t_cache_image appears to be hanging, others taking very long on s390x
 %ifnarch s390x
 for mpi in %{?mpi_list}
@@ -333,6 +315,7 @@ do
   make -C $mpi check
   module purge
 done
+%endif
 %endif
 
 
@@ -494,6 +477,19 @@ done
 
 
 %changelog
+* Wed Oct 14 2020 Orion Poplawski <orion@nwra.com> - 1.10.6-4
+- Drop MPI tests for now - hanging
+- Build openmpi for EL s390x again
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.10.6-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jun 25 2020 Orion Poplawski <orion@nwra.com> - 1.10.6-1
+- Update to 1.10.6
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.5-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

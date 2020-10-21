@@ -6,8 +6,8 @@
 %undefine _python_bytecompile_errors_terminate_build
 
 Name:           python-%{pkgname}
-Version:        5.1
-Release:        4%{?dist}
+Version:        5.2
+Release:        2%{?dist}
 Summary:        Zope testrunner script
 
 License:        ZPLv2.1
@@ -36,12 +36,6 @@ This package provides a flexible test runner with layer support.
 
 %package     -n python3-%{pkgname}
 Summary:        Zope testrunner script
-
-%{?python_provide:%python_provide python3-%{pkgname}}
-
-# This can be removed when Fedora 30 reaches EOL
-Obsoletes:      python2-%{pkgname} < 5.0-4
-Provides:       python2-%{pkgname} = %{version}-%{release}
 
 %description -n python3-%{pkgname}
 This package provides a flexible test runner with layer support.
@@ -127,6 +121,12 @@ unset PYTHONHOME
 %exclude %{python3_sitelib}/zope/testrunner/tests
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Jerry James <loganjerry@gmail.com> - 5.2-1
+- Version 5.2
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.1-4
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           perl-CGI-Application-Plugin-DBIC-Schema
 Version:        0.3
-Release:        30%{?dist}
+Release:        31%{?dist}
 Summary:        Easy DBIx::Class access from CGI::Application
 License:        GPL+ or Artistic
 
@@ -50,6 +50,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.3-30
 - Perl 5.32 rebuild
 

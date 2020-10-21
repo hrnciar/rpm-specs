@@ -6,7 +6,7 @@
 
 Name:             R-%{packname}
 Version:          0.14
-Release:          4%{?dist}
+Release:          6%{?dist}
 Summary:          Parsing and Evaluation Tools that Provide More Details than the Default
 
 License:          MIT
@@ -69,6 +69,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 0.14-5
 - widen "with suggests" conditional to break testthat loop
 - rebuild for R 4

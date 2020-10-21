@@ -3,7 +3,7 @@
 
 # https://github.com/shirou/gopsutil
 %global goipath         github.com/shirou/gopsutil
-Version:                2.19.6
+Version:                2.20.6
 
 %gometa
 
@@ -15,7 +15,7 @@ porting all psutil functions on some architectures.}
 %global godocs          README.rst windows_memo.rst
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Psutil for Go
 
 License:        BSD
@@ -50,6 +50,12 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 18:03:20 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.20.6-1
+- Update to 2.20.6
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.19.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.19.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

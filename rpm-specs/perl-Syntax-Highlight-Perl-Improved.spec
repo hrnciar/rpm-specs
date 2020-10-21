@@ -1,6 +1,6 @@
 Name:           perl-Syntax-Highlight-Perl-Improved
 Version:        1.01
-Release:        31%{?dist}
+Release:        32%{?dist}
 Summary:        Highlighting of Perl Syntactical Structures
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Syntax-Highlight-Perl-Improved
@@ -47,6 +47,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.01-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.01-31
 - Perl 5.32 rebuild
 

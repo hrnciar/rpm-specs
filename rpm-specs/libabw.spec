@@ -2,7 +2,7 @@
 
 Name: libabw
 Version: 0.1.3
-Release: 2%{?dist}
+Release: 4%{?dist}
 Summary: A library for import of AbiWord files
 
 License: MPLv2.0
@@ -56,10 +56,10 @@ sed -i \
     -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -e 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' \
     libtool
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 rm -f %{buildroot}/%{_libdir}/*.la
 # we install API docs directly from build
 rm -rf %{buildroot}/%{_docdir}/%{name}
@@ -98,6 +98,13 @@ install -m 0644 abw2*.1 %{buildroot}/%{_mandir}/man1
 %{_mandir}/man1/abw2html.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 0.1.3-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

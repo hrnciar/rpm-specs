@@ -1,6 +1,6 @@
 Name:           libmawk
 Version:        1.0.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Embed awk scripting language in any application written in C
 
 License:        GPLv2
@@ -71,6 +71,9 @@ HTML documentation for %{name}.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Alain <alain vigne 14 AT gmail com> - 1.0.2-4
 - Fix the libdir install, depending on arch
 - Patch source code to comply with gcc -fno-common

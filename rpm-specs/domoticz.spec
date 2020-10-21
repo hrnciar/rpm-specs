@@ -3,7 +3,7 @@
 
 Name:		domoticz
 Version:	2020.2
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Open source Home Automation System
 
 License:	GPLv3+ and ASL 2.0 and Boost and BSD and MIT
@@ -131,12 +131,12 @@ cp -p %{SOURCE3} ./appversion.h
  -DUSE_BUILTIN_TINYXPATH=NO \
  -DUSE_STATIC_BOOST=NO \
  -DCMAKE_INSTALL_PREFIX=%{_datadir}/%{name} \
- .
-make %{?_smp_mflags}
+ %{nil}
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 # remove bundled OpenZWave configuration files so system files are used
 rm -rf $RPM_BUILD_ROOT%{_datadir}/%{name}/Config/
@@ -243,6 +243,9 @@ usermod -G domoticz,dialout domoticz
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Michael Cronenworth <mike@cchtml.com> - 2020.2-4
 - Rebuild for Boost 1.73 (RHBZ#1843104)
 

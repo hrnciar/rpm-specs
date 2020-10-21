@@ -8,8 +8,8 @@ This is a client library for Gnocchi built on the Gnocchi API. It \
 provides a Python API (the gnocchiclient module) and a command-line tool.
 
 Name:             python-gnocchiclient
-Version:          7.0.4
-Release:          7%{?dist}
+Version:          7.0.7
+Release:          1%{?dist}
 Summary:          Python API and CLI for OpenStack Gnocchi
 
 License:          ASL 2.0
@@ -100,7 +100,7 @@ rm -f {,test-}requirements.txt
 
 # Some env variables required to successfully build our doc
 export PYTHONPATH=.
-%{__python3} setup.py build_sphinx -b html
+# %{__python3} setup.py build_sphinx -b html
 
 # Fix hidden-file-or-dir warnings
 rm -rf doc/build/html/.doctrees doc/build/html/.buildinfo
@@ -118,9 +118,19 @@ rm -rf doc/build/html/.doctrees doc/build/html/.buildinfo
 %{python3_sitelib}/gnocchiclient/tests
 
 %files -n python-%{pypi_name}-doc
-%doc doc/build/html
+# %doc doc/build/html
 
 %changelog
+* Mon Oct 05 2020 Matthias Runge <mrunge@redhat.com> - 7.0.7-1
+- updated to 7.0.7
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.4-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.4-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 7.0.4-7
 - Rebuilt for Python 3.9
 

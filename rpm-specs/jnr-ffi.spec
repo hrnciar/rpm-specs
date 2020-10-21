@@ -1,10 +1,13 @@
 Name:     jnr-ffi
 Version:  2.1.8
-Release:  5%{?dist}
+Release:  9%{?dist}
 Summary:  Java Abstracted Foreign Function Layer
 License:  ASL 2.0
 URL:      http://github.com/jnr/%{name}/
 Source0:  https://github.com/jnr/%{name}/archive/%{name}-%{version}.tar.gz
+
+# Taken from https://github.com/jnr/jnr-ffi/commit/edda8cfe60b77ceeba301d20db0f5c996b958f5a
+Patch1:   0001-Convert-int-to-boolean-like-C-does-nonzero-is-true.patch
 
 BuildRequires:  gcc
 BuildRequires:  make
@@ -22,11 +25,8 @@ BuildRequires:  mvn(org.ow2.asm:asm-analysis)
 BuildRequires:  mvn(org.ow2.asm:asm-commons)
 BuildRequires:  mvn(org.ow2.asm:asm-tree)
 BuildRequires:  mvn(org.ow2.asm:asm-util)
-BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
 
 BuildArch:     noarch
-
-# don't obsolete/provide jaffl, gradle is using both jaffl and jnr-ffi...
 
 %description
 An abstracted interface to invoking native functions from java
@@ -39,11 +39,13 @@ This package contains the API documentation for %{name}.
 
 %prep
 %setup -q -n %{name}-%{name}-%{version}
+%patch1 -p1
 
 # remove all builtin jars
 find -name '*.jar' -o -name '*.class' -exec rm -f '{}' \;
 
 # Unnecessary for RPM builds
+%pom_remove_parent
 %pom_remove_plugin ":maven-javadoc-plugin"
 
 # don't fail on unused parameters... (TODO: send patch upstream)
@@ -62,6 +64,19 @@ sed -i 's|-Werror||' libtest/GNUmakefile
 %license LICENSE
 
 %changelog
+* Tue Aug 04 2020 Mat Booth <mat.booth@redhat.com> - 2.1.8-9
+- Fix fallback logic on non-intel architectures
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.8-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.8-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.1.8-6
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.8-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

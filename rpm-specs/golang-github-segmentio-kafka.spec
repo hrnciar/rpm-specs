@@ -4,7 +4,7 @@
 
 # https://github.com/segmentio/kafka-go
 %global goipath         github.com/segmentio/kafka-go
-Version:                0.2.2
+Version:                0.3.7
 
 %gometa
 
@@ -17,7 +17,7 @@ make it easy to use and integrate with existing software.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Kafka library in go
 
 License:        MIT
@@ -25,10 +25,15 @@ URL:            %{gourl}
 Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/golang/snappy)
+BuildRequires:  golang(github.com/google/uuid)
+BuildRequires:  golang(github.com/klauspost/compress/zstd)
 BuildRequires:  golang(github.com/pierrec/lz4)
+BuildRequires:  golang(github.com/xdg/scram)
+BuildRequires:  golang(go.mongodb.org/mongo-driver/mongo)
 
 %if %{with check}
 # Tests
+BuildRequires:  golang(github.com/eapache/go-xerial-snappy)
 BuildRequires:  golang(golang.org/x/net/nettest)
 %endif
 
@@ -39,6 +44,7 @@ BuildRequires:  golang(golang.org/x/net/nettest)
 
 %prep
 %goprep
+sed -i 's|github.com/mongodb/mongo-go-driver|go.mongodb.org/mongo-driver|' $(find . -iname "*.go" -type f)
 
 %install
 %gopkginstall
@@ -51,6 +57,12 @@ BuildRequires:  golang(golang.org/x/net/nettest)
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 17:14:57 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.3.7-1
+- Update to 0.3.7
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

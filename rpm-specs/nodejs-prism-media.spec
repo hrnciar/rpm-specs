@@ -2,7 +2,7 @@
 
 Name:           nodejs-%{npmname}
 Version:        1.0.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Easily transcode media using node.js
 
 License:        ASL 2.0
@@ -43,6 +43,9 @@ cp -a package.json %{buildroot}%{nodejs_sitelib}/%{npmname}/
 %doc README.md
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

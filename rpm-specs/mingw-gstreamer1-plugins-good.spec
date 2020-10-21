@@ -3,7 +3,7 @@
 %global         api_version     1.0
 
 Name:           mingw-gstreamer1-plugins-good
-Version:        1.16.2
+Version:        1.18.0
 Release:        1%{?dist}
 Summary:        Cross compiled GStreamer1 plug-ins good
 
@@ -12,6 +12,10 @@ URL:            http://gstreamer.freedesktop.org/
 Source:         http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-%{version}.tar.xz
 
 BuildArch:      noarch
+
+BuildRequires:  gettext
+BuildRequires:  gcc
+BuildRequires:  meson
 
 BuildRequires:  mingw32-filesystem >= 95
 BuildRequires:  mingw64-filesystem >= 95
@@ -48,11 +52,8 @@ BuildRequires:  mingw32-wavpack
 BuildRequires:  mingw64-wavpack
 BuildRequires:  mingw32-speex
 BuildRequires:  mingw64-speex
-
-# Can't build with -Werror
-# https://bugzilla.redhat.com/show_bug.cgi?id=1166306
-#BuildRequires:  mingw32-taglib
-#BuildRequires:  mingw64-taglib
+BuildRequires:  mingw32-taglib
+BuildRequires:  mingw64-taglib
 
 
 %description
@@ -111,32 +112,29 @@ good quality and under the LGPL license.
 
 
 %build
-%mingw_configure \
-    --with-package-name='Fedora Mingw gstreamer1-plugins-good package' \
-    --with-package-origin='http://download.fedora.redhat.com/fedora' \
-    --enable-experimental \
-    --disable-examples \
-    --disable-gtk-doc \
-    --disable-monoscope \
-    --disable-aalib \
-    --disable-libcaca \
-    --with-default-visualizer=autoaudiosink \
-    --disable-shout2 \
-    --disable-taglib \
-    --disable-flac \
-    --disable-jack
+%mingw_meson \
+    -Dpackage-name='Fedora Mingw gstreamer1-plugins-good package' \
+    -Dpackage-origin='http://download.fedora.redhat.com/fedora' \
+    -Dexperimental=enabled \
+    -Dexamples=disabled \
+    -Dgtk-doc=false \
+    -Dmonoscope=disabled \
+    -Daalib=disabled \
+    -Dlibcaca=disabled \
+    -Ddefault-visualizer=autoaudiosink \
+    -Dshout2=disabled \
+    -Dflac=disabled \
+    -Djack=disabled
 
-%mingw_make %{?_smp_mflags}
+%mingw_ninja
 
 
 %install
-%mingw_make install DESTDIR=%{buildroot}
+%mingw_ninja_install
 
-# Clean out files that should not be part of the rpm.
-rm -f %{buildroot}%{mingw32_libdir}/gstreamer-%{api_version}/*.la
-rm -f %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.la
-rm -f %{buildroot}%{mingw32_libdir}/gstreamer-%{api_version}/*.a
-rm -f %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.a
+# Drop import libs for plugins
+rm -rf %{buildroot}%{mingw32_libdir}/gstreamer-%{api_version}/*.dll.a
+rm -rf %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.dll.a
 
 %mingw_find_lang gstreamer1-plugins-good --all-name
 
@@ -188,7 +186,7 @@ rm -f %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.a
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstsmpte.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstspectrum.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstspeex.dll
-#%{mingw32_libdir}/gstreamer-%{api_version}/libgsttaglib.dll
+%{mingw32_libdir}/gstreamer-%{api_version}/libgsttaglib.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstudp.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstvideobox.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstvideocrop.dll
@@ -199,7 +197,6 @@ rm -f %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.a
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstwavpack.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstwavparse.dll
 %{mingw32_libdir}/gstreamer-%{api_version}/libgsty4menc.dll
-
 
 # gstreamer1-plugins with external dependencies but in the main package
 %{mingw32_libdir}/gstreamer-%{api_version}/libgstcairo.dll
@@ -257,7 +254,7 @@ rm -f %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.a
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstsmpte.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstspectrum.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstspeex.dll
-#%{mingw64_libdir}/gstreamer-%{api_version}/libgsttaglib.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/libgsttaglib.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstudp.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstvideobox.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstvideocrop.dll
@@ -269,7 +266,6 @@ rm -f %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.a
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstwavparse.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgsty4menc.dll
 
-
 # gstreamer1-plugins with external dependencies but in the main package
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstcairo.dll
 %{mingw64_libdir}/gstreamer-%{api_version}/libgstdirectsound.dll
@@ -280,6 +276,15 @@ rm -f %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.a
 
 
 %changelog
+* Sun Sep 13 2020 Sandro Mani <manisandro@gmail.com> - 1.18.0-1
+- Update to 1.18.0
+
+* Wed Aug 12 13:38:35 GMT 2020 Sandro Mani <manisandro@gmail.com> - 1.16.2-3
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 1.16.2-1
 - Update to 1.16.2
 

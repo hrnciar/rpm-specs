@@ -1,6 +1,9 @@
+# I couldn't get the -g option to be passed reliably everywhere.
+%global debug_package %{nil}
+
 Name:           ocaml-omake
 Version:        0.10.3
-Release:        24%{?dist}
+Release:        29%{?dist}
 Summary:        Build system with automated dependency analysis
 License:        LGPLv2+ with exceptions and GPLv2+ and BSD
 
@@ -49,10 +52,11 @@ features many additional enhancements, including the following.
 ./configure -prefix %{_prefix}
 make all
 
-
 %install
 make install \
   INSTALL_ROOT=$RPM_BUILD_ROOT
+# brp-strip is unable to strip the binary unless it's writable:
+chmod 0755 $RPM_BUILD_ROOT%{_bindir}/omake
 
 
 %files
@@ -65,6 +69,22 @@ make install \
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.10.3-29
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.10.3-28
+- OCaml 4.11.0 rebuild
+
+* Mon Aug 03 2020 Richard W.M. Jones <rjones@redhat.com> - 0.10.3-27
+- Disable debuginfo.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.3-26
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.3-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 0.10.3-24
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

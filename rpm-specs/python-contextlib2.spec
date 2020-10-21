@@ -2,7 +2,7 @@
 
 Name:               python-contextlib2
 Version:            0.5.5
-Release:            14%{?dist}
+Release:            15%{?dist}
 Summary:            Backports and enhancements for the contextlib module
 
 License:            Python
@@ -58,6 +58,9 @@ rm -rf %{modname}.egg-info
 %{python3_sitelib}/%{modname}-%{version}-*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.5-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.5-14
 - Rebuilt for Python 3.9
 

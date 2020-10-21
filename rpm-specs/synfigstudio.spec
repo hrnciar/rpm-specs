@@ -1,10 +1,6 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:           synfigstudio
 Version:        1.2.2
-Release:        5%{?dist}
+Release:        8%{?dist}
 Summary:        Vector-based 2D animation studio
 
 License:        GPLv2+
@@ -56,6 +52,7 @@ developing applications that use %{name}.
 %patch2 -p0 -b .m4allow
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 # build script regeneration needed for cflags and m4allow patches
 autoreconf -fi
 # autoreconf entirely screws up po/Makefile.in.in , for some reason
@@ -99,6 +96,16 @@ desktop-file-install \
 
 
 %changelog
+* Wed Aug 19 2020 Jeff Law <law@redhat.com> - 1.2.2-8
+- Force C++14 as this code is not C++17 ready
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

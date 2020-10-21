@@ -3,8 +3,8 @@
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          %{packver}
-Release:          1%{?dist}
+Version:          1.5.4
+Release:          3%{?dist}
 Summary:          HTTP and WebSocket Server Library
 
 # Main: GPLv2+; http-parser: MIT; sha1: Public Domain
@@ -12,6 +12,8 @@ License:          GPLv2+ and MIT and Public Domain
 URL:              https://CRAN.R-project.org/package=%{packname}
 Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 Patch0001:        0001-Use-unbundled-libuv.patch
+# https://github.com/rstudio/httpuv/pull/284
+Patch0002:        0002-Fix-sha1-calculation-on-big-endian-systems.patch
 
 # Here's the R view of the dependencies world:
 # Depends:
@@ -52,6 +54,7 @@ by Joyent, Inc.
 
 pushd %{packname}
 %patch0001 -p1
+%patch0002 -p1
 rm -r src/libuv
 sed -i '/libuv/d' MD5
 popd
@@ -89,6 +92,12 @@ export LANG=C.UTF-8
 
 
 %changelog
+* Mon Sep 07 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.5.4-3
+- Fix websocket handshake on big-endian systems
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.5.4-1
 - update to 1.5.4
 - rebuild for R 4

@@ -25,9 +25,9 @@
 
 # This package is named ardour6 to allow parallel installation with older versions of Ardour.
 Name:       ardour6
-Version:    6.0.0
+Version:    6.3.0
 
-Release:    5%{?dist}
+Release:    1%{?dist}
 Summary:    Digital Audio Workstation
 
 License:    GPLv3+
@@ -41,13 +41,6 @@ Source2:    gpl-3.0.txt
 
 # QM-DSP library is missing kiss-fft functions (#1494796)
 Patch0:     %{name}-missing-kissfft.patch
-
-# revision.cc is missing in tarball
-Patch1:     %{name}-6.0-missing-revision-cc.patch
-
-# Fix FTBFS on ppc64
-# https://github.com/Ardour/ardour/pull/522
-Patch2:     %{name}-6.0-ppc64.patch
 
 BuildRequires:  boost-devel >= 1.39
 BuildRequires:  coreutils
@@ -135,8 +128,8 @@ Provides:       bundled(pbd) = 4.1.0
 
 # Ardour 6 is backwards-compatible to version 5, obsolete it from Fedora 33 on
 %if 0%{?fedora} >= 33
-Obsoletes:      ardour5
-Conflicts:      ardour5
+Obsoletes:      ardour5 < %{version}-%{release}
+Conflicts:      ardour5 < %{version}-%{release}
 %endif
 
 
@@ -154,8 +147,8 @@ Summary:    %{1} backend for %{name}\
 Requires:   %{name}%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}\
 Provides:   %{name}-backend%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}\
 %if 0%{?fedora} >= 33\
-Obsoletes:  ardour5-audiobackend-%{lua: print(string.lower(rpm.expand("%1")))}\
-Conflicts:  ardour5-audiobackend-%{lua: print(string.lower(rpm.expand("%1")))}\
+Obsoletes:  ardour5-audiobackend-%{lua: print(string.lower(rpm.expand("%1")))} < %{version}-%{release}\
+Conflicts:  ardour5-audiobackend-%{lua: print(string.lower(rpm.expand("%1")))} < %{version}-%{release}\
 %endif\
 \
 %description backend-%{lua: print(string.lower(rpm.expand("%1")))}\
@@ -179,11 +172,8 @@ for i in fluidsynth hidapi libltc qm-dsp; do
 done
 %endif
 
-# use versionized name for all man pages
-for fromfile in ardour.1 ardour.1.??; do
-    tofile="%{name}${fromfile#ardour}"
-    cp -p "$fromfile" "$tofile"
-done
+# use versionized name for man page
+cp -p ardour.1 ardour6.1
 
 cp %{SOURCE1} %{SOURCE2} .
 
@@ -242,16 +232,9 @@ ln -snf ../fonts/google-droid/DroidSansMono.ttf %{buildroot}%{_datadir}/%{name}/
 # ArdourSans.ttf is originally Noto Sans Regular
 ln -snf ../fonts/google-noto/NotoSans-Regular.ttf %{buildroot}%{_datadir}/%{name}/ArdourSans.ttf
 
-# install man pages
+# install man page
 install -d -m755 %{buildroot}%{_mandir}/man1
 install -p -m644 %{name}.1 %{buildroot}%{_mandir}/man1/%{name}.1
-for fromfile in %{name}.1.??; do
-    lang="${fromfile#%{name}.1.}"
-    todir="%{buildroot}%{_mandir}/${lang}/man1"
-    tofile="${todir}/%{name}.1"
-    install -d -m755 "$todir"
-    install -p -m644 "$fromfile" "$tofile"
-done
 
 # install icons to freedesktop locations
 for s in 16 22 32 48 256 512; do
@@ -282,9 +265,6 @@ install -p -m 0644 build/gtk2_ardour/%{name}.appdata.xml %{buildroot}%{_datadir}
 
 # Delete zero length file (probably needed to keep empty dir in GIT)
 rm %{buildroot}%{_datadir}/%{name}/templates/.stub
-
-# Delete wscript file. PR: https://github.com/Ardour/ardour/pull/516
-rm "%{buildroot}%{_datadir}/%{name}/plugin_metadata/wscript"
 
 %find_lang %{name}
 %find_lang gtk2_%{name}
@@ -351,9 +331,18 @@ rm -f %{buildroot}%{_bindir}/run-tests
 %{_datadir}/mime/packages/%{name}.xml
 %{_datadir}/appdata/%{name}.appdata.xml
 %{_mandir}/man1/%{name}.1*
-%{_mandir}/*/man1/%{name}.1*
 
 %changelog
+* Sat Sep 26 2020 Nils Philippsen <nils@tiptoe.de> - 6.3.0-1
+- version 6.3.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Nils Philippsen <nils@tiptoe.de> - 6.2.0-1
+- version 6.2.0
+- versionize obsoletes/conflicts
+
 * Mon Jun 22 2020 Nils Philippsen <nils@tiptoe.de> - 6.0.0-5
 - obsolete Ardour 5 packages to ensure upgrade
 

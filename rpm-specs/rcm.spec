@@ -1,6 +1,6 @@
 Name:		rcm
-Version:	1.3.3
-Release:	6%{?dist}
+Version:	1.3.4
+Release:	1%{?dist}
 Summary:	Management suite for dotfiles
 
 License:	BSD
@@ -37,6 +37,12 @@ shared between computers with some host-specific or task-specific files.
 
 
 %changelog
+* Mon Aug 31 2020 Link Dupont <linkdupont@fedoraproject.org> - 1.3.4-1
+- New upstream release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

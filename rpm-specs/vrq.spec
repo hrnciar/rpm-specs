@@ -1,11 +1,12 @@
 Name:           vrq
 Version:        1.0.134
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Verilog tool framework with plugins for manipulating source code
 
 License:        GPLv2+
 URL:            http://vrq.sourceforge.net/
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
+Patch0:         vrq-gcc11.patch
 
 # ---- Exclusive Arch: ----
 # plugin/sim uses x86 inline assembly
@@ -42,12 +43,13 @@ The vrq-devel package contains the header files and libraries needed
 to develop backend plugin customization tools for the vrq tool framework.
 
 %prep
-%autosetup
+%autosetup -p1
 %{__rm} -rf `find . -name CVS`
 %{__rm} -f `find . -name *.o`
 %{__rm} -f `find . -name *.so`
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure
 %make_build
 
@@ -88,6 +90,13 @@ rm -rf %{buildroot}%{_docdir}/%{name}-%{version}
 %{_includedir}/%{name}-%{version}
 
 %changelog
+* Wed Jul 29 2020 Jeff Law <law@redhat.com> - 1.0.134-3
+- Make comparison object invocable as const
+- Force C++14 as this code is not C++17 ready
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.134-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 11 2020 Filipe Rosset <rosset.filipe@gmail.com> - 1.0.134-1
 - Update to 1.0.134 fixes rhbz#1747827
 

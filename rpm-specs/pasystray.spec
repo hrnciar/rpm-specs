@@ -1,6 +1,6 @@
 Name:           pasystray
 Version:        0.6.0
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        PulseAudio system tray
 License:        LGPLv2+
 URL:            https://github.com/christophgysin/pasystray
@@ -47,6 +47,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %doc README.md
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

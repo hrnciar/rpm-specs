@@ -1,7 +1,7 @@
 %global srcname keylime
 
 Name:    keylime
-Version: 5.6.2
+Version: 5.7.2
 Release: 2%{?dist}
 Summary: Open source TPM software for Bootstrapping and Maintaining Trust
 
@@ -11,7 +11,7 @@ URL:            https://github.com/keylime/keylime
 Source0:        https://github.com/keylime/keylime/archive/%{version}.tar.gz
 # Main program: BSD
 # Icons: MIT
-License: BSD and MIT
+License: ASL 2.0 and MIT
 
 BuildRequires: swig
 BuildRequires: openssl-devel
@@ -101,6 +101,12 @@ cp -r ./tpm_cert_store %{buildroot}%{_sharedstatedir}/keylime/
 %{_sharedstatedir}/keylime/tpm_cert_store/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.7.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Luke Hinds <lhinds@redhat.com> 5.7.2-1
+- Updating for Keylime release v5.7.2
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.6.2-2
 - Rebuilt for Python 3.9
 

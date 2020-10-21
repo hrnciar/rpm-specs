@@ -22,7 +22,7 @@ defined in RFC 5988.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.15%{?dist}
+Release:        0.16%{?dist}
 Summary:        HTTP Link parsing in Go
 
 # Upstream license specification: BSD-3-Clause
@@ -55,6 +55,9 @@ find . -name "*.go" -exec sed -i "s|launchpad.net/gocheck|gopkg.in/check.v1|" "{
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

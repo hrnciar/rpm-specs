@@ -8,7 +8,7 @@
 
 Name:               python-%{modname}
 Version:            1.7.1
-Release:            6%{?dist}
+Release:            7%{?dist}
 Summary:            %{sum}
 
 License:            BSD
@@ -115,6 +115,9 @@ rm -rfv test/bin
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.1-6
 - Rebuilt for Python 3.9
 

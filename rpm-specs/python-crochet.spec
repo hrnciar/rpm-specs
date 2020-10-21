@@ -10,7 +10,7 @@ from their threaded parts
 
 Name:           python-%{srcname}
 Version:        1.10.0
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        A library that makes it easier to use Twisted from blocking code
 
 License:        MIT
@@ -76,6 +76,13 @@ rm docs/_build/html/.buildinfo
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 1.10.0-5
 - Rebuilt for Python 3.9
 

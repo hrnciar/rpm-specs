@@ -1,6 +1,6 @@
 Name:           perl-Cache
 Version:        2.11
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        The Cache interface
 License:        GPL+ or Artistic
 
@@ -99,6 +99,9 @@ chmod -R u+w $RPM_BUILD_ROOT/*
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.11-16
 - Perl 5.32 rebuild
 

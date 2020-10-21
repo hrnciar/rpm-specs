@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 # compression tests take up 3GB of disk space and a lot of time
 %global compression_tests 0
 %global desc \
@@ -12,7 +13,7 @@ beginning of the file.
 
 Name:          tng
 Version:       1.8.2
-Release:       6%{?dist}
+Release:       7%{?dist}
 Summary:       Trajectory Next Generation binary format manipulation library
 
 License:       BSD and zlib
@@ -51,7 +52,6 @@ This package contains the documentation.
 %setup -q
 
 %build
-mkdir build && cd build
 %{cmake3} \
     -DTNG_BUILD_DOCUMENTATION=ON \
     -DTNG_BUILD_FORTRAN=ON \
@@ -59,13 +59,12 @@ mkdir build && cd build
     -DTNG_BUILD_COMPRESSION_TESTS=ON \
 %endif
     -DTNG_BUILD_WITH_ZLIB=ON \
-    ..
+    %{nil}
 
-%make_build
+%cmake3_build
 
 %install
-cd build
-%make_install
+%cmake3_install
 
 # build/Documentation/html
 rm -r %{buildroot}%{_datadir}/tng/doc/latex
@@ -73,11 +72,11 @@ mkdir -p %{buildroot}%{_defaultdocdir}
 mv %{buildroot}{%{_datadir}/tng/doc/html,%{_defaultdocdir}/tng}
 
 %check
-pushd build/bin/tests
+pushd %{_vpath_builddir}/bin/tests
 ./tng_testing
 popd
 %if 0%{?compression_tests}
-pushd build/bin/compression_tests
+pushd %{_vpath_builddir}/bin/compression_tests
 ./test_tng_compress_write.sh
 ./test_tng_compress_read.sh
 popd
@@ -99,6 +98,9 @@ popd
 %{_docdir}/%{name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

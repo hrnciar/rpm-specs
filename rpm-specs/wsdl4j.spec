@@ -2,7 +2,7 @@ Summary:        Web Services Description Language Toolkit for Java
 Name:           wsdl4j
 Epoch:          0
 Version:        1.6.3
-Release:        16%{?dist}
+Release:        19%{?dist}
 License:        CPL
 URL:            http://sourceforge.net/projects/wsdl4j
 BuildArch:      noarch
@@ -32,6 +32,10 @@ Javadoc for %{name}.
 %prep
 %setup -q -n %{name}-1_6_3
 
+# Set source/target to 1.6 for building with Java 11
+sed -i 's/<javac/<javac source="1.6" target="1.6"/' build.xml
+sed -i 's/<javadoc/<javadoc source="1.6"/' build.xml
+
 %mvn_file ":{*}" @1
 
 %build
@@ -56,6 +60,15 @@ ln -sf ../qname.jar %{buildroot}%{_javadir}/javax.wsdl/
 %license license.html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.6.3-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0:1.6.3-18
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jun 25 2020 Roland Grunberg <rgrunber@redhat.com> - 0:1.6.3-17
+- Use source/target of 1.6 to build against Java 11.
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.6.3-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

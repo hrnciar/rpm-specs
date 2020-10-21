@@ -1,8 +1,8 @@
 %global srcname pycountry
 
 Name:           python-%{srcname}
-Version:        19.8.18
-Release:        5%{?dist}
+Version:        20.7.3
+Release:        2%{?dist}
 Summary:        ISO country, subdivision, language, currency and script definitions and their translations
 
 License:        LGPLv2
@@ -10,13 +10,10 @@ URL:            https://github.com/flyingcircusio/pycountry
 Source0:        %pypi_source
 # Rebased from Debian:
 Patch0001:      00-use_system_iso-codes.patch
-# https://github.com/flyingcircusio/pycountry/pull/16 (partially)
-Patch0002:      https://github.com/flyingcircusio/pycountry/pull/16/commits/1979282ee3cc6b1955240dbea46843832e9afc3a.patch
-Patch0003:      support-iso-codes-450.patch
 
 BuildArch:      noarch
 
-BuildRequires:  iso-codes >= 4.1
+BuildRequires:  iso-codes >= 4.5
 BuildRequires:  python3-devel
 BuildRequires:  python3dist(setuptools)
 BuildRequires:  python3dist(pytest)
@@ -35,7 +32,7 @@ pycountry provides the ISO databases for the standards:
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
 
-Requires:       iso-codes >= 4.1
+Requires:       iso-codes >= 4.5
 
 %description -n python3-%{srcname}
 pycountry provides the ISO databases for the standards:
@@ -66,18 +63,23 @@ rm -rf src/%{srcname}/{databases,locales}
 
 
 %check
-PYTHONPATH=%{buildroot}%{python3_sitelib} PYTHONDONTWRITEBYTECODE=1 \
-    %{python3} -m pytest --pyargs pycountry
+%{pytest} --pyargs pycountry
 
 
 %files -n python3-%{srcname}
 %doc README.rst HISTORY.txt
 %license LICENSE.txt
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py*.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.7.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 20.7.3-1
+- Update to latest version
+
 * Wed May 27 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 19.8.18-5
 - Support iso-codes 4.5
 

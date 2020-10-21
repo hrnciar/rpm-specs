@@ -1,6 +1,6 @@
 Name:		tgif
 Version:	4.2.5
-Release:	20%{?dist}
+Release:	21%{?dist}
 Summary:	2-D drawing tool
 
 License:	QPL
@@ -157,6 +157,9 @@ desktop-file-install \
 %{_datadir}/applications/*%{name}.desktop
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.5-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.5-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

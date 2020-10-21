@@ -3,7 +3,7 @@
 
 Name:           linenoise
 Version:        0
-Release:        16.git%{git_rev}%{?dist}
+Release:        17.git%{git_rev}%{?dist}
 Summary:        Minimal replacement for readline
 # The licenses are a bit of a mess here...
 # utf8.{c,h} contain incomplete license headers. They refer to a "LICENSE" file 
@@ -62,6 +62,9 @@ LIBDIR="%{_libdir}" INCLUDEDIR="%{_includedir}" CFLAGS="%{optflags}" make %{?_sm
 %ldconfig_scriptlets
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-17.git7946e2c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-16.git7946e2c
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

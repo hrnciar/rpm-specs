@@ -2,7 +2,7 @@
 
 Name:           getdata
 Version:        0.10.0
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Library for reading and writing dirfile data
 
 License:        GPLv2+
@@ -148,6 +148,9 @@ mv %{buildroot}/%{_includedir}/getdata.mod  %{buildroot}/%{_fmoddir}/
 %{_libdir}/getdata/libgetdatalzma*.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.10.0-13
 - Fix FTBFS
 

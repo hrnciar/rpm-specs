@@ -4,7 +4,7 @@
 
 Name:             ktechlab
 Version:          0.40.1
-Release:          4%{?dist}
+Release:          6%{?dist}
 Summary:          Development and simulation of micro-controllers and electronic circuits
 License:          GPLv2
 
@@ -44,6 +44,35 @@ mkdir -p %{_target_platform}
 pushd %{_target_platform}
 %{cmake_kde4} ..
 popd
+
+UI_HEADERS_TO_GENERATE="
+    ./src/gui/ui_contexthelpwidget.h
+    ./src/gui/ui_generaloptionswidget.h
+    ./src/gui/ui_linkeroptionswidget.h
+    ./src/gui/ui_processingoptionswidget.h
+    ./src/gui/ui_programmerwidget.h
+    ./src/gui/ui_gpasmsettingswidget.h
+    ./src/gui/ui_newprojectwidget.h
+    ./src/gui/ui_newfilewidget.h
+    ./src/gui/ui_outputmethodwidget.h
+    ./src/gui/ui_scopescreenwidget.h
+    ./src/gui/ui_createsubprojectwidget.h
+    ./src/gui/ui_asmformattingwidget.h
+    ./src/gui/ui_oscilloscopewidget.h
+    ./src/gui/ui_microsettingswidget.h
+    ./src/gui/ui_newpinmappingwidget.h
+    ./src/gui/ui_logicwidget.h
+    ./src/gui/ui_sdccoptionswidget.h
+    ./src/gui/ui_picprogrammerconfigwidget.h
+    ./src/gui/ui_gplinksettingswidget.h
+    "
+for HEADER in $UI_HEADERS_TO_GENERATE ; do
+    %{__make} -f src/gui/CMakeFiles/gui.dir/build.make "$HEADER" -C %{_target_platform}
+done
+
+make -C %{_target_platform}/src/core
+
+
 
 # keep -j1 to avoid compilation crashes
 %{__make} %{?_smp_mflags} -j1 -C %{_target_platform}
@@ -86,6 +115,12 @@ source %{_sysconfdir}/profile.d/%{name}.sh
 
 
 %Changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.40.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 0.40.1-5
+- Build UI headers first to avoid missing dependency problems
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.40.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

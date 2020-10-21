@@ -2,7 +2,7 @@
 
 Name:           python-humanize
 Version:        0.5.1
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        Turns dates in to human readable format, e.g '3 minutes ago'
 
 License:        MIT
@@ -70,6 +70,9 @@ done
 %exclude %{python3_sitelib}/humanize/locale/*/LC_MESSAGES/*.po
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.1-23
 - Rebuilt for Python 3.9
 

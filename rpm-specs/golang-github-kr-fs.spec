@@ -16,7 +16,7 @@ Package fs provides filesystem-related functions.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        Filesystem-related functions for Go
 
 # Upstream license specification: BSD-3-Clause
@@ -46,6 +46,13 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

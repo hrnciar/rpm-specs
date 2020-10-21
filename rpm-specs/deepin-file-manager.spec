@@ -2,13 +2,15 @@
 
 Name:           deepin-file-manager
 Version:        5.0.0
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        Deepin File Manager
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/dde-file-manager
 Source0:        %{url}/archive/%{version}/%{repo}-%{version}.tar.gz
 # https://git.archlinux.org/svntogit/community.git/tree/trunk/deepin-file-manager-qt-5.14.patch?h=packages/deepin-file-manager&id=8d4647244939d98897b835112247860e33f40ec7
 Patch0:         deepin-file-manager-qt-5.14.patch
+# derive from upstream git d2202963
+Patch1:         0001-fix-build-failures-under-Qt-5.15.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  desktop-file-utils
@@ -77,6 +79,7 @@ Deepin desktop environment - desktop module.
 %prep
 %setup -q -n %{repo}-%{version}
 %patch0 -p1
+%patch1 -p1
 
 # fix file permissions
 find -type f -perm 775 -exec chmod 644 {} \;
@@ -146,6 +149,15 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/dde-trash.desktop ||:
 %{_datadir}/dbus-1/services/com.deepin.dde.desktop.service
 
 %changelog
+* Wed Sep 16 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.0.0-9
+- Fix build with Qt 5.15
+
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 5.0.0-9
+- rebuild (qt5)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr  8 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.0.0-4
 - Fix build with Qt 5.14.2
 

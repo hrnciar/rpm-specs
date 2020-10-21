@@ -1,7 +1,7 @@
 Name:           bsf
 Epoch:          0
 Version:        2.4.0
-Release:        35%{?dist}
+Release:        39%{?dist}
 Summary:        Bean Scripting Framework
 License:        ASL 2.0
 URL:            http://commons.apache.org/bsf/
@@ -10,14 +10,14 @@ BuildArch:      noarch
 Source0:        http://apache.mirror.anlx.net//commons/%{name}/source/%{name}-src-%{version}.tar.gz
 Source1:        %{name}-pom.xml
 
-Patch0:         build-file.patch
-Patch1:         build.properties.patch
+Patch0:         java-11-fixes.patch
 
 BuildRequires:  javapackages-local
 BuildRequires:  ant
-BuildRequires:  apache-parent
-BuildRequires:  xalan-j2
 BuildRequires:  apache-commons-logging
+BuildRequires:  apache-parent
+BuildRequires:  rhino
+BuildRequires:  xalan-j2
 
 %description
 Bean Scripting Framework (BSF) is a set of Java classes which provides
@@ -54,14 +54,14 @@ Javadoc for %{name}.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
+
 find -name \*.jar -delete
 
 %mvn_file : %{name}
 %mvn_alias : org.apache.bsf:
 
 %build
-export CLASSPATH=$(build-classpath apache-commons-logging xalan-j2)
+export CLASSPATH=$(build-classpath apache-commons-logging rhino xalan-j2)
 ant jar javadocs
 
 %mvn_artifact %{SOURCE1} build/lib/%{name}.jar
@@ -77,6 +77,18 @@ ant jar javadocs
 %license LICENSE.txt NOTICE.txt
 
 %changelog
+* Fri Aug 28 2020 Fabio Valentini <decathorpe@gmail.com> - 0:2.4.0-39
+- Re-enable JavaScript support (RHBZ#1858613).
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:2.4.0-38
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Fabio Valentini <decathorpe@gmail.com> - 0:2.4.0-37
+- Adaptations for Java 11 compatibility.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0:2.4.0-36
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:2.4.0-35
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           jnr-posix
 Version:        3.0.47
-Release:        4%{?dist}
+Release:        7%{?dist}
 Summary:        Java Posix layer
 License:        CPL or GPLv2+ or LGPLv2+
 URL:            http://github.com/jnr/jnr-posix
@@ -12,7 +12,6 @@ BuildRequires:  mvn(com.github.jnr:jnr-ffi)
 BuildRequires:  mvn(junit:junit)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-source-plugin)
-BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
 
 BuildArch:      noarch
 
@@ -31,6 +30,9 @@ Javadoc for %{name}.
 
 # fix test which assumes that there is a group named "nogroup"
 sed -i 's|"nogroup"|"root"|' src/test/java/jnr/posix/GroupTest.java
+
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
 
 # Remove useless wagon extension.
 %pom_xpath_remove "pom:build/pom:extensions"
@@ -52,6 +54,15 @@ sed -i 's|"nogroup"|"root"|' src/test/java/jnr/posix/GroupTest.java
 %license LICENSE.txt
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 3.0.47-7
+- Remove unnecessary dependency on parent POM.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.47-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.0.47-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.47-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

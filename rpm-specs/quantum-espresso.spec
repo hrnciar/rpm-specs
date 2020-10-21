@@ -23,6 +23,12 @@ unsupported https://gitlab.com/QEF/q-e/issues/113
 %global python python
 %endif
 
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 %if 0%{?el6}
 # el6/ppc64 Error: No Package found for mpich-devel
 ExclusiveArch:		x86_64 %{ix86}
@@ -37,7 +43,7 @@ ExclusiveArch:		x86_64 %{ix86}
 
 Name:			quantum-espresso
 Version:		6.5
-Release:		2%{?dist}
+Release:		4%{?dist}
 Summary:		A suite for electronic-structure calculations and materials modeling
 
 Provides:               bundled(FoXlibf)
@@ -70,7 +76,7 @@ BuildRequires:		python
 BuildRequires:		numpy
 %endif
 BuildRequires:		gcc-gfortran
-BuildRequires:		openblas-devel
+BuildRequires:		%{blaslib}-devel
 BuildRequires:		fftw3-devel
 
 BuildRequires:		openssh-clients
@@ -234,6 +240,9 @@ sed -i 's/have_essl=1/have_essl=0/' install/configure
 # FoX needs -fPIC on f31
 sed -i 's|FOX_FLAGS =|FOX_FLAGS = -fPIC|' install/make.inc.in
 
+# Enable discovery of flexiblas
+sed -i 's/openblas/openblas flexiblas/' install/configure
+
 
 %build
 # Have to do off-root builds to be able to build many versions at once
@@ -257,8 +266,8 @@ if [ "$MPI_SUFFIX" == "_mpich" ]; then export LIBMPI='-lmpich'; fi&& \
     FCFLAGS='%{extra_gfortran_flags} %{optflags}' \
     CFLAGS='%{extra_gfortran_flags} %{optflags} %{wnoflags}' \
     FFLAGS='%{extra_gfortran_flags} %{optflags}' \
-    BLAS_LIBS='-lopenblas' \
-    LAPACK_LIBS='-lopenblas' \
+    BLAS_LIBS='-l%{blaslib}' \
+    LAPACK_LIBS='-l%{blaslib}' \
     FFT_LIBS='-lfftw3' \
     MPI_LIBS="-L${MPI_LIB} $LIBMPI" \
     SCALAPACK_LIBS="-L${MPI_LIB} -lscalapack" \
@@ -431,6 +440,12 @@ mv test-suite.orig test-suite
 
 
 %changelog
+* Fri Aug 28 2020 Iñaki Úcar <iucar@fedoraproject.org> - 6.5-4
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 02 2020 Marcin Dulak <Marcin.Dulak@gmail.com> - 6.5-2
 - python and numpy br for epel8
 

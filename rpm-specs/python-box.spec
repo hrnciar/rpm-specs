@@ -1,29 +1,44 @@
-Name:           python-box
-Version:        3.4.5
-Release:        3%{?dist}
+%global pypi_name box
+
+Name:           python-%{pypi_name}
+Version:        5.1.1
+Release:        1%{?dist}
 Summary:        Python dictionaries with advanced dot notation access
 
 License:        MIT
 URL:            https://github.com/cdgriffith/Box
-Source0:        %{pypi_source}
+Source0:        %{url}/archive/%{version}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
 
-BuildRequires: /usr/bin/pathfix.py
-
 %description
-%{summary}
+Box will automatically make otherwise inaccessible keys safe to
+access as an attribute. You can always pass conversion_box=False
+to Box to disable that behavior. Also, all new dict and lists
+added to a Box or BoxList object are converted automatically.
 
-%package -n python3-box
+%package -n python3-%{pypi_name}
 Summary:        %{summary}
-BuildRequires:  python3-devel
-BuildRequires:  python3-pytest-runner
-%{?python_provide:%python_provide python3-box}
 
-%description -n python3-box
-%{summary}
+BuildRequires:  python3-devel
+BuildRequires:  python3dist(pytest)
+BuildRequires:  python3dist(pytest-runner)
+BuildRequires:  python3dist(pytest-cov)
+BuildRequires:  python3dist(msgpack)
+BuildRequires:  python3dist(ruamel.yaml)
+
+Requires:       python3dist(msgpack)
+Requires:       python3dist(ruamel.yaml)
+Requires:       python3dist(toml)
+%{?python_provide:%python_provide python3-%{pypi_name}}
+
+%description -n python3-%{pypi_name}
+Box will automatically make otherwise inaccessible keys safe to
+access as an attribute. You can always pass conversion_box=False
+to Box to disable that behavior. Also, all new dict and lists
+added to a Box or BoxList object are converted automatically.
 
 %prep
-%autosetup -n python-box-%{version}
+%autosetup -n Box-%{version}
 
 %build
 %py3_build
@@ -31,22 +46,23 @@ BuildRequires:  python3-pytest-runner
 %install
 %py3_install
 
-# Make sure we don't have ambiguous python shebangs in bindir
-# https://fedoraproject.org/wiki/Changes/Make_ambiguous_python_shebangs_error
-pathfix.py -pni "%{__python3} %{py3_shbang_opts}" %{buildroot}%{_bindir}/box.py
+%check
+%pytest -v test -k "not test_msgpack"
 
-# Otherwise remove the shebang from site-packages
-sed -i "\%#!/usr/bin/env python%d" %{buildroot}%{python3_sitelib}/box.py
-
-%files -n python3-box
+%files -n python3-%{pypi_name}
 %license LICENSE
 %doc README.rst
-%{_bindir}/box.py
-%{python3_sitelib}/box.py
-%{python3_sitelib}/python_box-*.egg-info/
-%{python3_sitelib}/__pycache__/*
+%{python3_sitelib}/%{pypi_name}/
+%{python3_sitelib}/python_box-%{version}-py%{python3_version}.egg-info/
 
 %changelog
+* Fri Sep 25 2020 Fabian Affolter <mail@fabian-affolter.ch> - 5.1.1-1
+- Enable tests
+- Update to new upstream release 5.1.1 (#1867812)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.4.5-3
 - Rebuilt for Python 3.9
 

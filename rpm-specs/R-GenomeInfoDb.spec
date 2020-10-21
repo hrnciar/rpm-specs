@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          1.24.0
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          Utilities for manipulating chromosome and other 'seqname' identifiers
 License:          Artistic 2.0
 URL:              http://www.bioconductor.org/packages/release/bioc/html/GenomeInfoDb.html
@@ -58,6 +58,9 @@ sed -i 's/\r//' %{buildroot}%{_datadir}/R/library/%{packname}/doc/GenomeInfoDb.R
 %{_datadir}/R/library/%{packname}/unitTests/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun  8 2020 Tom Callaway <spot@fedoraproject.org> - 1.24.0-1
 - update to 1.24.0
 - rebuild for R 4

@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          0.8.8
-Release:          5%{?dist}
+Release:          6%{?dist}
 Summary:          Flexibly Reshape Data
 
 License:          MIT
@@ -61,6 +61,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.8-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.8.8-5
 - rebuild for R 4
 

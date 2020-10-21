@@ -1,10 +1,10 @@
 %global packname stringi
-%global packver  1.4.6
+%global packver  1.5.3
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          %{packver}
-Release:          4%{?dist}
+Version:          1.5.3
+Release:          1%{?dist}
 Summary:          Character String Processing Facilities
 
 License:          BSD
@@ -26,15 +26,13 @@ BuildRequires:    R-stats
 BuildRequires:    libicu-devel >= 52
 
 %description
-Fast, correct, consistent, portable and convenient character string/text
-processing in every locale and any native encoding. Owing to the use of the
-'ICU' (International Components for Unicode) library, the package provides 'R'
-users with platform-independent functions known to 'Java', 'Perl', 'Python',
-'PHP' and 'Ruby' programmers. Available features include: pattern searching
-(e.g., with 'Java'-like regular expressions or the 'Unicode' collation
-algorithm), random string generation, case mapping, string transliteration,
-concatenation, Unicode normalization, date-time formatting and parsing and many
-more.
+A multitude of character string/text/natural language processing tools: pattern
+searching (e.g., with 'Java'-like regular expressions or the 'Unicode'
+collation algorithm), random string generation, case mapping, string
+transliteration, concatenation, sorting, padding, wrapping, Unicode
+normalisation, date-time formatting and parsing, and many more. They are fast,
+consistent, convenient, and - owing to the use of the 'ICU' (International
+Components for Unicode) library - portable across all locales and platforms.
 
 
 %package devel
@@ -90,6 +88,16 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Wed Sep 09 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.5.3-1
+- Update to latest version (#1877263)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.6-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.6-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 20 2020 Dennis Gilmore <dennis@ausil.us> - 1.4.6-4
 - rebuild for R 4.0.1
 

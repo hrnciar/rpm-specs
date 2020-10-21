@@ -6,7 +6,7 @@
 
 Name:             R-%{packname}
 Version:          2.16.1
-Release:          3%{?dist}
+Release:          4%{?dist}
 Summary:          Unified Handling of Graphics Devices
 
 License:          LGPLv2+
@@ -87,6 +87,9 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --ignore-vignettes
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 2.16.1-3
 - rebuild for R 4
 

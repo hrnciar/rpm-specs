@@ -1,10 +1,11 @@
 Name:           perl-Return-MultiLevel
 Version:        0.05
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        Return across multiple call levels
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Return-MultiLevel
 Source0:        https://cpan.metacpan.org/authors/id/M/MA/MAUKE/Return-MultiLevel-%{version}.tar.gz
+Patch0:         Return-MultiLevel-0.05-Test-Fatal-0.016.patch
 BuildArch:      noarch
 # Build
 BuildRequires:  coreutils
@@ -43,6 +44,10 @@ eval). In other words, this is more like setjmp(3)/longjmp(3) than die.
 %prep
 %setup -q -n Return-MultiLevel-%{version}
 
+# Fix compatibility with Test::Fatal ≥ 0.016
+# https://github.com/mauke/Return-MultiLevel/pull/1
+%patch0 -p1
+
 %build
 perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
 %{make_build}
@@ -60,6 +65,13 @@ make test
 %{_mandir}/man3/Return::MultiLevel.3*
 
 %changelog
+* Mon Aug 17 2020 Paul Howarth <paul@city-fan.org> - 0.05-12
+- Fix compatibility with Test::Fatal ≥ 0.016
+  https://github.com/mauke/Return-MultiLevel/pull/1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.05-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.05-10
 - Perl 5.32 rebuild
 

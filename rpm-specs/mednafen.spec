@@ -4,13 +4,13 @@
 %undefine _hardened_build
 
 Name:           mednafen
-Version:        1.24.3
-Release:        1%{?dist}
+Version:        1.25.0
+Release:        0.2.UNSTABLE%{?dist}
 Summary:        A multi-system emulator utilizing OpenGL and SDL
 #mednafen incorporates several emulators hence the colourful licensing
 License:        GPLv2+ and BSD and ISC and LGPLv2+ and MIT and zlib 
 URL:            https://mednafen.github.io/
-Source0:        https://mednafen.github.io/releases/files/%{name}-%{version}.tar.xz
+Source0:        https://mednafen.github.io/releases/files/%{name}-%{version}-UNSTABLE.tar.xz
 BuildRequires:  gcc-c++
 BuildRequires:  gettext
 #1.3.0 is required
@@ -69,6 +69,14 @@ find \( -name \*.c\* -or -name \*.h\* -or -name \*.inc \) -exec chmod -x {} \;
 
 
 %build
+# This package has a configure test which uses ASMs, but does not link the
+# resultant .o files.  As such the ASM test is always successful in pure
+# LTO mode.  We can use -ffat-lto-objects to force code generation.
+#
+# -ffat-lto-objects is the default for F33, but is expected to be removed
+# in F34.  So we list it explicitly here.
+%define _lto_cflags -flto=auto -ffat-lto-objects
+
 CFLAGS="$RPM_OPT_FLAGS -Wl,-z,relro -Wl,-z,now"
 CXXFLAGS="$RPM_OPT_FLAGS -Wl,-z,relro -Wl,-z,now"
 
@@ -104,6 +112,18 @@ rm -rf Documentation/*.def Documentation/*.php Documentation/generate.sh \
 
 
 %changelog
+* Thu Aug 20 2020 Jeff Law <law@redhat.com> - 1.25.0-0.2.UNSTABLE
+- Re-enable LTO
+
+* Tue Jul 28 2020 Julian Sikorski <belegdol@fedoraproject.org> - 1.25.0-0.1.UNSTABLE
+- Update to 1.25.0-UNSTABLE
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Jeff Law <law@redhat.com> - 1.24.3-2
+- Disable LTO
+
 * Mon May 04 2020 Julian Sikorski <belegdol@fedoraproject.org> - 1.24.3-1
 - Update to 1.24.3
 

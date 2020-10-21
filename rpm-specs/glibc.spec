@@ -1,5 +1,5 @@
-%define glibcsrcdir glibc-2.31.9000-582-gea04f02131
-%define glibcversion 2.31.9000
+%define glibcsrcdir glibc-2.32.9000-224-g0f09154c64
+%define glibcversion 2.32.9000
 # Pre-release tarballs are pulled in from git using a command that is
 # effectively:
 #
@@ -27,8 +27,12 @@
 %bcond_without benchtests
 # Default: Not bootstrapping.
 %bcond_with bootstrap
-# Default: Enable using -Werror
+# Default: Enable using -Werror (except for ELN).
+%if 0%{?rhel} > 0
+%bcond_with werror
+%else
 %bcond_without werror
+%endif
 # Default: Always build documentation.
 %bcond_without docs
 
@@ -96,7 +100,7 @@
 Summary: The GNU libc libraries
 Name: glibc
 Version: %{glibcversion}
-Release: 16%{?dist}
+Release: 11%{?dist}
 
 # In general, GPLv2+ is used by programs, LGPLv2+ is used for
 # libraries.
@@ -130,20 +134,9 @@ Source0: %{?glibc_release_url}%{glibcsrcdir}.tar.xz
 Source1: nscd.conf
 Source2: bench.mk
 Source3: glibc-bench-compare
-# A copy of localedata/SUPPORTED in the Source0 tarball.  The
-# SUPPORTED file is used below to generate the list of locale
-# packages, using a Lua snippet.
-# When the upstream SUPPORTED is out of sync with our copy, the
-# prep phase will fail and you will need to update the local
-# copy.
-Source11: SUPPORTED
+Source11: parse-SUPPORTED.py
 # Include in the source RPM for reference.
 Source12: ChangeLog.old
-# Provide ISO language code to name translation using Python's
-# langtable. The langtable data is maintained by the Fedora
-# i18n team and is a harmonization of CLDR and glibc lang_name
-# data in a more accessible API (also used by Anaconda).
-Source13: convnames.py
 
 ##############################################################################
 # Patches:
@@ -155,7 +148,6 @@ Patch3: glibc-rh697421.patch
 Patch4: glibc-fedora-linux-tcsetattr.patch
 Patch5: glibc-rh741105.patch
 Patch6: glibc-fedora-localedef.patch
-Patch7: glibc-fedora-nis-rh188246.patch
 Patch8: glibc-fedora-manual-dircategory.patch
 Patch9: glibc-rh827510.patch
 Patch12: glibc-rh819430.patch
@@ -167,6 +159,9 @@ Patch17: glibc-cs-path.patch
 Patch18: glibc-c-utf8-locale.patch
 Patch23: glibc-python3.patch
 Patch29: glibc-fedora-nsswitch.patch
+Patch30: glibc-deprecated-selinux-makedb.patch
+Patch31: glibc-deprecated-selinux-nscd.patch
+Patch32: glibc-rhbz1869030-faccessat2-eperm.patch
 
 ##############################################################################
 # Continued list of core "glibc" package information:
@@ -236,7 +231,6 @@ BuildRequires: systemd
 # distributions, python3 does not actually install /usr/bin/python3,
 # so we also depend on python3-devel.
 BuildRequires: python3 python3-devel
-BuildRequires: python3dist(langtable)
 
 # This GCC version is needed for -fstack-clash-protection support.
 BuildRequires: gcc >= 7.2.1-6
@@ -291,14 +285,13 @@ BuildRequires: libidn2
 # For language packs we have glibc require a virtual dependency
 # "glibc-langpack" wich gives us at least one installed langpack.
 # If no langpack providing 'glibc-langpack' was installed you'd
-# get all of them, and that would make the transition from a
-# system without langpacks smoother (you'd get all the locales
-# installed). You would then trim that list, and the trimmed list
-# is preserved. One problem is you can't have "no" locales installed,
-# in that case we offer a "glibc-minimal-langpack" sub-pakcage for
-# this purpose.
+# get language-neutral support e.g. C, POSIX, and C.UTF-8 locales.
+# In the past we used to install the glibc-all-langpacks by default
+# but we no longer do this to minimize container and VM sizes.
+# Today you must actively use the language packs infrastructure to
+# install language support.
 Requires: glibc-langpack = %{version}-%{release}
-Suggests: glibc-all-langpacks = %{version}-%{release}
+Suggests: glibc-minimal-langpack = %{version}-%{release}
 
 %description
 The glibc package contains standard libraries which are used by
@@ -431,84 +424,331 @@ If you are building custom locales you will most likely use
 these sources as the basis for your new locale.
 
 %{lua:
--- Array of languages (ISO-639 codes).
-local languages = {}
--- Dictionary from language codes (as in the languages array) to arrays
--- of regions.
-local supplements = {}
-do
-   -- Parse the SUPPORTED file.  Eliminate duplicates.
-   local lang_region_seen = {}
-   for line in io.lines(rpm.expand("%{SOURCE11}")) do
-      -- Match lines which contain a language (eo) or language/region
-      -- (en_US) strings.
-      local lang_region = string.match(line, "^([a-z][^/@.]+)")
-      if lang_region ~= nil then
-	 if lang_region_seen[lang_region] == nil then
-	    lang_region_seen[lang_region] = true
+-- To make lua-mode happy: '
 
-	    -- Split language/region pair.
-	    local lang, region = string.match(lang_region, "^(.+)_(.+)")
-	    if lang == nil then
-	       -- Region is missing, use only the language.
-	       lang = lang_region
-	    end
-	    local suppl = supplements[lang]
-	    if suppl == nil then
-	       suppl = {}
-	       supplements[lang] = suppl
-	       -- New language not seen before.
-	       languages[#languages + 1] = lang
-	    end
-	    if region ~= nil then
-	       -- New region because of the check against
-	       -- lang_region_seen above.
-	       suppl[#suppl + 1] = region
-	    end
+-- List of supported locales.  This is used to generate the langpack
+-- subpackages below.  This table needs adjustments if the set of
+-- glibc locales changes.  "code" is the glibc code for the language
+-- (before the "_".  "name" is the English translation of the language
+-- name (for use in subpackage descriptions).  "regions" is a table of
+-- variant specifiers (after the "_", excluding "@" and "."
+-- variants/charset specifiers).  The table must be sorted by the code
+-- field, and the regions table must be sorted as well.
+--
+-- English translations of language names can be obtained using (for
+-- the "aa" language in this example):
+--
+-- python3 -c 'import langtable; print(langtable.language_name("aa", languageIdQuery="en"))'
+
+local locales =  {
+  { code="aa", name="Afar", regions={ "DJ", "ER", "ET" } },
+  { code="af", name="Afrikaans", regions={ "ZA" } },
+  { code="agr", name="Aguaruna", regions={ "PE" } },
+  { code="ak", name="Akan", regions={ "GH" } },
+  { code="am", name="Amharic", regions={ "ET" } },
+  { code="an", name="Aragonese", regions={ "ES" } },
+  { code="anp", name="Angika", regions={ "IN" } },
+  {
+    code="ar",
+    name="Arabic",
+    regions={
+      "AE",
+      "BH",
+      "DZ",
+      "EG",
+      "IN",
+      "IQ",
+      "JO",
+      "KW",
+      "LB",
+      "LY",
+      "MA",
+      "OM",
+      "QA",
+      "SA",
+      "SD",
+      "SS",
+      "SY",
+      "TN",
+      "YE" 
+    } 
+  },
+  { code="as", name="Assamese", regions={ "IN" } },
+  { code="ast", name="Asturian", regions={ "ES" } },
+  { code="ayc", name="Southern Aymara", regions={ "PE" } },
+  { code="az", name="Azerbaijani", regions={ "AZ", "IR" } },
+  { code="be", name="Belarusian", regions={ "BY" } },
+  { code="bem", name="Bemba", regions={ "ZM" } },
+  { code="ber", name="Berber", regions={ "DZ", "MA" } },
+  { code="bg", name="Bulgarian", regions={ "BG" } },
+  { code="bhb", name="Bhili", regions={ "IN" } },
+  { code="bho", name="Bhojpuri", regions={ "IN", "NP" } },
+  { code="bi", name="Bislama", regions={ "VU" } },
+  { code="bn", name="Bangla", regions={ "BD", "IN" } },
+  { code="bo", name="Tibetan", regions={ "CN", "IN" } },
+  { code="br", name="Breton", regions={ "FR" } },
+  { code="brx", name="Bodo", regions={ "IN" } },
+  { code="bs", name="Bosnian", regions={ "BA" } },
+  { code="byn", name="Blin", regions={ "ER" } },
+  { code="ca", name="Catalan", regions={ "AD", "ES", "FR", "IT" } },
+  { code="ce", name="Chechen", regions={ "RU" } },
+  { code="chr", name="Cherokee", regions={ "US" } },
+  { code="ckb", name="Central Kurdish", regions={ "IQ" } },
+  { code="cmn", name="Mandarin Chinese", regions={ "TW" } },
+  { code="crh", name="Crimean Turkish", regions={ "UA" } },
+  { code="cs", name="Czech", regions={ "CZ" } },
+  { code="csb", name="Kashubian", regions={ "PL" } },
+  { code="cv", name="Chuvash", regions={ "RU" } },
+  { code="cy", name="Welsh", regions={ "GB" } },
+  { code="da", name="Danish", regions={ "DK" } },
+  {
+    code="de",
+    name="German",
+    regions={ "AT", "BE", "CH", "DE", "IT", "LI", "LU" } 
+  },
+  { code="doi", name="Dogri", regions={ "IN" } },
+  { code="dsb", name="Lower Sorbian", regions={ "DE" } },
+  { code="dv", name="Divehi", regions={ "MV" } },
+  { code="dz", name="Dzongkha", regions={ "BT" } },
+  { code="el", name="Greek", regions={ "CY", "GR" } },
+  {
+    code="en",
+    name="English",
+    regions={
+      "AG",
+      "AU",
+      "BW",
+      "CA",
+      "DK",
+      "GB",
+      "HK",
+      "IE",
+      "IL",
+      "IN",
+      "NG",
+      "NZ",
+      "PH",
+      "SC",
+      "SG",
+      "US",
+      "ZA",
+      "ZM",
+      "ZW" 
+    } 
+  },
+  { code="eo", name="Esperanto", regions={} },
+  {
+    code="es",
+    name="Spanish",
+    regions={
+      "AR",
+      "BO",
+      "CL",
+      "CO",
+      "CR",
+      "CU",
+      "DO",
+      "EC",
+      "ES",
+      "GT",
+      "HN",
+      "MX",
+      "NI",
+      "PA",
+      "PE",
+      "PR",
+      "PY",
+      "SV",
+      "US",
+      "UY",
+      "VE" 
+    } 
+  },
+  { code="et", name="Estonian", regions={ "EE" } },
+  { code="eu", name="Basque", regions={ "ES" } },
+  { code="fa", name="Persian", regions={ "IR" } },
+  { code="ff", name="Fulah", regions={ "SN" } },
+  { code="fi", name="Finnish", regions={ "FI" } },
+  { code="fil", name="Filipino", regions={ "PH" } },
+  { code="fo", name="Faroese", regions={ "FO" } },
+  { code="fr", name="French", regions={ "BE", "CA", "CH", "FR", "LU" } },
+  { code="fur", name="Friulian", regions={ "IT" } },
+  { code="fy", name="Western Frisian", regions={ "DE", "NL" } },
+  { code="ga", name="Irish", regions={ "IE" } },
+  { code="gd", name="Scottish Gaelic", regions={ "GB" } },
+  { code="gez", name="Geez", regions={ "ER", "ET" } },
+  { code="gl", name="Galician", regions={ "ES" } },
+  { code="gu", name="Gujarati", regions={ "IN" } },
+  { code="gv", name="Manx", regions={ "GB" } },
+  { code="ha", name="Hausa", regions={ "NG" } },
+  { code="hak", name="Hakka Chinese", regions={ "TW" } },
+  { code="he", name="Hebrew", regions={ "IL" } },
+  { code="hi", name="Hindi", regions={ "IN" } },
+  { code="hif", name="Fiji Hindi", regions={ "FJ" } },
+  { code="hne", name="Chhattisgarhi", regions={ "IN" } },
+  { code="hr", name="Croatian", regions={ "HR" } },
+  { code="hsb", name="Upper Sorbian", regions={ "DE" } },
+  { code="ht", name="Haitian Creole", regions={ "HT" } },
+  { code="hu", name="Hungarian", regions={ "HU" } },
+  { code="hy", name="Armenian", regions={ "AM" } },
+  { code="ia", name="Interlingua", regions={ "FR" } },
+  { code="id", name="Indonesian", regions={ "ID" } },
+  { code="ig", name="Igbo", regions={ "NG" } },
+  { code="ik", name="Inupiaq", regions={ "CA" } },
+  { code="is", name="Icelandic", regions={ "IS" } },
+  { code="it", name="Italian", regions={ "CH", "IT" } },
+  { code="iu", name="Inuktitut", regions={ "CA" } },
+  { code="ja", name="Japanese", regions={ "JP" } },
+  { code="ka", name="Georgian", regions={ "GE" } },
+  { code="kab", name="Kabyle", regions={ "DZ" } },
+  { code="kk", name="Kazakh", regions={ "KZ" } },
+  { code="kl", name="Kalaallisut", regions={ "GL" } },
+  { code="km", name="Khmer", regions={ "KH" } },
+  { code="kn", name="Kannada", regions={ "IN" } },
+  { code="ko", name="Korean", regions={ "KR" } },
+  { code="kok", name="Konkani", regions={ "IN" } },
+  { code="ks", name="Kashmiri", regions={ "IN" } },
+  { code="ku", name="Kurdish", regions={ "TR" } },
+  { code="kw", name="Cornish", regions={ "GB" } },
+  { code="ky", name="Kyrgyz", regions={ "KG" } },
+  { code="lb", name="Luxembourgish", regions={ "LU" } },
+  { code="lg", name="Ganda", regions={ "UG" } },
+  { code="li", name="Limburgish", regions={ "BE", "NL" } },
+  { code="lij", name="Ligurian", regions={ "IT" } },
+  { code="ln", name="Lingala", regions={ "CD" } },
+  { code="lo", name="Lao", regions={ "LA" } },
+  { code="lt", name="Lithuanian", regions={ "LT" } },
+  { code="lv", name="Latvian", regions={ "LV" } },
+  { code="lzh", name="Literary Chinese", regions={ "TW" } },
+  { code="mag", name="Magahi", regions={ "IN" } },
+  { code="mai", name="Maithili", regions={ "IN", "NP" } },
+  { code="mfe", name="Morisyen", regions={ "MU" } },
+  { code="mg", name="Malagasy", regions={ "MG" } },
+  { code="mhr", name="Meadow Mari", regions={ "RU" } },
+  { code="mi", name="Maori", regions={ "NZ" } },
+  { code="miq", name="Miskito", regions={ "NI" } },
+  { code="mjw", name="Karbi", regions={ "IN" } },
+  { code="mk", name="Macedonian", regions={ "MK" } },
+  { code="ml", name="Malayalam", regions={ "IN" } },
+  { code="mn", name="Mongolian", regions={ "MN" } },
+  { code="mni", name="Manipuri", regions={ "IN" } },
+  { code="mnw", name="Mon", regions={ "MM" } },
+  { code="mr", name="Marathi", regions={ "IN" } },
+  { code="ms", name="Malay", regions={ "MY" } },
+  { code="mt", name="Maltese", regions={ "MT" } },
+  { code="my", name="Burmese", regions={ "MM" } },
+  { code="nan", name="Min Nan Chinese", regions={ "TW" } },
+  { code="nb", name="Norwegian Bokmål", regions={ "NO" } },
+  { code="nds", name="Low German", regions={ "DE", "NL" } },
+  { code="ne", name="Nepali", regions={ "NP" } },
+  { code="nhn", name="Tlaxcala-Puebla Nahuatl", regions={ "MX" } },
+  { code="niu", name="Niuean", regions={ "NU", "NZ" } },
+  { code="nl", name="Dutch", regions={ "AW", "BE", "NL" } },
+  { code="nn", name="Norwegian Nynorsk", regions={ "NO" } },
+  { code="nr", name="South Ndebele", regions={ "ZA" } },
+  { code="nso", name="Northern Sotho", regions={ "ZA" } },
+  { code="oc", name="Occitan", regions={ "FR" } },
+  { code="om", name="Oromo", regions={ "ET", "KE" } },
+  { code="or", name="Odia", regions={ "IN" } },
+  { code="os", name="Ossetic", regions={ "RU" } },
+  { code="pa", name="Punjabi", regions={ "IN", "PK" } },
+  { code="pap", name="Papiamento", regions={ "AW", "CW" } },
+  { code="pl", name="Polish", regions={ "PL" } },
+  { code="ps", name="Pashto", regions={ "AF" } },
+  { code="pt", name="Portuguese", regions={ "BR", "PT" } },
+  { code="quz", name="Cusco Quechua", regions={ "PE" } },
+  { code="raj", name="Rajasthani", regions={ "IN" } },
+  { code="ro", name="Romanian", regions={ "RO" } },
+  { code="ru", name="Russian", regions={ "RU", "UA" } },
+  { code="rw", name="Kinyarwanda", regions={ "RW" } },
+  { code="sa", name="Sanskrit", regions={ "IN" } },
+  { code="sah", name="Sakha", regions={ "RU" } },
+  { code="sat", name="Santali", regions={ "IN" } },
+  { code="sc", name="Sardinian", regions={ "IT" } },
+  { code="sd", name="Sindhi", regions={ "IN" } },
+  { code="se", name="Northern Sami", regions={ "NO" } },
+  { code="sgs", name="Samogitian", regions={ "LT" } },
+  { code="shn", name="Shan", regions={ "MM" } },
+  { code="shs", name="Shuswap", regions={ "CA" } },
+  { code="si", name="Sinhala", regions={ "LK" } },
+  { code="sid", name="Sidamo", regions={ "ET" } },
+  { code="sk", name="Slovak", regions={ "SK" } },
+  { code="sl", name="Slovenian", regions={ "SI" } },
+  { code="sm", name="Samoan", regions={ "WS" } },
+  { code="so", name="Somali", regions={ "DJ", "ET", "KE", "SO" } },
+  { code="sq", name="Albanian", regions={ "AL", "MK" } },
+  { code="sr", name="Serbian", regions={ "ME", "RS" } },
+  { code="ss", name="Swati", regions={ "ZA" } },
+  { code="st", name="Southern Sotho", regions={ "ZA" } },
+  { code="sv", name="Swedish", regions={ "FI", "SE" } },
+  { code="sw", name="Swahili", regions={ "KE", "TZ" } },
+  { code="szl", name="Silesian", regions={ "PL" } },
+  { code="ta", name="Tamil", regions={ "IN", "LK" } },
+  { code="tcy", name="Tulu", regions={ "IN" } },
+  { code="te", name="Telugu", regions={ "IN" } },
+  { code="tg", name="Tajik", regions={ "TJ" } },
+  { code="th", name="Thai", regions={ "TH" } },
+  { code="the", name="Chitwania Tharu", regions={ "NP" } },
+  { code="ti", name="Tigrinya", regions={ "ER", "ET" } },
+  { code="tig", name="Tigre", regions={ "ER" } },
+  { code="tk", name="Turkmen", regions={ "TM" } },
+  { code="tl", name="Tagalog", regions={ "PH" } },
+  { code="tn", name="Tswana", regions={ "ZA" } },
+  { code="to", name="Tongan", regions={ "TO" } },
+  { code="tpi", name="Tok Pisin", regions={ "PG" } },
+  { code="tr", name="Turkish", regions={ "CY", "TR" } },
+  { code="ts", name="Tsonga", regions={ "ZA" } },
+  { code="tt", name="Tatar", regions={ "RU" } },
+  { code="ug", name="Uyghur", regions={ "CN" } },
+  { code="uk", name="Ukrainian", regions={ "UA" } },
+  { code="unm", name="Unami language", regions={ "US" } },
+  { code="ur", name="Urdu", regions={ "IN", "PK" } },
+  { code="uz", name="Uzbek", regions={ "UZ" } },
+  { code="ve", name="Venda", regions={ "ZA" } },
+  { code="vi", name="Vietnamese", regions={ "VN" } },
+  { code="wa", name="Walloon", regions={ "BE" } },
+  { code="wae", name="Walser", regions={ "CH" } },
+  { code="wal", name="Wolaytta", regions={ "ET" } },
+  { code="wo", name="Wolof", regions={ "SN" } },
+  { code="xh", name="Xhosa", regions={ "ZA" } },
+  { code="yi", name="Yiddish", regions={ "US" } },
+  { code="yo", name="Yoruba", regions={ "NG" } },
+  { code="yue", name="Cantonese", regions={ "HK" } },
+  { code="yuw", name="Yau", regions={ "PG" } },
+  { code="zh", name="Mandarin Chinese", regions={ "CN", "HK", "SG", "TW" } },
+  { code="zu", name="Zulu", regions={ "ZA" } } 
+}
+
+-- Prints a list of LANGUAGE "_" REGION pairs.  The output is expected
+-- to be identical to parse-SUPPORTED.py.  Called from the %%prep section.
+function print_locale_pairs()
+   for i = 1, #locales do
+      local locale = locales[i]
+      if #locale.regions == 0 then
+	 print(locale.code .. "\n")
+      else
+	 for j = 1, #locale.regions do
+	    print(locale.code .. "_" .. locale.regions[j] .. "\n")
 	 end
       end
    end
-   -- Sort for determinism.
-   table.sort(languages)
-   for _, supples in pairs(supplements) do
-      table.sort(supplements)
-   end
 end
 
--- Compute the language names
-local langnames = {}
-local python3 = io.open('/usr/bin/python3', 'r')
-if python3 then
-   python3:close()
-   local args = table.concat(languages, ' ')
-   local file = io.popen(rpm.expand("%{SOURCE13}") .. ' ' .. args)
-   while true do
-       line = file:read()
-       if line == nil then break end
-       langnames[#langnames + 1] = line
-   end
-   file:close()
-else
-   for i = 1, #languages do
-      langnames[#langnames + 1] = languages[i]
-   end
-end
-
--- Compute the Supplements: list for a language, based on the regions.
-local function compute_supplements(lang)
+local function compute_supplements(locale)
+   local lang = locale.code
+   local regions = locale.regions
    result = "langpacks-core-" .. lang
-   regions = supplements[lang]
-   if regions ~= nil then
-      for i = 1, #regions do
-	 result = result .. " or langpacks-core-" .. lang .. "_" .. regions[i]
-      end
+   for i = 1, #regions do
+      result = result .. " or langpacks-core-" .. lang .. "_" .. regions[i]
    end
    return result
 end
 
 -- Emit the definition of a language pack package.
-local function lang_package(lang, langname)
-   local suppl = compute_supplements(lang)
+local function lang_package(locale)
+   local lang = locale.code
+   local langname = locale.name
+   local suppl = compute_supplements(locale)
    print(rpm.expand([[
 
 %package langpack-]]..lang..[[
@@ -527,8 +767,8 @@ to support the ]]..langname..[[ language in your applications.
 ]]))
 end
 
-for i = 1, #languages do
-   lang_package(languages[i], langnames[i])
+for i = 1, #locales do
+   lang_package(locales[i])
 end
 }
 
@@ -747,17 +987,16 @@ touch `find . -name configure`
 # Ensure *-kw.h files are current to prevent regenerating them.
 touch locale/programs/*-kw.h
 
-# Verify that our copy of localedata/SUPPORTED matches the glibc
-# version.
-#
-# The separate file copy is used by the Lua parser above.
-# Patches or new upstream versions may change the list of locales,
-# which changes the set of langpacks we need to build.  Verify the
-# differences then update the copy of SUPPORTED.  This approach has
-# two purposes: (a) avoid spurious changes to the set of langpacks,
-# and (b) the Lua snippet can use a fully patched-up version
-# of the localedata/SUPPORTED file.
-diff -u %{SOURCE11} localedata/SUPPORTED
+# Verify that our locales table is compatible with the locales table
+# in the spec file.
+set +x
+echo '%{lua: print_locale_pairs()}' > localedata/SUPPORTED.spec
+set -x
+python3 %{SOURCE11} localedata/SUPPORTED > localedata/SUPPORTED.glibc
+diff -u \
+  --label "spec file" localedata/SUPPORTED.spec \
+  --label "glibc localedata/SUPPORTED" localedata/SUPPORTED.glibc
+rm localedata/SUPPORTED.spec localedata/SUPPORTED.glibc
 
 ##############################################################################
 # Build glibc...
@@ -817,13 +1056,16 @@ rpm_inherit_flags \
 	"-march=x86-64" \
 	"-march=z13" \
 	"-march=z14" \
+	"-march=z15" \
 	"-march=zEC12" \
+	"-mbranch-protection=standard" \
 	"-mfpmath=sse" \
 	"-msse2" \
 	"-mstackrealign" \
 	"-mtune=generic" \
 	"-mtune=z13" \
 	"-mtune=z14" \
+	"-mtune=z15" \
 	"-mtune=zEC12" \
 	"-specs=/usr/lib/rpm/redhat/redhat-annobin-cc1" \
 
@@ -892,7 +1134,7 @@ build()
 		--disable-crypt ||
 		{ cat config.log; false; }
 
-	make %{?_smp_mflags} -O -r %{glibc_make_flags}
+	%make_build -r %{glibc_make_flags}
 	popd
 }
 
@@ -921,15 +1163,6 @@ build
 
 # Remove existing file lists.
 find . -type f -name '*.filelist' -exec rm -rf {} \;
-
-# Ensure the permissions of errlist.c do not change.  When the file is
-# regenerated the Makefile sets the permissions to 444. We set it to 644
-# to match what comes out of git. The tarball of the git archive won't have
-# correct permissions because git doesn't track all of the permissions
-# accurately (see git-cache-meta if you need that). We also set it to 644 to
-# match pre-existing rpms. We do this *after* the build because the build
-# might regenerate the file and set the permissions to 444.
-chmod 644 sysdeps/gnu/errlist.c
 
 # Reload compiler and build options that were used during %%build.
 GCC=`cat Gcc`
@@ -1150,7 +1383,7 @@ rm -rf %{glibc_sysroot}%{_prefix}/share/zoneinfo
 # which is to at least keep the timestamp consistent. The choice of using
 # SOURCE0 is arbitrary.
 touch -r %{SOURCE0} %{glibc_sysroot}/etc/ld.so.conf
-touch -r sunrpc/etc.rpc %{glibc_sysroot}/etc/rpc
+touch -r inet/etc.rpc %{glibc_sysroot}/etc/rpc
 
 # Lastly copy some additional documentation for the packages.
 rm -rf documentation
@@ -1672,7 +1905,7 @@ run_tests () {
   # This hides a test suite build failure, which should be fatal.  We
   # check "Summary of test results:" below to verify that all tests
   # were built and run.
-  make %{?_smp_mflags} -O check |& tee rpmbuild.check.log >&2
+  %make_build check |& tee rpmbuild.check.log >&2
   test -n tests.sum
   if ! grep -q '^Summary of test results:$' rpmbuild.check.log ; then
     echo "FAIL: test suite build of target: $(basename "$(pwd)")" >& 2
@@ -2026,6 +2259,502 @@ fi
 %files -f compat-libpthread-nonshared.filelist -n compat-libpthread-nonshared
 
 %changelog
+* Sun Oct 18 2020 Patsy Griffin <patsy@redhat.com> - 2.32.9000-11
+- Auto-sync with upstream branch master,
+  commit 0f09154c64005e78b61484ae87b5ea2028051ea0.
+- x86: Initialize CPU info via IFUNC relocation [BZ 26203]
+- Add NEWS entry for ftime compatibility move
+- support: Add create_temp_file_in_dir
+- linux: Add __readdir_unlocked
+- linux: Simplify opendir buffer allocation
+- linux: Move posix dir implementations to Linux
+- linux: Add 64-bit time_t support for wait3
+- Move ftime to a compatibility symbol
+- linux: Fix time64 support for futimesat
+- linux: Use INTERNAL_SYSCALL on fstatat{64}
+- shm tests: Append PID to names passed to shm_open [BZ #26737]
+- sysvipc: Fix tst-sysvshm-linux on x32
+- x86/CET: Update vfork to prevent child return
+- resolv: Serialize processing in resolv/tst-resolv-txnid-collision
+- statfs: add missing f_flags assignment
+- y2038: Remove not used __fstatat_time64 define
+- y2038: nptl: Convert pthread_mutex_{clock|timed}lock to support 64 bit
+- sysvipc: Return EINVAL for invalid shmctl commands
+- sysvipc: Fix IPC_INFO and SHM_INFO handling [BZ #26636]
+- AArch64: Use __memcpy_simd on Neoverse N2/V1
+- resolv: Handle transaction ID collisions in parallel queries (bug 26600)
+- support: Provide a way to clear the RA bit in DNS server responses
+- support: Provide a way to reorder responses within the DNS test server
+- Add missing stat/mknod symbol on libc.abilist some ABIs
+- manual: correct the spelling of "MALLOC_PERTURB_" [BZ #23015]
+- manual: replace an obsolete collation example with a valid one
+- rtld: fix typo in comment
+- elf: Add missing <dl-procinfo.h> header to elf/dl-usage.c
+- hurd: support clock_gettime(CLOCK_PROCESS/THREAD_CPUTIME_ID)
+- linux: Move xmknod{at} to compat symbols
+- linux: Add {f}stat{at} y2038 support
+- linux: Move {f}xstat{at} to compat symbols
+- linux: Disentangle fstatat from fxstatat
+- linux: Implement {l}fstat{at} in terms of fstatat
+- linux: Move the struct stat{64} to struct_stat.h
+- Remove mknod wrapper functions, move them to symbols
+- Remove stat wrapper functions, move them to exported symbols
+- <sys/platform/x86.h>: Add FSRCS/FSRS/FZLRM support
+- <sys/platform/x86.h>: Add Intel HRESET support
+- <sys/platform/x86.h>: Add AVX-VNNI support
+- <sys/platform/x86.h>: Add AVX512_FP16 support
+- <sys/platform/x86.h>: Add Intel UINTR support
+- elf: Do not pass GLRO(dl_platform), GLRO(dl_platformlen) to _dl_important_hwcaps
+- elf: Enhance ld.so --help to print HWCAP subdirectories
+- elf: Add library search path information to ld.so --help
+- sunrpc: Adjust RPC function declarations to match Sun's (bug 26686]
+- Avoid GCC 11 -Warray-parameter warnings [BZ #26686].
+- elf: Make __rtld_env_path_list and __rtld_search_dirs global variables
+- elf: Print the full name of the dynamic loader in the ld.so help message
+- elf: Use the term "program interpreter" in the ld.so help message
+- scripts/update-copyrights: Update csu/version.c, elf/dl-usage.c
+- elf: Implement ld.so --version
+- nptl: Add missing cancellation flags on lockf
+- Update mips64 libm-test-ulps
+- Update alpha libm-test-ulps
+- elf: Implement ld.so --help
+- elf: Record whether paths come from LD_LIBRARY_PATH or --library-path
+- elf: Move ld.so error/help output to _dl_usage
+- elf: Extract command-line/environment variables state from rtld.c
+
+* Wed Oct 14 2020 Florian Weimer <fweimer@redhat.com> - 2.32.9000-10
+- Disable -Werror on ELN (#1888246)
+
+* Wed Oct 14 2020 Florian Weimer <fweimer@redhat.com> - 2.32.9000-9
+- Make glibc.spec self-contained (#1887097)
+
+* Thu Oct 08 2020 Arjun Shankar <arjun@redhat.com> - 2.32.9000-8
+- Drop glibc-fix-float128-benchtests.patch; applied upstream.
+- Auto-sync with upstream branch master,
+  commit 72d36ffd7db55ae599f4c77feb0eae25a0f3714e:
+- elf: Implement __rtld_malloc_is_complete
+- __vfscanf_internal: fix aliasing violation (bug 26690)
+- Revert "Fix missing redirects in testsuite targets"
+- nptl: Add missing cancellation flags on futex_internal and pselect32
+- elf: Implement _dl_write
+- elf: Do not search HWCAP subdirectories in statically linked binaries
+- Linux: Require properly configured /dev/pts for PTYs
+- Linux: unlockpt needs to fail with EINVAL, not ENOTTY (bug 26053)
+- login/tst-grantpt: Convert to support framework, more error checking
+- posix: Fix -Warray-bounds instances building timer_create [BZ #26687]
+- Replace Minumum/minumum with Minimum/minimum
+- Optimize scripts/merge-test-results.sh
+- Fix GCC 11 -Warray-parameter warning for __sigsetjmp (bug 26647)
+- manual: Fix typo
+- y2038: nptl: Convert pthread_rwlock_{clock|timed}{rd|wr}lock to support 64
+  bit time
+- Y2038: nptl: Provide futex_abstimed_wait64 supporting 64 bit time
+- sysvipc: Return EINVAL for invalid msgctl commands
+- sysvipc: Fix IPC_INFO and MSG_INFO handling [BZ #26639]
+- sysvipc: Return EINVAL for invalid semctl commands
+- sysvipc: Fix SEM_STAT_ANY kernel argument pass [BZ #26637]
+- aarch64: enforce >=64K guard size [BZ #26691]
+- sysvipc: Fix semtimedop for Linux < 5.1 for 64-bit ABI
+- nptl: futex: Move __NR_futex_time64 alias to beginning of futex-internal.h
+- nptl: Provide proper spelling for 32 bit version of futex_abstimed_wait
+- string: Fix strerrorname_np return value [BZ #26555]
+- Set tunable value as well as min/max values
+- ld.so: add an --argv0 option [BZ #16124]
+- Reversing calculation of __x86_shared_non_temporal_threshold
+- linux: Add time64 recvmmsg support
+- linux: Add time64 support for nanosleep
+- linux: Consolidate utimes
+- linux: Use 64-bit time_t syscall on clock_getcputclockid
+- linux: Add time64 sigtimedwait support
+- linux: Add time64 select support
+- nptl: Fix __futex_abstimed_wait_cancellable32
+- sysvipc: Fix semtimeop for !__ASSUME_DIRECT_SYSVIPC_SYSCALLS
+- hurd: add ST_RELATIME
+- intl: Handle translation output codesets with suffixes [BZ #26383]
+- bench-strcmp.c: Add workloads on page boundary
+- bench-strncmp.c: Add workloads on page boundary
+- strcmp: Add a testcase for page boundary
+- strncmp: Add a testcase for page boundary [BZ #25933]
+- Set locale related environment variables in debugglibc.sh
+- benchtests: Run _Float128 tests only on architectures that support it
+- powerpc: Protect dl_powerpc_cpu_features on INIT_ARCH() [BZ #26615]
+- x86: Harden printf against non-normal long double values (bug 26649)
+- x86: Use one ldbl2mpn.c file for both i386 and x86_64
+- Define __THROW to noexcept for C++11 and later
+
+* Mon Sep 21 2020 Arjun Shankar <arjun@redhat.com> - 2.32.9000-7
+- Adjust glibc-rh741105.patch.
+- Add glibc-fix-float128-benchtests.patch to allow building on armv7hl.
+- Auto-sync with upstream branch master,
+  commit cdf645427d176197b82f44308a5e131d69fb53ad:
+- Update mallinfo2 ABI, and test
+- Allow memset local PLT reference for RISC-V.
+- powerpc: fix ifunc implementation list for POWER9 strlen and stpcpy
+- nscd: bump GC cycle during cache pruning (bug 26130)
+- x86: Use HAS_CPU_FEATURE with IBT and SHSTK [BZ #26625]
+- <sys/platform/x86.h>: Add Intel Key Locker support
+- Fix handling of collating symbols in fnmatch (bug 26620)
+- pselect.c: Pass a pointer to SYSCALL_CANCEL [BZ #26606]
+- y2038: nptl: Convert sem_{clock|timed}wait to support 64 bit time
+- hurd: Add __x86_get_cpu_features to ld.abilist
+- x86: Install <sys/platform/x86.h> [BZ #26124]
+- linux: Add time64 pselect support
+- linux: Add time64 semtimedop support
+- linux: Add ppoll time64 optimization
+- linux: Simplify clock_getres
+- Update sparc libm-test-ulps
+- Remove internal usage of extensible stat functions
+- Linux: Consolidate xmknod
+- linux: Consolidate fxstatat{64}
+- linux: Consolidate fxstat{64}
+- linux: Consolidate lxstat{64}
+- linux: Consolidate xstat{64}
+- linux: Define STAT64_IS_KERNEL_STAT64
+- linux: Always define STAT_IS_KERNEL_STAT
+- Update powerpc libm-test-ulps
+- benchtests: Add "workload" traces for sinf128
+- benchtests: Add "workload" traces for sinf
+- benchtests: Add "workload" traces for sin
+- benchtests: Add "workload" traces for powf128
+- benchtests: Add "workload" traces for pow
+- benchtests: Add "workload" traces for expf128
+- benchtests: Add "workload" traces for exp
+- nptl: futex: Provide correct indentation for part of
+  __futex_abstimed_wait_cancelable64
+
+* Tue Sep 08 2020 DJ Delorie <dj@redhat.com> - 2.32.9000-6
+- Auto-sync with upstream branch master,
+  commit e74b61c09a2a2ab52153e731225ccba5078659b1.
+- Disable -Wstringop-overread for some string tests
+- string: Fix GCC 11 `-Werror=stringop-overread' error
+- C11 threads: Fix inaccuracies in testsuite
+- elf.h: Add aarch64 bti/pac dynamic tag constants
+- x86: Set CPU usable feature bits conservatively [BZ #26552]
+
+* Wed Sep 02 2020 Patsy Griffin <patsy@redhat.com> - 2.32.9000-5
+- Auto-sync with upstream branch master,
+  commit 86a912c8634f581ea42ec6973553dde7f058cfbf.
+- Update i686 ulps.
+- Use LFS readdir in generic POSIX getcwd [BZ# 22899]
+- linux: Remove __ASSUME_ATFCTS
+- Sync getcwd with gnulib
+- x86-64: Fix FMA4 detection in ifunc [BZ #26534]
+- y2038: nptl: Convert pthread_cond_{clock|timed}wait to support 64 bit time
+- malloc: Fix mallinfo deprecation declaration
+- x32: Add <fixup-asm-unistd.h> and regenerate arch-syscall.h
+- Add mallinfo2 function that support sizes >= 4GB.
+- Remove obsolete default/nss code
+- AArch64: Improve backwards memmove performance
+- Add RISC-V 32-bit target to build-many-glibcs.py
+- Documentation for the RISC-V 32-bit port
+- RISC-V: Build infrastructure for 32-bit port
+- RISC-V: Add rv32 path to RTLDLIST in ldd
+- riscv32: Specify the arch_minimum_kernel as 5.4
+- RISC-V: Fix llrint and llround missing exceptions on RV32
+- RISC-V: Add the RV32 libm-test-ulps
+- RISC-V: Add 32-bit ABI lists
+- RISC-V: Add hard float support for 32-bit CPUs
+- RISC-V: Support the 32-bit ABI implementation
+- RISC-V: Add arch-syscall.h for RV32
+- RISC-V: Add path of library directories for the 32-bit
+- RISC-V: Support dynamic loader for the 32-bit
+- RISC-V: Add support for 32-bit vDSO calls
+- RISC-V: Use 64-bit-time syscall numbers with the 32-bit port
+- RISC-V: Cleanup some of the sysdep.h code
+- RISC-V: Use 64-bit time_t and off_t for RV32 and RV64
+- io/lockf: Include bits/types.h before __OFF_T_MATCHES_OFF64_T check
+- elf/tst-libc_dlvsym: Add a TEST_COMPAT around some symbol tests
+- hurd: define BSD 4.3 ioctls only under __USE_MISC
+- string: test strncasecmp and strncpy near page boundaries
+- linux: Simplify utimensat
+- linux: Simplify timerfd_settime
+- linux: Simplify timer_gettime
+- linux: Simplify sched_rr_get_interval
+- linux: Simplify ppoll
+- linux: Simplify mq_timedsend
+- linux: Simplify mq_timedreceive
+- linux: Simplify clock_settime
+- linux: Simplify clock_nanosleep
+- linux: Simplify clock_gettime
+- linux: Simplify clock_adjtime
+- linux: Add helper function to optimize 64-bit time_t fallback support
+- S390: Sync HWCAP names with kernel by adding aliases [BZ #25971]
+- [vcstocl] Import ProjectQuirks from its own file
+- build-many-glibcs.py: Add a s390x -O3 glibc variant.
+- Fix namespace violation in stdio.h and sys/stat.h if build with optimization. [BZ #26376]
+- Add C2x BOOL_MAX and BOOL_WIDTH to limits.h.
+- Use MPC 1.2.0 in build-many-glibcs.py.
+- Add new STATX_* constants from Linux 5.8 to bits/statx-generic.h.
+- Correct locking and cancellation cleanup in syslog functions (bug 26100)
+
+* Thu Aug 20 2020 Carlos O'Donell <carlos@redhat.com> - 2.32.9000-4
+- Support building glibc in a mock chroot using older systemd-nspawn (#1869030).
+
+* Tue Aug 18 2020 Carlos O'Donell <carlos@redhat.com> - 2.32.9000-3
+- Suggest installing minimal localization e.g. C, POSIX, C.UTF-8.
+
+* Mon Aug 17 2020 DJ Delorie <dj@redhat.com> - 2.32.9000-2
+- Auto-sync with upstream branch master,
+  commit cb7e7a5ca1d6d25d59bc038bdc09630e507c41e5.
+- nptl: Handle NULL abstime [BZ #26394]
+- Update build-many-glibcs.py for binutils ia64 obsoletion.
+- Update kernel version to 5.8 in tst-mman-consts.py.
+- y2038: nptl: Convert pthread_{clock|timed}join_np to support 64 bit time
+- aarch64: update ulps.
+
+* Wed Aug 12 2020 Patsy Griffin <patsy@redhat.com> - 2.32.9000-1
+- Auto-sync with upstream branch master,
+  commit 0be0845b7a674dbfb996f66cd03d675f0f6028dc:
+- S390: Regenerate ULPs.
+- manual: Fix sigdescr_np and sigabbrev_np return type (BZ #26343)
+- math: Update x86_64 ulps
+- math: Regenerate auto-libm-test-out-j0
+- manual: Put the istrerrorname_np and strerrordesc_np return type in braces
+- Linux: Use faccessat2 to implement faccessat (bug 18683)
+- manual: Fix strerrorname_np and strerrordesc_np return type (BZ #26343)
+- math: Fix inaccuracy of j0f for x >= 2^127 when sin(x)+cos(x) is tiny
+- Update syscall lists for Linux 5.8.
+- Use Linux 5.8 in build-many-glibcs.py.
+- htl: Enable tst-cancelx?[45]
+- tst-cancel4: Make blocking on write more portable
+- hurd: Add missing hidden def
+- hurd: Rework sbrk
+- hurd: Implement basic sched_get/setscheduler
+- x86: Rename Intel CPU feature names
+- manual: Fix some @code/@var formatting glitches chapter Date And Time
+- Copy regex_internal.h from Gnulib
+- Copy regex BITSET_WORD_BITS porting from Gnulib
+- Sync regex.h from Gnulib
+- Sync mktime.c from Gnulib
+- Sync intprops.h from Gnulib
+- Open master branch for glibc 2.33 development.
+
+* Thu Aug 06 2020 Arjun Shankar <arjun@redhat.com> - 2.32-1
+- Auto-sync with upstream branch release/2.32/master,
+  commit 3de512be7ea6053255afed6154db9ee31d4e557a:
+- Prepare for glibc 2.32 release.
+- Regenerate configure scripts.
+- Update NEWS with bugs.
+- Update translations.
+- Don't mix linker error messages into edited scripts
+- benchtests/README update.
+- RISC-V: Update lp64d libm-test-ulps according to HiFive Unleashed
+- aarch64: update NEWS about branch protection
+- Add NEWS entry for CVE-2016-10228 (bug 19519)
+- powerpc: Fix incorrect cache line size load in memset (bug 26332)
+- Update Nios II libm-test-ulps file.
+
+* Fri Jul 31 2020 Patsy Griffin <patsy@redhat.com> - 2.31.9000-24
+- Auto-sync with upstream branch master,
+  commit 7f1a08cff82255cd4252a2c75fd65b80a6a170bf.
+- Move NEWS entry for CVE-2020-1751 to the 2.31 section
+- NEWS: Deprecate weak libpthread symbols for single-threaded checks
+- NEWS: Deprecate nss_hesiod
+- nptl: Zero-extend arguments to SETXID syscalls [BZ #26248]
+- Use binutils 2.35 branch in build-many-glibcs.py.
+- aarch64: Use future HWCAP2_MTE in ifunc resolver
+- Update x86-64 libm-test-ulps
+- aarch64: Respect p_flags when protecting code with PROT_BTI
+- Disable warnings due to deprecated libselinux symbols used by nss and nscd
+- Regenerate INSTALL for ARC port updates.
+- Update libc.pot for 2.32 release.
+- powerpc: Fix POWER10 selection
+- powerpc64le: guarantee a .gnu.attributes section [BZ #26220]
+
+* Wed Jul 29 2020 Florian Weimer <fweimer@redhat.com> - 2.31.9000-23
+- Inherit -mbranch-protection=standard from redhat-rpm-config (for aarch64)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Carlos O'Donell <carlos@redhat.com> - 2.31.9000-21
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Tue Jul 21 2020 Arjun Shankar <arjun@redhat.com> - 2.31.9000-20
+- Add glibc-deprecated-selinux-makedb.patch and
+  glibc-deprecated-selinux-nscd.patch to work around libselinux API
+  deprecations.
+- Drop glibc-rseq-disable.patch; rseq support removed upstream.  (#1855729)
+- Auto-sync with upstream branch master,
+  commit ec2f1fddf29053957d061dfe310f106388472a4f:
+- libio: Remove __libc_readline_unlocked
+- shadow: Implement fgetspent_r using __nss_fgetent_r
+- pwd: Implement fgetpwent_r using __nss_fgetent_r
+- gshadow: Implement fgetsgent_r using __nss_fgetent_r (bug 20338)
+- grp: Implement fgetgrent_r using __nss_fgetent_r
+- nss: Add __nss_fgetent_r
+- libio: Add fseterr_unlocked for internal use
+- nss_files: Use generic result pointer in parse_line
+- nss_files: Consolidate line parse declarations in <nss_files.h>
+- nss_compat: Do not use mmap to read database files (bug 26258)
+- nss_files: Consolidate file opening in __nss_files_fopen
+- Update powerpc-nofpu libm-test-ulps.
+- Use MPFR 4.1.0 in build-many-glibcs.py.
+- elf: Change TLS static surplus default back to 1664
+- hurd: Fix longjmp check for sigstate
+- hurd: Fix longjmp early in initialization
+- manual: New signal and errno string functions are AS-safe
+- AArch64: Improve strlen_asimd performance (bug 25824)
+- Move <rpc/netdb.h> from sunrpc to inet
+- en_US: Minimize changes to date_fmt (Bug 25923)
+- Linux: Remove rseq support
+- manual: Use Unicode instead HTML entities for characters (bug 19737)
+- Add NEWS entry for CVE-2020-6096 (bug 25620)
+- arm: remove string/tst-memmove-overflow XFAIL
+- AArch64: Rename IS_ARES to IS_NEOVERSE_N1
+- AArch64: Add optimized Q-register memcpy
+- AArch64: Align ENTRY to a cacheline
+- Correct timespec implementation [BZ #26232]
+- Remove --enable-obsolete-rpc configure flag
+- hurd: Fix build-many-glibcs.py
+- x86: Support usable check for all CPU features
+- string: Make tst-strerror/tst-strsignal unsupported if msgfmt is not installed
+- malloc: Deprecate more hook-related functionality
+- elf: Support at least 32-byte alignment in static dlopen
+- x86: Remove __ASSEMBLER__ check in init-arch.h
+- x86: Remove the unused __x86_prefetchw
+- Documentation for ARC port
+- build-many-glibcs.py: Enable ARC builds
+- ARC: Build Infrastructure
+- ARC: ABI lists
+- ARC: Linux Startup and Dynamic Loading
+- ARC: Linux ABI
+- ARC: Linux Syscall Interface
+- ARC: hardware floating point support
+- ARC: math soft float support
+- ARC: Atomics and Locking primitives
+- ARC: Thread Local Storage support
+- ARC: startup and dynamic linking code
+- ARC: ABI Implementation
+- Fix time/tst-cpuclock1 intermitent failures
+- powerpc64: Fix calls when r2 is not used [BZ #26173]
+- Add NEWS entry for Update to Unicode 13.0.0 [BZ #25819]
+- Update i686 libm-test-ulps
+- Fix memory leak in __printf_fp_l (bug 26215).
+- Fix double free in __printf_fp_l (bug 26214).
+- linux: Fix syscall list generation instructions
+- sysv: linux: Add 64-bit time_t variant for shmctl
+- sysvipc: Remove the linux shm-pad.h file
+- sysvipc: Split out linux struct shmid_ds
+- sysv: linux: Add 64-bit time_t variant for msgctl
+- sysvipc: Remove the linux msq-pad.h file
+- sysvipc: Split out linux struct semid_ds
+- sysv: linux: Add 64-bit time_t variant for semctl
+
+* Fri Jul 10 2020 Florian Weimer <fweimer@redhat.com> - 2.31.9000-19
+- Disable rseq registration by default to help Firefox (#1855729)
+
+* Thu Jul 09 2020 Florian Weimer <fweimer@redhat.com> - 2.31.9000-18
+- Auto-sync with upstream branch master,
+  commit ffb17e7ba3a5ba9632cee97330b325072fbe41dd:
+- rtld: Avoid using up static TLS surplus for optimizations [BZ #25051]
+- rtld: Account static TLS surplus for audit modules
+- rtld: Add rtld.nns tunable for the number of supported namespaces
+- Remove --enable-obsolete-nsl configure flag
+- Move non-deprecated RPC-related functions from sunrpc to inet
+- aarch64: add NEWS entry about branch protection support
+- aarch64: redefine RETURN_ADDRESS to strip PAC
+- aarch64: fix pac-ret support in _mcount
+- aarch64: Add pac-ret support to assembly files
+- aarch64: configure check for pac-ret code generation
+- aarch64: ensure objects are BTI compatible
+- aarch64: enable BTI at runtime
+- aarch64: fix RTLD_START for BTI
+- aarch64: fix swapcontext for BTI
+- aarch64: Add BTI support to assembly files
+- aarch64: Rename place holder .S files to .c
+- aarch64: configure test for BTI support
+- Rewrite abi-note.S in C.
+- rtld: Clean up PT_NOTE and add PT_GNU_PROPERTY handling
+- string: Move tst-strsignal tst-strerror to tests-container
+- string: Fix prototype mismatch in sigabbrev_np, __sigdescr_np
+- arm: CVE-2020-6096: Fix multiarch memcpy for negative length (#1820332)
+- arm: CVE-2020-6096: fix memcpy and memmove for negative length (#1820332)
+- sunrpc: Remove hidden aliases for global data symbols (bug 26210)
+- hurd: Fix strerror not setting errno
+- tst-strsignal: fix checking for RT signals support
+- hurd: Evaluate fd before entering the critical section
+- CVE-2016-10228: Rewrite iconv option parsing (#1428292)
+- nss: Remove cryptographic key support from nss_files, nss_nis, nss_nisplus
+- sunrpc: Do not export getrpcport by default
+- sunrpc: Do not export key handling hooks by default
+- sunrpc: Turn clnt_sperrno into a libc_hidden_nolink_sunrpc symbol
+- string: Add strerrorname_np and strerrordesc_np
+- string: Add sigabbrev_np and sigdescr_np
+- string: Add strerror_l on test-strerror-errno
+- string: Add strerror, strerror_r, and strerror_l test
+- string: Add strsignal test
+- string: Simplify strerror_r
+- string: Use tls-internal on strerror_l
+- string: Implement strerror in terms of strerror_l
+- string: Remove old TLS usage on strsignal
+- linux: Fix __NSIG_WORDS and add __NSIG_BYTES
+- signal: Move sys_errlist to a compat symbol
+- signal: Move sys_siglist to a compat symbol
+- signal: Add signum-{generic,arch}.h
+- Remove most vfprintf width/precision-dependent allocations (bug 14231, bug 26211).
+- elf: Do not signal LA_ACT_CONSISTENT for an empty namespace [BZ #26076]
+- Fix stringop-overflow errors from gcc 10 in iconv.
+- x86: Add thresholds for "rep movsb/stosb" to tunables
+- Use C2x return value from getpayload of non-NaN (bug 26073).
+- x86: Detect Extended Feature Disable (XFD)
+- x86: Correct bit_cpu_CLFSH [BZ #26208]
+- manual: Document __libc_single_threaded
+- Add the __libc_single_threaded variable
+- Linux: rseq registration tests
+- Linux: Use rseq in sched_getcpu if available
+- Linux: Perform rseq registration at C startup and thread creation
+- tst-cancel4: deal with ENOSYS errors
+- manual: Show copyright information not just in the printed manual
+
+
+* Thu Jul 02 2020 Carlos O'Donell <carlos@redhat.com> - 2.31.9000-17
+- Auto-sync with upstream branch master,
+  commit c6aac3bf3663709cdefde5f5d5e9e875d607be5e.
+- Fix typo in comment in bug 26137 fix.
+- Fix strtod multiple-precision division bug (bug 26137).
+- Linux: Fix UTC offset setting in settimeofday for __TIMESIZE != 64
+- random: range is not portably RAND_MAX [BZ #7003]
+- Update kernel version to 5.7 in tst-mman-consts.py.
+- powerpc: Add support for POWER10
+- hurd: Simplify usleep timeout computation
+- htl: Enable cancel*16 an cancel*20 tests
+- hurd: Add remaining cancelation points
+- hurd: fix usleep(ULONG_MAX)
+- hurd: Make fcntl(F_SETLKW*) cancellation points
+- hurd: make wait4 a cancellation point
+- hurd: Fix port definition in HURD_PORT_USE_CANCEL
+- hurd: make close a cancellation point
+- hurd: make open and openat cancellation points
+- hurd: clean fd and port on thread cancel
+- htl: Move cleanup handling to non-private libc-lock
+- htl: Fix includes for lockfile
+- htl: avoid cancelling threads inside critical sections
+- tst-cancel4-common.c: fix calling socketpair
+- x86: Detect Intel Advanced Matrix Extensions
+- Set width of JUNGSEONG/JONGSEONG characters from UD7B0 to UD7FB to 0 [BZ #26120]
+- S390: Optimize __memset_z196.
+- S390: Optimize __memcpy_z196.
+- elf: Include <stddef.h> (for size_t), <sys/stat.h> in <ldconfig.h>
+- nptl: Don't madvise user provided stack
+- S390: Regenerate ULPs.
+- htl: Add wrapper header for <semaphore.h> with hidden __sem_post
+- elf: Include <stdbool.h> in <dl-tunables.h> because bool is used
+- htl: Fix case when sem_*wait is canceled while holding a token
+- htl: Make sem_*wait cancellations points
+- htl: Simplify non-cancel path of __pthread_cond_timedwait_internal
+- htl: Enable tst-cancel25 test
+- powerpc: Add new hwcap values
+- aarch64: MTE compatible strncmp
+- aarch64: MTE compatible strcmp
+- aarch64: MTE compatible strrchr
+- aarch64: MTE compatible memrchr
+- aarch64: MTE compatible memchr
+- aarch64: MTE compatible strcpy
+- Add MREMAP_DONTUNMAP from Linux 5.7
+- x86: Update CPU feature detection [BZ #26149]
+
 * Mon Jun 22 2020 DJ Delorie <dj@redhat.com> - 2.31.9000-16
 - Auto-sync with upstream branch master,
   commit ea04f0213135b13d80f568ca2c4127c2ec112537.
@@ -3227,7 +3956,6 @@ fi
 - Add tgmath.h macros for narrowing functions.
 - Update i386 libm-test-ulps
 
-
 * Mon Aug 19 2019 Carlos O'Donell <carlos@redhat.com> - 2.30.9000-3
 - Drop glibc-fedora-nscd-warnings.patch; applied upstream.
 - Drop Source7: nsswitch.conf; applying patch to upstream.
@@ -3285,7 +4013,6 @@ fi
 - locale/C-translit.h.in: Cyrillic -> ASCII transliteration [BZ #2872]
 - Linux: Update syscall-names.list to Linux 5.2
 
-
 * Thu Jul 18 2019 DJ Delorie <dj@redhat.com> - 2.29.9000-32
 - Auto-sync with upstream branch master,
   commit 3556658c5b8765480711b265abc901c67d5fc060.
@@ -3326,390 +4053,3 @@ fi
 - powerpc: Use generic e_expf
 - Linux: Add nds32 specific syscalls to syscall-names.list
 - szl_PL locale: Fix a typo in the previous commit (bug 24652).
-
-* Mon Jun 24 2019 DJ Delorie <dj@redhat.com> - 2.29.9000-30
-- Auto-sync with upstream branch master,
-  commit 2bd81b60d6ffdf7e0d22006d69f4b812b1c80513.
-- szl_PL locale: Spelling corrections (swbz 24652).
-- nl_{AW,NL}: Correct the thousands separator and grouping (swbz 23831).
-- Add missing VDSO_{NAME,HASH}_* macros and use them for PREPARE_VERSION_KNOWN
-- nptl: Convert various tests to use libsupport
-- support: Invent verbose_printf macro
-- support: Add xclock_now helper function.
-
-* Fri Jun 21 2019 Florian Weimer <fweimer@redhat.com> - 2.29.9000-29
-- Auto-sync with upstream branch master,
-  commit 21cc130b78a4db9113fb6695e2b951e697662440:
-- During exit, skip wide buffer handling for legacy stdio handles (#1722216)
-- powerpc: add 'volatile' to asm
-- powerpc: Fix static-linked version of __ppc_get_timebase_freq (swbz#24640)
-- nl_AW locale: Correct the negative monetary format (swb#z24614)
-- Fix gcc 9 build errors for make xcheck. (swbz#24556)
-- dlfcn: Avoid one-element flexible array in Dl_serinfo (swbz#24166)
-- elf: Refuse to dlopen PIE objects (swbz#24323)
-- nl_NL locale: Correct the negative monetary format (swbz#24614)
-- powerpc: Refactor powerpc64 lround/lroundf/llround/llroundf
-- powerpc: refactor powerpc64 lrint/lrintf/llrint/llrintf
-
-* Mon Jun 17 2019 Florian Weimer <fweimer@redhat.com> - 2.29.9000-28
-- Auto-sync with upstream branch master,
-  commit 48c3c1238925410b4e777dc94e2fde4cc9132d44.
-- Linux: Fix __glibc_has_include use for <sys/stat.h> and statx (#1721129)
-- <sys/cdefs.h>: Inhibit macro expansion for __glibc_has_include
-- Add IPV6_ROUTER_ALERT_ISOLATE from Linux 5.1 to bits/in.h
-- aarch64: handle STO_AARCH64_VARIANT_PCS
-- aarch64: add STO_AARCH64_VARIANT_PCS and DT_AARCH64_VARIANT_PCS
-- powerpc: Remove optimized finite
-- math: Use wordsize-64 version for finite
-- powerpc: Remove optimized isinf
-- math: Use wordsize-64 version for isinf
-- powerpc: Remove optimized isnan
-- math: Use wordsize-64 version for isnan
-- benchtests: Add isnan/isinf/isfinite benchmark
-- powerpc: copysign cleanup
-- powerpc: consolidate rint
-- libio: freopen of default streams crashes in old programs (swbz#24632)
-- Linux: Deprecate <sys/sysctl.h> and sysctl
-- <sys/stat.h>: Use Linux UAPI header for statx if available and useful
-  (#1721129)
-- <sys/cdefs.h>: Add __glibc_has_include macro
-- Improve performance of memmem
-- Improve performance of strstr
-- Benchmark strstr hard needles
-- Fix malloc tests build with GCC 10
-
-* Mon Jun 10 2019 Patsy Franklin <patsy@redhat.com> - 2.29.9000-27
-- Auto-sync with upstream branch master,
-  commit 51ea67d54882318c4fa5394c386f4816ddc22408.
-- powerpc: get_rounding_mode: utilize faster method to get rounding mode
-- riscv: Do not use __has_include__
-- powerpc: fegetexcept: utilize function instead of duplicating code
-- iconv: Use __twalk_r in __gconv_release_shlib
-- Fix iconv buffer handling with IGNORE error handler (swbz#18830)
-
-* Wed Jun  5 2019 Florian Weimer <fweimer@redhat.com> - 2.29.9000-26
-- Restore /usr/lib/locale/locale-archive under its original name (#1716710)
-
-* Tue Jun  4 2019 Florian Weimer <fweimer@redhat.com> - 2.29.9000-25
-- Add glibc version to locale-archive name (#1716710)
-
-* Mon Jun 03 2019 Carlos O'Donell <carlos@redhat.com> - 2.29.9000-24
-- Auto-sync with upstream branch master,
-  commit dc91a19e6f71e1523f4ac179191a29b2131d74bb:
-- Linux: Add oddly-named arm syscalls to syscall-names.list.
-- arm: Remove ioperm/iopl/inb/inw/inl/outb/outw/outl support.
-- Add INADDR_ALLSNOOPERS_GROUP from Linux 5.1 to netinet/in.h.
-
-* Sat Jun 01 2019 Carlos O'Donell <carlos@redhat.com> - 2.29.9000-23
-- Convert glibc_post_upgrade to lua.
-
-* Sat Jun 01 2019 Florian Weimer <fweimer@redhat.com> - 2.29.9000-22
-- Remove support for filtering glibc-all-langpacks (#1715891)
-- Auto-sync with upstream branch master,
-  commit 9250e6610fdb0f3a6f238d2813e319a41fb7a810:
-- powerpc: Fix build failures with current GCC
-- Remove unused get_clockfreq files
-- powerpc: generic nearbyint/nearbyintf
-- tt_RU: Add lang_name (swbz#24370)
-- tt_RU: Fix orthographic mistakes in mon and abmon sections (swbz#24369)
-- Add IGMP_MRDISC_ADV from Linux 5.1 to netinet/igmp.h.
-
-* Mon May 27 2019 Arjun Shankar <arjun@redhat.com> - 2.29.9000-21
-- Auto-sync with upstream branch master,
-  commit 85188d8211698d1a255f0aec6529546db5c56de3:
-- Remove support for PowerPC SPE extension
-- elf: Add tst-ldconfig-bad-aux-cache test
-- Add F_SEAL_FUTURE_WRITE from Linux 5.1 to bits/fcntl-linux.h
-- nss_dns: Check for proper A/AAAA address alignment
-
-* Tue May 21 2019 DJ Delorie <dj@redhat.com> - 2.29.9000-20
-- Auto-sync with upstream branch master,
-  commit 46ae07324b1cd50fbf8f37a076d6babcfca7c510.
-- Improve string benchtest timing
-- sysvipc: Add missing bit of semtimedop s390 consolidation
-- wcsmbs: Fix data race in __wcsmbs_clone_conv [swbz #24584]
-- libio: Fix gconv-related memory leak [swbz #24583]
-- libio: Remove codecvt vtable [swbz #24588]
-- support: Expose sbindir as support_sbindir_prefix
-- support: Add missing EOL terminators on timespec
-- support: Correct confusing comment
-- sysvipc: Consolidate semtimedop s390
-- sysvipc: Fix compat msgctl (swbz#24570)
-- Add NT_ARM_PACA_KEYS and NT_ARM_PACG_KEYS from Linux 5.1 to elf.h.
-- Small tcache improvements
-- manual: Document O_DIRECTORY
-- Update kernel-features.h files for Linux 5.1.
-- nss_nis, nss_nisplus: Remove RES_USE_INET6 handling
-- nss_files: Remove RES_USE_INET6 from hosts processing
-- support: Report NULL blobs explicitly in TEST_COMPARE
-- dlfcn: Guard __dlerror_main_freeres with __libc_once_get (once) [swbz# 24476]
-- Add missing Changelog entry
-
-
-* Wed May 15 2019 Florian Weimer <fweimer@redhat.com> - 2.29.9000-19
-- Auto-sync with upstream branch master,
-  commit 32ff397533715988c19cbf3675dcbd727ec13e18:
-- Fix crash in _IO_wfile_sync (#1710460)
-- nss: Turn __nss_database_lookup into a compatibility symbol
-- support: Add support_install_rootsbindir
-- iconv: Remove public declaration of __gconv_transliterate
-- Linux: Add the tgkill function
-- manual: Adjust twalk_r documentation.
-- elf: Fix tst-pldd for non-default --prefix and/or --bindir (swbz#24544)
-- support: Export bindir path on support_path
-- configure: Make --bindir effective
-- x86: Remove arch-specific low level lock implementation
-- nptl: Assume LLL_LOCK_INITIALIZER is 0
-- nptl: Small optimization for lowlevellock
-- Add single-thread.h header
-- locale: Update to Unicode 12.1.0 (swbz#24535)
-- malloc: Fix tcache count maximum (swbz#24531)
-- sem_close: Use __twalk_r
-- support: Fix timespec printf
-- nptl/tst-abstime: Use libsupport
-- nptl: Convert some rwlock tests to use libsupport
-- nptl: Use recent additions to libsupport in tst-sem5
-- nptl: Convert tst-cond11.c to use libsupport
-- support: Add timespec.h
-- Move nptl/tst-eintr1 to xtests (swbz#24537)
-- powerpc: trunc/truncf refactor
-- powerpc: round/roundf refactor
-- powerpc: floor/floorf refactor
-- support: Add xclock_gettime
-- malloc/tst-mallocfork2: Use process-shared barriers
-- Update syscall-names.list for Linux 5.1
-- Use GCC 9 in build-many-glibcs.py
-- aarch64: thunderx2 memmove performance improvements
-- misc/tst-tsearch: Additional explicit error checking
-- elf: Fix elf/tst-pldd with --enable-hardcoded-path-in-tests (swbz#24506)
-- misc: Add twalk_r function
-
-* Thu May 02 2019 Arjun Shankar <arjun@redhat.com> - 2.29.9000-18
-- Auto-sync with upstream branch master,
-  commit 20aa5819586ac7ad11f711bab64feda307965191:
-- semaphore.h: Add nonnull attributes
-- powerpc: Remove power4 mpa optimization
-- powerpc: Refactor ceil/ceilf
-- Fix -O1 compilation errors with `__ddivl' and `__fdivl' [BZ #19444]
-- Make mktime etc. compatible with __time64_t
-
-* Fri Apr 26 2019 Florian Weimer <fweimer@redhat.com> - 2.29.9000-17
-- Auto-sync with upstream branch master,
-  commit c57afec0a9b318bb691e0f5fa4e9681cf30df7a4:
-- Increase BIND_NOW coverage (#1702671)
-- Fix pldd hang (#1361689)
-- riscv: remove DL_RO_DYN_SECTION (swbz#24484)
-- locale: Add LOCPATH diagnostics to the locale program
-- Reduce benchtests time
-
-* Mon Apr 22 2019 DJ Delorie <dj@redhat.com> - 2.29.9000-16
-- Auto-sync with upstream branch master,
-  commit 25f7a3c96116a9102df8bf7b04ef160faa32416d.
-- malloc: make malloc fail with requests larger than PTRDIFF_MAX (BZ#23741)
-- powerpc: Fix format issue from 3a16dd780eeba602
-- powerpc: fma using builtins
-- powerpc: Use generic fabs{f} implementations
-- mips: Remove rt_sigreturn usage on context function
-- powerpc: Remove rt_sigreturn usage on context function
-- support: Add support_capture_subprogram
-- stdlib/tst-secure-getenv: handle >64 groups
-
-* Mon Apr 15 2019 Florian Weimer <fweimer@redhat.com> - 2.29.9000-15
-- Auto-sync with upstream branch master,
-  commit e3f454bac0f968216699ca405c127c858f0657c7:
-- nss_dns: Do not replace root domain with empty string
-- alloc_buffer: Return unqualified pointer type in alloc_buffer_next
-- malloc: Set and reset all hooks for tracing (swbz#16573)
-
-* Thu Apr 11 2019 Florian Weimer <fweimer@redhat.com> - 2.29.9000-14
-- Run valgrind smoke test against the install tree
-
-* Thu Apr 11 2019 Florian Weimer <fweimer@redhat.com> - 2.29.9000-13
-- Do not use --g-libs with find-debuginfo.sh; it breaks valgrind (#1698824)
-
-* Wed Apr 10 2019 Florian Weimer <fweimer@redhat.com> - 2.29.9000-12
-- Strip debugging information from installed programs again (#1661510)
-
-* Tue Apr 09 2019 Carlos O'Donell <carlos@redhat.com> - 2.29.9000-11
-- Drop glibc-warning-fix.patch. Microbenchmark code fixed upstream.
-- Auto-sync with upstream branch master,
-  commit 648279f4af423c4783ec1dfa63cb7b46a7640217:
-- powerpc: Use generic wcscpy optimization
-- powerpc: Use generic wcschr optimization
-- powerpc: Use generic wcsrchr optimization
-- aarch64: thunderx2 memcpy implementation cleanup and streamlining
-- resolv: Remove support for RES_USE_INET6 and the inet6 option
-- resolv: Remove RES_INSECURE1, RES_INSECURE2
-
-* Thu Apr 04 2019 Arjun Shankar <arjun@redhat.com> - 2.29.9000-10
-- Auto-sync with upstream branch master,
-  commit 8260f23616c1a2a4e609f989a195fba7690a42ca:
-- Fix strptime era handling, add more strftime tests [BZ #24394]
-- time/tst-strftime2.c: Make the file easier to maintain
-- time: Add tests for Minguo calendar [BZ #24293]
-- ja_JP locale: Add entry for the new Japanese era [BZ #22964]
-- Add Reiwa era tests to time/tst-strftime3.c
-
-* Mon Apr 01 2019 Arjun Shankar <arjun@redhat.com> - 2.29.9000-9
-- Auto-sync with upstream branch master,
-  commit 993e3107af67edefcfc79a62ae55f7b98aa5151e:
-- Add AArch64 HWCAPs from Linux 5.0
-- tt_RU: Fix orthographic mistakes in day and abday sections [BZ #24296]
-- iconv, localedef: avoid floating point rounding differences [BZ #24372]
-- Fix parentheses error in iconvconfig.c and ld-collate.c [BZ #24372]
-- S390: New configure check and hwcap values for new CPU architecture arch13
-- S390: Add memmove, strstr, and memmem ifunc variants for arch13
-- nptl: Remove pthread_clock_gettime pthread_clock_settime
-- linux: Assume clock_getres CLOCK_{PROCESS,THREAD}_CPUTIME_ID
-- Remove __get_clockfreq
-- Do not use HP_TIMING_NOW for random bits
-- hp-timing: Refactor rtld usage, add generic support
-- Add NT_ARM_PAC_MASK and NT_MIPS_MSA from Linux 5.0 to elf.h
-- Add UDP_GRO from Linux 5.0 to netinet/udp.h
-- nptl: Convert tst-sem5 & tst-sem13 to use libsupport
-- nptl/tst-rwlock14: Test pthread_rwlock_timedwrlock correctly
-- nss/tst-nss-files-alias-leak: add missing opening quote in printf
-- math: Enable some math builtins for clang
-- powerpc: Use __builtin_{mffs,mtfsf}
-- RISC-V: Fix `test' operand error with soft-float ABI being configured
-
-* Wed Mar 20 2019 Carlos O'Donell <carlos@redhat.com> - 2.29.9000-8
-- Add warnings and notes to /etc/nsswitch.conf and /etc/nscd.conf.
-
-* Mon Mar 18 2019 DJ Delorie <dj@redhat.com> - 2.29.9000-7
-- Auto-sync with upstream branch master,
-  commit 78919d3886c9543279ec755a701e279c62b44164.
-
-* Thu Mar 14 2019 Florian Weimer <fweimer@redhat.com> - 2.29.9000-6
-- Drop glibc-fedora-streams-rh436349.patch.  STREAMS was removed upstream.
-- Auto-sync with upstream branch master,
-  commit a0a0dc83173ce11ff45105fd32e5d14356cdfb9c:
-- Remove obsolete, never-implemented XSI STREAMS declarations
-- nss: Fix tst-nss-files-alias-truncated for default --as-needed linking
-- scripts/check-obsolete-constructs.py: Process all headers as UTF-8.
-- Use Linux 5.0 in build-many-glibcs.py.
-- hurd: Add no-op version of __res_enable_icmp [BZ #24047]
-- Move inttypes.h and stdint.h to stdlib.
-- Use a proper C tokenizer to implement the obsolete typedefs test.
-- Fix output of LD_SHOW_AUXV=1.
-
-* Wed Mar 13 2019 Florian Weimer <fweimer@redhat.com> - 2.29.9000-5
-- Drop glibc-rh1670028.patch, applied upstream
-- Auto-sync with upstream branch master,
-  commit 38b52865d4ccfee3647f27e969e539a4396a73b1:
-- elf: Add DF_1_KMOD, DF_1_WEAKFILTER, DF_1_NOCOMMON to <elf.h>
-- resolv: Enable full ICMP errors for UDP DNS sockets [BZ #24047]
-- C-SKY: add elf header definition for elfutils
-- C-SKY: mark lr as undefined to stop unwinding
-- C-SKY: remove user_regs definition
-- C-SKY: fix sigcontext miss match
-- Bug 24307: Update to Unicode 12.0.0
-- Break lines before not after operators, batch 4.
-- check-wrapper-headers test: Adjust Fortran include file directory
-- Fix location where math-vector-fortran.h is installed.
-
-* Wed Mar 06 2019 DJ Delorie <dj@redhat.com> - 2.29.9000-4
-- Auto-sync with upstream branch master,
-  commit 0ddb7ea842abf63516b74d4b057c052afc6ba863.
-- nptl: Assume __ASSUME_FUTEX_CLOCK_REALTIME support
-- powerpc: Fix build of wcscpy with --disable-multi-arch
-- elf: Remove remnants of MAP_ANON emulation
-- S390: Increase function alignment to 16 bytes.
-- ja_JP: Change the offset for Taisho gan-nen from 2 to 1 [BZ #24162]
-- ldbl-opt: Reuse test cases from misc/ that check long double
-- ldbl-opt: Add error and error_at_line (bug 23984)
-- ldbl-opt: Add err, errx, verr, verrx, warn, warnx, vwarn, and vwarnx (bug 23984)
-- ldbl-opt: Reuse argp tests that print long double
-- ldbl-opt: Add argp_error and argp_failure (bug 23983)
-- elf/tst-big-note: Improve accuracy of test [BZ #20419]
-- S390: Fix introduction of __wcscpy and weak wcscpy symbols.
-- __netlink_assert_response: Add more __libc_fatal newlines [BZ #20271]
-- Add more spaces before '('.
-- elf: Add tests with a local IFUNC resolver [BZ #23937]
-- elf/Makefile: Run IFUNC tests if binutils supports IFUNC
-- powerpc: Fix linknamespace introduced by 4d8015639a75
-- hurd: Add renameat2 support for RENAME_NOREPLACE
-- Fix -Wempty-body warnings in Hurd-specific code.
-- Add some spaces before '('.
-- wcsmbs: optimize wcsnlen
-- wcsmbs: optimize wcsncpy
-- wcsmbs: optimize wcsncat
-- wcsmbs: optimize wcscpy
-- wcsmbs: optimize wcscat
-- wcsmbs: optimize wcpncpy
-- wcsmbs: optimize wcpcpy
-- Break further lines before not after operators.
-- Add and move fall-through comments in system-specific code.
-
-* Fri Mar 1 2019 DJ Delorie <dj@redhat.com> - 2.29.9000-3
-- Add .gdb_index to debug information (rhbz#1680765)
-
-* Wed Feb 27 2019 Carlos O'Donell <carlos@redhat.com> - 2.29.9000-2
-- Fix build failure related to microbenchmarks.
-
-* Tue Feb 26 2019 Carlos O'Donell <carlos@redhat.com> - 2.29.9000-1
-- Auto-sync with upstream branch master,
-  commit e0cb7b6131ee5f2dca2938069b8b9590304e6f6b:
-- nss_files: Fix /etc/aliases null pointer dereference (swbz#24059)
-- regex: fix read overrun (swbz#24114)
-- libio: use stdout in puts and putchar, etc (swbz#24051)
-- aarch64: Add AmpereComputing emag to tunable cpu list
-- aarch64: Optimized memset specific to AmpereComputing emag
-- aarch64: Optimized memchr specific to AmpereComputing emag
-- Require GCC 6.2 or later to build glibc
-- manual: Document lack of conformance of sched_* functions (swbz#14829)
-- libio: Use stdin consistently for input functions (swbz#24153)
-- x86-64 memcmp: Use unsigned Jcc instructions on size (swbz#24155)
-- Fix handling of collating elements in fnmatch (swbz#17396,swbz#16976)
-- arm: Use "nr" constraint for Systemtap probes (swbz#24164)
-- Fix alignment of TLS variables for tls variant TLS_TCB_AT_TP (swbz#23403)
-- Add compiler barriers for pthread_mutex_trylock (swbz#24180)
-- rt: Turn forwards from librt to libc into compat symbols (swbz#24194)
-- Linux: Add gettid system call wrapper (swbz#6399)
-- nptl: Avoid fork handler lock for async-signal-safe fork (swbz#24161)
-- elf: Ignore LD_AUDIT interfaces if la_version returns 0 (swbz#24122)
-- nptl: Reinstate pthread_timedjoin_np as a cancellation point (swbz#24215)
-- nptl: Fix invalid Systemtap probe in pthread_join (swbz#24211)
-
-* Tue Feb 19 2019 Florian Weimer <fweimer@redhat.com> - 2.29-8
-- Drop glibc-rh1674280.patch.  Different fix applied upstream.  (#1674280)
-- Auto-sync with upstream branch release/2.29/master,
-  commit 067fc32968b601493f4b247a3ac00caeea3f3d61:
-- nptl: Fix invalid Systemtap probe in pthread_join (#1674280)
-
-* Mon Feb 11 2019 Florian Weimer <fweimer@redhat.com> - 2.29-7
-- Hotfix for invalid Systemtap probe in pthread_join (#1674280)
-
-* Mon Feb 11 2019 Florian Weimer <fweimer@redhat.com> - 2.29-6
-- Remove LRA bug on POWER workaround, fixed in gcc-9.0.1-0.4.fc30 (#1673018)
-
-* Mon Feb 11 2019 Florian Weimer <fweimer@redhat.com> - 2.29-5
-- Auto-sync with upstream branch release/2.29/master,
-  commit c096b008d2671028c21ac8cf01f18a2083e73c44:
-- nptl: Avoid fork handler lock for async-signal-safe fork (swbz#24161)
-- nptl: Add compiler barriers in pthread_mutex_trylock (swbz#24180)
-
-* Thu Feb  7 2019 Florian Weimer <fweimer@redhat.com> - 2.29-4
-- Work around LRA hang on ppc64le (#1673018)
-
-* Wed Feb 06 2019 Florian Weimer <fweimer@redhat.com> - 2.29-3
-- Auto-sync with upstream branch release/2.29/master,
-  commit 2de15ac95713a238dc258eb8977ecdfca811fc19:
-- arm: Use "nr" constraint for Systemtap probes (#1196181)
-
-* Fri Feb  1 2019 Florian Weimer <fweimer@redhat.com> - 2.29-2
-- Eliminate %%glibcrelease macro.
-- Switch to regular Release: pattern.
-
-* Thu Jan 31 2019 Carlos O'Donell <carlos@redhat.com> - 2.29-1
-- Auto-sync with upstream branch release/2.29/master,
-  commit 86013ef5cea322b8f4b9c22f230c22cce369e947.
-- nptl: Fix pthread_rwlock_try*lock stalls (swbz#23844)
-
-* Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org>
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
-
-* Mon Jan 28 2019 DJ Delorie <dj@redhat.com> - 2.28.9000-37
-- Auto-sync with upstream branch master,
-  commit e1e47c912a8e557508362715f7468091def3ec4f.
-- Update translations.

@@ -1,6 +1,6 @@
 Name:          oath-toolkit
 Version:       2.6.2
-Release:       5%{?dist}
+Release:       6%{?dist}
 License:       GPLv3+
 Summary:       One-time password components
 BuildRequires: pam-devel, gtk-doc, libtool, libtool-ltdl-devel
@@ -186,6 +186,9 @@ mkdir -p -m 0600 %{buildroot}%{_sysconfdir}/liboath
 %{_libdir}/security/pam_oath.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May  4 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 2.6.2-5
 - Added support for configurable lock file locations and set the default path
   Resolves: rhbz#1178036

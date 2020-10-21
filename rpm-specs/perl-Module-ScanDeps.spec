@@ -3,15 +3,16 @@
 
 Name:           perl-Module-ScanDeps
 Summary:        Recursively scan Perl code for dependencies
-Version:        1.27
-Release:        8%{?dist}
+Version:        1.29
+Release:        1%{?dist}
 License:        GPL+ or Artistic
-Source0:        https://cpan.metacpan.org/authors/id/R/RS/RSCHUPP/Module-ScanDeps-%{version}.tar.gz 
 URL:            https://metacpan.org/release/Module-ScanDeps
+Source0:        https://cpan.metacpan.org/authors/id/R/RS/RSCHUPP/Module-ScanDeps-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  make
-BuildRequires:  perl-interpreter
 BuildRequires:  perl-generators
+BuildRequires:  perl-interpreter
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
@@ -32,6 +33,7 @@ BuildRequires:  perl(File::Path)
 BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(File::Temp)
 BuildRequires:  perl(FileHandle)
+BuildRequires:  perl(FindBin)
 # Getopt::Long not used by tests
 BuildRequires:  perl(Module::Metadata)
 # Storable is optional and not used by tests
@@ -46,6 +48,7 @@ BuildRequires:  perl(Carp)
 BuildRequires:  perl(if)
 BuildRequires:  perl(less)
 BuildRequires:  perl(lib)
+BuildRequires:  perl(Net::FTP)
 BuildRequires:  perl(Test::More)
 BuildRequires:  perl(Test::Requires)
 # Optional tests:
@@ -97,6 +100,18 @@ make test
 %{_mandir}/man3/Module::ScanDeps.3pm*
 
 %changelog
+* Wed Aug 19 2020 Petr Pisar <ppisar@redhat.com> - 1.29-1
+- 1.29 bump
+
+* Thu Aug 06 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.28-1
+- 1.28 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.27-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.27-9
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.27-8
 - Perl 5.32 rebuild
 

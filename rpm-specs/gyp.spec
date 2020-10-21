@@ -12,7 +12,7 @@
 
 Name:		gyp
 Version:	0.1
-Release:	0.37%{?revision:.%{revision}git}%{?dist}
+Release:	0.40%{?revision:.%{revision}git}%{?dist}
 Summary:	Generate Your Projects
 
 License:	BSD
@@ -32,15 +32,23 @@ Patch2:		gyp-python3.patch
 Patch3:		gyp-python38.patch
 Patch4:		gyp-fix-cmake.patch
 Patch5:		gyp-python39.patch
+Patch6:		gyp-fips.patch
 
 %if 0%{?rhel}
 %if 0%{?rhel} == 5
 BuildRequires:	python26-devel
 %else
+%if 0%{?rhel} < 8
 BuildRequires:	python2-devel
 %endif
+%endif
+%if 0%{?rhel} < 8
 BuildRequires:	python2-setuptools
 Requires:	python2-setuptools
+%else
+BuildRequires:	python3-devel python3-setuptools
+Requires:	python3-setuptools
+%endif
 %else
 BuildRequires:	python3-devel python3-setuptools
 Requires:	python3-setuptools
@@ -83,6 +91,16 @@ done
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.40.fcd686f1git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Akira TAGOH <tagoh@redhat.com> - 0.1-0.39.fcd686f1git
+- Fix BR for RHEL8.
+
+* Wed Jun 24 2020 Akira TAGOH <tagoh@redhat.com> - 0.1-0.38.fcd686f1git
+- Re-enable a patch to fix an issue on FIP mode.
+  Resolves: rhbz#1779364
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1-0.37.fcd686f1git
 - Rebuilt for Python 3.9
 

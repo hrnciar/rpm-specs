@@ -1,6 +1,6 @@
 Name:           pcllib
 Version:        1.12
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Portable Coroutine Library (PCL)
 
 License:        GPLv2+
@@ -54,6 +54,9 @@ make check %{?_smp_mflags}
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

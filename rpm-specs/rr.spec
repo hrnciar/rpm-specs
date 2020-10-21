@@ -1,5 +1,9 @@
-%global commit bab9ca94fc03d893cf6b8bf58f7b4522a0113466
+# Force out of source build
+%undefine __cmake_in_source_build
+
+%global commit b53e4d990b873e1b57284994ad7a65f3626880f5
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
+%global baserelease 19
 
 ExclusiveArch:  %{ix86} x86_64
 
@@ -11,7 +15,7 @@ ExclusiveArch:  %{ix86} x86_64
 Summary:        Tool to record and replay execution of applications
 Name:           rr
 Version:        5.3.0
-Release:        14.20200427git%{shortcommit}%{?dist}
+Release:        %{baserelease}.20200828git%{shortcommit}%{?dist}
 # The entire source code is MIT with the exceptions of
 # files in following directories:
 #   third-party/blake2       CC0
@@ -29,9 +33,7 @@ BuildRequires: python36-pexpect
 BuildRequires: cmake
 BuildRequires: python3-pexpect
 %endif
-%if  0%{?rhel} == 8
 BuildRequires: python3
-%endif
 BuildRequires: make gcc gcc-c++ gdb
 BuildRequires: libgcc
 BuildRequires: glibc-devel
@@ -48,7 +50,15 @@ For more information, please visit http://rr-project.org
 %package testsuite
 Summary: Testsuite for checking rr functionality
 Requires: rr
+Requires: gdb
 Requires: python3
+%if  0%{?rhel} == 7
+Requires: python36-pexpect
+Requires: cmake3
+%else
+Requires: python3-pexpect
+Requires: cmake
+%endif
 %description testsuite
 rr-testsuite includes compiled test binaries and other files
 which are used to test the functionality of rr.
@@ -57,15 +67,20 @@ which are used to test the functionality of rr.
 %setup -q -n rr-%{commit}
 
 %build
-
-mkdir obj && cd obj
-%cmake3 .. -DCMAKE_BUILD_TYPE=Release -DINSTALL_TESTSUITE=ON %{?disable32bit}
-
-make %{?_smp_mflags}
+%if  0%{?rhel} == 7
+%cmake3 -DCMAKE_BUILD_TYPE=Release -DINSTALL_TESTSUITE=ON %{?disable32bit}
+%cmake3_build
+%else
+%cmake -DCMAKE_BUILD_TYPE=Release -DINSTALL_TESTSUITE=ON %{?disable32bit}
+%cmake_build
+%endif
 
 %install
-cd obj
-%make_install
+%if  0%{?rhel} == 7
+%cmake3_install
+%else
+%cmake_install
+%endif
 
 rm -rf %{buildroot}%{_datadir}/rr/src
 
@@ -84,7 +99,6 @@ patchelf --set-rpath '%{_libdir}/rr/' %{buildroot}%{_libdir}/rr/testsuite/obj/bi
 %files
 %dir %{_libdir}/rr
 %{_libdir}/rr/*.so
-%attr(755,root,root) %{_libdir}/rr/*.so
 %exclude %{_libdir}/rr/libtest_lib*.so
 %{_bindir}/rr
 %{_bindir}/rr_exec_stub*
@@ -94,6 +108,8 @@ patchelf --set-rpath '%{_libdir}/rr/' %{buildroot}%{_libdir}/rr/testsuite/obj/bi
 %dir %{_datadir}/rr
 %{_datadir}/rr/*.xml
 %{_datadir}/rr/rr_page_*
+
+%attr(755,root,root) %{_libdir}/rr/*.so
 
 %files testsuite
 %{_libdir}/rr/libtest_lib*.so
@@ -106,6 +122,22 @@ patchelf --set-rpath '%{_libdir}/rr/' %{buildroot}%{_libdir}/rr/testsuite/obj/bi
 %license LICENSE
 
 %changelog
+* Fri Aug 28 2020 Sagar Patel <sapatel@redhat.com> - 5.3.0-19.20200828gitb53e4d9
+- Sync with upstream branch master,
+  commit b53e4d990b873e1b57284994ad7a65f3626880f5.
+- Fix package requirements for rr-testsuite.
+- Note: There is an issue causing rr to hang on RHEL7 (RHBZ#1873266).
+- Note: There are some pathing issues with rr-testsuite.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.0-17.20200427gitbab9ca9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Neal Gompa <ngompa13@gmail.com> - 5.3.0-16.20200427gitbab9ca9
+- Rebuilt for capnproto 0.8.0 again
+
+* Sat Jul 18 2020 Neal Gompa <ngompa13@gmail.com> - 5.3.0-15.20200427gitbab9ca9
+- Rebuilt for capnproto 0.8.0
+
 * Mon Apr 27 2020 Sagar Patel <sapatel@redhat.com> 14.20200427gitbab9ca9
 - Sync with upstream branch master,
   commit bab9ca94fc03d893cf6b8bf58f7b4522a0113466.

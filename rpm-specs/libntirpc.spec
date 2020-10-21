@@ -5,7 +5,7 @@
 
 Name:		libntirpc
 Version:	3.3
-Release:	1%{?dev:-%{dev}}%{?dist}
+Release:	4%{?dev:-%{dev}}%{?dist}
 Summary:	New Transport Independent RPC Library
 License:	BSD
 Url:		https://github.com/nfs-ganesha/ntirpc
@@ -48,18 +48,19 @@ Development headers and auxiliary files for developing with %{name}.
 %build
 %cmake . -DOVERRIDE_INSTALL_PREFIX=/usr -DTIRPC_EPOLL=1 -DUSE_GSS=ON "-GUnix Makefiles"
 
-make %{?_smp_mflags}
+%cmake_build
 
 %install
 ## make install is broken in various ways
 ## make install DESTDIR=%%{buildroot}
 mkdir -p %{buildroot}%{_libdir}/pkgconfig
-install -p -m 0755 src/%{name}.so.%{version} %{buildroot}%{_libdir}/
+install -p -m 0755 *-redhat-linux-gnu*/src/%{name}.so.%{version} %{buildroot}%{_libdir}/
 ln -s %{name}.so.%{version} %{buildroot}%{_libdir}/%{name}.so.3
 ln -s %{name}.so.%{version} %{buildroot}%{_libdir}/%{name}.so
 mkdir -p %{buildroot}%{_includedir}/ntirpc
-cp -a ntirpc %{buildroot}%{_includedir}/
-install -p -m 644 libntirpc.pc %{buildroot}%{_libdir}/pkgconfig/
+cp -a ./ntirpc %{buildroot}%{_includedir}/
+cp ./*-redhat-linux-gnu*/ntirpc/version.h %{buildroot}%{_includedir}/ntirpc/
+install -p -m 644 *-redhat-linux-gnu*/libntirpc.pc %{buildroot}%{_libdir}/pkgconfig/
 
 %files
 %{_libdir}/libntirpc.so.*
@@ -73,6 +74,15 @@ install -p -m 644 libntirpc.pc %{buildroot}%{_libdir}/pkgconfig/
 %{_libdir}/pkgconfig/libntirpc.pc
 
 %changelog
+* Thu Jul 30 2020 Kaleb S. KEITHLEY <kkeithle at redhat.com> 3.3-4
+- missing version.h since 3.3-2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Kaleb S. KEITHLEY <kkeithle at redhat.com> 3.3-2
+- use %cmake_build
+
 * Mon Jun 8 2020 Kaleb S. KEITHLEY <kkeithle at redhat.com> 3.3-1
 - libntirpc 3.3 GA
 

@@ -8,7 +8,7 @@
 
 Name:		voms
 Version:	2.1.0
-Release:	0.15.rc0%{?dist}
+Release:	0.16.rc0%{?dist}
 Summary:	Virtual Organization Membership Service
 
 License:	ASL 2.0
@@ -372,6 +372,9 @@ fi
 %doc README.Fedora
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-0.16.rc0
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-0.15.rc0
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

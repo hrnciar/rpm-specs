@@ -1,6 +1,8 @@
-%bcond_without doc
+%undefine __cmake_in_source_build
+
+%bcond_with doc
 Name:           fmt
-Version:        6.2.1
+Version:        7.0.3
 Release:        1%{?dist}
 Summary:        Small, safe and fast formatting library for C++
 
@@ -18,6 +20,7 @@ Patch8:         doc-build-use-python3.patch
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
+BuildRequires:  ninja-build
 %if 0%{?rhel} && 0%{?rhel} <= 7
 BuildRequires:  cmake3
 %else
@@ -33,11 +36,14 @@ BuildRequires:  python%{python3_version_nodots}-breathe
 BuildRequires:  python3-sphinx
 BuildRequires:  python3-breathe
 %endif
+%else
+Provides:       %{name}-doc = %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      %{name}-doc < %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 
 # This package replaces the old name of cppformat
-Provides:       cppformat = %{version}-%{release}
-Obsoletes:      cppformat < %{version}-%{release}
+Provides:       cppformat = %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      cppformat < %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description
 C++ Format is an open-source formatting library for C++. It can be used as a
@@ -45,11 +51,11 @@ safe alternative to printf or as a fast alternative to IOStreams.
 
 %package        devel
 Summary:        Development files for %{name}
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 
 # This package replaces the old name of cppformat
-Provides:       cppformat-devel = %{version}-%{release}
-Obsoletes:      cppformat-devel < %{version}-%{release}
+Provides:       cppformat-devel = %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      cppformat-devel < %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description    devel
 This package contains the header file for using %{name}.
@@ -61,8 +67,8 @@ License:        Python
 BuildArch:      noarch
 
 # This package replaces the old name of cppformat
-Provides:       cppformat-doc = %{version}-%{release}
-Obsoletes:      cppformat-doc < %{version}-%{release}
+Provides:       cppformat-doc = %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      cppformat-doc < %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description    doc
 This package contains documentation for developer documentation for %{name}.
@@ -70,40 +76,45 @@ This package contains documentation for developer documentation for %{name}.
 
 %prep
 %autosetup -p1
-mkdir build
+
+%if %{with doc}
+# Remove --clean-css since that plugin isn't available
+sed -i "s/'--clean-css',//" doc/build.py
+%endif
 
 %build
-pushd build
 %if 0%{?rhel} && 0%{?rhel} <= 7
-%cmake3 ..                                    \
+%cmake3                                       \
 %else
-%cmake ..                                     \
+%cmake                                        \
 %endif
+    -G Ninja                                  \
     -DCMAKE_BUILD_TYPE=RelWithDebInfo         \
     -DCMAKE_POSITION_INDEPENDENT_CODE=ON      \
     -DFMT_CMAKE_DIR=%{_datadir}/cmake/%{name} \
     -DFMT_LIB_DIR=%{_libdir}
 
+%cmake_build \
 %if %{with doc}
-# Remove --clean-css since that plugin isn't available
-sed -i "s/'--clean-css',//" ../doc/build.py
-%make_build all doc
+    --target doc \
+%endif
+    --target all
+
+%if %{with doc}
 # Remove temporary build products
-rm -rf ../build/doc/html/{.buildinfo,.doctrees,objects.inv}
+rm -rf %{_vpath_builddir}/doc/html/{.buildinfo,.doctrees,objects.inv}
 %endif
 
 %install
-%make_install -C build
+%cmake_install
 
 %check
-pushd build
-ctest -VV %{?_smp_mflags}
-popd
+%ctest
 
 %files
 %license LICENSE.rst
 %doc ChangeLog.rst README.rst
-%{_libdir}/lib%{name}.so.6*
+%{_libdir}/lib%{name}.so.7*
 
 %files devel
 %{_includedir}/%{name}
@@ -118,6 +129,18 @@ popd
 %endif
 
 %changelog
+* Sat Aug 08 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 7.0.3-1
+- Updated to version 7.0.3.
+
+* Wed Jul 29 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 7.0.2-1
+- Updated to version 7.0.2.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 08 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 7.0.1-1
+- Updated to version 7.0.1.
+
 * Sat May 09 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 6.2.1-1
 - Updated to version 6.2.1.
 

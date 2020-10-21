@@ -9,7 +9,7 @@
 
 Name:           ocaml-sqlite
 Version:        4.1.3
-Release:        12%{?dist}
+Release:        15%{?dist}
 Summary:        OCaml library for accessing SQLite3 databases
 License:        BSD
 
@@ -90,6 +90,15 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 4.1.3-15
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 4.1.3-14
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.3-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 4.1.3-12
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           maildir-utils
 Version:        1.4.10
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A command-line mail organization utility
 
 License:        GPLv3+
@@ -105,6 +105,9 @@ rm %{buildroot}/%{_libdir}/libguile-mu.la
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Maximiliano Sandoval <msandova@protonmail.com> - 1.4.10-1
 - Update to 1.4.10
 

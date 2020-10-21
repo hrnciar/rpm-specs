@@ -1,29 +1,19 @@
 %define pkg magit
 %define pkgname Magit
 
-%if %($(pkg-config emacs) ; echo $?)
-%define emacs_version 22.1
-%define emacs_lispdir %{_datadir}/emacs/site-lisp
-%define emacs_startdir %{_datadir}/emacs/site-lisp/site-start.d
-%else
-%define emacs_version %(pkg-config emacs --modversion)
-%define emacs_lispdir %(pkg-config emacs --variable sitepkglispdir)
-%define emacs_startdir %(pkg-config emacs --variable sitestartdir)
-%endif
-
 Name:           emacs-%{pkg}
-Version:        1.2.2
-Release:        12%{?dist}
+Version:        2.4.1
+Release:        1%{?dist}
 Summary:        Emacs interface to the most common Git operations
-
-License:        GPLv3+ and GFDL+
-URL:            http://magit.github.com/magit/
+License:        GPLv3+
+URL:            https://magit.vc
 
 Source0:        https://github.com/magit/magit/releases/download/%{version}/magit-%{version}.tar.gz
 
 BuildArch:      noarch
-BuildRequires:  emacs emacs-el texinfo
-Requires:       emacs(bin) >= %{emacs_version}
+BuildRequires:  emacs emacs-dash make texinfo git-core
+Requires:       emacs(bin) >= %{_emacs_version}
+Requires:       git-core emacs-dash
 Obsoletes:      emacs-%{pkg}-el < %{version}-%{release}
 Provides:       emacs-%{pkg}-el = %{version}-%{release}
 
@@ -33,33 +23,42 @@ the Git source-code management system that aims to make the most
 common operations convenient.
 
 %prep
-%setup -q -n magit-%{version}
+%autosetup -n %{pkg}-%{version}
 
 %build
-make
+make DASH_DIR="%{_emacs_sitelispdir}/dash"
+
+%check
+# The tests are not distributed with the tarballs, so add a simple here.
+emacs --batch -L lisp -l %{pkg} -f %{pkg}-version 2>&1 | grep "%{pkgname} %{version}"
 
 %install
 make install DESTDIR=$RPM_BUILD_ROOT PREFIX=%{_prefix}
 
 # clean up after magit's installer's assumptions
-mkdir -p $RPM_BUILD_ROOT%{emacs_startdir}
-mv $RPM_BUILD_ROOT/etc/emacs/site-start.d/50magit.el \
-   $RPM_BUILD_ROOT%{emacs_startdir}/emacs-magit-mode.el
-mkdir -p $RPM_BUILD_ROOT%{emacs_lispdir}/%{pkg}
-mv $RPM_BUILD_ROOT%{emacs_lispdir}/*.el{,c} \
-   $RPM_BUILD_ROOT%{emacs_lispdir}/%{pkg}
-gzip -9 < magit.info > $RPM_BUILD_ROOT%{_infodir}/magit.info.*
-rm $RPM_BUILD_ROOT%{_infodir}/dir
+rm ${RPM_BUILD_ROOT}/%{_docdir}/%{pkg}/AUTHORS.md
 
 %files
-# no license file included
+%license COPYING
 %doc README.md
-%{emacs_lispdir}/%{pkg}
-%{emacs_startdir}/*.el
-%{_infodir}/magit.info.*
+%{_emacs_sitelispdir}/%{pkg}
+%{_infodir}/%{pkg}.info.*
+%{_infodir}/%{pkg}-popup.info.*
+%{_infodir}/with-editor.info.*
 
 
 %changelog
+* Thu Sep 17 2020 Tulio Magno Quites Machado Filho <tuliom@ascii.art.br> - 2.4.1-1
+- Modernize the SPEC file.
+- Add a simple test.
+- Install the license.
+
+* Thu Sep 10 2020 Tulio Magno Quites Machado Filho <tuliom@ascii.art.br> - 2.4.1-0
+- Update to magit 2.4.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

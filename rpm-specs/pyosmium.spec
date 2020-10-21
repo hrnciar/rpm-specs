@@ -1,8 +1,8 @@
 %global libosmium_version 2.15.0
 
 Name:           pyosmium
-Version:        3.0.0
-Release:        2%{?dist}
+Version:        3.0.1
+Release:        3%{?dist}
 Summary:        Python bindings for libosmium
 
 License:        BSD
@@ -13,7 +13,7 @@ Patch0:         pyosmium-no-strip.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
-BuildRequires:  python3-devel
+BuildRequires:  python3-devel python3-setuptools
 BuildRequires:  python3-sphinx python3-sphinxcontrib-autoprogram
 BuildRequires:  python3-nose
 BuildRequires:  python3-mock
@@ -65,6 +65,15 @@ cd test
 
 
 %changelog
+* Mon Oct  5 2020 Tom Hughes <tom@compton.nu> - 3.0.1-3
+- Require setuptools
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Tom Hughes <tom@compton.nu> - 3.0.1-1
+- Update to 3.0.1 upstream release
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.0-2
 - Rebuilt for Python 3.9
 

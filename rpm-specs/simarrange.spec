@@ -4,7 +4,7 @@
 %global relstring %{datestamp}git%{shortcommit}
 Name:           simarrange
 Version:        0.0
-Release:        26%{relstring}%{?dist}
+Release:        28%{relstring}%{?dist}
 Summary:        STL 2D plate packer with collision simulation
 License:        AGPLv3+
 URL:            https://github.com/kliment/%{name}
@@ -46,6 +46,13 @@ install -Dpm0644 ./%{name}.1 %{buildroot}%{_mandir}/man1/%{name}.1
 %{_mandir}/man1/%{name}.*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0-2820170316git8238ce5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0-2720170316git8238ce5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Nicolas Chauvet <kwizart@gmail.com> - 0.0-2620170316git8238ce5
 - Rebuilt for OpenCV 4.3
 

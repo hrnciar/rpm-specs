@@ -6,7 +6,7 @@
 
 Name:           %{name}
 Version:        0.4.2
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        Unicode font by Electronic Font Open Laboratory
 
 License:        BSD and Public Domain and Baekmuk and MIT
@@ -98,6 +98,9 @@ exit 0
 %{catalogdir}/fonts-%{name}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

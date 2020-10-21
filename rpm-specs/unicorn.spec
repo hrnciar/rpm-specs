@@ -1,8 +1,8 @@
-%global         rctag rc3
+%global         rctag rc4
 
 Name:           unicorn
 Version:        1.0.2
-Release:        0.2.%{rctag}%{?dist}
+Release:        0.5.%{rctag}%{?dist}
 Summary:        A lightweight multi-platform, multi-architecture CPU emulator framework
 
 # GPLv2:        Most of unicorn is licensed under the GPLv2, with exception
@@ -12,7 +12,7 @@ Summary:        A lightweight multi-platform, multi-architecture CPU emulator fr
 # BSD:          Portions of code from QEMU
 License:        GPLv2 and LGPLv2+ and MIT and BSD
 URL:            https://www.unicorn-engine.org/
-Source0:        https://github.com/unicorn-engine/%{name}/archive/%{version}%{rctag}/%{name}-%{version}-%{rctag}.tar.gz
+Source0:        https://github.com/unicorn-engine/%{name}/archive/%{version}-%{rctag}/%{name}-%{version}-%{rctag}.tar.gz
 BuildRequires:  gcc
 BuildRequires:  python3-devel
 
@@ -78,6 +78,18 @@ rm -rf %{buildroot}%{python3_sitelib}/unicorn/lib
 %{python3_sitelib}/%{name}/
 
 %changelog
+* Thu Aug 06 2020 W. Michael Petullo <mike@flyn.org> - 1.0.2-0.5.rc4
+- Revert source name, as I had made use of wrong source tarball
+
+* Thu Aug 06 2020 W. Michael Petullo <mike@flyn.org> - 1.0.2-0.4.rc4
+- Fix source name
+
+* Thu Aug 06 2020 W. Michael Petullo <mike@flyn.org> - 1.0.2-0.3.rc4
+- Update to 1.0.2-rc4 to satisfy python-angr (Red Hat Bugzilla #1858455 and #1865272)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-0.3.rc3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.2-0.2.rc3
 - Rebuilt for Python 3.9
 

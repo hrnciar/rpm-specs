@@ -1,7 +1,7 @@
 %define realname pgsql_perl5
 Name:           perl-pgsql_perl5
 Version:        1.9.0
-Release:        37%{?dist}
+Release:        38%{?dist}
 Summary:        Pg - Perl5 extension for PostgreSQL
 
 License:        GPL+ or Artistic
@@ -57,6 +57,9 @@ chmod -R u+w $RPM_BUILD_ROOT/*
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.0-38
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.9.0-37
 - Perl 5.32 rebuild
 

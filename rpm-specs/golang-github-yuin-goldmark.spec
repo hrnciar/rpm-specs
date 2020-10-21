@@ -2,7 +2,7 @@
 
 # https://github.com/yuin/goldmark
 %global goipath         github.com/yuin/goldmark
-Version:                1.1.32
+Version:                1.2.1
 
 %gometa
 
@@ -40,6 +40,18 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.2.1-1
+- Update to latest version
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.2.0-1
+- Update to latest version
+
+* Sun Jul 12 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.1.33-1
+- Update to latest version
+
 * Sat Jun 06 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.1.32-1
 - Update to latest version
 

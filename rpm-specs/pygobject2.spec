@@ -1,12 +1,6 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
-### Abstract ###
-
 Name: pygobject2
 Version: 2.28.7
-Release: 7%{?dist}
+Release: 11%{?dist}
 License: LGPLv2+
 Summary: Python 2 bindings for GObject 
 URL: http://www.pygtk.org/
@@ -62,10 +56,10 @@ find -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python2}|'
 PYTHON=%{__python2}
 export PYTHON
 %configure --disable-introspection
-make %{?_smp_mflags}
+%make_build
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install
+%make_install
 find $RPM_BUILD_ROOT -name '*.la' -delete
 find $RPM_BUILD_ROOT -name '*.a' -delete
 rm examples/Makefile*
@@ -103,6 +97,20 @@ sed -r -i 's|#! ?/usr/bin/env python|#!%{__python2}|' %{buildroot}%{_datadir}/py
 %{_datadir}/pygobject/xsl
 
 %changelog
+* Tue Aug 04 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.28.7-11
+- Fix FTBFS.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.28.7-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.28.7-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 2.28.7-8
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.28.7-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

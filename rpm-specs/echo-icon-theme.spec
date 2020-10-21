@@ -4,7 +4,7 @@
 
 Name:           echo-icon-theme
 Version:        0.3.89.0
-Release:        0.29.%{alphatag}%{?dist}
+Release:        0.32.%{alphatag}%{?dist}
 Summary:        Echo icon theme
 
 License:        CC-BY-SA
@@ -14,7 +14,11 @@ BuildArch:      noarch
 BuildRequires:  icon-naming-utils >= 0.8.7
 #BuildRequires:  autoconf automake
 Requires(post): gtk2 >= 2.6.0
-Requires:       gnome-themes
+# The following replacements for gnome-themes don't cover everything.
+# Most of Mist (the fallback for echo) was provided by gnome-themes.
+# Eventually that should get fixed or echo should be retired.
+Requires:       gnome-icon-theme
+Requires:       gtk2-engines
 
 %description
 This package contains the Echo icon theme.
@@ -42,6 +46,15 @@ touch --no-create %{_datadir}/icons/Echo || :
 %ghost %{_datadir}/icons/Echo/icon-theme.cache
 
 %changelog
+* Friday Sep 04 2020 Bruno Wolff III <bruno@wolff.to> - 0.3.89.1-0.32.20081003gitcc6da5b
+- Mist is provided by gtk2-engines
+
+* Tue Sep 01 2020 Bruno Wolff III <bruno@wolff.to> - 0.3.89.1-0.31.20081003gitcc6da5b
+- gnome-themes is retired, hopefully gnome-icon-theme provides enough
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.89.0-0.30.20081003gitcc6da5b
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.89.0-0.29.20081003gitcc6da5b
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

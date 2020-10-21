@@ -1,7 +1,7 @@
 Summary:        Tools to test taintedness
 Name:           perl-Test-Taint
 Version:        1.08
-Release:        4%{?dist}
+Release:        5%{?dist}
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test-Taint
 Source0:        https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/Test-Taint-%{version}.tar.gz
@@ -61,6 +61,9 @@ chmod -R u+w $RPM_BUILD_ROOT/*
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.08-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.08-4
 - Perl 5.32 rebuild
 

@@ -1,12 +1,12 @@
 %bcond_with check
 
 %global packname callr
-%global packver  3.4.3
+%global packver  3.5.1
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          3.4.3
-Release:          2%{?dist}
+Version:          3.5.1
+Release:          1%{?dist}
 Summary:          Call R from R
 
 License:          MIT
@@ -15,19 +15,19 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-processx >= 3.4.0, R-R6, R-utils
-# Suggests:  R-cliapp, R-covr, R-crayon, R-fansi, R-pingr, R-ps, R-rprojroot, R-spelling, R-testthat, R-tibble, R-withr
+# Imports:   R-processx >= 3.4.4, R-R6, R-utils
+# Suggests:  R-cli, R-covr, R-crayon, R-fansi, R-pingr, R-ps, R-rprojroot, R-spelling, R-testthat, R-tibble, R-withr >= 2.3.0
 # LinkingTo:
 # Enhances:
 
 BuildArch:        noarch
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
-BuildRequires:    R-processx >= 3.4.0
+BuildRequires:    R-processx >= 3.4.4
 BuildRequires:    R-R6
 BuildRequires:    R-utils
 %if %{with check}
-BuildRequires:    R-cliapp
+BuildRequires:    R-cli
 BuildRequires:    R-crayon
 BuildRequires:    R-fansi
 BuildRequires:    R-pingr
@@ -36,7 +36,7 @@ BuildRequires:    R-rprojroot
 BuildRequires:    R-spelling
 BuildRequires:    R-testthat
 BuildRequires:    R-tibble
-BuildRequires:    R-withr
+BuildRequires:    R-withr >= 2.3.0
 %endif
 
 %description
@@ -67,9 +67,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 %{_bindir}/R CMD check %{packname}
 %endif
 
+
 %files
 %dir %{rlibdir}/%{packname}
-%doc %{rlibdir}/%{packname}/doc
 %doc %{rlibdir}/%{packname}/html
 %{rlibdir}/%{packname}/DESCRIPTION
 %doc %{rlibdir}/%{packname}/NEWS.md
@@ -85,6 +85,18 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Wed Oct 14 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 3.5.1-1
+- Update to latest version (#1887921)
+
+* Sat Oct 10 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 3.5.0-1
+- Update to latest version (#1886598)
+
+* Mon Sep 07 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 3.4.4-1
+- Update to latest version (#1876681)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 3.4.3-2
 - conditionalize check to break testthat loop
 - rebuild for R 4

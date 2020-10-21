@@ -1,6 +1,6 @@
 Name:           gconfmm26
 Version:        2.28.3
-Release:        19%{?dist}
+Release:        20%{?dist}
 
 Summary:        C++ wrapper for GConf2
 
@@ -67,6 +67,9 @@ find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 %{_datadir}/doc/gconfmm-2.6/reference/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.28.3-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.28.3-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

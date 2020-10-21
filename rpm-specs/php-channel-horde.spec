@@ -1,6 +1,6 @@
 Name:           php-channel-horde
 Version:        1.0
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Adds pear.horde.org channel to PEAR
 
 License:        Public Domain
@@ -52,6 +52,9 @@ fi
 %{pear_xmldir}/pear.horde.org.xml
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

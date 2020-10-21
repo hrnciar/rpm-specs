@@ -5,7 +5,7 @@
 
 Name:           %{parent}-%{subproj}
 Version:        1.9.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Doxia content generation framework
 License:        ASL 2.0
 URL:            http://maven.apache.org/doxia/
@@ -118,6 +118,12 @@ rm -r doxia-doc-renderer/src/main/java/org/apache/maven/doxia/docrenderer/pdf/fo
 %doc LICENSE NOTICE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.9.2-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon Mar 02 2020 Fabio Valentini <decathorpe@gmail.com> - 1.9.2-1
 - Update to version 1.9.2.
 - Convert patches to unix line endings (following upstream sources).

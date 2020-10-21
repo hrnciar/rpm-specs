@@ -1,5 +1,5 @@
 Name:           legion
-Version:        20.03.0
+Version:        20.09.0
 Release:        1%{?dist}
 Summary:        A data-centric parallel programming system
 License:        ASL 2.0
@@ -13,10 +13,6 @@ Source0:        https://github.com/StanfordLegion/legion/archive/%{name}-%{versi
 # be OK as a stopgap measure.
 Patch0001:      0001-hwloc-2.0-use-hwloc_linux_read_path_as_cpumask.patch
 Patch0002:      0002-Disable-hwloc-use-with-online_cpuset.patch
-# https://github.com/StanfordLegion/legion/issues/803
-Patch0003:      https://gitlab.com/StanfordLegion/legion/-/commit/0741659dc1961b2cdfc7a6c33015670eec2942f3.patch
-# https://github.com/StanfordLegion/legion/issues/804
-Patch0004:      https://gitlab.com/StanfordLegion/legion/-/commit/3ea76cc5bd3f8afdced55c2d1659f53457c21320.patch
 BuildRequires:  hwloc-devel >= 2.0
 %else
 BuildRequires:  hwloc-devel
@@ -109,6 +105,7 @@ This package contains development headers and libraries for the legion library
 
 %prep
 %autosetup -n %{name}-%{name}-%{version} -p1
+sed -i '1s@env python@python3@' tools/serializer_examples/*.py tools/*.py
 
 %build
 mkdir serial openmpi mpich
@@ -120,20 +117,17 @@ mkdir serial openmpi mpich
  -DCOMPILER_SUPPORTS_MCPU=OFF \\\
  -DLegion_BUILD_TESTS=ON \\\
  -DLegion_BUILD_TUTORIAL=ON \\\
- -DLegion_ENABLE_TESTING=ON \\\
+ -DLegion_ENABLE_TESTING=ON
+%global _vpath_builddir ${mpi:-serial}
 
 export LDFLAGS="%{__global_ldflags} -Wl,--as-needed"
 
 . /etc/profile.d/modules.sh
 for mpi in '' mpich openmpi ; do
   test -n "${mpi}" && module load mpi/${mpi}-%{_arch}
-  mkdir -p ${mpi:-serial}
-  pushd ${mpi:-serial}
   %{cmake3} %{defopts} \
-    $(test -z "${mpi}" && echo -DLegion_USE_GASNet=OFF || echo -DLegion_USE_GASNet=ON -DCMAKE_INSTALL_LIBDIR=${MPI_LIB} -DCMAKE_INSTALL_INCLUDEDIR=${MPI_INCLUDE} -DGASNet_CONDUIT=mpi) \
-  ..
-  %make_build
-  popd
+    $(test -z "${mpi}" && echo -DLegion_USE_GASNet=OFF || echo -DLegion_USE_GASNet=ON -DCMAKE_INSTALL_LIBDIR=${MPI_LIB} -DCMAKE_INSTALL_INCLUDEDIR=${MPI_INCLUDE} -DGASNet_CONDUIT=mpi)
+  %cmake_build
   test -n "${mpi}" && module unload mpi/${mpi}-%{_arch}
 done
 
@@ -141,9 +135,14 @@ done
 . /etc/profile.d/modules.sh
 for mpi in '' mpich openmpi ; do
   test -n "${mpi}" && module load mpi/${mpi}-%{_arch}
-  %make_install -C ${mpi:-serial}
+  %cmake_install
   test -n "${mpi}" && module unload mpi/${mpi}-%{_arch}
 done
+rm -r %{buildroot}/%{_bindir}/serializer_examples
+
+#move cmake files in a place where cmake can find them
+mkdir -p %{buildroot}%{_libdir}/cmake
+mv %{buildroot}{%{_datadir}/Legion,%{_libdir}/cmake/%{name}}
 
 %check
 %if 0%{?rhel}
@@ -154,14 +153,9 @@ done
 . /etc/profile.d/modules.sh
 for mpi in '' mpich openmpi ; do
   test -n "${mpi}" && module load mpi/${mpi}-%{_arch}
-  make -C ${mpi:-serial} test CTEST_OUTPUT_ON_FAILURE=1 %{?testargs:%{testargs}}
-  %make_install -C ${mpi:-serial}
+  %ctest
   test -n "${mpi}" && module unload mpi/${mpi}-%{_arch}
 done
-
-#move cmake files in a place where cmake can find them
-mkdir -p %{buildroot}%{_libdir}/cmake
-mv %{buildroot}{%{_datadir}/Legion,%{_libdir}/cmake/%{name}}
 
 # MPI subpackages don't need the ldconfig magic.  They are hidden by
 # default, in MPI back-end-specific directory, and only show to the
@@ -173,6 +167,7 @@ mv %{buildroot}{%{_datadir}/Legion,%{_libdir}/cmake/%{name}}
 %doc README.md CHANGES.txt
 %license LICENSE.txt
 %{_libdir}/lib*.so.1
+%{_bindir}/legion*
 
 %files devel
 %{_includedir}/*
@@ -188,6 +183,22 @@ mv %{buildroot}{%{_datadir}/Legion,%{_libdir}/cmake/%{name}}
 %{_libdir}/mpich*/lib/lib*.so.1
 
 %changelog
+* Tue Sep 29 2020 Christoph Junghans <junghans@votca.org> - 20.09.0-1
+- Version bump to v20.09.0 (bug #1883405)
+
+* Tue Aug 04 2020 Christoph Junghans <junghans@votca.org> - 20.06.0-4
+- Fix out-of-source build on F33 (bug#1863967)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.06.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.06.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Christoph Junghans <junghans@votca.org> - 20.06.0-1
+- Version bump to v20.06.0 (bug #1852495)
+
 * Wed Apr 01 2020 Christoph Junghans <junghans@votca.org> - 20.03.0-1
 - Version bump to v20.03.0 (bug #1819522)
 

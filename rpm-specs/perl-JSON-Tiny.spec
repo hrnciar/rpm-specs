@@ -1,6 +1,6 @@
 Name:           perl-JSON-Tiny
 Version:        0.58
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Minimalistic JSON. No dependencies
 License:        ASL 2.0
 
@@ -55,6 +55,9 @@ RELEASE_TESTING=1 make test
 %{_mandir}/man3/JSON*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.58-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.58-10
 - Perl 5.32 rebuild
 

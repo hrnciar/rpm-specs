@@ -4,7 +4,7 @@
 
 Name:		gnome-characters
 Version:	3.34.0
-Release:	2%{?dist}
+Release:	4%{?dist}
 Summary:	Character map application for GNOME
 # Files from gtk-js-app are licensed under 3-clause BSD.
 # Other files are GPL 2.0 or later.
@@ -64,6 +64,13 @@ desktop-file-validate $RPM_BUILD_ROOT/%{_datadir}/applications/%{appname}.deskto
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.34.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.34.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 09 2020 Kalev Lember <klember@redhat.com> - 3.34.0-2
 - Rebuild
 

@@ -4,28 +4,29 @@
 # Since we require the version in both BuildRequires and Requires, let's make these variables for
 # easier maintenance.
 %global base64url_ver 1.0
-%global cache_tab_ver 1.0.21
-%global eimp_ver 1.0.13
-%global epam_ver 1.0.6
-%global esip_ver 1.0.31
-%global ezlib_ver 1.0.6
-%global fast_tls_ver 1.1.3
-%global fast_xml_ver 1.1.38
-%global fast_yaml_ver 1.0.22
+%global cache_tab_ver 1.0.25
+%global eimp_ver 1.0.17
+%global epam_ver 1.0.9
+%global esip_ver 1.0.37
+%global ezlib_ver 1.0.8
+%global fast_tls_ver 1.1.8
+%global fast_xml_ver 1.1.43
+%global fast_yaml_ver 1.0.27
 %global idna_ver 6.0.0
+%global jiffy_ver 1.0.5
 %global jose_ver 1.9.0
 %global luerl_ver 0.3
-%global mqtree_ver 1.0.6
-%global p1_acme_ver 1.0.3
-%global p1_mysql_ver 1.0.12
-%global p1_oauth2_ver 0.6.5
-%global p1_pgsql_ver 1.1.8
-%global p1_utils_ver 1.0.17
-%global pkix_ver 1.0.4
-%global stringprep_ver 1.0.18
-%global stun_ver 1.0.30
-%global xmpp_ver 1.4.4
-%global yconf_ver 1.0.2
+%global mqtree_ver 1.0.10
+%global p1_acme_ver 1.0.8
+%global p1_mysql_ver 1.0.16
+%global p1_oauth2_ver 0.6.7
+%global p1_pgsql_ver 1.1.10
+%global p1_utils_ver 1.0.20
+%global pkix_ver 1.0.6
+%global stringprep_ver 1.0.22
+%global stun_ver 1.0.37
+%global xmpp_ver 1.4.9
+%global yconf_ver 1.0.7
 
 # Define SELinux policy variables
 %global selinuxtype targeted
@@ -35,7 +36,7 @@
 
 
 Name:           ejabberd
-Version:        20.01
+Version:        20.07
 Release:        1%{?dist}
 BuildArch:      noarch
 
@@ -79,7 +80,7 @@ BuildRequires:  erlang-fast_tls >= %{fast_tls_ver}
 BuildRequires:  erlang-fast_xml >= %{fast_xml_ver}
 BuildRequires:  erlang-fast_yaml >= %{fast_yaml_ver}
 BuildRequires:  erlang-idna >= %{idna_ver}
-BuildRequires:  erlang-jiffy >= 0.14.8
+BuildRequires:  erlang-jiffy >= %{jiffy_ver}
 BuildRequires:  erlang-jose >= %{jose_ver}
 BuildRequires:  erlang-lager >= 3.6
 BuildRequires:  erlang-luerl >= %{luerl_ver}
@@ -131,7 +132,7 @@ Requires:  erlang-fast_tls >= %{fast_tls_ver}
 Requires:  erlang-fast_xml >= %{fast_xml_ver}
 Requires:  erlang-fast_yaml >= %{fast_yaml_ver}
 Requires:  erlang-idna >= %{idna_ver}
-Requires:  erlang-jiffy >= 0.14.8
+Requires:  erlang-jiffy >= %{jiffy_ver}
 Requires:  erlang-jose >= %{jose_ver}
 Requires:  erlang-luerl >= %{luerl_ver}
 Requires:  erlang-mqtree >= %{mqtree_ver}
@@ -417,6 +418,13 @@ fi
 
 
 %changelog
+* Fri Jul 31 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 20.07-1
+- Update to 20.07 (#1807271).
+- https://www.process-one.net/blog/ejabberd-20-07/
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.01-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 14 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 20.01-1
 - Update to 20.01 (#1792572).
 - https://blog.process-one.net/ejabberd-20-01/

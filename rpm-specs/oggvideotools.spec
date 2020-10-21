@@ -1,6 +1,6 @@
 Name:           oggvideotools
 Version:        0.9.1
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Toolbox for manipulating Ogg video files
 
 License:        GPLv2+
@@ -75,6 +75,13 @@ popd
 %{_bindir}/mkSlideshow
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

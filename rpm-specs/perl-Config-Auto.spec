@@ -1,6 +1,6 @@
 Name:           perl-Config-Auto
 Version:        0.44
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Magical config file parser
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Config-Auto
@@ -47,6 +47,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.44-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.44-18
 - Perl 5.32 rebuild
 

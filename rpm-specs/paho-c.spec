@@ -1,10 +1,10 @@
 Name:               paho-c
-Version:            1.3.2
+Version:            1.3.4
 Release:            1%{?dist}
 Summary:            MQTT C Client
 License:            BSD and EPL
 URL:                https://eclipse.org/paho/clients/c/
-Source0:            https://github.com/eclipse/paho.mqtt.c/archive/v%{version}.tar.gz
+Source0:            https://github.com/eclipse/paho.mqtt.c/archive/v%{version}.tar.gz#/paho.mqtt.c-%{version}.tar.gz
 Source1:            unused.abignore
 
 BuildRequires:      cmake
@@ -39,11 +39,11 @@ Development documentation files for the the Paho MQTT C Client.
 %build
 mkdir build.paho && cd build.paho
 %cmake -DPAHO_WITH_SSL=TRUE -DPAHO_BUILD_DOCUMENTATION=TRUE -DPAHO_BUILD_SAMPLES=TRUE -DPAHO_ENABLE_CPACK=FALSE ..
-%make_build
+%cmake_build
 
 %install
 cd build.paho
-%make_install
+%cmake_install
 install -D -p -m 755 %{SOURCE0} %{buildroot}/%{_datadir}/%{name}/abi/paho-c.abignore
 # don't ship cmake artefacts
 rm -rf %{buildroot}/usr/lib/cmake
@@ -67,6 +67,16 @@ rm -rf %{buildroot}/usr/lib/cmake
 %{_defaultdocdir}/*
 
 %changelog
+* Tue Aug 04 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.3.4-1
+- Update to 1.3.4
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 30 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.3.2-1
 - Update to 1.3.2
 

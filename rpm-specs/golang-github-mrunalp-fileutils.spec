@@ -4,7 +4,7 @@
 
 # https://github.com/mrunalp/fileutils
 %global goipath         github.com/mrunalp/fileutils
-%global commit          7d4729fb36185a7c1719923406c9d40e54fb93c7
+%global commit          abd8a0e7697675e96f030dde7a43359d67369dcb
 
 %gometa
 
@@ -16,7 +16,7 @@ Collection of utilities for file manipulation in Go.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Collection of utilities for file manipulation in Go
 
 # Upstream license specification: Apache-2.0
@@ -55,6 +55,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 23:42:44 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200729gitabd8a0e
+- Bump to commit abd8a0e7697675e96f030dde7a43359d67369dcb
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

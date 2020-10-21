@@ -1,6 +1,6 @@
 Name:           perl-HTML-Tidy
 Version:        1.60
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        (X)HTML cleanup in a Perl object
 License:        Artistic 2.0 and (GPL+ or Artistic)
 URL:            https://metacpan.org/release/HTML-Tidy
@@ -79,6 +79,9 @@ make test
 %{_mandir}/man3/HTML::Tidy::Message.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.60-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.60-9
 - Perl 5.32 rebuild
 

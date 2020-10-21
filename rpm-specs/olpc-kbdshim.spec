@@ -3,7 +3,7 @@
 Name:    olpc-kbdshim
 Summary: OLPC XO keyboard support daemon
 Version: 29
-Release: 16%{?dist}
+Release: 17%{?dist}
 License: GPLv2+
 URL: http://dev.laptop.org/git/users/pgf/olpc-kbdshim/tree/README
 # Source0: the source tarball is created by "make tarball" from within
@@ -65,6 +65,9 @@ install -p -m 644 olpc-kbdshim.service %{buildroot}%{_unitdir}/olpc-kbdshim.serv
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 29-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 29-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

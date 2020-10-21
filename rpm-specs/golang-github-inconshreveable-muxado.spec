@@ -17,7 +17,7 @@ Stream multiplexing for Go.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.18%{?dist}
+Release:        0.20%{?dist}
 Summary:        Stream multiplexing for Go
 
 # Upstream license specification: Apache-2.0
@@ -63,6 +63,13 @@ end
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.20
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

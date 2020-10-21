@@ -1,6 +1,6 @@
 Name:           celt071
 Version:        0.7.1
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        An audio codec for use in low-delay speech and audio communication
 
 License:        BSD and GPLv2+
@@ -69,6 +69,9 @@ rm %{buildroot}/%{_libdir}/libcelt071.la
 %{_libdir}/libcelt071.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

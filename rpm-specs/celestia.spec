@@ -1,46 +1,23 @@
+%global betaver beta3
+
 Name:           celestia
-Version:        1.6.1
-Release:        33%{?dist}
+Version:        1.6.2
+Release:        0.4.%{betaver}%{?dist}
 Summary:        OpenGL real-time visual space simulation
-License:        GPLv2+
-# Removed textures and models with unclear license status from the source:
-# - maps taken from http://maps.jpl.nasa.gov/
-# - models of Toutatis, Kleopatra and Geographos
-# To make the clean tarball, unpack the original, then
-# cd celestia-1.6.1
-# rm -rf models/geographos.* models/kleopatra.* models/marsglobalsurvr.3ds models/marsodyssey.3ds models/toutatis.*
-# rm -rf textures/hires/iapetus.jpg textures/hires/moon.jpg textures/hires/phoebe.jpg textures/hires/tethys.jpg 
-# rm -rf textures/hires/titan.jpg textures/lores/amalthea.jpg textures/lores/ariel* textures/lores/callisto* 
-# rm -rf textures/lores/charon* textures/lores/deimos.jpg textures/lores/dione.jpg textures/lores/epimetheus* 
-# rm -rf textures/lores/eros.jpg textures/lores/europa* textures/lores/ganymede* textures/lores/gaspramosaic.jpg 
-# rm -rf textures/lores/hyperion* textures/lores/iapetus.jpg textures/lores/idamosaic.jpg textures/lores/io* 
-# rm -rf textures/lores/janus.jpg textures/lores/jupiter.jpg textures/lores/mars* textures/lores/mercury.jpg 
-# rm -rf textures/lores/mimas.jpg textures/lores/miranda* textures/lores/moon* textures/lores/neptune.jpg 
-# rm -rf textures/lores/oberon* textures/lores/phobos.jpg textures/lores/phoebe.jpg textures/lores/pluto-lok* 
-# rm -rf textures/lores/prometheus.jpg textures/lores/proteus.jpg textures/lores/rhea.jpg textures/lores/tethys.jpg 
-# rm -rf textures/lores/titan* textures/lores/triton* textures/lores/umbriel* textures/lores/uranus*
-# rm -rf textures/medres/amalthea.jpg textures/medres/ariel.jpg textures/medres/callisto.jpg 
-# rm -rf textures/medres/charon-lok* textures/medres/deimos.jpg textures/medres/dione.jpg textures/medres/epimetheus* 
-# rm -rf textures/medres/eros.jpg textures/medres/europa.jpg textures/medres/ganymede.jpg 
-# rm -rf textures/medres/gaspramosaic.jpg textures/medres/hyperion* textures/medres/iapetus.jpg 
-# rm -rf textures/medres/idamosaic.jpg textures/medres/io.jpg textures/medres/janus.jpg textures/medres/jupiter.jpg 
-# rm -rf textures/medres/mars* textures/medres/mercury.jpg textures/medres/mimas.jpg textures/medres/miranda.jpg 
-# rm -rf textures/medres/moon* textures/medres/neptune.jpg textures/medres/oberon.jpg textures/medres/pho* 
-# rm -rf textures/medres/pluto-lok* textures/medres/prometheus.jpg textures/medres/proteus.jpg 
-# rm -rf textures/medres/rhea.jpg textures/medres/tethys.jpg textures/medres/titan* textures/medres/triton.jpg 
-# rm -rf textures/medres/umbriel.jpg
-# cd ..
-# tar cfz celestia-1.6.1-clean.tar.gz celestia-1.6.1
-# Source0:        http://downloads.sourceforge.net/celestia/celestia-%%{version}.tar.gz
-Source0:        celestia-%{version}-clean.tar.xz
+License:        GPLv2+ and CC-BY
+# Previously, JPL images, Scott Hudson's asteroid models, and Shrox's Mars rover models were removed.
+# This is no longer necessary as their licensing is now open.
+# See README-LEGAL.JPL, README-LEGAL.ScottHudsonModels, and README-LEGAL.ShroxModels
+Source0:        https://github.com/CelestiaProject/Celestia/archive/%{version}-%{betaver}.tar.gz
 Source3:        celestia.desktop
-URL:            http://www.shatters.net/celestia/
+Source4:        README-LEGAL.JPL
+Source5:        README-LEGAL.ScottHudsonModels
+Source6:        README-LEGAL.ShroxModels
+URL:            https://celestia.space/
 Patch0:         celestia-1.6.1-gcc47.patch
-Patch1:         celestia-1.6.1-zlib.patch
 Patch2:         celestia-1.6.1-lua-5.2.patch
-Patch3:         celestia-1.6.1-gcc48.patch
-Patch4:         celestia-lua-52-fix.patch
 Patch5:         celestia-1.6.1-link-order.patch
+Patch6:         celestia-1.6.2-beta3-lua-5.4.patch
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  zlib-devel
@@ -55,6 +32,7 @@ BuildRequires:  libXt-devel
 BuildRequires:  libXmu-devel
 BuildRequires:  lua-devel
 BuildRequires:  gettext-devel
+BuildRequires:  autoconf, automake, libtool
 Requires(pre):  GConf2
 Requires(post): GConf2
 Requires(preun): GConf2
@@ -74,20 +52,24 @@ interface makes it simple to navigate through the universe to the
 object you want to visit.
 
 %prep
-%setup -q
-%patch0 -p1 -b .gcc47
-%patch1 -p1 -b .zlib
-%patch2 -p1 -b .lua-52
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1 -b .link
+%setup -q -n Celestia-%{version}-%{betaver}
+# %%patch0 -p1 -b .gcc47
+# %%patch2 -p1 -b .lua-52
+# %%patch5 -p1 -b .link
+%patch6 -p1 -b .lua54
 
+cp %{SOURCE4} %{SOURCE5} %{SOURCE6} .
+
+autoreconf -ifv .
+
+%if 0
 # Make sure we compile with the right CFLAGS/CXXFLAGS (from Hans de Goede).
 sed -i 's/CFLAGS="\$CFLAGS \$CELESTIAFLAGS \$CELESTIA_CFLAGS"/CFLAGS="\$CFLAGS \$CELESTIAFLAGS"/' configure
 sed -i 's/CXXFLAGS="\$CXXFLAGS \$CELESTIAFLAGS \$CELESTIA_CXXFLAGS"/CXXFLAGS="\$CXXFLAGS \$CELESTIAFLAGS"/' configure
 
 # Avoid re-running the autotools
 touch -r aclocal.m4 configure configure.in
+%endif
 
 # Fix permissions
 chmod -x src/celengine/precession.cpp
@@ -182,8 +164,9 @@ if [ "$1" -eq "0" ] ; then
 fi
 
 %files -f %{name}.lang
-%doc AUTHORS ChangeLog COPYING README controls.txt coding-standards.html
+%doc AUTHORS ChangeLog README controls.txt coding-standards.html
 %doc devguide.txt 
+%license COPYING README-LEGAL.JPL README-LEGAL.ScottHudsonModels README-LEGAL.ShroxModels
 %{_bindir}/*
 %{_sysconfdir}/gconf/schemas/*
 %{_datadir}/appdata/%{name}.appdata.xml
@@ -193,6 +176,20 @@ fi
 
 
 %changelog
+* Fri Aug 21 2020 Tom Callaway <spot@fedoraproject.org> - 1.6.2-0.4.beta3
+- Shrox's models are now CC-BY, switch to upstream tarball!
+
+* Thu Aug 20 2020 Tom Callaway <spot@fedoraproject.org> - 1.6.2-0.3.beta3
+- Successfully relicensed Scott Hudson's asteroid models to a FOSS & GPLv2+ compatible license
+- generated new clean tarball
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.2-0.2.beta3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Callaway <spot@fedoraproject.org> - 1.6.2-0.1.beta3
+- update to 1.6.2-beta3
+- fixes for lua 5.4
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-33
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

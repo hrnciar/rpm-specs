@@ -21,7 +21,7 @@ the user-visible behavior will be the same.}
 %global godocs          README.adoc kommandant-HOWTO.adoc
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Command line meta-interpreter for Go
 
 License:        ASL 2.0
@@ -50,5 +50,8 @@ rm -rf demos
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Denis Fateyev <denis@fateyev.com> - 0.6.0-1
 - Initial Fedora RPM package

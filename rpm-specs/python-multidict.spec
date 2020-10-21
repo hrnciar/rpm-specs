@@ -2,8 +2,8 @@
 #global rctag b4
 
 Name:           python-%{modname}
-Version:        4.7.6%{?rctag:~%{rctag}}
-Release:        2%{?dist}
+Version:        5.0.0%{?rctag:~%{rctag}}
+Release:        1%{?dist}
 Summary:        MultiDict implementation
 
 License:        ASL 2.0
@@ -13,9 +13,7 @@ Source0:        %{url}/archive/v%{version}%{?rctag:%{rctag}}/%{modname}-%{versio
 BuildRequires:  gcc
 
 %global _description \
-Multidicts are useful for working with HTTP headers, URL query args etc.\
-\
-The code was extracted from aiohttp library.
+Multidicts are useful for working with HTTP headers, URL query args etc.
 
 %description %{_description}
 
@@ -42,7 +40,7 @@ sed -i -e '/addopts/d' setup.cfg
 rm -vf %{buildroot}%{python3_sitearch}/%{modname}/*.{c,pyx}
 
 %check
-PYTHONPATH=%{buildroot}%{python3_sitearch} pytest-%{python3_version} -v tests
+%pytest -v tests
 
 %files -n python3-%{modname}
 %license LICENSE
@@ -51,17 +49,23 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} pytest-%{python3_version} -v tests
 %{python3_sitearch}/%{modname}/
 
 %changelog
+* Wed Oct 14 2020 Fabian Affolter <mail@fabian-affolter.ch> - 5.0.0-1
+- Update to latest upstream release 5.0.0 (#1887481)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.7.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 4.7.6-2
 - Rebuilt for Python 3.9
 
-* Sat May 16 2020 Fabian Affolter  <mail@fabian-affolter.ch> - 4.7.6-1
-- Update to latest upstream release 4.7.6 (rhbz#1836076)
+* Sat May 16 2020 Fabian Affolter <mail@fabian-affolter.ch> - 4.7.6-1
+- Update to latest upstream release 4.7.6 (#1836076)
 
-* Sat Feb 22 2020 Fabian Affolter  <mail@fabian-affolter.ch> - 4.7.5-1
-- Update to latest upstream release 4.7.5 (rhbz#1806083)
+* Sat Feb 22 2020 Fabian Affolter <mail@fabian-affolter.ch> - 4.7.5-1
+- Update to latest upstream release 4.7.5 (#1806083)
 
-* Mon Feb 03 2020 Fabian Affolter  <mail@fabian-affolter.ch> - 4.7.4-1
-- UPdate to latest upstream release 4.7.4 (rhbz#1774256)
+* Mon Feb 03 2020 Fabian Affolter <mail@fabian-affolter.ch> - 4.7.4-1
+- UPdate to latest upstream release 4.7.4 (#1774256)
 
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild

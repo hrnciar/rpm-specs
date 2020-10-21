@@ -7,7 +7,7 @@
 
 Name:           rust-%{crate}
 Version:        0.10.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Library for controlling i3-wm through its IPC interface
 
 # Upstream license specification: MIT
@@ -132,6 +132,9 @@ which use "i3-next" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 21 20:28:25 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.10.1-6
 - Remove unneeded deps, for real
 

@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          1.66.0
-Release:          1%{dist}
+Release:          2%{dist}
 Summary:          Widgets to provide user interfaces from bioconductor
 License:          Artistic 2.0
 URL:              http://bioconductor.org/packages/release/bioc/html/tkWidgets.html
@@ -48,6 +48,9 @@ test -d %{packname}/src && (cd %{packname}/src; rm -f *.o *.so)
 %{_datadir}/R/library/%{packname}/testfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.66.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.66.0-1
 - update to 1.66.0
 - rebuild for R 4

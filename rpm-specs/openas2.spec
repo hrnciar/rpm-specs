@@ -22,7 +22,7 @@
 
 Name:           openas2
 Version:        2.10.0
-Release:        2%{?dist}
+Release:        6%{?dist}
 Summary:        Java-based implementation of the EDIINT AS2 standard
 
 License:        BSD
@@ -46,7 +46,7 @@ Source2:        openas2.service
 Source3:        openas2.logrotate
 
 BuildRequires:  maven-local dom4j javamail bouncycastle glassfish-servlet-api
-BuildRequires:  findbugs hamcrest sonatype-oss-parent dos2unix
+BuildRequires:  hamcrest dos2unix jsr-305
 %if %{with hsqldb}
 BuildRequires:  hsqldb-lib ant
 %else
@@ -63,7 +63,6 @@ BuildRequires:  mvn(org.osgi:osgi.core)
 BuildRequires:  mvn(org.codehaus.mojo:build-helper-maven-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-toolchains-plugin)
 BuildRequires:  mvn(org.apache.maven:maven-toolchain)
-BuildRequires:  mvn(org.osgi:osgi.annotation)
 BuildRequires:  mvn(org.osgi:osgi.cmpn)
 BuildRequires:  mvn(org.apache.commons:commons-dbcp)
 BuildRequires:  mvn(org.apache.commons:commons-pool)
@@ -156,11 +155,16 @@ sed -i -e '/db_pwd="/ s,".*","%{factory_passwd}",' \
 %pom_remove_dep io.sentry: Server
 %endif
 
+%pom_remove_dep com.google.code.findbugs: Server
+
+%pom_add_dep com.sun.activation:jakarta.activation
 %pom_add_dep org.slf4j:slf4j-api:1.7.25 Server
+%pom_add_dep com.google.code.findbugs:jsr305 Server
 
 # Make submodule parents match actual parent
 %pom_set_parent net.sf.openas2:OpenAS2:%{version} Remote
 %pom_set_parent net.sf.openas2:OpenAS2:%{version} Bundle
+%pom_set_parent net.sf.openas2:OpenAS2:%{version} Server
 
 %if %{with hsqldb}
 # initial hsqldb database
@@ -315,6 +319,19 @@ systemctl daemon-reload >/dev/null 2>&1 || :
 
 
 %changelog
+* Thu Oct  8 2020 Stuart Gathman <stuart@gathman.org> - 2.10.0-6
+- remove dependency for obsolete sonatype-oss-parent
+- findbugs can be added back when it is fixed to not depend on oss-parent
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Fabio Valentini <decathorpe@gmail.com> - 2.10.0-4
+- Add missing javax.activation dependency.
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 2.10.0-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

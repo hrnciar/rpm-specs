@@ -2,7 +2,7 @@ Name: hunspell-shs
 Summary: Shuswap hunspell dictionaries
 %global upstreamid 20090828
 Version: 0.%{upstreamid}
-Release: 17%{?dist}
+Release: 18%{?dist}
 Source: http://secpewt.sd73.bc.ca/hunspell/hunspell-shs-ca.tar.gz
 URL: http://secpewt.sd73.bc.ca/wordlist
 License: GPLv2+
@@ -30,6 +30,9 @@ cp -p hunspell/shs_CA.* $RPM_BUILD_ROOT/%{_datadir}/myspell
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20090828-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20090828-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

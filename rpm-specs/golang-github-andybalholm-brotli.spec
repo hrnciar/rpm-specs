@@ -3,7 +3,7 @@
 
 # https://github.com/andybalholm/brotli
 %global goipath         github.com/andybalholm/brotli
-Version:                1.0.0
+Version:                1.0.1
 
 %gometa
 
@@ -16,7 +16,7 @@ with the c2go tool at https://github.com/andybalholm/c2go.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Pure Go Brotli encoder and decoder
 
 License:        MIT
@@ -42,6 +42,13 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Fri Oct 02 20:55:48 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.1-1
+- Update to 1.0.1
+- Fix CVE-2020-8927 (#1879225, #1879228)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

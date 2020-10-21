@@ -4,7 +4,7 @@ License:	GPLv2+
 
 Epoch:		1
 Version:	2.1.3
-Release:	2%{?dist}
+Release:	4%{?dist}
 
 URL:		https://github.com/blueman-project/blueman
 Source0:	%{URL}/releases/download/%{version}/blueman-%{version}.tar.gz
@@ -120,6 +120,13 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/blueman-*.desktop
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.1.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.1.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1:2.1.3-2
 - Rebuilt for Python 3.9
 

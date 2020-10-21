@@ -4,7 +4,7 @@
 %global kbd_datadir %{_exec_prefix}/lib/kbd
 
 Name:           kbd
-Version:        2.2.0
+Version:        2.3.0
 Release:        3%{?dist}
 Summary:        Tools for configuring the console (keyboard, virtual terminals, etc.)
 License:        GPLv2+
@@ -34,10 +34,6 @@ Patch5:         kbd-1.15.5-loadkeys-search-path.patch
 Patch6:         kbd-2.0.2-unicode-start-font.patch
 # Patch7: fixes issues found by static analysis
 Patch7:         kbd-2.0.4-covscan-fixes.patch
-# Patch8: fix flags
-Patch8:         kbd-2.2.0-fix-flags.patch
-# Patch9: workaround -Werror=format-security build error
-Patch9:         kbd-2.2.0-format-security.patch
 
 BuildRequires:  gcc, bison, flex, gettext, pam-devel, check-devel, automake
 BuildRequires:  console-setup, xkeyboard-config
@@ -83,8 +79,7 @@ cp -fp %{SOURCE6} .
 %patch5 -p1 -b .loadkeys-search-path
 %patch6 -p1 -b .unicode-start-font
 %patch7 -p1 -b .covscan-fixes
-%patch8 -p1 -b .fix-flags
-%patch9 -p1 -b .format-security
+aclocal
 autoconf
 
 # 7-bit maps are obsolete; so are non-euro maps
@@ -115,10 +110,10 @@ mv "ChangeLog_" "ChangeLog"
 
 %build
 %configure --prefix=%{_prefix} --datadir=%{kbd_datadir} --mandir=%{_mandir} --localedir=%{_datadir}/locale --enable-nls
-make %{?_smp_mflags} V=1
+%make_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 
 # ro_win.map.gz is useless
 rm -f $RPM_BUILD_ROOT%{kbd_datadir}/keymaps/i386/qwerty/ro_win.map.gz
@@ -136,10 +131,6 @@ sed -i -e 's,\<kbd_mode\>,%{_bindir}/kbd_mode,g;s,\<setfont\>,%{_bindir}/setfont
 
 # install kbdinfo manpage
 gzip -c %SOURCE5 > $RPM_BUILD_ROOT/%{_mandir}/man1/kbdinfo.1.gz
-
-# Move locale files to correct place
-cp -r $RPM_BUILD_ROOT%{kbd_datadir}/locale/ $RPM_BUILD_ROOT%{_datadir}/locale
-rm -rf $RPM_BUILD_ROOT%{kbd_datadir}/locale
 
 # Install PAM configuration for vlock
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/pam.d
@@ -168,15 +159,19 @@ done < layouts-list-uniq.lst
 # wipe converted layouts which cannot input ASCII (#1031848)
 zgrep -L "U+0041" $RPM_BUILD_ROOT%{kbd_datadir}/keymaps/xkb/* | xargs rm -f
 
-# Rename the converted default fi (kotoistus) layout (#1117891)
-gunzip $RPM_BUILD_ROOT%{kbd_datadir}/keymaps/xkb/fi.map.gz
-mv $RPM_BUILD_ROOT%{kbd_datadir}/keymaps/xkb/fi.map $RPM_BUILD_ROOT%{kbd_datadir}/keymaps/xkb/fi-kotoistus.map
-gzip $RPM_BUILD_ROOT%{kbd_datadir}/keymaps/xkb/fi-kotoistus.map
+# Rename the converted default fi (kotoistus) layout (#1117891), if exists
+if [ -f "$RPM_BUILD_ROOT%{kbd_datadir}/keymaps/xkb/fi.map.gz" ]; then
+  gunzip $RPM_BUILD_ROOT%{kbd_datadir}/keymaps/xkb/fi.map.gz
+  mv $RPM_BUILD_ROOT%{kbd_datadir}/keymaps/xkb/fi.map $RPM_BUILD_ROOT%{kbd_datadir}/keymaps/xkb/fi-kotoistus.map
+  gzip $RPM_BUILD_ROOT%{kbd_datadir}/keymaps/xkb/fi-kotoistus.map
+fi
 
-# Fix converted cz layout - add compose rules
-gunzip $RPM_BUILD_ROOT%{kbd_datadir}/keymaps/xkb/cz.map.gz
-patch $RPM_BUILD_ROOT%{kbd_datadir}/keymaps/xkb/cz.map < %{SOURCE6}
-gzip $RPM_BUILD_ROOT%{kbd_datadir}/keymaps/xkb/cz.map
+# Fix converted cz layout - add compose rules, if exists
+if [ -f "$RPM_BUILD_ROOT%{kbd_datadir}/keymaps/xkb/cz.map.gz" ]; then
+  gunzip $RPM_BUILD_ROOT%{kbd_datadir}/keymaps/xkb/cz.map.gz
+  patch $RPM_BUILD_ROOT%{kbd_datadir}/keymaps/xkb/cz.map < %{SOURCE6}
+  gzip $RPM_BUILD_ROOT%{kbd_datadir}/keymaps/xkb/cz.map
+fi
 
 %find_lang %{name}
 
@@ -191,6 +186,9 @@ make check
 %{_bindir}/*
 %{_mandir}/*/*
 %config(noreplace) %{_sysconfdir}/pam.d/vlock
+# library used only for tests
+%exclude %{_libdir}/libtswrap*
+%exclude %{_prefix}/lib/debug/%{_libdir}/libtswrap*
 
 %files misc
 %{kbd_datadir}
@@ -200,6 +198,24 @@ make check
 %{kbd_datadir}/keymaps/legacy
 
 %changelog
+* Wed Sep 23 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.3.0-3
+- Exclude test library instead of removing it to fix --nocheck builds
+  Resolves: #1881515
+
+* Fri Aug 28 2020 Adam Williamson <awilliam@redhat.com> - 2.3.0-2
+- Rebuild with grep #1872913 fix to correctly drop non-ASCII layouts
+  Resolves: #1872922
+
+* Wed Jul 29 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.3.0-1
+- Make changes in converted layouts conditionally
+- Use make macros, patch by Tom Stellard <tstellar@redhat.com>
+  (https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro)
+- Update to kbd-2.3.0
+  Resolves: #1855867
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 17 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.2.0-3
 - Use upstream test suite in %%check
 

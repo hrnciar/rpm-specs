@@ -9,7 +9,7 @@
 #TODO: Consider doxy patch from Suse, setting EXTRACT_LOCAL_CLASSES  = NO
 
 # Tests can be of a different version
-%global testversion 3.1.0
+%global testversion 3.1.3
 %global run_tests 1
 
 %global bashcompletiondir %(pkg-config --variable=compatdir bash-completion)
@@ -45,7 +45,7 @@
 %endif
 
 Name:          gdal
-Version:       3.1.0
+Version:       3.1.3
 Release:       2%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
 Summary:       GIS file format library
 License:       MIT
@@ -68,11 +68,16 @@ Patch3:        gdal_tirpcinc.patch
 # Use libtool to create libiso8211.a, otherwise broken static lib is created since object files are compiled through libtool
 Patch4:        gdal_iso8211.patch
 # Don't pass -W to sphinx, it causes it to error out on warnings
-Patch5:        gdal_sphinx-warnings.patch
+# Don't do parallel build, currently fails with "Sphinx parallel build error: NotImplementedError"
+Patch5:        gdal_sphinx.patch
 # Fix makefiles installing libtool wrappers instead of actual executables
 Patch6:        gdal_installapps.patch
 # Don't refer to PDF manual which is not built
 Patch7:        gdal_nopdf.patch
+# Adapt to jasper 2.0.21
+# See https://github.com/OSGeo/gdal/commit/9ef8e16e27c5fc4c491debe50bf2b7f3e94ed334
+Patch8:        gdal_jasper.patch
+
 
 BuildRequires: gcc
 BuildRequires: gcc-c++
@@ -93,7 +98,6 @@ BuildRequires: expat-devel
 BuildRequires: fontconfig-devel
 # No freexl in EL5
 BuildRequires: freexl-devel
-BuildRequires: g2clib-static
 BuildRequires: geos-devel >= 3.7.1
 BuildRequires: ghostscript
 BuildRequires: hdf-devel
@@ -154,6 +158,7 @@ BuildRequires: python2-numpy
 %if %{with python3}
 BuildRequires: python3-devel
 BuildRequires: python3-numpy
+BuildRequires: python3-setuptools
 %endif
 BuildRequires: sqlite-devel
 BuildRequires: swig
@@ -539,7 +544,7 @@ done
 
 pushd %{name}autotest-%{testversion}
 	# Export test enviroment
-	export PYTHONPATH=$PYTHONPATH:%{buildroot}%{python_sitearch}
+	export PYTHONPATH=$PYTHONPATH:%{buildroot}%{python2_sitearch}
 	#TODO: Nötig?
 	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:%{buildroot}%{_libdir}
 	# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:%%{buildroot}%%{_libdir}:$java_inc
@@ -687,6 +692,42 @@ popd
 #Or as before, using ldconfig
 
 %changelog
+* Fri Oct 16 21:25:24 CEST 2020 Sandro Mani <manisandro@gmail.com> - 3.1.3-2
+- Rebuild (jasper)
+
+* Mon Sep 07 2020 Sandro Mani <manisandro@gmail.com> - 3.1.3-1
+- Update to 3.1.3
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 09:48:50 GMT 2020 Sandro Mani <manisandro@gmail.com> - 3.1.2-5
+- Rebuild (poppler)
+
+* Thu Jul 16 2020 Jiri Vanek <jvanek@redhat.com> - 3.1.2-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Wed Jul 15 15:55:55 GMT 2020 Sandro Mani <manisandro@gmail.com> - 3.1.2-3
+- Rebuild (poppler)
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.1.2-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Tue Jul 07 2020 Sandro Mani <manisandro@gmail.com> - 3.1.2-1
+- Update to 3.1.2
+
+* Tue Jun 30 2020 Sandro Mani <manisandro@gmail.com> - 3.1.1-1
+- Update to 3.1.1
+
+* Sat Jun 27 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.1.0-5
+- Perl 5.32 re-rebuild updated packages
+
+* Fri Jun 26 2020 Orion Poplawski <orion@nwra.com> - 3.1.0-4
+- Rebuild for hdf5 1.10.6
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.1.0-3
+- Perl 5.32 rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.1.0-2
 - Rebuilt for Python 3.9
 

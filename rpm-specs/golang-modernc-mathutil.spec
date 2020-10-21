@@ -20,7 +20,7 @@ Utilities supplemental to the Go standard "rand" and "math" packages.}
                         CONTRIBUTORS-mersenne README-mersenne
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Utilities supplemental to the Go standard "rand" and "math" packages
 
 # Upstream license specification: BSD-3-Clause
@@ -53,6 +53,9 @@ mv mersenne/README README-mersenne
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 %global gittag0 1.5.1 
 Name:		git-ftp		
 Version:	1.5.1
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Git powered FTP client written as shell script
 License:	GPLv3	
 URL:		https://github.com/git-ftp
@@ -39,6 +39,9 @@ make install-all  bindir=%{buildroot}%{_bindir} mandir=%{buildroot}%{_mandir}/ma
 %exclude %{_mandir}/man1/CACHEDIR.TAG.gz
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

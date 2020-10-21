@@ -1,8 +1,8 @@
 %global srcname catkin_lint
 
 Name:           python-%{srcname}
-Version:        1.6.9
-Release:        1%{?dist}
+Version:        1.6.10
+Release:        2%{?dist}
 Summary:        Check catkin packages for common errors
 
 License:        BSD
@@ -20,6 +20,7 @@ package, and it will detect and report a number of common problems.
 %package -n python%{python3_pkgversion}-%{srcname}
 Summary:        %{summary}
 BuildRequires:  python%{python3_pkgversion}-catkin_pkg
+BuildRequires:  python%{python3_pkgversion}-coverage
 BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-lxml
 BuildRequires:  python%{python3_pkgversion}-mock
@@ -81,6 +82,12 @@ install -p -D -m0644 bash/%{srcname} %{buildroot}%{_sysconfdir}/bash_completion.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Scott K Logan <logans@cottsay.net> - 1.6.10-1
+- Update to 1.6.10 (rhbz#1851568)
+
 * Mon Jun 22 2020 Scott K Logan <logans@cottsay.net> - 1.6.9-1
 - Update to 1.6.9 (rhbz#1847827)
 

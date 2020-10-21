@@ -1,6 +1,6 @@
 Name: blitz
 Version: 1.0.2
-Release: 2%{?dist}
+Release: 5%{?dist}
 Summary: C++ class library for matrix scientific computing
 
 License: LGPLv3+ or BSD or Artistic 2.0
@@ -45,7 +45,7 @@ cp %SOURCE1 .
 
 %build
 %cmake -D BUILD_TESTING=ON .
-%make_build
+%cmake_build
 
 # blitz.pc is created directly by configure
 # I use sed to add %%libdir/blitz to the include directories of the library
@@ -56,7 +56,7 @@ cp %SOURCE1 .
 #%{__sed} -i -e "s/Cflags: -I\${includedir}/Cflags: -I\${includedir} -I\${libdir}\/blitz\/include/" blitz.pc
 
 %install
-%make_install
+%cmake_install
 
 #mkdir -p %{buildroot}%{_libdir}/blitz/include/blitz
 #mv %{buildroot}%{_includedir}/blitz/gnu %{buildroot}%{_libdir}/blitz/include/blitz
@@ -66,13 +66,13 @@ rm -rf examples/.deps
 rm -rf examples/Makefile*
 
 %check
-make check-testsuite %{?_smp_mflags}
-(make check-examples %{?_smp_mflags} || true)
+make -C "%{_vpath_builddir}" check-testsuite %{?_smp_mflags}
+(make -C "%{_vpath_builddir}" check-examples %{?_smp_mflags} || true)
 (cd examples
 #ctest -V
 ctest -V %{?_smp_mflags}
 )
-make check-benchmarks %{?_smp_mflags}
+make -C "%{_vpath_builddir}" check-benchmarks %{?_smp_mflags}
 
 %files
 %doc AUTHORS README.md README.fedora
@@ -94,6 +94,16 @@ make check-benchmarks %{?_smp_mflags}
 %_pkgdocdir/examples
 
 %changelog
+* Tue Aug 18 2020 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.2-5
+- Fix cmake out-of-source-build (bz #1863269)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 2020 Sergio Pascual <sergiopr@fedoraproject.org> - 1.0.2-2
 - Enable tests (patch by Tony REIX <tony.reix@atos.net>) 
 - Add example code in -doc subpackage

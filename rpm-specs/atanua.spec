@@ -3,7 +3,7 @@
 
 Name:           atanua
 Version:        1.3.141220
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Real Time Logic Simulator
 
 License:        zlib and Bitstream Vera
@@ -99,6 +99,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/*.appdata
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.141220-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.141220-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

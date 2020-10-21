@@ -6,7 +6,7 @@
 
 Name:           python-flask-sphinx-themes
 Version:        1.0.2
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        %{desc}
 License:        BSD
 URL:            https://github.com/pallets/flask-sphinx-themes
@@ -49,6 +49,9 @@ Obsoletes: python3-sphinx-theme-flask < 1.0.2-4
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.2-10
 - Rebuilt for Python 3.9
 

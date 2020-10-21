@@ -1,6 +1,6 @@
 Name:		owl-lisp
 Version:	0.1.21
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Owl Lisp is a purely functional dialect of Scheme
 License:	MIT 
 URL:		https://gitlab.com/owl-lisp/owl/
@@ -32,6 +32,9 @@ chmod 644 c/ol.c
 %{_mandir}/man1/ovm.1.gz
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.21-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.1.21-2
 - Explicitly list shipped files
 

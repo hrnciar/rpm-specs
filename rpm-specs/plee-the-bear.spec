@@ -1,6 +1,6 @@
 Name:           plee-the-bear
 Version:        0.7.1
-Release:        6%{?dist}
+Release:        9%{?dist}
 Summary:        2D platform game
 # Code and artwork respectively
 License:        GPLv3 and CC-BY-SA
@@ -42,10 +42,10 @@ Plee the Bear is a 2D platform game in the spirit of 1990s console games.
         -DBEAR_ENGINE_LIBRARY_DIRECTORY=%{_libdir} \
         -DBEAR_ENGINE_INSTALL_LIBRARY_DIR=%{_lib} \
         -DBEAR_ROOT_DIRECTORY=%{_includedir}/bear-factory
-make %{?_smp_mflags} VERBOSE=1
+%cmake_build
 
 %install
-%make_install VERBOSE=1 INSTALL="install -p"
+%cmake_install
 
 # Translations
 %find_lang %{name}
@@ -124,6 +124,16 @@ EOF
 
 
 %changelog
+* Mon Aug 10 2020 Hans de Goede <hdegoede@redhat.com> - 0.7.1-9
+- Fix FTBFS, straight-forward cmake macro fix (rhbz#1865235)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

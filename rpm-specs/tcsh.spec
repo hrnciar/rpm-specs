@@ -13,7 +13,7 @@
 Name:             tcsh
 Summary:          An enhanced version of csh, the C shell
 Version:          6.22.02
-Release:          3%{?dist}
+Release:          5%{?dist}
 License:          BSD
 
 URL:              http://www.tcsh.org/
@@ -43,6 +43,8 @@ BuildRequires:    ncurses-devel
 # Upstream patches -- official upstream patches released by upstream since the
 # ----------------    last rebase that are necessary for any reason:
 Patch001: tcsh-6.22.02-avoid-gcc-to-fail.patch
+Patch002: tcsh-6.22.02-call-seterror-consistently-and-abort-quickly.patch
+Patch003: tcsh-6.22.02-avoid-crashing-when-loading-corrupted-history.patch
 
 
 # Downstream patches -- these should be always included when doing rebase:
@@ -177,6 +179,12 @@ fi
 # =============================================================================
 
 %changelog
+* Wed Oct 14 2020 Jan Macku <jamacku@redhat.com> - 6.22.02-5
+- Switch to stderror() when parsing history so that we stop processing immediately to avoid crashes
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.22.02-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 07 2020 Jan Macku <jamacku@redhat.com> - 6.22.02-3
 - Avoid gcc 10 to fail during build on "multiple definition of handle_interrupt"
 

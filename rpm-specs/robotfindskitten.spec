@@ -1,6 +1,6 @@
 Name:      robotfindskitten
 Version:   2.8284271.702
-Release:   1%{?dist}
+Release:   3%{?dist}
 Summary:   A game/zen simulation. You are robot. Your job is to find kitten.
 
 License:   GPLv2+
@@ -44,6 +44,13 @@ rm -f $RPM_BUILD_ROOT/%{_infodir}/dir
 %{_datadir}/man/man6/robotfindskitten.6*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8284271.702-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8284271.702-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Will Woods <wwoods@redhat.com> - 2.8284271.702-1
 - Update to 2.8284271.702 (`ship_it_anyway`)
 - Remove obsolete `Requires(post,preun): info` (patch from Tim Landscheidt)

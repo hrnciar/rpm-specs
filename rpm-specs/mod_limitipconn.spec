@@ -8,7 +8,7 @@
 Summary: Simultaneous connection limiting module for Apache
 Name: mod_limitipconn
 Version: 0.23
-Release: 25%{?dist}
+Release: 26%{?dist}
 License: ASL 2.0
 URL: http://dominia.org/djao/limitipconn2.html
 Source0: http://dominia.org/djao/limit/mod_limitipconn-%{version}.tar.bz2
@@ -54,6 +54,9 @@ install -D -p -m 0755 .libs/mod_limitipconn.so \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.23-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.23-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

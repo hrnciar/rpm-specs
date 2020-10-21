@@ -5,7 +5,7 @@
 %global crate handlebars
 
 Name:           rust-%{crate}
-Version:        3.1.0
+Version:        3.3.0
 Release:        1%{?dist}
 Summary:        Handlebars templating implemented in Rust
 
@@ -147,6 +147,12 @@ which use "walkdir" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 3.3.0-1
+- Update to 3.3.0
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 3.2.1-1
+- Update to 3.2.1
+
 * Tue Jun 02 16:30:52 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 3.1.0-1
 - Update to 3.1.0
 

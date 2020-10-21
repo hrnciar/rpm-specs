@@ -5,7 +5,7 @@
 Summary: Displays the users logged into machines on the local network
 Name: rusers
 Version: 0.17
-Release: 95%{?dist}
+Release: 96%{?dist}
 License: BSD
 Url: http://rstatd.sourceforge.net/
 Source: http://ftp.linux.org.uk/pub/linux/Networking/netkit/netkit-rusers-%{version}.tar.gz
@@ -163,6 +163,9 @@ install -m 0644 %SOURCE3 ${RPM_BUILD_ROOT}%{_unitdir}/rstatd.service
 %{_unitdir}/rstatd.service
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-96
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-95
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,8 +1,8 @@
 
 Summary: A GNU collection of binary utilities
 Name: %{?cross}binutils%{?_with_debug:-debug}
-Version: 2.34.0
-Release: 7%{?dist}
+Version: 2.35.1
+Release: 6%{?dist}
 License: GPLv3+
 URL: https://sourceware.org/binutils
 
@@ -20,6 +20,7 @@ URL: https://sourceware.org/binutils
 # --without testsuite    Do not run the testsuite.  Default is to run it.
 # --without gold         Disable building of the GOLD linker.
 # --with clang           To force building with the CLANG.
+# --without debuginfod   Disable support for debuginfod.
 
 #---Start of Configure Options-----------------------------------------------
 
@@ -73,6 +74,8 @@ URL: https://sourceware.org/binutils
 %bcond_without testsuite
 # Use clang as the build time compiler.  Default: gcc
 %bcond_with clang 
+# Default: support debuginfod.
+%bcond_without debuginfod
 
 
 %if %{with bootstrap}
@@ -106,23 +109,7 @@ URL: https://sourceware.org/binutils
 # too many controversial patches so we stick with the official FSF version
 # instead.
 
-# The source for the binutils are normally retrieved from the official
-# GNU repository.  IE:
-#   Source: https://ftp.gnu.org/gnu/binutils/binutils-%%{version}.tar.xz
-#
-# But we have a need in this rawhide release to pull in the latest version
-# on the 2.34 branch.  So the tarball was created using the following
-# commands:
-#
-#   git clone git://sourceware.org/git/binutils-gdb.git -b binutils-2_34-branch
-#   git checkout 5dfc0c955dbe912cd328fc2688e5fceb3239ac2a
-#   ./src-release -x binutils
-#   mv binutils-2.34.0.tar.xz binutils-2.34.0-5dfc0c955dbe912cd328fc2688e5fceb3239ac2a.tar.xz
-#
-# FIXME: Undo this change once the next official binutils release is made.
-
-Source: binutils-2.34.0-5dfc0c955dbe912cd328fc2688e5fceb3239ac2a.tar.xz
-
+Source: https://ftp.gnu.org/gnu/binutils/binutils-%%{version}.tar.xz
 Source2: binutils-2.19.50.0.1-output-format.sed
 
 #----------------------------------------------------------------------------
@@ -197,49 +184,80 @@ Patch09: binutils-do-not-link-with-static-libstdc++.patch
 # Lifetime: Permanent.
 Patch10: binutils-attach-to-group.patch
 
-# Purpose:  Stop gold from complaining about relocs in the .gnu.build.attribute
-#           section that reference symbols in discarded sections.
-# Lifetime: Fixed in 2.35 (maybe)
-Patch11: binutils-gold-ignore-discarded-note-relocs.patch
-
 # Purpose:  Allow OS specific sections in section groups.
-# Lifetime: Fixed in 2.35 (maybe)
-Patch12: binutils-special-sections-in-groups.patch
+# Lifetime: Fixed in 2.36 (maybe)
+Patch11: binutils-special-sections-in-groups.patch
 
 # Purpose:  Fix linker testsuite failures.
-# Lifetime: Fixed in 2.35 (maybe)
-Patch13: binutils-fix-testsuite-failures.patch
+# Lifetime: Fixed in 2.36 (maybe)
+Patch12: binutils-fix-testsuite-failures.patch
 
 # Purpose:  Stop gold from aborting when input sections with the same name
 #            have different flags.
-# Lifetime: Fixed in 2.35 (maybe)
-Patch14: binutils-gold-mismatched-section-flags.patch
+# Lifetime: Fixed in 2.36 (maybe)
+Patch13: binutils-gold-mismatched-section-flags.patch
 
 # Purpose:  Add a check to the GOLD linker for a corrupt input file
 #            with a fuzzed section offset.
-# Lifetime: Fixed in 2.35 (maybe)
-Patch15: binutils-CVE-2019-1010204.patch
-
-# Purpose:  Fix a potential use of an initialised field by readelf.
-# Lifetime: Fixed in 2.35
-Patch16: binutils-readelf-compression-header-size.patch
+# Lifetime: Fixed in 2.36 (maybe)
+Patch14: binutils-CVE-2019-1010204.patch
 
 # Purpose:  Change the gold configuration script to only warn about
 #            unsupported targets.  This allows the binutils to be built with
 #            BPF support enabled.
 # Lifetime: Permanent.
-Patch17: binutils-gold-warn-unsupported.patch
+Patch15: binutils-gold-warn-unsupported.patch
 
-# Purpose:  Enhance the error message displayed by the BFD library when
-#            to fails to load a plugin.
-# Lifetime: Should be fixed in 2.35.
-Patch18: binutils-bad-plugin-err-message.patch
+# Purpose:  Fix compile time warning messages building s390 target with gcc-10.
+# Lifetime: Should be fixed in 2.36.
+Patch16: binutils-s390-build.patch
 
-Patch19: binutils-s390-build.patch
+# Purpose:  Fix LTO problems running config mini-builds.
+# Lifetime: Should be fixed in 2.36.
+Patch17: binutils-config.patch
+
+# Purpose:  Fix compile time warning messages building with gcc-10.
+# Lifetime: Should be fixed in 2.36.
+Patch18: binutils-warnings.patch
+
+# Purpose:  Fix compile time warning messages building with gcc-10. (part 2).
+# Lifetime: Should be fixed in 2.36.
+Patch19: binutils-gcc-10-fixes.patch
+
+# Purpose:  Fixes for linking LTO objects.
+# Lifetime: Fixed in 2.36
+Patch20: binutils-add-sym-cache-to-elf-link-hash.patch
+Patch21: binutils-elf-add-objects.patch
+
+# Purpose:  Fix handling of relocations for AArch64 conditional branches.
+# Lifetime: Fixed in 2.36
+Patch22: binutils-aarch64-condbranch-relocs.patch
+
+# Purpose:  Fix the PowerPC disassembler so that it ignores annobin symbols.
+# Lifetime: Fixed in 2.36
+Patch23: binutils-ppc-annobin-disassembly.patch
+
+# Purpose:  Fix the strip program to cope when merging multiple same-named
+#            sections.
+# Lifetime: Fixed in 2.36
+Patch24: binutils-strip-merge.patch
+
+# Purpose:  Fix various problems with the PowerPC arch10 extensions.
+# Lifetime: Fixed in 2.36
+Patch25: binutils-Power10-fixes.patch
+
+# Purpose:  Allow plugin syms to mark as-needed shared libs needed.
+# Lifetime: Fixed in 2.36
+Patch26: binutils-plugin-as-needed.patch
+
+# Purpose:  Recursively follow .gnu_debuglink and .gnu_debugaltlink sections.
+# Lifetime: Fixed in 2.36
+Patch27: binutils-recursive-debuglink-following.patch
 
 #----------------------------------------------------------------------------
 
 Provides: bundled(libiberty)
+BuildRequires: autoconf automake
 
 %if %{with gold}
 # For now we make the binutils package require the gold sub-package.
@@ -294,6 +312,10 @@ Requires(post): coreutils
 # target triple.
 %ifnarch %{arm}
 %define _gnu %{nil}
+%endif
+
+%if %{with debuginfod}
+BuildRequires: elfutils-debuginfod-client-devel
 %endif
 
 #----------------------------------------------------------------------------
@@ -371,26 +393,7 @@ Conflicts: gcc-c++ < 4.0.0
 #----------------------------------------------------------------------------
 
 %prep
-%setup -q -n binutils-%{version}
-%patch01 -p1
-%patch02 -p1
-%patch03 -p1
-%patch04 -p1
-%patch05 -p1
-%patch06 -p1
-%patch07 -p1
-%patch08 -p1
-%patch09 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
-%patch17 -p1
-%patch18 -p1
-%patch19 -p1
+%autosetup -p1 -n binutils-%{version}
 
 # We cannot run autotools as there is an exact requirement of autoconf-2.59.
 # FIXME - this is no longer true.  Maybe try reinstating autotool use ?
@@ -441,6 +444,10 @@ export CFLAGS="$RPM_OPT_FLAGS"
 %endif
 
 CARGS=
+
+%if %{with debuginfod}
+CARGS="$CARGS --with-debuginfod"
+%endif
 
 case %{binutils_target} in i?86*|sparc*|ppc*|s390*|sh*|arm*|aarch64*|riscv*)
   CARGS="$CARGS --enable-64-bit-bfd"
@@ -501,6 +508,17 @@ export LDFLAGS=$RPM_LD_FLAGS
 %if %{with clang}
 %define _with_cc_clang 1
 %endif
+
+# Dependencies are not set up to rebuild the configure files
+# in the subdirectories.  So we just rebuild the ones we care
+# about after applying the configure patches
+pushd libiberty
+autoconf
+popd
+pushd intl
+autoconf
+popd
+
 
 # We could optimize the cross builds size by --enable-shared but the produced
 # binaries may be less convenient in the embedded environment.
@@ -809,6 +827,75 @@ exit 0
 
 #----------------------------------------------------------------------------
 %changelog
+* Thu Oct 15 2020 Nick Clifton  <nickc@redhat.com> - 2.35.1-6
+- Make readelf and objdump recursively follow debug links.  (PR 26595)
+
+* Fri Oct 09 2020 Nick Clifton  <nickc@redhat.com> - 2.35.1-5
+- Allow plugin syms to mark as-needed shared libs needed
+
+* Thu Oct 08 2020 Nick Clifton  <nickc@redhat.com> - 2.35.1-4
+- Fix various problems with Power10 support.
+
+* Tue Oct 06 2020 Nick Clifton  <nickc@redhat.com> - 2.35.1-3
+- Fix strip when merging multiple same-named sections.  (#1885607)
+
+* Mon Sep 21 2020 Nick Clifton  <nickc@redhat.com> - 2.35.1-1
+- Rebase to GNU Binutils 2.35.1 release.
+- Retire: binutils-gas-dwarf-level-4.patch
+- Retire: binutils-aarch64-plt-sh_entsize.patch
+- Retire: binutils-ppc-rename-xvcvbf16sp-to-xvcvbf16spn.patch
+- Retire: binutils-dwarf-5-fixes.patch
+
+* Fri Sep 11 2020 Nick Clifton  <nickc@redhat.com> - 2.35-14
+- Fix the PowerPC disassembler so that it ignores annobin symbols.
+
+* Thu Sep 10 2020 Nick Clifton  <nickc@redhat.com> - 2.35-13
+- Fix the handling of relocations for AArch64 conditional branches.
+
+* Tue Aug 25 2020 Nick Clifton  <nickc@redhat.com> - 2.35-12
+- Import fixes from GNU binutils mainline for handling DWARF-5 debug information.
+
+* Mon Aug 24 2020 Nick Clifton  <nickc@redhat.com> - 2.35-11
+- Rename the PPC xvcvbf16sp instruction to xvcvbf16spn.
+
+* Fri Jul 31 2020 Jeff Law  <nickc@redhat.com> - 2.35-10
+- Re-enable LTO
+
+* Fri Jul 31 2020 Jeff Law  <nickc@redhat.com> - 2.35-9
+- Disable LTO for bootstrapping purposes
+
+* Fri Jul 31 2020 Nick Clifton  <nickc@redhat.com> - 2.35-8
+- Fix building with LTO enabled.
+
+* Fri Jul 31 2020 Nick Clifton  <nickc@redhat.com> - 2.35-7
+- Set the sh_entsize field of the AArch64's PLT section to 0.  (PR 26312)
+
+* Thu Jul 30 2020 Richard W.M. Jones <rjones@redhat.com> - 2.35-6
+- Disable LTO again, it causes "ar" to segfault.
+
+* Thu Jul 30 2020 Nick Clifton  <nickc@redhat.com> - 2.35-5
+- Default to DWARF level 3 in the assembler.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.35-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Jeff Law  <nickc@redhat.com> - 2.35-2
+- Disable LTO for now
+
+* Sun Jul 26 2020 Nick Clifton  <nickc@redhat.com> - 2.35-1
+- Rebase to GNU Binutils 2.35.  (#1854613)
+
+* Mon Jul 20 2020 Jeff Law  <law@redhat.com> - 2.34-9
+- Fix more configure tests compromised by LTO.
+
+* Sun Jul 19 2020 Jeff Law  <law@redhat.com> - 2.34-9
+- Fix configure test compromised by LTO.  Add appropriate BuildRequires
+  and force rebuliding the configure files in the appropriate dirs
+- Fix various warnings exposed by LTO.
+
+* Tue Jul 07 2020 Jeff Law  <law@redhat.com> - 2.34-8
+- Switch to using %%autosetup.
+
 * Tue Jun 16 2020 Nick Clifton  <nickc@redhat.com> - 2.34-7
 - Add BPF support to the s390x target.  (#1825193)
 

@@ -1,7 +1,7 @@
 %global modname mccabe
 Name:               python-%{modname}
 Version:            0.6.1
-Release:            16%{?dist}
+Release:            17%{?dist}
 Summary:            McCabe complexity checker
 License:            MIT
 URL:                http://pypi.python.org/pypi/mccabe
@@ -54,6 +54,9 @@ checker.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.1-16
 - Rebuilt for Python 3.9
 

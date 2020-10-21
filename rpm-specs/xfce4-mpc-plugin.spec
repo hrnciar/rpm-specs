@@ -6,7 +6,7 @@
 
 Name:           xfce4-mpc-plugin
 Version:        0.5.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MPD client for the Xfce panel
 
 License:        ISC
@@ -57,6 +57,9 @@ chmod -c +x %{buildroot}%{_libdir}/xfce4/panel/plugins/*.so
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

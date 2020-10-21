@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.2.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Sphinx extension for linking to your project's issue tracker
 
 License:        MIT
@@ -55,6 +55,9 @@ rm -rf %{srcname}.egg-info
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.0-6
 - Rebuilt for Python 3.9
 

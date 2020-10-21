@@ -8,7 +8,7 @@
 
 Name:           xfce4-panel
 Version:        4.14.4
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Next generation panel for Xfce
 
 License:        GPLv2+ and LGPLv2+
@@ -163,6 +163,13 @@ install -pm 0644 %{SOURCE2} %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/
 %{_includedir}/xfce4/libxfce4panel-*/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 28 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 4.14.4-1
 - Update to 4.14.4
 

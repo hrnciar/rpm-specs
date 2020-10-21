@@ -2,7 +2,7 @@
 %global collection_name netbox
 
 Name:           ansible-collection-%{collection_namespace}-%{collection_name}
-Version:        0.2.1
+Version:        0.3.1
 Release:        1%{?dist}
 Summary:        Netbox modules for Ansible
 
@@ -12,7 +12,7 @@ Source:         https://github.com/netbox-community/ansible_modules/archive/v%{v
 
 BuildRequires:  ansible
 BuildRequires:  python3-rpm-macros
-Requires:       python%{python3_version}dist(pynetbox) >= 4.2.5
+Requires:       python%{python3_version}dist(pynetbox) >= 5.0.4
 
 BuildArch:      noarch
 
@@ -36,6 +36,12 @@ rm -vr tests/integration
 %{ansible_collection_files}
 
 %changelog
+* Sun Aug 09 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.3.1-1
+- Update to 0.3.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.1-1
 - Update to 0.2.1
 

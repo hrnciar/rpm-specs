@@ -3,7 +3,7 @@
 
 # https://github.com/j-keck/arping
 %global goipath         github.com/j-keck/arping
-Version:                1.0.0
+Version:                1.0.1
 
 %gometa
 
@@ -15,7 +15,7 @@ mac address.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Native Go library to ping a host per arp datagram, or query a host mac address
 
 License:        MIT
@@ -42,7 +42,8 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
-%gocheck
+# .: operation not permitted on some test
+%gocheck -d .
 %endif
 
 %files
@@ -53,6 +54,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 13:29:52 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.1-1
+- Update to 1.0.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

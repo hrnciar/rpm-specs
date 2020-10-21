@@ -1,6 +1,6 @@
 Name:       ibus-sayura
 Version:    1.3.2
-Release:    19%{?dist}
+Release:    20%{?dist}
 Summary:    The Sinhala engine for IBus input platform
 License:    GPLv2+
 URL:        https://pagure.io/ibus-sayura
@@ -83,6 +83,9 @@ EOF
 %{_datadir}/ibus/component/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

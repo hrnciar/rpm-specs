@@ -2,7 +2,7 @@
 
 Name:               python-nine
 Version:            1.1.0
-Release:            3%{?dist}
+Release:            4%{?dist}
 Summary:            Python 2 / 3 compatibility, like six, but favouring Python 3
 
 License:            Public Domain
@@ -64,6 +64,9 @@ rm -rf %{modname}.egg-info
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.0-3
 - Rebuilt for Python 3.9
 

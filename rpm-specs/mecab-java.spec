@@ -1,12 +1,10 @@
 %define		mainver		0.996
 #%%define		betaver		pre3
-%define		relnumber	2
-
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%define		relnumber	3
 
 Name:		mecab-java
 Version:	%{mainver}
-Release:	%{?betaver:0.}%{relnumber}%{?betaver:.%betaver}%{?dist}.13
+Release:	%{?betaver:0.}%{relnumber}%{?betaver:.%betaver}%{?dist}
 Summary:	Java binding for MeCab
 
 License:	BSD or LGPLv2+ or GPL+
@@ -70,6 +68,16 @@ LANG=ja_JP.utf8
 %{_jnidir}/MeCab.jar
 
 %changelog
+* Fri Aug 07 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 0.996-3
+- F-33: mass rebuild
+- Remove unused python macro
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.996-2.15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0.996-2.14
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.996-2.13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

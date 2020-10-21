@@ -23,8 +23,8 @@
 %global module %{pypi_name}
 
 Name:             python-%{pypi_name}
-Version:          1.77
-Release:          2%{?dist}
+Version:          1.78
+Release:          1%{?dist}
 Summary:          Python tools for computational molecular biology
 Source0:          %{pypi_source}
 
@@ -50,7 +50,6 @@ Summary:  Python tools for computational molecular biology
 
 # Build required packages
 BuildRequires:    python2-devel
-BuildRequires:    flex-devel
 BuildRequires:    %{py2_prefix}-reportlab
 BuildRequires:    %{py2_prefix}-psycopg2
 BuildRequires:    %{py2_prefix}-rdflib
@@ -69,7 +68,8 @@ BuildRequires:    %{py2_prefix}-mysql-connector
 Requires:         %{py2_prefix}-networkx
 Requires:         %{py2_prefix}-reportlab
 Requires:         %{py2_prefix}-psycopg2
-Requires:         wise2
+Requires:         wise2%{?_isa}
+Requires:         flex%{?_isa}
 Requires:         %{py2_prefix}-rdflib
 %if 0%{?rhel}
 Requires:         MySQL-%{py2_prefix}
@@ -95,7 +95,7 @@ Summary: Python3 tools for computational molecular biology
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{module}}
 
 BuildRequires:    python%{python3_pkgversion}-devel
-BuildRequires:    flex-devel
+BuildRequires:    python%{python3_pkgversion}-setuptools
 BuildRequires:    python%{python3_pkgversion}-reportlab
 BuildRequires:    python%{python3_pkgversion}-numpy
 BuildRequires:    python%{python3_pkgversion}-mysql
@@ -109,7 +109,8 @@ Requires:         python%{python3_pkgversion}-reportlab
 Requires:         python%{python3_pkgversion}-numpy
 Requires:         python%{python3_pkgversion}-mysql
 Requires:         python%{python3_pkgversion}-psycopg2
-Requires:         wise2
+Requires:         wise2%{?_isa}
+Requires:         flex%{?_isa}
 Requires:         python%{python3_pkgversion}-rdflib
 
 %description -n python%{python3_pkgversion}-%{module}
@@ -124,7 +125,6 @@ Summary: Python3 tools for computational molecular biology
 %{?python_provide:%python_provide python%{python3_other_pkgversion}-%{module}}
 
 BuildRequires:    python%{python3_other_pkgversion}-devel
-BuildRequires:    flex-devel
 BuildRequires:    python%{python3_other_pkgversion}-reportlab
 BuildRequires:    python%{python3_other_pkgversion}-numpy
 BuildRequires:    python%{python3_other_pkgversion}-mysql
@@ -138,7 +138,8 @@ Requires:         python%{python3_other_pkgversion}-reportlab
 Requires:         python%{python3_other_pkgversion}-numpy
 Requires:         python%{python3_other_pkgversion}-mysql
 Requires:         python%{python3_other_pkgversion}-psycopg2
-Requires:         wise2
+Requires:         wise2%{?_isa}
+Requires:         flex%{?_isa}
 Requires:         python%{python3_other_pkgversion}-rdflib
 
 %description -n python%{python3_other_pkgversion}-%{module}
@@ -313,6 +314,18 @@ popd
 %license %{module}-%{version}/LICENSE.rst
 
 %changelog
+* Fri Sep 04 2020 Antonio Trande <sagitter@fedoraproject.org> - 1.78-1
+- Release 1.78
+
+* Sat Aug 22 2020 Antonio Trande <sagitter@fedoraproject.org> - 1.77-5
+- Remove flex as BR dependency (rhbz#1871093)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.77-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Antonio Trande <sagitter@fedoraproject.org> - 1.77-3
+- BuildRequires python3-setuptools explicitly
+
 * Fri May 29 2020 Antonio Trande <sagitter@fedoraproject.org> - 1.77-2
 - Rebuilt for Python 3.9
 - Remove obsolete Python3.9 patch

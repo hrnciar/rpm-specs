@@ -2,7 +2,7 @@
 
 Name:           tomcat-taglibs-standard
 Version:        1.2.5
-Release:        9%{?dist}
+Release:        12%{?dist}
 Epoch:          0
 Summary:        Apache Standard Taglib
 License:        ASL 2.0
@@ -43,7 +43,7 @@ Javadoc for %{name}.
 %mvn_alias org.apache.taglibs:taglibs-standard-compat org.eclipse.jetty.orbit:org.apache.taglibs.standard.glassfish
 
 %build
-%mvn_build
+%mvn_build -- -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 %install
 %mvn_install
@@ -57,6 +57,15 @@ Javadoc for %{name}.
 %doc NOTICE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.2.5-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Fabio Valentini <decathorpe@gmail.com> - 0:1.2.5-11
+- Set javac source and target to 1.8 to fix Java 11 builds.
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0:1.2.5-10
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.2.5-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

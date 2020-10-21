@@ -3,12 +3,12 @@
 
 # https://github.com/libgit2/git2go
 %global goipath         github.com/libgit2/git2go
-Version:                0.28.4.1
+Version:                30.0.5
 
 %gometa
 
 %global godevelheader %{expand:
-Requires:      (pkgconfig(libgit2) >= 0.28 with pkgconfig(libgit2) < 0.29)}
+Requires:      (pkgconfig(libgit2) >= 1 with pkgconfig(libgit2) < 2)}
 
 %global common_description %{expand:
 Go bindings for libgit2.}
@@ -25,7 +25,7 @@ URL:            %{gourl}
 Source0:        %{gosource}
 Patch0:         0001-Skip-tests-that-use-the-network.patch
 
-BuildRequires: (pkgconfig(libgit2) >= 0.28 with pkgconfig(libgit2) < 0.29)
+BuildRequires: (pkgconfig(libgit2) >= 1 with pkgconfig(libgit2) < 2)
 
 %description
 %{common_description}
@@ -47,6 +47,12 @@ BuildRequires: (pkgconfig(libgit2) >= 0.28 with pkgconfig(libgit2) < 0.29)
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 22:24:38 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 30.0.5-1
+- Update to 30.0.5
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.28.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.28.4.1-1
 - Update to latest version
 

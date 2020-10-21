@@ -21,7 +21,7 @@
 
 Name:		llvm%{ver_major_minor}
 Version:	%ver_major_minor.1
-Release:	11%{?dist}
+Release:	13%{?dist}
 Summary:	The Low Level Virtual Machine
 
 License:	NCSA
@@ -266,6 +266,13 @@ test "`%{buildroot}/%{install_bindir}/llvm-config --cmakedir`" -ef "%{buildroot}
 %doc %{_pkgdocdir}/html
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.1-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.1-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

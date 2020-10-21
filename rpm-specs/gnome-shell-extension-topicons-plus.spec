@@ -6,7 +6,7 @@ Name:       gnome-shell-extension-topicons-plus
 Summary:    Move all legacy tray icons to the top panel
 Version:    27
 #Release:    8%%{?dist}.%%{commit_date}.%%{commit_short}
-Release:    1%{?dist}
+Release:    2%{?dist}
 URL:        https://extensions.gnome.org/extension/1031/topicons/
 License:    GPLv2
 BuildArch:  noarch
@@ -15,7 +15,6 @@ BuildArch:  noarch
 # https://github.com/phocean/TopIcons-plus/releases
 #Source0: https://github.com/phocean/TopIcons-plus/archive/%%{commit_short}/TopIcons-plus-%%{commit_short}.tar.gz
 Source0: https://github.com/phocean/TopIcons-plus/archive/%{version}/TopIcons-plus-%{version}.tar.gz
-Source1: ./README.md
 
 BuildRequires: glib2
 
@@ -50,12 +49,33 @@ grayscale, etc.
 # %%autosetup -n TopIcons-plus-%%{commit_long}
 %autosetup -n TopIcons-plus-%{version}
 
+cat > ./README-fedora.md << EOF
+After installing, each user that wants it must still manually enable
+TopIcons Plus before it will take effect. You can do so a few different
+ways.
+
+First, restart GNOME Shell (Open the command dialog with Alt-F2, type
+\`r\`, and hit enter), or log out and log back in. Then:
+
+- If you've already set up the GNOME Shell web browser plugin, go to
+  <https://extensions.gnome.org/local/>, find the extension, and click
+  the switch to "ON."
+- Open GNOME Tweaks, go to the Extensions tab, find the extension,
+  and click the switch to "ON."
+- Open a terminal or the desktop's command dialog, and (as your normal
+  user account) run:
+  \`gnome-extensions enable %{UUID}\`
+EOF
+
+
+
 %build
 # `build` make target is included in `make install`.
 
+
+
 %install
 %make_install  INSTALL_PATH=%{buildroot}/%{gnome_extensions_dir}
-cp  %{SOURCE1}  ./README-fedora.md
 
 rm %{final_install_dir}/locale/*/LC_MESSAGES/*.po
 mv  %{final_install_dir}/locale  %{buildroot}/%{_datadir}/
@@ -82,6 +102,9 @@ rm --recursive %{final_install_dir}/schemas/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 27-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 01 2020 Andrew Toskin <andrew@tosk.in> - 27-1
 - Bump to upstream version 27.
 

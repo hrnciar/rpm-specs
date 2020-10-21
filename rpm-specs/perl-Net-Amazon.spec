@@ -1,6 +1,6 @@
 Name:           perl-Net-Amazon
 Version:        0.62
-Release:        20%{?dist}
+Release:        22%{?dist}
 Summary:        Framework for accessing amazon.com via REST
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Net-Amazon
@@ -65,6 +65,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.62-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.62-21
+- Perl 5.32 rebuild
+
 * Tue Feb 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.62-20
 - Use make_* macros
 - Specify all dependencies

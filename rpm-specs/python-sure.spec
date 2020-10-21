@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.4.11
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Utility belt for automated testing in Python
 
 License:        GPLv3+
@@ -59,6 +59,9 @@ heavily inspired by should.js.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.11-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.11-10
 - Rebuilt for Python 3.9
 

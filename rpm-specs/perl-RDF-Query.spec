@@ -1,6 +1,6 @@
 Name:           perl-RDF-Query
 Version:        2.918
-Release:        12%{?dist}
+Release:        14%{?dist}
 Summary:        SPARQL 1.1 Query and Update implementation for RDF::Trine
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/RDF-Query
@@ -130,6 +130,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.918-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.918-13
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.918-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

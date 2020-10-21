@@ -6,7 +6,7 @@
 Summary:    A GNU tool for automatically configuring source code
 Name:       autoconf
 Version:    2.69
-Release:    33%{?dist}
+Release:    34%{?dist}
 License:    GPLv2+ and GFDL
 Source0:    http://ftpmirror.gnu.org/autoconf/autoconf-%{version}.tar.xz
 Source1:    config.site
@@ -84,7 +84,7 @@ export EMACS=%{_bindir}/false
 %endif
 %configure \
     %{?with_autoconf_enables_emacs:--with-lispdir=%{_emacs_sitelispdir}/autoconf}
-make %{?_smp_mflags}
+%make_build
 
 
 %check
@@ -96,7 +96,7 @@ make check %{?_smp_mflags}
 
 
 %install
-make install %{?_smp_mflags} DESTDIR=%{buildroot}
+%make_install
 mkdir -p %{buildroot}/share
 install -m 0644 %{SOURCE1} %{buildroot}%{_datadir}
 
@@ -124,6 +124,9 @@ install -p -m 0644 %{SOURCE2} %{buildroot}%{_emacs_sitestartdir}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.69-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 11 2020 Ondrej Dubaj <odubaj@redhat.com> - 2.69-33
 - Added perl dependency
 

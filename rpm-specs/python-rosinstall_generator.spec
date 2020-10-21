@@ -1,7 +1,7 @@
 %global srcname rosinstall_generator
 
 Name:           python-%{srcname}
-Version:        0.1.19
+Version:        0.1.22
 Release:        2%{?dist}
 Summary:        Generates rosinstall files
 
@@ -68,6 +68,15 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} nosetests-%{python3_version} test
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.22-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Scott K Logan <logans@cottsay.net> - 0.1.22-1
+- Update to 0.1.22 (rhbz#1854209)
+
+* Thu Jun 25 2020 Scott K Logan <logans@cottsay.net> - 0.1.21-1
+- Update to 0.1.21 (rhbz#1850826)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.19-2
 - Rebuilt for Python 3.9
 

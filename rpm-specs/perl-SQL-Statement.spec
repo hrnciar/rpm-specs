@@ -1,6 +1,6 @@
 Name:           perl-SQL-Statement
 Version:        1.412
-Release:        14%{?dist}
+Release:        16%{?dist}
 Summary:        SQL parsing and processing engine
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/SQL-Statement
@@ -98,6 +98,12 @@ make test
 %{_mandir}/man3/*.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.412-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.412-15
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.412-14
 - Perl 5.32 rebuild
 

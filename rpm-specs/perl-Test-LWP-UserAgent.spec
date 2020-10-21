@@ -1,6 +1,6 @@
 Name:           perl-Test-LWP-UserAgent
 Version:        0.034
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        LWP::UserAgent suitable for simulating and testing network calls
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test-LWP-UserAgent
@@ -80,6 +80,12 @@ NO_NETWORK_TESTING=1 make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.034-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.034-2
+- Perl 5.32 rebuild
+
 * Fri Mar 06 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.034-1
 - 0.034 bump
 

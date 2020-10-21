@@ -1,6 +1,8 @@
+%define __cmake_in_source_build 1
+
 Name:           sdcv
 Version:        0.5.2
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Console version of StarDict program
 License:        GPLv2+
 URL:            http://sdcv.sourceforge.net/
@@ -39,6 +41,16 @@ make install DESTDIR=%{buildroot}
 %{_mandir}/uk/man1/sdcv.1.gz
 
 %changelog
+* Tue Sep 22 2020 Jeff Law <law@redhat.com> - 0.5.2-4
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 31 2020 Artem Egorenkov <aegorenk@redhat.com> - 0.5.2-1
 - version updated to 0.5.2
 

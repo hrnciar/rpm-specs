@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:           q4wine
 Version:        1.3.12
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Qt GUI for wine
 
 License:        GPLv3+
@@ -38,22 +40,18 @@ General features:
 rm -r src/qtsingleapplication
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
 %{cmake} -DWITH_SYSTEM_SINGLEAPP=ON -DQT5=ON -DUSE_GZIP=ON -DRELEASE=ON ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 # metadata magic
 mkdir -p %{buildroot}%{_metainfodir}
 install -pm 644 %{SOURCE1} %{buildroot}%{_metainfodir}/
 appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 
-%{__rm} -f %{buildroot}%{_datadir}/icons/ubuntu-mono-dark/scalable/apps/q4wine.svg
+rm -f %{buildroot}%{_datadir}/icons/ubuntu-mono-dark/scalable/apps/q4wine.svg
 
 # no %find_lang macro as l10n go to main /usr/share/q4wine dir
 
@@ -73,6 +71,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/*.appdat
 %{_datadir}/q4wine
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.12-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 23 2020 Dmitrij S. Kryzhevich <kryzhev@ispms.ru> 1.3.12-2
 - Fix metadata magic. Again.
 

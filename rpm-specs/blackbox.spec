@@ -1,6 +1,6 @@
 Name:           blackbox
 Version:        0.76
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Very small and fast Window Manager
 License:        MIT
 URL:            https://github.com/bbidulock/blackboxwm
@@ -86,6 +86,13 @@ install -pDm0755 %{SOURCE2} \
 %{_libdir}/pkgconfig/libbt.pc
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.76-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.76-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 16 2020 Filipe Rosset <rosset.filipe@gmail.com> - 0.76-2
 - make spec compatible with EPEL8
 

@@ -1,6 +1,6 @@
 Name:           rcrpanel
 Version:        3.5
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Lay out front panel for electronics project
 License:        GPLv2+
 URL:            http://gitorious.org/panel-dial/rcrpanel
@@ -33,6 +33,9 @@ install -D -m 0644 rcrpanel.1 $RPM_BUILD_ROOT%{_mandir}/man1/rcrpanel.1
 %{_mandir}/man?/rcrpanel*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

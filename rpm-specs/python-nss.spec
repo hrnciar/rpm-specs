@@ -12,7 +12,7 @@
 
 Name:           python-nss
 Version:        1.0.1
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Python bindings for Network Security Services (NSS)
 
 License:        MPLv2.0 or GPLv2+ or LGPLv2+
@@ -168,6 +168,9 @@ rm -rf %{py2dir}
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.1-19
 - Rebuilt for Python 3.9
 

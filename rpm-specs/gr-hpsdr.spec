@@ -1,7 +1,7 @@
 Name:             gr-hpsdr
 URL:              https://github.com/Tom-McDermott/gr-hpsdr
 Version:          1.2
-Release:          14%{?dist}
+Release:          18%{?dist}
 License:          GPLv3+
 BuildRequires:    cmake, gcc-c++, gnuradio-devel, cppunit-devel, doxygen, swig
 BuildRequires:    boost-filesystem, boost-system, python3-devel, log4cpp-devel
@@ -43,15 +43,11 @@ Documentation files for gr-hpsdr.
 %patch3 -p1 -b .gnuradio38
 
 %build
-mkdir build
-cd build
-%cmake .. -DENABLE_DOXYGEN=on -DGR_PKG_DOC_DIR=%{_docdir}/%{name}
-# parallel build is broken
-make -j1
+%cmake -DENABLE_DOXYGEN=on -DGR_PKG_DOC_DIR=%{_docdir}/%{name}
+%cmake_build
 
 %install
-cd build
-%make_install
+%cmake_install
 
 %ldconfig_scriptlets
 
@@ -74,6 +70,20 @@ cd build
 %doc %{_docdir}/%{name}/xml
 
 %changelog
+* Mon Aug 24 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 1.2-18
+- Rebuilt for new gnuradio
+
+* Wed Aug  5 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 1.2-17
+- Fixed FTBFS
+  Resolves: rhbz#1863819
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2-14
 - Rebuilt for Python 3.9
 

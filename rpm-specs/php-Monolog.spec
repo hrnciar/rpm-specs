@@ -1,7 +1,7 @@
 #
 # Fedora spec file for php-Monolog
 #
-# Copyright (c) 2012-2017 Shawn Iwinski <shawn.iwinski@gmail.com>
+# Copyright (c) 2012-2020 Shawn Iwinski <shawn.iwinski@gmail.com>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -11,8 +11,8 @@
 
 %global github_owner     Seldaek
 %global github_name      monolog
-%global github_version   1.25.2
-%global github_commit    d5e2fb341cb44f7e2ab639d12a1e5901091ec287
+%global github_version   1.25.5
+%global github_commit    1817faadd1846cd08be9a49e905dc68823bc38c0
 
 %global composer_vendor  monolog
 %global composer_project monolog
@@ -35,7 +35,7 @@
 %global swift_max_ver 6
 
 # Build using "--without tests" to disable tests
-%global with_tests 0%{!?_without_tests:1}
+%bcond_without tests
 
 %{!?phpdir:  %global phpdir  %{_datadir}/php}
 
@@ -56,7 +56,7 @@ Patch0:    %{name}-tests-sentry-gte-0-16-0.patch
 
 BuildArch:     noarch
 # Tests
-%if %{with_tests}
+%if %{with tests}
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(phpunit/phpunit)
@@ -183,7 +183,7 @@ cp -pr src/Monolog %{buildroot}%{phpdir}/
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 : Create tests bootstrap
 cat <<'BOOTSTRAP' | tee bootstrap.php
 <?php
@@ -212,7 +212,7 @@ sed 's/function testThrowsOnInvalidEncoding/function SKIP_testThrowsOnInvalidEnc
 : Upstream tests
 RETURN_CODE=0
 PHPUNIT=$(which phpunit)
-for PHP_EXEC in "" %{?rhel:php54 php55 php56 php70} php71 php72 php73 php74; do
+for PHP_EXEC in "" %{?rhel:php54 php55 php56 php70 php71} php72 php73 php74; do
     if [ -z "$PHP_EXEC" ] || which $PHP_EXEC; then
         $PHP_EXEC $PHPUNIT --verbose --bootstrap bootstrap.php || RETURN_CODE=1
     fi
@@ -233,6 +233,12 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.25.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Remi Collet <remi@remirepo.net> - 1.25.5-1
+- update to 1.25.5
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.25.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

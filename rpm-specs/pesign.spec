@@ -3,7 +3,7 @@
 Name:    pesign
 Summary: Signing utility for UEFI binaries
 Version: 113
-Release: 3%{?dist}
+Release: 13%{?dist}
 License: GPLv2
 URL:     https://github.com/vathpela/pesign
 
@@ -28,6 +28,7 @@ BuildRequires: systemd-rpm-macros
 %endif
 Requires:      nspr
 Requires:      nss
+Requires:      nss-tools >= 3.53
 Requires:      nss-util
 Requires:      popt
 Requires:      rpm
@@ -46,6 +47,13 @@ Patch0002: 0002-pesigcheck-Fix-a-wrong-assignment.patch
 Patch0003: 0003-Make-0.112-client-and-server-work-with-the-113-proto.patch
 Patch0004: 0004-Rename-var-run-to-run.patch
 Patch0005: 0005-Apparently-opensc-got-updated-and-the-token-name-cha.patch
+Patch0006: 0006-client-try-run-and-var-run-for-the-socket-path.patch
+Patch0007: 0007-client-remove-an-extra-debug-print.patch
+Patch0008: 0008-Move-most-of-macros.pesign-to-pesign-rpmbuild-helper.patch
+Patch0009: 0009-pesign-authorize-shellcheck.patch
+Patch0010: 0010-pesign-authorize-don-t-setfacl-etc-pki-pesign-foo.patch
+Patch0011: 0011-kernel-building-hack.patch
+Patch0012: 0012-Use-run-not-var-run.patch
 
 %description
 This package contains the pesign utility for signing UEFI binaries as
@@ -116,7 +124,13 @@ exit 0
 
 %posttrans
 certutil -d %{_sysconfdir}/pki/pesign/ -X -L > /dev/null
-%{_libexecdir}/pesign/pesign-authorize
+
+# this is disabled currently because it breaks the fedora kernel build root
+# generation - because we don't currently have a good way of populating
+# /etc/pesign/{users,groups} before the buildroot is installed, or
+# populating them and re-running pesign-authorize afterwards but before the
+# package build of e.g. kernel
+#%%{_libexecdir}/pesign/pesign-authorize
 %endif
 
 %files
@@ -135,14 +149,15 @@ certutil -d %{_sysconfdir}/pki/pesign/ -X -L > /dev/null
 %dir %attr(0775,pesign,pesign) %{_sysconfdir}/pki/pesign-rh-test/
 %config(noreplace) %attr(0664,pesign,pesign) %{_sysconfdir}/pki/pesign-rh-test/*
 %{_libexecdir}/pesign/pesign-authorize
+%{_libexecdir}/pesign/pesign-rpmbuild-helper
 %config(noreplace)/%{_sysconfdir}/pesign/users
 %config(noreplace)/%{_sysconfdir}/pesign/groups
 %{_sysconfdir}/popt.d/pesign.popt
 %{macrosdir}/macros.pesign
 %{_mandir}/man*/*
-%dir %attr(0770, pesign, pesign) %{_localstatedir}/run/%{name}
-%ghost %attr(0660, -, -) %{_localstatedir}/run/%{name}/socket
-%ghost %attr(0660, -, -) %{_localstatedir}/run/%{name}/pesign.pid
+%dir %attr(0770, pesign, pesign) %{_rundir}/%{name}
+%ghost %attr(0660, -, -) %{_rundir}/%{name}/socket
+%ghost %attr(0660, -, -) %{_rundir}/%{name}/pesign.pid
 %if 0%{?rhel} >= 7 || 0%{?fedora} >= 17
 %{_tmpfilesdir}/pesign.conf
 %{_unitdir}/pesign.service
@@ -151,6 +166,36 @@ certutil -d %{_sysconfdir}/pki/pesign/ -X -L > /dev/null
 %{python3_sitelib}/mockbuild/plugins/pesign.*
 
 %changelog
+* Mon Aug 03 2020 Peter Jones <pjones@redhat.com> - 113-13
+- Add the rundir related stuff that was staged on my f32 checkout.
+
+* Mon Aug 03 2020 Peter Jones <pjones@redhat.com> - 113-12
+- Try to make kernel and fwupd both work at the same time.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 113-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Peter Jones <pjones@redhat.com> - 113-10
+- I really cannot figure out why bkernel01 thinks the certificate nickname
+  starts with /CN=, but it does, so I'm gonna stop fighting with the sand.
+
+* Thu Jul 16 2020 Peter Jones <pjones@redhat.com> - 113-9
+- Even more kernel build debugging...
+
+* Tue Jul 07 2020 Peter Jones <pjones@redhat.com> - 113-8
+- More kernel build debugging...
+
+* Tue Jul 07 2020 Peter Jones <pjones@redhat.com> - 113-6
+- Disable the pesign-authorize call in posttrans, until we can figure out a
+  better way to deal with that in the fedora kernel builder chroot setup
+
+* Tue Jul 07 2020 Peter Jones <pjones@redhat.com> - 113-5
+- Make pesign require nss-tools for the posttrans scriptlet
+- Move most of macros.pesign to /usr/libexec/pesign/pesign-rpmbuild-helper
+
+* Mon Jul 06 2020 Peter Jones <pjones@redhat.com> - 113-4
+- Attempt to fix kernel signing failures caused by -3...
+
 * Fri Jun 12 2020 Peter Jones <pjones@redhat.com> - 113-3
 - Fix the signer name for fedora and some other minor nits
   Related: rhbz#1708773

@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+
 %if 0%{?fedora} >= 30
 # asan doesn't work with gcc9 on s390x...
 %ifarch s390 s390x
@@ -17,7 +19,7 @@
 
 Name:           wlcs
 Version:        1.1.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Wayland Conformance Test Suite
 
 License:        GPLv2 or GPLv3
@@ -26,6 +28,7 @@ Source0:        %{url}/releases/download/v%{version}/%{name}-%{version}.tar.xz
 
 # Backports from upstream
 Patch0001:      0001-Fix-project-version-in-CMake-134.patch
+Patch0002:      %{name}-gcc11.patch
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -86,15 +89,11 @@ developing Wayland compositor tests that use %{name}.
 
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%cmake .. -GNinja %{!?with_asan:-DWLCS_BUILD_ASAN=OFF} %{!?with_ubsan:-DWLCS_BUILD_UBSAN=OFF} %{!?with_tsan:-DWLCS_BUILD_TSAN=OFF}
-popd
-%ninja_build -C %{_target_platform}
-
+%cmake -GNinja %{!?with_asan:-DWLCS_BUILD_ASAN=OFF} %{!?with_ubsan:-DWLCS_BUILD_UBSAN=OFF} %{!?with_tsan:-DWLCS_BUILD_TSAN=OFF}
+%cmake_build
 
 %install
-%ninja_install -C %{_target_platform}
+%cmake_install
 
 %files
 %license COPYING.*
@@ -109,6 +108,12 @@ popd
 
 
 %changelog
+* Sat Oct 17 2020 Jeff Law <law@redhat.com> - 1.1.0-5
+- Use reference for loop variable to avoid range-loop-construct warning
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 01 2020 Neal Gompa <ngompa13@gmail.com> - 1.1.0-3
 - Rebuild for gtest 1.10.0
 

@@ -8,7 +8,7 @@
 Summary:       MinGW port of the wxWidgets GUI library
 Name:          mingw-%{mingw_pkg_name}
 Version:       2.8.12
-Release:       28%{?dist}
+Release:       30%{?dist}
 License:       wxWidgets
 
 URL:           http://wxwidgets.org
@@ -85,6 +85,8 @@ mingw64-%{mingw_pkg_name} development.
 
 #==========================================
 %build
+export MINGW32_CXXFLAGS="%{mingw32_cflags} -Wno-narrowing"
+export MINGW64_CXXFLAGS="%{mingw64_cflags} -Wno-narrowing"
 
 #========= Shared Libraries ==========
 export MINGW_BUILDDIR_SUFFIX=_shared
@@ -256,6 +258,16 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/bakefile
 
 
 %changelog
+* Mon Aug 03 2020 Thomas Sailer <t.sailer@alumni.ethz.ch> - 2.8.12-30
+- rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.12-30
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.12-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.12-28
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

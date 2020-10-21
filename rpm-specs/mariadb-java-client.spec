@@ -1,6 +1,6 @@
 Name:		mariadb-java-client
-Version:	2.6.0
-Release:	2%{?dist}
+Version:	2.7.0
+Release:	1%{?dist}
 Summary:	Connects applications developed in Java to MariaDB and MySQL databases
 # added BSD license because of https://bugzilla.redhat.com/show_bug.cgi?id=1291558#c13
 License:	BSD and LGPLv2+
@@ -17,7 +17,6 @@ BuildRequires:	mvn(com.google.code.maven-replacer-plugin:replacer)
 BuildRequires:	mvn(org.apache.maven.plugins:maven-javadoc-plugin)
 # fedora 25
 BuildRequires:	mvn(org.apache.felix:maven-bundle-plugin)
-BuildRequires:	mvn(org.sonatype.oss:oss-parent:pom:)
 BuildRequires:	mvn(org.codehaus.mojo:build-helper-maven-plugin)
 BuildRequires:  mvn(org.osgi:osgi.cmpn)
 BuildRequires:  mvn(org.osgi:osgi.core)
@@ -125,6 +124,24 @@ rm src/main/resources/META-INF/MANIFEST.MF
 %license LICENSE
 
 %changelog
+* Fri Sep 25 2020 Ondrej Dubaj <odubaj@redhat.com> - 2.7.0-1
+- Rebase to version 2.7.0 (#1882558)
+
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 2.6.2-2
+- Remove unnecessary dependency on sonatype-oss-parent.
+
+* Wed Aug 19 2020 Ondrej Dubaj <odubaj@redhat.com> - 2.6.2-1
+- Rebase to version 2.6.2 (#1860212)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 2.6.1-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Wed Jun 24 2020 Ondrej Dubaj <odubaj@redhat.com> - 2.6.1-1
+- Rebase to version 2.6.1 (#1850111)
+
 * Mon Mar 30 2020 Michal Schorm <mschorm@redhat.com> - 2.6.0-2
 - Remove the dependency on mariadb (#1818814)
 

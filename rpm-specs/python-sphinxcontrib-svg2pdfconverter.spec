@@ -3,14 +3,17 @@
 %global srcname sphinxcontrib-svg2pdfconverter
 
 Name:           python-%{srcname}
-Version:        1.0.1
-Release:        3%{?dist}
+Version:        1.1.0
+Release:        2%{?dist}
 Summary:        Sphinx SVG to PDF Converter Extension
 
 License:        BSD
 URL:            https://pypi.org/project/sphinxcontrib-svg2pdfconverter/
 Source0:        https://files.pythonhosted.org/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.gz
 
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
+BuildRequires:  %{py3_dist Sphinx}
 BuildArch:      noarch
 
 %description
@@ -21,10 +24,6 @@ natively (e.g. LaTeX).
 %package -n python3-%{srcname}-common
 Summary:        Sphinx SVG to PDF Converter Extension - common files
 
-BuildRequires:  python3-devel
-BuildRequires:  %{py3_dist sphinx}
-
-
 %description -n python3-%{srcname}-common
 Converts SVG images to PDF in case the builder does not support SVG images
 natively (e.g. LaTeX).
@@ -34,8 +33,6 @@ This package contains common files.
 %package -n python3-sphinxcontrib-inkscapeconverter
 Summary:        Sphinx SVG to PDF Converter Extension - Inkscape converter
 
-BuildRequires:  python3-devel
-BuildRequires:  %{py3_dist sphinx}
 Requires:       /usr/bin/inkscape
 Requires:       python3-%{srcname}-common = %{version}-%{release}
 
@@ -50,8 +47,6 @@ This package contains converter using Inkscape.
 %package -n python3-sphinxcontrib-rsvgconverter
 Summary:        Sphinx SVG to PDF Converter Extension - libRSVG converter
 
-BuildRequires:  python3-devel
-BuildRequires:  %{py3_dist sphinx}
 Requires:       /usr/bin/rsvg-convert
 Requires:       python3-%{srcname}-common = %{version}-%{release}
 
@@ -61,6 +56,20 @@ Requires:       python3-%{srcname}-common = %{version}-%{release}
 Converts SVG images to PDF in case the builder does not support SVG images
 natively (e.g. LaTeX).
 This package contains converter using libRSVG.
+
+
+%package -n python3-sphinxcontrib-cairosvgconverter
+Summary:        Sphinx SVG to PDF Converter Extension - CairoSVG converter
+
+Requires:       %{py3_dist CairoSVG}
+Requires:       python3-%{srcname}-common = %{version}-%{release}
+
+%{?python_provide:%python_provide python3-sphinxcontrib-cairosvgconverter}
+
+%description -n python3-sphinxcontrib-cairosvgconverter
+Converts SVG images to PDF in case the builder does not support SVG images
+natively (e.g. LaTeX).
+This package contains converter using CairoSVG.
 
 
 %prep
@@ -97,7 +106,21 @@ This package contains converter using libRSVG.
 %{python3_sitelib}/sphinxcontrib/rsvgconverter.py
 
 
+%files -n python3-sphinxcontrib-cairosvgconverter
+%{python3_sitelib}/sphinxcontrib/__pycache__/cairosvgconverter.*.pyc
+%{python3_sitelib}/sphinxcontrib/cairosvgconverter.py
+
+
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Julian Sikorski <belegdol@fedoraproject.org> - 1.1.0-1
+- Update to 1.1.0
+- Add -cairosvgconverter subpackage
+- Move BuildRequires to main package section
+- Add python3-setuptools to BuildRequires
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.1-3
 - Rebuilt for Python 3.9
 

@@ -3,7 +3,7 @@
 
 Name:           jumpnbump
 Version:        1.61
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Cute multiplayer platform game with bunnies
 License:        GPLv2+
 URL:            https://gitlab.com/LibreGames/jumpnbump
@@ -118,6 +118,9 @@ fi
 %{_datadir}/applications/%{name}-menu.desktop
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.61-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 28 2020 Rémi Verschelde <rverschelde@gmail.com> - 1.61-3
 - Workaround FTBFS with GCC 10 defaulting to -fno-common (rhbz#1799558)
 

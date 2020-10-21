@@ -1,10 +1,12 @@
+%undefine __cmake_in_source_build
+
 %bcond_with     bundle_lxqtwallet
 %bcond_without  bundle_tcplay
 %global srcname zuluCrypt
 
 Name:           zulucrypt
 Version:        5.7.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Qt GUI front end to cryptsetup
 
 # Major license is GPLv3+ (but GPLv2+ for some source files)
@@ -128,8 +130,6 @@ rm -rf external_libraries/tc-play
 
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
 %{cmake_kf5} \
  -DCMAKE_INSTALL_DOCDIR=%{_docdir}/%{name} \
  -DCMAKE_SKIP_INSTALL_RPATH=ON \
@@ -141,12 +141,11 @@ pushd %{_target_platform}
  -DNOGNOME=false \
  -DNOKDE=false \
  -DUSE_POLKIT=true \
- ..
-popd
-%make_build -C %{_target_platform}
+ %{nil}
+%cmake_build
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 %find_lang %{name} --with-qt --all-name
 %if 0%{?rhel}
 # Explicitly create folders in epel, install does not know target option
@@ -200,6 +199,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/zulu*.desktop
 %doc docs/README docs/*.jpg
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.7.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 04 2020 Fabian Affolter <mail@fabian-affolter.ch> - 5.7.1-1
 - Update to latest upstream release 5.7.1 (rhbz#1798062)
 

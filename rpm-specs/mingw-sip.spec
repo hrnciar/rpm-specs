@@ -16,7 +16,7 @@
 
 Name:           mingw-%{pkgname}
 Summary:        MinGW Windows SIP
-Version:        4.19.23
+Version:        4.19.24
 Release:        1%{?pre:.%pre}%{?dist}
 
 # sipgen/parser.{c.h} is GPLv3+ with exceptions (bison)
@@ -231,6 +231,12 @@ find %{buildroot}%{mingw64_prefix} | grep -E '.(exe|dll|pyd)$' | sed 's|^%{build
 
 
 %changelog
+* Tue Aug 18 2020 Sandro Mani <manisandro@gmail.com> - 4.19.24-1
+- Update to 4.19.24
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.19.23-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 09 2020 Sandro Mani <manisandro@gmail.com> - 4.19.23-1
 - Update to 4.19.23
 

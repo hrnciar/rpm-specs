@@ -1,6 +1,6 @@
 Name:           amora
 Version:        1.1
-Release:        26%{?dist}
+Release:        28%{?dist}
 Summary:        A mobile remote assistant
 
 License:        GPLv2+
@@ -53,6 +53,13 @@ make install DESTDIR=$RPM_BUILD_ROOT INSTALL="%{__install} -p"
 %{_mandir}/man8/amorad.8.gz
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-28
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 2020 Filipe Rosset <rosset.filipe@gmail.com> - 1.1-26
 - Fix FTBFS (gcc10)
 

@@ -1,6 +1,6 @@
 Name:           perl-Cookie-Baker
 Version:        0.11
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Cookie string generator / parser
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Cookie-Baker
@@ -50,6 +50,9 @@ Cookie::Baker provides simple cookie string generator and parser.
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.11-4
 - Perl 5.32 rebuild
 

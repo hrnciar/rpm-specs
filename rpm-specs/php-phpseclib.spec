@@ -3,12 +3,12 @@
 
 %global github_owner            phpseclib
 %global github_name             phpseclib
-%global github_commit           34620af4df7d1988d8f0d7e91f6c8a3bf931d8dc
+%global github_commit           497856a8d997f640b4a516062f84228a772a48a8
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
-%global with_tests              0%{!?_without_tests:1}
+%bcond_without                  tests
 
 Name:       php-%{composer_vendor}
-Version:    2.0.27
+Version:    2.0.29
 Release:    1%{?dist}
 Summary:    PHP Secure Communications Library
 License:    MIT
@@ -21,7 +21,7 @@ Source2:    makesrc.sh
 
 BuildArch:      noarch
 
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php-composer(fedora/autoloader)
 %if 0%{?fedora} >= 26 || 0%{?rhel} >= 8
 %global phpunit %{_bindir}/phpunit6
@@ -70,7 +70,7 @@ mkdir -p %{buildroot}%{_datadir}/php
 cp -pr %{composer_vendor} %{buildroot}%{_datadir}/php
 
 
-%if %{with_tests}
+%if %{with tests}
 %check
 %{_bindir}/phpab --output tests/bootstrap.php tests
 cat << 'EOF' | tee -a tests/bootstrap.php
@@ -84,7 +84,7 @@ EOF
 
 # testAuthorityInfoAccess fails without internet access
 ret=0
-for cmd in "php %{phpunit}" php71 php72 php73 php74; do
+for cmd in "php %{phpunit}" php72 php73 php74; do
   if which $cmd; then
     set $cmd
     $1 -d memory_limit=1G ${2:-%{_bindir}/phpunit6} \
@@ -104,6 +104,15 @@ exit $ret
 
 
 %changelog
+* Tue Sep  8 2020 Remi Collet <remi@remirepo.net> - 2.0.29-1
+- update to 2.0.29
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.28-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 Remi Collet <remi@remirepo.net> - 2.0.28-1
+- update to 2.0.28
+
 * Mon Apr  6 2020 Remi Collet <remi@remirepo.net> - 2.0.27-1
 - update to 2.0.27
 

@@ -2,12 +2,12 @@
 
 Name:           python-queuelib
 Version:        1.5.0
-Release:        6%{?dist}
-Summary:        A collection of persistent (disk-based) queues
+Release:        8%{?dist}
+Summary:        Collection of persistent (disk-based) queues
 
 License:        BSD
 URL:            https://github.com/scrapy/queuelib
-Source0:        https://github.com/scrapy/queuelib/archive/v%{version}.tar.gz#/%{srcname}-%{version}.tar.gz
+Source0:        %{url}/archive/v%{version}/%{srcname}-%{version}.tar.gz
 BuildArch:      noarch
 
 %description
@@ -18,6 +18,7 @@ Python. Queuelib goals are speed and simplicity.
 Summary:        %{summary}
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-nose
 BuildRequires:  python3-pytest
 %{?python_provide:%python_provide python3-%{srcname}}
@@ -45,6 +46,12 @@ nosetests-%{python3_version} queuelib/tests
 %{python3_sitelib}/%{srcname}*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.5.0-7
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5.0-6
 - Rebuilt for Python 3.9
 

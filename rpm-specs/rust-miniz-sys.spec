@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.1.12
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Bindings to the miniz library
 
 # miniz is Public Domain
@@ -73,6 +73,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.12-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.12-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

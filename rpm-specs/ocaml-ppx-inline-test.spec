@@ -7,8 +7,8 @@
 %global upname  ppx_inline_test
 
 Name:           ocaml-%{srcname}
-Version:        0.13.1
-Release:        1%{?dist}
+Version:        0.14.0
+Release:        3%{?dist}
 Summary:        Syntax extension for writing inline tests in OCaml code
 
 License:        MIT
@@ -16,9 +16,10 @@ URL:            https://github.com/janestreet/%{upname}
 Source0:        %{url}/archive/v%{version}/%{upname}-%{version}.tar.gz
 
 BuildRequires:  ocaml >= 4.04.2
-BuildRequires:  ocaml-base-devel >= 0.13
-BuildRequires:  ocaml-dune >= 1.5.1
-BuildRequires:  ocaml-ppxlib-devel >= 0.9.0
+BuildRequires:  ocaml-base-devel >= 0.14
+BuildRequires:  ocaml-dune >= 2.0.0
+BuildRequires:  ocaml-ppxlib-devel >= 0.11.0
+BuildRequires:  ocaml-time-now-devel >= 0.14
 BuildRequires:  ocaml-odoc
 
 %description
@@ -65,7 +66,7 @@ find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod a+x {} \+
 %endif
 
 %files
-%doc CHANGES.md CONTRIBUTING.md README.md
+%doc CHANGES.md README.md
 %license LICENSE.md
 %dir %{_libdir}/ocaml/%{upname}/
 %dir %{_libdir}/ocaml/%{upname}/config/
@@ -76,6 +77,7 @@ find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod a+x {} \+
 %dir %{_libdir}/ocaml/%{upname}/runtime-lib/
 %{_libdir}/ocaml/%{upname}/META
 %{_libdir}/ocaml/%{upname}/ppx.exe
+%{_libdir}/ocaml/%{upname}/drop/ppx.exe
 %{_libdir}/ocaml/%{upname}/*.cma
 %{_libdir}/ocaml/%{upname}/*.cmi
 %{_libdir}/ocaml/%{upname}/*/*.cma
@@ -114,5 +116,21 @@ find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod a+x {} \+
 %{_libdir}/ocaml/%{upname}/runner/lib/*.cmt
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.14.0-3
+- OCaml 4.11.1 rebuild
+
+* Mon Aug 24 2020 Richard W.M. Jones <rjones@redhat.com> - 0.14.0-2
+- OCaml 4.11.0 rebuild
+
+* Wed Aug 19 2020 Jerry James <loganjerry@gmail.com> - 0.14.0-1
+- Version 0.14.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May  7 2020 Jerry James <loganjerry@gmail.com> - 0.13.1-1
 - Initial RPM

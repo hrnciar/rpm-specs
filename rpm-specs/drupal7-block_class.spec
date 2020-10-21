@@ -4,7 +4,7 @@
 
 Name:          drupal7-%{module}
 Version:       2.4
-Release:       4%{?dist}
+Release:       5%{?dist}
 Summary:       Allows users to add classes via block configuration interface
 
 License:       GPLv2+
@@ -55,6 +55,9 @@ cp -pr * %{buildroot}%{drupal7_modules}/%{module}/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.4-4
 - Bump build requires drupal7-rpmbuild to ">= 7.70-2" to fix F32+ auto provides
 

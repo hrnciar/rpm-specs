@@ -1,6 +1,6 @@
 Name:           libwbxml
 Version:        0.11.7
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Library and tools to parse, encode and handle WBXML documents
 ## Used and installed:
 # NEWS:                             ???
@@ -21,6 +21,7 @@ BuildRequires:  cmake >= 2.4
 BuildRequires:  coreutils
 BuildRequires:  expat-devel
 BuildRequires:  gcc
+# cmake executes make, but does not declare the dependency
 BuildRequires:  make
 BuildRequires:  pkgconfig(check)
 # Tests:
@@ -49,9 +50,7 @@ developing applications that use %{name}.
 
 %build
 # Upstream does not support in-source-directory building
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%cmake \
+%{cmake} \
     -DBUILD_SHARED_LIBS:BOOL=ON \
     -DBUILD_STATIC_LIBS:BOOL=OFF \
     -DENABLE_INSTALL_DOC:BOOL=OFF \
@@ -71,17 +70,14 @@ pushd %{_target_platform}
     -DWBXML_SUPPORT_SYNCML:BOOL=ON \
     -DWBXML_SUPPORT_WML:BOOL=ON \
     -DWBXML_SUPPORT_WTA:BOOL=ON \
-    -DWBXML_SUPPORT_WV:BOOL=ON \
-    ..
-popd
-%{make_build} -C %{_target_platform}
+    -DWBXML_SUPPORT_WV:BOOL=ON
+%{cmake_build}
 
 %install
-make %{?_smp_mflags} -C %{_target_platform} install/fast DESTDIR=$RPM_BUILD_ROOT
+%{cmake_install}
 
 %check
-cd %{_target_platform}
-ctest %{?_smp_mflags}
+%{ctest}
 
 %files
 %license COPYING GNU-LGPL
@@ -97,6 +93,12 @@ ctest %{?_smp_mflags}
 %{_libdir}/pkgconfig/libwbxml2.pc
 
 %changelog
+* Thu Jul 30 2020 Petr Pisar <ppisar@redhat.com> - 0.11.7-3
+- Adjust packaging to new CMake
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 16 2020 Petr Pisar <ppisar@redhat.com> - 0.11.7-1
 - 0.11.7 bump
 

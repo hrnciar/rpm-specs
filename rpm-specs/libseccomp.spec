@@ -1,5 +1,5 @@
 Name:           libseccomp
-Version:        2.4.2
+Version:        2.5.0
 Release:        3%{?dist}
 Summary:        Enhanced seccomp library
 License:        LGPLv2
@@ -7,10 +7,15 @@ URL:            https://github.com/seccomp/libseccomp
 Source0:        %{url}/releases/download/v%{version}/%{name}-%{version}.tar.gz
 
 # Backports from upstream
-Patch0001:      0001-api-define-__SNR_ppoll-again.patch
-Patch0002:      0001-tests-rely-on-__SNR_xxx-instead-of-__NR_xxx-for-sysc.patch
+
+# Patches pending merge
+## From: https://github.com/seccomp/libseccomp/pull/280
+## Reference: https://bugzilla.redhat.com/show_bug.cgi?id=1865802
+Patch0101:      0101-all-only-request-the-userspace-notification-fd-once.patch
+Patch0102:      0102-system-change-our-notification-fd-handling.patch
 
 BuildRequires:  gcc
+BuildRequires:  gperf
 BuildRequires:  make
 
 %ifnarch riscv64 s390
@@ -91,6 +96,15 @@ rm -f tests/36-sim-ipc_syscalls.tests tests/37-sim-ipc_syscalls_be.tests
 %{_libdir}/libseccomp.a
 
 %changelog
+* Wed Aug 05 2020 Neal Gompa <ngompa13@gmail.com> - 2.5.0-3
+- Apply fixes to change internal handling of the notification fd (#1865802)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Neal Gompa <ngompa13@gmail.com> - 2.5.0-1
+- New upstream version (#1858965)
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

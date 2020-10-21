@@ -1,7 +1,7 @@
 Name:    kwallet
 Summary: Manage KDE passwords 
 Version: 4.12.3
-Release: 15%{?dist}
+Release: 16%{?dist}
 
 License: GPLv2+
 URL:     https://projects.kde.org/projects/kde/kdeutils/kwallet 
@@ -67,6 +67,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.12.3-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.12.3-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

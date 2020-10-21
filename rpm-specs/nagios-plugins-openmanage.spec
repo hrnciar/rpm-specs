@@ -6,7 +6,7 @@
 
 Name:          nagios-plugins-openmanage
 Version:       3.7.12
-Release:       12%{?dist}
+Release:       14%{?dist}
 Summary:       Nagios plugin to monitor hardware health on Dell servers
 
 License:       GPLv3+
@@ -25,11 +25,7 @@ Requires:      perl(Config::Tiny)
 Requires:      perl(Net::SNMP)
 
 # Owns the nagios plugins directory
-%if 0%{?rhel} > 5 || 0%{?fedora} > 18
 Requires: nagios-common
-%else
-Requires: nagios-plugins
-%endif
 
 # Make the transition to Fedora/EPEL packages easier for existing
 # users of the non-Fedora/EPEL RPM packages
@@ -51,28 +47,32 @@ outside normal parameters.
 rm -f %{plugin}.exe
 
 %build
-%if 0%{?rhel} > 5 || 0%{?fedora} > 18
 pushd man
 make clean && make
 popd
-%else
-: # use pre-built man-pages on old systems
-%endif
 
 %install
-rm -rf %{buildroot}
 install -Dp -m 0755 %{plugin} %{buildroot}%{_libdir}/nagios/plugins/%{plugin}
 install -Dp -m 0644 man/%{plugin}.8 %{buildroot}%{_mandir}/man8/%{plugin}.8
 install -Dp -m 0644 man/%{plugin}.conf.5 %{buildroot}%{_mandir}/man5/%{plugin}.conf.5
 
 %files
-%doc README COPYING CHANGES example.conf
+%license COPYING
+%doc README CHANGES example.conf
 %{_libdir}/nagios/plugins/%{plugin}
 %{_mandir}/man8/%{plugin}.8*
 %{_mandir}/man5/%{plugin}.conf.5*
 
 
 %changelog
+* Wed Aug 05 2020 Xavier Bachelot <xavier@bachelot.org> - 3.7.12-14
+- Remove obsolete conditionals
+- Don't clean buildroot in %%install
+- Use %%license for license file
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.12-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.12-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

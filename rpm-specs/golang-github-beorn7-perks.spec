@@ -17,7 +17,7 @@ an unbounded data stream within low memory and CPU bounds.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Effective computation of things
 
 License:        MIT
@@ -46,6 +46,9 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 03:37:24 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.1-1
 - Update to 1.0.1
 

@@ -5,7 +5,7 @@
 %global crate thiserror-impl
 
 Name:           rust-%{crate}
-Version:        1.0.20
+Version:        1.0.21
 Release:        1%{?dist}
 Summary:        Implementation detail of the `thiserror` crate
 
@@ -70,6 +70,16 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Oct 07 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.21-1
+- Update to version 1.0.21.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.20-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.20-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Josh Stone <jistone@redhat.com> - 1.0.20-1
 - Update to 1.0.20
 

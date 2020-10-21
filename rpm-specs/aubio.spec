@@ -8,7 +8,7 @@
 
 Name:           aubio
 Version:        0.4.9
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        An audio labeling library
 
 License:        GPLv3+
@@ -113,6 +113,9 @@ sed -i -e '/^#![[:blank:]]*\//, 1d' %{buildroot}%{python3_sitearch}/%{name}/*.py
 %{python3_sitearch}/%{name}*.egg-info
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.9-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 19 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.4.9-6
 - Fix FTBFS with Python 3.9 (#1804725)
 

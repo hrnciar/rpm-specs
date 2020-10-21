@@ -52,8 +52,8 @@
 
 Summary: Qt5 - QtWebEngine components
 Name:    qt5-qtwebengine
-Version: 5.15.0
-Release: 1%{?dist}
+Version: 5.15.1
+Release: 2%{?dist}
 
 # See LICENSE.GPL LICENSE.LGPL LGPL_EXCEPTION.txt, for details
 # See also http://qt-project.org/doc/qt-5.0/qtdoc/licensing.html
@@ -61,8 +61,8 @@ Release: 1%{?dist}
 License: (LGPLv2 with exceptions or GPLv3 with exceptions) and BSD and LGPLv2+ and ASL 2.0 and IJG and MIT and GPLv2+ and ISC and OpenSSL and (MPLv1.1 or GPLv2 or LGPLv2)
 URL:     http://www.qt.io
 # leaned tarball with patent-encumbered codecs removed from the bundled FFmpeg
-# wget http://download.qt.io/official_releases/qt/5.14/5.14.2/submodules/qtwebengine-everywhere-src-5.14.2.tar.xz
-# ./clean_qtwebengine.sh 5.14.2
+# wget http://download.qt.io/official_releases/qt/5.15/5.15.1/submodules/qtwebengine-everywhere-src-5.15.1.tar.xz
+# ./clean_qtwebengine.sh 5.15.1
 Source0: qtwebengine-everywhere-src-%{version}-clean.tar.xz
 # cleanup scripts used above
 Source1: clean_qtwebengine.sh
@@ -101,7 +101,6 @@ Patch24: qtwebengine-everywhere-src-5.11.3-aarch64-new-stat.patch
 Patch26: qtwebengine-everywhere-5.13.2-use-python2.patch
 
 ## Upstream patches:
-# qtwebengine-chromium
 
 %if 0%{?fedora} || 0%{?epel} > 7
 # handled by qt5-srpm-macros, which defines %%qt5_qtwebengine_arches
@@ -186,6 +185,7 @@ BuildRequires: pkgconfig(libpci)
 BuildRequires: pkgconfig(dbus-1)
 BuildRequires: pkgconfig(nss)
 BuildRequires: pkgconfig(lcms2)
+BuildRequires: pkgconfig(xkbcommon)
 ## https://bugreports.qt.io/browse/QTBUG-59094
 #BuildRequires: pkgconfig(libxslt) pkgconfig(libxml-2.0)
 BuildRequires: perl-interpreter
@@ -462,7 +462,7 @@ export NINJA_PATH=%{__ninja}
 
 %{qmake_qt5} \
   %{?debug_config:CONFIG+="%{debug_config}}" \
-  CONFIG+="link_pulseaudio" \
+  CONFIG+="link_pulseaudio use_gold_linker" \
   %{?use_system_libicu:QMAKE_EXTRA_ARGS+="-system-webengine-icu"} \
   QMAKE_EXTRA_ARGS+="-webengine-kerberos" \
   .
@@ -629,6 +629,22 @@ done
 
 
 %changelog
+* Wed Sep 23 12:52:56 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.15.1-2
+- Rebuild (libevent)
+
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 5.15.1-1
+- 5.15.1
+
+* Fri Sep 04 2020 Than Ngo <than@redhat.com> - 5.15.0-4
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.15.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.15.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.15.0-1
 - 5.15.0
 - f33's icu-67.x currently not compatible, use bundled icu

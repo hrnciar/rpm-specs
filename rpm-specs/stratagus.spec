@@ -1,7 +1,9 @@
+%define __cmake_in_source_build 1
+
 Name:		stratagus
 Summary:	Real-time strategy gaming engine
 Version:	2.4.2
-Release:	3%{?dist}
+Release:	6%{?dist}
 License:	GPLv2
 URL:		https://github.com/Wargus/Stratagus
 Source0:	https://github.com/Wargus/Stratagus/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -72,6 +74,16 @@ make install -C build DESTDIR=%{buildroot}
 %{_includedir}/%{name}*
 
 %changelog
+* Tue Sep 22 2020 Jeff Law <law@redhat.com> - 2.4.2-6
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.2-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,28 +1,30 @@
 Name:           perl-List-Compare
-Version:        0.53
-Release:        16%{?dist}
+Version:        0.55
+Release:        1%{?dist}
 Summary:        Compare elements of two or more lists
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/List-Compare
-Source0: https://cpan.metacpan.org/authors/id/J/JK/JKEENAN/List-Compare-%{version}.tar.gz
+Source0:        https://cpan.metacpan.org/authors/id/J/JK/JKEENAN/List-Compare-%{version}.tar.gz
 BuildArch:      noarch
 # Build
+BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
+BuildRequires:  perl(:VERSION) >= 5.6
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 # Runtime
 BuildRequires:  perl(Carp)
-BuildRequires:  perl(strict)
-# Tests only
 BuildRequires:  perl(Exporter)
-BuildRequires:  perl(File::Basename)
-BuildRequires:  perl(File::Temp)
+BuildRequires:  perl(strict)
+BuildRequires:  perl(warnings)
+# Tests only
+BuildRequires:  perl(Capture::Tiny)
 BuildRequires:  perl(lib)
-BuildRequires:  perl(Symbol)
 BuildRequires:  perl(Test::More)
-BuildRequires:  perl(vars)
 Requires:       perl(:MODULE_COMPAT_%(eval "$(perl -V:version)"; echo $version))
+Requires:       perl(Exporter)
+Requires:       perl(warnings)
 
 %description
 Advanced functionality to compare members of two or more lists.
@@ -47,6 +49,12 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Wed Aug 19 2020 Petr Pisar <ppisar@redhat.com> - 0.55-1
+- 0.55 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.53-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.53-16
 - Perl 5.32 rebuild
 

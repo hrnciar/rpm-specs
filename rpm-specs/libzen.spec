@@ -1,6 +1,6 @@
 Name:           libzen
 Version:        0.4.38
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Shared library for libmediainfo and medianfo*
 Summary(ru):    Разделяемая библиотека для libmediainfo и medianfo*
 
@@ -62,15 +62,14 @@ pushd Source/Doc/
 popd
 cp Source/Doc/*.html ./
 
-mkdir Project/CMake/build
-pushd Project/CMake/build
-    %cmake ..
-    %make_build
+pushd Project/CMake
+    %cmake
+    %cmake_build
 popd
 
 %install
-pushd Project/CMake/build
-    %make_install
+pushd Project/CMake
+    %cmake_install
 popd
 
 %files
@@ -90,6 +89,13 @@ popd
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.38-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.38-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 03 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 0.4.38-1
 - Update to 0.4.38
 

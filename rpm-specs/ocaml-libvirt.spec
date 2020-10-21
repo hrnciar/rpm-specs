@@ -1,6 +1,6 @@
 Name:           ocaml-libvirt
 Version:        0.6.1.5
-Release:        11%{?dist}
+Release:        14%{?dist}
 Summary:        OCaml binding for libvirt
 License:        LGPLv2+
 
@@ -89,6 +89,15 @@ make install-byte
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.6.1.5-14
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.6.1.5-13
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1.5-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 0.6.1.5-11
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

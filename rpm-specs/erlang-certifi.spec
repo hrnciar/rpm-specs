@@ -7,7 +7,7 @@
 
 Name:     erlang-%{realname}
 Version:  2.3.1
-Release:  4%{?dist}
+Release:  5%{?dist}
 Summary:  Dummy certifi (certificate bundle) package for erlang
 License:  BSD
 URL:      https://github.com/%{upstream}/%{upstream_reponame}
@@ -40,6 +40,9 @@ sed -i 's/{parse_trans, "3.2.0"}/{parse_trans, "3.3.0"}/' rebar.config
 %{erlang_appdir}/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

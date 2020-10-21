@@ -1,6 +1,6 @@
 Name:           meld
 Version:        3.21.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Visual diff and merge tool
 
 License:        GPLv2+
@@ -79,6 +79,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.gnome
 %{python3_sitelib}/meld/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.21.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 10 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 3.21.0-4
 - Use meson to fix multiple bugs
 

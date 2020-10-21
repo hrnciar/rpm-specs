@@ -3,8 +3,8 @@
 %global pkgname libzip
 
 Name:           mingw-%{pkgname}
-Version:        1.7.1
-Release:        1%{?dist}
+Version:        1.7.3
+Release:        2%{?dist}
 Summary:        C library for reading, creating, and modifying zip archives
 
 License:        BSD
@@ -13,8 +13,6 @@ URL:            http://www.nih.at/libzip/index.html
 Source0:        http://www.nih.at/libzip/%{pkgname}-%{version}.tar.xz
 # Add soversion suffix, as was the case previously with autotools build
 Patch0:         libzip_cmake.patch
-# Fix conflicting types for utf16_create_file
-Patch1:         libzip_conflicting-types.patch
 
 BuildRequires:  cmake
 BuildRequires:  perl
@@ -71,15 +69,15 @@ The API is documented by man pages.
 
 %build
 %mingw_cmake
-%mingw_make %{?_smp_mflags}
+%mingw_make_build
 
 
 %install
-%mingw_make install DESTDIR=%{buildroot}
+%mingw_make_install
 
-# Remove files we don't need
-rm -r %{buildroot}%{mingw32_datadir}/*
-rm -r %{buildroot}%{mingw64_datadir}/*
+# Remove unused files
+rm -r %{buildroot}%{mingw32_datadir}
+rm -r %{buildroot}%{mingw64_datadir}
 
 
 %files -n mingw32-%{pkgname}
@@ -108,6 +106,15 @@ rm -r %{buildroot}%{mingw64_datadir}/*
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Sandro Mani <manisandro@gmail.com> - 1.7.3-1
+- Update to 1.7.3
+
+* Wed Jul 15 2020 Sandro Mani <manisandro@gmail.com> - 1.7.2-1
+- Update to 1.7.2
+
 * Sun Jun 14 2020 Sandro Mani <manisandro@gmail.com> - 1.7.1-1
 - Update to 1.7.1
 

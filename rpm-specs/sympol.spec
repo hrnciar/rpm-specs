@@ -3,7 +3,7 @@
 
 Name:           sympol
 Version:        0.1.9
-Release:        19%{?dist}
+Release:        21%{?dist}
 Summary:        Symmetric polyhedra tool
 
 License:        GPLv2+
@@ -12,6 +12,8 @@ Source0:        https://github.com/tremlin/SymPol/archive/v%{version}/%{name}-%{
 Source1:        http://www.math.uni-rostock.de/~rehn/software/%{name}-manual-0.1.pdf
 # Adapt to changes in libstdc++ headers
 Patch0:         %{name}-cpp.patch
+# Adapt to lrslib 071
+Patch1:         %{name}-lrslib071.patch
 
 BuildRequires:  bliss-devel
 BuildRequires:  boost-devel
@@ -50,8 +52,7 @@ This package contains the headers and library files needed to develop
 SymPol applications.
 
 %prep
-%setup -q -n SymPol-%{version}
-%patch0
+%autosetup -p0 -n SymPol-%{version}
 cp -p %{SOURCE1} .
 
 # Do not use the bundled cddlib, lrslib, or permlib
@@ -60,24 +61,16 @@ sed -e "/(external/d" \
     -e "s|-O3 -g|-I%{_includedir}/cddlib -I%{_includedir}/lrslib -DMA -DGMP -DBLISS_USE_GMP|" \
     -i CMakeLists.txt
 
-# Adapt to lrslib 0.5.0
-sed -i.orig '/lrs_mp_close/d' sympol/raycomputationlrs.cpp
-touch -r sympol/raycomputationlrs.cpp.orig sympol/raycomputationlrs.cpp
-rm -f sympol/raycomputationlrs.cpp.orig
-
-# Adapt to lrslib 0.7.0
-sed -i '/TARGET_LIBS/s/lrsgmp/lrs/' sympol/CMakeLists.txt
-
 # Eigen3 3.1.2 adds the need to link explicitly with -lpthread
 sed -i 's/{Boost_LIBRARIES}/& pthread/' sympol/CMakeLists.txt
 sed -i 's/{GMP_LIBRARIES}/& pthread/' test/CMakeLists.txt
 
 %build
-%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .
-make %{?_smp_mflags}
+%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 # Fix some header files with broken includes
 cd %{buildroot}%{_includedir}/%{name}
@@ -86,8 +79,6 @@ for f in *.h; do
   touch -r $f.orig $f
   rm -f $f.orig
 done
-
-%ldconfig_scriptlets libs
 
 %files
 %doc %{name}-manual-0.1.pdf
@@ -104,6 +95,13 @@ done
 %{_includedir}/%{name}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.9-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 Jerry James <loganjerry@gmail.com> - 0.1.9-20
+- Rebuild for lrslib 071
+- Add -lrslib071 patch
+
 * Fri May 29 2020 Jonathan Wakely <jwakely@redhat.com> - 0.1.9-19
 - Rebuilt for Boost 1.73
 

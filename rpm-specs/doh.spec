@@ -1,6 +1,6 @@
 Name:           doh
 Version:        0.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Application for DNS-over-HTTPS name resolves and lookups
 License:        MIT
 URL:            https://github.com/curl/doh
@@ -42,6 +42,9 @@ install -D -p -m 0644 doh.1 %{buildroot}%{_mandir}/man1/doh.1
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

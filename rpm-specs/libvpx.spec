@@ -5,7 +5,7 @@
 
 Name:			libvpx
 Summary:		VP8/VP9 Video Codec SDK
-Version:		1.8.2
+Version:		1.9.0
 Release:		2%{?dist}
 License:		BSD
 #Source0:		http://downloads.webmproject.org/releases/webm/%{name}-%{version}.tar.bz2
@@ -49,6 +49,7 @@ and decoder.
 %patch0 -p1 -b .leave-fs-on
 
 %build
+
 %ifarch %{ix86}
 %global vpxtarget x86-linux-gcc
 %else
@@ -114,7 +115,7 @@ sed -i "s|NM=armv7hl-redhat-linux-gnueabi-nm|NM=nm|g" examples-%{vpxtarget}.mk
 sed -i "s|NM=armv7hl-redhat-linux-gnueabi-nm|NM=nm|g" docs-%{vpxtarget}.mk
 %endif
 
-make %{?_smp_mflags} verbose=true
+%make_build verbose=true
 
 # Manual shared library creation
 # We should never need to do this anymore, and if we do, we need to fix the version-script.
@@ -134,8 +135,8 @@ rm -rf tmp
 # We need to do this so the examples can link against it.
 # ln -sf libvpx.so.%{soversion} libvpx.so
 
-# make %{?_smp_mflags} verbose=true target=examples CONFIG_SHARED=1
-# make %{?_smp_mflags} verbose=true target=docs
+# %make_build verbose=true target=examples CONFIG_SHARED=1
+# %make_build verbose=true target=docs
 
 # Put them back so the install doesn't fail
 # mv libNOTvpx.a libvpx.a
@@ -231,6 +232,26 @@ rm -rf %{buildroot}%{_prefix}/src
 %{_bindir}/*
 
 %changelog
+* Sat Oct 10 2020 Jeff Law <law@redhat.com> - 1.9.0-2
+- Re-enable LTO
+
+* Thu Aug 13 2020 Tom Callaway <spot@fedoraproject.org> - 1.9.0-1
+- update to 1.9.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.2-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.8.2-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> - 1.8.2-3
+- Disable LTO
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

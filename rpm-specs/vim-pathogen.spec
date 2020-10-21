@@ -4,7 +4,7 @@
 
 Name:           vim-pathogen
 Version:        2.4
-Release:        1.%{date}git%{shortcommit}%{?dist}
+Release:        2.%{date}git%{shortcommit}%{?dist}
 Summary:        Manage your runtimepath
 
 License:        Vim
@@ -50,6 +50,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-2.20190625gitc6bc424
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2.4-1.20190625gitc6bc424
 - Update to latest git snapshot
 - Add license file

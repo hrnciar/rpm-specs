@@ -3,7 +3,7 @@
 
 Name:		emacs-%{pkg}
 Version:	10.8
-Release:	18%{?dist}
+Release:	19%{?dist}
 Summary:	A Portable Emacs Library
 
 License:	GPLv2+
@@ -48,6 +48,9 @@ make PREFIX=$RPM_BUILD_ROOT%{_prefix} \
 %dir %{_emacs_sitelispdir}/%{pkg}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.8-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.8-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

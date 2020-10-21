@@ -6,7 +6,7 @@
 
 Name:           switchboard-plug-keyboard
 Summary:        Switchboard Keyboard plug
-Version:        2.3.6
+Version:        2.4.1
 Release:        1%{?dist}
 License:        GPLv3+
 
@@ -21,13 +21,13 @@ BuildRequires:  vala >= 0.22.0
 BuildRequires:  pkgconfig(glib-2.0) >= 2.32
 BuildRequires:  pkgconfig(granite)
 BuildRequires:  pkgconfig(gtk+-3.0)
+BuildRequires:  pkgconfig(ibus-1.0) >= 1.5.19
 BuildRequires:  pkgconfig(libgnomekbdui)
 BuildRequires:  pkgconfig(switchboard-2.0)
 BuildRequires:  pkgconfig(xkeyboard-config)
 
 Requires:       switchboard%{?_isa}
 Supplements:    switchboard%{?_isa}
-
 
 %description
 This plug can be used to change several keyboard settings, for example
@@ -66,6 +66,15 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Fri Sep 04 2020 Fabio Valentini <decathorpe@gmail.com> - 2.4.1-1
+- Update to version 2.4.1.
+
+* Wed Aug 12 2020 Fabio Valentini <decathorpe@gmail.com> - 2.4.0-1
+- Update to version 2.4.0.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 02 2020 Fabio Valentini <decathorpe@gmail.com> - 2.3.6-1
 - Update to version 2.3.6.
 

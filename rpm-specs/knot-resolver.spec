@@ -2,16 +2,16 @@
 %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}}
 
 %define GPG_CHECK 1
-%define VERSION 5.1.1
+%define VERSION 5.1.3
 %define repodir %{_builddir}/%{name}-%{version}
 %define NINJA ninja-build
 
 Name:           knot-resolver
 Version:        %{VERSION}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Caching full DNS Resolver
 
-License:        GPLv3
+License:        GPL-3.0-or-later
 URL:            https://www.knot-resolver.cz/
 Source0:        https://secure.nic.cz/files/%{name}/%{name}-%{version}.tar.xz
 
@@ -336,6 +336,18 @@ fi
 %endif
 
 %changelog
+* Wed Sep 23 2020 Jakub Ružička <jakub.ruzicka@nic.cz> 5.1.3-2
+- rebuild for Knot DNS 3.0.0
+
+* Tue Sep 08 2020 Jakub Ružička <jakub.ruzicka@nic.cz> 5.1.3-1
+- update to upstream version 5.1.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Tomas Krizek <tomas.krizek@nic.cz> - 5.1.2-1
+- update to upstream version 5.1.2
+
 * Tue May 19 2020 Tomas Krizek <tomas.krizek@nic.cz> - 5.1.1-1
 - update to upstream version 5.1.1 (fixes CVE-2020-12667)
 

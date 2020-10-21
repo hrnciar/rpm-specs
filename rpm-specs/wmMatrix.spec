@@ -3,7 +3,7 @@
 
 Name:		wmMatrix
 Version:	0.2
-Release:	16.%{snapdate}git%{treeish}%{?dist}
+Release:	17.%{snapdate}git%{treeish}%{?dist}
 Summary:	DockApp version of Jamie Zawinski's xmatrix screensaver hack
 
 # The entire source code is GPLv2+ except for matrix.* and yarandom.* which is BSD
@@ -51,6 +51,9 @@ install -p -m644 dockapps/wmMatrix.1 %{buildroot}%{_mandir}/man1/wmMatrix.1
 %{_mandir}/man1/wmMatrix.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-17.20120814git97216606
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 07 2020 Alexey I. Froloff <raorn@raorn.name> - 0.2-16.20120814git97216606
 - Fix link with new gcc
 

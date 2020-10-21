@@ -32,8 +32,8 @@
 %endif
 
 Name:      kata-%{repo}
-Version:   1.11.0
-Release:   1%{?rcrel}%{?dist}
+Version:   1.11.1
+Release:   1%{?rcrel}%{?dist}.1
 Url:       https://%{download}
 Source0:   https://%{download}/archive/%{version}%{?rcstr}/%{repo}-%{version}%{?rcstr}.tar.gz
 Summary:   A shim running in the host for teh Kata Containers project
@@ -109,6 +109,12 @@ install -D shim %{buildroot}%{_libexecdir}/kata-containers/%{name}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.1-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Pavel Mores <pmores@redhat.com> - 1.11.1-1
+- Update to version 1.11.1
+
 * Fri May 08 2020 Cole Robinson <crobinso@redhat.com> - 1.11.0-1
 - Update to version 1.11.0
 

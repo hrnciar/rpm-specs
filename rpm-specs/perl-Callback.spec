@@ -1,6 +1,6 @@
 Name:           perl-Callback
 Version:        1.07
-Release:        32%{?dist}
+Release:        33%{?dist}
 Summary:        Object interface for function callbacks
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Callback
@@ -42,6 +42,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.07-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.07-32
 - Perl 5.32 rebuild
 

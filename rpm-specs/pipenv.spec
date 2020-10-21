@@ -1,73 +1,45 @@
-# !!! WARNING !!!
-# This package has very fragile tests. If they fail, build it again couple
-# times before filling bugz.
+# pipenv rebase checklist
+# - Update version, release tag, add changelog
+# - Update the test_artifacts_commit macro to point to the correct commit
+# - Uplead both new sources to the side cache
+# - Update the `bundled-licenses` file (see guidance inside)
+# - Update licenses in %%files section (see guidance in that section)
+# - Update versions of bundled packages, and build/required versions of
+#   unbundled packages (see files pipenv/vendor/vendor.txt
+#   pipenv/vendor/vendor_pip.txt inside the sources, and possibly diff them
+#   with the previous version)
 
-Name:           pipenv 
-Version:        2018.11.26
-Release:        13%{?dist}
+%global base_version        2020.8.13
+# %%global prerelease_version  --
+
+# Test artifacts are not released, we have to download the commit tree
+# Upstream issue: https://github.com/pypa/pipenv/issues/4237
+# To update: go to GitHub, find to what commit the submodule `tests/pypi`
+#   pointed at the time of the release of pipenv
+%global test_artifacts_commit 1881ecb45431952d2e18e2be3416a8835e53778a
+
+%global upstream_version %{base_version}%{?prerelease_version}
+
+Name:           pipenv
+Version:        %{base_version}%{?prerelease_version:~%{prerelease_version}}
+Release:        1%{?dist}
 Summary:        The higher level Python packaging tool
 
 # Pipenv source code is MIT, there are bundled packages having different licenses
+# - See file `bundled-licenses`
 
-# pipenv/patched/crayons.py is MIT
-# pipenv/patched/pipfile/ is (ASL 2.0 or BSD)
-# pipenv/patched/piptools/ is BSD
-# pipenv/patched/safety/ is MIT
-# pipenv/patched/safety.zip is MIT
-
-# pipenv/patched/notpip/ is MIT
-# pipenv/patched/notpip/_vendor/appdirs.py is MIT
-# pipenv/patched/notpip/_vendor/backports/enum/ is BSD
-# pipenv/patched/notpip/_vendor/backports/functools_lru_cache.py is MIT
-# pipenv/patched/notpip/_vendor/backports/shutil_get_terminal_size/ is MIT
-# pipenv/patched/notpip/_vendor/backports/weakref.py is Python
-# pipenv/patched/notpip/_vendor/cachecontrol/ is ASL 2.0
-# pipenv/patched/notpip/_vendor/certifi/ is MPLv2.0
-# pipenv/patched/notpip/_vendor/chardet/ is LGPLv2+
-# pipenv/patched/notpip/_vendor/colorama/ is BSD
-# pipenv/patched/notpip/_vendor/distlib/ is Python
-# pipenv/patched/notpip/_vendor/distro.py is ASL 2.0
-# pipenv/patched/notpip/_vendor/html5lib/ is MIT
-# pipenv/patched/notpip/_vendor/idna/ is Python
-# pipenv/patched/notpip/_vendor/ipaddress.py is Python
-# pipenv/patched/notpip/_vendor/lockfile/ is Python
-# pipenv/patched/notpip/_vendor/msgpack/ is ASL 2.0
-# pipenv/patched/notpip/_vendor/packaging/ is (ASL 2.0 or BSD)
-# pipenv/patched/notpip/_vendor/pathlib2/ is MIT
-# pipenv/patched/notpip/_vendor/pep517/ is MIT
-# pipenv/patched/notpip/_vendor/pkg_resources/ is MIT 
-# pipenv/patched/notpip/_vendor/progress/ is ISC
-# pipenv/patched/notpip/_vendor/pyparsing.py is MIT
-# pipenv/patched/notpip/_vendor/pytoml/ is MIT
-# pipenv/patched/notpip/_vendor/requests/ is ASL 2.0
-# pipenv/patched/notpip/_vendor/retrying.py is ASL 2.0
-# pipenv/patched/notpip/_vendor/scandir.py is BSD
-# pipenv/patched/notpip/_vendor/six.py is ASL 2.0
-# pipenv/patched/notpip/_vendor/urllib3/ is MIT
-# pipenv/patched/notpip/_vendor/webencodings/ is ASL 2.0
-
-# pipenv/vendor/click_didyoumean/ is MIT
-# pipenv/vendor/click_completion/ is MIT
-# pipenv/vendor/cursor is CC-BY-SA
-# pipenv/vendor/delegator.py is MIT
-# pipenv/vendor/passa is ISC
-# pipenv/vendor/requirementslib/ is (Apache2.0 or BSD)
-# pipenv/vendor/resolvelib/ is MIT
-# pipenv/vendor/shutilwhich/ is BSD
-# pipenv/vendor/tomlkit/ is MIT
-
-License:        MIT and BSD and ASL 2.0 and LGPLv2+ and Python and ISC and MPLv2.0 and (ASL 2.0 or BSD) and CC-BY-SA
+License:        MIT and BSD and ASL 2.0 and LGPLv2+ and Python and ISC and MPLv2.0 and (ASL 2.0 or BSD) and CC-BY-SA and Unlicense
 URL:            https://github.com/pypa/pipenv
-Source0:        https://github.com/pypa/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
+Source0:        https://github.com/pypa/%{name}/archive/v%{upstream_version}/%{name}-%{upstream_version}.tar.gz
+
+Source1:        https://github.com/sarugaku/pipenv-test-artifacts/archive/%{test_artifacts_commit}/pipenv-test-artifacts-%{test_artifacts_commit}.tar.gz
+
+# List of licenses of the bundled packages
+Source2:        bundled-licenses
 
 # Adds "pytest_pypi.plugin import pypi, ..." to conftest,
 # as we don't have that plugin installed and it is not autodiscovered
 Patch2:         0002-import-pytest-pypi.patch
-
-# A couple of tests fails in the mock environment, add option
-# to skip these using special pytest marker
-# TODO fix and propose changes upstream
-Patch3:         0003-rpmfail-pytest-marker.patch
 
 # Use the system level root certificate instead of the one bundled in certifi
 # https://bugzilla.redhat.com/show_bug.cgi?id=1655253
@@ -90,6 +62,7 @@ BuildRequires:  python3dist(pytest-xdist)
 BuildRequires:  python3dist(setuptools)
 BuildRequires:  python3dist(sphinx)
 BuildRequires:  python3dist(sphinx-click)
+BuildRequires:  python3dist(sphinxcontrib-spelling)
 BuildRequires:  python3dist(twine)
 BuildRequires:  python3dist(virtualenv)
 BuildRequires:  python3dist(virtualenv-clone)
@@ -104,40 +77,40 @@ BuildRequires:  python2-devel
 
 # Packages vendored upstream
 BuildRequires:  python3dist(appdirs)
-BuildRequires:  python3dist(attrs)
-BuildRequires:  python3dist(blindspin) >= 2.0.1
-BuildRequires:  python3dist(cached-property) >= 1.3
+BuildRequires:  python3dist(attrs) >= 1.3
+BuildRequires:  python3dist(cached-property) >= 1.5.1
+# Bundled version of cerberus is 1.3.2, but Fedora has an older version
 BuildRequires:  python3dist(cerberus) >= 1.2
 BuildRequires:  python3dist(certifi)
-BuildRequires:  python3dist(click) >= 7
-BuildRequires:  python3dist(colorama) >= 0.3.9
-BuildRequires:  python3dist(distlib) >= 0.2.7
+BuildRequires:  python3dist(click) >= 7.1.2
+BuildRequires:  python3dist(colorama) >= 0.4.3
+BuildRequires:  python3dist(distlib) >= 0.3
 BuildRequires:  python3dist(docopt) >= 0.6.2
 BuildRequires:  python3dist(first) >= 2.0.1
-BuildRequires:  python3dist(chardet) >= 2.0.1
-BuildRequires:  python3dist(iso8601) >= 0.1.11
-BuildRequires:  python3dist(jinja2) >= 2.10
-BuildRequires:  python3dist(markupsafe) >= 1
-BuildRequires:  python3dist(packaging) >= 17.1
+BuildRequires:  python3dist(chardet) >= 3.0.4
+BuildRequires:  python3dist(iso8601) >= 0.1.12
+BuildRequires:  python3dist(jinja2) >= 2.11.2
+BuildRequires:  python3dist(markupsafe) >= 1.1.1
+BuildRequires:  python3dist(packaging) >= 20.3
+# Bundled version of parse is 1.15, but Fedora has an older version
 BuildRequires:  python3dist(parse) >= 1.8.4
-BuildRequires:  python3dist(pexpect) >= 4.6
+BuildRequires:  python3dist(pexpect) >= 4.8
 BuildRequires:  python3dist(ptyprocess) >= 0.6
-BuildRequires:  python3dist(pyparsing) >= 2.2
-BuildRequires:  python3dist(python-dotenv) >= 0.9.1
+BuildRequires:  python3dist(pyparsing) >= 2.4.7
+BuildRequires:  python3dist(python-dotenv) >= 0.10.3
 BuildRequires:  python3dist(requests) >= 2.20
+# Bundled version of semver is 2.9, but Fedora has an older version
 BuildRequires:  python3dist(semver) >= 2.8.1
+# Bundled version of shellingham is 1.3.2, but Fedora has an older version
 BuildRequires:  python3dist(shellingham) >= 1.2.7
 BuildRequires:  python3dist(six)
-BuildRequires:  python3dist(toml) >= 0.10
+BuildRequires:  python3dist(toml) >= 0.10.1
 BuildRequires:  python3dist(urllib3)
 BuildRequires:  python3dist(yarg) >= 0.1.9
-BuildRequires:  python3dist(yaspin)
-BuildRequires:  python3dist(vistir)
 BuildRequires:  python3dist(pipdeptree)
 BuildRequires:  python3dist(pipreqs)
-BuildRequires:  python3dist(pip-shims)
-BuildRequires:  python3dist(plette)
-BuildRequires:  python3dist(pythonfinder)
+# Bundled version of plette is 0.2.3, but Fedora has an older version
+BuildRequires:  python3dist(plette) >= 0.2.2
 
 %{?python_provide:%python_provide python3-%{name}}
 
@@ -149,40 +122,40 @@ Requires:       python3dist(virtualenv)
 
 # Packages vendored upstream
 Requires:       python3dist(appdirs)
-Requires:       python3dist(attrs)
-Requires:       python3dist(blindspin) >= 2.0.1
-Requires:       python3dist(cached-property) >= 1.3
+Requires:       python3dist(attrs) >= 1.3
+Requires:       python3dist(cached-property) >= 1.5.1
+# Bundled version of cerberus is 1.3.2, but Fedora has an older version
 Requires:       python3dist(cerberus) >= 1.2
 Requires:       python3dist(certifi)
-Requires:       python3dist(click) >= 7
-Requires:       python3dist(colorama) >= 0.3.9
-Requires:       python3dist(distlib) >= 0.2.7
+Requires:       python3dist(click) >= 7.1.2
+Requires:       python3dist(colorama) >= 0.4.3
+Requires:       python3dist(distlib) >= 0.3
 Requires:       python3dist(docopt) >= 0.6.2
 Requires:       python3dist(first) >= 2.0.1
-Requires:       python3dist(chardet) >= 2.0.1
-Requires:       python3dist(iso8601) >= 0.1.11
-Requires:       python3dist(jinja2) >= 2.10
-Requires:       python3dist(markupsafe) >= 1
-Requires:       python3dist(packaging) >= 17.1
+Requires:       python3dist(chardet) >= 3.0.4
+Requires:       python3dist(iso8601) >= 0.1.12
+Requires:       python3dist(jinja2) >= 2.11.2
+Requires:       python3dist(markupsafe) >= 1.1.1
+Requires:       python3dist(packaging) >= 20.3
+# Bundled version of parse is 1.15, but Fedora has an older version
 Requires:       python3dist(parse) >= 1.8.4
-Requires:       python3dist(pexpect) >= 4.6
+Requires:       python3dist(pexpect) >= 4.8
 Requires:       python3dist(ptyprocess) >= 0.6
-Requires:       python3dist(pyparsing) >= 2.2
-Requires:       python3dist(python-dotenv) >= 0.9.1
+Requires:       python3dist(pyparsing) >= 2.4.7
+Requires:       python3dist(python-dotenv) >= 0.10.3
 Requires:       python3dist(requests) >= 2.20
+# Bundled version of semver is 2.9, but Fedora has an older version
 Requires:       python3dist(semver) >= 2.8.1
+# Bundled version of shellingham is 1.3.2, but Fedora has an older version
 Requires:       python3dist(shellingham) >= 1.2.7
 Requires:       python3dist(six)
-Requires:       python3dist(toml) >= 0.10
+Requires:       python3dist(toml) >= 0.10.1
 Requires:       python3dist(urllib3)
 Requires:       python3dist(yarg) >= 0.1.9
-Requires:       python3dist(yaspin)
-Requires:       python3dist(vistir)
 Requires:       python3dist(pipdeptree)
 Requires:       python3dist(pipreqs)
-Requires:       python3dist(pip-shims)
-Requires:       python3dist(plette)
-Requires:       python3dist(pythonfinder)
+# Bundled version of plette is 0.2.3, but Fedora has an older version
+Requires:       python3dist(plette) >= 0.2.2
 
 # Following packages bundled under vendor directory are not
 # packaged for Fedora yet.
@@ -194,63 +167,77 @@ Provides:       bundled(python3dist(passa))
 # This library uses pip.internals. Some changes in init methods happened there.
 # So version 1.3.3 is useless with pip 19+ and newer versions will break pipenv
 # because pipenv has bundled patched pip.
-Provides:       bundled(python3dist(requirementslib)) == 1.3.3
+Provides:       bundled(python3dist(requirementslib)) == 1.5.13
 # Dependency of passa
-Provides:       bundled(python3dist(resolvelib)) == 0.2.2
-
-# No longer used in upstream master branch, not worth looking into
-Provides:       bundled(python3dist(shutilwhich)) == 1.1
-Provides:       bundled(python3dist(cursor)) == 1.2
+Provides:       bundled(python3dist(resolvelib)) == 0.3.0
 
 # The sources contains patched versions of following packages:
 Provides:       bundled(python3dist(crayons)) == 0.1.2
 Provides:       bundled(python3dist(pipfile)) == 0.0.2
-Provides:       bundled(python3dist(pip-tools)) == 3.1
-Provides:       bundled(python3dist(pip)) == 18.1
-Provides:       bundled(python3dist(safety))
+Provides:       bundled(python3dist(pip-tools)) == 5.0.0
+Provides:       bundled(python3dist(pip)) == 20.0.2
+Provides:       bundled(python3dist(safety)) == 1.8.7
 
 # We cannot unbundle this easily,
 # See https://bugzilla.redhat.com/show_bug.cgi?id=1767003
-Provides:       bundled(python3dist(backports.functools_lru_cache)) == 1.5
+Provides:       bundled(python3dist(backports.functools_lru_cache)) == 1.6.1
 Provides:       bundled(python3dist(backports.shutil_get_terminal_size)) == 1.0.0
-Provides:       bundled(python3dist(backports.shutil_get_terminal_size)) == 1.0.0
-Provides:       bundled(python3dist(click-completion)) == 0.5.0
-Provides:       bundled(python3dist(enum34)) == 1.1.6
-Provides:       bundled(python3dist(pathlib2)) == 2.3.2
-Provides:       bundled(python3dist(scandir)) == 1.9
-Provides:       bundled(python3dist(tomlkit)) == 0.5.2
+Provides:       bundled(python3dist(click-completion)) == 0.5.2
+Provides:       bundled(python3dist(enum34)) == 1.1.10
+Provides:       bundled(python3dist(pathlib2)) == 2.3.5
+Provides:       bundled(python3dist(scandir)) == 1.10
+Provides:       bundled(python3dist(tomlkit)) == 0.5.11
 
-# The packages bundled with pip (18.1):
-Provides:       bundled(python3dist(appdirs)) = 1.4.3
-Provides:       bundled(python3dist(distlib)) = 0.2.7
-Provides:       bundled(python3dist(distro)) = 1.3
-Provides:       bundled(python3dist(html5lib)) = 1.0.1
-Provides:       bundled(python3dist(six)) = 1.11
-Provides:       bundled(python3dist(colorama)) = 0.3.9
+# The packages bundled with pip (20.0.2):
 Provides:       bundled(python3dist(CacheControl)) = 0.12.5
-Provides:       bundled(python3dist(msgpack-python)) = 0.5.6
-Provides:       bundled(python3dist(lockfile)) = 0.12.2
-Provides:       bundled(python3dist(progress)) = 1.4
-Provides:       bundled(python3dist(ipaddress)) = 1.0.22
-Provides:       bundled(python3dist(packaging)) = 18
-Provides:       bundled(python3dist(pep517)) = 0.2
-Provides:       bundled(python3dist(pyparsing)) = 2.2.1
-Provides:       bundled(python3dist(pytoml)) = 0.1.19
-Provides:       bundled(python3dist(retrying)) = 1.3.3
-Provides:       bundled(python3dist(requests)) = 2.19.1
+Provides:       bundled(python3dist(appdirs)) = 1.4.3
+Provides:       bundled(python3dist(certifi)) = 2019.9.11
 Provides:       bundled(python3dist(chardet)) = 3.0.4
-Provides:       bundled(python3dist(idna)) = 2.7
-Provides:       bundled(python3dist(urllib3)) = 1.23
-Provides:       bundled(python3dist(certifi)) = 2018.8.24
-Provides:       bundled(python3dist(setuptools)) = 40.4.3
+Provides:       bundled(python3dist(colorama)) = 0.4.1
+Provides:       bundled(python3dist(contextlib2)) = 0.6.0
+Provides:       bundled(python3dist(distlib)) = 0.2.9.post0
+Provides:       bundled(python3dist(distro)) = 1.4.0
+Provides:       bundled(python3dist(html5lib)) = 1.0.1
+Provides:       bundled(python3dist(idna)) = 2.8
+Provides:       bundled(python3dist(msgpack-python)) = 0.6.2
+Provides:       bundled(python3dist(packaging)) = 19.2
+Provides:       bundled(python3dist(pep517)) = 0.7.0
+Provides:       bundled(python3dist(progress)) = 1.5
+Provides:       bundled(python3dist(pyparsing)) = 2.4.2
+Provides:       bundled(python3dist(pytoml)) = 0.1.21
+Provides:       bundled(python3dist(requests)) = 2.22.0
+Provides:       bundled(python3dist(retrying)) = 1.3.3
+Provides:       bundled(python3dist(setuptools)) = 41.4.0
+Provides:       bundled(python3dist(six)) = 1.12.0
+Provides:       bundled(python3dist(urllib3)) = 1.25.6
 Provides:       bundled(python3dist(webencodings)) = 0.5.1
+
+# Re-bundled because it's only used by pipenv
+Provides:       bundled(python3dist(pip-shims)) = 0.5.3
+Provides:       bundled(python3dist(pythonfinder)) = 1.2.4
+Provides:       bundled(python3dist(yaspin)) = 0.15.0
+Provides:       bundled(python3dist(vistir)) = 0.5.2
+
+# Newly discovered bundled libraries - consider unbundling
+Provides:       bundled(python3dist(more-itertools)) = 5.0.0
+Provides:       bundled(python3dist(funcsigs)) = 1.0.2
+Provides:       bundled(python3dist(importlib-resources)) = 1.5.0
+Provides:       bundled(python3dist(contextlib2)) = 0.6.0.post1
+Provides:       bundled(python3dist(importlib_metadata)) = 1.6.0
+Provides:       bundled(python3dist(pep517)) = 0.8.2
+Provides:       bundled(python3dist(zipp)) = 0.6.0
+Provides:       bundled(python3dist(pep514tools)) = 0.1.0
+Provides:       bundled(python3dist(orderedmultidict)) = 1.0.1
+Provides:       bundled(python3dist(dparse)) = 0.5.0
+Provides:       bundled(python3dist(pyyaml)) = 5.3.1
+Provides:       bundled(python3dist(dateutil)) = 2.8.1
 
 %description
 The officially recommended Python packaging tool that aims to bring
 the best of all packaging worlds (bundler, composer, npm, cargo, yarn, etc.)
-to the Python world. It automatically creates and manages a virtualenv for 
-your projects, as well as adds/removes packages from your Pipfile as you 
-install/uninstall packages. It also generates the ever–important Pipfile.lock, 
+to the Python world. It automatically creates and manages a virtualenv for
+your projects, as well as adds/removes packages from your Pipfile as you
+install/uninstall packages. It also generates the ever–important Pipfile.lock,
 which is used to produce deterministic builds.
 
 %package -n %{name}-doc
@@ -260,16 +247,18 @@ Documentation for Pipenv
 
 
 %prep
-%autosetup -p1 -n %{name}-%{version}
+%autosetup -p1 -n %{name}-%{upstream_version}
 
-# https://github.com/pypa/pipenv/issues/3326
-sed -i 's/2018.11.15.dev0/%{version}/' pipenv/__version__.py
+tar -xf %{SOURCE1} --strip-components 1 -C tests/pypi
 
 # this goes together with patch4
 rm pipenv/patched/notpip/_vendor/certifi/*.pem
 
+# Remove python2 parts because they fail bytecompilation
+rm -rf pipenv/patched/yaml2/
+
 # Remove packages that are already packaged for Fedora from vendor directory
-UNBUNDLED="appdirs attr blindspin cached_property cerberus click colorama distlib docopt first chardet iso8601 jinja2 markupsafe packaging parse pexpect ptyprocess pyparsing dotenv requests certifi idna urllib3 semver shellingham six toml yarg yaspin vistir pythonfinder plette pipreqs pipdeptree pip_shims"
+UNBUNDLED="appdirs attr cached_property cerberus click colorama distlib docopt first chardet iso8601 jinja2 markupsafe packaging parse pexpect ptyprocess pyparsing dotenv requests certifi idna urllib3 semver shellingham six toml yarg plette pipreqs pipdeptree"
 
 # issue: for loop below doesn't handle multiple imports in one line
 # properly. There might be case when library is still not unbundled
@@ -278,16 +267,16 @@ UNBUNDLED="appdirs attr blindspin cached_property cerberus click colorama distli
 #  265   │ -from .vendor import attr, delegator
 #  266   │ +import attr, delegator
 # So we unpack such import statements into multiple lines first:
-while matches=$(grep -Elr 'from (\.pipenv)?\.vendor import ([^,]+), (.+)'); do
-  sed -Ei 's/from (\.pipenv)?\.vendor import ([^,]+), (.+)/from \1.vendor import \2\nfrom \1.vendor import \3/g' $matches
+while matches=$(grep -Elr 'from (\.?pipenv)?\.vendor import ([^,]+), (.+)'); do
+  sed -Ei 's/from (\.?pipenv)?\.vendor import ([^,]+), (.+)/from \1.vendor import \2\nfrom \1.vendor import \3/g' $matches
 done
 
 for pkg in ${UNBUNDLED[@]}; do
   find pipenv/* tests/* -not -path '*/\.git*' -type f -exec sed -i -E \
   -e "s/from (pipenv)?\.vendor\.${pkg}(\.\S+)? import/from ${pkg}\2 import/" \
-  -e "s/^import (pipenv)?\.vendor\.${pkg}(\.\S+)?/import ${pkg}\2/" \
-  -e "s/from (pipenv)?\.vendor import ${pkg}(\.\S+)?/import ${pkg}\2/" \
-  -e "s/(pipenv)?\.vendor\.${pkg}(\.\S+)?/${pkg}\2/g" {} \;
+  -e "s/^import (pipenv)?\.vendor\.${pkg}(\.\S+)?$/import ${pkg}\2/" \
+  -e "s/from (pipenv)?\.vendor import ${pkg}(\.\S+)?$/import ${pkg}\2/" \
+  -e "s/(pipenv)?\.vendor\.${pkg}(\.\S+)?($|\s)/${pkg}\2\3/g" {} \;
 done
 
 _vendordir="pipenv/vendor/"
@@ -313,10 +302,6 @@ done
 # Remove setup_requires, as we cannot install invoke
 sed -i /setup_requires/d setup.py
 
-# Hotfix for pytest 4
-# https://github.com/pypa/pipenv/pull/3724
-sed -i 's/get_marker/get_closest_marker/g' tests/integration/conftest.py
-
 
 %build
 %py3_build
@@ -326,10 +311,12 @@ sphinx-build-3 docs html
 rm -rf html/.{doctrees,buildinfo}
 rm -rf html/_sources/
 
+
 %install
 %py3_install
 # Remove shebang lines from scripts in project directory
 grep "/usr/bin/env python" -lR %{buildroot}%{python3_sitelib}/%{name}| xargs sed -i '1d'
+
 
 %check
 # dirty dirty hack (TODO find a better way)
@@ -359,25 +346,35 @@ test -f %{_bindir}/virtualenv || ln -s %{_bindir}/virtualenv-3 check_path/virtua
 export PATH=$PWD/check_path:$PATH:%{buildroot}%{_bindir}
 export PYTHONPATH=$PWD/check_pythonpath:$PWD/tests/pytest-pypi
 export PYPI_VENDOR_DIR="$(pwd)/tests/pypi/"
-sed -i 's/-n auto//' pytest.ini # disable -n auto for now https://github.com/pytest-dev/pytest-xdist/issues/381
-pytest-3 -v -m "not rpmfail" tests
+
+# There are 2 types of tests: unit and integration:
+# - integration tests require internet and are disabled
+# - unit tests that need network are disabled
+pytest-3 -m "not needs_internet" -vv -s tests/unit
 
 rm -rf check_pythonpath check_path
 
 
 %files
 %license LICENSE
-# for the sake of simplicity, files are listed twice. we know about it
+# To regenerate list of licenses, use:
+#  $ ./license-helper.py --bundled-modules bundled-licenses \
+#                        --sources <directory created by fedpkg prep> \
+#                        --list-license-files
+# Keep this list alphabetically sorted
 %license %{python3_sitelib}/%{name}/patched/crayons.LICENSE
 %license %{python3_sitelib}/%{name}/patched/notpip/LICENSE.txt
+%license %{python3_sitelib}/%{name}/patched/notpip/_vendor/appdirs.LICENSE.txt
 %license %{python3_sitelib}/%{name}/patched/notpip/_vendor/cachecontrol/LICENSE.txt
 %license %{python3_sitelib}/%{name}/patched/notpip/_vendor/certifi/LICENSE
 %license %{python3_sitelib}/%{name}/patched/notpip/_vendor/chardet/LICENSE
 %license %{python3_sitelib}/%{name}/patched/notpip/_vendor/colorama/LICENSE.txt
+%license %{python3_sitelib}/%{name}/patched/notpip/_vendor/contextlib2.LICENSE.txt
 %license %{python3_sitelib}/%{name}/patched/notpip/_vendor/distlib/LICENSE.txt
+%license %{python3_sitelib}/%{name}/patched/notpip/_vendor/distro.LICENSE
 %license %{python3_sitelib}/%{name}/patched/notpip/_vendor/html5lib/LICENSE
 %license %{python3_sitelib}/%{name}/patched/notpip/_vendor/idna/LICENSE.rst
-%license %{python3_sitelib}/%{name}/patched/notpip/_vendor/lockfile/LICENSE
+%license %{python3_sitelib}/%{name}/patched/notpip/_vendor/ipaddress.LICENSE
 %license %{python3_sitelib}/%{name}/patched/notpip/_vendor/msgpack/COPYING
 %license %{python3_sitelib}/%{name}/patched/notpip/_vendor/packaging/LICENSE
 %license %{python3_sitelib}/%{name}/patched/notpip/_vendor/packaging/LICENSE.APACHE
@@ -385,8 +382,11 @@ rm -rf check_pythonpath check_path
 %license %{python3_sitelib}/%{name}/patched/notpip/_vendor/pep517/LICENSE
 %license %{python3_sitelib}/%{name}/patched/notpip/_vendor/pkg_resources/LICENSE
 %license %{python3_sitelib}/%{name}/patched/notpip/_vendor/progress/LICENSE
+%license %{python3_sitelib}/%{name}/patched/notpip/_vendor/pyparsing.LICENSE
 %license %{python3_sitelib}/%{name}/patched/notpip/_vendor/pytoml/LICENSE
 %license %{python3_sitelib}/%{name}/patched/notpip/_vendor/requests/LICENSE
+%license %{python3_sitelib}/%{name}/patched/notpip/_vendor/retrying.LICENSE
+%license %{python3_sitelib}/%{name}/patched/notpip/_vendor/six.LICENSE
 %license %{python3_sitelib}/%{name}/patched/notpip/_vendor/urllib3/LICENSE.txt
 %license %{python3_sitelib}/%{name}/patched/notpip/_vendor/webencodings/LICENSE
 %license %{python3_sitelib}/%{name}/patched/pipfile/LICENSE
@@ -394,32 +394,75 @@ rm -rf check_pythonpath check_path
 %license %{python3_sitelib}/%{name}/patched/pipfile/LICENSE.BSD
 %license %{python3_sitelib}/%{name}/patched/piptools/LICENSE
 %license %{python3_sitelib}/%{name}/patched/safety/LICENSE
+%license %{python3_sitelib}/%{name}/patched/yaml3/LICENSE
 %license %{python3_sitelib}/%{name}/vendor/backports/enum/LICENSE
 %license %{python3_sitelib}/%{name}/vendor/backports/functools_lru_cache.LICENSE
 %license %{python3_sitelib}/%{name}/vendor/backports/shutil_get_terminal_size/LICENSE
 %license %{python3_sitelib}/%{name}/vendor/backports/weakref.LICENSE
-%license %{python3_sitelib}/%{name}/vendor/click_didyoumean/LICENSE
 %license %{python3_sitelib}/%{name}/vendor/click_completion/LICENSE
-%license %{python3_sitelib}/%{name}/vendor/cursor/LICENSE
+%license %{python3_sitelib}/%{name}/vendor/click_didyoumean/LICENSE
+%license %{python3_sitelib}/%{name}/vendor/contextlib2.LICENSE.txt
+%license %{python3_sitelib}/%{name}/vendor/dateutil/LICENSE
+%license %{python3_sitelib}/%{name}/vendor/delegator.py.LICENSE
+%license %{python3_sitelib}/%{name}/vendor/dparse/LICENSE
+%license %{python3_sitelib}/%{name}/vendor/funcsigs/LICENSE
+%license %{python3_sitelib}/%{name}/vendor/importlib_metadata/LICENSE
+%license %{python3_sitelib}/%{name}/vendor/importlib_resources/LICENSE
+%license %{python3_sitelib}/%{name}/vendor/more_itertools/LICENSE
+%license %{python3_sitelib}/%{name}/vendor/orderedmultidict/LICENSE.md
 %license %{python3_sitelib}/%{name}/vendor/passa/LICENSE
 %license %{python3_sitelib}/%{name}/vendor/pathlib2/LICENSE.rst
+%license %{python3_sitelib}/%{name}/vendor/pep517/LICENSE
+%license %{python3_sitelib}/%{name}/vendor/pip_shims/LICENSE
+%license %{python3_sitelib}/%{name}/vendor/pythonfinder/LICENSE.txt
+%license %{python3_sitelib}/%{name}/vendor/pythonfinder/_vendor/pep514tools/LICENSE
+%license %{python3_sitelib}/%{name}/vendor/pythonfinder/pep514tools.LICENSE
 %license %{python3_sitelib}/%{name}/vendor/requirementslib/LICENSE
 %license %{python3_sitelib}/%{name}/vendor/resolvelib/LICENSE
 %license %{python3_sitelib}/%{name}/vendor/scandir.LICENSE.txt
-%license %{python3_sitelib}/%{name}/vendor/shutilwhich/LICENSE
 %license %{python3_sitelib}/%{name}/vendor/tomlkit/LICENSE
-
+%license %{python3_sitelib}/%{name}/vendor/vistir/LICENSE
+%license %{python3_sitelib}/%{name}/vendor/yaspin/LICENSE
+%license %{python3_sitelib}/%{name}/vendor/zipp.LICENSE
 %doc README.md NOTICES CHANGELOG.rst HISTORY.txt
 %{_bindir}/pipenv
 %{_bindir}/pipenv-resolver
 %{python3_sitelib}/%{name}
-%{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
+%{python3_sitelib}/%{name}-%{upstream_version}-*.egg-info
 
 %files -n %{name}-doc
 %doc html
 %license LICENSE
 
 %changelog
+* Tue Aug 25 2020 Tomas Orsava <torsava@redhat.com> - 2020.8.13-1
+- Rebase to a new upstream version (#1868686)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Tomas Orsava <torsava@redhat.com> - 2020.6.2-1
+- Rebase to a new upstream version (#1842795)
+
+* Thu May 28 2020 Tomas Orsava <torsava@redhat.com> - 2020.5.28-1
+- Rebase to a new final upstream version (#1829161)
+
+* Thu Apr 30 2020 Tomas Orsava <torsava@redhat.com> - 2020.4.1~b2-1
+- Rebase to a new beta version 2 (#1829161)
+- Remove upstreamed patches
+
+* Thu Apr 30 2020 Tomas Orsava <torsava@redhat.com> - 2020.4.1~b1-1
+- Rebase to a new beta version (#1829161)
+  - Added an upstream patch to not fallback to python unconstrained version
+- Fixed unbundling machinery, tomlkit was partially unbundled by mistake
+- Added helper script for handling bundled licenses
+- Add to files new and missing LICENSE files
+- Re-bundled:
+  - pip_shims
+  - pythonfinder
+  - yaspin
+  - vistir
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2018.11.26-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

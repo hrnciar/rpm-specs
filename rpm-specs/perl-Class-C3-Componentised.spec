@@ -1,32 +1,31 @@
 Name:           perl-Class-C3-Componentised
 Version:        1.001002
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Load mix-ins or components to your C3-based class
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Class-C3-Componentised
 Source0:        https://cpan.metacpan.org/authors/id/H/HA/HAARG/Class-C3-Componentised-%{version}.tar.gz
 BuildArch:      noarch
-Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
-
-BuildRequires: make
-BuildRequires: perl-generators
-BuildRequires: perl-interpreter
-BuildRequires: perl(ExtUtils::MakeMaker) >= 6.76
-BuildRequires: perl(strict)
-BuildRequires: perl(warnings)
+BuildRequires:  coreutils
+BuildRequires:  make
+BuildRequires:  perl-generators
+BuildRequires:  perl-interpreter
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
+BuildRequires:  perl(strict)
+BuildRequires:  perl(warnings)
 # Run-time
-BuildRequires: perl(Carp)
-BuildRequires: perl(Class::C3) >= 0.20
-BuildRequires: perl(Class::Inspector) >= 1.32
-BuildRequires: perl(List::Util)
-BuildRequires: perl(MRO::Compat) >= 0.09
+BuildRequires:  perl(Carp)
+BuildRequires:  perl(Class::C3) >= 0.20
+BuildRequires:  perl(Class::Inspector) >= 1.32
+BuildRequires:  perl(List::Util)
+BuildRequires:  perl(MRO::Compat) >= 0.09
 # Tests
-BuildRequires: perl(base)
-BuildRequires: perl(FindBin)
-BuildRequires: perl(lib)
-BuildRequires: perl(Test::Exception) >= 0.31
-BuildRequires: perl(Test::More) >= 0.96
-
+BuildRequires:  perl(base)
+BuildRequires:  perl(FindBin)
+BuildRequires:  perl(lib)
+BuildRequires:  perl(Test::Exception) >= 0.31
+BuildRequires:  perl(Test::More) >= 0.96
+Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:       perl(Class::C3) >= 0.20
 Requires:       perl(Class::Inspector) >= 1.32
 
@@ -42,14 +41,13 @@ MooseX::Object::Pluggable.
 
 %prep
 %setup -q -n Class-C3-Componentised-%{version}
-perl -pi -e 's|^#!perl|#!%{__perl}|' t/*.t
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=%{buildroot}
+%{make_install}
 %{_fixperms} %{buildroot}/*
 
 %check
@@ -61,6 +59,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Fri Aug 21 2020 Petr Pisar <ppisar@redhat.com> - 1.001002-10
+- Modernize a spec file
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.001002-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.001002-8
 - Perl 5.32 rebuild
 

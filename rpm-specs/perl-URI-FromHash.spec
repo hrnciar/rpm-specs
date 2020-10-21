@@ -1,6 +1,6 @@
 Name:          perl-URI-FromHash 
 Version:       0.05
-Release:       14%{?dist}
+Release:       15%{?dist}
 Summary:       Build a URI from a set of named parameters 
 # see lib/URI/FromHash.pm
 License:       GPL+ or Artistic
@@ -55,6 +55,9 @@ make test
 %{_mandir}/man3/URI*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.05-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.05-14
 - Perl 5.32 rebuild
 

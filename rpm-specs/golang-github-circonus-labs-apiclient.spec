@@ -3,7 +3,7 @@
 
 # https://github.com/circonus-labs/go-apiclient
 %global goipath         github.com/circonus-labs/go-apiclient
-Version:                0.6.1
+Version:                0.7.8
 
 %gometa
 
@@ -16,7 +16,7 @@ for more information. }
 %global godocs          CHANGELOG.md README.md examples
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Circonus api client
 
 # Upstream license specification: BSD-3-Clause
@@ -41,6 +41,12 @@ BuildRequires:  golang(github.com/pkg/errors)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 23:37:04 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.7.8-1
+- Update to 0.7.8
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

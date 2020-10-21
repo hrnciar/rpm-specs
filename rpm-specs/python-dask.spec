@@ -6,7 +6,7 @@
 %bcond_without bootstrap
 
 Name:           python-%{srcname}
-Version:        2.18.0
+Version:        2.30.0
 Release:        1%{?dist}
 Summary:        Parallel PyData with Task Scheduling
 
@@ -183,26 +183,34 @@ rm -rf html/.{doctrees,buildinfo}
 
 
 %check
-export PYTHONDONTWRITEBYTECODE=1
 %ifarch armv7hl
-    %{__python3} -m pytest -m 'not network' -n 2
+    %{pytest} -m 'not network' -n 2
 %else
-    %{__python3} -m pytest -m 'not network' -n auto
+    %{pytest} -m 'not network' -n auto
 %endif
 
 
 %files -n python3-%{srcname}
 %doc README.rst
 %license LICENSE.txt
-%{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
+%{python3_sitelib}/%{srcname}/
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info/
 
 %files -n python3-%{srcname}+array
+%{?python_extras_subpkg:%ghost %{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info}
+
 %files -n python3-%{srcname}+bag
+%{?python_extras_subpkg:%ghost %{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info}
+
 %files -n python3-%{srcname}+dataframe
+%{?python_extras_subpkg:%ghost %{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info}
+
 %files -n python3-%{srcname}+delayed
+%{?python_extras_subpkg:%ghost %{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info}
+
 %if %{without bootstrap}
 %files -n python3-%{srcname}+distributed
+%{?python_extras_subpkg:%ghost %{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info}
 %endif
 
 %if %{without bootstrap}
@@ -213,6 +221,45 @@ export PYTHONDONTWRITEBYTECODE=1
 
 
 %changelog
+* Sat Oct 10 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.30.0-1
+- Update to latest version (#1884852)
+
+* Mon Oct 05 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.29.0-1
+- Update to latest version (#1884852)
+
+* Sat Sep 26 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.28.0-1
+- Update to latest version (#1882873)
+
+* Fri Sep 18 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.27.0-1
+- Update to latest version (#1880693)
+
+* Sat Sep 12 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.26.0-1
+- Update to latest version (#1878309)
+
+* Fri Aug 28 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.25.0-1
+- Update to latest version (#1873659)
+
+* Sun Aug 23 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.24.0-1
+- Update to latest version (#1871358)
+
+* Sat Aug 15 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.23.0-1
+- Update to latest version (#1868951)
+
+* Sun Aug 02 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.22.0-1
+- Update to latest version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.21.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.21.0-1
+- Update to latest version
+
+* Fri Jul 10 2020 Miro Hrončok <mhroncok@redhat.com> - 2.20.0-2
+- Add metadata for Python extras subpackages
+
+* Sun Jul 05 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.20.0-1
+- Update to latest version
+
 * Sat Jun 06 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.18.0-1
 - Update to latest version
 

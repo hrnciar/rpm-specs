@@ -4,8 +4,8 @@
 Name:           perl-Pod-Simple
 # Epoch to compete with perl.spec
 Epoch:          1
-Version:        3.40
-Release:        456%{?dist}
+Version:        3.41
+Release:        459%{?dist}
 Summary:        Framework for parsing POD documentation
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Pod-Simple
@@ -37,6 +37,7 @@ BuildRequires:  perl(base)
 BuildRequires:  perl(Data::Dumper)
 BuildRequires:  perl(File::Find)
 BuildRequires:  perl(File::Path)
+BuildRequires:  perl(FindBin)
 BuildRequires:  perl(lib)
 BuildRequires:  perl(Test) >= 1.25
 BuildRequires:  perl(Test::More)
@@ -78,6 +79,16 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Mon Oct 12 2020 Tom Callaway <spot@fedoraproject.org> - 1:3.41-459
+- update to 3.41
+- I left release at the artificially high value in case it was needed
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.40-458
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:3.40-457
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:3.40-456
 - Increase release to favour standalone package
 

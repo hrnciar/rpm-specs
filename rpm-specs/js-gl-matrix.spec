@@ -2,7 +2,7 @@
 
 Name:          js-gl-matrix
 Version:       2.4.0
-Release:       6%{?dist}
+Release:       7%{?dist}
 Summary:       Javascript module designed to perform vector and matrix operations very fast
 BuildArch:     noarch
 License:       MIT
@@ -38,6 +38,9 @@ cp -pr dist/* %{installdir}/%{version}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

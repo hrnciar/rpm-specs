@@ -21,7 +21,7 @@
 
 Name:      php-%{pk_vendor}-%{pk_project}
 Version:   1.0.0
-Release:   3%{?dist}
+Release:   4%{?dist}
 Summary:   Standard interfaces for event handling
 
 License:   MIT
@@ -87,6 +87,9 @@ exit (interface_exists("%{ns_vendor}\\%{ns_project}\\EventDispatcherInterface") 
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

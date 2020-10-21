@@ -1,12 +1,12 @@
 %global srcname virtualbmc
 
 Name: python-%{srcname}
-Version: 1.6.0
-Release: 3%{?dist}
+Version: 2.1.0
+Release: 2%{?dist}
 Summary: A virtual BMC for controlling virtual machines using IPMI commands
 License: ASL 2.0
-URL: https://github.com/openstack/virtualbmc
-Source0: %{pypi_source}
+URL: https://opendev.org/openstack/virtualbmc
+Source0: https://tarballs.opendev.org/openstack/%{srcname}/%{srcname}-%{version}.tar.gz
 Source1: 60-vbmcd.rules
 Source2: vbmcd.service
 BuildArch: noarch
@@ -14,8 +14,10 @@ BuildRequires: python3-devel
 BuildRequires: python3-pbr
 BuildRequires: python3-setuptools
 BuildRequires: systemd-rpm-macros
+BuildRequires: git
 # Documentation
 BuildRequires: python3-sphinx
+BuildRequires: python3-openstackdocstheme
 # Tests
 BuildRequires: python3-stestr
 BuildRequires: python3-libvirt
@@ -50,14 +52,13 @@ Summary: VirtualBMC documentation
 Documentation for VirtualBMC.
 
 %prep
-%autosetup -n %{srcname}-%{version}
+%autosetup -n %{srcname}-%{version} -S git
 
 %build
 %py3_build
-
 # generate html docs
-%{__python3} setup.py build_sphinx -b html
-# remove the sphinx-build leftovers
+sphinx-build-3 -W -b html doc/source doc/build/html
+# remove the sphinx-build-3 leftovers
 rm -rf doc/build/html/.{doctrees,buildinfo}
 
 %install
@@ -102,10 +103,16 @@ exit 0
 
 %files -n python3-%{srcname}-doc
 %license LICENSE
-%doc README.rst HACKING.rst CONTRIBUTING.rst ChangeLog
+%doc AUTHORS README.rst HACKING.rst CONTRIBUTING.rst ChangeLog
 %doc doc/build/html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Juan Orti Alcaine <jortialc@redhat.com> - 2.1.0-1
+- Version 2.1.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.6.0-3
 - Rebuilt for Python 3.9
 

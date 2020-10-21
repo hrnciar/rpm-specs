@@ -1,7 +1,7 @@
 Summary:   NSS library for MySQL
 Name:      libnss-mysql
 Version:   1.5
-Release:   36%{?dist}
+Release:   37%{?dist}
 Source0:   http://prdownloads.sourceforge.net/libnss-mysql/libnss-mysql-%{version}.tar.gz
 Patch1:    libnss-mysql-multiarch.patch
 Patch2:    libnss-mysql-mariadb10.2.patch
@@ -61,6 +61,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %doc sample
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-37
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-36
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

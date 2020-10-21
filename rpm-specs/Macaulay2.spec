@@ -8,13 +8,29 @@
 # - factory (from Singular) configured with --disable-omalloc --enable-streamio
 #   and linked with the flint that is linked with the GC-enabled mpfr
 # Since the main Fedora packages are not built in this way, we are forced to
-# bundle these packages to avoid random GC-related crashes.
+# bundle these packages to avoid random GC-related crashes.  The packages
+# memtailor and mathic, which sit underneath mathicgb, must also be bundled or
+# we get random GC-related crashes for an as yet undiagnosed reason.
 #
-# In addition, we have to use the static versions of the libfplll and givaro
-# libraries.  Both have global objects whose constructors run before GC is
-# initialized.  If we allow the shared libraries to be unloaded, which happens
-# as a normal part of Macaulay2's functioning, then GC tries to free objects it
-# did not allocate, which leads to a segfault.
+# We have to use the static version of the libfplll and givaro library.  They
+# have global objects whose constructors run before GC is initialized.  If we
+# allow the shared libraries to be unloaded, which happens as a normal part of
+# Macaulay2's functioning, then GC tries to free objects it did not allocate,
+# which leads to a segfault.
+#
+# We have to bundle the linbox package.  It has global constructors that cause
+# the same problem as libfplll.
+
+# Upstream wants us to build the final commit in a release branch.  We wait
+# for a release announcement, then pull from git.  The tarballs in the git repo
+# are for upstream's use, not for distributions to build.
+%global commit      94c4b7db5dcafeaf2b97315a2bed6ac8ba16ee6b
+%global shortcommit %(cut -b -7 <<< %{commit})
+%global m2url       https://github.com/Macaulay2/M2
+
+%global emacscommit 7460c448d40571866e8290ac862abbc28c1b5b37
+%global emacsurl    https://github.com/Macaulay2/M2-emacs
+%global emacsshort  %(cut -b -7 <<< %{emacscommit})
 
 # Address randomization interferes with Macaulay2's memory management scheme,
 # and linking with -z now breaks configure.
@@ -34,18 +50,25 @@
 # The examples contain some python files which should not be byte compiled
 %global _python_bytecompile_extra 0
 
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 Summary: System for algebraic geometry and commutative algebra
 Name:    Macaulay2
-Version: 1.15.1.0
-Release: 1%{?dist}
+Version: 1.16
+Release: 2%{?dist}
 
 License: GPLv2 or GPLv3
 URL:     http://macaulay2.com/
 %if 0%{?snap:1}
-Source0: Macaulay2-%{version}-%{snap}.tar.xz
+Source0: %{name}-%{version}-%{snap}.tar.xz
 %else
-Source0: https://github.com/%{name}/M2/archive/version-%{version}.tar.gz
+Source0: %{m2url}/tarball/%{commit}/%{name}-%{version}.tar.gz
 %endif
+Source1: %{emacsurl}/tarball/%{emacscommit}/M2-emacs-%{emacsshort}.tar.gz
 
 # Various sizes of the planets icon from macaulay2.com.  See README.icons in
 # the tar file for details on how these icons were created.
@@ -60,14 +83,13 @@ Source100: http://www.math.uiuc.edu/Macaulay2/Downloads/OtherSourceCode/normaliz
 Provides:  bundled(normaliz) = %{normalizver}
 
 # MPFR is bundled because it must be built with different threading options
-%global mpfrver 4.0.2
+%global mpfrver 4.1.0
 Source101: http://www.mpfr.org/mpfr-%{mpfrver}/mpfr-%{mpfrver}.tar.xz
 Provides:  bundled(mpfr) = %{mpfrver}
 
 # FLINT is bundled because it must be linked with the specially-built MPFR
-%global flintver 20200414
-Source102: https://faculty.math.illinois.edu/Macaulay2/Downloads/OtherSourceCode/flint-%{flintver}.tar.gz
-#Source102: http://www.flintlib.org/flint-%%{flintver}.tar.gz
+%global flintver 2.6.3
+Source102: http://www.flintlib.org/flint-%{flintver}.tar.gz
 Provides:  bundled(flint) = %{flintver}
 
 # FACTORY is bundled because it must be built with special options
@@ -77,7 +99,7 @@ Provides:  bundled(factory) = %{factoryver}
 
 # MATHICGB is bundled because it must be built with different threading options
 %global mathicgbver 1.0
-%global mathicgbcommit 636952f94bf6bb6d82a84f0c9ac7f44373f8a34f
+%global mathicgbcommit 0d70da731a84008143a00cf1effd978dc8607879
 Source104: https://github.com/Macaulay2/mathicgb/tarball/%{mathicgbcommit}/mathicgb-%{mathicgbver}.tar.gz
 Provides:  bundled(mathicgb) = %{mathicgbver}
 
@@ -85,15 +107,30 @@ Provides:  bundled(mathicgb) = %{mathicgbver}
 %global gtestver 1.10.0
 Source105: https://faculty.math.illinois.edu/Macaulay2/Downloads/OtherSourceCode/gtest-%{gtestver}.tar.gz
 
+# MEMTAILOR is bundled because it causes garbage collector crashes otherwise
+%global memtailorver 1.0
+%global memtailorcommit 1d13f96bc7d84b7ac401e6b8c936fad26f08786c
+Source106: https://github.com/Macaulay2/memtailor/tarball/%{memtailorcommit}/memtailor-%{memtailorver}.tar.gz
+Provides:  bundled(memtailor) = %{memtailorver}
+
+# MATHIC is bundled because it causes garbage collector crashes otherwise
+%global mathicver 1.0
+%global mathiccommit 44095b846a83c05cbff6f3e8765070e5cda40e67
+Source107: https://github.com/Macaulay2/mathic/tarball/%{mathiccommit}/mathic-%{mathicver}.tar.gz
+Provides:  bundled(mathic) = %{mathicver}
+
+# LINBOX is bundled because it introduces static global objects
+%global linboxver 1.6.3
+Source108: https://github.com/linbox-team/linbox/archive/v%{linboxver}}/linbox-%{linboxver}.tar.gz
+Provides:  bundled(linbox) = %{linboxver}
+
 ## PATCHES FOR BUNDLED code
-# Fix flint memory leaks
-Source200: flint-20200414.patch
+# Work around an ambiguous overload on 32-bit platforms
+Source200: linbox-1.6.3.patch
 # Fix factory build failure.  REPLACES the upstream patch.
 Source201: factory-4.1.1.patch
-# Upstream mpfr patches subsequent to the 4.0.2 release.
-Source202: mpfr-4.0.2.patch
 # Fix mathicgb build on big endian machines.
-Source203: mathicgb-1.0.patch
+Source202: mathicgb-1.0.patch
 
 ## FAKE library tarballs that convince Macaulay2 to use the system versions
 Source300: frobby_v0.9.0.tar.gz
@@ -108,22 +145,28 @@ Source308: TOPCOM-0.17.8.tar.gz
 Source309: cohomCalg-0.32.tar.gz
 Source310: glpk-4.59.tar.gz
 Source311: Csdp-6.2.0.tgz
-Source312: mpsolve-3.1.8.tar.gz
+Source312: mpsolve-3.2.1.tar.gz
 
 # let Fedora optflags override the defaults
 Patch0:  %{name}-1.15-optflags.patch
-# use xdg-open as the default browser
-Patch1:  %{name}-1.11-xdg_open.patch
+# give the build a little more time and space than upstream permits
+Patch1: %{name}-1.16-ulimit.patch
 # fix paths to nauty binaries
 Patch2:  %{name}-1.11-nauty-paths.patch
 # drop 'tests' from default make target
-Patch3:  %{name}-1.15-default_make_targets.patch
+Patch3:  %{name}-1.16-default_make_targets.patch
 # disable check for gftables
-Patch4:  %{name}-1.15-no_gftables.patch
+Patch4:  %{name}-1.16-no_gftables.patch
 # adapt to libfplll 5.2.1
 Patch5: %{name}-1.15-fplll.patch
 # do not override the debug level
 Patch6: %{name}-1.12-configure.patch
+# fix some -Wformat warnings
+Patch7: %{name}-1.16-format.patch
+# Fix "error: in conversion to html, unknown TeX control sequence(s): \rightarrow"
+Patch8: %{name}-1.16-rightarrow.patch
+# Fix minor errors found when building with gcc-11
+Patch9: %{name}-gcc11.patch
 
 BuildRequires: 4ti2
 BuildRequires: autoconf
@@ -145,6 +188,7 @@ BuildRequires: doxygen
 %endif
 # etags
 BuildRequires: emacs
+BuildRequires: expat-devel
 BuildRequires: factory-gftables
 BuildRequires: fflas-ffpack-devel
 BuildRequires: flex
@@ -155,6 +199,7 @@ BuildRequires: gdb
 BuildRequires: gdbm-devel
 BuildRequires: gettext-devel
 BuildRequires: gfan
+BuildRequires: git-core
 BuildRequires: givaro-static
 BuildRequires: glpk-devel
 %if 0%{?gmp}
@@ -163,8 +208,8 @@ BuildRequires: gmp-devel
 BuildRequires: mpir-devel
 %endif
 BuildRequires: gtest-devel
+BuildRequires: iml-devel
 BuildRequires: info
-BuildRequires: lapack-devel
 BuildRequires: libgfan-devel
 BuildRequires: libtool
 BuildRequires: libatomic_ops-devel
@@ -174,17 +219,17 @@ BuildRequires: libnauty-devel
 %if 0%{?system_normaliz}
 BuildRequires: libnormaliz-devel >= 3.6.3
 %endif
-BuildRequires: linbox-devel
+BuildRequires: libtool
 BuildRequires: lrslib-devel
 BuildRequires: lrslib-utils
+BuildRequires: m4ri-devel
+BuildRequires: m4rie-devel
 BuildRequires: mariadb-devel
-BuildRequires: memtailor-devel
-BuildRequires: mathic-devel
 BuildRequires: mpsolve-devel
 BuildRequires: nauty
 BuildRequires: normaliz
 BuildRequires: ntl-devel
-BuildRequires: openblas-devel
+BuildRequires: %{blaslib}-devel
 BuildRequires: pari-devel
 BuildRequires: pkgconfig(bdw-gc) >= 7.6.2
 BuildRequires: pkgconfig(libxml-2.0)
@@ -193,10 +238,11 @@ BuildRequires: polymake
 BuildRequires: python3
 BuildRequires: qd-devel
 BuildRequires: readline-devel 
-BuildRequires: tbb-devel
 BuildRequires: time
+BuildRequires: tinyxml2-devel
 BuildRequires: TOPCOM
-BuildRequires: xemacs
+BuildRequires: transfig
+BuildRequires: valgrind
 
 Requires: 4ti2
 Requires: cohomCalg
@@ -208,7 +254,8 @@ Requires: hicolor-icon-theme
 Requires: lrslib-utils
 Requires: nauty
 Requires: TOPCOM
-Requires: xemacs-filesystem
+
+Recommends: mathicgb
 
 %if 0%{?common}
 Requires:  %{name}-common = %{version}-%{release}
@@ -230,6 +277,10 @@ Requires: xdg-utils
 Requires: normaliz
 %endif
 
+# Macaulay2 no longer builds successfully on 32-bit platforms
+# https://bugzilla.redhat.com/show_bug.cgi?id=1874318
+ExcludeArch: %{ix86} %{arm}
+
 # Do not advertise the bundled mpfr
 %global __provides_exclude libmpfr.so*
 
@@ -248,8 +299,9 @@ BuildArch: noarch
 
 
 %prep
-%setup -q -n M2-version-%{version}/M2
-%setup -q -n M2-version-%{version}/M2 -T -D -a 10
+%setup -q -n %{name}-M2-%{shortcommit}/M2
+%setup -q -n %{name}-M2-%{shortcommit}/M2 -T -D -a 10
+tar -C Macaulay2/editors/emacs --strip-components=1 -xzf %{SOURCE1}
 
 install -p -m755 %{SOURCE20} ./etags
 
@@ -261,21 +313,23 @@ sed -e '/PROGRAMS =/aPATCHFILE = @abs_srcdir@/patch-$(VERSION)' \
     -i libraries/normaliz/Makefile.in
 %endif
 install -p -m644 %{SOURCE101} %{SOURCE102} %{SOURCE103} %{SOURCE105} \
-    BUILD/tarfiles/
+    %{SOURCE108} BUILD/tarfiles/
 sed -i 's/\(VERSION = \).*/\1%{mpfrver}/' libraries/mpfr/Makefile.in
-pushd submodules/mathicgb
-tar -xf %{SOURCE104} --strip-components=1
-patch -p0 < %{SOURCE203}
-popd
+sed -e 's/\(VERSION = \).*/\1%{linboxver}/' \
+    -e 's/^#\(PATCHFILE\)/\1/' \
+    -e 's,--with-gmp.*,GIVARO_CFLAGS=-I$(LIBRARIESDIR) GIVARO_LIBS="%{_libdir}/libgivaro.a",' \
+    -i libraries/linbox/Makefile.in
+tar -C submodules/mathicgb -xf %{SOURCE104} --strip-components=1
+patch -d submodules/mathicgb -p0 < %{SOURCE202}
+tar -C submodules/memtailor -xf %{SOURCE106} --strip-components=1
+tar -C submodules/mathic -xf %{SOURCE107} --strip-components=1
 
 ## patches for bundled code
-cp -p %{SOURCE200} libraries/flint/patch-%{flintver}
-sed -e 's/# PATCHFILE/PATCHFILE/' \
-    -e 's,--with-blas,&=%{_includedir}/openblas --with-ntl,' \
+sed -e 's,--with-blas,&=%{_includedir}/%{blaslib} --with-ntl,' \
+    -e 's,2\.6\.0,%{flintver},' \
     -i libraries/flint/Makefile.in
+cp -p %{SOURCE200} libraries/linbox/patch-%{linboxver}
 cp -p %{SOURCE201} libraries/factory/patch-%{factoryver}
-cp -p %{SOURCE202} libraries/mpfr/patch-%{mpfrver}
-cp -p %{SOURCE203} submodules/mathicgb/patch-%{mathicgbver}
 
 ## fake library tarballs
 install -p -m644 %{SOURCE300} %{SOURCE301} %{SOURCE302} %{SOURCE303} \
@@ -286,10 +340,12 @@ sed -i 's/VERSION = 4\.0\.4/VERSION = 5.2.0/;/PATCHFILE/d' libraries/fplll/Makef
 sed -i '/PATCHFILE/d' libraries/{csdp,frobby,gfan,givaro,mpsolve,normaliz,topcom}/Makefile.in
 sed -i '/INSTALLCMD/,/stdinc/d' libraries/frobby/Makefile.in
 sed -i 's,install \(lib.*\.a\),ln -s %{_libdir}/\1,' libraries/lapack/Makefile.in
-sed -i '/TARFILE/iPATCHFILE = @abs_srcdir@/patch-$(VERSION)' libraries/mpfr/Makefile.in
+
+## fake givaro submodule
+tar -C submodules/givaro --strip-components=1 -xzf %{SOURCE306}
 
 %patch0 -p1 -b .optflags
-%patch1 -p1 -b .xdg_open
+%patch1 -p1 -b .ulimit
 %patch2 -p1 -b .nauty
 %patch3 -p1 -b .default_make_targets
 %patch4 -p1 -b .no_gftables
@@ -299,6 +355,9 @@ ln -s %{_datadir}/factory \
          BUILD/%{_target_platform}/usr-dist/common/share/Macaulay2/Core/factory
 %patch5 -p1 -b .fplll
 %patch6 -p1 -b .configure
+%patch7 -p1 -b .format
+%patch8 -p1 -b .rightarrow
+%patch9 -p1 -b .gcc11
 
 # repeatable builds: inject a node name
 sed -i 's,`uname -n`,build.fedoraproject.org,' configure.ac
@@ -308,37 +367,32 @@ if [ "$HOME" = "/builddir" ]; then
   echo "set auto-load safe-path /" > /builddir/.gdbinit
 fi
 
-# fix executable bits
-chmod a-x Macaulay2/packages/NumericalAlgebraicGeometry/hom4ps2_in_out
-
-# Use, but don't build, cddlib, fflas-ffpack, gc, and linbox.  Use the static
-# versions of libfplll and givaro.  Do not invoke git on a nonrepository.  Link
-# with openblas instead of the reference blas and lapack.  Fix a typo.
+# Use, but don't build, cddlib, fflas-ffpack, and gc.  Use the static versions
+# of libfplll and givaro.  Do not invoke git on a nonrepository.  Link with
+# blaslib instead of the reference blas and lapack.  Fix typos.
 sed -e 's/^BUILD_cddlib=yes/BUILD_cddlib=no/' \
     -e 's/^BUILD_gc=yes/BUILD_gc=no/' \
-    -e 's/BUILD_linbox=yes/BUILD_linbox=no/' \
     -e 's/BUILD_fflas_ffpack=yes/BUILD_fflas_ffpack=no/' \
     -e 's/^\(GIT_DESCRIPTION=\).*/\1"unknown"/' \
-    -e 's,-lfplll,%{_libdir}/libfplll.a,' \
+    -e 's,-lfplll,%{_libdir}/libfplll.a -lqd,' \
+    -e 's,`\$PKG_CONFIG --libs givaro`,%{_libdir}/libgivaro.a,' \
     -e 's,-lgivaro,%{_libdir}/libgivaro.a,' \
-    -e 's,-llapack -lrefblas,-lopenblas,' \
+    -e 's,-llapack -lrefblas,-l%{blaslib},' \
     -e 's,\$added_fclibs != yes,"$added_fclibs" != yes,' \
     -i configure.ac
 
-# Use, but don't build, memtailor and mathic.  Link with qd.
-sed -e '/LIBDEPS_FOR_BUILD/s/ memtailor mathic//' \
-    -e '/LDLIBS_FOR_BUILD/s/mathicgb/& qd/' \
-    -i include/config.Makefile.in
-
-# We want to build mathicgb, but not mathic or memtailor.  This line in
-# GNUmakefile assumes that building mathicgb means building the other two.
-sed -i '/all-in-mathicgb:all-in-mathic all-in-memtailor/d' GNUmakefile.in
-
 # (re)generate configure
-[ -f configure -a -f include/config.h ] || make
+autoreconf -fi .
 
 
 %build
+# This package has a configure test which compiles code and expects it to
+# behave in a very specific way (__builtin_return_address).  LTO changs the
+# behavior and the configure test does not know how to handle it.
+# Until the configure script is fixed this seems like the best thing to do
+# Disable LTO
+%define _lto_cflags %{nil}
+
 ## configure macro currently broken, due to some odd prefix-checks.  probably fixable -- Rex
 mkdir -p BUILD/%{_target_platform}
 pushd BUILD/%{_target_platform}
@@ -354,7 +408,7 @@ cxxflags="%{optflags} -fsigned-char"
 CPPFLAGS="-I%{_includedir}/cddlib -I%{_includedir}/frobby" \
 CFLAGS="%{optflags} -fsigned-char" \
 CXXFLAGS="$cxxflags" \
-LIBS="-lopenblas" \
+LIBS="-l%{blaslib}" \
 ../../configure \
   --build=%{_build} \
   --host=%{_host} \
@@ -372,10 +426,10 @@ LIBS="-lopenblas" \
   --with-integer-package=mpir \
 %endif
   --with-unbuilt-programs="cddplus nauty" \
-  --enable-build-libraries="mpfr flint factory lapack fplll givaro gtest"
+  --enable-build-libraries="mpfr flint factory lapack fplll givaro linbox gtest"
   # The list of libraries and submodules above should include only those that:
-  # 1. We bundle (mpfr, flint, and factory)
-  # 2. We sneakily substitute one library for another (lapack -> openblas)
+  # 1. We bundle (mpfr, flint, factory, and linbox)
+  # 2. We sneakily substitute one library for another (lapack -> blaslib)
   # 3. Have to be linked with the static library (fplll and givaro)
 popd
 
@@ -423,24 +477,19 @@ desktop-file-install --vendor="" \
   --dir=%{buildroot}%{_datadir}/applications \
   %{SOURCE11}
 
-# Byte compile the (X)Emacs files, and move the documentation
-mkdir -p %{buildroot}%{_xemacs_sitelispdir}
-cp -p %{buildroot}%{_emacs_sitelispdir}/*.el %{buildroot}%{_xemacs_sitelispdir}
-pushd %{buildroot}%{_emacs_sitelispdir}
-mv M2-emacs* M2-README %{buildroot}%{_pkgdocdir}
+# Byte compile the Emacs files, and move the documentation
+pushd %{buildroot}%{_emacs_sitelispdir}/%{name}
+mv M2-emacs* %{buildroot}%{_pkgdocdir}
+mv README.md %{buildroot}%{_pkgdocdir}/README-emacs.md
 %{_emacs_bytecompile} *.el
-cd %{buildroot}%{_xemacs_sitelispdir}
-%{_xemacs_bytecompile} *.el
 popd
-
-# Missing executable bit
-chmod a+x %{buildroot}%{_datadir}/Macaulay2/NumericalAlgebraicGeometry/hom4ps2_in_out
 
 ## unpackaged files
 # info dir
 rm -fv %{buildroot}%{_infodir}/dir
-# source control file
-rm -f %{buildroot}%{_datadir}/Macaulay2/Macaulay2Doc/test/.gitignore
+
+# Delete misinstalled memtailor, mathic, and mathicgb libraries
+rm -fr %{buildroot}/builddir
 
 
 %check
@@ -465,11 +514,34 @@ time make -k check -C BUILD/%{_target_platform} Verbose=true ||:
 %{_docdir}/Macaulay2/
 %{_infodir}/*.info*
 %{_mandir}/man1/*
-%{_emacs_sitelispdir}/*
-%{_xemacs_sitelispdir}/*
+%{_emacs_sitelispdir}/%{name}/
 
 
 %changelog
+* Thu Oct 15 2020 Jeff Law <law@redhat.com> - 1.16-2
+- Add missing #includes for gcc-11
+
+* Mon Aug 31 2020 Jerry James <loganjerry@gmail.com> - 1.16-1
+- Version 1.16
+- Drop upstreamed patch: -xdg_open
+- Add -ulimit patch for the slower builders
+- Add -format and -rightarrow patches
+- Bundle packages due to garbage collector crashes: linbox, memtailor, mathic
+- Drop the XEmacs subpackage; XEmacs support no longer works
+
+* Sun Aug 16 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.15.1.0-5
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.1.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  1 2020 Jeff Law <law@redhat.com> - 1.15.1.0-2
+- Disable LTO
+
 * Wed Jun  3 2020 Jerry James <loganjerry@gmail.com> - 1.15.1.0-1
 - Version 1.15.1.0
 - Drop upstreamed patches: -no_Werror, -mpir, -pthreads, -fflas-ffpack,

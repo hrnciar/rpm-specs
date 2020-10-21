@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Mapped diagnostic context (MDC) for use with the `log` crate
 
 # Upstream license specification: MIT/Apache-2.0
@@ -71,5 +71,8 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 17:13:37 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 0.1.0-1
 - Initial package

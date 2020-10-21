@@ -1,7 +1,7 @@
 Summary:	SIP swiss army knife
 Name:		sipsak
 Version:	0.9.7
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 URL:		https://github.com/nils-ohlmeier/sipsak
 VCS:            scm:git:https://github.com/nils-ohlmeier/sipsak.git
@@ -40,6 +40,9 @@ rm -f %{buildroot}/%{_libdir}/*.la
 %{_mandir}/man1/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 27 2020 Peter Lemenkov <lemenkov@gmail.com> - 0.9.7-1
 - Ver. 0.9.7 (14 years since 0.9.6)
 

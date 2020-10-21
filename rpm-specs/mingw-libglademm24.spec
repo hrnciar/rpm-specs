@@ -7,7 +7,7 @@
 
 Name:           mingw-%{mingw_pkg_name}
 Version:        2.6.7
-Release:        29%{?dist}
+Release:        30%{?dist}
 
 Summary:        MinGW Windows C++ wrapper for libglade
 
@@ -113,6 +113,9 @@ find ${RPM_BUILD_ROOT} -type f -name "*.exe" -exec rm -f {} ';'
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.7-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.7-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

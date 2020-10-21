@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.14
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Fancy and practical functional tools
 
 License:        BSD
@@ -48,6 +48,9 @@ rm -vr *.egg-info tests/__pycache__
 %{python3_sitelib}/%{srcname}-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.14-2
 - Rebuilt for Python 3.9
 

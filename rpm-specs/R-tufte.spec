@@ -1,10 +1,10 @@
 %global packname tufte
-%global packver  0.6
+%global packver  0.7
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          %{packver}
-Release:          2%{?dist}
+Version:          0.7
+Release:          1%{?dist}
 Summary:          Tufte's Styles for R Markdown Documents
 
 License:          GPLv3
@@ -13,7 +13,7 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-htmltools, R-xfun >= 0.6, R-knitr >= 1.22, R-rmarkdown >= 1.12
+# Imports:   R-htmltools, R-xfun >= 0.13, R-knitr >= 1.28, R-rmarkdown >= 2.1
 # Suggests:
 # LinkingTo:
 # Enhances:
@@ -22,9 +22,9 @@ BuildArch:        noarch
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    R-htmltools
-BuildRequires:    R-xfun >= 0.6
-BuildRequires:    R-knitr >= 1.22
-BuildRequires:    R-rmarkdown >= 1.12
+BuildRequires:    R-xfun >= 0.13
+BuildRequires:    R-knitr >= 1.28
+BuildRequires:    R-rmarkdown >= 2.1
 
 %description
 Provides R Markdown output formats to use Tufte styles for PDF and HTML output.
@@ -62,6 +62,12 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Sat Sep 26 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.7-1
+- Update to latest version (#1882783)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.6-2
 - rebuild for R 4
 

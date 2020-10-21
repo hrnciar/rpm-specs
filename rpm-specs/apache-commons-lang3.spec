@@ -1,15 +1,20 @@
+%global srcname commons-lang3
+
 Name:           apache-commons-lang3
-Version:        3.8.1
-Release:        5%{?dist}
+Version:        3.11
+Release:        1%{?dist}
 Summary:        Provides a host of helper utilities for the java.lang API
 License:        ASL 2.0
-URL:            http://commons.apache.org/lang
+
+URL:            https://commons.apache.org/lang
+Source0:        https://archive.apache.org/dist/commons/lang/source/%{srcname}-%{version}-src.tar.gz
+
 BuildArch:      noarch
 
-Source0:        http://archive.apache.org/dist/commons/lang/source/commons-lang3-%{version}-src.tar.gz
-
 BuildRequires:  maven-local
-BuildRequires:  mvn(org.apache.commons:commons-parent:pom:) >= 47
+BuildRequires:  mvn(biz.aQute.bnd:biz.aQute.bndlib)
+BuildRequires:  mvn(org.apache.commons:commons-parent:pom:)
+BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-antrun-plugin)
 
 %description
@@ -29,32 +34,55 @@ therefore created differently named artifact and jar files. This is
 the new version, while apache-commons-lang is the compatibility
 package.
 
-%{?javadoc_package}
+
+%package javadoc
+Summary:        Javadoc for %{name}
+
+%description javadoc
+API documentation for %{name}.
+
 
 %prep
-%autosetup -n commons-lang3-%{version}-src
+%autosetup -n %{srcname}-%{version}-src
+
+# remove unnecessary maven plugins
+%pom_remove_plugin :maven-javadoc-plugin
 
 %mvn_file : %{name} commons-lang3
 
-# testParseSync() test fails on ARM and PPC64LE for unknown reason
-sed -i 's/\s*public void testParseSync().*/@org.junit.Ignore\n&/' \
-    src/test/java/org/apache/commons/lang3/time/FastDateFormatTest.java
-
-# non-deterministic tests fail randomly
-rm src/test/java/org/apache/commons/lang3/RandomStringUtilsTest.java
 
 %build
-# FIXME tests run against current system version of commons-lang3, not the one being built
+# test dependencies are not all packaged for fedora:
+# - org.easymock:easymock 4.2
+# - org.junit-pioneer:junit-pioneer
+# - org.openjdk.jmh:jmh-core
+# - org.openjdk.jmh:jmh-generator-annprocess
 %mvn_build -f
+
 
 %install
 %mvn_install
+
 
 %files -f .mfiles
 %license LICENSE.txt NOTICE.txt
 %doc RELEASE-NOTES.txt
 
+%files javadoc -f .mfiles-javadoc
+%license LICENSE.txt NOTICE.txt
+
+
 %changelog
+* Wed Aug 12 2020 Fabio Valentini <decathorpe@gmail.com> - 3.11-1
+- Update to version 3.11.
+- Fixes RHBZ#1699692
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.8.1-6
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -172,3 +200,4 @@ rm src/test/java/org/apache/commons/lang3/RandomStringUtilsTest.java
 
 * Thu Nov  3 2011 Stanislav Ochotnicky <sochotnicky@redhat.com> - 3.0.1-1
 - Initial version of the package
+

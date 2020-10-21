@@ -8,7 +8,7 @@
 #
 
 %global bootstrap    0
-%global gh_commit    0af483f91bada1c9ded6c2cfd26ab7d5ab2094e0
+%global gh_commit    7a6eac9fb6f61bba91328f15aa7547f4806ca288
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     doctrine
 %global gh_project   persistence
@@ -26,7 +26,7 @@
 %endif
 
 Name:           php-%{pk_vendor}-%{pk_project}
-Version:        1.3.7
+Version:        1.3.8
 Release:        1%{?dist}
 Summary:        Doctrine Persistence abstractions
 
@@ -45,17 +45,18 @@ BuildRequires:  php-spl
 # From composer.json
 #        "phpstan/phpstan": "^0.11",
 #        "doctrine/coding-standard": "^6.0",
-#        "phpunit/phpunit": "^7.0"
+#        "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
+#        "vimeo/psalm": "^3.11"
 BuildRequires: (php-composer(doctrine/annotations)   >= 1.0   with php-composer(doctrine/annotations)   < 2)
 BuildRequires: (php-composer(doctrine/cache)         >= 1.0   with php-composer(doctrine/cache)         < 2)
 BuildRequires: (php-composer(doctrine/collections)   >= 1.0   with php-composer(doctrine/collections)   < 2)
 BuildRequires: (php-composer(doctrine/event-manager) >= 1.0   with php-composer(doctrine/event-manager) < 2)
 BuildRequires: (php-composer(doctrine/reflection)    >= 1.2   with php-composer(doctrine/reflection)    < 2)
-BuildRequires:  phpunit7
+BuildRequires:  phpunit9
 %endif
 
 # From composer.json
-#        "php": "^7.1"
+#        "php": "^7.1 || ^8.0"
 #        "doctrine/annotations": "^1.0",
 #        "doctrine/cache": "^1.0",
 #        "doctrine/collections": "^1.0",
@@ -135,9 +136,13 @@ find tests -type f -exec grep -q PHPStan {} \; -delete -print
 
 : Run test suite
 ret=0
-for cmd in php php71 php72 php73 php74; do
+# TODO php80 exception message differs
+for cmd in php73 php74 php80; do
   if which $cmd; then
-    $cmd %{_bindir}/phpunit7 \
+    VER=$($cmd -r 'echo PHP_VERSION_ID;')
+    [ $VER -ge 80000 ] && SKIP="--filter '^((?!(testGetManagerForInvalidClass|testGetManagerForInvalidAliasedClass)).)*$'"
+
+    $cmd %{_bindir}/phpunit9 $SKIP \
         --bootstrap vendor/autoload.php \
         --verbose || ret=1
   fi
@@ -158,6 +163,13 @@ exit $ret
 
 
 %changelog
+* Tue Aug 11 2020 Remi Collet <remi@remirepo.net> - 1.3.8-1
+- update to 1.3.8
+- switch to phpunit9
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 23 2020 Remi Collet <remi@remirepo.net> - 1.3.7-1
 - update to 1.3.7 (no change)
 - raise dependency on doctrine/reflection 1.2

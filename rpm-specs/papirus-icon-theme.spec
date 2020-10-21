@@ -1,5 +1,5 @@
 Name:           papirus-icon-theme
-Version:        20200602
+Version:        20200801
 Release:        1%{?dist}
 Summary:        Free and open source SVG icon theme based on Paper Icon Set
 
@@ -40,32 +40,6 @@ for t in $THEMES; do
     /bin/touch %{buildroot}%{_datadir}/icons/$t/icon-theme.cache
 done
 
-# Handle folder to link upgrade
-# Remove in F33
-%pretrans -p <lua>
--- Define the path to directory being replaced below.
--- DO NOT add a trailing slash at the end.
-pathlist = {"%{_datadir}/icons/Papirus-Light/16x16/actions",
-            "%{_datadir}/icons/Papirus-Light/16x16/devices",
-            "%{_datadir}/icons/Papirus-Light/16x16/places",
-            "%{_datadir}/icons/Papirus-Light/22x22/actions",
-            "%{_datadir}/icons/Papirus-Light/24x24/actions"}
-for key,path in ipairs(pathlist)
-do
-  st = posix.stat(path)
-  if st and st.type == "directory" then
-    status = os.rename(path, path .. ".rpmmoved")
-    if not status then
-      suffix = 0
-      while not status do
-        suffix = suffix + 1
-        status = os.rename(path .. ".rpmmoved", path .. ".rpmmoved." .. suffix)
-      end
-      os.rename(path, path .. ".rpmmoved")
-    end
-  end
-end
-
 %post
 export THEMES="ePapirus Papirus Papirus-Adapta Papirus-Adapta-Nokto Papirus-Dark Papirus-Light"
 for t in $THEMES; do
@@ -102,15 +76,17 @@ done
 %ghost %{_datadir}/icons/Papirus-Adapta-Nokto/icon-theme.cache
 %ghost %{_datadir}/icons/Papirus-Dark/icon-theme.cache
 %ghost %{_datadir}/icons/Papirus-Light/icon-theme.cache
-# Handle folder to link upgrade
-# Remove in F33
-%ghost %{_datadir}/icons/Papirus-Light/16x16/actions.rpmmoved
-%ghost %{_datadir}/icons/Papirus-Light/16x16/devices.rpmmoved
-%ghost %{_datadir}/icons/Papirus-Light/16x16/places.rpmmoved
-%ghost %{_datadir}/icons/Papirus-Light/22x22/actions.rpmmoved
-%ghost %{_datadir}/icons/Papirus-Light/24x24/actions.rpmmoved
 
 %changelog
+* Mon Aug 24 16:48:02 CEST 2020 Harry Chen <harrychen0314@gmail.com> - 20200801-1
+- Update to 20200801 (#1862732)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200702-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 20:52:11 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 20200702-1
+- Update to 20200702 (#1853395)
+
 * Thu Jun 18 15:31:28 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 20200602-1
 - Update to 20200602 (#1821029)
 

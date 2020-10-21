@@ -19,8 +19,8 @@
 %global srcname cryptography
 
 Name:           python-%{srcname}
-Version:        2.9
-Release:        3%{?dist}
+Version:        3.1
+Release:        1%{?dist}
 Summary:        PyCA's cryptography library
 
 License:        ASL 2.0 or BSD
@@ -170,6 +170,15 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} %{__python3} -m pytest -k "not (test_
 
 
 %changelog
+* Mon Sep 07 2020 Christian Heimes <cheimes@redhat.com> - 3.1-1
+- Update to 3.1 (#1872978)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Christian Heimes <cheimes@redhat.com> - 3.0-1
+- Update to 3.0 (#185897)
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 2.9-3
 - Rebuilt for Python 3.9
 

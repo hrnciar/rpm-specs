@@ -1,7 +1,7 @@
 #
 # Fedora spec file for phpdoc
 #
-# Copyright (c) 2017-2019 Shawn Iwinski <shawn@iwin.ski>
+# Copyright (c) 2017-2020 Shawn Iwinski <shawn@iwin.ski>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -11,8 +11,8 @@
 
 %global github_owner     phpDocumentor
 %global github_name      phpDocumentor2
-%global github_version   2.9.0
-%global github_commit    be607da0eef9b9249c43c5b4820d25d631c73667
+%global github_version   2.9.1
+%global github_commit    2e4f981a55ebe6f5db592d7da892d13d5b3c7816
 
 %global composer_vendor  phpdocumentor
 %global composer_project phpdocumentor
@@ -64,25 +64,20 @@
 %global twig_min_ver 1.3
 %global twig_max_ver 2.0
 # "zendframework/zend-cache": "~2.1"
-#   NOTE: Max version not 3.0 because tests pass
 %global zendframework_cache_min_ver 2.1
-%global zendframework_cache_max_ver 4.0
+%global zendframework_cache_max_ver 3.0
 # "zendframework/zend-config": "~2.1"
-#   NOTE: Max version not 3.0 because tests pass
 %global zendframework_config_min_ver 2.1
-%global zendframework_config_max_ver 4.0
+%global zendframework_config_max_ver 3.0
 # "zendframework/zend-filter": "~2.1"
-#   NOTE: Max version not 3.0 because tests pass
 %global zendframework_filter_min_ver 2.1
-%global zendframework_filter_max_ver 4.0
+%global zendframework_filter_max_ver 3.0
 # "zendframework/zend-i18n": "~2.1"
-#   NOTE: Max version not 3.0 because tests pass
 %global zendframework_i18n_min_ver 2.1
-%global zendframework_i18n_max_ver 4.0
+%global zendframework_i18n_max_ver 3.0
 # "zendframework/zend-serializer": "~2.1"
-#   NOTE: Max version not 3.0 because tests pass
 %global zendframework_serializer_min_ver 2.1
-%global zendframework_serializer_max_ver 4.0
+%global zendframework_serializer_max_ver 3.0
 # "zendframework/zend-servicemanager": "~2.1"
 #   NOTE: Max version not 3.0 because tests pass
 %global zendframework_servicemanager_min_ver 2.1
@@ -95,15 +90,25 @@
 #     NOTE: Max version to restrict to one major version
 %global zetacomponents_document_min_ver 1.3.1
 %global zetacomponents_document_max_ver 2.0
+# "webmozart/assert": "^1.2",
+%global webmozart_assert_min_ver 1.2
+%global webmozart_assert_max_ver 2
 
 # Build using "--without tests" to disable tests
 %global with_tests 0%{!?_without_tests:1}
+
+# Range dependencies supported?
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+%global with_range_dependencies 1
+%else
+%global with_range_dependencies 0
+%endif
 
 %{!?phpdir:  %global phpdir  %{_datadir}/php}
 
 Name:          phpdoc
 Version:       %{github_version}
-Release:       9%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       Documentation generator for PHP
 
 # License breakdown:
@@ -219,8 +224,6 @@ Source1:       %{name}-get-source.sh
 Patch0:        %{name}-adjust-vendor-dir.patch
 # Adjust templates dir
 Patch1:        %{name}-adjust-templates-dir.patch
-# Fix "PHP Warning: count(): Parameter must be an array or an object that implements Countable"
-Patch2:        %{name}-php-warning-count-fix.patch
 
 BuildArch:     noarch
 # Composer autoloader generation
@@ -231,7 +234,7 @@ BuildRequires: php-cli
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(phpunit/phpunit)
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+%if %{with_range_dependencies}
 BuildRequires: (php-composer(cilex/cilex) < %{cilex_max_ver} with php-composer(cilex/cilex) >= %{cilex_min_ver})
 BuildRequires: (php-composer(erusev/parsedown) < %{erusev_parsedown_max_ver} with php-composer(erusev/parsedown) >= %{erusev_parsedown_min_ver})
 BuildRequires: (php-composer(jms/serializer) < %{jms_serializer_max_ver} with php-composer(jms/serializer) >= %{jms_serializer_min_ver})
@@ -250,14 +253,15 @@ BuildRequires: (php-composer(symfony/process) < %{symfony_max_ver} with php-comp
 BuildRequires: (php-composer(symfony/stopwatch) < %{symfony_max_ver} with php-composer(symfony/stopwatch) >= %{symfony_min_ver})
 BuildRequires: (php-composer(symfony/validator) < %{symfony_max_ver} with php-composer(symfony/validator) >= %{symfony_min_ver})
 BuildRequires: (php-composer(twig/twig) < %{twig_max_ver} with php-composer(twig/twig) >= %{twig_min_ver})
-BuildRequires: (php-composer(zendframework/zend-cache) < %{zendframework_cache_max_ver} with php-composer(zendframework/zend-cache) >= %{zendframework_cache_min_ver})
-BuildRequires: (php-composer(zendframework/zend-config) < %{zendframework_config_max_ver} with php-composer(zendframework/zend-config) >= %{zendframework_config_min_ver})
-BuildRequires: (php-composer(zendframework/zend-filter) < %{zendframework_filter_max_ver} with php-composer(zendframework/zend-filter) >= %{zendframework_filter_min_ver})
-BuildRequires: (php-composer(zendframework/zend-i18n) < %{zendframework_i18n_max_ver} with php-composer(zendframework/zend-i18n) >= %{zendframework_i18n_min_ver})
-BuildRequires: (php-composer(zendframework/zend-serializer) < %{zendframework_serializer_max_ver} with php-composer(zendframework/zend-serializer) >= %{zendframework_serializer_min_ver})
-BuildRequires: (php-composer(zendframework/zend-servicemanager) < %{zendframework_servicemanager_max_ver} with php-composer(zendframework/zend-servicemanager) >= %{zendframework_servicemanager_min_ver})
-BuildRequires: (php-composer(zendframework/zend-stdlib) < %{zendframework_stdlib_max_ver} with php-composer(zendframework/zend-stdlib) >= %{zendframework_stdlib_min_ver})
+BuildRequires: (php-autoloader(zendframework/zend-cache) < %{zendframework_cache_max_ver} with php-autoloader(zendframework/zend-cache) >= %{zendframework_cache_min_ver})
+BuildRequires: (php-autoloader(zendframework/zend-config) < %{zendframework_config_max_ver} with php-autoloader(zendframework/zend-config) >= %{zendframework_config_min_ver})
+BuildRequires: (php-autoloader(zendframework/zend-filter) < %{zendframework_filter_max_ver} with php-autoloader(zendframework/zend-filter) >= %{zendframework_filter_min_ver})
+BuildRequires: (php-autoloader(zendframework/zend-i18n) < %{zendframework_i18n_max_ver} with php-autoloader(zendframework/zend-i18n) >= %{zendframework_i18n_min_ver})
+BuildRequires: (php-autoloader(zendframework/zend-serializer) < %{zendframework_serializer_max_ver} with php-autoloader(zendframework/zend-serializer) >= %{zendframework_serializer_min_ver})
+BuildRequires: (php-autoloader(zendframework/zend-servicemanager) < %{zendframework_servicemanager_max_ver} with php-autoloader(zendframework/zend-servicemanager) >= %{zendframework_servicemanager_min_ver})
+BuildRequires: (php-autoloader(zendframework/zend-stdlib) < %{zendframework_stdlib_max_ver} with php-autoloader(zendframework/zend-stdlib) >= %{zendframework_stdlib_min_ver})
 BuildRequires: (php-composer(zetacomponents/document) < %{zetacomponents_document_max_ver} with php-composer(zetacomponents/document) >= %{zetacomponents_document_min_ver})
+BuildRequires: (php-composer(webmozart/assert) < %{webmozart_assert_max_ver} with php-composer(webmozart/assert) >= %{webmozart_assert_min_ver})
 %else
 BuildRequires: php-composer(cilex/cilex) <  %{cilex_max_ver}
 BuildRequires: php-composer(cilex/cilex) >= %{cilex_min_ver}
@@ -295,26 +299,29 @@ BuildRequires: php-composer(symfony/validator) <  %{symfony_max_ver}
 BuildRequires: php-composer(symfony/validator) >= %{symfony_min_ver}
 BuildRequires: php-composer(twig/twig) <  %{twig_max_ver}
 BuildRequires: php-composer(twig/twig) >= %{twig_min_ver}
-BuildRequires: php-composer(zendframework/zend-cache) <  %{zendframework_cache_max_ver}
-BuildRequires: php-composer(zendframework/zend-cache) >= %{zendframework_cache_min_ver}
-BuildRequires: php-composer(zendframework/zend-config) <  %{zendframework_config_max_ver}
-BuildRequires: php-composer(zendframework/zend-config) >= %{zendframework_config_min_ver}
-BuildRequires: php-composer(zendframework/zend-filter) <  %{zendframework_filter_max_ver}
-BuildRequires: php-composer(zendframework/zend-filter) >= %{zendframework_filter_min_ver}
-BuildRequires: php-composer(zendframework/zend-i18n) <  %{zendframework_i18n_max_ver}
-BuildRequires: php-composer(zendframework/zend-i18n) >= %{zendframework_i18n_min_ver}
-BuildRequires: php-composer(zendframework/zend-serializer) <  %{zendframework_serializer_max_ver}
-BuildRequires: php-composer(zendframework/zend-serializer) >= %{zendframework_serializer_min_ver}
-BuildRequires: php-composer(zendframework/zend-servicemanager) <  %{zendframework_servicemanager_max_ver}
-BuildRequires: php-composer(zendframework/zend-servicemanager) >= %{zendframework_servicemanager_min_ver}
-BuildRequires: php-composer(zendframework/zend-stdlib) <  %{zendframework_stdlib_max_ver}
-BuildRequires: php-composer(zendframework/zend-stdlib) >= %{zendframework_stdlib_min_ver}
+BuildRequires: php-autoloader(zendframework/zend-cache) <  %{zendframework_cache_max_ver}
+BuildRequires: php-autoloader(zendframework/zend-cache) >= %{zendframework_cache_min_ver}
+BuildRequires: php-autoloader(zendframework/zend-config) <  %{zendframework_config_max_ver}
+BuildRequires: php-autoloader(zendframework/zend-config) >= %{zendframework_config_min_ver}
+BuildRequires: php-autoloader(zendframework/zend-filter) <  %{zendframework_filter_max_ver}
+BuildRequires: php-autoloader(zendframework/zend-filter) >= %{zendframework_filter_min_ver}
+BuildRequires: php-autoloader(zendframework/zend-i18n) <  %{zendframework_i18n_max_ver}
+BuildRequires: php-autoloader(zendframework/zend-i18n) >= %{zendframework_i18n_min_ver}
+BuildRequires: php-autoloader(zendframework/zend-serializer) <  %{zendframework_serializer_max_ver}
+BuildRequires: php-autoloader(zendframework/zend-serializer) >= %{zendframework_serializer_min_ver}
+BuildRequires: php-autoloader(zendframework/zend-servicemanager) <  %{zendframework_servicemanager_max_ver}
+BuildRequires: php-autoloader(zendframework/zend-servicemanager) >= %{zendframework_servicemanager_min_ver}
+BuildRequires: php-autoloader(zendframework/zend-stdlib) <  %{zendframework_stdlib_max_ver}
+BuildRequires: php-autoloader(zendframework/zend-stdlib) >= %{zendframework_stdlib_min_ver}
 BuildRequires: php-composer(zetacomponents/document) <  %{zetacomponents_document_max_ver}
 BuildRequires: php-composer(zetacomponents/document) >= %{zetacomponents_document_min_ver}
+BuildRequires: php-composer(webmozart/assert) < %{webmozart_assert_max_ver}
+BuildRequires: php-composer(webmozart/assert) >= %{webmozart_assert_min_ver}
 %endif
-## phpcompatinfo (computed from version 2.9.0)
+## phpcompatinfo (computed from version 2.9.1)
 BuildRequires: php-date
 BuildRequires: php-dom
+BuildRequires: php-filter
 BuildRequires: php-iconv
 BuildRequires: php-igbinary
 BuildRequires: php-json
@@ -332,7 +339,7 @@ BuildRequires: php-composer(fedora/autoloader)
 Requires:      php-cli
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+%if %{with_range_dependencies}
 Requires:      (php-composer(cilex/cilex) < %{cilex_max_ver} with php-composer(cilex/cilex) >= %{cilex_min_ver})
 Requires:      (php-composer(erusev/parsedown) < %{erusev_parsedown_max_ver} with php-composer(erusev/parsedown) >= %{erusev_parsedown_min_ver})
 Requires:      (php-composer(jms/serializer) < %{jms_serializer_max_ver} with php-composer(jms/serializer) >= %{jms_serializer_min_ver})
@@ -348,14 +355,15 @@ Requires:      (php-composer(symfony/process) < %{symfony_max_ver} with php-comp
 Requires:      (php-composer(symfony/stopwatch) < %{symfony_max_ver} with php-composer(symfony/stopwatch) >= %{symfony_min_ver})
 Requires:      (php-composer(symfony/validator) < %{symfony_max_ver} with php-composer(symfony/validator) >= %{symfony_min_ver})
 Requires:      (php-composer(twig/twig) < %{twig_max_ver} with php-composer(twig/twig) >= %{twig_min_ver})
-Requires:      (php-composer(zendframework/zend-cache) < %{zendframework_cache_max_ver} with php-composer(zendframework/zend-cache) >= %{zendframework_cache_min_ver})
-Requires:      (php-composer(zendframework/zend-config) < %{zendframework_config_max_ver} with php-composer(zendframework/zend-config) >= %{zendframework_config_min_ver})
-Requires:      (php-composer(zendframework/zend-filter) < %{zendframework_filter_max_ver} with php-composer(zendframework/zend-filter) >= %{zendframework_filter_min_ver})
-Requires:      (php-composer(zendframework/zend-i18n) < %{zendframework_i18n_max_ver} with php-composer(zendframework/zend-i18n) >= %{zendframework_i18n_min_ver})
-Requires:      (php-composer(zendframework/zend-serializer) < %{zendframework_serializer_max_ver} with php-composer(zendframework/zend-serializer) >= %{zendframework_serializer_min_ver})
-Requires:      (php-composer(zendframework/zend-servicemanager) < %{zendframework_servicemanager_max_ver} with php-composer(zendframework/zend-servicemanager) >= %{zendframework_servicemanager_min_ver})
-Requires:      (php-composer(zendframework/zend-stdlib) < %{zendframework_stdlib_max_ver} with php-composer(zendframework/zend-stdlib) >= %{zendframework_stdlib_min_ver})
+Requires:      (php-autoloader(zendframework/zend-cache) < %{zendframework_cache_max_ver} with php-autoloader(zendframework/zend-cache) >= %{zendframework_cache_min_ver})
+Requires:      (php-autoloader(zendframework/zend-config) < %{zendframework_config_max_ver} with php-autoloader(zendframework/zend-config) >= %{zendframework_config_min_ver})
+Requires:      (php-autoloader(zendframework/zend-filter) < %{zendframework_filter_max_ver} with php-autoloader(zendframework/zend-filter) >= %{zendframework_filter_min_ver})
+Requires:      (php-autoloader(zendframework/zend-i18n) < %{zendframework_i18n_max_ver} with php-autoloader(zendframework/zend-i18n) >= %{zendframework_i18n_min_ver})
+Requires:      (php-autoloader(zendframework/zend-serializer) < %{zendframework_serializer_max_ver} with php-autoloader(zendframework/zend-serializer) >= %{zendframework_serializer_min_ver})
+Requires:      (php-autoloader(zendframework/zend-servicemanager) < %{zendframework_servicemanager_max_ver} with php-autoloader(zendframework/zend-servicemanager) >= %{zendframework_servicemanager_min_ver})
+Requires:      (php-autoloader(zendframework/zend-stdlib) < %{zendframework_stdlib_max_ver} with php-autoloader(zendframework/zend-stdlib) >= %{zendframework_stdlib_min_ver})
 Requires:      (php-composer(zetacomponents/document) < %{zetacomponents_document_max_ver} with php-composer(zetacomponents/document) >= %{zetacomponents_document_min_ver})
+Requires:      (php-composer(webmozart/assert) < %{webmozart_assert_max_ver} with php-composer(webmozart/assert) >= %{webmozart_assert_min_ver})
 %else
 Requires:      php-composer(cilex/cilex) <  %{cilex_max_ver}
 Requires:      php-composer(cilex/cilex) >= %{cilex_min_ver}
@@ -387,26 +395,29 @@ Requires:      php-composer(symfony/validator) <  %{symfony_max_ver}
 Requires:      php-composer(symfony/validator) >= %{symfony_min_ver}
 Requires:      php-composer(twig/twig) <  %{twig_max_ver}
 Requires:      php-composer(twig/twig) >= %{twig_min_ver}
-Requires:      php-composer(zendframework/zend-cache) <  %{zendframework_cache_max_ver}
-Requires:      php-composer(zendframework/zend-cache) >= %{zendframework_cache_min_ver}
-Requires:      php-composer(zendframework/zend-config) <  %{zendframework_config_max_ver}
-Requires:      php-composer(zendframework/zend-config) >= %{zendframework_config_min_ver}
-Requires:      php-composer(zendframework/zend-filter) <  %{zendframework_filter_max_ver}
-Requires:      php-composer(zendframework/zend-filter) >= %{zendframework_filter_min_ver}
-Requires:      php-composer(zendframework/zend-i18n) <  %{zendframework_i18n_max_ver}
-Requires:      php-composer(zendframework/zend-i18n) >= %{zendframework_i18n_min_ver}
-Requires:      php-composer(zendframework/zend-serializer) <  %{zendframework_serializer_max_ver}
-Requires:      php-composer(zendframework/zend-serializer) >= %{zendframework_serializer_min_ver}
-Requires:      php-composer(zendframework/zend-servicemanager) <  %{zendframework_servicemanager_max_ver}
-Requires:      php-composer(zendframework/zend-servicemanager) >= %{zendframework_servicemanager_min_ver}
-Requires:      php-composer(zendframework/zend-stdlib) <  %{zendframework_stdlib_max_ver}
-Requires:      php-composer(zendframework/zend-stdlib) >= %{zendframework_stdlib_min_ver}
+Requires:      php-autoloader(zendframework/zend-cache) <  %{zendframework_cache_max_ver}
+Requires:      php-autoloader(zendframework/zend-cache) >= %{zendframework_cache_min_ver}
+Requires:      php-autoloader(zendframework/zend-config) <  %{zendframework_config_max_ver}
+Requires:      php-autoloader(zendframework/zend-config) >= %{zendframework_config_min_ver}
+Requires:      php-autoloader(zendframework/zend-filter) <  %{zendframework_filter_max_ver}
+Requires:      php-autoloader(zendframework/zend-filter) >= %{zendframework_filter_min_ver}
+Requires:      php-autoloader(zendframework/zend-i18n) <  %{zendframework_i18n_max_ver}
+Requires:      php-autoloader(zendframework/zend-i18n) >= %{zendframework_i18n_min_ver}
+Requires:      php-autoloader(zendframework/zend-serializer) <  %{zendframework_serializer_max_ver}
+Requires:      php-autoloader(zendframework/zend-serializer) >= %{zendframework_serializer_min_ver}
+Requires:      php-autoloader(zendframework/zend-servicemanager) <  %{zendframework_servicemanager_max_ver}
+Requires:      php-autoloader(zendframework/zend-servicemanager) >= %{zendframework_servicemanager_min_ver}
+Requires:      php-autoloader(zendframework/zend-stdlib) <  %{zendframework_stdlib_max_ver}
+Requires:      php-autoloader(zendframework/zend-stdlib) >= %{zendframework_stdlib_min_ver}
 Requires:      php-composer(zetacomponents/document) <  %{zetacomponents_document_max_ver}
 Requires:      php-composer(zetacomponents/document) >= %{zetacomponents_document_min_ver}
+Requires:      php-composer(webmozart/assert) < %{webmozart_assert_max_ver}
+Requires:      php-composer(webmozart/assert) >= %{webmozart_assert_min_ver}
 %endif
-# phpcompatinfo (computed from version 2.9.0)
+# phpcompatinfo (computed from version 2.9.1)
 Requires:      php-date
 Requires:      php-dom
+Requires:      php-filter
 Requires:      php-iconv
 Requires:      php-igbinary
 Requires:      php-json
@@ -588,9 +599,6 @@ sed -i 's#__PHPDIR__#%{phpdir}#' \
 : Adjust templates dir
 %patch1 -p1
 
-: Fix "PHP Warning: count(): Parameter must be an array or an object that implements Countable"
-%patch2 -p1
-
 : E: zero-length
 find . -type f -size 0 -delete -print
 
@@ -637,6 +645,7 @@ require_once '%{phpdir}/Fedora/Autoloader/autoload.php';
     '%{phpdir}/Zend/Serializer/autoload.php',
     '%{phpdir}/Zend/ServiceManager/autoload.php',
     '%{phpdir}/Zend/Stdlib/autoload.php',
+    '%{phpdir}/Webmozart/Assert/autoload.php',
 ));
 AUTOLOAD
 
@@ -751,7 +760,6 @@ exit $RETURN_CODE
 %{phpdir}/phpDocumentor/Plugin
 %{phpdir}/phpDocumentor/Transformer
 %{phpdir}/phpDocumentor/Translator
-%exclude %{phpdir}/phpDocumentor/Plugin/Scrybe/tests
 # Data
 %{phpdir}/phpDocumentor/data
 ## Autoloaders
@@ -763,6 +771,16 @@ exit $RETURN_CODE
 
 
 %changelog
+* Mon Sep  7 2020 Remi Collet <remi@remirepo.net> - 2.9.1-2
+- add dependency on webmozart/assert
+
+* Sat Aug 29 2020 Remi Collet <remi@remirepo.net> - 2.9.1-1
+- update to 2.9.1
+- fix zend-cache autoloader
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

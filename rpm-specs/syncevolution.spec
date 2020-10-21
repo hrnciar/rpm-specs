@@ -2,7 +2,7 @@ Summary:       SyncML client for evolution
 Name:          syncevolution
 Epoch:         1
 Version:       1.5.3
-Release:       12%{?dist}
+Release:       15%{?dist}
 License:       LGPLv2+
 URL:           http://syncevolution.org/
 Source:        http://downloads.syncevolution.org/%{name}/sources/%{name}-%{version}.tar.gz
@@ -13,13 +13,14 @@ Patch2:        syncevolution-1.5.3-eds-libecal-2.0.patch
 Patch3:        syncevolution-1.5.3-python3.patch
 Patch4:        syncevolution-1.5.3-eds-libecal-2.0-b.patch
 Patch5:        syncevolution-1.5.3-python3-b.patch
+Patch6:        syncevolution-1.5.3-bind.patch
 
 BuildRequires: pkgconfig(dbus-glib-1)
 
 BuildRequires: perl-generators
 BuildRequires: pkgconfig(akonadi)
 BuildRequires: bluez-libs-devel
-BuildRequires: boost-devel
+BuildRequires: boost-devel >= 1.73.0
 BuildRequires: cppunit-devel
 BuildRequires: evolution-data-server-devel >= 3.33.2
 BuildRequires: expat-devel
@@ -101,11 +102,13 @@ Akonadi backend for %{name}.
 %patch3 -p1 -b .python3
 %patch4 -p1 -b .eds-libecal-2.0-b
 %patch5 -p1 -b .python3-b
+%patch6 -p1 -b .bind
 
 # use the ac macros in Makefile.am
 sed -i '/^ACLOCAL_AMFLAGS/{ /m4-repo/!s/$/ -I m4-repo/ }' Makefile*.am
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 intltoolize --automake --copy --force
 autoreconf -fiv
 (cd src/synthesis && autoreconf -fi && ./autogen.sh)
@@ -201,6 +204,16 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/sync.desktop
 %{_datadir}/syncevolution/xml/*.pl
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 1:1.5.3-15
+- Force C++14 as this code is not C++17 ready
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.5.3-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Milan Crha <mcrha@redhat.com> - 1:1.5.3-13
+- Rebuilt for evolution-data-server soname version bump
+- Add patch to build with boost 1.73.0
+
 * Mon May 11 2020 Milan Crha <mcrha@redhat.com> - 1:1.5.3-12
 - Add patch by David Hampton to correct python3 conversion (RH bug #1833578)
 

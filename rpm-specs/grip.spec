@@ -1,7 +1,7 @@
 Summary: Front-end for CD rippers and Ogg Vorbis encoders
 Name: grip
 Version: 4.1.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2+
 Source0: http://downloads.sourceforge.net/grip/grip-%{version}.tar.gz
@@ -72,6 +72,9 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/apps/
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 12 2020 Adrian Reber <adrian@lisas.de> - 1:4.1.1-1
 - Updated to 4.1.1 (#1778979)
 

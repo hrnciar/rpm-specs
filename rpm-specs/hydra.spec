@@ -1,7 +1,7 @@
 Summary:        Very fast network log-on cracker
 Name:           hydra
 Version:        9.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 License:        AGPLv3 with exceptions
 # Old URL       https://www.thc.org/thc-hydra/
 URL:            https://github.com/vanhauser-thc/thc-hydra
@@ -102,6 +102,9 @@ sed -i 's|^INSTALLDIR=.*|INSTALLDIR=/usr|' %{buildroot}/%{_bindir}/dpl4hydra.sh
 %{_datadir}/applications/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Simone Caronni <negativo17@gmail.com> - 9.0-4
 - Rebuild for updated FreeRDP.
 

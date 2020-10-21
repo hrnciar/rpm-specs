@@ -1,10 +1,10 @@
-
+%undefine __cmake_in_source_build
 %global framework libktorrent
 
 Name:    kf5-libktorrent
 Summary: Library providing torrent downloading code
-Version: 2.1.1
-Release: 3%{?dist}
+Version: 2.2.0
+Release: 2%{?dist}
 
 License: GPLv2+
 URL:     https://cgit.kde.org/%{framework}.git/ 
@@ -14,8 +14,8 @@ URL:     https://cgit.kde.org/%{framework}.git/
 %else
 %global stable stable
 %endif
-#global minmic %(echo %{version} | cut -d. -f2,3)
-%global minmic 1.2
+%global minmic %(echo %{version} | cut -d. -f2,3)
+#global minmic 1.2
 Source0: http://download.kde.org/%{stable}/ktorrent/5.%{minmic}/%{framework}-%{version}.tar.xz
 
 ## upstream patches
@@ -59,16 +59,12 @@ Requires: cmake(Qt5Network)
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang libktorrent5
 
@@ -86,6 +82,12 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.2.0-1
+- 2.2.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

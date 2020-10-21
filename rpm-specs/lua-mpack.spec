@@ -1,4 +1,4 @@
-%global lua_version 5.3
+%global lua_version 5.4
 %global lua_libdir %{_libdir}/lua/%{lua_version}
 %global lua_pkgdir %{_datadir}/lua/%{lua_version}
 
@@ -15,7 +15,7 @@ BuildRequires:  lua-devel >= %{lua_version}
 
 Name:           lua-mpack
 Version:        1.0.8
-Release:        3%{?dist}
+Release:        5%{?dist}
 
 License:        MIT
 Summary:        Implementation of MessagePack for Lua
@@ -108,6 +108,12 @@ lua %{SOURCE2}
 %{lua_compat_libdir}/mpack.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.8-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.8-4
+- Rebuilt for Lua 5.4
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.8-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

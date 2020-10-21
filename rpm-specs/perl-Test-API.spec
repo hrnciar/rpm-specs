@@ -1,6 +1,6 @@
 Name:		perl-Test-API
 Version:	0.010
-Release:	8%{?dist}
+Release:	9%{?dist}
 Summary:	Test a list of subroutines provided by a module
 License:	ASL 2.0
 URL:		https://metacpan.org/release/Test-API
@@ -64,6 +64,9 @@ make test
 %{_mandir}/man3/Test::API.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.010-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.010-8
 - Perl 5.32 rebuild
 

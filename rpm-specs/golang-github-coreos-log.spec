@@ -22,7 +22,7 @@ Go logging library with systemd journal support.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.27%{?dist}
+Release:        0.28%{?dist}
 Summary:        Go logging library with systemd journal support
 
 # Upstream license specification: Apache-2.0
@@ -55,6 +55,9 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

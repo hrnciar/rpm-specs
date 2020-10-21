@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.3.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Simple library to work with listenfds passed from the outside
 
 # Upstream license specification: MIT/Apache-2.0
@@ -75,5 +75,8 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 18 17:39:34 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.3.3-1
 - Initial package

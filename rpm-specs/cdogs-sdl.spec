@@ -2,7 +2,7 @@
 
 Name:           cdogs-sdl
 Version:        0.7.3
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        C-Dogs is an arcade shoot-em-up
 # The game-engine is GPLv2+
 # The game art is CC
@@ -40,11 +40,14 @@ find graphics sounds -name "*.sh" -delete
 
 %build
 %cmake -DCDOGS_DATA_DIR=/usr/share/cdogs-sdl/ -DUSE_SHARED_ENET=1
-%make_build
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
+
+
+%check
 desktop-file-validate \
   $RPM_BUILD_ROOT%{_datadir}/applications/io.github.cxong.%{name}.desktop
 appstream-util validate-relax --nonet \
@@ -62,6 +65,13 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Hans de Goede <hdegoede@redhat.com> - 0.7.3-1
 - New upstream release 0.7.3 (rhbz#1692052)
 - Fix FTBFS (rhbz#1799213)

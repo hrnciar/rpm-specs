@@ -4,7 +4,7 @@
 Summary:	Use a Razor catalogue server to filter spam messages
 Name:		perl-Razor-Agent
 Version:	2.85
-Release:	37%{?dist}
+Release:	39%{?dist}
 License:	Artistic 2.0
 URL:		http://razor.sourceforge.net/
 Source:		http://dl.sourceforge.net/razor/razor-agents-%{version}.tar.bz2
@@ -51,7 +51,7 @@ export CFLAGS="$RPM_OPT_FLAGS"
 cd Razor2-Preproc-deHTMLxs
 %{__perl} Makefile.PL INSTALLDIRS=vendor
 cd ..
-make %{?_smp_mflags} OPTIMIZE="$RPM_OPT_FLAGS"
+%make_build OPTIMIZE="$RPM_OPT_FLAGS"
 
 %install
 make install -C Razor2-Preproc-deHTMLxs \
@@ -83,6 +83,13 @@ make test
 %{_mandir}/man*/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.85-39
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 2.85-38
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.85-37
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:           perl-Test-Deep
 Version:        1.130
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Extremely flexible deep comparison
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test-Deep
@@ -61,6 +61,9 @@ make test
 %{_mandir}/man3/Test::Deep::NoTest.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.130-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.130-2
 - Perl 5.32 rebuild
 

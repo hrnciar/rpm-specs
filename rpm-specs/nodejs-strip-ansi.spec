@@ -4,7 +4,7 @@
 
 Name:           nodejs-strip-ansi
 Version:        3.0.1
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Strip ANSI escape codes (used for colorizing strings in the terminal)
 License:        MIT
 URL:            https://github.com/chalk/strip-ansi
@@ -60,6 +60,9 @@ cp -pr package.json index.js %{buildroot}%{nodejs_sitelib}/strip-ansi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

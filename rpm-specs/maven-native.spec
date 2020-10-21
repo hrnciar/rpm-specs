@@ -4,7 +4,7 @@
 
 Name:          maven-native
 Version:       1.0
-Release:       0.3%{dotreltag}%{?dist}
+Release:       0.6%{dotreltag}%{?dist}
 Summary:       Compile c and c++ source under Maven
 License:       ASL 2.0 and MIT
 Url:           https://github.com/mojohaus/maven-native/
@@ -18,7 +18,6 @@ BuildRequires: maven-local
 BuildRequires: mojo-parent
 BuildRequires: mvn(aopalliance:aopalliance)
 BuildRequires: mvn(bcel:bcel)
-BuildRequires: mvn(commons-lang:commons-lang)
 BuildRequires: mvn(junit:junit)
 BuildRequires: mvn(net.sf.cglib:cglib)
 BuildRequires: mvn(org.apache.maven:maven-artifact)
@@ -130,6 +129,15 @@ done
 %license LICENSE.txt
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.6.alpha.11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Nicolas De Amicis <deamicis@bluewin.ch> - 1.0-0.5.alpha.11
+- Removing not used dependency commons-lang
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.0-0.4.alpha.11
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jun 10 2020 Nicolas De Amicis <deamicis@bluewin.ch> - 1.0-0.3.alpha.11
 - Use XMvn javadoc
 

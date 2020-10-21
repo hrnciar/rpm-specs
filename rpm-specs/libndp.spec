@@ -1,6 +1,6 @@
 Name: libndp
 Version: 1.7
-Release: 5%{?dist}
+Release: 6%{?dist}
 Summary: Library for Neighbor Discovery Protocol
 License: LGPLv2+
 URL: http://www.libndp.org/
@@ -45,6 +45,9 @@ find $RPM_BUILD_ROOT -name \*.la -delete
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

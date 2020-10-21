@@ -1,19 +1,23 @@
 Name:		pgRouting
-Version:	3.0.0
-Release:	0.rc1.2%{?dist}
+Version:	3.1.0
+Release:	1%{?dist}
 Summary:	Provides routing functionality to PostGIS/PostgreSQL
 License:	GPLv2+
 URL:		http://pgrouting.org
-Source0:    https://github.com/pgRouting/pgrouting/archive/v%{version}-rc1.tar.gz
+Source0:    https://github.com/pgRouting/pgrouting/archive/v%{version}.tar.gz
 
 BuildRequires:	boost-devel
 BuildRequires:	boost-graph
 BuildRequires:	boost-thread
 BuildRequires:	cmake
 BuildRequires:	gcc-c++
+BuildRequires:	postgresql-server
 BuildRequires:	postgresql-server-devel
 BuildRequires:	proj-devel >= 5.2.0
+BuildRequires:	perl-interpreter
 BuildRequires:	perl(Data::Dumper)
+BuildRequires:	perl(File::Find)
+BuildRequires:	perl-vars
 BuildRequires:	clang-devel
 BuildRequires:	llvm-devel
 
@@ -39,19 +43,17 @@ geospatial routing functionality.
 
 
 %prep
-%setup -qn pgrouting-%{version}-rc1
+%setup -qn pgrouting-%{version}
 
 
 %build
-install -d build
-cd build
-%cmake -DPOSTGRESQL_PG_CONFIG=%_bindir/pg_server_config ..
+%cmake -DPOSTGRESQL_PG_CONFIG=%_bindir/pg_server_config
 
-%make_build VERBOSE=1
+%cmake_build
 
 
 %install
-%make_install -C build
+%cmake_install
 
 
 %files
@@ -61,6 +63,23 @@ cd build
 %{_datadir}/pgsql/extension/*
 
 %changelog
+* Tue Aug 04 2020 Volker Froehlich <volker27@gmx.at> - 3.1.0-1
+- New upstream release
+
+* Sat Aug 01 2020 Volker Froehlich <volker27@gmx.at> - 3.0.2-4
+- Use new cmake macros
+- Add build dependencies (Perl no longer in buildroot)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Volker Froehlich <volker27@gmx.at> - 3.0.2-1
+- New upstream release
+
 * Sun Mar 08 2020 Patrik Novotný <panovotn@redhat.com> - 3.0.0-0.rc1.2
 - Require clang and llvm (JIT enabled in PostgreSQL)
 

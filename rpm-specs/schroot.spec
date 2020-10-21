@@ -1,9 +1,11 @@
+%undefine __cmake_in_source_build
+
 Name: schroot
 Version: 1.6.10
-Release: 12%{?dist}
+Release: 15%{?dist}
 Summary: Execute commands in a chroot environment
 License: GPLv3+
-Url: http://packages.debian.org/schroot
+Url: https://tracker.debian.org/pkg/schroot
 Source0: http://ftp.de.debian.org/debian/pool/main/s/schroot/%{name}_%{version}.orig.tar.xz
 Source1: schroot.service
 Source2: schroot.default
@@ -23,8 +25,16 @@ Patch17: fix-test-suite-with-usrmerge.patch
 Patch18: Unmount-everything-that-we-can-instead-of-giving-up.patch
 Patch19: fix-killprocs.patch
 Patch20: fix-bash-completion.patch
+Patch21: fix_typos_in_schroot_manpage.patch
+Patch22: update_czech_schroot_translation.patch
+Patch23: update_french_schroot_manpage_translation_2018.patch
+Patch24: update_german_schroot_manpage_translation_2018.patch
+Patch25: zfs-snapshot-support.patch
+Patch26: cross.patch
+Patch27: schroot-po4a.patch
 
-BuildRequires:  gcc-c++
+
+BuildRequires: gcc-c++
 BuildRequires: pam-devel
 BuildRequires: boost-devel
 BuildRequires: lockdev-devel
@@ -39,9 +49,9 @@ BuildRequires: groff
 # from Debian control
 BuildRequires: cmake3
 BuildRequires: po4a >= 0.40
-#BuildRequires: doxygen
-#BuildRequires: graphviz
-#BuildRequires: gtest
+BuildRequires: doxygen
+BuildRequires: graphviz
+BuildRequires: gtest
 
 %description
 schroot allows users to execute commands or interactive shells in
@@ -71,34 +81,11 @@ more functionality.
 
 
 %prep
-%setup -q
-
-%patch0 -p0
-%patch1 -p0
-%patch3 -p1 -b .gcc8
-
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
-%patch17 -p1
-%patch18 -p1
-%patch19 -p1
-%patch20 -p1
+%autosetup -p1
 
 %build
 
-#./bootstrap
-#configure LIBS="-lboost_program_options -lboost_system -lboost_regex" --disable-rpath --enable-static --disable-shared --enable-dchroot --disable-silent-rules || ( cat config.log && exit 1 )
-#--with systemd --buildsystem=cmake 
-
-mkdir -p build
-pushd build
-#cmake -LH ..
-
+# schroot now use cmake
 %cmake3 \
     -Ddebug=OFF -Ddchroot=OFF -Ddchroot-dsa=OFF \
     -Dbash_completion_dir=/usr/share/bash-completion/completions \
@@ -107,15 +94,14 @@ pushd build
     -Duuid=ON \
     -DBTRFS_EXECUTABLE=/sbin/btrfs \
     -DLVCREATE_EXECUTABLE=/sbin/lvcreate \
-    -DLVREMOVE_EXECUTABLE=/sbin/lvremove \
-    ..
+    -DLVREMOVE_EXECUTABLE=/sbin/lvremove
+
 #-DSCHROOT_LIBEXEC_DIR=/$(LIBDIR)/schroot \
-%make_build VERBOSE=1
+%cmake_build
 #make doc
-popd
 
 %install
-%make_install -C build DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 
 install -d -m 755 %{buildroot}%{_unitdir}
 install -pm644 %{SOURCE1} %{buildroot}%{_unitdir}
@@ -132,11 +118,12 @@ rm $RPM_BUILD_ROOT%{_libdir}/libsbuild.a
 %find_lang %{name}
 
 %check
-pushd build
 # cmake3 on epel don't have ctest
-#fakeroot ctest -V
-fakeroot make -C build test V=1 || :
-popd
+%if 0%{?rhel} == 7
+fakeroot %cmake test V=1 || :
+%else
+fakeroot %ctest || :
+%endif
 
 %files -f %{name}.lang
 %license COPYING
@@ -164,6 +151,7 @@ popd
 %config(noreplace) %{_sysconfdir}/schroot/setup.d/05file
 %config(noreplace) %{_sysconfdir}/schroot/setup.d/05lvm
 %config(noreplace) %{_sysconfdir}/schroot/setup.d/05union
+%config(noreplace) %{_sysconfdir}/schroot/setup.d/05zfs
 %config(noreplace) %{_sysconfdir}/schroot/setup.d/10mount
 %config(noreplace) %{_sysconfdir}/schroot/setup.d/15killprocs
 %config(noreplace) %{_sysconfdir}/schroot/setup.d/15binfmt
@@ -196,6 +184,18 @@ popd
 %{_unitdir}/schroot.service
 
 %changelog
+* Wed Aug 05 2020 Sérgio Basto <sergio@serjux.com> - 1.6.10-15
+- Add latest patches from Debian
+- Add patch to fix build with newest po4a
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.10-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+- Fix cmake build
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.10-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 1.6.10-12
 - Rebuilt for Boost 1.73
 

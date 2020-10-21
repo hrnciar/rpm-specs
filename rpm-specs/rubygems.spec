@@ -32,7 +32,7 @@
 
 Summary: The Ruby standard for packaging ruby libraries
 Name: rubygems
-Version: 3.1.3
+Version: 3.1.4
 Release: 201%{?dist}
 License: Ruby or MIT
 
@@ -224,6 +224,12 @@ ruby %{SOURCE12}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.4-201
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Vít Ondruch <vondruch@redhat.com> - 3.1.4-200
+- Update to RubyGems 3.1.4.
+
 * Thu May 28 2020 Vít Ondruch <vondruch@redhat.com> - 3.1.3-201
 - Fix `require` behavior allowing to load libraries multiple times.
   Resolves: rhbz#1835836

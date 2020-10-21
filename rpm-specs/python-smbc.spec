@@ -1,12 +1,12 @@
 %{?filter_setup:
-%filter_provides_in %{python_sitearch}/.*\.so$ 
+%filter_provides_in %{python3_sitearch}/.*\.so$
 %filter_setup
 }
 
 Summary:       Python bindings for libsmbclient API from Samba
 Name:          python-smbc
 Version:       1.0.15.4
-Release:       24%{?dist}
+Release:       27%{?dist}
 URL:           https://github.com/hamano/pysmbc
 Source:        http://pypi.python.org/packages/source/p/pysmbc/pysmbc-%{version}.tar.bz2
 License:       GPLv2+
@@ -60,6 +60,16 @@ export PYTHONPATH=%{buildroot}%{python3_sitearch}
 
 
 %changelog
+* Tue Aug 04 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.0.15.4-27
+- use versioned python3 sitearch
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.15.4-26
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.15.4-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.15.4-24
 - Rebuilt for Python 3.9
 

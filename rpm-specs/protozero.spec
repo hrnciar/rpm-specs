@@ -2,7 +2,7 @@
 
 Name:           protozero
 Version:        1.7.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Minimalistic protocol buffer decoder and encoder in C++
 
 License:        BSD
@@ -53,28 +53,28 @@ mkdir build
 
 
 %build
-cd build
-%cmake .. -DWERROR=OFF
-%make_build
+%cmake -DWERROR=OFF
+%cmake_build
 
 
 %install
-cd build
-%make_install
+%cmake_install
 
 
 %check
-cd build
-ctest -V
+%ctest
 
 
 %files devel
-%doc README.md doc/*.md build/doc/html
+%doc README.md doc/*.md %{__cmake_builddir}/doc/html
 %license LICENSE.md LICENSE.from_folly
 %{_includedir}/protozero
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun  8 2020 Tom Hughes <tom@compton.nu> - 1.7.0-1
 - Update to 1.7.0 upstream release
 

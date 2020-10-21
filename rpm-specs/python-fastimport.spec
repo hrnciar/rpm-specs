@@ -3,7 +3,7 @@
 
 Name:           python-%{module_name}
 Version:        0.9.8
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Python parser for fastimport (VCS interchange format)
 License:        GPLv2+
 URL:            https://launchpad.net/python-fastimport
@@ -49,6 +49,9 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python3_sitelib} %{_bindir}/nosetests-3.* %{module_n
 %{_bindir}/fast-import-query
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.8-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.8-10
 - Rebuilt for Python 3.9
 

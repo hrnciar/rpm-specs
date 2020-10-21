@@ -8,7 +8,7 @@
 Name:           perl-MooseX-Getopt
 Summary:        Moose role for processing command line options
 Version:        0.74
-Release:        8%{?dist}
+Release:        10%{?dist}
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/MooseX-Getopt
 Source0:        https://cpan.metacpan.org/modules/by-module/MooseX/MooseX-Getopt-%{version}.tar.gz
@@ -105,6 +105,12 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/MooseX::Getopt::Strict.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.74-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.74-9
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.74-8
 - Perl 5.32 rebuild
 

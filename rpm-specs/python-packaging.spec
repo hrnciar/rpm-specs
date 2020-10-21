@@ -13,7 +13,7 @@
 
 Name:           python-%{pypi_name}
 Version:        20.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Core utilities for Python packages
 
 License:        BSD or ASL 2.0
@@ -21,35 +21,35 @@ URL:            https://github.com/pypa/packaging
 Source0:        https://files.pythonhosted.org/packages/source/p/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
 
-BuildRequires:  python3-setuptools
-BuildRequires:  python3-devel
-BuildRequires:  python3-pyparsing
-BuildRequires:  python3-six
+BuildRequires:  python%{python3_pkgversion}-setuptools
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-pyparsing
+BuildRequires:  python%{python3_pkgversion}-six
 %if %{with tests}
-BuildRequires:  python3-pytest
-BuildRequires:  python3-pretend
+BuildRequires:  python%{python3_pkgversion}-pytest
+BuildRequires:  python%{python3_pkgversion}-pretend
 %endif
 %if %{with docs}
-BuildRequires:  python3-sphinx
+BuildRequires:  python%{python3_pkgversion}-sphinx
 %endif
 
 %if %{with wheel}
-BuildRequires:  python3-pip
-BuildRequires:  python3-wheel
+BuildRequires:  python%{python3_pkgversion}-pip
+BuildRequires:  python%{python3_pkgversion}-wheel
 %endif
 
 %description
 python-packaging provides core utilities for Python packages like utilities for
 dealing with versions, specifiers, markers etc.
 
-%package -n python3-%{pypi_name}
+%package -n python%{python3_pkgversion}-%{pypi_name}
 Summary:        %{summary}
-%{?python_provide:%python_provide python3-%{pypi_name}}
+%{?python_provide:%python_provide python%{python3_pkgversion}-%{pypi_name}}
 
-Requires:       python3-pyparsing
-Requires:       python3-six
+Requires:       python%{python3_pkgversion}-pyparsing
+Requires:       python%{python3_pkgversion}-six
 
-%description -n python3-%{pypi_name}
+%description -n python%{python3_pkgversion}-%{pypi_name}
 python3-packaging provides core utilities for Python packages like utilities for
 dealing with versions, specifiers, markers etc.
 
@@ -98,7 +98,7 @@ rm -rf html/_static/fonts/
 tests/
 %endif
 
-%files -n python3-%{pypi_name}
+%files -n python%{python3_pkgversion}-%{pypi_name}
 %license LICENSE LICENSE.APACHE LICENSE.BSD
 %doc README.rst CHANGELOG.rst CONTRIBUTING.rst
 %{python3_sitelib}/%{pypi_name}/
@@ -111,6 +111,9 @@ tests/
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 2020 Lumír Balhar <lbalhar@redhat.com> - 20.4-1
 - Update to 20.4 (#1838285)
 

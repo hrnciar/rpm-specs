@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 Version: 20141121
-Release: 16%{?dist}
+Release: 18%{?dist}
 # https://company.paratype.com/pt-sans-pt-serif
 URL:     http://www.paratype.com/public/
 
@@ -37,9 +37,6 @@ requirements.
 It was designed by Alexandra Korolkova, Olga Umpeleva and Vladimir Yefimov
 and released by ParaType.}
 
-%fontmeta
-
-%global source_files %{expand:
 # This is now dead and ParaType still publishes an older version on its website
 Source0:  http://www.fontstock.com/public/PTSansOFL.zip
 Source10: 58-%{fontpkgname}.xml
@@ -51,18 +48,17 @@ Source24: http://rus.paratype.ru/system/attachments/652/original/ptsanscaption55
 Source25: http://rus.paratype.ru/system/attachments/653/original/ptsanscaption57bold.pdf
 Source26: http://rus.paratype.ru/system/attachments/649/original/ptsans57narrow.pdf
 Source27: http://rus.paratype.ru/system/attachments/655/original/ptsans77narrowbold.pdf
-}
 
 %fontpkg
 
-%new_package doc
+%package doc
 Summary:   Optional documentation files of %{source_name}
 BuildArch: noarch
 %description doc
 This package provides optional documentation files shipped with
 %{source_name}.
 
-%new_package -n compat-paratype-pt-sans-fonts-f33-f34
+%package -n compat-paratype-pt-sans-fonts-f33-f34
 Summary: Fedora-33 & 34 compatibility package
 Provides: paratype-pt-sans-fonts = %{version}-%{release}
 Provides: paratype-pt-sans-caption-fonts = %{version}-%{release}
@@ -95,6 +91,13 @@ install -m 0644 -vp %{SOURCE20} %{SOURCE21} %{SOURCE22} %{SOURCE23} \
 %doc *.pdf
 
 %changelog
+* Fri Sep 11 2020 Parag Nemade <pnemade AT redhat DOT com>
+- 20141121-18
+- Fix this spec file to build for F33+
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 20141121-16
 🐞 Workaround Fedora problems created by rpm commit 93604e2

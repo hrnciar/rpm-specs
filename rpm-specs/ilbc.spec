@@ -4,7 +4,7 @@
 Name:		ilbc
 Summary:	Internet Low Bitrate Codec
 Version:	1.1.1
-Release:	18%{?dist}
+Release:	19%{?dist}
 License:	BSD
 URL:            https://github.com/TimothyGu/libilbc
 Source0:	%{url}/archive/%{commit}/libilbc-%{shortcommit}.tar.gz
@@ -83,6 +83,9 @@ ln -s ilbc.h iLBC_encode.h
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

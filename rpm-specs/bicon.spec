@@ -1,7 +1,7 @@
 Name:         bicon
 License:      LGPLv2+ and Python
 Version:      0.5
-Release:      10%{?dist}
+Release:      12%{?dist}
 Summary:      Bidirectional Console
 Source:       https://github.com/behdad/bicon/releases/download/%{version}/%{name}-%{version}.tar.gz
 URL:          https://www.arabeyes.org/Bicon
@@ -12,7 +12,8 @@ BuildRequires: fribidi-devel
 BuildRequires: kbd
 BuildRequires: libtool
 Requires:      kbd
-Requires:      xorg-x11-xkb-utils
+Requires:      setxkbmap
+Requires:      xkbcomp
 
 %description
 BiCon is the bidirectional console as presented by Arabeyes.
@@ -76,6 +77,12 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/bicon/*.a
 %{_datadir}/%{name}/keymap
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 0.5-12
+- Require setxkbmap and xkbcomp not xorg-x11-xkb-utils
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

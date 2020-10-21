@@ -3,7 +3,7 @@
 
 # https://github.com/containerd/console
 %global goipath         github.com/containerd/console
-%global commit          0650fd9eeb50bab4fc99dceb9f2e14cf58f36e7f
+Version:                1.0.0
 
 %gometa
 
@@ -14,8 +14,7 @@ Golang package for dealing with consoles. Light on deps and a simple API.}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.3%{?dist}
+Release:        2%{?dist}
 Summary:        Console package for Go
 
 # Upstream license specification: Apache-2.0
@@ -44,6 +43,12 @@ BuildRequires:  golang(golang.org/x/sys/unix)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 16:22:44 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-1
+- Update to 1.0.0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           sblim-smis-hba
 Version:        1.0.0
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        SBLIM SMIS HBA HDR Providers
 
 License:        EPL
@@ -92,6 +92,9 @@ rm -f $RPM_BUILD_ROOT/%{_libdir}/cmpi/*a
 %sblim_preun
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 1.0.0-24
 - Fix multiple definiton of variables (FTBFS with GCC 10)
   Resolves: #1800075

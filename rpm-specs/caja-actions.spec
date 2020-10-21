@@ -1,7 +1,7 @@
 Summary:	Caja extension for customizing the context menu
 Name:		caja-actions
 Version:	1.8.3
-Release:	12%{?dist}
+Release:	13%{?dist}
 License:	GPLv2+ and LGPLv2+
 
 URL:		https://github.com/raveit65/%{name}
@@ -101,6 +101,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/cact.desktop
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.3-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 02 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.8.3-12
 - clean up spec file, drop non working rhel7 macros for f32 branch
 - fix building for f32

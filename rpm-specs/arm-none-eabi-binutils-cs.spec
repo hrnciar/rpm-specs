@@ -4,7 +4,7 @@
 Name:           %{target}-binutils-cs
 Epoch:          1
 Version:        2.32
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        GNU Binutils for cross-compilation for %{target} target
 # Most of the sources are licensed under GPLv3+ with these exceptions:
 # LGPLv2+ bfd/hosts/x86-64linux.h, include/demangle.h, include/xregex2.h,
@@ -18,7 +18,8 @@ Source0:        ftp://ftp.gnu.org/pub/gnu/binutils/binutils-%{version}.tar.xz
 
 Source1:        README.fedora
 Patch7: binutils-2.24-dirtravel.patch
-BuildRequires:  gcc flex bison ppl-devel cloog
+Patch8: binutils-config.patch
+BuildRequires:  gcc flex bison ppl-devel cloog autoconf
 BuildRequires:  texinfo texinfo-tex perl-podlators
 Provides:       %{target}-binutils = %{version}
 
@@ -40,10 +41,22 @@ converting addresses to file and line).
 
 %prep
 %setup -q -n binutils-%{version}
+%patch8 -p1
 cp -p %{SOURCE1} .
 rm -rf gdb sim
 
 %build
+# We call configure directly rather than via macros, thus if
+# we are using LTO, we have to manually fix the broken configure
+# scripts
+pushd libiberty
+autoconf -f
+popd
+pushd intl
+autoconf -f
+popd
+[ %{_lto_cflags}x != x ] && %{_fix_broken_configure_for_lto}
+
 ./configure CFLAGS="$RPM_OPT_FLAGS" \
             --target=%{target} \
             --enable-interwork \
@@ -83,6 +96,12 @@ rm -r %{buildroot}%{_infodir}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.32-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Jeff Law <law@redhat.com> - 1:2.32-4
+- Fix broken configure files compromised by LTO
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.32-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

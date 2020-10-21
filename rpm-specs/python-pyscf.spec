@@ -5,8 +5,16 @@
 # libxc, etc, we just have to filter out the internal libraries
 %global __requires_exclude ^(libao2mo\\.so|libcgto\\.so|libcvhf\\.so|libfci\\.so|libnp_helper\\.so).*$
 
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%global blasvar %{nil}
+%else
+%global blaslib openblas
+%global blasvar o
+%endif
+
 Name:           python-pyscf
-Version:        1.7.3
+Version:        1.7.5
 Release:        1%{?dist}
 Summary:        Python module for quantum chemistry
 License:        ASL 2.0
@@ -14,13 +22,13 @@ URL:            https://github.com/pyscf/pyscf/
 Source0:        https://github.com/pyscf/pyscf/archive/v%{version}/pyscf-%{version}.tar.gz
 
 # Disable rpath
-Patch1:         pyscf-1.7.0-rpath.patch
+Patch1:         pyscf-1.7.5-rpath.patch
 
 # ppc64 doesn't appear to have floats beyond 64 bits, so ppc64 is
 # disabled as per upstream's request as for the libcint package.
 ExcludeArch:    %{power64}
 
-BuildRequires:  openblas-devel
+BuildRequires:  %{blaslib}-devel
 BuildRequires:  python3-devel
 BuildRequires:  python3dist(setuptools)
 BuildRequires:  python3-numpy
@@ -84,10 +92,8 @@ find pyscf -name \*.py -exec sed -i '/#!\/usr\/bin\/python/d' '{}' \;
 
 %build
 cd pyscf/lib
-mkdir objdir
-cd objdir
-%cmake .. -DBUILD_LIBXC=OFF -DENABLE_XCFUN=OFF -DBUILD_XCFUN=OFF -DBUILD_LIBCINT=OFF -DBLAS_LIBRARIES="-lopenblaso" -DCMAKE_SKIP_BUILD_RPATH=1
-%make_build
+%cmake -DBUILD_LIBXC=OFF -DENABLE_XCFUN=OFF -DBUILD_XCFUN=OFF -DBUILD_LIBCINT=OFF -DBLAS_LIBRARIES="-l%{blaslib}%{blasvar}" -DCMAKE_SKIP_BUILD_RPATH=1
+%cmake_build
 
 %install
 # Package doesn't have an install command, so we do this by hand.
@@ -116,6 +122,23 @@ export PYTHONPATH=$PWD
 %{python3_sitearch}/pyscf/
 
 %changelog
+* Mon Oct 05 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 1.7.5-1
+- Update to 1.7.5.
+
+* Sun Aug 16 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.7.4-2
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Mon Aug 03 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 1.7.4-1
+- Adapt to updated CMake scripts.
+- Update to 1.7.4.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 11 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 1.7.3-1
 - Update to 1.7.3.
 

@@ -1,6 +1,6 @@
 Name:           exif
 Version:        0.6.21
-Release:        17%{?dist}
+Release:        19%{?dist}
 Summary:        Utility to show EXIF information hidden in JPEG files
 Summary(fr):    Outil pour afficher les informations EXIF masquées dans les fichiers JPEG
 
@@ -32,11 +32,11 @@ mv AUTHORS.tmp AUTHORS
 
 %build
 %configure
-make %{?_smp_mflags}
+%make_build
 
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 %find_lang %{name}
 
 
@@ -51,6 +51,13 @@ make check
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.21-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 0.6.21-18
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.21-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

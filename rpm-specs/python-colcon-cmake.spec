@@ -1,8 +1,8 @@
 %global srcname colcon-cmake
 
 Name:           python-%{srcname}
-Version:        0.2.22
-Release:        2%{?dist}
+Version:        0.2.26
+Release:        1%{?dist}
 Summary:        Extension for colcon to support CMake packages
 
 License:        ASL 2.0
@@ -60,6 +60,21 @@ An extension for colcon-core to support CMake projects.
 
 
 %changelog
+* Wed Sep 30 2020 Scott K Logan <logans@cottsay.net> - 0.2.26-1
+- Update to 0.2.26 (rhbz#1881836)
+
+* Sun Aug 16 2020 Scott K Logan <logans@cottsay.net> - 0.2.25-1
+- Update to 0.2.25 (rhbz#1868888)
+
+* Wed Jul 29 2020 Scott K Logan <logans@cottsay.net> - 0.2.24-1
+- Update to 0.2.24 (rhbz#1860172)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.23-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Scott K Logan <logans@cottsay.net> - 0.2.23-1
+- Update to 0.2.23 (rhbz#1849942)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.22-2
 - Rebuilt for Python 3.9
 

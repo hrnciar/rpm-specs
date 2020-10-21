@@ -1,6 +1,6 @@
 Name:           perl-CDDB
 Version:        1.222
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        CDDB Perl module
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/CDDB
@@ -66,6 +66,9 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.222-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.222-14
 - Perl 5.32 rebuild
 

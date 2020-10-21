@@ -20,7 +20,7 @@ code generation and to provide more convenient and idiomatic API surface.}
 %global godocs          CODE_OF_CONDUCT.md CONTRIBUTING.md README.md RELEASING.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Google API Extensions for Go
 
 # Upstream license specification: BSD-3-Clause
@@ -51,6 +51,9 @@ BuildRequires:  golang(google.golang.org/grpc/status)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

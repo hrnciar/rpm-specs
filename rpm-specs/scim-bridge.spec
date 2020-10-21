@@ -6,7 +6,7 @@
 Name:           scim-bridge
 
 Version:        0.4.16
-Release:        31%{?dist}
+Release:        32%{?dist}
 Summary:        SCIM Bridge Gtk IM module
 
 License:        GPLv2+ or LGPLv2+
@@ -154,6 +154,9 @@ rm doc/{Makefile.*,doxygen.conf}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.16-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.16-31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

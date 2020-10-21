@@ -1,7 +1,7 @@
 Summary:       VST plug-ins host
 Name:          dssi-vst
 Version:       0.9.2
-Release:       23%{?dist}
+Release:       25%{?dist}
 License:       GPLv2
 URL:           http://breakfastquay.com/dssi-vst/
 Source0:       http://code.breakfastquay.com/attachments/download/10/%{name}-%{version}.tar.bz2
@@ -57,6 +57,11 @@ This package contains the plug-in wrapper that works through wine.
 
 
 %build
+# This package calls binutils components directly and would need to pass
+# in flags to enable the LTO plugins
+# Disable LTO
+%define _lto_cflags %{nil}
+
 # Parallel build fails sometimes:
 %ifarch %{ix86}
 make CXXFLAGS="%{optflags} -fno-omit-frame-pointer -Ivestige -fPIC -I/usr/include/wine/wine/windows"
@@ -102,6 +107,12 @@ ln -s ../dssi/%{name}.so %{buildroot}%{_libdir}/ladspa
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 0.9.2-24
+Disable LTO
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           python-repoze-lru
 Version:        0.7
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        A tiny LRU cache implementation and decorator
 
 License:        BSD
@@ -51,6 +51,9 @@ rm -rf %{modname}.egg-info
 %{python3_sitelib}/%{modname}-%{version}*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7-8
 - Rebuilt for Python 3.9
 

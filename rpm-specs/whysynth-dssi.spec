@@ -1,7 +1,7 @@
 Summary:      DSSI software synthesizer plugin
 Name:         whysynth-dssi
 Version:      20120903
-Release:      10%{?dist}
+Release:      11%{?dist}
 URL:          http://www.smbolton.com/whysynth.html
 Source0:      http://www.smbolton.com/whysynth/whysynth-%{version}.tar.bz2
 Source2:      whysynth.desktop
@@ -58,6 +58,9 @@ install -pm 644 extra/whysynth-icon-32x32.png $RPM_BUILD_ROOT%{_datadir}/icons/h
 %{_datadir}/icons/hicolor/32x32/apps/whysynth.png
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20120903-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20120903-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

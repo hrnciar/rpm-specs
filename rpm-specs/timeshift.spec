@@ -8,7 +8,7 @@
 
 Name:           timeshift
 Version:        20.03
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        System restore tool for Linux
 
 License:        GPLv3+ or LGPLv3+
@@ -126,6 +126,9 @@ fi
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.03-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 15 2020 Samuel Rakitničan <samuel.rakitnican@gmail.com> 20.03-1
 - Update to 20.03
 - Rework the uninstall script removal

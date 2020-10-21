@@ -6,7 +6,7 @@
 Summary:    Web-based issue tracking system
 Name:       mantis
 Version:    1.2.19
-Release:    11%{?dist}
+Release:    12%{?dist}
 License:    GPLv2+
 URL:        http://www.mantisbt.org/
 BuildArch:  noarch
@@ -149,6 +149,9 @@ rm -rf ${RPM_BUILD_ROOT}%{pkgdir}/doc
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.19-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.19-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

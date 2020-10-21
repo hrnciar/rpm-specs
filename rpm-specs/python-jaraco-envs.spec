@@ -7,7 +7,7 @@
 
 Name:           python-%{pkg_name}
 Version:        2.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Classes for orchestrating Python (virtual) environments
 
 License:        MIT
@@ -101,6 +101,9 @@ rm -rf html/.{doctrees,buildinfo}
 %endif # with docs
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Charalampos Stratakis <cstratak@redhat.com> - 2.0.0-2
 - Packaging fixes
 

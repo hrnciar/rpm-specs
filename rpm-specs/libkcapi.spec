@@ -109,7 +109,7 @@ done                                                             \
 
 Name:           libkcapi
 Version:        %{vmajor}.%{vminor}.%{vpatch}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        User space interface to the Linux Kernel Crypto API
 
 License:        BSD or GPLv2
@@ -119,6 +119,7 @@ Source1:        http://www.chronox.de/%{name}/%{name}-%{version}.tar.xz.asc
 Source2:        sha512hmac-openssl.sh
 Source3:        fipshmac-openssl.sh
 
+Patch0:         %{giturl}/commit/b612c52c5ccf.patch#/000-Kern-5.8-fix-MSG_MORE-usage.patch
 
 BuildRequires:  bash
 BuildRequires:  clang
@@ -131,7 +132,7 @@ BuildRequires:  hardlink
 BuildRequires:  kernel-headers >= %{min_kernel_ver}
 BuildRequires:  libtool
 BuildRequires:  openssl
-BuildRequires:  perl
+BuildRequires:  perl-interpreter
 BuildRequires:  systemd
 BuildRequires:  xmlto
 
@@ -256,7 +257,7 @@ Requires:       %{name}-checksum%{?_isa} == %{version}-%{release}
 %endif
 Requires:       coreutils
 Requires:       openssl
-Requires:       perl
+Requires:       perl-interpreter
 
 %description    tests
 Auxiliary scripts for testing %{name}.
@@ -465,6 +466,13 @@ popd
 
 
 %changelog
+* Fri Aug 14 2020 Ondrej Mosnáček <omosnace@redhat.com> - 1.2.0-3
+- Require perl-interpreter instead of full perl
+- Backport fix for 5.9 kernels
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Sahana Prasad <omosnace@redhat.com> - 1.2.0-1
 - Update to upstream version 1.2.0 tracked by BZ 1839592.
 - Enable kcapi-enc tests as libkcapi BZ 1826022 is fixed.

@@ -22,7 +22,7 @@ from these programs and contained in output files, specifically:
 
 Name:           python-%{pname}
 Version:        1.6.2
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Parsers for output files of computational chemistry packages
 License:        BSD and LGPLv2+
 URL:            https://cclib.github.io/
@@ -82,6 +82,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} -m test.test_data
 %{_bindir}/cda
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.6.2-6
 - Rebuilt for Python 3.9
 

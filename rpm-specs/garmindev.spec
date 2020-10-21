@@ -1,6 +1,6 @@
 Name:           garmindev
 Version:        0.3.4
-Release:        21%{?dist}
+Release:        23%{?dist}
 Summary:        Drivers for communication with Garmin GPS devices
 
 License:        GPLv2+
@@ -24,15 +24,13 @@ mkdir build
 
 
 %build
-cd build
 export CXXFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing -fsigned-char"
-%cmake ..
-make VERBOSE=1 %{?_smp_mflags}
+%cmake
+%cmake_build
 
 
 %install
-cd build
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 # fix perms on plugins
 find %{buildroot}%{_libdir}/qlandkartegt -type f -exec chmod 0755 {} \;
@@ -48,6 +46,13 @@ rm -rf %{buildroot}%{_libdir}/qlandkartegt/libgarmin*
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-23
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

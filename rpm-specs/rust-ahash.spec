@@ -6,7 +6,7 @@
 %global crate ahash
 
 Name:           rust-%{crate}
-Version:        0.3.8
+Version:        0.4.5
 Release:        1%{?dist}
 Summary:        Non-cryptographic hash function using AES-NI for high performance
 
@@ -77,6 +77,18 @@ which use "const-random" feature of "%{crate}" crate.
 %files       -n %{name}+const-random-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+specialize-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+specialize-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "specialize" feature of "%{crate}" crate.
+
+%files       -n %{name}+specialize-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+std-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -108,6 +120,12 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Mon Sep 28 2020 Fabio Valentini <decathorpe@gmail.com> - 0.4.5-1
+- Update to version 0.4.5.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 10 2020 Josh Stone <jistone@redhat.com> - 0.3.8-1
 - Update to 0.3.8
 

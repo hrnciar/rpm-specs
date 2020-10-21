@@ -2,7 +2,7 @@
 
 Name:           rubygem-%{gem_name}
 Version:        2.4.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Set of Rails responders to dry up your application
 
 License:        MIT
@@ -77,6 +77,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

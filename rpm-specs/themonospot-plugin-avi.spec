@@ -1,7 +1,7 @@
 Summary   : Avi plugin for themonospot system
 Name      : themonospot-plugin-avi
 Version   : 0.1.1
-Release   : 24%{?dist}
+Release   : 25%{?dist}
 License   : GPLv2
 Group     : Applications/Multimedia
 URL       : http://www.integrazioneweb.com/themonospot
@@ -41,6 +41,9 @@ make DESTDIR=%{buildroot} install
 %{_libdir}/themonospot/plugins/%{name}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

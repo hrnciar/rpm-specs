@@ -1,7 +1,7 @@
 Summary:        List SCSI devices (or hosts) and associated information
 Name:           lsscsi
 Version:        0.31
-Release:        1%{?dist}
+Release:        3%{?dist}
 License:        GPLv2+
 Source0:        http://sg.danny.cz/scsi/%{name}-%{version}.tgz
 URL:            http://sg.danny.cz/scsi/lsscsi.html
@@ -24,11 +24,11 @@ Author:
 
 %build
 %configure
-make %{?_smp_mflags}
+%make_build
 
 
 %install
-make DESTDIR=%{buildroot} install
+%make_install
 
 
 %files
@@ -38,6 +38,13 @@ make DESTDIR=%{buildroot} install
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.31-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 0.31-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri Feb 21 2020 Dan Horák <dan[at]danny.cz> - 0.31-1
 - update to 0.31 (#1758436)
 

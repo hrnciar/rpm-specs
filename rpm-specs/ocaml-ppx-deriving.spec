@@ -6,16 +6,13 @@
 %global upname  ppx_deriving
 
 Name:           ocaml-%{srcname}
-Version:        4.4.1
-Release:        4%{?dist}
+Version:        4.5
+Release:        3%{?dist}
 Summary:        Type-driven code generation for OCaml
 
 License:        MIT
 URL:            https://github.com/ocaml-ppx/%{upname}
 Source0:        %{url}/archive/v%{version}/%{upname}-%{version}.tar.gz
-
-# Fixes for OCaml 4.11, sent upstream 2020-04-22.
-Patch1:         ppx_deriving-4.4.1-ocaml-4.11.patch
 
 BuildRequires:  ocaml >= 4.02.2
 BuildRequires:  ocaml-cppo
@@ -138,6 +135,23 @@ dune runtest
 %license LICENSE.txt
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 4.5-3
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 4.5-2
+- OCaml 4.11.0 rebuild
+
+* Wed Aug  5 2020 Jerry James <loganjerry@gmail.com> - 4.5-1
+- Version 4.5
+- Drop upstreamed ppx_deriving-4.4.1-ocaml-4.11.patch
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 4.4.1-4
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

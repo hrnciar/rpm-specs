@@ -1,6 +1,6 @@
 Name:		perl-Tie-RefHash-Weak
 Version:	0.09
-Release:	33%{?dist}
+Release:	34%{?dist}
 Summary:	Tie::RefHash subclass with weakened references in the keys
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Tie-RefHash-Weak
@@ -58,6 +58,9 @@ make test
 %{_mandir}/man3/Tie::RefHash::Weak.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.09-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.09-33
 - Perl 5.32 rebuild
 

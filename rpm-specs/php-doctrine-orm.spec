@@ -12,8 +12,8 @@
 
 %global github_owner     doctrine
 %global github_name      orm
-%global github_version   2.7.3
-%global github_commit    d95e03ba660d50d785a9925f41927fef0ee553cf
+%global github_version   2.7.4
+%global github_commit    7d84a4998091ece4d645253ac65de9f879eeed2f
 
 %global composer_vendor  doctrine
 %global composer_project orm
@@ -76,7 +76,7 @@ Source1:       %{name}-get-source.sh
 # 1) Add she-bang
 # 2) Auto-load using Doctrine\Common\ClassLoader
 Patch0:        %{name}-bin.patch
-# get rid of ocramius/package-versions
+# get rid of composer/package-versions-deprecated
 Patch1:        %{name}-version.patch
 
 BuildArch: noarch
@@ -284,6 +284,12 @@ exit $RETURN_CODE
 
 
 %changelog
+* Mon Oct 12 2020 Remi Collet <remi@remirepo.net> - 2.7.4-1
+- update to 2.7.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 27 2020 Remi Collet <remi@remirepo.net> - 2.7.3-1
 - update to 2.7.3
 - allow doctrine/common v3

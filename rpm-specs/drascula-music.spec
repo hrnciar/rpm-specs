@@ -1,6 +1,6 @@
 Name:           drascula-music
 Version:        1.0
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Background music for Drascula: The Vampire Strikes Back
 # For further discussion on distribution rights see:
 # http://www.redhat.com/archives/fedora-extras-list/2006-November/msg00030.html
@@ -35,6 +35,9 @@ install -p -m 644 audio/*.ogg $RPM_BUILD_ROOT%{_datadir}/drascula
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

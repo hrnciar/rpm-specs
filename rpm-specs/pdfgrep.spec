@@ -1,6 +1,6 @@
 Name:           pdfgrep
 Version:        2.1.2
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Tool to search text in PDF files
 
 License:        GPLv2+
@@ -46,6 +46,9 @@ make -C testsuite
 %{_datadir}/zsh/site-functions/_%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

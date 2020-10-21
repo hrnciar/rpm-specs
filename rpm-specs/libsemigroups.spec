@@ -1,11 +1,13 @@
 Name:           libsemigroups
-Version:        1.1.0
+Version:        1.3.2
 Release:        1%{?dist}
 Summary:        C++ library for semigroups and monoids
 
 License:        GPLv3+
 URL:            https://github.com/libsemigroups/libsemigroups
 Source0:        %{url}/releases/download/v%{version}/%{name}-%{version}.tar.gz
+# Fix bugs in the configure code
+Patch0:         %{name}-autoconf.patch
 
 BuildRequires:  doxygen
 BuildRequires:  fontawesome-fonts-web
@@ -15,6 +17,7 @@ BuildRequires:  font(robotoslab)
 BuildRequires:  fontconfig
 BuildRequires:  gcc-c++
 BuildRequires:  libtool
+BuildRequires:  pkgconfig(eigen3)
 BuildRequires:  pkgconfig(fmt)
 BuildRequires:  python3dist(beautifulsoup4)
 BuildRequires:  python3dist(breathe)
@@ -79,6 +82,7 @@ Libsemigroups also has some advantages over Semigroupe 2.01:
 %package devel
 Summary:        Headers files for developing with %{name}
 Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       eigen3-devel
 Requires:       fmt-devel%{?_isa}
 
 %description devel
@@ -98,6 +102,9 @@ Documentation for %{name}.
 %prep
 %autosetup -p1
 
+# Regenerate configure due to patch0
+autoreconf -fi .
+
 %build
 # Hpcombi is an x86-specific library that uses SSE and AVX instructions.
 # It is not currently available in Fedora, and we cannot assume the
@@ -105,7 +112,7 @@ Documentation for %{name}.
 export CFLAGS="%{optflags} -fwrapv"
 export CXXFLAGS="$CFLAGS"
 %configure --disable-silent-rules --disable-static --disable-hpcombi \
-  --with-external-fmt
+  --enable-eigen --with-external-eigen --enable-fmt --with-external-fmt
 
 # Get rid of undesirable hardcoded rpaths; workaround libtool reordering
 # -Wl,--as-needed after all the libraries.
@@ -138,6 +145,20 @@ cd -
 %make_install
 rm -f %{buildroot}%{_libdir}/*.la
 
+fixtimestamp() {
+  touch -r $1.orig $1
+  rm -f $1.orig
+}
+
+# Do not bundle the eigen3 headers
+rm -fr %{buildroot}%{_includedir}/libsemigroups/Eigen
+
+# Do not bundle the fmt headers
+rm -fr %{buildroot}%{_includedir}/libsemigroups/fmt
+sed -i.orig 's,"\(fmt/[[:alnum:]]*\.h\)",<\1>,g' \
+    %{buildroot}%{_includedir}/libsemigroups/report.hpp
+fixtimestamp %{buildroot}%{_includedir}/libsemigroups/report.hpp
+
 %check
 LD_LIBRARY_PATH=$PWD/.libs make check
 
@@ -157,6 +178,27 @@ LD_LIBRARY_PATH=$PWD/.libs make check
 %license LICENSE
 
 %changelog
+* Sat Oct  3 2020 Jerry James <loganjerry@gmail.com> - 1.3.2-1
+- Version 1.3.2
+
+* Mon Aug 31 2020 Jerry James <loganjerry@gmail.com> - 1.3.1-3
+- Fix the eigen3-devel dependency from -devel
+
+* Mon Aug 31 2020 Jerry James <loganjerry@gmail.com> - 1.3.1-2
+- Do not ship the eigen3 headers in -devel
+
+* Mon Aug 31 2020 Jerry James <loganjerry@gmail.com> - 1.3.1-1
+- Version 1.3.1
+- Add -autoconf patch
+- Add BR on eigen3
+- Do not ship the fmt headers in -devel
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Jerry James <loganjerry@gmail.com> - 1.2.1-1
+- Version 1.2.1
+
 * Fri Jun 12 2020 Jerry James <loganjerry@gmail.com> - 1.1.0-1
 - Version 1.1.0
 

@@ -19,8 +19,8 @@
 %bcond_with sourcegit
 
 Name:           dnsmasq
-Version:        2.81
-Release:        3%{?extraversion:.%{extraversion}}%{?dist}
+Version:        2.82
+Release:        4%{?extraversion:.%{extraversion}}%{?dist}
 Summary:        A lightweight DHCP/caching DNS server
 
 License:        GPLv2 or GPLv3
@@ -38,9 +38,9 @@ Source4:        http://www.thekelleys.org.uk/srkgpg.txt
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=1495409
 Patch1:         dnsmasq-2.77-underflow.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=1852373
+Patch2:         dnsmasq-2.81-configuration.patch
 Patch3:         dnsmasq-2.78-fips.patch
-# https://bugzilla.redhat.com/show_bug.cgi?id=1728701
-Patch7:         dnsmasq-2.80-rh1728701.patch
 Patch9:         dnsmasq-2.80-SIOCGSTAMP.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1834454
 Patch17:        dnsmasq-2.81-rh1834454.patch
@@ -106,26 +106,12 @@ for file in dnsmasq.conf.example man/dnsmasq.8 man/es/dnsmasq.8 src/config.h; do
     sed -i 's|/var/lib/misc/dnsmasq.leases|/var/lib/dnsmasq/dnsmasq.leases|g' "$file"
 done
 
-# fix the path to the trust anchor
-sed -i 's|%%%%PREFIX%%%%|%{_prefix}|' dnsmasq.conf.example
-
-#set dnsmasq user / group
-sed -i 's|#user=|user=dnsmasq|' dnsmasq.conf.example
-sed -i 's|#group=|group=dnsmasq|' dnsmasq.conf.example
 #set default user /group in src/config.h
 sed -i 's|#define CHUSER "nobody"|#define CHUSER "dnsmasq"|' src/config.h
 sed -i 's|#define CHGRP "dip"|#define CHGRP "dnsmasq"|' src/config.h
 
 # optional parts
 sed -i 's|^COPTS[[:space:]]*=|\0 -DHAVE_DBUS -DHAVE_LIBIDN2 -DHAVE_DNSSEC|' Makefile
-
-#enable /etc/dnsmasq.d fix bz 526703, ignore RPM backup files
-cat << EOF >> dnsmasq.conf.example
-
-# Include all files in /etc/dnsmasq.d except RPM backup files
-conf-dir=/etc/dnsmasq.d,.rpmnew,.rpmsave,.rpmorig
-EOF
-
 
 %build
 %make_build CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="$RPM_LD_FLAGS"
@@ -198,6 +184,22 @@ install -Dpm 644 %{SOURCE2} %{buildroot}%{_sysusersdir}/%{name}.conf
 %{_mandir}/man1/dhcp_*
 
 %changelog
+* Fri Oct 09 2020 Petr Menšík <pemensik@redhat.com> - 2.82-4
+- Remove uninitialized condition from downstream patch
+
+* Wed Sep 30 2020 Petr Menšík <pemensik@redhat.com> - 2.82-3
+- Listen only on localhost interface, return port unreachable on all others
+  (#1852373)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.82-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Petr Menšík <pemensik@redhat.com> - 2.82-1
+- Update to 2.82
+
+* Tue Jun 30 2020 Petr Menšík <pemensik@redhat.com> - 2.81-4
+- Accept queries only from localhost (CVE-2020-14312)
+
 * Mon May 11 2020 Petr Menšík <pemensik@redhat.com> - 2.81-3
 - Correct multiple entries with the same mac address (#1834454)
 

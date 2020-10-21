@@ -7,7 +7,7 @@
 # Please, preserve the changelog entries
 #
 %global bootstrap    0
-%global gh_commit    62f696ad0d140e0e513e69eaafdebb674d622b4c
+%global gh_commit    5a10147d0aaf65b58940a0b72f71c9ac0423cc67
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sebastianbergmann
 %global gh_project   php-invoker
@@ -21,13 +21,13 @@
 %global ns_project   Invoker
 
 %if %{bootstrap}
-%global with_tests   0%{?_with_tests:1}
+%bcond_with          tests
 %else
-%global with_tests   0%{!?_without_tests:1}
+%bcond_without       tests
 %endif
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
-Version:        3.0.1
+Version:        3.1.1
 Release:        1%{?dist}
 Summary:        Invoke callables with a timeout
 
@@ -39,16 +39,16 @@ Source1:        makesrc.sh
 BuildArch:      noarch
 BuildRequires:  php(language) >= 7.3
 BuildRequires:  php-fedora-autoloader-devel
-%if %{with_tests}
+%if %{with tests}
 # From composer.json, require-dev
 #        "ext-pcntl": "*"
-#        "phpunit/phpunit": "^9.0"
+#        "phpunit/phpunit": "^9.3"
 BuildRequires:  php-pcntl
-BuildRequires:  phpunit9
+BuildRequires:  phpunit9 >= 9.3
 %endif
 
 # From composer.json, require
-#        "php": "^7.3",
+#        "php": ">=7.3",
 Requires:       php(language) >= 7.3
 # From phpcompatinfo report for version 3.0.0
 Requires:       php-pcntl
@@ -81,7 +81,7 @@ mkdir -p   %{buildroot}%{php_home}/%{ns_vendor}
 cp -pr src %{buildroot}%{php_home}/%{ns_vendor}/%{ns_project}%{major}
 
 
-%if %{with_tests}
+%if %{with tests}
 %check
 : Generate tests autoloader
 mkdir vendor
@@ -108,6 +108,18 @@ exit $ret
 
 
 %changelog
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 3.1.1-1
+- update to 3.1.1 (no change)
+
+* Mon Aug 10 2020 Remi Collet <remi@remirepo.net> - 3.1.0-1
+- update to 3.1.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Remi Collet <remi@remirepo.net> - 3.0.2-1
+- update to 3.0.2
+
 * Tue Jun 16 2020 Remi Collet <remi@remirepo.net> - 3.0.1-1
 - update to 3.0.1
 - sources from git snapshot

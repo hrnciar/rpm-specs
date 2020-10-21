@@ -1,7 +1,7 @@
 Name:           perl-Convert-BER
 Epoch:          1
 Version:        1.32
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        ASN.1 Basic Encoding Rules
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Convert-BER
@@ -47,6 +47,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.32-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:1.32-19
 - Perl 5.32 rebuild
 

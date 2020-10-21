@@ -1,6 +1,6 @@
 Name:           tfdocgen
 Version:        20150202git
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        TiLP framework documentation generator
 
 License:        GPLv2+
@@ -37,6 +37,9 @@ make install DESTDIR=%{buildroot}
 %doc README AUTHORS ChangeLog
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20150202git-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20150202git-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

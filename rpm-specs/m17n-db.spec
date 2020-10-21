@@ -1,7 +1,7 @@
 Name:       m17n-db
 Summary:    Multilingualization datafiles for m17n-lib
 Version:    1.8.0
-Release:    10%{?dist}
+Release:    11%{?dist}
 License:    LGPLv2+
 URL:        http://www.nongnu.org/m17n
 
@@ -145,6 +145,9 @@ cp -p m17n-db-sayura-1.0.0/icons/si-sayura.png %{buildroot}%{_datadir}/m17n/icon
 %{_datadir}/pkgconfig/m17n-db.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 18 2020 Parag Nemade <pnemade AT redhat DOT com> - 1.8.0-10
 - Use make_build and make_install macros
 

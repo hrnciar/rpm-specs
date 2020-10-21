@@ -1,6 +1,6 @@
 Name:          usbmuxd
 Version:       1.1.1
-Release:       1%{?dist}
+Release:       3%{?dist}
 Summary:       Daemon for communicating with Apple's iOS devices
 # All code is dual licenses as GPLv3+ or GPLv2+, except libusbmuxd which is LGPLv2+.
 License:       GPLv3+ or GPLv2+
@@ -35,10 +35,10 @@ sed -i.user 's/--user usbmux/--user usbmuxd/' systemd/usbmuxd.service.in
 %build
 %configure
 
-make %{?_smp_mflags} V=1
+%make_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 
 %pre
 getent group usbmuxd >/dev/null || groupadd -r usbmuxd -g 113
@@ -65,6 +65,13 @@ exit 0
 %{_datadir}/man/man8/usbmuxd.8.gz
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Tom Stellard <tstellar@redhat.com> - 1.1.1-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jun 16 2020 Bastien Nocera <bnocera@redhat.com> - 1.1.1-1
 + usbmuxd-1.1.1-1
 - Update to 1.1.1

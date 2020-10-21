@@ -4,7 +4,7 @@
 
 Name:           webp-pixbuf-loader
 Version:        0.0.1
-Release:        9.%{codate}git%{shortcommit}%{?dist}
+Release:        10.%{codate}git%{shortcommit}%{?dist}
 Summary:        WebP image loader for GTK+ applications
 
 License:        LGPLv2+
@@ -38,6 +38,9 @@ cp -av %{SOURCE1} COPYING
 %{_libdir}/gdk-pixbuf-2.0/*/loaders/libpixbufloader-webp.so
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.1-10.20191003gitfb04954
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.1-9.20191003gitfb04954
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

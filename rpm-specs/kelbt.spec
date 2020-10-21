@@ -1,6 +1,6 @@
 Name:           kelbt
 Version:        0.16
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Backtracking LR Parsing
 
 # aapl/ is the LGPLv2+
@@ -40,6 +40,9 @@ autoreconf -vfi
 %{_bindir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

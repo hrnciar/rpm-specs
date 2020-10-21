@@ -1,37 +1,35 @@
-%global desc An open source asynchronous task queue/job queue based on\
-distributed message passing. It is focused on real-time\
-operation, but supports scheduling as well.\
-\
-The execution units, called tasks, are executed concurrently\
-on one or more worker nodes using multiprocessing, Eventlet\
-or gevent. Tasks can execute asynchronously (in the background)\
-or synchronously (wait until ready).\
-\
-Celery is used in production systems to process millions of\
-tasks a day.\
-\
-Celery is written in Python, but the protocol can be implemented\
-in any language. It can also operate with other languages using\
-web hooks.\
-\
-The recommended message broker is RabbitMQ, but limited support\
-for Redis, Beanstalk, MongoDB, CouchDB and databases\
-(using SQLAlchemy or the Django ORM) is also available.\
-
-
 Name:           python-celery
-Version:        4.4.5
+Version:        5.0.1
 Release:        1%{?dist}
 BuildArch:      noarch
 
 License:        BSD
-URL:            http://celeryproject.org
+URL:            https://celeryproject.org
 Source0:        https://github.com/celery/celery/archive/v%{version}/%{name}-%{version}.tar.gz
+# Fix custom pytest markers for pytest
+Source1:        pytest.ini
 Summary:        Distributed Task Queue
 
 %description
-%{desc}
+An open source asynchronous task queue/job queue based on
+distributed message passing. It is focused on real-time
+operation, but supports scheduling as well.
 
+The execution units, called tasks, are executed concurrently
+on one or more worker nodes using multiprocessing, Eventlet
+or gevent. Tasks can execute asynchronously (in the background)
+or synchronously (wait until ready).
+
+Celery is used in production systems to process millions of
+tasks a day.
+
+Celery is written in Python, but the protocol can be implemented
+in any language. It can also operate with other languages using
+web hooks.
+
+The recommended message broker is RabbitMQ, but limited support
+for Redis, Beanstalk, MongoDB, CouchDB and databases
+(using SQLAlchemy or the Django ORM) is also available.
 
 %package doc
 Summary: Documentation for python-celery
@@ -40,18 +38,14 @@ License: CC-BY-SA
 %description doc
 Documentation for python-celery.
 
-
 %package -n python3-celery
 Summary:        Distributed Task Queue
 
-%{?python_provide:%python_provide python3-celery}
-
 Requires:       python3-amqp
 Requires:       python3-billiard
-Requires:       python3-kombu
+Requires:       python3-kombu >= 5.0.2
 Requires:       python3-pytz
 Requires:       python3-setuptools
-
 
 BuildRequires:  python3-amqp
 BuildRequires:  python3-billiard
@@ -59,32 +53,37 @@ BuildRequires:  python3-case
 BuildRequires:  python3-cryptography
 BuildRequires:  python3-devel
 BuildRequires:  python3-dns
+BuildRequires:  python3-dateutil
 BuildRequires:  python3-future
-BuildRequires:  python3-kombu
+BuildRequires:  python3-kombu >= 5.0.2
 BuildRequires:  python3-msgpack
 BuildRequires:  python3-pytest
+BuildRequires:  python3-pytest-timeout
+BuildRequires:  python3-pytest-subtests
 BuildRequires:  python3-pymongo
 BuildRequires:  python3-pytz
+BuildRequires:  python3-pyyaml
+BuildRequires:  python3-redis
 BuildRequires:  python3-rpm-macros
 BuildRequires:  python3-setuptools
-
+BuildRequires:  python3-simplejson
 
 %description -n python3-celery
 %{desc}
 
-
 %prep
 %autosetup -n celery-%{version}
-
 
 %build
 %py3_build
 
-pushd docs
+#pushd docs
 # missing python-sphinx_celery (for the moment)
 #make %{?_smp_mflags} html
-popd
+#popd
 
+# fix custom celery markers in pytest
+cp %{SOURCE1} .
 
 %install
 %py3_install
@@ -96,12 +95,25 @@ popd
 
 %check
 # python-moto is not packaged in Fedora, ignore S3 tests
-# TODO: Examine test failures
-py.test-3 --ignore=t/unit/backends/test_s3.py || :
+# mongodb is not packaged in Fedora, ignore mongodb tests
+
+# cache tests
+export TEST_BROKER=redis://
+export TEST_BACKEND=cache+pylibmc://
+py.test-3 --ignore=t/unit/backends/test_s3.py --ignore=t/unit/backends/test_mongodb.py --ignore=t/distro/test_CI_reqs.py
+
+# redis tests
+export TEST_BROKER=redis://
+export TEST_BACKEND=redis://
+py.test-3 --ignore=t/unit/backends/test_s3.py --ignore=t/unit/backends/test_mongodb.py --ignore=t/distro/test_CI_reqs.py
+
+# rabbitmq tests
+export TEST_BROKER=pyamqp://
+export TEST_BACKEND=rpc
+py.test-3 --ignore=t/unit/backends/test_s3.py --ignore=t/unit/backends/test_mongodb.py --ignore=t/distro/test_CI_reqs.py
 
 %files doc
 %license LICENSE
-
 
 %files -n python3-celery
 %license LICENSE
@@ -111,8 +123,25 @@ py.test-3 --ignore=t/unit/backends/test_s3.py || :
 %{python3_sitelib}/celery-*.egg-info
 %{python3_sitelib}/celery
 
-
 %changelog
+* Mon Oct 19 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 5.0.1-1
+- Celery 5.0.1
+
+* Wed Sep 30 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 5.0.0-2
+- Enable more tests
+
+* Tue Sep 29 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 5.0.0-1
+- Celery 5.0.0
+
+* Mon Aug 03 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 4.4.7-1
+- Celery 4.4.7
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 4.4.6-1
+- Celery 4.4.6
+
 * Mon Jun 08 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 4.4.5-1
 - Celery 4.4.5
 

@@ -3,7 +3,7 @@
 
 Name:           perl-Twiggy
 Version:        0.1025
-Release:        14%{?dist}
+Release:        16%{?dist}
 Summary:        AnyEvent HTTP server for PSGI (like Thin)
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Twiggy
@@ -107,6 +107,12 @@ TEST_SLOW=1 make test
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1025-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.1025-15
+- Perl 5.32 rebuild
+
 * Tue Mar 17 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.1025-14
 - Add BR: perl(blib)
 

@@ -6,7 +6,7 @@
 
 Name:			ratools
 Version:		0.6.2
-Release:		12%{?dist}
+Release:		14%{?dist}
 Summary:		Framework for IPv6 Router Advertisements
 License:		ASL 2.0
 URL:			https://www.nonattached.net/ratools
@@ -76,6 +76,13 @@ install -pm 0644 systemd/ratools-rad.socket %{buildroot}%{_unitdir}/ratools-rad.
 %endif # with_systemd
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

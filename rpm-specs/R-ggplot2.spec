@@ -1,49 +1,48 @@
-%global packname  ggplot2
+%global packname ggplot2
+%global packver  3.3.2
 %global rlibdir  %{_datadir}/R/library
 
-%global __suggests_exclude ^R\\((Hmisc|maptools|profvis|quantreg|sf|vdiffr)\\)
-
-%bcond_with check
+%global __suggests_exclude ^R\\((Hmisc|maptools|quantreg|sf|vdiffr)\\)
 
 # Not available or loops.
 %global with_suggests 0
 
 Name:             R-%{packname}
-Version:          3.2.1
-Release:          3%{?dist}
+Version:          3.3.2
+Release:          1%{?dist}
 Summary:          Create Elegant Data Visualisations Using the Grammar of Graphics
 
 License:          GPLv2
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
-Patch0001:        0001-Don-t-run-Hmisc-examples.patch
-Patch0002:        0002-Skip-vdiffr-tests-if-not-installed.patch
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
+Patch0001:        0001-Skip-vdiffr-tests-if-not-installed.patch
+Patch0002:        0002-Skip-geom-quantile-if-quantreg-is-not-installed.patch
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-digest, R-grDevices, R-grid, R-gtable >= 0.1.1, R-lazyeval, R-MASS, R-mgcv, R-reshape2, R-rlang >= 0.3.0, R-scales >= 0.5.0, R-stats, R-tibble, R-viridisLite, R-withr >= 2.0.0
-# Suggests:  R-covr, R-dplyr, R-ggplot2movies, R-hexbin, R-Hmisc, R-knitr, R-lattice, R-mapproj, R-maps, R-maptools, R-multcomp, R-munsell, R-nlme, R-profvis, R-quantreg, R-rgeos, R-rmarkdown, R-rpart, R-sf >= 0.7-3, R-svglite >= 1.2.0.9001, R-testthat >= 0.11.0, R-vdiffr >= 0.3.0
+# Imports:   R-digest, R-glue, R-grDevices, R-grid, R-gtable >= 0.1.1, R-isoband, R-MASS, R-mgcv, R-rlang >= 0.3.0, R-scales >= 0.5.0, R-stats, R-tibble, R-withr >= 2.0.0
+# Suggests:  R-covr, R-dplyr, R-ggplot2movies, R-hexbin, R-Hmisc, R-knitr, R-lattice, R-mapproj, R-maps, R-maptools, R-multcomp, R-munsell, R-nlme, R-profvis, R-quantreg, R-RColorBrewer, R-rgeos, R-rmarkdown, R-rpart, R-sf >= 0.7-3, R-svglite >= 1.2.0.9001, R-testthat >= 2.1.0, R-vdiffr >= 0.3.0
 # LinkingTo:
 # Enhances:
 
 BuildArch:        noarch
-
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    R-digest
+BuildRequires:    R-glue
 BuildRequires:    R-grDevices
 BuildRequires:    R-grid
 BuildRequires:    R-gtable >= 0.1.1
-BuildRequires:    R-lazyeval
+BuildRequires:    R-isoband
 BuildRequires:    R-MASS
 BuildRequires:    R-mgcv
-BuildRequires:    R-reshape2
 BuildRequires:    R-rlang >= 0.3.0
 BuildRequires:    R-scales >= 0.5.0
 BuildRequires:    R-stats
 BuildRequires:    R-tibble
-BuildRequires:    R-viridisLite
 BuildRequires:    R-withr >= 2.0.0
+BuildRequires:    R-dplyr
+BuildRequires:    R-ggplot2movies
 BuildRequires:    R-hexbin
 BuildRequires:    R-knitr
 BuildRequires:    R-lattice
@@ -52,19 +51,16 @@ BuildRequires:    R-maps
 BuildRequires:    R-multcomp
 BuildRequires:    R-munsell
 BuildRequires:    R-nlme
+BuildRequires:    R-profvis
+BuildRequires:    R-RColorBrewer
 BuildRequires:    R-rgeos
 BuildRequires:    R-rmarkdown
 BuildRequires:    R-rpart
-BuildRequires:    R-testthat >= 0.11.0
-%if %{with_suggests} || %{fedora} > 29
-BuildRequires:    R-dplyr
-BuildRequires:    R-ggplot2movies
 BuildRequires:    R-svglite >= 1.2.0.9001
-%endif
+BuildRequires:    R-testthat >= 2.1.0
 %if %{with_suggests}
 BuildRequires:    R-Hmisc
 BuildRequires:    R-maptools
-BuildRequires:    R-profvis
 BuildRequires:    R-quantreg
 BuildRequires:    R-sf >= 0.7.3
 BuildRequires:    R-vdiffr >= 0.3.0
@@ -102,18 +98,11 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %check
-%if %{with check}
 export LANG=C.UTF-8
-%if %{with_suggests} || %{fedora} > 29
-ARGS=--ignore-vignettes
-%else
-ARGS="--no-examples --ignore-vignettes"
-%endif
 %if %{with_suggests}
 %{_bindir}/R CMD check %{packname}
 %else
-_R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} $ARGS
-%endif
+_R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 %endif
 
 
@@ -134,6 +123,15 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} $ARGS
 
 
 %changelog
+* Mon Aug 03 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 3.3.2-1
+- Update to latest version (rhbz#1810676)
+
+* Sun Aug 02 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 3.2.1-5
+- Add R-profvis to BuildRequires
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 3.2.1-3
 - ignore vignettes... actually, just disable check
 - rebuild for R 4

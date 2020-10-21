@@ -3,7 +3,7 @@
 Name:           python-typeshed
 # There are no actual releases of typeshed so we are making one up
 Version:        0.1
-Release:        0.20191009git%{?dist}
+Release:        0.20191010git%{?dist}
 Summary:        Static type information for python modules
 
 License:        ASL 2.0
@@ -39,6 +39,9 @@ done
 %{_datadir}/typeshed
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.20191010git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.20191009git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

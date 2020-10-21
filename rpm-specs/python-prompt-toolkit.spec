@@ -16,7 +16,7 @@ terminal applications in Python.}
 
 Name:           python-%{pkgname}
 Version:        3.0.5
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Library for building powerful interactive command lines in Python
 License:        BSD
 URL:            https://github.com/prompt-toolkit/python-prompt-toolkit
@@ -72,6 +72,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} --verbose
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.5-3
 - Rebuilt for Python 3.9
 

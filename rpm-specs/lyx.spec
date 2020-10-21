@@ -1,7 +1,3 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 ## lyx-fonts
 %global fontname lyx
 BuildRequires: fontpackages-devel
@@ -15,7 +11,7 @@ BuildRequires: fontpackages-devel
 %global _changelog_trimtime %(date +%s -d "1 year ago")
 
 Name:    lyx
-Version: 2.3.5
+Version: 2.3.5.2
 Release: 2%{?dist}
 Summary: WYSIWYM (What You See Is What You Mean) document processor
 License: GPLv2+
@@ -54,7 +50,7 @@ BuildRequires: file-devel
 BuildRequires: gettext
 BuildRequires: hunspell-devel
 BuildRequires: mythes-devel
-BuildRequires: python3
+BuildRequires: python3-devel
 
 BuildRequires: pkgconfig(Qt5Core)
 BuildRequires: pkgconfig(Qt5Widgets)
@@ -193,6 +189,8 @@ A collection of Math symbol fonts for %{name}.
 %install
 %make_install
 
+%py_byte_compile %{python3} %{buildroot}%{_datadir}/lyx/lyx2lyx
+
 # misc/extras
 install -p -m644 -D %{SOURCE1} %{buildroot}%{_datadir}/lyx/lyxrc.dist
 
@@ -271,6 +269,15 @@ texhash >& /dev/null
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.5.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  1 2020 José Matos <jamatos@fedoraproject.org> - 2.3.5.2-1
+- update to 2.3.5.2
+
+* Wed Jun 24 2020 José Matos <jamatos@fedoraproject.org> - 2.3.5-3
+- use py_bytecompile to bytecompile lyx2lyx files
+
 * Tue Jun  2 2020 José Matos <jamatos@fedoraproject.org> - 2.3.5-2
 - rebuild with boost 1.73 (for Fedora 33+)
 

@@ -8,13 +8,13 @@
 
 
 Name:		python-%{upname}
-Version:	0.14.3
-Release:	13%{?dist}
+Version:	0.17.1
+Release:	2%{?dist}
 Summary:	%{common_sum}
 
 License:	LGPLv3+
 URL:		https://github.com/moses-palmer/%{upname}
-Source0:	%{url}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source0:	%{url}/archive/v%{version}/%{upname}-%{version}.tar.gz
 
 BuildArch:	noarch
 
@@ -31,6 +31,7 @@ BuildRequires:	python3-setuptools
 BuildRequires:	python3-six
 BuildRequires:	python3-xlib >= 0.17
 
+Requires:	libappindicator-gtk3
 Requires:	python3-pillow
 Requires:	python3-six
 Requires:	python3-xlib		>= 0.17
@@ -88,6 +89,18 @@ done
 
 
 %changelog
+* Sat Oct 10 2020 Neal Gompa <ngompa13@gmail.com> - 0.17.1-2
+- Add missing dependency on libappindicator-gtk3
+
+* Sat Oct 10 2020 Neal Gompa <ngompa13@gmail.com> - 0.17.1-1
+- Update to 0.17.1 (#1873893)
+
+* Mon Aug 03 2020 Neal Gompa <ngompa13@gmail.com> - 0.16.0-1
+- Update to 0.16.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.3-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.14.3-13
 - Rebuilt for Python 3.9
 

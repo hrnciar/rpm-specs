@@ -3,7 +3,7 @@
 
 # https://github.com/containerd/ttrpc
 %global goipath         github.com/containerd/ttrpc
-%global commit          0be804eadb152bc3b3c20c5edc314c4633833398
+Version:                1.0.1
 
 %gometa
 
@@ -25,22 +25,18 @@ use as GRPC.}
 %global godocs          example README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.4%{?dist}
+Release:        2%{?dist}
 Summary:        GRPC for low-memory environments
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+# Convert to github.com/golang/protobuf
+# https://github.com/containerd/ttrpc/issues/62
+Patch0:         0001-Convert-to-github.com-golang-protobuf.patch
 
-BuildRequires:  golang(github.com/gogo/protobuf/gogoproto)
-BuildRequires:  golang(github.com/gogo/protobuf/proto)
-BuildRequires:  golang(github.com/gogo/protobuf/protoc-gen-gogo/descriptor)
-BuildRequires:  golang(github.com/gogo/protobuf/protoc-gen-gogo/generator)
-BuildRequires:  golang(github.com/gogo/protobuf/types)
-BuildRequires:  golang(github.com/gogo/protobuf/vanity)
-BuildRequires:  golang(github.com/gogo/protobuf/vanity/command)
+BuildRequires:  golang(github.com/golang/protobuf/proto)
 BuildRequires:  golang(github.com/pkg/errors)
 BuildRequires:  golang(github.com/sirupsen/logrus)
 BuildRequires:  golang(golang.org/x/sys/unix)
@@ -60,30 +56,29 @@ BuildRequires:  golang(github.com/prometheus/procfs)
 
 %prep
 %goprep
-
-%build
-for cmd in cmd/* ; do
-  %gobuild -o %{gobuilddir}/bin/$(basename $cmd) %{goipath}/$cmd
-done
+%patch0 -p1
+rm -rf cmd/
 
 %install
 %gopkginstall
-install -m 0755 -vd                     %{buildroot}%{_bindir}
-install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
 %gocheck
 %endif
 
-%files
-%license LICENSE
-%doc example README.md
-%{_bindir}/*
-
 %gopkgfiles
 
 %changelog
+* Sun Aug 23 01:04:49 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.1-2
+- Rebuilt for FTBFS
+
+* Sun Aug 09 22:59:10 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.1-1
+- Update to 1.0.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 07 05:02:22 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200207git0be804e
 - Bump to commit 0be804eadb152bc3b3c20c5edc314c4633833398
 

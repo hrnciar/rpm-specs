@@ -3,7 +3,7 @@
 
 Name:           %{fontname}-fonts
 Version:        20100612
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        VDR symbol fonts
 
 License:        Bitstream Vera and Public Domain
@@ -49,6 +49,9 @@ ln -s %{_fontconfig_templatedir}/%{fontconf} \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20100612-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20100612-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

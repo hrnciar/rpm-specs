@@ -5,11 +5,11 @@
 %global crate cookie
 
 Name:           rust-%{crate}
-Version:        0.12.0
-Release:        2%{?dist}
-Summary:        Crate for parsing HTTP cookie headers and managing a cookie jar
+Version:        0.14.2
+Release:        1%{?dist}
+Summary:        HTTP cookie parsing and cookie jar management
 
-# Upstream license specification: MIT/Apache-2.0
+# Upstream license specification: MIT OR Apache-2.0
 License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/cookie
 Source:         %{crates_source}
@@ -22,8 +22,8 @@ BuildArch:      noarch
 BuildRequires:  rust-packaging
 
 %global _description %{expand:
-Crate for parsing HTTP cookie headers and managing a cookie jar. Supports
-signed and private (encrypted + signed) jars.}
+HTTP cookie parsing and cookie jar management. Supports signed and private
+(encrypted, authenticated) jars.}
 
 %description %{_description}
 
@@ -53,6 +53,18 @@ which use "default" feature of "%{crate}" crate.
 %files       -n %{name}+default-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+aes-gcm-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+aes-gcm-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "aes-gcm" feature of "%{crate}" crate.
+
+%files       -n %{name}+aes-gcm-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+base64-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -63,6 +75,42 @@ This package contains library source intended for building other packages
 which use "base64" feature of "%{crate}" crate.
 
 %files       -n %{name}+base64-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+hkdf-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+hkdf-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "hkdf" feature of "%{crate}" crate.
+
+%files       -n %{name}+hkdf-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+hmac-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+hmac-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "hmac" feature of "%{crate}" crate.
+
+%files       -n %{name}+hmac-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+key-expansion-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+key-expansion-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "key-expansion" feature of "%{crate}" crate.
+
+%files       -n %{name}+key-expansion-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %package     -n %{name}+percent-encode-devel
@@ -77,16 +125,40 @@ which use "percent-encode" feature of "%{crate}" crate.
 %files       -n %{name}+percent-encode-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
-%package     -n %{name}+ring-devel
+%package     -n %{name}+percent-encoding-devel
 Summary:        %{summary}
 BuildArch:      noarch
 
-%description -n %{name}+ring-devel %{_description}
+%description -n %{name}+percent-encoding-devel %{_description}
 
 This package contains library source intended for building other packages
-which use "ring" feature of "%{crate}" crate.
+which use "percent-encoding" feature of "%{crate}" crate.
 
-%files       -n %{name}+ring-devel
+%files       -n %{name}+percent-encoding-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+private-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+private-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "private" feature of "%{crate}" crate.
+
+%files       -n %{name}+private-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+rand-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+rand-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "rand" feature of "%{crate}" crate.
+
+%files       -n %{name}+rand-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %package     -n %{name}+secure-devel
@@ -101,16 +173,28 @@ which use "secure" feature of "%{crate}" crate.
 %files       -n %{name}+secure-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
-%package     -n %{name}+url-devel
+%package     -n %{name}+sha2-devel
 Summary:        %{summary}
 BuildArch:      noarch
 
-%description -n %{name}+url-devel %{_description}
+%description -n %{name}+sha2-devel %{_description}
 
 This package contains library source intended for building other packages
-which use "url" feature of "%{crate}" crate.
+which use "sha2" feature of "%{crate}" crate.
 
-%files       -n %{name}+url-devel
+%files       -n %{name}+sha2-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+signed-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+signed-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "signed" feature of "%{crate}" crate.
+
+%files       -n %{name}+signed-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %prep
@@ -132,6 +216,12 @@ which use "url" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 0.14.2-1
+- Update to 0.14.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

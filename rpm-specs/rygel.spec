@@ -1,33 +1,38 @@
 %global apiver  2.6
 
 Name:          rygel
-Version:       0.38.3
+Version:       0.40.0
 Release:       1%{?dist}
 Summary:       A collection of UPnP/DLNA services
 
 License:       LGPLv2+
 URL:           https://wiki.gnome.org/Projects/Rygel
-Source0:       https://download.gnome.org/sources/%{name}/0.38/%{name}-%{version}.tar.xz
+Source0:       https://download.gnome.org/sources/%{name}/0.40/%{name}-%{version}.tar.xz
 
 BuildRequires: dbus-glib-devel
 BuildRequires: desktop-file-utils
 BuildRequires: docbook-style-xsl
+BuildRequires: gettext
 BuildRequires: gobject-introspection-devel
+BuildRequires: gst-editing-services-devel
 BuildRequires: gstreamer1-devel
 BuildRequires: gstreamer1-plugins-base-devel
+BuildRequires: gtk-doc
 BuildRequires: gtk3-devel
 BuildRequires: gupnp-devel
 BuildRequires: gupnp-av-devel
 BuildRequires: gupnp-dlna-devel
-BuildRequires: intltool
 BuildRequires: libgee-devel
 BuildRequires: libmediaart-devel
 BuildRequires: libsoup-devel
 BuildRequires: libunistring-devel
 BuildRequires: libuuid-devel
+BuildRequires: meson
 BuildRequires: sqlite-devel
 BuildRequires: systemd-devel
 BuildRequires: tracker-devel
+BuildRequires: vala
+BuildRequires: valadoc
 BuildRequires: /usr/bin/xsltproc
 
 %description
@@ -57,18 +62,16 @@ A plugin for rygel to use tracker to locate media on the local machine.
 %setup -q
 
 %build
-%configure --enable-tracker-plugin --enable-media-export-plugin --enable-external-plugin \
-  --enable-gst-launch-plugin --disable-silent-rules
-sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
-sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
-
-make %{?_smp_mflags} V=1
+%meson \
+  -Dapi-docs=true \
+  -Dexamples=false
+%meson_build
 
 %install
-%make_install
+%meson_install
 
-#Remove libtool archives.
-find %{buildroot} -type f -name "*.la" -delete
+# We don't have tracker3 yet
+rm %{buildroot}%{_libdir}/rygel-%{apiver}/plugins/tracker3.plugin
 
 %find_lang %{name}
 
@@ -83,7 +86,12 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/rygel-preferences.de
 %config(noreplace) %{_sysconfdir}/rygel.conf
 %{_bindir}/rygel
 %{_bindir}/rygel-preferences
-%{_libdir}/librygel*.so.*
+%{_libdir}/librygel-core-%{apiver}.so.2*
+%{_libdir}/librygel-db-%{apiver}.so.2*
+%{_libdir}/librygel-renderer-%{apiver}.so.2*
+%{_libdir}/librygel-renderer-gst-%{apiver}.so.2*
+%{_libdir}/librygel-ruih-2.0.so.1*
+%{_libdir}/librygel-server-%{apiver}.so.2*
 %{_libdir}/girepository-1.0/RygelCore-%{apiver}.typelib
 %{_libdir}/girepository-1.0/RygelRenderer-%{apiver}.typelib
 %{_libdir}/girepository-1.0/RygelRendererGst-%{apiver}.typelib
@@ -132,6 +140,17 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/rygel-preferences.de
 %{_datadir}/vala/vapi/rygel*.vapi
 
 %changelog
+* Mon Sep 14 2020 Kalev Lember <klember@redhat.com> - 0.40.0-1
+- Update to 0.40.0
+
+* Tue Aug 18 2020 Kalev Lember <klember@redhat.com> - 0.39.2-1
+- Update to 0.39.2
+- Switch to the meson build system
+- Tighten soname globs
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.38.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 12 2020 Kalev Lember <klember@redhat.com> - 0.38.3-1
 - Update to 0.38.3
 

@@ -7,7 +7,7 @@
 Name:           i-nex
 Version:        7.6.1
 #Release:        1%%{gver}%%{?dist}
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        System information tool like hardinfo, sysinfo
 License:        GPLv3 and LGPLv3
 URL:            https://github.com/eloaders/I-Nex
@@ -59,7 +59,7 @@ Requires:       gambas3-gb-form-stock
 Requires:       gambas3-gb-jit
 Requires:       redhat-lsb
 Requires:       mesa-demos 
-Requires:       xorg-x11-server-utils
+Requires:       xdpyinfo xrandr
 Requires:       gambas3-gb-dbus
 Requires:       gambas3-runtime
 Requires:       gambas3-gb-image
@@ -163,6 +163,12 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/%{name}.a
 %{_datadir}/pixmaps/i-nex.png
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 7.6.1-4
+- Require xdpyinfo xrandr, not xorg-x11-server-utils
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.6.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.6.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

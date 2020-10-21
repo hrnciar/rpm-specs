@@ -2,7 +2,7 @@
 Name: aprsd
 Summary: Internet gateway and client access to amateur radio APRS packet data
 Version: 2.2.5
-Release: %{uprel}.6%{?dist}.23
+Release: %{uprel}.6%{?dist}.25
 License: GPLv2+
 Source0: http://downloads.sourceforge.net/%{name}/%{name}-%{version}-%{uprel}.tar.gz
 Source1: aprsd.conf
@@ -40,6 +40,7 @@ real-time data in an easy to use package.
 %patch2 -p1 -b sysconfdir
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure
 make %{?_smp_mflags}
 
@@ -115,6 +116,12 @@ fi
 %doc doc/qalgorithm.html
 
 %changelog
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 2.2.5-15.6.25
+- Force C++14 as the code is not ready for C++17
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.5-15.6.24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.5-15.6.23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

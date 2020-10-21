@@ -7,7 +7,7 @@
 
 Name:           rust-%{crate}
 Version:        0.11.3
-Release:        14%{?dist}
+Release:        16%{?dist}
 Summary:        Stripped-down Nom parser used by Syn
 
 # Upstream license specification: MIT/Apache-2.0
@@ -75,6 +75,13 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.3-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.3-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.3-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

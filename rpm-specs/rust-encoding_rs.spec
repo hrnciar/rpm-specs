@@ -5,7 +5,7 @@
 %global crate encoding_rs
 
 Name:           rust-%{crate}
-Version:        0.8.23
+Version:        0.8.24
 Release:        1%{?dist}
 Summary:        Gecko-oriented implementation of the Encoding Standard
 
@@ -218,6 +218,16 @@ which use "simd-accel" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 0.8.24-1
+- Update to 0.8.24
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.23-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.23-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 13 2020 Josh Stone <jistone@redhat.com> - 0.8.23-1
 - Update to 0.8.23
 

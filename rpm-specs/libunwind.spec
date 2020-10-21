@@ -4,13 +4,15 @@
 Summary: An unwinding library
 Name: libunwind
 Version: 1.4.0
-Release: 1%{?dist}
+Release: 4%{?dist}
 License: BSD
 URL: http://savannah.nongnu.org/projects/libunwind
 Source: http://download-mirror.savannah.gnu.org/releases/libunwind/libunwind-%{version}.tar.gz
 
 #Fedora specific patch
 Patch1: libunwind-arm-default-to-exidx.patch
+# Make libunwind.h multilib friendly
+Patch2: libunwind-1.3.1-multilib-fix.patch
 
 ExclusiveArch: %{arm} aarch64 hppa ia64 mips ppc %{power64} s390x %{ix86} x86_64
 
@@ -33,6 +35,7 @@ libunwind.
 %prep
 %setup -q
 %patch1 -p1 -b .default-to-exidx
+%patch2 -p1 -b .multilib-fix
 
 %build
 %global optflags %{optflags} -fcommon
@@ -85,6 +88,16 @@ echo ====================TESTSUITE DISABLED=========================
 %{_includedir}/libunwind*.h
 
 %changelog
+* Thu Aug 13 2020 Tom Callaway <spot@fedoraproject.org> - 1.4.0-4
+- revert previous change
+- fix it properly
+
+* Mon Aug 10 2020 Tom Callaway <spot@fedoraproject.org> - 1.4.0-3
+- fix multilib issues with libunwind.h (bz1866512)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 14 2020 Dan Horák <dan[at]danny.cz> - 1.4.0-1
 - Update to 1.4.0 with s390x support
 

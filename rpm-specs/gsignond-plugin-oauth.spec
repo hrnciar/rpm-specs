@@ -9,7 +9,7 @@
 Name:           gsignond-plugin-oauth
 Summary:        OAuth plugin for gsignond
 Version:        0
-Release:        0.8.%{commitdate}.git%{shortcommit}%{?dist}
+Release:        0.10.%{commitdate}.git%{shortcommit}%{?dist}
 License:        LGPLv2+
 
 URL:            https://gitlab.com/accounts-sso/%{srcname}
@@ -77,6 +77,13 @@ This package contains the documentation.
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.10.20180513.git43fee49
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9.20180513.git43fee49
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8.20180513.git43fee49
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           snallygaster
 Version:        0.0.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Tool to scan for secret files on HTTP servers
 
 License:        CC0
@@ -55,6 +55,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 06 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.0.6-2
 - Add comment about running the tests (rhbz#839542)
 

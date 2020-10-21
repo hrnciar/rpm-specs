@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        1.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Process command line according to parsing rules of UNIX shell
 
 # Upstream license specification: MIT/Apache-2.0
@@ -71,6 +71,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 19:05:23 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.0.0-1
 - Update to 1.0.0
 

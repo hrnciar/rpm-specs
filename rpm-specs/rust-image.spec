@@ -5,7 +5,7 @@
 %global crate image
 
 Name:           rust-%{crate}
-Version:        0.23.5
+Version:        0.23.10
 Release:        1%{?dist}
 Summary:        Imaging library written in Rust
 
@@ -51,6 +51,18 @@ This package contains library source intended for building other packages
 which use "default" feature of "%{crate}" crate.
 
 %files       -n %{name}+default-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+avif-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+avif-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "avif" feature of "%{crate}" crate.
+
+%files       -n %{name}+avif-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %package     -n %{name}+benchmarks-devel
@@ -197,6 +209,30 @@ which use "pnm" feature of "%{crate}" crate.
 %files       -n %{name}+pnm-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+ravif-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+ravif-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "ravif" feature of "%{crate}" crate.
+
+%files       -n %{name}+ravif-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+rgb-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+rgb-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "rgb" feature of "%{crate}" crate.
+
+%files       -n %{name}+rgb-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+scoped_threadpool-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -265,6 +301,21 @@ which use "webp" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Mon Oct 19 2020 Fabio Valentini <decathorpe@gmail.com> - 0.23.10-1
+- Update to version 0.23.10.
+
+* Wed Sep 16 2020 Fabio Valentini <decathorpe@gmail.com> - 0.23.9-1
+- Update to version 0.23.9.
+
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 0.23.8-1
+- Update to 0.23.8
+
+* Tue Jul 14 2020 Josh Stone <jistone@redhat.com> - 0.23.7-1
+- Update to 0.23.7
+
+* Fri Jun 26 2020 Josh Stone <jistone@redhat.com> - 0.23.6-1
+- Update to 0.23.6
+
 * Thu Jun 11 2020 Josh Stone <jistone@redhat.com> - 0.23.5-1
 - Update to 0.23.5
 

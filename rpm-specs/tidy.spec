@@ -1,4 +1,4 @@
-
+%global __cmake_in_source_build 1
 %global libname libtidy
 %global upname tidy-html5
 %global tidy_compat_headers 1
@@ -6,7 +6,7 @@
 Name:    tidy
 Summary: Utility to clean up and pretty print HTML/XHTML/XML
 Version: 5.7.28
-Release: 3%{?dist}
+Release: 5%{?dist}
 
 License: W3C
 URL:     http://www.html-tidy.org/
@@ -95,6 +95,13 @@ rm -fv $RPM_BUILD_ROOT%{_libdir}/libtidys.a
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.7.28-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.7.28-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.7.28-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

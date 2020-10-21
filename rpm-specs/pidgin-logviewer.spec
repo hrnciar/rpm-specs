@@ -2,7 +2,7 @@
 %global snapshot_revision 15
 Name:           pidgin-logviewer
 Version:        0.2 
-Release:        26.%{snapshot_date}svn%{snapshot_revision}%{?dist}
+Release:        27.%{snapshot_date}svn%{snapshot_revision}%{?dist}
 Summary:        User-friendly and intuitive chat log viewer for Pidgin
 
 License:        GPLv2
@@ -48,6 +48,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/pidgin/*.la
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-27.20110228svn15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-26.20110228svn15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

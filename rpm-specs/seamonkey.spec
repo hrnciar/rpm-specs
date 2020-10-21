@@ -1,6 +1,7 @@
 %bcond_without	system_nspr
 %bcond_without	system_nss
 %bcond_without	system_libvpx
+%bcond_without	system_webp
 %bcond_without	system_icu
 %bcond_without	system_sqlite
 %bcond_without	system_ffi
@@ -17,10 +18,11 @@
 %bcond_without	irc
 %bcond_with	debugqa
 
-%global nspr_version	4.21.0
-%global nss_version	3.44.0
+%global nspr_version	4.25.0
+%global nss_version	3.53.1
 %global libvpx_version	1.5.0
-%global icu_version	59.1
+%global webp_version	1.0.0
+%global icu_version	63.1
 %global sqlite_version	3.31.1
 %global ffi_version	3.0.9
 %global	hunspell_version 1.6.1
@@ -35,8 +37,8 @@
 
 Name:           seamonkey
 Summary:        Web browser, e-mail, news, IRC client, HTML editor
-Version:        2.53.2
-Release:        2%{?dist}
+Version:        2.53.4
+Release:        1%{?dist}
 URL:            http://www.seamonkey-project.org
 License:        MPLv2.0
 
@@ -46,32 +48,33 @@ Source0:	http://archive.mozilla.org/pub/seamonkey/releases/%{version}/source/sea
 Source1:	http://archive.mozilla.org/pub/seamonkey/releases/%{version}/source/seamonkey-%{version}.source-l10n.tar.xz
 %endif
 
-Source3:        seamonkey.sh.in
 Source4:        seamonkey.desktop
 Source12:       seamonkey-mail.desktop
 Source13:       seamonkey-mail.svg
-Source100:      seamonkey-find-requires.sh
+Source14:       seamonkey.man.in
 
-Patch3:		firefox-60-mozilla-1516803.patch
+Patch3:		firefox-62-mozilla-1516803.patch
 Patch5:		firefox-35-rhbz-1173156.patch
 Patch6:		firefox-56-build-prbool.patch
 Patch7:		firefox-51-mozilla-1005640.patch
-Patch8:		firefox-48-mozilla-256180.patch
 Patch10:	firefox-56-mozilla-440908.patch
 Patch11:	firefox-60-mozilla-1436242.patch
 Patch13:	seamonkey-2.53.1-mozilla-revert-1332139.patch
 Patch14:	seamonkey-2.53.2-sysctl.patch
 Patch16:	firefox-52-rhbz-1451055.patch
-Patch20:	seamonkey-2.53.2-system_nss_nspr.patch
-Patch30:	seamonkey-2.53.1-rhbz-1503632.patch
+Patch18:	seamonkey-2.53.3-clean-distroaddons.patch
+Patch19:	seamonkey-2.53.4-webp.patch
+Patch30:	seamonkey-2.53.3-mozilla-revert-1624128.patch
 Patch31:	seamonkey-2.53.1-mozilla-526293.patch
-Patch32:	seamonkey-2.53.2-useragent.patch
-Patch34:	seamonkey-2.53.1-startupcache.patch
+Patch34:	seamonkey-2.53.3-startupcache.patch
+Patch35:	seamonkey-2.53.3-default-zoom.patch
+Patch36:	seamonkey-2.53.3-locale-matchos-UI.patch
 
 %{?with_system_nspr:BuildRequires:      nspr-devel >= %{nspr_version}}
 %{?with_system_nss:BuildRequires:       nss-devel >= %{nss_version}}
 %{?with_system_nss:BuildRequires:       nss-static >= %{nss_version}}
 %{?with_system_libvpx:BuildRequires:    libvpx-devel >= %{libvpx_version}}
+%{?with_system_webp:BuildRequires:      libwebp-devel >= %{webp_version}}
 %{?with_system_icu:BuildRequires:       libicu-devel >= %{icu_version}}
 %{?with_system_sqlite:BuildRequires:    sqlite-devel >= %{sqlite_version}}
 %{?with_system_ffi:BuildRequires:       libffi-devel >= %{ffi_version}}
@@ -112,7 +115,7 @@ BuildRequires:	clang, llvm-devel
 BuildRequires:	gcc-c++ >= 6.1
 %endif
 
-BuildRequires:	rust >= 1.35
+BuildRequires:	rust >= 1.37
 BuildRequires:	cargo
 
 Requires:       mozilla-filesystem
@@ -133,19 +136,15 @@ Requires:       sqlite >= %(pkg-config --silence-errors --modversion sqlite 2>/d
 # %{ix86}: no more supported upstream
 ExclusiveArch:  x86_64
 
-%define _use_internal_dependency_generator 0
-%define __find_requires %{SOURCE100}
-#  prepare .desktop files only...
-%define __find_provides /usr/lib/rpm/desktop-file.prov
-
 Provides: webclient
 
 
 %description
-SeaMonkey is an all-in-one Internet application suite. It includes 
-a browser, mail/news client, IRC client, JavaScript debugger, and 
-a tool to inspect the DOM for web pages. It is derived from the 
-application formerly known as Mozilla Application Suite.
+SeaMonkey is an all-in-one Internet application suite (previously made
+popular by Netscape and Mozilla). It includes an Internet browser,
+advanced e-mail, newsgroup and feed client, a calendar, IRC client,
+HTML editor and a tool to inspect the DOM for web pages. It is derived
+from the application formerly known as Mozilla Application Suite.
  
 
 %prep
@@ -165,19 +164,22 @@ pushd mozilla
 %patch5 -p2 -b .1173156
 %patch6 -p1 -b .prbool
 %patch7 -p1 -b .1005640
-%patch8 -p1 -b .256180
 %patch10 -p1 -b .440908
 %patch11 -p1 -b .1436242
 %{?with_system_libvpx:%patch13 -p1 -b .1332139}
 %patch14 -p1 -b .sysctl
 %patch16 -p1 -b .1451055
+%patch18 -p1 -b .clean_distroaddons
+%patch19 -p1 -b .webp
 popd
 
-%patch20 -p2 -b .system_nss_nspr
-%patch30 -p2 -b .1503632
+%{?with_system_nss:%patch30 -p2 -b .1624128}
 %patch31 -p2 -b .526293
-%patch32 -p1 -b .useragent
 %patch34 -p1 -b .startupcache
+%patch35 -p1 -b .default_zoom
+%patch36 -p1 -b .locale_matchos
+
+cp -f %{SOURCE14} suite/app/seamonkey.man.in
 
 %if %{without calendar}
 sed -i 's/MOZ_CALENDAR/UNDEF_MOZ_CALENDAR/' suite/installer/package-manifest.in
@@ -226,6 +228,7 @@ ac_add_options --enable-startupcache
 %{expand:%with_sys   nspr}
 %{expand:%with_sys   nss}
 %{expand:%with_sys   libvpx}
+%{expand:%with_sys   webp}
 %{expand:%with_sys   icu}
 
 %{expand:%endis_sys  sqlite}
@@ -265,6 +268,7 @@ pref("browser.display.use_system_colors", true);
 pref("browser.helperApps.deleteTempFileOnExit", true);
 pref("general.smoothScroll", true);
 pref("intl.locale.matchOS",   true);
+pref("intl.regional_prefs.use_os_locales", true);
 pref("extensions.shownSelectionUI", true);
 pref("extensions.autoDisableScopes", 0);
 pref("shell.checkDefaultApps",   0);
@@ -283,7 +287,11 @@ pref("network.negotiate-auth.trusted-uris", "https://");
 /* To avoid UA string garbling by the old instances of Lightning  */
 lockPref("calendar.useragent.extra", "");
 
+/* Completely mimic to Firefox for compatibility with this World nowadays...  */
 pref("general.useragent.compatMode.strict-firefox", true);
+
+/* Keep the same behaviour as for years  */
+pref("browser.tabs.autoHide", true);
 
 EOF
 # all-fedora.js
@@ -317,34 +325,36 @@ MOZ_OPT_FLAGS="$MOZ_OPT_FLAGS -Wformat"
 #  just temporary for gcc9 ...
 MOZ_OPT_FLAGS="$MOZ_OPT_FLAGS -Wno-format-overflow"
 
+MOZ_SMP_FLAGS=%{?_smp_mflags}
+[ ${MOZ_SMP_FLAGS#-j} -gt 8 ] && MOZ_SMP_FLAGS=-j8
+
 %if %{with lto}
-MOZ_OPT_FLAGS="$MOZ_OPT_FLAGS -flto"
 %if %{with clang}
-export AS=llvm-as
+MOZ_OPT_FLAGS="$MOZ_OPT_FLAGS -flto=thin"
+MOZ_LINK_FLAGS="$MOZ_LINK_FLAGS -flto=thin -fuse-ld=lld -Wl,-plugin-opt=-import-instr-limit=10"
 export AR=llvm-ar
 export RANLIB=llvm-ranlib
-export STRIP=llvm-strip
-MOZ_LINK_FLAGS="$MOZ_LINK_FLAGS -fuse-ld=gold"
 %else
+MOZ_OPT_FLAGS="$MOZ_OPT_FLAGS -flto -flifetime-dse=1"
+MOZ_LINK_FLAGS="$MOZ_LINK_FLAGS -flto=${MOZ_SMP_FLAGS#-j} -flifetime-dse=1"
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 %endif
+%else
+#  avoid system-wide lto
+%define _lto_cflags %{nil}
 %endif
 
 %if %(awk '/^MemTotal:/ { print $2 }' /proc/meminfo) <= 4200000
 MOZ_LINK_FLAGS="$MOZ_LINK_FLAGS -Wl,--no-keep-memory"
-%if %{without clang} || %{without lto}
-MOZ_LINK_FLAGS="$MOZ_LINK_FLAGS -Wl,--reduce-memory-overheads"
-%endif
+${CC:-%{__cc}} -x c $MOZ_LINK_FLAGS -Wl,--version -o /dev/null /dev/null | grep '^GNU ld ' && \
+	MOZ_LINK_FLAGS="$MOZ_LINK_FLAGS -Wl,--reduce-memory-overheads"
 %endif
   
 export CFLAGS=$MOZ_OPT_FLAGS
 export CXXFLAGS=$MOZ_OPT_FLAGS
 export LDFLAGS=$MOZ_LINK_FLAGS
 
-
-MOZ_SMP_FLAGS=%{?_smp_mflags}
-[ ${MOZ_SMP_FLAGS#-j} -gt 8 ] && MOZ_SMP_FLAGS=-j8
 
 make -f client.mk build MOZ_MAKE_FLAGS="$MOZ_SMP_FLAGS"
 
@@ -483,6 +493,15 @@ rm -rf tmp
 %endif #  langpacks
 
 
+pushd $RPM_BUILD_ROOT/%{_libdir}/seamonkey
+[ -d distribution/extensions ] && {
+    [ -d extensions ] || mkdir extensions
+    mv distribution/extensions/*.xpi extensions/
+    rmdir distribution/extensions && rmdir distribution || :
+}
+popd
+
+
 # install desktop files in correct directory
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications/
 desktop-file-install --dir $RPM_BUILD_ROOT%{_datadir}/applications %{SOURCE4}
@@ -510,6 +529,11 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/mozilla/extensions/%{seamonkey_app_id}
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/mozilla/extensions/%{seamonkey_app_id}
 
 
+#  Only now and just define (not global)
+%define __provides_exclude_from ^%{_libdir}/seamonkey
+%define __requires_exclude     ^(%(find %{buildroot}%{_libdir}/seamonkey -name "lib*.so" -printf "%%f " | sed -e 's/.so /|/g' -e 's/|$//'))\\.so.*
+
+
 %files -f seamonkey.lang
 
 %license %{_libdir}/seamonkey/license.txt
@@ -526,8 +550,30 @@ mkdir -p $RPM_BUILD_ROOT%{_libdir}/mozilla/extensions/%{seamonkey_app_id}
 
 
 %changelog
-* Sat May 16 2020 Pete Walter <pwalter@fedoraproject.org> - 2.53.2-2
-- Rebuild for ICU 67
+* Wed Sep  9 2020 Dmitry Butskoy <Dmitry@Butskoy.name> 2.53.4-1
+- update to 2.53.4
+- replace all the distributed extensions (calendar, dominspector and irc)
+  as intergated app-global extensions (ie. moved from distribution/extensions/
+  just to extensions/ , mozbz#1659298)
+- update seamonkey(1) manual page
+- update description in spec file
+
+* Thu Jul 30 2020 Dmitry Butskoy <Dmitry@Butskoy.name> 2.53.3-3
+- fix requires filter
+
+* Wed Jul 29 2020 Dmitry Butskoy <Dmitry@Butskoy.name> 2.53.3-2
+- add "Default zoom" support (mozbz#1655362)
+- add "Use system locale" switch in preferences (mozbz#1655842)
+- backport WebP image format support (mozbz#1653869)
+- update elfhack code up to esr68
+- add fix for rust >= 1.45 (mozbz#1654465)
+- properly filter provides and requires from the application dir
+- spec file cleanups and fixes
+
+* Mon Jul  6 2020 Dmitry Butskoy <Dmitry@Butskoy.name> 2.53.3-1
+- update to 2.53.3
+- use sql nss databases (cert9.db, key4.db etc.) since the old format
+  is stopping be supported.
 
 * Mon May  4 2020 Dmitry Butskoy <Dmitry@Butskoy.name> 2.53.2-1
 - update to 2.53.2

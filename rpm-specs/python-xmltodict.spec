@@ -2,12 +2,12 @@
 
 Name:               python-xmltodict
 Version:            0.12.0
-Release:            8%{?dist}
-Summary:            A Python to transform XML to JSON
+Release:            10%{?dist}
+Summary:            Python to transform XML to JSON
 
 License:            MIT
 URL:                https://github.com/martinblech/xmltodict
-Source0:            https://github.com/martinblech/xmltodict/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
+Source0:            %{url}/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
 BuildArch:          noarch
 
 %description
@@ -20,6 +20,7 @@ Wikipedia.
 Summary:            %{summary}
 
 BuildRequires:      python3-devel
+BuildRequires:      python3-setuptools
 BuildRequires:      python3-nose
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
@@ -49,6 +50,12 @@ Wikipedia.
 %{python3_sitelib}/__pycache__/%{pypi_name}*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.12.0-9
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.12.0-8
 - Rebuilt for Python 3.9
 

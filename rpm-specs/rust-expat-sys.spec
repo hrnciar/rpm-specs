@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        2.1.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        XML parser library written in C
 
 # Upstream license specification: MIT
@@ -74,6 +74,9 @@ echo 'pkgconfig(expat) >= 2.1.0'
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 08:51:23 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 2.1.6-2
 - Fixup requirements
 

@@ -7,28 +7,35 @@
 %global with_mono 1
 %endif # arch %%{mono_arches}
 
+# release commit because SUSE didn't tag it :(
+%global relcommit 59dfa64f05adb40c7da88325255d758f4588ab42
+
 # CMake-builds go out-of-tree.
-%global _cmake_build_subdir build-%{_target_platform}
+%undefine __cmake_in_source_build
 
 
 Name:		%{libname}-bindings
-Version:	1.1.2
-Release:	23%{?dist}
+Version:	2.0.2
+Release:	1%{?dist}
 Summary:	Language bindings for %{libname}
 
 License:	LGPLv2 or LGPLv3
 URL:		https://github.com/%{libname}/%{name}
-Source0:	%{url}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+# No tag :(
+#Source0:	%{url}/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:	%{url}/archive/%{relcommit}/%{name}-%{version}.tar.gz
+
+# Patches for upstream to fix bindings
+Patch0500:      libyui-bindings-2.0.2-fix-building-ruby-bindings.patch
 
 # Patches from Mageia to enable libyui-mga bindings
-Patch1000:	https://github.com/besser82/libyui-bindings/commit/3683b937c06bd1e4c813da3554898d95b2ecc6b9.patch#/%{name}-1.1.2-libyui-mga.patch
-Patch1001:	https://github.com/besser82/libyui-bindings/commit/1194d299231ec34ac34f9146d8128630ae09ef77.patch#/%{name}-1.1.2-mga-cmake.patch
+Patch1000:	libyui-bindings-2.0.2-menubar.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:	boost-devel
 BuildRequires:	cmake
-BuildRequires:	%{libname}-devel
-BuildRequires:	%{libname}-mga-devel
+BuildRequires:	%{libname}-devel >= 3.10.0
+BuildRequires:	%{libname}-mga-devel >= 1.1.0
 BuildRequires:	swig
 
 %description
@@ -100,12 +107,10 @@ interfaces (ncurses).
 
 
 %prep
-%autosetup -p 1
+%autosetup -n %{name}-%{relcommit} -p1
 
 
 %build
-%{__mkdir} -p %{_cmake_build_subdir}
-pushd %{_cmake_build_subdir}
 %cmake							\
 	-DLIB=%{_libdir}				\
 	-DMONO_LIBRARIES=%{_libdir}			\
@@ -114,19 +119,17 @@ pushd %{_cmake_build_subdir}
 	-DPYTHON_SITEDIR=%{python3_sitearch}		\
 	-DCMAKE_BUILD_TYPE=RELEASE			\
 	-DBUILD_RUBY_GEM=NO				\
-	-DWITH_MGA=YES					\
 	-DWITH_MONO=%{?with_mono:ON}%{!?with_mono:OFF}	\
 	-DWITH_PERL=ON					\
 	-DWITH_PYTHON=ON				\
 	-DWITH_RUBY=ON					\
-	..
+	-DWITH_MGA=YES
 
-%make_build
-popd
+%cmake_build
 
 
 %install
-%make_install -C %{_cmake_build_subdir}
+%cmake_install
 
 
 %if 0%{?with_mono}
@@ -156,9 +159,21 @@ popd
 %doc package/%{name}.changes README.md swig/ruby/examples
 %license COPYING*
 %{ruby_vendorarchdir}/_%{libsuffix}.*
+%{ruby_vendorlibdir}/%{libsuffix}.rb
+%{ruby_vendorlibdir}/%{libsuffix}/
 
 
 %changelog
+* Sat Aug 01 2020 Neal Gompa <ngompa13@gmail.com> - 2.0.2-1
+- Rebase to 2.0.2 (#1815689)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-25
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.1.2-23
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:           ffcall
 Version:        2.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Libraries for foreign function call interfaces
 
 License:        GPLv2+
@@ -92,6 +92,9 @@ popd
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

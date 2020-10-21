@@ -1,15 +1,17 @@
 Summary:       The NetBSD make(1) tool
 Name:          bmake
-Version:       20200524
-Release:       3%{?dist}
-License:       BSD with advertising
-URL:           ftp://ftp.NetBSD.org/pub/NetBSD/misc/sjg/
-Source0:       ftp://ftp.NetBSD.org/pub/NetBSD/misc/sjg/bmake-%{version}.tar.gz
+Version:       20201010
+Release:       1%{?dist}
+License:       BSD
+URL:           https://ftp.netbsd.org/pub/NetBSD/misc/sjg/
+Source0:       %{url}/bmake-%{version}.tar.gz
 Requires:      mk-files
 
 BuildRequires: gcc
 BuildRequires: sed
 BuildRequires: util-linux
+# Required by tests
+BuildRequires: tcsh ksh
 
 %description
 bmake, the NetBSD make tool, is a program designed to simplify the
@@ -48,14 +50,33 @@ chmod a-x %{buildroot}%{_datadir}/mk/mkopt.sh
 
 %files
 %doc ChangeLog README
+%license LICENSE
 %{_bindir}/*
 %{_mandir}/man1/*
 
 %files -n mk-files
+%license LICENSE
 %doc mk/README
 %{_datadir}/mk
 
 %changelog
+* Tue Oct 20 2020 Petr Menšík <pemensik@redhat.com> - 20201010-1
+- Update to 20201010 (#1876115)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200710-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200710-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Petr Menšík <pemensik@redhat.com> - 20200710-1
+- Update to 20200710
+
+* Thu Jul 09 2020 Petr Menšík <pemensik@redhat.com> - 20200704-1
+- Update to 20200704 (#1852609)
+- Include license (#1845892)
+
 * Wed Jun 10 2020 Petr Menšík <pemensik@redhat.com> - 20200524-3
 - Make mk-files mandatory again
 

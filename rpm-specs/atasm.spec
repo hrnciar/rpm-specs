@@ -1,6 +1,6 @@
 Name:           atasm
 Version:        1.08
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        6502 cross-assembler
 
 License:        GPLv2+
@@ -26,7 +26,7 @@ with lightning speed.
 
 %build
 pushd src
-make %{?_smp_mflags} CFLAGS="$RPM_OPT_FLAGS -DZLIB_CAPABLE -DUNIX"
+%make_build CFLAGS="$RPM_OPT_FLAGS -DZLIB_CAPABLE -DUNIX"
 sed -e 's|%%DOCDIR%%|%{?_pkgdocdir}%{!?_pkgdocdir:%{_docdir}/%{name}-%{version}}|g' %{name}.1.in > %{name}.1
 popd
 
@@ -54,6 +54,13 @@ popd
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.08-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.08-5
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.08-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

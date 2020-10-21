@@ -1,6 +1,6 @@
 Name:           libesedb
 Version:        20181229
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Library to access the Extensible Storage Engine (ESE) Database File (EDB) format
 
 %global         common_description %{expand:
@@ -133,6 +133,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20181229-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 20181229-3
 - Rebuilt for Python 3.9
 

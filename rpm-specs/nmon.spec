@@ -1,6 +1,6 @@
 Name:           nmon
 Version:        16m
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Nigel's performance Monitor for Linux 
 
 License:        GPLv3
@@ -49,6 +49,9 @@ install -D -p -m 0644 %{SOURCE2} %{buildroot}%{_mandir}/man1/%{name}.1
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16m-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16m-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

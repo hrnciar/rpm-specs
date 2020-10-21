@@ -1,6 +1,6 @@
 Name:           ocaml-csv
 Version:        1.7
-Release:        20%{?dist}
+Release:        24%{?dist}
 Summary:        OCaml library for reading and writing CSV files
 License:        LGPLv2+
 
@@ -79,6 +79,19 @@ install -m 0755 csvtool.native $DESTDIR%{_bindir}/csvtool
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.7-24
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.7-23
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-22
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Richard W.M. Jones <rjones@redhat.com> - 1.7-20
 - Rebuild for updated ocaml-extlib (RHBZ#1837823).
 

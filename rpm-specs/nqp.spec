@@ -2,7 +2,7 @@
 
 
 %global year 2020
-%global month 02
+%global month 07
 
 
 Name:		nqp
@@ -11,8 +11,9 @@ Release:	1%{?dist}
 Summary:	Not Quite Perl (6)
 
 License:	Artistic 2.0 and ISC and WTFPL
-URL:		https://github.com/perl6/nqp
-Source0:	https://github.com/perl6/nqp/releases/download/%{year}.%{month}/nqp-%{year}.%{month}.tar.gz
+URL:		https://github.com/Raku/nqp
+Source0:	https://github.com/Raku/nqp/releases/download/%{year}.%{month}/nqp-%{year}.%{month}.tar.gz
+# https://github.com/perl6 -> https://github.com/Raku
 #https://rakudo.org/dl/nqp/nqp-2020.02.tar.gz
 
 BuildRequires:	gcc
@@ -25,6 +26,8 @@ BuildRequires:	perl(ExtUtils::Command)
 BuildRequires:	perl(Digest::SHA)
 BuildRequires:	perl(Data::Dumper)
 BuildRequires:	perl(IPC::Cmd)
+BuildRequires:	perl(FindBin)
+BuildRequires:	perl(lib)
 
 BuildRequires:	moarvm, moarvm-devel >= 0.%{year}.%{month}
 
@@ -103,6 +106,19 @@ CFLAGS="$RPM_OPT_FLAGS -fPIC" %{__make} %{?_smp_mflags}
 
 
 %changelog
+* Wed Aug 12 2020 Gerd Pokorra <gp@zimt.uni-siegen.de> 0.0.2020.07-1
+- update to 2020.07
+
+* Wed Aug 12 2020 Gerd Pokorra <gp@zimt.uni-siegen.de> 0.0.2020.02-4
+- add BuildRequies perl(FindBin) and perl(lib)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.2020.02-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.2020.02-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Gerd Pokorra <gp@zimt.uni-siegen.de> 0.0.2020.02-1
 - update to 2020.02
 

@@ -2,7 +2,7 @@
 
 Name:           nodejs-discord-js
 Version:        11.5.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Powerful JavaScript library for interacting with the Discord API
 
 # The "typings" directory seems to be under MIT.
@@ -58,6 +58,9 @@ cp -a package.json %{buildroot}%{nodejs_sitelib}/%{npmname}/
 %doc README.md
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.5.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.5.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

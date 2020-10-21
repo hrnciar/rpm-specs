@@ -3,7 +3,7 @@
 
 # https://github.com/gorilla/websocket
 %global goipath         github.com/gorilla/websocket
-Version:                1.4.1
+Version:                1.4.2
 
 %gometa
 
@@ -16,7 +16,7 @@ Gorilla WebSocket is a Go implementation of the WebSocket protocol.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Websocket implementation for Go
 
 # Upstream license specification: BSD-2-Clause
@@ -38,15 +38,6 @@ cp %{S:1} %{S:2} .
 %install
 %gopkginstall
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck
@@ -55,6 +46,12 @@ end
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 17:29:20 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.2-1
+- Update to 1.4.2
+
 * Mon Feb 17 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.4.1-1
 - Update to latest version
 - Fix GHSA-jf24-p9p9-4rjh

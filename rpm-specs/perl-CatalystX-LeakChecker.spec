@@ -1,7 +1,7 @@
 Name:           perl-CatalystX-LeakChecker
 Summary:        Debug memory leaks in Catalyst applications
 Version:        0.06
-Release:        29%{?dist}
+Release:        31%{?dist}
 License:        GPL+ or Artistic
 
 Source0:        https://cpan.metacpan.org/authors/id/F/FL/FLORA/CatalystX-LeakChecker-%{version}.tar.gz 
@@ -64,6 +64,12 @@ make test
 %{_mandir}/man3/Catalyst*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.06-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.06-30
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.06-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

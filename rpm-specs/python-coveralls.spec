@@ -1,8 +1,8 @@
 %global pypi_name coveralls
 
 Name:           python-%{pypi_name}
-Version:        2.0.0
-Release:        2%{?dist}
+Version:        2.1.2
+Release:        1%{?dist}
 Summary:        Coveralls.io provides seamless integration with coverage.py
 
 LICENSE:        MIT
@@ -12,6 +12,7 @@ Source0:        https://github.com/coveralls-clients/%{pypi_name}-python/archive
 BuildArch:      noarch
 
 BuildRequires:  python3-devel > 3.4
+BuildRequires:  python3-setuptools
 BuildRequires:  %{py3_dist coverage} > 4.0
 BuildRequires:  python3-sphinx
 
@@ -65,6 +66,24 @@ cp %{buildroot}%{_bindir}/coveralls %{buildroot}%{_bindir}/coveralls-py3
 %doc docs/*
 
 %changelog
+* Thu Aug 13 2020 Brian C. Lane <bcl@redhat.com> - 2.1.2-1
+- Upstream release 2.1.2
+  rhbz#1868205
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 08 2020 Brian C. Lane <bcl@redhat.com> - 2.1.1-1
+- Upstream release 2.1.1 to fix regression in 2.1.0
+  rhbz#1855051
+
+* Tue Jul 07 2020 Brian C. Lane <bcl@redhat.com> - 2.1.0-1
+- Upstream release 2.1.0
+  rhbz#1854258
+
+* Thu Jun 25 2020 Brian C. Lane <bcl@redhat.com> - 2.0.0-3
+- Add BuildRequires: python3-setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.0-2
 - Rebuilt for Python 3.9
 

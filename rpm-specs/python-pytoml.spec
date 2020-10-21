@@ -23,7 +23,7 @@
 
 Name:           python-%{github_name}
 Version:        0.1.18
-Release:        9%{?dist}
+Release:        11%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -55,6 +55,11 @@ BuildArch:      noarch
 BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-setuptools
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{github_name}}
+
+%if 0%{?rhel} >= 9 || 0%{?fedora} >= 33
+# https://fedoraproject.org/wiki/Changes/DeprecatePytoml
+Provides:       deprecated()
+%endif
 
 %if %{without python2}
 Obsoletes:      python-%{github_name} < %{version}-%{release}
@@ -114,6 +119,12 @@ Obsoletes:      python2-%{github_name} < %{version}-%{release}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.18-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.18-10
+- https://fedoraproject.org/wiki/Changes/DeprecatePytoml
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.18-9
 - Rebuilt for Python 3.9
 

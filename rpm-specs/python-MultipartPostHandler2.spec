@@ -6,7 +6,7 @@
 %global pypi_name MultipartPostHandler2
 Name:           python-%{pypi_name}
 Version:        0.1.5
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        A handler for urllib2 to enable multipart form uploading
 # License note in MultipartPostHandler.py
 License:        LGPLv2+
@@ -41,7 +41,7 @@ Enables the use of multipart/form-data for posting forms.
 %setup -q -n %{pypi_name}-%{version}
 rm -rf doc # no real doc there
 
-find . -name '*.py' | xargs sed -i '1s|^#!%{__python}|#!%{__python3}|'
+%py3_shebang_fix .
 2to3 --write --nobackup *.py examples/*.py
 %patch1 -p1
 
@@ -66,6 +66,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} examples/MultipartPostHan
 %{python3_sitelib}/__pycache__/MultipartPostHandler*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.5-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.5-20
 - Rebuilt for Python 3.9
 

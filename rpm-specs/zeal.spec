@@ -1,6 +1,6 @@
 Name:           zeal
 Version:        0.6.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Offline documentation browser inspired by Dash
 
 # the libqxt-sourced files are BSD licensed
@@ -50,12 +50,12 @@ sed -i 's/("disable_ad"), false/("disable_ad"), true/' src/libs/core/settings.cp
 # - build scripts not configured to install the lib
 %cmake3 \
   -DBUILD_SHARED_LIBS:BOOL=OFF \
-  .
-%make_build
+  %{nil}
+%cmake3_build
 
 
 %install
-%make_install
+%cmake3_install
 
 
 %check
@@ -73,6 +73,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/org.zealdocs.Z
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

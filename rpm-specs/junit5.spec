@@ -9,7 +9,7 @@
 
 Name:           junit5
 Version:        5.6.2
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Java regression testing framework
 License:        EPL-2.0
 URL:            http://junit.org/junit5/
@@ -28,11 +28,13 @@ Source205:      https://repo1.maven.org/maven2/org/junit/platform/junit-platform
 Source206:      https://repo1.maven.org/maven2/org/junit/platform/junit-platform-runner/%{platform_version}/junit-platform-runner-%{platform_version}.pom
 Source207:      https://repo1.maven.org/maven2/org/junit/platform/junit-platform-suite-api/%{platform_version}/junit-platform-suite-api-%{platform_version}.pom
 Source208:      https://repo1.maven.org/maven2/org/junit/platform/junit-platform-reporting/%{platform_version}/junit-platform-reporting-%{platform_version}.pom
+Source209:      https://repo1.maven.org/maven2/org/junit/platform/junit-platform-testkit/%{platform_version}/junit-platform-testkit-%{platform_version}.pom
 # Jupiter POMs
 Source301:      https://repo1.maven.org/maven2/org/junit/jupiter/junit-jupiter-api/%{jupiter_version}/junit-jupiter-api-%{jupiter_version}.pom
 Source302:      https://repo1.maven.org/maven2/org/junit/jupiter/junit-jupiter-engine/%{jupiter_version}/junit-jupiter-engine-%{jupiter_version}.pom
 Source303:      https://repo1.maven.org/maven2/org/junit/jupiter/junit-jupiter-migrationsupport/%{jupiter_version}/junit-jupiter-migrationsupport-%{jupiter_version}.pom
 Source304:      https://repo1.maven.org/maven2/org/junit/jupiter/junit-jupiter-params/%{jupiter_version}/junit-jupiter-params-%{jupiter_version}.pom
+Source305:      https://repo1.maven.org/maven2/org/junit/jupiter/junit-jupiter/%{jupiter_version}/junit-jupiter-%{jupiter_version}.pom
 # Vintage POM
 Source400:      https://repo1.maven.org/maven2/org/junit/vintage/junit-vintage-engine/%{vintage_version}/junit-vintage-engine-%{vintage_version}.pom
 # Bill of Materials POM
@@ -43,6 +45,7 @@ BuildRequires:  mvn(com.univocity:univocity-parsers)
 BuildRequires:  mvn(junit:junit)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.apiguardian:apiguardian-api)
+BuildRequires:  mvn(org.assertj:assertj-core)
 BuildRequires:  mvn(org.opentest4j:opentest4j)
 
 %if %{with console}
@@ -86,10 +89,12 @@ cp -p %{SOURCE205} junit-platform-launcher/pom.xml
 cp -p %{SOURCE206} junit-platform-runner/pom.xml
 cp -p %{SOURCE207} junit-platform-suite-api/pom.xml
 cp -p %{SOURCE208} junit-platform-reporting/pom.xml
+cp -p %{SOURCE209} junit-platform-testkit/pom.xml
 cp -p %{SOURCE301} junit-jupiter-api/pom.xml
 cp -p %{SOURCE302} junit-jupiter-engine/pom.xml
 cp -p %{SOURCE303} junit-jupiter-migrationsupport/pom.xml
 cp -p %{SOURCE304} junit-jupiter-params/pom.xml
+cp -p %{SOURCE305} junit-jupiter/pom.xml
 cp -p %{SOURCE400} junit-vintage-engine/pom.xml
 cp -p %{SOURCE500} junit-bom/pom.xml
 
@@ -146,6 +151,15 @@ ln -s ../../javadoc/junit5 documentation/src/docs/api
 %doc documentation/src/docs/*
 
 %changelog
+* Tue Aug 11 2020 Jerry James <loganjerry@gmail.com> - 5.6.2-4
+- Add org.junit.jupiter:junit-jupiter, org.junit.platform:junit-platform-testkit
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.6.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 5.6.2-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat May 09 2020 Fabio Valentini <decathorpe@gmail.com> - 5.6.2-1
 - Update to version 5.6.2.
 

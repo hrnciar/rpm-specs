@@ -1,15 +1,15 @@
 %global vmoddir %{_libdir}/varnish/vmods
 
 Name:           vmod-querystring
-Version:        2.0.1
-Release:        3%{?dist}
+Version:        2.0.2
+Release:        2%{?dist}
 Summary:        QueryString module for Varnish Cache
 URL:            https://github.com/dridi/libvmod-querystring
 License:        GPLv3+
 
 Source:         %{url}/releases/download/v%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:  python3
+BuildRequires:  python
 BuildRequires:  varnish >= 6
 BuildRequires:  pkgconfig(varnishapi) >= 6
 
@@ -37,7 +37,7 @@ with this kind of query-strings.
 
 
 %build
-%configure CFLAGS="%{optflags}" PYTHON=python3
+%configure CFLAGS="%{optflags}"
 %make_build
 
 
@@ -58,6 +58,15 @@ rm %{buildroot}%{vmoddir}/*.la
 
 
 %changelog
+* Sun Oct 11 2020 Dridi Boukelmoune <dridi@fedoraproject.org> - 2.0.2-2
+- Rebuild for Varnish 6.5.1
+
+* Mon Sep 21 2020 Dridi Boukelmoune <dridi@fedoraproject.org> - 2.0.2-1
+- Bump to 2.0.2 for Varnish 6.5.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

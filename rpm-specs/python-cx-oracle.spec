@@ -5,7 +5,7 @@
 
 Name:           python-%{local_name}
 Version:        7.3.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Python interface to Oracle
 
 License:        BSD
@@ -52,6 +52,9 @@ rm -rf %{buildroot}%{_prefix}/cx_Oracle-doc
 %{python3_sitearch}/%{pypi_name}-%{version}-py*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.3.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 7.3.0-3
 - Rebuilt for Python 3.9
 

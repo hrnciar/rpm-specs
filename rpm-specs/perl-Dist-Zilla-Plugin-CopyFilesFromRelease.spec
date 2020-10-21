@@ -3,7 +3,7 @@
 
 Name:           perl-Dist-Zilla-Plugin-CopyFilesFromRelease
 Version:        0.007
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Copy files from a release for SCM inclusion
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Dist-Zilla-Plugin-CopyFilesFromRelease
@@ -67,6 +67,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.007-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.007-9
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.007-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

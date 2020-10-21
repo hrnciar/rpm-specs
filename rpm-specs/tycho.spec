@@ -28,7 +28,7 @@
 
 Name:           tycho
 Version:        1.6.0
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        Plugins and extensions for building Eclipse plugins and OSGI bundles with Maven
 
 # license file is missing but all files having some licensing information are ASL 2.0
@@ -138,13 +138,11 @@ BuildRequires:  osgi(org.apache.felix.scr)
 BuildRequires:  osgi(org.sat4j.core)
 BuildRequires:  osgi(org.sat4j.pb)
 BuildRequires:  osgi(org.w3c.css.sac)
-BuildRequires:  osgi(javax.servlet-api)
-BuildRequires:  osgi(javax.servlet.jsp)
 %endif
 
 Requires:       maven-local
-Requires:       xmvn-minimal >= 3
-Requires:       ecj >= 1:4.7.3a-1
+Requires:       xmvn-minimal
+Requires:       ecj
 
 %if ! %{with bootstrap}
 Requires:       eclipse-platform >= 1:4.11
@@ -255,8 +253,7 @@ done
 %if %{with bootstrap}
 
 # Break circular dep between tycho-lib-detector and tycho-compiler-jdt for bootstrapping
-%pom_xpath_remove "pom:compilerId" tycho-lib-detector
-%pom_remove_dep "org.eclipse.tycho:tycho-compiler-jdt" tycho-lib-detector
+%pom_remove_plugin :maven-compiler-plugin tycho-lib-detector
 
 # Unpack a compatible version of Eclipse we can use to build against
 tar -xf %{SOURCE10}
@@ -425,6 +422,15 @@ ln -s %{_javadir}/tycho/org.fedoraproject.p2.jar %{buildroot}%{xmvn_libdir}/inst
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Tue Aug 18 2020 Mat Booth <mat.booth@redhat.com> - 1.6.0-6
+- Fix bootstrap mode against Java 11
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.6.0-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat Mar 21 2020 Mat Booth <mat.booth@redhat.com> - 1.6.0-3
 - Add missing resolver patch for eclipserun plugin
 

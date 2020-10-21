@@ -1,6 +1,6 @@
 Name:           perl-Test-Metrics-Any
 Version:        0.01
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Assert that code produces metrics via Metrics::Any
 License:        GPL+ or Artistic
 
@@ -53,6 +53,9 @@ test reports metrics via Metrics::Any.
 %{_mandir}/man3/Test*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.01-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.01-3
 - Perl 5.32 rebuild
 

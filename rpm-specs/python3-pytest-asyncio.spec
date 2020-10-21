@@ -6,8 +6,8 @@
 %bcond_without  tests
 
 Name:           python3-%{pypi_name}
-Version:        0.10.0
-Release:        6%{?dist}
+Version:        0.14.0
+Release:        1%{?dist}
 Summary:        Pytest support for asyncio
 
 License:        ASL 2.0
@@ -17,13 +17,11 @@ Source0:        https://github.com/%{project_owner}/%{github_name}/archive/v%{ve
 BuildArch:      noarch
 BuildRequires:  python3-devel
 %if %{with tests}
-BuildRequires:  python3-pytest >= 3.0.6
+BuildRequires:  python3-pytest >= 5.4
 BuildRequires:  python3-coverage
 BuildRequires:  python3-async-generator >= 1.3
-BuildRequires:  python3-hypothesis >= 3.64
+BuildRequires:  python3-hypothesis >= 5.7.1
 %endif
-Requires:       python3-pytest >= 3.0.6
-%{?python_provide:%python_provide python3-%{pypi_name}}
 
 %description
 pytest-asyncio is an Apache2 licensed library, written in Python, for testing
@@ -50,7 +48,7 @@ sed -i '/filterwarnings = error/d' setup.cfg
 
 %if %{with tests}
 %check
-PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} --verbose
+%pytest --verbose
 %endif
 
 
@@ -62,6 +60,13 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} --verbose
 
 
 %changelog
+* Sat Aug 08 2020 Miro Hrončok <mhroncok@redhat.com> - 0.14.0-1
+- Update to 0.14.0
+- Fixes rhbz#1826108
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 0.10.0-6
 - Rebuilt for Python 3.9
 

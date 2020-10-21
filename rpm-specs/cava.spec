@@ -1,13 +1,12 @@
 Name:           cava
-Version:        0.7.0
-Release:        6%{?dist}
+Version:        0.7.2
+Release:        8%{?dist}
 Summary:        Console-based Audio Visualizer for Alsa
 
 License:        MIT
 URL:            https://github.com/karlstav/cava
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
-Patch1:         0001-initialize-input_method_name.patch
-Patch2:         0002-play-nice-with-Werror-format-security.patch
+Patch0001:      0001-initialize-input_method_name.patch
 
 BuildRequires:  alsa-lib-devel
 BuildRequires:  fftw-devel
@@ -43,6 +42,12 @@ rm -f %{buildroot}%{_libdir}/libiniparser.{a,la,so}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Lars Kellogg-Stedman <lars@redhat.com> - 0.7.2-7
+- updated to 0.7.2
+
 * Wed May 27 2020 Lars Kellogg-Stedman <lars@redhat.com> - 0.7.0-6
 - update to 0.7.0
 

@@ -1,5 +1,5 @@
 Name:           acpica-tools
-Version:        20200430
+Version:        20200925
 Release:        1%{?dist}
 Summary:        ACPICA tools for the development and debug of ACPI tables
 
@@ -14,7 +14,6 @@ Source4:        acpibin.1
 Source5:        acpidump.1
 Source6:        acpiexec.1
 Source7:        acpihelp.1
-Source8:        acpinames.1
 Source9:        acpisrc.1
 Source10:       acpixtract.1
 Source11:       acpiexamples.1
@@ -24,31 +23,66 @@ Source14:       converterSample.asl.result
 Source15:       run-misc-tests.sh
 Source16:       COPYING
 
-Patch0:         big-endian.patch
-Patch1:         big-endian-dmtbdump.patch
-Patch2:         big-endian-dmtbdump1.patch
-Patch3:         big-endian-dmtbdump2.patch
-Patch4:         big-endian-dmtbdump3.patch
-Patch5:         unaligned.patch
-Patch6:         OPT_LDFLAGS.patch
-Patch7:         int-format.patch
-Patch8:         f23-harden.patch
-Patch9:         template.patch
-Patch10:        ppc64le.patch
-Patch11:        arm7hl.patch
-Patch12:        big-endian-v2.patch
-Patch13:        simple-64bit.patch
-Patch14:        mips-be-fix.patch
-Patch15:        cve-2017-13693.patch
-Patch16:        cve-2017-13694.patch
-Patch17:        cve-2017-13695.patch
-Patch18:        str-trunc-warn.patch
-Patch19:	ptr-cast.patch
-Patch20:	aslcodegen.patch
-Patch21:	facp.patch
-Patch24:	armv7-str-fixes.patch
-Patch25:	dbtest.patch
-#Patch27:	big-endian-v3.patch
+# the big-endian patch set
+Patch0:		0001-Add-in-basic-infrastructure-for-big-endian-support.patch
+Patch1:		0002-Modify-utility-functions-to-be-endian-agnostic.patch
+Patch2:		0003-Always-display-table-header-content-in-human-readabl.patch
+Patch3:		0004-Re-enable-support-for-big-endian-machines.patch
+Patch4:		0005-Support-MADT-aka-APIC-in-a-big-endian-world.patch
+Patch5:		0006-Support-ASF-tables-in-a-big-endian-world.patch
+Patch6:		0007-Support-CPEP-tables-in-a-big-endian-world.patch
+Patch7:		0008-Support-DBG2-table-in-a-big-endian-world.patch
+Patch8:		0009-Support-DMAR-in-a-big-endian-world.patch
+Patch9:		0010-Support-DRTM-in-a-big-endian-world.patch
+Patch10:	0011-Support-EINJ-in-a-big-endian-world.patch
+Patch11:	0012-Support-ERST-in-a-big-endian-world.patch
+Patch12:	0013-Support-FADT-aka-FACP-in-a-big-endian-world.patch
+Patch13:	0014-Support-most-FPDTs-in-a-big-endian-world.patch
+Patch14:	0015-Support-GTDT-in-a-big-endian-world.patch
+Patch15:	0016-Support-HEST-in-a-big-endian-world.patch
+Patch16:	0017-Support-RSDT-RSD-PTR-in-a-big-endian-world.patch
+Patch17:	0018-Support-XSDT-in-a-big-endian-world.patch
+Patch18:	0019-Support-SRAT-in-a-big-endian-world.patch
+Patch19:	0020-Support-SLIT-in-a-big-endian-world.patch
+Patch20:	0021-Support-MSCT-in-a-big-endian-world.patch
+Patch21:	0022-Support-MPST-in-a-big-endian-world.patch
+Patch22:	0023-Support-NFIT-in-a-big-endian-world.patch
+Patch23:	0024-Support-SDEV-in-a-big-endian-world.patch
+Patch24:	0025-Support-HMAT-in-a-big-endian-world.patch
+Patch25:	0026-Support-PDTT-in-a-big-endian-world.patch
+Patch26:	0027-Support-PPTT-in-a-big-endian-world.patch
+Patch27:	0028-Support-PCCT-in-a-big-endian-world.patch
+Patch28:	0029-Support-WDAT-in-a-big-endian-world.patch
+Patch29:	0030-Support-TCPA-in-a-big-endian-world.patch
+Patch30:	0031-Support-STAO-in-a-big-endian-world.patch
+Patch31:	0032-Support-SLIC-and-MSDM-in-a-big-endian-world.patch
+Patch32:	0033-Support-MCFG-in-a-big-endian-world.patch
+Patch33:	0034-Support-LPIT-in-a-big-endian-world.patch
+Patch34:	0035-Support-PMTT-in-a-big-endian-world.patch
+Patch35:	0036-Support-IORT-in-a-big-endian-world.patch
+Patch36:	0037-Support-IVRS-in-a-big-endian-world.patch
+Patch37:	0038-Support-TPM2-in-a-big-endian-world.patch
+Patch38:	0039-Add-partial-big-endian-support-for-WPBT-tables.patch
+Patch39:	0040-Support-DSDT-SSDT-in-a-big-endian-world.patch
+
+# other miscellaneous patches
+Patch100:	unaligned.patch
+Patch101:	OPT_LDFLAGS.patch
+Patch102:	int-format.patch
+Patch103:	f23-harden.patch
+Patch104:	template.patch
+Patch105:       arm7hl.patch
+Patch106:       simple-64bit.patch
+Patch107:       mips-be-fix.patch
+Patch108:       cve-2017-13693.patch
+Patch109:       cve-2017-13694.patch
+Patch110:       cve-2017-13695.patch
+Patch111:       str-trunc-warn.patch
+Patch112:	ptr-cast.patch
+Patch113:	facp.patch
+Patch114:	armv7-str-fixes.patch
+Patch115:	dbtest.patch
+Patch116:	ull-32bit.patch
 
 BuildRequires:  bison patchutils flex gcc
 
@@ -86,7 +120,6 @@ are installed:
    -- acpidump: write out the current contents of ACPI tables
    -- acpiexec: simulate AML execution in order to debug method definitions
    -- acpihelp: display help messages describing ASL keywords and op-codes
-   -- acpinames: display complete ACPI name space from input AML
    -- acpisrc: manipulate the ACPICA source tree and format source files
       for specific environments
    -- acpixtract: extract binary ACPI tables from acpidump output (see
@@ -98,33 +131,68 @@ This version of the tools is being released under GPLv2 license.
 %setup -q -n acpica-unix2-%{version}
 gzip -dc %{SOURCE1} | tar -x --strip-components=1 -f -
 
-%patch0  -p1 -b .big-endian
-%patch1  -p1 -b .big-endian-dmtbdump
-%patch2  -p1 -b .big-endian-dmtbdump1
-%patch3  -p1 -b .big-endian-dmtbdump2
-%patch4  -p1 -b .big-endian-dmtbdump3
-%patch5  -p1 -b .unaligned
-%patch6  -p1 -b .OPT_LDFLAGS
-%patch7  -p1 -b .int-format
-%patch8  -p1 -b .f23-harden
-# do not preserve a backup for this patch; it alters the results
-# of the template test case and forces it to fail
-%patch9  -p1
-%patch10 -p1 -b .ppc64le
-%patch11 -p1 -b .arm7hl
-%patch12 -p1 -b .big-endian-v2
-%patch13 -p1 -b .simple-64bit
-%patch14 -p1 -b .mips-be-fix
-%patch15 -p1 -b .cve-2017-13693
-%patch16 -p1 -b .cve-2017-13694
-%patch17 -p1 -b .cve-2017-13695
-%patch18 -p1 -b .str-trunc-warn
-%patch19 -p1 -b .ptr-cast
-%patch20 -p1 -b .aslcodegen
-%patch21 -p1 -b .facp
-%patch24 -p1 -b .armv7-str-fixes
-%patch25 -p1 -b .dbtest
-#%patch27 -p1 -b .big-endian-v3
+# apply the big-endian patches
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch8 -p1
+%patch9 -p1
+%patch10 -p1
+%patch11 -p1
+%patch12 -p1
+%patch13 -p1
+%patch14 -p1
+%patch15 -p1
+%patch16 -p1
+%patch17 -p1
+%patch18 -p1
+%patch19 -p1
+%patch20 -p1
+%patch21 -p1
+%patch22 -p1
+%patch23 -p1
+%patch24 -p1
+%patch25 -p1
+%patch26 -p1
+%patch27 -p1
+%patch28 -p1
+%patch29 -p1
+%patch30 -p1
+%patch31 -p1
+%patch32 -p1
+%patch33 -p1
+%patch34 -p1
+%patch35 -p1
+%patch36 -p1
+%patch37 -p1
+%patch38 -p1
+%patch39 -p1
+
+# apply the remaining patches
+%patch100 -p1
+%patch101 -p1
+%patch102 -p1
+%patch103 -p1
+%patch104 -p1
+%patch105 -p1
+%patch106 -p1
+%patch107 -p1
+%patch108 -p1
+%patch109 -p1
+%patch110 -p1
+%patch111 -p1
+%patch112 -p1
+%patch113 -p1
+%patch114 -p1
+%patch115 -p1
+%ifarch i686 armv7hl
+%patch116 -p1
+%endif
 
 cp -p %{SOURCE2} README.Fedora
 cp -p %{SOURCE3} iasl.1
@@ -132,7 +200,6 @@ cp -p %{SOURCE4} acpibin.1
 cp -p %{SOURCE5} acpidump.1
 cp -p %{SOURCE6} acpiexec.1
 cp -p %{SOURCE7} acpihelp.1
-cp -p %{SOURCE8} acpinames.1
 cp -p %{SOURCE9} acpisrc.1
 cp -p %{SOURCE10} acpixtract.1
 cp -p %{SOURCE11} acpiexamples.1
@@ -241,7 +308,22 @@ fi
 
 
 %changelog
-* Thu Jun 8 2020 Al Stone <ahs3@redhat.com> - 202004306-1
+* Mon Oct 19 2020 Al Stone <ahs3@redhat.com> - 20200925-1
+- Update to 20200925 source tree
+- Completely revamp the old big-endian patches (maintainability was the goal).
+  This results in a much larger patch set, but each patch is more clearly used
+  for a specific purpose.
+- The acpinames command has been deprecated upstream; acpiexec provides 
+  replacement functionality.
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200430-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200430-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 8 2020 Al Stone <ahs3@redhat.com> - 202004306-1
 - Update to 202004306 source tree, including patch refreshes
 
 * Wed Apr 1 2020 Al Stone <ahs3@redhat.com> - 20200326-1

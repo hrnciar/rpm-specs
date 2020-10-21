@@ -1,7 +1,7 @@
 Summary: CMS and X.509 library
 Name:    libksba
-Version: 1.3.5
-Release: 11%{?dist}
+Version: 1.4.0
+Release: 1%{?dist}
 
 # The library is licensed under LGPLv3+ or GPLv2+,
 # the rest of the package under GPLv3+
@@ -25,6 +25,8 @@ specifications are building blocks of S/MIME and TLS.
 %package devel
 Summary: Development headers and libraries for %{name}
 Requires: %{name}%{?_isa} = %{version}-%{release}
+Requires: pkgconfig
+
 %description devel
 %{summary}.
 
@@ -34,19 +36,25 @@ Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %patch1 -p1 -b .multilib
 
+# Convert to utf-8
+for file in THANKS; do
+    iconv -f ISO-8859-1 -t UTF-8 -o $file.new $file && \
+    touch -r $file $file.new && \
+    mv $file.new $file
+done
 
 %build
 %configure \
   --disable-dependency-tracking \
   --disable-static
 
-make %{?_smp_mflags}
+%make_build
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 
 rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.la
@@ -68,10 +76,21 @@ make check
 %{_libdir}/libksba.so
 %{_includedir}/ksba.h
 %{_datadir}/aclocal/ksba.m4
+%{_libdir}/pkgconfig/ksba.pc
 %{_infodir}/ksba.info*
 
 
 %changelog
+* Tue Oct  6 2020 Tomas Mraz <tmraz@redhat.com> - 1.4.0-1
+- New upstream version 1.4.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.3.5-12
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -8,7 +8,7 @@
 Summary: A tool for automatically mounting and unmounting filesystems
 Name: autofs
 Version: 5.1.6
-Release: 7%{?dist}
+Release: 11%{?dist}
 Epoch: 1
 License: GPLv2+
 Source: https://www.kernel.org/pub/linux/daemons/autofs/v5/autofs-%{version}.tar.gz
@@ -26,6 +26,10 @@ Patch011: autofs-5.1.6-initialize-struct-addrinfo-for-getaddrinfo-calls.patch
 Patch012: autofs-5.1.6-fix-quoted-string-length-calc-in-expandsunent.patch
 Patch013: autofs-5.1.6-fix-double-quoting-of-ampersand-in-auto.smb-as-well.patch
 Patch014: autofs-5.1.6-fix-autofs-mount-options-construction.patch
+Patch015: autofs-5.1.6-mount_nfs_c-fix-local-rdma-share-not-mounting.patch
+Patch016: autofs-5.1.6-fix-ldap-sasl-reconnect-problem.patch
+Patch017: autofs-5.1.6-ldap-schema-fix.patch
+Patch018: autofs-5.1.6-fix-configure-force-shutdown-check.patch
 
 %if %{with_systemd}
 BuildRequires: systemd-units
@@ -100,13 +104,17 @@ echo %{version}-%{release} > .version
 %patch012 -p1
 %patch013 -p1
 %patch014 -p1
+%patch015 -p1
+%patch016 -p1
+%patch017 -p1
+%patch018 -p1
 
 %build
 LDFLAGS=-Wl,-z,now
 %configure \
 	--disable-mount-locking \
 	--enable-ignore-busy \
-	--enable-forced-shutdown \
+	--enable-force-shutdown \
 	--without-hesiod \
 	--with-libtirpc %{?systemd_configure_arg:}
 make initdir=%{_initrddir} DONTSTRIP=1
@@ -199,6 +207,20 @@ fi
 %dir /etc/auto.master.d
 
 %changelog
+* Mon Aug 31 2020 Ian Kent <ikent@redhat.com> - 1:5.1.6-11
+- fix configure force shutdown check.
+
+* Tue Aug 25 2020 Ian Kent <ikent@redhat.com> - 1:5.1.6-10
+- fix incorrect configure option.
+
+* Tue Aug 25 2020 Ian Kent <ikent@redhat.com> - 1:5.1.6-9
+- mount_nfs.c fix local rdma share not mounting.
+- fix ldap sasl reconnect problem.
+- samples/ldap.schema fix.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.1.6-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 2020 Ian Kent <ikent@redhat.com> - 1:5.1.6-7
 - initialize struct addrinfo for getaddrinfo() calls.
 - fix quoted string length calc in expandsunent().

@@ -6,7 +6,7 @@
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    fa2aaf99e2087f013a14f7432c1cd2dd7d8f1f51
+%global gh_commit    ebd27a9866ae8254e873866f795491f02418c5a5
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 #global gh_date      20150717
 %global gh_owner     composer
@@ -19,7 +19,7 @@
 %global with_tests   0%{!?_without_tests:1}
 
 Name:           php-%{gh_owner}-%{gh_project}
-Version:        1.4.2
+Version:        1.4.3
 Release:        1%{?gh_date:.%{gh_date}git%{gh_short}}%{?dist}
 Summary:        Restarts a process without Xdebug
 
@@ -138,6 +138,12 @@ exit $ret
 
 
 %changelog
+* Wed Aug 19 2020 Remi Collet <remi@remirepo.net> - 1.4.3-1
+- update to 1.4.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Remi Collet <remi@remirepo.net> - 1.4.2-1
 - update to 1.4.2
 

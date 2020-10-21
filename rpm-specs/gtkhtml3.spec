@@ -5,7 +5,7 @@
 
 Name: gtkhtml3
 Version: 4.10.0
-Release: 11%{?dist}
+Release: 12%{?dist}
 Summary: GtkHTML library
 License: LGPLv2+ and GPLv2
 URL: http://projects.gnome.org/evolution/
@@ -73,6 +73,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.10.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.10.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

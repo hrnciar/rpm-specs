@@ -6,7 +6,7 @@
 Summary:	GNU Readline extension for Tcl/Tk
 Name:		tcl-tclreadline
 Version:	2.1.0
-Release:	15%{?dist}
+Release:	16%{?dist}
 License:	BSD
 URL:		http://tclreadline.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/sourceforge/%{pkgname}/%{pkgname}-%{version}.tar.gz
@@ -92,6 +92,9 @@ rm -f $RPM_BUILD_ROOT%{tcl_sitearch}/%{pkgname}%{version}/*.{a,la}
 %{_includedir}/%{pkgname}.h
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

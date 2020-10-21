@@ -1,7 +1,7 @@
 Summary: Intrusion Detection System
 Name: suricata
-Version: 5.0.3
-Release: 2%{?dist}
+Version: 5.0.4
+Release: 1%{?dist}
 License: GPLv2
 URL: https://suricata-ids.org/
 Source0: https://www.openinfosecfoundation.org/download/%{name}-%{version}.tar.gz
@@ -17,6 +17,10 @@ Patch2: suricata-4.1.1-service.patch
 # include it via sys/socket.h in a future release. This is temporary
 # and should not be needed on other kernel/glibc combos.
 Patch3: suricata-4.1.4-socket.patch
+# The default path needs to be fixed up to where Fedora keeps it
+Patch4: suricata-5.0.4-geolite-path-fixup.patch
+# The log path has an extra '/' at the end
+Patch5: suricata-5.0.4-log-path-fixup.patch
 
 BuildRequires: gcc gcc-c++
 BuildRequires: cargo rust >= 1.33
@@ -70,6 +74,8 @@ install -m 644 %{SOURCE2} doc/
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
+%patch5 -p1
 sed -i 's/(datadir)/(sysconfdir)/' etc/Makefile.am
 %ifarch x86_64
 sed -i 's/-D__KERNEL__/-D__KERNEL__ -D__x86_64__/' ebpf/Makefile.am
@@ -137,6 +143,7 @@ getent passwd suricata >/dev/null || useradd -r -M -s /sbin/nologin suricata
 
 %post
 %systemd_post suricata.service
+chown suricata %{_var}/log/%{name}/*
 
 %preun
 %systemd_preun suricata.service
@@ -173,6 +180,13 @@ getent passwd suricata >/dev/null || useradd -r -M -s /sbin/nologin suricata
 %{_datadir}/%{name}/rules
 
 %changelog
+* Thu Oct 15 2020 Steve Grubb <sgrubb@redhat.com> 5.0.4-1
+- New security and bugfix release
+- File ownership and location cleanups (#1861144)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.0.3-2
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           wildmidi
 Version:        0.4.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Softsynth midi player
 License:        GPLv3+
 URL:            http://www.mindwerks.net/projects/wildmidi
@@ -41,11 +41,11 @@ developing applications that use %{name}.
 
 %build
 %cmake
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/%{name}
 ln -s ../timidity.cfg $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/%{name}.cfg
 
@@ -72,6 +72,9 @@ ln -s ../timidity.cfg $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/%{name}.cfg
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

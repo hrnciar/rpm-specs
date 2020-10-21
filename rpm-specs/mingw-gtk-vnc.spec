@@ -2,7 +2,7 @@
 
 Name: mingw-gtk-vnc
 Version: 1.0.0
-Release: 3%{?dist}
+Release: 5%{?dist}
 Summary: MinGW Windows port of VNC client GTK widget
 
 License: LGPLv2+
@@ -159,6 +159,12 @@ rm -f $RPM_BUILD_ROOT%{mingw64_mandir}/man1/gvnccapture.1*
 %{mingw64_bindir}/gvnccapture.exe
 
 %changelog
+* Wed Aug 12 13:40:41 GMT 2020 Sandro Mani <manisandro@gmail.com> - 1.0.0-5
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 1.0.0-3
 - Rebuild (gettext)
 

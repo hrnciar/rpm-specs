@@ -1,13 +1,12 @@
 Name:           perl-File-Path
-Version:        2.16
-Release:        456%{?dist}
+Version:        2.17
+Release:        2%{?dist}
 Summary:        Create or remove directory trees
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/File-Path
 Source0:        https://cpan.metacpan.org/authors/id/J/JK/JKEENAN/File-Path-%{version}.tar.gz
 BuildArch:      noarch
 BuildRequires:  coreutils
-BuildRequires:  findutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -43,11 +42,11 @@ depth and to delete an entire directory subtree from the file system.
 %setup -q -n File-Path-%{version}
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
@@ -59,6 +58,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.17-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Petr Pisar <ppisar@redhat.com> - 2.17-1
+- 2.17 bump
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.16-456
 - Increase release to favour standalone package
 

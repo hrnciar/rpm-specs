@@ -23,7 +23,7 @@ word-splitting rules.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.15%{?dist}
+Release:        0.17%{?dist}
 Summary:        Go utilities for performing shell-like word splitting/joining
 
 License:        MIT
@@ -61,6 +61,13 @@ end
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.17
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

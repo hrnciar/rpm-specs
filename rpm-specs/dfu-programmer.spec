@@ -1,6 +1,6 @@
 Name:           dfu-programmer
 Version:        0.7.2
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        A Device Firmware Update based USB programmer for Atmel chips
 
 License:        GPLv2+
@@ -33,6 +33,9 @@ Atmel chips with USB support.
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

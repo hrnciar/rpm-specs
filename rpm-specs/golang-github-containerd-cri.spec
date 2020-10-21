@@ -3,8 +3,7 @@
 
 # https://github.com/containerd/cri
 %global goipath         github.com/containerd/cri
-Version:                1.3
-%global commit          50b9e10ea54a9b57049fe311e4fe0a96277ef1c2
+Version:                1.19.0
 
 %gometa
 
@@ -26,20 +25,20 @@ Summary:        Containerd Plugin for Kubernetes Container Runtime Interface
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
-# To work with k8s.io/apimachinery 1.17.2 (golang-k8s-apimachinery-devel)
-Patch0:         0001-Fix-compile-error-with-k8s-io-apimachinery-1-17.patch
+# Remove windows only dep (github.com/Microsoft/hcsshim)
+Patch0:         Remove-windows-only-dep.patch
 
-BuildRequires:  golang(github.com/BurntSushi/toml)
-BuildRequires:  golang(github.com/containerd/cgroups)
 BuildRequires:  golang(github.com/containerd/containerd)
 BuildRequires:  golang(github.com/containerd/containerd/api/events)
 BuildRequires:  golang(github.com/containerd/containerd/api/services/containers/v1)
 BuildRequires:  golang(github.com/containerd/containerd/api/services/diff/v1)
 BuildRequires:  golang(github.com/containerd/containerd/api/services/images/v1)
+BuildRequires:  golang(github.com/containerd/containerd/api/services/introspection/v1)
 BuildRequires:  golang(github.com/containerd/containerd/api/services/namespaces/v1)
 BuildRequires:  golang(github.com/containerd/containerd/api/services/tasks/v1)
 BuildRequires:  golang(github.com/containerd/containerd/api/types)
 BuildRequires:  golang(github.com/containerd/containerd/cio)
+# BuildRequires:  golang(github.com/containerd/containerd/cmd/containerd/command)
 BuildRequires:  golang(github.com/containerd/containerd/containers)
 BuildRequires:  golang(github.com/containerd/containerd/content)
 BuildRequires:  golang(github.com/containerd/containerd/contrib/apparmor)
@@ -52,11 +51,14 @@ BuildRequires:  golang(github.com/containerd/containerd/images)
 BuildRequires:  golang(github.com/containerd/containerd/leases)
 BuildRequires:  golang(github.com/containerd/containerd/log)
 BuildRequires:  golang(github.com/containerd/containerd/metrics/cgroups)
+BuildRequires:  golang(github.com/containerd/containerd/metrics/types/v1)
+BuildRequires:  golang(github.com/containerd/containerd/metrics/types/v2)
 BuildRequires:  golang(github.com/containerd/containerd/mount)
 BuildRequires:  golang(github.com/containerd/containerd/namespaces)
 BuildRequires:  golang(github.com/containerd/containerd/oci)
 BuildRequires:  golang(github.com/containerd/containerd/platforms)
 BuildRequires:  golang(github.com/containerd/containerd/plugin)
+BuildRequires:  golang(github.com/containerd/containerd/reference/docker)
 BuildRequires:  golang(github.com/containerd/containerd/remotes/docker)
 BuildRequires:  golang(github.com/containerd/containerd/runtime/linux/runctypes)
 BuildRequires:  golang(github.com/containerd/containerd/runtime/v1/linux)
@@ -77,29 +79,30 @@ BuildRequires:  golang(github.com/containerd/containerd/services/tasks)
 BuildRequires:  golang(github.com/containerd/containerd/services/version)
 BuildRequires:  golang(github.com/containerd/containerd/snapshots)
 BuildRequires:  golang(github.com/containerd/containerd/snapshots/overlay)
+BuildRequires:  golang(github.com/containerd/containerd/sys)
 BuildRequires:  golang(github.com/containerd/containerd/version)
 BuildRequires:  golang(github.com/containerd/continuity)
 BuildRequires:  golang(github.com/containerd/continuity/fs)
 BuildRequires:  golang(github.com/containerd/fifo)
 BuildRequires:  golang(github.com/containerd/go-cni)
+BuildRequires:  golang(github.com/containerd/imgcrypt)
+BuildRequires:  golang(github.com/containerd/imgcrypt/images/encryption)
 BuildRequires:  golang(github.com/containerd/typeurl)
 BuildRequires:  golang(github.com/containernetworking/plugins/pkg/ns)
 BuildRequires:  golang(github.com/davecgh/go-spew/spew)
-BuildRequires:  golang(github.com/docker/distribution/digestset)
-BuildRequires:  golang(github.com/docker/distribution/reference)
 BuildRequires:  golang(github.com/docker/docker/pkg/symlink)
-BuildRequires:  golang(github.com/docker/docker/pkg/system)
 BuildRequires:  golang(github.com/docker/docker/pkg/truncindex)
+BuildRequires:  golang(github.com/emicklei/go-restful)
+BuildRequires:  golang(github.com/fsnotify/fsnotify)
 BuildRequires:  golang(github.com/gogo/protobuf/gogoproto)
 BuildRequires:  golang(github.com/gogo/protobuf/proto)
 BuildRequires:  golang(github.com/gogo/protobuf/types)
 BuildRequires:  golang(github.com/opencontainers/go-digest)
+BuildRequires:  golang(github.com/opencontainers/go-digest/digestset)
 BuildRequires:  golang(github.com/opencontainers/image-spec/identity)
 BuildRequires:  golang(github.com/opencontainers/image-spec/specs-go/v1)
 BuildRequires:  golang(github.com/opencontainers/runc/libcontainer/apparmor)
 BuildRequires:  golang(github.com/opencontainers/runc/libcontainer/devices)
-BuildRequires:  golang(github.com/opencontainers/runc/libcontainer/seccomp)
-BuildRequires:  golang(github.com/opencontainers/runc/libcontainer/system)
 BuildRequires:  golang(github.com/opencontainers/runtime-spec/specs-go)
 BuildRequires:  golang(github.com/opencontainers/selinux/go-selinux)
 BuildRequires:  golang(github.com/opencontainers/selinux/go-selinux/label)
@@ -108,24 +111,36 @@ BuildRequires:  golang(github.com/sirupsen/logrus)
 BuildRequires:  golang(golang.org/x/net/context)
 BuildRequires:  golang(golang.org/x/sys/unix)
 BuildRequires:  golang(google.golang.org/grpc)
+BuildRequires:  golang(google.golang.org/grpc/codes)
+BuildRequires:  golang(google.golang.org/grpc/status)
+BuildRequires:  golang(k8s.io/api/core/v1)
+BuildRequires:  golang(k8s.io/apimachinery/pkg/api/errors)
+BuildRequires:  golang(k8s.io/apimachinery/pkg/api/resource)
+BuildRequires:  golang(k8s.io/apimachinery/pkg/apis/meta/v1)
+BuildRequires:  golang(k8s.io/apimachinery/pkg/types)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/util/clock)
+BuildRequires:  golang(k8s.io/apimachinery/pkg/util/httpstream)
+BuildRequires:  golang(k8s.io/apimachinery/pkg/util/httpstream/spdy)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/util/net)
+BuildRequires:  golang(k8s.io/apimachinery/pkg/util/remotecommand)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/util/runtime)
+BuildRequires:  golang(k8s.io/apimachinery/pkg/util/sets)
+BuildRequires:  golang(k8s.io/apiserver/pkg/server/httplog)
+BuildRequires:  golang(k8s.io/apiserver/pkg/util/wsstream)
 BuildRequires:  golang(k8s.io/client-go/tools/remotecommand)
 BuildRequires:  golang(k8s.io/client-go/util/cert)
+BuildRequires:  golang(k8s.io/component-base/logs/logreduction)
 BuildRequires:  golang(k8s.io/cri-api/pkg/apis)
 BuildRequires:  golang(k8s.io/cri-api/pkg/apis/runtime/v1alpha2)
-BuildRequires:  golang(k8s.io/klog)
-BuildRequires:  golang(k8s.io/kubernetes/pkg/kubelet/remote)
-BuildRequires:  golang(k8s.io/kubernetes/pkg/kubelet/server/streaming)
-BuildRequires:  golang(k8s.io/kubernetes/pkg/kubelet/util)
-BuildRequires:  golang(k8s.io/kubernetes/pkg/util/bandwidth)
+BuildRequires:  golang(k8s.io/klog/v2)
 BuildRequires:  golang(k8s.io/utils/exec)
 
 %if %{with check}
 # Tests
+BuildRequires:  golang(github.com/containerd/cgroups/stats/v1)
 BuildRequires:  golang(github.com/containerd/containerd/reference)
 BuildRequires:  golang(github.com/golang/protobuf/proto)
+BuildRequires:  golang(github.com/opencontainers/runc/libcontainer/configs)
 BuildRequires:  golang(github.com/stretchr/testify/assert)
 BuildRequires:  golang(github.com/stretchr/testify/require)
 %endif
@@ -139,7 +154,6 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %goprep
 %autopatch -p1
 rm -rf cmd
-find . -name "*.go" -exec sed -i "s|k8s.io/kubernetes/pkg/kubelet/apis/cri|k8s.io/cri-api/pkg/apis|" "{}" +;
 
 %install
 %gopkginstall
@@ -153,6 +167,12 @@ find . -name "*.go" -exec sed -i "s|k8s.io/kubernetes/pkg/kubelet/apis/cri|k8s.i
 %gopkgfiles
 
 %changelog
+* Fri Aug 21 20:39:11 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1:1.19.0-1
+- Update to 1.19.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 01 2020 Olivier Lemasle <o.lemasle@gmail.com> - 1:1.3-1
 - Update to branch 1.3
 

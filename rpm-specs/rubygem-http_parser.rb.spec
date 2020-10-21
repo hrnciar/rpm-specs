@@ -3,7 +3,7 @@
 
 Name:		rubygem-%{gem_name}
 Version:	0.6.0
-Release:	18%{?dist}
+Release:	19%{?dist}
 Summary:	Simple callback-based HTTP request/response parser
 License:	MIT
 URL:		https://github.com/tmm1/http_parser.rb
@@ -54,12 +54,10 @@ mkdir -p %{buildroot}%{gem_dir}
 cp -a .%{gem_dir}/* \
 	%{buildroot}%{gem_dir}/
 
-%if 0%{?fedora} > 0
+%if 0%{?fedora} || 0%{?rhel} >= 8
 mkdir -p %{buildroot}%{gem_extdir_mri}
 cp -ar .%{gem_extdir_mri}/{gem.build_complete,*.so} %{buildroot}%{gem_extdir_mri}/
-%endif
-
-%if 0%{?rhel} >= 7
+%else
 mkdir -p %{buildroot}%{gem_extdir_mri}/lib
 cp -ar .%{gem_instdir}/lib/ruby_http_parser.so %{buildroot}%{gem_extdir_mri}/lib
 %endif
@@ -97,6 +95,12 @@ popd
 %{gem_instdir}/tasks
 
 %changelog
+* Wed Aug 05 2020 Merlin Mathesius <mmathesi@redhat.com> - 0.6.0-19
+- Minor conditional fixes for ELN
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

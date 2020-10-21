@@ -14,13 +14,13 @@
 
 %global pecl_name  xdebug
 %global with_zts   0%{!?_without_zts:%{?__ztsphp:1}}
-%global gh_commit  b554fd406b365a0cec09e81200f16a2d30d59693
+%global gh_commit  3e09864af111d63b7eb486d88bfc6eb7d6429b85
 %global gh_short   %(c=%{gh_commit}; echo ${c:0:7})
 # XDebug should be loaded after opcache
 %global ini_name   15-%{pecl_name}.ini
 %global with_tests 0%{!?_without_tests:1}
 # version/release
-%global upstream_version 2.9.6
+%global upstream_version 2.9.8
 #global upstream_prever  beta2
 #global upstream_lower   beta2
 
@@ -209,6 +209,15 @@ REPORT_EXIT_STATUS=1 \
 
 
 %changelog
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 2.9.8-1
+- update to 2.9.8
+
+* Thu Sep 17 2020 Remi Collet <remi@remirepo.net> - 2.9.7-1
+- update to 2.9.7
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Remi Collet <remi@remirepo.net> - 2.9.6-1
 - update to 2.9.6
 

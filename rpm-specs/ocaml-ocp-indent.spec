@@ -1,6 +1,6 @@
 Name:           ocaml-ocp-indent
-Version:        1.7.0
-Release:        11%{?dist}
+Version:        1.8.2
+Release:        3%{?dist}
 Summary:        A simple tool to indent OCaml programs
 
 %global libname %(echo %{name} | sed -e 's/^ocaml-//')
@@ -108,6 +108,22 @@ rm -fr %{buildroot}%{_prefix}/doc
 %{_libdir}/ocaml/%{libname}/*/*.ml
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.8.2-3
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.8.2-2
+- OCaml 4.11.0 rebuild
+
+* Sun Aug  9 2020 Robin Lee <cheeselee@fedoraproject.org> - 1.8.2-1
+- Update to 1.8.2
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 1.7.0-11
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

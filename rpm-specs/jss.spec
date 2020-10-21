@@ -6,9 +6,9 @@ Summary:        Java Security Services (JSS)
 URL:            http://www.dogtagpki.org/wiki/JSS
 License:        MPLv1.1 or GPLv2+ or LGPLv2+
 
-Version:        4.7.0
-Release:        0.2%{?_timestamp}%{?_commit_id}%{?dist}
-%global         _phase -b2
+Version:        4.7.3
+Release:        1%{?_timestamp}%{?_commit_id}%{?dist}
+#global         _phase -a1
 
 # To generate the source tarball:
 # $ git clone https://github.com/dogtagpki/jss.git
@@ -108,12 +108,25 @@ export CFLAGS
 # Check if we're in FIPS mode
 modutil -dbdir /etc/pki/nssdb -chkfips true | grep -q enabled && export FIPS_ENABLED=1
 
+# RHEL's CMake doesn't support -B flag.
+%if 0%{?rhel}
+%{__mkdir_p} %{_vpath_builddir}
+cd %{_vpath_builddir}
+%endif
+
 # The Makefile is not thread-safe
-rm -rf build && mkdir -p build && cd build
 %cmake \
     -DJAVA_HOME=%{java_home} \
     -DJAVA_LIB_INSTALL_DIR=%{_jnidir} \
+%if 0%{?rhel}
     ..
+%else
+    -B %{_vpath_builddir}
+%endif
+
+%if 0%{?fedora}
+cd %{_vpath_builddir}
+%endif
 
 %{__make} all
 %{__make} javadoc
@@ -126,19 +139,19 @@ ctest --output-on-failure
 
 # jars
 install -d -m 0755 $RPM_BUILD_ROOT%{_jnidir}
-install -m 644 build/jss4.jar ${RPM_BUILD_ROOT}%{_jnidir}/jss4.jar
+install -m 644 %{_vpath_builddir}/jss4.jar ${RPM_BUILD_ROOT}%{_jnidir}/jss4.jar
 
 # We have to use the name libjss4.so because this is dynamically
 # loaded by the jar file.
 install -d -m 0755 $RPM_BUILD_ROOT%{_libdir}/jss
-install -m 0755 build/libjss4.so ${RPM_BUILD_ROOT}%{_libdir}/jss/
+install -m 0755 %{_vpath_builddir}/libjss4.so ${RPM_BUILD_ROOT}%{_libdir}/jss/
 pushd  ${RPM_BUILD_ROOT}%{_libdir}/jss
     ln -fs %{_jnidir}/jss4.jar jss4.jar
 popd
 
 # javadoc
 install -d -m 0755 $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
-cp -rp build/docs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
+cp -rp %{_vpath_builddir}/docs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 cp -p jss.html $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 cp -p *.txt $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 
@@ -160,6 +173,31 @@ cp -p *.txt $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 
 ################################################################################
 %changelog
+* Fri Sep 11 2020 Dogtag PKI Team <pki-devel@redhat.com> - 4.7.3-1
+- Rebase to upstream stable release JSS v4.7.3
+
+* Tue Aug 18 2020 Dogtag PKI Team <pki-devel@redhat.com> - 4.7.2-1
+- Rebase to upstream stable release JSS v4.7.2 ; fixes FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.7.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.7.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 4.7.0-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jul 09 2020 Dogtag PKI Team <pki-devel@redhat.com> - 4.7.0-1
+- Rebase to upstream stable release JSS v4.7.0
+
+* Mon Jul 06 2020 Dogtag PKI Team <pki-devel@redhat.com> - 4.7.0-0.5
+- Fix build issues with new Crypto-Policies denying SHA-1 usage
+
+* Tue Jun 30 2020 Dogtag PKI Team <pki-devel@redhat.com> - 4.7.0-0.4
+- Rebase to latest upstream JSS v4.7.0-b4
+
 * Wed Jun 10 2020 Dogtag PKI Team <pki-devel@redhat.com> - 4.7.0-0.2
 - Rebase to latest upstream JSS 4.7.0
 - JSS Provided SSLEngine

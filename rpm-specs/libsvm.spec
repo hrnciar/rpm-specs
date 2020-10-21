@@ -26,7 +26,7 @@
 
 Name:           libsvm
 Version:        3.24
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        A Library for Support Vector Machines
 
 License:        BSD
@@ -298,6 +298,12 @@ desktop-file-install --delete-original \
 %{_datadir}/applications/*%{name}-svm-toy-qt.desktop
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.24-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 3.24-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.24-3
 - Rebuilt for Python 3.9
 

@@ -2,7 +2,7 @@
 
 Name:           lcm
 Version:        1.4.0
-Release:        1%{?dist}
+Release:        4%{?dist}
 License:        LGPLv2+
 Summary:        Utilities for lightweight communications and marshaling
 URL:            https://lcm-proj.github.io/
@@ -144,6 +144,16 @@ ctest -V %{?_smp_mflags} || :
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.4.0-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat Jun 13 2020 Dan Callaghan <djc@djc.id.au> - 1.4.0-1
 - update to upstream release 1.4.0
 

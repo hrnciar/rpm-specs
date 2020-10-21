@@ -1,6 +1,9 @@
+# force out-of-tree build for spec compatibility with older releases
+%undefine __cmake_in_source_build
+
 Name:		aqsis
 Version:	1.8.2
-Release:	36%{?dist}
+Release:	40%{?dist}
 Summary:	Open source 3D rendering solution adhering to the RenderMan standard
 
 License:	GPLv2+ and LGPLv2+
@@ -16,6 +19,8 @@ Patch2: aqsis-1.8.2-boost-1.59.patch
 # Fix code to be C++11 compatible
 # https://sourceforge.net/p/aqsis/bugs/433/
 Patch3: aqsis-1.8.2-gcc6.patch
+Patch4: aqsis-1.8.2-shared_ptr.patch
+Patch5: aqsis-gcc11.patch
 
 BuildRequires:  desktop-file-utils
 
@@ -109,13 +114,13 @@ integration with third-party applications.
 %patch1 -p1 -b imfinputfile-forward-declaration
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
+%patch5 -p1
+
 
 %build
 ## Do not Enable pdiff=yes Because it will conflict with Printdiff :
 ## /usr/bin/pdiff  from package	a2ps
-rm -rf build
-mkdir -p build
-pushd build
 %cmake \
   -DSYSCONFDIR:STRING=%{_sysconfdir}/%{name} \
   -DAQSIS_MAIN_CONFIG_NAME=aqsisrc-%{_lib} \
@@ -128,18 +133,15 @@ pushd build
   -DAQSIS_BOOST_REGEX_LIBRARY_NAME=boost_regex-mt \
   -DAQSIS_BOOST_THREAD_LIBRARY_NAME=boost_thread-mt \
   -DAQSIS_BOOST_WAVE_LIBRARY_NAME=boost_wave-mt \
+  -DAQSIS_ENABLE_THREADING:BOOL=ON \
   -DCMAKE_CXX_FLAGS="$CXXFLAGS -DBOOST_FILESYSTEM_VERSION=3 -pthread" \
-  -DAQSIS_USE_EXTERNAL_TINYXML:BOOL=OFF ..
+  -DAQSIS_USE_EXTERNAL_TINYXML:BOOL=OFF
 
-make VERBOSE=1 %{?_smp_mflags}
-
-popd
+%cmake_build
 
 
 %install
-pushd build
-make install DESTDIR=$RPM_BUILD_ROOT
-popd
+%cmake_install
 
 # Move aqsisrc
 mv $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/aqsisrc \
@@ -225,6 +227,19 @@ desktop-file-install --vendor "" --delete-original \
 
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 1.8.2-40
+- Fix C++17 problems
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.2-39
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.2-38
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Nicolas Chauvet <kwizart@gmail.com> - 1.8.2-37
+- Fix FTBFS
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.2-36
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

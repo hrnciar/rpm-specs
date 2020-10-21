@@ -2,7 +2,7 @@
 
 Name: libapogee
 Version: 3.2
-Release: 4%{?dist}
+Release: 7%{?dist}
 Summary: Library for Apogee CCD Cameras
 
 License: GPLv2+ and MPLv2.0
@@ -32,10 +32,10 @@ sed -i 's|DESTINATION lib|DESTINATION lib${LIB_SUFFIX}|g' CMakeLists.txt
 
 %build
 %cmake
-make VERBOSE=1 %{?_smp_mflags}
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 %ldconfig_scriptlets
 
@@ -51,6 +51,16 @@ make install DESTDIR=%{buildroot}
 %{_libdir}/*.so
 
 %changelog
+* Tue Aug 25 2020 Christian Dersch <lupinix@mailbox.org> - 3.2-7
+- Adapt for Changes/CMake to do out-of-source builds
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

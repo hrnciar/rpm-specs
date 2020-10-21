@@ -1,6 +1,6 @@
 # Fedora spec file for librabbitmq
 #
-# Copyright (c) 2012-2019 Remi Collet
+# Copyright (c) 2012-2020 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
@@ -17,7 +17,7 @@
 Name:      %{libname}
 Summary:   Client library for AMQP
 Version:   0.10.0
-Release:   2%{?dist}
+Release:   3%{?dist}
 License:   MIT
 URL:       https://github.com/alanxz/rabbitmq-c
 
@@ -76,13 +76,21 @@ sed -e '/test_basic/d' -i tests/CMakeLists.txt
 %cmake \
   -DBUILD_TOOLS_DOCS:BOOL=ON \
   -DBUILD_STATIC_LIBS:BOOL=ON \
-  .
+  -S .
 
+%if 0%{?cmake_build:1}
+%cmake_build
+%else
 make %{_smp_mflags}
+%endif
 
 
 %install
+%if 0%{?cmake_install:1}
+%cmake_install
+%else
 make install  DESTDIR="%{buildroot}"
+%endif
 
 rm %{buildroot}%{_libdir}/%{libname}.a
 
@@ -92,7 +100,11 @@ rm %{buildroot}%{_libdir}/%{libname}.a
 grep @ %{buildroot}%{_libdir}/pkgconfig/librabbitmq.pc && exit 1
 
 : upstream tests
+%if 0%{?ctest:1}
+%ctest
+%else
 make test
+%endif
 
 
 %files
@@ -114,6 +126,9 @@ make test
 
 
 %changelog
+* Thu Aug 13 2020 Remi Collet <remi@remirepo.net> - 0.10.0-3
+- fix cmake macros usage, FTBFS #1863670
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

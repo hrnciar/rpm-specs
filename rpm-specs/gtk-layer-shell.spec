@@ -1,8 +1,8 @@
 %global apiver  0
 
 Name:           gtk-layer-shell
-Version:        0.1.0
-Release:        3%{?dist}
+Version:        0.3.0
+Release:        1%{?dist}
 Summary:        Library to create components for Wayland using the Layer Shell
 
 License:        MIT
@@ -48,19 +48,28 @@ Development files for %{name}.
 
 
 %files
-%license COPYING
-%doc README.md
+%license LICENSE_LGPL.txt LICENSE_MIT.txt
+%doc README.md CHANGELOG.md
 %{_libdir}/lib%{name}.so.%{apiver}*
 %{_libdir}/girepository-1.0/GtkLayerShell-%{apiver}.?.typelib
 
 %files devel
-%{_includedir}/%{name}
+%{_includedir}/%{name}/
 %{_libdir}/pkgconfig/*.pc
 %{_libdir}/lib%{name}.so
 %{_datadir}/gir-1.0/GtkLayerShell-%{apiver}.?.gir
 
 
 %changelog
+* Thu Aug 13 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.3.0-1
+- Update to 0.3.0
+
+* Wed Jul 29 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.2.0-1
+- Update to 0.2.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

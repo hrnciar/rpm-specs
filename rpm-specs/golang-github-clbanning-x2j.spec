@@ -16,7 +16,7 @@ values (using wildcards, if necessary).}
 %global godocs          examples README
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Unmarshal an anonymous xml doc to map[string]interface{} and json
 
 # Upstream license specification: BSD-3-Clause
@@ -46,6 +46,9 @@ Patch0:         0001-Remove-redundant-newlines-in-Println-statement.patch
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

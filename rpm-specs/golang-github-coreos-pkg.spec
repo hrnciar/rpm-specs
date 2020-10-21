@@ -22,7 +22,7 @@ A collection of Go utility packages.}
 %global godocs          CONTRIBUTING.md README.md code-of-conduct.md example README-*.md
 
 Name:           %{goname}
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A collection of Go utility packages
 
 # Upstream license specification: Apache-2.0
@@ -62,6 +62,9 @@ done
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

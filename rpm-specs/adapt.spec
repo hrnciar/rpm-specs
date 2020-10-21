@@ -2,8 +2,8 @@
 %global with_tests 0
 
 Name:           adapt
-Version:        0.3.5
-Release:        2%{?dist}
+Version:        0.3.6
+Release:        1%{?dist}
 Summary:        Mycroft's Adapt Intent Parser
 License:        ASL 2.0
 URL:            https://adapt.mycroft.ai/
@@ -36,8 +36,8 @@ A python3 library for Adapt Intent Parser.
 %prep
 %autosetup -p1 -n %{name}-release-v%{version}
 rm -rf adapt-parser.egg-info
-sed -i 's#pyee==5.0.0#pyee>=5.0.0#' requirements.txt
-sed -i 's#pyee==5.0.0#pyee>=5.0.0#' setup.py
+sed -i 's#pyee==7.0.1#pyee>=7.0.1#' requirements.txt
+sed -i 's#pyee==7.0.1#pyee>=7.0.1#' setup.py
 
 %build
 %py3_build
@@ -56,6 +56,12 @@ sed -i 's#pyee==5.0.0#pyee>=5.0.0#' setup.py
 %{python3_sitelib}/%{name}/
 
 %changelog
+* Thu Jul 30 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.3.6-1
+- Update to 0.3.6
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.5-2
 - Rebuilt for Python 3.9
 

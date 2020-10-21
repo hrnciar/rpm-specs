@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 # uncomment to enable bootstrap mode
 #global bootstrap 1
 
@@ -12,7 +13,7 @@
 
 Name:           zanshin
 Version:        0.5.71
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Todo/action management software
 
 License:        GPLv2
@@ -80,17 +81,13 @@ BuildArch: noarch
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%{cmake_kf5} \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{!?tests:OFF}
-popd
-
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name
 
@@ -103,7 +100,7 @@ export CTEST_OUTPUT_ON_FAILURE=1
 xvfb-run -a \
 dbus-launch --exit-with-session \
 time \
-make test ARGS="--output-on-failure --timeout 30" -C %{_target_platform} ||:
+%ctest --timeout 30
 %endif
 
 %files common -f %{name}.lang
@@ -125,6 +122,9 @@ make test ARGS="--output-on-failure --timeout 30" -C %{_target_platform} ||:
 %{_qt5_plugindir}/zanshin_part.so
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.71-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 11 2020 Than Ngo <than@redhat.com> - 0.5.71-1
 - update to 0.5.71
 

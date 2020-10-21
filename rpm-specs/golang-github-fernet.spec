@@ -3,7 +3,7 @@
 
 # https://github.com/fernet/fernet-go
 %global goipath         github.com/fernet/fernet-go
-%global commit          9eac43b88a5efb8651d24de9b68e87567e029736
+%global commit          eff2850e60014b3643d850a51c69482d3a8352b1
 
 %gometa
 
@@ -17,7 +17,7 @@ message in a form that can't be read or altered without the key.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Generate and verify HMAC-based authentication tokens
 
 License:        MIT
@@ -54,6 +54,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 17:21:47 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200726giteff2850
+- Bump to commit eff2850e60014b3643d850a51c69482d3a8352b1
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           jaero
 Version:        1.0.4.11
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A SatCom ACARS demodulator and decoder for the Aero standard
 
 # LGPLv2+ for JAERO/gui_classes/console.cpp
@@ -81,10 +81,6 @@ mv JAERO/JAERO.desktop JAERO/%{name}.desktop
 sed -e "s|/opt/jaero/JAERO|%{_bindir}/%{name}|" \
     -e "s|/opt/jaero/jaero.ico|%{name}|" -i JAERO/%{name}.desktop
 
-# Enable LTO
-echo "QMAKE_CXXFLAGS += -flto
-QMAKE_LFLAGS_RELEASE += -flto" >> JAERO/JAERO.pro
-
 %build
 mkdir JAERO/build
 pushd JAERO/build
@@ -110,6 +106,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/%{name}.a
 %{_datadir}/metainfo/%{name}.appdata.xml
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4.11-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4.11-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

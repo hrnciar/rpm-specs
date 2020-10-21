@@ -10,7 +10,7 @@
 
 Name:           SoQt
 Version:        1.6.0
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        High-level 3D visualization library
 License:        GPLv2
 
@@ -73,7 +73,7 @@ tar --strip-components=1 -C src/Inventor/Qt/common -xf %{SOURCE3}
 mkdir build-%{_build_arch} && cd build-%{_build_arch}
 %cmake -DSOQT_BUILD_DOCUMENTATION=TRUE \
        -DSOQT_BUILD_DOC_MAN=TRUE \
-       ../
+       -S .. -B .
 
 %make_build
 
@@ -107,6 +107,16 @@ mv %{buildroot}%{_includedir}/Inventor %{buildroot}%{_includedir}/Coin4/
 
 
 %changelog
+* Tue Aug 04 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 1.6.0-5
+- Work around cmake madness (F33FTBS, RHBZ#1863123).
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

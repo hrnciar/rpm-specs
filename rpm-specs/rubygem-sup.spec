@@ -2,27 +2,39 @@
 
 Summary: A console-based email client written in ruby
 Name: rubygem-%{gem_name}
-Version: 0.22.1
-Release: 6%{?dist}
+Version: 1.0
+Release: 2%{?dist}
 License: GPLv2+
 URL: http://sup.rubyforge.org/
 Source0: http://rubygems.org/downloads/%{gem_name}-%{version}.gem
-# Revert dependency on ncursesw. The downside is incorrect wide character support.
-# TODO: Resurrect rubygem-ncursesw (rhbz#597709).
-# https://github.com/sup-heliotrope/sup/commit/c52016368e0456baf1ee97d25304b703da542cec
-Patch1: rubygem-sup-Revert-Remove-all-ncursesw-warnings-since-it-s-a-har.patch
 
-Requires: ruby(ncurses)
+Requires: /usr/bin/tput
 Requires: xapian-bindings-ruby
 
 BuildRequires: ruby
 BuildRequires: ruby-devel
-BuildRequires: xapian-core-devel
 BuildRequires: rubygems-devel
-BuildRequires: ncurses-devel
+# Runtime dependencies needed for tests:
+BuildRequires: rubygem(ncursesw)
+BuildRequires: /usr/bin/tput
 BuildRequires: xapian-bindings-ruby
-BuildRequires: zlib-devel
-BuildRequires: rubygem-rake
+BuildRequires: rubygem(rmail)
+BuildRequires: rubygem(highline)
+BuildRequires: rubygem(optimist)
+BuildRequires: rubygem(lockfile)
+BuildRequires: rubygem(mime-types)
+BuildRequires: rubygem(locale)
+BuildRequires: rubygem(chronic)
+BuildRequires: rubygem(unicode)
+BuildRequires: rubygem(unicode-display_width)
+# Development dependencies needed for tests:
+BuildRequires: /usr/bin/git
+BuildRequires: rubygem(bundler)
+BuildRequires: rubygem(rake)
+BuildRequires: rubygem(minitest)
+BuildRequires: rubygem(rr)
+#BuildRequires: rubygem(gpgme)
+BuildRequires: rubygem(pry)
 
 BuildArch: noarch
 
@@ -53,25 +65,22 @@ is to become the email client of choice for nerds everywhere.
 
 %prep
 %setup -q -n %{gem_name}-%{version}
-%patch1 -p1
 
 # Remove unnecessary fake extension module
 sed -i '/s.extensions =/ s/^/#/' ../%{gem_name}-%{version}.gemspec
-
-# Relax rubygem-chronic dependency.
-sed -i '/chronic/ s/0.9.1/0.9/' ../%{gem_name}-%{version}.gemspec
-
-# Remove dependency on xapian-full and ncursesw
-sed -i '/xapian-full/ s/^/#/' ../%{gem_name}-%{version}.gemspec
-sed -i '/ncursesw/ s/^/#/' ../%{gem_name}-%{version}.gemspec
 
 %build
 gem build ../%{gem_name}-%{version}.gemspec
 %gem_install
 
+%check
+LANG=C.utf8 LC_ALL=C.utf8 TERM=xterm rake test
+
 %install
+mkdir -p %{buildroot}%{_mandir}/man1
 mkdir -p %{buildroot}%{gem_dir}
 mkdir -p %{buildroot}%{_bindir}
+mv .%{gem_instdir}/man/* %{buildroot}%{_mandir}/man1/
 mv .%{gem_dir}/* %{buildroot}%{gem_dir}
 mv .%{_bindir}/* %{buildroot}%{_bindir}
 
@@ -87,6 +96,7 @@ mv .%{_bindir}/* %{buildroot}%{_bindir}
 %{_bindir}/sup-import-dump
 %{_bindir}/sup-psych-ify-config-files
 %{_bindir}/sup-sync-back-maildir
+%{_mandir}/man1/sup*
 %license %{gem_instdir}/LICENSE
 %exclude %{gem_cache}
 %exclude %{gem_instdir}/.*
@@ -108,10 +118,23 @@ mv .%{_bindir}/* %{buildroot}%{_bindir}
 %{gem_instdir}/devel
 %{gem_instdir}/contrib
 %{gem_instdir}/doc
-%{gem_instdir}/man
 %{gem_instdir}/ext
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Dan Callaghan <djc@djc.id.au> - 1.0-1
+- new upstream release 1.0 (no changes since 0.23)
+- use ncursesw for proper Unicode support
+
+* Sat Jul 11 2020 Dan Callaghan <djc@djc.id.au> - 0.23-2
+- man pages are installed properly
+
+* Sat Jul 11 2020 Dan Callaghan <djc@djc.id.au> - 0.23-1
+- new upstream release 0.23:
+  https://github.com/sup-heliotrope/sup/blob/release-0.23/History.txt
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.22.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

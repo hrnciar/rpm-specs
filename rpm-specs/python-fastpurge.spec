@@ -3,7 +3,7 @@
 Summary: A Python client for the Akamai Fast Purge API
 Name: python-%{srcname}
 Version: 1.0.2
-Release: 7%{?dist}
+Release: 9%{?dist}
 URL: https://github.com/release-engineering/%{name}
 Source0: %{url}/archive/v%{version}/%{srcname}-%{version}.tar.gz
 License: GPLv3+
@@ -16,6 +16,7 @@ Purge API, including authentication and error recovery.
 %package -n python3-%{srcname}
 Summary:	%{summary}
 BuildRequires:	python3-devel
+BuildRequires:	python3-setuptools
 
 # Dependencies for test suite
 BuildRequires:	python3dist(pytest)
@@ -53,6 +54,12 @@ Purge API, including authentication and error recovery.
 %{python3_sitelib}/%{srcname}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Rohan McGovern <rohanpm@fedoraproject.org> - 1.0.2-8
+- Explicitly BuildRequires python3-setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.2-7
 - Rebuilt for Python 3.9
 

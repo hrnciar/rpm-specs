@@ -1,16 +1,15 @@
 %undefine _hardened_build
 %define _gprdir %_GNAT_project_dir
-%define major 18
+%define major 20
 
 Name:       matreshka
 Version:    %{major}.1
-Release:    7%{?dist}
+Release:    3%{?dist}
 Summary:    Set of Ada libraries to help to develop information systems
 License:    BSD
 URL:        http://forge.ada-ru.org/matreshka
 Source0:    http://forge.ada-ru.org/matreshka/downloads/matreshka-%{version}.tar.gz
 Patch1:     %{name}-gprinstall.patch
-Patch2:     %{name}-mysql_config.patch
 BuildRequires:   gcc-gnat
 BuildRequires:   fedora-gnat-project-common  >= 3 
 BuildRequires:   chrpath
@@ -400,12 +399,14 @@ Requires:   fedora-gnat-project-common  >= 2
 %{summary}
 
 %prep 
-%setup -q -n %{name}-%{version}
+%autosetup -p1 -n %{name}-%{version}
 %define rtl_version %(gcc -v 2>&1 | grep -P 'gcc version'  | awk '{print $3}' | cut -d '.' -f 1-2)
-%patch1 -p1
-%patch2 -p1 -b .mysql
 
 %build
+# This package triggers a fault in the Ada compiler when LTO is enable.  We
+# see the same failure in GtkAda and GtkAda3.  Disable LTO for now.
+%define _lto_cflags %{nil}
+
 make config  %{?_smp_mflags} GPRBUILD_FLAGS="%Gnatmake_optflags"
 %configure
 make  %{?_smp_mflags} GPRBUILD_FLAGS="%Gnatmake_optflags" AWS_BUILD=relocatable
@@ -724,6 +725,15 @@ chrpath --delete %{buildroot}%{_libdir}/lib*
 %{_libdir}/libmatreshka-servlet-%{rtl_version}.so.%{version}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Jeff Law <law@redhat.com> - 20.1-2
+- Disable LTO
+
+* Fri Jun 26 2020 Pavel Zhukov <pzhukov@redhat.com> - 20.1-1
+- Update to 20.1
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 18.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

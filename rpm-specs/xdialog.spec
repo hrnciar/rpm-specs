@@ -3,7 +3,7 @@
 Name: xdialog
 Summary: X11 drop in replacement for cdialog
 Version: 2.3.1
-Release: 26%{?dist}
+Release: 27%{?dist}
 License: GPL+
 URL: http://xdialog.free.fr
 
@@ -74,6 +74,9 @@ ln -s ../samples __dist_html/html/samples
 %exclude %{_docdir}/%{real_name}-%{version}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

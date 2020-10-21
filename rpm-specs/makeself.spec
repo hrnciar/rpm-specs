@@ -1,6 +1,6 @@
 Name:           makeself
 Version:        2.4.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 BuildArch:      noarch
 Summary:        Make self-extractable archives on Unix
 
@@ -63,6 +63,9 @@ ln -s %{name}.sh %{buildroot}%{_bindir}/%{name}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 08 2020 Dridi Boukelmoune <dridi.boukelmoune@gmail.com> - 2.4.2-1
 - Bump version to 2.4.2
 - Require gzip (default compression)

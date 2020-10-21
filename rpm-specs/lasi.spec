@@ -1,8 +1,8 @@
-%{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
+%undefine __cmake_in_source_build
 
 Name:           lasi
 Version:        1.1.3
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        C++ library for creating Postscript documents
 
 License:        LGPLv2+
@@ -13,7 +13,9 @@ Patch0:         lasi-multilib.patch
 BuildRequires:  gcc-c++
 BuildRequires:  cmake >= 3.13.2
 BuildRequires:  pango-devel
-BUildRequires:  doxygen
+BuildRequires:  doxygen
+# Build fails with this
+#BuildRequires:  inkscape
 # For testing
 BuildRequires:  dejavu-sans-mono-fonts
 
@@ -61,38 +63,26 @@ sed -i -e '/set(docdir/s| .*| %{_pkgdocdir}|' cmake/modules/instdirs.cmake
 
 
 %build
-mkdir fedora
-cd fedora
 export CFLAGS="$RPM_OPT_FLAGS"
-export CXXFLAGS="$RPM_OPT_FLAGS"
+export CXXFLAGS="$RPM_OPT_FLAGS -std=c++14"
 export FFLAGS="$RPM_OPT_FLAGS"
-%cmake -DUSE_RPATH=OFF -DCMAKE_INSTALL_LIBDIR=%{_libdir} ..
-make VERBOSE=1 %{?_smp_mflags}
+%cmake -DUSE_RPATH=OFF -DCMAKE_INSTALL_LIBDIR=%{_libdir}
+%cmake_build
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
-cd fedora
-make install DESTDIR=$RPM_BUILD_ROOT VERBOSE=1
-cd -
-cp -p AUTHORS ChangeLog.release COPYING README $RPM_BUILD_ROOT%{_pkgdocdir}/
+%cmake_install
 
 
 %check
-cd fedora
-ctest --verbose
-
+%ctest --verbose
 
 
 %ldconfig_scriptlets
 
 
 %files
-%dir %{_pkgdocdir}
-%{_pkgdocdir}/AUTHORS
-%{_pkgdocdir}/ChangeLog.release
-%{_pkgdocdir}/COPYING
-%{_pkgdocdir}/README
+%doc AUTHORS ChangeLog.release COPYING README
 %{_libdir}/libLASi.so.2*
 
 
@@ -103,10 +93,19 @@ ctest --verbose
 %doc %{_datadir}/lasi%{version}/
 
 %files doc
-%{_pkgdocdir}/
+%{_pkgdocdir}/html/
 
 
 %changelog
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 1.1.3-5
+- Force C++14 as this code is not C++17 ready
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Orion Poplawski <orion@nwra.com> - 1.1.3-3
+- Use new %%cmake_* macros
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

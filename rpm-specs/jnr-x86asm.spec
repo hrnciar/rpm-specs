@@ -3,7 +3,7 @@
 
 Name:           jnr-x86asm
 Version:        1.0.2
-Release:        18%{?dist}
+Release:        22%{?dist}
 Summary:        Pure-java port of asmjit
 
 License:        MIT
@@ -15,7 +15,6 @@ BuildArch:      noarch
 
 BuildRequires:  maven-local
 BuildRequires:  mvn(junit:junit)
-BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
 
 %description
 Pure-java port of asmjit (http://code.google.com/p/asmjit/)
@@ -33,8 +32,11 @@ cp %{SOURCE1} .
 find ./ -name '*.jar' -delete
 find ./ -name '*.class' -delete
 
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
+
 %build
-%mvn_build
+%mvn_build -- -Dmaven.compiler.source=1.6 -Dmaven.compiler.target=1.6
 
 %install
 %mvn_install
@@ -47,6 +49,18 @@ find ./ -name '*.class' -delete
 %license LICENSE
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.2-22
+- Remove unnecessary dependency on parent POM.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.0.2-20
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Wed Jun 24 2020 Roland Grunberg <rgrunber@redhat.com> - 1.0.2-19
+- Use source/target of 1.6 to build against Java 11.
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

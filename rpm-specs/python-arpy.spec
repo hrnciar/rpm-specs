@@ -6,8 +6,8 @@ Summary:       Library for accessing "ar" files
 License:       BSD
 URL:           https://pypi.org/project/arpy
 
-Version:       1.1.1
-Release:       8%{?dist}
+Version:       2.1.0
+Release:       1%{?dist}
 Source0:       %{pypi_source}
 
 BuildArch:     noarch
@@ -50,6 +50,9 @@ nosetests-3
 %{python3_sitelib}/__pycache__/*
 
 %changelog
+* Fri Jun 26 2020 Charalampos Stratakis <cstratak@redhat.com> - 2.1.0-1
+- Update to 2.1.0 (#1833740)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.1-8
 - Rebuilt for Python 3.9
 

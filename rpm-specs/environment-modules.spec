@@ -2,7 +2,7 @@
 %global vimdatadir %{_datadir}/vim/vimfiles
 
 Name:           environment-modules
-Version:        4.5.0
+Version:        4.6.0
 Release:        1%{?dist}
 Summary:        Provides dynamic modification of a user's environment
 
@@ -67,17 +67,19 @@ This package provides Environment Modules compatibility version (3.2).
            --libexecdir=%{_datadir}/Modules/libexec \
            --docdir=%{_docdir}/%{name} \
            --vimdatadir=%{vimdatadir} \
+           --enable-multilib-support \
+           --enable-compat-version \
            --enable-dotmodulespath \
            --disable-set-shell-startup \
            --with-python=/usr/bin/python3 \
            --with-initconf-in=etcdir \
            --with-modulepath=%{_datadir}/Modules/modulefiles:%{_sysconfdir}/modulefiles:%{_datadir}/modulefiles \
            --with-quarantine-vars='LD_LIBRARY_PATH LD_PRELOAD'
-make %{?_smp_mflags}
+%make_build
 
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 
 mkdir -p %{buildroot}%{_sysconfdir}/modulefiles
 mkdir -p %{buildroot}%{_datadir}/modulefiles
@@ -119,7 +121,7 @@ make test
 [ ! -L %{_mandir}/man4/modulefile.4.gz ] && rm -f %{_mandir}/man4/modulefile.4.gz
 [ ! -L %{_sysconfdir}/profile.d/modules.sh ] &&  rm -f %{_sysconfdir}/profile.d/modules.sh
 [ ! -L %{_sysconfdir}/profile.d/modules.csh ] &&  rm -f %{_sysconfdir}/profile.d/modules.csh
-[ ! -L %{buildroot}%{_bindir}/modulecmd ] &&  rm -f %{_bindir}/modulecmd
+[ ! -L %{_bindir}/modulecmd ] &&  rm -f %{_bindir}/modulecmd
 
 # Migration from version 3.x to 4
 if [ "$(readlink /etc/alternatives/modules.sh)" = '%{_datadir}/Modules/init/modules.sh' ]; then
@@ -189,6 +191,19 @@ fi
 
 
 %changelog
+* Thu Sep 17 2020 Jan Synáček <jsynacek@redhat.com> - 4.6.0-1
+- Update to 4.6.0 (#1879374)
+
+* Wed Sep  2 2020 Jan Synáček <jsynacek@redhat.com> - 4.5.3-1
+- Update to 4.5.3 (#1874145)
+  + Big thanks to Xavier Delaruelle for a spec patch!
+
+* Mon Aug  3 2020 Jan Synáček <jsynacek@redhat.com> - 4.5.2-1
+- Update to 4.5.2 (#1842562)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr  8 2020 Jan Synáček <jsynacek@redhat.com> - 4.5.0-1
 - Update to 4.5.0 (#1821883)
   + Big thanks to Xavier Delaruelle for a spec patch!

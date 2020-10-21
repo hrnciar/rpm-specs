@@ -1,6 +1,6 @@
 Name:           maven-artifact-resolver
 Version:        1.0
-Release:        21%{?dist}
+Release:        25%{?dist}
 # Epoch is added because the original package's version in maven-shared is 1.1-SNAPSHOT
 Epoch:          1
 Summary:        Maven Artifact Resolution API
@@ -46,11 +46,14 @@ API documentation for %{name}.
   <version>1.0</version>
 </dependency>" pom.xml
 
+# Remove outdated maven-compiler-plugin configuration
+%pom_xpath_remove 'pom:plugin[pom:artifactId="maven-compiler-plugin"]/pom:configuration'
+
 # Incompatible method invocation
 rm src/test/java/org/apache/maven/shared/artifact/resolver/DefaultProjectDependenciesResolverIT.java
 
 %build
-%mvn_build
+%mvn_build -- -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 %install
 %mvn_install
@@ -63,6 +66,18 @@ rm src/test/java/org/apache/maven/shared/artifact/resolver/DefaultProjectDepende
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.0-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Jiri Vanek <jvanek@redhat.com> - 1:1.0-24
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Fri Jul 10 2020 Fabio Valentini <decathorpe@gmail.com> - 1:1.0-23
+- Override maven compiler source and target versions to fix build with Java 11.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1:1.0-22
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.0-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 

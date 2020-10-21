@@ -1,6 +1,6 @@
 Name:           lv2-EQ10Q-plugins
 Version:        2.2
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        LV2 Plugin: Parametric audio equalizer with 12 different filter types
 
 # The vuwidget class is under GPLv3+.  The rest is under GPLv2+.  The GPLv3+ is
@@ -63,6 +63,13 @@ make install DESTDIR=%{buildroot} -C %{_target_platform}
 %{_libdir}/lv2/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           perl-Gtk2-Sexy
 Version:        0.05
-Release:        38%{?dist}
+Release:        39%{?dist}
 Summary:        Perl interface to the sexy widget collection 
 License:        LGPLv2+
 URL:            https://metacpan.org/release/Gtk2-Sexy
@@ -82,6 +82,9 @@ find %{buildroot} -type f -name '*.bs' -a -size 0 -delete
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.05-39
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.05-38
 - Perl 5.32 rebuild
 

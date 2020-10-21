@@ -2,7 +2,7 @@ Name: hunspell-ve
 Summary: Venda hunspell dictionaries
 %global upstreamid 20091030
 Version: 0.%{upstreamid}
-Release: 18%{?dist}
+Release: 19%{?dist}
 Source: https://downloads.sourceforge.net/project/aoo-extensions/3134/0/dict-ve_za-2009.10.30.oxt
 URL: https://extensions.openoffice.org/en/project/venda-spell-checker
 License: LGPLv2+
@@ -39,6 +39,9 @@ cp -p *.dic *.aff $RPM_BUILD_ROOT/%{_datadir}/myspell
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20091030-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20091030-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,8 +1,10 @@
-%global  wayland_min_version 1.3
+%undefine __cmake_in_source_build
+
+%global wayland_min_version 1.3
 %global debug_package %{nil}
 
 Name:    plasma-wayland-protocols
-Version: 1.0
+Version: 1.1.1
 Release: 1%{?dist}
 Summary: Plasma Specific Protocols for Wayland
 
@@ -37,16 +39,14 @@ developing applications that use %{name}.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
+
 
 %files
 %license COPYING.LIB
@@ -57,6 +57,12 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Fri Jul 31 2020 Jan Grulich <jgrulich@redhat.com> - 1.1.1-1
+- 1.1.1
+
+* Sat Jul 25 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.1.0-1
+- 1.1.0
+
 * Tue Jun 9 2020 Martin Kyral <martin.kyral@gmail.com> - 5.19.0-1
 - 5.19.0
 

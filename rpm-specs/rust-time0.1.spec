@@ -5,7 +5,7 @@
 %global crate time
 
 Name:           rust-%{crate}0.1
-Version:        0.1.43
+Version:        0.1.44
 Release:        1%{?dist}
 Summary:        Utilities for working with time-related functions in Rust
 
@@ -86,6 +86,16 @@ which use "rustc-serialize" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Tue Sep 01 2020 Josh Stone <jistone@redhat.com> - 0.1.44-1
+- Update to 0.1.44
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.43-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.43-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Josh Stone <jistone@redhat.com> - 0.1.43-1
 - Update to 0.1.43
 

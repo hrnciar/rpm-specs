@@ -16,7 +16,7 @@
 
 Name:           python-%{srcname}
 Version:        0.3.1
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        FTP transport adapter for python-requests
 
 License:        ASL 2.0
@@ -114,6 +114,9 @@ rm -rf requests_ftp.egg-info
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.1-19
 - Rebuilt for Python 3.9
 

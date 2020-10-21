@@ -2,7 +2,7 @@
 
 Name:           rubygem-%{gem_name}
 Version:        1.4.0
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Ruby library that colors strings using ANSI escape sequences
 License:        GPLv2
 URL:            http://flori.github.com/term-ansicolor
@@ -102,6 +102,9 @@ popd
 %{gem_instdir}/tests
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

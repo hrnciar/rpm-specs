@@ -3,7 +3,7 @@ Summary: 2D retro platformer inspired by Sonic games
 License: GPLv3
 
 Version: 0.5.1.2
-Release: 6%{?dist}
+Release: 9%{?dist}
 
 URL: https://opensurge2d.org
 Source0: https://github.com/alemart/opensurge/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -59,7 +59,6 @@ Data files (graphics, music, sounds) required by Open Surge.
 
 
 %build
-mkdir build && cd build
 %cmake \
 	-DCMAKE_BUILD_TYPE=Release  \
 	-DUSE_A5=ON  \
@@ -70,13 +69,12 @@ mkdir build && cd build
 	"-DDESKTOP_ENTRY_PATH=%{_datadir}/applications"  \
 	"-DDESKTOP_ICON_PATH=%{_datadir}/pixmaps"  \
 	"-DDESKTOP_METAINFO_PATH=%{_metainfodir}"  \
-	..
-%make_build
+	./
+%cmake_build
 
 
 %install
-cd build/
-%make_install
+%cmake_install
 
 # The install section of CMakeLists.txt just plops the executable inside /usr/
 # We need to move it to /usr/bin/
@@ -119,6 +117,16 @@ appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}.appda
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1.2-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Artur Iwicki <fedora@svgames.pl> - 0.5.1.2-8
+- Update the spec to work properly with CMake out-of-source builds
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Artur Iwicki <fedora@svgames.pl> - 0.5.1.2-6
 - Move the Requires: on fonts from main package to -data subpackage
 - Use different %%license files for the main package and -data subpackage

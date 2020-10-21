@@ -2,7 +2,7 @@
 
 Name:           multimarkdown
 Version:        6.5.2
-Release:        1%{?dist}
+Release:        6%{?dist}
 Summary:        Lightweight markup processor to produce HTML, LaTeX, and more
 
 # MultiMarkdown 6 is licensed under MIT, licenses of bundled software is next to the bundling declaration
@@ -51,20 +51,18 @@ commands. You just write, MultiMarkdown takes care of the rest.
 %autosetup      -n %{projectname}-%{version} -S git
 
 %build
-cd build
-%cmake -D CMAKE_BUILD_TYPE=Release ..
-%make_build
+%cmake
+%cmake_build
 
 %install
-%cmake -D CMAKE_INSTALL_PREFIX=%{buildroot}/usr -P build/cmake_install.cmake
+%cmake_install
 
 # Removing these 2 files as they can cause conflicts with discount and mtools respectively:
 # See https://github.com/fletcher/MultiMarkdown-6/issues/180#issuecomment-584353783
 rm -f %{buildroot}/usr/bin/markdown %{buildroot}/usr/bin/mmd
 
 %check
-cd build
-ctest -V %{?_smp_mflags}
+%ctest
 
 %files
 %license LICENSE.txt
@@ -75,6 +73,22 @@ ctest -V %{?_smp_mflags}
 %{_datadir}/texmf/tex/latex/mmd6
 
 %changelog
+* Thu Aug 04 2020 Lyes Saadi <fedora@lyes.eu> - 6.5.2-6
+- Dropping Upstream's building steps and adopting instead the recommended CMake Fedora Guidelines
+
+* Sat Aug 01 2020 Lyes Saadi <fedora@lyes.eu> - 6.5.2-5
+- Fix second attempt at rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.5.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 30 2020 Lyes Saadi <fedora@lyes.eu> - 6.5.2-3
+- https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.5.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 10 2020 Lyes Saadi <fedora@lyes.eu> - 6.5.2-1
 - Update to 6.5.2
 

@@ -24,18 +24,18 @@
 # https://github.com/containers/buildah
 %global import_path %{provider}.%{provider_tld}/%{project}/%{repo}
 %global git0 https://%{import_path}
-%global commit0 2c46b4bf2d078fa3f18038fab8467e8c9ffac23c
+%global commit0 92295496bf27f8de346fdfc26eb1616ae743acd4
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 # Used for comparing with latest upstream tag
 # to decide whether to autobuild (non-rawhide only)
-%define built_tag v1.14.9
+%define built_tag v1.16.4
 %define built_tag_strip %(b=%{built_tag}; echo ${b:1})
 %define download_url https://%{import_path}/archive/%{built_tag}.tar.gz
 
 Name: %{repo}
-Version: 1.15.0
-Release: 0.67.dev.git%{shortcommit0}%{?dist}
+Version: 1.17.0
+Release: 0.38.dev.git%{shortcommit0}%{?dist}
 Summary: A command line tool used for creating OCI Images
 License: ASL 2.0
 URL: https://%{name}.io
@@ -49,24 +49,25 @@ BuildRequires: go-md2man
 BuildRequires: gpgme-devel
 BuildRequires: libassuan-devel
 BuildRequires: make
-Requires: crun >= 0.10-1
 Requires: containers-common
-Requires: libseccomp >= 2.4.1-0
 # No ostree for centos 7
 %if 0%{?fedora} || 0%{?centos} >= 8
 BuildRequires: ostree-devel
 %endif
 # No btrfs for centos 8
-%if 0%{?fedora} || 0%{?centos} <= 7
+%if 0%{?fedora} || 0%{?centos} <= 7 && ! 0%{?eln}
 BuildRequires: btrfs-progs-devel
 %endif
 %if 0%{?fedora}
 BuildRequires: libseccomp-static
+Requires: libseccomp >= 2.4.1-0
+Requires: crun >= 0.10-1
 Recommends: container-selinux
 Recommends: slirp4netns >= 0.3-0
 Recommends: fuse-overlayfs
 %else
 BuildRequires: libseccomp-devel
+Requires: libseccomp
 Requires: container-selinux
 Requires: slirp4netns >= 0.3-0
 %endif
@@ -89,6 +90,8 @@ Requires: bzip2
 Requires: podman
 Requires: golang
 Requires: jq
+Requires: httpd-tools
+Requires: openssl
 
 %description tests
 %{summary}
@@ -114,8 +117,8 @@ export BUILDTAGS='seccomp selinux'
 %if 0%{?centos} >= 8
 export BUILDTAGS+=' exclude_graphdriver_btrfs'
 %endif
-%gobuild -o %{name} %{import_path}/cmd/%{name}
-%gobuild -o imgtype %{import_path}/tests/imgtype
+%gobuild -o bin/%{name} %{import_path}/cmd/%{name}
+%gobuild -o bin/imgtype %{import_path}/tests/imgtype
 GOMD2MAN=go-md2man %{__make} -C docs
 
 %install
@@ -125,7 +128,7 @@ make DESTDIR=%{buildroot} PREFIX=%{_prefix} -C docs install
 
 install -d -p %{buildroot}/%{_datadir}/%{name}/test/system
 cp -pav tests/. %{buildroot}/%{_datadir}/%{name}/test/system
-cp imgtype %{buildroot}/%{_bindir}/%{name}-imgtype
+cp bin/imgtype %{buildroot}/%{_bindir}/%{name}-imgtype
 
 #define license tag if not already defined
 %{!?_licensedir:%global license %doc}
@@ -145,6 +148,137 @@ cp imgtype %{buildroot}/%{_bindir}/%{name}-imgtype
 %{_datadir}/%{name}/test
 
 %changelog
+* Tue Oct 20 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.38.dev.git9229549
+- autobuilt 9229549
+
+* Fri Oct 16 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.37.dev.gita970ffb
+- autobuilt a970ffb
+
+* Thu Oct 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.36.dev.git7699b6e
+- autobuilt 7699b6e
+
+* Wed Oct 14 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.35.dev.git7389cc7
+- autobuilt 7389cc7
+
+* Tue Oct 13 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.34.dev.git9913b9f
+- autobuilt 9913b9f
+
+* Sat Oct 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.33.dev.git415715a
+- autobuilt 415715a
+
+* Fri Oct  9 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.32.dev.gited75e66
+- autobuilt ed75e66
+
+* Wed Oct  7 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.31.dev.git746b5a6
+- autobuilt 746b5a6
+
+* Tue Oct  6 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 1.17.0-0.30.dev.gitf09e52c
+- no btrfs for eln
+
+* Tue Oct  6 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.29.dev.gitf09e52c
+- autobuilt f09e52c
+
+* Sat Oct  3 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.28.dev.git71a5615
+- autobuilt 71a5615
+
+* Fri Oct  2 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.27.dev.git73ae001
+- autobuilt 73ae001
+
+* Thu Oct  1 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.26.dev.gitdc504d9
+- autobuilt dc504d9
+
+* Wed Sep 30 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.25.dev.git7fb1282
+- autobuilt 7fb1282
+
+* Fri Sep 25 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.24.dev.git5955652
+- autobuilt 5955652
+
+* Fri Sep 25 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.23.dev.gitb3f6ed8
+- autobuilt b3f6ed8
+
+* Mon Sep 21 23:12:37 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.22.dev.git0e06e45
+- autobuilt 0e06e45
+
+* Mon Sep 21 22:12:43 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.21.dev.gitf2f857a
+- autobuilt f2f857a
+
+* Mon Sep 21 21:12:08 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.20.dev.git0f4a259
+- autobuilt 0f4a259
+
+* Mon Sep 21 20:13:18 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.19.dev.gitd273b9e
+- autobuilt d273b9e
+
+* Mon Sep 21 18:12:11 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.18.dev.git411a885
+- autobuilt 411a885
+
+* Mon Sep 21 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 1.17.0-0.17.dev.git678da1d
+- adjust centos deps
+
+* Thu Sep 17  2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.16.dev.git678da1d
+- autobuilt 678da1d
+
+* Thu Sep 17  2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.15.dev.git58541a3
+- autobuilt 58541a3
+
+* Thu Sep 17  2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.14.dev.git17bb22f
+- autobuilt 17bb22f
+
+* Wed Sep 16  2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.13.dev.git552cbd3
+- autobuilt 552cbd3
+
+* Tue Sep 15  2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.12.dev.gitd0f43a0
+- autobuilt d0f43a0
+
+* Tue Sep 15  2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.11.dev.gitb47ffb9
+- autobuilt b47ffb9
+
+* Fri Sep 11  2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.10.dev.git1f8bf4d
+- autobuilt 1f8bf4d
+
+* Thu Sep 10  2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.9.dev.git33768fc
+- autobuilt 33768fc
+
+* Wed Sep  9  2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.8.dev.gitaa3128e
+- autobuilt aa3128e
+
+* Wed Sep  9  2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.7.dev.gitefc5ec2
+- autobuilt efc5ec2
+
+* Tue Sep  8  2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.6.dev.gitbfe6da5
+- autobuilt bfe6da5
+
+* Tue Sep  8  2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.5.dev.git2928303
+- autobuilt 2928303
+
+* Tue Sep  8  2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.4.dev.git555eb26
+- autobuilt 555eb26
+
+* Tue Sep  8  2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.3.dev.git49a5768
+- autobuilt 49a5768
+
+* Mon Sep  7  2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.2.dev.gitd83657c
+- autobuilt d83657c
+
+* Sat Sep  5  2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.17.0-0.1.dev.git28d7d44
+- bump to 1.17.0
+- autobuilt 28d7d44
+
+* Thu Sep  3  2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.16.0-0.4.dev.git58e6b4f
+- autobuilt 58e6b4f
+
+* Thu Sep 03 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 1.16.0-0.3.dev.gitfce9668
+- tests package requires openssl
+
+* Thu Sep  3  2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.16.0-0.2.dev.gitfce9668
+- autobuilt fce9668
+
+* Thu Sep  3  2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.16.0-0.1.dev.gitac0182c
+- bump to 1.16.0
+- autobuilt ac0182c
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.0-0.68.dev.git2c46b4b
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 1.15.0-0.67.dev.git2c46b4b
 - update deps for centos
 

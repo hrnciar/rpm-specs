@@ -3,7 +3,7 @@
 
 Name:     erlang-%{realname}
 Version:  1.3.1
-Release:  3%{?dist}
+Release:  4%{?dist}
 Summary:  Extension to Erlang's standard library
 License:  MIT
 URL:      https://github.com/%{upstream}/%{realname}
@@ -39,6 +39,9 @@ cp -arv priv/ %{buildroot}%{erlang_appdir}/
 %{erlang_appdir}/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

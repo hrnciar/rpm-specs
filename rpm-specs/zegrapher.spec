@@ -2,15 +2,14 @@
 
 Name:           zegrapher
 Summary:        Free and opensource math graphing software
-Version:        3.1
-Release:        2%{?dist}
+Version:        3.1.1
+Release:        1%{?dist}
 License:        GPLv3+
 
 URL:            https://www.zegrapher.com/
 Source0:        https://github.com/AdelKS/%{altname}/archive/v%{version}/%{altname}-%{version}.tar.gz
-
-# https://github.com/AdelKS/ZeGrapher/issues/14
-Patch0:         0001-Fix-issues-with-appdata-file.patch
+# Grab ZeGrapher.appdata.xml from the appdata dir
+Patch0:         https://patch-diff.githubusercontent.com/raw/AdelKS/ZeGrapher/pull/19.patch#/0001-Grab-ZeGrapher.appdata.xml-from-the-appdata-dir.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  boost-devel
@@ -34,9 +33,6 @@ Plots can be exported in various image formats and as PDF files.
 %autosetup -p1 -n %{altname}-%{version}
 sed -i 's|^QMAKE_LFLAGS_RELEASE = -s|QMAKE_LFLAGS_RELEASE =|' ZeGrapher.pro
 
-# https://github.com/AdelKS/ZeGrapher/pull/15
-find . -type f -executable -exec chmod 0644 "{}" +;
-
 %build
 mkdir build && cd build
 %qmake_qt5 ../ PREFIX=%{_prefix}
@@ -49,18 +45,24 @@ mkdir build && cd build
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{altname}.desktop
-appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/%{altname}.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{altname}.appdata.xml
 
 %files -f %{altname}.lang
 %doc README.md
 %license LICENSE
 %{_bindir}/%{altname}
-%{_datadir}/appdata/%{altname}.appdata.xml
+%{_metainfodir}/%{altname}.appdata.xml
 %{_datadir}/applications/%{altname}.desktop
 %{_datadir}/icons/hicolor/128x128/apps/%{altname}.png
 %dir %{_datadir}/%{altname}
 
 %changelog
+* Mon Aug 24 19:22:32 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.1.1-1
+- Update to 3.1.1 (#1854049)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

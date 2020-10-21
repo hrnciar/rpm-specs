@@ -1,6 +1,6 @@
 Name:           perl-MouseX-App-Cmd
 Version:        0.30
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Mashes up MouseX::Getopt and App::Cmd
 License:        GPL+ or Artistic
 
@@ -70,6 +70,9 @@ make test
 %{_mandir}/man3/MouseX*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.30-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.30-18
 - Perl 5.32 rebuild
 

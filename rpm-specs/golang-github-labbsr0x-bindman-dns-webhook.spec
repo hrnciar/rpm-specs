@@ -1,7 +1,8 @@
 %bcond_without check
 
+# https://github.com/labbsr0x/bindman-dns-webhook
 %global goipath         github.com/labbsr0x/bindman-dns-webhook
-Version:                1.0.0
+Version:                1.0.2
 
 %gometa
 
@@ -13,7 +14,7 @@ ease out integrations among clients and managers.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Go library for Bindman DNS Manager
 License:        MIT
 URL:            %{gourl}
@@ -45,6 +46,12 @@ BuildRequires:  golang(github.com/sirupsen/logrus)
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 21:14:50 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.2-1
+- Update to 1.0.2
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

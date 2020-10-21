@@ -1,5 +1,5 @@
 Name:               sshuttle
-Version:            1.0.1
+Version:            1.0.4
 Release:            1%{?dist}
 Summary:            Transparent Proxy VPN
 Source0:            https://files.pythonhosted.org/packages/source/s/%{name}/%{name}-%{version}.tar.gz
@@ -9,6 +9,11 @@ BuildArch:          noarch
 # disable flake8 tests. These should be done upstream and while they pass in rawhide, 
 # it's not possible to run them in epel or older fedora branches.
 Patch1:             sshuttle-no-flake8.patch
+
+#
+# backport python2 on remote site support. 
+#
+Patch2: https://github.com/sshuttle/sshuttle/commit/19f653df36d818531e35a03c02df4bda8a192bc0.patch
 
 BuildRequires:      python3-devel
 BuildRequires:      python3-setuptools
@@ -77,6 +82,16 @@ popd
 
 
 %changelog
+* Sun Aug 30 2020 Kevin Fenzi <kevin@scrye.com> - 1.0.4-1
+- Update to 1.0.4. Fixes bug #1856063
+- Apply upstream commit to fix python2 compat on remote side. Fixes bug #1851622
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 19 2020 Kevin Fenzi <kevin@scrye.com> - 1.0.2-1
+- Update to 1.0.2. Fixes bug #1848196
+
 * Thu Jun 11 2020 Kevin Fenzi <kevin@scrye.com> - 1.0.1-1
 - Update to 1.0.1. Fixed bug #1844272
 

@@ -7,7 +7,7 @@
 
 Name:               nodejs-es5-shim
 Version:            4.1.0
-Release:            10%{?dist}
+Release:            12%{?dist}
 Summary:            ECMAScript 5 compatibility shims for legacy JavaScript engines
 
 License:            MIT
@@ -74,6 +74,13 @@ npm run lint && jasmine-node --matchall ./ tests/spec/
 %{nodejs_sitelib}/es5-shim/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

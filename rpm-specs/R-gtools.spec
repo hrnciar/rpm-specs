@@ -7,7 +7,7 @@
 
 Name:             R-%{packname}
 Version:          3.8.2
-Release:          2%{?dist}
+Release:          3%{?dist}
 Summary:          Various R Programming Tools
 
 License:          GPLv2
@@ -93,6 +93,9 @@ rm %{packname}/tests/test_setTCPNoDelay.R
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 3.8.2-2
 - rebuild for R 4
 

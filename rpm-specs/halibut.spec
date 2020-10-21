@@ -1,7 +1,7 @@
 Name:		halibut
 Summary:	TeX-like software manual tool
 Version:	1.2
-Release:	10%{?dist}
+Release:	11%{?dist}
 License:	MIT and APAFML
 URL:		http://www.chiark.greenend.org.uk/~sgtatham/halibut.html
 Source0:	http://www.chiark.greenend.org.uk/~sgtatham/halibut/%{name}-%{version}.tar.gz
@@ -52,6 +52,9 @@ install -pm 0644 misc/halibut.vim %{buildroot}%{_datadir}/vim/vimfiles/syntax
 %{_datadir}/vim/vimfiles/syntax/*.vim
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 1.2-10
 - Fixed FTBFS with gcc-10
   Resolves: rhbz#1799504

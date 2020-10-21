@@ -1,12 +1,14 @@
+%global __cmake_in_source_build 1
+
 %bcond_without check
 %bcond_without python
 
 Name:           libCombine
 Summary:        C++ library for working with the COMBINE Archive format
 Version:        0.2.7
-Release:        2%{?dist}
+Release:        5%{?dist}
 URL:            https://github.com/sbmlteam/libCombine
-Source0:        https://github.com/sbmlteam/libCombine/archive/%{version}/libCombine-%{version}.tar.gz
+Source0:        %{url}/archive/%{version}/libCombine-%{version}.tar.gz
 
 # Header files and part of source code is released under LGPLv2+ license
 License:        BSD and LGPLv2+
@@ -49,6 +51,7 @@ This package provides static library file of %{name}.
 %if %{with python}
 %package -n python3-%{name}
 BuildRequires:  python3-devel, swig
+BuildRequires:  python3-setuptools
 Summary:  Python 3 bindings for libCombine
 Requires: %{name}%{?_isa} = %{version}-%{release}
 Requires: swig
@@ -119,6 +122,16 @@ ctest --force-new-ctest-process -V
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-5
+- Second attempt - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+- Enable cmake_in_source_build
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Antonio Trande <sagitter@fedoraproject.org> - 0.2.7-3
+- BuildRequires python3-setuptools explicitly
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.7-2
 - Rebuilt for Python 3.9
 

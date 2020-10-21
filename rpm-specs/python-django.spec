@@ -1,6 +1,6 @@
 Name:           python-django
 %global         pkgname Django
-%global         ver 3.0.7
+%global         ver 3.1.2
 #global         pre ...
 %global         real_version %{ver}%{?pre:%{pre}}
 Version:        %{ver}%{?pre:~%{pre}}
@@ -66,6 +66,7 @@ BuildRequires:  python3-pillow
 BuildRequires:  python3-PyYAML
 BuildRequires:  python3-pytz
 BuildRequires:  python3-selenium
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-sqlparse >= 0.2.2
 BuildRequires:  python3-memcached
 
@@ -320,6 +321,21 @@ cd tests
 
 
 %changelog
+* Thu Oct 01 2020 Matthias Runge <mrunge@redhat.com> - 3.1.2-1
+- update to 3.1.2 (rhbz#1874420)
+
+* Thu Sep 03 2020 Matthias Runge <mrunge@redhat.com> - 3.1.1-1
+- update to 3.1.1 (rhbz#1874420)
+
+* Sun Aug 30 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 3.1-1
+- Update to 3.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 3.0.7-2
+- Add BR on setuptools
+
 * Sun Jun 07 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.7-1
 - Update to 3.0.7
 - Security fix for CVE-2020-7471 (rhbz#1798516)

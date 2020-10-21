@@ -2,12 +2,12 @@
 
 Name:           python-%{pypi_name}
 Version:        0.6.0
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Scrapes and parses application data from Google Play Store
 
 License:        MIT
 URL:            https://github.com/danieliu/play-scraper
-Source0:        https://github.com/danieliu/play-scraper/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
+Source0:        %{url}/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
 
 %description
@@ -17,6 +17,7 @@ Scrapes and parses application data from Google Play Store.
 Summary:        %{summary}
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-pytest
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
@@ -43,6 +44,12 @@ Scrapes and parses application data from Google Play Store.
 %{python3_sitelib}/play_scraper-%{version}-py*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.6.0-5
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.0-4
 - Rebuilt for Python 3.9
 

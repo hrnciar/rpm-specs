@@ -2,14 +2,14 @@
 #define  prever_dot .rc3
 #define  postver    a
 
-%define version_alsa_lib  1.2.3.1
-%define version_alsa_ucm  1.2.3
-%define version_alsa_tplg 1.2.3
+%define version_alsa_lib  1.2.4
+%define version_alsa_ucm  1.2.4
+%define version_alsa_tplg 1.2.4
 
 Summary:  The Advanced Linux Sound Architecture (ALSA) library
 Name:     alsa-lib
 Version:  %{version_alsa_lib}
-Release:  1%{?prever_dot}%{?dist}
+Release:  4%{?prever_dot}%{?dist}
 License:  LGPLv2+
 URL:      http://www.alsa-project.org/
 
@@ -74,6 +74,16 @@ contains alsa-lib configuration of SoC topology
 %patch2 -p1 -b .glibc-open
 
 %build
+# This package uses top level ASM constructs which are incompatible with LTO.
+# Top level ASMs are often used to implement symbol versioning.  gcc-10
+# introduces a new mechanism for symbol versioning which works with LTO.
+# Converting packages to use that mechanism instead of toplevel ASMs is
+# recommended.
+# Note: The v1.2.4 contains changes wich are compatible with gcc-10 LTO
+# although using the old ASM constructs.
+# Enable custom LTO flags
+%define _lto_cflags -flto -ffat-lto-objects -flto-partition=none
+
 autoreconf -vif
 %configure --disable-aload --with-plugindir=%{_libdir}/alsa-lib --disable-alisp
 
@@ -156,6 +166,23 @@ rm %{buildroot}/%{_includedir}/asoundlib.h
 %{_datadir}/alsa/topology
 
 %changelog
+* Mon Oct 19 2020 Jaroslav Kysela <perex@perex.cz> - 1.2.4-4
+- update to 1.2.4
+- enable LTO
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3.2-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  1 2020 Jeff Law <law@redhat.com> - 1.2.3.2-3
+- Disable LTO
+
+* Mon Jun 29 2020 Jaroslav Kysela <perex@perex.cz> - 1.2.3.2-2
+- update to 1.2.3.2
+
 * Thu Jun 18 2020 Jaroslav Kysela <perex@perex.cz> - 1.2.3.1-1
 - update to 1.2.3.1
 

@@ -1,7 +1,7 @@
 Name:           clinfo
 Summary:        Enumerate OpenCL platforms and devices
 Version:        2.2.18.04.06
-Release:        4%{?dist}
+Release:        5%{?dist}
 
 License:        CC0
 URL:            https://github.com/Oblomov/clinfo
@@ -37,6 +37,9 @@ install -Dpm0644 -t %{buildroot}%{_mandir}/man1 man1/%{name}.1
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.18.04.06-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.18.04.06-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -5,7 +5,7 @@
 %global crate asyncgit
 
 Name:           rust-%{crate}
-Version:        0.7.0
+Version:        0.10.0
 Release:        1%{?dist}
 Summary:        Allow using git2 in a asynchronous context
 
@@ -74,6 +74,21 @@ echo '/usr/bin/git'
 %endif
 
 %changelog
+* Sat Aug 29 19:32:03 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.10.0-1
+- Update to 0.10.0
+
+* Tue Aug 18 15:02:13 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.9.0-1
+- Update to 0.9.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.8.1-1
+- Update to 0.8.1
+
+* Mon Jul 06 16:34:51 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.8.0-1
+- Update to 0.8.0
+
 * Mon Jun 15 12:48:42 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.7.0-1
 - Update to 0.7.0
 

@@ -1,6 +1,6 @@
 Name:           lv2-newtonator
 Version:        0.6.0
-Release:        17%{?dist}
+Release:        21%{?dist}
 Summary:        An LV2 soft synth
 
 # stated as GPLv2 on project page
@@ -33,10 +33,10 @@ export CXXFLAGS="%{optflags} -fpic"
 
 %cmake -DLV2_INSTALL_DIR=%{_libdir}/lv2 \
   -DCMAKE_INSTALL_PREFIX=%{_prefix}
-make %{?_smp_mflags} 
+%cmake_build 
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 %files
 %doc README RELEASE AUTHORS
@@ -45,6 +45,20 @@ make install DESTDIR=%{buildroot}
 %{_libdir}/lv2/newtonator_gtk.lv2
 
 %changelog
+* Thu Oct 08 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 0.6.0-21
+- No-change rebuild against stk 4.6.1
+
+* Mon Aug 03 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 0.6.0-20
+- Fix for new cmake macros
+- Resolves: rhbz #10364103
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-19
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

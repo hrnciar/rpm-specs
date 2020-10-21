@@ -1,7 +1,7 @@
 Summary: The GNU line editor
 Name: ed
 Version: 1.14.2
-Release: 8%{?dist}
+Release: 9%{?dist}
 License: GPLv3+ and GFDL
 # Note:  Upstream provides only lzip compressed tarballs which 
 # koji can't handle. Repackaging required:
@@ -43,6 +43,9 @@ rm -vrf %{buildroot}%{_infodir}/dir
 %{_infodir}/ed.info*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14.2-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

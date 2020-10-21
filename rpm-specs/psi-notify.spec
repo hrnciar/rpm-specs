@@ -1,15 +1,11 @@
 Name:           psi-notify
-Version:        1.1.0
-Release:        4%{?dist}
+Version:        1.2.1
+Release:        2%{?dist}
 Summary:        Alert when your machine is becoming over-saturated
 
 License:        MIT
 URL:            https://github.com/cdown/psi-notify
 Source0:        %{url}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
-# https://github.com/cdown/psi-notify/pull/14
-Patch0:         %{url}/pull/14.patch#/%{name}-1.1.0-fix_sign_compare.patch
-# https://github.com/cdown/psi-notify/pull/15
-Patch1:         %{url}/pull/15.patch#/%{name}-1.1.0-fix_s390x_null.patch
 
 BuildRequires:  gcc
 BuildRequires:  pkgconfig(libnotify)
@@ -60,6 +56,12 @@ install -Dp -m 644 %{name}.service %{buildroot}%{_userunitdir}/%{name}.service
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 1.2.1-1
+- Update to 1.2.1
+
 * Thu May 21 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 1.1.0-4
 - Set all compiler and linker flags with the right macro (thanks tartina)
 

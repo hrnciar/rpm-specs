@@ -1,12 +1,12 @@
 %global srcname ogr
 
 Name:           python-%{srcname}
-Version:        0.12.1
+Version:        0.17.0
 Release:        1%{?dist}
 Summary:        One API for multiple git forges
 
 License:        MIT
-URL:            https://github.com/packit-service/ogr
+URL:            https://github.com/packit/ogr
 Source0:        %{pypi_source}
 BuildArch:      noarch
 
@@ -52,6 +52,27 @@ rm -rf %{srcname}.egg-info
 
 
 %changelog
+* Thu Oct 15 2020 Packit Service <user-cont-team+packit-service@redhat.com> - 0.17.0-1
+- new upstream release: 0.17.0
+
+* Wed Sep 30 2020 Packit Service <user-cont-team+packit-service@redhat.com> - 0.16.0-1
+- new upstream release: 0.16.0
+
+* Wed Sep 16 2020 rebase-helper <rebase-helper@localhost.local> - 0.15.0-1
+- new upstream release: 0.15.0
+
+* Wed Sep 02 2020 rebase-helper <rebase-helper@localhost.local> - 0.14.0-1
+- new upstream release: 0.14.0
+
+* Fri Aug 07 2020 Jan Sakalos <sakalosj@gmail.com> - 0.13.0-1
+- new upstream release: 0.13.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Packit Service <user-cont-team+packit-service@redhat.com> - 0.12.2-1
+- new upstream release: 0.12.2
+
 * Thu Jun 11 2020 Dominika Hodovska <dhodovsk@redhat.com> - 0.12.1-1
 - new upstream release: 0.12.1
 

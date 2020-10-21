@@ -1,6 +1,6 @@
 Name:           perl-Dist-Zilla-Plugin-PodWeaver
 Version:        4.008
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Weave your POD together from configuration and Dist::Zilla
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Dist-Zilla-Plugin-PodWeaver
@@ -65,6 +65,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.008-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.008-11
 - Perl 5.32 rebuild
 

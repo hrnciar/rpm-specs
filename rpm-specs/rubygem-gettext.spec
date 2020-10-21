@@ -4,7 +4,7 @@
 %global		repoid			67096
 
 Name:		rubygem-%{gem_name}
-Version:	3.3.5
+Version:	3.3.6
 Release:	1%{?dist}
 Summary:	RubyGem of Localization Library and Tools for Ruby
 
@@ -161,6 +161,12 @@ popd
 %exclude	%{gem_instdir}/src/
 
 %changelog
+* Sun Aug  9 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.3.6-1
+- 3.3.6
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.3.5-1
 - 3.3.5
 

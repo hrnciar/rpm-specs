@@ -3,7 +3,7 @@
 %global gitrev %(c=%{gitfullrev}; echo ${c:0:6})
 Name:           urlview
 Version:        0.9
-Release:        27.%{gitdate}git%{gitrev}%{?dist}
+Release:        28.%{gitdate}git%{gitrev}%{?dist}
 Summary:        URL extractor/launcher
 
 License:        GPLv2+
@@ -49,6 +49,9 @@ echo '.so man1/urlview.1' > $RPM_BUILD_ROOT%{_mandir}/man1/url_handler.sh.1
 %{_mandir}/man5/urlview.conf.5*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-28.20131022git08767a
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-27.20131022git08767a
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        3.0.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Blazingly fast, portable hash function with proven statistical guarantees
 
 # Upstream license specification: MIT
@@ -72,6 +72,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Josh Stone <jistone@redhat.com> - 3.0.7-1
 - Update to 3.0.7
 

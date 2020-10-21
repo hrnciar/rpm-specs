@@ -15,12 +15,12 @@
 %bcond_with odoc
 
 Name:           ocaml-%{srcname}
-Version:        2.3.2
-Release:        3%{?dist}
+Version:        2.4.1
+Release:        6%{?dist}
 Summary:        Code coverage for OCaml and Reason
 
 License:        MIT
-URL:            http://aantron.github.io/bisect_ppx/
+URL:            https://aantron.github.io/bisect_ppx/
 Source0:        https://github.com/aantron/%{upname}/archive/%{version}/%{upname}-%{version}.tar.gz
 
 BuildRequires:  git-core
@@ -28,7 +28,7 @@ BuildRequires:  ocaml >= 4.02.0
 BuildRequires:  ocaml-cmdliner-devel >= 1.0.0
 BuildRequires:  ocaml-dune
 BuildRequires:  ocaml-findlib
-BuildRequires:  ocaml-migrate-parsetree-devel >= 1.5.0
+BuildRequires:  ocaml-migrate-parsetree-devel >= 1.7.0
 %if %{with odoc}
 BuildRequires:  ocaml-odoc
 %else
@@ -37,7 +37,7 @@ BuildRequires:  ocaml-ocamldoc
 %if %{with tests}
 BuildRequires:  ocaml-ounit-devel
 %endif
-BuildRequires:  ocaml-ppx-tools-versioned-devel >= 5.3.0
+BuildRequires:  ocaml-ppx-tools-versioned-devel >= 5.4.0
 
 %description
 Bisect_ppx is a code coverage tool for OCaml.  It helps you test
@@ -167,6 +167,25 @@ make test
 %license LICENSE.md
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 2.4.1-6
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 2.4.1-5
+- OCaml 4.11.0 rebuild
+
+* Mon Aug 03 2020 Richard W.M. Jones <rjones@redhat.com> - 2.4.1-4
+- Bump and rebuild to fix Location dependency.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Dan Čermák <dan.cermak@cgc-instruments.com> - 2.4.1-1
+- New upstream release 2.4.1
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 2.3.2-3
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

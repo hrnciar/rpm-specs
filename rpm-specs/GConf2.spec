@@ -10,7 +10,7 @@
 Summary: A process-transparent configuration system
 Name: GConf2
 Version: 3.2.6
-Release: 28%{?dist}
+Release: 29%{?dist}
 License: LGPLv2+ and GPLv2+
 #VCS: git:git://git.gnome.org/gconf
 Source0: http://download.gnome.org/sources/GConf/3.2/GConf-%{version}.tar.xz
@@ -179,6 +179,9 @@ fi
 %{_mandir}/man1/gsettings-schema-convert.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.6-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.6-28
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,8 +2,8 @@
 %bcond_without perl_Compress_Raw_Lzma_enables_optional_test
 
 Name:		perl-Compress-Raw-Lzma
-Version:	2.093
-Release:	5%{?dist}
+Version:	2.096
+Release:	1%{?dist}
 Summary:	Low-level interface to lzma compression library
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Compress-Raw-Lzma
@@ -18,7 +18,7 @@ BuildRequires:	perl-generators
 BuildRequires:	perl-interpreter
 BuildRequires:	perl(Config)
 BuildRequires:	perl(ExtUtils::Constant)
-BuildRequires:	perl(ExtUtils::MakeMaker) >= 5.16
+BuildRequires:	perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:	perl(File::Copy)
 BuildRequires:	perl(File::Spec::Functions)
 BuildRequires:	perl(lib)
@@ -61,17 +61,20 @@ It is used by IO::Compress::Lzma.
 %prep
 %setup -q -n Compress-Raw-Lzma-%{version}
 
-# Remove bundled modules
-rm -r t/Test/
+# Remove bundled test modules
+rm -rv t/Test/
 perl -i -ne 'print $_ unless m{^t/Test/}' MANIFEST
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}"
-make %{?_smp_mflags}
+perl Makefile.PL \
+  INSTALLDIRS=vendor \
+  NO_PACKLIST=1 \
+  NO_PERLLOCAL=1 \
+  OPTIMIZE="%{optflags}"
+%{make_build}
 
 %install
-make pure_install DESTDIR=%{buildroot}
-find %{buildroot} -type f -name .packlist -delete
+%{make_install}
 find %{buildroot} -type f -name '*.bs' -empty -delete
 %{_fixperms} -c %{buildroot}
 
@@ -85,6 +88,20 @@ make test
 %{_mandir}/man3/Compress::Raw::Lzma.3*
 
 %changelog
+* Sat Aug  1 2020 Paul Howarth <paul@city-fan.org> - 2.096-1
+- Update to 2.096 (no changes)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.095-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Paul Howarth <paul@city-fan.org> - 2.095-1
+- Update to 2.095 (no changes)
+- Modernize spec using %%{make_build} and %%{make_install}
+
+* Mon Jul 13 2020 Paul Howarth <paul@city-fan.org> - 2.094-1
+- Update to 2.094
+  - Fix issue with Append mode and SvOOK (GH#4)
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.093-5
 - Perl 5.32 rebuild
 

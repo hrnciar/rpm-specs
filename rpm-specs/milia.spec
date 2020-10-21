@@ -1,6 +1,6 @@
 Name: milia
 Version: 1.0.0
-Release: 29%{?dist}
+Release: 30%{?dist}
 Summary: C++ cosmology library
 
 License: GPLv3+
@@ -55,6 +55,9 @@ make %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{_includedir}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

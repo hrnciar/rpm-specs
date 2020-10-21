@@ -1,6 +1,6 @@
 Name:           neverball
 Version:        1.6.0
-Release:        21%{?dist}
+Release:        22%{?dist}
 
 Summary:        Common files for neverball and neverputt
 
@@ -176,6 +176,9 @@ EOF
 %{_datadir}/icons/hicolor/*/apps/neverball.png
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.6.0-21
 - Fix dejavu font path.
 

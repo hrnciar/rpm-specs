@@ -3,7 +3,7 @@
 
 Name:           perl-Log-Agent
 Version:        1.003
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Logging agent
 License:        Artistic 2.0
 URL:            https://metacpan.org/release/Log-Agent
@@ -120,6 +120,9 @@ make test
 %{_mandir}/man3/Log::Agent::Driver::Syslog.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.003-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.003-9
 - Perl 5.32 rebuild
 

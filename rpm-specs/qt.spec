@@ -43,7 +43,7 @@ Summary: Qt toolkit
 Name:    qt
 Epoch:   1
 Version: 4.8.7
-Release: 52%{?dist}
+Release: 57%{?dist}
 
 # See LGPL_EXCEPTIONS.txt, LICENSE.GPL3, respectively, for exception details
 License: (LGPLv2 with exceptions or GPLv3 with exceptions) and ASL 2.0 and BSD and FTL and MIT
@@ -203,6 +203,12 @@ Patch95: qt-everywhere-opensource-src-4.8.7-icu59.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1580047
 Patch96: qt-everywhere-opensource-src-4.8.7-gcc8_qtscript.patch
 
+# Fix ordered pointer comparison against zero problem reported by gcc-11
+Patch97: qt-everywhere-opensource-src-4.8.7-gcc11.patch
+
+# hardcode the compiler version in the build key once and for all
+Patch98: qt-everywhere-opensource-src-4.8.7-hardcode-buildkey.patch
+
 # upstream patches
 # backported from Qt5 (essentially)
 # http://bugzilla.redhat.com/702493
@@ -224,6 +230,9 @@ Patch181: qt-everywhere-opensource-src-4.8.7-qforeach.patch
 ## security patches
 # CVE-2018-19872 qt: malformed PPM image causing division by zero and crash in qppmhandler.cpp
 Patch500: qt-everywhere-opensource-src-4.8.7-crash-in-qppmhandler.patch
+
+# CVE-2020-17507 qt: buffer over-read in read_xbm_body in gui/image/qxbmhandler.cpp
+Patch501: qt-CVE-2020-17507.patch
 
 # desktop files
 Source20: assistant.desktop
@@ -644,6 +653,8 @@ rm -rf src/3rdparty/clucene
 %if 0%{?fedora} > 27
 %patch96 -p1 -b .gcc8_qtscript
 %endif
+%patch97 -p1 -b .gcc11
+%patch98 -p1 -b .hardcode-buildkey
 
 # upstream patches
 %patch102 -p1 -b .qgtkstyle_disable_gtk_theme_check
@@ -656,6 +667,7 @@ rm -rf src/3rdparty/clucene
 
 # security fixes
 %patch500 -p1 -b .malformed-ppb-image-causing-crash
+%patch501 -p1 -b .buffer-over-read-in-read_xbm_body
 
 # regression fixes for the security fixes
 %patch84 -p1 -b .QTBUG-35459
@@ -711,6 +723,11 @@ done
 
 
 %build
+# QT is known not to work properly with LTO at this point.  Some of the issues
+# are being worked on upstream and disabling LTO should be re-evaluated as
+# we update this change.  Until such time...
+# Disable LTO
+%define _lto_cflags %{nil}
 
 # drop -fexceptions from $RPM_OPT_FLAGS
 RPM_OPT_FLAGS=`echo $RPM_OPT_FLAGS | sed 's|-fexceptions||g'`
@@ -1373,6 +1390,22 @@ fi
 
 
 %changelog
+* Wed Aug 19 2020 Kevin Kofler <Kevin@tigcc.ticalc.org> - 4.8.7-57
+- Hardcode the compiler version in the build key once and for all
+
+* Wed Aug 19 2020 Jeff Law <law@redhat.com> - 4.8.7-56
+- Add support for gcc-11
+- Fix ordered pointer comparison against zero problems
+
+* Thu Aug 13 2020 Than Ngo <than@redhat.com> - 4.8.7-55
+- fixed #1868534 - CVE-2020-17507
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.8.7-54
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> - 4.8.7-53
+- Disable LTO
+
 * Fri Jan 31 2020 Than Ngo <than@redhat.com> - 4.8.7-52
 - fixed FTBFS against gcc10
 

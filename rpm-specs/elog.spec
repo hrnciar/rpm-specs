@@ -10,7 +10,7 @@
 
 Name:           elog
 Version:        3.1.4
-Release:        2.%{snapinfo}%{?dist}
+Release:        3.%{snapinfo}%{?dist}
 Summary:        Logbook system to manage notes through a Web interface
 
 License:        GPLv2 and GPLv3+
@@ -179,6 +179,9 @@ exit 0
 %doc doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.4-3.20190113git283534d97d5a
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.4-2.20190113git283534d97d5a
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

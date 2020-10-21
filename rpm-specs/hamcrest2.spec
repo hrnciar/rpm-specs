@@ -2,7 +2,7 @@
 
 Name:           hamcrest2
 Version:        2.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Library of matchers for building test expressions
 License:        BSD
 
@@ -12,6 +12,7 @@ Source1:        https://repo1.maven.org/maven2/org/%{srcname}/%{srcname}/%{versi
 
 BuildArch:      noarch
 
+BuildRequires:  java-1.8.0-openjdk-devel
 BuildRequires:  maven-local
 BuildRequires:  mvn(junit:junit)
 
@@ -56,6 +57,8 @@ sed -i 's/\r//' LICENSE.txt
 
 
 %build
+# build against OpenJDK 8, code is not compatible with Java 9+ yet
+export JAVA_HOME=%{_jvmdir}/java-1.8.0
 # forcing Java 8 because of required language features
 %mvn_build -- -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
@@ -73,6 +76,12 @@ sed -i 's/\r//' LICENSE.txt
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Fabio Valentini <decathorpe@gmail.com> - 2.2-2
+- Build against java-1.8.0-openjdk, package is not ready for Java 9+ yet.
+
 * Mon May 11 2020 Fabio Valentini <decathorpe@gmail.com> - 2.2-1
 - Update to version 2.2.
 

@@ -5,7 +5,7 @@
 
 Name:           restsharp
 Version:        105.2.3
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Simple REST and HTTP API Client
 
 # Main license is Apache 2.0, but MIT/X11 for Extensions/MonoHttp and SimpleJson
@@ -92,6 +92,9 @@ nunit-console26 -labels -stoponerror bin/Debug/%{libname}.Tests.dll
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 105.2.3-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 03 2020 Timotheus Pokorra <timotheus.pokorra@solidcharity.com> - 105.2.3-16
 - disable tests for s390x arch due to SIGSEGV
 

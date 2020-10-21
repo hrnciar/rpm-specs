@@ -7,7 +7,7 @@
 
 Name:           kabi-dw
 Version:        0
-Release:        0.17%{?dist}
+Release:        0.18%{?dist}
 Summary:        Detect changes in the ABI between kernel builds
 License:        GPLv3+
 URL:            %{forgeurl}
@@ -49,6 +49,9 @@ install -m 0755 %{name} %{buildroot}%{_bindir}/
 %license COPYING
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - Packaging variables read or set by %forgemeta
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 9 2020 Zamir SUN <zsun@fedoraproject.org> - 0-0.17.20191127gitbd56a60
 - Workaround "multiple definition of `yyin'"
 - Resolves https://bugzilla.redhat.com/show_bug.cgi?id=1799559

@@ -1,19 +1,12 @@
 %{?python_enable_dependency_generator}
 
-%if 0%{?rhel} && 0%{?rhel} < 8
-# Since the Python 3 stack in EPEL is missing too many dependencies,
-# we're sticking with Python 2 there for now.
-%global __python %{__python2}
-%global python_pkgversion 2
-%else
 # Default to Python 3 when F29+
 %global __python %{__python3}
 %global python_pkgversion %{python3_pkgversion}
-%endif
 
 Name:               pagure-dist-git
-Version:            1.7.0
-Release:            2%{?dist}
+Version:            1.9.0
+Release:            1%{?dist}
 Summary:            Pagure Git auth backend for Dist-Git setups
 
 License:            GPLv2+
@@ -24,11 +17,9 @@ BuildArch:          noarch
 BuildRequires:      python%{python_pkgversion}-devel
 BuildRequires:      python%{python_pkgversion}-setuptools
 
-%if 0%{?rhel} && 0%{?rhel} < 8
 Requires:           pagure >= 5.2
-%else
+Requires:           python%{python_pkgversion}-requests
 Recommends:         python%{python_pkgversion}-pdc-client
-%endif
 
 # This is actually an extension to Pagure itself and can't be built this way
 # So we're changing it all up..
@@ -76,6 +67,12 @@ install -p -m 644 scripts/*.py $RPM_BUILD_ROOT/%{_libexecdir}/pagure-dist-git/
 %{_libexecdir}/pagure-dist-git/
 
 %changelog
+* Tue Aug 04 2020 Neal Gompa <ngompa13@gmail.com> - 1.9.0-1
+- Update to 1.9.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.0-2
 - Rebuilt for Python 3.9
 

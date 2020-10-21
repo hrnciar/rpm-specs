@@ -1,6 +1,6 @@
 Name:		mediawiki-backtick-code
 Version:	0.0.4
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	MediaWiki extension to wrap text between backticks in code tags
 
 License:	GPLv2+
@@ -42,6 +42,9 @@ install -cpm 644 extension.json %{buildroot}%{_datadir}/mediawiki/extensions/Bac
 %{_datadir}/mediawiki/extensions/BacktickCode/extension.json
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.4-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

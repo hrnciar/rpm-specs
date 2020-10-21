@@ -7,7 +7,7 @@
 
 Name:		%{?scl_prefix}nodejs-inflight
 Version:	1.0.4
-Release:	14%{?dist}
+Release:	16%{?dist}
 Summary:	Node.js inflight
 License:	ISC
 Url:		https://github.com/isaacs/inflight
@@ -53,6 +53,13 @@ tap test.js
 %{nodejs_sitelib}/inflight
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

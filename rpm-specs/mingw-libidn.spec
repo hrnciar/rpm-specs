@@ -1,8 +1,8 @@
-%?mingw_package_header
+%{?mingw_package_header}
 
 Name:           mingw-libidn
-Version:        1.35
-Release:        2%{?dist}
+Version:        1.36
+Release:        1%{?dist}
 Summary:        MinGW Windows Internationalized Domain Name support library
 
 License:        LGPLv2+
@@ -70,40 +70,39 @@ Requires:       mingw64-libidn = %{version}-%{release}
 Static version of the MinGW Windows IDN library.
 
 
-%?mingw_debug_package
+%{?mingw_debug_package}
 
 
 %prep
-%setup -q -n libidn-%{version}
+%autosetup -p1 -n libidn-%{version}
 
 
 %build
 %mingw_configure --disable-nls --disable-csharp --enable-static --enable-shared
-%mingw_make %{?_smp_mflags}
-
+%mingw_make_build
 
 %install
-%mingw_make DESTDIR=$RPM_BUILD_ROOT install
+%mingw_make_install
 
 # Remove documentation which duplicates native Fedora package.
-rm -r $RPM_BUILD_ROOT%{mingw32_datadir}/emacs
-rm -r $RPM_BUILD_ROOT%{mingw64_datadir}/emacs
-rm -r $RPM_BUILD_ROOT%{mingw32_infodir}
-rm -r $RPM_BUILD_ROOT%{mingw64_infodir}
-rm -r $RPM_BUILD_ROOT%{mingw32_mandir}/man*
-rm -r $RPM_BUILD_ROOT%{mingw64_mandir}/man*
+rm -r %{buildroot}%{mingw32_datadir}/emacs
+rm -r %{buildroot}%{mingw64_datadir}/emacs
+rm -r %{buildroot}%{mingw32_infodir}
+rm -r %{buildroot}%{mingw64_infodir}
+rm -r %{buildroot}%{mingw32_mandir}/man*
+rm -r %{buildroot}%{mingw64_mandir}/man*
 
 # The .def file isn't interesting for other libraries/applications
-rm -f $RPM_BUILD_ROOT%{mingw32_bindir}/libidn-12.def
-rm -f $RPM_BUILD_ROOT%{mingw64_bindir}/libidn-12.def
+rm -f %{buildroot}%{mingw32_bindir}/libidn-12.def
+rm -f %{buildroot}%{mingw64_bindir}/libidn-12.def
 
 # Drop all .la files
-find $RPM_BUILD_ROOT -name "*.la" -delete
+find %{buildroot} -name "*.la" -delete
 
 
 # Win32
 %files -n mingw32-libidn
-%doc COPYING COPYING.LESSERv2 COPYING.LESSERv3 COPYINGv2 COPYINGv3
+%license COPYING COPYING.LESSERv2 COPYING.LESSERv3 COPYINGv2 COPYINGv3
 %{mingw32_bindir}/idn.exe
 %{mingw32_bindir}/libidn-12.dll
 %{mingw32_libdir}/libidn.dll.a
@@ -115,7 +114,7 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 
 # Win64
 %files -n mingw64-libidn
-%doc COPYING COPYING.LESSERv2 COPYING.LESSERv3 COPYINGv2 COPYINGv3
+%license COPYING COPYING.LESSERv2 COPYING.LESSERv3 COPYINGv2 COPYINGv3
 %{mingw64_bindir}/idn.exe
 %{mingw64_bindir}/libidn-12.dll
 %{mingw64_libdir}/libidn.dll.a
@@ -127,6 +126,12 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 
 
 %changelog
+* Tue Jul 28 2020 Sandro Mani <manisandro@gmail.com> - 1.36-1
+- Update to 1.36
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.35-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.35-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

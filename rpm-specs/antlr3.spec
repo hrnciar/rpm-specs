@@ -1,7 +1,7 @@
 %global antlr_version 3.5.2
 %global c_runtime_version 3.4
 %global javascript_runtime_version 3.1
-%global baserelease 28
+%global baserelease 30
 
 Summary:            ANother Tool for Language Recognition
 Name:               antlr3
@@ -196,7 +196,8 @@ popd
 # build ant task
 pushd antlr-ant/main/antlr3-task/
 export CLASSPATH=$(build-classpath ant)
-javac -encoding ISO-8859-1 antlr3-src/org/apache/tools/ant/antlr/ANTLR3.java
+javac -encoding ISO-8859-1 -source 1.8 -target 1.8 \
+  antlr3-src/org/apache/tools/ant/antlr/ANTLR3.java
 jar cvf ant-antlr3.jar \
   -C antlr3-src org/apache/tools/ant/antlr/antlib.xml \
   -C antlr3-src org/apache/tools/ant/antlr/ANTLR3.class
@@ -275,6 +276,12 @@ install -pm 644 runtime/Cpp/include/* $RPM_BUILD_ROOT/%{_includedir}/
 %doc tool/LICENSE.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.5.2-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1:3.5.2-29
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jun 03 2020 Fabio Valentini <decathorpe@gmail.com> - 1:3.5.2-28
 - Actually apply Patch7.
 

@@ -1,6 +1,6 @@
 Name:     libevdevPlus
 Version:  0.1.1
-Release:  5%{?dist}
+Release:  8%{?dist}
 Summary:  A C++ wrapper around libevdev
 License:  MIT
 URL:      https://github.com/YukiWorkshop/libevdevPlus
@@ -27,10 +27,10 @@ This package contains header files for %{name}.
 mkdir -p %{_target_platform}
 pushd %{_target_platform}
 %cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} ..
-%make_build
+%cmake_build
 
 %install
-%make_install -C %{_target_platform}
+cd %{_target_platform}; %cmake_install
 rm -f %{buildroot}%{_libdir}/%{name}.a
 
 %files
@@ -46,6 +46,16 @@ rm -f %{buildroot}%{_libdir}/%{name}.a
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Aug 04 2020 Bob Hepple <bob.hepple@gmail.com> - 0.1.1-8
+- rebuilt for f33 (RHBZ#1863996)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 29 2020 Bob Hepple <bob.hepple@gmail.com> - 0.1.1-5
 - fix version in pkgconfig
 

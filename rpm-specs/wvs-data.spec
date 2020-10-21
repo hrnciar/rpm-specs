@@ -9,7 +9,7 @@
 
 Name:		wvs-data
 Version:	0.0.%{WVS_date}
-Release:	21%{?dist}
+Release:	22%{?dist}
 Summary:	World Vector Shoreline data
 
 License:	Public Domain
@@ -40,6 +40,9 @@ be used for XTide related applications.
 %{_datadir}/%{name}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.20020219-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.20020219-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

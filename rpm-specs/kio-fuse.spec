@@ -1,9 +1,10 @@
+%undefine __cmake_in_source_build
 %global         min_qt_version 5.12
 %global         min_kf_version 5.66
 
 Name:           kio-fuse
 Version:        4.95.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        KIO FUSE
 
 License:        GPLv3+
@@ -39,19 +40,15 @@ FUSE.
 
 %prep
 %autosetup -p1 -n %{name}-v%{version}
-mkdir %{_target_platform}
 
 
 %build
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 
 
 %files
@@ -63,6 +60,9 @@ popd
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.95.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Yaroslav Sidlovsky <zawertun@gmail.com> - 4.95.0-1
 - first spec for version 4.95.0
 

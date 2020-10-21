@@ -5,7 +5,7 @@
 # https://github.com/docker/swarmkit
 %global goipath         github.com/docker/swarmkit
 Version:                1.12.0
-%global commit          ebe39a32e3ed4c3a3783a02c11cccf388818694c
+%global commit          035d564a3686f5e348d861ec0c074ff26854c498
 
 %gometa
 
@@ -28,7 +28,7 @@ Its main benefits are:
 %global godocs          BUILDING.md CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        Toolkit for orchestrating distributed systems at any scale
 
 # Upstream license specification: Apache-2.0
@@ -96,7 +96,6 @@ BuildRequires:  golang(github.com/gogo/protobuf/vanity/command)
 BuildRequires:  golang(github.com/grpc-ecosystem/go-grpc-prometheus)
 BuildRequires:  golang(github.com/hashicorp/go-memdb)
 BuildRequires:  golang(github.com/opencontainers/go-digest)
-BuildRequires:  golang(github.com/phayes/permbits)
 BuildRequires:  golang(github.com/pkg/errors)
 BuildRequires:  golang(github.com/prometheus/client_golang/prometheus)
 BuildRequires:  golang(github.com/rcrowley/go-metrics)
@@ -110,7 +109,7 @@ BuildRequires:  golang(go.etcd.io/etcd/pkg/fileutil)
 BuildRequires:  golang(go.etcd.io/etcd/pkg/idutil)
 BuildRequires:  golang(go.etcd.io/etcd/raft)
 BuildRequires:  golang(go.etcd.io/etcd/raft/raftpb)
-# BuildRequires:  golang(go.etcd.io/etcd/etcdserver/api/snap)
+BuildRequires:  golang(go.etcd.io/etcd/etcdserver/api/snap)
 BuildRequires:  golang(go.etcd.io/etcd/wal)
 BuildRequires:  golang(go.etcd.io/etcd/wal/walpb)
 BuildRequires:  golang(golang.org/x/crypto/nacl/secretbox)
@@ -127,6 +126,7 @@ BuildRequires:  golang(google.golang.org/grpc/status)
 
 %if %{with check}
 # Tests
+BuildRequires:  golang(github.com/docker/docker/api/types/strslice)
 BuildRequires:  golang(github.com/docker/docker/pkg/plugins)
 BuildRequires:  golang(github.com/docker/libnetwork/discoverapi)
 BuildRequires:  golang(github.com/docker/libnetwork/types)
@@ -176,6 +176,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 14:54:55 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.12.0-8.20200726git035d564
+- Bump to commit 035d564a3686f5e348d861ec0c074ff26854c498
+
 * Sat Apr 04 23:57:20 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.12.0-7.20200404gitebe39a3
 - Bump to commit ebe39a32e3ed4c3a3783a02c11cccf388818694c
 

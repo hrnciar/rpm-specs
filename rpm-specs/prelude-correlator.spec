@@ -1,18 +1,18 @@
 Name:           prelude-correlator
-Version:        5.1.0
-Release:        3%{?dist}
+Version:        5.2.0
+Release:        1%{?dist}
 Summary:        Real time correlator of events received by Prelude Manager
 License:        GPLv2+
 URL:            https://www.prelude-siem.org/
-Source0:        https://www.prelude-siem.org/pkg/src/4.1.0/%{name}-%{version}.tar.gz
+Source0:        https://www.prelude-siem.org/pkg/src/%{version}/%{name}-%{version}.tar.gz
 Source1:        %{name}.service
 BuildRequires:  systemd
-BuildRequires:  pkgconfig(libprelude) >= 5.1.0
+BuildRequires:  pkgconfig(libprelude) >= %{version}
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-devel
 
 %{?systemd_requires}
-Requires:       python3-%{name} >= 5.1.0
+Requires:       python3-%{name} >= %{version}
 
 # Since mass rebuild, debugpackage wont works for prelude-correlator
 %define debug_package %{nil}
@@ -91,6 +91,12 @@ install -D -p -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
 %{python3_sitelib}/prelude_correlator-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Thu Sep 17 2020 Thomas Andrejak <thomas.andrejak@gmail.com> - 5.2.0-1
+- Bump version 5.2.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.1.0-3
 - Rebuilt for Python 3.9
 

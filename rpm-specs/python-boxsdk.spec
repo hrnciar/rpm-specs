@@ -1,7 +1,7 @@
 %global modname boxsdk
 
 Name:               python-boxsdk
-Version:            2.9.0
+Version:            2.10.0
 Release:            1%{?dist}
 Summary:            Python wrapper for the Box API
 
@@ -60,6 +60,12 @@ Python %{python3_version} version.
 %{python3_sitelib}/%{modname}-*.egg-info/
 
 %changelog
+* Fri Oct 02 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.10.0-1
+- 2.10.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.9.0-1
 - 2.9.0
 

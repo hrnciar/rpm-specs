@@ -14,7 +14,7 @@
 
 Name:       fedora-review
 Version:    0.7.5
-Release:    2%{?build_nr}%{?git_tag}%{?dist}
+Release:    3%{?build_nr}%{?git_tag}%{?dist}
 Summary:    Review tool for fedora rpm packages
 
 License:    GPLv2+
@@ -152,6 +152,9 @@ mock --quiet -r fedora-28-i386 --uniqueext=hugo --init
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.5-2
 - Rebuilt for Python 3.9
 

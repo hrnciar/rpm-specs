@@ -8,8 +8,8 @@
 
 Summary: Alternative packet radio system for Linux
 Name: uronode
-Version: 2.11
-Release: 1%{?dist}
+Version: 2.12
+Release: 2%{?dist}
 License: GPLv2+
 URL: http://uronode.sourceforge.net
 BuildRequires: gcc, zlib-devel, libax25-devel, systemd
@@ -115,6 +115,13 @@ touch %{buildroot}/%{_var}/lib/flexd/destinations
 %ghost %{_var}/lib/flexd/destinations
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 2.12-1
+- New version
+  Resolves: rhbz#1855006
+
 * Wed Mar  4 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 2.11-1
 - New version
   Resolves: rhbz#1809815

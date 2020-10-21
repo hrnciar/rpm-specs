@@ -1,7 +1,7 @@
 Summary: Convert to XML on the fly
 Name: xmlfy
 Version: 1.5.7
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: BSD
 Source0: http://downloads.sourceforge.net/%{name}/%{name}-%{version}-src.tar.gz
 URL: http://xmlfy.sourceforge.net/
@@ -46,6 +46,9 @@ make DESTDIR=%{buildroot} bindir=%{_bindir} mandir=%{_mandir} RPM_OPT_FLAGS="%{o
 %{_mandir}/man*/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.6-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

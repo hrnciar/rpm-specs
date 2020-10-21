@@ -1,10 +1,10 @@
 %global srcname stun
 
-%global fast_tls_ver 1.1.3
-%global p1_utils_ver 1.0.17
+%global fast_tls_ver 1.1.8
+%global p1_utils_ver 1.0.20
 
 Name:      erlang-%{srcname}
-Version:   1.0.30
+Version:   1.0.37
 Release:   1%{?dist}
 BuildArch: noarch
 
@@ -55,6 +55,13 @@ connection between peers for VoIP (for example using SIP or Jingle) and WebRTC.
 
 
 %changelog
+* Fri Jul 31 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.37-1
+- Update to 1.0.37 (#1807191).
+- https://github.com/processone/stun/blob/1.0.37/CHANGELOG.md
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.30-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.30-1
 - Update to 1.0.30 (#1789036).
 - https://github.com/processone/stun/blob/1.0.30/CHANGELOG.md

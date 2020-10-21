@@ -2,7 +2,7 @@
 
 Name:       distcc
 Version:    3.3.3
-Release:    6%{?dist}
+Release:    9%{?dist}
 Summary:    Distributed C/C++ compilation
 License:    GPLv2+
 URL:        https://github.com/distcc/distcc
@@ -15,7 +15,7 @@ BuildRequires: automake
 BuildRequires: autoconf
 BuildRequires: libtool
 BuildRequires: popt-devel
-BuildRequires: libgnomeui-devel
+BuildRequires: gtk2-devel
 BuildRequires: pango-devel
 BuildRequires: python3-devel
 BuildRequires: desktop-file-utils
@@ -60,7 +60,7 @@ This package contains the compilation server needed to use %{name}.
 export PYTHON='/usr/bin/python3'
 ./autogen.sh
 export CFLAGS="%{optflags} -fcommon"
-%configure --with-gnome --disable-Werror --with-auth
+%configure --with-gtk --disable-Werror --with-auth
 make %{?_smp_mflags}
 
 
@@ -152,6 +152,16 @@ fi
 %dir /usr/lib/gcc-cross
 
 %changelog
+* Wed Sep 16 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.3.3-9
+- Use gtk, not gnome, for monitor.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.3-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.3.3-6
 - Rebuilt for Python 3.9
 

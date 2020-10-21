@@ -3,7 +3,7 @@
 Summary: Utility for creation bootable FAT disk
 Name: makebootfat
 Version: 1.4
-Release: 29%{?dist}
+Release: 30%{?dist}
 License: GPLv2+
 URL: http://advancemame.sourceforge.net/doc-makebootfat.html
 Source0: http://downloads.sourceforge.net/advancemame/%{name}-%{version}.tar.gz
@@ -75,6 +75,9 @@ install -p -m644 test/ldlinux.sys $RPM_BUILD_ROOT%{_datadir}/%{name}/x86
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

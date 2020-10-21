@@ -1,7 +1,6 @@
 %global libname solv
 
-%bcond_with    python2_bindings
-%bcond_without python3_bindings
+%bcond_without python_bindings
 %bcond_without perl_bindings
 %bcond_without ruby_bindings
 # Creates special prefixed pseudo-packages from appdata metadata
@@ -19,9 +18,11 @@
 %bcond_without zchunk
 %bcond_without zstd
 
+%define __cmake_switch(b:) %[%{expand:%%{?with_%{-b*}}} ? "ON" : "OFF"]
+
 Name:           lib%{libname}
-Version:        0.7.14
-Release:        2%{?dist}
+Version:        0.7.15
+Release:        1%{?dist}
 Summary:        Package dependency solver
 
 License:        BSD
@@ -110,21 +111,7 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 Ruby bindings for the %{name} library.
 %endif
 
-%if %{with python2_bindings}
-%package -n python2-%{libname}
-Summary:        Python bindings for the %{name} library
-%{?python_provide:%python_provide python2-%{libname}}
-BuildRequires:  swig
-BuildRequires:  python2-devel
-Requires:       %{name}%{?_isa} = %{version}-%{release}
-
-%description -n python2-%{libname}
-Python bindings for the %{name} library.
-
-Python 2 version.
-%endif
-
-%if %{with python3_bindings}
+%if %{with python_bindings}
 %package -n python3-%{libname}
 Summary:        Python bindings for the %{name} library
 %{?python_provide:%python_provide python3-%{libname}}
@@ -142,52 +129,44 @@ Python 3 version.
 %autosetup -p1
 
 %build
-%cmake . -B"%{_vpath_builddir}" -GNinja          \
-  -DFEDORA=1                                     \
-  -DENABLE_RPMDB=ON                              \
-  -DENABLE_RPMDB_BYRPMHEADER=ON                  \
-  -DENABLE_RPMDB_LIBRPM=ON                       \
-  -DENABLE_RPMPKG_LIBRPM=ON                      \
-  -DENABLE_RPMMD=ON                              \
-  %{?with_comps:-DENABLE_COMPS=ON}               \
-  %{?with_appdata:-DENABLE_APPDATA=ON}           \
-  -DUSE_VENDORDIRS=ON                            \
-  -DWITH_LIBXML2=ON                              \
-  -DENABLE_LZMA_COMPRESSION=ON                   \
-  -DENABLE_BZIP2_COMPRESSION=ON                  \
-  %{?with_zstd:-DENABLE_ZSTD_COMPRESSION=ON}     \
+%cmake -GNinja                                            \
+  -DFEDORA=1                                              \
+  -DENABLE_RPMDB=ON                                       \
+  -DENABLE_RPMDB_BYRPMHEADER=ON                           \
+  -DENABLE_RPMDB_LIBRPM=ON                                \
+  -DENABLE_RPMPKG_LIBRPM=ON                               \
+  -DENABLE_RPMMD=ON                                       \
+  -DENABLE_COMPS=%{__cmake_switch -b comps}               \
+  -DENABLE_APPDATA=%{__cmake_switch -b appdata}           \
+  -DUSE_VENDORDIRS=ON                                     \
+  -DWITH_LIBXML2=ON                                       \
+  -DENABLE_LZMA_COMPRESSION=ON                            \
+  -DENABLE_BZIP2_COMPRESSION=ON                           \
+  -DENABLE_ZSTD_COMPRESSION=%{__cmake_switch -b zstd}     \
+  -DENABLE_ZCHUNK_COMPRESSION=%{__cmake_switch -b zchunk} \
 %if %{with zchunk}
-  -DENABLE_ZCHUNK_COMPRESSION=ON                 \
-  -DWITH_SYSTEM_ZCHUNK=ON                        \
+  -DWITH_SYSTEM_ZCHUNK=ON                                 \
 %endif
-  %{?with_helix_repo:-DENABLE_HELIXREPO=ON}      \
-  %{?with_suse_repo:-DENABLE_SUSEREPO=ON}        \
-  %{?with_debian_repo:-DENABLE_DEBIAN=ON}        \
-  %{?with_arch_repo:-DENABLE_ARCHREPO=ON}        \
-  %{?with_multi_semantics:-DMULTI_SEMANTICS=ON}  \
-  %{?with_complex_deps:-DENABLE_COMPLEX_DEPS=1}  \
-  %{?with_perl_bindings:-DENABLE_PERL=ON}        \
-  %{?with_ruby_bindings:-DENABLE_RUBY=ON}        \
-%if %{with python2_bindings} || %{with python3_bindings}
-  -DENABLE_PYTHON=ON                             \
-%if %{with python2_bindings}
-  -DPYTHON_EXECUTABLE=%{__python2}               \
-%if %{with python3_bindings}
-  -DENABLE_PYTHON3=ON                            \
-  -DPYTHON3_EXECUTABLE=%{__python3}              \
-%endif
-%else
-  -DPYTHON_EXECUTABLE=%{__python3}               \
-%endif
+  -DENABLE_HELIXREPO=%{__cmake_switch -b helix_repo}      \
+  -DENABLE_SUSEREPO=%{__cmake_switch -b suse_repo}        \
+  -DENABLE_DEBIAN=%{__cmake_switch -b debian_repo}        \
+  -DENABLE_ARCHREPO=%{__cmake_switch -b arch_repo}        \
+  -DMULTI_SEMANTICS=%{__cmake_switch -b multi_semantics}  \
+  -DENABLE_COMPLEX_DEPS=%{__cmake_switch -b complex_deps} \
+  -DENABLE_PERL=%{__cmake_switch -b perl_bindings}        \
+  -DENABLE_RUBY=%{__cmake_switch -b ruby_bindings}        \
+  -DENABLE_PYTHON=%{__cmake_switch -b python_bindings}    \
+%if %{with python_bindings}
+  -DPYTHON_EXECUTABLE=%{python3}                          \
 %endif
   %{nil}
-%ninja_build -C "%{_vpath_builddir}"
+%cmake_build
 
 %install
-%ninja_install -C "%{_vpath_builddir}"
+%cmake_install
 
 %check
-%ninja_test -C "%{_vpath_builddir}"
+%ctest
 
 %files
 %license LICENSE*
@@ -257,13 +236,7 @@ Python 3 version.
 %{ruby_vendorarchdir}/%{libname}.so
 %endif
 
-%if %{with python2_bindings}
-%files -n python2-%{libname}
-%{python2_sitearch}/_%{libname}.so
-%{python2_sitearch}/%{libname}.py*
-%endif
-
-%if %{with python3_bindings}
+%if %{with python_bindings}
 %files -n python3-%{libname}
 %{python3_sitearch}/_%{libname}.so
 %{python3_sitearch}/%{libname}.py
@@ -271,6 +244,16 @@ Python 3 version.
 %endif
 
 %changelog
+* Mon Oct 19 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.7.15-1
+- Update to 0.7.15
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.14-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.7.14-3
+- Switch to %%cmake_build/%%cmake_install
+- Drop Python 2 bindings
+
 * Wed Jun 03 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.7.14-2
 - Raise lowest compatible RPM version
 

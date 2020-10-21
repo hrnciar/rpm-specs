@@ -10,7 +10,7 @@ diff.
 
 Name:           python-diff-cover
 Version:        3.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 BuildArch:      noarch
 
 License:        ASL 2.0
@@ -101,6 +101,9 @@ pytest-3 -k "not test_html_with_external_css and not test_load_declared_arabic"
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Clément Verna <cverna@fedoraproject.org> - 3.0.0-1
 - Update to 3.0.0 RHBZ#1821943
 - https://github.com/Bachmann1234/diff_cover/blob/v3.0.0/CHANGELOG

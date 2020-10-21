@@ -1,15 +1,15 @@
-%global po_package      %{name}-3.0
+%global po_package %{name}-3.0
 
 %global use_evolution_data_server 1
 
 Name:           gnome-panel
-Version:        3.36.1
-Release:        2%{?dist}
+Version:        3.38.0
+Release:        1%{?dist}
 Summary:        GNOME Flashback panel
 
 License:        GPLv2+ and LGPLv2+
 URL:            https://wiki.gnome.org/Projects/GnomePanel
-Source0:        https://download.gnome.org/sources/%{name}/3.36/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -125,7 +125,7 @@ find %{buildroot} -name '*.la' -delete;
 
 
 %files -f %{po_package}.lang
-%license COPYING COPYING.LIB COPYING-DOCS
+%license COPYING COPYING.LESSER COPYING-DOCS
 %doc AUTHORS NEWS README
 %{_bindir}/%{name}
 %{_datadir}/applications/%{name}.desktop
@@ -138,21 +138,34 @@ find %{buildroot} -name '*.la' -delete;
 
 %files libs
 %{_libdir}/lib%{name}.so.*
-%{_libdir}/libpanel-applet.so.3*
 
 %files devel
 %{_datadir}/gtk-doc/
 %{_includedir}/%{name}/
 %{_libdir}/lib%{name}.so
-%{_libdir}/libpanel-applet.so
 %{_libdir}/pkgconfig/lib%{name}.pc
-%{_libdir}/pkgconfig/libpanel-applet.pc
 
 %files doc
 %{_datadir}/help/
 
 
 %changelog
+* Wed Oct 14 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 3.38.0-1
+- build(update): 3.38.0
+
+* Wed Aug 19 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 3.36.2-1
+- Update to 3.36.2
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Kevin Fenzi <kevin@scrye.com> - 3.36.1-3
+- Rebuild for new evolution-data-server
+
 * Sun May 24 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 3.36.1-2
 - Disable LTO
 

@@ -2,7 +2,7 @@
 
 Name:          libwebp
 Version:       1.1.0
-Release:       3%{?dist}
+Release:       5%{?dist}
 URL:           http://webmproject.org/
 Summary:       Library and tools for the WebP graphics format
 # Additional IPR is licensed as well. See PATENTS file for details
@@ -142,6 +142,12 @@ cp swig/*.jar swig/*.so %{buildroot}/%{_libdir}/%{name}-java/
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.1.0-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon May 18 2020 Sandro Mani <manisandro@gmail.com> - 1.1.0-3
 - Don't manually and incorrectly install vwebp, Makefile already does it correctly (#1836640)
 

@@ -4,7 +4,7 @@
 # https://gitlab.com/golang-commonmark/puny
 %global goipath         gitlab.com/golang-commonmark/puny
 %global forgeurl        https://gitlab.com/golang-commonmark/puny
-%global commit          2cd490539afe7c6fc0eda6c59ef88fa93a00ea0d
+%global commit          9f83538fa04f50589f934c5ad2a18750264c8276
 
 %gometa
 
@@ -18,7 +18,7 @@ Package Puny provides functions for encoding/decoding to/from punycode.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Functions for encoding/decoding to/from punycode
 
 # Upstream license specification: BSD-2-Clause
@@ -45,6 +45,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 13:38:10 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200805git9f83538
+- Bump to commit 9f83538fa04f50589f934c5ad2a18750264c8276
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

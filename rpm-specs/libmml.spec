@@ -1,3 +1,5 @@
+%global __cmake_in_source_build 1
+
 %global commit cedd544e36c98820d5f454cd53908f1ecce14213
 %global gittag %{commit}
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
@@ -5,7 +7,7 @@
 
 Name:           libmml
 Version:        2.4
-Release:        7.%{commitdate}git%{shortcommit}%{?dist}
+Release:        9.%{commitdate}git%{shortcommit}%{?dist}
 Summary:        MML Widget
 License:        GPLv3 or LGPLv2 with exceptions
 URL:            https://github.com/copasi/copasi-dependencies/tree/master/src/mml
@@ -144,6 +146,13 @@ popd
 %{_qt4_libdir}/%{name}-qt4.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-9.20200509gitcedd544
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-8.20200509gitcedd544
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 09 2020 Antonio Trande <sagitter@fedoraproject.org> - 2.4-7.20200509gitcedd544
 - Move code to GitLab repository
 - Rebuild new commit

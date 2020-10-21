@@ -2,7 +2,7 @@
 
 Name:           botan
 Version:        %{major_version}.17
-Release:        19%{?dist}
+Release:        22%{?dist}
 Summary:        Crypto library written in C++
 
 License:        BSD
@@ -85,6 +85,7 @@ interfaces may change in the future.
 rm -rf checks/ec_tests.cpp
 
 %build
+
 # we have the necessary prerequisites, so enable optional modules
 %global enable_modules bzip2,zlib
 
@@ -191,6 +192,15 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} ./check --validate
 
 
 %changelog
+* Thu Oct 01 2020 Jeff Law <law@redhat.com> - 1.10.17-22
+- Re-enable LTO
+
+* Mon Aug 10 2020 Jeff Law <law@redhat.com> - 1.10.17-21
+- Disable LTO on armv7hl for now.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.17-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Jonathan Wakely <jwakely@redhat.com> - 1.10.17-19
 - Rebuilt for Boost 1.73
 

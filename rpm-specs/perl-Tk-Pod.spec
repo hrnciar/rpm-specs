@@ -2,7 +2,7 @@
 
 Name:           perl-Tk-Pod
 Version:        0.9943
-Release:        13%{?dist}
+Release:        15%{?dist}
 Summary:        Pod browser top-level widget
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Tk-Pod
@@ -151,6 +151,12 @@ find $RPM_BUILD_ROOT -type f -name .packlist -exec rm -f {} \;
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9943-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.9943-14
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9943-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

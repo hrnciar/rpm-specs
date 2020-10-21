@@ -1,6 +1,8 @@
+%global abi 4
+
 Name:           libdvdnav
-Version:        6.0.1
-Release:        3%{?dist}
+Version:        6.1.0
+Release:        1%{?dist}
 Summary:        A library for reading DVD video discs based on Ogle code
 License:        GPLv2+
 URL:            http://dvdnav.mplayerhq.hu/
@@ -10,7 +12,7 @@ Source2:        https://download.videolan.org/pub/keys/7180713BE58D1ADC.asc
 BuildRequires:  doxygen
 BuildRequires:  gcc
 BuildRequires:  gnupg2
-BuildRequires:  libdvdread-devel >= 5.0.2
+BuildRequires:  libdvdread-devel >= 6.0.0
 
 %description
 libdvdnav provides a simple library for reading DVD video discs.
@@ -19,7 +21,7 @@ The code is based on Ogle and used in, among others, the Xine dvdnav plug-in.
 %package        devel
 Summary:        Development files for libdvdnav
 Requires:       %{name} = %{version}-%{release}
-Requires:       libdvdread-devel >= 5.0.2
+Requires:       libdvdread-devel >= 6.0.0
 Requires:       pkgconfig
 
 %description    devel
@@ -48,7 +50,7 @@ rm %{buildroot}%{_pkgdocdir}/{COPYING,TODO}
 %files
 %license COPYING
 %doc AUTHORS ChangeLog README
-%{_libdir}/libdvdnav.so.*
+%{_libdir}/libdvdnav.so.%{abi}*
 
 %files devel
 %doc TODO doc/html/*
@@ -57,6 +59,12 @@ rm %{buildroot}%{_pkgdocdir}/{COPYING,TODO}
 %{_libdir}/pkgconfig/dvdnav.pc
 
 %changelog
+* Thu Oct 15 2020 Dominik Mierzejewski <rpm@greysector.net> 6.1.0-1
+- update to 6.1.0 (#1815805)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

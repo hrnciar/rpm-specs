@@ -3,7 +3,7 @@
 
 # https://github.com/gin-contrib/sse
 %global goipath         github.com/gin-contrib/sse
-%global commit          5545eab6dad3bbbd6c5ae9186383c2a9d23c0dae
+Version:                0.1.0
 
 %gometa
 
@@ -16,8 +16,7 @@ API is standardized as part of HTML5[1] by the W3C.}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.3%{?dist}
+Release:        2%{?dist}
 Summary:        Server-sent events implementation in Go. used by the gin framework
 
 License:        MIT
@@ -48,6 +47,12 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 18:35:13 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.1.0-1
+- Update to 0.1.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

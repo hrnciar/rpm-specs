@@ -21,7 +21,7 @@ See https://libgfapi-python.rtfd.io/ for more details.
 Name:             python-%{pkg_name}
 Summary:          Python bindings for GlusterFS libgfapi
 Version:          1.2
-Release:          7%{?dist}
+Release:          8%{?dist}
 License:          GPLv2 or LGPLv3+
 URL:              https://github.com/gluster/%{src_repo_name}
 Source0:          %pypi_source %{python_pkg_name} %{version}
@@ -62,6 +62,9 @@ Obsoletes:        python-glusterfs-api < %{version}
 %exclude %{python3_sitelib}/gluster/__init__*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2-7
 - Rebuilt for Python 3.9
 

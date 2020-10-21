@@ -6,14 +6,9 @@
 
 # https://github.com/denisenkom/go-mssqldb
 %global goipath         github.com/denisenkom/go-mssqldb
-%global commit          731ef375ac027e24d275c5432221dbec5007a647
+%global commit          36b6ff1bbc103b7b9497bb3c0c6f2788015ea02f
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-denisenkom-go-mssqldb-devel < 0-0.6
-}
 
 %global common_description %{expand:
 Package Mssql implements the TDS protocol used to connect to MS SQL Server
@@ -24,7 +19,7 @@ database servers.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.9%{?dist}
+Release:        0.10%{?dist}
 Summary:        Microsoft SQL server driver written in Go language
 
 # Upstream license specification: BSD-3-Clause
@@ -32,7 +27,8 @@ License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
 
-BuildRequires:  golang(cloud.google.com/go/civil)
+BuildRequires:  golang(github.com/Azure/go-autorest/autorest/adal)
+BuildRequires:  golang(github.com/golang-sql/civil)
 BuildRequires:  golang(golang.org/x/crypto/md4)
 
 %description
@@ -54,6 +50,12 @@ BuildRequires:  golang(golang.org/x/crypto/md4)
 %gopkgfiles
 
 %changelog
+* Wed Sep 09 14:16:21 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.11.20200909git36b6ff1
+- Bump to commit 36b6ff1bbc103b7b9497bb3c0c6f2788015ea02f
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

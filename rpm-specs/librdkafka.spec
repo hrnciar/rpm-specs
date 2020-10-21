@@ -1,6 +1,6 @@
 Name:		librdkafka
-Version:	1.3.0
-Release:	2%{?dist}
+Version:	1.5.0
+Release:	1%{?dist}
 Summary:	The Apache Kafka C library
 
 License:	BSD
@@ -9,7 +9,7 @@ Source0:	https://github.com/edenhill/librdkafka/archive/v%{version}.tar.gz#/%{na
 
 BuildRequires:	gcc
 BuildRequires:	gcc-c++
-BuildRequires:	python2
+BuildRequires:	python3
 BuildRequires:  openssl-devel
 BuildRequires:  cyrus-sasl-devel
 BuildRequires:  lz4-devel
@@ -35,6 +35,15 @@ using librdkafka.
 %setup -q
 
 %build
+# This package has a configure test which uses ASMs, but does not link the
+# resultant .o files.  As such the ASM test is always successful, even on
+# architectures were the ASM is not valid when compiling with LTO.
+#
+# -ffat-lto-objects is sufficient to address this issue.  It is the default
+# for F33, but is expected to only be enabled for packages that need it in
+# F34, so we use it here explicitly
+%define _lto_cflags -flto=auto -ffat-lto-objects
+
 %configure --enable-lz4 \
            --enable-ssl \
            --enable-sasl
@@ -53,7 +62,7 @@ find %{buildroot} -name '*.a' -delete -print
 %files
 %{_libdir}/librdkafka.so.*
 %{_libdir}/librdkafka++.so.*
-%doc README.md CONFIGURATION.md
+%doc README.md CONFIGURATION.md INTRODUCTION.md LICENSE LICENSES.txt STATISTICS.md
 %license LICENSE LICENSE.pycrc LICENSE.snappy
 
 %files devel
@@ -68,6 +77,23 @@ find %{buildroot} -name '*.a' -delete -print
 
 
 %changelog
+* Wed Sep 09 2020 Zoltan Fridrich <zfridric@redhat.com> - 1.5.0-1
+- Update to upstream 1.5.0
+  resolves: rhbz#1818082
+
+* Wed Sep 09 2020 Zoltan Fridrich <zfridric@redhat.com> - 1.3.0-6
+- Switch BuildRequires from python2 to python3
+  resolves: rhbz#1808329
+
+* Fri Aug 21 2020 Jeff Law <law@redhat.com> - 1.3.0-5
+- Re-enable LTO
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 1.3.0-3
+- Disable LTO
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

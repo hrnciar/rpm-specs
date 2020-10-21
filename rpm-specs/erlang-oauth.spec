@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	1.6.0
-Release:	10%{?dist}
+Release:	11%{?dist}
 BuildArch:	noarch
 Summary:	An Erlang OAuth 1.0 implementation
 License:	MIT
@@ -43,6 +43,9 @@ convenience functions for making OAuth HTTP requests (client side).
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

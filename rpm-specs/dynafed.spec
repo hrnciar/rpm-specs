@@ -20,7 +20,7 @@
 
 Name:				dynafed
 Version:			1.5.1
-Release:			3%{?dist}
+Release:			5%{?dist}
 Summary:			Ultra-scalable dynamic system for federating HTTP-based storage resources
 License:			ASL 2.0
 URL:				http://lcgdm.web.cern.ch/dynafed-dynamic-federation-project
@@ -238,6 +238,13 @@ make DESTDIR=%{buildroot} install
 /var/www/html/dashboard/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

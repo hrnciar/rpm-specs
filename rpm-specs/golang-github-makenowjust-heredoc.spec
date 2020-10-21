@@ -3,14 +3,11 @@
 
 # https://github.com/MakeNowJust/heredoc
 %global goipath         github.com/MakeNowJust/heredoc
-%global commit          e9091a26100e9cfb2b6a8f470085bfa541931a91
+Version:                2.0.1
 
 %gometa
 
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-MakeNowJust-heredoc-devel < 0-0.16
-}
+%global goaltipaths     github.com/MakeNowJust/heredoc/v2
 
 %global common_description %{expand:
 Package Heredoc provides the here-document with keeping indent.}
@@ -21,8 +18,7 @@ Package Heredoc provides the here-document with keeping indent.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Version:        0
-Release:        0.19%{?dist}
+Release:        1%{?dist}
 Summary:        Here-document with keeping indent
 
 License:        MIT
@@ -43,15 +39,6 @@ cp %{S:1} %{S:2} .
 %install
 %gopkginstall
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck
@@ -60,6 +47,12 @@ end
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 18:08:34 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.0.1-1
+- Update to 2.0.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

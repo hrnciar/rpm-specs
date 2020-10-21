@@ -1,7 +1,7 @@
 Name:     ntfs-3g-system-compression
 Summary:  NTFS-3G plugin for reading "system compressed" files
 Version:  1.0
-Release:  3%{?dist}
+Release:  4%{?dist}
 License:  GPLv2+
 URL:      https://github.com/ebiggers/ntfs-3g-system-compression
 Source0:  https://github.com/ebiggers/ntfs-3g-system-compression/archive/v%{version}/ntfs-3g-system-compression-%{version}.tar.gz
@@ -44,6 +44,9 @@ rm -rf %{buildroot}%{_libdir}/ntfs-3g/*.la
 %{_libdir}/ntfs-3g/ntfs-plugin-80000017.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

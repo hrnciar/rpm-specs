@@ -3,7 +3,7 @@
 
 Name:           rpmdeplint
 Version:        1.4
-Release:        17%{?dist}
+Release:        19%{?dist}
 Summary:        Tool to find errors in RPM packages in the context of their dependency graph
 License:        GPLv2+
 URL:            https://pagure.io/rpmdeplint
@@ -26,6 +26,7 @@ dependency graph.
 %{?python_provide:%python_provide python3-%{name}}
 Summary:        %{summary}
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-sphinx
 BuildRequires:  python3-pytest
 BuildRequires:  python3-six
@@ -73,6 +74,12 @@ py.test-3 rpmdeplint -k "not TestDependencyAnalyzer"
 %{python3_sitelib}/%{name}*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 1.4-18
+- Add BR python3-setuptools
+
 * Fri May 29 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4-17
 - Rebuilt for Python 3.9
 

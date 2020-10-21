@@ -1,8 +1,8 @@
 %global modname gattlib
 
 Name:               python-gattlib
-Version:            0.20200122
-Release:            3%{?dist}
+Version:            0.20200929
+Release:            1%{?dist}
 Summary:            Library to access Bluetooth LE devices
 
 License:            ASL 2.0 and GPLv2+ and LGPLv2+
@@ -52,6 +52,21 @@ find . -type f | xargs chmod -x
 %{python3_sitearch}/%{modname}*.egg-info/
 
 %changelog
+* Tue Sep 29 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.20200929-1
+- 0.20200929
+
+* Fri Sep 25 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.20200925-1
+- 0.20200925
+
+* Tue Sep 15 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.20200915-1
+- 0.20200915
+
+* Mon Sep 14 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.20200914-1
+- 0.20200914
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20200122-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Jonathan Wakely <jwakely@redhat.com> - 0.20200122-3
 - Rebuilt for Boost 1.73
 

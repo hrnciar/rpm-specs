@@ -4,11 +4,11 @@
 # git clone https://github.com/raspberrypi/firmware.git
 # cd firmware/boot
 # tar cJvf ../bcm283x-firmware-%{gitshort}.tar.xz *bin *dat *elf bcm2709*dtb bcm271*dtb LICENCE.broadcom COPYING.linux overlays/
-%define gitshort c2c6ce8
+%define gitshort 63b1922
 
 Name:          bcm283x-firmware
-Version:       20200401
-Release:       1.%{gitshort}%{?dist}
+Version:       20201008
+Release:       2.%{gitshort}%{?dist}
 Summary:       Firmware for the Broadcom bcm283x/bcm2711 used in the Raspberry Pi
 # see LICENSE.broadcom
 # DT Overlays covered under Linux Kernel GPLv2
@@ -20,6 +20,9 @@ ExclusiveArch: %{arm} aarch64
 BuildRequires: efi-filesystem
 BuildRequires: efi-srpm-macros
 Requires:      efi-filesystem
+Requires:      bcm283x-overlays
+Requires:      bcm2835-firmware
+Requires:      bcm2711-firmware
 
 Source0:       %{name}-%{gitshort}.tar.xz
 Source1:       config.txt
@@ -28,6 +31,29 @@ Source2:       config-64.txt
 %description
 Firmware for the Broadcom bcm283x and bcm2711 series of systems on a chip as
 shipped in the Raspberry Pi series of devices.
+
+%package     -n bcm283x-overlays
+Summary:     HAT Overlays for the Raspberry Pi
+
+%description -n bcm283x-overlays
+Hardware Attached Ontop (HATs) overlays for the Raspberry Pi series of devices.
+
+%package     -n bcm2835-firmware
+Summary:     Firmware for the Raspberry Pi 2, 3, 3+ and CM3
+Requires:    bcm283x-firmware
+Requires:    bcm283x-overlays
+
+%description -n bcm2835-firmware
+Firmware for the Raspberry Pi 2, 3, 3+ and CM3
+
+%package     -n bcm2711-firmware
+Summary:     Firmware for the Raspberry Pi 4 and CM4
+Requires:    bcm283x-firmware
+Requires:    bcm283x-overlays
+
+%description -n bcm2711-firmware
+Firmware for the Raspberry Pi 4 and CM4
+
 
 %prep
 %setup -q -n %{name}-%{gitshort} -c %{name}-%{gitshort}
@@ -62,13 +88,44 @@ fi
 # DT Overlays covered under Linux Kernel GPLv2
 %license LICENCE.broadcom COPYING.linux
 %config(noreplace) %{efi_esp_root}/config.txt
+%{efi_esp_root}/bootcode.bin
+
+%files -n bcm283x-overlays
 %{efi_esp_root}/overlays
-%{efi_esp_root}/*bin
-%{efi_esp_root}/*dat
-%{efi_esp_root}/*elf
-%{efi_esp_root}/*.dtb
+
+%files -n bcm2835-firmware
+%{efi_esp_root}/bcm2709-rpi-2-b.dtb
+%{efi_esp_root}/bcm2710-rpi-*
+%{efi_esp_root}/fixup*
+%{efi_esp_root}/start*
+%exclude %{efi_esp_root}/fixup4*
+%exclude %{efi_esp_root}/start4*
+
+%files -n bcm2711-firmware
+%{efi_esp_root}/bcm2711-rpi-*
+%{efi_esp_root}/fixup4*
+%{efi_esp_root}/start4*
 
 %changelog
+* Mon Oct 12 2020 Peter Robinson <pbrobinson@fedoraproject.org> 20201008-2.63b1922
+- Enable UART for all devices to work around firmware boot issues
+
+* Sat Oct 10 2020 Peter Robinson <pbrobinson@fedoraproject.org> 20201008-1.63b1922
+- Latest firmware update
+
+* Thu Oct 01 2020 Peter Robinson <pbrobinson@fedoraproject.org> 20200928-2.f0eab3a
+- Workaround for RPi4-8Gb
+
+* Tue Sep 29 2020 Peter Robinson <pbrobinson@fedoraproject.org> 20200928-1.f0eab3a
+- Latest firmware update
+
+* Thu Sep 17 2020 Peter Robinson <pbrobinson@fedoraproject.org> 20200917-1.7b99da7
+- Latest firmware update
+
+* Thu Sep 03 2020 Peter Robinson <pbrobinson@fedoraproject.org> 20200903-1.baec4d2
+- Latest firmware update
+- Adjust firmware packaging
+
 * Mon Apr  6 2020 Peter Robinson <pbrobinson@fedoraproject.org> 20200401-1.c2c6ce8
 - Latest firmware update
 

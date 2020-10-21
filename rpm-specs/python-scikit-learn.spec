@@ -10,8 +10,8 @@ simple and efficient, accessible to everybody, and reusable                  \
 in various contexts.
 
 Name: python-scikit-learn
-Version: 0.23.0
-Release: 3%{?dist}
+Version: 0.23.2
+Release: 1%{?dist}
 Summary: %{sum}
 # sklearn/externals/_arff.py is MIT
 License: BSD and MIT
@@ -70,6 +70,15 @@ popd
 %{python3_sitearch}/scikit_learn-*.egg-info
 
 %changelog
+* Wed Aug 26 2020 Sergio Pascual <sergiopr@fedoraproject.org> - 0.23.2-1
+- New upstream source (0.23.2)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.23.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jun 28 2020 Sergio Pascual <sergiopr@fedoraproject.org> - 0.23.1-1
+- New upstream source (0.23.1)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.23.0-3
 - Rebuilt for Python 3.9
 

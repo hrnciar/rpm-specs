@@ -1,5 +1,7 @@
+%undefine __cmake_in_source_build
+
 Name:    plasma-workspace-wallpapers
-Version: 5.19.2
+Version: 5.20.1
 Release: 1%{?dist}
 Summary: Additional wallpapers for Plasma workspace
 License: LGPLv3
@@ -36,16 +38,12 @@ Obsoletes:      plasma-workspace-wallpapers < 5.2.0-2
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 
 %files
@@ -62,6 +60,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_datadir}/wallpapers/EveningGlow/
 %{_datadir}/wallpapers/FallenLeaf/
 %{_datadir}/wallpapers/FlyingKonqui/
+%{_datadir}/wallpapers/Flow/
 %{_datadir}/wallpapers/Grey/
 %{_datadir}/wallpapers/IceCold/
 %{_datadir}/wallpapers/Kite/
@@ -75,6 +74,27 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_datadir}/wallpapers/Volna/
 
 %changelog
+* Tue Oct 20 15:30:31 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.1-1
+- 5.20.1
+
+* Sun Oct 11 19:50:04 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.0-1
+- 5.20.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.90-1
+- 5.19.90
+
+* Tue Sep 01 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.5-1
+- 5.19.5
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.19.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.4-1
+- 5.19.4
+
+* Tue Jul 07 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.3-1
+- 5.19.3
+
 * Tue Jun 23 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.2-1
 - 5.19.2
 

@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:           kmetronome
 Version:        1.0.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        GPLv2+
 Summary:        A MIDI metronome using the Drumstick library
 URL:            http://kmetronome.sourceforge.net
@@ -27,15 +29,13 @@ allowing low CPU usage, and very accurate timing thanks to the ALSA sequencer.
 %setup -q
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake} ..
-popd
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake}
+%cmake_build
 
 %install
-make install/fast DESTDIR=$RPM_BUILD_ROOT -C %{_target_platform}
-# check the .desktop file
+%cmake_install
+
+%check
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 %files
@@ -48,6 +48,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 %{_mandir}/man1/%{name}.1.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

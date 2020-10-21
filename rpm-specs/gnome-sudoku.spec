@@ -1,12 +1,12 @@
 Name:           gnome-sudoku
 Epoch:          1
-Version:        3.37.2
+Version:        3.38.0
 Release:        1%{?dist}
 Summary:        GNOME Sudoku game
 
 License:        GPLv3+ and CC-BY-SA
 URL:            https://wiki.gnome.org/Apps/Sudoku
-Source0:        https://download.gnome.org/sources/gnome-sudoku/3.37/gnome-sudoku-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/gnome-sudoku/3.38/gnome-sudoku-%{version}.tar.xz
 
 BuildRequires:  pkgconfig(glib-2.0) >= 2.40.0
 BuildRequires:  pkgconfig(gio-2.0) >= 2.40.0
@@ -57,6 +57,25 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.Sudoku.d
 
 
 %changelog
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 1:3.38.0-1
+- Update to 3.38.0
+
+* Fri Sep 04 2020 Kalev Lember <klember@redhat.com> - 1:3.37.92-1
+- Update to 3.37.92
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 1:3.37.90-1
+- Update to 3.37.90
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.37.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.37.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Kalev Lember <klember@redhat.com> - 1:3.37.3-1
+- Update to 3.37.3
+
 * Fri May 29 2020 Kalev Lember <klember@redhat.com> - 1:3.37.2-1
 - Update to 3.37.2
 

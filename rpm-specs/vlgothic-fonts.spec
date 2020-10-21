@@ -11,7 +11,7 @@ but some have also been improved by the project.
 
 Name:		%{fontname}-fonts
 Version:	20141206
-Release:	16%{?dist}
+Release:	17%{?dist}
 Summary:	Japanese TrueType font
 
 License:	mplus and BSD
@@ -106,6 +106,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 %{_metainfodir}/%{fontname}-proportional.metainfo.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20141206-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20141206-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

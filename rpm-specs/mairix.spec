@@ -1,6 +1,6 @@
 Name:           mairix
 Version:        0.24
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        A program for indexing and searching email messages
 
 License:        GPLv2
@@ -42,6 +42,9 @@ done
 %{_mandir}/man5/mairixrc.5*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.24-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.24-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

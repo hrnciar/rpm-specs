@@ -1,7 +1,7 @@
 Summary:	An SSLv3/TLS network protocol analyzer
 Name:		ssldump
 Version:	0.9
-Release:	0.21.b3%{?dist}
+Release:	0.22.b3%{?dist}
 License:	BSD with advertising
 URL:		http://ssldump.sourceforge.net/
 Source0:	https://downloads.sourceforge.net/%{name}/%{name}-%{version}b3.tar.gz
@@ -67,6 +67,9 @@ chmod 644 $RPM_BUILD_ROOT%{_mandir}/man1/%{name}.1*
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-0.22.b3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-0.21.b3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

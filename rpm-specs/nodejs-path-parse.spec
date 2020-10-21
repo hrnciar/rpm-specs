@@ -5,7 +5,7 @@
 
 Name:		nodejs-path-parse
 Version:	1.0.5
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	Node.js path.parse() ponyfill
 
 License:	MIT
@@ -19,6 +19,7 @@ BuildArch:	noarch
 ExclusiveArch: %{nodejs_arches} noarch
 
 BuildRequires:	nodejs-packaging
+BuildRequires:  nodejs(engine)
 
 %if 0%{?enable_tests}
 #BuildRequires:	
@@ -58,6 +59,9 @@ NODE_ENV=test %{__nodejs} test.js
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,12 +1,12 @@
-%global commit      ce63911ecbd794f24d737669e5add4f4e98d14e6
+%global commit  bdcb39400470cfc9457e170e223a2e70130fdd5c
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global date        20191113
+%global date    20200705
 
-%global corename    beetle-pce-fast
+%global corename beetle-pce-fast
 
 Name:           libretro-%{corename}
 Version:        0
-Release:        0.3.%{date}git%{shortcommit}%{?dist}
+Release:        0.4.%{date}git%{shortcommit}%{?dist}
 Summary:        Standalone port of Mednafen PCE Fast to libretro
 
 License:        GPLv2
@@ -15,8 +15,9 @@ Source0:        %{url}/archive/%{commit}/%{name}-%{version}.%{date}git%{shortcom
 Source1:        https://raw.githubusercontent.com/flathub/org.gnome.Games/master/libretro-cores/mednafen_pce_fast.libretro
 
 BuildRequires:  gcc-c++
-Suggests:       gnome-games%{?_isa}
-Suggests:       retroarch%{?_isa}
+
+Supplements:    gnome-games%{?_isa}
+Supplements:    retroarch%{?_isa}
 
 %description
 %{summary}.
@@ -32,8 +33,11 @@ Suggests:       retroarch%{?_isa}
 
 
 %install
-%make_install prefix=%{_prefix} libdir=%{_libdir}
-install -m 0644 -Dp %{SOURCE1} %{buildroot}%{_libdir}/libretro/mednafen_pce_fast.libretro
+%make_install \
+    libdir=%{_libdir} \
+    prefix=%{_prefix}
+install -m0644 -Dp %{SOURCE1} \
+    %{buildroot}%{_libdir}/libretro/mednafen_pce_fast.libretro
 
 
 %files
@@ -43,6 +47,12 @@ install -m 0644 -Dp %{SOURCE1} %{buildroot}%{_libdir}/libretro/mednafen_pce_fast
 
 
 %changelog
+* Sun Aug 09 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0-0.4.20200705gitbdcb394
+- Update to latest git snapshot
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4.20191113gitce63911
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3.20191113gitce63911
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

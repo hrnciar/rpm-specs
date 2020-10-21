@@ -1,12 +1,12 @@
 %global driver sx
 
 Name:           indi-%{driver}
-Version:        1.8.1
+Version:        1.8.6
 # Upstream provides one big tar including nonfree BLOBs for other drivers.
 # Thus we have to generate a clean tar by ourself containing only
 # the free driver to be packaged using
 # ./indi-sx-generate-tarball.sh 1.3.1
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        INDI driver providing support for Starlight Xpress devices
 
 License:        GPLv2+
@@ -42,12 +42,10 @@ sed -i 's|/lib/udev/rules.d|%{_udevrulesdir}|g' CMakeLists.txt
 
 %build
 %cmake
-make %{?_smp_mflags}
-
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot}
-
+%cmake_install
 
 %files
 %doc AUTHORS README
@@ -60,6 +58,19 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Tue Aug 25 2020 Christian Dersch <lupinix@mailbox.org> - 1.8.6-1
+- new version
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.5-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Christian Dersch <lupinix@fedoraproject.org> - 1.8.5-1
+- new version
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -32,7 +32,7 @@ Documentation is available at http://nipy.org/nitime/documentation.html
 
 Name:           python-%{srcname}
 Version:        0.8.1
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        Timeseries analysis for neuroscience data
 
 License:        BSD
@@ -42,13 +42,14 @@ Patch0:         0001-Remove-six.patch
 
 BuildRequires:  python3-devel
 
+BuildRequires:  %{py3_dist cython}
+BuildRequires:  %{py3_dist matplotlib}
 BuildRequires:  %{py3_dist networkx}
 BuildRequires:  %{py3_dist nibabel}
-BuildRequires:  %{py3_dist cython}
-BuildRequires:  %{py3_dist pytest}
 BuildRequires:  %{py3_dist nose}
-BuildRequires:  %{py3_dist matplotlib}
+BuildRequires:  %{py3_dist pytest}
 BuildRequires:  %{py3_dist scipy}
+BuildRequires:  %{py3_dist setuptools}
 BuildRequires:  gcc
 BuildRequires:  git-core
 
@@ -137,6 +138,12 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitearch} nosetests-3 '--exclude=test_(cohe
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.8.1-6
+- Explicitly BR setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.1-5
 - Rebuilt for Python 3.9
 

@@ -8,7 +8,7 @@
 
 Name:           cubeb
 Version:        0.2
-Release:        1%{?fgittag:.%{fgittag}}%{?dist}
+Release:        3%{?fgittag:.%{fgittag}}%{?dist}
 Summary:        A cross platform audio library
 
 #cubeb is ISC, sanitizers-cmake is MIT
@@ -67,10 +67,10 @@ echo "set_target_properties(%{name} PROPERTIES SOVERSION 0)" >> CMakeLists.txt
 
 %build
 %cmake . -DBUILD_TESTS=OFF
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %files
 %doc README.md
@@ -84,6 +84,13 @@ echo "set_target_properties(%{name} PROPERTIES SOVERSION 0)" >> CMakeLists.txt
 %{_libdir}/cmake/%{name}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-3.20200409.git9caa5b1
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-2.20200409.git9caa5b1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Jeremy Newton <alexjnewt AT hotmail DOT com>
 - Add breakdown for a few BSD-licensed files
 - Clean up android files

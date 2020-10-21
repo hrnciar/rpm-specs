@@ -3,7 +3,7 @@
 
 # https://github.com/docker/docker-credential-helpers
 %global goipath         github.com/docker/docker-credential-helpers
-Version:                0.6.2
+Version:                0.6.3
 
 %gometa
 
@@ -18,7 +18,7 @@ Docker credentials safe.}
 %global godocs          CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Suite of programs to use native stores to keep Docker credentials safe
 
 License:        MIT
@@ -46,6 +46,12 @@ BuildRequires:  pkgconfig(libsecret-1)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 11:01:15 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.6.3-1
+- Update to 0.6.3
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 %global framework kcontacts
 
 # uncomment to enable bootstrap mode
@@ -9,7 +10,7 @@
 
 Name:    kf5-%{framework}
 Epoch:   1
-Version: 5.71.0
+Version: 5.75.0
 Release: 1%{?dist}
 Summary: The KContacts Library
 
@@ -57,17 +58,13 @@ developing applications that use %{name}.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%{cmake_kf5} \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{!?tests:OFF}
-popd
-
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -84,7 +81,7 @@ make test ARGS="--output-on-failure --timeout 30" -C %{_target_platform} ||:
 %ldconfig_scriptlets
 
 %files -f %{name}.lang
-%license COPYING*
+%license LICENSES/*.txt
 %{_kf5_datadir}/qlogging-categories5/*%{framework}.*
 %{_kf5_libdir}/libKF5Contacts.so.*
 
@@ -97,6 +94,21 @@ make test ARGS="--output-on-failure --timeout 30" -C %{_target_platform} ||:
 
 
 %changelog
+* Wed Oct 14 10:00:02 CDT 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:5.75.0-1
+- 5.75.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 1:5.74.0-1
+- 5.74.0
+
+* Mon Aug 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:5.73.0-1
+- 5.73.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.72.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:5.72.0-1
+- 5.72.0
+
 * Tue Jun 16 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:5.71.0-1
 - 5.71.0
 

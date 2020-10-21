@@ -3,7 +3,7 @@
 
 Name:           gnome-shell-extension-emoji-selector
 Version:        19
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GNOME Shell extension for copying emojis to the clipboard
 # The entire source code is GPLv3 except convenience.js which is BSD
 License:        GPLv3 and BSD
@@ -57,6 +57,9 @@ done
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Carl George <carl@george.computer> - 19-2
 - Update license field
 

@@ -9,19 +9,18 @@
 
 Name: gdm
 Epoch: 1
-Version: 3.37.1
-Release: 2%{?dist}
+Version: 3.38.1
+Release: 1%{?dist}
 Summary: The GNOME Display Manager
 
 License: GPLv2+
 URL: https://wiki.gnome.org/Projects/GDM
-Source0: http://download.gnome.org/sources/gdm/3.34/gdm-%{version}.tar.xz
+Source0: http://download.gnome.org/sources/gdm/3.38/gdm-%{version}.tar.xz
 Source1: org.gnome.login-screen.gschema.override
-Patch0: 0001-Honor-initial-setup-being-disabled-by-distro-install.patch
 
-Patch10001: 0001-data-disable-wayland-if-modesetting-is-disabled.patch
-
-Patch99: system-dconf.patch
+# Downstream patches
+Patch80001: 0001-Honor-initial-setup-being-disabled-by-distro-install.patch
+Patch90001: 0001-data-add-system-dconf-databases-to-gdm-profile.patch
 
 BuildRequires: accountsservice-devel
 BuildRequires: audit-libs-devel >= %{libauditver}
@@ -53,9 +52,7 @@ BuildRequires: plymouth-devel
 BuildRequires: systemd
 BuildRequires: systemd-devel
 BuildRequires: which
-%ifnarch s390 s390x ppc ppc64
 BuildRequires: xorg-x11-server-Xorg
-%endif
 BuildRequires: xorg-x11-server-devel
 BuildRequires: yelp-devel
 BuildRequires: yelp-tools
@@ -82,7 +79,7 @@ Requires: /sbin/nologin
 Requires: setxkbmap
 Requires: systemd >= 186
 Requires: system-logos
-Requires: xorg-x11-server-utils
+Requires: xhost xmodmap xrdb
 Requires: xorg-x11-xinit
 
 # Until the greeter gets dynamic user support, it can't
@@ -294,6 +291,8 @@ fi
 %{_sysconfdir}/pam.d/gdm-launch-environment
 %{_udevrulesdir}/61-gdm.rules
 %{_unitdir}/gdm.service
+%dir %{_userunitdir}/gnome-session@gnome-login.target.d/
+%{_userunitdir}/gnome-session@gnome-login.target.d/session.conf
 
 %files devel
 %dir %{_includedir}/gdm
@@ -308,6 +307,34 @@ fi
 %{_libdir}/pkgconfig/gdm-pam-extensions.pc
 
 %changelog
+* Tue Oct 13 2020 Ray Strode <rstrode@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 1:3.38.0-1
+- Update to 3.38.0
+
+* Tue Sep 08 2020 Dan Horák <dan[at]danny.cz> - 3.37.90-2
+- Remove stale and unnecessary architecture-specific exceptions
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 1:3.37.90-1
+- Update to 3.37.90
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.37.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 3.37.3-3
+- Requires xhost xmodmap xrdb, not xorg-x11-server-utils
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.37.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Ray Strode <rstrode@redhat.com> - 3.37.3-1
+- Update to 3.37.3
+- Kills login screen after login on Xorg systems
+- Fixes user switching bug
+  Resolves: #1829079
+
 * Tue May 05 2020 Ray Strode <rstrode@redhat.com> - 3.37.1-2
 - Make sure users have dbus-run-session installed since
   the greeter depends on it.

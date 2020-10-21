@@ -1,22 +1,38 @@
+# Perform optional tests
+%bcond_without perl_Math_Expression_Evaluator_enables_optional_test
+
 Name:           perl-Math-Expression-Evaluator
 Version:        0.3.2
-Release:        23%{?dist}
+Release:        25%{?dist}
 Summary:        Parses, compiles and evaluates mathematics expressions
-License:        GPL+ or Artistic
+# lib/Math/Expression/Evaluator/Lexer.pm:   (GPL+ or Artistic) and Public Domain
+License:        (GPL+ or Artistic) and Public Domain
 URL:            https://metacpan.org/release/Math-Expression-Evaluator
 Source0:        https://cpan.metacpan.org/authors/id/M/MO/MORITZ/Math-Expression-Evaluator-v%{version}.tar.gz
 BuildArch:      noarch
-BuildRequires:  perl-interpreter >= 0:5.006001
+BuildRequires:  coreutils
+# for iconv tool
+BuildRequires:  glibc-common
+BuildRequires:  make
 BuildRequires:  perl-generators
-BuildRequires:  perl(Benchmark)
+BuildRequires:  perl-interpreter
+BuildRequires:  perl(:VERSION) >= 5.6.1
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
+# Run-time:
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(Data::Dumper)
 BuildRequires:  perl(Exporter)
 BuildRequires:  perl(Math::Trig)
-BuildRequires:  perl(Module::Build)
 BuildRequires:  perl(POSIX)
+BuildRequires:  perl(strict)
+BuildRequires:  perl(warnings)
+# Tests:
 BuildRequires:  perl(Test::More)
+%if %{with perl_Math_Expression_Evaluator_enables_optional_test}
+# Optional tests:
+BuildRequires:  perl(Test::Pod)
 BuildRequires:  perl(Test::Pod::Coverage)
+%endif
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
 %description
@@ -27,19 +43,25 @@ powers wit ^ or **), built-in functions like sin() and variables.
 %prep
 %setup -q -n Math-Expression-Evaluator-v%{version}
 iconv -f iso8859-1 -t utf-8 README > README.conv && mv -f README.conv README
+# Remove unused file that is packaged by a mistake (becuase of its extension)
+rm benchmark.pl
+perl -i -ne 'print $_ unless m{^\Qbenchmark.pl\E}' MANIFEST
+%if !%{with perl_Math_Expression_Evaluator_enables_optional_test}
+for F in t/01-pod.t t/02-pod-coverage.t; do
+    rm "$F"
+    perl -i -ne 'print $_ unless m{^\Q'"$F"'\E}' MANIFEST
+%endif
 
 %build
-%{__perl} Build.PL installdirs=vendor
-./Build
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-./Build install destdir=%{buildroot} create_packlist=0
-find %{buildroot} -type f -name '*.pm' -exec chmod -x {} 2>/dev/null ';'
-
+%{make_install}
 %{_fixperms} %{buildroot}/*
 
 %check
-./Build test
+make test
 
 %files
 %doc Changes examples README
@@ -47,6 +69,13 @@ find %{buildroot} -type f -name '*.pm' -exec chmod -x {} 2>/dev/null ';'
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Petr Pisar <ppisar@redhat.com> - 0.3.2-24
+- Modernize a spec file
+- License corrected to "(GPL+ or Artistic) and Public Domain"
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.3.2-23
 - Perl 5.32 rebuild
 

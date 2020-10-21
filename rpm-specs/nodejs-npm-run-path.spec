@@ -7,7 +7,7 @@
 
 Name:		nodejs-npm-run-path
 Version:	2.0.2
-Release:	7%{?dist}
+Release:	8%{?dist}
 Summary:	Get your PATH prepended with locally installed binaries
 
 License:	MIT
@@ -59,6 +59,9 @@ cp -pr package.json index.js \
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

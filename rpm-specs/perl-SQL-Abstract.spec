@@ -1,6 +1,6 @@
 Name:           perl-SQL-Abstract
 Version:        1.87
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Generate SQL from Perl data structures
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/SQL-Abstract
@@ -100,6 +100,12 @@ make test
 %{_mandir}/man3/DBIx::Class::Storage::Debug::PrettyPrint.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.87-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.87-3
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.87-2
 - Perl 5.32 rebuild
 

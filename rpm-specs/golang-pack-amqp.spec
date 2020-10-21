@@ -4,7 +4,7 @@
 # https://github.com/vcabbage/amqp
 %global goipath         pack.ag/amqp
 %global forgeurl        https://github.com/vcabbage/amqp
-Version:                0.12.0
+Version:                0.12.5
 
 %gometa
 
@@ -15,7 +15,7 @@ AMQP 1.0 client library for Go.}
 %global godocs          CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        AMQP 1.0 client library for Go
 
 License:        MIT
@@ -47,6 +47,12 @@ BuildRequires:  golang(github.com/google/go-cmp/cmp/cmpopts)
 %gopkgfiles
 
 %changelog
+* Fri Aug 07 00:07:22 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.12.5-1
+- Update to 0.12.5
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

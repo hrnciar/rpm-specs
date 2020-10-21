@@ -1,7 +1,7 @@
 Summary:	Implementation of an E-component of Network Intrusion Detection System
 Name:		libnids
 Version:	1.24
-Release:	20%{?dist}
+Release:	21%{?dist}
 License:	GPLv2+
 URL:		http://libnids.sourceforge.net/
 Source:		http://downloads.sourceforge.net/sourceforge/%{name}/%{name}-%{version}.tar.gz
@@ -56,6 +56,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libnids.a
 %{_mandir}/man3/libnids.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

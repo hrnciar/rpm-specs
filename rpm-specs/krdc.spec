@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 
 %if 0%{?fedora} || 0%{?rhel} >= 8
 %global freerdp11 1
@@ -8,7 +9,7 @@
 
 Name:    krdc
 Summary: Remote desktop client
-Version: 20.04.2
+Version: 20.08.1
 Release: 1%{?dist}
 
 License: GPLv2+ and GFDL
@@ -48,7 +49,9 @@ BuildRequires: kf5-rpm-macros
 
 BuildRequires: freerdp >= %{freerdp_ver}
 BuildRequires: libvncserver-devel
-# for hicolor icon hack in %%prep
+BuildRequires: pkgconfig(libssh)
+
+# see icon hack in %%install
 BuildRequires: oxygen-icon-theme
 
 Requires: %{name}-libs%{?_isa} = %{version}-%{release}
@@ -90,16 +93,13 @@ Provides:  kdenetwork-krdc-devel = 7:%{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -120,7 +120,6 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.%{name}.d
 %files -f %{name}.lang
 %license COPYING*
 %{_kf5_bindir}/krdc
-%{_kf5_datadir}/krdc/
 %{_kf5_datadir}/applications/org.kde.krdc.desktop
 %{_kf5_metainfodir}/org.kde.%{name}.appdata.xml
 %{_datadir}/icons/hicolor/*/apps/krdc.*
@@ -145,6 +144,15 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.%{name}.d
 
 
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.2-1
 - 20.04.2
 

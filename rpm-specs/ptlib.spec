@@ -1,7 +1,7 @@
 Name:		ptlib
 Summary:	Portable Tools Library
 Version:	2.10.11
-Release:	5%{?dist}
+Release:	7%{?dist}
 URL:		http://www.opalvoip.org/
 License:	MPLv1.0
 
@@ -11,6 +11,7 @@ Patch2:		ptlib-gcc5.patch
 Patch3:		ptlib-gcc8.patch
 Patch4:		ptlib-2.10.11-signed_int_overflow.patch
 Patch5:		ptlib-2.10.11-openssl11.patch
+Patch6:		ptlib-2.10.11-make43.patch
 
 BuildRequires:	gcc gcc-c++
 BuildRequires:	pkgconfig expat-devel flex bison
@@ -44,6 +45,9 @@ The ptlib-devel package includes the libraries and header files for ptlib.
 %patch3 -p1 -b .gcc8
 %patch4 -p1 -b .signed_int_overflow
 %patch5 -p1 -b .openssl11
+%if 0%{?fedora} > 32 || 0%{?rhel} > 8
+%patch6 -p1 -b .make43
+%endif
 
 sed -i 's#bits/atomicity.h#ext/atomicity.h#g' configure*
 sed -i 's#bits/atomicity.h#ext/atomicity.h#g' include/ptlib/critsec.h
@@ -52,11 +56,11 @@ sed -i 's#bits/atomicity.h#ext/atomicity.h#g' include/ptlib/critsec.h
 export CFLAGS="%{optflags} -DLDAP_DEPRECATED"
 export CXXFLAGS="%{optflags} -std=gnu++98"
 export STDCXXFLAGS="%{optflags} -std=gnu++98"
-%configure --prefix=%{_prefix} --disable-static --enable-plugins --disable-oss --enable-v4l2 --disable-avc --disable-v4l --enable-pulse
-make %{?_smp_mflags} V=1
+%configure --prefix=%{_prefix} --disable-static --enable-plugins --disable-oss --enable-v4l2 --disable-avc --disable-v4l --enable-pulse --enable-ipv6
+%make_build
 
 %install
-make PREFIX=%{buildroot}%{_prefix} LIBDIR=%{buildroot}%{_libdir} install
+%make_install PREFIX=%{_prefix} LIBDIR=%{_libdir}
 
 perl -pi -e 's@PTLIBDIR.*=.*@PTLIBDIR = /usr/share/ptlib@' %{buildroot}%{_datadir}/ptlib/make/ptbuildopts.mak
 
@@ -65,6 +69,9 @@ find %{buildroot}%{_libdir} -name '*.so*' -type f -exec chmod +x {} \;
 
 #Remove static libs
 find %{buildroot} -name '*.a' -delete
+
+# Correct permissions
+chmod -R u+w %{buildroot}/*
 
 %ldconfig_scriptlets
 
@@ -89,6 +96,13 @@ find %{buildroot} -name '*.a' -delete
 %attr(755,root,root) %{_bindir}/*
 
 %changelog
+* Sun Aug 16 2020 Robert Scheck <robert@fedoraproject.org> - 2.10.11-7
+- Spec file modernization
+- Added patch to handle GNU make 4.3 backward-incompatibility (#1865261)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.11-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.11-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

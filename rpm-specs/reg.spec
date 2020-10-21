@@ -25,7 +25,7 @@
 
 Name:       reg
 Version:    0.15.5
-Release:    5%{?dist}
+Release:    7%{?dist}
 Summary:    Docker registry v2 command line client
 
 
@@ -39,6 +39,9 @@ Source0:    https://github.com/genuinetools/reg/archive/v%{version}.tar.gz
 # so I'm providing them here.
 Source1:    reg-server.service
 Source2:    sysconfig.reg-server
+
+# https://github.com/genuinetools/reg/pull/200
+Patch0: fix-row-cell-index-for-server-searching-feature.patch
 
 BuildRequires: golang
 BuildRequires: systemd
@@ -110,6 +113,7 @@ Docker registry v2 client.
 
 %prep
 %setup -q -n %{name}-%{version}
+%patch0 -p1
 
 # Have to move things around because of how golang likes to search $GOPATH
 cd ../
@@ -202,6 +206,12 @@ cp -p LICENSE %{_builddir}/%{name}-%{version}/
 %config(noreplace) %{_sharedstatedir}/%{name}-server/templates/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.5-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jun 14 2020 Athos Ribeiro <athoscr@fedoraproject.org> - 0.15.5-6
+- Fix image search
+
 * Thu Apr 23 2020 Mattia Verga <mattia.verga@protonmail.com> - 0.15.5-5
 - Fix %%postun directive
 

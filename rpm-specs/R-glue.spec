@@ -1,12 +1,12 @@
 %global packname glue
-%global packver  1.4.1
+%global packver  1.4.2
 %global rlibdir  %{_libdir}/R/library
 
-# Not all available yet.
-%global with_suggests 0
+# When we are bootstrapping, we drop some dependencies, and/or build time tests.
+%bcond_with bootstrap
 
 Name:             R-%{packname}
-Version:          %{packver}
+Version:          1.4.2
 Release:          1%{?dist}
 Summary:          Interpreted String Literals
 
@@ -24,7 +24,7 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    R-methods
-%if %{with_suggests}
+%if %{without bootstrap}
 BuildRequires:    R-testthat
 BuildRequires:    R-magrittr
 BuildRequires:    R-crayon
@@ -33,13 +33,13 @@ BuildRequires:    R-rmarkdown
 BuildRequires:    R-DBI
 BuildRequires:    R-RSQLite
 BuildRequires:    R-R.utils
-BuildRequires:    R-rprintf
-BuildRequires:    R-stringr
-BuildRequires:    R-withr
 BuildRequires:    R-forcats
 BuildRequires:    R-microbenchmark
+BuildRequires:    R-rprintf
+BuildRequires:    R-stringr
 BuildRequires:    R-ggplot2
 BuildRequires:    R-dplyr
+BuildRequires:    R-withr
 BuildRequires:    R-vctrs >= 0.3.0
 %endif
 
@@ -70,7 +70,7 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 %check
 export LANG=C.UTF-8
-%if %{with_suggests}
+%if %{without bootstrap}
 %{_bindir}/R CMD check %{packname}
 %endif
 
@@ -92,6 +92,15 @@ export LANG=C.UTF-8
 
 
 %changelog
+* Fri Aug 28 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.4.2-1
+- Update to latest version (#1820713)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul  3 2020 José Matos <jamatos@fedoraproject.org> - 1.4.1-2
+- replace "with_suggests" by "bcond_with bootstrap" since that is really its purpose
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 1.4.1-1
 - break testthat loop by broadening "with_suggests"
 - update to 1.4.1

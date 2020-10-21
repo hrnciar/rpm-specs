@@ -1,12 +1,13 @@
 Name:           perl-Context-Preserve
-Summary:        Run code after a subroutine call, preserving context
+Summary:        Run code after a subroutine call, preserving the context
 Version:        0.03
-Release:        9%{?dist}
+Release:        11%{?dist}
 License:        GPL+ or Artistic
 Source0:        https://cpan.metacpan.org/authors/id/E/ET/ETHER/Context-Preserve-%{version}.tar.gz
 URL:            https://metacpan.org/release/Context-Preserve
 BuildArch:      noarch
 # Build
+BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -25,30 +26,29 @@ BuildRequires:  perl(Test::More)
 Requires:       perl(:MODULE_COMPAT_%(eval "$(perl -V:version)"; echo $version))
 
 %description
-Sometimes you need to call a function, get the results, act on the
-results, then return the result of the function. This is painful because
-of contexts; the original function can behave different if it's called
-in void, scalar, or list context. You can ignore the various cases and
-just pick one, but that's fragile. To do things right, you need to see
-which case you're being called in, and then call the function in that
-context. This results in 3 code paths, which is a pain to type in (and
-maintain).  This module automates the process. You provide a coderef that
-is the "original function", and another coderef to run after the
-original runs. You can modify the return value (aliased to @_) here, and
-do whatever else you need to do. 'wantarray' is correct inside both
-coderefs; in "after", though, the return value is ignored and the value
-'wantarray' returns is related to the context that the original function
-was called in.
+Sometimes you need to call a function, get the results, act on the results,
+then return the result of the function. This is painful because of contexts;
+the original function can behave different if it's called in void, scalar, or
+list context. You can ignore the various cases and just pick one, but that's
+fragile. To do things right, you need to see which case you're being called
+in, and then call the function in that context. This results in 3 code paths,
+which is a pain to type in (and maintain).  This module automates the process.
+You provide a code reference that is the "original function", and another code
+reference to run after running the original. You can modify the return value
+(aliased to @_) here, and do whatever else you need to do. 'wantarray' is
+correct inside both code references; in "after", though, the return value is
+ignored and the value 'wantarray' returns is related to the context that the
+original function was called in.
 
 %prep
 %setup -q -n Context-Preserve-%{version}
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=%{buildroot}
+%{make_install}
 %{_fixperms} %{buildroot}/*
 
 %check
@@ -61,6 +61,12 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Fri Aug 21 2020 Petr Pisar <ppisar@redhat.com> - 0.03-11
+- Modernize a spec file
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.03-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.03-9
 - Perl 5.32 rebuild
 

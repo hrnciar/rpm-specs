@@ -1,7 +1,7 @@
 %define         realname Bucardo
 Name:           bucardo
 Version:        5.6.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Postgres replication system for both multi-master and multi-slave operations
 License:        BSD
 URL:            http://bucardo.org/
@@ -106,6 +106,9 @@ install -Dp -m644 %{SOURCE1} .
 %{_datadir}/%{name}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 5.6.0-2
 - Perl 5.32 rebuild
 

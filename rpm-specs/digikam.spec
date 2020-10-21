@@ -1,17 +1,14 @@
-
 # use ninja or not
 %global ninja 1
 
-%global beta beta3
-
 Name:    digikam
 Summary: A digital camera accessing & photo management application
-Version: 7.0.0
-Release: 0.7.%{beta}%{?dist}
+Version: 7.1.0
+Release: 1%{?dist}
 
 License: GPLv2+
 URL:     http://www.digikam.org/
-Source0: http://download.kde.org/%{?beta:un}stable/digikam/digikam-%{version}%{?beta:-%{beta}}.tar.xz
+Source0: http://download.kde.org/%{?beta:un}stable/digikam/%{version}/digikam-%{version}%{?beta:-%{beta}}.tar.xz
 
 # rawhide s390x is borked recently
 #ExcludeArch: s390x
@@ -153,9 +150,7 @@ BuildArch: noarch
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%cmake_kf5 \
   %{?ninja:-G Ninja} \
   -DENABLE_AKONADICONTACTSUPPORT:BOOL=ON \
   -DENABLE_APPSTYLES:BOOL=ON \
@@ -164,21 +159,12 @@ pushd %{_target_platform}
   -DENABLE_MYSQLSUPPORT:BOOL=ON \
   -DENABLE_INTERNALMYSQL:BOOL=ON \
   -DENABLE_QWEBENGINE:BOOL=%{?qwebengine:ON}%{!?qwebengine:OFF}
-popd
 
-%if 0%{?ninja}
-%ninja_build -C %{_target_platform}
-%else
-%make_build -C %{_target_platform} VERBOSE=
-%endif
+%cmake_build
 
 
 %install
-%if 0%{?ninja}
-%ninja_install -C %{_target_platform}
-%else
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
-%endif
+%cmake_install
 
 desktop-file-install --vendor="" \
   --dir=%{buildroot}%{_datadir}/applications/ \
@@ -258,6 +244,25 @@ update-desktop-database -q &> /dev/null
 
 
 %changelog
+* Wed Sep 09 2020 Marie Loise Nolden <loise@kde.org> - 7.1.0-1
+- digikam-7.1.0
+
+* Tue Aug 25 2020 Rex Dieter <rdieter@fedoraproject.org> - 7.0.0-5
+- new cmake macros handle ninja too
+
+* Tue Aug 25 2020 Than Ngo <than@redhat.com> - 7.0.0-4
+- fixed bz#1863424, FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Rex Dieter <rdieter@fedoraproject.org> - 7.0.0-1
+- digikam-7.0.0
+
 * Fri May 29 2020 Rex Dieter <rdieter@fedoraproject.org> - 7.0.0-0.7.beta3
 - rebuild (opencv)
 

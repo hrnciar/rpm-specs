@@ -1,6 +1,6 @@
 Name:             ipset
 Version:          7.6
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          Manage Linux IP sets
 
 License:          GPLv2
@@ -151,6 +151,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Nicolas Chauvet <kwizart@gmail.com> - 7.6-1
 - Update to 7.6
 

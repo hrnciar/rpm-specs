@@ -1,6 +1,6 @@
 Name:           gxmessage
 Version:        2.20.0
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        GTK2 based xmessage clone
 
 License:        GPLv3+ and Public Domain
@@ -59,6 +59,9 @@ EOF
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.20.0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.20.0-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           taskopen
 Version:        1.1.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Script for taking notes and open urls with taskwarrior
 
 License:        GPLv2+
@@ -52,6 +52,9 @@ rm -rfv $RPM_BUILD_ROOT/%{_datadir}/taskopen/doc
 %{_datadir}/%{name}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

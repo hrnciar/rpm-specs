@@ -1,3 +1,4 @@
+%define __cmake_in_source_build 1
 # Ikona's Cargo.toml causes % cargo_prep to fail due to it being a workspace.
 # See https://bugzilla.redhat.com/show_bug.cgi?id=1823922.
 # And even if that did work, Ikona would have issues due to circular dependencies
@@ -7,7 +8,7 @@
 
 Name:           ikona
 Version:        1.0
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Icon Preview designed for Plasma
 
 License:        GPLv2+
@@ -149,6 +150,16 @@ Fish completions for %{name}-cli.
 %{_datadir}/metainfo/*.appdata.xml
 
 %changelog
+* Wed Sep 23 2020 Jeff Law <law@redhat.com> - 1.0-5
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 17 2020 Carson Black <uhhadd@gmail.com> - 1.0-2
 - Update to version 1.0
 

@@ -1,6 +1,6 @@
 Name:           sslscan
 Version:        1.11.11
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A security assessment tool for SSL
 
 # Special exception to allow linking against the OpenSSL libraries
@@ -49,6 +49,9 @@ make install DESTDIR=%{buildroot} BINPATH=%{_bindir}/ MANPATH=%{_mandir}/
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.11-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.11-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

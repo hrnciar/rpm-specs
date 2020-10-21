@@ -2,7 +2,7 @@
 
 Name:           nodejs-%{npmname}
 Version:        1.1.0
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        A port of the net module for the browser
 
 License:        MIT
@@ -52,6 +52,13 @@ cp -a package.json %{buildroot}%{nodejs_sitelib}/%{npmname}/
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

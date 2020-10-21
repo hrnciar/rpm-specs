@@ -4,7 +4,7 @@
 # https://github.com/square/go-jose
 %global goipath         gopkg.in/square/go-jose.v2
 %global forgeurl        https://github.com/square/go-jose
-Version:                2.4.1
+Version:                2.5.1
 
 %gometa
 
@@ -18,7 +18,7 @@ Encryption, JSON Web Signature, and JSON Web Token standards.}
                         README-jose-util.md README-json.md README-jwk-keygen.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        Implementation of JOSE standards (JWE, JWS, JWT) in Go
 
 # Upstream license specification: BSD-3-Clause and Apache-2.0
@@ -34,6 +34,7 @@ BuildRequires:  golang(gopkg.in/alecthomas/kingpin.v2)
 
 %if %{with check}
 # Tests
+BuildRequires:  golang(github.com/google/go-cmp/cmp)
 BuildRequires:  golang(github.com/stretchr/testify/assert)
 BuildRequires:  golang(github.com/stretchr/testify/require)
 %endif
@@ -62,6 +63,7 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
+export GODEBUG=x509ignoreCN=0
 %gocheck
 %endif
 
@@ -74,6 +76,16 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 21:52:35 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.5.1-1
+- Update to 2.5.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 03:22:40 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.4.1-1
 - Update to 2.4.1
 

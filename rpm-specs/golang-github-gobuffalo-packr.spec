@@ -3,13 +3,11 @@
 
 # https://github.com/gobuffalo/packr
 %global goipath         github.com/gobuffalo/packr
-Version:                2.6.0
+Version:                2.8.0
 
 %gometa
 
-%global goipaths0       github.com/gobuffalo/packr
-%global goipathsex0     github.com/gobuffalo/packr/v2
-%global goipaths1       github.com/gobuffalo/packr/v2
+%global goaltipaths     github.com/gobuffalo/packr/v2
 
 %global common_description %{expand:
 Packr is a simple solution for bundling static assets inside of Go binaries.
@@ -20,7 +18,7 @@ are developing.}
 %global godocs          example README.md SHOULDERS.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Simple and easy way to embed static files into Go binaries
 
 License:        MIT
@@ -31,6 +29,9 @@ BuildRequires:  golang(github.com/gobuffalo/envy)
 BuildRequires:  golang(github.com/gobuffalo/logger)
 BuildRequires:  golang(github.com/gobuffalo/packd)
 BuildRequires:  golang(github.com/karrick/godirwalk)
+BuildRequires:  golang(github.com/markbates/errx)
+BuildRequires:  golang(github.com/markbates/oncer)
+BuildRequires:  golang(github.com/markbates/safe)
 BuildRequires:  golang(github.com/rogpeppe/go-internal/modfile)
 BuildRequires:  golang(github.com/sirupsen/logrus)
 BuildRequires:  golang(github.com/spf13/cobra)
@@ -61,6 +62,16 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %gopkgfiles
 
 %changelog
+* Fri Aug 14 00:45:20 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.8.0-1
+- Update to 2.8.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

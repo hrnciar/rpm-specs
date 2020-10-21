@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.1.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Very simple library containing constants for UTF-8 box drawing
 
 # Upstream license specification: MIT
@@ -70,5 +70,8 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 28 11:19:52 EDT 2020 Carson Black <uhhadd@gmail.com> - 0.1.2-1
 - Initial package

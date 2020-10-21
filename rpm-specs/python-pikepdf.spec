@@ -1,19 +1,20 @@
 %global srcname pikepdf
 
 Name:           python-%{srcname}
-Version:        1.15.1
+Version:        1.19.3
 Release:        1%{?dist}
 Summary:        Read and write PDFs with Python, powered by qpdf
 
 License:        MPLv2.0
 URL:            https://github.com/pikepdf/pikepdf
 Source0:        %pypi_source
-Patch0001:      0001-Reduce-some-requirements.patch
+Patch0001:      0001-Relax-some-test-requirements.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  qpdf-devel >= 8.4.2
 BuildRequires:  python3-devel
 BuildRequires:  python3dist(lxml) >= 4
+BuildRequires:  python3dist(pillow) >= 6
 BuildRequires:  (python3dist(pybind11) >= 2.4.3 with python3dist(pybind11) < 3)
 BuildRequires:  python3dist(setuptools)
 BuildRequires:  python3dist(setuptools-scm)
@@ -22,12 +23,11 @@ BuildRequires:  python3dist(setuptools-scm-git-archive)
 BuildRequires:  poppler-utils
 BuildRequires:  python3dist(attrs) >= 19.1
 BuildRequires:  (python3dist(hypothesis) >= 4.23.8 with python3dist(hypothesis) < 6)
-BuildRequires:  python3dist(pillow) >= 5
 BuildRequires:  python3dist(psutil) >= 5
-BuildRequires:  (python3dist(pytest) >= 4.4.0 with python3dist(pytest) < 6)
+BuildRequires:  (python3dist(pytest) >= 4.4.0 with python3dist(pytest) < 7)
 BuildRequires:  python3dist(pytest-helpers-namespace) >= 2019.1.8
 BuildRequires:  python3dist(pytest-timeout) >= 1.3.3
-BuildRequires:  (python3dist(pytest-xdist) >= 1.28 with python3dist(pytest-xdist) < 2)
+BuildRequires:  (python3dist(pytest-xdist) >= 1.28 with python3dist(pytest-xdist) < 3)
 BuildRequires:  python3dist(python-xmp-toolkit) >= 2.0.1
 
 %description
@@ -93,7 +93,7 @@ rm -rf html/.{doctrees,buildinfo}
 %license LICENSE.txt
 %doc README.md
 %{python3_sitearch}/%{srcname}
-%{python3_sitearch}/%{srcname}-%{version}-py*.egg-info
+%{python3_sitearch}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %files -n python-%{srcname}-doc
 %doc html
@@ -101,6 +101,34 @@ rm -rf html/.{doctrees,buildinfo}
 
 
 %changelog
+* Wed Sep 09 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.19.3-1
+- Update to latest version (#1877068)
+
+* Mon Sep 07 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.19.1-1
+- Update to latest version (#1876202)
+
+* Wed Aug 19 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.19.0-1
+- Update to latest version (#1869556)
+- Allow latest pytest and pytest-xdist
+
+* Tue Aug 11 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.18.0-1
+- Update to latest version (rhbz#1867536)
+
+* Sun Jul 26 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.17.3-1
+- Update to latest version
+
+* Fri Jul 17 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.17.2-1
+- Update to latest version
+
+* Tue Jul 14 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.17.1-1
+- Update to latest version
+
+* Mon Jul 13 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.17.0-1
+- Update to latest version
+
+* Thu Jul 02 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.16.1-1
+- Update to latest version
+
 * Sat Jun 20 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.15.1-1
 - Update to latest version
 

@@ -4,6 +4,7 @@
 # https://github.com/bitly/go-simplejson
 %global goipath         github.com/bitly/go-simplejson
 Version:                0.5.0
+%global commit          39a59b1b2866b3d321f1d6ca8ad9d1748cc6d8ea
 
 %gometa
 
@@ -14,7 +15,7 @@ A go package to interact with arbitrary json.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        10%{?dist}
+Release:        13%{?dist}
 Summary:        A go package to interact with arbitrary json
 
 License:        MIT
@@ -23,7 +24,7 @@ Source0:        %{gosource}
 
 %if %{with check}
 # Tests
-BuildRequires:  golang(github.com/bmizerany/assert)
+BuildRequires:  golang(github.com/stretchr/testify/assert)
 %endif
 
 %description
@@ -45,6 +46,16 @@ BuildRequires:  golang(github.com/bmizerany/assert)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 14:07:00 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.5.0-11.20200724git39a59b1
+- Bump to commit 39a59b1b2866b3d321f1d6ca8ad9d1748cc6d8ea
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

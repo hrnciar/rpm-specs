@@ -1,6 +1,6 @@
 Name:             backintime
 Version:          1.2.1
-Release:          2%{?dist}
+Release:          4%{?dist}
 Summary:          Simple backup tool inspired from the Flyback project and TimeVault
 License:          GPLv2+
 URL:              https://github.com/bit-team/backintime
@@ -67,7 +67,7 @@ Requires:         polkit
 Requires:         python%{python3_pkgversion}-PyQt5
 Requires:         python%{python3_pkgversion}-SecretStorage
 Requires:         python%{python3_pkgversion}-keyring
-Requires:         xorg-x11-utils
+Requires:         xdpyinfo
 Provides:         backintime-gnome = %{version}-%{release}
 Obsoletes:        backintime-gnome < 1.1.12-1
 Provides:         backintime-kde = %{version}-%{release}
@@ -183,6 +183,12 @@ make -C common test-v
 
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 1.2.1-4
+- Require xdpyinfo not xorg-x11-utils
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 Name:           exo
 Version:        0.12.11
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Application library for the Xfce desktop environment
 
 # libexo-hal exo-helper mount-notify and exo-mount are all GPLv2+
@@ -120,6 +120,9 @@ install -Dpm 0755 %{SOURCE3} %{buildroot}%{_libdir}/xfce4/exo-1/exo-compose-mail
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.11-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.11-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           maven-parent
 Version:        34
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Apache Maven parent POM
 License:        ASL 2.0
 
@@ -49,6 +49,12 @@ Apache Maven parent POM file used by other Maven projects.
 %doc LICENSE NOTICE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 34-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 34-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Mar 27 2020 Severin Gehwolf <sgehwolf@redhat.com> - 34-3
 - Remove javadoc taglet configuration which is not longer available
 

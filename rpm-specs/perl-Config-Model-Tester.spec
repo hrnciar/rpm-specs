@@ -1,5 +1,5 @@
 Name:           perl-Config-Model-Tester
-Version:        4.005
+Version:        4.006
 Release:        2%{?dist}
 Summary:        Test framework for Config::Model
 License:        LGPLv2
@@ -39,6 +39,7 @@ BuildRequires:  perl(vars)
 # Tests:
 BuildRequires:  perl(ExtUtils::testlib)
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
+Requires:       perl(Test::Log::Log4perl)
 
 %description
 This class provides a way to test configuration models with tests files.
@@ -66,6 +67,21 @@ perl Build.PL installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Aug 04 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.006-2
+- Added Test::Log::Log4perl to run-require
+
+* Wed Jul 29 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.006-1
+- 4.006 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.005-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.005-4
+- Perl 5.32 re-rebuild of bootstrapped packages
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.005-3
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.005-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

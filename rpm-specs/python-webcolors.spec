@@ -14,7 +14,7 @@ library):\
 
 Name:           python-%{srcname}
 Version:        1.11.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A library for working with HTML and CSS color names and value formats
 
 License:        BSD
@@ -24,6 +24,7 @@ Source:         %pypi_source
 BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist nose}
+BuildRequires:  %{py3_dist setuptools}
 BuildRequires:  %{py3_dist sphinx}
 BuildRequires:  %{py3_dist sphinx_rtd_theme}
 
@@ -64,6 +65,9 @@ nosetests-%{python3_version}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.11.1-2
 - Rebuilt for Python 3.9
 

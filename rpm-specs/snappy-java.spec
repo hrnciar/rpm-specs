@@ -3,7 +3,7 @@
 
 Name:             snappy-java
 Version:          1.1.2.4
-Release:          15%{?dist}
+Release:          17%{?dist}
 Summary:          Fast compressor/decompresser
 License:          ASL 2.0
 URL:              http://xerial.org/snappy-java/
@@ -156,6 +156,12 @@ export CXXFLAGS
 %license LICENSE NOTICE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2.4-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.1.2.4-16
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jun 19 2020 Mat Booth <mat.booth@redhat.com> - 1.1.2.4-15
 - Allow building against Java 11
 

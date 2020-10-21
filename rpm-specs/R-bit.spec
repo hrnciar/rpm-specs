@@ -1,45 +1,43 @@
+%bcond_without bootstrap
+
 %global packname bit
-%global packver  1.1-15.2
+%global packver  4.0.4
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          1.1.15.2
-Release:          2%{?dist}
-Summary:          Class for vectors of 1-bit booleans
+Version:          4.0.4
+Release:          1%{?dist}
+Summary:          Classes and Methods for Fast Memory-Efficient Boolean Selections
 
-License:          GPLv2
+License:          GPLv2 or GPLv3
 URL:              https://CRAN.R-project.org/package=%{packname}
 Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
 # Imports:
-# Suggests:
+# Suggests:  R-testthat >= 0.11.0, R-roxygen2, R-knitr, R-rmarkdown, R-microbenchmark, R-bit64 >= 4.0.0, R-ff >= 4.0.0
 # LinkingTo:
 # Enhances:
 
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
+BuildRequires:    R-testthat >= 0.11.0
+BuildRequires:    R-roxygen2
+BuildRequires:    R-knitr
+BuildRequires:    R-rmarkdown
+BuildRequires:    R-microbenchmark
+%if %{without bootstrap}
+BuildRequires:    R-bit64 >= 4.0.0
+BuildRequires:    R-ff >= 4.0.0
+%endif
+BuildRequires:    tex(framed.sty)
 
 %description
-True boolean datatype (no NAs), coercion from and to logicals, integers and
-integer subscripts; fast boolean operators and fast summary statistics. With
-'bit' vectors you can store true binary booleans {FALSE,TRUE} at the expense of
-1 bit only, on a 32 bit architecture this means factor 32 less RAM and ~ factor
-32 more speed on boolean operations. Due to overhead of R calls, actual speed
-gain depends on the size of the vector: expect gains for vectors of size >
-10000 elements. Even for one-time boolean operations it can pay-off to convert
-to bit, the pay-off is obvious, when such components are used more than once.
-Reading from and writing to bit is approximately as fast as accessing standard
-logicals - mostly due to R's time for memory allocation. The package allows to
-work with pre-allocated memory for return values by calling .Call() directly:
-when evaluating the speed of C-access with pre-allocated vector memory, coping
-from bit to logical requires only 70% of the time for copying from logical to
-logical; and copying from logical to bit comes at a performance penalty of
-150%. the package now contains further classes for representing logical
-selections: 'bitwhich' for very skewed selections and 'ri' for selecting ranges
-of values for chunked processing. All three index classes can be used for
-subsetting 'ff' objects (ff-2.1-0 and higher).
+Provided are classes for boolean and skewed boolean vectors, fast boolean
+methods, fast unique and non-unique integer sorting, fast set operations on
+sorted and unsorted sets of integers, and foundations for ff (range index,
+compression, chunked processing).
 
 
 %prep
@@ -55,20 +53,19 @@ mkdir -p %{buildroot}%{rlibdir}
 test -d %{packname}/src && (cd %{packname}/src; rm -f *.o *.so)
 rm -f %{buildroot}%{rlibdir}/R.css
 
-# We don't care about these development files.
-rm -r %{buildroot}%{rlibdir}/%{packname}/exec
-
 
 %check
+%if %{with bootstrap}
+export _R_CHECK_FORCE_SUGGESTS_=0
+%endif
 %{_bindir}/R CMD check %{packname}
 
 
 %files
 %dir %{rlibdir}/%{packname}
+%doc %{rlibdir}/%{packname}/doc
 %doc %{rlibdir}/%{packname}/html
 %{rlibdir}/%{packname}/DESCRIPTION
-%doc %{rlibdir}/%{packname}/ANNOUNCEMENT-1.0.txt
-%doc %{rlibdir}/%{packname}/README_devel.txt
 %doc %{rlibdir}/%{packname}/NEWS
 %{rlibdir}/%{packname}/INDEX
 %{rlibdir}/%{packname}/NAMESPACE
@@ -80,6 +77,17 @@ rm -r %{buildroot}%{rlibdir}/%{packname}/exec
 
 
 %changelog
+* Tue Aug 04 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 4.0.4-1
+- Update to latest version
+- Fixes rhbz#1865767
+
+* Fri Jul 31 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 4.0.3-1
+- Update to latest version
+- Fixes rhbz#1862139
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.15.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 1.1.15.2-2
 - rebuild for R 4
 

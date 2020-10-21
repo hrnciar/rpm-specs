@@ -2,8 +2,8 @@
 %global reponame danmaQ
 
 Name:		danmaq
-Version:	0.2.3.1
-Release:	8%{?dist}
+Version:	0.2.3.2
+Release:	4%{?dist}
 Summary:	A small client side Qt program to play danmaku on any screen
 
 License:	GPLv3
@@ -12,7 +12,7 @@ Source0:        %{url}/archive/v%{version}/%{reponame}-v%{version}.tar.gz
 
 BuildRequires:	qt5-qtx11extras-devel
 BuildRequires:	qt5-qtbase-devel
-BuildRequires:	qt5-devel
+BuildRequires:  cmake(Qt5LinguistTools)
 BuildRequires:	cmake
 BuildRequires:	desktop-file-utils
 BuildRequires:  libXext-devel
@@ -25,14 +25,14 @@ DanmaQ is a small client side Qt program to play danmaku on any screen.
 
 %build
 mkdir build && cd build
-%cmake ..
+%cmake3 ..
 # Since 0.2.3 it cannot be built in parallel. So use make instead of macro.
-make
+%cmake_build
 
 %install
 # install 
 pushd build
-%make_install
+%cmake_install
 #install -Dm 0755 build/src/%{reponame} %{buildroot}%{_bindir}/%{reponame}
 popd
 
@@ -71,6 +71,20 @@ fi
 %{_datadir}/applications/%{reponame}.desktop
 
 %changelog
+* Tue Aug 11 2020 Zamir SUN <sztsian@gmail.com> - 0.2.3.2-4
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.3.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Zamir SUN <sztsian@gmail.com> - 0.2.3.2-1
+- Fix FTBFS in Fedora 33
+- Update to 0.2.3.2
+
 * Sun Feb 09 2020 Zamir SUN <sztsian@gmail.com> - 0.2.3.1-8
 - Fix FTBFS in Fedora 32
 - Resolves 1799269

@@ -1,6 +1,6 @@
 Name:           perl-Module-Package-RDF
 Version:        0.014
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Drive your distribution with RDF
 # CONTRIBUTING: CC-BY-SA
 # other files:  GPL+ or Artistic
@@ -87,6 +87,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.014-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.014-3
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.014-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

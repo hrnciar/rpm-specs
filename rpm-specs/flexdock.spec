@@ -1,6 +1,6 @@
 Name:		    flexdock
 Version:        1.2.4
-Release:	    11%{?dist}
+Release:	    14%{?dist}
 Summary:	    Docking framework for Java Swing GUI apps
 
 
@@ -14,6 +14,8 @@ Source0:	    http://forge.scilab.org/index.php/p/flexdock/downloads/get/%{name}-
 Patch1:		    flexdock-0001-nojmf.patch
 #Modifies the build process  -- fedora specific
 Patch2:		    flexdock-0002-fedora-build.patch
+#Set javac source and target version to 1.8 to fix builds with Java 11
+Patch3:         flexdock-0003-java-1.8.patch
 
 BuildRequires:	java-devel
 BuildRequires:	ant
@@ -39,6 +41,7 @@ Swing applications.
 
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 #Override the build file's default hard-coded paths
 echo "sdk.home=%{java_home}" > workingcopy.properties
@@ -69,6 +72,15 @@ install -pm644 build/%{name}-%{version}.jar %{buildroot}%{_javadir}/%{name}.jar
 %{_javadir}/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 19 2020 Fabio Valentini <decathorpe@gmail.com> - 1.2.4-13
+- Set javac source and target to 1.8 to fix Java 11 builds.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.2.4-12
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

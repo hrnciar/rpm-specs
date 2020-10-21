@@ -1,9 +1,9 @@
 Summary: Timezone data
 Name: tzdata
-Version: 2020a
-%define tzdata_version 2020a
-%define tzcode_version 2020a
-Release: 2%{?dist}
+Version: 2020b
+%define tzdata_version 2020b
+%define tzcode_version 2020b
+Release: 1%{?dist}
 License: Public Domain
 URL: https://www.iana.org/time-zones
 Source0: ftp://ftp.iana.org/tz/releases/tzdata%{tzdata_version}.tar.gz
@@ -78,7 +78,7 @@ echo "%{name}%{tzdata_version}" >> VERSION
 make tzdata.zi
 
 FILES="africa antarctica asia australasia europe northamerica southamerica
-       pacificnew etcetera backward factory"
+       etcetera backward factory"
 
 mkdir zoneinfo/{,posix,right}
 zic -y ./yearistype -d zoneinfo -L /dev/null -p America/New_York $FILES
@@ -90,7 +90,7 @@ zic -y ./yearistype -d zoneinfo/right -L leapseconds $FILES
 # tzdata-2018g introduced 25:00 which breaks java - use the rearguard files for java
 JAVA_FILES="rearguard/africa rearguard/antarctica rearguard/asia \
       rearguard/australasia rearguard/europe rearguard/northamerica \
-      rearguard/southamerica rearguard/pacificnew rearguard/etcetera \
+      rearguard/southamerica rearguard/etcetera \
       rearguard/backward"
 
 # Java 6/7 tzdata
@@ -134,6 +134,22 @@ install -p -m 644 tzdb.dat $RPM_BUILD_ROOT%{_datadir}/javazi-1.8/
 %{_datadir}/javazi-1.8
 
 %changelog
+* Wed Oct 14 2020 Patsy Griffin <patsy@redhat.com> - 2020b-1
+- Rebase to tzdata-2020b
+  - Yukon timezones represented by America/Whitehorse and
+    America/Dawson will change time zone rules from -08/-07 to
+    permanent -07 on 2020-11-01, not on 2020-03-08 as 2020a had it.
+  - The most recent winter(+08)/summer(+11) transition for Casey Station,
+    Antarctica was 2020-10-04 00:01.
+  - Remove obsolete files pacificnew, systemv, and yearistype.sh
+    from the distribution.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020a-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 2020a-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jun 12 2020 Jiri Vanek <jvanek@redhat.com> - 2020a-2
 - bumped  source/target to 1.6 for tzdata for jdk6/7
 - bumped  source/target to 1.8 for tzdata for jdk8

@@ -1,16 +1,17 @@
-%bcond_with check
+%bcond_with bootstrap
 
-%global packname  iterators
+%global packname iterators
+%global packver  1.0.13
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          1.0.12
-Release:          3%{?dist}
+Version:          1.0.13
+Release:          1%{?dist}
 Summary:          Provides Iterator Construct
 
 License:          ASL 2.0
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:   R-utils
@@ -23,7 +24,7 @@ BuildArch:        noarch
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    R-utils
-%if %{with check}
+%if %{without bootstrap}
 BuildRequires:    R-RUnit
 BuildRequires:    R-foreach
 %endif
@@ -51,7 +52,7 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %check
-%if %{with check}
+%if %{without bootstrap}
 %{_bindir}/R CMD check %{packname}
 %endif
 
@@ -61,7 +62,7 @@ rm -f %{buildroot}%{rlibdir}/R.css
 %doc %{rlibdir}/%{packname}/doc
 %doc %{rlibdir}/%{packname}/html
 %{rlibdir}/%{packname}/DESCRIPTION
-%doc %{rlibdir}/%{packname}/NEWS
+%doc %{rlibdir}/%{packname}/NEWS.md
 %{rlibdir}/%{packname}/INDEX
 %{rlibdir}/%{packname}/NAMESPACE
 %{rlibdir}/%{packname}/Meta
@@ -72,6 +73,13 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Thu Oct 15 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.0.13-1
+- Update to latest version (#1888534)
+- Re-enable check
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.12-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 1.0.12-3
 - conditionalize check, break loop with foreach
 - rebuild for R 4

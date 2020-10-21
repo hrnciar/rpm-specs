@@ -5,7 +5,7 @@
 
 Name:           gtkd
 Version:        3.9.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        D binding and OO wrapper of GTK+
 
 License:        LGPLv3+ with exceptions
@@ -121,6 +121,12 @@ make %{?_smp_mflags} DC=ldc2 libdir=%{?_lib} DCFLAGS="%{_d_optflags}" LDFLAGS=""
 %{_datadir}/geany/tags/gtkd.d.tags
 
 %changelog
+* Fri Aug 21 2020 Kalev Lember <klember@redhat.com> - 3.9.0-3
+- Rebuilt for ldc 1.23
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Kalev Lember <klember@redhat.com> - 3.9.0-1
 - Update to 3.9.0
 

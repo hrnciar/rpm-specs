@@ -4,7 +4,7 @@
 
 Name:           automaton
 Version:        1.12.2
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        A Java finite state automata/regular expression library
 
 License:        BSD
@@ -14,6 +14,7 @@ Source0:        https://github.com/cs-au-dk/dk.brics.automaton/archive/%{commit}
 Patch0:         %{name}-javadoc.patch
 
 BuildRequires:  maven-local
+BuildRequires:  mvn(org.apache.maven.plugins:maven-javadoc-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-source-plugin)
 BuildRequires:  mvn(org.codehaus.mojo:exec-maven-plugin)
 
@@ -61,6 +62,15 @@ sed -e 's,>1.6<,>1.8<,g' \
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Jiri Vanek <jvanek@redhat.com> - 1.12.2-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.12.2-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon May  4 2020 Jerry James <loganjerry@gmail.com> - 1.12.2-1
 - Upgrade to 1.12.2
 - Drop the pom source since it is now included in the upstream tarball

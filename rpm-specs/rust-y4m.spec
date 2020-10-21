@@ -5,7 +5,7 @@
 %global crate y4m
 
 Name:           rust-%{crate}
-Version:        0.6.0
+Version:        0.6.1
 Release:        1%{?dist}
 Summary:        YUV4MPEG2 (.y4m) Encoder/Decoder
 
@@ -13,9 +13,6 @@ Summary:        YUV4MPEG2 (.y4m) Encoder/Decoder
 License:        MIT
 URL:            https://crates.io/crates/y4m
 Source:         %{crates_source}
-# Initial patched metadata
-# * Update resize to 0.4, https://github.com/image-rs/y4m/pull/26
-Patch0:         y4m-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -74,6 +71,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 0.6.1-1
+- Update to 0.6.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 10:57:23 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.6.0-1
 - Update to 0.6.0
 

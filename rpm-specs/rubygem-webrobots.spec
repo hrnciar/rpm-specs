@@ -6,7 +6,7 @@
 Summary:	Ruby library to help write robots.txt compliant web robots
 Name:		rubygem-%{gem_name}
 Version:	0.1.2
-Release:	9%{?dist}
+Release:	10%{?dist}
 
 # LICENSE.txt
 License:	BSD
@@ -108,6 +108,9 @@ popd
 %exclude	%{gem_instdir}/test/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 0.1.2-9
 - R,BR rubygem(racc)
 

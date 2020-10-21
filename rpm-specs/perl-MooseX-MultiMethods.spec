@@ -1,6 +1,6 @@
 Name:           perl-MooseX-MultiMethods
 Version:        0.10
-Release:        30%{?dist}
+Release:        31%{?dist}
 Summary:        Multi Method Dispatch based on Moose type constraints
 License:        GPL+ or Artistic
 
@@ -66,6 +66,9 @@ make test
 %{_mandir}/man3/Moose*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.10-30
 - Perl 5.32 rebuild
 

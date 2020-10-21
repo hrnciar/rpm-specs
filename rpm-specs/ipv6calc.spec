@@ -1,5 +1,5 @@
 # enable the following for intermediate builds
-#%#define gitcommit d3a4108cb7aeb6f731bb07989f91d8a7f449f0f0
+%define gitcommit 214582c7a14fc11d99b9f08d5402c24bce28402f
 
 %if 0%{?gitcommit:1}
 %global shortcommit %(c=%{gitcommit}; echo ${c:0:7})
@@ -15,8 +15,8 @@
 
 Summary:	IPv6 address format change and calculation utility
 Name:		ipv6calc
-Version:	2.2.0
-Release:	41%{?gittag}%{?dist}
+Version:	3.0.0
+Release:	46%{?gittag}%{?dist}
 URL:		http://www.deepspace6.net/projects/%{name}.html
 License:	GPLv2
 %if 0%{?gitcommit:1}
@@ -24,6 +24,7 @@ Source:		https://github.com/pbiering/%{name}/archive/%{gitcommit}/%{name}-%{gitc
 %else
 Source:		ftp://ftp.bieringer.de/pub/linux/IPv6/ipv6calc/%{name}-%{version}.tar.gz
 %endif
+BuildRequires:	automake make
 BuildRequires:	gcc
 BuildRequires:	openssl-devel
 BuildRequires:	perl-generators
@@ -31,13 +32,13 @@ BuildRequires:	perl(Digest::MD5), perl(Digest::SHA1), perl(URI::Escape)
 BuildRequires:	perl(strict), perl(warnings)
 BuildRequires:	procps-ng
 Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+Requires:	unzip
 %if %{enable_shared}
 Provides:	ipv6calc-libs = %{version}-%{release}
 %else
 Conflicts:	ipv6calc-libs
 %endif
 
-Patch0:		ipv6calc-2.2.0-patch-8c7eea58.diff
 
 # mod_ipv6calc related
 %{!?_httpd_apxs:    %{expand: %%global _httpd_apxs    %%{_sbindir}/apxs}}
@@ -47,14 +48,6 @@ Patch0:		ipv6calc-2.2.0-patch-8c7eea58.diff
 # database support (deselectable)
 %if "%{?_without_ip2location:0}%{?!_without_ip2location:1}" == "1"
 %define enable_ip2location 1
-%endif
-
-%if "%{?_without_geoip:0}%{?!_without_geoip:1}" == "1"
-%define enable_geoip 1
-%endif
-
-%if "%{?_without_dbip:0}%{?!_without_dbip:1}" == "1"
-%define enable_dbip 1
 %endif
 
 %if "%{?_without_mmdb:0}%{?!_without_mmdb:1}" == "1"
@@ -81,12 +74,20 @@ Patch0:		ipv6calc-2.2.0-patch-8c7eea58.diff
 %define require_db4 %(echo "%{dist}" | egrep -q '^\.el(5|6)$' && echo 1 || echo 0)
 %if %{require_db4}
 BuildRequires: db4-devel
+Requires:      db4
 %else
 BuildRequires: libdb-devel
+Requires:      libdb
 %endif
 
 %if %{enable_mmdb}
 BuildRequires: libmaxminddb-devel
+Recommends:    libmaxminddb
+%endif
+
+%if %{enable_ip2location}
+BuildRequires: IP2Location-devel >= 8.2.0
+Recommends:    IP2Location       >= 8.2.0
 %endif
 
 # RPM license macro detector
@@ -117,17 +118,9 @@ Support for following databases
 		default directory for downloaded db files: %{ip2location_db}
 		(requires also external library on system)
 
- - GeoIP	%{?enable_geoip:ENABLED}%{?!enable_geoip:DISABLED}
-		default directory for downloaded db files: %{geoip_db}
-		(requires also external library on system)
-
  - GeoIP v2	%{?enable_mmdb:ENABLED}%{?!enable_mmdb:DISABLED}
 		default directory for downloaded db files: %{geoip_db}
 		(requires also external library on system)
-
- - db-ip.com	%{?enable_dbip:ENABLED}%{?!enable_dbip:DISABLED}
-		(once generated database files are found on system)
-		default directory for generated db files: %{dbip_db}
 
  - db-ip.com v2	%{?enable_mmdb:ENABLED}%{?!enable_mmdb:DISABLED}
 		(once generated database files are found on system)
@@ -140,8 +133,6 @@ Built %{?enable_shared:WITH}%{?!enable_shared:WITHOUT} shared-library
 
 Available rpmbuild rebuild options:
   --without ip2location
-  --without geoip
-  --without dbip
   --without mmdb (which disables GeoIP v2 and db-ip.com v2)
   --without external
   --without shared
@@ -195,16 +186,11 @@ By default the module is disabled.
 %setup -q
 %endif
 
-%patch0 -p1
-
 %configure \
 	%{?enable_ip2location:--enable-ip2location} \
-	%{?enable_ip2location:--with-ip2location-dynamic --with-ip2location-headers-fallback} \
+	%{?enable_ip2location:--with-ip2location-dynamic} \
 	--with-ip2location-db=%{ip2location_db} \
-	%{?enable_geoip:--enable-geoip} \
-	%{?enable_geoip:--with-geoip-dynamic --with-geoip-headers-fallback} \
 	--with-geoip-db=%{geoip_db} \
-	%{?enable_dbip:--enable-dbip} \
 	--with-dbip-db=%{dbip_db} \
 	%{?enable_mmdb:--enable-mmdb --with-mmdb-dynamic} \
 	%{?enable_external:--enable-external} \
@@ -343,14 +329,35 @@ rm -rf %{buildroot}
 
 
 %post
-/usr/sbin/ldconfig
+if [ -x /usr/sbin/ldconfig ]; then
+	/usr/sbin/ldconfig
+elif [ -x /sbin/ldconfig ]; then
+	/sbin/ldconfig
+fi
 
 
 %postun
-/usr/sbin/ldconfig
+if [ -x /usr/sbin/ldconfig ]; then
+	/usr/sbin/ldconfig
+elif [ -x /sbin/ldconfig ]; then
+	/sbin/ldconfig
+fi
 
 
 %changelog
+* Wed Oct 14 2020 Peter Bieringer <pb@bieringer.de> - 3.0.0-46
+- Update to newer commit
+
+* Tue Oct 13 2020 Peter Bieringer <pb@bieringer.de> - 3.0.0-45
+- Update to newer commit, align spec file
+
+* Mon Oct 12 2020 Peter Bieringer <pb@bieringer.de> - 3.0.0-44
+- New release 3.0.0 which drops GeoIP(legacy) and db-ip.com(BerkeleyDB) support
+- Add dependency to now available IP2Location 8.2.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-42
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.2.0-41
 - Perl 5.32 rebuild
 

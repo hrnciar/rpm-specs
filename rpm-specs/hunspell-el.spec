@@ -2,7 +2,7 @@ Name: hunspell-el
 Summary: Greek hunspell dictionaries
 Epoch: 1
 Version: 0.9
-Release: 5%{?dist}
+Release: 6%{?dist}
 Source: http://ispell.math.upatras.gr/files/ooffice/el_GR-%{version}.zip
 URL: http://www.elspell.gr/
 License: GPLv2+ or LGPLv2+ or MPLv1.1
@@ -37,6 +37,9 @@ done
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.9-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.9-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,19 +1,15 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:           sugar-pukllanapac
-Version:        13
-Release:        8%{?dist}
+Version:        14
+Release:        3%{?dist}
 Summary:        A sliding puzzle game
 
 License:        GPLv3+
-URL:            http://wiki.sugarlabs.org/go/Activities/Pukllanapac
-Source0:        https://github.com/sugarlabs/pukllanapac/archive/v%{version}.tar.gz
+URL:            https://github.com/sugarlabs/pukllanapac
+Source0:        http://download.sugarlabs.org/sources/honey/Pukllanapac/Pukllanapac-%{version}.tar.bz2
 
-BuildRequires:  python2 python2-devel sugar-toolkit-gtk3 gettext
+BuildRequires:  python3 python3-devel sugar-toolkit-gtk3 gettext
 BuildArch:      noarch
-Requires:       sugar >= 0.97.0
+Requires:       sugar >= 0.116
 
 %description
 Pukllanapac is a sliding puzzle game; the objective is to rearrange 
@@ -23,16 +19,19 @@ circles, triangles and hexagons. Drag tiles to swap their position;
 click on tiles to rotate them.
 
 %prep
-%autosetup -n pukllanapac-%{version}
+%autosetup -n Pukllanapac-%{version}
 
-sed -i 's/python/python2/' *.py
+sed -i 's/python/python3/' gentiles.py
 
 %build
-python2 ./setup.py build
+python3 ./setup.py build
 
 %install
-python2 ./setup.py install --prefix=%{buildroot}/%{_prefix}
+python3 ./setup.py install --prefix=%{buildroot}/%{_prefix}
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
+
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}%{_datadir}/%{sugaractivitydir}/Pukllanapac.activity/
 
 %find_lang org.sugarlabs.PukllanapacActivity
 
@@ -42,6 +41,19 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 %{sugaractivitydir}/Pukllanapac.activity/
 
 %changelog
+* Tue Aug 04 2020 Ibiam Chihurumnaya <ibiamchihurumnaya@gmail.com> - 14-3
+- Set Requires to 0.116
+
+* Mon Aug 03 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 14-2
+- Fix python3 detection
+
+* Tue Jul 28 2020 Ibiam Chihurumnaya <ibiamchihurumnaya@gmail.com> - 14-1
+- Release version 14
+- Update Python3 dependency declarations to new packaging standards
+  (See https://fedoraproject.org/wiki/FinalizingFedoraSwitchtoPython3)
+- Change to py_byte_compile as stated in phase 3
+  (See https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3)
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 13-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

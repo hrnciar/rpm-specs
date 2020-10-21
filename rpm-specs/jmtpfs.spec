@@ -1,7 +1,7 @@
 Summary:	FUSE and libmtp based filesystem for accessing MTP devices
 Name:		jmtpfs
 Version:	0.4
-Release:	12%{?dist}
+Release:	13%{?dist}
 License:	GPLv3
 URL:		http://research.jacquette.com/jmtpfs-exchanging-files-between-android-devices-and-linux/
 Source:		http://research.jacquette.com/wp-content/uploads/2012/05/%{name}-%{version}.tar.gz
@@ -48,6 +48,9 @@ other non-file based data are not supported.
 %{_bindir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

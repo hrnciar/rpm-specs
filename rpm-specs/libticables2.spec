@@ -3,7 +3,7 @@
 
 Name:           libticables2
 Version:        1.3.5
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Texas Instruments link cables library
 
 License:        GPLv2+
@@ -98,6 +98,9 @@ cp -a %SOURCE1 %{buildroot}%{_udevdir}/69-libticables.rules
 %ldconfig_postun
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

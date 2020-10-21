@@ -1,12 +1,16 @@
+%undefine __cmake_in_source_build
+
+%global json_glib_version 1.0.4
 %global libmspack_version 0.4
+%global libsoup_version 2.58
 
 Name: evolution-ews
-Version: 3.37.2
+Version: 3.38.1
 Release: 1%{?dist}
 Summary: Evolution extension for Exchange Web Services
-License: LGPLv2
+License: LGPLv2+
 URL: https://wiki.gnome.org/Apps/Evolution
-Source: http://download.gnome.org/sources/%{name}/3.37/%{name}-%{version}.tar.xz
+Source: http://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 %global eds_evo_version %{version}
 
@@ -25,6 +29,7 @@ BuildRequires: pkgconfig(evolution-mail-3.0) >= %{eds_evo_version}
 BuildRequires: pkgconfig(evolution-shell-3.0) >= %{eds_evo_version}
 BuildRequires: pkgconfig(glib-2.0)
 BuildRequires: pkgconfig(gtk+-3.0)
+BuildRequires: pkgconfig(json-glib-1.0) >= %{json_glib_version}
 BuildRequires: pkgconfig(libebackend-1.2) >= %{eds_evo_version}
 BuildRequires: pkgconfig(libebook-1.2) >= %{eds_evo_version}
 BuildRequires: pkgconfig(libecal-2.0) >= %{eds_evo_version}
@@ -33,7 +38,7 @@ BuildRequires: pkgconfig(libedata-cal-2.0) >= %{eds_evo_version}
 BuildRequires: pkgconfig(libemail-engine) >= %{eds_evo_version}
 BuildRequires: pkgconfig(libical)
 BuildRequires: pkgconfig(libmspack) >= %{libmspack_version}
-BuildRequires: pkgconfig(libsoup-2.4)
+BuildRequires: pkgconfig(libsoup-2.4) >= %{libsoup_version}
 
 %description
 This package allows Evolution to interact with Microsoft Exchange servers,
@@ -48,22 +53,15 @@ Requires: %{name} = %{version}-%{release}
 This package contains translations for %{name}.
 
 %prep
-%setup -q
+%autosetup -p1 -S gendiff
 
 %build
-
-mkdir _build
-cd _build
-
 export CFLAGS="$RPM_OPT_FLAGS -Wno-deprecated-declarations"
-%cmake -G "Unix Makefiles" ..
-make %{?_smp_mflags}
+%cmake -G "Unix Makefiles"
+%cmake_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
-cd _build
-make install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 
 %find_lang %{name}
 
@@ -73,20 +71,45 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %license COPYING
 %doc NEWS README
 %{_libdir}/evolution/modules/module-ews-configuration.so
+%{_libdir}/evolution/modules/module-microsoft365-configuration.so
 %{_libdir}/evolution-data-server/camel-providers/libcamelews.so
 %{_libdir}/evolution-data-server/camel-providers/libcamelews.urls
+%{_libdir}/evolution-data-server/camel-providers/libcamelmicrosoft365.so
+%{_libdir}/evolution-data-server/camel-providers/libcamelmicrosoft365.urls
 %{_libdir}/evolution-data-server/addressbook-backends/libebookbackendews.so
+%{_libdir}/evolution-data-server/addressbook-backends/libebookbackendmicrosoft365.so
 %{_libdir}/evolution-data-server/calendar-backends/libecalbackendews.so
+%{_libdir}/evolution-data-server/calendar-backends/libecalbackendmicrosoft365.so
 %{_libdir}/evolution-data-server/registry-modules/module-ews-backend.so
+%{_libdir}/evolution-data-server/registry-modules/module-microsoft365-backend.so
 %{_libdir}/evolution-ews/libcamelews-priv.so
 %{_libdir}/evolution-ews/libevolution-ews.so
+%{_libdir}/evolution-ews/libevolution-microsoft365.so
 %{_datadir}/metainfo/org.gnome.Evolution-ews.metainfo.xml
 %{_datadir}/evolution/errors/module-ews-configuration.error
 %{_datadir}/evolution-data-server/ews/windowsZones.xml
 
-%files langpacks -f _build/%{name}.lang
+%files langpacks -f %{name}.lang
 
 %changelog
+* Fri Oct 02 2020 Milan Crha <mcrha@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Fri Sep 11 2020 Milan Crha <mcrha@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Fri Sep 04 2020 Milan Crha <mcrha@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Fri Aug 07 2020 Milan Crha <mcrha@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Milan Crha <mcrha@redhat.com> - 3.37.3-1
+- Update to 3.37.3
+
 * Fri May 29 2020 Milan Crha <mcrha@redhat.com> - 3.37.2-1
 - Update to 3.37.2
 

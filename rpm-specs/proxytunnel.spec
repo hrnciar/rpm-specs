@@ -1,12 +1,12 @@
 Name:           proxytunnel
-Version:        1.9.1
-Release:        11%{?dist}
+Version:        1.10.20200907
+Release:        1%{?dist}
 Summary:        Tool to tunnel a connection through an standard HTTP(S) proxy
+
 License:        GPLv2+ and BSD and MIT
 URL:            https://github.com/proxytunnel/proxytunnel
-Source0:        https://github.com/proxytunnel/proxytunnel/archive/%{version}.tar.gz
-Patch0:         proxytunnel-1.9.1-tls.patch
-Patch1:         proxytunnel-1.9.1-gcc10.patch
+Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
+
 BuildRequires:  asciidoc
 BuildRequires:  coreutils
 BuildRequires:  gcc
@@ -14,34 +14,22 @@ BuildRequires:  make
 BuildRequires:  openssl-devel
 BuildRequires:  xmlto
 
-
 %description
 ProxyTunnel is a program that connects stdin and stdout to a server somewhere 
 on the network, through a standard HTTPS proxy. We mostly use it to tunnel SSH
 sessions through HTTP(S) proxies.
 Proxytunnel can currently do the following:
-    * Create tunnels using HTTP and HTTPS proxies (That understand the HTTP 
-      CONNECT command).
-    * Work as a back-end driver for an OpenSSH client, and create SSH
-      connections through HTTP(S) proxies.
-    * Work as a stand-alone application, listening on a port for connections, 
-      and then tunneling these connections to a specified destination. 
-
+* Create tunnels using HTTP and HTTPS proxies (That understand the HTTP 
+  CONNECT command).
+* Work as a back-end driver for an OpenSSH client, and create SSH
+  connections through HTTP(S) proxies.
+* Work as a stand-alone application, listening on a port for connections, 
+  and then tunneling these connections to a specified destination. 
 
 %prep
-%setup -q
-
+%autosetup
 # Fix permissions
 chmod -c 644 CHANGES
-
-# Support TLS
-# https://github.com/proxytunnel/proxytunnel/pull/9
-%patch0
-
-# Fix FTBFS with GCC 10
-# https://github.com/proxytunnel/proxytunnel/pull/43
-%patch1 -p1
-
 # Convert docs to UTF-8
 for f in CHANGES; do
     iconv -f iso-8859-1 -t utf-8 $f > $f.tmp
@@ -49,28 +37,27 @@ for f in CHANGES; do
     mv -f $f.tmp $f
 done
 
-
 %build
-make %{?_smp_mflags} CFLAGS="%{optflags}"
-
+%make_build CFLAGS="%{optflags}"
 
 %install
-make install prefix=%{_prefix} DESTDIR=%{buildroot}
-
-
+%make_install prefix=%{_prefix} DESTDIR=%{buildroot}
 
 %files
-%if 0%{?_licensedir:1}
+%doc CHANGES CREDITS KNOWN_ISSUES README.md TODO
 %license LICENSE.txt
-%else
-%doc LICENSE.txt
-%endif
-%doc CHANGES CREDITS KNOWN_ISSUES README RELNOTES TODO
 %{_bindir}/proxytunnel
 %{_mandir}/man1/proxytunnel.1*
 
-
 %changelog
+* Thu Sep 03 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.10.20200907
+- Remove patches
+- Remove outdated docs
+- Update to latest upstream release 1.10.20200907 (rhbz#1880084)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

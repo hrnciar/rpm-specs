@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Pure-Rust client library to interact with systemd
 
 # Upstream license specification: MIT/Apache-2.0
@@ -75,6 +75,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 19:00:16 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.1-2
 - Update hmac to 0.8 and sha2 to 0.9
 

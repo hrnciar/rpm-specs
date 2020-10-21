@@ -4,8 +4,8 @@
 # https://github.com/kubernetes/client-go
 %global goipath         k8s.io/client-go
 %global forgeurl        https://github.com/kubernetes/client-go
-Version:                1.18.3
-%global tag             kubernetes-1.18.3
+Version:                1.18.9
+%global tag             kubernetes-1.18.9
 %global distprefix      %{nil}
 
 %gometa
@@ -18,7 +18,7 @@ Go clients for talking to a Kubernetes cluster.}
                         CONTRIBUTING.md INSTALL.md README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Go client for Kubernetes
 
 # Upstream license specification: Apache-2.0
@@ -27,6 +27,10 @@ URL:            %{gourl}
 Source0:        %{gosource}
 # Switch to klog v2
 Patch0:         https://github.com/kubernetes/client-go/commit/75fea27a27a0fb881c29cedc64d623084b124bc2.patch#/0001-switch-over-k-k-to-use-klog-v2.patch
+# Go 1.15: Fix int->string cast
+Patch1:         https://github.com/kubernetes/client-go/commit/e6a0f4acba750c2d975b596eaec2ae0f048ed5ab.patch#/0001-Fix-int-string-cast.patch
+# Drop tests that break with newer oauth2
+Patch2:         https://github.com/kubernetes/client-go/commit/48c3485ab5c4c71588e01c07d128f13c7e909261.patch#/0001-Drop-tests-that-break-with-newer-oauth2.patch
 
 BuildRequires:  golang(github.com/Azure/go-autorest/autorest)
 BuildRequires:  golang(github.com/Azure/go-autorest/autorest/adal)
@@ -36,7 +40,7 @@ BuildRequires:  golang(github.com/evanphx/json-patch)
 BuildRequires:  golang(github.com/golang/groupcache/lru)
 BuildRequires:  golang(github.com/golang/protobuf/proto)
 BuildRequires:  golang(github.com/google/uuid)
-BuildRequires:  golang(github.com/googleapis/gnostic/openapiv2)
+BuildRequires:  golang(github.com/googleapis/gnostic-0.4/openapiv2)
 BuildRequires:  golang(github.com/gophercloud/gophercloud)
 BuildRequires:  golang(github.com/gophercloud/gophercloud/openstack)
 BuildRequires:  golang(github.com/gregjones/httpcache)
@@ -124,7 +128,7 @@ BuildRequires:  golang(k8s.io/apimachinery/pkg/util/wait)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/util/yaml)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/version)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/watch)
-BuildRequires:  golang(k8s.io/klog)
+BuildRequires:  golang(k8s.io/klog/v2)
 BuildRequires:  golang(k8s.io/utils/buffer)
 BuildRequires:  golang(k8s.io/utils/integer)
 BuildRequires:  golang(k8s.io/utils/trace)
@@ -150,8 +154,10 @@ BuildRequires:  golang(sigs.k8s.io/yaml)
 %prep
 %goprep
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
 sed -i "s|github.com/googleapis/gnostic/OpenAPIv2|github.com/googleapis/gnostic/openapiv2|" $(find . -type f -iname "*.go")
-sed -i "s|k8s.io/klog/v2|k8s.io/klog|" $(find . -type f -iname "*.go")
+sed -i 's|github.com/googleapis/gnostic|github.com/googleapis/gnostic-0.4|' $(find . -iname "*.go" -type f)
 
 
 %install
@@ -166,6 +172,22 @@ sed -i "s|k8s.io/klog/v2|k8s.io/klog|" $(find . -type f -iname "*.go")
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 17:50:59 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.9-2
+- Fix klog import path
+
+* Tue Sep 29 22:38:25 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.9-1
+- Update to 1.18.9
+
+* Mon Jun 15 15:36:00 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-4
+- Use compat package for gnostic
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 15:36:00 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-1
 - Update to 1.18.3
 

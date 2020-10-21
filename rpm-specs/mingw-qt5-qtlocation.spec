@@ -13,10 +13,10 @@
 %endif
 
 # first two digits of version
-%global release_version %(echo %{version} | awk -F. '{print $1"."$2}')
+%define release_version %(echo %{version} | awk -F. '{print $1"."$2}')
 
 Name:           mingw-qt5-%{qt_module}
-Version:        5.14.2
+Version:        5.15.1
 Release:        1%{?dist}
 Summary:        Qt5 for Windows - QtLocation component
 
@@ -29,6 +29,8 @@ Source0:        https://github.com/qt/%{qt_module}/archive/%{commit}/%{qt_module
 %else
 Source0:        http://download.qt.io/%{?pre:development}%{?!pre:official}_releases/qt/%{release_version}/%{version}%{?pre:-%pre}/submodules/%{qt_module}-everywhere-src-%{version}%{?pre:-%pre}.tar.xz
 %endif
+# Fix int32_t not declared
+Patch0:         qtlocation_cstdint.patch
 
 BuildArch:      noarch
 
@@ -169,6 +171,12 @@ find %{buildroot}%{mingw64_prefix} | grep .dll | grep -v .dll.a | sed s@"^%{buil
 
 
 %changelog
+* Wed Oct  7 11:14:31 CEST 2020 Sandro Mani <manisandro@gmail.com> - 5.15.1-1
+- Update to 5.15.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.14.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 08 2020 Sandro Mani <manisandro@gmail.com> - 5.14.2-1
 - Update to 5.14.2
 

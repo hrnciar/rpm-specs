@@ -12,7 +12,7 @@ Go library for accessing the Namesilo API.}
 %global godocs          readme.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Go library for accessing the Namesilo API
 License:        MPLv2.0
 URL:            %{gourl}
@@ -43,6 +43,13 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

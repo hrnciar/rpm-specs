@@ -6,8 +6,8 @@ from an XML text format, which is also called TTX. It supports TrueType, \
 OpenType, AFM and to an extent Type 1 and some Mac-specific formats.
 
 Name:           fonttools
-Version:        4.12.1
-Release:        2%{?dist}
+Version:        4.16.1
+Release:        1%{?dist}
 Summary:        Tools to manipulate font files
 License:        MIT
 URL:            https://github.com/fonttools/fonttools/
@@ -25,6 +25,7 @@ Provides:       ttx = %{version}-%{release}
 Summary:        Python 3 fonttools library
 %{?python_provide:%python_provide python3-%{name}}
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-setuptools_scm
 BuildRequires:  python3-pytest
 BuildRequires:  python3-brotli
@@ -47,6 +48,8 @@ Obsoletes: python3-ufolib <= 2.1.1-11
 
 %description -n python3-fonttools
 %{desc}
+
+%{?python_extras_subpkg:%python_extras_subpkg -n python3-fonttools -i %{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info ufo unicode}
 
 %prep
 %autosetup
@@ -77,6 +80,30 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{python3} -m pytest --ignore Tests/mi
 %{python3_sitelib}/%{name}-%{version}-py3.?.egg-info
 
 %changelog
+* Sun Oct 18 16:32:27 IST 2020 Parag Nemade <pnemade AT redhat DOT com> - 4.16.1-1
+- Update to 4.16.1 version (#1885448)
+
+* Thu Oct  1 08:45:20 IST 2020 Parag Nemade <pnemade AT redhat DOT com> - 4.16.0-1
+- Update to 4.16.0 version (#1884087)
+
+* Tue Sep 22 10:40:10 IST 2020 Parag Nemade <pnemade AT redhat DOT com> - 4.15.0-1
+- Update to 4.15.0 version (#1881283)
+
+* Thu Aug 20 2020 Parag Nemade <pnemade AT redhat DOT com> - 4.14.0-1
+- Update to 4.14.0 version (#1870253)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.13.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Miro Hrončok <mhroncok@redhat.com> - 4.13.0-2
+- Add fonttools[ufo] and fonttools[unicode] subpackages
+
+* Sat Jul 11 2020 Parag Nemade <pnemade AT redhat DOT com> - 4.13.0-1
+- Update to 4.13.0 version (#1855929)
+
+* Wed Jun 24 2020 Parag Nemade <pnemade AT redhat DOT com> - 4.12.1-3
+- Add missing BR: python3-setuptools
+
 * Sun Jun 21 2020 Athos Ribeiro <athoscr@fedoraproject.org> - 4.12.1-2
 - Obsolete retired python3-ufolib package
 

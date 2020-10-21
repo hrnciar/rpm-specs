@@ -36,7 +36,7 @@
 Summary: Validating, recursive, and caching DNS(SEC) resolver
 Name: unbound
 Version: 1.10.1
-Release: 2%{?extra_version:.%{extra_version}}%{?dist}
+Release: 5%{?extra_version:.%{extra_version}}%{?dist}
 License: BSD
 Url: https://nlnetlabs.nl/projects/unbound/
 Source: https://nlnetlabs.nl/downloads/%{name}/%{name}-%{version}%{?extra_version}.tar.gz
@@ -217,8 +217,8 @@ pushd %{dir_primary}
 %endif
             %{configure_args}
 
-%{__make} %{?_smp_mflags}
-%{__make} %{?_smp_mflags} streamtcp
+%make_build
+%make_build streamtcp
 
 popd
 
@@ -234,7 +234,7 @@ pushd %{dir_secondary}
 %endif
             %{configure_args}
 
-%{__make} %{?_smp_mflags}
+%make_build
 popd
 %endif
 
@@ -245,12 +245,12 @@ install -p -m 0644 %{SOURCE16} .
 %if 0%{?python_secondary:1}
 # install first secondary build. It will be overwritten by primary
 pushd %{dir_secondary}
-%{__make} DESTDIR=%{buildroot} unbound-event-install install
+%make_install unbound-event-install
 popd
 %endif
 
 pushd %{dir_primary}
-%{__make} DESTDIR=%{buildroot} unbound-event-install install
+%make_install unbound-event-install
 install -m 0755 streamtcp %{buildroot}%{_sbindir}/unbound-streamtcp
 popd
 
@@ -448,6 +448,16 @@ popd
 %attr(0644,root,root) %config %{_sysconfdir}/%{name}/root.key
 
 %changelog
+* Tue Sep 15 2020 Petr Menšík <pemensik@redhat.com> - 1.10.1-5
+- Move command line tools to utils subpackage
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1.10.1-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 1.10.1-2
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           perl-Math-ConvexHull
 Version:        1.04
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        Calculate convex hulls using Graham's scan (n*log(n))
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Math-ConvexHull
@@ -52,6 +52,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.04-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.04-23
 - Perl 5.32 rebuild
 

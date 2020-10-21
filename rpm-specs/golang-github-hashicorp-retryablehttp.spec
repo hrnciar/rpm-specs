@@ -6,14 +6,9 @@
 
 # https://github.com/hashicorp/go-retryablehttp
 %global goipath         github.com/hashicorp/go-retryablehttp
-Version:                0.6.1
+Version:                0.6.6
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-hashicorp-go-retryablehttp-devel < 0.5.3-2
-}
 
 %global common_description %{expand:
 The Retryablehttp package provides a familiar HTTP client interface with
@@ -27,7 +22,7 @@ makes retryablehttp very easy to drop into existing programs.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Retryable http client in go
 
 # Upstream license specification: MPL-2.0
@@ -56,15 +51,6 @@ cp %{S:1} %{S:2} .
 %install
 %gopkginstall
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck
@@ -73,6 +59,12 @@ end
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 21:34:07 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.6.6-1
+- Update to 0.6.6
+
 * Fri Jan 31 18:22:53 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.6.4-1
 - Update to 0.6.4
 

@@ -15,7 +15,7 @@ A go library to extract tgz files to temporal directories.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.8%{?dist}
+Release:        0.9%{?dist}
 Summary:        Go library to extract tgz files to temporal directories
 
 License:        MIT
@@ -44,6 +44,9 @@ Patch0:         0001-fix-format-error.patch
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           xmedcon
 Version:        0.16.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        A medical image conversion utility and library
 
 # Please refer to http://xmedcon.sourceforge.net/pub/readme/README for details
@@ -126,6 +126,13 @@ find $RPM_BUILD_ROOT -name "*.la" -execdir rm -fv '{}' \;
 %{_bindir}/%{name}-config
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Filipe Rosset <rosset.filipe@gmail.com> - 0.16.2-1
 - Update to 0.16.2
 

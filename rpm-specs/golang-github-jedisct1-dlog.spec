@@ -16,7 +16,7 @@ event log.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Super simple logger for Go
 
 # Upstream license specification: BSD-2-Clause
@@ -45,6 +45,13 @@ BuildRequires:  golang(github.com/hashicorp/go-syslog)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 21:39:04 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.6-1
 - Update to 0.6
 

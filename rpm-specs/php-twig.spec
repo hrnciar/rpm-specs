@@ -1,7 +1,7 @@
 #
 # Fedora spec file for php-twig
 #
-# Copyright (c) 2014-2019 Shawn Iwinski <shawn.iwinski@gmail.com>
+# Copyright (c) 2014-2020 Shawn Iwinski <shawn.iwinski@gmail.com>
 #                         Remi Collet <remi@fedoraproject.org>
 #
 # License: MIT
@@ -10,21 +10,21 @@
 # Please preserve changelog entries
 #
 
+# Build using "--without tests" to disable tests
+%bcond_without   tests
+
 %global github_owner     twigphp
 %global github_name      Twig
-%global github_version   1.42.5
-%global github_commit    87b2ea9d8f6fd014d0621ca089bb1b3769ea3f8e
+%global github_version   1.43.1
+%global github_commit    2311602f6a208715252febe682fa7c38e56a3373
 %global github_short     %(c=%{github_commit}; echo ${c:0:7})
 
 # Lib
 %global composer_vendor  twig
 %global composer_project twig
 
-# "php": ">=5.5.0"
-%global php_min_ver 5.5
-
-# Build using "--without tests" to disable tests
-%global with_tests 0%{!?_without_tests:1}
+# "php": ">=7.1.3"
+%global php_min_ver 7.1.3
 
 %{!?phpdir:      %global phpdir      %{_datadir}/php}
 %{!?php_inidir:  %global php_inidir  %{_sysconfdir}/php.d}
@@ -42,8 +42,7 @@ Source1:       makesrc.sh
 BuildArch: noarch
 BuildRequires: php-devel >= %{php_min_ver}
 # Tests
-%if %{with_tests}
-BuildRequires: phpunit7
+%if %{with tests}
 %if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
 BuildRequires: (php-composer(symfony/debug) >= 3.4    with php-composer(symfony/debug) < 4)
 BuildRequires: (php-composer(psr/container) >= 1.0    with php-composer(psr/container) < 2)
@@ -52,6 +51,8 @@ BuildRequires: php-symfony3-debug          >= 3.4
 BuildRequires: php-composer(psr/container) <  2
 BuildRequires: php-composer(psr/container) >= 1.0
 %endif
+%global phpunit %{_bindir}/phpunit9
+BuildRequires: %{phpunit}
 ## phpcompatinfo (computed from version 1.42.2)
 BuildRequires: php-ctype
 BuildRequires: php-date
@@ -96,7 +97,7 @@ Provides:      php-twig-Twig = %{version}-%{release}
 Provides:      php-pear(pear.twig-project.org/Twig) = %{version}
 
 # This pkg was the only one in this channel so the channel is no longer needed
-Obsoletes:     php-channel-twig
+Obsoletes:     php-channel-twig < 1.4
 
 
 %description
@@ -144,7 +145,7 @@ cp -rp lib/* %{buildroot}%{phpdir}/
 %{_bindir}/php -r 'require_once "%{buildroot}%{phpdir}/Twig/autoload.php";
     exit(version_compare("%{version}", Twig\Environment::VERSION, "=") ? 0 : 1);'
 
-%if %{with_tests}
+%if %{with tests}
 : Generate autoloader
 mkdir vendor
 cat << 'EOF' | tee vendor/autoload.php
@@ -157,20 +158,24 @@ require_once '%{buildroot}%{phpdir}/Twig/autoload.php';
 ));
 EOF
 
-: Disable listener from symfony/phpunit-bridge ^4.4@dev
+: Disable listener from symfony/phpunit-bridge # ^4.4.9|^5.0.9
 sed -e '/listener/d' phpunit.xml.dist > phpunit.xml
 
 : Test suite without extension
 ret=0
-for cmd in php php71 php72 php73 php74; do
-  if which $cmd; then
-    $cmd %{_bindir}/phpunit7 \
-      --filter '^((?!(testGetAttributeExceptions|testGetAttributeWithTemplateAsObject)).)*$' \
-      --verbose || ret=1
-  fi
-done
+for SCL in "php %{phpunit}" php73 php74 php80; do
+    if which $SCL; then
+        set $SCL
+        SKIP="--filter '^((?!(testResolveArgumentsWithMissingParameterForArbitraryArgumentsOnObject|testResolveArgumentsWithMissingParameterForArbitraryArgumentsOnFunction)).)*$'"
 
-exit $ret
+        VER=$($1 -r 'echo PHP_VERSION_ID;')
+        [ $VER -ge 80000 ] && SKIP="--filter '^((?!(testResolveArgumentsWithMissingParameterForArbitraryArgumentsOnObject|testResolveArgumentsWithMissingParameterForArbitraryArgumentsOnFunction|testIntegration)).)*$'"
+
+        $1 ${2:-%{_bindir}/phpunit9} $SKIP \
+          --verbose || RETURN_CODE=1
+    fi
+done
+exit $RETURN_CODE
 %else
 : Tests skipped
 %endif
@@ -185,6 +190,19 @@ exit $ret
 
 
 %changelog
+* Tue Aug 11 2020 Remi Collet <remi@remirepo.net> - 1.43.1-1
+- update to 1.43.1
+- switch to phpunit9
+- skip 1 more test with PHP 8.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.43.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul  6 2020 Remi Collet <remi@remirepo.net> - 1.43.0-1
+- update to 1.43.0
+- raise dependency on PHP 7.1.3
+- switch to phpunit8
+
 * Wed Feb 12 2020 Remi Collet <remi@remirepo.net> - 1.42.5-1
 - update to 1.42.5
 

@@ -9,7 +9,7 @@
 
 Name:           rust-%{crate}
 Version:        2.0.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Dynamic allocator that may be used with or without the stdlib
 
 # Upstream license specification: BSD-3-Clause
@@ -92,6 +92,9 @@ find -type f -name '*.rs' -executable -exec chmod -x '{}' +
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

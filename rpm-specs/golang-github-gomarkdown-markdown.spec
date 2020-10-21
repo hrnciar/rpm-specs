@@ -3,7 +3,7 @@
 
 # https://github.com/gomarkdown/markdown
 %global goipath         github.com/gomarkdown/markdown
-%global commit          ee6a7931a1e4b802c9ff93e4dabcabacf4cb91db
+%global commit          3f9352745725482bc45bab368fdd4d111ea67307
 
 %gometa
 
@@ -19,7 +19,7 @@ It's fast and supports common extensions.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Markdown parser and HTML renderer for Go
 
 # Upstream license specification: BSD-2-Clause
@@ -46,6 +46,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 21:11:17 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200726git3f93527
+- Bup to commit 3f9352745725482bc45bab368fdd4d111ea67307
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

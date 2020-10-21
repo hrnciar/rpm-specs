@@ -4,7 +4,7 @@ Name:           python-%{pypi_name}
 %global _docdir_fmt %{name}
 
 # Updating this package? Update the list of bundled things bellow
-Version:        6.0.3
+Version:        6.1.4
 
 # a tag like rc1, set to %%{nil} if stable
 %global tag %{nil}
@@ -12,7 +12,7 @@ Version:        6.0.3
 # upstream version, like 1.2.3rc1
 %global uversion %{version}%{tag}
 
-Release:        7%{tag}%{?dist}
+Release:        1%{tag}%{?dist}
 Summary:        A web-based notebook environment for interactive computing
 License:        BSD
 URL:            http://jupyter.org
@@ -22,50 +22,28 @@ Source0:        %pypi_source %{pypi_name} %{uversion}
 # See BZ: 1581899, 1580129
 Patch0:         0001-Use-MathJax-TeX-fonts-rather-than-STIXWeb.patch
 
-# Remove deprecated encoding parameter for Python 3.9 compatibility
-# Backported from upstream
-Patch1:         https://github.com/jupyter/notebook/commit/c01b2cc014af5c3f8c1e00907a985edc19cad8d7.patch
+# sphinx_rtd_theme is no longer a hard dependency since sphinx 1.4.0
+# and must be listed between docs dependencies in setup.py to be
+# detected by pyproject-rpm-macros.
+# It was reported to upstream and can be removed once it is released.
+Patch1:         https://github.com/jupyter/notebook/commit/cdb103c3f097dd680fea3a2ea0391b01b744884a.patch
 
 BuildArch:      noarch
 
-BuildRequires:  python3-setuptools
 BuildRequires:  python3-devel
+BuildRequires:  pyproject-rpm-macros
 
 BuildRequires:  git-core
 
 # rebuilding js and css
 BuildRequires:  /usr/bin/node
 
-# Tests:
-BuildRequires:  pandoc
-
-BuildRequires:  python3-dateutil
-BuildRequires:  python3-ipykernel >= 4.8
-BuildRequires:  python3-ipython_genutils
-BuildRequires:  python3-jupyter-client >= 5.2.0
-BuildRequires:  python3-jupyter-core >= 4.4.0
-BuildRequires:  python3-nbconvert
-BuildRequires:  python3-nbformat
-# we utilize pytest to run the tests, but the testsuite still imports from nose
-BuildRequires:  python3-nose
-BuildRequires:  python3-pandocfilters
-BuildRequires:  python3-prometheus_client
-BuildRequires:  python3-pytest
-BuildRequires:  python3-send2trash
-BuildRequires:  python3-terminado >= 0.8.1
-BuildRequires:  python3-testpath
-BuildRequires:  python3-tornado
-BuildRequires:  python3-traitlets >= 4.2.1
-
-# Docs:
-BuildRequires:  python3-nbsphinx
-BuildRequires:  python3-sphinx
-BuildRequires:  python3-sphinx_rtd_theme
-BuildRequires:  python3-sphinxcontrib-github-alt
+# this ipython subpackage is split on RPM level only
+# it is required to build the docs
 BuildRequires:  python3-ipython-sphinx
 
-
-%?python_enable_dependency_generator
+# for tests
+BuildRequires:  pandoc
 
 %global _description \
 The Jupyter Notebook is a web application that allows you to create and \
@@ -90,18 +68,18 @@ Requires:       fontawesome-fonts
 Requires:       fontawesome-fonts-web
 Requires:       mathjax >= 2.6
 Requires:       js-backbone >= 1.2
-Requires:       js-marked >= 0.3
+Requires:       js-marked >= 0.7
 Requires:       js-underscore >= 1.8.3
 
 # Versions from bower.json
 Provides:       bundled(bootstrap) = 3.4
 Provides:       bundled(bootstrap-tour) = 0.9.0
-Provides:       bundled(codemirror) = 5.48.4
+Provides:       bundled(codemirror) = 5.56.0
 Provides:       bundled(create-react-class) = 15.6.3
 Provides:       bundled(es6-promise) = 1.0
 Provides:       bundled(google-caja) = 5669
 Provides:       bundled(jed) = 1.1.1
-Provides:       bundled(jquery) = 3.4.1
+Provides:       bundled(jquery) = 3.5.0
 Provides:       bundled(jquery-typeahead) = 2.10.6
 Provides:       bundled(jquery-ui) = 1.12
 Provides:       bundled(moment) = 2.19.3
@@ -110,7 +88,7 @@ Provides:       bundled(requirejs) = 2.2
 Provides:       bundled(requirejs-text) = 2.0.15
 Provides:       bundled(requirejs-plugins) = 1.0.3
 Provides:       bundled(text-encoding) = 0.1
-Provides:       bundled(xterm.js) = 2.9.2
+Provides:       bundled(xterm.js) = 3.1.0
 # See https://bugzilla.redhat.com/show_bug.cgi?id=1580129
 #Provides:       bundled(mathjax) = 2.7.4
 
@@ -125,8 +103,26 @@ Documentation for notebook
 %prep
 %autosetup -n %{pypi_name}-%{uversion} -S git
 
+# Nose plugins are needed for tests run with nose.
+# Upstream supports it, but we don't need it since we use pytest.
+# Note that unfortunately we still need nose itself because it is imported.
+#
+# The nbval package is used for validation of notebooks.
+# It's sedded out because it isn't yet packaged in Fedora.
+#
+# Selenium tests are skipped.
+# We don't test coverage.
+for pkg in nose_warnings_filters nose-exclude nbval selenium coverage pytest-cov; do
+  sed -Ei "s/'$pkg',? ?//" setup.py
+done
+
+
+%generate_buildrequires
+%pyproject_buildrequires -x test,docs
+
+
 %build
-%py3_build
+%pyproject_wheel
 
 # generate html docs
 sphinx-build-3 -D intersphinx_timeout=1 docs/source html
@@ -135,7 +131,8 @@ rm -rf html/.{doctrees,buildinfo}
 
 
 %install
-%py3_install
+%pyproject_install
+%pyproject_save_files %{pypi_name}
 
 # https://github.com/jupyter/notebook/issues/2373
 rm -f %{buildroot}%{_bindir}/less-watch
@@ -170,7 +167,7 @@ rm -rv $(find %{buildroot}%{python3_sitelib}/%{pypi_name} -type d -name tests)
 mkdir .tmp
 export TMPDIR=$(pwd)/.tmp
 
-pytest-3 --ignore notebook/tests/selenium
+%pytest --ignore notebook/tests/selenium
 
 
 # This was previously unbundled, but no more
@@ -183,15 +180,13 @@ if st and st.type == "link" then
 end
 
 
-%files -n python3-%{pypi_name}
+%files -n python3-%{pypi_name} -f %{pyproject_files}
 %doc README.md
 %license LICENSE
 %{_bindir}/jupyter-bundlerextension
 %{_bindir}/jupyter-nbextension
 %{_bindir}/jupyter-serverextension
 %{_bindir}/jupyter-notebook
-%{python3_sitelib}/%{pypi_name}-%{uversion}-py%{python3_version}.egg-info/
-%{python3_sitelib}/%{pypi_name}/
 
 %files -n python-%{pypi_name}-doc
 %doc html
@@ -199,6 +194,13 @@ end
 
 
 %changelog
+* Thu Sep 10 2020 Tomas Hrnciar <thrnciar@redhat.com> - 6.1.4-1
+- Update to 6.1.4
+- fixes rhbz#1844874
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 11 2020 Miro Hrončok <mhroncok@redhat.com> - 6.0.3-7
 - Remove packaged tests
 

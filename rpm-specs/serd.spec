@@ -1,8 +1,8 @@
 %global maj 0
 
 Name:           serd
-Version:        0.30.2
-Release:        2%{?dist}
+Version:        0.30.6
+Release:        1%{?dist}
 Summary:        A lightweight C library for RDF syntax
 
 License:        ISC
@@ -41,7 +41,7 @@ sed -i -e 's|bld.add_post_fun(autowaf.run_ldconfig)||' wscript
 
 %build
 %set_build_flags
-python3 waf configure \
+%{python3} waf configure \
     --prefix=%{_prefix} \
     --libdir=%{_libdir} \
     --mandir=%{_mandir} \
@@ -49,10 +49,10 @@ python3 waf configure \
     --docdir=%{_docdir} \
     --test \
     --docs 
-python3 waf build -v %{?_smp_mflags}
+%{python3} waf build -v %{?_smp_mflags}
 
 %install
-DESTDIR=%{buildroot} python3 waf install
+DESTDIR=%{buildroot} %{python3} waf install
 chmod +x %{buildroot}%{_libdir}/lib%{name}-%{maj}.so.*
 # Move devel docs to the right directory
 install -d %{buildroot}%{_docdir}/%{name}/%{name}-%{maj}
@@ -73,6 +73,15 @@ mv %{buildroot}%{_docdir}/%{name}-%{maj}/html %{buildroot}%{_docdir}/%{name}/%{n
 %{_includedir}/%{name}-%{maj}/
 
 %changelog
+* Sun Oct 04 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.30.6-1
+- Update to 0.30.6
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.30.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.30.4-1
+- Update to 0.30.4
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.30.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

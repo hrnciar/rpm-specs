@@ -15,7 +15,7 @@ Grab-bag of Go testing utilities.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Go testing utilities
 
 License:        MIT
@@ -46,6 +46,9 @@ BuildRequires:  golang(github.com/pmezard/go-difflib/difflib)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 28 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.2.1-1
 - Use GitLab macro (rhbz#1822191)
 - Update to latest upstream release 0.2.1

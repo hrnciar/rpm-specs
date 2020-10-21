@@ -1,6 +1,6 @@
 %global __python %{__python3}
 Name:           vulkan-headers
-Version:        1.2.135.0
+Version:        1.2.148.0
 Release:        1%{?dist}
 Summary:        Vulkan Header files and API registry
 
@@ -20,11 +20,11 @@ Vulkan Header files and API registry
 
 %build
 %cmake3 -DCMAKE_INSTALL_LIBDIR=%{_libdir} .
-%make_build
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %files
@@ -36,6 +36,15 @@ Vulkan Header files and API registry
 
 
 %changelog
+* Tue Aug 04 2020 Dave Airlie <airlied@redhat.com> - 1.2.148.0-1
+- Update to 1.2.148.0 headers
+
+* Thu Jul 30 2020 Adam Jackson <ajax@redhat.com> - 1.2.135.0-2
+- Explicitly pass -C %%{_vpath_builddir} to fix F33's cmake
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.135.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Dave Airlie <airlied@redhat.com> - 1.2.135.0-1
 - Update to 1.2.135.0 headers
 

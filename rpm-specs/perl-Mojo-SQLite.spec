@@ -1,6 +1,6 @@
 Name:           perl-Mojo-SQLite
-Version:        3.003
-Release:        3%{?dist}
+Version:        3.004
+Release:        2%{?dist}
 Summary:        Tiny Mojolicious wrapper for SQLite
 License:        Artistic 2.0
 
@@ -73,6 +73,12 @@ RELEASE_TESTING=1 ./Build test
 %{_mandir}/man3/Mojo*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.004-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 3.004-1
+- Update to 3.004
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.003-3
 - Perl 5.32 rebuild
 

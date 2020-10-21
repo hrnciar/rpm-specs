@@ -3,7 +3,7 @@
 %global srcname pyopencl
 
 Name:           python-%{srcname}
-Version:        2020.2
+Version:        2020.2.2
 Release:        1%{?dist}
 Summary:        Python wrapper for OpenCL
 
@@ -50,8 +50,6 @@ BuildRequires:  gcc-c++
 BuildRequires:  boost-devel
 BuildRequires:  opencl-headers
 BuildRequires:  ocl-icd-devel
-BuildRequires:  atlas-devel
-BuildRequires:  blas-devel
 BuildRequires:  pkgconfig(libffi)
 BuildRequires:  pkgconfig(gl)
 
@@ -102,6 +100,18 @@ find %{buildroot}%{python3_sitearch}/%{srcname} -name '*.so' -exec chmod 755 {} 
 %{python3_sitearch}/%{srcname}-*.egg-info/
 
 %changelog
+* Mon Sep 28 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 2020.2.2-1
+- Update to v2020.2.2
+
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 2020.2.1-2
+- Drop unneeded libraries
+
+* Fri Aug 21 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 2020.2.1-1
+- Update to v2020.2.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 2020.2-1
 - Update to v2020.2
 

@@ -2,7 +2,7 @@
 
 Name:       axel
 Version:    2.16
-Release:    5%{?dist}
+Release:    6%{?dist}
 Summary:    Light command line download accelerator for Linux and Unix
 
 License:    GPLv2+
@@ -48,6 +48,9 @@ install -m 644 -p -T doc/axelrc.example %{buildroot}%{_sysconfdir}/axelrc
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

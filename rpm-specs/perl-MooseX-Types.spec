@@ -1,6 +1,6 @@
 Name:           perl-MooseX-Types
 Version:        0.50
-Release:        11%{?dist}
+Release:        12%{?dist}
 License:        GPL+ or Artistic
 Summary:        Organize your Moose types in libraries
 URL:            https://metacpan.org/release/MooseX-Types
@@ -92,6 +92,9 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/MooseX::Types::Wrapper.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.50-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.50-11
 - Perl 5.32 rebuild
 

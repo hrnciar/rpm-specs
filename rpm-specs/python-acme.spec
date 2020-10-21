@@ -1,6 +1,6 @@
 %global         srcname  acme
 
-%if (0%{?fedora}) || (0%{?rhel} && 0%{?rhel} >= 8)
+%if (0%{?fedora}) || (0%{?rhel} && 0%{?rhel} >= 7)
 %bcond_without python3
 %else
 %bcond_with python3
@@ -15,7 +15,7 @@
 %endif
 
 Name:           python-acme
-Version:        1.5.0
+Version:        1.9.0
 Release:        1%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
@@ -31,6 +31,8 @@ Source2:        gpg-A2CFB51FA275A7286234E7B24D17C995CD9775F2.gpg
 # When running tests argparse is not recognised as provided by core
 
 Patch0:         epel7-setup.patch
+# see https://github.com/certbot/certbot/issues/8110
+Patch1:         %{name}-lower-pyopenssl-requirement-epel7.patch
 
 %if %{with python2}
 BuildRequires:  python2-devel
@@ -40,7 +42,7 @@ BuildRequires:  python2-sphinx_rtd_theme
 %endif
 BuildRequires:  python2-cryptography
 BuildRequires:  python2-mock
-BuildRequires:  python2-requests
+BuildRequires:  python2-requests >= 2.6.0
 BuildRequires:  python2-pyrfc3339
 BuildRequires:  python2-josepy >= 1.1.0
 %endif
@@ -50,9 +52,10 @@ BuildRequires:  python3-devel
 BuildRequires:  python3-sphinx
 BuildRequires:  python3-sphinx_rtd_theme
 BuildRequires:  python3-cryptography
-BuildRequires:  python3-pyOpenSSL >= 0.13.1
-BuildRequires:  python3-requests
+BuildRequires:  python3-requests >= 2.6.0
+BuildRequires:  python3-pyOpenSSL >= 0.15.1
 BuildRequires:  python3-requests-toolbelt
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-pyrfc3339
 BuildRequires:  python3-josepy >= 1.1.0
 %endif
@@ -70,11 +73,13 @@ BuildRequires:  pytz
 BuildRequires:  pytest
 BuildRequires:  python-ndg_httpsclient
 BuildRequires:  python-requests-toolbelt
+BuildRequires:  python-setuptools
 BuildRequires:  pyOpenSSL >= 0.13.1
 %else
 BuildRequires:  python2-ndg_httpsclient
 BuildRequires:  python2-pytest
 BuildRequires:  python2-requests-toolbelt
+BuildRequires:  python2-setuptools
 BuildRequires:  python2-pyOpenSSL >= 0.13.1
 %endif
 %endif
@@ -103,7 +108,7 @@ Python libraries implementing the Automatic Certificate Management Environment
 Requires: python2-cryptography
 Requires: python2-pyasn1
 Requires: python2-pyrfc3339
-Requires: python2-requests
+Requires: python2-requests >= 2.6.0
 Requires: python2-six
 Requires: python2-josepy >= 1.1.0
 
@@ -146,7 +151,7 @@ Requires: python3-pyasn1
 Requires: python3-pyOpenSSL
 Requires: python3-pyrfc3339
 Requires: python3-pytz
-Requires: python3-requests
+Requires: python3-requests >= 2.6.0
 Requires: python3-requests-toolbelt
 Requires: python3-six
 Requires: python3-josepy >= 1.1.0
@@ -173,6 +178,7 @@ Documentation for the ACME python libraries
 %setup -n %{srcname}-%{version}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %patch0 -p1
+%patch1 -p1
 %endif
 # Remove bundled egg-info
 rm -rf %{srcname}.egg-info
@@ -245,6 +251,21 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -v
 %endif
 
 %changelog
+* Wed Oct 07 2020 Nick Bebout <nb@fedoraproject.org> - 1.9.0-1
+- Update to 1.9.0
+
+* Tue Oct 06 2020 Nick Bebout <nb@fedoraproject.org> - 1.8.0-1
+- Update to 1.8.0
+
+* Sun Aug 16 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.7.0-1
+- Update to 1.7.0 (#1866070)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.6.0-1
+- Update to 1.6.0 (#1854594)
+
 * Sat Jun 06 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.5.0-1
 - Update to 1.5.0 (#1843199)
 

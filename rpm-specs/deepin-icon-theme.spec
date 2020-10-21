@@ -1,16 +1,27 @@
+%global themes bloom bloom-dark bloom-classic bloom-classic-dark Sea
+%global start_logo start-here
+
 Name:           deepin-icon-theme
-Version:        15.12.71
-Release:        3%{?dist}
+Version:        2020.09.24
+Release:        1%{?dist}
 Summary:        Icons for the Deepin Desktop Environment
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/deepin-icon-theme
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
-Patch0:         %{name}_fix-makefile.patch
 BuildArch:      noarch
 BuildRequires:  /usr/bin/python
 BuildRequires:  gtk-update-icon-cache
-BuildRequires:  xorg-x11-apps
+BuildRequires:  xcursorgen
+BuildRequires:  fedora-logos
 Requires:       papirus-icon-theme
+Requires:       fedora-logos
+
+# PATCHES FROM SOURCE GIT:
+
+# fix: Makefile's install target
+# Author: Felix Yan <felixonmars@archlinux.org>
+Patch0001: 0001-fix-Makefile-s-install-target.patch
+
 
 %description
 %{summary}.
@@ -19,43 +30,62 @@ Requires:       papirus-icon-theme
 %autosetup -p1
 
 %build
-make
+make hicolor-links
 
 %install
 %make_install PREFIX=%{_prefix}
+cp -a ./Sea ./usr/share/icons/hicolor %{buildroot}%{_datadir}/icons
+for theme in %{themes}; do
+    for dir in %{buildroot}%{_datadir}/icons/$theme/places/*; do
+        size=$(basename $dir)
+        if [ -f %{_datadir}/icons/hicolor/${size}x${size}/places/%{start_logo}.png ]; then
+            ln -sf ../../../hicolor/${size}x${size}/places/%{start_logo}.png $dir
+        elif [ -f %{_datadir}/icons/hicolor/${size}/places/%{start_logo}.svg ]; then
+            ln -sf ../../../hicolor/${size}/places/%{start_logo}.svg $dir
+        fi
+    done
+    touch %{buildroot}%{_datadir}/icons/$theme/icon-theme.cache
+done
 
 %post
-touch --no-create %{_datadir}/icons/deepin &>/dev/null || :
-touch --no-create %{_datadir}/icons/deepin-dark &>/dev/null || :
-touch --no-create %{_datadir}/icons/Sea &>/dev/null || :
+for theme in %{themes}; do
+  touch --no-create %{_datadir}/icons/$theme &>/dev/null || :
+done
 
 %postun
 if [ $1 -eq 0 ] ; then
-  touch --no-create %{_datadir}/icons/deepin &>/dev/null
-  /usr/bin/gtk-update-icon-cache %{_datadir}/icons/deepin &>/dev/null || :
-  touch --no-create %{_datadir}/icons/deepin-dark &>/dev/null
-  /usr/bin/gtk-update-icon-cache %{_datadir}/icons/deepin-dark &>/dev/null || :
-  touch --no-create %{_datadir}/icons/Sea &>/dev/null
-  /usr/bin/gtk-update-icon-cache %{_datadir}/icons/Sea &>/dev/null || :
+  for theme in %{themes}; do
+    touch --no-create %{_datadir}/icons/$theme &>/dev/null
+    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/$theme &>/dev/null || :
+  done
 fi
 
 %posttrans
-/usr/bin/gtk-update-icon-cache %{_datadir}/icons/deepin &>/dev/null || :
-/usr/bin/gtk-update-icon-cache %{_datadir}/icons/deepin-dark &>/dev/null || :
-/usr/bin/gtk-update-icon-cache %{_datadir}/icons/Sea &>/dev/null || :
+for theme in %{themes}; do
+  /usr/bin/gtk-update-icon-cache %{_datadir}/icons/$theme &>/dev/null || :
+done
 
 %files
 %license LICENSE
 %{_datadir}/icons/hicolor/*/status/*.svg
 %{_datadir}/icons/hicolor/*/apps/*.svg
-%{_datadir}/icons/deepin-dark/
-%{_datadir}/icons/deepin/
+%{_datadir}/icons/bloom-dark/
+%{_datadir}/icons/bloom/
+%{_datadir}/icons/bloom-classic/
+%{_datadir}/icons/bloom-classic-dark/
 %{_datadir}/icons/Sea/
-%ghost %{_datadir}/icons/deepin/icon-theme.cache
-%ghost %{_datadir}/icons/deepin-dark/icon-theme.cache
-%ghost %{_datadir}/icons/Sea/icon-theme.cache
+%ghost %{_datadir}/icons/*/icon-theme.cache
 
 %changelog
+* Thu Sep 24 2020 Robin Lee <cheeselee@fedoraproject.org> - 2020.09.24-1
+- new upstream release: 2020.09.24
+
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 15.12.71-5
+- BuildRequires xcursorgen not xorg-x11-apps
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 15.12.71-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Petr Viktorin <pviktori@redhat.com> - 15.12.71-3
 - Require /usr/bin/python to remove dependency on Python 2
 

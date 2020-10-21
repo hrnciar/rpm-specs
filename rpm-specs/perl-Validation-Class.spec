@@ -1,6 +1,6 @@
 Name:           perl-Validation-Class
 Version:        7.900057
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Powerful Data Validation Framework
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Validation-Class
@@ -70,6 +70,9 @@ complete set of pre-defined validations and filters referred to as
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.900057-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 7.900057-12
 - Perl 5.32 rebuild
 

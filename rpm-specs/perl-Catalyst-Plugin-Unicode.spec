@@ -1,6 +1,6 @@
 Name:           perl-Catalyst-Plugin-Unicode
 Version:        0.93
-Release:        28%{?dist}
+Release:        30%{?dist}
 Summary:        Unicode aware Catalyst
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Catalyst-Plugin-Unicode
@@ -75,6 +75,12 @@ TEST_POD=1 make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.93-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.93-29
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.93-28
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

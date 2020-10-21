@@ -1,6 +1,6 @@
 Name:           perl-Exception-Tiny
 Version:        0.2.1
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Tiny Perl exception interface
 License:        GPL+ or Artistic
 
@@ -52,6 +52,9 @@ handling so that anyone can understand the implementation.
 %{_mandir}/man3/Exception*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.2.1-18
 - Perl 5.32 rebuild
 

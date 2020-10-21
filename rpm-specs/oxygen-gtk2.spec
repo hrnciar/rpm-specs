@@ -1,8 +1,10 @@
 
+%undefine __cmake_in_source_build
+
 Name:    oxygen-gtk2
 Summary: Oxygen GTK+2 theme
 Version: 1.4.6
-Release: 14%{?dist}
+Release: 17%{?dist}
 
 License: LGPLv2+
 URL:     https://cgit.kde.org/oxygen-gtk.git/
@@ -14,11 +16,7 @@ BuildRequires: cmake
 BuildRequires: gcc-c++
 BuildRequires: gtk2-devel
 
-%if 0%{?fedora} > 21
 Obsoletes: oxygen-gtk < 1.2.1
-%else
-Conflicts: oxygen-gtk < 1.2.0-2
-%endif
 
 %description
 Oxygen-Gtk is a port of the default KDE widget theme (Oxygen), to gtk.
@@ -35,21 +33,18 @@ otherwise breaks every time some setting is changed in KDE.
 
 
 %prep
-%setup -q
+%autosetup
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} .. \
+%cmake \
   -DOXYGEN_FORCE_KDE_ICONS_AND_FONTS=0
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 
 %files
@@ -61,6 +56,16 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Mon Aug 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.4.6-17
+- FTBFS, use new cmake macros, use %%autosetup
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.6-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.6-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.6-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

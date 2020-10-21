@@ -1,6 +1,6 @@
 Name:           perl-ZMQ-Constants
 Version:        1.04
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Constants for the libzmq library
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/ZMQ-Constants
@@ -52,6 +52,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.04-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.04-19
 - Perl 5.32 rebuild
 

@@ -9,7 +9,7 @@
 
 Name:           xfce4-systemload-plugin
 Version:        1.2.3
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Systemload monitor for the Xfce panel
 
 License:        BSD
@@ -59,6 +59,13 @@ chmod -c +x %{buildroot}%{_libdir}/xfce4/panel/plugins/*.so
 %{_datadir}/xfce4/panel/plugins/*.desktop
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

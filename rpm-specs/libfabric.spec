@@ -1,7 +1,7 @@
 %global __remake_config 0
 
 Name:           libfabric
-Version:        1.10.1
+Version:        1.11.1
 Release:        1%{?dist}
 Summary:        Open Fabric Interfaces
 
@@ -92,6 +92,25 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Sun Oct 11 2020 Honggang Li <honli@redhat.com> - 1.11.1
+- Update to upstream release v1.11.1
+- Resolves: bz1887069
+
+* Thu Oct 08 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 1.11.1rc1-1
+- Update to 1.11.1rc1 (#1886494)
+
+* Sat Aug 15 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 1.11.0-1
+- Update to 1.11.0 (#1869025)
+
+* Tue Aug 04 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 1.11.0rc2-1
+- Update to 1.11.0rc2 (#1866049)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.0rc1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 1.11.0rc1-1
+- Update to 1.11.0rc1 (#1859427)
+
 * Sat May 09 2020 Honggang Li <honli@redhat.com> - 1.10.1-1
 - Update to upstream release v1.10.1
 - Resolves: bz1833620

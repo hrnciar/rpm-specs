@@ -3,7 +3,7 @@
 Name: richacl
 Summary: Rich Access Control List utilities
 Version: 1.12
-Release: 9%{?dist}
+Release: 10%{?dist}
 Requires: librichacl%{?_isa} = %{version}-%{release}
 BuildRequires: autoconf automake libtool
 BuildRequires: libattr-devel
@@ -96,6 +96,9 @@ rm -f %{buildroot}%{_libdir}/librichacl.la
 %{_libdir}/librichacl.so.*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

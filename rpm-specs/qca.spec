@@ -1,28 +1,14 @@
 
-%if 0%{?fedora}
-%global qt4 1
-%endif
-%global qt5 1
-
-%if 0%{?fedora} > 26 || 0%{?rhel} > 7
-%global botan 1
-%endif
-
-#global snap 20181017
+%undefine __cmake_in_source_build
 
 Name:    qca
 Summary: Qt Cryptographic Architecture
-Version: 2.2.1
+Version: 2.3.1
 Release: 3%{?dist}
 
 License: LGPLv2+
 URL:     https://userbase.kde.org/QCA
-%if 0%{?snap}
-Source0: qca-%{version}-%{snap}git.tar.xz
-Source10: qca.sh
-%else
 Source0: http://download.kde.org/stable/qca/%{version}/qca-%{version}.tar.xz
-%endif
 
 ## upstream patches
 
@@ -31,18 +17,14 @@ Source0: http://download.kde.org/stable/qca/%{version}/qca-%{version}.tar.xz
 BuildRequires: cmake >= 2.8.12
 BuildRequires: gcc-c++
 BuildRequires: libgcrypt-devel
-%if 0%{?botan}
 BuildRequires: pkgconfig(botan-2)
-%else
-Obsoletes: qca-botan < %{version}-%{release}
-%endif
 BuildRequires: pkgconfig(libcrypto) pkgconfig(libssl)
 BuildRequires: pkgconfig(nss)
 BuildRequires: pkgconfig(libpkcs11-helper-1)
 BuildRequires: pkgconfig(libsasl2)
-%if 0%{?qt4}
-BuildRequires: pkgconfig(QtCore)
-%endif
+
+BuildRequires: pkgconfig(Qt5Core)
+
 # apidocs
 # may need to add some tex-related ones too -- rex
 BuildRequires: doxygen-latex
@@ -137,13 +119,8 @@ Requires: %{name}%{?_isa} = %{version}-%{release}
 %description softstore
 %{summary}.
 
-%if 0%{?qt5}
 %package qt5
 Summary: Qt5 Cryptographic Architecture
-BuildRequires: pkgconfig(Qt5Core)
-%if ! 0%{?botan}
-Obsoletes: qca-qt5-botan < %{version}-%{release}
-%endif
 # most runtime consumers seem to assume the ossl plugin be present
 Recommends: %{name}-qt5-ossl%{?_isa}
 %description qt5
@@ -216,7 +193,6 @@ Summary: Pkcs11 plugin for the Qt5 Cryptographic Architecture
 Requires: %{name}-qt5%{?_isa} = %{version}-%{release}
 %description qt5-softstore
 %{summary}.
-%endif
 
 
 %prep
@@ -224,10 +200,7 @@ Requires: %{name}-qt5%{?_isa} = %{version}-%{release}
 
 
 %build
-%if 0%{?qt5}
-mkdir %{_target_platform}-qt5
-pushd %{_target_platform}-qt5
-%{cmake} .. \
+%cmake \
   -DQCA_BINARY_INSTALL_DIR:STRING=%{_bindir} \
   -DQCA_FEATURE_INSTALL_DIR:PATH=%{_qt5_archdatadir}/mkspecs/features \
   -DQCA_INCLUDE_INSTALL_DIR:PATH=%{_qt5_headerdir} \
@@ -235,43 +208,19 @@ pushd %{_target_platform}-qt5
   -DQCA_PLUGINS_INSTALL_DIR:PATH=%{_qt5_plugindir} \
   -DQCA_PRIVATE_INCLUDE_INSTALL_DIR:PATH=%{_qt5_headerdir} \
   -DQT4_BUILD:BOOL=OFF
-popd
 
-%make_build -C %{_target_platform}-qt5
-%endif
+%cmake_build
 
-%if 0%{?qt4}
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} .. \
-  -DQCA_DOC_INSTALL_DIR:PATH=%{_docdir}/qca \
-  -DQCA_BINARY_INSTALL_DIR:STRING=%{_bindir} \
-  -DQCA_FEATURE_INSTALL_DIR:PATH=%{_qt4_prefix}/mkspecs/features \
-  -DQCA_INCLUDE_INSTALL_DIR:PATH=%{_qt4_headerdir} \
-  -DQCA_LIBRARY_INSTALL_DIR:PATH=%{_qt4_libdir} \
-  -DQCA_PLUGINS_INSTALL_DIR:PATH=%{_qt4_plugindir} \
-  -DQCA_PRIVATE_INCLUDE_INSTALL_DIR:PATH=%{_qt4_headerdir} \
-  -DQT4_BUILD:BOOL=ON
-popd
-
-%make_build -C %{_target_platform}
-
-%make_build doc -C %{_target_platform}
-%endif
+%cmake_build --target doc
 
 
 %install
-%if 0%{?qt5}
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}-qt5
-%endif
-%if 0%{?qt4}
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 # no make install target for docs yet
 mkdir -p %{buildroot}%{_docdir}/qca
 cp -a %{_target_platform}/apidocs/html/ \
       %{buildroot}%{_docdir}/qca/
-%endif
 
 
 %check
@@ -279,80 +228,14 @@ export CTEST_OUTPUT_ON_FAILURE=1
 export PKG_CONFIG_PATH=%{buildroot}%{_libdir}/pkgconfig
 # skip slow archs
 %ifnarch %{arm} ppc64 s390x
-%if 0%{?qt4}
-test "$(pkg-config --modversion qca2)" = "%{version}"
-make test ARGS="--timeout 180 --output-on-failure" -C %{_target_platform} ||:
-%endif
-%if 0%{?qt5}
 test "$(pkg-config --modversion qca2-qt5)" = "%{version}"
-make test ARGS="--timeout 180 --output-on-failure" -C %{_target_platform}-qt5
+%ctest --timeout 180
 %endif
-%endif
 
-
-%if 0%{?qt4}
-%ldconfig_scriptlets
-
-%files
-%doc README TODO
-%license COPYING
-%{_qt4_libdir}/libqca.so.2*
-%{_bindir}/mozcerts
-%{_bindir}/qcatool
-%{_mandir}/man1/qcatool.1*
-%dir %{_qt4_plugindir}/crypto/
-## HACK alert, quirk of recycling default %%_docdir below in -doc subpkg -- rex
-%exclude %{_docdir}/qca/html/
 
 %files doc
 %{_docdir}/qca/html/
 
-%files devel
-%{_qt4_headerdir}/QtCrypto
-%{_qt4_libdir}/libqca.so
-%{_libdir}/pkgconfig/qca2.pc
-%{_libdir}/cmake/Qca/
-%{_qt4_prefix}/mkspecs/features/crypto.prf
-
-%if 0%{?botan}
-%files botan
-%doc plugins/qca-botan/README
-%{_qt4_plugindir}/crypto/libqca-botan.so
-%endif
-
-%files cyrus-sasl
-%doc plugins/qca-gcrypt/README
-%{_qt4_plugindir}/crypto/libqca-cyrus-sasl.so
-
-%files gcrypt
-%{_qt4_plugindir}/crypto/libqca-gcrypt.so
-
-%files gnupg
-%doc plugins/qca-cyrus-sasl/README
-%{_qt4_plugindir}/crypto/libqca-gnupg.so
-
-%files logger
-%doc plugins/qca-logger/README
-%{_qt4_plugindir}/crypto/libqca-logger.so
-
-%files nss
-%doc plugins/qca-nss/README
-%{_qt4_plugindir}/crypto/libqca-nss.so
-
-%files ossl
-%doc plugins/qca-ossl/README
-%{_qt4_plugindir}/crypto/libqca-ossl.so
-
-%files pkcs11
-%doc plugins/qca-pkcs11/README
-%{_qt4_plugindir}/crypto/libqca-pkcs11.so
-
-%files softstore
-%doc plugins/qca-softstore/README
-%{_qt4_plugindir}/crypto/libqca-softstore.so
-%endif
-
-%if 0%{?qt5}
 %ldconfig_scriptlets qt5
 
 %files qt5
@@ -371,11 +254,9 @@ make test ARGS="--timeout 180 --output-on-failure" -C %{_target_platform}-qt5
 %{_libdir}/cmake/Qca-qt5/
 %{_qt5_archdatadir}/mkspecs/features/crypto.prf
 
-%if 0%{?botan}
 %files qt5-botan
 %doc plugins/qca-botan/README
 %{_qt5_plugindir}/crypto/libqca-botan.so
-%endif
 
 %files qt5-cyrus-sasl
 %doc plugins/qca-gcrypt/README
@@ -407,10 +288,23 @@ make test ARGS="--timeout 180 --output-on-failure" -C %{_target_platform}-qt5
 %files qt5-softstore
 %doc plugins/qca-softstore/README
 %{_qt5_plugindir}/crypto/libqca-softstore.so
-%endif
 
 
 %changelog
+* Wed Aug 26 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.3.1-3
+- rebuild (botan)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.3.1-1
+- 2.3.1
+
+* Mon Jun 29 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.3.0-1
+- 2.3.0
+- -qt5 only
+- .spec cleanup
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

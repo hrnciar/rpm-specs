@@ -1,19 +1,19 @@
 Name:           fastd
-Version:        19
-Release:        1%{?dist}
+Version:        20
+Release:        3%{?dist}
 Summary:        Fast and secure tunneling daemon
 
 License:        BSD
 URL:            https://github.com/NeoRaider/fastd/wiki
 Source0:        https://github.com/NeoRaider/fastd/releases/download/v%{version}/fastd-%{version}.tar.xz
 
-# Fix OpenSSL linking
-# https://github.com/NeoRaider/fastd/pull/8
-Patch0:         https://github.com/NeoRaider/fastd/pull/8.patch#/%{name}-%{version}-openssl.patch
-
 BuildRequires:  gcc
-BuildRequires:  cmake
+BuildRequires:  meson
+%if 0%{?rhel} < 8
+BuildRequires:  python-sphinx
+%else
 BuildRequires:  python3-sphinx
+%endif
 
 BuildRequires:  bison
 BuildRequires:  json-c-devel
@@ -46,14 +46,16 @@ fastd is a secure tunneling daemon with some unique features:
 
 
 %build
-%cmake \
-  -DENABLE_OPENSSL=TRUE \
-  -DENABLE_LTO=TRUE \
-  -DCMAKE_AR=/usr/bin/gcc-ar \
-  -DCMAKE_NM=/usr/bin/gcc-nm \
-  -DCMAKE_RANLIB=/usr/bin/gcc-ranlib \
-  .
-make %{?_smp_mflags}
+%ifnarch %{ix86} x86_64
+  %meson \
+    -Dcipher_salsa2012_xmm=disabled \
+    -Dmac_ghash_pclmulqdq=disabled \
+    -Dcipher_salsa20_xmm=disabled
+%else
+  %meson
+%endif
+
+%meson_build
 
 # build documentation
 pushd doc
@@ -61,7 +63,7 @@ pushd doc
 popd
 
 %install
-%make_install
+%meson_install
 
 install -Dpm 0644 doc/examples/fastd@.service $RPM_BUILD_ROOT/%{_unitdir}/%{name}@.service
 install -Dpm 0644 doc/fastd.1 $RPM_BUILD_ROOT/%{_mandir}/man1/%{name}.1
@@ -88,6 +90,27 @@ install -d $RPM_BUILD_ROOT/%{_sysconfdir}/%{name}
 
 
 %changelog
+* Mon Oct 12 2020 Felix Kaechele <felix@kaechele.ca> - 20-3
+- add conditional for sphinx on EL < 8
+
+* Mon Oct 12 2020 Felix Kaechele <felix@kaechele.ca> - 20-2
+- fix build on non x86 architectures
+
+* Mon Oct 12 2020 Felix Kaechele <felix@kaechele.ca> - 20-1
+- update to 20
+- build system switched from cmake to meson
+- drop OpenSSL patch (upstreamed)
+
+* Thu Aug 13 2020 Felix Kaechele <heffer@fedoraproject.org> - 19-4
+- update cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Felix Kaechele <heffer@fedoraproject.org> - 19-1
 - update to v19
 - change upstream and source URLs to GitHub

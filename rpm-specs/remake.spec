@@ -1,6 +1,6 @@
 Name:           remake
 Version:        0.14
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Build system that bridges the gap between make and redo
 
 License:        GPLv3+
@@ -60,6 +60,9 @@ cd testsuite
 %exclude %{_docdir}/%{name}/README.md
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 20 2020 Jerry James <loganjerry@gmail.com> - 0.14-1
 - Version 0.14
 

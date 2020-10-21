@@ -1,7 +1,7 @@
 Summary:                A SMTP virus scanning system
 Name:                   clamsmtp
 Version:                1.10
-Release:                31%{?dist}
+Release:                32%{?dist}
 License:                BSD
 URL:                    http://memberwebs.com/stef/software/clamsmtp/
 
@@ -106,6 +106,9 @@ exit 0
 %{_mandir}/man8/clamsmtpd.8.gz
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 27 2020 Nathanael Noblet <nathanael@gnat.ca> - 1.10-31
 - clamav-server was renamed to clamd
 

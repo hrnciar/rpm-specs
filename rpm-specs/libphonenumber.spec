@@ -1,11 +1,10 @@
-Summary: Library to handle international phone numbers
 Name: libphonenumber
-Version: 8.12.3
-Release: 3%{?dist}
+Version: 8.12.8
+Release: 2%{?dist}
+Summary: Library to handle international phone numbers
 # The project itself is ASL 2.0 but contains files from Chromium which are BSD and MIT.
 License: ASL 2.0 and BSD and MIT
 URL: https://github.com/google/libphonenumber/
-
 Source0: https://github.com/google/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires: boost-devel
@@ -32,19 +31,16 @@ developing applications that use %{name}.
 
 
 %prep
-%autosetup -n %{name}-%{version} -p1
+%autosetup -p1
 
 
 %build
-mkdir -p cpp/build
-cd cpp/build
-%cmake ..
-cd ../../
-%make_build -C cpp/build phonenumber phonenumber-shared
+%cmake cpp
+%cmake_build
 
 
 %install
-%make_install -C cpp/build
+%cmake_install
 find %{buildroot} -name '*.a' -delete
 find %{buildroot} -name '*.la' -delete
 
@@ -63,6 +59,22 @@ find %{buildroot} -name '*.la' -delete
 
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 8.12.8-2
+- Rebuilt for protobuf 3.13
+
+* Thu Aug 20 2020 Torrey Sorensen <sorensentor@tuta.io> - 8.12.8-1
+- Update to 8.12.8
+
+* Wed Aug 05 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 8.12.7-1
+- Update to 8.12.7
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.12.3-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.12.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 8.12.3-3
 - Rebuilt for protobuf 3.12
 

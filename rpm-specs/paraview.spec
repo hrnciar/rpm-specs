@@ -1,4 +1,8 @@
-%if 0%{?fedora} && 0%{?fedora} > 31
+#LTO fails at the moment
+%undefine _lto_cflags
+
+%global __cmake_in_source_build 1
+%if 0%{?fedora} > 31
 %define _legacy_common_support 1
 %endif
 
@@ -6,7 +10,7 @@
 %{!?build_mpich:%global build_mpich 1}
 %global pv_maj 5
 %global pv_min 8
-%global pv_patch 0
+%global pv_patch 1
 %global pv_majmin %{pv_maj}.%{pv_min}
 #global rcsuf -RC3
 %{?rcsuf:%global relsuf .%{rcsuf}}
@@ -63,7 +67,7 @@
 
 Name:           paraview
 Version:        %{pv_majmin}.%{pv_patch}
-Release:        6%{?relsuf}%{?dist}
+Release:        2%{?relsuf}%{?dist}
 Summary:        Parallel visualization application
 
 License:        BSD
@@ -119,6 +123,7 @@ BuildRequires:  %{py2_prefix}-qt5
 %endif
 %endif
 BuildRequires:  cgnslib-devel
+BuildRequires:  gdal-devel
 BuildRequires:  hdf5-devel
 BuildRequires:  tk-devel
 BuildRequires:  freetype-devel, libtiff-devel, zlib-devel
@@ -179,6 +184,8 @@ Requires: python2-numpy
 Requires: %{py2_prefix}-twisted
 Requires: %{py2_prefix}-autobahn
 %endif
+# ParaView requires svg support via icon plugins, so no direct linking involved
+Requires: qt5-qtsvg%{?_isa}
 Requires: qt5-qtx11extras%{?_isa}
 
 # Bundled KWSys
@@ -244,8 +251,10 @@ Provides: bundled(xdmf2)
         -DCMAKE_BUILD_TYPE=RelWithDebInfo \\\
         -DCMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING="-DNDEBUG" \\\
         -DOpenGL_GL_PREFERENCE=GLVND \\\
+        -DPARAVIEW_BUILD_SHARED_LIBS:BOOL=ON \\\
         -DPARAVIEW_VERSIONED_INSTALL:BOOL=OFF \\\
-        -DPARAVIEW_ENABLE_PYTHON:BOOL=ON \\\
+        -DPARAVIEW_ENABLE_GDAL:BOOL=ON \\\
+        -DPARAVIEW_USE_PYTHON:BOOL=ON \\\
         -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=ON \\\
         -DVTK_INSTALL_DATA_DIR=share/paraview \\\
         -DVTK_INSTALL_PACKAGE_DIR=share/cmake/paraview \\\
@@ -390,6 +399,9 @@ Requires:       python2-six
 Requires:       %{py2_prefix}-twisted
 Requires:       mpi4py-openmpi
 %endif
+# ParaView requires svg support via icon plugins, so no direct linking involved
+Requires:       qt5-qtsvg%{?_isa}
+Requires:       qt5-qtx11extras%{?_isa}
 
 %description    openmpi
 This package contains copies of the ParaView server binaries compiled with
@@ -440,6 +452,9 @@ Requires:       python2-six
 Requires:       %{py2_prefix}-twisted
 Requires:       mpi4py-mpich
 %endif
+# ParaView requires svg support via icon plugins, so no direct linking involved
+Requires:       qt5-qtsvg%{?_isa}
+Requires:       qt5-qtx11extras%{?_isa}
 
 %description    mpich
 This package contains copies of the ParaView server binaries compiled with
@@ -463,7 +478,13 @@ developing applications that use %{name}-mpich.
 
 
 %prep
-%autosetup -p1 -n ParaView-v%{version}%{?versuf}
+%setup -q -n ParaView-v%{version}%{?versuf}
+%patch0 -p1
+# Not backward compatible with cgnslib < 4.0
+%if 0%{?fedora} >= 33
+%patch1 -p1
+%endif
+%patch2 -p1
 
 %if %{with VisitBridge}
 cp -p Utilities/VisItBridge/README.md Utilities/VisItBridge/README-VisItBridge.md
@@ -701,6 +722,28 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Sep 23 2020 Adrian Reber <adrian@lisas.de> - 5.8.1-2
+- Rebuilt for protobuf 3.13
+
+* Wed Aug 05 2020 Orion Poplawski <orion@nwra.com> - 5.8.1-1
+- Update to 5.8.1
+- Disable LTO for now
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.8.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 5.8.0-10
+- Use __cmake_in_source_build
+
+* Thu Jul 16 2020 Orion Poplawski <orion@nwra.com> - 5.8.0-9
+- Build with GDAL support (bz#1857498)
+
+* Fri Jul 10 2020 Orion Poplawski <orion@nwra.com> - 5.8.0-8
+- Require qt5-qtsvg for icons
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 5.8.0-7
+- Rebuild for hdf5 1.10.6
+
 * Sun Jun 21 2020 Adrian Reber <adrian@lisas.de> - 5.8.0-6
 - Rebuilt for protobuf 3.12
 

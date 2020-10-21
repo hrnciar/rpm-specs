@@ -2,36 +2,29 @@
 # and so-version of libyui.
 %global libsuffix yui
 %global libname lib%{libsuffix}
-%global devel_min_ver 3.0.4
-
-# No proper release-tags, yet.  :(
-%global commit b508e88ff9ee76ce7419af649f7a9c877946d702
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global gitdate 20140119
-%global git_ver -git%{shortcommit}.%{gitdate}
-%global git_rel .git%{shortcommit}.%{gitdate}
+%global devel_min_ver 3.10.0
 
 # Setup _pkgdocdir if not defined already.
 %{!?_pkgdocdir:%global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 # CMake-builds go out-of-tree.
-%global _cmake_build_subdir build-%{?_arch}%{?dist}
+%undefine __cmake_in_source_build
 
 
 Name:			%{libname}-mga-qt
-Version:		1.0.3
-Release:		0.20%{?git_rel}%{?dist}
+Version:		1.1.0
+Release:		1%{?dist}
 Summary:		Libyui-Qt extensions for Mageia tools
 
 License:		LGPLv2 or LGPLv3
-URL:			https://github.com/xquiet/%{name}
-Source0:		%{url}/archive/%{commit}.tar.gz#/%{name}-%{version}%{?git_ver}.tar.gz
+URL:			https://github.com/manatools/%{name}
+Source0:		%{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:		boost-devel
 BuildRequires:		cmake				>= 2.8
 BuildRequires:		%{libname}-devel		>= %{devel_min_ver}
-BuildRequires:		%{libname}-mga-devel
-BuildRequires:		%{libname}-qt-devel
+BuildRequires:		%{libname}-mga-devel		>= 1.1.0
+BuildRequires:		%{libname}-qt-devel		>= 2.53.0
 
 Supplements:		(libyui-mga%{?_isa} and libyui-qt%{?_isa})
 
@@ -71,33 +64,29 @@ for %{name}.
 
 
 %prep
-%setup -qn %{name}-%{commit}
+%autosetup -p1
 ./bootstrap.sh
 
 
 %build
-%{__mkdir} -p %{_cmake_build_subdir}
-pushd %{_cmake_build_subdir}
 %cmake							\
 	-DYPREFIX=%{_prefix}				\
 	-DLIB_DIR=%{_libdir}				\
 	-DCMAKE_BUILD_TYPE=RELEASE			\
 	-DRESPECT_FLAGS=ON				\
-	-DSKIP_LATEX=ON					\
-	..
+	-DSKIP_LATEX=ON
 
-%make_build
-%make_build docs
-popd
+%cmake_build
+%cmake_build --target docs
 
 
 %install
-pushd %{_cmake_build_subdir}
 %{__mkdir} -p	%{buildroot}%{_libdir}/%{libsuffix}	\
 		%{buildroot}%{_datadir}/%{name}/theme
 
-%make_install
+%cmake_install
 
+pushd %{_vpath_builddir}
 # Delete obsolete files.
 %{__rm} -rf	%{buildroot}%{_defaultdocdir}		\
 		doc/html/*.m*
@@ -132,6 +121,16 @@ popd
 
 
 %changelog
+* Sat Aug 01 2020 Neal Gompa <ngompa13@gmail.com> - 1.1.0-1
+- Rebase to 1.1.0 (#1539459)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-0.22.gitb508e88.20140119
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-0.21.gitb508e88.20140119
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-0.20.gitb508e88.20140119
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

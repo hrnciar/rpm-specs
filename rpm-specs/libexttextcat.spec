@@ -1,6 +1,6 @@
 Name: libexttextcat
 Version: 3.4.5
-Release: 6%{?dist}
+Release: 8%{?dist}
 Summary: Text categorization library
 
 License: BSD
@@ -34,10 +34,10 @@ you to easily create your own document fingerprints.
 
 %build
 %configure --disable-silent-rules --disable-static --disable-werror
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 rm -f %{buildroot}/%{_libdir}/*.la
 
 %check
@@ -61,6 +61,13 @@ make check
 %{_bindir}/createfp
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.5-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 3.4.5-7
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.5-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Summary: A simple program that emulates the detach feature of screen
 Name: dtach
 Version: 0.9
-Release: 9%{?dist}
+Release: 10%{?dist}
 License: GPLv2+
 URL: http://dtach.sourceforge.net
 Source: http://prdownloads.sourceforge.net/dtach/dtach-%{version}.tar.gz
@@ -40,6 +40,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

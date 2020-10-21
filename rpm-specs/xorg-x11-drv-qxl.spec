@@ -24,7 +24,7 @@ Name:      xorg-x11-drv-qxl
 
 Version:   0.1.5
 
-Release:   14%{?gver}%{?dist}
+Release:   16%{?gver}%{?dist}
 URL:       http://www.x.org
 Source0:  http://xorg.freedesktop.org/releases/individual/driver/%{tarball}-%{version}.tar.bz2
 #Source0:   %{tarball}-%{gitdate}.tar.bz2
@@ -121,6 +121,13 @@ rm -f $RPM_BUILD_ROOT%{_sysconfdir}/X11/spiceqxl.xorg.conf
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.5-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.5-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 Dave Airlie <airlied@redhat.com> - 0.1.5-14
 - Fix missing BR
 

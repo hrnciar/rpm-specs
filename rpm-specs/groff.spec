@@ -3,7 +3,7 @@
 Summary: A document formatting system
 Name: groff
 Version: 1.22.4
-Release: 1%{?dist}
+Release: 3%{?dist}
 License: GPLv3+ and GFDL and BSD and MIT
 URL: http://www.gnu.org/software/groff/
 Source: ftp://ftp.gnu.org/gnu/groff/groff-%{version}.tar.gz
@@ -111,10 +111,10 @@ done
     --docdir=%{_pkgdocdir} \
     --with-appresdir=%{_datadir}/X11/app-defaults \
     --with-grofferdir=%{_datadir}/%{name}/%{version}/groffer
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 
 # rename files for alternative usage
 mv %{buildroot}%{_bindir}/soelim %{buildroot}%{_bindir}/soelim.%{name}
@@ -474,6 +474,12 @@ fi
 %doc %{_pkgdocdir}/pdf/
 
 %changelog
+* Fri Oct 02 2020 Nikola Forró <nforro@redhat.com> - 1.22.4-3
+- Use make macros
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.22.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 05 2020 Nikola Forró <nforro@redhat.com> - 1.22.4-1
 - Update to version 1.22.4
   resolves: #1808072

@@ -3,7 +3,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 5.0.7
-Release: 4%{?dist}
+Release: 7%{?dist}
 Summary: Sass adapter for the Rails asset pipeline
 License: MIT
 URL: https://github.com/rails/sass-rails
@@ -62,6 +62,11 @@ ln -s %{_builddir}/test test
 cp %{buildroot}%{gem_spec} sass-rails.gemspec
 echo 'gem "sass-rails", :path => "."' >> Gemfile
 
+# Disable Ruby 2.7 warnings to make the test suite pass (e.g.
+# SassRailsTest#test_sass_allows_compressor_override_in_test_mode). Please
+# revisit with newer Rails as things should get better.
+export RUBYOPT='-W:no-deprecated'
+
 ruby -I.:test -e 'Dir.glob "test/**/*_test.rb", &method(:require)'
 popd
 
@@ -77,6 +82,17 @@ popd
 %doc %{gem_instdir}/README.md
 
 %changelog
+* Mon Aug 03 2020 Vít Ondruch <vondruch@redhat.com> - 5.0.7-7
+- Disable Ruby 2.7 warnings to make the test suite pass.
+  Resolves: rhbz#1863733
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.7-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.7-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.7-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -135,7 +135,7 @@
 Name:          pacemaker
 Summary:       Scalable High-Availability cluster resource manager
 Version:       %{pcmkversion}
-Release:       %{pcmk_release}%{?dist}
+Release:       %{pcmk_release}%{?dist}.1
 License:       GPLv2+ and LGPLv2+
 Url:           http://www.clusterlabs.org
 
@@ -713,6 +713,9 @@ exit 0
 %license %{nagios_name}-%{nagios_hash}/COPYING
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.4-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 16 2020 Chris Lumens <clumens@redhat.com> - 2.0.4-1
 - Update for new upstream tarball: Pacemaker-2.0.4
   for full details, see included ChangeLog file or

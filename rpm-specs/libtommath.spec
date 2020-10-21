@@ -1,6 +1,6 @@
 Name:           libtommath
 Version:        1.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A portable number theoretic multiple-precision integer library
 License:        Public Domain
 URL:            http://www.libtom.net/
@@ -89,6 +89,9 @@ find %{buildroot} -name '*.a' -delete
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 09 2020 Gerd Pokorra <gp@zimt.uni-siegen.de> - 1.2.0-1
 - Update to 1.2.0.
 - Remove poster make tag

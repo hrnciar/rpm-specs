@@ -1,13 +1,9 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 %global debug_package %{nil}
 %global _name   mate_menu
 
 Name:           mate-menu
 Version:        20.04.3
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Advanced Menu for the MATE Desktop
 # mate_menu/keybinding.py use MIT license and the rest is under GPLv2+
 License:        GPLv2+ and MIT
@@ -62,6 +58,10 @@ sed -i 's/xdg-su/beesu/g' %{_name}/execute.py
 %install
 %py3_install
 
+# Manually invoke the python byte compile macro for each path that needs byte
+# compilation.
+%py_byte_compile %{python3} %{buildroot}%{_usr}/lib/%{name}/*.py
+
 # avoid rpmlint invalid-lc-messages-dir and incorrect-locale-subdir errors
 rm -rf %{buildroot}%{_datadir}/locale/ber
 rm -rf %{buildroot}%{_datadir}/locale/es_419/LC_MESSAGES/mate-menu.mo
@@ -88,6 +88,17 @@ rm -rf %{buildroot}%{_datadir}/locale/zh-Hans/
 
 
 %changelog
+* Mon Aug 03 2020 Wolfgang Ulbrich <fedora@raveit.de> - 20.04.3-4
+- fix python pain
+- fix rhbz (#1864117)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 07 2020 Wolfgang Ulbrich <fedora@raveit.de> - 20.04.3-1
 - update to 20.04.3
 

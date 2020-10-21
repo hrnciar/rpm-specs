@@ -1,6 +1,6 @@
 Name:           kdissert
 Version:        1.0.7
-Release:        30%{?dist}
+Release:        31%{?dist}
 Summary:        Mind-mapping tool
 
 License:        GPLv2
@@ -105,6 +105,9 @@ chmod +x $RPM_BUILD_ROOT%{_libdir}/kde3/*.so
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.7-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.7-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

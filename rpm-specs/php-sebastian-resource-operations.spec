@@ -24,7 +24,7 @@
 Name:           php-sebastian-resource-operations
 Version:        1.0.0
 %global specrel 2
-Release:        %{?gh_date:0.%{specrel}.%{?prever}%{!?prever:%{gh_date}git%{gh_short}}}%{!?gh_date:%{specrel}}%{?dist}.7
+Release:        %{?gh_date:0.%{specrel}.%{?prever}%{!?prever:%{gh_date}git%{gh_short}}}%{!?gh_date:%{specrel}}%{?dist}.8
 Summary:        Provides a list of PHP built-in functions that operate on resources
 
 License:        BSD
@@ -91,6 +91,9 @@ cp -pr src %{buildroot}%{php_home}/%{ns_vendor}/%{ns_project}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2.8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2.7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

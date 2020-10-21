@@ -1,6 +1,6 @@
 Name:          lnav
 Version:       0.8.5
-Release:       5%{?dist}
+Release:       6%{?dist}
 Summary:       Curses-based tool for viewing and analyzing log files
 License:       BSD
 
@@ -45,6 +45,9 @@ quickly and efficiently zero in on problems.
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.5-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 05 2020 Peter Schiffer <peter+fedora@pschiffer.eu> - 0.8.5-5
 - drop python3 BuildRequires
   it's not needed since version 0.8.0

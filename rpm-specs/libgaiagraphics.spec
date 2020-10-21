@@ -2,7 +2,7 @@
 # He adopted it from libGD code. (July 2012)
 Name:           libgaiagraphics
 Version:        0.5
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Graphics canvas for GIS rendering
 
 License:        LGPLv3+
@@ -70,6 +70,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/gaiagraphics.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

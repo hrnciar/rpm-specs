@@ -1,6 +1,6 @@
 Name:		pfstools
 Version:	2.1.0
-Release:	10%{?dist}
+Release:	14%{?dist}
 Summary:	Programs for handling high-dynamic range images
 
 License:	GPLv2+
@@ -129,11 +129,15 @@ etc., for developing programs which can handle HDR graphics files.
 
 %build
 %{?el7:export CXXFLAGS="%{optflags} -std=gnu++11"}
-%{cmake} -DBUILD_SHARED_LIBS=ON -DLIB_DIR=%{_lib} -DWITH_OpenCV=OFF .
-make
+%if 0%{?fedora} >= 33
+export CXXFLAGS="%{optflags} -std=gnu++11"
+%endif
+mkdir -p %{_target_platform}
+%{cmake} -B %{_target_platform} -DBUILD_SHARED_LIBS=ON -DLIB_DIR=%{_lib} -DWITH_OpenCV=OFF .
+make -C %{_target_platform}
 
 %install
-%make_install
+%make_install -C %{_target_platform}
 
 # XXX Nuke unpackaged files
 { cd ${RPM_BUILD_ROOT}
@@ -297,6 +301,19 @@ make
 %{_includedir}/pfs
 
 %changelog
+* Tue Aug 14 2020 Jeff Law <law@redhat.com> - 2.1.0-14
+- Force C++11 as this code is not C++17 ready
+
+* Thu Aug 06 2020 Tomas Smetana <tsmetana@redhat.com> - 2.1.0-13
+- Fix #1865214: Update spec for new cmake
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

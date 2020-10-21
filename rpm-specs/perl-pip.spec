@@ -1,7 +1,7 @@
 Name:           perl-pip
 Summary:        Perl Installation Program, for scripted and distribution installation
 Version:        1.19
-Release:        27%{?dist}
+Release:        28%{?dist}
 License:        GPL+ or Artistic
 Source0:        https://cpan.metacpan.org/authors/id/A/AD/ADAMK/pip-%{version}.tar.gz 
 URL:            https://metacpan.org/release/pip
@@ -103,6 +103,9 @@ make test
 %{_bindir}/perl-pip
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.19-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.19-27
 - Perl 5.32 rebuild
 

@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          0.13
-Release:          4%{?dist}
+Release:          6%{?dist}
 Summary:          Udunits-2 Bindings for R
 
 License:          GPLv2
@@ -63,6 +63,13 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 0.13-4
 - rebuild for R 4
 

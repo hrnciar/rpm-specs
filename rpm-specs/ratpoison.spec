@@ -2,13 +2,13 @@
 
 Name:           ratpoison
 Version:        1.4.9
-Release:        14%{?dist}
+Release:        17%{?dist}
 Summary:        Minimalistic window manager
 License:        GPLv2+
 URL:            http://www.nongnu.org/ratpoison/
 Source0:        http://download.savannah.gnu.org/releases/ratpoison/ratpoison-%{version}.tar.xz
 Source1:	%{name}.desktop
-BuildRequires:  gcc
+BuildRequires:  gcc, texinfo
 BuildRequires: libXft-devel, libX11-devel, perl-generators, readline-devel, libXt-devel, libXinerama-devel, libXtst-devel, libXi-devel, libXrandr-devel
 BuildRequires:  emacs
 Requires:       emacs-filesystem >= %{_emacs_version}
@@ -51,6 +51,16 @@ chmod 755 ${RPM_BUILD_ROOT}/%{_datadir}/ratpoison/split.sh
 %{_emacs_sitelispdir}/*.el
 
 %changelog
+* Mon Aug 03 2020 Kevin Fenzi <kevin@scrye.com> - 1.4.9-17
+- Fix FTBFS bug. Fixes rhbz#1865362
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.9-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.9-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.9-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

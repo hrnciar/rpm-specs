@@ -21,13 +21,13 @@
 # %%commit and %%os_git_vars are intended to be set by tito custom builders provided
 # in the .tito/lib directory. The values in this spec file will not be kept up to date.
 %{!?commit:
-%global commit 8de5c3442e56dbe05403990ce0821746673fd588
+%global commit 20c5b86c88657888e4906ed7942b85515c650f96
 }
-%global kube_commit d4cacc043ac762235e16cb7361d527cb4189393c
-%global etcd_commit 121edf0467052d55876a817b89875fb39a99bf78
-%global registry_commit 0d49798e519cb36d27c97392e92a9bf41ef90b66
+%global kube_commit b3b92b285f38984ad0b5b4d4ba6b150ac119dd2a
+%global etcd_commit 135cf9b40738d17886f499b40bc176fc892ba5e9
+%global registry_commit bffddbaeee29b7d32fe4cccc62f0049644c21705
 %global webconsole_commit ea422803d27e20a8a78eeaa2d9c5619ac979f834
-%global servicecat_commit c0f3fe8b3d0127d1be39a6dfa56baf96153ad762
+%global servicecat_commit 2e6be86d6e11c14aaca5c62e291879c9c694f425
 %global clustercap_commit 22be164a90dc8d2705ce05638e6ce61839596dfc
 
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
@@ -66,8 +66,8 @@
 Name:           %{package_name}
 # Version is not kept up to date and is intended to be set by tito custom
 # builders provided in the .tito/lib directory of this project
-Version:        3.11.1
-Release:        6%{?dist}
+Version:        3.11.2
+Release:        2%{?dist}
 Summary:        OpenShift Open Source Container Management by Red Hat
 License:        ASL 2.0
 URL:            https://%{import_path}
@@ -98,7 +98,6 @@ Source4:        https://%{clustercap_import_path}/archive/%{clustercap_commit}/c
 # Upstream had this explcitly disabled for i386 but had client builds enabled.
 # Will follow up with upstream to find out if they want to leave this as is.
 Patch0:         origin-3.6.0-build.patch
-Patch1:         import-fix.patch
 
 BuildRequires:  systemd
 BuildRequires:  bsdtar
@@ -282,7 +281,6 @@ gzip -dc %{SOURCE3} | tar -xof -
 gzip -dc %{SOURCE4} | tar -xof -
 
 %patch0 -p1 -b .bsfix
-%patch1 -p2 -b .import
 
 %build
 echo "GOLANG DEBUG OUTPUT"
@@ -623,6 +621,14 @@ if [ "$1" -eq 0 ] ; then
 fi
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.11.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Jakub Čajka <jcajka@fedoraproject.org> - 3.11.2-1
+- Rebase to upstream 20c5b86c88657888e4906ed7942b85515c650f96, let's call it 3.11.2
+- Fix for CVE-2020-8551, CVE-2020-8552, CVE-2020-8555, CVE-2020-8945
+- Resolves: BZ#1816406, BZ#1816396, BZ#1842692, BZ#1802905
+
 * Fri May 01 2020 Petr Pisar <ppisar@redhat.com> - 3.11.1-6
 - Soften a dependency on bash-completion (bug #1493993)
 

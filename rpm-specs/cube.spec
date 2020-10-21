@@ -7,7 +7,7 @@
 
 Name:           cube
 Version:        4.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        CUBE Uniform Behavioral Encoding generic presentation component
 
 License:        BSD
@@ -329,6 +329,9 @@ fi
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun  9 2020 Dave Love <loveshack@fedoraproject.org> - 4.5-1
 - New version, with some build changes
 

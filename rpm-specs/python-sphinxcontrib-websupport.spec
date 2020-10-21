@@ -1,8 +1,8 @@
 %global pypi_name sphinxcontrib-websupport
 
 Name:           python-%{pypi_name}
-Version:        1.2.1
-Release:        2%{?dist}
+Version:        1.2.4
+Release:        1%{?dist}
 Summary:        Sphinx API for Web Apps
 
 License:        BSD
@@ -65,6 +65,13 @@ rmdir empty
 %{python3_sitelib}/sphinxcontrib_websupport-*.egg-info/
 
 %changelog
+* Tue Aug 18 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.4-1
+- Update to 1.2.4
+- Fixes rhbz#1800626
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.1-2
 - Rebuilt for Python 3.9
 

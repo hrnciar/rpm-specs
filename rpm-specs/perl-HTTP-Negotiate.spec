@@ -1,6 +1,6 @@
 Name:           perl-HTTP-Negotiate
 Version:        6.01
-Release:        26%{?dist}
+Release:        27%{?dist}
 Summary:        Choose a variant to serve
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/HTTP-Negotiate
@@ -52,6 +52,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.01-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 6.01-26
 - Perl 5.32 rebuild
 

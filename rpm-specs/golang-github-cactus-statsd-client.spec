@@ -3,7 +3,7 @@
 
 # https://github.com/cactus/go-statsd-client
 %global goipath         github.com/cactus/go-statsd-client
-Version:                3.2.0
+Version:                3.2.1
 
 %gometa
 
@@ -14,7 +14,7 @@ A StatsD client for Go.}
 %global godocs          README.md CHANGELOG.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Statsd client for Go
 
 License:        MIT
@@ -54,6 +54,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 18:47:53 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.2.1-1
+- Update to 3.2.1
+
 * Wed Jan 29 17:16:17 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.2.0-1
 - Update to 3.2.0
 

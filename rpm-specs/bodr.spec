@@ -1,6 +1,6 @@
 Name:           bodr
 Version:        10
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Blue Obelisk Data Repository
 
 License:        MIT
@@ -43,6 +43,9 @@ mv $RPM_BUILD_ROOT%{_docdir}/bodr DOC
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

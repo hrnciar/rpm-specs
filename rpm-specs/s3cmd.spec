@@ -6,12 +6,14 @@
 
 Name:           s3cmd
 Version:        2.1.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Tool for accessing Amazon Simple Storage Service
 
 License:        GPLv2+
 URL:            https://s3tools.org/s3cmd
 Source0:        https://github.com/s3tools/s3cmd/releases/download/v%{version}/s3cmd-%{version}.tar.gz
+# BZ 1884607 - fix for Python3.9 in F33, and on
+Patch0:         s3cmd-python39-fixes.patch
 BuildArch:      noarch
 
 %if %{with python3}
@@ -48,6 +50,9 @@ command line client.
 
 %prep
 %setup -q 
+%if 0%{?fedora} >= 33
+%patch0 -p1
+%endif
 rm -rf *.egg-info
 %if %{without python3}
 # Not needed on Py2, RPM fails to Bytecompile it
@@ -87,6 +92,12 @@ install -D -p -m 0644 -t %{buildroot}%{_mandir}/man1 s3cmd.1
 %endif
 
 %changelog
+* Sat Oct 03 2020 Frank Crawford <frank@crawford.emu.id.au> - 2.1.0-4
+- Fix for Python 3.9 (RHBZ #1884607)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.0-2
 - Rebuilt for Python 3.9
 

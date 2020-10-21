@@ -1,6 +1,6 @@
 Name:           perl-grpc-xs
-Version:        0.32
-Release:        3%{?dist}
+Version:        0.33
+Release:        1%{?dist}
 Summary:        Perl binding to a client part of the gRPC library
 # examples/route_guide/route_guide.proto:   BSD
 # LICENSE:      ASL 2.0 text
@@ -68,6 +68,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Mon Oct 19 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.33-1
+- 0.33 bump
+
+* Mon Aug 03 2020 Petr Pisar <ppisar@redhat.com> - 0.32-5
+- Adjust the tests to a stronger crypto-policy (bug #1862951)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.32-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.32-3
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:           adapta-backgrounds
 Version:        0.5.3.1
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Wallpaper collection for adapta-project
 
 License:        GPLv2 and CC-BY-SA
@@ -46,6 +46,9 @@ done
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

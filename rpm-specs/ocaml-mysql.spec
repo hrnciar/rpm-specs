@@ -2,7 +2,7 @@
 
 Name:           ocaml-mysql
 Version:        1.2.2
-Release:        13%{?dist}
+Release:        16%{?dist}
 Summary:        OCaml library for accessing MySQL databases
 License:        LGPLv2+ with exceptions
 
@@ -82,6 +82,15 @@ make install
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.2.2-16
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.2.2-15
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 1.2.2-13
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

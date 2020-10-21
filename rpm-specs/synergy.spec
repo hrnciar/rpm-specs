@@ -1,10 +1,12 @@
+%define __cmake_in_source_build 1
+
 %global synergy_revision 0bd448d5
 %global icon_path %{_datadir}/icons/hicolor/scalable/apps/synergy.svg
 Summary: Share mouse and keyboard between multiple computers over the network
 Name: synergy
 Epoch: 1
 Version: 1.11.1
-Release: 1%{?dist}
+Release: 4%{?dist}
 License: GPLv2
 URL: https://symless.com/synergy
 Source0: https://github.com/symless/synergy-core/archive/v%{version}-stable.tar.gz
@@ -113,6 +115,16 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/synergy.desktop
 %{_mandir}/man8/synergys.8.gz
 
 %changelog
+* Tue Sep 22 2020 Jeff Law <law@redhat.com> - 1:1.11.1-4
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.11.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.11.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 08 2020 Ding-Yi Chen <dchen@redhat.com> - 1:1.11.1-1
 - Upstream update to v1.11.1-stable
 

@@ -1,6 +1,6 @@
 Name: thc-ipv6
 Version: 3.4
-Release: 6%{?dist}
+Release: 7%{?dist}
 Summary: An toolkit for attacking the IPv6 protocol suite
 
 License: AGPLv3 with exceptions
@@ -44,6 +44,9 @@ make install DESTDIR=%{buildroot}
 %{_mandir}/man8/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

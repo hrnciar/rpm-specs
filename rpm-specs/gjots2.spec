@@ -1,8 +1,8 @@
 # -*-Mode: rpm-spec -*-
 
 Name:    gjots2
-Version: 3.1.6
-Release: 3%{?dist}
+Version: 3.1.9
+Release: 2%{?dist}
 Summary: A hierarchical note jotter - organize your ideas, notes, facts in a tree
 License: GPLv2
 URL:     http://bhepple.freeshell.org/gjots
@@ -16,7 +16,9 @@ BuildRequires: desktop-file-utils
 
 Requires: python3-gobject
 Requires: gtk3
-Requires: gtksourceview4
+
+# epel has gtksourceview3 only. f-31/2 also have gtksourceview4. Maybe use weak dependencies?
+Requires: gtksourceview3
 
 %description
 
@@ -34,9 +36,6 @@ structure them appropriately.
 %prep
 %autosetup -p1
 
-# setup.py installs python code in /usr/local/lib/gjots2, but we want
-# /usr/lib/python3.7/site-packages/gjots2:
-sed -i -e 's@lib/gjots2@lib/python%{python3_version}/site-packages/gjots2@g' setup.py
 # Convert to utf-8
 for file in doc/man/man1/*.1; do
     iconv -f ISO-8859-1 -t UTF-8 -o $file.new $file && \
@@ -94,6 +93,31 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.metainf
 %{_mandir}/man1/docbook2gjots*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 2020 Bob Hepple <bob.hepple@gmail.com> - 3.1.9-1
+- ui/about.ui: remove redundant translater credits - seems to have no effect here
+- fix: some environments don't always show images in buttons
+- add tooltip for Find button
+- fix: printDialog needed import gi, os; was using old mktemp
+- Change popup dialogs type to 'top-level' instead of 'popup'!!! -
+- as documented on GtkWindow page - avoids the message: Window
+  0x560942cc2d60 is a temporary window without parent, application
+  will not be able to position it on screen.
+
+* Mon Jun 29 2020 Bob Hepple <bob.hepple@gmail.com> - 3.1.8-1
+- fix popup context menus (right click on tree)
+- fix locale_dir when running from source tree
+- add LC_ALL=zh_TW translation
+- accomodate installation to any $prefix with setup.py
+- fix tree_select_all
+- fine tune python version requirement to >= 3.6.8 for epel8
+- try for gtksourceview4 and failover to gtksourceview3
+
+* Wed Jun 24 2020 Bob Hepple <bob.hepple@gmail.com> - 3.1.7-1
+- new version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.1.6-3
 - Rebuilt for Python 3.9
 

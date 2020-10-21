@@ -7,7 +7,7 @@ Name:	%{fontname}-fonts
 # update versions on file changes. When in doubt use the timestamp of the most
 # recent file as version.
 Version:	0.6
-Release:	22.%{cvsdate}cvs%{?dist}
+Release:	23.%{cvsdate}cvs%{?dist}
 Summary:	Fonts for Sinhala language
 License:	GPLv2
 URL:	http://sinhala.sourceforge.net/
@@ -58,6 +58,9 @@ install -Dm 0644 -p %{SOURCE2} \
 %{_datadir}/appdata/%{fontname}.metainfo.xml
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-23.20090803cvs
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Parag Nemade <pnemade AT redhat DOT com> - 0.6-22.20090803cvs
 - Update fontconfig DTD id in conf file
 

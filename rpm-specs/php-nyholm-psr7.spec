@@ -35,7 +35,7 @@
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
 Version:        1.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A fast PHP7 implementation of PSR-7
 
 License:        MIT
@@ -154,6 +154,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Remi Collet <remi@remirepo.net> - 1.3.0-1
 - update to 1.3.0
 

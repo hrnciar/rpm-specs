@@ -5,7 +5,7 @@
 
 Name:           python-%{pypi_name}
 Version:        18.6.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A requests-like API built on top of twisted.web's Agent
 
 License:        MIT
@@ -83,6 +83,9 @@ rm -rf html/.{doctrees,buildinfo}
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 18.6.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 18.6.0-3
 - Rebuilt for Python 3.9
 

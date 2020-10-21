@@ -1,6 +1,6 @@
 Name: curlpp
 Version: 0.8.1
-Release: 10%{?dist}
+Release: 13%{?dist}
 Summary: A C++ wrapper for libcURL
 
 License: MIT
@@ -35,7 +35,7 @@ developing applications that use %{name}.
 
 
 %prep
-%setup -q
+%autosetup
 
 # Convert CRLF line endings to LF in the examples
 for file in examples/*.cpp
@@ -50,12 +50,12 @@ sed -i '28 d' include/curlpp/Types.hpp
 
 
 %build
-%cmake .
-make %{?_smp_mflags} CPPFLAGS="%{optflags}"
+%cmake CMAKE_C_FLAGS="%{optflags}" .
+%cmake_build
 
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 # Unwanted library files
 rm -f %{buildroot}%{_libdir}/*.la
@@ -84,6 +84,16 @@ ctest -V %{?_smp_mflags}
 
 
 %changelog
+* Mon Aug 17 2020 Filipe Rosset <rosset.filipe@gmail.com> - 0.8.1-13
+- Fix to recent cmake macro change on F-33 fixes rhbz#1863384
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

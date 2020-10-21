@@ -7,19 +7,19 @@
 %global __cargo_is_lib() false
 
 Name:           stratisd
-Version:        2.0.1
-Release:        2%{?dist}
+Version:        2.1.0
+Release:        3%{?dist}
 Summary:        Daemon that manages a pool of block devices to create flexible filesystems
 
-# Install all deps (without check), grab their licenses and make it simple
-# * ASL 2.0 or Boost
-# * ASL 2.0 or MIT
-# * MIT
-# * MIT or ASL 2.0
-# * (MIT or ASL 2.0) and BSD
-# * MPLv2.0
-# * Unlicense or MIT
-License:        MPLv2.0 and ASL 2.0 and MIT and BSD
+# ASL 2.0
+# ASL 2.0 or Boost
+# BSD
+# MIT
+# MIT or ASL 2.0
+# MPLv2.0
+# Unlicense or MIT
+# zlib
+License:        MPLv2.0 and ASL 2.0 and BSD and MIT and zlib
 URL:            https://github.com/stratis-storage/stratisd
 Source:         %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
@@ -27,6 +27,8 @@ ExclusiveArch:  %{rust_arches}
 
 BuildRequires:  rust-packaging
 BuildRequires:  systemd
+BuildRequires:  pkgconfig(libcryptsetup) >= 2.3.0
+BuildRequires:  pkgconfig(blkid) >= 2.32.0
 
 %{?systemd_requires}
 Requires:       xfsprogs
@@ -88,6 +90,16 @@ install -Dpm0644 -t %{buildroot}%{_unitdir} stratisd.service
 %{_unitdir}/stratisd.service
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 John Baublitz <jbaublitz@redhat.com> - 2.1.0-1
+- Update to 2.1.0
+
 * Wed Feb 19 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 2.0.1-2
 - Fixup license
 

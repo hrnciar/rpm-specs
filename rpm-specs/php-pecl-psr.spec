@@ -24,7 +24,7 @@
 Summary:       PSR interfaces
 Name:          php-pecl-psr
 Version:       %{upstream_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Source0:       https://pecl.php.net/get/%{pecl_name}-%{upstream_version}%{?upstream_prever}.tgz
 License:       BSD
 URL:           https://pecl.php.net/package/psr
@@ -187,6 +187,9 @@ REPORT_EXIT_STATUS=1 \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 19 2020 Remi Collet <remi@remirepo.net> - 1.0.0-1
 - update to 1.0.0 (no change)
 

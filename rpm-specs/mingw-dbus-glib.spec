@@ -3,7 +3,7 @@
 Summary:	MinGW build of GLib bindings for D-Bus
 Name:		mingw-dbus-glib
 Version:	0.110
-Release:	6%{?dist}
+Release:	8%{?dist}
 License:	AFL and GPLv2+
 URL:		http://dbus.freedesktop.org/
 Source:		http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-%{version}.tar.gz
@@ -134,6 +134,12 @@ rm -r ${RPM_BUILD_ROOT}%{mingw64_mandir}/man1/
 
 
 %changelog
+* Wed Aug 12 13:35:51 GMT 2020 Sandro Mani <manisandro@gmail.com> - 0.110-8
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.110-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.110-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

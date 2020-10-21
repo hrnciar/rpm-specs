@@ -5,7 +5,7 @@
 
 Name:    bip
 Version: 0.9.0
-Release: 0.7.%{date}git%{shortcommit}%{?dist}
+Release: 0.10.%{date}git%{shortcommit}%{?dist}
 Summary: IRC Bouncer
 License: GPLv2+
 URL: http://bip.t1r.net
@@ -64,7 +64,7 @@ make CFLAGS="$RPM_OPT_FLAGS -fPIE -Wno-unused-result -Wno-error=format-truncatio
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 # Remove misplaced files
 rm -rf $RPM_BUILD_ROOT%{_defaultdocdir}/bip
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}
@@ -119,6 +119,17 @@ install -p -m 0644 %{SOURCE3} $RPM_BUILD_ROOT%{_unitdir}/
 %{_unitdir}/bip.service
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-0.10.20181225gitc9cc64f
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-0.9.20181225gitc9cc64f
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 0.9.0-0.8.20181225gitc9cc64f
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Thu Apr 23 2020 Tom Hughes <tom@compton.nu> - 0.9.0-0.7.20181225gitc9cc64f
 - Fix patch to correctly terminate strings
 

@@ -1,7 +1,7 @@
 Summary:        A GUI front-end to CHMlib
 Name:           xchm
 Version:        1.23
-Release:        17%{?dist}
+Release:        18%{?dist}
 License:        GPLv2+
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Source1:        %{name}.desktop
@@ -58,6 +58,9 @@ rm -rf ${RPM_BUILD_ROOT}%{_datadir}/pixmaps
 %{_datadir}/applications/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.23-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.23-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

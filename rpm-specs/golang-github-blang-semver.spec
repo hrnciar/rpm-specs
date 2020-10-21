@@ -3,7 +3,7 @@
 
 # https://github.com/blang/semver
 %global goipath         github.com/blang/semver
-Version:                3.6.1
+Version:                4.0.0
 
 %gometa
 
@@ -17,7 +17,7 @@ version 2.0.0.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Semantic Versioning library written in Go
 
 License:        MIT
@@ -46,6 +46,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 14:18:29 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 4.0.0-1
+- Update to 4.0.0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name: libparserutils
 Version: 0.2.4
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: A library for building efficient parsers
 
 License: MIT
@@ -75,6 +75,9 @@ make %{?_smp_mflags} test %{make_vars} %{build_vars}
 %doc build/docs/html
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

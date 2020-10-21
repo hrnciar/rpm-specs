@@ -1,7 +1,7 @@
 Summary:	SIP test tool / traffic generator
 Name:		sipp
 Version:	3.6.0
-Release:	3%{?dist}
+Release:	5%{?dist}
 License:	GPLv2+
 URL:		https://github.com/SIPp/sipp
 VCS:            scm:git:https://github.com/SIPp/sipp.git
@@ -19,7 +19,7 @@ BuildRequires:	libpcap-devel
 BuildRequires:	libtool
 BuildRequires:	lksctp-tools-devel
 BuildRequires:	ncurses-devel
-BuildRequires:	pkgconfig(openssl) < 1.1.0
+BuildRequires:	pkgconfig(openssl)
 
 
 %description
@@ -63,6 +63,12 @@ make check
 
 
 %changelog
+* Wed Sep 16 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.6.0-5
+- Migrate to modern openssl.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

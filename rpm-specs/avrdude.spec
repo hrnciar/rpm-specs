@@ -2,7 +2,7 @@
 
 Name:           avrdude
 Version:        6.3
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Software for programming Atmel AVR Microcontroller
 
 License:        GPLv2+
@@ -82,6 +82,9 @@ install -p -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_udevrulesdir}/%{udev_rules}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.3-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.3-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

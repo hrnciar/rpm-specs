@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        3.8.1.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        JS-Yaml (XStatic packaging standard)
 
 License:        MIT
@@ -90,6 +90,9 @@ rmdir %{buildroot}%{python3_sitelib}/xstatic/pkg/js_yaml/data/
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.1.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.8.1.0-9
 - Rebuilt for Python 3.9
 

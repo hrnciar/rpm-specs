@@ -6,7 +6,7 @@
 Summary: Command line multimedia player based on gstreamer
 Name: gst123
 Version: 0.3.3
-Release: 15.1.%{shortcommit0}%{?dist}
+Release: 16.1.%{shortcommit0}%{?dist}
 URL: http://space.twc.de/~stefan/gst123.php
 Source0: http://space.twc.de/cgi-bin/gitweb.cgi?p=gst123.git;a=snapshot;h=%{commit0};sf=tgz#/%{name}-%{shortcommit0}.tgz
 
@@ -48,6 +48,9 @@ make install DESTDIR=%{buildroot}
 %doc COPYING AUTHORS README NEWS
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-16.1.8473c29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-15.1.8473c29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name: gyazo
 Version: 1.2
-Release: 11%{?dist}
+Release: 13%{?dist}
 Summary: Screen capture (screenshot) tool
 License: GPLv3+
 BuildArch: noarch
@@ -13,7 +13,7 @@ Patch0: fix_desktop_version.patch
 Requires: ruby rubygems rubygem(json)
 Requires: %{_bindir}/ps
 Requires: ImageMagick
-Requires: xorg-x11-utils
+Requires: xclip xprop xwininfo
 BuildRequires: desktop-file-utils
 
 %description
@@ -50,6 +50,12 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 1.2-13
+- Require xclip xprop xwininfo, not xorg-x11-utils
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-11
 - Added word screenshot to description and summary to make it more easily foundable
 

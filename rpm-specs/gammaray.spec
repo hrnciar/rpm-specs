@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 %ifarch %{ix86}
     %global arch i686
 %else
@@ -8,7 +9,7 @@
 %global qt5_target %(echo qt%{qt5_ver}-%{arch} | sed 's/\\./_/g')
 
 %global gammaray_ver 2.11
-%global gammaray_ver_minor 1
+%global gammaray_ver_minor 2
 %global gammaray_version %{gammaray_ver}.%{gammaray_ver_minor}
 
 Name:           gammaray
@@ -18,6 +19,7 @@ Summary:        A tool for examining internals of Qt applications
 License:        GPLv2+
 URL:            http://www.kdab.com/kdab-products/gammaray/
 Source0:        https://github.com/KDAB/GammaRay/releases/download/v%{version}/%{name}-%{version}.tar.gz
+
 
 # Qt 5 (GUI, probe)
 BuildRequires:  qt5-qt3d-devel
@@ -106,20 +108,20 @@ This package includes developer documentation in HTML format.
 %prep
 %setup -q -n %{name}-%{version}
 
+
 %build
 %global _target_platform_qt5 %{_target_platform}_qt5
-mkdir %{_target_platform_qt5}
-pushd %{_target_platform_qt5}
+
 %cmake .. \
         -DLIBEXEC_INSTALL_DIR=libexec \
         -DQCH_INSTALL_DIR=%{_docdir}/gammaray
-popd
-%make_build -C %{_target_platform_qt5}
-make docs -C %{_target_platform_qt5}
 
+%cmake_build
+
+make docs
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform_qt5}
+%cmake_install
 
 ## this snippet should no longer be needed, keeping commented out
 ## just in case -- rex
@@ -186,6 +188,22 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/GammaRay.desktop
 
 
 %changelog
+* Fri Sep 25 2020 Jan Grulich <jgrulich@redhat.com> - 2.11.2-1
+- 2.11.2
+
+* Thu Sep 24 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.11.4-5
+- %%undefine __cmake_in_source_build
+
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 2.11.1-4
+- rebuild (qt5)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.11.1-1
 - 2.11.1
 

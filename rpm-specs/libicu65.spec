@@ -1,6 +1,6 @@
 Name:      libicu65
 Version:   65.1
-Release:   1%{?dist}
+Release:   2%{?dist}
 Summary:   Compat package with icu libraries
 
 License:   MIT and UCD and Public Domain
@@ -87,5 +87,8 @@ rm -rf $RPM_BUILD_ROOT%{_mandir}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 65.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 17 2020 Pete Walter <pwalter@fedoraproject.org> - 65.1-1
 - Initial packaging

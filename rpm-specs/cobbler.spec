@@ -5,12 +5,15 @@
 
 Name:           cobbler
 Version:        3.1.2
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Boot server configurator
 URL:            https://cobbler.github.io/
 License:        GPLv2+
 Source0:        https://github.com/cobbler/cobbler/archive/v%{version}/%{name}-%{version}.tar.gz
 #Source0:        https://github.com/cobbler/cobbler/archive/%{commit0}/%{name}-%{commit0}.tar.gz
+# Revert upstream's VirtualHost addition
+# https://github.com/cobbler/cobbler/issues/2286
+Patch0:         cobbler-httpd.patch
 BuildArch:      noarch
 
 BuildRequires: python%{python3_pkgversion}-devel
@@ -33,9 +36,11 @@ BuildRequires: python%{python3_pkgversion}-sphinx
 Requires: httpd
 Requires: tftp-server
 Requires: createrepo_c
+Requires: file
 Requires: rsync
 Requires: xorriso
 Requires: python%{python3_pkgversion}-cheetah
+Requires: python%{python3_pkgversion}-distro
 Requires: python%{python3_pkgversion}-dns
 Requires: python%{python3_pkgversion}-future
 Requires: python%{python3_pkgversion}-mod_wsgi
@@ -74,7 +79,7 @@ The last two modes use a helper tool, 'koan', that integrates with
 cobbler.  There is also a web interface 'cobbler-web'.  Cobbler's
 advanced features include importing distributions from DVDs and rsync
 mirrors, kickstart templating, integrated yum mirroring, and built-in
-DHCP/DNS Management.  Cobbler has a XMLRPC API for integration with
+DHCP/DNS Management.  Cobbler has a XML-RPC API for integration with
 other applications.
 
 
@@ -190,6 +195,15 @@ sed -i -e "s/SECRET_KEY = ''/SECRET_KEY = \'$RAND_SECRET\'/" %{_datadir}/cobbler
 
 
 %changelog
+* Thu Sep 17 2020 Orion Poplawski <orion@nwra.com> - 3.1.2-4
+- Add requires on python-distro and file
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 08 2020 Orion Poplawski <orion@nwra.com> - 3.1.2-2
+- Fix apache configuration
+
 * Fri May 29 2020 Orion Poplawski <orion@nwra.com> - 3.1.2-1
 - Update to 3.1.2
 

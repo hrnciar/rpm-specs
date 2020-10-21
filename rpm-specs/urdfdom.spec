@@ -1,11 +1,17 @@
+%undefine __cmake_in_source_build
+%global libversion 1.0
+
 Name:		urdfdom
-Version:	1.0.0
-Release:	5%{?dist}
+Version:	1.0.4
+Release:	1%{?dist}
 Summary:	U-Robot Description Format Document Object Model
 
 License:	BSD
 URL:		http://ros.org/wiki/urdf
 Source0:	https://github.com/ros/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
+# Don't look for a specific version of console-bridge
+# https://github.com/ros/urdfdom/pull/141
+Patch0:     urdfdom-1.0.4-console-bridge.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:	boost-devel
@@ -30,24 +36,23 @@ developing applications that use %{name}.
 
 %prep
 %setup -qn %{name}-%{version}
+%patch0 -p0 -b .console-bridge
 # Disable automatic installation of python bindings
 sed -i 's/add_subdirectory(urdf_parser_py)//' CMakeLists.txt
 
 %build
-%cmake . -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_LIBDIR=%{_lib }
-make %{?_smp_mflags}
-
+%cmake -DCMAKE_BUILD_TYPE=Release
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 rm -rf %{buildroot}%{_bindir}/urdf_mem_test
 
-%ldconfig_scriptlets
 
 %files
 %license LICENSE
 %{_bindir}/*
-%{_libdir}/*.so.*
+%{_libdir}/*.so.%{libversion}
 
 %files devel
 %{_libdir}/*.so
@@ -56,6 +61,12 @@ rm -rf %{buildroot}%{_bindir}/urdf_mem_test
 %{_includedir}/urdf_parser
 
 %changelog
+* Tue Aug 04 2020 Rich Mattes <richmattes@gmail.com> - 1.0.4-1
+- Update to release 1.0.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

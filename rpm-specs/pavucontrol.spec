@@ -1,6 +1,6 @@
 Name:           pavucontrol
 Version:        4.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Volume control for PulseAudio
 
 License:        GPLv2+
@@ -51,6 +51,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/pavucontrol.deskto
 %{_datadir}/applications/pavucontrol.desktop
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 13 2020 Julian Sikorski <belegdol@fedoraproject.org> - 4.0-4
 - Fix crash on Ctrl-Q using a patch from upstream gitlab (RH #1725150)
 

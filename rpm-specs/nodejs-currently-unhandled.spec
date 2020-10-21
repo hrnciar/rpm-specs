@@ -6,7 +6,7 @@
 
 Name:		nodejs-currently-unhandled
 Version:	0.4.1
-Release:	8%{?dist}
+Release:	9%{?dist}
 Summary:	Track the list of currently unhandled promise rejections
 
 License:	MIT
@@ -65,6 +65,9 @@ cp -pr package.json *.js \
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

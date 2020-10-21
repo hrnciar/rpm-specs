@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	2.1.9
-Release:	6%{?dist}
+Release:	8%{?dist}
 Summary:	Multi-Paxos framework in Erlang
 License:	ASL 2.0
 URL:		https://github.com/%{upstream}/%{realname}
@@ -57,6 +57,13 @@ combination of per-key and per-ensemble state.
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.9-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.9-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.9-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

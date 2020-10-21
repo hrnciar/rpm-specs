@@ -3,7 +3,7 @@
 
 # https://github.com/circonus-labs/circonusllhist
 %global goipath         github.com/circonus-labs/circonusllhist
-Version:                0.1.3
+Version:                0.1.4
 
 %gometa
 
@@ -17,7 +17,7 @@ such that accurate error can be reasoned about.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Go implementation of Circonus log-linear histograms
 
 # Upstream license specification: BSD-3-Clause
@@ -47,6 +47,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 23:58:37 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.1.4-1
+- Update to 0.1.4
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

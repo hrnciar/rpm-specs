@@ -1,6 +1,6 @@
 Name: lm_sensors
 Version: 3.6.0
-Release: 3%{?dist}
+Release: 5%{?dist}
 Summary: Hardware monitoring tools
 
 %define upstream_version %(echo %{version} | sed -e 's/\\./-/g')
@@ -26,6 +26,9 @@ Source7: lm_sensors.service
 
 # Downstream-only:
 Patch0: 0001-Revert-unnecessary-soname-bump.patch
+
+# Upstream patch:
+Patch1: 0001-Change-PIDFile-path-from-var-run-to-run.patch
 
 Requires: /usr/sbin/modprobe
 %ifarch %{ix86} x86_64
@@ -79,6 +82,7 @@ database, and warns of sensor alarms.
 %prep
 %setup -q -n lm-sensors-%{upstream_version}
 %patch0 -p1
+%patch1 -p1
 
 # Remove currently unused files to make sure we've got the license right
 rm -f prog/init/sysconfig-lm_sensors-convert prog/hotplug/unhide_ICH_SMBus
@@ -199,6 +203,13 @@ fi
 
 
 %changelog
+* Tue Aug 18 2020 Ondřej Lysoněk <olysonek@redhat.com> - 3.6.0-5
+- Fix systemd warning about use of /var/run
+- Resolves: rhbz#1869421
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

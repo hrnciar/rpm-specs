@@ -6,7 +6,7 @@
 
 Name:		nodejs-has-flag
 Version:	2.0.0
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	Check if argv has a specific flag
 
 License:	MIT
@@ -20,6 +20,7 @@ ExclusiveArch:	%{nodejs_arches} noarch
 BuildArch:	noarch
 
 BuildRequires:	nodejs-packaging
+BuildRequires:  nodejs(engine)
 %if 0%{?enable_tests}
 BuildRequires:	npm(ava)
 %endif
@@ -63,6 +64,9 @@ cp -pr package.json *.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

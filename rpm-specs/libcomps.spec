@@ -1,3 +1,5 @@
+%define __cmake_in_source_build 1
+
 # Do not build python3 bindings for RHEL <= 7
 %if 0%{?rhel} && 0%{?rhel} <= 7
 %bcond_with python3
@@ -14,7 +16,7 @@
 
 Name:           libcomps
 Version:        0.1.15
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Comps XML file manipulation library
 
 License:        GPLv2+
@@ -192,6 +194,16 @@ popd
 %endif
 
 %changelog
+* Fri Aug 07 2020 Nicola Sella <nsella@redhat.com> - 0.1.15-5
+- spec: Fix building with new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.15-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.15-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.15-2
 - Rebuilt for Python 3.9
 

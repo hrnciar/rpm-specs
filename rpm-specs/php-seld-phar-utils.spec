@@ -6,14 +6,14 @@
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    8800503d56b9867d43d9c303b9cbcc26016e82f0
+%global gh_commit    8674b1d84ffb47cc59a101f5d5a3b61e87d23796
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     Seldaek
 %global gh_project   phar-utils
 
 Name:           php-seld-phar-utils
-Version:        1.1.0
-Release:        1%{?dist}
+Version:        1.1.1
+Release:        2%{?dist}
 Summary:        PHAR file format utilities
 
 License:        MIT
@@ -86,6 +86,12 @@ exit(0);
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 Remi Collet <remi@remirepo.net> - 1.1.1-1
+- update to 1.1.1
+
 * Mon Feb 17 2020 Remi Collet <remi@remirepo.net> - 1.1.0-1
 - update to 1.1.0
 

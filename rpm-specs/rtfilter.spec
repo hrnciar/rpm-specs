@@ -1,6 +1,6 @@
 Name:           rtfilter
 Version:        1.1
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        Realtime digital filtering functions for multichannel signals
 
 # LGPLv3: src/*
@@ -69,6 +69,13 @@ make check
 %{_mandir}/man3/rtf*.3*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

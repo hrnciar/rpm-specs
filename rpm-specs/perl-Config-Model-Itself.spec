@@ -1,6 +1,6 @@
 Name:           perl-Config-Model-Itself
 Version:        2.020
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Model editor for Config::Model
 License:        LGPLv2+
 URL:            https://metacpan.org/release/Config-Model-Itself
@@ -88,6 +88,12 @@ install -D -m 0644 contrib/bash_completion.cme_meta %{buildroot}%{_sysconfdir}/b
 %config(noreplace) %{_sysconfdir}/bash_completion.d/cme_meta
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.020-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.020-3
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.020-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

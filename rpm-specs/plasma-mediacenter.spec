@@ -1,6 +1,6 @@
 Name:    plasma-mediacenter
 Version: 5.7.5
-Release: 11%{?dist}
+Release: 14%{?dist}
 Summary: A mediacenter user interface written with the Plasma framework
 
 License: GPLv2
@@ -13,6 +13,7 @@ URL:     https://cgit.kde.org/plasma-mediacenter.git
 %global stable stable
 %endif
 Source0: http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
+Patch0: plasma-mediacenter-5.7.5-ctaglib.patch
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  extra-cmake-modules
@@ -45,20 +46,16 @@ more fun.
 
 
 %prep
-%autosetup -n %{name}-%{version} -p1
+%autosetup -p1
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
+%cmake_kf5
+%cmake_build
 
 
 %install
-make install/fast -C %{_target_platform} DESTDIR=%{buildroot}
+%cmake_install
 
 %find_lang all --all-name
 
@@ -85,6 +82,16 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/plasma-mediacente
 
 
 %changelog
+* Mon Sep 14 2020 Than Ngo <than@redhat.com> - 5.7.5-14
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.7.5-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.7.5-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.7.5-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

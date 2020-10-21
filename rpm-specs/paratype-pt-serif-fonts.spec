@@ -21,7 +21,7 @@ of Olga Umpeleva and under supervision of Vladimir Yefimov. \
 
 Name:           %{fontname}-fonts
 Version:        20141121
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        A pan-Cyrillic typeface
 
 License:        OFL
@@ -93,6 +93,9 @@ install -Dm 0644 -p %{SOURCE13} \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20141121-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20141121-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -15,8 +15,8 @@
 %global srcname py
 
 Name:           python-%{srcname}
-Version:        1.8.2
-Release:        1%{?dist}
+Version:        1.9.0
+Release:        2%{?dist}
 Summary:        Library with cross-python path, ini-parsing, io, code, log facilities
 License:        MIT and Public Domain
 #               main package: MIT, except: doc/style.css: Public Domain
@@ -110,6 +110,12 @@ py.test-%{python3_version} -r s -k"-TestWCSvnCommandPath" testing
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jun 28 2020 Thomas Moschny <thomas.moschny@gmx.de> - 1.9.0-1
+- Update to 1.9.0.
+
 * Sat Jun 20 2020 Thomas Moschny <thomas.moschny@gmx.de> - 1.8.2-1
 - Update to 1.8.2.
 

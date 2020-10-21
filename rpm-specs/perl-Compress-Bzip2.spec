@@ -6,17 +6,18 @@
 %endif
 
 Name:           perl-Compress-Bzip2
-Version:        2.27
-Release:        3%{?dist}
+Version:        2.28
+Release:        2%{?dist}
 Summary:        Interface to Bzip2 compression library
 # bzlib-src/win-tst-dlltest.c (unbundled):  Public Domain
 # bzlib-src/LICENSE (unbundled):            BSD
-# bzlib-src/manual.ps (unbundled):          GPL+ with exception
+# bzlib-src/manual.ps (unbundled):          GPL+ with exception and OFL
 # other files:                              GPL+ or Artistic
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Compress-Bzip2
 Source0:        https://cpan.metacpan.org/authors/id/R/RU/RURBAN/Compress-Bzip2-%{version}.tar.gz
 BuildRequires:  bzip2-devel >= 1.0.5
+BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  gcc
 BuildRequires:  make
@@ -90,6 +91,15 @@ make test
 %{_mandir}/man3/*.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.28-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Petr Pisar <ppisar@redhat.com> - 2.28-1
+- 2.28 bump
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.27-4
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.27-3
 - Perl 5.32 rebuild
 

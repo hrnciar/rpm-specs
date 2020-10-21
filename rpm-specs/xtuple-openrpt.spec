@@ -1,6 +1,6 @@
 Name: xtuple-openrpt
 Version: 3.3.14
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: xTuple / PostBooks reporting utility and libraries
 License: CPAL
 Url: http://www.xtuple.com/openrpt/
@@ -129,6 +129,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications *.desktop
 %{_libdir}/libqzint.so
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.14-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.14-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

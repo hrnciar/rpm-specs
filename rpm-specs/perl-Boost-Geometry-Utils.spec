@@ -1,33 +1,58 @@
 Name:           perl-Boost-Geometry-Utils
 Version:        0.15
-Release:        26%{?dist}
-Summary:        Boost::Geometry::Utils Perl module
-License:        GPL+ or Artistic
+Release:        28%{?dist}
+Summary:        Bindings for the Boost Geometry library
+# README:               GPL+ or Artistic
+# src/medial_axis.hpp:  Boost
+# src/ppport.h:         GPL+ or Artistic
+## Unbundled
+# src/boost/type.hpp:   Boost
+License:        (GPL+ or Artistic) and Boost
 URL:            https://metacpan.org/release/Boost-Geometry-Utils
 Source0:        https://cpan.metacpan.org/authors/id/A/AA/AAR/Boost-Geometry-Utils-%{version}.tar.gz
 # Fix for RT#96145
 Patch0:         Boost-Geometry-Utils-0.15-multi_linestring2perl-only-extend-the-array-if-needed.patch
+# Fix building with Boost 1.73.0, CPAN RT#133057
+Patch1:         Boost-Geometry-Utils-0.15-Port-Boost-1.73.0.patch
+BuildRequires:  boost-devel
+BuildRequires:  coreutils
+BuildRequires:  findutils
 BuildRequires:  gcc-c++
 BuildRequires:  perl-devel
 BuildRequires:  perl-generators
-BuildRequires:  perl(Exporter)
+BuildRequires:  perl-interpreter
 BuildRequires:  perl(ExtUtils::CBuilder)
-BuildRequires:  perl(ExtUtils::Typemaps::Default)
-BuildRequires:  perl(File::Temp)
-BuildRequires:  perl(Module::Build)
-BuildRequires:  perl(Module::Build::WithXSpp)
-BuildRequires:  perl(Test::More)
+BuildRequires:  perl(ExtUtils::Typemaps::Default) >= 0.05
+BuildRequires:  perl(Module::Build::WithXSpp) >= 0.10
+BuildRequires:  perl(strict)
+# Run-time:
+BuildRequires:  perl(Exporter)
+BuildRequires:  perl(warnings)
 BuildRequires:  perl(XSLoader)
+# Tests:
+BuildRequires:  perl(constant)
+BuildRequires:  perl(File::Find)
+BuildRequires:  perl(File::Temp)
+# List::Util not used
+BuildRequires:  perl(Test::More)
+# Optional tests:
+# Pod::Coverage::TrustPod not used
+# Test::Pod not used
+# Test::Pod::Coverage not used
+# Test::Script not helpful because of no script files
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 
-%{?perl_default_filter} # Filters (not)shared c libs
-
 %description
-Boost::Geometry::Utils Perl module
+This Perl module provides bindings to perform some geometric operations using
+the Boost Geometry library. It does not aim at providing full bindings.
 
 %prep
 %setup -q -n Boost-Geometry-Utils-%{version}
 %patch0 -p1
+%patch1 -p1
+# Unbundle Boost
+rm -r src/boost
+perl -i -ne 'print $_ unless m{^src/boost/}' MANIFEST
 
 %build
 perl Build.PL installdirs=vendor optimize="$RPM_OPT_FLAGS"
@@ -35,20 +60,29 @@ perl Build.PL installdirs=vendor optimize="$RPM_OPT_FLAGS"
 
 %install
 ./Build install destdir=%{buildroot} create_packlist=0
-find %{buildroot} -type f -name '*.bs' -size 0 -exec rm -f {} \;
-
+find %{buildroot} -type f -name '*.bs' -size 0 -delete
 %{_fixperms} %{buildroot}/*
 
 %check
+unset RELEASE_TESTING
 ./Build test
 
 %files
-%doc CHANGES LICENSE README
+%license LICENSE
+%doc CHANGES README
 %{perl_vendorarch}/auto/*
 %{perl_vendorarch}/Boost*
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Petr Pisar <ppisar@redhat.com> - 0.15-27
+- Modernize a spec file
+- License corrected to "(GPL+ or Artistic) and Boost"
+- Build against a system Boost library
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.15-26
 - Perl 5.32 rebuild
 

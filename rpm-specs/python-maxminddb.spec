@@ -5,8 +5,8 @@ a pure Python reader and an optional C extension. MaxMind DB is a binary file\
 format that stores data indexed by IP address subnets (IPv4 or IPv6).
 
 Name:           python-%{pypi_name}
-Version:        1.5.4
-Release:        2%{?dist}
+Version:        2.0.2
+Release:        1%{?dist}
 Summary:        Reader for the MaxMind DB format
 
 License:        ASL 2.0
@@ -58,6 +58,12 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitearch}/%{pypi_name}-*.egg-info/
 
 %changelog
+* Wed Jul 22 2020 Lumír Balhar <lbalhar@redhat.com> - 2.0.2-1
+- Update to 2.0.2 (#1859349)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5.4-2
 - Rebuilt for Python 3.9
 

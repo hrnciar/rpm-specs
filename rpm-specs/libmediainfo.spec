@@ -1,7 +1,7 @@
 %global libzen_version  0.4.38
 
 Name:           libmediainfo
-Version:        20.03
+Version:        20.08
 Release:        1%{?dist}
 Summary:        Library for supplies technical and tag information about a video or audio file
 Summary(ru):    Библиотека для предоставления полной информации о видео или аудио файле
@@ -100,15 +100,14 @@ pushd Source/Doc/
 popd
 cp Source/Doc/*.html ./
 
-mkdir Project/CMake/build
-pushd Project/CMake/build
-    %cmake ..
-    %make_build
+pushd Project/CMake
+    %cmake
+    %cmake_build
 popd
 
 %install
-pushd Project/CMake/build
-    %make_install
+pushd Project/CMake
+    %cmake_install
 popd
 
 install -m 644 -p Source/MediaInfoDLL/MediaInfoDLL.cs %{buildroot}%{_includedir}/MediaInfoDLL
@@ -134,6 +133,16 @@ rm -f %{buildroot}%{_libdir}/%{name}.la
 %{_libdir}/cmake/mediainfolib/
 
 %changelog
+* Thu Aug 13 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 20.08-1
+- Update to 20.08
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.03-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.03-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 03 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 20.03-1
 - Update to 20.03
 

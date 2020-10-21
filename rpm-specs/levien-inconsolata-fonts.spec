@@ -3,7 +3,7 @@
 
 Name:           %{fontname}-fonts
 Version:        3.000
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Inconsolata fonts
 
 License:        OFL
@@ -49,6 +49,9 @@ install -Dm 0644 -p %{SOURCE2} \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.000-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.000-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

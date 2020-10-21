@@ -5,7 +5,7 @@
 
 Name:           rust-%{crate}
 Version:        0.3.2
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Generic permutator that permutates singular and multiple lists
 
 License:        MIT
@@ -74,6 +74,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

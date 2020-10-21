@@ -1,6 +1,6 @@
 Name:		mindless
 Version:	1.0.0
-Release:	27%{?dist}
+Release:	28%{?dist}
 Summary:	Find the secret code
 Summary(de):	Finden Sie den Geheimcode
 Summary(sv):	Hitta den hemliga koden
@@ -88,6 +88,9 @@ appstream-util validate-relax --nonet \
 %{_datadir}/metainfo/%{name}.appdata.xml
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

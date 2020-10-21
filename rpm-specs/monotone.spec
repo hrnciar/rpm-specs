@@ -1,6 +1,6 @@
 Name:            monotone
 Version:         1.1
-Release:         35%{?dist}
+Release:         37%{?dist}
 Summary:         A free, distributed version control system
 License:         GPLv2+
 URL:             http://monotone.ca/
@@ -18,6 +18,10 @@ Patch1:          monotone-1.1-iostream.patch
 Patch2:          monotone-1.1-lua-integer.patch
 Patch3:          monotone-1.1-pcre.patch
 Patch4:          monotone-1.1-py3.patch
+Patch5:          monotone-1.1-lua-ql.patch
+Patch6:          monotone-1.1-boost.patch
+Patch7:          monotone-1.1-string-overflow.patch
+Patch8:          monotone-1.1-catch.patch
 BuildRequires:   gcc-c++
 BuildRequires:   make
 BuildRequires:   perl-generators
@@ -80,7 +84,7 @@ and then pass commands to it.
 %build
 export LC_MESSAGES=en_US
 %configure
-make %{?_smp_mflags}
+%make_build
 
 
 %check
@@ -92,7 +96,7 @@ make %{?_smp_mflags}
 
 %install
 export LC_MESSAGES=en_US
-make install DESTDIR=%{buildroot}
+%make_install
 rm -f %{buildroot}%{_infodir}/dir
 mv %{buildroot}%{_datadir}/doc/%{name} _doc
 
@@ -197,6 +201,19 @@ exit 0
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-37
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-36
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jerry James <loganjerry@gmail.com> - 1.1-35
+- Add lua-ql patch due to removal of LUA_QL from lua
+- Add boost patch to fix single-letter macro name clash (bz 1851313)
+- Add string-overflow patch to fix a potential buffer overflow
+- Add catch patch to silence a large number of compiler warnings
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.1-35
 - Perl 5.32 rebuild
 

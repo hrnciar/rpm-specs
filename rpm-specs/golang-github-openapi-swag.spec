@@ -6,7 +6,7 @@
 
 # https://github.com/go-openapi/swag
 %global goipath         github.com/go-openapi/swag
-Version:                0.19.0
+Version:                0.19.9
 
 %gometa
 
@@ -17,7 +17,7 @@ Contains a bunch of helper functions for go-openapi and go-swagger projects.}
 %global godocs          CODE_OF_CONDUCT.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Goodie bag in use in the Go-openapi projects
 
 # Upstream license specification: Apache-2.0
@@ -32,6 +32,7 @@ BuildRequires:  golang(gopkg.in/yaml.v2)
 %if %{with check}
 # Tests
 BuildRequires:  golang(github.com/stretchr/testify/assert)
+BuildRequires:  golang(github.com/stretchr/testify/require)
 %endif
 
 %description
@@ -53,6 +54,12 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 17:22:16 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.19.9-1
+- Update to 0.19.9
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

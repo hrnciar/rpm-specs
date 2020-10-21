@@ -1,6 +1,6 @@
 Name:           phd2
-Version:        2.6.8
-Release:        1%{?dist}
+Version:        2.6.9
+Release:        4%{?dist}
 Summary:        Telescope guiding software
 # Main program files are BSD licensed
 # Some components have different licenses:
@@ -55,22 +55,18 @@ chmod -x PHD_2.0_Architecture.docx
 
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
 %{cmake} -DUSE_SYSTEM_CFITSIO=ON \
             -DUSE_SYSTEM_LIBUSB=ON \
             -DUSE_SYSTEM_EIGEN3=ON \
             -DUSE_SYSTEM_GTEST=ON \
             -DUSE_SYSTEM_LIBINDI=ON \
-            -DOPENSOURCE_ONLY=ON ..
+            -DOPENSOURCE_ONLY=ON
 
-%make_build
+%cmake_build
 
 
 %install
-pushd %{_target_platform}
-%make_install
-popd
+%cmake_install
 
 %find_lang %{name}
 
@@ -92,6 +88,21 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/%{name}.
 
 
 %changelog
+* Tue Aug 04 2020 Mattia Verga <mattia.verga@protonmail.com> - 2.6.9-4
+- Another rebuild attempt for F33 Mass Rebuild after gettext has been fixed
+- Use new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.9-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 05 2020 Mattia Verga <mattia.verga@protonmail.com> - 2.6.9-1
+- Upgrade to 2.6.9
+- Fixes rhbz#1853866
+
 * Mon May 18 2020 Mattia Verga <mattia.verga@protonmail.com> - 2.6.8-1
 - Upgrade to 2.6.8
 

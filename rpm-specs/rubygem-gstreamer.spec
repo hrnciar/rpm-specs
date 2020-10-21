@@ -11,8 +11,8 @@
 
 Summary:	Ruby binding of GStreamer
 Name:		rubygem-%{gem_name}
-Version:	3.4.1
-Release:	3%{?dist}
+Version:	3.4.3
+Release:	1%{?dist}
 # from README
 License:	LGPLv2
 URL:		http://ruby-gnome2.sourceforge.jp/
@@ -66,7 +66,7 @@ gem unpack %{SOURCE0}
 gem spec %{SOURCE0} -l --ruby > %{gem_name}.gemspec
 
 # Allow ruby-gnome2 no less than ones
-sed -i -e 's|= 3\.4\.1|>= 3.4.1|' %{gem_name}.gemspec
+sed -i -e 's|= 3\.4\.3|>= 3.4.3|' %{gem_name}.gemspec
 
 # Fix wrong shebang
 #grep -rl /usr/local/bin sample | \
@@ -151,6 +151,12 @@ popd
 %exclude	%{gem_instdir}/test/
 
 %changelog
+* Thu Aug 13 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.4.3-1
+- 3.4.3
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

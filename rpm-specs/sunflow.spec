@@ -3,7 +3,7 @@
 Summary: A rendering system for photo-realistic image synthesis
 Name: sunflow
 Version: 0.07.4
-Release: 9%{?dist}
+Release: 12%{?dist}
 URL: https://github.com/sparkoo/sunflow
 Source0: https://github.com/sparkoo/sunflow/archive/v%{version}/%{name}-%{version}.tar.gz
 # based on sunflow_logo.png from http://sunflow.sourceforge.net/logo2007.zip
@@ -33,6 +33,7 @@ API documentation for sunflow.
 %prep
 %setup -q -n %{name}-%{version}
 dos2unix -k CHANGELOG LICENSE README
+%pom_remove_plugin :maven-javadoc-plugin
 %pom_remove_plugin :maven-source-plugin
 
 %build
@@ -66,6 +67,15 @@ java -server -Xmx1g -classpath $(build-classpath janino):target/%{name}-%{versio
 %license LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.07.4-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Fabio Valentini <decathorpe@gmail.com> - 0.07.4-11
+- Remove unnecessary dependency on maven-javadoc-plugin.
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0.07.4-10
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.07.4-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

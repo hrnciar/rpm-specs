@@ -1,45 +1,46 @@
 Name:           perl-Data-Rmap
 Version:        0.65
-Release:        12%{?dist}
+Release:        14%{?dist}
 Summary:        Recursive map, apply a block to a data structure
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Data-Rmap
 Source0:        https://cpan.metacpan.org/authors/id/B/BO/BOWMANBS/Data-Rmap-%{version}.tar.gz
 BuildArch:      noarch
-BuildRequires:  perl-interpreter
+BuildRequires:  coreutils
+BuildRequires:  make
 BuildRequires:  perl-generators
+BuildRequires:  perl-interpreter
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
+# Run-time:
 BuildRequires:  perl(Carp)
-BuildRequires:  perl(Data::Dumper)
 BuildRequires:  perl(Exporter)
-BuildRequires:  perl(Module::Build)
 BuildRequires:  perl(Scalar::Util)
 BuildRequires:  perl(strict)
+BuildRequires:  perl(warnings)
+# Tests:
+BuildRequires:  perl(Data::Dumper)
 BuildRequires:  perl(Test::Exception)
 BuildRequires:  perl(Test::More)
-BuildRequires:  perl(warnings)
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 
 %description
-This perl module evaluates a BLOCK over a list of data structures
-recursively (locally setting $_ to each element) and return the list
-composed of the results of such evaluations.  $_ can be used to modify
-the elements.
+This Perl module evaluates a BLOCK over a list of data structures recursively
+(locally setting $_ to each element) and return the list composed of the
+results of such evaluations.  $_ can be used to modify the elements.
 
 %prep
 %setup -q -n Data-Rmap-%{version}
 
 %build
-perl Build.PL installdirs=vendor
-./Build
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-./Build install destdir=%{buildroot} create_packlist=0
-
+%{make_install}
 %{_fixperms} %{buildroot}/*
 
 %check
-./Build test
-
+make test
 
 %files
 %doc Changes README
@@ -47,6 +48,12 @@ perl Build.PL installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.65-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Petr Pisar <ppisar@redhat.com> - 0.65-13
+- Modernize a spec file
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.65-12
 - Perl 5.32 rebuild
 

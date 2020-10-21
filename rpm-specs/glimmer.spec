@@ -1,6 +1,6 @@
 Name:           glimmer
 Version:        3.02b
-Release:        15%{?dist}
+Release:        18%{?dist}
 Summary:        System for finding genes in microbial DNA
 
 License:        Artistic clarified
@@ -26,7 +26,7 @@ sed -i "s/@ if/if/" src/c_make.gen
 
 
 %build
-make -C src %{?_smp_mflags} CXXFLAGS="$RPM_OPT_FLAGS"
+make -C src %{?_smp_mflags} CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 
 
 %check
@@ -52,6 +52,16 @@ ln -s ../libexec/glimmer3/glimmer3 $RPM_BUILD_ROOT/%{_bindir}/glimmer3
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.02b-18
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 3.02b-17
+- Force C++14 as this code is not C++17 ready
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.02b-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.02b-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

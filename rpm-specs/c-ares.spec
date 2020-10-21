@@ -3,7 +3,7 @@
 Summary: A library that performs asynchronous DNS operations
 Name: c-ares
 Version: 1.16.1
-Release: 1%{?dist}
+Release: 3%{?dist}
 License: MIT
 URL: http://c-ares.haxx.se/
 Source0: http://c-ares.haxx.se/download/%{name}-%{version}.tar.gz
@@ -26,16 +26,14 @@ by Greg Hudson at MIT.
 
 %package devel
 Summary: Development files for c-ares
-Requires: %{name} = %{version}-%{release}
-Requires: pkgconfig
+Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %description devel
 This package contains the header files and libraries needed to
 compile applications or shared objects that use c-ares.
 
 %prep
-%setup -q
-%patch0 -p1 -b .optflags
+%autosetup -p1
 
 cp %{SOURCE1} .
 f=CHANGES ; iconv -f iso-8859-1 -t utf-8 $f -o $f.utf8 ; mv $f.utf8 $f
@@ -45,31 +43,33 @@ f=CHANGES ; iconv -f iso-8859-1 -t utf-8 $f -o $f.utf8 ; mv $f.utf8 $f
 # %%configure --enable-shared --disable-static \
 #            --disable-dependency-tracking
 %if %{use_cmake}
-%{cmake} -DCMAKE_INSTALL_LIBDIR:PATH="%{_libdir}" -DCARES_BUILD_TOOLS:BOOL=OFF .
+%{cmake} -DCMAKE_INSTALL_LIBDIR:PATH="%{_libdir}" -DCARES_BUILD_TOOLS:BOOL=OFF
+%cmake_build
 %else
 autoreconf -if
 %configure --enable-shared --disable-static \
            --disable-dependency-tracking
-%endif
 %{__make} %{?_smp_mflags}
+%endif
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make DESTDIR=$RPM_BUILD_ROOT install
-rm -f $RPM_BUILD_ROOT/%{_libdir}/libcares.la
-
 %if %{use_cmake}
+%cmake_install
 # When we used autotooling, we got man pages installed automagically
 # but no cmake helpers were generated.
 # Now, we use cmake, so we have to copy the man pages manually.
 mkdir -p %{buildroot}%{_mandir}/man3
 cp -a ares_*.3 %{buildroot}%{_mandir}/man3/
+%else
+%make_install
+rm -f $RPM_BUILD_ROOT/%{_libdir}/libcares.la
 %endif
 
 %ldconfig_scriptlets
 
 %files
-%doc README.cares CHANGES NEWS LICENSE
+%license LICENSE
+%doc README.cares CHANGES NEWS
 %{_libdir}/*.so.*
 
 %files devel
@@ -86,6 +86,13 @@ cp -a ares_*.3 %{buildroot}%{_mandir}/man3/
 %{_mandir}/man3/ares_*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.16.1-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Mon May 11 2020 Tom Callaway <spot@fedoraproject.org> - 1.16.1-1
 - update to 1.16.1
 

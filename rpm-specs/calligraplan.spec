@@ -2,9 +2,12 @@
 # koffice version to Obsolete
 %global koffice_ver 3:2.3.70
 
+# until when/if we switch to new cmake macros
+%global __cmake_in_source_build 1
+
 Name:    calligraplan
 Version: 3.2.2
-Release: 2%{?dist}
+Release: 4%{?dist}
 Summary: A Project Planner 
 
 License: GPLv2+ and LGPLv2+
@@ -18,6 +21,7 @@ URL:     http://www.calligra-suite.org/
 Source0: http://download.kde.org/%{stable}/calligra/%{version}/calligraplan-%{version}.tar.xz
 
 ## upstream patches
+Patch10: 0010-Fix-build-with-Qt-5.15.patch
 
 # %%check validation
 BuildRequires: desktop-file-utils
@@ -107,20 +111,20 @@ Requires: %{name} = %{version}-%{release}
 
 
 %prep
-%autosetup -p2 -n calligraplan-%{version}
+%autosetup -p1 -n calligraplan-%{version}
 
 
 %build
 mkdir %{_target_platform}
 pushd %{_target_platform}
-%{cmake_kf5} ..
+%cmake_kf5 ..
 popd
 
 %make_build -C %{_target_platform}
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%make_install -C %{_target_platform}
 
 ## unpackaged files
 # bogus locale
@@ -176,6 +180,13 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.calligrap
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Rex Dieter <rdieter@fedoraproject.org> - 3.2.2-3
+- pull in Qt5.15 upstream patch
+- use %%make_install
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

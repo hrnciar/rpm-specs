@@ -7,7 +7,7 @@
 
 Name:		nodejs-ware
 Version:	1.3.0
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	Easily create your own middleware layer
 
 License:	MIT
@@ -78,6 +78,9 @@ mocha --require co-mocha \
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

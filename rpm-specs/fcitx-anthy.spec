@@ -1,10 +1,10 @@
 Name:			fcitx-anthy
-Version:		0.2.2
-Release:		10%{?dist}
+Version:		0.2.3
+Release:		1%{?dist}
 Summary:		Anthy Engine for Fcitx
 License:		GPLv2+
 URL:			https://fcitx-im.org/wiki/Anthy
-Source0:		http://download.fcitx-im.org/fcitx-anthy/%{name}-%{version}.tar.xz
+Source0:		https://download.fcitx-im.org/fcitx-anthy/%{name}-%{version}.tar.xz
 BuildRequires:	cmake
 BuildRequires:	fcitx-devel
 BuildRequires:	gettext
@@ -25,15 +25,11 @@ kanji.
 
 
 %build
-mkdir -pv build
-pushd build
-%cmake ..
-make %{?_smp_mflags} VERBOSE=1
+%cmake
+%cmake_build 
 
 %install
-pushd build
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
-popd
+%cmake_install
 
 %find_lang %{name}
 
@@ -50,6 +46,19 @@ popd
 %{_datadir}/icons/hicolor/scalable/status/%{name}-*.svg
 
 %changelog
+* Thu Aug 06 2020 Qiyu Yan <yanqiyu@fedoraproject.org> - 0.2.3-1
+- update to 0.2.3 upstream release
+
+* Mon Aug 03 2020 Qiyu Yan <yanqiyu@fedoraproject.org> - 0.2.2-13
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

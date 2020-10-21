@@ -4,7 +4,7 @@
 # https://github.com/cosmos72/gomacro
 %global goipath         github.com/cosmos72/gomacro
 Version:                2.7
-%global commit          30d4a5c4b78943d743e4ef8d3c8ea85952011e22
+%global commit          b07014b0219685737289894cd4eecf04b07e20eb
 
 %gometa
 
@@ -18,7 +18,7 @@ package at runtime).}
 %global godocs          _example doc README.md TrickyGo.md
 
 Name:           %{goname}
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        Go interpreter and debugger with REPL, Eval, generics and Lisp-like macros
 
 # Upstream license specification: MPL-2.0 and BSD-3-Clause
@@ -26,6 +26,8 @@ Summary:        Go interpreter and debugger with REPL, Eval, generics and Lisp-l
 License:        MPLv2.0 and BSD
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/cosmos72/gomacro/issues/101
+Patch0:         0001-Convert-to-string-using-rune.patch
 
 BuildRequires:  golang(github.com/mattn/go-runewidth)
 BuildRequires:  golang(github.com/peterh/liner)
@@ -45,6 +47,7 @@ Summary:       Go interpreter and debugger with REPL, Eval, generics and Lisp-li
 
 %prep
 %goprep
+%patch0 -p1
 
 %build
 %gobuild -o %{gobuilddir}/bin/gomacro %{goipath}
@@ -56,7 +59,7 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
-%gocheck
+%gocheck -d go/printer
 %endif
 
 %files -n gomacro
@@ -67,6 +70,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 18:55:49 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.7-11.20200725gitb07014b
+- Bump to commit b07014b0219685737289894cd4eecf04b07e20eb
+
 * Mon Feb 24 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.7-10.20200224git30d4a5c
 - Bump to commit 30d4a5c4b78943d743e4ef8d3c8ea85952011e22
 

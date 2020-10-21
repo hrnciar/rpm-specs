@@ -3,7 +3,7 @@
 Summary: The InterNetNews system, an Usenet news server
 Name: inn
 Version: 2.6.3
-Release: 7%{?dist}
+Release: 10%{?dist}
 #see LICENSE file for details
 License: GPLv2+ and BSD and MIT and Public Domain
 URL: https://www.eyrie.org/~eagle/software/inn/
@@ -21,20 +21,19 @@ Source23: innd-nntpsend.service
 Source24: innd-nntpsend.timer
 Source25: innd-rnews.service
 Source26: innd-rnews.timer
-Patch1:  inn-2.6.0-rh.patch
+Patch1: inn-2.6.3-rh.patch
+Patch2: inn-2.6.3-filterPath.patch
 Patch4: inn-2.6.0.pie.patch
-Patch6: inn-2.5.2.posix.patch
-Patch7: inn-2.4.3.warn.patch
-Patch14: inn-redhat_build.patch
-patch17: inn-2.5.2-pconf.patch
 BuildRequires: autoconf
 BuildRequires: byacc
 BuildRequires: cyrus-sasl-devel
 BuildRequires: e2fsprogs-devel
 BuildRequires: flex
 BuildRequires: gcc
+BuildRequires: gdbm-devel
 BuildRequires: krb5-devel
 BuildRequires: libdb-devel
+BuildRequires: openssl
 BuildRequires: openssl-devel
 BuildRequires: pam-devel
 BuildRequires: perl-devel
@@ -43,9 +42,13 @@ BuildRequires: perl-interpreter
 BuildRequires: perl(ExtUtils::Embed)
 BuildRequires: perl(GD)
 BuildRequires: perl(MIME::Parser)
-BuildRequires: python2
-BuildRequires: systemd
+BuildRequires: perl(Test::More)
+BuildRequires: perl(Test::Pod)
+BuildRequires: python3-devel
+BuildRequires: systemd-rpm-macros
+BuildRequires: uucp
 BuildRequires: wget
+BuildRequires: zlib-devel
 BuildRequires: %{_bindir}/gpgv2
 %if 0%{?fedora}
 Recommends: perl(GD)
@@ -58,9 +61,6 @@ Requires: perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 Requires: sed
 Requires: wget
 Requires(post): inews
-Requires(post): systemd
-Requires(postun): systemd
-Requires(preun): systemd
 
 # XXX white out bogus perl requirement for now
 Provides: perl(::usr/lib/innshellvars.pl) = %{version}-%{release}
@@ -114,17 +114,14 @@ This package contains dynamic libraries provided by INN project
 gpgv2 --keyring %{S:3} %{S:1} %{S:0}
 %setup -q -n inn-%{version}
 %patch1 -p1 -b .rh
+%patch2 -p1 -b .gcc10
 %patch4 -p1 -b .pie
-%patch6 -p1 -b .posix
-%patch7 -p1 -b .warn
-%patch14 -p1 -b .redhat_build
-
-%patch17 -p1 -b .pfix
 
 %build
 %configure \
   --disable-static \
   --enable-largefiles \
+  --enable-reduced-depends \
   --enable-shared \
   --enable-uucp-rnews \
   --bindir=%{_libexecdir}/news \
@@ -137,6 +134,7 @@ gpgv2 --keyring %{S:3} %{S:1} %{S:0}
   --with-openssl \
   --with-perl \
   --with-pic \
+  --with-python \
   --with-run-dir=/run/news \
   --with-sasl \
   --with-sendmail=/usr/sbin/sendmail \
@@ -257,6 +255,16 @@ D %{_localstatedir}/run/news 0755 news news -
 EOF
 install -d -m 0755 $RPM_BUILD_ROOT%{_localstatedir}/run/news
 
+install -d %{buildroot}%{_presetdir}
+cat <<EOF >%{buildroot}%{_presetdir}/80-inn.preset
+enable innd-expire.timer
+enable innd-nntpsend.timer
+enable innd-rnews.timer
+EOF
+
+%check
+LD_LIBRARY_PATH=%{buildroot}%{_libdir} %make_build check
+
 %pre -n inews
 getent group news >/dev/null || groupadd -g 13 -r news
 getent passwd news >/dev/null || \
@@ -293,10 +301,6 @@ chown -R news:news /var/log/news*
 %systemd_post innd-expire.timer
 %systemd_post innd-nntpsend.timer
 %systemd_post innd-rnews.timer
-
-systemctl start innd-expire.timer
-systemctl start innd-nntpsend.timer
-systemctl start innd-rnews.timer
 
 %ldconfig_scriptlets libs
 
@@ -381,6 +385,7 @@ fi
 %{_unitdir}/innd-nntpsend.timer
 %{_unitdir}/innd-rnews.service
 %{_unitdir}/innd-rnews.timer
+%{_presetdir}/80-inn.preset
 %defattr(-,news,news,-)
 # tmpfile.d files
 %{_tmpfilesdir}/inn.conf
@@ -611,6 +616,23 @@ fi
 %{_mandir}/man1/inews*
 
 %changelog
+* Sat Sep 12 2020 Dominik Mierzejewski <rpm@greysector.net> - 2.6.3-10
+- add missing build dependencies (enable zlib and gdbm)
+- minimize shared library deps as recommended by upstream
+- add missing test dependencies and run testsuite
+- follow current guidelines for systemd units packaging
+- drop Patch6 (upstream says it's formally incorrect)
+- drop Patch7 (doesn't seem to fix any warnings)
+- merge Patch14 and Patch17 into Patch1
+
+* Wed Sep 09 2020 Petr Viktorin <pviktori@redhat.com> - 2.6.3-9
+- Switch BuildRequires to python3
+- enable embedded python support (Dominik Mierzejewski)
+- drop unused variable causing GCC10 compilation error (Dominik Mierzejewski)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.6.3-7
 - Perl 5.32 rebuild
 

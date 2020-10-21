@@ -1,19 +1,14 @@
 %global repo qt5integration
 
 Name:           deepin-qt5integration
-Version:        5.0.0
-Release:        5%{?dist}
+Version:        5.1.0.8
+Release:        1%{?dist}
 Summary:        Qt platform theme integration plugins for DDE
 # The entire source code is GPLv3+ except styles/ which is BSD,
-# dstyleplugin/ which is GPLv3, dstyleplugin/dstyleanimation* which is LGPL
-License:        GPLv3 and BSD and LGPLv2+
+# styleplugins/dstyleplugin/dstyleanimation* which is LGPL
+License:        GPLv3+ and BSD and LGPLv2+
 URL:            https://github.com/linuxdeepin/qt5integration
 Source0:        %{url}/archive/%{version}/%{repo}-%{version}.tar.gz
-
-# https://git.archlinux.org/svntogit/community.git/plain/trunk/deepin-qt5integration-qt5.13.patch?h=packages/deepin-qt5integration&id=b9bad53f20d27a15f9587f39db3e1a0243ec6880
-Patch0:         deepin-qt5integration-qt5.13.patch
-# https://git.archlinux.org/svntogit/community.git/plain/trunk/deepin-qt5integration-qt5.14.patch?h=packages/deepin-qt5integration&id=b9bad53f20d27a15f9587f39db3e1a0243ec6880
-Patch1:         deepin-qt5integration-qt5.14.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  pkgconfig(atk)
@@ -38,6 +33,8 @@ BuildRequires:  pkgconfig(xext)
 BuildRequires:  pkgconfig(xrender)
 BuildRequires:  pkgconfig(xcb)
 BuildRequires:  pkgconfig(mtdev)
+BuildRequires:  pkgconfig(Qt5Multimedia)
+BuildRequires:  pkgconfig(Qt5MultimediaWidgets)
 BuildRequires:  qt5-qtbase-common
 # for libQt5ThemeSupport.a
 BuildRequires:  qt5-qtbase-static
@@ -49,10 +46,7 @@ Requires:       deepin-qt5dxcb-plugin%{?_isa}
 Multiple Qt plugins to provide better Qt5 integration for DDE is included.
 
 %prep
-%setup -q -n %{repo}-%{version}
-
-%patch0 -p1 -b .fix-build-with-qt5-13
-%patch1 -p1 -b .fix-build-with-qt5-14
+%autosetup -n %{repo}-%{version}
 
 %build
 %qmake_qt5 PREFIX=%{_prefix}
@@ -65,11 +59,21 @@ Multiple Qt plugins to provide better Qt5 integration for DDE is included.
 %doc README.md
 %license LICENSE
 %{_qt5_plugindir}/platformthemes/libqdeepin.so
-%{_qt5_plugindir}/styles/libdstyleplugin.so
 %{_qt5_plugindir}/iconengines/libdsvgicon.so
 %{_qt5_plugindir}/imageformats/libdsvg.so
+%{_qt5_plugindir}/iconengines/libdtkbuiltin.so
+%{_qt5_plugindir}/styles/libchameleon.so
 
 %changelog
+* Tue Sep 29 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.1.0.8-1
+- new upstream release: 5.1.0.8
+
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 5.0.0-7
+- rebuild (qt5)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr  7 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.0.0-5
 - Fix build with Qt 5.14.2
 

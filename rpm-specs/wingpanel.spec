@@ -7,11 +7,13 @@ launcher.}
 Name:           wingpanel
 Summary:        Stylish top panel
 Version:        2.3.2
-Release:        1%{?dist}
+Release:        4%{?dist}
 License:        GPLv2+
 
 URL:            https://github.com/elementary/wingpanel
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+
+Patch1:         0001-initial-support-for-libmutter-7-mutter-3.38.patch
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
@@ -124,6 +126,16 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Sat Aug 29 2020 Fabio Valentini <decathorpe@gmail.com> - 2.3.2-4
+- Add patch for initial mutter 3.38 support.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Fabio Valentini <decathorpe@gmail.com> - 2.3.2-1
 - Update to version 2.3.2.
 

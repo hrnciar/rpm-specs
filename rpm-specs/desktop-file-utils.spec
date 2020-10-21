@@ -1,23 +1,17 @@
-%global pkg desktop-file-utils
-%global pkgname desktop-file-utils
-
 Summary: Utilities for manipulating .desktop files
 Name: desktop-file-utils
-Version: 0.24
+Version: 0.26
 Release: 2%{?dist}
 URL: https://www.freedesktop.org/software/desktop-file-utils
 Source0: https://www.freedesktop.org/software/desktop-file-utils/releases/%{name}-%{version}.tar.xz
 Source1: desktop-entry-mode-init.el
 License: GPLv2+
 
-BuildRequires:  gcc
+BuildRequires: gcc
 BuildRequires: glib2-devel
 BuildRequires: emacs
+BuildRequires: meson
 Requires: emacs-filesystem
-Provides: emacs-%{pkg} = %{version}-%{release}
-Provides: emacs-%{pkg}-el = %{version}-%{release}
-Obsoletes: emacs-%{pkg} < 0.20-3
-Obsoletes: emacs-%{pkg}-el < 0.20-3
 
 %description
 .desktop files are used to describe an application for inclusion in
@@ -32,14 +26,14 @@ fixing it up in the process.
 %autosetup -p1
 
 %build
-%configure
-make %{?_smp_mflags}
+%meson
+%meson_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
+%meson_install
 
-mkdir -p $RPM_BUILD_ROOT%{_emacs_sitelispdir}/%{pkg}
-mv $RPM_BUILD_ROOT%{_emacs_sitelispdir}/*.el* $RPM_BUILD_ROOT%{_emacs_sitelispdir}/%{pkg}
+mkdir -p $RPM_BUILD_ROOT%{_emacs_sitelispdir}/desktop-file-utils
+mv $RPM_BUILD_ROOT%{_emacs_sitelispdir}/*.el* $RPM_BUILD_ROOT%{_emacs_sitelispdir}/desktop-file-utils
 install -Dpm 644 %{SOURCE1} $RPM_BUILD_ROOT%{_emacs_sitestartdir}/desktop-entry-mode-init.el
 touch $RPM_BUILD_ROOT%{_emacs_sitestartdir}/desktop-entry-mode-init.elc
 
@@ -53,15 +47,24 @@ update-desktop-database &> /dev/null || :
 %doc AUTHORS README NEWS
 %license COPYING
 %{_bindir}/*
-%{_mandir}/man1/desktop-file-install.1.gz
-%{_mandir}/man1/desktop-file-validate.1.gz
-%{_mandir}/man1/update-desktop-database.1.gz
-%{_mandir}/man1/desktop-file-edit.1.gz
+%{_mandir}/man1/desktop-file-install.1*
+%{_mandir}/man1/desktop-file-validate.1*
+%{_mandir}/man1/update-desktop-database.1*
+%{_mandir}/man1/desktop-file-edit.1*
 %{_emacs_sitestartdir}/desktop-entry-mode-init.el
 %ghost %{_emacs_sitestartdir}/desktop-entry-mode-init.elc
-%{_emacs_sitelispdir}/%{pkg}
+%{_emacs_sitelispdir}/desktop-file-utils/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.26-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Kalev Lember <klember@redhat.com> - 0.26-1
+- Update to 0.26
+- Switch to the meson build system
+- Avoid hardcoding man page extensions
+- Drop old emacs-desktop-file-utils obsoletes/provides
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.24-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

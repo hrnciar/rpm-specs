@@ -1,7 +1,7 @@
 Name: hunspell-haw
 Summary: Hawaiian hunspell dictionaries
 Version: 0.03
-Release: 5%{?dist}
+Release: 6%{?dist}
 Source: https://addons.mozilla.org/firefox/downloads/file/248540/hawaiian_spell_checker-%{version}-tb+fx+fn+sm.xpi
 URL: http://borel.slu.edu/crubadan/
 License: GPLv2+
@@ -28,6 +28,9 @@ cp -p dictionaries/haw-US.dic $RPM_BUILD_ROOT/%{_datadir}/myspell/haw.dic
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.03-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.03-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

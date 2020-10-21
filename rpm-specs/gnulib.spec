@@ -1,7 +1,7 @@
-%global commit a7903da07d3d18c23314aa0815adbb4058fd7cec
+%global commit 175e0bc72808d564074c4adcc72aeadb74adfcc6
 # %%global tag 11 #disabled due to unarragment release line after mass rebuild.
 %global githead %(printf %%.7s %commit)
-%global gitdate 20200107
+%global gitdate 20200827
 
 # epel7 compatibility mode
 %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
@@ -48,13 +48,13 @@ It can be used to improve portability and other functionality in your programs.
 
 Name:     gnulib
 Version:  0
-Release:  32.%{gitdate}git%{?dist}
+Release:  37.%{gitdate}git%{?dist}
 Summary:  GNU Portability Library
 License:  Public Domain and BSD and GPLv2+ and GPLv3 and GPLv3+ and LGPLv2 and LGPLv2+ and LGPLv3+
 URL:      https://www.gnu.org/software/gnulib
 Source0:  https://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=snapshot;h=%{githead};sf=tgz;name=gnulib-%{githead}.tar.gz#/gnulib-%{githead}.tar.gz
-Source1:  http://erislabs.net/gitweb/?p=gnulib.git;a=blob_plain;hb=HEAD;f=debian/manpages/check-module.1
-Source2:  http://erislabs.net/gitweb/?p=gnulib.git;a=blob_plain;hb=HEAD;f=debian/manpages/gnulib-tool.1
+Source1:  https://erislabs.net/gitweb/?p=gnulib.git;a=blob_plain;hb=HEAD;f=debian/manpages/check-module.1
+Source2:  https://erislabs.net/gitweb/?p=gnulib.git;a=blob_plain;hb=HEAD;f=debian/manpages/gnulib-tool.1
 
 Patch0:   test-u8-strstr-alarm.diff
 
@@ -104,7 +104,7 @@ pushd build-tests
 make %{?_smp_mflags}
 popd
 # Rebuild removed java class
-javac -d lib -source 1.3 -target 1.3 lib/javaversion.java
+javac -d lib -source 11 -target 11 lib/javaversion.java
 # This part is done with the original path
 make %{?_smp_mflags} MODULES.html
 sed -i -r 's#HREF="(lib|m4|modules)#HREF="%{_datadir}/%{name}/\1#g' MODULES.html
@@ -213,6 +213,22 @@ It can be enabled for specific files by setting appropriate git attributes.
 
 #-------------------------------------------------------------------------
 %changelog
+* Wed Sep 16 2020 Peter Lemenkov <lemenkov@gmail.com> - 0-37.20200827git
+- Fix FTBFS
+
+* Wed Sep 16 2020 Peter Lemenkov <lemenkov@gmail.com> - 0-36.20200809git
+- Update (required for PSPP 1.4.1+)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-35.20200107git
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-34.20200107git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0-33.20200107git
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-32.20200107git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

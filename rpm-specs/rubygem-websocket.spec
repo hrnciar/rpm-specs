@@ -2,19 +2,17 @@
 %global gem_name websocket
 
 Name: rubygem-%{gem_name}
-Version: 1.2.2
-Release: 12%{?dist}
+Version: 1.2.8
+Release: 1%{?dist}
 Summary: Universal Ruby library to handle WebSocket protocol
 License: MIT
 URL: http://github.com/imanel/websocket-ruby
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
-Patch0: comment-broken-tests.patch
 BuildRequires: ruby(release)
-BuildRequires: rubygems-devel 
-BuildRequires: rubygem(rspec)
+BuildRequires: rubygems-devel
 BuildRequires: ruby 
+BuildRequires: rubygem(rspec)
 BuildArch: noarch
-Provides: rubygem(%{gem_name}) = %{version}
 
 %description
 Universal Ruby library to handle WebSocket protocol.
@@ -29,17 +27,14 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-gem unpack %{SOURCE0}
-
-%setup -q -D -T -n  %{gem_name}-%{version}
-
-%patch0 -p0
-
-gem spec %{SOURCE0} -l --ruby > %{gem_name}.gemspec
+%setup -q -n %{gem_name}-%{version}
 
 %build
-gem build %{gem_name}.gemspec
+# Create the gem as gem install only works on a gem file
+gem build ../%{gem_name}-%{version}.gemspec
 
+# %%gem_install compiles any C extensions and installs the gem into ./%%gem_dir
+# by default, so that we can move it into the buildroot in %%install
 %gem_install
 
 %install
@@ -49,17 +44,15 @@ cp -pa .%{gem_dir}/* \
 
 
 %check
-pushd ./%{gem_instdir}
-find spec -name *.rb | xargs sed -i '/its/ s/^/#/'
-rspec -Ilib spec
-popd	
+pushd .%{gem_instdir}
+rspec spec
+popd
 
 %files
 %dir %{gem_instdir}
+%exclude %{gem_instdir}/.*
 %{gem_libdir}
 %exclude %{gem_cache}
-%exclude %{gem_instdir}/.gitignore
-%exclude %{gem_instdir}/.travis.yml
 %{gem_spec}
 %doc %{gem_instdir}/README.md
 
@@ -72,6 +65,13 @@ popd
 %{gem_instdir}/websocket.gemspec
 
 %changelog
+* Thu Jul 30 2020 Vít Ondruch <vondruch@redhat.com> - 1.2.8-1
+- Update to WebSocket Ruby 1.2.8.
+  Resolves: rhbz#1324054
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

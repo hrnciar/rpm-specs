@@ -1,6 +1,6 @@
 Name:           perl-Module-Extract
 Version:        0.01
-Release:        33%{?dist}
+Release:        34%{?dist}
 Summary:        Base class for working with Perl distributions
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Module-Extract
@@ -59,6 +59,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.01-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.01-33
 - Perl 5.32 rebuild
 

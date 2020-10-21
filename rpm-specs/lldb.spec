@@ -1,24 +1,22 @@
 #%%global rc_ver 6
-%global baserelease 5
+%global baserelease 1
 %global lldb_srcdir %{name}-%{version}%{?rc_ver:rc%{rc_ver}}.src
 
 Name:		lldb
-Version:	10.0.0
+Version:	11.0.0
 Release:	%{baserelease}%{?rc_ver:.rc%{rc_ver}}%{?dist}
 Summary:	Next generation high-performance debugger
 
 License:	NCSA
 URL:		http://lldb.llvm.org/
-%if 0%{?rc_ver:1}
-Source0:	https://prereleases.llvm.org/%{version}/rc%{rc_ver}/%{lldb_srcdir}.tar.xz
-Source1:	https://prereleases.llvm.org/%{version}/rc%{rc_ver}/%{lldb_srcdir}.tar.xz.sig
-%else
-Source0:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}/%{lldb_srcdir}.tar.xz
-Source3:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}/%{lldb_srcdir}.tar.xz.sig
-%endif
+Source0:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}%{?rc_ver:-rc%{rc_ver}}/%{lldb_srcdir}.tar.xz
+Source1:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}%{?rc_ver:-rc%{rc_ver}}/%{lldb_srcdir}.tar.xz.sig
 Source2:	https://prereleases.llvm.org/%{version}/hans-gpg-key.asc
 
+BuildRequires:	gcc
+BuildRequires:	gcc-c++
 BuildRequires:	cmake
+BuildRequires:	ninja-build
 BuildRequires:	llvm-devel = %{version}
 BuildRequires:	llvm-test = %{version}
 BuildRequires:	clang-devel = %{version}
@@ -33,6 +31,9 @@ BuildRequires:	python3-lit
 BuildRequires:	multilib-rpm-config
 
 Requires:	python3-lldb
+
+# For origin certification
+BuildRequires:	gnupg2
 
 %description
 LLDB is a next generation, high-performance debugger. It is built as a set
@@ -58,20 +59,15 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 The package contains the LLDB Python module.
 
 %prep
+%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
 %autosetup -n %{lldb_srcdir} -p2
 
 %build
 
-mkdir -p _build
-cd _build
-
-# Python version detection is broken
-LDFLAGS="%{__global_ldflags} -lpthread -ldl"
-
 CFLAGS="%{optflags} -Wno-error=format-security"
 CXXFLAGS="%{optflags} -Wno-error=format-security"
 
-%cmake .. \
+%cmake  -GNinja \
 	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
 	-DCMAKE_SKIP_RPATH:BOOL=ON \
 	-DLLVM_LINK_LLVM_DYLIB:BOOL=ON \
@@ -94,11 +90,10 @@ CXXFLAGS="%{optflags} -Wno-error=format-security"
 	-DLLVM_LIT_ARGS="-sv \
 	--path %{_libdir}/llvm" \
 
-make %{?_smp_mflags}
+%cmake_build
 
 %install
-cd _build
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 %multilib_fix_c_header --file %{_includedir}/lldb/Host/Config.h
 
@@ -115,7 +110,11 @@ rm -f %{buildroot}%{python3_sitearch}/six.*
 
 %ldconfig_scriptlets
 
+%check
+
+
 %files
+%license LICENSE.TXT
 %{_bindir}/lldb*
 %{_libdir}/liblldb.so.*
 %{_libdir}/liblldbIntelFeatures.so.*
@@ -128,6 +127,40 @@ rm -f %{buildroot}%{python3_sitearch}/six.*
 %{python3_sitearch}/lldb
 
 %changelog
+* Thu Oct 15 2020 sguelton@redhat.com - 11.0.0-1
+- Fix NVR
+
+* Mon Oct 12 2020 sguelton@redhat.com - 11.0.0-0.5
+- llvm 11.0.0 - final release
+
+* Thu Oct 08 2020 sguelton@redhat.com - 11.0.0-0.4.rc6
+- 11.0.0-rc6
+
+* Fri Oct 02 2020 sguelton@redhat.com - 11.0.0-0.3.rc5
+- 11.0.0-rc5 Release
+
+* Sun Sep 27 2020 sguelton@redhat.com - 11.0.0-0.2.rc3
+- Fix NVR
+
+* Thu Sep 24 2020 sguelton@redhat.com - 11.0.0-0.1.rc3
+- 11.0.0-rc3 Release
+
+* Tue Sep 01 2020 sguelton@redhat.com - 11.0.0-0.1.rc2
+- 11.0.0-rc2 Release
+
+* Mon Aug 10 2020 Tom Stellard <tstellar@redhat.com> - 11.0.0-0.1.rc1
+- 11.0.0-rc1 Release
+
+* Wed Jul 29 2020 sguelton@redhat.com - 10.0.0-8
+- Make gcc dependency explicit, see https://fedoraproject.org/wiki/Packaging:C_and_C%2B%2B#BuildRequires_and_Requires
+- use %%license macro
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 sguelton@redhat.com - 10.0.0-6
+- Use ninja and according macros as build system
+
 * Tue Jun 16 2020 sguelton@redhat.com - 10.0.0-5
 - Finer grain specification of python3-lldb deps
 

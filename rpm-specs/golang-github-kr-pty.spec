@@ -3,7 +3,7 @@
 
 # https://github.com/kr/pty
 %global goipath         github.com/kr/pty
-Version:                1.1.4
+Version:                1.1.8
 
 %gometa
 
@@ -16,7 +16,7 @@ Go package for using unix pseudo-terminals.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Go package for using unix pseudo-terminals
 
 License:        MIT
@@ -24,6 +24,8 @@ URL:            %{gourl}
 Source0:        %{gosource}
 Source1:        glide.yaml
 Source2:        glide.lock
+
+BuildRequires:  golang(github.com/creack/pty)
 
 %description
 %{common_description}
@@ -45,6 +47,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 20:26:17 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.8-1
+- Update to 1.1.8
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

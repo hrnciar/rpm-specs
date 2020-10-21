@@ -1,10 +1,13 @@
 Name:		libmetalink
 Version:	0.1.3
-Release:	10%{?dist}
+Release:	13%{?dist}
 Summary:	Metalink library written in C
 License:	MIT
 URL:		https://launchpad.net/libmetalink
 Source0:	https://launchpad.net/libmetalink/trunk/%{name}-%{version}/+download/%{name}-%{version}.tar.bz2
+# https://bugs.launchpad.net/libmetalink/+bug/1888672
+Patch0:     libmetalink-0.1.3-ns_uri.patch
+
 BuildRequires:  gcc
 BuildRequires:	expat-devel
 BuildRequires:	CUnit-devel
@@ -21,18 +24,18 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Files needed for building applications with libmetalink.
 
 %prep
-%setup -q
+%autosetup -p1
 
 %build
 %configure --disable-static
-make %{?_smp_mflags}
+%make_build
 
 %check
 make check
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 find $RPM_BUILD_ROOT -name *.la -exec rm {} \;
 
 %ldconfig_scriptlets
@@ -57,6 +60,16 @@ find $RPM_BUILD_ROOT -name *.la -exec rm {} \;
 
 
 %changelog
+* Tue Aug 04 2020 Alejandro Alvarez Ayllon <aalvarez@fedoraproject.org> - 0.1.3-13
+- Apply patch fixing NULL ptr deref in initial_state_start_fun (#1860976)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 0.1.3-11
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

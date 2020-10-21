@@ -1,6 +1,6 @@
 Name:           perl-Tk-CursorControl
 Version:        0.4
-Release:        24%{?dist}
+Release:        26%{?dist}
 Summary:        Manipulate the mouse cursor programmatically
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Tk-CursorControl
@@ -57,6 +57,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.4-25
+- Perl 5.32 rebuild
+
 * Wed Feb 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.4-24
 - Use make_* macros
 - Specify all dependencies

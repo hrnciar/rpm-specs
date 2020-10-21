@@ -14,7 +14,7 @@ Struct-based argument parsing in Go.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Struct-based argument parsing
 
 License:        BSD
@@ -48,6 +48,9 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.3.0-1
 - Initial package
 

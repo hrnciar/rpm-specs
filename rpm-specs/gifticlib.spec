@@ -1,6 +1,6 @@
 Name:           gifticlib
 Version:        1.0.9
-Release:        10%{?dist}
+Release:        13%{?dist}
 Summary:        IO library for the GIFTI cortical surface data format
 License:        Public Domain
 URL:            http://www.nitrc.org/projects/gifti/
@@ -41,23 +41,19 @@ sed -i \
   -e '/SET(GIFTI_INSTALL_LIB_DIR/s/lib/%{_lib}/' \
   CMakeLists.txt
 rm -rf build/
-mkdir -p build/
 
 %build
-pushd build/
-  %cmake ../
-popd
+%cmake
+%cmake_build
 
 %install
-pushd build/
-  %make_install
-popd
+%cmake_install
+
 # Remove static libs
 rm -f %{buildroot}%{_libdir}/*.a
 mkdir -p %{buildroot}%{_mandir}/man1/
 install -p -m0644 %{SOURCE1} %{buildroot}%{_mandir}/man1/
 
-%ldconfig_scriptlets
 
 %files
 %license LICENSE.gifti
@@ -71,6 +67,16 @@ install -p -m0644 %{SOURCE1} %{buildroot}%{_mandir}/man1/
 %{_libdir}/libgifti*.so
 
 %changelog
+* Fri Sep 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.0.9-13
+- Update cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.9-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.9-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.9-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

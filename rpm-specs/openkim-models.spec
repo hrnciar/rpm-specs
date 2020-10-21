@@ -1,7 +1,7 @@
 Name:           openkim-models
 Version:        2019.07.25
 %global         uversion %(v=%{version}; echo ${v//./-})
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Open Knowledgebase of Interatomic Models
 License:        CDDL-1.0 and ASL 2.0 and MPLv2.0 and GPLv3 and LGPLv3
 Url:            https://openkim.org
@@ -24,13 +24,11 @@ This package contains the models from openkim.org.
 %setup -q -n %{name}-%{uversion}
 
 %build
-mkdir build
-pushd build
 %{cmake3} -DCMAKE_SKIP_RPATH=ON ..
-%make_build
+%cmake_build
 
 %install
-%make_install -C build
+%cmake_install
 # Each model-driver and model is licensed separately.
 # About 2/3 are CDDL-1.0, 1/4 public domain, and 1/12 GPL/LGPL
 for i in $(find *model* -name "LICENSE*"); do echo ${i%/*}:; head -n 2 $i; echo;  done > LICENSE.models
@@ -42,6 +40,16 @@ for i in $(find *model* -name "LICENSE*"); do echo ${i%/*}:; head -n 2 $i; echo;
 %{_libdir}/kim-api/simulator-models/
 
 %changelog
+* Tue Aug 04 2020 Christoph Junghans <junghans@votca.org> - 2019.07.25-4
+- Fix out-of-source build on F33 (bug#1865159)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.07.25-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.07.25-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 12 2020 Ryan S. Elliott <relliott@umn.edu> - 2019.07.25-1
 - Version bump to 2019.07.25
 

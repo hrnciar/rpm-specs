@@ -7,7 +7,7 @@
 Summary:       ANother Tool for Language Recognition
 Name:          antlr
 Version:       2.7.7
-Release:       60%{?dist}
+Release:       63%{?dist}
 Epoch:         0
 License:       ANTLR-PD
 URL:           http://www.antlr2.org/
@@ -210,6 +210,15 @@ cd ../..
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:2.7.7-63
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Fabio Valentini <decathorpe@gmail.com> - 0:2.7.7-62
+- Set javac source / target version to 1.8 to fix issues with Java 11.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0:2.7.7-61
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:2.7.7-60
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,24 +1,28 @@
 Name:           perl-FreezeThaw
 Version:        0.5001
-Release:        31%{?dist}
+Release:        34%{?dist}
 Summary:        Convert Perl structures to strings and back
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/FreezeThaw
 Source0:        https://cpan.metacpan.org/authors/id/I/IL/ILYAZ/modules/FreezeThaw-%{version}.tar.gz
 BuildArch:      noarch
-BuildRequires:  make
+# Build
 BuildRequires:  coreutils
 BuildRequires:  findutils
+BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
-BuildRequires:  perl(Carp)
-BuildRequires:  perl(dumpvar.pl)
-BuildRequires:  perl(Exporter)
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
-BuildRequires:  perl(Math::BigInt)
-BuildRequires:  perl(overload)
+# Runtime
+BuildRequires:  perl(Carp)
+BuildRequires:  perl(Exporter)
 BuildRequires:  perl(strict)
 BuildRequires:  perl(vars)
+# Test Suite
+BuildRequires:  perl(dumpvar.pl)
+BuildRequires:  perl(Math::BigInt)
+BuildRequires:  perl(overload)
+# Dependencies
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 
 %description
@@ -27,9 +31,9 @@ saving-to/reading-from permanent storage.
 
 %prep
 %setup -q -n FreezeThaw-%{version}
+
 # Fix permissions
-find -type d -exec chmod 0755 {} \;
-find -type f -exec chmod 0644 {} \;
+find -type f -exec chmod -c -x {} \;
 
 %build
 perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
@@ -37,17 +41,29 @@ perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
 
 %install
 %{make_install}
-%{_fixperms} %{buildroot}/*
+%{_fixperms} -c %{buildroot}
 
 %check
 make test
 
 %files
 %doc Changes README
-%{perl_vendorlib}/*
-%{_mandir}/man3/*.3pm*
+%{perl_vendorlib}/FreezeThaw.pm
+%{_mandir}/man3/FreezeThaw.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5001-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.5001-33
+- Perl 5.32 re-rebuild updated packages
+
+* Wed Jun 24 2020 Paul Howarth <paul@city-fan.org> - 0.5001-32
+- Spec tidy-up
+  - Classify buildreqs by usage
+  - Fix permissions verbosely
+  - Make %%files list more explicit
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.5001-31
 - Perl 5.32 rebuild
 

@@ -5,7 +5,7 @@
 Summary: A simple universally unique ID generation library
 Name: rubygem-%{gem_name}
 Version: 2.1.5
-Release: 11%{?dist}
+Release: 12%{?dist}
 License: ASL 2.0
 URL: https://github.com/sporkmonger/uuidtools
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -64,6 +64,9 @@ popd
 %{gem_docdir}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.5-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.5-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

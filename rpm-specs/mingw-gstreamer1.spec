@@ -3,7 +3,7 @@
 %global api_version 1.0
 
 Name:           mingw-gstreamer1
-Version:        1.16.2
+Version:        1.18.0
 Release:        1%{?dist}
 Summary:        MinGW Windows Streaming-Media Framework Runtime
 
@@ -11,13 +11,11 @@ License:        LGPLv2+
 URL:            http://gstreamer.freedesktop.org/
 Source0:        http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-%{version}.tar.xz
 
-# Fix build with Make 4.3
-Patch0:         https://www.gentoofan.org/gentoo/misc/gst/gstreamer-1.16.2-make43.patch
-
 BuildArch:      noarch
 
-# For Patch0
-BuildRequires:  automake autoconf libtool gettext-devel
+BuildRequires:  gettext
+BuildRequires:  gcc
+BuildRequires:  meson
 
 BuildRequires:  mingw32-filesystem >= 95
 BuildRequires:  mingw32-gcc
@@ -33,8 +31,6 @@ BuildRequires:  mingw64-libxml2
 
 BuildRequires:  bison flex
 BuildRequires:  perl-interpreter
-# use native glib-genmarshal and glib-mkenums
-BuildRequires:  gtk-doc
 
 
 %description
@@ -78,49 +74,19 @@ installing new plug-ins.
 
 
 %build
-# For Patch0
-autoreconf -i
 
-%mingw_configure                                                       \
-    --with-package-name='Fedora MinGW GStreamer package'               \
-    --with-package-origin='http://download.fedoraproject.org'          \
-    --enable-shared                                                    \
-    --disable-static                                                   \
-    --disable-gtk-doc                                                  \
-    --enable-debug                                                     \
-    --disable-fatal-warnings                                           \
-    --disable-silent-rules                                             \
-    --disable-tests                                                    \
-    --disable-examples
+%mingw_meson \
+	-Dpackage-name='Fedora MinGW GStreamer package' \
+	-Dpackage-origin='http://download.fedoraproject.org' \
+        -Dgtk-doc=false \
+	-Dtests=disabled \
+	-Dexamples=disabled
 
-%mingw_make %{?_smp_mflags}
+%mingw_ninja
 
 
 %install
-%mingw_make install DESTDIR=%{buildroot}
-
-rm -f %{buildroot}%{mingw32_libdir}/gstreamer-%{api_version}/*.dll.a
-rm -f %{buildroot}%{mingw32_libdir}/gstreamer-%{api_version}/*.la
-rm -f %{buildroot}%{mingw32_libdir}/*.la
-rm -fr %{buildroot}%{mingw32_datadir}/gtk-doc
-rm -f %{buildroot}%{mingw32_mandir}/man1/*gst*
-
-rm -f %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.dll.a
-rm -f %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.la
-rm -f %{buildroot}%{mingw64_libdir}/*.la
-rm -fr %{buildroot}%{mingw64_datadir}/gtk-doc
-rm -f %{buildroot}%{mingw64_mandir}/man1/*gst*
-
-# Remove silly target prefix from binaries
-for prefixed_file in %{buildroot}%{mingw32_bindir}/%{mingw32_target}-*.exe \
-                     %{buildroot}%{mingw64_bindir}/%{mingw64_target}-*.exe \
-                     %{buildroot}%{mingw32_libexecdir}/*/%{mingw32_target}-*.exe \
-                     %{buildroot}%{mingw64_libexecdir}/*/%{mingw64_target}-*.exe
-do
-    f=$(echo $prefixed_file | sed -e 's/%{mingw32_target}-//' \
-                                  -e 's/%{mingw64_target}-//')
-    mv $prefixed_file $f
-done
+%mingw_ninja_install
 
 # Don't ship debug helpers
 rm -rf %{buildroot}%{mingw32_datadir}/gstreamer-1.0/gdb
@@ -129,6 +95,10 @@ rm -rf %{buildroot}%{mingw32_datadir}/gdb
 rm -rf %{buildroot}%{mingw64_datadir}/gdb
 rmdir %{buildroot}%{mingw32_datadir}/gstreamer-1.0/
 rmdir %{buildroot}%{mingw64_datadir}/gstreamer-1.0/
+
+# Don't ship man pages
+rm -rf %{buildroot}%{mingw32_mandir}
+rm -rf %{buildroot}%{mingw64_mandir}
 
 %mingw_find_lang gstreamer-%{api_version}
 
@@ -141,17 +111,19 @@ rmdir %{buildroot}%{mingw64_datadir}/gstreamer-1.0/
 %{mingw32_includedir}/gstreamer-%{api_version}/gst
 
 %dir %{mingw32_libexecdir}/gstreamer-%{api_version}
-%{mingw32_libexecdir}/gstreamer-%{api_version}/gst-completion-helper.exe
 %{mingw32_libexecdir}/gstreamer-%{api_version}/gst-plugin-scanner.exe
 
 %dir %{mingw32_libdir}/gstreamer-%{api_version}/
 %{mingw32_libdir}/gstreamer-%{api_version}/*.dll
+%{mingw32_libdir}/gstreamer-%{api_version}/*.dll.a
 %{mingw32_libdir}/libgstbase-%{api_version}.dll.a
+%{mingw32_libdir}/libgstcheck-%{api_version}.dll.a
 %{mingw32_libdir}/libgstcontroller-%{api_version}.dll.a
 %{mingw32_libdir}/libgstnet-%{api_version}.dll.a
 %{mingw32_libdir}/libgstreamer-%{api_version}.dll.a
 %{mingw32_libdir}/pkgconfig/gstreamer-%{api_version}.pc
 %{mingw32_libdir}/pkgconfig/gstreamer-base-%{api_version}.pc
+%{mingw32_libdir}/pkgconfig/gstreamer-check-%{api_version}.pc
 %{mingw32_libdir}/pkgconfig/gstreamer-controller-%{api_version}.pc
 %{mingw32_libdir}/pkgconfig/gstreamer-net-%{api_version}.pc
 
@@ -161,12 +133,12 @@ rmdir %{buildroot}%{mingw64_datadir}/gstreamer-1.0/
 %{mingw32_bindir}/gst-typefind-%{api_version}.exe
 
 %{mingw32_bindir}/libgstbase-%{api_version}-0.dll
+%{mingw32_bindir}/libgstcheck-%{api_version}-0.dll
 %{mingw32_bindir}/libgstcontroller-%{api_version}-0.dll
 %{mingw32_bindir}/libgstnet-%{api_version}-0.dll
 %{mingw32_bindir}/libgstreamer-%{api_version}-0.dll
 
 %{mingw32_datadir}/aclocal/gst-element-check-%{api_version}.m4
-%{mingw32_datadir}/bash-completion/
 
 
 # Win64
@@ -177,17 +149,19 @@ rmdir %{buildroot}%{mingw64_datadir}/gstreamer-1.0/
 %{mingw64_includedir}/gstreamer-%{api_version}/gst
 
 %dir %{mingw64_libexecdir}/gstreamer-%{api_version}
-%{mingw64_libexecdir}/gstreamer-%{api_version}/gst-completion-helper.exe
 %{mingw64_libexecdir}/gstreamer-%{api_version}/gst-plugin-scanner.exe
 
 %dir %{mingw64_libdir}/gstreamer-%{api_version}/
 %{mingw64_libdir}/gstreamer-%{api_version}/*.dll
+%{mingw64_libdir}/gstreamer-%{api_version}/*.dll.a
 %{mingw64_libdir}/libgstbase-%{api_version}.dll.a
+%{mingw64_libdir}/libgstcheck-%{api_version}.dll.a
 %{mingw64_libdir}/libgstcontroller-%{api_version}.dll.a
 %{mingw64_libdir}/libgstnet-%{api_version}.dll.a
 %{mingw64_libdir}/libgstreamer-%{api_version}.dll.a
 %{mingw64_libdir}/pkgconfig/gstreamer-%{api_version}.pc
 %{mingw64_libdir}/pkgconfig/gstreamer-base-%{api_version}.pc
+%{mingw64_libdir}/pkgconfig/gstreamer-check-%{api_version}.pc
 %{mingw64_libdir}/pkgconfig/gstreamer-controller-%{api_version}.pc
 %{mingw64_libdir}/pkgconfig/gstreamer-net-%{api_version}.pc
 
@@ -197,15 +171,24 @@ rmdir %{buildroot}%{mingw64_datadir}/gstreamer-1.0/
 %{mingw64_bindir}/gst-typefind-%{api_version}.exe
 
 %{mingw64_bindir}/libgstbase-%{api_version}-0.dll
+%{mingw64_bindir}/libgstcheck-%{api_version}-0.dll
 %{mingw64_bindir}/libgstcontroller-%{api_version}-0.dll
 %{mingw64_bindir}/libgstnet-%{api_version}-0.dll
 %{mingw64_bindir}/libgstreamer-%{api_version}-0.dll
 
 %{mingw64_datadir}/aclocal/gst-element-check-%{api_version}.m4
-%{mingw64_datadir}/bash-completion/
 
 
 %changelog
+* Tue Sep 08 2020 Sandro Mani <manisandro@gmail.com> - 1.18.0-1
+- Update to 1.18.0
+
+* Wed Aug 12 13:37:56 GMT 2020 Sandro Mani <manisandro@gmail.com> - 1.16.2-3
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 1.16.2-1
 - Update to 1.16.2
 

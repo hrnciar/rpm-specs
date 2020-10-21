@@ -4,7 +4,7 @@
 
 Name:          scannotation
 Version:       1.0.3
-Release:       0.20.%{alphatag}%{?dist}
+Release:       0.23.%{alphatag}%{?dist}
 Summary:       A Java annotation scanner
 License:       ASL 2.0
 URL:           http://scannotation.sourceforge.net
@@ -48,13 +48,15 @@ This package contains the API documentation for %{name}.
 # Force use servlet 3.1 apis
 %pom_change_dep :servlet-api javax.servlet:javax.servlet-api:3.1.0 %{name}
 
+# remove maven-compiler-plugin configurations that are broken with Java 11
+%pom_xpath_remove -r 'pom:plugin[pom:artifactId="maven-compiler-plugin"]/pom:configuration'
+
 cp -p %SOURCE1 .
 
 %mvn_file org.%{name}:%{name} %{name}
 
 %build
-
-%mvn_build -- -Dproject.build.sourceEncoding=UTF-8
+%mvn_build -- -Dproject.build.sourceEncoding=UTF-8 -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 %install
 %mvn_install
@@ -66,6 +68,15 @@ cp -p %SOURCE1 .
 %license License.txt
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-0.23.r12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.3-0.22.r12
+- Set javac source and target to 1.8 to fix Java 11 builds.
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.0.3-0.21.r12
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-0.20.r12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,7 @@
+%undefine __cmake_in_source_build
 Name:           kwave
-Version:        20.04.2
-Release:        1%{?dist}
+Version: 20.08.1
+Release: 2%{?dist}
 Summary:        Sound Editor for KDE
 Summary(de):    Sound-Editor für KDE
 
@@ -14,6 +15,7 @@ URL:            http://kwave.sourceforge.net
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/release-service/%{version}/src/%{name}-%{version}.tar.xz
+Patch0:         kwave-gcc11.patch
 
 BuildRequires:  extra-cmake-modules
 BuildRequires:  cmake(Qt5Multimedia)
@@ -78,14 +80,11 @@ speziell die HTML-Dokumentation.
 %autosetup -p1
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} -DWITH_MP3=ON ..
-%make_build
-popd
+%{cmake_kf5} -DWITH_MP3=ON
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 gzip -dS z %{buildroot}%{_datadir}/icons/hicolor/scalable/actions/*.svgz
 gzip -dS z %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/kwave.svgz
 
@@ -113,6 +112,21 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.%{name}.d
 %{_kf5_docdir}/HTML/*/%{name}
 
 %changelog
+* Thu Oct 15 2020 Jeff Law <law@redhat.com> - 20.08.1-2
+- Fix missing #include for gcc-11
+
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Marie Loise Nolden <loise@kde.org> - 20.04.3-1
+- Update kwave to 20.04.3
+
 * Fri Jun 12 2020 Marie Loise Nolden <loise@kde.org> - 20.04.2-1
 - Update kwave to 20.04.2
 

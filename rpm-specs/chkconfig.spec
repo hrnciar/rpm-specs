@@ -1,7 +1,7 @@
 Summary: A system tool for maintaining the /etc/rc*.d hierarchy
 Name: chkconfig
-Version: 1.11
-Release: 6%{?dist}
+Version: 1.14
+Release: 3%{?dist}
 License: GPLv2
 URL: https://github.com/fedora-sysv/chkconfig
 Source: https://github.com/fedora-sysv/chkconfig/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
@@ -38,14 +38,14 @@ system at the same time.
 %setup -q
 
 %build
-make RPM_OPT_FLAGS="$RPM_OPT_FLAGS" LDFLAGS="$RPM_LD_FLAGS" %{?_smp_mflags}
+%make_build RPM_OPT_FLAGS="$RPM_OPT_FLAGS" LDFLAGS="$RPM_LD_FLAGS"
 
 %check
 make check
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make DESTDIR=$RPM_BUILD_ROOT MANDIR=%{_mandir} SBINDIR=%{_sbindir} install
+%make_install MANDIR=%{_mandir} SBINDIR=%{_sbindir}
 
 mkdir -p $RPM_BUILD_ROOT/etc/rc.d/init.d
 ln -s rc.d/init.d $RPM_BUILD_ROOT/etc/init.d
@@ -86,6 +86,25 @@ mkdir -p $RPM_BUILD_ROOT/etc/chkconfig.d
 %dir /var/lib/alternatives
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Tom Stellard <tstellar@redhat.com> - 1.14-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Fri Jul 17 2020 Jan Macku <jamacku@redhat.com> - 1.14-1
+- Fix spelling of SELinux
+- Remove hardcoded systemd path
+
+* Tue Apr 14 2020 Jan Macku <jamacku@redhat.com> - 1.13-1
+- fix typo in translations and fix bogus dates in changelog
+
+* Mon Apr 06 2020 Jan Macku <jamacku@redhat.com> - 1.12-1
+- alternatives setService(): Add missing error mesg - (#1820089)
+- po: update translations
+- rebase
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

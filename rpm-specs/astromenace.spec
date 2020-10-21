@@ -1,6 +1,6 @@
 Name: astromenace
 Version:  1.4.1
-Release:  4%{?dist}
+Release:  7%{?dist}
 Summary: Hardcore 3D space shooter with spaceship upgrade possibilities  
 
 License: GPLv3
@@ -34,14 +34,14 @@ Go ahead and make alien aggressors regret their insolence.
 %setup -q
 
 %build
-%cmake . -DDATADIR="%{_prefix}/share/astromenace"
-make %{?_smp_mflags}
+%cmake %_vpath_srcdir -DDATADIR="%{_prefix}/share/astromenace"
+%cmake_build
 
-./astromenace --pack --rawdata=./gamedata --dir=./
+%__cmake_builddir/astromenace --pack --rawdata=./gamedata --dir=./
 
 %install
 mkdir -p  %{buildroot}%{_bindir}
-install -m 755 astromenace %{buildroot}%{_bindir}/astromenace
+install -m 755 %__cmake_builddir/astromenace %{buildroot}%{_bindir}/astromenace
 mkdir -p %{buildroot}%{_datadir}/astromenace
 install -m 644 gamedata.vfs %{buildroot}%{_datadir}/astromenace/
 desktop-file-install \
@@ -103,6 +103,16 @@ EOF
 %{_datadir}/astromenace/
 
 %changelog
+* Wed Aug 05 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.4.1-7
+- CMake fixes from drizt72@zoho.eu
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

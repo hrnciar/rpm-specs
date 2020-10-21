@@ -1,6 +1,6 @@
 Name:           naev-data
 Version:        0.7.0
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Data files for NAEV
 License:        GPLv3 or GPLv3+ or GPLv2+ or Public Domain or CC-BY or CC-BY-SA
 URL:            http://naev.org
@@ -26,6 +26,9 @@ install -D -m 0644 %{SOURCE1} %{buildroot}%{_datadir}/naev/ndata-%{version}.zip
 %{_datadir}/naev
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

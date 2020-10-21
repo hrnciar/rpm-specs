@@ -1,6 +1,9 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 Name:           android-file-transfer
 Version:        3.9
-Release:        4%{?dist}
+Release:        7%{?dist}
 Summary:        Reliable Android MTP client with minimalist UI
 
 License:        LGPLv2+
@@ -35,12 +38,15 @@ Features:
 
 
 %build
-%cmake . -GNinja
-%ninja_build
+# QT requires the main progrma not to perform local symbol binding,
+# -fPIC accomplishes that
+export CXXFLAGS="-fPIC $RPM_OPT_FLAGS"
+%cmake -GNinja
+%cmake_build
 
 
 %install
-%ninja_install
+%cmake_install
 find %{buildroot} -name '*.a' -delete
 desktop-file-install                                       \
     --remove-category="System"                             \
@@ -62,6 +68,16 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 %{_datadir}/metainfo/%{name}.appdata.xml
 
 %changelog
+* Fri Oct 2 2020 Jeff Law <law@redhat.com> - 3.9-7
+- Add -fPIC to compilation flags
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

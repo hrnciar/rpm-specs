@@ -1,7 +1,7 @@
 Name:		alienarena
 Summary:	Multiplayer retro sci-fi deathmatch game
 Version:	7.71.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	GPLv2+
 # Source0:	http://red.planetarena.org/files/%%{name}-%%{version}-linux20130827.tar.gz
 # Been so long since a release, we need to use the svn code
@@ -134,6 +134,9 @@ cp -a GPL.acebot.txt %{buildroot}%{_defaultdocdir}/%{name}/
 %{_datadir}/%{name}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.71.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb  5 2020 Tom Callaway <spot@fedoraproject.org> - 7.71.1-3
 - fix FTBFS
 - excludeArch s390x

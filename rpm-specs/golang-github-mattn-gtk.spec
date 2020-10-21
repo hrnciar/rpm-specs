@@ -4,7 +4,7 @@
 
 # https://github.com/mattn/go-gtk
 %global goipath         github.com/mattn/go-gtk
-%global commit          4deadb416788be678fb9cac22ea76dba83c946b0
+%global commit          af2e013261f57706ec683a61f85e8759a3faf6be
 
 %gometa
 
@@ -21,7 +21,7 @@ Go binding for GTK.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.4%{?dist}
+Release:        0.6%{?dist}
 Summary:        Go binding for GTK
 
 # Upstream license specification: BSD-3-Clause
@@ -58,6 +58,12 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 20:16:19 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.6.20200729gitaf2e013
+- Bump to commit af2e013261f57706ec683a61f85e8759a3faf6be
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

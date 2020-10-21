@@ -2,21 +2,20 @@
 %global gem_name coffee-rails
 
 Name: rubygem-%{gem_name}
-Version: 4.2.2
-Release: 5%{?dist}
+Version: 5.0.0
+Release: 1%{?dist}
 Summary: Coffee Script adapter for the Rails asset pipeline
 License: MIT
 URL: https://github.com/rails/coffee-rails
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
 # git clone https://github.com/rails/coffee-rails.git && cd coffee-rails
-# git checkout v4.2.2 && tar czvf coffee-rails-4.2.2-tests.tgz test/
-Source1: %{gem_name}-%{version}-tests.tgz
+# git archive -v -o coffee-rails-5.0.0-tests.tar.gz v5.0.0 test/
+Source1: %{gem_name}-%{version}-tests.tar.gz
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby
 BuildRequires: rubygem(coffee-script) >= 2.2.0
 BuildRequires: rubygem(railties) => 4.0.0
-BuildRequires: rubygem(minitest)
 BuildRequires: rubygem(sprockets-rails)
 BuildRequires: %{_bindir}/node
 BuildArch: noarch
@@ -34,7 +33,7 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -n %{gem_name}-%{version}
+%setup -q -n %{gem_name}-%{version} -b 1
 
 %build
 gem build ../%{gem_name}-%{version}.gemspec
@@ -48,9 +47,11 @@ cp -a .%{gem_dir}/* \
 
 %check
 pushd .%{gem_instdir}
-tar xzvf %{SOURCE1}
+ln -s %{_builddir}/test .
+
 # Disable Bundler.
 sed -i '/require .bundler\/setup./ s/^/#/' test/test_helper.rb
+
 ruby -I.:test:lib -e 'Dir.glob("test/**/*_test.rb").each {|t| require t}'
 popd
 
@@ -67,6 +68,13 @@ popd
 %doc %{gem_instdir}/README.md
 
 %changelog
+* Sat Aug 22 00:18:44 GMT 2020 Pavel Valena <pvalena@redhat.com> - 5.0.0-1
+- Update to coffee-rails 5.0.0.
+  Resolves: rhbz#1702437
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

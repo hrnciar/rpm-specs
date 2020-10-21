@@ -1,6 +1,6 @@
 Name:           libpgf
 Version:        6.14.12
-Release:        14%{?dist}
+Release:        16%{?dist}
 Summary:        PGF (Progressive Graphics File) library
 
 License:        LGPLv2+
@@ -50,7 +50,7 @@ sh autogen.sh
 # commit 52c998909401f404f1c7029b537ec900f3f780d0 doesn't say why, but
 # I *think* it's related to digikam -- rex
 export CFLAGS="%{optflags} -DLIBPGF_DISABLE_OPENMP"
-export CXXFLAGS="%{optflags} -DLIBPGF_DISABLE_OPENMP"
+export CXXFLAGS="%{optflags} -DLIBPGF_DISABLE_OPENMP -std=c++14"
 
 %configure --disable-static
 
@@ -80,6 +80,12 @@ rm -fv %{buildroot}%{_libdir}/libpgf.la
 
 
 %changelog
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 6.14.12-16
+- Force C++14 as this code is not C++17 ready
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.14.12-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.14.12-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

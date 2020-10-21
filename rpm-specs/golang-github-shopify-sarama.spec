@@ -3,15 +3,9 @@
 
 # https://github.com/Shopify/sarama
 %global goipath         github.com/Shopify/sarama
-Version:                1.22.0
+Version:                1.27.0
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-Shopify-sarama-devel < 1.7.0-0.10
-Obsoletes:      golang-github-Shopify-sarama-unit-test-devel < 1.7.0-0.10
-}
 
 %global common_description %{expand:
 Sarama is an MIT-licensed Go client library for Apache Kafka version 0.8 (and later).}
@@ -20,27 +14,41 @@ Sarama is an MIT-licensed Go client library for Apache Kafka version 0.8 (and la
 %global godocs          examples CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        Go library for Apache Kafka 0.8, and up
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
 
-BuildRequires:  golang(github.com/DataDog/zstd)
+
 BuildRequires:  golang(github.com/davecgh/go-spew/spew)
 BuildRequires:  golang(github.com/eapache/go-resiliency/breaker)
 BuildRequires:  golang(github.com/eapache/go-xerial-snappy)
 BuildRequires:  golang(github.com/eapache/queue)
+BuildRequires:  golang(github.com/jcmturner/gofork/encoding/asn1)
+BuildRequires:  golang(github.com/klauspost/compress/zstd)
 BuildRequires:  golang(github.com/pierrec/lz4)
 BuildRequires:  golang(github.com/rcrowley/go-metrics)
 BuildRequires:  golang(github.com/xdg/scram)
 BuildRequires:  golang(golang.org/x/net/proxy)
+BuildRequires:  golang(gopkg.in/jcmturner/gokrb5.v7/asn1tools)
+BuildRequires:  golang(gopkg.in/jcmturner/gokrb5.v7/client)
+BuildRequires:  golang(gopkg.in/jcmturner/gokrb5.v7/config)
+BuildRequires:  golang(gopkg.in/jcmturner/gokrb5.v7/credentials)
+BuildRequires:  golang(gopkg.in/jcmturner/gokrb5.v7/gssapi)
+BuildRequires:  golang(gopkg.in/jcmturner/gokrb5.v7/iana/chksumtype)
+BuildRequires:  golang(gopkg.in/jcmturner/gokrb5.v7/iana/keyusage)
+BuildRequires:  golang(gopkg.in/jcmturner/gokrb5.v7/keytab)
+BuildRequires:  golang(gopkg.in/jcmturner/gokrb5.v7/messages)
+BuildRequires:  golang(gopkg.in/jcmturner/gokrb5.v7/types)
 
 %if %{with check}
 # Tests
-BuildRequires:  golang(github.com/Shopify/toxiproxy/client)
-BuildRequires:  golang(github.com/stretchr/testify/require)
+BuildRequires:  golang(github.com/fortytw2/leaktest)
+BuildRequires:  golang(gopkg.in/jcmturner/gokrb5.v7/krberror)
+# kerberos_client_test.go
+# BuildRequires:  golang(gopkg.in/jcmturner/gokrb5.v7/test/testdata)
 %endif
 
 %description
@@ -52,7 +60,7 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %goprep
 
 %build
-for cmd in tools/kafka-console-partitionconsumer tools/kafka-console-producer tools/kafka-console-consumer tools/kafka-producer-performance; do
+for cmd in tools/kafka-console-consumer tools/kafka-console-partitionconsumer tools/kafka-console-producer tools/kafka-producer-performance; do
   %gobuild -o %{gobuilddir}/bin/$(basename $cmd) %{goipath}/$cmd
 done
 
@@ -63,6 +71,8 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
+# fails because gopkg.in/jcmturner/gokrb5.v7/test/testdata is not packaged
+rm -rf kerberos_client_test.go
 %gocheck
 %endif
 
@@ -74,6 +84,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Thu Sep 17 22:37:27 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.27.0-1
+- Update to 1.27.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.22.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.22.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

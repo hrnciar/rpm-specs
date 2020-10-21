@@ -1,7 +1,7 @@
 Name:           perl-CGI
 Summary:        Handle Common Gateway Interface requests and responses
-Version:        4.50
-Release:        2%{?dist}
+Version:        4.51
+Release:        1%{?dist}
 License:        Artistic 2.0
 Source0:        https://cpan.metacpan.org/authors/id/L/LE/LEEJO/CGI-%{version}.tar.gz
 URL:            https://metacpan.org/release/CGI
@@ -94,6 +94,15 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Oct 06 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.51-1
+- 4.51 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.50-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.50-3
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.50-2
 - Perl 5.32 rebuild
 

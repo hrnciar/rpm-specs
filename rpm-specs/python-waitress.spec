@@ -3,8 +3,8 @@
 %global _docdir_fmt %{name}
 
 Name:           python-%{srcname}
-Version:        1.4.3
-Release:        2%{?dist}
+Version:        1.4.4
+Release:        1%{?dist}
 Summary:        Waitress WSGI server
 
 License:        ZPLv2.1
@@ -65,6 +65,12 @@ Python 3 version.
 %{python3_sitelib}/%{srcname}-*.egg-info/
 
 %changelog
+* Thu Sep 10 2020 Joel Capitao <jcapitao@redhat.com> - 1.4.4-1
+- Update to 1.4.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.3-2
 - Rebuilt for Python 3.9
 
@@ -98,7 +104,7 @@ Python 3 version.
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
 * Sat Jun 29 2019 Kevin Fenzi <kevin@scrye.com> - 1.2.1-2
-- Remove non free docs from src.rpm and provide script to do so before upload. 
+- Remove non free docs from src.rpm and provide script to do so before upload.
 - Fixes bug #1684335
 
 * Tue Feb 05 2019 Lorenzo Gil Sanchez <lorenzo.gil.sanchez@gmail.com> - 1.2.1-1

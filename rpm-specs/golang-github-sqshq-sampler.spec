@@ -18,7 +18,7 @@ a simple YAML file.}
 %global godocs          README.md example.yml example-fedora.yml
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Tool for shell commands execution, visualization and alerting
 
 License:        GPLv3
@@ -26,6 +26,8 @@ License:        GPLv3
 URL:            %{gourl}
 Source0:        %{gosource}
 Source1:        example-fedora.yml
+# Compatibility with github.com/hajimehoshi/oto 0.6.x (upstreamed)
+Patch0:         0001-asset-player.go-Replace-NewPlayer-with-NewContext.patch
 
 BuildRequires:  golang(github.com/gizak/termui/v3)
 BuildRequires:  golang(github.com/hajimehoshi/go-mp3)
@@ -45,6 +47,7 @@ BuildRequires:  pkgconfig(alsa)
 
 %prep
 %goprep
+%patch0 -p1
 
 %build
 %gobuild -o %{gobuilddir}/bin/sampler %{goipath}
@@ -68,6 +71,13 @@ install -m 0644 -Dp %{SOURCE1}          %{buildroot}%{_docdir}/%{name}/example-f
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           libpoly
 Version:        0.1.8
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        C library for manipulating polynomials
 
 License:        LGPLv3+
@@ -45,27 +45,23 @@ fi
 find . -name .gitignore -delete
 
 %build
-cd build
 %cmake %{_cmake_skip_rpath} \
   -DCMAKE_BUILD_TYPE=RelWithDebInfo \
   -DLIBPOLY_BUILD_STATIC:BOOL=OFF \
-  -DLIBPOLY_BUILD_STATIC_PIC:BOOL=OFF \
-  ..
-%make_build
+  -DLIBPOLY_BUILD_STATIC_PIC:BOOL=OFF
+%cmake_build
 
 %install
-cd build
-%make_install
+%cmake_install
 
 # Install the python interface by hand
 mkdir -p %{buildroot}%{python3_sitearch}
-cp -p python/polypy.so %{buildroot}%{python3_sitearch}
+cp -p %{__cmake_builddir}/python/polypy.so %{buildroot}%{python3_sitearch}
 
 %ifnarch %{ix86} %{arm}
 %check
-export LD_LIBRARY_PATH=$PWD/build/src
-cd build
-make check
+export LD_LIBRARY_PATH=$PWD/%{__cmake_builddir}/src
+%ctest
 %endif
 
 %files
@@ -81,6 +77,9 @@ make check
 %{python3_sitearch}/polypy.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.8-2
 - Rebuilt for Python 3.9
 

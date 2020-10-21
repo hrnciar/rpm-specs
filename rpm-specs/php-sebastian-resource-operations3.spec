@@ -6,8 +6,10 @@
 #
 # Please, preserve the changelog entries
 #
-%global bootstrap    0
-%global gh_commit    71421c1745788de4facae1b79af923650bd3ec15
+
+%bcond_without       tests
+
+%global gh_commit    0f4443cb3a1d92ce809899753bc0d5d5a8dd19a8
 #global gh_date      20150728
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sebastianbergmann
@@ -20,17 +22,12 @@
 %global ns_vendor    SebastianBergmann
 %global ns_project   ResourceOperations
 %global major        3
-%if %{bootstrap}
-%global with_tests   0%{?_with_tests:1}
-%else
-%global with_tests   0%{!?_without_tests:1}
-%endif
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
-Version:        3.0.1
+Version:        3.0.3
 %global specrel 1
 Release:        %{?gh_date:1%{specrel}.%{?prever}%{!?prever:%{gh_date}git%{gh_short}}}%{!?gh_date:%{specrel}}%{?dist}
-Summary:        Provides a list of PHP built-in functions that operate on resources
+Summary:        Provides a list of PHP built-in functions that operate on resources, version %{major}
 
 License:        BSD
 URL:            https://github.com/%{gh_owner}/%{gh_project}
@@ -40,14 +37,14 @@ Source1:        makesrc.sh
 BuildArch:      noarch
 BuildRequires:  php(language) >= 7.3
 BuildRequires:  php-fedora-autoloader-devel
-%if %{with_tests}
+%if %{with tests}
 # from composer.json
 #        "phpunit/phpunit": "^9.0"
 BuildRequires:  phpunit9
 %endif
 
 # from composer.json
-#        "php": "^7.3"
+#        "php": ">=7.3"
 Requires:       php(language) >= 7.3
 # Autoloader
 Requires:       php-composer(fedora/autoloader)
@@ -79,7 +76,7 @@ cp -pr src %{buildroot}%{php_home}/%{ns_vendor}/%{ns_project}%{major}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 touch vendor/autoload.php
 
@@ -106,6 +103,15 @@ exit $ret
 
 
 %changelog
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 3.0.3-1
+- update to 3.0.3 (no change)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Remi Collet <remi@remirepo.net> - 3.0.2-1
+- update to 3.0.2 (no change)
+
 * Tue Jun 16 2020 Remi Collet <remi@remirepo.net> - 3.0.1-1
 - update to 3.0.1 (no change)
 - sources from git snapshot

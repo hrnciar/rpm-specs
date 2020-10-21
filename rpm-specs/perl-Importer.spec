@@ -1,11 +1,12 @@
 Name:           perl-Importer
-Version:        0.025
-Release:        8%{?dist}
+Version:        0.026
+Release:        1%{?dist}
 Summary:        Alternative interface to modules that export symbols
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Importer
 Source0:        https://cpan.metacpan.org/authors/id/E/EX/EXODIST/Importer-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -30,11 +31,11 @@ other variables.
 %setup -q -n Importer-%{version}
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
@@ -47,6 +48,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Wed Aug 19 2020 Petr Pisar <ppisar@redhat.com> - 0.026-1
+- 0.026 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.025-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.025-8
 - Perl 5.32 rebuild
 

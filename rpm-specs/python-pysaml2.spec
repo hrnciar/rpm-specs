@@ -1,8 +1,8 @@
 %global srcname pysaml2
 
 Name:           python-%{srcname}
-Version:        4.5.0
-Release:        11%{?dist}
+Version:        6.1.0
+Release:        1%{?dist}
 Summary:        Python implementation of SAML Version 2
 License:        Apache 2.0
 URL:            https://github.com/IdentityPython/%{srcname}
@@ -16,6 +16,7 @@ Source0: https://github.com/IdentityPython/%{srcname}/archive/%{gittag}/%{srcnam
 BuildArch:      noarch
 
 BuildRequires:  python3-sphinx
+BuildRequires:  python3-defusedxml
 
 %description
 PySAML2 is a pure python implementation of SAML2. It contains all
@@ -84,9 +85,10 @@ rm "$source".ts
  %py3_build
 
 # drop alabaster Sphinx theme, not packaged in Fedora yet
-#sed -i '/alabaster/d' doc/conf.py
+#sed -i '/alabaster/d' docs/conf.py
 # generate html docs
-sphinx-build-3 doc html
+export PYTHONPATH=./src
+sphinx-build-3 docs html
 # remove the sphinx-build leftovers
 rm -rf html/.{doctrees,buildinfo}
 
@@ -98,7 +100,7 @@ rm -rf html/.{doctrees,buildinfo}
 
 %files -n python3-%{srcname}
 %doc README.rst
-%license LICENSE.txt
+%license LICENSE
 %{_bindir}/parse_xsd2.py
 %{_bindir}/make_metadata.py
 %{_bindir}/mdexport.py
@@ -107,10 +109,16 @@ rm -rf html/.{doctrees,buildinfo}
 %{python3_sitelib}/*.egg-info
 
 %files doc
-%license LICENSE.txt
+%license LICENSE
 %doc html
 
 %changelog
+* Thu Jul 30 2020 Yatin Karel <ykarel@redhat.com> - 6.1.0-1
+- Update to 6.1.0 (rhbz#1290944)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.5.0-11
 - Rebuilt for Python 3.9
 

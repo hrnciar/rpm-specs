@@ -1,6 +1,6 @@
 Name:           perl-Database-DumpTruck
 Version:        1.2
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Relaxing interface to SQLite
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Database-DumpTruck
@@ -51,6 +51,9 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.2-16
 - Perl 5.32 rebuild
 

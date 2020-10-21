@@ -41,7 +41,7 @@
 
 Name:		pcmanfm
 Version:	%{mainver}
-Release:	%{fedorarel}%{?dist}
+Release:	%{fedorarel}%{?dist}.1
 Summary:	Extremly fast and lightweight file manager
 
 License:	GPLv2+
@@ -210,6 +210,9 @@ cd ..
 %{_includedir}/pcmanfm-modules.h
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-5.D20200322gitbe8c60d5.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May  5 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.3.1-5.D20200322gitbe8c60d5
 - connect_model: connect to signal before setting folder for model (bug 1645030)
 

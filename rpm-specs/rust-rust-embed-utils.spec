@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        5.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Utilities for rust-embed
 
 # Upstream license specification: MIT
@@ -83,5 +83,8 @@ which use "debug-embed" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 16:57:19 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 5.0.0-1
 - Initial package

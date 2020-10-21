@@ -1,6 +1,6 @@
 Name:           perl-Test-Mock-Time
 Version:        0.1.7
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Deterministic time & timers for event loop tests
 License:        MIT
 
@@ -62,6 +62,9 @@ AUTHOR_TESTING=1 RELEASE_TESTING=1 ./Build test
 %{_mandir}/man3/Test*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.7-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.1.7-9
 - Perl 5.32 rebuild
 

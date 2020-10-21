@@ -1,6 +1,8 @@
+%bcond_without tests
+
 Name:           pyxdg
 Version:        0.26
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Python library to access freedesktop.org standards
 License:        LGPLv2
 URL:            http://freedesktop.org/Software/pyxdg
@@ -19,8 +21,10 @@ PyXDG is a python library to access freedesktop.org standards
 %package -n python%{python3_pkgversion}-pyxdg
 Summary:	Python3 library to access freedesktop.org standards
 BuildRequires:  python%{python3_pkgversion}-devel
+%if %{with check}
 # These are needed for the nose tests.
 BuildRequires:	python%{python3_pkgversion}-nose
+%endif
 %{?python_provide:%python_provide python%{python3_pkgversion}-pyxdg}
 
 %description -n python%{python3_pkgversion}-pyxdg
@@ -38,10 +42,12 @@ package contains a Python 3 version of PyXDG.
 %install
 %py3_install
 
+%if %{with check}
 %check
 # icon-test currently fails
 # https://bugs.freedesktop.org/show_bug.cgi?id=104846
 nosetests-%{python3_version} || :
+%endif
 
 %files -n python%{python3_pkgversion}-pyxdg
 %license COPYING
@@ -50,6 +56,9 @@ nosetests-%{python3_version} || :
 %{python3_sitelib}/pyxdg-*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.26-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 0.26-10
 - Rebuilt for Python 3.9
 

@@ -3,7 +3,7 @@
 Summary: A pure Ruby implementation of the SCP client protocol
 Name: rubygem-%{gem_name}
 Version: 1.2.1
-Release: 13%{?dist}
+Release: 14%{?dist}
 License: MIT
 URL: https://github.com/net-ssh/net-scp
 Source0: http://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -77,6 +77,9 @@ popd
 %doc %{gem_docdir}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 03 2020 Vít Ondruch <vondruch@redhat.com> - 1.2.1-13
 - Fix the Ruby 2.7 compatibility (rhbz#1800021).
 

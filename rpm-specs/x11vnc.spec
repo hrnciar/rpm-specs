@@ -1,6 +1,6 @@
 Name:           x11vnc
 Version:        0.9.16
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        VNC server for the current X11 session
 Summary(ru):    VNC-сервер для текущей сессии X11
 # COPYING:                  GPLv2 text
@@ -153,6 +153,12 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/x11vnc.desktop
 %{_mandir}/man1/x11vnc.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.16-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0.9.16-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon Apr 06 2020 Petr Pisar <ppisar@redhat.com> - 0.9.16-2
 - Modernize a spec file
 - License corrected from GPLv2 to GPLv2+

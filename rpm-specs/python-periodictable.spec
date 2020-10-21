@@ -27,7 +27,7 @@ may give different results from other packages.}
 
 Name:           python-%{pname}
 Version:        1.5.2
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Extensible periodic table of the elements
 
 # periodictable/cromermann.py: BSD 3-clause "New" or "Revised" License
@@ -44,6 +44,7 @@ BuildArch:      noarch
 Summary: Extensible periodic table of the elements
 
 BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
 BuildRequires:  python%{python3_pkgversion}-numpy
 BuildRequires:  python%{python3_pkgversion}-pytest
 BuildRequires:  python%{python3_pkgversion}-pyparsing
@@ -73,6 +74,12 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -v
 %{python3_sitelib}/%{pname}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Antonio Trande <sagitter@fedoraproject.org> - 1.5.2-4
+- Switch to pytest
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5.2-3
 - Rebuilt for Python 3.9
 

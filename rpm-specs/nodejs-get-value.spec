@@ -7,7 +7,7 @@
 
 Name:		nodejs-get-value
 Version:	2.0.6
-Release:	6%{?dist}
+Release:	8%{?dist}
 Summary:	Use property paths (a.b.c) to get a nested value from an object
 
 License:	MIT
@@ -78,6 +78,13 @@ cp -pr package.json index.js \
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.6-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.6-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.6-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

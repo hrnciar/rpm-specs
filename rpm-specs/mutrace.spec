@@ -1,6 +1,6 @@
 Name:		mutrace
 Version:	0.2
-Release:	19%{?dist}
+Release:	21%{?dist}
 Summary:	Mutex Tracer
 License:	LGPLv3+ and GPLv2+
 URL:		http://git.0pointer.de/?p=mutrace.git
@@ -35,6 +35,13 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_libdir}/libmutrace-backtrace-symbols.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

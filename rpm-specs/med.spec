@@ -1,21 +1,16 @@
 Name:           med
-Version:        4.0.0
-Release:        7%{?dist}
+Version:        4.1.0
+Release:        1%{?dist}
 Summary:        Library to exchange meshed data
 
 License:        LGPLv3+
 URL:            http://www.salome-platform.org/user-section/about/med
 Source0:        http://files.salome-platform.org/Salome/other/%{name}-%{version}.tar.gz
 
-# Chars are unsigned on arm, but the tests do not appear to expect this
-# Patch generated via
-#    find . -type f -print0 | xargs -0 sed -i "s|-e 's/H5T_STD_I8LE//g'|-e 's/H5T_STD_I8LE//g' -e 's/H5T_STD_U8LE//g'|g"
-Patch0:         med_tests.patch
 # - Install headers in %%_includedir/med
-# - Use LIB_SUFFIX
 # - Install cmake config files to %%_libdir/cmake
 # - Install doc to %%_pkgdocdir
-Patch1:         med_cmake.patch
+Patch0:         med_cmake.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
@@ -90,11 +85,11 @@ mv ChangeLog.new ChangeLog
     -DPYTHON_EXECUTABLE=%{__python3} \
     -DPYTHON_INCLUDE_DIR=%{_includedir}/python%{python3_version}$(python3-config --abiflags)/ \
     -DPYTHON_LIBRARY=%{_libdir}/libpython%{python3_version}$(python3-config --abiflags).so  .
-%make_build
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 # Remove test-suite files
 rm -rf %{buildroot}%{_bindir}/testc
@@ -112,7 +107,7 @@ ctest -V || :
 %{_libdir}/libmed.so.1*
 %{_libdir}/libmedC.so.1*
 %{_libdir}/libmedimport.so.0*
-%{_libdir}/libmedfwrap.so.11.*
+%{_libdir}/libmedfwrap.so.11*
 
 %files -n python3-%{name}
 %{python3_sitearch}/%{name}/
@@ -133,6 +128,15 @@ ctest -V || :
 
 
 %changelog
+* Thu Jul 30 2020 Sandro Mani <manisandro@gmail.com> - 4.1-1
+- Update to 4.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 4.0.0-8
+- Rebuild for hdf5 1.10.6
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.0.0-7
 - Rebuilt for Python 3.9
 

@@ -2,7 +2,7 @@
 
 Name:       nodejs-sprintf
 Version:    0.1.5
-Release:    10%{?dist}
+Release:    11%{?dist}
 Summary:    JavaScript sprintf implementation 
 License:    MIT
 URL:        https://github.com/maritz/node-sprintf
@@ -39,6 +39,9 @@ cp -pr package.json lib/ \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.5-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.5-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

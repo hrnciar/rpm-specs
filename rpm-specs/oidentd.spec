@@ -3,7 +3,7 @@
 Summary:    RFC 1413-compliant identification server with NAT support
 Name:       oidentd
 Version:    2.5.0
-Release:    1%{?dist}
+Release:    2%{?dist}
 # COPYING:                  GPLv2 text
 # COPYING.DOC:              GFDLv1.3 text
 # doc/book/getting-started/capabilities.md:             GFDL
@@ -187,6 +187,9 @@ exit 0
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 16 2020 Petr Pisar <ppisar@redhat.com> - 2.5.0-1
 - 2.5.0 bump
 

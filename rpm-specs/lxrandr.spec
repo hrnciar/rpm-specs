@@ -1,6 +1,6 @@
 Name:           lxrandr
 Version:        0.3.2
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Simple monitor configuration tool
 
 License:        GPLv3+
@@ -16,7 +16,7 @@ BuildRequires:  intltool
 BuildRequires:  %{_bindir}/xsltproc
 BuildRequires:  docbook-utils
 BuildRequires:  docbook-style-xsl
-Requires:       xorg-x11-server-utils
+Requires:       xrandr
 
 %description
 LXRandR is a simple monitor configuration tool utilizing X RandR extension. 
@@ -63,6 +63,12 @@ desktop-file-install                                       \
 
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 0.3.2-5
+- Require xrandr not xorg-x11-server-utils
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -5,7 +5,7 @@
 %global crate letter-avatar
 
 Name:           rust-%{crate}
-Version:        1.2.1
+Version:        1.3.0
 Release:        1%{?dist}
 Summary:        Generates user avatars using username initials
 
@@ -70,6 +70,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 1.3.0-1
+- Update to 1.3.0
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 1.2.1-2
+- Update pango and cairo dependencies
+
 * Thu Feb 20 2020 Josh Stone <jistone@redhat.com> - 1.2.1-1
 - Update to 1.2.1
 

@@ -3,7 +3,7 @@
 
 Name:           netty-tcnative
 Version:        1.1.30
-Release:        15%{?dist}
+Release:        18%{?dist}
 Summary:        Fork of Tomcat Native with improved OpenSSL and mavenized build
 License:        ASL 2.0
 URL:            https://github.com/netty/netty/wiki/Forked-Tomcat-Native
@@ -31,7 +31,6 @@ BuildRequires:  maven-remote-resources-plugin
 BuildRequires:  maven-source-plugin
 #parent pom is needed
 BuildRequires:  netty
-BuildRequires:  sonatype-oss-parent
 BuildRequires: mvn(kr.motd.maven:os-maven-plugin)
 
 
@@ -86,6 +85,15 @@ javac -d . -cp $RPM_BUILD_ROOT%{_jnidir}/%{name}/%{name}.jar %{SOURCE1}
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 1.1.30-18
+- Remove unnecessary dependency on sonatype-oss-parent.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.30-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.1.30-16
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.30-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

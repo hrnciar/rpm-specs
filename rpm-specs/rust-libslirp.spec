@@ -6,12 +6,15 @@
 
 Name:           rust-%{crate}
 Version:        4.2.2
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        High-level bindings & helper process for libslirp
 
 License:        MIT
 URL:            https://crates.io/crates/libslirp
 Source:         %{crates_source}
+# For rust-ipnetwork 0.17.0
+# https://gitlab.freedesktop.org/slirp/libslirp-rs/-/merge_requests/7
+Patch0:         libslirp-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -219,6 +222,15 @@ which use "url" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sun Aug 16 15:01:34 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 4.2.2-6
+- Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Dusty Mabe <dusty@dustymabe.com> - 4.2.2-4
+- Respin. We updated rust-ipnetwork to 0.17.0
+
 * Tue May 12 2020 Igor Raits <ignatenkobrain@fedoraproject.org. - 4.2.2-3
 - Rename subpackage to a libslirp-helper
 

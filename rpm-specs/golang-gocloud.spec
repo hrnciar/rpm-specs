@@ -5,7 +5,7 @@
 # https://github.com/google/go-cloud
 %global goipath         gocloud.dev
 %global forgeurl        https://github.com/google/go-cloud
-Version:                0.18.0
+Version:                0.20.0
 
 %gometa
 
@@ -34,8 +34,12 @@ Summary:        Library and tools for open cloud development in Go
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+# Fix to use latest go-github
+Patch0:         0001-Fix-for-latest-go-github.patch
 
+BuildRequires:  golang(cloud.google.com/go/compute/metadata)
 BuildRequires:  golang(cloud.google.com/go/firestore/apiv1)
+BuildRequires:  golang(cloud.google.com/go/iam/credentials/apiv1)
 BuildRequires:  golang(cloud.google.com/go/kms/apiv1)
 BuildRequires:  golang(cloud.google.com/go/pubsub/apiv1)
 BuildRequires:  golang(cloud.google.com/go/storage)
@@ -58,14 +62,15 @@ BuildRequires:  golang(github.com/aws/aws-sdk-go/service/sqs)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/service/ssm)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/service/xray)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/service/xray/xrayiface)
-BuildRequires:  golang(github.com/Azure/azure-amqp-common-go)
-BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/cbs)
-BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/rpc)
-BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/uuid)
+BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/v3)
+BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/v3/cbs)
+BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/v3/rpc)
+BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/v3/uuid)
 BuildRequires:  golang(github.com/Azure/azure-pipeline-go/pipeline)
 BuildRequires:  golang(github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault)
 BuildRequires:  golang(github.com/Azure/azure-service-bus-go)
 BuildRequires:  golang(github.com/Azure/azure-storage-blob-go/azblob)
+BuildRequires:  golang(github.com/Azure/go-amqp)
 BuildRequires:  golang(github.com/Azure/go-autorest/autorest)
 BuildRequires:  golang(github.com/Azure/go-autorest/autorest/azure/auth)
 BuildRequires:  golang(github.com/dgrijalva/jwt-go)
@@ -85,6 +90,7 @@ BuildRequires:  golang(github.com/google/subcommands)
 BuildRequires:  golang(github.com/google/uuid)
 BuildRequires:  golang(github.com/google/wire)
 BuildRequires:  golang(github.com/googleapis/gax-go)
+BuildRequires:  golang(github.com/googleapis/gax-go/v2)
 BuildRequires:  golang(github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/certs)
 BuildRequires:  golang(github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/proxy)
 BuildRequires:  golang(github.com/gorilla/mux)
@@ -102,6 +108,7 @@ BuildRequires:  golang(go.mongodb.org/mongo-driver/bson/primitive)
 BuildRequires:  golang(go.mongodb.org/mongo-driver/mongo)
 BuildRequires:  golang(go.mongodb.org/mongo-driver/mongo/options)
 BuildRequires:  golang(go.opencensus.io/plugin/ocgrpc)
+BuildRequires:  golang(go.opencensus.io/plugin/ochttp)
 BuildRequires:  golang(go.opencensus.io/stats)
 BuildRequires:  golang(go.opencensus.io/stats/view)
 BuildRequires:  golang(go.opencensus.io/tag)
@@ -124,6 +131,7 @@ BuildRequires:  golang(google.golang.org/appengine/urlfetch)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/kms/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/runtimeconfig/v1beta1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/firestore/v1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/iam/credentials/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/pubsub/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/type/latlng)
 BuildRequires:  golang(google.golang.org/grpc)
@@ -133,7 +141,6 @@ BuildRequires:  golang(google.golang.org/grpc/credentials/oauth)
 BuildRequires:  golang(google.golang.org/grpc/metadata)
 BuildRequires:  golang(google.golang.org/grpc/status)
 BuildRequires:  golang(gopkg.in/pipe.v2)
-BuildRequires:  golang(pack.ag/amqp)
 
 %if %{with check}
 # Tests
@@ -141,8 +148,8 @@ BuildRequires:  golang(cloud.google.com/go/firestore)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute)
 BuildRequires:  golang(github.com/Azure/go-autorest/autorest/azure)
 BuildRequires:  golang(github.com/google/go-cmdtest)
-BuildRequires:  golang(github.com/nats-io/nats-server/server)
-BuildRequires:  golang(github.com/nats-io/nats-server/test)
+BuildRequires:  golang(github.com/nats-io/nats-server/v2/server)
+BuildRequires:  golang(github.com/nats-io/nats-server/v2/test)
 BuildRequires:  golang(golang.org/x/tools/go/packages/packagestest)
 %endif
 
@@ -153,17 +160,14 @@ BuildRequires:  golang(golang.org/x/tools/go/packages/packagestest)
 
 %prep
 %goprep
-find . -name "*.go" -exec sed -i "s|github.com/Azure/azure-amqp-common-go/v2|github.com/Azure/azure-amqp-common-go|" "{}" +;
-find . -name "*.go" -exec sed -i "s|github.com/nats-io/nats-server/v2|github.com/nats-io/nats-server|" "{}" +;
+%patch0 -p1
 
 %install
 %gopkginstall
 
 %if %{with check}
 %check
-# needs network access
-# pubsub/natspubsub: failing test removed upstream but not yet released
-# remove in next version (>0.18.0)
+# needs network access)
 %gocheck %{?with_bootstrap:-d secrets/hashivault} \
          %{?with_bootstrap:-d samples/gocdk-secrets} \
          -d docstore/mongodocstore \
@@ -173,14 +177,24 @@ find . -name "*.go" -exec sed -i "s|github.com/nats-io/nats-server/v2|github.com
          -d pubsub/rabbitpubsub \
          -d runtimevar/etcdvar \
          -d samples/gocdk-pubsub \
+         -d blob/azureblob \
          -d blob/gcsblob \
-         -d secrets/gcpkms \
-         -d pubsub/natspubsub
+         -d secrets/gcpkms
 %endif
 
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 14:12:52 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.20.0-1
+- Update to 0.20.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 05 00:21:13 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.18.0-1
 - Update to 0.18.0
 

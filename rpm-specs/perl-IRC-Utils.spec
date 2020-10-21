@@ -1,6 +1,6 @@
 Name:           perl-IRC-Utils
 Version:        0.12
-Release:        25%{?dist}
+Release:        26%{?dist}
 Summary:        Common utilities for IRC-related tasks
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/IRC-Utils
@@ -49,6 +49,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.12-25
 - Perl 5.32 rebuild
 

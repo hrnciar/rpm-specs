@@ -4,7 +4,7 @@
 
 Name:			emacs-common-%{pkg}
 Version:		1.4.631
-Release:		0.5.%{archivedate}%{?dist}
+Release:		0.6.%{archivedate}%{?dist}
 Summary:		W3m interface for Emacsen
 
 License:		BSD
@@ -127,6 +127,9 @@ rm -rf $RPM_BUILD_ROOT%{_xemacs_sitelispdir}/%{pkg}/{ChangeLog,ChangeLog.1,sChan
 %dir %{_xemacs_sitelispdir}/%{pkg}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.631-0.6.20180618cvs
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.631-0.5.20180618cvs
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

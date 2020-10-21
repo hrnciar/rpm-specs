@@ -1,32 +1,27 @@
-%global medtag  ad55a1f1c617
-
 Name:           z3
-Version:        4.8.8
-Release:        3%{?dist}
+Version:        4.8.9
+Release:        2%{?dist}
 Summary:        Satisfiability Modulo Theories (SMT) solver
 
 License:        MIT
 URL:            https://github.com/Z3Prover/z3
 Source0:        https://github.com/Z3Prover/z3/archive/%{name}-%{version}.tar.gz
-# Z3 has a build system using CMake. However, it does not support building OCaml bindings yet.
-# Therefore, stay with the classical configure and make build and provide the required
-# cmake files manually, which allow Z3 to be found by find_package(Z3)
-Source1:        Z3_cmake_files.tar.gz
 
+BuildRequires:  cmake
 BuildRequires:  doxygen
 BuildRequires:  gcc-c++
 BuildRequires:  gmp-devel
 BuildRequires:  graphviz
+BuildRequires:  help2man
 BuildRequires:  java-devel
 BuildRequires:  javapackages-tools
+BuildRequires:  ninja-build
 BuildRequires:  ocaml
 BuildRequires:  ocaml-findlib
 BuildRequires:  ocaml-ocamldoc
 BuildRequires:  ocaml-zarith-devel
 BuildRequires:  python3-devel
-BuildRequires:  python3dist(setuptools)
-
-Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
+BuildRequires:  %{py3_dist setuptools}
 
 %description
 Z3 is a satisfiability modulo theories (SMT) solver; given a set of
@@ -81,112 +76,105 @@ Requires:       ocaml-%{name}%{?_isa} = %{version}-%{release}
 Files for building ocaml applications that use z3.
 
 %package -n python3-%{name}
-%{?python_provide:%python_provide python3-%{name}}
 Summary:        Python 3 interface to z3
-Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
+BuildArch:      noarch
+Requires:       %{name}-libs = %{version}-%{release}
 
 %description -n python3-%{name}
 Python 3 interface to z3.
 
 %prep
-# Unpack Source1 too, using -a 1
-%autosetup -p1 -n %{name}-%{name}-%{version} -a 1
+%autosetup -p1 -n %{name}-%{name}-%{version}
 
-# Install python objects into the right place, enable verbose builds, use
-# Fedora CFLAGS, preserve timestamps when installing, include the entire
-# contents of the archives in the library, link the library with the correct
-# flags, don't hide library symbols needed by the executable, add a version to
-# the soname, and build the ocaml files with debug info.
-sed -e "s|^\(PYTHON_PACKAGE_DIR=\).*|\1'%{python3_sitearch}'|" \
+# Enable verbose builds, use Fedora CFLAGS, preserve timestamps when installing,
+# include the entire contents of the archives in the library, link the library
+# with the correct flags, and build the ocaml files with debuginfo.
+sed \
   -e 's/@$(CXX)/$(CXX)/' \
   -e '/O3/d' \
   -e "s/\(['\"]\)cp\([^[:alnum:]]\)/\1cp -p\2/" \
   -e "s/\(SLIBEXTRAFLAGS = '\)'/\1-Wl,--no-whole-archive -Wl,--as-needed'/" \
   -e "/SLIBFLAGS/s|-shared|& $RPM_LD_FLAGS -Wl,--whole-archive|" \
   -e 's/\(libz3$(SO_EXT)\)\(\\n\)/\1 -Wl,--no-whole-archive\2/' \
-  -e 's/ -fvisibility=hidden//' \
-  -e "s/\(soname,libz3\.so\)'/\1.0'/" \
   -e "s/OCAML_FLAGS = ''/OCAML_FLAGS = '-g'/" \
   -i scripts/mk_util.py
 
 # Comply with the Java packaging guidelines
-sed -e '/catch/s,\(System\.load\)Library("\(.*\)"),\1("%{_libdir}/z3/\2.so"),' \
+sed -e '/libz3java/s,\(System\.load\)Library("\(.*\)"),\1("%{_libdir}/z3/\2.so"),' \
     -i scripts/update_api.py
+
+# Update an OCaml interface
+sed -i 's/Pervasives/Stdlib/' src/api/ml/z3.ml
+
+# FIXME: For unknown reasons, cmake replaces the version with nothing at all
+sed -i 's/@VERSION@/%{version}/' z3.pc.cmake.in
 
 # Fix character encoding
 iconv -f iso8859-1 -t utf-8 RELEASE_NOTES > RELEASE_NOTES.utf8
 touch -r RELEASE_NOTES RELEASE_NOTES.utf8
 mv -f RELEASE_NOTES.utf8 RELEASE_NOTES
 
-# Prepare the cmake files
-sed -i -e 's/@CMAKE_INSTALL_LIBDIR@/%{_lib}/g' \
-       -e 's/@VERSION@/%{version}/g' \
-       -e 's/@Z3_VERSION_MAJOR@/%(echo %{version} | cut -d. -f1)/g' \
-       -e 's/@Z3_VERSION_MINOR@/%(echo %{version} | cut -d. -f2)/g' \
-       -e 's/@Z3_VERSION_PATCH@/%(echo %{version} | cut -d. -f3)/g' \
-       ./Z3_cmake_files/*
-%if 0%{?__isa_bits} == 32
-# Adjust Z3ConfigVersion.cmake in case of 32-bit builds
-sed -i 's/\"8/\"4/g' ./Z3_cmake_files/Z3ConfigVersion.cmake
-%endif
-
 %build
 export CXXFLAGS="$RPM_OPT_FLAGS"
 export LANG="C.UTF-8"
-export PYTHON="%{__python3}"
+export PYTHON="%{python3}"
 
+%cmake -G Ninja \
+  -DCMAKE_INSTALL_INCLUDEDIR=%{_includedir}/%{name} \
+  -DCMAKE_JAVA_COMPILE_FLAGS="-source;1.8;-target;1.8" \
+  -DZ3_BUILD_DOCUMENTATION:BOOL=ON \
+  -DZ3_BUILD_JAVA_BINDINGS:BOOL=ON \
+  -DZ3_BUILD_PYTHON_BINDINGS:BOOL=ON \
+  -DZ3_INCLUDE_GIT_HASH:BOOL=OFF \
+  -DZ3_INCLUDE_GIT_DESCRIBE:BOOL=OFF \
+  -DZ3_USE_LIB_GMP:BOOL=ON
+
+%cmake_build
+
+# The cmake build system does not build the OCaml interface.  Do that manually.
+#
+# First, run the configure script to generate several files.
 # This is NOT an autoconf-generated configure script.
-./configure -p %{_prefix} --githash=%{medtag} --gmp --java --ml --python
-# FIXME: intermittent build failures with %%{?_smp_mflags}
-make -C build
+./configure -p %{_prefix} --gmp --ml
 
-# The z3 binary is NOT linked with libz3, but instead has duplicate copies of a
-# lot of object files, so rebuild it.  But first, add library links.
-pushd build
-mv libz3.so libz3.so.0.0.0
-ln -s libz3.so.0.0.0 libz3.so.0
-ln -s libz3.so.0 libz3.so
-g++ $RPM_OPT_FLAGS -DNDEBUG -o z3 shell/*.o $RPM_LD_FLAGS -L. -lz3 -lgmp
-popd
+# Second, to prevent make from rebuilding the entire library, copy the
+# cmake-built library to where make expects it.
+cp -dp %{_vpath_builddir}/libz3.so* build
 
-# Build the documentation
-pushd doc
-%{__python3} mk_api_doc.py --ml --no-dotnet
-popd
+# Third, make wants to rebuild libz3.so since its dependencies do not exist.
+# Do selective Makefile surgery to prevent this.
+sed -i '/^api/s/ libz3\$(SO_EXT)//g' build/Makefile
+
+# Fourth, build the OCaml interface
+%make_build -C build ml
 
 %install
 export LANG="C.UTF-8"
 
-# Install the python3 interface
-make -C build install DESTDIR=%{buildroot}
-rm -f %{buildroot}%{python3_sitearch}/%{name}/lib/libz3.so
-ln -s %{_libdir}/libz3.so.0 %{buildroot}%{python3_sitearch}/%{name}/lib/libz3.so
-
-# On 64-bit systems, move the library to the right directory
-if [ "%{_libdir}" != "%{_prefix}/lib" ]; then
-  mkdir -p %{buildroot}%{_libdir}
-  mv %{buildroot}%{_prefix}/lib/libz3.so* %{buildroot}%{_libdir}
-fi
-
-# Make library links
-mv %{buildroot}%{_libdir}/libz3.so %{buildroot}%{_libdir}/libz3.so.0.0.0
-ln -s libz3.so.0.0.0 %{buildroot}%{_libdir}/libz3.so.0
-ln -s libz3.so.0 %{buildroot}%{_libdir}/libz3.so
-
-# Move the header files into their own directory
-mkdir -p %{buildroot}%{_includedir}/%{name}
-mv %{buildroot}%{_includedir}/*.h %{buildroot}%{_includedir}/%{name}
+# Install the C++, python3, and Java interfaces
+%cmake_install
 
 # Move the Java interface to its correct location
 mkdir -p %{buildroot}%{_libdir}/%{name}
 mkdir -p %{buildroot}%{_jnidir}
-mv %{buildroot}%{_prefix}/lib/*.jar %{buildroot}%{_jnidir}
+mv %{buildroot}%{_javadir}/*.jar %{buildroot}%{_jnidir}
 ln -s %{_jnidir}/com.microsoft.z3.jar %{buildroot}%{_libdir}/%{name}
-mv %{buildroot}%{_prefix}/lib/lib%{name}java.so %{buildroot}%{_libdir}/%{name}
+mv %{buildroot}%{_libdir}/lib%{name}java.so %{buildroot}%{_libdir}/%{name}
 
-# Install the provided cmake files
-mkdir -p %{buildroot}%{_libdir}/cmake/%{name}/
-install -D -m 644 Z3_cmake_files/Z3*.cmake %{buildroot}%{_libdir}/cmake/%{name}/
+# Install the OCaml interface
+pushd build/api/ml
+mkdir -p %{buildroot}%{_libdir}/ocaml/Z3
+cp -p META *.{a,cma,cmi,cmx,cmxa,cmxs,mli} %{buildroot}%{_libdir}/ocaml/Z3
+mkdir -p %{buildroot}%{_libdir}/ocaml/stublibs
+cp -p *.so %{buildroot}%{_libdir}/ocaml/stublibs
+popd
+
+# We handle the documentation files below
+rm -rf %{buildroot}%{_docdir}/Z3
+
+# Make a man page
+mkdir -p %{buildroot}%{_mandir}/man1
+help2man -N -o %{buildroot}%{_mandir}/man1/%{name}.1 %{_vpath_builddir}/%{name}
 
 #%%check
 # Some of the tests require more memory than the koji builders have available.
@@ -200,23 +188,25 @@ install -D -m 644 Z3_cmake_files/Z3*.cmake %{buildroot}%{_libdir}/cmake/%{name}/
 %files
 %doc README.md RELEASE_NOTES
 %{_bindir}/%{name}
+%{_mandir}/man1/%{name}.1*
 
 %files libs
 %license LICENSE.txt
-%{_libdir}/lib%{name}.so.*
+%{_libdir}/lib%{name}.so.4*
 
 %files devel
 %{_includedir}/%{name}/
 %{_libdir}/lib%{name}.so
 %{_libdir}/cmake/%{name}/
+%{_libdir}/pkgconfig/%{name}.pc
 
 %files doc
-%doc doc/api/html examples
+%doc %{_vpath_builddir}/doc/api/html examples
 %license LICENSE.txt
 
 %files -n java-%{name}
 %{_libdir}/%{name}/
-%{_jnidir}/com.microsoft.z3.jar
+%{_jnidir}/com.microsoft.z3*jar
 
 %files -n ocaml-%{name}
 %dir %{_libdir}/ocaml/Z3/
@@ -224,7 +214,7 @@ install -D -m 644 Z3_cmake_files/Z3*.cmake %{buildroot}%{_libdir}/cmake/%{name}/
 %{_libdir}/ocaml/Z3/*.cma
 %{_libdir}/ocaml/Z3/*.cmi
 %{_libdir}/ocaml/Z3/*.cmxs
-%{_libdir}/ocaml/Z3/*.so
+%{_libdir}/ocaml/stublibs/*.so
 
 %files -n ocaml-%{name}-devel
 %{_libdir}/ocaml/Z3/*.a
@@ -233,9 +223,36 @@ install -D -m 644 Z3_cmake_files/Z3*.cmake %{buildroot}%{_libdir}/cmake/%{name}/
 %{_libdir}/ocaml/Z3/*.mli
 
 %files -n python3-%{name}
-%{python3_sitearch}/%{name}/
+%{python3_sitelib}/%{name}/
 
 %changelog
+* Fri Sep 25 2020 Jerry James <loganjerry@gmail.com> - 4.8.9-2
+- Rebuild for ocaml-zarith 1.10
+
+* Fri Sep 11 2020 Jerry James <loganjerry@gmail.com> - 4.8.9-1
+- Version 4.8.9
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 4.8.8-7
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 4.8.8-6
+- OCaml 4.11.0 rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.8.8-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jerry James <loganjerry@gmail.com> - 4.8.8-4
+- Build with cmake
+- Manually build the OCaml interface
+- Limit the class file version in the Java interface
+- Allow the library to hide internal symbols; this means that the binary can no
+  longer be linked with the library, so the main package does not depend on
+  the -libs package
+- The python package no longer contains an ELF object, so make it noarch
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 4.8.8-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.8.8-3
 - Rebuilt for Python 3.9
 

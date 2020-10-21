@@ -2,13 +2,11 @@
 %global srcname PyGithub
 # what it's imported as
 %global libname github
-# name of egg info directory
-%global eggname %{srcname}
 # package name fragment
 %global pkgname pygithub
 
 Name:           python-%{srcname}
-Version:        1.51
+Version:        1.53
 Release:        2%{?dist}
 Summary:        Python library to work with the Github API
 License:        LGPLv3+
@@ -24,14 +22,8 @@ A Python library implementing the full Github API v3.
 
 %package -n     python%{python3_pkgversion}-%{pkgname}
 Summary:        %{summary}
-BuildRequires:  python%{python3_pkgversion}-setuptools
-BuildRequires:  python%{python3_pkgversion}-jwt
-BuildRequires:  python%{python3_pkgversion}-requests
-BuildRequires:  python%{python3_pkgversion}-deprecated
+BuildRequires:  python3-devel
 BuildRequires:  pyproject-rpm-macros
-
-# Tests
-BuildRequires:  python%{python3_pkgversion}-tox-current-env
 
 Provides:       python%{python3_pkgversion}-github = %{version}-%{release}
 Obsoletes:      python%{python3_pkgversion}-github < 1.25.2-2
@@ -39,36 +31,44 @@ Provides:       python%{python3_pkgversion}-PyGithub = %{version}-%{release}
 Obsoletes:      python%{python3_pkgversion}-PyGithub < 1.29-8
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{pkgname}}
 
-# Needs https://bugzilla.redhat.com/show_bug.cgi?id=PYTEST5
-#%%generate_buildrequires
-#%%pyproject_buildrequires -t
-
 %description -n python%{python3_pkgversion}-%{pkgname} %{_description}
 
 %prep
 %autosetup -p 1 -n %{srcname}-%{version}
-rm -rf %{eggname}.egg-info
-# this test needs network connection => kill it for Koji builds
-#sed -i '/Issue142/d' tests/AllTests.py
+
+# https://src.fedoraproject.org/rpms/pyproject-rpm-macros
+%generate_buildrequires
+%pyproject_buildrequires -t
 
 %build
-%py3_build
+%pyproject_wheel
 
 %install
-%py3_install
+%pyproject_install
+%pyproject_save_files %{libname}
 
 %check
-# Needs https://bugzilla.redhat.com/show_bug.cgi?id=PYTEST5
-#%%tox
+%tox
 
-%files -n python%{python3_pkgversion}-%{pkgname}
+%files -n python%{python3_pkgversion}-%{pkgname} -f %{pyproject_files}
 %license COPYING COPYING.LESSER
 %doc README.md
-%{python3_sitelib}/%{libname}
 %exclude %{python3_sitelib}/%{libname}/tests
-%{python3_sitelib}/%{eggname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Mon Aug 24 2020 Miro Hrončok <mhroncok@redhat.com> - 1.53-2
+- Convert completely to pyproject-rpm-macros
+
+* Tue Aug 18 2020 Jiri Popelka <jpopelka@redhat.com> - 1.53-1
+- 1.53
+
+* Mon Aug 10 2020 Jiri Popelka <jpopelka@redhat.com> - 1.52-1
+- 1.52
+- Run tests with tox
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.51-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.51-2
 - Rebuilt for Python 3.9
 

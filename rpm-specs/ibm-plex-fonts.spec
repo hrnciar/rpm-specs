@@ -5,7 +5,7 @@ BuildArch: noarch
 Version: 4.0.2
 %forgemeta
 
-Release: 7%{?dist}
+Release: 8%{?dist}
 License: OFL
 URL:     https://www.ibm.com/plex/
 
@@ -107,6 +107,9 @@ Summary:  IBM Plex, the new IBM set of coordinated grotesque corporate fonts
 %fontfiles
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 4.0.2-7
 🐞 Workaround Fedora problems created by rpm commit 93604e2

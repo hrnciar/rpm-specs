@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.7.7
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        unittest-based test runner with Ant/JUnit like XML reporting
 
 License:        LGPLv3
@@ -51,6 +51,9 @@ sed -i '1{\@^#!/usr/bin/env python@d}' %{buildroot}%{python3_sitelib}/%{srcname}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.7-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.7-13
 - Rebuilt for Python 3.9
 

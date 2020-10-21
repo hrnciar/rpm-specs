@@ -3,7 +3,7 @@
 
 # https://github.com/mwitkow/go-conntrack
 %global goipath         github.com/mwitkow/go-conntrack
-%global commit          cc309e4a22231782e8893f3c35ced0967807a33e
+%global commit          2f068394615f73e460c2f3d2c158b0ad9321cadb
 
 %gometa
 
@@ -16,7 +16,7 @@ Prometheus monitoring and x/net/trace tracing wrappers net.Conn, both inbound
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Go middleware for net.conn tracking (prometheus/trace)
 
 # Upstream license specification: Apache-2.0
@@ -24,7 +24,9 @@ License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
+BuildRequires:  golang(github.com/jpillora/backoff)
 BuildRequires:  golang(github.com/prometheus/client_golang/prometheus)
+BuildRequires:  golang(github.com/prometheus/client_golang/prometheus/promhttp)
 BuildRequires:  golang(golang.org/x/net/context/ctxhttp)
 BuildRequires:  golang(golang.org/x/net/trace)
 
@@ -47,6 +49,12 @@ BuildRequires:  golang(golang.org/x/net/trace)
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 23:54:18 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200729git2f06839
+- Bump to commit 2f068394615f73e460c2f3d2c158b0ad9321cadb
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

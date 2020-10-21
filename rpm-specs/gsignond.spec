@@ -6,7 +6,7 @@
 Name:           gsignond
 Summary:        GSignOn daemon
 Version:        1.2.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 License:        GPLv3
 
 URL:            https://gitlab.com/accounts-sso/%{name}
@@ -158,6 +158,9 @@ This package contains the default configuration.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 02 2020 Björn Esser <besser82@fedoraproject.org> - 1.2.0-7
 - Fix string quoting for rpm >= 4.16
 

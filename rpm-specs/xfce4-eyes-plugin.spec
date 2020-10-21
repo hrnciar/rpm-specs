@@ -4,7 +4,7 @@
 
 Name:           xfce4-eyes-plugin
 Version:        4.5.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Eyes for the Xfce panel
 
 License:        GPLv2+
@@ -46,6 +46,9 @@ find %{buildroot} -name \*.la -exec rm {} \;
 %{_datadir}/xfce4/eyes
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 4.5.1-1
 - Update to 4.5.1
 

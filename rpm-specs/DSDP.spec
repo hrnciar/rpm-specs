@@ -1,6 +1,6 @@
 Name:           DSDP
 Version:        5.8
-Release:        24%{?dist}
+Release:        26%{?dist}
 Summary:        Software for semidefinite programming
 
 License:        DSDP
@@ -21,7 +21,7 @@ Patch2:         %{name}-type-mismatch.patch
 BuildRequires:  doxygen-latex
 BuildRequires:  gcc
 BuildRequires:  ghostscript-core
-BuildRequires:  openblas-devel
+BuildRequires:  pkgconfig(flexiblas)
 
 %description
 DSDP is a free open source implementation of an interior-point method
@@ -116,6 +116,12 @@ done
 %{_mandir}/man1/*
 
 %changelog
+* Fri Aug 07 2020 Iñaki Úcar <iucar@fedoraproject.org> - 5.8-26
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.8-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.8-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

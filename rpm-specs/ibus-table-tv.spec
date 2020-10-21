@@ -1,6 +1,6 @@
 Name:       ibus-table-tv
 Version:    1.2.0.20100305
-Release:    20%{?dist}
+Release:    21%{?dist}
 Summary:    The Thai and Viqr (Vietnamese) tables for IBus-Table
 License:    GPLv3
 URL:        http://github.com/kaio/ibus-table-tv/
@@ -42,6 +42,9 @@ cd /$RPM_BUILD_ROOT/%{_datadir}/ibus-table/tables/
 %{_datadir}/ibus-table/tables/viqr.db
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0.20100305-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0.20100305-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -5,17 +5,14 @@
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           lua-posix
-Version:        33.3.1
-Release:        16%{?dist}
+Version:        35.0
+Release:        2%{?dist}
 Summary:        A POSIX library for Lua
 License:        MIT
 URL:            http://luaforge.net/projects/luaposix/
-Source0:        https://github.com/luaposix/luaposix/archive/release-v%{version}.tar.gz
+Source0:        https://github.com/luaposix/luaposix/archive/v%{version}/lua-posix-%{version}.tar.gz
 BuildRequires:  gcc
 BuildRequires:  lua-devel
-BuildRequires:  ncurses-devel
-BuildRequires:	lua-lunit
-BuildRequires:  perl-interpreter
 %{?lua_requires}
 
 %description
@@ -23,32 +20,45 @@ This is a POSIX library for Lua which provides access to many POSIX features
 to Lua programs.
 
 %prep
-%setup -q -n luaposix-release-v%{version}
-
+%setup -q -n luaposix-%{version}
 
 %build
-%configure --libdir=%{lua_libdir} --datadir=/%{lua_pkgdir}
-make V=1 %{?_smp_mflags}
+build-aux/luke CFLAGS="%build_cflags"
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+build-aux/luke install PREFIX=%{buildroot}%{_prefix} INST_LIBDIR=%{buildroot}%{lua_libdir}
 
 
-%check
-make V=1 check
+#check
+# Tests require specl which is not yet packaged
 
 
 %files
-%license COPYING
-%doc AUTHORS ChangeLog NEWS README
-%{_defaultdocdir}/luaposix/
+%license LICENSE
+%doc AUTHORS ChangeLog.old NEWS.md README.md
 %{lua_libdir}/*
-%{lua_pkgdir}/*.lua
 %{lua_pkgdir}/posix/
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 35.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Orion Poplawski <orion@nwra.com> - 35.0-1
+- Update to 35.0
+
+* Fri Jul 03 2020 Orion Poplawski <orion@nwra.com> - 34.1.1-2
+- Fix bit32 patch
+- More lua 5.4 fixes
+
+* Fri Jul 03 2020 Orion Poplawski <orion@nwra.com> - 34.1.1-1
+- Update to 34.1.1 (bz#1849450)
+
+* Mon Jun 29 2020 Tom Callaway <spot@fedoraproject.org> - 33.3.1-17
+- hack this ancient beastie to work with lua 5.4
+- maintainer, please update this to the current upstream release at your earliest convenience
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 33.3.1-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

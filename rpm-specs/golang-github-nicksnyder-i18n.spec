@@ -30,7 +30,7 @@ multiple languages.
 %global godocs          CHANGELOG.md README.md dev.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Translate your Go program into multiple languages
 
 License:        MIT
@@ -63,6 +63,13 @@ sed -i -e '/v2/d' %{gorpmname %{goipath}}-%{gofilelist}
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.10.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.10.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.10.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

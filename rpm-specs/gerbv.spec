@@ -1,8 +1,10 @@
+%define _legacy_common_support 1
+
 # gerbv Package description for Fedora/Free Electronic Lab
 #
 Name:             gerbv
 Version:          2.7.0
-Release:          4%{?dist}
+Release:          7%{?dist}
 Summary:          Gerber file viewer from the gEDA toolkit
 License:          GPLv2
 URL:              http://gerbv.gpleda.org/
@@ -121,6 +123,16 @@ popd
 
 
 %Changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 2.7.0-6
+- Enable legacy common support
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

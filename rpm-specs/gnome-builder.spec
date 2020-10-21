@@ -8,8 +8,8 @@
 
 %global shortver %(v=%{version}; echo ${v%.*})
 
-%global libdazzle_version 3.33.90
-%global glib2_version 2.61.2
+%global libdazzle_version 3.37.0
+%global glib2_version 2.65.0
 %global gtk3_version 3.22.26
 %global json_glib_version 1.2.0
 %global jsonrpc_glib_version 3.29.91
@@ -17,11 +17,11 @@
 %global template_glib_version 3.28.0
 %global libgit2_glib_version 0.28.0.1
 %global devhelp_version 3.25.1
-%global sysprof_version 3.33.4
+%global sysprof_version 3.37.1
 
 Name:           gnome-builder
-Version:        3.36.0
-Release:        4%{?dist}
+Version:        3.38.1
+Release:        1%{?dist}
 Summary:        IDE for writing GNOME-based software
 
 # Note: Checked as of 3.20.2
@@ -69,9 +69,9 @@ BuildRequires:  pkgconfig(libxml-2.0)
 BuildRequires:  pkgconfig(pangoft2)
 BuildRequires:  pkgconfig(libpcre)
 BuildRequires:  pkgconfig(pygobject-3.0)
-BuildRequires:  pkgconfig(sysprof-3) >= %{sysprof_version}
-BuildRequires:  pkgconfig(sysprof-capture-3)
-BuildRequires:  pkgconfig(sysprof-ui-3) >= %{sysprof_version}
+BuildRequires:  pkgconfig(sysprof-4) >= %{sysprof_version}
+BuildRequires:  pkgconfig(sysprof-capture-4)
+BuildRequires:  pkgconfig(sysprof-ui-4) >= %{sysprof_version}
 BuildRequires:  pkgconfig(template-glib-1.0) >= %{template_glib_version}
 BuildRequires:  pkgconfig(vte-2.91)
 BuildRequires:  pkgconfig(webkit2gtk-4.0)
@@ -133,18 +133,15 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Builder.des
 %{_libdir}/gnome-builder/
 %{_libexecdir}/gnome-builder-clang
 %{_libexecdir}/gnome-builder-git
-%{python3_sitearch}/gi/
+%{python3_sitelib}/gi/
 %{_datadir}/applications/org.gnome.Builder.desktop
 %{_datadir}/dbus-1/services/org.gnome.Builder.service
 %{_datadir}/glib-2.0/schemas/org.gnome.builder*.gschema.xml
 %exclude %{_datadir}/gnome-builder/gir-1.0/
 %{_datadir}/gnome-builder/
-%dir %{_datadir}/gtksourceview-3.0
-%dir %{_datadir}/gtksourceview-3.0/styles
-%{_datadir}/gtksourceview-3.0/styles/builder*.xml
 %dir %{_datadir}/gtksourceview-4
 %dir %{_datadir}/gtksourceview-4/styles
-%{_datadir}/gtksourceview-4/styles/builder*.xml
+%{_datadir}/gtksourceview-4/styles/*.xml
 %{_datadir}/icons/hicolor/*/apps/org.gnome.Builder*.svg
 %{_datadir}/metainfo/org.gnome.Builder.appdata.xml
 %lang(en) %{_datadir}/doc/gnome-builder/en/
@@ -155,6 +152,28 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Builder.des
 %{_datadir}/gnome-builder/gir-1.0/
 
 %changelog
+* Fri Oct 16 2020 Kalev Lember <klember@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Sun Sep 13 2020 Kalev Lember <klember@redhat.com> - 3.38.0-2
+- Rebuilt for libgladeui soname bump
+
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Mon Sep 07 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.36.0-4
 - Rebuilt for Python 3.9
 

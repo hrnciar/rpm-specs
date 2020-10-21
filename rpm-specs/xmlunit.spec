@@ -32,7 +32,7 @@ Name:           xmlunit
 Summary:        Provides classes to do asserts on xml
 Epoch:          0
 Version:        2.7.0
-Release:        1%{?dist}
+Release:        4%{?dist}
 # xmlunit2 is licensed under ASL 2.0, xmlunit-legacy is still BSD-licensed
 License:        ASL 2.0 and BSD
 
@@ -44,7 +44,12 @@ Patch0:         0001-Disable-tests-requiring-network-access.patch
 BuildArch:      noarch
 
 BuildRequires:  maven-local
+BuildRequires:  mvn(com.sun.istack:istack-commons-runtime)
+BuildRequires:  mvn(com.sun.xml.bind:jaxb-impl)
+BuildRequires:  mvn(jakarta.activation:jakarta.activation-api)
+BuildRequires:  mvn(javax.xml.bind:jaxb-api)
 BuildRequires:  mvn(junit:junit)
+BuildRequires:  mvn(net.bytebuddy:byte-buddy)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-shade-plugin)
 BuildRequires:  mvn(org.assertj:assertj-core)
@@ -108,6 +113,11 @@ This package provides %{summary}.
 %pom_remove_plugin org.codehaus.mojo:buildnumber-maven-plugin
 %pom_remove_plugin :maven-assembly-plugin
 
+# Add deps to EE APIs removed in Java 11
+%pom_change_dep javax.activation:activation jakarta.activation:jakarta.activation-api . xmlunit-core
+%pom_change_dep com.sun.xml.bind:jaxb-core com.sun.xml.bind:jaxb-impl . xmlunit-core
+%pom_add_dep com.sun.istack:istack-commons-runtime::test xmlunit-core
+
 %mvn_alias "org.xmlunit:xmlunit-legacy" "xmlunit:xmlunit"
 
 
@@ -131,6 +141,15 @@ This package provides %{summary}.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:2.7.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Mat Booth <mat.booth@redhat.com> - 0:2.7.0-3
+- Allow building against JDK 11
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0:2.7.0-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed May 13 2020 Dr. Tilmann Bubeck <bubeck@fedoraproject.org> - 0:2.7.0-1
 - Update to version 2.7.0.
 

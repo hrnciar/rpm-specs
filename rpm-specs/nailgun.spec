@@ -2,7 +2,7 @@
 
 Name:     nailgun
 Version:  0.9.1
-Release:  13%{?dist}
+Release:  16%{?dist}
 Summary:  Framework for running Java from the cli without the JVM startup overhead
 License:  ASL 2.0
 URL:      http://martiansoftware.com/nailgun/
@@ -11,7 +11,6 @@ URL:      http://martiansoftware.com/nailgun/
 Source0:  %{name}-%{name}-all-%{version}.zip
 
 BuildRequires:  maven-local
-BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
 
 %description
 Nailgun is a client, protocol, and server for running Java programs from the 
@@ -32,11 +31,17 @@ This package contains the API documentation for %{name}.
 find ./ -name '*.jar' -exec rm -f '{}' \; 
 find ./ -name '*.class' -exec rm -f '{}' \; 
 
+# drop unnecessary dependency on deprecated parent POM
+%pom_remove_parent
+
 %pom_remove_plugin :maven-javadoc-plugin
 %pom_remove_plugin :maven-source-plugin
 
+# remove maven-compiler-plugin configuration that is broken with Java 11
+%pom_xpath_remove 'pom:plugin[pom:artifactId="maven-compiler-plugin"]/pom:configuration'
+
 %build
-%mvn_build
+%mvn_build -- -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 %install
 %mvn_install
@@ -47,6 +52,16 @@ find ./ -name '*.class' -exec rm -f '{}' \;
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Fabio Valentini <decathorpe@gmail.com> - 0.9.1-15
+- Drop unnecessary dependency on deprecated parent POM.
+- Set javac source and target to 1.8 to fix Java 11 builds.
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0.9.1-14
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

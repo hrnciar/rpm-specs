@@ -3,7 +3,7 @@
 
 Name:           corsix-th
 Version:        0.64
-Release:        1%{?dist}
+Release:        5%{?dist}
 Summary:        Open source clone of Theme Hospital
 
 # For a breakdown of the licensing, see LICENSE.txt
@@ -16,12 +16,13 @@ Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  auto-destdir
 BuildRequires:  cmake
+BuildRequires:  compat-lua-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc-c++
 BuildRequires:  libappstream-glib
+BuildRequires:  ninja-build
 BuildRequires:  pkgconfig(SDL2_mixer)
 BuildRequires:  pkgconfig(freetype2)
-BuildRequires:  pkgconfig(lua)
 BuildRequires:  pkgconfig(sdl2)
 
 Requires:       %{name}-data
@@ -52,32 +53,31 @@ original game can be made.\
 
 %description %{_description}
 
+
 %package        data
+Summary:        Data files for %{name}
 BuildArch:      noarch
 
 Requires:       %{name} = %{version}-%{release}
-Summary:        Data files for %{name}
 
 %description    data %{_description}
 
 Package contains data files for %{name}.
 
+
 %prep
 %autosetup -n %{appname}-%{version} -p1
-mkdir -p %{_target_platform}
 
 
 %build
-pushd %{_target_platform}
 %cmake \
-    -DWITH_MOVIES=0 \
-    ..
-popd
-%make_build -C %{_target_platform}
+    -G Ninja \
+    -DWITH_MOVIES=0
+%ninja_build -C %{_vpath_builddir}
 
 
 %install
-%make_install -C %{_target_platform}
+%ninja_install -C %{_vpath_builddir}
 rm %{buildroot}%{_datadir}/corsix-th/LICENSE.txt
 
 
@@ -101,6 +101,19 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Wed Aug 05 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.64-5
+- Build with 'compat-lua-devel' and fix FTBFS-33
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.64-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.64-3
+- Rebuild with out-of-source builds new CMake macros
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.64-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.64-1
 - Update to 0.64
 

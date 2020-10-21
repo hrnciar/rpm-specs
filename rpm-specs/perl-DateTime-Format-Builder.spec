@@ -1,9 +1,9 @@
-%global real_version   0.82
+%global real_version   0.83
 
 Name:           perl-DateTime-Format-Builder
-# 0.82 in reality, but rpm can't get it
-Version:        0.8200
-Release:        6%{?dist}
+# 0.83 in reality, but rpm can't get it
+Version:        0.8300
+Release:        1%{?dist}
 Summary:        Create DateTime parser classes and objects        
 # examples/W3CDTF.pm:               GPL+ or Artistic
 # examples/MySQL.pm:                GPL+ or Artistic
@@ -29,7 +29,6 @@ BuildRequires:  perl(Params::Validate) >= 0.72
 BuildRequires:  perl(parent)
 BuildRequires:  perl(Scalar::Util)
 BuildRequires:  perl(strict)
-BuildRequires:  perl(vars)
 BuildRequires:  perl(warnings)
 # Test Suite
 BuildRequires:  perl(File::Spec)
@@ -100,6 +99,13 @@ make test
 %{_mandir}/man3/DateTime::Format::Builder::Tutorial.3*
 
 %changelog
+* Mon Aug 10 2020 Paul Howarth <paul@city-fan.org> - 0.8300-1
+- Update to 0.83
+  - Switched to GitHub issues
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8200-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.8200-6
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:		perl-Data-Section-Simple
 Version:	0.07
-Release:	19%{?dist}
+Release:	20%{?dist}
 Summary:	Read data from __DATA__
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Data-Section-Simple
@@ -61,6 +61,9 @@ make test
 %{_mandir}/man3/Data::Section::Simple.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.07-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.07-19
 - Perl 5.32 rebuild
 

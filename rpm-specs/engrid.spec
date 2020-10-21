@@ -6,7 +6,7 @@
 
 Name:           engrid
 Version:        2.0.0
-Release:        0.34%{?snap}%{?dist}
+Release:        0.35%{?snap}%{?dist}
 Summary:        Mesh generation tool
 
 License:        GPLv3+
@@ -101,7 +101,7 @@ chmod -x src/libengrid/createvolumemesh.cpp
 # Build application
 pushd src
 %cmake -DGIT_SHA1=%{commit} .
-%make_build
+%cmake_build
 popd
 
 # Build documentation
@@ -112,7 +112,9 @@ popd
 
 
 %install
-%make_install -C src
+pushd src
+%cmake_install
+popd
 
 # Remove useless script
 rm %{buildroot}%{_bindir}/%{name}.bash
@@ -151,6 +153,9 @@ install -Dpm 0644 debian/engrid.1 %{buildroot}%{_mandir}/man1/engrid.1
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-0.35.20170615git0563bcc
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-0.34.20170615git0563bcc
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

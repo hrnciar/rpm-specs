@@ -10,15 +10,18 @@
 
 Summary:	Incredibly simple helpers for testing code with exceptions 
 Name:		perl-Test-Fatal
-Version:	0.014
-Release:	16%{?dist}
+Version:	0.016
+Release:	1%{?dist}
 License:	GPL+ or Artistic
-Url:		https://metacpan.org/release/Test-Fatal
-Source0:	https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Test-Fatal-%{version}.tar.gz
+URL:		https://metacpan.org/release/Test-Fatal
+Source0:	https://cpan.metacpan.org/modules/by-module/Test/Test-Fatal-%{version}.tar.gz
 BuildArch:	noarch
 # Module Build
-BuildRequires:	perl-interpreter
+BuildRequires:	coreutils
+BuildRequires:	findutils
+BuildRequires:	make
 BuildRequires:	perl-generators
+BuildRequires:	perl-interpreter
 BuildRequires:	perl(ExtUtils::MakeMaker)
 # Module Runtime
 BuildRequires:	perl(Carp)
@@ -31,13 +34,14 @@ BuildRequires:	perl(warnings)
 BuildRequires:	perl(File::Spec)
 BuildRequires:	perl(overload)
 BuildRequires:	perl(Test::Builder::Tester)
-BuildRequires:	perl(Test::More) >= 0.96
+BuildRequires:	perl(Test::More) >= 0.65
 %if %{with perl_Test_Fatal_enables_optional_test}
 # Optional Tests
 BuildRequires:	perl(CPAN::Meta) >= 2.120900
 %endif
 %if %{with perl_Test_Fatal_enables_extra_test}
 # Extra Tests
+BuildRequires:	perl(Encode)
 BuildRequires:	perl(Test::Pod) >= 1.41
 %endif
 # Runtime
@@ -61,8 +65,8 @@ make %{?_smp_mflags}
 
 %install
 make pure_install DESTDIR=%{buildroot}
-find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
-%{_fixperms} %{buildroot}
+find %{buildroot} -type f -name .packlist -delete
+%{_fixperms} -c %{buildroot}
 
 %check
 make test
@@ -77,6 +81,17 @@ make test TEST_FILES="$(echo $(find xt/ -name '*.t'))"
 %{_mandir}/man3/Test::Fatal.3*
 
 %changelog
+* Mon Aug 10 2020 Paul Howarth <paul@city-fan.org> - 0.016-1
+- Update to 0.016
+  - Add default descriptions to tests
+  - Work on ancient Test::Builder code
+- Use author-independent source URL
+- Simplify find command using -delete
+- Fix permissions verbosely
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.014-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.014-16
 - Perl 5.32 rebuild
 

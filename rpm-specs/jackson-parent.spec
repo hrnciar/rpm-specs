@@ -1,6 +1,6 @@
 Name:          jackson-parent
 Version:       2.11
-Release:       1%{?dist}
+Release:       3%{?dist}
 Summary:       Parent pom for all Jackson components
 License:       ASL 2.0
 
@@ -35,6 +35,12 @@ sed -i 's/\r//' LICENSE
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.11-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon May 25 2020 Fabio Valentini <decathorpe@gmail.com> - 2.11-1
 - Update to version 2.11.
 

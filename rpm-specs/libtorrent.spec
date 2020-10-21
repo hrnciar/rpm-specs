@@ -1,7 +1,7 @@
 Name:          libtorrent
 License:       GPLv2+
 Version:       0.13.8
-Release:       2%{?dist}
+Release:       4%{?dist}
 Summary:       BitTorrent library with a focus on high performance & good code
 URL:           https://github.com/rakshasa/libtorrent/
 Source0:       http://rtorrent.net/downloads/libtorrent-%{version}.tar.gz
@@ -32,23 +32,23 @@ Header and library definition files for developing applications
 with the libtorrent libraries.
 
 %prep
-%setup -q
+%autosetup
 
 %build
 # Shipped generated versions of autocrap scripts have a hard dependency on an
 # obsolete version of automake that Fedora does not ship anymore; regenerate:
 sh autogen.sh
 %configure --with-posix-fallocate
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 
 %ldconfig_scriptlets
 
 %files
-%doc AUTHORS INSTALL README
+%doc AUTHORS README
 %license COPYING
 %{_libdir}/libtorrent.so.*
 
@@ -58,6 +58,12 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 %{_libdir}/*.so
 
 %changelog
+* Fri Aug 28 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 0.13.8-4
+- Clean spec
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.8-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:		dgae
 Version:	1.1
-Release:	22%{?dist}
+Release:	23%{?dist}
 Summary:	DG, a short AGI adventure game
 
 License:	Public Domain
@@ -55,6 +55,9 @@ install -p -m 0644 %{SOURCE3} %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/%
 %{_bindir}/dgae-wrapper.sh
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

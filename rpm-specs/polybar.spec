@@ -11,7 +11,7 @@
 
 Name:           polybar
 Version:        3.4.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Fast and easy-to-use status bar
 
 # BSD 2-clause "Simplified" License
@@ -106,6 +106,9 @@ install -Dpm 0644 doc/%{_vpath_builddir}/man/%{name}.1 \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Björn Esser <besser82@fedoraproject.org> - 3.4.3-4
 - Update xpp snapshot with Python 3.9 fix
 

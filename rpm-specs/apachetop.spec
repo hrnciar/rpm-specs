@@ -1,6 +1,6 @@
 Name:           apachetop
 Version:        0.19.7
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A top-like display of Apache logs
 License:        BSD
 URL:            https://github.com/tessus/apachetop
@@ -32,6 +32,9 @@ gpgv2 --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.7-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.7-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

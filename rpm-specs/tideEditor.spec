@@ -1,11 +1,19 @@
+%global		postver	-r2
+%global		postrpmver	%(echo "%postver" | sed -e 's|-|.|g' | sed -e 's|^\.||')
+
+%global		mainver		1.5
+
+%global		fedorarel	5
+%global		rpmrel		%{fedorarel}%{?postver:.%postrpmver}
+
 Name:		tideEditor
-Version:	1.5
-Release:	3%{?dist}
+Version:	%{mainver}
+Release:	%{rpmrel}%{?dist}
 Summary:	Editor for Tide Constituent Database (TCD) files
 
 License:	GPLv3+
 URL:		http://www.flaterco.com/xtide/
-Source0:	ftp://ftp.flaterco.com/xtide/tideeditor-%{version}.tar.xz
+Source0:	ftp://ftp.flaterco.com/xtide/tideeditor-%{version}%{?postver}.tar.xz
 
 BuildRequires:	gcc-c++
 BuildRequires:	qt4-devel
@@ -47,6 +55,12 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_bindir}/tideEditor
 
 %changelog
+* Mon Aug 10 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.5-5.r2
+- 1.5 respin r2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

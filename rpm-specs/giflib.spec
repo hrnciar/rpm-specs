@@ -1,7 +1,7 @@
 Name:          giflib
 Summary:       A library and utilities for processing GIFs
 Version:       5.2.1
-Release:       5%{?dist}
+Release:       6%{?dist}
 
 License:       MIT
 URL:           http://www.sourceforge.net/projects/%{name}/
@@ -74,6 +74,9 @@ rm -f %{buildroot}%{_libdir}/libgif.a
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Sandro Mani <manisandro@gmail.com> - 5.2.1-5
 - Fix several defects found by Coverity scan
 - Generate HTML docs with consistent section IDs to avoid multilib difference

@@ -1,21 +1,16 @@
 Name:           gnome-shell
-Version:        3.37.2
-Release:        1%{?dist}
+Version:        3.38.1
+Release:        2%{?dist}
 Summary:        Window management and application launching for GNOME
 
 License:        GPLv2+
-Provides:       desktop-notification-daemon
 URL:            https://wiki.gnome.org/Projects/GnomeShell
 #VCS:           git:git://git.gnome.org/gnome-shell
-Source0:        http://download.gnome.org/sources/gnome-shell/3.37/%{name}-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/gnome-shell/3.38/%{name}-%{version}.tar.xz
 
 # Replace Epiphany with Firefox in the default favourite apps list
 Patch1: gnome-shell-favourite-apps-firefox.patch
-
-# Implement https://wiki.gnome.org/Design/OS/BootOptions
-# This should go upstream once systemd has a generic interface for this
-Patch2: 0001-endSessionDialog-Immediately-add-buttons-to-the-dial.patch
-Patch3: 0002-endSessionDialog-Support-rebooting-into-the-bootload.patch
+Patch2: 0001-windowManager-Avoid-calling-meta_window_actor_thaw-w.patch
 
 %define eds_version 3.33.1
 %define gnome_desktop_version 3.35.91
@@ -23,12 +18,14 @@ Patch3: 0002-endSessionDialog-Support-rebooting-into-the-bootload.patch
 %define gobject_introspection_version 1.49.1
 %define gjs_version 1.57.3
 %define gtk3_version 3.15.0
-%define mutter_version 3.36.0
+%define mutter_version 3.38.0
 %define polkit_version 0.100
 %define gsettings_desktop_schemas_version 3.33.1
 %define ibus_version 1.5.2
 %define gnome_bluetooth_version 1:3.9.0
 %define gstreamer_version 1.4.5
+%define pipewire_version 0.3.0
+%define gnome_settings_daemon_version 3.37.1
 
 BuildRequires:  asciidoc
 BuildRequires:  bash-completion
@@ -55,6 +52,7 @@ BuildRequires:  systemd-devel
 BuildRequires:  sassc
 # for screencast recorder functionality
 BuildRequires:  gstreamer1-devel >= %{gstreamer_version}
+BuildRequires:  pkgconfig(libpipewire-0.3) >= %{pipewire_version}
 BuildRequires:  gtk3-devel >= %{gtk3_version}
 BuildRequires:  gettext >= 0.19.6
 BuildRequires:  libcanberra-devel
@@ -93,7 +91,10 @@ Requires:       polkit%{?_isa} >= %{polkit_version}
 Requires:       gnome-desktop3%{?_isa} >= %{gnome_desktop_version}
 Requires:       glib2%{?_isa} >= %{glib2_version}
 Requires:       gsettings-desktop-schemas%{?_isa} >= %{gsettings_desktop_schemas_version}
+Requires:       gnome-settings-daemon%{?_isa} >= %{gnome_settings_daemon_version}
 Requires:       gstreamer1%{?_isa} >= %{gstreamer_version}
+# needed for screen recorder
+Requires:       pipewire-gstreamer%{?_isa}
 # needed for schemas
 Requires:       at-spi2-atk%{?_isa}
 # needed for on-screen keyboard
@@ -113,7 +114,11 @@ Requires:       libgweather%{?_isa}
 # needed for thunderbolt support
 Requires:       bolt%{?_isa}
 # Needed for launching flatpak apps etc
-Requires:       xdg-desktop-portal-gtk
+# 1.8.0 is needed for source type support in the screencast portal.
+Requires:       xdg-desktop-portal-gtk >= 1.8.0
+
+Provides:       desktop-notification-daemon = %{version}-%{release}
+Provides:       PolicyKit-authentication-agent = %{version}-%{release}
 
 %if 0%{?rhel}
 # In Fedora, fedora-obsolete-packages obsoletes caribou
@@ -179,6 +184,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/evolution-calendar.de
 %{_datadir}/dbus-1/services/org.gnome.Shell.HotplugSniffer.service
 %{_datadir}/dbus-1/services/org.gnome.Shell.Notifications.service
 %{_datadir}/dbus-1/services/org.gnome.Shell.PortalHelper.service
+%{_datadir}/dbus-1/services/org.gnome.Shell.Screencast.service
 %{_datadir}/dbus-1/interfaces/org.gnome.Shell.Extensions.xml
 %{_datadir}/dbus-1/interfaces/org.gnome.Shell.Introspect.xml
 %{_datadir}/dbus-1/interfaces/org.gnome.Shell.PadOsd.xml
@@ -188,11 +194,10 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/evolution-calendar.de
 %{_datadir}/dbus-1/interfaces/org.gnome.ShellSearchProvider2.xml
 %{_datadir}/icons/hicolor/scalable/apps/org.gnome.Shell.Extensions.svg
 %{_datadir}/icons/hicolor/symbolic/apps/org.gnome.Shell.Extensions-symbolic.svg
-%{_userunitdir}/gnome-shell-disable-extensions.service
-%{_userunitdir}/gnome-shell-wayland.service
-%{_userunitdir}/gnome-shell-wayland.target
-%{_userunitdir}/gnome-shell-x11.service
-%{_userunitdir}/gnome-shell-x11.target
+%{_userunitdir}/org.gnome.Shell-disable-extensions.service
+%{_userunitdir}/org.gnome.Shell.target
+%{_userunitdir}/org.gnome.Shell@wayland.service
+%{_userunitdir}/org.gnome.Shell@x11.service
 %{_sysconfdir}/xdg/autostart/gnome-shell-overrides-migration.desktop
 # Co own directory instead of pulling in xdg-desktop-portal - we
 # are providing a backend to the portal, not depending on it
@@ -213,6 +218,58 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/evolution-calendar.de
 %{_mandir}/man1/gnome-shell.1*
 
 %changelog
+* Tue Oct 13 2020 Florian Müllner <fmuellner@redhat.com> - 3.38.1-2
+- Fix crash on size change (non-)transitions
+
+* Mon Oct 05 2020 Florian Müllner <fmuellner@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Tue Sep 29 2020 David King <amigadave@amigadave.com> - 3.38.0-2
+- Better specify xdg-desktop-portal-gtk dependency (#1882894)
+
+* Mon Sep 14 2020 Florian Müllner <fmuellner@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Thu Sep 10 2020 Kalev Lember <klember@redhat.com> - 3.37.92-5
+- Set minimum gnome-settings-daemon version for Screencast proxy changes
+
+* Wed Sep 09 2020 Kalev Lember <klember@redhat.com> - 3.37.92-4
+- Add missing pipewire-gstreamer dependency for screen recorder
+
+* Sun Sep 06 2020 Florian Müllner <fmuellner@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Wed Sep 02 2020 Florian Müllner <fmuellner@redhat.com> - 3.37.91-3
+- Add missing pipewire dependency for screen recorder
+
+* Wed Aug 26 2020 Kalev Lember <klember@redhat.com> - 3.37.91-2
+- Add PolicyKit-authentication-agent virtual provides
+
+* Mon Aug 24 2020 Florian Müllner <fmuellner@redhat.com> - 3.37.91-1
+- Update to 3.37.91
+
+* Sun Aug 23 2020 Kalev Lember <klember@redhat.com> - 3.37.90-2
+- Backport a fix for launching apps under X11 (#1870234)
+
+* Fri Aug 14 2020 Florian Müllner <fmuellner@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Milan Crha <mcrha@redhat.com> - 3.37.3-2
+- Rebuilt for evolution-data-server soname version bump
+
+* Tue Jul 07 2020 Florian Müllner <fmuellner@redhat.com> - 3.37.3-1
+- Update to 3.37.3
+
+* Fri Jul 03 2020 Milan Crha <mcrha@redhat.com> - 3.37.2-2
+- Rebuilt for evolution-data-server soname version bump
+
 * Wed Jun 03 2020 Florian Müllner <fmuellner@redhat.com> - 3.37.2-1
 - Update to 3.37.2
 

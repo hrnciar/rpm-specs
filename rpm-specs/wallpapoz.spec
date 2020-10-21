@@ -8,7 +8,7 @@
 %define         mainver         0.6.2
 %undefine         betaver
 #%%define         svnver          svn92_trunk
-%define         fedorarel		11
+%define         fedorarel		12
 
 %define         rel             %{?betaver:0.}%{fedorarel}%{?svnver:.%svnver}%{?betaver:.%betaver}
 
@@ -115,7 +115,7 @@ Requires:       gtk3
 Requires:       python3-gobject
 Requires:       python3-imaging
 #Requires:       gnome-python2-gnome
-Requires:       xorg-x11-utils
+Requires:       xprop xwininfo
 Requires:       %{_bindir}/kill
 Requires:       %{_bindir}/pgrep
 
@@ -223,6 +223,9 @@ install -cpm 0644  \
 %{_datadir}/applications/*%{name}.desktop
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 0.6.2-12.1
+- Require xprop xwininfo, not xorg-x11-utils
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-11.1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

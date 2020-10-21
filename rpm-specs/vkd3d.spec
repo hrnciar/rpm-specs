@@ -1,6 +1,6 @@
 Name:		vkd3d
-Version:	1.1
-Release:	4%{?dist}
+Version:	1.2
+Release:	1%{?dist}
 Summary:	D3D12 to Vulkan translation library
 
 License:	LGPLv2+
@@ -48,6 +48,32 @@ Requires:	libvkd3d%{?_isa} = %{version}-%{release}
 Development files for vkd3d
 
 
+%package -n vkd3d-compiler
+Summary:	Compiler tool for vkd3d
+
+
+%description -n vkd3d-compiler
+Compiler tool for vkd3d
+
+
+%package -n libvkd3d-shader
+Summary:	Shader library for vkd3d
+
+
+%description -n libvkd3d-shader
+Shader library for vkd3d
+
+
+%package -n libvkd3d-shader-devel
+Summary:	Development files for libvkd3d-shader
+Requires:	libvkd3d-devel%{?_isa} = %{version}-%{release}
+Requires:	libvkd3d-shader%{?_isa} = %{version}-%{release}
+
+
+%description -n libvkd3d-shader-devel
+Development files for libvkd3d-shader
+
+
 %package -n libvkd3d-utils
 Summary:	Utility library for vkd3d
 
@@ -92,14 +118,32 @@ find %{buildroot} -regextype egrep -regex '.*\.a$|.*\.la$' -delete
 
 %files -n libvkd3d-devel
 %dir %{_includedir}/vkd3d
+%{_includedir}/vkd3d/vkd3d.h
 %{_includedir}/vkd3d/vkd3d_d3d12.h
+%{_includedir}/vkd3d/vkd3d_d3d12sdklayers.h
 %{_includedir}/vkd3d/vkd3d_d3dcommon.h
 %{_includedir}/vkd3d/vkd3d_dxgibase.h
 %{_includedir}/vkd3d/vkd3d_dxgiformat.h
-%{_includedir}/vkd3d/vkd3d.h
+%{_includedir}/vkd3d/vkd3d_types.h
 %{_includedir}/vkd3d/vkd3d_windows.h
 %{_libdir}/libvkd3d.so
 %{_libdir}/pkgconfig/libvkd3d.pc
+
+
+%files -n vkd3d-compiler
+%{_bindir}/vkd3d-compiler
+
+
+%files -n libvkd3d-shader
+%license COPYING LICENSE
+%{_libdir}/libvkd3d-shader.so.1
+%{_libdir}/libvkd3d-shader.so.1.*
+
+
+%files -n libvkd3d-shader-devel
+%{_includedir}/vkd3d/vkd3d_shader.h
+%{_libdir}/libvkd3d-shader.so
+%{_libdir}/pkgconfig/libvkd3d-shader.pc
 
 
 %files -n libvkd3d-utils
@@ -114,6 +158,12 @@ find %{buildroot} -regextype egrep -regex '.*\.a$|.*\.la$' -delete
 
 
 %changelog
+* Tue Sep 22 2020 - Michael Cronenworth <mike@cchtml.com> - 1.2-1
+- version update
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

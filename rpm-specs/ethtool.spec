@@ -1,6 +1,6 @@
 Name:		ethtool
 Epoch:		2
-Version:	5.7
+Version:	5.9
 Release:	1%{?dist}
 Summary:	Settings tool for Ethernet NICs
 License:	GPLv2
@@ -35,6 +35,15 @@ network devices, especially of Ethernet devices.
 %{_mandir}/man8/%{name}.8*
 
 %changelog
+* Fri Oct 16 2020 Robert Scheck <robert@fedoraproject.org> - 2:5.9-1
+- Upgrade to 5.9 (#1888821)
+
+* Tue Aug 04 2020 Robert Scheck <robert@fedoraproject.org> - 2:5.8-1
+- Upgrade to 5.8 (#1866010)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:5.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Robert Scheck <robert@fedoraproject.org> - 2:5.7-1
 - Upgrade to 5.7 (#1844204)
 

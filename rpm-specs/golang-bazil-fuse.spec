@@ -5,7 +5,7 @@
 # https://github.com/bazil/fuse
 %global goipath         bazil.org/fuse
 %global forgeurl        https://github.com/bazil/fuse
-%global commit          3a99aca11732d514d92d69035a3751d07833b4a2
+%global commit          fb710f7dfd05053a3bc9516dd5a7a8f84ead8aab
 
 %gometa
 
@@ -21,7 +21,7 @@ bazil.org/fuse embraces Go fully for safety and ease of programming.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.13%{?dist}
+Release:        0.15%{?dist}
 Summary:        Fuse library for Go
 License:        BSD and MIT
 URL:            %{gourl}
@@ -49,6 +49,12 @@ BuildRequires:  golang(golang.org/x/sys/unix)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 17:08:55 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.14.20200722gitfb710f7
+- Bump to commit fb710f7dfd05053a3bc9516dd5a7a8f84ead8aab
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

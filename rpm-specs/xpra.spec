@@ -38,7 +38,7 @@
 %endif
 
 Name:           xpra
-Version:        4.0.2
+Version:        4.0.4
 Release:        1%{?dist}
 Summary:        Remote display server for applications and desktops
 License:        GPLv2+ and BSD and LGPLv3+ and MIT
@@ -48,6 +48,12 @@ Source0:        https://xpra.org/src/%{name}-%{version}.tar.xz
 # Appdata file for Fedora
 Source1:        %{name}.appdata.xml
 %{?python_provide:%python_provide python3-%{name}}
+
+# Horrible fix to find py3cairo.h in python3-cairo-1.16.3
+Patch0:         %{name}-find_py3cairo.patch
+
+# Install into /usr/libexec always.
+Patch1:         %{name}-force_always_libexec.patch
 
 BuildRequires:  python3-devel
 %if 0%{?fedora} > 30
@@ -65,12 +71,14 @@ BuildRequires:  pkgconfig
 BuildRequires:  libxkbfile-devel
 BuildRequires:  python3-Cython
 BuildRequires:  ack
-BuildRequires:  python3-cairo-devel
+%{?fedora:BuildRequires: python3-cairo-devel}
+%{?fedora:BuildRequires: libappstream-glib}
+%{?el8:BuildRequires: python3-cairo}
+%{?el8:BuildRequires: cairo-devel}
 BuildRequires:  desktop-file-utils
 BuildRequires:  libvpx-devel
-%{?fedora:BuildRequires:  libappstream-glib}
 BuildRequires:  libXdamage-devel
-BuildRequires:  cups-devel
+BuildRequires:  cups-devel, cups
 BuildRequires:  redhat-lsb-core
 BuildRequires:  gcc
 BuildRequires:  pam-devel
@@ -92,12 +100,12 @@ Requires: python3-gobject
 Requires: python3-inotify
 Requires: python3-lz4%{?_isa}
 Requires: python3-ldap3
-Requires: python3-opencv%{?_isa}
 Requires: python3-rencode%{?_isa}
 Requires: python3-netifaces%{?_isa}
 Requires: python3-dbus%{?_isa}
 Requires: dbus-x11%{?_isa}
-Requires: xorg-x11-server-utils%{?_isa}
+Requires: xmodmap
+Requires: xrandr
 Requires: xorg-x11-drv-dummy%{?_isa}
 Requires: xorg-x11-xauth%{?_isa}
 Requires: xorg-x11-server-Xorg%{?_isa}
@@ -109,6 +117,10 @@ Requires: pulseaudio pulseaudio-utils%{?_isa}
 Requires: cups-filesystem
 Requires: shared-mime-info%{?_isa}
 Requires: js-jquery
+
+# python3-opencv is required for webcam forwarding support, client-side only.
+# Available on Fedora only.
+%{?fedora:Requires: python3-opencv%{?_isa}}
 
 # Needed to create the xpra group
 Requires(pre):  shadow-utils
@@ -126,11 +138,9 @@ Xpra is usable over reasonably slow links and does its best to adapt to changing
 network bandwidth constraints.
 
 %package html5
-Summary:        html5 server and client support for xpra
+Summary:        HTML5 server and client support for xpra
+License:        MPLv2.0
 Requires:       %{name}%{?_isa} = %{version}-%{release}
-
-# websockify is required to allow xpra to listen for an html5 client
-Requires:       python3-websockify
 
 Provides:       bundled(js-jquery-ui) = 1.12.1
 Provides:       bundled(js-lz4)
@@ -141,8 +151,7 @@ Provides:       bundled(js-broadway)
 Provides:       bundled(js-bencode)
 
 %description html5
-This package adds websockify support to allow xpra to listen for http
-connections, and also the xpra html5 client.
+HTML5 server and client support for xpra.
 
 %package udev
 Summary:  xpra udev files
@@ -153,7 +162,12 @@ Requires: systemd-udev%{?_isa}
 Udev rules of xpra.
 
 %prep
-%autosetup -n %{name}-%{version}
+%autosetup -n %{name}-%{version} -N
+
+%if 0%{?el8}
+%autopatch -p1
+sed -i 's|@@python3_sitearch@@|%{python3_sitearch}|' setup.py
+%endif
 
 # cc1: error: unrecognized command line option ‘-mfpmath=387’
 %ifarch %{arm}
@@ -162,6 +176,9 @@ sed -i 's|-mfpmath=387|-mfloat-abi=hard|' setup.py
 
 %build
 %set_build_flags
+%if 0%{?el8}
+export CFLAGS="%{build_cflags} -I%{_includedir}/cairo"
+%endif
 %{__python3} setup.py build --executable="%{__python3} -s" \
     --with-verbose \
     --with-vpx \
@@ -248,9 +265,9 @@ ln -sf %{__js_jquery_latest}jquery.js %{buildroot}%{_datadir}/xpra/www/js/lib/jq
 mkdir -p %{buildroot}%{_rundir}/xpra
 
 # Remove use of /usr/bin/enx on scripts
-sed -i "1 s|^#!/usr/bin/env python\b|#!%{__python3}|" %{buildroot}%{cupslibdir}/backend/xpraforwarder
-sed -i "1 s|^#!/usr/bin/env python\b|#!%{__python3}|" %{buildroot}%{_libexecdir}/xpra/auth_dialog
-sed -i "1 s|^#!/usr/bin/env python\b|#!%{__python3}|" %{buildroot}%{_libexecdir}/xpra/xdg-open
+pathfix.py -pn -i "%{__python3}" %{buildroot}%{cupslibdir}/backend/xpraforwarder
+pathfix.py -pn -i "%{__python3}" %{buildroot}%{_libexecdir}/xpra/auth_dialog
+pathfix.py -pn -i "%{__python3}" %{buildroot}%{_libexecdir}/xpra/xdg-open
 
 %check
 %{?fedora:appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/xpra.appdata.xml}
@@ -295,9 +312,27 @@ getent group xpra >/dev/null || groupadd -r xpra
 %{_udevrulesdir}/71-xpra-virtual-pointer.rules
 
 %files html5
+%license html5/LICENSE
 %{_datadir}/xpra/www
 
 %changelog
+* Mon Sep 28 2020 Antonio Trande <sagitter@fedoraproject.org> - 4.0.4-1
+- Release 4.0.4
+
+* Sat Aug 08 2020 Antonio Trande <sagitter@fedoraproject.org> - 4.0.3-1
+- Release 4.0.3
+
+* Wed Aug 05 2020 Antonio Trande <sagitter@fedoraproject.org> - 4.0.2-4
+- Requires xmodmap xrandr without %%?_isa wrapper (rhbz#1864529)
+
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 4.0.2-3
+- Requires xmodmap xrandr, not xorg-x11-server-utils
+
+* Thu Jul 16 2020 Antonio Trande <sagitter@fedoraproject.org> - 4.0.2-2
+- Built on EPEL8
+- Drop (obsolete) python-websockify dependency
+- Add MPLv2.0 LICENSE file for HTML5 version
+
 * Fri Jun 05 2020 Antonio Trande <sagitter@fedoraproject.org> - 4.0.2-1
 - Release 4.0.2
 

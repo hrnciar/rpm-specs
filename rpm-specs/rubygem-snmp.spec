@@ -3,7 +3,7 @@
 Summary: A Ruby implementation of SNMP (the Simple Network Management Protocol)
 Name: rubygem-%{gem_name}
 Version: 1.2.0
-Release: 11%{?dist}
+Release: 12%{?dist}
 # https://github.com/hallidave/ruby-snmp/issues/11
 License: GPLv2 or Ruby
 URL: http://snmplib.rubyforge.org
@@ -53,6 +53,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

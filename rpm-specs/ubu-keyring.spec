@@ -1,6 +1,6 @@
 Name:           ubu-keyring
 Version:        2020.06.17.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GnuPG keys of the Ubuntu archive
 
 License:        Public Domain
@@ -34,6 +34,9 @@ cp -a keyrings/* %{buildroot}%{_keyringsdir}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.06.17.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 20 2020 Sandro Mani <manisandro@gmail.com> - 2020.06.17.1-1
 - Update to 2020.06.17.1
 

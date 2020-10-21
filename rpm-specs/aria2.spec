@@ -2,7 +2,7 @@
 
 Name:           aria2
 Version:        1.35.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        High speed download utility with resuming and segmented downloading
 License:        GPLv2+ with exceptions
 URL:            http://aria2.github.io/
@@ -44,7 +44,7 @@ Currently it has following features:
 %autosetup -S git
 
 %build
-%configure CXX="g++ -std=c++11" \
+%configure CXX="g++" \
            --enable-bittorrent \
            --enable-metalink \
            --enable-epoll\
@@ -79,6 +79,12 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/%{name}
 %{_mandir}/*/man1/aria2c.1.gz
 
 %changelog
+* Wed Aug 26 2020 Jeff Law <law@redhat.com> - 1.35.0-4
+- No longer force C++11 mode
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.35.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.35.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

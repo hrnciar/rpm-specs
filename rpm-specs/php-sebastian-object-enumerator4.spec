@@ -6,8 +6,10 @@
 #
 # Please, preserve the changelog entries
 #
-%global bootstrap    0
-%global gh_commit    15f319d67c49fc55ebcdbffb3377433125588455
+
+%bcond_without       tests
+
+%global gh_commit    f6f5957013d84725427d361507e13513702888a4
 #global gh_date      20150728
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sebastianbergmann
@@ -20,17 +22,12 @@
 %global ns_project   ObjectEnumerator
 %global major        4
 %global php_home     %{_datadir}/php
-%if %{bootstrap}
-%global with_tests   0%{?_with_tests:1}
-%else
-%global with_tests   0%{!?_without_tests:1}
-%endif
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
-Version:        4.0.1
+Version:        4.0.3
 %global specrel 1
 Release:        %{?gh_date:1%{specrel}.%{?prever}%{!?prever:%{gh_date}git%{gh_short}}}%{!?gh_date:%{specrel}}%{?dist}
-Summary:        Traverses array and object to enumerate all referenced objects
+Summary:        Traverses array and object to enumerate all referenced objects, version %{major}
 
 License:        BSD
 URL:            https://github.com/%{gh_owner}/%{gh_project}
@@ -40,16 +37,16 @@ Source1:        makesrc.sh
 BuildArch:      noarch
 BuildRequires:  php(language) >= 7.3
 BuildRequires:  php-fedora-autoloader-devel
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  (php-composer(%{pk_vendor}/object-reflector) >= 2.0   with php-composer(%{pk_vendor}/object-reflector) < 3)
 BuildRequires:  (php-composer(sebastian/recursion-context)   >= 4.0   with php-composer(sebastian/recursion-context)   < 5)
 # From composer.json"require-dev": {
-#        "phpunit/phpunit": "^9.0"
-BuildRequires:  phpunit9
+#        "phpunit/phpunit": "^9.3"
+BuildRequires:  phpunit9 >= 9.3
 %endif
 
 # from composer.json
-#        "php": "^7.3",
+#        "php": ">=7.3",
 #        "sebastian/object-reflector": "^2.0",
 #        "sebastian/recursion-context": "^4.0"
 Requires:       php(language) >= 7.3
@@ -93,7 +90,7 @@ cp -pr src %{buildroot}%{php_home}/%{ns_vendor}/%{ns_project}%{major}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 %{_bindir}/phpab --template fedora --output vendor/autoload.php tests/_fixture
 
@@ -118,6 +115,15 @@ exit $ret
 
 
 %changelog
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 4.0.3-1
+- update to 4.0.3 (no change)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.2-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Remi Collet <remi@remirepo.net> - 4.0.2-1
+- update to 4.0.2
+
 * Tue Jun 16 2020 Remi Collet <remi@remirepo.net> - 4.0.1-1
 - update to 4.0.1
 - sources from git snapshot

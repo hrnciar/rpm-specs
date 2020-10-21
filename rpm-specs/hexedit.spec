@@ -1,7 +1,7 @@
 Summary: A hexadecimal file viewer and editor
 Name: hexedit
 Version: 1.2.13
-Release: 17%{?dist}
+Release: 18%{?dist}
 License: GPLv2+
 
 URL: http://rigaux.org/hexedit.html
@@ -41,6 +41,9 @@ make install \
 %{_mandir}/man1/hexedit.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.13-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.13-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

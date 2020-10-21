@@ -1,6 +1,6 @@
 Name:           platform
 Version:        2.1.0.1
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Platform support library used by libCEC and binary add-ons for Kodi
 
 License:        GPLv2+
@@ -34,12 +34,12 @@ cp -p %{SOURCE1} .
 
 
 %build
-%cmake .
-make %{?_smp_mflags}
+%cmake
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %ldconfig_scriptlets
@@ -59,6 +59,9 @@ make %{?_smp_mflags}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0.1-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@ and apply unified diffs
 
 Name: python-%{appname}
 Version: 1.17.2
-Release: 3%{?dist}
+Release: 5%{?dist}
 Summary: %{appsum}
 
 # Separate license file is currently missing:
@@ -17,6 +17,7 @@ Source0: %{pypi_source %{appname}}
 BuildArch: noarch
 
 BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 
 %description
 %{appdesc}.
@@ -48,6 +49,12 @@ sed -e '/\/usr\/bin\/env/d' -i patch_ng.py
 %{python3_sitelib}/patch_ng-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1.17.2-4
+- Added python3-setuptools to build requirements.
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.17.2-3
 - Rebuilt for Python 3.9
 

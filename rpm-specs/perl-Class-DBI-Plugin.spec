@@ -1,14 +1,17 @@
 Name:           perl-Class-DBI-Plugin
 Version:        0.03
-Release:        40%{?dist}
+Release:        42%{?dist}
 Summary:        Abstract base class for Class::DBI plugins
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Class-DBI-Plugin
-Source0:        https://cpan.metacpan.org/authors/id/J/JC/JCZEUS/Class-DBI-Plugin-%{version}.tar.gz
+Source0:        https://cpan.metacpan.org/modules/by-module/Class/Class-DBI-Plugin-%{version}.tar.gz
 BuildArch:      noarch
 # Install
+BuildRequires:  coreutils
+BuildRequires:  make
 BuildRequires:  perl-generators
-BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl-interpreter
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 # Module
 BuildRequires:  perl(Class::DBI) >= 0.9
 # Test
@@ -17,8 +20,9 @@ BuildRequires:  perl(DBD::SQLite)
 BuildRequires:  perl(DBI)
 BuildRequires:  perl(SQL::Abstract)
 BuildRequires:  perl(Test::More)
+# Dependencies
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
-Requires:       perl(Class::DBI)
+Requires:       perl(Class::DBI) >= 0.9
 
 %description
 Class::DBI::Plugin is an abstract base class for Class::DBI plugins. Its
@@ -40,13 +44,12 @@ Only three things must be remembered:
 %setup -q -n Class-DBI-Plugin-%{version}
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_flags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
-find $RPM_BUILD_ROOT -type f -name .packlist -exec rm -f {} ';'
-%{_fixperms} $RPM_BUILD_ROOT
+%{make_install}
+%{_fixperms} -c %{buildroot}
 
 %check
 make test
@@ -54,9 +57,18 @@ make test
 %files
 %doc Changes README
 %{perl_vendorlib}/Class/
-%{_mandir}/man3/Class::DBI::Plugin.3pm*
+%{_mandir}/man3/Class::DBI::Plugin.3*
 
 %changelog
+* Tue Jul 28 2020 Paul Howarth <paul@city-fan.org> - 0.03-42
+- Spec clean-up
+  - Use author-independent source URL
+  - Use %%{make_build} and %%{make_install}
+  - Fix permissions verbosely
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.03-41
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.03-40
 - Perl 5.32 rebuild
 

@@ -26,7 +26,7 @@
 
 Name:           php-pdepend-PHP-Depend
 Version:        2.8.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        PHP_Depend design quality metrics for PHP package
 
 License:        BSD
@@ -183,6 +183,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Remi Collet <remi@remirepo.net> - 2.8.0-1
 - update to 2.8.0
 

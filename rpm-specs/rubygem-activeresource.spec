@@ -3,19 +3,15 @@
 
 Name: rubygem-%{gem_name}
 Epoch: 1
-Version: 5.0.0
-Release: 7%{?dist}
+Version: 5.1.1
+Release: 1%{?dist}
 Summary: REST modeling framework (part of Rails)
 License: MIT
 URL: http://www.rubyonrails.org
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
 # git clone https://github.com/rails/activeresource.git && cd rails/activeresource
-# git checkout v5.0.0 && tar czvf activeresource-5.0.0-tests.tgz test/
-Source1: %{gem_name}-%{version}-tests.tgz
-# Fix flaky test suite.
-# https://github.com/rails/activeresource/pull/254
-Patch0: rubygem-activeresource-5.0.0-Always-load-abstract_unit-on-the-top-of-test-file.patch
-
+# git archive -v -o activeresource-5.1.1-tests.tar.gz v5.1.1 test/
+Source1: %{gem_name}-%{version}-tests.tar.gz
 # Let's keep Requires and BuildRequires sorted alphabeticaly
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
@@ -23,7 +19,7 @@ BuildRequires: ruby
 BuildRequires: rubygem(activemodel) >= 5.0
 BuildRequires: rubygem(activesupport) >= 5.0
 BuildRequires: rubygem(activemodel-serializers-xml)
-BuildRequires: rubygem(bundler)
+BuildRequires: rubygem(activejob)
 BuildRequires: rubygem(mocha)
 BuildArch: noarch
 
@@ -41,15 +37,14 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-gem unpack %{SOURCE0}
-
-%setup -q -D -T -n  %{gem_name}-%{version}
-
-gem spec %{SOURCE0} -l --ruby > %{gem_name}.gemspec
+%setup -q -n %{gem_name}-%{version} -b 1
 
 %build
-gem build %{gem_name}.gemspec
+# Create the gem as gem install only works on a gem file
+gem build ../%{gem_name}-%{version}.gemspec
 
+# %%gem_install compiles any C extensions and installs the gem into ./%%gem_dir
+# by default, so that we can move it into the buildroot in %%install
 %gem_install
 
 %install
@@ -60,25 +55,19 @@ cp -a .%{gem_dir}/* \
 
 
 %check
-# Gemspec dependencies are loaded via Bundler.
-cp %{gem_name}.gemspec .%{gem_instdir}
-
 pushd .%{gem_instdir}
-tar xzvf %{SOURCE1}
+# Move the tests into place
+ln -s %{_builddir}/test test
 
-cat %{PATCH0} | patch -p1
+# Bundler just complicates everything.
+sed -i "/bundler/ s/^/#/" test/abstract_unit.rb
 
-# Avoid usage of the Gemfile installed several levels up this directory.
-echo 'gemspec' > Gemfile
-
-# We don't need Rake.
-sed -i '/rake/ s/^/#/' %{gem_name}.gemspec
-
-ruby -Itest -e 'Dir.glob "./test/**/*_test.rb", &method(:require)'
+ruby -Ilib:test -e 'Dir.glob "./test/**/*_test.rb", &method(:require)'
 popd
 
 %files
 %dir %{gem_instdir}
+%license %{gem_instdir}/MIT-LICENSE
 %{gem_libdir}
 %exclude %{gem_cache}
 %{gem_spec}
@@ -88,6 +77,14 @@ popd
 %doc %{gem_instdir}/README.rdoc
 
 %changelog
+* Tue Sep 01 2020 Vít Ondruch <vondruch@redhat.com> - 5.1.1-1
+- Update to ActiveResource 5.1.1.
+  Resolves: rhbz#1831913
+  Resolves: rhbz#1871618
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.0.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.0.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

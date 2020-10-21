@@ -1,8 +1,8 @@
 %global upstream_name redis
 
 Name:           python-%{upstream_name}
-Version:        3.4.1
-Release:        2%{?dist}
+Version:        3.5.3
+Release:        1%{?dist}
 Summary:        Python interface to the Redis key-value store
 License:        MIT
 URL:            https://github.com/andymccurdy/redis-py
@@ -52,6 +52,12 @@ kill %1
 %{python3_sitelib}/%{upstream_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Sep 15 2020 Joel Capitao <jcapitao@redhat.com> - 3.5.3-1
+- Update to 3.5.3
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 3.4.1-2
 - Rebuilt for Python 3.9
 

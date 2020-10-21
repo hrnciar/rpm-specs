@@ -3,7 +3,7 @@
 
 # https://github.com/onsi/ginkgo
 %global goipath         github.com/onsi/ginkgo
-Version:                1.8.0
+Version:                1.14.1
 
 %gometa
 
@@ -16,7 +16,7 @@ BDD Testing Framework for Go.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        BDD Testing Framework for Go
 
 License:        MIT
@@ -25,7 +25,8 @@ Source0:        %{gosource}
 Source1:        glide.yaml
 Source2:        glide.lock
 
-BuildRequires:  golang(github.com/hpcloud/tail)
+BuildRequires:  golang(github.com/nxadm/tail)
+BuildRequires:  golang(golang.org/x/sys/unix)
 
 %description
 %{common_description}
@@ -47,6 +48,16 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Thu Sep 17 18:11:28 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.14.1-1
+- Update to 1.14.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

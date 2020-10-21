@@ -1,10 +1,13 @@
+%global __cmake_in_source_build 1
+
 Name: libipt
-Version: 2.0.1
+Version: 2.0.2
 Release: 2%{?dist}
 Summary: Intel Processor Trace Decoder Library
 License: BSD
-URL: https://github.com/01org/processor-trace
-Source0: https://github.com/01org/processor-trace/archive/v%{version}.tar.gz
+URL: https://github.com/intel/libipt
+Source0: https://github.com/intel/libipt/archive/v%{version}.tar.gz
+Patch0: libipt-gcc11.patch
 # c++ is required only for -DPTUNIT test "ptunit-cpp".
 # pandoc is for -DMAN.
 BuildRequires: gcc-c++ cmake pandoc
@@ -28,6 +31,7 @@ develop programs that use the Intel Processor Trace (Intel PT) Decoder Library.
 
 %prep
 %setup -q -n libipt-%{version}
+%patch0 -p1
 
 %build
 %cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo \
@@ -35,10 +39,10 @@ develop programs that use the Intel Processor Trace (Intel PT) Decoder Library.
        -DMAN:BOOL=ON \
        -DDEVBUILD:BOOL=ON \
        .
-make VERBOSE=1 %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 %global develdocs howto_libipt.md
 (cd doc;cp -p %{develdocs} ..)
 
@@ -57,6 +61,26 @@ ctest -V %{?_smp_mflags}
 %{_mandir}/*/*.gz
 
 %changelog
+* Wed Aug 19 2020 Jeff Law <law@redhat.com> - 2.0.2-2
+- Fix uninitialized variable in testsuite
+
+* Tue Aug 04 2020 Keith Seitz <keiths@redhat.com> - 2.0.2-1
+- Upgrade to 2.0.2.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 2.0.1-4
+- Use __cmake_in_source_build
+
+* Wed Jul 22 2020 Tom Stellard <tstellar@redhat.com> - 2.0.1-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

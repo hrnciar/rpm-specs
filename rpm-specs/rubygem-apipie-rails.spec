@@ -2,8 +2,8 @@
 %global gem_name apipie-rails
 
 Name: rubygem-%{gem_name}
-Version: 0.5.5
-Release: 6%{?dist}
+Version: 0.5.18
+Release: 1%{?dist}
 Summary: Rails REST API documentation tool
 # The project itself is MIT
 # For ASL 2.0, see https://github.com/Apipie/apipie-rails/issues/66
@@ -11,8 +11,6 @@ Summary: Rails REST API documentation tool
 License: MIT and ASL 2.0
 URL: http://github.com/Apipie/apipie-rails
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
-# TODO: https://lists.fedoraproject.org/pipermail/packaging/2015-July/010794.html
-Requires: js-jquery1
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby
@@ -22,7 +20,8 @@ BuildRequires: rubygem(activerecord)
 BuildRequires: rubygem(rails-controller-testing)
 BuildRequires: rubygem(rspec-rails)
 BuildRequires: rubygem(sqlite3)
-BuildRequires: web-assets-devel
+# app/public/apipie/javascripts/bundled/jquery.js
+Provides: bundled(js-jquery1) = 1.11.3
 BuildArch: noarch
 
 %description
@@ -51,16 +50,15 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -c -T
-%gem_install -n %{SOURCE0}
-
-pushd .%{gem_instdir}
-
-# Replace bundled jQuery by link to system version.
-ln -sf %{_jsdir}/jquery/1/jquery.js app/public/apipie/javascripts/bundled/jquery.js
-popd
+%setup -q -n %{gem_name}-%{version}
 
 %build
+# Create the gem as gem install only works on a gem file
+gem build ../%{gem_name}-%{version}.gemspec
+
+# %%gem_install compiles any C extensions and installs the gem into ./%%gem_dir
+# by default, so that we can move it into the buildroot in %%install
+%gem_install
 
 %install
 mkdir -p %{buildroot}%{gem_dir}
@@ -71,11 +69,6 @@ cp -a .%{gem_dir}/* \
 # them in RPMs.
 find %{buildroot}%{gem_instdir}/spec -type f -name '.gitkeep' -exec rm {} \;
 
-# This has deprecated /bin/env shebang, but since it appears to be dead
-# code, just remove it.
-# https://github.com/Apipie/apipie-rails/issues/135
-rm %{buildroot}%{gem_libdir}/apipie/client/generator.rb
-rm -r %{buildroot}%{gem_libdir}/apipie/client
 
 %check
 pushd .%{gem_instdir}
@@ -84,7 +77,18 @@ rm Gemfile*
 sed -i "/require 'bundler\/setup'/ s/^/#/" spec/spec_helper.rb
 sed -i "/Bundler.require/ s/^/#/" spec/dummy/config/application.rb
 
-rspec -rrails-controller-testing spec
+# We don't have json-schema in Fedora ATM :/
+# https://bugzilla.redhat.com/show_bug.cgi?id=1675932
+for f in \
+  spec/controllers/apipies_controller_spec.rb \
+  spec/lib/swagger/rake_swagger_spec.rb
+do
+  sed -i "/json-schema/ s/^/#/" $f
+  sed -i "/JSON::Validator/ s/^/#/" $f
+done
+mv spec/lib/swagger/response_validation_spec.rb{,.disable}
+
+rspec -Ispec/dummy/components/test_engine/lib -rrails-controller-testing spec
 popd
 
 
@@ -105,14 +109,27 @@ popd
 %doc %{gem_docdir}
 %doc %{gem_instdir}/CHANGELOG.md
 %{gem_instdir}/Gemfile*
-%doc %{gem_instdir}/README.rst
 %doc %{gem_instdir}/NOTICE
+%doc %{gem_instdir}/PROPOSAL_FOR_RESPONSE_DESCRIPTIONS.md
+%doc %{gem_instdir}/README.rst
 %{gem_instdir}/Rakefile
 %{gem_instdir}/apipie-rails.gemspec
 %{gem_instdir}/images
 %{gem_instdir}/spec
 
 %changelog
+* Thu Aug 13 2020 Vít Ondruch <vondruch@redhat.com> - 0.5.18-1
+- Update to apipie-rails 0.5.18.
+  Resolves: rhbz#1560983
+
+* Thu Aug 13 2020 Vít Ondruch <vondruch@redhat.com> - 0.5.5-8
+- Bundle js-jquery1, because the package was dropped from Fedora.
+  Resolves: rhbz#1866730
+  Related: rhbz#1799550
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.5-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.5-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

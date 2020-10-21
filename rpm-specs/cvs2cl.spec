@@ -1,6 +1,6 @@
 Name:           cvs2cl
 Version:        2.73
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Generate ChangeLogs from CVS working copies
 
 License:        GPLv2+
@@ -83,6 +83,9 @@ install -p -m 644 cvs2cl.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.73-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.73-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

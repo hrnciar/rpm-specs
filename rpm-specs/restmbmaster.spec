@@ -1,6 +1,6 @@
 Name: restmbmaster
-Version: 1
-Release: 2%{?dist}
+Version: 3
+Release: 1%{?dist}
 Summary: Rest API gateway to Modbus slaves
 License: GPLv2+
 URL: https://github.com/jpirko/%{name}/
@@ -40,6 +40,15 @@ mkdir -p %{buildroot}/%{_sysconfdir}/%{name}
 %{_sysconfdir}/%{name}
 
 %changelog
+* Sat Sep 05 2020 Jiri Pirko <jiri@resnulli.us> - 3-1
+- Upgrade to version 3
+
+* Tue Aug 18 2020 Jiri Pirko <jiri@resnulli.us> - 2-1
+- Upgrade to version 2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

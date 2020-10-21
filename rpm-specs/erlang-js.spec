@@ -4,7 +4,7 @@
 
 Name:		erlang-js
 Version:	1.9.0
-Release:	7%{?dist}
+Release:	9%{?dist}
 Summary:	A Friendly Erlang to Javascript Binding
 License:	ASL 2.0
 URL:		http://github.com/%{upstream}/erlang-%{realname}
@@ -51,6 +51,13 @@ install -m 644 priv/json2.js $RPM_BUILD_ROOT%{_libdir}/erlang/lib/%{realname}-%{
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.0-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

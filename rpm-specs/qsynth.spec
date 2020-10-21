@@ -1,14 +1,16 @@
 Summary:       Qt based Fluidsynth GUI front end
 Name:          qsynth
-Version:       0.6.2
-Release:       1%{?dist}
+Version:       0.6.3
+Release:       2%{?dist}
 URL:           http://qsynth.sourceforge.net
-Source0:       http://downloads.sourceforge.net/qsynth/qsynth-%{version}.tar.gz
-
-Patch0:        qsynth-fedora-defaults.patch
+Source0:       http://downloads.sourceforge.net/qsynth/%{name}-%{version}.tar.gz
 License:       GPLv2+
 Requires:      hicolor-icon-theme
 Requires:      soundfont2-default
+
+# Set correct paths for sound fonts
+# Increase default buffer size
+Patch0:        qsynth-fedora-defaults.patch
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -17,6 +19,8 @@ BuildRequires: gcc-c++
 BuildRequires: qt5-qtbase-devel
 BuildRequires: qt5-qtx11extras-devel
 BuildRequires: qt5-linguist
+BuildRequires: libappstream-glib
+
 
 %description
 QSynth is a fluidsynth GUI front-end application written in C++ around the Qt4
@@ -25,23 +29,18 @@ application allowing the user to control and manage a variety of command line
 softsynth but for the moment it wraps the excellent FluidSynth. FluidSynth is a
 command line software synthesizer based on the Soundfont specification.
 
-%prep
-%setup -q
-%patch0 -p1 -b .defaults
 
-iconv --from=ISO88591 --to=UTF8 AUTHORS -o AUTHORS.tmp
-touch -r AUTHORS AUTHORS.tmp
-mv -f AUTHORS.tmp AUTHORS
+%prep
+%autosetup -p1
+
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake} ..
-popd
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake}
+%{cmake_build}
+
 
 %install
-make DESTDIR=%{buildroot} install -C %{_target_platform}
+%{cmake_install}
 
 # manpage
 mkdir -p %{buildroot}/%{_mandir}/man1/
@@ -56,11 +55,14 @@ desktop-file-install \
   --add-category="X-Synthesis" \
   %{buildroot}%{_datadir}/applications/qsynth.desktop
 
-# Handle locale's
+# Handle locales
 %find_lang %{name} --with-qt
 
 # remove duplicate
 rm %{buildroot}%{_datadir}/appdata/qsynth.appdata.xml
+
+%check
+appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/qsynth.appdata.xml
 
 %files -f qsynth.lang
 %doc AUTHORS ChangeLog README TODO
@@ -68,16 +70,31 @@ rm %{buildroot}%{_datadir}/appdata/qsynth.appdata.xml
 %{_bindir}/qsynth
 %dir %{_datadir}/qsynth/
 %dir %{_datadir}/qsynth/translations/
-%{_datadir}/applications/qsynth.desktop
 %{_datadir}/icons/hicolor/32x32/apps/qsynth.png
 %{_datadir}/icons/hicolor/scalable/apps/qsynth.svg
-%{_mandir}/*/man1/qsynth*
+%{_datadir}/applications/qsynth.desktop
+%{_mandir}/man1/%{name}*
+%{_mandir}/*/man1/%{name}*
 %{_datadir}/metainfo/qsynth.appdata.xml
-%{_mandir}/man1/qsynth.1.gz
-
 
 
 %changelog
+* Mon Oct 12 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.6.3-2
+- Add comment for patch
+- Use cmake macros
+- Move commands to install section
+
+* Sat Oct 10 2020 Christoph Karl <pampelmuse [AT] gmx [DOT] at> - 0.6.3-1
+- Correct build error for rawhide/f34
+- Update to new version 0.6.3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> - 0.6.2-1
 - New version
 

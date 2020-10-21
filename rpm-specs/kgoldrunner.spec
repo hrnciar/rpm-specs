@@ -1,7 +1,8 @@
+%undefine __cmake_in_source_build
 Name:    kgoldrunner
 Summary: A game of action and puzzle solving
-Version: 20.04.2
-Release: 2%{?dist}
+Version: 20.08.1
+Release: 1%{?dist}
 
 License: GPLv2+ and GFDL
 URL:     https://cgit.kde.org/%{name}.git
@@ -51,16 +52,12 @@ dodge your enemies, collect all the gold and climb up to the next level.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -84,6 +81,18 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.%{name}.d
 
 
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Sat Jun 13 2020 Marie Loise Nolden <loise@kde.org> - 20.04.2-2
 - build fix
 

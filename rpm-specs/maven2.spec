@@ -1,6 +1,6 @@
 Name:           maven2
 Version:        2.2.1
-Release:        63%{?dist}
+Release:        66%{?dist}
 Summary:        Java project management and project comprehension tool
 License:        ASL 2.0
 URL:            http://maven.apache.org
@@ -157,8 +157,11 @@ for pom in $(grep -l ">test<" $(find -name pom.xml | grep -v /test/)); do
     %pom_xpath_remove "pom:dependency[pom:scope[text()='test']]" $pom
 done
 
+# Remove outdated maven-compiler-plugin configuration
+%pom_xpath_remove 'pom:plugin[pom:artifactId="maven-compiler-plugin"]/pom:configuration'
+
 %build
-%mvn_build -f -s -- -P all-models
+%mvn_build -f -s -- -P all-models -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 %install
 %mvn_install
@@ -198,6 +201,15 @@ done
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-66
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Fabio Valentini <decathorpe@gmail.com> - 2.2.1-65
+- Override maven compiler source and target versions to fix build with Java 11.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.2.1-64
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-63
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

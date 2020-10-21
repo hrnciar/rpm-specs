@@ -1,5 +1,5 @@
 Name: piper
-Version: 0.5
+Version: 0.5.1
 Release: 2%{?dist}
 
 License: GPLv2+ and LGPLv2+
@@ -56,8 +56,15 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %{_datadir}/applications/*.desktop
 %{_metainfodir}/*.appdata.xml
 %{_datadir}/icons/hicolor/*/apps/*
+%{_mandir}/man1/*.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 0.5.1-1
+- Updated to version 0.5.1.
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5-2
 - Rebuilt for Python 3.9
 

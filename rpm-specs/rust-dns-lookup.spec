@@ -5,7 +5,7 @@
 %global crate dns-lookup
 
 Name:           rust-%{crate}
-Version:        1.0.3
+Version:        1.0.4
 Release:        1%{?dist}
 Summary:        Simple dns resolving api, much like rust's unstable api
 
@@ -86,5 +86,15 @@ which use "clippy" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Fri Sep 18 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.4-1
+- Update to version 1.0.4.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 17:30:10 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 1.0.3-1
 - Initial package

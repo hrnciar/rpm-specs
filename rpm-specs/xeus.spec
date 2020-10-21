@@ -1,5 +1,5 @@
 Name:           xeus
-Version:        0.24.0
+Version:        0.24.2
 Release:        1%{?dist}
 Summary:        C++ implementation of the Jupyter kernel protocol
 
@@ -42,25 +42,23 @@ Development files for %{name} library.
 
 
 %build
-mkdir build && cd build
-%cmake -DXEUS_BUILD_STATIC_LIBS=OFF -DXEUS_DISABLE_ARCH_NATIVE=ON ..
-%make_build
+%cmake -DXEUS_BUILD_STATIC_LIBS=OFF -DXEUS_DISABLE_ARCH_NATIVE=ON
+%cmake_build
 
-make -C ../docs SPHINXBUILD=sphinx-build-3 html BUILDDIR=${PWD}
-rm html/.buildinfo
+make -C docs SPHINXBUILD=sphinx-build-3 html
+rm docs/build/html/.buildinfo
 
 
 %install
-%make_install -C build
+%cmake_install
 
 
 %check
-cd build
-ctest -V
+%ctest
 
 
 %files
-%doc README.md build/html
+%doc README.md docs/build/html
 %license LICENSE
 %{_libdir}/libxeus.so.1*
 
@@ -71,6 +69,19 @@ ctest -V
 
 
 %changelog
+* Tue Oct 06 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.24.2-1
+- Update to latest version (#1884918)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.24.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.24.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.24.1-1
+- Update to latest version
+
 * Sat Jun 13 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.24.0-1
 - Update to latest version
 

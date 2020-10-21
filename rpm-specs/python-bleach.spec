@@ -1,14 +1,13 @@
 %global modname bleach
 
 Name:           python-%{modname}
-Version:        3.1.4
-Release:        3%{?dist}
+Version:        3.2.1
+Release:        1%{?dist}
 Summary:        An easy whitelist-based HTML-sanitizing tool
 
 License:        ASL 2.0
 URL:            https://github.com/mozilla/bleach
 Source0:        https://files.pythonhosted.org/packages/source/b/%{modname}/%{modname}-%{version}.tar.gz
-Patch0:         python-bleach-3.1.4-html5lib-prerel-compat.patch
 
 BuildArch:      noarch
 
@@ -60,10 +59,8 @@ if [ $? -ne 0 ]; then
     /usr/bin/false
 fi;
 
-# skip failing tests until this is fixed:
-# https://github.com/mozilla/bleach/issues/503
 # https://bugs.python.org/issue27657
-%{__python3} -m pytest -k 'not test_uri_value_allowed_protocols or not ("example.com:8000" or "localhost:8000" or "192.168.100.100:8000")'
+# %{__python3} -m pytest -k 'not test_uri_value_allowed_protocols or not ("example.com:8000" or "localhost:8000" or "192.168.100.100:8000")'
 
 %files -n python3-%{modname}
 %license LICENSE
@@ -72,6 +69,18 @@ fi;
 %{python3_sitelib}/%{modname}/
 
 %changelog
+* Mon Oct 05 2020 Matthias Runge <mrunge@redhat.com> - 3.2.1-1
+- update to 3.2.1 (rhbz#1829635)
+- fix ftbfs (1863709)
+- fix CVE-2020-6816 (rhbz#1827493)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.4-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 3.1.4-3
 - Rebuilt for Python 3.9
 

@@ -7,17 +7,12 @@ with various layout options, hierarchical menu navigation, and mobile-friendly \
 responsive design.  It is configurable, extensible and can use any number \
 of different Bootswatch CSS themes.
 
-# Missing js-jquery1 on RHEL8
-%if 0%{?fedora}
-%global with_web 1
-%endif
 %global jquery_version 1.12.4
 %global bootstrap_version 3.4.1
 
-
 Name:           python-%{srcname}
 Version:        0.8.0
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        %{common_sum}
 
 License:        MIT and ASL 2.0
@@ -26,11 +21,11 @@ Source0:        https://github.com/ryan-roemer/sphinx-bootstrap-theme/archive/v%
 
 BuildArch:      noarch
 
-%if 0%{?with_web}
-BuildRequires:  web-assets-devel
-%else
+%if 0%{?rhel}
 BuildRequires:  epel-rpm-macros
 %endif
+BuildRequires:  web-assets-devel
+
 
 %description
 %{common_desc}
@@ -42,13 +37,13 @@ Summary:        %{common_sum}
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 
-%if 0%{?with_web}
-Requires:       glyphicons-halflings-fonts
-Requires:       js-jquery1
-%else
-Provides:       bundled(jquery) = %{jquery_version}
+%if 0%{?rhel}
 Provides:       bundled(glyphicons-halflings-fonts)
+%else
+Requires:       glyphicons-halflings-fonts
 %endif
+Requires:       web-assets-filesystem
+Provides:       bundled(jquery) = %{jquery_version}
 Requires:       python3-sphinx
 
 %{?python_provide:%python_provide python3-%{srcname}}
@@ -69,12 +64,9 @@ rm -rf *.egg-info
 %install
 %py3_install
 
-# Remove the bundled JQuery and fonts and link against webasset.
-%if 0%{?with_web}
+# Remove the bundled fonts on RHEL
+%if 0%{?rhel}
 for d in %{python3_sitelib}; do
-  %{__rm} %{buildroot}${d}/sphinx_bootstrap_theme/bootstrap/static/js/jquery-%{jquery_version}.min.js
-  %{__ln_s} -f %{_webassetdir}/jquery/1/jquery.min.js \
-    %{buildroot}${d}/sphinx_bootstrap_theme/bootstrap/static/js/jquery-%{jquery_version}.min.js
   %{__rm} %{buildroot}${d}/sphinx_bootstrap_theme/bootstrap/static/bootstrap-%{bootstrap_version}/fonts/glyphicons-halflings-regular.ttf
   %{__ln_s} -f %{_datadir}/fonts/glyphicons-halflings/glyphicons-halflings-regular.ttf \
     %{buildroot}${d}/sphinx_bootstrap_theme/bootstrap/static/bootstrap-%{bootstrap_version}/fonts/glyphicons-halflings-regular.ttf
@@ -90,6 +82,16 @@ done
 
 
 %changelog
+* Thu Aug 20 2020 Stuart Campbell <stuart@stuartcampbell.me> - 0.8.0-6
+- Always bundle JQuery (#1866729)
+- Only bundle fonts on RHEL
+
+* Fri Aug 14 2020 Stuart Campbell <stuart@stuartcampbell.me> - 0.8.0-5
+- Do not use system webassets for F33+
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.0-3
 - Rebuilt for Python 3.9
 

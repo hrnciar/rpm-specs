@@ -2,7 +2,7 @@
 
 Name:           python-%{modname}
 Version:        0.2
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Platform-independent module for I/O completion events
 
 License:        LGPLv3+
@@ -51,6 +51,9 @@ Python 3 version.
 %{python3_sitelib}/__pycache__/%{modname}.*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2-14
 - Rebuilt for Python 3.9
 

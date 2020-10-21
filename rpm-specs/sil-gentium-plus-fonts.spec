@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 Version: 5.000
-Release: 5%{?dist}
+Release: 6%{?dist}
 
 %global foundry           SIL
 %global fontlicense       OFL
@@ -48,6 +48,9 @@ Source10: 60-%{fontpkgname}.xml
 %fontfiles
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.000-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 02 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 5.000-5
 💥 Actually rebuild with fonts-rpm-macros 2.0.4 to make sure fontconfig files are

@@ -2,7 +2,7 @@
 
 Name:           gplugin
 Version:        0.29.0
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        GObject based library that implements a reusable plugin system
 
 License:        LGPLv2+
@@ -157,6 +157,13 @@ sed -i -e '/install_data/,+1 d' meson.build
 %{_datadir}/glade/catalogs/gplugin-gtk.xml
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.29.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.29.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.29.0-4
 - Rebuilt for Python 3.9
 

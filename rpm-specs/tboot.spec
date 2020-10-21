@@ -1,7 +1,7 @@
 Summary:        Performs a verified launch using Intel TXT
 Name:           tboot
 Version:        1.9.11
-Release:        1%{?dist}
+Release:        3%{?dist}
 Epoch:          1
 
 License:        BSD
@@ -9,6 +9,7 @@ URL:            http://sourceforge.net/projects/tboot/
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 
 Patch0:         disable-address-of-packed-member-warning.patch
+Patch1:         tboot-gcc11.patch
 
 BuildRequires:  gcc
 BuildRequires:  trousers-devel
@@ -65,6 +66,13 @@ make debug=y DISTDIR=$RPM_BUILD_ROOT install
 /boot/tboot-syms
 
 %changelog
+* Wed Jul 29 2020 Jeff Law <law@redhat.com> - 1:1.9.11-3
+- Explicitly allow uninitialized variables in a few places that do it
+- on purpose
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.9.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 19 2020 Filipe Rosset <rosset.filipe@gmail.com> - 1:1.9.11-1
 - Update to 1.9.11
 

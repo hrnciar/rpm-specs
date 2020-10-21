@@ -1,14 +1,12 @@
-%global		commit d6343012b43cc861eeebb45f194667bde4a70127
+%global		commit 7089bab4bf90bb34efbf0df39e952464b8bdb3f0
 %global		oname torbrowser_launcher
 Name:		torbrowser-launcher
-Version:	0.3.2
-Release:	14%{?dist}
+Version:	0.3.3
+Release:	2%{?dist}
 Summary:	Tor Browser Bundle managing tool
 License:	MIT
 URL:		https://github.com/micahflee/torbrowser-launcher
 Source0:	https://github.com/micahflee/%{name}/archive/%{commit}/%{name}-%{commit}.tar.gz
-Patch0:         torbrowser-launcher-prefix.patch
-Patch1:         torbrowser-launcher-appdata.patch
 BuildArch:	noarch
 ExclusiveArch: %{ix86} x86_64
 BuildRequires:	desktop-file-utils
@@ -22,6 +20,7 @@ Requires:	python3-pysocks
 Requires:	python3-gpg
 Requires:	python3-qt5
 Requires:	python3-requests
+Requires:       python3-packaging
 
 %description
 Tor Browser Launcher is intended to make Tor Browser easier to
@@ -40,8 +39,6 @@ from your distribution's package manager and it handles everything else:
 
 %prep
 %setup -q -n %{name}-%{commit}
-%patch0 -p0
-%patch1 -p0
 
 # We need to specify the distro we are building on, Fedora!
 sed -i 's#distro = .*#distro = "Fedora"#g' setup.py
@@ -80,15 +77,29 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %license LICENSE
 %{_datadir}/applications/*
 %{_datadir}/appdata/*
-%{_datadir}/pixmaps/*
+%{_datadir}/icons/hicolor/128x128/apps/torbrowser.png
 %{_datadir}/%{name}/*
 %{python3_sitelib}/%{oname}-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/%{oname}/*
-%exclude %{_datadir}/locale/torbrowser-launcher.mo
 %{_metainfodir}/torbrowser.appdata.xml
 
 
 %changelog
+* Thu Oct 08 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.3.3-2
+- Require python3-packaging
+
+* Wed Oct 07 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.3.3-1
+- 0.3.3
+
+* Wed Sep 23 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.3.2-17
+- Fix version comparison.
+
+* Tue Sep 08 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.3.2-16
+- Update upstream key.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.2-14
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           wad
-Version:        0.4.3
-Release:        2%{?dist}
+Version:        0.4.6
+Release:        1%{?dist}
 Summary:        Tool for detecting technologies used by web applications
 
 # wad is GPLv3, wappalyzer source is MIT
@@ -42,6 +42,18 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v %{name}/t
 %{python3_sitelib}/%{name}-%{version}-py*.egg-info/
 
 %changelog
+* Fri Sep 25 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.4.6-1
+- Update to latest upstream release 0.4.6 (#1883156)
+
+* Fri Sep 25 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.4.5-1
+- Update to latest upstream release 0.4.5 (#1882610)
+
+* Thu Aug 20 2020 Fabian Affolter  <mail@fabian-affolter.ch> - 0.4.4-1
+- Update to latest upstream release 0.4.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.3-2
 - Rebuilt for Python 3.9
 

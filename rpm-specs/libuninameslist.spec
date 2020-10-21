@@ -1,6 +1,6 @@
 Name:           libuninameslist
 Version:        20200413
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 Summary:        A library providing Unicode character names and annotations
 
@@ -49,6 +49,9 @@ find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 %{_libdir}/pkgconfig/libuninameslist.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200413-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 15 2020 Parag Nemade <pnemade AT redhat DOT com> - 20200413-1
 - Update to 20200413 version (#1823434)
 

@@ -6,17 +6,17 @@
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    0c3e51e1880ca149682332770e25977c70cf9dae
+%global gh_commit    6946f785871e2314c60b4524851f3702ea4f2223
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 #global gh_date      20150717
 %global gh_owner     composer
 %global gh_project   spdx-licenses
 %global php_home     %{_datadir}/php
-%global with_tests   0%{!?_without_tests:1}
+%bcond_without       tests
 
 Name:           php-composer-spdx-licenses
-Version:        1.5.3
-Release:        1%{?gh_date:.%{gh_date}git%{gh_short}}%{?dist}
+Version:        1.5.4
+Release:        2%{?gh_date:.%{gh_date}git%{gh_short}}%{?dist}
 Summary:        SPDX licenses list and validation library
 
 License:        MIT
@@ -29,7 +29,7 @@ Source1:        makesrc.sh
 Patch0:         %{name}-rpm.patch
 
 BuildArch:      noarch
-%if %{with_tests}
+%if %{with tests}
 # For tests
 BuildRequires:  php(language) >= 5.3.2
 BuildRequires:  php-json
@@ -38,9 +38,9 @@ BuildRequires:  php-spl
 # From composer.json, "require-dev": {
 #        "phpunit/phpunit": "phpunit/phpunit": "^4.8.35 || ^5.7 || 6.5 - 7",
 %if 0%{?fedora} >= 26 || 0%{?rhel} >= 8
-%global phpunit %{_bindir}/phpunit6
+%global phpunit %{_bindir}/phpunit7
 # ignore min version, test suite passes with 6.4
-BuildRequires: phpunit6 >= 6.4
+BuildRequires: phpunit7
 %else
 %global phpunit %{_bindir}/phpunit
 BuildRequires: php-phpunit-PHPUnit >= 4.8.35
@@ -102,17 +102,17 @@ cp -pr res   %{buildroot}%{_datadir}/%{name}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 # ignored as related class not installed
 rm tests/SpdxLicensesUpdaterTest.php
 
 export BUILDROOT_SPDX=%{buildroot}
 
 ret=0
-for cmd in "php %{phpunit}" "php56 %{_bindir}/phpunit" php70 php71 php72 php73 php74; do
+for cmd in "php %{phpunit}" php72 php73 php74 php80; do
   if which $cmd; then
     set $cmd
-    $1 -d memory_limit=1G ${2:-%{_bindir}/phpunit6} \
+    $1 -d memory_limit=1G ${2:-%{_bindir}/phpunit7} \
       --bootstrap %{buildroot}%{php_home}/Composer/Spdx/autoload.php \
       --no-coverage \
       --verbose || ret=1
@@ -135,6 +135,12 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Remi Collet <remi@remirepo.net> - 1.5.4-1
+- update to 1.5.4 (SPDX 3.9)
+
 * Fri Feb 14 2020 Remi Collet <remi@remirepo.net> - 1.5.3-1
 - update to 1.5.3 (SPDX 3.8)
 

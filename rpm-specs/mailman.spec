@@ -2,8 +2,8 @@
 %global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
 Summary: Mailing list manager with built in Web access
 Name: mailman
-Version: 2.1.33
-Release: 1%{?dist}
+Version: 2.1.34
+Release: 2%{?dist}
 Epoch: 3
 Source0: ftp://ftp.gnu.org/pub/gnu/mailman/mailman-%{version}.tgz
 #Source0: http://prdownloads.sourceforge.net/mailman/mailman-%{version}.tgz
@@ -571,6 +571,12 @@ exit 0
 %dir %attr(775,root,%{mmgroup}) %{lockdir}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3:2.1.34-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020  Pavel Zhukov <pzhukov@redhat.com> - 3:2.1.34-1
+- new version v2.1.34
+
 * Mon May 11 2020 Pavel Zhukov <pzhukov@redhat.com> - 3:2.1.33-1
 - new version v2.1.33
 

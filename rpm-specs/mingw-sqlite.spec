@@ -2,8 +2,8 @@
 
 %global name1 sqlite
 
-%global realver 3320300
-%global rpmver 3.32.3.0
+%global realver 3330000
+%global rpmver 3.33.0.0
 
 # bcond default logic is nicely backwards...
 %bcond_with tcl
@@ -219,6 +219,12 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 
 
 %changelog
+* Sat Aug 15 2020 Thomas Sailer <t.sailer@alumni.ethz.ch> - 3.33.0.0-1
+- update to 3.33.0.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.32.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Thomas Sailer <t.sailer@alumni.ethz.ch> - 3.32.3.0-1
 - update to 3.32.3.0
 

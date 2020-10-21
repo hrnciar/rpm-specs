@@ -1,7 +1,8 @@
+%undefine __cmake_in_source_build
 %global framework kparts
 
 Name:    kf5-%{framework}
-Version: 5.71.0
+Version: 5.75.0
 Release: 1%{?dist}
 Summary: KDE Frameworks 5 Tier 3 solution for KParts
 
@@ -51,16 +52,12 @@ developing applications that use %{name}.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -72,7 +69,7 @@ mkdir -p %{buildroot}%{_kf5_plugindir}/parts/
 
 %files -f %{name}.lang
 %doc README.md AUTHORS
-%license COPYING.LIB
+%license LICENSES/*.txt
 %{_kf5_libdir}/libKF5Parts.so.*
 %{_kf5_datadir}/qlogging-categories5/%{framework}.*
 %{_kf5_datadir}/kservicetypes5/*.desktop
@@ -92,6 +89,24 @@ mkdir -p %{buildroot}%{_kf5_plugindir}/parts/
 
 
 %changelog
+* Wed Oct 14 10:02:05 CDT 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.75.0-1
+- 5.75.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.74.0-1
+- 5.74.0
+
+* Mon Aug 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.73.0-1
+- 5.73.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.72.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 08 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-2
+- respin
+
+* Tue Jul 07 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-1
+- 5.72.0
+
 * Tue Jun 16 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.71.0-1
 - 5.71.0
 

@@ -1,6 +1,6 @@
 Name:           tw
 Version:        0.9.16
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Translate words into different languages
 
 License:        GPLv3+
@@ -59,6 +59,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.16-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.16-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

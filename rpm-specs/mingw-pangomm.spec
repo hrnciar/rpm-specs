@@ -6,7 +6,7 @@
 
 Name:           mingw-pangomm
 Version:        2.42.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows C++ interface for Pango
 
 License:        LGPLv2+
@@ -103,6 +103,12 @@ rm $RPM_BUILD_ROOT%{mingw64_libdir}/*.la
 
 
 %changelog
+* Wed Aug 12 13:44:39 GMT 2020 Sandro Mani <manisandro@gmail.com> - 2.42.1-3
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.42.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 28 2020 Sandro Mani <manisandro@gmail.com> - 2.42.1-1
 - Update to 2.42.1
 

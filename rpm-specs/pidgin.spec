@@ -124,10 +124,10 @@
 %endif
 
 Name:           pidgin
-Version:        2.13.0
-Release:        20%{?dist}
+Version:        2.14.1
+Release:        2%{?dist}
 License:        BSD and GPLv2+ and GPLv2 and LGPLv2+ and MIT
-# GPLv2+ - libpurple, gnt, finch, pidgin, most prpls
+# GPLv2+ - libpurple, finch, pidgin, most prpls
 # GPLv2 - novell prpls
 # MIT - Zephyr prpl
 URL:            http://pidgin.im/
@@ -161,18 +161,13 @@ Source1:        purple-fedora-prefs.xml
 
 ## Patches 0-99: Fedora specific or upstream wont accept
 Patch0:         pidgin-NOT-UPSTREAM-2.5.2-rhel4-sound-migration.patch
-Patch1:         pidgin-2.13.0-valgrind.patch
-Patch2:         pidgin-2.10.11-purple-remote-python3.patch
+Patch1:         pidgin-2.14.1-valgrind.patch
 Patch3:         pidgin-2.13.0-drop-aim.patch
 
 ## Patches 100+: To be Included in Future Upstream
 Patch100:       pidgin-2.13.0-fix-msn-ft-crashes.patch
 # upstream ticket https://developer.pidgin.im/ticket/16593
-Patch102:       pidgin-2.13.0-do-not-disable-wall.patch
-# upstream ticket https://developer.pidgin.im/ticket/17396
-Patch103:       pidgin-2.13.0-python-3.8-fix.patch
-# upstream change https://bitbucket.org/pidgin/main/commits/bfa20ee4084ff9bbc284feced8ef379c0842a698
-Patch104:       pidgin-2.13.0-fix-build-against-nm-1.0.patch
+Patch102:       pidgin-2.14.1-do-not-disable-wall.patch
 
 Summary:        A Gtk+ based multiprotocol instant messaging client
 
@@ -213,6 +208,7 @@ BuildRequires:  intltool
 BuildRequires:  tcl-devel
 BuildRequires:  tk-devel
 BuildRequires:  libxml2-devel
+BuildRequires:  libgnt-devel
 
 %if ! %{krb4_removed}
 # krb5 needed for Zephyr (FC1+)
@@ -466,18 +462,15 @@ echo "FEDORA=%{fedora} RHEL=%{rhel}"
 %if %{force_sound_aplay}
 %patch0 -p1 -b .aplay
 %endif
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
+%patch1 -p1 -b .valgrind
+%patch3 -p1 -b .drop-aim
 
 ## Patches 100+: To be Included in Future Upstream
 
 # http://pidgin.im/pipermail/devel/2011-November/010477.html
 %patch100 -p1 -b .ftcrash
 # https://developer.pidgin.im/ticket/16593
-%patch102 -p1
-%patch103 -p1 -b .python-3.8-fix
-%patch104 -p1 -b .fix-build-against-nm-1.0
+%patch102 -p1 -b .do-not-disable-wall
 
 # Our preferences
 cp %{SOURCE1} prefs.xml
@@ -698,15 +691,10 @@ find %{buildroot}/%{_libdir}/purple-2 -name \*.so\* -printf '%f|' | sed -e 's/|$
 %files -n finch
 %{_bindir}/finch
 %{_libdir}/finch/
-%{_libdir}/gnt/
-%{_libdir}/libgnt.so.*
 %{_mandir}/man1/finch.*
 
 %files -n finch-devel
 %{_includedir}/finch/
-%{_includedir}/gnt/
-%{_libdir}/libgnt.so
-%{_libdir}/pkgconfig/gnt.pc
 %{_libdir}/pkgconfig/finch.pc
 %endif
 
@@ -717,6 +705,19 @@ find %{buildroot}/%{_libdir}/purple-2 -name \*.so\* -printf '%f|' | sed -e 's/|$
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.14.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 2.14.1-1
+- New version
+  Resolves: rhbz#1856866
+- Dropped purple-remote-python3, python-3.8-fix patches (not needed)
+- Dropped fix-build-against-nm-1.0 patch (upstreamed)
+- Split libgnt to separate package
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.13.0-21
+- Perl 5.32 rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.13.0-20
 - Rebuilt for Python 3.9
 

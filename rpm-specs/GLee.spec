@@ -2,7 +2,7 @@
 
 Name:           GLee
 Version:        %{major}.4.0
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        GL Easy Extension library
 
 License:        BSD
@@ -69,6 +69,9 @@ ln -s lib%{name}.so.%{version} %{buildroot}%{_libdir}/lib%{name}.so
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.0-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.0-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

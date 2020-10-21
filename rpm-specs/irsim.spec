@@ -1,7 +1,7 @@
 %global _hardened_build 1
 Name:             irsim
 Version:          9.7.104
-Release:          3%{?dist}
+Release:          4%{?dist}
 Summary:          Switch-level simulator used even for VLSI
 
 License:          GPLv2
@@ -40,6 +40,9 @@ rm -rf %{buildroot}%{_libdir}/%{name}/doc/
 %{_mandir}/man3/%{name}-analyzer.3.gz
 
 %Changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.7.104-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.7.104-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

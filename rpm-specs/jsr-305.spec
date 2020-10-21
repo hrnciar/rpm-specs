@@ -1,6 +1,6 @@
 Name:           jsr-305
 Version:        0
-Release:        0.28.20130910svn%{?dist}
+Release:        0.30.20130910svn%{?dist}
 Summary:        Correctness annotations for Java code
 
 # The majority of code is BSD-licensed, but some Java sources
@@ -60,6 +60,12 @@ cp %{SOURCE1} NOTICE-CC-BY
 %license ri/LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.30.20130910svn
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0-0.29.20130910svn
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat May 23 2020 Richard Fearn <richardfearn@gmail.com> - 0-0.28.20130910svn
 - Enable building with JDK 11: use source/target 1.8
 

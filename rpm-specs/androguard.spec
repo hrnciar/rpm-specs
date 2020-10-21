@@ -1,6 +1,6 @@
 Name:           androguard
 Version:        3.3.5
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Reverse engineering, mal- or goodware analysis of Android applications
 
 License:        ASL 2.0
@@ -10,6 +10,7 @@ Source1:        %{name}.desktop
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-mock
 BuildRequires:  python3-nose
 BuildRequires:  python3-nose-timer
@@ -82,6 +83,12 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests \
 %doc html examples
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 3.3.5-4
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.3.5-3
 - Rebuilt for Python 3.9
 

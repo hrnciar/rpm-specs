@@ -4,7 +4,7 @@
 
 Name:		%{fontname}-fonts
 Version:	5.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Fonts for Arabic, Farsi, Urdu and Sindhi from PakType
 License:	GPLv2 with exceptions
 URL:		https://sourceforge.net/projects/paktype/
@@ -52,6 +52,9 @@ ln -s %{_fontconfig_templatedir}/%{fontconf}.conf \
 %doc PakType_Naskh_Basic_License.txt PakTypeNaskhBasicFeatures.pdf
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

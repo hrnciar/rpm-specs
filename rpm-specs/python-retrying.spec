@@ -4,7 +4,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.2.3
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        General-purpose retrying library in Python
 
 License:        ASL 2.0
@@ -63,6 +63,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.3-23
 - Rebuilt for Python 3.9
 

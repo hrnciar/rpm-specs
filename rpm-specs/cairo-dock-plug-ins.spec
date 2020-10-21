@@ -24,7 +24,7 @@
 
 Name:			cairo-dock-plug-ins
 Version:		%{mainver}
-Release:		35%{?dist}
+Release:		37%{?dist}
 Summary:		Plug-ins files for Cairo-Dock
 
 License:		GPLv3+
@@ -288,7 +288,7 @@ chmod 0755 TMPBINDIR/libetpan-config
 export PATH=${PATH}:$(pwd)/TMPBINDIR
 
 rm -f CMakeCache.txt
-%cmake \
+%cmake -B. \
 %if 0%{?build_unstable} >= 1
 	-Denable-disks=TRUE \
 	-Denable-doncky=TRUE \
@@ -451,6 +451,16 @@ popd
 %{_datadir}/cairo-dock/plug-ins/Dbus/CDApplet.h
 
 %changelog
+* Fri Aug  7 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.4.1-37
+- Minor fix for cmake build issue https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-37
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-36
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.4.1-35
 - Rebuilt for Python 3.9
 

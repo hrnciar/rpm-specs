@@ -1,6 +1,6 @@
 Name:           tangerine
 Version:        0.22
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Perl dependency metadata tool
 License:        MIT
 URL:            https://metacpan.org/release/App-Tangerine
@@ -63,6 +63,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.22-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.22-14
 - Perl 5.32 rebuild
 

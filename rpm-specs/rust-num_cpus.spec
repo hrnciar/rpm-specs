@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        1.13.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Get the number of CPUs on a machine
 
 # Upstream license specification: MIT/Apache-2.0
@@ -74,6 +74,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 17 2020 Josh Stone <jistone@redhat.com> - 1.13.0-1
 - Update to 1.13.0
 

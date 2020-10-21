@@ -5,7 +5,7 @@
 %global crate lsd
 
 Name:           rust-%{crate}
-Version:        0.17.0
+Version:        0.18.0
 Release:        1%{?dist}
 Summary:        Ls command with a lot of pretty colors and some other stuff
 
@@ -15,7 +15,6 @@ URL:            https://crates.io/crates/lsd
 Source:         %{crates_source}
 # Initial patched metadata
 # - Remove Windows only dependencies
-# - Update lscolors to 0.7.0, assert_cmd and assert_fs to 1, https://github.com/Peltoche/lsd/pull/349
 Patch0:         lsd-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -62,6 +61,19 @@ License:        ASL 2.0 and MIT
 %endif
 
 %changelog
+* Wed Sep 16 2020 Fabio Valentini <decathorpe@gmail.com> - 0.18.0-1
+- Update to version 0.18.0.
+
+* Sun Aug 16 15:01:36 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.17.0-4
+- Rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 16 11:50:02 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.17.0-1
 - Update to 0.17.0
 

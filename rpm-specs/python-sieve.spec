@@ -2,17 +2,18 @@
 
 Name:             python-sieve
 Version:          0.1.9
-Release:          18%{?dist}
+Release:          20%{?dist}
 Summary:          XML Comparison Utils
 
 License:          MIT
-URL:              http://pypi.python.org/pypi/sieve
-Source0:          http://pypi.python.org/packages/source/s/%{modname}/%{modname}-%{version}.tar.gz
+URL:              https://pypi.python.org/pypi/sieve
+Source0:          https://pypi.python.org/packages/source/s/%{modname}/%{modname}-%{version}.tar.gz
 
 BuildArch:        noarch
 
 
 BuildRequires:    python3-devel
+BuildRequires:    python3-setuptools
 BuildRequires:    python3-six
 BuildRequires:    python3-lxml
 BuildRequires:    python3-markupsafe
@@ -98,6 +99,12 @@ rm -rf %{modname}.egg-info
 
 
 %changelog
+* Wed Oct 07 2020 Ján ONDREJ (SAL) <ondrejj(at)salstar.sk> - 0.1.9-20
+- BuildRequire setuptools explicitly
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.9-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.9-18
 - Rebuilt for Python 3.9
 

@@ -5,7 +5,7 @@
 
 Name:		nodejs-y18n
 Version:	3.2.1
-Release:	8%{?dist}
+Release:	10%{?dist}
 Summary:	The bare-bones internationalization library used by yargs
 
 License:	ISC
@@ -66,6 +66,13 @@ cp -pr package.json *.js \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

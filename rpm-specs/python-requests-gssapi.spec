@@ -2,8 +2,8 @@
 %global s_name requests_gssapi
 
 Name:           python-%{sname}
-Version:        1.2.1
-Release:        2%{?dist}
+Version:        1.2.2
+Release:        1%{?dist}
 Summary:        A GSSAPI/SPNEGO authentication handler for python-requests
 
 License:        ISC
@@ -56,6 +56,12 @@ Requires:       python3-requests
 
 
 %changelog
+* Fri Aug 07 2020 Robbie Harwood <rharwood@redhat.com> - 1.2.2-1
+- New upstream release (1.2.2)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.1-2
 - Rebuilt for Python 3.9
 

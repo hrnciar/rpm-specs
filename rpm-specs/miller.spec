@@ -1,6 +1,6 @@
 Summary: Name-indexed data processing tool
 Name: miller
-Version: 5.6.2
+Version: 5.9.1
 Release: 1%{?dist}
 License: BSD
 Source: https://github.com/johnkerl/miller/releases/download/v%{version}/mlr-%{version}.tar.gz
@@ -35,6 +35,18 @@ make check
 %{_mandir}/man1/mlr.1*
 
 %changelog
+* Fri Sep 04 2020 Stephen Kitt <skitt@fedoraproject.org> - 5.9.1-1
+- 5.9.1 release (CVE-2020-15167)
+
+* Thu Aug 27 2020 Stephen Kitt <skitt@fedoraproject.org> - 5.9.0-1
+- 5.9.0 release
+
+* Wed Aug 12 2020 Stephen Kitt <skitt@fedoraproject.org> - 5.8.0-1
+- 5.8.0 release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 03 2020 Stephen Kitt <skitt@fedoraproject.org> - 5.6.2-1
 - 5.6.2 release
 

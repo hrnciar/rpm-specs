@@ -4,15 +4,14 @@
 %define eggname datagrepper
 
 Name:           datagrepper
-Version:        0.9.5
-Release:        9%{?dist}
+Version:        0.9.7
+Release:        1%{?dist}
 Summary:        A webapp to query fedmsg history
 
 License:        GPLv2+
 URL:            https://github.com/fedora-infra/datagrepper
 Source0:        %{pypi_source}
-Patch0001:      0001-Fix-start-with-delta-parameter.patch
-Patch0002:      datagrepper-0.9.5-fix-test.patch
+Patch0001:      datagrepper-0.9.5-fix-test.patch
 
 BuildArch:      noarch
 
@@ -39,7 +38,6 @@ bus.  It is a JSON api for the datanommer message store.
 %prep
 %setup -q
 %patch0001 -p1
-%patch0002 -p1
 # makes build_sphinx find it
 # cannot move, we need to keep sources there, as they are used on runtime
 cp -a %{modname}/docs .
@@ -71,6 +69,15 @@ install -m 644 apache/%{modname}.cfg %{buildroot}%{_sysconfdir}/%{modname}/%{mod
 %{python3_sitelib}/%{eggname}-%{version}-*.egg-info/
 
 %changelog
+* Tue Sep 22 2020 Ralph Bean <rbean@redhat.com> - 0.9.7-1
+- new version
+
+* Wed Aug 12 2020 Ralph Bean <rbean@redhat.com> - 0.9.6-1
+- Latest upstream
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.5-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.5-9
 - Rebuilt for Python 3.9
 

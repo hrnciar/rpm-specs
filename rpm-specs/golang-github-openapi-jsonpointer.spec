@@ -3,7 +3,7 @@
 
 # https://github.com/go-openapi/jsonpointer
 %global goipath         github.com/go-openapi/jsonpointer
-Version:                0.19.2
+Version:                0.19.3
 
 %gometa
 
@@ -14,15 +14,13 @@ Fork of gojsonpointer with support for structs.}
 %global godocs          CODE_OF_CONDUCT.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Gojsonpointer with support for structs
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
-# Go 1.13: getSingleImpl: don't check whether a map value is zero
-Patch0:         https://github.com/go-openapi/jsonpointer/commit/a67b0cdac37a3489417baf74a7c7802673395a2d.patch#/0001-getSingleImpl-dont-check-whether-a-map-value-is-zero.patch
 
 BuildRequires:  golang(github.com/go-openapi/swag)
 
@@ -38,7 +36,6 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 
 %prep
 %goprep
-%patch0 -p1
 
 %install
 %gopkginstall
@@ -51,6 +48,12 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 15:49:48 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.19.3-1
+- Update to 0.19.3
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

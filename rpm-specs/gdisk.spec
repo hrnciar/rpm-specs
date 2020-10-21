@@ -1,7 +1,7 @@
 Summary:       An fdisk-like partitioning tool for GPT disks
 Name:          gdisk
 Version:       1.0.5
-Release:       1%{?dist}
+Release:       2%{?dist}
 License:       GPLv2
 URL:           http://www.rodsbooks.com/gdisk/
 Source0:       http://downloads.sourceforge.net/gptfdisk/gptfdisk-%{version}.tar.gz
@@ -42,6 +42,9 @@ done
 %{_mandir}/man8/fixparts.8*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 22 2020 Terje Rosten <terje.rosten@ntnu.no> - 1.0.5-1
 - 1.0.5
 

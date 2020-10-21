@@ -1,6 +1,6 @@
 Name:           FlightCrew
 Version:        0.9.1
-Release:        19%{?dist}
+Release:        21%{?dist}
 Summary:        EPUB validator
 License:        LGPLv3+
 URL:            https://sigil-ebook.com/
@@ -74,13 +74,13 @@ sed -i '1s=^#!/usr/bin/\(python\|env python\)[23]\?=#!%{__python3}=' src/FlightC
 mkdir build
 pushd build
 %{cmake} -DBUILD_SHARED_LIBS:BOOL=OFF -DSKIP_FC_GUI=1 -DNO_TEST_EXE=1 ..
-make %{?_smp_mflags}
+%{cmake_build}
 popd
 
 
 %install
 pushd build
-%make_install
+%{cmake_install}
 popd
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/sigil/plugins/%{name}
 install -p -m 755 src/FlightCrew-plugin/plugin.py \
@@ -107,6 +107,13 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 0.9.1-19
 - Rebuilt for Boost 1.73
 

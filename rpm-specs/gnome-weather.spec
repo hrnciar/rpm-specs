@@ -5,7 +5,7 @@
 
 Name:		gnome-weather
 Version:	3.36.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	A weather application for GNOME
 
 License:	GPLv2+ and LGPLv2+ and MIT and CC-BY and CC-BY-SA
@@ -73,6 +73,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Weather.des
 %{_datadir}/org.gnome.Weather/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 10 2020 Kalev Lember <klember@redhat.com> - 3.36.1-1
 - Update to 3.36.1
 

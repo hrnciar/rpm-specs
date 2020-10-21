@@ -1,6 +1,6 @@
 Name:		dotconf
 Version:	1.3
-Release:	23%{?dist}
+Release:	25%{?dist}
 Summary:	Libraries to parse configuration files
 License:	LGPLv2
 URL:		https://github.com/williamh/dotconf/
@@ -30,10 +30,10 @@ developing applications that use %{name}.
 
 %build
 %configure --disable-static
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=%{buildroot} INSTALL="install -p"
+%make_install
 
 iconv -f iso-8859-2 -t utf-8 -o iconv.tmp AUTHORS
 mv iconv.tmp AUTHORS
@@ -60,6 +60,13 @@ mv ${RPM_BUILD_ROOT}%{_docdir}/%{name}/* __tmp_doc
 %{_libdir}/pkgconfig/dotconf.pc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.3-24
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

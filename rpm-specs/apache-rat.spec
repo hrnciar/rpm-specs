@@ -1,7 +1,7 @@
 Name:           apache-rat
 Summary:        Apache Release Audit Tool (RAT)
 Version:        0.13
-Release:        2%{?dist}
+Release:        7%{?dist}
 License:        ASL 2.0
 
 URL:            http://creadur.apache.org/rat/
@@ -15,13 +15,13 @@ BuildRequires:  maven-local
 BuildRequires:  mvn(commons-cli:commons-cli)
 BuildRequires:  mvn(commons-collections:commons-collections)
 BuildRequires:  mvn(commons-io:commons-io)
-BuildRequires:  mvn(commons-lang:commons-lang)
 BuildRequires:  mvn(junit:junit)
 BuildRequires:  mvn(org.apache.ant:ant)
 BuildRequires:  mvn(org.apache.ant:ant-antunit)
 BuildRequires:  mvn(org.apache.ant:ant-testutil)
 BuildRequires:  mvn(org.apache:apache:pom:)
 BuildRequires:  mvn(org.apache.commons:commons-compress)
+BuildRequires:  mvn(org.apache.commons:commons-lang3)
 BuildRequires:  mvn(org.apache.maven.doxia:doxia-core)
 BuildRequires:  mvn(org.apache.maven.doxia:doxia-decoration-model)
 BuildRequires:  mvn(org.apache.maven.doxia:doxia-sink-api)
@@ -123,12 +123,22 @@ This package contains the API documentation for %{name}.
 # wagon-ssh is not needed in Fedora.
 %pom_xpath_remove pom:extensions
 
+# trivial port to commons-lang3
+%pom_change_dep -r :commons-lang org.apache.commons:commons-lang3:3.8.1
+
+sed -i "s/org.apache.commons.lang./org.apache.commons.lang3./g" \
+    apache-rat-core/src/main/java/org/apache/rat/document/impl/guesser/GuessUtils.java
+sed -i "s/org.apache.commons.lang./org.apache.commons.lang3./g" \
+    apache-rat-core/src/main/java/org/apache/rat/report/claim/impl/xml/SimpleXmlClaimReporter.java
+sed -i "s/org.apache.commons.lang./org.apache.commons.lang3./g" \
+    apache-rat-core/src/main/java/org/apache/rat/Report.java
+
 # incompatible with our plexus-container
 rm apache-rat-plugin/src/test/java/org/apache/rat/mp/RatCheckMojoTest.java
 
 
 %build
-%mvn_build -s
+%mvn_build -s -- -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 
 %install
@@ -163,6 +173,21 @@ echo "apache-rat/rat-core apache-rat/rat-tasks" > $RPM_BUILD_ROOT%{_sysconfdir}/
 
 
 %changelog
+* Thu Jul 30 2020 Fabio Valentini <decathorpe@gmail.com> - 0.13-7
+- Remove stray commons-lang:commons-lang BuildRequires.
+
+* Tue Jul 28 2020 Fabio Valentini <decathorpe@gmail.com> - 0.13-6
+- Port to commons-lang3.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Fabio Valentini <decathorpe@gmail.com> - 0.13-4
+- Set javac source and target to 1.8 to fix Java 11 builds.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0.13-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    e0f1e33a71587aca81be5cffbb9746510e1fe04e
+%global gh_commit    923d59d40e6468851166ca27f2ed705fd6003146
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     cweiske
 %global gh_project   jsonmapper
@@ -18,7 +18,7 @@
 %global with_tests   0%{!?_without_tests:1}
 
 Name:           php-%{pk_vendor}-%{pk_project}
-Version:        2.1.0
+Version:        3.1.0
 Release:        1%{?dist}
 Summary:        Map nested JSON structures onto PHP classes
 
@@ -128,6 +128,15 @@ exit $ret
 
 
 %changelog
+* Mon Aug 17 2020 Remi Collet <remi@remirepo.net> - 3.1.0-1
+- update to 3.1.0
+
+* Tue Aug 11 2020 Remi Collet <remi@remirepo.net> - 3.0.0-1
+- update to 3.0.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 17 2020 Remi Collet <remi@remirepo.net> - 2.1.0-1
 - update to 2.1.0
 

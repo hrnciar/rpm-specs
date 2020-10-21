@@ -17,7 +17,7 @@
 
 Name:           git-octopus
 Version:        2.0
-Release:        %{?pre_rel:0.}4%{?pre_rel:.%pre_rel}%{?dist}.4
+Release:        %{?pre_rel:0.}4%{?pre_rel:.%pre_rel}%{?dist}.8
 Summary:        Git commands for continuous delivery
 License:        LGPLv3
 URL:            https://%{provider_prefix}
@@ -57,7 +57,7 @@ install -d -p %{buildroot}%{_bindir}
 install -p -v -m 0755 bin/git-octopus %{buildroot}%{_bindir}
 
 make prefix="%{buildroot}%{_prefix}" \
-              docdir="%{buildroot}%{_docdir}/%{name}%{?rhel:-%{version}}" install-docs
+              docdir="%{buildroot}%{_docdir}/%{name}%{?el7:-%{version}}" install-docs
 
 
 
@@ -81,6 +81,19 @@ export GOPATH=%{buildroot}/%{gopath}:$(pwd)/vendor:%{gopath}
 %{_mandir}/man1/git-*.1*
 
 %changelog
+* Thu Sep 24 2020 Andrea Baita <andrea@baita.pro> - 2.0-0.4.beta.3.8
+- Use doc version only for epel7
+
+* Tue Sep 22 2020 Andrea Baita <andrea@baita.pro> - 2.0-0.4.beta.3.7
+- Built for epel7 and epel8
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-0.4.beta.3.6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-0.4.beta.3.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-0.4.beta.3.4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.6.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Rust custom-derive macro for Default with more control on the fields
 
 # Upstream license specification: MIT
@@ -71,5 +71,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 21 22:02:59 EET 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.6.0-1
 - Initial package

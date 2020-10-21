@@ -1,6 +1,6 @@
 Name:           perl-Text-Patch
 Version:        1.8
-Release:        25%{?dist}
+Release:        26%{?dist}
 Summary:        Patches text with given patch
 License:        GPLv2+
 URL:            https://metacpan.org/release/Text-Patch
@@ -48,6 +48,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.8-25
 - Perl 5.32 rebuild
 

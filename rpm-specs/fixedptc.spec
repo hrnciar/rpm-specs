@@ -12,7 +12,7 @@ Version:               0
 
 %forgemeta
 
-Release:               6%{?dist}
+Release:               7%{?dist}
 Summary:               Fixed point math header only library for C
 License:               BSD
 Url:                   %{forgeurl}
@@ -75,6 +75,9 @@ install -p -m 0644 -D %{name}.h %{buildroot}%{_includedir}/%{name}/%{name}.h
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 24 2020 Damian Wrobel <dwrobel@ertelnet.rybnik.pl> - 0-6.20200228hgb8acfec
 - Remove detection of 64-bit platforms as it does not work on noarch packages, see:
   https://github.com/rpm-software-management/rpm/issues/1133#issuecomment-603138796

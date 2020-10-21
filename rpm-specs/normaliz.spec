@@ -1,20 +1,22 @@
 Name:           normaliz
-Version:        3.8.4
-Release:        3%{?dist}
+Version:        3.8.9
+Release:        1%{?dist}
 Summary:        A tool for mathematical computations
 
 License:        GPLv3+
 URL:            https://www.normaliz.uni-osnabrueck.de/
-Source0:        https://github.com/Normaliz/Normaliz/releases/download/v%{version}/%{name}-%{version}.tar.gz
+Source0:        https://github.com/Normaliz/Normaliz/archive/v%{version}/%{name}-%{version}.tar.gz
 # Adapt to cocoalib 0.99650
 Patch0:         %{name}-cocoalib.patch
 
 BuildRequires:  boost-devel
 BuildRequires:  cocoalib-devel
+BuildRequires:  e-antic-devel
 BuildRequires:  flint-devel
 BuildRequires:  gcc-c++
 BuildRequires:  gmp-devel
 BuildRequires:  help2man
+BuildRequires:  libtool
 BuildRequires:  pkgconfig(nauty)
 
 Requires:       lib%{name}%{?_isa} = %{version}-%{release}
@@ -36,8 +38,7 @@ libnormaliz.
 %package -n libnormaliz-devel
 Summary:        Developer files for libnormaliz
 Requires:       lib%{name}%{?_isa} = %{version}-%{release}
-Requires:       boost-devel%{?_isa}
-Requires:       cocoalib-devel%{?_isa}
+Requires:       e-antic-devel%{?_isa}
 Requires:       flint-devel%{?_isa}
 Requires:       gmp-devel%{?_isa}
 
@@ -46,14 +47,20 @@ Header files and library links to develop applications that use the
 Normaliz internals as a library (libnormaliz).
 
 %prep
-%autosetup -p0
+%autosetup -p0 -n Normaliz-%{version}
 
 # Use our compiler flags
 sed -i 's|-O3 -funroll-loops|%{optflags} -I%{_includedir}/gfanlib|' \
     source/Makefile.configuration
 
+# Fix the date in the 3.8.9 changelog
+sed -i 's/2030/2020/' CHANGELOG
+
+# Generate configure
+autoreconf -fi .
+
 %build
-export CPPFLAGS="-I%{_includedir}/gfanlib"
+export CPPFLAGS="-I%{_includedir}/arb -I%{_includedir}/gfanlib"
 %configure \
   --disable-silent-rules \
   --disable-static \
@@ -84,7 +91,7 @@ help2man -s 1 -o normaliz.1 -N source/.libs/normaliz
 
 %install
 # Install the library, binary, and headers
-make install DESTDIR=%{buildroot}
+%make_install
 rm -f %{buildroot}%{_libdir}/*.la
 
 # Install the man page
@@ -113,6 +120,21 @@ LD_LIBRARY_PATH=$PWD/source/.libs make check
 %{_includedir}/libnormaliz/
 
 %changelog
+* Wed Sep 30 2020 Jerry James <loganjerry@gmail.com> - 3.8.9-1
+- Version 3.8.9
+
+* Sat Aug 29 2020 Jerry James <loganjerry@gmail.com> - 3.8.8-1
+- Version 3.8.8
+
+* Fri Aug  7 2020 Jerry James <loganjerry@gmail.com> - 3.8.7-1
+- Version 3.8.7
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 Jerry James <loganjerry@gmail.com> - 3.8.6-1
+- Version 3.8.6
+
 * Tue Jun  2 2020 Jerry James <loganjerry@gmail.com> - 3.8.4-3
 - Rebuild for nauty 2.7.1
 

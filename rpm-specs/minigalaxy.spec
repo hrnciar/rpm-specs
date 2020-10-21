@@ -1,6 +1,6 @@
 Name:           minigalaxy
 Version:        0.9.4
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        GOG client for Linux that lets you download and play your GOG Linux games
 BuildArch:      noarch
 
@@ -13,6 +13,7 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
 BuildRequires:  python3-devel
 BuildRequires:  python3-gobject-devel >= 3.30
+BuildRequires:  python3-setuptools
 BuildRequires:  python3dist(requests)
 
 Requires:       hicolor-icon-theme
@@ -60,6 +61,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Mon Oct  5 16:55:41 EEST 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.9.4-5
+- build(add BR): python3-setuptools | per DL-BL7XMXVEHSDZDMH22YET3I4EK66PK4NI
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 12 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.9.4-3
 - Add weak dep: wine-dxvk
 

@@ -3,7 +3,7 @@
 
 Name:           cpptoml
 Version:        0.1.1
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Header-only C++ TOML library 
 
 License:        MIT
@@ -44,14 +44,11 @@ binary integers, and float special values.
 
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%cmake .. -DCPPTOML_BUILD_EXAMPLES=OFF
-popd
+%cmake -B builddir -DCPPTOML_BUILD_EXAMPLES=OFF
 
 
 %install
-%make_install -C %{_target_platform}
+%make_install -C builddir
 
 
 %files devel
@@ -62,6 +59,16 @@ popd
 
 
 %changelog
+* Tue Oct 13 2020 Dakota Williams <raineforest@raineforest.me> - 0.1.1-5
+- Rebuilt for f33 and f34
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

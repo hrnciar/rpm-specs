@@ -3,7 +3,7 @@
 
 Name:           liblas
 Version:        1.8.1
-Release:        10%{?shortcommit:.git%shortcommit}%{?dist}
+Release:        11%{?shortcommit:.git%shortcommit}%{?dist}
 Summary:        Library for reading and writing the very common LAS LiDAR format
 
 License:        BSD and Boost
@@ -93,11 +93,11 @@ libLAS utility applications.
         -DWITH_GDAL:BOOL=ON \
         -DWITH_LASZIP:BOOL=ON \
         -DWITH_TESTS:BOOL=ON .
-%make_build
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %ldconfig_scriptlets
@@ -121,6 +121,9 @@ libLAS utility applications.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-11.gitd76a061
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 08 2020 Sandro Mani <manisandro@gmail.com> - 1.8.1-10.gitd76a061
 - Fix liblas_pkgconfig.patch
 

@@ -8,7 +8,7 @@
 
 Name:           rust-%{crate}
 Version:        0.14.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Library for reading MaxMind DB format used by GeoIP2 and GeoLite2
 
 # Upstream license specification: ISC
@@ -111,6 +111,9 @@ mv MaxMind-DB-%{testdata_commit} test-data
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 17:32:24 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.14.0-1
 - Update to 0.14.0
 

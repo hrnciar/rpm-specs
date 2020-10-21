@@ -1,6 +1,6 @@
 Name:           meanwhile
 Version:        1.1.0
-Release:        28%{?dist}
+Release:        29%{?dist}
 Summary:        Lotus Sametime Community Client library
 License:        LGPLv2+
 URL:            http://%{name}.sourceforge.net
@@ -89,6 +89,9 @@ rm -rf %{buildroot}%{_datadir}/doc/%{name}-doc-%{version}/
 %doc docs/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-28
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

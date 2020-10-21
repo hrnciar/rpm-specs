@@ -1,7 +1,7 @@
 Name:    ugene
 Summary: Integrated bioinformatics toolkit
 Version: 34.0
-Release: 1%{?dist}
+Release: 4%{?dist}
 #The entire source code is GPLv2+ except:
 #file src/libs_3rdparty/qtbindings_core/src/qtscriptconcurrent.h which is GPLv2
 #files in src/plugins_3rdparty/script_debuger/src/qtscriptdebug/ which are GPLv2
@@ -9,6 +9,9 @@ License: GPLv2+ and GPLv2
 URL:     http://ugene.net
 Source0: https://github.com/ugeneunipro/ugene/archive/%{version}.tar.gz/#/%{name}-%{version}.tar.gz
 #Patch0:  ugene-1.31.0.patch
+
+Patch1:  ugene-fix-build-againt-qt-5.15.patch
+Patch2:  %{name}-gcc11.patch
 
 BuildRequires: desktop-file-utils
 BuildRequires: mesa-libGLU-devel
@@ -39,6 +42,9 @@ is a designer for custom bioinformatics workflows.
 
 %prep
 %setup -q
+
+%patch1 -p1 -b .fix-build-againt-qt-5.15
+%patch2 -p1 -b .gcc11
 
 %build
 %{qmake_qt5} -r \
@@ -75,6 +81,15 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_mandir}/man1/*
 
 %changelog
+* Sun Oct 18 2020 Jeff Law <law@redhat.com> - 34.0-4
+- Fix missing #includes for gcc-11
+
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 34.0-3
+- rebuild (qt5)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 34.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 34.0-1
 - ugene-34.0
 - update Source0 URL
@@ -115,7 +130,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 * Thu Oct 25 2018 Yuliya Algaer <yalgaer@fedoraproject.com> - 1.31.1-1
 - New upstream release
 
-* Thu Aug 24 2018 Yuliya Algaer <yalgaer@fedoraproject.org> - 1.31.0-6
+* Fri Aug 24 2018 Yuliya Algaer <yalgaer@fedoraproject.org> - 1.31.0-6
 - New upstream release
 
 * Sat Jul 14 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.30.0-25

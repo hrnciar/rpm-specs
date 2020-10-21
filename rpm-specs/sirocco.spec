@@ -1,6 +1,6 @@
 Name:           sirocco
 Version:        2.0.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        ROot Certified COntinuator
 
 License:        GPLv2+
@@ -65,6 +65,9 @@ make check
 %{_libdir}/libsirocco.so
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Jerry James <loganjerry@gmail.com> - 2.0.2-1
 - Version 2.0.2
 

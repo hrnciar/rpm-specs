@@ -1,6 +1,6 @@
 Name: libgcrypt
-Version: 1.8.5
-Release: 6%{?dist}
+Version: 1.8.6
+Release: 4%{?dist}
 URL: http://www.gnupg.org/
 Source0: libgcrypt-%{version}-hobbled.tar.xz
 # The original libgcrypt sources now contain potentially patented ECC
@@ -45,14 +45,14 @@ Patch26: libgcrypt-1.8.3-fips-enttest.patch
 Patch27: libgcrypt-1.8.3-md-fips-enforce.patch
 # Intel CET support, in upstream master
 Patch28: libgcrypt-1.8.5-intel-cet.patch
-# Fix build on ARMv7
-Patch29: libgcrypt-1.8.5-build.patch
 # FIPS module is redefined a little bit (implicit by kernel FIPS mode)
 Patch30: libgcrypt-1.8.5-fips-module.patch
 # Backported AES performance improvements
 Patch31: libgcrypt-1.8.5-aes-perf.patch
 
-%define gcrylibdir %{_libdir}
+%global gcrylibdir %{_libdir}
+%global gcrysoname libgcrypt.so.20
+%global hmackey orboDeJITITejsirpADONivirpUkvarP
 
 # Technically LGPLv2.1+, but Fedora's table doesn't draw a distinction.
 # Documentation and some utilities are GPLv2+ licensed. These files
@@ -61,7 +61,6 @@ License: LGPLv2+
 Summary: A general-purpose cryptography library
 BuildRequires: gcc
 BuildRequires: gawk, libgpg-error-devel >= 1.11, pkgconfig
-BuildRequires: fipscheck
 # This is needed only when patching the .texi doc.
 BuildRequires: texinfo
 BuildRequires: autoconf, automake, libtool
@@ -99,7 +98,6 @@ applications using libgcrypt.
 %patch26 -p1 -b .fips-enttest
 %patch27 -p1 -b .fips-enforce
 %patch28 -p1 -b .intel-cet
-%patch29 -p1 -b .build
 %patch30 -p1 -b .fips-module
 %patch31 -p1 -b .aes-perf
 
@@ -107,6 +105,15 @@ cp %{SOURCE4} cipher/
 cp %{SOURCE5} %{SOURCE6} tests/
 
 %build
+# This package has a configure test which uses ASMs, but does not link the
+# resultant .o files.  As such the ASM test is always successful, even on
+# architectures were the ASM is not valid when compiling with LTO.
+#
+# -ffat-lto-objects is sufficient to address this issue.  It is the default
+# for F33, but is expected to only be enabled for packages that need it in
+# F34, so we use it here explicitly
+%define _lto_cflags -flto=auto -ffat-lto-objects
+
 autoreconf -f
 %configure --disable-static \
 %ifarch sparc64
@@ -117,10 +124,11 @@ autoreconf -f
      --enable-pubkey-ciphers='dsa elgamal rsa ecc' \
      --disable-O-flag-munging
 sed -i -e '/^sys_lib_dlsearch_path_spec/s,/lib /usr/lib,/usr/lib /lib64 /usr/lib64 /lib,g' libtool
-make %{?_smp_mflags}
+%make_build
 
 %check
-fipshmac src/.libs/libgcrypt.so.??
+src/hmac256 %{hmackey} src/.libs/%{gcrysoname} | cut -f1 -d ' ' >src/.libs/.%{gcrysoname}.hmac
+
 make check
 
 # Add generation of HMAC checksums of the final stripped binaries 
@@ -128,11 +136,11 @@ make check
     %{?__debug_package:%{__debug_install_post}} \
     %{__arch_install_post} \
     %{__os_install_post} \
-    fipshmac $RPM_BUILD_ROOT%{gcrylibdir}/*.so.?? \
+    src/hmac256 %{hmackey} $RPM_BUILD_ROOT%{gcrylibdir}/%{gcrysoname} | cut -f1 -d ' ' >$RPM_BUILD_ROOT%{gcrylibdir}/.%{gcrysoname}.hmac \
 %{nil}
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 
 # Change /usr/lib64 back to /usr/lib.  This saves us from having to patch the
 # script to "know" that -L/usr/lib64 should be suppressed, and also removes
@@ -180,8 +188,9 @@ install -m644 %{SOURCE7} $RPM_BUILD_ROOT/etc/gcrypt/random.conf
 %files
 %dir /etc/gcrypt
 %config(noreplace) /etc/gcrypt/random.conf
-%{gcrylibdir}/libgcrypt.so.*
-%{gcrylibdir}/.libgcrypt.so.*.hmac
+%{gcrylibdir}/libgcrypt.so.*.*
+%{gcrylibdir}/%{gcrysoname}
+%{gcrylibdir}/.%{gcrysoname}.hmac
 %{!?_licensedir:%global license %%doc}
 %license COPYING.LIB
 %doc AUTHORS NEWS THANKS
@@ -202,6 +211,25 @@ install -m644 %{SOURCE7} $RPM_BUILD_ROOT/etc/gcrypt/random.conf
 %license COPYING
 
 %changelog
+* Fri Aug 21 2020 Jeff Law <law@redhat.com> - 1.8.6-4
+- Re-enable LTO
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Tom Stellard <tstellar@redhat.com> - 1.8.6-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Mon Jul 20 2020 Tomáš Mráz <tmraz@redhat.com> 1.8.6-1
+- new upstream version 1.8.6
+
+* Wed Jul  1 2020 Tomáš Mráz <tmraz@redhat.com> 1.8.5-7
+- use the hmac256 tool to calculate the library hmac
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com>
+- Disable LTO
+
 * Thu Apr 23 2020 Tomáš Mráz <tmraz@redhat.com> 1.8.5-6
 - Fix regression - missing -ldl linkage
 

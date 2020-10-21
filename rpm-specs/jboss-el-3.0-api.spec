@@ -1,20 +1,19 @@
+Name:             jboss-el-3.0-api
+Version:          1.0.13
+Release:          5%{dist}
+Summary:          JSR-341 Expression Language 3.0 API
+License:          (CDDL or GPLv2 with exceptions) and ASL 2.0
+
 %global namedreltag .Final
 %global namedversion %{version}%{?namedreltag}
 
-Name:             jboss-el-3.0-api
-Version:          1.0.13
-Release:          2%{dist}
-Summary:          JSR-341 Expression Language 3.0 API
-License:          (CDDL or GPLv2 with exceptions) and ASL 2.0
-Url:              https://github.com/jboss/jboss-el-api_spec
+URL:              https://github.com/jboss/jboss-el-api_spec
 Source0:          %{url}/archive/jboss-el-api_3.0_spec-%{namedversion}.tar.gz
 Source1:          http://www.apache.org/licenses/LICENSE-2.0.txt
 Source2:          cddl.txt
 
 BuildRequires:    maven-local
-BuildRequires:    mvn(junit:junit)
 BuildRequires:    mvn(org.apache.felix:maven-bundle-plugin)
-BuildRequires:    mvn(org.glassfish:javax.el-impl)
 BuildRequires:    mvn(org.jboss:jboss-parent:pom:)
 
 BuildArch:        noarch
@@ -36,10 +35,13 @@ cp %{SOURCE2} .
 
 %pom_remove_plugin :maven-source-plugin
 
+%pom_change_dep :javax.el-impl :javax.el
+
 sed -i "s,59 Temple Place,51 Franklin Street,;s,Suite 330,Fifth Floor,;s,02111-1307,02110-1301," LICENSE
 
 %build
-%mvn_build
+# tests are broken with the version of el in fedora 33+
+%mvn_build -f
 
 %install
 %mvn_install
@@ -52,6 +54,15 @@ sed -i "s,59 Temple Place,51 Franklin Street,;s,Suite 330,Fifth Floor,;s,02111-1
 %license LICENSE cddl.txt LICENSE-2.0.txt
 
 %changelog
+* Sat Aug 29 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.13-5
+- Disable tests. They are incompatible with jakarta-el 4.0.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.13-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.0.13-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.13-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

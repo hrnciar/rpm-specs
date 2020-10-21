@@ -4,7 +4,7 @@
 
 Name:           nodejs-burrito
 Version:        0.2.12
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Wrap up expressions with a trace function while walking the AST
 
 #no license file included, "BSD" indicated in package.json
@@ -69,6 +69,9 @@ cp -pr package.json index.js %{buildroot}%{nodejs_sitelib}/burrito
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.12-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.12-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

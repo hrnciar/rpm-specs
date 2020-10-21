@@ -1,12 +1,13 @@
 Name:           perl-CPAN-Perl-Releases
-Version:        5.20200620
-Release:        2%{?dist}
+Version:        5.20200920
+Release:        1%{?dist}
 Summary:        Mapping Perl releases on CPAN to the location of the tarballs
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/CPAN-Perl-Releases
 Source0:        https://cpan.metacpan.org/authors/id/B/BI/BINGOS/CPAN-Perl-Releases-%{version}.tar.gz
 BuildArch:      noarch
 # Build
+BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -52,6 +53,18 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Mon Sep 21 2020 Jitka Plesnikova <jplesnik@redhat.com> - 5.20200920-1
+- 5.20200920 bump
+
+* Fri Aug 21 2020 Jitka Plesnikova <jplesnik@redhat.com> - 5.20200820-1
+- 5.20200820 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.20200717-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Petr Pisar <ppisar@redhat.com> - 5.20200717-1
+- 5.20200717 bump
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 5.20200620-2
 - Perl 5.32 rebuild
 

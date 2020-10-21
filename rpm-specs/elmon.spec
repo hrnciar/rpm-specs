@@ -2,7 +2,7 @@
 
 Name:           elmon
 Version:        13b1
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Performance monitoring tool
 
 License:        GPLv3
@@ -52,6 +52,9 @@ install elmon_x86_rhel52 %{buildroot}/%{_bindir}/%{name}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 13b1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 13b1-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

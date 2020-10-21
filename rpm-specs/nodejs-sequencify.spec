@@ -5,7 +5,7 @@
 
 Name:		nodejs-sequencify
 Version:	0.0.7
-Release:	8%{?dist}
+Release:	10%{?dist}
 Summary:	A module for sequencing tasks and dependencies
 
 License:	MIT
@@ -70,6 +70,13 @@ cp -pr package.json *.js \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.7-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.7-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.7-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

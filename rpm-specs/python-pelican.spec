@@ -1,7 +1,7 @@
 %global pypi_name pelican
 Name:           python-%{pypi_name}
-Version:        4.0.1
-Release:        7%{?dist}
+Version:        4.2.0
+Release:        2%{?dist}
 Summary:        A tool to generate a static blog from reStructuredText or Markdown input files
 
 License:        AGPLv3
@@ -126,6 +126,12 @@ ln -s ./pelican-themes %{buildroot}/%{_bindir}/pelican-themes-3
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Gwyn Ciesla <gwync@protonmail.com> - 4.2.0-1
+- 4.2.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.0.1-7
 - Rebuilt for Python 3.9
 

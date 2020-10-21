@@ -3,8 +3,7 @@
 
 # https://github.com/smartystreets/assertions
 %global goipath         github.com/smartystreets/assertions
-Version:                1.10.1
-%global tag             1.10.1
+Version:                1.1.1
 
 %gometa
 
@@ -18,7 +17,9 @@ applications.}
 %global godocs          CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+# because why would you use releases in ascending order, silly
+Epoch:          1
+Release:        1%{?dist}
 Summary:        Fluent assertion-style functions used by goconvey and gunit
 
 # Upstream license specification: Apache-2.0 and BSD-3-Clause and MIT
@@ -48,6 +49,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 20:36:32 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1:1.1.1-1
+- Update to 1.1.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 # Could be part of http://fedoraproject.org/wiki/LukeMacken/SecurityLiveCD
 
 Name:           sleuthkit
-Version:        4.9.0
+Version:        4.10.0
 Release:        1%{?dist}
 Summary:        The Sleuth Kit (TSK)
 
@@ -177,6 +177,12 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Fri Sep 25 2020 Nicolas Chauvet <kwizart@gmail.com> - 4.10.0-1
+- Update to 4.10.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 08 2020 Nicolas Chauvet <kwizart@gmail.com> - 4.9.0-1
 - Update to 4.9.0
 

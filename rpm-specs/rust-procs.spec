@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.10.3
-Release:        2%{?dist}
+Release:        6%{?dist}
 Summary:        Modern replacement for ps
 
 # Upstream license specification: MIT
@@ -17,6 +17,8 @@ Source:         %{crates_source}
 # * No windows/macos
 # * Remove docker feature
 # * Update users to 0.10, https://github.com/dalance/procs/pull/61
+# * Update which to 4, https://github.com/dalance/procs/pull/72
+# * Update procfs to 0.8
 Patch0:         procs-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -64,6 +66,18 @@ License:        MIT and ASL 2.0 and zlib
 %endif
 
 %changelog
+* Wed Sep 30 2020 Fabio Valentini <decathorpe@gmail.com> - 0.10.3-6
+- Bump procfs to 0.8.0.
+
+* Fri Sep 18 2020 Fabio Valentini <decathorpe@gmail.com> - 0.10.3-5
+- Bump which to 4.
+
+* Sun Aug 16 15:01:39 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.10.3-4
+- Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 11:35:48 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.10.3-2
 - Update users to 0.10
 

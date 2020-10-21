@@ -1,14 +1,16 @@
 Name:           tellico
-Version:        3.2.3
-Release:        2%{?dist}
+Version:        3.3.1
+Release:        3%{?dist}
 Summary:        A collection manager
 
 License:        GPLv2
 URL:            http://tellico-project.org/
 Source0:        http://tellico-project.org/files/tellico-%{version}.tar.xz
+Patch0:         tellico-3.3.1-taglib.diff
 
-Patch0:         tellico-python2-print.patch
-Patch1:         tellico-python2-python3.patch
+%if (0%{?rhel} || (0%{?fedora} && 0%{?fedora} < 33))
+%undefine __cmake_in_source_build
+%endif
 
 BuildRequires:  extra-cmake-modules
 BuildRequires:  kf5-rpm-macros
@@ -76,17 +78,12 @@ sed \
   src/fetch/scripts/*.py
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
-  -DENABLE_WEBCAM:BOOL=ON
-popd
-
-%make_build  -C %{_target_platform}
+%{cmake_kf5} -DENABLE_WEBCAM:BOOL=ON
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=$RPM_BUILD_ROOT  -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --with-kde --with-html
 
@@ -109,6 +106,18 @@ make install/fast DESTDIR=$RPM_BUILD_ROOT  -C %{_target_platform}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+- Fix cmake changes
+- Apply upstream patch to allow for new FindTaglib.cmake in ECM 5.72
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul  3 2020 José Matos <jamatos@fedoraproject.org> - 3.3.1-1
+- update to 3.3.1
+
 * Tue Mar 31 2020 Adrian Reber <adrian@lisas.de> - 3.2.3-2
 - Rebuilt for libcdio-2.1.0
 

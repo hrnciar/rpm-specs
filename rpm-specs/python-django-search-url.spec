@@ -3,7 +3,7 @@
 
 Name:           python-%{pkg_name}
 Version:        0.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Use Search URLs in your Django Application
 
 License:        BSD
@@ -44,6 +44,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/dj_search_url-%{version}-py*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1-4
 - Rebuilt for Python 3.9
 

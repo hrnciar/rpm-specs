@@ -1,8 +1,9 @@
+%undefine __cmake_in_source_build
 %global framework kglobalaccel
 
 Name:    kf5-%{framework}
-Version: 5.71.0
-Release: 1%{?dist}
+Version: 5.75.0
+Release: 2%{?dist}
 Summary: KDE Frameworks 5 Tier 3 integration module for global shortcuts
 
 License: LGPLv2+
@@ -17,6 +18,8 @@ URL:     https://cgit.kde.org/%{framework}.git
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{majmin}/%{framework}-%{version}.tar.xz
 
+Source1: kglobalaccel.service
+
 BuildRequires:  extra-cmake-modules >= %{majmin}
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  kf5-kconfig-devel >= %{majmin}
@@ -26,6 +29,9 @@ BuildRequires:  kf5-kdbusaddons-devel >= %{majmin}
 BuildRequires:  kf5-ki18n-devel >= %{majmin}
 BuildRequires:  kf5-kservice-devel >= %{majmin}
 BuildRequires:  kf5-kwindowsystem-devel >= %{majmin}
+
+# for systemd-related macros
+BuildRequires:  systemd
 
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qttools-devel
@@ -63,27 +69,27 @@ developing applications that use %{name}.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
+
+install -p -D %{SOURCE1} %{buildroot}%{_userunitdir}/kglobalaccel.service
+echo 'SystemdService=kglobalaccel.service' >> %{buildroot}%{_datadir}/dbus-1/services/org.kde.kglobalaccel.service
 
 %find_lang_kf5 kglobalaccel5_qt
 
 
 %files -f kglobalaccel5_qt.lang
 %doc README.md
-%license COPYING.LIB
+%license LICENSES/*.txt
 %{_kf5_datadir}/qlogging-categories5/%{framework}*
 %{_kf5_bindir}/kglobalaccel5
 %{_kf5_datadir}/kservices5/kglobalaccel5.desktop
 %{_datadir}/dbus-1/services/org.kde.kglobalaccel.service
+%{_userunitdir}/kglobalaccel.service
 
 %ldconfig_scriptlets libs
 
@@ -102,6 +108,24 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Oct 14 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.75.0-2
+- sytemd kglobalaccel.service (#1861700)
+
+* Wed Oct 14 09:54:23 CDT 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.75.0-1
+- 5.75.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.74.0-1
+- 5.74.0
+
+* Mon Aug 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.73.0-1
+- 5.73.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.72.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-1
+- 5.72.0
+
 * Tue Jun 16 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.71.0-1
 - 5.71.0
 

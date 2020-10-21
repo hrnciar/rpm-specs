@@ -4,7 +4,7 @@
 
 Name: rpkg-macros
 Version: 0.4
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: Set of preproc macros for rpkg utility
 License: GPLv2+
 URL: https://pagure.io/rpkg-util.git
@@ -75,6 +75,9 @@ install -p -m 755 bin/pack_sources %{buildroot}%{_bindir}/pack_sources
 %{_bindir}/pack_sources
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 10 2020 clime <clime@fedoraproject.org> 0.4-2
 - rebuild due to koji break down
 

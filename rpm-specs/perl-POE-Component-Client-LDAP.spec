@@ -1,6 +1,6 @@
 Name:           perl-POE-Component-Client-LDAP
 Version:        0.04        
-Release:        36%{?dist}
+Release:        37%{?dist}
 Summary:        Async LDAP access for POE
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/POE-Component-Client-LDAP            
@@ -70,6 +70,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.04-37
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.04-36
 - Perl 5.32 rebuild
 

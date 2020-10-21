@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        1.0.1
-Release:        8.20200622git1498def50914%{?dist}
+Release:        9.20200622git1498def50914%{?dist}
 Summary:        Python library for internationalized usernames and passwords
 
 License:        MIT
@@ -69,6 +69,9 @@ cp -p %{SOURCE1} %{SOURCE2} test/
 %{python3_sitelib}/%{srcname}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-9.20200622git1498def50914
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Michal Schmidt <mschmidt@redhat.com> - 1.0.1-8.20200622git1498def50914
 - Use a snapshot of the current current upstream git.
 - Add derived-props-13.0.txt for Python 3.9.

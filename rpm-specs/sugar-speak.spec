@@ -1,10 +1,6 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:           sugar-speak
 Version:        58
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Speak for Sugar
 
 License:        GPLv2+ and GPLv3+
@@ -13,7 +9,7 @@ Source0:        https://download.sugarlabs.org/sources/honey/Speak/Speak-%{versi
 BuildArch:      noarch
 
 BuildRequires:  gettext
-BuildRequires:  python3
+BuildRequires:  python3-devel
 BuildRequires:  sugar-toolkit-gtk3
 Requires:       espeak-ng
 Requires:       gstreamer-plugins-espeak
@@ -40,6 +36,10 @@ python3 ./setup.py build
 python3 ./setup.py install --prefix=%{buildroot}%{_prefix}
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 find  %{buildroot}%{sugaractivitydir}Speak.activity/activity.py  -type f -name \* -exec chmod 644 {} \;
+
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}/%{sugaractivitydir}/Speak.activity/
+
 %find_lang vu.lux.olpc.Speak
 
 %files -f vu.lux.olpc.Speak.lang
@@ -48,6 +48,13 @@ find  %{buildroot}%{sugaractivitydir}Speak.activity/activity.py  -type f -name \
 %{sugaractivitydir}/Speak.activity/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 58-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 58-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Peter Robinson <pbrobinson@fedoraproject.org> 58-2
 - Python3 fixes
 

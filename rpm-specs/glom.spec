@@ -11,7 +11,7 @@
 
 Name:           glom
 Version:        1.30.4
-Release:        19%{?dist}
+Release:        21%{?dist}
 Summary:        Easy-to-use database designer and user interface
 
 License:        GPLv2+
@@ -147,6 +147,13 @@ desktop-file-validate ${RPM_BUILD_ROOT}/usr/share/applications/%{name}.desktop
 %doc %{_docdir}/pyglom_%{pyapiver}/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.30.4-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.30.4-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Jonathan Wakely <jwakely@redhat.com> - 1.30.4-19
 - Rebuilt for Boost 1.73
 

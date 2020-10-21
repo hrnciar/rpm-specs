@@ -2,7 +2,7 @@
 
 Name:		pam-u2f
 Version:	1.0.8
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Implements PAM authentication over U2F
 
 License:	BSD
@@ -55,6 +55,9 @@ make check
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.8-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Björn Esser <besser82@fedoraproject.org> - 1.0.8-4
 - Rebuild (json-c)
 

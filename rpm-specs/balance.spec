@@ -1,6 +1,6 @@
 Name: balance
 Version: 3.57
-Release: 5%{?dist}
+Release: 7%{?dist}
 Summary: TCP load-balancing proxy server with round robin and failover mechanisms
 License: GPLv2
 Source0: http://www.inlab.de/%{name}-%{version}.tar.gz
@@ -17,7 +17,7 @@ be controlled at runtime using a simple command line syntax.
 %setup -q
 
 %build
-%{__make} %{?_smp_mflags} CFLAGS="%optflags"
+%make_build CFLAGS="%optflags"
 
 %install
 %{__rm} -rf %{buildroot}
@@ -33,6 +33,13 @@ be controlled at runtime using a simple command line syntax.
 %dir %{_localstatedir}/run/%{name}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.57-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 3.57-6
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.57-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

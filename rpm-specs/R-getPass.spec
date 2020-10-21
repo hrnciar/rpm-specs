@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          0.2.2
-Release:          8%{?dist}
+Release:          9%{?dist}
 Summary:          Masked User Input
 
 License:          BSD
@@ -70,6 +70,9 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 0.2.2-8
 - rebuild for R 4
 

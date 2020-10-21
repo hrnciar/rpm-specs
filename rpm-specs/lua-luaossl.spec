@@ -10,7 +10,7 @@
 
 Name:           lua-%{luapkgname}
 Version:        20190731
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Most comprehensive OpenSSL module in the Lua universe
 
 License:        MIT
@@ -20,6 +20,7 @@ Source0:        https://github.com/wahern/%{luapkgname}/archive/rel-%{version}/%
 %if 0%{?fedora}
 Patch1:         0001-openssl-in-fedora-has-patches-for-EPV_KDF.patch
 %endif
+Patch2:         luaossl-rel-20190731-lua-5.4.patch
 
 BuildRequires:  gcc
 BuildRequires:  make
@@ -28,7 +29,7 @@ BuildRequires:  lua
 BuildRequires:  lua-devel
 
 %if 0%{?fedora} || 0%{?rhel} > 7
-BuildRequires:  compat-lua
+# BuildRequires:  compat-lua
 BuildRequires:  compat-lua-devel
 %endif
 
@@ -64,6 +65,7 @@ for the Lua Programming Language
 %if 0%{?fedora}
 %patch1 -p1
 %endif
+%patch2 -p1 -b .lua54
 
 %build
 export CFLAGS="%{?optflags} -fPIC"
@@ -102,6 +104,15 @@ make DESTDIR=%{buildroot} prefix=%{_prefix} libdir=%{_libdir} install%{luacompat
 %doc %{_pkgdocdir}/luaossl.pdf
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190731-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Tom Callaway <spot@fedoraproject.org> - 20190731-4
+- fix for lua 5.4
+
+* Tue Jun 30 2020 Björn Esser <besser82@fedoraproject.org> - 20190731-3
+- Rebuilt for Lua 5.4
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190731-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

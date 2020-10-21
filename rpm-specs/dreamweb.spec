@@ -45,7 +45,7 @@ situations where it's "killed or be killed", which result in deaths \
 
 Name:           dreamweb
 Version:        1.1
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Click-and-point adventure with the look and feel of Ridley Scott's Blade Runner
 
 # The license-file included in the sources says:
@@ -407,6 +407,9 @@ done
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

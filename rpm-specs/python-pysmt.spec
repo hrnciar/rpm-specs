@@ -1,13 +1,13 @@
 %global pypi_name pysmt
 
 Name:           python-%{pypi_name}
-Version:        0.8.0
-Release:        3%{?dist}
+Version:        0.9.0
+Release:        1%{?dist}
 Summary:        Solver-agnostic library for SMT Formulae manipulation and solving
 
 License:        ASL 2.0
 URL:            http://www.pysmt.org
-Source0:        https://github.com/pysmt/pysmt/releases/download/v%{version}/PySMT-%{version}.tar.gz
+Source0:        https://github.com/pysmt/pysmt/archive/v%{version}/PySMT-%{version}.tar.gz
 BuildArch:      noarch
 
 %description
@@ -40,7 +40,7 @@ with Satisfiability Modulo Theory simple. Among others, you can:
 * Wrapping any SMT-Lib complaint
 
 %prep
-%autosetup -n PySMT-%{version}
+%autosetup -n %{pypi_name}-%{version}
 rm -rf %{pypi_name}.egg-info
 sed -i -e '/^#!\//, 1d' pysmt/{cmd/shell.py,constants.py}
 
@@ -63,11 +63,15 @@ sed -i -e '/^#!\//, 1d' pysmt/{cmd/shell.py,constants.py}
 %{python3_sitelib}/%{pypi_name}/
 %{python3_sitelib}/PySMT-%{version}-py*.egg-info/
 %exclude %{python3_sitelib}/%{pypi_name}/test/
-%{_bindir}/pysmt
 %{_bindir}/pysmt-install
-%{_bindir}/pysmt-shell
 
 %changelog
+* Tue Aug 11 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.9.0-1
+- Update to latest upstream release 0.9.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.0-3
 - Rebuilt for Python 3.9
 

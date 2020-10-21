@@ -1,7 +1,7 @@
 %global cpan_version 0.50
 Name:           perl-App-CLI
 Version:        0.500
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Dispatcher module for command line interface programs
 License:        GPL+ or Artistic
 
@@ -66,6 +66,9 @@ make test
 %{_mandir}/man3/App*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.500-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.500-6
 - Perl 5.32 rebuild
 

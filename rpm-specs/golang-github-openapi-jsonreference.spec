@@ -3,7 +3,7 @@
 
 # https://github.com/go-openapi/jsonreference
 %global goipath         github.com/go-openapi/jsonreference
-Version:                0.19.0
+Version:                0.19.4
 
 %gometa
 
@@ -14,7 +14,7 @@ Fork of gojsonreference with support for structs.}
 %global godocs          CODE_OF_CONDUCT.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Gojsonreference with support for structs
 
 # Upstream license specification: Apache-2.0
@@ -49,6 +49,12 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 16:20:46 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.19.4-1
+- Update to 0.19.4
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

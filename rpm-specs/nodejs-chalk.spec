@@ -5,7 +5,7 @@
 
 Name:       nodejs-chalk
 Version:    1.1.3
-Release:    8%{?dist}
+Release:    9%{?dist}
 Summary:    Terminal string styling done right
 License:    MIT
 URL:        https://github.com/sindresorhus/chalk
@@ -86,6 +86,9 @@ ln -s %{nodejs_sitelib}/tape node_modules/tape
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

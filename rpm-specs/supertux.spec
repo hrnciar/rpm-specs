@@ -2,7 +2,7 @@
 
 Name:           supertux
 Version:        0.6.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Jump'n run like game
 
 License:        GPLv2+
@@ -54,11 +54,11 @@ Grabbing power-ups and other stuff on the way.
 %build
 %cmake -DINSTALL_SUBDIR_SHARE=share/supertux2 -DINSTALL_SUBDIR_BIN=bin \
     -DENABLE_BOOST_STATIC_LIBS=OFF .
-%make_build VERBOSE=1
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 rm -r %{buildroot}%{_docdir}/supertux2
 
 # Icon stuff
@@ -88,6 +88,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/supertux2.desktop
 
 
 %changelog
+* Thu Jul 30 2020 David King <amigadave@amigadave.com> - 0.6.2-3
+- Use %%cmake_build and %%cmake_install
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 0.6.2-2
 - Rebuilt for Boost 1.73
 

@@ -1,19 +1,12 @@
 %global pypi_name yaql
 
-%if 0%{?fedora} || 0%{?rhel} > 7
-%global with_python3 1
-%{!?python3_shortver: %global python3_shortver %(%{__python3} -c 'import sys; print(str(sys.version_info.major) + "." + str(sys.version_info.minor))')}
-%else
-%global with_python2 1
-%{!?python2_shortver: %global python2_shortver %(%{__python2} -c 'import sys; print(str(sys.version_info.major) + "." + str(sys.version_info.minor))')}
-%endif
 
 # Disable docs building as it doesn't support recent sphinx
 %global with_docs 0
 
 Name:           python-%{pypi_name}
 Version:        1.1.3
-Release:        12%{?dist}
+Release:        15%{?dist}
 Summary:        Yet Another Query Language
 
 License:        ASL 2.0
@@ -25,34 +18,6 @@ BuildArch:      noarch
 %description
 YAQL library has a out of the box large set of commonly used functions.
 
-%if 0%{?with_python2}
-%package -n     python2-%{pypi_name}
-Summary:        YAQL library has a out of the box large set of commonly used functions.
-%{?python_provide:%python_provide python2-%{pypi_name}}
-
-BuildRequires:  python2-devel
-BuildRequires:  python2-setuptools
-BuildRequires:  python2-pbr
-BuildRequires:  python2-sphinx
-BuildRequires:  python2-oslo-sphinx
-
-Requires:       python2-six
-Requires:       python2-pbr
-Requires:       python2-babel
-Requires:       python2-dateutil
-%if 0%{?fedora} || 0%{?rhel} > 7
-Requires:       python2-ply
-%else
-Requires:       python-ply
-%endif
-
-%description -n python2-%{pypi_name}
-YAQL library has a out of the box large set of commonly used functions
-
-%endif
-
-# Python3 package
-%if 0%{?with_python3}
 %package -n     python3-%{pypi_name}
 Summary:        YAQL library has a out of the box large set of commonly used functions.
 %{?python_provide:%python_provide python3-%{pypi_name}}
@@ -72,7 +37,6 @@ Requires:       python3-dateutil
 
 %description -n python3-%{pypi_name}
 YAQL library has a out of the box large set of commonly used functions.
-%endif
 
 %if 0%{?with_docs}
 # Documentation package
@@ -91,79 +55,39 @@ rm -rf %{pypi_name}.egg-info
 # Let RPM handle the dependencies
 rm -f test-requirements.txt requirements.txt
 
-%if 0%{?with_python3}
 rm -rf %{py3dir}
 cp -a . %{py3dir}
 2to3 --write --nobackups %{py3dir}
-%endif
 
 %build
-%if 0%{?with_python2}
-%py2_build
-%endif
-%if 0%{?with_python3}
 pushd %{py3dir}
 %py3_build
 popd
-%endif
 
 %if 0%{?with_docs}
 # generate html docs 
-%if 0%{?with_python3}
 sphinx-build-3 doc/source html
-%else
-sphinx-build doc/source html
-%endif
 # remove the sphinx-build leftovers
 rm -rf html/.{doctrees,buildinfo}
 %endif
 
 %install
-%if 0%{?with_python3}
 pushd %{py3dir}
 %py3_install
 mv %{buildroot}/%{_bindir}/%{pypi_name} %{buildroot}/%{_bindir}/python3-%{pypi_name}
 popd
-%endif
 
-%if 0%{?with_python2}
-%py2_install
-%endif
-
-# rename binaries, make compat symlinks
-%if 0%{?with_python2}
 pushd %{buildroot}%{_bindir}
-for i in %{pypi_name}-{2,%{?python2_shortver}}; do
-    ln -sf %{pypi_name} $i
-done
-popd
-%endif
-
-%if 0%{?with_python3}
-pushd %{buildroot}%{_bindir}
-for i in %{pypi_name}-{3,%{?python3_shortver}}; do
+for i in %{pypi_name}-{3,%{?python3_version}}; do
     ln -sf  python3-%{pypi_name} $i
     ln -sf  python3-%{pypi_name} %{pypi_name}
 done
 popd
-%endif
 
 # Delete tests
-rm -fr %{buildroot}%{python_sitelib}/tests
+rm -fr %{buildroot}%{python3_sitelib}/yaql/tests
 
  
-%if 0%{?with_python2}
-%files -n python2-%{pypi_name}
-%license LICENSE
-%doc doc/source/readme.rst README.rst
-%{python2_sitelib}/%{pypi_name}
-%{python2_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
-%{_bindir}/%{pypi_name}-2*
-%{_bindir}/%{pypi_name}
-%endif
-
-# Files for python3
-%if 0%{?with_python3}
 %files -n python3-%{pypi_name} 
 %license LICENSE
 %doc doc/source/readme.rst README.rst
@@ -172,7 +96,6 @@ rm -fr %{buildroot}%{python_sitelib}/tests
 %{_bindir}/%{pypi_name}
 %{python3_sitelib}/%{pypi_name}
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
-%endif
 
 %if 0%{?with_docs}
 %files -n python-%{pypi_name}-doc
@@ -181,6 +104,16 @@ rm -fr %{buildroot}%{python_sitelib}/tests
 %endif
 
 %changelog
+* Fri Aug 28 2020 Alfredo Moralejo <amoralej@redhat.com> - 1.1.3-15
+- Remove references to python2 subpackage.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.3-12
 - Rebuilt for Python 3.9
 

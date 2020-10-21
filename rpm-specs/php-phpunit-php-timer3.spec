@@ -7,7 +7,12 @@
 #
 # Please, preserve the changelog entries
 #
-%global bootstrap    0
+
+# disabled as requires phpunit 9.0
+# to be removed when no more used by phpcpd
+# see https://github.com/sebastianbergmann/phpcpd/issues/186
+%bcond_with tests
+
 %global gh_commit    dc9368fae6ef2ffa57eba80a7410bcef81df6258
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sebastianbergmann
@@ -21,15 +26,10 @@
 
 %global major        3
 %global php_home     %{_datadir}/php
-%if %{bootstrap}
-%global with_tests   0%{?_with_tests:1}
-%else
-%global with_tests   0%{!?_without_tests:1}
-%endif
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
 Version:        3.1.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        PHP Utility class for timing
 
 License:        BSD
@@ -39,7 +39,7 @@ Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit
 BuildArch:      noarch
 BuildRequires:  php(language) >= 7.3
 BuildRequires:  php-fedora-autoloader-devel
-%if %{with_tests}
+%if %{with tests}
 # From composer.json"require-dev": {
 #        "phpunit/phpunit": "^9.0"
 BuildRequires:  phpunit9
@@ -77,7 +77,7 @@ mkdir -p   %{buildroot}%{php_home}/%{ns_vendor}
 cp -pr src %{buildroot}%{php_home}/%{ns_vendor}/%{ns_project}%{major}
 
 
-%if %{with_tests}
+%if %{with tests}
 %check
 mkdir vendor
 touch vendor/autoload.php
@@ -103,6 +103,9 @@ exit $ret
 
 
 %changelog
+* Wed Aug 12 2020 Remi Collet <remi@remirepo.net> - 3.1.4-2
+- disable test suite, FTBFS #1865224
+
 * Mon Apr 20 2020 Remi Collet <remi@remirepo.net> - 3.1.4-1
 - update to 3.1.4
 

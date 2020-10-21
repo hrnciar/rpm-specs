@@ -2,6 +2,8 @@
 ## during compilation of bundled 'jsoncpp'.
 ## Error "unsupported GCC version - see https://github.com/nlohmann/json#supported-compilers"
 
+%global __cmake_in_source_build 1
+
 # Use devtoolset 8
 %if 0%{?rhel} && 0%{?rhel} == 7
 %global dts devtoolset-8-
@@ -9,7 +11,7 @@
 
 Name:           avogadro2-libs
 Version:        1.93.0
-Release:        4%{?dist}
+Release:        7%{?dist}
 Summary:        Avogadro2 libraries
 
 # BSD is main license
@@ -170,6 +172,16 @@ rm -rf %{buildroot}%{_datadir}/doc
 %license LICENSE
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.93.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.93.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Orion Poplawski <orion@nwra.com> - 1.93.0-5
+- Rebuild for hdf5 1.10.6
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.93.0-4
 - Rebuilt for Python 3.9
 

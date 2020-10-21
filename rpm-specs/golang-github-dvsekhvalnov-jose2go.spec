@@ -4,6 +4,7 @@
 # https://github.com/dvsekhvalnov/jose2go
 %global goipath         github.com/dvsekhvalnov/jose2go
 Version:                1.3
+%global commit          248326c1351b716b2820b01a49d53837bfd9ac59
 
 %gometa
 
@@ -23,7 +24,7 @@ jose.4.j, Nimbus-JOSE-JWT, json-jwt and jose-jwt libraries.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Go implementation of Javascript Object Signing and Encryption specification
 
 License:        MIT
@@ -49,15 +50,6 @@ cp %{S:1} %{S:2} .
 %install
 %gopkginstall
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck
@@ -66,6 +58,12 @@ end
 %gopkgfiles
 
 %changelog
+* Fri Sep 18 00:03:19 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.3-5.20200917git248326c
+- Bump to 248326c1351b716b2820b01a49d53837bfd9ac59
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

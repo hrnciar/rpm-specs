@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        5.1.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Byte-oriented, zero-copy, parser combinators library
 
 # Upstream license specification: MIT
@@ -170,6 +170,13 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Josh Stone <jistone@redhat.com> - 5.1.2-1
 - Update to 5.1.2
 

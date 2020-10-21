@@ -10,7 +10,7 @@
 
 Name:           myproxy
 Version:        6.2.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Manage X.509 Public Key Infrastructure (PKI) security credentials
 
 License:        NCSA and BSD and ASL 2.0
@@ -361,6 +361,9 @@ fi
 %{?_licensedir: %license LICENSE*}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

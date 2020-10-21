@@ -3,7 +3,7 @@
 
 Name:             jboss-jsp-2.2-api
 Version:          1.0.1
-Release:          21%{dist}
+Release:          23%{dist}
 Summary:          JavaServer(TM) Pages 2.2 API
 License:          CDDL or GPLv2 with exceptions
 URL:              http://www.jboss.org/
@@ -52,6 +52,12 @@ This package contains the API documentation for %{name}.
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.0.1-22
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

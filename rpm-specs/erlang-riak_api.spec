@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	2.1.7
-Release:	8%{?dist}
+Release:	9%{?dist}
 BuildArch:	noarch
 Summary:	Riak Client APIs
 License:	ASL 2.0
@@ -55,6 +55,9 @@ install -D -p -m 644 priv/riak_api.schema %{buildroot}%{erlang_appdir}/priv/riak
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.7-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.7-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

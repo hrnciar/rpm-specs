@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.7.0
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Wrappers to build Python packages using PEP 517 hooks
 
 %bcond_without tests
@@ -17,17 +17,8 @@ BuildArch:      noarch
 # Submitted upstream: https://github.com/pypa/pep517/pull/70
 Patch0:         no-backports.patch
 
-# Don't use %%pyproject_buildrequires to avoid a build dependency loop.
 BuildRequires:  python3-devel
 BuildRequires:  pyproject-rpm-macros
-BuildRequires:  python3dist(flit)
-
-%if %{with tests}
-BuildRequires:  python3dist(pytest)
-BuildRequires:  python3dist(toml)
-BuildRequires:  python3dist(mock)
-BuildRequires:  python3dist(testpath)
-%endif
 
 
 %description
@@ -38,8 +29,6 @@ for systems which build Python packages, specified in PEP 517.
 %package -n     python3-%{pypi_name}
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{pypi_name}}
-
-Requires:       python3dist(toml)
 
 # colorlog.py is "copied from Tornado", Apache licensed
 Provides:       bundled(python3dist(tornado))
@@ -54,6 +43,11 @@ for systems which build Python packages, specified in PEP 517.
 
 # Don't run the linter as part of tests
 sed -i '/^addopts=--flake8$/d' pytest.ini
+sed -i '/flake8/d' tox.ini
+
+
+%generate_buildrequires
+%pyproject_buildrequires %{?with_tests:-t}
 
 
 %build
@@ -62,25 +56,30 @@ sed -i '/^addopts=--flake8$/d' pytest.ini
 
 %install
 %pyproject_install
+%pyproject_save_files %{pypi_name}
 
 
 %if %{with tests}
 %check
-export PYTHONPATH=%{buildroot}%{python3_sitelib}
 # "test_meta" skipped as it creates a venv and tries
 # to install to it from PyPI
-%{__python3} -m pytest -v -k "not test_meta"
+%tox -- -- -v -k "not test_meta"
 %endif
 
 
-%files -n python3-%{pypi_name}
+%files -n python3-%{pypi_name} -f %{pyproject_files}
 %license LICENSE
 %doc README.rst
-%{python3_sitelib}/%{pypi_name}/
-%{python3_sitelib}/%{pypi_name}-%{version}.dist-info/
 
 
 %changelog
+* Mon Sep 21 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.0-6
+- Use %%pyproject_buildrequires to bring in all the needed tools (like pip)
+- Resolves rhbz#1880983
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.0-4
 - Rebuilt for Python 3.9
 

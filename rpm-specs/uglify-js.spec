@@ -1,31 +1,28 @@
 %{?nodejs_find_provides_and_requires}
 
 #enable/disable tests in case the deps aren't there
-%bcond_without tests
+%bcond_with tests
 
 Name:           uglify-js
-Version:        2.8.22
-Release:        9%{?dist}
+Version:        3.10.4
+Release:        1%{?dist}
 Summary:        JavaScript parser, mangler/compressor and beautifier toolkit
 License:        BSD
-URL:            https://github.com/mishoo/UglifyJS2
-Source0:        https://github.com/mishoo/UglifyJS2/archive/v%{version}/uglify-js-%{version}.tar.gz
-Patch0:         uglify-js-esfuzz.patch
+URL:            https://github.com/mishoo/UglifyJS
+Source0:        http://registry.npmjs.org/%{name}/-/%{name}-%{version}.tgz
 
 BuildArch:      noarch
 ExclusiveArch:  %{nodejs_arches} noarch
 
 Provides:       nodejs-uglify-js = %{version}-%{release}
 
+BuildRequires:  nodejs
 BuildRequires:  nodejs-packaging
 BuildRequires:  web-assets-devel
 
 %if %{with tests}
 BuildRequires:  npm(acorn)
-BuildRequires:  npm(async)
-BuildRequires:  npm(mocha)
-BuildRequires:  npm(optimist)
-BuildRequires:  npm(source-map)
+BuildRequires:  npm(semver)
 %endif
 
 Requires: js-uglify = %{version}-%{release}
@@ -53,40 +50,37 @@ This package ships a JavaScript library suitable for use by any JavaScript
 runtime.
 
 %prep
-%autosetup -p 1 -n UglifyJS2-%{version}
+%autosetup -n package
 
-%nodejs_fixdep async "^1.5.0"
-%nodejs_fixdep yargs "^3.2.1"
-
+chmod 0755 bin/uglifyjs
 
 %build
 #nothing to do
 
 
 %install
-rm -rf %buildroot
-
-mkdir -p %{buildroot}%{_jsdir}/%{name}-2
-cp -pr lib/* %{buildroot}%{_jsdir}/%{name}-2
-ln -sf %{name}-2 %{buildroot}%{_jsdir}/%{name}
+mkdir -p %{buildroot}%{_jsdir}/%{name}-3
+cp -pr lib/* %{buildroot}%{_jsdir}/%{name}-3
+ln -sf %{name}-3 %{buildroot}%{_jsdir}/%{name}
 
 #compat symlink
 mkdir -p %{buildroot}%{_datadir}
 ln -sf javascript/%{name} %{buildroot}%{_datadir}/%{name}
 
-mkdir -p %{buildroot}%{nodejs_sitelib}/uglify-js@2
-cp -pr bin tools package.json %{buildroot}%{nodejs_sitelib}/uglify-js@2
-ln -sf %{_jsdir}/%{name} %{buildroot}%{nodejs_sitelib}/uglify-js@2/lib
+mkdir -p %{buildroot}%{nodejs_sitelib}/uglify-js@3
+cp -pr bin tools package.json %{buildroot}%{nodejs_sitelib}/uglify-js@3
+ln -sf %{_jsdir}/%{name} %{buildroot}%{nodejs_sitelib}/uglify-js@3/lib
 # Fix for rpmlint.
 sed -i -e 's|^#! */usr/bin/env node|#!/usr/bin/node|' \
-  %{buildroot}%{nodejs_sitelib}/uglify-js@2/bin/*
+  %{buildroot}%{nodejs_sitelib}/uglify-js@3/bin/*
+chmod 755 %{buildroot}%{nodejs_sitelib}/uglify-js@3/bin/uglifyjs
 
 mkdir -p %{buildroot}%{_bindir}
-ln -sf ../lib/node_modules/uglify-js@2/bin/uglifyjs %{buildroot}%{_bindir}/uglifyjs
+ln -sf ../lib/node_modules/uglify-js@3/bin/uglifyjs %{buildroot}%{_bindir}/uglifyjs
 
 %nodejs_symlink_deps
 
-ln -sf uglify-js@2 %{buildroot}%{nodejs_sitelib}/uglify-js
+ln -sf uglify-js@3 %{buildroot}%{nodejs_sitelib}/uglify-js
 
 
 %check
@@ -117,12 +111,12 @@ end
 
 %files
 %{nodejs_sitelib}/uglify-js
-%{nodejs_sitelib}/uglify-js@2
+%{nodejs_sitelib}/uglify-js@3
 %{_bindir}/uglifyjs
 
 
 %files -n js-uglify
-%{_jsdir}/%{name}-2
+%{_jsdir}/%{name}-3
 %{_jsdir}/%{name}
 %{_datadir}/%{name}
 %doc README.md
@@ -130,6 +124,12 @@ end
 
 
 %changelog
+* Fri Sep 18 2020 Troy Dawson <tdawson@redhat.com> - 3.10.4-1
+- Update to 3.10.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.22-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.22-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

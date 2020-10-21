@@ -1,8 +1,8 @@
 # Upstream has only made one release, but there have been lots of bug fixes
 # since, so we use a git checkout.
-%global commit      1a0dc6985aad06e76857cf2a354bd5ba0c9ce96b
+%global commit      a258e78f17abdf2ce21c2515cfe8306a44774e2a
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global gitdate     20191024
+%global gitdate     20200729
 
 # The subpackage layout was designed with the following points in mind:
 # 1. The scripts are very small, so packing them together doesn't hurt much.
@@ -19,7 +19,7 @@
 
 Name:           flamegraph
 Version:        1.0
-Release:        4.%{gitdate}.%{shortcommit}%{?dist}
+Release:        6.%{gitdate}.%{shortcommit}%{?dist}
 Summary:        Stack trace visualizer
 
 License:        CDDL-1.0
@@ -172,6 +172,12 @@ cp -p *.1 %{buildroot}%{_mandir}/man1
 %{_mandir}/man1/stackcollapse-xdebug.php.1*
 
 %changelog
+* Tue Aug 11 2020 Jerry James <loganjerry@gmail.com> - 1.0-6.20200729.a258e78
+- Update to latest git HEAD for JVM fix
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-5.20191024.1a0dc69
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-4.20191024.1a0dc69
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

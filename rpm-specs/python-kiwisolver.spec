@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.2.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A fast implementation of the Cassowary constraint solver
 
 License:        BSD
@@ -25,8 +25,9 @@ Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-cppy >= 1.1
-BuildRequires:  python3-pytest
+BuildRequires:  python3dist(setuptools)
+BuildRequires:  python3dist(cppy) >= 1.1
+BuildRequires:  python3dist(pytest)
 
 %description -n python3-%{srcname} %{_description}
 
@@ -47,8 +48,7 @@ rm -rf %{srcname}.egg-info
 
 
 %check
-PYTHONPATH="%{buildroot}%{python3_sitearch}" \
-    py.test-3 py/tests/
+%{pytest} py/tests/
 
 
 %files -n python3-%{srcname}
@@ -59,6 +59,9 @@ PYTHONPATH="%{buildroot}%{python3_sitearch}" \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.0-2
 - Rebuilt for Python 3.9
 

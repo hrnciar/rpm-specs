@@ -1,17 +1,12 @@
+%global __cmake_in_source_build 1
 Name: Box2D
-Version:  2.3.1
-Release:  12%{?dist}
+Version:  2.4.1
+Release:  1%{?dist}
 Summary: A 2D Physics Engine for Games
 
 License: zlib
 URL: http://box2d.org/
-# "Google Code no longer allows for downloads, therefore you will have to use SVN to get v2.3.1"
-# <http://box2d.org/2014/04/box2d-v2-3-1-released/>
-# svn checkout http://box2d.googlecode.com/svn/tags/v2.3.1/Box2D Box2D-2.3.1
-# (^^^ beware only legacy IP works, IPv6 seems broken)
-# tar --exclude .svn -czf Box2D-2.3.1.tar.gz Box2D-2.3.1
-Source0: %{name}-%{version}.tar.gz
-Patch0: Box2D-2.3.1-cmake.patch
+Source0: https://github.com/erincatto/box2d/archive/v%{version}/%{name}-%{version}.tar.gz
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires: cmake libXi-devel glew-devel glfw-devel
@@ -35,40 +30,45 @@ we encourage you to give credit to Box2D in your product.
 These are the development files.
 
 %prep
-%setup -q
-%patch0 -p1
+%setup -qn box2d-%{version}
 rm -rf glew glfw
 
 %build
-sed -i 's/\r//' License.txt
-sed -i 's/\r//' Readme.txt
-pushd Box2D
-%cmake -DBOX2D_INSTALL=ON -DBOX2D_BUILD_SHARED=ON ..
+%cmake -DBOX2D_INSTALL=ON -DBOX2D_BUILD_SHARED=ON .
 make
 
 %install
-pushd Box2D
 make install DESTDIR=%{buildroot}
-
-find %{buildroot} -name '*.cmake' | xargs rm
-find %{buildroot} -name '*.a' | xargs rm
-
 
 %ldconfig_scriptlets
 
-
-
 %files
-%doc License.txt
-%{_libdir}/*.so.*
+%license LICENSE
+%{_libdir}/*.so.2*
 
 %files devel
-%doc Readme.txt Documentation/
+%doc README.md docs/
 %{_libdir}/*.so
-%{_includedir}/Box2D
-
+%{_includedir}/box2d
+%{_libdir}/cmake/box2d/*.cmake
 
 %changelog
+* Mon Oct 19 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.4.1-1
+- 2.4.1
+
+* Mon Aug 10 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.4.0-1
+- 2.4.0 with patch for cmake shared libs.
+
+* Tue Aug 04 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.3.1-15
+- Fix FTBFS.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

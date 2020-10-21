@@ -4,7 +4,7 @@
 Name:		irrlicht
 Summary: 	A high performance realtime 3D engine
 Version:	%{irrlicht_version}
-Release:	11%{?dist}
+Release:	15%{?dist}
 License:	zlib
 Source0:	http://downloads.sourceforge.net/irrlicht/%{name}-%{irrlicht_version}.zip
 # Various fixes, optflags, system libraries/headers
@@ -25,6 +25,9 @@ Patch5:		irrlicht-1.8-fix-locale-decimal-points.patch
 Patch6:		irrlicht-1.8.1-mesa10.patch
 # Use RPM_LD_FLAGS
 Patch7:		irrlicht-1.8.4-ldflags.patch
+# sysctl.h was removed from glibc in f33.
+# it is only actually used on OSX, so we just conditionalize the include to match the call
+Patch8:		irrlicht-1.8.4-no-sysctl-on-linux.patch
 
 URL:		http://irrlicht.sourceforge.net/
 BuildRequires:  gcc-c++
@@ -82,6 +85,7 @@ Development headers and libraries for irrXML.
 %patch5 -p1 -b .fix-locale-decimal-points
 %patch6 -p1 -b .mesa10
 %patch7 -p1 -b .ldflags
+%patch8 -p1 -b .sysctl
 
 # Upstream forgot to increment VERSION_RELEASE to 1 in 1.8.1
 sed -i 's|VERSION_RELEASE = 0|VERSION_RELEASE = 1|g' source/Irrlicht/Makefile
@@ -103,7 +107,7 @@ sed -i -e '/_IRR_MATERIAL_MAX_TEXTURES_/s/4/8/' include/IrrCompileConfig.h
 
 %build
 cd source/Irrlicht
-make %{?_smp_mflags} sharedlib
+%make_build sharedlib
 
 %install
 mkdir -p %{buildroot}%{_libdir}
@@ -149,6 +153,20 @@ popd
 %{_libdir}/libIrrXML.so
 
 %changelog
+* Thu Aug  6 2020 Tom Callaway <spot@fedoraproject.org> - 1.8.4-15
+- fix compile against rawhide glibc
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.4-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.4-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1.8.4-12
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.4-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

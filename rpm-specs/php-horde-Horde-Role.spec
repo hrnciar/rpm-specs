@@ -14,7 +14,7 @@
 
 Name:           php-horde-Horde-Role
 Version:        1.0.1
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        PEAR installer role used to install Horde components
 
 License:        LGPLv2
@@ -106,6 +106,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

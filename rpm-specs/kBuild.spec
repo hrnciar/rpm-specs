@@ -3,7 +3,7 @@
 
 Name:           kBuild
 Version:        0.1.9998%{?svn_revision:.r%{svn_revision}}
-Release:        4%{?svn_date:.%{svn_date}}%{?dist}
+Release:        6%{?svn_date:.%{svn_date}}%{?dist}
 Summary:        A cross-platform build environment
 
 License:        BSD and GPLv2+
@@ -16,6 +16,7 @@ Patch0:         kBuild-0.1.3-escape.patch
 Patch1:         kBuild-pthread.patch
 Patch6:         kbuild-dummy_noreturn.diff
 Patch8:         kBuild-0.1.9998-portme.patch
+Patch9:		kBuild-strsignal.patch
 
 BuildRequires:  gcc
 BuildRequires:  automake
@@ -51,6 +52,7 @@ repository.
 %patch8 -p1 -b .portme
 %endif
 %endif
+%patch9 -p1 -b .strsignal
 
 
 %build
@@ -95,6 +97,12 @@ pod2man -c 'kBuild for Fedora/EPEL GNU/Linux' \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.9998.r3296-6.20190122
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Jeff Law <law@redhat.com> - 0.1.9998.r3296-5.20190122
+- Use strsignal, not sys_siglist
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.9998.r3296-4.20190122
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

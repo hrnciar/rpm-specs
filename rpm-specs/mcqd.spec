@@ -5,7 +5,7 @@
 
 Name:           mcqd
 Version:        1.0.0
-Release:        3.%{gitdate}.%{shortcommit}%{?dist}
+Release:        4.%{gitdate}.%{shortcommit}%{?dist}
 Summary:        Maximum clique in an undirected graph
 
 License:        GPLv3+
@@ -85,6 +85,9 @@ LD_LIBRARY_PATH=$PWD ./mcqd test.clq > test.log 2>&1
 %{_bindir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-4.20160901.9ab9717
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3.20160901.9ab9717
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

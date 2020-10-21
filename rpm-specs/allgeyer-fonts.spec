@@ -9,7 +9,7 @@ embedded in PDF files.
 Name:		%{fontname}-fonts
 Summary: 	Musical Notation True Type Fonts
 Version:	5.002
-Release:	21%{?dist}
+Release:	22%{?dist}
 License:	OFL
 # The source was originally downloaded from:
 # http://www.icogitate.com/~ergosum/fonts/musiqwik_musisync_y6.zip
@@ -94,6 +94,9 @@ install -Dm 0644 -p %{SOURCE3} \
 %{_datadir}/appdata/%{fontname}.metainfo.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.002-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.002-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

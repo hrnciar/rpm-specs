@@ -1,9 +1,9 @@
-%global vergit  20200511
+%global vergit  20200710
 %global tname   Flat-Remix
 
 Name:           flat-remix-icon-theme
 Version:        0.0.%{vergit}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Icon theme inspired on material design
 
 # The entire source code is GPLv3+ except:
@@ -132,6 +132,12 @@ gtk-update-icon-cache --force %{_datadir}/icons/%{tname}-Yellow-Light &>/dev/nul
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.20200710-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.0.20200710-1
+- Update to 20200710
+
 * Mon May 25 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.0.20200511-1
 - Update to 20200511
 

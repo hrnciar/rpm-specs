@@ -3,26 +3,21 @@
 
 # https://github.com/t3rm1n4l/go-mega
 %global goipath         github.com/t3rm1n4l/go-mega
-%global commit          72151b53bb4462c0a776acc547a44b987b689d63
+%global commit          ffad7fcb44b8abfd3827611d1e74c15f1661c547
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-t3rm1n4l-go-mega-devel < 0-0.6
-}
 
 %global common_description %{expand:
 A client library in go for mega.co.nz storage service.}
 
+%global golicenses      LICENSE
 %global godocs          README.md
 
 Name:           %{goname}
 Version:        0
-Release:        0.9%{?dist}
+Release:        0.11%{?dist}
 Summary:        Client library in go for mega.co.nz storage service
 
-# https://github.com/t3rm1n4l/go-mega/issues/19
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
@@ -48,6 +43,12 @@ BuildRequires:  golang(golang.org/x/crypto/pbkdf2)
 %gopkgfiles
 
 %changelog
+* Mon Aug 03 15:14:39 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.11.20200803gitffad7fc
+- Bump to commit ffad7fcb44b8abfd3827611d1e74c15f1661c547
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

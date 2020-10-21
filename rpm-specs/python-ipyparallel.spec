@@ -1,6 +1,6 @@
 Name:		python-ipyparallel
 Version:	6.3.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Interactive Parallel Computing with IPython
 
 License:	BSD
@@ -9,6 +9,7 @@ Source0:	https://github.com/ipython/ipyparallel/archive/%{version}/%{name}-%{ver
 
 BuildArch:	noarch
 BuildRequires:	python3-devel
+BuildRequires:	python3-setuptools
 BuildRequires:	python3-ipython_genutils
 BuildRequires:	python3-decorator
 BuildRequires:	python3-zmq >= 13
@@ -197,6 +198,9 @@ if (sys.argv[1] == '2'):
 %doc docs/build/html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 6.3.0-2
 - Rebuilt for Python 3.9
 

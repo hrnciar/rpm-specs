@@ -20,27 +20,28 @@
 %endif
 
 # Don't support legacy GeoIP library from F-32, EPEL-8 onwards
+# Support libmaxminddb instead
 %if 0%{?fedora} > 31 || 0%{?rhel} > 7
-%global geoip_support 0
+%global geoip_support		0
+%global maxminddb_support	1
 %else
-%global geoip_support 1
+%global geoip_support		1
+%global maxminddb_support	0
 %endif
 
 Summary:		Milter for greylisting, the next step in the spam control war
 Name:			milter-greylist
-Version:		4.6.2
-Release:		12%{?dist}
+Version:		4.6.4
+Release:		1%{?dist}
 License:		BSD with advertising
 URL:			http://hcpnet.free.fr/milter-greylist/
 Source0:		ftp://ftp.espci.fr/pub/milter-greylist/milter-greylist-%{version}.tgz
 Source1:		README.fedora
 Source20:		milter-greylist.systemd.service
-Patch0:			milter-greylist-4.5.2-config.patch
+Patch0:			milter-greylist-4.6.3-config.patch
 Patch1:			milter-greylist-4.4.2-utf8.patch
 Patch2:			milter-greylist-4.5.11-warning.patch
 Patch4:			ai_addrconfig.patch
-Patch5:			milter-greylist-4.6.2-geoip.patch
-Patch6:			milter-greylist-4.6.2-no-geoip.patch
 BuildRequires:		bison
 BuildRequires:		coreutils
 BuildRequires:		flex
@@ -52,8 +53,12 @@ BuildRequires:		curl-devel
 %if %{geoip_support}
 BuildRequires:		GeoIP-devel
 %endif
+%if %{maxminddb_support}
+BuildRequires:		libmaxminddb-devel
+%endif
 BuildRequires:		libspf2-devel
 BuildRequires:		%milter_devel_package
+BuildRequires:		perl-interpreter
 Requires(pre):		shadow-utils
 %if %{use_systemd}
 BuildRequires:		systemd
@@ -70,6 +75,12 @@ Requires(postun):	initscripts
 Obsoletes:		milter-greylist-sysv < %{version}-%{release}
 Provides:		milter-greylist-sysv = %{version}-%{release}
 %endif
+%if %{maxminddb_support}
+Recommends:		geolite2-country
+%endif
+
+# Fix EL-6 compatibility (%%make_build only defined from EL-7, F-21 onwards)
+%{!?make_build:%global make_build make %{_smp_mflags}}
 
 %description
 Greylisting is a new method of blocking significant amounts of spam at
@@ -87,10 +98,10 @@ This package provides a greylist filter for sendmail's milter API.
 # * Specify pidfile in initscript rather than config file
 # * Specify socket in config file rather than initscript
 # * Specify grmilter as the user to run the dæmon as
-# * Specify the GeoIP database location
+# * Specify the GeoIP/GeoIP2 database location
 %patch0
 
-# Rec-code docs as UTF8
+# Re-code docs as UTF8
 %patch1
 
 # Work around warning about _BSD_SOURCE being deprecated in favor
@@ -104,12 +115,12 @@ This package provides a greylist filter for sendmail's milter API.
 # http://tech.groups.yahoo.com/group/milter-greylist/message/5048
 %patch4 -p1
 
-# Fix crash on IPv6 connection with no GeoIPv6 database in use
-%patch5
-
 # Drop GeoIP configuration if we don't support it
 %if ! %{geoip_support}
-%patch6
+perl -i -ne 'print $_ unless m{^geoipdb }' greylist.conf
+%endif
+%if ! %{maxminddb_support}
+perl -i -ne 'print $_ unless m{^geoip2db }' greylist.conf
 %endif
 
 # README.fedora
@@ -150,15 +161,17 @@ export LDFLAGS="-Wl,--as-needed $LDLIBS"
 %if %{geoip_support}
 	--with-libGeoIP				\
 %endif
+%if %{maxminddb_support}
+	--with-libmaxminddb			\
+%endif
 	--with-libspf2				\
 	--with-user=grmilter
 
-make %{_smp_mflags} BINDIR=%{_sbindir}
+%{make_build} BINDIR=%{_sbindir}
 
 %install
 install -d -m 755 %{buildroot}{%{rundir}/milter-greylist,%{_localstatedir}/lib/milter-greylist/db}
-make install \
-	DESTDIR=%{buildroot} \
+%{make_install} \
 	BINDIR=%{_sbindir} \
 	TEST=false \
 	USER="$(id -u)"
@@ -257,6 +270,26 @@ fi
 %endif
 
 %changelog
+* Mon Aug 31 2020 Paul Howarth <paul@city-fan.org> - 4.6.4-1
+- Update to 4.6.4
+  - Fix crash when GeoIP2 is not configured
+  - MacOSX build fix for --enable-dnsrbl
+
+* Tue Jul 28 2020 Paul Howarth <paul@city-fan.org> - 4.6.3-1
+- Update to 4.6.3
+  - Add support for GeoIP2
+  - Build fixes for conflicting ns_type in SPF and NSupdate code
+  - Quiet build warnings
+  - Missing bits to make rawfrom usable
+  - Fix crash when GeoIP for IPv6 is not configured
+  - Report queueId for maxpeek overflow warnings
+  - Sendmail access.db usage documentation
+- Add libmaxminddb support for builds on F-32/EL-8 onwards
+- Modernize spec using %%{make_build} and %%{make_install}
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.2-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.11
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Pytest plugin for testing figure output from Matplotlib
 
 License:        BSD
@@ -67,6 +67,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} MPLBACKEND=Agg PYTHONDONTWRITEBYTECODE
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.11-3
 - Rebuilt for Python 3.9
 

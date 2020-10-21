@@ -17,8 +17,8 @@
 %global db_ver %(sed '/DB_VERSION_STRING/!d;s/.*Berkeley DB[[:space:]]*\\([^:]*\\):.*/\\1/' /usr/include/db.h 2>/dev/null || echo 4.0.0)
 
 Name:           perl-BerkeleyDB
-Version:        0.63
-Release:        4%{?dist}
+Version:        0.64
+Release:        1%{?dist}
 Summary:        Interface to Berkeley DB
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/BerkeleyDB
@@ -90,11 +90,11 @@ perl -pi -e 's,/local/,/, if ($. == 1)' dbinfo
 chmod -c -x Changes README
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}" NO_PACKLIST=1
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}" NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=%{buildroot}
+%{make_install}
 find %{buildroot} -type f -name '*.bs' -empty -delete
 %{_fixperms} -c %{buildroot}
 install -D -m755 dbinfo %{buildroot}%{_bindir}/dbinfo
@@ -115,6 +115,12 @@ make test
 %{_mandir}/man3/BerkeleyDB.3*
 
 %changelog
+* Thu Sep 17 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.64-1
+- 0.64 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.63-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.63-4
 - Perl 5.32 rebuild
 

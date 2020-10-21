@@ -3,7 +3,7 @@
 
 Name:           %{bgname}-backgrounds
 Version:        20.0.0
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Heisenbug desktop backgrounds
 
 License:        CC-BY-SA
@@ -186,6 +186,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_datadir}/xfce4/backdrops/*.png
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.0.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.0.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,12 +1,15 @@
+%undefine __cmake_in_source_build
 %global framework attica
 
-Name:           kf5-attica
-Version: 5.71.0
-Release: 1%{?dist}
-Summary:        KDE Frameworks Tier 1 Addon with Open Collaboration Services API
+%global docs 1
 
-License:        LGPLv2+
-URL:            https://cgit.kde.org/%{framework}.git
+Name:   kf5-attica
+Version: 5.75.0
+Release: 1%{?dist}
+Summary: KDE Frameworks Tier 1 Addon with Open Collaboration Services API
+
+License: LGPLv2+
+URL:     https://cgit.kde.org/%{framework}.git
 
 %global majmin %(echo %{version} | cut -d. -f1-2)
 %global revision %(echo %{version} | cut -d. -f3)
@@ -15,24 +18,37 @@ URL:            https://cgit.kde.org/%{framework}.git
 %else
 %global stable stable
 %endif
-Source0:        http://download.kde.org/%{stable}/frameworks/%{majmin}/%{framework}-%{version}.tar.xz
+Source0: http://download.kde.org/%{stable}/frameworks/%{majmin}/%{framework}-%{version}.tar.xz
 
 BuildRequires:  extra-cmake-modules >= %{version}
 BuildRequires:  kf5-rpm-macros >= %{version}
 BuildRequires:  qt5-qtbase-devel
 
-Requires:       kf5-filesystem >= %{majmin}
+Requires: kf5-filesystem >= %{majmin}
 
 %description
 Attica is a Qt library that implements the Open Collaboration Services
 API version 1.4.
 
-%package        devel
-Summary:        Development files for %{name}
-Requires:       %{name}%{?_isa} = %{version}-%{release}
-Requires:       qt5-qtbase-devel
-%description    devel
+%package devel
+Summary: Development files for %{name}
+Requires: %{name}%{?_isa} = %{version}-%{release}
+Requires: qt5-qtbase-devel
+%description devel
 %{summary}.
+
+%if 0%{?docs}
+%package doc
+Summary: API documentation for %{name}
+BuildRequires: doxygen
+BuildRequires: qt5-qdoc
+BuildRequires: qt5-qhelpgenerator
+BuildRequires: qt5-qtbase-doc
+Requires: kf5-filesystem
+BuildArch: noarch
+%description doc
+%{summary}.
+%endif
 
 
 %prep
@@ -40,23 +56,21 @@ Requires:       qt5-qtbase-devel
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5 \
+  %{?docs:-DBUILD_QCH:BOOL=ON} \
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 
 %ldconfig_scriptlets
 
 %files
 %doc AUTHORS ChangeLog README.md
-%license COPYING
+%license LICENSES/*.txt
 %{_kf5_datadir}/qlogging-categories5/%{framework}.*
 %{_kf5_libdir}/libKF5Attica.so.*
 
@@ -68,8 +82,31 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_archdatadir}/mkspecs/modules/qt_Attica.pri
 %{_kf5_libdir}/pkgconfig/libKF5Attica.pc
 
+%if 0%{?docs}
+%{_qt5_docdir}/KF5Attica.qch
+%{_qt5_docdir}/KF5Attica.tags
+%endif
+
 
 %changelog
+* Wed Oct 14 09:43:43 CDT 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.75.0-1
+- 5.75.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.74.0-1
+- 5.74.0
+
+* Mon Aug 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.73.0-1
+- 5.73.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.72.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-2
+- -doc subpkg
+
+* Tue Jul 07 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-1
+- 5.72.0
+
 * Tue Jun 16 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.71.0-1
 - 5.71.0
 

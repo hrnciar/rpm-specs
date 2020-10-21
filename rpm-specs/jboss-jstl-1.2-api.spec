@@ -5,7 +5,7 @@
 
 Name:          jboss-jstl-1.2-api
 Version:       1.1.2
-Release:       9%{dist}
+Release:       11%{dist}
 Summary:       JSP Standard Template Library 1.2 API
 License:       ASL 2.0 and (CDDL or GPLv2 with exceptions)
 URL:           https://github.com/jboss/jboss-jstl-api_spec
@@ -64,6 +64,12 @@ This package contains the API documentation for %{name}.
 %license LICENSE README
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.1.2-10
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

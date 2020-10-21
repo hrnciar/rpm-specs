@@ -1,6 +1,6 @@
 Name:           pspp
-Version:        1.2.0
-Release:        8%{?dist}
+Version:        1.4.1
+Release:        1%{?dist}
 Summary:        A program for statistical analysis of sampled data
 License:        GPLv3+
 URL:            https://www.gnu.org/software/pspp/
@@ -8,14 +8,7 @@ VCS:            scm:git:git://git.savannah.gnu.org/pspp.git
 Source0:        https://ftp.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
 Source1:        https://ftp.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz.sig
 Source2:        pspp-Smake
-Patch1:		pspp-0001-Check-for-python-interpreter-at-configure-time-and-d.patch
-Patch2:		pspp-0002-segment-Fix-behavior-when-line-is-not-new-line-termi.patch
-Patch3:		pspp-0003-sys-file-writer-Remove-assertions-based-on-file-posi.patch
-Patch4:		pspp-0004-pspp-dump-sav-Issue-error-message-for-too-large-exte.patch
-Patch5:		pspp-0005-pspp-dump-sav-Fix-write-past-end-of-buffer-in-corner.patch
-Patch6:		pspp-0006-PSPPIRE-Avoid-some-segmentation-faults-when-corrupt-.patch
-Patch7:		pspp-0007-psppire-Fix-multiple-definitions-of-align_enum_type-.patch
-Patch8:		pspp-0008-test-date-input.py-Make-compatible-with-Python-3.patch
+Patch1:		pspp-0001-Increase-autoconf-version.patch
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  desktop-file-utils
@@ -30,6 +23,7 @@ BuildRequires:  libpq-devel
 BuildRequires:  libtool
 BuildRequires:  libxml2
 BuildRequires:  ncurses-devel
+BuildRequires:  perl(Config::Perl::V)
 BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(Test::More)
 BuildRequires:  perl(Text::Diff)
@@ -83,7 +77,7 @@ find %{buildroot}%{_libdir}/ \
    -name \*.la -delete
 
 # desktop file
-desktop-file-validate %{buildroot}%{_datadir}/applications/pspp.desktop
+desktop-file-validate %{buildroot}%{_datadir}/applications/org.fsf.pspp.desktop
 
 # localization
 %find_lang %{name}
@@ -94,31 +88,44 @@ rm -f %{buildroot}%{_datadir}/icons/hicolor/icon-theme.cache
 
 %check
 # FIXME python3 - 11 failed tests, python2 - only one
-PYTHON=python2 make check || true
+# also requires a very recent gnulib
+make check || true
 
 
 %files -f %{name}.lang
 %license COPYING
 %{_bindir}/pspp
-%{_bindir}/psppire
 %{_bindir}/pspp-convert
 %{_bindir}/pspp-dump-sav
-%{_infodir}/pspp*
-%{_libdir}/%{name}/
-%{_datadir}/appdata/pspp.appdata.xml
-%{_datadir}/applications/pspp.desktop
+%{_bindir}/pspp-output
+%{_bindir}/psppire
+%{_datadir}/applications/org.fsf.pspp.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 %{_datadir}/icons/hicolor/*/mimetypes/*.png
 %{_datadir}/icons/hicolor/scalable/apps/pspp.svg
+%{_datadir}/metainfo/org.fsf.pspp.metainfo.xml
+%{_datadir}/mime/packages/pspp.xml
 %{_datadir}/pspp/
-%{_pkgdocdir}/
-%{_mandir}/man1/pspp.1.*
-%{_mandir}/man1/psppire.1.*
+%{_infodir}/pspp*
+%{_libdir}/%{name}/
 %{_mandir}/man1/pspp-convert.1.*
 %{_mandir}/man1/pspp-dump-sav.*
+%{_mandir}/man1/pspp-output.1.*
+%{_mandir}/man1/pspp.1.*
+%{_mandir}/man1/psppire.1.*
+%{_pkgdocdir}/
 
 
 %changelog
+* Sun Sep  6 2020 Peter Lemenkov <lemenkov@gmail.com> - 1.4.1-1
+- Ver. 1.4.1
+
+* Mon Aug 17 2020 Peter Lemenkov <lemenkov@gmail.com> - 1.4.0-1
+- Ver. 1.4.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Peter Lemenkov <lemenkov@gmail.com> - 1.2.0-8
 - Fix tests with Python 3
 

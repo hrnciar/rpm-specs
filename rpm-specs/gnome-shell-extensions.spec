@@ -5,7 +5,7 @@
 %global pkg_prefix gnome-shell-extension
 
 Name:           gnome-shell-extensions
-Version:        3.37.2
+Version:        3.38.1
 Release:        1%{?dist}
 Summary:        Modify and extend GNOME Shell functionality and behavior
 
@@ -13,7 +13,6 @@ License:        GPLv2+
 URL:            http://wiki.gnome.org/Projects/GnomeShell/Extensions
 Source0:        http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{major_version}/%{name}-%{version}.tar.xz
 
-# BuildRequires:  gnome-common
 BuildRequires:  meson
 BuildRequires:  sassc
 BuildRequires:  git
@@ -211,7 +210,6 @@ workspaces.
 
 
 %files -n gnome-classic-session
-%{_datadir}/gnome-session/sessions/gnome-classic.session
 %{_datadir}/gnome-shell/modes/classic.json
 %{_datadir}/gnome-shell/theme/*.svg
 %{_datadir}/gnome-shell/theme/gnome-classic-high-contrast.css
@@ -272,6 +270,30 @@ workspaces.
 
 
 %changelog
+* Mon Oct 05 2020 Florian Müllner <fmuellner@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Mon Sep 14 2020 Florian Müllner <fmuellner@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Sun Sep 06 2020 Florian Müllner <fmuellner@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Mon Aug 24 2020 Florian Müllner <fmuellner@redhat.com> - 3.37.91-1
+- Update to 3.37.91
+
+* Wed Aug 19 2020 Kalev Lember <klember@redhat.com> - 3.37.90-2
+- Rebuild
+
+* Tue Aug 11 2020 Florian Müllner <fmuellner@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Florian Müllner <fmuellner@redhat.com> - 3.37.3-1
+- Update to 3.37.3
+
 * Wed Jun 03 2020 Florian Müllner <fmuellner@redhat.com> - 3.37.2-1
 - Update to 3.37.2
 

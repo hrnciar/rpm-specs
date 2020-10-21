@@ -1,6 +1,8 @@
+%define __cmake_in_source_build 1
+
 Name:           taskd
 Version:        1.1.0
-Release:        11%{?dist}
+Release:        14%{?dist}
 Summary:        Secure server providing multi-user, multi-client access to task data
 License:        MIT
 URL:            http://tasktools.org/projects/taskd.html
@@ -136,6 +138,16 @@ exit 0
 %endif
 
 %changelog
+* Tue Sep 22 2020 Jeff Law <law@redhat.com> - 1.1.0-14
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

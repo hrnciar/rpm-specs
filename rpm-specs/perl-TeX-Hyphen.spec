@@ -1,6 +1,6 @@
 Name:           perl-TeX-Hyphen
 Version:        1.18
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Hyphenate words using TeX's patterns
 License:        GPL+ or Artistic
 URL:            http://www.adelton.com/perl/TeX-Hyphen/
@@ -45,6 +45,9 @@ make test
 %{_mandir}/man3/TeX::Hyphen::utf8.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.18-12
 - Perl 5.32 rebuild
 

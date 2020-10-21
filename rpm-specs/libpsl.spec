@@ -1,10 +1,10 @@
 Name:           libpsl
-Version:        0.21.0
-Release:        4%{?dist}
+Version:        0.21.1
+Release:        2%{?dist}
 Summary:        C library for the Publix Suffix List
 License:        MIT
 URL:            https://rockdaboot.github.io/libpsl
-Source0:        https://github.com/rockdaboot/libpsl/releases/download/libpsl-%{version}/libpsl-%{version}.tar.gz
+Source0:        https://github.com/rockdaboot/libpsl/releases/download/%{version}/libpsl-%{version}.tar.gz
 BuildRequires:  gcc
 BuildRequires:  gettext-devel
 BuildRequires:  glib2-devel
@@ -13,12 +13,10 @@ BuildRequires:  libicu-devel
 BuildRequires:  libidn2-devel
 BuildRequires:  libunistring-devel
 BuildRequires:  libxslt
+BuildRequires:  make
 BuildRequires:  publicsuffix-list
 BuildRequires:  python3-devel
 Requires:       publicsuffix-list-dafsa
-
-# fix unnecessary build failure due to missing tree_index.sgml in gtk-doc output
-Patch1:         0001-libpsl-0.21.0-gtk-doc.patch
 
 %description
 libpsl is a C library to handle the Public Suffix List. A "public suffix" is a
@@ -147,6 +145,12 @@ make check || cat tests/test-suite.log
 %{_mandir}/man1/psl-make-dafsa.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.21.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Kamil Dudka <kdudka@redhat.com> - 0.21.1-1
+- update to 0.21.1 (#1858489)
+
 * Thu Jan 30 2020 Kamil Dudka <kdudka@redhat.com> - 0.21.0-4
 - fix unnecessary build failure due to missing tree_index.sgml in gtk-doc output
 

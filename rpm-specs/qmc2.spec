@@ -1,6 +1,6 @@
 Name:           qmc2
 Version:        0.195
-Release:        12%{?dist}
+Release:        14%{?dist}
 Summary:        M.A.M.E. Catalog / Launcher II
 
 #PDF.js is ASL 2.0
@@ -54,10 +54,10 @@ the games"
 %prep
 %autosetup -p1 -n %{name}
 pushd arch/Linux/
-ln -s Fedora.cfg Fedora_release_30.cfg
 ln -s Fedora.cfg Fedora_release_31.cfg
 ln -s Fedora.cfg Fedora_release_32.cfg
 ln -s Fedora.cfg Fedora_release_33.cfg
+ln -s Fedora.cfg Fedora_release_34.cfg
 popd
 #ensure system minizip and zlib are used
 rm -rf minizip
@@ -125,6 +125,12 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/qchdman.desktop
 
 
 %changelog
+* Mon Aug 17 2020 Julian Sikorski <belegdol@fedoraproject.org> - 0.195-14
+- Fix qmake detection on rawhide
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.195-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 04 2020 Julian Sikorski <belegdol@fedoraproject.org> - 0.195-12
 - Fix qmake detection on rawhide
 

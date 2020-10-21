@@ -32,7 +32,7 @@
 
 Name:           rhino
 Version:        1.7.7.1
-Release:        9%{?dist}
+Release:        12%{?dist}
 Summary:        JavaScript for Java
 License:        MPLv2.0
 
@@ -48,7 +48,6 @@ URL:            http://www.mozilla.org/rhino/
 
 BuildRequires:  ant
 BuildRequires:  java-devel >= 1:1.6.0.0
-BuildRequires:  sonatype-oss-parent
 BuildRequires:  javapackages-local
 Requires:       jline
 # Explicit javapackages-tools requires since rhino script uses
@@ -124,6 +123,15 @@ find %{buildroot}%{_datadir}/%{name} -name '*.build' -delete
 %{_datadir}/%{name}
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 1.7.7.1-12
+- Remove unnecessary dependency on parent POM.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.7.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.7.7.1-10
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.7.1-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

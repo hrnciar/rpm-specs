@@ -7,7 +7,7 @@
 
 Name:           nodejs-umask
 Version:        1.1.0
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Convert umask from string <-> number
 Url:            https://github.com/smikes/umask
 Source0:        http://registry.npmjs.org/%{npm_name}/-/%{npm_name}-%{version}.tgz
@@ -55,6 +55,9 @@ jslint --terse --latest *.js test/*.js
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

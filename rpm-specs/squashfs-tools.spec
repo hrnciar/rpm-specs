@@ -4,7 +4,7 @@ Summary: Utility for the creation of squashfs filesystems
 Version: 4.4
 %forgemeta
 Name: squashfs-tools
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 URL: %{forgeurl}
 # Use curl -LO %%{forgesource} to get the source tar ball.
@@ -51,6 +51,9 @@ install -m 644 %{SOURCE2} %{buildroot}%{_mandir}/man1/unsquashfs.1
 %{_sbindir}/unsquashfs
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 2020 Bruno Wolff III <bruno@wolff.to> - 4.4-1.20200513gitc570c61
 - Go to 4.4 release + plus a few upstream post release patches
 

@@ -16,7 +16,7 @@ clouds - test files
 
 Name:           python-%{pypi_name}
 Version:        0.46.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An SDK for building applications to work with OpenStack
 
 License:        ASL 2.0
@@ -144,6 +144,9 @@ PYTHON=python3 stestr-3 --test-path ./openstack/tests/unit run --black-regex '(t
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.46.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Joel Capitao <jcapitao@redhat.com> 0.46.0-1
 - Update to upstream version 0.46.0
 

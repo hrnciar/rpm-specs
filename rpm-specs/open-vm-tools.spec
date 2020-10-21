@@ -20,15 +20,15 @@
 
 %global _hardened_build 1
 %global majorversion    11.1
-%global minorversion    0
-%global toolsbuild      16036546
+%global minorversion    5
+%global toolsbuild      16724464
 %global toolsversion    %{majorversion}.%{minorversion}
 %global toolsdaemon     vmtoolsd
 %global vgauthdaemon    vgauthd
 
 Name:             open-vm-tools
 Version:          %{toolsversion}
-Release:          2%{?dist}
+Release:          1%{?dist}
 Summary:          Open Virtual Machine Tools for virtual machines hosted on VMware
 License:          GPLv2
 URL:              https://github.com/vmware/%{name}
@@ -45,9 +45,7 @@ ExclusiveArch:    x86_64
 ExclusiveArch:    %{ix86} x86_64
 %endif
 
-Patch1:           gcc10-warning.patch
-# Cumulative patch for fixes from https://github.com/vmware/open-vm-tools/tree/stable-11.1.0-SDMP-fixes
-Patch2:           sdmp-fixes.patch
+#Patch1:           patch1.patch
 
 BuildRequires:    autoconf
 BuildRequires:    automake
@@ -86,11 +84,11 @@ BuildRequires:    libXtst-devel
 BuildRequires:    openssl-devel
 BuildRequires:    pam-devel
 BuildRequires:    procps-devel
-%if 0%{?fedora} >= 28
+%if 0%{?fedora} >= 28 || 0%{?rhel} >=9
 BuildRequires:    rpcgen
 %endif
 BuildRequires:    systemd
-%if 0%{?fedora} >= 28
+%if 0%{?fedora} >= 28 || 0%{?rhel} >=9
 BuildRequires:    libtirpc-devel
 %endif
 BuildRequires:    xmlsec1-openssl-devel
@@ -176,7 +174,7 @@ machines.
 # configure.ac get modified
 autoreconf -vif
 
-%if 0%{?fedora} >= 28
+%if 0%{?fedora} >= 28 || 0%{?rhel} >=9
 %global usetirpc with-tirpc
 %else
 %global usetirpc without-tirpc
@@ -393,6 +391,16 @@ fi
 %{_bindir}/vmware-vgauth-smoketest
 
 %changelog
+* Tue Sep 08 2020 Ravindra Kumar <ravindrakumar@vmware.com> - 11.1.5-1
+- Package new upstream version open-vm-tools-11.1.5-16724464.
+- Removed gcc10-warning.patch and sdmp-fixes.patch (no longer needed).
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Merlin Mathesius <mmathesi@redhat.com> - 11.1.0-3
+- Conditional fixes to build for ELN
+
 * Sun Jun 21 2020 Ravindra Kumar <ravindrakumar@vmware.com> - 11.1.0-2
 - Added sdmp-fixes.patch from upstream to remove net-tools dependency
   and couple of important fixes

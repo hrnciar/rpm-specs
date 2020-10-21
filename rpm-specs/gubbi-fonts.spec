@@ -3,7 +3,7 @@
 
 Name:           %{fontname}-fonts
 Version:        1.3
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Free Kannada Opentype serif font
 
 License:        GPLv3+ with exceptions
@@ -49,6 +49,9 @@ install -Dm 0644 -p %{SOURCE2} \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

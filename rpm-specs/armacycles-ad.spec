@@ -1,7 +1,7 @@
 %define _hardened_build 1
 Name: armacycles-ad
 Version: 0.2.8.3.5
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A lightcycle game in 3D
 
 License: GPLv2+
@@ -156,6 +156,9 @@ rm -f $RPM_BUILD_ROOT%{_datadir}/armacyclesad-dedicated/language/update.py
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.8.3.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 19 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.2.8.3.5-1
 - 0.2.8.3.5
 

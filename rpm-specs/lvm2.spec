@@ -1,4 +1,4 @@
-%global device_mapper_version 1.02.171
+%global device_mapper_version 1.02.173
 
 %global enable_cache 1
 %global enable_cluster 1
@@ -56,8 +56,8 @@ Name: lvm2
 %if 0%{?rhel}
 Epoch: %{rhel}
 %endif
-Version: 2.03.09
-Release: 2%{?dist}
+Version: 2.03.10
+Release: 1%{?dist}
 License: GPLv2
 URL: http://sourceware.org/lvm2
 Source0: ftp://sourceware.org/pub/lvm2/releases/LVM2.%{version}.tgz
@@ -171,16 +171,16 @@ export LIBRARY_PATH="%{_libdir}/readline5"
 
 %configure --with-default-dm-run-dir=%{_default_dm_run_dir} --with-default-run-dir=%{_default_run_dir} --with-default-pid-dir=%{_default_pid_dir} --with-default-locking-dir=%{_default_locking_dir} --with-usrlibdir=%{_libdir} --enable-fsadm --enable-write_install --with-user= --with-group= --with-device-uid=0 --with-device-gid=6 --with-device-mode=0660 --enable-pkgconfig --enable-cmdlib --enable-dmeventd --enable-blkid_wiping %{?configure_cluster} %{?configure_cmirror} %{?configure_udev} %{?configure_thin} %{?configure_cache} %{?configure_lvmpolld} %{?configure_lockd_dlm} %{?configure_lockd_sanlock} %{?configure_lvmdbusd} %{?configure_dmfilemapd} %{?configure_writecache} %{?configure_vdo} --disable-silent-rules
 
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 make install_system_dirs DESTDIR=$RPM_BUILD_ROOT
 make install_systemd_units DESTDIR=$RPM_BUILD_ROOT
 make install_systemd_generators DESTDIR=$RPM_BUILD_ROOT
 make install_tmpfiles_configuration DESTDIR=$RPM_BUILD_ROOT
 %if %{enable_testsuite}
-make -C test install DESTDIR=$RPM_BUILD_ROOT
+%make_install -C test
 %endif
 
 %post
@@ -723,6 +723,28 @@ An extensive functional testsuite for LVM2.
 %endif
 
 %changelog
+* Sun Aug 09 2020 Marian Csontos <mcsontos@redhat.com> - 2.03.10-1
+- Add integrity with raid capability.
+- Add writecache and integrity support to lvmdbusd.
+- Zero pool metadata on allocation (disable with allocation/zero_metadata=0).
+- Failure in zeroing or wiping will fail command (bypass with -Zn, -Wn).
+- Add lvcreate of new cache or writecache lv with single command.
+- Generate unique cachevol name when default required from lvcreate.
+- Converting RAID1 volume to one with same number of legs now succeeds with a
+  warning.
+- Fix conversion to raid from striped lagging type.
+- Fix conversion to 'mirrored' mirror log with larger regionsize.
+- Fix running out of free buffers for async writing for larger writes.
+- Fix support for lvconvert --repair used by foreign apps (i.e. Docker).
+- Add support for VDO in blkdeactivate script.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.03.09-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 2.03.09-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.03.09-2
 - Rebuilt for Python 3.9
 

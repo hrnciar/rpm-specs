@@ -6,7 +6,7 @@
 
 Name:		nodejs-ipaddr-dot-js
 Version:	1.5.2
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	A library for manipulating IPv4 and IPv6 addresses in JavaScript
 
 License:	MIT
@@ -75,6 +75,9 @@ ln -s %{nodejs_sitelib}/uglify-js %{buildroot}%{nodejs_sitelib}/uglify-js
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

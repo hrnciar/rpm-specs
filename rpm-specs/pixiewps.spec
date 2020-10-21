@@ -4,7 +4,7 @@
 
 Name:		pixiewps	
 Version:	%{ver_maj}.%{ver_min}.%{ver_patch}
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	An offline Wi-Fi Protected Setup brute-force utility 
 
 License:	GPLv3
@@ -47,6 +47,9 @@ rm -f src/tc/sha256.c
 %{_mandir}/man1/pixiewps.1.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

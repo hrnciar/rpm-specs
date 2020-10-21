@@ -4,7 +4,7 @@
 
 # https://github.com/marten-seemann/qtls
 %global goipath         github.com/marten-seemann/qtls
-Version:                0.7.1
+Version:                0.10.0
 
 %gometa
 
@@ -12,7 +12,7 @@ Version:                0.7.1
 Go standard library TLS 1.3 implementation, modified for QUIC.}
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Go standard library TLS 1.3 implementation, modified for QUIC
 
 # https://github.com/marten-seemann/qtls/issues/3
@@ -50,6 +50,16 @@ BuildRequires:  golang(github.com/golang/mock/gomock)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 12:24:31 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.10.0-1
+- Update to 0.10.0 (#1807096)
+
 * Thu Feb 13 00:44:22 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.7.1-1
 - Update to 0.7.1
 

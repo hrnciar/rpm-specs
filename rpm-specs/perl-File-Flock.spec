@@ -1,6 +1,6 @@
 Name:           perl-File-Flock
 Version:        2014.01
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        File locking with flock
 License:        GPL+ or Artistic
 
@@ -72,6 +72,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2014.01-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2014.01-18
 - Perl 5.32 rebuild
 

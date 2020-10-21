@@ -2,7 +2,7 @@ Name: pnm2ppa
 Summary: Drivers for printing to HP PPA printers
 Epoch: 1
 Version: 1.04
-Release: 45%{?dist}
+Release: 48%{?dist}
 URL: http://sourceforge.net/projects/pnm2ppa 
 Source: http://download.sourceforge.net/pnm2ppa/pnm2ppa-%{version}.tar.gz
 # Following sourcelink is dead currently.
@@ -17,10 +17,15 @@ Patch4: pnm2ppa-coverity-return-local.patch
 Patch5: pnm2ppa-ldflags.patch
 # FTBFS with GCC 10
 Patch6: pnm2ppa-gcc10.patch
+# fix argument reading for non x86_64 archs - use int instead of char
+Patch7: pnm2ppa-optargs-read.patch
 License: GPLv2+
 
 # gcc is no longer in buildroot by default
 BuildRequires: gcc
+
+# foomatic is needed for using the filters in CUPS
+Requires: foomatic
 
 %description
 Pnm2ppa is a color driver for HP PPA host-based printers such as the
@@ -40,6 +45,7 @@ Install pnm2ppa if you need to print to a PPA printer.
 %patch4 -p1 -b .coverity-return-local
 %patch5 -p1 -b .ldflags
 %patch6 -p1 -b .gcc10
+%patch7 -p1 -b .optargs-read
 
 for file in docs/en/LICENSE pbm2ppa-0.8.6/LICENSE; do
  sed "s|\r||g" $file > $file.new && \
@@ -96,6 +102,15 @@ done
 %config(noreplace) %{_sysconfdir}/pbm2ppa.conf
 
 %changelog
+* Tue Aug 04 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1:1.04-48
+- fix argument reading for non x86_64 archs - use int instead of char
+
+* Mon Aug 03 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1:1.04-47
+- add foomatic as a dependency, because pnm2ppa drivers are not available as a driver without it
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.04-46
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 03 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1:1.04-45
 - FTBFS with GCC 10
 

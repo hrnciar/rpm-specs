@@ -3,8 +3,8 @@
 %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 Name:		gperftools
-Version:	2.7.90
-Release:	2%{?dist}
+Version:	2.8
+Release:	3%{?dist}
 License:	BSD
 Summary:	Very fast malloc and performance analysis tools
 URL:		https://github.com/gperftools/gperftools
@@ -85,7 +85,7 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 make 
 
 %install
-make DESTDIR=%{buildroot} docdir=%{_pkgdocdir}/ install
+%make_install docdir=%{_pkgdocdir}/
 find %{buildroot} -type f -name "*.la" -exec rm -f {} ';'
 
 # Delete useless files
@@ -118,6 +118,16 @@ rm -rf %{buildroot}%{_pkgdocdir}/INSTALL
 %{_libdir}/*.so.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 2.8-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Thu Jul  9 2020 Tom Callaway <spot@fedoraproject.org> - 2.8-1
+- update to 2.8
+
 * Wed Apr 15 2020 Dan Horák <dan[at]danny.cz> - 2.7.90-2
 - build with libunwind on s390x
 

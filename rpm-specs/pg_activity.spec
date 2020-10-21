@@ -2,7 +2,7 @@
 
 Name:           %{rpm_name}
 Version:        1.6.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Command line tool for PostgreSQL server activity monitoring
 
 License:        PostgreSQL
@@ -40,6 +40,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/pg_activity-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.6.0-2
 - Rebuilt for Python 3.9
 

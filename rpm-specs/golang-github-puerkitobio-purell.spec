@@ -20,7 +20,7 @@ Purell is a tiny Go library to normalize URLs. It returns a pure URL.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Tiny Go library to normalize URLs
 
 # Upstream license specification: BSD-3-Clause
@@ -52,6 +52,9 @@ BuildRequires:  golang(golang.org/x/text/width)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

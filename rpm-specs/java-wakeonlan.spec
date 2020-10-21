@@ -1,6 +1,6 @@
 Name:           java-wakeonlan
 Version:        1.0.0
-Release:        14%{?dist}
+Release:        16%{?dist}
 Summary:        Wake On Lan client and java library
 
 License:        LGPLv2
@@ -108,6 +108,12 @@ desktop-file-install --vendor="" \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.0.0-15
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

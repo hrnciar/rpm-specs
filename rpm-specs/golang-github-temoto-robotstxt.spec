@@ -14,7 +14,7 @@ The robots.txt exclusion protocol implementation for Go language.}
 %global godocs          README.rst
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Robots.txt exclusion protocol implementation
 
 License:        MIT
@@ -58,6 +58,9 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 07 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.1.1-1
 - Initial package
 

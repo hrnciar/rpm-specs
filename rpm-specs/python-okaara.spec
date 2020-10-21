@@ -6,7 +6,7 @@
 
 Name:           python-okaara
 Version:        1.0.37
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Python command line utilities
 
 License:        GPLv2
@@ -74,6 +74,9 @@ nosetests-%{python3_version}
 # -- changelog ----------------------------------------------------------------
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.37-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.37-14
 - Rebuilt for Python 3.9
 

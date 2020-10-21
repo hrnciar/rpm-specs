@@ -14,7 +14,7 @@
 Name:      libmemcached
 Summary:   Client library and command line tools for memcached server
 Version:   1.0.18
-Release:   17%{?dist}
+Release:   21%{?dist}
 License:   BSD
 URL:       http://libmemcached.org/
 # Original sources:
@@ -183,6 +183,18 @@ make test
 
 
 %changelog
+* Tue Sep 15 2020 Tomas Korbar <tkorbar@redhat.com> - 1.0.18-21
+- Rebuilt with libevent-2.1.12
+
+* Thu Aug 20 2020 Jeff Law <law@redhat.com> - 1.0.18-20
+- Re-enable LTO
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.18-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 1.0.18-18
+- Disable LTO
+
 * Tue Feb  4 2020 Remi Collet <remi@remirepo.net> - 1.0.18-17
 - fix FTBFS with GCC 10
 

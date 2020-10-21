@@ -1,13 +1,14 @@
 Summary:        Action game in four spatial dimensions
 Name:           adanaxisgpl
 Version:        1.2.5
-Release:        34%{?dist}
+Release:        38%{?dist}
 License:        GPLv2
 URL:            http://www.mushware.com/
 Source0:        http://www.mushware.com/files/%{name}-1.2.5.tar.gz
 Patch0:         adanaxisgpl-1.2.5-const.patch
 Patch1:         adanaxisgpl-1.2.5-gcc47.patch
 Patch2:         adanaxisgpl-1.2.5-xdg-open.patch
+Patch3:		adanaxisgpl-gcc11.patch
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  desktop-file-utils
@@ -39,6 +40,7 @@ Shading Language.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 
 %build
@@ -92,6 +94,19 @@ install -p -m 644 x11/icons/%{name}-48.png %{buildroot}%{_datadir}/icons/hicolor
 
 
 %changelog
+* Fri Aug 28 2020 Jeff Law <law@redhat.com> - 1.2.5-38
+- Re-enable LTO
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.5-37
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.5-36
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Jeff Law <law@redhat.com> - 1.2.5-35
+- Disable LTO
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.5-34
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

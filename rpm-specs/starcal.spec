@@ -1,7 +1,7 @@
 %global pkg_name %{name}3
 
 Name:           starcal
-Version:        3.1.9
+Version:        3.1.10
 Release:        1%{?dist}
 Summary:        A full-featured international calendar written in Python
 
@@ -24,9 +24,7 @@ as well as common English(Gregorian) calendar
 
 %prep
 %autosetup -S git -n %{name}-%{version}
-sed -i.pysupp "s|PY_SUPPORTED=(3.6|PY_SUPPORTED=(3.7 3.6|" install
-sed -i.sudo "s/sudo//" locale.d/install
-
+sed -i.pysupp "s|PY_SUPPORTED=(3.8|PY_SUPPORTED=(3.9 3.8|" install
 find -type f -name "*.py*" -exec chmod a+x {} \;
 find -type f -exec \
    sed -i '1s=^#!/usr/bin/\(python\|env python.*\)\(.*\)$=#!%{__python3}\2=' {} \;
@@ -41,9 +39,8 @@ find -name "*.py" -exec sh -c 'if ! grep "^#\!" {} &> /dev/null;  then \
 
 # cleanups
 rm -rf %{buildroot}%{_datadir}/doc/
-rm -rf %{buildroot}/etc/init.d/ %{buildroot}%{_prefix}/lib/
 rm -rf      \
-  %{buildroot}%{_datadir}/%{pkg_name}/{*install*,README,donate} \
+  %{buildroot}%{_datadir}/%{pkg_name}/{*install*,README.md,donate} \
   %{buildroot}%{_datadir}/%{pkg_name}/locale.d
 rm -f %{buildroot}/%{_datadir}/applications/*
 
@@ -53,7 +50,8 @@ desktop-file-install     \
 %find_lang %{pkg_name}
 
 %files -f %{pkg_name}.lang
-%doc authors license.txt donate README.md
+%doc authors donate README.md
+%license license.txt
 %{_bindir}/*
 %{_datadir}/%{pkg_name}
 %{_datadir}/applications/*
@@ -61,6 +59,16 @@ desktop-file-install     \
 %{_datadir}/icons/hicolor/*/apps/%{pkg_name}.png
 
 %changelog
+* Thu Oct 08 2020 Hedayat Vatankhah <hedayat.fwd+rpmchlog@gmail.com> - 3.1.10-1
+- Update to 3.1.10 upstream release
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.9-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 08 2020 Hedayat Vatankhah <hedayat.fwd+rpmchlog@gmail.com> - 3.1.9-1
 - Update to 3.1.9, with calendar updates
 

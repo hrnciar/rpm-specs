@@ -4,7 +4,7 @@
 
 Name:        vicious
 Version:     2.4.1
-Release:     1%{?dist}
+Release:     4%{?dist}
 Summary:     Modular widget library for awesome
 
 License:     GPLv2+
@@ -59,6 +59,15 @@ cp -a */ *.lua %{buildroot}%{lua_pkgdir}/%{name}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Miro Hrončok <mhroncok@redhat.com> - 2.4.1-3
+- Rebuilt for Lua 5.4
+
+* Mon Jun 29 2020 Björn Esser <besser82@fedoraproject.org> - 2.4.1-2
+- Rebuild (lua)
+
 * Mon May 25 2020 Björn Esser <besser82@fedoraproject.org> - 2.4.1-1
 - New upstream release (#1766407)
 - Move library to %%lua_pkgdir so can be used with any window manager

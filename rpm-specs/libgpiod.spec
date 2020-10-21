@@ -1,13 +1,13 @@
 #global candidate rc2
 
 Name:          libgpiod
-Version:       1.5.1
-Release:       2%{?candidate:.%{candidate}}%{?dist}
+Version:       1.6
+Release:       1%{?candidate:.%{candidate}}%{?dist}
 Summary:       C library and tools for interacting with linux GPIO char device
 
 License:       LGPLv2+
 URL:           https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/
-Source0:       https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/snapshot/%{name}-%{version}%{?candidate:-%{candidate}}.tar.xz
+Source0:       https://mirrors.edge.kernel.org/pub/software/libs/%{name}/%{name}-%{version}%{?candidate:-%{candidate}}.tar.xz
 
 BuildRequires: automake autoconf autoconf-archive libtool
 BuildRequires: doxygen
@@ -95,6 +95,18 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/%{name}*.so
 
 %changelog
+* Thu Oct 01 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.6-1
+- Update to 1.6
+
+* Sat Sep 26 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.5.3-1
+- Update to 1.5.3
+
+* Wed Aug 26 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.5.2-1
+- Update to 1.5.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5.1-2
 - Rebuilt for Python 3.9
 

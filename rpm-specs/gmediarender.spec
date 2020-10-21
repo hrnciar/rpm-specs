@@ -9,7 +9,7 @@
 
 Name:    gmediarender
 Version: 0.0.8
-Release: 2%{?dist}
+Release: 5%{?dist}
 Summary: Resource efficient UPnP/DLNA renderer
 License: GPLv2+
 # Following is for Forge-hosted projects packaging automation
@@ -91,7 +91,17 @@ fi
 %{_prefix}/lib/firewalld/services/%{name}.xml
 
 %changelog
-* Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - Packaging variables read or set by %forgemeta
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - Packaging variables read or set by %forgemeta
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - Packaging variables read or set by %forgemeta
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.0.8-3
+- libupnp rebuild
+
+* Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - Packaging variables read or set by %%forgemeta
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
 * Tue Nov 05 2019 Zamir SUN <sztsian@gmail.com> - 0.0.8-1

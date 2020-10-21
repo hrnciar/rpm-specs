@@ -1,7 +1,7 @@
 %{?mingw_package_header}
 
 Name:           mingw-harfbuzz
-Version:        2.6.8
+Version:        2.7.2
 Release:        1%{?dist}
 Summary:        MinGW Windows Harfbuzz library
 
@@ -142,6 +142,18 @@ find %{buildroot} -name "*.la" -delete
 
 
 %changelog
+* Wed Sep 02 2020 Sandro Mani <manisandro@gmail.com> - 2.7.2-1
+- Update to 2.7.2
+
+* Fri Aug 21 2020 Sandro Mani <manisandro@gmail.com> - 2.7.1-1
+- Update to 2.7.1
+
+* Wed Aug 12 13:40:57 GMT 2020 Sandro Mani <manisandro@gmail.com> - 2.6.8-3
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Sandro Mani <manisandro@gmail.com> - 2.6.8-1
 - Update to 2.6.8
 

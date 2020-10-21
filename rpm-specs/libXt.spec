@@ -5,7 +5,7 @@
 Summary: X.Org X11 libXt runtime library
 Name: libXt
 Version: 1.2.0
-Release: 1%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
+Release: 2%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
 License: MIT
 URL: https://www.x.org
 
@@ -109,6 +109,9 @@ cp -p COPYING ${RPM_BUILD_ROOT}%{_datadir}/doc/%{name}/COPYING
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 06 2020 Adam Jackson <ajax@redhat.com> - 1.2.0-1
 - libXt 1.2.0
 - Work around a gcc10 issue

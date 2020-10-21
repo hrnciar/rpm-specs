@@ -5,7 +5,7 @@
 
 Name:           mingw-goocanvas2
 Version:        2.0.4
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows canvas library for GTK+
 
 License:        LGPLv2+
@@ -100,6 +100,12 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 
 
 %changelog
+* Wed Aug 12 13:37:33 GMT 2020 Sandro Mani <manisandro@gmail.com> - 2.0.4-4
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

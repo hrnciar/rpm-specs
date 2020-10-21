@@ -3,8 +3,7 @@
 
 # https://github.com/smartystreets/goconvey
 %global goipath         github.com/smartystreets/goconvey
-Version:                1.6.3
-%global commit          68dc04aab96ae4326137d6b77330c224063a927e
+Version:                1.6.4
 
 %gometa
 
@@ -27,7 +26,7 @@ Features:
 %global godocs          CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        6%{?dist}
+Release:        1%{?dist}
 Summary:        Go testing in the browser
 
 # Upstream license specification: MIT and Apache-2.0
@@ -62,6 +61,12 @@ BuildRequires:  golang(golang.org/x/tools/go/packages)
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 20:47:00 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.6.4-1
+- Update to 1.6.4
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.3-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

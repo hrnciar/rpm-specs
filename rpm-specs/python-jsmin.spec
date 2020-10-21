@@ -2,7 +2,7 @@
 
 Name:           python-%{modname}
 Version:        2.2.2
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        JavaScript minifier
 
 License:        MIT
@@ -44,6 +44,9 @@ Python 3 version.
 %{python3_sitelib}/%{modname}-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.2.2-11
 - Rebuilt for Python 3.9
 

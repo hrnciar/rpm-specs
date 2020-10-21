@@ -1,12 +1,10 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
-%global __provides_exclude_from ^(%{python_sitelib}/.*\\.so|%{php_extdir}/.*\\.so)$
-%global _hardened_build 1
 # Bug1799474 workaround
 %define _legacy_common_support 1
 
 Name:		groonga
-Version:	10.0.2
-Release:	1%{?dist}
+Version:	10.0.6
+Release:	2%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 License:	LGPLv2
@@ -23,7 +21,7 @@ BuildRequires:	zeromq-devel
 BuildRequires:	libevent-devel
 BuildRequires:	libedit-devel
 BuildRequires:	pcre-devel
-BuildRequires:	systemd
+BuildRequires:	systemd-rpm-macros
 BuildRequires:	libstemmer-devel
 BuildRequires:	openssl-devel
 BuildRequires:	re2c
@@ -31,9 +29,6 @@ BuildRequires:	libzstd-devel
 BuildRequires:	rapidjson-devel
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-plugin-suggest = %{version}-%{release}
-Requires(post):	systemd
-Requires(preun):	systemd
-Requires(postun):	systemd
 Obsoletes:	%{name}-python < 6.0.9-1
 Obsoletes:	%{name}-php < 6.0.9-1
 
@@ -335,6 +330,18 @@ fi
 %config(noreplace) %{_sysconfdir}/munin/plugin-conf.d/*
 
 %changelog
+* Tue Sep 29 20:31:33 CEST 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl>
+- Rebuilt for libevent 2.1.12
+
+* Mon Aug 31 2020 Kentaro Hayashi <kenhys@gmail.com> - 10.0.6-1
+- new upstream release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 6 2020 Kentaro Hayashi <kenhys@gmail.com> - 10.0.4-1
+- new upstream release
+
 * Sun May 10 2020 Kentaro Hayashi <kenhys@gmail.com> - 10.0.2-1
 - new upstream release
 

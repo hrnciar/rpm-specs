@@ -4,7 +4,7 @@
 
 Name:           vim-toml
 Version:        0
-Release:        0.6.%{commitdate}git%{shortcommit}%{?dist}
+Release:        0.7.%{commitdate}git%{shortcommit}%{?dist}
 Summary:        Vim syntax for TOML
 License:        MIT
 URL:            https://github.com/cespare/vim-toml
@@ -37,6 +37,9 @@ install -D -p -m 644 syntax/toml.vim %{buildroot}%{vimfiles_root}/syntax/toml.vi
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7.20180615git85ba827
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6.20180615git85ba827
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

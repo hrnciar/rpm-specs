@@ -1,6 +1,6 @@
 Name:           nim-srpm-macros
 Version:        3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        RPM macros for building Nimble source packages
 
 License:        MIT
@@ -23,6 +23,9 @@ install -D -p -m 0644 -t %{buildroot}%{_rpmconfigdir}/macros.d data/macros.nim-s
 %{_rpmconfigdir}/macros.d/macros.nim-srpm
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

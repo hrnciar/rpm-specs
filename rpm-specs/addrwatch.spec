@@ -1,20 +1,19 @@
 %global _hardened_build 1
 
 Name:		addrwatch
-Version:	1.0.1
-Release:	5%{?dist}
+Version:	1.0.2
+Release:	0%{?dist}
 Summary:	Monitoring IPv4/IPv6 and Ethernet address pairings
 
 License:	GPLv3
 URL:		https://github.com/fln/addrwatch
-Source0:	%{url}/fln/addrwatch/releases/download/v%{version}/%{name}-%{version}.tar.gz
+Source0:	%{url}/releases/download/v%{version}/%{name}-%{version}.tar.gz
 Source1:	%{name}.service
 Source2:	%{name}.sysconfig
-# https://github.com/fln/addrwatch/issues/11
-Patch0:		addrwatch-fix-dbreconnect.patch
 
 %{?systemd_requires}
 BuildRequires:	libpcap-devel, libevent-devel, systemd, mariadb-devel, sqlite-devel, gcc
+BuildRequires:	autoconf automake
 Requires(pre):	shadow-utils
 
 
@@ -35,10 +34,9 @@ extensions (RFC4941).
 
 %prep
 %autosetup -p1
-#%setup -q
-#%patch0 -p1
 
 %build
+autoreconf -fiv
 %configure --enable-sqlite3 --enable-mysql LDFLAGS="-I/usr/include/mysql -L/usr/lib64/mysql"
 %make_build
 
@@ -78,6 +76,23 @@ exit 0
 %systemd_postun_with_restart %{name}.service
 
 %changelog
+* Mon Sep 28 2020 Jens Kuehnel <bugzilla-redhat@jens.kuehnel.org> - 1.0.1-0
+- update to 1.0.2
+
+* Mon Sep 28 2020 Jens Kuehnel <bugzilla-redhat@jens.kuehnel.org> - 1.0.1-9
+- rebuilt for new libevent side tag 'f34-build-side-30069'
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Jeff Law <law@redhat.com> - 1.0.1-6
+- Use strsignal, not sys_siglist.  Corresponding configure.ac changes
+- Run autoreconf to generate new configure file.  Depend on autoconf/automake
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

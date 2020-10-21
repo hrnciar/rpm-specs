@@ -1,16 +1,15 @@
 Name:           ocaml-zed
-Version:        2.0.3
-Release:        9%{?dist}
+Version:        3.1.0
+Release:        3%{?dist}
 Summary:        Abstract engine for text edition in OCaml
 
 %global libname %(echo %{name} | sed -e 's/^ocaml-//')
 
 License:        BSD
-URL:            https://github.com/diml/zed
-Source0:        https://github.com/diml/zed/archive/%{version}/%{libname}-%{version}.tar.gz
+URL:            https://github.com/ocaml-community/zed
+Source0:        https://github.com/ocaml-community/zed/archive/%{version}/%{libname}-%{version}.tar.gz
 
 BuildRequires:  ocaml
-BuildRequires:  ocaml-findlib
 BuildRequires:  ocaml-camomile-devel
 BuildRequires:  ocaml-react-devel
 BuildRequires:  ocaml-charinfo-width-devel
@@ -30,6 +29,9 @@ manipulation functions.
 %package        devel
 Summary:        Development files for %{name}
 Requires:       %{name} = %{version}-%{release}
+Requires:       ocaml-camomile-devel%{_isa}
+Requires:       ocaml-react-devel%{_isa}
+Requires:       ocaml-charinfo-width-devel%{_isa}
 
 %description    devel
 The %{name}-devel package contains libraries and signature files for
@@ -43,8 +45,18 @@ developing applications that use %{name}.
 dune build -p %{libname} %{?_smp_mflags}
 
 %install
-mkdir -p %{buildroot}%{_libdir}/ocaml/zed/
-cp -aLr _build/install/default/lib/zed/* %{buildroot}%{_libdir}/ocaml/zed/
+dune install --destdir=%{buildroot}
+
+# We install the documentation with the doc macro
+rm -fr %{buildroot}%{_prefix}/doc
+
+# We do not want the ml files
+find %{buildroot}%{_libdir}/ocaml -name \*.ml -delete
+
+%ifarch %{ocaml_native_compiler}
+# Add missing executable bits
+find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod a+x {} \+
+%endif
 
 %files
 %license LICENSE
@@ -69,6 +81,22 @@ cp -aLr _build/install/default/lib/zed/* %{buildroot}%{_libdir}/ocaml/zed/
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 3.1.0-3
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 3.1.0-2
+- OCaml 4.11.0 rebuild
+
+* Tue Aug  4 2020 Jerry James <loganjerry@gmail.com> - 3.1.0-1
+- Version 3.1.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 2.0.3-9
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

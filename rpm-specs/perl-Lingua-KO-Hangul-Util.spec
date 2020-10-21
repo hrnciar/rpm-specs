@@ -1,6 +1,6 @@
 Name:           perl-Lingua-KO-Hangul-Util
 Version:        0.28
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Utility functions for Hangul in Unicode
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Lingua-KO-Hangul-Util
@@ -50,6 +50,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.28-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.28-10
 - Perl 5.32 rebuild
 

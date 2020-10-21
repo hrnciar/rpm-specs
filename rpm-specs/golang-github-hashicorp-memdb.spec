@@ -3,14 +3,9 @@
 
 # https://github.com/hashicorp/go-memdb
 %global goipath         github.com/hashicorp/go-memdb
-Version:                1.0.3
+Version:                1.2.1
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-hashicorp-go-memdb-devel < 1.0.0-2
-}
 
 %global common_description %{expand:
 The Memdb package implements a simple in-memory database built on immutable
@@ -44,7 +39,7 @@ The database provides the following:
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Golang in-memory database built on immutable radix trees
 
 # Upstream license specification: MPL-2.0
@@ -75,15 +70,6 @@ done
 install -m 0755 -vd                     %{buildroot}%{_bindir}
 install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck
@@ -97,6 +83,12 @@ end
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 20:24:16 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.2.1-1
+- Update to 1.2.1
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

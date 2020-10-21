@@ -1,6 +1,6 @@
 Name:           perl-Text-Sprintf-Named
-Version:        0.0403
-Release:        9%{?dist}
+Version:        0.0405
+Release:        1%{?dist}
 Summary:        Sprintf-like function with named conversions
 License:        MIT
 URL:            https://metacpan.org/release/Text-Sprintf-Named
@@ -20,7 +20,6 @@ BuildRequires:  perl(vars)
 BuildRequires:  perl(warnings::register)
 # Tests:
 BuildRequires:  perl(blib)
-BuildRequires:  perl(base)
 BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(IO::Handle)
 BuildRequires:  perl(IPC::Open3)
@@ -56,6 +55,12 @@ perl Build.PL installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Oct 20 2020 Petr Pisar <ppisar@redhat.com> - 0.0405-1
+- 0.0405 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0403-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.0403-9
 - Perl 5.32 rebuild
 

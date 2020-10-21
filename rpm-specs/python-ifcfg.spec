@@ -1,8 +1,8 @@
 %global srcname ifcfg
 
 Name:           python-%{srcname}
-Version:        0.18
-Release:        4%{?dist}
+Version:        0.21
+Release:        2%{?dist}
 Summary:        Python cross-platform network interface discovery (ifconfig/ipconfig/ip)
 
 License:        BSD
@@ -22,9 +22,15 @@ A fallback to ip is included for newer Unix systems w/o ifconfig.
 %package -n python%{python3_pkgversion}-%{srcname}
 Summary:        %{summary}
 BuildRequires:  python%{python3_pkgversion}-devel
-BuildRequires:  python%{python3_pkgversion}-nose
 BuildRequires:  python%{python3_pkgversion}-mock
+BuildRequires:  python%{python3_pkgversion}-nose
+BuildRequires:  python%{python3_pkgversion}-setuptools
+BuildRequires:  iproute
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
+
+%if !0%{?rhel} || 0%{?rhel} >= 8
+Recommends:     (iproute or net-tools)
+%endif
 
 %description -n python%{python3_pkgversion}-%{srcname}
 Ifcfg is a cross-platform library for parsing ifconfig and ipconfig output in
@@ -35,7 +41,7 @@ A fallback to ip is included for newer Unix systems w/o ifconfig.
 
 
 %prep
-%autosetup -n %{name}-releases-%{version}
+%autosetup -p1 -n %{name}-releases-%{version}
 
 
 %build
@@ -58,6 +64,12 @@ A fallback to ip is included for newer Unix systems w/o ifconfig.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.21-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Scott K Logan <logans@cottsay.net> - 0.21-1
+- Update to 0.21 (rhbz#1852561)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.18-4
 - Rebuilt for Python 3.9
 

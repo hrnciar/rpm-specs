@@ -1,6 +1,6 @@
 Name:           skipfish
 Version:        2.10
-Release:        0.22.b%{?dist}
+Release:        0.23.b%{?dist}
 Summary:        Web application security scanner
 
 
@@ -74,6 +74,9 @@ rm -f doc/skipfish.1
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10-0.23.b
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 25 2020 Michal Ambroz <rebus AT seznam.cz> - 2.10-0.22.b
 - fix FTBFS - build with -fno-common, which is now default for GCC10
 

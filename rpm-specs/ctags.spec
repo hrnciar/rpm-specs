@@ -1,7 +1,7 @@
 Summary: A C programming language indexing and/or cross-reference tool
 Name: ctags
 Version: 5.8
-Release: 28%{?dist}
+Release: 30%{?dist}
 License: GPLv2+ and LGPLv2+ and Public Domain
 URL: http://ctags.sourceforge.net/
 Source0: http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
@@ -57,12 +57,12 @@ Note: some command line options is not compatible with GNU etags.
 %build
 %configure
 
-make %{?_smp_mflags}
+%make_build
 
 %install
 rm -rf %{buildroot}
 
-make DESTDIR=%{buildroot} install
+%make_install
 
 pushd %{buildroot}%{_bindir}
 ln -s ctags etags.ctags
@@ -91,6 +91,13 @@ popd
 %{_mandir}/man1/etags.%{name}.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.8-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 5.8-29
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.8-28
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

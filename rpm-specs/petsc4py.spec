@@ -23,7 +23,7 @@ BuildRequires: %{?dts}gcc-gfortran
 
 Name:           %{pypi_name}
 Version:        3.13.0
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Python bindings for MPI PETSc
 License:        BSD
 URL:            https://bitbucket.org/petsc/%{pypi_name}
@@ -77,6 +77,7 @@ Summary:        Python3 bindings for OpenMPI PETSc
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{pypi_name}-openmpi}
 
 BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
 BuildRequires:  hdf5-openmpi-devel
 BuildRequires:  scalapack-openmpi-devel
 BuildRequires:  ptscotch-openmpi-devel
@@ -153,6 +154,7 @@ Summary:        Python3 bindings for MPICH PETSc
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{pypi_name}-mpich}
 
 BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
 BuildRequires:  hdf5-mpich-devel
 BuildRequires:  scalapack-mpich-devel
 BuildRequires:  ptscotch-mpich-devel
@@ -523,6 +525,16 @@ popd
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.13.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.13.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.13.0-3
+- BuildRequires python3-setuptools explicitly
+
 * Sat May 30 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.13.0-2
 - Rebuilt for Python 3.9
 

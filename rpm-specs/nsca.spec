@@ -7,7 +7,7 @@
 Summary:        Nagios Service Check Acceptor
 Name:           nsca
 Version:        2.10.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        GPLv2+
 URL:            http://www.nagios.org/
 Source0:        https://github.com/NagiosEnterprises/nsca/releases/download/nsca-%{version}/nsca-%{version}.tar.gz
@@ -134,6 +134,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Xavier Bachelot <xavier@bachelot.org> - 2.10.0-2
 - Add patch to drop broken hex delimiter handling (RHBZ#1830611)
 

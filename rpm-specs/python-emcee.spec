@@ -8,7 +8,7 @@ used in several published projects in the Astrophysics literature.
 
 Name: python-%{srcname}
 Version: 3.0.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: The Python ensemble sampling toolkit for affine-invariant MCMC
 License: MIT
 
@@ -58,6 +58,9 @@ popd
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.0-4
 - Rebuilt for Python 3.9
 

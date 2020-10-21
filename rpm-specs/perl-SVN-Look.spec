@@ -1,14 +1,15 @@
 Name:           perl-SVN-Look
-Version:        0.41
-Release:        14%{?dist}
+Version:        0.42
+Release:        1%{?dist}
 Summary:        Caching wrapper around the svnlook command
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/SVN-Look
 Source0:        https://cpan.metacpan.org/authors/id/G/GN/GNUSTAVO/SVN-Look-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  make
-BuildRequires:  perl-interpreter
 BuildRequires:  perl-generators
+BuildRequires:  perl-interpreter
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
@@ -17,6 +18,7 @@ BuildRequires:  perl(Carp)
 BuildRequires:  perl(File::Spec::Functions)
 BuildRequires:  perl(File::Temp)
 BuildRequires:  perl(List::MoreUtils)
+BuildRequires:  perl(MIME::Base64)
 BuildRequires:  perl(XML::Simple)
 BuildRequires:  subversion
 # Tests
@@ -46,14 +48,15 @@ repetitious calls.
 %setup -q -n SVN-Look-%{version}
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
+unset AUTHOR_TESTING RELEASE_TESTING
 make test
 
 %files
@@ -63,6 +66,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Fri Oct 09 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.42-1
+- 0.42 bump
+
+* Thu Oct 08 2020 Petr Pisar <ppisar@redhat.com> - 0.41-16
+- Adapt to ExtUtils-MakeMaker-7.48
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.41-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.41-14
 - Perl 5.32 rebuild
 

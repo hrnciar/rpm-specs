@@ -5,7 +5,7 @@
 Name:           cmst
 Version:        2020.05.09
 #Release:        3.git%%{shortcommit0}%%{?dist}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A Qt based GUI front end for the connman connection manager with systemtray icon
 
 License:        MIT
@@ -98,6 +98,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_mandir}/man1/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.05.09-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 11 2020 Martin Gansser <martinkg@fedoraproject.org> - 2020.05.09-1
 - Update to 2020.05.09-1
 

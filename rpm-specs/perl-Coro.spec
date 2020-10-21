@@ -1,7 +1,7 @@
-%global cpan_version 6.55
+%global cpan_version 6.57
 Name:           perl-Coro
-Version:        6.550
-Release:        4%{?dist}
+Version:        6.570
+Release:        1%{?dist}
 Summary:        The only real threads in perl
 # Coro/libcoro:    GPLv2 or BSD
 # Rest of package: GPL+ or Artistic
@@ -101,14 +101,14 @@ programming much safer and easier than using other thread models.
 
 # Unbundle libecb
 rm Coro/ecb.h
-sed -i '/^Coro\/ecb\.h$/d' MANIFEST
-sed -i 's/ecb\.h//' Coro/Makefile.PL
+perl -i -lne 'print $_ unless m{\ACoro/ecb\.h\z}' MANIFEST
+perl -i -pe 's/ecb\.h//' Coro/Makefile.PL
 
+# Correct shebangs
 for F in Coro/jit-*.pl; do
-    sed -i -e '/^#!/d' "$F"
+    perl -i -ne 'print $_ unless m{\A#!}' "$F"
     chmod -x "$F"
 done
-
 %fix_shbang_line eg/myhttpd
 
 
@@ -141,6 +141,12 @@ find %{buildroot} -type f -name '*.bs' -size 0 -delete
 %{_mandir}/man3/Coro*.3pm*
 
 %changelog
+* Mon Aug 03 2020 Petr Pisar <ppisar@redhat.com> - 6.570-1
+- 6.57 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.550-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 6.550-4
 - Perl 5.32 rebuild
 

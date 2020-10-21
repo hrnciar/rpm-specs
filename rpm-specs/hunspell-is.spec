@@ -2,7 +2,7 @@ Name: hunspell-is
 Summary: Icelandic hunspell dictionaries
 %global upstreamid 20090823
 Version: 0.%{upstreamid}
-Release: 18%{?dist}
+Release: 19%{?dist}
 Source: https://downloads.sourceforge.net/project/aoo-extensions/2829/1/icelandic-dict-2009-08-23.oxt
 URL: http://extensions.services.openoffice.org/project/dict-is
 License: GPLv2+
@@ -39,6 +39,9 @@ cp -p dictionaries/is_IS.* $RPM_BUILD_ROOT/%{_datadir}/myspell
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20090823-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20090823-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

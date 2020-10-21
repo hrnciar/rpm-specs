@@ -10,7 +10,7 @@
 
 Name:           %{target}-newlib
 Version:        3.1.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        C library intended for use on %{target} embedded systems
 # For a breakdown of the licensing, see NEWLIB-LICENSING
 License:        BSD and MIT and LGPLv2+ and ISC
@@ -123,6 +123,9 @@ rm -rf $NANO_ROOT
 %{_prefix}/%{target}/lib/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        2.0.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Simple python object store
 
 License:        ISC
@@ -45,6 +45,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v test
 %{python3_sitelib}/__pycache__/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.4-2
 - Rebuilt for Python 3.9
 

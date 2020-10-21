@@ -7,7 +7,7 @@
 
 Name:           rust-%{crate}
 Version:        0.9.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        HMAC-based Extract-and-Expand Key Derivation Function (HKDF)
 
 # Upstream license specification: MIT/Apache-2.0
@@ -84,6 +84,9 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 17:50:02 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.9.0-1
 - Update to 0.9.0
 

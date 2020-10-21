@@ -8,19 +8,21 @@ the 'formula' mini-language used in R and S.
 
 Name: python-%{srcname}
 Version: 0.5.1
-Release: 10%{?dist}
+Release: 12%{?dist}
 Summary: %{summary}
 # All code is under BSD except patsy.compat that is under Python
 # See LICENSE.txt for details
 License: BSD and Python
 
 URL: https://github.com/pydata/patsy
-Source0: https://pypi.io/packages/source/p/patsy/patsy-%{version}.tar.gz
+Source0:  %{pypi_source} 
 Patch0: patsy-intersphinx.patch
 Patch1: patsy-error-doc.patch
 # https://github.com/pydata/patsy/issues/143
 Patch2: patsy-print-doc.patch
 Patch3: patsy-python39.patch
+# The contour routine emits a warning with numpy 1.9
+Patch4: patsy-warn-doc.patch
 
 BuildArch: noarch
 BuildRequires: python3-devel
@@ -93,6 +95,12 @@ popd
 %license LICENSE.txt
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jun 28 2020 Sergio Pascual <sergiopr@fedoraproject.org> - 0.5.1-11
+- Patch a numpy 1.9 problem (bz #1838488)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.1-10
 - Rebuilt for Python 3.9
 

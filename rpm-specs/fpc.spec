@@ -7,7 +7,7 @@
 
 Name:           fpc
 Version:        3.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Free Pascal Compiler
 
 License:        GPLv2+ and LGPLv2+ with exceptions
@@ -239,6 +239,9 @@ rm -rf %{buildroot}/usr/lib/%{name}/lexyacc
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 20 2020 Artur Iwicki <fedora@svgames.pl> - 3.2.0-1
 - Update to v3.2.0 (official release - no longer using SVN snapshots)
 - Drop Patch3 (missing consts - merged upstream)

@@ -7,8 +7,8 @@ diagrams into your document.
 
 
 Name:           python-%{pypi_name}
-Version:        0.8.5
-Release:        12%{?dist}
+Version:        2.0.0
+Release:        1%{?dist}
 Summary:        Sphinx "actdiag" extension
 
 License:        BSD
@@ -28,7 +28,7 @@ BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 Requires:       python3-blockdiag >= 1.5.0
 Requires:       python3-actdiag >= 0.5.3
-Requires:       python3-sphinx >= 0.6
+Requires:       python3-sphinx >= 2.0
 
 %description -n python3-%{pypi_name}
 %{common_desc}
@@ -54,6 +54,12 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/sphinxcontrib_actdiag-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Fri Sep 11 2020 Javier Peña <jpena@redhat.com> - 2.0.0-1
+- Update to upstream version 2.0.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.5-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.5-12
 - Rebuilt for Python 3.9
 

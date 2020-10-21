@@ -1,6 +1,6 @@
 Name:           ftnchek
 Version:        3.3.1
-Release:        31%{?dist}
+Release:        32%{?dist}
 Summary:        Static analyzer for Fortran 77 programs
 
 License:        MIT
@@ -72,6 +72,9 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/ftnchek
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.1-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.1-31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

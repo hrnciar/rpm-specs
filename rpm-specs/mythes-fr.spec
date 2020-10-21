@@ -1,7 +1,7 @@
 Name: mythes-fr
 Summary: French thesaurus
 Version: 2.3
-Release: 15%{?dist}
+Release: 16%{?dist}
 Source: http://www.dicollecte.org/download/fr/thesaurus-v%{version}.zip
 URL: http://www.dicollecte.org/home.php?prj=fr
 License: LGPLv2+
@@ -38,6 +38,9 @@ cp -p thes_fr.idx $RPM_BUILD_ROOT/%{_datadir}/mythes/th_fr_FR_v2.idx
 %{_datadir}/mythes/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

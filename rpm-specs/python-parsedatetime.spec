@@ -5,7 +5,7 @@
 
 Name:           python-%{realname}
 Version:        2.5
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Parse human-readable date/time strings in Python
 
 License:        ASL 2.0
@@ -58,6 +58,9 @@ py.test-3 -x tests/*.py
 %{python3_sitelib}/%{realname}*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.5-3
 - Rebuilt for Python 3.9
 

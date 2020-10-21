@@ -6,7 +6,7 @@
 
 Name:           OpenStego
 Version:        0.7.3
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        Free Steganography solution
 Summary(fr):    Solution libre pour la steganographie
 
@@ -93,6 +93,12 @@ desktop-file-install                       \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0.7.3-6
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.3-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

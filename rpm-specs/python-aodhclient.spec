@@ -9,12 +9,13 @@ provides a Python API (the aodhclient module) and a command-line tool.
 
 Name:             python-aodhclient
 Version:          2.0.1
-Release:          1%{?dist}
+Release:          4%{?dist}
 Summary:          Python API and CLI for OpenStack Aodh
 
 License:          ASL 2.0
 URL:              https://launchpad.net/python-aodhclient
 Source0:          https://tarballs.openstack.org/%{name}/%{pypi_name}-%{upstream_version}.tar.gz
+Patch0:           0001-Revert-Add-OSprofiler-support-for-Aodh-client.patch
 
 BuildArch:        noarch
 
@@ -35,7 +36,6 @@ Requires:         python3-cliff >= 1.14.0
 Requires:         python3-oslo-i18n >= 1.5.0
 Requires:         python3-oslo-serialization >= 1.4.0
 Requires:         python3-oslo-utils >= 2.0.0
-Requires:         python3-osprofiler >= 1.4.0
 Requires:         python3-keystoneauth1 >= 1.0.0
 Requires:         python3-six >= 1.9.0
 Requires:         python3-osc-lib >= 1.0.1
@@ -113,6 +113,15 @@ rm -rf doc/build/html/.{doctrees,buildinfo}
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Joel Capitao <jcapitao@redhat.com> 2.0.1-3
+- Removed Requires osprofiler
+
+* Wed Jun 24 2020 Joel Capitao <jcapitao@redhat.com> 2.0.1-2
+- Removed support for osprofiler
+
 * Thu Jun 04 2020 Joel Capitao <jcapitao@redhat.com> 2.0.1-1
 - Update to upstream version 2.0.1
 

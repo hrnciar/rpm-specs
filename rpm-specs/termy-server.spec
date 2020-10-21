@@ -1,7 +1,8 @@
+%define __cmake_in_source_build 1
 Name:    termy-server
 Summary: TermySequence terminal multiplexer server
 Version: 1.1.4
-Release: 5%{?dist}
+Release: 8%{?dist}
 
 License: GPLv2
 URL:     https://termysequence.io
@@ -54,6 +55,16 @@ ctest -V
 %{_mandir}/man1/termy*.1*
 
 %changelog
+* Tue Sep 22 2020 Jeff Law <law@redhat.com> - 1.1.4-8
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

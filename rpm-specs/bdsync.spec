@@ -1,9 +1,9 @@
 Name: bdsync
 Summary: Remote sync for block devices
-Version: 0.11.1
-Release: 3%{?dist}
+Version: 0.11.2
+Release: 2%{?dist}
 License: GPLv2
-Source: https://github.com/TargetHolding/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
+Source: https://github.com/rolffokkens/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 URL: http://bdsync.rolf-fokkens.nl/
 
 Patch1: bdsync-0.10-buildflags.patch
@@ -59,6 +59,18 @@ cp %{name}.1 %{buildroot}/%{_mandir}/man1/%{name}.1
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Michael Hampton <error@ioerror.us> - 0.11.2-1
+- Update to upstream 0.11.2 including LTO patch
+
+* Tue Jul 14 2020 Michael Hampton <error@ioerror.us> - 0.11.1-5
+- Corrected upstream Source: URL
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 0.11.1-4
+- Fix broken ASM exposed by LTO
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@ Version:        0.0
 %global         rev 26242d0aa7b8
 %global         date 20130501
 %global         snapshot %{date}hg%{rev}
-Release:        20.%{snapshot}%{?dist}
+Release:        21.%{snapshot}%{?dist}
 Summary:        A 2D constrained Delaunay triangulation library
 License:        BSD
 URL:            https://code.google.com/p/%{name}
@@ -38,7 +38,7 @@ mv AUTHORS.conv AUTHORS
 
 %build
 cd %{name}
-CFLAGS="%{optflags}" LDFLAGS="%{build_ldflags}" make %{?_smp_mflags}
+CFLAGS="%{optflags}" LDFLAGS="%{build_ldflags}" %make_build
 cd -
 
 %install
@@ -60,6 +60,9 @@ done
 %{_includedir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0-21.20130501hg26242d0aa7b8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0-20.20130501hg26242d0aa7b8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,10 +1,8 @@
-
-
 %global pkgname poyo
 
 Name:           python-poyo
-Version:        0.4.1
-Release:        10%{?dist}
+Version:        0.5.0
+Release:        1%{?dist}
 Summary:        A lightweight YAML Parser for Python
 
 License:        MIT
@@ -56,12 +54,17 @@ Please see the examples below to get an idea of what Poyo understands.
 
 %files -n python3-%{pkgname}
 %license LICENSE
-%doc *.rst
 %doc *.md
 %{python3_sitelib}/*
 
 
 %changelog
+* Mon Aug 03 2020 Chedi Toueiti <chedi.toueiti@gmail.com> - 0.5.0-1
+- Update to version 0.5.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.1-10
 - Rebuilt for Python 3.9
 

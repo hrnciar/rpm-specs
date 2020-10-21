@@ -1,6 +1,6 @@
 Name:           libmspack
 Version:        0.10.1
-Release:        0.3.alpha%{?dist}
+Release:        0.4.alpha%{?dist}
 Summary:        Library for CAB and related files compression and decompression
 
 License:        LGPLv2
@@ -79,6 +79,9 @@ popd
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-0.4.alpha
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-0.3.alpha
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

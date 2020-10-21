@@ -9,7 +9,7 @@
 
 Name:             R-%{packname}
 Version:          1.4.1
-Release:          5%{?dist}
+Release:          6%{?dist}
 Summary:          A Toolbox for Manipulating and Assessing Colors and Palettes
 
 License:          BSD
@@ -114,6 +114,9 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --ignore-vignettes
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 1.4.1-5
 - rebuild for R 4
 

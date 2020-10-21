@@ -1,10 +1,12 @@
 Name:           sombok
 Version:        2.4.0
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        Unicode Text Segmentation Package
 License:        GPLv2+ or Artistic clarified
 URL:            http://sf.net/projects/linefold/
 Source0:        https://github.com/hatukanezumi/sombok/archive/%{name}-%{version}.tar.gz
+# A multilib-safe wrapper, bug #1853260
+Source1:        sombok.h
 
 BuildRequires:  libthai-devel
 BuildRequires:  autoconf
@@ -44,6 +46,11 @@ make %{?_smp_mflags}
 make install DESTDIR=$RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
+# Rename sombok.h to sombok-ARCH.h and install a sombok.h wrapper to avoid
+# a file conflict on multilib systems, bug #1853260
+mv %{buildroot}/%{_includedir}/sombok.h %{buildroot}/%{_includedir}/sombok-%{_arch}.h
+install -m 0644 %{SOURCE1} %{buildroot}/%{_includedir}/sombok.h
+
 
 %ldconfig_scriptlets
 
@@ -61,6 +68,12 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Petr Pisar <ppisar@redhat.com> - 2.4.0-12
+- Make sombok-devel package multilib safe (bug #1853260)
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -10,7 +10,7 @@
 # For compatibility with SCL
 %undefine __brp_mangle_shebangs
 
-%global gh_commit    83baf823a33a1cbd5416c8626935cf3f843c10b0
+%global gh_commit    1023c3458137ab052f6ff1e09621a721bfdeca13
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 #global gh_date      20150717
 %global gh_owner     FriendsOfPHP
@@ -26,8 +26,8 @@
 %global gh_diff_short   %(c=%{gh_diff_commit}; echo ${c:0:7})
 
 Name:           php-cs-fixer
-Version:        2.16.3
-Release:        1%{?gh_date:.%{gh_date}git%{gh_short}}%{?dist}
+Version:        2.16.4
+Release:        2%{?gh_date:.%{gh_date}git%{gh_short}}%{?dist}
 Summary:        A tool to automatically fix PHP code style
 
 License:        MIT
@@ -82,7 +82,7 @@ BuildRequires:  php-symfony3-debug
 #        "php-cs-fixer/phpunit-constraint-xmlmatchesxsd": "^1.1",
 #        "phpunit/phpunit": "^5.7.27 || ^6.5.14 || ^7.1",
 #        "phpunitgoodpractices/traits": "^1.8",
-#        "symfony/phpunit-bridge": "^4.3 || ^5.0",
+#        "symfony/phpunit-bridge": "^5.1",
 #        "symfony/yaml": "^3.0 || ^4.0 || ^5.0"
 # ignored as test using it fail strangely
 #BuildRequires: php-composer(keradus/cli-executor) <  2
@@ -138,7 +138,7 @@ Requires:       php-symfony3-stopwatch
 Requires:       php-symfony3-debug
 # From composer.json, "suggest": {
 #        "ext-dom": "For handling output formats in XML",
-#        "ext-mbstring": "For handling non-UTF8 characters in cache signature.",
+#        "ext-mbstring": "For handling non-UTF8 characters.",
 #        "php-cs-fixer/phpunit-constraint-isidenticalstring": "For IsIdenticalString constraint.",
 #        "php-cs-fixer/phpunit-constraint-xmlmatchesxsd": "For XmlMatchesXsd constraint.",
 #        "symfony/polyfill-mbstring": "When enabling `ext-mbstring` is not possible."
@@ -269,13 +269,18 @@ rm tests/Fixtures/Integration/priority/combine_consecutive_issets,no_singleline_
 
 # Disable listener
 sed -e '/<listeners>/,/<\/listeners>/d' phpunit.xml.dist >phpunit.xml
+sed -e '/ExpectDeprecationTrait/d' \
+    -i tests/Fixer/CastNotation/LowercaseCastFixerTest.php tests/Fixer/CastNotation/ShortScalarCastFixerTest.php
+# skip as rely on composer autoloader for phpunit
+rm tests/Fixer/PhpUnit/PhpUnitNamespacedFixerTest.php
+rm tests/AutoReview/ProjectCodeTest.php
 
 # Redirect to buildroot
 sed -e 's:%{php_home}:%{buildroot}%{php_home}:' -i %{name}
 
 ret=0
 # skip testFix74Deprecated as we don't use symfony/phpunit-bridge
-for cmdarg in "php %{phpunit}" php71 php72 php73 php74; do
+for cmdarg in "php %{phpunit}" php72 php73 php74; do
   if which $cmdarg; then
     set $cmdarg
     $1 -d memory_limit=2G ${2:-%{_bindir}/phpunit7} \
@@ -298,6 +303,12 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Remi Collet <remi@remirepo.net> - 2.16.4-1
+- update to 2.16.4
+
 * Thu Apr 16 2020 Remi Collet <remi@remirepo.net> - 2.16.3-1
 - update to 2.16.3
 

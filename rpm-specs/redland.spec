@@ -1,7 +1,7 @@
 
 Name:           redland
 Version:        1.0.17
-Release:        19%{?dist}
+Release:        21%{?dist}
 Summary:        RDF Application Framework
 
 License:        LGPLv2+ or ASL 2.0
@@ -13,7 +13,7 @@ BuildRequires:  gcc-c++
 BuildRequires:  libdb-devel
 BuildRequires:  libtool-ltdl-devel
 BuildRequires:  libxml2-devel >= 2.4.0
-%if 0%{?fedora} > 27
+%if 0%{?fedora} > 27 || 0%{?rhel} > 7
 BuildRequires:  mariadb-connector-c-devel
 %else
 BuildRequires:  mysql-devel
@@ -126,6 +126,12 @@ make check
 
 
 %changelog
+* Tue Sep 29 2020 Than Ngo <than@redhat.com> - 1.0.17-21
+- Fix FTBFS in ELN
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.17-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.17-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

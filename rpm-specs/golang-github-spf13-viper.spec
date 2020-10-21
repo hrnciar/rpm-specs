@@ -4,7 +4,7 @@
 
 # https://github.com/spf13/viper
 %global goipath         github.com/spf13/viper
-Version:                1.6.2
+Version:                1.7.1
 
 %gometa
 
@@ -42,7 +42,12 @@ Summary:        Go configuration with fangs
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
+# https://github.com/spf13/viper/issues/947
+Patch0:         0001-Remove-TestBindPFlagsStringSlice-and-TestBindPFlagsIntSlice.patch
 
+%if %{without bootstrap}
+BuildRequires:  golang(github.com/bketelsen/crypt/config)
+%endif
 BuildRequires:  golang(github.com/fsnotify/fsnotify)
 BuildRequires:  golang(github.com/hashicorp/hcl)
 BuildRequires:  golang(github.com/hashicorp/hcl/hcl/printer)
@@ -54,9 +59,6 @@ BuildRequires:  golang(github.com/spf13/cast)
 BuildRequires:  golang(github.com/spf13/jwalterweatherman)
 BuildRequires:  golang(github.com/spf13/pflag)
 BuildRequires:  golang(github.com/subosito/gotenv)
-%if %{without bootstrap}
-BuildRequires:  golang(github.com/xordataexchange/crypt/config)
-%endif
 BuildRequires:  golang(gopkg.in/ini.v1)
 BuildRequires:  golang(gopkg.in/yaml.v2)
 
@@ -73,6 +75,7 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 
 %prep
 %goprep
+%patch0 -p1
 
 %install
 %gopkginstall
@@ -89,6 +92,12 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 21:32:26 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.7.1-1
+- Update to 1.7.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 22 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.6.2-1
 - Update to latest version
 

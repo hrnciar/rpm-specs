@@ -1,9 +1,10 @@
-#
-%global mydocs __tmp_docdir
+# Force out of source build
+%undefine __cmake_in_source_build
+
 #
 Name:           airinv
-Version:        1.00.4
-Release:        3%{?dist}
+Version:        1.00.5
+Release:        1%{?dist}
 
 Summary:        C++ Simulated Airline Inventory Management System library
 License:        LGPLv2+
@@ -62,30 +63,30 @@ online (https://%{name}.org).
 
 
 %prep
-%autosetup -n %{name}-%{name}-%{version} 
+%autosetup -n %{name}-%{version}
 
 
 %build
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
-mkdir -p %{mydocs}
-mv $RPM_BUILD_ROOT%{_docdir}/%{name}/html %{mydocs}
-rm -f %{mydocs}/html/installdox
+# Remove the Doxygen installer
+rm -f %{buildroot}%{_docdir}/%{name}/html/installdox
 
 # Remove additional documentation files (those files are already available
 # in the project top directory)
-rm -f $RPM_BUILD_ROOT%{_docdir}/%{name}/{NEWS,README,AUTHORS}
+rm -f %{buildroot}%{_docdir}/%{name}/{NEWS,README,AUTHORS}
 
 %check
-ctest
+%ctest
 
 
 %files
-%doc AUTHORS ChangeLog COPYING NEWS README.md
+%doc AUTHORS ChangeLog NEWS README.md
+%license COPYING
 %{_bindir}/%{name}
 %{_bindir}/%{name}_parseInventory
 %{_bindir}/AirInvClient
@@ -108,11 +109,21 @@ ctest
 %{_mandir}/man3/%{name}-library.3.*
 
 %files doc
-%doc %{mydocs}/html
-%doc COPYING
+%doc %{_docdir}/%{name}/html
+%license COPYING
 
 
 %changelog
+* Sun Aug 09 2020 Denis Arnaud <denis.arnaud_fedora@m4x.org> - 1.00.5-1
+- Upstream upgrade
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00.4-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 06 2020 Denis Arnaud <denis.arnaud_fedora@m4x.org> - 1.00.4-3
 - Rebuilt for SOCI 4.0.1-alpha2
 

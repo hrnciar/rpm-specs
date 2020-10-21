@@ -6,7 +6,7 @@
 
 # https://github.com/andy-kimball/arenaskl
 %global goipath         github.com/andy-kimball/arenaskl
-%global commit          1243160cabf69fa4db440655008901edb7b5df2b
+%global commit          f701008588b9f33126c0bc1c2a47587f2aafbbef
 
 %gometa
 
@@ -19,7 +19,7 @@ iteration in both directions.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.4%{?dist}
+Release:        0.6%{?dist}
 Summary:        Fast, lock-free, arena-based Skiplist implementation in Go
 
 # Upstream license specification: Apache-2.0
@@ -51,6 +51,12 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 16:44:14 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200723gitf701008
+- Bump to commit f701008588b9f33126c0bc1c2a47587f2aafbbef
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

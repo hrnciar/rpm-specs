@@ -1,5 +1,5 @@
 Name:     FAudio
-Version:  20.06
+Version:  20.10
 Release:  1%{?dist}
 Summary:  FNA is a reimplementation of the Microsoft XNA Game Studio 4.0 Refresh libraries
 
@@ -12,6 +12,8 @@ BuildRequires: gcc
 BuildRequires: gcc-c++
 
 BuildRequires: SDL2-devel
+BuildRequires: gstreamer1-devel
+BuildRequires: gstreamer1-plugins-base-devel
 
 
 %description
@@ -44,12 +46,13 @@ Development files for the FAudio library.
 
 
 %build
-%cmake .
-%make_build
+%cmake \
+ -DGSTREAMER=ON
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %files -n libFAudio
@@ -72,6 +75,22 @@ Development files for the FAudio library.
 
 
 %changelog
+* Fri Oct 02 2020 Michael Cronenworth <mike@cchtml.com> - 20.10-1
+- Update to 20.10
+
+* Wed Sep 02 2020 Michael Cronenworth <mike@cchtml.com> - 20.09-1
+- Update to 20.09
+
+* Mon Aug 03 2020 Michael Cronenworth <mike@cchtml.com> - 20.08-1
+- Update to 20.08
+- Enable GStreamer backend
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.07-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Michael Cronenworth <mike@cchtml.com> - 20.07-1
+- Update to 20.07
+
 * Mon Jun 01 2020 Michael Cronenworth <mike@cchtml.com> - 20.06-1
 - Update to 20.06
 

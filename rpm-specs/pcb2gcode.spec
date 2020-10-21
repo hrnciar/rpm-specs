@@ -1,6 +1,6 @@
 Name:		pcb2gcode
 Version:	1.3.2
-Release:	15%{?dist}
+Release:	17%{?dist}
 Summary:	Command-line software for the isolation, routing and drilling of PCBs
 
 License:	GPLv3+
@@ -26,6 +26,7 @@ dynamic calibration of the milling depth.
 
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure
 make %{?_smp_mflags}
 
@@ -42,6 +43,12 @@ make %{?_smp_mflags}
 
 
 %changelog
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 1.3.2-17
+- Force C++14 as this code is not C++17 ready
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 1.3.2-15
 - Rebuilt for Boost 1.73
 

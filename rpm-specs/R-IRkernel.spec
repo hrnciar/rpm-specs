@@ -1,9 +1,9 @@
 %global packname IRkernel
-%global packver  1.1
+%global packver  1.1.1
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          %{packver}
+Version:          1.1.1
 Release:          2%{?dist}
 Summary:          Native R Kernel for the 'Jupyter Notebook'
 
@@ -11,8 +11,6 @@ License:          MIT
 URL:              https://CRAN.R-project.org/package=%{packname}
 Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 Patch0001:        0001-Use-noarch-R-path-in-kernelspec.patch
-# Fix tests in Python suite.
-Patch0002:        https://github.com/IRkernel/IRkernel/commit/2bff1aec915895c764f0fcbae35533f1f6f70c5e.patch
 
 # Here's the R view of the dependencies world:
 # Depends:
@@ -49,7 +47,6 @@ The R kernel for the 'Jupyter' environment executes R code which the front-end
 
 pushd %{packname}
 %patch0001 -p1
-%patch0002 -p1
 
 # Remove bundled Python code
 rm -r tests/testthat/jkt
@@ -94,6 +91,12 @@ NOT_CRAN=true \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.1.1-1
+- Update to latest version
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.1-2
 - rebuild for R 4
 

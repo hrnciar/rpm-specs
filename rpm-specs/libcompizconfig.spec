@@ -2,7 +2,7 @@
 
 Name:           libcompizconfig
 Version:        0.8.16
-Release:        5%{?dist}
+Release:        7%{?dist}
 Epoch:          1
 Summary:        Configuration back end for compiz
 # backends/libini.so is GPLv2+, other parts are LGPLv2+
@@ -83,6 +83,12 @@ find %{buildroot} -name '*.a' -exec rm -f {} ';'
 
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 1:0.8.16-7
+- Rebuilt for protobuf 3.13
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.8.16-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 1:0.8.16-5
 - Rebuilt for protobuf 3.12
 

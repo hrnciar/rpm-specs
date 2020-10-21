@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:           tasksh
 Version:        1.2.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Shell command that wraps Taskwarrior commands
 
 License:        MIT
@@ -26,14 +28,11 @@ unsupported, buggy and flawed.
 %autosetup -p1
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-  %cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
-popd
-%make_build -C %{_target_platform}
+%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo
+%cmake_build
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 
 %files
 %license LICENSE
@@ -42,6 +41,9 @@ popd
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,13 +2,13 @@
 %global distname py3dns
 
 Name:               python3-py3dns
-Version:            3.1.1
-Release:            14%{?dist}
+Version:            3.2.1
+Release:            2%{?dist}
 Summary:            Python3 DNS library
 
 License:            Python
 URL:                https://launchpad.net/py3dns/
-Source0:            https://pypi.io/packages/source/p/%{distname}/%{distname}-%{version}a.tar.gz
+Source0:            https://pypi.io/packages/source/p/%{distname}/%{distname}-%{version}.tar.gz
 #Source0:            https://pypi.io/packages/source/p/%{distname}/%{distname}-%{version}.tar.gz
 
 # At buildtime, py3dns tries to read in /etc/resolv.conf and crashes if it
@@ -17,15 +17,11 @@ Source0:            https://pypi.io/packages/source/p/%{distname}/%{distname}-%{
 Patch0:             python3-py3dns-handle-absent-resolv.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1561187
 Patch1:             python3-py3dns-py3_friendly_warning.patch
-# https://bugzilla.redhat.com/show_bug.cgi?id=1583688
-# 'async' is a resevered keyword in python3.7 and newer
-# So we switch to using py3async.
-# https://bugs.launchpad.net/py3dns/+bug/1776027
-Patch2:             py3dns-3.1.1-avoid-async-reserved.patch
 
 BuildArch:          noarch
 
 BuildRequires:      python3-devel
+BuildRequires:      python3-setuptools
 
 %description
 This Python 3 module provides a DNS API for looking up DNS entries from
@@ -37,7 +33,6 @@ lightweight implementation.
 %setup -q -n %{distname}-%{version}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 # Remove bundled egg-info in case it exists
 rm -rf %{distname}.egg-info
@@ -74,6 +69,15 @@ done
 %{python3_sitelib}/%{distname}-%{version}*
 
 %changelog
+* Mon Oct  5 2020 Bojan Smojver <bojan@rexursive.com> - 3.2.1-2
+- Add python3-setuptools to build requirements
+
+* Sun Aug  2 2020 Bojan Smojver <bojan@rexursive.com> - 3.2.1-1
+- Bump up to 3.2.1, bug #1862311
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 3.1.1-14
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           hfsplus-tools
 Version:        540.1.linux3
-Release:        19%{?dist}
+Release:        22%{?dist}
 Summary:        Tools to create/check Apple HFS+ filesystems
 
 License:        APSL 2.0
@@ -9,6 +9,7 @@ URL:            http://gentoo-wiki.com/HOWTO_hfsplus
 Source0: http://cavan.codon.org.uk/~mjg59/diskdev_cmds/diskdev_cmds-%{version}.tar.gz
 Patch0: hfsplus-tools-no-blocks.patch
 Patch1: hfsplus-tools-learn-to-stdarg.patch
+Patch2: hfsplus-tools-sysctl.patch
 
 Source100:      http://www.opensource.org/licenses/apsl-2.0.txt
 
@@ -46,6 +47,7 @@ commit.
 %setup -q -n hfsplus-mkfs-%{version} -n diskdev_cmds-%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 # remove errant execute bits
 find . -type f -name '*.[ch]' -exec chmod -c -x {} +
@@ -90,6 +92,16 @@ ln -s fsck.hfsplus.8 fsck.hfs.8
 
 
 %changelog
+* Tue Aug 11 2020 Adam Jackson <ajax@redhat.com> - 540.1.linux3-22
+- <sys/sysctl.h> -> <linux/sysctl.h>
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 540.1.linux3-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 540.1.linux3-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 540.1.linux3-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

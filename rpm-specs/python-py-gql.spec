@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.6.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Comprehensive GraphQL implementation for Python
 
 License:        MIT
@@ -66,6 +66,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests
 %{python3_sitelib}/py_gql-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.6.1-2
 - Run tests as pytest is now available (rhbz#1837139)
 

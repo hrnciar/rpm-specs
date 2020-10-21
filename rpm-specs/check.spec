@@ -1,6 +1,6 @@
 Name:           check
-Version:        0.15.0
-Release:        2%{?dist}
+Version:        0.15.2
+Release:        1%{?dist}
 Summary:        A unit test framework for C
 Source0:        https://github.com/libcheck/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 License:        LGPLv2+
@@ -9,9 +9,6 @@ URL:            http://libcheck.github.io/check/
 Patch0:         %{name}-0.11.0-info-in-builddir.patch
 # Fix test failures due to varying floating point behavior across platforms
 Patch1:         %{name}-0.11.0-fp.patch
-# Fix format specifiers that do not match their arguments
-# See https://github.com/libcheck/check/pull/271
-Patch2:         %{name}-0.15.0-formatspec.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc
@@ -57,16 +54,10 @@ programs suitable for use with the Check unit test framework.
 %patch0 -p1 -b .info-in-builddir
 %endif
 %patch1 -p1
-%patch2 -p1
 
 # Fix detection of various time-related function declarations
 sed -e '/DECLS(\[a/s|)|,,,[AC_INCLUDES_DEFAULT\n[#include <time.h>\n #include <sys/time.h>]]&|' \
     -i configure.ac
-
-# Improve the info directory entry
-# See https://github.com/libcheck/check/pull/273
-sed -e 's/\(Check: (check)\)Introduction./\1.               A unit testing framework for C./' \
-    -i doc/check.texi
 
 # Get rid of version control files
 find . -name .cvsignore -delete
@@ -90,22 +81,11 @@ sed -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -e 's|CC="\(.*g..\)"|CC="\1 -Wl,--as-needed"|' \
     -i libtool
 
-# Do not try to apply -Werror=format-security to the test code.  Many tests
-# compute format strings on the fly, which causes that flag to trigger errors.
-# It's just test code; the library itself builds with the error enabled.
-sed -i 's/ -Werror=format-security//g' tests/Makefile
-
 %make_build
 cd -
 
-mkdir cmake_build
-cd cmake_build
-%cmake -DCHECK_ENABLE_TIMEOUT_TESTS:BOOL=OFF ..
-# See above
-sed -i 's/ -Werror=format-security//g' \
-    $(grep -Frl -e ' -Werror=format-security' tests)
-%make_build
-cd -
+%cmake -DCHECK_ENABLE_TIMEOUT_TESTS:BOOL=OFF .
+%cmake_build
 
 %install
 cd autotools_build
@@ -115,9 +95,7 @@ rm -rf %{buildroot}%{_infodir}/dir
 rm -rf %{buildroot}%{_docdir}/%{name}
 cd -
 
-cd cmake_build
-%make_install
-cd -
+%cmake_install
 
 %check
 cd autotools_build
@@ -161,6 +139,20 @@ cd -
 %{_mandir}/man1/checkmk.1*
 
 %changelog
+* Sun Aug  9 2020 Jerry James <loganjerry@gmail.com> - 0.15.2-1
+- Version 0.15.2
+- Drop upstreamed -fail-macros patch
+
+* Mon Aug  3 2020 Jerry James <loganjerry@gmail.com> - 0.15.1-3
+- Add -fail-macros patch
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Jerry James <loganjerry@gmail.com> - 0.15.1-1
+- Version 0.15.1
+- Drop upstreamed -format-spec patch
+
 * Tue Jun 23 2020 Jerry James <loganjerry@gmail.com> - 0.15.0-2
 - Drop -attribute-format patch, causes other issues (bz 1850198)
 

@@ -1,7 +1,7 @@
 %global srcname netdisco
 
 Name:           python-netdisco
-Version:        2.7.1
+Version:        2.8.2
 Release:        1%{?dist}
 Summary:        Python library to scan local network for services and devices
 
@@ -67,6 +67,12 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests
 %{python3_sitelib}/%{srcname}*.egg-info
 
 %changelog
+* Tue Aug 18 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.8.2-1
+- Update to latest upstream release 2.8.2 (rhbz#1852280)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.7.1-1
 - Update to latest upstream release 2.7.1 (rhbz#1848247)
 

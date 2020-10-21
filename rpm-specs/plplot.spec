@@ -47,11 +47,15 @@
 %bcond_without check
 %endif
 
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+%bcond_without flexiblas
+%endif
+
 %global commit 48a56ee63d25d24eeb44f392025953a6e9cc6b3f
 
 Name:           plplot
 Version:        5.15.0
-Release:        13%{?dist}
+Release:        22%{?dist}
 Summary:        Library of functions for making scientific plots
 
 License:        LGPLv2+
@@ -61,6 +65,9 @@ Source0:        http://downloads.sourceforge.net/plplot/%{name}-%{version}.tar.g
 Source1:        xorg.conf
 # Drop -mieee-fp
 Patch0:         plplot-ieee.patch
+# Fix build with Qt 5.15
+# commit 2aa2e1bdae9f75dbf74dc970e80834081fb3d0de
+Patch1:         plplot-qt-5.15.patch
 Patch2:         plplot-multiarch.patch
 # Upstream patch to fix in-tree ocaml rpath - plplot-5.15.0-37-g6b215267e
 Patch3:         plplot-ocaml-rpath.patch
@@ -75,7 +82,12 @@ BuildRequires:  libtool-ltdl-devel
 BuildRequires:  gcc-gfortran
 %if %{with ada}
 BuildRequires:  gcc-gnat
+%if %{with flexiblas}
+BuildRequires:	flexiblas-devel
+%else
+BuildRequires:	blas-devel
 BuildRequires:  lapack-devel
+%endif
 %endif
 BuildRequires:  swig
 %if %{with octave}
@@ -367,16 +379,16 @@ Requires:       wxGTK3-devel%{?_isa}
 %prep
 %setup -q
 %patch0 -p1 -b .ieee
+%patch1 -p1 -b .qt5
 %patch2 -p1 -b .multiarch
 %patch3 -p1 -b .ocaml-rpath
 %patch7 -p1 -b .ocaml
 %patch9 -p1 -b .safestring
-sed -i -e s/5.2/5.3/ cmake/modules/lua.cmake
+# Use cmake FindLua
+rm cmake/modules/FindLua.cmake
 
 
 %build
-mkdir fedora
-cd fedora
 export CFLAGS="$RPM_OPT_FLAGS"
 export CXXFLAGS="$RPM_OPT_FLAGS"
 export FFLAGS="$RPM_OPT_FLAGS"
@@ -391,11 +403,12 @@ itclver=$(echo %{_libdir}/libitcl*.so | sed -e 's/.*itcl\([0-9.]*\)\.so/\1/')
 itkver=$(echo %{_libdir}/libitk*.so | sed -e 's/.*itk\([0-9.]*\)\.so/\1/')
 iwidgetsver=$(echo %{_datadir}/tcl*/iwidgets* | sed -e 's/.*iwidgets//')
 %endif
-%cmake .. \
+%cmake \
         -DCMAKE_INSTALL_LIBDIR:PATH=%{_libdir} \
         -DFORTRAN_MOD_DIR:PATH=%{_fmoddir} \
         -DUSE_RPATH:BOOL=OFF \
         -DENABLE_ada:BOOL=ON \
+        %{?with_flexiblas:-DBLAS_LIBRARIES=-lflexiblas} \
         -DENABLE_d:BOOL=ON \
 %if %{with itcl}
         -DENABLE_itcl:BOOL=ON \
@@ -429,12 +442,11 @@ iwidgetsver=$(echo %{_datadir}/tcl*/iwidgets* | sed -e 's/.*iwidgets//')
 %endif
         -DBUILD_TEST:BOOL=ON
 
-%make_build VERBOSE=1
+%cmake_build
 
 
 %install
-cd fedora
-%make_install
+%cmake_install
 
 # Fix up tclIndex files so they are the same on all builds
 #for file in $RPM_BUILD_ROOT%{_datadir}/plplot%{version}/examples/*/tclIndex
@@ -455,7 +467,6 @@ chrpath -d $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs/dllpl*_stubs.so
 
 %if %{with check}
 %check
-cd fedora
 cp %SOURCE1 .
 if [ -x /usr/libexec/Xorg ]; then
    Xorg=/usr/libexec/Xorg
@@ -466,19 +477,19 @@ $Xorg -noreset +extension GLX +extension RANDR +extension RENDER -logfile ./xorg
 export DISPLAY=:99
 # Exclude ocaml from ppc/ppc64/ppc64le, arm
 %ifarch ppc ppc64 ppc64le
-ctest -V -E 'ocaml|octave'
+%ctest --exclude-regex 'ocaml|octave'
 %else
 %ifarch %{arm} aarch64
-ctest -V -E 'java|ocaml|octave'
+%ctest --exclude-regex 'java|ocaml|octave'
 %else
 %ifarch s390x
 # Most tests are segfaulting on s390x for some reason in F32+
-ctest -V || :
+%ctest || :
 %else
 # Octave tests are failing, ignore for now
-ctest -V -E 'octave'
+%ctest --exclude-regex 'octave'
 # Keep tabs on them though
-ctest -V -R 'octave' || :
+%ctest --tests-regex 'octave' || :
 %endif
 %endif
 %endif
@@ -728,6 +739,34 @@ ctest -V -R 'octave' || :
 
 
 %changelog
+* Thu Sep 17 2020 Orion Poplawski <orion@nwra.com> - 5.15.0-22
+- Add upstream patch to fix build with Qt 5.15
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 5.15.0-21
+- OCaml 4.11.1 rebuild
+
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 5.15.0-20
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 5.15.0-19
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.15.0-18
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.15.0-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Orion Poplawski <orion@nwra.com> - 5.15.0-16
+- Use new cmake_* macros
+
+* Tue Jul 14 2020 Jiri Vanek <jvanek@redhat.com> - 5.15.0-15
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 5.15.0-14
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.15.0-13
 - Rebuilt for Python 3.9
 

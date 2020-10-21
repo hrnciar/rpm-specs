@@ -8,7 +8,7 @@ URL: https://powdertoy.co.uk
 License: GPLv3 and MIT and ASL 2.0
 
 Version: 95.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 
 %global repo_owner The-Powder-Toy
 %global repo_name The-Powder-Toy
@@ -121,6 +121,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 95.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 04 2020 Artur Iwicki <fedora@svgames.pl> - 95.0-2
 - Add a patch to disable the built-in update checker
 

@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 
 # uncomment to enable bootstrap mode
 #global bootstrap 1
@@ -10,7 +11,7 @@
 Name:    kproperty
 Summary: Property editing framework with editor widget
 Version: 3.2.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 License: LGPLv2+
 Url:     https://community.kde.org/KProperty
@@ -56,17 +57,13 @@ Requires: cmake(KF5WidgetsAddons)
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%{cmake_kf5} \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{?!tests:OFF}
-popd
-
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang_kf5 kpropertycore_qt
 %find_lang_kf5 kpropertywidgets_qt
@@ -106,6 +103,9 @@ make test ARGS="--output-on-failure --timeout 20" -C %{_target_platform} ||:
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 3.2.0-1
 - 3.2.0
 

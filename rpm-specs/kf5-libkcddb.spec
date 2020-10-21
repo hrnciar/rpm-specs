@@ -1,8 +1,8 @@
-
+%undefine __cmake_in_source_build
 %global framework libkcddb
 
 Name:    kf5-%{framework}
-Version: 20.04.2
+Version: 20.08.1
 Release: 1%{?dist}
 Summary: CDDB retrieval library
 
@@ -69,16 +69,12 @@ CXXFLAGS="%{optflags} $(pkg-config --cflags libmusicbrainz5)"
 export CXXFLAGS
 %endif
 
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-man
 
@@ -93,14 +89,12 @@ echo '%{_kf5_docdir}/HTML/*/kcontrol' > %{name}-doc.lang
 %files -f %{name}.lang
 %license COPYING COPYING.LIB
 %{_kf5_libdir}/libKF5Cddb.so.5*
-%{_kf5_libdir}/libKF5CddbWidgets.so.5*
 %{_qt5_plugindir}/kcm_cddb.so
 %{_kf5_datadir}/config.kcfg/libkcddb5.kcfg
 %{_kf5_datadir}/kservices5/libkcddb.desktop
 
 %files devel
 %{_kf5_libdir}/libKF5Cddb.so
-%{_kf5_libdir}/libKF5CddbWidgets.so
 %{_kf5_includedir}/KCddb/
 %{_kf5_includedir}/kcddb_version.h
 %{_kf5_libdir}/cmake/KF5Cddb/
@@ -110,6 +104,18 @@ echo '%{_kf5_docdir}/HTML/*/kcontrol' > %{name}-doc.lang
 
 
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.2-1
 - 20.04.2
 

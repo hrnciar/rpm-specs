@@ -5,7 +5,7 @@
 
 Name:           antlr32
 Version:        3.2
-Release:        25%{?dist}
+Release:        28%{?dist}
 Summary:        ANother Tool for Language Recognition
 
 License:        BSD
@@ -66,13 +66,13 @@ Maven plug-in for creating ANTLR-generated parsers.
 %package     tool
 Summary:     Command line tool for creating ANTLR-generated parsers
 Requires:    %{name}-java = %{version}-%{release}
+Requires:    stringtemplate >= 3.2
 
 %description tool
 Command line tool for creating ANTLR-generated parsers.
 
 %package     java
 Summary:     Java run-time support for ANTLR-generated parsers
-Requires:    stringtemplate >= 3.2
 
 %description java
 Java run-time support for ANTLR-generated parsers.
@@ -107,6 +107,11 @@ find -name "._*" -delete
 
 # remove compiler plugin configurations that break builds with Java 11
 %pom_remove_plugin -r :maven-compiler-plugin
+
+# Avoid unnecessary dep on stringtemplate from the runtime sub-package
+# It's only needed there for the DotGraph utility, it's not an actual runtime dep
+%pom_xpath_inject "pom:dependency[pom:artifactId='stringtemplate']" "<optional>true</optional>" runtime/Java
+%pom_add_dep org.antlr:stringtemplate:3.2 tool
 
 # separate artifacts into sub-packages
 %mvn_package :antlr tool
@@ -157,6 +162,15 @@ cp -p %{SOURCE6} %{SOURCE7} .m2/org/antlr/antlr3-maven-plugin/%{bootstrap_versio
 %license tool/LICENSE.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Mat Booth <mat.booth@redhat.com> - 3.2-27
+- Avoid unnecessary dep on stringtemplate from the runtime sub-package
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.2-26
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jun 03 2020 Fabio Valentini <decathorpe@gmail.com> - 3.2-25
 - Override javac source and target with 1.8 to fix build with OpenJDK 11.
 

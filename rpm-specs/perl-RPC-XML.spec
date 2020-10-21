@@ -7,7 +7,7 @@
 
 Name:       perl-%{cpan_name}
 Version:    0.80
-Release:    15%{?dist}
+Release:    17%{?dist}
 Summary:    Set of classes for core data, message and XML handling
 License:    Artistic 2.0 or LGPLv2
 URL:        https://metacpan.org/release/%{cpan_name}
@@ -151,6 +151,12 @@ make test
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.80-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.80-16
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.80-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

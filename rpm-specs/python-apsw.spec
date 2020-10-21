@@ -8,7 +8,7 @@
 %endif
 
 %if 0%{?fedora} >= 32
-%global sqlite_version 3.32.2
+%global sqlite_version 3.33.0
 %global uprel 1
 %global pkg_version %{sqlite_version}-r%{uprel}
 %endif
@@ -74,6 +74,12 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} %{__python3} setup.py test
 
 
 %changelog
+* Tue Sep 01 2020 Denis Fateyev <denis@fateyev.com> - 3.33.0.r1-1
+- Bump upstream version to 3.33.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.32.2.r1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 12 2020 Denis Fateyev <denis@fateyev.com> - 3.32.2.r1-1
 - Bump upstream version to 3.32.2
 - Removed obsolete Python 3.9 patch

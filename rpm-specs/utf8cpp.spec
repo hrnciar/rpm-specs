@@ -1,9 +1,10 @@
+%undefine __cmake_in_source_build
 # This package only contains header files.
 %global debug_package %{nil}
 
 Name:       utf8cpp
-Version:    3.1
-Release:    2%{?dist}
+Version:    3.1.2
+Release:    1%{?dist}
 Summary:    A simple, portable and lightweight library for handling UTF-8 encoded strings
 License:    Boost
 URL:        https://github.com/nemtrif/utfcpp
@@ -48,21 +49,16 @@ This project currently only contains header files, which can be found in the
 %patch0 -p1 -b .gtest
 %patch1 -p1 -b .noarch
 #%%patch10 -p1
-mkdir build
 
 %build
-pushd build
 %cmake3 \
    -DUTF8_TESTS=ON \
    -DUTF8_SAMPLES=ON \
-   ..
-%make_build
-popd
+   %{nil}
+%cmake3_build
 
 %install
-pushd build
-%make_install
-popd
+%cmake3_install
 pushd %{buildroot}%{_includedir}
 ln -s utf8cpp/utf8.h ./
 mkdir utf8
@@ -72,9 +68,7 @@ done
 popd
 
 %check
-pushd build
-%make_build test
-popd
+%ctest
 
 %files devel
 %doc README.md samples/docsample.cpp
@@ -88,6 +82,12 @@ popd
 %{_datadir}/cmake/utf8cpp
 
 %changelog
+* Mon Oct 05 2020 Dominik 'Rathann' Mierzejewski <rpm@greysector.net> - 3.1.2-1
+- update to 3.1.2 (#1883049)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

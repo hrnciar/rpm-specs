@@ -7,8 +7,8 @@
 %endif
 
 Name:           python-netaddr
-Version:        0.7.20
-Release:        1%{?dist}
+Version:        0.8.0
+Release:        2%{?dist}
 Summary:        A pure Python network address representation and manipulation library
 
 License:        BSD
@@ -83,7 +83,7 @@ find netaddr -name "*.py" | \
   xargs sed -i -e '1 {/^#!\//d}'
 
 # Make rpmlint happy, fix permissions on documentation files
-chmod 0644 README.md AUTHORS CHANGELOG COPYRIGHT LICENSE PKG-INFO
+chmod 0644 README.rst AUTHORS CHANGELOG COPYRIGHT LICENSE PKG-INFO
 
 %build
 %if 0%{?with_python2}
@@ -127,7 +127,7 @@ py.test-%{python3_version}
 %files -n python2-netaddr
 %license COPYRIGHT LICENSE
 %doc AUTHORS CHANGELOG
-%doc README.md docs/html
+%doc README.rst docs/html
 %{python2_sitelib}/*
 %endif
 
@@ -135,12 +135,18 @@ py.test-%{python3_version}
 %files -n python3-netaddr
 %license COPYRIGHT
 %doc AUTHORS CHANGELOG
-%doc README.md docs/python3/html
+%doc README.rst docs/python3/html
 %{python3_sitelib}/*
 %{_bindir}/netaddr
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul  3 2020 John Eckersberg <jeckersb@redhat.com> - 0.8.0-1
+- New upstream release 0.8.0 (rhbz#1853684)
+
 * Fri Jun 19 2020 John Eckersberg <jeckersb@redhat.com> - 0.7.20-1
 - New upstream release 0.7.20 (rhbz#1848782)
 - Minor spec and rpmlint cleanups

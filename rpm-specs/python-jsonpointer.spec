@@ -2,8 +2,8 @@
 %global github_name python-json-pointer
 
 Name:           python-%{pypi_name}
-Version:        1.10
-Release:        20%{?dist}
+Version:        2.0
+Release:        1%{?dist}
 Summary:        Resolve JSON Pointers in Python
 
 License:        BSD
@@ -46,7 +46,7 @@ ln -s ./jsonpointer-%{python3_version} %{buildroot}%{_bindir}/jsonpointer
 
 %files -n python3-%{pypi_name}
 %doc README.md AUTHORS
-%license COPYING
+%license LICENSE.txt
 %{_bindir}/jsonpointer
 %{_bindir}/jsonpointer-3*
 %{python3_sitelib}/__pycache__/*
@@ -54,6 +54,12 @@ ln -s ./jsonpointer-%{python3_version} %{buildroot}%{_bindir}/jsonpointer
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info/
 
 %changelog
+* Wed Sep 30 2020 Andreas Gerstmayr <agerstmayr@redhat.com> - 2.0-1
+- update to upstream version 2.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.10-20
 - Rebuilt for Python 3.9
 

@@ -4,7 +4,7 @@
 Name:             python-cornice-sphinx
 Epoch:            1
 Version:          0.3
-Release:          13%{?dist}
+Release:          14%{?dist}
 BuildArch:        noarch
 
 License:          ASL 2.0 and MPLv2.0
@@ -63,6 +63,9 @@ PYTHONPATH="." nosetests-3 --exclude test_string_validator_resolved
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.3-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 1:0.3-13
 - Rebuilt for Python 3.9
 

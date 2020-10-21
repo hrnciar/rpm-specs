@@ -6,7 +6,7 @@
 
 Name: vagrant
 Version: 2.2.9
-Release: 2%{?dist}
+Release: 4%{?dist}
 Summary: Build and distribute virtualized development environments
 License: MIT
 URL: http://vagrantup.com
@@ -27,6 +27,9 @@ Patch0: vagrant-2.2.3-Fix-fake_ftp-0.3.x-compatibility.patch
 # Do not load runtime dependencies in %%check if vagrant is not loaded
 # https://github.com/hashicorp/vagrant/pull/10945
 Patch1: vagrant-2.2.9-do-not-load-dependencies.patch
+# Use Erubi instead of Erubis.
+# https://github.com/hashicorp/vagrant/pull/11829
+Patch2: vagrant-2.2.9-Replace-unmaintained-Erubis-by-Erubi.patch
 
 # The load directive is supported since RPM 4.12, i.e. F21+. The build process
 # fails on older Fedoras.
@@ -38,7 +41,7 @@ Requires: ruby(rubygems) >= 1.3.6
 Requires: ruby
 Requires: rubygem(hashicorp-checkpoint) >= 0.1.5
 Requires: rubygem(childprocess) >= 0.5.0
-Requires: rubygem(erubis) >= 2.7.0
+Requires: rubygem(erubi)
 Requires: (rubygem(i18n) >= 1.8 with rubygem(i18n) < 2.0)
 Requires: rubygem(json)
 Requires: (rubygem(listen) >= 3.2 with rubygem(listen) < 4)
@@ -67,7 +70,7 @@ BuildRequires: rubygem(net-ssh)
 BuildRequires: rubygem(net-scp)
 BuildRequires: rubygem(i18n)
 BuildRequires: rubygem(json)
-BuildRequires: rubygem(erubis)
+BuildRequires: rubygem(erubi)
 BuildRequires: rubygem(rspec)
 BuildRequires: rubygem(rspec-its)
 BuildRequires: rubygem(net-sftp)
@@ -109,6 +112,7 @@ Documentation for %{name}.
 %setup -q -b2
 
 %patch0 -p1
+%patch2 -p1
 
 %build
 # TODO: package vagrant_cloud, as it is not in Fedora yet
@@ -420,6 +424,12 @@ end
 %{vagrant_plugin_instdir}/vagrant-spec.config.example.rb
 
 %changelog
+* Mon Aug 17 2020 Vít Ondruch <vondruch@redhat.com> - 2.2.9-4
+- Use Erubi instead of Erubis.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.9-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 20 2020 Pavel Valena <pvalena@redhat.com> - 2.2.9-2
 - Move dependency load map_command_options
   for creating @box_extra_download_options to config/vm.rb.

@@ -1,6 +1,6 @@
 Name:           perl-RPM2
 Version:        1.4
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Perl bindings for the RPM Package Manager API
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/RPM2
@@ -56,6 +56,9 @@ find %{buildroot} -type f -name '*.bs' -size 0 -delete
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.4-12
 - Perl 5.32 rebuild
 

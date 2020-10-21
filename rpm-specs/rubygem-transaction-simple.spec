@@ -10,7 +10,7 @@
 Summary: Simple object transaction support for Ruby
 Name: rubygem-%{gem_name}
 Version: 1.4.0.2
-Release: 18%{?dist}
+Release: 19%{?dist}
 License: MIT
 URL: http://trans-simple.rubyforge.org/
 Source0: http://rubygems.org/downloads/%{gem_name}-%{version}.gem
@@ -102,6 +102,9 @@ testrb -Ilib test/test_*.rb
 %{gem_instdir}/test
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0.2-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0.2-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

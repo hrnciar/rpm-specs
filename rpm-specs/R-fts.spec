@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          0.9.9.2
-Release:          6%{?dist}
+Release:          7%{?dist}
 Summary:          R Interface to 'tslib' (a Time Series Library in C++)
 
 License:          GPLv3
@@ -60,6 +60,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.9.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun  6 2020 Tom Callaway <spot@fedoraproject.org> - 0.9.9.2-6
 - rebuild for R 4
 

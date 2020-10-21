@@ -1,6 +1,6 @@
 Name:           perl-mime-construct
 Version:        1.11
-Release:        28%{?dist}
+Release:        29%{?dist}
 Summary:        Construct/send MIME messages from the command line 
 
 License:        GPLv2+
@@ -49,6 +49,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.11-28
 - Perl 5.32 rebuild
 

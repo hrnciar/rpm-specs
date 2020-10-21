@@ -1,6 +1,6 @@
 Name:           paris-traceroute
 Version:        0.93
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A network diagnosis and measurement tool
 
 License:        LGPLv3
@@ -71,6 +71,9 @@ rm %{buildroot}%{_libdir}/*.la
 %{_includedir}/paristraceroute
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.93-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 31 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.93-3
 - Fix FTBFS (rhbz#1799849)
 

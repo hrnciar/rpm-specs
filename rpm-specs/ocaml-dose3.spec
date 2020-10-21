@@ -8,7 +8,7 @@
 
 Name:           ocaml-dose3
 Version:        5.0.1
-Release:        26.20180821git%{shortcommit0}%{?dist}
+Release:        29.20180821git%{shortcommit0}%{?dist}
 Summary:        Framework for managing distribution packages and dependencies
 
 %global libname %(echo %{name} | sed -e 's/^ocaml-//')
@@ -177,6 +177,15 @@ ln -s %{_bindir}/distcheck %{buildroot}%{_bindir}/eclipsecheck
 %{_mandir}/man8/*.8*
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 5.0.1-29.20180821git2c1b8df
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 5.0.1-28.20180821git2c1b8df
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.1-27.20180821git2c1b8df
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Richard W.M. Jones <rjones@redhat.com> - 5.0.1-26.20180821git2c1b8df
 - Rebuild for updated ocaml-extlib (RHBZ#1837823).
 

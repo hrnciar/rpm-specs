@@ -1,6 +1,6 @@
 Name:           perl-Alien-ProtoBuf
 Version:        0.09
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        Find Protocol Buffers library
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Alien-ProtoBuf
@@ -59,6 +59,12 @@ unset AUTHOR_TESTING
 %{_mandir}/man3/*
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 0.09-8
+- Rebuilt for protobuf 3.13
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.09-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.09-6
 - Perl 5.32 rebuild
 

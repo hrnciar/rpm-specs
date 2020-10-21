@@ -1,8 +1,8 @@
 %global srcname colcon-python-setup-py
 
 Name:           python-%{srcname}
-Version:        0.2.5
-Release:        2%{?dist}
+Version:        0.2.7
+Release:        1%{?dist}
 Summary:        Extension for colcon to support Python packages with a setup.py file
 
 License:        ASL 2.0
@@ -60,6 +60,15 @@ introspecting the arguments to the setup() function call of setuptools.
 
 
 %changelog
+* Thu Oct 15 2020 Scott K Logan <logans@cottsay.net> - 0.2.7-1
+- Update to 0.2.7 (rhbz#1885438)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Scott K Logan <logans@cottsay.net> - 0.2.6-1
+- Update to 0.2.6 (rhbz#1858473)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.5-2
 - Rebuilt for Python 3.9
 

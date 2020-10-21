@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:       csmock
-Version:    2.4.0
-Release:    2%{?dist}
+Version:    2.6.0
+Release:    1%{?dist}
 Summary:    A mock wrapper for Static Analysis tools
 
 License:    GPLv3+
@@ -62,7 +64,8 @@ Tool for plugging static analyzers into the build process, free of mock.
 
 %package -n csmock-common
 Summary: Core of csmock (a mock wrapper for Static Analysis tools)
-Requires: csdiff
+Requires: csdiff > 1.8.0
+Requires: csgcca
 Requires: cswrap >= 1.3.1
 Requires: mock
 %if !(0%{?fedora} >= 19 || 0%{?rhel} >= 7)
@@ -151,17 +154,14 @@ sed -e '1s/python$/python3/' -i py/cs{build,mock}
 %endif
 
 %build
-mkdir csmock_build
-cd csmock_build
 %cmake \
     -DVERSION='%{name}-%{version}-%{release}' \
     -DPYTHON_EXECUTABLE='%{csmock_python_executable}' \
-    ..
-make %{?_smp_mflags} VERBOSE=yes
+    %{nil}
+%cmake_build
 
 %install
-cd csmock_build
-make install DESTDIR="$RPM_BUILD_ROOT"
+%cmake_install
 
 # needed to create the csmock RPM
 %files
@@ -233,6 +233,15 @@ make install DESTDIR="$RPM_BUILD_ROOT"
 %endif
 
 %changelog
+* Tue Oct 20 2020 Kamil Dudka <kdudka@redhat.com> 2.6.0-1
+- update to latest upstream release
+
+* Wed Aug 19 2020 Kamil Dudka <kdudka@redhat.com> 2.5.0-1
+- update to latest upstream release
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.4.0-2
 - Rebuilt for Python 3.9
 

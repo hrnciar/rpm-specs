@@ -3,7 +3,7 @@
 
 Name:           mtdev
 Version:        1.1.5
-Release:        16%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
+Release:        18%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
 Summary:        Multitouch Protocol Translation Library
 
 License:        MIT
@@ -41,11 +41,11 @@ Multitouch protocol translation library development package.
 %build
 autoreconf --force -v --install || exit 1
 %configure --disable-static
-make %{?_smp_mflags}
+%make_build
 
 %install
 rm -rf %{buildroot}
-make install DESTDIR=%{buildroot} INSTALL="install -p"
+%make_install
 
 # We intentionally don't ship *.la files
 rm -f %{buildroot}%{_libdir}/*.la
@@ -65,6 +65,13 @@ rm -f %{buildroot}%{_libdir}/*.la
 %{_bindir}/mtdev-test
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.1.5-17
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

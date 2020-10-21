@@ -4,7 +4,7 @@
 # https://github.com/census-instrumentation/opencensus-go
 %global goipath         go.opencensus.io
 %global forgeurl        https://github.com/census-instrumentation/opencensus-go
-Version:                0.22.0
+Version:                0.22.4
 
 %gometa
 
@@ -17,7 +17,7 @@ three major components: tags, stats and tracing.}
 %global godocs          examples AUTHORS CONTRIBUTING.md README.md example example example
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Stats collection and distributed tracing framework
 
 # Upstream license specification: Apache-2.0
@@ -25,8 +25,8 @@ License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
+BuildRequires:  golang(github.com/golang/groupcache/lru)
 BuildRequires:  golang(github.com/golang/protobuf/proto)
-BuildRequires:  golang(github.com/hashicorp/golang-lru/simplelru)
 BuildRequires:  golang(golang.org/x/net/context)
 BuildRequires:  golang(google.golang.org/grpc)
 BuildRequires:  golang(google.golang.org/grpc/codes)
@@ -61,6 +61,9 @@ BuildRequires:  golang(golang.org/x/net/http2)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.22.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.22.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

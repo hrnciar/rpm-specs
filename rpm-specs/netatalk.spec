@@ -37,7 +37,7 @@
 Name:              netatalk
 Epoch:             5
 Version:           3.1.12
-Release:           15%{?dist}
+Release:           20%{?dist}
 Summary:           Open Source Apple Filing Protocol(AFP) File Server
 License:           GPL+ and GPLv2 and GPLv2+ and LGPLv2+ and BSD and FSFUL and MIT
 # Project is also mirrored at https://github.com/Netatalk/Netatalk
@@ -137,7 +137,6 @@ find include \( -name '*.h' -a -executable \) -exec chmod -x {} \;
 sed -i 's\-systemctl daemon-reload\\g' distrib/initscripts/Makefile.in
 
 %build
-
 %configure \
     --localstatedir=%{_localstatedir}/lib       \
     --with-kerberos                             \
@@ -226,6 +225,21 @@ sh test/afpd/test.sh
 %{_mandir}/man*/netatalk-config.1*
 
 %changelog
+* Tue Sep 29 20:38:13 CEST 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 5:3.1.12-20
+- Rebuilt for libevent 2.1.12
+
+* Thu Aug 21 2020 Jeff Law <law@redhat.com> - 5:3.1.12-19
+- Re-enable LTO
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5:3.1.12-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 5:3.1.12-17
+- Disable LTO
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 5:3.1.12-16
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 5:3.1.12-15
 - Perl 5.32 rebuild
 

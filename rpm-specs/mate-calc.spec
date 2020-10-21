@@ -1,15 +1,10 @@
 Name:          mate-calc
-Version:       1.24.0
-Release:       2%{?dist}
+Version:       1.24.1
+Release:       1%{?dist}
 Summary:       MATE Desktop calculator
 License:       GPLv2+
 URL:           http://mate-desktop.org
 Source0:       http://pub.mate-desktop.org/releases/1.24/%{name}-%{version}.tar.xz
-
-# https://github.com/mate-desktop/mate-calc/pull/130
-Patch1:        mate-calc_0001-Read-authors-updated-from-mate-calc.about.patch
-# https://github.com/mate-desktop/mate-calc/pull/137
-Patch2:        mate-calc_0003-mate-calc.desktop-Do-not-collect-the-translation-for.patch
 
 BuildRequires: gtk3-devel
 BuildRequires: libxml2-devel
@@ -25,9 +20,6 @@ It uses a multiple precision package to do its arithmetic to give a high degree 
 
 %prep
 %autosetup -p1
-
-# Patch 1
-NOCONFIGURE=1 ./autogen.sh
 
 %build
 %configure --disable-schemas-compile
@@ -58,6 +50,12 @@ desktop-file-install                               \
 
 
 %changelog
+* Mon Aug 17 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- update to 1.24.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 15 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-2
 - add some upstream patches
 - update authors in about

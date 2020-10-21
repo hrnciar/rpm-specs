@@ -1,6 +1,6 @@
 Name:           pipx
-Version:        0.15.3.1
-Release:        2%{?dist}
+Version:        0.15.5.1
+Release:        3%{?dist}
 Summary:        Install and run python applications in isolated environments
 
 License:        MIT and BSD
@@ -11,6 +11,7 @@ BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  python3dist(argcomplete)
 BuildRequires:  python3dist(userpath)
+BuildRequires:  python3dist(setuptools)
 
 %{?python_provide:%python_provide python3-%{name}}
 
@@ -37,6 +38,18 @@ sed -i -e 's|#!.*||' src/%{name}/venv_metadata_inspector.py
 %{_bindir}/%{name}
 
 %changelog
+* Mon Oct  5 2020 Martin Jackson <mhjacks@swbell.net> - 0.15.5.1-3
+- Add explicit dep on setuptools
+
+* Sat Aug 29 2020 Martin Jackson <mhjacks@swbell.net> - 0.15.5.1-2
+- Rebuilding.  Dep is OK on f33.
+
+* Thu Aug 27 2020 Martin Jackson <mhjacks@swbell.net> - 0.15.5.1-1
+- Update to upstream release 0.15.5.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.15.3.1-2
 - Rebuilt for Python 3.9
 

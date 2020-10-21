@@ -3,12 +3,14 @@
 
 Name: python-%{srcname}
 Version: 0.15.1
-Release: 2%{?dist}
+Release: 4%{?dist}
 Summary: Pure Python Async Gear Protocol Library
 
 License: ASL 2.0
 URL: https://opendev.org/opendev/%{srcname}
 Source0: %pypi_source
+
+Patch01: 0001-Bump-crypto-requirement-to-accomodate-security-stand.patch
 
 BuildArch: noarch
 
@@ -47,7 +49,7 @@ Requires: python3-six
 %description -n python3-%{srcname} %_description
 
 %prep
-%autosetup -n %{srcname}-%{version} -S git
+%autosetup -n %{srcname}-%{version} -p1 -S git
 # Let RPM handle the dependencies
 rm -rf {test-,}requirements.txt
 
@@ -68,6 +70,13 @@ PYTHON=%{__python3} %{__python3} setup.py testr
 %{python3_sitelib}/%{srcname}-*egg-info
 
 %changelog
+* Tue Jul 30 2020 Faben Boucher <fboucher@redhat.com> - 0.15.1-4
+- Fix FTBFS by providing upstream patch
+  0001-Bump-crypto-requirement-to-accomodate-security-stand.patch
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.15.1-2
 - Rebuilt for Python 3.9
 

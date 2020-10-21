@@ -1,7 +1,7 @@
 %global srcname colcon-ros
 
 Name:           python-%{srcname}
-Version:        0.3.18
+Version:        0.3.21
 Release:        1%{?dist}
 Summary:        Extension for colcon to support ROS packages
 
@@ -70,6 +70,18 @@ An extension for colcon-core to support ROS packages.
 
 
 %changelog
+* Sat Oct 17 2020 Scott K Logan <logans@cottsay.net> - 0.3.21-1
+- Update to 0.3.21 (rhbz#1889066)
+
+* Wed Sep 30 2020 Scott K Logan <logans@cottsay.net> - 0.3.20-1
+- Update to 0.3.20 (rhbz#1881838)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.19-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Scott K Logan <logans@cottsay.net> - 0.3.19-1
+- Update to 0.3.19 (rhbz#1858472)
+
 * Fri Jun 12 2020 Scott K Logan <logans@cottsay.net> - 0.3.18-1
 - Update to 0.3.18 (rhbz#1846603)
 

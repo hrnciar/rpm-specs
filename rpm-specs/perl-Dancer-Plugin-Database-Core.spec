@@ -1,6 +1,6 @@
 Name:           perl-Dancer-Plugin-Database-Core
 Version:        0.20
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Shared core for Dancer and Dancer2 Database plugins
 License:        Artistic 2.0
 
@@ -54,6 +54,9 @@ RELEASE_TESTING=1 make test
 %{_mandir}/man3/Dancer*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.20-7
 - Perl 5.32 rebuild
 

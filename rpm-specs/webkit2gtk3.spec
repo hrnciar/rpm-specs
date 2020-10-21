@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+
 ## NOTE: Lots of files in various subdirectories have the same name (such as
 ## "LICENSE") so this short macro allows us to distinguish them by using their
 ## directory names (from the source tree) as prefixes for the files.
@@ -6,7 +8,7 @@
         cp -p %1 _license_files/$(echo '%1' | sed -e 's!/!.!g')
 
 Name:           webkit2gtk3
-Version:        2.29.1
+Version:        2.30.1
 Release:        1%{?dist}
 Summary:        GTK Web content engine library
 
@@ -16,6 +18,14 @@ Source0:        https://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
 Source1:        https://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz.asc
 # Created from http://hkps.pool.sks-keyservers.net/pks/lookup?op=get&search=0xF3D322D0EC4582C3
 Source2:        https://people.gnome.org/~mcatanzaro/gpg-key-D7FCF61CF9A2DEAB31D81BD3F3D322D0EC4582C3.gpg
+
+%if 0%{?rhel}
+# https://bugs.webkit.org/show_bug.cgi?id=217989
+Patch0:         webkit-aarch64_page_size.patch
+%endif
+
+# https://github.com/WebPlatformForEmbedded/libwpe/issues/59
+Patch1:         wpebackend-fdo-soname.patch
 
 BuildRequires:  bison
 BuildRequires:  bubblewrap
@@ -58,6 +68,7 @@ BuildRequires:  pkgconfig(gstreamer-plugins-bad-1.0)
 BuildRequires:  pkgconfig(gtk+-3.0)
 BuildRequires:  pkgconfig(harfbuzz)
 BuildRequires:  pkgconfig(icu-uc)
+BuildRequires:  pkgconfig(libgcrypt)
 BuildRequires:  pkgconfig(libjpeg)
 BuildRequires:  pkgconfig(libnotify)
 BuildRequires:  pkgconfig(libopenjp2)
@@ -79,10 +90,17 @@ BuildRequires:  pkgconfig(wpe-1.0)
 BuildRequires:  pkgconfig(wpebackend-fdo-1.0)
 BuildRequires:  pkgconfig(xt)
 
+# These are hard requirements of WebKit's bubblewrap sandbox.
 Requires:       bubblewrap
-Requires:       geoclue2
 Requires:       xdg-dbus-proxy
-Requires:       xdg-desktop-portal-gtk
+
+# If Geoclue is not running, the geolocation API will not work.
+Recommends:     geoclue2
+
+# If no xdg-desktop-portal backend is installed, many features will be broken
+# inside the sandbox. In particular, the -gtk backend has to be installed for
+# desktop settings access, including font settings.
+Recommends:     xdg-desktop-portal-gtk
 
 # Obsolete libwebkit2gtk from the webkitgtk3 package
 Obsoletes:      libwebkit2gtk < 2.5.0
@@ -162,6 +180,12 @@ rm -rf Source/ThirdParty/gtest/
 rm -rf Source/ThirdParty/qunit/
 
 %build
+# This package fails to build with LTO due to undefined symbols.  LTO
+# was disabled in OpenSuSE as well, but with no real explanation why
+# beyond the undefined symbols.  It really shold be investigated further.
+# Disable LTO
+%define _lto_cflags %{nil}
+
 # Increase the DIE limit so our debuginfo packages could be size optimized.
 # Decreases the size for x86_64 from ~5G to ~1.1G.
 # https://bugzilla.redhat.com/show_bug.cgi?id=1456261
@@ -178,8 +202,9 @@ rm -rf Source/ThirdParty/qunit/
 %global optflags %(echo %{optflags} | sed 's/-g /-g1 /')
 %endif
 
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
+# bmalloc and JIT are disabled on aarch64 only in RHEL because of the nonstandard
+# page size that's causing problems there. WebKit's build system sets appropriate
+# defaults for all other architectures, and all other distros except RHEL.
 %cmake \
   -GNinja \
   -DPORT=GTK \
@@ -190,15 +215,22 @@ pushd %{_target_platform}
 %if 0%{?fedora}
   -DUSER_AGENT_BRANDING="Fedora" \
 %endif
-  ..
-popd
+%if 0%{?rhel}
+%ifarch aarch64
+  -DENABLE_C_LOOP=ON \
+  -DENABLE_JIT=OFF \
+  -DENABLE_SAMPLING_PROFILER=OFF \
+  -DUSE_SYSTEM_MALLOC=ON \
+%endif
+%endif
+  %{nil}
 
 # Show the build time in the status
 export NINJA_STATUS="[%f/%t][%e] "
-%ninja_build -C %{_target_platform}
+%cmake_build
 
 %install
-%ninja_install -C %{_target_platform}
+%cmake_install
 
 %find_lang WebKit2GTK-4.0
 
@@ -269,6 +301,33 @@ export NINJA_STATUS="[%f/%t][%e] "
 %{_datadir}/gtk-doc/html/webkitdomgtk-4.0/
 
 %changelog
+* Mon Sep 21 2020 Michael Catanzaro <mcatanzaro@redhat.com> - 2.30.1-1
+- Update to 2.30.1
+
+* Fri Sep 11 2020 Michael Catanzaro <mcatanzaro@redhat.com> - 2.30.0-1
+- Update to 2.30.0. Add patch for libwpe#59.
+
+* Fri Sep 04 2020 Michael Catanzaro <mcatanzaro@redhat.com> - 2.29.92-1
+- Update to 2.29.92
+
+* Mon Aug 17 2020 Michael Catanzaro <mcatanzaro@redhat.com> - 2.29.91-1
+- Update to 2.29.91
+
+* Wed Jul 29 2020 Michael Catanzaro <mcatanzaro@redhat.com> - 2.29.4-1
+- Update to 2.29.4
+
+* Tue Jul 14 2020 Michael Catanzaro <mcatanzaro@redhat.com> - 2.29.3-2
+- Drop some Requires to Recommends
+
+* Wed Jul 08 2020 Michael Catanzaro <mcatanzaro@redhat.com> - 2.29.3-1
+- Update to 2.29.3
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> - 2.29.2-2
+- Disable LTO
+
+* Wed Jun 24 2020 Michael Catanzaro <mcatanzaro@redhat.com> - 2.29.2-1
+- Update to 2.29.2
+
 * Mon May 18 2020 Michael Catanzaro <mcatanzaro@redhat.com> - 2.29.1-1
 - Update to 2.29.1
 

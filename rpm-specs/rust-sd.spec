@@ -5,7 +5,7 @@
 %global crate sd
 
 Name:           rust-%{crate}
-Version:        0.7.5
+Version:        0.7.6
 Release:        1%{?dist}
 Summary:        Intuitive find & replace CLI
 
@@ -78,6 +78,12 @@ License:        MIT and BSD
 %endif
 
 %changelog
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 0.7.6-1
+- Update to 0.7.6
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Josh Stone <jistone@redhat.com> - 0.7.5-1
 - Update to 0.7.5
 

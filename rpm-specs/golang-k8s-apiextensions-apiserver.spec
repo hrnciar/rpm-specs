@@ -4,8 +4,8 @@
 # https://github.com/kubernetes/apiextensions-apiserver
 %global goipath         k8s.io/apiextensions-apiserver
 %global forgeurl        https://github.com/kubernetes/apiextensions-apiserver
-Version:                1.15.0
-%global tag             kubernetes-1.15.0
+Version:                1.18.9
+%global tag             kubernetes-1.18.9
 %global distprefix      %{nil}
 
 %gometa
@@ -19,7 +19,7 @@ API server for API extensions like CustomResourceDefinitions.}
 %global gosupfiles      "${examples[@]}"
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        API server for API extensions like CustomResourceDefinitions
 
 # Upstream license specification: Apache-2.0
@@ -28,18 +28,19 @@ URL:            %{gourl}
 Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/emicklei/go-restful)
+BuildRequires:  golang(github.com/go-openapi/errors)
 BuildRequires:  golang(github.com/go-openapi/spec)
 BuildRequires:  golang(github.com/go-openapi/strfmt)
 BuildRequires:  golang(github.com/go-openapi/validate)
 BuildRequires:  golang(github.com/gogo/protobuf/proto)
 BuildRequires:  golang(github.com/gogo/protobuf/sortkeys)
 BuildRequires:  golang(github.com/google/gofuzz)
-BuildRequires:  golang(github.com/pborman/uuid)
-BuildRequires:  golang(github.com/prometheus/client_golang/prometheus)
+BuildRequires:  golang(github.com/google/uuid)
 BuildRequires:  golang(github.com/spf13/cobra)
 BuildRequires:  golang(github.com/spf13/pflag)
 BuildRequires:  golang(go.etcd.io/etcd/clientv3)
 BuildRequires:  golang(go.etcd.io/etcd/pkg/transport)
+BuildRequires:  golang(google.golang.org/grpc)
 BuildRequires:  golang(k8s.io/api/autoscaling/v1)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/api/equality)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/api/errors)
@@ -97,6 +98,7 @@ BuildRequires:  golang(k8s.io/apiserver/pkg/storage/names)
 BuildRequires:  golang(k8s.io/apiserver/pkg/storage/storagebackend)
 BuildRequires:  golang(k8s.io/apiserver/pkg/util/dryrun)
 BuildRequires:  golang(k8s.io/apiserver/pkg/util/feature)
+BuildRequires:  golang(k8s.io/apiserver/pkg/util/openapi)
 BuildRequires:  golang(k8s.io/apiserver/pkg/util/proxy)
 BuildRequires:  golang(k8s.io/apiserver/pkg/util/webhook)
 BuildRequires:  golang(k8s.io/client-go/discovery)
@@ -116,31 +118,40 @@ BuildRequires:  golang(k8s.io/client-go/util/jsonpath)
 BuildRequires:  golang(k8s.io/client-go/util/workqueue)
 BuildRequires:  golang(k8s.io/component-base/featuregate)
 BuildRequires:  golang(k8s.io/component-base/logs)
-BuildRequires:  golang(k8s.io/klog)
+BuildRequires:  golang(k8s.io/component-base/metrics)
+BuildRequires:  golang(k8s.io/component-base/metrics/legacyregistry)
+BuildRequires:  golang(k8s.io/klog/v2)
+BuildRequires:  golang(k8s.io/kube-openapi/pkg/aggregator)
 BuildRequires:  golang(k8s.io/kube-openapi/pkg/builder)
 BuildRequires:  golang(k8s.io/kube-openapi/pkg/common)
 BuildRequires:  golang(k8s.io/kube-openapi/pkg/handler)
 BuildRequires:  golang(k8s.io/kube-openapi/pkg/util)
+BuildRequires:  golang(k8s.io/kube-openapi/pkg/util/proto)
 BuildRequires:  golang(k8s.io/utils/pointer)
+BuildRequires:  golang(k8s.io/utils/trace)
 
 %if %{with check}
 # Tests
 BuildRequires:  golang(github.com/google/go-cmp/cmp)
-BuildRequires:  golang(github.com/googleapis/gnostic/compiler)
-BuildRequires:  golang(github.com/googleapis/gnostic/OpenAPIv2)
+BuildRequires:  golang(github.com/googleapis/gnostic-0.4/compiler)
+BuildRequires:  golang(github.com/googleapis/gnostic-0.4/openapiv2)
 BuildRequires:  golang(github.com/stretchr/testify/assert)
 BuildRequires:  golang(github.com/stretchr/testify/require)
 BuildRequires:  golang(gopkg.in/yaml.v2)
 BuildRequires:  golang(k8s.io/api/core/v1)
+BuildRequires:  golang(k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/fuzzer)
+BuildRequires:  golang(k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/fake)
+BuildRequires:  golang(k8s.io/apiextensions-apiserver/test/integration/fixtures)
+BuildRequires:  golang(k8s.io/apiextensions-apiserver/test/integration/storage)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/api/apitesting/fuzzer)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/api/apitesting/roundtrip)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/apis/meta/fuzzer)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/util/diff)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/util/rand)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/util/yaml)
 BuildRequires:  golang(k8s.io/apiserver/pkg/storage/etcd3)
+BuildRequires:  golang(k8s.io/apiserver/pkg/storage/etcd3/testing)
+BuildRequires:  golang(k8s.io/client-go/util/retry)
 BuildRequires:  golang(k8s.io/component-base/featuregate/testing)
-BuildRequires:  golang(k8s.io/kube-openapi/pkg/util/proto)
 BuildRequires:  golang(sigs.k8s.io/yaml)
 %endif
 
@@ -151,7 +162,9 @@ BuildRequires:  golang(sigs.k8s.io/yaml)
 
 %prep
 %goprep
-find . -name "*.go" -exec sed -i "s|github.com/coreos/etcd|go.etcd.io/etcd|" "{}" +;
+sed -i "s|github.com/googleapis/gnostic/OpenAPIv2|github.com/googleapis/gnostic/openapiv2|" $(find . -name "*.go")
+sed -i "s|k8s.io/klog/v2|k8s.io/klog|" $(find . -type f -iname "*.go")
+sed -i 's|github.com/googleapis/gnostic|github.com/googleapis/gnostic-0.4|' $(find . -iname "*.go" -type f)
 
 %build
 %gobuild -o %{gobuilddir}/bin/apiextensions-apiserver %{goipath}
@@ -165,7 +178,7 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %if %{with check}
 %check
 # test/integration: needs network
-%gocheck -t test/integration -d pkg/controller/openapi
+%gocheck -t test/integration -t pkg/controller/openapi -t pkg/apiserver/validation -d pkg/apiserver/schema
 %endif
 
 %files
@@ -176,6 +189,28 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 00:13:17 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.9-1
+- Update to 1.18.9
+
+* Wed Aug 19 17:59:12 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-4
+- Use gnostic compat package
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 17:02:29 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-1
+- Update to 1.18.3
+
+* Sun Apr 12 21:14:05 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.1-1
+- Update to 1.18.1
+
+* Wed Feb 05 22:02:17 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.17.2-1
+- Update to 1.17.2
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

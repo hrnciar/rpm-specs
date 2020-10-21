@@ -3,7 +3,7 @@
 Summary:       MinGW Windows Enchanting Spell Checking Library
 Name:          mingw-enchant
 Version:       1.6.0
-Release:       23%{?dist}
+Release:       24%{?dist}
 License:       LGPLv2+
 Source0:       http://www.abisource.com/downloads/enchant/%{version}/enchant-%{version}.tar.gz
 URL:           http://www.abisource.com/
@@ -153,6 +153,9 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

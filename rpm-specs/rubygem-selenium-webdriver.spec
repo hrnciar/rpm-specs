@@ -5,7 +5,7 @@
 Summary: The next generation developer focused tool for automated testing of webapps
 Name: rubygem-%{gem_name}
 Version: 3.142.7
-Release: 1%{?dist}
+Release: 3%{?dist}
 License: ASL 2.0
 URL: https://github.com/SeleniumHQ/selenium/wiki/Ruby-Bindings
 Source0: http://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -50,6 +50,11 @@ Documentation for %{name}
 
 %prep
 %setup -q -n %{gem_name}-%{version} -b1
+
+# We have newer version in Fedora
+# https://github.com/SeleniumHQ/selenium/pull/8592
+%gemspec_remove_dep -g childprocess ["< 4.0"]
+%gemspec_add_dep -g childprocess ["< 5.0"]
 
 %build
 gem build ../%{gem_name}-%{version}.gemspec
@@ -97,6 +102,12 @@ popd
 
 
 %changelog
+* Fri Jul 31 14:13:22 GMT 2020 Pavel Valena <pvalena@redhat.com> - 3.142.7-3
+- Relax Childprocess dependency.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.142.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 2020 Pavel Valena <pvalena@redhat.com> - 3.142.7-1
 - Update to selenium-webdriver 3.142.7.
 

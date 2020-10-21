@@ -5,7 +5,7 @@
 %global crate glib
 
 Name:           rust-%{crate}
-Version:        0.9.3
+Version:        0.10.2
 Release:        1%{?dist}
 Summary:        Rust bindings for the GLib library
 
@@ -36,10 +36,10 @@ This package contains library source intended for building other packages
 which use "%{crate}" crate.
 
 %files          devel
-%license COPYRIGHT LGPL LICENSE
+%license COPYRIGHT LICENSE
 %doc README.md
 %{cargo_registry}/%{crate}-%{version_no_tilde}/
-%exclude %{cargo_registry}/%{crate}-%{version_no_tilde}/{appveyor.yml,LGPL,Makefile}
+%exclude %{cargo_registry}/%{crate}-%{version_no_tilde}/{appveyor.yml,Makefile}
 
 %package     -n %{name}+default-devel
 Summary:        %{summary}
@@ -173,6 +173,30 @@ which use "v2_60" feature of "%{crate}" crate.
 %files       -n %{name}+v2_60-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+v2_62-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+v2_62-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "v2_62" feature of "%{crate}" crate.
+
+%files       -n %{name}+v2_62-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+v2_64-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+v2_64-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "v2_64" feature of "%{crate}" crate.
+
+%files       -n %{name}+v2_64-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
 %cargo_prep
@@ -192,6 +216,19 @@ which use "v2_60" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Fri Sep 11 2020 Josh Stone <jistone@redhat.com> - 0.10.2-1
+- Update to 0.10.2
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Josh Stone <jistone@redhat.com> - 0.10.1-1
+- Update to 0.10.1
+
 * Fri Feb 14 2020 Josh Stone <jistone@redhat.com> - 0.9.3-1
 - Update to 0.9.3
 

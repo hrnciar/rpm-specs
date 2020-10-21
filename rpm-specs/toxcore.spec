@@ -1,8 +1,9 @@
+%undefine __cmake_in_source_build
 %global sover   2
 
 Name:           toxcore
 Version:        0.2.12
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Peer to peer instant messenger
 
 # GPLv3+: main library
@@ -42,17 +43,14 @@ This package contains Toxcore development files.
 %autosetup -p1 -n c-%{name}-%{version}
 
 %build
-mkdir _build
-cd _build
 export CFLAGS="%{optflags} -fPIC"
 export CXXFLAGS="%{optflags} -fPIC"
-%cmake -DSTRICT_ABI=ON ..
-%make_build
+%cmake -DSTRICT_ABI=ON
+%cmake_build
 
 %install
-cd _build
-%make_install
-rm -f %{buildroot}/%{_libdir}/*.{a,la}
+%cmake_install
+rm -v %{buildroot}/%{_libdir}/*.a
 
 %files
 %license LICENSE
@@ -67,6 +65,9 @@ rm -f %{buildroot}/%{_libdir}/*.{a,la}
 %{_libdir}/pkgconfig/toxcore.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 12:54:43 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.2.12-1
 - Release 0.2.12 (#1815942)
 

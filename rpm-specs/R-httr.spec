@@ -1,4 +1,5 @@
-%global packname  httr
+%global packname httr
+%global packver  1.4.2
 %global rlibdir  %{_datadir}/R/library
 
 # Not yet available.
@@ -7,13 +8,13 @@
 %global with_network 0
 
 Name:             R-%{packname}
-Version:          1.4.1
-Release:          3%{?dist}
+Version:          1.4.2
+Release:          2%{?dist}
 Summary:          Tools for Working with URLs and HTTP
 
 License:          MIT
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
@@ -91,6 +92,12 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} $ARGS
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.4.2-1
+- Update to latest version
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.4.1-3
 - rebuild for R 4
 

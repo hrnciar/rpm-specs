@@ -5,7 +5,7 @@
 %global crate fuzzy-matcher
 
 Name:           rust-%{crate}
-Version:        0.3.4
+Version:        0.3.7
 Release:        1%{?dist}
 Summary:        Fuzzy Matching Library
 
@@ -52,6 +52,18 @@ which use "default" feature of "%{crate}" crate.
 %files       -n %{name}+default-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+compact-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+compact-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "compact" feature of "%{crate}" crate.
+
+%files       -n %{name}+compact-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
 %cargo_prep
@@ -71,6 +83,15 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sun Oct 04 2020 Fabio Valentini <decathorpe@gmail.com> - 0.3.7-1
+- Update to version 0.3.7.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.3.5-1
+- Update to 0.3.5
+
 * Sun Feb 23 10:33:39 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.3.4-1
 - Update to 0.3.4
 

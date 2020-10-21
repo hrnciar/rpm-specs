@@ -2,7 +2,7 @@
 
 Name:           xfce4-dev-tools
 Version:        4.14.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Xfce developer tools
 
 License:        GPLv2+
@@ -52,6 +52,9 @@ install -p -m 644 m4macros/xdt*.m4 $RPM_BUILD_ROOT%{_datadir}/aclocal/
 %{_datadir}/aclocal/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

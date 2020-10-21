@@ -3,7 +3,7 @@
 
 Name:           trac-watchlist-plugin
 Version:        0.5
-Release:        0.18.svn%{svn_rev}%{?dist}
+Release:        0.19.svn%{svn_rev}%{?dist}
 Summary:        Watchlist plugin for Trac for watching tickets or wiki pages
 
 # GPLv3 license from setup.py
@@ -49,6 +49,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-0.19.svn11062
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-0.18.svn11062
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

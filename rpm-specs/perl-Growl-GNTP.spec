@@ -1,6 +1,6 @@
 Name:           perl-Growl-GNTP
 Version:        0.21
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Perl implementation of GNTP Protocol (Client Part)
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Growl-GNTP
@@ -43,6 +43,9 @@ find %{buildroot} -type f -name .packlist -exec rm -f {} \;
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.21-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.21-13
 - Perl 5.32 rebuild
 

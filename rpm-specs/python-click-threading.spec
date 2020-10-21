@@ -4,7 +4,7 @@
 
 Name:           python-%{srcname}
 Version:        0.4.4
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -48,6 +48,9 @@ Multithreaded support for python 3 click (CLI creation kit) applications.
 %{python3_sitelib}/%{pyname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.4-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.4-12
 - Rebuilt for Python 3.9
 

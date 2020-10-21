@@ -3,7 +3,7 @@
 
 # https://github.com/container-storage-interface/spec
 %global goipath         github.com/container-storage-interface/spec
-Version:                1.1.0
+Version:                1.3.0
 
 %gometa
 
@@ -15,7 +15,7 @@ protobuf files.}
 %global godocs          CONTRIBUTING.md README.md spec.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Container Storage Interface (CSI) Specification
 
 # Upstream license specification: Apache-2.0
@@ -27,8 +27,9 @@ BuildRequires:  golang(github.com/golang/protobuf/proto)
 BuildRequires:  golang(github.com/golang/protobuf/protoc-gen-go/descriptor)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/timestamp)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/wrappers)
-BuildRequires:  golang(golang.org/x/net/context)
 BuildRequires:  golang(google.golang.org/grpc)
+BuildRequires:  golang(google.golang.org/grpc/codes)
+BuildRequires:  golang(google.golang.org/grpc/status)
 
 %description
 %{common_description}
@@ -49,6 +50,12 @@ BuildRequires:  golang(google.golang.org/grpc)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 14:12:42 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.3.0-1
+- Update to 1.3.0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

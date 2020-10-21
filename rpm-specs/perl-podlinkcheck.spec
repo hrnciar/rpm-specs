@@ -3,7 +3,7 @@
 
 Name:           perl-podlinkcheck
 Version:        15
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Check Perl POD L<> link references
 License:        GPLv3+
 URL:            https://metacpan.org/release/podlinkcheck
@@ -100,6 +100,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 15-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 15-12
 - Perl 5.32 rebuild
 

@@ -6,7 +6,7 @@
 Summary:        Perl module to strip unwanted HTML tags and attributes
 Name:           perl-HTML-Restrict
 Version:        3.0.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/%{pkgname}
 Source:         https://cpan.metacpan.org/authors/id/O/OA/OALDERS/%{pkgname}-v%{version}.tar.gz
@@ -70,6 +70,9 @@ make test
 %{_mandir}/man3/*.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.0.0-4
 - Perl 5.32 rebuild
 

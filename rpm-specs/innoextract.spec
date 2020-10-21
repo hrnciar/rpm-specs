@@ -1,3 +1,4 @@
+%define __cmake_in_source_build 1
 #
 # spec file for package innoextract
 #
@@ -15,7 +16,7 @@
 
 Name:           innoextract
 Version:        1.8
-Release:        4%{?dist}
+Release:        7%{?dist}
 License:        zlib
 Summary:        Tool to extract installers created by Inno Setup
 Url:            https://constexpr.org/innoextract/
@@ -52,6 +53,16 @@ make %{?_smp_mflags}
 %{_mandir}/man1/innoextract.1*
 
 %changelog
+* Wed Sep 23 2020 Jeff Law <law@redhat.com> - 1.8-7
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Jonathan Wakely <jwakely@redhat.com> - 1.8-4
 - Rebuilt for Boost 1.73
 

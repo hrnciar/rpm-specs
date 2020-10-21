@@ -10,6 +10,12 @@
 %{?!ga_version: %global ga_version 5.7.2-3}
 
 
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 %ifarch %ix86 %arm
 %global make64_to_32 0
 %global NWCHEM_TARGET LINUX
@@ -26,17 +32,17 @@
 ExclusiveArch: %{ix86} x86_64 %{arm} aarch64 ppc64le
 
 # static (a) or shared (so) libpython.*
-%global BLASOPT -L%{_libdir} -lopenblas
+%global BLASOPT -L%{_libdir} -l%{blaslib}
 # from http://www.nwchem-sw.org forum:
 # BLAS_SIZE=4 is needed when the Blas library you are using have
 # 32-bit integer arguments (de facto default)
 %global BLAS_SIZE 4
-%global LAPACK_LIB -L%{_libdir} -lopenblas
+%global LAPACK_LIB -L%{_libdir} -l%{blaslib}
 
 
 Name:			nwchem
 Version:		%{major_version}
-Release:		9%{?dist}
+Release:		11%{?dist}
 Summary:		Delivering High-Performance Computational Chemistry to Science
 
 License:		ECL 2.0
@@ -70,7 +76,7 @@ BuildRequires:		python2-devel
 
 BuildRequires:		gcc-gfortran
 
-BuildRequires:		openblas-devel
+BuildRequires:		%{blaslib}-devel
 
 BuildRequires:		hostname
 
@@ -475,6 +481,12 @@ mv QA.orig QA
 
 
 %changelog
+* Fri Aug 28 2020 Iñaki Úcar <iucar@fedoraproject.org> - 7.0.0-11
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 7.0.0-9
 - Rebuilt for Python 3.9
 

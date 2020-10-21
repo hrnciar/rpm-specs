@@ -1,28 +1,30 @@
 %global srcname suds
-%global sum A python SOAP client
-%global desc \
-The suds project is a python soap web services client lib.  Suds leverages\
-python meta programming to provide an intuitive API for consuming web\
-services.  Objectification of types defined in the WSDL is provided\
-without class generation.  Programmers rarely need to read the WSDL since\
-services and WSDL based objects can be easily inspected.
 
-Summary: %{sum}
+Summary: A python SOAP client
 Name:  python-suds
 Version: 0.8.4
-Release: 2%{?dist}
+Release: 4%{?dist}
 Source0: https://github.com/suds-community/suds/archive/v%{version}.tar.gz#/%{srcname}-%{version}.tar.gz
 License: LGPLv3+
 BuildArch: noarch
 URL: https://github.com/suds-community/suds
 
-%description %{desc}
+BuildRequires: python3-devel
+BuildRequires: %{py3_dist pytest setuptools six}
+
+%global _description %{expand:
+The suds project is a python soap web services client lib.  Suds leverages
+python meta programming to provide an intuitive API for consuming web
+services.  Objectification of types defined in the WSDL is provided
+without class generation.  Programmers rarely need to read the WSDL since
+services and WSDL based objects can be easily inspected.}
+
+%description %_description
 
 %package -n python3-%{srcname}
-BuildRequires: python3-devel python3-pytest python3-six
-Summary:        %{sum}
+Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
-%description -n python3-%{srcname} %{desc}
+%description -n python3-%{srcname} %_description
 
 %prep
 %autosetup -p1 -n %{srcname}-%{version}
@@ -34,7 +36,7 @@ Summary:        %{sum}
 %py3_install
 
 %check
-%{__python3} setup.py test
+%pytest
 
 %files -n python3-%{srcname}
 %{python3_sitelib}/%{srcname}*/
@@ -42,6 +44,12 @@ Summary:        %{sum}
 %license LICENSE.txt
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Scott Talbert <swt@techie.net> - 0.8.4-3
+- Modernize Python packaging; BR setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.4-2
 - Rebuilt for Python 3.9
 

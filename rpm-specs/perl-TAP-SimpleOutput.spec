@@ -1,6 +1,6 @@
 Name:           perl-TAP-SimpleOutput
 Version:        0.009
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Simple closure-driven TAP generator
 License:        LGPLv2
 URL:            https://metacpan.org/release/TAP-SimpleOutput
@@ -60,6 +60,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.009-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.009-11
 - Perl 5.32 rebuild
 

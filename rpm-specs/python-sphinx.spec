@@ -21,11 +21,11 @@
 %global upstream_name Sphinx
 
 Name:       python-sphinx
-%global     general_version 2.2.2
+%global     general_version 3.2.1
 #global     prerel ...
 %global     upstream_version %{general_version}%{?prerel}
 Version:    %{general_version}%{?prerel:~%{prerel}}
-Release:    4%{?dist}
+Release:    2%{?dist}
 Epoch:      1
 Summary:    Python documentation generator
 
@@ -42,35 +42,33 @@ Source0:    %{pypi_source %{upstream_name} %{upstream_version}}
 # which causes that test to fail.
 Patch1:     sphinx-test_theming.diff
 
-# Backport: test: Add a docstring to avoid an error on py39a5+
-Patch2:     https://github.com/sphinx-doc/sphinx/commit/ffb1ca3a.patch
-
-# Backport: Do not emit type arguments twice (needed for Python 3.9)
-# Rebased from https://github.com/sphinx-doc/sphinx/commit/46372726
-Patch3:     46372726.patch
+# Latest version of python-pygments (2.7.1) breaks python-sphinx.
+# It is already fixed in upstream and this patch can be removed
+# once new version of python-sphinx is released.
+Patch2:     https://github.com/sphinx-doc/sphinx/commit/85b24a2e88ea71edc728aff3b078d34c2f374f06.patch
 
 BuildArch:     noarch
 
-BuildRequires: python3-devel
-BuildRequires: python3-setuptools
+BuildRequires: python%{python3_pkgversion}-devel
+BuildRequires: python%{python3_pkgversion}-setuptools
 
-BuildRequires: python3-babel
-BuildRequires: python3-docutils
-BuildRequires: python3-imagesize
-BuildRequires: python3-jinja2
-BuildRequires: python3-packaging
-BuildRequires: python3-pygments
-BuildRequires: python3-requests
-BuildRequires: python3-sphinxcontrib-applehelp
-BuildRequires: python3-sphinxcontrib-devhelp
-BuildRequires: python3-sphinxcontrib-htmlhelp
-BuildRequires: python3-sphinxcontrib-jsmath
-BuildRequires: python3-sphinxcontrib-qthelp
-BuildRequires: python3-sphinxcontrib-serializinghtml
-BuildRequires: python3-sphinx-theme-alabaster
+BuildRequires: python%{python3_pkgversion}-babel
+BuildRequires: python%{python3_pkgversion}-docutils
+BuildRequires: python%{python3_pkgversion}-imagesize
+BuildRequires: python%{python3_pkgversion}-jinja2
+BuildRequires: python%{python3_pkgversion}-packaging
+BuildRequires: python%{python3_pkgversion}-pygments
+BuildRequires: python%{python3_pkgversion}-requests
+BuildRequires: python%{python3_pkgversion}-sphinxcontrib-applehelp
+BuildRequires: python%{python3_pkgversion}-sphinxcontrib-devhelp
+BuildRequires: python%{python3_pkgversion}-sphinxcontrib-htmlhelp
+BuildRequires: python%{python3_pkgversion}-sphinxcontrib-jsmath
+BuildRequires: python%{python3_pkgversion}-sphinxcontrib-qthelp
+BuildRequires: python%{python3_pkgversion}-sphinxcontrib-serializinghtml
+BuildRequires: python%{python3_pkgversion}-sphinx-theme-alabaster
 
 %if %{with websupport}
-BuildRequires: python3-sphinxcontrib-websupport
+BuildRequires: python%{python3_pkgversion}-sphinxcontrib-websupport
 %endif
 
 # for fixes
@@ -78,12 +76,12 @@ BuildRequires: dos2unix
 
 %if %{with tests}
 # tests import _testcapi
-BuildRequires: python3-test
+BuildRequires: python%{python3_pkgversion}-test
 
-BuildRequires: python3-html5lib
-BuildRequires: python3-mock
-BuildRequires: python3-pytest
-BuildRequires: python3-snowballstemmer
+BuildRequires: python%{python3_pkgversion}-html5lib
+BuildRequires: python%{python3_pkgversion}-mock
+BuildRequires: python%{python3_pkgversion}-pytest
+BuildRequires: python%{python3_pkgversion}-snowballstemmer
 
 BuildRequires: gettext
 BuildRequires: graphviz
@@ -156,12 +154,12 @@ the Python docs:
       snippets and inclusion of appropriately formatted docstrings.
 
 
-%package -n python3-sphinx
+%package -n python%{python3_pkgversion}-sphinx
 Summary:       Python documentation generator
 
 Recommends:    graphviz
 Recommends:    ImageMagick
-%{?python_provide:%python_provide python3-sphinx}
+%{?python_provide:%python_provide python%{python3_pkgversion}-sphinx}
 
 # Bundled JavaScript
 Provides:      bundled(jquery) = 3.2.1
@@ -171,13 +169,13 @@ Provides:      bundled(css3-mediaqueries) = 1.0
 # Remove in F33
 Obsoletes:     python-sphinx-locale < 1:2
 Provides:      python-sphinx-locale = %{epoch}:%{version}-%{release}
-Obsoletes:     python3-sphinxcontrib-napoleon < 0.3.0
-Provides:      python3-sphinxcontrib-napoleon = %{epoch}:%{version}-%{release}
+Obsoletes:     python%{python3_pkgversion}-sphinxcontrib-napoleon < 0.3.0
+Provides:      python%{python3_pkgversion}-sphinxcontrib-napoleon = %{epoch}:%{version}-%{release}
 Conflicts:     python2-Sphinx < 1:2
 Conflicts:     python2-sphinx < 1:2
 Provides:      python(Sphinx) = %{epoch}:%{version}-%{release}
 
-%description -n python3-sphinx
+%description -n python%{python3_pkgversion}-sphinx
 Sphinx is a tool that makes it easy to create intelligent and
 beautiful documentation for Python projects (or other documents
 consisting of multiple reStructuredText sources), written by Georg
@@ -206,10 +204,10 @@ the Python docs:
       snippets and inclusion of appropriately formatted docstrings.
 
 
-%package -n python3-sphinx-latex
-Summary:       LaTeX builder dependencies for python3-sphinx
+%package -n python%{python3_pkgversion}-sphinx-latex
+Summary:       LaTeX builder dependencies for python%{python3_pkgversion}-sphinx
 
-Requires:      python3-sphinx = %{epoch}:%{version}-%{release}
+Requires:      python%{python3_pkgversion}-sphinx = %{epoch}:%{version}-%{release}
 Requires:      texlive-collection-fontsrecommended
 Requires:      texlive-collection-latex
 Requires:      texlive-dvipng
@@ -240,13 +238,13 @@ Requires:      tex(upquote.sty)
 Requires:      tex(utf8x.def)
 Requires:      tex(wrapfig.sty)
 
-%{?python_provide:%python_provide python3-sphinx-latex}
+%{?python_provide:%python_provide python%{python3_pkgversion}-sphinx-latex}
 
 # Remove in F33
 Obsoletes:     python-sphinx-latex < 1:2
 Provides:      python-sphinx-latex = %{epoch}:%{version}-%{release}
 
-%description  -n python3-sphinx-latex
+%description  -n python%{python3_pkgversion}-sphinx-latex
 Sphinx is a tool that makes it easy to create intelligent and
 beautiful documentation for Python projects (or other documents
 consisting of multiple reStructuredText sources), written by Georg
@@ -261,7 +259,7 @@ builder.
 %package doc
 Summary:       Documentation for %{name}
 License:       BSD
-Recommends:    python3-sphinx = %{epoch}:%{version}-%{release}
+Recommends:    python%{python3_pkgversion}-sphinx = %{epoch}:%{version}-%{release}
 
 %description doc
 Sphinx is a tool that makes it easy to create intelligent and
@@ -301,12 +299,10 @@ popd
 %install
 %py3_install
 
-# For backwards compatibility. Remove around Fedora 33 (with care)
-install -d %{buildroot}%{_libexecdir}/python3-sphinx
+# For backwards compatibility. Remove with care, if at all
 for i in sphinx-{apidoc,autogen,build,quickstart}; do
     ln -s %{_bindir}/$i %{buildroot}%{_bindir}/$i-%{python3_version}
     ln -s %{_bindir}/$i %{buildroot}%{_bindir}/$i-3
-    ln -s %{_bindir}/$i %{buildroot}%{_libexecdir}/python3-sphinx/$i
 done
 
 # Clean up non-python files
@@ -360,11 +356,8 @@ mkdir %{buildroot}%{python3_sitelib}/sphinxcontrib
 
 %if %{with tests}
 %check
-export PYTHONPATH=%{buildroot}%{python3_sitelib}
-export PATH=%{buildroot}%{_bindir}:$PATH
-
 # Currently, all linkcheck tests and test_latex_images need internet
-%{__python3} -m pytest \
+%pytest \
 %if %{without internet}
     -k "not linkcheck and not test_latex_images" \
 %endif
@@ -372,21 +365,20 @@ export PATH=%{buildroot}%{_bindir}:$PATH
 %endif
 
 
-%files -n python3-sphinx -f sphinx.lang
+%files -n python%{python3_pkgversion}-sphinx -f sphinx.lang
 %license LICENSE
 %doc AUTHORS CHANGES EXAMPLES README.rst
 %{_bindir}/sphinx-*
 %{python3_sitelib}/sphinx/
 %dir %{python3_sitelib}/sphinxcontrib/
 %{python3_sitelib}/Sphinx-%{upstream_version}-py%{python3_version}.egg-info/
-%{_libexecdir}/python3-sphinx/
 %dir %{_datadir}/sphinx/
 %dir %{_datadir}/sphinx/locale
 %dir %{_datadir}/sphinx/locale/*
 %{_mandir}/man1/sphinx-*
 
 
-%files -n python3-sphinx-latex
+%files -n python%{python3_pkgversion}-sphinx-latex
 # empty, this is a metapackage
 
 
@@ -396,6 +388,24 @@ export PATH=%{buildroot}%{_bindir}:$PATH
 
 
 %changelog
+* Wed Oct 14 2020 Tomas Hrnciar <thrnciar@redhat.com> - 1:3.2.1-2
+- Backport commit to fix python-sphinx with python-pygments v2.7.1
+
+* Tue Aug 18 2020 Miro Hrončok <mhroncok@redhat.com> - 1:3.2.1-1
+- Update to 3.2.1
+- Remove compatibility symbolic links from /usr/libexec/
+- Fixes rhbz#1867294
+
+* Fri Aug 07 2020 Miro Hrončok <mhroncok@redhat.com> - 1:3.1.2-1
+- Update to 3.1.2
+- Fixes rhbz#1853901
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Charalampos Stratakis <cstratak@redhat.com> - 1:3.1.1-1
+- Update to 3.1.1 (#1783776)
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1:2.2.2-4
 - Rebuilt for Python 3.9
 

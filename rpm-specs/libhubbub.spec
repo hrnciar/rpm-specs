@@ -1,6 +1,6 @@
 Name: libhubbub
 Version: 0.3.7
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: An HTML5 compliant parsing library
 
 License: MIT
@@ -82,6 +82,9 @@ make %{?_smp_mflags} test %{make_vars} %{build_vars}
 %doc docs/html
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 David Tardon <dtardon@redhat.com> - 0.3.7-1
 - new upstream release
 

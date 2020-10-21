@@ -1,7 +1,7 @@
 Summary:       Graphical LDAP directory browser and editor
 Name:          gq
 Version:       1.3.4
-Release:       37%{?dist}
+Release:       40%{?dist}
 License:       GPLv2+
 URL:           http://sourceforge.net/projects/gqclient/
 Source0:       http://downloads.sourceforge.net/project/gqclient/GQ%20Unstable/%{version}/gq-%{version}.tar.gz
@@ -14,6 +14,7 @@ Patch5:        gq-1.3.4-errorchain.patch
 Patch6:        gq-1.3.4-strcmp-null-safe.patch
 Patch7:        gq-1.3.4-sanity-check.patch
 Patch8:        gq-1.3.4-format.patch
+Patch9:        gq-1.3.4-openssl.patch
 BuildRequires: gcc
 BuildRequires: gtk2-devel
 BuildRequires: libglade2-devel
@@ -25,7 +26,7 @@ Buildrequires: gettext
 BuildRequires: desktop-file-utils
 BuildRequires: gnome-doc-utils
 BuildRequires: openldap-devel
-BuildRequires: compat-openssl10-devel
+BuildRequires: openssl-devel
 BuildRequires: perl(XML::Parser)
 # for /usr/bin/iconv
 BuildRequires: glibc-common
@@ -77,6 +78,15 @@ desktop-file-install --delete-original      \
 %dir %{_datadir}/%{name}
 
 %changelog
+* Sun Oct 11 2020 Terje Rosten <terje.rosten@ntnu.no> - 1.3.4-40
+- Switch to openssl-devel
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.4-39
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Terje Rosten <terje.rosten@ntnu.no> - 1.3.4-38
+- Rebuild
+
 * Sat Feb 01 2020 Terje Rosten <terje.rosten@ntnu.no> - 1.3.4-37
 - Add GCC10 workaround
 

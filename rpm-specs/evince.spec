@@ -5,16 +5,13 @@
 %global synctex_version 1.19
 
 Name:           evince
-Version:        3.37.2
+Version:        3.38.0
 Release:        1%{?dist}
 Summary:        Document viewer
 
 License:        GPLv2+ and GPLv3+ and LGPLv2+ and MIT and Afmparse
 URL:            https://wiki.gnome.org/Apps/Evince
-Source0:        https://download.gnome.org/sources/%{name}/3.37/%{name}-%{version}.tar.xz
-
-# https://bugzilla.gnome.org/show_bug.cgi?id=766749
-Patch0:         0001-Resolves-deb-762530-rhbz-1061177-add-man-pages.patch
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires:  gcc-c++
 BuildRequires:  gcc
@@ -134,6 +131,8 @@ It adds an additional tab called "Document" to the file properties dialog.
 %endif
 %if 0%{?fedora}
         -Ddjvu=enabled \
+%else
+        -Ddjvu=disabled \
 %endif
         -Dxps=enabled \
         -Dt1lib=disabled \
@@ -242,6 +241,18 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.Evince-p
 %endif
 
 %changelog
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Sun Aug 23 2020 Kalev Lember <klember@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Marek Kasik <mkasik@redhat.com> - 3.37.3-1
+- Update to 3.37.3
+
 * Thu Jun 04 2020 Kalev Lember <klember@redhat.com> - 3.37.2-1
 - Update to 3.37.2
 

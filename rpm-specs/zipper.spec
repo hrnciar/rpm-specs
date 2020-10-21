@@ -1,7 +1,9 @@
+%undefine __cmake_in_source_build
+
 Name:           zipper
 Summary:        C++ wrapper around minizip compression library
 Version:        1.0.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 URL:            https://github.com/sebastiandev/zipper
 
 ## Source archive from github obtained by
@@ -61,22 +63,21 @@ sed -e 's|DESTINATION lib|DESTINATION %{_lib}|g' -i CMakeLists.txt
 find ./minizip/ -name '*.c' -exec chmod 0644 '{}' \;
 
 %build
-mkdir -p build && cd build
 export CXXFLAGS="%{optflags}"
 %cmake -Wno-cpp -Wno-dev \
  -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} -DBUILD_SHARED_VERSION:BOOL=ON -DBUILD_STATIC_VERSION:BOOL=ON \
  -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE -DCMAKE_COLOR_MAKEFILE:BOOL=ON \
- -DCMAKE_SKIP_INSTALL_RPATH:BOOL=YES -DCMAKE_SKIP_RPATH:BOOL=YES ..
-%make_build
+ -DCMAKE_SKIP_INSTALL_RPATH:BOOL=YES -DCMAKE_SKIP_RPATH:BOOL=YES
+%cmake_build
 
 %install
 export LIBDIR=%{_libdir}
-%make_install -C build
+%cmake_install
 
 %ldconfig_scriptlets
 
 %check
-make test -C build
+make test
 
 %files
 %doc README.md VERSION.txt
@@ -91,6 +92,13 @@ make test -C build
 %{_libdir}/*-static.a
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 09 2020 Antonio Trande <sagitter@fedoraproject.org> - 1.0.1-1
 - Release 1.0.1
 

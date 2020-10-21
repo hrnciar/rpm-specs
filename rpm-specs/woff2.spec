@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:           woff2
 Version:        1.0.2
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Web Open Font Format 2.0 library
 
 License:        MIT
@@ -36,23 +38,20 @@ Development files and utils for %{name}
 %autosetup -n %{name}-%{version}
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%cmake .. \
+%cmake \
     -DCMAKE_INSTALL_PREFIX="%{_prefix}" \
     -DCMAKE_INSTALL_LIBDIR="%{_libdir}"
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake_build
 
 %install
-%make_install -C %{_target_platform}
-pushd %{_target_platform}
-mkdir -p  %{buildroot}%{_bindir}/
+%cmake_install
+mkdir -p %{buildroot}%{_bindir}/
+
+cd %{_target_platform}
 install -m 755 woff2_decompress %{buildroot}%{_bindir}/
 install -m 755 woff2_compress %{buildroot}%{_bindir}/
 install -m 755 woff2_info %{buildroot}%{_bindir}/
-popd
+cd -
 
 %files
 %license LICENSE
@@ -75,6 +74,9 @@ popd
 %{_libdir}/pkgconfig/libwoff2enc.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Tomas Popela <tpopela@redhat.com> - 1.0.2-8
 - Package woff2_decompress, woff2_compress and woff2_info in a tools subpackage.
   Thanks to Tomasz Gąsior <kontakt@tomaszgasior.pl>

@@ -1,6 +1,6 @@
 Name:           nss_nis
 Version:        3.1
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        Name Service Switch (NSS) module using NIS
 License:        LGPLv2+
 Url:            https://github.com/thkukuk/libnss_nis
@@ -15,9 +15,25 @@ BuildRequires:  libtirpc-devel
 BuildRequires:  autoconf, automake, libtool
 BuildRequires:  systemd
 
-%ifarch x86_64
-Recommends: (nss_nis(x86-32) if glibc(x86-32))
+
+# hacked Provides, normally comes from built files
+%if %{__isa_bits} == 64
+Provides:       libnss_nis.so.2()(64bit)
+%else
+Provides:       libnss_nis.so.2
 %endif
+
+
+# recommend 32bit lib on 64bit arch
+%if %{__isa_bits} == 64
+Recommends:    (libnss_nis.so.2 if glibc(x86-32))
+%endif
+
+
+# I'd recommend an explicit conflict with different versions of the package
+# to ensure that 64bit and 32bit packages are equal and compatible
+Conflicts:      %{name} < %{version}-%{release}
+
 
 %description
 The nss_nis Name Service Switch module uses the Network Information System (NIS)
@@ -59,6 +75,13 @@ make check
 %license COPYING
 
 %changelog
+* Tue Sep 22 2020 Filip Januš <fjanus@redhat.com> - 3.1-7
+- improve recommandation of 32 bit-version
+- resolves: https://bugzilla.redhat.com/show_bug.cgi?id=1803161
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 10 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 3.1-5
 - Make sure that systemd-userdbd.service can access the network too (#1829572)
 

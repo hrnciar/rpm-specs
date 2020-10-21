@@ -1,6 +1,6 @@
 Name:           perl-Test-Harness-Straps
 Version:        0.30
-Release:        33%{?dist}
+Release:        34%{?dist}
 Summary:        Detailed analysis of test results
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test-Harness-Straps
@@ -51,6 +51,9 @@ perl Build.PL installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.30-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.30-33
 - Perl 5.32 rebuild
 

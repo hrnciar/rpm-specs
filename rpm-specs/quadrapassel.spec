@@ -1,11 +1,11 @@
 Name:           quadrapassel
-Version:        3.36.02
+Version:        3.38.1
 Release:        1%{?dist}
 Summary:        GNOME Quadrapassel game
 
 License:        GPLv2+ and CC-BY-SA
 URL:            https://wiki.gnome.org/Apps/Quadrapassel
-Source0:        https://download.gnome.org/sources/%{name}/3.36/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires:  gcc
 BuildRequires:  clutter-gtk-devel
@@ -50,7 +50,6 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.Quadrapa
 %{_bindir}/quadrapassel
 %{_datadir}/applications/org.gnome.Quadrapassel.desktop
 %{_datadir}/glib-2.0/schemas/org.gnome.Quadrapassel.gschema.xml
-%{_datadir}/icons/hicolor/*/apps/org.gnome.Quadrapassel.png
 %{_datadir}/icons/hicolor/scalable/apps/org.gnome.Quadrapassel.svg
 %{_datadir}/icons/hicolor/symbolic/apps/org.gnome.Quadrapassel-symbolic.svg
 %{_datadir}/quadrapassel/
@@ -59,6 +58,18 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.Quadrapa
 
 
 %changelog
+* Mon Oct  5 2020 Kalev Lember <klember@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 3.36.05-1
+- Update to 3.36.05
+
+* Wed Jul 29 2020 Kalev Lember <klember@redhat.com> - 3.36.04-1
+- Update to 3.36.04
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.02-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Kalev Lember <klember@redhat.com> - 3.36.02-1
 - Update to 3.36.02
 

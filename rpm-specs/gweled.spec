@@ -1,6 +1,6 @@
 Name:           gweled
 Version:        0.9.1
-Release:        23.20130730git819bed%{?dist}
+Release:        24.20130730git819bed%{?dist}
 
 Summary:        Swapping gem game
 
@@ -102,6 +102,9 @@ EOF
 %{_datadir}/sounds/%{name}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-24.20130730git819bed
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-23.20130730git819bed
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

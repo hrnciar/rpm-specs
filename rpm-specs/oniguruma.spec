@@ -1,10 +1,10 @@
 %undefine	_changelog_trimtime
 
-%global	mainver	6.9.5
-%global	betaver	rev1
-%undefine	prerelease
+%global	mainver	6.9.6
+%global	betaver	rc3
+%define	prerelease	1
 
-%global	fedorarel	1
+%global	fedorarel	3
 
 Name:		oniguruma
 Version:	%{mainver}
@@ -14,6 +14,9 @@ Summary:	Regular expressions library
 License:	BSD
 URL:		https://github.com/kkos/oniguruma/
 Source0:	https://github.com/kkos/oniguruma/releases/download/v%{mainver}%{?betaver:_%betaver}/onig-%{mainver}%{?betaver:-%betaver}.tar.gz
+# https://github.com/kkos/oniguruma/issues/221
+# https://github.com/kkos/oniguruma/commit/3603d78f0a3dc80e4d450509120c26a5ffcd293b
+Patch0:	oniguruma-6.9.6-upstream-bug221.patch
 
 BuildRequires:	gcc
 
@@ -35,24 +38,19 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n onig-%{mainver}
+%patch0 -p1 -b .up221
 %{__sed} -i.multilib -e 's|-L@libdir@||' onig-config.in
 
-%if 0
-for f in \
-	README.ja \
-	doc/API.ja \
-	doc/FAQ.ja \
-	doc/RE.ja
-	do
-	iconv -f EUC-JP -t UTF-8 $f > $f.tmp && \
-		( touch -r $f $f.tmp ; %{__mv} -f $f.tmp $f ) || \
-		%{__rm} -f $f.tmp
-done
-%endif
 
 %build
+# This package fails its testsuite when compiled with LTO, but the real problem
+# is that it ends up mixing and matching regexp bits between itself and glibc.
+# Disable LTO
+%define _lto_cflags %{nil}
+
 %configure \
 	--enable-posix-api \
+	--enable-binary-compatible-posix-api \
 	--disable-silent-rules \
 	--disable-static \
 	--with-rubydir=%{_bindir}
@@ -106,6 +104,27 @@ find $RPM_BUILD_ROOT -name '*.la' \
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Tue Oct 20 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 6.9.6-0.3.rc3
+- Apply upstream patch for upstream bug 221
+  - Revert change for false CVE-2020-26159 issue
+    https://github.com/kkos/oniguruma/issues/221
+
+* Sat Oct 17 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 6.9.6-0.2.rc3
+- 6.9.2 rc3
+
+* Mon Oct 12 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 6.9.6-0.1.rc2
+- 6.9.2 rc2
+- Apply upstream patch to keep binary compatibility with 6.9.5
+
+* Thu Oct  1 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 6.9.5-3.rev1
+- Apply upstream fix for CVE-2020-26159
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.9.5-2.rev1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  1 2020 Jeff Law <law@redhat.com> - 6.9.5-2.rev1
+- Disable LTO
+
 * Thu May  7 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 6.9.5-1.rev1
 - 6.9.5 revised 1
 

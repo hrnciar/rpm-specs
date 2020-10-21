@@ -1,5 +1,5 @@
 Name:           mate-sensors-applet
-Version:        1.24.0
+Version:        1.24.1
 Release:        1%{?dist}
 Summary:        MATE panel applet for hardware sensors
 License:        GPLv2+
@@ -78,6 +78,12 @@ find $RPM_BUILD_ROOT -name "*.la" -exec rm -rf {} ';'
 
 
 %changelog
+* Sun Aug 16 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- update to 1.24.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-1
 - update to 1.24.0
 

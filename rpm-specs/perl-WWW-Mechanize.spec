@@ -1,6 +1,6 @@
 Name:           perl-WWW-Mechanize
-Version:        2.00
-Release:        2%{?dist}
+Version:        2.02
+Release:        1%{?dist}
 Summary:        Automates web page form & link interaction
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/WWW-Mechanize
@@ -71,7 +71,6 @@ BuildRequires:  perl(Test::Warn) >= 0.11
 BuildRequires:  perl(Test::Warnings)
 BuildRequires:  perl(URI) >= 1.36
 BuildRequires:  perl(URI::Escape)
-BuildRequires:  perl(vars)
 # $mech->content( format => 'text' ) requires HTML::TreeBuilder to be installed
 # https://metacpan.org/pod/WWW::Mechanize#$mech-%3Econtent(...)
 Requires:       perl(HTML::TreeBuilder)
@@ -107,6 +106,15 @@ queried and revisited.
 %{_mandir}/man3/*.3pm*
 
 %changelog
+* Sun Oct 18 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 2.02-1
+- Update to 2.02
+
+* Sun Sep 20 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 2.01-1
+- Update to 2.01
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.00-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.00-2
 - Perl 5.32 rebuild
 

@@ -1,8 +1,9 @@
+%undefine __cmake_in_source_build
 
 Name:    kcm_wacomtablet
 Summary: KDE Control module for Wacom Graphictablets
-Version: 3.1.1
-Release: 4%{?dist}
+Version: 3.2.0
+Release: 2%{?dist}
 
 License: GPLv2+
 # mirror
@@ -10,13 +11,9 @@ URL:     https://github.com/KDE/wacomtablet
 Source0: https://download.kde.org/stable/wacomtablet/%{version}/wacomtablet-%{version}.tar.xz
 
 ## upstream patches
-Patch46: 0046-Supposedly-fix-building-with-gcc9.patch
-
-## upstreamable patches
-# use 'find_package(X11 REQUIRED COMPONENTS Xi)' instead of
-# 'find_package(X11 REQUIRES COMPONENTS XLIB)' which doesn't seem to work
-# on requent cmake-3.14+
-Patch100: wacomtablet-3.1.1-Xi.patch
+Patch24: 0024-Fix-build-with-Qt-5.15.patch
+# fix for Qt 5.15 but breaks building against older Qt
+#Patch35: 0035-Fix-Qt-5.15-obsoletions.patch
 
 BuildRequires: extra-cmake-modules
 BuildRequires: kf5-ki18n-devel
@@ -55,16 +52,13 @@ with profile support to handle different button/pen layouts per profile.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-%make_build  -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot}  -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -91,6 +85,12 @@ make install/fast DESTDIR=%{buildroot}  -C %{_target_platform}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Rex Dieter <rdieter@fedoraproject.org> - 3.2.0-1
+- 3.2.0, pull in Qt 5.15 fix
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

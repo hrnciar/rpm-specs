@@ -15,7 +15,7 @@ This is a Go package that implements decoding of JSON5.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.9%{?dist}
+Release:        0.10%{?dist}
 Summary:        Go JSON5 decoder package based on encoding/json
 
 License:        BSD and MIT
@@ -47,6 +47,9 @@ BuildRequires:  golang(github.com/robertkrimen/otto)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 3.2.0
-Release: 4%{?dist}
+Release: 9%{?dist}
 Summary: Core library for the Cucumber BDD app
 License: MIT
 URL: https://cucumber.io
@@ -11,12 +11,15 @@ Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
 # git clone https://github.com/cucumber/cucumber-ruby-core.git && cd cucumber-ruby-core
 # git checkout v3.2.0 && tar czvf rubygem-cucumber-core-3.2.0-spec.tar.gz spec/
 Source1: %{name}-%{version}-spec.tar.gz
+# Fix warnings affecting cucumber-wire test suite.
+# https://github.com/cucumber/cucumber-ruby-core/pull/191
+Patch0: rubygem-cucumber-core-6.0.0-Remove-unintended-private-call.patch
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby
 BuildRequires: rubygem(gherkin)
 BuildRequires: rubygem(rspec)
-BuildRequires: rubygem(kramdown)
+BuildRequires: rubygem(kramdown-parser-gfm)
 BuildRequires: rubygem(cucumber-tag_expressions)
 BuildRequires: rubygem(backports)
 # BuildRequires: rubygem(unindent)
@@ -37,9 +40,14 @@ Documentation for %{name}.
 %prep
 %setup -q -n %{gem_name}-%{version} -b 1
 
+%patch0 -p1
+
 # We do not have gherkin 5 in Fedora yet.
 %gemspec_remove_dep -s ../%{gem_name}-%{version}.gemspec -g gherkin '>= 5.0.0'
 %gemspec_add_dep -s ../%{gem_name}-%{version}.gemspec -g gherkin '>= 4.1.0'
+
+%gemspec_remove_dep -s ../%{gem_name}-%{version}.gemspec -g cucumber-tag_expressions '~> 1.1.0'
+%gemspec_add_dep -s ../%{gem_name}-%{version}.gemspec -g cucumber-tag_expressions '>= 1.1.0'
 
 
 %build
@@ -63,7 +71,7 @@ for file in $(grep -Rl unindent spec); do
   sed -i '/^ *expect.*unindent$/ i \pending' "${file}"
 done
 
-LANG=C.UTF-8 rspec spec
+LANG=C.UTF-8 rspec -rkramdown/parser/gfm spec
 popd
 
 %files
@@ -81,6 +89,26 @@ popd
 %doc %{gem_instdir}/CHANGELOG.md
 
 %changelog
+* Mon Aug 24 2020 Vít Ondruch <vondruch@redhat.com> - 3.2.0-9
+- Relax rubygem(cucumber-tag_expressions) dependency.
+  Resolves: rhbz#1871619
+
+* Tue Aug 11 2020 Vít Ondruch <vondruch@redhat.com> - 3.2.0-8
+- Fix warnings affecting cucumber-wire test suite.
+  Resolves: rhbz#1863722
+
+* Tue Aug 11 10:13:05 GMT 2020 Vít Ondruch <vondruch@redhat.com> - 3.2.0-7
+- Add `BR: rubygem(kramdown-parser-gfm)` which was extrected into independency
+  package.
+  Resovles: rhbz#1863721
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

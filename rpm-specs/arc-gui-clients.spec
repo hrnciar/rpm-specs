@@ -1,6 +1,6 @@
 Name:		arc-gui-clients
 Version:	0.4.6
-Release:	22%{?dist}
+Release:	24%{?dist}
 Summary:	ARC Graphical Clients
 
 License:	ASL 2.0
@@ -40,11 +40,11 @@ Provides graphical clients to the NorduGrid ARC middleware.
 %patch5 -p1
 
 %build
-%cmake .
-make %{?_smp_mflags}
+%cmake
+%make_build -C %{_vpath_builddir}
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install -C %{_vpath_builddir}
 
 # Register as an application to be visible in the software center
 #
@@ -88,6 +88,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/arcsub-ui.desktop
 %license LICENSE
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.6-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 0.4.6-23
+- Adapt to new cmake rpm macro
+
 * Fri Apr 10 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 0.4.6-22
 - Change BR qt5-devel to qt5-qtbase-devel
 

@@ -1,6 +1,6 @@
 Name:           scribus
 Version:        1.5.6
-Release:        0.8%{?dist}
+Release:        0.13%{?dist}
 Summary:        Desktop Publishing application written in Qt
 # swatches bring in the fun licenses
 License:        GPLv2+ and OGL and CC0 and CC-BY and CC-BY-SA and Public Domain and ASL 2.0 and LGPLv2+ 
@@ -15,6 +15,8 @@ Source0:        %{name}-%{version}-free.tar.xz
 #Source1:        http://downloads.sourceforge.net/%%{name}/%%{name}-%%{version}.tar.xz.asc
 
 Patch0:         scribus-1.5.6-poppler-0.84.0.patch
+Patch1:         scribus-1.5.6-poppler-0.90.0.patch
+Patch2:		scribus-ctorfix.patch
 
 BuildRequires:	boost-devel
 BuildRequires:	cmake
@@ -48,6 +50,7 @@ BuildRequires:	poppler-cpp-devel
 BuildRequires:	poppler-data-devel
 BuildRequires:	poppler-devel
 BuildRequires:	pkgconfig(python3)
+BuildRequires: python3-setuptools
 BuildRequires:	python3-pillow-devel
 BuildRequires:	python3-qt5-devel
 BuildRequires:	python3-tkinter
@@ -101,8 +104,6 @@ pathfix.py -pni "%{__python3} %{py3_shbang_opts}" \
 	%{name}/plugins/scriptplugin/{samples,scripts}/*.py
 
 %build
-mkdir build
-pushd build
 %cmake  -DWANT_CCACHE=YES \
 	-DWANT_DISTROBUILD=YES \
 	-DWANT_GRAPHICSMAGICK=1 \
@@ -114,13 +115,10 @@ pushd build
 	-DWITH_BOOST=1 \
 	-DWITH_PODOFO=1 ..
 
-%make_build VERBOSE=1
-popd
+%cmake_build
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 
 find %{buildroot} -type f -name "*.la" -exec rm -f {} ';'
 
@@ -156,6 +154,24 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Mon Oct 05 2020 Than Ngo <than@redhat.com> - 1.5.6-0.13
+- add BR on python3-setuptools explicitly
+
+* Fri Aug 21 2020 Jeff law <law@redhat.com> - 1.5.6-0.12
+- Fix static ctor initialization issue by removing the unused static
+  data member
+  Re-enable LTO
+
+* Fri Aug 21 2020 Dan Horák <dan[at]danny.cz> - 1.5.6-0.11
+- build with LTO disabled (#1866207)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.6-0.10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Dan Horák <dan[at]danny.cz> - 1.5.6-0.9
+- Update for https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+- Rebuild for poppler-0.90.0
+
 * Wed Jun 03 2020 Charalampos Stratakis <cstratak@redhat.com> - 1.5.6-0.8
 - Remove dependency on the retired qt5-devel metapackage (#1840633)
 

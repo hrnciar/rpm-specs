@@ -7,7 +7,7 @@
 
 Name:           thunar-volman
 Version:        0.9.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Automatic management of removable drives and media for Thunar
 License:        GPLv2+
 URL:            http://goodies.xfce.org/projects/thunar-plugins/%{name}
@@ -69,6 +69,9 @@ desktop-file-install \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,8 +1,8 @@
 %global repo dde-network-utils
 
 Name:           deepin-network-utils
-Version:        5.0.1
-Release:        2%{?dist}
+Version:        5.1.0.2
+Release:        1%{?dist}
 Summary:        Deepin desktop-environment - network utils
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/dde-network-utils
@@ -47,6 +47,12 @@ sed -i 's|/lib$|/%{_lib}|' dde-network-utils.pro
 %{_libdir}/lib*.so
 
 %changelog
+* Tue Sep 29 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.1.0.2-1
+- new upstream release: 5.1.0.2
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

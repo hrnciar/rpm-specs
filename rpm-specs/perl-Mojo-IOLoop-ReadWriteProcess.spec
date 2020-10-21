@@ -1,11 +1,11 @@
 Name:           perl-Mojo-IOLoop-ReadWriteProcess
-Version:        0.25
-Release:        2%{?dist}
+Version:        0.28
+Release:        1%{?dist}
 Summary:        Execute external programs or internal code blocks as separate process
 License:        GPL+ or Artistic
 
 URL:            https://metacpan.org/release/Mojo-IOLoop-ReadWriteProcess/
-Source0:        https://cpan.metacpan.org/authors/id/M/MU/MUDLER/Mojo-IOLoop-ReadWriteProcess-%{version}.tar.gz
+Source0:        https://cpan.metacpan.org/authors/id/S/SZ/SZARATE/Mojo-IOLoop-ReadWriteProcess-%{version}.tar.gz
 
 BuildArch:      noarch
 # Build requirements
@@ -76,6 +76,15 @@ It executes external programs or internal code blocks as separate process
 %{_mandir}/man3/Mojo*
 
 %changelog
+* Sun Oct 04 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 0.28-1
+- Update to 0.28
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.27-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 0.27-1
+- Update to 0.27
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.25-2
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:           lagan
 Version:        2.0
-Release:        31%{?dist}
+Release:        32%{?dist}
 Summary:        Local, global, and multiple alignment of DNA sequences
 
 License:        GPLv2
@@ -87,6 +87,9 @@ rm -f Readmes/*.chris
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 21 2020 Christian Iseli <Christian.Iseli@unil.ch> - 2.0-31
 - Fix FTBFS due to variable multiple definition issues (bz 1799571)
 

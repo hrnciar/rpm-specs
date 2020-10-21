@@ -1,6 +1,6 @@
 Name:             kvirc
 Version:          5.0.0
-Release:          9%{?dist}
+Release:          10%{?dist}
 Summary:          Free portable IRC client
 License:          GPLv2+ with exceptions
 URL:              http://kvirc.net/
@@ -54,13 +54,13 @@ many IRC addicted developers around the world.
 -DWANT_OGG_THEORA=ON \
 -DWANT_GTKSTYLE=ON \
 -DADDITIONAL_LINK_FLAGS='-Wl,--as-needed' \
-.
+%{nil}
 
 
-%ninja_build
+%cmake_build
 
 %install
-%ninja_install
+%cmake_install
 
 desktop-file-install \
     --dir %{buildroot}%{_datadir}/applications/ \
@@ -113,6 +113,9 @@ rm %{buildroot}%{_libdir}/libkvilib.so
 %lang(uk) %{_mandir}/uk/man1/%{name}.1.gz
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 5.0.0-9
 - Perl 5.32 rebuild
 

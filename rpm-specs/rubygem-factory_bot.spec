@@ -2,7 +2,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 4.10.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: Framework and DSL for defining and using model instance factories
 License: MIT
 URL: https://github.com/thoughtbot/factory_bot
@@ -97,6 +97,9 @@ popd
 %{gem_instdir}/cucumber.yml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.10.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.10.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

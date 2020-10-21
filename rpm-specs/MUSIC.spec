@@ -2,8 +2,10 @@
 # built.
 # https://github.com/INCF/MUSIC/issues/55
 
+# Fix for CC CXX
+# https://lists.fedoraproject.org/archives/list/scitech@lists.fedoraproject.org/thread/BNKLXKY4O7BOTZ7LH7XDUTQO6FG2UWUT/
 
-%global commit a78a8e2c90b07274db94265db75c320dbb01f9fb
+%global commit 262f6f501b21ee8ba0cd8fbf8c784978577717cc
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 # For debugging
@@ -33,16 +35,18 @@ MUSIC is distributed under the GNU General Public License v3.}
 
 
 Name:           MUSIC
-Version:        1.1.15
-Release:        6.20190717git%{shortcommit}%{?dist}
+Version:        1.1.16
+Release:        1.20201002git%{shortcommit}%{?dist}
 Summary:        The MUltiSimulation Coordinator
 
 License:        GPLv3+
 URL:            https://github.com/INCF/%{name}/
 Source0:        https://github.com/INCF/%{name}/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
-Patch0:         0001-Enable-testsuite-and-extras-for-mpich2.patch
-Patch1:         0002-Make-python-bits-ourselves.patch
-Patch2:         0003-Make-bundled-rudeconfig-also-follow-all-flags.patch
+Patch0:         0001-Disable-sysguess.patch
+Patch1:         0002-Enable-tests-and-extras.patch
+Patch2:         0003-Make-python-bits-ourselves.patch
+Patch3:         0004-Make-bundled-rudeconfig-also-follow-all-flags.patch
+Patch4:         0005-Remove-src-flags.patch
 
 # Bundled rudeconfig
 Provides:       bundled(rudeconfig) = 5.0.5-1
@@ -139,7 +143,7 @@ Requires:       %{name}-openmpi%{?_isa} = %{version}-%{release}
 # in here now
 # Apply patches
 pushd %{name}-%{commit}
-%patch -p1 -P 0 1 2
+%patch -p1 -P 0 1 2 3 4
 # on Fedora, we have mpichversion, not mpich2version
 sed -i 's|mpich2version|mpichversion|' configure.ac
 popd
@@ -165,7 +169,7 @@ pushd %{name}-%{commit}$MPI_COMPILE_TYPE
 MPI_CXXFLAGS="$CXXFLAGS $(pkg-config --cflags $MPI_VARIANT)"
 MPI_CFLAGS="$CFLAGS $(pkg-config --cflags $MPI_VARIANT)"
 MPI_LDFLAGS="$LDFLAGS $(pkg-config --libs $MPI_VARIANT)"
-./configure MPI_CXXFLAGS="$MPI_CXXFLAGS" MPI_CFLAGS="$MPI_CFLAGS" MPI_LDFLAGS="$MPI_LDFLAGS" PYTHON="$PYTHON_BIN" \\\
+./configure LAUNCHSTYLE="_mpirun" SYSGUESS="$SYSGUESS" CXX=mpicxx CC=mpicc MPI_CXXFLAGS="$MPI_CXXFLAGS" MPI_CFLAGS="$MPI_CFLAGS" MPI_LDFLAGS="$MPI_LDFLAGS" PYTHON="$PYTHON_BIN" \\\
 --disable-static \\\
 --prefix=$MPI_HOME \\\
 --libdir=$MPI_LIB \\\
@@ -187,8 +191,8 @@ popd
 # Mpich
 %if %{with mpich}
 %{_mpich_load}
-MPI_CXX="mpicxx"
 MPI_VARIANT="mpich"
+SYSGUESS="mpich"
 
 MPI_COMPILE_TYPE="-mpich"
 PYTHON_VERSION=3
@@ -201,8 +205,8 @@ PYTHON_BIN="%{__python3}"
 # Openmpi
 %if %{with openmpi}
 %{_openmpi_load}
-MPI_CXX="mpicxx"
 MPI_VARIANT="ompi-cxx"
+SYSGUESS="openmpi"
 
 MPI_COMPILE_TYPE="-openmpi"
 PYTHON_VERSION=3
@@ -308,6 +312,7 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %{_libdir}/mpich/bin/multiport_mpich
 %{_libdir}/mpich/bin/musicrun_mpich
 %{_libdir}/mpich/bin/test_ag_mpich
+%{_libdir}/mpich/bin/music_tests
 %{_libdir}/mpich/lib/libmusic.so.1
 %{_libdir}/mpich/lib/libmusic-c.so.1
 %{_libdir}/mpich/lib/libmusic.so.1.0.0
@@ -354,6 +359,7 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %{_libdir}/openmpi/bin/multiport_openmpi
 %{_libdir}/openmpi/bin/musicrun_openmpi
 %{_libdir}/openmpi/bin/test_ag_openmpi
+%{_libdir}/openmpi/bin/music_tests
 %{_libdir}/openmpi/lib/libmusic.so.1
 %{_libdir}/openmpi/lib/libmusic-c.so.1
 %{_libdir}/openmpi/lib/libmusic.so.1.0.0
@@ -377,6 +383,16 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %endif
 
 %changelog
+* Fri Oct 02 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.1.16-1.20201002git262f6f5
+- Update to latest commit
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.15-8.20190717gita78a8e2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.15-7.20190717gita78a8e2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.15-6.20190717gita78a8e2
 - Rebuilt for Python 3.9
 

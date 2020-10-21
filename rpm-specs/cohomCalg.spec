@@ -1,6 +1,6 @@
 Name:           cohomCalg
 Version:        0.32
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Sheaf cohomologies for line bundles on toric varieties
 
 License:        GPLv3+
@@ -67,6 +67,9 @@ popd
 %doc manual/latex_source/manual.pdf
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.32-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.32-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:          rubygem-%{gem_name}
 Version:       3.0.0
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       A wonderfully simple way to load your code
 License:       MIT
 URL:           http://github.com/jarmo/require_all
@@ -89,6 +89,9 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

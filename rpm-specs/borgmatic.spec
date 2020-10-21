@@ -1,5 +1,5 @@
 Name:           borgmatic
-Version:        1.5.7
+Version:        1.5.10
 Release:        1%{?dist}
 Summary:        Simple Python wrapper script for borgbackup
 
@@ -77,6 +77,18 @@ install -Dpm 0644 sample/systemd/%{name}.timer %{buildroot}%{_unitdir}/%{name}.t
 
 
 %changelog
+* Fri Sep 04 2020 Felix Kaechele <heffer@fedoraproject.org> - 1.5.10-1
+- update to 1.5.10
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Felix Kaechele <heffer@fedoraproject.org> - 1.5.9-1
+- update to 1.5.9
+
+* Sun Jul 12 2020 Felix Kaechele <heffer@fedoraproject.org> - 1.5.8-1
+- update to 1.5.8
+
 * Wed Jun 24 2020 Felix Kaechele <heffer@fedoraproject.org> - 1.5.7-1
 - update to 1.5.7
 - add python3-setuptools BuildRequires

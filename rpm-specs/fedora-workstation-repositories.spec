@@ -1,6 +1,6 @@
 Name:		fedora-workstation-repositories
 Version:	32
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Repository files for searchable repositories
 
 License:	GPL
@@ -40,6 +40,9 @@ cp %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/
 %config(noreplace) %{_sysconfdir}/yum.repos.d/rpmfusion-nonfree-steam.repo
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 32-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 32-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

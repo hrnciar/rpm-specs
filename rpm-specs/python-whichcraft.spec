@@ -2,8 +2,8 @@
 %global modname whichcraft
 
 Name:           python-%{modname}
-Version:        0.5.2
-Release:        7%{?dist}
+Version:        0.6.1
+Release:        1%{?dist}
 Summary:        Cross-python shutil.which functionality
 
 License:        BSD
@@ -47,6 +47,12 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -v
 %{python3_sitelib}/__pycache__/%{modname}.*
 
 %changelog
+* Mon Aug 24 2020 Chedi Toueiti <chedi.toueiti@gmail.com> - 0.6.1-1
+update to 0.6.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.2-7
 - Rebuilt for Python 3.9
 

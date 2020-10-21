@@ -4,6 +4,7 @@
 # https://github.com/olekukonko/tablewriter
 %global goipath         github.com/olekukonko/tablewriter
 Version:                0.0.4
+%global commit          163badb3bac6f72b6412c440be4824da4d9b7b51
 
 %gometa
 
@@ -16,7 +17,7 @@ ASCII Table Writer.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        ASCII table in Go
 
 License:        MIT
@@ -47,15 +48,6 @@ done
 install -m 0755 -vd                     %{buildroot}%{_bindir}
 install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck
@@ -69,6 +61,16 @@ end
 %gopkgfiles
 
 %changelog
+* Mon Aug 10 23:28:14 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.0.4-4.20200810git163badb
+- Bump to commit 163badb3bac6f72b6412c440be4824da4d9b7b51
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.0.4-1
 - Update to latest version
 

@@ -4,7 +4,7 @@
 
 # https://github.com/openzipkin/zipkin-go
 %global goipath         github.com/openzipkin/zipkin-go
-Version:                0.1.6
+Version:                0.2.2
 
 %gometa
 
@@ -16,7 +16,7 @@ OpenZipkin community.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        Zipkin tracer library for Go
 
 # Upstream license specification: Apache-2.0
@@ -27,6 +27,7 @@ Source0:        %{gosource}
 BuildRequires:  golang(github.com/gogo/protobuf/proto)
 BuildRequires:  golang(github.com/golang/protobuf/proto)
 BuildRequires:  golang(github.com/Shopify/sarama)
+BuildRequires:  golang(github.com/streadway/amqp)
 BuildRequires:  golang(golang.org/x/net/context)
 BuildRequires:  golang(google.golang.org/grpc)
 BuildRequires:  golang(google.golang.org/grpc/codes)
@@ -54,6 +55,12 @@ BuildRequires:  golang(google.golang.org/grpc/status)
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 18:59:29 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.2.2-1
+- Update to 0.2.2
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.6-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.6-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

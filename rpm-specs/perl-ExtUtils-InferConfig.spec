@@ -1,6 +1,6 @@
 Name:           perl-ExtUtils-InferConfig
 Version:        1.04
-Release:        28%{?dist}
+Release:        29%{?dist}
 Summary:        Infer Perl Configuration for non-running interpreters
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/ExtUtils-InferConfig
@@ -48,6 +48,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.04-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.04-28
 - Perl 5.32 rebuild
 

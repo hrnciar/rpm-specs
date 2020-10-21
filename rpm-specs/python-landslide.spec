@@ -1,13 +1,14 @@
-%global pkgname landslide
-%global commit	9a70c0f4fd00c17cffbfd0da7ffb87da118ff9b0
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-Name:		python-landslide
-Version:	1.1.3
-Release:	16%{?dist}
+%global srcname landslide
+
+Name:		python-%{srcname}
+Version:	1.1.8
+Release:	1%{?dist}
 Summary:	Lightweight markup language-based html5 slideshow generator
+
 License:	ASL 2.0
-URL:		https://pypi.python.org/pypi/landslide
-Source0:	https://github.com/adamzap/%{pkgname}/archive/%{commit}/%{pkgname}-%{version}-%{shortcommit}.tar.gz
+URL:		https://pypi.python.org/pypi/%{srcname}
+Source0:	%{pypi_source}
+Patch0:         %{srcname}-1.1.8-make_unversioned.diff
 
 BuildArch:	noarch
 
@@ -16,44 +17,40 @@ BuildArch:	noarch
 Takes your Markdown, ReST, or Textile file(s) and generates 
 fancy HTML5 slideshows.
 
-%package -n python3-%{pkgname}
+%package -n python3-%{srcname}
 Summary:	%{summary}
 
 BuildRequires:	python3-devel
 BuildRequires:	python3-sphinx
 
-Requires:	python3-jinja2
-Requires:	python3-markdown
-Requires:	python3-pygments
-Requires:	python3-docutils
-Requires:	python3-textile
+%{?python_provide:%python_provide python3-%{srcname}}
 
-%{?python_provide:%python_provide python3-%{pkgname}}
-
-%description -n python3-%{pkgname}
+%description -n python3-%{srcname}
 Takes your Markdown, ReST, or Textile file(s) and generates 
 fancy HTML5 slideshows.
 
+
 %prep
-%autosetup -n %{pkgname}-%{commit}
+%autosetup -p1 -n %{srcname}-%{version}
 # Change shebang to recognized the default interpreter installed 
 # from system-wide
-sed -i '1s=^#!/usr/bin/\(python\|env python\)[23]\?=#!%{__python3}=' src/landslide/main.py
+sed -i '1s=^#!/usr/bin/\(python\|env python\)[23]\?=#!%{__python3}=' \
+  landslide/main.py
 # Remove bundled egg-info
-rm -rf src/landslide.egg-info
+rm -rf landslide.egg-info
+
 
 %build
 %py3_build
 
-PYTHONPATH=$(pwd) make -C docs html
-rm -f docs/_build/html/.buildinfo
 
 %install
 %py3_install
 find %{buildroot} -name 'main.py' | xargs chmod 0755
- 
-%files -n python3-%{pkgname}
-%doc CHANGELOG.md README.md docs/_build/html
+
+
+%files -n python3-%{srcname}
+%doc CHANGELOG.md README.md examples
 %license LICENSE
 %{_bindir}/landslide
 %{python3_sitelib}/landslide
@@ -61,6 +58,16 @@ find %{buildroot} -name 'main.py' | xargs chmod 0755
 
 
 %changelog
+* Tue Aug 25 2020 Michel Alexandre Salim <salimma@fedoraproject.org. - 1.1.8-1
+- Update to 1.1.8
+
+* Thu Aug  6 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 1.1.6-1
+- Update to 1.1.6
+- Patch in support for Markdown 3.x compatibility
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.3-16
 - Rebuilt for Python 3.9
 

@@ -1,7 +1,7 @@
 Summary:    Sticky notes is a free and open source paste-bin application
 Name:       sticky-notes
 Version:    0.4
-Release:    15%{?dist}
+Release:    16%{?dist}
 License:    BSD
 URL:        https://github.com/sayakb/sticky-notes
 
@@ -60,6 +60,9 @@ ln -sf ../../../etc/sticky-notes/install.php ${RPM_BUILD_ROOT}%{_datadir}/%{name
 %doc VERSION
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

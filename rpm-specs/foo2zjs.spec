@@ -3,7 +3,7 @@
 
 Name:           foo2zjs
 Version:        0.%{foo2zjs_ver}
-Release:        13%{?dist}
+Release:        14%{?dist}
 
 Summary:        Linux printer driver for ZjStream protocol
 
@@ -463,6 +463,9 @@ rm -f %{buildroot}%{_mandir}/man1/usb_printerid.1
 /usr/bin/rm -f /var/cache/foomatic/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20170412-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20170412-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

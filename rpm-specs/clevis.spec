@@ -1,12 +1,15 @@
 Name:           clevis
-Version:        13
-Release:        1%{?dist}
+Version:        14
+Release:        5%{?dist}
 Summary:        Automated decryption framework
 
 License:        GPLv3+
 URL:            https://github.com/latchset/%{name}
 Source0:        https://github.com/latchset/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.xz
 
+Patch0001: 0001-systemd-clevis-luks-askpass-exit-cleanly-with-SIGTER.patch
+
+BuildRequires:  git
 BuildRequires:  gcc
 BuildRequires:  meson
 BuildRequires:  asciidoc
@@ -32,12 +35,13 @@ BuildRequires:  openssl
 BuildRequires:  diffutils
 BuildRequires:  jq
 
-Requires:       cracklib-dicts
 Requires:       tpm2-tools >= 3.0.0
 Requires:       coreutils
 Requires:       jose >= 8
 Requires:       curl
 Requires(pre):  shadow-utils
+Recommends:     cracklib-dicts
+Recommends:     clevis-pin-tpm2
 
 %description
 Clevis is a framework for automated decryption. It allows you to encrypt
@@ -99,7 +103,7 @@ Automatically unlocks LUKS block devices in desktop environments that
 use UDisks2 or storaged (like GNOME).
 
 %prep
-%autosetup -p1
+%autosetup -S git
 
 %build
 %meson -Duser=clevis -Dgroup=clevis
@@ -114,10 +118,25 @@ desktop-file-validate \
 %meson_test
 
 %pre
-getent group %{name} >/dev/null || groupadd -r %{name}
+getent group %{name} >/dev/null || groupadd -r %{name} &>/dev/null
 getent passwd %{name} >/dev/null || \
     useradd -r -g %{name} -d %{_localstatedir}/cache/%{name} -s /sbin/nologin \
-    -c "Clevis Decryption Framework unprivileged user" %{name}
+    -c "Clevis Decryption Framework unprivileged user" %{name} &>/dev/null
+# Add clevis user to tss group.
+if getent group tss >/dev/null && ! groups %{name} | grep -q "\btss\b"; then
+    usermod -a -G tss %{name} &>/dev/null
+fi
+exit 0
+
+%posttrans
+# In case the clevis-luks-askpass is enabled, make sure it's using the
+# correct target, which changed in v14.
+[ "$(find /etc/systemd/system/ -name "clevis-luks-askpass*")" ] || exit 0
+find /etc/systemd/system/ -name "clevis-luks-askpass*" \
+     | grep -q cryptsetup.target.wants && exit 0
+
+find /etc/systemd/system/ -name "clevis-luks-askpass*" -exec rm {} +
+systemctl enable clevis-luks-askpass.path >/dev/null 2>&1 || :
 exit 0
 
 %files
@@ -165,6 +184,31 @@ exit 0
 %attr(4755, root, root) %{_libexecdir}/%{name}-luks-udisks2
 
 %changelog
+* Tue Sep 08 2020 Sergio Correia <scorreia@redhat.com> - 14-5
+- Suppress output in pre scriptlet when adjusting users/groups
+  Resolves: rhbz#1876729
+
+* Tue Sep 08 2020 Sergio Correia <scorreia@redhat.com> - 14-4
+- Backport upstream PR#230 - clevis-luks-askpass now exits cleanly
+  when receives a SIGTERM
+  Resolves: rhbz#1876001
+
+* Sat Sep 05 2020 Sergio Correia <scorreia@redhat.com> - 14-3
+- If clevis-luks-askpass is enabled, it may be using a wrong target,
+  since that changed in v14. Check and update it, if required.
+
+* Mon Aug 31 2020 Sergio Correia <scorreia@redhat.com> - 14-2
+- Update sources file with new v14 release.
+
+* Mon Aug 31 2020 Sergio Correia <scorreia@redhat.com> - 14-1
+- Update to new clevis upstream release, v14.
+
+* Sun Aug 02 2020 Benjamin Gilbert <bgilbert@redhat.com> - 13-3
+- Downgrade cracklib-dicts to Recommends
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 10 2020 Sergio Correia <scorreia@redhat.com> - 13-1
 - Update to new clevis upstream release, v13.
 

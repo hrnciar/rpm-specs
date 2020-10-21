@@ -3,7 +3,7 @@
 %global pkgname enchant2
 
 Name:          mingw-%{pkgname}
-Version:       2.2.8
+Version:       2.2.12
 Release:       1%{?snap}%{?dist}
 Summary:       MinGW Windows %{pkgname} library
 
@@ -102,6 +102,21 @@ rm -rf %{buildroot}%{mingw64_datadir}/man
 
 
 %changelog
+* Sat Oct 17 2020 Sandro Mani <manisandro@gmail.com> - 2.2.12-1
+- Update to 2.2.12
+
+* Tue Sep 08 2020 Sandro Mani <manisandro@gmail.com> - 2.2.11-1
+- Update to 2.2.11
+
+* Wed Sep 02 2020 Sandro Mani <manisandro@gmail.com> - 2.2.10-1
+- Update to 2.2.10
+
+* Mon Aug 24 2020 Sandro Mani <manisandro@gmail.com> - 2.2.9-1
+- Update 2.2.9
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 02 2020 Sandro Mani <manisandro@gmail.com> - 2.2.8-1
 - Update to 2.2.8
 

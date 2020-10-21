@@ -1,9 +1,10 @@
+%undefine __cmake_in_source_build
 %global _docdir_fmt %{name}
 %global abiver 4
 
 Name:       ignition-transport
 Version:    4.0.0
-Release:    7%{?dist}
+Release:    10%{?dist}
 Summary:    A fast and efficient message passing system
 
 License:    ASL 2.0
@@ -56,9 +57,7 @@ sed -i 's/unset/#unset/g' CMakeLists.txt
 dos2unix README.md
 
 %build
-mkdir build
-pushd build
-%cmake .. \
+%cmake \
 %ifnarch x86_64
   -DSSE2_FOUND=FALSE \
 %endif
@@ -67,26 +66,26 @@ pushd build
   -DSSE4_1_FOUND=FALSE \
   -DSSE4_2_FOUND=FALSE \
   -DCMAKE_C_FLAGS_ALL="%{optflags}" \
-  -DCMAKE_BUILD_TYPE=RelWithDebInfo
-popd
+  -DCMAKE_BUILD_TYPE=Release
 
-make -C build %{?_smp_mflags}
-make -C build doc
+%cmake_build
+%cmake_build --target doc
 
 %install
-make -C build install DESTDIR=%{buildroot}
+%cmake_install
 rm -rf %{buildroot}%{_usr}/lib/ruby
 
 %check
 # Firewall settings prevent most of these tests from passing.
 # Disabled for now.
-#make -C build test ARGS="-V" || exit 0
+#ctest --verbose || exit 0
 
 
 %files
 %license COPYING
 %doc README.md
-%{_libdir}/*.so.*
+%{_libdir}/*.so.%{version}
+%{_libdir}/*.so.%{abiver}
 %{_datadir}/ignition
 
 %files devel
@@ -97,9 +96,19 @@ rm -rf %{buildroot}%{_usr}/lib/ruby
 
 %files doc
 %license COPYING
-%doc build/doxygen/html
+%doc %{_vpath_builddir}/doxygen/html
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 4.0.0-10
+- Rebuilt for protobuf 3.13
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 4.0.0-7
 - Rebuilt for protobuf 3.12
 

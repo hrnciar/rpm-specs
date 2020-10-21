@@ -1,3 +1,5 @@
+# Force out of source build
+%undefine __cmake_in_source_build
 
 # base pkg default to SQLITE now, install -mysql if you want that instead
 %global database_backend SQLITE
@@ -8,7 +10,7 @@
 Summary: PIM Storage Service Libraries
 Name:    akonadi
 Version: 1.13.0
-Release: 115%{?dist}
+Release: 117%{?dist}
 
 License: LGPLv2+
 URL:     http://community.kde.org/KDE_PIM/Akonadi 
@@ -76,17 +78,12 @@ Requires: %{name}%{?_isa} = %{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} .. \
-  -DCMAKE_BUILD_TYPE:STRING="Release"
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake -DCMAKE_BUILD_TYPE:STRING="Release"
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=$RPM_BUILD_ROOT -C %{_target_platform}
+%cmake_install
 
 ## unpackaged files
 rm -fv %{buildroot}%{_datadir}/mime/packages/akonadi-mime.xml
@@ -113,6 +110,13 @@ test "$(pkg-config --modversion akonadi)" = "%{version}"
 
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.0-117
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.0-116
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.0-115
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

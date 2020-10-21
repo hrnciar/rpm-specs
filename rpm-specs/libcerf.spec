@@ -1,11 +1,15 @@
 Name:		libcerf
 Version:	1.13
-Release:	3%{?dist}
+Release:	5%{?dist}
 Summary:        A library that provides complex error functions
 
 License:        MIT
 URL:            https://jugit.fz-juelich.de/mlz/libcerf
 Source0:        https://jugit.fz-juelich.de/mlz/libcerf/-/archive/v%{version}/%{name}-v%{version}.tar.gz
+
+%if (0%{?rhel} || (0%{?fedora} && 0%{?fedora} < 33))
+%undefine __cmake_in_source_build
+%endif
 
 BuildRequires:  gcc
 BuildRequires:  pkgconfig
@@ -37,23 +41,19 @@ sed -i -e 's|${prefix}/lib|@LIB_INSTALL_DIR@|' libcerf.pc.in
 
 
 %build
-# libcerf does not build in place, that is why we create a build dir
-mkdir build; cd build
-%cmake ..
-%make_build
+%cmake
+%cmake_build
 
 
 %install
-cd build
-%make_install
+%cmake_install
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 # Move the documentation to the devel package
 mv $RPM_BUILD_ROOT/%{_datadir}/doc/%{name}/html $RPM_BUILD_ROOT/%{_datadir}/doc/%{name}-devel
 
 
 %check
-cd build
-make cerftest
+%ctest
 
 
 %files
@@ -70,6 +70,14 @@ make cerftest
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+- Fix cmake changes
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

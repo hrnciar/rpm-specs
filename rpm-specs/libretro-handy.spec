@@ -6,7 +6,7 @@
 
 Name:           libretro-%{corename}
 Version:        0
-Release:        0.4.%{date}git%{shortcommit}%{?dist}
+Release:        0.5.%{date}git%{shortcommit}%{?dist}
 Summary:        Atari Lynx emulator Handy for libretro
 
 License:        zlib
@@ -44,6 +44,9 @@ install -Dp -m 0644 %{SOURCE1} %{buildroot}%{_libdir}/libretro/%{corename}.libre
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5.20200317git5ff5581
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0-0.4.20200317git5ff5581
 - Update to latest git snapshot
 

@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          %{packver}.%{packrel}
-Release:          3%{?dist}
+Release:          5%{?dist}
 Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}-%{packrel}.tar.gz
 License:          Boost
 URL:              https://cran.r-project.org/package=%{packname}
@@ -61,6 +61,12 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/R/library/R.css
 %{_datadir}/R/library/%{packname}/include
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.72.0.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 José Abílio Matos <jamatos@fc.up.pt> - 1.72.0.3-4
+- bump version to ensure upgrade path (due to a F32 rebuild)
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 1.72.0.3-3
 - rebuild for R 4
 

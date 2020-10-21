@@ -1,6 +1,6 @@
 Name: 		perl-ExtUtils-AutoInstall
 Version: 	0.64
-Release: 	13%{?dist}
+Release: 	14%{?dist}
 Summary: 	Automatic install of dependencies via CPAN
 License: 	GPL+ or Artistic
 URL: 		https://metacpan.org/release/ExtUtils-AutoInstall
@@ -61,6 +61,9 @@ rm -r inc/
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.64-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.64-13
 - Perl 5.32 rebuild
 

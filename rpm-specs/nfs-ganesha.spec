@@ -115,7 +115,7 @@ Requires: openSUSE-release
 
 Name:		nfs-ganesha
 Version:	3.3
-Release:	3%{?dev:%{dev}}%{?dist}
+Release:	7%{?dev:%{dev}}%{?dist}
 Summary:	NFS-Ganesha is a NFS Server running in user space
 License:	LGPLv3+
 Url:		https://github.com/nfs-ganesha/nfs-ganesha/wiki
@@ -528,7 +528,8 @@ cd src && %cmake . -DCMAKE_BUILD_TYPE=RelWithDebInfo	\
 	-DALLOCATOR=jemalloc
 %endif
 
-make VERBOSE=1 %{?_smp_mflags} || make %{?_smp_mflags} || make
+export VERBOSE=1
+%cmake_build
 
 %if ( 0%{?fedora} >= 30 || 0%{?rhel} >= 8 )
 make -C selinux -f /usr/share/selinux/devel/Makefile ganesha.pp
@@ -602,7 +603,7 @@ install -m 644 config_samples/gpfs.ganesha.log.conf %{buildroot}%{_sysconfdir}/g
 install -m 644 config_samples/gpfs.ganesha.exports.conf	%{buildroot}%{_sysconfdir}/ganesha
 %endif
 
-make DESTDIR=%{buildroot} install
+%cmake_install
 
 %if ( 0%{?fedora} >= 30 || 0%{?rhel} >= 8 )
 install -d %{buildroot}%{_selinux_store_path}/packages
@@ -860,6 +861,18 @@ exit 0
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Kaleb S. KEITHLEY <kkeithle at redhat.com> - 3.3-6
+- use cmake_build and %cmake_install
+
+* Mon Jul 20 2020 Kaleb S. KEITHLEY <kkeithle at redhat.com> - 3.3-5
+- use %make_install
+
+* Mon Jul 13 2020 Kaleb S. KEITHLEY <kkeithle at redhat.com> - 3.3-4
+- rpc-statd.conf.el8
+
 * Tue Jun 23 2020 Kaleb S. KEITHLEY <kkeithle at redhat.com>
 - explicit BuildRequires: python3-setuptools
 

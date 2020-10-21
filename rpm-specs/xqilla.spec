@@ -1,6 +1,6 @@
 Name:           xqilla
 Version:        2.3.3
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        XQuery and XPath 2.0 library, built on top of Xerces-C
 
 License:        ASL 2.0
@@ -15,6 +15,7 @@ Patch1:         0002-Fix-library-s-libtool-version.patch
 # Fix the build with xerces-c 3.2; patch taken from
 # http://http.debian.net/debian/pool/main/x/xqilla/xqilla_2.3.3-3.debian.tar.xz
 Patch2:         0004-xerces-3.2.0-casts.patch
+Patch3:         0005-xqilla-gcc11.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  xerces-c-devel >= 3.0.1 
@@ -92,6 +93,12 @@ install -D -p -m0664 %{SOURCE1} %{buildroot}/%{_mandir}/man1/%{name}.1
 
 
 %changelog
+* Wed Jul 29 2020 Jeff Law <law@redhat.com> - 2.3.3-7
+- Make comparison object invocable as const
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.3-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

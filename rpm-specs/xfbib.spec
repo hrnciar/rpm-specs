@@ -2,7 +2,7 @@
 
 Name:           xfbib
 Version:        0.1.0
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Lightweight BibTeX editor for the Xfce desktop environment
 Summary(de):    Schlanker BibTeX Editor für die Xfce Desktop-Umgebung
 
@@ -64,6 +64,9 @@ desktop-file-install \
 %{_datadir}/pixmaps/xfbib
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

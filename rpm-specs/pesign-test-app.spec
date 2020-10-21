@@ -1,7 +1,7 @@
 Summary: Simple pesign test target
 Name: pesign-test-app
 Version: 5
-Release: 13%{?dist}
+Release: 25%{?dist}
 License: GPLv2
 URL: https://github.com/vathpela/pesign-test-app
 BuildRequires: gcc
@@ -10,7 +10,9 @@ BuildRequires: git
 BuildRequires: gnu-efi
 BuildRequires: gnu-efi-devel
 BuildRequires: pesign >= 0.104-1
-ExclusiveArch: i686 x86_64 ia64 aarch64
+BuildRequires: efi-srpm-macros
+# ExclusiveArch: i686 x86_64 ia64 aarch64
+ExclusiveArch: x86_64
 
 # pesign-test-app generates no binaries that run under the installed OS, so
 # debuginfo is useless
@@ -42,31 +44,75 @@ ls -ld /var/run/pesign || :
 getfacl /var/run/pesign || :
 ls -l /var/run/pesign/socket || :
 getfacl /var/run/pesign/socket || :
+ls -ld /run/pesign || :
+getfacl /run/pesign || :
+ls -l /run/pesign/socket || :
+getfacl /run/pesign/socket || :
 
-%dump
-%pesign -s -i %{name}-unsigned.efi -o %{name}-signed.efi
+#%%define pe_signing_cert Fedora Secure Boot Signer
+if true ; then
+	cp %{name}-unsigned.efi bzImage.signed
+	%pesign -s -i bzImage.signed -o bzImage.signed -a redhatsecurebootca5.cer -c redhatsecureboot501.cer -n redhatsecureboot501
+	%pesign -s -i bzImage.signed -o bzImage.signed -a redhatsecurebootca1.cer -c redhatsecureboot301.cer -n redhatsecureboot301
+	mv bzImage.signed %{name}-signed.efi
+else
+	cp %{name}-unsigned.efi %{name}-unsigned.0.efi
+	%pesign -s -i %{name}-unsigned.0.efi -o %{name}.tmp.efi -a redhatsecurebootca5.cer -c redhatsecureboot501.cer -n redhatsecureboot501
+	%define pe_signing_cert fwupd-signer
+	%pesign -s -i %{name}.tmp.efi -o %{name}-signed.efi -a redhatsecurebootca1.cer -c redhatsecureboot301.cer -n redhatsecureboot301
+fi
 
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/%{_libdir}
 make LIBDIR=%{_libdir} INSTALLROOT=%{buildroot} DATADIR=%{_datadir} \
 	install
-mv %{name}-signed.efi %{buildroot}/%{_datadir}/%{name}-%{version}/%{name}-signed.efi
+mv %{name}-signed.efi %{buildroot}/%{_datadir}/%{name}-%{version}/
 
 %check
 ls -la /var/run/pesign || :
-%ifarch x86_64
-pesign -l -i %{buildroot}/%{_datadir}/%{name}-%{version}/%{name}-signed.efi | grep -c -q "^Signing time: $(date +%%a\ %%b\ %%d,\ %%Y)$"
-pesign -l -i %{buildroot}/%{_datadir}/%{name}-%{version}/%{name}-signed.efi | grep -c -q '^The signer.s common name is Fedora Secure Boot Signer$'
+%ifarch %{efi}
+# for display in the build log
+for x in %{buildroot}/%{_datadir}/%{name}-%{version}/%{name}-signed.* ; do
+	pesign -l -i "${x}"
+	# to test the actual output
+	pesign -l -i "${x}" | grep -c -q "^Signing time: $(date +%%a\ %%b\ %%d,\ %%Y)$"
+	pesign -l -i "${x}" | grep -c -q '^The signer.s common name is Fedora Secure Boot Signer$' ||
+	pesign -l -i "${x}" | grep -c -q '^The signer.s common name is fwupd-signer$'
+done
 %endif
 
 %files
 %doc README COPYING
 %dir %{_datadir}/%{name}-%{version}
 %{_datadir}/%{name}-%{version}/%{name}.efi
-%{_datadir}/%{name}-%{version}/%{name}-signed.efi
+%{_datadir}/%{name}-%{version}/%{name}-signed*.efi
 
 %changelog
+* Thu Jul 16 2020 Peter Jones <pjones@redhat.com> - 5-25
+- Test pesign-113-10.fc33
+
+* Thu Jul 16 2020 Peter Jones <pjones@redhat.com> - 5-24
+- Try naming the cert differently
+
+* Mon Jul 13 2020 Peter Jones <pjones@redhat.com> - 5-23
+- Test builders again again
+
+* Mon Jul 13 2020 Peter Jones <pjones@redhat.com> - 5-22
+- Test builders again again
+
+* Mon Jul 13 2020 Peter Jones <pjones@redhat.com> - 5-21
+- Test builders again again
+
+* Mon Jul 13 2020 Peter Jones <pjones@redhat.com> - 5-20
+- Test builders again
+
+* Tue Jul 07 2020 Peter Jones <pjones@redhat.com> - 5-19
+- Make sure this still works with pesign-113-8~1.fc33
+
+* Mon Jul 06 2020 Peter Jones <pjones@redhat.com> - 5-14
+- Build again
+
 * Thu Jun 11 2020 Peter Jones <pjones@redhat.com> - 5-13
 - Rebuild to test pesign-113-2.fc33 client
 

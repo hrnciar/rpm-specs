@@ -1,6 +1,6 @@
 Name:           perl-Locale-Utils-PlaceholderMaketext
 Version:        1.005
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Utils to expand maketext placeholders
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Locale-Utils-PlaceholderMaketext
@@ -64,6 +64,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.005-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.005-10
 - Perl 5.32 rebuild
 

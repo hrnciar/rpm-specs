@@ -3,7 +3,7 @@
 
 Name:    jboss-jsf-2.1-api
 Version: 2.0.2
-Release: 19%{dist}
+Release: 22%{dist}
 Summary: JavaServer Faces 2.1 API
 License: CDDL or GPLv2 with exceptions
 URL:     http://www.jboss.org
@@ -62,6 +62,16 @@ This package contains the API documentation for %{name}.
 %doc README
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-22
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.0.2-20
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

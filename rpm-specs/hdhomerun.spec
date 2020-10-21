@@ -1,19 +1,20 @@
 Name:           hdhomerun
-Version:        20190621
-Release:        2%{?dist}
+Version:        20200907
+Release:        1%{?dist}
 Summary:        Silicon Dust HDHomeRun configuration utility
 
 License:        LGPLv3 and GPLv3
 URL:            http://www.silicondust.com/
 Source0:        http://download.silicondust.com/hdhomerun/libhdhomerun_%{version}.tgz
 Source1:        http://download.silicondust.com/hdhomerun/hdhomerun_config_gui_%{version}.tgz
-Source2:	hdhomerun_config_gui.desktop
+Source2:        hdhomerun_config_gui.desktop
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  gtk2-devel
 BuildRequires:  libicns-utils
 BuildRequires:  desktop-file-utils
+
 Requires:       gtk2
 
 %description
@@ -27,8 +28,9 @@ Requires: hdhomerun%{?_isa} = %{version}-%{release}
 %description devel
 The hdhumerun-devel package provides developer tools for the hdhomerun library.
 
+
 %prep
-%setup -q -c -a 1
+%autosetup -c -a 1
 # Fix up linefeeds, drop execute bit and don't strip binaries
 #{__sed} -i 's/\r//' libhdhomerun/*
 %{__sed} -i -e '/$(STRIP).*/d' -e 's/C\(PP\)\?FLAGS .=/C\1FLAGS ?=/' libhdhomerun/Makefile
@@ -38,11 +40,13 @@ for f in libhdhomerun/*; do
   /usr/bin/iconv -f iso-8859-1 -t utf-8 --output $f.new $f && mv $f.new $f
 done
 
+
 %build
-cd hdhomerun_config_gui
+pushd hdhomerun_config_gui
 %configure
-make
-cd ..
+%make_build
+popd
+
 cat << __EOF__ > README.firmware
 The HDHomeRun Firmwares are not redistributable, but the latest versions of
 both the US ATSC and European DVB-T firmwares can always be obtained from
@@ -56,8 +60,9 @@ pushd hdhomerun_config_gui/OSX
 icns2png -x hdhr.icns
 popd
 
+
 %install
-make -C hdhomerun_config_gui install DESTDIR=%{buildroot}
+%make_install -C hdhomerun_config_gui
 
 install -m0755 libhdhomerun/hdhomerun_config %{buildroot}%{_bindir}/
 
@@ -94,6 +99,12 @@ done
 
 
 %changelog
+* Mon Oct 19 2020 Richard Shaw <hobbes1069@gmail.com> - 20200907-1
+- Update to 20200907.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190621-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190621-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

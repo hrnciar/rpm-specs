@@ -2,17 +2,25 @@
 
 Summary:        Encrypted bandwidth-efficient backup using rsync algorithm
 Name:           duplicity
-Version:        0.8.13
-Release:        2%{?dist}
+Version:        0.8.16
+Release:        1%{?dist}
 License:        GPLv2+
 URL:            http://www.nongnu.org/duplicity/
 Source:         https://launchpad.net/duplicity/0.8-series/%{version}/+download/duplicity-%{version}.tar.gz
+Patch0:         278270b730302a4e8f04976aa8013d2babc00530.diff
 Requires:	python3-lockfile
 Requires:	gnupg >= 1.0.6
-Requires:       openssh-clients, ncftp >= 3.1.9, rsync, python3-boto3
-Requires:       python3-paramiko python3-dropbox python3-pexpect
-Requires:       python3-fasteners python3-PyDrive python3-future
+Requires:       rsync
+Requires:       python3-pexpect
+Requires:       python3-fasteners
+Requires:       python3-future
 Requires:       ca-certificates
+Recommends:     ncftp >= 3.1.9
+Recommends:     openssh-clients
+Recommends:     python3-PyDrive
+Recommends:     python3-boto3
+Recommends:     python3-dropbox
+Recommends:     python3-paramiko
 
 BuildRequires:  gcc gettext
 BuildRequires:  python3-devel librsync-devel >= 0.9.6 python3-setuptools python3-pytest-runner
@@ -33,6 +41,7 @@ but not hard links.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %{__python3} setup.py build
@@ -47,21 +56,21 @@ ln -sf %{_sysconfdir}/pki/tls/cert.pem \
 %find_lang %{name}
 
 # drop documentation
-rm -rf    %{buildroot}/usr/share/doc/duplicity-%{version}/AUTHORS
-rm -rf    %{buildroot}/usr/share/doc/duplicity-%{version}/Changelog.GNU
-rm -rf    %{buildroot}/usr/share/doc/duplicity-%{version}/CHANGELOG
-rm -rf    %{buildroot}/usr/share/doc/duplicity-%{version}/COPYING
-rm -rf    %{buildroot}/usr/share/doc/duplicity-%{version}/README
-rm -rf    %{buildroot}/usr/share/doc/duplicity-%{version}/README-LOG
-rm -rf    %{buildroot}/usr/share/doc/duplicity-%{version}/README-TESTING
-rm -rf    %{buildroot}/usr/share/doc/duplicity-%{version}/README-REPO
-rm -rf    %{buildroot}/usr/share/doc/duplicity-%{version}/tarfile-CHANGES
-rm -rf    %{buildroot}/usr/share/doc/duplicity-%{version}/tarfile-LICENSE
+rm -rf    %{buildroot}%{_prefix}/share/doc/duplicity-%{version}/AUTHORS
+rm -rf    %{buildroot}%{_prefix}/share/doc/duplicity-%{version}/Changelog.GNU
+rm -rf    %{buildroot}%{_prefix}/share/doc/duplicity-%{version}/CHANGELOG
+rm -rf    %{buildroot}%{_prefix}/share/doc/duplicity-%{version}/COPYING
+rm -rf    %{buildroot}%{_prefix}/share/doc/duplicity-%{version}/README.md
+rm -rf    %{buildroot}%{_prefix}/share/doc/duplicity-%{version}/README-LOG.md
+rm -rf    %{buildroot}%{_prefix}/share/doc/duplicity-%{version}/README-TESTING.md
+rm -rf    %{buildroot}%{_prefix}/share/doc/duplicity-%{version}/README-REPO.md
+rm -rf    %{buildroot}%{_prefix}/share/doc/duplicity-%{version}/tarfile-CHANGES
+rm -rf    %{buildroot}%{_prefix}/share/doc/duplicity-%{version}/tarfile-LICENSE
 
 
 %files -f %{name}.lang
 %license COPYING
-%doc CHANGELOG README
+%doc CHANGELOG README.md
 %{_bindir}/rdiffdir
 %{_bindir}/%{name}
 %{_mandir}/man1/%{name}*
@@ -71,6 +80,30 @@ rm -rf    %{buildroot}/usr/share/doc/duplicity-%{version}/tarfile-LICENSE
 %{_sysconfdir}/%{name}/cacert.pem
 
 %changelog
+* Tue Sep 29 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.8.16-1
+- 0.8.16
+
+* Wed Sep 23 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.8.15-5
+- Patch: Avoid calling stat when checking for exclude-if-present files
+
+* Wed Sep 16 2020 Kalev Lember <klember@redhat.com> - 0.8.15-4
+- Avoid hardcoding /usr prefix
+
+* Wed Sep 09 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.8.15-3
+- Relax dependencies.
+
+* Sat Aug 15 2020 Troels Arvin <troels@arvin.dk> - 0.8.15-2
+- Added fix for https://bugs.launchpad.net/duplicity/+bug/1889152
+
+* Mon Jul 27 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.8.15-1
+- 0.8.15
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.14-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.8.14-1
+- 0.8.14
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.13-2
 - Rebuilt for Python 3.9
 

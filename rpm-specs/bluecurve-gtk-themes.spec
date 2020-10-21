@@ -1,7 +1,7 @@
 Summary: Bluecurve GTK+ theme
 Name: bluecurve-gtk-themes
 Version: 1.0.0
-Release: 23%{?dist}
+Release: 25%{?dist}
 License: LGPLv2+
 # There is no official upstream yet
 Source0: %{name}-%{version}.tar.bz2
@@ -9,6 +9,7 @@ URL: http://www.redhat.com
 
 BuildRequires:  gcc
 BuildRequires: gtk2-devel
+BuildRequires: perl-interpreter
 BuildRequires: perl(XML::Parser)
 Provides: gtk-bluecurve-engine
 
@@ -50,6 +51,13 @@ find $RPM_BUILD_ROOT -name '*.a' -exec rm -f {} \;
 %{_datadir}/themes/Bluecurve-Tangerine
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-25
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

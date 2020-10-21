@@ -3,13 +3,14 @@
 
 Name:           vdr-%{pname}
 Version:        2.4.0
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        The "Soppalusikka" skin for VDR
 
 License:        GPLv2+
 URL:            http://www.saunalahti.fi/~rahrenbe/vdr/soppalusikka/
 Source0:        http://www.saunalahti.fi/~rahrenbe/vdr/soppalusikka/files/%{name}-%{version}.tgz
 Source1:        %{name}.conf
+Patch0:		%{name}-gcc11.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  vdr-devel >= 1.7.21 gettext
@@ -22,6 +23,7 @@ looks.
 
 %prep
 %setup -q -n %{pname}-%{version}
+%patch0 -p1
 
 
 %build
@@ -49,6 +51,12 @@ install -pm 644 themes/*.theme $RPM_BUILD_ROOT%{vdr_vardir}/themes/
 
 
 %changelog
+* Wed Aug 19 2020 Jeff Law <law@redhat.com> - 2.4.0-6
+- Force C++14 as this code is not C++17 ready
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

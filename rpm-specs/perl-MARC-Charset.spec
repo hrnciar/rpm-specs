@@ -1,6 +1,6 @@
 Name:           perl-MARC-Charset
 Version:        1.35
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Converts data encoded in MARC-8 to Unicode (UTF-8)
 
 License:        GPL+ or Artistic
@@ -75,6 +75,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.35-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.35-20
 - Perl 5.32 rebuild
 

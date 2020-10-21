@@ -1,16 +1,16 @@
-%global commit0 30ee6f2eba8a68f25f4d591819db9b28abbbed94
+%global commit0 f93243b000c52b755c70829768d2ae6bcf7bb91a
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
-%global commit1 717478b757a702bbc7e3e11a5fbecee2a64f7922
+%global commit1 c137076fdd8bfca3d2bf9cdacda9983dbbec599a
 %global shortcommit1 %(c=%{commit1}; echo ${c:0:7})
 
-%global snapdate 20200127
+%global snapdate 20200806
 
 %global __python %{__python3}
 
 Name:          trellis
 Version:       1.0
-Release:       0.9.%{snapdate}git%{shortcommit0}%{?dist}
+Release:       0.12.%{snapdate}git%{shortcommit0}%{?dist}
 Summary:       Lattice ECP5 FPGA bitstream creation/analysis/programming tools
 License:       ISC
 URL:           https://github.com/SymbiFlow/prj%{name}
@@ -69,8 +69,12 @@ find . -name \*.py -exec sed -i 's|/usr/bin/env python3|/usr/bin/python3|' {} \;
 find . -name \.gitignore -delete
 
 %build
+# building manpages requires in-source build:
+%define __cmake_in_source_build 1
+# disable LTO to allow building for f33 rawhide (BZ 1865586):
+%define _lto_cflags %{nil}
 %cmake libtrellis -DCURRENT_GIT_VERSION=%{version}-%{release}
-%make_build
+%cmake_build
 %make_build -C docs latexpdf
 # build manpages:
 mkdir man1
@@ -84,7 +88,7 @@ do
 done
 
 %install
-%make_install PREFIX="%{_prefix}"
+%cmake_install
 install -Dpm644 -t %{buildroot}%{_mandir}/man1 man1/*
 
 %check
@@ -112,6 +116,17 @@ install -Dpm644 -t %{buildroot}%{_mandir}/man1 man1/*
 %{_datadir}/%{name}/database
 
 %changelog
+* Thu Aug 06 2020 Gabriel Somlo <gsomlo@gmail.com> - 1.0-0.12.20200806gitf93243b
+- Update to newer snapshot.
+- Disable LTO for f33 rebuild (BZ 1865586)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.11.20200127git30ee6f2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.10.20200127git30ee6f2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Jonathan Wakely <jwakely@redhat.com> - 1.0-0.9.20200127git30ee6f2
 - Rebuilt for Boost 1.73
 

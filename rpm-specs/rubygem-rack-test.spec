@@ -2,7 +2,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 1.1.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Simple testing API built on Rack
 License: MIT
 URL: http://github.com/rack-test/rack-test
@@ -80,6 +80,9 @@ popd
 %doc %{gem_instdir}/README.md
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 28 2020 Vít Ondruch <vondruch@redhat.com> - 1.1.0-1
 - Update to rack-test 1.1.0.
   Resolves: rhbz#1561254

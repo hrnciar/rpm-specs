@@ -3,7 +3,7 @@
 Summary:    Perl bindings for GNU LibIDN
 Name:       perl-Net-LibIDN
 Version:    0.12
-Release:    37%{?dist}
+Release:    38%{?dist}
 License:    GPL+ or Artistic
 URL:        https://metacpan.org/release/%{pkgname}
 Source:     https://cpan.metacpan.org/authors/id/T/TH/THOR/%{pkgname}-%{version}.tar.gz
@@ -63,6 +63,9 @@ make test
 %{perl_vendorarch}/auto/Net
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-38
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.12-37
 - Perl 5.32 rebuild
 

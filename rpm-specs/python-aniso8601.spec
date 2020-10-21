@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        8.0.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        %{sum}
 
 License:        GPLv3+
@@ -11,7 +11,7 @@ URL:            https://bitbucket.org/nielsenb/%{srcname}
 Source0:        https://pypi.io/packages/source/a/%{srcname}/%{srcname}-%{version}.tar.gz
 
 BuildArch:      noarch
-BuildRequires:  python3-devel python3-dateutil
+BuildRequires:  python3-devel python3-dateutil python3-setuptools
 
 %description
 Python library for parsing date strings
@@ -45,6 +45,12 @@ rm -rf %{srcname}.egg-info
 %{python3_sitelib}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 František Zatloukal <fzatlouk@redhat.com> - 8.0.0-4
+- Add BR python3-setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 8.0.0-3
 - Rebuilt for Python 3.9
 

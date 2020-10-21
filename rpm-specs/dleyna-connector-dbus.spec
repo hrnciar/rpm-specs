@@ -3,7 +3,7 @@
 
 Name:           dleyna-connector-dbus
 Version:        0.3.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        D-Bus connector for dLeyna services
 
 License:        LGPLv2
@@ -60,6 +60,9 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 12 2020 Kalev Lember <klember@redhat.com> - 0.3.0-7
 - Rebuilt for gupnp 1.2
 

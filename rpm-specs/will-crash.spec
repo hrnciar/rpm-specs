@@ -4,7 +4,7 @@
 
 Name:           will-crash
 Version:        0.13.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Set of crashing executables written in various languages
 
 Group:          Development/Tools
@@ -75,6 +75,12 @@ like ABRT.
 %{ruby_vendorlibdir}/will_crash.rb
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0.13.2-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Feb 21 2020 Ernestas Kulik <ekulik@redhat.com> - 0.13.2-1
 - new upstream release: 0.13.2
 

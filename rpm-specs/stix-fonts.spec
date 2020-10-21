@@ -3,7 +3,7 @@
 Version: 2.0.2
 %forgemeta
 
-Release: 6%{?dist}
+Release: 8%{?dist}
 URL:     http://www.stixfonts.org/
 
 %global foundry           STIX
@@ -26,16 +26,13 @@ the scientific and engineering community in the process from manuscript
 creation through final publication, both in electronic and print formats.
 }
 
-%fontmeta
 
-%global source_files %{expand:
 Source0:  %{forgesource0}
 Source10: 65-%{fontpkgname0}.xml
-}
 
 %fontpkg
 
-%new_package doc
+%package doc
 Summary:   Optional documentation files of %{source_name}
 BuildArch: noarch
 %description doc
@@ -61,6 +58,13 @@ This package provides optional documentation files shipped with
 %doc docs/charts/*pdf
 
 %changelog
+* Fri Sep 11 2020 Parag Nemade <pnemade AT redhat DOT com>
+- 2.0.2-8
+- Fix this spec file to build for F33+
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 2.0.2-6
 🐞 Workaround Fedora problems created by rpm commit 93604e2

@@ -1,7 +1,7 @@
 Summary: Display logical Hebrew on unidirectional terminals
 Name: bidiv
 Version: 1.5
-Release: 26%{?dist}
+Release: 28%{?dist}
 URL: http://ftp.ivrix.org.il/pub/ivrix/src/cmdline/
 Source: http://ftp.ivrix.org.il/pub/ivrix/src/cmdline/%{name}-%{version}.tgz
 Patch0: nostrip.patch.gz
@@ -37,6 +37,13 @@ make PREFIX=%{buildroot}%{_prefix} \
 # and what about %{_mandir}/he/man1/bidiv.1 ? ;)
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-28
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

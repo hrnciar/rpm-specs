@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+
 %global buildno 20
 %global buildid build%{buildno}
 # The game contains a copy of these fonts, we replaces these with symlinks to the system versions of these fonts
@@ -5,7 +7,7 @@
 
 Name:           widelands
 Version:        0
-Release:        0.79.%{buildid}%{?dist}
+Release:        0.80.%{buildid}%{?dist}
 Summary:        Open source realtime-strategy game
 
 License:        GPLv2+
@@ -47,8 +49,6 @@ perhaps will have a thought, what Widelands is all about.
 
 
 %build
-mkdir build
-pushd build
 LDFLAGS=-lGL
 %cmake \
     -DCMAKE_BUILD_TYPE=Release \
@@ -56,15 +56,12 @@ LDFLAGS=-lGL
     -DWL_INSTALL_BASEDIR=%{_prefix}/share/%{name} \
     -DWL_INSTALL_DATADIR=%{_prefix}/share/%{name} \
     -DOPTION_BUILD_WEBSITE_TOOLS=OFF \
-    ..
-make %{?_smp_mflags}
-popd
+    %{nil}
+%cmake_build
 
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 
 for i in 16 32 48 64 128; do
   mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/${i}x${i}/apps
@@ -172,6 +169,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.80.build20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Jonathan Wakely <jwakely@redhat.com> - 0-0.79.
 - Rebuilt for Boost 1.73
 

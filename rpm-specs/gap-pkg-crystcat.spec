@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        1.1.9
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Crystallographic groups catalog
 
 License:        GPLv2+
@@ -80,6 +80,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}/htm/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.9-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.9-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

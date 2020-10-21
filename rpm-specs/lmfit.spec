@@ -1,7 +1,7 @@
 Name:           lmfit
 Version:        8.2.2
 %global         sover 8
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Levenberg-Marquardt least-squares minimization and curve fitting
 # software is BSD, documentation is CC-BY
 License:        BSD and CC-BY
@@ -38,23 +38,17 @@ sed -i 's@${CMAKE_INSTALL_PREFIX}/man@%{_mandir}@' man/CMakeLists.txt
 
 
 %build
-mkdir build && pushd build
-%{cmake} ..
-make %{?_smp_mflags}
-popd
+%{cmake}
+%cmake_build
 
 %install
-pushd build
-make install DESTDIR=%{buildroot}
-popd
+%cmake_install
 rm -rf %{buildroot}%{_mandir}/html %{buildroot}%{_bindir}/* %{buildroot}%{_libdir}/*.la
 rm -rf demo
 mv -f _demo demo
 
 %check
-pushd build
-make %{?_smp_mflags} test
-popd
+%ctest
 
 %files
 %doc COPYING CHANGELOG
@@ -71,6 +65,16 @@ popd
 %{_mandir}/man7/*
 
 %changelog
+* Tue Aug 04 2020 Christoph Junghans <junghans@votca.org> - 8.2.2-5
+- Fix out-of-source build on F33 (bug #1864079)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.2.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.2.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.2.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

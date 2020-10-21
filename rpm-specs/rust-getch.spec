@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Portable implementation of getch, using _getch on Windows, and termios on Unix
 
 # Upstream license specification: Apache-2.0
@@ -73,5 +73,8 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 14 10:44:31 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.1-1
 - Initial package

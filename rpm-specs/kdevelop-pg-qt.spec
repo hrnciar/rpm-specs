@@ -1,9 +1,11 @@
+%undefine __cmake_in_source_build
+
 %define src_ver 2.2.1
 
 Name:           kdevelop-pg-qt
 Summary:        A parser generator
 Version:        2.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 # All LGPLv2+, except for bison-generated kdev-pg-parser.{cc.h} which are GPLv2+
 License:        LGPLv2+ and GPLv2+ with exception
 URL:            http://techbase.kde.org/Development/KDevelop-PG-Qt_Introduction
@@ -42,16 +44,12 @@ Obsoletes: kdevelop-pg-qt-devel < 1.0.0-1
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 
 %files 
@@ -65,6 +63,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Marie Loise Nolden <loise@kde.org> - 2.2.1-1
 - 2.2.1
 - fixes build with Qt 5.14

@@ -1,7 +1,7 @@
 Summary: High-performance and highly configurable free RADIUS server
 Name: freeradius
 Version: 3.0.21
-Release: 4%{?dist}
+Release: 7%{?dist}
 License: GPLv2+ and LGPLv2+
 URL: http://www.freeradius.org/
 
@@ -24,6 +24,7 @@ Patch1: freeradius-Adjust-configuration-to-fit-Red-Hat-specifics.patch
 Patch2: freeradius-Use-system-crypto-policy-by-default.patch
 Patch3: freeradius-bootstrap-create-only.patch
 Patch4: freeradius-no-buildtime-cert-gen.patch
+Patch5: freeradius-bootstrap-make-permissions.patch
 
 %global docdir %{?_pkgdocdir}%{!?_pkgdocdir:%{_docdir}/%{name}-%{version}}
 
@@ -54,8 +55,9 @@ Requires: openssl >= %(rpm -q --queryformat '%%{EPOCH}:%%{VERSION}' openssl)
 Requires(pre): shadow-utils glibc-common
 Requires(post): systemd-sysv
 Requires(post): systemd-units
-# Needed for certificate generation
-Requires(post): make
+# Needed for certificate generation as upstream bootstrap script isn't
+# compatible with Makefile equivalent.
+Requires: make
 Requires(preun): systemd-units
 Requires(postun): systemd-units
 
@@ -130,7 +132,7 @@ BuildRequires: perl(ExtUtils::Embed)
 %description perl
 This plugin provides the Perl support for the FreeRADIUS server project.
 
-%if 0%{?fedora} <= 30
+%if 0%{?fedora} <= 30 && 0%{?rhel} < 8
 %package -n python2-freeradius
 Summary: Python 2 support for freeradius
 Requires: %{name} = %{version}-%{release}
@@ -203,6 +205,7 @@ This plugin provides the REST support for the FreeRADIUS server project.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 # Force compile/link options, extra security for network facing daemon
@@ -716,7 +719,7 @@ exit 0
 
 %{_libdir}/freeradius/rlm_perl.so
 
-%if 0%{?fedora} <= 30
+%if 0%{?fedora} <= 30 && 0%{?rhel} < 8
 %files -n python2-freeradius
 %dir %attr(750,root,radiusd) /etc/raddb/mods-config/python
 /etc/raddb/mods-config/python/example.py*
@@ -835,6 +838,17 @@ exit 0
 %attr(640,root,radiusd) %config(noreplace) /etc/raddb/mods-available/rest
 
 %changelog
+* Tue Aug 04 2020 Alexander Scheel <ascheel@redhat.com> - 3.0.21-7
+- Fix certificate permissions after make-based generation
+  Resolves: bz#1835249
+
+* Tue Aug 04 2020 Alexander Scheel <ascheel@redhat.com> - 3.0.21-6
+- Fix certificate permissions after make-based generation
+  Resolves: bz#1835249
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.21-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.0.21-4
 - Perl 5.32 rebuild
 

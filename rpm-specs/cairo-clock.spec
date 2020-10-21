@@ -1,7 +1,7 @@
 Summary:	Cairo-rendered on-screen clock 
 Name:		cairo-clock
 Version:	0.3.4
-Release:	25%{?dist}
+Release:	26%{?dist}
 URL:		http://macslow.thepimp.net/?page_id=23
 Source0:	http://macslow.thepimp.net/projects/%{name}/%{name}-%{version}.tar.gz
 Patch0:		cairo-clock-0.3.4-fix-ldflags.patch
@@ -45,6 +45,9 @@ desktop-file-install --dir $RPM_BUILD_ROOT%{_datadir}/applications \
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

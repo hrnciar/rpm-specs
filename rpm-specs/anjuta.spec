@@ -10,7 +10,7 @@
 Name:           anjuta
 Epoch:          1
 Version:        3.34.0
-Release:        3%{?dist}
+Release:        7%{?dist}
 Summary:        GNOME IDE for various programming languages (including C/C++, Python, Vala and JavaScript)
 
 License:        GPLv2+
@@ -176,6 +176,19 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/anjuta.desktop
 
 
 %changelog
+* Sun Sep 13 2020 Kalev Lember <klember@redhat.com> - 1:3.34.0-7
+- Rebuilt for libgladeui soname bump
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.34.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.34.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Gwyn Ciesla <gwync@protonmail.com> - 1:3.34.0-4
+- Autogen rebuild
+
 * Fri May 22 2020 Kalev Lember <klember@redhat.com> - 1:3.34.0-3
 - Rebuilt for libgladeui soname bump
 

@@ -11,7 +11,7 @@ to add fancier things like Docklets, painters, settings dialogs, etc.}
 Name:           plank
 Summary:        Stupidly simple Dock
 Version:        0.11.89
-Release:        4%{?dist}
+Release:        5%{?dist}
 License:        GPLv3+
 
 URL:            https://launchpad.net/%{name}
@@ -166,6 +166,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.89-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Fabio Valentini <decathorpe@gmail.com> - 0.11.89-4
 - Drop unnecessary build dependency on libdbusmenu.
 

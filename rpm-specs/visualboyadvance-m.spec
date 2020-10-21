@@ -10,7 +10,7 @@
 
 Name:           visualboyadvance-m
 Version:        %{upstreamtag}
-Release:        3%{?rctagfedora:.%{rctagfedora}}%{?dist}
+Release:        3%{?rctagfedora:.%{rctagfedora}}%{?dist}.1
 Summary:        High compatibility Gameboy Advance Emulator combining VBA builds
 
 License:        GPLv2
@@ -70,7 +70,7 @@ sed -i 's/ -mtune=generic//g' CMakeLists.txt
 chmod -x src/wx/rpi.h
 
 %build
-%cmake . \
+%cmake \
     -DCMAKE_SKIP_RPATH=ON \
     -DVERSION="%{version}%{?rcversion: %{rcversion}}" \
     -DVERSION_RELEASE=TRUE \
@@ -78,10 +78,10 @@ chmod -x src/wx/rpi.h
     -DENABLE_WX=ON \
     -DENABLE_FFMPEG=OFF \
     -DENABLE_LINK=ON
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 %find_lang wx%{shortname}
 
 %check
@@ -108,6 +108,9 @@ appstream-util validate-relax --nonet \
 %{_bindir}/%{shortname}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.4-3.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 11 2020 Jeremy Newton <alexjnewt AT hotmail DOT com> - 2.1.4-3
 - Fix RHBZ#1776006
 

@@ -6,7 +6,7 @@
 %global crate futures-channel
 
 Name:           rust-%{crate}
-Version:        0.3.5
+Version:        0.3.6
 Release:        1%{?dist}
 Summary:        Channels for asynchronous communication using futures-rs
 
@@ -64,6 +64,18 @@ which use "alloc" feature of "%{crate}" crate.
 %files       -n %{name}+alloc-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+cfg-target-has-atomic-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+cfg-target-has-atomic-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "cfg-target-has-atomic" feature of "%{crate}" crate.
+
+%files       -n %{name}+cfg-target-has-atomic-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+futures-sink-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -100,6 +112,18 @@ which use "std" feature of "%{crate}" crate.
 %files       -n %{name}+std-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+unstable-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+unstable-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "unstable" feature of "%{crate}" crate.
+
+%files       -n %{name}+unstable-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
 %cargo_prep
@@ -119,6 +143,12 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Oct 07 2020 Fabio Valentini <decathorpe@gmail.com> - 0.3.6-1
+- Update to version 0.3.6.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 09 2020 Josh Stone <jistone@redhat.com> - 0.3.5-1
 - Update to 0.3.5
 

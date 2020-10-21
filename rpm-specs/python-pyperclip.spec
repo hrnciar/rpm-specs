@@ -2,8 +2,8 @@
 
 
 Name:           python-%{pypi_name}
-Version:        1.6.4
-Release:        8%{?dist}
+Version:        1.8.0
+Release:        2%{?dist}
 Summary:        A cross-platform clipboard module for Python
 
 License:        BSD
@@ -11,10 +11,8 @@ URL:            https://github.com/asweigart/pyperclip
 Source0:        https://files.pythonhosted.org/packages/source/p/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 # Fix tests suite execution
 # Disable all tests requiring a display or toolkit to be available at build time
-Patch001:       0001-Skip-tests-irrelevant-in-the-context-of-Fedora-packa.patch
+Patch0001: 0001-Skip-tests-irrelevant-in-the-context-of-Fedora-packa.patch
 BuildArch:      noarch
-
-BuildRequires:  git
  
 %description
 Pyperclip is a cross-platform Python module for copy and paste clipboard
@@ -41,7 +39,7 @@ Documentation for pyperclip
 
 
 %prep
-%autosetup -n %{pypi_name}-%{version} -S git
+%autosetup -p1 -n %{pypi_name}-%{version}
 # Remove bundled egg-info
 rm -rf %{pypi_name}.egg-info
 
@@ -71,6 +69,13 @@ rm -rf html/.{doctrees,buildinfo}
 %doc html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 16 2020 Ken Dreyer <kdreyer@redhat.com> - 1.8.0-1
+- Update to 1.8.0 (rhbz#1697423)
+- Use non-git autosetup for simplicity
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.6.4-8
 - Rebuilt for Python 3.9
 

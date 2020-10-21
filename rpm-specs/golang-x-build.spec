@@ -4,7 +4,7 @@
 # https://github.com/golang/build
 %global goipath         golang.org/x/build
 %global forgeurl        https://github.com/golang/build
-%global commit          9ed24406dee1f593f40f852f27f1092bd20d5852
+%global commit          301a72cb1ab6c95414686a16f34ebe2bef25b689
 
 %gometa
 
@@ -17,23 +17,32 @@ of the Go programming language.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.12%{?dist}
+Release:        0.15%{?dist}
 Summary:        Packages and tools that support Go's build system
 
 # Upstream license specification: BSD-3-Clause
 License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
+# Fix githubdirect.issues.listcomments parameters
+# to match newer github.com/google/go-github
+Patch0:         0001-Fix-githubdirect.issues.listcomments-parameters.patch
 
-BuildRequires:  golang(bazil.org/fuse)
-BuildRequires:  golang(bazil.org/fuse/fs)
 BuildRequires:  golang(cloud.google.com/go/bigquery)
 BuildRequires:  golang(cloud.google.com/go/compute/metadata)
 BuildRequires:  golang(cloud.google.com/go/datastore)
 BuildRequires:  golang(cloud.google.com/go/errorreporting)
 BuildRequires:  golang(cloud.google.com/go/monitoring/apiv3)
 BuildRequires:  golang(cloud.google.com/go/pubsub)
+BuildRequires:  golang(cloud.google.com/go/secretmanager/apiv1)
 BuildRequires:  golang(cloud.google.com/go/storage)
+BuildRequires:  golang(github.com/aws/aws-sdk-go/aws)
+BuildRequires:  golang(github.com/aws/aws-sdk-go/aws/credentials)
+BuildRequires:  golang(github.com/aws/aws-sdk-go/aws/ec2metadata)
+BuildRequires:  golang(github.com/aws/aws-sdk-go/aws/request)
+BuildRequires:  golang(github.com/aws/aws-sdk-go/aws/session)
+BuildRequires:  golang(github.com/aws/aws-sdk-go/service/ec2)
+BuildRequires:  golang(github.com/aws/aws-sdk-go/service/servicequotas)
 BuildRequires:  golang(github.com/bradfitz/go-smtpd/smtpd)
 BuildRequires:  golang(github.com/coreos/go-systemd/activation)
 BuildRequires:  golang(github.com/coreos/go-systemd/daemon)
@@ -42,9 +51,12 @@ BuildRequires:  golang(github.com/golang/protobuf/proto)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/timestamp)
 BuildRequires:  golang(github.com/google/go-github/github)
+BuildRequires:  golang(github.com/google/go-github/v32/github)
+BuildRequires:  golang(github.com/googleapis/gax-go/v2)
 BuildRequires:  golang(github.com/gregjones/httpcache)
 BuildRequires:  golang(github.com/jellevandenhooff/dkim)
 BuildRequires:  golang(github.com/kr/pty)
+BuildRequires:  golang(github.com/NYTimes/gziphandler)
 BuildRequires:  golang(github.com/sendgrid/sendgrid-go)
 BuildRequires:  golang(github.com/sendgrid/sendgrid-go/helpers/mail)
 BuildRequires:  golang(go4.org/strutil)
@@ -71,9 +83,16 @@ BuildRequires:  golang(google.golang.org/api/oauth2/v2)
 BuildRequires:  golang(google.golang.org/api/option)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/api/label)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/api/metric)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/secretmanager/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/monitoring/v3)
+BuildRequires:  golang(google.golang.org/grpc)
+BuildRequires:  golang(google.golang.org/grpc/codes)
+BuildRequires:  golang(google.golang.org/grpc/credentials)
+BuildRequires:  golang(google.golang.org/grpc/metadata)
+BuildRequires:  golang(google.golang.org/grpc/status)
 BuildRequires:  golang(gopkg.in/inf.v0)
 BuildRequires:  golang(grpc.go4.org)
+BuildRequires:  golang(grpc.go4.org/codes)
 
 %if %{with check}
 # Tests
@@ -89,6 +108,8 @@ BuildRequires:  golang(github.com/google/go-cmp/cmp/cmpopts)
 
 %prep
 %goprep
+%patch0 -p1
+sed -i 's|github.com/google/go-github/v28|github.com/google/go-github/v32|' $(find . -iname "*.go" -type f)
 # Remove maintserve because it pulls extra dependencies (shurcooL)
 rm -rf maintner/cmd/maintserve
 
@@ -118,6 +139,16 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Fri Sep 04 22:23:54 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.15.20200904git301a72c
+- Bump to commit 301a72cb1ab6c95414686a16f34ebe2bef25b689
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

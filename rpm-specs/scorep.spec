@@ -10,13 +10,19 @@
 %global oshm 0
 %endif
 %endif
+%ifarch aarch64
+%{?el7:%global oshm 0}
+%endif
 
 %global libuwcommit 5646a9b520c51bf6aaa86ae4c25289e30b7c3a41
 %global libuwshort %(c=%{libuwcommit}; echo ${c:0:7})
 
+# Needed to get scorep-score built (depending on use of cube C++ lib)
+%{?el7:%global dts devtoolset-9}
+
 Name:           scorep
 Version:        6.0
-Release:        7%{?dist}
+Release:        12%{?dist}
 Summary:        Scalable Performance Measurement Infrastructure for Parallel Codes
 License:        BSD
 URL:            http://www.vi-hps.org/projects/score-p/
@@ -29,7 +35,8 @@ Patch2:         scorep-plugin.patch
 # Fix argument mismatch errors with gfortran 10
 Patch3:         scorep-fortran.patch
 # Upstream change for binutils-2.34 BFD
-Patch4:		scorep-bfd.patch
+Patch4:         scorep-bfd.patch
+Patch5:         scorep-gcc11.patch
 BuildRequires:  gcc-gfortran
 BuildRequires:  bison
 BuildRequires:  flex
@@ -41,6 +48,7 @@ BuildRequires:  opari2 >= 2.0
 BuildRequires:  otf2-devel >= 2.0
 BuildRequires:  papi-devel
 BuildRequires:  gcc-plugin-devel
+%{?dts:BuildRequires:  %dts-gcc-c++}
 BuildRequires:  gcc-c++
 %if 0%{?dowrap}
 BuildRequires:  llvm-devel
@@ -48,17 +56,18 @@ BuildRequires:  clang
 BuildRequires:  clang-devel
 %endif
 BuildRequires:  automake libtool
+# Required for cubelib to build scorep-score against cubew 4.5
+%{?dts:BuildRequires:  %dts-gcc-c++}
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 Requires:       binutils-devel%{?_isa}
 Requires:       cube-libs-devel%{?_isa} >= 4.4
 Requires:       otf2-devel%{?_isa} >= 2.2
 Requires:       papi-devel%{?_isa}
-BuildRequires:       libunwind-devel%{?_isa}
-Requires:       libunwind-devel%{?_isa}
 Requires:       ocl-icd-devel%{?_isa}
 Requires:       opari2%{?_isa} >= 2.0
 # Missing papi and libunwind
 ExcludeArch: s390 s390x
+Provides:       bundled(libunwind) = 1.3
 
 %global with_mpich 1
 %global with_openmpi 1
@@ -230,11 +239,20 @@ ln -s %_bindir/llvm-config-%__isa_bits bin/llvm-config
 %patch2 -p1 -b .plugin
 %patch3 -p1 -b .fort
 %patch4 -p1 -b .bfd
+%patch5 -p1 -b .gcc11
 tar fx %SOURCE1
 
 
 %build
+# This package uses -Wl,-wrap to wrap calls at link time.  This is incompatible
+# with LTO.
+# Disable LTO
+%define _lto_cflags %{nil}
+
+%{?dts:. /opt/rh/%dts/enable}
 %global _configure ../configure
+# It doesn't build on aarch64 due to missing ELF definitions
+%ifarch x86_64
 pushd libunwind*
 # Per Fedora packaging
 sed -i 's/= UNW_ARM_METHOD_ALL/= UNW_ARM_METHOD_EXIDX/' src/arm/Gglobal.c
@@ -246,6 +264,8 @@ CFLAGS="%build_cflags -fcommon" LDFLAGS="%build_ldflags" \
 popd
 # See above
 PATH=$(pwd)/bin:$PATH
+%endif
+# Fixme: --disable-silent-rules or V=1 doesn't work in all parts of the build
 %global configure_opts --enable-shared --disable-static --disable-silent-rules --with-unwind=$(pwd)/unwind
 
 cp /usr/lib/rpm/redhat/config.{sub,guess} build-config/
@@ -255,7 +275,14 @@ mkdir serial
 cd serial
 %configure %{configure_opts} --without-mpi --without-shmem
 find -name Makefile -exec sed -r -i 's,-L%{_libdir}/?( |$),,g;s,-L/usr/lib/../%{_lib} ,,g' {} \;
-%make_build
+
+# We need to build the plugin for the system compiler, which
+# presumably is going to be used when scorep is run, although we're
+# overall compiling with devtooset on el7.  I couldn't see a better
+# way of doing it than re-configuring here.
+%{?el7:(cd build-gcc-plugin; export PATH=%_bindir:$PATH; ./config.status --recheck CXX=%_bindir/g++)}
+
+%make_build V=1
 cd -
 
 # Build MPI versions
@@ -263,11 +290,7 @@ for mpi in %{mpi_list}
 do
   mkdir $mpi
   cd $mpi
-%if 0%{?el6}
-  module load $mpi-%{_arch}
-%else
   module load mpi/$mpi-%{_arch}
-%endif
   %configure %{configure_opts} \
     --libdir=%{_libdir}/$mpi/lib \
     --bindir=%{_libdir}/$mpi/bin \
@@ -279,7 +302,9 @@ do
   sed -i -e 's/HARDCODE_INTO_LIBS"]="1"/HARDCODE_INTO_LIBS"]="0"/' \
       -e "s/hardcode_into_libs='yes'/hardcode_into_libs='no'/" \
       build-backend/config.status
-  %make_build
+  # See serial version
+  %{?el7:(cd build-gcc-plugin; export PATH=%_bindir:$PATH; ./config.status --recheck CXX=%_bindir/g++)}
+  %make_build V=1
   module purge
   cd -
 done
@@ -292,21 +317,23 @@ chrpath -d %{buildroot}%{_libdir}/*.so.*
 
 for mpi in %{mpi_list}
 do
-%if 0%{?el6}
-  module load $mpi-%{_arch}
-%else
   module load mpi/$mpi-%{_arch}
-%endif
   %make_install -C $mpi
   module purge
 done
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
 find %{buildroot} -name '*.a' -delete
 
+# Fixme: I haven't figured out how to get this re-built with the final
+# build-gcc-plugin result; kludge it for now.
+find %{buildroot} -name scorep.summary | xargs sed -i -e "s|\
+no, missing plug-in headers, please install|\
+yes, using the C++ compiler and -I$(%_bindir/gcc -print-file-name=plugin/include)|"
 
 %ldconfig_scriptlets libs
 
 %check
+%{?dts:. /opt/rh/%dts/enable}
 %if %{with_openmpi}
 %_openmpi_load
 OMPI_MCA_rmaps_base_oversubscribe=1 \
@@ -436,9 +463,11 @@ make -C serial check V=1
 %{_libdir}/openmpi3/bin/scorep-mpicxx
 %{_libdir}/openmpi3/bin/scorep-mpif77
 %{_libdir}/openmpi3/bin/scorep-mpif90
+%if %oshm
 %{_libdir}/openmpi3/bin/scorep-oshcc
 %{_libdir}/openmpi3/bin/scorep-oshcxx
 %{_libdir}/openmpi3/bin/scorep-oshfort
+%endif
 %{_libdir}/openmpi3/bin/scorep-score
 %{_libdir}/openmpi3/bin/scorep-wrapper
 %{_libdir}/openmpi3/bin/scorep-online-access-registry
@@ -457,6 +486,27 @@ make -C serial check V=1
 
 
 %changelog
+* Fri Oct 16 2020 Jeff Law <law@redhat.com> - 6.0-12
+- Add missing includes for gcc-11
+- Fix diagnostics triggered by gcc-11
+
+* Wed Aug 19 2020 Dave Love <loveshack@fedoraproject.org> - 6.0-11
+- Don't (build)require external libunwind
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Dave Love <loveshack@fedoraproject.org> - 6.0-9
+- Fix building gcc plugin, and reporting its use, on el7
+- Drop el6 conditionals
+- Don't try to install osh on aarch64
+
+* Wed Jul  1 2020 Jeff Law <law@redhat.com> - 6.0-8
+- Disable LTO
+
+* Thu Jun 11 2020 Dave Love <loveshack@fedoraproject.org> - 6.0-8
+- BR devtoolset-9 on el7
+
 * Wed Feb 26 2020 Dave love <loveshack@fedoraproject.org> - 6.0-7
 - Bundle the recommended modified libunwind
 - Fix FTBFS with binutils 2.34

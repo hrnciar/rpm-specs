@@ -2,7 +2,7 @@
 
 Name:       python-py9p
 Version:    1.0.9
-Release:    21%{?dist}
+Release:    22%{?dist}
 Summary:    Pure Python implementation of 9P protocol (Plan9)
 License:    MIT
 URL:        https://github.com/svinota/%{srcname}
@@ -94,6 +94,9 @@ make force-version
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.9-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.9-21
 - Rebuilt for Python 3.9
 

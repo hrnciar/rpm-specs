@@ -1,8 +1,9 @@
+%undefine __cmake_in_source_build
 %global abiver 1
 
 Name:		ignition-msgs
 Version:	1.0.0
-Release:	6%{?dist}
+Release:	9%{?dist}
 Summary:	Common messages for the ignition framework
 
 # Bundled gtest and python helper scripts are licensed BSD, but not included in installation
@@ -44,9 +45,8 @@ Automatically generated API documentation for the ignition-msgs library
 %autosetup
 
 %build
-mkdir build; cd build
 export CXXFLAGS="%{optflags} -Wl,--as-needed"
-%cmake .. \
+%cmake \
 %ifnarch x86_64
   -DSSE2_FOUND=FALSE \
 %endif
@@ -56,25 +56,24 @@ export CXXFLAGS="%{optflags} -Wl,--as-needed"
   -DSSE4_2_FOUND=FALSE \
   -DCMAKE_C_FLAGS_ALL="%{optflags}" \
   -DCMAKE_CXX_FLAGS_ALL="%{optflags}" \
-  -DCMAKE_BUILD_TYPE=RelWithDebInfo
+  -DCMAKE_BUILD_TYPE=Release
 
 
-make %{?_smp_mflags}
-make doc
+%cmake_build
+%cmake_build --target doc
 
 %install
-%make_install -C build
+%cmake_install
 rm -fr %{buildroot}%{_prefix}/lib/ruby
 
 %check
-make -C build test
-
-%ldconfig_scriptlets
+%ctest
 
 %files
 %license COPYING LICENSE
 %doc AUTHORS NEWS README.md
-%{_libdir}/*.so.*
+%{_libdir}/*.so.%{version}
+%{_libdir}/*.so.%{abiver}
 %{_datadir}/ignition
 
 %files devel
@@ -85,9 +84,19 @@ make -C build test
 
 %files doc
 %license COPYING LICENSE
-%doc build/doxygen/html
+%doc %{_vpath_builddir}/doxygen/html
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 1.0.0-9
+- Rebuilt for protobuf 3.13
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 1.0.0-6
 - Rebuilt for protobuf 3.12
 

@@ -4,14 +4,9 @@
 # https://github.com/getsentry/raven-go
 %global goipath         github.com/getsentry/raven-go
 Version:                0.2.0
-%global commit          919484f041ea21e7e27be291cee1d6af7bc98864
+%global commit          5c24d5110e0e198d9ae16f1f3465366085001d92
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-getsentry-raven-go-devel < 0-0.14
-}
 
 %global common_description %{expand:
 Package Raven implements a client for the Sentry error logging service.}
@@ -22,7 +17,7 @@ Package Raven implements a client for the Sentry error logging service.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Sentry client in Go
 
 # Upstream license specification: BSD-3-Clause
@@ -33,7 +28,11 @@ Source1:        glide.yaml
 Source2:        glide.lock
 
 BuildRequires:  golang(github.com/certifi/gocertifi)
+
+%if %{with check}
+# Tests
 BuildRequires:  golang(github.com/pkg/errors)
+%endif
 
 %description
 %{common_description}
@@ -47,15 +46,6 @@ cp %{S:1} %{S:2} .
 %install
 %gopkginstall
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck
@@ -64,6 +54,12 @@ end
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 18:13:59 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.2.0-5.20200726git5c24d51
+- Bump to commit 5c24d5110e0e198d9ae16f1f3465366085001d92
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

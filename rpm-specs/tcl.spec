@@ -5,7 +5,7 @@
 Summary: Tool Command Language, pronounced tickle
 Name: tcl
 Version: %{vers}
-Release: 2%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: TCL
 URL: http://tcl.sourceforge.net/
@@ -78,7 +78,7 @@ autoconf
 --enable-symbols \
 --enable-shared
 
-make %{?_smp_mflags} CFLAGS="%{optflags}" TCL_LIBRARY=%{_datadir}/%{name}%{majorver}
+%make_build CFLAGS="%{optflags}" TCL_LIBRARY=%{_datadir}/%{name}%{majorver}
 
 %check
 %{?_without_check: %define _without_check 1}
@@ -143,6 +143,16 @@ rm -rf %{buildroot}/%{_datadir}/%{name}%{majorver}/ldAix
 %{_datadir}/%{name}%{majorver}/tclAppInit.c
 
 %changelog
+* Thu Aug 20 2020 Jeff Law <law@redhat.com> - 1:8.6.10-5
+- Re-enable LTO
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1:8.6.10-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 1:8.6.10-3
+- Disable LTO
+
 * Wed May 13 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 1:8.6.10-2
 - Fixed tcltests path
   Resolves: rhbz#1833701

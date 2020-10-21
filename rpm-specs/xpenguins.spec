@@ -1,6 +1,6 @@
 Name: xpenguins
 Version: 2.2
-Release: 26%{?dist}
+Release: 27%{?dist}
 Summary: Cute little penguins that walk along the tops of your windows
 Summary(sv): Söta små pingviner som vandrar längs överkanterna på dina fönster
 
@@ -110,6 +110,9 @@ appstream-util validate-relax --nonet \
 %_datadir/metainfo/%name.appdata.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

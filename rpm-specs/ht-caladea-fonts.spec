@@ -4,7 +4,7 @@ Epoch: 1
 Version: 1.001
 %forgemeta
 
-Release:  2%{?dist}
+Release:  3%{?dist}
 URL:     https://github.com/huertatipografica/Caladea
 
 %global foundry           HT
@@ -56,6 +56,9 @@ chmod 644 %{fontdocs} %{fontlicenses}
 %fontfiles
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.001-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 25 2020 Parag Nemade <pnemade AT redhat DOT com> - 1:1.001-2.20200401git336a529
 - Update the DTD id in fontconfig files
 

@@ -1,30 +1,28 @@
 Name:           perl-String-Util
-Version:        1.26
-Release:        12%{?dist}
+Version:        1.31
+Release:        1%{?dist}
 Summary:        String processing utilities
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/String-Util
-Source0:        https://cpan.metacpan.org/authors/id/M/MI/MIKO/String-Util-%{version}.tar.gz
+Source0:        https://cpan.metacpan.org/authors/id/B/BA/BAKERSCOT/String-Util-%{version}.tar.gz
 BuildArch:      noarch
 # Build
-BuildRequires:  make
 BuildRequires:  perl-interpreter
 BuildRequires:  perl-generators
-BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
+BuildRequires:  perl(Module::Build::Tiny) >= 0.034
 # Runtime
 BuildRequires:  perl(base)
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(Encode)
 BuildRequires:  perl(Exporter)
-BuildRequires:  perl(Number::Misc) >= 1.2
 BuildRequires:  perl(overload)
 BuildRequires:  perl(strict)
 BuildRequires:  perl(vars)
 # Tests only
-BuildRequires:  perl(Test::Toolbox) >= 0.2
+BuildRequires:  perl(Test::More)
+
 Requires:       perl(:MODULE_COMPAT_%(eval "$(perl -V:version)"; echo $version))
 Requires:       perl(Encode)
-Requires:       perl(Number::Misc)
 
 %description
 String::Util provides a collection of small, handy utilities for
@@ -34,15 +32,15 @@ processing strings.
 %setup -q -n String-Util-%{version}
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
-make %{?_smp_mflags}
+perl Build.PL
+./Build
 
 %install
-make pure_install DESTDIR=%{buildroot}
+./Build install --destdir=%{buildroot} --installdir=vendor --create_packlist=0
 %{_fixperms} %{buildroot}/*
 
 %check
-make test
+./Build test
 
 %files
 %license LICENSE
@@ -51,6 +49,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Mon Aug 03 2020 Jan Pazdziora <jpazdziora@redhat.com> - 1.31-1
+- 1861070 - rebase to upstream version 1.31.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.30-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jan Pazdziora <jpazdziora@redhat.com> - 1.30-1
+- 1860180 - rebase to upstream version 1.30.
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.26-12
 - Perl 5.32 rebuild
 

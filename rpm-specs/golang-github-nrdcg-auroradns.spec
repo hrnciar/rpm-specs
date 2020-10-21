@@ -4,7 +4,7 @@
 
 # https://github.com/nrdcg/auroradns
 %global goipath         github.com/nrdcg/auroradns
-Version:                1.0.0
+Version:                1.0.1
 
 %gometa
 
@@ -15,7 +15,7 @@ Auroradns is a Go client library for accessing the Aurora DNS API.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        Go library for accessing the Aurora DNS API
 
 # Upstream license specification: MPL-2.0
@@ -48,6 +48,12 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 12:37:12 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.1-1
+- Update to 1.0.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

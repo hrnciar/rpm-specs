@@ -4,13 +4,15 @@
 %global release_version %(echo %{version} | awk -F. '{print $1"."$2}')
 
 Name:		mingw-libsoup
-Version:	2.70.0
-Release:	2%{?dist}
+Version:	2.72.0
+Release:	1%{?dist}
 Summary:	MinGW library for HTTP and XML-RPC functionality
 
 License:	LGPLv2
 URL:		https://wiki.gnome.org/Projects/libsoup
 Source0:	https://download.gnome.org/sources/libsoup/%{release_version}/libsoup-%{version}.tar.xz
+# Fix mulitple definition errors
+Patch0:         libsoup_extern.patch
 
 BuildArch:	noarch
 
@@ -41,7 +43,7 @@ BuildRequires:	intltool
 Libsoup is an HTTP library implementation in C. It was originally part
 of a SOAP (Simple Object Access Protocol) implementation called Soup, but
 the SOAP and non-SOAP parts have now been split into separate packages.
- 
+
 libsoup uses the Glib main loop and is designed to work well with GTK
 applications. This enables GNOME applications to access HTTP servers
 on the network in a completely asynchronous fashion, very similar to
@@ -94,7 +96,7 @@ supported for those who want it).
 This is the MinGW build of Libsoup
 
 
-%?mingw_debug_package
+%{?mingw_debug_package}
 
 
 %prep
@@ -113,8 +115,8 @@ This is the MinGW build of Libsoup
 %mingw_ninja_install
 
 # Remove the .la files
-rm -f $RPM_BUILD_ROOT%{mingw32_libdir}/*.la
-rm -f $RPM_BUILD_ROOT%{mingw64_libdir}/*.la
+rm -f %{buildroot}%{mingw32_libdir}/*.la
+rm -f %{buildroot}%{mingw64_libdir}/*.la
 
 %mingw_find_lang libsoup
 
@@ -143,6 +145,21 @@ rm -f $RPM_BUILD_ROOT%{mingw64_libdir}/*.la
 %{mingw64_libdir}/pkgconfig/libsoup-gnome-2.4.pc
 
 %changelog
+* Tue Sep 15 2020 Sandro Mani <manisandro@gmail.com> - 2.72.0-1
+- Update to 2.72.0
+
+* Tue Sep 08 2020 Sandro Mani <manisandro@gmail.com> - 2.71.1-1
+- Update to 2.71.1
+
+* Wed Aug 12 13:43:26 GMT 2020 Sandro Mani <manisandro@gmail.com> - 2.71.0-2
+- Rebuild (mingw-gettext)
+
+* Fri Jul 31 2020 Sandro Mani <manisandro@gmail.com> - 2.71.0-1
+- Update to 2.71.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.70.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 2.70.0-2
 - Rebuild (gettext)
 

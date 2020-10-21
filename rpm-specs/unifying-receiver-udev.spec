@@ -1,6 +1,6 @@
 Name:           unifying-receiver-udev
 Version:        0.2
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        udev rules for user access to Logitech Unifying Receiver
 License:        GPLv3
 URL:            http://www.brouhaha.com/~eric/software/%{name}/
@@ -36,6 +36,9 @@ install -D -p -m 644 unifying-receiver.rules %{buildroot}%{udev_rules_dir}/%{ude
 %{udev_rules_dir}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 Name:           %{fontname}-fonts
 Version:        3.005
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        A serif Latin font with good readability
 
 License:        OFL
@@ -56,6 +56,9 @@ install -Dm 0644 -p %{SOURCE2} \
 %{_datadir}/appdata/%{fontname}.metainfo.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.005-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.005-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

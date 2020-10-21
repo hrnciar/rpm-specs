@@ -14,7 +14,7 @@ A jsonnet package manager.}
 %global godocs          CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        A jsonnet package manager
 
 # Upstream license specification: Apache-2.0
@@ -66,6 +66,13 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 21 2020 Olivier Lemasle <o.lemasle@gmail.com> - 0.4.0-1
 - Update to 0.4.0 (#1836659)
 

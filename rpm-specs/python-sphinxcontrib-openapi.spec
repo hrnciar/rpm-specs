@@ -6,7 +6,7 @@ for describing RESTful HTTP APIs, so we don’t need to reinvent the wheel.}
 
 Name:           python-%{srcname}
 Version:        0.6.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenAPI spec renderer for Sphinx
 
 # There are test files under the ASL 2.0 license, but we don't ship them in the built RPM
@@ -51,6 +51,9 @@ BuildRequires:  python3-sphinxcontrib-httpdomain
 %{python3_sitelib}/sphinxcontrib_openapi*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.0-2
 - Rebuilt for Python 3.9
 

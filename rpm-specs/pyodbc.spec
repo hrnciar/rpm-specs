@@ -1,8 +1,8 @@
 %global modulename pyodbc
 
 Name:           pyodbc
-Version:        4.0.27
-Release:        3%{?dist}
+Version:        4.0.30
+Release:        1%{?dist}
 Summary:        Python DB API 2.0 Module for ODBC
 License:        MIT
 URL:            https://github.com/mkleehammer/pyodbc
@@ -10,6 +10,9 @@ Source0:        https://github.com/mkleehammer/pyodbc/archive/%{version}.tar.gz#
 BuildRequires:  gcc-c++
 BuildRequires:  unixODBC-devel
 BuildRequires:  python3-devel
+
+Recommends: (postgresql-odbc if postgresql-server)
+Recommends: (mariadb-connector-odbc if mariadb-server)
 
 %global _description\
 A Python DB API 2 and 3 module for ODBC. This project provides an up-to-date,\
@@ -21,6 +24,8 @@ decimal.
 %package -n python3-%{modulename}
 Summary:        Python DB API 2.0 Module for ODBC
 %{?python_provide:%python_provide python3-%{modulename}}
+Recommends: (mariadb-connector-odbc if mariadb-server)
+Recommends: (postgresql-odbc if postgresql-server)
 
 %description -n python3-%{modulename}
 A Python DB API 2 and 3 module for ODBC. This project provides an up-to-date,
@@ -43,6 +48,13 @@ decimal.
 %{python3_sitearch}/*
 
 %changelog
+* Fri Oct 2 2020 Filip Janus <fjanus@redhat.com> - 4.0.30-1
+- Upstream released 4.0.30
+- Add Recommendation to install database connector
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.27-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.0.27-3
 - Rebuilt for Python 3.9
 

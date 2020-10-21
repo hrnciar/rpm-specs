@@ -1,8 +1,8 @@
 %global pkgname digraphs
 
 Name:           gap-pkg-%{pkgname}
-Version:        1.2.1
-Release:        1%{?dist}
+Version:        1.3.0
+Release:        2%{?dist}
 Summary:        GAP package for digraphs and multidigraphs
 
 License:        GPLv3+
@@ -113,6 +113,12 @@ find %{buildroot}%{_gap_dir}/pkg/%{pkgname}-%{version} -size 0 -delete
 %{_gap_dir}/pkg/%{pkgname}-%{version}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Jerry James <loganjerry@gmail.com> - 1.3.0-1
+- Version 1.3.0
+
 * Wed May 27 2020 Jerry James <loganjerry@gmail.com> - 1.2.1-1
 - Version 1.2.1
 

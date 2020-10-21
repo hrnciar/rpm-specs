@@ -1,24 +1,19 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:           sugar-playgo
-Version:        5
-Release:        22%{?dist}
+Version:        6
+Release:        1%{?dist}
 Summary:        Go for Sugar
 
 License:        GPLv2+
 URL:            http://wiki.laptop.org/go/PlayGo
 Source0:        PlayGo-%{version}.tar.bz2
-Source1:        %{name}-checkout.sh
 BuildArch:      noarch
 
 BuildRequires:  gettext
-BuildRequires:  python2
-BuildRequires:  sugar-toolkit
+BuildRequires:  python3-devel
+BuildRequires:  sugar-toolkit-gtk3
 
-Requires:       sugar
-Requires:       sugar-toolkit
+Requires:       sugar >= 0.116
+Requires:       sugar-toolkit-gtk3
 
 
 %description
@@ -31,28 +26,44 @@ rich in strategic complexity despite its simple rules.
 
 %prep
 %setup -q -n PlayGo-%{version}
-rm -rf gnugo/gnugo
+# Remove binary gnugo
+rm -rf bin/
 chmod -x infopanel.py
 
-sed -i 's/python/python2/' *.py
+sed -i 's/python/python3/' setup.py
 
 %build
-python2 ./setup.py build
+python3 ./setup.py build
 
 
 %install
-python2 ./setup.py install --prefix=%{buildroot}/%{_prefix}
+python3 ./setup.py install --prefix=%{buildroot}/%{_prefix}
+rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
+
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}}/%{sugaractivitydir}/PlayGo.activity/
+
 %find_lang org.laptop.PlayGo
 
 
-
 %files -f org.laptop.PlayGo.lang
-%license gnugo/COPYING
-%doc NEWS README
+%license COPYING
+%doc NEWS README.md
 %{sugaractivitydir}/PlayGo.activity/
 
 
 %changelog
+* Sat Aug 29 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 6-1
+- Update to 6
+- Move to python3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5-24
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

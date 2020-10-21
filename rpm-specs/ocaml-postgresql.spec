@@ -2,7 +2,7 @@
 
 Name:           ocaml-postgresql
 Version:        4.0.1
-Release:        28%{?dist}
+Release:        31%{?dist}
 Summary:        OCaml library for accessing PostgreSQL databases
 
 License:        LGPLv2+ with exceptions
@@ -79,6 +79,15 @@ make install
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 4.0.1-31
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 4.0.1-30
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.1-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 4.0.1-28
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

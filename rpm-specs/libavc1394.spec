@@ -1,7 +1,7 @@
 Summary:        Audio/Video Control library for IEEE-1394 devices
 Name:           libavc1394
 Version:        0.5.4
-Release:        13%{?dist}
+Release:        14%{?dist}
 License:        GPLv2+ and LGPLv2+
 URL:            http://sourceforge.net/projects/libavc1394/
 Source:         https://sourceforge.net/projects/libavc1394/files/libavc1394/libavc1394-%{version}.tar.gz
@@ -66,6 +66,9 @@ chrpath -d $RPM_BUILD_ROOT%{_bindir}/*
 %{_libdir}/librom1394.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 16 2020 Antonio Trande <sagitter@fedoraproject.org> - 0.5.4-13
 - Some minor fixes
 

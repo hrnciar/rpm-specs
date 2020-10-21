@@ -1,7 +1,8 @@
+%define __cmake_in_source_build 1
 Summary: Cross platform open source e-book reader
 Name: coolreader
 Version: 3.2.34
-Release: 2%{?dist}
+Release: 5%{?dist}
 License: GPLv2
 URL: https://sourceforge.net/projects/crengine
 Source0: https://github.com/buggins/coolreader/archive/cr%{version}/coolreader-cr%{version}.tar.gz
@@ -61,6 +62,16 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/cr3.appdata.xm
 %doc README.md
 
 %changelog
+* Mon Oct 12 2020 Jeff Law <law@redhat.com> - 3.2.34-5
+- Use __cmake_in_source_build
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.34-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.34-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.34-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

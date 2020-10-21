@@ -1,7 +1,7 @@
 Name:		alsamixergui
 Summary:	GUI mixer for ALSA sound devices
 Version:	0.9.0
-Release:	0.30.rc2%{?dist}
+Release:	0.33.rc2%{?dist}
 License:	GPLv2+
 # This is where the source used to live, but this upstream is dead.
 # Source0:	ftp://www.iua.upf.es/pub/mdeboer/projects/alsamixergui/%%{name}-%%{version}rc1-2.tar.gz
@@ -17,6 +17,7 @@ BuildRequires:	alsa-lib-devel, desktop-file-utils
 BuildRequires:	libtool
 # This is debian's patch, taken 2013-04-01
 Patch0:		alsamixergui_0.9.0rc2-1-9.1.diff
+Patch1:		alsamixergui-strsignal.patch
 
 %description
 alsamixergui is a FLTK based frontend for alsamixer. It is written
@@ -28,6 +29,7 @@ graphical userinterface.
 %prep
 %setup -q -n %{name}-%{version}rc2-1.orig
 %patch0 -p1 -b .debian
+%patch1 -p1 -b .strsignal
 autoreconf -i
 chmod +x configure
 
@@ -49,6 +51,16 @@ desktop-file-install --dir $RPM_BUILD_ROOT%{_datadir}/applications %{SOURCE1}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-0.33.rc2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-0.32.rc2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Jeff Law <law@redhat.com> - 0.9.0-0.31.rc2
+- Use strsignal not sys_siglist
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-0.30.rc2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -14,7 +14,7 @@ Urlscan.io client library in Go.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Urlscan.io client library
 
 # Upstream license specification: BSD-3-Clause
@@ -44,6 +44,13 @@ BuildRequires:  golang(github.com/sirupsen/logrus)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.0.0-1
 - Initial package
 

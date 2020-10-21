@@ -5,7 +5,7 @@
 %global crate euclid
 
 Name:           rust-%{crate}
-Version:        0.20.13
+Version:        0.22.1
 Release:        1%{?dist}
 Summary:        Geometry primitives
 
@@ -131,6 +131,18 @@ which use "unstable" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Fri Aug 21 2020 returntrip <stefano@figura.im> - 0.22.1-1
+- Update to 0.22.1
+
+* Sat Aug 01 2020 returntrip <stefano@figura.im> - 0.22.0-1
+- Update to 0.22.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.14-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.20.14-1
+- Update to 0.20.14
+
 * Tue Jun 09 15:52:00 CEST 2020 returntrip <stefano@figura.im> - 0.20.13-1
 - Upgrade to 0.20.13
 

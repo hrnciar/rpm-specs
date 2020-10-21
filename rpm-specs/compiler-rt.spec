@@ -1,10 +1,6 @@
-%ifarch s390 s390x
-# only limited set of libs available on s390(x) and the existing ones (stats, ubsan) don't provide debuginfo
-%global debug_package %{nil}
-%endif
 
 #%%global rc_ver 6
-%global baserelease 2
+%global baserelease 1
 
 %global crt_srcdir compiler-rt-%{version}%{?rc_ver:rc%{rc_ver}}.src
 
@@ -15,32 +11,29 @@
 %global optflags %(echo %{optflags} -Dasm=__asm__)
 
 Name:		compiler-rt
-Version:	10.0.0
+Version:	11.0.0
 Release:	%{baserelease}%{?rc_ver:.rc%{rc_ver}}%{?dist}
 Summary:	LLVM "compiler-rt" runtime libraries
 
 License:	NCSA or MIT
 URL:		http://llvm.org
-%if 0%{?rc_ver:1}
-Source0:	https://prereleases.llvm.org/%{version}/rc%{rc_ver}/%{crt_srcdir}.tar.xz
-Source1:	https://prereleases.llvm.org/%{version}/rc%{rc_ver}/%{crt_srcdir}.tar.xz.sig
-%else
-Source0:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}/%{crt_srcdir}.tar.xz
-Source3:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}/%{crt_srcdir}.tar.xz.sig
-%endif
+Source0:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}%{?rc_ver:-rc%{rc_ver}}/%{crt_srcdir}.tar.xz
+Source1:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}%{?rc_ver:-rc%{rc_ver}}/%{crt_srcdir}.tar.xz.sig
 Source2:	https://prereleases.llvm.org/%{version}/hans-gpg-key.asc
 
 Patch0:		0001-PATCH-std-thread-copy.patch
-Patch1:		0001-Fix-strict-aliasing-warning-in-msan.cpp.patch
 
 BuildRequires:	gcc
 BuildRequires:	gcc-c++
 BuildRequires:	cmake
+BuildRequires:	ninja-build
 BuildRequires:	python3
 # We need python3-devel for pathfix.py.
 BuildRequires:	python3-devel
 BuildRequires:	llvm-devel = %{version}
-BuildRequires:	llvm-static = %{version}
+
+# For gpg source verification
+BuildRequires:	gnupg2
 
 %description
 The compiler-rt project is a part of the LLVM project. It provides
@@ -49,14 +42,13 @@ code generation, sanitizer runtimes and profiling library for code
 instrumentation, and Blocks C language extension.
 
 %prep
+%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
 %autosetup -n %{crt_srcdir} -p1
 
 pathfix.py -i %{__python3} -pn lib/hwasan/scripts/hwasan_symbolize
 
 %build
-mkdir -p _build
-cd _build
-%cmake .. \
+%cmake  -GNinja \
 	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
 	-DLLVM_CONFIG_PATH:FILEPATH=%{_bindir}/llvm-config-%{__isa_bits} \
 	\
@@ -67,11 +59,11 @@ cd _build
 %endif
 	-DCOMPILER_RT_INCLUDE_TESTS:BOOL=OFF # could be on?
 
-make %{?_smp_mflags}
+%cmake_build
 
 %install
-cd _build
-make install DESTDIR=%{buildroot}
+
+%cmake_install
 
 # move blacklist/abilist files to where clang expect them
 mkdir -p %{buildroot}%{_libdir}/clang/%{version}/share
@@ -87,40 +79,28 @@ for i in *.a *.so
 do
 	ln -s ../$i linux/$i
 done
+
+# multilib support: also create symlink from lib to lib64, fixes rhbz#1678240
+# the symlinks will be dangling if the 32 bits version is not installed, but that should be fine
+%ifarch x86_64
+
+mkdir -p %{buildroot}/%{_exec_prefix}/lib/clang/%{version}/lib/linux
+for i in *.a *.so
+do
+	target=`echo "$i" | sed -e 's/x86_64/i386/'`
+	ln -s ../../../../../lib/clang/%{version}/lib/$target ../../../../%{_lib}/clang/%{version}/lib/linux/
+done
+ 
+%endif
+ 
 popd
 
-# multilib support: also create symlink from lib to lib64
-# fixes rhbz#1678240
-%ifarch %{ix86}
-%post
-if test "`uname -m`" = x86_64
-then
-	cd %{_libdir}/clang/%{version}/lib
-	mkdir -p ../../../../lib64/clang/%{version}/lib
-	for i in *.a *.so
-	do
-		ln -s ../../../../%{_lib}/clang/%{version}/lib/$i ../../../../lib64/clang/%{version}/lib/$i
-	done
-fi
-
-%preun
-
-if test "`uname -m`" = x86_64
-then
-	cd %{_libdir}/clang/%{version}/lib
-	for i in *.a *.so
-	do
-		rm ../../../../lib64/clang/%{version}/lib/$i
-	done
-	rmdir -p ../../../../lib64/clang/%{version}/lib 2>/dev/null 1>/dev/null || :
-fi
-
-%endif
-
 %check
-#make check-all -C _build
+
+#%%cmake_build --target check-compiler-rt
 
 %files
+%license LICENSE.TXT
 %{_includedir}/*
 %{_libdir}/clang/%{version}
 %ifarch x86_64 aarch64
@@ -128,6 +108,51 @@ fi
 %endif
 
 %changelog
+* Thu Oct 15 2020 sguelton@redhat.com - 11.0.0-1
+- Fix NVR
+
+* Mon Oct 12 2020 sguelton@redhat.com - 11.0.0-0.5
+- llvm 11.0.0 - final release
+
+* Thu Oct 08 2020 sguelton@redhat.com - 11.0.0-0.4.rc6
+- 11.0.0-rc6
+
+* Fri Oct 02 2020 sguelton@redhat.com - 11.0.0-0.3.rc5
+- 11.0.0-rc5 Release
+
+* Sun Sep 27 2020 sguelton@redhat.com - 11.0.0-0.2.rc3
+- Fix NVR
+
+* Thu Sep 24 2020 sguelton@redhat.com - 11.0.0-0.1.rc3
+- 11.0.0-rc3 Release
+
+* Tue Sep 01 2020 sguelton@redhat.com - 11.0.0-0.1.rc2
+- 11.0.0-rc2 Release
+
+* Mon Aug 10 2020 Tom Stellard <tstellar@redhat.com> - 11.0.0-0.1.rc1
+- 11.0.0-rc1 Release
+
+* Wed Jul 29 2020 sguelton@redhat.com - 10.0.0-9
+- use %%license macro
+
+* Mon Jul 27 2020 sguelton@redhat.com - 10.0.0-8
+- Remove now obsolete debuginfo package limitation
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 sguelton@redhat.com - 10.0.0-6
+- Use modern cmake macros
+
+* Wed Jul 15 2020 sguelton@redhat.com - 10.0.0-5
+- Fix multilib runtime links, see rhbz#1855379
+
+* Wed Jul 15 2020 sguelton@redhat.com - 10.0.0-4
+- Correctly use gpg verification
+
+* Thu Jul 09 2020 Tom Stellard <tstellar@redhat.com> - 10.0.0-3
+- Drop dependency on llvm-static
+
 * Thu Jun 11 2020 sguelton@redhat.com - 10.0.0-2
 - Fix msan compilation warnings, see af38074874c605f9 upstream
 

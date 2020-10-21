@@ -3,7 +3,7 @@
 
 Name:		openwsman
 Version:	2.6.8
-Release:	14%{?dist}
+Release:	17%{?dist}
 Summary:	Open source Implementation of WS-Management
 
 License:	BSD
@@ -22,6 +22,7 @@ Patch4:		openwsman-2.6.5-http-status-line.patch
 Patch5:		openwsman-2.6.5-libcurl-error-codes-update.patch
 Patch6:		openwsman-2.6.8-CVE-2019-3816.patch
 Patch7:		openwsman-2.6.8-CVE-2019-3833.patch
+Patch8:		openwsman-2.6.8-update-ssleay-conf.patch
 BuildRequires:	swig
 BuildRequires:	libcurl-devel libxml2-devel pam-devel sblim-sfcc-devel
 BuildRequires:	python3 python3-devel ruby ruby-devel rubygems-devel perl-interpreter
@@ -132,6 +133,7 @@ You can use it to send shell commands to a remote Windows hosts.
 %patch5 -p1 -b .libcurl-error-codes-update
 %patch6 -p1 -b .CVE-2019-3816
 %patch7 -p1 -b .CVE-2019-3833
+%patch8 -p1 -b .update-ssleay-conf
 
 %build
 # Removing executable permissions on .c and .h files to fix rpmlint warnings. 
@@ -141,8 +143,8 @@ rm -rf build
 mkdir build
 
 export RPM_OPT_FLAGS="$RPM_OPT_FLAGS -DFEDORA -DNO_SSL_CALLBACK"
-export CFLAGS="-D_GNU_SOURCE -fPIE -DPIE"
-export LDFLAGS="$LDFLAGS -Wl,-z,now -pie"
+export CFLAGS="$RPM_OPT_FLAGS -fPIC -pie -Wl,-z,relro -Wl,-z,now"
+export CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie -Wl,-z,relro -Wl,-z,now"
 cd build
 cmake \
 	-DCMAKE_INSTALL_PREFIX=/usr \
@@ -173,7 +175,7 @@ cd build
 # Do not install the ruby extension, we are proviging the rubygem- instead.
 echo -n > bindings/ruby/cmake_install.cmake
 
-make DESTDIR=%{buildroot} install
+%make_install
 cd ..
 rm -f %{buildroot}/%{_libdir}/*.la
 rm -f %{buildroot}/%{_libdir}/openwsman/plugins/*.la
@@ -285,6 +287,18 @@ rm -f /var/log/wsmand.log
 %{_bindir}/winrs
 
 %changelog
+* Tue Sep 22 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.6.8-17
+- Use make macros, patch by Tom Stellard <tstellar@redhat.com>
+  (https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro)
+- Update flags, enable LTO
+- Remove RANDFILE and increase default bits in ssleay.conf
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.8-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 08 2020 Jeff Law <law@redhat.com> - 2.6.8-15
+- Disable LTO
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.6.8-14
 - Perl 5.32 rebuild
 

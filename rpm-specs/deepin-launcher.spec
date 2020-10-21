@@ -2,11 +2,13 @@
 
 Name:           deepin-launcher
 Version:        5.0.0
-Release:        5%{?dist}
+Release:        8%{?dist}
 Summary:        Deepin desktop-environment - Launcher module
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/dde-launcher
 Source0:        %{url}/archive/%{version}/%{repo}-%{version}.tar.gz
+
+Patch0:         deepin-launcher-fix-build-qt-5.15.patch
 
 BuildRequires:  cmake
 BuildRequires:  cmake(Qt5LinguistTools)
@@ -38,14 +40,17 @@ Header files and libraries for %{name}.
 
 %prep
 %setup -q -n %{repo}-%{version}
+
+%patch0 -p1 -b .fix-build-qt-5.15
+
 sed -i 's|lrelease|lrelease-qt5|' translate_generation.sh
 
 %build
-%cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} -DWITHOUT_UNINSTALL_APP=1 .
-%make_build
+%cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} -DWITHOUT_UNINSTALL_APP=1
+%cmake_build
 
 %install
-%make_install INSTALL_ROOT=%{buildroot}
+%cmake_install
 
 %files
 %license LICENSE
@@ -58,6 +63,19 @@ sed -i 's|lrelease|lrelease-qt5|' translate_generation.sh
 %{_includedir}/%{repo}/
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 5.0.0-8
+- rebuild (qt5)
+
+* Fri Aug  7 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.0.0-7
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.0.0-5
 - rebuild (qt5)
 

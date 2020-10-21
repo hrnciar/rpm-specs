@@ -2,8 +2,8 @@
 
 Summary: Layer 2 Tunnelling Protocol Daemon (RFC 2661)
 Name: xl2tpd
-Version: 1.3.14
-Release: 2%{?dist}
+Version: 1.3.15
+Release: 1%{?dist}
 License: GPL+
 Url: https://github.com/xelerance/xl2tpd/
 # upstream isn't using proper names, we manually rename v-VERSION.tar.gz to xl2tpd-VERSION.tar.gz
@@ -62,6 +62,9 @@ It was de-facto maintained by Jacco de Leeuw <jacco2@dds.nl> in 2002 and 2003.
 export CFLAGS="$CFLAGS -fPIC -Wall -DTRUST_PPPD_TO_DIE"
 export DFLAGS="$RPM_OPT_FLAGS -g "
 export LDFLAGS="$LDFLAGS -pie -Wl,-z,relro -Wl,-z,now"
+# fixup for obsoleted pppd options
+sed -i "s/crtscts/#obsolete: crtscts/" examples/ppp-options.xl2tpd
+sed -i "s/lock/#obsolete: lock/" examples/ppp-options.xl2tpd
 # if extra debugging is needed, use:
 # %make_build DFLAGS="$RPM_OPT_FLAGS -g -DDEBUG_HELLO -DDEBUG_CLOSE -DDEBUG_FLOW -DDEBUG_PAYLOAD -DDEBUG_CONTROL -DDEBUG_CONTROL_XMIT -DDEBUG_FLOW_MORE -DDEBUG_MAGIC -DDEBUG_ENTROPY -DDEBUG_HIDDEN -DDEBUG_PPPD -DDEBUG_AAA -DDEBUG_FILE -DDEBUG_FLOW -DDEBUG_HELLO -DDEBUG_CLOSE -DDEBUG_ZLB -DDEBUG_AUTH"
 %make_build
@@ -114,6 +117,14 @@ install -p -D -m755 -d %{buildroot}%{_rundir}/xl2tpd
 %ghost %attr(0600,root,root) %{_rundir}/xl2tpd/l2tp-control
 
 %changelog
+* Thu Sep 03 2020 Paul Wouters <pwouters@redhat.com> - 1.3.15-1
+- Resolves: rhbz#1761700 xl2tpd-1.3.15 is available
+- Resolves: rhbz#1875262 Unsupported options 'crtscts' and 'lock' in /etc/ppp/options.xl2tpd
+- Resolves: rhbz#1869420 xl2tpd.service:8: PIDFile= references a path below legacy directory /var/run/
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.14-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.14-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

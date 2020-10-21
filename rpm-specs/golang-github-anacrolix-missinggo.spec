@@ -6,9 +6,11 @@
 
 # https://github.com/anacrolix/missinggo
 %global goipath         github.com/anacrolix/missinggo
-Version:                2.1.0
+Version:                2.4.0
 
 %gometa
+
+%global goaltipaths     github.com/anacrolix/missinggo/v2
 
 %global common_description %{expand:
 Stuff that supplements Go's stdlib, or isn't significant enough to be in its
@@ -17,7 +19,7 @@ own repo.}
 %gometa
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Supplementary material for Go's stdlib
 
 License:        MIT
@@ -25,6 +27,9 @@ URL:            %{gourl}
 Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/anacrolix/envpprof)
+BuildRequires:  golang(github.com/anacrolix/log)
+BuildRequires:  golang(github.com/anacrolix/stm)
+BuildRequires:  golang(github.com/anacrolix/stm/stmutil)
 # Only in cmd/
 # BuildRequires:  golang(github.com/anacrolix/tagflag)
 BuildRequires:  golang(github.com/bradfitz/iter)
@@ -39,6 +44,7 @@ BuildRequires:  golang(go.opencensus.io/trace)
 
 %if %{with check}
 # Tests
+BuildRequires:  golang(github.com/prometheus/client_model/go)
 BuildRequires:  golang(github.com/stretchr/testify/assert)
 BuildRequires:  golang(github.com/stretchr/testify/require)
 %endif
@@ -63,6 +69,15 @@ rm -rf cmd
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 15:18:38 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.4.0-4
+- Add other import path
+
+* Fri Jul 03 16:00:31 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.4.0-1
+- Release 2.4.0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

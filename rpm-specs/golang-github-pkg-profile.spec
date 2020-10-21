@@ -3,7 +3,7 @@
 
 # https://github.com/pkg/profile
 %global goipath         github.com/pkg/profile
-Version:                1.3.0
+Version:                1.5.0
 
 %gometa
 
@@ -16,7 +16,7 @@ Simple profiling support package for Go}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Simple profiling for Go
 
 # Upstream license specification: BSD-2-Clause
@@ -46,6 +46,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 22:01:57 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.5.0-1
+- Update to 1.5.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

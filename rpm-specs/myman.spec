@@ -1,6 +1,6 @@
 Name:           myman
 Version:        0.7.0
-Release:        9%{?dist}
+Release:        11%{?dist}
 Summary:        Text-mode video-game inspired by Namco's Pac-Man
 
 License:        MIT
@@ -69,6 +69,13 @@ rm $RPM_BUILD_ROOT/%{_docdir}/myman/VERSION
 %{_datadir}/myman
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

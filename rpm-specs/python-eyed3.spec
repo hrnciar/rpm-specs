@@ -1,23 +1,25 @@
 %global srcname eyed3
 
 Name:           python-%{srcname}
-Version:        0.8
-Release:        10%{?dist}
+Version:        0.9.5
+Release:        1%{?dist}
 Summary:        Python audio data toolkit (ID3 and MP3)
 License:        GPLv3
-URL:            http://eyed3.nicfit.net/
-Source0:        http://eyed3.nicfit.net/releases/eyeD3-%{version}.tar.gz
+URL:            https://github.com/nicfit/eyeD3
+Source0:        https://github.com/nicfit/eyeD3/releases/download/v%{version}/eyeD3-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-deprecation
+BuildRequires:  python3-filetype
 BuildRequires:  python3-setuptools
 # Test dependencies.
-BuildRequires:  python3-nose
-BuildRequires:  python3-six
-BuildRequires:  python3-pytest
-BuildRequires:  python3-mock
 BuildRequires:  python3-factory-boy
 BuildRequires:  python3-grako
+BuildRequires:  python3-mock
+BuildRequires:  python3-nose
+BuildRequires:  python3-pytest
+BuildRequires:  python3-six
 
 %global _description\
 A Python module and program for processing ID3 tags. Information about\
@@ -49,9 +51,9 @@ Recommends:     python3-grako
 
 %check
 # Ignore tests which require:
-# - test data (test_classic_plugin.py, test_core.py, test_frames.py)
-# - a missing text_unidecode dependency of factory-boy and faker (test_factory.py)
-py.test-%{python3_version} --ignore=src/test/{test_classic_plugin.py,test_core.py,id3/test_frames.py,test_factory.py}
+# - test data (test_classic_plugin.py, test_core.py, id3/test_frames.py,
+# id3_test_rva.py, test_issues.py)
+py.test-%{python3_version} --ignore=test/{test_classic_plugin.py,test_core.py,id3/test_frames.py,id3/test_rva.py,test_issues.py}
 
 
 %files -n python3-%{srcname}
@@ -63,6 +65,12 @@ py.test-%{python3_version} --ignore=src/test/{test_classic_plugin.py,test_core.p
 
 
 %changelog
+* Tue Oct 13 2020 David King <amigadave@amigadave.com> - 0.9.5-1
+- Update to 0.9.5 (#1887706)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8-10
 - Rebuilt for Python 3.9
 

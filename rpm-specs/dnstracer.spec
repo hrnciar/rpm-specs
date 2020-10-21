@@ -1,6 +1,6 @@
 Name:             dnstracer
 Version:          1.9
-Release:          24%{?dist}
+Release:          25%{?dist}
 Summary:          Trace a DNS record to its start of authority
 
 License:          BSD
@@ -31,6 +31,9 @@ servers which know the data.
 %{_mandir}/man8/%{name}.8*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

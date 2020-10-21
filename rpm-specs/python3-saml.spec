@@ -1,6 +1,6 @@
 Name:           python3-saml
 Version:        1.9.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Add SAML support to your Python software using this library
 
 License:        MIT
@@ -41,10 +41,13 @@ This toolkit lets you turn your Python application into a SP
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.9.0-2
 - Rebuilt for Python 3.9
 
-* Wed Jan 08 2020 Ken Dreyer <kdreyer@redhat.com> - 1.9.0-1
+* Wed Feb 12 2020 Ken Dreyer <kdreyer@redhat.com> - 1.9.0-1
 - Update to 1.9.0 (rhbz#1726650)
 
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-5

@@ -1,6 +1,6 @@
 Name:           boswars
 Version:        2.7
-Release:        22.svn160110%{?dist}
+Release:        24.svn160110%{?dist}
 Summary:        Bos Wars is a futuristic real-time strategy game
 License:        GPLv2
 URL:            http://www.boswars.org/
@@ -23,7 +23,7 @@ BuildRequires:  gcc gcc-c++
 BuildRequires:  libtheora-devel libvorbis-devel SDL-devel libGL-devel
 BuildRequires:  compat-tolua++-devel libpng-devel python3-scons
 BuildRequires:  libappstream-glib desktop-file-utils
-Requires:       hicolor-icon-theme xorg-x11-utils
+Requires:       hicolor-icon-theme
 
 %description
 Bos Wars is a futuristic real-time strategy game. It is possible to play
@@ -80,6 +80,12 @@ install -p -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_mandir}/man6
 
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 2.7-24.svn160110
+- Drop long-unnecessary Requires: xorg-x11-utils
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7-23.svn160110
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar  4 2020 Hans de Goede <hdegoede@redhat.com> - 2.7-22.svn160110
 - Replace 128x128 icon with a better version
 - Restore original 48x48 icon for cases where we need a lower res icon

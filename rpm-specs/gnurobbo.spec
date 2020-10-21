@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+
 %global rev     415
 %global date    20151113
 
@@ -5,7 +7,7 @@
 
 Name:           gnurobbo
 Version:        0.68
-Release:        13.%{date}svn%{rev}%{?dist}
+Release:        15.%{date}svn%{rev}%{?dist}
 Summary:        Port of an once famous game named Robbo from 1989
 
 License:        GPLv2+
@@ -102,12 +104,12 @@ sed -i s,add_subdirectory.data.,, CMakeLists.txt
 
 %build
 # fonts and sounds are not redistributable, ignore them
-%cmake -DUSE_FONTS=OFF -DDISABLE_MUSIC=ON .
-%make_build
+%cmake -DUSE_FONTS=OFF -DDISABLE_MUSIC=ON
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 # skip misplaced license texts, they get replaced via %license
 rm -v %{buildroot}%{_pkgdocdir}/COPYING %{buildroot}%{_pkgdocdir}/LICENSE*
 
@@ -162,6 +164,13 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.68-15.20151113svn415
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.68-14.20151113svn415
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb  7 2020 Jerry James <loganjerry@gmail.com> - 0.68-13.20151113svn415
 - Add fno-common patch to fix FTBFS with GCC 10 (bz 1799432)
 

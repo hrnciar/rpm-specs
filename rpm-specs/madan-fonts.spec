@@ -1,7 +1,7 @@
 BuildRequires: fontforge
 
 Version: 2.000
-Release: 28%{?dist}
+Release: 29%{?dist}
 URL: http://madanpuraskar.org/
 
 %global fontlicense       GPL+
@@ -50,6 +50,9 @@ chmod 755 sfd2ttf.pe madan.py
 %fontfiles
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.000-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Parag Nemade <pnemade AT redhat DOT com> - 2.000-28
 - Update fontconfig DTD id in conf file
 

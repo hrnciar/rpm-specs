@@ -1,6 +1,6 @@
 Name:           perl-TOML-Parser
 Version:        0.91
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Simple toml parser
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/TOML-Parser
@@ -53,6 +53,9 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.91-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.91-4
 - Perl 5.32 rebuild
 

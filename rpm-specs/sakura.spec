@@ -2,7 +2,7 @@
 
 Name:           sakura
 Version:        3.7.1
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Terminal emulator based on GTK and VTE
 
 License:        GPLv2
@@ -30,11 +30,11 @@ have a decent terminal emulator.
 %build
 find . -type f -name CMakeCache.txt -exec rm -rf {} \;
 %cmake CMAKE_C_FLAGS="%{optflags}" .
-%make_build
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 desktop-file-install \
   --delete-original \
   --remove-category=Utility \
@@ -59,6 +59,16 @@ ctest .
 
 
 %changelog
+* Sun Aug  9 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.7.1-4
+- Adjust to recent cmake macro change on F-33
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Filipe Rosset <rosset.filipe@gmail.com> - 3.7.1-1
 - Update to 3.7.1 fixes rhbz#1832482
 

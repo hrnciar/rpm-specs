@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          2.3
-Release:          6%{?dist}
+Release:          7%{?dist}
 Summary:          Estimate Procedure in Case of First Order Autocorrelation
 
 License:          GPLv2
@@ -63,6 +63,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 2.3-6
 - rebuild for R 4
 

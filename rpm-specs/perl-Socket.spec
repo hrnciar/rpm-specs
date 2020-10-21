@@ -1,13 +1,14 @@
 Name:           perl-Socket
 Epoch:          4
-Version:        2.029
-Release:        456%{?dist}
+Version:        2.030
+Release:        2%{?dist}
 Summary:        Networking constants and support functions
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Socket
 Source0:        https://cpan.metacpan.org/authors/id/P/PE/PEVANS/Socket-%{version}.tar.gz
 # Make Socket::inet_aton() thread safe, CPAN RT#129189, bug #1693293
 Patch0:         Socket-2.029-inet_aton-Use-getaddrinfo-if-possible.patch
+BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  gcc
 BuildRequires:  make
@@ -22,6 +23,7 @@ BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
 # Run-time:
+BuildRequires:  perl(:VERSION) >= 5.6.1
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(Exporter)
 # Scalar::Util is needed only if getaddrinfo(3) does not exist. Not our case.
@@ -31,6 +33,7 @@ BuildRequires:  perl(XSLoader)
 BuildRequires:  perl(Errno)
 BuildRequires:  perl(Test::More)
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
+Requires:       perl(:VERSION) >= 5.6.1
 
 %{?perl_default_filter}
 
@@ -66,6 +69,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4:2.030-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Petr Pisar <ppisar@redhat.com> - 4:2.030-1
+- 2.030 bump
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4:2.029-456
 - Increase release to favour standalone package
 

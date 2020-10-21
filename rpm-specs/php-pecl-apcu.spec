@@ -1,6 +1,6 @@
 # Fedora spec file for php-pecl-apcu
 #
-# Copyright (c) 2013-2019 Remi Collet
+# Copyright (c) 2013-2020 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
@@ -16,15 +16,15 @@
 
 Name:           php-pecl-apcu
 Summary:        APC User Cache
-Version:        5.1.18
-Release:        2%{?dist}
-Source0:        http://pecl.php.net/get/%{pecl_name}-%{version}.tgz
+Version:        5.1.19
+Release:        1%{?dist}
+Source0:        https://pecl.php.net/get/%{pecl_name}-%{version}.tgz
 Source1:        %{pecl_name}.ini
 Source2:        %{pecl_name}-panel.conf
 Source3:        %{pecl_name}.conf.php
 
 License:        PHP
-URL:            http://pecl.php.net/package/APCu
+URL:            https://pecl.php.net/package/APCu
 
 BuildRequires:  gcc
 BuildRequires:  php-devel > 7
@@ -215,6 +215,12 @@ REPORT_EXIT_STATUS=1 \
 
 
 %changelog
+* Mon Oct  5 2020 Remi Collet <remi@remirepo.net> - 5.1.19-1
+- update to 5.1.19
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.18-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.18-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

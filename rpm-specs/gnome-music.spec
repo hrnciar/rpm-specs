@@ -1,12 +1,12 @@
 %global gobject_introspection_version 1.35.9
 %global gtk3_version 3.24.7
-%global pygobject_version 3.29.1
-%global tracker_sparql_version 2.2.0
-%global grilo_version 0.3.9
+%global pygobject_version 3.36.1
+%global tracker_sparql_version 2.99.3
+%global grilo_version 0.3.13
 
 Name:          gnome-music
 Summary:       Music player and management application for GNOME
-Version:       3.37.2
+Version:       3.38.1
 Release:       1%{?dist}
 
 # The sources are under the GPLv2+ license, except for:
@@ -16,7 +16,7 @@ Release:       1%{?dist}
 # Also: https://bugzilla.gnome.org/show_bug.cgi?id=706457
 License:       (GPLv2+ with exceptions) and LGPLv2+ and CC-BY-SA
 URL:           http://wiki.gnome.org/Apps/Music
-Source0:       https://download.gnome.org/sources/%{name}/3.37/%{name}-%{version}.tar.xz
+Source0:       https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires: /usr/bin/appstream-util
 BuildRequires: desktop-file-utils
@@ -35,7 +35,7 @@ BuildRequires: pkgconfig(libmediaart-2.0)
 BuildRequires: pkgconfig(libsoup-2.4)
 BuildRequires: pkgconfig(py3cairo)
 BuildRequires: pkgconfig(pygobject-3.0) >= %{pygobject_version}
-BuildRequires: pkgconfig(tracker-sparql-2.0) >= %{tracker_sparql_version}
+BuildRequires: pkgconfig(tracker-sparql-3.0) >= %{tracker_sparql_version}
 BuildRequires: python3-devel
 
 Requires:      gdk-pixbuf2
@@ -50,7 +50,7 @@ Requires:      libdazzle
 Requires:      libmediaart
 Requires:      libnotify >= 0.7.6
 Requires:      libsoup
-Requires:      libtracker-sparql >= %{tracker_sparql_version}
+Requires:      libtracker-sparql3 >= %{tracker_sparql_version}
 Requires:      pango
 Requires:      python3-cairo
 Requires:      python3-gobject >= %{pygobject_version}
@@ -98,6 +98,26 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Music.deskt
 
 
 %changelog
+* Mon Oct  5 2020 Kalev Lember <klember@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Mon Sep 14 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Wed Sep 09 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+- Switch to tracker3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Kalev Lember <klember@redhat.com> - 3.37.3-1
+- Update to 3.37.3
+
 * Thu Jun 04 2020 Kalev Lember <klember@redhat.com> - 3.37.2-1
 - Update to 3.37.2
 

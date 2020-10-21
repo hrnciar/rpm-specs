@@ -6,13 +6,16 @@
 
 Name:           rust-%{crate}
 Version:        0.3.2
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        Approximate floating point equality comparisons and assertions
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            https://crates.io/crates/approx
 Source:         %{crates_source}
+# Initial patched metadata
+# * Update num-complex to 0.3
+Patch0:         approx-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -95,6 +98,12 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Josh Stone <jistone@redhat.com> - 0.3.2-6
+- Update num-complex to 0.3
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

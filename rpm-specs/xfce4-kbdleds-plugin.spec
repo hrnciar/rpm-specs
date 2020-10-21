@@ -1,7 +1,7 @@
 %global minor_version 0.0
 Name:           xfce4-kbdleds-plugin
 Version:        0.0.6
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Xfce panel plugin to show the state of keyboard LEDs
 
 License:        GPLv2+
@@ -42,6 +42,9 @@ This is especially helpful if your computer doesn't have those LEDs.
 %{_datadir}/icons/hicolor/48x48/apps/kbdleds-plugin.png
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.6-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.6-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

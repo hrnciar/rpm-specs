@@ -4,7 +4,7 @@
 # https://github.com/go-asn1-ber/asn1-ber
 %global goipath         gopkg.in/asn1-ber.v1
 %global forgeurl        https://github.com/go-asn1-ber/asn1-ber
-Version:                1.5.0
+Version:                1.5.1
 
 %gometa
 
@@ -25,7 +25,7 @@ Asn1 ber encoding / decoding library for the Go programming language.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Asn1 ber encoding / decoding library for the Go programming language
 
 License:        MIT
@@ -54,6 +54,13 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Fabio Valentini <decathorpe@gmail.com> - 1.5.1-1
+- Update to version 1.5.1.
+- Fixes RHBZ#1846577
+
 * Fri Jun 12 2020 Fabio Valentini <decathorpe@gmail.com> - 1.5.0-1
 - Update to version 1.5.0.
 

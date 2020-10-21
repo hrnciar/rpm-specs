@@ -4,7 +4,7 @@ Version:        2.0.0
 %global prerel  rc5
 %global uver    %{version}%{?prerel}
 %global tag     %{name}-%{uver}
-Release:        0.15.%{prerel}%{?dist}
+Release:        0.16.%{prerel}%{?dist}
 
 Summary:        RepRap printer interface and tools
 # Only AppData is FSFAP
@@ -191,6 +191,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata
 %doc README* COPYING
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.0.0-0.16.rc5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1:2.0.0-0.15.rc5
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           perl-String-Trim
 Version:        0.005
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Trim white space from your strings
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/String-Trim
@@ -51,6 +51,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.005-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.005-5
 - Perl 5.32 rebuild
 

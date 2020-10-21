@@ -23,7 +23,7 @@ implement mocks and testing over filesystem operations.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Interface filesystem abstraction for Go
 
 # Upstream license specification: Apache-2.0
@@ -53,6 +53,9 @@ BuildRequires:  golang(gopkg.in/check.v1)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 16 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 4.3.2-1
 - Update to latest version
 

@@ -5,7 +5,7 @@
 %global crate addr2line
 
 Name:           rust-%{crate}
-Version:        0.12.1
+Version:        0.13.0
 Release:        2%{?dist}
 Summary:        Cross-platform symbolication library written in Rust, using `gimli`
 
@@ -13,9 +13,6 @@ Summary:        Cross-platform symbolication library written in Rust, using `gim
 License:        ASL 2.0 or MIT
 URL:            https://crates.io/crates/addr2line
 Source:         %{crates_source}
-# Initial patched metadata
-# * Bump to object 0.20
-Patch0:         addr2line-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -159,6 +156,15 @@ which use "std-object" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Josh Stone <jistone@redhat.com> - 0.13.0-1
+- Update to 0.13.0
+
+* Fri Jun 26 2020 Josh Stone <jistone@redhat.com> - 0.12.2-1
+- Update to 0.12.2
+
 * Mon Jun 15 2020 Josh Stone <jistone@redhat.com> - 0.12.1-2
 - Bump to object 0.20
 

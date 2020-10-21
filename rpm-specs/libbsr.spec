@@ -2,7 +2,7 @@
 
 Name:		libbsr
 Version:	0.5
-Release:	12%{?dist}
+Release:	13%{?dist}
 Summary:	Barrier Synchronization Register access library
 
 License:	LGPLv2+
@@ -66,6 +66,9 @@ getent group bsr >/dev/null || groupadd -f bsr
 %{_libdir}/libbsr.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

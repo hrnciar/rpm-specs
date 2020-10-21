@@ -1,6 +1,6 @@
 Name:           nogravity-data
 Version:        2.00
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Data files for No Gravity
 License:        GPLv2+
 URL:            http://www.realtech-vr.com/nogravity/
@@ -35,6 +35,9 @@ install -p -m 644 NOGRAVITY.RMX $RPM_BUILD_ROOT%{_datadir}/nogravity
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.00-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.00-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

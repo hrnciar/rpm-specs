@@ -2,8 +2,8 @@
 %global uuid        org.cvfosammmm.Setzer
 
 Name:           setzer
-Version:        0.2.8
-Release:        3%{?dist}
+Version:        0.3.4
+Release:        1%{?dist}
 Summary:        LaTeX editor written in Python with Gtk
 
 %forgemeta
@@ -80,12 +80,34 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{uuid}.desktop
 %{_datadir}/Setzer/
 %{_datadir}/applications/%{uuid}.desktop
 %{_datadir}/icons/hicolor/scalable/apps/%{uuid}.svg
+%{_datadir}/mime/packages/%{uuid}.mime.xml
 %{_metainfodir}/%{uuid}.appdata.xml
 %{_mandir}/man1/%{name}.1.*
 %{python3_sitelib}/%{name}/
 
 
 %changelog
+* Fri Oct 16 2020 Lyes Saadi <fedora@lyes.eu> - 0.3.4-1
+- Updating to 0.3.4
+
+* Wed Oct 07 2020 Lyes Saadi <fedora@lyes.eu> - 0.3.3-1
+- Updating to 0.3.3
+
+* Thu Sep 10 2020 Lyes Saadi <fedora@lyes.eu> - 0.3.2-1
+- Updating to 0.3.2
+
+* Tue Sep 01 2020 Lyes Saadi <fedora@lyes.eu> - 0.3.1-1
+- Updating to 0.3.1
+
+* Thu Aug 20 2020 Lyes Saadi <fedora@lyes.eu> - 0.3.0-1
+- Updating to 0.3.0
+
+* Thu Aug 13 2020 Lyes Saadi <fedora@lyes.eu> - 0.2.9-1
+- Updating to 0.2.9
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 26 2020 Lyes Saadi <fedora@lyes.eu> - 0.2.8-3
 - Fix #1851601
 

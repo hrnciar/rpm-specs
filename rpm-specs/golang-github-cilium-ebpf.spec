@@ -4,7 +4,7 @@
 
 # https://github.com/cilium/ebpf
 %global goipath         github.com/cilium/ebpf
-%global commit          5d50e74ed36f0420ef5004e84ed2cdd3e739ad3f
+%global commit          1c8d4c9ef7759622653a1d319284a44652333b28
 
 %gometa
 
@@ -18,7 +18,7 @@ be used in long running processes.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.1%{?dist}
+Release:        0.3%{?dist}
 Summary:        eBPF Library for Go
 
 License:        MIT
@@ -26,7 +26,6 @@ URL:            %{gourl}
 Source0:        %{gosource}
 
 BuildRequires:  golang(golang.org/x/sys/unix)
-BuildRequires:  golang(golang.org/x/xerrors)
 
 %description
 %{common_description}
@@ -47,5 +46,11 @@ BuildRequires:  golang(golang.org/x/xerrors)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 23:27:31 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.2.20200724git1c8d4c9
+- Bump to commit 1c8d4c9ef7759622653a1d319284a44652333b28
+
 * Thu Mar 05 15:15:28 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.1.20200305git5d50e74
 - Initial package

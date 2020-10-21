@@ -8,7 +8,7 @@
 
 Name:           python-%{modname}
 Version:        0.20.7
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Magnetoencephalography (MEG) and Electroencephalography (EEG) data analysis
 
 # Bundled FieldTrip
@@ -164,6 +164,13 @@ pytest-%{python3_version}\
 %{python3_sitelib}/%{modname}-*.egg-info/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.7-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.20.7-1
 - Update to 0.20.7
 

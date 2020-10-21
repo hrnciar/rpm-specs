@@ -1,6 +1,6 @@
 Name:           5minute
 Version:        0.2.32
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Give me an instance of mine image on OpenStack. Hurry!
 License:        GPLv2
 URL:            https://github.com/SatelliteQE/%{name}/
@@ -55,6 +55,9 @@ environment from command-line.
 %{python3_sitelib}/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.32-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.32-7
 - Rebuilt for Python 3.9
 

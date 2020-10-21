@@ -1,8 +1,9 @@
+%undefine __cmake_in_source_build
 %global debug_package %{nil}
-%global test_data_version 2.0.0
+%global test_data_version 3.0.0
 
 Name:           json
-Version:        3.8.0
+Version:        3.9.1
 Release:        1%{?dist}
 Summary:        JSON for Modern C++
 License:        MIT
@@ -20,17 +21,14 @@ BuildRequires:  cmake3
 BuildRequires:  cmake
 %endif
 
-# Workaround to https://github.com/nlohmann/json/issues/2189
-BuildRequires:  git
-
 %description
 This is a packages version of the nlohmann/json header-only C++
 library available at Github.
 
 %package devel
 Summary:        Development files for %{name}
-Provides:       %{name}-static = %{version}-%{release}
-Provides:       %{name} = %{version}-%{release}
+Provides:       %{name}-static%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides:       %{name}%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       libstdc++-devel%{?_isa}
 
 %description devel
@@ -38,56 +36,42 @@ The %{name}-devel package contains C++ header files for developing
 applications that use %{name}.
 
 %prep
-%autosetup
-mkdir -p %{_target_platform}
-
-# Extracting json_test_data...
-pushd %{_target_platform}
-    tar -xf %{SOURCE1}
-    mv json_test_data-%{test_data_version} json_test_data
-popd
-
-# Some tests are broken: https://github.com/nlohmann/json/issues/887
-sed -e '/unit-regression/d' -i test/CMakeLists.txt
-
-# Some tests require access to the Internet...
-sed -e '/cmake_fetch_content/d' -i test/CMakeLists.txt
+%autosetup -p1
+%setup -q -D -T -a1
 
 %build
-pushd %{_target_platform}
 %if 0%{?rhel} && 0%{?rhel} == 7
-    %cmake3 -G Ninja \
+%cmake3 -G Ninja \
 %else
-    %cmake -G Ninja \
+%cmake -G Ninja \
 %endif
-    -DJSON_BuildTests=ON \
-    ..
-popd
-%ninja_build -C %{_target_platform}
+    -DJSON_BuildTests:BOOL=ON \
+    -DJSON_TestDataDirectory:STRING=json_test_data-%{test_data_version} \
+%cmake_build
 
 %check
-pushd %{_target_platform}
-%if 0%{?rhel} && 0%{?rhel} == 7
-    ctest3 \
-%else
-    ctest \
-%endif
-    --timeout 3600 \
-    --output-on-failure
-popd
+%ctest --label-exclude 'git_required' --timeout 3600
 
 %install
-%ninja_install -C %{_target_platform}
-ln -s nlohmann/%{name}.hpp %{buildroot}%{_includedir}/%{name}.hpp
+%cmake_install
 
 %files devel
 %doc README.md
 %license LICENSE.MIT
 %{_includedir}/nlohmann
-%{_includedir}/%{name}.hpp
 %{_libdir}/cmake/nlohmann_json
+%{_libdir}/pkgconfig/nlohmann_json.pc
 
 %changelog
+* Thu Aug 06 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 3.9.1-1
+- Updated to version 3.9.1.
+
+* Mon Jul 27 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 3.9.0-1
+- Updated to version 3.9.0.
+
+* Wed Jun 24 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 3.8.0-2
+- Backported upstream patches with build and tests fixes.
+
 * Mon Jun 15 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 3.8.0-1
 - Updated to version 3.8.0.
 

@@ -1,20 +1,16 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:           sugar-flip
-Version:        9
-Release:        15%{?dist}
+Version:        10
+Release:        1%{?dist}
 Summary:        Simple strategic game of flipping coins
 
 License:        GPLv3+ and MIT
 URL:            http://wiki.sugarlabs.org/go/Activities/Flip
 Source0:        http://download.sugarlabs.org/sources/honey/Flip/Flip-%{version}.tar.bz2
 
-BuildRequires:  python2-devel
+BuildRequires:  python3-devel python3
 BuildRequires:  sugar-toolkit-gtk3
 BuildRequires:  gettext
-Requires:       sugar >= 0.97.6
+Requires:       sugar >= 0.116
 
 BuildArch:      noarch
 
@@ -25,17 +21,19 @@ difficult. You can play flips with your friends over the net.
 
 %prep
 %setup -q -n Flip-%{version}
-sed -i "s|python|python2|g" setup.py
+sed -i "s|python|python3|g" setup.py
 
 %build
-%{__python2} ./setup.py build
+%{__python3} ./setup.py build
 
 %install
-%{__python2} ./setup.py install --prefix=%{buildroot}/%{_prefix}
-rm %{buildroot}%{sugaractivitydir}Flip.activity/setup.py
+%{__python3} ./setup.py install --prefix=%{buildroot}/%{_prefix}
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 
 %find_lang org.sugarlabs.FlipActivity
+
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{__python3} %{buildroot}/%{sugaractivitydir}/Flip.activity/
 
 %files -f org.sugarlabs.FlipActivity.lang
 %license COPYING
@@ -43,6 +41,17 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 %{sugaractivitydir}/Flip.activity/
 
 %changelog
+* Mon Aug 10 2020 Ibiam Chihurumnaya <ibiamchihurumnaya@gmail.com> - 10-1
+- Release version 10
+- Change to py_byte_compile as stated in phase 3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9-17
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

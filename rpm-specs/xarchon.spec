@@ -1,6 +1,6 @@
 Name:           xarchon
 Version:        0.50
-Release:        33%{?dist}
+Release:        34%{?dist}
 Summary:        Arcade board game
 License:        GPL+
 URL:            http://xarchon.seul.org/
@@ -56,6 +56,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.50-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.50-33
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

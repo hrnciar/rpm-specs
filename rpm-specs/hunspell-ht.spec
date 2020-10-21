@@ -1,7 +1,7 @@
 Name: hunspell-ht
 Summary: Haitian Creole hunspell dictionaries
 Version: 0.06
-Release: 17%{?dist}
+Release: 18%{?dist}
 Source: http://extensions.services.openoffice.org/files/3247/3/%{name}-%{version}.oxt
 URL: http://kok.logipam.org/
 License: GPLv3+
@@ -28,6 +28,9 @@ cp -p dictionaries/ht_HT.* $RPM_BUILD_ROOT/%{_datadir}/myspell
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.06-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.06-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

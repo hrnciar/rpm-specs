@@ -5,8 +5,8 @@
 %bcond_with static
 
 Name:           build2
-Version:        0.12.0
-Release:        2%{?dist}
+Version:        0.13.0
+Release:        3%{?dist}
 Summary:        Cross-platform build toolchain for developing and packaging C++ code
 
 License:        MIT
@@ -20,13 +20,10 @@ Source5:        macros.%{name}
 
 # The latest official release of libodb is not compatible with build2
 %if %{with bundle_libodb}
-%global         libodb_bundle_version 2.5.0-b.17
+%global         libodb_bundle_version 2.5.0-b.19
 Source100:      https://pkg.cppget.org/1/beta/odb/libodb-%{libodb_bundle_version}.tar.gz
 Source101:      https://pkg.cppget.org/1/beta/odb/libodb-sqlite-%{libodb_bundle_version}.tar.gz
 %endif
-
-# Upstream https://git.build2.org/cgit/build2/commit/?id=0e9bf64dadc029bdf3e97ffb982d297eee0499e4
-Patch0000:      build2-libbuild2-buildfile-host_config-config.install.chroot-remove.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  libpkgconf-devel
@@ -255,9 +252,6 @@ This package contains the %{name} RPM macros.
 %else
 %setup -q -c -n %{name}-toolchain-%{version} -a 1 -a 2 -a 3 -a 4 -a 100 -a 101
 %endif
-pushd build2-%{version}
-%patch -p 1 -P 0000
-popd
 mv libbutl-%{version} %{name}-%{version}
 
 %build
@@ -282,6 +276,7 @@ mv libbutl-%{version} %{name}-%{version}
   config.install.include=%{_includedir}                                         \\\
   config.install.lib=%{_libdir}                                                 \\\
   config.install.man=%{_mandir}                                                 \\\
+  config.install.legal=%{_defaultlicensedir}/"<project>"                        \\\
   config.install.pkgconfig=%{_libdir}/pkgconfig                                 \\\
   config.install.bin.mode=755                                                   \\\
   config.install.sbin.mode=755                                                  \\\
@@ -409,13 +404,9 @@ b install:                                                                      
   libbpkg-%{version}/                                                           \
   bpkg-%{version}/                                                              \
   bdep-%{version}/
-# move licenses from %%{_docdir} to %%{_defaultlicensedir}
-for p in %{name} libbutl libbpkg bpkg bdep; do
-  mkdir -p %{buildroot}%{_defaultlicensedir}/${p}
-  mv %{buildroot}%{_docdir}/${p}/LICENSE %{buildroot}%{_defaultlicensedir}/${p}
-done
+# copy licenses from build2 package to libbuild2 subpackage
 mkdir -p %{buildroot}%{_defaultlicensedir}/lib%{name}
-cp %{buildroot}%{_defaultlicensedir}/%{name}/LICENSE %{buildroot}%{_defaultlicensedir}/lib%{name}
+cp %{buildroot}%{_defaultlicensedir}/%{name}/{AUTHORS,LICENSE} %{buildroot}%{_defaultlicensedir}/lib%{name}
 install -Dpm0644 %{SOURCE5} %{buildroot}%{_rpmmacrodir}/macros.%{name}
 
 %check
@@ -439,15 +430,16 @@ b test:                                                                         
   bpkg-%{version}/                                                              \
   bdep-%{version}/                                                              \
 %if ! %{with network_checks}
-  config.bdep.test.repository=''
+  config.bdep.tests.ci.server=''                                                \
+  config.bdep.tests.publish.repository=''
 %endif
 %endif
 
 %files
 %dir %{_defaultlicensedir}/%{name}
 %dir %{_docdir}/%{name}
+%license %{_defaultlicensedir}/%{name}/AUTHORS
 %license %{_defaultlicensedir}/%{name}/LICENSE
-%doc %{_docdir}/%{name}/CONTRIBUTING.md
 %doc %{_docdir}/%{name}/NEWS
 %doc %{_docdir}/%{name}/README
 %{_bindir}/b
@@ -461,34 +453,35 @@ b test:                                                                         
 
 %files -n       lib%{name}
 %dir %{_defaultlicensedir}/lib%{name}
+%license %{_defaultlicensedir}/lib%{name}/AUTHORS
 %license %{_defaultlicensedir}/lib%{name}/LICENSE
-%{_libdir}/lib%{name}-0.12.so
-%{_libdir}/lib%{name}-bash-0.12-0.12.so
-%{_libdir}/lib%{name}-bin-0.12-0.12.so
-%{_libdir}/lib%{name}-c-0.12-0.12.so
-%{_libdir}/lib%{name}-cc-0.12-0.12.so
-%{_libdir}/lib%{name}-cxx-0.12-0.12.so
-%{_libdir}/lib%{name}-in-0.12-0.12.so
-%{_libdir}/lib%{name}-version-0.12-0.12.so
+%{_libdir}/lib%{name}-0.13.so
+%{_libdir}/lib%{name}-bash-0.13-0.13.so
+%{_libdir}/lib%{name}-bin-0.13-0.13.so
+%{_libdir}/lib%{name}-c-0.13-0.13.so
+%{_libdir}/lib%{name}-cc-0.13-0.13.so
+%{_libdir}/lib%{name}-cxx-0.13-0.13.so
+%{_libdir}/lib%{name}-in-0.13-0.13.so
+%{_libdir}/lib%{name}-version-0.13-0.13.so
 
 %files -n       lib%{name}-devel
 %{_includedir}/lib%{name}
 %{_libdir}/lib%{name}.so
-%{_libdir}/lib%{name}-bash{,-0.12}.so
-%{_libdir}/lib%{name}-bin{,-0.12}.so
-%{_libdir}/lib%{name}-c{,-0.12}.so
-%{_libdir}/lib%{name}-cc{,-0.12}.so
-%{_libdir}/lib%{name}-cxx{,-0.12}.so
-%{_libdir}/lib%{name}-in{,-0.12}.so
-%{_libdir}/lib%{name}-version{,-0.12}.so
-%{_libdir}/pkgconfig/lib%{name}.shared.pc
-%{_libdir}/pkgconfig/lib%{name}-bash.shared.pc
-%{_libdir}/pkgconfig/lib%{name}-bin.shared.pc
-%{_libdir}/pkgconfig/lib%{name}-c.shared.pc
-%{_libdir}/pkgconfig/lib%{name}-cc.shared.pc
-%{_libdir}/pkgconfig/lib%{name}-cxx.shared.pc
-%{_libdir}/pkgconfig/lib%{name}-in.shared.pc
-%{_libdir}/pkgconfig/lib%{name}-version.shared.pc
+%{_libdir}/lib%{name}-bash{,-0.13}.so
+%{_libdir}/lib%{name}-bin{,-0.13}.so
+%{_libdir}/lib%{name}-c{,-0.13}.so
+%{_libdir}/lib%{name}-cc{,-0.13}.so
+%{_libdir}/lib%{name}-cxx{,-0.13}.so
+%{_libdir}/lib%{name}-in{,-0.13}.so
+%{_libdir}/lib%{name}-version{,-0.13}.so
+%{_libdir}/pkgconfig/lib%{name}{,.shared}.pc
+%{_libdir}/pkgconfig/lib%{name}-bash{,.shared}.pc
+%{_libdir}/pkgconfig/lib%{name}-bin{,.shared}.pc
+%{_libdir}/pkgconfig/lib%{name}-c{,.shared}.pc
+%{_libdir}/pkgconfig/lib%{name}-cc{,.shared}.pc
+%{_libdir}/pkgconfig/lib%{name}-cxx{,.shared}.pc
+%{_libdir}/pkgconfig/lib%{name}-in{,.shared}.pc
+%{_libdir}/pkgconfig/lib%{name}-version{,.shared}.pc
 
 %if %{with static}
 %files -n       lib%{name}-static
@@ -512,18 +505,19 @@ b test:                                                                         
 
 %files -n       libbutl
 %dir %{_defaultlicensedir}/libbutl
+%license %{_defaultlicensedir}/libbutl/AUTHORS
+%license %{_defaultlicensedir}/libbutl/COPYRIGHT
 %license %{_defaultlicensedir}/libbutl/LICENSE
-%{_libdir}/libbutl-0.12.so
+%{_libdir}/libbutl-0.13.so
 
 %files -n       libbutl-devel
 %dir %{_docdir}/libbutl
 %doc %{_docdir}/libbutl/manifest
-%doc %{_docdir}/libbutl/CONTRIBUTING.md
 %doc %{_docdir}/libbutl/NEWS
 %doc %{_docdir}/libbutl/README
 %{_includedir}/libbutl
 %{_libdir}/libbutl.so
-%{_libdir}/pkgconfig/libbutl.shared.pc
+%{_libdir}/pkgconfig/libbutl{,.shared}.pc
 
 %if %{with static}
 %files -n       libbutl-static
@@ -533,18 +527,18 @@ b test:                                                                         
 
 %files -n       libbpkg
 %dir %{_defaultlicensedir}/libbpkg
+%license %{_defaultlicensedir}/libbpkg/AUTHORS
 %license %{_defaultlicensedir}/libbpkg/LICENSE
-%{_libdir}/libbpkg-0.12.so
+%{_libdir}/libbpkg-0.13.so
 
 %files -n       libbpkg-devel
 %dir %{_docdir}/libbpkg
 %doc %{_docdir}/libbpkg/manifest
-%doc %{_docdir}/libbpkg/CONTRIBUTING.md
 %doc %{_docdir}/libbpkg/NEWS
 %doc %{_docdir}/libbpkg/README
 %{_includedir}/libbpkg
 %{_libdir}/libbpkg.so
-%{_libdir}/pkgconfig/libbpkg.shared.pc
+%{_libdir}/pkgconfig/libbpkg{,.shared}.pc
 
 %if %{with static}
 %files -n       libbpkg-static
@@ -555,8 +549,9 @@ b test:                                                                         
 %files -n       bpkg
 %dir %{_defaultlicensedir}/bpkg
 %dir %{_docdir}/bpkg
+%license %{_defaultlicensedir}/bpkg/AUTHORS
+%license %{_defaultlicensedir}/bpkg/LEGAL
 %license %{_defaultlicensedir}/bpkg/LICENSE
-%doc %{_docdir}/bpkg/CONTRIBUTING.md
 %doc %{_docdir}/bpkg/NEWS
 %doc %{_docdir}/bpkg/README
 %{_bindir}/bpkg
@@ -572,8 +567,9 @@ b test:                                                                         
 %files -n       bdep
 %dir %{_defaultlicensedir}/bdep
 %dir %{_docdir}/bdep
+%license %{_defaultlicensedir}/bdep/AUTHORS
+%license %{_defaultlicensedir}/bdep/LEGAL
 %license %{_defaultlicensedir}/bdep/LICENSE
-%doc %{_docdir}/bdep/CONTRIBUTING.md
 %doc %{_docdir}/bdep/NEWS
 %doc %{_docdir}/bdep/README
 %{_bindir}/bdep
@@ -589,6 +585,16 @@ b test:                                                                         
 %{_rpmmacrodir}/macros.%{name}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Matthew Krupcale <mkrupcale@matthewkrupcale.com> - 0.13.0-1
+- Update to v0.13.0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

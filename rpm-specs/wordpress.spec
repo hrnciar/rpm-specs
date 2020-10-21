@@ -13,12 +13,7 @@
 %else
 %global with_nginx 0
 %endif
-%if 0%{?fedora} >= 28 || 0%{?rhel} >= 8
-%global clean_compat 1
-%else
-%global clean_compat 0
-%endif
-%global upstream_version 5.4.2
+%global upstream_version 5.5.1
 #global upstream_prever  RC5
 #global upstream_lower   rc5
 
@@ -26,7 +21,7 @@ Summary:    Blog tool and publishing platform
 URL:        http://www.wordpress.org
 Name:       wordpress
 Version:    %{upstream_version}%{?upstream_prever:~%upstream_lower}
-Release:    1%{?dist}
+Release:    2%{?dist}
 License:    GPLv2
 
 Source0:    https://wordpress.org/%{name}-%{upstream_version}%{?upstream_prever:-%{upstream_prever}}.tar.gz
@@ -69,11 +64,7 @@ Patch8: wordpress-5.1-remove-jshint-refs.patch
 BuildArch: noarch
 BuildRequires: php-cli
 BuildRequires: php-patchwork-jsqueeze
-%if %{clean_compat}
 BuildRequires: php(language) >= 7.2
-%else
-BuildRequires: php(language) >= 5.6.20
-%endif
 
 %if %{with_nginx}
 Requires: webserver
@@ -85,12 +76,8 @@ Requires: nginx-filesystem
 %else
 Requires: php
 %endif
-%if %{clean_compat}
 Requires: php(language) >= 7.2
 Requires: php-sodium
-%else
-Requires: php(language) >= 5.6.20
-%endif
 Requires: php-simplepie >= 1.3.1
 Requires: php-getid3
 Requires: php-ctype
@@ -120,7 +107,7 @@ Requires: php-xmlreader
 Requires: php-zip
 Requires: php-zlib
 # Unbundled libraries
-Requires: php-PHPMailer
+Requires: php-phpmailer6
 Requires: httpd
 Requires: ca-certificates
 Provides: wordpress-mu = %{version}-%{release}
@@ -142,12 +129,10 @@ rm -rf wp-includes/js/swfupload
 # remove .htaccess, protected by httpd config file
 rm wp-content/plugins/akismet/.htaccess
 
-%if %{clean_compat}
 # only for PHP < 7.0 without random_int
 rm -rf wp-includes/random_compat
 # only for PHP < 7.2 without sodium_crypto_box
 rm -rf wp-includes/sodium_compat
-%endif
 
 %patch0 -p1 -b .dolly
 #patch1 -p1 -b .rhbz522897
@@ -234,12 +219,9 @@ ln -s /usr/share/php/php-simplepie/autoloader.php \
        ${RPM_BUILD_ROOT}%{_datadir}/wordpress/wp-includes/class-simplepie.php
 
 # Remove bundled PHPMailer and link to system one
-# Note POP3 is not from PHPMailer but from SquirrelMail
-for fic in phpmailer smtp; do
-  rm     ${RPM_BUILD_ROOT}%{_datadir}/wordpress/wp-includes/class-$fic.php
-  ln -sf /usr/share/php/PHPMailer/class.$fic.php \
-         ${RPM_BUILD_ROOT}%{_datadir}/wordpress/wp-includes/class-$fic.php
-done
+rm -r ${RPM_BUILD_ROOT}%{_datadir}/wordpress/wp-includes/PHPMailer
+ln -s /usr/share/php/PHPMailer/PHPMailer6 \
+      ${RPM_BUILD_ROOT}%{_datadir}/wordpress/wp-includes/PHPMailer
 
 # Remove bundled php-getid3
 rm -r ${RPM_BUILD_ROOT}%{_datadir}/wordpress/wp-includes/ID3
@@ -296,6 +278,19 @@ find ${RPM_BUILD_ROOT} \( -name \*.dolly -o -name \*.rhbz522897 -o -name \*.orig
 
 
 %changelog
+* Tue Oct 20 2020 Remi Collet <remi@remirepo.net> - 5.5.1-2
+- Change FS_METHOD default to 'direct' to allow enabling FILE_MODS #1889644
+
+* Wed Sep  2 2020 Remi Collet <remi@remirepo.net> - 5.5.1-1
+- WordPress 5.5.1 Maintenance Release
+
+* Wed Aug 12 2020 Remi Collet <remi@remirepo.net> - 5.5-1
+- WordPress 5.5 “Eckstine”
+- requires php-phpmailer6 instead of old php-PHPMailer
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 11 2020 Remi Collet <remi@remirepo.net> - 5.4.2-1
 - WordPress 5.4.2 Security and Maintenance Release
 

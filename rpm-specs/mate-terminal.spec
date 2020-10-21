@@ -14,11 +14,11 @@
 
 Summary:        Terminal emulator for MATE
 Name:           mate-terminal
-Version:        %{branch}.0
+Version:        %{branch}.1
 %if 0%{?rel_build}
-Release:        2%{?dist}
+Release:        1%{?dist}
 %else
-Release:        0.10%{?git_rel}%{?dist}
+Release:        0.11%{?git_rel}%{?dist}
 %endif
 License:        GPLv3+
 URL:            http://mate-desktop.org
@@ -31,16 +31,6 @@ URL:            http://mate-desktop.org
 
 #Default to black bg white fg, unlimited scrollback, turn off use theme default
 Patch1:        mate-terminal_better_defaults-1.23.0.patch
-# https://github.com/mate-desktop/mate-terminal/commit/2030aa2
-Patch2:        mate-terminal_0001-Update-authors.patch
-# https://github.com/mate-desktop/mate-terminal/pull/327
-Patch3:        mate-terminal_0002-Use-user-page-on-github-when-user-email-is-private.patch
-# https://github.com/mate-desktop/mate-terminal/pull/322
-Patch4:        mate-terminal_0001-terminal-screen-prevent-crash-on-bad-term-spawn-due-.patch
-# https://github.com/mate-desktop/mate-terminal/commit/c317ee8
-Patch5:        mate-terminal_0001-fix-url-highlighting-due-to-deprecation-of-vte_termi.patch
-# https://github.com/mate-desktop/mate-terminal/pull/332
-Patch6:        mate-terminal_0001-fix-searching-in-terminal-window.patch
 
 BuildRequires: dconf-devel
 BuildRequires: desktop-file-utils
@@ -102,6 +92,12 @@ desktop-file-install                                                    \
 
 
 %changelog
+* Sun Aug 16 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- update to 1.24.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 27 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-2
 - use https://github.com/mate-desktop/mate-terminal/commit/2030aa2
 - use https://github.com/mate-desktop/mate-terminal/pull/327

@@ -3,8 +3,8 @@
 %global wheelname %{srcname}-%{version}-py2.py3-none-any.whl
 
 Name:          python-%{srcname}
-Version:       1.4.3
-Release:       14%{?dist}
+Version:       1.4.4
+Release:       1%{?dist}
 Summary:       Python module for determining platform-specific directories
 
 License:       MIT
@@ -61,6 +61,12 @@ sed -i -e '1{\@^#!/usr/bin/env python@d}' %{buildroot}%{python3_sitelib}/%{srcna
 %{python3_sitelib}/__pycache__/%{srcname}.*
 
 %changelog
+* Thu Sep 10 2020 Yatin Karel <ykarel@redhat.com> - 1.4.4-1
+- Update to 1.4.4 (#1834175)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.3-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.3-14
 - Rebuilt for Python 3.9
 

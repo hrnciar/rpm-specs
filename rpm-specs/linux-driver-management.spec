@@ -6,7 +6,7 @@
 
 Name:           linux-driver-management
 Version:        1.0.3
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Generic driver management framework for Linux
 
 License:        LGPLv2+ and CC-BY-SA
@@ -155,6 +155,9 @@ controlled and configured by Linux Driver Management.
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

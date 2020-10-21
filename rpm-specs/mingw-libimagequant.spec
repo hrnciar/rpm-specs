@@ -6,7 +6,7 @@
 %global w64_dir %{_builddir}/mingw64-%{pkgname}-%{version}-%{release}
 
 Name:           mingw-%{pkgname}
-Version:        2.12.6
+Version:        2.13.0
 Release:        1%{?dist}
 Summary:        MinGW Windows %{pkgname} library
 
@@ -92,6 +92,12 @@ install -Dpm 0644 %{pkgname}.h %{buildroot}%{mingw64_includedir}/%{pkgname}.h
 
 
 %changelog
+* Mon Oct 19 2020 Sandro Mani <manisandro@gmail.com> - 2.13.0-1
+- Update to 2.13.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 21 2020 Sandro Mani <manisandro@gmail.com> - 2.12.6-1
 - Update to 2.12.6
 

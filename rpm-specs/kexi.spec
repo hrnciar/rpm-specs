@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 
 # koffice version to Obsolete
 %global koffice_ver 3:2.3.70
@@ -13,7 +14,7 @@
 Name:    kexi
 Summary: An integrated environment for managing data
 Version: 3.1.0
-Release: 7%{?dist}
+Release: 8%{?dist}
 
 License: GPLv2+
 
@@ -125,17 +126,13 @@ Requires: %{name} = %{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%{cmake_kf5} \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{?!tests:OFF}
-popd
-
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -177,6 +174,9 @@ export CTEST_OUTPUT_ON_FAILURE=1
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Than Ngo <than@redhat.com> - 3.1.0-7
 - Fixed FTBFS
 

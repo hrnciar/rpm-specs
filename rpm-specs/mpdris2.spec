@@ -5,7 +5,7 @@
 
 Name:           mpdris2
 Version:        0.8
-Release:        4.%{checkoutdate}git%{shortcommit0}%{?dist}
+Release:        5.%{checkoutdate}git%{shortcommit0}%{?dist}
 Summary:        Provide MPRIS 2 support to mpd
 
 License:        GPLv3+
@@ -59,6 +59,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-5.20200205git491588a
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 0.8-4.20200205git491588a
 - Update to latest git HEAD, for new-status patch - fixes #1798356
 

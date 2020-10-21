@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.2.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        GeoJSON <-> WKT/WKB conversion utilities
 
 License:        ASL 2.0
@@ -67,6 +67,9 @@ rm %{buildroot}%{_prefix}/LICENSE
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.1-4
 - Rebuilt for Python 3.9
 

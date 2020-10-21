@@ -5,7 +5,7 @@
 %global crate alphanumeric-sort
 
 Name:           rust-%{crate}
-Version:        1.1.1
+Version:        1.4.0
 Release:        1%{?dist}
 Summary:        Sort order for files and folders whose names contain numerals
 
@@ -84,6 +84,18 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Tue Aug 11 2020 Josh Stone <jistone@redhat.com> - 1.4.0-1
+- Update to 1.4.0
+
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 1.3.3-1
+- Update to 1.3.3
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Josh Stone <jistone@redhat.com> - 1.3.0-1
+- Update to 1.3.0
+
 * Mon Jun 15 2020 Josh Stone <jistone@redhat.com> - 1.1.1-1
 - Update to 1.1.1
 

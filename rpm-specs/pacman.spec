@@ -11,7 +11,7 @@
 
 Name:           pacman
 Version:        5.2.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Source0:        https://projects.archlinux.org/%{name}.git/snapshot/%{name}-%{version}.tar.gz
 Source1:        https://www.archlinux.org/mirrorlist/all
 Url:            https://www.archlinux.org/pacman
@@ -162,6 +162,9 @@ EOF
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May  5 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 5.2.1-4
 - Also include [extra] section in the default configuration
 

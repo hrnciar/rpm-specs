@@ -2,18 +2,21 @@
 %global maj 0
 
 Name:       lilv
-Version:    0.24.6
-Release:    3%{?dist}
+Version:    0.24.10
+Release:    1%{?dist}
 Summary:    An LV2 Resource Description Framework Library
 
 License:    MIT
 URL:        http://drobilla.net/software/lilv/
 Source0:    http://download.drobilla.net/%{name}-%{version}.tar.bz2
+# New test suite looks for unversioned python
+Patch0:     %{name}-test-python.patch
+
 BuildRequires:  doxygen
 BuildRequires:  graphviz
 BuildRequires:  sord-devel >= 0.14.0
 BuildRequires:  sratom-devel >= 0.4.4
-BuildRequires:  lv2-devel >= 1.16.0
+BuildRequires:  lv2-devel >= 1.18.0
 BuildRequires:  python3
 BuildRequires:  python3-devel
 BuildRequires:  swig
@@ -21,6 +24,7 @@ BuildRequires:  serd-devel >= 0.30.0
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  libsndfile-devel >= 1.0.0
+Requires:       lv2 >= 1.18.0
 
 %description
 %{name} is a library to make the use of LV2 plugins as simple as possible
@@ -49,8 +53,8 @@ supports reading and writing Turtle and NTriples.
 This package contains the python libraries for %{name}.
 
 %prep
-%setup -q 
-# we'll run ld config
+%autosetup -p1
+# Do not run ld config
 sed -i -e 's|bld.add_post_fun(autowaf.run_ldconfig)||' wscript
 # for packagers sake, build the tests with debug symbols
 sed -i -e "s|'-ftest-coverage'\]|\
@@ -59,19 +63,18 @@ sed -i -e "s|'-ftest-coverage'\]|\
 %build
 %set_build_flags
 export LINKFLAGS="%{__global_ldflags}"
-python3 waf configure -v --prefix=%{_prefix} \
+%{python3} waf configure -v --prefix=%{_prefix} \
  --libdir=%{_libdir} --configdir=%{_sysconfdir} --mandir=%{_mandir} \
  --docdir=%{_pkgdocdir} \
- --docs --test --dyn-manifest \
- --default-lv2-path=%{_libdir}/lv2
-python3 waf -v build %{?_smp_mflags}
+ --docs --test --dyn-manifest
+%{python3} waf -v build %{?_smp_mflags}
 
 %install
-python3 waf -v install --destdir=%{buildroot}
+%{python3} waf -v install --destdir=%{buildroot}
 chmod +x %{buildroot}%{_libdir}/lib%{name}-0.so.*
 
 %check
-./build/test/lilv_test
+%{python3} waf test
 
 %files
 %doc AUTHORS NEWS README.md
@@ -98,6 +101,19 @@ chmod +x %{buildroot}%{_libdir}/lib%{name}-0.so.*
 %{python3_sitelib}/__pycache__/*
 
 %changelog
+* Sun Oct 04 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.24.10-1
+- Update to 0.24.10
+- Run new test suite
+
+* Wed Aug 19 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.24.8-1
+- Update to 0.24.8
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.24.6-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.24.6-4
+- Use upstream default lv2 path (#1856001)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.24.6-3
 - Rebuilt for Python 3.9
 

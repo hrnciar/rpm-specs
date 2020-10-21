@@ -2,7 +2,7 @@
 
 Name: connman
 Version: 1.34
-Release: 11%{?dist}
+Release: 12%{?dist}
 Summary: An alternative daemon for managing internet connections on Linux
 License: GPLv2
 URL: http://connman.net/
@@ -78,6 +78,9 @@ make install DESTDIR=%{buildroot}
 %{_libdir}/pkgconfig/connman.pc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.34-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.34-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

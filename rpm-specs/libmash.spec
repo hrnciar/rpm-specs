@@ -1,7 +1,7 @@
 Summary: A library for using real 3D models within a Clutter scene
 Name: libmash
 Version: 0.2.0
-Release: 28%{?dist}
+Release: 29%{?dist}
 URL: http://clutter-project.github.com/mash/
 Source0: https://github.com/downloads/clutter-project/mash/mash-%{version}.tar.xz
 
@@ -69,6 +69,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 %dir %{_datadir}/gir-1.0
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-28
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

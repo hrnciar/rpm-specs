@@ -15,7 +15,7 @@ A golang error object that speaks HTTP.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A golang error object that speaks HTTP
 
 # Upstream license specification: BSD-2-Clause
@@ -49,6 +49,9 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 23:00:42 CET 2020 Andreas Gerstmayr <agerstmayr@redhat.com> - 0.2.0-1
 - Initial package
 

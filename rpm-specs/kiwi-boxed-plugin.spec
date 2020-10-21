@@ -8,8 +8,8 @@ of images based on fast booting VM images.
 %global srcname kiwi_boxed_plugin
 
 Name:           kiwi-boxed-plugin
-Version:        0.1.0
-Release:        2%{?dist}
+Version:        0.1.4
+Release:        1%{?dist}
 URL:            https://github.com/OSInside/kiwi-boxed-plugin
 Summary:        KIWI - Boxed Build Plugin
 License:        GPLv3+
@@ -54,7 +54,7 @@ This package provides the Python 3 library plugin.
 %py3_install
 
 # Install documentation
-make buildroot=%{buildroot}/ docdir=%{_defaultdocdir}/ install_package_docs
+make buildroot=%{buildroot}/ docdir=%{_defaultdocdir}/ install
 
 # Delete this now, we'll docify later
 rm -f %{buildroot}%{_defaultdocdir}/python-%{srcname}/LICENSE
@@ -63,13 +63,22 @@ rm -f %{buildroot}%{_defaultdocdir}/python-%{srcname}/README
 %files
 %doc README.rst
 %{_mandir}/man8/*.8*
-%config(noreplace) %{_sysconfdir}/%{srcname}.yml
 
 %files -n python3-%{name}
 %license LICENSE
 %{python3_sitelib}/%{srcname}*
 
 %changelog
+* Sat Aug 15 2020 Neal Gompa <ngompa13@gmail.com> - 0.1.4-1
+- Update to 0.1.4 (RH#1837026)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.0-2
 - Rebuilt for Python 3.9
 

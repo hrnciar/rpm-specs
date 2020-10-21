@@ -12,8 +12,8 @@
 %global with_tests   %{?_with_tests:1}%{!?_with_tests:0}
 
 Name:           mysql-connector-python
-Version:        8.0.20
-Release:        2%{?dist}
+Version:        8.0.21
+Release:        1%{?dist}
 Summary:        MySQL Connector for Python 3
 
 License:        GPLv2 with exceptions
@@ -87,6 +87,12 @@ chmod -x examples/*py
 
 
 %changelog
+* Wed Aug 19 2020 Michal Schorm <mschorm@redhat.com> - 8.0.21-1
+- Rebase to 8.0.21
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.0.20-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 8.0.20-2
 - Rebuilt for Python 3.9
 

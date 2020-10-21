@@ -4,7 +4,7 @@
 
 Name:		spooky-c
 Version:	1.0.0
-Release:	16%{?dist}
+Release:	17%{?dist}
 Summary:	C port of Bob Jenkins' spooky hash
 
 License:	BSD
@@ -55,6 +55,9 @@ rm -f %{buildroot}/%{_libdir}/libspooky-c.la
 %{_mandir}/man3/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

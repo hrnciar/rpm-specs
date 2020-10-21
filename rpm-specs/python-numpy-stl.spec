@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        2.11.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Library for reading, writing and modifying STL files
 
 License:        BSD
@@ -87,6 +87,9 @@ rm -rf html/.{doctrees,buildinfo}
 %doc html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 2020 Charalampos Stratakis <cstratak@redhat.com> - 2.11.1-1
 - Update to 2.11.1 (#1816884)
 

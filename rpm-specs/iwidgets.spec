@@ -3,7 +3,7 @@
 
 Name:           iwidgets
 Version:        4.1.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A set of useful widgets based on itcl and itk
 
 License:        MIT
@@ -71,6 +71,9 @@ rm %{buildroot}/%{_mandir}/mann/datefield.n
 %doc README doc/iwidgets.ps
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Dmitrij S. Kryzhevich <kryzhev@ispms.ru> - 4.1.1-3
 - Fix var substitution.
 

@@ -3,7 +3,7 @@
 
 # https://github.com/gofrs/flock
 %global goipath         github.com/gofrs/flock
-Version:                0.7.1
+Version:                0.8.0
 
 %gometa
 
@@ -16,13 +16,16 @@ execution.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        5%{?dist}
+Release:        1%{?dist}
 Summary:        Thread-safe file locking library in Go
 
 # Upstream license specification: BSD-3-Clause
 License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
+
+# Test dependencies
+BuildRequires:  golang(gopkg.in/check.v1)
 
 %description
 %{common_description}
@@ -43,13 +46,27 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Thu Aug 27 2020 Paul Howarth <paul@city-fan.org> - 0.8.0-1
+- Update to 0.8.0
+  - Add AIX support with fcntl (GH#40)
+
+* Sun Aug 23 2020 Paul Howarth <paul@city-fan.org> - 0.7.3-1
+- Update to 0.7.3
+  - Release failed flock (GH#43)
+  - Update CI to test against stable Go versions (GH#46)
+  - Fix license text (GH#47)
+- Re-add BR: golang(gopkg.in/check.v1), needed for tests
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
 * Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
-* Fri Jun 14 11:07:37 CEST 2019 Robert-André Mauchin <zebob.m@gmail.com> - 0.7.1-3
+* Fri Jun 14 2019 Robert-André Mauchin <zebob.m@gmail.com> - 0.7.1-3
 - Add README
 
 * Sun Jun  9 2019 Paul Howarth <paul@city-fan.org> - 0.7.1-2
@@ -57,7 +74,7 @@ Source0:        %{gosource}
 
 * Mon Feb 25 2019 Paul Howarth <paul@city-fan.org> - 0.7.1-1
 - Update to 0.7.1
-- Fix linting issues and add goreportcard badge (GH#35)
+  - Fix linting issues and add goreportcard badge (GH#35)
 
 * Fri Feb 01 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild

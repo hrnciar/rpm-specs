@@ -1,8 +1,4 @@
-# On platforms with a native OCaml compiler, proofs can be compiled into cmxs
-# files, but there are no source files that rpm recognizes as such.
-%ifarch %{ocaml_native_compiler}
-%global _debugsource_template %{nil}
-%else
+%ifnarch %{ocaml_native_compiler}
 %global debug_package %{nil}
 %endif
 
@@ -10,17 +6,20 @@
 # Hence, we cannot run it on the koji builders.  The maintainer should always
 # install the package and run "remake check" manually before committing.
 
-%global gappadir %{_libdir}/coq/user-contrib/Gappa
-%global coqver 8.11.2
+%global gappadir %{_libdir}/ocaml/coq/user-contrib/Gappa
+%global coqver 8.12.0
 
 Name:           gappalib-coq
 Version:        1.4.4
-Release:        1%{?dist}
+Release:        6%{?dist}
 Summary:        Coq support library for gappa
 
 License:        LGPLv2+
 URL:            http://gappa.gforge.inria.fr/
 Source0:        https://gforge.inria.fr/frs/download.php/file/38338/%{name}-%{version}.tar.gz
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=1874879
+ExcludeArch: s390x
 
 BuildRequires:  gcc-c++
 BuildRequires:  coq = %{coqver}
@@ -47,7 +46,7 @@ dealing with floating-point or fixed-point arithmetic.
 
 %package source
 Summary:        Source Coq files
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       %{name} = %{version}-%{release}
 
 %description source
 This package contains the source Coq files for gappalib-coq.  These
@@ -58,15 +57,10 @@ informational purposes.
 %autosetup -p1
 
 # Enable debuginfo
-sed -i 's/-pp/-g &/' Remakefile.in
+sed -i 's/-rectypes/-g &/' Remakefile.in
 
 # Workaround broken ocamlopt version detection with beta ocaml versions
 sed -i 's/^\(ocamlopt_version=`.*\)\(`\)/\1 | cut -d+ -f1\2/' configure
-
-# Force native compilation when available
-%ifarch %{ocaml_native_compiler}
-sed -i 's/@COQC@ -R src Gappa/& -native-compiler yes/' Remakefile.in
-%endif
 
 %build
 # The %%configure macro specifies --libdir, which this configure script
@@ -84,7 +78,6 @@ remake -d %{?_smp_mflags}
 sed -i '/^install:/,/^EXTRA_DIST/s, /usr, %{buildroot}%{_prefix},' Remakefile
 mkdir -p %{buildroot}%{gappadir}
 remake install
-cp -a src/.coq-native %{buildroot}%{gappadir}
 
 # Also install the source files
 cp -p src/*.v  %{buildroot}%{gappadir}
@@ -102,6 +95,26 @@ remake check
 %{gappadir}/*.v
 
 %changelog
+* Fri Sep 25 2020 Jerry James <loganjerry@gmail.com> - 1.4.4-6
+- Rebuild due to flocq rebuild
+- The source subpackage cannot be noarch due to its install location
+
+* Wed Sep 02 2020 Richard W.M. Jones <rjones@redhat.com> - 1.4.4-5
+- OCaml 4.11.1 rebuild
+
+* Tue Sep  1 2020 Jerry James <loganjerry@gmail.com> - 1.4.4-4
+- Rebuild for coq 8.12.0
+- Set BuildArch to noarch for the source subpackage
+
+* Mon Aug 24 2020 Richard W.M. Jones <rjones@redhat.com> - 1.4.4-4
+- OCaml 4.11.0 rebuild
+
+* Thu Aug  6 2020 Jerry James <loganjerry@gmail.com> - 1.4.4-3
+- Rebuild to fix OCaml dependencies
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Jerry James <loganjerry@gmail.com> - 1.4.4-1
 - Version 1.4.4
 

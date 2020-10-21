@@ -1,6 +1,6 @@
 Name:           libuecc
 Version:        7
-Release:        9%{?dist}
+Release:        12%{?dist}
 Summary:        Very small Elliptic Curve Cryptography library
 
 License:        BSD
@@ -28,12 +28,12 @@ developing applications that use %{name}.
 
 
 %build
-%cmake .
-make %{?_smp_mflags}
+%cmake
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 find $RPM_BUILD_ROOT -name '*.a' -exec rm -f {} ';'
 
@@ -55,6 +55,16 @@ find $RPM_BUILD_ROOT -name '*.a' -exec rm -f {} ';'
 
 
 %changelog
+* Thu Aug 13 2020 Felix Kaechele <heffer@fedoraproject.org> - 7-12
+- update cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

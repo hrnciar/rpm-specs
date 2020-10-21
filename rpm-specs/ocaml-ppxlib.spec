@@ -5,23 +5,27 @@
 %global srcname ppxlib
 
 Name:           ocaml-%{srcname}
+Epoch:          1
 Version:        0.13.0
-Release:        1%{?dist}
+Release:        6%{?dist}
 Summary:        Base library and tools for ppx rewriters
 
 License:        MIT
 URL:            https://github.com/ocaml-ppx/%{srcname}
 Source0:        %{url}/archive/%{version}/%{srcname}-%{version}.tar.gz
-# The invalid argument exception format differs across OCaml versions.  Patch
-# the test to expect the format used by the OCaml version currently in Rawhide.
-# See https://github.com/ocaml-ppx/ppxlib/pull/111.
-Patch0:         %{name}-exception-format.patch
 # Fix this error:
 # Error (alert deprecated): Longident.parse
 # this function may misparse its input,
 # use "Parse.longident" or "Longident.unflatten"
 # See https://github.com/ocaml-ppx/ppxlib/issues/127.
-Patch1:         %{name}-longident-parse.patch
+Patch0:         %{name}-longident-parse.patch
+# The invalid argument exception format differs across OCaml versions.  Patch
+# the test to expect the format used by the OCaml version currently in Rawhide.
+# See https://github.com/ocaml-ppx/ppxlib/pull/111.
+Patch1:         %{name}-exception-format.patch
+# OCaml output varies in whitespace only across versions.  Patch a test to
+# expect the whitespace produced by the OCaml version currently in Rawhide.
+Patch2:         %{name}-whitespace.patch
 
 BuildRequires:  ocaml >= 4.04.1
 BuildRequires:  ocaml-base-devel >= 0.11.0
@@ -30,11 +34,9 @@ BuildRequires:  ocaml-compiler-libs-janestreet-devel >= 0.11.0
 BuildRequires:  ocaml-dune
 BuildRequires:  ocaml-findlib
 BuildRequires:  ocaml-migrate-parsetree-devel >= 1.3.1
-BuildRequires:  ocaml-ppx-derivers-devel >= 1.0
 BuildRequires:  ocaml-odoc
+BuildRequires:  ocaml-ppx-derivers-devel >= 1.0
 BuildRequires:  ocaml-re-devel
-BuildRequires:  ocaml-result-devel
-BuildRequires:  ocaml-seq-devel
 BuildRequires:  ocaml-stdio-devel >= 0.11.0
 
 %description
@@ -53,7 +55,7 @@ projects.  It features:
 
 %package        devel
 Summary:        Development files for %{name}
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = 1:%{version}-%{release}
 Requires:       ocaml-base-devel%{?_isa}
 Requires:       ocaml-compiler-libs-janestreet-devel%{?_isa}
 Requires:       ocaml-migrate-parsetree-devel%{?_isa}
@@ -97,55 +99,16 @@ rm -fr %{buildroot}%{_prefix}/doc
 find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod a+x {} \+
 %endif
 
-%check
-# Ordinarily, this script would contain only "dune runtest".  As of dune 2.0,
-# if the OCaml version is 4.10 or greater, then bytecode executables are
-# created with -output-complete-exe instead of -custom.  However, ppxlib wants
-# to load debug symbols, but there are no debug symbols because of
-# https://github.com/ocaml/ocaml/issues/9344.  Until that issue is fixed, or
-# dune stops using -output-complete-exe, we are forced to build the tests
-# manually with -custom.
+# FIXME: On arm only, building the tests fails:
+# /usr/bin/ld: src/.cinaps/.cinaps.eobjs/native/dune__exe__Cinaps.o: relocation R_ARM_THM_MOVW_ABS_NC against `camlCinaps_runtime' can not be used when making a shared object; recompile with -fPIC
+# src/.cinaps/.cinaps.eobjs/native/dune__exe__Cinaps.o: in function `.L297': :(.text+0xdec): dangerous relocation: unsupported relocation
+# <many more such warnings>
 #
-# This fails, but builds all of the object files.
-dune runtest || :
-
-# Rebuild the test executable with -custom
-cd _build/default
-ocamlc -w "@1..3@5..28@30..39@43@46..47@49..57@61..62-40" \
-  -strict-sequence -strict-formats -short-paths -keep-locs -w -66 -g \
-  -o test/expect/expect_test.exe -custom -linkall \
-  %{_libdir}/ocaml/unix.cma -I %{_libdir}/ocaml \
-  %{_libdir}/ocaml/compiler-libs/ocamlcommon.cma \
-  %{_libdir}/ocaml/compiler-libs/ocamlbytecomp.cma \
-  %{_libdir}/ocaml/compiler-libs/ocamltoplevel.cma \
-  %{_libdir}/ocaml/ocaml-compiler-libs/common/ocaml_common.cma \
-  %{_libdir}/ocaml/ocaml-compiler-libs/shadow/ocaml_shadow.cma \
-  %{_libdir}/ocaml/result/result.cma \
-  %{_libdir}/ocaml/ppx_derivers/ppx_derivers.cma \
-  %{_libdir}/ocaml/ocaml-migrate-parsetree/migrate_parsetree.cma \
-  -I %{_libdir}/ocaml/base/base_internalhash_types \
-  %{_libdir}/ocaml/base/base_internalhash_types/base_internalhash_types.cma \
-  %{_libdir}/ocaml/base/caml/caml.cma \
-  %{_libdir}/ocaml/sexplib0/sexplib0.cma \
-  %{_libdir}/ocaml/base/shadow_stdlib/shadow_stdlib.cma \
-  -I %{_libdir}/ocaml/base %{_libdir}/ocaml/base/base.cma \
-  %{_libdir}/ocaml/stdio/stdio.cma ast/ppxlib_ast.cma \
-  print-diff/ppxlib_print_diff.cma \
-  traverse_builtins/ppxlib_traverse_builtins.cma src/ppxlib.cma \
-  traverse/ppxlib_traverse.cma \
-  test/expect/.expect_test.eobjs/byte/printers.cmo \
-  test/expect/.expect_test.eobjs/byte/expect_test.cmo
-
-# Run the tests manually.  Using "dune runtest" rebuilds expect_test.exe,
-# thereby undoing the work we just did.
-test/expect/expect_test.exe test/driver/attributes/test.ml &> /dev/null
-test/expect/expect_test.exe test/code_path/test.ml &> /dev/null
-test/expect/expect_test.exe test/driver/non-compressible-suffix/test.ml &> /dev/null
-test/expect/expect_test.exe test/deriving/test.ml &> /dev/null
-test/expect/expect_test.exe test/quoter/test.ml &> /dev/null
-test/expect/expect_test.exe test/driver/transformations/test.ml &> /dev/null
-test/expect/expect_test.exe test/traverse/test.ml &> /dev/null
-test/expect/expect_test.exe test/base/test.ml &> /dev/null
+# Disable the tests on arm until we can figure out what is going wrong.
+%ifnarch %{arm}
+%check
+dune runtest
+%endif
 
 %files
 %doc CHANGES.md HISTORY.md README.md
@@ -195,5 +158,34 @@ test/expect/expect_test.exe test/base/test.ml &> /dev/null
 %license LICENSE.md
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1:0.13.0-6
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1:0.13.0-5
+- OCaml 4.11.0 rebuild
+
+* Fri Aug  7 2020 Jerry James <loganjerry@gmail.com> - 1:0.13.0-4
+- Add Epoch to Requires from -devel to main package
+
+* Fri Aug  7 2020 Jerry James <loganjerry@gmail.com> - 1:0.13.0-3
+- Some ppx rewriters do not work with version 0.14.0 or 0.15.0, so revert to
+  version 0.13.0 until they can be updated
+
+* Thu Aug  6 2020 Jerry James <loganjerry@gmail.com> - 0.15.0-1
+- Version 0.15.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Dan Čermák <dan.cermak@cgc-instruments.com> - 0.14.0-1
+- New upstream release 0.14.0
+
+* Thu Jun 18 2020 Jerry James <loganjerry@gmail.com> - 0.13.0-2
+- Rebuild for ocaml-stdio 0.14.0
+
 * Thu May  7 2020 Jerry James <loganjerry@gmail.com> - 0.13.0-1
 - Initial RPM

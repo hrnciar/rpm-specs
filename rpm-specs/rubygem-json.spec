@@ -1,8 +1,8 @@
 %global	gem_name	json
 
 Name:           rubygem-%{gem_name}
-Version:        2.3.0
-Release:        202%{?dist}
+Version:        2.3.1
+Release:        201%{?dist}
 
 Summary:        A JSON implementation in Ruby
 
@@ -138,6 +138,12 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-201
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul  2 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 2.3.1-200
+- 2.3.1
+
 * Tue Apr 14 2020 Vít Ondruch <vondruch@redhat.com> - 2.3.0-202
 - Avoid unexpected JRuby dependency.
 

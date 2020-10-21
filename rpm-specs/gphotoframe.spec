@@ -31,7 +31,7 @@
 
 Name:		gphotoframe
 Version:	%{mainver}
-Release:	%{fedorarel}%{?dist}
+Release:	%{fedorarel}%{?dist}.1
 Summary:	Photo Frame Gadget for the GNOME Desktop
 
 # GPLv3 seems safer than GPLv3+
@@ -272,6 +272,9 @@ find %{buildroot}%{_prefix} -name \*.py3 -delete
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-6.hg2084299dffb6.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 2.0.2-6.hg2084299dffb6
 - Kill gss support on F-33+
 

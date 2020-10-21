@@ -1,6 +1,6 @@
 Name:           tintin 
-Version:        2.02.02
-Release:        1%{?dist}
+Version:        2.02.03
+Release:        2%{?dist}
 Summary:        TinTin++, aka tt++, is a free MUD client
 License:        GPLv2+
 URL:            http://tintin.sourceforge.net/
@@ -61,6 +61,12 @@ make install DESTDIR=%{buildroot}
 %doc docs/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.02.03-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Petr Šabata <contyk@redhat.com> - 2.02.03-1
+- 2.02.03 bump
+
 * Wed Apr 15 2020 Petr Šabata <contyk@redhat.com> - 2.02.02-1
 - 2.02.02 bump
 

@@ -1,6 +1,6 @@
 Name:           autodownloader
-Version:        0.4.0
-Release:        3%{?dist}
+Version:        0.5.0
+Release:        2%{?dist}
 Summary:        GUI-tool to automate the download of certain files
 License:        GPLv2+
 URL:            https://github.com/frenzymadness/AutoDownloader
@@ -30,6 +30,7 @@ are not permitted to be (re)distributed unlike most files in Fedora.
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" .
 
 # Avoid hardcoding /usr prefix
+sed -i -e 's!/usr/bin!%{_bindir}!' Makefile
 sed -i -e 's!/usr/share!%{_datadir}!' Makefile
 
 
@@ -42,13 +43,20 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %files
-%license COPYING GladeWindow-license.txt
-%doc ChangeLog README.txt TODO examples/example.autodlrc
+%license COPYING
+%doc ChangeLog README.txt examples/example.autodlrc
+%{_bindir}/autodl
 %{_datadir}/autodl
 %{_datadir}/icons/hicolor/*/apps/autodl.png
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Lumír Balhar <lbalhar@redhat.com> - 0.5.0-1
+- Update to 0.5.0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

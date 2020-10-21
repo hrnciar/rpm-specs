@@ -13,7 +13,7 @@ manipulated from the command line.
 
 Name:           python-%{srcname}
 Version:        0.5.0
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        %{sum}
 
 License:        GPLv3+
@@ -66,6 +66,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} -m unittest discover
 %{_bindir}/pymoctool
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.0-15
 - Rebuilt for Python 3.9
 

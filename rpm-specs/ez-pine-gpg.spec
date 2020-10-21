@@ -3,7 +3,7 @@
 Summary: GnuPG integration scripts for Pine
 Name:    ez-pine-gpg
 Version: 0.4h
-Release: 17%{?dist}
+Release: 18%{?dist}
 License: GPLv2+
 URL:     http://business-php.com/opensource/ez-pine-gpg/
 
@@ -54,6 +54,9 @@ EOF
 %{_bindir}/ez-pine-gpg-symmetric
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4h-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4h-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

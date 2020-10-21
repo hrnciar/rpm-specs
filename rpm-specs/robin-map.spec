@@ -2,7 +2,7 @@
 
 Name:           robin-map
 Version:        0.6.3
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        C++ implementation of a fast hash map and hash set using robin hood hashing
 
 License:        MIT
@@ -49,18 +49,18 @@ implementations in the tsl namespace).
 
 
 %build
-%cmake .
+%cmake
 
 
 %install
-%make_install
+%cmake_install
 
 
 %check
 pushd tests
-%cmake .
-%make_build
-./tsl_robin_map_tests
+%cmake
+%cmake_build
+%{_vpath_builddir}/tsl_robin_map_tests
 
 
 %files devel
@@ -71,6 +71,13 @@ pushd tests
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Richard Shaw <hobbes1069@gmail.com> - 0.6.3-1
 - Update to 0.6.3.
 

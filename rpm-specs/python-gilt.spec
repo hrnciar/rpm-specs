@@ -4,7 +4,7 @@
 
 Name:    python-%{srcname}
 Version: 1.2.1
-Release: 3%{?dist}
+Release: 5%{?dist}
 Summary: Gilt is a git layering tool
 License: MIT
 
@@ -73,6 +73,12 @@ rm -rf build/html/.{doctrees,buildinfo}
 %doc doc/build/html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Chedi Toueiti <chedi.toueiti@gmail.com> - 1.2.1-4
+- Replace Python version globs with macros to support python 3.10
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.1-3
 - Rebuilt for Python 3.9
 

@@ -3,15 +3,9 @@
 
 # https://github.com/pelletier/go-buffruneio
 %global goipath         github.com/pelletier/go-buffruneio
-Version:                0.2.0
-%global commit          25c428535bd3f55a16f149a9daebd3fa4c5a562b
+Version:                0.3.0
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-pelletier-go-buffruneio-devel < 0.2.0-0.9
-}
 
 %global common_description %{expand:
 Buffruneio provides rune-based buffered input.}
@@ -22,7 +16,7 @@ Buffruneio provides rune-based buffered input.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        Wrapper around bufio to provide buffered runes access with unlimited unreads
 
 License:        MIT
@@ -43,15 +37,6 @@ cp %{S:1} %{S:2} .
 %install
 %gopkginstall
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck
@@ -60,6 +45,12 @@ end
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 20:51:18 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.3.0-1
+- Update to 0.3.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

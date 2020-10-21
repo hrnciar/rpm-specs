@@ -7,7 +7,7 @@ locations such as terminals.
 
 Name: %{fontname}-fonts
 Version: 0.3
-Release: 22%{?dist}
+Release: 23%{?dist}
 License: Public Domain
 URL: http://www.cl.cam.ac.uk/~mgk25/ucs-fonts.html
 Source0: http://www.cl.cam.ac.uk/~mgk25/download/ucs-fonts.tar.gz
@@ -68,6 +68,9 @@ ln -s %{_fontconfig_templatedir}/%{fontconf} \
 %doc README
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb  6 2020 Peng Wu <pwu@redhat.com> - 0.3-22
 - Provide OpenType Bitmap fonts
 - Add ucs-miscfixed-opentype-fonts sub package

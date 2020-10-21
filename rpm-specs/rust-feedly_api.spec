@@ -6,7 +6,7 @@
 %global crate feedly_api
 
 Name:           rust-%{crate}
-Version:        0.3.4
+Version:        0.3.8
 Release:        1%{?dist}
 Summary:        Rust implementation of the feedly REST API
 
@@ -75,6 +75,15 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Sep 16 2020 Fabio Valentini <decathorpe@gmail.com> - 0.3.8-1
+- Update to version 0.3.8.
+
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 0.3.6-1
+- Update to 0.3.6
+
+* Fri Jun 26 2020 Josh Stone <jistone@redhat.com> - 0.3.5-1
+- Update to 0.3.5
+
 * Sat Jun 06 2020 Josh Stone <jistone@redhat.com> - 0.3.4-1
 - Update to 0.3.4
 

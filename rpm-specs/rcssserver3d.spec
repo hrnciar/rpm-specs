@@ -1,6 +1,6 @@
 Name:           rcssserver3d
 Version:        0.7.1
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Robocup 3D Soccer Simulation Server
 
 License:        GPLv2
@@ -92,6 +92,9 @@ rm -f package_docs/TODO
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Jonathan Wakely <jwakely@redhat.com> - 0.7.1-9
 - Rebuilt for Boost 1.73
 

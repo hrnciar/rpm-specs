@@ -1,9 +1,5 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 # download path contains version without the last (fourth) digit
-%global libo_version 6.4.4
+%global libo_version 7.0.2
 # Should contain .alphaX / .betaX, if this is pre-release (actually
 # pre-RC) version. The pre-release string is part of tarball file names,
 # so we need a way to define it easily at one place.
@@ -54,7 +50,7 @@ Summary:        Free Software Productivity Suite
 Name:           libreoffice
 Epoch:          1
 Version:        %{libo_version}.2
-Release:        3%{?libo_prerelease}%{?dist}
+Release:        1%{?libo_prerelease}%{?dist}
 License:        (MPLv1.1 or LGPLv3+) and LGPLv3 and LGPLv2+ and BSD and (MPLv1.1 or GPLv2 or LGPLv2 or Netscape) and Public Domain and ASL 2.0 and MPLv2.0 and CC0
 URL:            http://www.libreoffice.org/
 
@@ -68,15 +64,16 @@ Source6:        gpgkey-C2839ECAD9408FBE9531C3E9F434A1EFAFEEAEA3.gpg.asc
 Source7:        http://dev-www.libreoffice.org/extern/185d60944ea767075d27247c3162b3bc-unowinreg.dll
 Source8:        libreoffice-multiliblauncher.sh
 
-Source9:        %{external_url}/a7983f859eafb2677d7ff386a023bc40-xsltml_2.1.2.zip
+Source9:        %{external_url}/dtoa-20180411.tgz
+Source10:       %{external_url}/a7983f859eafb2677d7ff386a023bc40-xsltml_2.1.2.zip
 %if 0%{?fedora}
-Source10:       %{external_url}/798b2ffdc8bcfe7bca2cf92b62caf685-rhino1_5R5.zip
-Source11:       %{external_url}/35c94d2df8893241173de1d16b6034c0-swingExSrc.zip
+Source11:       %{external_url}/798b2ffdc8bcfe7bca2cf92b62caf685-rhino1_5R5.zip
+Source12:       %{external_url}/35c94d2df8893241173de1d16b6034c0-swingExSrc.zip
 %endif
 #Unfortunately later versions of hsqldb changed the file format, so if we use a later version we loose
 #backwards compatability.
-Source12:       %{external_url}/17410483b5b5f267aa18b7e00b65e6e0-hsqldb_1_8_0.zip
-Source13:       %{external_url}/884ed41809687c3e168fc7c19b16585149ff058eca79acbf3ee784f6630704cc-opens___.ttf
+Source13:       %{external_url}/17410483b5b5f267aa18b7e00b65e6e0-hsqldb_1_8_0.zip
+Source14:       %{external_url}/884ed41809687c3e168fc7c19b16585149ff058eca79acbf3ee784f6630704cc-opens___.ttf
 %global bundling_options %{?bundling_options} --without-system-hsqldb
 
 Provides: bundled(hsqldb) = 1.8.0
@@ -115,6 +112,7 @@ BuildRequires: libtool-ltdl-devel
 BuildRequires: make
 BuildRequires: mariadb-connector-c-devel
 BuildRequires: perl(Digest::MD5)
+BuildRequires: perl(base)
 %if 0%{?fedora}
 BuildRequires: glibc-all-langpacks
 BuildRequires: libappstream-glib
@@ -209,7 +207,11 @@ BuildRequires: pkgconfig(harfbuzz)
 BuildRequires: pkgconfig(libeot)
 BuildRequires: pkgconfig(libepubgen-0.1)
 BuildRequires: pkgconfig(libqxp-0.0)
+%if 0%{?fedora} > 33 || 0%{?rhel} > 8
+BuildRequires: pkgconfig(liborcus-0.16)
+%else
 BuildRequires: pkgconfig(liborcus-0.15)
+%endif
 BuildRequires: pkgconfig(mdds-1.5)
 BuildRequires: libnumbertext-devel
 
@@ -243,10 +245,13 @@ Patch1: 0001-disble-tip-of-the-day-dialog-by-default.patch
 # rhbz#1736810 disable opencl by default again
 Patch2: 0001-Resolves-rhbz-1432468-disable-opencl-by-default.patch
 # backported
-Patch3: 0001-replace-boost-bimap-in-sdext-pdfimport.patch
-Patch4: 0001-fix-detecting-qrcodegen.patch
-Patch5: 0001-Flatpak-Add-app-bin-libreoffice-app-libreoffice-prog.patch
-Patch6: 0001-Restructure-solenv-bin-assemble-flatpak.sh.patch
+Patch3: 0001-fix-detecting-qrcodegen.patch
+Patch4: 0001-rhbz-1870501-crash-on-reexport-of-odg.patch
+%if 0%{?fedora} > 33 || 0%{?rhel} > 8
+Patch5: 0001-Upgrade-liborcus-to-0.16.0.patch
+%endif
+Patch6: 0001-rhbz-1882616-move-cursor-one-step-at-a-time-in-the-d.patch
+Patch7: 0001-export-HYPERLINK-target-in-html-clipboard-export.patch
 
 %if 0%{?rhel}
 # not upstreamed
@@ -495,8 +500,7 @@ Requires: %{name}-data = %{epoch}:%{version}-%{release}
 Requires: %{name}-ure%{?_isa} = %{epoch}:%{version}-%{release}
 
 %description graphicfilter
-The graphicfilter module for LibreOffice provides graphic filters, e.g. svg and
-flash filters.
+The graphicfilter module for LibreOffice provides graphic filters, e.g. svg.
 
 %package xsltfilter
 Summary: Optional xsltfilter module for LibreOffice
@@ -599,6 +603,7 @@ Requires: %{name}-core%{?_isa} = %{epoch}:%{version}-%{release}
 Requires: %{name}-ure%{?_isa} = %{epoch}:%{version}-%{release}
 Requires: gstreamer1(element-gtksink)%{?mark64}
 Obsoletes: libreoffice-gtk2 < 1:6.2.0.0
+Obsoletes: libreoffice-gtk2-debuginfo < 1:6.2.0.0
 Supplements: (%{name}-core%{?_isa} and gtk3%{?_isa})
 
 %description gtk3
@@ -606,24 +611,17 @@ A plug-in for LibreOffice that enables integration into GTK+ 3 environment.
 
 %if 0%{?fedora}
 
-%package kde5
-Summary: LibreOffice KDE5 integration plug-in
-Requires: %{name}-core%{?_isa} = %{epoch}:%{version}-%{release}
-Requires: %{name}-ure%{?_isa} = %{epoch}:%{version}-%{release}
-Provides: %{name}-plugin = %{epoch}:%{version}-%{release}
-Provides: %{name}-plugin%{?_isa} = %{epoch}:%{version}-%{release}
-Obsoletes: libreoffice-kde4 < 1:6.3.0.0
-
-%description kde5
-A plug-in for LibreOffice that enables integration into the KDE5 desktop environment.
-
 %package kf5
 Summary: LibreOffice KDE Frameworks 5 integration plug-in
 Requires: %{name}-core%{?_isa} = %{epoch}:%{version}-%{release}
 Requires: %{name}-ure%{?_isa} = %{epoch}:%{version}-%{release}
 Provides: %{name}-plugin = %{epoch}:%{version}-%{release}
 Provides: %{name}-plugin%{?_isa} = %{epoch}:%{version}-%{release}
-#Supplements: (libreoffice-core and plasma-workspace)
+Obsoletes: libreoffice-kde4 < 1:6.3.0.0
+Obsoletes: libreoffice-kde5 < 1:6.4.5.3
+Obsoletes: libreoffice-kde4-debuginfo < 1:6.3.0.0
+Obsoletes: libreoffice-kde5-debuginfo < 1:6.4.5.3
+Supplements: (%{name}-core%{?_isa} and plasma-workspace)
 
 %description kf5
 A plug-in for LibreOffice that enables integration into the KDE Frameworks 5.
@@ -1011,7 +1009,13 @@ mv .git .git-rpm
 # path to external tarballs
 EXTSRCDIR=`dirname %{SOURCE0}`
 
-#use the RPM_OPT_FLAGS but remove the OOo overridden ones
+# On i686, CustomTarget_testtools/uno_test from the testsuite fails when LTO is
+# enabled:
+%ifarch i686
+%define _lto_cflags %{nil}
+%endif
+
+#use the RPM_OPT_FLAGS but remove the LibreOffice overridden ones
 for i in $RPM_OPT_FLAGS; do
         case "$i" in
                 -pipe|-Wall|-Werror*|-fexceptions) continue;;
@@ -1030,7 +1034,7 @@ export CXXFLAGS=$ARCH_FLAGS
 %define distrooptions --disable-eot --disable-scripting-beanshell --disable-scripting-javascript
 %else
 # fedora
-%define distrooptions --enable-eot --enable-kde5 --enable-gtk3-kde5
+%define distrooptions --enable-eot --enable-kf5
 %endif
 
 %if %{with langpacks}
@@ -1058,7 +1062,7 @@ touch autogen.lastrun
  --disable-fetch-external \
  --disable-openssl \
  --disable-pdfium \
- --disable-gtk \
+ --disable-skia \
  --enable-dconf \
  --enable-evolution2 \
  --enable-ext-nlpsolver \
@@ -1234,11 +1238,16 @@ mv -f %{buildroot}%{baseinstdir}/program/unohelper.py* .
 mv -f %{buildroot}%{baseinstdir}/program/officehelper.py* .
 popd
 
+#https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{libo_python_executable} %{buildroot}%{baseinstdir}/program
+rm -rf %{buildroot}%{baseinstdir}/program/__pycache__
+
 # rhbz#477435 package opensymbol separately
-pushd %{buildroot}%{baseinstdir}/share/fonts/truetype
+pushd %{buildroot}%{baseinstdir}/program/resource/common/fonts
 install -d -m 0755 %{buildroot}%{_fontdir}
 install -p -m 0644 *.ttf %{buildroot}%{_fontdir}
 popd
+rm -rf %{buildroot}%{baseinstdir}/program/resource/common/fonts/*ttf
 rm -rf %{buildroot}%{baseinstdir}/share/fonts/truetype/*.ttf
 
 # move platform-independent data into shared dir
@@ -1351,7 +1360,7 @@ install -m 0644 -p mime/packages/libreoffice$PRODUCTVERSION.xml %{buildroot}%{_d
 
 %if 0%{?fedora}
 # restrict abipkgdiff to shared objects that actually have a stable ABI
-for pkg in core base officebean ogltrans pdfimport calc writer impress graphicfilter postgresql ure pyuno x11 gtk3 kde5 libreofficekit; do
+for pkg in core base officebean ogltrans pdfimport calc writer impress graphicfilter postgresql ure pyuno x11 gtk3 kf5 libreofficekit; do
     cat > %{buildroot}%{baseinstdir}/program/${pkg}.abignore << _EOF
 [suppress_file]
 file_name_not_regexp=.*\.so\.[0-9]+
@@ -1475,8 +1484,8 @@ for jar in %{buildroot}%{baseinstdir}/program/classes/*.jar; do
 done
 
 %check
-%ifnarch ppc64 s390x aarch64 armv7hl
-make
+%ifnarch s390x
+make unitcheck slowcheck
 # we don't need this anymore
 rm -f %{buildroot}%{baseinstdir}/program/classes/smoketest.jar
 %endif
@@ -1517,7 +1526,6 @@ rm -f %{buildroot}%{baseinstdir}/program/classes/smoketest.jar
 %{baseinstdir}/program/libdeploymentgui.so
 %{baseinstdir}/program/libdlgprovlo.so
 %{baseinstdir}/program/libexpwraplo.so
-%{baseinstdir}/program/flat_logo.svg
 %{baseinstdir}/program/libfps_officelo.so
 %{baseinstdir}/program/gdbtrace
 %{baseinstdir}/program/gengal
@@ -1639,9 +1647,9 @@ rm -f %{buildroot}%{baseinstdir}/program/classes/smoketest.jar
 %{baseinstdir}/program/types/offapi.rdb
 %{baseinstdir}/program/libpasswordcontainerlo.so
 %{baseinstdir}/program/pagein-common
-%if %{with langpacks}
 %dir %{baseinstdir}/program/resource
-%endif
+%dir %{baseinstdir}/program/resource/common
+%dir %{baseinstdir}/program/resource/common/fonts
 %{baseinstdir}/program/senddoc
 %dir %{baseinstdir}/program/services
 %{baseinstdir}/program/services/services.rdb
@@ -1677,10 +1685,13 @@ rm -f %{buildroot}%{baseinstdir}/program/classes/smoketest.jar
 %{baseinstdir}/share/basic
 %dir %{baseinstdir}/share/config
 %{baseinstdir}/share/config/images_breeze.zip
+%{baseinstdir}/share/config/images_breeze_svg.zip
 %{baseinstdir}/share/config/images_breeze_dark.zip
 %{baseinstdir}/share/config/images_breeze_dark_svg.zip
 %{baseinstdir}/share/config/images_colibre.zip
+%{baseinstdir}/share/config/images_colibre_svg.zip
 %{baseinstdir}/share/config/images_elementary.zip
+%{baseinstdir}/share/config/images_elementary_svg.zip
 %{baseinstdir}/share/config/images_helpimg.zip
 %{baseinstdir}/share/config/images_karasa_jaga.zip
 %{baseinstdir}/share/config/images_karasa_jaga_svg.zip
@@ -1688,10 +1699,8 @@ rm -f %{buildroot}%{baseinstdir}/program/classes/smoketest.jar
 %{baseinstdir}/share/config/images_sifr_dark.zip
 %{baseinstdir}/share/config/images_sifr_dark_svg.zip
 %{baseinstdir}/share/config/images_sifr_svg.zip
-%{baseinstdir}/share/config/images_tango.zip
-%{baseinstdir}/share/config/images_breeze_svg.zip
-%{baseinstdir}/share/config/images_colibre_svg.zip
-%{baseinstdir}/share/config/images_elementary_svg.zip
+%{baseinstdir}/share/config/images_sukapura.zip
+%{baseinstdir}/share/config/images_sukapura_svg.zip
 %dir %{baseinstdir}/share/tipoftheday
 %{baseinstdir}/share/tipoftheday/*.png
 %dir %{baseinstdir}/share/config/soffice.cfg
@@ -1721,6 +1730,7 @@ rm -f %{buildroot}%{baseinstdir}/program/classes/smoketest.jar
 %dir %{baseinstdir}/share/registry/res
 %dir %{baseinstdir}/share/template
 %dir %{baseinstdir}/share/template/common
+%{baseinstdir}/share/template/common/draw
 %{baseinstdir}/share/template/common/internal
 %{baseinstdir}/share/template/common/officorr
 %{baseinstdir}/share/template/common/offimisc
@@ -2018,7 +2028,6 @@ rm -f %{buildroot}%{baseinstdir}/program/classes/smoketest.jar
 %if 0%{?fedora}
 %{baseinstdir}/program/graphicfilter.abignore
 %endif
-%{baseinstdir}/program/libflashlo.so
 %{baseinstdir}/program/libgraphicfilterlo.so
 %{baseinstdir}/program/libsvgfilterlo.so
 %{baseinstdir}/program/libwpftdrawlo.so
@@ -2039,7 +2048,6 @@ rm -f %{buildroot}%{baseinstdir}/program/classes/smoketest.jar
 %endif
 %{baseinstdir}/program/libpostgresql-sdbclo.so
 %{baseinstdir}/program/libpostgresql-sdbc-impllo.so
-%{baseinstdir}/program/postgresql-sdbc.ini
 %{baseinstdir}/program/services/postgresql-sdbc.rdb
 %{baseinstdir}/share/registry/postgresql.xcd
 
@@ -2047,6 +2055,7 @@ rm -f %{buildroot}%{baseinstdir}/program/classes/smoketest.jar
 %{baseinstdir}/program/classes/java_uno.jar
 %{baseinstdir}/program/classes/juh.jar
 %{baseinstdir}/program/classes/jurt.jar
+%{baseinstdir}/program/classes/libreoffice.jar
 %{baseinstdir}/program/classes/ridl.jar
 %{baseinstdir}/program/classes/unoloader.jar
 %{baseinstdir}/program/javaldx
@@ -2202,17 +2211,11 @@ done
 
 %if 0%{?fedora}
 
-%files kde5
-%if 0%{?fedora}
-%{baseinstdir}/program/kde5.abignore
-%endif
+%files kf5
+%{baseinstdir}/program/kf5.abignore
 %{baseinstdir}/program/libkf5be1lo.so
 %{baseinstdir}/program/libvclplug_kf5lo.so
 %{baseinstdir}/program/libvclplug_qt5lo.so
-
-%files kf5
-%{baseinstdir}/program/libvclplug_gtk3_kde5lo.so
-%{baseinstdir}/program/lo_kde5filepicker
 
 %endif
 
@@ -2229,6 +2232,68 @@ done
 %{_includedir}/LibreOfficeKit
 
 %changelog
+* Sat Oct 10 2020 Caolán McNamara <caolanm@redhat.com> - 1:7.0.2.2-1
+- latest version
+
+* Tue Oct 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:7.0.1.2-7
+- -kf5: enable Supplements: (%%name-core and plasma-workspace)
+
+* Tue Sep 29 2020 Caolán McNamara <caolanm@redhat.com> - 1:7.0.1.2-6
+- export HYPERLINK target in html clipboard export
+
+* Fri Sep 25 2020 Caolán McNamara <caolanm@redhat.com> - 1:7.0.1.2-5
+- Resolves: rhbz#1882616 IM cursor pos problem with emojis in writer
+
+* Thu Sep 24 2020 Caolán McNamara <caolanm@redhat.com> - 1:7.0.1.2-4
+- upgrade liborcus
+
+* Fri Sep 04 2020 Caolán McNamara <caolanm@redhat.com> - 1:7.0.1.2-3
+- rhbz#1875377 prefer Cantarell-Regular to Cantarell-VF
+
+* Thu Sep 03 2020 Merlin Mathesius <mmathesi@redhat.com> - 1:7.0.1.2-2
+- Rebase RHEL patch to disable libe-book support to libreoffice-7.0
+- Add BR perl(base)
+
+* Tue Sep 01 2020 Caolán McNamara <caolanm@redhat.com> - 1:7.0.1.2-1
+- 7.0.1 RC2
+
+* Fri Aug 21 2020 Caolán McNamara <caolanm@redhat.com> - 1:7.0.1.1-3
+- rhbz#1870501 crash on reexport of odg
+
+* Fri Aug 21 2020 Stephan Bergmann <sbergman@redhat.com> 1:7.0.1.1-2
+- Build the binary UNO bridge with -fno-lto
+
+* Thu Aug 20 2020 Thierry Vignaud <tvignaud@redhat.com> 1:7.0.1.1-1
+- 7.0.1 RC1
+
+* Thu Aug 06 2020 Caolán McNamara <caolanm@redhat.com> - 1:7.0.0.3-1
+- 7.0.0
+
+* Wed Aug 05 2020 Caolán McNamara <caolanm@redhat.com> - 1:6.4.5.2-6
+- Resolves: rhbz#1745771
+  + drop the GTK3-KF5 VCL plugin (formerly subpackage kf5)
+  + rename the current -kde5 subpackage (the Qt5/KF5 VCL plugin) to -kf5
+
+* Wed Jul 29 2020 Caolán McNamara <caolanm@redhat.com> - 1:6.4.5.2-5
+- Resolves: rhbz#1861794 missing csv fixed width handles
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:6.4.5.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Caolán McNamara <caolanm@redhat.com> - 1:6.4.5.2-3
+- Related: rhbz#1859588 workaround vcldemo ICE
+- add py_byte_compile call for
+  https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+
+* Tue Jul 14 2020 Jiri Vanek <jvanek@redhat.com> - 1:6.4.5.2-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Sat Jul 11 2020 Caolán McNamara <caolanm@redhat.com> - 1:6.4.5.2-1
+- latest stable
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1:6.4.4.2-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat May 30 2020 Jonathan Wakely <jwakely@redhat.com> - 1:6.4.4.2-3
 - Rebuilt for Boost 1.73
 

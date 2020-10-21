@@ -2,8 +2,8 @@
 %bcond_with network
 
 Name:           python-%{srcname}
-Version:        0.0.26
-Release:        2%{?dist}
+Version:        0.0.27
+Release:        1%{?dist}
 Summary:        Python library for iterating over HTTP Server Sent Events (SSE)
 
 License:        MIT
@@ -57,6 +57,12 @@ pytest-%{python3_version} -v
 %{python3_sitelib}/__pycache__/sseclient*
 
 %changelog
+* Fri Sep 25 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.0.27-1
+- Update to latest upstream release 0.0.27 (#1882638)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.26-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.0.26-2
 - Rebuilt for Python 3.9
 

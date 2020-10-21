@@ -1,18 +1,21 @@
+%global forgeurl https://github.com/httperf/httperf/
+%global commit 6342b166b1eaffd178d08da31e506540d91f2e17
+%forgemeta
+
 Name:           httperf
-Version:        0.9.0
-Release:        25%{?dist}
+Version:        0.9.1
+Release:        0.1%{?dist}
 Summary:        Tool for measuring web server performance
 License:        GPLv2+ with exceptions
-URL:            http://code.google.com/p/httperf/
-Source0:        http://httperf.googlecode.com/files/%{name}-%{version}.tar.gz
-%if 0%{?fedora} >=26
+URL:            %{forgeurl}
+Source0:        %{forgesource}
+BuildRequires:  make
 BuildRequires:  gcc
-BuildRequires:  compat-openssl10-devel
-%else
 BuildRequires:  openssl-devel
-%endif
+BuildRequires:  libevent-devel
+BuildRequires:  autoconf automake libtool
 
-%description 
+%description
 Httperf is a tool for measuring web server performance. It provides a
 flexible facility for generating various HTTP workloads and for
 measuring server performance. The focus of httperf is not on
@@ -26,27 +29,40 @@ performance measurements.
 
 
 %prep
-%setup -q
+%forgesetup
 
 
 %build
-%configure
-make %{?_smp_mflags}
+autoreconf -vif
+%configure --enable-idleconn
+%make_build
 
 
 %install
-rm -rf %{buildroot}
-make install INSTALL="%{__install} -p" DESTDIR=%{buildroot}
+%make_install
+
+# fix permissions
+chmod -x AUTHORS ChangeLog NEWS README.md TODO COPYRIGHT
 
 
 %files
 %{_bindir}/httperf
 %{_bindir}/idleconn
 %{_mandir}/man1/httperf.1*
-%doc AUTHORS ChangeLog NEWS README TODO
+%{_mandir}/man1/idleconn.1*
+%license COPYRIGHT
+%doc AUTHORS ChangeLog NEWS README.md TODO
 
 
 %changelog
+* Tue Sep 29 2020 Thomas Moschny <thomas.moschny@gmx.de> - 0.9.1-0.1.20200929git6342b16
+- Upstream currently doesn't make releases, so update to latest snapshot
+  in order to fix FTBFS #1879696.
+- Specfile updates.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -121,4 +137,3 @@ make install INSTALL="%{__install} -p" DESTDIR=%{buildroot}
 
 * Thu Aug 28 2008 Thomas Moschny <thomas.moschny@gmx.de> - 0.9.0-1
 - New package.
-

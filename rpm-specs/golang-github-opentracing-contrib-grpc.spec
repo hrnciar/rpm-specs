@@ -3,7 +3,7 @@
 
 # https://github.com/opentracing-contrib/go-grpc
 %global goipath         github.com/opentracing-contrib/go-grpc
-%global commit          4b5a12d3ff02ba61ae861b7797e17a0c4f0ecea9
+%global commit          db30781987df913dc5a2345439c43e1598e33434
 
 %gometa
 
@@ -15,7 +15,7 @@ systems in Go.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        OpenTracing support for any gRPC client or server
 
 License:        ASL 2.0
@@ -26,7 +26,6 @@ BuildRequires:  golang(github.com/golang/protobuf/proto)
 BuildRequires:  golang(github.com/opentracing/opentracing-go)
 BuildRequires:  golang(github.com/opentracing/opentracing-go/ext)
 BuildRequires:  golang(github.com/opentracing/opentracing-go/log)
-BuildRequires:  golang(golang.org/x/net/context)
 BuildRequires:  golang(google.golang.org/grpc)
 BuildRequires:  golang(google.golang.org/grpc/codes)
 BuildRequires:  golang(google.golang.org/grpc/metadata)
@@ -57,6 +56,12 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 18:37:38 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200730gitdb30781
+- Bump to commit db30781987df913dc5a2345439c43e1598e33434
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

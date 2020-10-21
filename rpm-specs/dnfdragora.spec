@@ -1,9 +1,9 @@
-# CMake builds out of tree.
-%global _cmake_build_subdir %{_target_platform}
+# Force out of source build
+%undefine __cmake_in_source_build
 
 Name:		dnfdragora
-Version:	2.0.0
-Release:	3%{?dist}
+Version:	2.1.0
+Release:	2%{?dist}
 Summary:	DNF package-manager based on libYui abstraction
 
 License:	GPLv3+
@@ -11,8 +11,9 @@ URL:		https://github.com/manatools/%{name}
 Source0:	%{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
 # Backports from upstream
-## Fix crash reported in user testing when ~/.config/dnfdragora.yaml doesn't exist
-Patch0001:	0001-missing-metadata-entry-in-user-setting-caused-a-cras.patch
+## Fix path to icons that prevents dnfdragora-updater from working (rhbz#1886178)
+## From: https://github.com/manatools/dnfdragora/commit/acaa41e511c3ce026a9123fe494bd017cbfb99db
+Patch0001:	0001-Fix-issue-168.patch
 
 BuildArch:	noarch
 
@@ -23,33 +24,28 @@ BuildRequires:	libappstream-glib
 BuildRequires:	pkgconfig
 BuildRequires:	python3-devel		>= 3.4.0
 BuildRequires:	python3-dnfdaemon	>= 0.3.20
+BuildRequires:	python3-manatools	>= 0.0.3
 BuildRequires:	python3-PyYAML
 BuildRequires:	python3-sphinx
 BuildRequires:	python3-yui
-BuildRequires:	python3-notify2
 BuildRequires:	python3-pyxdg
 BuildRequires:	python3-cairosvg
 BuildRequires:	python3-pillow
-BuildRequires:	python3-pystray
+BuildRequires:	python3-pystray		>= 0.16
 
 Requires:	dnf			>= 1.0.9
 Requires:	filesystem
+Requires:	comps-extras
 Requires:	hicolor-icon-theme
 Requires:	libyui-mga-ncurses
 Requires:	python3-dnfdaemon	>= 0.3.20
+Requires:	python3-manatools	>= 0.0.3
 Requires:	python3-PyYAML
 Requires:	python3-yui		>= 1.1.1-10
 
 Provides:	%{name}-gui		= %{version}-%{release}
 Recommends:	(libyui-mga-qt if qt5-qtbase-gui)
 Recommends:	(libyui-mga-gtk if gtk3)
-
-# Yumex-DNF is dead.  Let's use dnfdragora-gui as drop-in replacement.
-# See:  https://pagure.io/fesco/issue/1690#comment-434558
-%if (0%{?fedora} >= 27 && 0%{?fedora} <= 30)
-Obsoletes:	yumex-dnf		< 4.3.3-5
-Provides:	yumex-dnf		= 4.3.3-5
-%endif # (0%%{?fedora} >= 27 && 0%%{?fedora} <= 30)
 
 %description
 %{name} is a DNF frontend, based on rpmdragora from Mageia
@@ -65,11 +61,10 @@ Summary:	Update notifier applet for %{name}
 
 Requires:	%{name}			== %{version}-%{release}
 Requires:	libnotify
-Requires:	python3-notify2
 Requires:	python3-pyxdg
 Requires:	python3-cairosvg
 Requires:	python3-pillow
-Requires:	python3-pystray
+Requires:	python3-pystray		>= 0.16
 
 Obsoletes:	%{name}-gui		< 1.0.1-7
 
@@ -86,38 +81,34 @@ This package provides the update notifier applet for %{name}.
 
 %prep
 %autosetup -p 1
-%{__mkdir_p} %{_cmake_build_subdir}
 
 
 %build
-pushd %{_cmake_build_subdir}
-%cmake								\
-	-DCHECK_RUNTIME_DEPENDENCIES=ON				\
-	-DENABLE_COMPS=ON					\
-	..
-popd
-%make_build -C %{_cmake_build_subdir}
-
+%cmake \
+  -DCHECK_RUNTIME_DEPENDENCIES=ON \
+  -DENABLE_COMPS=ON               \
+  %{nil}
+%cmake_build
 
 %install
-%make_install -C %{_cmake_build_subdir}
+%cmake_install
 %find_lang %{name}
 
 
 %check
 # Validate desktop-files.
-%{_bindir}/desktop-file-validate				\
+desktop-file-validate				\
 	%{buildroot}%{_datadir}/applications/*.desktop
 
 # Validate AppData-files.
-%{_bindir}/appstream-util validate-relax --nonet		\
+appstream-util validate-relax --nonet		\
 	%{buildroot}%{_datadir}/appdata/*.appdata.xml
 
 
 %files -f %{name}.lang
 %config(noreplace) %{_sysconfdir}/%{name}/%{name}.yaml
 %dir %{_sysconfdir}/%{name}
-%doc README.md TODO %{name}.yaml*.example
+%doc README.md %{name}.yaml*.example
 %exclude %{python3_sitelib}/%{name}/updater.py
 %exclude %{python3_sitelib}/%{name}/__pycache__/updater.cpython*.py?
 %license AUTHORS LICENSE
@@ -142,6 +133,21 @@ popd
 
 
 %changelog
+* Thu Oct 08 2020 Neal Gompa <ngompa13@gmail.com> - 2.1.0-2
+- Backport fix from upstream to fix dnfdragora-updater (#1886178)
+
+* Mon Oct 05 2020 Neal Gompa <ngompa13@gmail.com> - 2.1.0-1
+- Update to 2.1.0 (#1876299)
+
+* Tue Aug 25 2020 Neal Gompa <ngompa13@gmail.com> - 2.0.4-2
+- Add missing dep on comps-extras for comps group icons (#1872359)
+
+* Sun Aug 23 2020 Neal Gompa <ngompa13@gmail.com> - 2.0.4-1
+- Update to 2.0.4 (#1823345)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.0-3
 - Rebuilt for Python 3.9
 

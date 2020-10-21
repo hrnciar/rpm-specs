@@ -3,7 +3,7 @@
 
 # https://github.com/pkg/errors
 %global goipath         github.com/pkg/errors
-Version:                0.8.1
+Version:                0.9.1
 
 %gometa
 
@@ -16,7 +16,7 @@ Package Errors provides simple error handling primitives.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        7%{?dist}
+Release:        2%{?dist}
 Summary:        Simple error handling primitives
 
 # Upstream license specification: BSD-2-Clause
@@ -25,7 +25,6 @@ URL:            %{gourl}
 Source0:        %{gosource}
 Source1:        glide.yaml
 Source2:        glide.lock
-Patch0:         0001-Fix-build-against-Go-1.12.patch
 
 %description
 %{common_description}
@@ -34,20 +33,10 @@ Patch0:         0001-Fix-build-against-Go-1.12.patch
 
 %prep
 %goprep
-%patch0 -p1
 cp %{S:1} %{S:2} .
 
 %install
 %gopkginstall
-
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
 
 %if %{with check}
 %check
@@ -57,6 +46,12 @@ end
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 22:25:23 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.9.1-1
+- Update to 0.9.1
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

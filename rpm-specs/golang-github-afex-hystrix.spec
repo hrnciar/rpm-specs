@@ -18,7 +18,7 @@ inevitable.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.4%{?dist}
 Summary:        Netflix's hystrix latency and fault tolerance library, for go
 
 License:        MIT
@@ -53,6 +53,9 @@ BuildRequires:  golang(github.com/smartystreets/goconvey/convey)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

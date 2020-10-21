@@ -1,7 +1,7 @@
-%global gittag 5.8.0.202006091008-r
+%global gittag 5.8.1.202007141445-r
 
 Name:           eclipse-jgit
-Version:        5.8.0
+Version:        5.8.1
 Release:        1%{?dist}
 Summary:        Eclipse JGit
 
@@ -17,9 +17,6 @@ Patch0:         0001-Ensure-the-correct-classpath-is-set-for-the-jgit-com.patch
 #  org.slf4j.api -> slf4j.api
 #  org.slf4j.impl.log4j12 -> slf4j.simple
 Patch1:         0002-Don-t-embed-versions-of-third-party-libs-use-feature.patch
-
-# Remove req on assertj
-Patch2:         0003-Remove-requirement-on-assertj-core.patch
 
 BuildArch: noarch
 
@@ -39,7 +36,6 @@ A pure Java implementation of the Git version control system.
 %setup -n jgit-%{gittag} -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 # Disable multithreaded build
 rm .mvn/maven.config
@@ -56,6 +52,9 @@ done
 
 # Don't build source features
 %pom_disable_module org.eclipse.jgit.source.feature org.eclipse.jgit.packaging
+
+# Don't build junit testing features
+%pom_disable_module org.eclipse.jgit.junit.feature org.eclipse.jgit.packaging
 
 # Remove unnecessary plugins for RPM builds
 %pom_remove_plugin :maven-enforcer-plugin org.eclipse.jgit.packaging
@@ -79,6 +78,12 @@ popd
 %doc README.md
 
 %changelog
+* Fri Aug 21 2020 Mat Booth <mat.booth@redhat.com> - 5.8.1-1
+- Update to latest upstream release
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.8.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Mat Booth <mat.booth@redhat.com> - 5.8.0-1
 - Update to latest upstream release
 

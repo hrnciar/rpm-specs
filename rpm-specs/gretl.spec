@@ -1,7 +1,11 @@
 Name: gretl	
-Version: 2020b
-Release: 1%{?dist}
+Version: 2020d
+Release: 2%{?dist}
 Summary: A tool for econometric analysis	
+
+%if 0%{?fedora} >= 33
+%bcond_without flexiblas
+%endif
 
 License: GPLv3+ and BSD and MIT
 URL: http://gretl.sourceforge.net/
@@ -11,7 +15,11 @@ Source1: gretl_plugins.txt
 
 
 BuildRequires:	bash-completion
-BuildRequires:	blas-devel
+%if %{with flexiblas}
+BuildRequires:	flexiblas-devel
+%else
+BuildRequires:	blas-devel, lapack-devel
+%endif
 BuildRequires:	desktop-file-utils
 BuildRequires:	fftw-devel
 BuildRequires:	gcc-c++
@@ -22,7 +30,6 @@ BuildRequires:	gnuplot
 BuildRequires:	gtk3-devel
 BuildRequires:	gtksourceview3-devel
 BuildRequires:	json-glib-devel
-BuildRequires:	lapack-devel
 BuildRequires:	libcurl-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	libgnomeui-devel
@@ -64,6 +71,10 @@ This package contains the binary openmpi files for %{name}.
 CC=mpicc
 CXX=mpic++
 FC=mpifort
+
+%if %{with flexiblas}
+sed -i -e 's/-lblas/-lflexiblas/g' -e 's/-llapack/-lflexiblas/g' configure
+%endif
 
 %build
 # Build OpenMPI version
@@ -126,6 +137,18 @@ desktop-file-install						\
 %{_libdir}/openmpi/bin/gretl_openmpi
 
 %changelog
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 2020d-2
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Fri Aug 07 2020 Johannes Lips <hannes@fedoraproject.org> - 2020d-1
+- Update to 2020d
+
+* Fri Jul 31 2020 Johannes Lips <hannes@fedoraproject.org> - 2020c-1
+- Update to 2020c
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020b-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 12 2020 Johannes Lips <hannes@fedoraproject.org> - 2020b-1
 - Update to 2020b
 - changelog cleanup

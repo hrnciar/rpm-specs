@@ -1,6 +1,6 @@
 Name:           arandr
 Version:        0.1.10
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Simple GTK+ XRandR GUI
 
 License:        GPLv3
@@ -16,7 +16,7 @@ BuildRequires:  python3-setuptools
 BuildRequires:  desktop-file-utils
 Requires:       python3
 Requires:       python3-gobject
-Requires:       xorg-x11-server-utils
+Requires:       xrandr
 
 %description
 ARandR is designed to provide a simple visual front end for XRandR 1.2/1.3.
@@ -52,6 +52,12 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/arandr.desktop
 
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 0.1.10-6
+- Requires xrandr not xorg-x11-server-utils
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.10-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.10-4
 - Rebuilt for Python 3.9
 

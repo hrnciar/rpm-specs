@@ -3,7 +3,7 @@
 Version:            4.1
 %forgemeta
 
-Release: 4%{?dist}
+Release: 5%{?dist}
 URL:     %{forgeurl}
 
 %global foundry           kemie
@@ -67,6 +67,9 @@ Source11: 60-%{fontpkgname1}.xml
 %fontfiles
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 4.1-4
 🐞 Workaround Fedora problems created by rpm commit 93604e2

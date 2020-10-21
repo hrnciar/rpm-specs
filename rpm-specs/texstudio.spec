@@ -1,5 +1,5 @@
 Name:           texstudio
-Version:        2.12.22
+Version:        3.0.1
 Release:        2%{?dist}
 
 Summary:        A feature-rich editor for LaTeX documents
@@ -11,10 +11,9 @@ URL:            https://www.texstudio.org
 Source0:        https://github.com/texstudio-org/texstudio#/archive/%{name}-%{version}.tar.gz
 Source1:        texstudio.desktop
 Patch1:         texstudio-use-system-qtsingleapplication-instead-of-bundled-on.patch
-Patch2:         texstudio-debughelper-arm-fix.patch 
-Patch3:         texstudio-disable-update-check.patch
+Patch2:         texstudio-disable-update-check.patch
 # don't muck with default build flags
-Patch4:         texstudio-wtf_flags.patch
+Patch3:         texstudio-wtf_flags.patch
 
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qttools-devel
@@ -27,6 +26,7 @@ BuildRequires:  gettext
 BuildRequires:  poppler-qt5-devel
 BuildRequires:  qtsingleapplication-qt5-devel
 BuildRequires:  qtsinglecoreapplication-qt5-devel
+BuildRequires:  qtermwidget-devel
 BuildRequires:  quazip-qt5-devel
 BuildRequires:  zlib-devel
 
@@ -34,6 +34,7 @@ Requires:       tex(latex)
 Requires:       tex(preview.sty)
 Requires:       tex-dvipng
 Requires:       qt5-qtsvg
+Requires:       qterm
 Provides:       bundled(qcodeedit) 
 Provides:       texmakerx = %{version}-%{release}
 Obsoletes:      texmakerx < 2.2-1
@@ -52,9 +53,8 @@ so it keeps it look&feel.
 %prep
 %setup -q -n %{name}-%{version}
 %patch1 -p1 -b .qtsingle
-%patch2 -p1 -b .arm
-%patch3 -p1 -b .update_check
-%patch4 -p1 -b .wtf_flags
+%patch2 -p1 -b .update_check
+%patch3 -p1 -b .wtf_flags
 
 rm -rf {hunspell,qtsingleapplication,quazip}
 
@@ -67,6 +67,7 @@ pushd %{_target_platform}
 %endif
     USE_SYSTEM_HUNSPELL=1 \
     USE_SYSTEM_QTSINGLEAPPLICATION=1 \
+    INTERNAL_TERMINAL=1 \
     USE_SYSTEM_QUAZIP=1 QUAZIP_LIB=-lquazip5 QUAZIP_INCLUDE=%{_includedir}/quazip5/ \
     ../texstudio.pro
 popd
@@ -113,13 +114,25 @@ desktop-file-install --dir %{buildroot}%{_datadir}/applications %{SOURCE1}
 %{_datadir}/texstudio/th_*.dat
 %{_datadir}/texstudio/usermanual_*.html
 %{_datadir}/applications/texstudio.desktop
-%{_datadir}/appdata/texstudio.appdata.xml
+%{_datadir}/metainfo/texstudio.appdata.xml
 %{_datadir}/icons/hicolor/*/apps/*.png
 %{_datadir}/icons/hicolor/*/apps/*.svg
 
 %doc utilities/AUTHORS utilities/COPYING utilities/manual/CHANGELOG.txt
 
 %changelog
+* Sun Sep 06 2020 Johannes Lips <hannes@fedoraproject.org> 3.0.1-2
+- enabled internal terminal
+
+* Wed Sep 02 2020 Johannes Lips <hannes@fedoraproject.org> 3.0.1-1
+- Update to latest upstream release 3.0.1
+
+* Tue Aug 25 2020 Johannes Lips <hannes@fedoraproject.org> 3.0.0-1
+- Update to latest upstream release 3.0.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.22-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.22-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

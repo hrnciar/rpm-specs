@@ -6,7 +6,7 @@
 
 # https://github.com/go-chi/chi
 %global goipath         github.com/go-chi/chi
-Version:                4.0.3
+Version:                4.1.2
 
 %gometa
 
@@ -28,7 +28,7 @@ client-side applications.}
 %global godocs          _examples CHANGELOG.md CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Lightweight, idiomatic and composable router for building Go HTTP services
 
 License:        MIT
@@ -59,6 +59,12 @@ BuildRequires:  golang(golang.org/x/net/http2)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 23:05:48 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 4.1.2-1
+- Update to 4.1.2
+
 * Wed Jan 29 17:24:14 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 4.0.3-1
 - Update to 4.0.3
 

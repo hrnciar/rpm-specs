@@ -6,8 +6,8 @@
 %global crate crossterm
 
 Name:           rust-%{crate}
-Version:        0.17.5
-Release:        1%{?dist}
+Version:        0.17.7
+Release:        3%{?dist}
 Summary:        Crossplatform terminal library for manipulating terminals
 
 # Upstream license specification: MIT
@@ -16,6 +16,7 @@ URL:            https://crates.io/crates/crossterm
 Source:         %{crates_source}
 # Initial patched metadata
 # * No windows
+# * Bump to parking_lot 0.11, https://github.com/crossterm-rs/crossterm/pull/486
 Patch0:         crossterm-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -68,16 +69,16 @@ which use "event-stream" feature of "%{crate}" crate.
 %files       -n %{name}+event-stream-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
-%package     -n %{name}+futures-devel
+%package     -n %{name}+futures-util-devel
 Summary:        %{summary}
 BuildArch:      noarch
 
-%description -n %{name}+futures-devel %{_description}
+%description -n %{name}+futures-util-devel %{_description}
 
 This package contains library source intended for building other packages
-which use "futures" feature of "%{crate}" crate.
+which use "futures-util" feature of "%{crate}" crate.
 
-%files       -n %{name}+futures-devel
+%files       -n %{name}+futures-util-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %package     -n %{name}+serde-devel
@@ -112,6 +113,18 @@ find -type f -executable -exec chmod -v -x '{}' +
 %endif
 
 %changelog
+* Fri Sep 11 2020 Josh Stone <jistone@redhat.com> - 0.17.7-3
+- Bump to parking_lot 0.11
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Josh Stone <jistone@redhat.com> - 0.17.7-1
+- Update to 0.17.7
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.17.6-1
+- Update to 0.17.6
+
 * Sat May 23 20:16:32 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.17.5-1
 - Update to 0.17.5
 

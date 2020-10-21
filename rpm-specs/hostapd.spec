@@ -2,7 +2,7 @@
 
 Name:           hostapd
 Version:        2.9
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        IEEE 802.11 AP, IEEE 802.1X/WPA/WPA2/EAP/RADIUS Authenticator
 License:        BSD
 URL:            http://w1.fi/hostapd
@@ -15,6 +15,11 @@ Source4:        %{name}.init
 
 # https://w1.fi/security/2019-7/ap-mode-pmf-disconnection-protection-bypass.txt
 Patch1:         https://w1.fi/security/2019-7/0001-AP-Silently-ignore-management-frame-from-unexpected-.patch
+
+# https://w1.fi/security/2020-1/upnp-subscribe-misbehavior-wps-ap.txt
+Patch2:         https://w1.fi/security/2020-1/0001-WPS-UPnP-Do-not-allow-event-subscriptions-with-URLs-.patch
+Patch3:         https://w1.fi/security/2020-1/0002-WPS-UPnP-Fix-event-message-generation-using-a-long-U.patch
+Patch4:         https://w1.fi/security/2020-1/0003-WPS-UPnP-Handle-HTTP-initiation-failures-for-events-.patch
 
 BuildRequires:  libnl3-devel
 BuildRequires:  openssl-devel
@@ -62,6 +67,10 @@ Logwatch scripts for hostapd.
 %setup -q
 
 %patch1 -p1
+
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
 cd hostapd
@@ -182,6 +191,12 @@ fi
 %{_sysconfdir}/logwatch/scripts/services/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Johwn W. Linville <linville@redhat.com> - 2.9-4
+- Fix CVE-2020-12695 (UPnP SUBSCRIBE misbehavior in hostapd WPS AP)
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

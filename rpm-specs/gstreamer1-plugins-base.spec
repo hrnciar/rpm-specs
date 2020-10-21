@@ -5,7 +5,7 @@
 #global shortcommit %(c=%{gitcommit}; echo ${c:0:5})
 
 Name:           gstreamer1-plugins-base
-Version:        1.17.1
+Version:        1.18.0
 Release:        1%{?gitcommit:.git%{shortcommit}}%{?dist}
 Summary:        GStreamer streaming media framework base plugins
 
@@ -245,6 +245,9 @@ chrpath --delete $RPM_BUILD_ROOT%{_bindir}/gst-play-1.0
 %{_libdir}/girepository-1.0/GstSdp-%{majorminor}.typelib
 %{_libdir}/girepository-1.0/GstTag-%{majorminor}.typelib
 %{_libdir}/girepository-1.0/GstVideo-%{majorminor}.typelib
+%{_libdir}/girepository-1.0/GstGLEGL-%{majorminor}.typelib
+%{_libdir}/girepository-1.0/GstGLWayland-%{majorminor}.typelib
+%{_libdir}/girepository-1.0/GstGLX11-%{majorminor}.typelib
 
 # base plugins without external dependencies
 %{_libdir}/gstreamer-%{majorminor}/libgstadder.so
@@ -463,6 +466,9 @@ chrpath --delete $RPM_BUILD_ROOT%{_bindir}/gst-play-1.0
 %{_datadir}/gir-1.0/GstSdp-%{majorminor}.gir
 %{_datadir}/gir-1.0/GstTag-%{majorminor}.gir
 %{_datadir}/gir-1.0/GstVideo-%{majorminor}.gir
+%{_datadir}/gir-1.0/GstGLEGL-%{majorminor}.gir
+%{_datadir}/gir-1.0/GstGLWayland-%{majorminor}.gir
+%{_datadir}/gir-1.0/GstGLX11-%{majorminor}.gir
 
 # pkg-config files
 %{_libdir}/pkgconfig/*.pc
@@ -474,6 +480,19 @@ chrpath --delete $RPM_BUILD_ROOT%{_bindir}/gst-play-1.0
 %endif
 
 %changelog
+* Tue Sep 8 2020 Wim Taymans <wtaymans@redhat.com> - 1.18.0-1
+- Update to 1.18.0
+
+* Fri Aug 21 2020 Wim Taymans <wtaymans@redhat.com> - 1.17.90-1
+- Update to 1.17.90
+- Add new gir and typelib files
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 6 2020 Wim Taymans <wtaymans@redhat.com> - 1.17.2-1
+- Update to 1.17.2
+
 * Mon Jun 22 2020 Wim Taymans <wtaymans@redhat.com> - 1.17.1-1
 - Update to 1.17.1
 - Use meson

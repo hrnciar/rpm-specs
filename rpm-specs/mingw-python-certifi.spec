@@ -4,13 +4,13 @@
 
 Name:          mingw-python-%{pkgname}
 Summary:       MinGW Windows Python %{pkgname} library
-Version:       2020.04.05.1
-Release:       2%{?dist}
+Version:       2020.06.20
+Release:       1%{?dist}
 BuildArch:     noarch
 
 License:       MPL2.0
 URL:           https://certifi.io/en/latest/
-Source0:       https://github.com/certifi/python-certifi/archive/%{version}/%{pkgname}-%{version}.tar.gz
+Source0:       https://github.com/certifi/python-certifi/archive/%{version}/python-%{pkgname}-%{version}.tar.gz
 
 BuildRequires: mingw32-filesystem >= 95
 BuildRequires: mingw32-python3
@@ -68,6 +68,12 @@ rm build
 
 
 %changelog
+* Sat Aug 15 2020 Sandro Mani <manisandro@gmail.com> - 2020.6.20-1
+- Update to 2020.6.20
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.04.05.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 31 2020 Sandro Mani <manisandro@gmail.com> - 2020.04.05.1-2
 - Rebuild (python-3.9)
 

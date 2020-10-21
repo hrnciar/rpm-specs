@@ -1,6 +1,6 @@
 Name:           perl-Devel-GlobalPhase
 Version:        0.003003
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Detect perl's global phase on older perls
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Devel-GlobalPhase
@@ -52,6 +52,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.003003-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.003003-9
 - Perl 5.32 rebuild
 

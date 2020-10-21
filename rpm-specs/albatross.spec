@@ -2,7 +2,7 @@
 
 Name:           albatross
 Version:        1.7.4
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Desktop Suite for Xfce, GTK+ 2 and 3
 
 License:        GPLv2+ or CC-BY-SA
@@ -91,6 +91,9 @@ cp -pr gtk-2.0/ gtk-3.0/ metacity-1/ xfwm4/ %{buildroot}%{_datadir}/themes/%{the
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.4-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.4-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

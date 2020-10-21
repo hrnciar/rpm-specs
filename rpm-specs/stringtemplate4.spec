@@ -1,6 +1,6 @@
 Name:           stringtemplate4
 Version:        4.3.1
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        A Java template engine
 License:        BSD
 URL:            http://www.stringtemplate.org/
@@ -14,7 +14,6 @@ BuildRequires:  maven-local
 BuildRequires:  mvn(junit:junit)
 BuildRequires:  mvn(org.antlr:antlr-runtime) >= 3.5.2
 BuildRequires:  mvn(org.antlr:antlr3-maven-plugin) >= 3.5.2
-BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
 BuildRequires:  xorg-x11-fonts-Type1
 BuildRequires:  xorg-x11-server-Xvfb
 
@@ -34,12 +33,15 @@ This package contains javadoc for %{name}.
 %prep
 %autosetup -p1
 
+# sonatype-oss-parent is deprecated in Fedora
+%pom_remove_parent
+
 # The revapi plugin is an API checker.  That is a great thing for upstream to
 # use, but not for Fedora builds.  Plus Fedora doesn't currently have it.
 %pom_remove_plugin :revapi-maven-plugin
 
 %build
-xvfb-run -a -n 1 %mvn_build
+xvfb-run -d %mvn_build
 
 %install
 %mvn_install
@@ -52,6 +54,15 @@ xvfb-run -a -n 1 %mvn_build
 %license LICENSE.txt
 
 %changelog
+* Mon Aug 24 2020 Jerry James <loganjerry@gmail.com> - 4.3.1-4
+- Remove dependency on deprecated sonatype-oss-parent
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 4.3.1-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jun 23 2020 Jerry James <loganjerry@gmail.com> - 4.3.1-1
 - Version 4.3.1
 - Add -java11 patch to adapt to JDK 11

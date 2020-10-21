@@ -2,7 +2,7 @@
 
 # https://github.com/junegunn/fzf
 %global goipath         github.com/junegunn/fzf
-Version:                0.21.1
+Version:                0.23.1
 %global tag             %{version}
 
 %gometa
@@ -16,7 +16,7 @@ URL:            %{gourl}
 Source0:        %{gosource}
 Source1:        README.Fedora
 
-BuildRequires: golang(github.com/gdamore/tcell) >= 1.3
+BuildRequires: golang(github.com/gdamore/tcell) >= 1.4
 BuildRequires: golang(github.com/gdamore/tcell/encoding)
 BuildRequires: golang(github.com/mattn/go-isatty) >= 0.0.12
 BuildRequires: golang(github.com/mattn/go-runewidth) >= 0.0.8
@@ -96,6 +96,18 @@ install -Dpm0644 shell/key-bindings.* %{buildroot}%{_datadir}/fzf/shell/
 
 
 %changelog
+* Sat Oct 10 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.23.1-1
+- Update to latest version (#1887123)
+
+* Thu Oct 08 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.23.0-1
+- Update to latest version (#1886203)
+
+* Mon Aug 03 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.22.0-1
+- Update to latest version (#1862819)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.21.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 06 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.21.1-1
 - Update to latest version
 

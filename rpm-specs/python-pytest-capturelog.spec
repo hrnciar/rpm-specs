@@ -5,7 +5,7 @@
 
 Name:           python-%{modname}
 Version:        0.7
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        py.test plugin to capture log messages
 
 License:        MIT
@@ -45,6 +45,9 @@ rm -rf *.egg-info
 %{python3_sitelib}/%{altname}-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7-20
 - Rebuilt for Python 3.9
 

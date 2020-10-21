@@ -1,7 +1,7 @@
 Summary: A tool for testing TCP connections
 Name: ttcp
 Version: 1.12
-Release: 41%{?dist}
+Release: 42%{?dist}
 URL:	ftp://ftp.sgi.com/sgi/src/ttcp/
 Source0: ftp://ftp.sgi.com/sgi/src/ttcp/ttcp.c
 Source1: ftp://ftp.sgi.com/sgi/src/ttcp/ttcp.1
@@ -41,6 +41,9 @@ install -p -m644 ttcp.1 $RPM_BUILD_ROOT%{_mandir}/man1
 %{_mandir}/man1/ttcp.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-42
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-41
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

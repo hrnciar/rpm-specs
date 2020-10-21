@@ -1,6 +1,6 @@
 Name:           python-oauth
 Version:        1.0.1
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        Library for OAuth version 1.0a
 
 License:        MIT
@@ -40,6 +40,9 @@ Summary: %summary
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.1-23
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           atomix
 Version:        3.34.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Puzzle game: Build molecules out of isolated atoms
 
 License:        GPLv2+
@@ -55,6 +55,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/atomix.desktop
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.34.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 25 2020 Hans de Goede <hdegoede@redhat.com> - 3.34.0-3
 - Fix FTBFS (rhbz#1799175)
 

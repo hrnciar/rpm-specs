@@ -1,6 +1,6 @@
 Name:              gcin
 Version:           2.8.9
-Release:           4%{?dist}
+Release:           6%{?dist}
 Summary:           An input method focused on Chinese users
 #Main program is LGPLv2;
 #eggtrayicon.cpp eggtrayicon.h are LGPLv2+;
@@ -214,6 +214,12 @@ fi
 %{_datadir}/%{name}/table/
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 2.8.9-6
+- rebuild (qt5)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.9-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.8.9-4
 - rebuild (qt5)
 

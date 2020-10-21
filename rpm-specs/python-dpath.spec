@@ -1,6 +1,6 @@
 Name:           python-dpath
 Version:        1.4.0
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        A library for searching dictionaries using XPath-like expressions
 License:        MIT
 URL:            https://github.com/akesterson/dpath-python
@@ -54,6 +54,9 @@ find -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.0-18
 - Rebuilt for Python 3.9
 

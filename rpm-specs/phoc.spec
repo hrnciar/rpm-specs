@@ -1,5 +1,5 @@
 Name:		phoc
-Version:	0.1.9
+Version:	0.4.3
 Release:	1%{?dist}
 Summary:	Display compositor designed for phones
 
@@ -49,6 +49,24 @@ pronounced like the English word fog.
 
 
 %changelog
+* Thu Oct 08 2020 Torrey Sorensen <sorensentor@tuta.io> - 0.4.3-1
+- Update to 0.4.3
+
+* Thu Aug 06 2020 Torrey Sorensen <sorensentor@tuta.io> - 0.4.2-1
+- Update to 0.4.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Torrey Sorensen <sorensentor@tuta.io> - 0.4.1-2
+- Rebuild for new wlroots
+
+* Wed Jul 22 2020 Torrey Sorensen <sorensentor@tuta.io> - 0.4.1-1
+- Update to 0.4.1
+
+* Tue Jun 23 2020 Torrey Sorensen <sorensentor@tuta.io> - 0.4.0-1
+- Update to 0.4.0, note: update version is to align with phosh, thus the jump to 0.4.0
+
 * Tue Jun 23 2020 Torrey Sorensen <sorensentor@tuta.io> - 0.1.9-1
 - Update to 0.1.9
 

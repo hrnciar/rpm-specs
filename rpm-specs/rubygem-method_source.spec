@@ -4,7 +4,7 @@
 Summary: Retrieve the source code for a method
 Name: rubygem-%{gem_name}
 Version: 0.8.2
-Release: 11%{?dist}
+Release: 12%{?dist}
 License: MIT
 URL: http://banisterfiend.wordpress.com
 Source0: http://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -73,6 +73,9 @@ popd
 %{gem_instdir}/test
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.2-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

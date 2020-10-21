@@ -2,7 +2,7 @@
 
 Name:		rubygem-%{gem_name}
 Version:	0.5.5
-Release:	6%{?dist}
+Release:	7%{?dist}
 
 Summary:	Pure-Ruby Readline Implementation
 License:	BSD
@@ -96,6 +96,9 @@ popd
 %doc	%{gem_docdir}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.5-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.5-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

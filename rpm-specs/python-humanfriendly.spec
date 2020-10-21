@@ -4,7 +4,7 @@
 
 Name:           python-%{srcname}
 Version:        8.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Human friendly output for text interfaces using Python
 
 License:        MIT
@@ -103,6 +103,9 @@ PYTHONUNBUFFERED=1 py.test-%{python3_version} %{srcname}/tests.py
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Scott K Logan <logans@cottsay.net> - 8.2-1
 - Update to 8.2 (rhbz#1825604)
 

@@ -7,7 +7,7 @@
 
 Name: python-%{srcname}
 Version: %{srcversion}
-Release: 11%{?dist}
+Release: 12%{?dist}
 Summary: Utility for writing multi-host tests for pytest
 
 License:       GPLv3+
@@ -57,6 +57,9 @@ specify how many machines they need and commands/checks to run on them.
 %{python3_sitelib}/%{modulename}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0-11
 - Rebuilt for Python 3.9
 

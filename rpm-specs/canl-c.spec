@@ -1,6 +1,6 @@
 Name:           canl-c
 Version:        3.0.0
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        EMI Common Authentication library - bindings for C
 
 License:        ASL 2.0
@@ -95,6 +95,9 @@ rm -f %{buildroot}%{_libdir}/*.la
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

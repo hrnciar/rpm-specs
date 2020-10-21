@@ -1,8 +1,8 @@
 %{!?_with_bootstrap: %global bootstrap 0}
 
 Name:           conda
-Version:        4.8.3
-Release:        2%{?dist}
+Version:        4.9.0
+Release:        1%{?dist}
 Summary:        Cross-platform, Python-agnostic binary package manager
 
 License:        BSD and ASL 2.0 and LGPLv2+ and MIT
@@ -29,7 +29,6 @@ Patch10003:     0003-Drop-fs-path-encoding-manipulation-under-python2.patch
 Patch10004:     0004-Do-not-try-to-run-usr-bin-python.patch
 Patch10005:     0005-Fix-failing-tests-in-test_api.py.patch
 Patch10006:     0006-shell-assume-shell-plugins-are-in-etc.patch
-Patch10007:     0007-Fix-import-of-collections.abc.Iterable.patch
 
 BuildArch:      noarch
 
@@ -49,7 +48,12 @@ Conda is a cross-platform, Python-agnostic binary package manager. It
 is the package manager used by Anaconda installations, but it may be
 used for other systems as well. Conda makes environments first-class
 citizens, making it easy to create independent environments even for
-C libraries. Conda is written entirely in Python.}
+C libraries. Conda is written entirely in Python.
+
+The Fedora conda base environment is special.  Unlike a standard
+anaconda install base environment it is essentially read-only.  You
+can only use conda to create and manage new environments.}
+
 
 %description %_description
 
@@ -79,6 +83,7 @@ BuildRequires:  %py3_reqs
 BuildRequires:  python%{python3_pkgversion}-cytoolz >= 0.8.2
 %endif
 # For tests
+BuildRequires:  python-unversioned-command
 BuildRequires:  python%{python3_pkgversion}-mock
 BuildRequires:  python%{python3_pkgversion}-pytest-cov
 BuildRequires:  python%{python3_pkgversion}-responses
@@ -102,13 +107,6 @@ Provides:       bundled(python%{python3_pkgversion}-toolz) = 0.8.2
 %autosetup -p1
 
 sed -r -i 's/^(__version__ = ).*/\1"%{version}"/' conda/__init__.py
-
-# disable some stupid tests which fail with EXDEV
-sed -r -i 's/test_trash_outside_prefix/_disabled_\0/' tests/test_install.py
-sed -r -i 's/test_move_to_trash|test_move_path_to_trash_couldnt/_disabled_\0/' tests/gateways/disk/test_delete.py
-
-# Skip TestJson.test_list which wants to muck around with /usr.
-sed -r -i 's/\btest_list\b/_disabled_\0/' tests/test_cli.py
 
 # delete interpreter line, the user can always call the file
 # explicitly as python3 /usr/lib/python3.6/site-packages/conda/_vendor/appdirs.py
@@ -157,6 +155,9 @@ install -m 0644 -Dt %{buildroot}/etc/profile.d/ conda/shell/etc/profile.d/conda.
 sed -r -i '1i CONDA_EXE=%{_bindir}/conda' %{buildroot}/etc/profile.d/conda.sh
 sed -r -i -e '1i set _CONDA_EXE=%{_bindir}/conda\nset _CONDA_ROOT=' \
           -e 's/CONDA_PFX=.*/CONDA_PFX=/' %{buildroot}/etc/profile.d/conda.csh
+install -m 0644 -Dt %{buildroot}/etc/fish/conf.d/ conda/shell/etc/fish/conf.d/conda.fish
+sed -r -i -e '1i set -gx CONDA_EXE "/usr/bin/conda"\nset _CONDA_ROOT "/usr"\nset _CONDA_EXE "/usr/bin/conda"\nset -gx CONDA_PYTHON_EXE "/usr/bin/python3"' \
+          %{buildroot}/etc/fish/conf.d/conda.fish
 
 # Install bash completion script
 install -m 0644 -Dt %{buildroot}%{bash_completionsdir}/ %SOURCE1
@@ -166,23 +167,38 @@ install -m 0644 -Dt %{buildroot}%{bash_completionsdir}/ %SOURCE1
 export PATH=%{buildroot}%{_bindir}:$PATH
 
 # Integration tests generally require network, so skip them.
-# tests/core/test_initialize.py tries to unlink /usr/bin/python3 and fails when python is a release candidate
-#
+
+# TestJson.test_list does not recognize /usr as a conda environment
+# These fail on koji with PackageNotFound errors likely due to network issues
+# test_cli.py::TestRun.test_run_returns_int
+# test_cli.py::TestRun.test_run_returns_nonzero_errorlevel
+# test_cli.py::TestRun.test_run_returns_zero_errorlevel
+
 # test_ProgressiveFetchExtract_prefers_conda_v2_format, test_subdir_data_prefers_conda_to_tar_bz2,
 # test_use_only_tar_bz2 fail in F31 koji, but not with mock --enablerepo=local. Let's disable
 # them for now.
+# tests/core/test_initialize.py tries to unlink /usr/bin/python3 and fails when python is a release candidate
+# tests/core/test_solve.py::test_cuda_fail_1 fails on non-x86_64
 py.test-%{python3_version} -vv -m "not integration" \
-    --deselect=tests/core/test_solve.py::test_python2_update \
-    --deselect=tests/core/test_subdir_data.py::test_subdir_data_prefers_conda_to_tar_bz2 \
+    --deselect=tests/test_cli.py::TestJson::test_list \
+    --deselect=tests/test_cli.py::TestRun::test_run_returns_int \
+    --deselect=tests/test_cli.py::TestRun::test_run_returns_nonzero_errorlevel \
+    --deselect=tests/test_cli.py::TestRun::test_run_returns_zero_errorlevel \
     --deselect=tests/core/test_package_cache_data.py::test_ProgressiveFetchExtract_prefers_conda_v2_format \
+    --deselect=tests/core/test_subdir_data.py::test_subdir_data_prefers_conda_to_tar_bz2 \
     --deselect=tests/core/test_subdir_data.py::test_use_only_tar_bz2 \
-    --ignore tests/core/test_initialize.py %{?el7:|| :}
+    --deselect=tests/core/test_initialize.py \
+    --deselect=tests/core/test_solve.py::test_cuda_fail_1
 
 
 %files
 %{_bindir}/conda
 %{_bindir}/conda-env
 %{bash_completionsdir}/conda
+# TODO - better ownership/requires for fish
+%dir /etc/fish
+%dir /etc/fish/conf.d
+/etc/fish/conf.d/conda.fish
 /etc/profile.d/conda.sh
 /etc/profile.d/conda.csh
 
@@ -198,10 +214,30 @@ py.test-%{python3_version} -vv -m "not integration" \
 
 
 %changelog
+* Sun Oct 18 2020 Orion Poplawski <orion@nwra.com> - 4.9.0-1
+- Update to 4.9.0
+
+* Mon Sep 21 2020 Orion Poplawski <orion@nwra.com> - 4.8.5-2
+- Add note to description about base environment
+
+* Mon Sep 14 2020 Orion Poplawski <orion@nwra.com> - 4.8.5-1
+- Update to 4.8.5
+- Install conda.fish (bz#1878306)
+
+* Sat Aug 08 2020 Orion Poplawski <orion@nwra.com> - 4.8.4-1
+- Update to 4.8.4
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.8.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.8.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.8.3-2
 - Rebuilt for Python 3.9
 
-* Sun Mar 14 2020 Orion Poplawski <orion@nwra.com> - 4.8.3-1
+* Sun Mar 15 2020 Orion Poplawski <orion@nwra.com> - 4.8.3-1
 - Update to 4.8.3
 
 * Tue Feb  4 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 4.8.2-2

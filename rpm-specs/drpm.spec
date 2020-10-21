@@ -7,7 +7,7 @@
 
 Name:           drpm
 Version:        0.5.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A library for making, reading and applying deltarpm packages
 # the entire source code is LGPLv2+, except src/drpm_diff.c and src/drpm_search.c which are BSD
 License:        LGPLv2+ and BSD
@@ -56,24 +56,17 @@ The drpm-devel package provides a C interface (drpm.h) for the drpm library.
 
 %prep
 %autosetup -p1
-mkdir build
 
 %build
-pushd build
-%cmake .. -DWITH_ZSTD:BOOL=%{?with_zstd:ON}%{!?with_zstd:OFF} -DHAVE_LZLIB_DEVEL:BOOL=%{?suse_version:ON}%{!?suse_version:OFF} 
-%make_build
-make doc
-popd
+%cmake -DWITH_ZSTD:BOOL=%{?with_zstd:ON}%{!?with_zstd:OFF} -DHAVE_LZLIB_DEVEL:BOOL=%{?suse_version:ON}%{!?suse_version:OFF}
+%cmake_build
+%cmake_build --target doc
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 
 %check
-pushd build
-ctest -VV
-popd
+%ctest
 
 %if (0%{?rhel} && 0%{?rhel} < 8) || 0%{?suse_version}
 %post -p /sbin/ldconfig
@@ -86,12 +79,15 @@ popd
 %license COPYING LICENSE.BSD
 
 %files devel
-%doc build/doc/html/
+%doc %{_vpath_builddir}/doc/html/
 %{_libdir}/lib%{name}.so
 %{_includedir}/%{name}.h
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Ales Matej <amatej@redhat.com> - 0.5.0-1
 - Update to 0.5.0
 - Fix a memory leak on invalid input

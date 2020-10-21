@@ -1,7 +1,7 @@
 Summary: Fish Fillets Next Generation, a puzzle game with 70 levels
 Name: fillets-ng
 Version: 1.0.1
-Release: 21%{?dist}
+Release: 23%{?dist}
 License: GPLv2+
 URL: http://fillets.sourceforge.net/
 Source0: http://downloads.sf.net/fillets/fillets-ng-%{version}.tar.gz
@@ -110,6 +110,13 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/fillets.a
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-23
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

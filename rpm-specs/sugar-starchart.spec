@@ -4,7 +4,7 @@
 
 Name:		sugar-starchart
 Version:	16
-Release:	13%{?dist}
+Release:	15%{?dist}
 Summary:	Display a map of the sky showing the position of the visible stars	
 
 License:	GPLv2+
@@ -40,6 +40,13 @@ chmod 644 activity/*
 %{sugaractivitydir}/StarChart.activity/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16-15
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           xvkbd
-Version:        3.9
-Release:        6%{?dist}
+Version:        4.1
+Release:        2%{?dist}
 Summary:        Virtual Keyboard for X Window System
 License:        GPLv2+
 URL:            http://t-sato.in.coocan.jp/xvkbd
@@ -8,8 +8,6 @@ Source0:        %{url}/%{name}-%{version}.tar.gz
 Source1:        %{name}.desktop
 # The following icon is licensed under CC BY-SA 3.0.
 Source2:        http://download.sourceforge.jp/xvkbd-fedora/45742/%{name}.png
-# Fix build failiure with -fno-common
-Patch0:         %{name}-fno-common.patch
 BuildRequires:  gcc
 BuildRequires:  desktop-file-utils
 BuildRequires:  imake
@@ -54,8 +52,15 @@ install -pDm644 %{S:2} %{buildroot}%{_datadir}/pixmaps
 %{_datadir}/X11/app-defaults/XVkbd*
 %{_datadir}/pixmaps/%{name}.png
 %{_datadir}/applications/%{name}.desktop
+%{_datadir}/X11/words.english
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Raphael Groner <raphgro@fedoraproject.org> - 4.1-1
+- bump to v4.1 
+
 * Fri Feb  7 2020 Jerry James <loganjerry@gmail.com> - 3.9-6
 - Add patch to fix build with -fno-common
 

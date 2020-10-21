@@ -2,7 +2,7 @@
 
 Name:           gigolo
 Version:        0.5.0
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        GIO/GVFS management application
 
 License:        GPLv2
@@ -59,6 +59,13 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_mandir}/man1/gigolo.1.gz
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 03 2020 Kevin Fenzi <kevin@scrye.com> - 0.5.0-4
 - Drop python2 BuildRequires. Fixes bug #1808323
 

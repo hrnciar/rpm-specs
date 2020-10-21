@@ -1,6 +1,6 @@
 Name:           perl-App-cpm
 Version:        0.993
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Fast CPAN module installer
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/App-cpm
@@ -113,6 +113,9 @@ find $RPM_BUILD_ROOT%{_mandir} -type f -empty -delete
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.993-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.993-2
 - Perl 5.32 rebuild
 

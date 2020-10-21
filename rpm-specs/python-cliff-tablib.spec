@@ -3,7 +3,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.1
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Tablib formatters for python-cliff
 
 License:        ASL 2.0
@@ -64,6 +64,9 @@ rm -rf html/.{doctrees,buildinfo}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1-21
 - Rebuilt for Python 3.9
 

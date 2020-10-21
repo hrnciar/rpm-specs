@@ -1,6 +1,6 @@
 Name:           perl-UNIVERSAL-moniker
 Version:        0.08
-Release:        39%{?dist}
+Release:        40%{?dist}
 Summary:        Real world naming for classes
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/UNIVERSAL-moniker
@@ -41,6 +41,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.08-40
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.08-39
 - Perl 5.32 rebuild
 

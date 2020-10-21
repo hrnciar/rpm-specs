@@ -7,7 +7,7 @@
 
 Name:      NetworkManager-strongswan
 Version:   1.5.0
-Release:   1%{?dist}
+Release:   2%{?dist}
 Summary:   NetworkManager strongSwan IPSec VPN plug-in
 License:   GPLv2+
 URL:       https://www.strongswan.org/
@@ -89,6 +89,9 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 12 2020 Mikhail Zabaluev <mikhail.zabaluev@gmail.com> - 1.5.0-1
 - Updated to 1.5.0
 

@@ -1,6 +1,6 @@
 Name:           ants
 Version:        1.4
-Release:        27%{?dist}
+Release:        30%{?dist}
 Summary:        Guide the insects safely home before they drop of the cliff
 License:        Public Domain
 URL:            http://www.allegro.cc/depot/Ants
@@ -39,7 +39,7 @@ sed -i 's/\r//g' ants.txt
 cp %{SOURCE4} .
 
 %build
-make %{?_smp_mflags} EXTRACFLAGS="$RPM_OPT_FLAGS"
+make %{?_smp_mflags} EXTRA_CFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 
 %install
 #no make install target, DIY
@@ -68,6 +68,16 @@ install -p -m 644 %{SOURCE3} \
 %{_datadir}/applications/%{name}-level-editor.desktop
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 1.4-30
+- Force C++14 as this code is not C++17 ready
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-29
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

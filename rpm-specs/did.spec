@@ -1,6 +1,6 @@
 Name: did
-Version: 0.16
-Release: 3%{?dist}
+Version: 0.17
+Release: 2%{?dist}
 
 Summary: What did you do last week, month, year?
 License: GPLv2+
@@ -41,6 +41,7 @@ mkdir -p %{buildroot}%{_mandir}/man1
 install -pm 644 did.1.gz %{buildroot}%{_mandir}/man1
 
 %check
+export LANG=en_US.utf-8
 %{__python3} -m pytest -vv tests/test*.py -k 'not smoke'
 
 %files
@@ -52,11 +53,27 @@ install -pm 644 did.1.gz %{buildroot}%{_mandir}/man1
 %license LICENSE
 
 %changelog
-* Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.16-3
-- Rebuilt for Python 3.9
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
-* Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+* Mon Jul 13 2020 Petr Šplíchal <psplicha@redhat.com> - 0.17-1
+- Prevent exploring tests under the tmt directory
+- Run unit tests always under the English locale
+- Enable basic smoke test against github in packit
+- Disable test for the redmine plugin
+- Update test data for the redmine plugin
+- Update test data for the sentry plugin
+- Update test data for the gerrit plugin
+- Use calendar year quarters by default [fix #223]
+- Merge the improved Jira search [#198]
+- Adjust improved Jira search using scriptrunner
+- Use scriptrunner issueFunction to speed up things
+- Simplify Packit config (copr_build no more needed)
+- Update test data for the sentry plugin
+- Implement Jira issue comparison to prevent dupes
+- Do not break sorting on merge
+- Add default command into the info log [fix #217]
+- Enable Python 3.8 in Travis, update metadata
 
 * Tue Dec 10 2019 Petr Šplíchal <psplicha@redhat.com> - 0.16-1
 - Convert smoke test into docs test, fix config file

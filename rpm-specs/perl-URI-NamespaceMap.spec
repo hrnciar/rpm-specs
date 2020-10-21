@@ -5,7 +5,7 @@
 
 Name:           perl-URI-NamespaceMap
 Version:        1.10
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Object-oriented collection of name spaces
 # COPYRIGHT:    Public Domain
 # other files:  GPL+ or Artistic
@@ -92,6 +92,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.10-4
+- Perl 5.32 re-rebuild of bootstrapped packages
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.10-3
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

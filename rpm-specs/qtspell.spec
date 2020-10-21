@@ -1,6 +1,6 @@
 Name:           qtspell
 Version:        0.9.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Spell checking for Qt text widgets
 
 License:        GPLv3+
@@ -63,16 +63,13 @@ that use %{name}.
 
 
 %build
-mkdir build-qt5
-pushd build-qt5
-LDFLAGS="%{__global_ldflags} -Wl,--as-needed" %cmake ..
-%make_build
-make doc
-popd
+%cmake
+%cmake_build
+make doc -C %{__cmake_builddir}
 
 
 %install
-%make_install -C build-qt5
+%cmake_install
 
 
 %ldconfig_scriptlets qt5
@@ -92,10 +89,13 @@ popd
 
 %files doc
 %license COPYING
-%doc build-qt5/doc/html
+%doc %{__cmake_builddir}/doc/html
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 21 2020 Sandro Mani <manisandro@gmail.com> - 0.9.0-1
 - Update to 0.9.0
 

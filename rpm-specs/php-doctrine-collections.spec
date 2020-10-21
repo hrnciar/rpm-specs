@@ -1,7 +1,7 @@
 #
 # Fedora spec file for php-doctrine-collections
 #
-# Copyright (c) 2013-2019 Shawn Iwinski <shawn.iwinski@gmail.com>
+# Copyright (c) 2013-2020 Shawn Iwinski <shawn.iwinski@gmail.com>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -11,8 +11,8 @@
 
 %global github_owner     doctrine
 %global github_name      collections
-%global github_version   1.6.5
-%global github_commit    fc0206348e17e530d09463fef07ba8968406cd6d
+%global github_version   1.6.7
+%global github_commit    55f8b799269a1a472457bd1a41b4f379d4cfba4a
 
 %global composer_vendor  doctrine
 %global composer_project collections
@@ -21,7 +21,7 @@
 %global php_min_ver 7.1.3
 
 # Build using "--without tests" to disable tests
-%global with_tests 0%{!?_without_tests:1}
+%bcond_without tests
 
 %{!?phpdir:  %global phpdir  %{_datadir}/php}
 
@@ -38,11 +38,19 @@ URL:           https://github.com/%{github_owner}/%{github_name}
 Source0:       %{name}-%{github_version}-%{github_commit}.tar.gz
 Source1:       %{name}-get-source.sh
 
+# Upstream patch for PHPUnit >= 8
+Patch0:        %{name}-phpunit.patch
+
 BuildArch:     noarch
 # Tests
-%if %{with_tests}
+%if %{with tests}
 ## composer.json
-BuildRequires: phpunit7
+%if 0%{?fedora} >= 32
+%global phpunit %{_bindir}/phpunit9
+%else
+%global phpunit %{_bindir}/phpunit8
+%endif
+BuildRequires: %{phpunit}
 BuildRequires: php(language) >= %{php_min_ver}
 ## phpcompatinfo (computed from version 1.6.0)
 BuildRequires: php-pcre
@@ -73,6 +81,7 @@ Autoloader: %{phpdir}/Doctrine/Common/Collections/autoload.php
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
+%patch0 -p1
 
 
 %build
@@ -95,7 +104,7 @@ cp -rp lib/* %{buildroot}%{phpdir}/
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 : Create tests bootstrap
 cat <<'BOOTSTRAP' | tee bootstrap.php
 <?php
@@ -105,9 +114,10 @@ BOOTSTRAP
 
 : Upstream tests
 SCL_RETURN_CODE=0
-for SCL in php php71 php72 php73 php74 php80; do
-    if which $SCL; then
-        $SCL %{_bindir}/phpunit7 --verbose --bootstrap bootstrap.php \
+for CMD in "php %{phpunit}" "php71 %{_bindir}/phpunit7" php72 php73 php74 "php80 %{_bindir}/phpunit9"; do
+    if which $CMD; then
+        set $CMD
+        $1 ${2:-%{_bindir}/phpunit8} --verbose --bootstrap bootstrap.php \
             || SCL_RETURN_CODE=1
     fi
 done
@@ -127,6 +137,16 @@ exit $SCL_RETURN_CODE
 
 
 %changelog
+* Tue Aug 11 2020 Remi Collet <remi@remirepo.net> - 1.6.7-1
+- update to 1.6.7
+- add upstream patch for recent PHPUnit
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Remi Collet <remi@remirepo.net> - 1.6.6-1
+- update to 1.6.6
+
 * Tue May 26 2020 Remi Collet <remi@remirepo.net> - 1.6.5-1
 - update to 1.6.5
 

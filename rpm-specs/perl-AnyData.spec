@@ -1,6 +1,6 @@
 Name:           perl-AnyData
 Version:        0.12
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Easy access to data in many formats
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/AnyData
@@ -65,6 +65,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.12-16
 - Perl 5.32 rebuild
 

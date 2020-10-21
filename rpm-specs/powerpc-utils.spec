@@ -1,6 +1,6 @@
 Name:           powerpc-utils
-Version:        1.3.7
-Release:        5%{?dist}
+Version:        1.3.8
+Release:        3%{?dist}
 Summary:        Utilities for PowerPC platforms
 
 License:        GPLv2
@@ -11,6 +11,7 @@ Source1:        nvsetenv
 ExclusiveArch:  ppc %{power64}
 
 BuildRequires:  gcc
+BuildRequires:  make
 BuildRequires:  automake
 BuildRequires:  doxygen
 BuildRequires:  zlib-devel
@@ -25,19 +26,18 @@ Requires:       perl(Data::Dumper)
 Requires:       %{name}-core = %{version}-%{release}
 Requires:       systemd
 Requires:       kmod
+Requires:       which
 Requires(post):         systemd
 Requires(preun):        systemd
 Requires(postun):       systemd
 
-Patch1:         powerpc-utils-1.2.15-man.patch
-Patch2:         powerpc-utils-1.2.27-makefile.patch
+Patch1:         powerpc-utils-1.3.8-man.patch
+Patch2:         powerpc-utils-1.3.8-makefile.patch
 Patch3:         powerpc-utils-1.3.5-pseries_platform-man.patch
 Patch4:         powerpc-utils-1.3.5-update_flash_nv.patch
-Patch5:         powerpc-utils-1.3.5-install-man.patch
-# systemd to set default system SMT mode
-Patch6:         powerpc-utils-1.3.4-systemd.patch
-Patch7:         powerpc-utils-segfault_when_running_drmgr_-c_pmig_-h.patch
-Patch8:         powerpc-utils-fixup_null_byte.patch
+Patch5:         powerpc-utils-1.3.8-install-man.patch
+Patch6:         powerpc-utils-manpage-lparstat.patch
+Patch7:         powerpc-utils-1.3.8-hcnmgr.patch
 
 %description
 Utilities for PowerPC platforms.
@@ -71,7 +71,7 @@ Utilities needed when installing Fedora on PowerPC systems.
 %build
 export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 ./autogen.sh
-%configure --with-systemd=$RPM_BUILD_ROOT%{_unitdir}
+%configure --with-systemd=%{_unitdir} --disable-werror
 make %{?_smp_mflags}
 
 
@@ -101,18 +101,35 @@ ln -s serv_config.8 %{buildroot}%{_mandir}/man8/uspchrp.8
 rm -f $RPM_BUILD_ROOT%{_sbindir}/snap $RPM_BUILD_ROOT%{_mandir}/man8/snap.8*
 
 %post
-%systemd_post smt_off.service
+systemctl daemon-reload >/dev/null 2>&1 || :
+systemctl start hcn-init.service >/dev/null 2>&1 || :
+systemctl enable hcn-init.service >/dev/null 2>&1 || :
+# update the smt.state file with current SMT
+/usr/sbin/smtstate --save >/dev/null 2>&1 || :
+
  
 %preun
-%systemd_preun smt_off.service
+svc=$(systemctl list-units -la | grep -Fq smtstate.service; echo $?)
+if [ "$svc" = "0" ]; then
+    systemctl stop smtstate.service >/dev/null 2>&1 || :
+    systemctl disable smtstate.service >/dev/null 2>&1 || :
+fi
+if systemctl is-enabled hcn-init.service |grep -q "enabled"; then
+        systemctl stop hcn-init.service >/dev/null 2>&1 || :
+        systemctl disable hcn-init.service >/dev/null 2>&1 || :
+fi
 
 %postun
-%systemd_postun_with_restart smt_off.service
-
+systemctl daemon-reload >/dev/null 2>&1 || :
 
 %files
-%attr(644, -, -) %doc README Changelog
-%attr(644, -, -) %{_unitdir}/smt_off.service
+%doc README Changelog
+%dir /var/lib/powerpc-utils
+/var/lib/powerpc-utils/smt.state
+%{_unitdir}/smtstate.service
+%{_unitdir}/smt_off.service
+%{_unitdir}/hcn-init.service
+
 %{_bindir}/amsstat
 %{_sbindir}/activate_firmware
 %{_sbindir}/bootlist
@@ -138,6 +155,14 @@ rm -f $RPM_BUILD_ROOT%{_sbindir}/snap $RPM_BUILD_ROOT%{_mandir}/man8/snap.8*
 %{_sbindir}/update_flash
 %{_sbindir}/update_flash_nv
 %{_sbindir}/uspchrp
+%{_sbindir}/hcncfgdrc
+%{_sbindir}/hcnmgr
+%{_sbindir}/hcnqrydev
+%{_sbindir}/hcnrmdev
+%{_sbindir}/hcnrmhcn
+%{_sbindir}/hcnversion
+%{_sbindir}/vcpustat
+%{_sbindir}/smtstate
 
 %{_mandir}/man1/amsstat.1*
 %{_mandir}/man5/lparcfg.5*
@@ -166,6 +191,9 @@ rm -f $RPM_BUILD_ROOT%{_sbindir}/snap $RPM_BUILD_ROOT%{_mandir}/man8/snap.8*
 %{_mandir}/man8/pseries_platform.8*
 %{_mandir}/man8/update_flash_nv.8*
 %{_mandir}/man8/uspchrp.8*
+%{_mandir}/man8/vcpustat.8.gz
+%{_mandir}/man8/smtstate.8.gz
+%{_mandir}/man8/hcnmgr.8*
 
 %files core
 %license COPYING
@@ -181,6 +209,25 @@ rm -f $RPM_BUILD_ROOT%{_sbindir}/snap $RPM_BUILD_ROOT%{_mandir}/man8/snap.8*
 
 
 %changelog
+* Thu Oct 01 2020 Than Ngo <than@redhat.com> - 1.3.8-3
+- add hcnmgr man page
+
+* Thu Oct 01 2020 Than Ngo <than@redhat.com> - 1.3.8-2
+- clean up systemd service 
+
+* Fri Sep 04 2020 Than Ngo <than@redhat.com> - 1.3.8-1
+- update to 1.3.8
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.7-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Than Ngo <than@redhat.com> - 1.3.7-6
+- Track and expose idle PURR and SPURR ticks
+- ofpathname: speed up l2of_scsi()
+- ofpathname: failed to boot
+- update lparstat man page with -E option
+- enable support for ibm,drc-info property
+
 * Sat Mar 28 2020 Than Ngo <than@redhat.com> - 1.3.7-5
 - move drmgr in core to avoid pulling in Perl
 

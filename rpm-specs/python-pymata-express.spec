@@ -1,7 +1,7 @@
 %global pypi_name pymata-express
 
 Name:           python-%{pypi_name}
-Version:        1.17
+Version:        1.19
 Release:        1%{?dist}
 Summary:        Python Protocol Abstraction Library For Arduino Firmata
 
@@ -46,6 +46,12 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/pymata_express-%{version}-py*.egg-info/
 
 %changelog
+* Tue Sep 22 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.19-1
+- Update to latest upstream release 1.19
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.17-1
 - Update to latest upstream release 1.17
 

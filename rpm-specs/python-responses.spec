@@ -5,7 +5,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.10.15
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        %{sum}
 License:        ASL 2.0
 URL:            https://github.com/getsentry/responses
@@ -57,6 +57,9 @@ A utility library for mocking out the requests Python library.
 %{python3_sitelib}/__pycache__/%{pypi_name}.*.pyc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.15-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Athos Ribeiro <athoscr@fedoraproject.org> - 0.10.15-1
 - Version update
 

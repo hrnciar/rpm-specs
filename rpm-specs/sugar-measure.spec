@@ -4,7 +4,7 @@
 
 Name:           sugar-measure
 Version:        103
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Measure for Sugar
 
 License:        GPLv3+
@@ -49,6 +49,13 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 103-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 103-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 • Mon Feb 17 2020 Peter Robinson <pbrobinson@fedoraproject.org> 103-1
 - Release 103
 

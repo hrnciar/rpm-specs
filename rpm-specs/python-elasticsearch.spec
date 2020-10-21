@@ -1,8 +1,8 @@
 %global tarball_name elasticsearch
 
 Name:           python-elasticsearch
-Version:        7.5.1
-Release:        3%{?dist}
+Version:        7.9.1
+Release:        1%{?dist}
 Summary:        Client for Elasticsearch
 
 License:        ASL 2.0
@@ -73,6 +73,12 @@ rm -fr %{tarball_name}.egg-info
 %license LICENSE
 
 %changelog
+* Fri Aug 21 2020 Steve Traylen <steve.traylen@cern.ch> - 7.9.1-1
+- Latest upstream 7.9.1.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.5.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 7.5.1-3
 - Rebuilt for Python 3.9
 

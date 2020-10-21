@@ -1,6 +1,6 @@
 Name:           task
 Version:        2.5.1
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Taskwarrior - a command-line TODO list manager
 License:        MIT
 URL:            https://taskwarrior.org
@@ -70,6 +70,9 @@ rm -vrf %{buildroot}%{_datadir}/doc/%{name}/
 %{_datadir}/fish/completions/%{name}.fish
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.1-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Summary: Spell checker
 Name: aspell
 Version: 0.60.8
-Release: 3%{?dist}
+Release: 5%{?dist}
 Epoch: 12
 # LGPLv2+ .. common/gettext.h
 # LGPLv2  .. modules/speller/default/phonet.hpp,
@@ -50,7 +50,7 @@ mv manual/aspell.info.aux manual/aspell.info
 %build
 %configure --disable-rpath
 sed -i -e 's! -shared ! -Wl,--as-needed\0!g' libtool
-make %{?_smp_mflags}
+%make_build
 cp scripts/aspell-import examples/aspell-import
 chmod 644 examples/aspell-import
 cp manual/aspell-import.1 examples/aspell-import.1
@@ -110,6 +110,13 @@ rm -f ${RPM_BUILD_ROOT}%{_infodir}/dir
 %{_mandir}/man1/pspell-config.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12:0.60.8-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 12:0.60.8-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12:0.60.8-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

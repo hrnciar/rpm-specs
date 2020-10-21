@@ -3,8 +3,8 @@
 %global sum Getting CPU info
 
 Name:           python-%{srcname}
-Version:        6.0.0
-Release:        1%{?dist}
+Version:        7.0.0
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -77,6 +77,12 @@ sed -i -e '/^#!\//, 1d' cpuinfo/cpuinfo.py
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 2020 Parag Nemade <pnemade AT redhat DOT com> - 7.0.0-1
+- Update to 7.0.0 version (#1853940)
+
 * Thu Jun 11 2020 Parag Nemade <pnemade AT redhat DOT com> - 6.0.0-1
 - Update to 6.0.0 version (#1846323)
 

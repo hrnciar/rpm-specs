@@ -1,6 +1,6 @@
 Name: psfex
 Version: 3.17.1
-Release: 20%{?dist}
+Release: 21%{?dist}
 Summary: Model the Point Spread Function from FITS images
 
 License: GPLv3+
@@ -45,6 +45,9 @@ sed -i -e 's/plplotd/plplot/g' configure
 %{_datadir}/%{name}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.17.1-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 19 2020 Than Ngo <than@redhat.com> - 3.17.1-20
 - Fixed FTBFS
 

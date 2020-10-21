@@ -8,7 +8,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        0.6
-Release:        3.%{gitdate}.%{shortcommit}%{?dist}
+Release:        4.%{gitdate}.%{shortcommit}%{?dist}
 Summary:        HAP extension for small prime power groups
 
 License:        GPLv2+
@@ -107,6 +107,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-4.20190208.edfbd41
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-3.20190208.edfbd41
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

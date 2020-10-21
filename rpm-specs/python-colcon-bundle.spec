@@ -1,16 +1,13 @@
 %global srcname colcon-bundle
 
 Name:           python-%{srcname}
-Version:        0.0.20
-Release:        2%{?dist}
+Version:        0.0.24
+Release:        1%{?dist}
 Summary:        Plugin to bundle built software for the colcon command line tool
 
 License:        ASL 2.0
 URL:            https://colcon.readthedocs.io
 Source0:        https://github.com/colcon/%{srcname}/archive/%{version}/%{srcname}-%{version}.tar.gz
-
-# Submitted upstream as colcon/colcon-bundle#163
-Patch0:         %{name}-0.0.20-relax-distro-req.patch
 
 BuildArch:      noarch
 
@@ -62,6 +59,7 @@ installed locally.
 %check
 %{__python3} -m pytest \
     --ignore=test/test_flake8.py \
+    --ignore=test/installer/test_apt_installer.py \
     test
 
 
@@ -73,6 +71,15 @@ installed locally.
 
 
 %changelog
+* Wed Sep 02 2020 Scott K Logan <logans@cottsay.net> - 0.0.24-1
+- Update to 0.0.24
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.23-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Scott K Logan <logans@cottsay.net> - 0.0.23-1
+- Update to 0.0.23 (rhbz#1855921)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.0.20-2
 - Rebuilt for Python 3.9
 

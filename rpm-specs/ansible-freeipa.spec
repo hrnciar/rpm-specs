@@ -1,23 +1,22 @@
 # Turn off automatic python byte compilation because these are Ansible
 # roles and the files are transferred to the node and compiled there with
-# the python verison used in the node
+# the python version used in the node
 %define __brp_python_bytecompile %{nil}
+
+%global python %{__python3}
 
 Summary: Roles and playbooks to deploy FreeIPA servers, replicas and clients
 Name: ansible-freeipa
-Version: 0.1.12
+Version: 0.2.1
 Release: 1%{?dist}
 URL: https://github.com/freeipa/ansible-freeipa
 License: GPLv3+
 Source: https://github.com/freeipa/ansible-freeipa/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 BuildArch: noarch
 
-#Requires: ansible
-
 %description
 ansible-freeipa provides Ansible roles and playbooks to install and uninstall
-FreeIPA servers, replicas and clients. Also modules for group, host, topology
-and user management.
+FreeIPA servers, replicas and clients. Also modules for management.
 
 Note: The ansible playbooks and roles require a configured ansible environment
 where the ansible nodes are reachable and are properly set up to have an IP
@@ -29,6 +28,9 @@ Features
 - Cluster deployments: Server, replicas and clients in one playbook
 - One-time-password (OTP) support for client installation
 - Repair mode for clients
+- Modules for config management
+- Modules for delegation management
+- Modules for dns config management
 - Modules for dns forwarder management
 - Modules for dns record management
 - Modules for dns zone management
@@ -38,12 +40,17 @@ Features
 - Modules for hbacsvcgroup management
 - Modules for host management
 - Modules for hostgroup management
+- Modules for location management
+- Modules for privilege management
 - Modules for pwpolicy management
+- Modules for role management
+- Modules for self service management
 - Modules for service management
 - Modules for sudocmd management
 - Modules for sudocmdgroup management
 - Modules for sudorule management
 - Modules for topology management
+- Modules fot trust management
 - Modules for user management
 - Modules for vault management
 
@@ -85,6 +92,17 @@ Work is planned to have a new method to handle CSR for external signed CAs in
 a separate step before starting the server installation.
 
 
+%package tests
+Summary: ansible-freeipa tests
+Requires: %{name} = %{version}-%{release}
+
+%description tests
+ansible-freeipa tests.
+
+Please have a look at %{_datadir}/ansible-freeipa/requirements-tests.txt
+to get the needed requrements to run the tests.
+
+
 %prep
 %setup -q
 # Do not create backup files with patches
@@ -92,11 +110,13 @@ a separate step before starting the server installation.
 # - Remove shebang
 # - Remove execute flag
 for i in roles/ipa*/library/*.py roles/ipa*/module_utils/*.py plugins/*/*.py; do
-    sed -i '/\/usr\/bin\/python*/d' $i
+    sed -i '1{/\/usr\/bin\/python*/d;}' $i
     chmod a-x $i
 done
-# Add execute flag to py3test.py scripts
-chmod a+x roles/ipa*/files/py3test.py
+
+for i in utils/*.py utils/ansible-ipa-*-install utils/new_module; do
+    sed -i '{s@/usr/bin/python*@%{python}@}' $i
+done
 
 %build
 
@@ -111,6 +131,12 @@ cp -rp roles/ipaclient/README.md README-client.md
 install -m 755 -d %{buildroot}%{_datadir}/ansible/plugins/
 cp -rp plugins/* %{buildroot}%{_datadir}/ansible/plugins/
 
+install -m 755 -d %{buildroot}%{_datadir}/ansible-freeipa
+cp requirements*.txt %{buildroot}%{_datadir}/ansible-freeipa/
+cp -rp utils %{buildroot}%{_datadir}/ansible-freeipa/
+install -m 755 -d %{buildroot}%{_datadir}/ansible-freeipa/tests
+cp -rp tests %{buildroot}%{_datadir}/ansible-freeipa/
+
 %files
 %license COPYING
 %{_datadir}/ansible/roles/ipaserver
@@ -120,8 +146,26 @@ cp -rp plugins/* %{buildroot}%{_datadir}/ansible/plugins/
 %{_datadir}/ansible/plugins/modules
 %doc README*.md
 %doc playbooks
+%{_datadir}/ansible-freeipa/requirements.txt
+%{_datadir}/ansible-freeipa/requirements-dev.txt
+%{_datadir}/ansible-freeipa/utils
+
+%files tests
+%{_datadir}/ansible-freeipa/tests
+%{_datadir}/ansible-freeipa/requirements-tests.txt
 
 %changelog
+* Fri Oct 09 2020 Thomas Woerner <twoerner@redhat.com> - 0.2.1-1
+- Update to version 0.2.1
+  https://github.com/freeipa/ansible-freeipa/releases/tag/v0.2.1
+- Update to version 0.2.0
+  https://github.com/freeipa/ansible-freeipa/releases/tag/v0.2.0
+- New tests sub package providing upstream tests
+- Utils in /usr/share/ansible-freeipa/utils
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Thomas Woerner <twoerner@redhat.com> - 0.1.12-1
 - Update to version 0.1.12 bug fix only release
 

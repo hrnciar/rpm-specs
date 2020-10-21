@@ -29,7 +29,7 @@
 
 Name:           emacs-common-%{pkg}
 Version:        2.2.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Emacs and XEmacs mode for editing ocaml
 
 License:        GPLv2+
@@ -146,6 +146,9 @@ rm $RPM_BUILD_ROOT/%{xemacs_lispdir}/%{pkg}/tuareg-site-file.el
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

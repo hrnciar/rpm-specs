@@ -1,5 +1,5 @@
 Name:    mtd-utils
-Version: 2.1.1
+Version: 2.1.2
 Release: 2%{?dist}
 License: GPLv2+
 Summary: Utilities for dealing with MTD (flash) devices
@@ -61,6 +61,12 @@ MTD (flash) devices.
 %{_sbindir}/ubi*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 2.1.2-1
+- Update to 2.1.2 (#1856257)
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

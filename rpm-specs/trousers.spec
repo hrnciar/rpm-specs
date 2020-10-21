@@ -1,7 +1,7 @@
 Name: trousers
 Summary: TCG's Software Stack v1.2
 Version: 0.3.14
-Release: 1%{?dist}
+Release: 3%{?dist}
 License: BSD
 Url: http://trousers.sourceforge.net
 
@@ -73,10 +73,14 @@ mkdir -p %{buildroot}%{_unitdir}
 install -Dpm0644 %{SOURCE1} %{buildroot}%{_unitdir}/
 
 %pre
-getent group tss >/dev/null || groupadd -g 59 -r tss
-getent passwd tss >/dev/null || \
-useradd -r -u 59 -g tss -d /dev/null -s /sbin/nologin \
- -c "Account used by the trousers package to sandbox the tcsd daemon" tss
+getent group tss >/dev/null || groupadd -f -g 59 -r tss
+if ! getent passwd tss >/dev/null ; then
+    if ! getent passwd 59 >/dev/null ; then
+      useradd -r -u 59 -g tss -d /dev/null -s /sbin/nologin -c "Account used for TPM access" tss
+    else
+      useradd -r -g tss -d /dev/null -s /sbin/nologin -c "Account used for TPM access" tss
+    fi
+fi
 exit 0
 
 %post
@@ -114,6 +118,12 @@ exit 0
 %{_libdir}/libtddl.a
 
 %changelog
+* Tue Sep 15 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.3.14-3
+- Update user creation to latest guidelines
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.14-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 18 2020 Jerry Snitselaar <jsnitsel@redhat.com> - 0.3.14-1
 - Rebase to 0.3.14 release
 

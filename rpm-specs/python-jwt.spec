@@ -13,7 +13,7 @@ means of representing signed content using JSON data structures, including
 claims to be transferred between two parties encoded as digitally signed and
 encrypted JSON objects.}
 
-%if %{defined fedora} && 0%{?fedora} < 32
+%if 0%{?fedora} && 0%{?fedora} < 32
 %bcond_without  python2
 %endif
 %bcond_without  python3
@@ -21,7 +21,7 @@ encrypted JSON objects.}
 
 Name:           python-%{pkgname}
 Version:        1.7.1
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        JSON Web Token implementation in Python
 License:        MIT
 URL:            https://github.com/jpadilla/pyjwt
@@ -54,11 +54,16 @@ BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-setuptools
 BuildRequires:  python%{python3_pkgversion}-cryptography >= 1.4.0
 BuildRequires:  python%{python3_pkgversion}-pytest
-Requires:       python%{python3_pkgversion}-cryptography >= 1.4.0
+
+%{?python_extras_subpkg:Recommends: python%{python3_pkgversion}-%{pkgname}+crypto}
+%{!?python_extras_subpkg:Requires:  python%{python3_pkgversion}-cryptography >= 1.4.0}
+
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{pkgname}}
 
 
 %description -n python%{python3_pkgversion}-%{pkgname} %{common_description}
+
+%{?python_extras_subpkg:%python_extras_subpkg -n python%{python3_pkgversion}-%{pkgname} -i %{python3_sitelib}/%{eggname}-%{version}-py%{python3_version}.egg-info crypto}
 %endif
 
 
@@ -104,6 +109,15 @@ rm setup.cfg
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Merlin Mathesius <mmathesi@redhat.com> - 1.7.1-9
+- Minor conditional fix for ELN
+
+* Fri Jul 10 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.1-9
+- Add pyjwt[crypto] subpackage
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.1-8
 - Rebuilt for Python 3.9
 

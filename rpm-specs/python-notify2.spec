@@ -7,7 +7,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.3.1
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Python interface to DBus notifications
 
 License:        BSD
@@ -69,6 +69,9 @@ rm -rf html/.{doctrees,buildinfo}
 %license docs/license.rst LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.1-8
 - Rebuilt for Python 3.9
 

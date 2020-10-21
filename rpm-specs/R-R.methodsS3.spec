@@ -1,10 +1,10 @@
 %global packname R.methodsS3
-%global packver  1.8.0
+%global packver  1.8.1
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          1.8.0
-Release:          2%{?dist}
+Version:          1.8.1
+Release:          1%{?dist}
 Summary:          S3 Methods Simplified
 
 License:          LGPLv2+
@@ -70,6 +70,12 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Thu Aug 27 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.8.1-1
+- Update to latest version (#1872871)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 1.8.0-2
 - Rebuild for R 4
 

@@ -1,6 +1,6 @@
 Name:           perl-Menlo
 Version:        1.9019
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        A CPAN client
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Menlo
@@ -92,6 +92,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9019-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.9019-8
 - Perl 5.32 rebuild
 

@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name: flameshot
-Version: 0.6.0
-Release: 5%{?dist}
+Version: 0.8.5
+Release: 1%{?dist}
 
 # Main code: GPLv3
 # Logo: Free Art License v1.3
@@ -11,21 +13,25 @@ Release: 5%{?dist}
 # More information: https://github.com/lupoDharkael/flameshot#license
 License: GPLv3+ and ASL 2.0 and GPLv2 and LGPLv3 and Free Art
 Summary: Powerful and simple to use screenshot software
-
 URL: https://github.com/lupoDharkael/flameshot
-Source0: %{url}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source0: %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires: pkgconfig(Qt5Widgets)
-BuildRequires: pkgconfig(Qt5Network)
-BuildRequires: pkgconfig(Qt5Multimedia)
-BuildRequires: pkgconfig(Qt5Concurrent)
-BuildRequires: pkgconfig(Qt5DBus)
+BuildRequires: cmake(Qt5LinguistTools)
+BuildRequires: cmake(Qt5Multimedia)
+BuildRequires: cmake(Qt5Concurrent)
+BuildRequires: cmake(Qt5Widgets)
+BuildRequires: cmake(Qt5Network)
+BuildRequires: cmake(Qt5Core)
+BuildRequires: cmake(Qt5DBus)
+BuildRequires: cmake(Qt5Gui)
 BuildRequires: cmake(Qt5Svg)
 
 BuildRequires: desktop-file-utils
 BuildRequires: libappstream-glib
-BuildRequires: qt5-linguist
+BuildRequires: ninja-build
 BuildRequires: gcc-c++
+BuildRequires: fdupes
+BuildRequires: cmake
 BuildRequires: gcc
 
 Requires: hicolor-icon-theme
@@ -37,37 +43,53 @@ editor with advanced features.
 
 %prep
 %autosetup -p1
-mkdir %{_target_platform}
 
 %build
-pushd %{_target_platform}
-    %qmake_qt5 PREFIX=%{_prefix} CONFIG+=packaging ..
-popd
-
-%make_build -C %{_target_platform}
+%cmake -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release
+%cmake_build
 
 %install
-%make_install INSTALL_ROOT=%{buildroot} -C %{_target_platform}
+%cmake_install
 %find_lang Internationalization --with-qt
+%fdupes %{buildroot}%{_datadir}/icons
 
 %check
-appstream-util validate-relax --nonet "%{buildroot}%{_datadir}/metainfo/%{name}.appdata.xml"
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 %files -f Internationalization.lang
 %doc README.md
-%license LICENSE img/app/flameshotLogoLicense.txt
+%license LICENSE
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/translations
+%dir %{_datadir}/bash-completion/completions
+%dir %{_datadir}/zsh/site-functions
 %{_bindir}/%{name}
 %{_datadir}/applications/*.desktop
-%{_datadir}/metainfo/%{name}.appdata.xml
+%{_metainfodir}/*.metainfo.xml
 %{_datadir}/bash-completion/completions/%{name}
+%{_datadir}/zsh/site-functions/_%{name}
 %{_datadir}/dbus-1/interfaces/*.xml
 %{_datadir}/dbus-1/services/*.service
-%{_datadir}/icons/hicolor/*/apps/%{name}.*
+%{_datadir}/icons/hicolor/*/apps/*
 
 %changelog
+* Thu Oct 15 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 0.8.5-1
+- Updated to version 0.8.5.
+
+* Tue Sep 29 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 0.8.3-1
+- Updated to version 0.8.3.
+
+* Thu Sep 24 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 0.8.1-1
+- Updated to version 0.8.1.
+
+* Sun Sep 20 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 0.8.0-1
+- Updated to version 0.8.0.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

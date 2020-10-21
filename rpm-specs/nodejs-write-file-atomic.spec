@@ -7,7 +7,7 @@
 
 Name:		nodejs-write-file-atomic
 Version:	1.1.4
-Release:	9%{?dist}
+Release:	11%{?dist}
 Summary:	Write files in an atomic fashion w/configurable ownership
 Url:		https://github.com/iarna/write-file-atomic
 Source0:	https://registry.npmjs.org/%{npm_name}/-/%{npm_name}-%{version}.tgz
@@ -60,6 +60,13 @@ cp -pr package.json index.js \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

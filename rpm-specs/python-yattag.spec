@@ -1,81 +1,56 @@
-%global pkgname yattag
-%global desc Generate HTML or XML in a pythonic way
+%global pypi_name yattag
 
-# Settings for Fedora > 29 and EL > 7
-%if 0%{?fedora} > 29 || 0%{?rhel} > 7
-%bcond_with                 python2
-%else
-%bcond_without              python2
-%endif
-
-Name:           python-%{pkgname}
-Version:        1.10.0
-Release:        10%{?dist}
-Summary:        Pure python alternative to web template engines
+Name:           python-%{pypi_name}
+Version:        1.14.0
+Release:        1%{?dist}
+Summary:        Generate HTML or XML in a pythonic way
 
 License:        LGPLv2
-URL:            https://pypi.python.org/pypi/yattag
-Source0:        https://files.pythonhosted.org/packages/source/y/%{pkgname}/%{pkgname}-%{version}.tar.gz
-
+URL:            https://www.yattag.org/
+Source0:        https://github.com/leforestier/yattag/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
 
 %description
-%{desc}
+Generate HTML or XML in a pythonic way.
 
-%if %{with python2}
-%package -n python2-%{pkgname}
-BuildRequires:  python2-devel
-BuildRequires:  python2-nose
+%package -n python3-%{pypi_name}
 Summary:        %{summary}
-%{?python_provide:%python_provide python2-%{pkgname}}
 
-%description -n python2-%{pkgname}
-%{desc}
-%endif
-
-%package -n python3-%{pkgname}
 BuildRequires:  python3-devel
-BuildRequires:  python3-nose
-Summary:        %{summary}
-%{?python_provide:%python_provide python3-%{pkgname}}
+BuildRequires:  python3dist(setuptools)
+BuildRequires:  python3dist(pytest)
+%{?python_provide:%python_provide python3-%{pypi_name}}
 
-%description -n python3-%{pkgname}
-%{desc}
+%description -n python3-%{pypi_name}
+Generate HTML or XML in a pythonic way.
 
 %prep
-%autosetup -n %{pkgname}-%{version}
-
-# Remove upstream egg-info
-rm -rf %{pkgname}.egg-info
+%autosetup -n %{pypi_name}-%{version}
+rm -rf %{pypi_name}.egg-info
 
 %build
-%{?with_python2: %py2_build}
 %py3_build
 
 %install
-%{?with_python2: %py2_install}
 %py3_install
 
 %check
-%{?with_python2: %{__python2} -m nose -v}
-%{__python3} -m nose -v
+%pytest -v test/*.py
 
-%if %{with python2}
-%files -n python2-%{pkgname}
+%files -n python3-%{pypi_name}
 %doc README.rst
 %license license/COPYING
-%{python2_sitelib}/%{pkgname}-%{version}-py%{python2_version}.egg-info
-%{python2_sitelib}/yattag
-%endif
-
-
-%files -n python3-%{pkgname}
-%doc README.rst
-%license license/COPYING
-%{python3_sitelib}/%{pkgname}-%{version}-py%{python3_version}.egg-info
-%{python3_sitelib}/yattag
+%{python3_sitelib}/%{pypi_name}/
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Sat Oct 10 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.14.0-1
+- Remove Python 2 subpackage
+- Update to latest upstrema release 1.14.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.10.0-10
 - Rebuilt for Python 3.9
 
@@ -119,5 +94,4 @@ rm -rf %{pkgname}.egg-info
 - New upstream release 1.9.0
 
 * Wed Jul 26 2017 Sebastian Kisela <skisela@redhat.com> - 1.8.0-1
-- Initial 1.8.0 package version.
-
+- Initial 1.8.0 package version

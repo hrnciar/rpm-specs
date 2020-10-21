@@ -7,7 +7,7 @@
 
 Name:		tss2
 Version:	1331
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	IBM's TCG Software Stack (TSS) for TPM 2.0 and related utilities
 
 License:	BSD
@@ -93,6 +93,9 @@ popd
 %doc ibmtss.doc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1331-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 14 2020 Tom Stellard <tstellar@redhat.com> - 1331-5
 - Use make_build macro
 - https://docs.fedoraproject.org/en-US/packaging-guidelines/#_parallel_make

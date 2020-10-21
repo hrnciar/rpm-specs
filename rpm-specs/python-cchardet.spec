@@ -4,7 +4,7 @@
 # https://github.com/PyYoshi/cChardet/issues/63
 Name:           python-%{pypi_name}
 Version:        2.1.6
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        High speed universal character encoding detector
 
 License:        MPLv1.1 or GPLv2 or LGPLv2
@@ -50,6 +50,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitearch}/%{pypi_name}-%{version}-py*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.6-3
 - Rebuilt for Python 3.9
 

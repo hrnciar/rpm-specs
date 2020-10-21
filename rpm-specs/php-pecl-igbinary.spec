@@ -14,7 +14,7 @@
 %global with_zts   0%{?__ztsphp:1}
 %global ini_name   40-%{pecl_name}.ini
 
-%global upstream_version 3.1.2
+%global upstream_version 3.1.6
 #global upstream_prever  RC1
 
 Summary:        Replacement for the standard PHP serializer
@@ -25,9 +25,6 @@ Source0:        https://pecl.php.net/get/%{pecl_name}-%{upstream_version}%{?upst
 License:        BSD
 
 URL:            https://pecl.php.net/package/igbinary
-
-Patch0:         https://github.com/igbinary/igbinary/commit/e24aca97b8925ac9d21f718c0e38274bde949866.patch
-Patch1:         https://github.com/igbinary/igbinary/commit/07625b9a51a96d8402fd01b373edd58befa4e3fb.patch
 
 BuildRequires:  gcc
 BuildRequires:  php-pear
@@ -69,9 +66,6 @@ mv %{pecl_name}-%{upstream_version}%{?upstream_prever} NTS
 sed -e '/COPYING/s/role="doc"/role="src"/' -i package.xml
 
 cd NTS
-%patch0 -p1
-%patch1 -p1
-
 # Check version
 subdir="php$(%{__php} -r 'echo PHP_MAJOR_VERSION;')"
 extver=$(sed -n '/#define PHP_IGBINARY_VERSION/{s/.* "//;s/".*$//;p}' src/$subdir/igbinary.h)
@@ -140,12 +134,6 @@ done
 
 
 %check
-PHPV=$(%{__php} -r 'echo PHP_VERSION_ID;')
-if [ $PHPV -ge 80000 ] ; then
-  # known failure (recursion)
-  rm ?TS/tests/igbinary_{009b,026,026b}.phpt
-fi
-
 MOD=""
 # drop extension load from phpt
 sed -e '/^extension=/d' -i ?TS/tests/*phpt
@@ -170,7 +158,7 @@ TEST_PHP_EXECUTABLE=%{_bindir}/php \
 TEST_PHP_ARGS="-n $MOD -d extension=$PWD/modules/%{pecl_name}.so" \
 NO_INTERACTION=1 \
 REPORT_EXIT_STATUS=1 \
-%{_bindir}/php -n run-tests.php --show-diff
+%{_bindir}/php -n run-tests.php -x --show-diff
 
 %if %{with_zts}
 : simple ZTS module load test, without APC, as optional
@@ -184,7 +172,7 @@ TEST_PHP_EXECUTABLE=%{__ztsphp} \
 TEST_PHP_ARGS="-n $MOD -d extension=$PWD/modules/%{pecl_name}.so" \
 NO_INTERACTION=1 \
 REPORT_EXIT_STATUS=1 \
-%{__ztsphp} -n run-tests.php --show-diff
+%{__ztsphp} -n run-tests.php -x --show-diff
 %endif
 
 
@@ -210,6 +198,18 @@ REPORT_EXIT_STATUS=1 \
 
 
 %changelog
+* Fri Oct  9 2020 Remi Collet <remi@remirepo.net> - 3.1.6-1
+- update to 3.1.6
+
+* Thu Sep  3 2020 Remi Collet <remi@remirepo.net> - 3.1.5-1
+- update to 3.1.5
+
+* Mon Aug 10 2020 Remi Collet <remi@remirepo.net> - 3.1.4-1
+- update to 3.1.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Remi Collet <remi@remirepo.net> - 3.1.2-1
 - update to 3.1.2
 - add upstream patches for recent PHP versions

@@ -1,6 +1,6 @@
 Name:		photoqt
 Version:	1.7.1
-Release:	10%{?dist}
+Release:	12%{?dist}
 Summary:	A fast Qt image viewer
 
 License:	GPLv2+
@@ -44,15 +44,12 @@ PhotoQt is a fast and highly configurable image viewer with a simple and
 %autosetup -n %{name}-%{version} -p1
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} ..
-popd
+%cmake
 
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
@@ -69,6 +66,13 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 %{_datadir}/appdata/%{name}.appdata.xml
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.7.1-10
 - Rebuild for new LibRaw
 

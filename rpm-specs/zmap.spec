@@ -1,3 +1,4 @@
+%global __cmake_in_source_build 1
 %bcond_with     pfring
 %bcond_without  hiredis
 %bcond_with     mongodb
@@ -5,7 +6,7 @@
 
 Name:           zmap
 Version:        2.1.1
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Network scanner for Internet-wide network studies
 License:        ASL 2.0
 URL:            https://zmap.io
@@ -45,10 +46,6 @@ scanning.
 
 %prep
 %setup -q
-# RHEL6 ld is too old.
-%{?el6:sed -i 's|-z relro -z now||g' CMakeLists.txt}
-# EL7 has 2.8.11
-%{?el7:sed -i -e 's|2.8.12|2.8.11|' CMakeLists.txt}
 
 # https://github.com/zmap/zmap/pull/332
 sed -i 's|${CMAKE_C_FLAGS} ${GCCWARNINGS}|${GCCWARNINGS} ${CMAKE_C_FLAGS}|g;s|${CMAKE_EXE_LINKER_FLAGS} ${LDHARDENING}|${LDHARDENING} ${CMAKE_EXE_LINKER_FLAGS}|g' CMakeLists.txt
@@ -61,16 +58,15 @@ sed -i 's|${CMAKE_C_FLAGS} ${GCCWARNINGS}|${GCCWARNINGS} ${CMAKE_C_FLAGS}|g;s|${
 %if %{with hiredis}
        -DWITH_REDIS=ON    \
 %endif
-       -DWITH_PFRING=OFF  \
-       .
+       -DWITH_PFRING=OFF
 
-make %{?_smp_mflags}
+%cmake_build
 
 chmod 644 -v examples/udp-probes/*
 find ./examples/ -type f -exec sed -i 's/\r$//' {} \+
 
 %install
-%make_install
+%cmake_install
 
 %files
 %doc AUTHORS CHANGELOG.md README.md examples/
@@ -85,6 +81,9 @@ find ./examples/ -type f -exec sed -i 's/\r$//' {} \+
 %{_mandir}/man1/ztee.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Björn Esser <besser82@fedoraproject.org> - 2.1.1-13
 - Rebuild (json-c)
 

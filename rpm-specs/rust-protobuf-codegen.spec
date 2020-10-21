@@ -4,7 +4,7 @@
 %global crate protobuf-codegen
 
 Name:           rust-%{crate}
-Version:        2.14.0
+Version:        2.18.0
 Release:        1%{?dist}
 Summary:        Code generator for rust-protobuf
 
@@ -83,6 +83,18 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Mon Oct 05 2020 Fabio Valentini <decathorpe@gmail.com> - 2.18.0-1
+- Update to version 2.18.0.
+
+* Wed Sep 16 2020 Fabio Valentini <decathorpe@gmail.com> - 2.17.0-1
+- Update to version 2.17.0.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 2.16.2-1
+- Update to 2.16.2
+
 * Wed Apr 15 2020 Josh Stone <jistone@redhat.com> - 2.14.0-1
 - Update to 2.14.0
 

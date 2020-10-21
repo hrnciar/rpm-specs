@@ -1,7 +1,7 @@
 BuildArch: noarch
 
 Version:        1.31.0
-Release:        8%{?dist}
+Release:        9%{?dist}
 License:        ASL 2.0
 #URL:            
 
@@ -109,6 +109,9 @@ echo %{fontpkgname}
 %fontfiles -a
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.31.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Parag Nemade <pnemade AT redhat DOT com> - 1.31.0-8
 - Update fontconfig DTD id in conf file
 

@@ -5,7 +5,7 @@
 
 Name:             R-%{packname}
 Version:          1.1.0
-Release:          1%{?dist}
+Release:          3%{?dist}
 Summary:          Simulate Package Installation and Attach
 
 License:          GPLv3
@@ -80,6 +80,13 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 1.1.0-1
 - update to 1.1.0
 - rebuild for R

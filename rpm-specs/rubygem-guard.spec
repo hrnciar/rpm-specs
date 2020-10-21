@@ -1,24 +1,20 @@
-# Generated from guard-2.14.1.gem by gem2rpm -*- rpm-spec -*-
+# Generated from guard-2.16.2.gem by gem2rpm -*- rpm-spec -*-
 %global gem_name guard
 
 Name: rubygem-%{gem_name}
-Version: 2.15.0
-Release: 3%{?dist}
+Version: 2.16.2
+Release: 1%{?dist}
 Summary: Guard keeps an eye on your file modifications
 License: MIT
 URL: http://guardgem.org
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
 # git clone https://github.com/guard/guard.git && cd guard
-# git checkout v2.15.0 && tar -czvf rubygem-guard-2.15.0-spec.tar.gz spec/
+# git checkout v2.16.2 && tar -czvf rubygem-guard-2.16.2-spec.tar.gz spec/
 Source1: %{name}-%{version}-spec.tar.gz
 # Cucumber test suite is tightly coupled with guard-cucumber which is not in Fedora yet.
 # git clone https://github.com/guard/guard.git && cd guard
-# git checkout v2.15.0 && tar -czvf rubygem-guard-2.15.0-features.tar.gz features/
+# git checkout v2.16.2 && tar -czvf rubygem-guard-2.16.2-features.tar.gz features/
 # Source2: %%{name}-%%{version}-features.tar.gz
-
-# Ruby 2.6 changed the way Pathname#read works
-# PR: https://github.com/guard/guard/pull/923
-Patch0: %{name}-%{version}-fix-test-suite-stubs.patch
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby >= 1.9.3
@@ -31,6 +27,9 @@ BuildRequires: rubygem(pry)
 BuildRequires: rubygem(shellany)
 BuildRequires: rubygem(thor)
 BuildRequires: rubygem(rspec)
+# Cucumber features require guard-rspec and guard-cucumber and those are not in Fedora yet.
+# BuildRequires: rubygem(cucumber)
+# BuildRequires: rubygem(aruba)
 BuildArch: noarch
 
 %description
@@ -47,14 +46,10 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -n %{gem_name}-%{version} -b 1
+%setup -q -n %{gem_name}-%{version} -b 1 
 
 # Kill Shebang
 sed -i -e '\|^#!|d' lib/guard/rake_task.rb
-
-pushd %{_builddir}/
-%patch0 -p1
-popd
 
 %build
 # Create the gem as gem install only works on a gem file
@@ -71,36 +66,37 @@ cp -a .%{gem_dir}/* \
 
 
 mkdir -p %{buildroot}%{_bindir}
-cp -pa .%{_bindir}/* \
+cp -a .%{_bindir}/* \
         %{buildroot}%{_bindir}/
 
 mkdir -p %{buildroot}%{_mandir}/man1
-mv %{buildroot}%{gem_instdir}/man/guard.1* %{buildroot}%{_mandir}/man1
+mv %{buildroot}%{gem_instdir}/man/guard.1* %{buildroot}%{_mandir}/man1/
 
 find %{buildroot}%{gem_instdir}/bin -type f | xargs chmod a+x
 
 %check
 pushd .%{gem_instdir}
 ln -s %{_builddir}/spec spec
+ln -s %{_builddir}/features features
 
 # We don't really care about code coverage.
-sed -i "/[sS]imple[cC]ov/ s/^/#/" spec/spec_helper.rb
+sed -i "/simplecov/ s/^/#/" spec/spec_helper.rb
+sed -i "/SimpleCov.start do/,/^end/ s/^/#/" spec/spec_helper.rb
 
 # Correct path to the bin file.
-sed -i 's/path = File.expand_path("..\/..\/..\/bin\/guard", __dir__)/path = File.expand_path("..\/..\/..\/guard-2.15.0\/bin\/guard", __dir__)/' spec/lib/guard/bin_spec.rb
+sed -i 's/path = File.expand_path("..\/..\/..\/bin\/guard", __dir__)/path = File.expand_path("..\/..\/..\/guard-2.16.2\/bin\/guard", __dir__)/' spec/lib/guard/bin_spec.rb
 
 # RPM has some unexpected environment variables, ignore them.
 sed -i '/GEM_SKIP/a \    allow(ENV).to receive(:[]).with("RPM_PACKAGE_NAME").and_call_original' spec/spec_helper.rb
 
-# TODO: Fails with "stub me! (File.exist?("/usr/lib/gems/ruby/ffi-1.9.23/gem.build_complete"))",
+# TODO: Fails with "stub me! (File.exist?("/usr/lib/gems/ruby/ffi-1.12.1/gem.build_complete"))",
 # not entirely sure why
 sed -i '/it "shows an info message" do/,/^      end$/ s/^/#/' spec/lib/guard/plugin_util_spec.rb
 
-# Pry 0.12 renamed input_array to input_ring, testing with older pry therefore results in failures.
-# https://github.com/pry/pry/blob/4fd730783ab7ebb0680c3d4a6709803c04413ead/lib/pry/pry_instance.rb#L39
-sed -i '/let(:pry) { instance_double(Pry, input_ring/ s/input_ring/input_array/' spec/lib/guard/jobs/pry_wrapper_spec.rb
-
 rspec -rspec_helper spec
+
+# Cucumber features require guard-rspec and guard-cucumber and those are not in Fedora yet.
+# cucumber
 popd
 
 %files
@@ -121,6 +117,16 @@ popd
 %doc %{gem_instdir}/README.md
 
 %changelog
+* Mon Aug 3 2020 Jaroslav Prokop <jar.prokop@volny.cz> - 2.16.2-1
+- Update to guard 2.16.2.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.15.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.15.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.15.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

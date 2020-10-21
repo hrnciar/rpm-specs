@@ -4,7 +4,7 @@
 # https://gitlab.com/golang-commonmark/markdown
 %global goipath         gitlab.com/golang-commonmark/markdown
 %global forgeurl        https://gitlab.com/golang-commonmark/markdown
-%global commit          772775880e1fbf39a7804149ed11c0f714ec89fe
+%global commit          91b5b3c99c19293be22fcab0a775ff39ee14387f
 
 %gometa
 
@@ -19,7 +19,7 @@ parser and renderer, written in Go.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        CommonMark-compliant markdown parser and renderer in Go
 
 # Upstream license specification: BSD-2-Clause
@@ -34,9 +34,8 @@ BuildRequires:  golang(gitlab.com/golang-commonmark/puny)
 
 %if %{with check}
 # Tests
+BuildRequires:  golang(github.com/russross/blackfriday/v2)
 BuildRequires:  golang(gitlab.com/opennota/wd)
-BuildRequires:  golang(gopkg.in/russross/blackfriday.v1)
-BuildRequires:  golang(gopkg.in/russross/blackfriday.v2)
 %endif
 
 %description
@@ -46,7 +45,7 @@ BuildRequires:  golang(gopkg.in/russross/blackfriday.v2)
 
 %prep
 %goprep
-find . -name "*.go" -exec sed -i "s|github.com/russross/blackfriday|gopkg.in/russross/blackfriday.v1|" "{}" +;
+sed -i 's|github.com/russross/blackfriday|github.com/russross/blackfriday/v2|' $(find . -iname "*.go" -type f)
 
 %install
 %gopkginstall
@@ -59,6 +58,12 @@ find . -name "*.go" -exec sed -i "s|github.com/russross/blackfriday|gopkg.in/rus
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 13:27:58 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200805git91b5b3c
+- Bump to commit 91b5b3c99c19293be22fcab0a775ff39ee14387f
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

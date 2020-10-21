@@ -4,7 +4,7 @@
 
 # https://github.com/denverdino/aliyungo
 %global goipath         github.com/denverdino/aliyungo
-%global commit          611ead8a6fedf409d6512b6e4f44f3f1cbc65755
+%global commit          f045f3b6b751827a1d22f59cbdc1cf8c65f78ac0
 
 %gometa
 
@@ -18,7 +18,7 @@ This is an unofficial Go SDK for Aliyun services.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.18%{?dist}
+Release:        0.19%{?dist}
 Summary:        Go SDK for Aliyun (Alibaba Cloud)
 
 # Upstream license specification: Apache-2.0
@@ -29,6 +29,7 @@ Source1:        glide.yaml
 Source2:        glide.lock
 
 BuildRequires:  golang(github.com/golang/protobuf/proto)
+BuildRequires:  golang(github.com/labstack/gommon/log)
 BuildRequires:  golang(golang.org/x/text/encoding/simplifiedchinese)
 BuildRequires:  golang(golang.org/x/text/transform)
 
@@ -52,6 +53,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Wed Sep 09 14:35:09 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.19.202000909gitf045f3b
+- Bump to commit f045f3b6b751827a1d22f59cbdc1cf8c65f78ac0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

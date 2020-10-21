@@ -1,8 +1,20 @@
 # For deep debugging we need to build binaries with extra debug info
 %bcond_with     debug
+# Enable building and packing of the testsuite
+%bcond_without  testsuite
+
+# Enable CMake in-source builds
+#   This is is a workaround for the https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+#   which reverts the CMake behaviour to before F33
+#   The Change owners offered themselves to help fix the affected packages via ProvenPackager rights.
+#   I'm generally in favor of this change, however when I tried to adapt it, I encountered a number of issues.
+#   That's why I disabled it for now.
+%global __cmake_in_source_build 1
+
+
 
 Name:           mariadb-connector-c
-Version:        3.1.8
+Version:        3.1.10
 Release:        1%{?with_debug:.debug}%{?dist}
 Summary:        The MariaDB Native Client library (C driver)
 License:        LGPLv2+
@@ -12,10 +24,12 @@ Source3:        client.cnf
 Url:            http://mariadb.org/
 # More information: https://mariadb.com/kb/en/mariadb/building-connectorc-from-source/
 
+%if %{with testsuite}
 Patch1:         testsuite.patch
+%endif
 
 Requires:       %{_sysconfdir}/my.cnf
-BuildRequires:  zlib-devel cmake openssl-devel gcc-c++
+BuildRequires:  gcc-c++ cmake openssl-devel zlib-devel
 # Remote-IO plugin
 BuildRequires:  libcurl-devel
 # auth_gssapi_client plugin
@@ -32,6 +46,7 @@ Summary:        Development files for mariadb-connector-c
 Requires:       %{name} = %{version}-%{release}
 Requires:       openssl-devel zlib-devel
 BuildRequires:  multilib-rpm-config
+Conflicts:      community-mysql-devel
 
 %description devel
 Development files for mariadb-connector-c.
@@ -39,6 +54,7 @@ Contains everything needed to build against libmariadb.so >=3 client library.
 
 
 
+%if %{with testsuite}
 %package test
 Summary:        Testsuite files for mariadb-connector-c
 Requires:       %{name} = %{version}-%{release}
@@ -49,7 +65,7 @@ Recommends:     mariadb-server
 Testsuite files for mariadb-connector-c.
 Contains binaries and a prepared CMake ctest file.
 Requires running MariaDB / MySQL server with create database "test".
-
+%endif
 
 
 %package config
@@ -67,21 +83,16 @@ and require this package, so the /etc/my.cnf file is present.
 
 %prep
 %setup -q -n %{name}-%{version}-src
+%if %{with testsuite}
 %patch1 -p1
+%endif
 
 # Remove unsused parts
-rm -r win zlib win-iconv examples
+rm -r win win-iconv zlib examples
 
 
 
 %build
-%{set_build_flags}
-
-# Override all optimization flags when making a debug build
-%{?with_debug: CFLAGS="$CFLAGS -O0 -g"}
-CXXFLAGS="$CFLAGS"
-export CFLAGS CXXFLAGS
-
 # https://jira.mariadb.org/browse/MDEV-13836:
 #   The server has (used to have for ages) some magic around the port number.
 #   If it's 0, the default port value will use getservbyname("mysql", "tcp"), that is, whatever is written in /etc/services.
@@ -98,29 +109,38 @@ export CFLAGS CXXFLAGS
        -DMARIADB_UNIX_ADDR=%{_sharedstatedir}/mysql/mysql.sock \
        -DMARIADB_PORT=3306 \
 \
-       -DWITH_EXTERNAL_ZLIB=YES \
+       -DWITH_EXTERNAL_ZLIB=ON \
        -DWITH_SSL=OPENSSL \
        -DWITH_MYSQLCOMPAT=ON \
        -DPLUGIN_CLIENT_ED25519=DYNAMIC \
 \
        -DINSTALL_LAYOUT=RPM \
-       -DCMAKE_INSTALL_PREFIX="%{_prefix}" \
        -DINSTALL_BINDIR="bin" \
        -DINSTALL_LIBDIR="%{_lib}" \
        -DINSTALL_INCLUDEDIR="include/mysql" \
        -DINSTALL_PLUGINDIR="%{_lib}/mariadb/plugin" \
        -DINSTALL_PCDIR="%{_lib}/pkgconfig" \
 \
-       -DWITH_UNITTEST=ON
+%if %{with testsuite}
+       -DWITH_UNIT_TESTS=ON
+%endif
 
-#cmake ./ -LAH
+# Override all optimization flags when making a debug build
+%if %{with debug}
+CFLAGS="$CFLAGS     -O0 -g"; export CFLAGS
+CXXFLAGS="$CXXFLAGS -O0 -g"; export CXXFLAGS
+FFLAGS="$FFLAGS     -O0 -g"; export FFLAGS
+FCFLAGS="$FCFLAGS   -O0 -g"; export FCFLAGS
+%endif
 
-%make_build
+cmake -B %__cmake_builddir -LAH
+
+%cmake_build
 
 
 
 %install
-%make_install
+%cmake_install
 
 %multilib_fix_c_header --file %{_includedir}/mysql/mariadb_version.h
 
@@ -145,10 +165,11 @@ install -D -p -m 0644 %{SOURCE3} %{buildroot}%{_sysconfdir}/my.cnf.d/client.cnf
 # - don't run mytap tests
 # - ignore the testsuite result for now. Enable tests now, fix them later.
 # Note: there must be a database called 'test' created for the testcases to be run
+%if %{with testsuite}
 pushd unittest/libmariadb/
-ctest || :
+%ctest || :
 popd
-
+%endif
 
 
 %files
@@ -189,28 +210,21 @@ popd
 
 
 
+%if %{with testsuite}
 %files test
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/*
 %{_libdir}/libcctap.so
-
+%endif
 
 
 # Opened issues on the upstream tracker:
 #   https://jira.mariadb.org/browse/CONC-293
 #      DESCRIPTION: add mysql_config and mariadb_config man page
 #      IN_PROGRESS: upsteam plans to add it to 3.1 release
-#   https://jira.mariadb.org/browse/CONC-410
-#      DESCRIPTION: Fix pkgconfig file - overlinking issues
-#      IN_PROGRESS: PR submitted, problem consulted & explained, waiting on upstream response
 #   https://jira.mariadb.org/browse/CONC-436
 #      DESCRIPTION: Make testsuite independent / portable
 #      NEW:         PR submitted, problem explained, waiting on upstream response
-
-# Coverity Scan results from 3.0.10 release:
-#   https://jira.mariadb.org/browse/CONC-234
-#      DESCRIPTION: Covscan report
-#      TODO:        Check atleast the important issues
 
 # Downstream issues:
 #   Start running this package testsuite at the build time
@@ -220,6 +234,32 @@ popd
 #      Need to ensure, that the testsuite will also run properly on 'fedpkg local' buid, not damaging the host machine
 
 %changelog
+* Fri Sep 18 2020 Lukas Javorsky <ljavorsk@redhat.com> - 3.1.10-1
+- Rebase to 3.1.10
+
+* Tue Aug 04 2020 Michal Schorm <mschorm@redhat.com> - 3.1.9-5
+- Revert the CMake change regarding the in-source builds for now
+- %%cmake macro covers the %%{set_build_flags}, so they are not needed
+  That also means, the debug buildchnages to the build flags must be done AFTER the
+  %%cmake macro was used.
+- %%cmake macro also covers the CMAKE_INSTALL_PREFIX="%%{_prefix}" option
+- Default to %%cmake commands instead fo %%make commands
+- Update the WITH_UNITTEST macro to the one upstream use now
+- Introduce macro to enable / disable testusite (and building of the *-test subpackage)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.9-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.9-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Michal Schorm <mschorm@redhat.com> - 3.1.9-2
+- Add explicit confict between mariadb-connector-c-devel and community-mysql-devel packages
+
+* Wed Jun 24 2020 Lukas Javorsky <ljavorsk@redhat.com> - 3.1.9-1
+- Rebase to 3.1.9
+
 * Thu May 14 2020 Lukas Javorsky <ljavorsk@redhat.com> - 3.1.8-1
 - Rebase to 3.1.8
 

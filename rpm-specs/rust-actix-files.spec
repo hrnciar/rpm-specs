@@ -5,14 +5,17 @@
 %global crate actix-files
 
 Name:           rust-%{crate}
-Version:        0.3.0~alpha.1
+Version:        0.4.0
 Release:        1%{?dist}
-Summary:        Static files support for actix web
+Summary:        Static file serving for Actix Web
 
-# Upstream license specification: MIT/Apache-2.0
+# Upstream license specification: MIT OR Apache-2.0
 License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/actix-files
 Source:         %{crates_source}
+# Initial patched metadata
+# * add missing test dependencies
+Patch0:         actix-files-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -22,7 +25,7 @@ BuildArch:      noarch
 BuildRequires:  rust-packaging
 
 %global _description %{expand:
-Static files support for actix web.}
+Static file serving for Actix Web.}
 
 %description %{_description}
 
@@ -71,6 +74,19 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Oct 07 2020 Fabio Valentini <decathorpe@gmail.com> - 0.4.0-1
+- Update to version 0.4.0.
+
+* Mon Sep 21 2020 Fabio Valentini <decathorpe@gmail.com> - 0.3.0-1
+- Update to version 0.3.0.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0~alpha.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0~alpha.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 08:16:10 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.3.0~alpha.1-1
 - Update to 0.3.0-alpha.1
 

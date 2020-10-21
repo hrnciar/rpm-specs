@@ -11,8 +11,8 @@
 %global pear_channel pear.horde.org
 
 Name:           php-horde-kronolith
-Version:        4.2.27
-Release:        5%{?dist}
+Version:        4.2.29
+Release:        2%{?dist}
 Summary:        A web based calendar
 
 License:        GPLv2
@@ -303,6 +303,15 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.29-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Remi Collet <remi@remirepo.net> - 4.2.29-1
+- update to 4.2.29
+
+* Mon Jul  6 2020 Remi Collet <remi@remirepo.net> - 4.2.28-1
+- update to 4.2.28
+
 * Tue Jun  2 2020 Remi Collet <remi@remirepo.net> - 4.2.27-5
 - requires php(httpd)
 

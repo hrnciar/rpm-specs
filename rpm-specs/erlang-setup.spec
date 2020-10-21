@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	2.0.2
-Release:	5%{?dist}
+Release:	6%{?dist}
 BuildArch:	noarch
 Summary:	Generic setup utility for Erlang-based systems
 License:	ASL 2.0
@@ -58,6 +58,9 @@ can easily be overriden at install time.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

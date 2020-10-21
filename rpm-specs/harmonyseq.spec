@@ -1,7 +1,7 @@
 Name:          harmonyseq
 Summary:       A MIDI sequencer
 Version:       0.16
-Release:       30%{?dist}
+Release:       31%{?dist}
 License:       GPLv3+
 URL:           http://harmonyseq.wordpress.com/
 Source:        http://launchpad.net/harmonyseq/stable/0.16/+download/harmonySEQ-%{version}.tar.gz
@@ -58,6 +58,9 @@ desktop-file-install                                    \
 %{_datadir}/mime/packages/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           perl-PadWalker
-Version:        2.3
-Release:        9%{?dist}
+Version:        2.5
+Release:        1%{?dist}
 Summary:        Play with other people's lexical variables
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/PadWalker
@@ -54,6 +54,13 @@ make test
 %{_mandir}/man3/PadWalker.3*
 
 %changelog
+* Sun Sep 27 2020 Paul Howarth <paul@city-fan.org> - 2.5-1
+- Update to 2.5
+  - Names of utf8 lexical vars were not reported correctly (CPAN RT#133424)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.3-9
 - Perl 5.32 rebuild
 

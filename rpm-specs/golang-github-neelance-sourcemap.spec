@@ -3,7 +3,7 @@
 
 # https://github.com/neelance/sourcemap
 %global goipath         github.com/neelance/sourcemap
-%global commit          8c68805598ab8d5637b1a72b5f7d381ea0f39c31
+%global commit          2833bce08e4c77c3e07af9cc765b046ccb259671
 
 %gometa
 
@@ -13,7 +13,7 @@ JavaScript source map reader & writer for Go.}
 %global golicenses      LICENSE
 Name:           %{goname}
 Version:        0
-Release:        0.6%{?dist}
+Release:        0.8%{?dist}
 Summary:        JavaScript source map reader & writer for Go
 
 # Upstream license specification: BSD-2-Clause
@@ -40,6 +40,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 12:17:49 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.8.20200730git2833bce
+- Bump to commit 2833bce08e4c77c3e07af9cc765b046ccb259671
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

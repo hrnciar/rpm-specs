@@ -1,6 +1,6 @@
 Name:           advancecomp
 Version:        2.1
-Release:        13%{?dist}
+Release:        16%{?dist}
 Summary:        Recompression utilities for png, mng, zip and gz files
 License:        GPLv3
 URL:            http://www.advancemame.it/
@@ -36,6 +36,7 @@ This package contains:
 dos2unix -k doc/*.txt
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure
 make %{?_smp_mflags}
 
@@ -50,6 +51,16 @@ make install DESTDIR=%{buildroot}
 %{_mandir}/man1/*
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 2.1-15
+- Force C++14 as the code is not ready for C++17
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

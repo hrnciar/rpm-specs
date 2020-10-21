@@ -4,7 +4,7 @@
 
 Name:           nodepool
 Version:        3.12.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Nodepool management for a distributed test infrastructure
 
 License:        ASL 2.0
@@ -182,6 +182,9 @@ exit 0
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.12.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.12.0-1
 - Rebuilt for Python 3.9
 

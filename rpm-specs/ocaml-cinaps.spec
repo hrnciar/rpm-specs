@@ -10,8 +10,8 @@
 %global srcname cinaps
 
 Name:           ocaml-%{srcname}
-Version:        0.13.0
-Release:        7%{?dist}
+Version:        0.14.0
+Release:        5%{?dist}
 Summary:        Trivial Metaprogramming tool using the OCaml toplevel
 
 License:        MIT
@@ -20,10 +20,8 @@ Source0:        %{url}/archive/v%{version}/%{srcname}-%{version}.tar.gz
 
 BuildRequires:  help2man
 BuildRequires:  ocaml >= 4.07.0
-BuildRequires:  ocaml-dune >= 1.5.1
-BuildRequires:  ocaml-findlib
+BuildRequires:  ocaml-dune >= 2.0.0
 BuildRequires:  ocaml-re-devel >= 1.8.0
-BuildRequires:  ocaml-seq-devel
 
 %description
 Cinaps is a trivial Metaprogramming tool for OCaml using the OCaml
@@ -69,7 +67,7 @@ help2man -N --version-string=%{version} %{buildroot}%{_bindir}/cinaps > \
   %{buildroot}%{_mandir}/man1/cinaps.1
 
 %files
-%doc CONTRIBUTING.md README.org
+%doc README.org
 %license LICENSE.md
 %{_bindir}/cinaps
 %{_mandir}/man1/cinaps.1*
@@ -96,6 +94,22 @@ help2man -N --version-string=%{version} %{buildroot}%{_bindir}/cinaps > \
 %{_libdir}/ocaml/%{srcname}/runtime/cinaps_runtime.mli
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.14.0-5
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.14.0-4
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 16 2020 Jerry James <loganjerry@gmail.com> - 0.14.0-1
+- Version 0.14.0
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 0.13.0-7
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

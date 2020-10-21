@@ -14,7 +14,7 @@ Parse line as shell words.}
 %global godocs          _example README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Parse line as shell words
 
 License:        MIT
@@ -40,6 +40,13 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 15 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.0.10-1
 - Update to latest version
 

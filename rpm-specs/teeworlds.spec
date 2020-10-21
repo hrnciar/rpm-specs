@@ -1,6 +1,6 @@
 Name:           teeworlds
 Version:        0.7.5
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Online multi-player platform 2D shooter
 
 # zlib: src/engine/externals/md5/*
@@ -136,6 +136,13 @@ exit 0
 %attr(-,teeworlds,teeworlds)%{_sysconfdir}/%{name}/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.5-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.7.5-2
 - Fix dejavu font path.
 

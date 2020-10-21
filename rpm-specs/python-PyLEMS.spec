@@ -10,15 +10,15 @@ used to run NeuroML2 (http://neuroml.org/neuroml2.php) models.
 
 
 Name:           python-%{srcname}
-Version:        0.5.0
-Release:        2%{?dist}
+Version:        0.5.1
+Release:        1%{?dist}
 Summary:        LEMS interpreter implemented in Python
 
 License:        LGPLv3
 
 # Use github source. Pypi source does not include license and examples.
 URL:            https://github.com/LEMS/%{libname}/
-Source0:        https://github.com/LEMS/%{libname}/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:        %{url}/archive/v%{version}/%{libname}-%{version}.tar.gz
 
 BuildArch:      noarch
 
@@ -29,6 +29,7 @@ BuildArch:      noarch
 Summary:        %{summary}
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist lxml}
+BuildRequires:  %{py3_dist setuptools}
 Requires:  %{py3_dist lxml}
 Requires:  %{py3_dist matplotlib}
 Requires:  %{py3_dist numpy}
@@ -84,6 +85,15 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} lems/dlems/exportdlems.py
 %doc README.md examples
 
 %changelog
+* Fri Sep 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.5.1-1
+- Update to 0.5.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.5.0-3
+- Explicitly BR setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.0-2
 - Rebuilt for Python 3.9
 

@@ -1,15 +1,39 @@
 Name:       diffmark
 Version:    0.10
-Release:    21%{?dist}
+Release:    24%{?dist}
 Summary:    XML diff and merge
-# The library code has it's own license
-# Parts of lib/lcs.hh is from Perl Algorithm::Diff module (GPL+ or Artistic)
-# The build scripts are GPLv2+
-License:    diffmark and GPLv2+ and (GPL+ or Artistic)
+# COPYING:          diffmark license text
+# lib/lcs.hh:       GPL+ or Artistic    (based on Algorithm-Diff)
+# lib/xutil.hh:     GPL+ or Artistic    (based on XML-LibXML dom.c)
+## Not in any binary package
+# aclocal.m4:       FSFUL and FSFULLR and GPLv2+ with a Libtool exception and
+#                   and GPLv2+ with an Autoconf exception
+# cmd/Makefile.in:  FSFUL
+# config.guess:     GPLv2+ with an Autoconf exception
+# config.sub:       GPLv2+ with an Autoconf exception
+# configure:        FSFUL and GPLv2+ with a Libtool exception
+# depcomp:          GPLv2+ with an Autoconf exception
+# diffmark.test/Makefile.in:        FSFULLR
+# doc/Makefile.in:  FSFULLR
+# install-sh:       MIT
+# lib/Makefile.in:  FSFULLR
+# ltmain.sh:        GPLv2+ with a Libtool exception
+# Makefile.in:      FSFULLR
+# missing:          GPLv2+ with an Autoconf exception
+# testdata/diff/Makefile.in:        FSFULLR
+# testdata/faildiff/Makefile.in:    FSFULLR
+# testdata/failmerge/Makefile.in:   FSFULLR
+# testdata/Makefile.in:             FSFULLR
+# testdata/merge/Makefile.in:       FSFULLR
+# testdata/roundup/Makefile.in:     FSFULLR
+License:    diffmark and (GPL+ or Artistic)
 URL:        http://www.mangrove.cz/%{name}/
 Source0:    %{url}%{name}-%{version}.tar.gz
-# Superfluous RPATH in programs
+# Remove a superfluous RPATH from the programs
 Patch0:     %{name}-0.09-remove_rpath.patch
+# Adjust to GCC 11 that defaults to -std=gnu++17 that forbirds non-const
+# comparison objects
+Patch1:     %{name}-gcc11.patch
 # Because of diffmark-0.08-remove_rpath.patch:
 # And to update config.sub to support aarch64, bug #925255
 BuildRequires:  autoconf
@@ -21,7 +45,7 @@ BuildRequires:  libxml2-devel
 BuildRequires:  make
 
 %description
-This is a XML diff and merge package. It consists of a shared library and
+This is an XML diff and merge package. It consists of a shared library and
 two utilities: dm and dm-merge. 
 
 %package        devel
@@ -33,19 +57,18 @@ Header files and libraries for developing applications that use %{name}.
 
 %prep
 %setup -q
-%patch0 -p1 -b .rpath
+%patch0 -p1
+%patch1 -p1
 # automake -i -f to support aarch64, bug #925255
 libtoolize --force && autoreconf -i -f
 
 %build
 %configure --enable-shared --disable-static
-make %{?_smp_mflags}
+%{make_build}
 
 %install
-make install "DESTDIR=$RPM_BUILD_ROOT"
+%{make_install}
 find "$RPM_BUILD_ROOT" -name '*.la' -delete
-
-%ldconfig_scriptlets
 
 %files
 %license COPYING
@@ -58,6 +81,16 @@ find "$RPM_BUILD_ROOT" -name '*.la' -delete
 %{_libdir}/*.so
 
 %changelog
+* Wed Jul 29 2020 Petr Pisar <ppisar@redhat.com> - 0.10-24
+- Modernize a spec file
+- License corrected to "diffmark and (GPL+ or Artistic)"
+
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 0.10-23
+- Make comparison object invocable as const
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

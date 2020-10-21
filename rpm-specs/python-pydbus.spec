@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.6.0
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Pythonic DBus library
 
 License:        LGPLv2+
@@ -57,6 +57,9 @@ Python 3 version.
 %{python3_sitelib}/%{srcname}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.0-13
 - Rebuilt for Python 3.9
 

@@ -4,8 +4,8 @@
 %global sysname bst_external
 
 Name:           bst-external
-Version:        0.20.0
-Release:        2%{?dist}
+Version:        0.21.0
+Release:        1%{?dist}
 Summary:        Additional BuildStream plugins
 
 License:        LGPLv2+
@@ -70,6 +70,12 @@ export PYTHONPATH=%{buildroot}%{python3_sitelib}
 
 
 %changelog
+* Sat Oct  3 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.21.0-1
+- Update to 0.21.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.20.0-2
 - Adapt for Fedora packaging guidelines
 

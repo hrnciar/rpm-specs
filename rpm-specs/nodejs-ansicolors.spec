@@ -2,7 +2,7 @@
 
 Name:           nodejs-ansicolors
 Version:        0.3.2
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Functions that surround a string with ansi color codes so it prints in color
 License:        MIT
 Url:            http://registry.npmjs.org/ansicolors/-/ansicolors-0.3.2.tgz
@@ -36,6 +36,9 @@ node test/ansicolors.js
 %doc LICENSE README.md
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

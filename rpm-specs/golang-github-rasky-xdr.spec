@@ -24,7 +24,7 @@ license, so it may be used in open source or commercial projects.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.7%{?dist}
+Release:        0.8%{?dist}
 Summary:        Implements the XDR standard as specified in RFC 4506 in pure Go
 License:        ISC
 URL:            %{gourl}
@@ -50,6 +50,9 @@ find . -name "*.go" -exec sed -i "s|github.com/davecgh/go-xdr|github.com/rasky/g
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

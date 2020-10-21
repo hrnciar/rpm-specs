@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2005 - 2017 Ralf Corsepius, Ulm, Germany.
+# Copyright (c) 2005 - 2020 Ralf Corsepius, Ulm, Germany.
 # This file and all modifications and additions to the pristine
 # package are under the same license as the package itself.
 #
@@ -13,7 +13,7 @@
 # GDal support: Default on
 %bcond_without  gdal
 
-# Inventor support: Default to Coin3
+# Inventor support: Default to Coin4
 # These are mutually exclusive
 %bcond_with     Inventor
 %bcond_without  Coin4
@@ -29,7 +29,7 @@
 
 Name:           OpenSceneGraph
 Version:        %{srcvers}
-Release:        18%{?dist}
+Release:        20%{?dist}
 Summary:        High performance real-time graphics toolkit
 
 # The OSGPL is just the wxWidgets license.
@@ -172,8 +172,8 @@ pushd BUILD
 CFLAGS="${RPM_OPT_FLAGS} -pthread"
 CXXFLAGS="${RPM_OPT_FLAGS} -pthread"
 LDFLAGS="$LDFLAGS -lglut" %cmake -DBUILD_OSG_EXAMPLES=ON -DBUILD_DOCUMENTATION=ON \
-  .. \
-  -Wno-dev
+  -Wno-dev \
+  -S .. -B .
 LDFLAGS="$LDFLAGS -lglut" make VERBOSE=1 %{?_smp_mflags}
 
 make doc_openscenegraph doc_openthreads
@@ -710,6 +710,14 @@ Development files for OpenThreads.
 %{_includedir}/OpenThreads
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 3.4.1-19
+- Rebuilt for gtkglext w/o pangox.
+- Spec file cosmetics.
+- Work-around %%cmake regressions.
+
 * Sat May 30 2020 Jonathan Wakely <jwakely@redhat.com> - 3.4.1-18
 - Rebuilt for Boost 1.73
 
@@ -725,7 +733,7 @@ Development files for OpenThreads.
 * Fri Jan 17 2020 Marek Kasik <mkasik@redhat.com> - 3.4.1-14
 - Rebuild for poppler-0.84.0
 
-* Sat Oct  9 2019 Richard Shaw <hobbes1069@gmail.com> - 3.4.1-13
+* Wed Oct  9 2019 Richard Shaw <hobbes1069@gmail.com> - 3.4.1-13
 - Rebuild with Coin4.
 
 * Tue Sep 17 2019 Gwyn Ciesla <gwync@protonmail.com> - 3.4.1-12

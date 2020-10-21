@@ -15,7 +15,7 @@ Syslog server library for go.}
 %global godocs          example README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Syslog server library for go
 
 # Upstream license specification: BSD-2-Clause and MIT
@@ -50,6 +50,9 @@ BuildRequires:  golang(gopkg.in/check.v1)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 05 02:48:44 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.3.0-1
 - Update to 2.3.0
 

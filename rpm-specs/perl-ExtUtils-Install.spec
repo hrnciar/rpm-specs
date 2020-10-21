@@ -1,5 +1,5 @@
 Name:           perl-ExtUtils-Install
-Version:        2.16
+Version:        2.18
 Release:        1%{?dist}
 Summary:        Install Perl files from here to there
 License:        GPL+ or Artistic
@@ -27,7 +27,6 @@ BuildRequires:  perl(File::Find)
 BuildRequires:  perl(File::Path)
 BuildRequires:  perl(File::Spec)
 # POSIX is optional
-BuildRequires:  perl(vars)
 # VMS::Filespec not used
 # Win32API::File not used
 # Tests:
@@ -35,7 +34,6 @@ BuildRequires:  perl(vars)
 BuildRequires:  perl(ExtUtils::MM)
 BuildRequires:  perl(File::Temp)
 BuildRequires:  perl(Test::More)
-# VMS::DCLsymnot used
 # Unbundled tests:
 # Test::Builder not used
 # Optional tests:
@@ -56,9 +54,6 @@ pages, etc.
 
 %prep
 %setup -q -n ExtUtils-Install-%{version}
-# Remove bundled modules
-rm -rf t/lib/Test
-perl -i -ne 'print $_ unless m{^t/lib/Test/}' MANIFEST
 
 %build
 perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
@@ -78,6 +73,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Wed Sep 16 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.18-1
+- 2.18 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.16-2
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Petr Pisar <ppisar@redhat.com> - 2.16-1
 - 2.16 bump
 

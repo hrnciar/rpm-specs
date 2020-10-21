@@ -28,7 +28,7 @@
 
 Name:           lxtask
 Version:        0.1.9
-Release:        %{fedorarel}%{?dist}.1
+Release:        %{fedorarel}%{?dist}.2
 Summary:        Lightweight and desktop independent task manager
 
 License:        GPLv2+
@@ -128,6 +128,9 @@ cd ..
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.9-2.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.9-2.1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

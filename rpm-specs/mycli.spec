@@ -12,19 +12,15 @@
 
 Summary:        Interactive CLI for MySQL Database with auto-completion and syntax highlighting
 Name:           mycli
-Version:        1.21.1
-Release:        5%{?dist}
+Version:        1.22.2
+Release:        1%{?dist}
 License:        BSD
 URL:            http://mycli.net
 Source0:        https://files.pythonhosted.org/packages/source/m/mycli/mycli-%{version}.tar.gz
-%if 0%{?fedora} > 32
-Patch0:         mycli-1.21.1-prompt-toolkit.patch
-%endif
-%if 0%{?fedora} < 32
-Patch0:         mycli-1.21.1-sqlparse.patch
-%endif
-
-Patch1:         0001-Try-list-of-known-socket-file-locations-by-default.patch
+Patch0:         mycli-1.22.1-paramiko.patch
+Patch1:         mycli-1.22.1-socket.patch
+Patch2:         mycli-1.22.1-prompt-toolkit.patch
+Patch3:         mycli-1.22.1-sqlparse.patch
 BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
@@ -45,6 +41,7 @@ BuildRequires:  python3-cli-helpers >= 1.0.1
 BuildRequires:  python3-click >= 4.1
 BuildRequires:  python3-configobj >= 5.0.5
 BuildRequires:  python3-cryptography => 1.0.0
+BuildRequires:  python3-paramiko
 BuildRequires:  python3-pygments >= 1.6
 BuildRequires:  python3-PyMySQL >= 0.9.2
 BuildRequires:  python3-prompt-toolkit >= %{prompt_toolkit}
@@ -55,7 +52,15 @@ Nice interactive shell for MySQL Database with auto-completion and
 syntax highlighting.
 
 %prep
-%autosetup -p1
+%setup -q
+%patch0 -p1 -b .paramiko
+%patch1 -p1 -b .socket
+%if 0%{?fedora} < 33
+%patch2 -p1 -b .prompt
+%endif
+%if 0%{?fedora} < 32
+%patch3 -p1 -b .sqlparse
+%endif
 rm -rf mycli.egg-info
 
 %build
@@ -76,6 +81,18 @@ PYTHONPATH=build/lib/ py.test-3
 %{python3_sitelib}/mycli-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Sun Oct 11 2020 Terje Rosten <terje.rosten@ntnu.no> - 1.22.2-1
+- 1.22.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.22.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Terje Rosten <terje.rosten@ntnu.no> - 1.22.1-1
+- 1.22.1
+
+* Fri Jul 24 2020 Terje Rosten <terje.rosten@ntnu.no> - 1.21.1-6
+- Make srpm to be identical on all branches and fix pymysql 0.10 issue
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.21.1-5
 - Rebuilt for Python 3.9
 

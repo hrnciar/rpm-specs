@@ -3,7 +3,7 @@
 %global provider org.gnome.Lollypop
 
 Name:           lollypop
-Version:        1.3.2
+Version:        1.4.2
 Release:        1%{?dist}
 Summary:        Music player for GNOME
 License:        GPLv3+
@@ -21,6 +21,7 @@ BuildRequires:  itstool
 BuildRequires:  meson
 BuildRequires:  pkgconfig(pygobject-3.0) >= 3.29.1
 BuildRequires:  pkgconfig(libsoup-2.4)
+BuildRequires:  pkgconfig(libhandy-1)
 Requires:       gdk-pixbuf2
 Requires:       gstreamer1-plugins-base
 Requires:       gobject-introspection
@@ -30,11 +31,13 @@ Requires:       libnotify >= 0.7.6
 Requires:       python3-gobject
 Requires:       python3-cairo
 Requires:       python3-dbus
+Requires:       python3-pillow
+Requires:       python3-beautifulsoup4
+Requires:       python3-gstreamer1
 Requires:       pango
 Requires:       totem-pl-parser
 Requires:       gstreamer1-plugins-good
-Requires:       python3-pillow
-Requires:       python3-beautifulsoup4
+Requires:       libhandy1
 # last.fm support
 BuildArch:      noarch
 Obsoletes:      lollypop-cli < 1.0.6
@@ -43,7 +46,6 @@ Obsoletes:      lollypop-cli < 1.0.6
 Lollypop is a new GNOME music playing application.
 
 %prep
-#autosetup -p1
 %autosetup -p1 -n %{name}-%{version}
 
 %build
@@ -79,6 +81,39 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Sat Oct 10 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.4.2-1
+- Update to 1.4.2
+
+* Sun Oct 04 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.4.1-1
+- Update to 1.4.1
+
+* Thu Sep 24 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.4.0-3
+- Add RR libhandy1
+
+* Thu Sep 24 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.4.0-2
+- Add BR pkgconfig(libhandy-1)
+
+* Thu Sep 24 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.4.0-1
+- Update to 1.4.0
+
+* Sat Aug 29 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.3.6-1
+- Update to 1.3.6
+
+* Sat Aug 15 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.3.5-1
+- Update to 1.3.5
+
+* Fri Aug 14 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.3.4-2
+- Add RR python3-gstreamer1, Python bindings for GStreamer
+
+* Mon Aug 10 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.3.4-1
+- Update to 1.3.4
+
+* Thu Jul 30 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.3.3-1
+- Update to 1.3.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 16 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.3.2-1
 - Update to 1.3.2
 

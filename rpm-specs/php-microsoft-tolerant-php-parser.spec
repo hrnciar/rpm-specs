@@ -7,7 +7,7 @@
 # Please, preserve the changelog entries
 #
 # Github
-%global gh_commit    c5e2bf5d8c9f4f27eef1370bd39ea2d1f374eeb4
+%global gh_commit    1d76657e3271754515ace52501d3e427eca42ad0
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     Microsoft
 %global gh_project   tolerant-php-parser
@@ -22,8 +22,8 @@
 
 
 Name:           php-%{pk_vendor}-%{pk_name}
-Version:        0.0.20
-Release:        1%{?dist}
+Version:        0.0.23
+Release:        2%{?dist}
 Summary:        Tolerant PHP-to-AST parser
 
 License:        MIT
@@ -123,6 +123,18 @@ exit $ret
 
 
 %changelog
+* Mon Sep 21 2020 Remi Collet <remi@remirepo.net> - 0.0.23-2
+- rebuild
+
+* Mon Sep 14 2020 Remi Collet <remi@remirepo.net> - 0.0.23-1
+- update to 0.0.23
+
+* Wed Aug 26 2020 Remi Collet <remi@remirepo.net> - 0.0.22-1
+- update to 0.0.22
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.20-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 25 2020 Remi Collet <remi@remirepo.net> - 0.0.20-1
 - update to 0.0.20
 - re-enable the test suite, only ignore 3 known failed tests

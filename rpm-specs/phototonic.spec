@@ -13,7 +13,7 @@ Name:           phototonic
 # since the first version packaged for Fedora was 1.7.20 this format needs to be kept
 # for upgrades to work - I can't drop the number and just use the git tag unfortunately.
 Version:        2.1.12
-Release:        20190923git%{shortcommit0}%{?dist}
+Release:        20190924git%{shortcommit0}%{?dist}
 Summary:        Image viewer and organizer
 
 License:        GPLv3
@@ -54,6 +54,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %doc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.12-20190924gitd2176fe
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.12-20190923gitd2176fe
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

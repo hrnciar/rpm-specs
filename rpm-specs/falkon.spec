@@ -1,6 +1,6 @@
 Name:           falkon
 Version:        3.1.0
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        Modern web browser
 
 # Files in src/lib/opensearch and src/lib/3rdparty are GPLv2+
@@ -11,6 +11,14 @@ Source0:        https://download.kde.org/stable/%{name}/%{version}/%{name}-%{ver
 
 # reenable native scrollbars by default (upstream disabled them in 2.1.2)
 Patch0:         falkon-3.1.0-native-scrollbars.patch
+
+## upstream patches
+# fix build with Qt 5.14 (missing #include)
+# https://commits.kde.org/falkon/bbde5c6955c43bc744ed2c4024598495de908f2a
+Patch100:       falkon-3.1.0-qt-5.14.patch
+# fix build with Qt 5.15 (another missing #include)
+# https://commits.kde.org/falkon/2ca83509dbc72dfdfa9cc7103c2b29db31e07f3a
+Patch101:       falkon-3.1.0-qt-5.15.patch
 
 # handled by qt5-srpm-macros, which defines %%qt5_qtwebengine_arches
 %{?qt5_qtwebengine_arches:ExclusiveArch: %{qt5_qtwebengine_arches}}
@@ -93,6 +101,8 @@ lightweight and fast and offers advanced functions such as
 %prep
 %setup -q
 %patch0 -p1 -b .native-scrollbars
+%patch100 -p1 -b .qt-5.14
+%patch101 -p1 -b .qt-5.15
 
 # delete falkon_hellopython and other Python plugins' and falkon_helloqml
 # translations, we do not package hellopython etc. yet
@@ -161,6 +171,16 @@ appstream-util validate-relax --nonet %{buildroot}%{_kf5_metainfodir}/org.kde.fa
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Kevin Kofler <Kevin@tigcc.ticalc.org> - 3.1.0-4
+- fix FTBFS with Qt 5.14/5.15 due to missing #includes (thanks to loise)
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@ Summary:        Documentation for the Python 3 programming language
 # The Version should be in-sync with the python3 package:
 %global         pybasever 3.9
 %global         general_version %{pybasever}.0
-%global         prerel b1
+#global         prerel ...
 %global         upstream_version %{general_version}%{?prerel}
 Version:        %{general_version}%{?prerel:~%{prerel}}
 Release:        1%{?dist}
@@ -17,19 +17,13 @@ Source2:        %{url}static/files/pubkeys.txt
 %global         theme_version 2020.1
 Source3:        %{pypi_source python-docs-theme %{theme_version}}
 
-# Fix typos in PowerShell Execution Policies links
-# https://github.com/python/cpython/pull/20383 (rebased for line endings mix up)
-Patch1:         20383.patch
-# Fix docs links to the stable ABI
-Patch2:         https://github.com/python/cpython/pull/20388.patch
-
 BuildArch:      noarch
 
 Recommends:     python3 = %{version}
 %{?python_provide:%python_provide %{name}}
 
 BuildRequires:  %{__python3}
-BuildRequires:  python3-sphinx
+BuildRequires:  (python3-sphinx < 1:3 or python3-sphinx >= 1:3.2)
 BuildRequires:  python3-docutils
 BuildRequires:  python3-pygments
 BuildRequires:  gnupg2
@@ -78,6 +72,18 @@ linkchecker \
 %doc Misc/NEWS Misc/HISTORY Misc/README Doc/build/html
 
 %changelog
+* Tue Oct 06 2020 Miro Hrončok <mhroncok@redhat.com> - 3.9.0-1
+- Update to 3.9.0 final
+
+* Thu Sep 17 2020 Miro Hrončok <mhroncok@redhat.com> - 3.9.0~rc2-1
+- Update to 3.9.0rc2
+
+* Thu Aug 13 2020 Miro Hrončok <mhroncok@redhat.com> - 3.9.0~rc1-1
+- Update to 3.9.0rc1
+
+* Tue Jul 21 2020 Miro Hrončok <mhroncok@redhat.com> - 3.9.0~b5-1
+- Update to 3.9.0b5
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 3.9.0~b1-1
 - Update to 3.9.0b1
 

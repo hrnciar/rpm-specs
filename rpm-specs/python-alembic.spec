@@ -2,7 +2,7 @@
 
 Name:             python-alembic
 Version:          1.4.2
-Release:          2%{?dist}
+Release:          5%{?dist}
 Summary:          Database migration tool for SQLAlchemy
 
 License:          MIT
@@ -77,8 +77,8 @@ ln -s %{modname}-3 %{buildroot}/%{_bindir}/%{modname}-%{python3_version}
 install -m 0644 alembic.1 %{buildroot}%{_mandir}/man1/alembic-3.1
 ln -s alembic-3.1 %{buildroot}%{_mandir}/man1/alembic-%{python3_version}.1
 
-ln -s %{modname}-%{python_version} %{buildroot}/%{_bindir}/%{modname}
-ln -s alembic-%{python_version}.1 %{buildroot}%{_mandir}/man1/alembic.1
+ln -s %{modname}-%{python3_version} %{buildroot}/%{_bindir}/%{modname}
+ln -s alembic-%{python3_version}.1 %{buildroot}%{_mandir}/man1/alembic.1
 
 
 %check
@@ -98,6 +98,16 @@ py.test-3
 
 
 %changelog
+* Thu Aug 20 2020 Merlin Mathesius <mmathesi@redhat.com> - 1.4.2-5
+- Correct macro usage to fix Rawhide and ELN FTBFS errors
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.2-2
 - Rebuilt for Python 3.9
 

@@ -3,7 +3,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 1.11.2
-Release: 7%{?dist}
+Release: 8%{?dist}
 Summary: Ruby interface to the VMware vSphere API
 License: MIT
 URL: https://github.com/vmware/rbvmomi
@@ -94,6 +94,9 @@ popd
 %doc %{gem_instdir}/examples
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.2-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

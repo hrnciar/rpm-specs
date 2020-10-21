@@ -4,7 +4,7 @@
 
 Name:           gimp-%{plugin_name}-plugin
 Version:        3.2.6
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        Simulate an out-of-focus blur
 
 License:        GPLv2+
@@ -58,6 +58,13 @@ autoreconf -vfi
 %{_libdir}/gimp/2.0/plug-ins/%{plugin_name}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.6-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.6-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 05 2020 Than Ngo <than@redhat.com> - 3.2.6-11
 - Fixed bz#1799405, FTBFS
 

@@ -3,8 +3,8 @@
 %bcond_with check
 
 Name:       python-distlib
-Version:    0.3.0
-Release:    2%{?dist}
+Version:    0.3.1
+Release:    3%{?dist}
 Summary:    Low-level components of distutils2/packaging, augmented with higher-level APIs
 
 License:    Python
@@ -16,6 +16,7 @@ Patch0: distlib_unbundle.patch
 BuildArch:  noarch
 
 BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  pyproject-rpm-macros
 
 %description
 Distlib contains the implementations of the packaging PEPs and other low-level
@@ -28,7 +29,6 @@ between tools.
 
 %package -n python%{python3_pkgversion}-%{srcname}
 Summary: Low-level components of distutils2/packaging, augmented with higher-level APIs
-%{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
 
 %description -n python%{python3_pkgversion}-%{srcname}
 Distlib contains the implementations of the packaging PEPs and other low-level
@@ -48,8 +48,15 @@ rm -rf distlib/_backport
 rm tests/test_shutil.py*
 rm tests/test_sysconfig.py*
 
+%generate_buildrequires
+%pyproject_buildrequires
+
 %build
-%py3_build
+%pyproject_wheel
+
+%install
+%pyproject_install
+%pyproject_save_files %{srcname}
 
 %if %{with check}
 %check
@@ -57,16 +64,20 @@ export PYTHONHASHSEED=0
 %{python3} setup.py test
 %endif # with_tests
 
-%install
-%py3_install
-
-%files -n python%{python3_pkgversion}-%{srcname}
+%files -n python%{python3_pkgversion}-%{srcname} -f %pyproject_files
 %doc README.rst
 %license LICENSE.txt
-%{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Fri Sep 11 2020 Charalampos Stratakis <cstratak@redhat.com> - 0.3.1-3
+- Convert the package to pyproject macros
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Charalampos Stratakis <cstratak@redhat.com> - 0.3.1-1
+- Update to 0.3.1 (#1851644)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.0-2
 - Rebuilt for Python 3.9
 

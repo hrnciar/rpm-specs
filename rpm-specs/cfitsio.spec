@@ -1,11 +1,11 @@
 Name: cfitsio
-Version: 3.470
-Release: 2%{?dist}
+Version: 3.490
+Release: 1%{?dist}
 Summary: Library for manipulating FITS data files
 
 License: MIT
 URL: http://heasarc.gsfc.nasa.gov/fitsio/
-Source0: http://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio-3.47.tar.gz
+Source0: http://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio-3.49.tar.gz
 # Unbundles zlib
 Patch0: cfitsio-zlib.patch
 # Remove soname version check
@@ -76,13 +76,13 @@ compression algorithm.
 
 
 %prep
-%setup -q -n cfitsio-3.47
+%setup -q -n cfitsio-3.49
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
-%patch5 -p1
+#%patch4 -p1
+#%patch5 -p1
 
 # remove bundled zlib
 # not all the files inside zlib belong to zlib
@@ -122,7 +122,7 @@ chmod 755 %{buildroot}%{_bindir}/f{,un}pack
 
 %files
 %doc README License.txt docs/changes.txt
-%{_libdir}/libcfitsio.so.7*
+%{_libdir}/libcfitsio.so.9*
 
 %files devel
 %doc cookbook.*
@@ -143,6 +143,12 @@ chmod 755 %{buildroot}%{_bindir}/f{,un}pack
 %{_bindir}/funpack
 
 %changelog
+* Fri Sep 11 2020 Sergio Pascual <sergiopr@fedoraproject.org> - 3.490-1
+- Update to 3.490
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.470-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.470-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,8 +6,8 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 161
-Release: 2%{?dist}
+Version: 176
+Release: 1%{?dist}
 # No version specified.
 License: GPL+
 URL: https://src.fedoraproject.org/rpms/redhat-rpm-config
@@ -53,6 +53,10 @@ Source201: brp-mangle-shebangs
 # however, now we can do Fedora changes within
 Source202: brp-python-bytecompile
 
+# for fixing pyc files reproducibility with marshalparser
+# https://github.com/fedora-python/marshalparser
+Source203: brp-fix-pyc-reproducibility
+
 # Dependency generator scripts (deprecated)
 Source300: find-provides
 Source301: find-provides.ksyms
@@ -97,14 +101,16 @@ Requires: fpc-srpm-macros
 Requires: ghc-srpm-macros
 Requires: gnat-srpm-macros
 Requires: go-srpm-macros
+Requires: kernel-srpm-macros
+Requires: lua-srpm-macros
 Requires: nim-srpm-macros
 Requires: ocaml-srpm-macros
 Requires: openblas-srpm-macros
 Requires: perl-srpm-macros
 # ↓ Provides compileall2 Python module
 Requires: python-srpm-macros >= 3-46
-Requires: rust-srpm-macros
 Requires: qt5-srpm-macros
+Requires: rust-srpm-macros
 
 Requires: rpm >= 4.11.0
 Requires: dwz >= 0.4
@@ -207,6 +213,47 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Oct 20 2020 Florian Weimer <fweimer@redhat.com> - 176-1
+- s390x: Tune for z14 (as in Red Hat Enterprise Linux 8)
+
+* Mon Oct  5 2020 Florian Weimer <fweimer@redhat.com> - 175-1
+- s390x: Switch Fedora ELN to z13 baseline
+
+* Fri Sep 11 2020 Miro Hrončok <mhroncok@redhat.com> - 172-1
+- Filter out LTO flags from %%extension flags macros
+- Fixes: rhbz#1877652
+
+* Wed Sep  2 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 171-1
+- Add Requires: lua-srpm-macros
+
+* Fri Aug 21 2020 Tom Stellard <tstellar@redhat.com> - 170-1
+- Enable -fstack-clash-protection for clang on x86, s390x, and ppc64le
+
+* Thu Aug 20 2020 Tom Stellard <tstellar@redhat.com> - 169-1
+- Add -flto to ldflags for clang toolchain
+
+* Thu Aug 20 2020 Neal Gompa <ngompa13@gmail.com> - 168-1
+- Fix CC/CXX exports so arguments are included in exported variable
+- Allow overrides of CC/CXX like CFLAGS and CXXFLAGS from shell variables
+
+* Mon Aug 03 2020 Troy Dawson <tdawson@redhat.com> - 167-1
+- Add Requires: kernel-srpm-macros
+
+* Thu Jul 30 2020 Jeff Law <law@redhat.com> - 166-1
+- Use -flto=auto for GCC to speed up builds
+
+* Tue Jul 28 2020 Tom Stellard <tstellar@redhat.com> - 165-1
+- Only use supported lto flags for clang toolchain
+
+* Thu Jul 23 2020 Lumír Balhar <lbalhar@redhat.com> - 164-1
+- Disable Python hash seed randomization in brp-python-bytecompile
+
+* Tue Jul 21 2020 Jeff Law <law@redhat.com> - 163-1
+- Enable LTO by default
+
+* Thu Jul 16 2020 Lumír Balhar <lbalhar@redhat.com> - 162-1
+- New script brp-fix-pyc-reproducibility
+
 * Tue Jun 16 2020 Lumír Balhar <lbalhar@redhat.com> - 161-2
 - Use stdlib compileall for Python >= 3.9
 
@@ -223,7 +270,7 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 * Wed Jun 03 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 158-1
 - Add option to choose C/C++ toolchain
 
-* Thu May 30 2020 Jeff Law <law@redhat.com> - 157-1
+* Sat May 30 2020 Jeff Law <law@redhat.com> - 157-1
 - When LTO is enabled, fix broken configure files.
 
 * Sat May 30 2020 Nicolas Mailhot <nim@fedoraproject.org> - 156-1

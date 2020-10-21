@@ -7,17 +7,13 @@
 
 Summary: Tool for managing bootable, immutable filesystem trees
 Name: ostree
-Version: 2020.3
-Release: 5%{?dist}
+Version: 2020.7
+Release: 3%{?dist}
 Source0: https://github.com/ostreedev/%{name}/releases/download/v%{version}/libostree-%{version}.tar.xz
 License: LGPLv2+
 URL: https://ostree.readthedocs.io/en/latest/
 
-Patch0: 0001-lib-commit-Add-more-error-prefixing.patch
-Patch1: 0002-lib-Rename-function-for-staging-dir-check.patch
-Patch2: 0003-lib-commit-Check-that-dirent-is-a-directory-before-c.patch
-Patch3: 0001-switchroot-remount-Neuter-sysroot.readonly-for-now.patch
-Patch4: 0001-glnx-fdio-handle-EOPNOTSUPP-for-copy_file_range.patch
+Patch0: 0001-ostree-prepare-root-print-st_dev-and-st_ino-as-64-bi.patch
 
 BuildRequires: git
 # We always run autogen.sh
@@ -98,6 +94,11 @@ the functionality of the installed %{name} package.
 %autosetup -Sgit -n libostree-%{version}
 
 %build
+# gobject introspection does not work with LTO.  There is an effort to fix this
+# in the appropriate project upstreams, so hopefully LTO can be enabled someday
+# Disable LTO.
+%define _lto_cflags %{nil}
+
 env NOCONFIGURE=1 ./autogen.sh
 %configure --disable-silent-rules \
            --enable-gtk-doc \
@@ -168,6 +169,43 @@ find %{buildroot} -name '*.la' -delete
 %endif
 
 %changelog
+* Thu Oct 15 2020 Jonathan Lebon <jonathan@jlebon.com> - 2020.7-3
+- Backport https://github.com/ostreedev/ostree/pull/2219 for
+  https://bugzilla.redhat.com/show_bug.cgi?id=1888436
+
+* Wed Oct 14 2020 Colin Walters <walters@verbum.org> - 2020.7-2
+- https://github.com/ostreedev/ostree/releases/tag/v2020.7
+
+* Wed Oct 07 2020 Jonathan Lebon <jonathan@jlebon.com> - 2020.6-5
+- Backport https://github.com/ostreedev/ostree/pull/2211 for
+  https://bugzilla.redhat.com/show_bug.cgi?id=1886149
+
+* Thu Sep 24 2020 Colin Walters <walters@verbum.org> - 2020.6-4
+- Backport https://github.com/ostreedev/ostree/pull/2202
+
+* Fri Sep 18 2020 Jonathan Lebon <jonathan@jlebon.com> - 2020.6-3
+- Revert support for devicetrees
+  https://github.com/ostreedev/ostree/issues/2154
+  https://bugzilla.redhat.com/show_bug.cgi?id=1880499
+
+* Thu Sep 03 2020 Colin Walters <walters@verbum.org> - 2020.6-2
+- https://github.com/ostreedev/ostree/releases/tag/v2020.6
+
+* Tue Aug 18 2020 Colin Walters <walters@verbum.org> - 2020.5-2
+- https://github.com/ostreedev/ostree/releases/tag/v2020.5
+
+* Sat Aug 01 2020 Colin Walters <walters@verbum.org> - 2020.4-4
+- Backport patch for https://bugzilla.redhat.com/show_bug.cgi?id=1862568
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Colin Walters <walters@verbum.org> - 2020.4-2
+- https://github.com/ostreedev/ostree/releases/tag/v2020.4
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 2020.3-6
+Disable LTO
+
 * Thu Jun 18 2020 Jonathan Lebon <jonathan@jlebon.com> - 2020.3-5
 - Backport patch to handle EOPNOTSUPP on NFS:
   https://gitlab.gnome.org/GNOME/libglnx/-/merge_requests/18

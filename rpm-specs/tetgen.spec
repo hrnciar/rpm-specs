@@ -1,6 +1,6 @@
 Name:           tetgen
 Version:        1.5.0
-Release:        16%{?dist}
+Release:        18%{?dist}
 Summary:        A Quality Tetrahedral Mesh Generator
 
 License:        AGPLv3+
@@ -52,16 +52,12 @@ sed -i 's|\r||g' example.poly
 
 
 %build
-mkdir build
-(
-cd build
-%cmake ..
-make %{?_smp_mflags}
-)
+%cmake
+%cmake_build
 
 
 %install
-%make_install -C build
+%cmake_install
 
 
 %ldconfig_scriptlets
@@ -81,6 +77,13 @@ make %{?_smp_mflags}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-18
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

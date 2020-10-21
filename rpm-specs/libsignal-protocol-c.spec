@@ -1,6 +1,6 @@
 Name:       libsignal-protocol-c
 Version:    2.3.3
-Release:    1%{?dist}
+Release:    3%{?dist}
 
 License:    GPLv3
 Summary:    Signal Protocol C library
@@ -36,12 +36,12 @@ Development files for libsignal-protocol-c.
 
 
 %build
-%cmake .
-%make_build
+%cmake -DCMAKE_BUILD_TYPE=Debug .
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %check
@@ -61,6 +61,13 @@ ctest -V %{?_smp_mflags}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 26 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 2.3.3-1
 - Update to 2.3.3 (#1818448).
 

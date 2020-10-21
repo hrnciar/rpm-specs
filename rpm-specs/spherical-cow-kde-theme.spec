@@ -2,7 +2,7 @@
 Name:		spherical-cow-kde-theme
 Summary:        Spherical Cow KDE Theme
 Version:	18.0.3
-Release:	11%{?dist}
+Release:	12%{?dist}
 
 License:	GPLv2+ and CC-BY-SA
 # We are upstream for this package
@@ -83,6 +83,9 @@ ln -s ../../../../../../pixmaps/system-logo-white.png %{buildroot}%{_kde4_appsdi
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 18.0.3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 18.0.3-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

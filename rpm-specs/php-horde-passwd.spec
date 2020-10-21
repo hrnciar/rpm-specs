@@ -13,7 +13,7 @@
 
 Name:           php-horde-passwd
 Version:        5.0.7
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Horde password changing application
 
 License:        GPLv2
@@ -183,6 +183,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.7-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun  2 2020 Remi Collet <remi@remirepo.net> - 5.0.7-7
 - requires php(httpd)
 

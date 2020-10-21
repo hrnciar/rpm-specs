@@ -1,34 +1,33 @@
 %global _default_patch_fuzz 2
 
 Name:           siril
-Version:        0.9.12
-Release:        7%{?dist}
+Version:        0.99.6
+Release:        1%{?dist}
 Summary:        Astronomical image processing software
 
 License:        GPLv3+
 URL:            http://free-astro.org/index.php/Siril
 Source0:        https://free-astro.org/download/%{name}-%{version}.tar.bz2
-# Upstream patch https://gitlab.com/free-astro/siril/issues/424
-Patch0:         fixing-gcc10-compilation-and-some-warnings-fixes-424.patch
+Patch0:         siril-gcc11.patch
 
 # Notes on dependencies:
 # No ffmpeg and ffms support 
 
 BuildRequires:  autoconf
 BuildRequires:  automake
+BuildRequires:  cmake
 BuildRequires:  curl-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc-c++
 BuildRequires:  intltool
 BuildRequires:  libappstream-glib
 BuildRequires:  pkgconfig(cfitsio)
+BuildRequires:  pkgconfig(exiv2)
 BuildRequires:  pkgconfig(fftw3)
 BuildRequires:  pkgconfig(gsl)
 BuildRequires:  pkgconfig(gtk+-3.0)
 BuildRequires:  pkgconfig(libconfig)
-%if %{?fedora} > 27
 BuildRequires:  giflib-devel
-%endif
 BuildRequires:  pkgconfig(libjpeg)
 BuildRequires:  pkgconfig(libpng)
 BuildRequires:  pkgconfig(libraw)
@@ -47,7 +46,9 @@ Note: This version is built without ffmpeg support due to Fedora software
 
 
 %prep
-%autosetup -p1
+%setup -c -q
+%patch0 -p1
+
 
 %build
 intltoolize -f -c
@@ -72,11 +73,12 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.free_
 %files -f %{name}.lang
 %license LICENSE.md
 %doc AUTHORS ChangeLog NEWS README.md
-%{_bindir}/%{name}
+%{_bindir}/%{name}*
 %{_datadir}/applications/org.free_astro.siril.desktop
 %{_datadir}/mime/packages/%{name}.xml
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 %{_datadir}/icons/hicolor/scalable/mimetypes/text-x-seq.svg
+%{_datadir}/icons/hicolor/symbolic/apps/siril-symbolic.svg
 %{_datadir}/metainfo/org.free_astro.siril.appdata.xml
 %{_datadir}/%{name}/
 %{_mandir}/man1/%{name}.1.gz
@@ -84,6 +86,22 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.free_
 %exclude %{_pkgdocdir}/LICENSE.md
 
 %changelog
+* Tue Oct 20 2020 Nicolas Chauvet <kwizart@gmail.com> - 0.99.6-1
+- Update to 0.99.6
+
+* Tue Sep 15 2020 Jeff Law <law@redhat.com> - 0.99.4-2
+- Fix missing include for gcc-11
+
+* Tue Aug 25 2020 Christian Dersch <lupinix@mailbox.org> - 0.99.4-1
+- new version
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.12-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.12-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Nicolas Chauvet <kwizart@gmail.com> - 0.9.12-7
 - Rebuilt for OpenCV 4.3
 

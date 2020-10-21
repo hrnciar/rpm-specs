@@ -1,6 +1,6 @@
 Name:          perl-Net-DNS
-Version:       1.21
-Release:       3%{?dist}
+Version:       1.27
+Release:       1%{?dist}
 Summary:       DNS resolver modules for Perl
 # Other files:          MIT
 # demo/mresolv:         GPL+ or Artistic
@@ -16,12 +16,13 @@ BuildRequires: coreutils
 BuildRequires: findutils
 BuildRequires: glibc-common
 BuildRequires: make
-BuildRequires: sed
 BuildRequires: perl-generators
 BuildRequires: perl-interpreter
+BuildRequires: perl(Config)
 BuildRequires: perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires: perl(Getopt::Long)
-BuildRequires: perl(IO::Socket)
+# IO::Socket::IP or IO::Socket::INET
+BuildRequires: perl(IO::Socket::IP) >= 0.38
 # Runtime
 BuildRequires: perl(base)
 BuildRequires: perl(Carp)
@@ -45,7 +46,6 @@ BuildRequires: perl(integer)
 BuildRequires: perl(IO::File)
 # IO::Select is not used
 # Prefer IO::Socket::IP over IO::Socket::INET for IPv6 support
-BuildRequires: perl(IO::Socket::IP) >= 0.32
 BuildRequires: perl(MIME::Base64) >= 2.13
 # Prefer Net::LibIDN2 over Net::LibIDN, both are optional
 BuildRequires: perl(Net::LibIDN2) >= 1
@@ -59,14 +59,14 @@ BuildRequires: perl(warnings)
 # Win32::IPHelper is not needed
 # Win32::TieRegistry is not needed
 # Tests only
-BuildRequires: perl(File::Find)
+BuildRequires: perl(File::Find) >= 1.05
 BuildRequires: perl(Test::Builder)
 BuildRequires: perl(Test::More)
 # Optional tests:
 BuildRequires: perl(Test::Pod) >= 1.45
 %if !%{defined perl_bootstrap}
 # Build cycle: perl-Net-DNS-SEC → perl-Net-DNS
-BuildRequires: perl(Net::DNS::SEC)
+BuildRequires: perl(Net::DNS::SEC) >= 1.01
 BuildRequires: perl(Net::DNS::SEC::RSA)
 %endif
 Requires:      perl(:MODULE_COMPAT_%(eval "$(perl -V:version)"; echo $version))
@@ -78,7 +78,7 @@ Requires:      perl(Digest::MD5) >= 2.13
 Requires:      perl(Digest::SHA) >= 5.23
 Requires:      perl(Encode)
 # Prefer IO::Socket::IP over IO::Socket::INET for IPv6 support
-Recommends:    perl(IO::Socket::IP) >= 0.32
+Recommends:    perl(IO::Socket::IP) >= 0.38
 Requires:      perl(MIME::Base64) >= 2.13
 # Net::DNS::Extlang not available
 Suggests:      perl(Net::DNS::SEC::DSA)
@@ -115,6 +115,7 @@ its various sections. See RFC 1035 or DNS and BIND (Albitz & Liu) for details.
 %package Nameserver
 Summary:        DNS server for Perl
 License:        MIT
+Requires:       perl(:MODULE_COMPAT_%(eval "$(perl -V:version)"; echo $version))
 Recommends:     perl(IO::Socket::IP) >= 0.32
 
 %description Nameserver
@@ -123,7 +124,7 @@ Instances of the "Net::DNS::Nameserver" class represent DNS server objects.
 %prep
 %setup -q -n Net-DNS-%{version} 
 chmod -x demo/*
-sed -i -e '1 s,^#!/usr/local/bin/perl,#!%{__perl},' demo/*
+perl -MConfig -i -pe 's{^#!/usr/local/bin/perl}{$Config{startperl}}' demo/*
 for i in Changes; do
     iconv -f iso8859-1 -t utf-8 "$i" > "${i}.conv"
     touch -r "$i" "${i}.iconv"
@@ -132,11 +133,11 @@ done
 
 %build
 export PERL_MM_USE_DEFAULT=yes
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 --no-online-tests
-make %{?_smp_mflags} OPTIMIZE="%{optflags}"
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 --no-online-tests
+%{make_build}
 
 %install
-make pure_install DESTDIR=%{buildroot}
+%{make_install}
 find %{buildroot} -type f -name '*.bs' -a -size 0 -delete
 chmod -R u+w %{buildroot}/*
 
@@ -160,6 +161,15 @@ make test
 %{_mandir}/man3/Net::DNS::Nameserver*
 
 %changelog
+* Mon Sep 14 2020 Petr Pisar <ppisar@redhat.com> - 1.27-1
+- 1.27 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.21-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.21-4
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.21-3
 - Perl 5.32 rebuild
 

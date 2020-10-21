@@ -1,27 +1,13 @@
 %?mingw_package_header
 
 Name:           mingw-libvorbis
-Version:        1.3.6
-Release:        5%{?dist}
+Version:        1.3.7
+Release:        2%{?dist}
 Summary:        MinGW Windows libvorbis library
 
 License:        BSD
-URL:            http://www.xiph.org/
-Source0:        http://downloads.xiph.org/releases/vorbis/libvorbis-%{version}.tar.gz
-
-# sync with git as of
-#
-# commit 46e70fa6573e206c2555cd99a53204ffd6bf58fd
-# Author: Minmin Gong <gongminmin@msn.com>
-# Date:   Wed Jul 4 21:37:54 2018 -0700
-#
-#     Fix the compiling errors on msvc ARM64 configuration.
-#
-# Fixes:
-# CVE-2017-14160
-# CVE-2018-10392
-# CVE-2018-10393
-Patch0:         libvorbis-1.3.6-git.patch
+URL:            https://www.xiph.org/vorbis/
+Source0:        https://downloads.xiph.org/releases/vorbis/libvorbis-%{version}.tar.xz
 
 BuildArch:      noarch
 
@@ -121,6 +107,12 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/doc/
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 David King <amigadave@amigadave.com> - 1.3.7-1
+- Update to 1.3.7
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.6-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

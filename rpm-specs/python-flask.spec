@@ -3,7 +3,7 @@
 
 Name:           python-%{modname}
 Version:        1.1.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Epoch:          1
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
@@ -79,6 +79,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v -k "not test_send_from_dir
 %doc examples
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.1.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 1:1.1.2-3
 - Rebuilt for Python 3.9
 

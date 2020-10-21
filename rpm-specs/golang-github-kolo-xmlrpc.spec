@@ -4,7 +4,7 @@
 
 # https://github.com/kolo/xmlrpc
 %global goipath         github.com/kolo/xmlrpc
-%global commit          de6d879202d7d642e74d3a70d4e9d560f252cb22
+%global commit          e0350524596bdaa971961972c6eae89c28de25ba
 
 %gometa
 
@@ -17,7 +17,7 @@ language.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.7%{?dist}
+Release:        0.9%{?dist}
 Summary:        Implementation of XMLRPC protocol in Go language
 
 License:        MIT
@@ -49,6 +49,12 @@ BuildRequires:  golang(golang.org/x/text/transform)
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 19:52:51 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.9.20200728gite035052
+- Bump to commit e0350524596bdaa971961972c6eae89c28de25ba
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,13 +4,13 @@
 
 %global x11_app_defaults_dir %{_datadir}/X11/app-defaults
 
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel} >= 9
 %bcond_without wx
 %else
 %bcond_with wx
 %endif
 
-%if 0%{?fedora} >= 28
+%if 0%{?fedora} >= 28 || 0%{?rhel} >= 9
 %bcond_without libcerf
 %else
 %bcond_with libcerf
@@ -19,7 +19,7 @@
 Summary: A program for plotting mathematical expressions and data
 Name: gnuplot
 Version: %{major}.%{minor}.%{patchlevel}
-Release: 2%{?dist}
+Release: 6%{?dist}
 # MIT .. term/PostScript/aglfn.txt
 License: gnuplot and MIT
 URL: http://www.gnuplot.info/
@@ -39,6 +39,7 @@ Patch5: gnuplot-5.0.0-lua_checkint.patch
 Patch6: gnuplot-5.2.4-no-lena.patch
 Patch7: gnuplot-5.2.2-doc.patch
 Patch8: gnuplot-5.2.8-cmd-opts.patch
+Patch9: gnuplot-config.patch
 
 Requires: %{name}-common = %{version}-%{release}
 Requires: dejavu-sans-fonts
@@ -174,6 +175,7 @@ plotting tool.
 %patch6 -p1 -b .nolena
 %patch7 -p1 -b .doc
 %patch8 -p1 -b .cmd-opts
+%patch9 -p1 -b .config
 sed -i -e 's:"/usr/lib/X11/app-defaults":"%{x11_app_defaults_dir}":' src/gplt_x11.c
 iconv -f windows-1252 -t utf-8 ChangeLog > ChangeLog.aux
 mv ChangeLog.aux ChangeLog
@@ -366,6 +368,19 @@ fi
 %{_datadir}/texlive/texmf-dist/tex/latex/gnuplot/
 
 %changelog
+* Wed Aug 05 2020 Merlin Mathesius <mmathesi@redhat.com> - 5.2.8-6
+- Minor conditional fixes for ELN
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.8-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Jeff Law <law@redhat.com> - 5.2.8-3
+- Fix broken configure test compromised by LTO
+
 * Tue Feb 25 2020 Pavel Cahyna <pcahyna@redhat.com> - 5.2.8-2
 - Enable libcerf (bz#1476616)
 

@@ -15,7 +15,7 @@ Readline is a pure go (golang) implementation for GNU-Readline kind library.}
 %global godocs          example doc README.md CHANGELOG.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Pure go implementation for GNU-Readline kind library
 
 License:        MIT
@@ -49,6 +49,9 @@ BuildRequires:  golang(github.com/chzyer/test)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 04 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.4-1.20200404git9cec905
 - Initial package
 

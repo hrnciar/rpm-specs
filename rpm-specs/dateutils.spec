@@ -1,6 +1,6 @@
 Name:           dateutils
 Version:        0.4.7
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Command-line date and time calculation, conversion, and comparison
 
 License:        BSD
@@ -54,6 +54,9 @@ make check
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 29 2020 Matthew Miller <mattdm@fedoraproject.org> - 0.4.7-2
 - pull in upstream patch for build issue
 - use autosetup macro to apply patches. fun new stuff for old packagers!

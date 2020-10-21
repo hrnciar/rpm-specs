@@ -7,7 +7,7 @@
 
 Name:		nodejs-any-promise
 Version:	1.3.0
-Release:	7%{?dist}
+Release:	9%{?dist}
 Summary:	Resolve any installed ES6 compatible promise
 
 License:	MIT
@@ -73,6 +73,13 @@ cp -pr package.json *.js \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

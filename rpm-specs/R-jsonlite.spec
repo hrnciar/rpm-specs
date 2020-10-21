@@ -1,14 +1,14 @@
 %global packname jsonlite
-%global packver  1.6.1
+%global packver  1.7.1
 %global rlibdir  %{_libdir}/R/library
 
 # Several hard-require this package or are not yet available.
-%global with_suggests 0
+%bcond_without bootstrap
 
 Name:             R-%{packname}
-Version:          1.6.1
-Release:          2%{?dist}
-Summary:          A Robust, High Performance JSON Parser and Generator for R
+Version:          1.7.1
+Release:          1%{?dist}
+Summary:          A Simple and Robust JSON Parser and Generator for R
 
 # Bundled yajl is ISC.
 License:          MIT and ISC
@@ -18,7 +18,7 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 # Here's the R view of the dependencies world:
 # Depends:   R-methods
 # Imports:
-# Suggests:  R-httr, R-curl, R-plyr, R-testthat, R-knitr, R-rmarkdown, R-R.rsp, R-sp
+# Suggests:  R-httr, R-curl, R-plyr, R-testthat, R-knitr, R-rmarkdown, R-R.rsp, R-sf
 # LinkingTo:
 # Enhances:
 
@@ -27,28 +27,26 @@ BuildRequires:    tex(latex)
 BuildRequires:    R-methods
 BuildRequires:    R-plyr
 BuildRequires:    R-testthat
-BuildRequires:    R-sp
-%if 0%{with_suggests}
+%if %{without bootstrap}
 BuildRequires:    R-httr
 BuildRequires:    R-curl
 BuildRequires:    R-knitr
 BuildRequires:    R-rmarkdown
 BuildRequires:    R-R.rsp
+BuildRequires:    R-sf
 %endif
 # https://github.com/jeroen/jsonlite/issues/201
 Provides: bundled(yajl) = 2.1.1
 
 %description
-A fast JSON parser and generator optimized for statistical data and the web.
-Started out as a fork of 'RJSONIO', but has been completely rewritten in recent
-versions. The package offers flexible, robust, high performance tools for
-working with JSON in R and is particularly powerful for building pipelines and
-interacting with a web API. The implementation is based on the mapping
-described in the vignette (Ooms, 2014). In addition to converting JSON data
-from/to R objects, 'jsonlite' contains functions to stream, validate, and
-prettify JSON data. The unit tests included with the package verify that all
-edge cases are encoded and decoded consistently for use with dynamic data in
-systems and applications.
+A reasonably fast JSON parser and generator, optimized for statistical data and
+the web. Offers simple, flexible tools for working with JSON in R, and is
+particularly powerful for building pipelines and interacting with a web API.
+The implementation is based on the mapping described in the vignette (Ooms,
+2014). In addition to converting JSON data from/to R objects, 'jsonlite'
+contains functions to stream, validate, and prettify JSON data.  The unit tests
+included with the package verify that all edge cases are encoded and decoded
+consistently for use with dynamic data in systems and applications.
 
 
 %prep
@@ -66,7 +64,7 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %check
-%if %{with_suggests}
+%if %{without bootstrap}
 %{_bindir}/R CMD check %{packname}
 %else
 _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --ignore-vignettes --no-examples
@@ -91,6 +89,15 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --ignore-vignettes
 
 
 %changelog
+* Mon Sep 07 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.7.1-1
+- Update to latest version (#1876456)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.7.0-1
+- Update to latest version
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 1.6.1-2
 - rebuild for R 4
 

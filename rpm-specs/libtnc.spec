@@ -2,11 +2,12 @@
 
 Name:		libtnc
 Version:	1.25
-Release:	25%{?dist}
+Release:	28%{?dist}
 Summary:	Library implementation of the Trusted Network Connect (TNC) specification
 License:	GPLv2
 Source0:	http://dl.sourceforge.net/sourceforge/%{name}/%{name}-%{version}.tar.gz
 Patch0:		libtnc-1.25-bootstrap.patch
+Patch1:		libtnc-1.25-syserror.patch
 URL:		http://libtnc.sourceforge.net/
 BuildRequires:  gcc
 BuildRequires:	perl-devel
@@ -42,6 +43,7 @@ tar xf Interface-TNC-1.0.tar.gz
 popd
 
 %patch0 -p1 -b .bootstrap
+%patch1 -p1 -b .syserror
 
 %build
 CFLAGS="%{optflags} -fPIC -DPIC"
@@ -95,6 +97,16 @@ popd
 %{_mandir}/man3/Interface::TNC*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.25-28
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.25-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Callaway <spot@fedoraproject.org> - 1.25-26
+- use syserror instead of sys_errlist because sys_errlist is gone in latest glibc
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.25-25
 - Perl 5.32 rebuild
 

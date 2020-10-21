@@ -1,10 +1,11 @@
 Name:           perl-IO-Tty
 Version:        1.14
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Perl interface to pseudo tty's
 License:        (GPL+ or Artistic) and BSD
 URL:            https://metacpan.org/release/IO-Tty
 Source0:        https://cpan.metacpan.org/modules/by-module/IO/IO-Tty-%{version}.tar.gz
+Patch0:         0001-Make-function-tests-more-robust.patch
 # Module Build
 BuildRequires:  coreutils
 BuildRequires:  findutils
@@ -16,7 +17,7 @@ BuildRequires:  perl-interpreter
 BuildRequires:  perl(Config)
 BuildRequires:  perl(Cwd)
 BuildRequires:  perl(Exporter)
-BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 # Module Runtime
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(DynaLoader)
@@ -40,13 +41,16 @@ IO::Tty and IO::Pty provide an interface to pseudo tty's.
 %prep
 %setup -q -n IO-Tty-%{version}
 
+# Prevent false-positive detection of functions, e.g strlcpy() and _getpty()
+# https://github.com/toddr/IO-Tty/pull/24
+%patch0 -p1
+
 %build
-perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}"
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}" NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=%{buildroot}
-find %{buildroot} -type f -name .packlist -delete
+%{make_install}
 find %{buildroot} -type f -name '*.bs' -empty -delete
 %{_fixperms} -c %{buildroot}
 
@@ -62,6 +66,14 @@ make test
 %{_mandir}/man3/IO::Tty::Constant.3*
 
 %changelog
+* Sat Aug 22 2020 Paul Howarth <paul@city-fan.org> - 1.14-5
+- Fix FTBFS due to false detection of strlcpy() and _getpty()
+  https://github.com/toddr/IO-Tty/pull/24
+- Modernize spec using %%{make_build} and %%{make_install}
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.14-3
 - Perl 5.32 rebuild
 

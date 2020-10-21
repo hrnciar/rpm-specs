@@ -1,6 +1,6 @@
 Name:           apvlv
-Version:        0.1.5
-Release:        7%{?dist}
+Version:        0.2.0
+Release:        1%{?dist}
 Summary:        PDF viewer which behaves like Vim
 
 License:        GPLv2+
@@ -8,17 +8,16 @@ URL:            http://naihe2010.github.com/apvlv/
 Source0:        https://github.com/downloads/naihe2010/apvlv/apvlv-%{version}.tar.gz
 Source1:        %{name}.desktop
 Patch0:         apvlv-0.1.5-cflags.patch
-Patch1:         apvlv-0.1.5-gcc6.patch
-Patch2:         apvlv-0.1.5-gcc7.patch
-Patch3:         fix-build-with-poppler-0.73.0.patch
 
+BuildRequires:  cmake
+BuildRequires:  desktop-file-utils
+BuildRequires:  djvulibre-devel
+BuildRequires:  ebook-tools-devel
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
-BuildRequires:  cmake
-BuildRequires:  gtk3-devel poppler-glib-devel
-# Build-time optional support for DjVu
-BuildRequires:  djvulibre-devel
-BuildRequires:  desktop-file-utils
+BuildRequires:  gtk3-devel
+BuildRequires:  poppler-glib-devel
+BuildRequires:  webkit2gtk3-devel
 
 %description
 apvlv is a GTK2 PDF and DjVu viewer with a vim look-and-feel.
@@ -33,10 +32,10 @@ It can also browse through directories of such documents.
 # Does not compile with the following option:
 # -DAPVLV_WITH_HTML:BOOL=ON 
 %cmake . -DDOCDIR=%{_pkgdocdir} -DAPVLV_WITH_DJVU:BOOL=ON -DAPVLV_WITH_TXT:BOOL=ON
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications \
     %{SOURCE1}
 
@@ -51,6 +50,19 @@ desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications \
 %config(noreplace)%{_sysconfdir}/apvlvrc
 
 %changelog
+* Mon Aug 24 2020 Filipe Rosset <rosset.filipe@gmail.com> - 0.2.0-1
+- Update to 0.2.0 fixes rhbz#1778828
+
+* Tue Aug 04 2020 Filipe Rosset <rosset.filipe@gmail.com> - 0.1.5-10
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.5-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.5-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.5-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

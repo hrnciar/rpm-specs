@@ -33,7 +33,7 @@
 
 Name:           php-%{pk_vendor}-%{pk_project}%{ver_major}
 Version:        %{ver_major}.%{ver_minor}.%{ver_patch}
-Release:        %{?gh_date:1%{specrel}.%{?prever}%{!?prever:%{gh_date}.%{gh_short}}}%{!?gh_date:%{specrel}}%{?dist}.3
+Release:        %{?gh_date:1%{specrel}.%{?prever}%{!?prever:%{gh_date}.%{gh_short}}}%{!?gh_date:%{specrel}}%{?dist}.4
 Summary:        PHP code coverage information
 
 # Main license is BSD
@@ -213,6 +213,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.2-2.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.2-2.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

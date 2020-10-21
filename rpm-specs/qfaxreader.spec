@@ -1,7 +1,7 @@
 Name:         qfaxreader
 License:      GPLv2+
 Version:      0.3.2
-Release:      14%{dist}
+Release:      16%{dist}
 Summary:      A multipage monochrome/color TIFF/FAX viewer
 Source:       http://downloads.sourceforge.net/sourceforge/%{name}/%{name}-%{version}.tar.bz2
 Patch0:       libtiff3.patch
@@ -95,6 +95,13 @@ desktop-file-install                                    \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

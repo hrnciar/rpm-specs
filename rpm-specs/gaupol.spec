@@ -8,7 +8,7 @@
 
 Name:		gaupol
 Version:	1.4
-Release:	9%{?dist}
+Release:	11%{?dist}
 Summary:	Subtitle editor
 
 License:	GPLv3+
@@ -66,6 +66,13 @@ $RPM_BUILD_ROOT/%{_datadir}/applications/%{name}.desktop
 %{python3_sitelib}/aeidon
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4-9
 - Rebuilt for Python 3.9
 

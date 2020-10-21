@@ -1,9 +1,9 @@
-%global luaver 5.3
+%global luaver 5.4
 %global luapkgdir %{_datadir}/lua/%{luaver}
 
 Name:		lua-markdown
 Version:	0.32
-Release:	15%{?dist}
+Release:	17%{?dist}
 BuildArch:	noarch
 Summary:	Markdown module for Lua
 License:	MIT
@@ -55,6 +55,12 @@ lua markdown.lua -t
 
 
 %changelog
+* Wed Aug  5 2020 Thomas Moschny <thomas.moschny@gmx.de> - 0.32-17
+- Update for Lua 5.4.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.32-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.32-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           dtkwm
 Version:        2.0.12
-Release:        5%{?dist}
+Release:        8%{?dist}
 Summary:        Deepin graphical user interface library
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/dtkwm
@@ -48,7 +48,7 @@ export PATH=%{_qt5_bindir}:$PATH
 %files
 %doc README.md
 %license LICENSE
-%{_libdir}/libdtkwm.so.2*
+%{_libdir}/libdtkwm.so.5*
 
 %files devel
 %{_includedir}/libdtk-*/
@@ -59,6 +59,15 @@ export PATH=%{_qt5_bindir}:$PATH
 %{_libdir}/libdtkwm.so
 
 %changelog
+* Wed Sep 23 2020 Robin Lee <cheeselee@fedoraproject.org> - 2.0.12-8
+- rebuild (dtkcore)
+
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 2.0.12-7
+- rebuild (qt5)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.12-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.0.12-5
 - rebuild (qt5)
 

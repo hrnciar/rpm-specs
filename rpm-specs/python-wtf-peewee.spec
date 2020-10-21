@@ -2,7 +2,7 @@
 
 Name:		python-wtf-peewee
 Version:	3.0.0
-Release:	6%{?dist}
+Release:	8%{?dist}
 Summary:	WTForms integration for peewee models
 
 License:	MIT
@@ -11,11 +11,8 @@ Source0:	https://pypi.python.org/packages/source/w/%{srcname}/%{srcname}-%{versi
 
 BuildArch:	noarch
 
-# For python 3 subpackage
 BuildRequires:	python3-devel
-BuildRequires:	python3-setuptools
-BuildRequires:	python3-peewee
-BuildRequires:	python3-wtforms
+BuildRequires:	pyproject-rpm-macros
 
 %description
 Wtf-peewee, based on the code found in wtforms.ext, provides a bridge between
@@ -23,10 +20,6 @@ peewee models and wtforms, mapping model fields to form fields.
 
 %package -n python3-%{srcname}
 Summary:        WTForms integration for peewee models
-%{?python_provide:%python_provide python3-%{srcname}}
-
-Requires:	python3-wtforms
-Requires:	python3-peewee
 
 %description -n python3-%{srcname}
 Wtf-peewee, based on the code found in wtforms.ext, provides a bridge between
@@ -40,26 +33,31 @@ peewee models and wtforms, mapping model fields to form fields.
 chmod -x runtests.py
 sed -i '1d' runtests.py
 
-# Remove bundled egg-info
-rm -rf wtf_peewee.egg-info
+%generate_buildrequires
+%pyproject_buildrequires -r
 
 %build
-%py3_build
+%pyproject_wheel
 
 %install
-%py3_install
+%pyproject_install
+%pyproject_save_files wtfpeewee
 
 %check
 %{__python3} setup.py test
 
 
-%files -n python3-%{srcname}
+%files -n python3-%{srcname} -f %pyproject_files
 %doc README.md
 %license LICENSE
-%{python3_sitelib}/wtfpeewee
-%{python3_sitelib}/*.egg-info
 
 %changelog
+* Tue Sep 15 2020 Charalampos Stratakis <cstratak@redhat.com> - 3.0.0-8
+- Convert the package to pyproject macros
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.0-6
 - Rebuilt for Python 3.9
 

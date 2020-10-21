@@ -4,7 +4,7 @@
 
 Name:           %{fontname}-fonts
 Version:        20080203
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Chunky Geometric Fonts
 
 License:        OFL
@@ -64,6 +64,9 @@ install -Dm 0644 -p %{SOURCE2} \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20080203-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20080203-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

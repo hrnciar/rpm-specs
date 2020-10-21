@@ -6,8 +6,9 @@
 #
 # Please, preserve the changelog entries
 #
-%global bootstrap    0
-%global gh_commit    cfe0711446c8d9c392e9fc664c9ccc180fa89005
+%bcond_without tests
+
+%global gh_commit    c154a733b122539ac2c894561996c770db289f70
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     laminas
 %global gh_project   laminas-mail
@@ -15,14 +16,9 @@
 %global php_home     %{_datadir}/php
 %global namespace    Laminas
 %global library      Mail
-%if %{bootstrap}
-%global with_tests   0%{?_with_tests:1}
-%else
-%global with_tests   0%{!?_without_tests:1}
-%endif
 
 Name:           php-%{gh_project}
-Version:        2.10.1
+Version:        2.12.3
 Release:        1%{?dist}
 Summary:        %{namespace} Framework %{library} component
 
@@ -33,8 +29,8 @@ Source1:        makesrc.sh
 
 BuildArch:      noarch
 # Tests
-%if %{with_tests}
-BuildRequires:  php(language) >= 5.6
+%if %{with tests}
+BuildRequires:  php(language) >= 7.1
 BuildRequires:  php-ctype
 BuildRequires:  php-date
 BuildRequires:  php-iconv
@@ -50,19 +46,19 @@ BuildRequires: (php-composer(true/punycode)                              >= 2.1 
 #        "laminas/laminas-coding-standard": "~1.0.0",
 #        "laminas/laminas-config": "^2.6",
 #        "laminas/laminas-crypt": "^2.6 || ^3.0",
-#        "laminas/laminas-servicemanager": "^2.7.10 || ^3.3.1",
-#        "phpunit/phpunit": "^5.7.25 || ^6.4.4 || ^7.1.4"
+#        "laminas/laminas-servicemanager": "^3.2.1",
+#        "phpunit/phpunit": "^7.5.20"
 BuildRequires: (php-autoloader(%{gh_owner}/laminas-config)               >= 2.6    with php-autoloader(%{gh_owner}/laminas-config)               < 3)
 BuildRequires: (php-autoloader(%{gh_owner}/laminas-crypt)                >= 3.0    with php-autoloader(%{gh_owner}/laminas-crypt)                < 4)
-BuildRequires: (php-autoloader(%{gh_owner}/laminas-servicemanager)       >= 3.3.1  with php-autoloader(%{gh_owner}/laminas-servicemanager)       < 4)
-BuildRequires:  phpunit7 >= 7.1.4
+BuildRequires: (php-autoloader(%{gh_owner}/laminas-servicemanager)       >= 3.2.1  with php-autoloader(%{gh_owner}/laminas-servicemanager)       < 4)
+BuildRequires:  phpunit7 >= 7.5.20
 %global phpunit %{_bindir}/phpunit7
 %endif
 # Autoloader
 BuildRequires:  php-fedora-autoloader-devel
 
 # From composer, "require": {
-#        "php": "^5.6 || ^7.0",
+#        "php": "^7.1",
 #        "ext-iconv": "*",
 #        "laminas/laminas-loader": "^2.5",
 #        "laminas/laminas-mime": "^2.5",
@@ -70,7 +66,7 @@ BuildRequires:  php-fedora-autoloader-devel
 #        "laminas/laminas-validator": "^2.10.2",
 #        "laminas/laminas-zendframework-bridge": "^1.0",
 #        "true/punycode": "^2.1"
-Requires:       php(language) >= 5.6
+Requires:       php(language) >= 7.1
 Requires:       php-iconv
 Requires:      (php-autoloader(%{gh_owner}/laminas-loader)               >= 2.5    with php-autoloader(%{gh_owner}/laminas-loader)               < 3)
 Requires:      (php-autoloader(%{gh_owner}/laminas-mime)                 >= 2.5    with php-autoloader(%{gh_owner}/laminas-mime)                 < 3)
@@ -156,7 +152,7 @@ cp -pr zf.php %{buildroot}%{php_home}/Zend/%{library}/autoload.php
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 cat << 'EOF' | tee vendor/autoload.php
 <?php
@@ -197,6 +193,19 @@ exit $ret
 
 
 %changelog
+* Thu Aug 13 2020 Remi Collet <remi@remirepo.net> - 2.12.3-1
+- update to 2.12.3
+
+* Tue Aug 11 2020 Remi Collet <remi@remirepo.net> - 2.12.2-1
+- update to 2.12.2
+- raise dependency on PHP 7.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  1 2020 Remi Collet <remi@remirepo.net> - 2.11.0-1
+- update to 2.11.0
+
 * Wed Apr 22 2020 Remi Collet <remi@remirepo.net> - 2.10.1-1
 - update to 2.10.1
 

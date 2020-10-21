@@ -1,12 +1,14 @@
 # remirepo/fedora spec file for php-bacon-qr-code2
 #
-# Copyright (c) 2017-2019 Remi Collet
+# Copyright (c) 2017-2020 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    eaac909da3ccc32b748a65b127acd8918f58d9b0
+%bcond_without       tests
+
+%global gh_commit    add6d9ff97336b62f95a3b94f75cea4e085465b2
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     Bacon
 %global gh_project   BaconQrCode
@@ -18,11 +20,10 @@
 %global ns_project   %{gh_project}
 %global php_home     %{_datadir}/php
 %global major        2
-%global with_tests   0%{!?_without_tests:1}
 
 Name:           php-%{pk_project}%{major}
-Version:        2.0.0
-Release:        2%{?dist}
+Version:        2.0.2
+Release:        1%{?dist}
 Summary:        QR code generator for PHP
 
 Group:          Development/Libraries
@@ -32,7 +33,7 @@ Source0:        %{name}-%{version}-%{gh_short}.tgz
 Source1:        makesrc.sh
 
 BuildArch:      noarch
-%if %{with_tests}
+%if %{with tests}
 # For tests
 BuildRequires:  php(language) >= 7.1
 BuildRequires:  php-iconv
@@ -43,10 +44,11 @@ BuildRequires:  php-xmlwriter
 BuildRequires:  php-reflection
 BuildRequires: (php-composer(dasprid/enum) >= 1.0    with php-composer(dasprid/enum) < 2)
 # From composer.json, "require-dev": {
-#        "phpunit/phpunit": "^6.4",
+#        "phpunit/phpunit": "^7 | ^8 | ^9",
 #        "squizlabs/php_codesniffer": "^3.1",
 #        "phly/keep-a-changelog": "^1.4"
-BuildRequires:  phpunit6
+%global phpunit %{_bindir}/phpunit9
+BuildRequires:  %{phpunit}
 # Required by autoloader
 BuildRequires:  php-composer(fedora/autoloader)
 %endif
@@ -109,7 +111,7 @@ cp -pr src %{buildroot}%{php_home}/%{ns_project}%{major}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 if php -r 'exit(PHP_INT_SIZE<8 ? 0 : 1);'
 then
   : ignore test suite because of https://github.com/Bacon/BaconQrCode/issues/31
@@ -123,9 +125,10 @@ require '%{buildroot}%{php_home}/%{ns_project}%{major}/autoload.php';
 EOF
 
 ret=0
-for cmd in php php71 php72 php73 php74; do
+for cmd in "php %{phpunit}" "php72 %{_bindir}/phpunit8" php73 php74 php80; do
   if which $cmd; then
-    $cmd %{_bindir}/phpunit6 --verbose || ret=1
+    set $cmd
+    $1 ${2:-%{_bindir}/phpunit9} --verbose || ret=1
   fi
 done
 exit $ret
@@ -142,6 +145,16 @@ exit $ret
 
 
 %changelog
+* Tue Aug 11 2020 Remi Collet <remi@remirepo.net> - 2.0.2-1
+- update to 2.0.2
+- switch to phpunit9
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Remi Collet <remi@remirepo.net> - 2.0.1-1
+- update to 2.0.1
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.6.2
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        Accelerator for ws4py and AutobahnPython
 
 License:        ASL 2.0
@@ -66,6 +66,9 @@ PYTHONPATH="$(echo build/lib*%{python3_version})" py.test-%{python3_version} tes
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.2-22
 - Rebuilt for Python 3.9
 

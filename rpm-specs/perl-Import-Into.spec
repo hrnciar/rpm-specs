@@ -1,6 +1,6 @@
 Name:           perl-Import-Into
 Version:        1.002005
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Import packages into other packages
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Import-Into
@@ -46,6 +46,9 @@ make test
 %{_mandir}/man3/Import::Into.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.002005-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.002005-14
 - Perl 5.32 rebuild
 

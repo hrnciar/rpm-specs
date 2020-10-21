@@ -2,7 +2,7 @@ Summary: A set of commands for manipulating flat-text databases from the shell
 Name: perl-Fsdb
 Version: 2.69
 Epoch: 2
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2
 URL: http://www.isi.edu/~johnh/SOFTWARE/FSDB/
 Source0: http://www.isi.edu/~johnh/SOFTWARE/FSDB/Fsdb-%{version}.tar.gz
@@ -104,6 +104,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:2.69-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2:2.69-3
 - Perl 5.32 rebuild
 

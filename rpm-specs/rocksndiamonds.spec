@@ -1,6 +1,6 @@
 Name:		rocksndiamonds
-Version:	4.1.4.1
-Release:	3%{?dist}
+Version:	4.2.0.3
+Release:	1%{?dist}
 License:	GPL+
 Summary:	Underground digging game
 URL:		http://www.artsoft.org/rocksndiamonds/
@@ -13,11 +13,10 @@ Source2:	rocksndiamonds.png
 Source3:	rocksndiamonds-distributable-music.tar.bz2
 Patch3:		rocksndiamonds-4.1.0.0-music-info-url.patch
 Patch4:		rocksndiamonds-4.0.0.1-CVE-2011-4606.patch
-# fix gcc10 build with default -fno-common
-Patch5:		rocksndiamonds-4.1.4.1-gcc10.patch
 BuildRequires:  gcc
 BuildRequires:	SDL2-devel, libX11-devel, desktop-file-utils, xorg-x11-proto-devel
 BuildRequires:	SDL2_image-devel, SDL2_mixer-devel, SDL2_net-devel, zlib-devel
+Requires:	libmodplug%{_isa}
 
 %description
 Dig for treasure and solve puzzles underground, but watch out for falling 
@@ -27,7 +26,6 @@ rocks and strange creatures!
 %setup -q -a 3
 %patch3 -p1 -b .url
 %patch4 -p1
-%patch5 -p1 -b .gcc10
 
 # Stawp!
 rm -rf lib/*
@@ -103,6 +101,25 @@ EOF
 %{_localstatedir}/games/%{name}/
 
 %changelog
+* Tue Oct  6 2020 Tom Callaway <spot@fedoraproject.org> - 4.2.0.3-1
+- update to 4.2.0.3
+
+* Mon Sep 14 2020 Tom Callaway <spot@fedoraproject.org> - 4.2.0.2-1
+- update to 4.2.0.2
+
+* Mon Aug 24 2020 Tom Callaway <spot@fedoraproject.org> - 4.2.0.1-1
+- update to 4.2.0.1
+
+* Mon Aug 17 2020 Tom Callaway <spot@fedoraproject.org> - 4.2.0.0-1
+- update to 4.2.0.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.4.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.4.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Tom Callaway <spot@fedoraproject.org> - 4.1.4.1-3
 - fix FTBFS
 

@@ -1,10 +1,10 @@
 %global cachedir %{_localstatedir}/cache/ddclient
-%global rundir   %{_localstatedir}/run/ddclient
+%global rundir   %{_rundir}/ddclient
 
 Summary:           Client to update dynamic DNS host entries
 Name:              ddclient
 Version:           3.9.1
-Release:           1%{?dist}
+Release:           3%{?dist}
 License:           GPLv2+
 URL:               https://ddclient.net/
 Source0:           https://github.com/%{name}/%{name}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
@@ -120,6 +120,12 @@ fi
 
 
 %changelog
+* Sat Sep 12 2020 Scott Talbert <swt@techie.net> - 3.9.1-3
+- Move pidfile from /var/run to /run (#1876265)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Scott Talbert <swt@techie.net> - 3.9.1-1
 - Update to new upstream release 3.9.1 (#1796923)
 

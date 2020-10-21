@@ -13,7 +13,7 @@ The progressbar module is very easy to use, yet very powerful. It will also
 automatically enable features like auto-resizing when the system supports it.}
 
 Name:           python-%{srcname}
-Version:        3.47.0
+Version:        3.51.4
 Release:        2%{?dist}
 Summary:        A Progressbar library to provide visual progress to long running operations
 
@@ -38,7 +38,6 @@ BuildRequires:  %{py3_dist setuptools}
 BuildRequires:  %{py3_dist sphinx}
 BuildRequires:  %{py3_dist pytest}
 BuildRequires:  %{py3_dist pytest-cov}
-BuildRequires:  %{py3_dist pytest-runner}
 %if %{with tests}
 BuildRequires:  %{py3_dist freezegun} >= 0.3.10
 %endif
@@ -69,7 +68,7 @@ rm -rfv tests/__pycache__/
 
 %check
 %if %{with tests}
-%{__python3} setup.py test
+PYTHONPATH=. %pytest tests
 %endif
 
 %files -n python3-%{srcname}
@@ -79,6 +78,13 @@ rm -rfv tests/__pycache__/
 %{python3_sitelib}/progressbar
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.51.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Petr Viktorin <pviktori@redhat.com> - 3.51.4-1
+- Update to 3.51.4
+- Run pytest directly
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.47.0-2
 - Rebuilt for Python 3.9
 

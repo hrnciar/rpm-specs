@@ -2,7 +2,7 @@
 %global priority 90
 
 Name:           vala
-Version:        0.48.6
+Version:        0.48.11
 Release:        1%{?dist}
 Summary:        A modern programming language for GNOME
 
@@ -212,6 +212,21 @@ fi
 
 
 %changelog
+* Tue Sep 29 2020 Kalev Lember <klember@redhat.com> - 0.48.11-1
+- Update to 0.48.11
+
+* Sun Sep 06 2020 Kalev Lember <klember@redhat.com> - 0.48.10-1
+- Update to 0.48.10
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 0.48.9-1
+- Update to 0.48.9
+
+* Wed Jul 29 2020 Kalev Lember <klember@redhat.com> - 0.48.8-1
+- Update to 0.48.8
+
+* Mon Jul 20 2020 Kalev Lember <klember@redhat.com> - 0.48.7-1
+- Update to 0.48.7
+
 * Mon May 18 2020 Kalev Lember <klember@redhat.com> - 0.48.6-1
 - Update to 0.48.6
 

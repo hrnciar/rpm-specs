@@ -2,7 +2,7 @@
 
 Name:           %{npmname}
 Version:        2.7.2
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Connects Discord and IRC channels by sending messages back and forth
 
 License:        MIT
@@ -103,6 +103,13 @@ sed '/env node/d' -i %{buildroot}%{nodejs_sitelib}/%{npmname}/dist/cli.js
 %license LICENSE
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

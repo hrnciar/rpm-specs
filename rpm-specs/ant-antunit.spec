@@ -1,18 +1,21 @@
 %global base_name       antunit
 
-Name:             ant-%{base_name}
-Version:          1.3
-Release:          13%{?dist}
-Summary:          Provide antunit ant task
-License:          ASL 2.0
-URL:              http://ant.apache.org/antlibs/%{base_name}/
-Source0:          http://www.apache.org/dist/ant/antlibs/%{base_name}/source/apache-%{name}-%{version}-src.tar.bz2
-BuildArch:        noarch
+Name:           ant-%{base_name}
+Version:        1.4
+Release:        2%{?dist}
+Summary:        Provide antunit ant task
+License:        ASL 2.0
+URL:            http://ant.apache.org/antlibs/%{base_name}/
+Source0:        http://www.apache.org/dist/ant/antlibs/%{base_name}/source/apache-%{name}-%{version}-src.tar.bz2
+# Do not download ivy
+Patch0:         ant-antunit-local.patch
+BuildArch:      noarch
 
-BuildRequires:    javapackages-local
-BuildRequires:    ant
-BuildRequires:    ant-junit
-BuildRequires:    ant-testutil
+BuildRequires:  javapackages-local
+BuildRequires:  ant
+BuildRequires:  ant-junit
+BuildRequires:  ant-testutil
+BuildRequires:  ivy-local
 
 
 %description
@@ -29,21 +32,29 @@ such target it then will:
 
 
 %package javadoc
-Summary:          Javadoc for %{name}
+Summary:       Javadoc for %{name}
 
 %description javadoc
 This package contains the API documentation for %{name}.
 
 
 %prep
-%setup -q -n apache-%{name}-%{version}
+%autosetup -p1 -n apache-%{name}-%{version}
+cat > build.properties <<EOF
+javac.-source=6
+javac.-target=1.6
+javac.test-source=6
+javac.test-target=1.6
+EOF
+mkdir ivy
+build-jar-repository -p ivy ivy
 mv CONTRIBUTORS CONTRIBUTORS.orig
 iconv -f ISO-8859-1 -t UTF-8 CONTRIBUTORS.orig > CONTRIBUTORS
 touch -r CONTRIBUTORS.orig CONTRIBUTORS
 
 
 %build
-ant package
+ant -Divy.mode=local package
 
 
 %install
@@ -56,16 +67,30 @@ mkdir -p %{buildroot}%{_sysconfdir}/ant.d
 echo "ant/%{name}" > %{buildroot}%{_sysconfdir}/ant.d/%{base_name}
 
 
+%check
+# Not resolving local antunit at the moment
+ant -Divy.mode=local -lib build/lib test || :
+
+
 %files -f .mfiles
-%license LICENSE NOTICE
+%license common/LICENSE NOTICE
 %doc CONTRIBUTORS README README.html WHATSNEW
 %config(noreplace) %{_sysconfdir}/ant.d/%{base_name}
 
 %files javadoc -f .mfiles-javadoc
-%license LICENSE NOTICE
+%license common/LICENSE NOTICE
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Orion Poplawski <orion@nwra.com> - 1.4-1
+- Update to 1.4
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.3-14
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

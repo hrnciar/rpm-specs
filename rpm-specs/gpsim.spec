@@ -1,6 +1,6 @@
 Name:		gpsim
 Version:	0.31.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	A simulator for Microchip (TM) PIC (TM) microcontrollers
 Summary(fr):	Un simulateur pour les microcontrôleurs PIC (TM) Microchip (TM)
 
@@ -99,6 +99,9 @@ desktop-file-install --vendor=""\
 %{_includedir}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.31.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.31.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

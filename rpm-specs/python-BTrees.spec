@@ -10,7 +10,7 @@
 
 Name:           python-%{srcname}
 Version:        4.7.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Scalable persistent object containers
 
 License:        ZPLv2.1
@@ -46,15 +46,12 @@ a modified BTree data structure.  The trees are optimized for use inside
 ZODB's "optimistic concurrency" paradigm, and include explicit
 resolution of conflicts detected by that mechanism.}
 
-%description
-%{common_desc}
+%description %{common_desc}
 
 %package -n python3-%{srcname}
 Summary:        Scalable persistent object containers
-%{?python_provide:%python_provide python3-%{srcname}}
 
-%description -n python3-%{srcname}
-%{common_desc}
+%description -n python3-%{srcname} %{common_desc}
 
 %package        doc
 Summary:        Documentation for BTrees
@@ -125,6 +122,9 @@ chmod 0755 %{buildroot}%{python3_sitearch}/%{srcname}/*.so
 %doc docs/_build/html/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.7.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.7.2-2
 - Rebuilt for Python 3.9
 

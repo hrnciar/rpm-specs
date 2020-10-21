@@ -3,7 +3,7 @@
 
 Name:           jna
 Version:        5.4.0
-Release:        3%{?dist}
+Release:        7%{?dist}
 Summary:        Pure Java access to native libraries
 # Most of code is dual-licensed under either LGPL 2.1+ only or Apache
 # License 2.0.  WeakIdentityHashMap.java was taken from Apache CXF,
@@ -47,11 +47,6 @@ BuildRequires:  libX11-devel
 BuildRequires:  libXt-devel
 %if %{with reflections}
 BuildRequires:  reflections
-%endif
-
-%ifarch %{arm}
-# Speed up builds on 32bit arm
-BuildRequires: java-1.8.0-openjdk-aarch32-devel
 %endif
 
 %description
@@ -104,7 +99,6 @@ build-jar-repository -s -p lib junit reflections
 build-jar-repository -s -p lib junit
 rm test/com/sun/jna/StructureFieldOrderInspector.java
 rm test/com/sun/jna/StructureFieldOrderInspectorTest.java
-rm contrib/platform/test/com/sun/jna/platform/StructureFieldOrderTest.java
 %endif
 ln -s $(xmvn-resolve ant:ant:1.10.5) lib/ant.jar
 
@@ -112,13 +106,6 @@ cp lib/native/aix-ppc64.jar lib/clover.jar
 
 
 %build
-# Ensure we get the jit on arm
-%ifarch %{arm}
-export JAVA_HOME=$(ls -d %{_jvmdir}/java-1.8.0-openjdk-aarch32*)
-%else
-export JAVA_HOME=%{_jvmdir}/java
-%endif
-
 # We pass -Ddynlink.native which comes from our patch because
 # upstream doesn't want to default to dynamic linking.
 # -Drelease removes the .SNAPSHOT suffix from maven artifact names
@@ -159,6 +146,18 @@ install -m 755 build/native*/libjnidispatch*.so %{buildroot}%{_libdir}/%{name}/
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Fabio Valentini <decathorpe@gmail.com> - 5.4.0-6
+- Remove special-cased aarch32 build for java-1.8.0-openjdk.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 5.4.0-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jul 09 2020 Mat Booth <mat.booth@redhat.com> - 5.4.0-4
+- Fix conditional build without reflections
+
 * Thu Apr 02 2020 Tom Stellard <tstellar@redhat.com> - 5.4.0-3
 - Pass C compiler to ant
 

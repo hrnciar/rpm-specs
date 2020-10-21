@@ -1,7 +1,7 @@
 Name:           perl-ParseLex
 Summary:        Generator of lexical analyzers
 Version:        2.21
-Release:        14%{?dist}
+Release:        15%{?dist}
 License:        GPL+ or Artistic
 BuildArch:      noarch
 URL:            https://metacpan.org/release/ParseLex
@@ -54,6 +54,9 @@ find $RPM_BUILD_ROOT -name .packlist -exec rm {} \;
 %{_mandir}/man3/*.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.21-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.21-14
 - Perl 5.32 rebuild
 

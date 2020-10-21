@@ -3,12 +3,15 @@
 Name:           targetcli
 License:        ASL 2.0
 Summary:        An administration shell for storage targets
-Version:        2.1.fb49
-Release:        9%{?dist}
+Version:        2.1.53
+Release:        2%{?dist}
 URL:            https://github.com/open-iscsi/%{oname}
 Source:         %{url}/archive/v%{version}/%{oname}-%{version}.tar.gz
+# Proposed upstream
+## From: https://github.com/open-iscsi/targetcli-fb/pull/176
+Patch1:         Do-not-install-systemd-files-in-setup.py.patch
 BuildArch:      noarch
-BuildRequires:  python3-devel, python3-setuptools
+BuildRequires:  python3-devel, python3-setuptools, systemd-rpm-macros
 Requires:       python3-rtslib, target-restore, python3-configshell, python3-six, python3-dbus
 Requires:       python3-gobject-base
 
@@ -21,6 +24,7 @@ users will also need to install and use fcoe-utils.
 
 %prep
 %setup -q -n %{oname}-%{version}
+%patch1 -p1
 
 %build
 %py3_build
@@ -29,18 +33,32 @@ users will also need to install and use fcoe-utils.
 %py3_install
 mkdir -p %{buildroot}%{_sysconfdir}/target/backup
 mkdir -p %{buildroot}%{_mandir}/man8/
-install -m 644 targetcli.8 %{buildroot}%{_mandir}/man8/
+install -m 644 targetcli*.8 %{buildroot}%{_mandir}/man8/
+mkdir -p %{buildroot}%{_unitdir}/
+install -m 644 systemd/* %{buildroot}%{_unitdir}/
 
 %files
 %doc README.md
 %license COPYING
 %{python3_sitelib}/targetcli*
 %{_bindir}/targetcli
-%{_mandir}/man8/targetcli.8*
+%{_bindir}/targetclid
+%{_mandir}/man8/targetcli*.8*
+%{_unitdir}/*
 %dir %{_sysconfdir}/target
 %dir %{_sysconfdir}/target/backup
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.53-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Matt Coleman <matt@datto.com> - 2.1.53-1
+- New upstream version
+- Add the upstream project's targetclid systemd unit files
+- Add proposed upstream patch:
+  + Do not install systemd files in setup.py
+  + https://github.com/open-iscsi/targetcli-fb/pull/176
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.fb49-9
 - Rebuilt for Python 3.9
 

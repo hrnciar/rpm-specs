@@ -5,7 +5,7 @@ Name: linux-system-roles
 %endif
 Summary: Set of interfaces for unified system management
 Version: 1.0
-Release: 11%{?dist}
+Release: 12%{?dist}
 
 #Group: Development/Libraries
 License: GPLv3+ and MIT and BSD
@@ -261,6 +261,9 @@ rmdir $RPM_BUILD_ROOT%{installbase}/%{roleprefix}network/examples
 %license %{installbase}/%{roleprefix}network/LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

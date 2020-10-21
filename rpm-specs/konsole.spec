@@ -7,7 +7,7 @@
 Name:    konsole
 Summary: KDE Terminal emulator
 Version: 4.14.3
-Release: 20%{?dist}
+Release: 21%{?dist}
 
 # sources: MIT and LGPLv2 and LGPLv2+ and GPLv2+
 License: GPLv2 and GFDL
@@ -109,6 +109,9 @@ desktop-file-validate %{buildroot}%{_kde4_datadir}/applications/kde4/konsole.des
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.3-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.3-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

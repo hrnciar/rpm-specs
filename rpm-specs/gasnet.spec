@@ -1,6 +1,6 @@
 Name:           gasnet
 Version:        2020.3.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        A Portable High-Performance Communication Layer for GAS Languages
 License:        PostgreSQL
 Url:            https://gasnet.lbl.gov
@@ -9,6 +9,11 @@ BuildRequires:  automake
 BuildRequires:  gcc-c++
 BuildRequires:  perl-generators
 Requires:       %{name}-common%{?_isa} = %{version}-%{release}
+
+# bug#1859837 drop after 2020.3.0
+%if 0%{?fedora} >= 33
+%define _lto_cflags %{nil}
+%endif
 
 %description
 GASNet is a language-independent, low-level networking layer that provides
@@ -177,6 +182,12 @@ sed -i '1s@env @@' %{buildroot}/%{_libdir}/*mpi*/bin/*.pl
 %{_libdir}/mpich*/lib/valgrind
 
 %changelog
+* Tue Jul 28 2020 Christoph Junghans <junghans@votca.org> - 2020.3.0-4
+- Fix build on rawhide (bug #1859837)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2020.3.0-2
 - Perl 5.32 rebuild
 

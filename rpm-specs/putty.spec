@@ -1,6 +1,6 @@
 Name:		putty
-Version:	0.73
-Release:	5%{?dist}
+Version:	0.74
+Release:	2%{?dist}
 Summary:	SSH, Telnet and Rlogin client
 License:	MIT
 URL:		http://www.chiark.greenend.org.uk/~sgtatham/putty/
@@ -9,16 +9,12 @@ Source1:	%{name}.desktop
 BuildRequires:	gtk3-devel, krb5-devel, halibut, desktop-file-utils
 BuildRequires:	ImageMagick, perl-Digest-SHA, coreutils, python3-devel
 BuildRequires:	sed, findutils, gcc, make
-# Patch provided by Jeff Law <law@redhat.com>
-Patch0:		putty-0.73-gcc-lto-fixes.patch
 
 %description
 Putty is a SSH, Telnet & Rlogin client - this time for Linux.
 
 %prep
 %setup -q
-
-%patch0 -p1 -b .gcc-lto-fixes
 
 # fix python shebangs to use python3 (python bits aren't currently packaged)
 find . -type f -name "*.py" -exec sed -i '/^#!/ s|.*|#!%{__python3}|' {} \;
@@ -49,6 +45,14 @@ install -m644 -D -p icons/putty-48.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/putty.
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.74-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 0.74-1
+- New version
+  Resolves: rhbz#1851584
+- Dropped LTO fixes patch, it seems to be upstreamed
+
 * Fri May 15 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 0.73-5
 - Added fixes for link time optimization (LTO), patch provided
   by Jeff Law <law@redhat.com>

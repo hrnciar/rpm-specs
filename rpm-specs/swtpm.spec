@@ -1,7 +1,7 @@
 %bcond_without gnutls
 
-%global gitdate     20200218
-%global gitcommit   74ae43bd8e4fca809d1cbc398efcb2f7f968b59f
+%global gitdate     20201007
+%global gitcommit   b931e1098533319f67e789f03c13a767a1772f7b
 %global gitshortcommit  %(c=%{gitcommit}; echo ${c:0:7})
 
 # Macros needed by SELinux
@@ -11,29 +11,28 @@
 
 Summary: TPM Emulator
 Name:           swtpm
-Version:        0.3.0
+Version:        0.5.0
 Release:        1.%{gitdate}git%{gitshortcommit}%{?dist}
 License:        BSD
 Url:            http://github.com/stefanberger/swtpm
 Source0:        %{url}/archive/%{gitcommit}/%{name}-%{gitshortcommit}.tar.gz
-
-Patch0001:      0001-tests-Skip-test-4-of-derived-keys-in-case-an-allowed.patch
 
 BuildRequires:  git-core
 BuildRequires:  automake
 BuildRequires:  autoconf
 BuildRequires:  libtool
 BuildRequires:  libtpms-devel >= 0.6.0
-BuildRequires:  glib2-devel
-BuildRequires:  gmp-devel
 BuildRequires:  expect
 BuildRequires:  net-tools
 BuildRequires:  openssl-devel
 BuildRequires:  socat
 BuildRequires:  python3
+BuildRequires:  python3-devel
+BuildRequires:  python3-cryptography
+BuildRequires:  python3-pip
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-twisted
 BuildRequires:  trousers >= 0.3.9
-BuildRequires:  tpm-tools >= 1.3.8-6
 BuildRequires:  softhsm
 %if %{with gnutls}
 BuildRequires:  gnutls >= 3.1.0
@@ -45,6 +44,7 @@ BuildRequires:  libtasn1
 BuildRequires:  selinux-policy-devel
 BuildRequires:  gcc
 BuildRequires:  libseccomp-devel
+BuildRequires:  tpm2-pkcs11 tpm2-pkcs11-tools tpm2-tools tpm2-abrmd
 
 Requires:       %{name}-libs = %{version}-%{release}
 Requires:       libtpms >= 0.6.0
@@ -72,10 +72,21 @@ Include files for the TPM emulator's CUSE interface.
 Summary:        Tools for the TPM emulator
 License:        BSD
 Requires:       swtpm = %{version}-%{release}
-Requires:       trousers >= 0.3.9 tpm-tools >= 1.3.8-6 expect bash net-tools gnutls-utils
+# trousers: for tss account
+Requires:       trousers >= 0.3.9 bash gnutls-utils python3 python3-cryptography
 
 %description    tools
 Tools for the TPM emulator from the swtpm package
+
+%package        tools-pkcs11
+Summary:        Tools for creating a local CA based on a TPM pkcs11 device
+License:        BSD
+Requires:       swtpm-tools = %{version}-%{release}
+Requires:       tpm2-pkcs11 tpm2-pkcs11-tools tpm2-tools tpm2-abrmd
+Requires:       expect gnutls-utils trousers >= 0.3.9
+
+%description   tools-pkcs11
+Tools for creating a local CA based on a pkcs11 device
 
 %prep
 %autosetup -S git -n %{name}-%{gitcommit}
@@ -98,8 +109,6 @@ make %{?_smp_mflags} check VERBOSE=1
 
 %make_install
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/*.{a,la,so}
-rm -f $RPM_BUILD_ROOT%{_mandir}/man8/swtpm-create-tpmca.8*
-rm -f $RPM_BUILD_ROOT%{_datadir}/%{name}/swtpm-create-tpmca
 
 %post
 for pp in /usr/share/selinux/packages/swtpm.pp \
@@ -149,7 +158,6 @@ fi
 %{_bindir}/swtpm_cert
 %endif
 %{_bindir}/swtpm_setup
-%{_bindir}/swtpm_setup.sh
 %{_bindir}/swtpm_ioctl
 %{_mandir}/man8/swtpm_bios.8*
 %{_mandir}/man8/swtpm_cert.8*
@@ -165,9 +173,37 @@ fi
 %config(noreplace) %{_sysconfdir}/swtpm-localca.conf
 %dir %{_datadir}/swtpm
 %{_datadir}/swtpm/swtpm-localca
-%attr( 755, tss, tss) %{_localstatedir}/lib/swtpm-localca
+%{_datadir}/swtpm/swtpm-create-user-config-files
+%{python3_sitelib}/py_swtpm_setup/*
+%{python3_sitelib}/swtpm_setup-*/*
+%{python3_sitelib}/py_swtpm_localca/*
+%{python3_sitelib}/swtpm_localca-*/*
+%attr( 750, tss, root) %{_localstatedir}/lib/swtpm-localca
+
+%files tools-pkcs11
+%{_mandir}/man8/swtpm-create-tpmca.8*
+%{_datadir}/swtpm/swtpm-create-tpmca
 
 %changelog
+* Wed Oct 7 2020 Stefan Berger <stefanb@linux.ibm.com> - 0.4.0-1.20201007gitb931e109
+- Update to v0.5.0 release
+
+* Fri Aug 28 2020 Stefan Berger <stefanb@linux.ibm.com> - 0.4.0-1.20200828git0c238a2
+- Update to v0.4.0 release
+
+* Thu Aug 27 2020 Stefan Berger <stefanb@linux.ibm.com> - 0.3.4-2.20200711git80f0418
+- Disable pkcs11 related test case running into GnuTLS locking bug
+
+* Tue Aug 11 2020 Stefan Berger <stefanb@linux.ibm.com> - 0.3.4-1.20200711git80f0418
+- Update to v0.3.4 release
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-3.20200218git74ae43b
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-2.20200218git74ae43b
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Marc-André Lureau <marcandre.lureau@redhat.com> - 0.3.0-1.20200218git74ae43b
 - Update to v0.3.0 release
 

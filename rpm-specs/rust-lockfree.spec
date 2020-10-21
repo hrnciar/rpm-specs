@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.5.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Concurrent data structures and a solution to the ABA problem
 
 # Upstream license specification: MIT
@@ -75,5 +75,12 @@ chmod -x src/lib.rs
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 21 21:04:52 EET 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.5.1-1
 - Initial package

@@ -1,3 +1,6 @@
+%undefine __cmake_in_source_build
+%undefine __cmake3_in_source_build
+
 # Use static linking against boost
 %bcond_with static_boost_python
 
@@ -30,7 +33,7 @@
 
 Name:			gfal2-python
 Version:		1.9.5
-Release:		8%{?dist}
+Release:		10%{?dist}
 Summary:		Python bindings for gfal 2
 License:		ASL 2.0
 URL:			http://dmc.web.cern.ch/
@@ -42,7 +45,7 @@ URL:			http://dmc.web.cern.ch/
 Source0:		%{name}-%{version}.tar.gz
 
 BuildRequires:          gcc-c++
-BuildRequires:          cmake
+BuildRequires:          cmake3
 BuildRequires:		gfal2-devel >= 2.13.0
 BuildRequires:		boost-devel
 %if (0%{?fedora} && (0%{?fedora} <= 31)) || (0%{?rhel} && (0%{?rhel} <= 8))
@@ -97,9 +100,9 @@ GFAL2 offers an a single, simple and portable API
 for the file operations in grids and cloud environments.
 %endif
 
-%clean
-rm -rf %{buildroot};
-make clean
+#%clean
+#rm -rf %{buildroot};
+#make clean
 
 %prep
 %setup -q
@@ -115,7 +118,7 @@ if [ "$gfal2_python_cmake_ver=" != "$gfal2_python_spec_ver=" ]; then
     exit 1
 fi
 
-%cmake \
+%cmake3 \
      -DDOC_INSTALL_DIR=%{_pkgdocdir} \
      %{boost_cmake_flags} \
 %if 0%{?with_static_boost_python}
@@ -127,20 +130,22 @@ fi
      -DPYTHON2=FALSE \
      -DSKIP_DOC=TRUE  \
 %endif
-     -DUNIT_TESTS=TRUE .
+     -DUNIT_TESTS=TRUE 
 
-make %{?_smp_mflags}
+%cmake3_build
+#make %{?_smp_mflags}
 
-%if (0%{?fedora} && (0%{?fedora} <= 31)) || (0%{?rhel} && (0%{?rhel} <= 8))
-make doc
-%endif
+#%if (0%{?fedora} && (0%{?fedora} <= 31)) || (0%{?rhel} && (0%{?rhel} <= 8))
+#make doc
+#%endif
 
 %check
 ctest -V -T Test .
 
 %install
-rm -rf %{buildroot}
-make DESTDIR=%{buildroot} install
+#rm -rf %{buildroot}
+#make DESTDIR=%{buildroot} install
+%cmake3_install
 
 %if (0%{?fedora} && (0%{?fedora} <= 31)) || (0%{?rhel} && (0%{?rhel} <= 8))
 %files -n python2-gfal2
@@ -163,6 +168,13 @@ make DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.5-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.5-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Jonathan Wakely <jwakely@redhat.com> - 1.9.5-8
 - Rebuilt for Boost 1.73
 

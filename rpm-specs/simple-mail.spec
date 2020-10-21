@@ -1,8 +1,9 @@
+%undefine __cmake_in_source_build
 %global somajor 0
 
 Name:           simple-mail
 Version:        1.4.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        SMTP Client Library for Qt
 
 License:        LGPLv2+
@@ -40,15 +41,12 @@ Header and development files for libsimplemail-qt5.
 
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%cmake ..
-popd
-%make_build -C %{_target_platform}
+%cmake
+%cmake_build
 
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 
 
 %files
@@ -66,6 +64,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

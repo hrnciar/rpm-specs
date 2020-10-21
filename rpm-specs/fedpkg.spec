@@ -4,8 +4,8 @@
 %endif
 
 Name:           fedpkg
-Version:        1.38
-Release:        5%{?dist}
+Version:        1.39
+Release:        1%{?dist}
 Summary:        Fedora utility for working with dist-git
 
 License:        GPLv2+
@@ -13,12 +13,7 @@ URL:            https://pagure.io/fedpkg
 Source0:        https://pagure.io/releases/fedpkg/%{name}-%{version}.tar.bz2
 
 BuildArch:      noarch
-Patch1:         0006-display_name-added-to-bodhi.template.patch
-Patch2:         0007-Move-rpm-dependency-for-test-environment-only.patch
-Patch3:         0008-Repair-test-of-retire-command-after-rpkg-update.patch
-Patch4:         0009-Body-changes-for-requesting-new-test-repo.patch
-Patch5:         0010-Check-missing-config-options-more-reliably.patch
-Patch6:         0011-Fix-unittest-for-bodhi-based-on-its-version.patch
+Patch1:         0001-Do-not-use-pytest-related-dependencies-temporarily.patch
 
 # fedpkg command switched to python3 on Fedora 29 and RHEL > 7:
 %if 0%{?fedora} || 0%{?rhel} > 7
@@ -41,7 +36,7 @@ Requires:       redhat-rpm-config
 
 BuildRequires:  python2-devel
 # We br these things for man page generation due to imports
-BuildRequires:  python2-rpkg >= 1.60-1
+BuildRequires:  python2-rpkg >= 1.60-3
 BuildRequires:  python2-distro
 # This until fedora-cert gets fixed
 BuildRequires:  python2-fedora
@@ -74,7 +69,7 @@ BuildRequires:  python2-bugzilla
 Requires:       python2-bugzilla
 %endif
 
-Requires:       python2-rpkg >= 1.60-1
+Requires:       python2-rpkg >= 1.60-3
 Requires:       python2-distro
 Requires:       python2-fedora
 Requires:       python2-openidc-client >= 0.6.0
@@ -85,7 +80,7 @@ Requires:       python2-openidc-client >= 0.6.0
 %global __python %{__python3}
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-rpkg >= 1.60-1
+BuildRequires:  python3-rpkg >= 1.60-3
 BuildRequires:  python3-distro
 # This until fedora-cert gets fixed
 BuildRequires:  python3-fedora
@@ -99,7 +94,7 @@ BuildRequires:  python3-bodhi-client
 
 
 Requires:       python3-bugzilla
-Requires:       python3-rpkg >= 1.60-1
+Requires:       python3-rpkg >= 1.60-3
 Requires:       python3-distro
 Requires:       python3-fedora
 Requires:       python3-openidc-client >= 0.6.0
@@ -169,6 +164,30 @@ nosetests
 
 
 %changelog
+* Wed Sep 09 2020 Ondřej Nosek <onosek@redhat.com> - 1.38-1
+- Pytest replaces nosetests (onosek)
+- More specific regex to detect bugs in changelog (onosek)
+- Print response data from Pagure for debugging (onosek)
+- fedpkg fork checks if the fork already exists (onosek)
+- Fix unittest for bodhi based on its version (onosek)
+- display_name added to bodhi.template (onosek)
+- Remove unncecessary test (onosek)
+- Correct flake8 complaints to pass unittests (onosek)
+- fedpkg fork adds correct remote URL (onosek)
+- Disable test method's docstring in nosetests list (onosek)
+- Allow retirement on epel branches - tests (onosek)
+- Allow retirement on epel branches (mboddu)
+- Updated supported plaforms in documentation (onosek)
+- Check missing config options more reliably - 1813338 (onosek)
+- Body changes for requesting new test repo (onosek)
+- Repair test of "retire" command after rpkg update (onosek)
+- Move rpm dependency for test environment only (onosek)
+- Run newer version of sphinx-build tool (onosek)
+- Remove deprecated clone_config (onosek)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.38-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 1.38-5
 - Rebuilt for Python 3.9
 

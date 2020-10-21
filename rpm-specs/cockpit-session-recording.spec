@@ -1,5 +1,5 @@
 Name: cockpit-session-recording
-Version: 4
+Version: 6
 Release: 1%{?dist}
 Summary: Cockpit Session Recording
 License: LGPLv2+
@@ -28,6 +28,14 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 %{_datadir}/metainfo/org.cockpit-project.session-recording.metainfo.xml
 
 %changelog
+* Mon Oct 12 2020 Justin Stephenson <jstephen@redhat.com> - 6-1
+- Release v6
+- Bump testlib to 229
+- Add binary recording test
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 20 2020 Justin Stephenson <jstephen@redhat.com> - 4-1
 - Release v4
 - Update parent id in metainfo file

@@ -3,9 +3,9 @@
 %global pkgname freexl
 
 Name:          mingw-%{pkgname}
-Version:       1.0.5
+Version:       1.0.6
 Summary:       MinGW Windows freexl library
-Release:       5%{?dist}
+Release:       1%{?dist}
 
 BuildArch:     noarch
 License:       MPLv1.1 or GPLv2+ or LGPLv2+
@@ -75,6 +75,12 @@ find %{buildroot} -name *.la -delete
 
 
 %changelog
+* Mon Aug 03 2020 Sandro Mani <manisandro@gmail.com> - 1.0.6-1
+- Update to 1.0.6
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,13 +1,13 @@
 %global po_package %{name}-3.0
 
 Name:           gnome-applets
-Version:        3.36.4
+Version:        3.38.0
 Release:        1%{?dist}
 Summary:        Small applications for the GNOME Flashback panel
 
 License:        GPLv2+
 URL:            https://wiki.gnome.org/Projects/GnomeApplets
-Source0:        https://download.gnome.org/sources/%{name}/3.36/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -25,9 +25,9 @@ BuildRequires:  pkgconfig(gnome-settings-daemon)
 BuildRequires:  pkgconfig(gtk+-3.0) >= 3.20.0
 BuildRequires:  pkgconfig(gucharmap-2.90) >= 2.33.0
 BuildRequires:  pkgconfig(gweather-3.0) >= 3.28.0
+BuildRequires:  pkgconfig(libgnome-panel) >= 3.37
 BuildRequires:  pkgconfig(libgtop-2.0) >= 2.11.92
 BuildRequires:  pkgconfig(libnotify) >= 0.7
-BuildRequires:  pkgconfig(libpanel-applet) >= 3.24.1
 BuildRequires:  pkgconfig(libwnck-3.0) >= 3.14.1
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.5.0
 BuildRequires:  pkgconfig(polkit-gobject-1) >= 0.97
@@ -38,7 +38,7 @@ BuildRequires:  pkgconfig(x11)
 BuildRequires:  kernel-tools-devel
 %endif
 
-Requires:       gnome-panel%{?_isa} >= 3.36.0
+Requires:       gnome-panel%{?_isa} >= 3.37.0
 Requires:       hicolor-icon-theme
 
 %description
@@ -87,7 +87,7 @@ autoreconf -fiv
 %find_lang %{po_package} --all-name
 
 # Clean up unpackaged files
-find %{buildroot}%{_libdir}/%{name}/ -name '*.la' -delete
+find %{buildroot}%{_libdir}/gnome-panel/ -name '*.la' -delete
 
 # drop non-XKB support files
 rm -rf %{buildroot}%{_datadir}/xmodmap
@@ -98,16 +98,13 @@ rm -rf %{buildroot}%{_datadir}/xmodmap
 %doc README AUTHORS NEWS
 %{_datadir}/%{name}/
 %{_datadir}/glib-2.0/schemas/*.gschema.xml
-%dir %{_datadir}/gnome-panel
-%{_datadir}/gnome-panel/applets/
 %{_datadir}/icons/hicolor/*/*/*.png
 %{_datadir}/icons/hicolor/scalable/apps/*.svg
-%{_libdir}/%{name}/
-%{_sysconfdir}/sound/events/battstat_applet.soundlist
+%{_libdir}/gnome-panel/modules/org.gnome.%{name}.so
+%{_datadir}/glib-2.0/schemas/*.enums.xml
 %ifnarch s390 s390x
 %{_bindir}/cpufreq-selector
 %{_datadir}/dbus-1/system-services/org.gnome.CPUFreqSelector.service
-%{_datadir}/glib-2.0/schemas/*.enums.xml
 %{_datadir}/polkit-1/actions/org.gnome.cpufreqselector.policy
 %config %{_sysconfdir}/dbus-1/system.d/org.gnome.CPUFreqSelector.conf
 %endif
@@ -118,6 +115,16 @@ rm -rf %{buildroot}%{_datadir}/xmodmap
 
 
 %changelog
+* Thu Oct 15 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 3.38.0-1
+- build(update): 3.38.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 3.36.4-1
 - Update to 3.36.4
 - Disable LTO

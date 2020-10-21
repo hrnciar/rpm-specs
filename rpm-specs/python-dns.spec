@@ -1,44 +1,29 @@
 %global pypi_name dnspython
 %global py_package_name dns
 
-# python2-dns exists because mailman and trac-spamfilter-plugin
-# need it and both have fesco exception to stay in fedora for a while
-# https://pagure.io/fesco/issue/2312
-# https://pagure.io/fesco/issue/2266
-%bcond_without python2
-
-# Disable dependency generator until it has test code
-%{?python_disable_dependency_generator}
-
 Name:           python-%{py_package_name}
-Version:        1.16.0
-Release:        12%{?dist}
+Version:        2.0.0
+Release:        1%{?dist}
 Summary:        DNS toolkit for Python
 
-License:        MIT
+# The entire package is licensed with both licenses, see LICENSE file
+License:        ISC and MIT
 URL:            http://www.dnspython.org
 
-Source0:        http://www.dnspython.org/kits/%{version}/%{pypi_name}-%{version}.tar.gz
-
-# A no-op typing module for import compatibility
-# This avoids the build dependency on python2-typing
-Source1:        typing.py
+Source0:        https://github.com/rthalley/%{pypi_name}/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
 
 BuildArch:      noarch
-
-Patch0:         unicode_label_escapify.patch
-Patch1:         collections_abc.patch
-Patch2:         base64.patch
-Patch3:         switch_to_python_cryptography.patch
 
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-cryptography
-
-%if %{with python2}
-BuildRequires:  python2-devel
-BuildRequires:  python2-setuptools
-%endif
+BuildRequires:  python3-trio
+BuildRequires:  python3-curio
+BuildRequires:  python3-sniffio
+BuildRequires:  python3-requests
+BuildRequires:  python3-requests-toolbelt
+BuildRequires:  python3-idna
+BuildRequires:  python3-pytest
 
 %global _description %{expand:
 dnspython is a DNS toolkit for Python. It supports almost all record
@@ -54,19 +39,13 @@ manipulation of DNS zones, messages, names, and records.
 %description %_description
 %package -n python3-%{py_package_name}
 Summary:        %{summary}
-Recommends:  python3-cryptography
+
 %{?python_provide:%python_provide python3-%{py_package_name}}
 
 %description -n python3-%{py_package_name} %_description
 
-%if %{with python2}
-%package -n python2-%{py_package_name}
-Summary:        %{summary}
-%{?python_provide:%python_provide python2-%{py_package_name}}
-
-%description -n python2-%{py_package_name} %_description
-python2-dns has no support for DNSSEC.
-%endif
+# curio extras cannot be packages because nothing provides python3.9dist(curio) >= 1.2
+%{?python_extras_subpkg:%python_extras_subpkg -n python3-dns -i %{python3_sitelib}/*.egg-info dnssec trio doh idna}
 
 %prep
 %autosetup -p1 -n %{pypi_name}-%{version}
@@ -76,23 +55,12 @@ find examples -type f | xargs chmod a-x
 
 %build
 %py3_build
-%if %{with python2}
-%py2_build
-%endif
 
 %install
 %py3_install
-%if %{with python2}
-%py2_install
-%endif
 
 %check
-%{python3} setup.py test
-%if %{with python2}
-cp %{SOURCE1} .
-%{python2} setup.py test
-rm typing.py{,?}
-%endif
+%pytest
 
 %files -n python3-%{py_package_name}
 %license LICENSE
@@ -100,15 +68,14 @@ rm typing.py{,?}
 %{python3_sitelib}/%{py_package_name}
 %{python3_sitelib}/%{pypi_name}-*.egg-info
 
-%if %{with python2}
-%files -n python2-%{py_package_name}
-%license LICENSE
-%doc README.md examples
-%{python2_sitelib}/%{py_package_name}
-%{python2_sitelib}/%{pypi_name}-*.egg-info
-%endif
-
 %changelog
+* Thu Jul 30 2020 Lumír Balhar <lbalhar@redhat.com> - 2.0.0-1
+- Update to 2.0.0 (#1849341)
+- python2-dns moved to its own SRPM
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 1.16.0-12
 - Rebuilt for Python 3.9
 

@@ -3,40 +3,38 @@
 
 # Notes about rpmlint
 # - crypto-policy-non-compliance-gnutls-{1,2} fixed with patch
-#   libprelude-5.1.0-gnutls_priority_set_direct.patch
+#   libprelude-5.2.0-gnutls_priority_set_direct.patch
 
 Name:           libprelude
-Version:        5.1.1
-Release:        6%{?dist}
+Version:        5.2.0
+Release:        2%{?dist}
 Summary:        Secure Connections between all Sensors and the Prelude Manager
-# Prelude is GPL-2.0+
-# libmissing is LGPL-2.1+
-License:        GPLv2+
+License:        LGPL-2.1+
 URL:            https://www.prelude-siem.org/
-Source0:        https://www.prelude-siem.org/pkg/src/5.1.0/%{name}-%{version}.tar.gz
+Source0:        https://www.prelude-siem.org/pkg/src/5.2.0/%{name}-%{version}.tar.gz
 # https://www.prelude-siem.org/issues/860
-Patch0:         libprelude-5.1.0-ruby_vendorarchdir.patch
+Patch0:         libprelude-5.2.0-ruby_vendorarchdir.patch
 # https://www.prelude-siem.org/issues/862
-Patch1:         libprelude-5.1.0-gnutls_priority_set_direct.patch
+Patch1:         libprelude-5.2.0-gnutls_priority_set_direct.patch
 # https://www.prelude-siem.org/issues/863
-Patch2:         libprelude-5.1.0-fsf_address.patch
+Patch2:         libprelude-5.2.0-fsf_address.patch
 # https://www.prelude-siem.org/issues/865
-Patch3:         libprelude-5.1.0-fix_timegm.patch
+Patch3:         libprelude-5.2.0-fix_timegm.patch
 # https://www.prelude-siem.org/issues/885
-Patch4:         libprelude-5.1.0-fix_pthread_atfork.patch
+Patch4:         libprelude-5.2.0-fix_pthread_atfork.patch
 # https://www.prelude-siem.org/issues/887
-Patch5:         libprelude-5.1.0-fix_prelude_tests_timer.patch
-Patch6:         libprelude-5.1.0-fix_awk_error.patch
-Patch7:         libprelude-5.1.0-fix_py38.patch
-Patch8:         libprelude-5.1.0-fix_gtkdoc_1.32.patch
-Patch9:         libprelude-5.1.0-linking.patch
-Patch10:        libprelude-5.1.0-fix_libprelude-error_on_gnu.patch
-Patch11:        libprelude-5.1.0-disable_test-poll_on_kfreebsd.patch
-Patch12:        libprelude-5.1.0-fix-test_rwlock1.patch
+Patch5:         libprelude-5.2.0-fix_prelude_tests_timer.patch
+Patch6:         libprelude-5.2.0-fix_gtkdoc_1.32.patch
+Patch7:         libprelude-5.2.0-linking.patch
+Patch8:         libprelude-5.2.0-fix_libprelude-error_on_gnu.patch
+Patch9:         libprelude-5.2.0-disable_test-poll_on_kfreebsd.patch
+Patch10:        libprelude-5.2.0-fix-test_rwlock1.patch
 # https://github.com/swig/swig/issues/1689
 # https://github.com/swig/swig/pull/1692
 # For now, add a minimum patch to support ruby2.7
-Patch13:        libprelude-5.1.1-ruby27.patch
+Patch11:        libprelude-5.2.0-ruby27.patch
+# Remove unneded libraries from libprelude-config --libs (bz#1830473)
+Patch12:        libprelude-5.2.0-clean_libprelude-config.patch
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  bison
@@ -60,7 +58,7 @@ BuildRequires:  valgrind
 %endif
 
 # Upstream do not use explicit version of gnulib, just checkout
-# and update files. In libprelude 5.1.1, the checkout has been done
+# and update files. In libprelude 5.2.0, the checkout has been done
 # on 2018-09-03
 Provides:       bundled(gnulib) = 20180903
 
@@ -233,6 +231,15 @@ find %{buildroot} -name '.packlist' -delete
 %doc AUTHORS ChangeLog README NEWS
 
 %changelog
+* Fri Sep 18 2020 Orion Poplawski <orion@nwra.com> - 5.2.0-2
+- Add patch to remove unneeded libraries from libprelude-config --libs (bz#1830473)
+
+* Thu Sep 17 2020 Thomas Andrejak <thomas.andrejak@gmail.com> - 5.2.0-1
+- Bump version 5.2.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 5.1.1-6
 - Perl 5.32 rebuild
 

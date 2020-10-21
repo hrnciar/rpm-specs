@@ -1,17 +1,18 @@
-%global packname  bit64
+%global packname bit64
+%global packver  4.0.5
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          0.9.7
-Release:          10%{?dist}
+Version:          4.0.5
+Release:          1%{?dist}
 Summary:          A S3 Class for Vectors of 64bit Integers
 
-License:          GPLv2
+License:          GPLv2 or GPLv3
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_0.9-7.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
-# Depends:   R-bit >= 1.1-12, R-utils, R-methods, R-stats
+# Depends:   R-bit >= 4.0.0, R-utils, R-methods, R-stats
 # Imports:
 # Suggests:
 # LinkingTo:
@@ -19,7 +20,7 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_0.9-7.tar.g
 
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
-BuildRequires:    R-bit >= 1.1.12
+BuildRequires:    R-bit >= 4.0.0
 BuildRequires:    R-utils
 BuildRequires:    R-methods
 BuildRequires:    R-stats
@@ -39,14 +40,6 @@ optionally leverage caching.
 
 %prep
 %setup -q -c -n %{packname}
-
-echo 'PKG_LIBS = -lm' >> %{packname}/src/Makevars
-
-for file in %{packname}/inst/ANNOUNCEMENT-0.9-Details.txt; do
-    sed "s|\r||g" ${file} > ${file}.new
-    touch -r ${file} ${file}.new
-    mv ${file}.new ${file}
-done
 
 
 %build
@@ -68,13 +61,10 @@ rm -r %{buildroot}%{rlibdir}/%{packname}/exec
 
 %files
 %dir %{rlibdir}/%{packname}
+%doc %{rlibdir}/%{packname}/doc
 %doc %{rlibdir}/%{packname}/html
 %{rlibdir}/%{packname}/DESCRIPTION
 %doc %{rlibdir}/%{packname}/NEWS
-%doc %{rlibdir}/%{packname}/ANNOUNCEMENT-0.8.txt
-%doc %{rlibdir}/%{packname}/ANNOUNCEMENT-0.9.txt
-%doc %{rlibdir}/%{packname}/ANNOUNCEMENT-0.9-Details.txt
-%doc %{rlibdir}/%{packname}/README_devel.txt
 %{rlibdir}/%{packname}/INDEX
 %{rlibdir}/%{packname}/NAMESPACE
 %{rlibdir}/%{packname}/Meta
@@ -86,6 +76,22 @@ rm -r %{buildroot}%{rlibdir}/%{packname}/exec
 
 
 %changelog
+* Sun Aug 30 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 4.0.5-1
+- Update to latest version (#1873798)
+
+* Fri Aug 28 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 4.0.4-1
+- Update to latest version (#1873527)
+
+* Fri Jul 31 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 4.0.2-1
+- Update to latest version
+- Fixes rhbz#1862138
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.7.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.9.7.1-1
+- Update to latest version
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 0.9.7-10
 - rebuild for R 4
 

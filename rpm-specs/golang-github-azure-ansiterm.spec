@@ -17,12 +17,14 @@ function calls are platform dependent.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Go package for ANSI terminal emulation in Windows
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/golang/go/issues/32479
+Patch0:         0001-Convert-int-to-string-using-rune.patch
 
 %description
 %{common_description}
@@ -31,6 +33,7 @@ Source0:        %{gosource}
 
 %prep
 %goprep
+%patch0 -p1
 
 %install
 %gopkginstall
@@ -43,6 +46,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sat Aug 22 21:16:28 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20190627gitd6e3b33
+- Fix FTBFS
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

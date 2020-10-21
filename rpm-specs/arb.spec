@@ -1,5 +1,5 @@
 Name:           arb
-Version:        2.17.0
+Version:        2.18.1
 Release:        2%{?dist}
 Summary:        Arbitrary-precision floating point ball arithmetic
 
@@ -11,7 +11,7 @@ BuildRequires:  flint-devel
 BuildRequires:  gcc-c++
 BuildRequires:  gmp-devel
 BuildRequires:  pkgconfig(mpfr)
-BuildRequires:  python3dist(sphinx)
+BuildRequires:  %{py3_dist sphinx}
 
 %description
 Arb is a C library for arbitrary-precision floating-point ball
@@ -58,12 +58,12 @@ rm acb_dirichlet/powsum_smooth.c.orig
 %build
 # This is NOT an autoconf-generated script.  Do not use %%configure.
 ./configure --prefix=%{_prefix} --disable-static --with-flint=%{_prefix} \
-  ABI=%{__isa_bits} CFLAGS="%{optflags}"
-make %{?_smp_mflags} verbose LDFLAGS="$RPM_LD_FLAGS"
+  ABI=%{__isa_bits} CFLAGS="%{build_cflags}"
+%make_build verbose LDFLAGS="%{build_ldflags}"
 make -C doc html
 
 %install
-make install DESTDIR=%{buildroot} LIBDIR=%{_lib}
+%make_install LIBDIR=%{_lib}
 
 # Move the headers into a private directory
 mkdir -p %{buildroot}%{_includedir}/%{name}
@@ -90,6 +90,12 @@ rm -f doc/build/html/.buildinfo
 %license LICENSE
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.18.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 Jerry James <loganjerry@gmail.com> - 2.18.1-1
+- Version 2.18.1
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.17.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

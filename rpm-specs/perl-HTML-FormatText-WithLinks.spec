@@ -7,7 +7,7 @@
 
 Name:           perl-HTML-FormatText-WithLinks
 Version:        0.15
-Release:        15%{?dist}
+Release:        17%{?dist}
 Summary:        HTML to text conversion with links as footnotes
 
 License:        GPL+ or Artistic
@@ -64,6 +64,12 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.15-16
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

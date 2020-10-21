@@ -1,6 +1,6 @@
 Name:           slowhttptest
-Version:        1.8.1
-Release:        2%{?dist}
+Version:        1.8.2
+Release:        1%{?dist}
 Summary:        An Application Layer DoS attack simulator
 
 License:        ASL 2.0
@@ -35,6 +35,12 @@ and CPU usage on the server.
 %{_bindir}/%{name}
 
 %changelog
+* Tue Aug 25 2020 Denis Fateyev <denis@fateyev.com> - 1.8.2-1
+- Update to release 1.8.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,11 +1,14 @@
 Name:		wofi
-Version:	1.1.1
+Version:	1.2.1
 Release:	1%{?dist}
-Summary:	A window switcher, application launcher and dmenu replacement for wayland
+Summary:	Wofi is a launcher/menu program for wlroots based wayland compositors such as sway
 
 License:	GPLv3
 URL:		https://hg.sr.ht/~scoopta/wofi
 Source0:	%{URL}/archive/v%{version}.tar.gz
+# Initial patch fix wofi-widget-builder.3 manpage
+# https://todo.sr.ht/~scoopta/wofi/122
+Patch0:     wofi-v1.2.1-fix-manpage.diff
 
 BuildRequires:	meson
 BuildRequires:	gcc
@@ -14,8 +17,7 @@ BuildRequires:	pkgconfig(gio-unix-2.0)
 BuildRequires:	pkgconfig(wayland-client)
 
 %description
-Wofi is like "rofi" a window switcher, application launcher and dmenu
-replacement but for wlroots-based wayland compositors.
+Wofi is a launcher/menu program for wlroots based wayland compositors such as sway.
 
 %package devel
 Summary: Development package for %{name}
@@ -50,9 +52,16 @@ Files for development with %{name}.
 %{_mandir}/man3/wofi-config.3*
 %{_mandir}/man3/wofi-map.3*
 %{_mandir}/man3/wofi-utils.3*
+%{_mandir}/man3/wofi-widget-builder.3*
 %{_mandir}/man3/wofi.3*
 
 %changelog
+* Sun Aug 23 2020 Stefano Figura <stefano@figura.im> - 1.2.1-1
+- Update to version 1.2.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar  9 2020 Christian Kellner <ckellner@redhat.com> - 1.1.1-1
 - New upstream release 1.1.1, includes header and pkg config file
 
@@ -61,5 +70,3 @@ Files for development with %{name}.
 
 * Mon Jan 27 2020 Christian Kellner <ckellner@redhat.com> - 1.0-1
 - Initial package of v1.0
-
-

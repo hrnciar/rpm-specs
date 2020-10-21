@@ -7,7 +7,7 @@
 
 Name:           ColPack
 Version:        1.0.10
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Algorithms for specialized vertex coloring problems
 
 License:        LGPLv3+
@@ -134,6 +134,9 @@ cp -pr AUTHORS ChangeLog README.md examples %{buildroot}%{_pkgdocdir}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

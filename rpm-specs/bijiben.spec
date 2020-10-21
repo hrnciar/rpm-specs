@@ -1,5 +1,5 @@
 Name:           bijiben
-Version:        3.37.1
+Version:        3.38.0
 Release:        1%{?dist}
 Summary:        Simple Note Viewer
 
@@ -7,7 +7,7 @@ Summary:        Simple Note Viewer
 # And ligd is LGPLv2+
 License:        GPLv3+ and LGPLv3 and LGPLv2+
 Url:            http://www.gnome.org
-Source0:        http://download.gnome.org/sources/%{name}/3.37/%{name}-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  itstool
@@ -73,7 +73,6 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Notes.deskt
 %{_datadir}/applications/org.gnome.Notes.desktop
 %{_datadir}/bijiben/
 %{_datadir}/dbus-1/services/org.gnome.Notes.SearchProvider.service
-%{_datadir}/glib-2.0/schemas/org.gnome.bijiben.enums.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.Notes.gschema.xml
 # co-own these directories
 %dir %{_datadir}/gnome-shell
@@ -87,6 +86,28 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Notes.deskt
 
 
 %changelog
+* Mon Sep 21 09:44:42 CEST 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Wed Sep 09 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Sat Aug 29 2020 Kalev Lember <klember@redhat.com> - 3.37.91-1
+- Update to 3.37.91
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Milan Crha <mcrha@redhat.com> - 3.37.1-2
+- Rebuilt for evolution-data-server soname version bump
+
 * Tue May 05 2020 Kalev Lember <klember@redhat.com> - 3.37.1-1
 - Update to 3.37.1
 

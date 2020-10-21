@@ -6,7 +6,9 @@
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    631ef6e638e9494b0310837fa531bedd908fc22b
+%bcond_without       tests
+
+%global gh_commit    5abf82f213618696dda8e3bf6f64dd042d8542b2
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     DASPRiD
 %global gh_project   Enum
@@ -18,29 +20,27 @@
 %global ns_project   %{gh_project}
 %global php_home     %{_datadir}/php
 %global major        %nil
-%global with_tests   0%{!?_without_tests:1}
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
-Version:        1.0.0
-Release:        2%{?dist}
+Version:        1.0.3
+Release:        1%{?dist}
 Summary:        PHP enum implementation
 
 License:        BSD
 URL:            https://github.com/%{gh_owner}/%{gh_project}
 Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit}/%{name}-%{version}-%{gh_short}.tar.gz
 
-Patch0:         https://patch-diff.githubusercontent.com/raw/DASPRiD/Enum/pull/2.patch
-
 BuildArch:      noarch
-%if %{with_tests}
+%if %{with tests}
 # For tests
 BuildRequires:  php(language)
 BuildRequires:  php-reflection
 BuildRequires:  php-spl
 # From composer.json, "require-dev": {
-#        "phpunit/phpunit": "^6.4",
-#        "squizlabs/php_codesniffer": "^3.1"
-BuildRequires:  phpunit6 >= 6.4
+#        "phpunit/phpunit": "^7 | ^8 | ^9",
+#        "squizlabs/php_codesniffer": "^3.4"
+%global phpunit %{_bindir}/phpunit9
+BuildRequires:  %{phpunit}
 # Required by autoloader
 BuildRequires:  php-composer(fedora/autoloader)
 %endif
@@ -69,7 +69,6 @@ Autoloader: %{php_home}/%{ns_vendor}/%{ns_project}/autoload.php
 
 %prep
 %setup -q -n %{gh_project}-%{gh_commit}
-%patch0 -p1
 
 cat << 'EOF' | tee src/autoload.php
 <?php
@@ -90,7 +89,7 @@ cp -pr src %{buildroot}%{php_home}/%{ns_vendor}/%{ns_project}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 cat << 'EOF' | tee vendor/autoload.php
 <?php
@@ -99,9 +98,10 @@ require '%{buildroot}%{php_home}/%{ns_vendor}/%{ns_project}/autoload.php';
 EOF
 
 ret=0
-for cmd in php php71 php72 php73 php74; do
+for cmd in "php %{phpunit}" "php72 %{_bindir}/phpunit8" php73 php74 php80; do
   if which $cmd; then
-    $cmd %{_bindir}/phpunit6 --verbose || ret=1
+    set $cmd
+    $1 ${2:-%{_bindir}/phpunit9} --verbose || ret=1
   fi
 done
 exit $ret
@@ -120,6 +120,17 @@ exit $ret
 
 
 %changelog
+* Mon Oct  5 2020 Remi Collet <remi@remirepo.net> - 1.0.3-1
+- update to 1.0.3
+
+* Tue Aug 11 2020 Remi Collet <remi@remirepo.net> - 1.0.2-1
+- update to 1.0.2
+- switch to phpunit9
+- drop patch merged upstream
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

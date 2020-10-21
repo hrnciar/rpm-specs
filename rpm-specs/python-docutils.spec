@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.16
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        System for processing plaintext documentation
 
 # See COPYING.txt for information
@@ -12,8 +12,8 @@ Source0:        https://sourceforge.net/projects/%{srcname}/files/%{srcname}/%{v
 
 BuildArch:      noarch
 
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
 
 %global _description %{expand:
 The Docutils project specifies a plaintext markup language, reStructuredText,
@@ -29,10 +29,10 @@ Python inline documentation modules and packages.}
 %description %_description
 
 
-%package -n python3-%{srcname}
+%package -n python%{python3_pkgversion}-%{srcname}
 Summary:        %{summary}
 
-%description -n python3-%{srcname} %_description
+%description -n python%{python3_pkgversion}-%{srcname} %_description
 
 
 %prep
@@ -73,7 +73,7 @@ mv  biohazard.swf docs/user/rst/images/biohazard.swf
 rm docs/user/rst/images/biohazard.swf
 
 
-%files -n python3-%{srcname}
+%files -n python%{python3_pkgversion}-%{srcname}
 %license COPYING.txt licenses/*
 %doc BUGS.txt FAQ.txt HISTORY.txt README.txt RELEASE-NOTES.txt
 %doc THANKS.txt docs tools/editors
@@ -83,6 +83,9 @@ rm docs/user/rst/images/biohazard.swf
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 0.16-2
 - Rebuilt for Python 3.9
 

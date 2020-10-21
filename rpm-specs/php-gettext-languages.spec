@@ -1,6 +1,6 @@
 Name:       php-gettext-languages
-Version:    2.4.0
-Release:    4%{?dist}
+Version:    2.6.0
+Release:    2%{?dist}
 BuildArch:  noarch
 
 License:    MIT and Unicode
@@ -40,9 +40,11 @@ generated from CLDR data.
 %prep
 %autosetup -p1 -n cldr-to-gettext-plural-rules-%{version}
 
-sed -i "s:require_once.*:require_once '%{_datadir}/php/Gettext/Languages/autoloader.php';:" bin/export-plural-rules.php
-echo "#!/usr/bin/env php" > bin/export-plural-rules.sh
-cat bin/export-plural-rules.sh bin/export-plural-rules.php > bin/export-plural-rules
+sed -i "s:require_once.*:require_once '%{_datadir}/php/Gettext/Languages/autoloader.php';:" bin/export-plural-rules
+#echo "#!/usr/bin/env php" > bin/export-plural-rules.sh
+#cat bin/export-plural-rules.sh bin/export-plural-rules.php > bin/export-plural-rules
+
+sed -i '1s;^;#!/usr/bin/php\n;' bin/export-plural-rules
 
 
 %install
@@ -55,12 +57,13 @@ cp -a bin/export-plural-rules %{buildroot}/%{_bindir}/%{name}-export-plural-rule
 chmod 755 %{buildroot}/%{_bindir}/%{name}-export-plural-rules
 
 cp -ar src/* %{buildroot}/%{_datadir}/php/Gettext/Languages/
+cp -ar tests/test %{buildroot}/%{_datadir}/php/Gettext/Languages/Test
 
 
 %check
 sed -i "s:require_once.*:require_once '%{buildroot}/%{_datadir}/php/Gettext/Languages/autoloader.php';:" tests/bootstrap.php
 
-sed -i "s:require_once.*:require_once '%{buildroot}/%{_datadir}/php/Gettext/Languages/autoloader.php';:" bin/export-plural-rules.php
+sed -i "s:require_once.*:require_once '%{buildroot}/%{_datadir}/php/Gettext/Languages/autoloader.php';:" bin/export-plural-rules
 phpunit --bootstrap tests/bootstrap.php
 
 
@@ -74,6 +77,12 @@ phpunit --bootstrap tests/bootstrap.php
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Sundeep Anand <suanand@fedoraproject.org> - 2.6.0-1
+- Update to 2.6.0 (#1772151).
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

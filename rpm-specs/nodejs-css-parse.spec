@@ -6,7 +6,7 @@
 
 Name:       nodejs-css-parse
 Version:    1.7.0
-Release:    12%{?dist}
+Release:    14%{?dist}
 Summary:    A JavaScript CSS parser for Node.js and the browser
 License:    MIT
 URL:        https://github.com/reworkcss/css-parse
@@ -60,6 +60,13 @@ cp -pr package.json index.js \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

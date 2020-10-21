@@ -17,7 +17,7 @@ to inspect the file metadata or contents.
 
 Name:       python-%{srcname}
 Version:    0.2.6
-Release:    6%{?dist}
+Release:    7%{?dist}
 Summary:    %{sum}
 
 License:    MIT
@@ -105,6 +105,9 @@ PYTHONPATH=. py.test-3
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.6-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.6-6
 - Rebuilt for Python 3.9
 

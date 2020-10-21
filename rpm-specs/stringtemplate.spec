@@ -1,7 +1,7 @@
 Summary: A Java template engine
 Name: stringtemplate
 Version: 3.2.1
-Release: 21%{?dist}
+Release: 24%{?dist}
 URL: http://www.stringtemplate.org/
 Source0: http://www.stringtemplate.org/download/stringtemplate-%{version}.tar.gz
 # Build jUnit tests + make the antlr2 generated code before preparing sources
@@ -32,6 +32,8 @@ API documentation for %{name}.
 %prep
 %setup -q
 %patch0
+sed -i -e 's/source="1.4"/source="1.8"/g' build.xml
+sed -i -e 's/target="1.4"/target="1.8"/g' build.xml
 
 %build
 rm -rf lib target
@@ -52,6 +54,15 @@ ant javadocs -Dpackages= -Djavadocs.additionalparam="-Xdoclint:none"
 %{_javadocdir}/%{name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 3.2.1-23
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jun 25 2020 Jeff Johnston <jjohnstn@redhat.com> - 3.2.1-22
+- Update to build under Java 11
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

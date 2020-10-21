@@ -36,7 +36,7 @@ conditions. The main features are:
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A powerful url router and dispatcher for golang
 
 # Upstream license specification: BSD-3-Clause
@@ -66,6 +66,9 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 16 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.7.4-1
 - Update to latest version
 

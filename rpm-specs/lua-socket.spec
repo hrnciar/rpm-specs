@@ -1,5 +1,5 @@
 %if 0%{?fedora} >= 22 || 0%{?rhel} > 7
-%define luaver 5.3
+%define luaver 5.4
 %else
 %if 0%{?fedora} >= 20
 %define luaver 5.2
@@ -20,7 +20,7 @@
 
 Name:           lua-socket
 Version:        3.0
-Release:        0.22.rc1%{?dist}
+Release:        0.26.rc1%{?dist}
 Summary:        Network support for the Lua language
 
 License:        MIT
@@ -84,14 +84,17 @@ cp -a . %{lua51dir}
 %endif
 
 %build
-make %{?_smp_mflags} LUAV=%{luaver} OPTFLAGS="%{optflags} -fPIC" \
+# fix for:
+# /usr/lib64/lua/5.4/socket/core.so: undefined symbol: luaL_checkint
+# https://github.com/diegonehab/luasocket/issues/124#issuecomment-73561562
+%make_build LUAV=%{luaver} OPTFLAGS="%{optflags} -fPIC -DLUA_COMPAT_APIINTCASTS" \
      LDFLAGS="%{?__global_ldflags} -shared -o " linux
 /usr/bin/iconv -f ISO8859-1 -t UTF8 LICENSE >LICENSE.UTF8
 mv -f LICENSE.UTF8 LICENSE
 
 %if 0%{?fedora} >= 20
 pushd %{lua51dir}
-make %{?_smp_mflags} LUAV=%{luacompatver} \
+%make_build LUAV=%{luacompatver} \
     LUAINC_linux=%{_includedir}/lua-%{luacompatver} \
     OPTFLAGS="%{optflags} -fPIC" \
     LDFLAGS="%{?__global_ldflags} -O -shared -fpic -o " linux
@@ -139,6 +142,20 @@ popd
 %endif
 
 %changelog
+* Wed Sep 23 2020 Bastien Nocera <bnocera@redhat.com> - 3.0-0.26.rc1
++ lua-socket-3.0-0.26.rc1
+- Fix for Lua >= 5.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-0.25.rc1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 3.0-0.24.rc1
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Tue Jun 30 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0-0.23.rc1
+- Rebuilt for Lua 5.4
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-0.22.rc1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

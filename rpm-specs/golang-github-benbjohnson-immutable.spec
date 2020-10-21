@@ -26,7 +26,7 @@ particular project.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Immutable collections for Go
 
 License:        MIT
@@ -52,5 +52,8 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jan 26 23:32:46 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.2.0-1
 - Initial package

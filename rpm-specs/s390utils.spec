@@ -5,8 +5,8 @@
 
 Name:           s390utils
 Summary:        Utilities and daemons for IBM z Systems
-Version:        2.13.0
-Release:        3%{?dist}
+Version:        2.14.0
+Release:        4%{?dist}
 Epoch:          2
 License:        MIT
 ExclusiveArch:  s390 s390x
@@ -235,7 +235,6 @@ Requires:       s390utils-core = %{epoch}:%{version}-%{release}
 %{?systemd_requires}
 BuildRequires:  perl-generators
 BuildRequires:  ncurses-devel
-BuildRequires:  libpfm-devel
 BuildRequires:  glibc-static
 BuildRequires:  cryptsetup-devel >= 2.0.3
 BuildRequires:  json-c-devel
@@ -406,6 +405,7 @@ getent group zkeyadm > /dev/null || groupadd -r zkeyadm
 %{_sbindir}/hyptop
 %{_sbindir}/ip_watcher.pl
 %{_sbindir}/lschp
+%{_sbindir}/lscpumf
 %{_sbindir}/lscss
 %{_sbindir}/lsdasd
 %{_sbindir}/lsqeth
@@ -436,7 +436,6 @@ getent group zkeyadm > /dev/null || groupadd -r zkeyadm
 %{_sbindir}/zipl-switch-to-blscfg
 %{_sbindir}/znetconf
 %{_sbindir}/zpcictl
-%{_bindir}/lscpumf
 %{_bindir}/dump2tar
 %{_bindir}/genprotimg
 %{_bindir}/vmconvert
@@ -445,7 +444,6 @@ getent group zkeyadm > /dev/null || groupadd -r zkeyadm
 %{_unitdir}/dumpconf.service
 %ghost %config(noreplace) %{_sysconfdir}/zipl.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/dumpconf
-/lib/s390-tools/cpumf_helper
 /lib/s390-tools/dumpconf
 /lib/s390-tools/lsznet.raw
 /lib/s390-tools/zfcpdump
@@ -499,7 +497,6 @@ getent group zkeyadm > /dev/null || groupadd -r zkeyadm
 %{_mandir}/man8/znetconf.8*
 %{_mandir}/man8/zpcictl.8*
 %dir %{_datadir}/s390-tools/
-%{_datadir}/s390-tools/cpumf/
 %{_datadir}/s390-tools/genprotimg/
 %{_datadir}/s390-tools/netboot/
 %dir %attr(0770,root,zkeyadm) %{_sysconfdir}/zkey
@@ -719,6 +716,7 @@ This package contains the CMS file system based on FUSE.
 %package zdsfs
 Summary:        z/OS data set access based on FUSE
 BuildRequires:  fuse-devel
+BuildRequires:  libcurl-devel
 Requires:       fuse
 
 %description zdsfs
@@ -794,6 +792,24 @@ User-space development files for the s390/s390x architecture.
 
 
 %changelog
+* Wed Oct 07 2020 Dan Horák <dan[at]danny.cz> - 2:2.14.0-4
+- update scripts for https://fedoraproject.org/wiki/Changes/NetworkManager_keyfile_instead_of_ifcfg_rh
+
+* Mon Sep 21 2020 Dan Horák <dan[at]danny.cz> - 2:2.14.0-3
+- rebuilt for net-snmp 5.9
+
+* Wed Aug 26 2020 Dan Horák <dan[at]danny.cz> - 2:2.14.0-2
+- add support for auto LUN scan to zfcpconf.sh (#1552697)
+
+* Tue Aug 25 2020 Dan Horák <dan[at]danny.cz> - 2:2.14.0-1
+- rebased to 2.14.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:2.13.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Javier Martinez Canillas <javierm@redhat.com> - 2:2.13.0-4
+- add a default entry in zipl.conf if there isn't one present (#1698363)
+
 * Tue Jun 09 2020 Jakub Čajka <jcajka@redhat.com> - 2:2.13.0-3
 - split off core package with basic functionalities and reduced deps from base sub-package
 

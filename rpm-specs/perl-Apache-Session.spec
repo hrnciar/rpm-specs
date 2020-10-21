@@ -1,6 +1,6 @@
 Name:           perl-Apache-Session
-Version:        1.93
-Release:        17%{?dist}
+Version:        1.94
+Release:        1%{?dist}
 Summary:        Persistence framework for session data
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Apache-Session
@@ -80,6 +80,13 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/Apache::Session*
 
 %changelog
+* Sat Sep 19 2020 Paul Howarth <paul@city-fan.org> - 1.94-1
+- Update to 1.94
+  - Better error if LockDataSource is missing in Apache::Session::Lock::MySQL
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.93-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.93-17
 - Perl 5.32 rebuild
 

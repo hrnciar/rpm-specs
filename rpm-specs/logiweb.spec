@@ -1,7 +1,7 @@
 Summary: A system for electronic distribution of mathematics
 Name: logiweb
 Version: 0.2.12
-Release: 10%{?dist}
+Release: 11%{?dist}
 License: GPLv2+
 Url: http://logiweb.eu/
 Source0: http://logiweb.eu/0.2/%{version}/download/%{name}-%{version}.tar.gz
@@ -59,6 +59,9 @@ make \
 %{_docdir}/%{name}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.12-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.12-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

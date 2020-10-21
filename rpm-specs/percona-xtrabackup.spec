@@ -12,7 +12,7 @@
 Summary: Online backup for InnoDB/XtraDB in MySQL, Percona Server and MariaDB
 Name: percona-xtrabackup
 Version: 2.3.6
-Release: 18%{?dist}
+Release: 21%{?dist}
 License: GPLv2
 URL: http://www.percona.com/software/percona-xtrabackup/
 Source: https://github.com/percona/%{name}/archive/%{commit}/%{name}-%{commit}.tar.gz
@@ -83,7 +83,7 @@ sed -i "s/AC_PROG_LIBTOOL/LT_INIT/g" storage/innobase/xtrabackup/src/libarchive/
 sed -i "s/-Werror//g" storage/innobase/xtrabackup/src/libarchive/CMakeLists.txt
 
 %build
-%cmake -DBUILD_CONFIG=xtrabackup_release && %make_build
+%cmake -DBUILD_CONFIG=xtrabackup_release && %cmake_build
 
 %install
 install -d %{buildroot}%{_bindir}
@@ -93,7 +93,7 @@ install -d %{buildroot}%{_mandir}/man1
 
 INNO_ROOT=storage/innobase/xtrabackup/src
 
-pushd .
+pushd %{_vpath_builddir}
 
 cd $INNO_ROOT
 install -p -m 755 xtrabackup %{buildroot}%{_bindir}
@@ -135,6 +135,16 @@ popd
 %license COPYING
 
 %changelog
+* Thu Oct 01 2020 Petr Pisar <ppisar@redhat.com> - 2.3.6-21
+- Adapt to new CMake macros (bug #1865206)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.6-20
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.6-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 06 2020 Peter MacKinnon <pmackinn@redhat.com> - 2.3.6-18
 - Fixes #1799854
 

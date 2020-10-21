@@ -1,6 +1,6 @@
 Name:           perl-IO-Tee
-Version:        0.65
-Release:        9%{?dist}
+Version:        0.66
+Release:        1%{?dist}
 Summary:        Multiplex output to multiple output handles
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/IO-Tee
@@ -34,11 +34,11 @@ IO::File::new is called for you with the specified argument or arguments.
 %setup -q -n IO-Tee-%{version}
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
@@ -51,6 +51,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Mon Aug 24 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.66-1
+- 0.66 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.65-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.65-9
 - Perl 5.32 rebuild
 

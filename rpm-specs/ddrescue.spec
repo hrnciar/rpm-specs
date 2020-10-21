@@ -1,6 +1,6 @@
 Name:           ddrescue
 Version:        1.25
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Data recovery tool trying hard to rescue data in case of read errors
 License:        GPLv3+
 URL:            http://www.gnu.org/software/ddrescue/ddrescue.html
@@ -50,6 +50,9 @@ make check
 %{_infodir}/%{name}.info*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.25-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 03 2020 Michal Ambroz <rebus AT_ seznam.cz> - 1.25-1
 - Update to 1.25.
 

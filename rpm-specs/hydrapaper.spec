@@ -1,8 +1,8 @@
 %global uuid    org.gabmus.%{name}
 
 Name:           hydrapaper
-Version:        1.11
-Release:        2%{?dist}
+Version:        2.0.2
+Release:        1%{?dist}
 Summary:        Set two different backgrounds for each monitor on GNOME
 
 License:        GPLv3+
@@ -13,7 +13,7 @@ BuildArch:      noarch
 BuildRequires:  desktop-file-utils
 BuildRequires:  intltool
 BuildRequires:  libappstream-glib
-BuildRequires:  libhandy-devel
+BuildRequires:  libhandy1-devel >= 0.90.0
 BuildRequires:  meson >= 0.50.0
 BuildRequires:  python3-devel
 BuildRequires:  pkgconfig(gobject-introspection-1.0)
@@ -22,7 +22,7 @@ BuildRequires:  pkgconfig(gtk+-3.0) >= 3.20
 Requires:       dbus-common
 Requires:       glib2
 Requires:       hicolor-icon-theme
-Requires:       libhandy
+Requires:       libhandy1 >= 0.90.0
 Requires:       python3-pillow
 
 %description
@@ -45,7 +45,7 @@ lacks this feature).
 
 
 %check
-appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.xml
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
@@ -63,6 +63,22 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Thu Oct 15 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2.0.2-1
+- build(update): 2.0.2
+
+* Wed Sep 23 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2.0.1-1
+- Update to 2.0.1
+
+* Tue Sep  1 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2.0-1
+- Update to 2.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.12-1
+- Update to 1.12
+- Migrate to 'libhandy1'
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.11-2
 - Rebuilt for Python 3.9
 

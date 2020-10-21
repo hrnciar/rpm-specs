@@ -1,7 +1,7 @@
-%global gittag 5.8.0.202006091008-r
+%global gittag 5.8.1.202007141445-r
 
 Name:             eclipse-egit
-Version:          5.8.0
+Version:          5.8.1
 Release:          1%{?dist}
 Summary:          Eclipse Git Integration
 
@@ -67,6 +67,7 @@ sed -i -e '/org\.junit/s/4\.13/4.12/' $(grep -r -l --include MANIFEST.MF org.jun
 %pom_disable_module org.eclipse.egit.ui.test
 %pom_disable_module org.eclipse.egit.gitflow.test
 %pom_disable_module org.eclipse.egit.mylyn.ui.test
+%pom_disable_module org.eclipse.egit.core.junit
 
 %mvn_package "::pom::" __noinstall
 %mvn_package :* egit
@@ -82,6 +83,12 @@ sed -i -e '/org\.junit/s/4\.13/4.12/' $(grep -r -l --include MANIFEST.MF org.jun
 %doc README.md
 
 %changelog
+* Fri Aug 21 2020 Mat Booth <mat.booth@redhat.com> - 5.8.1-1
+- Update to latest upstream release
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.8.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Mat Booth <mat.booth@redhat.com> - 5.8.0-1
 - Update to latest upstream release
 

@@ -1,6 +1,6 @@
 Name:           ioping
 Version:        1.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Simple disk I/O latency monitoring tool
 License:        GPLv3+
 URL:            https://github.com/koct9i/ioping
@@ -29,6 +29,9 @@ export LDFLAGS="%{?__global_ldflags}"
 %{_mandir}/man1/ioping.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

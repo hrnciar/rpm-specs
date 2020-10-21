@@ -7,7 +7,7 @@
 
 Name:           mingw-gtksourceview3
 Version:        3.24.11
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows library for viewing source files
 
 # the library itself is LGPL, some .lang files are GPL
@@ -117,6 +117,12 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 
 
 %changelog
+* Wed Aug 12 13:39:52 GMT 2020 Sandro Mani <manisandro@gmail.com> - 3.24.11-5
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.24.11-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 3.24.11-3
 - Rebuild (gettext)
 

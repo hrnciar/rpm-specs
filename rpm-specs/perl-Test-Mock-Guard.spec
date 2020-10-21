@@ -1,6 +1,6 @@
 Name:           perl-Test-Mock-Guard
 Version:        0.10
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Simple mock test library using RAII
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test-Mock-Guard
@@ -46,6 +46,9 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.10-13
 - Perl 5.32 rebuild
 

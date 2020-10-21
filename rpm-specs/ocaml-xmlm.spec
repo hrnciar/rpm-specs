@@ -5,7 +5,7 @@
 
 Name:           ocaml-xmlm
 Version:        1.2.0
-Release:        44%{?dist}
+Release:        49%{?dist}
 Summary:        A streaming XML codec
 
 License:        BSD
@@ -110,6 +110,22 @@ grep expected invalid-err.log >/dev/null
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.2.0-49
+- OCaml 4.11.1 rebuild
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.2.0-48
+- Rebuild.
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.2.0-47
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-46
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-45
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 1.2.0-44
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

@@ -24,23 +24,25 @@
   %bcond_without mpich
 %endif
 
-%{!?openblas_arches:%global openblas_arches x86_64 %{ix86} armv7hl %{power64} aarch64}
-%ifarch %{openblas_arches}
-# matches openblas ExclusiveArch
-%bcond_without openblas
+%bcond_without optimized_blas
+
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+%global blaslib flexiblas
+%else
+%global blaslib openblas
 %endif
 
 Summary: A subset of LAPACK routines redesigned for heterogeneous computing
 Name: scalapack
 Version: 2.1.0
-Release: 3%{?dist}
+Release: 7%{?dist}
 # This is freely distributable without any restrictions.
 License: Public Domain
 URL: http://www.netlib.org/scalapack/
 Source0: https://github.com/Reference-ScaLAPACK/scalapack/archive/v%{version}.tar.gz
 BuildRequires: cmake
-%if %{with openblas}
-BuildRequires: openblas-devel
+%if %{with optimized_blas}
+BuildRequires: %{blaslib}-devel
 %else
 BuildRequires: lapack-devel
 BuildRequires: blas-devel
@@ -323,21 +325,19 @@ for i in %{?with_mpich:mpich} %{?with_openmpi:openmpi} %{?with_openmpi3:openmpi3
 done
 
 %build
+%if %{with optimized_blas}
+%global blasflags -DLAPACK_LIBRARIES=-l%{blaslib} -DBLAS_LIBRARIES=-l%{blaslib}
+%else
+%global blasflags -DLAPACK_LIBRARIES=-llapack -DBLAS_LIBRARIES=-lblas
+%endif
+
 %global build_fflags %(echo %build_fflags -fallow-argument-mismatch| sed 's|-Werror=format-security||g')
 %global dobuild() \
 cd %{name}-%{version}-$MPI_COMPILER_NAME ; \
-%if %{with openblas} \
-%cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DBUILD_STATIC_LIBS:BOOL=ON -DMPI_BASE_DIR=%{_libdir}/$MPI_COMPILER_NAME -DLAPACK_LIBRARIES=-lopenblas -DBLAS_LIBRARIES=-lopenblas . ; \
-%else \
-%cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DBUILD_STATIC_LIBS:BOOL=ON -DMPI_BASE_DIR=%{_libdir}/$MPI_COMPILER_NAME -DLAPACK_LIBRARIES=-llapack -DBLAS_LIBRARIES=-lblas . ; \
-%endif \
-%make_build ;\
-%if %{with openblas} \
-%cmake -DBUILD_SHARED_LIBS:BOOL=ON -DBUILD_STATIC_LIBS:BOOL=OFF -DMPI_BASE_DIR=%{_libdir}/$MPI_COMPILER_NAME -DLAPACK_LIBRARIES=-lopenblas -DBLAS_LIBRARIES=-lopenblas . ; \
-%else \
-%cmake -DBUILD_SHARED_LIBS:BOOL=ON -DBUILD_STATIC_LIBS:BOOL=OFF -DMPI_BASE_DIR=%{_libdir}/$MPI_COMPILER_NAME -DLAPACK_LIBRARIES=-llapack -DBLAS_LIBRARIES=-lblas . ; \
-%endif \
-%make_build ;\
+%cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DBUILD_STATIC_LIBS:BOOL=ON -DMPI_BASE_DIR=%{_libdir}/$MPI_COMPILER_NAME %{blasflags} ; \
+%cmake_build ;\
+%cmake -DBUILD_SHARED_LIBS:BOOL=ON -DBUILD_STATIC_LIBS:BOOL=OFF -DMPI_BASE_DIR=%{_libdir}/$MPI_COMPILER_NAME %{blasflags} ; \
+%cmake_build ;\
 cd ..
 
 %if %{with mpich}
@@ -371,8 +371,8 @@ mkdir -p ${RPM_BUILD_ROOT}%{_bindir}
 for i in %{?with_mpich:mpich} %{?with_openmpi:openmpi} %{?with_openmpi3:openmpi3}; do
   mkdir -p %{buildroot}%{_libdir}/$i/lib/
   pushd %{name}-%{version}-$i
-  %make_install
-  cp -f lib/libscalapack.a %{buildroot}%{_libdir}/$i/lib/
+  %cmake_install
+  cp -f %{_vpath_builddir}/lib/libscalapack.a %{buildroot}%{_libdir}/$i/lib/
   popd
   mkdir -p %{buildroot}%{_includedir}/$i-%{_arch}/
   # This file is independent of the MPI compiler used, but it is poorly named
@@ -438,6 +438,19 @@ sed -i 's|mpi|ompi|g' %{buildroot}%{_libdir}/openmpi/lib/pkgconfig/scalapack.pc
 %endif
 
 %changelog
+* Fri Aug 28 2020 Iñaki Úcar <iucar@fedoraproject.org> - 2.1.0-7
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Thu Aug  6 2020 Tom Callaway <spot@fedoraproject.org> - 2.1.0-6
+- use new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 2020 Tom Callaway <spot@fedoraproject.org> - 2.1.0-3
 - fix openmpi .pc file
 

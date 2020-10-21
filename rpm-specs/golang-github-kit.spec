@@ -3,7 +3,7 @@
 
 # https://github.com/go-kit/kit
 %global goipath         github.com/go-kit/kit
-Version:                0.8.0
+Version:                0.10.0
 
 %gometa
 
@@ -16,14 +16,12 @@ application architecture so you can focus on delivering business value.}
 %global godocs          examples CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Standard library for microservices
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
-# https://github.com/go-kit/kit/commit/8a8a1bb8700078c22421bc35bdcfb140b57c1b3a
-Patch0:         https://github.com/go-kit/kit/commit/8a8a1bb8700078c22421bc35bdcfb140b57c1b3a.patch#/0001-Import-rewrite-826.patch
 
 BuildRequires:  golang(github.com/afex/hystrix-go/hystrix)
 BuildRequires:  golang(github.com/apache/thrift/lib/go/thrift)
@@ -33,18 +31,17 @@ BuildRequires:  golang(github.com/aws/aws-sdk-go-v2/service/cloudwatch/cloudwatc
 BuildRequires:  golang(github.com/aws/aws-sdk-go/aws)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/service/cloudwatch)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/service/cloudwatch/cloudwatchiface)
-BuildRequires:  golang(github.com/casbin/casbin)
+BuildRequires:  golang(github.com/casbin/casbin/v2)
 BuildRequires:  golang(github.com/davecgh/go-spew/spew)
 BuildRequires:  golang(github.com/dgrijalva/jwt-go)
 BuildRequires:  golang(github.com/go-logfmt/logfmt)
-BuildRequires:  golang(github.com/go-stack/stack)
 BuildRequires:  golang(github.com/golang/protobuf/proto)
 BuildRequires:  golang(github.com/gorilla/mux)
 BuildRequires:  golang(github.com/hashicorp/consul/api)
 BuildRequires:  golang(github.com/hudl/fargo)
 BuildRequires:  golang(github.com/influxdata/influxdb1-client/v2)
 BuildRequires:  golang(github.com/lightstep/lightstep-tracer-go)
-BuildRequires:  golang(github.com/nats-io/go-nats)
+BuildRequires:  golang(github.com/nats-io/nats.go)
 # Only in examples and cyclic
 # BuildRequires:  golang(github.com/oklog/oklog/pkg/group)
 BuildRequires:  golang(github.com/opentracing/opentracing-go)
@@ -72,7 +69,8 @@ BuildRequires:  golang(go.opencensus.io/plugin/ochttp)
 BuildRequires:  golang(go.opencensus.io/plugin/ochttp/propagation/b3)
 BuildRequires:  golang(go.opencensus.io/trace)
 BuildRequires:  golang(go.opencensus.io/trace/propagation)
-BuildRequires:  golang(golang.org/x/net/context)
+BuildRequires:  golang(go.uber.org/zap)
+BuildRequires:  golang(go.uber.org/zap/zapcore)
 BuildRequires:  golang(golang.org/x/sync/errgroup)
 BuildRequires:  golang(golang.org/x/time/rate)
 BuildRequires:  golang(golang.org/x/tools/godoc/vfs/mapfs)
@@ -86,7 +84,12 @@ BuildRequires:  golang(sourcegraph.com/sourcegraph/appdash/opentracing)
 
 %if %{with check}
 # Tests
+BuildRequires:  golang(github.com/aryann/difflib)
+BuildRequires:  golang(github.com/aws/aws-lambda-go/events)
+BuildRequires:  golang(github.com/casbin/casbin/v2/model)
+BuildRequires:  golang(github.com/casbin/casbin/v2/persist/file-adapter)
 BuildRequires:  golang(github.com/casbin/casbin/persist/file-adapter)
+BuildRequires:  golang(github.com/go-stack/stack)
 # Only in examples and cyclic
 # BuildRequires:  golang(github.com/pact-foundation/pact-go/dsl)
 %endif
@@ -98,7 +101,6 @@ BuildRequires:  golang(github.com/casbin/casbin/persist/file-adapter)
 
 %prep
 %goprep
-%patch0 -p1
 
 %build
 for cmd in cmd/* ; do
@@ -123,6 +125,16 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Aug 10 04:16:30 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.10.0-1
+- Update to 0.10.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

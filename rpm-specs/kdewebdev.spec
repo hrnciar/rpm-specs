@@ -2,7 +2,7 @@ Name:    kdewebdev
 Summary: Web development applications 
 Epoch:   6
 Version: 3.5.10
-Release: 39%{?dist}
+Release: 40%{?dist}
 
 License: GPLv2
 Url:     http://kdewebdev.org/ 
@@ -200,6 +200,9 @@ done
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6:3.5.10-40
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6:3.5.10-39
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

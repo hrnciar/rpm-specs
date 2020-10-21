@@ -1,6 +1,6 @@
 Name:		xbiso
 Version:	0.6.1
-Release:	23%{?dist}
+Release:	24%{?dist}
 Summary:	ISO extraction utility for xdvdfs images
 License:	GPLv2+
 URL:		http://sourceforge.net/projects/xbiso/
@@ -33,6 +33,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %{_bindir}/xbiso
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

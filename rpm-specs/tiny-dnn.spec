@@ -1,7 +1,7 @@
 %global prerelease a3
 Name:           tiny-dnn
 Version:        1.0.0
-Release:        0.%{prerelease}.3%{?dist}.4
+Release:        0.%{prerelease}.3%{?dist}.7
 Summary:        Header only, dependency-free deep learning framework in C++14
 
 License:        BSD
@@ -46,15 +46,18 @@ developing applications that use %{name}.
 
 
 %build
-%cmake . -DBUILD_TESTS=ON -DUSE_SYS_GTEST=ON
+# This fails at link time with LTO on armv7.  Disable LTO for now
+%define _lto_cflags %{nil}
+%cmake -DBUILD_TESTS=ON -DUSE_SYS_GTEST=ON
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %check
-ctest --timeout 15000 -V %{?_smp_mflags}
+%ctest --timeout 15000
 
 %files devel
 %license LICENSE
@@ -64,6 +67,16 @@ ctest --timeout 15000 -V %{?_smp_mflags}
 
 
 %changelog
+* Mon Aug 10 2020 Jeff Law <law@redhat.com> - 1.0.0-0.a3.3.7
+- Disable LTO for now
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-0.a3.3.6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-0.a3.3.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-0.a3.3.4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

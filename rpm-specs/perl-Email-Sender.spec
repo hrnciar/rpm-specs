@@ -1,6 +1,6 @@
 Name:           perl-Email-Sender
-Version:        1.300034
-Release:        2%{?dist}
+Version:        1.300035
+Release:        1%{?dist}
 Summary:        A library for sending email
 License:        GPL+ or Artistic
 
@@ -82,6 +82,15 @@ RELEASE_TESTING=1 %{make_build} test
 %{_mandir}/man3/Email*
 
 %changelog
+* Sun Oct 11 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 1.300035-1
+- Update to 1.300035
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.300034-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.300034-3
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.300034-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

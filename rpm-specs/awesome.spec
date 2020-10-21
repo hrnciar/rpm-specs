@@ -1,6 +1,6 @@
 Name:		awesome
 Version:	4.3
-Release:	4%{?dist}
+Release:	6%{?dist}
 Summary:	Highly configurable, framework window manager for X. Fast, light and extensible
 # common/buffer.[ch]: BSD
 License:	GPLv2+ and BSD
@@ -127,6 +127,13 @@ desktop-file-validate %{buildroot}%{_datadir}/xsessions/%{name}.desktop
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb  6 2020 Thomas Moschny <thomas.moschny@gmx.de> - 4.3-4
 - Workaround for FTBFS with GCC10.
 

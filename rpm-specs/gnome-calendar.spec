@@ -5,16 +5,18 @@
 %global gtk3_version 3.22.20
 
 Name:           gnome-calendar
-Version:        3.36.2
-Release:        1%{?dist}
+Version:        3.38.1
+Release:        2%{?dist}
 Summary:        Simple and beautiful calendar application designed to fit GNOME 3
 
 License:        GPLv3+
 URL:            https://wiki.gnome.org/Apps/Calendar
-Source0:        https://download.gnome.org/sources/%{name}/3.36/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
-# These are all backports of crasher fix PRs by mcatanzaro
-Patch2:         84.patch
+# https://gitlab.gnome.org/GNOME/gnome-calendar/-/merge_requests/84
+Patch0:         84.patch
+# https://gitlab.gnome.org/GNOME/gnome-calendar/-/merge_requests/150
+Patch1:         150.patch
 
 BuildRequires:  gcc
 BuildRequires:  gettext
@@ -83,6 +85,31 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.gnome
 %{_datadir}/gnome-shell/search-providers/org.gnome.Calendar.search-provider.ini
 
 %changelog
+* Tue Oct 13 2020 Michael Catanzaro <mcatanzaro@redhat.com> - 3.38.1-2
+- Fix #1883681 crashes in on_calendar_monitor_completed_cb()
+
+* Mon Oct  5 2020 Kalev Lember <klember@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Sun Sep 06 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Mon Aug 24 2020 Adam Williamson <awilliam@redhat.com> - 3.36.2-5
+- Backport another crasher fix (by Yuri6037)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Milan Crha <mcrha@redhat.com> - 3.36.2-2
+- Rebuilt for evolution-data-server soname version bump
+
 * Mon Jun 22 2020 Kalev Lember <klember@redhat.com> - 3.36.2-1
 - Update to 3.36.2
 

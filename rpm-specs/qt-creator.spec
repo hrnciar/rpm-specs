@@ -5,13 +5,13 @@
 %global _python_bytecompile_errors_terminate_build 0
 
 Name:           qt-creator
-Version:        4.12.3
-Release:        1%{?prerelease:.%prerelease}%{?dist}
+Version:        4.13.2
+Release:        2%{?prerelease:.%prerelease}%{?dist}
 Summary:        Cross-platform IDE for Qt
 
 License:        GPLv3 with exceptions
 URL:            https://www.qt.io/ide/
-Source0:        https://download.qt.io/%{?prerelease:development}%{?!prerelease:official}_releases/qtcreator/4.12/%{version}%{?prerelease:-%prerelease}/qt-creator-opensource-src-%{version}%{?prerelease:-%prerelease}.tar.xz
+Source0:        https://download.qt.io/%{?prerelease:development}%{?!prerelease:official}_releases/qtcreator/4.13/%{version}%{?prerelease:-%prerelease}/qt-creator-opensource-src-%{version}%{?prerelease:-%prerelease}.tar.xz
 
 Source1:        qt-creator-Fedora-privlibs
 
@@ -24,7 +24,9 @@ Patch2:         qt-creator_desktop.patch
 # Limit qmake names to avoid the rpm macro wrapper qmake-qt5.sh getting picked up (#1644989)
 Patch3:         qt-creator_qmake-names.patch
 # https://fedoraproject.org/wiki/Changes/Stop-Shipping-Individual-Component-Libraries-In-clang-lib-Package
-Patch4:		0001-Link-against-libclang-cpp.so.patch
+Patch4:                0001-Link-against-libclang-cpp.so.patch
+# Fix various issues building with gcc-11
+Patch5:         %{name}-gcc11.patch
 
 # tight dep on qt5-qtbase used to build, uses some private apis
 BuildRequires:  qt5-qtbase-private-devel
@@ -46,6 +48,7 @@ BuildRequires:  diffutils
 BuildRequires:  libappstream-glib
 BuildRequires:  llvm-devel
 BuildRequires:  clang-devel
+BuildRequires:  systemd-devel
 
 Requires:       hicolor-icon-theme
 Requires:       xdg-utils
@@ -107,7 +110,7 @@ User documentation for %{name}.
 export QTDIR="%{_qt5_prefix}"
 export PATH="%{_qt5_bindir}:$PATH"
 
-%qmake_qt5 -r IDE_LIBRARY_BASENAME=%{_lib} USE_SYSTEM_BOTAN=1 LLVM_INSTALL_DIR=%{_prefix} QMAKE_CFLAGS_ISYSTEM=-I QBS_INSTALL_DIR=%{_prefix} CONFIG+=disable_external_rpath
+%qmake_qt5 -r IDE_LIBRARY_BASENAME=%{_lib} USE_SYSTEM_BOTAN=1 LLVM_INSTALL_DIR=%{_prefix} QMAKE_CFLAGS_ISYSTEM=-I QBS_INSTALL_DIR=%{_prefix} CONFIG+=disable_external_rpath CONFIG+=journald
 %make_build
 %make_build qch_docs
 
@@ -169,6 +172,39 @@ diff -u %{SOURCE1} $outfile
 
 
 %changelog
+* Tue Oct 20 2020 Jeff Law <law@redhat.com> - 4.13.2-2
+- Fix various missing #includes for gcc-11
+
+* Mon Oct 05 2020 Sandro Mani <manisandro@gmail.com> - 4.13.2-1
+- Update to 4.13.2
+
+* Thu Sep 17 2020 Sandro Mani <manisandro@gmail.com> - 4.13.1-1
+- Update to 4.13.1
+
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com>
+- rebuild (qt5)
+
+* Tue Sep  8 13:25:11 CEST 2020 Sandro Mani <manisandro@gmail.com>
+- Rebuild (qbs)
+
+* Wed Aug 26 2020 Sandro Mani <manisandro@gmail.com> - 4.13.0-4
+- Update to 4.13.0
+
+* Thu Aug 13 2020 Sandro Mani <manisandro@gmail.com> - 4.13.0-3.rc1
+- Update to 4.13.0-rc1
+
+* Mon Jul 27 2020 Sandro Mani <manisandro@gmail.com> - 4.13.0-2.beta2
+- Update to 4.13.0-beta2
+
+* Mon Jul 13 2020 Sandro Mani <manisandro@gmail.com> - 4.13.0-1.beta1
+- Update to 4.13.0-beta1
+
+* Wed Jul 08 2020 Sandro Mani <manisandro@gmail.com> - 4.12.4-1
+- Update to 4.12.4
+
+* Tue Jun 30 2020 Sandro Mani <manisandro@gmail.com> - 4.12.3-2
+- Enable journald support (#1846808)
+
 * Wed Jun 17 2020 Sandro Mani <manisandro@gmail.com> - 4.12.3-1
 - Update to 4.12.3
 

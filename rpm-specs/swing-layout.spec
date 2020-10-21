@@ -1,6 +1,6 @@
 Name:           swing-layout
 Version:        1.0.4
-Release:        18%{?dist}
+Release:        20%{?dist}
 Summary:        Natural layout for Swing panels
 License:        LGPLv2
 URL:            https://swing-layout.dev.java.net/
@@ -52,6 +52,12 @@ cat %{SOURCE1} | sed "s|<version>1.0.3</version>|<version>%{version}</version>|"
 %license COPYING
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.0.4-19
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Feb 18 2020 Jiri Andrlik <jandrlik@redhat.com> - 1.0.4-18
 - Migrated from deprecated add_maven_depmap macro https://docs.fedoraproject.org/en-US/java-packaging-howto/migration/
 - renamed pom.xml to swing_layout.pom in sake of some coherence 

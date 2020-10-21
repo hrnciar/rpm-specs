@@ -9,7 +9,7 @@
 Name:           pidgin-chime
 Summary:        Pidgin/libpurple protocol plugin for Amazon Chime
 Version:        1.3
-Release:        3%{?dist}
+Release:        6%{?dist}
 
 License:        LGPLv2
 URL:            https://github.com/awslabs/%{name}
@@ -118,6 +118,15 @@ make %{?_smp_mflags} check
 %endif # with evolution
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 1.3-6
+- Rebuilt for protobuf 3.13
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Kevin Fenzi <kevin@scrye.com> - 1.3-4
+- Rebuild for new evolution-data-server.
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 1.3-3
 - Rebuilt for protobuf 3.12
 

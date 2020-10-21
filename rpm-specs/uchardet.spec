@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:          uchardet
 Version:       0.0.6
-Release:       10%{?dist}
+Release:       11%{?dist}
 Summary:       An encoding detector library ported from Mozilla
 
 License:       MPLv1.1
@@ -28,25 +30,20 @@ for developing tools for uchardet.
 
 %prep
 %autosetup
-mkdir build
 
 %build
-pushd build
-  %cmake .. \
-    -DCMAKE_INSTALL_LIBDIR=%{_libdir} \
-    -DBUILD_STATIC=OFF
-  %make_build
-popd
+%cmake \
+  -DCMAKE_INSTALL_LIBDIR=%{_libdir} \
+  -DBUILD_STATIC=OFF
+%cmake_build
 
 %install
-pushd build
-  %make_install
-popd
+%cmake_install
 
 %ldconfig_scriptlets
 
 %check
-pushd build
+pushd %{_vpath_builddir}
   ctest -VV \
   %ifarch %{ix86}
     || :
@@ -68,6 +65,9 @@ popd
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.6-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.6-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

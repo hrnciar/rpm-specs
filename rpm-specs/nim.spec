@@ -11,7 +11,7 @@
 
 Name:           nim
 Version:        1.0.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Statically typed, imperative programming language
 # compiler is MIT, nimble package manager is BSD
 License:        MIT and BSD
@@ -145,6 +145,9 @@ done
 %doc %{_docdir}/nim
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

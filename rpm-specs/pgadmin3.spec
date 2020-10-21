@@ -15,7 +15,7 @@
 Summary:	Graphical client for PostgreSQL
 Name:		pgadmin3
 Version:	1.23.0
-Release:	0.1.git%{shortcommit}%{?dist}
+Release:	0.2.git%{shortcommit}%{?dist}
 License:	PostgreSQL
 # Originally http://www.pgadmin.org/, switch to fork with current PG support
 URL:            https://github.com/AbdulYadi/pgadmin3
@@ -124,6 +124,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/org.postgresql
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.23.0-0.2.git705eb1b
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 09 2020 Sandro Mani <manisandro@gmail.com> - 1.23.0-0.1.git705eb1b
 - Switch to maintained fork with PG12 support
 - Cleanup packaging

@@ -40,7 +40,7 @@
 
 Name:           libfm
 Version:        %{mainver}
-Release:        %{fedorarel}%{?dist}
+Release:        %{fedorarel}%{?dist}.1
 Summary:        GIO-based library for file manager-like programs
 
 License:        GPLv2+
@@ -427,6 +427,9 @@ fi
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-2.D20200401git8914a52.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr  8 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.3.1-2.D20200401git8914a52
 - Update to the latest git
 

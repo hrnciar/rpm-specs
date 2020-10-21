@@ -3,7 +3,7 @@
 Summary:        SBLIM syslog instrumentation
 Name:           sblim-cmpi-syslog
 Version:        0.9.0
-Release:        17%{?dist}
+Release:        18%{?dist}
 License:        EPL
 URL:            http://sourceforge.net/projects/sblim/
 # The source for this package was pulled from upstream's vcs.  Use the
@@ -127,6 +127,9 @@ $RPM_BUILD_ROOT/%{_datadir}/sblim-testsuite/system/linux/messagelog.sh
 %postun -p /sbin/ldconfig
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

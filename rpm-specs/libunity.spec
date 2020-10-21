@@ -1,12 +1,7 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
-
 Name:	 libunity
 Summary: Library for integrating with Unity and Plasma
 Version: 7.1.4
-Release: 20.20190319%{?dist}
+Release: 23.20190319%{?dist}
 
 # most files LGPLv3, with a handful of GPLv3 (unity-sound-menu* sources in particular)
 License: GPLv3
@@ -75,6 +70,7 @@ rm -fv \
   %{buildroot}%{_libdir}/lib*.la \
   %{buildroot}%{_libdir}/libunity/*.{la,so}
  
+%py_byte_compile %{__python3} %{buildroot}%{python3_sitearch}/gi/overrides/
 
 %ldconfig_post
 
@@ -124,6 +120,16 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 
 
 %changelog
+* Mon Sep 07 2020 Than Ngo <than@redhat.com> - 7.1.4-23.20190319
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.1.4-22.20190319
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.1.4-21.20190319
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 7.1.4-20.20190319
 - Rebuilt for Python 3.9
 

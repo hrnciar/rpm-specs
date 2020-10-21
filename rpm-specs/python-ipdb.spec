@@ -5,8 +5,8 @@ better introspection) right in pdb.
 
 
 Name:           python-ipdb
-Version:        0.13.2
-Release:        2%{?dist}
+Version:        0.13.4
+Release:        1%{?dist}
 BuildArch:      noarch
 
 License:        BSD
@@ -16,6 +16,7 @@ Source0:        https://github.com/gotcha/%{srcname}/archive/%{version}/%{srcnam
 
 BuildRequires:  python3-devel
 BuildRequires:  python3-ipython
+BuildRequires:  python3-mock
 BuildRequires:  python3-setuptools
 
 
@@ -60,6 +61,17 @@ find -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
 
 
 %changelog
+* Wed Oct 14 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 0.13.4-1
+- Update to 0.13.4 (#1884339).
+- https://github.com/gotcha/ipdb/blob/0.13.4/HISTORY.txt
+
+* Sun Sep 20 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 0.13.3-1
+- Update to 0.13.3 (#1850323).
+- https://github.com/gotcha/ipdb/blob/0.13.3/HISTORY.txt
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.13.2-2
 - Rebuilt for Python 3.9
 

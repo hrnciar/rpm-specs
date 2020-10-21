@@ -1,7 +1,7 @@
 Summary:        Tool to analyse BIOS DMI data
 Name:           dmidecode
 Version:        3.2
-Release:        6%{?dist}
+Release:        8%{?dist}
 Epoch:          1
 License:        GPLv2+
 Source0:        http://download.savannah.gnu.org/releases/%{name}/%{name}-%{version}.tar.xz
@@ -63,7 +63,7 @@ I/O ports (e.g. serial, parallel, USB).
 %make_build CFLAGS="%{optflags}" LDFLAGS="%{__global_ldflags}"
 
 %install
-make %{?_smp_mflags} DESTDIR=%{buildroot} prefix=%{_prefix} install-bin install-man
+%make_install %{?_smp_mflags} prefix=%{_prefix} install-bin install-man
 
 %files
 %doc AUTHORS NEWS README
@@ -78,6 +78,13 @@ make %{?_smp_mflags} DESTDIR=%{buildroot} prefix=%{_prefix} install-bin install-
 %{_mandir}/man8/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1:3.2-7
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Mon Feb 03 2020 Tom Stellard <tstellar@redhat.com> - 1:3.2-6
 - Use make_build macro instead of plain make
 

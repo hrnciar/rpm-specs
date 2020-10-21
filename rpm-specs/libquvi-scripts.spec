@@ -2,7 +2,7 @@
 
 Name:           libquvi-scripts
 Version:        0.9.20131130
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Embedded lua scripts for parsing the media details
 License:        AGPLv3+
 URL:            http://quvi.sourceforge.net
@@ -40,6 +40,9 @@ make install DESTDIR=%{buildroot} pkgconfigdir=%{_datadir}/pkgconfig/
 %{_mandir}/man7/quvi-modules*.7*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.20131130-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.20131130-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

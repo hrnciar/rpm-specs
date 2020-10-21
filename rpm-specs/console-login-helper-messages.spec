@@ -2,7 +2,7 @@
 %global github_project  console-login-helper-messages
 
 Name:           console-login-helper-messages
-Version:        0.18.1
+Version:        0.2
 Release:        1%{?dist}
 Summary:        Combines motd, issue, profile features to show system information to the user before/on login
 License:        BSD
@@ -10,7 +10,7 @@ URL:            https://github.com/%{github_owner}/%{github_project}
 Source0:        https://github.com/%{github_owner}/%{github_project}/archive/v%{version}.tar.gz
 
 BuildArch:      noarch
-BuildRequires:  systemd
+BuildRequires:  systemd make
 %{?systemd_requires}
 Requires:       bash systemd
 
@@ -59,8 +59,10 @@ Requires:       ((selinux-policy >= 3.14.3-23) if openssh)
 Summary:        Issue generator script showing SSH keys and IP address
 Requires:       console-login-helper-messages
 Requires:       bash systemd setup
-# systemd-udev: for udev rules
-Requires:       systemd-udev
+# systemd-udev: for displaying IP info using udev
+# NetworkManager: for displaying IP info using NetworkManager dispatcher script
+# NetworkManager is recommended as it supports complex/custom networking devices
+Requires:       (NetworkManager or systemd-udev)
 # fedora-release: for /etc/issue.d path
 #   * https://src.fedoraproject.org/rpms/fedora-release/pull-request/64#
 Requires:       fedora-release
@@ -87,101 +89,98 @@ Requires:       bash systemd setup
 %build
 
 %install
-
-# Vendor-scoped directories
-mkdir -p %{buildroot}%{_prefix}/lib/%{name}/issue.d
-mkdir -p %{buildroot}%{_prefix}/lib/%{name}/motd.d
-mkdir -p %{buildroot}/run/%{name}/issue.d
-mkdir -p %{buildroot}/run/%{name}/motd.d
-mkdir -p %{buildroot}%{_prefix}/share/%{name}
-mkdir -p %{buildroot}%{_sysconfdir}/%{name}/issue.d
-mkdir -p %{buildroot}%{_sysconfdir}/%{name}/motd.d
-
-# External directories
-mkdir -p %{buildroot}%{_sysconfdir}/issue.d
-mkdir -p %{buildroot}%{_sysconfdir}/motd.d
-mkdir -p %{buildroot}%{_sysconfdir}/profile.d
-mkdir -p %{buildroot}%{_unitdir}
-mkdir -p %{buildroot}%{_tmpfilesdir}
-mkdir -p %{buildroot}%{_prefix}/lib/udev/rules.d
-
-# common files
-install -DpZm 0644 usr/lib/tmpfiles.d/%{name}-tmpfiles.conf %{buildroot}%{_tmpfilesdir}/%{name}.conf
-
-# issuegen files
-install -DpZm 0644 usr/lib/systemd/system/%{name}-issuegen.service %{buildroot}%{_unitdir}/%{name}-issuegen.service
-install -DpZm 0644 usr/lib/tmpfiles.d/%{name}-issuegen-tmpfiles.conf %{buildroot}%{_tmpfilesdir}/%{name}-issuegen.conf
-install -DpZm 0644 usr/lib/udev/rules.d/90-%{name}-issuegen.rules %{buildroot}%{_prefix}/lib/udev/rules.d/90-%{name}-issuegen.rules
-install -DpZm 0755 usr/libexec/%{name}/issuegen %{buildroot}%{_libexecdir}/%{name}/issuegen
-
-# motdgen files
-install -DpZm 0644 usr/lib/systemd/system/%{name}-motdgen.service %{buildroot}%{_unitdir}/%{name}-motdgen.service
-install -DpZm 0644 usr/lib/tmpfiles.d/%{name}-motdgen-tmpfiles.conf %{buildroot}%{_tmpfilesdir}/%{name}-motdgen.conf
-install -DpZm 0755 usr/libexec/%{name}/motdgen %{buildroot}%{_libexecdir}/%{name}/motdgen
-
-# profile files
-install -DpZm 0644 usr/lib/tmpfiles.d/%{name}-profile-tmpfiles.conf %{buildroot}%{_tmpfilesdir}/%{name}-profile.conf
-install -DpZm 0755 usr/share/%{name}/profile.sh %{buildroot}%{_prefix}/share/%{name}/profile.sh
-
-# symlinks
-ln -snf /run/%{name}/40_%{name}.issue %{buildroot}%{_sysconfdir}/issue.d/40_%{name}.issue
-ln -snf %{_prefix}/share/%{name}/profile.sh %{buildroot}%{_sysconfdir}/profile.d/%{name}-profile.sh
-
-%pre
-%tmpfiles_create_package %{name} usr/lib/tmpfiles.d/%{name}-tmpfiles.conf
-%tmpfiles_create_package %{name}-issuegen usr/lib/tmpfiles.d/%{name}-issuegen-tmpfiles.conf
-%tmpfiles_create_package %{name}-motdgen usr/lib/tmpfiles.d/%{name}-motdgen-tmpfiles.conf
-%tmpfiles_create_package %{name}-profile usr/lib/tmpfiles.d/%{name}-profile-tmpfiles.conf
+make install DESTDIR=%{buildroot}
 
 %post
 %systemd_post %{name}-issuegen.service
 %systemd_post %{name}-motdgen.service
+%systemd_post %{name}-issuegen.path
+%systemd_post %{name}-motdgen.path
+%systemd_post %{name}-gensnippet-os-release.service
+%systemd_post %{name}-gensnippet-ssh-keys.service
 
 %preun
 %systemd_preun %{name}-issuegen.service
 %systemd_preun %{name}-motdgen.service
+%systemd_preun %{name}-issuegen.path
+%systemd_preun %{name}-motdgen.path
+%systemd_preun %{name}-gensnippet-os-release.service
+%systemd_preun %{name}-gensnippet-ssh-keys.service
 
 %postun
 %systemd_postun_with_restart %{name}-issuegen.service
 %systemd_postun_with_restart %{name}-motdgen.service
+%systemd_postun_with_restart %{name}-issuegen.path
+%systemd_postun_with_restart %{name}-motdgen.path
+%systemd_postun_with_restart %{name}-gensnippet-os-release.service
+%systemd_postun_with_restart %{name}-gensnippet-ssh-keys.service
 
 # TODO: %check
 
 %files
 %doc README.md
-%doc manual.md
+%doc doc/manual.md
 %license LICENSE
 %dir %{_libexecdir}/%{name}
 %dir %{_prefix}/lib/%{name}
-%dir /run/%{name}
 %dir %{_prefix}/share/%{name}
 %dir %{_sysconfdir}/%{name}
 %{_tmpfilesdir}/%{name}.conf
+%{_prefix}/lib/%{name}/libutil.sh
 
 %files issuegen
 %{_unitdir}/%{name}-issuegen.service
+%{_unitdir}/%{name}-issuegen.path
+%{_unitdir}/%{name}-gensnippet-ssh-keys.service
 %{_tmpfilesdir}/%{name}-issuegen.conf
-%{_prefix}/lib/udev/rules.d/90-%{name}-issuegen.rules
+%{_sysconfdir}/NetworkManager/dispatcher.d/90-%{name}-gensnippet_if
+%{_prefix}/lib/%{name}/issuegen.defs
 %{_libexecdir}/%{name}/issuegen
+%{_libexecdir}/%{name}/gensnippet_ssh_keys
+%{_libexecdir}/%{name}/gensnippet_if
+%{_libexecdir}/%{name}/gensnippet_if_udev
+%ghost %{_sysconfdir}/issue.d/40_%{name}.issue
 %dir %{_prefix}/lib/%{name}/issue.d
-%dir /run/%{name}/issue.d
-%{_sysconfdir}/issue.d/40_%{name}.issue
 %dir %{_sysconfdir}/%{name}/issue.d
 
 %files motdgen
 %{_unitdir}/%{name}-motdgen.service
+%{_unitdir}/%{name}-motdgen.path
+%{_unitdir}/%{name}-gensnippet-os-release.service
 %{_tmpfilesdir}/%{name}-motdgen.conf
+%{_prefix}/lib/%{name}/motdgen.defs
 %{_libexecdir}/%{name}/motdgen
+%{_libexecdir}/%{name}/gensnippet_os_release
 %dir %{_prefix}/lib/%{name}/motd.d
-%dir /run/%{name}/motd.d
 %dir %{_sysconfdir}/%{name}/motd.d
 
 %files profile
 %{_prefix}/share/%{name}/profile.sh
 %{_tmpfilesdir}/%{name}-profile.conf
-%{_sysconfdir}/profile.d/%{name}-profile.sh
+%ghost %{_sysconfdir}/profile.d/%{name}-profile.sh
 
 %changelog
+* Fri Sep 25 2020 Kelvin Fan <kfan@redhat.com> - 0.2-1
+- Update to 0.2
+- Add presets for `.service` units
+- %ghost symlinks defined in tmpfiles.d directory
+
+* Fri Sep 18 2020 Kelvin Fan <kfan@redhat.com> - 0.19-2
+- BuildRequire `make`
+- Remove preinstall scripts
+
+* Tue Sep 08 2020 Kelvin Fan <kfan@redhat.com> - 0.19-1
+- Update to 0.19
+- Invoke make install
+- Remove -motdgen.service, -issuegen.service presets
+- Require NetworkManager or systemd-udev
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 2020 Robert Fairley <rfairley@redhat.com> - 0.18.2-1
+- Update to 0.18.2
+
 * Thu Apr 30 2020 Robert Fairley <rfairley@redhat.com> - 0.18.1-1
 - Update to 0.18.1
 

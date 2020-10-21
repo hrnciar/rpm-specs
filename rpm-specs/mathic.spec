@@ -1,11 +1,11 @@
-%global gitdate         20181123
-%global gittag          e13b94422e3bd250523e88232138edd124793ec2
+%global gitdate         20200526
+%global gittag          44095b846a83c05cbff6f3e8765070e5cda40e67
 %global shorttag        %(c=%{gittag}; echo ${c:0:7})
 %global user            Macaulay2
 
 Name:           mathic
 Version:        1.0
-Release:        14.%{gitdate}.git%{shorttag}%{?dist}
+Release:        16.%{gitdate}.git%{shorttag}%{?dist}
 Summary:        Data structures for Groebner basis computations
 
 License:        LGPLv2+
@@ -14,6 +14,10 @@ Source0:        https://github.com/%{user}/%{name}/tarball/%{gittag}/%{user}-%{n
 
 # Upstream wants to download gtest and compile it in; we don't
 Patch0:         %{name}-gtest.patch
+# Remove a pessimizing move
+Patch1:         %{name}-move.patch
+# Add noreturn attributes
+Patch2:         %{name}-noreturn.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  gtest-devel
@@ -54,18 +58,13 @@ Mathic-based tools.  Currently this contains:
 - pqsim: priority queue simulation
 
 %prep
-%setup -q -n %{user}-%{name}-%{shorttag}
-%patch0
-
-# Nearly every file is marked executable; only a few need to be.
-find . -type f -perm /0111 | xargs chmod a-x
-chmod a+x autogen.sh fixspace replace
+%autosetup -p0 -n %{user}-%{name}-%{shorttag}
 
 # Update the C++ standard slightly
 sed -i 's/-std=gnu++0x/-std=gnu++11/' Makefile.am
 
 # Upstream doesn't generate the configure script
-autoreconf -fi
+autoreconf -fi .
 
 %build
 export GTEST_PATH=%{_prefix}
@@ -79,8 +78,8 @@ sed -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -e 's|CC=.g..|& -Wl,--as-needed|' \
     -i libtool
 
-make %{?_smp_mflags}
-make %{?_smp_mflags} divsim pqsim
+%make_build
+%make_build divsim pqsim
 
 %install
 %make_install
@@ -112,6 +111,13 @@ make check
 %{_bindir}/pqsim
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-16.20200526.git44095b8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul  2 2020 Jerry James <loganjerry@gmail.com> - 1.0-15.20200526.git44095b8
+- Update to latest upstream snapshot
+- Add -move and -noreturn patches
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-14.20181123.gite13b944
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

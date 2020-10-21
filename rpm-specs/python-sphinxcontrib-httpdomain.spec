@@ -3,7 +3,7 @@
 
 Name:           python-%{upstream_name}
 Version:        1.7.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Sphinx domain for documenting HTTP APIs
 License:        BSD
 URL:            http://packages.python.org/sphinxcontrib-httpdomain/
@@ -46,6 +46,9 @@ rm -r *.egg-info
 %{python3_sitelib}/sphinxcontrib*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.0-9
 - Rebuilt for Python 3.9
 

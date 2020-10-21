@@ -1,6 +1,6 @@
 Name:           perl-Test-Filename
 Version:        0.03
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Portable filename comparison
 License:        ASL 2.0
 
@@ -56,6 +56,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.03-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.03-13
 - Perl 5.32 rebuild
 

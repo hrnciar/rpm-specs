@@ -1,6 +1,6 @@
 Name:           perl-RPM-Specfile
 Version:        1.51
-Release:        37%{?dist}
+Release:        38%{?dist}
 Summary:        Perl extension for creating RPM specfiles
 
 License:        GPL+ or Artistic
@@ -65,6 +65,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.51-38
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.51-37
 - Perl 5.32 rebuild
 

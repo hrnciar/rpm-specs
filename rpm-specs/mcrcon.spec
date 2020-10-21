@@ -1,6 +1,6 @@
 Name:           mcrcon
 Version:        0.6.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Console based rcon client for minecraft servers
 
 License:        zlib
@@ -46,6 +46,9 @@ CFLAGS="-std=gnu99 %{optflags}"; export CFLAGS
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

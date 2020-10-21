@@ -1,5 +1,8 @@
 %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
+%global commit 4923a6c1fda7799ad32b57f84ec9111bd716fd84
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
+
 # Architectures from OpenNI spec file
 %ifarch %{ix86} x86_64 %{arm}
 %define have_openni 1
@@ -38,20 +41,18 @@
 %define include_req_spec() %{expand:%(sed -e 's/^R/%2: /g' %1)}
 
 Name:           fawkes
-Version:        1.3.0
-Release:        13%{?dist}
+Version:        1.3.1
+Release:        0.2.%{shortcommit}%{?dist}
 Summary:        Robot Software Framework
 
 License:        GPLv2+ and GPLv2+ with exceptions
 URL:            https://www.fawkesrobotics.org
-Source0:        https://github.com/fawkesrobotics/fawkes/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:        https://github.com/fawkesrobotics/fawkes/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
 Source1:        build_requires.txt
 Source2:        meta_requires.txt
-Patch0:         fawkes.freeglut.patch
-Patch1:         fawkes.cgal-header-only.patch
-# Bump version to 1.3.0 (commit is missing from 1.3 release)
-Patch2:         fawkes.version-1.3.patch
-Patch3:		fawkes.gcc10.patch
+Patch0:         fawkes.microhttpd.patch
+Patch1:         fawkes.hardware-models-build-order.patch
+Patch2:         fawkes.gcc11.patch
 
 %{include_req_spec %{SOURCE1} BuildRequires}
 
@@ -258,6 +259,11 @@ Summary:        Fawkes plugin generic access to Dynamixel servos
 This package contains a Fawkes plugin that provides blackboard
 interfaces for any number of Dynamixel servos.
 
+%package        plugin-execution-time-estimator
+Summary:        Execution time estimator plugin for Fawkes
+%description    plugin-execution-time-estimator
+This package contains the execution-time-estimator Fawkes plugin.
+
 %if %{with festival}
 %package        plugin-festival
 Summary:        Fawkes Festival speech synthesis plugin
@@ -335,6 +341,11 @@ Summary:        Fawkes plugin for Gossip communication
 %description    plugin-gossip
 This package contains a Fawkes plugin to enable Gossip-based
 communication based on protobuf_comm.
+
+%package        plugin-hardware-models
+Summary:        Fawkes plugin for declarative hardware models
+%description    plugin-hardware-models
+This package contains a Fawkes plugin for declarative hardware models.
 
 %package        plugin-imu
 Summary:        Fawkes plugin for access IMU sensors
@@ -653,7 +664,7 @@ functionality.
 
 
 %prep
-%autosetup -p1 -n %{name}-%{version}
+%autosetup -p1 -n %{name}-%{commit}
 
 %build
 %define feature_flags HAVE_ROS=0 HAVE_OPENRAVE=0 %{!?have_openni:HAVE_OPENNI=0} %{!?have_openprs: HAVE_OPENPRS=0}
@@ -732,6 +743,7 @@ make clean %{?_smp_mflags}
 %{_libdir}/libfawkesnetworklogger.so.*
 %{_libdir}/libfawkespddl_parser.so.*
 %{_libdir}/libfawkesplugin.so.*
+%{_libdir}/libfawkesprotoboard.so.*
 %{_libdir}/libfawkessyncpoint.so.*
 %{_libdir}/libfawkestf.so.*
 %{_libdir}/libfawkesutils.so.*
@@ -900,6 +912,12 @@ make clean %{?_smp_mflags}
 %{interface_dir}/libDynamixelServoInterface.so*
 %{luamod_dir}/interfaces/DynamixelServoInterface.so
 
+%files plugin-execution-time-estimator
+%{plugin_dir}/execution-time-estimator.so
+%{plugin_dir}/execution-time-estimator-navgraph.so
+%{_libdir}/libfawkes_execution_time_estimator.so.*
+%{_libdir}/libfawkes_execution_time_estimator_aspect.so.*
+
 %if %{with festival}
 %files plugin-festival
 %{plugin_dir}/festival.so
@@ -946,6 +964,12 @@ make clean %{?_smp_mflags}
 %{plugin_dir}/gossip.so
 %{_libdir}/libfawkesgossip.so.*
 %{_libdir}/libfawkesgossipaspect.so.*
+
+%files plugin-hardware-models
+%{plugin_dir}/hardware-models.so
+%{interface_dir}/libHardwareModelsInterface.so*
+%{luamod_dir}/interfaces/HardwareModelsInterface.so
+%config %{_sysconfdir}/%{name}/hardware-models
 
 %files plugin-imu
 %{plugin_dir}/imu.so
@@ -1184,6 +1208,26 @@ make clean %{?_smp_mflags}
 %exclude %{_pkgdocdir}/LICENSE.*
 
 %changelog
+* Wed Oct 14 2020 Jeff Law <law@redhat.com> - 1.3.1-0.2.4923a6c
+- Fix missing #include for gcc-11
+
+* Fri Oct 09 2020 Till Hofmann <thofmann@fedoraproject.org> - 1.3.1-0.1.4923a6c
+- Update to snapshot release to fix FTBFS
+- Add new plugins
+
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 1.3.0-17
+- Rebuilt for protobuf 3.13
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 1.3.0-14
+- Rebuilt for protobuf 3.12
+
 * Thu Jun 04 2020 Nicolas Chauvet <kwizart@gmail.com> - 1.3.0-13
 - Rebuilt for OpenCV 4.3
 

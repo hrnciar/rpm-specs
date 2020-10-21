@@ -2,7 +2,7 @@
 
 Name:           felix-gogo-shell
 Version:        1.1.0
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Apache Felix Gogo command line shell for OSGi
 License:        ASL 2.0
 URL:            http://felix.apache.org/documentation/subprojects/apache-felix-gogo.html
@@ -50,6 +50,12 @@ This package contains the API documentation for %{name}.
 %license LICENSE NOTICE
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.1.0-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

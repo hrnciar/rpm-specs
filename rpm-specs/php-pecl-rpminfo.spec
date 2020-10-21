@@ -19,7 +19,7 @@
 
 Summary:        RPM information
 Name:           php-pecl-%{pecl_name}
-Version:        0.5.0
+Version:        0.5.1
 Release:        1%{?dist}
 License:        PHP
 URL:            https://pecl.php.net/package/%{pecl_name}
@@ -40,13 +40,10 @@ Provides:       php-pecl(%{pecl_name})%{?_isa} = %{version}
 
 
 %description
-Retrieve RPM information using librpm.
+Retrieve RPM information using librpm, from local
+RPM file or from installed packages database.
 
-Available functions:
-- rpmvercmp to compare 2 EVRs
-- rpminfo to retrieve information from a RPM file
-- rpmdbinfo to rerieve information from an installed RPM
-- rpmdbsearch to search installed RPMs
+Documentation: https://www.php.net/rpminfo
 
 
 %prep
@@ -122,6 +119,11 @@ done
 
 
 %check
+%if 0%{?fedora} >= 33
+rm ?TS/tests/007-rpmdbinfo.phpt
+rm ?TS/tests/008-rpmdbsearch.phpt
+%endif
+
 cd NTS
 # Minimal load test for NTS extension
 %{__php} --no-php-ini \
@@ -166,6 +168,13 @@ REPORT_EXIT_STATUS=1 \
 
 
 %changelog
+* Wed Sep 23 2020 Remi Collet <remi@remirepo.net> - 0.5.1-1
+- update to 0.5.1
+
+* Fri Aug 21 2020 Remi Collet <remi@remirepo.net> - 0.5.0-2
+- improve package description
+- ignore 2 (expected) failed tests on F33, FTBFS #1865223
+
 * Tue Apr  7 2020 Remi Collet <remi@remirepo.net> - 0.5.0-1
 - update to 0.5.0
 

@@ -23,12 +23,13 @@ Backup destinations can be:
 
 
 Name:    restic
-Release: 3%{?dist}
+Release: 6%{?dist}
 Summary: Fast, secure, efficient backup program
 URL:     %{gourl}
 License: BSD
 Source0: %{gosource}
 Patch0:	 0001-Fix-running-tests-on-a-SELinux-enabled-system.patch
+Patch1:	 backport-2652.patch
 
 #Restic does not compile for the following archs
 ExcludeArch: s390x
@@ -76,6 +77,7 @@ BuildRequires: golang(github.com/google/go-cmp/cmp)
 %prep
 %goprep
 %patch0 -p1
+%patch1 -p1
 
 %build
 %gobuild -o %{gobuilddir}/bin/%{name} %{goipath}/cmd/restic
@@ -113,6 +115,16 @@ export RESTIC_TEST_FUSE=0
 
 
 %changelog
+* Sun Aug 30 2020 Steve Miller (copart) <code@rellims.com> - 0.9.6-6
+- Added upstream patch for AllowRoot build issue, commit 18fee4806f6a71e951eaee2a3910140c5efb46e3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.6-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 17 2020 Steve Miller (copart) <code@rellims.com> - 0.9.6-3
 - Added upstream patch for AccessTime test fix, commit 7cacba0394b1336dfee33e81cb1dc0e87f8ba10f
 

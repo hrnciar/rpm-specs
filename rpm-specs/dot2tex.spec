@@ -1,6 +1,6 @@
 Name:           dot2tex
 Version:        2.11.3
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        A Graphviz to LaTeX converter
 License:        MIT
 URL:            http://www.fauskes.net/code/dot2tex/
@@ -8,6 +8,7 @@ Source0:        https://github.com/kjellmf/dot2tex/archive/%{version}.tar.gz#/%{
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 Requires:       python3-pyparsing
 Requires:       tex(preview.sty)
 Requires:       tex(tikz.sty)
@@ -37,6 +38,13 @@ find docs examples -name "*.tex" -o -name "*.dot" | xargs sed -i -e 's|\r||'
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Till Hofmann <thofmann@fedoraproject.org> - 2.11.3-7
+- Explicitly BR python3-setuptools
+  (https://lists.fedoraproject.org/archives/list/devel@lists.fedoraproject.org/message/GCPGM34ZGEOVUHSBGZTRYR5XKHTIJ3T7/)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.11.3-6
 - Rebuilt for Python 3.9
 

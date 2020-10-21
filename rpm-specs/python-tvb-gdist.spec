@@ -23,11 +23,10 @@ it compatible with cython.
 }
 
 Name:           python-%{pypi_name}
-Version:        2.0.1
-Release:        2%{?dist}
+Version:        2.0.2
+Release:        1%{?dist}
 Summary:        Cython interface to geodesic
 
-# https://fedoraproject.org/wiki/Licensing:Main?rd=Licensing#Good_Licenses
 License:        GPLv3+
 URL:            https://pypi.python.org/pypi/%{pypi_name}
 Source0:        %pypi_source %{pypi_name}
@@ -75,6 +74,12 @@ sed -i '2 a # cython: language_level=3' gdist.pyx
 %{python3_sitearch}/gdist.cpython-*.so
 
 %changelog
+* Fri Sep 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 2.0.2-1
+- Update to new release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.1-2
 - Rebuilt for Python 3.9
 

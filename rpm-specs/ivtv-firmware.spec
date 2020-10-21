@@ -4,7 +4,7 @@
 Summary: Firmware for the Hauppauge PVR 250/350/150/500/USB2 model series
 Name: ivtv-firmware
 Version: 20080701
-Release: 38%{?dist}
+Release: 39%{?dist}
 Epoch: 2
 License: Redistributable, no modification permitted
 URL: http://dl.ivtvdriver.org/ivtv/firmware/
@@ -48,6 +48,9 @@ done
 /lib/firmware/%{name}-license-*.txt
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:20080701-39
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:20080701-38
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,8 +1,8 @@
 %global modname slackclient
 
 Name:               python-%{modname}
-Version:            2.7.1
-Release:            1%{?dist}
+Version:            2.7.3
+Release:            2%{?dist}
 Summary:            Slack Developer Kit for Python
 
 License:            MIT
@@ -53,6 +53,15 @@ Python %{python3_pkgversion} version.
 %{python3_sitelib}/%{modname}-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.7.3-1
+- 2.7.3
+
+* Wed Jun 24 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.7.2-1
+- 2.7.2
+
 * Fri Jun 05 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.7.1-1
 - 2.7.1
 

@@ -1,6 +1,6 @@
 Name:           perl-Font-TTFMetrics
 Version:        0.1
-Release:        28%{?dist}
+Release:        29%{?dist}
 Summary:        Parser for the TTF file
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Font-TTFMetrics
@@ -50,6 +50,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.1-28
 - Perl 5.32 rebuild
 

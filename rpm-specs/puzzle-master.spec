@@ -1,6 +1,6 @@
 Name:           puzzle-master
 Version:        2.5.3
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Fun jigsaw puzzle game
 
 License:        GPLv2+
@@ -44,6 +44,13 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %doc LICENSE-DOCS
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.3-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.3-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

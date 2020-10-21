@@ -3,7 +3,7 @@
 
 Name:           %{fontname}-fonts
 Version:        0.1
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        OpenType sanserif font for Gujarati script
 License:        OFL
 URL:            https://github.com/gujaratilexicon
@@ -56,6 +56,9 @@ install -Dm 0644 -p %{SOURCE3} \
 %{_datadir}/appdata/%{fontname}.metainfo.xml
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 

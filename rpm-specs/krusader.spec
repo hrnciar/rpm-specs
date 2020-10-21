@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:		krusader
 Version:	2.7.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	An advanced twin-panel (commander-style) file-manager for KDE
 
 License:	GPLv2+
@@ -50,15 +52,11 @@ friendly, fast and looks great on your desktop! You should give it a try.
 %setup -q -n %{name}-%{version}%{?beta:-%{beta}}
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 
 # Merge applications into one software center item
 mkdir -p %{buildroot}%{_datadir}/metainfo
@@ -113,6 +111,9 @@ done
 %{_mandir}/*/man1/krusader.1.gz
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,10 @@
+%global commit  d077210922c180f7c7d94ef40a64ddb4a426e0c4
+%global date 20201019
+%global shortcommit0 %(c=%{commit}; echo ${c:0:7})
+
 %global __requires_exclude ^lib%{name}.so|^lib%{name}-js.so
 
-%global cjs_version 4.6.0
+%global cjs_version 4.7.0
 %global cinnamon_desktop_version 4.6.0
 %global cinnamon_translations_version 4.6.0
 %global gobject_introspection_version 1.38.0
@@ -10,12 +14,12 @@
 %global __python %{__python3}
 
 Name:           cinnamon
-Version:        4.6.5
-Release:        1%{?dist}
+Version:        4.7.0
+Release:        0.1%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        Window management and application launching for GNOME
 License:        GPLv2+ and LGPLv2+
 URL:            https://github.com/linuxmint/%{name}
-Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:        %{url}/archive/%{commit}/%{name}-%{commit}.tar.gz
 Source1:        polkit-%{name}-authentication-agent-1.desktop
 Source2:        10_cinnamon-common.gschema.override
 Source3:        10_cinnamon-apps.gschema.override.in
@@ -26,9 +30,11 @@ Patch2:         revert_25aef37.patch
 Patch3:         default_panal_launcher.patch
 Patch4:         remove_crap_from_menu.patch
 Patch5:         replace-metacity-with-openbox.patch
+Patch6:         meson.patch
 
 
 BuildRequires:  gcc-c++
+BuildRequires:  meson
 BuildRequires:  pkgconfig(dbus-glib-1)
 BuildRequires:  desktop-file-utils
 BuildRequires:  pkgconfig(cjs-1.0) >= %{cjs_version}
@@ -48,7 +54,6 @@ BuildRequires:  pkgconfig(gudev-1.0)
 BuildRequires:  pkgconfig(gstreamer-1.0)
 BuildRequires:  intltool
 BuildRequires:  pkgconfig(libcanberra)
-BuildRequires:  pkgconfig(libcroco-0.6)
 BuildRequires:  pkgconfig(libsoup-2.4)
 
 # used in unused BigThemeImage
@@ -162,6 +167,7 @@ Requires:       wget%{?_isa}
 Requires:       cups-client%{?_isa}
 
 Provides:       desktop-notification-daemon
+Provides:       bundled(libcroco) = 0.6.12
 
 %description
 Cinnamon is a Linux desktop which provides advanced
@@ -183,7 +189,7 @@ This package contains the code documentation for various Cinnamon components.
 %endif
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name}-%{commit}
 
 %{__sed} -i -e 's@gksu@pkexec@g' files%{_bindir}/%{name}-settings-users
 %{__sed} -i -e 's@gnome-orca@orca@g' files%{_datadir}/%{name}/%{name}-settings/modules/cs_accessibility.py
@@ -203,29 +209,17 @@ done
 chmod a-x files%{_datadir}/%{name}/%{name}-settings/bin/__init__.py
 
 
-NOCONFIGURE=1 ./autogen.sh
-
-
 %build
-%configure \
-    --disable-static \
-    --disable-schemas-compile \
-    --disable-silent-rules \
-    --enable-introspection=yes \
-%if 0%{?rhel}
-    --disable-gtk-doc \
-%endif
-    --enable-compile-warnings=no
+%meson \
+ --libexecdir=%{_libexecdir}/cinnamon/ \
+ -Ddeprecated_warnings=false \
+ -Ddocs=true
 
-%make_build
+%meson_build
 
 
 %install
-%make_install
-
-# Remove static libs and libtool crap
-%{_bindir}/find %{buildroot}%{_libdir} -name '*.a' -print -delete
-%{_bindir}/find %{buildroot}%{_libdir} -name '*.la' -print -delete
+%meson_install
 
 # install polkit autostart desktop file
 %{__install} --target-directory=%{buildroot}%{_datadir}/applications \
@@ -282,6 +276,27 @@ EOF
 %endif
 
 %changelog
+* Mon Oct 19 2020 Leigh Scott <leigh123linux@gmail.com> - 4.7.0-0.1.20201019gitd077210
+- Update to git master snapshot
+
+* Sat Sep 19 2020 Leigh Scott <leigh123linux@gmail.com> - 4.6.7-2
+- Switch to gjs f34+
+
+* Tue Aug 11 2020 Leigh Scott <leigh123linux@gmail.com> - 4.6.7-1
+- Update to 4.6.7 release
+
+* Mon Aug 10 2020 Leigh Scott <leigh123linux@gmail.com> - 4.6.6-4
+- Enable LTO
+
+* Fri Jul 31 2020 Leigh Scott <leigh123linux@gmail.com> - 4.6.6-3
+- Drop libcroco requirement
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Leigh Scott <leigh123linux@gmail.com> - 4.6.6-1
+- Update to 4.6.6 release
+
 * Sun Jun 21 2020 Leigh Scott <leigh123linux@gmail.com> - 4.6.5-1
 - Update to 4.6.5 release
 

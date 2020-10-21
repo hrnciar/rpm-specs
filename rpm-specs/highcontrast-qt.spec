@@ -1,6 +1,7 @@
+%define __cmake_in_source_build 1
 Name:           highcontrast-qt
 Version:        0.1
-Release:        9%{?dist}
+Release:        12%{?dist}
 License:        GPLv2+ and MIT
 Summary:        HighContrast theme for Qt-based applications
 
@@ -70,6 +71,16 @@ make install/fast DESTDIR=%{buildroot} -C "%{_target_platform}-qt5"
 %files
 
 %changelog
+* Wed Sep 23 2020 Jeff Law <law@redhat.com> - 0.1-12
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:		perl-Perl-PrereqScanner-NotQuiteLite
-Version:	0.9911
-Release:	2%{?dist}
+Version:	0.9913
+Release:	1%{?dist}
 Summary:	A tool to scan your Perl code for its prerequisites
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Perl-PrereqScanner-NotQuiteLite
@@ -31,6 +31,7 @@ BuildRequires:	perl(Module::Find)
 BuildRequires:	perl(parent)
 BuildRequires:	perl(Regexp::Trie)
 BuildRequires:	perl(strict)
+BuildRequires:	perl(URI::cpan)
 BuildRequires:	perl(warnings)
 # Script Runtime
 BuildRequires:	perl(Getopt::Long)
@@ -49,6 +50,7 @@ Requires:	perl(Data::Dump)
 Requires:	perl(JSON::PP)
 Requires:	perl(Module::CoreList)
 Requires:	perl(Module::Find)
+Requires:	perl(URI::cpan)
 Suggests:	perl(CPAN::Common::Index)
 
 %description
@@ -127,6 +129,16 @@ make test
 %{_mandir}/man3/Perl::PrereqScanner::NotQuiteLite::Util::Prereqs.3*
 
 %changelog
+* Sun Sep  6 2020 Paul Howarth <paul@city-fan.org> - 0.9913-1
+- Update to 0.9913
+  - Fix not to dedupe core modules needlessly
+  - Use a main module to represent modules that belong to the same distribution
+  - Dedupe build requires as well
+  - Add URI::cpan to cpanfile
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9911-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.9911-2
 - Perl 5.32 rebuild
 

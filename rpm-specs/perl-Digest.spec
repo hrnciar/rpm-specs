@@ -1,23 +1,25 @@
 Name:           perl-Digest
-Version:        1.17
-Release:        456%{?dist}
+Version:        1.19
+Release:        1%{?dist}
 Summary:        Modules that calculate message digests
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Digest
-Source0:        https://cpan.metacpan.org/authors/id/G/GA/GAAS/Digest-%{version}.tar.gz
-# Avoid loading optional modules from default . (CVE-2016-1238)
-Patch0:         Digest-0.17-CVE-2016-1238-prevent-loading-optional-modules-from-.patch
+Source0:        https://cpan.metacpan.org/authors/id/T/TO/TODDR/Digest-%{version}.tar.gz
 BuildArch:      noarch
 BuildRequires:  coreutils
-BuildRequires:  findutils
 BuildRequires:  make
 BuildRequires:  perl-interpreter
 BuildRequires:  perl-generators
+BuildRequires:  perl(:VERSION) >= 5.6
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
+BuildRequires:  perl(strict)
+BuildRequires:  perl(warnings)
+# Run-time:
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(Exporter)
-BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(MIME::Base64)
 # Tests only:
+BuildRequires:  perl(File::Temp)
 BuildRequires:  perl(lib)
 BuildRequires:  perl(Test::More) >= 0.47
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
@@ -25,24 +27,20 @@ Requires:       perl(MIME::Base64)
 
 %description
 The Digest:: modules calculate digests, also called "fingerprints" or
-"hashes", of some data, called a message. The digest is (usually)
-some small/fixed size string. The actual size of the digest depend of
-the algorithm used. The message is simply a sequence of arbitrary
-bytes or bits.
+"hashes", of some data, called a message. The digest is (usually) some
+small/fixed size string. The actual size of the digest depends of the
+algorithm used. The message is simply a sequence of arbitrary bytes or bits.
 
 %prep
 %setup -q -n Digest-%{version}
-%patch0 -p1
 chmod -x digest-bench
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install PERL_INSTALL_ROOT=$RPM_BUILD_ROOT
-find $RPM_BUILD_ROOT -type f -name .packlist -exec rm -f {} \;
-find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
@@ -54,6 +52,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Wed Oct 14 2020 Petr Pisar <ppisar@redhat.com> - 1.19-1
+- 1.19 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.17-456
 - Increase release to favour standalone package
 

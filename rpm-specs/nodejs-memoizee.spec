@@ -6,7 +6,7 @@
 
 Name:		nodejs-memoizee
 Version:	0.3.9
-Release:	11%{?dist}
+Release:	12%{?dist}
 Summary:	Memoize/cache function results
 
 License:	MIT
@@ -68,6 +68,9 @@ cp -pr package.json *.js lib/ ext/ normalizers/ \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.9-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.9-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

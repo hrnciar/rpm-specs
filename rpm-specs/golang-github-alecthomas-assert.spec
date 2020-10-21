@@ -20,7 +20,7 @@ This is a fork of stretchr's assertion library that does two things:
 
 Name:           %{goname}
 Version:        0
-Release:        0.8%{?dist}
+Release:        0.9%{?dist}
 Summary:        Fork of stretchr/testify/require that provides much nicer diffs
 
 License:        MIT
@@ -50,6 +50,9 @@ BuildRequires:  golang(github.com/sergi/go-diff/diffmatchpatch)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

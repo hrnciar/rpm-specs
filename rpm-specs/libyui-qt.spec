@@ -1,24 +1,27 @@
 # Setup _pkgdocdir if not defined already.
 %{!?_pkgdocdir:%global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
-# CMake-builds go out-of-tree.
-%global _cmake_build_subdir build-%{_target_platform}
+# release commit because SUSE didn't tag it :(
+%global relcommit cf7abc3dce267dd8922d7a0b5939c3fec5460985
 
+# CMake-builds go out-of-tree.
+%undefine __cmake_in_source_build
 
 Name:		libyui-qt
-Version:	2.47.1
-Release:	17%{?dist}
+Version:	2.53.0
+Release:	1%{?dist}
 Summary:	Qt User Interface for libyui
 
 License:	LGPLv2 or LGPLv3
 URL:		https://github.com/libyui/%{name}
-Source0:	%{url}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
-Patch0:		%{url}/commit/a6e599e79bd15f6a97ff6d8f2e3109759ff37aaf.patch#/remove_rpc.patch
+# No tag :(
+#Source0:	%{url}/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:	%{url}/archive/%{relcommit}/%{name}-%{version}.tar.gz
 
 BuildRequires:	boost-devel
 BuildRequires:	cmake3
 BuildRequires:	fontconfig-devel
-BuildRequires:	libyui-devel
+BuildRequires:	libyui-devel >= 3.10.0
 BuildRequires:	pkgconfig(Qt5Core)
 BuildRequires:	pkgconfig(Qt5Gui)
 BuildRequires:	pkgconfig(Qt5Svg)
@@ -66,34 +69,30 @@ for %{name}.
 
 
 %prep
-%autosetup -p 1
+%autosetup -n %{name}-%{relcommit} -p1
 ./bootstrap.sh
 
 
 %build
-%{__mkdir} -p %{_cmake_build_subdir}
-pushd %{_cmake_build_subdir}
-%cmake3							\
+%cmake							\
        	-DENABLE_WERROR=OFF                             \
 	-DYPREFIX=%{_prefix}				\
 	-DLIB_DIR=%{_libdir}				\
 	-DCMAKE_BUILD_TYPE=RELEASE			\
 	-DRESPECT_FLAGS=ON				\
-	-DSKIP_LATEX=ON					\
-	..
+	-DSKIP_LATEX=ON
 
-%make_build
-%make_build docs
-popd
+%cmake_build
+%cmake_build --target docs
 
 
 %install
-pushd %{_cmake_build_subdir}
 %{__mkdir} -p	%{buildroot}%{_libdir}/yui		\
 		%{buildroot}%{_datadir}/%{name}/theme
 
-%make_install
+%cmake_install
 
+pushd %{_vpath_builddir}
 # Delete obsolete files.
 %{__rm} -rf	%{buildroot}%{_defaultdocdir}		\
 		doc/html/*.m*
@@ -128,6 +127,16 @@ popd
 
 
 %changelog
+* Sat Aug 01 2020 Neal Gompa <ngompa13@gmail.com> - 2.53.0-1
+- Rebase to 2.53.0 (#1669821)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.47.1-19
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.47.1-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.47.1-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

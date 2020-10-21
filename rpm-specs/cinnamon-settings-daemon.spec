@@ -2,7 +2,7 @@
 
 Name:           cinnamon-settings-daemon
 Version:        4.6.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The daemon sharing settings from CINNAMON to GTK+/KDE applications
 
 License:        GPLv2+ and LGPLv2+
@@ -136,6 +136,9 @@ chmod a+x %buildroot%{_datadir}/cinnamon-settings-daemon-3.0/input-device-exampl
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Leigh Scott <leigh123linux@gmail.com> - 4.6.4-1
 - Update to 4.6.4 release
 

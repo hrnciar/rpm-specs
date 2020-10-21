@@ -1,6 +1,6 @@
 Name:		openrdate
 Version:	1.2
-Release:	16%{?dist}
+Release:	19%{?dist}
 Summary:	Good-old rdate date and time-setting software
 License:	BSD and BSD with advertising
 URL:		http://sourceforge.net/projects/openrdate
@@ -10,13 +10,17 @@ Provides:	rdate = %{version}-%{release}
 Obsoletes:	rdate < 1.4-25
 
 BuildRequires:  gcc
+
+Patch0:openrdate_sysctl.patch
 %description
 Good-old date- and time-setting rdate software implementing RFC 868
 (inetd time) and RFC 2030 (SNTP/NTP) protocols. An independent package
 of OpenBSD's rdate program.
 
+
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %configure
@@ -31,6 +35,17 @@ make install DESTDIR=%{buildroot}
 %{_mandir}/man8/rdate.8*
 
 %changelog
+* Thu Aug 13 2020 Filip Januš <fjanus@redhat.com> - 1.2-19
+- Add patch solving missing sys/sysctl.h header file and sysctl function
+- Resolves (#1865166)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-18
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

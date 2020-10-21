@@ -4,7 +4,7 @@
 
 Name:       nodejs-growl
 Version:    1.7.0
-Release:    15%{?dist}
+Release:    16%{?dist}
 Summary:    Growl unobtrusive notifications for Node.js
 # License text is included in Readme.md
 License:    MIT
@@ -19,6 +19,7 @@ ExclusiveArch: %{ix86} x86_64 %{arm} noarch
 %endif
 
 BuildRequires:  nodejs-packaging
+BuildRequires:  nodejs(engine)
 
 %if 0%{?enable_tests}
 BuildRequires:  libnotify-devel
@@ -58,6 +59,9 @@ cp -pr package.json lib/ \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

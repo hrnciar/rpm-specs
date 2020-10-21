@@ -4,7 +4,7 @@
 %global crate fedora-update-feedback
 
 Name:           rust-%{crate}
-Version:        0.5.4
+Version:        0.5.5
 Release:        1%{?dist}
 Summary:        Provide feedback for fedora updates (inspired by fedora-easy-karma)
 
@@ -90,6 +90,19 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 0.5.5-1
+- Update to version 0.5.5.
+
+* Sun Aug 16 15:01:26 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.5.4-4
+- Rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Fabio Valentini <decathorpe@gmail.com> - 0.5.4-1
 - Update to version 0.5.4.
 

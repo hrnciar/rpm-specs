@@ -2,7 +2,7 @@
 
 Name:    tinyfugue
 Version: 5.0
-Release: 0.35.b8%{?dist}
+Release: 0.36.b8%{?dist}
 Summary: A MU* client
 License: GPLv2+
 URL:     http://tinyfugue.sourceforge.net/
@@ -51,6 +51,9 @@ install -D -p -m 644 src/tf.1.nroffman %{buildroot}%{_mandir}/man1/tf.1
 %{_mandir}/man1/tf.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0-0.36.b8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 15 2020 Petr Šabata <contyk@redhat.com> - 5.0-0.35.b8
 - Configure DATADIR correctly
 

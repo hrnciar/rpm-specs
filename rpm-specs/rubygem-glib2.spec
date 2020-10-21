@@ -8,8 +8,8 @@
 
 Summary:	Ruby binding of GLib-2.x
 Name:		rubygem-%{gem_name}
-Version:	3.4.1
-Release:	3%{?dist}
+Version:	3.4.3
+Release:	1%{?dist}
 # from README
 License:	LGPLv2
 URL:		http://ruby-gnome2.sourceforge.jp/
@@ -233,6 +233,12 @@ popd
 
 
 %changelog
+* Wed Aug 12 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.4.3-1
+- 3.4.3
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

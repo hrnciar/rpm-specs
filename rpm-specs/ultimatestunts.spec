@@ -2,7 +2,7 @@
 
 Name:		ultimatestunts
 Version:	0.7.7
-Release:	17%{?dist}
+Release:	18%{?dist}
 Summary:	Remake of the famous DOS-game Stunts
 
 License:	GPLv2+
@@ -106,6 +106,9 @@ desktop-file-install \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.7-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.7-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

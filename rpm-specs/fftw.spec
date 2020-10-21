@@ -14,7 +14,7 @@
 
 Name:           fftw
 Version:        3.3.8
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        A Fast Fourier Transform library
 License:        GPLv2+
 URL:            http://www.fftw.org
@@ -542,6 +542,13 @@ done
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.8-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.8-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.8-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

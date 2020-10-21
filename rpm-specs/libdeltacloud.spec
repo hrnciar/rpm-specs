@@ -1,7 +1,7 @@
 Summary: A library for accessing deltacloud
 Name: libdeltacloud
 Version: 0.9
-Release: 22%{?dist}
+Release: 23%{?dist}
 License: LGPLv2+
 URL: https://git.fedorahosted.org/git/deltacloud/libdeltacloud.git
 Source0: https://git.fedorahosted.org/cgit/deltacloud.git/libdeltacloud.git/snapshot/%{name}-%{version}.tar.gz
@@ -84,6 +84,9 @@ rm -f $RPM_BUILD_ROOT/%{_lib}/libdeltacloud.a
 %{_libdir}/pkgconfig/libdeltacloud.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

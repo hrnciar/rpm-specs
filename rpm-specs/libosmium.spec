@@ -6,8 +6,8 @@
 %define debug_package %{nil}
 
 Name:           libosmium
-Version:        2.15.5
-Release:        1%{?dist}
+Version:        2.15.6
+Release:        2%{?dist}
 Summary:        Fast and flexible C++ library for working with OpenStreetMap data
 
 License:        Boost
@@ -70,25 +70,24 @@ mv %{name}-%{version} %{name}
 mv osm-testdata-%{testcommit} osm-testdata
 rm -rf libosmium/include/gdalcpp.h
 sed -i -e 's/-O3 -g//' libosmium/CMakeLists.txt
-mkdir libosmium/build
 
 
 %build
-cd libosmium/build
-%cmake .. -DBUILD_HEADERS=ON -DBUILD_DATA_TESTS=ON
-%make_build
-%make_build doc
+cd libosmium
+%cmake -DBUILD_HEADERS=ON -DBUILD_DATA_TESTS=ON
+%cmake_build
+%cmake_build --target doc
 
 
 %install
-cd libosmium/build
-%make_install
+cd libosmium
+%cmake_install
 rm -rf %{buildroot}%{_docdir}
 
 
 %check
-cd libosmium/build
-ctest -V
+cd libosmium
+%ctest
 
 
 %files devel
@@ -98,11 +97,17 @@ ctest -V
 
 
 %files doc
-%doc libosmium/build/doc/html/*
+%doc libosmium/%{__cmake_builddir}/doc/html/*
 %license libosmium/LICENSE
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.15.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Tom Hughes <tom@compton.nu> - 2.15.6-1
+- Update to 2.15.6 upstream release
+
 * Tue Apr 21 2020 Tom Hughes <tom@compton.nu> - 2.15.5-1
 - Update to 2.15.5 upstream release
 

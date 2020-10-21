@@ -1,6 +1,6 @@
 Name:           perl-utf8-all
 Version:        0.024
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Turn on Unicode everywhere
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/utf8-all
@@ -76,6 +76,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.024-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.024-10
 - Perl 5.32 rebuild
 

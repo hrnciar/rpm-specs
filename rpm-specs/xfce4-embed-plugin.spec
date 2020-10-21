@@ -3,7 +3,7 @@
 
 Name:           xfce4-embed-plugin
 Version:        1.6.0
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Xfce panel plugin to embed various applications 
 
 License:        GPLv2+
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT/%{_libdir}/xfce4/panel/plugins/libembed.la
 %{_datadir}/xfce4/panel/plugins/*.desktop
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

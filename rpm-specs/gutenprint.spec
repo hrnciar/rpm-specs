@@ -4,7 +4,7 @@
 Name:           gutenprint
 Summary:        Printer Drivers Package
 Version:        5.3.3
-Release:        3%{?dist}
+Release:        5%{?dist}
 URL:            http://gimp-print.sourceforge.net/
 Source0:        http://downloads.sourceforge.net/gimp-print/%{name}-%{version}.tar.xz
 # Post-install script to update CUPS native PPDs.
@@ -32,7 +32,6 @@ BuildRequires:  libtiff-devel,libjpeg-devel,libpng-devel
 BuildRequires:  pkgconfig(libusb-1.0)
 BuildRequires:  pkgconfig(gtk+-2.0)
 BuildRequires:  pkgconfig(gimpui-2.0)
-BuildRequires:  gimp
 BuildRequires:  chrpath
 
 # Make sure we get postscriptdriver tags.
@@ -243,6 +242,12 @@ exit 0
 %{_mandir}/man8/cups-genppd*8*.gz
 
 %changelog
+* Wed Sep 30 2020 Zdenek Dohnal <zdohnal@redhat.com> - 5.3.3-5
+- dont require the gimp package as build require, pkgconfig's gimpui-2.0 suffices
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 25 2020 Tom Stellard <tstellar@redhat.com> - 5.3.3-3
 - Fix warning building with clang
 - non-void function 'stp_paths_copy_with_prefix' should return a value [-Wreturn-type]

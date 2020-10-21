@@ -1,9 +1,10 @@
+%undefine __cmake_in_source_build
 %global soversion 16
 %global apiversion 1.5
 
 Name:           ompl
 Version:        1.5.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        The Open Motion Planning Library
 
 License:        BSD
@@ -50,10 +51,8 @@ rm -rf scripts/plannerarena
 
 %build
 # Python bindings are disabled because dependencies pygccxml and pyplusplus are not packaged for Fedora
-mkdir build
-cd build
-%cmake .. \
-  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+%cmake  \
+  -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_SKIP_RPATH=ON \
   -DOMPL_BUILD_PYBINDINGS=OFF \
   -DOMPL_LIB_INSTALL_DIR=%{_lib} \
@@ -63,12 +62,12 @@ cd build
   -DOMPL_ODESOLVER=ON \
   -DOMPL_REGISTRATION=OFF
 
-make %{?_smp_mflags}
-make ompl_doc
+%cmake_build
+%cmake_build --target ompl_doc
 rm -f ompl_doc/installdox
 
 %install
-make -C build install DESTDIR=%{buildroot}
+%cmake_install
 
 rm -f %{buildroot}%{_datadir}/%{name}/demos/*.py
 rm -rf %{buildroot}%{_includedir}/%{name}/CMakeFiles
@@ -79,9 +78,7 @@ rm -f %{buildroot}%{_mandir}/man1/plannerareana*
 export LD_LIBRARY_PATH=%{buildroot}%{_libdir}
 # Test failures can be triggered by builder CPU speed.
 # Accept test failures for slow builders.
-VERBOSE=1 make -C build test  || exit 0
-
-%ldconfig_scriptlets
+%ctest --verbose  || exit 0
 
 
 %files
@@ -91,7 +88,7 @@ VERBOSE=1 make -C build test  || exit 0
 %{_mandir}/man1/*.1.*
 
 %files devel
-%doc build/ompl_doc
+%doc %{_vpath_builddir}/ompl_doc
 %{_libdir}/libompl.so
 %{_includedir}/%{name}-%{apiversion}
 %{_datadir}/%{name}
@@ -99,6 +96,13 @@ VERBOSE=1 make -C build test  || exit 0
 %{_libdir}/%{name}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 16 2020 Rich Mattes <richmattes@gmail.com> - 1.5.0-1
 - Update to release 1.5.0
 

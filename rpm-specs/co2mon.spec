@@ -4,7 +4,7 @@
 
 Name:           co2mon
 Version:        2.1.1
-Release:        3.%{date}git%{gitcommit}%{?dist}
+Release:        5.%{date}git%{gitcommit}%{?dist}
 Summary:        CO2 monitor software
 
 License:        GPLv3+
@@ -33,17 +33,12 @@ Development files for USB CO2 Monitor devices.
 
 
 %build
-mkdir build
-pushd build
-    %cmake ..
-    %make_build
-popd
+%cmake
+%cmake_build
 
 
 %install
-pushd build
-    %make_install
-popd
+%cmake_install
 
 mkdir -p %{buildroot}%{_udevrulesdir}
 install -p -m 644 udevrules/99-%{name}.rules %{buildroot}%{_udevrulesdir}
@@ -65,6 +60,13 @@ cp -r graph %{buildroot}%{_datadir}/%{name}/
 %{_includedir}/%{name}.h
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-5.20190313git6a53ffa
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-4.20190313git6a53ffa
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-3.20190313git6a53ffa
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

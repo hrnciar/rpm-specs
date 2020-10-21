@@ -4,8 +4,7 @@
 
 # https://github.com/vishvananda/netlink
 %global goipath         github.com/vishvananda/netlink
-Version:                1.0.0
-%global commit          fafc1e7b600abbb5cdcf1ebc90e4865423733a0c
+Version:                1.1.0
 
 %gometa
 
@@ -26,7 +25,7 @@ functionality like ipsec xfrm handling.}
 %global godocs          CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Simple netlink library for Go
 
 # Upstream license specification: Apache-2.0
@@ -56,6 +55,12 @@ BuildRequires:  golang(golang.org/x/sys/unix)
 %gopkgfiles
 
 %changelog
+* Tue Aug 04 00:11:35 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.0-1
+- Update to 1.1.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

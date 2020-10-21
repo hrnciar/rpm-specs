@@ -10,7 +10,7 @@
 
 Name:           perl-GIS-Distance
 Version:        0.18
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        Calculate geographic distances
 License:        GPLv3+
 URL:            https://metacpan.org/release/GIS-Distance
@@ -79,6 +79,12 @@ unset GEO_DISTANCE_PP GIS_DISTANCE_PP
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.18-8
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.18-7
 - Perl 5.32 rebuild
 

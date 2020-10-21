@@ -13,11 +13,11 @@
 %{!?rel_build:%global git_tar %{name}-%{version}-%{git_ver}.tar.xz}
 
 Name:          libmateweather
-Version:       %{branch}.0
+Version:       %{branch}.1
 %if 0%{?rel_build}
-Release:       2%{?dist}
+Release:       1%{?dist}
 %else
-Release:       0.9%{?git_rel}%{?dist}
+Release:       0.10%{?git_rel}%{?dist}
 %endif
 Summary:       Libraries to allow MATE Desktop to display weather information
 License:       GPLv2+ and LGPLv2+
@@ -28,9 +28,6 @@ URL:           http://mate-desktop.org
 %{?rel_build:Source0:     http://pub.mate-desktop.org/releases/%{branch}/%{name}-%{version}.tar.xz}
 # Source for snapshot-builds.
 %{!?rel_build:Source0:    http://git.mate-desktop.org/%{name}/snapshot/%{name}-%{commit}.tar.xz#/%{git_tar}}
-
-# fixing https://github.com/mate-desktop/libmateweather/issues/75
-Patch1:        libmateweather_0001-Revert-avoid-deprecated-soup_session_async_new.patch
 
 BuildRequires: glib2-devel
 BuildRequires: gtk3-devel
@@ -112,6 +109,12 @@ find %{buildroot} -name '*.a' -exec rm -fv {} ';'
 
 
 %changelog
+* Wed Aug 12 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- update to 1.24.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 10 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-2
 - fixing a segfault on adding new location to calendar
 - https://github.com/mate-desktop/libmateweather/issues/75

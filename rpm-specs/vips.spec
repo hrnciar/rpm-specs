@@ -1,5 +1,5 @@
-%global vips_version_base 8.9
-%global vips_version %{vips_version_base}.1
+%global vips_version_base 8.10
+%global vips_version %{vips_version_base}.2
 %global vips_soname_major 42
 
 Name:		vips
@@ -140,6 +140,22 @@ rm -rf ${RPM_BUILD_ROOT}%{_datadir}/doc/vips
 
 
 %changelog
+* Mon Oct 12 2020 Benjamin Gilbert <bgilbert@backtick.net> - 8.10.2-1
+- New release
+
+* Sun Oct 11 2020 Benjamin Gilbert <bgilbert@backtick.net> - 8.10.1-1
+- New release
+
+* Sun Oct 11 2020 Benjamin Gilbert <bgilbert@backtick.net> - 8.9.2-1
+- New release
+- Fix docs build with gobject-introspection 1.66
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.9.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 8.9.1-2
+- Rebuild for hdf5 1.10.6
+
 * Wed Apr  8 2020 Adam Goode <adam@spicenitz.org> - 8.9.1-1
 - New release
 

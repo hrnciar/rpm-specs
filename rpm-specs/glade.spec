@@ -1,6 +1,6 @@
 Name:           glade
-Version:        3.36.0
-Release:        3%{?dist}
+Version:        3.38.1
+Release:        1%{?dist}
 Summary:        User Interface Designer for GTK+
 
 # - /usr/bin/glade is GPLv2+
@@ -9,16 +9,18 @@ Summary:        User Interface Designer for GTK+
 #   GPLv2+ and LGPLv2+ code, so the resulting binaries are GPLv2+
 License:        GPLv2+ and LGPLv2+
 URL:            https://glade.gnome.org/
-Source0:        https://download.gnome.org/sources/glade/3.36/glade-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/glade/3.38/glade-%{version}.tar.xz
 
-BuildRequires:  chrpath
 BuildRequires:  desktop-file-utils
 BuildRequires:  docbook-style-xsl
+BuildRequires:  gcc
 BuildRequires:  gettext
+BuildRequires:  gjs-devel
 BuildRequires:  gtk3-devel
-BuildRequires:  intltool
+BuildRequires:  gtk-doc
 BuildRequires:  itstool
 BuildRequires:  libxml2-devel
+BuildRequires:  meson
 BuildRequires:  pygobject3-devel
 BuildRequires:  python3-devel
 BuildRequires:  webkit2gtk3-devel
@@ -63,24 +65,17 @@ developing applications that use Glade widget library.
 %prep
 %setup -q
 
+# Hack in Python 3.9 support
+sed -i -e 's/python-3.8-embed/python-3.9-embed/g' meson.build
+
 
 %build
-export PYTHON=%{__python3}
-%configure --disable-static
-
-# Omit unused direct shared library dependencies.
-sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
-
-make %{?_smp_mflags}
+%meson -Dgtk_doc=true
+%meson_build
 
 
 %install
-%make_install
-find $RPM_BUILD_ROOT -type f -name "*.la" -delete
-
-# Remove rpaths.
-chrpath --delete $RPM_BUILD_ROOT%{_bindir}/glade*
-chrpath --delete $RPM_BUILD_ROOT%{_libdir}/glade/modules/*.so
+%meson_install
 
 %find_lang glade --with-gnome
 
@@ -109,22 +104,48 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.Glade.de
 %{_libdir}/girepository-1.0/Gladeui-2.0.typelib
 %dir %{_libdir}/glade/
 %dir %{_libdir}/glade/modules/
+%{_libdir}/glade/modules/libgladegjs.so
 %{_libdir}/glade/modules/libgladegtk.so
 %{_libdir}/glade/modules/libgladepython.so
 %{_libdir}/glade/modules/libgladewebkit2gtk.so
-%{_libdir}/libgladeui-2.so.12*
+%{_libdir}/libgladeui-2.so.13*
 %{_datadir}/glade/
 
 %files devel
 %{_includedir}/libgladeui-2.0/
 %{_libdir}/libgladeui-2.so
 %{_libdir}/pkgconfig/gladeui-2.0.pc
+%dir %{_datadir}/gettext
+%dir %{_datadir}/gettext/its
+%{_datadir}/gettext/its/glade-catalog.its
+%{_datadir}/gettext/its/glade-catalog.loc
 %dir %{_datadir}/gir-1.0
 %{_datadir}/gir-1.0/Gladeui-2.0.gir
 %doc %{_datadir}/gtk-doc/
 
 
 %changelog
+* Mon Oct  5 2020 Kalev Lember <klember@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Fri Oct 02 2020 Kalev Lember <klember@redhat.com> - 3.38.0-2
+- Drop compat ABI version
+
+* Sun Sep 13 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+- Temporarily ship previous soname for ABI compat
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 3.37.0-1
+- Update to 3.37.0
+- Switch to the meson build system
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 3.36.0-3
 - Rebuilt for Python 3.9
 

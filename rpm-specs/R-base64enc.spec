@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          0.1.3
-Release:          8%{?dist}
+Release:          9%{?dist}
 Summary:          Tools for base64 encoding
 
 License:          GPLv2+
@@ -52,6 +52,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 0.1.3-8
 - rebuild for R 4
 

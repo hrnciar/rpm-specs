@@ -6,7 +6,7 @@
 Name:           switchboard-plug-onlineaccounts
 Summary:        Switchboard Online Accounts plug
 Version:        2.0.1
-Release:        6%{?dist}
+Release:        9%{?dist}
 License:        GPLv2
 
 URL:            https://github.com/elementary/%{name}
@@ -14,11 +14,15 @@ Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
 # backported patch to fix new compiler errors with vala 0.45+
 # https://github.com/elementary/switchboard-plug-onlineaccounts/commit/5fa2882
-Patch0:         00-vala-045-fix.patch
+Patch0:         00-vala-0.45-fix.patch
 
 # backported patch to fix new compiler errors with vala 0.47+
 # https://github.com/elementary/switchboard-plug-onlineaccounts/commit/34164a9
-Patch1:         01-vala-047-fix.patch
+Patch1:         01-vala-0.47-fix.patch
+
+# backported patch to fix new compiler error (cause unknown)
+# https://github.com/elementary/switchboard-plug-onlineaccounts/commit/b1853b7
+Patch2:         02-errno-fix.patch
 
 BuildRequires:  gettext
 BuildRequires:  meson
@@ -86,6 +90,16 @@ Obsoletes:      pantheon-online-accounts-devel < %{obsoleted_version}
 
 
 %changelog
+* Mon Aug 10 2020 Fabio Valentini <decathorpe@gmail.com> - 2.0.1-9
+- Include backported upstream patch to fix novel compilation issue.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fabio Valentini <decathorpe@gmail.com> - 2.0.1-6
 - Add upstream patch to fix FTBFS with vala 0.47+.
 

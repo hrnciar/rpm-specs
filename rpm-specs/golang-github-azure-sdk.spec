@@ -3,14 +3,9 @@
 
 # https://github.com/Azure/azure-sdk-for-go
 %global goipath         github.com/Azure/azure-sdk-for-go
-Version:                38.2.0
+Version:                44.2.0
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-Azure-azure-sdk-for-go-devel < 15.2.0-5
-}
 
 %global common_description %{expand:
 Azure-sdk-for-go provides Go packages for managing and using Azure services. It
@@ -21,7 +16,7 @@ officially supports the last two major releases of Go.}
                         documentation
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Microsoft Azure SDK for Go
 
 # Upstream license specification: Apache-2.0
@@ -72,6 +67,12 @@ BuildRequires:  golang(gopkg.in/check.v1)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 44.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 22:54:32 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 44.2.0-1
+- Update to 44.2.0
+
 * Tue Jan 28 23:29:12 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 38.2.0-1
 - Update to 38.2.0
 

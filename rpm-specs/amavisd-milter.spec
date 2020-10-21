@@ -1,6 +1,6 @@
 Summary:           Sendmail milter for amavisd-new using the AM.PDP protocol
 Name:              amavisd-milter
-Version:           1.7.0
+Version:           1.7.1
 Release:           1%{?dist}
 License:           BSD
 URL:               https://github.com/prehor/amavisd-milter
@@ -99,6 +99,12 @@ fi
 %{_mandir}/man8/%{name}.8*
 
 %changelog
+* Mon Sep 14 2020 Robert Scheck <robert@fedoraproject.org> 1.7.1-1
+- Upgrade to 1.7.1 (#1878910)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Robert Scheck <robert@fedoraproject.org> 1.7.0-1
 - Upgrade to 1.7.0 (#1824332)
 

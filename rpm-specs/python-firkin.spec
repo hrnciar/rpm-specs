@@ -2,12 +2,12 @@
 
 Name:           python-firkin
 Version:        0.02
-Release:        28%{?dist}
-Summary:        A Python module to convert between different measurement units
+Release:        30%{?dist}
+Summary:        Python module to convert between different measurement units
 
 License:        GPLv2+
 URL:            http://www.florian-diesch.de/software/firkin/
-Source0:        http://www.florian-diesch.de/software/firkin/dist/firkin-%{version}.tar.gz
+Source0:        %{url}/dist/firkin-%{version}.tar.gz
 BuildArch:      noarch
 
 %description
@@ -17,6 +17,7 @@ firkin is a Python module to convert between different measurement units.
 Summary:        %{summary}
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 #BuildRequires:  python3-nose
 %{?python_provide:%python_provide python3-%{srcname}}
 
@@ -48,6 +49,12 @@ done
 %{python3_sitelib}/__pycache__/%{srcname}.*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.02-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.02-29
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.02-28
 - Rebuilt for Python 3.9
 

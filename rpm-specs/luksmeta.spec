@@ -1,6 +1,6 @@
 Name:           luksmeta
 Version:        9
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Utility for storing small metadata in the LUKSv1 header
 
 License:        LGPLv2+
@@ -67,6 +67,9 @@ make %{?_smp_mflags} check
 %{_libdir}/pkgconfig/luksmeta.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

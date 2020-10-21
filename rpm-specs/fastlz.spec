@@ -14,7 +14,7 @@
 Name:      fastlz
 Summary:   Portable real-time compression library
 Version:   0.1.0
-Release:   0.13.%{date}svnrev%{svnrev}%{?dist}
+Release:   0.14.%{date}svnrev%{svnrev}%{?dist}
 License:   MIT
 URL:       http://fastlz.org/
 
@@ -98,6 +98,9 @@ diff %{name}.c tmpin
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-0.14.20070619svnrev12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-0.13.20070619svnrev12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

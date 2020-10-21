@@ -1,8 +1,9 @@
+%undefine __cmake_in_source_build
 %global appname Mustache
 
 Name: mustache
 Version: 4.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 License: Boost
 Summary: Mustache text templates for modern C++
@@ -31,21 +32,15 @@ applications that use %{name}.
 
 %prep
 %autosetup -n %{appname}-%{version}
-mkdir -p %{_target_platform}
 sed -e '/-Werror/d' -i CMakeLists.txt
 
 %build
-pushd %{_target_platform}
-    %cmake -G Ninja \
-    -DCMAKE_BUILD_TYPE=Release \
-    ..
-popd
-%ninja_build -C %{_target_platform}
+%cmake -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release
+%cmake_build
 
 %check
-pushd %{_target_platform}
-    ctest --output-on-failure
-popd
+%ctest
 
 %install
 mkdir -p %{buildroot}%{_includedir}
@@ -57,6 +52,9 @@ install -m 0644 -p %{name}.hpp %{buildroot}%{_includedir}
 %{_includedir}/%{name}.hpp
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 4.1-1
 - Updated to version 4.1.
 

@@ -1,9 +1,9 @@
-# unversionned doc dir F20 change https://fedoraproject.org/wiki/Changes/UnversionedDocdirs
-%{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
+%undefine __cmake_in_source_build
+%undefine __cmake3_in_source_build
 
 Name:		srm-ifce
 Version:	1.24.3
-Release:	8%{?dist}
+Release:	10%{?dist}
 Summary:	SRM client side library
 License:	ASL 2.0
 URL:			https://svnweb.cern.ch/trac/lcgutil
@@ -16,7 +16,7 @@ Source0:	%{name}-%{version}.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
-BuildRequires:	cmake
+BuildRequires:	cmake3
 BuildRequires:	CGSI-gSOAP-devel >= 1.3.6
 BuildRequires:	glib2-devel
 BuildRequires:	globus-ftp-client-devel
@@ -44,12 +44,16 @@ the srm-ifce.
 %setup -q
 
 %build
-%cmake -D DOC_INSTALL_DIR=%{_pkgdocdir} .
-make %{?_smp_mflags}
+%cmake3 -D DOC_INSTALL_DIR=%{_pkgdocdir}
+%cmake3_build
+
+#%cmake -D DOC_INSTALL_DIR=%{_pkgdocdir} .
+#make %{?_smp_mflags}
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make %{?_smp_mflags} DESTDIR=$RPM_BUILD_ROOT install
+#rm -rf $RPM_BUILD_ROOT
+#make %{?_smp_mflags} DESTDIR=$RPM_BUILD_ROOT install
+%cmake3_install
 
 %ldconfig_scriptlets
 
@@ -70,6 +74,13 @@ make %{?_smp_mflags} DESTDIR=$RPM_BUILD_ROOT install
 %{_pkgdocdir}/RELEASE-NOTES
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.3-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.3-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

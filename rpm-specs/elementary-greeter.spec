@@ -4,13 +4,17 @@
 Name:           elementary-greeter
 Summary:        LightDM Login Screen for the elementary desktop
 Version:        5.0.4
-Release:        1%{?dist}
+Release:        4%{?dist}
 License:        GPLv3
 
 URL:            https://github.com/elementary/%{srcname}
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 Source1:        40-%{appname}.conf
 Source2:        %{appname}.whitelist
+
+# upstreamed patch for mutter 3.38 / libmutter-7 support
+# https://github.com/elementary/greeter/commit/a571deb
+Patch0:         %{url}/commit/a571deb.patch
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
@@ -33,10 +37,9 @@ BuildRequires:  pkgconfig(gnome-desktop-3.0)
 BuildRequires:  pkgconfig(granite) >= 5.0
 BuildRequires:  pkgconfig(gtk+-3.0)
 BuildRequires:  pkgconfig(liblightdm-gobject-1)
-BuildRequires:  pkgconfig(mutter-clutter-6)
-BuildRequires:  pkgconfig(mutter-cogl-6)
-BuildRequires:  pkgconfig(mutter-cogl-pango-6)
-BuildRequires:  pkgconfig(mutter-cogl-path-6)
+BuildRequires:  pkgconfig(mutter-clutter-7)
+BuildRequires:  pkgconfig(mutter-cogl-7)
+BuildRequires:  pkgconfig(mutter-cogl-pango-7)
 BuildRequires:  pkgconfig(wingpanel-2.0)
 BuildRequires:  pkgconfig(x11)
 
@@ -114,6 +117,16 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Thu Aug 27 2020 Fabio Valentini <decathorpe@gmail.com> - 5.0.4-4
+- Include upstreamed patch for mutter 3.38 / libmutter-7 support.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Fabio Valentini <decathorpe@gmail.com> - 5.0.4-1
 - Update to version 5.0.4.
 

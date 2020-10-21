@@ -14,7 +14,7 @@
 
 Name:		libint2
 Version:	2.6.0
-Release:	2%{?dist}
+Release:	8%{?dist}
 Summary:	A library for efficient evaluation of electron repulsion integrals
 License:	GPLv2+
 URL:		https://github.com/evaleev/libint
@@ -35,9 +35,18 @@ Source2:	progman.pdf
 # and the html documentation is extracted from the source code as well
 Source3:	libint-%{version}-classdoc.tar.bz2
 
+# Fix Fortran example
+Patch0:         libint-2.6.0-fexample.patch
+
 Provides:	libint2(api)%{?_isa} = %{apiversion}
 
 BuildRequires:  gcc-c++
+BuildRequires:  gcc-gfortran
+BuildRequires:  boost-devel
+BuildRequires:  mpfr-devel
+BuildRequires:  python3-devel
+# Disabled until 2.7.0
+#BuildRequires:  eigen3-devel
 
 %description
 LIBINT computes the Coulomb and exchange integrals, which in electronic
@@ -69,18 +78,21 @@ This package contains development headers and libraries for libint.
 
 %prep
 %setup -q -T -b 1 -n libint-%{version}
+%patch0 -p1 -b .fexample
 # Copy programmers manual and extract the html documentation
 cp -p %{SOURCE2} doc
 tar jxf %{SOURCE3}
 
 %build
 export CXX=g++
-%configure --enable-shared --disable-static
-make %{?_smp_mflags} VERBOSE=1
+
+%configure --enable-shared --disable-static --enable-fortran \
+ --with-incdirs="-I%{_includedir}/eigen3" \
+ --with-cxx-optflags="%{optflags}"
+%make_build
 
 %install
-rm -rf %{buildroot}
-make install DESTDIR=%{buildroot}
+%make_install
 find %{buildroot} -name *.la -delete
 # Make sure libraries are executable (otherwise they are not stripped)
 find %{buildroot} -name *.so.*.* -exec chmod 755 {} \;
@@ -94,6 +106,10 @@ cat > %{buildroot}%{macrosdir}/macros.libint2 << EOF
 %_libint2_apiversion %{apiversion}
 EOF
 
+# Move module file to the correct location
+mkdir -p %{buildroot}%{_fmoddir}
+mv %{buildroot}%{_includedir}/libint_f.mod %{buildroot}%{_fmoddir}/
+
 %ldconfig_scriptlets
 
 %files
@@ -105,14 +121,34 @@ EOF
 
 %files devel
 %{macrosdir}/macros.libint2
-%{_datadir}/cmake/libint2/
+%{_libdir}/cmake/libint2/
 %{_includedir}/libint2/
 %{_includedir}/libint2.h
 %{_includedir}/libint2.hpp
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/libint2.pc
+%{_fmoddir}/libint_f.mod
 
 %changelog
+* Tue Oct 20 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.6.0-8
+- Add BR: python3-devel.
+
+* Tue Sep 29 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.6.0-7
+- Disable buggy Eigen3 support until 2.7.0 is released.
+
+* Sun Aug 16 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.6.0-6
+- Enable Eigen3 support in build.
+
+* Fri Aug 14 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.6.0-5
+- Enable Fortran bindings.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

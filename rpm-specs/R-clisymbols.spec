@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          1.2.0
-Release:          5%{?dist}
+Release:          6%{?dist}
 Summary:          Unicode Symbols at the R Prompt
 
 License:          MIT
@@ -63,6 +63,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 1.2.0-5
 - rebuild for R 4
 

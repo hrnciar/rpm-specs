@@ -8,7 +8,7 @@ like Gnome, Cinnamon, Budgie, Pantheon, XFCE, Mate, etc.
 
 Name:		arc-theme
 Version:	20181022
-Release:	4%{?dist}
+Release:	6%{?dist}
 Summary:	Flat theme with transparent elements
 
 License:	GPLv3+
@@ -99,6 +99,13 @@ popd
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20181022-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20181022-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20181022-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

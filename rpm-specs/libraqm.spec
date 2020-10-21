@@ -1,6 +1,6 @@
 Name:				libraqm
 Version:			0.7.0
-Release:			5%{?dist}
+Release:			6%{?dist}
 License:			MIT
 Summary:			Complex Textlayout Library
 Summary(ar):		مكتبة رقم للنّصوص المركّبة
@@ -93,6 +93,9 @@ rm -f %{buildroot}%{_libdir}/*.{la,a}
 %{_datadir}/gtk-doc/html/raqm
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

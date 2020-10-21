@@ -1,6 +1,6 @@
 Name:       rtmidi
 Version:    3.0.0
-Release:    6%{?dist}
+Release:    9%{?dist}
 Summary:    Library for realtime MIDI input/output (ALSA support)
 License:    MIT
 URL:        http://www.music.mcgill.ca/~gary/rtmidi/index.html
@@ -38,7 +38,6 @@ Development headers and libraries for rtmidi.
 
 %patch0 -p1
 
-cp -f /usr/lib/rpm/config.{guess,sub} config/
 sed -i.orig -e 's/\/lib/\/%{_lib}/' Makefile.in rtmidi.pc.in
 # fix end of line
 dos2unix doc/release.txt doc/doxygen/tutorial.txt
@@ -73,6 +72,16 @@ rm %{buildroot}%{_libdir}/lib%{name}.{a,la}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Tue Sep 01 2020 Than Ngo <than@redhat.com> - 3.0.0-9
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

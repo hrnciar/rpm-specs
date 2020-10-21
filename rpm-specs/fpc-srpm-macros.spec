@@ -1,6 +1,6 @@
 Name:           fpc-srpm-macros
 Version:        1.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        RPM macros needed by packages built with Free Pascal Compiler
 # This package only exist in Fedora repositories
 # The license is the standard (MIT) specified in
@@ -36,6 +36,9 @@ install -p -m 0644 -t %{buildroot}/%{_rpmconfigdir}/macros.d %{SOURCE0}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Dan Horák <dan[at]danny.cz> - 1.3-1
 - Enable builds on aarch64
 

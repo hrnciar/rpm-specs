@@ -1,6 +1,6 @@
 Name:           isrcsubmit
 Version:        2.1.0
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        Script to submit ISRCs from disc to MusicBrainz
 
 License:        GPLv3+
@@ -12,6 +12,7 @@ BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  python3-libdiscid
 BuildRequires:  python3-musicbrainzngs
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-sphinx
 Requires:       python3-libdiscid
 Requires:       python3-musicbrainzngs
@@ -55,6 +56,12 @@ export PYTHONIOENCODING=UTF-8
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 David King <amigadave@amigadave.com> - 2.1.0-6
+- BuildRequire python3-setuptools explicitly
+
 * Tue May 05 2020 David King <amigadave@amigadave.com> - 2.1.0-5
 - Fix failure to install (#1759754)
 

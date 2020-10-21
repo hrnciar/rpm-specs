@@ -3,7 +3,7 @@
 
 Name:		tripwire
 Version:	2.4.3.7
-Release:	6%{?dist}
+Release:	8%{?dist}
 Summary:	IDS (Intrusion Detection System)
 
 License:	GPLv2+
@@ -46,6 +46,7 @@ altered.
 %{__cp} -p %{SOURCE3} .
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure --sysconfdir=%{_sysconfdir}/tripwire \
            path_to_vi=%{path_to_vi} \
            path_to_sendmail=%{path_to_sendmail}
@@ -128,6 +129,12 @@ done
 
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 2.4.3.7-8
+- Force C++14 as this code is not C++17 ready
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.3.7-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.3.7-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

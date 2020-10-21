@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.7.1
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        Python bindings for libsodium based on ctypes
 
 License:        ASL 2.0
@@ -14,7 +14,9 @@ Source0:        %{pypi_source}
 Patch121:       pr121.patch
 
 BuildArch:      noarch
-BuildRequires:  libsodium
+BuildRequires:  libsodium-devel
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 
 %description
 python-libnacl is used to gain direct access to the functions exposed by
@@ -25,8 +27,6 @@ completely portable.
 
 %package -n python3-%{srcname}
 Summary:        %{summary}
-BuildRequires:  python3-devel
-Requires:       libsodium
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
@@ -58,6 +58,16 @@ rm -rf %{srcname}.egg-info
 %{python3_sitelib}/%{srcname}/
 
 %changelog
+* Mon Aug 31 2020 Sérgio Basto <sergio@serjux.com> - 1.7.1-6
+- Please BuildRequire python3-setuptools explicitly
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 01 2020 Petr Viktorin <pviktori@redhat.com> - 1.7.1-3
 - Remove encoding parameter json.loads for Python 3.9 compatibility
 

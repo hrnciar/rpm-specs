@@ -1,6 +1,6 @@
 Name:           gnatcoll
 Version:        2018
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        The GNAT Components Collection
 Summary(sv):    GNAT Components Collection
 
@@ -222,6 +222,13 @@ sed --regexp-extended --in-place \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2018-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2018-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 08 2020 Björn Persson <Bjorn@Rombobjörn.se> - 2018-4
 - Adapted to a change in GCC 10.
 

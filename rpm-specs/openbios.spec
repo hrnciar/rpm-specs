@@ -1,12 +1,12 @@
-%global hash 7e5b89e
-%global date 20191022
+%global hash 7f28286
+%global date 20200725
 
 # Disable unhelpful RPM test.
 %global _binaries_in_noarch_packages_terminate_build 0
 
 Name:           openbios
 Version:        %{date}
-Release:        2.git%{hash}%{?dist}
+Release:        1.git%{hash}%{?dist}
 Epoch:          1
 Summary:        OpenBIOS implementation of IEEE 1275-1994
 
@@ -92,6 +92,12 @@ cp -a obj-sparc64/openbios-builtin.elf $qemudir/openbios-sparc64
 
 
 %changelog
+* Mon Aug 03 2020 Cole Robinson <aintdiscole@gmail.com> - 20200725-1.git7f282863.git
+- Update to openbios 7f28286
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:20191022-3.git7e5b89e
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:20191022-2.git7e5b89e
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

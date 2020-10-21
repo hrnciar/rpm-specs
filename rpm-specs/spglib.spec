@@ -1,3 +1,5 @@
+%global __cmake_in_source_build 1
+
 %if 0%{?fedora}
 %bcond_without python
 %endif
@@ -9,10 +11,10 @@
 
 Name:    spglib
 Summary: C library for finding and handling crystal symmetries
-Version: 1.14.1
+Version: 1.15.1
 Release: 3%{?dist}
 License: BSD
-URL:     https://atztogo.github.io/%{name}/
+URL:     https://spglib.github.io/%{name}/
 Source0: https://github.com/atztogo/%{name}/archive/%{version}.zip#/%{name}-%{version}.tar.gz
 
 BuildRequires: cmake3, %{?dts}gcc, %{?dts}gcc-c++
@@ -33,6 +35,7 @@ applications that use spglib.
 %package -n python%{python3_pkgversion}-%{name}
 Summary: Python3 library of %{name}
 BuildRequires: python%{python3_pkgversion}-devel
+BuildRequires: python%{python3_pkgversion}-setuptools
 BuildRequires: python%{python3_pkgversion}-numpy
 BuildRequires: python%{python3_pkgversion}-nose
 BuildRequires: python3-pyyaml >= 5.1
@@ -47,16 +50,12 @@ develop applications with %{name} Python3 bindings.
 %prep
 %autosetup -n %{name}-%{version}
 
-# Fix library paths
-sed -i 's!/lib!/%{_lib}!g' CMakeLists.txt
-sed -i 's!/include!/include/%{name}!g' CMakeLists.txt
-
 %build
 mkdir -p build && pushd build
 %if 0%{?el7}
 %{?dts:source /opt/rh/devtoolset-8/enable}
 %endif
-%cmake3 ..
+%cmake3 -DCMAKE_INSTALL_INCLUDEDIR:PATH=include/%{name} ..
 %make_build
 popd
 
@@ -104,6 +103,16 @@ popd
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 1.15.1-2
+- Use __cmake_in_source_build
+
+* Wed Jun 24 2020 Antonio Trande <sagitter@fedoraproject.org> - 1.15.1-1
+- Release 1.15.1
+- BuildRequires python3-setuptools explicitly
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.14.1-3
 - Rebuilt for Python 3.9
 

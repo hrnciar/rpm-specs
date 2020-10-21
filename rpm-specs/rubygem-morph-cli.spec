@@ -2,7 +2,7 @@
 
 Name:           rubygem-%{gem_name}
 Version:        0.2.3
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Runs Morph scrapers from the command line
 
 License:        MIT
@@ -63,6 +63,9 @@ cp -a ./%{_bindir}/* %{buildroot}%{_bindir}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.3-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

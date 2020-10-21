@@ -3,7 +3,7 @@
 
 # https://github.com/influxdata/line-protocol
 %global goipath         github.com/influxdata/line-protocol
-%global commit          a3afd890113fb9f0337e05808bb06fb0ca4c685a
+%global commit          2487e7298839615811464221244c572dc05b50ad
 
 %gometa
 
@@ -17,7 +17,7 @@ It has an interface similar to the standard library's json.Encoder.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Encoder for the influx line protocol
 
 License:        MIT
@@ -48,6 +48,12 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 00:33:18 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200728git2487e72
+- Bump to commit 2487e7298839615811464221244c572dc05b50ad
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

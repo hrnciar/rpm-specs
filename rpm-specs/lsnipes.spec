@@ -1,7 +1,7 @@
 Summary:	A text-mode maze game
 Name:		lsnipes
 Version:	0.9.4
-Release:	24%{?dist}
+Release:	25%{?dist}
 License:	GPLv2+
 Source:		http://www.ugcs.caltech.edu/~boultonj/snipes/%{name}-%{version}.tgz
 URL:		http://www.ugcs.caltech.edu/~boultonj/snipes.html
@@ -42,6 +42,9 @@ partially implemented) let you build your skills gradually.
 %{_mandir}/man6/snipes.6*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -5,7 +5,7 @@
 Summary: Ruby DNS(SEC) implementation
 Name: rubygem-%{gem_name}
 Version: 1.53
-Release: 17%{?dist}
+Release: 18%{?dist}
 License: ASL 2.0
 URL: http://rubyforge.org/projects/dnsruby/
 Source0: http://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -73,6 +73,9 @@ sed -i 's/\r//' %{buildroot}%{gem_instdir}/DNSSEC
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.53-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.53-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

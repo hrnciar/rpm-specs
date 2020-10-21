@@ -5,13 +5,16 @@
 
 Name:           rust-%{crate}
 Version:        1.1.0
-Release:        4%{?dist}
+Release:        7%{?dist}
 Summary:        Command line argument parsing
 
 # Upstream license specification: Unlicense/MIT
 License:        Unlicense or MIT
 URL:            https://crates.io/crates/docopt
 Source:         %{crates_source}
+# Initial patched metadata
+# * bump strsim from 0.9 to 0.10
+Patch0:         docopt-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -90,6 +93,16 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/bash-completion/completions \
 %endif
 
 %changelog
+* Sat Sep 26 2020 Fabio Valentini <decathorpe@gmail.com> - 1.1.0-7
+- Bump strsim to 0.10.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 27 13:53:23 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.1.0-4
 - Regenerate
 

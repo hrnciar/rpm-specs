@@ -2,8 +2,8 @@
 %global gem_name mini_magick
 
 Name: rubygem-%{gem_name}
-Version: 4.9.3
-Release: 3%{?dist}
+Version: 4.10.1
+Release: 1%{?dist}
 Summary: Manipulate images with minimal use of memory via ImageMagick
 License: MIT
 URL: https://github.com/minimagick/minimagick
@@ -11,9 +11,9 @@ Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
 
 # The mini_magick gem doesn't ship with the test suite.
 # You may check it out like so:
-# git clone http://github.com/minimagick/minimagick.git && cd minimagick
-# git checkout v4.9.3 && tar czvf mini_magick-4.9.3-tests.tgz spec/
-Source1: %{gem_name}-%{version}-tests.tgz
+# git clone http://github.com/minimagick/minimagick.git --no-checkout
+# cd minimagick && git archive -v -o mini_magick-4.10.1-tests.txz v4.10.1 spec/
+Source1: %{gem_name}-%{version}-tests.txz
 
 Requires: ImageMagick
 BuildRequires: ruby(release)
@@ -40,7 +40,7 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -n %{gem_name}-%{version}
+%setup -q -n %{gem_name}-%{version} -b1
 
 %build
 gem build ../%{gem_name}-%{version}.gemspec
@@ -53,7 +53,7 @@ cp -a .%{gem_dir}/* \
 
 %check
 pushd .%{gem_instdir}
-tar xzvf %{SOURCE1}
+ln -s %{_builddir}/spec .
 
 # Remove unneeded pry dependency.
 # https://github.com/minimagick/minimagick/pull/453
@@ -71,6 +71,12 @@ sed -i '/^    it "identifies when gm exists" do$/,/    end/ s/^/#/g' \
 sed -i "/^    it \"returns GraphicsMagick's version\" do$/,/    end/ s/^/#/g" \
   spec/lib/mini_magick_spec.rb
 
+# ImageMagick version incompatibility
+sed -i "/ have_key(\"date:create\")/ s/^/#/" \
+  spec/lib/mini_magick/image_spec.rb
+sed -i "/^\s*it \"does not hang when parsing verbose data\" do$/ a \ skip" \
+  spec/lib/mini_magick/image_spec.rb
+
 rspec spec
 popd
 
@@ -86,6 +92,17 @@ popd
 %{gem_instdir}/Rakefile
 
 %changelog
+* Thu Aug 06 15:23:58 GMT 2020 Pavel Valena <pvalena@redhat.com> - 4.10.1-1
+- Update to mini_magick 4.10.1.
+  Resolves: rhbz#1800014
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.9.3-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.9.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.9.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

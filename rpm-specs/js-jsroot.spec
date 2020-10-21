@@ -1,6 +1,6 @@
 %global jsname jsroot
 
-# EPEL 8 does not have jquery and dependants - can not unbundle
+# EPEL 8 does not have jquery-ui - can not unbundle
 %if %{?rhel}%{!?rhel:0} == 8
 %global bundle_jq 1
 %else
@@ -9,7 +9,7 @@
 
 Name:		js-%{jsname}
 Version:	5.8.0
-Release:	1%{?dist}
+Release:	5%{?dist}
 Summary:	JavaScript ROOT - Interactive numerical data analysis graphics
 
 #		Most files are MIT, d3.js is BSD
@@ -23,25 +23,22 @@ BuildArch:	noarch
 BuildRequires:	web-assets-devel
 BuildRequires:	yuicompressor
 BuildRequires:	uglify-js
-%if %{?fedora}%{!?fedora:0}
+%if %{?fedora}%{!?fedora:0} && %{?fedora}%{!?fedora:0} < 33
 BuildRequires:	closure-compiler
 %endif
 Requires:	web-assets-filesystem
-%if %{bundle_jq}
-Provides:	bundled(js-jquery)
-Provides:	bundled(js-jquery-mousewheel)
-Provides:	bundled(js-jquery-ui)
-Provides:	bundled(js-jquery-ui-touch-punch)
-%else
 Requires:	js-jquery
 Requires:	js-jquery-mousewheel
+%if %{bundle_jq}
+Provides:	bundled(js-jquery-ui)
+%else
 %if %{?fedora}%{!?fedora:0}
 Requires:	xstatic-jquery-ui-common >= 1.12
 %else
 Requires:	python-XStatic-jquery-ui >= 1.12
 %endif
-Requires:	js-jquery-ui-touch-punch
 %endif
+Requires:	js-jquery-ui-touch-punch
 Requires:	mathjax
 
 %description
@@ -53,16 +50,12 @@ Data can be read and displayed from binary and JSON ROOT files.
 %patch0 -p1
 
 # Remove pre-minified scripts
-for x in scripts/*.min.js ; do
-    [ -r $(sed -e 's!scripts!libs!' -e 's!\.min\.js!.js!' <<< $x) ] && rm $x
-done
+rm scripts/*.min.js
 
 # Remove bundled dependencies packaged in Fedora
-%if ! %{bundle_jq}
 rm libs/jquery.js
+%if ! %{bundle_jq}
 rm libs/jquery-ui.js
-rm scripts/jquery.mousewheel.min.js
-rm scripts/touch-punch.min.js
 rm style/jquery-ui.css
 rm -rf style/images
 %endif
@@ -87,7 +80,7 @@ uglifyjs libs/d3.js -c negate_iife=false -m --comments /Copyright/ -o scripts/d3
 
 uglifyjs libs/dat.gui.js -c -m -o scripts/dat.gui.min.js
 
-%if %{?fedora}%{!?fedora:0}
+%if %{?fedora}%{!?fedora:0} && %{?fedora}%{!?fedora:0} < 33
 cat > three-externs.js << EOF
 var THREE;
 var define;
@@ -111,36 +104,29 @@ closure-compiler --warning_level=VERBOSE \
   --js_output_file scripts/three.min.js
 %else
 # Google's closure compiler not available in EPEL - use alternative method
-uglifyjs libs/three.js -c -m --preamble "// threejs.org/license" -o scripts/three.min.js
+uglifyjs libs/three.js -c -m -b beautify=false,preamble="'// threejs.org/license'" -o scripts/three.min.js
 %endif
 
 %if %{bundle_jq}
-# Minify bundled jquery and jquery-ui for EPEL 8
-uglifyjs libs/jquery.js -c -m -o scripts/jquery.min.js
+# Minify bundled jquery-ui for EPEL 8
 uglifyjs libs/jquery-ui.js -c -m -o scripts/jquery-ui.min.js
 yuicompressor style/jquery-ui.css -o style/jquery-ui.min.css
-
-# Do the best we can for mousewheel and touch-punch
-# Only minified versions bundled in source
-mv scripts/touch-punch.min.js scripts/jquery.ui.touch-punch.min.js
-uglifyjs scripts/jquery.ui.touch-punch.min.js -b -o libs/jquery.ui.touch-punch.js
-uglifyjs scripts/jquery.mousewheel.min.js -b -o libs/jquery.mousewheel.js
 %endif
 
 %install
 mkdir -p %{buildroot}%{_jsdir}/%{jsname}/scripts
 install -m 644 -p scripts/*.js %{buildroot}%{_jsdir}/%{jsname}/scripts
 
-%if ! %{bundle_jq}
 ln -s %{_jsdir}/jquery/latest/jquery.min.js \
    %{buildroot}%{_jsdir}/%{jsname}/scripts
 ln -s %{_jsdir}/jquery.mousewheel.min.js \
    %{buildroot}%{_jsdir}/%{jsname}/scripts
+%if ! %{bundle_jq}
 ln -s %{_jsdir}/jquery_ui/jquery-ui.min.js \
    %{buildroot}%{_jsdir}/%{jsname}/scripts
+%endif
 ln -s %{_jsdir}/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js \
    %{buildroot}%{_jsdir}/%{jsname}/scripts
-%endif
 ln -s %{_jsdir}/mathjax \
    %{buildroot}%{_jsdir}/%{jsname}/scripts
 
@@ -150,16 +136,16 @@ rm %{buildroot}%{_jsdir}/%{jsname}/libs/three.extra_head.js
 rm %{buildroot}%{_jsdir}/%{jsname}/libs/three.svg_renderer_header.js
 rm %{buildroot}%{_jsdir}/%{jsname}/libs/three.svg_renderer_footer.js
 
-%if ! %{bundle_jq}
 ln -s %{_jsdir}/jquery/latest/jquery.js \
    %{buildroot}%{_jsdir}/%{jsname}/libs
 ln -s %{_jsdir}/jquery.mousewheel.js \
    %{buildroot}%{_jsdir}/%{jsname}/libs
+%if ! %{bundle_jq}
 ln -s %{_jsdir}/jquery_ui/jquery-ui.js \
    %{buildroot}%{_jsdir}/%{jsname}/libs
+%endif
 ln -s %{_jsdir}/jquery-ui-touch-punch/jquery.ui.touch-punch.js \
    %{buildroot}%{_jsdir}/%{jsname}/libs
-%endif
 
 mkdir -p %{buildroot}%{_jsdir}/%{jsname}/style
 install -m 644 -p style/*.css %{buildroot}%{_jsdir}/%{jsname}/style
@@ -195,6 +181,21 @@ ln -s %{_jsdir}/%{jsname}/img %{buildroot}%{_pkgdocdir}
 %doc changes.md demo docs/* index.htm readme.md
 
 %changelog
+* Sat Sep 26 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 5.8.0-5
+- Compatibility with uglifyjs v3 (no --preamble option)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.8.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 5.8.0-3
+- Do not use closure-compiler for Fedora 33+ - it is orphaned and
+  uninstallable with broken deps.
+
+* Wed Jul 15 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 5.8.0-2
+- No longer bundle js-jquery, js-jquery-mousewheel and
+  js-jquery-ui-touch-punch for EPEL 8.
+- Still bundle js-jquery-ui which is not available in EPEL 8.
+
 * Mon Mar 23 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 5.8.0-1
 - Update to version 5.8.0
 

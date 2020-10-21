@@ -5,7 +5,7 @@
 
 Name: ctk
 Version: 0.1
-Release: 0.15.20190721%{?dist}
+Release: 0.18.20190721%{?dist}
 Summary: The Commmon Toolkit for biomedical imaging
 
 License: ASL 2.0
@@ -104,9 +104,10 @@ This package contains CTK developer documentation.
 
 %prep
 %autosetup -n CTK-2018-10-29 -p1
+# Set up the logo
+cp ctkLogo-small.png ctkLogo-small-transparent.png
 
 %build
-mkdir build && pushd build
 %cmake \
     -DCMAKE_PREFIX_PATH=%{_libdir}/cmake/InsightToolkit \
     -DCTK_SUPERBUILD=OFF \
@@ -119,13 +120,17 @@ mkdir build && pushd build
     -DCTK_ENABLE_Widgets=ON \
     -DDOCUMENTATION_TARGET_IN_ALL=OFF \
     -DBUILD_TESTING:BOOL=OFF ..
-%make_build
+%cmake_build
+
+# why doesnt cmake_build doc work
+pushd %{__cmake_builddir}
 %make_build doc
 popd
 
 
+
 %install
-%make_install -C build
+%cmake_install
 
 
 # No %%check section here because running tests requires working X server
@@ -164,11 +169,20 @@ popd
 
 %files doc
 %license NOTICE LICENSE
-%doc build/Documentation/html
-%exclude %{_docdir}/%{name}/html/*.map
-%exclude %{_docdir}/%{name}/html/*.md5
+%doc %{__cmake_builddir}/Documentation/html
 
 %changelog
+* Fri Sep 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.1-0.18.20190721
+- Fix build using correct cmake macros
+- Remove uneeded exclude
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.17.20190721
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.16.20190721
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.15.20190721
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

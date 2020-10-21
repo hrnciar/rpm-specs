@@ -5,7 +5,7 @@
 %global crate num-bigint
 
 Name:           rust-%{crate}
-Version:        0.2.6
+Version:        0.3.0
 Release:        2%{?dist}
 Summary:        Big integer implementation for Rust
 
@@ -52,16 +52,16 @@ which use "default" feature of "%{crate}" crate.
 %files       -n %{name}+default-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
-%package     -n %{name}+i128-devel
+%package     -n %{name}+quickcheck-devel
 Summary:        %{summary}
 BuildArch:      noarch
 
-%description -n %{name}+i128-devel %{_description}
+%description -n %{name}+quickcheck-devel %{_description}
 
 This package contains library source intended for building other packages
-which use "i128" feature of "%{crate}" crate.
+which use "quickcheck" feature of "%{crate}" crate.
 
-%files       -n %{name}+i128-devel
+%files       -n %{name}+quickcheck-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %package     -n %{name}+rand-devel
@@ -119,6 +119,12 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Josh Stone <jistone@redhat.com> - 0.3.0-1
+- Update to 0.3.0
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

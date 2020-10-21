@@ -7,7 +7,7 @@
 
 # https://github.com/ema/qdisc
 %global goipath         github.com/ema/qdisc
-%global commit          b307c22d3ce761d351b6e6270b50195b44ee9248
+%global commit          62d0308e3e0068bcd33c1b6461384e93afb7be9c
 
 %gometa
 
@@ -20,14 +20,12 @@ similarly to what tc (from iproute2) does.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.7%{?dist}
+Release:        0.9%{?dist}
 Summary:        Get queuing discipline information via netlink
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
-# Update library for current netlink
-Patch0:         https://patch-diff.githubusercontent.com/raw/ema/qdisc/pull/3.patch#/0001-Update-library-for-current-netlink.patch
 
 BuildRequires:  golang(github.com/mdlayher/netlink)
 BuildRequires:  golang(github.com/mdlayher/netlink/nlenc)
@@ -44,7 +42,6 @@ BuildRequires:  golang(github.com/mdlayher/netlink/nltest)
 
 %prep
 %goprep
-%patch0 -p1
 
 %install
 %gopkginstall
@@ -57,6 +54,12 @@ BuildRequires:  golang(github.com/mdlayher/netlink/nltest)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 16:19:17 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.8.20200726git62d0308
+- Bump to commit 62d0308e3e0068bcd33c1b6461384e93afb7be9c
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

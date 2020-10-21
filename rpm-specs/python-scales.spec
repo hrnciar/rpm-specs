@@ -12,7 +12,7 @@
 
 Name:           python-scales
 Version:        1.0.9
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Stats for Python processes
 
 License:        ASL 2.0
@@ -36,6 +36,7 @@ BuildRequires:  python3-devel
 BuildRequires:  python3-six
 BuildRequires:  python3-simplejson
 BuildRequires:  python3-nose
+BuildRequires:  python3-setuptools
 %endif
 
 %global _description\
@@ -129,6 +130,9 @@ cd %{py3dir}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.9-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.9-5
 - Rebuilt for Python 3.9
 

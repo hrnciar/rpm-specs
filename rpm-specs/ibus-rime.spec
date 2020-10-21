@@ -1,6 +1,6 @@
 Name:           ibus-rime
 Version:        1.4.0
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        Rime Input Method Engine for IBus
 Summary(zh):    中州韻輸入法引擎
 
@@ -41,18 +41,21 @@ Rime 預設輸入方案有：朙月拼音、語句流、倉頡、速成、五筆
 
 %build
 %cmake
-make VERBOSE=1 %{?_smp_mflags}
+%cmake_build
 
 
 %install
 sed -i -e "s'/usr/lib/ibus-rime/ibus-engine-rime'%{_libexecdir}/ibus-engine-rime'" rime.xml
 
-mkdir -p $RPM_BUILD_ROOT/%{_libexecdir}/
-install -p -m 0755 ibus-engine-rime $RPM_BUILD_ROOT/%{_libexecdir}/
 mkdir -p $RPM_BUILD_ROOT/%{_datadir}/ibus/component/
 install -p -m 0644 rime.xml $RPM_BUILD_ROOT/%{_datadir}/ibus/component/
 mkdir -p $RPM_BUILD_ROOT/%{_datadir}/ibus-rime/icons/
 install -p -m 0644 icons/*.png $RPM_BUILD_ROOT/%{_datadir}/ibus-rime/icons/
+
+pushd "%{_vpath_builddir}"
+mkdir -p $RPM_BUILD_ROOT/%{_libexecdir}/
+install -p -m 0755 ibus-engine-rime $RPM_BUILD_ROOT/%{_libexecdir}/
+popd
 
 
 %files
@@ -63,6 +66,16 @@ install -p -m 0644 icons/*.png $RPM_BUILD_ROOT/%{_datadir}/ibus-rime/icons/
 
 
 %changelog
+* Wed Aug  5 2020 Peng Wu <pwu@redhat.com> - 1.4.0-6
+- Use cmake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb  7 2020 Peng Wu <pwu@redhat.com> - 1.4.0-3
 - Fixes FTBFS
 

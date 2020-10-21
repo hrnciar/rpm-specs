@@ -8,7 +8,7 @@
 %global obsrel 325.1
 
 # Actual release
-%global baserelease 2
+%global baserelease 3
 
 Name:           obs-build
 Version:        20191205
@@ -112,6 +112,9 @@ sed -e "s|#!/usr/bin/python|#!%{__python3}|" \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20191205-325.1.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20191205-325.1.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

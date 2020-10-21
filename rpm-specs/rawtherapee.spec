@@ -2,7 +2,7 @@
 
 Name:           rawtherapee
 Version:        5.8
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Raw image processing software
 
 License:        GPLv3 and MIT and IJG
@@ -81,13 +81,13 @@ rm -rf rtengine/klt/
 %if 0%{?link_tcmalloc}
         -DENABLE_TCMALLOC=ON \
 %endif
-        -DWITH_SYSTEM_KLT=ON .
-        
-make VERBOSE=1 %{?_smp_mflags} 
+        -DWITH_SYSTEM_KLT=ON
+
+%cmake_build
 
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 
 # These file are taken from the root already
@@ -111,6 +111,17 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/com.%{na
 
 
 %changelog
+* Tue Aug 04 2020 Mattia Verga <mattia.verga@protonmail.com> - 5.8-5
+- Another rebuild attempt for F33 Mass Rebuild after gettext has been fixed
+- Use new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.8-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Mattia Verga <mattia.verga@protonmail.com> - 5.8-2
 - Backport patch for fixing rhbz#1820907
 

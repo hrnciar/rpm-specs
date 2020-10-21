@@ -7,7 +7,7 @@
 %endif
 
 Name:           %{srcname}
-Version:        1.1.13
+Version:        1.1.14
 Release:        1%{?dist}
 Summary:        A deduplicating backup program with compression and authenticated encryption
 
@@ -29,6 +29,8 @@ Source2:        gpgkey-6D5B_EF9A_DD20_7580_5747_B70F_9F88_FB52_FAF7_B393.gpg
 Patch1:         0002-disable-sphinx-man-page-build.patch
 # ability not to build bundled msgpack
 Patch2:         0003-ability-to-unbundle-msgpack.patch
+# https://mail.python.org/pipermail/borgbackup/2020q4/001699.html
+Patch3:         borgbackup-strip-llfuse-versions.patch
 
 BuildRequires:  gnupg2
 # build
@@ -36,7 +38,7 @@ BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-setuptools
 BuildRequires:  python%{python3_pkgversion}-setuptools_scm
 BuildRequires:  python%{python3_pkgversion}-Cython
-BuildRequires:  python%{python3_pkgversion}-llfuse
+BuildRequires:  python%{python3_pkgversion}-llfuse >= 1.3.4
 
 %if %bundle_msgpack
 Provides:       bundled(python%{python3_pkgversion}-msgpack) = 0.5.6
@@ -65,7 +67,7 @@ BuildRequires:  libzstd-devel >= 1.3.0
 Requires:       python%{python3_pkgversion}-msgpack <= 0.5.6
 %endif
 Requires:       python%{python3_pkgversion}-setuptools
-Requires:       python%{python3_pkgversion}-llfuse
+Requires:       python%{python3_pkgversion}-llfuse >= 1.3.4
 Requires:       fuse
 
 # xxHash: https://github.com/Cyan4973/xxHash
@@ -76,7 +78,7 @@ Requires:       fuse
 # upstream won't unbundle this for v1.1.x:
 #     https://github.com/borgbackup/borg/issues/4592#issuecomment-495951573
 # since borgbackup 1.1.11 the code needs at least xxHash >= 0.7.2
-Provides:       bundled(xxHash) = 0.7.3
+Provides:       bundled(xxHash) = 0.7.4
 
 %description
 BorgBackup (short: Borg) is a deduplicating backup program. Optionally, it
@@ -169,7 +171,8 @@ py.test-3 -x -vk "$TEST_SELECTOR" $PYTHONPATH/borg/testsuite/*.py
 %doc docs/changes.rst
 %{_mandir}/man1/*
 
-%{python3_sitearch}/*
+%{python3_sitearch}/borg
+%{python3_sitearch}/borgbackup-%{version}-py%{python3_version}.egg-info
 # - files in %%{python3_sitearch}/borg/algorithms/msgpack are licensed under the ASL
 # - %%{python3_sitearch}/borg/algorithms/checksums.*.so contains code licensed
 #   under the zlib license
@@ -181,6 +184,12 @@ py.test-3 -x -vk "$TEST_SELECTOR" $PYTHONPATH/borg/testsuite/*.py
 
 
 %changelog
+* Thu Oct 08 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.1.14-1
+- update to 1.1.14
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 07 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.1.13-1
 - update to 1.1.13
 

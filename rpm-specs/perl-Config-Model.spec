@@ -2,8 +2,8 @@
 %bcond_with test_fuse
 
 Name:           perl-Config-Model
-Version:        2.138
-Release:        3%{?dist}
+Version:        2.140
+Release:        1%{?dist}
 Summary:        Framework to create configuration validation tools and editors
 License:        LGPLv2+
 
@@ -123,6 +123,15 @@ modprobe fuse
 %{_mandir}/man3/*
 
 %changelog
+* Sun Aug 02 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 2.140-1
+- Update to 2.140
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.138-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.138-4
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.138-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

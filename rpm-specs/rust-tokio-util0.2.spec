@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}0.2
 Version:        0.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Additional utilities for working with Tokio
 
 # Upstream license specification: MIT
@@ -107,5 +107,8 @@ which use "udp" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 14 22:54:46 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.0-1
 - Initial package

@@ -1,6 +1,6 @@
 Name:           yubikey-personalization-gui
 Version:        3.1.25
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        GUI for Yubikey personalization
 
 License:        BSD
@@ -49,6 +49,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.25-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.25-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

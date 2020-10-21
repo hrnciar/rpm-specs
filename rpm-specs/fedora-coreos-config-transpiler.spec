@@ -16,7 +16,7 @@ for provisioning Fedora CoreOS machines.}
 %global godocs          docs README.md NEWS
 
 Name:           fedora-coreos-config-transpiler
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Fedora CoreOS Config Transpiler (FCCT)
 
 # Upstream license specification: Apache-2.0
@@ -117,6 +117,9 @@ install -p -m 0644 ./fcct-x86_64-pc-windows-gnu.exe %{buildroot}%{_datadir}/fcct
 %{_datadir}/fcct/fcct-x86_64-pc-windows-gnu.exe
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Benjamin Gilbert <bgilbert@redhat.com> - 0.6.0-1
 - New release
 

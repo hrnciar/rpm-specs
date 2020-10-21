@@ -1,8 +1,8 @@
-%global abi 7
+%global abi 8
 
 Name:           libdvdread
-Version:        6.0.2
-Release:        3%{?dist}
+Version:        6.1.1
+Release:        1%{?dist}
 Summary:        A library for reading DVD video discs based on Ogle code
 License:        GPLv2+
 URL:            http://dvdnav.mplayerhq.hu/
@@ -56,6 +56,12 @@ rm %{buildroot}%{_libdir}/libdvdread.la %{buildroot}%{_pkgdocdir}/COPYING
 %{_libdir}/pkgconfig/dvdread.pc
 
 %changelog
+* Thu Oct 15 2020 Dominik Mierzejewski <rpm@greysector.net> 6.1.1-1
+- update to 6.1.1 (#1815806)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 Summary:          C++ interface to the CLIPS expert system C library
 Name:             clipsmm
 Version:          0.3.5
-Release:          8%{?dist}
+Release:          9%{?dist}
 License:          GPLv3
 URL:              http://clipsmm.sourceforge.net
 Source0:          http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
@@ -110,6 +110,9 @@ cd unit_tests
 %dir %{_datadir}/gtk-doc/html/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.5-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.5-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

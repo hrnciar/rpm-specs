@@ -1,10 +1,6 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:		sugar-story
 Version:	20
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	An activity that uses images to prompt the learner to tell stories
 
 # grecord.py and sprites.py is in MIT and all other files in GPLv3+
@@ -34,6 +30,10 @@ python3 ./setup.py build
 %install
 python3 ./setup.py install --prefix=%{buildroot}%{_prefix}
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
+
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}%{_datadir}/{sugaractivitydir}/Story.activity/
+
 %find_lang org.sugarlabs.StoryActivity
 
 
@@ -44,6 +44,13 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 2020 Peter Robinson <pbrobinson@fedoraproject.org> 20-1
 - Release 20
 

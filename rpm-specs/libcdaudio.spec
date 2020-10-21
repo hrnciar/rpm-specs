@@ -1,7 +1,7 @@
 Summary: Control operation of a CD-ROM when playing audio CDs
 Name: libcdaudio
 Version: 0.99.12p2
-Release: 31%{?dist}
+Release: 32%{?dist}
 # COPYING is a copy of GPLv2, but the code and the README clearly indicate
 # that the code is LGPLv2+. Probably want to let upstream know about COPYING.
 License: LGPLv2+
@@ -59,6 +59,9 @@ make install DESTDIR=%{buildroot}
 %{_libdir}/pkgconfig/libcdaudio.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99.12p2-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99.12p2-31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

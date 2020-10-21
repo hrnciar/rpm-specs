@@ -4,7 +4,7 @@
 
 Name:		libechonest
 Version: 	2.3.0
-Release:	12%{?dist}
+Release:	16%{?dist}
 Summary:	C++ wrapper for the Echo Nest API
 
 License:	GPLv2+
@@ -50,24 +50,20 @@ Requires: libechonest-qt5%{?_isa} = %{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
+%global _vpath_builddir %{_target_platform}
 %{cmake} .. \
   -DBUILD_WITH_QT4:BOOL=ON \
   -DECHONEST_BUILD_TESTS:BOOL=%{?tests:ON}%{!?tests:OFF}
 
-make %{?_smp_mflags}
-popd
+%cmake_build
 
 %if 0%{?qt5}
-mkdir %{_target_platform}-qt5
-pushd %{_target_platform}-qt5
+%global _vpath_builddir %{_target_platform}-qt5
 %{cmake} .. \
   -DBUILD_WITH_QT4:BOOL=OFF \
   -DECHONEST_BUILD_TESTS:BOOL=%{?tests:ON}%{!?tests:OFF} 
-
-make %{?_smp_mflags}
-popd
+%cmake_build
 %endif
 
 
@@ -116,6 +112,19 @@ time make test -C %{_target_platform} ARGS="--timeout 300 --output-on-failure" |
 
 
 %changelog
+* Mon Sep 14 2020 Jeff Law <law@redhat.com> - 2.3.0-16
+- Force C++14 as this code is not C++17 ready
+
+* Mon Sep 07 2020 Than Ngo <than@redhat.com> - 2.3.0-15
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

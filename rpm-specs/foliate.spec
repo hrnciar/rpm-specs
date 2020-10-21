@@ -1,7 +1,7 @@
 %global appname com.github.johnfactotum.Foliate
 
 Name:           foliate
-Version:        2.3.0
+Version:        2.5.0
 Release:        1%{?dist}
 Summary:        Simple and modern GTK eBook reader
 
@@ -70,6 +70,21 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Thu Oct 15 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2.5.0-1
+- build(update): 2.5.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2.4.2-1
+- Update to 2.4.2
+
+* Mon Jul 06 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2.4.1-1
+- Update to 2.4.1
+
+* Thu Jul 02 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2.4.0-1
+- Update to 2.4.0
+
 * Thu Jun 18 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2.3.0-1
 - Update to 2.3.0
 

@@ -1,6 +1,6 @@
 Name:		spi-tools
-Version:	0.8.4
-Release:	2%{?dist}
+Version:	0.8.5
+Release:	1%{?dist}
 Summary:	Simple command line tools to help using Linux spidev devices
 
 License:	GPLv2
@@ -26,7 +26,7 @@ help using Linux spidev devices.
 %build
 autoreconf -fi
 %configure
-make %{?_smp_mflags}
+%make_build
 
 
 %install
@@ -43,6 +43,12 @@ make %{?_smp_mflags}
 
 
 %changelog
+* Sat Oct 10 16:02:10 BST 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.8.5-1
+- Update to 0.8.5
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

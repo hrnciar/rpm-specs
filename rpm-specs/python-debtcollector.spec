@@ -13,7 +13,7 @@ It is a collection of functions/decorators which is used to signal a user when \
 
 Name:        python-%{pypi_name}
 Version:     2.0.1
-Release:     1%{?dist}
+Release:     2%{?dist}
 Summary:     A collection of Python deprecation patterns and strategies
 
 License:     ASL 2.0
@@ -92,6 +92,9 @@ rm -fr doc/build/html/.{doctrees,buildinfo}
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Joel Capitao <jcapitao@redhat.com> 2.0.1-1
 - Update to upstream version 2.0.1
 

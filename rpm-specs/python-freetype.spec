@@ -3,13 +3,13 @@
 %global sum Freetype python bindings
 
 Name:          python-%{module_name}
-Version:       2.0
-Release:       7%{?dist}
+Version:       2.2.0
+Release:       3%{?dist}
 Summary:       Freetype python bindings
 
 License:       BSD
 URL:           https://github.com/rougier/freetype-py
-Source0:       https://github.com/rougier/freetype-py/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source0:       https://github.com/rougier/freetype-py/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
 BuildArch:     noarch
 BuildRequires: freetype
@@ -48,6 +48,16 @@ sed -i '1{\@^#!/usr/bin/env python@d}' examples/*.py
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Parag Nemade <pnemade AT redhat DOT com> - 2.2.0-1
+- Update to 2.2.0 version (#1855370)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0-7
 - Rebuilt for Python 3.9
 

@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:        0.12.1
-Release:        5%{?dist}
+Release:        7%{?dist}
 BuildArch:      noarch
 Summary:        Erlang implementation of the Django Template Language
 License:        MIT
@@ -56,6 +56,13 @@ cp -arv priv %{buildroot}/%{erlang_appdir}/
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.1-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

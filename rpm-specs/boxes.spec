@@ -6,7 +6,7 @@
 
 Name:           boxes
 Version:        1.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Draw any kind of box around some given text
 
 License:        GPLv2+
@@ -81,6 +81,9 @@ install -Dp -m 0644 %{name}.vim     %{buildroot}%{_datadir}/vim/vimfiles/syntax/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.3-4
 - Fix EPEL 7 build
 

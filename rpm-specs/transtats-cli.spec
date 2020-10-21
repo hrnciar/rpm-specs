@@ -7,7 +7,7 @@
 
 Name:           %{name}
 Version:        0.4.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        %{sum}
 License:        ASL 2.0
 URL:            https://github.com/%{project}/%{name}
@@ -58,6 +58,9 @@ rm -fr %{buildroot}%{python3_sitelib}/tests
 %{_datadir}/bash-completion/completions/transtats.bash
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 09 2020 Parag Nemade <pnemade AT redhat DOT com> - 0.4.0-1
 - Update to 0.4.0 version
 - Drop BR: python3-flake8

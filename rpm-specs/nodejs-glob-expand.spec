@@ -5,7 +5,7 @@
 
 Name:		nodejs-glob-expand
 Version:	0.2.1
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	A sync glob / minimatch / RegExp function
 
 License:	MIT
@@ -79,6 +79,9 @@ cp -pr package.json build/ \
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

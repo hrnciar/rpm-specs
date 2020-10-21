@@ -9,7 +9,7 @@
 
 
 Name:           python-requests
-Version:        2.23.0
+Version:        2.24.0
 Release:        4%{?dist}
 Summary:        HTTP library, written in Python, for human beings
 
@@ -30,12 +30,6 @@ Patch2:         Remove-tests-that-use-the-tarpit.patch
 # a pretty odd one so this is a niche requirement.
 Patch3:         requests-2.12.4-tests_nonet.patch
 
-# https://bugzilla.redhat.com/show_bug.cgi?id=1567862
-Patch4:         Don-t-inject-pyopenssl-into-urllib3.patch
-
-# https://bugzilla.redhat.com/show_bug.cgi?id=1653223
-Patch5:         requests-2.20.0-no-py2-httpbin.patch
-
 BuildArch:      noarch
 
 %description
@@ -50,14 +44,10 @@ Summary: HTTP library, written in Python, for human beings
 %{?python_provide:%python_provide python%{python3_pkgversion}-requests}
 
 BuildRequires:  python%{python3_pkgversion}-devel
-BuildRequires:  python3dist(chardet)
-BuildRequires:  python3dist(urllib3)
-BuildRequires:  python3dist(idna)
-BuildRequires:  python3dist(pygments)
-BuildRequires:  python3dist(setuptools)
+BuildRequires:  pyproject-rpm-macros
+
 %if %{with tests}
-# https://github.com/psf/requests/issues/5304 (fixed in master)
-BuildRequires:  python3dist(pytest) < 5
+BuildRequires:  python3dist(pytest)
 BuildRequires:  python3dist(pytest-cov)
 BuildRequires:  python3dist(pytest-httpbin)
 BuildRequires:  python3dist(pytest-mock)
@@ -69,6 +59,16 @@ Most existing Python modules for sending HTTP requests are extremely verbose and
 cumbersome. Python’s built-in urllib2 module provides most of the HTTP
 capabilities you should need, but the API is thoroughly broken. This library is
 designed to make HTTP requests easy for developers.
+
+%pyproject_extras_subpkg -n python%{python3_pkgversion}-requests security socks
+
+%generate_buildrequires
+%if %{with tests}
+%pyproject_buildrequires -r
+%else
+%pyproject_buildrequires
+%endif
+
 
 %prep
 %autosetup -p1 -n requests-%{version}
@@ -85,26 +85,43 @@ sed -i '/#!\/usr\/.*python/d' requests/certs.py
 sed -i 's/ --doctest-modules//' pytest.ini
 
 %build
-%py3_build
+%pyproject_wheel
 
 
 %install
-%py3_install
+%pyproject_install
+%pyproject_save_files requests
 
 
 %if %{with tests}
 %check
-PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} -m pytest -v
+# test_https_warnings: https://github.com/psf/requests/issues/5530
+%pytest -v -k "not test_https_warnings"
 %endif # tests
 
-%files -n python%{python3_pkgversion}-requests
+
+%files -n python%{python3_pkgversion}-requests -f %{pyproject_files}
 %license LICENSE
 %doc README.md HISTORY.md
-%{python3_sitelib}/*.egg-info/
-%{python3_sitelib}/requests/
 
 
 %changelog
+* Fri Sep 18 2020 Petr Viktorin <pviktori@redhat.com> - 2.24.0-4
+- Port to pyproject macros
+
+* Fri Sep 18 2020 Miro Hrončok <mhroncok@redhat.com> - 2.24.0-3
+- Build with pytest 6, older version is no longer required
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.24.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Miro Hrončok <mhroncok@redhat.com> - 2.24.0-1
+- Update to 2.24.0
+- Resolves rhbz#1848104
+
+* Fri Jul 10 2020 Miro Hrončok <mhroncok@redhat.com> - 2.23.0-5
+- Add requests[security] and requests[socks] subpackages
+
 * Sat May 30 2020 Miro Hrončok <mhroncok@redhat.com> - 2.23.0-4
 - Test with pytest 4, drop manual requires
 

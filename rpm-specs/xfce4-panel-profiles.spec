@@ -3,7 +3,7 @@
 
 Name:		xfce4-panel-profiles
 Version:	1.0.10
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	A simple application to manage Xfce panel layouts
 
 License:	GPLv3
@@ -66,6 +66,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/%{appdata
 %{_datadir}/metainfo/*.appdata.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

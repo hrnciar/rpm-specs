@@ -2,8 +2,8 @@
 %global sum Reproject astronomical images
 
 Name:           python-%{srcname}
-Version:        0.5.1
-Release:        4%{?dist}
+Version:        0.7.1
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        BSD and ASL 2.0 and Python
@@ -19,7 +19,7 @@ License:        BSD and ASL 2.0 and Python
 #    astropy_helpers/astropy_helpers/sphinx/themes/bootstrap-astropy/static/copybutton.js
 #
 URL:            https://reproject.readthedocs.io/
-Source0:        https://github.com/astropy/reproject/archive/v%{version}/%{srcname}-%{version}.tar.gz
+Source0:        %{pypi_source}
 
 BuildRequires:  gcc
 
@@ -28,7 +28,10 @@ BuildRequires:  python3-astropy-healpix
 BuildRequires:  python3-astropy-helpers
 BuildRequires:  python3-Cython
 BuildRequires:  python3-devel
+BuildRequires:  python3-extension-helpers
 BuildRequires:  python3-pytest-astropy
+BuildRequires:  python3-setuptools
+BuildRequires:  python3-setuptools_scm
 
 %description
 %{sum}.
@@ -60,11 +63,17 @@ popd
 %endif
 
 %files -n python3-%{srcname}
-%license LICENSE.md
+%license LICENSE
 %doc CHANGES.md README.rst
 %{python3_sitearch}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Christian Dersch <lupinix@fedoraproject.org> - 0.7.1-1
+- new version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.1-4
 - Rebuilt for Python 3.9
 

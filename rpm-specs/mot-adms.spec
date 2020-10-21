@@ -1,14 +1,14 @@
 # This package is part of the Free Electronic Lab.
 
 Name:           mot-adms
-Version:        2.3.6
+Version:        2.3.7
 Release:        1%{?dist}
 Summary:        An electrical compact device models converter
 
 License:        GPLv3+
 URL:            https://github.com/Qucs/ADMS
 
-Source0:        http://sourceforge.net/projects/mot-adms/files/adms-source/2.3/adms-%{version}.tar.gz
+Source0:        https://github.com/Qucs/ADMS/archive/release-%{version}/adms-%{version}.tar.gz
 
 BuildRequires:  gcc-c++
 BuildRequires:  flex bison
@@ -25,7 +25,7 @@ Based on transformations specified in XML language, ADMS
 transforms Verilog-AMS code into other target languages.
 
 %prep
-%setup -q -n adms-%{version}
+%setup -q -n ADMS-release-%{version}
 
 %build
 autoreconf -vif
@@ -67,6 +67,12 @@ find %{buildroot} -type l -name '*.so' -delete
 %{_mandir}/man1/admsXml.1*
 
 %changelog
+* Thu Oct  8 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 2.3.7-1
+- 2.3.7
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May  5 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 2.3.6-1
 - 2.3.6
 

@@ -5,7 +5,7 @@
 %global crate socket2
 
 Name:           rust-%{crate}
-Version:        0.3.12
+Version:        0.3.15
 Release:        1%{?dist}
 Summary:        Utilities for handling networking sockets
 
@@ -113,6 +113,16 @@ which use "unix" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Sep 23 2020 Fabio Valentini <decathorpe@gmail.com> - 0.3.15-1
+- Update to version 0.3.15.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.12-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 01 2020 Josh Stone <jistone@redhat.com> - 0.3.12-1
 - Update to 0.3.12
 

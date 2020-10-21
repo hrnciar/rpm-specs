@@ -5,7 +5,7 @@
 
 Name:           aspell-%{lang}
 Version:        2.02
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Slovak dictionaries for Aspell
 
 License:        GPLv2 or LGPLv2 or MPLv1.1
@@ -42,6 +42,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.02-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.02-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

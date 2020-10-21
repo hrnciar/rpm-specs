@@ -4,7 +4,7 @@
 Name:           libstatgrab
 Epoch:          1
 Version:        0.92
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        A library that provides cross platform access to statistics of the system
 License:        LGPLv2+
 URL:            http://www.i-scream.org/libstatgrab
@@ -206,6 +206,13 @@ make check
 %{_mandir}/*/*statgrab*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.92-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.92-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 01 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:0.92-3
 - Add perl(lib) for tests
 

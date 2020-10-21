@@ -7,7 +7,7 @@
 Name:           gsignond-plugin-lastfm
 Summary:        Last.FM plugin for gsignond
 Version:        0
-Release:        0.4.%{commitdate}.git%{shortcommit}%{?dist}
+Release:        0.5.%{commitdate}.git%{shortcommit}%{?dist}
 License:        LGPLv2+
 
 URL:            https://gitlab.com/accounts-sso/%{name}
@@ -51,6 +51,9 @@ credentials.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5.20180507.git0a7a5f8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4.20180507.git0a7a5f8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

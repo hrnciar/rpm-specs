@@ -5,21 +5,23 @@
 %bcond_with bootstrap
 
 Name: rubygem-%{gem_name}
-Version: 3.9.0
+Version: 4.0.1
 Release: 2%{?dist}
 Summary: RSpec for Rails
 License: MIT
 URL: https://github.com/rspec/rspec-rails
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
 # git clone https://github.com/rspec/rspec-rails.git && cd rspec-rails
-# git archive -v -o rspec-rails-3.9.0-tests.tar.gz v3.9.0 features/ spec/
+# git archive -v -o rspec-rails-4.0.1-tests.tar.gz v4.0.1 features/ spec/
 Source1: %{gem_name}-%{version}-tests.tar.gz
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby
 %if %{without bootstrap}
 #BuildRequires: rubygem(cucumber)
+BuildRequires: rubygem(actionmailbox)
 BuildRequires: rubygem(actionmailer)
+BuildRequires: rubygem(actioncable)
 BuildRequires: rubygem(activerecord)
 BuildRequires: rubygem(ammeter)
 BuildRequires: rubygem(bundler)
@@ -27,11 +29,12 @@ BuildRequires: rubygem(capybara)
 BuildRequires: rubygem(railties)
 BuildRequires: rubygem(rspec)
 BuildRequires: rubygem(sqlite3)
+BuildRequires: rubygem(selenium-webdriver)
 %endif
 BuildArch: noarch
 
 %description
-rspec-rails is a testing framework for Rails 3+.
+rspec-rails is a testing framework for Rails 5+.
 
 
 %package doc
@@ -97,8 +100,23 @@ popd
 %doc %{gem_instdir}/Changelog.md
 %doc %{gem_instdir}/README.md
 
-
 %changelog
+* Wed Sep 23 2020 Vít Ondruch <vondruch@redhat.com> - 4.0.1-2
+- Tests running against Ruby on Rails 6+ needs rubygem(selenium-webdriver).
+- Enable Action{Cable,Mailbox} test, since we have Ruby on Rails 6+ available.
+
+* Wed Aug 12 2020 Vít Ondruch <vondruch@redhat.com> - 4.0.1-1
+- Update to rspec-rails 4.0.1.
+  Resolves: rhbz#1812268
+  Resolves: rhbz#1863732
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

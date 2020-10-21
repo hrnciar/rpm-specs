@@ -1,7 +1,7 @@
 Summary:      Advanced drum machine for GNU/Linux
 Name:         hydrogen
 Version:      0.9.7
-Release:      12%{?dist}
+Release:      15%{?dist}
 URL:          http://www.hydrogen-music.org/
 Source0:      http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Patch0:       hydrogen-desktop.patch
@@ -14,15 +14,14 @@ BuildRequires: flac-devel
 BuildRequires: gcc
 BuildRequires: gcc-c++
 BuildRequires: jack-audio-connection-kit-devel
+BuildRequires: pulseaudio-libs-devel
 BuildRequires: ladspa-devel
-BuildRequires: lash-devel 
-BuildRequires: liblrdf-devel
 BuildRequires: libsndfile-devel
 BuildRequires: libtar-devel
-BuildRequires: portaudio-devel
-BuildRequires: portmidi-devel
+BuildRequires: libarchive-devel
 BuildRequires: qt4-devel
 BuildRequires: cmake
+BuildRequires: cppunit-devel
 
 %{?_qt4_version:Requires: qt4%{?_isa} >= %{_qt4_version}}
 
@@ -30,7 +29,7 @@ BuildRequires: cmake
 Hydrogen is an advanced drum machine for GNU/Linux. It's main goal is to bring 
 professional yet simple and intuitive pattern-based drum programming.
 
-# According tothe old  wasp home page
+# According to the old wasp home page
 # http://linux01.gwdg.de/~nlissne/wasp/index.html
 # wasp code is now maintained in hydrogen tree.
 %package -n ladspa-wasp-plugins
@@ -49,7 +48,7 @@ WASP is now part of the hydrogen drum machine.
 %package devel
 Summary:    Hydrogen header files
 License:    GPLv2+
-Requires:   hydrogen
+Requires:   %{name}%{_isa} = %{version}-%{release}
 Obsoletes:  devel <= 0.9.7-9
 
 %description devel
@@ -62,7 +61,7 @@ Header files for the hydrogen drum machine.
 %build
 export QTDIR=%{_qt4_prefix}
 %cmake . -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-make %{?_smp_mflags}
+%cmake_build
 
 ## Build the wasp plugins
 pushd src
@@ -74,8 +73,7 @@ popd
 
 %install
 export QTDIR=%{_qt4_prefix}
-make install DESTDIR=$RPM_BUILD_ROOT
-
+%cmake_install
 
 # install hydrogen.desktop properly.
 desktop-file-install \
@@ -106,7 +104,8 @@ mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
 mv $RPM_BUILD_ROOT/%{_prefix}/man/man1/hydrogen.1 $RPM_BUILD_ROOT%{_mandir}/man1/hydrogen.1
 
 %files
-%doc AUTHORS ChangeLog COPYING* README.txt
+%doc AUTHORS ChangeLog README.txt
+%license COPYING*
 %{_bindir}/hydrogen
 %{_bindir}/h2*
 %{_datadir}/hydrogen/
@@ -117,13 +116,25 @@ mv $RPM_BUILD_ROOT/%{_prefix}/man/man1/hydrogen.1 $RPM_BUILD_ROOT%{_mandir}/man1
 %{_datadir}/appdata/hydrogen.appdata.xml
 
 %files -n ladspa-wasp-plugins
-%doc src/plugins/wasp/AUTHORS src/plugins/wasp/ChangeLog src/plugins/wasp/LICENSE
+%doc src/plugins/wasp/AUTHORS src/plugins/wasp/ChangeLog
+%license src/plugins/wasp/LICENSE
 %{_libdir}/ladspa/libwasp*.so
 
 %files devel
 %{_includedir}/hydrogen/
 
 %changelog
+* Tue Aug 04 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.9.7-15
+- Fix FTBFS in Fedora rawhide/f33 (#1863864)
+- Some spec cleanup
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.7-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.7-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.7-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

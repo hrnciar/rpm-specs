@@ -1,7 +1,7 @@
 Summary:      LASH Audio Session Handler
 Name:         lash
 Version:      0.5.4
-Release:      41%{?dist}
+Release:      43%{?dist}
 License:      GPLv2+
 URL:          http://www.nongnu.org/lash/
 Source0:      http://download.savannah.gnu.org/releases/lash/lash-%{version}.tar.gz
@@ -68,12 +68,12 @@ sed -i 's|1.3.31|4.0.0|g' configure*
 
 %build
 CFLAGS="$RPM_OPT_FLAGS -D_GNU_SOURCE" %configure --disable-static --disable-serv-inst
-make %{?_smp_mflags}
+%make_build
 
 
 %install
 mkdir -p %{buildroot}%{_sysconfdir}
-make DESTDIR=%{buildroot} install
+%make_install
 rm -f %{buildroot}%{_infodir}/dir
 rm -f %{buildroot}%{_libdir}/liblash.la
 
@@ -140,6 +140,13 @@ fi
 %{_libdir}/liblash.so.1.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4-43
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Tom Stellard <tstellar@redhat.com> - 0.5.4-42
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4-41
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

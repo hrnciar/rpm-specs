@@ -3,7 +3,7 @@
 
 Name:		python-%{srcname}
 Version:	1.7.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Pytest plugin that provides access to test session metadata
 
 License:	MPLv2.0
@@ -56,6 +56,9 @@ python3 -m pytest -v -r a
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.0-3
 - Rebuilt for Python 3.9
 

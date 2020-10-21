@@ -1,7 +1,7 @@
 %global	gem_name	pdfkit
 
 Name:		rubygem-%{gem_name}
-Version:	0.8.4.2
+Version:	0.8.4.3.2
 Release:	1%{?dist}
 
 Summary:	HTML+CSS to PDF using wkhtmltopdf
@@ -109,6 +109,15 @@ popd
 %doc	%{gem_docdir}
 
 %changelog
+* Fri Aug 28 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 0.8.4.3.2-1
+- 0.8.4.3.2
+
+* Sun Aug  9 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 0.8.4.3.1-1
+- 0.8.4.3.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 19 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 0.8.4.2-1
 - 0.8.4.2
 

@@ -19,7 +19,7 @@ Name: iptables
 Summary: Tools for managing Linux kernel packet filtering capabilities
 URL: http://www.netfilter.org/projects/iptables
 Version: 1.8.5
-Release: 1%{?dist}
+Release: 3%{?dist}
 Source: %{url}/files/%{name}-%{version}.tar.bz2
 Source1: iptables.init
 Source2: iptables-config
@@ -34,6 +34,8 @@ Source8: 0002-extensions-format-security-fixes-in-libip-6-t_icmp.patch
 
 Patch1: 0001-build-resolve-iptables-apply-not-getting-installed.patch
 Patch2: 0002-xtables-translate-don-t-fail-if-help-was-requested.patch
+Patch3: 0003-nft-cache-Check-consistency-with-NFT_CL_FAKE-too.patch
+Patch4: 0004-nft-Fix-command-name-in-ip6tables-error-message.patch
 
 # pf.os: ISC license
 # iptables-apply: Artistic Licence 2.0
@@ -446,6 +448,13 @@ fi
 
 
 %changelog
+* Tue Aug 25 15:56:10 GMT 2020 Phil Sutter <psutter@redhat.com> - 1.8.5-3
+- nft: cache: Check consistency with NFT_CL_FAKE, too
+- nft: Fix command name in ip6tables error message
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Phil Sutter <psutter@redhat.com> - 1.8.5-1
 - Rebase onto upstream version 1.8.5 plus two late fixes
 - Drop explicit iptables-apply installation, upstream fixed that

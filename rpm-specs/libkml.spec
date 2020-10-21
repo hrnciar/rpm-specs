@@ -2,7 +2,7 @@
 
 Name:           libkml
 Version:        1.3.0
-Release:        26%{?dist}
+Release:        29%{?dist}
 Summary:        Reference implementation of OGC KML 2.2
 
 License:        BSD
@@ -84,7 +84,8 @@ developing applications that use %{name}.
 
 %prep
 %autosetup -p1
-cp -a %{SOURCE1} .
+mkdir -p %{__cmake_builddir}
+cp -a %{SOURCE1} %{__cmake_builddir}
 
 
 %build
@@ -97,22 +98,22 @@ cp -a %{SOURCE1} .
   -DPYTHON_INCLUDE_DIR=%{_includedir}/python%{python3_version}$(python3-config --abiflags)/ \
   -DPYTHON_INSTALL_DIR=%{python3_sitearch} \
   -DBUILD_TESTING=ON \
-  -DBUILD_EXAMPLES=ON \
-  .
+  -DBUILD_EXAMPLES=ON
 # Parallel build broken
-make
+%global _smp_mflags -j1
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %check
 # Ignore test failures on ppc64le, base_zip_file test segfaults there
 %ifarch ppc64le
-ctest -V || :
+%ctest || :
 %else
-ctest -V
+%ctest
 %endif
 
 
@@ -138,6 +139,12 @@ ctest -V
 %{_libdir}/cmake/%{name}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.3.0-27
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.0-26
 - Rebuilt for Python 3.9
 

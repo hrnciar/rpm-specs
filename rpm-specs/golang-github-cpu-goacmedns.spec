@@ -3,7 +3,7 @@
 
 # https://github.com/cpu/goacmedns
 %global goipath         github.com/cpu/goacmedns
-Version:                0.0.1
+Version:                0.0.3
 
 %gometa
 
@@ -15,7 +15,7 @@ storage.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        5%{?dist}
+Release:        2%{?dist}
 Summary:        Go library to handle acme-dns client communication
 
 License:        MIT
@@ -53,6 +53,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 19:23:59 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.0.3-1
+- Update to 0.0.3
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

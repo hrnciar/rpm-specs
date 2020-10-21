@@ -3,7 +3,7 @@
 
 Name:           xfce4-terminal
 Version:        0.8.9.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Terminal Emulator for the Xfce Desktop environment
 
 License:        GPLv2+
@@ -69,6 +69,9 @@ desktop-file-install                                       \
 %{_mandir}/man1/xfce4-terminal.1.*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.9.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 29 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.8.9.2-1
 - Update to 0.8.9.2
 

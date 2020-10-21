@@ -5,7 +5,7 @@
 %global crate rust_decimal
 
 Name:           rust-%{crate}
-Version:        1.6.0
+Version:        1.8.1
 Release:        1%{?dist}
 Summary:        Decimal Implementation written in pure Rust suitable for financial calculations
 
@@ -77,6 +77,42 @@ which use "bytes" feature of "%{crate}" crate.
 %files       -n %{name}+bytes-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+db-diesel-postgres-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+db-diesel-postgres-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "db-diesel-postgres" feature of "%{crate}" crate.
+
+%files       -n %{name}+db-diesel-postgres-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+db-postgres-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+db-postgres-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "db-postgres" feature of "%{crate}" crate.
+
+%files       -n %{name}+db-postgres-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+db-tokio-postgres-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+db-tokio-postgres-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "db-tokio-postgres" feature of "%{crate}" crate.
+
+%files       -n %{name}+db-tokio-postgres-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+diesel-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -113,6 +149,18 @@ which use "serde" feature of "%{crate}" crate.
 %files       -n %{name}+serde-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+serde-bincode-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+serde-bincode-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "serde-bincode" feature of "%{crate}" crate.
+
+%files       -n %{name}+serde-bincode-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+serde-float-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -123,6 +171,18 @@ This package contains library source intended for building other packages
 which use "serde-float" feature of "%{crate}" crate.
 
 %files       -n %{name}+serde-float-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+std-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+std-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "std" feature of "%{crate}" crate.
+
+%files       -n %{name}+std-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %package     -n %{name}+tokio-pg-devel
@@ -168,6 +228,15 @@ which use "tokio-postgres" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Sep 23 2020 Fabio Valentini <decathorpe@gmail.com> - 1.8.1-1
+- Update to version 1.8.1.
+
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 1.7.0-1
+- Update to 1.7.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 20 09:07:19 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.6.0-1
 - Update to 1.6.0
 

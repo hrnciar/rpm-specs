@@ -1,6 +1,6 @@
 Name:           ksensors
 Version:        0.7.3
-Release:        45%{?dist}
+Release:        46%{?dist}
 Summary:        KDE frontend to lm_sensors
 License:        GPLv2+
 URL:            http://ksensors.sourceforge.net/
@@ -76,6 +76,9 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/HTML
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.3-46
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.3-45
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

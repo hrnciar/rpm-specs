@@ -41,7 +41,7 @@
 Summary: Fast User Level LOCK (FULLOCK) library for C/C++
 Name: libfullock
 Version: 1.0.36
-Release: %{package_revision}%{?dist}.2
+Release: %{package_revision}%{?dist}.4
 License: MIT
 
 URL: https://github.com/yahoojapan/fullock
@@ -131,6 +131,13 @@ This package has header files and symbols for it.
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.36-1.4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.36-1.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.36-1.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

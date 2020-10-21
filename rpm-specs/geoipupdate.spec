@@ -7,7 +7,7 @@ Version:	4.3.0
 %gometa
 
 Name:		geoipupdate
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Update GeoIP2 binary databases from MaxMind
 
 License:	ASL 2.0 or MIT
@@ -106,6 +106,9 @@ install -p -m 0644 _build/GeoIP.conf.5 %{buildroot}%{_mandir}/man5/GeoIP.conf.5
 %config(noreplace) %{_sysconfdir}/cron.weekly/geoipupdate
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 17 2020 Paul Howarth <paul@city-fan.org> - 4.3.0-1
 - Update to 4.3.0
   - First release to Docker Hub (GH#24)

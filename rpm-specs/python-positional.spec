@@ -3,7 +3,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.1.1
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Library to enforce positional or keyword arguments
 
 License:        ASL 2.0
@@ -67,6 +67,9 @@ rm -rf html/.{doctrees,buildinfo}
 %doc html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.1-16
 - Rebuilt for Python 3.9
 

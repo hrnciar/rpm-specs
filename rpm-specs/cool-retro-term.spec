@@ -1,15 +1,17 @@
 Name:    cool-retro-term
-Version: 1.1.1
-Release: 4%{?dist}
 Summary: Terminal emulator mimicking a CRT display
 License: GPLv3+
+
+Version: 1.1.1
+Release: 6%{?dist}
 
 URL: https://github.com/Swordfish90/%{name}
 Source0: %{URL}/archive/%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires: qt5-devel
 BuildRequires: desktop-file-utils
 BuildRequires: libappstream-glib
+BuildRequires: qt5-qtbase-devel
+BuildRequires: qt5-qtdeclarative-devel
 
 Requires: hicolor-icon-theme
 Requires: qt5-qtbase
@@ -73,6 +75,12 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/%{name}.a
 
 
 %changelog
+* Tue Jul 28 2020 Artur Iwicki <fedora@svgames.pl> - 1.1.1-6
+- Don't BuildRequire the qt5-devel metapackage, properly list individual packages
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

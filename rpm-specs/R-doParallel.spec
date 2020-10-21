@@ -1,4 +1,5 @@
-%global packname  doParallel
+%global packname doParallel
+%global packver  1.0.16
 %global rlibdir  %{_datadir}/R/library
 
 %global __suggests_exclude ^R\\((caret)\\)
@@ -7,13 +8,13 @@
 %global with_suggests 0
 
 Name:             R-%{packname}
-Version:          1.0.15
-Release:          3%{?dist}
+Version:          1.0.16
+Release:          1%{?dist}
 Summary:          Foreach Parallel Adaptor for the 'parallel' Package
 
 License:          GPLv2
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:   R-foreach >= 1.2.0, R-iterators >= 1.0.0, R-parallel, R-utils
@@ -80,6 +81,12 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 
 
 %changelog
+* Fri Oct 16 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.0.16-1
+- Update to latest version (#1888899)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.15-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.0.15-3
 - rebuild for R 4
 

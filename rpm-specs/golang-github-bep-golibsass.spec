@@ -19,7 +19,7 @@ to provide SCSS support to Hugo.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Easy to use Go bindings for LibSass
 
 License:        MIT
@@ -54,6 +54,9 @@ rm internal/libsass/a__cgo_dev.go
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 02 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.7.0-1
 - Update to latest version
 

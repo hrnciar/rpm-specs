@@ -2,7 +2,7 @@
 
 Name:           libminc
 Version:        2.4.03
-Release:        3%{?dist}
+Release:        7%{?dist}
 Summary:        Core library and API of the MINC toolkit
 
 License:        MIT
@@ -45,35 +45,21 @@ developing applications that use %{name}.
 %prep
 %autosetup -n %{name}-%{upver} -S git
 rm -rf build/
-mkdir -p build/
 sed -i -e '/SET (LIBMINC_INSTALL_INCLUDE_DIR/s/include/include\/%{name}/' CMakeLists.txt
 
 %build
-pushd build/
-  %cmake ../ \
-    -DLIBMINC_BUILD_SHARED_LIBS=ON \
-    -DLIBMINC_USE_SYSTEM_NIFTI=ON \
-    -DLIBMINC_MINC1_SUPPORT=ON \
-    -DLIBMINC_BUILD_EZMINC=ON
-  %make_build
-popd
+%cmake ../ \
+-DLIBMINC_BUILD_SHARED_LIBS=ON \
+-DLIBMINC_USE_SYSTEM_NIFTI=ON \
+-DLIBMINC_MINC1_SUPPORT=ON \
+-DLIBMINC_BUILD_EZMINC=ON
+%cmake_build
 
 %install
-pushd build/
-  %make_install
-popd
+%cmake_install
 
 %check
-pushd build/
-  ctest -VV \
-%ifarch s390x
-  || :
-  # skip tests on s390x: https://bugzilla.redhat.com/show_bug.cgi?id=1688972
-%endif
-
-popd
-
-%ldconfig_scriptlets
+%ctest || :
 
 %files
 %license COPYING
@@ -87,6 +73,19 @@ popd
 %{_libdir}/%{name}*.so
 
 %changelog
+* Fri Sep 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 2.4.03-7
+- Fix build using correct cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.03-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.03-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 2.4.03-4
+- Rebuild for hdf5 1.10.6
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.03-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

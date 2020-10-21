@@ -3,7 +3,7 @@
 
 Name:           sat4j
 Version:        2.3.5
-Release:        18%{?dist}
+Release:        20%{?dist}
 Summary:        A library of SAT solvers written in Java
 
 License:        EPL-1.0 or LGPLv2
@@ -46,6 +46,12 @@ ant -Dbuild.compiler=modern -Drelease=%{version} \
 # No %%doc files as the about.html is in the jar
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.5-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 2.3.5-19
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jun 18 2020 Mat Booth <mat.booth@redhat.com> - 2.3.5-18
 - Allow building on Java 11
 

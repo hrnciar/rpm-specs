@@ -2,16 +2,16 @@
 
 Name:           gnucobol
 Version:        3.1
-Release:        3%{?dist}
+Release:        7.rc1%{?dist}.2
 Summary:        COBOL compiler
 
-License:        GPLv2+ and LGPLv2+
+License:        GPLv3+ and LGPLv3+ and GFDL
 
-URL:            http://www.opencobol.org
-#Source0:        http://downloads.sourceforge.net/open-cobol/%{name}/%{name}-%{cobvers}.tar.gz
-# https://svn.code.sf.net/p/open-cobol/code/trunk - r3645 - 3.1 prerelease
-Source0:        gnucobol.tar.gz
-ExcludeArch:    ppc64le
+URL:            https://www.gnu.org/software/gnucobol/
+Source0:        https://alpha.gnu.org/gnu/gnucobol/gnucobol-%{version}-rc1.tar.gz
+Source1:        https://alpha.gnu.org/gnu/gnucobol/gnucobol-%{version}-rc1.tar.gz.sig
+Source2:        https://ftp.gnu.org/gnu/gnu-keyring.gpg
+Source3:        https://www.itl.nist.gov/div897/ctg/suites/newcob.val.Z
 
 BuildRequires:  gcc
 BuildRequires:  gmp-devel
@@ -23,6 +23,12 @@ BuildRequires:  bison
 BuildRequires:  flex
 BuildRequires:  help2man
 BuildRequires:  texinfo
+BuildRequires:  gettext
+BuildRequires:  gnupg2
+BuildRequires:  perl-interpreter
+BuildRequires:  libxml2-devel
+# For rc2
+#BuildRequires:  json-c-devel
 
 Requires:       gcc
 Requires:       glibc-devel
@@ -35,18 +41,19 @@ programs to C code and compiles them using GCC.
 
 %package -n libcob
 Summary:        GnuCOBOL runtime library
+License:        LGPLv3+
 
 %description -n libcob
 %{summary}.
 Runtime libraries for GnuCOBOL
 
 %prep
-#%%autosetup -n %%{name}-%%{cobvers}-dev
-%autosetup -nopen-cobol-code
+%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
+%autosetup -n%{name}-%{version}-rc1
+cp %{SOURCE3} tests/cobol85/
 
 %build
-./autogen.sh
-%configure
+%configure --with-db --with-libxml2 --with-curses=ncursesw
 
 %make_build
 
@@ -58,20 +65,19 @@ make install DESTDIR=%{buildroot}
 find %{buildroot}/%{_libdir} -type f -name "*.*a" -exec rm -f {} ';'
 rm -rf %{buildroot}/%{_infodir}/dir
 
-#%%find_lang %{name}
+%find_lang %{name}
 
 %check
-make check CLFAGS="%optflags -O"
+(make check CFLAGS="%optflags -O" || make check TESTSUITEFLAGS="--recheck --verbose" || echo "Warning, unexpected results")
+make test CFLAGS="%optflags -O"
 
-#%%files -f %%{name}.lang
-%files
-%license COPYING.DOC
+%files -f %%{name}.lang
+%license COPYING.DOC COPYING
 %doc AUTHORS ChangeLog
 %doc NEWS README THANKS
 %{_bindir}/cobc
 %{_bindir}/cob-config
 %{_bindir}/cobcrun
-%{_bindir}/gcdiff
 %{_includedir}/*
 %{_libdir}/%{name}
 %{_libdir}/libcob.so
@@ -84,10 +90,29 @@ make check CLFAGS="%optflags -O"
 
 %files -n libcob
 %license COPYING.LESSER
-%{_libdir}/libcob.so.5*
+%{_libdir}/libcob.so.4*
 %{_libdir}/gnucobol/CBL_OC_DUMP.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-7.rc1.2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-7.rc1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.1-7.rc1
+- Re-add libxml2, specify optional flags.
+
+* Wed Jul 22 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.1-6.rc1
+- License, BuildRequire tweaks.
+
+* Fri Jul 03 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.1-5.rc1
+- Enable ppc64le, NIST tests.
+
+* Thu Jul 02 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.1-4.rc1
+- 3.1 rc1
+
 * Wed Jun 24 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.1-3
 - Review fixes.
 

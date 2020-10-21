@@ -1,6 +1,6 @@
 Name: catdoc
 Version: 0.95
-Release: 8%{?dist}
+Release: 9%{?dist}
 Summary: A program which converts Microsoft office files to plain text
 License: GPL+
 URL: http://www.wagner.pp.ru/~vitus/software/catdoc/
@@ -45,6 +45,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %doc README NEWS
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.95-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.95-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

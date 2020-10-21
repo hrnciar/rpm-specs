@@ -1,6 +1,6 @@
 Name:           perl-RDF-TriN3
 Version:        0.206
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        Notation 3 extensions for RDF::Trine
 # CONTRIBUTING: CC-BY-SA
 # other fiels:  GPL+ or Artistic
@@ -83,6 +83,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.206-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.206-12
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.206-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

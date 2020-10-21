@@ -2,6 +2,7 @@
 
 %global pkgname python3
 %global py_ver 3.9
+%global py_ver_nodots 39
 %global mingw32_py3_libdir       %{mingw32_libdir}/python%{py_ver}
 %global mingw64_py3_libdir       %{mingw64_libdir}/python%{py_ver}
 %global mingw32_py3_hostlibdir   %{_prefix}/%{mingw32_target}/lib/python%{py_ver}
@@ -16,11 +17,11 @@
 # byte-compiled.
 %global _python_bytecompile_errors_terminate_build 0
 
-%global pre b3
+#global pre rc2
 
 Name:          mingw-%{pkgname}
 Version:       3.9.0
-Release:       0.5%{?pre:.%pre}%{?dist}
+Release:       1%{?pre:.%pre}%{?dist}
 Summary:       MinGW Windows %{pkgname}
 
 BuildArch:     noarch
@@ -162,13 +163,14 @@ export MINGW64_MAKE_ARGS="WINDRES=%{mingw64_target}-windres LD=%{mingw64_target}
 export MINGW32_CFLAGS="%mingw32_cflags -D_GNU_SOURCE -D__USE_MINGW_ANSI_STDIO=1 -D_WIN32_WINNT=0x0601"
 export MINGW64_CFLAGS="%mingw64_cflags -D_GNU_SOURCE -D__USE_MINGW_ANSI_STDIO=1 -D_WIN32_WINNT=0x0601"
 
-
+# TODO Drop --with-ensurepip again (broken with python3.9-beta4?)
 MSYSTEM=MINGW %mingw_configure \
 --enable-shared \
 --with-system-expat \
---with-system-ffi
+--with-system-ffi \
+--with-ensurepip=no
 
-%mingw_make %{?_smp_mflags}
+%mingw_make_build
 
 # Abort build if not explicitly disabled modules failed to build
 if [ -e build_win32/mods_failed.txt ]; then
@@ -185,8 +187,7 @@ fi
 
 
 %install
-%mingw32_make -C build_win32 DESTDIR=%{buildroot} install
-%mingw64_make -C build_win64 DESTDIR=%{buildroot} install
+%mingw_make_install
 
 # Link import library to libdir
 ln -s %{mingw32_py3_libdir}/config-%{py_ver}/libpython%{py_ver}.dll.a %{buildroot}%{mingw32_libdir}/libpython%{py_ver}.dll.a
@@ -285,11 +286,13 @@ cat > %{buildroot}%{_rpmconfigdir}/macros.d/macros.mingw32-python3 <<EOF
 %%mingw32_python3 %{_prefix}/%{mingw32_target}/bin/python3
 %%mingw32_python3_sitearch %{mingw32_python3_sitearch}
 %%mingw32_python3_version %{py_ver}
+%%mingw32_python3_version_nodots %{py_ver_nodots}
 EOF
 cat > %{buildroot}%{_rpmconfigdir}/macros.d/macros.mingw64-python3 <<EOF
 %%mingw64_python3 %{_prefix}/%{mingw64_target}/bin/python3
 %%mingw64_python3_sitearch %{mingw64_python3_sitearch}
 %%mingw64_python3_version %{py_ver}
+%%mingw64_python3_version_nodots %{py_ver_nodots}
 EOF
 
 # TODO: These cause unsatisfyable requires on msvcr71.dll
@@ -355,6 +358,30 @@ find %{buildroot}%{mingw64_prefix} | grep -E '.(exe|dll|pyd)$' | sed 's|^%{build
 
 
 %changelog
+* Tue Oct 06 2020 Sandro Mani <manisandro@gmail.com> - 3.9.0-1
+- Update to 3.9.0
+
+* Fri Sep 18 2020 Sandro Mani <manisandro@gmail.com> - 3.9.0-0.12-rc2
+- Update to 3.9.0-rc2
+
+* Wed Aug 12 2020 Sandro Mani <manisandro@gmail.com> - 3.9.0-0.11.rc1
+- Update to 3.9.0-rc1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.0-0.10.b5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Sandro Mani <manisandro@gmail.com> - 3.9.0-0.9.b5
+- Update to 3.9.0-beta5
+
+* Tue Jul 14 2020 Sandro Mani <manisandro@gmail.com> - 3.9.0-0.8.b4
+- Backport patch for CVE-2019-20907
+
+* Sun Jul 12 2020 Sandro Mani <manisandro@gmail.com> - 3.9.0-0.7.b4
+- Update to 3.9.0-beta4
+
+* Wed Jun 24 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.9.0-0.6.b3
+- Add mingw32/64_python3_version_nodots
+
 * Thu Jun 11 2020 Sandro Mani <manisandro@gmail.com> - 3.9.0-0.5.b3
 - Update to 3.9.0-beta3
 - Set PYTHONPLATLIBDIR=lib

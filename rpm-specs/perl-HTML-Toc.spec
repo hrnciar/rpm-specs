@@ -1,6 +1,6 @@
 Name:           perl-HTML-Toc
 Version:        1.12
-Release:        31%{?dist}
+Release:        32%{?dist}
 Summary:        Generate, insert and update HTML Table of Contents
 License:        GPL+ or Artistic
 
@@ -60,6 +60,9 @@ make test
 %{_mandir}/man3/HTML*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.12-31
 - Perl 5.32 rebuild
 

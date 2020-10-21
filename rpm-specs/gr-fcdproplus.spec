@@ -1,13 +1,13 @@
-%global git_commit f1154db33e7c22ff6456cf3385586832fff413f0
-%global git_date 20191111
+%global git_commit 06069c2e201aa2aa1d9da3a52f747952e43d3268
+%global git_date 20200807
 
 %global git_short_commit %(echo %{git_commit} | cut -c -8)
 %global git_suffix %{git_date}git%{git_short_commit}
 
 Name:             gr-fcdproplus
 URL:              https://github.com/dl1ksv/gr-fcdproplus
-Version:          3.7.2
-Release:          5.%{git_suffix}%{?dist}
+Version:          3.8.0
+Release:          3.%{git_suffix}%{?dist}
 License:          GPLv3+
 BuildRequires:    cmake, gcc-c++, gnuradio-devel, dos2unix, hidapi-devel
 BuildRequires:    doxygen, graphviz, swig, alsa-lib-devel, libusbx-devel
@@ -16,6 +16,8 @@ BuildRequires:    portaudio-devel, gmp-devel, orc-devel
 Summary:          GNURadio support for FUNcube Dongle Pro+
 Source0:          https://github.com/dl1ksv/%{name}/archive/%{git_commit}/%{name}-%{git_commit}.tar.gz
 Source1:          10-fcdproplus.rules
+# https://github.com/dl1ksv/gr-fcdproplus/pull/20
+Patch0:           gr-fcdproplus-3.8.0-boost-fix.patch
 
 %description
 GNURadio support for FUNcube Dongle Pro+.
@@ -37,22 +39,19 @@ Requires:         %{name} = %{version}-%{release}
 Documentation files for gr-fcdproplus.
 
 %prep
-%setup -qn %{name}-%{git_commit}
+%autosetup -p1 -n %{name}-%{git_commit}
 
 # Unbundle hidapi
 rm -rf lib/hid
 
 %build
-mkdir build
-cd build
 # used -Wl,--as-needed to fix unused-direct-shlib-dependency rpmlint warning
 export LDFLAGS="-Wl,--as-needed %{?__global_ldflags}"
-%cmake -DENABLE_DOXYGEN=on -DGR_PKG_DOC_DIR=%{_docdir}/%{name} ..
-make %{?_smp_mflags}
+%cmake -DENABLE_DOXYGEN=on -DGR_PKG_DOC_DIR=%{_docdir}/%{name}
+%cmake_build
 
 %install
-cd build
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 # udev rule
 install -Dpm 0644 %{S:1} %{buildroot}%{_prefix}/lib/udev/rules.d/10-fcdproplus.rules
@@ -87,6 +86,24 @@ exit 0
 %doc %{_docdir}/%{name}/xml
 
 %changelog
+* Mon Aug 24 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 3.8.0-3.20200807git06069c2e
+- Rebuilt for new gnuradio
+
+* Fri Aug  7 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 3.8.0-2.20200807git06069c2e
+- Added udev rule for FUNcube Dongle Pro
+
+* Thu Aug  6 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 3.8.0-1.20200807git06069c2e
+- New version
+- Fixed FTBFS
+  Resolves: rhbz#1863818
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.2-7.20191111gitf1154db3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.2-6.20191111gitf1154db3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.7.2-5.20191111gitf1154db3
 - Rebuilt for Python 3.9
 

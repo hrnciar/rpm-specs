@@ -2,7 +2,7 @@
 
 Name: jwhois
 Version: 4.0
-Release: 62%{?dist}
+Release: 63%{?dist}
 URL: http://www.gnu.org/software/jwhois/
 Source0: ftp://ftp.gnu.org/gnu/jwhois/jwhois-%{version}.tar.gz
 Source1: https://raw.githubusercontent.com/robert-scheck/jwhois/2bd561e06ca37cf6c2ef9f0a2e957e09f58e6972/example/jwhois.conf
@@ -129,6 +129,9 @@ if [ $1 = 0 ]; then
 fi
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0-63
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0-62
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

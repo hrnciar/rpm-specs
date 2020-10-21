@@ -2,7 +2,7 @@ Name:           python-kmod
 License:        LGPLv2+
 Summary:        Python module to work with kernel modules
 Version:        0.9
-Release:        28%{?dist}
+Release:        29%{?dist}
 URL:            https://github.com/agrover/python-kmod/
 Source0:        https://github.com/downloads/agrover/%{name}/%{name}-%{version}.tar.gz
 BuildRequires:  gcc
@@ -39,6 +39,9 @@ Linux kernel modules, using libkmod.
 %doc COPYING.LESSER README
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9-28
 - Rebuilt for Python 3.9
 

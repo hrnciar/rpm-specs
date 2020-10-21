@@ -1,6 +1,6 @@
 Name:     inih
 Version:  49
-Release:  1%{?dist}
+Release:  2%{?dist}
 Summary:  Simple INI file parser library
 
 License:  BSD
@@ -58,6 +58,9 @@ embedded systems.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 49-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Christian Kellner <ckellner@redhat.com> - 49-1
 - New upstream release 49
 - Switch to meson build system.

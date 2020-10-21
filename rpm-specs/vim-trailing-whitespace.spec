@@ -4,7 +4,7 @@
 
 Name:           vim-trailing-whitespace
 Version:        1.0
-Release:        1.%{date}git%{shortcommit}%{?dist}
+Release:        2.%{date}git%{shortcommit}%{?dist}
 Summary:        Highlights trailing whitespace in red and provides :FixWhitespace to fix it
 
 License:        CC-BY-SA
@@ -47,6 +47,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-2.20191209git6b7cdec
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.0-1.20191209git6b7cdec
 - Update to latest git snapshot
 

@@ -25,7 +25,7 @@ wsproto supports Python 2.7 and 3.5 or higher.}
 
 Name:           python-%{pkgname}
 Version:        0.14.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        WebSockets state-machine based protocol implementation
 License:        MIT
 URL:            https://github.com/python-hyper/wsproto
@@ -79,6 +79,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} --verbose t
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.14.1-6
 - Rebuilt for Python 3.9
 

@@ -2,7 +2,7 @@
 
 Name: mgarepo
 Version: 1.13.2
-Release: 14%{?dist}
+Release: 16%{?dist}
 Summary: Tools for Mageia repository access and management
 # tarball needs to be created manually, since tags don't generate releases
 # git clone git://git.mageia.org/software/build-system/mgarepo; cd mgarepo; git reset --hard %{version} && make dist
@@ -15,6 +15,7 @@ Patch1000: 0001-buildrpm-Always-use-DNF.patch
 License: GPLv2+
 URL: http://gitweb.mageia.org/software/build-system/mgarepo/
 BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 Requires: subversion
 Requires: openssh-clients
 Requires: python3-rpm
@@ -75,6 +76,12 @@ sed -e "s/rpm-python/rpm/" -i setup.py
 
 
 %changelog
+* Mon Oct 05 2020 Neal Gompa <ngompa13@gmail.com> - 1.13.2-16
+- Add BR python3-setuptools
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.13.2-14
 - Rebuilt for Python 3.9
 

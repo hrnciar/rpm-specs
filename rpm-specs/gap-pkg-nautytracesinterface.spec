@@ -1,6 +1,6 @@
 # There have been no official releases yet, so we pull from git
-%global gitdate  20200501
-%global gittag   052eba523df3bd35296b86d10efb79c8cabd4a07
+%global gitdate  20200603
+%global gittag   f0941ece85b94d65aadb4c1fa40aea58c772f345
 %global shorttag %(cut -b -7 <<< %{gittag})
 %global user     gap-packages
 %global pkgname  nautytracesinterface
@@ -15,7 +15,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        0.2
-Release:        14.%{gitdate}git%{shorttag}%{?dist}
+Release:        16.%{gitdate}git%{shorttag}%{?dist}
 Summary:        GAP interface to nauty and Traces
 
 License:        GPLv2+
@@ -57,25 +57,17 @@ rm -fr nauty*
 # Generate the configure script
 autoreconf -fi
 
-# Adapt to a change in the digraphs package
-sed -i 's/digraph/immutable &/' tst/test.tst
-
 %build
 export LC_ALL=C.UTF-8
 %configure --with-gaproot=%{_gap_dir} --with-nauty=%{_includedir}/nauty \
   --disable-silent-rules
-
-# Get rid of undesirable hardcoded rpaths
-sed -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
-    -e 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' \
-    -i libtool
-
 %make_build
 
 %install
 # make install doesn't put ANYTHING where it is supposed to go, so...
 mkdir -p %{buildroot}%{_gap_dir}/pkg/%{pkgname}
 cp -a bin examples gap tst *.g %{buildroot}%{_gap_dir}/pkg/%{pkgname}
+rm -fr %{buildroot}%{_gap_dir}/pkg/%{pkgname}/bin/*/{.libs,*.la}
 
 %if %{without bootstrap}
 %check
@@ -94,8 +86,14 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}/examples/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-16.20200603gitf0941ec
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  1 2020 Jerry James <loganjerry@gmail.com> - 0.2-15.20200603gitf0941ec
+- Update to latest git snapshot due to digraphs changes
+
 * Tue Jun  2 2020 Jerry James <loganjerry@gmail.com> - 0.2-14.20200501git052eba5
-- Update to latet git snapshot for further improvements
+- Update to latest git snapshot for further improvements
 
 * Wed Mar 11 2020 Jerry James <loganjerry@gmail.com> - 0.2-13.20191001git524c784
 - Rebuild for gap 4.11.0

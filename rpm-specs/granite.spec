@@ -5,8 +5,8 @@ apps built for elementary.}
 
 Name:           granite
 Summary:        elementary companion library for GTK+ and GLib
-Version:        5.4.0
-Release:        1%{?dist}
+Version:        5.5.0
+Release:        2%{?dist}
 License:        LGPLv3+
 
 URL:            https://github.com/elementary/%{name}
@@ -97,6 +97,12 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Fabio Valentini <decathorpe@gmail.com> - 5.5.0-1
+- Update to version 5.5.0.
+
 * Thu Apr 30 2020 Fabio Valentini <decathorpe@gmail.com> - 5.4.0-1
 - Update to version 5.4.0.
 

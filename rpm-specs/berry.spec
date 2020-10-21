@@ -1,6 +1,6 @@
 Name:           berry
 Version:        1.0.0
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Modern and light image viewer
 
 # The entire source code is GPLv3+
@@ -86,6 +86,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/%{name}.a
 %dir %{_datadir}/%{name}/files/translations
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

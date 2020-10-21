@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          %{packver}
-Release:          10%{?dist}
+Release:          11%{?dist}
 Source0:          ftp://cran.r-project.org/pub/R/contrib/main/%{packname}_%{packver}.tar.gz
 License:          LGPLv3
 URL:              http://cran.r-project.org/web/packages/%{packname}/index.html
@@ -43,6 +43,9 @@ export _R_CHECK_FORCE_SUGGESTS_=0
 %{_datadir}/R/library/%{packname}/R
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.3-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.4.3-10
 - rebuild for R 4
 

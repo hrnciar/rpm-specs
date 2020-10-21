@@ -7,7 +7,7 @@
 
 Name:    fedora-developer-portal
 Version: 1.0.0
-Release: 0.8.git%{shortcommit}%{?dist}
+Release: 0.9.git%{shortcommit}%{?dist}
 Summary: Fedora Developer Portal
 BuildArchitectures: noarch
 License: GPLv2+
@@ -136,6 +136,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/fedora-developer-port
 %{_datadir}/pixmaps/fedora-developer-portal.png
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-0.9.git7fc490c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 1.0.0-0.8.git7fc490c
 - Don't advertise support for editing text files (mcatanzaro)
 

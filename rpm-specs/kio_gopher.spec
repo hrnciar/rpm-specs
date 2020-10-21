@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:           kio_gopher
 Version:        0.1.99
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Gopher KIO slave
 
 License:        GPLv2+
@@ -32,16 +34,12 @@ application.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang kio5_gopher --all-name --with-html
 
@@ -52,6 +50,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.99-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.99-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,5 +1,5 @@
 Name:           libinsane
-Version:        1.0.4
+Version:        1.0.8
 Release:        1%{?dist}
 Summary:        Cross-platform access to image scanners
 
@@ -76,7 +76,7 @@ Vala bindings for libinsane.
 %build
 %meson
 %meson_build
-%meson_build subprojects/libinsane/doc/doc_out
+%meson_build doc
 
 
 %install
@@ -84,7 +84,7 @@ Vala bindings for libinsane.
 
 
 %check
-%meson_test -v
+%meson_test -v -t 5
 
 
 %files
@@ -118,6 +118,22 @@ Vala bindings for libinsane.
 
 
 %changelog
+* Sat Oct 10 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.0.8-1
+- Update to latest version (#1886948)
+
+* Tue Sep 01 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.0.7-1
+- Update to latest version (#1873874)
+
+* Mon Aug 31 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.0.6-1
+- Update to latest version (#1873874)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 17 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.0.4-1
 - Update to latest version
 

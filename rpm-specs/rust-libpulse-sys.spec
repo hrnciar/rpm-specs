@@ -5,7 +5,7 @@
 %global crate libpulse-sys
 
 Name:           rust-%{crate}
-Version:        1.13.1
+Version:        1.13.2
 Release:        1%{?dist}
 Summary:        Rust language linking library for the PulseAudio libpulse library
 
@@ -177,6 +177,12 @@ echo 'pkgconfig(libpulse) >= 4.0'
 %endif
 
 %changelog
+* Fri Sep 11 2020 Josh Stone <jistone@redhat.com> - 1.13.2-1
+- Update to 1.13.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Josh Stone <jistone@redhat.com> - 1.13.1-1
 - Update to 1.13.1
 

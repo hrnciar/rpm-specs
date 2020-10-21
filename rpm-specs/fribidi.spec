@@ -1,7 +1,7 @@
 Summary: Library implementing the Unicode Bidirectional Algorithm
 Name: fribidi
-Version: 1.0.9
-Release: 1%{?dist}
+Version: 1.0.10
+Release: 3%{?dist}
 URL: https://github.com/fribidi/fribidi/
 Source: https://github.com/%{name}/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.xz
 License: LGPLv2+ and UCD
@@ -11,7 +11,7 @@ BuildRequires: automake autoconf libtool
 %else
 BuildRequires: meson
 %endif
-Patch0: %{name}-drop-bundled-gnulib.patch
+Patch0: fribidi-drop-bundled-gnulib.patch
 
 %description
 A library to handle bidirectional scripts (for example Hebrew, Arabic),
@@ -83,6 +83,16 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 #%%{_mandir}/man3/*.gz
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul  7 2020 Akira TAGOH <tagoh@redhat.com> - 1.0.10-2
+- Update the patch to drop bundled gnulib.
+
+* Mon Jul  6 2020 Akira TAGOH <tagoh@redhat.com> - 1.0.10-1
+- New upstream release.
+  Resolves: rhbz#1853939
+
 * Thu Mar 05 2020 Akira TAGOH <tagoh@redhat.com> - 1.0.9-1
 - New upstream release.
   Resolves: rhbz#1809478

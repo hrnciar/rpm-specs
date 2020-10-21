@@ -1,5 +1,5 @@
 %if 0%{?fedora} >= 22
-%global luaver 5.3
+%global luaver 5.4
 %global luacompatver 5.1
 %global luacompatlibdir %{_libdir}/lua/%{luacompatver}
 %global luacompatpkgdir %{_datadir}/lua/%{luacompatver}
@@ -21,7 +21,7 @@
 
 Name:           lua-ldap
 Version:        1.1.0
-Release:        15%{?dist}
+Release:        18%{?dist}
 Summary:        LDAP client library for Lua, using OpenLDAP
 License:        MIT
 URL:            http://www.keplerproject.org/lualdap/
@@ -36,6 +36,8 @@ Patch2:         fix-attempt-to-concatenate-a-nil-value.patch
 # https://github.com/luaforge/lualdap/pull/2
 Patch3:         0001-update-test.lua-for-5.2.patch
 Patch4:         0002-script-to-run-test.lua-against-a-dummy-slapd.patch
+# Fixup for Lua 5.4
+Patch5:         lualdap-1.1.0-lua54.patch
 %if 0%{?fedora} >= 16 || 0%{?rhel} >= 7
 Requires:       lua(abi) = %{luaver}
 %else
@@ -76,6 +78,7 @@ program to:
 %patch2 -p1
 %patch3 -p2
 %patch4 -p2
+%patch5 -p1
 chmod a+x tests/run-tests.sh
 # LUA_VERSION_NUM is defined in lua.h, it shouldn't be set in config
 echo "LUA_VERSION_NUM = " >>config
@@ -124,6 +127,15 @@ popd
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Tom Callaway <spot@fedoraproject.org> - 1.1.0-17
+- fix for lua 5.4
+
+* Tue Jun 30 2020 Björn Esser <besser82@fedoraproject.org> - 1.1.0-16
+- Rebuilt for Lua 5.4
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

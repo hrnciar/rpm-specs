@@ -1,4 +1,3 @@
-
 # include qt5,qt5-devel metapackages or not
 # dropped for f32+
 %if 0%{?fedora} < 32
@@ -6,8 +5,8 @@
 %endif
 
 Name: qt5
-Version: 5.14.2
-Release: 3%{?dist}
+Version: 5.15.1
+Release: 1%{?dist}
 Summary: Qt5 meta package
 License: GPLv3
 URL: https://getfedora.org/
@@ -82,10 +81,10 @@ Requires: qt5-qtxmlpatterns-devel
 %package rpm-macros
 Summary: RPM macros for building Qt5 and KDE Frameworks 5 packages
 Conflicts: qt5-qtbase-devel < 5.6.0-0.23
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel} >= 8
 Requires: cmake >= 3
 %endif
-%if 0%{?epel}
+%if 0%{?rhel} && 0%{?rhel} < 8
 Requires: cmake3
 %endif
 Requires: gcc-c++
@@ -142,6 +141,15 @@ echo "- Qt5 devel meta package" > %{buildroot}%{_docdir}/qt5-devel/README
 
 
 %changelog
+* Thu Sep 10 2020 Jan Grulich <jgrulich@redhat.com> - 5.15.1-1
+- 5.15.1
+
+* Wed Aug 19 2020 Troy Dawson <tdawson@redhat.com> - 5.14.2-5
+- fix rpm-macros for RHEL builds
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.14.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.14.2-3
 - drop qt5,qt5-devel metapackages f32+
 

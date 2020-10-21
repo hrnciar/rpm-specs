@@ -60,7 +60,7 @@ Summary: Spam filter for email which can be invoked from mail delivery agents
 Name: spamassassin
 Version: 3.4.4
 #Release: 0.8.%%{prerev}%%{?dist}
-Release: 4%{?dist}
+Release: 6%{?dist}
 License: ASL 2.0
 URL: https://spamassassin.apache.org/
 Source0: https://www.apache.org/dist/%{name}/source/%{real_name}-%{version}.tar.bz2
@@ -218,11 +218,11 @@ echo "RHEL=%{?rhel} FEDORA=%{?fedora}"
 export CFLAGS="$RPM_OPT_FLAGS"
 export LDFLAGS="%{build_ldflags}"
 %{__perl} Makefile.PL DESTDIR=$RPM_BUILD_ROOT/ SYSCONFDIR=%{_sysconfdir} INSTALLDIRS=vendor ENABLE_SSL="yes" < /dev/null
-%{__make} OPTIMIZE="$RPM_OPT_FLAGS" %{?_smp_mflags}
+%make_build OPTIMIZE="$RPM_OPT_FLAGS"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%makeinstall PREFIX=%buildroot/%{prefix} \
+%make_install PREFIX=%buildroot/%{prefix} \
         INSTALLMAN1DIR=%buildroot/%{_mandir}/man1 \
         INSTALLMAN3DIR=%buildroot/%{_mandir}/man3 \
         LOCAL_RULES_DIR=%{buildroot}/etc/mail/spamassassin
@@ -389,6 +389,13 @@ exit 0
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.4-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 3.4.4-5
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.4.4-4
 - Perl 5.32 rebuild
 

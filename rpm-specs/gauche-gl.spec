@@ -3,7 +3,7 @@
 
 Name:           gauche-gl
 Version:        0.6
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        OpenGL binding for Gauche
 
 License:        BSD
@@ -87,6 +87,9 @@ make check
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr  3 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.6-15
 - Rebuilt for Gauche 0.9.9
 

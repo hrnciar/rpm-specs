@@ -1,8 +1,8 @@
 %{!?python3_includedir: %global python3_includedir %(%{__python3} -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())")}
 Name:       python-igraph
-Version:    0.8.2
+Version:    0.8.3
 %global igraph_version 0.8
-Release:    20%{?dist}
+Release:    1%{?dist}
 Summary:    Python bindings for igraph
 
 License:    GPLv2+
@@ -67,6 +67,12 @@ documentation needed to develop application with %{name}.
 %{python3_includedir}/python-igraph
 
 %changelog
+* Thu Oct 08 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.8.3-1
+- 0.8.3
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.2-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.8.2-20
 - BR python3-setuptools
 

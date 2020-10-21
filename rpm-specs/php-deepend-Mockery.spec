@@ -16,7 +16,7 @@
 
 Name:           php-deepend-Mockery
 Version:        0.9.11
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Mockery is a simple but flexible PHP mock object framework
 
 License:        BSD
@@ -130,6 +130,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.11-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 23 2020 Shawn Iwinski <shawn@iwin.ski> - 0.9.11-4
 - Disable tests by default
 - Fix FTBFS (RHBZ #1799867)

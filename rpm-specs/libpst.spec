@@ -1,7 +1,12 @@
+%if 0%{?fedora} > 27 || 0%{?rhel} >= 9
+%global use_python3 1
+%define __python %{__python3}
+%endif
+
 Summary:            Utilities to convert Outlook .pst files to other formats
 Name:               libpst
 Version:            0.6.75
-Release:            3%{?dist}
+Release:            6%{?dist}
 License:            GPLv2+
 URL:                http://www.five-ten-sg.com/%{name}/
 Source:             %{url}/packages/%{name}-%{version}.tar.gz
@@ -9,7 +14,7 @@ Source:             %{url}/packages/%{name}-%{version}.tar.gz
 BuildRequires:      libtool gcc-c++
 BuildRequires:      ImageMagick gd-devel zlib-devel boost-devel libgsf-devel gettext-devel
 
-%if 0%{?fedora} > 27
+%if 0%{?use_python3}
 BuildRequires:      python3 python3-devel boost-python3 boost-python3-devel
 Requires:           boost-python3
 %else
@@ -39,7 +44,7 @@ The libpst-libs package contains the shared library used by the pst
 utilities.
 
 
-%if 0%{?fedora} > 27
+%if 0%{?use_python3}
 %package -n python3-%{name}
 Requires:           python3
 Provides: %{name}-python = %{version}-%{release}
@@ -50,7 +55,7 @@ Requires:           python
 Summary:            Python bindings for libpst
 Requires:           %{name}-libs%{?_isa} = %{version}-%{release}
 
-%if 0%{?fedora} >= 20
+%if 0%{?fedora} >= 20 || 0%{?rhel} >= 9
 %global __provides_exclude_from %{?__provides_exclude_from:%__provides_exclude_from|}^%{python_sitearch}/_.*\.so$
 %else
 %{?filter_setup:
@@ -60,7 +65,7 @@ Requires:           %{name}-libs%{?_isa} = %{version}-%{release}
 %endif
 
 
-%if 0%{?fedora} > 27
+%if 0%{?use_python3}
 %description -n python3-%{name}
 %else
 %description python
@@ -108,7 +113,7 @@ libpst utilities.
 autoreconf -fiv
 %configure --enable-libpst-shared \
            --with-boost-python=boost_python%{python3_version_nodots}
-%if 0%{?fedora} > 27
+%if 0%{?use_python3}
 %make_build
 %else
 make %{?_smp_mflags}
@@ -116,7 +121,7 @@ make %{?_smp_mflags}
 
 
 %install
-%if 0%{?fedora} > 27
+%if 0%{?use_python3}
 %make_install
 %else
 rm -rf $RPM_BUILD_ROOT
@@ -127,7 +132,7 @@ find %{buildroot} -name '*.la' -or -name '*.a' | xargs rm -f
 mv %{buildroot}%{_datadir}/doc/%{name}-%{version} %{buildroot}%{_datadir}/doc/%{name}
 
 
-%if 0%{?fedora} > 27
+%if 0%{?use_python3}
 %ldconfig_scriptlets libs
 %else
 %post libs -p /sbin/ldconfig
@@ -145,7 +150,7 @@ mv %{buildroot}%{_datadir}/doc/%{name}-%{version} %{buildroot}%{_datadir}/doc/%{
 %doc COPYING
 
 
-%if 0%{?fedora} > 27
+%if 0%{?use_python3}
 %files -n python3-%{name}
 %defattr(-,root,root,-)
 %{python3_sitearch}/_*.so
@@ -176,6 +181,15 @@ mv %{buildroot}%{_datadir}/doc/%{name}-%{version} %{buildroot}%{_datadir}/doc/%{
 
 
 %changelog
+* Tue Jul 28 2020 Merlin Mathesius <mmathesi@redhat.com> - 0.6.75-6
+- FTBFS fix: %%{__python} must now be explicitly defined
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.75-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Merlin Mathesius <mmathesi@redhat.com> - 0.6.75-4
+- Cleanup conditionals for using python3
+
 * Fri May 29 2020 Jonathan Wakely <jwakely@redhat.com> - 0.6.75-3
 - Rebuilt for Boost 1.73
 

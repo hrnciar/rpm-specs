@@ -3,7 +3,7 @@
 
 # https://github.com/lithammer/fuzzysearch
 %global goipath         github.com/lithammer/fuzzysearch
-Version:                1.0.2
+Version:                1.1.0
 
 %gometa
 
@@ -22,12 +22,16 @@ compiler engineer working at V8.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Tiny and fast fuzzy search in Go
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
+
+BuildRequires:  golang(golang.org/x/text/runes)
+BuildRequires:  golang(golang.org/x/text/transform)
+BuildRequires:  golang(golang.org/x/text/unicode/norm)
 
 %description
 %{common_description}
@@ -48,6 +52,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 14:54:44 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.0-1
+- Update to 1.1.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

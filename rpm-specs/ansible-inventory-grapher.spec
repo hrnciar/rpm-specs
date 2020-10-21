@@ -10,7 +10,7 @@
 
 Name:           %{archive_name}
 Version:        2.5.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Creates graphs representing ansible inventory
 
 License:        GPLv3+
@@ -98,6 +98,9 @@ ln -s %{_bindir}/%{name} %{buildroot}%{_bindir}/%{name}-3
 %{python3_sitelib}/ansible_inventory_grapher-%{version}-py3.*.egg-info
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.5.0-3
 - Rebuilt for Python 3.9
 

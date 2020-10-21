@@ -31,7 +31,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       3%{?github_release}%{?dist}
+Release:       4%{?github_release}%{?dist}
 Summary:       OOP proxy wrappers utilities
 
 License:       MIT
@@ -135,7 +135,7 @@ cat << 'EOF' | tee -a vendor/autoload.php
 require_once '%{buildroot}%{phpdir}/ProxyManager/autoload.php';
 EOF
 
-%if 0%{?fedora} >= 32
+%if 0%{?fedora} >= 32 || 0%{?rhel} >= 9
 : Zend => Laminas
 sed -i "s/'Zend/'Laminas/" \
     tests/ProxyManagerTest/ProxyGenerator/RemoteObject/MethodGenerator/RemoteObjectMethodTest.php
@@ -164,6 +164,12 @@ exit $RETURN_CODE
 
 
 %changelog
+* Fri Jul 31 2020 Merlin Mathesius <mmathesi@redhat.com> - 2.2.2-4
+- Minor conditional fix for ELN
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 23 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.2.2-3
 - Fix FTBFS (RHDB #1799874)
 

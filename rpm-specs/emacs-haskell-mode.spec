@@ -8,7 +8,7 @@
 
 Name:       emacs-%{pkg}
 Version:    16.2
-Release:    0.4%{?dist}
+Release:    0.5%{?dist}
 Summary:    Haskell editing mode for Emacs
 
 License:    GPLv3+
@@ -64,6 +64,9 @@ make EMACS=%{_bindir}/emacs
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16.2-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16.2-0.4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

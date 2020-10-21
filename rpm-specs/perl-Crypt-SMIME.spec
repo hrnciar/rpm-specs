@@ -1,6 +1,6 @@
 Name:           perl-Crypt-SMIME
-Version:        0.25
-Release:        8%{?dist}
+Version:        0.27
+Release:        1%{?dist}
 Summary:        S/MIME message signing, verification, encryption and decryption
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Crypt-SMIME
@@ -26,7 +26,6 @@ BuildRequires:  perl(ExtUtils::PkgConfig)
 BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(File::Temp)
 BuildRequires:  perl(Taint::Util)
-BuildRequires:  perl(Test::Dependencies)
 BuildRequires:  perl(Test::Exception)
 BuildRequires:  perl(Test::Pod::Coverage)
 BuildRequires:  perl(Test::Pod)
@@ -73,6 +72,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Thu Sep 24 2020 Petr Pisar <ppisar@redhat.com> - 0.27-1
+- 0.27 bump (bug #1875827)
+
+* Fri Aug 21 2020 Steve Traylen <steve.traylen@cern.ch> - 0.26-1
+- 0.26 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.25-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.25-8
 - Perl 5.32 rebuild
 

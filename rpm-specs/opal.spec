@@ -1,7 +1,7 @@
 Name:		opal
 Summary:	Open Phone Abstraction Library
 Version:	3.10.11
-Release:	5%{?dist}
+Release:	7%{?dist}
 URL:		http://www.opalvoip.org/
 License:	MPLv1.0
 
@@ -51,10 +51,10 @@ done
 # Note: SILK is only disabled because the SDK libs are not in Fedora
 %configure --disable-silk
 
-make OPTCCFLAGS="$RPM_OPT_FLAGS" %{?_smp_mflags} V=1
+%make_build OPTCCFLAGS="$RPM_OPT_FLAGS"
 
 %install
-make DESTDIR=%{buildroot} install
+%make_install
 
 rm -f %{buildroot}/%{_datadir}/opal/opal_inc.mak
 rm -f %{buildroot}/%{_libdir}/libopal_s.a
@@ -93,6 +93,13 @@ EOF
 %{_libdir}/pkgconfig/opal.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.10.11-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 3.10.11-6
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.10.11-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

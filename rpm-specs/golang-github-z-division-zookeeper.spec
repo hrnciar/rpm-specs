@@ -15,7 +15,7 @@ Package Zk provides a native client for connecting to a Zookeeper quorum.}
 %global godocs          examples README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Native ZooKeeper client for Go
 
 # Upstream license specification: BSD-3-Clause
@@ -42,5 +42,8 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 07 00:02:55 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-1
 - Initial package

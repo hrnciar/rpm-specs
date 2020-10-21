@@ -1,13 +1,13 @@
 %global libgweather_version 3.32.0
 
 Name:           gnome-clocks
-Version:        3.36.2
+Version:        3.38.0
 Release:        1%{?dist}
 Summary:        Clock application designed for GNOME 3
 
 License:        GPLv2+
 URL:            https://wiki.gnome.org/Apps/Clocks
-Source0:        https://download.gnome.org/sources/gnome-clocks/3.36/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/gnome-clocks/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires:  meson
 BuildRequires:  desktop-file-utils
@@ -22,7 +22,7 @@ BuildRequires:  pkgconfig(gnome-desktop-3.0) >= 3.8
 BuildRequires:  pkgconfig(glib-2.0) >= 2.44
 BuildRequires:  pkgconfig(gobject-2.0) >= 2.44
 BuildRequires:  pkgconfig(libgeoclue-2.0) >= 2.4
-BuildRequires:  pkgconfig(libhandy-0.0)
+BuildRequires:  pkgconfig(libhandy-1)
 BuildRequires:  pkgconfig(geocode-glib-1.0) >= 1.0
 BuildRequires:  pkgconfig(gsound) >= 0.98
 
@@ -46,7 +46,7 @@ Clock application designed for GNOME 3
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.clocks.desktop
 
 %files -f gnome-clocks.lang
-%doc AUTHORS.md NEWS.md README.md
+%doc AUTHORS.md NEWS README.md
 %license LICENSE.md
 %{_bindir}/gnome-clocks
 %{_datadir}/icons/hicolor/scalable/apps/org.gnome.clocks.svg
@@ -60,6 +60,22 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.clocks.d
 %{_datadir}/metainfo/org.gnome.clocks.metainfo.xml
 
 %changelog
+* Wed Sep 16 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Sun Aug 23 2020 Kalev Lember <klember@redhat.com> - 3.37.91-1
+- Update to 3.37.91
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 10 2020 Kalev Lember <klember@redhat.com> - 3.36.2-1
 - Update to 3.36.2
 

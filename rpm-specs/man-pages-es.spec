@@ -1,7 +1,7 @@
 Summary: Spanish man pages from the Linux Documentation Project
 Name: man-pages-es
 Version: 1.55
-Release: 33%{?dist}
+Release: 34%{?dist}
 # FIXME: a more complete audit of the various licenses should really be done
 # These man pages come under various copyrights.
 # All are freely distributable when the nroff source is included.
@@ -1707,6 +1707,9 @@ rm -f $RPM_BUILD_ROOT%{es_man_dir}/man8/vigr.8
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.55-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.55-33
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

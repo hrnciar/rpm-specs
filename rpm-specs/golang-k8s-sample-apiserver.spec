@@ -4,8 +4,8 @@
 # https://github.com/kubernetes/sample-apiserver
 %global goipath         k8s.io/sample-apiserver
 %global forgeurl        https://github.com/kubernetes/sample-apiserver
-Version:                1.15.0
-%global tag             kubernetes-1.15.0
+Version:                1.18.9
+%global tag             kubernetes-1.18.9
 %global distprefix      %{nil}
 
 %gometa
@@ -18,7 +18,7 @@ API server.}
 %global godocs          docs README.md code-of-conduct.md CONTRIBUTING.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Reference implementation of an apiserver for a custom Kubernetes API
 
 # Upstream license specification: Apache-2.0
@@ -26,6 +26,7 @@ License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
+BuildRequires:  golang(github.com/go-openapi/spec)
 BuildRequires:  golang(github.com/google/gofuzz)
 BuildRequires:  golang(github.com/spf13/cobra)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/api/errors)
@@ -44,6 +45,7 @@ BuildRequires:  golang(k8s.io/apimachinery/pkg/util/validation/field)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/version)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/watch)
 BuildRequires:  golang(k8s.io/apiserver/pkg/admission)
+BuildRequires:  golang(k8s.io/apiserver/pkg/endpoints/openapi)
 BuildRequires:  golang(k8s.io/apiserver/pkg/features)
 BuildRequires:  golang(k8s.io/apiserver/pkg/registry/generic)
 BuildRequires:  golang(k8s.io/apiserver/pkg/registry/generic/registry)
@@ -60,7 +62,8 @@ BuildRequires:  golang(k8s.io/client-go/testing)
 BuildRequires:  golang(k8s.io/client-go/tools/cache)
 BuildRequires:  golang(k8s.io/client-go/util/flowcontrol)
 BuildRequires:  golang(k8s.io/component-base/logs)
-BuildRequires:  golang(k8s.io/klog)
+BuildRequires:  golang(k8s.io/klog/v2)
+BuildRequires:  golang(k8s.io/kube-openapi/pkg/common)
 
 %if %{with check}
 # Tests
@@ -74,6 +77,7 @@ BuildRequires:  golang(k8s.io/apimachinery/pkg/api/apitesting/roundtrip)
 
 %prep
 %goprep
+sed -i "s|k8s.io/klog|k8s.io/klog/v2|" $(find . -type f -iname "*.go")
 
 %build
 %gobuild -o %{gobuilddir}/bin/sample-apiserver %{goipath}
@@ -96,6 +100,15 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 02:52:48 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.9-1
+- Update to 1.18.9
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 15:06:22 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-1
+- Update to 1.18.3
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

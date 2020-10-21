@@ -1,6 +1,6 @@
 Name:           hiredis
 Version:        0.13.3
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Minimalistic C client library for Redis
 License:        BSD
 URL:            https://github.com/redis/hiredis
@@ -57,6 +57,9 @@ make check || true
 %{_libdir}/pkgconfig/hiredis.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.3-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 15 2020 Kevin Fenzi <kevin@scrye.com> - 0.13.3-13
 - Apply patch for CVE-2020-7105. Fixes bug #1796474
 

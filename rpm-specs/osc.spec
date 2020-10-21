@@ -25,7 +25,7 @@
 %endif
 
 # Real release number
-%global baserelease 1
+%global baserelease 2
 
 Name:           osc
 Summary:        Open Build Service Commander
@@ -135,6 +135,9 @@ EOM
 %dir %{osc_plugin_dir}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.169.1-303.1.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Adam Williamson <awilliam@redhat.com> - 0.169.1-303.1.1
 - Update to 0.169.1
 - Drop merged or otherwise-fixed PRs

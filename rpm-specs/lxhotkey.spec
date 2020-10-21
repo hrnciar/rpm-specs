@@ -1,6 +1,6 @@
 Name:			lxhotkey
 Version:		0.1.0
-Release:		10%{?dist}
+Release:		11%{?dist}
 Summary:		Hotkeys management utility
 
 License:		GPLv2+
@@ -75,6 +75,9 @@ desktop-file-install \
 %{_includedir}/%{name}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

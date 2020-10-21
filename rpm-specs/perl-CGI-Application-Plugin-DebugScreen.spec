@@ -1,6 +1,6 @@
 Name:           perl-CGI-Application-Plugin-DebugScreen
 Version:        1.00
-Release:        28%{?dist}
+Release:        29%{?dist}
 Summary:        Add Debug support to CGI::Application
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/CGI-Application-Plugin-DebugScreen
@@ -61,6 +61,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.00-28
 - Perl 5.32 rebuild
 

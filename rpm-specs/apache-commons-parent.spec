@@ -1,33 +1,39 @@
+%global srcname commons-parent
+
 Name:           apache-commons-parent
-Version:        47
-Release:        4%{?dist}
+Version:        52
+Release:        1%{?dist}
 Summary:        Apache Commons Parent Pom
 License:        ASL 2.0
-URL:            https://commons.apache.org/commons-parent-pom.html
 BuildArch:      noarch
 
-Source0:        https://github.com/apache/commons-parent/archive/commons-parent-%{version}.tar.gz
+%global upstream_version rel/%{srcname}-%{version}
+%global upstream_archive %{srcname}-rel-%{srcname}-%{version}
+
+URL:            https://commons.apache.org/commons-parent-pom.html
+Source0:        https://github.com/apache/%{srcname}/archive/%{upstream_version}/%{srcname}-%{version}.tar.gz
 
 BuildRequires:  maven-local
-BuildRequires:  mvn(org.apache:apache:pom:)
+BuildRequires:  mvn(biz.aQute.bnd:biz.aQute.bndlib)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-antrun-plugin)
+BuildRequires:  mvn(org.apache:apache:pom:)
 BuildRequires:  mvn(org.codehaus.mojo:build-helper-maven-plugin)
 
 # Not generated automatically
 BuildRequires:  mvn(org.apache.maven.plugins:maven-assembly-plugin)
-BuildRequires:  mvn(org.codehaus.mojo:build-helper-maven-plugin)
 Requires:       mvn(org.codehaus.mojo:build-helper-maven-plugin)
 
 %description
 The Project Object Model files for the apache-commons packages.
 
+
 %prep
-%setup -q -n commons-parent-commons-parent-%{version}
+%setup -q -n %{upstream_archive}
 
 # Plugin is not in fedora
-%pom_remove_plugin org.apache.commons:commons-build-plugin
-%pom_remove_plugin org.apache.maven.plugins:maven-scm-publish-plugin
+%pom_remove_plugin :commons-build-plugin
+%pom_remove_plugin :maven-scm-publish-plugin
 
 # Plugins useless in package builds
 %pom_remove_plugin :apache-rat-plugin
@@ -41,17 +47,30 @@ for profile in animal-sniffer japicmp jacoco cobertura clirr; do
     %pom_xpath_remove "pom:profile[pom:id='$profile']"
 done
 
+
 %build
 %mvn_build
+
 
 %install
 %mvn_install
 
+
 %files -f .mfiles
-%doc RELEASE-NOTES.txt
+%doc README.md RELEASE-NOTES.txt
 %license LICENSE.txt NOTICE.txt
 
+
 %changelog
+* Tue Sep 01 2020 Fabio Valentini <decathorpe@gmail.com> - 52-1
+- Update to version 52.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 47-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 47-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 47-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -180,3 +199,4 @@ done
 
 * Wed Oct 20 2010 Chris Spike <spike@fedoraproject.org> 15-1
 - Initial version of the package
+

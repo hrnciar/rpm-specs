@@ -1,17 +1,15 @@
-
 # enable experimental (default off) bluetooth support
 #global bluetooth 1
 
 %global module kdeconnect-kde
 
-Name:           kde-connect
-Version: 20.04.2
+Name:    kde-connect
+Version: 20.08.2
 Release: 1%{?dist}
-License:        GPLv2+
-Summary:        KDE Connect client for communication with smartphones
+License: GPLv2+
+Summary: KDE Connect client for communication with smartphones
 
-Url:            https://community.kde.org/KDEConnect
-#Url:            https://cgit.kde.org/kdeconnect-kde.git
+Url:     https://community.kde.org/KDEConnect
 %global revision %(echo %{version} | cut -d. -f3)
 %if %{revision} >= 50
 %global stable unstable
@@ -20,8 +18,7 @@ Url:            https://community.kde.org/KDEConnect
 %endif
 Source0:        http://download.kde.org/%{stable}/release-service/%{version}/src/%{module}-%{version}.tar.xz
 
-# firewalld service definition, see https://bugzilla.redhat.com/show_bug.cgi?id=1257699#c2
-Source2:        kde-connect.xml
+## upstream patches (lookaside cache)
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  firewalld-filesystem
@@ -75,6 +72,8 @@ Requires:       qca-qt5-ossl%{?_isa}
 #Recommends:     plasma-workspace
 # /usr/bin/kcmshell5
 Requires:       kde-cli-tools
+# /usr/bin/kdeconnect-app
+Requires:       kf5-kirigami2%{?_isa}
 
 %description
 KDE Connect adds communication between KDE and your smartphone.
@@ -117,22 +116,14 @@ Supplements: (kdeconnectd and nautilus)
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%cmake_kf5 \
   %{?bluetooth:-DBLUETOOTH_ENABLED:BOOL=ON}
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
-
-# firewalld as shipped in f31+ provides it's own kdeconnect.xml
-%if 0%{?fedora} && 0%{?fedora} < 31
-install -m644 -p -D %{SOURCE2} %{buildroot}%{_prefix}/lib/firewalld/services/kde-connect.xml
-%endif
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -154,6 +145,7 @@ done
 %{_kf5_datadir}/knotifications5/*
 %{_kf5_datadir}/kservices5/*.desktop
 %{_kf5_datadir}/kservicetypes5/*.desktop
+%{_kf5_datadir}/qlogging-categories5/kdeconnect*
 %{_qt5_plugindir}/kcm_kdeconnect.so
 %{_kf5_plugindir}/kfileitemaction/kdeconnectfileitemaction.so
 %{_kf5_plugindir}/kio/kdeconnect.so
@@ -163,6 +155,7 @@ done
 %{_datadir}/applications/org.kde.kdeconnect*.desktop
 %{_qt5_archdatadir}/qml/org/kde/kdeconnect/
 %{_datadir}/contractor/
+%{_datadir}/deepin/
 %{_datadir}/Thunar/
 %{_datadir}/zsh/
 
@@ -179,10 +172,6 @@ fi
 %{_datadir}/applications/org.kde.kdeconnect.daemon.desktop
 %{_libexecdir}/kdeconnectd
 %{_datadir}/dbus-1/services/org.kde.kdeconnect.service
-# firewalld as shipped in f31+ provides it's own kdeconnect.xml
-%if 0%{?fedora} && 0%{?fedora} < 31
-%{_prefix}/lib/firewalld/services/kde-connect.xml
-%endif
 
 %ldconfig_scriptlets libs
 
@@ -199,6 +188,28 @@ fi
 
 
 %changelog
+* Wed Oct 14 14:46:50 CDT 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.2-1
+- 20.08.2
+
+* Wed Oct 07 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-2
+- pull in upstream fixes
+- .spec cleanup
+
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Tue Sep 08 2020 Troy Dawson <tdawson@redhat.com> - 20.08.0-2
+- Requires: kf5-kirigami2 (#1877110)
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.2-1
 - 20.04.2
 

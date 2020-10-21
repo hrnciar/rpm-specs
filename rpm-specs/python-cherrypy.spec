@@ -1,9 +1,11 @@
 %{?python_enable_dependency_generator}
 
+%bcond_with tests
+
 Name:           python-cherrypy
 %global         camelname CherryPy
 Version:        18.4.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Pythonic, object-oriented web development framework
 License:        BSD
 URL:            http://www.cherrypy.org/
@@ -23,6 +25,7 @@ BuildRequires:  dos2unix
 BuildRequires:  python3-devel
 BuildRequires:  python3dist(setuptools)
 BuildRequires:  python3-setuptools_scm
+%if %{with tests}
 # Test dependencies
 BuildRequires:  python3dist(cheroot)
 BuildRequires:  python3dist(mock)
@@ -35,6 +38,7 @@ BuildRequires:  python3dist(more-itertools)
 BuildRequires:  python3dist(coverage)
 BuildRequires:  python3dist(pytest)
 BuildRequires:  python3-zc-lockfile
+%endif
 
 %global _description\
 %{camelname} allows developers to build web applications in much the same way\
@@ -68,9 +72,10 @@ rm cherrypy/test/test_static.py
 %install
 %py3_install
 
+%if %{with tests}
 %check
-# skip tests for now
-# LANG=C.utf-8 %{__python3} -m pytest --ignore=build
+LANG=C.utf-8 %{__python3} -m pytest --ignore=build
+%endif
 
 %files -n python3-cherrypy
 %doc README.rst
@@ -83,6 +88,9 @@ rm cherrypy/test/test_static.py
 %exclude %{python3_sitelib}/cherrypy/tutorial
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 18.4.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 20 2020 Miro Hrončok <mhroncok@redhat.com> - 18.4.0-5
 - Disable unused automagic Python bytecompilation
 

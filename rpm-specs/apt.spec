@@ -1,3 +1,6 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 %{!?jobs:%global jobs %(/usr/bin/getconf _NPROCESSORS_ONLN)}
 
 # apt library somajor...
@@ -10,7 +13,7 @@
 %bcond_with check_integration
 
 Name:           apt
-Version:        2.1.6
+Version:        2.1.10
 Release:        1%{?dist}
 Summary:        Command-line package manager for Debian packages
 
@@ -163,15 +166,15 @@ to package management with APT.
 %autosetup -p1
 
 %build
-# Do out of tree build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%cmake .. -GNinja
-popd
-%ninja_build -C %{_target_platform}
+# This package fails its testsuite when LTO is enabled.  It is not yet clear if
+# this is an LTO issue or an issue with the package itself
+%define _lto_cflags %{nil}
+
+%cmake -GNinja
+%cmake_build
 
 %install
-%ninja_install -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name}
 %find_lang %{name}-utils
@@ -204,7 +207,7 @@ EOF
 
 
 %check
-%ninja_test -C %{_target_platform}
+%ctest
 %if %{with check_integration}
 unbuffer ./test/integration/run-tests -q %{?jobs:-j %{jobs}}
 %endif
@@ -309,6 +312,28 @@ exit 0
 %doc %{_docdir}/%{name}-utils
 
 %changelog
+* Tue Aug 11 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 2.1.10-1
+- Update to 2.1.10 (#1868031)
+
+* Mon Aug 10 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 2.1.9-1
+- Update to 2.1.9 (#1867591)
+
+* Tue Aug 04 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 2.1.8-1
+- Update to 2.1.8 (#1865853)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.7-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jeff law <law@redhat.com.com> - 2.1.7-3
+- Disable LTO for now
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Sérgio Basto <sergio@serjux.com> - 2.1.7-1
+- Update apt to 2.1.7 (#1854759)
+
 * Wed Jun 03 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 2.1.6-1
 - Update to 2.1.6 (#1831062)
 

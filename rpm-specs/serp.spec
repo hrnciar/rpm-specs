@@ -1,6 +1,6 @@
 Name:          serp
 Version:       1.15.2
-Release:       0.12.20150412cvs%{?dist}
+Release:       0.14.20150412cvs%{?dist}
 Summary:       Byte-code manipulation framework
 License:       BSD
 Url:           http://serp.sourceforge.net/
@@ -62,6 +62,12 @@ find . -name "*.jar" -delete
 %license LICENSE.txt
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.2-0.14.20150412cvs
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.15.2-0.13.20150412cvs
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.2-0.12.20150412cvs
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

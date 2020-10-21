@@ -1,6 +1,6 @@
 Name:      qextserialport
 Version:   1.2
-Release:   0.19.beta2%{?dist}
+Release:   0.20.beta2%{?dist}
 Summary:   Qt interface class for old fashioned serial ports
 License:   MIT
 URL:       http://code.google.com/p/qextserialport/
@@ -51,6 +51,9 @@ make install INSTALL_ROOT=%{buildroot}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-0.20.beta2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-0.19.beta2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

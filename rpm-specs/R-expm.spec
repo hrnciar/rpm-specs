@@ -1,10 +1,10 @@
 %global packname expm
 %global packver 0.999
-%global packrel 4
+%global packrel 5
 
 Name:             R-%{packname}
 Version:          %{packver}.%{packrel}
-Release:          6%{?dist}
+Release:          1%{?dist}
 Source0:          ftp://cran.r-project.org/pub/R/contrib/main/%{packname}_%{packver}-%{packrel}.tar.gz
 License:          GPLv2+
 URL:              http://cran.r-project.org/web/packages/expm
@@ -48,6 +48,15 @@ mkdir -p $RPM_BUILD_ROOT%{_libdir}/R/library
 %{_libdir}/R/library/%{packname}/test-tools.R
 
 %changelog
+* Thu Aug 13 2020 Tom Callaway <spot@fedoraproject.org> - 0.999.5-1
+- update to 0.999-5
+
+* Mon Aug 10 2020 Tom Callaway <spot@fedoraproject.org> - 0.999.4-8
+- rebuild for FlexiBLAS R
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.999.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 0.999.4-6
 - rebuild for R 4
 

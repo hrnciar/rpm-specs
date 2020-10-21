@@ -5,7 +5,7 @@
 %global crate derive_more
 
 Name:           rust-%{crate}
-Version:        0.99.8
+Version:        0.99.11
 Release:        1%{?dist}
 Summary:        Adds #[derive(x)] macros for more traits
 
@@ -386,6 +386,22 @@ which use "try_into" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Thu Oct 01 2020 Fabio Valentini <decathorpe@gmail.com> - 0.99.11-1
+- Update to version 0.99.11.
+
+* Fri Sep 11 2020 Josh Stone <jistone@redhat.com> - 0.99.10-1
+- Update to 0.99.10
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99.9-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.99.9-1
+- Update to 0.99.9
+
 * Fri Jun 19 2020 Josh Stone <jistone@redhat.com> - 0.99.8-1
 - Update to 0.99.8
 

@@ -30,8 +30,8 @@ list (http://groups.google.com/group/briansupport/)
 Documentation for Brian2 can be found at http://brian2.readthedocs.org}
 
 Name:           python-%{srcname}
-Version:        2.3.0.2
-Release:        2%{?dist}
+Version:        2.4.1
+Release:        1%{?dist}
 Summary:        A clock-driven simulator for spiking neural networks
 
 
@@ -206,6 +206,15 @@ popd
 %endif
 
 %changelog
+* Tue Sep 29 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 2.4.1-1
+- Update to 2.4.1
+
+* Fri Sep 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 2.4-1
+- Update to 2.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.3.0.2-2
 - Rebuilt for Python 3.9
 

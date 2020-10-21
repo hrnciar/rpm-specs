@@ -1,6 +1,6 @@
 Name:           perl-Email-Reply
 Version:        1.204
-Release:        13%{?dist}
+Release:        15%{?dist}
 Summary:        Reply to an email message
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Email-Reply
@@ -55,6 +55,12 @@ make test
 %{_mandir}/man3/Email::Reply.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.204-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.204-14
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.204-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

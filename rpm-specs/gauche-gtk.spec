@@ -8,7 +8,7 @@
 Name:           gauche-gtk
 Epoch:          1
 Version:        0.6
-Release:        0.26.%{alphatag}%{?dist}
+Release:        0.27.%{alphatag}%{?dist}
 Summary:        Gauche extension module to use GTK
 
 License:        BSD
@@ -93,6 +93,9 @@ xvfb-run -a -w 1 %make_build check
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.6-0.27.20181110git0220722
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr  3 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 1:0.6-0.26.20181110git0220722
 - Rebuilt for Gauche 0.9.9
 

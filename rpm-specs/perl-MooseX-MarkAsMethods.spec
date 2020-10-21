@@ -1,6 +1,6 @@
 Name:           perl-MooseX-MarkAsMethods
 Version:        0.15
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        Mark overload code symbols as methods
 License:        LGPLv2+
 URL:            http://metacpan.org/release/MooseX-MarkAsMethods/
@@ -51,6 +51,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.15-22
 - Perl 5.32 rebuild
 

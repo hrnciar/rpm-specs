@@ -16,8 +16,8 @@
 %global pkgconf_libdirs %{_libdir}/pkgconfig:%{_datadir}/pkgconfig
 
 Name:           pkgconf
-Version:        1.7.0
-Release:        1%{?dist}
+Version:        1.7.3
+Release:        5%{?dist}
 Summary:        Package compiler and linker metadata toolkit
 
 License:        ISC
@@ -25,8 +25,9 @@ URL:            http://pkgconf.org/
 # Mirror at https://releases.pagure.org/pkgconf/pkgconf/
 Source0:        https://distfiles.dereferenced.org/%{name}/%{name}-%{version}.tar.xz
 
-# Simple wrapper script to offer platform versions of pkgconfig
+# Simple wrapper scripts to offer platform versions of pkgconfig
 Source1:        platform-pkg-config.in
+Source2:        pkg-config.in
 
 BuildRequires:  gcc
 BuildRequires:  make
@@ -138,12 +139,18 @@ EOM
 install -pm 0755 %{SOURCE1} %{buildroot}%{_bindir}/%{_target_platform}-pkg-config
 
 sed -e "s|@TARGET_PLATFORM@|%{_target_platform}|" \
+    -e "s|@PKGCONF_LIBDIRS_LOCAL@|/usr/local/%{_lib}/pkgconfig:/usr/local/share/pkgconfig:%{pkgconf_libdirs}|" \
+    -e "s|@PKGCONF_SYSLIBDIR_LOCAL@|/usr/local/%{_lib}:%{_libdir}|" \
+    -e "s|@PKGCONF_SYSINCDIR_LOCAL@|/usr/local/include:%{_includedir}|" \
     -e "s|@PKGCONF_LIBDIRS@|%{pkgconf_libdirs}|" \
     -e "s|@PKGCONF_SYSLIBDIR@|%{_libdir}|" \
     -e "s|@PKGCONF_SYSINCDIR@|%{_includedir}|" \
     -i %{buildroot}%{_bindir}/%{_target_platform}-pkg-config
 
-ln -sf pkgconf %{buildroot}%{_bindir}/pkg-config
+install -pm 0755 %{SOURCE2} %{buildroot}%{_bindir}/pkg-config
+
+sed -e "s|@PKGCONF_BINDIR@|%{_bindir}|" \
+    -i %{buildroot}%{_bindir}/pkg-config
 
 # Link pkg-config(1) to pkgconf(1)
 echo ".so man1/pkgconf.1" > %{buildroot}%{_mandir}/man1/pkg-config.1
@@ -195,6 +202,28 @@ rm -rf %{buildroot}%{_datadir}/aclocal
 %endif
 
 %changelog
+* Mon Oct 19 2020 Neal Gompa <ngompa13@gmail.com> - 1.7.3-5
+- Use internal target platform definition for pkg-config wrapper
+
+* Thu Oct 15 2020 Neal Gompa <ngompa13@gmail.com> - 1.7.3-4
+- Fix pkg-config wrapper for armv7hl
+
+* Thu Oct 15 2020 Neal Gompa <ngompa13@gmail.com> - 1.7.3-3
+- Make /usr/bin/pkg-config multilib safe
+
+* Mon Aug 10 2020 Neal Gompa <ngompa13@gmail.com> - 1.7.3-2
+- Add /usr/local paths to pkg-config(1) search path for non RPM builds
+
+* Mon Aug 03 2020 Neal Gompa <ngompa13@gmail.com> - 1.7.3-1
+- Update to 1.7.3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.7.0-1
 - Update to 1.7.0
 

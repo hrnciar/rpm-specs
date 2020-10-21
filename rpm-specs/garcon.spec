@@ -5,7 +5,7 @@
 
 Name:           garcon
 Version:        0.6.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Implementation of the freedesktop.org menu specification
 
 # garcon's source code is licensed under the LGPLv2+,
@@ -90,6 +90,9 @@ install -pm 644 %{SOURCE1} %{buildroot}%{_datadir}/desktop-directories
 %doc %{_datadir}/gtk-doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

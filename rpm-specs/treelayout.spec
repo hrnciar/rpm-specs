@@ -2,7 +2,7 @@
 
 Name:          treelayout
 Version:       1.0.3
-Release:       11%{?dist}
+Release:       13%{?dist}
 Summary:       Efficient and customizable Tree Layout Algorithm in Java
 License:       BSD
 URL:           http://treelayout.sourceforge.net/
@@ -69,6 +69,12 @@ fi
 %license %{core}/src/LICENSE.TXT
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.0.3-12
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon May  4 2020 Jerry James <loganjerry@gmail.com> - 1.0.3-11
 - Do not try to invoke native2ascii with JDK 9 or later
 - Compile for JDK 8 instead of 5 for compatibility with JDK 11

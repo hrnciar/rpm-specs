@@ -16,7 +16,7 @@ of JavaScript Object Notation (JSON) Patch, directly transposed to YAML.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Library to apply YAML versions of RFC6902 patches
 
 # Upstream license specification: Apache-2.0
@@ -58,5 +58,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.10-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 07 21:49:52 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.0.10-1.20200307git05b3177
 - Initial package

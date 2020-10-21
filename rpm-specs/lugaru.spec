@@ -1,6 +1,9 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 Name:		lugaru
 Version:	1.2
-Release:	10%{?dist}
+Release:	13%{?dist}
 Summary:	Ninja rabbit fighting game
 License:	GPLv2+
 URL:		https://osslugaru.gitlab.io
@@ -76,13 +79,12 @@ This package contains the game data files that make up the Lugaru game.
 %build
 %{?cmake3:%cmake3}%{!?cmake3:%cmake} -DCMAKE_BUILD_TYPE=RelWithDebInfo \
 				     -DSYSTEM_INSTALL=ON \
-				     -DLUGARU_VERSION_RELEASE="Fedora %{?epel:EPEL }%{version}-%{release}" \
-				     .
-%make_build
+				     -DLUGARU_VERSION_RELEASE="Fedora %{?epel:EPEL }%{version}-%{release}"
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 %fdupes %{buildroot}%{_datadir}/%{name}
 
@@ -107,6 +109,16 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 %{_datadir}/%{name}/
 
 %changelog
+* Tue Aug 04 2020 Neal Gompa <ngompa13@gmail.com> - 1.2-13
+- Update to new out-of-source build mechanism
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

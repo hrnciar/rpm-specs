@@ -1,9 +1,11 @@
+%undefine __cmake_in_source_build
+
 # trim changelog included in binary rpms
 %global _changelog_trimtime %(date +%s -d "1 year ago")
 
 Summary: KDE Photo Album 
 Name:	 kphotoalbum
-Version: 5.6.1
+Version: 5.7.0
 Release: 1%{?dist}
 
 # KDE e.V. may determine that future GPL versions are accepted
@@ -62,16 +64,13 @@ A photo album tool. Focuses on three key points:
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --with-html
 
@@ -90,6 +89,9 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.kphotoalb
 %{_kf5_bindir}/kpa-backup.sh
 %{_kf5_bindir}/kphotoalbum
 %{_kf5_bindir}/open-raw.pl
+%{_kf5_bindir}/kpa-thumbnailtool
+%{_kf5_libdir}/libkpabase.so
+%{_kf5_libdir}/libkpathumbnails.so
 %{_kf5_datadir}/kphotoalbum/
 %{_kf5_datadir}/kxmlgui5/kphotoalbum/
 %{_kf5_metainfodir}/org.kde.kphotoalbum.*.xml
@@ -100,6 +102,12 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.kphotoalb
 
 
 %changelog
+* Sun Aug 09 2020 Marie Loise Nolden <loise@kde.org> - 5.7.0-1
+- 5.7.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 12 2020 Marie Loise Nolden <loise@kde.org> - 5.6.1-1
 - 5.6.1
 

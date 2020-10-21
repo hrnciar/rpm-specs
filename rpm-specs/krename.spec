@@ -1,9 +1,11 @@
-%global gitcommit_full e54a32c89a8e2b9e01d4d02b699bac6062db0500
+%undefine __cmake_in_source_build
+
+%global gitcommit_full 93726f3d4e177816337beaf5c8872859ef33e9d8
 %global gitcommit %(c=%{gitcommit_full}; echo ${c:0:7})
 
 Name:           krename
 Version:        5.0.60
-Release:        5%{?dist}
+Release:        8%{?dist}
 Summary:        Powerful batch file renamer
 License:        GPLv2
 URL:            https://github.com/KDE/krename
@@ -48,15 +50,12 @@ image.
 
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-    %{cmake_kf5} ..
-popd
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 
 %check
@@ -76,6 +75,16 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata
 
 
 %changelog
+* Tue Aug 04 2020 Vasiliy Glazov Vasiliy N. Glazov <vascom2@gmail.com> 5.0.60-8
+- Update to latest git
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.60-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.60-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.60-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 # https://gitlab.com/golang-commonmark/html
 %global goipath         gitlab.com/golang-commonmark/html
 %global forgeurl        https://gitlab.com/golang-commonmark/html
-%global commit          cfaf75183c4a5f0e44e3d51ece1065accafdd2b3
+%global commit          a22733972181c63ecab285f900bb2917f3ba4e88
 
 %gometa
 
@@ -19,7 +19,7 @@ parsing HTML entities.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.6%{?dist}
 Summary:        HTML utilities for escaping/unescaping and for parsing HTML
 
 # Upstream license specification: BSD-2-Clause
@@ -46,6 +46,16 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 13:22:36 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.6.20200805gita227339
+- Bump to commit a22733972181c63ecab285f900bb2917f3ba4e88
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

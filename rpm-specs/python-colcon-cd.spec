@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.1.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Extension for colcon to change the current working directory
 
 License:        ASL 2.0
@@ -64,6 +64,9 @@ install -p -D function/colcon_cd.sh %{buildroot}%{_datadir}/colcon_cd/function/c
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.1-5
 - Rebuilt for Python 3.9
 

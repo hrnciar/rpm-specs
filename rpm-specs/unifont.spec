@@ -1,6 +1,6 @@
 Name:            unifont
 Version:         12.0.01
-Release:         3%{?dist}
+Release:         4%{?dist}
 License:         GPLv2+ and GFDL
 Url:             https://savannah.gnu.org/projects/unifont
 Summary:         Tools and glyph descriptions in a very simple text format
@@ -82,6 +82,9 @@ rm %{buildroot}/usr/share/consolefonts/Unifont-APL8x16.psf.gz
 %license COPYING
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12.0.01-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12.0.01-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

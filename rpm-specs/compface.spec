@@ -1,6 +1,6 @@
 Name:           compface
 Version:        1.5.2
-Release:        29%{?dist}
+Release:        30%{?dist}
 Summary:        Library and tools for handling X-Face data
 
 License:        MIT
@@ -73,6 +73,9 @@ cmp %{SOURCE1} __test.xbm
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

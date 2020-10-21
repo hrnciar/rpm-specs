@@ -3,7 +3,7 @@
 Summary: Ruby DSL for creating restful applications using Sinatra
 Name: rubygem-%{gem_name}
 Version: 1.1.6
-Release: 12%{?dist}
+Release: 13%{?dist}
 License: ASL 2.0
 URL: https://github.com/mifo/sinatra-rabbit
 Source0: http://rubygems.org/downloads/%{gem_name}-%{version}.gem
@@ -73,6 +73,9 @@ cp -a .%{gem_dir}/* \
 %{gem_instdir}/tests
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.6-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.6-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

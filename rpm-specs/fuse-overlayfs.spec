@@ -1,16 +1,16 @@
 %global git0 https://github.com/containers/%{name}
-%global commit0 87a850d616cfb0283e18283c25afd43789801a86
+%global commit0 54da2c0cf4b3b1bf0c16d10784ce587393a62e08
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 # Used for comparing with latest upstream tag
 # to decide whether to autobuild (non-rawhide only)
-%define built_tag v1.1.1
+%define built_tag v1.2.0
 
 %{!?_modulesloaddir:%global _modulesloaddir %{_usr}/lib/modules-load.d}
 
 Name: fuse-overlayfs
-Version: 1.1.0
-Release: 7.dev.git%{shortcommit0}%{?dist}
+Version: 1.2.0+dev
+Release: 2.dev.git%{shortcommit0}%{?dist}
 Summary: FUSE overlay+shiftfs implementation for rootless containers
 License: GPLv3+
 URL: %{git0}
@@ -51,7 +51,7 @@ building other packages which use import path with
 %{__make}
 
 %install
-make DESTDIR=%{buildroot} install
+%make_install
 install -d %{buildroot}%{_modulesloaddir}
 echo fuse > %{buildroot}%{_modulesloaddir}/fuse-overlayfs.conf
 
@@ -71,6 +71,53 @@ modprobe fuse > /dev/null 2>&1 || :
 %{_modulesloaddir}/fuse-overlayfs.conf
 
 %changelog
+* Tue Oct 20 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.2.0+dev-2.dev.git54da2c0
+- bump to 1.2.0+dev
+- autobuilt 54da2c0
+
+* Sat Oct 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.0-21.dev.gitf009906
+- autobuilt f009906
+
+* Fri Oct  9 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.0-20.dev.gitba73142
+- autobuilt ba73142
+
+* Thu Oct  8 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.0-19.dev.git1760775
+- autobuilt 1760775
+
+* Mon Oct  5 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.0-18.dev.git04ed72d
+- autobuilt 04ed72d
+
+* Sat Sep 12 16:11:43 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.0-17.dev.git421c64d
+- autobuilt 421c64d
+
+* Mon Sep  7 21:11:24 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.0-16.dev.git0097950
+- autobuilt 0097950
+
+* Thu Aug 27 08:12:20 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.0-15.dev.gitb958a30
+- autobuilt b958a30
+
+* Tue Aug 25 20:11:27 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.0-14.dev.git2608fee
+- autobuilt 2608fee
+
+* Tue Aug 25 13:11:18 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.0-13.dev.git938d9d4
+- autobuilt 938d9d4
+
+* Fri Aug 21 09:10:26 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.0-12.dev.git519ce4d
+- autobuilt 519ce4d
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-11.dev.git800011b
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Tom Stellard <tstellar@redhat.com> - 1.1.0-10.dev.git800011b
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Mon Jul 20 07:09:14 GMT 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.0-9.dev.git800011b
+- autobuilt 800011b
+
+* Mon Jun 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.0-8.dev.gitfb8b3e0
+- autobuilt fb8b3e0
+
 * Mon Jun 22 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.0-7.dev.git87a850d
 - autobuilt 87a850d
 

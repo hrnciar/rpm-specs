@@ -5,13 +5,13 @@
 %define python3_version                3.4
 
 Name:           pygobject3
-Version:        3.36.1
+Version:        3.38.0
 Release:        2%{?dist}
 Summary:        Python bindings for GObject Introspection
 
 License:        LGPLv2+ and MIT
 URL:            https://wiki.gnome.org/Projects/PyGObject
-Source0:        https://download.gnome.org/sources/pygobject/3.36/pygobject-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/pygobject/3.38/pygobject-%{version}.tar.xz
 
 BuildRequires:  cairo-gobject-devel
 BuildRequires:  glib2-devel >= %{glib2_version}
@@ -19,6 +19,7 @@ BuildRequires:  gobject-introspection-devel >= %{gobject_introspection_version}
 BuildRequires:  meson
 BuildRequires:  python3-devel >= %{python3_version}
 BuildRequires:  python3-cairo-devel >= %{pycairo_version}
+BuildRequires:  python3-setuptools
 
 %description
 The %{name} package provides a convenient wrapper for the GObject library
@@ -70,11 +71,11 @@ This package contains files required to embed PyGObject
 %files -n python3-gobject-base
 %license COPYING
 %doc NEWS
-%dir %{python3_sitearch}/gi
-%{python3_sitearch}/gi/*
 %exclude %{python3_sitearch}/gi/_gi_cairo*.so
-%{python3_sitearch}/pygtkcompat/
+%{python3_sitearch}/gi/
 %{python3_sitearch}/PyGObject-*.egg-info
+%{python3_sitelib}/gi/
+%{python3_sitelib}/pygtkcompat/
 
 %files -n python3-gobject-devel
 %dir %{_includedir}/pygobject-3.0/
@@ -82,6 +83,19 @@ This package contains files required to embed PyGObject
 %{_libdir}/pkgconfig/pygobject-3.0.pc
 
 %changelog
+* Mon Oct 05 2020 Kalev Lember <klember@redhat.com> - 3.38.0-2
+- Explicity BuildRequire python3-setuptools
+
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 3.36.1-2
 - Rebuilt for Python 3.9
 

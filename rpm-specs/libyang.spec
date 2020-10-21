@@ -1,18 +1,20 @@
-# valgrind finds invalid writes in libcmocka on arm
+# valgrind finds invalid writes in libcmocka on arm and power
 # see bug #1699304 for more information
-%ifarch %arm
+%ifarch %arm ppc64le
 %global run_valgrind_tests OFF
 %else
 %global run_valgrind_tests ON
 %endif
 
 Name: libyang
-Version: 1.0.176
-Release: 1%{?dist}
+Version: 1.0.184
+Release: 3%{?dist}
 Summary: YANG data modeling language library
 Url: https://github.com/CESNET/libyang
 Source: %{url}/archive/v%{version}.tar.gz
 License: BSD
+
+Patch0:	libyang-1.0.184-doc.patch
 
 Requires:  pcre
 BuildRequires:  cmake
@@ -72,13 +74,10 @@ Libyang is YANG data modeling language parser and toolkit
 written (and providing API) in C.
 
 %prep
-%setup -q
-mkdir build
+%autosetup
 
 %build
-cd build
 %cmake \
-   %{?_smp_mflags} \
    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
    -DCMAKE_BUILD_TYPE:String="Package" \
    -DENABLE_LYD_PRIV=ON \
@@ -86,17 +85,20 @@ cd build
    -DGEN_JAVASCRIPT_BINDINGS=OFF \
    -DGEN_LANGUAGE_BINDINGS=ON \
    -DENABLE_VALGRIND_TESTS=%{run_valgrind_tests} ..
-%make_build
+%cmake_build
+mkdir build
+cp ./%_target_platform/src/libyang.h ./build/libyang.h
+pushd %_target_platform
 make doc
+popd
 
 %check
-cd build
+pushd %_target_platform
 ctest --output-on-failure -V %{?_smp_mflags}
+popd
 
 %install
-pushd build
-%make_install DESTDIR=%{buildroot}
-popd
+%cmake_install
 mkdir -m0755 -p %{buildroot}/%{_docdir}/libyang
 cp -r doc/html %{buildroot}/%{_docdir}/libyang/html
 
@@ -135,6 +137,17 @@ cp -r doc/html %{buildroot}/%{_docdir}/libyang/html
 %{python3_sitearch}/__pycache__/yang*
 
 %changelog
+* Wed Sep 02 2020 Merlin Mathesius <mmathesi@redhat.com> - 1.0.184-3
+- Fix FTBFS by disabling valgrind on power since it finds bogus invalid
+  writes in libcmocka
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.184-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Tomas Korbar <tkorbar@redhat.com> - 1.0.184-1
+- Update to 1.0.184
+- Fix build
+
 * Fri Jun 19 2020 Tomas Korbar <tkorbar@redhat.com> - 1.0.176-1
 - Update to 1.0.176
 

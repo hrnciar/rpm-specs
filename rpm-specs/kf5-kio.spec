@@ -1,8 +1,9 @@
+%undefine __cmake_in_source_build
 %global framework kio
 
 Name:    kf5-%{framework}
-Version: 5.71.0
-Release: 1%{?dist}
+Version: 5.75.0
+Release: 2%{?dist}
 Summary: KDE Frameworks 5 Tier 3 solution for filesystem abstraction
 
 License: GPLv2+ and MIT and BSD
@@ -26,6 +27,8 @@ Source0: http://download.kde.org/%{stable}/frameworks/%{majmin}/%{framework}-%{v
 # on the docbook stack.
 Patch101: kio-no-help-protocol.patch
 %endif
+
+Patch200: kf5-kio-gcc11.patch
 
 # filter plugin provides
 %global __provides_exclude_from ^(%{_kf5_qtplugindir}/.*\\.so)$
@@ -174,27 +177,23 @@ KIONTLM provides support for NTLM authentication mechanism in KIO
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-man %{?_with_html}
 
 
 %files
-%license COPYING.LIB
+%license LICENSES/*.txt
 %doc README.md
 
 %files core
 %{_kf5_sysconfdir}/xdg/accept-languages.codes
-%{_kf5_datadir}/qlogging-categories5/%{framework}.categories
+%{_kf5_datadir}/qlogging-categories5/*categories
 %{_kf5_libexecdir}/kio_http_cache_cleaner
 %{_kf5_libexecdir}/kpac_dhcp_helper
 %{_kf5_libexecdir}/kioexec
@@ -293,6 +292,24 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Fri Oct 16 2020 Jeff Law <law@redhat.com> - 5.75.0-2
+- Fix missing #include for gcc-11
+
+* Wed Oct 14 09:57:16 CDT 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.75.0-1
+- 5.75.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.74.1-1
+- 5.74.1
+
+* Mon Aug 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.73.0-1
+- 5.73.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.72.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-1
+- 5.72.0
+
 * Tue Jun 16 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.71.0-1
 - 5.71.0
 

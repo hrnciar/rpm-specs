@@ -4,7 +4,7 @@
 Summary: A GNU utility for secure communication and data storage
 Name: gnupg1
 Version: 1.4.23
-Release: 11%{?dist}
+Release: 13%{?dist}
 License: GPLv3+ with exceptions
 URL: http://www.gnupg.org/
 Source0: https://gnupg.org/ftp/gcrypt/gnupg/gnupg-%{version}.tar.bz2
@@ -98,6 +98,13 @@ done
 %{_mandir}/man1/gpgv1.1.gz
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.23-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.23-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 06 2020 Brian C. Lane <bcl@redhat.com> - 1.4.23-11
 - Add -fcommon to the flags to avoid the GCC 10 'multiple definition of ...' warnings
   Resolves: rhbz#1799431

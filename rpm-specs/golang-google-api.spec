@@ -4,14 +4,9 @@
 # https://github.com/google/google-api-go-client
 %global goipath         google.golang.org/api
 %global forgeurl        https://github.com/google/google-api-go-client
-Version:                0.15.0
+Version:                0.31.0
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-google-golang-org-api-devel < 0.1.0-3
-}
 
 %global common_description %{expand:
 These are auto-generated Go libraries from the Google Discovery Service's JSON
@@ -30,7 +25,7 @@ features.}
 %global godocs          docs examples AUTHORS CONTRIBUTING.md CONTRIBUTORS GettingStarted.md README.md TODO
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Auto-generated Google apis for Go
 
 # Upstream license specification: MIT and BSD-3-Clause
@@ -38,6 +33,7 @@ License:        MIT and BSD
 URL:            %{gourl}
 Source0:        %{gosource}
 
+BuildRequires:  golang(cloud.google.com/go/compute/metadata)
 BuildRequires:  golang(github.com/googleapis/gax-go/v2)
 BuildRequires:  golang(go.opencensus.io/plugin/ocgrpc)
 BuildRequires:  golang(go.opencensus.io/plugin/ochttp)
@@ -54,7 +50,6 @@ BuildRequires:  golang(google.golang.org/grpc/codes)
 BuildRequires:  golang(google.golang.org/grpc/credentials)
 BuildRequires:  golang(google.golang.org/grpc/credentials/google)
 BuildRequires:  golang(google.golang.org/grpc/credentials/oauth)
-BuildRequires:  golang(google.golang.org/grpc/naming)
 
 %if %{with check}
 # Tests
@@ -82,6 +77,16 @@ BuildRequires:  golang(google.golang.org/grpc/metadata)
 %gopkgfiles
 
 %changelog
+* Thu Sep 03 22:24:36 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.31.0-1
+- Update to 0.31.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

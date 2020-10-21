@@ -1,7 +1,7 @@
 Summary:       A set of scripts to work locally on subversion checkouts using mercurial
 Name:          hgsvn
-Version:       0.5.2
-Release:       6%{?dist}
+Version:       0.6.0
+Release:       2%{?dist}
 License:       GPLv3+
 URL:           http://pypi.python.org/pypi/hgsvn/
 Source0:       https://files.pythonhosted.org/packages/source/h/hgsvn/hgsvn-%{version}.tar.gz
@@ -49,6 +49,12 @@ fast local operations like hg log and hg annotate.
 %{python3_sitelib}/%{name}-*-py*.egg-info
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 19 2020 Terje Rosten <terje.rosten@ntnu.no> - 0.6.0-1
+- 0.6.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.2-6
 - Rebuilt for Python 3.9
 

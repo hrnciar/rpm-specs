@@ -3,7 +3,7 @@
 
 Name: doxy2man
 Version: 0
-Release: 11.%{git_date}git%{?dist}
+Release: 12.%{git_date}git%{?dist}
 Summary: Create man pages from doxygen XML output
 
 License: GPLv3+
@@ -44,6 +44,9 @@ install -p -m 644 doxy2man.8 %{buildroot}%{_mandir}/man8
 %license COPYING
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-12.20150625git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-11.20150625git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

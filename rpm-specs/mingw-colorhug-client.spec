@@ -2,7 +2,7 @@
 
 Name:           mingw-colorhug-client
 Version:        0.2.6
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        MinGW Tools for the Hughski ColorHug
 
 License:        GPLv2+
@@ -125,6 +125,12 @@ glib-compile-schemas %{mingw64_datadir}/glib-2.0/schemas &> /dev/null || :
 %{mingw64_datadir}/icons/hicolor/*/mimetypes/*
 
 %changelog
+* Wed Aug 12 13:35:38 GMT 2020 Sandro Mani <manisandro@gmail.com> - 0.2.6-13
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.6-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 0.2.6-11
 - Rebuild (gettext)
 

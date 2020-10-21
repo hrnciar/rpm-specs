@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:       kbibtex
 Version:    0.9.2
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    A BibTeX editor for KDE
 
 License:    GPLv2+
@@ -63,15 +65,12 @@ developing programs using KBibTeX libraries.
 
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=$RPM_BUILD_ROOT -C %{_target_platform}
+%cmake_install
 %find_lang %{name} --all-name
 
 %check
@@ -102,6 +101,9 @@ desktop-file-validate  $RPM_BUILD_ROOT%{_kf5_datadir}/applications/*.desktop
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 20 2020 Marie Loise Nolden <loise@kde.org> - 0.9.2-1
 - Update to 0.9.2
 

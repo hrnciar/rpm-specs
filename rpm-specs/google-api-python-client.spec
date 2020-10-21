@@ -5,13 +5,14 @@
 
 Name:           google-api-python-client
 Summary:        %{sum}
-Epoch:          1
+Epoch:          2
 Version:        1.6.7
-Release:        12%{?dist}
+Release:        13%{?dist}
 
 License:        ASL 2.0
-URL:            http://github.com/google/%{name}/
-Source0:        https://files.pythonhosted.org/packages/e0/91/0e6a42ea3e0898a75d819a9690c8c8d0eecd31275d8a85503c8fc33949f2/%{name}-%{version}.tar.gz
+URL:            http://github.com/googleapis/%{name}/
+Source0:        https://github.com/googleapis/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
+
 BuildArch:      noarch
 
 %description 
@@ -33,13 +34,18 @@ Requires:       python3-httplib2 >= 0.9.2
 Requires:       python3-oauth2client >= 2.0.0
 Requires:       python3-uritemplate >= 3.0.0
 Requires:       python3-six >= 1.6.1
+Requires:       python3-google-api-core
+Requires:       python3-google-auth-httplib2 >= 0.0.3
 
 %description -n python3-%{srcname}
 Written by Google, this library provides a small, flexible, and powerful 
 Python 3 client library for accessing Google APIs.
 
 %prep
-%setup -q
+%autosetup
+
+# remove unusable google-api-client requires
+sed -i /google-api-core/d setup.py
 
 # remove egg info
 rm -rf google_api_python_client.egg-info
@@ -59,12 +65,36 @@ done
 
 %files -n python3-%{srcname}
 %license LICENSE 
-%doc CHANGELOG
+%doc README.md
 %{python3_sitelib}/apiclient/
 %{python3_sitelib}/googleapiclient/
 %{python3_sitelib}/google_api_python_client-%{version}-py%{python3_version}.egg-info/
 
 %changelog
+* Wed Sep 16 2020 Gwyn Ciesla <gwync@protonmail.com> - 2:1.6.7-13
+- Revert to 1.6.7
+
+* Tue Sep 15 2020 Gwyn Ciesla <gwync@protonmail.com> - 1:1.12.1-1
+- 1.12.1
+
+* Fri Aug 28 2020 Gwyn Ciesla <gwync@protonmail.com> - 1:1.11.0-1
+- 1.11.0
+
+* Wed Aug 26 2020 Gwyn Ciesla <gwync@protonmail.com> - 1:1.10.1-1
+- 1.10.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Gwyn Ciesla <gwync@protonmail.com> - 1:1.10.0-1
+- 1.10.0
+
+* Tue Jun 30 2020 Gwyn Ciesla <gwync@protonmail.com> - 1:1.9.3-2
+- Requires fix.
+
+* Thu Jun 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 1:1.9.3-1
+- Update to 1.9.3
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1:1.6.7-12
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           deepin-draw
 Version:        1.0.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A lightweight drawing tool for Linux Deepin
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/deepin-draw
@@ -49,6 +49,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop ||:
 %{_datadir}/mime/packages/x-ddf.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

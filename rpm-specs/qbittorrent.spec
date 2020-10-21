@@ -3,27 +3,22 @@
 Name:    qbittorrent
 Summary: A Bittorrent Client
 Epoch:   1
-Version: 4.2.5
-Release: 3%{?dist}
+Version: 4.3.0
+Release: 1%{?dist}
 License: GPLv2+
 URL:     http://www.qbittorrent.org
 Source0: %{giturl}/archive/release-%{version}/%{name}-%{version}.tar.gz
 Source1: qbittorrent-nox.README
 Source2: qbittorrent-nox
-Source3: qmake-qt5.sh
-# This patch will not be pushed upstream since it would not be accepted
-# Patch0:  qbittorrent-3.3.5-remove_donate.patch
 # These flags are needed for the hardening feature. It's probably not interesting for upstream
-Patch1:  qbittorrent-3.3.11-build_flags.patch
+Patch0:  qbittorrent-3.3.11-build_flags.patch
 # disable silent qmake config, enable verbose build
-Patch2:  qbittorrent-3.3.1-verbose_build.patch
+Patch1:  qbittorrent-3.3.1-verbose_build.patch
 
 
-# See https://fedoraproject.org/wiki/Changes/Remove_GCC_from_BuildRoot
+BuildRequires: cmake3
 BuildRequires: gcc-c++
-
-BuildRequires: automake
-BuildRequires: libtool
+BuildRequires: ninja-build
 BuildRequires: systemd
 BuildRequires: pkgconfig(Qt5Core) >= 5.5
 BuildRequires: pkgconfig(Qt5Gui)
@@ -31,10 +26,10 @@ BuildRequires: pkgconfig(Qt5Svg)
 BuildRequires: pkgconfig(zlib)
 BuildRequires: qt5-linguist
 BuildRequires: rb_libtorrent-devel >= 1.1.4
-BuildRequires: rsync
 BuildRequires: desktop-file-utils
 BuildRequires: boost-devel >= 1.60
 BuildRequires: libappstream-glib
+
 Requires: python3
 
 %description
@@ -49,49 +44,46 @@ A Headless Bittorrent client using rb_libtorrent.
 It aims to be as fast as possible and to provide multi-OS, unicode support.
 
 %prep
-%setup -qn qBittorrent-release-%{version}
-# %patch0 -p1
-%patch1 -p1
-%patch2 -p1 -b .verbose_build
-./bootstrap.sh
-cp -p %{SOURCE1} .
+%setup -q -n qBittorrent-release-%{version} -c
+
+mv qBittorrent-release-%{version} build
+
+pushd build
+%patch0 -p1
+%patch1 -p1 -b .verbose_build
 sed -i -e 's@Exec=qbittorrent %U@Exec=env TMPDIR=/var/tmp qbittorrent %U@g' dist/unix/org.qbittorrent.qBittorrent.desktop
-
-%build
-%set_build_flags
-
-# force use of custom/local qmake, to inject proper build flags (above)
-install -m755 -D %{SOURCE3} bin/qmake-qt5
-PATH=`pwd`/bin:%{_qt5_bindir}:$PATH; export PATH
-QT_QMAKE=`pwd`/bin/; export QT_QMAKE
-
-rsync -Rr ./ ./build-nox
-
-# use ./configure instead of %%configure as it doesn't work
-# configure and make headless first
-pushd build-nox
-./configure \
-             --prefix=%{_prefix} \
-             --with-boost-libdir=%{_libdir} \
-             --disable-silent-rules \
-             --enable-systemd \
-             --disable-gui
-%make_build
+cp README.md NEWS AUTHORS TODO Changelog COPYING ..
 popd
 
-# configure and make gui version
-./configure \
-             --prefix=%{_prefix} \
-             --with-boost-libdir=%{_libdir} \
-             --disable-silent-rules
-%make_build
+cp -p %{SOURCE1} .
+cp -Rp build build-nox
+
+%build
+export LDFLAGS="%{?__global_ldflags} -pthread"
+# Build headless first
+pushd build-nox
+%cmake3 -DSYSTEMD=ON -Wno-dev -GNinja \
+ -DGUI=OFF -DQBT_VER_STATUS=''
+%cmake3_build
+popd
+
+# Build gui version
+pushd build
+%cmake3 -DWEBUI=OFF -Wno-dev -GNinja \
+ -DQBT_VER_STATUS=''
+%cmake3_build
+popd
 
 %install
 # install headless version
-make INSTALL_ROOT=%{buildroot} -C build-nox install
+pushd build-nox
+%cmake3_install
+popd
 
 # install gui version
-make INSTALL_ROOT=%{buildroot} install
+pushd build
+%cmake3_install
+popd
 
 mv %{buildroot}%{_bindir}/qbittorrent-nox %{buildroot}%{_bindir}/qbittorrent-nox-bin
 install -pm 0755 %{SOURCE2} %{buildroot}%{_bindir}/qbittorrent-nox
@@ -103,7 +95,6 @@ desktop-file-install \
 
 appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/org.qbittorrent.qBittorrent.appdata.xml
 
-
 %files
 %license COPYING
 %doc README.md NEWS AUTHORS TODO Changelog
@@ -113,7 +104,6 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/org.qbittorren
 %{_datadir}/icons/hicolor/*/apps/qbittorrent.png
 %{_datadir}/icons/hicolor/*/status/qbittorrent-tray.png
 %{_datadir}/icons/hicolor/*/status/qbittorrent-tray*.svg
-%{_datadir}/pixmaps/qbittorrent.png
 %{_mandir}/man1/qbittorrent.1*
 
 %files nox
@@ -125,6 +115,16 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/org.qbittorren
 %{_mandir}/man1/qbittorrent-nox.1*
 
 %changelog
+* Mon Oct 19 2020 Leigh Scott <leigh123linux@gmail.com> - 1:4.3.0-1
+- Update to 4.3.0
+
+* Fri Oct  9 2020 Leigh Scott <leigh123linux@gmail.com> - 1:4.2.5-5
+- Switch to cmake
+- Disable webui for gui build
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.2.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Leigh Scott <leigh123linux@gmail.com> - 1:4.2.5-3
 - Revert 'Remove html code from tooltip'
 

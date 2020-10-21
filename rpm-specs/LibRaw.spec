@@ -6,8 +6,8 @@
 
 Summary: Library for reading RAW files obtained from digital photo cameras
 Name: LibRaw
-Version: 0.20
-Release: 0.beta1%{?dist}.1
+Version: 0.20.2
+Release: 1%{?dist}
 License: BSD and (CDDL or LGPLv2)
 URL: http://www.libraw.org
 
@@ -17,8 +17,7 @@ BuildRequires: pkgconfig(jasper)
 BuildRequires: pkgconfig(libjpeg)
 BuildRequires: autoconf automake libtool
 
-#Source0: http://www.libraw.org/data/%{name}-%{version}.tar.gz
-Source0: http://github.com/LibRaw/LibRaw/archive/%{version}-Beta1.tar.gz
+Source0: http://github.com/LibRaw/LibRaw/archive/%{version}.tar.gz
 Patch0: LibRaw-pkgconfig.patch
 Provides: bundled(dcraw) = 9.25
 
@@ -54,7 +53,7 @@ Requires: %{name} = %{version}-%{release}
 LibRaw sample programs
 
 %prep
-%autosetup -p1 -n %{name}-%{version}-Beta1
+%autosetup -p1 -n %{name}-%{version}
 
 %build
 autoreconf -if
@@ -99,9 +98,7 @@ rm -fv %{buildroot}%{_libdir}/lib*.la
 
 %files devel
 %doc manual
-#if 0%{?samples}
 %doc samples
-#endif
 %{_includedir}/libraw/
 %{_libdir}/libraw.so
 %{_libdir}/libraw_r.so
@@ -116,6 +113,27 @@ rm -fv %{buildroot}%{_libdir}/lib*.la
 
 
 %changelog
+* Thu Oct 15 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.20.2-1
+- 0.20.2
+
+* Wed Oct 14 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.20.1-1
+- 0.20.1
+
+* Thu Sep 24 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.20.0-3
+- Patch for CVE-2020-24890.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.20.0-1
+- 0.20.0 final.
+
+* Thu Jul 02 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.20-0.rc1.3
+- RC1
+
+* Mon Jun 29 2020 Gwyn Ciesla <gwync@protonmail.com>- 0.20-0.beta1.2
+- Patch for CVE-2020-15365
+
 * Wed May 13 2020 Kalev Lember <klember@redhat.com> - 0.20-0.beta1.1
 - Add back pkgconfig patch lost in the previous commit
 

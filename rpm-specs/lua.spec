@@ -1,21 +1,20 @@
-%global major_version 5.3
+%global major_version 5.4
 # Normally, this is the same as version, but... not always.
-# No tests yet for 5.3.5
-%global test_version 5.3.4
+%global test_version 5.4.1
 # If you are incrementing major_version, enable bootstrapping and adjust accordingly.
 # Version should be the latest prior build. If you don't do this, RPM will break and
 # everything will grind to a halt.
-%global bootstrap 0
-%global bootstrap_major_version 5.2
-%global bootstrap_version %{bootstrap_major_version}.3
+%global bootstrap 1
+%global bootstrap_major_version 5.3
+%global bootstrap_version %{bootstrap_major_version}.5
 
 # Place rpm-macros into proper location.
 %global macrosdir %(d=%{_rpmconfigdir}/macros.d; [ -d $d ] || d=%{_sysconfdir}/rpm; echo $d)
 
 
 Name:           lua
-Version:        %{major_version}.5
-Release:        7%{?dist}
+Version:        %{major_version}.1
+Release:        1%{?dist}
 Summary:        Powerful light-weight programming language
 License:        MIT
 URL:            http://www.lua.org/
@@ -28,20 +27,17 @@ Source2:        http://www.lua.org/ftp/lua-%{bootstrap_version}.tar.gz
 Source3:        http://www.lua.org/tests/lua-%{test_version}-tests.tar.gz
 # multilib
 Source4:        luaconf.h
-# rpm-macro
-Source1000:     macros.lua
-Patch0:         %{name}-5.3.0-autotoolize.patch
+Patch0:         %{name}-5.4.0-beta-autotoolize.patch
 Patch1:         %{name}-5.3.0-idsize.patch
 #Patch2:         %%{name}-5.3.0-luac-shared-link-fix.patch
 Patch3:         %{name}-5.2.2-configure-linux.patch
 Patch4:         %{name}-5.3.0-configure-compat-module.patch
 %if 0%{?bootstrap}
-Patch5:         %{name}-5.2.3-autotoolize.patch
-Patch6:         %{name}-5.2.2-idsize.patch
-Patch7:         %{name}-5.2.2-luac-shared-link-fix.patch
-Patch8:         %{name}-5.2.2-configure-compat-module.patch
+Patch5:         %{name}-5.3.0-autotoolize.patch
+Patch6:		%{name}-5.3.5-luac-shared-link-fix.patch
 %endif
-Patch9:         CVE-2019-6706-use-after-free-lua_upvaluejoin.patch
+# https://www.lua.org/bugs.html
+Patch18:	%{name}-5.3.5-CVE-2020-24370.patch
 
 BuildRequires:  automake autoconf libtool readline-devel ncurses-devel
 Requires:       lua-libs = %{version}-%{release}
@@ -59,6 +55,9 @@ configuration, scripting, and rapid prototyping.
 %package devel
 Summary:        Development files for %{name}
 Requires:       %{name}%{?_isa} = %{version}-%{release}
+# The RPM related dependencies bring nothing to a non-RPM Lua developer
+# But we want them when packages BuildRequire lua-devel
+Requires:       (lua-rpm-macros if rpm-build)
 Requires:       pkgconfig
 
 %description devel
@@ -81,7 +80,7 @@ This package contains the static version of liblua for %{name}.
 
 %prep
 %if 0%{?bootstrap}
-%setup -q -a 2 -a 3
+%setup -q -a 2 -a 3 -n %{name}-%{version}
 %else
 %setup -q -a 3
 %endif
@@ -92,7 +91,6 @@ mv src/luaconf.h src/luaconf.h.template.in
 #%% patch2 -p1 -z .luac-shared
 %patch3 -p1 -z .configure-linux
 %patch4 -p1 -z .configure-compat-all
-%patch9 -p1 -b .CVE-2019-6706
 # Put proper version in configure.ac, patch0 hardcodes 5.3.0
 sed -i 's|5.3.0|%{version}|g' configure.ac
 autoreconf -ifv
@@ -101,10 +99,11 @@ autoreconf -ifv
 cd lua-%{bootstrap_version}/
 mv src/luaconf.h src/luaconf.h.template.in
 %patch5 -p1 -b .autoxxx
-%patch6 -p1 -b .idsize
-%patch7 -p1 -b .luac-shared
+%patch1 -p1 -b .idsize
 %patch3 -p1 -z .configure-linux
-%patch8 -p1 -z .configure-compat-all
+%patch4 -p1 -z .configure-compat-all
+%patch6 -p1 -b .luac-shared-link-fix
+%patch18 -p1 -b .CVE-2020-24370
 autoreconf -i
 cd ..
 %endif
@@ -177,9 +176,6 @@ rm -rf $RPM_BUILD_ROOT/installdir
 popd
 %endif
 
-# Install rpm-macro
-install -Dpm 0644 %{SOURCE1000} $RPM_BUILD_ROOT/%{macrosdir}/macros.lua
-
 %files
 %{!?_licensedir:%global license %%doc}
 %license mit.txt
@@ -207,13 +203,40 @@ install -Dpm 0644 %{SOURCE1000} $RPM_BUILD_ROOT/%{macrosdir}/macros.lua
 %{_includedir}/l*.hpp
 %{_libdir}/liblua.so
 %{_libdir}/pkgconfig/*.pc
-%{macrosdir}/macros.lua
 
 %files static
 %{_libdir}/*.a
 
-
 %changelog
+* Mon Oct 12 2020 Tom Callaway <spot@fedoraproject.org> - 5.4.1-1
+- update to 5.4.1
+
+* Wed Sep  2 2020 Tom Callaway <spot@fedoraproject.org> - 5.4.0-8
+- apply upstream fix for CVE-2020-24342
+
+* Mon Aug 31 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 5.4.0-7
+- Refactor macros into lua-rpm-macros
+
+* Wed Aug 19 2020 Tom Callaway <spot@fedoraproject.org> - 5.4.0-6
+- apply upstream fix for CVE-2020-24370, CVE-2020-24371
+
+* Wed Aug 19 2020 Tom Callaway <spot@fedoraproject.org> - 5.4.0-5
+- apply upstream fix for CVE-2020-24369
+
+* Fri Jul 31 2020 Tom Callaway <spot@fedoraproject.org> - 5.4.0-4
+- apply upstream fix for CVE-2020-15889
+- apply upstream fix for CVE-2020-15945
+- apply upstream fixes for "known bugs"
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Miro Hrončok <mhroncok@redhat.com> - 5.4.0-2
+- Add lua(abi) requirements generator (requires RPM 4.16+)
+
+* Mon Jun 29 2020 Tom Callaway <spot@fedoraproject.org> - 5.4.0-1
+- update to 5.4.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.5-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -26,7 +26,7 @@
 
 Name:           php-%{pk_vendor}-%{pk_project}
 Version:        2.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        PHP Doctrine Migrations project
 
 License:        MIT
@@ -228,6 +228,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

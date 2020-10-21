@@ -11,7 +11,7 @@
 Summary:       Node up/down detection utility
 Name:          whatsup
 Version:       1.14
-Release:       31%{?dist}
+Release:       32%{?dist}
 License:       GPLv2+
 URL:           https://computing.llnl.gov/linux/whatsup.html
 Source0:       http://downloads.sourceforge.net/project/%{name}/%{name}/%{version}-1/%{name}-%{version}.tar.gz
@@ -308,6 +308,9 @@ fi
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.14-31
 - Perl 5.32 rebuild
 

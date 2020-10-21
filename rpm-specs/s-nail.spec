@@ -1,6 +1,6 @@
 Name:           s-nail
 Version:        14.9.19
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Environment for sending and receiving mail
 
 # Everything is ISC except parts coming from the original Heirloom mailx which are BSD
@@ -132,6 +132,9 @@ fi
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 14.9.19-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nikola Forró <nforro@redhat.com> - 14.9.19-1
 - New upstream release 14.9.19
 - Adjust default configuration to be closer to Heirloom mailx

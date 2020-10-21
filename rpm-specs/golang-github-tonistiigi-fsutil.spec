@@ -4,7 +4,7 @@
 
 # https://github.com/tonistiigi/fsutil
 %global goipath         github.com/tonistiigi/fsutil
-%global commit          524c23dab7263a29f44aec5b451921cb892fe2a4
+%global commit          c3ed55f3b48161fd3dc42c17ba09e12ac52d57dc
 
 %gometa
 
@@ -16,14 +16,13 @@ Incremental file directory sync tools in Go.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Incremental file directory sync tools in Go
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
 
-BuildRequires:  golang(github.com/containerd/containerd/sys)
 BuildRequires:  golang(github.com/containerd/continuity/fs)
 BuildRequires:  golang(github.com/containerd/continuity/sysx)
 BuildRequires:  golang(github.com/docker/docker/pkg/fileutils)
@@ -39,7 +38,6 @@ BuildRequires:  golang(golang.org/x/sys/unix)
 BuildRequires:  golang(github.com/containerd/continuity)
 BuildRequires:  golang(github.com/containerd/continuity/fs/fstest)
 BuildRequires:  golang(github.com/docker/docker/pkg/archive)
-BuildRequires:  golang(github.com/docker/docker/pkg/chrootarchive)
 BuildRequires:  golang(github.com/docker/docker/pkg/reexec)
 BuildRequires:  golang(github.com/stretchr/testify/assert)
 BuildRequires:  golang(github.com/stretchr/testify/require)
@@ -64,6 +62,12 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %gopkgfiles
 
 %changelog
+* Mon Aug 03 20:22:48 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200803gitc3ed55f
+- Bump to commit c3ed55f3b48161fd3dc42c17ba09e12ac52d57dc
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

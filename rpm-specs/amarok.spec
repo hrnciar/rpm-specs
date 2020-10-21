@@ -4,7 +4,7 @@
 Name:    amarok
 Summary: Media player
 Version: 2.9.0
-Release: 7%{?dist}
+Release: 9%{?dist}
 
 # KDE e.V. may determine that future GPL versions are accepted
 License: GPLv2 or GPLv3
@@ -66,6 +66,7 @@ BuildRequires: liblastfm-devel >= 1.0.3
 BuildRequires: pkgconfig(libmygpo-qt) >= 1.0.7
 # loudmouth orphaned/unsupported f33+
 %if 0%{?fedora} < 33
+%global loudmouth 1
 BuildRequires: pkgconfig(loudmouth-1.0)
 %endif
 BuildRequires: pkgconfig(libmtp) >= 0.3.0
@@ -200,8 +201,10 @@ grep '^NoDisplay' %{buildroot}%{_kde4_datadir}/applications/kde4/amzdownloader.d
 %{_kde4_bindir}/amarok
 %{_kde4_bindir}/amarokpkg
 %{_kde4_bindir}/amarok_afttagger
-%if 0%{?fedora}
+%if 0%{?loudmouth}
 %{_kde4_bindir}/amarokmp3tunesharmonydaemon
+%endif
+%if 0%{?fedora}
 %{_kf5_datadir}/solid/actions/amarok-play-audiocd.desktop
 %{_kf5_datadir}/kservices5/ServiceMenus/amarok_append.desktop
 %endif
@@ -291,6 +294,13 @@ grep '^NoDisplay' %{buildroot}%{_kde4_datadir}/applications/kde4/amzdownloader.d
 
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.0-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.9.0-7
 - drop loudmouth support f33+
 

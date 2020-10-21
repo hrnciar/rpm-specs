@@ -1,10 +1,10 @@
 %global packname tinytest
-%global packver  1.2.1
+%global packver  1.2.3
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          1.2.1
-Release:          2%{?dist}
+Version:          1.2.3
+Release:          1%{?dist}
 Summary:          Lightweight and Feature Complete Unit Testing Framework
 
 License:          GPLv3
@@ -70,6 +70,15 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Thu Oct 08 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.2.3-1
+- Update to latest version (#1886143)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.2.2-1
+- Update to latest version
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 1.2.1-2
 - rebuild for R 4
 

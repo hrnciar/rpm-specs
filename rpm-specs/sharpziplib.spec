@@ -6,8 +6,8 @@
 %bcond_with brokentests
 
 Name:           sharpziplib
-Version:        1.2.0
-Release:        2%{?dist}
+Version:        1.3.0
+Release:        0%{?dist}
 Summary:        Zip, GZip, Tar and BZip2 library
 
 # - as stated on the homepage, license is aka GNU Classpath exception:
@@ -85,13 +85,14 @@ mcs ./Lzw/LzwException.cs ./Lzw/LzwInputStream.cs ./Lzw/LzwConstants.cs ./Core/E
     ./Zip/Compression/DeflaterPending.cs ./Zip/ZipException.cs ./Zip/ZipEntryFactory.cs ./Zip/ZipFile.cs ./Zip/ZipExtraData.cs \
     ./Zip/ZipEntry.cs ./Zip/ZipNameTransform.cs ./Zip/ZipInputStream.cs ./Zip/ZipOutputStream.cs ./Zip/ZipConstants.cs \
     ./Zip/ZipStrings.cs ./Zip/WindowsNameTransform.cs \
+    ./Zip/ZipEncryptionMethod.cs \
     ./Tar/TarInputStream.cs ./Tar/InvalidHeaderException.cs ./Tar/TarException.cs ./Tar/TarArchive.cs ./Tar/TarBuffer.cs \
     ./Tar/TarHeader.cs ./Tar/TarEntry.cs ./Tar/TarExtendedHeaderReader.cs ./Tar/TarOutputStream.cs \
     ./GZip/GzipInputStream.cs ./GZip/GZip.cs ./GZip/GZipException.cs ./GZip/GZipConstants.cs ./GZip/GzipOutputStream.cs \
     ./Encryption/ZipAESTransform.cs ./Encryption/ZipAESStream.cs ./Encryption/PkzipClassic.cs \
     ./Checksum/BZip2Crc.cs ./Checksum/Adler32.cs ./Checksum/IChecksum.cs ./Checksum/Crc32.cs \
     ./AssemblyInfo.cs \
-    -keyfile:ICSharpCode.SharpZipLib.snk \
+    -keyfile:../../assets/ICSharpCode.SharpZipLib.snk \
     -target:library -out:../../bin/ICSharpCode.SharpZipLib.dll
 cd -
 
@@ -124,6 +125,12 @@ FINISH
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Sat Oct 10 2020 Timotheus Pokorra <timotheus.pokorra@solidcharity.com> - 1.3.0-0
+- Upgrade to v1.3.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

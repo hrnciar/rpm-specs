@@ -4,7 +4,7 @@
 
 # https://github.com/gohugoio/hugo
 %global goipath github.com/gohugoio/hugo
-Version:        0.73.0
+Version:        0.75.1
 
 %gometa
 
@@ -25,12 +25,18 @@ License:        ASL 2.0 and MIT
 URL:            %{gourl}
 Source0:        %{gosource}
 # Skip tests that uses the network.
-Patch0001:      https://sources.debian.org/data/main/h/hugo/0.58.3-1/debian/patches/0005-skip-modules-TestClient.patch
-Patch0002:      https://sources.debian.org/data/main/h/hugo/0.69.0-1/debian/patches/0006-skip-TestHugoModulesTargetInSubFolder.patch
+# https://sources.debian.org/data/main/h/hugo/0.58.3-1/debian/patches/0005-skip-modules-TestClient.patch
+Patch0001:      0005-skip-modules-TestClient.patch
+# https://sources.debian.org/data/main/h/hugo/0.69.0-1/debian/patches/0006-skip-TestHugoModulesTargetInSubFolder.patch
+Patch0002:      0006-skip-TestHugoModulesTargetInSubFolder.patch
 # Fix error message that changed in gocloud.
 Patch0003:      0001-Update-error-message.patch
+# Minify 2.9.3 removed Decimals in favor of Precision
+Patch0004:      0001-Update-to-minify-2.9.4.patch
+# Fix for TestResourceChains/minify failure
+Patch0005:      0001-Remove-trailing-semicolon.patch
 
-BuildRequires:  golang(github.com/bep/golibsass/libsass) >= 0.5.0
+BuildRequires:  golang(github.com/bep/golibsass/libsass) >= 0.7.0
 
 %description
 %{common_description}
@@ -43,12 +49,12 @@ BuildRequires:  golang(github.com/bep/golibsass/libsass) >= 0.5.0
 %patch0001 -p1
 %patch0002 -p1
 %patch0003 -p1
+%patch0004 -p1
+%patch0005 -p1
 
 # Replace blackfriday import path to avoid conflict with v2
-# Depend on unversioned tdewolff/minify until Go modules are supported in Fedora
 sed -i \
     -e 's|"github.com/russross/blackfriday|"gopkg.in/russross/blackfriday.v1|' \
-    -e 's|"github.com/tdewolff/minify/v2|"github.com/tdewolff/minify|' \
     $(find . -name '*.go')
 
 # Skip test that assumes directory is in a git repository
@@ -98,6 +104,16 @@ install -Dp man/* -t %{buildroot}%{_mandir}/man1
 
 
 %changelog
+* Fri Sep 18 04:37:22 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.75.1-1
+- Update to 0.75.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.73.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.73.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Athos Ribeiro <athoscr@fedoraproject.org> - 0.73.0-1
 - Update to latest version
 

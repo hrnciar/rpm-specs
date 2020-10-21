@@ -5,7 +5,7 @@ License:        GPLv3+
 Url:            http://gitweb.mageia.org/software/monitor-edid/
 
 Version:        3.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 
 Source0:        https://gitweb.mageia.org/software/monitor-edid/snapshot/refs/tags/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
@@ -86,6 +86,9 @@ make all
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 19 2020 Pat Riehecky <riehecky@fnal.gov - 3.2-3
 - Fix double include
 

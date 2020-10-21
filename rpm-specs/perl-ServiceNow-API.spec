@@ -1,6 +1,6 @@
 Name:           perl-ServiceNow-API
 Version:        1.01
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        ServiceNow API for accessing the Service-now platform
 
 License:        ASL 2.0
@@ -56,6 +56,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.01-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.01-23
 - Perl 5.32 rebuild
 

@@ -9,7 +9,7 @@
 
 Name:    trezor-common
 Version: 0
-Release: 0.7%{?dist}
+Release: 0.8%{?dist}
 Summary: udev rules and protobuf messages for the hardware wallet TREZOR
 
 License:       LGPLv3+
@@ -48,6 +48,9 @@ done
 %{_datadir}/trezor
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+
 # uncomment to enable bootstrap mode
 #global bootstrap 1
 
@@ -7,8 +9,8 @@
 
 Name:           kamoso
 Summary:        Application for taking pictures and videos from a webcam
-Version:        20.04.2
-Release:        1%{?dist}
+Version: 20.08.1
+Release: 1%{?dist}
 
 License:        GPLv2+
 URL:            https://userbase.kde.org/Kamoso
@@ -74,17 +76,13 @@ Kamoso is an application to take pictures and videos out of your webcam.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%{cmake_kf5} \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{!?tests:OFF}
-popd
-
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang kamoso --with-html
 
@@ -114,6 +112,18 @@ make test ARGS="--output-on-failure --timeout 300" -C %{_target_platform} ||:
 
 
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Sat Jun 13 2020 Marie Loise Nolden <loise@kde.org> - 20.04.2-2
 - 20.04.2
 

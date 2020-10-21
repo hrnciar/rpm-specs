@@ -22,7 +22,7 @@
 %endif
 
 Name:           certbot
-Version:        1.5.0
+Version:        1.9.0
 Release:        1%{?dist}
 Summary:        A free, automated certificate authority client
 
@@ -44,7 +44,7 @@ Source13:       certbot-README.fedora
 BuildArch:      noarch
 
 %if %{with python2}
-BuildRequires:  python2-acme >= 1.4.0
+BuildRequires:  python2-acme >= 1.6.0
 BuildRequires:  python2-configargparse >= 0.9.3
 BuildRequires:  python2-cryptography >= 1.2.3
 BuildRequires:  python2-distro >= 1.0.1
@@ -82,7 +82,7 @@ BuildRequires:  python2-sphinx_rtd_theme
 %endif
 
 %if %{with python3}
-BuildRequires:  python3-acme >= 1.4.0
+BuildRequires:  python3-acme >= 1.6.0
 BuildRequires:  python3-configargparse >= 0.9.3
 BuildRequires:  python3-configobj
 BuildRequires:  python3-cryptography >= 1.2.3
@@ -139,7 +139,7 @@ to lower the barriers to entry for encrypting all HTTP traffic on the internet.
 
 %if %{with python2}
 %package -n python2-certbot
-Requires:       python2-acme >= 1.4.0
+Requires:       python2-acme >= 1.6.0
 Requires:       python2-configargparse >= 0.9.3
 Requires:       python2-cryptography >= 1.2.3
 Requires:       python2-distro >= 1.0.1
@@ -180,7 +180,7 @@ The python2 libraries to interface with certbot
 
 %if %{with python3}
 %package -n python3-certbot
-Requires:       python3-acme >= 1.4.0
+Requires:       python3-acme >= 1.6.0
 Requires:       python3-configargparse
 Requires:       python3-configobj
 Requires:       python3-cryptography
@@ -253,7 +253,8 @@ cp -a setup.* README.rst tests build/lib/
 (cd build/lib && %{__python2} setup.py test)
 %endif
 %if %{with python3}
-%{__python3} setup.py test
+#%{__python3} setup.py test
+%{__python3}  -m pytest
 %endif
 # Make sure the scripts use the expected python versions
 %if %{with python2}
@@ -301,6 +302,21 @@ restorecon -R %{_sysconfdir}/letsencrypt || :
 %endif
 
 %changelog
+* Wed Oct 07 2020 Nick Bebout <nb@fedoraproject.org> - 1.9.0-1
+- Update to 1.9.0
+
+* Tue Oct 06 2020 Nick Bebout <nb@fedoraproject.org> - 1.8.0-1
+- Update to 1.8.0
+
+* Sun Aug 16 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.7.0-1
+- Update to 1.7.0 (#1866066)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.6.0-1
+- Update to 1.6.0 (#1854600)
+
 * Sat Jun 06 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.5.0-1
 - Update to 1.5.0 (#1843203)
 

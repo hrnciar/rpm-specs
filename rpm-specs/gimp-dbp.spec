@@ -2,7 +2,7 @@
 
 Name:		gimp-dbp
 Version:        1.1.9
-Release:        19%{?dist}
+Release:        21%{?dist}
 Summary:        Graphical batch processing for Gimp, no scripting knowledge required
 
 License:        GPLv2+
@@ -45,6 +45,13 @@ install -Dm 0644 -p %{SOURCE1} \
 %{_datadir}/metainfo/%{name}.metainfo.xml
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.9-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.9-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.9-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

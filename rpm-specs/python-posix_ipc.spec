@@ -7,7 +7,7 @@
 
 Name:           python-posix_ipc
 Version:        0.9.8
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        POSIX IPC primitives (semaphores and shared memory) for Python
 License:        BSD
 URL:            http://semanchuk.com/philip/posix_ipc/
@@ -87,6 +87,9 @@ find . -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.8-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.8-24
 - Rebuilt for Python 3.9
 

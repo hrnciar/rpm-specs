@@ -5,7 +5,7 @@
 # https://gitea.com/xorm/core
 %global goipath         xorm.io/core
 %global forgeurl        https://gitea.com/xorm/core
-Version:                0.7.0
+Version:                0.7.3
 %global repo            core
 %global archivename     %{repo}-%{version}
 %global archiveext      tar.gz
@@ -18,11 +18,6 @@ Version:                0.7.0
 
 %global goaltipaths     github.com/go-xorm/core
 
-# Remove in F33
-%global godevelheader %{expand:
-Obsoletes:      golang-github-xorm-core-devel < 0.7.0-1
-}
-
 %global common_description %{expand:
 Core is a lightweight wrapper of sql.DB.}
 
@@ -30,7 +25,7 @@ Core is a lightweight wrapper of sql.DB.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Lightweight & Compatible wrapper of database/sql
 
 # Upstream license specification: BSD-3-Clause
@@ -67,6 +62,12 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Fri Aug 07 22:37:14 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.7.3-1
+- Update to 0.7.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

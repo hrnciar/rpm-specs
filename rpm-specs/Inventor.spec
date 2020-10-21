@@ -6,7 +6,7 @@
 
 Name:           Inventor
 Version:        2.1.5
-Release:        72%{?dist}
+Release:        73%{?dist}
 
 Summary:        SGI Open Inventor (TM)
 
@@ -355,6 +355,9 @@ popd > /dev/null
 %{_libdir}/Inventor/examples
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.5-73
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.5-72
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

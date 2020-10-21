@@ -1,6 +1,6 @@
 Name:           maven-clean-plugin
 Version:        3.1.0
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Maven Clean Plugin
 License:        ASL 2.0
 URL:            http://maven.apache.org/plugins/maven-clean-plugin/
@@ -48,6 +48,12 @@ This package provides %{summary}.
 %doc LICENSE NOTICE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.1.0-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

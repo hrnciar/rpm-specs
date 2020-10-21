@@ -1,10 +1,10 @@
 %global packname systemfonts
-%global packver  0.2.2
+%global packver  0.3.2
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          %{packver}
-Release:          2%{?dist}
+Version:          0.3.2
+Release:          1%{?dist}
 Summary:          System Native Font Finding
 
 License:          MIT
@@ -15,11 +15,12 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 # Depends:
 # Imports:
 # Suggests:  R-testthat >= 2.1.0, R-covr, R-knitr, R-rmarkdown, R-tools
-# LinkingTo:
+# LinkingTo: R-cpp11
 # Enhances:
 
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
+BuildRequires:    R-cpp11-devel
 BuildRequires:    R-testthat >= 2.1.0
 BuildRequires:    R-knitr
 BuildRequires:    R-rmarkdown
@@ -89,6 +90,22 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Wed Sep 30 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.3.2-1
+- Update to latest version (#1883682)
+
+* Wed Sep 09 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.3.1-1
+- Update to latest version (#1876947)
+
+* Thu Sep 03 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.3.0-1
+- Update to latest version (#1874447)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 0.2.2-2
 - rebuild for R 4
 

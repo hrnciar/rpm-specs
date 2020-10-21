@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.1.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        AsyncIO asynchronous wrapper around paho-mqtt
 
 License:        EPL-1.0
@@ -50,6 +50,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests
 %{python3_sitelib}/%{pypi_name}-%{version}-py*.egg-info
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.1-4
 - Rebuilt for Python 3.9
 

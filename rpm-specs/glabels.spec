@@ -1,6 +1,6 @@
 Name:		glabels
 Version:	3.4.1
-Release:	8%{?dist}
+Release:	11%{?dist}
 Summary:	A program for creating labels and business cards for GNOME
 
 License:	GPLv3+
@@ -142,6 +142,16 @@ desktop-file-install					\
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Milan Crha <mcrha@redhat.com> - 3.4.1-9
+- Rebuilt for evolution-data-server soname version bump
+
 * Mon Feb 03 2020 Milan Crha <mcrha@redhat.com> - 3.4.1-8
 - Add patch to fix broken build (define shared variables as extern)
 

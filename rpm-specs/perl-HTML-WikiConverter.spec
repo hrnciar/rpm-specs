@@ -1,6 +1,6 @@
 Name:           perl-HTML-WikiConverter
 Version:        0.68
-Release:        32%{?dist}
+Release:        33%{?dist}
 Summary:        Perl module to convert HTML to wiki markup
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/HTML-WikiConverter
@@ -104,6 +104,9 @@ find webapp-install cgi/* -type f | xargs chmod 0644
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.68-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.68-32
 - Perl 5.32 rebuild
 

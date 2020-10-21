@@ -1,8 +1,8 @@
 Name:               python-llfuse
-Version:            1.3.6
-Release:            3%{?dist}
+Version:            1.3.8
+Release:            2%{?dist}
 Summary:            Python Bindings for the low-level FUSE API
-Source0:            https://files.pythonhosted.org/packages/source/l/llfuse/llfuse-%{version}.tar.bz2
+Source0:            https://files.pythonhosted.org/packages/source/l/llfuse/llfuse-%{version}.tar.gz
 URL:                https://pypi.python.org/pypi/llfuse
 License:            LGPLv2+
 
@@ -57,6 +57,15 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} py.test-3 -v test
 
 
 %changelog
+* Sat Oct 10 2020 Denis Fateyev <denis@fateyev.com> - 1.3.8-2
+- Fix upstream archive link
+
+* Sat Oct 10 2020 Denis Fateyev <denis@fateyev.com> - 1.3.8-1
+- Update to 1.3.8 release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.6-3
 - Rebuilt for Python 3.9
 

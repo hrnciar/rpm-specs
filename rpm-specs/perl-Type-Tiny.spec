@@ -1,6 +1,6 @@
 Name:           perl-Type-Tiny
-Version:        1.010002
-Release:        2%{?dist}
+Version:        1.010006
+Release:        1%{?dist}
 Summary:        Tiny, yet Moo(se)-compatible type constraint
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Type-Tiny
@@ -61,7 +61,7 @@ BuildRequires:  perl(Function::Parameters)
 BuildRequires:  perl(IO::String)
 BuildRequires:  perl(JSON::PP) >= 2.27105
 # N/A in Fedora: BuildRequires:  perl(Kavorka)
-# N/A in Fedora: BuildRequires:  perl(match::simple)
+BuildRequires:  perl(match::simple)
 BuildRequires:  perl(Method::Generate::Accessor)
 BuildRequires:  perl(Moo)
 BuildRequires:  perl(Moo::Role)
@@ -161,6 +161,22 @@ sed -i -e '/^inc\//d' MANIFEST
 %{_mandir}/man3/Test::TypeTiny.3pm*
 
 %changelog
+* Thu Sep 17 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 1.010006-1
+- Update to 1.010006.
+
+* Thu Sep 17 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 1.010005-1
+- Update to 1.010005.
+
+* Fri Aug 21 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 1.010004-1
+- Update to 1.010004.
+- Add BR:  perl(match::simple).
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.010002-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.010002-3
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.010002-2
 - Perl 5.32 rebuild
 

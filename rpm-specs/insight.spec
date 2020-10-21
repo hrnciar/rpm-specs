@@ -2,11 +2,8 @@
 %global snap		20200110
 %global gnulibsnap	20191216
 
-%global __python	%{__python3}
-
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global	_python_bytecompile_extra	1
+#	Turn off the brp-python-bytecompile automagic
+%global	_python_bytecompile_extra	0
 
 
 #	Git snapshots are produced as follows:
@@ -21,7 +18,7 @@
 
 Name:		insight
 Version:	%(echo %{ver} | tr - .)%{?snap:.%{snap}}
-Release:	5%{?dist}
+Release:	10%{?dist}
 Summary:	Graphical debugger based on GDB
 License:	GPLv3+ and GPLv3+ with exceptions and GPLv2+ and GPLv2+ with exceptions and GPL+ and LGPLv2+ and BSD and Public Domain and GFDL
 Url:		https://www.sourceware.org/insight/
@@ -73,6 +70,7 @@ Patch2:		insight-10.0-readline-system.patch
 Patch3:		insight-10.0-fix-a-prototype.patch
 Patch4:		insight-10.0.50-gcc10.patch
 Patch5:		insight-10.0.50-python39.patch
+Patch6:		insight-10.0.50-python39-2.patch
 
 #	Some patches from gdb. See gdb spec file for info.
 
@@ -126,6 +124,7 @@ GDB version 8.x.
 %patch3 -p1 -b .fix-a-prototype
 %patch4 -p1 -b .gcc10
 %patch5 -p1 -b .python39
+%patch6 -p1 -b .python39-2
 
 %patch101 -p1
 %patch102 -p1
@@ -195,6 +194,11 @@ done
 . "%{_libdir}/tclConfig.sh"
 . "%{_libdir}/tkConfig.sh"
 
+# We call configure directly rather than via macros, thus if
+# we are using LTO, we have to manually fix the broken configure
+# scripts
+[ %{_lto_cflags}x != x ] && %{_fix_broken_configure_for_lto}
+
 #	Do not use configure macro: let config.guess determine host,
 #	build and target. This is the best way to get compatible values and
 #	avoid building a cross tool.
@@ -220,7 +224,7 @@ LDFLAGS="${LDFLAGS:-%{?build_ldflags}}" ; export LDFLAGS
 		--with-system-readline					\
 		--with-system-zlib					\
 		--with-expat						\
-		--with-python=%{__python}				\
+		--with-python=%{__python3}				\
 		--with-tclinclude="${TCL_SRC_DIR}"			\
 		--with-tkinclude="${TK_SRC_DIR}"			\
 		--without-libunwind					\
@@ -337,7 +341,7 @@ ${INSTALL} -m 644 gdb/gdbtk/insight_icon.svg				\
 
 #	Python byte compile, but not in auto-load.
 
-%py_byte_compile %{__python} %{buildroot}%{_datadir}/insight/python
+%py_byte_compile %{__python3} %{buildroot}%{_datadir}/insight/python/gdb
 
 #-------------------------------------------------------------------------------
 %files
@@ -354,10 +358,28 @@ ${INSTALL} -m 644 gdb/gdbtk/insight_icon.svg				\
 
 #-------------------------------------------------------------------------------
 %changelog
+#-------------------------------------------------------------------------------
+
+* Sat Aug  8 2020 Patrick Monnerat <patrick@monnerat.net> 10.0.50.20200210-10
+- Patch "python39-2" removes another Python 3.9 deprecated function call.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.50.20200110-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.50.20200110-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Jeff Law <law@redhat.com> 10.0.50.20200110-7
+- Fix broken configure tests compromised by LTO
+
+* Wed Jul  1 2020 Patrick Monnerat <patrick@monnerat.net> 10.0.50.20200110-6
+- Rebuild for guile 2.2.
+  https://bugzilla.redhat.com/show_bug.cgi?id=1852708
+- Turn off the brp-python-bytecompile automagic.
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 10.0.50.20200110-5
 - Rebuilt for Python 3.9
-
-#-------------------------------------------------------------------------------
 
 * Tue May  5 2020 Patrick Monnerat <patrick@monnerat.net> 10.0.50.20200210-4
 - Patch "python39" removes a Python 3.9 deprecated function call.

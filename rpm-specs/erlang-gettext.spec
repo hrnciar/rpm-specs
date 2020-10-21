@@ -6,7 +6,7 @@
 
 Name:		erlang-%{realname}
 Version:	2.1.0
-Release:	0.22.20170123git%{short_tag}%{?dist}
+Release:	0.23.20170123git%{short_tag}%{?dist}
 BuildArch:	noarch
 Summary:	Erlang internationalization library
 License:	MIT
@@ -43,6 +43,9 @@ Erlang internationalization library.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-0.23.20170123git2bcba56
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-0.22.20170123git2bcba56
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

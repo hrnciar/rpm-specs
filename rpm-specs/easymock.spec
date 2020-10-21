@@ -1,14 +1,11 @@
 Name:           easymock
-Version:        3.6
-Release:        5%{?dist}
+Version:        4.2
+Release:        1%{?dist}
 Summary:        Easy mock objects
 License:        ASL 2.0
-URL:            http://www.easymock.org
 
-# ./generate-tarball.sh
-Source0:        %{name}-%{version}.tar.gz
-# Remove bundled binaries which cannot be easily verified for licensing
-Source1:        generate-tarball.sh
+URL:            http://www.easymock.org
+Source0:        https://github.com/easymock/easymock/archive/easymock-%{version}.tar.gz
 
 Patch1:         0001-Disable-android-support.patch
 Patch2:         0002-Unshade-cglib-and-asm.patch
@@ -21,9 +18,11 @@ BuildRequires:  mvn(cglib:cglib)
 BuildRequires:  mvn(junit:junit)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-remote-resources-plugin)
-BuildRequires:  mvn(org.apache.maven.surefire:surefire-junit47)
+BuildRequires:  mvn(org.apache.maven.surefire:surefire-junit-platform)
 BuildRequires:  mvn(org.apache.maven.surefire:surefire-testng)
 BuildRequires:  mvn(org.codehaus.mojo:build-helper-maven-plugin)
+BuildRequires:  mvn(org.junit.jupiter:junit-jupiter)
+BuildRequires:  mvn(org.junit.vintage:junit-vintage-engine)
 BuildRequires:  mvn(org.objenesis:objenesis)
 BuildRequires:  mvn(org.ow2.asm:asm)
 BuildRequires:  mvn(org.testng:testng)
@@ -33,7 +32,6 @@ BuildRequires:  mvn(org.apache:apache-jar-resource-bundle)
 Obsoletes:      %{name}3 < 3.4
 Provides:       %{name}3 = %{version}-%{release}
 Obsoletes:      %{name}2 < 2.5.2-10
-
 
 %description
 EasyMock provides Mock Objects for interfaces in JUnit tests by generating
@@ -56,11 +54,13 @@ Javadoc for %{name}.
 %patch2 -p1
 %patch3 -p1
 
-%pom_remove_plugin :maven-license-plugin
-%pom_remove_plugin :maven-timestamp-plugin
+# disable unnecessary maven plugins
+%pom_remove_plugin :animal-sniffer-maven-plugin . core
+%pom_remove_plugin :license-maven-plugin
 %pom_remove_plugin :maven-enforcer-plugin
-%pom_remove_plugin :animal-sniffer-maven-plugin
-%pom_remove_plugin :animal-sniffer-maven-plugin core
+%pom_remove_plugin :maven-gpg-plugin test-java8 test-junit5 test-testng
+%pom_remove_plugin :maven-timestamp-plugin
+%pom_remove_plugin :versions-maven-plugin
 
 # remove android support
 rm core/src/main/java/org/easymock/internal/Android*.java
@@ -76,17 +76,16 @@ rm core/src/test/java/org/easymock/tests2/ClassExtensionHelperTest.java
 %pom_disable_module test-integration
 %pom_disable_module test-osgi
 
-# remove some warning caused by unavailable plugin
-%pom_remove_plugin org.codehaus.mojo:versions-maven-plugin
-
 # For compatibility reasons
 %mvn_file ":easymock{*}" easymock@1 easymock3@1
 
 # ssh not needed during our builds
 %pom_xpath_remove pom:extensions
 
+
 %build
 %mvn_build
+
 
 %install
 %mvn_install
@@ -100,6 +99,15 @@ rm core/src/test/java/org/easymock/tests2/ClassExtensionHelperTest.java
 
 
 %changelog
+* Mon Aug 31 2020 Fabio Valentini <decathorpe@gmail.com> - 4.2-1
+- Update to version 4.2.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.6-6
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -257,3 +265,4 @@ rm core/src/test/java/org/easymock/tests2/ClassExtensionHelperTest.java
 
 * Mon Oct 04 2004 Ralph Apel <r.apel at r-apel.de> - 0:1.1-1jpp
 - First JPackage release
+

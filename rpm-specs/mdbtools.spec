@@ -2,7 +2,7 @@
 
 Name:           mdbtools
 Version:        0.7.1
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Access data stored in Microsoft Access databases
 License:        GPLv2+
 URL:            https://github.com/brianb/mdbtools/wiki
@@ -102,6 +102,9 @@ desktop-file-install --dir $RPM_BUILD_ROOT%{_datadir}/applications %{SOURCE1}
 %{_mandir}/man1/gmdb2.1.gz
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 
 Name:           sugar-kuku
 Version:        5
-Release:        12%{?dist}
+Release:        14%{?dist}
 Summary:        Based on the basic arithmetic education game Number Munchers
 
 License:        GPLv3+
@@ -36,6 +36,13 @@ sed -i 's/python/python2/g' *.py
 %{sugaractivitydir}/KukuAnakula.activity/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

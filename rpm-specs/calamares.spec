@@ -1,7 +1,3 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 #global snapdate 20161119
 #global snaphash 34516e9477b2fd5e9b3e5823350d1efc2099573f
 
@@ -23,7 +19,7 @@
 
 Name:           calamares
 Version:        3.2.11
-Release:        9%{?snaphash:.%{snapdate}git%(echo %{snaphash} | cut -c -13)}%{!?snaphash:%{?prerelease:.%{prerelease}}}%{?dist}
+Release:        14%{?snaphash:.%{snapdate}git%(echo %{snaphash} | cut -c -13)}%{!?snaphash:%{?prerelease:.%{prerelease}}}%{?dist}
 Summary:        Installer from a live CD/DVD/USB to disk
 
 License:        GPLv3+
@@ -48,6 +44,10 @@ Patch0:         calamares-3.2.11-default-settings.patch
 
 # use kdesu instead of pkexec (works around #1171779)
 Patch1:         calamares-3.2.11-kdesu.patch
+
+# Already upstream:
+# https://github.com/calamares/calamares/commit/0e7c984854bcf9b25655e36998606fcbc116d00f
+Patch2:         calamares-3.2.11-include.patch
 
 # Calamares is only supported where live images (and GRUB) are. (#1171380)
 # This list matches the livearches global from anaconda.spec
@@ -134,7 +134,7 @@ Recommends:     grub2-efi-ia32
 Requires:       efibootmgr
 %endif
 Requires:       console-setup
-Requires:       xorg-x11-xkb-utils
+Requires:       setxkbmap
 Requires:       os-prober
 Requires:       e2fsprogs
 Requires:       dosfstools
@@ -212,11 +212,13 @@ developing custom modules for Calamares.
 # delete backup files so they don't get installed
 rm -f src/modules/*/*.conf.default-settings
 %patch1 -p1 -b .kdesu
+%patch2 -p1 -b .include
 
 %build
 mkdir -p %{_target_platform}
 pushd %{_target_platform}
-%{cmake_kf5} -DBUILD_TESTING:BOOL=OFF -DWITH_PYTHONQT:BOOL=OFF -DWEBVIEW_FORCE_WEBKIT:BOOL="%{webview_force_webkit}" -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo" ..
+# Since %%cmake_kf5 forcely undefines %%__cmake_in_source_build, for now explicitly add -B option here
+%{cmake_kf5} -DBUILD_TESTING:BOOL=OFF -DWITH_PYTHONQT:BOOL=OFF -DWEBVIEW_FORCE_WEBKIT:BOOL="%{webview_force_webkit}" -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo" -B. ..
 popd
 
 make %{?_smp_mflags} -C %{_target_platform}
@@ -366,6 +368,28 @@ EOF
 
 
 %changelog
+* Sat Oct 17 2020 Mattia Verga <mattia.verga@protonmail.com>  - 3.2.11-14
+- Rebuilt for kpmcore 4.2.0
+
+* Sat Oct 17 2020 Mamoru TASAKA <mtasaka@fedoraproject.org>  - 3.2.11-13
+- Workaround for FTBFS
+  - Workaround for %%cmake_kf5 forcely undefining %%__cmake_in_source_build
+  - Upstream patch for missing header include
+  - Kill python bytecompile for now
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.11-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 3.2.11-11
+- Require setxkbmap not xorg-x11-xkb-utils
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.11-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 3.2.11-10
+- Use __cmake_in_source_build
+
 * Sat May 30 2020 Jonathan Wakely <jwakely@redhat.com> - 3.2.11-9
 - Rebuilt for Boost 1.73
 

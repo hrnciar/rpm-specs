@@ -2,8 +2,8 @@
 %undefine _hardened_build
 
 Name:           patchelf
-Version:        0.10
-Release:        3%{?dist}
+Version:        0.12
+Release:        1%{?dist}
 Summary:        A utility for patching ELF binaries
 
 License:        GPLv3+
@@ -47,11 +47,20 @@ rm -rf %{buildroot}/usr/share/doc/%{name}
 
 %files
 %license COPYING
-%doc README
+%doc README.md
 %{_bindir}/patchelf
 %{_mandir}/man1/patchelf.1*
 
 %changelog
+* Thu Aug 27 2020 Jeremy Sanders <jeremy@jeremysanders.net> - 0.12-1
+- Update to 0.12 (#1873104)
+
+* Fri Jul 31 2020 Jeremy Sanders <jeremy@jeremysanders.net> - 0.11-1
+- Updated to 0.11 (#1846586)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

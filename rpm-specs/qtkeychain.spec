@@ -1,5 +1,11 @@
+%if 0%{?fedora}
+%bcond_without qt4
+%else
+%bcond_with qt4
+%endif
+
 Name:           qtkeychain
-Version:        0.10.0
+Version:        0.11.1
 Release:        1%{?dist}
 Summary:        A password store library
 
@@ -9,8 +15,10 @@ Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
+%if %{with qt4}
 BuildRequires:  pkgconfig(QtCore)
 BuildRequires:  pkgconfig(QtDBus)
+%endif
 BuildRequires:  pkgconfig(libsecret-1)
 
 %description
@@ -47,33 +55,40 @@ This package contains development files for qt5keychain.
 
 %prep
 %autosetup -p1
+
+%if %{with qt4}
 mkdir %{_target_platform}-qt4
-mkdir %{_target_platform}-qt5
+%endif
 
 %build
-pushd %{_target_platform}-qt4
-  %cmake .. \
-    -DBUILD_WITH_QT4:BOOL=ON \
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo
-popd
-pushd %{_target_platform}-qt5
-  %cmake .. \
-    -DBUILD_WITH_QT4:BOOL=OFF \
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo
-popd
+%if %{with qt4}
+%cmake -B %{_target_platform}-qt4 \
+  -DBUILD_WITH_QT4:BOOL=ON \
+  -DCMAKE_BUILD_TYPE=RelWithDebInfo
 
 %make_build -C %{_target_platform}-qt4
-%make_build -C %{_target_platform}-qt5
+%endif
+
+%cmake \
+  -DBUILD_WITH_QT4:BOOL=OFF \
+  -DCMAKE_BUILD_TYPE=RelWithDebInfo
+
+%cmake_build
 
 %install
+%if %{with qt4}
 %make_install -C %{_target_platform}-qt4
-%make_install -C %{_target_platform}-qt5
+%endif
+%cmake_install
 
 %find_lang %{name} --with-qt
 
-grep %{_qt4_translationdir} %{name}.lang > %{name}-qt4.lang
-grep %{_qt5_translationdir} %{name}.lang > %{name}-qt5.lang
+%if %{with qt4}
+grep %{_datadir}/%{name}/translations %{name}.lang > %{name}-qt4.lang
+%endif
+grep %{_datadir}/qt5keychain/translations %{name}.lang > %{name}-qt5.lang
 
+%if %{with qt4}
 %files -f %{name}-qt4.lang
 %doc ReadMe.txt
 %license COPYING
@@ -85,6 +100,7 @@ grep %{_qt5_translationdir} %{name}.lang > %{name}-qt5.lang
 %{_libdir}/cmake/QtKeychain/
 %{_libdir}/libqtkeychain.so
 %{_libdir}/qt5/mkspecs/modules/qt_QtKeychain.pri
+%endif
 
 %files qt5 -f %{name}-qt5.lang
 %doc ReadMe.txt
@@ -99,6 +115,20 @@ grep %{_qt5_translationdir} %{name}.lang > %{name}-qt5.lang
 %{_libdir}/qt5/mkspecs/modules/qt_Qt5Keychain.pri
 
 %changelog
+* Tue Sep 08 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.11.1-1
+- Update to 0.11.1
+
+* Mon Aug 31 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.10.0-4
+- Fix for CMake macro changes
+- Add ability to disable Qt4 build (makes it easier to maintain EPEL8 branch)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.10.0-1
 - Update to 0.10.0
 - Drop upstreamed patches

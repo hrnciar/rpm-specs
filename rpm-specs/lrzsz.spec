@@ -1,7 +1,7 @@
 Summary: The lrz and lsz modem communications programs
 Name: lrzsz
 Version: 0.12.20
-Release: 49%{?dist}
+Release: 52%{?dist}
 License: GPLv2+
 Source: http://www.ohse.de/uwe/releases/%{name}-%{version}.tar.gz
 Patch1: lrzsz-0.12.20-glibc21.patch
@@ -32,10 +32,12 @@ rm -f po/*.gmo
            --enable-syslog \
            --program-transform-name=s/l//
 
-make %{?_smp_mflags}
+%make_build
 
 %install
-%makeinstall
+%make_install 	prefix=%{buildroot}/usr \
+	datadir=%{buildroot}/usr/share
+
 for m in rb rx; do ln -s rz.1 %{buildroot}%{_mandir}/man1/$m.1; done
 for m in sb sx; do ln -s sz.1 %{buildroot}%{_mandir}/man1/$m.1; done
 
@@ -46,6 +48,17 @@ for m in sb sx; do ln -s sz.1 %{buildroot}%{_mandir}/man1/$m.1; done
 %{_mandir}/*/*
 
 %changelog
+* Mon Aug 17 2020 Tomas Korbar <tkorbar@redhat.com> - 0.12.20-52
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.20-51
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.20-50
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.20-49
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

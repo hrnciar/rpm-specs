@@ -2,7 +2,7 @@
 
 Name:           Coin4
 Version:        4.0.0
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        High-level 3D visualization library
 
 License:        BSD and GPLv3+
@@ -32,6 +32,7 @@ BuildRequires:  fontconfig-devel
 BuildRequires:  freetype-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libGLU-devel
+BuildRequires:  expat-devel
 #BuildRequires:  libXext-devel
 
 %description
@@ -85,19 +86,16 @@ rm -rf include/boost
 
 
 %build
-mkdir build-%{_build_arch} && cd build-%{_build_arch}
 %cmake -DCOIN_BUILD_DOCUMENTATION=TRUE \
        -DCOIN_BUILD_DOCUMENTATION_MAN=TRUE \
        -DHAVE_MULTIPLE_VERSION=TRUE \
-       -DUSE_EXTERNAL_EXPAT=TRUE \
-       ../
-make %{?_smp_mflags}
-cd -
+       -DUSE_EXTERNAL_EXPAT=TRUE 
+
+%cmake_build
 
 
 %install
-cd build-%{_build_arch}
-%make_install
+%cmake_install
 
 cd %{buildroot}%{_mandir}
 /usr/bin/rename .3 .3coin4 man3/*
@@ -117,8 +115,7 @@ ln -sr %{_libdir}/pkgconfig/Coin4.pc %{buildroot}%{_libdir}/pkgconfig/Coin.pc
 
 
 %check
-cd build-%{_build_arch}
-make test
+%ctest
 
 
 %ldconfig_scriptlets
@@ -170,6 +167,13 @@ fi
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

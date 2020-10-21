@@ -1,28 +1,31 @@
 %global _hardened_build 1
 
-#%%global svn_snapshot 20150714
+#%%global snapshot 20150714
 
 Summary: Tool for dynamic reconfiguration of validating resolver Unbound
 Name: dnssec-trigger
-Version: 0.15
-Release: 12%{?svn_snapshot:.%{svn_snapshot}svn}%{?dist}
+Version: 0.17
+Release: 1%{?snapshot:.%{snapshot}git}%{?dist}
 License: BSD
-Url: http://www.nlnetlabs.nl/downloads/dnssec-trigger/
+Url: https://www.nlnetlabs.nl/projects/dnssec-trigger/
 
-%if 0%{?svn_snapshot:1}
+%if 0%{?snapshot:1}
 # generated using './makedist.sh -s' in the cloned upstream trunk
-Source0: %{name}-%{version}_%{svn_snapshot}.tar.gz
+Source0: %{name}-%{version}_%{snapshot}.tar.gz
 %else
-Source0: http://www.nlnetlabs.nl/downloads/dnssec-trigger/%{name}-%{version}.tar.gz
+Source0: https://www.nlnetlabs.nl/downloads/dnssec-trigger/%{name}-%{version}.tar.gz
+Source1: https://www.nlnetlabs.nl/downloads/dnssec-trigger/%{name}-%{version}.tar.gz.asc
+Source2: https://keys.openpgp.org/vks/v1/by-fingerprint/EDFAA3F2CA4E6EB05681AF8E9F6F1C2D7E045F8D#/wouter.asc
 %endif
-Source1: dnssec-trigger.tmpfiles.d
-Source2: dnssec-trigger-default.conf
-Source3: dnssec-trigger-workstation.conf
+Source3: dnssec-trigger.tmpfiles.d
+Source4: dnssec-trigger-default.conf
+Source5: dnssec-trigger-workstation.conf
+Source6: ssh_config.conf
 
 # Patches
-Patch1: 0001-dnssec-trigger-script-port-to-libnm.patch
-Patch2: 0002-Fix-that-NXDOMAIN-for-_probe.uk.uk-is-deemed-allrigh.patch
 Patch3: 0003-Move-the-NetworkManager-dispatcher-script-out-of-etc.patch
+# https://github.com/NLnetLabs/dnssec-trigger/pull/7
+Patch4: 0004-Add-options-edns0-and-trust-ad.patch
 
 # to obsolete the version in which the panel was in main package
 Obsoletes: %{name} < 0.12-22
@@ -46,6 +49,9 @@ Requires: openssl
 Requires: e2fsprogs
 BuildRequires: openssl-devel, ldns-devel, python3-devel, gcc
 BuildRequires: NetworkManager-libnm-devel
+%if 0%{?fedora} && ! 0%{?snapshot:1}
+BuildRequires: gnupg2
+%endif
 
 BuildRequires: systemd
 Requires(post): systemd
@@ -79,11 +85,10 @@ some user input is needed, the panel creates a dialog window.
 
 
 %prep
-%setup -q %{?svn_snapshot:-n %{name}-%{version}_%{svn_snapshot}}
-
-%patch1 -p1 -b .libnm_port
-%patch2 -p1 -b .nxdomain
-%patch3 -p1 -b .nm_dispatcher_dir
+%if 0%{?fedora} && ! 0%{?snapshot:1}
+%gpgverify -d 0 -s 1 -k 2
+%endif
+%autosetup %{?snapshot:-n %{name}-%{version}_%{snapshot}} -p1
 
 # don't use DNSSEC for forward zones for now
 sed -i "s/validate_connection_provided_zones=yes/validate_connection_provided_zones=no/" dnssec.conf
@@ -97,7 +102,7 @@ sed -i "s/validate_connection_provided_zones=yes/validate_connection_provided_zo
     --with-networkmanager-dispatch=%{_sysconfdir}/NetworkManager/dispatcher.d \
 %endif
     --with-python=%{__python3} \
-    --with-pidfile=%{_localstatedir}/run/%{name}d.pid
+    --with-pidfile=%{_rundir}/%{name}d.pid
 
 %{__make} %{?_smp_mflags}
 
@@ -107,8 +112,8 @@ rm -rf %{buildroot}
 %{__make} DESTDIR=%{buildroot} install
 
 install -d 0755 %{buildroot}%{_unitdir}
-install -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/%{name}/
-install -m 0644 %{SOURCE3} %{buildroot}%{_sysconfdir}/%{name}/
+install -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/%{name}/
+install -m 0644 %{SOURCE5} %{buildroot}%{_sysconfdir}/%{name}/
 
 mkdir -p %{buildroot}%{_libexecdir}
 
@@ -116,7 +121,7 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications dnssec-trigger-p
 
 # install the configuration for /var/run/dnssec-trigger into tmpfiles.d dir
 mkdir -p %{buildroot}%{_tmpfilesdir}
-install -m 644 %{SOURCE1} ${RPM_BUILD_ROOT}%{_tmpfilesdir}/%{name}.conf
+install -m 644 %{SOURCE3} ${RPM_BUILD_ROOT}%{_tmpfilesdir}/%{name}.conf
 # we must create the /var/run/dnssec-trigger directory
 mkdir -p %{buildroot}%{_localstatedir}/run
 install -d -m 0755 %{buildroot}%{_localstatedir}/run/%{name}
@@ -131,6 +136,8 @@ for all in dnssec-trigger-control dnssec-trigger-control-setup dnssec-triggerd; 
 done
 ln -s %{_mandir}/man8/dnssec-trigger.8 %{buildroot}/%{_mandir}/man8/dnssec-trigger.conf.8
 
+install -d -m 0755 %{buildroot}%{_sysconfdir}/ssh/ssh_config.d
+install -m 0644 %{SOURCE6} %{buildroot}%{_sysconfdir}/ssh/ssh_config.d/10-%{name}.conf
 
 %post
 %systemd_post %{name}d.service
@@ -178,6 +185,8 @@ fi
 %attr(0644,root,root) %ghost %config(noreplace) %{_sysconfdir}/%{name}/dnssec-trigger.conf
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/%{name}/dnssec-trigger-default.conf
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/%{name}/dnssec-trigger-workstation.conf
+%attr(0755,root,root) %dir %{_sysconfdir}/ssh/ssh_config.d
+%attr(0755,root,root) %config(noreplace) %{_sysconfdir}/ssh/ssh_config.d/10-%{name}.conf
 %dir %{_localstatedir}/run/%{name}
 %{_tmpfilesdir}/%{name}.conf
 %{_mandir}/man8/dnssec-trigger*
@@ -191,6 +200,16 @@ fi
 
 
 %changelog
+* Tue Oct 13 2020 Petr Menšík <pemensik@redhat.com> - 0.17-1
+- Update to 0.17
+
+* Mon Oct 12 2020 Petr Menšík <pemensik@redhat.com> - 0.15-14
+- Add edns0 option to resolv.conf
+- Add VerifyHostKeyDNS to ssh config
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

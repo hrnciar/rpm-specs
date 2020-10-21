@@ -1,6 +1,6 @@
 Name:		dt
 Version:	21.27.git8d78d78
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Generic data test program
 License:	MIT
 URL:		https://github.com/RobinTMiller/dt
@@ -62,6 +62,9 @@ install -m644 html/* $RPM_BUILD_ROOT%{_defaultdocdir}/%{name}/html
 %{_mandir}/man8/%{name}.*.gz
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 21.27.git8d78d78-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 21.27.git8d78d78-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

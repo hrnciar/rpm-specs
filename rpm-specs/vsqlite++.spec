@@ -1,6 +1,6 @@
 Name:        vsqlite++
 Version:    0.3.13
-Release:    25%{?dist}
+Release:    26%{?dist}
 Summary:    Well designed C++ sqlite 3.x wrapper library
 
 License:    BSD
@@ -73,6 +73,9 @@ make DESTDIR=%{buildroot} install
 %{_libdir}/libvsqlitepp.so.*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.13-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.13-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

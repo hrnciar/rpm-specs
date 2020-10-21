@@ -1,6 +1,6 @@
 Name: dmapd
-Version: 0.0.84
-Release: 2%{?dist}
+Version: 0.0.86
+Release: 3%{?dist}
 Summary: A server that provides DAAP and DPAP shares
 
 License: GPLv2+
@@ -117,6 +117,25 @@ resources needed for developing modules using dmapd's API.
 %ghost %attr(0600,root,root) %{_localstatedir}/lock/subsys/dmapd
 
 %changelog
+* Mon Aug 20 2020 W. Michael Petullo <mike@flyn.org> - 0.0.86-3
+- Add missing changelog entry
+
+* Mon Aug 20 2020 W. Michael Petullo <mike@flyn.org> - 0.0.86-2
+- Fix date on changelog entry
+
+* Mon Aug 20 2020 W. Michael Petullo <mike@flyn.org> - 0.0.86-1
+- New upstream version
+
+* Mon Aug 03 2020 W. Michael Petullo <mike@flyn.org> - 0.0.85-1
+- New upstream version
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.84-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.84-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.84-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

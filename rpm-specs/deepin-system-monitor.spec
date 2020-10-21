@@ -1,12 +1,12 @@
 Name:           deepin-system-monitor
 Version:        5.0.0
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        A more user-friendly system monitor
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/deepin-system-monitor
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 Source1:        %{name}-appdata.xml
-
+Patch0:         0001-Fix-build-with-Qt-5.14.patch
 BuildRequires:  pkgconfig(dtkwidget) >= 2.0
 BuildRequires:  pkgconfig(dtkwm) >= 2.0
 BuildRequires:  pkgconfig(libprocps)
@@ -34,9 +34,10 @@ Recommends:     deepin-manual
 
 %prep
 %setup -q
-sed -i 's|lrelease|lrelease-qt5|' translations/translate_generation.sh
+%patch0 -p1
 
 %build
+export PATH=%{_qt5_bindir}:$PATH
 %qmake_qt5 PREFIX=%{_prefix}
 %make_build
 
@@ -58,6 +59,19 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/%{name}/
 
 %changelog
+* Wed Sep  2 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.0.0-5
+- Rebuild for libprocps
+
+* Thu Aug  6 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.0.0-4
+- Applied a patch to fix build with Qt 5.14
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

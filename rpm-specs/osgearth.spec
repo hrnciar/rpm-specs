@@ -2,7 +2,7 @@
 
 Name:           osgearth
 Version:        2.7
-Release:        26%{?dist}
+Release:        27%{?dist}
 Summary:        Dynamic map generation toolkit for OpenSceneGraph
 
 License:        LGPLv3 with exceptions
@@ -105,20 +105,16 @@ rm -rf data/loopix
 
 
 %build
-mkdir build
-(
-cd build
-LDFLAGS="%{__global_ldflags} -Wl,--as-needed" %cmake -DWITH_EXTERNAL_TINYXML=True ..
-%make_build
-)
-%make_build -C docs html
+%cmake -DWITH_EXTERNAL_TINYXML=True
+%cmake_build
+make -C docs html
 
 
 %ldconfig_scriptlets
 
 
 %install
-%make_install -C build
+%cmake_install
 install -Dd %{buildroot}%{_datadir}/%{name}
 cp -a data %{buildroot}%{_datadir}/%{name}/data
 cp -a tests %{buildroot}%{_datadir}/%{name}/tests
@@ -199,6 +195,9 @@ rm -f docs/build/html/.buildinfo
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 21 2020 Sandro Mani <manisandro@gmail.com> - 2.7-26
 - Rebuild (gdal)
 

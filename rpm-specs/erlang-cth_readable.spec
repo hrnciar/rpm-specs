@@ -3,7 +3,7 @@
 
 Name:     erlang-%{realname}
 Version:  1.4.4
-Release:  3%{?dist}
+Release:  4%{?dist}
 Summary:  Common test hooks for more readable erlang logs
 License:  BSD
 URL:      https://github.com/%{upstream}/%{realname}
@@ -37,6 +37,9 @@ rm test/show_logs_SUITE.erl
 %{erlang_appdir}/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

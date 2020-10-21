@@ -4,7 +4,7 @@
 
 Name:           sugar-view-slides
 Version:        8
-Release:        22%{?dist}
+Release:        24%{?dist}
 Summary:        Image serie viewer for Sugar
 
 License:        GPLv3+
@@ -55,6 +55,13 @@ python2 setup.py install --prefix=%{buildroot}/%{_prefix}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8-24
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

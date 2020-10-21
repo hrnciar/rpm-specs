@@ -2,7 +2,7 @@
 Summary:       Realtime audio frequency spectral manipulation
 Name:          freqtweak
 Version:       0.7.2
-Release:       24%{?dist}
+Release:       26%{?dist}
 URL:           http://%{name}.sourceforge.net/
 Source0:       http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Source1:       %{name}.png
@@ -51,6 +51,7 @@ sed -i -e 's|-O2 -fexpensive-optimizations -funroll-loops -finline-functions -ff
     Makefile.in
 
 %build
+export CFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure
 make %{?_smp_mflags}
 
@@ -76,6 +77,12 @@ desktop-file-install \
 %{_datadir}/icons/hicolor/32x32/apps/%{name}.png
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <releng@fedoraproject.org> - 0.7.2-26
+- Force C++14 as this code is not C++17 ready
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

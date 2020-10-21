@@ -2,7 +2,7 @@
 
 Name:     libplist
 Version:  2.2.0
-Release:  1%{?dist}
+Release:  2%{?dist}
 Summary:  Library for manipulating Apple Binary and XML Property Lists
 
 License:  LGPLv2+
@@ -92,6 +92,9 @@ make check
 %{python3_sitearch}/plist*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 16 2020 Bastien Nocera <bnocera@redhat.com> - 2.2.0-1
 + libplist-2.2.0-1
 - Update to 2.2.0, breaking the ABI

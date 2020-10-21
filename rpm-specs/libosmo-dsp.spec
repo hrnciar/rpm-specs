@@ -1,7 +1,7 @@
 Name:             libosmo-dsp
 URL:              http://osmocom.org/projects/libosmo-dsp
 Version:          0.3
-Release:          13%{?dist}
+Release:          14%{?dist}
 License:          GPLv2+
 BuildRequires:    autoconf, automake, libtool, fftw-devel, doxygen, graphviz
 Summary:          A library with SDR DSP primitives
@@ -63,6 +63,9 @@ mv %{buildroot}%{_datadir}/doc/libosmodsp %{buildroot}%{_docdir}/%{name}/html
 %{_docdir}/%{name}/html
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

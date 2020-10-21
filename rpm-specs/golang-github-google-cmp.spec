@@ -3,14 +3,9 @@
 
 # https://github.com/google/go-cmp
 %global goipath         github.com/google/go-cmp
-Version:                0.4.0
+Version:                0.5.1
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-google-go-cmp-devel < 0.2.0-6
-}
 
 %global common_description %{expand:
 This package is intended to be a more powerful and safer alternative
@@ -21,7 +16,7 @@ equal.}
 %global godocs          CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Package for comparing Go values in tests
 
 # Upstream license specification: BSD-3-Clause
@@ -50,6 +45,12 @@ BuildRequires:  golang(golang.org/x/xerrors)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 22:25:23 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.5.1-1
+- Update to 0.5.1
+
 * Tue Feb 18 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.4.0-1
 - Update to latest version
 

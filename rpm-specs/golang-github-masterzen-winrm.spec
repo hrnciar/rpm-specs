@@ -3,7 +3,7 @@
 
 # https://github.com/masterzen/winrm
 %global goipath         github.com/masterzen/winrm
-%global commit          1d17eaf15943ca3554cdebb3b1b10aaa543a0b7e
+%global commit          c42b5136ff886aff9dba40fb3670281f0d583db8
 
 %gometa
 
@@ -15,7 +15,7 @@ Command-line tool and library for Windows remote command execution in Go.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.1%{?dist}
+Release:        0.3%{?dist}
 Summary:        Command-line tool and library for Windows remote command execution
 
 License:        ASL 2.0
@@ -53,6 +53,12 @@ BuildRequires:  golang(gopkg.in/check.v1)
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 19:59:05 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.3.20200729gitc42b513
+- Bump to commit c42b5136ff886aff9dba40fb3670281f0d583db8
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0-0.1.20200406git1d17eaf
 - Initial package
 

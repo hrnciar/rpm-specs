@@ -1,9 +1,9 @@
-%global cpan_version 1.190840
+%global cpan_version 1.202830
 
 Name:           perl-WebService-Rajce
 # Normalize version to dotted format
 Version:        %(echo '%{cpan_version}' | sed 's/\(\....\)\(.\)/\1.\2/')
-Release:        5%{?dist}
+Release:        1%{?dist}
 Summary:        Perl interface for www.rajce.idnes.cz
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/WebService-Rajce
@@ -33,6 +33,7 @@ BuildRequires:  sed
 # POSIX not used at tests
 # vars not used at tests
 # WWW::Mechanize not used at tests
+# XML::FeedPP not used at tests
 # XML::Simple not used at tests
 # Tests:
 # Pod::Coverage::TrustPod not used
@@ -82,6 +83,12 @@ make test
 %{_mandir}/man1/*
 
 %changelog
+* Fri Oct 09 2020 Petr Pisar <ppisar@redhat.com> - 1.202.830-1
+- 1.202830 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.190.840-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.190.840-5
 - Perl 5.32 rebuild
 

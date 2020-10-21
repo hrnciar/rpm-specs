@@ -7,14 +7,14 @@
 %endif
 
 Name:           frama-c
-Version:        21.0
-Release:        2%{?dist}
+Version:        21.1
+Release:        6%{?dist}
 Summary:        Framework for source code analysis of C software
 
 %global pkgversion %{version}-Scandium
 
 # Licensing breakdown in source file frama-c-1.6-licensing
-License:        LGPLv2 and GPLv2 and GPLv2+ and BSD and (QPL with exceptions)
+License:        LGPLv2 and GPLv2 and GPLv2+ and BSD and QPL
 URL:            http://frama-c.com/
 Source0:        http://frama-c.com/download/%{name}-%{pkgversion}.tar.gz
 Source1:        http://frama-c.com/download/%{name}-%{pkgversion}-api.tar.gz
@@ -33,6 +33,9 @@ Source13:       http://frama-c.com/download/wp-manual-%{pkgversion}.pdf
 Source14:       http://frama-c.com/download/e-acsl/e-acsl-manual-%{pkgversion}.pdf
 # Icons created with gimp from the official upstream icon
 Source15:       %{name}-icons.tar.xz
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=1874879
+ExcludeArch: s390x
 
 BuildRequires:  alt-ergo
 BuildRequires:  coq
@@ -63,15 +66,16 @@ BuildRequires:  python3-devel
 BuildRequires:  why3
 BuildRequires:  z3
 
+Requires:       alt-ergo
 Requires:       flamegraph
 Requires:       gcc
 Requires:       graphviz
 Requires:       hicolor-icon-theme
 Requires:       ltl2ba
+Requires:       why3
 
 Recommends:     bash-completion
 
-Suggests:       alt-ergo
 Suggests:       coq
 Suggests:       z3
 
@@ -159,7 +163,7 @@ done
 make
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 
 %ifarch %{ocaml_native_compiler}
 mv -f %{buildroot}%{_bindir}/ptests.opt %{buildroot}%{_bindir}/ptests
@@ -168,6 +172,9 @@ mv -f %{buildroot}%{_bindir}/frama-c.byte %{buildroot}%{_bindir}/frama-c
 mv -f %{buildroot}%{_bindir}/frama-c-gui.byte %{buildroot}%{_bindir}/frama-c-gui
 mv -f %{buildroot}%{_bindir}/ptests.byte %{buildroot}%{_bindir}/ptests
 %endif
+
+# Install the opam file
+cp -p opam/opam %{buildroot}%{_libdir}/frama-c
 
 # Install the desktop file
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications/ %{SOURCE3}
@@ -267,6 +274,28 @@ ln -s %{_bindir}/flamegraph.pl %{buildroot}%{_datadir}/frama-c/analysis-scripts
 %{_xemacs_sitestartdir}/acsl.el
 
 %changelog
+* Fri Sep 25 2020 Jerry James <loganjerry@gmail.com> - 21.1-6
+- Rebuild for apron 0.9.13 and why3 1.3.3
+
+* Wed Sep 02 2020 Richard W.M. Jones <rjones@redhat.com> - 21.1-5
+- OCaml 4.11.1 rebuild
+
+* Tue Sep  1 2020 Jerry James <loganjerry@gmail.com> - 21.1-4
+- Rebuild for coq 8.12.0
+
+* Mon Aug 24 2020 Richard W.M. Jones <rjones@redhat.com> - 21.1-4
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 21.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 21.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jerry James <loganjerry@gmail.com> - 21.1-1
+- Update to Scandium 21.1
+
 * Mon Jun 15 2020 Jerry James <loganjerry@gmail.com> - 21.0-2
 - Rebuild for coq 8.11.2
 

@@ -7,7 +7,7 @@
 
 Name:           python-%{dash_name}
 Version:        2.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A pygments lexer for pytest output
 License:        MIT
 URL:            https://github.com/asottile/pygments-pytest
@@ -57,6 +57,9 @@ This library also provides a sphinx extension.
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Charalampos Stratakis <cstratak@redhat.com> - 2.0.0-1
 - Update to 2.0.0 (#1747425)
 

@@ -1,7 +1,7 @@
 Summary: Linux UDF Filesystem userspace utilities
 Name: udftools
 Version: 2.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 URL: http://sourceforge.net/projects/linux-udf/
 Source: https://github.com/pali/udftools/releases/tag/%{version}/udftools-%{version}.tar.gz
@@ -43,6 +43,9 @@ rm -rf %{buildroot}%{_bindir}/udffsck
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Filipe Rosset <rosset.filipe@gmail.com> - 2.2-1
 - Update to 2.2
 

@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          4.13.20
-Release:          3%{?dist}
+Release:          5%{?dist}
 Summary:          Generalized Estimation Equation Solver
 
 License:          GPLv2
@@ -59,6 +59,12 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Aug 10 2020 Tom Callaway <spot@fedoraproject.org> - 4.13.20-5
+- rebuild for FlexiBLAS R
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.13.20-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 4.13.20-3
 - rebuild for R 4
 

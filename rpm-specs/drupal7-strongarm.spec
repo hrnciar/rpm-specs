@@ -2,7 +2,7 @@
 
 Name:    drupal7-strongarm
 Version: 2.0
-Release: 13%{?dist}
+Release: 14%{?dist}
 Summary: Strongarm gives a way to override the default variable values
 
 License: GPLv2+
@@ -53,6 +53,9 @@ ln -s %{_docdir}/%{name}-%{version}/README.txt \
 %exclude %{drupaldir}/modules/strongarm/drupal7-strongarm-fedora-README.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -7,7 +7,7 @@
 
 Name:           %{owner}-%{project}
 Version:        0
-Release:        3.%{gitdate}.%{shorttag}%{?dist}
+Release:        4.%{gitdate}.%{shorttag}%{?dist}
 Summary:        C++ graph abstraction with low-level access
 
 License:        GPLv3+
@@ -74,6 +74,9 @@ make check LOCAL_CXXFLAGS="%{optflags} -DHAVE_TLX_CONTAINER_BTREE_SET_HPP $RPM_L
 %{_includedir}/%{project}/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-4.20191212.ec2df02
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Jerry James <loganjerry@gmail.com> - 0-3.20191212.ec2df02
 - Add -graph, -deprecated, -always-true, and -is-set patches
 

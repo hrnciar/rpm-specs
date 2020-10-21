@@ -1,6 +1,6 @@
 Name:       libkindrv
 Version:    0.1.2
-Release:    22%{?dist}
+Release:    25%{?dist}
 Summary:    Driver for controlling robotic arms by Kinova
 License:    LGPLv3+
 URL:        http://fawkesrobotics.org/projects/libkindrv/
@@ -35,23 +35,19 @@ developing applications that use %{name}.
 
 
 %build
-mkdir build
-pushd build
 # we build the doc separately because we only want it in libkindrv-devel
 # and 'make install' would install it in the wrong directory
 %cmake \
   -DBUILD_DOC=OFF \
-  -DUDEV_INSTALL_DIR=%{_udevrulesdir} \
-  .. 
+  -DUDEV_INSTALL_DIR=%{_udevrulesdir}
 
-make %{?_smp_mflags}
+%cmake_build
 
-make %{?_smp_mflags} apidoc
+%cmake_build --target apidoc
 
 
 %install
-pushd build
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 
 %files
@@ -61,13 +57,23 @@ make install DESTDIR=%{buildroot}
 
 
 %files devel
-%doc build/doc/html
+%doc %{_vpath_builddir}/doc/html
 %{_includedir}/*
 %{_libdir}/libkindrv.so
 %{_libdir}/pkgconfig/libkindrv.pc
 
 
 %changelog
+* Sat Sep 05 2020 Till Hofmann <thofmann@fedoraproject.org> - 0.1.2-25
+- Adapt to cmake out-of-source builds
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-24
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

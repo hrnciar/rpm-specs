@@ -2,7 +2,7 @@
 
 Name:           pam_mount
 Version:        2.16
-Release:        10%{?dist}
+Release:        11%{?dist}
 #Release:        4.20130707git966c6bea%{?dist}
 Summary:        A PAM module that can mount volumes for a user session
 
@@ -152,6 +152,9 @@ make install DESTDIR=$RPM_BUILD_ROOT V=verbose
 %exclude %{_libdir}/pkgconfig/libcryptmount.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

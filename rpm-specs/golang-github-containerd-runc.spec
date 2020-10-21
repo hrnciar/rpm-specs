@@ -3,7 +3,7 @@
 
 # https://github.com/containerd/go-runc
 %global goipath         github.com/containerd/go-runc
-%global commit          7d11b49dc0769f6dbb0d1b19f3d48524d1bad9ad
+%global commit          23d84c510c41ee9eaeab57ec6caad8bb81686265
 
 %gometa
 
@@ -16,7 +16,7 @@ tries to expose all the settings and features of the runc CLI.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Runc bindings for Go
 
 # Upstream license specification: Apache-2.0
@@ -48,6 +48,12 @@ BuildRequires:  golang(golang.org/x/sys/unix)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 16:48:23 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200725git23d84c5
+- Bump to commit 23d84c510c41ee9eaeab57ec6caad8bb81686265
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

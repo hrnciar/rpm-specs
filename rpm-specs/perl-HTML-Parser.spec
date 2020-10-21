@@ -1,9 +1,9 @@
 Name:           perl-HTML-Parser
 Summary:        Perl module for parsing HTML
-Version:        3.72
-Release:        22%{?dist}
+Version:        3.75
+Release:        2%{?dist}
 License:        GPL+ or Artistic
-Source0:        https://cpan.metacpan.org/authors/id/G/GA/GAAS/HTML-Parser-%{version}.tar.gz 
+Source0:        https://cpan.metacpan.org/authors/id/C/CA/CAPOEIRAB/HTML-Parser-%{version}.tar.gz
 URL:            https://metacpan.org/release/HTML-Parser
 BuildRequires:  coreutils
 BuildRequires:  findutils
@@ -13,26 +13,26 @@ BuildRequires:  make
 BuildRequires:  perl-devel
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
-BuildRequires:  perl(Carp)
-BuildRequires:  perl(Config)
-BuildRequires:  perl(Exporter)
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
-BuildRequires:  perl(File::Spec)
-BuildRequires:  perl(FileHandle)
-BuildRequires:  perl(HTML::Tagset) >= 3
-%if %{undefined perl_bootstrap}
-# This creates cycle with perl-HTTP-Message.
-BuildRequires:  perl(HTTP::Headers)
-%endif
-BuildRequires:  perl(IO::File)
-BuildRequires:  perl(SelectSaver)
 BuildRequires:  perl(strict)
-BuildRequires:  perl(Test)
-BuildRequires:  perl(Test::More)
-BuildRequires:  perl(threads)
+BuildRequires:  perl(warnings)
+# Run-time
+BuildRequires:  perl(Carp)
+BuildRequires:  perl(Exporter)
+BuildRequires:  perl(HTML::Tagset) >= 3
+BuildRequires:  perl(HTTP::Headers)
+BuildRequires:  perl(IO::File)
 BuildRequires:  perl(URI)
 BuildRequires:  perl(vars)
 BuildRequires:  perl(XSLoader)
+# Tests
+BuildRequires:  perl(Config)
+BuildRequires:  perl(File::Spec)
+BuildRequires:  perl(FileHandle)
+BuildRequires:  perl(SelectSaver)
+BuildRequires:  perl(Test)
+BuildRequires:  perl(Test::More)
+BuildRequires:  perl(threads)
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:       perl(HTML::Tagset) >= 3
 Requires:       perl(HTTP::Headers)
@@ -52,12 +52,11 @@ HTML::LinkExtor, HTML::PullParser, and HTML::TokeParser modules.
 chmod -c a-x eg/*
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}" NO_PACKLIST=1 \
-                 NO_PERLLOCAL=1
-%make_build
+perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}" NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-%make_install
+%{make_install}
 file=%{buildroot}%{_mandir}/man3/HTML::Entities.3pm
 iconv -f iso-8859-1 -t utf-8 <"$file" > "${file}_" && \
     touch -r ${file} ${file}_ && \
@@ -69,12 +68,28 @@ find %{buildroot} -type f -name '*.bs' -empty -delete
 make test
 
 %files
+%license LICENSE
 %doc Changes README TODO eg/
 %{perl_vendorarch}/HTML/
 %{perl_vendorarch}/auto/HTML/
 %{_mandir}/man3/*.3pm*
 
 %changelog
+* Thu Sep 10 2020 Petr Pisar <ppisar@redhat.com> - 3.75-2
+- Always build-require HTTP::Headers
+
+* Mon Aug 31 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.75-1
+- 3.75 bump
+
+* Wed Aug 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.73-1
+- 3.73 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.72-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.72-23
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.72-22
 - Perl 5.32 rebuild
 

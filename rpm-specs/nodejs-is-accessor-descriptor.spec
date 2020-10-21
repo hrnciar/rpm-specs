@@ -5,7 +5,7 @@
 
 Name:		nodejs-is-accessor-descriptor
 Version:	0.1.6
-Release:	6%{?dist}
+Release:	8%{?dist}
 Summary:	Returns true if a value has the characteristics of a valid accessor descriptor
 
 License:	MIT
@@ -61,6 +61,13 @@ cp -pr package.json index.js \
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.6-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.6-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.6-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

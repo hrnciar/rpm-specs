@@ -1,6 +1,6 @@
 Name:           perl-Crypt-DES
 Version:        2.07
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Perl DES encryption module
 License:        BSD
 URL:            https://metacpan.org/release/Crypt-DES
@@ -52,6 +52,9 @@ make test
 %{_mandir}/man3/Crypt::DES.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.07-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.07-21
 - Perl 5.32 rebuild
 

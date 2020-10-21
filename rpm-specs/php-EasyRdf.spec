@@ -42,7 +42,7 @@
 
 Name:          php-EasyRdf
 Version:       0.9.1
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       A PHP library designed to make it easy to consume and produce RDF
 
 License:       BSD
@@ -248,6 +248,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 22 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 0.9.1-1
 - Update to 0.9.1
 - Switch source to GitHub as download from www.easyrdf.org is corrupt

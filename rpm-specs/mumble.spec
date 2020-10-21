@@ -1,8 +1,8 @@
 %global theme_version 1d48b123d2e62dab348e08810787e41a7511be69
 
 Name:           mumble
-Version:        1.3.0
-Release:        4%{?dist}
+Version:        1.3.2
+Release:        2%{?dist}
 Summary:        Voice chat suite aimed at gamers
 Obsoletes:      mumble-protocol < 1.2.10-2
 License:        BSD
@@ -18,6 +18,8 @@ Patch1:         %{name}-1.3.0-fedora-crypto-policy-cipher-list.patch
 Patch2:         %{name}-1.3.0-fix-no-bind-at-boot.patch
 # Murmur will qFatal() if it does not have address to bind on start
 Patch3:         %{name}-1.3.0-murmur-exit-on-no-bind.patch
+# https://github.com/mumble-voip/mumble/pull/3675
+Patch4:         0001-Added-DBus-calls-to-activate-and-deactivate-push-to-talk.patch
 
 BuildRequires:  qt5-linguist
 BuildRequires:  qt5-qtbase-devel
@@ -98,6 +100,7 @@ popd
 %patch1 -p1 -b .fedora-crypto-policy-cipher-list
 %patch2 -p1 -b .fix-no-bind-at-boot
 %patch3 -p1 -b .murmur-exit-on-no-bind
+%patch4 -p1 -b .Added-DBus-calls-to-activate-and-deactivate-push-to-talk
 
 %build
 %{qmake_qt5} \
@@ -212,6 +215,23 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/mumble.desktop
 %{_mandir}/man1/mumble-overlay.1*
 
 %changelog
+* Fri Sep 25 2020 Adrian Reber <adrian@lisas.de> - 1.3.2-2
+- Rebuilt(2) for protobuf 3.13
+
+* Fri Sep 25 2020 Carl George <carl@george.computer> - 1.3.2-1
+- Latest upstream
+- Add upstream patch for push-to-talk dbus calls
+
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 1.3.0-7
+- Rebuilt for protobuf 3.13
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 1.3.0-4
 - Rebuilt for protobuf 3.12
 

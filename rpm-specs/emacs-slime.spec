@@ -2,7 +2,7 @@
 
 Name:            emacs-%{pkg}
 Epoch:           2
-Version:         2.24
+Version:         2.26
 Release:         1%{?dist}
 Summary:         The superior lisp interaction mode for emacs        
 
@@ -13,12 +13,11 @@ Summary:         The superior lisp interaction mode for emacs
 License:         Public Domain and GPLv3+ and GPLv2+ and LLGPL
 URL:             http://common-lisp.net/project/slime/
 Source0:         https://github.com/slime/slime/archive/v%{version}.tar.gz#/%{pkg}-%{version}.tar.gz
-Patch1:          223-fix-test.patch
-Patch2:          224-fix-slime-version-test.patch
 
 BuildRequires:   emacs texinfo common-lisp-controller
 # for testing
 BuildRequires:   sbcl
+
 Requires:        emacs(bin) >= %{_emacs_version} common-lisp-controller
 
 Requires(post):  common-lisp-controller
@@ -28,14 +27,14 @@ Provides:        %{name}-el = %{epoch}:%{version}-%{release}
 Obsoletes:       %{name}-el < 1:2.19-5
 
 BuildArch:      noarch
+# taken from sbcl.spec since we use it for testing
+ExclusiveArch:  %{arm} %{ix86} x86_64 ppc sparcv9 aarch64
 
 %description
 SLIME is a Emacs mode for common Lisp development.
 
 %prep
-%setup -q -n %{pkg}-%{version}
-%patch1 -p1
-%patch2 -p1
+%autosetup -n %{pkg}-%{version} -p1
 
 %build
 #{_emacs_bytecompile} *.el
@@ -108,6 +107,19 @@ make check
 %{_infodir}/%{pkg}.info.*
 
 %changelog
+* Mon Aug 17 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 2:2.26-1
+- Update to 2.26
+
+* Mon Aug 17 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 2:2.25-3
+- Reenable tests but gate to architectures with sbcl
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:2.25-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 2:2.25-1
+- Update to 2.25
+- Disable tests on Koji since not all builders have sbcl
+
 * Tue Apr 28 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 2:2.24-1
 - Update to 2.24
 - Remove obsolete requirements on info

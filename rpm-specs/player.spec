@@ -1,9 +1,10 @@
+%undefine __cmake_in_source_build
 %global abiversion 3.1
 %global releasetag release-3-1-0
 
 Name:           player
 Version:        3.1.0
-Release:        26%{?dist}
+Release:        30%{?dist}
 Summary:        Cross-platform robot device interface and server
 
 License:        GPLv2+ and LGPLv2+
@@ -143,10 +144,14 @@ are experimental.
 %patch5 -p1 -b .opencv3
 %patch6 -p1 -b .opencv4
 
+# Filter out the 'build' folder from doxygen generation
+sed -i 's|EXCLUDE                =|EXCLUDE                = ../%{_vpath_builddir}|' doc/player.dox.in
+
 %build
-mkdir build; pushd build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 export LDFLAGS="%{?__global_ldflags} -lpthread"
-%cmake %{?_cmake_skip_rpath} .. \
+%cmake %{?_cmake_skip_rpath} \
+  -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_DOCUMENTATION=ON \
   -DBUILD_PLAYERCC=ON \
   -DSWIG_EXECUTABLE=/usr/bin/swig \
@@ -161,15 +166,17 @@ export LDFLAGS="%{?__global_ldflags} -lpthread"
   -DENABLE_DRIVER_SIMPLESHAPE=OFF \
   -DENABLE_DRIVER_IMAGESEQ=OFF \
 %endif
+%if 0%{?fedora} >= 34
+  -DENABLE_DRIVER_EPUCK=OFF \
+%endif
   -DLARGE_FILE_SUPPORT=ON \
   -DRUBY_BINDINGS_INSTALL_DIR=%{ruby_vendorarchdir}
-popd
 
-make -C build %{?_smp_mflags}
-make doc -C build
+%cmake_build
+%cmake_build --target doc
 
 %install
-%make_install -C build DESTDIR=%{buildroot}
+%cmake_install
 mkdir -p %{buildroot}/%{_sysconfdir}/%{name}
 mkdir -p %{buildroot}/%{_libdir}/%{name}-%{abiversion}
 mv %{buildroot}/%{_datadir}/%{name}/config %{buildroot}/%{_sysconfdir}/%{name}
@@ -227,12 +234,25 @@ desktop-file-install \
 %license COPYING COPYING.lib
 %doc doc/*.txt
 %doc doc/*.html
-%doc build/doc/player-docs
+%doc %{_vpath_builddir}/doc/player-docs
 
 %files -n ruby-%{name}
 %{ruby_vendorarchdir}/*.so
 
 %changelog
+* Tue Oct 20 2020 Nicolas Chauvet <kwizart@gmail.com> - 3.1.0-30
+- Fix FTBFS by dropping DRIVER_EPUCK
+
+* Fri Aug 14 2020 Jeff Law <law@redhat.com> - 3.1.0-29
+- Force C++14 as this code is not C++17 ready
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-28
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Nicolas Chauvet <kwizart@gmail.com> - 3.1.0-26
 - Rebuilt for OpenCV 4.3
 

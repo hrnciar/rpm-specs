@@ -2,7 +2,7 @@
 
 Name:           python-webtest
 Version:        2.0.35
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Helper to test WSGI applications
 
 License:        MIT
@@ -81,6 +81,9 @@ PYTHONPATH=$(pwd) nosetests-%{python3_version}
 %{python3_sitelib}/*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.35-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.35-2
 - Rebuilt for Python 3.9
 

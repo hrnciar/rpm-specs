@@ -3,14 +3,9 @@
 
 # https://github.com/mattn/go-colorable
 %global goipath         github.com/mattn/go-colorable
-Version:                0.1.4
+Version:                0.1.7
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-mattn-go-colorable-devel < 0.0.9-0.3
-}
 
 %global common_description %{expand:
 Colorable writer for windows.
@@ -22,7 +17,7 @@ package is possible to handle escape sequence for ansi color on windows.}
 %global godocs          _example README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Colorable writer for windows
 
 License:        MIT
@@ -62,6 +57,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 20:06:37 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.1.7-1
+- Update to 0.1.7
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

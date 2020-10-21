@@ -15,7 +15,7 @@ An raw-mode vt100 screen reader.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.4%{?dist}
 Summary:        Raw-mode vt100 screen reader
 
 License:        MIT
@@ -52,6 +52,9 @@ find . -name "*.go" -exec sed -i "s|github.com/jaguilar/vt100|github.com/tonisti
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

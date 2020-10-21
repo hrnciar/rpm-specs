@@ -3,7 +3,7 @@
 
 Name:           xfce4-equake-plugin
 Version:        1.3.8.1
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Plugin for the XFCE panel which monitors earthquakes
 License:        GPLv2+
 URL:            https://sourceforge.net/projects/equake/
@@ -39,6 +39,9 @@ update each time a new earthquake occurs.
 %{_datadir}/icons/hicolor/*/apps/*.png
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.8.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.8.1-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

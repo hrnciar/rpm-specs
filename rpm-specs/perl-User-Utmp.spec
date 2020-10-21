@@ -1,12 +1,14 @@
 Name:           perl-User-Utmp
 Version:        1.8
-Release:        24%{?dist}
+Release:        26%{?dist}
 Summary:        Perl access to utmp- and utmpx-style databases
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/User-Utmp
 Source0:        https://cpan.metacpan.org/authors/id/M/MP/MPIOTR/User-Utmp-%{version}.tar.gz
 # Fix strlen identifier clash, CPAN RT #43016
 Patch0:         User-Utmp-1.8-strlen.patch
+# Adjust to ExtUtils-MakeMaker-7.48, bug #1886390, CPAN RT#133492
+Patch1:         User-Utmp-1.8-Make-hints-scripts-strict-conformant.patch
 BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  gcc
@@ -41,6 +43,7 @@ write(1), or login(1).
 %prep
 %setup -q -n User-Utmp-%{version}
 %patch0 -p0
+%patch1 -p1
 chmod -x example.pl
 sed -i -e '1 s/^#!.*//' -e '1 ause utf8;' example.pl
 for F in example.pl README; do
@@ -50,11 +53,11 @@ for F in example.pl README; do
 done
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 OPTIMIZE="$RPM_OPT_FLAGS"
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 OPTIMIZE="$RPM_OPT_FLAGS"
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 find $RPM_BUILD_ROOT -type f -name '*.bs' -size 0 -delete
 %{_fixperms} $RPM_BUILD_ROOT/*
 
@@ -68,6 +71,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Thu Oct  8 13:23:00 CEST 2020 Petr Pisar <ppisar@redhat.com> - 1.8-26
+- Adjust to ExtUtils-MakeMaker-7.48 (bug #1886390)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.8-24
 - Perl 5.32 rebuild
 

@@ -1,7 +1,3 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 %define bzinstallprefix %{_datadir}
 %define bzdatadir %{_sharedstatedir}/bugzilla
 
@@ -9,7 +5,7 @@ Summary: Bug tracking system
 URL: https://www.bugzilla.org/
 Name: bugzilla
 Version: 5.0.6
-Release: 6%{?dist}
+Release: 10%{?dist}
 License: MPLv1.1
 Source0: https://github.com/bugzilla/bugzilla/archive/release-%{version}.tar.gz
 Source1: bugzilla-httpd-conf
@@ -18,6 +14,8 @@ Source3: bugzilla.cron-daily
 Patch0: bugzilla-rw-paths.patch
 Patch1: bugzilla-dnf.patch
 Patch2: bugzilla-1438957-concatenate-assets.patch
+# https://bug1657496.bmoattachments.org/attachment.cgi?id=9169528
+Patch3: bugzilla-1855962-non-html-mail.patch
 
 BuildArch: noarch
 Requires: patchutils
@@ -174,13 +172,14 @@ Contributed scripts and functions for Bugzilla
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 # Deal with changing /usr/local paths here instead of via patches
-%{__perl} -pi -e 's|/usr/local/bin/python\b|%{__python3}|' contrib/*.py
-%{__perl} -pi -e 's|/usr/bin/env python|%{__python3}|' contrib/bugzilla-submit/bugzilla-submit
+/usr/bin/perl -pi -e 's|/usr/local/bin/python\b|%{__python3}|' contrib/*.py
+/usr/bin/rm -rf contrib/bugzilla-submit
 
 grep -rl '/usr/lib/sendmail\b' contrib docs \
-| xargs %{__perl} -pi -e 's|/usr/lib/sendmail\b|%{_sbindir}/sendmail|'
+| xargs /usr/bin/perl -pi -e 's|/usr/lib/sendmail\b|%{_sbindir}/sendmail|'
 
 %build
 # Build docs
@@ -270,7 +269,6 @@ popd > /dev/null)
 %defattr(-,root,apache,-)
 %{bzinstallprefix}/bugzilla/contrib/bugzilla-queue.rhel
 %{bzinstallprefix}/bugzilla/contrib/bugzilla-queue.suse
-%{bzinstallprefix}/bugzilla/contrib/bugzilla-submit
 %{bzinstallprefix}/bugzilla/contrib/bzdbcopy.pl
 %{bzinstallprefix}/bugzilla/contrib/bz_webservice_demo.pl
 %{bzinstallprefix}/bugzilla/contrib/cmdline
@@ -290,6 +288,20 @@ popd > /dev/null)
 %{bzinstallprefix}/bugzilla/contrib/Bugzilla.pm
 
 %changelog
+* Mon Oct 19 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 5.0.6-10
+- Replace calls to %%{__perl} with /usr/bin/perl
+- Remove contrib/bugzilla-submit (no longers works) (#1835451)
+
+* Tue Sep 29 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 5.0.6-9
+- Remove automagic Python bytecompilation macro
+- Include upstream patch for text mails (#1855962)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.6-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.6-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 * Tue Mar 24 2020 Jitka Plesnikova <jplesnik@redhat.com> - 5.0.6-6
 - Add all perl dependencies needed for build
 

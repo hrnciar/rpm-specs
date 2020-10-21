@@ -4,7 +4,7 @@
 %global crate cargo-c
 
 Name:           rust-%{crate}
-Version:        0.6.7
+Version:        0.6.13
 Release:        1%{?dist}
 Summary:        Helper program to build and install c-like libraries
 
@@ -28,6 +28,14 @@ Helper program to build and install c-like libraries.}
 %if ! %{__cargo_skip_build}
 %package     -n %{crate}
 Summary:        %{summary}
+# ASL 2.0
+# ASL 2.0 or Boost
+# MIT
+# MIT or ASL 2.0
+# MPLv2.0
+# Unlicense or MIT
+# zlib
+License:        MIT and ASL 2.0 and MPLv2.0 and zlib
 
 %description -n %{crate} %{_description}
 
@@ -36,6 +44,7 @@ Summary:        %{summary}
 %doc README.md
 %{_bindir}/cargo-cbuild
 %{_bindir}/cargo-cinstall
+%{_bindir}/cargo-capi
 %endif
 
 %package        devel
@@ -48,6 +57,7 @@ This package contains library source intended for building other packages
 which use "%{crate}" crate.
 
 %files          devel
+%license LICENSE
 %doc README.md
 %{cargo_registry}/%{crate}-%{version_no_tilde}/
 
@@ -82,6 +92,18 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Mon Sep 21 2020 Fabio Valentini <decathorpe@gmail.com> - 0.6.13-1
+- Update to version 0.6.13.
+
+* Sun Aug 23 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.6.10-2
+- Rebuild
+
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 0.6.10-1
+- Update to 0.6.10
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.6.8-1
+- Update to 0.6.8
+
 * Wed Jun 10 2020 Josh Stone <jistone@redhat.com> - 0.6.7-1
 - Update to 0.6.7
 

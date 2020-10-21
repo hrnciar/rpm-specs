@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          1.6.8
-Release:          3%{?dist}
+Release:          6%{?dist}
 Source0:          ftp://cran.r-project.org/pub/R/contrib/main/%{packname}_%{version}.tar.gz
 License:          GPLv2+ and GPLv3+
 URL:              http://cran.r-project.org/web/packages/msm/
@@ -64,6 +64,16 @@ rm -rf $RPM_BUILD_ROOT%{_libdir}/R/library/R.css
 %{_libdir}/R/library/%{packname}/libs/%{packname}.so
 
 %changelog
+* Mon Aug 10 2020 Tom Callaway <spot@fedoraproject.org> - 1.6.8-6
+- rebuild for FlexiBLAS R
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.8-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.6.8-3
 - rebuild for R 4
 

@@ -1,6 +1,6 @@
 Name:           smem
 Version:        1.5
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Report application memory usage in a meaningful way
 
 License:        GPLv2+
@@ -44,6 +44,9 @@ install -D -p -m 644 smem.8 $RPM_BUILD_ROOT/%{_mandir}/man8/smem.8
 %{_mandir}/man8/smem.8*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

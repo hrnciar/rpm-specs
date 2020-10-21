@@ -2,7 +2,7 @@
 
 Name:           linuxconsoletools
 Version:        1.7.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Tools for connecting joysticks & legacy devices to the kernel's input subsystem
 License:        GPLv2+
 URL:            http://sourceforge.net/projects/linuxconsole/
@@ -74,6 +74,9 @@ chmod -x %{buildroot}%{_mandir}/man1/*
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

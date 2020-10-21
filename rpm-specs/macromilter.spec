@@ -3,7 +3,7 @@ Name:              macromilter
 URL:               https://github.com/sbidy/MacroMilter
 Version:           3.7.0
 License:           MIT
-%global            baserelease      4
+%global            baserelease      5
 
 # Build from release or from git snapshot
 %bcond_without     snapshot
@@ -137,6 +137,9 @@ exit 0
 %dir %attr(0750,%{name},%{name}) %{_localstatedir}/log/%{name}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.0-0.5.20191111git2761838
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Robert Scheck <robert@fedoraproject.org> 3.7.0-0.4.20191111git2761838
 - Removed unnecessary dependency on python configparser package (#1825543)
 

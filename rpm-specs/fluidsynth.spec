@@ -1,7 +1,7 @@
 Summary:      Real-time software synthesizer
 Name:         fluidsynth
 Version:      2.1.1
-Release:      1%{?dist}
+Release:      4%{?dist}
 URL:          http://www.fluidsynth.org/
 Source0:      https://github.com/Fluidsynth/fluidsynth/archive/v%{version}/fluidsynth-%{version}.tar.gz
 License:      LGPLv2+
@@ -71,19 +71,21 @@ pushd %{_target_platform}
 %define enable_jack on
 %endif
 
-%{cmake}  -Denable-ladspa=on -Denable-jack=%{enable_jack} ..
+%cmake  -Denable-ladspa=on -Denable-jack=%{enable_jack} ..
 popd
 
 # build fluidsynth
-make %{?_smp_mflags} -C %{_target_platform}
+pushd %{_target_platform}
+%make_build -C %{_target_platform}
 
 # build docs
-make doxygen -C %{_target_platform}/doc
-
+%make_build doxygen -C %{_target_platform}/doc
+popd
 
 %install
+pushd %{_target_platform}
 make DESTDIR=$RPM_BUILD_ROOT -C %{_target_platform} install
-
+popd
 
 %files
 %{_bindir}/fluid*
@@ -96,7 +98,7 @@ make DESTDIR=$RPM_BUILD_ROOT -C %{_target_platform} install
 %{_libdir}/libfluidsynth.so.2.*
 
 %files devel
-%doc %{_target_platform}/doc/api/html doc/*.c doc/*fluid*.txt doc/*.odt
+%doc %{_target_platform}/%{_target_platform}/doc/api/html doc/*.c doc/*fluid*.txt doc/*.odt
 %doc ChangeLog
 %{_includedir}/fluidsynth.h
 %{_includedir}/fluidsynth/
@@ -105,6 +107,17 @@ make DESTDIR=$RPM_BUILD_ROOT -C %{_target_platform} install
 
 
 %changelog
+* Mon Aug 03 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 2.1.1-4
+- Rebuild with fixes for Fedora 33
+- Resolves: rhbz #1863571
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Orcan Ogetbil <oget[dot]fedora[at]gmail[dot]com> - 2.1.1-1
 - Update to 2.1.1
 

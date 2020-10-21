@@ -4,7 +4,7 @@
 # https://github.com/golang/perf
 %global goipath         golang.org/x/perf
 %global forgeurl        https://github.com/golang/perf
-%global commit          6835260b7148966b8510e0165e066287164de4cb
+%global commit          9c9101da83161dff5e53fc89bf35ed49ea286db8
 
 %gometa
 
@@ -26,7 +26,7 @@ measurement, storage, and analysis.
 
 Name:           %{goname}
 Version:        0
-Release:        0.7%{?dist}
+Release:        0.9%{?dist}
 Summary:        Performance measurement, storage, and analysis
 
 # Upstream license specification: BSD-3-Clause
@@ -38,11 +38,16 @@ BuildRequires:  golang(cloud.google.com/go/storage)
 BuildRequires:  golang(github.com/aclements/go-gg/generic/slice)
 BuildRequires:  golang(github.com/aclements/go-gg/ggstat)
 BuildRequires:  golang(github.com/aclements/go-gg/table)
+BuildRequires:  golang(github.com/go-sql-driver/mysql)
 BuildRequires:  golang(github.com/mattn/go-sqlite3)
 BuildRequires:  golang(golang.org/x/net/context)
 BuildRequires:  golang(golang.org/x/net/context/ctxhttp)
 BuildRequires:  golang(golang.org/x/oauth2)
 BuildRequires:  golang(golang.org/x/oauth2/google)
+BuildRequires:  golang(google.golang.org/api/oauth2/v2)
+BuildRequires:  golang(google.golang.org/appengine)
+BuildRequires:  golang(google.golang.org/appengine/log)
+BuildRequires:  golang(google.golang.org/appengine/user)
 
 %description
 %{common_description}
@@ -75,6 +80,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Fri Aug 07 20:50:42 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.9.20200807git9c9101d
+- Bump to commit 9c9101da83161dff5e53fc89bf35ed49ea286db8
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

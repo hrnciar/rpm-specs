@@ -1,30 +1,30 @@
-%global commit      b5037cbf87ee4b0beed91adb33c339122e58326f
+%global commit 41a0d9ea4dac077c2050ceaf144f9ed72d6849d8
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global date        20191209
+%global date 20200911
 
-Name:           awesome-vim-colorschemes
-Version:        0
-Release:        9.%{date}git%{shortcommit}%{?dist}
-Summary:        Collection of color schemes for Neo/vim, merged for quick use
+Name: awesome-vim-colorschemes
+Version: 0
+Release: 11.%{date}git%{shortcommit}%{?dist}
+Summary: Collection of color schemes for Neo/vim, merged for quick use
+BuildArch: noarch
 
 # You can find the individual license in the actual vim file, or find the
 # appropriate README in docs/
 # * https://github.com/rafi/awesome-vim-colorschemes/issues/12
-License:        Vim and MIT and CC-BY
+License: Vim and MIT and CC-BY
 
-URL:            https://github.com/rafi/awesome-vim-colorschemes
-Source0:        %{url}/archive/%{commit}/%{name}-%{version}.%{date}git%{shortcommit}.tar.gz
-Source1:        %{name}.metainfo.xml
+URL: https://github.com/rafi/awesome-vim-colorschemes
+Source0: %{url}/archive/%{commit}/%{name}-%{version}.%{date}git%{shortcommit}.tar.gz
+Source1: %{name}.metainfo.xml
 
 # Remove executable bit & Fix wrong file end of line encoding
 # * https://github.com/rafi/awesome-vim-colorschemes/pull/13
-Patch0:         https://github.com/rafi/awesome-vim-colorschemes/pull/13#/remove-executable-bit-&-fix-wrong-file-end-of-line-encoding.patch
+Patch0: https://github.com/rafi/awesome-vim-colorschemes/pull/13#/remove-executable-bit-&-fix-wrong-file-end-of-line-encoding.patch
 
-BuildArch:      noarch
+BuildRequires: libappstream-glib
+BuildRequires: vim-filesystem
 
-BuildRequires:  libappstream-glib
-BuildRequires:  vim-filesystem
-Requires:       vim-enhanced
+Requires: vim-enhanced
 
 %description
 Collection of awesome color schemes for Neo/vim, merged for quick use.
@@ -35,13 +35,13 @@ Collection of awesome color schemes for Neo/vim, merged for quick use.
 
 
 %install
-mkdir -p                    %{buildroot}%{vimfiles_root}
-cp -pr {autoload,colors}    %{buildroot}%{vimfiles_root}
-install -m 0644 -Dp %{SOURCE1}  %{buildroot}%{_metainfodir}/%{name}.metainfo.xml
+mkdir -p %{buildroot}%{vimfiles_root}
+cp -a {autoload,colors} %{buildroot}%{vimfiles_root}
+install -Dpm0644 %{SOURCE1} %{buildroot}%{_metainfodir}/%{name}.metainfo.xml
 
 
 %check
-appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.xml
 
 
 %files
@@ -52,6 +52,12 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 
 
 %changelog
+* Tue Oct 20 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0-11.20200911git41a0d9e
+- build(update): commit 41a0d9e
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-10.20191209gitb5037cb
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-9.20191209gitb5037cb
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

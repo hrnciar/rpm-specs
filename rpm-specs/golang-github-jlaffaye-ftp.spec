@@ -4,7 +4,7 @@
 
 # https://github.com/jlaffaye/ftp
 %global goipath         github.com/jlaffaye/ftp
-%global commit          e1b8fdd0dcc38b910ed30a1422a5b8658a8f165a
+%global commit          13949d38913e55cc931e1472c0054df068a7c2ac
 
 %gometa
 
@@ -16,7 +16,7 @@ Package Ftp implements a FTP client as described in RFC 959.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.12%{?dist}
+Release:        0.14%{?dist}
 Summary:        FTP client package for Go
 
 License:        ISC
@@ -26,6 +26,7 @@ Source0:        %{gosource}
 %if %{with check}
 # Tests
 BuildRequires:  golang(github.com/stretchr/testify/assert)
+BuildRequires:  golang(github.com/stretchr/testify/require)
 %endif
 
 %description
@@ -47,6 +48,12 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 14:50:09 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.14.20200728git13949d3
+- Bump to commit 13949d38913e55cc931e1472c0054df068a7c2ac
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

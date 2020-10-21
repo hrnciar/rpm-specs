@@ -15,7 +15,7 @@
 Summary: A utility for determining file types
 Name: file
 Version: 5.39
-Release: 1%{?dist}
+Release: 3%{?dist}
 License: BSD
 Source0: ftp://ftp.astron.com/pub/file/file-%{version}.tar.gz
 
@@ -79,6 +79,7 @@ file(1) command.
 %package -n python3-file-magic
 Summary: Python 3 bindings for the libmagic API
 BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 BuildArch: noarch
 Requires: %{name} = %{version}-%{release}
 Provides: python3-magic = %{version}-%{release}
@@ -113,7 +114,7 @@ CFLAGS="%{optflags} -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE" \
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 export LD_LIBRARY_PATH=%{_builddir}/%{name}-%{version}/src/.libs
-make %{?_smp_mflags} V=1
+%make_build
 %if %{with python2}
 cd python
 CFLAGS="%{optflags}" %{__python2} setup.py build
@@ -130,7 +131,7 @@ mkdir -p ${RPM_BUILD_ROOT}%{_mandir}/man5
 mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/misc
 mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/file
 
-make DESTDIR=${RPM_BUILD_ROOT} install
+%make_install
 rm -f ${RPM_BUILD_ROOT}%{_libdir}/*.la
 
 # local magic in /etc/magic
@@ -204,6 +205,12 @@ cd %{py3dir}
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.39-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Vincent Mihalkovic <vmihalko@redhat.com> - 5.39-2
+- BuildRequires: python3-setuptools
+
 * Tue Jun 16 2020 Vincent Mihalkovic <vmihalko@redhat.com> - 5.39-1
 - update to new version 5.39
 

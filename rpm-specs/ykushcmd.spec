@@ -1,14 +1,10 @@
-#global gitsnap c585d24
-
 Name:           ykushcmd
-Version:        1.2.2
+Version:        1.2.3
 Release:        1%{?gitsnap:.%{gitsnap}}%{?dist}
 Summary:        YKUSH Boards Control Application 
 License:        ASL 2.0
 URL:            https://github.com/Yepkit/ykush
 Source0:        https://github.com/Yepkit/ykush/archive/%{version}/ykush-%{version}.tar.gz
-# git archive --format=tar --prefix=%{name}-%{version}/ %{gitsnap} |  xz > %{name}-%{version}-%{gitsnap}.tar.xz
-#Source0:        ykush-%{version}-%{gitsnap}.tar.xz
 
 BuildRequires:  gcc-c++
 BuildRequires:  hidapi-devel
@@ -33,12 +29,18 @@ install bin/ykushcmd %{buildroot}%{_bindir}
 
 
 %files
-%{_bindir}/ykushcmd
+%license LICENSE.md
 %doc README.md
-%license %attr(0644,-,-) LICENSE.md
+%{_bindir}/ykushcmd
 
 
 %changelog
+* Tue Aug 04 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.2.3-1
+- Update to 1.2.3
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 10 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.2.2-1
 - Update to 1.2.2
 

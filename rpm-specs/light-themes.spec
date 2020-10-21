@@ -3,7 +3,7 @@
 
 Name:           light-themes
 Version:        16.10
-Release:        9.%{revision_date}bzr%{revision}%{?dist}
+Release:        10.%{revision_date}bzr%{revision}%{?dist}
 Summary:        Themes for Ubuntu
 
 License:        CC-BY-SA
@@ -112,6 +112,9 @@ end
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16.10-10.20180421bzr625
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16.10-9.20180421bzr625
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

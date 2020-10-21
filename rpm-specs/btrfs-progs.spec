@@ -1,59 +1,67 @@
+# Local definition of version_no_tilde when it doesn't exist
+%{!?version_no_tilde: %define version_no_tilde %{shrink:%(echo '%{version}' | tr '~' '-')}}
+
 # Disable for now until version handling question is dealt with
 %bcond_with python
 
-Name:		btrfs-progs
-Version:	5.6.1
-Release:	2%{?dist}
-Summary:	Userspace programs for btrfs
+Name:           btrfs-progs
+Version:        5.7
+Release:        5%{?dist}
+Summary:        Userspace programs for btrfs
 
-License:	GPLv2
-URL:		http://btrfs.wiki.kernel.org/index.php/Main_Page
-Source0:	https://www.kernel.org/pub/linux/kernel/people/kdave/%{name}/%{name}-v%{version}.tar.xz
+License:        GPLv2
+URL:            https://btrfs.wiki.kernel.org/index.php/Main_Page
+Source0:        https://www.kernel.org/pub/linux/kernel/people/kdave/%{name}/%{name}-v%{version_no_tilde}.tar.xz
 
+# Backports from upstream
+## Do not use raid0 by default for mkfs multi-disk (#1855174)
+Patch0001:      0001-btrfs-progs-mkfs-clean-up-default-profile-settings.patch
+Patch0002:      0002-btrfs-progs-mkfs-switch-to-single-as-default-profile.patch
+## Fix convert for 64-bit ext4 filesystems (#1851674)
+Patch0003:      0001-btrfs-progs-convert-prevent-32bit-overflow-for-cctx-.patch
+Patch0004:      0002-btrfs-progs-tests-add-convert-test-case-for-multiply.patch
 
-BuildRequires:	gcc, autoconf, automake
-BuildRequires:	e2fsprogs-devel, libuuid-devel, zlib-devel, libzstd-devel
-BuildRequires:	libacl-devel, libblkid-devel, lzo-devel
-BuildRequires:	asciidoc, xmlto
+BuildRequires:  gcc, autoconf, automake
+BuildRequires:  e2fsprogs-devel, libuuid-devel, zlib-devel, libzstd-devel
+BuildRequires:  libacl-devel, libblkid-devel, lzo-devel
+BuildRequires:  asciidoc, xmlto
 BuildRequires:  systemd
 
 %if %{with python}
 BuildRequires:  python3-devel >= 3.4
 %endif
 
-%define _root_sbindir /sbin
-
 %description
 The btrfs-progs package provides all the userspace programs needed to create,
 check, modify and correct any inconsistencies in the btrfs filesystem.
 
 %package -n libbtrfs
-Summary:	btrfs filesystem-specific runtime libraries
-License:	GPLv2
+Summary:        btrfs filesystem-specific runtime libraries
+License:        GPLv2
 # This was not properly split out before
-Conflicts:	%{name} < 4.20.2
+Conflicts:      %{name} < 4.20.2
 
 %description -n libbtrfs
 libbtrfs contains the main library used by btrfs
 filesystem-specific programs.
 
 %package -n libbtrfsutil
-Summary:	btrfs filesystem-specific runtime utility libraries
-License:	LGPLv3
+Summary:        btrfs filesystem-specific runtime utility libraries
+License:        LGPLv3
 # This was not properly split out before
-Conflicts:	%{name}-devel < 4.20.2
+Conflicts:      %{name}-devel < 4.20.2
 
 %description -n libbtrfsutil
 libbtrfsutil contains an alternative utility library used by btrfs
 filesystem-specific programs.
 
 %package devel
-Summary:	btrfs filesystem-specific libraries and headers
+Summary:        btrfs filesystem-specific libraries and headers
 # libbtrfsutil is LGPLv3
-License:	GPLv2 and LGPLv3
-Requires:	%{name} = %{version}-%{release}
-Requires:	libbtrfs%{?_isa} = %{version}-%{release}
-Requires:	libbtrfsutil%{?_isa} = %{version}-%{release}
+License:        GPLv2 and LGPLv3
+Requires:       %{name} = %{version}-%{release}
+Requires:       libbtrfs%{?_isa} = %{version}-%{release}
+Requires:       libbtrfsutil%{?_isa} = %{version}-%{release}
 
 %description devel
 btrfs-progs-devel contains the libraries and header files needed to
@@ -68,9 +76,9 @@ btrfs filesystem-specific programs.
 
 %if %{with python}
 %package -n python3-btrfsutil
-Summary:	Python 3 bindings for libbtrfsutil
-License:	LGPLv3
-Requires:	libbtrfsutil%{?_isa} = %{version}-%{release}
+Summary:        Python 3 bindings for libbtrfsutil
+License:        LGPLv3
+Requires:       libbtrfsutil%{?_isa} = %{version}-%{release}
 %{?python_provide:%python_provide python3-btrfsutil}
 
 %description -n python3-btrfsutil
@@ -82,12 +90,12 @@ btrfs filesystem-specific programs in Python.
 %endif
 
 %prep
-%autosetup -n %{name}-v%{version}
+%autosetup -n %{name}-v%{version_no_tilde} -p1
 
 %build
 ./autogen.sh
 %configure CFLAGS="%{optflags} -fno-strict-aliasing" %{!?with_python:--disable-python}
-make %{?_smp_mflags}
+%make_build
 
 %if %{with python}
 pushd libbtrfsutil/python
@@ -96,9 +104,10 @@ popd
 %endif
 
 %install
-make mandir=%{_mandir} bindir=%{_sbindir} libdir=%{_libdir} incdir=%{_includedir} install DESTDIR=%{buildroot}
+%make_install mandir=%{_mandir} bindir=%{_sbindir} libdir=%{_libdir} incdir=%{_includedir}
+install -Dpm0644 btrfs-completion %{buildroot}%{_datadir}/bash-completion/completions/btrfs
 # Nuke the static lib
-rm -f %{buildroot}/%{_libdir}/*.a
+rm -v %{buildroot}%{_libdir}/*.a
 
 %if %{with python}
 pushd libbtrfsutil/python
@@ -121,6 +130,7 @@ popd
 %{_mandir}/man5/*.gz
 %{_mandir}/man8/*.gz
 %{_udevrulesdir}/64-btrfs-dm.rules
+%{_datadir}/bash-completion/completions/btrfs
 
 %files -n libbtrfs
 %license COPYING
@@ -143,6 +153,24 @@ popd
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.7-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Neal Gompa <ngompa13@gmail.com> - 5.7-4
+- Backport fix for converting 64-bit ext4 filesystems (#1851674)
+
+* Tue Jul 21 2020 Neal Gompa <ngompa13@gmail.com> - 5.7-3
+- Backport fix to not use raid0 by default for mkfs multi-disk (#1855174)
+
+* Wed Jul 08 2020 Carl George <carl@george.computer> - 5.7-2
+- Include bash completion
+
+* Thu Jul 02 2020 Neal Gompa <ngompa13@gmail.com> - 5.7-1
+- New upstream release
+
+* Tue Jun 30 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 5.7~rc1-1
+- Update to 5.7-rc1
+
 * Mon Jun 15 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 5.6.1-2
 - Rebuild
 

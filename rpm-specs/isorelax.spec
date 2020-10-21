@@ -36,7 +36,7 @@ URL:            http://iso-relax.sourceforge.net/
 Epoch:          1
 Version:        0
 # I can't use %%{cvstag} as dashes aren't allowed in Release tags
-Release:        0.27.release20050331%{?dist}
+Release:        0.29.release20050331%{?dist}
 # Parts of VerifierFactory.java were copied from Apache Batik and are
 # under ASL 1.1, everything else is under MIT.
 License:        MIT and ASL 1.1
@@ -94,6 +94,12 @@ ant release
 %license license.txt
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0-0.29.release20050331
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1:0-0.28.release20050331
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0-0.27.release20050331
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

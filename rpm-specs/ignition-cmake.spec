@@ -1,9 +1,10 @@
+%undefine __cmake_in_source_build
 %global debug_package %{nil}
 %global major_version 0
 
 Name:           ignition-cmake
 Version:        0.6.1
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        CMake modules to be used by the Ignition projects
 Epoch:          1
 
@@ -33,26 +34,27 @@ dependencies of ignition projects and generate cmake targets for consumers of
 ignition projects to link against.
 
 %prep
-%autosetup -p1
-
+%autosetup -p0 -S gendiff
 
 %build
-mkdir build; pushd build
-%cmake .. -DBUILD_TESTING=OFF
-# Remove 'bitness' check from version file
-sed -i '36,$d' ignition-cmake0-config-version.cmake
-popd
-
-%make_build -C build
+%cmake -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release
+%cmake_build
 
 %install
-%make_install -C build
+%cmake_install
 
 %files devel
 %{_datadir}/cmake/%{name}%{major_version}
 %{_datadir}/ignition
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.6.1-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.6.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.6.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

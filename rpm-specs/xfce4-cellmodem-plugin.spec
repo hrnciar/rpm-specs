@@ -6,7 +6,7 @@
 
 Name:           xfce4-cellmodem-plugin
 Version:        0.0.5
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        Cell Modem monitor plugin for the Xfce panel
 
 License:        GPLv2+
@@ -69,6 +69,9 @@ xdt-autogen
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.5-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.5-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

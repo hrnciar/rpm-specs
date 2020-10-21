@@ -1,6 +1,6 @@
 Name:		perl-Data-Binary
 Version:	0.01
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	Simple detection of binary versus text in strings
 License:	Artistic 2.0
 URL:		https://metacpan.org/release/Data-Binary
@@ -54,6 +54,9 @@ make test
 %{_mandir}/man3/Data::Binary.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.01-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.01-6
 - Perl 5.32 rebuild
 

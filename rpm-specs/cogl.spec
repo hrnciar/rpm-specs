@@ -2,7 +2,7 @@
 
 Name:          cogl
 Version:       1.22.8
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       A library for using 3D graphics hardware to draw pretty pictures
 
 License:       LGPLv2+
@@ -150,6 +150,9 @@ chrpath --delete $RPM_BUILD_ROOT%{_libdir}/libcogl-pango.so
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.22.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Kalev Lember <klember@redhat.com> - 1.22.8-1
 - Update to 1.22.8
 

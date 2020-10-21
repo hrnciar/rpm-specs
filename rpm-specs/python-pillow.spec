@@ -7,14 +7,17 @@
 %global with_docs 1
 
 Name:           python-%{srcname}
-Version:        7.1.2
-Release:        2%{?dist}
+Version:        8.0.0
+Release:        1%{?dist}
 Summary:        Python image processing library
 
 # License: see http://www.pythonware.com/products/pil/license.htm
 License:        MIT
 URL:            http://python-pillow.github.io/
 Source0:        https://github.com/python-pillow/Pillow/archive/%{version}/Pillow-%{version}.tar.gz
+
+# Don't error out if sphinx warnings occur
+Patch0:         python-pillow_spinxwarn.patch
 
 BuildRequires:  freetype-devel
 BuildRequires:  gcc
@@ -38,6 +41,7 @@ BuildRequires:  python3-setuptools
 %if 0%{?with_docs}
 BuildRequires:  python3-sphinx
 BuildRequires:  python3-sphinx_rtd_theme
+BuildRequires:  python3-sphinx-removed-in
 %endif
 BuildRequires:  python3-tkinter
 
@@ -149,7 +153,7 @@ popd
 
 
 %files -n python3-%{srcname}
-%doc README.rst CHANGES.rst
+%doc README.md CHANGES.rst
 %license docs/COPYING
 %{python3_sitearch}/*
 # These are in subpackages
@@ -182,6 +186,15 @@ popd
 
 
 %changelog
+* Thu Oct 15 2020 Sandro Mani <manisandro@gmail.com> - 8.0.0-1
+- Update to 8.0.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Sandro Mani <manisandro@gmail.com> - 7.2.0-1
+- Update to 7.2.0
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 7.1.2-2
 - Rebuilt for Python 3.9
 

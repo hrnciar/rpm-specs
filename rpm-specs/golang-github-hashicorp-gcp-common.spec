@@ -3,7 +3,7 @@
 
 # https://github.com/hashicorp/go-gcp-common
 %global goipath         github.com/hashicorp/go-gcp-common
-Version:                0.5.0
+Version:                0.6.0
 
 %gometa
 
@@ -17,7 +17,7 @@ Utils for Vault/GCP integrations. Includes helpers for:
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Common code shared by Google Cloud Platform-maintained plugins
 
 # Upstream license specification: MPL-2.0
@@ -31,9 +31,8 @@ BuildRequires:  golang(golang.org/x/oauth2)
 BuildRequires:  golang(golang.org/x/oauth2/google)
 BuildRequires:  golang(golang.org/x/oauth2/jwt)
 BuildRequires:  golang(google.golang.org/api/compute/v1)
+BuildRequires:  golang(google.golang.org/api/googleapi)
 BuildRequires:  golang(google.golang.org/api/iam/v1)
-BuildRequires:  golang(google.golang.org/api/oauth2/v2)
-BuildRequires:  golang(gopkg.in/square/go-jose.v2)
 
 %description
 %{common_description}
@@ -54,6 +53,12 @@ BuildRequires:  golang(gopkg.in/square/go-jose.v2)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 19:10:07 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.6.0-1
+- Update to 0.6.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

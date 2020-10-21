@@ -13,11 +13,11 @@
 %{!?rel_build:%global git_tar %{name}-%{version}-%{git_ver}.tar.xz}
 
 Name:          engrampa
-Version:       %{branch}.0
+Version:       %{branch}.1
 %if 0%{?rel_build}
 Release:       1%{?dist}
 %else
-Release:       0.11%{?git_rel}%{?dist}
+Release:       0.12%{?git_rel}%{?dist}
 %endif
 Summary:       MATE Desktop file archiver
 License:       GPLv2+ and LGPLv2+
@@ -99,6 +99,12 @@ find %{buildroot} -name "*.la" -exec rm -f {} ';'
 
 
 %changelog
+* Mon Aug 17 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- update to 1.24.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-1
 - update to 1.24.0
 

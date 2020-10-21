@@ -1,6 +1,6 @@
 Name:           urlscan
-Version:        0.9.4
-Release:        4%{?dist}
+Version:        0.9.5
+Release:        1%{?dist}
 Summary:        Extract and browse the URLs contained in an email (urlview replacement)
 
 License:        GPLv2+
@@ -42,6 +42,12 @@ cp -p %{SOURCE1} .
 
 
 %changelog
+* Thu Oct 01 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.9.5-1
+- Update to new release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.4-4
 - Rebuilt for Python 3.9
 

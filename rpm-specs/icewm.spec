@@ -1,16 +1,19 @@
 # Note: there is always trade off between build IceWM more like full DE or
-# vanilla build. One group of people ask for first one and pre-configured out of
-# box another one for for second.
+# vanilla build.  One group of people ask for first one and pre-configured out
+# of box another one for for second.
+
+# https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+%undefine __cmake_in_source_build
 
 # Autotools/CMake
 %bcond_with fallback_build_tool
 
-%global awe_commit 60d40b83ad214e41956f604b4b65d9da45441613
+%global awe_commit 91c9d4ba4374a309d4c0a527ea1e0c8b1e509a43
 %global awe_shortcommit %(c=%{awe_commit}; echo ${c:0:7})
 
 Name:           icewm
-Version:        1.6.6
-Release:        1%{?dist}
+Version:        1.8.3
+Release:        2%{?dist}
 Summary:        Window manager designed for speed, usability, and consistency
 
 License:        LGPLv2+
@@ -18,33 +21,12 @@ URL:            https://ice-wm.org/
 Source0:        https://github.com/ice-wm/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 Source1:        https://github.com/tim77/awesome-%{name}/archive/%{awe_commit}/awesome-%{name}.git%{awe_shortcommit}.tar.gz
 
-# Themes
-# * https://www.box-look.org/p/1310273/
-Source10:       IceClearlooks2-ColorsMas_theme_pack-0.8.tar.bz2
-
-# * https://www.box-look.org/p/1266477/
-Source12:       KDE-Core-20181026134422.tar.bz2
-
-# * https://www.box-look.org/p/1163246/
-Source13:       Windows7ice1.tar.xz
-
-# * https://www.box-look.org/p/1321163/
-Source14:       Araita+.tar.bz2
-Source15:       Araita-Dark+.tar.bz2
-
-# Better font rendering on non HiDPI screens
+# For better font rendering on non HiDPI screens (very weak dep)
 Source20:       local.conf
 Source21:       gtkrc-2.0
 Source22:       gkt3-settings.ini
 
 Source30:       %{name}-startup
-
-# Wallpaper
-Source40:       %{name}-wallpaper.png
-
-# 3rd party config files
-Source50:       dunstrc
-Source51:       conky.conf
 
 Patch0:         %{name}-keys.patch
 Patch1:         %{name}-toolbar.patch
@@ -91,19 +73,11 @@ Requires:       %{name}-data = %{version}-%{release}
 Requires:       xdg-utils
 
 %if 0%{?fedora} || 0%{?rhel} >= 8
-Recommends:     %{name}-3rd-party-cfg
-Recommends:     %{name}-fonts-settings = %{version}-%{release}
 Recommends:     %{name}-themes = %{version}-%{release}
-Recommends:     %{name}-wallpaper
 Recommends:     abattis-cantarell-fonts
+Recommends:     gnome-backgrounds
 
 # Various additional useful tools
-# * Compositor for X11
-Recommends:     picom%{?_isa}
-
-# * Notification daemon
-Recommends:     dunst%{?_isa}
-
 # * Display resolution control
 Recommends:     lxrandr%{?_isa}
 
@@ -119,11 +93,8 @@ Recommends:     gnome-screenshot%{?_isa}
 Recommends:     gnome-terminal%{?_isa}
 Recommends:     network-manager-applet%{?_isa}
 
+Suggests:       %{name}-fonts-settings = %{version}-%{release}
 Suggests:       %{name}-minimal-session = %{version}-%{release}
-
-# * Volume control
-Suggests:       pasystray%{?_isa}
-Suggests:       pavucontrol%{?_isa}
 
 # * https://github.com/bbidulock/icewm/issues/379
 Suggests:       xterm%{?_isa}
@@ -131,8 +102,14 @@ Suggests:       xterm%{?_isa}
 # * Night mode
 Suggests:       redshift-gtk%{?_isa}
 
+# * Notification daemon
+Suggests:       dunst%{?_isa}
+
 # * For antiX like IceWM
 Suggests:       conky%{?_isa}
+
+# * Compositor for X11
+Suggests:       picom%{?_isa}
 %endif
 
 %if 0%{?fedora}
@@ -182,17 +159,6 @@ Requires:       %{name} = %{version}-%{release}
 Minimal, lightweight session for %{name}.
 
 
-# Wallpaper package
-%package        wallpaper
-Summary:        Wallpaper for %{name}
-BuildArch:      noarch
-
-Requires:       %{name}
-
-%description    wallpaper
-Wallpaper for %{name}.
-
-
 # Fonts-settings package
 %package        fonts-settings
 Summary:        Font settings and tweaks for %{name}
@@ -204,74 +170,36 @@ Requires:       %{name} = %{version}-%{release}
 Font settings and tweaks for %{name}.
 
 
-# 3rd-party-cfg package
-%package        3rd-party-cfg
-Summary:        Config files for 3rd-party apps to play nicely with %{name}
-BuildArch:      noarch
-
-Requires:       %{name} = %{version}-%{release}
-
-%description    3rd-party-cfg
-Various config files for 3rd-party apps to play nicely with %{name}.
-
-
 %prep
 %setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %setup -q -D -T -a1
-%setup -q -D -T -a10
-
-# Tweak IceClearlooks2 theme
-sed -i 's!sans-serif:size=10!Cantarell:size=11!'                                                            IceClearlooks2*/*.theme
-sed -i 's!MenuFontNameXft            = Cantarell:size=11!MenuFontNameXft            = Cantarell:size=10!'   IceClearlooks2*/*.theme
-sed -i 's!xmirs!xmis!'                                                                                      IceClearlooks2*/*.theme
-sed -i 's!#DesktopBackgroundScaled=1 # 0 / 1!DesktopBackgroundScaled=1 # 0 / 1!'                            IceClearlooks2*/*.theme
-sed -i 's!#DesktopBackgroundImage = "/home/ren/Imágenes/cafe70.jpg"!DesktopBackgroundImage = "%{_datadir}/backgrounds/%{name}-wallpaper.png"!' \
-    IceClearlooks2*/*.theme
-
-%setup -q -D -T -a12
-%setup -q -D -T -a13
-find Windows7ice1/. -type f -executable -exec chmod -x "{}" \;
-%setup -q -D -T -a14
-%setup -q -D -T -a15
-
-# Tweak Araita theme
-sed -i 's!carlito:size=12!Cantarell:size=11!'   Araita*/*.theme
-sed -i 's!carlito:size=13!Cantarell:size=11!'   Araita*/*.theme
-sed -i 's!22!16!'                               Araita*/*.theme
-sed -i 's!#DesktopBackgroundImage=                   "/usr/share/wallpapers/default.jpg"!DesktopBackgroundImage=                   "%{_datadir}/backgrounds/%{name}-wallpaper.png"!' \
-    Araita*/*.theme
-
-mkdir -p %{_target_platform}
 
 
 %build
 %if %{with fallback_build_tool}
 #./autogen.sh
 autoreconf -fiv
-%configure                                  \
-    --with-xterm=%{_bindir}/gnome-terminal  \
+%configure \
+    --with-xterm=%{_bindir}/gnome-terminal \
     --sysconfdir=%{_sysconfdir}/%{name}
 %else
-pushd %{_target_platform}
-%cmake3                                     \
-    -DCFGDIR=%{_sysconfdir}/%{name}         \
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo       \
-    -DCONFIG_GDK_PIXBUF_XLIB=on             \
-    -DCONFIG_LIBPNG=on                      \
-    -DCONFIG_LIBRSVG=on                     \
-    -DCONFIG_XPM=on                         \
-    -DXTERMCMD=%{_bindir}/gnome-terminal    \
-    ..
-popd
+%cmake \
+    -DCFGDIR=%{_sysconfdir}/%{name} \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DCONFIG_GDK_PIXBUF_XLIB=on \
+    -DCONFIG_LIBPNG=on \
+    -DCONFIG_LIBRSVG=on \
+    -DCONFIG_XPM=on \
+    -DXTERMCMD=%{_bindir}/gnome-terminal
 %endif
 
 %if %{with fallback_build_tool}
 %make_build
 %else
-%make_build -C %{_target_platform}
+%cmake_build
 %endif
 
 
@@ -279,45 +207,33 @@ popd
 %if %{with fallback_build_tool}
 %make_install
 %else
-%make_install -C %{_target_platform}
+%cmake_install
 %endif
 
 # Themes
-cp -ap IceClearlooks2-* %{buildroot}%{_datadir}/%{name}/themes/
-cp -rap awesome-%{name}-%{awe_commit}/themes/AntiX-collection/* %{buildroot}%{_datadir}/%{name}/themes/
-cp -rap awesome-%{name}-%{awe_commit}/themes/IceAdwaita-*       %{buildroot}%{_datadir}/%{name}/themes/
-install -m 0644 -p awesome-%{name}-%{awe_commit}/distro-logos/fedora/icewm.xpm      %{buildroot}%{_datadir}/%{name}/themes/IceAdwaita-Small/taskbar/icewm.xpm
-install -m 0644 -p awesome-%{name}-%{awe_commit}/distro-logos/fedora/icewm-24.xpm   %{buildroot}%{_datadir}/%{name}/themes/IceAdwaita-Medium/taskbar/icewm.xpm
-install -m 0644 -p awesome-%{name}-%{awe_commit}/distro-logos/fedora/icewm-24.xpm   %{buildroot}%{_datadir}/%{name}/themes/IceAdwaita-Dark-Medium-alpha/taskbar/icewm.xpm
-install -m 0644 -p awesome-%{name}-%{awe_commit}/distro-logos/fedora/icewm-32.xpm   %{buildroot}%{_datadir}/%{name}/themes/IceAdwaita-Large/taskbar/icewm.xpm
-cp -ap KDE-Core     %{buildroot}%{_datadir}/%{name}/themes/
-cp -ap Windows7ice1 %{buildroot}%{_datadir}/%{name}/themes/
-cp -ap Araita+      %{buildroot}%{_datadir}/%{name}/themes/
-cp -ap Araita-Dark+ %{buildroot}%{_datadir}/%{name}/themes/
+cp -a awesome-%{name}-%{awe_commit}/themes/AntiX-collection/* %{buildroot}%{_datadir}/%{name}/themes/
+cp -a awesome-%{name}-%{awe_commit}/themes/IceAdwaita-* %{buildroot}%{_datadir}/%{name}/themes/
+install -m0644 -p awesome-%{name}-%{awe_commit}/distro-logos/fedora/icewm.xpm %{buildroot}%{_datadir}/%{name}/themes/IceAdwaita-Small/taskbar/icewm.xpm
+install -m0644 -p awesome-%{name}-%{awe_commit}/distro-logos/fedora/icewm-24.xpm %{buildroot}%{_datadir}/%{name}/themes/IceAdwaita-Medium/taskbar/icewm.xpm
+install -m0644 -p awesome-%{name}-%{awe_commit}/distro-logos/fedora/icewm-24.xpm %{buildroot}%{_datadir}/%{name}/themes/IceAdwaita-Dark-Medium-alpha/taskbar/icewm.xpm
+install -m0644 -p awesome-%{name}-%{awe_commit}/distro-logos/fedora/icewm-32.xpm %{buildroot}%{_datadir}/%{name}/themes/IceAdwaita-Large/taskbar/icewm.xpm
+
 echo "Theme=\"IceAdwaita-Medium/default.theme\"" > %{buildroot}%{_datadir}/%{name}/theme
 
 # Font settings
-install -Dp -m 0644 %{SOURCE20} %{buildroot}%{_sysconfdir}/fonts/local.conf
-install -Dp -m 0644 %{SOURCE21} %{buildroot}%{_sysconfdir}/gtk-2.0/gtkrc
-install -Dp -m 0644 %{SOURCE22} %{buildroot}%{_sysconfdir}/gtk-3.0/settings.ini
+install -Dp -m0644 %{SOURCE20} %{buildroot}%{_sysconfdir}/fonts/local.conf
+install -Dp -m0644 %{SOURCE21} %{buildroot}%{_sysconfdir}/gtk-2.0/gtkrc
+install -Dp -m0644 %{SOURCE22} %{buildroot}%{_sysconfdir}/gtk-3.0/settings.ini
 
-install -Dp -m 0755 %{SOURCE30} %{buildroot}%{_datadir}/%{name}/startup
-install -Dp -m 0644 %{SOURCE40} %{buildroot}%{_datadir}/backgrounds/%{name}-wallpaper.png
+install -Dp -m0755 %{SOURCE30} %{buildroot}%{_datadir}/%{name}/startup
+
 %find_lang %{name}
 
 # Tweak default settings
 sed -i 's!# TaskBarShowMailboxStatus=1 # 0/1!TaskBarShowMailboxStatus=0 # 0/1!' %{buildroot}%{_datadir}/%{name}/preferences
-sed -i 's!# TaskBarShowCPUStatus=1 # 0/1!TaskBarShowCPUStatus=0 # 0/1!'         %{buildroot}%{_datadir}/%{name}/preferences
-sed -i 's!# TaskBarShowMEMStatus=1 # 0/1!TaskBarShowMEMStatus=0 # 0/1!'         %{buildroot}%{_datadir}/%{name}/preferences
-sed -i 's!# TaskBarShowNetStatus=1 # 0/1!TaskBarShowNetStatus=0 # 0/1!'         %{buildroot}%{_datadir}/%{name}/preferences
-
-# 3rd-party configs
-install -Dp -m 0644 %{SOURCE50} %{buildroot}%{_sysconfdir}/xdg/dunst/dunstrc
-install -Dp -m 0644 %{SOURCE51} %{buildroot}%{_sysconfdir}/xdg/conky/conky.conf
-
-# Better default conky config
-%post 3rd-party-cfg
-install -m 0644 -p %{_sysconfdir}/xdg/conky/conky.conf %{_sysconfdir}/conky/conky.conf
+sed -i 's!# TaskBarShowCPUStatus=1 # 0/1!TaskBarShowCPUStatus=0 # 0/1!' %{buildroot}%{_datadir}/%{name}/preferences
+sed -i 's!# TaskBarShowMEMStatus=1 # 0/1!TaskBarShowMEMStatus=0 # 0/1!' %{buildroot}%{_datadir}/%{name}/preferences
+sed -i 's!# TaskBarShowNetStatus=1 # 0/1!TaskBarShowNetStatus=0 # 0/1!' %{buildroot}%{_datadir}/%{name}/preferences
 
 
 %files -f %{name}.lang
@@ -357,36 +273,35 @@ install -m 0644 -p %{_sysconfdir}/xdg/conky/conky.conf %{_sysconfdir}/conky/conk
 %dir %{_datadir}/%{name}/themes/
 
 %files themes
-%{_datadir}/%{name}/themes/Araita+/
-%{_datadir}/%{name}/themes/Araita-Dark+/
 %{_datadir}/%{name}/themes/CrystalBlue/
 %{_datadir}/%{name}/themes/Helix/
-%{_datadir}/%{name}/themes/IceClearlooks2-*/
 %{_datadir}/%{name}/themes/icedesert/
 %{_datadir}/%{name}/themes/Infadel2/
-%{_datadir}/%{name}/themes/KDE-Core/
 %{_datadir}/%{name}/themes/metal2/
 %{_datadir}/%{name}/themes/motif/
 %{_datadir}/%{name}/themes/NanoBlue/
 %{_datadir}/%{name}/themes/win95/
-%{_datadir}/%{name}/themes/Windows7ice1/
 
 # AntiX-collection
-%{_datadir}/%{name}/themes/AntiX-*
 %{_datadir}/%{name}/themes/Antix-*
+%{_datadir}/%{name}/themes/AntiX-*
 %{_datadir}/%{name}/themes/blue-crystal-*
+%{_datadir}/%{name}/themes/BlueDay-*/
+%{_datadir}/%{name}/themes/Breathe*/
 %{_datadir}/%{name}/themes/Clearview*
 %{_datadir}/%{name}/themes/eco-green-*
 %{_datadir}/%{name}/themes/FauxGlass-*
 %{_datadir}/%{name}/themes/Groove-*
 %{_datadir}/%{name}/themes/IceClearlooks-*
-%{_datadir}/%{name}/themes/IceGilDust-*
 %{_datadir}/%{name}/themes/icegil-remix-*
+%{_datadir}/%{name}/themes/IceGilDust-*
 %{_datadir}/%{name}/themes/icenoir-3.3-*
-%{_datadir}/%{name}/themes/KorstroDark-*
 %{_datadir}/%{name}/themes/Korstro-*
+%{_datadir}/%{name}/themes/KorstroDark-*
+%{_datadir}/%{name}/themes/PrettyPink-*/
 %{_datadir}/%{name}/themes/quiescent-*
 %{_datadir}/%{name}/themes/Simplest_black-*
+%{_datadir}/%{name}/themes/SunnyDay-*/
 %{_datadir}/%{name}/themes/Truth*
 %{_datadir}/%{name}/themes/UltraBlack-*
 
@@ -396,20 +311,45 @@ install -m 0644 -p %{_sysconfdir}/xdg/conky/conky.conf %{_sysconfdir}/conky/conk
 %files minimal-session
 %{_datadir}/xsessions/%{name}.desktop
 
-%files wallpaper
-%{_datadir}/backgrounds/%{name}-wallpaper.png
-
 %files fonts-settings
 %{_sysconfdir}/fonts/local.conf
 %{_sysconfdir}/gtk-2.0/gtkrc
 %{_sysconfdir}/gtk-3.0/settings.ini
 
-%files 3rd-party-cfg
-%{_sysconfdir}/xdg/dunst/dunstrc
-%{_sysconfdir}/xdg/conky/conky.conf
-
 
 %changelog
+* Sun Oct 11 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.8.3-2
+- build: update antiX theme collections and awe stuff to commit 91c9d4b
+- build: make 'picom' as very weak dep
+
+* Thu Sep 17 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.8.3-1
+- Update to 1.8.3
+
+* Tue Sep  8 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.8.2-1
+- Update to 1.8.2
+
+* Wed Sep  2 07:05:42 EEST 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.8.1-2
+- Simplify SPEC file and build radically
+- Drop few themes, tweaks, deps
+
+* Mon Aug 31 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.8.1-1
+- Update to 1.8.1
+
+* Tue Aug 25 03:56:58 EEST 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.8.0-1
+- Update to 1.8.0
+
+* Wed Aug 05 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.7.0-4
+- Add '%undefine __cmake_in_source_build' macros
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.7.0-2
+- Rebuild with out-of-source builds new CMake macros
+
+* Wed Jul 15 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.7.0-1
+- Update to 1.7.0
+
 * Sat May 30 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.6.6-1
 - Update to 1.6.6
 

@@ -2,7 +2,7 @@
 
 Name:    testng-remote
 Version: 1.3.0
-Release: 6%{?dist}
+Release: 8%{?dist}
 Summary: Modules for running TestNG remotely
 # org/testng/remote/strprotocol/AbstractRemoteTestRunnerClient.java is CPL
 License: ASL 2.0 and CPL
@@ -73,6 +73,12 @@ sed -i -e 's/${git.branch}/%{gittag}/' -e 's/${git.commit.id}/%{gittag}/' -e 's/
 %license LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.3.0-7
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

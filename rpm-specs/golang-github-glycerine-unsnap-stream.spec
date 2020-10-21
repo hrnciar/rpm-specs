@@ -3,7 +3,7 @@
 
 # https://github.com/glycerine/go-unsnap-stream
 %global goipath         github.com/glycerine/go-unsnap-stream
-%global commit          f9677308dec2b35e76737f9713df328ad11b1fea
+%global commit          81cf024a9e0a906651886e23cb984a852a30b622
 
 %gometa
 
@@ -15,7 +15,7 @@ Small golang library for decoding the snappy streaming format.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.4%{?dist}
+Release:        0.6%{?dist}
 Summary:        Small Go library for decoding the snappy streaming format
 
 License:        MIT
@@ -42,7 +42,7 @@ BuildRequires: golang(github.com/smartystreets/goconvey/convey)
 
 # Convert to use the original from smartystreets
 # which is updated and already packaged, instead of the fork.
-find . -name "*.go" -exec sed -i "s|github.com/glycerine/goconvey|github.com/smartystreets/goconvey|" "{}" +;
+sed -i "s|github.com/glycerine/goconvey|github.com/smartystreets/goconvey|" $(find . -name "*.go")
 
 %install
 %gopkginstall
@@ -55,6 +55,12 @@ find . -name "*.go" -exec sed -i "s|github.com/glycerine/goconvey|github.com/sma
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 19:41:25 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200726git81cf024
+- Bump to commit 81cf024a9e0a906651886e23cb984a852a30b622
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

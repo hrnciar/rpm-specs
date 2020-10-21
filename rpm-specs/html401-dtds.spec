@@ -8,7 +8,7 @@
 
 Name:           html401-dtds
 Version:        4.01
-Release:        %{date}.12%{?dist}.14
+Release:        %{date}.12%{?dist}.15
 Summary:        HTML 4.01 document type definitions
 
 # W3C Software License for DTDs etc:
@@ -71,6 +71,9 @@ cd -
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.01-19991224.12.15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.01-19991224.12.14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

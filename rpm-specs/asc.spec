@@ -1,6 +1,6 @@
 Name:           asc
 Version:        2.8.0.2
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Advanced Strategic Command
 License:        GPLv2+
 URL:            http://www.asc-hq.org/
@@ -60,6 +60,9 @@ install -p -m 644 %{SOURCE2} \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.0.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 2.8.0.2-9
 - Rebuilt for Boost 1.73
 

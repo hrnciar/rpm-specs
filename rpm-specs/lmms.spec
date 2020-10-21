@@ -1,6 +1,6 @@
 Name:           lmms
 Version:        1.1.3
-Release:        16%{?dist}
+Release:        20%{?dist}
 Summary:        Linux MultiMedia Studio
 URL:            https://lmms.io/
 
@@ -166,13 +166,13 @@ cp -a %{SOURCE1} README.fedora
 %endif
        -DCMAKE_INSTALL_LIBDIR=%{_lib} \
        -DLIBEXEC_INSTALL_DIR=%{_libexecdir} \
-       -Wno-dev \
-       .
-make VERBOSE=1 %{?_smp_mflags}
+       -Wno-dev
+
+%cmake_build
 
 
 %install
-make DESTDIR=%{buildroot} install
+%cmake_install
 
 desktop-file-install --vendor '' \
         --add-category=Midi \
@@ -215,6 +215,19 @@ This package contains the necessary files to host VST plugins.
 
 
 %changelog
+* Sat Oct 03 2020 Thomas Moschny <thomas.moschny@gmx.de> - 1.1.3-20
+- Rebuilt for newer stk.
+
+* Wed Aug  5 2020 Thomas Moschny <thomas.moschny@gmx.de> - 1.1.3-19
+- Use %%cmake macros.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-18
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> - 1.1.3-16
 - Rebuild against fluidsynth2
 

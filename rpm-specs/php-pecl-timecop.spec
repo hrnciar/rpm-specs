@@ -25,7 +25,7 @@
 Summary:       Time travel and freezing extension
 Name:          php-pecl-timecop
 Version:       1.2.10
-Release:       9%{?dist}
+Release:       10%{?dist}
 License:       MIT
 URL:           http://pecl.php.net/package/%{pecl_name}
 Source0:       http://pecl.php.net/get/%{pecl_name}-%{version}.tgz
@@ -205,6 +205,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.10-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.10-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

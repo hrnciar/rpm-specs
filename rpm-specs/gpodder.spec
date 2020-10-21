@@ -1,6 +1,6 @@
 Name:           gpodder
 Version:        3.10.16
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Podcast receiver/catcher written in Python
 
 License:        GPLv3+ and LGPLv2+
@@ -105,6 +105,9 @@ EOF
 %{python3_sitelib}/%{name}*.egg-info
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.10.16-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.10.16-1
 - 3.10.16
 

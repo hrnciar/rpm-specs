@@ -4,7 +4,7 @@
 
 # https://github.com/cloudflare/redoctober
 %global goipath         github.com/cloudflare/redoctober
-%global commit          3f826eedb692f563514d43f921506324386a98f1
+%global commit          34d894fcc2a105bab3972d1fdd9fb7db64b22c46
 
 %gometa
 
@@ -17,7 +17,7 @@ server.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Go server for two-man rule style file encryption and decryption
 
 # Upstream license specification: BSD-2-Clause
@@ -63,6 +63,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 06:08:39 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200725git34d894f
+- Bump to commit 34d894fcc2a105bab3972d1fdd9fb7db64b22c46
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

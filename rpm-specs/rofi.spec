@@ -1,6 +1,6 @@
 Name:    rofi
-Version: 1.5.4
-Release: 2%{?dist}
+Version: 1.6.0
+Release: 1%{?dist}
 Summary: A window switcher, application launcher and dmenu replacement
 
 # lexer/theme-parser.[ch]:
@@ -11,8 +11,8 @@ Summary: A window switcher, application launcher and dmenu replacement
 # See also
 # https://lists.fedoraproject.org/archives/list/legal@lists.fedoraproject.org/message/C4VVT54Z4WFGJPPD5X54ILKRF6X2IFLZ/
 License: MIT
-URL:     https://github.com/DaveDavenport/rofi
-Source0: https://github.com/DaveDavenport/rofi/releases/download/%{version}/rofi-%{version}.tar.gz
+URL:     https://github.com/DaveDavenport/%{name}
+Source0: %{URL}/releases/download/%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires: pkgconfig
 BuildRequires: gcc-c++
@@ -25,6 +25,7 @@ BuildRequires: pkgconfig(cairo-xcb)
 BuildRequires: pkgconfig(check) >= 0.11.0
 BuildRequires: pkgconfig(glib-2.0)
 BuildRequires: pkgconfig(librsvg-2.0)
+BuildRequires: pkgconfig(libjpeg)
 BuildRequires: pkgconfig(libstartup-notification-1.0)
 BuildRequires: pkgconfig(pango)
 BuildRequires: pkgconfig(pangocairo)
@@ -83,7 +84,7 @@ The %{name}-themes package contains themes for %{name}.
 
 %build
 %configure
-make %{?_smp_mflags}
+%make_build
 
 make doxy
 find doc/html/html -name "*.map" -delete
@@ -122,6 +123,16 @@ make check || (cat ./test-suite.log; false)
 
 
 %changelog
+* Sun Sep 13 2020 Dan Čermák <dan.cermak@cgc-instruments.com> - 1.6.0-1
+- New upstream release (rhbz#1876283)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.4-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

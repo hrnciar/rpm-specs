@@ -1,6 +1,6 @@
 Name:           git-publish
 Version:        1.6.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Prepare and store patch revisions as git tags
 License:        MIT
 URL:            https://github.com/stefanha/git-publish
@@ -56,6 +56,9 @@ install -p -m 644 hooks/pre-publish-send-email.example %{buildroot}%{_datadir}/g
 %_datadir/git-publish/hooks/pre-publish-send-email.example
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 Stefan Hajnoczi <stefanha@gmail.com> - 1.6.1-1
 - Fix Subject: line wrap
 - Use --batch-size when using --relogin-delay

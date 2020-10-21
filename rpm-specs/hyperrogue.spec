@@ -1,15 +1,14 @@
-%global git_commit 48e6434a61fa83c298451245f3f22d2061bbb4f9
-# This repository is "safe" used by the main developper to push his tested changes.
+%global version_tag 11.3a
 
 Name:           hyperrogue
-Version:        10.0
-Release:        9.d%{?dist}
+Version:        11.3
+Release:        1.a%{?dist}
 Summary:        An SDL roguelike in a non-euclidean world
 
 # The game is under the GPLv2 (src/mtrand.h is under BSD, src/savepng.* is under zlib) and the music under CC-BY (v3)
 License:        GPLv2 and BSD and zlib
 URL:            http://www.roguetemple.com/z/hyper/
-Source0:        https://github.com/zenorogue/%{name}/archive/%{git_commit}.zip
+Source0:        https://github.com/zenorogue/hyperrogue/archive/v%{version_tag}/%{name}-%{version_tag}.tar.gz
 Source1:        %{name}.desktop
 Source2:        %{name}.appdata.xml
 Source3:        http://roguetemple.com/z/hyper/bigicon-osx.png
@@ -17,7 +16,8 @@ Source3:        http://roguetemple.com/z/hyper/bigicon-osx.png
 Patch0:         %{name}.fixfontlocation.patch
 
 BuildRequires:  gcc, gcc-c++
-BuildRequires:  SDL_mixer-devel SDL_ttf-devel SDL_gfx-devel
+BuildRequires:  SDL-devel
+BuildRequires:  SDL_mixer-devel, SDL_ttf-devel, SDL_gfx-devel
 BuildRequires:  libpng-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
@@ -29,6 +29,11 @@ Provides: bundled(mtrand)
 Provides: bundled(savepng)
 
 Recommends: %{name}-music
+
+# Hmm.. it seems that hyperrogue does not build on 32-bit arm anymore?
+# "as: out of memory allocating 32 bytes after a total of 3020046336 bytes"
+# https://kojipkgs.fedoraproject.org//work/tasks/8579/50098579/build.log
+ExcludeArch: armv7hl
 
 %description
 You are a lone outsider in a strange, non-Euclidean world.
@@ -44,15 +49,15 @@ License: CC-BY
 Set of 11 music for hypperrogue.
 
 %prep
-%autosetup -n %{name}-%{git_commit}
+%autosetup -n %{name}-%{version_tag}
 rm -f src/glew.c
-./autogen.sh --prefix=%{_prefix}
-
+autoreconf -fvi
 
 %build
-#pushd src/
-%make_build CFLAGS="%{optflags} -O0 -fPIC"
-#popd
+%configure
+
+# Hmm... this seems like a bug somewhere.
+%make_build CXXFLAGS="%{optflags} -I%{_includedir}/SDL"
 
 %install
 # Upstream not provides "install" target. I have to install files "by hands".
@@ -97,6 +102,16 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/%{name}.a
 
 
 %changelog
+* Mon Aug 24 2020 Ben Rosser <rosser.bjr@gmail.com> - 11.3-1.a
+- Update to newer upstream release, fix FTBFS.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0-11.d
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0-10.d
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0-9.d
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

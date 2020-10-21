@@ -1,15 +1,13 @@
 
 Name:    heaptrack
-Version: 1.1.0
-Release: 7%{?dist}
+Version: 1.2.0
+Release: 1%{?dist}
 Summary: A heap memory profiler for Linux
 
 License: GPLv2+
 URL:     https://cgit.kde.org/heaptrack.git/
 
 Source0: http://download.kde.org/stable/heaptrack/%{version}/src/%{name}-%{version}.tar.xz
-
-Patch0:  heaptrack-fix-build-on-32bit.patch
 
 BuildRequires:  desktop-file-utils
 
@@ -55,21 +53,23 @@ profile to:
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} ..
-popd
+%cmake_kf5 \
+%if "%{?_lib}" == "lib64"
+  %{?_cmake_lib_suffix64}
+%endif
 
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang heaptrack --with-qt --all-name
 
+
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/org.kde.heaptrack.desktop
+
 
 %files -f heaptrack.lang
 %license COPYING
@@ -87,6 +87,19 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.kde.heaptrack.des
 
 
 %changelog
+* Tue Sep 01 2020 Jan Grulich <jgrulich@redhat.com> - 1.2.0-1
+- 1.2.0
+
+* Tue Sep 01 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.1.0-10
+- adapt to new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 1.1.0-7
 - Rebuilt for Boost 1.73
 

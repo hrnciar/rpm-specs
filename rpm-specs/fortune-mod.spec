@@ -2,7 +2,7 @@
 %define CookieDir %{_datadir}/games/fortune
 
 Name:		fortune-mod
-Version:	2.26.0
+Version:	3.2.0
 Release:	1%{?dist}
 Summary:	A program which will display a fortune
 
@@ -57,14 +57,11 @@ wisdom each time they log in.
 %setup -q -n %{name}-%{version}
 
 %build
-mkdir build
-cd build
 %cmake -DCOOKIEDIR=%{CookieDir} -DLOCALDIR=%{CookieDir} -DNO_OFFENSIVE=TRUE ..
-%make_build
+%cmake_build
 
 %install
-cd build
-%make_install
+%cmake_install
 
 tar zxvf %{SOURCE1} -C $RPM_BUILD_ROOT%{CookieDir}
 %if %{DisableOffensiveFortunes}
@@ -97,17 +94,17 @@ mv $RPM_BUILD_ROOT%{CookieDir}/humorixfortunes-1.4/* $RPM_BUILD_ROOT%{CookieDir}
 rmdir $RPM_BUILD_ROOT%{CookieDir}/humorixfortunes-1.4
 
 # Recreate random access files for the added fortune files.
+strfile="`find . -type f -name strfile -executable -print | head -1`"
 for i in \
     kernelnewbies bofh-excuses tao hitchhiker \
     osfortune humorix-misc humorix-stories \
-; do ./strfile $RPM_BUILD_ROOT%{CookieDir}/$i ; done
+; do "$strfile" $RPM_BUILD_ROOT%{CookieDir}/$i ; done
 
 
 %check
-cd build
-rm -f ../tests/t/trailing-space*.t
-rm -f ../tests/t/valgrind*.t
-make check
+%__rm -f tests/t/trailing-space*.t
+%__rm -f tests/t/valgrind*.t
+%ctest
 
 
 %files
@@ -120,6 +117,15 @@ make check
 %{_mandir}/man*/*
 
 %changelog
+* Fri Sep 25 2020 Shlomi Fish <shlomif@shlomifish.org> 3.2.0-1
+- New upstream version
+
+* Tue Jul 28 2020 Shlomi Fish <shlomif@shlomifish.org> 2.28.0-1
+- New upstream version; cmake macros; F33 mass rebuild.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.26.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 02 2020 Shlomi Fish <shlomif@shlomifish.org> 2.26.0-1
 - New upstream version, which includes fixes for integer overflows.
 

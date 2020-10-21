@@ -1,6 +1,6 @@
 Name:		sigscheme
-Version:	0.9.0
-Release:	4%{?dist}
+Version:	0.9.1
+Release:	1%{?dist}
 License:	BSD
 URL:		https://github.com/uim/sigscheme
 BuildRequires:	libgcroots-devel
@@ -58,6 +58,13 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/sigscheme
 %{_libdir}/pkgconfig/sigscheme.pc
 
 %changelog
+* Wed Aug 26 2020 Akira TAGOH <tagoh@redhat.com> - 0.9.1-1
+- New upstream release.
+  Resolves: rhbz#1872256
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

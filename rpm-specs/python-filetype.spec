@@ -1,13 +1,13 @@
 %global pypi_name filetype
 
 Name:           python-%{pypi_name}
-Version:        1.0.5
-Release:        12%{?dist}
+Version:        1.0.7
+Release:        2%{?dist}
 Summary:        Infer file type and MIME type of any file/buffer
 
 License:        MIT
 URL:            https://github.com/h2non/filetype.py
-Source0:        https://github.com/h2non/filetype.py/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
+Source0:        %{url}/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
 
 %description
@@ -18,6 +18,7 @@ checking the magic numbers signature of a file or buffer.
 Summary:        %{summary}
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 Buildrequires:  python3-pytest
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
@@ -44,9 +45,18 @@ pytest-%{python3_version} -v tests --ignore tests/test_benchmark.py
 %doc README.rst History.md examples
 %license LICENSE
 %{python3_sitelib}/%{pypi_name}/
-%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.0.7-1
+- Update to latest upstream release 1.0.7
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.0.5-13
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.5-12
 - Rebuilt for Python 3.9
 

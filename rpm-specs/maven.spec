@@ -7,7 +7,7 @@
 Name:           maven
 Epoch:          1
 Version:        3.6.3
-Release:        1%{?dist}
+Release:        6%{?dist}
 Summary:        Java project management and project comprehension tool
 # maven itself is ASL 2.0
 # bundled slf4j is MIT
@@ -98,10 +98,9 @@ Requires:       apache-commons-cli
 Requires:       apache-commons-codec
 Requires:       apache-commons-io
 Requires:       apache-commons-lang3
-Requires:       apache-commons-logging
 Requires:       atinject
 Requires:       cdi-api
-Requires:       geronimo-annotation
+Requires:       jakarta-annotations
 Requires:       google-guice
 Requires:       guava
 Requires:       hawtjni-runtime
@@ -236,10 +235,10 @@ xmvn-subst -R %{buildroot} -s %{buildroot}%{homedir}
 
 # Transitive deps of wagon-http, missing because of unshading
 build-jar-repository -s -p %{buildroot}%{homedir}/lib \
-    commons-{codec,logging} httpcomponents/{httpclient,httpcore} maven-wagon/http-shared
+    httpcomponents/{httpclient,httpcore} maven-wagon/http-shared
 
 # Transitive deps of cdi-api that should have been excluded
-rm %{buildroot}%{homedir}/lib/jboss-interceptors*.jar
+rm %{buildroot}%{homedir}/lib/jakarta.interceptor-api*.jar
 rm %{buildroot}%{homedir}/lib/javax.el-api*.jar
 
 # Native lib whose extraction we suppressed
@@ -294,6 +293,22 @@ update-alternatives --install %{_bindir}/mvn mvn %{homedir}/bin/mvn %{?maven_alt
 
 
 %changelog
+* Wed Sep 30 2020 Christopher Tubbs <ctubbsii@fedoraproject.org> - 1:3.6.3-6
+- Remove unneeded commons-logging from runtime class path (rhbz#1883751)
+- Also remove redundant commons-codec
+
+* Tue Aug 25 2020 Fabio Valentini <decathorpe@gmail.com> - 1:3.6.3-5
+- Adapt to cdi-api switch from jboss-interceptor to jakarta-interceptor.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.6.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1:3.6.3-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jun 25 2020 Alexander Kurtakov <akurtako@redhat.com> 1:3.6.3-2
+- Switch jsr250 to jakarta-anntations.
+
 * Mon May 25 2020 Fabio Valentini <decathorpe@gmail.com> - 1:3.6.3-1
 - Update to version 3.6.3.
 

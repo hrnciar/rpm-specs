@@ -1,6 +1,6 @@
 Name:           perl-Types-Path-Tiny
 Version:        0.006
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Path::Tiny types and coercions for Moose and Moo
 License:        ASL 2.0
 URL:            https://metacpan.org/release/Types-Path-Tiny
@@ -54,6 +54,9 @@ This module provides Path::Tiny types for Moose, Moo, etc.
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.006-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.006-8
 - Perl 5.32 rebuild
 

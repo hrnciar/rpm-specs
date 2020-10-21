@@ -5,7 +5,7 @@
 Name:	 kile
 Summary: (La)TeX source editor and TeX shell
 Version: 2.9.93
-Release: 1%{?dist}
+Release: 4%{?dist}
 
 License: GPLv2+
 URL:     https://kile.sourceforge.io/
@@ -71,16 +71,11 @@ Kile is a user friendly (La)TeX editor.  The main features are:
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
-
+%cmake_kf5 
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --with-html
 
@@ -108,6 +103,17 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.kile.desk
 
 
 %changelog
+* Tue Aug 25 2020 Christian Dersch <lupinix@mailbox.org> - 2.9.93-4
+- Adapt for
+  https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.93-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.93-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 2020 Kevin Kofler <Kevin@tigcc.ticalc.org> - 2.9.93-1
 - update to 2.9.93 (3.0 beta 3)
 

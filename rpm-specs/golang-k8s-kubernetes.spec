@@ -4,12 +4,11 @@
 %bcond_without check
 %endif
 %bcond_without bootstrap
-%bcond_without vendor
 
 # https://github.com/kubernetes/kubernetes
 %global goipath         k8s.io/kubernetes
 %global forgeurl        https://github.com/kubernetes/kubernetes
-Version:                1.18.3
+Version:                1.18.9
 
 %gometa
 
@@ -33,28 +32,33 @@ best-of-breed ideas and practices from the community.}
 %global godocs          docs CONTRIBUTING.md README.md SUPPORT.md code-of-\\\
                         conduct.md CHANGELOG-1.15.md CHANGELOG.md
 
-%if %{with vendor}
-%global gosupfiles      "${vendor[@]}"
-%global __requires_exclude %{?__requires_exclude:%{__requires_exclude}|}^golang\\(.*\\)$
-%endif
-
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Production-Grade Container Scheduling and Management
 
 # Upstream license specification: MIT and Apache-2.0 and BSD-3-Clause
 License:        MIT and ASL 2.0 and BSD
 URL:            %{gourl}
 Source0:        %{gosource}
-%if %{with vendor}
-# go mod vendor
-Source1:        vendor-1.18.3.tar.gz
-%endif
 # Fix for newer github.com/square/go-jose
-Patch10:        0001-Fix-for-using-with-newer-github.com-square-go-jose.patch
+Patch0:         0001-Fix-for-using-with-newer-github.com-square-go-jose.patch
+# switch over k/k to use klog v2
+Patch1:         0001-switch-over-k-k-to-use-klog-v2.patch
+# Fix for API change in cadvisor
+Patch2:         https://github.com/kubernetes/kubernetes/commit/9006b2db69a5be72b93c123538419f9d5d7cad60.patch#/0001-Fix-for-API-change-in-cadvisor.patch
+# adapt to new libcontainer API
+Patch3:         https://github.com/kubernetes/kubernetes/commit/e94aebf4cb46d7144b108f3c26bab1a0806ac95a.patch#/0001-adapt-to-new-libcontainer-API.patch
+# update cAdvisor to v0.37.0
+Patch4:         https://github.com/kubernetes/kubernetes/commit/1f70708f6cc85985725c11cd69c4965c1f97b314.patch#/0001-update-cAdvisor-to-v0.37.0.patch
+# Fix int->string casts
+Patch5:         https://github.com/kubernetes/kubernetes/commit/124a5ddf725c4862520d8619017cac9db7a03522.patch#/0001-Fix-int-string-casts.patch
+# Fix compatibility with github.com/vishvananda/netlink
+Patch6:         0001-Fix-compatibility-with-github.com-vishvananda-netlink.patch
+# Fix compatibility with latest quobyte
+Patch7:         0001-Fix-compatibility-with-latest-quobyte.patch
 
-%if %{without vendor}
 BuildRequires:  golang(bitbucket.org/bertimus9/systemstat)
+BuildRequires:  golang(bitbucket.org/ww/goautoneg)
 BuildRequires:  golang(cloud.google.com/go/compute/metadata)
 BuildRequires:  golang(github.com/armon/circbuf)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/aws)
@@ -84,8 +88,8 @@ BuildRequires:  golang(github.com/Azure/go-autorest/autorest/azure)
 BuildRequires:  golang(github.com/Azure/go-autorest/autorest/mocks)
 BuildRequires:  golang(github.com/Azure/go-autorest/autorest/to)
 BuildRequires:  golang(github.com/blang/semver)
-BuildRequires:  golang(github.com/caddyserver/caddy/caddyfile)
-BuildRequires:  golang(github.com/chai2010/gettext-go/gettext)
+BuildRequires:  golang(github.com/caddyserver/caddy-1/caddyfile)
+BuildRequires:  golang(github.com/chai2010/gettext-go)
 BuildRequires:  golang(github.com/clusterhq/flocker-go)
 BuildRequires:  golang(github.com/container-storage-interface/spec/lib/go/csi)
 BuildRequires:  golang(github.com/containernetworking/cni/libcni)
@@ -158,8 +162,8 @@ BuildRequires:  golang(github.com/google/cadvisor/utils/sysfs)
 BuildRequires:  golang(github.com/google/go-cmp/cmp)
 BuildRequires:  golang(github.com/google/gofuzz)
 BuildRequires:  golang(github.com/google/uuid)
-BuildRequires:  golang(github.com/googleapis/gnostic/compiler)
-BuildRequires:  golang(github.com/googleapis/gnostic/OpenAPIv2)
+BuildRequires:  golang(github.com/googleapis/gnostic-0.4/compiler)
+BuildRequires:  golang(github.com/googleapis/gnostic-0.4/openapiv2)
 BuildRequires:  golang(github.com/GoogleCloudPlatform/k8s-cloud-provider/pkg/cloud)
 BuildRequires:  golang(github.com/GoogleCloudPlatform/k8s-cloud-provider/pkg/cloud/filter)
 BuildRequires:  golang(github.com/GoogleCloudPlatform/k8s-cloud-provider/pkg/cloud/meta)
@@ -215,7 +219,6 @@ BuildRequires:  golang(github.com/miekg/dns)
 BuildRequires:  golang(github.com/mitchellh/go-wordwrap)
 BuildRequires:  golang(github.com/mitchellh/mapstructure)
 BuildRequires:  golang(github.com/modern-go/reflect2)
-BuildRequires:  golang(github.com/munnerz/goautoneg)
 BuildRequires:  golang(github.com/mvdan/xurls)
 BuildRequires:  golang(github.com/mxk/go-flowrate/flowrate)
 BuildRequires:  golang(github.com/onsi/ginkgo)
@@ -246,7 +249,7 @@ BuildRequires:  golang(github.com/PuerkitoBio/purell)
 BuildRequires:  golang(github.com/quobyte/api)
 BuildRequires:  golang(github.com/robfig/cron)
 BuildRequires:  golang(github.com/rubiojr/go-vhd/vhd)
-BuildRequires:  golang(github.com/russross/blackfriday)
+BuildRequires:  golang(gopkg.in/russross/blackfriday.v1)
 BuildRequires:  golang(github.com/sirupsen/logrus)
 BuildRequires:  golang(github.com/spf13/afero)
 BuildRequires:  golang(github.com/spf13/cobra)
@@ -1053,7 +1056,7 @@ BuildRequires:  golang(k8s.io/gengo/types)
 %if %{without bootstrap}
 BuildRequires:  golang(k8s.io/heapster/metrics/api/v1/types)
 %endif
-BuildRequires:  golang(k8s.io/klog)
+BuildRequires:  golang(k8s.io/klog/v2)
 BuildRequires:  golang(k8s.io/kube-aggregator/pkg/apis/apiregistration)
 BuildRequires:  golang(k8s.io/kube-aggregator/pkg/apis/apiregistration/install)
 BuildRequires:  golang(k8s.io/kube-aggregator/pkg/apis/apiregistration/v1)
@@ -1307,10 +1310,10 @@ BuildRequires:  golang(sigs.k8s.io/kustomize/pkg/resmap)
 BuildRequires:  golang(sigs.k8s.io/kustomize/pkg/resource)
 BuildRequires:  golang(sigs.k8s.io/kustomize/pkg/transformers)
 BuildRequires:  golang(sigs.k8s.io/kustomize/pkg/types)
-BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/v3/fieldpath)
-BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/v3/merge)
-BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/v3/typed)
-BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/v3/value)
+BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/v4/fieldpath)
+BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/v4/merge)
+BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/v4/typed)
+BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/v4/value)
 BuildRequires:  golang(sigs.k8s.io/yaml)
 BuildRequires:  golang(vbom.ml/util/sortorder)
 
@@ -1359,7 +1362,6 @@ BuildRequires:  golang(k8s.io/sample-apiserver/pkg/apis/wardle/fuzzer)
 BuildRequires:  golang(k8s.io/sample-controller/pkg/generated/clientset/versioned/fake)
 BuildRequires:  golang(sigs.k8s.io/kustomize/pkg/resid)
 %endif
-%endif
 
 %description
 %{common_description}
@@ -1367,17 +1369,16 @@ BuildRequires:  golang(sigs.k8s.io/kustomize/pkg/resid)
 %gopkg
 
 %prep
-%goprep %{?with_vendor: -k}
-%if %{with vendor}
-%setup -q -T -D -a 1 -n %{extractdir}
-%endif
+%goprep
 rm -rf staging
 %autopatch -p1
-%if %{without vendor}
-sed -i "s|github.com/russross/blackfriday|gopkg.in/russross/blackfriday.v1|" $(find . -name "*.go")
 sed -i "s|github.com/munnerz/goautoneg|bitbucket.org/ww/goautoneg|" $(find . -name "*.go")
 sed -i "s|github.com/googleapis/gnostic/OpenAPIv2|github.com/googleapis/gnostic/openapiv2|" $(find . -name "*.go")
-%endif
+sed -i "s|k8s.io/klog|k8s.io/klog/v2|" $(find . -name "*.go")
+sed -i 's|github.com/googleapis/gnostic|github.com/googleapis/gnostic-0.4|' $(find . -iname "*.go" -type f)
+sed -i 's|sigs.k8s.io/structured-merge-diff/v3|sigs.k8s.io/structured-merge-diff/v4|' $(find . -iname "*.go" -type f)
+sed -i "s|github.com/caddyserver/caddy|github.com/caddyserver/caddy-1|" $(find . -name "*.go" -type f)
+sed -i 's|github.com/russross/blackfriday|gopkg.in/russross/blackfriday.v1|' $(find . -name '*.go')
 
 # %%build
 # for cmd in cmd/* ; do
@@ -1385,9 +1386,6 @@ sed -i "s|github.com/googleapis/gnostic/OpenAPIv2|github.com/googleapis/gnostic/
 # done
 
 %install
-%if %{with vendor}
-mapfile -t vendor <<< $(find vendor -type f)
-%endif
 %gopkginstall
 # install -m 0755 -vd                     %%{buildroot}%%{_bindir}
 # install -m 0755 -vp %%{gobuilddir}/bin/* %%{buildroot}%%{_bindir}/
@@ -1418,14 +1416,18 @@ mapfile -t vendor <<< $(find vendor -type f)
          -d pkg/kubelet/kuberuntime \
          -d pkg/kubelet/oom \
          -d pkg/kubelet/volumemanager/reconciler \
+         -d pkg/proxy/ipvs \
          -d pkg/util/oom \
          -d pkg/registry/apps/daemonset/storage \
+         -d pkg/registry/core/service/storage \
+         -d pkg/serviceaccount \
          -d pkg/volume/csi \
          -d pkg/volume/photon_pd \
          -d test/e2e \
          -d test/e2e_kubeadm \
          -d test/e2e_node \
-         -t test/integration
+         -t test/integration \
+         -t third-party
 %else
 %gocheck -t cmd \
          -d pkg/storage/value/encrypt/envelope \
@@ -1447,11 +1449,14 @@ mapfile -t vendor <<< $(find vendor -type f)
          -d pkg/kubelet/volumemanager/reconciler \
          -d pkg/util/oom \
          -d pkg/registry/apps/daemonset/storage \
+         -d pkg/registry/core/service/storage \
+         -d pkg/serviceaccount \
          -d pkg/volume/csi \
          -d pkg/volume/photon_pd \
          -d test/e2e_kubeadm \
          -d test/e2e_node \
-         -t test/integration
+         -t test/integration \
+         -t third-party
 %endif
 %endif
 
@@ -1464,6 +1469,16 @@ mapfile -t vendor <<< $(find vendor -type f)
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 16:28:55 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.9-1
+- Update to 1.18.9
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 22:00:01 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-2
 - Drop requires
 

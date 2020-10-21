@@ -1,12 +1,12 @@
 Name:           recorder
-Version:        1.0.9
+Version:        1.0.12
 Release:        1%{?dist}
 Summary:        Lock-free, real-time flight recorder for C or C++ programs
 License:        LGPLv2+
-Url:            https://github.com/c3d/%{name}
-Source:         https://github.com/c3d/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
+Url:            https://github.com/tao-3D/%{name}
+Source:         https://github.com/tao-3D/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 BuildRequires:  make >= 3.82
-BuildRequires:  make-it-quick >= 0.2.5
+BuildRequires:  make-it-quick >= 0.2.6
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 
@@ -22,7 +22,7 @@ Development files for the flight recorder library.
 %package scope
 Summary:        A real-time graphing tool for data collected by recorder library
 License:        GPLv3+
-%if 0%{?fedora} > 32
+%if 0%{?fedora} >= 32
 BuildRequires:  qt-devel
 %else
 BuildRequires:  qt5-devel
@@ -74,6 +74,22 @@ collected by the flight_recorder library.
 %{_mandir}/man1/*.1.*
 
 %changelog
+* Wed Jul 29 2020 Christophe de Dinechin <dinechin@redhat.com> - 1.0.12-1
+- Add support for disabling recording
+- Switch to tao-3D organization rather than personal repository
+
+* Wed Jul 29 2020 Christophe de Dinechin <dinechin@redhat.com> - 1.0.11-1
+- Add support for prefix - in trace specifications, e.g. -foo
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 6  2020 Christophe de Dinechin <dinechin@redhat.com> - 1.0.10-2
+- Update BUildRequires to make-it-quick 0.2.6 to fix pkgconfig issue
+
+* Fri Jun 26  2020 Christophe de Dinechin <dinechin@redhat.com> - 1.0.10-1
+- Release 1.0.10, Add _Bool support
+
 * Tue Jun 23 2020 Christophe de Dinechin <dinechin@redhat.com> - 1.0.9-1
 - Release 1.0.9, compatibility with Fedora 33
 

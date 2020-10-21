@@ -1,6 +1,6 @@
 Name:		Judy
 Version:	1.0.5
-Release:	23%{?dist}
+Release:	24%{?dist}
 Summary:	General purpose dynamic array
 License:	LGPLv2+
 URL:		http://sourceforge.net/projects/judy/
@@ -91,6 +91,9 @@ cd -
 %{_mandir}/man3/J*.3*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 25 2020 Paul Howarth <paul@city-fan.org> - 1.0.5-23
 - Don't pass gcc-only compiler flags to other compilers, e.g. clang
   (based on https://src.fedoraproject.org/rpms/Judy/pull-request/3 from

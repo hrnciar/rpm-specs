@@ -1,7 +1,7 @@
 Name:           resultsdb_frontend
 # NOTE: if you update version, *make sure* to also update `resultsdb_frontend/__init__.py`
 Version:        2.1.2
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Frontend for the ResultsDB
 
 License:        GPLv2+
@@ -55,6 +55,9 @@ install -p -m 0644 conf/settings.py.example %{buildroot}%{_sysconfdir}/resultsdb
 %{_datadir}/resultsdb_frontend/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.2-6
 - Rebuilt for Python 3.9
 

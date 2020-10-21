@@ -3,7 +3,7 @@
 
 Name:           perl-Scalar-Properties
 Version:        1.100860
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        Run-time properties on scalar variables
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Scalar-Properties
@@ -94,6 +94,9 @@ make test AUTHOR_TESTING=1 RELEASE_TESTING=1
 %{_mandir}/man3/Scalar::Properties.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.100860-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.100860-22
 - Perl 5.32 rebuild
 

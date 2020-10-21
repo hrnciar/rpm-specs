@@ -1,14 +1,14 @@
 # Default to python3 in f29+
-%if 0%{?fedora} > 28
+%if 0%{?fedora} > 28 || 0%{?rhel} > 7
 %global python3 1
 %else
 %global python3 0
 %endif
 
-%global upstreamver 2020-03-19
+%global upstreamver 2020-07-01
 
 Name:           limnoria
-Version:        20200319
+Version:        20200701
 Release:        2%{?dist}
 Summary:        A modified version of Supybot (an IRC bot) with enhancements and bug fixes
 
@@ -142,6 +142,12 @@ export SOURCE_DATE_EPOCH=1573327269
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200701-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Kevin Fenzi <kevin@scrye.com> - 20200701-1
+- Update to 20200701.
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 20200319-2
 - Rebuilt for Python 3.9
 

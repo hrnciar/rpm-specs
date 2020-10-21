@@ -4,7 +4,7 @@
 
 Name:           mudita24
 Version:        1.1.0
-Release:        2.%{commitdate}git%{shortcommit0}%{?dist}
+Release:        4.%{commitdate}git%{shortcommit0}%{?dist}
 Summary:        ALSA GUI control tool for Envy24 (ice1712) soundcards
 
 License:        GPLv2+
@@ -50,12 +50,12 @@ Lionstracs, Mediastaton. Terrasoniq TS 88. Roland/Edirol DA-2496.
 %build
 pushd %{name}
 %cmake .
-%make_build
+%cmake_build
 popd
 
 %install
 pushd %{name}
-%make_install
+%cmake_install
 popd
 rm -rf %{buildroot}%{_datadir}/doc/%{name}-%{version}
 mkdir %{buildroot}%{_datadir}/pixmaps
@@ -72,6 +72,13 @@ desktop-file-install \
 %{_datadir}/pixmaps/%{name}.xpm
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-4.20160218gite38b1a3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3.20160218gite38b1a3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 1.1.0-2.20160218gite38b1a3
 - Add icon and .desktop file
 

@@ -7,7 +7,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.5.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A single process, persistent multi-producer, multi-consumer queue
 
 License:        BSD
@@ -100,6 +100,9 @@ nose2 persistqueue.tests.test_queue
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Eric Harney <eharney@redhat.com> - 0.5.0-4
 - Add python3-setuptools BuildRequires
 

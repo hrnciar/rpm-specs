@@ -3,8 +3,8 @@
 %global artifactId  clojure-maven-plugin
 
 Name:           %{artifactId}
-Version:        1.8.1
-Release:        6%{?dist}
+Version:        1.8.4
+Release:        2%{?dist}
 Summary:        Clojure plugin for Maven
 
 License:        EPL-1.0
@@ -15,9 +15,9 @@ Source0:        %{URL}/archive/%{name}-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  maven-local
-BuildRequires:  mvn(commons-lang:commons-lang)
 BuildRequires:  mvn(org.apache.commons:commons-exec)
 BuildRequires:  mvn(org.apache.commons:commons-io)
+BuildRequires:  mvn(org.apache.commons:commons-lang3)
 BuildRequires:  mvn(org.apache.maven.plugin-tools:maven-plugin-annotations)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-invoker-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-plugin-plugin)
@@ -37,6 +37,17 @@ possible, when working in a mixed language, enterprise project.
 
 # release plugin is not required for RPM builds
 %pom_remove_plugin :maven-release-plugin
+
+# trivial port to commons-lang3
+%pom_remove_dep :commons-lang
+%pom_add_dep org.apache.commons:commons-lang3
+
+sed -i "s/org.apache.commons.lang./org.apache.commons.lang3./g" \
+    src/main/java/com/theoryinpractise/clojure/AbstractClojureCompilerMojo.java
+sed -i "s/org.apache.commons.lang./org.apache.commons.lang3./g" \
+    src/main/java/com/theoryinpractise/clojure/ClojureNReplMojo.java
+sed -i "s/org.apache.commons.lang./org.apache.commons.lang3./g" \
+    src/main/java/com/theoryinpractise/clojure/ClojureSwankMojo.java
 
 
 %build
@@ -59,6 +70,18 @@ export LANG=en_US.utf8
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Markku Korkeala <markku.korkeala@iki.fi> - 1.8.4-1
+- Update to 1.8.4 release.
+
+* Fri Jul 24 2020 Fabio Valentini <decathorpe@gmail.com> - 1.8.1-8
+- Port to commons-lang3.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.8.1-7
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri May 01 2020 Fabio Valentini <decathorpe@gmail.com> - 1.8.1-6
 - Regenerate BuildRequires with xmvn-builddep and drop redundant Requires.
 

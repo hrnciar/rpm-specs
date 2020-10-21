@@ -4,7 +4,7 @@
 
 Name:           nodejs-runforcover
 Version:        0.0.2
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Require plugin for JS code coverage
 
 BuildArch:      noarch
@@ -52,6 +52,9 @@ cp -pr package.json index.js %{buildroot}%{nodejs_sitelib}/runforcover
 %doc README.markdown
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.2-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.2-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

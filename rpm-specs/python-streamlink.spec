@@ -6,13 +6,9 @@ enjoy various streamed content. There is also an API available for developers
 who want access to the video stream data. This project was forked from
 Livestreamer, which is no longer maintained.}
 
-# TODO: re-enable tests when python-freezegun >= 0.3.10 is available in
-# repositories
-%global _with_tests 0%{?fedora} >= 30
-
 Name:           python-%{srcname}
-Version:        1.4.1
-Release:        2%{?dist}
+Version:        1.7.0
+Release:        1%{?dist}
 Summary:        Python library for extracting streams from various websites
 
 # src/streamlink/packages/requests_file.py is ASL 2.0
@@ -20,7 +16,7 @@ License:        BSD and ASL 2.0
 URL:            https://streamlink.github.io/
 Source0:        https://github.com/%{srcname}/%{srcname}/archive/%{version}/%{srcname}-%{version}.tar.gz
 # Use pycryptodomex library instead of crypto/pycryptodome
-Patch0:         %{name}-1.4.1-pycryptodomex.patch
+Patch0:         %{name}-1.7.0-pycryptodomex.patch
 
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist setuptools}
@@ -33,15 +29,14 @@ BuildRequires:  %{py3_dist pycryptodomex}
 BuildRequires:  %{py3_dist pysocks}
 BuildRequires:  %{py3_dist recommonmark}
 BuildRequires:  %{py3_dist requests}
+BuildRequires:  %{py3_dist setuptools}
 BuildRequires:  %{py3_dist sphinx}
 BuildRequires:  %{py3_dist websocket-client}
 # Needed for tests
-%if 0%{?_with_tests}
 BuildRequires:  %{py3_dist freezegun}
 BuildRequires:  %{py3_dist mock}
 BuildRequires:  %{py3_dist pytest}
 BuildRequires:  %{py3_dist requests-mock}
-%endif
 BuildArch:      noarch
 
 %description
@@ -102,13 +97,11 @@ install -Dpm 0644 build/sphinx/man/%{srcname}.1 $RPM_BUILD_ROOT%{_mandir}/man1/%
 
 
 %check
-%if 0%{?_with_tests}
-%{__python3} setup.py test
-%endif
+%pytest
 
 
 %files -n python3-%{srcname}
-%doc AUTHORS CHANGELOG.md CONTRIBUTING.md README.md
+%doc AUTHORS CHANGELOG.md CONTRIBUTING.md KNOWN_ISSUES.md README.md
 %license LICENSE NOTICE
 %{_bindir}/%{srcname}
 %{python3_sitelib}/%{srcname}/
@@ -123,6 +116,21 @@ install -Dpm 0644 build/sphinx/man/%{srcname}.1 $RPM_BUILD_ROOT%{_mandir}/man1/%
 
 
 %changelog
+* Sun Oct 18 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.7.0-1
+- Update to 1.7.0
+
+* Sun Sep 27 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.6.0-2
+- Fix dependency on pycryptodomex
+
+* Thu Sep 24 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.6.0-1
+- Update to 1.6.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.5.0-1
+- Update to 1.5.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.1-2
 - Rebuilt for Python 3.9
 

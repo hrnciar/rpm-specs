@@ -3,7 +3,7 @@
 %global patchversion 2
 Name:           fparser
 Version:        %{majorversion}.%{minorversion}.%{patchversion}
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Function parser library for C++
 
 License:        LGPLv3
@@ -65,6 +65,9 @@ rm $RPM_BUILD_ROOT/%{_libdir}/*.la
 %{_libdir}/pkgconfig/fparser.pc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.2-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

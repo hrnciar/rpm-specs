@@ -1,6 +1,6 @@
 Name:           mate-common
 Summary:        mate common build files
-Version:        1.24.1
+Version:        1.24.2
 Release:        1%{?dist}
 License:        GPLv3+
 URL:            http://mate-desktop.org
@@ -42,6 +42,12 @@ make %{?_smp_mflags} V=1
 %{_mandir}/man1/*
 
 %changelog
+* Wed Aug 12 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.2-1
+- update to 1.24.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 30 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
 - update to 1.24.1
 

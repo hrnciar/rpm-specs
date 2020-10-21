@@ -4,8 +4,8 @@ Numpoly is a generic library for creating, manipulating and evaluating arrays of
 %global pypi_name numpoly
 
 Name:		python-%{pypi_name}
-Version:	0.2.3
-Release:	2%{?dist}
+Version:	1.0.6
+Release:	1%{?dist}
 Summary:	Polynomials as a numpy datatype
 License:	BSD
 URL:		https://github.com/jonathf/numpoly
@@ -63,6 +63,15 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{pypi_name}-%{version}.dist-info/
 
 %changelog
+* Sat Aug 08 2020 Luis Bazan <lbazan@fedoraproject.org> - 1.0.6-1
+- New upstream version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Luis Bazan <lbazan@fedoraproject.org> - 1.0.3-1
+- New upstream version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.3-2
 - Rebuilt for Python 3.9
 

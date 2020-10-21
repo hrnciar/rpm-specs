@@ -5,8 +5,8 @@
 #%%global prever P1
 
 Name:           kea
-Version:        1.6.0
-Release:        4%{?dist}
+Version:        1.8.0
+Release:        2%{?dist}
 Summary:        DHCPv4, DHCPv6 and DDNS server from ISC
 
 License:        MPLv2.0 and Boost
@@ -18,7 +18,7 @@ Source3:	kea-dhcp-ddns.service
 Source4:        kea-ctrl-agent.service
 
 Patch3:         0004-Openssl-version.patch
-Patch4:         0005-disablenetconf.patch
+Patch4:         kea-gcc11.patch
 
 # autoreconf
 BuildRequires: autoconf automake libtool
@@ -106,11 +106,8 @@ This package contains shared libraries used by Kea DHCP server.
 
 
 %prep
+rm -rf doc/sphinx/_build
 %autosetup -p1 -n kea-%{version}%{?prever:-%{prever}}
-
-# install leases db in /var/lib/kea/ not /var/kea/
-# http://kea.isc.org/ticket/3523
-sed -i -e 's|@localstatedir@|@sharedstatedir@|g' src/lib/dhcpsrv/Makefile.am
 
 # to be able to build on ppc64(le)
 # https://sourceforge.net/p/flex/bugs/197
@@ -164,6 +161,7 @@ touch %{buildroot}%{_sharedstatedir}/kea/kea-leases6.csv
 
 rm -f %{buildroot}%{_pkgdocdir}/COPYING
 
+
 mkdir -p %{buildroot}/run
 install -d -m 0755 %{buildroot}/run/kea/
 
@@ -192,6 +190,7 @@ EOF
 
 %files
 %license COPYING
+%doc AUTHORS ChangeLog README CONTRIBUTING.md examples html platforms.rst code_of_conduct.md
 %{_bindir}/kea-msg-compiler
 %{_sbindir}/kea-admin
 %{_sbindir}/keactrl
@@ -223,12 +222,6 @@ EOF
 %dir %{_sharedstatedir}/kea
 %config(noreplace) %{_sharedstatedir}/kea/kea-leases4.csv
 %config(noreplace) %{_sharedstatedir}/kea/kea-leases6.csv
-%{_pkgdocdir}/AUTHORS
-%{_pkgdocdir}/ChangeLog
-%{_pkgdocdir}/README
-%{_pkgdocdir}/CONTRIBUTING.md
-%{_pkgdocdir}/examples
-%{_pkgdocdir}/html
 %{python3_sitelib}/%{name}
 %{_mandir}/man8/kea-admin.8.gz
 %{_mandir}/man8/keactrl.8.gz
@@ -239,9 +232,7 @@ EOF
 %{_mandir}/man8/kea-lfc.8.gz
 %{_mandir}/man8/kea-shell.8.gz
 %{_mandir}/man8/perfdhcp.8.gz
-%if %{sysrepo}
 %{_mandir}/man8/kea-netconf.8.gz
-%endif
 %dir /run/kea/
 %{_tmpfilesdir}/kea.conf
 
@@ -267,7 +258,6 @@ EOF
 %{_libdir}/libkea-pgsql.so
 %{_libdir}/libkea-process.so
 %{_libdir}/libkea-stats.so
-%{_libdir}/libkea-threads.so
 %{_libdir}/libkea-util-io.so
 %{_libdir}/libkea-util.so
 
@@ -296,12 +286,20 @@ EOF
 %{_libdir}/libkea-pgsql.so.*
 %{_libdir}/libkea-process.so.*
 %{_libdir}/libkea-stats.so.*
-%{_libdir}/libkea-threads.so.*
 %{_libdir}/libkea-util-io.so.*
 %{_libdir}/libkea-util.so.*
 
 
 %changelog
+* Thu Oct 15 2020 Jeff Law <law@redhat.com> - 1.8.0-2
+- Fix missing #includes for gcc-11
+
+* Wed Sep 16 2020 Pavel Zhukov <pzhukov@redhat.com> - 1.8.0-1
+- New version v1.8.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.9-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Jonathan Wakely <jwakely@redhat.com> - 1.6.0-4
 - Rebuilt for Boost 1.73
 

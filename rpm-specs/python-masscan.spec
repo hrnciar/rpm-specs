@@ -2,7 +2,7 @@
 
 Name:           %{srcname}
 Version:        0.1.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python module to interact with masscan
 
 License:        GPLv3+
@@ -42,6 +42,9 @@ sed -i -e '/^#!\//, 1d' masscan/*.py
 %{python3_sitelib}/masscan/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 03 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.1.6-1
 - Update to latest upstream release 0.1.6
 

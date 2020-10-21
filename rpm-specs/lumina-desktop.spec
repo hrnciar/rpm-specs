@@ -4,7 +4,7 @@
 Summary:            A lightweight, portable desktop environment
 Name:               %{srcname}-desktop
 Version:            1.6.0
-Release:            2%{?dist}
+Release:            4%{?dist}
 License:            BSD
 URL:                http://%{name}.org
 Source0:            https://github.com/trueos/%{srcname}/archive/v%{version}.tar.gz#/%{srcname}-%{version}.tar.gz
@@ -371,6 +371,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{srcname}-*.desktop
 
 ########################################################################################
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 1.6.0-4
+- rebuild (qt5)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.6.0-2
 - rebuild (qt5)
 

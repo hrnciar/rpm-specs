@@ -46,7 +46,7 @@
 
 Name:           gotun
 Version:        0
-Release:        0.9.git%{shortcommit}%{?dist}
+Release:        0.10.git%{shortcommit}%{?dist}
 Summary:        Tool to run tests on OpenStack
 # Detected licences
 # - Unknown at 'COPYING'
@@ -245,6 +245,9 @@ export GOPATH=%{buildroot}/%{gopath}:$(pwd)/vendor:%{gopath}
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.10.gita9dbe4d
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9.gita9dbe4d
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

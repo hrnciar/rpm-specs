@@ -1,5 +1,5 @@
 Name:          jackson-databind
-Version:       2.11.0
+Version:       2.11.3
 Release:       1%{?dist}
 Summary:       General data-binding package for Jackson (2.x)
 License:       ASL 2.0 and LGPLv2+
@@ -13,9 +13,7 @@ BuildRequires:  mvn(com.fasterxml.jackson.core:jackson-core) >= %{version}
 BuildRequires:  mvn(com.fasterxml.jackson:jackson-base:pom:) >= %{version}
 BuildRequires:  mvn(com.google.code.maven-replacer-plugin:replacer)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
-BuildRequires:  mvn(org.powermock:powermock-api-mockito2)
-BuildRequires:  mvn(org.powermock:powermock-core)
-BuildRequires:  mvn(org.powermock:powermock-module-junit4)
+BuildRequires:  mvn(org.mockito:mockito-core)
 
 BuildArch:      noarch
 
@@ -46,7 +44,11 @@ sed -i 's/\r//' LICENSE NOTICE
 rm src/test/java/com/fasterxml/jackson/databind/introspect/NoClassDefFoundWorkaroundTest.java
 %pom_xpath_remove pom:classpathDependencyExcludes
 
-# org.powermock.reflect.exceptions.FieldNotFoundException: Field 'fTestClass' was not found in class org.junit.internal.runners.MethodValidator.
+# TestTypeFactoryWithClassLoader fails to compile
+# - it's the only test that uses powermock, so drop the powermock dependencies
+# - mockito is only transitively pulled in by powermock, so add it back
+%pom_remove_dep org.powermock:
+%pom_add_dep org.mockito:mockito-core::test
 rm src/test/java/com/fasterxml/jackson/databind/type/TestTypeFactoryWithClassLoader.java
 
 # Off test that require connection with the web
@@ -70,6 +72,24 @@ rm src/test/java/com/fasterxml/jackson/databind/ser/jdk/JDKTypeSerializationTest
 %license LICENSE NOTICE
 
 %changelog
+* Wed Oct 14 2020 Fabio Valentini <decathorpe@gmail.com> - 2.11.3-1
+- Update to version 2.11.3.
+
+* Sun Aug 09 2020 Fabio Valentini <decathorpe@gmail.com> - 2.11.2-2
+- Drop useless powermock build dependency.
+
+* Sat Aug 08 2020 Fabio Valentini <decathorpe@gmail.com> - 2.11.2-1
+- Update to version 2.11.2.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.11.1-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Mon Jul 06 2020 Fabio Valentini <decathorpe@gmail.com> - 2.11.1-1
+- Update to version 2.11.1.
+
 * Mon May 25 2020 Fabio Valentini <decathorpe@gmail.com> - 2.11.0-1
 - Update to version 2.11.0.
 

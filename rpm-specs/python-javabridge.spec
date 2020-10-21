@@ -1,21 +1,16 @@
 %{?python_enable_dependency_generator}
 
 %global modname javabridge
-%global commit0 c7ccaed43ac7752c4ca361abb04fcb4e9ebdb069
-%global date0   20190729
-%global scommit0 %(c=%{commit0}; echo ${c:0:7})
-
 
 Name:           python-%{modname}
-Version:        1.0.18
-Release:        5.%{date0}git%{scommit0}%{?dist}
+Version:        1.0.19
+Release:        1%{?dist}
 Summary:        Python wrapper for the Java Native Interface
 
 License:        MIT
 URL:            https://github.com/LeeKamentsky/python-%{modname}
-Source0:        %{url}/archive/%{commit0}.tar.gz#/%{name}-%{commit0}.tar.gz
+Source0:        %{url}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 Patch0:         %{modname}-rhino-noversion.patch
-#Patch1:         %%{modname}-cython-level3.patch
 
 %global _description\
 The javabridge Python package makes it easy to start a Java virtual machine (JVM)\
@@ -47,20 +42,23 @@ ExclusiveArch:  i686 x86_64
 %_description
 
 %prep
-%autosetup -p1 -npython-%{modname}-%{commit0}
+%autosetup -p1
 # unbundle
 find . -name \*.jar -print -delete
 ln -s %{_javadir}/rhino.jar %{modname}/jars
 
 %build
+export JAVA_HOME=%{_prefix}/lib/jvm/java
 %py3_build
 %{__python3} setup.py build_sphinx
 find docs/_build -name .\* -print -delete
 
 %install
+export JAVA_HOME=%{_prefix}/lib/jvm/java
 %py3_install
 
 %check
+export JAVA_HOME=%{_prefix}/lib/jvm/java
 export PYTHONPATH=tests-install:%{buildroot}%{python3_sitelib}
 %{__python3} setup.py develop --install-dir=tests-install
 %{__python3} setup.py nosetests
@@ -74,6 +72,18 @@ export PYTHONPATH=tests-install:%{buildroot}%{python3_sitelib}
 %{python3_sitearch}/%{modname}/
 
 %changelog
+* Tue Sep 08 2020 Raphael Groner <raphgro@fedoraproject.org> - 1.0.19-1
+- bump to v1.0.19
+
+* Mon Sep 07 2020 Charalampos Stratakis <cstratak@redhat.com> - 1.0.18-8.20190729gitc7ccaed
+- Explicitly define the JAVA_HOME env variable, Resolves: rhbz#1865294
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.18-7.20190729gitc7ccaed
+- Second attempt - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.18-6.20190729gitc7ccaed
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.18-5.20190729gitc7ccaed
 - Rebuilt for Python 3.9
 

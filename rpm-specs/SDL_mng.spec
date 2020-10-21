@@ -1,7 +1,7 @@
 Summary: Simple DirectMedia Layer - MNG Loading Library
 Name: SDL_mng
-Version: 0.2.7
-Release: 12%{?dist}
+Version: 0.2.8
+Release: 1%{?dist}
 License: LGPLv2+
 URL: https://github.com/dulsi/SDL_mng
 Source0: http://www.identicalsoftware.com/btbuilder/%{name}-%{version}.tgz
@@ -30,11 +30,11 @@ developing applications that use %{name}.
 
 %build
 export CXXFLAGS="%{optflags} -Wl,--as-needed"
-%cmake .
-make %{?_smp_mflags}
+%cmake
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %ldconfig_scriptlets
 
@@ -49,6 +49,19 @@ make %{?_smp_mflags}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Tue Aug 04 2020 Dennis Payne <dulsi@identicalsoftware.com> - 0.2.8-1
+- Switch to cmake_build and cmake_install macros
+
+* Mon Aug 03 2020 Dennis Payne <dulsi@identicalsoftware.com> - 0.2.7-15
+- Switch to cmake_build and cmake_install macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

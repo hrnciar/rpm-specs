@@ -1,7 +1,7 @@
 Name:           perl-Catalyst-Plugin-Authentication
 Summary:        Infrastructure plugin for the Catalyst authentication framework
 Version:        0.10023
-Release:        16%{?dist}
+Release:        18%{?dist}
 License:        GPL+ or Artistic
 Source0:        https://cpan.metacpan.org/authors/id/B/BO/BOBTFISH/Catalyst-Plugin-Authentication-%{version}.tar.gz
 URL:            https://metacpan.org/release/Catalyst-Plugin-Authentication
@@ -86,6 +86,12 @@ TEST_POD=1 make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10023-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.10023-17
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10023-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 
 Name:       nodejs-dateformat
 Version:    3.0.3
-Release:    6%{?dist}
+Release:    8%{?dist}
 Summary:    Steven Levithan's excellent dateFormat() function for Node.js
 License:    MIT
 URL:        https://github.com/felixge/node-dateformat
@@ -68,6 +68,13 @@ TZ="UTC" %{_bindir}/mocha -R spec
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.3-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.3-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

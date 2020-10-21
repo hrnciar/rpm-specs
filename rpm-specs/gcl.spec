@@ -1,8 +1,18 @@
 # Address randomization breaks gcl's memory management scheme
 %undefine _hardened_build
 
+# GCL wants to read uncompressed info files.  Turn off automatic compression.
+%global __brp_compress %{_bindir}/true
+
+# FASL file loads fail with an unexpected EOF error without this.  I do not yet
+# know why.
+%global __brp_strip_lto %{_bindir}/true
+
+# Use of LTO leads to strange segfaults, reason as yet unknown.
+%global _lto_cflags %{nil}
+
 # Upstream prerelease number
-%global prerel 90
+%global prerel 92
 
 Name:           gcl
 Version:        2.6.13
@@ -17,9 +27,6 @@ Source1:        gcl.el
 # something useful.  These files are present in git HEAD (i.e., the upcoming
 # 2.7.0 release), but are missing in the 2.6 branch.
 Source2:        %{name}-2.6.8-info.tar.xz
-# Because we must keep address randomization off, we include a script to
-# ensure that happens.
-Source3:        gcl-exec
 
 # Upstream builds point releases for Debian, and uploads the patches directly
 # to the Debian Patch Tracker, but does not spin new tarballs.  These are the
@@ -138,6 +145,7 @@ Patch110:       Version_2_6_13pre87.patch
 Patch111:       Version_2_6_13pre88.patch
 Patch112:       Version_2_6_13pre89.patch
 Patch113:       Version_2_6_13pre90.patch
+Patch114:       Version_2_6_13pre92.patch
 
 ### Fedora patches
 
@@ -208,6 +216,7 @@ BuildRequires:  xemacs-packages-extra
 
 Requires:       gcc
 Requires:       util-linux%{?_isa}
+Requires:       which%{?_isa}
 
 # This can be removed when Fedora 30 reaches EOL
 Obsoletes:      gcl-selinux < 2.6.13-0.84.1%{?dist}
@@ -248,6 +257,11 @@ XEmacs mode for interacting with GCL
 # Don't insert line numbers into cmpinclude.h; the compiler gets confused
 sed -i 's,\($(CC) -E\) -I,\1 -P -I,' makefile
 
+# The binary MUST be run with address randomization off.  The main() function
+# has code to accomplish that, but it does not run early enough.  Ensure that
+# randomization is off before GCL even starts.
+sed -i 's,echo exec,& %{_bindir}/setarch -R,' makefile
+
 # Ensure the frame pointer doesn't get added back
 sed -i 's/"-fomit-frame-pointer"/""/' configure
 
@@ -281,19 +295,13 @@ pdflatex dwdoc.tex
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 
 # Get rid of the parts that we don't want
 rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 rm -rf $RPM_BUILD_ROOT%{_datadir}/doc
 rm -rf $RPM_BUILD_ROOT%{_datadir}/emacs
 rm -rf $RPM_BUILD_ROOT%{_prefix}/lib/gcl-*/info
-
-# The binary MUST be run with address randomization off.  The main() function
-# has code to accomplish that, but it does not run early enough.  Ensure that
-# randomization is off before GCL even starts.
-mv $RPM_BUILD_ROOT%{_bindir}/gcl $RPM_BUILD_ROOT%{_bindir}/gcl-binary
-install -p -m 0755 %{SOURCE3} $RPM_BUILD_ROOT%{_bindir}/gcl
 
 # Install the man page
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
@@ -333,6 +341,9 @@ ln -s ../h/cmpinclude.h xgcl-2/cmpinclude.h
 # The image has garbage strings containing RPM_BUILD_ROOT
 export QA_SKIP_BUILD_ROOT=1
 
+# Since we disabled brp-compress, manually compress the man page
+gzip -9v $RPM_BUILD_ROOT%{_mandir}/man1/gcl.1
+
 
 %clean
 rm -f /tmp/gazonk_* /tmp/gcl_*
@@ -340,7 +351,6 @@ rm -f /tmp/gazonk_* /tmp/gcl_*
 
 %files
 %{_bindir}/gcl
-%{_bindir}/gcl-binary
 %{_prefix}/lib/gcl*
 %{_infodir}/*
 %{_mandir}/man*/*
@@ -361,7 +371,22 @@ rm -f /tmp/gazonk_* /tmp/gcl_*
 
 
 %changelog
-* Mon Feb 24 2020 Jerry James <loganjerry@gmail.com> - 2.6.13-0.90%{?dist}
+* Mon Aug 24 2020 Jerry James <loganjerry@gmail.com> - 2.6.13-0.92
+- Update to 2.6.13pre92
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.13-0.90.1.2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.13-0.90.1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul  7 2020 Jerry James <loganjerry@gmail.com> - 2.6.13-0.90.1
+- Do not compress the info files, breaks DESCRIBE
+- Do not strip the FASL files; GCL cannot load them afterwards
+- Modify the launcher script instead of using the gcl/gcl-binary split
+
+* Mon Feb 24 2020 Jerry James <loganjerry@gmail.com> - 2.6.13-0.90
 - Update to 2.6.13pre90
 - Drop -tail-recursion-check patch, obsoleted by this update
 - Drop -fcommon from build flags, fixed upstream

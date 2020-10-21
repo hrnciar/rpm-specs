@@ -1,7 +1,7 @@
 Summary:        Random number generator tester and timer
 Name:           dieharder
 Version:        3.31.1
-Release:        27%{?dist}
+Release:        28%{?dist}
 License:        GPLv2+
 Source0:        http://www.phy.duke.edu/~rgb/General/%{name}/%{name}-%{version}.tgz
 URL:            http://www.phy.duke.edu/~rgb/General/dieharder.php
@@ -129,6 +129,9 @@ cp -p ChangeLog Copyright README COPYING NOTES %{name}.html manual/%{name}.pdf %
 %{_libdir}/*.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.31.1-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr  6 2020 Jirka Hladky <hladky.jiri@gmail.com> - 3.31.1-27
 - Fixed compilation issue on F32 - see BZ1799280. Use -fcommon GCC flag to compile it
 

@@ -1,6 +1,7 @@
+%undefine __cmake_in_source_build
 Name:           leveldb
 Version:        1.22
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A fast and lightweight key/value database library by Google
 License:        BSD
 URL:            https://github.com/google/leveldb
@@ -53,19 +54,19 @@ EOF
 
 
 %build
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 mkdir -p %{buildroot}%{_libdir}/pkgconfig
 cp -a %{name}.pc %{buildroot}%{_libdir}/pkgconfig/
 
 
 %check
-ctest -V %{?_smp_mflags}
+%ctest
 
 
 %ldconfig_scriptlets
@@ -86,6 +87,9 @@ ctest -V %{?_smp_mflags}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.22-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 29 2020 Kefu Chai <tchaikov@gmail.com> - 1.22-1
 - Update to 1.22
 

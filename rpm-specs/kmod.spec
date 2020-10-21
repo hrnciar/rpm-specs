@@ -1,6 +1,6 @@
 Name:		kmod
 Version:	27
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Linux kernel module management utilities
 
 License:	GPLv2+
@@ -106,6 +106,9 @@ install -m 755 %{SOURCE1} $RPM_BUILD_ROOT%{_sbindir}/weak-modules
 %{_libdir}/libkmod.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 27-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 25 2020 Yauheni Kaliuta <ykaliuta@fedoraproject.org> - 27-2
 - add 0001-depmod-do-not-output-.bin-to-stdout.patch
   Resolves: rhbz#1808430

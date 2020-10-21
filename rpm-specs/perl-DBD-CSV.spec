@@ -1,6 +1,6 @@
 Name:           perl-DBD-CSV
-Version:        0.54
-Release:        7%{?dist}
+Version:        0.55
+Release:        1%{?dist}
 Summary:        DBI driver for CSV files
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/DBD-CSV
@@ -74,6 +74,13 @@ make test
 %{_mandir}/man3/DBD::CSV.3*
 
 %changelog
+* Mon Jul 27 2020 Paul Howarth <paul@city-fan.org> - 0.55-1
+- Update to 0.55
+  - It's 2020
+  - Provide cpanfile
+  - Documentation enhancements
+  - Make csv_ and f_ aliases more consistently available (GH#7)
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.54-7
 - Perl 5.32 rebuild
 

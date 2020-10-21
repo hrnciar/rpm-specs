@@ -1,7 +1,9 @@
+%define __cmake_in_source_build 1
+
 Name:		lizardfs
 Summary:	Distributed, fault tolerant file system
 Version:	3.12.0
-Release:	12%{?dist}
+Release:	15%{?dist}
 # LizardFS is under GPLv3 while crcutil is under ASL 2.0 and there's one header,
 # src/common/coroutine.h, under the Boost license
 License:	GPLv3 and ASL 2.0 and Boost
@@ -397,6 +399,16 @@ install -m644 %{SOURCE2} %{buildroot}%{_sysconfdir}/security/limits.d/95-lizardf
 
 
 %changelog
+* Sun Aug 09 2020 Jonathan Dieter <jdieter@gmail.com> - 3.12.0-15
+- Fix build issues
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.12.0-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.12.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.12.0-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

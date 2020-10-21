@@ -1,45 +1,38 @@
-# Run optional test
-%if 0%{?rhel}
-%bcond_with perl_DateTime_Format_ISO8601_enables_optional_test
-%else
-%bcond_without perl_DateTime_Format_ISO8601_enables_optional_test
-%endif
-
 Name:       perl-DateTime-Format-ISO8601 
-Version:    0.08
-Release:    24%{?dist}
+Version:    0.14
+Release:    1%{?dist}
 # LICENSE, lib/DateTime/Format/ISO8601.pod -> GPL+ or Artistic
 License:    GPL+ or Artistic 
-Summary:    Parses ISO8601 formats 
+Summary:    Parses ISO8601 date-time formats
 Url:        https://metacpan.org/release/DateTime-Format-ISO8601
-Source:     https://cpan.metacpan.org/authors/id/J/JH/JHOBLITT/DateTime-Format-ISO8601-%{version}.tar.gz 
+Source:     https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/DateTime-Format-ISO8601-%{version}.tar.gz
 BuildArch:  noarch
+BuildRequires:  coreutils
+BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
-BuildRequires:  perl(Module::Build)
-# Run-time
-BuildRequires:  perl(Carp)
-BuildRequires:  perl(DateTime) >= 0.18
-BuildRequires:  perl(DateTime::Format::Builder) >= 0.77
-BuildRequires:  perl(Params::Validate)
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(strict)
-BuildRequires:  perl(vars)
 BuildRequires:  perl(warnings)
-# Tests
-BuildRequires:  perl(lib)
-BuildRequires:  perl(Test::More)
-%if %{with perl_DateTime_Format_ISO8601_enables_optional_test}
-# Optional tests
-BuildRequires:  perl(File::Find::Rule)
-BuildRequires:  perl(Test::Distribution)
-BuildRequires:  perl(Test::Pod) >= 0.95
-%endif
+# Run-time:
+BuildRequires:  perl(Carp)
+BuildRequires:  perl(DateTime) >= 1.45
+BuildRequires:  perl(DateTime::Format::Builder) >= 0.77
+BuildRequires:  perl(namespace::autoclean)
+BuildRequires:  perl(Params::ValidationCompiler) >= 0.26
+BuildRequires:  perl(parent)
+BuildRequires:  perl(Specio) >= 0.18
+BuildRequires:  perl(Specio::Declare)
+BuildRequires:  perl(Specio::Exporter)
+BuildRequires:  perl(Specio::Library::Builtins)
+# Tests:
+BuildRequires:  perl(File::Spec)
+BuildRequires:  perl(Test::More) >= 1.302015
+BuildRequires:  perl(Test2::V0)
+# Optional tests:
+# CPAN::Meta not helpful
+# CPAN::Meta::Prereqs not helpful
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
-Requires:       perl(DateTime) >= 0.18
-Requires:       perl(DateTime::Format::Builder) >= 0.77
-
-# Remove under-specified dependencies
-%global __requires_exclude %{?__requires_exclude:%__requires_exclude|}^perl\\(DateTime(::Format::Builder)?\\)$
 
 %description
 Parses almost all ISO8601 date and time formats. ISO8601 time-intervals
@@ -49,23 +42,30 @@ will be supported in a later release.
 %setup -q -n DateTime-Format-ISO8601-%{version}
 
 %build
-perl Build.PL installdirs=vendor
-./Build
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-./Build install destdir=%{buildroot} create_packlist=0
+%{make_install}
 %{_fixperms} %{buildroot}/*
 
 %check
-./Build test
+unset AUTHOR_TESTING
+make test
 
 %files
 %license LICENSE
-%doc README Changes Todo
+%doc CONTRIBUTING.md README.md Changes Todo
 %{perl_vendorlib}/*
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Aug 18 2020 Petr Pisar <ppisar@redhat.com> - 0.14-1
+- 0.14 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.08-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.08-24
 - Perl 5.32 rebuild
 

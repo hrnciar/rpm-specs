@@ -2,7 +2,7 @@
 
 Name:      icu
 Version:   67.1
-Release:   1%{?dist}
+Release:   4%{?dist}
 Summary:   International Components for Unicode
 
 License:   MIT and UCD and Public Domain
@@ -51,7 +51,7 @@ BuildArch: noarch
 %description -n lib%{name}-doc
 %{summary}.
 
-%{!?endian: %global endian %(%{__python} -c "import sys;print (0 if sys.byteorder=='big' else 1)")}
+%{!?endian: %global endian %(%{__python3} -c "import sys;print (0 if sys.byteorder=='big' else 1)")}
 # " this line just fixes syntax highlighting for vim that is confused by the above and continues literal
 
 
@@ -90,13 +90,13 @@ test -f uconfig.h.prepend && sed -e '/^#define __UCONFIG_H__/ r uconfig.h.prepen
 # more verbosity for build.log
 sed -i -r 's|(PKGDATA_OPTS = )|\1-v |' data/Makefile
 
-make %{?_smp_mflags} VERBOSE=1
-make %{?_smp_mflags} doc
+%make_build
+%make_build doc
 
 
 %install
 rm -rf $RPM_BUILD_ROOT source/__docs
-make %{?_smp_mflags} -C source install DESTDIR=$RPM_BUILD_ROOT
+%make_install %{?_smp_mflags} -C source
 make %{?_smp_mflags} -C source install-doc docdir=__docs
 chmod +x $RPM_BUILD_ROOT%{_libdir}/*.so.*
 (
@@ -113,9 +113,9 @@ if grep -q @VERSION@ source/tools/*/*.8 source/tools/*/*.1 source/config/*.1; th
 fi
 %ifarch i686
 # F26 since the mass rebuild in 2017-Feb fails a check, ignore error. TODO: find cause / disable only one.
-make %{?_smp_mflags} -C source check ||:
+%make_build -C source check ||:
 %else
-make %{?_smp_mflags} -C source check
+%make_build -C source check
 %endif
 
 # log available codes
@@ -179,6 +179,16 @@ LD_LIBRARY_PATH=lib:stubdata:tools/ctestfw:$LD_LIBRARY_PATH bin/uconv -l
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 67.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Eike Rathke <erack@redhat.com> - 67.1-3
+- Replace unversioned %%{__python} macro with %%{__python3}
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 67.1-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri May 15 2020 Pete Walter <pwalter@fedoraproject.org> - 67.1-1
 - Update to 67.1
 

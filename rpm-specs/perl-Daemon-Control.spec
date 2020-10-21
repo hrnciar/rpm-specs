@@ -1,6 +1,6 @@
 Name:           perl-Daemon-Control
 Version:        0.001010
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Create init scripts in Perl
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Daemon-Control
@@ -59,6 +59,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.001010-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.001010-5
 - Perl 5.32 rebuild
 

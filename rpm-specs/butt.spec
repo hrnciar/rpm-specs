@@ -1,6 +1,6 @@
 Name:           butt
 Version:        0.1.19
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Broadcast using this tool
 License:        GPLv2+
 URL:            https://danielnoethen.de
@@ -78,6 +78,9 @@ install -Dpm 0644 %{S:1} %{buildroot}%{_metainfodir}/butt.appdata.xml
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.19-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 17 2020 Carl George <carl@george.computer> - 0.1.19-1
 - Latest upstream
 

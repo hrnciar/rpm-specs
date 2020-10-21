@@ -12,7 +12,7 @@ The format supports schema validation.
 
 Name:           python-%{pkgname}
 Version:        2.1
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        %{summary}
 
 License:        LGPLv3
@@ -106,6 +106,9 @@ sed -i -e 's/^\(\s*namespace_packages=.*\)/#\1/' setup.py
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1-14
 - Rebuilt for Python 3.9
 

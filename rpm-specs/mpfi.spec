@@ -1,6 +1,6 @@
 Name:           mpfi
 Version:        1.5.3
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        An interval arithmetic library based on MPFR
 License:        LGPLv2+
 URL:            http://perso.ens-lyon.fr/nathalie.revol/software.html
@@ -84,6 +84,9 @@ make check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.3-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

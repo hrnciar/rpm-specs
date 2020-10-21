@@ -7,7 +7,7 @@
 
 Name:		nodejs-readdir-enhanced
 Version:	2.2.1
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	A fs.readdir with sync, async, and streaming APIs
 
 License:	MIT
@@ -71,6 +71,9 @@ NODE_ENV=test %{_bindir}/mocha -R spec
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

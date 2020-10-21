@@ -1,6 +1,6 @@
 Name: fsverity-utils
 Version: 1.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: fsverity utilities
 
 License: BSD
@@ -51,6 +51,9 @@ make CFLAGS="%{optflags} -g" %{_smp_mflags} USE_SHARED_LIB=1
 %{_libdir}/*.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Colin Walters <walters@verbum.org> - 1.1-2
 - Move .so to -devel, hardcode soname
 

@@ -1,19 +1,15 @@
-%global commit b4eae441c2255de5de1dd7503b1ad2c02fd427a9
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-
 Name:           rss2email
-Version:        3.11
-Release:        4%{?dist}
+Version:        3.12.2
+Release:        1%{?dist}
 Summary:        Deliver news from RSS feeds to your SMTP server as text or HTML mail
 
 License:        GPLv2+ or GPLv3+
 URL:            https://github.com/%{name}/%{name}
-Source0:        %{url}/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
+Source0:        %{url}/archive/v%{version}.tar.gz
 # Migration tool (rss2email 2.x to rss2email 3.x) from https://github.com/emillon/rss2email-debian
 Source1:        r2e-migrate
 Source2:        r2e-migrate.1
 Source3:        README.migrate
-Patch0:         python39.patch
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
@@ -43,7 +39,7 @@ Requires:       rss2email
 This package provides %{summary}.
 
 %prep
-%autosetup -n %{name}-%{commit} -p1
+%autosetup -p1
 
 cp -p %{SOURCE3} .
 
@@ -81,6 +77,16 @@ PATH="${PATH}:%{buildroot}%{_bindir}" PYTHONPATH=%{buildroot}%{python3_sitelib} 
 %{_datadir}/zsh/functions/Completion/Unix/_r2e
 
 %changelog
+* Tue Sep 01 2020 David Kaufmann <astra@ionic.at> - 3.12.2-1
+- Update to 3.12.2
+- Reference files by tag instead of commit
+
+* Fri Aug 07 2020 David Kaufmann <astra@ionic.at> - 3.12.1-1
+- Update to 3.12.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.11-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.11-4
 - Rebuilt for Python 3.9
 

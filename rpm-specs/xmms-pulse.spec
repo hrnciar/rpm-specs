@@ -2,7 +2,7 @@
 
 Name:           xmms-pulse
 Version:        0.9.4
-Release:        25%{?dist}
+Release:        26%{?dist}
 Summary:        XMMS output plugin for the PulseAudio sound server
 
 License:        GPLv2+
@@ -45,6 +45,9 @@ find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

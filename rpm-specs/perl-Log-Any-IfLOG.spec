@@ -3,7 +3,7 @@
 Name:           perl-Log-Any-IfLOG
 # Keep 2-digit precision
 Version:        %(echo '%{cpan_version}' | sed 's/\(\...\)\(.\)/\1.\2/')
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Load Log::Any only if "logging is enabled"
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Log-Any-IfLOG
@@ -58,6 +58,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.09.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.09.0-6
 - Perl 5.32 rebuild
 

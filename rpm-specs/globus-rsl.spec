@@ -1,7 +1,7 @@
 Name:		globus-rsl
 %global _name %(tr - _ <<< %{name})
 Version:	11.1
-Release:	3%{?dist}
+Release:	5%{?dist}
 Summary:	Grid Community Toolkit - Resource Specification Language Library
 
 License:	ASL 2.0
@@ -117,6 +117,13 @@ make %{?_smp_mflags} check VERBOSE=1
 %{?_licensedir: %license GLOBUS_LICENSE}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

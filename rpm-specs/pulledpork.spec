@@ -7,12 +7,21 @@
 
 Summary:	Pulled Pork for Snort and Suricata rule management
 Name:		pulledpork
-Version:	0.7.3
-Release:	6%{?dist}
+Version:	0.7.4
+Release:	1%{?dist}
 # contrib/oink-conv.pl is GPLv2+
 License:	GPLv2+
 URL:		https://github.com/shirkdog/pulledpork
 Source0:	https://github.com/shirkdog/pulledpork/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+# Prepare pulledpork.conf for Fedora/EPEL
+# sed -i 's#/usr/local/etc#/etc#g' pulledpork.conf
+# sed -i 's#/usr/local/lib#/usr/lib64#g' pulledpork.conf
+# sed -i 's#snort_path=/usr/local/bin#snort_path=/sbin#' pulledpork.conf
+# sed -i 's#snort_control=/usr/local/bin#snort_control=/bin#' pulledpork.conf
+# sed -i '/rule_url.*<oinkcode>/s/^/#/' pulledpork.conf
+# sed -i '/sid=/s/^# //' pulledpork.conf
+# sed -i 's#sid=/etc/snort#sid=/etc/pulledpork#' pulledpork.conf
+# sed -i 's#distro=.*#distro=Centos-8#' pulledpork.conf
 Source1:	%{name}.conf
 BuildArch:	noarch
 
@@ -26,7 +35,17 @@ BuildRequires:	perl
 # Used by pulledpork to download rules, without it one gets errors like
 # Error 501 when fetching https://snort.org/downloads/community/community-rules.tar.gz.md5
 # https://github.com/shirkdog/pulledpork/issues/221
+BuildRequires:	perl(LWP::Protocol::https)
 Requires:	perl(LWP::Protocol::https)
+# Other dependencies
+BuildRequires:	perl(LWP::UserAgent)
+Requires:	perl(LWP::UserAgent)
+BuildRequires:	perl(Sys::Syslog)
+Requires:	perl(Sys::Syslog)
+BuildRequires:	perl(Archive::Tar)
+Requires:	perl(Archive::Tar)
+BuildRequires:	perl(File::Copy)
+Requires:	perl(File::Copy)
 
 # handle license on el{6,7}: global must be defined after the License field above
 %{!?_licensedir: %global license %doc}
@@ -54,13 +73,16 @@ Pulled Pork for Snort and Suricata rule management (from Google code).
 %{__cp} -rp contrib $RPM_BUILD_ROOT/%{_datadir}/%{name}
 %{__chmod} 0755 $RPM_BUILD_ROOT/%{_datadir}/%{name}/contrib/oink-conv.pl
 
-
 cd etc
 %{__rm} -f pulledpork.conf
 %{__cp} %{SOURCE1} .
 for file in disablesid.conf dropsid.conf enablesid.conf modifysid.conf pulledpork.conf; do
     %{__install} -m 0664 $file $RPM_BUILD_ROOT/%{_sysconfdir}/%{name}
 done
+
+
+%check
+./pulledpork.pl -V
 
 
 %files
@@ -80,6 +102,13 @@ done
 
 
 %changelog
+* Sat Sep 12 2020 Marcin Dulak <Marcin.Dulak@gmail.com> - 0.7.4-1
+- New upstream version
+- Add a simple execution test
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.3-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

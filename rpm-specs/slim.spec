@@ -1,6 +1,6 @@
 Name:           slim
 Version:        1.3.6
-Release:        16%{?dist}
+Release:        19%{?dist}
 Summary:        Simple Login Manager
 License:        GPLv2+
 
@@ -20,6 +20,7 @@ Source7:        slim.service
 # Fedora-specific patches
 Patch1:         slim-1.3.3-fedora.patch
 Patch2:         slim-1.3.2-selinux.patch
+Patch3:         slim-gcc11.patch
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -58,14 +59,16 @@ before launching slim.
 %patch1 -p0 -b .fedora
 %patch2 -p1 -b .selinux
 cp -p %{SOURCE4} README.Fedora
+%patch3 -p1 -b .gcc11
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 export LDFLAGS="%{optflags} -lXft"
-%cmake -DUSE_PAM=yes .
-%make_build
+%cmake -DUSE_PAM=yes
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 install -p -m755 %{SOURCE2} %{buildroot}%{_bindir}/update_slim_wmlist
 install -p -m755 %{SOURCE3} %{buildroot}%{_bindir}/%{name}-dynwm
 chmod 0644 %{buildroot}%{_sysconfdir}/%{name}.conf
@@ -118,6 +121,15 @@ rm %{buildroot}/%{_libdir}/lib%{name}.so
 
 
 %changelog
+* Wed Jul 29 2020 Jeff Law <law@redhat.com> - 1.3.6-19
+- Fix check of return value from XCreateGC
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.6-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jeff Law <law@redhat.com>
+- Force C++14 as this code is not C++17 ready
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org>
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -62,10 +62,10 @@
 # relocations against absolute symbols.
 %define default_generate_notes 0
 
-Summary: A GNU collection of cross-compilation binary utilities
 Name: %{cross}-binutils
-Version: 2.34
+Version: 2.35.1
 Release: 2%{?dist}
+Summary: A GNU collection of cross-compilation binary utilities
 License: GPLv3+
 URL: https://sourceware.org/binutils
 
@@ -149,33 +149,71 @@ Patch09: binutils-do-not-link-with-static-libstdc++.patch
 # Lifetime: Permanent.
 Patch10: binutils-attach-to-group.patch
 
-# Purpose:  Stop gold from complaining about relocs in the .gnu.build.attribute
-#           section that reference symbols in discarded sections.
-# Lifetime: Fixed in 2.35 (maybe)
-Patch11: binutils-gold-ignore-discarded-note-relocs.patch
-
 # Purpose:  Allow OS specific sections in section groups.
-# Lifetime: Might be fixed in 2.35 (maybe)
+# Lifetime: Fixed in 2.36 (maybe)
 Patch12: binutils-special-sections-in-groups.patch
 
 # Purpose:  Fix linker testsuite failures.
-# Lifetime: Fixed in 2.35 (maybe)
+# Lifetime: Fixed in 2.36 (maybe)
 Patch13: binutils-fix-testsuite-failures.patch
 
 # Purpose:  Stop gold from aborting when input sections with the same name
 #            have different flags.
-# Lifetime: Fixed in 2.35 (maybe)
+# Lifetime: Fixed in 2.36 (maybe)
 Patch14: binutils-gold-mismatched-section-flags.patch
 
 # Purpose:  Add a check to the GOLD linker for a corrupt input file
 #            with a fuzzed section offset.
-# Lifetime: Fixed in 2.35 (maybe)
+# Lifetime: Fixed in 2.36 (maybe)
 Patch15: binutils-CVE-2019-1010204.patch
 
-# Purpose:  Fix the LTO plugin so that it passes full symbol information
-#            to the linker.
-# Lifetime: Fixed in 2.35
-Patch16: binutils-nm-lto-plugin.patch
+# Purpose:  Change the gold configuration script to only warn about
+#            unsupported targets.  This allows the binutils to be built with
+#            BPF support enabled.
+# Lifetime: Permanent.
+Patch17: binutils-gold-warn-unsupported.patch
+
+# Purpose:  Fix compile time warning messages building s390 target with gcc-10.
+# Lifetime: Should be fixed in 2.36.
+Patch19: binutils-s390-build.patch
+
+# Purpose:  Fix LTO problems running config mini-builds.
+# Lifetime: Should be fixed in 2.36.
+Patch20: binutils-config.patch
+
+# Purpose:  Fix compile time warning messages building with gcc-10.
+# Lifetime: Should be fixed in 2.36.
+Patch21: binutils-warnings.patch
+
+# Purpose:  Fix compile time warning messages building with gcc-10. (part 2).
+# Lifetime: Should be fixed in 2.36.
+Patch22: binutils-gcc-10-fixes.patch
+
+# Purpose:  Fixes for linking LTO objects.
+# Lifetime: Fixed in 2.36
+Patch23: binutils-add-sym-cache-to-elf-link-hash.patch
+Patch24: binutils-elf-add-objects.patch
+
+# Purpose:  Fix handling of relocations for AArch64 conditional branches.
+# Lifetime: Fixed in 2.36
+Patch25: binutils-aarch64-condbranch-relocs.patch
+
+# Purpose:  Fix the PowerPC disassembler so that it ignores annobin symbols.
+# Lifetime: Fixed in 2.36
+Patch26: binutils-ppc-annobin-disassembly.patch
+
+# Purpose:  Fix the strip program to cope when merging multiple same-named
+#            sections.
+# Lifetime: Fixed in 2.36
+Patch27: binutils-strip-merge.patch
+
+# Purpose:  Fix various problems with the PowerPC arch10 extensions.
+# Lifetime: Fixed in 2.36
+Patch28: binutils-Power10-fixes.patch
+
+# Purpose:  Allow plugin syms to mark as-needed shared libs needed.
+# Lifetime: Fixed in 2.36
+Patch29: binutils-plugin-as-needed.patch
 
 #----------------------------------------------------------------------------
 
@@ -183,8 +221,9 @@ BuildRequires: texinfo >= 4.0, gettext, flex, bison, zlib-devel
 # BZ 920545: We need pod2man in order to build the manual pages.
 BuildRequires: /usr/bin/pod2man
 # Perl, sed and touch are all used in the %prep section of this spec file.
-BuildRequires: gcc, perl, sed, coreutils
+BuildRequires: gcc, perl-interpreter, sed, coreutils
 BuildRequires: findutils
+BuildRequires: autoconf automake
  
 Provides: bundled(libiberty)
 
@@ -278,7 +317,6 @@ Cross-build binary image generation, manipulation and query tools. \
 #
 ###############################################################################
 %prep
-
 %global srcdir binutils-%{version}
 %setup -q -n %{srcdir} -c
 cd %{srcdir}
@@ -292,12 +330,21 @@ cd %{srcdir}
 %patch08 -p1
 %patch09 -p1
 %patch10 -p1
-%patch11 -p1
 %patch12 -p1
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
-%patch16 -p1
+
+%patch20 -p1
+%patch21 -p1
+%patch22 -p1
+%patch23 -p1
+%patch24 -p1
+%patch25 -p1
+%patch26 -p1
+%patch27 -p1
+%patch28 -p1
+%patch29 -p1
 
 # We cannot run autotools as there is an exact requirement of autoconf-2.59.
 
@@ -515,6 +562,16 @@ function config_target () {
 	--with-bugurl=http://bugzilla.redhat.com/bugzilla/
     cd ..
 }
+
+# Dependencies are not set up to rebuild the configure files
+# in the subdirectories.  So we just rebuild the ones we care
+# about after applying the configure patches
+pushd %{srcdir}/libiberty
+autoconf -f
+popd
+pushd %{srcdir}/intl
+autoconf -f
+popd
 
 for target in `cat target.list`
 do
@@ -768,6 +825,29 @@ cd -
 %do_files xtensa-linux-gnu	%{build_xtensa}
 
 %changelog
+* Sat Oct 10 12:28:38 BST 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2.35.1-2
+- Sync to binutils 2.35.1-5
+
+* Wed Sep 23 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2.35.1-1
+- Sync to 2.35.1
+
+* Fri Sep 04 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2.35-4
+- Sync to binutils-2.35-12
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.35-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.35-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2.35-1
+- Update to 2.35
+
+* Mon Jul 20 2020 Jeff Law <law@redhat.com> - 2.34-3
+- Fix configure tests compromised by LTO
+- Work around diagnostics exposed by LTO
+
 * Thu Feb 27 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2.34-2
 - Fix the plugin support architecture to allow proper symbol info handling. (PR 25355)
 

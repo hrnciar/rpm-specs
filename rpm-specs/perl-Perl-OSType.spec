@@ -3,7 +3,7 @@
 
 Name:		perl-Perl-OSType
 Version:	1.010
-Release:	456%{?dist}
+Release:	458%{?dist}
 Summary:	Map Perl operating system names to generic types
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Perl-OSType
@@ -92,6 +92,12 @@ LANG=en_US make test TEST_FILES="$(echo $(find xt/ -name '*.t'))"
 %{_mandir}/man3/Perl::OSType.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.010-458
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.010-457
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.010-456
 - Increase release to favour standalone package
 

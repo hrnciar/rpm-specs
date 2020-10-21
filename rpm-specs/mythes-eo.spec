@@ -2,7 +2,7 @@ Name: mythes-eo
 Summary: Esperanto thesaurus
 %global upstreamid 20180330
 Version: 0.%{upstreamid}
-Release: 4%{?dist}
+Release: 5%{?dist}
 Source: http://esperanto.mv.ru/Download/dict-eo.oxt
 URL: http://esperanto.mv.ru/Download/
 License: GPLv3+
@@ -43,6 +43,9 @@ cp -p dictionaries/th_eo.idx $RPM_BUILD_ROOT/%{_datadir}/mythes/th_eo.idx
 %{_datadir}/hyphen/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20180330-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20180330-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

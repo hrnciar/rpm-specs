@@ -3,7 +3,7 @@
 Summary: Translates Snort rules into equivalent iptables rules
 Name: fwsnort
 Version: 1.6.5
-Release: 17%{?dist}
+Release: 19%{?dist}
 License: GPLv2+
 Url: http://www.cipherdyne.org/%{name}/
 Source0: http://www.cipherdyne.org/%{name}/download/%{name}-%{version}.tar.gz
@@ -81,6 +81,12 @@ install -p -m 644  logrotate.fwsnort $RPM_BUILD_ROOT/etc/logrotate.d/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/snort_rules/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.5-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.6.5-18
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.6.5-17
 - Perl 5.32 rebuild
 

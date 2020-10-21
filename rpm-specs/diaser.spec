@@ -1,6 +1,6 @@
 Name:           diaser
 Version:        1.1.0
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Geo-data replication long-term archive system (WAN vault)
 License:        GPLv3
 URL:            http://www.diaser.org.uk
@@ -38,6 +38,9 @@ cp -av %{name}.1 %{buildroot}%{_mandir}/man1
 %doc README COPYING CREDITS manual.txt manual.html manual.pdf diaser.conf.sample
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

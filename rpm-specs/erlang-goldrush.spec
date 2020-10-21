@@ -4,7 +4,7 @@
 
 Name:       erlang-%{realname}
 Version:    0.2.0
-Release:    6%{?dist}
+Release:    7%{?dist}
 BuildArch:  noarch
 Summary:    Small, fast event processing and monitoring for Erlang/OTP applications
 License:    MIT
@@ -41,6 +41,9 @@ A small Erlang app that provides fast event stream processing.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

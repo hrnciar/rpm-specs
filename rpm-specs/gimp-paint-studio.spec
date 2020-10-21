@@ -1,6 +1,6 @@
 Name:			gimp-paint-studio
 Version:		2.0
-Release:		18%{?dist}
+Release:		19%{?dist}
 Summary:		A collection of tool option presets and brushes for GIMP
 License:		CC-BY-SA and GPLv2
 URL:			http://code.google.com/p/gps-%{name}/
@@ -69,6 +69,9 @@ install -Dm 0644 -p %{SOURCE1} \
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@ Name:          rtorrent
 # OpenSSL exception, see README
 License:       GPLv2+ with exceptions
 Version:       0.9.8
-Release:       2%{?dist}
+Release:       4%{?dist}
 Summary:       BitTorrent client based on libtorrent 
 URL:           https://github.com/rakshasa/rtorrent
 Source0:       %{url}/releases/download/v%{version}/%{name}-%{version}.tar.gz
@@ -48,6 +48,13 @@ done
 %{_bindir}/%{name}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.8-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.8-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           python-%{modname}
 Version:        4.1.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Transparent, Symmetrical Python Library for Distributed-Computing
 
 License:        MIT
@@ -47,6 +47,9 @@ mv %{buildroot}%{_bindir}/rpyc_registry.py %{buildroot}%{_bindir}/rpyc_registry
 %{python3_sitelib}/rpyc*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.1.5-2
 - Rebuilt for Python 3.9
 

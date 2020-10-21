@@ -1,6 +1,6 @@
 Name:           libquvi
 Version:        0.9.4
-Release:        16%{?dist}
+Release:        18%{?dist}
 Summary:        A cross-platform library for parsing flash media stream
 License:        AGPLv3+
 URL:            http://quvi.sourceforge.net
@@ -60,6 +60,13 @@ make check
 %{_mandir}/man7/quvi-object.7*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-18
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

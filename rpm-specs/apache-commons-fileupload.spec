@@ -2,7 +2,7 @@
 
 Name:           apache-commons-fileupload
 Version:        1.4
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        API to work with HTML file upload
 License:        ASL 2.0
 URL:            http://commons.apache.org/fileupload/
@@ -70,6 +70,12 @@ rm -r src/main/java/org/apache/commons/fileupload/portlet
 # -----------------------------------------------------------------------------
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.4-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

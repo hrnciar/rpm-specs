@@ -1,24 +1,35 @@
 %global srcname bna
 
 Name:           python-%{srcname}
-Version:        4.1.0
-Release:        15%{?dist}
+Version:        5.0.0
+Release:        1%{?dist}
 Summary:        Battle.net Authenticator routines in Python
 License:        MIT
-URL:            http://github.com/Adys/python-bna
-Source0:        https://pypi.python.org/packages/source/b/bna/bna-%{version}.tar.gz
-BuildRequires:	python3-devel
-BuildRequires:	python3-setuptools
+
+URL:            https://github.com/jleclanche/%{name}
+Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 BuildArch:      noarch
 
-Provides: 		python3-%{srcname}
+BuildRequires:  python3-devel
+BuildRequires:  python3dist(setuptools)
+BuildRequires:  python3dist(click)
+BuildRequires:  python3dist(pyotp)
+BuildRequires:  python3dist(pytest)
 
 %description
 This is a Python library of Battle.net Authenticator routines,
 this package also contains a command-line Battle.net authenticator.
 
+%package -n     python3-%{srcname}
+Summary:        %{summary}
+%py_provides python3-%{srcname}
+
+%description -n python3-%{srcname}
+This is a Python library of Battle.net Authenticator routines,
+this package also contains a command-line Battle.net authenticator.
+
 %prep
-%setup -q -n %{srcname}-%{version}
+%autosetup -n %{name}-%{version}
 
 %build
 %py3_build
@@ -26,14 +37,26 @@ this package also contains a command-line Battle.net authenticator.
 %install
 %py3_install
 
-%files
-%doc README.rst
+%check
+%pytest -v tests
+
+%files -n python3-%{srcname}
+%doc README.md
 %license LICENSE
-%{_bindir}/bna
-%{python3_sitelib}/bna*
-%{python3_sitelib}/__pycache__/bna*
+%{_bindir}/%{srcname}
+%{python3_sitelib}/%{srcname}
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info/
 
 %changelog
+* Tue Oct 06 2020 Andy Mender <andymenderunix@gmail.com> - 5.0.0-1
+- Update to version 5.0.0
+- Add tests
+- Clean up SPEC according to Python Packaging Guidelines
+- Switch URL and Source0 to GitHub releases
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.1.0-15
 - Rebuilt for Python 3.9
 

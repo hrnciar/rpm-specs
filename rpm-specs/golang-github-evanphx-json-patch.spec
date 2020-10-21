@@ -3,7 +3,7 @@
 
 # https://github.com/evanphx/json-patch
 %global goipath         github.com/evanphx/json-patch
-Version:                4.2.0
+Version:                5.0.0
 
 %gometa
 
@@ -18,7 +18,7 @@ JSON merge patches.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Go library to apply RFC6902 patches and create and apply RFC7386 patches
 
 # Upstream license specification: BSD-3-Clause
@@ -29,6 +29,7 @@ Source1:        glide.yaml
 Source2:        glide.lock
 
 BuildRequires:  golang(github.com/jessevdk/go-flags)
+BuildRequires:  golang(github.com/pkg/errors)
 
 %description
 %{common_description}
@@ -49,15 +50,6 @@ done
 install -m 0755 -vd                     %{buildroot}%{_bindir}
 install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck
@@ -71,6 +63,12 @@ end
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 16:49:50 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 5.0.0-1
+- Update to 5.0.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

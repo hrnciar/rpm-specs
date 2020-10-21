@@ -27,7 +27,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       11%{?github_release}%{?dist}
+Release:       12%{?github_release}%{?dist}
 Summary:       Composable algorithmic transformations
 
 License:       MIT
@@ -117,6 +117,9 @@ sed -e 's/function testToTraversableReturnsStreamsIter/function SKIP_testToTrave
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

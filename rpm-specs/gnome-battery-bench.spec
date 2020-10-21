@@ -1,6 +1,6 @@
 Name:           gnome-battery-bench
 Version:        3.15.4
-Release:        12%{?dist}
+Release:        14%{?dist}
 Summary:        Measure power usage in defined scenarios
 
 License:        GPLv2+
@@ -58,6 +58,13 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/org.gnome.BatteryBen
 %config(noreplace) %{_sysconfdir}/dbus-1/system.d/org.gnome.BatteryBench.Helper.conf
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.15.4-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.15.4-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.15.4-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

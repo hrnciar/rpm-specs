@@ -1,6 +1,6 @@
 Name:           samdump2
 Version:        3.0.0
-Release:        16%{?dist}
+Release:        19%{?dist}
 Summary:        Retrieves syskey and extracts hashes from Windows 2k/NT/XP/Vista SAM
 
 #MD5 RC4 DES functions are linked from openssl library
@@ -11,6 +11,7 @@ Source0:        http://downloads.sourceforge.net/ophcrack/%{name}-%{version}.tar
 
 Patch0:         %{name}-install.patch
 
+BuildRequires:  gcc
 
 %if 0%{?fedora} >= 26
 BuildRequires:  compat-openssl10-devel
@@ -49,6 +50,16 @@ make install DESTDIR=%{buildroot} BINDIR=%{_bindir} MANDIR=%{_mandir}/man1/ OWNE
 
 
 %changelog
+* Thu Aug 06 2020 Jeff Law <law@redhat.com> - 3.0.0-19
+- Add gcc as build requirement
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-18
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 

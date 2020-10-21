@@ -9,8 +9,8 @@ description is done in YAML-based .ksy format, which then can be compiled into\
 a wide range of target languages.
 
 Name: python-%{pypi_name}
-Version: 0.8
-Release: 8%{?dist}
+Version: 0.9
+Release: 1%{?dist}
 Summary: A new way to develop parsers for binary structures
 License: MIT
 URL: https://kaitai.io
@@ -23,6 +23,7 @@ BuildArch: noarch
 %package -n python3-%{pypi_name}
 Summary: %{summary}
 BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 
 %description -n python3-%{pypi_name}
 %{desc}
@@ -44,6 +45,13 @@ rm -r %{pypi_name}.egg-info
 %{python3_sitelib}/__pycache__/%{pypi_name}.cpython-%{python3_version_nodots}*.pyc
 
 %changelog
+* Mon Oct 19 2020 Dominik Mierzejewski <dominik@greysector.net> 0.9-1
+- update to 0.9 (#1888860)
+- BuildRequire setuptools explicitly
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8-8
 - Rebuilt for Python 3.9
 

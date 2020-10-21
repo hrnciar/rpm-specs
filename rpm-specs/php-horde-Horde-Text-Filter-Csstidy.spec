@@ -13,7 +13,7 @@
 
 Name:           php-horde-Horde-Text-Filter-Csstidy
 Version:        2.0.1
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Horde Text Filter API
 
 License:        GPLv2
@@ -102,6 +102,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 
 Name:           fcgiwrap
 Version:        1.1.0
-Release:        13.%{date}git%{shortcommit}%{?dist}
+Release:        14.%{date}git%{shortcommit}%{?dist}
 Summary:        Simple FastCGI wrapper for CGI scripts
 License:        MIT
 URL:            https://github.com/gnosek/fcgiwrap
@@ -88,6 +88,9 @@ install -Dm 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-14.20181108git99c942c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-13.20181108git99c942c
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -8,7 +8,7 @@
 Summary: An encoder/decoder for the Free Lossless Audio Codec
 Name: flac
 Version: 1.3.3
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: BSD and GPLv2+ and GFDL
 Source0: https://downloads.xiph.org/releases/flac/flac-%{version}.tar.xz
 URL: https://www.xiph.org/flac/
@@ -139,6 +139,9 @@ make check
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

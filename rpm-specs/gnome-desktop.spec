@@ -3,16 +3,14 @@
 Summary: Shared code among gnome-panel, gnome-session, nautilus, etc
 Name: gnome-desktop
 Version: 2.32.0
-Release: 26%{?dist}
+Release: 29%{?dist}
 URL: http://www.gnome.org
 #VCS: git:git://git.gnome.org/gnome-desktop
 Source0: http://download.gnome.org/sources/gnome-desktop/2.32/%{name}-%{version}.tar.bz2
 
-License: GPLv2+ and LGPLv2+
+License: LGPLv2+
 
 Requires: redhat-menus
-Requires: pycairo
-Requires: pygtk2
 
 BuildRequires: gnome-common
 BuildRequires: libxml2-devel
@@ -22,7 +20,6 @@ BuildRequires: libgnomeui-devel
 BuildRequires: libgnomecanvas-devel
 BuildRequires: startup-notification-devel
 BuildRequires: gnome-doc-utils
-BuildRequires: scrollkeeper
 BuildRequires: gettext
 BuildRequires: gtk-doc
 BuildRequires: automake autoconf libtool intltool
@@ -49,6 +46,7 @@ libgnomedesktop.
 export PYTHON=/usr/bin/python2
 %configure --with-gnome-distributor="Red Hat, Inc" \
 	   --with-pnp-ids-path="/usr/share/hwdata/pnp.ids" \
+	   --disable-gnome-about --disable-desktop-docs \
 	   --disable-scrollkeeper  --disable-static
 make %{?_smp_mflags}
 
@@ -56,25 +54,13 @@ make %{?_smp_mflags}
 make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
-# stuff we don't want
-rm -rf $RPM_BUILD_ROOT/var/scrollkeeper
-
-# already shipped in gnome-desktop3
-rm -rf $RPM_BUILD_ROOT/usr/share/omf
-rm -rf $RPM_BUILD_ROOT/usr/share/gnome/help
-
 %find_lang %{po_package} --all-name --with-gnome
 
 %ldconfig_scriptlets
 
 %files -f %{po_package}.lang
 %doc AUTHORS COPYING COPYING.LIB NEWS README
-%{_datadir}/applications/gnome-about.desktop
-%{_datadir}/gnome-about
 %{_datadir}/pixmaps/*
-%doc %{_mandir}/man*/*
-# GPL
-%{_bindir}/gnome-about
 # LGPL
 %{_libdir}/lib*.so.*
 
@@ -85,6 +71,16 @@ rm -rf $RPM_BUILD_ROOT/usr/share/gnome/help
 %doc %{_datadir}/gtk-doc
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.32.0-29
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.32.0-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun  3 2020 Yaakov Selkowitz <yselkowi@redhat.com> - 2.32.0-27
+- Disable obsolete gnome-about and desktop docs (#1739548)
+
 * Tue Feb 11 2020 Tom Callaway <spot@fedoraproject.org> - 2.32.0-26
 - fix python2 handling (previous fix was incomplete)
 

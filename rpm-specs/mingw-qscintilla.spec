@@ -5,13 +5,13 @@
 
 Name:          mingw-%{pkgname}
 Summary:       MinGW Windows %{pkgname} library
-Version:       2.11.2
-Release:       9%{?dist}
+Version:       2.11.5
+Release:       1%{?dist}
 BuildArch:     noarch
 
 License:       GPLv3
 Url:           http://www.riverbankcomputing.com/software/qscintilla/
-Source0:       https://www.riverbankcomputing.com/static/Downloads/QScintilla/%{version}/QScintilla_gpl-%{version}.tar.gz
+Source0:       https://www.riverbankcomputing.com/static/Downloads/QScintilla/%{version}/QScintilla-%{version}.tar.gz
 
 # Tweak python bindings configure script for mingw
 Patch0:        qscintilla_configure.patch
@@ -75,7 +75,7 @@ MinGW Windows %{pkgname}-qt5 Python 3 bindings.
 
 
 %prep
-%autosetup -p1 -n QScintilla_gpl-%{version}
+%autosetup -p1 -n QScintilla-%{version}
 
 
 %build
@@ -162,6 +162,12 @@ find %{buildroot}%{mingw64_prefix} | grep -E '.(exe|dll|pyd)$' | sed 's|^%{build
 
 
 %changelog
+* Wed Jul 29 2020 Sandro Mani <manisandro@gmail.com> - 2.11.5-1
+- Update to 2.11.5
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Sandro Mani <manisandro@gmail.com> - 2.11.2-9
 - Rebuild (python-3.9)
 

@@ -9,7 +9,7 @@
 
 Name:		acme-tiny
 Version:	4.1.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Tiny auditable script to issue, renew Let's Encrypt certificates
 
 License:	MIT
@@ -126,6 +126,9 @@ exit 0
 %{_sbindir}/acme_tiny
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr  9 2020 Stuart D. Gathman <stuart@gathman.org> 4.1.0-3
 - Update README-fedora.md to describe notify.sh
 - Apply selected changes from Marcel Metz <mmetz@adrian-broher.net>:

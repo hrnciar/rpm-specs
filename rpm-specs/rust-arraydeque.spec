@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.4.5
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Ring buffer with a fixed capacity, which can be stored on the stack
 
 # Upstream license specification: MIT/Apache-2.0
@@ -110,6 +110,9 @@ which use "use_generic_array" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 20 2020 Josh Stone <jistone@redhat.com> - 0.4.5-4
 - Bump generic-array to 0.13
 

@@ -1,17 +1,20 @@
 Name:           perl-HTML-CalendarMonthSimple
-Version:        1.25
-Release:        33%{?dist}
+Version:        1.26
+Release:        1%{?dist}
 Summary:        Perl Module for Generating HTML Calendars
 License:        Public Domain
 URL:            https://metacpan.org/release/HTML-CalendarMonthSimple
 Source0:        https://cpan.metacpan.org/modules/by-module/HTML/HTML-CalendarMonthSimple-%{version}.tar.gz
-Patch0:         HTML-CalendarMonthSimple-1.24.thisday.patch
 BuildArch:      noarch
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 BuildRequires:  perl-generators
 BuildRequires:  perl(Date::Calc)
 BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  /usr/bin/iconv
+BuildRequires:  perl(strict)
+BuildRequires:  perl(warnings)
+# Test
+BuildRequires:  perl(Test::More)
 
 %description
 HTML::CalendarMonthSimple is a Perl module for generating, manipulating,
@@ -20,19 +23,17 @@ a faster and easier-to-use alternative to HTML::CalendarMonth.
 
 %prep
 %setup -q -n HTML-CalendarMonthSimple-%{version}
-%patch0 -p 1 -b .thisday
 
 # Fix UTF-8
-iconv -f ISO_8859-1 -t UTF-8 -o tmp.pm CalendarMonthSimple.pm &&
-mv -f tmp.pm CalendarMonthSimple.pm
+iconv -f ISO_8859-1 -t UTF-8 -o tmp.pm lib/HTML/CalendarMonthSimple.pm && \
+touch -r lib/HTML/CalendarMonthSimple.pm tmp.pm && \
+mv -f tmp.pm lib/HTML/CalendarMonthSimple.pm
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags}
+%make_build
 
 %install
-rm -rf %{buildroot}
-
 make pure_install PERL_INSTALL_ROOT=%{buildroot}
 
 find %{buildroot} -type f -name .packlist -exec rm -f {} \;
@@ -44,11 +45,22 @@ find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null \;
 make test
 
 %files
-%doc README
+%doc README Changes Todo
+%license LICENSE
 %{perl_vendorlib}/*
 %{_mandir}/man3/*
 
 %changelog
+* Mon Oct 19 2020 Xavier Bachelot <xavier@bachelot.org> - 1.26-1
+- Update to 1.26
+- Drop outdated patch
+- Package Changes, todo and LICENSE files
+- Change License (BSD instead of Public Domain)
+- Specify all dependencies
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.25-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.25-33
 - Perl 5.32 rebuild
 

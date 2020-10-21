@@ -1,7 +1,7 @@
 Summary: GNOME Structured File library
 Name: libgsf
 Version: 1.14.47
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: LGPLv2
 Source: ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/1.14/%{name}-%{version}.tar.xz
 URL: http://www.gnome.org/projects/libgsf/
@@ -78,6 +78,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_mandir}/man1/gsf-vba-dump.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14.47-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 27 2020 Marc-André Lureau <marcandre.lureau@redhat.com> - 1.14.47-1
 - New upstream release 1.14.47
 

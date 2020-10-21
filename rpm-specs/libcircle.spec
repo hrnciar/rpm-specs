@@ -1,6 +1,6 @@
 Name:    libcircle
 Version: 0.3
-Release: 3%{?dist}
+Release: 6%{?dist}
 
 Source: https://github.com/hpc/libcircle/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 URL: http://hpc.github.io/libcircle/
@@ -103,6 +103,9 @@ mkdir -p %{buildroot}%{_docdir}/%{name}
 cp -r doc/html/* %{buildroot}%{_docdir}/%{name}
 
 %check
+%ifarch s390x
+export CK_TIMEOUT_MULTIPLIER=10
+%endif
 %{_openmpi_load}
 make -C openmpi check || { cat openmpi/tests/test-suite.log && exit 1; }
 %{_openmpi_unload}
@@ -132,6 +135,16 @@ make -C mpich check || { cat mpich/tests/test-suite.log && exit 1; }
 %{_docdir}/%{name}
 
 %changelog
+* Tue Aug 04 2020 Christoph Junghans <junghans@votca.org> - 0.3-6
+- Fix build on F33 (bug#1863982)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 01 2020 Christoph Junghans <junghans@votca.org> - 0.3-3
 - Remove s390x workaround
 

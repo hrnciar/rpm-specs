@@ -1,6 +1,6 @@
 Name:           nemo
 Summary:        File manager for Cinnamon
-Version:        4.6.4
+Version:        4.6.5
 Release:        1%{?dist}
 License:        GPLv2+ and LGPLv2+
 URL:            https://github.com/linuxmint/%{name}
@@ -122,6 +122,12 @@ rm -f %buildroot%{_datadir}/icons/hicolor/.icon-theme.cache
 %{_datadir}/gir-1.0/*.gir
 
 %changelog
+* Tue Aug 11 2020 Leigh Scott <leigh123linux@gmail.com> - 4.6.5-1
+- Update to 4.6.5 release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Leigh Scott <leigh123linux@gmail.com> - 4.6.4-1
 - Update to 4.6.4 release
 

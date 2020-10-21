@@ -1,6 +1,6 @@
 Name:		vcftools
 Version:	0.1.16
-Release:	6%{?dist}
+Release:	8%{?dist}
 Summary:	VCF file manipulation tools
 
 License:	GPLv3 
@@ -69,6 +69,12 @@ make install DESTDIR=$RPM_BUILD_ROOT INSTALL='install -p'
 %{_mandir}/man1/vcftools.1.gz
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.16-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.1.16-7
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.1.16-6
 - Perl 5.32 rebuild
 

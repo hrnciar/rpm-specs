@@ -3,7 +3,7 @@
 
 # https://github.com/nwidger/jsoncolor
 %global goipath         github.com/nwidger/jsoncolor
-%global commit          75a6de4340e59be95f0884b9cebdda246e0fdf40
+Version:                0.3.0
 
 %gometa
 
@@ -15,8 +15,7 @@ functions which produce colorized output using fatih's color package.}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.10%{?dist}
+Release:        1%{?dist}
 Summary:        Colorized JSON output for Go
 
 License:        MIT
@@ -44,6 +43,12 @@ BuildRequires:  golang(github.com/fatih/color)
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 12:59:37 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.3.0-1
+- Update to 0.3.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

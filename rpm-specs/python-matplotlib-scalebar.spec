@@ -10,7 +10,7 @@ ScaleBar object or from the matplotlibrc.}
 
 Name:           python-%{pypi_name}
 Version:        0.6.2
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Artist for matplotlib to display a scale bar
 
 License:        BSD
@@ -28,6 +28,7 @@ Summary:        %{summary}
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist matplotlib}
 BuildRequires:  %{py3_dist nose}
+BuildRequires:  %{py3_dist setuptools}
 
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
@@ -55,6 +56,12 @@ sed -i '/^#![  ]*\/usr\/bin\/env.*$/ d' matplotlib_scalebar/test*py
 %{python3_sitelib}/matplotlib_scalebar
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.6.2-3
+- Explicitly BR setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.2-2
 - Rebuilt for Python 3.9
 

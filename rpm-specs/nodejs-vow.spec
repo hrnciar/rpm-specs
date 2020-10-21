@@ -7,7 +7,7 @@
 
 Name:               nodejs-vow
 Version:            0.4.9
-Release:            10%{?dist}
+Release:            11%{?dist}
 Summary:            Promises/A+ proposal compatible promises library
 
 # https://github.com/dfilatov/vow/issues/67
@@ -68,6 +68,9 @@ cp -pr package.json lib \
 %{nodejs_sitelib}/vow/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.9-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.9-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

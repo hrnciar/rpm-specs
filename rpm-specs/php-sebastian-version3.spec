@@ -6,7 +6,7 @@
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    0411bde656dce64202b39c2f4473993a9081d39e
+%global gh_commit    c6c1022351a901512170118436c764e473f6de8c
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sebastianbergmann
 %global gh_project   version
@@ -18,16 +18,16 @@
 %global ns_project   Version
 %global ver_major    3
 %global php_home     %{_datadir}/php
-%global with_tests   %{?_without_tests:0}%{!?_withou_tests:1}
 
 Name:           php-%{pk_vendor}-%{pk_project}%{ver_major}
-Version:        3.0.0
+Version:        3.0.2
 Release:        1%{?dist}
-Summary:        Managing the version number of Git-hosted PHP projects
+Summary:        Managing the version number of Git-hosted PHP projects, version %{ver_major}
 
 License:        BSD
 URL:            https://github.com/%{gh_owner}/%{gh_project}
-Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit}/%{name}-%{version}-%{gh_short}.tar.gz
+Source0:        %{name}-%{version}-%{gh_short}.tgz
+Source1:        makesrc.sh
 
 BuildArch:      noarch
 BuildRequires:  php(language) >= 7.3
@@ -35,7 +35,7 @@ BuildRequires:  php-cli
 BuildRequires:  php-fedora-autoloader-devel
 
 # From composer.json, "require": {
-#        "php": "^7.3.0"
+#        "php": ">=7.3"
 Requires:       php(language) >= 7.3
 Requires:       git
 # Autoloader
@@ -81,6 +81,16 @@ exit (class_exists("%{ns_vendor}\\%{ns_project}") ? 0 : 1);
 
 
 %changelog
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 3.0.2-1
+- update to 3.0.2 (no change)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Remi Collet <remi@remirepo.net> - 3.0.1-1
+- update to 3.0.1 (no change)
+- sources from git snapshot
+
 * Fri Feb  7 2020 Remi Collet <remi@remirepo.net> - 3.0.0-1
 - update to 3.0.0
 - raise dependency on PHP 7.3

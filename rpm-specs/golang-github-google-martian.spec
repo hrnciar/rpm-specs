@@ -5,6 +5,8 @@
 %global goipath         github.com/google/martian
 Version:                3.0.0
 
+%global goaltipaths     github.com/google/martian/v3
+
 %gometa
 
 %global common_description %{expand:
@@ -26,7 +28,7 @@ that Go can target.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Library for building custom HTTP/S proxies
 
 # Upstream license specification: Apache-2.0
@@ -60,7 +62,8 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %if %{with check}
 %check
 # https://github.com/google/martian/issues/271
-%gocheck -t marbl -t static -d body
+# cmd/proxy: needs network
+%gocheck -t marbl -t static -d body -d cmd/proxy -d trafficshape
 %endif
 
 %files
@@ -71,6 +74,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 17:58:38 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.0.0-4
+- Add alternate goipath
+
 * Fri Jan 31 16:35:28 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.0.0-3
 - Fix FTBFS with Go 1.13+
 

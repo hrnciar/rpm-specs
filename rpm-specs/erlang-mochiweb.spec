@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	2.20.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 BuildArch:	noarch
 Summary:	An Erlang library for building lightweight HTTP servers
 License:	MIT
@@ -49,6 +49,9 @@ cp -arv support %{buildroot}%{_erllibdir}/%{realname}-%{version}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.20.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb  6 2020 Peter Lemenkov <lemenkov@gmail.com> - 2.20.1-1
 - Ver. 2.20.1
 

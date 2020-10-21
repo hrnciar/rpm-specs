@@ -4,7 +4,7 @@
 
 Name:		R-%{packname}
 Version:	1.46.2
-Release:	2%{?dist}
+Release:	5%{?dist}
 Source0:	https://www.rqtl.org/download/%{packname}_1.46-2.tar.gz
 License:	GPLv3
 URL:		https://www.rqtl.org/
@@ -88,6 +88,16 @@ _R_CHECK_FORCE_SUGGESTS_=0 R CMD check %{packname}
 %{_libdir}/R/library/%{packname}/sampledata
 
 %changelog
+* Mon Aug 10 2020 Tom Callaway <spot@fedoraproject.org> - 1.46.2-5
+- rebuild for FlexiBLAS R
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.46.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.46.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 1.46.2-2
 - rebuild for R 4
 

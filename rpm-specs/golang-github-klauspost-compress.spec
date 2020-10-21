@@ -7,7 +7,7 @@
 
 # https://github.com/klauspost/compress
 %global goipath         github.com/klauspost/compress
-Version:                1.10.9
+Version:                1.11.1
 
 %gometa
 
@@ -61,6 +61,25 @@ BuildRequires:  golang(github.com/google/go-cmp/cmp)
 %gopkgfiles
 
 %changelog
+* Mon Oct 05 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.11.1-1
+- update to 1.11.1 (#1884436)
+
+* Thu Sep 10 2020 Dominik Mierzejewski <dominik@greysector.net> - 1.11.0-1
+- update to 1.11.0 (#1876973)
+
+* Wed Aug 19 2020 Dominik Mierzejewski <dominik@greysector.net> - 1.10.11-1
+- update to 1.10.11 (#1868730)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.10-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Dominik Mierzejewski <dominik@greysector.net> - 1.10.10-1
+- update to 1.10.10 (#1850299)
+
 * Wed Jun 17 2020 Dominik Mierzejewski <dominik@greysector.net> - 1.10.9-1
 - update to 1.10.9 (#1838747)
 

@@ -7,15 +7,13 @@
 
 Name:           perl-version
 Epoch:          7
-Version:        0.99.24
-%global module_version 0.9924
-Release:        456%{?dist}
+Version:        0.99.28
+%global module_version 0.9928
+Release:        1%{?dist}
 Summary:        Perl extension for Version Objects
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/version
-Source0:        https://cpan.metacpan.org/authors/id/J/JP/JPEACOCK/version-%{module_version}.tar.gz
-# Do not clobber memory when switching a locale, Perl GH#17054, in Perl 5.31.5
-Patch0:         version-0.9924-ensure-locale_name_on_entry-isn-t-clobbered.patch
+Source0:        https://cpan.metacpan.org/authors/id/L/LE/LEONT/version-%{module_version}.tar.gz
 # Build
 BuildRequires:  findutils
 BuildRequires:  gcc
@@ -41,13 +39,13 @@ BuildRequires:  perl(warnings)
 BuildRequires:  perl(warnings::register)
 BuildRequires:  perl(XSLoader)
 # Tests only
+BuildRequires:  perl(base)
 BuildRequires:  perl(Data::Dumper)
 BuildRequires:  perl(File::Basename)
 BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(IO::Handle)
 BuildRequires:  perl(lib)
 BuildRequires:  perl(List::Util)
-BuildRequires:  perl(parent)
 BuildRequires:  perl(Test::Harness)
 BuildRequires:  perl(Test::More) >= 0.45
 # Optional tests
@@ -76,7 +74,6 @@ strongly urged to set 0.77 as a minimum in your code.
 
 %prep
 %setup -q -n version-%{module_version}
-%patch0 -p1
 
 %build
 perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}" UNINST=0 NO_PACKLIST=1 NO_PERLLOCAL=1
@@ -104,6 +101,18 @@ make test
 %{_mandir}/man3/version::Internals.3pm*
 
 %changelog
+* Wed Sep 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 7:0.99.28-1
+- 0.9928 bump
+
+* Fri Aug 21 2020 Jitka Plesnikova <jplesnik@redhat.com> - 7:0.99.27-458
+- 0.9927 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7:0.99.24-458
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 7:0.99.24-457
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 7:0.99.24-456
 - Increase release to favour standalone package
 

@@ -1,6 +1,6 @@
 Name:           mingw-spice-protocol
 Version:        0.14.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Spice protocol header files
 # Main headers are BSD, controller / foreign menu are LGPL
 License:        BSD and LGPLv2+
@@ -67,6 +67,9 @@ and the para-virtual graphics card QXL.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 05 2020 Eduardo Lima (Etrunko) <etrunko@redhat.com> - 0.14.0-1
 - Sync with spice-protocol version 0.14.0
 

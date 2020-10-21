@@ -1,6 +1,6 @@
 Name:           perl-Text-BibTeX
 Version:        0.88
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Interface to read and parse BibTeX files
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Text-BibTeX
@@ -81,6 +81,9 @@ chrpath -d $RPM_BUILD_ROOT%{_bindir}/*
 %{_includedir}/btparse.h
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.88-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.88-5
 - Perl 5.32 rebuild
 

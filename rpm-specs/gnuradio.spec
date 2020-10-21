@@ -21,8 +21,8 @@
 #%%global alphatag rc1
 
 Name:		gnuradio
-Version:	3.8.1.0
-Release:	4%{?alphatag:.%{alphatag}}%{?dist}
+Version:	3.8.2.0
+Release:	2%{?alphatag:.%{alphatag}}%{?dist}
 Summary:	Software defined radio framework
 
 License:	GPLv3
@@ -100,6 +100,7 @@ Requires:	python3-pyyaml
 Requires:	python3-gobject
 Requires:	python3-six
 Requires:	python3-mako
+Requires:	python3-click-plugins
 Requires:	gtk3
 
 %description
@@ -143,21 +144,21 @@ GNU Radio examples
 %patch0 -p1
 
 %build
-mkdir build
-cd build
+# this could be dropped when f32 get retired (not counting EPEL)
+%undefine __cmake_in_source_build
+
 %cmake \
 -DSYSCONFDIR=%{_sysconfdir} \
 -DGR_PKG_DOC_DIR=%{_docdir}/%{name} \
 -DGR_PYTHON_DIR=%{python3_sitearch} \
 -DPYTHON_EXECUTABLE=%{__python3} \
-%{?mfpu_neon} \
-..
+%{?mfpu_neon}
 #-DENABLE_DOXYGEN=FALSE \
 
-%make_build CFLAGS="%{optflags} -fno-strict-aliasing" CXXFLAGS="%{optflags} -fno-strict-aliasing"
+%cmake_build
 
 %install
-%make_install -C build
+%cmake_install
 desktop-file-validate %{buildroot}%{_datadir}/applications/gnuradio-grc.desktop
 # Remove extraneous desktop/icon/mime files
 rm -r %{buildroot}%{_datadir}/%{name}/grc/freedesktop
@@ -200,6 +201,24 @@ rm -r %{buildroot}%{_datadir}/icons/gnome
 %{_datadir}/gnuradio/examples
 
 %changelog
+* Tue Aug 25 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 3.8.2.0-2
+- Explicitly disabled in-source build
+
+* Mon Aug 24 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 3.8.2.0-1
+- New version
+  Resolves: rhbz#1871259
+
+* Tue Aug  4 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 3.8.1.0-7
+- Fixed FTBFS due to cmake changes
+  Resolves: rhbz#1863736
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.1.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Jonathan Wakely <jwakely@redhat.com> - 3.8.1.0-4
 - Rebuilt and patched for Boost 1.73.0
 

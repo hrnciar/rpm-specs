@@ -5,7 +5,7 @@
 
 Name:           rubygem-%{gem_name}
 Version:        3.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Commandline option parser for Ruby
 
 # https://github.com/ManageIQ/optimist/issues/112
@@ -63,5 +63,8 @@ ruby -Ilib:test -e 'Dir.glob "./test/**/*_test.rb", &method(:require)'
 %{gem_instdir}/{Gemfile,Rakefile,%{gem_name}.gemspec}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 16 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 3.0.0-1
 - Initial package

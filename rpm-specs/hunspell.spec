@@ -3,7 +3,7 @@
 Name:      hunspell
 Summary:   A spell checker and morphological analyzer library
 Version:   1.7.0
-Release:   5%{?dist}
+Release:   7%{?dist}
 Source:    https://github.com/hunspell/hunspell/archive/v%{version}.tar.gz
 URL:       https://github.com/hunspell/hunspell
 License:   LGPLv2+ or GPLv2+ or MPLv1.1
@@ -50,7 +50,7 @@ configureflags="--disable-rpath --disable-static --with-ui --with-readline"
 
 %if !%{double_profiling_build}
 %configure $configureflags
-make %{?_smp_mflags}
+%make_build
 %else
 #Generate a word list to use for profiling, take half of it to ensure
 #that the original word list is then considered to contain correctly
@@ -60,7 +60,7 @@ head -n $((`cat /usr/share/dict/words | wc -l`/2)) /usr/share/dict/words |\
 
 #generate profiling
 %{profilegenerate} %configure $configureflags
-make %{?_smp_mflags}
+%make_build
 ./src/tools/affixcompress words > /dev/null 2>&1
 ./src/tools/hunspell -d words -l /usr/share/dict/words > /dev/null
 make check
@@ -68,9 +68,9 @@ make distclean
 
 #use profiling
 %{profileuse} %configure $configureflags
-make %{?_smp_mflags}
+%make_build
 %endif
-cd po && make %{?_smp_mflags} update-gmo && cd ..
+cd po && %make_build update-gmo && cd ..
 
 %check
 %ifarch %{ix86} x86_64
@@ -80,7 +80,7 @@ make check
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make DESTDIR=$RPM_BUILD_ROOT install
+%make_install
 rm -f $RPM_BUILD_ROOT/%{_libdir}/*.a
 rm -f $RPM_BUILD_ROOT/%{_libdir}/*.la
 mkdir $RPM_BUILD_ROOT/%{_datadir}/myspell
@@ -117,6 +117,13 @@ mkdir $RPM_BUILD_ROOT/%{_datadir}/myspell
 %{_mandir}/man5/hunspell.5.gz
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1.7.0-6
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

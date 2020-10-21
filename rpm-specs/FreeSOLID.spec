@@ -1,6 +1,6 @@
 Name:           FreeSOLID
 Version:        2.1.1
-Release:        36%{?dist}
+Release:        37%{?dist}
 Summary:        3D collision detection C++ library
 License:        LGPLv2+
 URL:            http://sourceforge.net/projects/freesolid/
@@ -95,6 +95,9 @@ rm -rf sample/*.o sample/.libs $(find sample -type f -a -executable)
 %{_includedir}/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-37
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Martin Gansser <martinkg@fedoraproject.org> - 2.1.1-36
 - Remove Requires: qhull from FreeSOLID.pc.in
 - Rebuilt

@@ -17,7 +17,7 @@
 
 Name:           php-%{gh_owner}-%{cname}
 Version:        1.9.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Zeta Base Component
 
 License:        ASL 2.0
@@ -115,6 +115,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

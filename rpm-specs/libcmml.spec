@@ -1,6 +1,6 @@
 Name:           libcmml
 Version:        0.9.1
-Release:        25%{?dist}
+Release:        26%{?dist}
 Summary:        Library for handling Continuous Media Markup Language
 
 License:        BSD
@@ -78,6 +78,9 @@ rm -f $RPM_BUILD_ROOT%{_datadir}/doc/libcmml/doxygen-build.stamp
 %ldconfig_scriptlets
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

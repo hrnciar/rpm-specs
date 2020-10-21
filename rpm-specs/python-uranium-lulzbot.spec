@@ -2,7 +2,7 @@
 
 Name:		python-%{shortname}
 Version:	3.6.21
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	A Python framework for building desktop applications (Lulzbot fork)
 # UM/SortedList.py is ASL 2.0
 # Everything else is AGPLv3+
@@ -40,6 +40,9 @@ BuildArch:	noarch
 # There are Python plugins in /usr/lib/uranium
 # We need to byte-compile it with Python 3
 %global __python %{__python3}
+
+# Get Fedora 33++ behavior on anything older
+%undefine __cmake_in_source_build
 
 %description
 Uranium is a Python framework for building 3D printing related applications.
@@ -91,12 +94,12 @@ sed -i 's/"Language: ptbr\n"/"Language: pt_BR\n"/' resources/i18n/pt_BR/*.po
 echo '# empty' >> UM/Settings/ContainerRegistryInterface.py
 
 %build
-%{cmake} .
-make %{?_smp_mflags}
-make doc
+%cmake
+%cmake_build
+%cmake_build -- doc
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 # Move the cmake files
 mv %{buildroot}%{_datadir}/cmake* %{buildroot}%{_datadir}/cmake
@@ -150,6 +153,9 @@ pip3 freeze
 %doc html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.21-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.6.21-3
 - Rebuilt for Python 3.9
 

@@ -21,7 +21,7 @@ messagediff skip it when doing the comparison.}
 %global godocs          example CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Library for doing diffs of arbitrary Golang structs
 
 License:        MIT
@@ -53,6 +53,9 @@ BuildRequires:  golang(golang.org/x/net/html/atom)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

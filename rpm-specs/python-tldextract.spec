@@ -2,15 +2,15 @@
 
 %global py3_prefix python%{python3_pkgversion}
 
-%if 0%{?fedora} >= 30 || 0%{?rhel} >= 8
+%if 0%{?fedora} || 0%{?rhel} >= 8
 %bcond_with python2
 %else
 %bcond_without python2
 %endif
 
 Name:           python-%{pypi_name}
-Version:        2.2.2
-Release:        3%{?dist}
+Version:        2.2.3
+Release:        1%{?dist}
 Summary:        Accurately separate the TLD from the registered domain and subdomains of a URL
 
 License:        BSD
@@ -18,23 +18,24 @@ URL:            https://pypi.python.org/pypi/tldextract
 Source0:        %{pypi_source}
 # pytest-pylint is not packaged in Fedora
 Patch0:         %{pypi_name}-remove-pytest-modules.patch
+# setuptools_scm is not packaged for EPEL 7/Python 2 and the upstream tarball
+# already ships "tldextract/_version.py"
+Patch1:         %{pypi_name}-no-setuptools_scm.patch
+
 BuildArch:      noarch
 
 %if %{with python2}
 BuildRequires:  python2-devel
+# EL7 has unversioned names for this package
+BuildRequires:  python-idna
 BuildRequires:  python2-mock
 BuildRequires:  python2-pytest
 BuildRequires:  python2-requests >= 2.1.0
 BuildRequires:  python2-requests-file >= 1.4
 BuildRequires:  python2-responses
 BuildRequires:  python2-setuptools
-%if 0%{?rhel} && 0%{?rhel} <= 7
-# EL7 has unversioned names for these packages
-BuildRequires:  python-idna
-%else
-BuildRequires:  python2-idna
-BuildRequires:  python2-requests
-%endif
+# RHEL 7 does not ship python2-setuptools_scm
+BuildRequires:  sed
 %endif
 
 BuildRequires:  %{py3_prefix}-devel
@@ -44,6 +45,7 @@ BuildRequires:  %{py3_prefix}-requests >= 2.1.0
 BuildRequires:  %{py3_prefix}-requests-file >= 1.4
 BuildRequires:  %{py3_prefix}-responses
 BuildRequires:  %{py3_prefix}-setuptools
+BuildRequires:  %{py3_prefix}-setuptools_scm
 
 %description
 Accurately separate the TLD from the registered domain and
@@ -96,9 +98,18 @@ well.
 This is the Python 3 version of the package.
 
 %prep
-%autosetup -n %{pypi_name}-%{version}
+%setup -n %{pypi_name}-%{version}
 # Remove bundled egg-info
 rm -rf %{pypi_name}.egg-info
+%patch0 -p1
+
+# emulate setuptools_scm for RHEL 7
+%if 0%{?rhel} && 0%{?rhel} == 7
+%patch1 -p1
+sed -i 's/@@VERSION@@/%{version}/' setup.py
+# PKG-INFO file must be kept when using setuptools_scm
+rm PKG-INFO
+%endif
 
 %build
 %if %{with python2}
@@ -128,7 +139,7 @@ py.test-3 -x -vk "$TEST_SELECTOR" tests
 %license LICENSE
 %doc README.md
 %{python2_sitelib}/tldextract
-%{python2_sitelib}/tldextract-%{version}-py?.?.egg-info
+%{python2_sitelib}/tldextract-%{version}-py2.7.egg-info
 %endif
 
 %files -n %{py3_prefix}-%{pypi_name}
@@ -139,6 +150,12 @@ py.test-3 -x -vk "$TEST_SELECTOR" tests
 %{_bindir}/tldextract
 
 %changelog
+* Tue Aug 18 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 2.2.3-1
+- update to 2.2.3
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.2.2-3
 - Rebuilt for Python 3.9
 

@@ -1,28 +1,31 @@
 Name: pcs
-Version: 0.10.5
-Release: 5%{?dist}
+Version: 0.10.7
+Release: 1%{?dist}
 # https://fedoraproject.org/wiki/Licensing:Main?rd=Licensing#Good_Licenses
 # GPLv2: pcs
-# ASL 2.0: tornado
-# MIT: handlebars
-License: GPLv2 and ASL 2.0 and MIT
+# MIT: ember, handlebars, jquery, jquery-ui
+License: GPLv2 and MIT
 URL: https://github.com/ClusterLabs/pcs
 Summary: Pacemaker Configuration System
 
-# %%global version_or_commit %%{version}
-%global version_or_commit 67591ed1487cb0aefa181fdfc166c8a66b55d25a
+%global version_or_commit %{version}
+# %%global version_or_commit 67591ed1487cb0aefa181fdfc166c8a66b55d25a
 %global pcs_source_name %{name}-%{version_or_commit}
 
 # ui_commit can be determined by hash, tag or branch
-%global ui_commit 0.1.2
+%global ui_commit 0.1.3
 %global ui_src_name pcs-web-ui-%{ui_commit}
 
 %global pcs_snmp_pkg_name  pcs-snmp
 
 %global pyagentx_version 0.4.pcs.2
-%global tornado_version 6.0.3
-%global dacite_version 1.1.0
-%global rubygem_tilt_version 2.0.9
+%global dacite_version 1.5.1
+
+# bundled libraries for old web-ui
+%global ember_version 1.4.0
+%global jquery_version 1.9.1
+%global jquery_ui_version 1.10.1
+%global handlebars_version 1.2.1
 
 # We do not use _libdir macro because upstream is not prepared for it.
 # Pcs does not include binaries and thus it should live in /usr/lib. Tornado
@@ -33,28 +36,12 @@ Summary: Pacemaker Configuration System
 %global pcs_libdir %{_prefix}/lib
 %global bundled_src_dir pcs/bundled
 %global pcsd_public_dir pcsd/public
-%global rubygem_cache_dir pcsd/vendor/cache
-%global rubygem_bundle_dir pcsd/vendor/bundle/ruby
-# https://fedoraproject.org/wiki/Changes/Avoid_usr_bin_python_in_RPM_Build#Python_bytecompilation
-# Enforce python3 because bytecompilation of tornado produced warnings:
-# DEPRECATION WARNING: python2 invoked with /usr/bin/python.
-#    Use /usr/bin/python3 or /usr/bin/python2
-#    /usr/bin/python will be removed or switched to Python 3 in the future.
-%global __python %{__python3}
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 
 #part after last slash is recognized as filename in look-aside repository
 #desired name is achived by trick with hash anchor
 Source0: %{url}/archive/%{version_or_commit}/%{pcs_source_name}.tar.gz
-Source1: pcsd-bundle-config-1
-
-Source11: https://rubygems.org/downloads/tilt-%{rubygem_tilt_version}.gem
 
 Source41: https://github.com/ondrejmular/pyagentx/archive/v%{pyagentx_version}/pyagentx-%{pyagentx_version}.tar.gz
-Source42: https://github.com/tornadoweb/tornado/archive/v%{tornado_version}/tornado-%{tornado_version}.tar.gz
 Source44: https://github.com/konradhalas/dacite/archive/v%{dacite_version}/dacite-%{dacite_version}.tar.gz
 
 Source100: https://github.com/idevat/pcs-web-ui/archive/%{ui_commit}/%{ui_src_name}.tar.gz
@@ -66,15 +53,14 @@ Source101: https://github.com/idevat/pcs-web-ui/releases/download/%{ui_commit}/p
 BuildRequires: git
 #printf from coreutils is used in makefile
 BuildRequires: coreutils
-BuildRequires: execstack
 # python for pcs
 BuildRequires: python3 >= 3.6
+BuildRequires: python3-dateutil >= 2.7.0
 BuildRequires: python3-devel
 BuildRequires: python3-setuptools
 BuildRequires: python3-pycurl
-# gcc for compiling custom rubygems
-BuildRequires: gcc
-BuildRequires: gcc-c++
+BuildRequires: python3-pyparsing
+BuildRequires: python3-tornado
 # ruby and gems for pcsd
 BuildRequires: ruby >= 2.2.0
 BuildRequires: ruby-devel
@@ -88,6 +74,7 @@ BuildRequires: rubygem-rack
 BuildRequires: rubygem-rack-protection
 BuildRequires: rubygem-rack-test
 BuildRequires: rubygem-sinatra
+BuildRequires: rubygem-tilt
 # ruby libraries for tests
 BuildRequires: rubygem-test-unit
 # for touching patch files (sanitization function)
@@ -107,10 +94,12 @@ BuildRequires: npm
 
 # python and libraries for pcs, setuptools for pcs entrypoint
 Requires: python3 >= 3.6
+Requires: python3-dateutil >= 2.7.0
 Requires: python3-lxml
 Requires: python3-setuptools
-Requires: python3-clufter => 0.70.0
 Requires: python3-pycurl
+Requires: python3-pyparsing
+Requires: python3-tornado
 # ruby and gems for pcsd
 Requires: ruby >= 2.2.0
 Requires: rubygem-backports
@@ -122,6 +111,7 @@ Requires: rubygem-rack
 Requires: rubygem-rack-protection
 Requires: rubygem-rack-test
 Requires: rubygem-sinatra
+Requires: rubygem-tilt
 # ruby and gems for pcsd-ruby
 Requires: rubygem-daemons
 Requires: rubygem-eventmachine
@@ -148,9 +138,11 @@ Requires: pam
 Requires: liberation-sans-fonts
 Requires: overpass-fonts
 
-Provides: bundled(tornado) = %{tornado_version}
 Provides: bundled(dacite) = %{dacite_version}
-Provides: bundled(rubygem-tilt) = %{rubygem_tilt_version}
+Provides: bundled(ember) = %{ember_version}
+Provides: bundled(handlebars) = %{handlebars_version}
+Provides: bundled(jquery) = %{jquery_version}
+Provides: bundled(jquery-ui) = %{jquery_ui_version}
 
 %description
 pcs is a corosync and pacemaker configuration tool.  It permits users to
@@ -222,16 +214,6 @@ update_times_patch(){
 tar -xzf %SOURCE100 -C %{pcsd_public_dir}
 tar -xf %SOURCE101 -C %{pcsd_public_dir}/%{ui_src_name}
 
-# prepare dirs/files necessary for building all bundles
-# -----------------------------------------------------
-# 1) configuration for rubygems
-mkdir -p pcsd/.bundle
-cp -f %SOURCE1 pcsd/.bundle/config
-
-# 2) rubygems sources
-mkdir -p %{rubygem_cache_dir}
-cp -f %SOURCE11 %{rubygem_cache_dir}
-
 # 3) dir for python bundles
 mkdir -p %{bundled_src_dir}
 
@@ -242,13 +224,6 @@ update_times %SOURCE41 `find %{bundled_src_dir}/pyagentx -follow`
 cp %{bundled_src_dir}/pyagentx/LICENSE.txt pyagentx_LICENSE.txt
 cp %{bundled_src_dir}/pyagentx/CONTRIBUTORS.txt pyagentx_CONTRIBUTORS.txt
 cp %{bundled_src_dir}/pyagentx/README.md pyagentx_README.md
-
-# 5) sources for tornado
-tar -xzf %SOURCE42 -C %{bundled_src_dir}
-mv %{bundled_src_dir}/tornado-%{tornado_version} %{bundled_src_dir}/tornado
-update_times %SOURCE42 `find %{bundled_src_dir}/tornado -follow`
-cp %{bundled_src_dir}/tornado/LICENSE tornado_LICENSE
-cp %{bundled_src_dir}/tornado/README.rst tornado_README.rst
 
 # 7) sources for python dacite
 tar -xzf %SOURCE44 -C %{bundled_src_dir}
@@ -263,21 +238,13 @@ cp %{bundled_src_dir}/dacite/README.md dacite_README.md
 rm -rf $RPM_BUILD_ROOT
 pwd
 
-# build bundled rubygems (in main install it is disabled by BUILD_GEMS=false)
-mkdir -p %{rubygem_bundle_dir}
-gem install \
-  --force --verbose --no-document -l --no-user-install \
-  -i %{rubygem_bundle_dir} \
-  %{rubygem_cache_dir}/tilt-%{rubygem_tilt_version}.gem \
-
 # build web ui and put it to pcsd
 make -C %{pcsd_public_dir}/%{ui_src_name} build
 mv %{pcsd_public_dir}/%{ui_src_name}/build  pcsd/public/ui
 rm -r %{pcsd_public_dir}/%{ui_src_name}
 
 # main pcs install
-make install \
-  DESTDIR=$RPM_BUILD_ROOT \
+%make_install \
   PREFIX=%{_prefix} \
   SYSTEMD_UNIT_DIR=%{_unitdir} \
   LIB_DIR=%{pcs_libdir} \
@@ -285,22 +252,12 @@ make install \
   PYTHON_SITELIB=%{python3_sitelib} \
   BASH_COMPLETION_DIR=%{_datadir}/bash-completion/completions \
   BUNDLE_PYAGENTX_SRC_DIR=`readlink -f %{bundled_src_dir}/pyagentx` \
-  BUNDLE_TORNADO_SRC_DIR=`readlink -f %{bundled_src_dir}/tornado` \
   BUNDLE_DACITE_SRC_DIR=`readlink -f %{bundled_src_dir}/dacite` \
   BUILD_GEMS=false \
   SYSTEMCTL_OVERRIDE=true \
   hdrdir="%{_includedir}" \
   rubyhdrdir="%{_includedir}" \
   includedir="%{_includedir}"
-
-# With this file there is "File is not stripped" problem during rpmdiff
-# See https://docs.engineering.redhat.com/display/HTD/rpmdiff-elf-stripping
-for fname in `find ${RPM_BUILD_ROOT}%{pcs_libdir}/pcs/bundled/packages/tornado/ -type f -name "*.so"`; do
-  strip ${fname}
-done
-
-#after the ruby gem compilation we do not need ruby gems in the cache
-rm -r -v $RPM_BUILD_ROOT%{pcs_libdir}/%{rubygem_cache_dir}
 
 %check
 # In the building environment LC_CTYPE is set to C which causes tests to fail
@@ -319,13 +276,16 @@ run_all_tests(){
   # disabled tests:
   #
   BUNDLED_LIB_LOCATION=$RPM_BUILD_ROOT%{pcs_libdir}/pcs/bundled/packages \
-    %{__python3} pcs_test/suite.py --tier0 -v --vanilla
+    %{__python3} pcs_test/suite.py --tier0 -v --vanilla --all-but \
+    pcs_test.tier0.daemon.app.test_app_remote.SyncConfigMutualExclusive.test_get_not_locked \
+    pcs_test.tier0.daemon.app.test_app_remote.SyncConfigMutualExclusive.test_post_not_locked \
 
   test_result_python=$?
 
   #run pcsd tests and remove them
   pcsd_dir=$RPM_BUILD_ROOT%{pcs_libdir}/pcsd
-  GEM_HOME=$RPM_BUILD_ROOT%{pcs_libdir}/%{rubygem_bundle_dir} ruby \
+  # GEM_HOME is not needed anymore since all required gems are in fedora
+  ruby \
     -I${pcsd_dir} \
     -I${pcsd_dir}/test \
     ${pcsd_dir}/test/test_all_suite.rb
@@ -380,9 +340,7 @@ remove_all_tests
 %files
 %doc CHANGELOG.md
 %doc README.md
-%doc tornado_README.rst
 %doc dacite_README.md
-%license tornado_LICENSE
 %license dacite_LICENSE
 %license COPYING
 %{python3_sitelib}/pcs
@@ -391,8 +349,6 @@ remove_all_tests
 %{_sbindir}/pcsd
 %{pcs_libdir}/pcs/pcs_internal
 %{pcs_libdir}/pcsd/*
-%{pcs_libdir}/pcsd/.bundle/config
-%{pcs_libdir}/pcs/bundled/packages/tornado*
 %{pcs_libdir}/pcs/bundled/packages/dacite*
 %{_unitdir}/pcsd.service
 %{_unitdir}/pcsd-ruby.service
@@ -438,6 +394,36 @@ remove_all_tests
 %license pyagentx_LICENSE.txt
 
 %changelog
+* Wed Sep 30 2020 Miroslav Lisik <mlisik@redhat.com> - 0.10.7-1
+- Rebased to latest upstream sources (see CHANGELOG.md)
+- Added dependency on python packages pyparsing and dateutil
+- Fixed virtual bundle provides for ember, handelbars, jquery and jquery-ui
+- Removed dependency on python3-clufter
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Miroslav Lisik <mlisik@redhat.com> - 0.10.6-1
+- Rebased to latest upstream sources (see CHANGELOG.md)
+- Updated pcs-web-ui
+- Stopped bundling tornado (use distribution package instead)
+- Stopped bundling rubygem-tilt (use distribution package instead)
+- Removed rubygem bundling
+- Removed unneeded BuildRequires: execstack, gcc, gcc-c++
+- Excluded some tests for tornado daemon
+
+* Tue Jul 21 2020 Tom Stellard <tstellar@redhat.com> - 0.10.5-8
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Wed Jul 15 2020 Ondrej Mular <omular@redhat.com> - 0.10.5-7
+- Use fixed upstream version of dacite with Python 3.9 support
+- Split upstream tests in gating into tiers
+
+* Fri Jul 03 2020 Ondrej Mular <omular@redhat.com> - 0.10.5-6
+- Use patched version of dacite compatible with Python 3.9
+- Resolves: rhbz#1838327
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.10.5-5
 - Rebuilt for Python 3.9
 

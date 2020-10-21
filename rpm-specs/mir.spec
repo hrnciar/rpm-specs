@@ -1,3 +1,6 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 %ifnarch ppc64
 # Enable LTO on non-ppc64 (c.f. rhbz#1515934)
 %bcond_without lto
@@ -8,8 +11,8 @@
 %bcond_with run_tests
 
 Name:           mir
-Version:        1.7.1
-Release:        3%{?dist}
+Version:        2.1.0
+Release:        2%{?dist}
 Summary:        Next generation display server
 
 # mirclient is LGPLv2/LGPLv3, everything else is GPLv2/GPLv3
@@ -18,14 +21,13 @@ URL:            https://mir-server.io/
 Source0:        https://github.com/MirServer/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 # Backports from upstream
-## From: https://github.com/MirServer/mir/commit/eecb7af2ebbdf915344f4d0b6b5dc31cce73b9f9
-Patch0001:      0001-If-there-s-a-gmock-pkg-config-then-use-it.-With-a-bi.patch
-## From: https://github.com/MirServer/mir/commit/4ad1a9b5d22241046bc62288ffe933c55883b8af
-Patch0002:      0001-Add-a-font-location-for-the-wallpaper-that-works-on-.patch
-## From: https://github.com/MirServer/mir/commit/f1d3d28583b945b07307e39c08652b6b15c85885
-Patch003:       0001-Don-t-launch-Mir-shells-in-separate-dbus-sessions.patch
-## From: https://github.com/MirServer/mir/pull/1388
-Patch004:       PR1388-Almost-universal-terminal-launcher.patch
+## From: https://github.com/MirServer/mir/commit/c88536e56e44d36c575cb3b929883282800d93ee
+Patch0001:      0001-Fix-Rawhide-FTBFS.patch
+## From: https://github.com/MirServer/mir/pull/1755
+Patch0002:      0001-Revert-Don-t-try-to-LTO-the-lttng-modules.patch
+Patch0003:      0002-Revert-Hack-around-LTO-failure-in-frame-uniformity.patch
+
+Patch0004:      %{name}-gcc11.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  cmake, ninja-build, doxygen, graphviz, lcov, gcovr
@@ -92,20 +94,13 @@ Mir is a display server running on linux systems,
 with a focus on efficiency, robust operation,
 and a well-defined driver model.
 
-%package utils
-Summary:       Utilities for Mir
-Requires:      %{name}-server-libs%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:      %{name}-client-libs%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
-
-%description utils
-Utilities for Mir.
-
 %package devel
 Summary:       Development files for Mir
 Requires:      %{name}-common-libs%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:      %{name}-server-libs%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:      %{name}-client-libs%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:      %{name}-test-libs-static%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
+# mir-test-libs-static is now gone...
+Obsoletes:     %{name}-test-libs-static < 2.0.0
 
 %description devel
 This package provides the development files to create
@@ -134,6 +129,8 @@ License:       LGPLv2 or LGPLv3
 Requires:      %{name}-common-libs%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 # debug extension for mirclient is gone...
 Obsoletes:     %{name}-client-libs-debugext < 1.6.0
+# mir utils are gone...
+Obsoletes:     %{name}-utils < 2.0.0
 
 %description client-libs
 This package provides the libraries for applications
@@ -202,47 +199,38 @@ sed -e "s/-Werror//g" -i CMakeLists.txt
 
 %build
 
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%cmake .. -GNinja %{?with_lto:-DMIR_LINK_TIME_OPTIMIZATION=ON} \
-	  -DMIR_USE_PRECOMPILED_HEADERS=OFF \
-	  -DCMAKE_INSTALL_LIBEXECDIR="usr/libexec/mir" \
-	  -DMIR_PLATFORM="mesa-kms;mesa-x11;wayland;eglstream-kms"
-popd
-%ninja_build -C %{_target_platform}
+%cmake	-GNinja %{?with_lto:-DMIR_LINK_TIME_OPTIMIZATION=ON} \
+	-DMIR_USE_PRECOMPILED_HEADERS=OFF \
+	-DCMAKE_INSTALL_LIBEXECDIR="usr/libexec/mir" \
+	-DMIR_PLATFORM="gbm-kms;x11;wayland;eglstream-kms"
+
+%cmake_build
 
 # Build documentation
-%ninja_build -C %{_target_platform} doc
+%cmake_build --target doc
 
 %install
-%ninja_install -C %{_target_platform}
+%cmake_install
 
 # Install documentation
-pushd %{_target_platform}
+pushd %{_vpath_builddir}
 mkdir -p %{buildroot}%{_datadir}/doc/mir-doc
 cp -a doc/html %{buildroot}%{_datadir}/doc/mir-doc
 popd
 
 # Nothing outside Mir should link to libmirprotobuf directly.
 rm -fv %{buildroot}%{_libdir}/libmirprotobuf.so
+# Nothing outside Mir should link to libmirclient directly.
+rm -fv %{buildroot}%{_libdir}/libmirclient.so
 
 
 %check
 %if %{with run_tests}
-pushd %{_target_platform}
 # The tests are somewhat fiddly, so let's just run them but not block on them...
-ctest -V .. || :
-popd
+( %ctest ) || :
 %endif
 desktop-file-validate %{buildroot}%{_datadir}/applications/miral-shell.desktop
 
-
-%files utils
-%license COPYING.GPL*
-%doc README.md
-%{_bindir}/mirin
-%{_bindir}/mirout
-%{_bindir}/mirscreencast
 
 %files devel
 %license COPYING.*
@@ -268,24 +256,21 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/miral-shell.desktop
 %{_libdir}/libmirserver.so.*
 %{_libdir}/libmirwayland.so.*
 %dir %{_libdir}/mir/server-platform
-%{_libdir}/mir/server-platform/graphics-mesa-kms.so.*
-%{_libdir}/mir/server-platform/input-evdev.so.*
-%{_libdir}/mir/server-platform/server-mesa-x11.so.*
 %{_libdir}/mir/server-platform/graphics-eglstream-kms.so.*
+%{_libdir}/mir/server-platform/graphics-gbm-kms.so.*
 %{_libdir}/mir/server-platform/graphics-wayland.so.*
+%{_libdir}/mir/server-platform/input-evdev.so.*
+%{_libdir}/mir/server-platform/server-x11.so.*
 
 %files client-libs
 %license COPYING.LGPL*
 %doc README.md
 %{_libdir}/libmirclient.so.*
-%dir %{_libdir}/mir/client-platform
-%{_libdir}/mir/client-platform/mesa.so.*
 
 %files test-tools
 %license COPYING.GPL*
 %{_bindir}/mir-*test*
 %{_bindir}/mir_*test*
-%{_bindir}/mir_stress
 %dir %{_libdir}/mir/tools
 %{_libdir}/mir/tools/libmirserverlttng.so
 %{_libdir}/mir/tools/libmirclientlttng.so
@@ -294,16 +279,16 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/miral-shell.desktop
 %dir %{_libdir}/mir/server-platform
 %{_libdir}/mir/server-platform/graphics-dummy.so
 %{_libdir}/mir/server-platform/input-stub.so
-%dir %{_libdir}/mir/client-platform
-%{_libdir}/mir/client-platform/dummy.so
 
 %files demos
 %license COPYING.GPL*
 %doc README.md
+%{_bindir}/fake-mir-kiosk
 %{_bindir}/mir_demo_*
 %{_bindir}/miral-*
+%{_bindir}/mir-shell
 %{_datadir}/applications/miral-shell.desktop
-%{_datadir}/wayland-sessions/miral-shell.desktop
+%{_datadir}/wayland-sessions/mir-shell.desktop
 %{_datadir}/icons/hicolor/scalable/apps/ubuntu-logo.svg
 
 %files doc
@@ -318,13 +303,29 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/miral-shell.desktop
 %{python3_sitelib}/mir_perf_framework*.egg-info
 %{_datadir}/mir-perf-framework
 
-%files test-libs-static
-%license COPYING.GPL*
-%doc README.md
-%{_libdir}/libmir-test-assist.a
-
 
 %changelog
+* Mon Oct 19 2020 Jeff Law <law@redhat.com> - 2.1.0-2
+- Fix missing #includes for gcc-11
+
+* Sat Oct 03 2020 Neal Gompa <ngompa13@gmail.com> - 2.1.0-1
+- Update to 2.1.0 (RH#1883290)
+
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 2.0.0.0-3
+- Rebuilt for protobuf 3.13
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Neal Gompa <ngompa13@gmail.com> - 2.0.0.0-1
+- Rebase to 2.0.0.0 (RH#1860214)
+
+* Sat Jul 18 2020 Neal Gompa <ngompa13@gmail.com> - 1.8.0-2
+- Rebuilt for capnproto 0.8.0
+
+* Sun Jul 12 2020 Neal Gompa <ngompa13@gmail.com> - 1.8.0-1
+- Update to 1.8.0 (RH#1822993)
+
 * Sun Jun 21 2020 Adrian Reber <adrian@lisas.de> - 1.7.1-3
 - Rebuilt for protobuf 3.12
 

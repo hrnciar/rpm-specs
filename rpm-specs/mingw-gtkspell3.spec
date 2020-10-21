@@ -4,7 +4,7 @@
 
 Name:          mingw-%{pkgname}
 Version:       3.0.10
-Release:       5%{?dist}
+Release:       7%{?dist}
 Summary:       MinGW Windows GtkSpell3 library
 License:       GPLv2+
 BuildArch:     noarch
@@ -104,6 +104,12 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Wed Aug 12 13:40:16 GMT 2020 Sandro Mani <manisandro@gmail.com> - 3.0.10-7
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.10-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 3.0.10-5
 - Rebuild (gettext)
 

@@ -4,7 +4,7 @@
 
 Name:           libtomcrypt
 Version:        1.18.2
-Release:        7%{?dist}
+Release:        10%{?dist}
 Summary:        A comprehensive, portable cryptographic toolkit
 License:        Public Domain or WTFPL
 URL:            http://www.libtom.net/
@@ -23,6 +23,7 @@ BuildRequires:  tex(cmr10.tfm)
 BuildRequires:  tex(fancyhdr.sty)
 BuildRequires:  tex(hyphen.tex)
 BuildRequires:  tex(mf.mf)
+BuildRequires:  tex(tcti1000.tfm)
 }
 
 %description
@@ -104,6 +105,16 @@ sed -i \
 }
 
 %changelog
+* Thu Aug 13 2020 Gerd Pokorra <gp@zimt.uni-siegen.de> - 1.18.2-10
+- Add missing dependency tex(tcti1000.tfm), bug-id 1863674
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.2-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 11 2020 Gerd Pokorra <gp@zimt.uni-siegen.de> - 1.18.2-7
 - Rebuilt with libtommath 1.2.0
 

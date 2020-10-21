@@ -45,7 +45,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Symfony2 Bundle for Doctrine Cache
 
 License:       MIT
@@ -228,6 +228,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 25 2020 Remi Collet <remi@remirepo.net> - 1.4.0-1
 - update to 1.4.0
 - raise dependency on PHP 7.1

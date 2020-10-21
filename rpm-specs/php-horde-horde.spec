@@ -14,7 +14,7 @@
 
 Name:           php-horde-horde
 Version:        5.2.23
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Horde Application Framework
 
 License:        LGPLv2
@@ -335,6 +335,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.23-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Remi Collet <remi@remirepo.net> - 5.2.23-1
 - update to 5.2.23
 

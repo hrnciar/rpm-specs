@@ -3,8 +3,8 @@
 %global pkgname fribidi
 
 Name:          mingw-%{pkgname}
-Version:       1.0.9
-Release:       1%{?dist}
+Version:       1.0.10
+Release:       2%{?dist}
 Summary:       MinGW Windows %{pkgname} library
 
 License:       LGPLv2+
@@ -99,6 +99,12 @@ Static version of the MinGW Windows %{pkgname} library.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 2020 Sandro Mani <manisandro@gmail.com> - 1.0.10-1
+- Update to 1.0.10
+
 * Thu Mar 05 2020 Sandro Mani <manisandro@gmail.com> - 1.0.9-1
 - Update to 1.0.9
 

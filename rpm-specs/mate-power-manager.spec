@@ -13,11 +13,11 @@
 %{!?rel_build:%global git_tar %{name}-%{version}-%{git_ver}.tar.xz}
 
 Name:          mate-power-manager
-Version:       %{branch}.1
+Version:       %{branch}.2
 %if 0%{?rel_build}
-Release:       2%{?dist}
+Release:       1%{?dist}
 %else
-Release:       0.10%{?git_rel}%{?dist}
+Release:       0.11%{?git_rel}%{?dist}
 %endif
 Summary:       MATE power management service
 License:       GPLv2+
@@ -64,10 +64,6 @@ displaying icons and handling user callbacks in an interactive MATE session.
 NOCONFIGURE=1 ./autogen.sh
 %endif # 0%{?rel_build}
 
-# fix https://github.com/mate-desktop/mate-power-manager/issues/327
-sed -i '/^Categories=/d' data/mate-power-manager.desktop.in
-sed -i '/^Categories=/d' data/mate-power-manager.desktop.in.in
-
 %build
 %configure \
      --disable-schemas-compile
@@ -109,6 +105,12 @@ desktop-file-validate %{buildroot}%{_sysconfdir}/xdg/autostart/mate-power-manage
 
 
 %changelog
+* Sat Aug 15 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.2-1
+- update to 1.24.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-2
 - drop BR pangox-compat-devel
 

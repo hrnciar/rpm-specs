@@ -22,7 +22,7 @@ named "WenQuanYi Zen Hei Mono".
 
 Name:           %{fontname}-fonts
 Version:        0.9.46
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        WenQuanYi Zen Hei CJK Font
 
 License:        GPLv2 with exceptions
@@ -72,6 +72,9 @@ ln -s %{_fontconfig_templatedir}/%{fontconf2} \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.46-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.46-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

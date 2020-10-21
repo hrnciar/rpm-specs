@@ -3,8 +3,8 @@
 %global ansible_role network-runner
 
 Name:           python-%{pypi_name}
-Version:        0.2.1
-Release:        3%{?dist}
+Version:        0.2.2
+Release:        2%{?dist}
 Summary:        Abstraction and Python API for Ansible Networking
 
 License:        ASL 2.0
@@ -72,6 +72,12 @@ LANG=C.utf-8 %{__python3} -m pytest --ignore=build
 %{_sysconfdir}/ansible/roles/%{ansible_role}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Dan Radez <dradez@redhat.com> - 0.2.2-1
+- update to 0.2.2
+
 * Tue May 26 2020 Yatin Karel <ykarel@redhat.com> - 0.2.1-3
 - Fix 0.2.1 sources and cleanup old sources
 

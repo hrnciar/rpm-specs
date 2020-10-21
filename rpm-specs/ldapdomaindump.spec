@@ -2,7 +2,7 @@
 
 Name:           %{pypi_name}
 Version:        0.9.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Active Directory information dumper via LDAP
 
 License:        MIT
@@ -48,6 +48,9 @@ sed -i -e '/^#!\//, 1d' ldapdomaindump/__main__.py
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 27 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.9.3-2
 - Remove shebang (rhbz#1840298)
 

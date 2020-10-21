@@ -1,5 +1,5 @@
 Name:		qmmp
-Version:	1.3.7
+Version:	1.4.2
 Release:	2%{?dist}
 Summary:	Qt-based multimedia player
 
@@ -7,6 +7,7 @@ License:	GPLv2+ and CC-BY-SAv4+
 URL:		http://qmmp.ylsoftware.com/
 Source:		http://qmmp.ylsoftware.com/files/%{name}-%{version}.tar.bz2
 Source2:	qmmp-filter-provides.sh
+Patch0:         qmmp-gcc11.patch
 %define		_use_internal_dependency_generator 0
 %define		__find_provides %{SOURCE2}
 
@@ -43,6 +44,9 @@ BuildRequires:	soxr-devel
 BuildRequires:	taglib-devel >= 1.10
 BuildRequires:	wavpack-devel
 BuildRequires:	wildmidi-devel
+
+# /usr/share/solid/actions owner
+Requires:	kf5-filesystem
 
 Recommends:	qmmp-plugin-pack
 # some external tools listed in
@@ -93,6 +97,7 @@ QMMP is Qt-based audio player. This package contains its development files.
 
 %prep
 %setup -q
+%patch0 -p1
 
 
 %build
@@ -106,10 +111,10 @@ QMMP is Qt-based audio player. This package contains its development files.
 	-D LIB_DIR=%{_lib} \
 	-D PLUGIN_DIR=%{_lib}/%{name} \
 	./
-make %{?_smp_mflags} VERBOSE=1
+%cmake_build %{?_smp_mflags} -v
 
 %install
-%make_install
+%cmake_install
 # filter out unsupported formats from MimeType
 sed -i -e "s#audio/x-ffmpeg-shorten;##" \
        -e "s#audio/x-ms-wma;##" \
@@ -128,6 +133,10 @@ sed -i -e "s#audio/x-ffmpeg-shorten;##" \
 desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}-dir.desktop
 desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}-enqueue.desktop
+# the validator makes assumptions not mandated by the standard
+# https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html
+# as of today, 2020-07-31
+#desktop-file-validate %%{buildroot}/%%{_datadir}/solid/actions/%%{name}-opencda.desktop
 
 %files
 %doc AUTHORS ChangeLog ChangeLog.rus README README.RUS
@@ -138,6 +147,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}-enqueue.desk
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/applications/%{name}-dir.desktop
 %{_datadir}/applications/%{name}-enqueue.desktop
+%{_datadir}/solid/actions/%{name}-opencda.desktop
 %{_datadir}/icons/hicolor/
 %{_datadir}/%{name}/
 %{_metainfodir}/%{name}.appdata.xml
@@ -148,6 +158,22 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}-enqueue.desk
 %{_libdir}/libqmmp*.so
 
 %changelog
+* Fri Oct 15 2020 Jeff Law <law@redhat.com> 1.4.2-2
+- Fix missing #include for gcc-11
+
+* Mon Sep 21 2020 Karel Volný <kvolny@redhat.com> 1.4.2-1
+- new version 1.4.2 (#1880775)
+- see the upstream changelog at http://qmmp.ylsoftware.com/
+
+* Fri Jul 31 2020 Karel Volný <kvolny@redhat.com> 1.4.1-1
+- new version 1.4.1 (#1828957)
+- see the upstream changelog at http://qmmp.ylsoftware.com/
+- adapted to F33 System-Wide Change: CMake to do out-of-source builds
+- install desktop file for opening audio CDs as Solid action
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 31 2020 Adrian Reber <adrian@lisas.de> - 1.3.7-2
 - Rebuilt for libcdio-2.1.0
 

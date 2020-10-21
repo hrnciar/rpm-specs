@@ -7,12 +7,12 @@
 # Please, preserve the changelog entries
 #
 # See https://github.com/llaville/php-compatinfo-db/releases
-%global gh_commit    e244454a619cf4200401229e06821c469807882d
+%global gh_commit    4bc78f3103014c65f598162055838a1abee939fe
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 #global gh_date      20151031
 %global gh_owner     llaville
 %global gh_project   php-compatinfo-db
-%global upstream_version  2.14.0
+%global upstream_version  2.19.0
 #global upstream_prever   RC1
 # Namespace
 %global ns_vendor    Bartlett
@@ -20,7 +20,13 @@
 # Composer
 %global c_vendor     bartlett
 %global c_project    php-compatinfo-db
-%global with_tests   0%{!?_without_tests:1}
+%if 0%{?fedora} >= 32
+# only enabled with 7.4+
+%bcond_without       tests
+%else
+# disabled as too much issues, e.g. with symfony-polyfill
+%bcond_with          tests
+%endif
 
 Name:           php-%{c_vendor}-%{c_project}
 Version:        %{upstream_version}%{?upstream_prever:~%{upstream_prever}}
@@ -34,8 +40,8 @@ Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit
 
 # Fix autoloader path
 # Fix sqlite database path
-# Fix version and avoir jean85/pretty-package-versions (relying on composer.lock)
-Patch0:         %{name}-2.0-rpm.patch
+# Fix version and avoir composer/package-versions-deprecated (relying on composer.lock)
+Patch0:         %{name}-2.19-rpm.patch
 # CURL_SSLVERSION constants have been backported
 Patch1:         %{name}-curltls.patch
 
@@ -44,7 +50,7 @@ Patch1:         %{name}-curltls.patch
 BuildArch:      noarch
 # Needed to build the database from sources
 BuildRequires:  php(language) >= 7.1
-BuildRequires: (php-composer(composer/semver)               >= 1.0   with php-composer(composer/semver)               <  2)
+BuildRequires: (php-composer(composer/semver)               >= 3.0   with php-composer(composer/semver)               <  4)
 BuildRequires: (php-composer(symfony/console)               >= 4.4   with php-composer(symfony/console)               <  6)
 BuildRequires: (php-composer(league/tactician)              >= 1.0   with php-composer(league/tactician)              <  2)
 BuildRequires: (php-composer(laminas/laminas-diagnostics)   >= 1.3   with php-composer(laminas/laminas-diagnostics)   <  2)
@@ -61,18 +67,15 @@ BuildRequires:  php-pdo_sqlite
 # For our patch / autoloader
 BuildRequires:  php-composer(fedora/autoloader)
 # From composer.json, "require-dev": {
-#        "psr/log": "^1.0",
-#        "monolog/monolog": "^1.10",
-#        "bartlett/phpunit-loggertestlistener": "^2.0",
 #        "phpunit/php-timer": "^2.0"
 BuildRequires:  php-cli
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php-composer(phpunit/phpunit)
 %endif
 
 # From composer.json, "require"
 #        "php": "^7.1",
-#        "composer/semver": "^1.0",
+#        "composer/semver": "^1.0|^2.0|^3.0",
 #        "ext-curl": "*",
 #        "ext-intl": "*",
 #        "ext-libxml": "*",
@@ -82,11 +85,11 @@ BuildRequires:  php-composer(phpunit/phpunit)
 #        "ext-json": "*",
 #        "ext-pdo_sqlite": "*",
 #        "symfony/console": "^4.4||^5.0",
-#        "jean85/pretty-package-versions": "^1.3",
+#        "composer/package-versions-deprecated": "^1.8",
 #        "league/tactician": "^1.0",
 #        "laminas/laminas-diagnostics": "^1.3"
 Requires:       php(language) >= 7.1
-Requires:      (php-composer(composer/semver)               >= 1.0   with php-composer(composer/semver)               <  2)
+Requires:      (php-composer(composer/semver)               >= 3.0   with php-composer(composer/semver)               <  4)
 Requires:      (php-composer(symfony/console)               >= 4.4   with php-composer(symfony/console)               <  6)
 Requires:      (php-composer(league/tactician)              >= 1.0   with php-composer(league/tactician)              <  2)
 Requires:      (php-composer(laminas/laminas-diagnostics)   >= 1.3   with php-composer(laminas/laminas-diagnostics)   <  2)
@@ -129,7 +132,7 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 
 \Fedora\Autoloader\Autoload::addPsr4('Bartlett\\CompatInfoDb\\', __DIR__);
 \Fedora\Autoloader\Dependencies::required(array(
-    '%{_datadir}/php/Composer/Semver/autoload.php',
+    '%{_datadir}/php/Composer/Semver3/autoload.php',
     [
         '%{_datadir}/php/Symfony5/Component/Console/autoload.php',
         '%{_datadir}/php/Symfony4/Component/Console/autoload.php',
@@ -140,7 +143,7 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 EOF
 
 # Use package version
-sed -e 's/@VERSION@/%{upstream_version}%{?upstream_prever}/' -i src/Presentation/Console/Application.php
+grep "%{version}" src/Presentation/Console/Application.php
 
 # Cleanup patched files
 find src -name \*rpm -delete -print
@@ -215,7 +218,7 @@ install -D -p -m 644 data/compatinfo.sqlite %{buildroot}%{_datadir}/%{name}/comp
 install -D -p -m 755 bin/compatinfo-db      %{buildroot}%{_bindir}/%{name}
 
 
-%if %{with_tests}
+%if %{with tests}
 %check
 export BARTLETT_COMPATINFO_DB=%{buildroot}%{_datadir}/%{name}/compatinfo.sqlite
 
@@ -246,6 +249,25 @@ exit $ret
 
 
 %changelog
+* Mon Oct  5 2020 Remi Collet <remi@remirepo.net> - 2.19.0-1
+- update to 2.19.0
+
+* Mon Sep 14 2020 Remi Collet <remi@remirepo.net> - 2.18.0-1
+- update to 2.18.0
+
+* Mon Aug 17 2020 Remi Collet <remi@remirepo.net> - 2.17.0-1
+- update to 2.17.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16.0-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Remi Collet <remi@remirepo.net> - 2.16.0-1
+- update to 2.16.0
+- switch to composer/semver 3
+
+* Tue Jun 30 2020 Remi Collet <remi@remirepo.net> - 2.15.0-1
+- update to 2.15.0
+
 * Mon May 18 2020 Remi Collet <remi@remirepo.net> - 2.14.0-1
 - update to 2.14.0
 

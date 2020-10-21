@@ -7,7 +7,7 @@ this configuration file.
 
 Name:           python-paste-deploy
 Version:        2.1.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        %{sum}
 License:        MIT
 URL:            https://github.com/Pylons/pastedeploy
@@ -63,6 +63,9 @@ PYTHONPATH=. py.test-3
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.0-2
 - Rebuilt for Python 3.9
 

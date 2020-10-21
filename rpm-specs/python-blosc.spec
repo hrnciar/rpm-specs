@@ -1,7 +1,7 @@
 Summary:        Python wrapper for the Blosc high performance compressor
 Name:           python-blosc
 Version:        1.8.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 License:        MIT
 URL:            https://github.com/Blosc/python-blosc
 Source0:        https://github.com/Blosc/python-blosc/archive/v%{version}/blosc-%{version}.tar.gz
@@ -60,6 +60,9 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} %__python3 -c 'import sys, blosc; sys
 %doc README.rst RELEASE_NOTES.rst
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 27 2020 Charalampos Stratakis <cstratak@redhat.com> - 1.8.1-7
 - Fix Python 3.9 compatibility (#1792055)
 

@@ -4,7 +4,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.2
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        A client for test and access to REST services
 
 License:        BSD
@@ -49,6 +49,9 @@ sed -i '1d' restshlib/restshlib.py
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2-15
 - Rebuilt for Python 3.9
 

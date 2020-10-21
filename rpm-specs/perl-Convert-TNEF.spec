@@ -1,7 +1,7 @@
 Summary:        Perl module to read TNEF files
 Name:           perl-Convert-TNEF
 Version:        0.18
-Release:        19%{?dist}
+Release:        20%{?dist}
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Convert-TNEF
 Source0:        https://cpan.metacpan.org/modules/by-module/Convert/Convert-TNEF-%{version}.tar.gz
@@ -52,6 +52,9 @@ make test
 %{_mandir}/man3/Convert::TNEF.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.18-19
 - Perl 5.32 rebuild
 

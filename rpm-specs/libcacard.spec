@@ -1,14 +1,14 @@
 Name:           libcacard
-Version:        2.7.0
-Release:        4%{?dist}
+Version:        2.8.0
+Release:        1%{?dist}
 Summary:        CAC (Common Access Card) library
 License:        LGPLv2+
 URL:            https://gitlab.freedesktop.org/spice/libcacard
 Source0:        http://www.spice-space.org/download/libcacard/%{name}-%{version}.tar.xz
 Source1:        http://www.spice-space.org/download/libcacard/%{name}-%{version}.tar.xz.asc
-Source2:        gpgkey-15B5C33D.gpg
-# https://gitlab.freedesktop.org/spice/libcacard/merge_requests/5
-Patch0:         %{name}-2.7.0-caching-keys.patch
+Source2:        gpgkey-E37A484F.gpg
+# https://gitlab.freedesktop.org/spice/libcacard/-/merge_requests/24
+Patch0:         libcacard-2.8.0-32bit.patch
 Epoch:          3
 
 BuildRequires:  gcc
@@ -19,8 +19,10 @@ BuildRequires:  opensc
 BuildRequires:  gnutls-utils
 BuildRequires:  nss-tools
 BuildRequires:  openssl
-BuildRequires:  lcov
 BuildRequires:  gnupg2
+BuildRequires:  meson
+BuildRequires:  gcc-c++
+BuildRequires:  pcsc-lite-devel
 Conflicts:      qemu-common < 2:2.5.0
 
 %description
@@ -44,19 +46,17 @@ gpgv2 --quiet --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %patch0 -p1
 
 %build
-%configure --disable-static
-sed -i -e 's! -shared ! -Wl,--as-needed\0!g' libtool
-make %{?_smp_mflags}
+%meson
+%meson_build
 
 %check
 # Do not run the tests on s390x, which fails
 %ifnarch s390x
-sed -i "s!/usr/lib64/!%{_libdir}/!" tests/setup-softhsm2.sh
-make check
+%meson_test
 %endif
 
 %install
-%make_install
+%meson_install
 rm -f %{buildroot}%{_libdir}/*.la
 
 %ldconfig_scriptlets
@@ -72,6 +72,12 @@ rm -f %{buildroot}%{_libdir}/*.la
 %{_libdir}/pkgconfig/libcacard.pc
 
 %changelog
+* Tue Oct 06 2020 Jakub Jelen <jjelen@redhat.com> - 2.8.0-1
+- New upstream release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3:2.7.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3:2.7.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

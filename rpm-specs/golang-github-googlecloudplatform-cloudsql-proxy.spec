@@ -4,8 +4,7 @@
 
 # https://github.com/GoogleCloudPlatform/cloudsql-proxy
 %global goipath         github.com/GoogleCloudPlatform/cloudsql-proxy
-Version:                1.14
-%global tag             1.14
+Version:                1.17
 
 %gometa
 
@@ -20,7 +19,7 @@ Cloud SQL instances when the sockets are used.}
 %global godocs          CONTRIBUTING.md CONTRIBUTORS Kubernetes.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Cloud SQL proxy client and Go library
 
 # Upstream license specification: Apache-2.0
@@ -35,6 +34,7 @@ BuildRequires:  golang(github.com/go-sql-driver/mysql)
 BuildRequires:  golang(github.com/lib/pq)
 BuildRequires:  golang(golang.org/x/crypto/ssh)
 BuildRequires:  golang(golang.org/x/net/context)
+BuildRequires:  golang(golang.org/x/net/proxy)
 BuildRequires:  golang(golang.org/x/oauth2)
 BuildRequires:  golang(golang.org/x/oauth2/google)
 BuildRequires:  golang(google.golang.org/api/compute/v1)
@@ -72,6 +72,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 14:53:21 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.17-1
+- Update to 1.17
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           pavumeter
 Version:        0.9.3
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        Volume meter for PulseAudio
 
 License:        GPLv2+
@@ -44,6 +44,9 @@ desktop-file-install \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           perl-Gearman
 Version:        2.004.015
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        Perl interface for Gearman distributed job system
 License:        GPL+ or Artistic
 URL:            http://danga.com/gearman/
@@ -81,6 +81,12 @@ make test
 %{_mandir}/man3/Gearman::*.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.004.015-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.004.015-8
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.004.015-7
 - Perl 5.32 rebuild
 

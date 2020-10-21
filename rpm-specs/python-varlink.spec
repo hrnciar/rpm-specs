@@ -1,6 +1,6 @@
 Name:           python-varlink
-Version:        29.0.0
-Release:        7%{?dist}
+Version:        30.3.1
+Release:        1%{?dist}
 Summary:        Python implementation of Varlink
 License:        ASL 2.0
 URL:            https://github.com/varlink/%{name}
@@ -8,6 +8,8 @@ Source0:        https://github.com/varlink/%{name}/archive/%{version}/%{name}-%{
 BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  python3-rpm-macros
+BuildRequires:  python3-setuptools
+BuildRequires:  python3-setuptools_scm
 
 %global _description \
 An python module for Varlink with client and server support.
@@ -27,12 +29,15 @@ Obsoletes:     python-varlink <= 3-1.git.61.1bc637d.fc27
 %autosetup -n python-%{version}
 
 %build
+export SETUPTOOLS_SCM_PRETEND_VERSION=%{version}
 %py3_build
 
 %check
+export SETUPTOOLS_SCM_PRETEND_VERSION=%{version}
 CFLAGS="%{optflags}" %{__python3} %{py_setup} %{?py_setup_args} check
 
 %install
+export SETUPTOOLS_SCM_PRETEND_VERSION=%{version}
 %py3_install
 
 %files -n python3-varlink
@@ -41,6 +46,17 @@ CFLAGS="%{optflags}" %{__python3} %{py_setup} %{?py_setup_args} check
 %{python3_sitelib}/*
 
 %changelog
+* Fri Oct 02 2020 Harald Hoyer <harald@redhat.com> - 30.3.1-1
+- Update to 30.3.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 30.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Harald Hoyer <harald@redhat.com> - 30.3.0-1
+- add python3-setuptools to BuildRequires
+- add python3-setuptools_scm to BuildRequires
+- Update to 30.3.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 29.0.0-7
 - Rebuilt for Python 3.9
 

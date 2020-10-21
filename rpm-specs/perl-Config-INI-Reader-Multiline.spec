@@ -1,6 +1,6 @@
 Name:           perl-Config-INI-Reader-Multiline
 Version:        1.001
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Parser for INI files with line continuations
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Config-INI-Reader-Multiline
@@ -54,6 +54,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.001-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.001-9
 - Perl 5.32 rebuild
 

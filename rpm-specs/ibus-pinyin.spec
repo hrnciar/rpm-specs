@@ -1,10 +1,8 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
 
 Name:       ibus-pinyin
 Version:    1.5.0
-Release:    18%{?dist}
+Release:    22%{?dist}
 Summary:    The Chinese Pinyin and Bopomofo engines for IBus input platform
 License:    GPLv2+
 URL:        http://code.google.com/p/ibus
@@ -24,6 +22,7 @@ BuildRequires:  ibus-devel >= 1.5.4
 BuildRequires:  lua-devel >= 5.1
 BuildRequires:  opencc-devel
 BuildRequires:  pyzy-devel
+BuildRequires:  python3-devel
 
 # Requires(post): sqlite
 
@@ -51,6 +50,8 @@ make %{?_smp_mflags}
 %install
 make DESTDIR=${RPM_BUILD_ROOT} install
 
+%py_byte_compile %{python3} $RPM_BUILD_ROOT%{_datadir}/ibus-pinyin/setup
+
 %find_lang %{name}
 
 
@@ -71,6 +72,19 @@ make DESTDIR=${RPM_BUILD_ROOT} install
 
 
 %changelog
+* Wed Aug  5 2020 Peng Wu <pwu@redhat.com> - 1.5.0-22
+- Rebuilt with python3
+
+* Tue Aug  4 2020 Peng Wu <pwu@redhat.com> - 1.5.0-21
+- Fixes FTBFS bug
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-20
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

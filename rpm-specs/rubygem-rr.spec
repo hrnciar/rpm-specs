@@ -13,7 +13,7 @@
 Summary: RR (Double Ruby) is a test double framework 
 Name: rubygem-%{gem_name}
 Version: 1.1.2
-Release: 12%{?dist}
+Release: 13%{?dist}
 License: MIT
 URL: http://pivotallabs.com
 Source0: http://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -138,6 +138,9 @@ rm  -rf %{buildroot}%{gem_instdir}/gemfiles
 %{gem_instdir}/rr.gemspec
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

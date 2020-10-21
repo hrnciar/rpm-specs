@@ -1,7 +1,8 @@
+%undefine __cmake_in_source_build
 %global framework pimcommon
 
 Name:    kf5-%{framework}
-Version: 20.04.2
+Version: 20.08.1
 Release: 1%{?dist}
 Summary: PIM common libraries
 
@@ -38,7 +39,9 @@ BuildRequires:  cmake(KF5IconThemes)
 BuildRequires:  cmake(KF5ItemModels)
 BuildRequires:  cmake(KF5ItemViews)
 BuildRequires:  cmake(KF5JobWidgets)
+BuildRequires:  cmake(KF5KCMUtils)
 BuildRequires:  cmake(KF5KIO)
+BuildRequires:  cmake(KF5Ldap)
 BuildRequires:  cmake(KF5NewStuff)
 BuildRequires:  cmake(KF5Purpose)
 BuildRequires:  cmake(KF5Service)
@@ -62,6 +65,7 @@ BuildRequires:  cmake(Qt5Xml)
 %global majmin_ver %{version}
 BuildRequires:  kf5-akonadi-contacts-devel >= %{majmin_ver}
 BuildRequires:  kf5-akonadi-mime-devel >= %{majmin_ver}
+BuildRequires:  kf5-akonadi-search-devel >= %{majmin_ver}
 BuildRequires:  kf5-akonadi-server-devel >= %{majmin_ver}
 BuildRequires:  kf5-kcalendarcore-devel >= %{majmin_ver}
 BuildRequires:  kf5-kcontacts-devel >= %{majmin_ver}
@@ -80,6 +84,7 @@ Conflicts:      kdepim-libs < 7:16.04.0
 
 %package        akonadi
 Summary:        The PimCommonAkondi runtime library
+Obsoletes:      kf5-libkdepim-akonadi < 20.08.0
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 %description akonadi
 %{summary}.
@@ -104,16 +109,13 @@ developing applications that use %{name}.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -130,6 +132,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 %files akonadi
 %{_kf5_libdir}/libKF5PimCommonAkonadi.so.5*
+%{_qt5_plugindir}/designer/pimcommoniakonadiwidgets.so
 
 %files devel
 %{_kf5_libdir}/libKF5PimCommon.so
@@ -148,6 +151,18 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.2-1
 - 20.04.2
 

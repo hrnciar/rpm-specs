@@ -3,11 +3,12 @@
 %global npm_name async-some
 %{?nodejs_find_provides_and_requires}
 
-%global enable_tests 1
+# Disable tests since tap is not installable/missing
+%bcond_with tests
 
 Name:		nodejs-async-some
 Version:	1.0.2
-Release:	9%{?dist}
+Release:	12%{?dist}
 Summary:	Short-circuited, asynchronous version of Array.prototype.some
 Url:		https://github.com/othiym23/async-some
 Source0:	https://registry.npmjs.org/%{npm_name}/-/%{npm_name}-%{version}.tgz
@@ -19,7 +20,7 @@ ExclusiveArch:	%{nodejs_arches} noarch
 BuildRequires:	nodejs-devel
 BuildRequires:	nodejs-packaging
 
-%if 0%{?enable_tests}
+%if %{with tests}
 BuildRequires:	npm(dezalgo)
 BuildRequires:	npm(tap)
 %endif
@@ -29,8 +30,6 @@ Short-circuited, asynchronous version of Array.prototype.some
 
 %prep
 %setup -q -n package
-
-#%{nodejs_fixdep} tap
 
 %build
 #nothing to do
@@ -43,9 +42,9 @@ cp -pr package.json some.js \
 
 %{nodejs_symlink_deps}
 
-%if 0%{?enable_tests}
 %check
 %{nodejs_symlink_deps} --check
+%if %{with tests}
 tap test/*.js
 %endif
 
@@ -56,6 +55,16 @@ tap test/*.js
 %license LICENSE
 
 %changelog
+* Wed Aug 12 2020 Jan Staněk <jstanek@redhat.com> - 1.0.2-12
+- Disable tests as the tap dependency is not installable
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

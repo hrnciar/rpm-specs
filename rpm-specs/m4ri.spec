@@ -1,6 +1,6 @@
 Name:           m4ri
 Version:        20200125
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Linear Algebra over F_2
 License:        GPLv2+
 URL:            https://bitbucket.org/malb/%{name}
@@ -111,6 +111,9 @@ make check LD_LIBRARY_PATH=$PWD/.libs
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200125-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200125-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

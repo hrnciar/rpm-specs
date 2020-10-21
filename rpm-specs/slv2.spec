@@ -3,7 +3,7 @@
 Name:			slv2
 Summary:		LV2 host library
 Version:		0.6.6
-Release:		30%{?dist}
+Release:		31%{?dist}
 License:		GPLv2+
 Source0:		http://download.drobilla.net/%{name}-%{version}.tar.bz2
 # Remove dates from html doc files RHBZ#566345
@@ -105,6 +105,9 @@ install -pm 644 AUTHORS ChangeLog COPYING README %{buildroot}%{_pkgdocdir}
 %{_mandir}/man3/%{name}*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.6-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.6-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

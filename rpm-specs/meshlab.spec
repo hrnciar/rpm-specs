@@ -1,88 +1,51 @@
-%global vcglibver 1.0.1
-
-Summary:	A system for processing and editing unstructured 3D triangular meshes
 Name:		meshlab
-Version:	2016.12
-Release:	12%{?dist}
-URL:		http://meshlab.sourceforge.net/
-License:	GPLv2+ and BSD and Public Domain
+Summary:	A system for processing and editing unstructured 3D triangular meshes
+Version:	2020.07
+Release:	4%{?dist}
+URL:		https://github.com/cnr-isti-vclab/meshlab
+License:	GPLv2+ and BSD and Public Domain and ASL 2.0
 
-# https://bugzilla.redhat.com/show_bug.cgi?id=1472375
-ExcludeArch:	ppc64 ppc64le s390x
+Source0:	https://github.com/cnr-isti-vclab/meshlab/archive/Meshlab-%{version}/%{name}-%{version}.tar.gz
 
-Source0:	https://github.com/cnr-isti-vclab/meshlab/archive/v%{version}.tar.gz
-Source1:	meshlab-48x48.xpm
-# Matches 2016.12.
+# Matches 2020.07:
+%global vcglibver 7e6bdb7
 # Probably belongs in its own package, but nothing else seems to depend on it.
-Source2:	https://github.com/cnr-isti-vclab/vcglib/archive/v%{vcglibver}.tar.gz
+Source2:	https://github.com/cnr-isti-vclab/vcglib/archive/%{vcglibver}/vcglib-%{vcglibver}.tar.gz
+# Notes for Fedora users (around issues with Wayland)
+Source3:	README.Fedora
 Provides:	bundled(vcglib) = %{vcglibver}
 
-# Fedora-specific patches to use shared libraries, and to put plugins and
-# shaders in appropriate directories
-Patch0:		meshlab-2016.12-sharedlib.patch
-Patch1:		meshlab-2016.12-plugin-path.patch
-Patch2:		meshlab-2016.12-shader-path.patch
+# Properly install u3d IDTFConverter library
+Patch0:         meshlab-2020.07-u3d-install-fix.patch
+# Adjust MESHLAB_LIB_INSTALL_DIR to not have a meshlab/ subdir
+# and adjust MESHLAB_PLUGIN_INSTALL_DIR to have it
+Patch1:         meshlab-2020.07-MESHLAB_LIB_INSTALL_DIR-fix.patch
+# Enable use of system levmar
+Patch2:         meshlab-2020.07-system-levmar.patch
 
-# Patch to fix FTBFS due to missing include of <cstddef>
-# from Teemu Ikonen <tpikonen@gmail.com>
-# Also added a missing include of <unistd.h>
-Patch3:		meshlab-2016.12-cstddef.patch
-
-# Patch to fix reading of .ply files in comma separator locales
-# from Teemu Ikonen <tpikonen@gmail.com>
-Patch4:		meshlab-2016.12-ply-numeric.patch
-
-# Add #include <GL/glu.h> to various files
-Patch5:		meshlab-2016.12-glu.patch
-
-# Disable io_ctm until openctm is packaged
-Patch6:		meshlab-2016.12-noctm.patch
-
-# Include paths shouldn't have consecutive double slashes.  Causes
-# a problem for debugedit, used by rpmbuild to extract debuginfo.
-Patch11:	meshlab-2016.12-include-path-double-slash.patch
-
-# FTBFS fixes
-Patch12:	meshlab-2016.12-readheader.patch
-Patch13:	meshlab-2016.12-stdmin.patch
-Patch14:	meshlab-2016.12-format-security.patch
-
-# Fix broken .pro file
-Patch15:	meshlab-2016.12-fix-broken-pro-file.patch
-
-# If you assign negative numbers to a char, it needs to be a signed char
-# Otherwise, stuff breaks on arm architectures.
-Patch16:	meshlab-2016.12-arm-signed-char-fix.patch
-
-# Fix Screened Poisson Surface Reconstruction filter by copying around XML files
-# https://github.com/cnr-isti-vclab/meshlab/issues/97
-# https://github.com/cnr-isti-vclab/meshlab/commit/19148325122ac70a2cc3f6e2feb4b786c2e073cf
-# https://github.com/cnr-isti-vclab/meshlab/commit/612388c42d00ab8eba1d9626a7da33a18c724d76
-# https://bugzilla.redhat.com/show_bug.cgi?id=1559137
-Patch17:	meshlab-2016.12-xml-filter.patch
-
-# qPrintable doesn't take ints, just print regular ints
-# already fixed (teh file has changed a lot) in upstream master
-# https://bugzilla.redhat.com/show_bug.cgi?id=1604819
-Patch18:	meshlab-2016.12-qprintable.patch
-
-# Add missing includes for QLineEdit and QSlider
-# https://github.com/cnr-isti-vclab/meshlab/pull/353
-# https://bugzilla.redhat.com/show_bug.cgi?id=1604819
-Patch19:	meshlab-2016.12-qt-includes.patch
+# Bundled things
+# This is a fork of a fork. Fun.
+Provides:	bundled(u3d) = 1.4.5-meshlab
 
 BuildRequires:	bzip2-devel
+BuildRequires:	eigen3-devel
 BuildRequires:	glew-devel
+BuildRequires:  gmp-devel
 BuildRequires:	levmar-devel
 BuildRequires:	lib3ds-devel
 BuildRequires:	muParser-devel
 BuildRequires:	qhull-devel
-BuildRequires:	qt5-qtbase-devel qt5-qtxmlpatterns-devel qt5-qtscript-devel
+BuildRequires:	qt5-qtbase-devel qt5-qtdeclarative-devel qt5-qtxmlpatterns-devel qt5-qtscript-devel
 BuildRequires:	qtsoap5-devel
-BuildRequires:	chrpath
 BuildRequires:	desktop-file-utils
 BuildRequires:	ImageMagick
+%ifnarch ppc64le
+# mpir has ppc64le excluded
 BuildRequires:	mpir-devel
+%endif
+
+# Get Fedora 33++ behavior on anything older
+%undefine __cmake_in_source_build
 
 %description
 MeshLab is an open source, portable, and extensible system for the
@@ -93,76 +56,62 @@ for editing, cleaning, healing, inspecting, rendering and converting
 these kinds of meshes.
 
 %prep
-%setup -q -c -n %{name} -a 2
-%patch0 -p0 -b .sharedlib
-%patch1 -p0 -b .plugin-path
-%patch2 -p0 -b .shader-path
-%patch3 -p0 -b .cstddef
-%patch4 -p0 -b .ply-numeric
-%patch5 -p0 -b .glu
-%patch6 -p0 -b .noctm
-%patch11 -p0 -b .include-path-double-slash
-%patch12 -p0 -b .readheader
-%patch13 -p0 -b .stdmin	
-%patch14 -p0 -b .format-security
-%patch15 -p0 -b .fix-broken-pro-file
-%patch16 -p0 -b .armfix
-%patch17 -p0 -b .xml-filter
-%patch18 -p0 -b .qprintable
-%patch19 -p0 -b .qt-includes
+%setup -q -n meshlab-Meshlab-%{version} -a 2
+%patch0 -p1 -b .installfix
+%patch1 -p1 -b .libdirfix
+%patch2 -p1 -b .system-levmar
+cp %{SOURCE3} .
+rmdir vcglib && mv vcglib-%{vcglibver}* vcglib
 
-# Turn of execute permissions on source files to avoid rpmlint
-# errors and warnings for the debuginfo package
-find . \( -name *.h -o -name *.cpp -o -name *.inl \) -a -executable \
-	-exec chmod -x {} \;
+# remove some bundles
+rm -rf src/external/glew*
+rm -rf src/external/qhull*
+rm -rf src/external/levmar*
+rm -rf src/external/lib3ds*
+rm -rf src/external/muparser*
 
-mv vcglib-%{vcglibver} vcglib
-mv meshlab-%{version}/src/plugins_experimental/io_TXT/io_txt.pro meshlab-%{version}/src/plugins_experimental/io_TXT/io_TXT.pro
+# plugin path
+sed -i -e 's|"lib"|"%{_lib}"|g' src/common/pluginmanager.cpp
+sed -i -e 's|"lib"|"%{_lib}"|g' src/meshlab/plugindialog.cpp
 
-# Remove bundled library sources, since we use the Fedora packaged
-# libraries
-rm -rf vcglib/wrap/system/multithreading vcglib/wrap/system/*getopt* vcglib/wrap/system/time
-rm -rf meshlab-%{version}/src/external/{ann*,bzip2*,glew*,levmar*,lib3ds*,muparser*,ode*,qhull*,qtsoap*}
-rm -rf meshlab-%{version}/src/external/lib/linux-g++/*
-
-%if 0%{?fedora} > 24
-# Reflect qhull-2015.2 changes
-sed -i \
-  -e 's,#include <qhull/,#include <libqhull/,' \
-  -e 's,/qhull.h>,/libqhull.h>,' \
-  meshlab-%{version}/src/meshlabplugins/filter_qhull/qhull_tools.h
-%endif
-
-echo 'linux-g++:QMAKE_CXXFLAGS   +=  -fpermissive' >> meshlab-%{version}/src/general.pri
-echo "linux-g++:DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x000000" >> meshlab-%{version}/src/general.pri
-echo "linux-g++:DEFINES += __DISABLE_AUTO_STATS__" >> meshlab-%{version}/src/general.pri
-
-sed -i 's|PLUGIN_DIR|QString("%{_libdir}/%{name}")|g'  meshlab-%{version}/src/common/pluginmanager.cpp
+# icon path, see https://github.com/cnr-isti-vclab/meshlab/pull/752
+sed -i -e 's|/icons/pixmaps|/pixmaps|g' src/CMakeLists.txt
 
 %build
-# Build instructions from the wiki:
-#   http://meshlab.sourceforge.net/wiki/index.php/Compiling_V122
-# Note that the build instructions in README.linux are out of date.
+export CXXFLAGS=`echo %{optflags} -std=c++14 -fopenmp -DSYSTEM_QHULL -I/usr/include/libqhull`
 
-cd meshlab-%{version}/src/external
-%{qmake_qt5} -recursive external.pro
-# Note: -fPIC added to make jhead link properly; don't know why this wasn't
-# also an issue with structuresynth
-make %{?_smp_mflags} CFLAGS="%{optflags} -fPIC"
-cd ..
-%{qmake_qt5} -recursive meshlab_full.pro || :
-make %{?_smp_mflags} CFLAGS="%{optflags} -fpermissive"
-# DEFINES="-DMESHLAB_SCALAR=float -DQT_DISABLE_DEPRECATED_BEFORE=0x000000 -D__DISABLE_AUTO_STATS__ -DPLUGIN_DIR=\\\"%{_libdir}/%{name}\\\""
+%cmake src \
+	-DCMAKE_SKIP_RPATH=ON \
+	-DCMAKE_VERBOSE_MAKEFILE=OFF \
+	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+	-DALLOW_BUNDLED_EIGEN=OFF \
+	-DALLOW_BUNDLED_GLEW=OFF \
+	-DALLOW_BUNDLED_LEVMAR=ON \
+	-DALLOW_BUNDLED_LIB3DS=OFF \
+	-DALLOW_BUNDLED_MUPARSER=OFF \
+	-DALLOW_BUNDLED_NEWUOA=ON \
+	-DALLOW_BUNDLED_OPENCTM=ON \
+	-DALLOW_BUNDLED_QHULL=OFF \
+	-DALLOW_BUNDLED_SSYNTH=ON \
+	-DALLOW_SYSTEM_EIGEN=ON \
+	-DALLOW_SYSTEM_GLEW=ON \
+	-DALLOW_SYSTEM_GMP=ON \
+	-DALLOW_SYSTEM_LIB3DS=ON \
+	-DALLOW_SYSTEM_MUPARSER=ON \
+	-DALLOW_SYSTEM_OPENCTM=ON \
+	-DALLOW_SYSTEM_QHULL=ON \
+	-DEigen3_DIR=usr/include/eigen3 \
+	-DGlew_DIR=/usr/include/GL \
+	-DQhull_DIR=/usr/include/libqhull
 
-# process icon
-convert %{SOURCE1} meshlab.png
+%cmake_build
 
 # create desktop file
 cat <<EOF >meshlab.desktop
 [Desktop Entry]
 Name=meshlab
 GenericName=MeshLab 3D triangular mesh processing and editing
-Exec=meshlab
+Exec=env QT_QPA_PLATFORM=xcb meshlab
 Icon=meshlab
 Terminal=false
 Type=Application
@@ -170,80 +119,48 @@ Categories=Graphics;
 EOF
 
 %install
-# The QMAKE_RPATHDIR stuff puts in the path to the compile-time location
-# of libcommon, which won't work at runtime, so we change the rpath here.
-# The use of rpath will cause an rpmlint error, but the Fedora Packaging
-# Guidelines specifically allow use of an rpath for internal libraries:
-# http://fedoraproject.org/wiki/Packaging:Guidelines#Rpath_for_Internal_Libraries
-# Ideally upstream would rename the library to libmeshlab, libmeshlabcommon,
-# or the like, so that we could put it in the system library directory
-# and avoid rpath entirely.
-chrpath -r %{_libdir}/meshlab meshlab-%{version}/src/distrib/{meshlab,meshlabserver}
+%cmake_install
 
-install -d -m 755 %{buildroot}%{_bindir}
-install -p -m 755 meshlab-%{version}/src/distrib/meshlab \
-		  meshlab-%{version}/src/distrib/meshlabserver \
-		  %{buildroot}%{_bindir}
-
-install -d -m 755 %{buildroot}%{_mandir}/man1
-install -p -m 644 meshlab-%{version}/docs/meshlab.1 \
-		  meshlab-%{version}/docs/meshlabserver.1 \
-		  %{buildroot}%{_mandir}/man1
-
-install -d -m 755 %{buildroot}%{_libdir}/meshlab
-install -p -m 755 meshlab-%{version}/src/distrib/libcommon.so.1.0.0 \
-		  %{buildroot}%{_libdir}/meshlab
-ln -s libcommon.so.1.0.0 %{buildroot}%{_libdir}/meshlab/libcommon.so.1.0
-ln -s libcommon.so.1.0.0 %{buildroot}%{_libdir}/meshlab/libcommon.so.1
-ln -s libcommon.so.1.0.0 %{buildroot}%{_libdir}/meshlab/libcommon.so
-
-install -d -m 755 %{buildroot}%{_libdir}/meshlab/plugins
-install -p -m 755 meshlab-%{version}/src/distrib/plugins/*.{so,xml} \
-		  %{buildroot}%{_libdir}/meshlab/plugins
-
-install -d -m 755 %{buildroot}%{_datadir}/meshlab/shaders
-install -p -m 644 meshlab-%{version}/src/distrib/shaders/*.{frag,gdp,vert} \
-		  %{buildroot}%{_datadir}/meshlab/shaders
-
-install -d -m 755 %{buildroot}%{_datadir}/meshlab/shaders/shadersrm
-install -p -m 644 meshlab-%{version}/src/distrib/shaders/shadersrm/*.rfx \
-		  %{buildroot}%{_datadir}/meshlab/shaders/shadersrm
-
-install -d -m 755 %{buildroot}%{_datadir}/meshlab/textures
-
-install -d -m 755 %{buildroot}%{_datadir}/pixmaps
-install -p -m 644 meshlab-%{version}/src/meshlab.png \
-		  %{buildroot}%{_datadir}/pixmaps
-
+# add desktop link
 install -d -m 755 %{buildroot}%{_datadir}/applications
-install -p -m 644 meshlab-%{version}/src/meshlab.desktop \
-		  %{buildroot}%{_datadir}/applications
-
+install -p -m 644 meshlab.desktop %{buildroot}%{_datadir}/applications
 desktop-file-validate %{buildroot}%{_datadir}/applications/meshlab.desktop
 
-%ldconfig_scriptlets
-
 %files
+%doc README.md README.Fedora
+%doc docs/readme.txt
+%doc docs/privacy.txt
+%license LICENSE.txt
+%license src/external/u3d/COPYING
 %{_bindir}/meshlab
 %{_bindir}/meshlabserver
+%{_libdir}/*.so*
 %{_libdir}/meshlab/
 %{_datadir}/meshlab/
-%{_mandir}/man1/*.1.*
-%license meshlab-%{version}/LICENSE.txt
-%doc meshlab-%{version}/README.md
-%doc meshlab-%{version}/docs/meshlabserver.1.txt
-%doc meshlab-%{version}/docs/meshlab.1.txt
-%doc meshlab-%{version}/docs/privacy.txt
-%doc meshlab-%{version}/docs/README.linux
-%doc meshlab-%{version}/docs/readme.txt
-%license meshlab-%{version}/src/distrib/shaders/3Dlabs-license.txt
-%license meshlab-%{version}/src/distrib/shaders/LightworkDesign-license.txt
-%license meshlab-%{version}/src/meshlabplugins/filter_poisson/license.txt
-%license meshlab-%{version}/src/plugins_experimental/filter_segmentation/license.txt
 %{_datadir}/applications/meshlab.desktop
 %{_datadir}/pixmaps/meshlab.png
+%license distrib/shaders/3Dlabs-license.txt
+%license distrib/shaders/LightworkDesign-license.txt
+%license src/plugins_experimental/filter_segmentation/license.txt
+%license src/plugins_unsupported/filter_poisson/license.txt
 
 %changelog
+* Thu Jul 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.07-4
+- Force C++14 as this code is not C++17 ready
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.07-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Miro Hrončok <mhroncok@redhat.com> - 2020.07-2
+- Install the icon to /usr/share/pixmaps
+
+* Thu Jul  2 2020 Tom Callaway <spot@fedoraproject.org> - 2020.07-1
+- update to 2020.07
+- add README.Fedora for workaround instructions on Wayland
+
+* Tue Jun 16 2020 Cristian Balint <cristian.balint@gmail.com> - 2020.06-1
+- New upstream release 2020.06 (#1844772)
+
 * Tue Feb 18 2020 Tom Callaway <spot@fedoraproject.org> - 2016.12-12
 - rebuild
 

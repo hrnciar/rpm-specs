@@ -2,7 +2,7 @@
 
 Name:		postgres-decoderbufs
 Version:	1.1.0
-Release:	0.2%{?pre:.%pre}%{?dist}
+Release:	0.4%{?pre:.%pre}%{?dist}
 Summary:	PostgreSQL Protocol Buffers logical decoder plugin
 
 License:	MIT
@@ -56,6 +56,12 @@ Just-in-time compilation support for %{name}.
 
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 1.1.0-0.4.Final
+- Rebuilt for protobuf 3.13
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-0.3.Final
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 1.1.0-0.2.Final
 - Rebuilt for protobuf 3.12
 

@@ -2,8 +2,8 @@
 %global pypi_name kazoo
 
 Name:           python-%{pypi_name}
-Version:        2.7.0
-Release:        2%{?dist}
+Version:        2.8.0
+Release:        1%{?dist}
 Summary:        Higher level Python Zookeeper client
 
 License:        ASL 2.0
@@ -72,6 +72,12 @@ rm -fr %{buildroot}%{python3_sitelib}/%{pypi_name}/tests/
 
 
 %changelog
+* Tue Aug 04 2020 Fabien Boucher <fboucher@redhat.com> - 2.8.0-1
+- Update to 2.8.0 (#1856000)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.7.0-2
 - Rebuilt for Python 3.9
 

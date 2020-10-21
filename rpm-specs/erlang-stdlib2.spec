@@ -6,7 +6,7 @@
 
 Name:		erlang-%{realname}
 Version:	0
-Release:	0.8.20180928git%{short_tag}%{?dist}
+Release:	0.9.20180928git%{short_tag}%{?dist}
 BuildArch:	noarch
 Summary:	Erlang stdlib extensions
 License:	BSD
@@ -47,6 +47,9 @@ Erlang stdlib extensions.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9.20180928git4cf3a70
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8.20180928git4cf3a70
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

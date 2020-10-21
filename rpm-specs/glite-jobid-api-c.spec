@@ -1,6 +1,6 @@
 Name:           glite-jobid-api-c
 Version:        2.2.13
-Release:        13%{?dist}
+Release:        15%{?dist}
 Summary:        C library handling gLite jobid
 
 License:        ASL 2.0
@@ -66,6 +66,13 @@ rm -f %{buildroot}%{_libdir}/*.la
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.13-15
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.13-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.13-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

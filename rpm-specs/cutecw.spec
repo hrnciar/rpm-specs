@@ -1,7 +1,7 @@
 Summary: Morse Code (CW) Training Software
 Name: cutecw
 Version: 1.0
-Release: 20%{?dist}
+Release: 21%{?dist}
 License: GPLv2
 URL: http://www.hamtools.org/%{name}/
 Source: http://www.hamtools.org/%{name}/releases/%{name}-%{version}.tar.gz
@@ -45,6 +45,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 %{_datadir}/applications/cutecw.desktop
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

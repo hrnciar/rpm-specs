@@ -1,6 +1,6 @@
 Name:           pg_repack
 Version:        1.4.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Reorganize tables in PostgreSQL databases without any locks
 
 License:        BSD
@@ -59,5 +59,8 @@ make
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Aug 21 2019 Filip Januš <fjanus@redhat.com> 1.4.5-1
 - Initial packaging

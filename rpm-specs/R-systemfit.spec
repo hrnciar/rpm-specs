@@ -7,7 +7,7 @@
 Summary:        Simultaneous Equation Estimation R Package
 Name:		R-%{packname}
 Version:	%{packver}.%{packrel}
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Source0:        http://cran.r-project.org/src/contrib/%{packname}_%{packver}-%{packrel}.tar.gz
 URL:		http://www.systemfit.org
@@ -64,6 +64,9 @@ rm -rf %{buildroot}%{_datadir}/R/library/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.24-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.1.24-2
 - rebuild for R 4
 

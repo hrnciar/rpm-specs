@@ -2,7 +2,7 @@
 
 Name:           velocity
 Version:        1.7
-Release:        27%{?dist}
+Release:        33%{?dist}
 Epoch:          0
 Summary:        Java-based template engine
 License:        ASL 2.0
@@ -15,36 +15,31 @@ Source1:        http://repo1.maven.org/maven2/org/apache/%{name}/%{name}/%{versi
 # Remove bundled binaries which cannot be easily verified for licensing
 Source2:        generate-tarball.sh
 
-Patch0:         0001-Remove-avalon-logkit.patch
-Patch1:         0004-Use-log4j-1.2.17.patch
-Patch2:         0003-Use-system-jars.patch
-Patch3:         0004-JDBC-41-compat.patch
-Patch4:         0001-Don-t-use-Werken-XPath.patch
-Patch5:         0006-Skip-Java-8-incompatible-test.patch
-Patch6:         velocity-1.7-doclint.patch
-Patch7:         velocity-1.7-osgi.patch
+Patch0:         0000-Remove-avalon-logkit.patch
+Patch2:         0002-Use-system-jars.patch
+Patch3:         0003-JDBC-41-compat.patch
+Patch4:         0004-Do-not-use-Werken-XPath.patch
+Patch5:         0005-Skip-Java-8-incompatible-test.patch
+Patch6:         0006-Run-javadoc-with-Xdoclint-none.patch
+Patch7:         0007-Fix-OSGi-metadata.patch
+Patch8:         0008-Port-to-apache-commons-lang3.patch
 
-BuildRequires:  javapackages-local
 BuildRequires:  ant
-BuildRequires:  antlr
-BuildRequires:  junit
 BuildRequires:  ant-junit
+BuildRequires:  antlr
+BuildRequires:  apache-commons-collections
+BuildRequires:  apache-commons-lang3
+BuildRequires:  apache-parent
+BuildRequires:  bcel
 %if %{with hsqldb}
 BuildRequires:  hsqldb-lib
 %endif
-BuildRequires:  apache-commons-collections
-BuildRequires:  apache-commons-logging
-BuildRequires:  apache-commons-lang
 BuildRequires:  glassfish-servlet-api
 BuildRequires:  jakarta-oro
+BuildRequires:  javapackages-local
 BuildRequires:  jaxen
 BuildRequires:  jdom
-BuildRequires:  bcel
-BuildRequires:  log4j12
-BuildRequires:  apache-parent
-
-# It fails one of the arithmetic test cases with gcj
-BuildRequires:  java-devel >= 1:1.6.0
+BuildRequires:  junit
 
 %description
 Velocity is a Java-based template engine. It permits anyone to use the
@@ -95,24 +90,10 @@ Demonstrations and samples for %{name}.
 find . -name '*.jar' ! -name 'test*.jar' -print -delete
 find . -name '*.class' ! -name 'Foo.class' -print -delete
 
-# Remove dependency on avalon-logkit
-rm -f src/java/org/apache/velocity/runtime/log/AvalonLogChute.java
-rm -f src/java/org/apache/velocity/runtime/log/AvalonLogSystem.java
-rm -f src/java/org/apache/velocity/runtime/log/VelocityFormatter.java
-
-# need porting to new servlet API. We would just add a lot of empty functions
-rm  src/test/org/apache/velocity/test/VelocityServletTestCase.java
-
-# This test doesn't work with new hsqldb
-rm src/test/org/apache/velocity/test/sql/DataSourceResourceLoaderTestCase.java
-
 cp %{SOURCE1} ./pom.xml
 
-# remove rest of avalon logkit refences
+# remove rest of avalon logkit refences and default to JDK logging
 %patch0 -p1
-
-# Use log4j 1.2.17
-%patch1 -p1
 
 # Use system jar files instead of downloading from net
 %patch2 -p1
@@ -132,23 +113,42 @@ cp %{SOURCE1} ./pom.xml
 # Remove werken-xpath Import/Export refences in OSGi manifest file
 %patch7 -p1
 
+# Port to apache commons-lang3
+%patch8 -p1
+
+# Remove dependency on avalon-logkit
+rm src/java/org/apache/velocity/runtime/log/AvalonLogChute.java
+rm src/java/org/apache/velocity/runtime/log/AvalonLogSystem.java
+rm src/java/org/apache/velocity/runtime/log/VelocityFormatter.java
+
+# Remove dependency on log4j12
+rm src/java/org/apache/velocity/runtime/log/Log4JLogChute.java
+rm src/java/org/apache/velocity/runtime/log/Log4JLogSystem.java
+rm src/java/org/apache/velocity/runtime/log/SimpleLog4JLogSystem.java
+
+# Remove dependency on commons-logging
+rm src/java/org/apache/velocity/runtime/log/CommonsLogLogChute.java
+
+# need porting to new servlet API. We would just add a lot of empty functions
+rm src/test/org/apache/velocity/test/VelocityServletTestCase.java
+
+# This test doesn't work with new hsqldb
+rm src/test/org/apache/velocity/test/sql/DataSourceResourceLoaderTestCase.java
+
 %if %{without hsqldb}
-rm -r src/test/org/apache/velocity/test/sql
+rm -r src/test/org/apache/velocity/test/sql/
 %endif
 
 # -----------------------------------------------------------------------------
 
 %build
-
 export CLASSPATH=$(build-classpath \
 antlr \
 apache-commons-collections \
-commons-lang \
-commons-logging \
+commons-lang3 \
 glassfish-servlet-api \
-junit \
 jakarta-oro \
-log4j:log4j:1.2.17 \
+junit \
 jaxen \
 jdom \
 bcel \
@@ -159,6 +159,7 @@ ant \
   -Dbuild.sysclasspath=first \
   -Djavac.target=1.6 \
   -Djavac.source=1.6 \
+  -Dtest.haltonfailure=false \
   jar javadocs test
 
 # fix line-endings in generated files
@@ -195,6 +196,24 @@ cp -pr examples test %{buildroot}%{_datadir}/%{name}
 %{_datadir}/%{name}
 
 %changelog
+* Fri Sep 11 2020 Fabio Valentini <decathorpe@gmail.com> - 0:1.7-33
+- Default to JDK logging and drop commons-logging and log4j12 implementations.
+
+* Thu Jul 30 2020 Fabio Valentini <decathorpe@gmail.com> - 0:1.7-32
+- Port to commons-lang3.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.7-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Jiri Vanek <jvanek@redhat.com> - 0:1.7-30
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Mon Jul 13 2020 Mat Booth <mat.booth@redhat.com> - 0:1.7-29
+- Ignore test case that fails on Java 11
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0:1.7-28
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.7-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

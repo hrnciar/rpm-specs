@@ -1,5 +1,7 @@
 %global libmodulemd_version 2.3.0
 
+%define __cmake_in_source_build 1
+
 # Bash completion (we need different approach for RHEL-6)
 %if 0%{?rhel} == 6
 %global bash_completion %config%{_sysconfdir}/bash_completion.d/createrepo_c.bash
@@ -35,7 +37,7 @@
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.15.11
+Version:        0.16.1
 Release:        1%{?dist}
 License:        GPLv2+
 URL:            https://github.com/rpm-software-management/createrepo_c
@@ -260,6 +262,22 @@ ln -sr %{buildroot}%{_bindir}/modifyrepo_c %{buildroot}%{_bindir}/modifyrepo
 %endif
 
 %changelog
+* Tue Oct 06 2020 Nicola Sella <nsella@redhat.com> - 0.16.1
+- Update to 0.16.1
+- Add the section number to the manual pages
+- Parse xml snippet in smaller parts (RhBug:1859689)
+- Add module metadata support to createrepo_c (RhBug:1795936)
+
+* Fri Aug 07 2020 Nicola Sella <nsella@redhat.com> - 0.15.11-4
+- spec: Fix building with new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.11-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Ales Matej <amatej@redhat.com> - 0.15.11-1
 - Update to 0.15.11
 - Switch updateinfo to explicitly include bool values (RhBug:1772466)

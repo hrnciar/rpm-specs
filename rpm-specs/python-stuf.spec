@@ -3,7 +3,7 @@
 
 Name:               python-stuf
 Version:            0.9.16
-Release:            23%{?dist}
+Release:            24%{?dist}
 Summary:            Fancy python dictionary types
 
 License:            BSD
@@ -53,6 +53,9 @@ rm -rf %{buildroot}%{python3_sitelib}/tests/
 %{python3_sitelib}/%{modname}-%{version}-*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.16-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.16-23
 - Rebuilt for Python 3.9
 

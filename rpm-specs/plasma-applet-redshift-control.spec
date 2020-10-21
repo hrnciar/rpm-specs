@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:           plasma-applet-redshift-control
 Version:        1.0.18
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Plasma 5 applet for redshift 
 
 License:        GPLv2+
@@ -38,15 +40,12 @@ rm -f package/contents/fonts/fontawesome-webfont-4.3.0.ttf
 rmdir package/contents/fonts
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
+%cmake_install
 make install DESTDIR=%{buildroot} -C %{_target_platform}
 %find_lang %{name} --all-name
 
@@ -59,6 +58,9 @@ make install DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.18-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.18-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

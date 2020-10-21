@@ -1,7 +1,8 @@
+%define _legacy_common_support 1
 Summary: Clam Anti-Virus on the KDE Desktop
 Name: klamav
 Version: 0.46
-Release: 29%{?dist}
+Release: 32%{?dist}
 Source0: http://downloads.sourceforge.net/klamav/%{name}-%{version}.tar.bz2
 Patch0: klamav-0.46-suse-clamav-path.patch
 # Upstream notified via mailing list:
@@ -89,6 +90,16 @@ chmod 644 src/klammail/*.{c,h}
 %{_datadir}/icons/*/*x*/apps/klamav.png
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.46-32
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.46-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Jeff Law <law@redhat.com> - 0.46-30
+- Turn on legacy common support until this package is fixed
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.46-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

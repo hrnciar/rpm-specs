@@ -5,7 +5,7 @@
 %global crate trybuild
 
 Name:           rust-%{crate}
-Version:        1.0.30
+Version:        1.0.35
 Release:        1%{?dist}
 Summary:        Test harness for ui tests of compiler diagnostics
 
@@ -95,6 +95,18 @@ which use "dissimilar" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Sep 16 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.35-1
+- Update to 1.0.35.
+
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 1.0.33-1
+- Update to 1.0.33
+
+* Thu Aug 20 2020 Josh Stone <jistone@redhat.com> - 1.0.32-1
+- Update to 1.0.32
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.30-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Josh Stone <jistone@redhat.com> - 1.0.30-1
 - Update to 1.0.30
 

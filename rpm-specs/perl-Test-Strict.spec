@@ -1,6 +1,6 @@
 Name:           perl-Test-Strict
 Version:        0.52
-Release:        4%{?dist}
+Release:        5%{?dist}
 License:        GPL+ or Artistic
 Summary:        Check syntax, presence of use strict/warnings, and test coverage
 Source:         https://cpan.metacpan.org/authors/id/M/MA/MANWAR/Test-Strict-%{version}.tar.gz
@@ -60,6 +60,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.52-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.52-4
 - Perl 5.32 rebuild
 

@@ -17,7 +17,7 @@ so I made another one.}
 %global godocs          examples README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Basic thread-safe progress bar for Golang applications
 
 License:        MIT
@@ -52,6 +52,9 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.15.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 16 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.15.0-1
 - Update to latest version
 

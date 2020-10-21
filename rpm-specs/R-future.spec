@@ -1,10 +1,10 @@
 %global packname future
-%global packver  1.17.0
+%global packver  1.19.1
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          %{packver}
-Release:          2%{?dist}
+Version:          1.19.1
+Release:          1%{?dist}
 Summary:          Unified Parallel and Distributed Processing in R for Everyone
 
 License:          LGPLv2+
@@ -13,7 +13,7 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-digest, R-globals >= 0.12.5, R-listenv >= 0.8.0, R-parallel, R-utils
+# Imports:   R-digest, R-globals >= 0.12.5, R-listenv >= 0.8.0, R-parallel, R-tools, R-utils
 # Suggests:  R-RhpcBLASctl, R-R.rsp, R-markdown
 # LinkingTo:
 # Enhances:
@@ -25,6 +25,7 @@ BuildRequires:    R-digest
 BuildRequires:    R-globals >= 0.12.5
 BuildRequires:    R-listenv >= 0.8.0
 BuildRequires:    R-parallel
+BuildRequires:    R-tools
 BuildRequires:    R-utils
 BuildRequires:    R-RhpcBLASctl
 BuildRequires:    R-R.rsp
@@ -71,6 +72,7 @@ rm -f %{buildroot}%{rlibdir}/R.css
 %doc %{rlibdir}/%{packname}/html
 %{rlibdir}/%{packname}/DESCRIPTION
 %doc %{rlibdir}/%{packname}/NEWS
+%doc %{rlibdir}/%{packname}/CITATION
 %{rlibdir}/%{packname}/INDEX
 %{rlibdir}/%{packname}/NAMESPACE
 %{rlibdir}/%{packname}/Meta
@@ -82,6 +84,15 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Wed Sep 23 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.19.1-1
+- Update to latest version (#1881627)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.18.0-1
+- Update to latest version
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.17.0-2
 - rebuild for R 4
 

@@ -6,7 +6,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 3.2.0
-Release: 8%{?dist}
+Release: 9%{?dist}
 Summary: Ruby wrapper for UglifyJS JavaScript compressor
 # lib/source-map.js is BSD.
 # lib/uglify.js is BSD.
@@ -104,6 +104,9 @@ popd
 %{gem_instdir}/Rakefile
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Jun Aruga <jaruga@redhat.com> - 3.2.0-8
 - Bundle uglify-js by the request from the Fedora Minimization team.
 

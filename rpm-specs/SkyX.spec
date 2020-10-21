@@ -1,6 +1,10 @@
+%undefine __cmake_in_source_build
+%global libversion 0.3.1
+%global soversion 0
+
 Name:           SkyX
 Version:        0.4
-Release:        26%{?dist}
+Release:        28%{?dist}
 Summary:        Photo-realistic sky simulator
 
 License:        LGPLv2+
@@ -54,25 +58,22 @@ iconv -f ISO-8859-15 -t UTF-8 License.txt > License.conv && mv -f License.{conv,
 iconv -f ISO-8859-15 -t UTF-8 Readme.txt > Readme.conv && mv -f Readme.{conv,txt}
 
 %build
-mkdir build
-cd build
-%cmake .. \
-  -DSKYX_BUILD_SAMPLES=OFF 
-make %{?_smp_mflags}
-
+%cmake \
+  -DSKYX_BUILD_SAMPLES=OFF \
+  -DCMAKE_BUILD_TYPE=Release
+%cmake_build
 
 %install
-make -C build install DESTDIR=%{buildroot}
+%cmake_install
 mv %{buildroot}/SKYX/cmake %{buildroot}%{_datadir}/SKYX
 %if "%{_lib}" == "lib64"
 mv %{buildroot}/%{_usr}/lib %{buildroot}%{_libdir}
 %endif
 
-%ldconfig_scriptlets
-
 %files
 %doc License.txt Readme.txt
-%{_libdir}/*.so.*
+%{_libdir}/*.so.%{libversion}
+%{_libdir}/*.so.%{soversion}
 %exclude %{_datadir}/SKYX/cmake
 %{_datadir}/SKYX
 
@@ -83,6 +84,13 @@ mv %{buildroot}/%{_usr}/lib %{buildroot}%{_libdir}
 %{_datadir}/SKYX/cmake
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-28
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 02 2020 Björn Esser <besser82@fedoraproject.org> - 0.4-26
 - Fix string quoting for rpm >= 4.16
 

@@ -1,7 +1,7 @@
 Name:           perl-Catalyst-Controller-ActionRole
 Summary:        Apply roles to action instances
 Version:        0.17
-Release:        15%{?dist}
+Release:        17%{?dist}
 License:        GPL+ or Artistic
 
 Source0:        https://cpan.metacpan.org/authors/id/E/ET/ETHER/Catalyst-Controller-ActionRole-%{version}.tar.gz 
@@ -65,6 +65,12 @@ make test
 %{_mandir}/man3/Catalyst*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.17-16
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

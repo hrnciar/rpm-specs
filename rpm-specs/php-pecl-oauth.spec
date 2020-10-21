@@ -1,12 +1,14 @@
 # we don't want -z defs linker flag
 %undefine _strict_symbol_defs_build
 
+%bcond_without     tests
+
 %global pecl_name oauth
 %global with_zts  0%{?__ztsphp:1}
 %global ini_name  40-%{pecl_name}.ini
 
 Name:		php-pecl-oauth	
-Version:	2.0.5
+Version:	2.0.7
 Release:	1%{?dist}
 Summary:	PHP OAuth consumer extension
 License:	BSD
@@ -15,6 +17,9 @@ Source0:	http://pecl.php.net/get/%{pecl_name}-%{version}.tgz
 
 BuildRequires:	php-devel > 7
 BuildRequires:	php-pear
+%if %{with tests}
+BuildRequires:	php-posix
+%endif
 BuildRequires:	libcurl-devel
 BuildRequires:	pcre-devel
 
@@ -104,6 +109,16 @@ done
     -d extension=%{buildroot}%{php_extdir}/%{pecl_name}.so \
     --modules | grep OAuth
 
+%if %{with tests}
+cd NTS
+: Upstream test suite for NTS extension
+TEST_PHP_EXECUTABLE=%{__php} \
+TEST_PHP_ARGS="-n -d extension=posix.so -d extension=%{buildroot}%{php_extdir}/%{pecl_name}.so" \
+NO_INTERACTION=1 \
+REPORT_EXIT_STATUS=1 \
+%{__php} -n run-tests.php --show-diff
+%endif
+
 %if %{with_zts}
 : Minimal load test for ZTS extension
 %{__ztsphp} -n \
@@ -127,6 +142,16 @@ done
 
 
 %changelog
+* Fri Sep 18 2020 Remi Collet <remi@remirepo.net> - 2.0.7-1
+- update to 2.0.7
+- enable test suite
+
+* Wed Sep  9 2020 Remi Collet <remi@remirepo.net> - 2.0.6-1
+- update to 2.0.6
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb  6 2020 Remi Collet <remi@remirepo.net> - 2.0.5-1
 - update to 2.0.5
 

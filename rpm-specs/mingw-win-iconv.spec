@@ -4,7 +4,7 @@
 
 Name:          mingw-%{pkgname}
 Version:       0.0.8
-Release:       3%{?dist}
+Release:       4%{?dist}
 Summary:       Iconv implementation using Win32 API
 
 License:       Public Domain
@@ -111,6 +111,9 @@ rm -rf %{buildroot}%{mingw64_bindir}/*.exe
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.8-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

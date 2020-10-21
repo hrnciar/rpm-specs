@@ -9,7 +9,7 @@
 %define enable_autoreconf 0
 
 Name:           mingw-gtk3
-Version:        3.24.20
+Version:        3.24.23
 Release:        1%{?dist}
 Summary:        MinGW Windows GTK+ library
 
@@ -146,11 +146,11 @@ autoreconf --install --force
 %mingw_configure \
   --disable-cups
 
-%mingw_make %{?_smp_mflags} V=1 GLIB_COMPILE_RESOURCES=glib-compile-resources
+%mingw_make_build GLIB_COMPILE_RESOURCES=glib-compile-resources
 
 
 %install
-%mingw_make install DESTDIR=%{buildroot}
+%mingw_make_install
 
 rm -f %{buildroot}/%{mingw32_libdir}/charset.alias
 rm -f %{buildroot}/%{mingw64_libdir}/charset.alias
@@ -322,6 +322,21 @@ fi
 
 
 %changelog
+* Tue Sep 08 2020 Sandro Mani <manisandro@gmail.com> - 3.24.23-1
+- Update to 3.24.23
+
+* Mon Aug 17 2020 Sandro Mani <manisandro@gmail.com> - 3.24.22-1
+- Update to 3.24.22
+
+* Wed Aug 12 13:39:14 GMT 2020 Sandro Mani <manisandro@gmail.com> - 3.24.21-3
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.24.21-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Sandro Mani <manisandro@gmail.com> - 3.24.21-1
+- Update to 3.24.21
+
 * Tue Apr 28 2020 Sandro Mani <manisandro@gmail.com> - 3.24.20-1
 - Update to 3.24.20
 

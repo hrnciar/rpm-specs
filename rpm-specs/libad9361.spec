@@ -8,7 +8,7 @@
 
 Name:          libad9361
 Version:       0
-Release:       0.7.%{git_snap_date}git%{git_short_commit_0}%{?dist}
+Release:       0.9.%{git_snap_date}git%{git_short_commit_0}%{?dist}
 Summary:       Library for access to Analog Devices AD9361 radio IC
 
 License:       LGPLv2+
@@ -67,6 +67,13 @@ find %{buildroot} -name '*.la' -delete
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9.20170207git6027674
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8.20170207git6027674
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7.20170207git6027674
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

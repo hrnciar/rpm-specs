@@ -1,6 +1,6 @@
 Name:           perl-Role-HasMessage
 Version:        0.006
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Thing with a message method
 License:        GPL+ or Artistic
 
@@ -56,6 +56,9 @@ RELEASE_TESTING=1 make test
 %{_mandir}/man3/Role*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.006-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.006-18
 - Perl 5.32 rebuild
 

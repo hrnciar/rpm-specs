@@ -23,7 +23,7 @@
 %global shortcommit    %(c=%{commit}; echo ${c:0:7})
 
 Name:           manifest-tool
-Version:        1.0.2
+Version:        1.0.3
 Release:        1%{?dist}
 #Release:        5.git%{shortcommit}%{?dist}
 Summary:        A command line tool used for creating manifest list objects
@@ -110,6 +110,16 @@ make DESTDIR=%{buildroot} install
 %{_bindir}/%{name}
 
 %changelog
+* Fri Sep 18 2020 Josh Boyer <jwboyer@fedoraproject.org> - 1.0.3-1
+- Update to 1.0.3 release
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Josh Boyer <jwboyer@fedoraproject.org> - 1.0.2-1
 - Update to 1.0.2 release
 

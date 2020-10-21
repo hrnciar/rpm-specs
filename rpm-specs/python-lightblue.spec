@@ -5,7 +5,7 @@
 
 Name:           python-lightblue
 Version:        0.1.4
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        A Python library to work with Lightblue database
 
 License:        GPLv3
@@ -61,6 +61,9 @@ nosetests-%{python3_version}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.4-10
 - Rebuilt for Python 3.9
 

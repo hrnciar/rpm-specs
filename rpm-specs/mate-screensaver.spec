@@ -13,11 +13,11 @@
 %{!?rel_build:%global git_tar %{name}-%{version}-%{git_ver}.tar.xz}
 
 Name:           mate-screensaver
-Version:        %{branch}.0
+Version:        %{branch}.1
 %if 0%{?rel_build}
-Release:        2%{?dist}
+Release:        1%{?dist}
 %else
-Release:        0.12%{?git_rel}%{?dist}
+Release:        0.13%{?git_rel}%{?dist}
 %endif
 Summary:        MATE Screensaver
 License:        GPLv2+ and LGPLv2+
@@ -28,9 +28,6 @@ URL:            http://pub.mate-desktop.org
 %{?rel_build:Source0:     http://pub.mate-desktop.org/releases/%{branch}/%{name}-%{version}.tar.xz}
 # Source for snapshot-builds.
 %{!?rel_build:Source0:    http://git.mate-desktop.org/%{name}/snapshot/%{name}-%{commit}.tar.xz#/%{git_tar}}
-
-# https://github.com/mate-desktop/mate-screensaver/pull/224
-Patch1:         mate-screensaver_0001-Custom-background-image-for-lock-screen.patch
 
 Requires:       redhat-menus
 Requires:       system-logos
@@ -150,6 +147,12 @@ mv %{buildroot}%{_datadir}/doc/mate-screensaver-%{version}/mate-screensaver.html
 
 
 %changelog
+* Thu Aug 20 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- update to 1.24.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 27 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-2
 - update UI to add a custom background-image for the lock-screen
 

@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.2.12
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Numeric traits for generic mathematics
 
 # Upstream license specification: MIT/Apache-2.0
@@ -107,6 +107,9 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 12 2020 Josh Stone <jistone@redhat.com> - 0.2.12-1
 - Update to 0.2.12
 

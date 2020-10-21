@@ -3,7 +3,7 @@
 %global srcname catkin_pkg
 
 Name:           python-%{srcname}
-Version:        0.4.20
+Version:        0.4.23
 Release:        1%{?dist}
 Summary:        Library for retrieving information about catkin packages
 
@@ -62,8 +62,8 @@ Suggests:       %{name}-doc = %{version}-%{release}
 
 %if 0%{?with_doc}
 PYTHONPATH=$PWD/build/lib \
-    PYTHONDONTWRITEBYTECODE=1 \
-    %make_build -C doc html SPHINXBUILD=sphinx-build-%{python3_version} SPHINXAPIDOC=sphinx-apidoc-%{python3_version}
+  PYTHONDONTWRITEBYTECODE=1 \
+  %make_build -C doc html SPHINXBUILD=sphinx-build-%{python3_version} SPHINXAPIDOC=sphinx-apidoc-%{python3_version}
 rm doc/_build/html/.buildinfo
 %endif
 
@@ -89,7 +89,6 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} -m nose -w test -e "(test
 %doc doc/_build/html
 %endif
 
-
 %files -n python%{python3_pkgversion}-%{srcname}
 %license LICENSE
 %doc README.rst
@@ -112,6 +111,15 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} -m nose -w test -e "(test
 
 
 %changelog
+* Wed Sep 30 2020 Scott K Logan <logans@cottsay.net> - 0.4.23-1
+- Update to 0.4.23 (rhbz#1883763)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.22-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Scott K Logan <logans@cottsay.net> - 0.4.22-1
+- Update to 0.4.22 (rhbz#1850827)
+
 * Fri May 29 2020 Scott K Logan <logans@cottsay.net> - 0.4.20-1
 - Update to 0.4.20 (rhbz#1835055)
 

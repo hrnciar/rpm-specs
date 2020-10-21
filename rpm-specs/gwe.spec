@@ -1,7 +1,7 @@
 %global uuid    com.leinardi.%{name}
 
 Name:           gwe
-Version:        0.15.1
+Version:        0.15.2
 Release:        1%{?dist}
 Summary:        System utility designed to provide information of NVIDIA card
 
@@ -24,8 +24,8 @@ Requires:       libdazzle
 Requires:       python3-gobject
 Requires:       python3-injector >= 0.18.2
 Requires:       python3-matplotlib-gtk3 >= 3.1.1
-Requires:       python3-peewee >= 3.13.1
-Requires:       python3-py3nvml >= 0.2.5
+Requires:       python3-peewee >= 3.13.3
+Requires:       python3-py3nvml >= 0.2.6
 Requires:       python3-pyxdg >= 0.26
 Requires:       python3-requests
 Requires:       python3-rx >= 3.0.1
@@ -56,14 +56,14 @@ This package require NVIDIA driver. Please read included README.Fedora file:
 
 %install
 %meson_install
-install -m 0644 -Dp %{SOURCE1} %{buildroot}%{_docdir}/%{name}/README.fedora.md
+install -m0644 -Dp %{SOURCE1} %{buildroot}%{_docdir}/%{name}/README.fedora.md
 
 # Remove HiDPI version PNG icons since we have SVG version here
 rm -r %{buildroot}%{_datadir}/icons/hicolor/*@2x/
 
 
 %check
-appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.xml
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
@@ -82,6 +82,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Sun Oct 18 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.15.2-1
+- build(update): 0.15.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.15.1-1
 - Update to 0.15.1
 

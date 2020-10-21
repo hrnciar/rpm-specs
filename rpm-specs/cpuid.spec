@@ -1,6 +1,6 @@
 Name:           cpuid
 Version:        20200427
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Dumps information about the CPU(s)
 
 License:        GPLv2+
@@ -37,6 +37,9 @@ install -Dp -m 0644 %{name}.man.gz %{buildroot}%{_mandir}/man1/%{name}.1.gz
 %{_bindir}/cpuinfo2cpuid
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200427-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Fabian Affolter <mail@fabian-affolter.ch> - 20200427-1
 - Update to new upstream version 20200427 (rhbz#1828251)
 

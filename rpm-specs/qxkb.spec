@@ -1,9 +1,11 @@
+%undefine __cmake_in_source_build
+
 %global commit ee9a1eee9dc810b33b931601203051d841bc3e7a
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:		qxkb
 Version:	0.5.1
-Release:	1%{?dist}
+Release:	3%{?dist}
 License:	GPLv2
 Url:		https://github.com/disels/qxkb
 Source0:	https://github.com/disels/qxkb/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
@@ -31,23 +33,12 @@ Can use svg icon for indicate language layer.
 %autosetup
 
 %build
-mkdir build
-pushd build
-%cmake ..
-make %{?_smp_mflags}
-popd
+%cmake
+%cmake_build
 
 %install
-pushd build
-%{make_install}
-popd
+%cmake_install
 desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
-
-%post
-/usr/bin/update-desktop-database &> /dev/null || :
-
-%postun
-/usr/bin/update-desktop-database &> /dev/null || :
 
 %files
 %doc COPYING NEWS README
@@ -57,6 +48,13 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 TI_Eugene <ti.eugene@gmail.com> 0.5.1-1
 - Version bump
 - Switched to Qt5

@@ -2,7 +2,7 @@
 
 Name:           nodejs-%{npmname}
 Version:        1.5.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Color and formatting for irc made easy
 
 License:        MIT
@@ -48,6 +48,9 @@ cp -a package.json %{buildroot}%{nodejs_sitelib}/%{npmname}/
 %doc README.md example/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

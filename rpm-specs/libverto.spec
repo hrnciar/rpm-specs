@@ -2,7 +2,7 @@
 
 Name:           libverto
 Version:        0.3.0
-Release:        9%{?dist}
+Release:        11%{?dist}
 Summary:        Main loop abstraction library
 
 License:        MIT
@@ -197,6 +197,12 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %endif
 
 %changelog
+* Tue Sep 15 2020 Robbie Harwood <rharwood@redhat.com> - 0.3.0-11
+- Rebuild for libevent soname bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

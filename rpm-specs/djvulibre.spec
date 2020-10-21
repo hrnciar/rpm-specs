@@ -3,7 +3,7 @@
 Summary: DjVu viewers, encoders, and utilities
 Name: djvulibre
 Version: 3.5.27
-Release: 19%{?dist}
+Release: 22%{?dist}
 License: GPLv2+
 URL: http://djvu.sourceforge.net/
 Source0: http://downloads.sourceforge.net/djvu/%{name}-%{version}.tar.gz
@@ -180,6 +180,17 @@ fi
 
 
 %changelog
+* Tue Aug 04 2020 Marek Kasik <mkasik@redhat.com> - 3.5.27-22
+- Fix exporting of djvu icons with Inkscape
+- Resolves: #1863428
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.27-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.27-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.27-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

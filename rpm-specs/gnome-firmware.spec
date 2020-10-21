@@ -3,16 +3,13 @@
 %global uuid    org.gnome.Firmware
 
 Name:           gnome-firmware
-Version:        3.34.0
-Release:        5%{?dist}
+Version:        3.36.0
+Release:        4%{?dist}
 Summary:        Install firmware on devices
 
 License:        GPLv2
 URL:            https://gitlab.gnome.org/hughsie/gnome-firmware-updater
-Source0:        %{url}/-/archive/%{version}/%{name}-%{version}.tar.gz
-# Fix 'help2man' error during build 
-# https://gitlab.gnome.org/hughsie/gnome-firmware-updater/issues/4
-Patch0:         %{url}/merge_requests/21.diff
+Source0:        %{url}/-/archive/%{version}/%{name}-%{version}.tar.xz
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc
@@ -41,8 +38,7 @@ This application can:
 - Display all releases for a fwupd device
 
 %prep
-%autosetup -p1 -n %{oldname}-%{version}-%{commit}
-sed -e '/meson_post_install/d' -i meson.build
+%autosetup -p1 -n %{name}-%{version}
 
 %build
 %meson -Dman=true
@@ -66,6 +62,22 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{uuid}.desktop
 %{_metainfodir}/*.xml
 
 %changelog
+* Wed Aug 19 2020 Mohan Boddu <mboddu@bhujji.com> - 3.36.0-4
+- Rebuild for the libxmlb API bump.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Richard Hughes <rhughes@redhat.com> - 3.36.0-1
+- New upstream release
+- Dynamically show verify and releases buttons
+- Show device and progress when doing updates
+- Show the release issues if supplied in the metadata
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.34.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

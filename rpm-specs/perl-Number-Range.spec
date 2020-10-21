@@ -1,6 +1,6 @@
 Name:           perl-Number-Range
 Version:        0.12
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Extension to work with ranges of numbers
 # "This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself."
 # Query about separate license file: https://rt.cpan.org/Public/Bug/Display.html?id=117694
@@ -57,6 +57,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.12-12
 - Perl 5.32 rebuild
 

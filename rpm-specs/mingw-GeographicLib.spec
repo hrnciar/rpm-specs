@@ -4,7 +4,7 @@
 
 Name:           mingw-%{pkgname}
 Version:        1.50.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows %{pkgname} library
 BuildArch:      noarch
 
@@ -138,6 +138,9 @@ rm -rf %{buildroot}%{mingw64_libdir}/node_modules
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.50.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Sandro Mani <manisandro@gmail.com> - 1.50.1-3
 - Rebuild (python-3.9)
 

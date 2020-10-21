@@ -1,6 +1,6 @@
 Name:		z80asm
 Version:	1.8
-Release:	17%{?dist}
+Release:	18%{?dist}
 Summary:	Z80 Assembler
 License:	GPLv3+
 URL:		http://savannah.nongnu.org/projects/%{name}/
@@ -54,6 +54,9 @@ install -p -m0644 headers/*.asm %{buildroot}%{_datadir}/%{name}
 %{_datadir}/%{name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

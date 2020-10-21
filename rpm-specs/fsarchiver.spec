@@ -1,6 +1,6 @@
 Name:		fsarchiver
 Version:	0.8.5
-Release:	7%{?dist}
+Release:	9%{?dist}
 Summary:	Safe and flexible file-system backup/deployment tool
 
 License:	GPLv2
@@ -50,6 +50,13 @@ is corrupt, you just lose the current file, not the whole archive.
 %{_mandir}/man8/%{name}*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.5-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.5-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.5-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

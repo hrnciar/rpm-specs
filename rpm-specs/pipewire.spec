@@ -32,8 +32,8 @@
 
 Name:           pipewire
 Summary:        Media Sharing Server
-Version:        0.3.6
-Release:        1%{?snap:.%{snap}git%{shortcommit}}%{?dist}
+Version:        0.3.13
+Release:        5%{?snap:.%{snap}git%{shortcommit}}%{?dist}
 License:        MIT
 URL:            https://pipewire.org/
 %if 0%{?gitrel}
@@ -45,13 +45,18 @@ Source0:	https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/%{version}/p
 %endif
 
 ## upstream patches
+Patch1:         0001-pulse-limit-get_writable_size.patch
+Patch2:         0001-alsa-monitor-avoid-crash-in-release.patch
+Patch3:         0001-acp-pass-right-user_data-to-event.patch
+Patch4:         0001-media-session-make-sure-we-don-t-read-invalid-data.patch
+Patch5:         0001-gst-add-option-to-disable-device-provider.patch
 
 ## upstreamable patches
 
 ## fedora patches
-Patch0:		0001-conf-disable-bluez5.patch
+Patch0:         0001-conf-disable-bluez5.patch
 
-BuildRequires:  meson >= 0.35.0
+BuildRequires:  meson >= 0.49.0
 BuildRequires:  gcc
 BuildRequires:  pkgconfig
 BuildRequires:  pkgconfig(libudev)
@@ -81,12 +86,6 @@ Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 Requires:       systemd >= 184
 Requires:       rtkit
 
-# https://bugzilla.redhat.com/983606
-%global _hardened_build 1
-
-## enable systemd activation
-%global systemd 1
-
 %description
 PipeWire is a multimedia server for Linux and other Unix like operating
 systems.
@@ -104,6 +103,7 @@ to interface with a PipeWire media server.
 Summary:        GStreamer elements for PipeWire
 License:        MIT
 Recommends:     %{name}%{?_isa} = %{version}-%{release}
+Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 
 %description gstreamer
 This package contains GStreamer elements to interface with a
@@ -215,20 +215,24 @@ This package provides a PulseAudio implementation based on PipeWire
 %setup -q -T -b0 -n %{name}-%{version}%{?gitrel:-%{gitrel}-g%{shortcommit}}
 
 %patch0 -p1 -b .0000
+%patch1 -p1 -b .0001
+%patch2 -p1 -b .0002
+%patch3 -p1 -b .0003
+%patch4 -p1 -b .0004
+%patch5 -p1 -b .0005
 
 %build
 %meson \
     -D docs=true -D man=true -D gstreamer=true -D systemd=true 		\
+    -D gstreamer-device-provider=false					\
     %{!?enable_jack:-D jack=false -D pipewire-jack=false} 		\
     %{!?enable_pulse:-D pipewire-pulseaudio=false}			\
     %{!?enable_alsa:-D pipewire-alsa=false}				\
     %{!?enable_vulkan:-D vulkan=false}
+%meson_build
 
 %install
 %meson_install
-
-mkdir %{buildroot}%{_userunitdir}/sockets.target.wants
-ln -s ../pipewire.socket %{buildroot}%{_userunitdir}/sockets.target.wants/pipewire.socket
 
 %if 0%{?enable_jack}
 ln -s pipewire-%{apiversion}/jack/libjack.so.0 %{buildroot}%{_libdir}/libjack.so.0.1.0
@@ -253,6 +257,11 @@ cp %{buildroot}%{_datadir}/alsa/alsa.conf.d/99-pipewire-default.conf \
         %{buildroot}%{_sysconfdir}/alsa/conf.d/99-pipewire-default.conf
 %endif
 
+# upstream should use udev.pc
+mkdir -p %{buildroot}%{_prefix}/lib/udev/rules.d
+mv -fv %{buildroot}/lib/udev/rules.d/90-pipewire-alsa.rules %{buildroot}%{_prefix}/lib/udev/rules.d
+
+
 %check
 %ifarch s390x
 # FIXME: s390x FAIL: pw-test-stream, pw-test-endpoint
@@ -270,15 +279,23 @@ getent passwd pipewire >/dev/null || \
     useradd -r -g pipewire -d %{_localstatedir}/run/pipewire -s /sbin/nologin -c "PipeWire System Daemon" pipewire
 exit 0
 
-%ldconfig_scriptlets libs
+%post
+%{?ldconfig}
+%systemd_user_post pipewire.service
+%systemd_user_post pipewire.socket
+
+%ldconfig_postun
+
+%triggerun -- %{name} < 0.3.6-2
+# This is for upgrades from previous versions which had a static symlink.
+# The %%post scriptlet above only does anything on initial package installation.
+# Remove before F33.
+systemctl --no-reload preset --global pipewire.socket >/dev/null 2>&1 || :
 
 %files
 %license LICENSE COPYING
 %doc README.md
-%if 0%{?systemd}
 %{_userunitdir}/pipewire.*
-%{_userunitdir}/sockets.target.wants/pipewire.socket
-%endif
 %{_bindir}/pipewire
 %{_bindir}/pipewire-media-session
 %{_mandir}/man1/pipewire.1*
@@ -291,6 +308,11 @@ exit 0
 %doc README.md
 %{_libdir}/libpipewire-%{apiversion}.so.*
 %{_libdir}/pipewire-%{apiversion}/libpipewire-*.so
+%dir %{_datadir}/alsa-card-profile/
+%dir %{_datadir}/alsa-card-profile/mixer/
+%{_datadir}/alsa-card-profile/mixer/paths/
+%{_datadir}/alsa-card-profile/mixer/profile-sets/
+%{_prefix}/lib/udev/rules.d/90-pipewire-alsa.rules
 %dir %{_libdir}/spa-%{spaversion}
 %{_libdir}/spa-%{spaversion}/alsa/
 %{_libdir}/spa-%{spaversion}/audioconvert/
@@ -329,6 +351,7 @@ exit 0
 %{_bindir}/pw-play
 %{_bindir}/pw-profiler
 %{_bindir}/pw-record
+%{_bindir}/pw-reserve
 %{_mandir}/man1/pw-mon.1*
 %{_mandir}/man1/pw-cli.1*
 %{_mandir}/man1/pw-cat.1*
@@ -337,12 +360,15 @@ exit 0
 %{_mandir}/man1/pw-mididump.1*
 %{_mandir}/man1/pw-profiler.1*
 
-%{_bindir}/spa-monitor
+%{_bindir}/spa-acp-tool
 %{_bindir}/spa-inspect
+%{_bindir}/spa-monitor
+%{_bindir}/spa-resample
 
 %if 0%{?enable_alsa}
 %files alsa
 %{_libdir}/alsa-lib/libasound_module_pcm_pipewire.so
+%{_libdir}/alsa-lib/libasound_module_ctl_pipewire.so
 %{_datadir}/alsa/alsa.conf.d/50-pipewire.conf
 %{_datadir}/alsa/alsa.conf.d/99-pipewire-default.conf
 %config(noreplace) %{_sysconfdir}/alsa/conf.d/50-pipewire.conf
@@ -381,6 +407,62 @@ exit 0
 %endif
 
 %changelog
+* Tue Oct 13 2020 Wim Taymans <wtaymans@redhat.com> - 0.3.13-5
+- Disable device provider for now
+- Fixes rhbz#1884260
+
+* Thu Oct 1 2020 Wim Taymans <wtaymans@redhat.com> - 0.3.13-4
+- Add patches for some crasher bugs
+- Fixes rhbz#1884177
+
+* Tue Sep 29 2020 Wim Taymans <wtaymans@redhat.com> - 0.3.13-3
+- Add patch to improve pulse compatibility
+
+* Mon Sep 28 2020 Jeff Law <law@redhat.com> - 0.3.13-2
+- Re-enable LTO as upstream GCC target/96939 has been fixed
+
+* Mon Sep 28 2020 Wim Taymans <wtaymans@redhat.com> - 0.3.13-1
+- Update to 0.3.13
+
+* Fri Sep 18 2020 Wim Taymans <wtaymans@redhat.com> - 0.3.12-1
+- Update to 0.3.12
+
+* Fri Sep 11 2020 Wim Taymans <wtaymans@redhat.com> - 0.3.11-2
+- Add some patches to improve pulse compatibility
+
+* Thu Sep 10 2020 Wim Taymans <wtaymans@redhat.com> - 0.3.11-1
+- Update to 0.3.11
+
+* Mon Aug 17 2020 Wim Taymans <wtaymans@redhat.com> - 0.3.10-1
+- Update to 0.3.10
+
+* Tue Aug 04 2020 Wim Taymans <wtaymans@redhat.com> - 0.3.9-1
+- Update to 0.3.9
+
+* Tue Aug 04 2020 Wim Taymans <wtaymans@redhat.com> - 0.3.8-3
+- Add patch to avoid segfault when iterating ports.
+- Fixes #1865827
+
+* Wed Jul 29 2020 Wim Taymans <wtaymans@redhat.com> - 0.3.8-2
+- Add patch for fix chrome audio hicups
+- Add patch for infinite loop in device add/remove
+- Disable LTO on armv7
+
+* Tue Jul 28 2020 Wim Taymans <wtaymans@redhat.com> - 0.3.8-1
+- Update to 0.3.8
+
+* Tue Jul 21 2020 Wim Taymans <wtaymans@redhat.com> - 0.3.7-2
+- Add patch to avoid crash when clearing metadata
+
+* Tue Jul 21 2020 Wim Taymans <wtaymans@redhat.com> - 0.3.7-1
+- Update to 0.3.7
+
+* Wed Jun 10 2020 Wim Taymans <wtaymans@redhat.com> - 0.3.6-2
+- Use systemd presets to enable pipewire.socket
+- Remove duplicate hardened_build flags
+- Add meson build again
+- Fix -gstreamer subpackage Requires:
+
 * Wed Jun 10 2020 Wim Taymans <wtaymans@redhat.com> - 0.3.6-1
 - Update to 0.3.6
 - Add new man pages

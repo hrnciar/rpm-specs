@@ -1,6 +1,6 @@
 Name:           dbxtool
 Version:        8
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        Secure Boot DBX updater
 License:        GPLv2
 URL:            https://github.com/vathpela/dbxtool
@@ -16,6 +16,7 @@ Patch0000:      %{name}-8-ccldflags.patch
 Patch0001:      0001-don-t-use-f-in-dbxtool.service.patch
 Patch0002:      0002-Make-quiet-exit-on-missing-PK-KEK-not-return-error-s.patch
 Patch0003:      0003-fix-relop-in-esl_iter_next.patch
+Patch0004:      0004-Make-dbxtool.service-not-run-on-live-images.patch
 
 %description
 This package contains DBX updates for UEFI Secure Boot.
@@ -57,6 +58,12 @@ rm -f %{buildroot}/%{_docdir}/%{name}/COPYING
 %{_unitdir}/dbxtool.service
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Peter Jones <pjones@redhat.com> - 8-12
+- Avoid applying dbx changes when running from a Live Image
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

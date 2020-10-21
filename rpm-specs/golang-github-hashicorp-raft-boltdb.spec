@@ -3,7 +3,7 @@
 
 # https://github.com/hashicorp/raft-boltdb
 %global goipath         github.com/hashicorp/raft-boltdb
-%global commit          6e5ba93211eaf8d9a2ad7e41ffad8c6f160f9fe3
+%global commit          4207f1bf061751378aee6cdfe697965a13ab49d7
 
 %gometa
 
@@ -18,7 +18,7 @@ BoltStore which is an implementation of both a LogStore and StableStore.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.18%{?dist}
+Release:        0.20%{?dist}
 Summary:        Raft backend implementation using BoltDB
 
 # Upstream license specification: MPL-2.0
@@ -57,6 +57,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 21:30:55 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.19.20200727git4207f1b
+- Bump to commit 4207f1bf061751378aee6cdfe697965a13ab49d7
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,8 +3,8 @@
 %define libname libnmstate
 
 Name:           nmstate
-Version:        0.3.2
-Release:        1%{?dist}
+Version:        0.4.0
+Release:        2%{?dist}
 Summary:        Declarative network manager API
 License:        LGPLv2+
 URL:            https://github.com/%{srcname}/%{srcname}
@@ -27,23 +27,32 @@ provider support on the southbound.
 
 %package -n python3-%{libname}
 Summary:        nmstate Python 3 API library
-Requires:       NetworkManager-libnm >= 1:1.22.16
+Requires:       NetworkManager-libnm >= 1:1.26.0
 # Use Recommends for NetworkManager because only access to NM DBus is required,
 # but NM could be running on a different host
 Recommends:     NetworkManager
 # Avoid automatically generated profiles
 Recommends:     NetworkManager-config-server
+Recommends:     (nmstate-plugin-ovsdb if openvswitch)
 # Use Suggests for NetworkManager-ovs and NetworkManager-team since it is only
 # required for OVS and team support
 Suggests:       NetworkManager-ovs
 Suggests:       NetworkManager-team
+# FIXME: Once upstream included nispor into requirement.txt, remove below line
+Requires:       python3dist(nispor)
 
 %package -n nmstate-plugin-ovsdb
 Summary:        nmstate plugin for OVS database manipulation
 Requires:       python3-%{libname} = %{?epoch:%{epoch}:}%{version}-%{release}
-# The python-openvswitch rpm pacakge is not in the same repo with nmstate,
-# hence state it as Recommends, no requires.
+%if 0%{?rhel}
+# The python-openvswitch rpm package is not in the same repo with nmstate,
+# require only if openvswitch is installed.
+Requires:       (python3dist(ovs) if openvswitch)
 Recommends:     python3dist(ovs)
+%else
+Requires:       python3dist(ovs)
+%endif
+
 
 %description -n python3-%{libname}
 This package contains the Python 3 library for Nmstate.
@@ -81,6 +90,25 @@ gpgv2 --keyring ./gpgkey-mantainers.gpg %{SOURCE1} %{SOURCE0}
 %{python3_sitelib}/%{libname}/plugins/__pycache__/nmstate_plugin_ovsdb*
 
 %changelog
+* Tue Oct 13 2020 Gris Ge <fge@redhat.com> - 0.4.0-2
+- Fix the ELN build by put ovs stuff as soft requirement.
+
+* Sun Sep 20 2020 Gris Ge <fge@redhat.com> - 0.4.0-1
+- Upgrade to 0.4.0
+
+* Mon Aug 31 2020 Fernando Fernandez Mancera <ferferna@redhat.com> - 0.3.5-1
+- Update to 0.3.5
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Fernando Fernandez Mancera <ferferna@redhat.com> - 0.3.4-1
+- Update to 0.3.4
+- Sync. with upstream specfile
+
+* Thu Jul 02 2020 Fernando Fernandez Mancera <ferferna@redhat.com> - 0.3.3-1
+- Update to 0.3.3
+
 * Tue Jun 16 2020 Fernando Fernandez Mancera <ferferna@redhat.com> - 0.3.2-1
 - Update to 0.3.2
 - Sync with upstream specfile

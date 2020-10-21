@@ -5,7 +5,7 @@
 
 Name: container-storage-setup
 Version: 0.11.0
-Release: 7.dev.git%{shortcommit0}%{?dist}
+Release: 8.dev.git%{shortcommit0}%{?dist}
 Summary: A simple service to setup container storage devices
 License: ASL 2.0
 URL: %{git0}
@@ -47,6 +47,9 @@ install -p -m 644 %{name}.1 %{buildroot}%{_mandir}/man1/%{name}.1
 %{csslibdir}/libcss.sh
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.0-8.dev.git413b408
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.0-7.dev.git413b408
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

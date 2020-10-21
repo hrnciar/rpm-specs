@@ -1,19 +1,15 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:           sugar-locosugar
-Version:        11
-Release:        14%{?dist}
+Version:        12
+Release:        1%{?dist}
 Summary:        A game for discovering how to use the mouse and keyboard
 
 License:        GPLv3+ and LGPLv2+ and MIT
 URL:            http://wiki.sugarlabs.org/go/Activities/LocoSugar
 Source0:        http://download.sugarlabs.org/sources/honey/LocoSugar/LocoSugar-%{version}.tar.bz2
 
-BuildRequires:  python2-devel sugar-toolkit-gtk3 gettext
+BuildRequires:  python3-devel python3 sugar-toolkit-gtk3 gettext
 BuildArch:      noarch
-Requires:       sugar >= 0.97.0
+Requires:       sugar >= 0.116
 
 %description
 LocoSugar is a simple game for discovering how to use the mouse 
@@ -25,14 +21,17 @@ dragging while game 5,6 and 7 involve typing.
 %prep
 %setup -q -n LocoSugar-%{version}
 
-sed -i 's/python/python2/' *.py
+sed -i 's/python/python3/' *.py
 
 %build
-python2 ./setup.py build
+python3 ./setup.py build
 
 %install
-python2 ./setup.py install --prefix=%{buildroot}/%{_prefix}
+python3 ./setup.py install --prefix=%{buildroot}/%{_prefix}
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
+
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}/%{sugaractivitydir}/LocoSugar.activity/ 
 
 %find_lang org.sugarlabs.LocoSugar
 
@@ -42,6 +41,18 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 %{sugaractivitydir}/LocoSugar.activity/
 
 %changelog
+* Tue Aug 25 2020 Ibiam Chihurumnaya <ibiamchihurumnaya@gmail.com> - 12-1
+- Release version 12
+- Change to py_byte_compile as stated in phase 3
+  (See https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,19 +2,18 @@
 %global real_name packit
 
 Name:           %{real_name}
-Version:        0.11.1
+Version:        0.18.0
 Release:        1%{?dist}
 Summary:        A tool for integrating upstream projects with Fedora operating system
 
 License:        MIT
-URL:            https://github.com/packit-service/packit
+URL:            https://github.com/packit/packit
 Source0:        %pypi_source
 BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  python3-click-man
 BuildRequires:  python3-GitPython
 BuildRequires:  python3-gnupg
-BuildRequires:  python3-jsonschema
 BuildRequires:  python3-ogr
 BuildRequires:  python3-packaging
 BuildRequires:  python3-pyyaml
@@ -43,7 +42,6 @@ projects into Fedora operating system.
 Summary:        %{summary}
 # See setup.cfg for details
 Requires:       python3-koji
-Requires:       python3-bodhi-client
 %{?python_provide:%python_provide python3-%{real_name}}
 
 %description -n python3-%{real_name}
@@ -80,6 +78,33 @@ mv %{buildroot}%{_datadir}/bash_completion/completions/packit %{buildroot}%{_dat
 %{python3_sitelib}/*
 
 %changelog
+* Thu Oct 15 2020 Packit Service <user-cont-team+packit-service@redhat.com> - 0.18.0-1
+- new upstream release: 0.18.0
+
+* Thu Oct 01 2020 Packit Service <user-cont-team+packit-service@redhat.com> - 0.17.0-1
+- new upstream release: 0.17.0
+
+* Thu Sep 03 2020 rebase-helper <rebase-helper@localhost.local> - 0.16.0-1
+- new upstream release: 0.16.0
+
+* Thu Aug 20 2020 Packit Service <user-cont-team+packit-service@redhat.com> - 0.15.0-1
+- new upstream release: 0.15.0
+
+* Tue Jul 28 2020 Jiri Popelka <jpopelka@redhat.com> - 0.14.0-1
+- new upstream release: 0.14.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Hunor Csomortáni <csomh@redhat.com> - 0.13.1-1
+- new upstream release: 0.13.1
+
+* Thu Jul 09 2020 Packit Service <user-cont-team+packit-service@redhat.com> - 0.13.0-1
+- new upstream release: 0.13.0
+
+* Wed Jun 24 2020 lbarcziova <lbarczio@redhat.com> - 0.12.0-1
+- new upstream release: 0.12.0
+
 * Thu Jun 11 2020 Jan Sakalos <sakalosj@gmail.com> - 0.11.1-1
 - new upstream release: 0.11.1
 

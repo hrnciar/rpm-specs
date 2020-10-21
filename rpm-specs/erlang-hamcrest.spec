@@ -5,7 +5,7 @@
 
 Name:		erlang-%{realname}
 Version:	0.1.0
-Release:	14%{?dist}
+Release:	15%{?dist}
 BuildArch:	noarch
 Summary:	A framework for writing matcher objects using declarative rules
 License:	MIT and BSD
@@ -48,6 +48,9 @@ writing flexible tests that matchers are most commonly used.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

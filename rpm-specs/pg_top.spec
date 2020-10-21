@@ -1,7 +1,7 @@
 Summary:	'top' for PostgreSQL process
 Name:		pg_top
 Version:	3.7.0
-Release:	15%{?dist}
+Release:	16%{?dist}
 License:	BSD
 Source0:	http://pgfoundry.org/frs/download.php/3504/%{name}-%{version}.tar.bz2
 URL:		http://pgfoundry.org/projects/ptop
@@ -37,6 +37,9 @@ install -Dp -m 644 %{name}.1 %{buildroot}%{_mandir}/man1/%{name}.1
 %doc FAQ HISTORY LICENSE README TODO Y2K
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 13 2020 Filipe Rosset <rosset.filipe@gmail.com> - 3.7.0-15
 - Fix FTBFS rhbz#1799861
 

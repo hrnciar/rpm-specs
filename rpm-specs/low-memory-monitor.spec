@@ -1,6 +1,6 @@
 Name:           low-memory-monitor
 Version:        2.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Monitors low-memory conditions
 
 License:        GPLv3+
@@ -65,6 +65,9 @@ This package contains the documentation for %{name}.
 %{_datadir}/gtk-doc/html/%{name}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

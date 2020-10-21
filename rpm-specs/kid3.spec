@@ -7,14 +7,13 @@
 %global gstversion 1.0
 
 Name:           kid3
-Version:        3.8.2
+Version:        3.8.4
 Release:        1%{?dist}
 Summary:        Efficient KDE ID3 tag editor
 
 License:        GPLv2+
 URL:            http://kid3.sourceforge.net/
-Source0:        http://downloads.sourceforge.net/kid3/%{name}-%{version}.tar.gz
-Patch0:         taglib-find-fix.patch
+Source0:        http://download.kde.org/stable/%{name}/%{version}/%{name}-%{version}.tar.xz
 
 %if %{with kf5}
 BuildRequires:  kf5-kio-devel
@@ -89,12 +88,12 @@ built without KDE dependencies.
     -DWITH_GSTREAMER_VERSION=%{gstversion} \
     -DWITH_NO_MANCOMPRESS=ON \
     .
-%make_build
+%cmake_build
 
 
 %install
 
-%make_install
+%cmake_install
 
 install -dm 755 $RPM_BUILD_ROOT%{_pkgdocdir}
 install -pm 644 AUTHORS ChangeLog README $RPM_BUILD_ROOT%{_pkgdocdir}
@@ -117,11 +116,11 @@ appstream-util validate-relax --nonet \
 
 %files -f %{name}-kde.lang
 %{_bindir}/kid3
-%{_datadir}/metainfo/net.sourceforge.kid3.appdata.xml
+%{_datadir}/metainfo/org.kde.kid3.appdata.xml
 %{_datadir}/icons/hicolor/*x*/apps/kid3.png
 %{_datadir}/icons/hicolor/scalable/apps/kid3.svgz
 %if %{with kf5}
-%{_datadir}/applications/net.sourceforge.kid3.desktop
+%{_datadir}/applications/org.kde.kid3.desktop
 %{_datadir}/kxmlgui5/%{name}
 %else
 %{_datadir}/applications/kde4/kid3.desktop
@@ -140,18 +139,33 @@ appstream-util validate-relax --nonet \
 
 %files qt -f %{name}-qt.lang
 %{_bindir}/kid3-qt
-%{_datadir}/metainfo/net.sourceforge.kid3-qt.appdata.xml
-%{_datadir}/applications/net.sourceforge.kid3-qt.desktop
+%{_datadir}/metainfo/org.kde.kid3-qt.appdata.xml
+%{_datadir}/applications/org.kde.kid3-qt.desktop
 %{_datadir}/icons/hicolor/*x*/apps/kid3-qt.png
 %{_datadir}/icons/hicolor/scalable/apps/kid3-qt.svg
 %dir %{_docdir}/kid3-qt/
 %lang(de) %{_docdir}/kid3-qt/kid3_de.html
 %lang(en) %{_docdir}/kid3-qt/kid3_en.html
 %lang(pt) %{_docdir}/kid3-qt/kid3_pt.html
+%lang(ca) %{_docdir}/kid3-qt/kid3_ca.html
+%lang(it) %{_docdir}/kid3-qt/kid3_it.html
+%lang(nl) %{_docdir}/kid3-qt/kid3_nl.html
+%lang(sv) %{_docdir}/kid3-qt/kid3_sv.html
+%lang(uk) %{_docdir}/kid3-qt/kid3_uk.html
 %{_mandir}/man1/kid3-qt.1*
 
 
 %changelog
+* Sun Oct 04 2020 Marie Loise Nolden <loise@kde.org> - 3.8.4-1
+- fix build with cmake, update to 3.8.4
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 08 2020 Hedayat Vatankhah <hedayat.fwd+rpmchlog@gmail.com> - 3.8.2-1
 - Update to latest upstream version: 3.8.2 with new features and bugfixes
 

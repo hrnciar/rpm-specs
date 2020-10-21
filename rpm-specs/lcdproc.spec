@@ -5,7 +5,7 @@
 Summary:        Display real-time system information on a 20x4 back-lit LCD
 Name:           lcdproc
 Version:        0.5.9
-Release:        7.%{commitdate}git%{shortcommit}%{?dist}
+Release:        10.%{commitdate}git%{shortcommit}%{?dist}
 License:        GPLv2
 URL:            http://lcdproc.org
 Source0:        https://github.com/%{name}/%{name}/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
@@ -71,6 +71,15 @@ touch -r TODO LCDd.conf
 
 
 %build
+# This package has a configure test which uses ASMs, but does not link the
+# resultant .o files.  As such the ASM test is always successful in a LTO
+# build.  We can force code generation with the -ffat-lto-objects to make
+# the test work as expected.
+#
+# -ffat-lto-objects is the default for F33, but will not be for F34, so we
+# make it explicit here.
+%define _lto_cflags -flto=auto -ffat-lto-objects
+
 autoreconf -vif
 %configure \
   --sysconfdir=%{_sysconfdir}/%{name} \
@@ -148,6 +157,15 @@ done
 
 
 %changelog
+* Thu Aug 20 2020 Jeff Law <law@redhat.com> - 0.5.9-10.20190625git781b311
+- Re-enable LTO
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.9-9.20190625git781b311
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Jeff Law <law@redhat.com> - 0.5.9-8.20190625git781b311
+- Disable LTO
+
 * Fri Mar 20 2020 Hans de Goede <hdegoede@redhat.com> - 0.5.9-7.20190625git781b311
 - Drop svgalib support, svgalib is being dropped from the distro (rhbz#1814816)
 

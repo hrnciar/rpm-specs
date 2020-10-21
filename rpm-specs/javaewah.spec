@@ -1,6 +1,6 @@
 Name:           javaewah
 Version:        1.1.6
-Release:        7%{?dist}
+Release:        10%{?dist}
 Summary:        A word-aligned compressed variant of the Java bitset class
 
 License:        ASL 2.0
@@ -13,8 +13,6 @@ BuildRequires:  maven-local
 BuildRequires:  mvn(junit:junit)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-source-plugin)
-BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
-
 
 %description
 JavaEWAH is a word-aligned compressed variant of the Java bitset class.
@@ -35,6 +33,9 @@ API documentation for %{name}.
 
 %prep
 %setup -qn javaewah-JavaEWAH-%{version}
+
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
 
 # Plugins that are unnecessary for RPM build
 %pom_remove_plugin :maven-gpg-plugin
@@ -59,6 +60,15 @@ API documentation for %{name}.
 %license LICENSE-2.0.txt
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 1.1.6-10
+- Remove unnecessary dependency on parent POM.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.6-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.1.6-8
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.6-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

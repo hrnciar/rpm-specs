@@ -1,7 +1,7 @@
 Name:           kismon
-Version:        0.8.1
-Release:        14%{?dist}
-Summary:        A simple GUI client for kismet
+Version:        1.0.2
+Release:        2%{?dist}
+Summary:        GUI client for kismet
 
 License:        BSD
 URL:            https://www.salecker.org/software/kismon.html
@@ -16,10 +16,10 @@ Requires:       osm-gps-map-gobject
 Requires:       python3-gobject
 Requires:       python3-cairo
 Requires:       python3-simplejson
+Requires:       python3-kismet-rest
     
 %description
-Kismon is a PyGTK Kismet Newcore client that creates a live map of the
-networks. 
+Kismon is a PyGTK Kismet client that creates a live map of the networks. 
 
 %prep
 %setup -q
@@ -35,16 +35,27 @@ chmod -x files/kismon.desktop
 
 %install
 %py3_install
+
+%check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 %files
-%doc COPYING README NEWS
+%doc COPYING README.md NEWS
 %{_bindir}/%{name}
 %{python3_sitelib}/%{name}/
 %{python3_sitelib}/%{name}*.egg-info
 %{_datadir}/applications/%{name}.desktop
 
 %changelog
+* Thu Sep 24 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.0.2-2
+- Add missing requirement (#1882303)
+
+* Sun Aug 30 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.0.2-1
+- Update to new upstream version 1.0.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.1-14
 - Rebuilt for Python 3.9
 

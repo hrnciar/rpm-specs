@@ -7,7 +7,7 @@
 %global brzmajor 3.0
 %global brzminor .2
 #global brzrc b6
-%global baserelease 3
+%global baserelease 4
 
 # https://fedoraproject.org/wiki/Changes/ReplaceBazaarWithBreezy
 %if 0%{?fedora} >= 32
@@ -164,6 +164,9 @@ echo ".so man1/git-remote-brz.1" > %{buildroot}%{_mandir}/man1/git-remote-bzr.1
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.2-3
 - Rebuilt for Python 3.9
 

@@ -10,7 +10,7 @@
 Summary:        Database interface library for Lua
 Name:           lua-dbi
 Version:        0.7.2
-Release:        2%{?dist}
+Release:        4%{?dist}
 License:        MIT
 URL:            https://github.com/mwild1/luadbi
 Source0:        https://github.com/mwild1/luadbi/archive/v%{version}/luadbi-%{version}.tar.gz
@@ -116,6 +116,12 @@ popd
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Björn Esser <besser82@fedoraproject.org> - 0.7.2-3
+- Rebuilt for Lua 5.4
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

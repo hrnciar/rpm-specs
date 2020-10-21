@@ -2,7 +2,8 @@
 
 Name:           pywbem
 Version:        0.14.6
-Release:        3%{?dist}
+Epoch:          1
+Release:        8%{?dist}
 Summary:        Python WBEM client interface and related utilities
 License:        LGPLv2
 URL:            https://github.com/pywbem/pywbem
@@ -66,6 +67,25 @@ mv -v %{buildroot}/%{_bindir}/wbemcli.py %{buildroot}/%{_bindir}/pywbemcli.py
 %doc README.rst
 
 %changelog
+* Thu Oct 1 2020 Tony Asleson <tasleson@redhat.com> - 0.14.6-8
+- New build to do a multi-build
+
+* Wed Sep 30 2020 Tony Asleson <tasleson@redhat.com> - 0.14.6-7
+- Add epoch to override the newer version that cannot be installed.
+
+* Tue Sep 1 2020 Tony Asleson <tasleson@redhat.com> - 0.14.6-6
+- Fix build failure
+  Bad source: /builddir/build/SOURCES/pywbem-0.14.6.tar.gz: No such file or directory
+
+* Tue Sep 1 2020 Tony Asleson <tasleson@redhat.com> - 0.14.6-5
+- Go back to 0.14.6 ref. https://bugzilla.redhat.com/show_bug.cgi?id=1868128
+
+* Mon Aug 10 2020 Gris Ge <fge@redhat.com> - 1.0.1-1
+- Upgrade to 1.0.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.14.6-3
 - Rebuilt for Python 3.9
 

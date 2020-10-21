@@ -3,7 +3,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Convert Korean lunar-calendar to Gregorian calendar
 
 License:        MIT
@@ -41,6 +41,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{internal_name}-%{version}-py*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 15 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.2.1-1
 - Add LICENSE file from tarball
 - Update to latest upstream release 0.2.1

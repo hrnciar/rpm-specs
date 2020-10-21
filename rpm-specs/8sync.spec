@@ -3,7 +3,7 @@
 Summary:         Asynchronous programming library for GNU Guile
 Name:            8sync
 Version:         0.4.2
-Release:         9%{?dist}
+Release:         10%{?dist}
 Source:          ftp://ftp.gnu.org/gnu/8sync/8sync-%{?version}.tar.gz
 URL:             https://www.gnu.org/software/8sync
 License:         LGPLv3+
@@ -52,6 +52,9 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/info/dir
 %{_datadir}/info/8sync.info.gz
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

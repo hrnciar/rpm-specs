@@ -1,7 +1,7 @@
 Name:           contractor
 Summary:        Desktop-wide extension service
 Version:        0.3.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 License:        GPLv3+
 
 URL:            https://github.com/elementary/%{name}
@@ -52,6 +52,9 @@ mkdir -p %{buildroot}/%{_datadir}/%{name}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

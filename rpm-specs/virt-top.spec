@@ -3,7 +3,7 @@
 
 Name:           virt-top
 Version:        1.0.9
-Release:        13%{?dist}
+Release:        16%{?dist}
 Summary:        Utility like top(1) for displaying virtualization stats
 License:        GPLv2+
 
@@ -118,6 +118,15 @@ install -m 0644 processcsv.py.1 $RPM_BUILD_ROOT%{_mandir}/man1/
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.0.9-16
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.0.9-15
+- OCaml 4.11.0 rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.9-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Richard W.M. Jones <rjones@redhat.com> - 1.0.9-13
 - Rebuild for updated ocaml-extlib (RHBZ#1837823).
 

@@ -1,6 +1,9 @@
+# Perform release tests
+%bcond_without perl_Spiffy_enables_extra_test
+
 Name:           perl-Spiffy
 Version:        0.46
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Framework for doing object oriented (OO) programming in Perl
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Spiffy
@@ -24,8 +27,10 @@ BuildRequires:  perl(base)
 BuildRequires:  perl(Cwd)
 BuildRequires:  perl(lib)
 BuildRequires:  perl(Test::More)
+%if %{with perl_Spiffy_enables_extra_test}
 # Release Tests:
 BuildRequires:  perl(Test::Pod) >= 1.41
+%endif
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:       perl(Data::Dumper)
 Requires:       perl(Filter::Util::Call)
@@ -57,7 +62,8 @@ find $RPM_BUILD_ROOT -type f -name .packlist -exec rm -f {} \;
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
-make test RELEASE_TESTING=1
+unset RELEASE_TESTING
+make test %{?with_perl_Spiffy_enables_extra_test:RELEASE_TESTING=1}
 
 # Support use of %%license on old distributions
 %{!?_licensedir:%global license %%doc}
@@ -71,6 +77,9 @@ make test RELEASE_TESTING=1
 %{_mandir}/man3/Spiffy.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.46-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.46-17
 - Perl 5.32 rebuild
 

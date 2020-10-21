@@ -2,8 +2,8 @@
 
 Summary: A pipeline manipulation library
 Name: libpipeline
-Version: 1.5.2
-Release: 2%{?dist}
+Version: 1.5.3
+Release: 1%{?dist}
 License: GPLv3+
 URL: http://libpipeline.nongnu.org/
 Source: http://download.savannah.gnu.org/releases/libpipeline/libpipeline-%{version}.tar.gz
@@ -35,13 +35,13 @@ to develop programs that use libpipeline library.
 
 %build
 %{configure}
-make %{?_smp_mflags}
+%make_build
 
 %check
 make check
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT prefix=%{_prefix} INSTALL='install -p'
+%make_install prefix=%{_prefix}
 rm $RPM_BUILD_ROOT/%{_libdir}/libpipeline.la
 
 %files
@@ -57,6 +57,21 @@ rm $RPM_BUILD_ROOT/%{_libdir}/libpipeline.la
 %{_mandir}/man3/*
 
 %changelog
+* Mon Aug 17 2020 Nikola Forró <nforro@redhat.com> - 1.5.3-1
+- update to 1.5.3
+  resolves: #1868648
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.5.2-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 
 Name:           gnugo
 Version:        3.8
-Release:        22%{?dist}
+Release:        24%{?dist}
 
 Summary:        Text based go program
 
@@ -54,6 +54,13 @@ rm -f ${RPM_BUILD_ROOT}/%{_infodir}/dir
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8-24
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb  9 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 3.8-22
 - Workaround for GCC 10's -fno-common
 - Modernize spec

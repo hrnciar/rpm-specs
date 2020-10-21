@@ -2,7 +2,7 @@
 %global gem_name bson
 
 Name: rubygem-%{gem_name}
-Version: 4.8.1
+Version: 4.10.0
 Release: 1%{?dist}
 Summary: Ruby implementation of the BSON specification
 License: ASL 2.0
@@ -11,6 +11,9 @@ License: ASL 2.0
 # that is a beneficial for Fedora user.
 URL: http://bsonspec.org
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
+# Use appropriate length variable in get_string for both BE/LE architectures.
+# https://github.com/mongodb/bson-ruby/pull/208/commits/bd2fda420348c68dbf0b0f4ec800286798e63ee4
+Patch0: rubygem-bson-4.10.0-appropriate-length-s390x.patch
 Requires: rubygem(bigdecimal)
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel >= 1.3.6
@@ -39,6 +42,8 @@ Documentation for %{name}.
 
 %prep
 %setup -q -n %{gem_name}-%{version}
+
+%patch0 -p1
 
 %build
 # Create the gem as gem install only works on a gem file
@@ -82,6 +87,12 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Fri Aug 07 2020 Jun Aruga <jaruga@redhat.com> - 4.10.0-1
+- Update to bson 4.10.0.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 04 2020 Jun Aruga <jaruga@redhat.com> - 4.8.1-1
 - Update to bson 4.8.1.
 

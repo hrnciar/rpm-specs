@@ -3,14 +3,11 @@
 
 # https://github.com/coreos/go-systemd
 %global goipath         github.com/coreos/go-systemd
-Version:                19
+Version:                22.1.0
 
 %gometa
 
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-coreos-go-systemd-devel < 18-3
-}
+%global goaltipaths     github.com/coreos/go-systemd/v22
 
 %global common_description %{expand:
 Go bindings to systemd. The project has several packages:
@@ -31,7 +28,7 @@ Go bindings to systemd. The project has several packages:
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Go bindings to systemd socket activation, journal, D-Bus, and unit files
 
 # Upstream license specification: Apache-2.0
@@ -41,8 +38,7 @@ Source0:        %{gosource}
 Source1:        glide.lock
 Source2:        glide.yaml
 
-BuildRequires:  golang(github.com/coreos/pkg/dlopen)
-BuildRequires:  golang(github.com/godbus/dbus)
+BuildRequires:  golang(github.com/godbus/dbus/v5)
 
 %description
 %{common_description}
@@ -58,12 +54,19 @@ cp %{S:1} %{S:2} .
 
 %if %{with check}
 %check
-%gocheck -d dbus -d journal -d login1 -d machine1 -d sdjournal
+# internal/dlopen: https://github.com/coreos/go-systemd/issues/339
+%gocheck -d dbus -d journal -d login1 -d machine1 -d sdjournal -d import1 -d internal/dlopen
 %endif
 
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 22.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 14:39:57 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 22.1.0-1
+- Update to 22.1.0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

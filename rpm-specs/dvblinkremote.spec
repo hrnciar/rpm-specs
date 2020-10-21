@@ -2,16 +2,16 @@
 
 Name:           dvblinkremote
 Version:        0.2.0
-Release:        0.18.%{prerelease}%{?dist}
+Release:        0.22.%{prerelease}%{?dist}
 Summary:        Tool for interacting with a DVBLink Connect! Server
 
 License:        MIT
 URL:            https://github.com/marefr/dvblinkremote
 Source0:        https://github.com/marefr/%{name}/archive/v%{version}-%{prerelease}/%{name}-%{version}-%{prerelease}.tar.gz
-# Fix build with tinyxml2
-Patch0:         %{name}-0.2.0-tinyxml2.patch
-# Fix build with libcurl
-Patch1:         %{name}-0.2.0-curl.patch
+# Fix curl detection
+Patch0:         %{name}-0.2.0-curl.patch
+# Fix build with tinyxml2 >= 6.0.0
+Patch1:         %{name}-0.2.0-tinyxml2.patch
 # Fix compilation issues on Linux with recent gcc versions (see
 # https://github.com/marefr/dvblinkremote/commit/b32af4a)
 Patch2:         %{name}-0.2.0-build.patch
@@ -19,8 +19,8 @@ Patch2:         %{name}-0.2.0-build.patch
 Patch3:         %{name}-0.2.0-shared_library.patch
 # Fix installation
 Patch4:         %{name}-0.2.0-install.patch
-# Fix build with tinyxml2 >= 6.0.0
-Patch5:         %{name}-0.2.0-tinyxml2_6.patch
+# Fix ordered pointer comparison against zero
+Patch5:		%{name}-gcc11.patch
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -58,14 +58,11 @@ developing applications that use libdvblinkremote.
   -DDVBLINKREMOTE_BIN_DIR=%{_bindir} \
   -DDVBLINKREMOTE_INCLUDE_DIR=%{_includedir}/lib%{name} \
   -DDVBLINKREMOTE_LIB_DIR=%{_libdir}
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-%make_install
-
-
-%ldconfig_scriptlets libs
+%cmake_install
 
 
 %files
@@ -83,6 +80,20 @@ make %{?_smp_mflags}
 
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 0.2.0-0.22.beta
+- Fix ordered pointer comparison against zero
+
+* Thu Aug 13 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 0.2.0-0.21.beta
+- Use new cmake macros
+- Clean up patches
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-0.20.beta
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-0.19.beta
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-0.18.beta
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

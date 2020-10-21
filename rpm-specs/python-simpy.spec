@@ -3,7 +3,7 @@
 
 Name:       python-%{srcname}
 Version:    3.0.9
-Release:    16%{?dist}
+Release:    17%{?dist}
 Summary:    %{sum}
 License:    LGPLv2+
 URL:        https://simpy.readthedocs.io/
@@ -75,6 +75,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.9-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.9-16
 - Rebuilt for Python 3.9
 

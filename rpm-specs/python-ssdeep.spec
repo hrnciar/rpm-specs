@@ -12,7 +12,7 @@ Summary: Python wrapper for the ssdeep library
 License: LGPLv3+
 
 Version: 3.4
-Release: 3%{?dist}
+Release: 5%{?dist}
 
 URL: https://github.com/DinoTools/python-ssdeep/
 Source0: %pypi_source
@@ -23,6 +23,7 @@ BuildRequires: ssdeep-devel
 BuildRequires: python3-cffi >= 0.8.6
 BuildRequires: python3-devel
 BuildRequires: python3-pytest-runner
+BuildRequires: python3-setuptools
 BuildRequires: python3-six >= 1.4.1
 BuildRequires: python3-sphinx
 
@@ -82,6 +83,12 @@ install -m 644 docs/build/man/pythonssdeep.1 %{buildroot}%{_mandir}/man5/python3
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Artur Iwicki <fedora@svgames.pl> - 3.4-4
+- Add an explicit BuildRequires on python3-setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.4-3
 - Rebuilt for Python 3.9
 

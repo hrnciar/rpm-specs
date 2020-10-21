@@ -1,13 +1,12 @@
 
 %global _hardened_build	1
-%define _legacy_common_support	1
 
 # version revision
-%global revision	8497
+%global revision	9779
 
 Name:		yadifa
-Version:	2.3.9
-Release:	4%{?dist}
+Version:	2.3.11
+Release:	1%{?dist}
 Summary:	Lightweight authoritative Name Server with DNSSEC capabilities
 
 License:	BSD
@@ -181,6 +180,15 @@ exit 0
 
 
 %changelog
+* Fri Oct 09 2020 Denis Fateyev <denis@fateyev.com> - 2.3.11-1
+- Update to 2.3.11 release
+
+* Thu Sep 17 2020 Denis Fateyev <denis@fateyev.com> - 2.3.10-1
+- Update to 2.3.10 release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.9-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 28 2020 Denis Fateyev <denis@fateyev.com> - 2.3.9-4
 - Add "legacy_common_support" build option
 

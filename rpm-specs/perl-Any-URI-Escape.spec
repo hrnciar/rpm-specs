@@ -1,6 +1,6 @@
 Name:           perl-Any-URI-Escape
 Version:        0.01
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Load URI::Escape::XS preferentially over URI::Escape
 License:        GPL+ or Artistic
 
@@ -46,6 +46,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.01-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.01-21
 - Perl 5.32 rebuild
 

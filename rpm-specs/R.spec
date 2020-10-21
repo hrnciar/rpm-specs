@@ -4,10 +4,11 @@
 %global runjavareconf 1
 
 # lapack comes from openblas, whenever possible.
-# We decided to implement this change in Fedora 32+ and EPEL-8 only.
+# We decided to implement this change in Fedora 31+ and EPEL-8 only.
 # This was to minimize the impact on end-users who might have R modules
 # installed locally with the old dependency on libRlapack.so
-%if 0%{?fedora} >= 32
+
+%if 0%{?fedora} >= 31
 %global syslapack 1
 %else
 %if 0%{?rhel} && 0%{?rhel} >= 8
@@ -33,6 +34,12 @@
    %global openblas 0
   %endif
  %endif
+%endif
+
+%if 0%{?fedora} >= 33
+%global flexiblas 1
+%else
+%global flexiblas 0
 %endif
 
 %if 0%{?fedora} >= 31
@@ -148,7 +155,7 @@
 
 %global major_version 4
 %global minor_version 0
-%global patch_version 2
+%global patch_version 3
 
 Name: R
 Version: %{major_version}.%{minor_version}.%{patch_version}
@@ -173,9 +180,9 @@ Source106: https://cran.r-project.org/doc/FAQ/R-FAQ.html
 %if %{zlibhack}
 %global zlibv 1.2.11
 %global bzipv 1.0.8
-%global xzv 5.2.4
-%global pcrev 8.43
-%global curlv 7.67.0
+%global xzv 5.2.5
+%global pcrev 8.44
+%global curlv 7.72.0
 Source1000: http://zlib.net/zlib-%{zlibv}.tar.gz
 Source1001: https://www.sourceware.org/pub/bzip2/bzip2-%{bzipv}.tar.gz
 Source1002: http://tukaani.org/xz/xz-%{xzv}.tar.bz2
@@ -236,14 +243,20 @@ BuildRequires: java
 BuildRequires: tre-devel
 BuildRequires: autoconf, automake, libtool
 %endif
+%if %{flexiblas}
+BuildRequires: flexiblas-devel
+%else
 %if %{openblas}
 BuildRequires: openblas-devel
 %endif
+%endif
 
 %if %{syslapack}
+%if !%{flexiblas}
 %if !%{openblas}
 BuildRequires: lapack-devel >= 3.5.0-7
 BuildRequires: blas-devel >= 3.5.0-7
+%endif
 %endif
 %endif
 
@@ -290,7 +303,9 @@ and called at run time.
 
 %package core
 Summary: The minimal R components necessary for a functional runtime
-Requires: xdg-utils, cups
+Requires: xdg-utils
+# Bugzilla 1875165
+Recommends: cups
 # R inherits the compiler flags it was built with, hence we need this on hardened systems
 %if 0%{hardening}
 Requires: redhat-rpm-config
@@ -310,8 +325,10 @@ Requires: sed, gawk, tex(latex), less, make, unzip
 Requires: libRmath%{?_isa} = %{version}-%{release}
 
 %if !%{syslapack}
+%if !%{flexiblas}
 %if %{openblas}
 Requires: openblas-Rblas
+%endif
 %endif
 %endif
 
@@ -347,12 +364,12 @@ Provides: R(ABI) = %{major_version}.%{minor_version}
 %add_submodule grid %{version}
 %add_submodule KernSmooth 2.23-17
 %add_submodule lattice 0.20-41
-%add_submodule MASS 7.3-51.6
+%add_submodule MASS 7.3-53
 %add_submodule Matrix 1.2-18
 Obsoletes: R-Matrix < 0.999375-7
 %add_submodule methods %{version}
-%add_submodule mgcv 1.8-31
-%add_submodule nlme 3.1-148
+%add_submodule mgcv 1.8-33
+%add_submodule nlme 3.1-149
 %add_submodule nnet 7.3-14
 %add_submodule parallel %{version}
 %add_submodule rpart 4.1-15
@@ -360,7 +377,7 @@ Obsoletes: R-Matrix < 0.999375-7
 %add_submodule splines %{version}
 %add_submodule stats %{version}
 %add_submodule stats4 %{version}
-%add_submodule survival 3.1-12
+%add_submodule survival 3.2-7
 %add_submodule tcltk %{version}
 %add_submodule tools %{version}
 %add_submodule translations %{version}
@@ -394,8 +411,12 @@ Requires: pcre-devel
 Requires: pcre2-devel
 %endif
 %if %{syslapack}
+%if %{flexiblas}
+Requires: flexiblas-devel
+%else
 %if %{openblas}
 Requires: openblas-devel
+%endif
 %endif
 %endif
 %if %{modern}
@@ -652,6 +673,11 @@ export FFLAGS="%{optflags} --no-optimize-sibling-calls"
 # of the R bundled blas, that can be replaced by an optimized version.
 # It also results in R using the bundled lapack copy.
 
+%if %{flexiblas}
+# avoid this check
+sed -i '/"checking whether the BLAS is complete/i r_cv_complete_blas=yes' configure
+%endif
+
 ( %configure \
 %if 0%{?rhel} && 0%{?rhel} <= 5
     --with-readline=no \
@@ -662,7 +688,11 @@ export FFLAGS="%{optflags} --no-optimize-sibling-calls"
     --with-system-valgrind-headers \
 %if %{syslapack}
     --with-lapack \
+%if %{flexiblas}
+    --with-blas="flexiblas" \
+%else
     --with-blas \
+%endif
 %else
     --enable-BLAS-shlib \
 %endif
@@ -684,8 +714,7 @@ export FFLAGS="%{optflags} --no-optimize-sibling-calls"
 %endif
     rdocdir=%{?_pkgdocdir}%{!?_pkgdocdir:%{_docdir}/%{name}-%{version}} \
     rincludedir=%{_includedir}/R \
-    rsharedir=%{_datadir}/R) \
- > CONFIGURE.log
+    rsharedir=%{_datadir}/R) | tee CONFIGURE.log
 cat CONFIGURE.log | grep -A30 'R is now' - > CAPABILITIES
 %if 0%{?zlibhack}
 make V=1 CURL_CPPFLAGS='-DCURL_STATICLIB -I%{_builddir}/%{name}-%{version}/curl-%{curlv}/target%{_includedir}' CURL_LIBS=`%{_builddir}/%{name}-%{version}/curl-%{curlv}/target/usr/bin/curl-config --libs`
@@ -808,9 +837,11 @@ sed -i 's|/builddir/build/BUILD/R-%{version}/curl-%{curlv}/target%{_libdir}/:/bu
 %endif
 
 %if !%{syslapack}
+%if !%{flexiblas}
 %if %{openblas}
 # Rename the R blas so.
 mv %{buildroot}%{_libdir}/R/lib/libRblas.so %{buildroot}%{_libdir}/R/lib/libRrefblas.so
+%endif
 %endif
 %endif
 
@@ -833,9 +864,9 @@ R CMD javareconf \
     JAVA_HOME=%{_jvmdir}/jre \
     JAVA_CPPFLAGS='-I%{_jvmdir}/java/include\ -I%{_jvmdir}/java/include/linux' \
     JAVA_LIBS='-L%{_jvmdir}/jre/lib/%{java_arch}/server \
-    -L%{_jvmdir}/jre/lib/%{java_arch}\ -L%{_jvmdir}/java/lib/%{java_arch} \
+    -L%{_jvmdir}/jre/lib/%{java_arch}\ -L%{_jvmdir}/java/lib/%{java_arch}\ -L%{_jvmdir}/jre/lib/server \
     -L/usr/java/packages/lib/%{java_arch}\ -L/lib\ -L/usr/lib\ -ljvm' \
-    JAVA_LD_LIBRARY_PATH=%{_jvmdir}/jre/lib/%{java_arch}/server:%{_jvmdir}/jre/lib/%{java_arch}:%{_jvmdir}/java/lib/%{java_arch}:/usr/java/packages/lib/%{java_arch}:/lib:/usr/lib \
+    JAVA_LD_LIBRARY_PATH=%{_jvmdir}/jre/lib/%{java_arch}/server:%{_jvmdir}/jre/lib/%{java_arch}:%{_jvmdir}/java/lib/%{java_arch}:%{_jvmdir}/jre/lib/server:/usr/java/packages/lib/%{java_arch}:/lib:/usr/lib \
     > /dev/null 2>&1 || exit 0
 %endif
 
@@ -867,9 +898,9 @@ R CMD javareconf \
     JAVA_HOME=%{_jvmdir}/jre \
     JAVA_CPPFLAGS='-I%{_jvmdir}/java/include\ -I%{_jvmdir}/java/include/linux' \
     JAVA_LIBS='-L%{_jvmdir}/jre/lib/%{java_arch}/server \
-    -L%{_jvmdir}/jre/lib/%{java_arch}\ -L%{_jvmdir}/java/lib/%{java_arch} \
+    -L%{_jvmdir}/jre/lib/%{java_arch}\ -L%{_jvmdir}/java/lib/%{java_arch}\ -L%{_jvmdir}/jre/lib/server \
     -L/usr/java/packages/lib/%{java_arch}\ -L/lib\ -L/usr/lib\ -ljvm' \
-    JAVA_LD_LIBRARY_PATH=%{_jvmdir}/jre/lib/%{java_arch}/server:%{_jvmdir}/jre/lib/%{java_arch}:%{_jvmdir}/java/lib/%{java_arch}:/usr/java/packages/lib/%{java_arch}:/lib:/usr/lib \
+    JAVA_LD_LIBRARY_PATH=%{_jvmdir}/jre/lib/%{java_arch}/server:%{_jvmdir}/jre/lib/%{java_arch}:%{_jvmdir}/java/lib/%{java_arch}:%{_jvmdir}/jre/lib/server:/usr/java/packages/lib/%{java_arch}:/lib:/usr/lib \
     > /dev/null 2>&1 || exit 0
 %endif
 
@@ -879,9 +910,9 @@ R CMD javareconf \
     JAVA_HOME=%{_jvmdir}/jre \
     JAVA_CPPFLAGS='-I%{_jvmdir}/java/include\ -I%{_jvmdir}/java/include/linux' \
     JAVA_LIBS='-L%{_jvmdir}/jre/lib/%{java_arch}/server \
-    -L%{_jvmdir}/jre/lib/%{java_arch}\ -L%{_jvmdir}/java/lib/%{java_arch} \
+    -L%{_jvmdir}/jre/lib/%{java_arch}\ -L%{_jvmdir}/java/lib/%{java_arch}\ -L%{_jvmdir}/jre/lib/server \
     -L/usr/java/packages/lib/%{java_arch}\ -L/lib\ -L/usr/lib\ -ljvm' \
-    JAVA_LD_LIBRARY_PATH=%{_jvmdir}/jre/lib/%{java_arch}/server:%{_jvmdir}/jre/lib/%{java_arch}:%{_jvmdir}/java/lib/%{java_arch}:/usr/java/packages/lib/%{java_arch}:/lib:/usr/lib \
+    JAVA_LD_LIBRARY_PATH=%{_jvmdir}/jre/lib/%{java_arch}/server:%{_jvmdir}/jre/lib/%{java_arch}:%{_jvmdir}/java/lib/%{java_arch}:%{_jvmdir}/jre/lib/server:/usr/java/packages/lib/%{java_arch}:/lib:/usr/lib \
     > /dev/null 2>&1 || exit 0
 %endif
 %endif
@@ -1249,6 +1280,22 @@ R CMD javareconf \
 %{_libdir}/libRmath.a
 
 %changelog
+* Mon Oct 12 2020 Tom Callaway <spot@fedoraproject.org> - 4.0.3-1
+- update to 4.0.3
+
+* Tue Sep  8 2020 Tom Callaway <spot@fedoraproject.org> - 4.0.2-5
+- make cups a "Recommends" instead of a "Requires" (bz1875165)
+- even though f31 uses a forked spec file, reflect the systemlapack change there here
+
+* Fri Aug 07 2020 Iñaki Úcar <iucar@fedoraproject.org> - 4.0.2-4
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Tom Callaway <spot@fedoraproject.org> - 4.0.2-2
+- add additional paths to find libjvm.so (OpenJDK 11+)
+
 * Mon Jun 22 2020 Tom Callaway <spot@fedoraproject.org> - 4.0.2-1
 - update to 4.0.2
 

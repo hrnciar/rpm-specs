@@ -1,6 +1,6 @@
 Name:           musca
 Version:        0.9.24
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        A simple dynamic window manager fox X
 
 License:        GPLv3
@@ -56,6 +56,9 @@ EOF
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.24-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.24-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

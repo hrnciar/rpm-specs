@@ -1,13 +1,10 @@
-#
-%global mydocs __tmp_docdir
-
 # Build -pythonN subpackage
 %bcond_without python3
 
 #
 Name:           opentrep
 Version:        0.07.7
-Release:        4%{?dist}
+Release:        7%{?dist}
 
 Summary:        C++ library providing a clean API for parsing travel-focused requests
 
@@ -70,7 +67,7 @@ Boost (C++ Standard Extensions: https://www.boost.org) and
 SOCI (https://github.com/SOCI) libraries are used.
 
 Note that %{name} currently only recognizes points of reference (POR),
-as to be found in the following file: http://bit.ly/1DXIjWE
+as to be found in the following file: https://bit.ly/3fQaddv
 A good complementary tool is GeoBase
 (https://opentraveldata.github.io/geobases), a Python-based software
 able to access to any travel-related data source.
@@ -104,7 +101,6 @@ This package contains Python libraries for %{name}
 Summary:        HTML documentation for the %{name} library
 BuildArch:      noarch
 BuildRequires:  tex(latex), tex(sectsty.sty), tex(tocloft.sty), tex(xtab.sty)
-#BuildRequires:  texlive-collection-langcyrillic, texlive-cyrillic
 BuildRequires:  texlive-epstopdf
 BuildRequires:  doxygen
 BuildRequires:  ghostscript
@@ -123,28 +119,15 @@ and it is therefore not reliable.
 
 
 %build
-mkdir tmpbuild
-pushd tmpbuild
-%if 0%{?fedora} || 0%{?rhel} > 7
-%cmake ..
-%else
-%cmake3 ..
-%endif
+%cmake
 
-%make_build
-popd
+%cmake_build
 
 %install
-pushd tmpbuild
-%make_install
-popd
+%cmake_install
 
-# From rpm version > 4.9.1, it may no longer be necessary to move the
-# documentation out of the docdir path, as the %%doc macro no longer
-# deletes the full directory before installing files into it.
-mkdir -p %{mydocs}
-mv %{buildroot}%{_docdir}/%{name}/html %{mydocs}
-rm -f %{mydocs}/html/installdox
+# Remove the Doxygen installer
+rm -f %{buildroot}%{_docdir}/%{name}/html/installdox
 
 # Remove additional documentation files (those files are already available
 # in the project top directory)
@@ -174,8 +157,8 @@ rm -f %{_bindir}/py%{name}
 %endif
 
 %files
-%license COPYING
 %doc AUTHORS ChangeLog NEWS README.md
+%license COPYING
 %{_bindir}/%{name}-indexer
 %{_bindir}/%{name}-searcher
 %{_bindir}/%{name}-dbmgr
@@ -205,7 +188,7 @@ rm -f %{_bindir}/py%{name}
 %{_mandir}/man3/%{name}-library.3.*
 
 %files doc
-%doc %{mydocs}/html
+%doc %{_docdir}/%{name}/html
 %license COPYING
 
 %if %{with python3}
@@ -215,6 +198,16 @@ rm -f %{_bindir}/py%{name}
 %endif
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 0.07.7-7
+- Rebuilt for protobuf 3.13
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.07.7-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.07.7-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Adrian Reber <adrian@lisas.de> - 0.07.7-4
 - Rebuilt for protobuf 3.12
 

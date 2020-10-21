@@ -1,6 +1,6 @@
 Name:       makepasswd
 Version:    0.5.3
-Release:    19%{?dist}
+Release:    20%{?dist}
 Summary:    Generates (pseudo-)random passwords of a desired length
 
 License:    GPLv3
@@ -44,6 +44,9 @@ install -D -p -m 644 doc/makepasswd.1 %{buildroot}%{_mandir}/man1/makepasswd.1
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 Name:           sparkleshare
 Version:        3.28
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Share and collaborate by syncing with any Git repository instantly
 
 License:        GPLv3+
@@ -69,6 +69,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/org.sparklesh
 %{_metainfodir}/org.sparkleshare.SparkleShare.appdata.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.28-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.28-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

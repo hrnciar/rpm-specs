@@ -17,7 +17,7 @@ Package Pat implements a simple URL pattern muxer.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.20%{?dist}
+Release:        0.21%{?dist}
 Summary:        Sinatra style pattern muxer for Go's net/http library
 
 License:        MIT
@@ -47,6 +47,9 @@ sed -e '0,/^## LICENSE/d' README.md > LICENSE
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

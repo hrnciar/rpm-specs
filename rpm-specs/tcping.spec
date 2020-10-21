@@ -1,6 +1,6 @@
 Name:           tcping
 Version:        1.3.5
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        Check of TCP connection to a given IP/Port
 
 License:        LGPLv3+
@@ -30,6 +30,9 @@ install -Dp -m 0755 %{name} %{buildroot}%{_bindir}/%{name}
 %{_bindir}/%{name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

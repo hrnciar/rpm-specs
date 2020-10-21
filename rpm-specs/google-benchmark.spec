@@ -1,14 +1,17 @@
+%undefine __cmake_in_source_build
+
 %global intname benchmark
 %global lbname lib%{intname}
 
 Name: google-benchmark
-Version: 1.5.0
-Release: 3%{?dist}
+Version: 1.5.2
+Release: 2%{?dist}
 
 License: ASL 2.0
 Summary: A microbenchmark support library
 URL: https://github.com/google/%{intname}
-Source0: %{url}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source0: %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
+Patch0: google-benchmark-gcc11.patch
 
 BuildRequires: gtest-devel
 BuildRequires: gmock-devel
@@ -28,31 +31,29 @@ Requires: %{name}%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 %{summary}.
 
 %prep
-%autosetup -n %{intname}-%{version}
-mkdir -p %{_target_platform}
-sed -i 's@lib/@%{_lib}/@g' src/CMakeLists.txt
+%autosetup -p1 -n %{intname}-%{version}
+sed -e '/get_git_version/d' -i CMakeLists.txt
+sed -e 's@/lib@/%{_lib}@g' -i cmake/benchmark.pc.in
 
 %build
-pushd %{_target_platform}
-    %cmake -G Ninja \
+%cmake -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
-    -DBENCHMARK_ENABLE_TESTING=OFF \
-    ..
-popd
-%ninja_build -C %{_target_platform}
+    -DGIT_VERSION=%{version} \
+    -DBENCHMARK_ENABLE_TESTING:BOOL=OFF \
+    -DBENCHMARK_ENABLE_INSTALL:BOOL=ON \
+    -DBENCHMARK_DOWNLOAD_DEPENDENCIES:BOOL=OFF
+%cmake_build
 
 %check
-pushd %{_target_platform}
-    ctest --output-on-failure
-popd
+%ctest
 
 %install
-%ninja_install -C %{_target_platform}
+%cmake_install
 
 %files
 %doc AUTHORS CONTRIBUTORS CONTRIBUTING.md README.md
 %license LICENSE
-%{_libdir}/%{lbname}*.so.0*
+%{_libdir}/%{lbname}*.so.1*
 
 %files devel
 %{_libdir}/%{lbname}*.so
@@ -61,6 +62,19 @@ popd
 %{_libdir}/pkgconfig/%{intname}.pc
 
 %changelog
+* Wed Oct 14 2020 Jeff Law <law@redhat.com> - 1.5.2-2
+- Fix missing #include for gcc-11
+
+* Sat Sep 12 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1.5.2-1
+- Updated to version 1.5.2.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 19 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1.5.1-1
+- Updated to version 1.5.1.
+- Fixed RHBZ#1858127.
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

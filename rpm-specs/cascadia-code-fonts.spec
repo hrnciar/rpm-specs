@@ -9,7 +9,7 @@
 
 Name:		%{fontname}-code-fonts
 Summary:	A mono-spaced font designed for programming and terminal emulation
-Version:	2005.15
+Version:	2009.22
 Release:	1%{?dist}
 License:	OFL
 URL:		https://github.com/microsoft/cascadia-code/
@@ -25,7 +25,7 @@ Source8:	%{fontname}-code-pl.metainfo.xml
 %if 0%{?fromsource}
 BuildRequires:	python3-fontmake
 %else
-Source20:	https://github.com/microsoft/cascadia-code/releases/download/v%{version}/CascadiaCode_%{version}.zip
+Source20:	https://github.com/microsoft/cascadia-code/releases/download/v%{version}/CascadiaCode-%{version}.zip
 %endif
 BuildArch:	noarch
 BuildRequires:	fontpackages-devel
@@ -90,10 +90,10 @@ install -m 0755 -d %{buildroot}%{_fontbasedir}/%{fontname}-code-pl-fonts/
 install -m 0755 -d %{buildroot}%{_fontbasedir}/%{fontname}-mono-fonts/
 install -m 0755 -d %{buildroot}%{_fontbasedir}/%{fontname}-mono-pl-fonts/
 
-install -m 0644 -p otf/CascadiaCode.otf %{buildroot}%{_fontbasedir}/%{fontname}-code-fonts/
-install -m 0644 -p otf/CascadiaCodePL.otf %{buildroot}%{_fontbasedir}/%{fontname}-code-pl-fonts/
-install -m 0644 -p otf/CascadiaMono.otf %{buildroot}%{_fontbasedir}/%{fontname}-mono-fonts/
-install -m 0644 -p otf/CascadiaMonoPL.otf %{buildroot}%{_fontbasedir}/%{fontname}-mono-pl-fonts/
+install -m 0644 -p otf/static/CascadiaCode-*.otf %{buildroot}%{_fontbasedir}/%{fontname}-code-fonts/
+install -m 0644 -p otf/static/CascadiaCodePL-*.otf %{buildroot}%{_fontbasedir}/%{fontname}-code-pl-fonts/
+install -m 0644 -p otf/static/CascadiaMono-*.otf %{buildroot}%{_fontbasedir}/%{fontname}-mono-fonts/
+install -m 0644 -p otf/static/CascadiaMonoPL-*.otf %{buildroot}%{_fontbasedir}/%{fontname}-mono-pl-fonts/
 
 install -m 0755 -d %{buildroot}%{_fontconfig_templatedir} %{buildroot}%{_fontconfig_confdir}
 
@@ -152,6 +152,21 @@ install -Dm 0644 -p %{SOURCE8} %{buildroot}%{_datadir}/appdata/%{fontname}-code-
 %files -n %{fontname}-fonts-all
 
 %changelog
+* Thu Sep 24 2020 Tom Callaway <spot@fedoraproject.org> - 2009.22-1
+- update to 2009.22
+
+* Mon Sep 21 2020 Tom Callaway <spot@fedoraproject.org> - 2009.14-1
+- update to 2009.14
+
+* Wed Sep  2 2020 Tom Callaway <spot@fedoraproject.org> - 2008.25-1
+- update to 2008.25
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2007.01-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  1 2020 Tom Callaway <spot@fedoraproject.org> - 2007.01-1
+- update to 2007.01
+
 * Mon May 18 2020 Tom Callaway <spot@fedoraproject.org> - 2005.15-1
 - update to 2005.15
 - package OTF files instead of TTF files

@@ -1,6 +1,6 @@
 Name:           perl-Class-Prototyped
 Version:        1.13
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Fast prototype-based OO programming in Perl
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Class-Prototyped
@@ -52,6 +52,9 @@ perl Build.PL installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.13-19
 - Perl 5.32 rebuild
 

@@ -10,7 +10,7 @@
 
 Name:           tmux-top
 Version:        0.0.4
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Monitoring information for your tmux status line.
 License:        GPLv2+
 URL:            https://%{import_path}
@@ -60,6 +60,9 @@ make test
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.4-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

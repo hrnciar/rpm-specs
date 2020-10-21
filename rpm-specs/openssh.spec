@@ -29,9 +29,6 @@
 # Do we want libedit support
 %global libedit 1
 
-# Do we want LDAP support
-%global ldap 1
-
 # Whether to build pam_ssh_agent_auth
 %if 0%{?!nopam:1}
 %global pam_ssh_agent 1
@@ -52,35 +49,23 @@
 # rpm -ba|--rebuild --define "static_openssl 1"
 %{?static_openssl:%global static_libcrypto 1}
 
-# Is this a build for the rescue CD (without PAM, with MD5)? (1=yes 0=no)
-%global rescue 0
-%{?build_rescue:%global rescue 1}
-%{?build_rescue:%global rescue_rel rescue}
-
-# Turn off some stuff for resuce builds
-%if %{rescue}
-%global kerberos5 0
-%global libedit 0
-%global pam_ssh_agent 0
-%endif
-
 # Do not forget to bump pam_ssh_agent_auth release if you rewind the main package release to 1
-%global openssh_ver 8.3p1
-%global openssh_rel 3
-%global pam_ssh_agent_ver 0.10.3
-%global pam_ssh_agent_rel 10
+%global openssh_ver 8.4p1
+%global openssh_rel 2
+%global pam_ssh_agent_ver 0.10.4
+%global pam_ssh_agent_rel 1
 
 Summary: An open source implementation of SSH protocol version 2
 Name: openssh
 Version: %{openssh_ver}
-Release: %{openssh_rel}%{?dist}%{?rescue_rel}
+Release: %{openssh_rel}%{?dist}
 URL: http://www.openssh.com/portable.html
-#URL1: http://pamsshagentauth.sourceforge.net
+#URL1: https://github.com/jbeverly/pam_ssh_agent_auth/
 Source0: ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-%{version}.tar.gz
 Source1: ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-%{version}.tar.gz.asc
 Source2: sshd.pam
 Source3: DJM-GPG-KEY.gpg
-Source4: http://prdownloads.sourceforge.net/pamsshagentauth/pam_ssh_agent_auth/pam_ssh_agent_auth-%{pam_ssh_agent_ver}.tar.bz2
+Source4: https://github.com/jbeverly/pam_ssh_agent_auth/archive/pam_ssh_agent_auth-%{pam_ssh_agent_ver}.tar.gz
 Source5: pam_ssh_agent-rmheaders
 Source6: ssh-keycat.pam
 Source7: sshd.sysconfig
@@ -122,9 +107,6 @@ Patch307: pam_ssh_agent_auth-0.10.2-dereference.patch
 Patch400: openssh-7.8p1-role-mls.patch
 #https://bugzilla.redhat.com/show_bug.cgi?id=781634
 Patch404: openssh-6.6p1-privsep-selinux.patch
-
-#?-- unwanted child :(
-Patch501: openssh-6.7p1-ldap.patch
 #?
 Patch502: openssh-6.6p1-keycat.patch
 
@@ -202,8 +184,7 @@ Patch951: openssh-8.0p1-pkcs11-uri.patch
 # Unbreak scp between two IPv6 hosts (#1620333)
 Patch953: openssh-7.8p1-scp-ipv6.patch
 # ssh-copy-id is unmaintained: Aggreagete patches
-#  - do not return 0 if the write fails (full disk)
-#  - shellcheck reports (upstream #2902)
+# https://gitlab.com/phil_hands/ssh-copy-id/-/merge_requests/2
 Patch958: openssh-7.9p1-ssh-copy-id.patch
 # Mention crypto-policies in manual pages (#1668325)
 Patch962: openssh-8.0p1-crypto-policies.patch
@@ -215,8 +196,7 @@ Patch964: openssh-8.0p1-openssl-kdf.patch
 Patch965: openssh-8.2p1-visibility.patch
 # Do not break X11 without IPv6
 Patch966: openssh-8.2p1-x11-without-ipv6.patch
-# Unbreak sshd_config include corner cases (#3122)
-Patch967: openssh-8.3p1-sshd_include.patch
+Patch967: openssh-8.4p1-ssh-copy-id.patch
 
 License: BSD
 Requires: /sbin/nologin
@@ -230,9 +210,6 @@ BuildRequires: gnome-libs-devel
 %endif
 %endif
 
-%if %{ldap}
-BuildRequires: openldap-devel
-%endif
 BuildRequires: autoconf, automake, perl-interpreter, perl-generators, zlib-devel
 BuildRequires: audit-libs-devel >= 2.0.5
 BuildRequires: util-linux, groff
@@ -240,10 +217,11 @@ BuildRequires: pam-devel
 BuildRequires: openssl-devel >= 0.9.8j
 BuildRequires: perl-podlators
 BuildRequires: systemd-devel
-BuildRequires: gcc
+BuildRequires: gcc make
 BuildRequires: p11-kit-devel
 BuildRequires: libfido2-devel
 Recommends: p11-kit
+Obsoletes: openssh-ldap <= 8.3p1-3
 
 %if %{kerberos5}
 BuildRequires: krb5-devel
@@ -277,12 +255,6 @@ Requires: pam >= 1.0.1-3
 Requires: crypto-policies >= 20200610-1
 %{?systemd_requires}
 
-%if %{ldap}
-%package ldap
-Summary: A LDAP support for open source SSH server daemon
-Requires: openssh = %{version}-%{release}
-%endif
-
 %package keycat
 Summary: A mls keycat backend for openssh
 Requires: openssh = %{version}-%{release}
@@ -298,7 +270,7 @@ Requires: openssh = %{version}-%{release}
 %package -n pam_ssh_agent_auth
 Summary: PAM module for authentication with ssh-agent
 Version: %{pam_ssh_agent_ver}
-Release: %{pam_ssh_agent_rel}.%{openssh_rel}%{?dist}%{?rescue_rel}
+Release: %{pam_ssh_agent_rel}.%{openssh_rel}%{?dist}.2
 License: BSD
 
 %description
@@ -326,12 +298,6 @@ into and executing commands on a remote machine. This package contains
 the secure shell daemon (sshd). The sshd daemon allows SSH clients to
 securely connect to your SSH server.
 
-%if %{ldap}
-%description ldap
-OpenSSH LDAP backend is a way how to distribute the authorized tokens
-among the servers in the network.
-%endif
-
 %description keycat
 OpenSSH mls keycat is backend for using the authorized keys in the
 openssh in the mls mode.
@@ -358,7 +324,7 @@ gpgv2 --quiet --keyring %{SOURCE3} %{SOURCE1} %{SOURCE0}
 %setup -q -a 4
 
 %if %{pam_ssh_agent}
-pushd pam_ssh_agent_auth-%{pam_ssh_agent_ver}
+pushd pam_ssh_agent_auth-pam_ssh_agent_auth-%{pam_ssh_agent_ver}
 %patch300 -p2 -b .psaa-build
 %patch301 -p2 -b .psaa-seteuid
 %patch302 -p2 -b .psaa-visibility
@@ -373,9 +339,6 @@ popd
 %patch400 -p1 -b .role-mls
 %patch404 -p1 -b .privsep-selinux
 
-%if %{ldap}
-%patch501 -p1 -b .ldap
-%endif
 %patch502 -p1 -b .keycat
 
 %patch601 -p1 -b .ip-opts
@@ -417,7 +380,7 @@ popd
 %patch964 -p1 -b .openssl-kdf
 %patch965 -p1 -b .visibility
 %patch966 -p1 -b .x11-ipv6
-%patch967 -p1 -b .include
+%patch967 -p1 -b .ssh-copy-id
 
 %patch200 -p1 -b .audit
 %patch201 -p1 -b .audit-race
@@ -426,7 +389,7 @@ popd
 %patch100 -p1 -b .coverity
 
 autoreconf
-pushd pam_ssh_agent_auth-%{pam_ssh_agent_ver}
+pushd pam_ssh_agent_auth-pam_ssh_agent_auth-%{pam_ssh_agent_ver}
 autoreconf
 popd
 
@@ -434,9 +397,6 @@ popd
 # the -fvisibility=hidden is needed for clean build of the pam_ssh_agent_auth
 # it is needed for lib(open)ssh build too since it is linked to the pam module too
 CFLAGS="$RPM_OPT_FLAGS -fvisibility=hidden"; export CFLAGS
-%if %{rescue}
-CFLAGS="$CFLAGS -Os"
-%endif
 %if %{pie}
 %ifarch s390 s390x sparc sparcv9 sparc64
 CFLAGS="$CFLAGS -fPIC"
@@ -482,14 +442,7 @@ fi
 	--with-systemd \
 	--with-default-pkcs11-provider=yes \
 	--with-security-key-builtin=yes \
-%if %{ldap}
-	--with-ldap \
-%endif
-%if %{rescue}
-	--without-pam \
-%else
 	--with-pam \
-%endif
 %if %{WITH_SELINUX}
 	--with-selinux --with-audit=linux \
 	--with-sandbox=seccomp_filter \
@@ -509,7 +462,7 @@ fi
 perl -pi -e "s|-lcrypto|%{_libdir}/libcrypto.a|g" Makefile
 %endif
 
-make
+%make_build
 
 # Define a variable to toggle gnome1/gtk2 building.  This is necessary
 # because RPM doesn't handle nested %%if statements.
@@ -534,13 +487,13 @@ popd
 %endif
 
 %if %{pam_ssh_agent}
-pushd pam_ssh_agent_auth-%{pam_ssh_agent_ver}
+pushd pam_ssh_agent_auth-pam_ssh_agent_auth-%{pam_ssh_agent_ver}
 LDFLAGS="$SAVE_LDFLAGS"
 %configure --with-selinux \
 	--libexecdir=/%{_libdir}/security \
 	--with-mantype=man \
 	--without-openssl-header-check `# The check is broken`
-make
+%make_build
 popd
 %endif
 
@@ -557,8 +510,7 @@ mkdir -p -m755 $RPM_BUILD_ROOT%{_sysconfdir}/ssh/ssh_config.d
 mkdir -p -m755 $RPM_BUILD_ROOT%{_sysconfdir}/ssh/sshd_config.d
 mkdir -p -m755 $RPM_BUILD_ROOT%{_libexecdir}/openssh
 mkdir -p -m755 $RPM_BUILD_ROOT%{_var}/empty/sshd
-make install DESTDIR=$RPM_BUILD_ROOT
-rm -f $RPM_BUILD_ROOT%{_sysconfdir}/ssh/ldap.conf
+%make_install
 
 install -d $RPM_BUILD_ROOT/etc/pam.d/
 install -d $RPM_BUILD_ROOT/etc/sysconfig/
@@ -597,8 +549,8 @@ rm -f $RPM_BUILD_ROOT/etc/profile.d/gnome-ssh-askpass.*
 perl -pi -e "s|$RPM_BUILD_ROOT||g" $RPM_BUILD_ROOT%{_mandir}/man*/*
 
 %if %{pam_ssh_agent}
-pushd pam_ssh_agent_auth-%{pam_ssh_agent_ver}
-make install DESTDIR=$RPM_BUILD_ROOT
+pushd pam_ssh_agent_auth-pam_ssh_agent_auth-%{pam_ssh_agent_ver}
+%make_install
 popd
 %endif
 %pre
@@ -612,6 +564,17 @@ getent passwd sshd >/dev/null || \
 
 %post server
 %systemd_post sshd.service sshd.socket
+# Migration scriptlet for Fedora 31 and 32 installations to sshd_config
+# drop-in directory (in F32+).
+# Do this only if the file generated by anaconda exists, contains our config
+# directive and sshd_config contains include directive as shipped in our package
+%global sysconfig_anaconda /etc/sysconfig/sshd-permitrootlogin
+test -f %{sysconfig_anaconda} && \
+  test ! -f /etc/ssh/sshd_config.d/01-permitrootlogin.conf && \
+  grep -q '^PERMITROOTLOGIN="-oPermitRootLogin=yes"' %{sysconfig_anaconda} && \
+  grep -q '^Include /etc/ssh/sshd_config.d/\*.conf' /etc/ssh/sshd_config && \
+  echo "PermitRootLogin yes" >> /etc/ssh/sshd_config.d/25-permitrootlogin.conf && \
+  rm %{sysconfig_anaconda} || :
 
 %preun server
 %systemd_preun sshd.service sshd.socket
@@ -624,13 +587,11 @@ getent passwd sshd >/dev/null || \
 %doc CREDITS ChangeLog OVERVIEW PROTOCOL* README README.platform README.privsep README.tun README.dns TODO
 %attr(0755,root,root) %dir %{_sysconfdir}/ssh
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/ssh/moduli
-%if ! %{rescue}
 %attr(0755,root,root) %{_bindir}/ssh-keygen
 %attr(0644,root,root) %{_mandir}/man1/ssh-keygen.1*
 %attr(0755,root,root) %dir %{_libexecdir}/openssh
 %attr(2555,root,ssh_keys) %{_libexecdir}/openssh/ssh-keysign
 %attr(0644,root,root) %{_mandir}/man8/ssh-keysign.8*
-%endif
 
 %files clients
 %attr(0755,root,root) %{_bindir}/ssh
@@ -641,7 +602,6 @@ getent passwd sshd >/dev/null || \
 %dir %attr(0755,root,root) %{_sysconfdir}/ssh/ssh_config.d/
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/ssh/ssh_config.d/50-redhat.conf
 %attr(0644,root,root) %{_mandir}/man5/ssh_config.5*
-%if ! %{rescue}
 %attr(0755,root,root) %{_bindir}/ssh-agent
 %attr(0755,root,root) %{_bindir}/ssh-add
 %attr(0755,root,root) %{_bindir}/ssh-keyscan
@@ -656,9 +616,7 @@ getent passwd sshd >/dev/null || \
 %attr(0644,root,root) %{_mandir}/man1/ssh-copy-id.1*
 %attr(0644,root,root) %{_mandir}/man8/ssh-pkcs11-helper.8*
 %attr(0644,root,root) %{_mandir}/man8/ssh-sk-helper.8*
-%endif
 
-%if ! %{rescue}
 %files server
 %dir %attr(0711,root,root) %{_var}/empty/sshd
 %attr(0755,root,root) %{_sbindir}/sshd
@@ -679,17 +637,6 @@ getent passwd sshd >/dev/null || \
 %attr(0644,root,root) %{_unitdir}/sshd-keygen@.service
 %attr(0644,root,root) %{_unitdir}/sshd-keygen.target
 %attr(0644,root,root) %{_tmpfilesdir}/openssh.conf
-%endif
-
-%if %{ldap}
-%files ldap
-%doc HOWTO.ldap-keys openssh-lpk-openldap.schema openssh-lpk-sun.schema ldap.conf
-%doc openssh-lpk-openldap.ldif openssh-lpk-sun.ldif
-%attr(0755,root,root) %{_libexecdir}/openssh/ssh-ldap-helper
-%attr(0755,root,root) %{_libexecdir}/openssh/ssh-ldap-wrapper
-%attr(0644,root,root) %{_mandir}/man8/ssh-ldap-helper.8*
-%attr(0644,root,root) %{_mandir}/man5/ssh-ldap.conf.5*
-%endif
 
 %files keycat
 %doc HOWTO.ssh-keycat
@@ -710,12 +657,27 @@ getent passwd sshd >/dev/null || \
 
 %if %{pam_ssh_agent}
 %files -n pam_ssh_agent_auth
-%license pam_ssh_agent_auth-%{pam_ssh_agent_ver}/OPENSSH_LICENSE
+%license pam_ssh_agent_auth-pam_ssh_agent_auth-%{pam_ssh_agent_ver}/OPENSSH_LICENSE
 %attr(0755,root,root) %{_libdir}/security/pam_ssh_agent_auth.so
 %attr(0644,root,root) %{_mandir}/man8/pam_ssh_agent_auth.8*
 %endif
 
 %changelog
+* Tue Oct 06 2020 Jakub Jelen <jjelen@redhat.com> - 8.4p1-2 + 0.10.4-1
+- Unbreak ssh-copy-id after a release (#1884231)
+- Remove misleading comment from sysconfig
+
+* Tue Sep 29 2020 Jakub Jelen <jjelen@redhat.com> - 8.4p1-1 + 0.10.4-1
+- New upstream release of OpenSSH and pam_ssh_agent_auth (#1882995)
+
+* Fri Aug 21 2020 Jakub Jelen <jjelen@redhat.com> - 8.3p1-4 + 0.10.3-10
+- Remove openssh-ldap subpackage (#1871025)
+- pkcs11: Do not crash with invalid paths in ssh-agent (#1868996)
+- Clarify documentation about sftp-server -m (#1862504)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.3p1-3.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 10 2020 Jakub Jelen <jjelen@redhat.com> - 8.3p1-3 + 0.10.3-10
 - Do not lose PIN when more slots match PKCS#11 URI (#1843372)
 - Update to new crypto-policies version on server (using sshd_config include)

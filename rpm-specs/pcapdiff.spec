@@ -1,6 +1,6 @@
 Name: pcapdiff
 Version: 0.1
-Release:  27%{?dist}
+Release:  28%{?dist}
 Summary: Compares packet captures, detects forged, dropped or mangled packets
 
 License: GPLv2+ and GPLv3+
@@ -48,6 +48,9 @@ install -D -m 644 -p pcapdiff_helper.py $RPM_BUILD_ROOT%{_datadir}/pcapdiff/pcap
 #%{_datadir}/pcapdiff/*.pyo
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 %global apiver 0.4
 
 Name:           gegl04
-Version:        0.4.24
+Version:        0.4.26
 Release:        1%{?dist}
 Summary:        Graph based image processing framework
 
@@ -164,6 +164,12 @@ chrpath --delete %{buildroot}%{_libdir}/gegl-%{apiver}/*.so
 
 
 %changelog
+* Mon Aug 24 2020 Josef Ridky <jridky@redhat.com> - 0.4.26-1
+- New upstream release 0.4.26
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.24-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Josef Ridky <jridky@redhat.com> - 0.4.24-1
 - New upstream release 0.4.24
 

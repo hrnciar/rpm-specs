@@ -1,7 +1,7 @@
 Summary:	Gettext emulation in PHP
 Name:		php-php-gettext
 Version:	1.0.12
-Release:	8%{?dist}
+Release:	9%{?dist}
 License:	GPLv2+
 URL:		https://launchpad.net/php-gettext
 Source0:	http://launchpad.net/php-gettext/trunk/%{version}/+download/php-gettext-%{version}.tar.gz
@@ -36,6 +36,9 @@ install -p -m 644 gettext.php streams.php gettext.inc $RPM_BUILD_ROOT%{_datadir}
 %{_datadir}/php/gettext/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.12-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.12-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

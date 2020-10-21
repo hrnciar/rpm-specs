@@ -1,6 +1,6 @@
 Name:           ripmime
 Version:        1.4.0.10
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        Extract attachments out of a MIME encoded email packages
 
 License:        BSD
@@ -16,22 +16,25 @@ ripMIME extract attachments out of a MIME encoded email packages.
 %setup -q
 
 %build
-make CFLAGS="%{optflags}" %{?_smp_mflags} 
+make CFLAGS="%{optflags}" %{?_smp_mflags}
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
-install -Dp -m 0755 $RPM_BUILD_DIR/%{name}-%{version}/%{name} %{buildroot}%{_bindir}/%{name}
-install -Dp -m 0644 $RPM_BUILD_DIR/%{name}-%{version}/%{name}.1 %{buildroot}%{_mandir}/man1/%{name}.1
-
-
+install -Dp -m 0755 %{name} %{buildroot}%{_bindir}/%{name}
+install -Dp -m 0644 %{name}.1 %{buildroot}%{_mandir}/man1/%{name}.1
 
 %files
 %{_bindir}/%{name}
 %{_mandir}/man1/*
-%doc CHANGELOG CONTRIBUTORS INSTALL LICENSE TODO README
+%doc CHANGELOG CONTRIBUTORS INSTALL TODO README
+%license LICENSE
 
 %changelog
+* Tue Sep 29 2020 Xavier Bachelot <xavier@bachelot.org> - 1.4.0.10-7
+- Specfile cleanups
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0.10-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0.10-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

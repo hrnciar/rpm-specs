@@ -1,6 +1,6 @@
 Name:           perl-Pod-Markdown
 Version:        3.200
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Convert POD to Markdown
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Pod-Markdown
@@ -60,6 +60,9 @@ make test
 %{_bindir}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.200-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.200-4
 - Perl 5.32 rebuild
 

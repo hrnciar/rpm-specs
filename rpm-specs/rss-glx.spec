@@ -16,7 +16,7 @@
 Summary: Really Slick Screensavers
 Name: rss-glx
 Version: 0.9.1%{patchext}
-Release: 44%{?dist}
+Release: 47%{?dist}
 License: GPLv2
 URL: http://rss-glx.sourceforge.net/
 # We ship a tarball with one questionable hack patched out.
@@ -34,6 +34,7 @@ Patch0: rss-glx-0.9.0.p-optflags.patch
 Patch10: rss-glx-0.9.1.p-6-autoreconf.patch.bz2
 Patch11: rss-glx-0.9.1.p-linker.patch
 Patch12: rss-glx-0.9.1.p-pixelcity.patch
+Patch13: rss-glx-gcc11.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  gcc
@@ -110,6 +111,7 @@ EOF
 %patch10 -p1 -b .autoreconf
 %patch11 -p1 -b .linker
 %patch12 -p1 -b .pixelcity
+%patch13 -p1 -b .gcc11
 
 %build
 %configure \
@@ -167,6 +169,16 @@ fi
 %{xssbindir}/*
 
 %changelog
+* Tue Sep 15 2020 Jeff Law <law@redhat.com> - 0.9.1.p-47
+- Fix missing include of cstddef for gcc-11
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1.p-46
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1.p-45
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 07 2020 josef radinger <cheese@nosuchhost.net> - 0.9.1.p-44
 - obsolete rss-glx-gnome-screensaver
 - further cleanup

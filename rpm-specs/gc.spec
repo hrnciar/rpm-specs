@@ -2,7 +2,7 @@
 Summary: A garbage collector for C and C++
 Name:    gc
 Version: 8.0.4
-Release: 3%{?dist}
+Release: 4%{?dist}
 
 License: BSD
 Url:     http://www.hboehm.info/gc/
@@ -107,6 +107,9 @@ make check %{?arch_ignore}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.0.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.0.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

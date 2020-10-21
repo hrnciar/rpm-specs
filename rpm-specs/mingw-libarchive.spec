@@ -2,7 +2,7 @@
 
 Name:           mingw-libarchive
 Version:        3.3.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW package for handling streaming archive formats
 
 License:        BSD
@@ -222,6 +222,9 @@ rm -r $RPM_BUILD_ROOT/%{mingw64_prefix}/share
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          2.18.0
-Release:          2%{dist}
+Release:          4%{dist}
 Summary:          Q-value estimation for false discovery rate control
 License:          LGPLv2+
 URL:              http://bioconductor.org/packages/release/bioc/html/qvalue.html
@@ -61,6 +61,12 @@ chmod -x %{buildroot}%{_datadir}/R/library/%{packname}/doc/*
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.18.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 José Abílio Matos <jamatos@fc.up.pt> - 2.18.0-3
+- rebuild for R 4
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.18.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

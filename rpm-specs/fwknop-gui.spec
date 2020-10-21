@@ -1,7 +1,9 @@
+%global __cmake_in_source_build 1
+
 Summary: GUI client for Fwknop
 Name: fwknop-gui
 Version: 1.3.1
-Release: 11%{?dist}
+Release: 14%{?dist}
 License: GPLv3+
 URL: https://incomsystems.biz/fwknop-gui/
 Source: %{url}/downloads/%{name}-%{version}.tar.gz
@@ -46,6 +48,16 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 
 
 %changelog
+* Tue Aug 04 2020 Jakub Jelen <jjelen@redhat.com> - 1.3.1-14
+- Unbreak cmake build (#1863590)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

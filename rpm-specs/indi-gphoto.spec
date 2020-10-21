@@ -1,8 +1,10 @@
+%global __cmake_in_source_build 1
+
 %global driver gphoto
 
 Name:           indi-%{driver}
-Version:        1.8.1
-Release:        3%{?dist}
+Version:        1.8.6
+Release:        1%{?dist}
 Summary:        INDI driver providing support for gPhoto
 
 License:        LGPLv2+
@@ -48,11 +50,10 @@ sed -i 's|/lib/udev/rules.d|%{_udevrulesdir}|g' CMakeLists.txt
 
 %build
 %cmake
-make %{?_smp_mflags}
-
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 
 %files
@@ -63,6 +64,18 @@ make install DESTDIR=%{buildroot}
 %{_udevrulesdir}/*.rules
 
 %changelog
+* Tue Aug 25 2020 Christian Dersch <lupinix@mailbox.org> - 1.8.6-1
+- new version
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 1.8.5-2
+- Use  __cmake_in_source_build 
+
+* Sat Jul 18 2020 Christian Dersch <lupinix@fedoraproject.org> - 1.8.5-1
+- new version
+
 * Mon May 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.8.1-3
 - Rebuild for new LibRaw
 

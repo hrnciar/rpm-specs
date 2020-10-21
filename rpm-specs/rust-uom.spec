@@ -5,7 +5,7 @@
 %global crate uom
 
 Name:           rust-%{crate}
-Version:        0.27.0
+Version:        0.29.0
 Release:        1%{?dist}
 Summary:        Units of measurement
 
@@ -17,6 +17,7 @@ Source:         %{crates_source}
 # * Update quickcheck to 0.9, static_assertions to 1
 #   https://github.com/iliekturtles/uom/pull/169
 #   https://github.com/iliekturtles/uom/pull/170
+# * Bump to num-bigint and num-rational 0.3
 Patch0:         uom-fix-metadata.diff
 # * Finish update of static_assertions
 Patch0001:      0001-Update-to-static_assertions-to-1.patch
@@ -440,6 +441,15 @@ find -type f -name '*.rs' -exec sed -i -e 's/\r//' {} +
 %endif
 
 %changelog
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 0.29.0-1
+- Update to 0.29.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.28.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.28.0-1
+- Update to 0.28.0
+
 * Sun May 17 13:28:59 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.27.0-1
 - Update to 0.27.0
 

@@ -3,15 +3,9 @@
 
 # https://github.com/Masterminds/semver
 %global goipath         github.com/Masterminds/semver
-Version:                1.4.2
-%global commit          059deebd1619b9ae33232c797f7ab0e8d6c6fd69
+Version:                1.5.0
 
 %gometa
-
-# Remove in F33
-%global godevelheader %{expand:
-Obsoletes:      golang-github-Masterminds-semver-devel < 1.4.2-2
-}
 
 %global goname          golang-github-masterminds-semver-1
 %global godevelname     golang-github-masterminds-semver-1-devel
@@ -29,7 +23,7 @@ Specifically it provides the ability to:
 %global godocs          CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        5%{?dist}
+Release:        1%{?dist}
 Summary:        Work with Semantic Versions in Go
 
 License:        MIT
@@ -55,6 +49,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 19:19:11 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.5.0-1
+- Update to 1.5.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,11 +1,14 @@
 %global uvcommit 35b1504507a7a4168caae3d78db54d1121b121e1
 %global uvversion 2.0.0
 
-%global llvmversion 8.0.1
+%global llvmversion 9.0.1
 
 %global libwhichcommit 81e9723c0273d78493dc8c8ed570f68d9ce7e89e
 
-%global pkgcommit 9419c70af69153cd5c4276bff90fbb135e0aa3f1
+%global pkgcommit edc31a25ad441b28bbe5608696cca978af6c988a
+%global statisticscommit cde87c8062032883165cd242f4a5c6b7943cb0b1
+
+%global logocommit 168fb6c1164e341df360ed6ced519e1e0cb7de3a
 
 %global __provides_exclude_from ^%{_libdir}/%{name}/.*\\.so$
 # List all bundled libraries here
@@ -15,8 +18,8 @@
 %global __requires_exclude ^(%{_privatelibs})$
 
 Name:           julia
-Version:        1.4.2
-Release:        2%{?dist}
+Version:        1.5.2
+Release:        1%{?dist}
 Summary:        High-level, high-performance dynamic language for technical computing
 # Julia itself is MIT, with a few LGPLv2+ and GPLv2+ files
 # libuv is MIT
@@ -28,11 +31,12 @@ Source1:        https://api.github.com/repos/JuliaLang/libuv/tarball/%{uvcommit}
 Source2:        https://github.com/llvm/llvm-project/releases/download/llvmorg-%{llvmversion}/llvm-%{llvmversion}.src.tar.xz
 Source3:        https://api.github.com/repos/vtjnash/libwhich/tarball/%{libwhichcommit}#/libwhich-%{libwhichcommit}.tar.gz
 Source4:        https://api.github.com/repos/JuliaLang/Pkg.jl/tarball/%{pkgcommit}#/Pkg-%{pkgcommit}.tar.gz
+Source5:        https://api.github.com/repos/JuliaLang/Statistics.jl/tarball/%{statisticscommit}#/Statistics-%{statisticscommit}.tar.gz
+Source6:        https://raw.githubusercontent.com/JuliaLang/julia-logo-graphics/%{logocommit}/images/julia-logo-color.svg
 Patch0:         julia_unwind_version.patch
 Patch1:         llvm-julia-installdirs-64.patch
-# Fix build with GCC10: https://reviews.llvm.org/D64937
-Patch2:         llvm-D64937.patch
-Patch3:         julia-Bump-libgit2-to-0.99.1.patch
+# Avoid errors due to disabled networking
+Patch2:         julia-socket-tests.patch
 Provides:       bundled(libuv) = %{uvversion}
 Provides:       bundled(llvm) = %{llvmversion}
 BuildRequires:  desktop-file-utils
@@ -111,7 +115,7 @@ Requires:       julia%{?_isa} = %{version}-%{release}
 %description devel
 Contains library symbolic links and header files for developing applications
 linking to the Julia library, in particular embedding it, as well as
-tests and a debugging version of Julia. This package is normally not
+tests. This package is normally not
 needed when programming in the Julia language, but rather for embedding
 Julia into external programs or debugging Julia itself.
 
@@ -119,12 +123,11 @@ Julia into external programs or debugging Julia itself.
 %setup -q
 
 %patch0 -p1
+%patch2 -p1
 
 %if 0%{?__isa_bits} == 64
     patch -p1 < %PATCH1
 %endif
-
-patch -p1 < %PATCH3
 
 mkdir -p deps/srccache stdlib/srccache
 
@@ -139,7 +142,10 @@ popd
 
 pushd stdlib/srccache
     cp -p %SOURCE4 .
+    cp -p %SOURCE5 .
 popd
+
+cp -p %SOURCE6 contrib/julia.svg
 
 # Required so that the image is not optimized for the build CPU
 # (i386 does not work yet: https://github.com/JuliaLang/julia/issues/7185)
@@ -196,13 +202,7 @@ popd
 # About build, build_libdir and build_bindir, see https://github.com/JuliaLang/julia/issues/5063#issuecomment-32628111
 %global julia_builddir %{_builddir}/%{name}/build
 
-%global commonopts USE_SYSTEM_LLVM=0 USE_SYSTEM_LIBUNWIND=1 USE_SYSTEM_PCRE=1 USE_SYSTEM_BLAS=1 USE_SYSTEM_LAPACK=1 USE_SYSTEM_GMP=1 USE_SYSTEM_MPFR=1 USE_SYSTEM_SUITESPARSE=1 USE_SYSTEM_DSFMT=1 USE_SYSTEM_LIBUV=0 USE_SYSTEM_UTF8PROC=1 USE_SYSTEM_LIBGIT2=1 USE_SYSTEM_LIBSSH2=1 USE_SYSTEM_MBEDTLS=1 USE_SYSTEM_CURL=1 USE_SYSTEM_PATCHELF=1 USE_SYSTEM_LIBM=0 USE_SYSTEM_OPENLIBM=1 USE_BINARYBUILDER=0 USE_SYSTEM_ZLIB=1 USE_SYSTEM_P7ZIP=1 BUNDLE_DEBUG_LIBS=1 JULIA_SPLITDEBUG=1 TAGGED_RELEASE_BANNER="Fedora %{fedora} build" VERBOSE=1 %{march} %{cpu_target} %{blas} %{suitesparse_lib} prefix=%{_prefix} bindir=%{_bindir} libdir=%{_libdir} libexecdir=%{_libexecdir} datarootdir=%{_datarootdir} includedir=%{_includedir} sysconfdir=%{_sysconfdir} build_prefix=%{julia_builddir}%{_prefix} build_bindir=%{julia_builddir}%{_bindir} build_libdir=%{julia_builddir}%{_libdir} build_private_libdir=%{julia_builddir}%{_libdir}/julia build_libexecdir=%{julia_builddir}%{_libexecdir} build_datarootdir=%{julia_builddir}%{_datarootdir} build_includedir=%{julia_builddir}%{_includedir} build_sysconfdir=%{julia_builddir}%{_sysconfdir} JULIA_CPU_THREADS=$(echo %{?_smp_mflags} | sed s/-j//)
-
-# Need to extract LLVM to apply patch
-make CFLAGS="%optflags" CXXFLAGS="%optflags" %{commonopts} -C deps extract-llvm
-pushd deps/srccache/llvm-%{llvmversion}
-    patch -p1 < %PATCH2
-popd
+%global commonopts USE_SYSTEM_LLVM=0 USE_SYSTEM_LIBUNWIND=1 USE_SYSTEM_PCRE=1 USE_SYSTEM_BLAS=1 USE_SYSTEM_LAPACK=1 USE_SYSTEM_GMP=1 USE_SYSTEM_MPFR=1 USE_SYSTEM_SUITESPARSE=1 USE_SYSTEM_DSFMT=1 USE_SYSTEM_LIBUV=0 USE_SYSTEM_UTF8PROC=1 USE_SYSTEM_LIBGIT2=1 USE_SYSTEM_LIBSSH2=1 USE_SYSTEM_MBEDTLS=1 USE_SYSTEM_CURL=1 USE_SYSTEM_PATCHELF=1 USE_SYSTEM_LIBM=0 USE_SYSTEM_OPENLIBM=1 USE_BINARYBUILDER=0 USE_SYSTEM_ZLIB=1 USE_SYSTEM_P7ZIP=1 BUNDLE_DEBUG_LIBS=0 JULIA_SPLITDEBUG=1 TAGGED_RELEASE_BANNER="Fedora %{fedora} build" VERBOSE=1 %{march} %{cpu_target} %{blas} %{suitesparse_lib} prefix=%{_prefix} bindir=%{_bindir} libdir=%{_libdir} libexecdir=%{_libexecdir} datarootdir=%{_datarootdir} includedir=%{_includedir} sysconfdir=%{_sysconfdir} build_prefix=%{julia_builddir}%{_prefix} build_bindir=%{julia_builddir}%{_bindir} build_libdir=%{julia_builddir}%{_libdir} build_private_libdir=%{julia_builddir}%{_libdir}/julia build_libexecdir=%{julia_builddir}%{_libexecdir} build_datarootdir=%{julia_builddir}%{_datarootdir} build_includedir=%{julia_builddir}%{_includedir} build_sysconfdir=%{julia_builddir}%{_sysconfdir} JULIA_CPU_THREADS=$(echo %{?_smp_mflags} | sed s/-j//)
 
 sed s/0.23.0/1.0.0/ -i stdlib/LibGit2/test/libgit2.jl
 
@@ -222,8 +222,7 @@ sed s/0.23.0/1.0.0/ -i stdlib/LibGit2/test/libgit2.jl
 %global buildflags CFLAGS="%optflags" CXXFLAGS="%optflags"
 %endif
 
-# If debug is not built here, it is built during make install
-make %{?_smp_mflags} %{buildflags} %{commonopts} release debug
+make %{?_smp_mflags} %{buildflags} %{commonopts} release
 
 %check
 
@@ -280,10 +279,6 @@ popd
 
 cp -p CONTRIBUTING.md LICENSE.md NEWS.md README.md %{buildroot}%{_docdir}/julia/
 
-pushd %{buildroot}%{_prefix}/share/man/man1/
-    ln -s julia.1.gz julia-debug.1.gz
-popd
-
 pushd %{buildroot}%{_libdir}/julia
     # Some Julia packages rely on being able to use libjulia, but we only
     # ship %%{_libdir}/libjulia.so in the -devel package
@@ -311,8 +306,6 @@ convert -scale 48x48 -extent 48x48 -gravity center -background transparent \
 convert -scale 256x256 -extent 256x256 -gravity center -background transparent \
     contrib/julia.svg %{buildroot}%{_datarootdir}/icons/hicolor/256x256/apps/%{name}.png
 desktop-file-validate %{buildroot}%{_datarootdir}/applications/%{name}.desktop
-
-rm -f %{buildroot}%{_datarootdir}/icons/hicolor/icon-theme.cache
 
 %files
 %dir %{_docdir}/julia/
@@ -348,14 +341,10 @@ rm -f %{buildroot}%{_datarootdir}/icons/hicolor/icon-theme.cache
 %doc %{_docdir}/julia/
 
 %files devel
-%{_bindir}/julia-debug
 %{_libdir}/libjulia.so
-%{_libdir}/libjulia-debug.so*
 %{_libdir}/julia/libccalltest.so.debug
-%{_libdir}/julia/sys-debug.so
 %{_includedir}/julia/
 %{_datarootdir}/julia/test/
-%{_mandir}/man1/julia-debug.1*
 
 %post
 /sbin/ldconfig
@@ -363,6 +352,20 @@ rm -f %{buildroot}%{_datarootdir}/icons/hicolor/icon-theme.cache
 exit 0
 
 %changelog
+* Sun Sep 27 2020 Milan Bouchet-Valat <nalimilan@club.fr> - 1.5.0-1
+- New upstream release.
+
+* Mon Aug 10 2020 Milan Bouchet-Valat <nalimilan@club.fr> - 1.5.0-1
+- New upstream release.
+- No longer include julia-debug to work around build failure (rhbz#1863925).
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Milan Bouchet-Valat <nalimilan@club.fr> - 1.4.2-2
 - Fix error on startup due to incorrect libLLVM name.
 

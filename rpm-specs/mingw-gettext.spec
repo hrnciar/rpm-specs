@@ -1,13 +1,17 @@
 %{?mingw_package_header}
 
 Name:      mingw-gettext
-Version:   0.20.2
+Version:   0.21
 Release:   1%{?dist}
 Summary:   GNU libraries and utilities for producing multi-lingual messages
 
 License:   GPLv2+ and LGPLv2+
 URL:       http://www.gnu.org/software/gettext/
-Source0:   http://ftp.gnu.org/pub/gnu/gettext/gettext-%{version}.tar.xz
+Source0:   https://ftp.gnu.org/pub/gnu/gettext/gettext-%{version}.tar.xz
+# Don't override various *printf macros in C++, they collide with the std::xxx counterparts
+Patch0:   gettext-printf_collision.patch
+# Add missing symbol export
+Patch1:    gettext_formatstring-ruby.patch
 
 BuildArch: noarch
 
@@ -66,11 +70,11 @@ Requires:       mingw64-gettext = %{version}-%{release}
 Static version of the MinGW Windows Gettext library.
 
 
-%?mingw_debug_package
+%{?mingw_debug_package}
 
 
 %prep
-%setup -q -n gettext-%{version}
+%autosetup -p1 -n gettext-%{version}
 
 %build
 %mingw_configure            \
@@ -81,11 +85,11 @@ Static version of the MinGW Windows Gettext library.
     --enable-threads=win32  \
     --without-emacs         \
     --disable-openmp
-%mingw_make %{?_smp_mflags}
+%mingw_make_build
 
 
 %install
-%mingw_make_install DESTDIR=%{buildroot}
+%mingw_make_install
 
 rm -f %{buildroot}%{mingw32_datadir}/locale/locale.alias
 rm -f %{buildroot}%{mingw32_libdir}/charset.alias
@@ -114,16 +118,16 @@ find %{buildroot} -name "*.la" -delete
 
 # Win32
 %files -n mingw32-gettext -f mingw32-%{name}.lang
-%doc COPYING
+%license COPYING
 %{mingw32_bindir}/autopoint
 %{mingw32_bindir}/envsubst.exe
 %{mingw32_bindir}/gettext.exe
 %{mingw32_bindir}/gettext.sh
 %{mingw32_bindir}/gettextize
 %{mingw32_bindir}/libasprintf-0.dll
-%{mingw32_bindir}/libgettextlib-0-20-2.dll
+%{mingw32_bindir}/libgettextlib-0-21.dll
 %{mingw32_bindir}/libgettextpo-0.dll
-%{mingw32_bindir}/libgettextsrc-0-20-2.dll
+%{mingw32_bindir}/libgettextsrc-0-21.dll
 %{mingw32_bindir}/libintl-8.dll
 %{mingw32_bindir}/libtextstyle-0.dll
 %{mingw32_bindir}/msg*.exe
@@ -155,16 +159,16 @@ find %{buildroot} -name "*.la" -delete
 
 # Win64
 %files -n mingw64-gettext -f mingw64-%{name}.lang
-%doc COPYING
+%license COPYING
 %{mingw64_bindir}/autopoint
 %{mingw64_bindir}/envsubst.exe
 %{mingw64_bindir}/gettext.exe
 %{mingw64_bindir}/gettext.sh
 %{mingw64_bindir}/gettextize
 %{mingw64_bindir}/libasprintf-0.dll
-%{mingw64_bindir}/libgettextlib-0-20-2.dll
+%{mingw64_bindir}/libgettextlib-0-21.dll
 %{mingw64_bindir}/libgettextpo-0.dll
-%{mingw64_bindir}/libgettextsrc-0-20-2.dll
+%{mingw64_bindir}/libgettextsrc-0-21.dll
 %{mingw64_bindir}/libintl-8.dll
 %{mingw64_bindir}/libtextstyle-0.dll
 %{mingw64_bindir}/msg*.exe
@@ -196,6 +200,15 @@ find %{buildroot} -name "*.la" -delete
 
 
 %changelog
+* Mon Aug 03 2020 Sandro Mani <manisandro@gmail.com> - 0.21.0-1
+- Update to 0.21.0
+
+* Tue Jul 28 2020 Sandro Mani <manisandro@gmail.com> - 0.20.2-3
+- Add gettext-printf_collision.patch
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 16 2020 Sandro Mani <manisandro@gmail.com> - 0.20.2-1
 - Update to 0.20.2
 

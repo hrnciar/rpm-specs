@@ -1,7 +1,7 @@
 Name:           perl-File-ChangeNotify
 Summary:        Watch for changes to files, cross-platform style
 Version:        0.31
-Release:        6%{?dist}
+Release:        7%{?dist}
 License:        Artistic 2.0
 Source0:        https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/File-ChangeNotify-%{version}.tar.gz 
 URL:            https://metacpan.org/release/File-ChangeNotify
@@ -68,6 +68,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.31-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.31-6
 - Perl 5.32 rebuild
 

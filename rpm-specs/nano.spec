@@ -1,11 +1,16 @@
 Summary:         A small text editor
 Name:            nano
-Version:         4.9.3
-Release:         1%{?dist}
+Version:         5.3
+Release:         4%{?dist}
 License:         GPLv3+
 URL:             https://www.nano-editor.org
 Source:          https://www.nano-editor.org/dist/latest/%{name}-%{version}.tar.xz
 Source2:         nanorc
+
+# Shell snippets for default-editor setup
+Source11:        nano-default-editor.sh
+Source12:        nano-default-editor.csh
+Source13:        nano-default-editor.fish
 
 BuildRequires:   file-devel
 BuildRequires:   gettext-devel
@@ -20,6 +25,18 @@ Conflicts:       filesystem < 3
 %description
 GNU nano is a small and friendly text editor.
 
+%package default-editor
+Summary:         Sets GNU nano as the default editor
+Requires:        nano = %{version}-%{release}
+# Ensure that only one package with this capability is installed
+Provides:        system-default-editor
+Conflicts:       system-default-editor
+BuildArch:       noarch
+
+%description default-editor
+This package ensures the EDITOR shell variable
+is set in common shells to GNU nano.
+
 %prep
 %autosetup -S git
 
@@ -28,14 +45,12 @@ mkdir build
 cd build
 %global _configure ../configure
 %configure
-make %{?_smp_mflags}
+%make_build
 
 # generate default /etc/nanorc
-# - disable line wrapping by default
 # - set hunspell as the default spell-checker
 # - enable syntax highlighting by default (#1270712)
-sed -e 's/# set nowrap/set nowrap/' \
-    -e 's/^#.*set speller.*$/set speller "hunspell"/' \
+sed -e 's/^#.*set speller.*$/set speller "hunspell"/' \
     -e 's|^# \(include "/usr/share/nano/\*.nanorc"\)|\1|' \
     %{SOURCE2} doc/sample.nanorc > ./nanorc
 
@@ -51,7 +66,16 @@ rm -f %{buildroot}%{_docdir}/nano/{nano,nano.1,nanorc.5,rnano.1}.html
 mkdir -p %{buildroot}%{_sysconfdir}
 install -m 0644 ./nanorc %{buildroot}%{_sysconfdir}/nanorc
 
+# enable all extra syntax highlighting files by default
+mv %{buildroot}%{_datadir}/nano/extra/* %{buildroot}%{_datadir}/nano
+rm -rf %{buildroot}%{_datadir}/nano/extra
+
 %find_lang %{name}
+
+# install nano-default-editor snippets
+install -Dpm 0644 %{SOURCE11} %{buildroot}%{_sysconfdir}/profile.d/%{basename:%{S:11}}
+install -Dpm 0644 %{SOURCE12} %{buildroot}%{_sysconfdir}/profile.d/%{basename:%{S:12}}
+install -Dpm 0644 %{SOURCE13} %{buildroot}%{_datadir}/fish/vendor_conf.d/%{basename:%{S:13}}
 
 %files -f build/%{name}.lang
 %doc AUTHORS COPYING ChangeLog INSTALL NEWS README THANKS TODO
@@ -63,7 +87,45 @@ install -m 0644 ./nanorc %{buildroot}%{_sysconfdir}/nanorc
 %{_infodir}/nano.info*
 %{_datadir}/nano
 
+%files default-editor
+%dir %{_sysconfdir}/profile.d
+%config(noreplace) %{_sysconfdir}/profile.d/nano-default-editor.*
+%dir %{_datadir}/fish/vendor_conf.d
+%{_datadir}/fish/vendor_conf.d/nano-default-editor.fish
+
+
 %changelog
+* Thu Oct 15 2020 Zdenek Dohnal <zdohnal@redhat.com> - 5.3-4
+- fix nano-default-editor.fish - don't give EDITOR an universal scope
+
+* Mon Oct 12 2020 Neal Gompa <ngompa13@gmail.com> - 5.3-3
+- Ensure default-editor subpackage is easily swappable
+
+* Thu Oct 08 2020 Neal Gompa <ngompa13@gmail.com> - 5.3-2
+- Enable all extra definitions for syntax highlighting (#1886561)
+
+* Wed Oct 07 2020 Kamil Dudka <kdudka@redhat.com> - 5.3-1
+- new upstream release
+
+* Mon Aug 24 2020 Kamil Dudka <kdudka@redhat.com> - 5.2-1
+- new upstream release
+
+* Sat Aug 15 2020 Kamil Dudka <kdudka@redhat.com> - 5.1-1
+- new upstream release
+
+* Thu Jul 30 2020 Kamil Dudka <kdudka@redhat.com> - 5.0-1
+- new upstream release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.9.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Tom Stellard <tstellar@redhat.com> - 4.9.3-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Thu Jul 16 2020 Neal Gompa <ngompa13@gmail.com> - 4.9.3-2
+- Add default-editor subpackage (#1854444)
+
 * Mon May 25 2020 Kamil Dudka <kdudka@redhat.com> - 4.9.3-1
 - new upstream release
 

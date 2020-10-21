@@ -12,8 +12,8 @@
 Summary:   Open source remote desktop protocol (RDP) server
 Name:      xrdp
 Epoch:     1
-Version:   0.9.13
-Release:   2%{?dist}
+Version:   0.9.14
+Release:   3%{?dist}
 License:   ASL 2.0 and GPLv2+ and MIT
 URL:       http://www.xrdp.org/
 Source0:   https://github.com/neutrinolabs/xrdp/releases/download/v%{version}/xrdp-%{version}.tar.gz
@@ -25,11 +25,16 @@ Source5:   README.Fedora
 Source6:   xrdp.te
 Source7:   xrdp-polkit-1.rules
 Patch0:    xrdp-0.9.9-sesman.patch
-Patch1:    xrdp-0.9.11-xrdp-ini.patch
+Patch1:    xrdp-0.9.14-xrdp-ini.patch
 Patch2:    xrdp-0.9.4-service.patch
 Patch3:    xrdp-0.9.2-setpriv.patch
 Patch4:    xrdp-0.9.10-scripts-libexec.patch
 Patch5:    xrdp-0.9.6-script-interpreter.patch
+Patch6:    xrdp-0.9.14-log-snprintf.patch
+Patch7:    xrdp-0.9.14-xfree86-evdev.patch
+Patch8:    xrdp-0.9.14-fuse-pointer.patch
+Patch9:    xrdp-0.9.14-arch.patch
+Patch10:   xrdp-0.9.14-vnc-uninit.patch
 
 BuildRequires: gcc
 BuildRequires: libX11-devel
@@ -275,6 +280,26 @@ fi
 %{_datadir}/selinux/*/%{name}.pp
 
 %changelog
+* Tue Sep  1 2020 Bojan Smojver <bojan@rexurive.com> - 1:0.9.14-3
+- Add a patch for uninitialised variables, courtesy of Dan Horák
+
+* Mon Aug 31 2020 Bojan Smojver <bojan@rexurive.com> - 1:0.9.14-2
+- Bump up to 0.9.14
+- Add a set of patches to deal with new GCC warnings/errors
+- Do not emit warning on failed architecture detection
+- Exclude s390x arch for now
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.9.13.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.9.13.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Bojan Smojver <bojan@rexurive.com> - 1:0.9.13.1-1
+- Bump up to 0.9.13.1
+- CVE-2022-4044
+
 * Thu May 14 2020 Bojan Smojver <bojan@rexurive.com> - 1:0.9.13-2
 - Move sockets to /run/xrdp, bug #1834178
 

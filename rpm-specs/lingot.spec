@@ -1,6 +1,6 @@
 Name:       lingot
 Version:    1.1.1
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    A musical instruments tuner
 
 License:    GPLv2+
@@ -74,6 +74,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/*%{name}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.1.1-1
 - Update to new release
 - https://bugzilla.redhat.com/show_bug.cgi?id=1833596

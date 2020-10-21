@@ -1,5 +1,5 @@
 Name:           couchdb
-Version:        3.0.0
+Version:        3.1.1
 Release:        1%{?dist}
 Summary:        A document database server, accessible via a RESTful JSON API
 License:        ASL 2.0
@@ -10,6 +10,7 @@ Source3:        %{name}.service
 Source4:        %{name}.tmpfiles.conf
 Source5:        %{name}.temporary.sh
 Patch1:         couchdb-0001-Build-with-SpiderMonkey-60-on-ARM-64.patch
+Patch2:		couchdb-0002-Build-with-Erlang-23.patch
 BuildRequires: curl-devel >= 7.18.0
 BuildRequires: erlang-bear
 BuildRequires: erlang-erts
@@ -232,6 +233,16 @@ exit 0
 
 
 %changelog
+* Sun Oct  4 2020 Peter Lemenkov <lemenkov@gmail.com> - 3.1.1-1
+- Ver. 3.1.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 5 2020 Peter Lemenkov <lemenkov@gmail.com> - 2.3.1-1
 - Ver. 2.3.1
 

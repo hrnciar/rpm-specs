@@ -3,7 +3,7 @@
 
 Name:       php-channel-phpseclib
 Version:    1.3
-Release:    11%{?dist}
+Release:    12%{?dist}
 Summary:    Adds the phpseclib channel to PEAR
 
 License:    Public Domain
@@ -56,6 +56,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

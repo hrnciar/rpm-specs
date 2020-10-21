@@ -1,7 +1,7 @@
 Name:      storhaug
 Summary:   High-Availability Add-on for NFS-Ganesha
 Version:   1.0
-Release:   5%{?prereltag:.%{prereltag}}%{?dist}
+Release:   6%{?prereltag:.%{prereltag}}%{?dist}
 License:   GPLv2
 URL:       https://github.com/gluster/storhaug
 BuildArch: noarch
@@ -48,6 +48,9 @@ install -m 0744 nfs-ganesha-callout %{buildroot}%{_sysconfdir}/ctdb
      %{_sysconfdir}/ctdb/nfs-ganesha-callout
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

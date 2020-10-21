@@ -1,6 +1,6 @@
 Name:           sjasm
 Version:        0.39
-Release:        0.27.g1%{?dist}
+Release:        0.28.g1%{?dist}
 Summary:        A z80 cross assembler
 License:        BSD
 # Upstream no longer appears to exist
@@ -42,6 +42,9 @@ make -C sjasmsrc039g1 install DESTDIR=%{buildroot}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.39-0.28.g1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.39-0.27.g1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

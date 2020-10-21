@@ -1,6 +1,6 @@
 Name:           shntool
 Version:        3.0.10
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        A multi-purpose WAVE data processing and reporting utility
 
 License:        GPLv2+
@@ -43,6 +43,9 @@ autoreconf -fiv
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.10-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 07 2020 Felix Kaechele <felix@kaechele.ca> - 3.0.10-23
 - Fix for rhbz#1833083 (shntool: cannot split 24-bit flac files)
 

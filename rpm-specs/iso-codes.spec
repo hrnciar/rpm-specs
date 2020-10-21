@@ -1,7 +1,7 @@
 Name:       iso-codes
 Summary:    ISO code lists and translations
 Version:    4.5.0
-Release:    1%{?dist}
+Release:    2%{?dist}
 License:    LGPLv2+
 URL:        https://salsa.debian.org/iso-codes-team/iso-codes
 Source0:    https://salsa.debian.org/iso-codes-team/%{name}/-/archive/%{name}-%{version}/%{name}-%{name}-%{version}.tar.gz
@@ -49,6 +49,9 @@ when building programs that use %{name}.
 %{_datadir}/pkgconfig/iso-codes.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 20 2020 Parag Nemade <pnemade AT redhat DOT com> - 4.5.0-1
 - Update to 4.5.0 version (#1837748)
 

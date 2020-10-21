@@ -2,7 +2,7 @@
 
 Name:           nodejs-%{npmname}
 Version:        0.4.4
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Javascript markdown parsing, made simple
 
 License:        MIT
@@ -52,6 +52,13 @@ cp -a package.json %{buildroot}%{nodejs_sitelib}/%{npmname}/
 %doc README.md
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.4-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

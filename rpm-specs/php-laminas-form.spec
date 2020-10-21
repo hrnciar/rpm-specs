@@ -7,7 +7,7 @@
 # Please, preserve the changelog entries
 #
 %global bootstrap    0
-%global gh_commit    c19b62ed8394bcf2038ab3f51a49b7d0ef4e1700
+%global gh_commit    359cd372c565e18a17f32ccfeacdf21bba091ce2
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     laminas
 %global gh_project   laminas-form
@@ -16,14 +16,14 @@
 %global namespace    Laminas
 %global library      Form
 %if %{bootstrap}
-%global with_tests   0%{?_with_tests:1}
+%bcond_with          tests
 %else
-%global with_tests   0%{!?_without_tests:1}
+%bcond_without       tests
 %endif
 
 Name:           php-%{gh_project}
-Version:        2.14.6
-Release:        1%{?dist}
+Version:        2.15.0
+Release:        2%{?dist}
 Summary:        %{namespace} Framework %{library} component
 
 License:        BSD
@@ -33,7 +33,7 @@ Source1:        makesrc.sh
 
 BuildArch:      noarch
 # Tests
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php(language) >= 5.6
 BuildRequires:  php-date
 BuildRequires:  php-intl
@@ -192,7 +192,7 @@ cp -pr zf.php %{buildroot}%{php_home}/Zend/%{library}/autoload.php
  
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 cat << 'EOF' | tee vendor/autoload.php
 <?php
@@ -239,6 +239,12 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.15.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Remi Collet <remi@remirepo.net> - 2.15.0-1
+- update to 2.15.0
+
 * Tue Jun 23 2020 Remi Collet <remi@remirepo.net> - 2.14.6-1
 - update to 2.14.6
 

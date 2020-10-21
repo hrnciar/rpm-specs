@@ -3,7 +3,7 @@
 
 Name:     erlang-%{realname}
 Version:  1.8.1
-Release:  5%{?dist}
+Release:  6%{?dist}
 Summary:  An Erlang providers library
 License:  LGPLv3
 URL:      https://github.com/%{upstream}/%{realname}
@@ -33,6 +33,9 @@ BuildRequires:  erlang-rebar
 %{erlang_appdir}/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

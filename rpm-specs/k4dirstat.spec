@@ -1,9 +1,9 @@
-%global hash 0b055582e48c
+%global hash 8f8654809ca5
 %global bbrepo jeromerobert
 
 Name:           k4dirstat
-Version:        3.1.2
-Release:        9%{?dist}
+Version:        3.2.0
+Release:        1%{?dist}
 Summary:        Graphical Directory Statistics for Used Disk Space
 
 License:        GPLv2 and LGPLv2
@@ -11,12 +11,21 @@ URL:            https://bitbucket.org/jeromerobert/k4dirstat/wiki/Home
 
 Source0:        https://bitbucket.org/jeromerobert/k4dirstat/get/%{name}-%{version}.tar.bz2
 
-BuildRequires:  kf5-kdelibs4support-devel
-BuildRequires:  zlib-devel
-BuildRequires:  desktop-file-utils
-BuildRequires:  cmake extra-cmake-modules
-
-%{?_kde4_macros_api:Requires: kde4-macros(api) = %{_kde4_macros_api} }
+BuildRequires: desktop-file-utils
+BuildRequires: gettext
+BuildRequires: extra-cmake-modules cmake gcc-c++
+BuildRequires: pkgconfig(zlib)
+# kf5 deps
+BuildRequires: kf5-rpm-macros
+BuildRequires: kf5-kcoreaddons-devel
+BuildRequires: kf5-ki18n-devel
+BuildRequires: kf5-kdoctools-devel
+BuildRequires: kf5-kxmlgui-devel
+BuildRequires: kf5-kio-devel
+BuildRequires: kf5-kjobwidgets-devel
+BuildRequires: kf5-kiconthemes-devel
+# qt deps
+BuildRequires: pkgconfig(Qt5Widgets)
 
 %description
 KDirStat (KDE Directory Statistics) is a utility program that sums up
@@ -28,15 +37,12 @@ It can also help you clean up used space.
 
 %build
 
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kde4} ..
-popd
+%cmake_kf5
 
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} || touch %{name}.lang
 
@@ -61,6 +67,13 @@ desktop-file-validate \
 
 
 %changelog
+* Thu Aug 06 2020 Dmitrij S. Kryzhevich <kruzhev@ispms.ru> - 3.2.0-1
+- Update to 3.2.0.
+- kde4 -> kf5 macroses.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.2-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -7,7 +7,7 @@ Name: perl-%{FullName}
 Summary: Interpolated named arguments in string
 License: GPL+ or Artistic
 Version: 1.00
-Release: 2%{?dist}
+Release: 3%{?dist}
 Source: %{metacpan}/%{FullName}-%{version}.tar.gz
 Url: https://metacpan.org/release/%{FullName}
 
@@ -53,6 +53,9 @@ make test VERBOSE=1
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.00-2
 - Perl 5.32 rebuild
 

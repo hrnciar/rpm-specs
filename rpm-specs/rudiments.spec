@@ -1,6 +1,6 @@
 Name: rudiments
-Version: 1.2.2
-Release: 2%{?dist}
+Version: 1.3.1
+Release: 1%{?dist}
 Summary: C++ class library for developing systems and applications
 
 # Library source code is LGLPv2.
@@ -8,7 +8,7 @@ License: LGPLv2
 URL: http://rudiments.sourceforge.net
 Source0: http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 
-BuildRequires: gcc-c++, libedit-devel, pcre-devel, openssl-devel, libcurl-devel, krb5-devel
+BuildRequires: gcc-c++, libedit-devel, pcre-devel, openssl-devel, libcurl-devel, krb5-devel, httpd-devel
 
 %description
 A C++ class library for developing systems and applications.  Rudiments includes
@@ -23,7 +23,7 @@ libraries, and XML.
 %package devel
 License: LGPLv2
 Summary: Development files for rudiments
-Requires: %{name}%{?_isa} = %{version}-%{release}, libedit-devel, openssl-devel, libcurl-devel, krb5-devel
+Requires: %{name}%{?_isa} = %{version}-%{release}, libedit-devel, openssl-devel, libcurl-devel, krb5-devel, httpd-devel
 
 %description devel
 Development files for rudiments.
@@ -50,21 +50,32 @@ make %{?_smp_mflags}
 %install
 make install DESTDIR=%{buildroot}
 
+# create tmpfiles.d directories and config file
+mkdir -p %{buildroot}/run/%{name}
+mkdir -p %{buildroot}%{_tmpfilesdir}
+echo "d /run/%{name} 0777 root root -" > %{buildroot}%{_tmpfilesdir}/%{name}.conf
+
 %files
-%{_libdir}/librudiments.so.6
-%{_libdir}/librudiments.so.6.*
+%{_libdir}/librudiments.so.7
+%{_libdir}/librudiments.so.7.*
+%{_libdir}/librudiments-apache.so.7
+%{_libdir}/librudiments-apache.so.7.*
 %doc AUTHORS ChangeLog
 %exclude %{_libdir}/librudiments.la
+%exclude %{_libdir}/librudiments-apache.la
 %if 0%{?fedora}
 %license COPYING
 %exclude %{_datadir}/licenses/rudiments
 %else
 %{_datadir}/licenses/rudiments
 %endif
+%{_tmpfilesdir}/%{name}.conf
+%exclude %{_localstatedir}/run
 
 %files devel
 %{_includedir}/rudiments
 %{_libdir}/librudiments.so
+%{_libdir}/librudiments-apache.so
 %{_bindir}/rudiments-config
 %{_libdir}/pkgconfig/rudiments.pc
 %{_mandir}/man1/rudiments-config*
@@ -73,8 +84,14 @@ make install DESTDIR=%{buildroot}
 %{_docdir}/%{name}
 
 %changelog
-* Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+* Tue Sep 01 2020 David Muse <david.muse@firstworks.com> - 1.3.1-1
+- Updated to version 1.3.1.
+- Added apache-realated packages to BuildRequires.
+
+* Mon Aug 17 2020 David Muse <david.muse@firstworks.com> - 1.3.0-1
+- Updated to version 1.3.0.
+- Added tmpfiles.d configuration.
+- Added librudiments-apache libraries.
 
 * Mon Aug 12 2019 David Muse <david.muse@firstworks.com> - 1.2.2-1
 - Updated to version 1.2.2.

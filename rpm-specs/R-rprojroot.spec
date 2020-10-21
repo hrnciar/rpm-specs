@@ -9,7 +9,7 @@
 
 Name:             R-%{packname}
 Version:          1.3.2
-Release:          8%{?dist}
+Release:          9%{?dist}
 Summary:          Finding Files in Project Subdirectories
 
 License:          GPLv3
@@ -82,6 +82,9 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --ignore-vignettes
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 1.3.2-8
 - conditionalize check to break testthat loop
 - rebuild for R 4

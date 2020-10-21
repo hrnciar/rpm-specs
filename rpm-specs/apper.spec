@@ -1,3 +1,5 @@
+# Force out of source build
+%undefine __cmake_in_source_build
 
 #global snap 20180119
 # include -updater applet subpkg or not
@@ -6,7 +8,7 @@
 Name:    apper
 Summary: KDE interface for PackageKit
 Version: 1.0.0
-Release: 6%{?dist}
+Release: 8%{?dist}
 
 License: GPLv2+
 %if 0%{?snap:1}
@@ -86,19 +88,16 @@ sed -i \
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%cmake_kf5 \
   %{?appstream:-DAPPSTREAM:BOOL=ON} \
   -DAUTOREMOVE:BOOL=OFF \
   -DBUILD_PLASMOID=%{?updater:ON}%{?!updater:OFF}
-popd
 
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 # hack around gnome-packagekit conflict
 mv %{buildroot}%{_datadir}/dbus-1/services/org.freedesktop.PackageKit.service \
@@ -135,6 +134,13 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.apper.des
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

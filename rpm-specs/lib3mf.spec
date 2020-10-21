@@ -1,6 +1,6 @@
 Name:           lib3mf
 Version:        2.0.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Implementation of the 3D Manufacturing Format file standard
 License:        BSD
 URL:            https://3mf.io
@@ -23,6 +23,9 @@ BuildRequires:  gcc-c++
 %if %{with tests}
 BuildRequires:  gtest-devel
 %endif
+
+# Get the pre-Fedora 33 behavior for now until diverged from EPEL 7
+%define __cmake_in_source_build 1
 
 %global _description %{expand:
 lib3mf is a C++ implementation of the 3D Manufacturing Format standard.
@@ -99,6 +102,9 @@ sed -i 's|include$|include/%{name}|' %{buildroot}%{_libdir}/pkgconfig/lib3MF.pc
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.0-3
 - Include lib3MF.pc file
 - Include all headers

@@ -1,7 +1,7 @@
 Name: hunspell-nl
 Summary: Dutch hunspell dictionaries
 Version: 2.10
-Release: 16%{?dist}
+Release: 17%{?dist}
 #http://www.opentaal.org/bestanden/doc_download/20-woordenlijst-v-210g-voor-openofficeorg-3
 #annoying click through makes direct link apparently impossible
 Source: OpenTaal-210G-LO.oxt
@@ -38,6 +38,9 @@ done
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

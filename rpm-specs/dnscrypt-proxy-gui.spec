@@ -1,9 +1,9 @@
-%global cmake_build_dir build-cmake
+%undefine __cmake_in_source_build
 %global app_name DNSCryptClient
 
 Name:          dnscrypt-proxy-gui
 Version:       1.21.16
-Release:       11%{?dist}
+Release:       13%{?dist}
 Summary:       GUI wrapper for dnscrypt-proxy
 License:       GPLv2+
 Source0:       https://github.com/F1ash/%{name}/archive/%{version}.tar.gz
@@ -36,16 +36,11 @@ preventing any spying, spoofing or man-in-the-middle attacks.
 %setup -q
 
 %build
-mkdir %{cmake_build_dir}
-pushd %{cmake_build_dir}
-      %cmake ..
-      %{make_build}
-popd
+%cmake
+%cmake_build
 
 %install
-pushd %{cmake_build_dir}
-      %{make_install}
-popd
+%cmake_install
 
 %check
 desktop-file-validate %{buildroot}/%{_datadir}/applications/%{app_name}.desktop
@@ -89,6 +84,12 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{app_name}.desktop
 %{_datadir}/icons/hicolor/64x64/apps/%{app_name}.png
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 1.21.16-13
+- rebuild (qt5)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.21.16-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.21.16-11
 - rebuild (qt5)
 

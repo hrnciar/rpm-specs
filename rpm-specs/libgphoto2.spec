@@ -4,8 +4,8 @@
 %global port_version 0.12.0
 
 Name:           libgphoto2
-Version:        2.5.24
-Release:        2%{?dist}
+Version:        2.5.25
+Release:        1%{?dist}
 Summary:        Library for accessing digital cameras
 # GPLV2+ for the main lib (due to exif.c) and most plugins, some plugins GPLv2
 License:        GPLv2+ and GPLv2
@@ -14,6 +14,7 @@ URL:            http://www.gphoto.org/
 Source0:        http://downloads.sourceforge.net/gphoto/%{name}-%{version}.tar.bz2
 Patch1:         gphoto2-pkgcfg.patch
 Patch2:         gphoto2-device-return.patch
+Patch3:         0001-configure-fix-symver-support-checks.patch
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -36,6 +37,9 @@ BuildRequires:  lockdev-devel
 BuildRequires:  pkgconfig(libusb-1.0)
 Requires:       lockdev
 # -----------------------------------
+
+# Temporarily required for patch3
+BuildRequires: autoconf automake libtool gettext-devel
 
 %description
 libgphoto2 is a library that can be used by applications to access
@@ -65,6 +69,9 @@ for f in AUTHORS ChangeLog COPYING libgphoto2_port/AUTHORS libgphoto2_port/COPYI
 done
 
 %build
+# Temporarily required for patch3
+autoreconf -if
+
 %configure \
     udevscriptdir='%{udevdir}'   \
     --with-drivers=all           \
@@ -145,6 +152,15 @@ rm -rf %{buildroot}%{_datadir}/libgphoto2_port/*/vcamera/
 %{_mandir}/man3/%{name}_port.3*
 
 %changelog
+* Wed Oct 07 2020 Josef Ridky <jridky@redhat.com> - 2.5.25-1
+- New upstream release 2.5.25 (#1839543)
+
+* Thu Aug  6 2020 Daniel P. Berrangé <berrange@redhat.com> - 2.5.24-4
+- Fix configure check for symbol versioning with GCC 10 (rhbz #1862745)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.24-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 13 2020 Daniel P. Berrangé <berrange@redhat.com> - 2.5.24-2
 - Add libcurl for Lumix WIFI support
 

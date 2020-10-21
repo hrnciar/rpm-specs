@@ -1,5 +1,5 @@
 Name:           translate-toolkit
-Version:        3.0.0
+Version:        3.1.1
 Release:        1%{?dist}
 Summary:        Tools to assist with translation and software localization
 License:        GPLv2+
@@ -13,7 +13,6 @@ Source5:        popuretext.1
 Source6:        poreencode.1
 Source7:        posplit.1
 Source8:        tmserver.1
-Patch0:         translate-toolkit-get_moz_enUS-py3.patch
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
@@ -80,7 +79,6 @@ the libraries in other localization tools.
 
 %prep
 %setup -q
-%patch0 -p1 -b .orig
 
 %build
 LANG=C.utf8
@@ -121,6 +119,15 @@ rm -r %{buildroot}%{python3_sitelib}/translate/docs
 %doc docs/_build/html
 
 %changelog
+* Thu Sep 24 2020 Sundeep Anand <suanand@redhat.com> - 3.1.1-1
+- http://docs.translatehouse.org/projects/translate-toolkit/en/latest/releases/3.1.1.html
+
+* Tue Sep 22 2020 Sundeep Anand <suanand@redhat.com> - 3.1.0-1
+- http://docs.translatehouse.org/projects/translate-toolkit/en/latest/releases/3.1.0.html
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 16 2020 Sundeep Anand <suanand@redhat.com> - 3.0.0-1
 - http://docs.translatehouse.org/projects/translate-toolkit/en/latest/releases/3.0.0.html
 

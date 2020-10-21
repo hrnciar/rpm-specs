@@ -4,7 +4,7 @@
 
 Name:     erlang-%{realname}
 Version:  1.1.5
-Release:  3%{?dist}
+Release:  4%{?dist}
 Summary:  Collection of ssl verification functions for Erlang
 License:  MIT
 URL:      https://github.com/%{upstream}/%{upstream_reponame}
@@ -37,6 +37,9 @@ Requires:       erlang-rebar
 %{erlang_appdir}/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

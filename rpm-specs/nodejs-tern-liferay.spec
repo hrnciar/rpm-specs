@@ -4,7 +4,7 @@
 
 Name:           nodejs-tern-liferay
 Version:        0.1.0
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Tern plugin for Liferay JavaScript API
 
 License:        MIT
@@ -39,6 +39,9 @@ cp -pr package.json liferay.js %{buildroot}%{nodejs_sitelib}/%{shortname}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,11 +1,16 @@
 Name:          gimagereader
 Version:       3.3.1
-Release:       4%{?dist}
+Release:       5%{?dist}
 Summary:       A front-end to tesseract-ocr
 
 License:       GPLv3+
 URL:           https://github.com/manisandro/gimagereader
 Source0:       https://github.com/manisandro/gimagereader/releases/download/v%{version}/%{name}-%{version}.tar.xz
+
+# Backport 6209e25dab20b233e399ff36fabe4252db0f9e44
+Patch0:        gimagereader-include_qurl.patch
+# Set CMP0100 (AUTOMOC should process hh files)
+Patch1:        gimagereader-automoc.patch
 
 BuildRequires: desktop-file-utils
 BuildRequires: djvulibre-devel
@@ -55,6 +60,8 @@ gImageReader is a simple front-end to tesseract. Features include:
 
 %package gtk
 Summary:       A Gtk+ front-end to tesseract-ocr
+# For glib networking operations
+Requires:      gvfs-client
 Requires:      %{name}-common = %{version}-%{release}
 Obsoletes:     %{name} < 2.94-1
 
@@ -102,19 +109,19 @@ mkdir build_gtk
 (
 cd build_gtk
 %cmake -DINTERFACE_TYPE=gtk -DENABLE_VERSIONCHECK=0 -DMANUAL_DIR="%{_defaultdocdir}/%{name}-common" ..
-%make_build
+%cmake_build
 )
 mkdir build_qt
 (
 cd build_qt
 %cmake -DINTERFACE_TYPE=qt5 -DENABLE_VERSIONCHECK=0 -DMANUAL_DIR="%{_defaultdocdir}/%{name}-common" ..
-%make_build
+%cmake_build
 )
 
 
 %install
-%make_install -C build_gtk
-%make_install -C build_qt
+(cd build_gtk && %cmake_install)
+(cd build_qt && %cmake_install)
 %{_bindir}/desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}-gtk.desktop
 %{_bindir}/desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}-qt5.desktop
 %{_bindir}/appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/%{name}-gtk.appdata.xml
@@ -143,6 +150,9 @@ cd build_qt
 %{_datadir}/applications/%{name}-qt5.desktop
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 3.6.0
-Release: 6%{?dist}
+Release: 7%{?dist}
 Summary: Fast debugging with Pry
 License: MIT
 URL: https://github.com/deivid-rodriguez/pry-byebug
@@ -59,6 +59,9 @@ cp -a .%{gem_dir}/* \
 %doc %{gem_instdir}/README.md
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

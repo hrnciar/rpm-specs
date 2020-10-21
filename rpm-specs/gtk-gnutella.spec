@@ -1,25 +1,10 @@
-%global gitver	f5225a5
-
 Name: gtk-gnutella
 Summary: GUI based Gnutella Client
-Version: 1.1.16
-Release: 0.2.git%{gitver}%{?dist}
+Version: 1.2.0
+Release: 3%{?dist}
 License: GPLv2+
 URL: http://gtk-gnutella.sourceforge.net
-#Source0: http://sourceforge.net/projects/gtk-gnutella/files/gtk-gnutella-%{version}.tar.xz
-#
-#    wget https://github.com/gtk-gnutella/gtk-gnutella/archive/%{gitver}.zip
-#    unzip %{gitver}.zip
-#    mv gtk-gnutella-%{gitver}* gtk-gnutella-%{version}
-#
-#    pushd gtk-gnutella-%{version}
-#    rm -rf .tx .gitignore .travis.yml
-#    echo %{version} >version
-#    popd
-#
-#    tar -cvf - gtk-gnutella-%{version} | xz -c -9 >gtk-gnutella-%{version}.tar.xz
-#
-Source0: gtk-gnutella-%{version}-%{gitver}.tar.xz
+Source0: http://sourceforge.net/projects/gtk-gnutella/files/gtk-gnutella-%{version}.tar.xz
 Source1: gtk-gnutella-recalculate-sha1.sh
 
 BuildRequires: gcc
@@ -54,11 +39,6 @@ features.
 	-Dprivlib=%{_datadir}/%{name} -Dsysman=%{_mandir}/man1 \
 	-Dccflags="%{optflags}" -Dcc="%{__cc}" -Dyacc="byacc" \
 	-Dgtkversion=%{?_with_gtk1:1}%{!?_with_gtk1:2} \
-%if %{?__isa_bits:%{__isa_bits}}%{!?__isa_bits:0} == 64
-	-Dalignbytes=16 \
-%else
-	-Dalignbytes=8 \
-%endif
 	-Dofficial=true -ders
 make #%{?_smp_mflags}
 
@@ -71,6 +51,8 @@ make #%{?_smp_mflags}
 
 make install INSTALL_PREFIX=$RPM_BUILD_ROOT
 make install.man INSTALL_PREFIX=$RPM_BUILD_ROOT
+
+chmod 0755 $RPM_BUILD_ROOT%{_bindir}/*
 
 rm -f $RPM_BUILD_ROOT%{_datadir}/pixmaps/*.svg
 install -D -m 644 extra_files/gtk-gnutella.16.png \
@@ -102,11 +84,14 @@ desktop-file-install --delete-original	\
 
 
 %changelog
-* Wed Jun 17 2020 Dmitry Butskoy <Dmitry@Butskoy.name> - 1.1.16-0.2.gitf5225a5
-- Use 16-byte alignment for memory (gtkg#561)
+* Sun Oct 11 2020 Jeff Law <law@redhat.com> - 1.2.0-3
+- Re-enable LTO
 
-* Thu May 21 2020 Dmitry Butskoy <Dmitry@Butskoy.name> - 1.1.16-0.1.gitf5225a5
-- rebuilt with the latest devel snapshot (#1834318)
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul  9 2020 Dmitry Butskoy <Dmitry@Butskoy.name> - 1.2.0-1
+- Upgrade to 1.2.0
 - re-calculate sha1 of the stripped binary at the end of the install stage
   (when it is actually stripped in the distribution's specific way)
 - provide appdata file

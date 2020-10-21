@@ -4,7 +4,7 @@
 
 # https://github.com/mdlayher/wifi
 %global goipath         github.com/mdlayher/wifi
-%global commit          b1436901ddee2ea3ee8782a440a084e457615766
+%global commit          84f0b9457fdd566bb03cb33b6dd0dadeacca614f
 
 %gometa
 
@@ -16,7 +16,7 @@ Package wifi provides access to IEEE 802.11 WiFi device actions and statistics.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.7%{?dist}
+Release:        0.9%{?dist}
 Summary:        Access to IEEE 802.11 WiFi device actions and statistics
 
 License:        MIT
@@ -52,6 +52,12 @@ BuildRequires:  golang(github.com/mdlayher/genetlink/genltest)
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 21:40:40 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.9.20200729git84f0b94
+- Bump to commit 84f0b9457fdd566bb03cb33b6dd0dadeacca614f
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

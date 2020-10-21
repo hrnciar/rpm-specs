@@ -10,10 +10,11 @@
 #
 # Please preserve changelog entries
 #
-%global with_tests       0%{!?_without_tests:1}
+%bcond_without tests
+
 %global github_owner     twigphp
 %global github_name      Twig
-%global github_commit    3b88ccd180a6b61ebb517aea3b1a8906762a1dc2
+%global github_commit    9b76b1535483cdf4edf01bb787b0217b62bd68a5
 %global github_short     %(c=%{github_commit}; echo ${c:0:7})
 
 %global composer_vendor  twig
@@ -21,12 +22,12 @@
 
 %global major            3
 
-# "php": "^7.2.5"
+# "php": ">=7.2.5"
 %global php_min_ver 7.2.5
 %global phpdir      %{_datadir}/php
 
 Name:          php-%{composer_project}%{major}
-Version:       3.0.3
+Version:       3.0.5
 Release:       1%{?dist}
 Summary:       The flexible, fast, and secure template engine for PHP
 
@@ -38,11 +39,12 @@ Source1:       makesrc.sh
 BUildArch:     noarch
 ## Autoloader
 BuildRequires: php-fedora-autoloader-devel
-%if %{with_tests}
+%if %{with tests}
 # For tests
 BuildRequires: php(language) >= %{php_min_ver}
-BuildRequires: phpunit7
 BuildRequires: (php-composer(psr/container) >= 1.0    with php-composer(psr/container) < 2)
+%global phpunit %{_bindir}/phpunit9
+BuildRequires: %{phpunit}
 # Workaround
 BuildRequires: php-symfony-common
 ## phpcompatinfo (computed from version 3.0.0)
@@ -115,7 +117,7 @@ cp -rp src %{buildroot}%{phpdir}/Twig%{major}
 %{_bindir}/php -r 'require_once "%{buildroot}%{phpdir}/Twig%{major}/autoload.php";
     exit(version_compare("%{version}", Twig\Environment::VERSION, "=") ? 0 : 1);'
 
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 phpab --output vendor/autoload.php tests
 
@@ -134,9 +136,11 @@ sed -e '/listener/d' phpunit.xml.dist > phpunit.xml
 
 RETURN_CODE=0
 : Upstream tests with SCLs if available
-for SCL in php php72 php73 php74; do
+for SCL in "php %{phpunit}" php73 php74 php80; do
     if which $SCL; then
-        $SCL %{_bindir}/phpunit7 --verbose || RETURN_CODE=1
+        set $SCL
+        $1 ${2:-%{_bindir}/phpunit9} \
+          --verbose || RETURN_CODE=1
     fi
 done
 exit $RETURN_CODE
@@ -152,6 +156,16 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Aug 11 2020 Remi Collet <remi@remirepo.net> - 3.0.5-1
+- update to 3.0.5
+- switch to phpunit9
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul  6 2020 Remi Collet <remi@remirepo.net> - 3.0.4-1
+- update to 3.0.4
+
 * Wed Feb 12 2020 Remi Collet <remi@remirepo.net> - 3.0.3-1
 - update to 3.0.3
 

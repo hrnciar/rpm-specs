@@ -3,13 +3,14 @@
 
 Name:           vdr-%{pname}
 Version:        2.4.0
-Release:        7%{?dist}
+Release:        10%{?dist}
 Summary:        DVB frontend status monitor plugin for VDR
 
 License:        GPLv2+
 URL:            http://www.saunalahti.fi/~rahrenbe/vdr/femon/
 Source0:        http://www.saunalahti.fi/~rahrenbe/vdr/femon/files/%{name}-%{version}.tgz
 Source1:        %{name}.conf
+Patch0:         %{name}-gcc11.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  vdr-devel >= 2.4.0
@@ -22,14 +23,12 @@ can zap through all your channels and the plugin should be monitoring
 always the right frontend.  The transponder and stream information are
 also available in advanced display modes.
 
-
 %prep
 %setup -q -n %{pname}-%{version}
-
+%patch0 -p1
 
 %build
 %make_build
-
 
 %install
 %make_install
@@ -37,15 +36,22 @@ install -Dpm 644 %{SOURCE1} \
     $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/vdr-plugins.d/%{pname}.conf
 %find_lang %{name}
 
-
 %files -f %{name}.lang
 %license COPYING
 %doc HISTORY README
 %config(noreplace) %{_sysconfdir}/sysconfig/vdr-plugins.d/%{pname}.conf
 %{vdr_libdir}/libvdr-%{pname}.so.%{vdr_apiversion}
 
-
 %changelog
+* Fri Aug 28 2020 Martin Gansser <martinkg@fedoraproject.org> - 2.4.0-10
+- Rebuilt for new VDR API version
+
+* Wed Aug 19 2020 Jeff Law <law@redhat.com> - 2.4.0-9
+- Force C++14 as this code is not C++17 ready
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

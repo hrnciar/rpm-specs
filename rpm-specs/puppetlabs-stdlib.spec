@@ -3,7 +3,7 @@
 
 Name:		puppetlabs-stdlib
 Version:	4.25.1
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	Puppet Labs Standard Library
 License:	ASL 2.0
 URL:		https://github.com/puppetlabs/puppetlabs-stdlib
@@ -34,6 +34,9 @@ cp -p metadata.json %{buildroot}/%{_datadir}/puppet/modules/stdlib/
 %{_datadir}/puppet/modules/stdlib
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.25.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.25.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

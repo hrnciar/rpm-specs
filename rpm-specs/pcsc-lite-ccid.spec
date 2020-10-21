@@ -2,8 +2,8 @@
 %global pcsc_lite_ver 1.8.9
 
 Name:           pcsc-lite-ccid
-Version:        1.4.32
-Release:        1%{dist}
+Version:        1.4.33
+Release:        2%{dist}
 Summary:        Generic USB CCID smart card reader driver
 
 License:        LGPLv2+
@@ -41,11 +41,11 @@ gpgv2 --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 
 %build
 %configure --enable-twinserial
-make %{?_smp_mflags}
+%make_build
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 cp -p src/openct/LICENSE LICENSE.openct
 
 
@@ -65,6 +65,12 @@ cp -p src/openct/LICENSE LICENSE.openct
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.33-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jakub Jelen <jjelen@redhat.com> - 1.4.33-1
+- New upstream release (#1851217)
+
 * Wed Apr 22 2020 Jakub Jelen <jjelen@redhat.com> - 1.4.32-1
 - New upstream release (#1826675)
 

@@ -4,7 +4,7 @@
 
 Name:       nodejs-jsonify
 Version:    0.0.0
-Release:    14%{?dist}
+Release:    15%{?dist}
 Summary:    JSON without touching any globals
 
 License:    Public Domain
@@ -52,6 +52,9 @@ cp -pr package.json index.js lib/ %{buildroot}%{nodejs_sitelib}/jsonify
 %{nodejs_sitelib}/jsonify
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.0.0-14
 - Rebuild
 

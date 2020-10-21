@@ -5,8 +5,8 @@
 %global crate backtrace
 
 Name:           rust-%{crate}
-Version:        0.3.49
-Release:        1%{?dist}
+Version:        0.3.50
+Release:        2%{?dist}
 Summary:        Library to acquire a stack trace (backtrace) at runtime in a Rust program
 
 # Upstream license specification: MIT/Apache-2.0
@@ -17,7 +17,9 @@ Source:         %{crates_source}
 # * No windows/osx
 # * Exclude CI files, https://github.com/alexcrichton/backtrace-rs/pull/131
 # * Remove accuracy test that requires workspace crates
+# * Downgrade miniz_oxide to 0.3 for now
 Patch0:         backtrace-fix-metadata.diff
+Patch1:         0001-Revert-Bump-miniz-oxide-version-354.patch
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -264,6 +266,12 @@ rm -rf tests/accuracy/
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.50-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Josh Stone <jistone@redhat.com> - 0.3.50-1
+- Update to 0.3.50
+
 * Mon Jun 15 2020 Josh Stone <jistone@redhat.com> - 0.3.49-1
 - Update to 0.3.49
 

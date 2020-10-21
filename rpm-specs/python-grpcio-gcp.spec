@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.2.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        gRPC for GCP extensions
 
 License:        ASL 2.0
@@ -54,6 +54,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 31 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 0.2.2-2
 - Rebuild for Python 3.9
 

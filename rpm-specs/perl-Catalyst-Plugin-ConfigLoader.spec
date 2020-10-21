@@ -1,12 +1,12 @@
 Name:           perl-Catalyst-Plugin-ConfigLoader
 Summary:        Load config files of various types
-Version:        0.34
-Release:        17%{?dist}
+Version:        0.35
+Release:        2%{?dist}
 License:        GPL+ or Artistic
 
-Source0:        https://cpan.metacpan.org/authors/id/B/BO/BOBTFISH/Catalyst-Plugin-ConfigLoader-%{version}.tar.gz
+Source0:        https://cpan.metacpan.org/authors/id/H/HA/HAARG/Catalyst-Plugin-ConfigLoader-%{version}.tar.gz
 URL:            https://metacpan.org/release/Catalyst-Plugin-ConfigLoader
-Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+Requires:       perl(:MODULE_COMPAT_%(eval "`/usr/bin/perl -V:version`"; echo $version))
 BuildArch:      noarch
 
 BuildRequires:  findutils
@@ -24,7 +24,6 @@ BuildRequires:  perl(Cwd)
 BuildRequires:  perl(Data::Visitor) >= 0.24
 BuildRequires:  perl(Data::Visitor::Callback)
 BuildRequires:  perl(FindBin)
-BuildRequires:  perl(inc::Module::Install) >= 0.92
 BuildRequires:  perl(lib)
 BuildRequires:  perl(Module::Install::Metadata)
 BuildRequires:  perl(Module::Install::WriteAll)
@@ -52,24 +51,17 @@ various types. Currently it supports YAML, JSON, XML, INI and Perl formats.
 
 %prep
 %setup -q -n Catalyst-Plugin-ConfigLoader-%{version}
-# Remove bundled libraries
-rm -r inc
-sed -i -e '/^inc\// d' MANIFEST
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags}
+/usr/bin/perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=%{buildroot}
-
-find %{buildroot} -type f -name .packlist -delete
-find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null \;
-
+%{make_install}
 %{_fixperms} %{buildroot}/*
 
 %check
-make test
+%{make_build} test
 
 %files
 %doc Changes README
@@ -77,6 +69,18 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.35-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 0.35-1
+- Update to 0.35
+- Use %%{make_install} instead of "make pure_install"
+- Use %%{make_build} instead of make
+- Use /usr/bin/perl instead of %%{__perl}
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.34-18
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.34-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

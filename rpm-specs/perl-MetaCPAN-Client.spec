@@ -3,18 +3,19 @@
 # TODO: BR: perl(HTTP::Tiny::Mech) and perl(WWW::Mechanize::Cached) when available
 
 Name:		perl-MetaCPAN-Client
-Version:	2.026000
-Release:	5%{?dist}
+Version:	2.028000
+Release:	1%{?dist}
 Summary:	A comprehensive, DWIM-featured client to the MetaCPAN API
 License:	GPL+ or Artistic
 URL:		https://github.com/CPAN-API/metacpan-client
-Source0:	http://cpan.metacpan.org/authors/id/M/MI/MICKEY/MetaCPAN-Client-%{version}.tar.gz
+Source0:	http://cpan.metacpan.org/authors/id/O/OA/OALDERS/MetaCPAN-Client-%{version}.tar.gz
 BuildArch:	noarch
 # Build
 BuildRequires:	coreutils
 BuildRequires:	make
 BuildRequires:	perl-generators
 BuildRequires:	perl-interpreter
+BuildRequires:	perl(blib) >= 1.01
 BuildRequires:	perl(ExtUtils::MakeMaker) > 7.11
 # Module
 BuildRequires:	perl(Carp)
@@ -62,12 +63,19 @@ This is a hopefully-complete API-compliant interface to MetaCPAN
 %prep
 %setup -q -n MetaCPAN-Client-%{version}
 
+# Avoid doc-file dependencies
+chmod -c -x fav.pl
+
 %build
 perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
 %{make_build}
 
 %install
 %{make_install}
+%{_fixperms} -c %{buildroot}
+
+# Packaging fav.pl as documentation
+rm %{buildroot}%{perl_vendorlib}/MetaCPAN/fav.pl
 
 %check
 %if !%{with network_tests}
@@ -83,7 +91,7 @@ mv ./[a-z]*.t t/api/
 
 %files
 %license LICENSE
-%doc Changes examples/ README
+%doc Changes examples/ fav.pl README
 %{perl_vendorlib}/MetaCPAN/
 %{_mandir}/man3/MetaCPAN::Client.3*
 %{_mandir}/man3/MetaCPAN::Client::Author.3*
@@ -107,6 +115,24 @@ mv ./[a-z]*.t t/api/
 %{_mandir}/man3/MetaCPAN::Client::Types.3*
 
 %changelog
+* Mon Aug 24 2020 Paul Howarth <paul@city-fan.org> - 2.028000-1
+- Update to 2.028000
+  - Support specific versions in download_url (GH#107)
+
+* Wed Aug 12 2020 Paul Howarth <paul@city-fan.org> - 2.027000-2
+- Package fav.pl as documentation rather than as a module
+
+* Tue Aug 11 2020 Paul Howarth <paul@city-fan.org> - 2.027000-1
+- Update to 2.027000
+  - Run Travis tests with more Perls (GH#102)
+  - Show example of result (GH#105)
+  - Bump minimum version of WWW::Mechanize::Cached to 1.54 (GH#104)
+- This release by OALDERS → update source URL
+- Fix permissions of installed files to silence rpmlint
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.026000-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.026000-5
 - Perl 5.32 rebuild
 

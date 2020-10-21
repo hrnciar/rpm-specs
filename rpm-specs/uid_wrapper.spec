@@ -1,6 +1,6 @@
 Name:           uid_wrapper
 Version:        1.2.7
-Release:        3%{?dist}
+Release:        4%{?dist}
 
 Summary:        A wrapper for privilege separation
 License:        GPLv3+
@@ -40,28 +40,17 @@ gpgv2 --quiet --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %autosetup -p1
 
 %build
-if test ! -e "obj"; then
-  mkdir obj
-fi
-pushd obj
 %cmake \
-  -DUNIT_TESTING=ON \
-  %{_builddir}/%{name}-%{version}
-
-make %{?_smp_mflags} VERBOSE=1
-popd
+  -DUNIT_TESTING=ON
+%cmake_build
 
 %install
-pushd obj
-make DESTDIR=%{buildroot} install
-popd
+%cmake_install
 
 %ldconfig_scriptlets
 
 %check
-pushd obj
-make test || cat $(find Testing -name "*.log")
-popd
+%ctest
 
 %files
 %doc AUTHORS README.md ChangeLog
@@ -76,6 +65,9 @@ popd
 %{_mandir}/man1/uid_wrapper.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.7-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 03 2020 Anderson Sasaki <ansasaki@redhat.com> - 1.2.7-3
 - Fix invalid library path in cmake configuration file (bz#1809275)
 

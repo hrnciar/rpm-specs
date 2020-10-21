@@ -1,7 +1,7 @@
 Name: quick-usb-formatter  
 %define binname quickusbformatter     
 Version: 0.4.1        
-Release: 20%{?dist}
+Release: 22%{?dist}
 Summary: A small application to format usb sticks and devices   
     
 License: LGPLv2+       
@@ -47,6 +47,13 @@ desktop-file-validate %{binname}.desktop
 %{_datadir}/apps/solid/actions/%{binname}.desktop
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-22
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

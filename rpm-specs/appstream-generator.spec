@@ -5,7 +5,7 @@
 %bcond_without vendored_js
 
 Name:           appstream-generator
-Version:        0.8.1
+Version:        0.8.2
 Release:        1%{?dist}
 Summary:        Fast AppStream metadata generator
 
@@ -29,6 +29,7 @@ BuildRequires:  pkgconfig(libarchive) >= 3.2
 BuildRequires:  pkgconfig(cairo) >= 1.12
 BuildRequires:  pkgconfig(gdk-pixbuf-2.0)
 BuildRequires:  pkgconfig(librsvg-2.0)
+BuildRequires:  pkgconfig(libsoup-2.4)
 BuildRequires:  pkgconfig(libcurl)
 BuildRequires:  pkgconfig(freetype2)
 BuildRequires:  pkgconfig(pango)
@@ -122,6 +123,12 @@ install contrib/setup/node_modules/jquery-flot/jquery.flot*.js -t %{buildroot}%{
 %{_datadir}/metainfo/org.freedesktop.appstream.generator.metainfo.xml
 
 %changelog
+* Mon Sep 21 2020 Neal Gompa <ngompa13@gmail.com> - 0.8.2-1
+- Update to 0.8.2 (#1834975)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 19 2020 Neal Gompa <ngompa13@gmail.com> - 0.8.1-1
 - Rebase to 0.8.1 (#1755095)
 - Vendor JavaScript components and declare as bundled

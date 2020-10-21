@@ -1,6 +1,6 @@
 Name:             jtidy
 Version:          1.0
-Release:          0.31.20100930svn1125%{?dist}
+Release:          0.34.20100930svn1125%{?dist}
 Epoch:            2
 Summary:          HTML syntax checker and pretty printer
 License:          zlib
@@ -9,6 +9,9 @@ URL:              http://jtidy.sourceforge.net/
 # tar caf jtidy.tar.xz jtidy
 Source0:          %{name}.tar.xz
 Source1:          %{name}.jtidy.script
+
+Patch0:           javac-1.8.patch
+
 BuildArch:        noarch
 
 BuildRequires:    javapackages-local
@@ -34,9 +37,10 @@ This package contains %{summary}.
 
 %prep
 %setup -q -n %{name}
+%patch0 -p1
 
 %build
-ant -Dant.build.javac.source=1.4
+ant
 
 %install
 %mvn_file : %{name}
@@ -66,6 +70,15 @@ EOF
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:1.0-0.34.20100930svn1125
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 19 2020 Fabio Valentini <decathorpe@gmail.com> - 2:1.0-0.33.20100930svn1125
+- Set javac source and target to 1.8 to fix Java 11 builds.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2:1.0-0.32.20100930svn1125
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:1.0-0.31.20100930svn1125
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,25 +1,23 @@
 # Generated from web-console-2.0.0.gem by gem2rpm -*- rpm-spec -*-
 %global gem_name web-console
 
-%global rails_version 5.0.0
+%global rails_version 6.0.0
 
 Name: rubygem-%{gem_name}
-Version: 3.5.1
-Release: 7%{?dist}
+Version: 4.0.4
+Release: 2%{?dist}
 Summary: A debugging tool for your Ruby on Rails applications
 License: MIT
 URL: https://github.com/rails/web-console
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
 # git clone https://github.com/rails/web-console.git && cd web-console
-# git checkout v3.5.1 && tar czvf web-console-3.5.1-tests.tgz test/
-Source1: %{gem_name}-%{version}-tests.tgz
+# git archive -v -o web-console-4.0.4-tests.tar.gz v4.0.4 test/
+Source1: %{gem_name}-%{version}-tests.tar.gz
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby
-# The web-console 3.3.1 dropped support for RoR 4.2.
 BuildRequires: rubygem(railties) >= %{rails_version}
 BuildRequires: rubygem(activemodel) >= %{rails_version}
-BuildRequires: rubygem(actionview) >= %{rails_version}
 BuildRequires: rubygem(bindex)
 BuildRequires: rubygem(mocha)
 
@@ -38,15 +36,11 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-gem unpack %{SOURCE0}
-
-%setup -q -D -T -n  %{gem_name}-%{version}
-
-gem spec %{SOURCE0} -l --ruby > %{gem_name}.gemspec
+%setup -q -n %{gem_name}-%{version} -b 1
 
 %build
 # Create the gem as gem install only works on a gem file
-gem build %{gem_name}.gemspec
+gem build ../%{gem_name}-%{version}.gemspec
 
 # %%gem_install compiles any C extensions and installs the gem into ./%%gem_dir
 # by default, so that we can move it into the buildroot in %%install
@@ -61,14 +55,14 @@ cp -a .%{gem_dir}/* \
 # Run the test suite
 %check
 pushd .%{gem_instdir}
-tar xzvf %{SOURCE1}
+ln -s %{_builddir}/test test
 
 # We don't care about code coverage.
 sed -i '/[Ss]imple[Cc]ov/ s/^/#/' test/test_helper.rb
 # We don't use Bundler.
 sed -i '/^Bundler.require/ s/^/#/' test/dummy/config/application.rb
 
-ruby -Itest -e 'Dir.glob "./test/**/*_test.rb", &method(:require)'
+ruby -Ilib:test -e 'Dir.glob "./test/**/*_test.rb", &method(:require)'
 popd
 
 %files
@@ -85,6 +79,16 @@ popd
 %{gem_instdir}/Rakefile
 
 %changelog
+* Thu Sep 10 2020 Vít Ondruch <vondruch@redhat.com> - 4.0.4-2
+- Re-enable Evaluator test fixed by patch in ActiveSupport.
+
+* Mon Sep 07 2020 Vít Ondruch <vondruch@redhat.com> - 4.0.4-1
+- Update to web-console 4.0.4.
+  Resolves: rhbz#1565871
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

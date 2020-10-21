@@ -1,17 +1,22 @@
+%if 0%{?fedora}
+%bcond_without doc
+%else
+%bcond_with doc
+%endif
+
 Name:           kitty
-Version:        0.18.1
+Version:        0.19.1
 Release:        1%{?dist}
 Summary:        Cross-platform, fast, feature full, GPU based terminal emulator
-
-# Tests not passed on s390x arch
-# * https://github.com/kovidgoyal/kitty/issues/2473
-ExcludeArch:    s390x
 
 # BSD:          docs/_templates/searchbox.html
 # zlib:         glfw/
 License:        GPLv3 and zlib and BSD
 URL:            https://sw.kovidgoyal.net/kitty
 Source0:        https://github.com/kovidgoyal/kitty/archive/v%{version}/%{name}-%{version}.tar.gz
+# allow skipping documentation build
+# (EPEL8's Sphinx is too old and does not have sphinx-build)
+Patch0:         kitty-0.18.3-no_sphinx.diff
 
 # Add AppData manifest file
 # * https://github.com/kovidgoyal/kitty/pull/2088
@@ -19,7 +24,9 @@ Source1:        https://raw.githubusercontent.com/kovidgoyal/kitty/46c0951751444
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc
+BuildRequires:  lcms2-devel
 BuildRequires:  libappstream-glib
+BuildRequires:  ncurses
 BuildRequires:  python3-devel >= 3.6
 BuildRequires:  wayland-devel
 BuildRequires:  wayland-protocols-devel
@@ -97,6 +104,7 @@ The terminfo file for Kitty Terminal.
 
 
 # doc package
+%if %{with doc}
 %package        doc
 Summary:        Documentation for %{name}
 
@@ -104,10 +112,15 @@ BuildRequires:  python3dist(sphinx)
 
 %description    doc
 This package contains the documentation for %{name}.
+%endif
 
 
 %prep
 %autosetup -p1
+
+# test_multiprocessing_spawn not passed in 0.18.2
+# * https://github.com/kovidgoyal/kitty/issues/2881
+rm kitty_tests/tui.py
 
 # Replace python shebangs to make them compatible with fedora
 find -type f -name "*.py" -exec sed -e 's|/usr/bin/env python3|%{__python3}|g'  \
@@ -128,19 +141,23 @@ find -type f -name "*.py*" -exec chmod -x "{}"  \;
     --prefix=%{buildroot}%{_prefix} \
     --update-check-interval=0       \
     --debug
-install -m 0644 -Dp %{SOURCE1} %{buildroot}%{_metainfodir}/%{name}.appdata.xml
+install -m0644 -Dp %{SOURCE1} %{buildroot}%{_metainfodir}/%{name}.appdata.xml
 
 # script-without-shebang '__init__.py'
 find %{buildroot} -type f -name "*.py*" -exec chmod -x "{}"  \;
 
+%if %{with doc}
 # rpmlint fixes
 rm %{buildroot}%{_datadir}/doc/%{name}/html/.buildinfo \
    %{buildroot}%{_datadir}/doc/%{name}/html/.nojekyll
+%endif
 
 
 %check
-%{__python3} setup.py test --prefix=%{buildroot}%{_prefix}
-appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
+%{__python3} setup.py test \
+    --prefix=%{buildroot}%{_prefix}
+
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.xml
 desktop-file-validate %{buildroot}/%{_datadir}/applications/*.desktop
 
 
@@ -150,21 +167,50 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/*.desktop
 %{_datadir}/applications/*.desktop
 %{_datadir}/icons/hicolor/*/*/*.png
 %{_libdir}/%{name}/
+%if %{with doc}
 %{_mandir}/man1/*
+%endif
 %{_metainfodir}/*.xml
 
 %files terminfo
 %license LICENSE
 %{_datadir}/terminfo/x/xterm-%{name}
 
+%if %{with doc}
 %files doc
 %license LICENSE
 %doc CONTRIBUTING.md CHANGELOG.rst INSTALL.md
 %{_datadir}/doc/%{name}/html
 %dir %{_datadir}/doc/%{name}
+%endif
 
 
 %changelog
+* Tue Oct  6 16:34:51 EEST 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.19.1-1
+- build(update): 0.19.1
+
+* Sun Oct  4 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.19.0-1
+- Update to 0.19.0
+- build: add BR: lcms2-devel
+
+* Fri Aug 28 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.18.3-3
+- Enable building on s390x
+
+* Mon Aug 24 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.18.3-2
+- Support building on EPEL8
+
+* Tue Aug 11 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.18.3-1
+- Update to 0.18.3
+
+* Tue Jul 28 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.18.2-1
+- Update to 0.18.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.18.1-2
+- Add 'ncurses' BR explicitly to fix FTBFS for F33
+
 * Tue Jun 23 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.18.1-1
 - Update to 0.18.1
 

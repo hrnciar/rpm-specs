@@ -1,11 +1,11 @@
-%bcond_with check
+%bcond_without check
 
 %global packname pillar
-%global packver  1.4.4
+%global packver  1.4.6
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          %{packver}
+Version:          1.4.6
 Release:          2%{?dist}
 Summary:          Coloured Formatting for Columns
 
@@ -15,8 +15,8 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-cli, R-crayon >= 1.3.4, R-fansi, R-rlang >= 0.3.0, R-utf8 >= 1.1.0, R-vctrs >= 0.2.0
-# Suggests:  R-knitr, R-lubridate, R-testthat >= 2.0.0, R-withr
+# Imports:   R-cli, R-crayon >= 1.3.4, R-ellipsis, R-fansi, R-lifecycle, R-rlang >= 0.3.0, R-utf8 >= 1.1.0, R-vctrs >= 0.2.0
+# Suggests:  R-bit64, R-knitr, R-lubridate, R-testthat >= 2.0.0, R-withr
 # LinkingTo:
 # Enhances:
 
@@ -25,11 +25,14 @@ BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    R-cli
 BuildRequires:    R-crayon >= 1.3.4
+BuildRequires:    R-ellipsis
 BuildRequires:    R-fansi
+BuildRequires:    R-lifecycle
 BuildRequires:    R-rlang >= 0.3.0
 BuildRequires:    R-utf8 >= 1.1.0
 BuildRequires:    R-vctrs >= 0.2.0
 %if %{with check}
+BuildRequires:    R-bit64
 BuildRequires:    R-knitr
 BuildRequires:    R-lubridate
 BuildRequires:    R-testthat >= 2.0.0
@@ -61,6 +64,7 @@ export LANG=C.UTF-8
 %{_bindir}/R CMD check %{packname}
 %endif
 
+
 %files
 %dir %{rlibdir}/%{packname}
 %doc %{rlibdir}/%{packname}/html
@@ -74,6 +78,15 @@ export LANG=C.UTF-8
 
 
 %changelog
+* Sun Aug 09 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.4.6-2
+- Re-enable checks
+
+* Sun Aug 09 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.4.6-1
+- Update to latest version (rhbz#1855466)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun  6 2020 Tom Callaway <spot@fedoraproject.org> - 1.4.4-2
 - rebuild for R 4
 - break loop

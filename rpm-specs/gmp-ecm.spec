@@ -1,6 +1,6 @@
 Name:           gmp-ecm
 Version:        7.0.4
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        Elliptic Curve Method for Integer Factorization
 License:        GPLv3+
 URL:            https://gforge.inria.fr/projects/ecm/
@@ -130,6 +130,13 @@ make check
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.4-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.4-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.4-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

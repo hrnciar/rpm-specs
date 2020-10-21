@@ -1,5 +1,5 @@
 Name:           vdr-epg2vdr
-Version:        1.1.113
+Version:        1.1.118
 Release:        1%{?dist}
 Summary:        A plugin to retrieve EPG data from a mysql database into VDR
 
@@ -58,6 +58,25 @@ chmod 0755 %{buildroot}/%{vdr_plugindir}/libvdr-*.so.%{vdr_apiversion}
 %{vdr_plugindir}/libvdr-*.so.%{vdr_apiversion}
 
 %changelog
+* Tue Sep 22 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.1.118-1
+- Update to 1.1.118
+
+* Fri Aug 28 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.1.117-2
+- Rebuilt for new VDR API version
+
+* Wed Aug 19 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.1.117-1
+- Update to 1.1.117
+
+* Tue Aug 18 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.1.116-1
+- Update to 1.1.116
+
+* Mon Aug 17 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.1.115-1
+- Update to 1.1.115
+- Add %%{name}-epg.patch
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.113-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 23 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.1.113-1
 - Update to 1.1.113
 

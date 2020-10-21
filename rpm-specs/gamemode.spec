@@ -1,6 +1,6 @@
 Name:		gamemode
 Version:	1.5.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Optimize system performance for games on demand
 License:	BSD
 URL:		https://github.com/FeralInteractive/gamemode
@@ -67,6 +67,9 @@ Files for development with %{name}.
 %{_libdir}/pkgconfig/gamemode*.pc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Christian Kellner <ckellner@redhat.com> - 1.5.1-1
 - New upstream release (1.5.1)
 - Require inih package because gamemode now uses the system installed one.

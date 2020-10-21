@@ -5,14 +5,17 @@
 
 Summary:   Package management service
 Name:      PackageKit
-Version:   1.2.0
-Release:   3%{?dist}
+Version:   1.2.1
+Release:   1%{?dist}
 License:   GPLv2+ and LGPLv2+
 URL:       http://www.freedesktop.org/software/PackageKit/
 Source0:   http://www.freedesktop.org/software/PackageKit/releases/%{name}-%{version}.tar.xz
 
-# Fedora-specific: set Vendor.conf up for Fedora.
+%if 0%{?fedora}
 Patch0:    PackageKit-0.3.8-Fedora-Vendor.conf.patch
+%elif 0%{?rhel}
+Patch0:    PackageKit-0.3.8-RHEL-Vendor.conf.patch
+%endif
 
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: xmlto
@@ -22,7 +25,6 @@ BuildRequires: polkit-devel >= 0.92
 BuildRequires: gtk3-devel
 BuildRequires: docbook-utils
 BuildRequires: gnome-doc-utils
-BuildRequires: intltool
 BuildRequires: meson
 BuildRequires: gettext
 BuildRequires: vala
@@ -55,12 +57,6 @@ Obsoletes: PackageKit-yum < 0.9.1
 Obsoletes: PackageKit-yum-plugin < 0.9.1
 Obsoletes: PackageKit-zif < 0.8.13-2
 
-# Removed in F23
-Obsoletes: PackageKit-cached-metadata < 1.0.10-2
-
-# Removed in F24
-Obsoletes: PackageKit-browser-plugin < 1.0.11-3
-
 # components now built-in
 Obsoletes: PackageKit-debug-install < 0.9.1
 Obsoletes: PackageKit-hawkey < 0.9.1
@@ -68,14 +64,6 @@ Obsoletes: PackageKit-backend-devel < 0.9.6
 
 # Udev no longer provides this functionality
 Obsoletes: PackageKit-device-rebind < 0.8.13-2
-
-# remove F22
-Provides: PackageKit-debug-install = %{version}-%{release}
-Provides: PackageKit-device-rebind = %{version}-%{release}
-Provides: PackageKit-hawkey = %{version}-%{release}
-Provides: PackageKit-yum = %{version}-%{release}
-Provides: PackageKit-yum-plugin = %{version}-%{release}
-Provides: PackageKit-zif = %{version}-%{release}
 
 %description
 PackageKit is a D-Bus abstraction layer that allows the session user
@@ -192,8 +180,8 @@ systemctl disable packagekit-offline-update.service > /dev/null 2>&1 || :
 %config(noreplace) %{_sysconfdir}/PackageKit/PackageKit.conf
 %config(noreplace) %{_sysconfdir}/PackageKit/Vendor.conf
 %config %{_sysconfdir}/dbus-1/system.d/*
-%{_datadir}/man/man1/pkcon.1.gz
-%{_datadir}/man/man1/pkmon.1.gz
+%{_datadir}/man/man1/pkcon.1*
+%{_datadir}/man/man1/pkmon.1*
 %{_datadir}/polkit-1/actions/*.policy
 %{_datadir}/polkit-1/rules.d/*
 %{_datadir}/PackageKit/pk-upgrade-distro.sh
@@ -246,6 +234,17 @@ systemctl disable packagekit-offline-update.service > /dev/null 2>&1 || :
 %{_datadir}/vala/vapi/packagekit-glib2.deps
 
 %changelog
+* Mon Sep 07 2020 Richard Hughes <rhughes@redhat.com> - 1.2.1-1
+- New upstream release
+- Actually merge in the PolicyKit translation
+- Exit pkcon with retval 5 if no packages needed be installed
+- Fix command-not-found handling arguments with spaces
+- Fix setting libexecdir for command-not-found helper
+- Use SQL statements for queries with input
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 08 2020 Adam Williamson <awilliam@redhat.com> - 1.2.0-3
 - Fix packagekit-offline-update.service not being enabled (#1833176)
 

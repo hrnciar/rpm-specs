@@ -3,7 +3,7 @@
 
 Name:           ghex
 Version:        3.18.4
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Binary editor for GNOME
 
 License:        GPLv2+
@@ -79,6 +79,13 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.GHex.des
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.18.4-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.18.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.18.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

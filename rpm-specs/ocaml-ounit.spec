@@ -11,7 +11,7 @@
 
 Name:           ocaml-%{srcname}
 Version:        2.2.2
-Release:        7%{?dist}
+Release:        12%{?dist}
 Summary:        Unit test framework for OCaml
 
 License:        MIT
@@ -209,6 +209,22 @@ find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod a+x {} \+
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 2.2.2-12
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 2.2.2-11
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Richard W.M. Jones <rjones@redhat.com> - 2.2.2-8
+- Rebuild to resolve build order symbol problems.
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 2.2.2-7
 - Patch out a failing test.
 - Disable tests on s390x.

@@ -1,6 +1,6 @@
 Name:           perl-Crypt-RC4
 Version:        2.02
-Release:        25%{?dist}
+Release:        26%{?dist}
 Summary:        Perl implementation of the RC4 encryption algorithm
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Crypt-RC4
@@ -53,6 +53,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.02-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.02-25
 - Perl 5.32 rebuild
 

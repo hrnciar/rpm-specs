@@ -1,7 +1,7 @@
 %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 Name: cacti
-Version: 1.2.12
+Version: 1.2.14
 Release: 1%{?dist}
 Summary: An rrd based graphing tool
 License: GPLv2+
@@ -219,6 +219,16 @@ fi
 %ghost %{_datadir}/%{name}/resource.rpmmoved
 
 %changelog
+* Thu Aug 06 2020 Morten Stevens <mstevens@fedoraproject.org> - 1.2.14-1
+- Update to 1.2.14
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Morten Stevens <mstevens@fedoraproject.org> - 1.2.13-1
+- Update to 1.2.13
+- CVE-2020-11022, CVE-2020-11023, CVE-2020-13625, CVE-2020-14295
+
 * Wed May 27 2020 Morten Stevens <mstevens@fedoraproject.org> - 1.2.12-1
 - Update to 1.2.12
 

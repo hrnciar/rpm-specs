@@ -1,6 +1,6 @@
 Name:           cegui06
 Version:        0.6.2
-Release:        33%{?dist}
+Release:        34%{?dist}
 Summary:        CEGUI library 0.6 for apps which need this specific version
 License:        MIT and LGPLv2+
 URL:            http://www.cegui.org.uk
@@ -143,6 +143,9 @@ done
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-33
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

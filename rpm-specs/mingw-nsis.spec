@@ -1,8 +1,8 @@
 %global sconsopts VERSION=%{version} PREFIX=%{_prefix} PREFIX_CONF=%{_sysconfdir} ZLIB_W32=%{mingw32_prefix} SKIPUTILS='NSIS Menu' STRIP_CP=false NSIS_MAX_STRLEN=8192 NSIS_CONFIG_LOG=yes
 
 Name:           mingw-nsis
-Version:        3.05
-Release:        2%{?dist}
+Version:        3.06.1
+Release:        1%{?dist}
 Summary:        Nullsoft Scriptable Install System
 
 License:        zlib and CPL
@@ -11,13 +11,6 @@ Source0:        http://downloads.sourceforge.net/nsis/nsis-%{version}-src.tar.bz
 
 # Use RPM_OPT_FLAGS for the natively-built parts
 Patch1:         0001-Use-RPM_OPT_FLAGS-for-the-natively-built-parts.patch
-
-# Fix for GCC 10 default of -fno-common.
-# Submitted upstream 2020-01-30: https://sourceforge.net/p/nsis/patches/295/
-Patch2:         nsis-3.05-no-common-version.patch
-
-# Fix python3 issue in SConstruct file
-Patch3:         nsis_python3.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  python3
@@ -91,6 +84,12 @@ mv %{buildroot}%{_docdir}/nsis %{buildroot}%{_docdir}/%{name}
 
 
 %changelog
+* Sat Aug 01 2020 Sandro Mani <manisandro@gmail.com> - 3.06-1
+- Update to 3.06
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.05-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 09 2020 Sandro Mani <manisandro@gmail.com> - 3.05-2
 - Add ability to log installs
 

@@ -1,5 +1,7 @@
 ##Documents generation and Octave binding look not available yet
 
+%global __cmake_in_source_build 1
+
 %global with_python 1
 %global with_ruby    0
 
@@ -39,7 +41,7 @@
 Name:           libnuml
 Summary:        Numerical Markup Language
 Version:        1.1.1
-Release:        21.%{date}git%{shortcommit}%{?dist}
+Release:        23.%{date}git%{shortcommit}%{?dist}
 URL:            https://github.com/NuML/NuML
 Source0:        https://github.com/NuML/NuML/archive/%{commit}/NuML-%{commit}.tar.gz
 License:        LGPLv2+
@@ -386,6 +388,13 @@ make test -C libnuml/build
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-23.20190327gite61f6d5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-22.20190327gite61f6d5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.1-21.20190327gite61f6d5
 - Rebuilt for Python 3.9
 

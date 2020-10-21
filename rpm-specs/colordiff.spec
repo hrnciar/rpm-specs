@@ -1,6 +1,6 @@
 Name:           colordiff
 Version:        1.0.19
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Color terminal highlighter for diff files
 
 License:        GPLv2+
@@ -45,6 +45,9 @@ pretty syntax highlighting.  Color schemes can be customized.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.19-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 19 2020 Richard Fearn <richardfearn@gmail.com> - 1.0.19-1
 - Update to 1.0.19
 

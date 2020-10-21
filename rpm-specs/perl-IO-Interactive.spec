@@ -3,7 +3,7 @@
 
 Name:           perl-IO-Interactive
 Version:        1.022
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Utilities for interactive I/O
 # LICENSE:                  "the same terms as perl itself" and Artistic 2.0
 # license_clarification:    Artistic 2.0 (brian d foy's explanation)
@@ -73,6 +73,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.022-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.022-13
 - Perl 5.32 rebuild
 

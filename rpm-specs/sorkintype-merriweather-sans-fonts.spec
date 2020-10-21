@@ -4,7 +4,7 @@
 %forgemeta
 
 Version: 1.008
-Release: 2%{?dist}
+Release: 3%{?dist}
 URL:     %{forgeurl}
 
 %global foundry           SorkinType
@@ -43,6 +43,9 @@ Source10: 57-%{fontpkgname}.xml
 %fontfiles
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.008-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 22 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 1.008-2
 ✅ Rebuild with fonts-rpm-macros 2.0.2

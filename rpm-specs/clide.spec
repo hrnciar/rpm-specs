@@ -3,7 +3,7 @@
 
 Name:           clide
 Version:        0.9
-Release:        25.20160305git%{shortcommit}%{?dist}
+Release:        26.20160305git%{shortcommit}%{?dist}
 Summary:        Color and style highlighting program for text
 
 License:        GPLv3+
@@ -44,6 +44,9 @@ make BINDIR=%{buildroot}%{_bindir} MANDIR=%{buildroot}%{_mandir}/man1 rpminstall
 %{_mandir}/man1/clide.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-26.20160305git11c0895
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 02 2020 Richard Fearn <richardfearn@gmail.com> - 0.9-25.20160305git11c0895
 - Use %%license
 

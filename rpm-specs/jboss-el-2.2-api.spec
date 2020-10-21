@@ -3,7 +3,7 @@
 
 Name:         jboss-el-2.2-api
 Version:      1.0.5
-Release:      2%{?dist}
+Release:      4%{?dist}
 Summary:      Expression Language 2.2 API
 License:      CDDL or GPLv2 with exceptions
 
@@ -47,6 +47,12 @@ cp %{SOURCE1} .
 %license cddl.txt LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.0.5-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

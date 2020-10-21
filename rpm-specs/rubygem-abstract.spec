@@ -5,7 +5,7 @@
 Summary: Allows you to define an abstract method in Ruby
 Name: rubygem-%{gem_name}
 Version: 1.0.0
-Release: 20%{?dist}
+Release: 21%{?dist}
 License: GPLv2 or Ruby
 URL: http://rubyforge.org/projects/abstract
 Source0: http://gems.rubyforge.org/gems/%{gem_name}-%{version}.gem
@@ -73,6 +73,9 @@ rm -f %{buildroot}%{gem_instdir}/setup.rb
 %{gem_docdir}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

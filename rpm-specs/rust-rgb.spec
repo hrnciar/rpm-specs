@@ -5,7 +5,7 @@
 %global crate rgb
 
 Name:           rust-%{crate}
-Version:        0.8.18
+Version:        0.8.25
 Release:        1%{?dist}
 Summary:        Struct RGB/RGBA/etc. for sharing pixels between crates
 
@@ -67,6 +67,30 @@ which use "argb" feature of "%{crate}" crate.
 %files       -n %{name}+argb-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+as-bytes-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+as-bytes-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "as-bytes" feature of "%{crate}" crate.
+
+%files       -n %{name}+as-bytes-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+bytemuck-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+bytemuck-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "bytemuck" feature of "%{crate}" crate.
+
+%files       -n %{name}+bytemuck-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+serde-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -98,6 +122,18 @@ which use "serde" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Sep 16 2020 Fabio Valentini <decathorpe@gmail.com> - 0.8.25-1
+- Update to version 0.8.25.
+
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 0.8.24-1
+- Update to 0.8.24
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.20-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.8.20-1
+- Update to 0.8.20
+
 * Tue Jun 02 16:33:44 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.8.18-1
 - Update to 0.8.18
 

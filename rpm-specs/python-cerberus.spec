@@ -1,14 +1,19 @@
+%if 0%{?rhel} && 0%{?rhel} < 9
+%bcond_with tests
+%else
+%bcond_without tests
+%endif
+
 %global modname cerberus
 
 Name:           python-%{modname}
-Version:        1.3.1
-Release:        5%{?dist}
+Version:        1.3.2
+Release:        1%{?dist}
 Summary:        Lightweight, extensible data validation library for Python
 
 License:        ISC
 URL:            https://github.com/pyeve/cerberus
 Source0:        %{url}/archive/%{version}/%{modname}-%{version}.tar.gz
-Patch1:         %{url}/pull/507.patch
 
 BuildArch:      noarch
 
@@ -26,8 +31,9 @@ Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{modname}}
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
-BuildRequires:  python3-pytest
-
+%if %{with tests}
+BuildRequires:  python3-pytest >= 3.6
+%endif
 %description -n python3-%{modname} %{_description}
 
 Python 3 version.
@@ -41,8 +47,10 @@ Python 3 version.
 %install
 %py3_install
 
+%if %{with tests}
 %check
 py.test-%{python3_version} -v %{modname}/tests
+%endif
 
 %files -n python3-%{modname}
 %license LICENSE
@@ -51,6 +59,13 @@ py.test-%{python3_version} -v %{modname}/tests
 %{python3_sitelib}/%{modname}/
 
 %changelog
+* Sat Aug 15 2020 Neal Gompa <ngompa13@gmail.com> - 1.3.2-1
+- Update to 1.3.2
+- Disable tests on EPEL 8 due to pytest being too old
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.1-5
 - Rebuilt for Python 3.9
 

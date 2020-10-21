@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Big array helper for serde
 
 # Upstream license specification: MIT/Apache-2.0
@@ -84,6 +84,9 @@ which use "const-generics" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 03 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 0.3.0-1
 - Update to 0.3.0 (#1830465).
 - https://github.com/est31/serde-big-array/compare/v0.2.0...master

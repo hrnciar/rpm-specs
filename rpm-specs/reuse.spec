@@ -1,8 +1,8 @@
 %global pypi_name reuse
 
 Name:           reuse
-Version:        0.8.0
-Release:        3%{?dist}
+Version:        0.11.1
+Release:        2%{?dist}
 Summary:        A tool for compliance with the REUSE recommendations
 License:        GPLv3+ and CC-BY-SA and ASL 2.0
 Url:            https://github.com/fsfe/reuse-tool
@@ -31,6 +31,7 @@ BuildRequires:  %{py3_dist sphinxcontrib-apidoc}
 BuildRequires:  %{py3_dist recommonmark}
 Requires:       python3 >= 3.6
 Recommends:     git
+Recommends:     mercurial
 BuildArch:      noarch
 
 %description
@@ -64,6 +65,12 @@ PYTHONDONTWRITEBYTECODE=1 LC_ALL=C.UTF-8 LANG=C.UTF-8 PYTHONPATH=%{buildroot}%{p
 %{python3_sitelib}/%{pypi_name}*egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Carmen Bianca Bakker <carmenbianca@fedoraproject.org> - 0.11.1-1
+- new version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.0-3
 - Rebuilt for Python 3.9
 

@@ -8,7 +8,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        1.3.9
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Polycyclic presentations for matrix groups
 
 License:        GPLv2+
@@ -50,6 +50,7 @@ This package contains documentation for gap-pkg-%{pkgname}.
 %autosetup -n %{pkgname}-%{version}
 
 %build
+export LC_ALL=C.UTF-8
 gap < makedoc.g
 
 %install
@@ -60,6 +61,8 @@ rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}/doc/.cvsignore
 rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}/doc/*.{aux,bbl,blg,brf,idx,ilg,ind,log,out,pnr,tex}
 
 %check
+export LC_ALL=C.UTF-8
+
 # POLENTA.tst and POLENTA2.tst require more memory than some koji builders have
 # available, so we disable them.  The maintainer should run them on a machine
 # with a minimum of 16 GB of RAM prior to updating to a new version.
@@ -78,6 +81,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.9-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.9-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

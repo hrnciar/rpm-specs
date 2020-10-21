@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.3
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        %{sum}
 
 License:        BSD
@@ -73,6 +73,9 @@ At the moment, the supported file formats for the reference files are:
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3-6
 - Rebuilt for Python 3.9
 

@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.6.1
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        A Python library which helps in using nmap port scanner
 
 License:        GPLv3+
@@ -46,6 +46,9 @@ It also supports nmap script outputs.
 %{python3_sitelib}/python_nmap*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.1-17
 - Rebuilt for Python 3.9
 

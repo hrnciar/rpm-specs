@@ -1,6 +1,6 @@
 Name:           perl-libxml-perl
 Version:        0.08
-Release:        40%{?dist}
+Release:        41%{?dist}
 Summary:        A collection of Perl modules for working with XML
 License:        (GPL+ or Artistic) and Public Domain
 URL:            https://metacpan.org/release/libxml-perl
@@ -54,6 +54,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.08-41
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.08-40
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:           guake
 Version:        3.6.3
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Drop-down terminal for GNOME
 
 License:        GPLv2+
@@ -62,6 +62,9 @@ rm %{buildroot}%{_datadir}/glib-2.0/schemas/gschemas.compiled
 %{_datadir}/%{name}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.6.3-5
 - Rebuilt for Python 3.9
 

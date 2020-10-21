@@ -1,6 +1,6 @@
 Name:           ascii
 Version:        3.18
-Release:        8%{?dist}
+Release:        10%{?dist}
 URL:            http://www.catb.org/~esr/ascii/
 Source0:        http://www.catb.org/~esr/ascii/ascii-3.18.tar.gz
 BuildRequires:  xmlto, gcc
@@ -20,7 +20,7 @@ with no arguments it displays a handy small ASCII chart.
 %setup -q
 
 %build
-make %{?_smp_mflags} ascii ascii.1 CFLAGS="${RPM_OPT_FLAGS}"
+%make_build ascii ascii.1 CFLAGS="${RPM_OPT_FLAGS}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -35,6 +35,13 @@ cp ascii.1 $RPM_BUILD_ROOT%{_mandir}/man1/
 %doc README COPYING
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.18-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 3.18-9
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.18-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

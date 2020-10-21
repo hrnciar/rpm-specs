@@ -1,6 +1,6 @@
 Name: enum
 Version: 1.1
-Release: 17%{?dist}
+Release: 19%{?dist}
 Summary: Seq- and jot-like enumerator
 
 License: BSD
@@ -22,12 +22,12 @@ over input interpretation and output is possible.
 
 %build
 %configure --disable-doc-rebuild
-make %{?_smp_mflags}
+%make_build
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 
 %check
 make check
@@ -40,6 +40,13 @@ make check
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.1-18
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

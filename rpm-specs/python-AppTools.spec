@@ -2,7 +2,7 @@
 
 Name:           python-AppTools
 Version:        4.5.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Enthought Tool Suite Application Tools
 License:        BSD and LGPLv2+
 URL:            http://code.enthought.com/projects/app_tools/
@@ -108,6 +108,9 @@ popd
 %doc docs/build/html examples README.fedora
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.5.0-3
 - Rebuilt for Python 3.9
 

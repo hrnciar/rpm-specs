@@ -2,13 +2,14 @@
 %bcond_without perl_DBD_Mock_enabled_optional_test
 
 Name:           perl-DBD-Mock
-Version:        1.55
-Release:        3%{?dist}
+Version:        1.57
+Release:        1%{?dist}
 Summary:        Mock database driver for testing
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/DBD-Mock
 Source0:        https://cpan.metacpan.org/modules/by-module/DBD/DBD-Mock-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -69,6 +70,15 @@ unset REPORT_TEST_ENVIRONMENT
 %{_mandir}/man3/*
 
 %changelog
+* Fri Sep 18 2020 Petr Pisar <ppisar@redhat.com> - 1.57-1
+- 1.57 bump
+
+* Fri Sep 18 2020 Petr Pisar <ppisar@redhat.com> - 1.56-1
+- 1.56 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.55-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.55-3
 - Perl 5.32 rebuild
 

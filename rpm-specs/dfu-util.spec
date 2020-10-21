@@ -1,6 +1,6 @@
 Name:          dfu-util
 Version:       0.9
-Release:       9%{?dist}
+Release:       10%{?dist}
 Summary:       USB Device Firmware Upgrade tool
 License:       GPLv2+
 
@@ -49,6 +49,9 @@ make DESTDIR=%{buildroot} install
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 
 Name:		python-upt-pypi	
 Version:	0.4
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	PyPI front-end for upt
 
 License:	BSD
@@ -47,6 +47,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} -m unittest
 %{python3_sitelib}/upt_pypi/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4-3
 - Rebuilt for Python 3.9
 

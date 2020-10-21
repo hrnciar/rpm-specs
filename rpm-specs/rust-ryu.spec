@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        1.0.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Fast floating point to string conversion
 
 # Upstream license specification: Apache-2.0 OR BSL-1.0
@@ -95,6 +95,9 @@ which use "small" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 13:56:08 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.0.5-1
 - Update to 1.0.5
 

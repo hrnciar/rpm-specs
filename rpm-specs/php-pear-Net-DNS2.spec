@@ -1,37 +1,38 @@
 # fedora/remirepo spec file for php-pear-Net-DNS2
 #
-# Copyright (c) 2012-2018 Remi Collet
+# Copyright (c) 2012-2020 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
 # Please, preserve the changelog entries
 #
 
+%bcond_with     tests
+
 %{!?__pear: %global __pear %{_bindir}/pear}
 %global pear_name Net_DNS2
 
 Name:           php-pear-Net-DNS2
-Version:        1.4.4
-Release:        5%{?dist}
+Version:        1.5.0
+Release:        1%{?dist}
 Summary:        PHP Resolver library used to communicate with a DNS server
 
 License:        BSD
 URL:            http://pear.php.net/package/Net_DNS2
 Source0:        http://pear.php.net/get/%{pear_name}-%{version}.tgz
 
-# Fix include path during the test suite
-Patch0:         %{pear_name}-incl.patch
-
 BuildArch:      noarch
 BuildRequires:  php-pear(PEAR)
-# for tests
-BuildRequires:  %{_bindir}/phpunit
+%if %{with tests}
+%global phpunit %{_bindir}/phpunit
+BuildRequires:  %{phpunit}
+%endif
 
 Requires(post): %{__pear}
 Requires(postun): %{__pear}
 Requires:       php-pear(PEAR)
 
-# From phpcompatinfo report for version 1.4.2
+# From phpcompatinfo report for version 1.5.0
 Requires:       php-ctype
 Requires:       php-date
 Requires:       php-json
@@ -64,12 +65,9 @@ The main features for this package include:
 
 %prep
 %setup -q -c
-sed -e 's/md5sum="[^"]*"//' \
-    -i package.xml
 
 cd %{pear_name}-%{version}
 mv ../package.xml %{name}.xml
-%patch0 -p1
 
 
 %build
@@ -89,6 +87,7 @@ mkdir -p %{buildroot}%{pear_xmldir}
 install -pm 644 %{name}.xml %{buildroot}%{pear_xmldir}
 
 
+%if %{with tests}
 %check
 cd %{pear_name}-%{version}/tests
 if ! ping -c 1 google.com &>/dev/null
@@ -98,12 +97,15 @@ then
 fi
 
 ret=0
-for cmd in php56 php70 php71 php; do
+for cmd in php php73 php74 php80; do
   if which $cmd; then
-    $cmd %{_bindir}/phpunit --verbose --include-path=.. AllTests.php || ret=1
+    $cmd %{phpunit} \
+      --include-path=%{buildroot}/%{pear_phpdir}:%{_datadir}/php \
+      --verbose Tests_Net_DNS2_AllTests.php || ret=1
   fi
 done
 exit $ret
+%endif
 
 
 %post
@@ -127,6 +129,12 @@ fi
 
 
 %changelog
+* Fri Oct  9 2020 Remi Collet <remi@remirepo.net> - 1.5.0-1
+- Update to 1.5.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

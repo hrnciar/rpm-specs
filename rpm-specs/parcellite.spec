@@ -2,7 +2,7 @@
 
 Name:           parcellite
 Version:        1.2.1
-Release:        4%{?prerelease:.%{?prerelease}}%{?dist}
+Release:        5%{?prerelease:.%{?prerelease}}%{?dist}
 Summary:        A lightweight GTK+ clipboard manager
 
 License:        GPLv3+
@@ -67,6 +67,9 @@ desktop-file-install \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

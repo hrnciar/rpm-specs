@@ -1,6 +1,6 @@
 Name:		libstemmer
 Version:	0
-Release:	14.585svn%{?dist}
+Release:	15.585svn%{?dist}
 Summary:	C stemming algorithm library
 # The site and project is no longer being actively maintained. 
 # The code is available on Github - https://github.com/snowballstem/snowball
@@ -88,6 +88,9 @@ cp %{SOURCE1} %{SOURCE2} .
 %{_includedir}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-15.585svn
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-14.585svn
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

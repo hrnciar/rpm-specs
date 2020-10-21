@@ -3,14 +3,9 @@
 
 # https://github.com/DATA-DOG/go-sqlmock
 %global goipath         github.com/DATA-DOG/go-sqlmock
-Version:                1.3.3
+Version:                1.4.1
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-DATA-DOG-go-sqlmock-devel < 1.3.0-3
-}
 
 %global goaltipaths     gopkg.in/DATA-DOG/go-sqlmock.v1
 
@@ -25,7 +20,7 @@ database connection. It helps to maintain correct TDD workflow.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        5%{?dist}
+Release:        2%{?dist}
 Summary:        Sql mock driver for Golang to test database interactions
 
 # Upstream license specification: BSD-3-Clause
@@ -49,24 +44,6 @@ cp %{S:1} %{S:2} .
 %install
 %gopkginstall
 
-# Remove in F33
-%pretrans -n compat-golang-gopkg-data-dog-sqlmock-1-devel -p <lua>
--- Define the path to directory being replaced below.
--- DO NOT add a trailing slash at the end.
-path = "/usr/share/gocode/src/gopkg.in/DATA-DOG/go-sqlmock.v1"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  status = os.rename(path, path .. ".rpmmoved")
-  if not status then
-    suffix = 0
-    while not status do
-      suffix = suffix + 1
-      status = os.rename(path .. ".rpmmoved", path .. ".rpmmoved." .. suffix)
-    end
-    os.rename(path, path .. ".rpmmoved")
-  end
-end
-
 %if %{with check}
 %check
 %gocheck
@@ -75,6 +52,12 @@ end
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 20:09:03 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.1-1
+- Update to 1.4.1
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -16,7 +16,7 @@ Your NoSQL database powered by Golang.}
 %global godocs          doc README.md README-gommap.md
 
 Name:           tiedot
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        NoSQL database
 
 # Upstream license specification: BSD-3-Clause and BSD-2-Clause
@@ -73,6 +73,9 @@ install -p -m 0644 distributable/tiedot.service %{buildroot}%{_unitdir}/tiedot.s
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Fabian Affolter <mail@fabian-affolter.ch> - 3.4-2.20200530git6fb2162
 - Fix license naming
 - Enable tests as upstream removed the unlicensed dependency

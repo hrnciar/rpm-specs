@@ -8,7 +8,7 @@ This package provides the free Korean TrueType fonts.
 
 Name:           %{fontname}-fonts
 Version:        2.2
-Release:        51%{?dist}
+Release:        52%{?dist}
 Summary:        Free Korean TrueType fonts
 
 License:        Baekmuk
@@ -166,6 +166,9 @@ install -Dm 0644 -p %{SOURCE11} \
         %{buildroot}%{_metainfodir}/%{fontname}.metainfo.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-52
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-51
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

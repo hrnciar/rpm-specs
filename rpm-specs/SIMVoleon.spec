@@ -7,7 +7,7 @@
 Summary: Volume rendering library for Coin
 Name: SIMVoleon
 Version: 2.0.3
-Release: 2%{?dist}
+Release: 5%{?dist}
 
 License: GPLv2
 URL: http://www.coin3d.org
@@ -50,7 +50,7 @@ mkdir build-%{_build_arch} && pushd build-%{_build_arch}
 %cmake -DSIMVOLEON_BUILD_DOCUMENTATION=TRUE \
        -DSIMVOLEON_BUILD_TESTS=FALSE \
        -DSIMVOLEON_BUILD_DOC_MAN=TRUE \
-       ../
+       -S .. -B .
 
 %make_build
 
@@ -78,6 +78,16 @@ cd build-%{_build_arch}
 
 
 %changelog
+* Tue Aug 04 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 2.0.3-5
+- Work around cmake madness (F33FTBFS, RHBZ#1863119).
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

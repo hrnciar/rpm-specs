@@ -3,8 +3,8 @@
 %global enable_tests 0
 
 Name:       nodejs-generic-pool
-Version:    2.0.3
-Release:    13%{?dist}
+Version:    2.2.2
+Release:    1%{?dist}
 Summary:    Generic resource pooling for Node.js
 # License text is included in README.md.
 License:    MIT
@@ -12,13 +12,9 @@ URL:        https://github.com/coopernurse/node-pool
 Source0:    http://registry.npmjs.org/generic-pool/-/generic-pool-%{version}.tgz
 
 BuildArch:  noarch
-%if 0%{?fedora} >= 19
 ExclusiveArch: %{nodejs_arches} noarch
-%else
-ExclusiveArch: %{ix86} x86_64 %{arm} noarch
-%endif
 
-BuildRequires:  nodejs-packaging
+BuildRequires:  nodejs
 
 %if 0%{?enable_tests}
 BuildRequires:  npm(expresso)
@@ -44,8 +40,10 @@ cp -pr package.json lib/ \
 %nodejs_symlink_deps
 
 
-%if 0%{?enable_tests}
 %check
+%{__nodejs} -e 'require("./")'
+
+%if 0%{?enable_tests}
 %{nodejs_sitelib}/expresso/bin/expresso -I lib test/*.js
 %endif
 
@@ -56,6 +54,9 @@ cp -pr package.json lib/ \
 
 
 %changelog
+* Tue Aug 25 2020 Piotr Popieluch <piotr1212@gmail.com> - 2.2.2-1
+- Unretire and update to 2.2.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

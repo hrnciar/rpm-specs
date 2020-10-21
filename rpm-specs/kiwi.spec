@@ -11,8 +11,8 @@ and cloud systems like Xen, KVM, VMware, EC2 and more.
 
 
 Name:           kiwi
-Version:        9.20.5
-Release:        2%{?dist}
+Version:        9.21.7
+Release:        1%{?dist}
 URL:            http://osinside.github.io/kiwi/
 Summary:        Flexible operating system image builder
 License:        GPLv3+
@@ -242,7 +242,7 @@ overlay root filesystem
 
 %package cli
 Summary:        Flexible operating system appliance image builder
-Provides:       kiwi-schema = 7.1
+Provides:       kiwi-schema = 7.2
 # So we can reference it by the source package name while permitting this to be noarch
 Provides:       %{name} = %{version}-%{release}
 Requires:       python3-%{name} = %{version}-%{release}
@@ -264,15 +264,17 @@ sed -e "s|#!/usr/bin/env python||" -i kiwi/xml_parse.py
 
 %py3_build
 
+# Build C-Tools
+make CFLAGS="%{build_cflags}" tools
+
 %install
 %py3_install
 
+# Install C-Tools, man-pages, completion and kiwi default configuration (yes, the slash is needed!)
+make buildroot=%{buildroot}/ install
+
 # Install dracut modules (yes, the slash is needed!)
 make buildroot=%{buildroot}/ install_dracut
-
-# Move the bash completion file to right place
-mkdir -p %{buildroot}%{_datadir}/bash-completion/completions
-mv %{buildroot}%{_sysconfdir}/bash_completion.d/kiwi-ng.sh %{buildroot}%{_datadir}/bash-completion/completions/kiwi-ng
 
 # Erase redundant bash completion file
 rm -rf %{buildroot}%{_sysconfdir}/bash_completion.d
@@ -313,7 +315,7 @@ done
 %{_bindir}/kiwi
 %{_bindir}/kiwi-ng
 %{_bindir}/kiwicompat
-%{_datadir}/bash-completion/completions/kiwi-ng
+%{_datadir}/bash-completion/completions/kiwi-ng.sh
 %{_mandir}/man8/kiwi*
 %config(noreplace) %{_sysconfdir}/kiwi.yml
 
@@ -348,6 +350,15 @@ done
 # Empty metapackage
 
 %changelog
+* Sat Aug 15 2020 Neal Gompa <ngompa13@gmail.com> - 9.21.7-1
+- Upgrade to 9.21.7 (RH#1820679)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.21.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Neal Gompa <ngompa13@gmail.com> - 9.21.5-1
+- Upgrade to 9.21.5 (RH#1820679)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 9.20.5-2
 - Rebuilt for Python 3.9
 

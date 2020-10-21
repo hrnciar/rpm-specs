@@ -7,7 +7,7 @@
 
 Name:               nodejs-gonzales-pe
 Version:            3.0.0
-Release:            0.11.%{prerelease}%{?dist}
+Release:            0.12.%{prerelease}%{?dist}
 Summary:            Gonzales Preprocessor Edition (fast CSS parser)
 
 License:            MIT
@@ -66,6 +66,9 @@ cp -pr package.json lib \
 %{nodejs_sitelib}/gonzales-pe/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-0.12.9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-0.11.9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

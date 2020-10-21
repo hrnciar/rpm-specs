@@ -1,16 +1,20 @@
 %global systemd (0%{?fedora} >= 18) || (0%{?rhel} >= 7)
-%global tmpfiles (0%{?fedora} >= 15) || (0%{?rhel} >= 7)
+# F21+ and RHEL8+ have systemd 211+ which offers RuntimeDirectory
+# use that instead of tmpfiles.d
+%global systemd_runtimedir (0%{?fedora} >= 21) || (0%{?rhel} >= 8)
+%global tmpfiles ((0%{?fedora} >= 15) || (0%{?rhel} == 7)) && !%{systemd_runtimedir}
 
 %global pre_rel Beta3
 
 Summary: An open source library and milter for providing ARC service
 Name: openarc
 Version: 1.0.0
-Release: %{?pre_rel:0.}8%{?pre_rel:.%pre_rel}%{?dist}
+Release: %{?pre_rel:0.}11%{?pre_rel:.%pre_rel}%{?dist}.1
 License: BSD and Sendmail
 URL: https://github.com/trusteddomainproject/OpenARC
-
-Source0: https://github.com/trusteddomainproject/OpenARC/archive/v%{version}%{?pre_rel:.%pre_rel}/%{name}-%{version}%{?pre_rel:.%pre_rel}.tar.gz
+# actually https://github.com/trusteddomainproject/OpenARC/archive/rel-openarc-1-0-0-Beta3.tar.gz but our local tarball is misnamed
+Source0:  openarc-1.0.0.Beta3.tar.gz
+Patch0:   openarc-headerdebug.patch
 
 BuildRequires: libtool gcc
 BuildRequires: pkgconfig(openssl)
@@ -83,7 +87,7 @@ cat > %{buildroot}%{_sysconfdir}/openarc.conf <<EOF
 PidFile %{_rundir}/%{name}/%{name}.pid
 Syslog  yes
 UserID  openarc:openarc
-Socket  local:%{_rundi}/%{name}/%{name}.sock
+Socket  local:%{_rundir}/%{name}/%{name}.sock
 SignHeaders to,subject,message-id,date,from,mime-version,dkim-signature
 PeerList %{_sysconfdir}/%{name}/PeerList
 MilterDebug 6
@@ -117,14 +121,20 @@ After=network.target nss-lookup.target syslog.target
 
 [Service]
 Type=forking
+%if %{systemd_runtimedir}
+RuntimeDirectory=%{name}
+RuntimeDirectoryMode=0750
+%endif
 PIDFile=%{_rundir}/%{name}/%{name}.pid
 EnvironmentFile=-%{_sysconfdir}/sysconfig/%{name}
 ExecStart=/usr/sbin/%{name} $OPTIONS
+ExecStartPost=/sbin/restorecon -r -F %{_rundir}/%{name}
 ExecReload=/bin/kill -USR1 $MAINPID
 User=%{name}
 Group=%{name}
 UMask=0007
 ProtectSystem=strict
+ReadWritePaths=%{_rundir}/%{name}
 ProtectHome=true
 
 [Install]
@@ -187,7 +197,8 @@ exit 0
 
 %if %{tmpfiles}
 %{_tmpfilesdir}/%{name}.conf
-%else
+%endif
+%if !%{tmpfiles} && !%{systemd_runtimedir}
 %dir %attr(0750,%{name},%{name}) %{_rundir}/%{name}
 %endif
 
@@ -211,6 +222,22 @@ exit 0
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-0.11.Beta3.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon May 18 2020 Matt Domsch <mdomsch@fedoraproject.org> - 1.0.0-0.11.Beta3
+- set selinux labels on /run/openarc
+- restore selinux labels at service start
+
+* Fri May 15 2020 Matt Domsch <mdomsch@fedoraproject.org> - 1.0.0-0.10.Beta3
+- add headerdebug patch
+
+* Fri May 1 2020 Matt Domsch <mdomsch@fedoraproject.org> - 1.0.0-0.9.Beta3
+- fix typo in systemd service file
+- use RuntimeDirectory and RuntimeDirectoryMode when systemd 211 or higher is present
+  rather than tmpfiles.d.
+- use ReadWritePaths to ensure our temp directory is writable with ProtectSystem=strict
+
 * Tue Apr 21 2020 Matt Domsch <mdomsch@fedoraproject.org> - 1.0.0-0.8.Beta3
 - packaging suggestions from
   https://github.com/trusteddomainproject/OpenARC/pull/103#issuecomment-574367733

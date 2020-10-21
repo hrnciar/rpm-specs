@@ -1,10 +1,16 @@
 %global _hardened_build 1
 %global _sbindir /sbin
+%if 0%{?rhel} && 0%{?rhel} >= 9
+%bcond_with    pkcs11
+%else
+%bcond_without pkcs11
+%endif
+
 
 Summary:        Random number generator related utilities
 Name:           rng-tools
 Version:        6.10
-Release:        3%{?dist}
+Release:        6%{?dist}
 License:        GPLv2+
 URL:            https://github.com/nhorman/rng-tools
 Source0:        https://github.com/nhorman/rng-tools/archive/rng-tools-%{version}.tar.gz
@@ -20,9 +26,11 @@ BuildRequires: autoconf automake
 BuildRequires: libsysfs-devel libcurl-devel
 BuildRequires: libxml2-devel openssl-devel
 BuildRequires: jitterentropy-devel
-BuildRequires: libp11-devel
 BuildRequires: jansson-devel
 BuildRequires: rtl-sdr-devel
+%if %{with pkcs11}
+BuildRequires: libp11-devel
+%endif
 
 Requires(post): systemd-units
 Requires(preun): systemd-units
@@ -37,7 +45,11 @@ Hardware random number generation tools.
 
 %build
 ./autogen.sh
+%if %{with pkcs11}
 %configure
+%else
+%configure --without-pkcs11
+%endif
 %make_build
 
 %install
@@ -66,6 +78,17 @@ install -Dt %{buildroot}%{_unitdir} -m0644 %{SOURCE1}
 %attr(0644,root,root)   %{_unitdir}/rngd.service
 
 %changelog
+* Mon Oct 05 2020 Troy Dawson <tdawson@redhat.com> - 6.10-6
+- Make pkcs11 optional
+- For RHEL9 and above, do not build with pkcs11
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.10-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.10-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 27 2020 Neil Horman <nhorman@redhat.com> - 6.10-3
 - Fix missing buildrequires
 

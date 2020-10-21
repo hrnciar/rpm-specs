@@ -1,6 +1,6 @@
 Name: 		perl-Text-Glob
 Version: 	0.11
-Release: 	11%{?dist}
+Release: 	12%{?dist}
 Summary: 	Perl module to match globbing patterns against text
 License: 	GPL+ or Artistic
 URL: 		https://metacpan.org/release/Text-Glob
@@ -44,6 +44,9 @@ chmod -R u+w $RPM_BUILD_ROOT/*
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.11-11
 - Perl 5.32 rebuild
 

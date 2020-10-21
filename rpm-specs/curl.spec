@@ -1,12 +1,9 @@
 Summary: A utility for getting files from remote servers (FTP, HTTP, and others)
 Name: curl
-Version: 7.70.0
-Release: 1%{?dist}
+Version: 7.73.0
+Release: 2%{?dist}
 License: MIT
 Source: https://curl.haxx.se/download/%{name}-%{version}.tar.xz
-
-# make test-suite work with separate build dir
-Patch1:   0001-curl-7.70.0-tests-build-dir.patch
 
 # patch making libcurl multilib ready
 Patch101: 0101-curl-7.32.0-multilib.patch
@@ -15,7 +12,7 @@ Patch101: 0101-curl-7.32.0-multilib.patch
 Patch102: 0102-curl-7.36.0-debug.patch
 
 # use localhost6 instead of ip6-localhost in the curl test-suite
-Patch104: 0104-curl-7.19.7-localhost6.patch
+Patch104: 0104-curl-7.73.0-localhost6.patch
 
 # prevent valgrind from reporting false positives on x86_64
 Patch105: 0105-curl-7.63.0-lib1560-valgrind.patch
@@ -77,6 +74,9 @@ BuildRequires: perl(MIME::Base64)
 BuildRequires: perl(Time::Local)
 BuildRequires: perl(Time::HiRes)
 BuildRequires: perl(vars)
+
+# needed for upstream test 1451
+BuildRequires: python3-impacket
 
 # The test-suite runs automatically through valgrind if valgrind is available
 # on the system.  By not installing valgrind into mock's chroot, we disable
@@ -160,7 +160,7 @@ Summary: Conservatively configured build of libcurl for minimal installations
 Requires: openssl-libs%{?_isa} >= 1:%{openssl_version}
 Provides: libcurl = %{version}-%{release}
 Provides: libcurl%{?_isa} = %{version}-%{release}
-Conflicts: libcurl
+Conflicts: libcurl%{?_isa}
 RemovePathPostfixes: .minimal
 # needed for RemovePathPostfixes to work with shared libraries
 %undefine __brp_ldconfig
@@ -175,7 +175,6 @@ be installed.
 %setup -q
 
 # upstream patches
-%patch1 -p1
 
 # Fedora patches
 %patch101 -p1
@@ -185,6 +184,7 @@ be installed.
 
 # make tests/*.py use Python 3
 sed -e '1 s|^#!/.*python|#!%{__python3}|' -i tests/*.py
+sed -e 's|^python |%{__python3} |' -i tests/data/test1451
 
 # regenerate the configure script and Makefile.in files
 autoreconf -fiv
@@ -192,9 +192,7 @@ autoreconf -fiv
 # disable test 1112 (#565305), test 1455 (occasionally fails with 'bind failed
 # with errno 98: Address already in use' in Koji environment), and test 1801
 # <https://github.com/bagder/curl/commit/21e82bd6#commitcomment-12226582>
-# and test 1900, which is flaky and covers a deprecated feature of libcurl
-# <https://github.com/curl/curl/pull/2705>
-printf "1112\n1455\n1801\n1900\n" >> tests/data/DISABLED
+printf "1112\n1455\n1801\n" >> tests/data/DISABLED
 
 # disable test 1319 on ppc64 (server times out)
 %ifarch ppc64
@@ -261,8 +259,8 @@ sed -e 's/^runpath_var=.*/runpath_var=/' \
     -e 's/^hardcode_libdir_flag_spec=".*"$/hardcode_libdir_flag_spec=""/' \
     -i build-{full,minimal}/libtool
 
-make %{?_smp_mflags} V=1 -C build-minimal
-make %{?_smp_mflags} V=1 -C build-full
+%make_build V=1 -C build-minimal
+%make_build V=1 -C build-full
 
 %check
 # we have to override LD_LIBRARY_PATH because we eliminated rpath
@@ -271,7 +269,7 @@ export LD_LIBRARY_PATH
 
 # compile upstream test-cases
 cd build-full/tests
-make %{?_smp_mflags} V=1
+%make_build V=1
 
 # relax crypto policy for the test-suite to make it pass again (#1610888)
 export OPENSSL_SYSTEM_CIPHERS_OVERRIDE=XXX
@@ -282,14 +280,14 @@ srcdir=../../tests perl -I../../tests ../../tests/runtests.pl -a -p -v '!flaky'
 
 %install
 # install and rename the library that will be packaged as libcurl-minimal
-make DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p" install -C build-minimal/lib
+%make_install -C build-minimal/lib
 rm -f ${RPM_BUILD_ROOT}%{_libdir}/libcurl.{la,so}
 for i in ${RPM_BUILD_ROOT}%{_libdir}/*; do
     mv -v $i $i.minimal
 done
 
 # install and rename the executable that will be packaged as curl-minimal
-make DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p" install -C build-minimal/src
+%make_install -C build-minimal/src
 mv -v ${RPM_BUILD_ROOT}%{_bindir}/curl{,.minimal}
 
 # install libcurl.m4
@@ -298,12 +296,12 @@ install -m 644 docs/libcurl/libcurl.m4 $RPM_BUILD_ROOT%{_datadir}/aclocal
 
 # install the executable and library that will be packaged as curl and libcurl
 cd build-full
-make DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p" install
+%make_install
 
 # install zsh completion for curl
 # (we have to override LD_LIBRARY_PATH because we eliminated rpath)
 LD_LIBRARY_PATH="$RPM_BUILD_ROOT%{_libdir}:$LD_LIBRARY_PATH" \
-    make DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p" install -C scripts
+    %make_install -C scripts
 
 # do not install /usr/share/fish/completions/curl.fish which is also installed
 # by fish-3.0.2-1.module_f31+3716+57207597 and would trigger a conflict
@@ -318,12 +316,11 @@ rm -f ${RPM_BUILD_ROOT}%{_libdir}/libcurl.la
 %files
 %doc CHANGES
 %doc README
-%doc docs/BUGS
+%doc docs/BUGS.md
 %doc docs/FAQ
 %doc docs/FEATURES
-%doc docs/RESOURCES
 %doc docs/TODO
-%doc docs/TheArtOfHttpScripting
+%doc docs/TheArtOfHttpScripting.md
 %{_bindir}/curl
 %{_mandir}/man1/curl.1*
 %{_datadir}/zsh
@@ -335,7 +332,7 @@ rm -f ${RPM_BUILD_ROOT}%{_libdir}/libcurl.la
 
 %files -n libcurl-devel
 %doc docs/examples/*.c docs/examples/Makefile.example docs/INTERNALS.md
-%doc docs/CONTRIBUTE.md docs/libcurl/ABI
+%doc docs/CONTRIBUTE.md docs/libcurl/ABI.md
 %{_bindir}/curl-config*
 %{_includedir}/curl
 %{_libdir}/*.so
@@ -354,6 +351,40 @@ rm -f ${RPM_BUILD_ROOT}%{_libdir}/libcurl.la
 %{_libdir}/libcurl.so.4.[0-9].[0-9].minimal
 
 %changelog
+* Wed Oct 14 2020 Kamil Dudka <kdudka@redhat.com> - 7.73.0-2
+- prevent upstream test 1451 from being skipped
+
+* Wed Oct 14 2020 Kamil Dudka <kdudka@redhat.com> - 7.73.0-1
+- new upstream release
+
+* Thu Sep 10 2020 Jinoh Kang <aurhb20@protonmail.ch> - 7.72.0-2
+- fix multiarch conflicts in libcurl-minimal (#1877671)
+
+* Wed Aug 19 2020 Kamil Dudka <kdudka@redhat.com> - 7.72.0-1
+- new upstream release, which fixes the following vulnerability
+    CVE-2020-8231 - libcurl: wrong connect-only connection
+
+* Thu Aug 06 2020 Kamil Dudka <kdudka@redhat.com> - 7.71.1-5
+- setopt: unset NOBODY switches to GET if still HEAD
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.71.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 7.71.1-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Fri Jul 03 2020 Kamil Dudka <kdudka@redhat.com> - 7.71.1-2
+- curl: make the --krb option work again (#1833193)
+
+* Wed Jul 01 2020 Kamil Dudka <kdudka@redhat.com> - 7.71.1-1
+- new upstream release
+
+* Wed Jun 24 2020 Kamil Dudka <kdudka@redhat.com> - 7.71.0-1
+- new upstream release, which fixes the following vulnerabilities
+    CVE-2020-8169 - curl: Partial password leak over DNS on HTTP redirect
+    CVE-2020-8177 - curl: overwrite local file with -J
+
 * Wed Apr 29 2020 Kamil Dudka <kdudka@redhat.com> - 7.70.0-1
 - new upstream release
 

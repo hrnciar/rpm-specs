@@ -3,29 +3,30 @@
 %global polly_srcdir polly-%{version}%{?rc_ver:rc%{rc_ver}}.src
 
 Name: polly
-Version: 10.0.0
+Version: 11.0.0
 Release: %{baserelease}%{?rc_ver:.rc%{rc_ver}}%{?dist}
 Summary: LLVM Framework for High-Level Loop and Data-Locality Optimizations
 
 License: NCSA
 URL: http://polly.llvm.org	
-%if 0%{?rc_ver:1}
-Source0: https://prereleases.llvm.org/%{version}/rc%{rc_ver}/%{polly_srcdir}.tar.xz
-Source1: https://prereleases.llvm.org/%{version}/rc%{rc_ver}/%{polly_srcdir}.tar.xz.sig
-%else
-Source0: https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}/%{polly_srcdir}.tar.xz
-Source3: https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}/%{polly_srcdir}.tar.xz.sig
-%endif
+Source0: https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}%{?rc_ver:-rc%{rc_ver}}/%{polly_srcdir}.tar.xz
+Source1: https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}%{?rc_ver:-rc%{rc_ver}}/%{polly_srcdir}.tar.xz.sig
 Source2: https://prereleases.llvm.org/%{version}/hans-gpg-key.asc
 
 Patch0: polly-subproject-extension.patch
 
+BuildRequires: gcc
+BuildRequires: gcc-c++
 BuildRequires: cmake
 BuildRequires: llvm-devel = %{version}
 BuildRequires: llvm-test = %{version}
 BuildRequires: clang-devel = %{version}
+BuildRequires: ninja-build
 BuildRequires: python3-lit
 BuildRequires: python3-sphinx
+
+# For origin certification
+BuildRequires:	gnupg2
 
 %description
 Polly is a high-level loop and data-locality optimizer and optimization
@@ -49,13 +50,21 @@ Requires: %{name} = %{version}-%{release}
 Documentation for the Polly optimizer.
 
 %prep
+%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
 %autosetup -n %{polly_srcdir} -p1
 
 %build
-mkdir -p _build
-cd _build
 
-%cmake .. \
+# LTO builds fail:
+# ../lib/External/pet/include/pet.h:20:1: error: function 'pet_options_args' redeclared as variable
+#   20 | ISL_ARG_DECL(pet_options, struct pet_options, pet_options_args)
+#      | ^
+#../lib/External/ppcg/external.c:107:6: note: previously declared here
+#  107 | void pet_options_args() {
+#     |      ^
+%global _lto_cflags %{nil}
+
+%cmake 	-GNinja \
 	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
 	-DLLVM_LINK_LLVM_DYLIB:BOOL=ON \
 	-DLLVM_EXTERNAL_LIT=%{_bindir}/lit \
@@ -71,22 +80,21 @@ cd _build
 	-DLLVM_LIBDIR_SUFFIX=
 %endif
 
-
-
-%make_build
-%{__make} docs-polly-html
+%cmake_build
+%cmake_build --target docs-polly-html
 
 
 %install
-%make_install -C _build
+%cmake_install
+
 install -d %{buildroot}%{_pkgdocdir}/html
-cp -r _build/docs/html/* %{buildroot}%{_pkgdocdir}/html/
+cp -r %{_vpath_builddir}/docs/html/* %{buildroot}%{_pkgdocdir}/html/
 
 %check
-%{__make} check-polly -C _build
-
+%cmake_build --target check-polly
 
 %files
+%license LICENSE.txt
 %{_libdir}/LLVMPolly.so
 %{_libdir}/libPolly.so.*
 %{_libdir}/libPollyISL.so
@@ -101,6 +109,47 @@ cp -r _build/docs/html/* %{buildroot}%{_pkgdocdir}/html/
 %doc %{_pkgdocdir}/html
 
 %changelog
+* Thu Oct 15 2020 sguelton@redhat.com - 11.0.0-1
+- Fix NVR
+
+* Mon Oct 12 2020 sguelton@redhat.com - 11.0.0-0.5
+- llvm 11.0.0 - final release
+
+* Thu Oct 08 2020 sguelton@redhat.com - 11.0.0-0.4.rc6
+- 11.0.0-rc6
+
+* Fri Oct 02 2020 sguelton@redhat.com - 11.0.0-0.3.rc5
+- 11.0.0-rc5 Release
+
+* Sun Sep 27 2020 sguelton@redhat.com - 11.0.0-0.2.rc3
+- Fix NVR
+
+* Thu Sep 24 2020 sguelton@redhat.com - 11.0.0-0.1.rc3
+- 11.0.0-rc3 Release
+
+* Tue Sep 01 2020 sguelton@redhat.com - 11.0.0-0.1.rc2
+- 11.0.0-rc2 Release
+
+* Tue Aug 11 2020 Tom Stellard <tstellar@redhat.com> - 11.0.0-0.1.rc1
+- 11.0.0-rc1 Release
+
+* Tue Aug 11 2020 Tom Stellard <tstellar@redhat.com> - 10.0.0-6
+- Disable LTO builds
+
+* Mon Aug 10 2020 sguelton@redhat.com - 10.0.0-5
+- Make gcc dependency explicit, see https://fedoraproject.org/wiki/Packaging:C_and_C%2B%2B#BuildRequires_and_Requires
+- use %%license macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 sguelton@redhat.com - 10.0.0-2
+- Modernize cmake macro usage
+
 * Mon Mar 30 2020 sguelton@redhat.com - 10.0.0-1
 - llvm-10.0.0 final
 

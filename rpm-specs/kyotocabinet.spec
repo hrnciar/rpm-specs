@@ -1,12 +1,13 @@
 Summary:        A straightforward implementation of DBM
 Name:           kyotocabinet
-Version:        1.2.77
-Release:        3%{?dist}
+Version:        1.2.78
+Release:        1%{?dist}
 License:        GPLv3
-URL:            https://fallabs.com/%{name}/
-Source:         https://fallabs.com/%{name}/pkg/%{name}-%{version}.tar.gz
+URL:            https://dbmx.net/%{name}/
+Source:         https://dbmx.net/%{name}/pkg/%{name}-%{version}.tar.gz
 Patch0:         kyotocabinet-1.2.76-cflags.patch
 Patch1:         kyotocabinet-1.2.76-8-byte-atomics.patch
+Patch2:         kyotocabinet-1.2.78-random-failures.patch
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 BuildRequires:  gcc-c++, zlib-devel, lzo-devel, xz-devel
 
@@ -51,13 +52,14 @@ applications that use Kyoto Cabinet.
 %setup -q
 %patch0 -p1 -b .cflags
 %patch1 -p1 -b .8-byte-atomics
+%patch2 -p1 -b .random-failures
 
 %build
 %configure --disable-opt --enable-lzo --enable-lzma
-make %{?_smp_mflags}
+%make_build
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT INSTALL='install -p' install
+%make_install
 
 # Don't install any static .a file
 rm -f $RPM_BUILD_ROOT%{_libdir}/libkyotocabinet.a
@@ -140,13 +142,24 @@ make check
 %doc COPYING doc/api/* kyotocabinet.idl
 
 %changelog
+* Wed Sep 23 2020 Robert Scheck <robert@fedoraproject.org> 1.2.78-1
+- Update to 1.2.78 (#1858682)
+- Added patch to ignore randomly failing tests (#1863664)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.77-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1.2.77-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.77-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
 * Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.77-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
-* Mon Mar 25 2019 Robert Scheck <robert@fedoraproject.org> 1.2.77
+* Mon Mar 25 2019 Robert Scheck <robert@fedoraproject.org> 1.2.77-1
 - Update to 1.2.77
 
 * Fri Mar  1 2019 Peng Wu <pwu@redhat.com> - 1.2.76-21

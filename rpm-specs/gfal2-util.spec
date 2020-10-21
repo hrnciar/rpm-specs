@@ -1,6 +1,6 @@
 Name:           gfal2-util
 Version:        1.5.3
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        GFAL2 utility tools
 License:        GPLv3
 URL:            http://dmc.web.cern.ch/
@@ -62,6 +62,13 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.3-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5.3-7
 - Rebuilt for Python 3.9
 

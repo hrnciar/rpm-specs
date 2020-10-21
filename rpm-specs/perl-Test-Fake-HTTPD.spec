@@ -1,6 +1,6 @@
 Name:           perl-Test-Fake-HTTPD
-Version:        0.08
-Release:        10%{?dist}
+Version:        0.09
+Release:        1%{?dist}
 Summary:        Fake HTTP server module for testing
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test-Fake-HTTPD
@@ -74,6 +74,25 @@ find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null \;
 
 
 %changelog
+* Sun Aug 16 2020 Denis Fateyev <denis@fateyev.com> - 0.09-1
+- Update to 0.09 release
+- Dropped obsolete patch
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.08-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.08-14
+- Perl 5.32 re-rebuild updated packages
+
+* Fri Jun 26 2020 Björn Esser <besser82@fedoraproject.org> - 0.08-13
+- Perl 5.32 rebuild, again
+
+* Fri Jun 26 2020 Petr Pisar <ppisar@redhat.com> - 0.08-12
+- Use 2048-bit RSA testing certificate with SHA-256 (bug #1851243)
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.08-11
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.08-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

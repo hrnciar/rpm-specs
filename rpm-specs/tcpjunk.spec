@@ -1,6 +1,6 @@
 Name:           tcpjunk
 Version:        2.9.03
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        TCP protocols testing tool
 
 License:        GPLv2+
@@ -50,6 +50,9 @@ rm -rf %{buildroot}/usr/doc/%{name}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.03-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 28 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.9.03-22
 - Fix FTBFS (rhbz#1800185)
 

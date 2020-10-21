@@ -1,6 +1,9 @@
+# Perform optional tests
+%bcond_without perl_Clone_enables_optional_test
+
 Name:           perl-Clone
 Version:        0.45
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Recursively copy perl data types
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Clone
@@ -21,18 +24,20 @@ BuildRequires:  perl(Exporter)
 BuildRequires:  perl(strict)
 BuildRequires:  perl(vars)
 # Tests:
+BuildRequires:  perl(B)
+BuildRequires:  perl(B::COW) >= 0.004
 BuildRequires:  perl(Test::More)
 BuildRequires:  perl(utf8)
 BuildRequires:  perl(warnings)
+%if %{with perl_Clone_enables_optional_test}
 # Optional tests:
-BuildRequires:  perl(B)
-BuildRequires:  perl(B::COW) >= 0.004
 BuildRequires:  perl(Data::Dumper)
 BuildRequires:  perl(Devel::Peek)
 BuildRequires:  perl(Hash::Util::FieldHash)
 BuildRequires:  perl(Scalar::Util)
 BuildRequires:  perl(Storable)
 BuildRequires:  perl(Taint::Runtime)
+%endif
 # Dependencies
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 
@@ -70,6 +75,9 @@ make test
 %{_mandir}/man3/Clone.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.45-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.45-2
 - Perl 5.32 rebuild
 

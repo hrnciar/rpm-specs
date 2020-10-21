@@ -6,7 +6,7 @@
 Summary:        C++ API for the cairo graphics library
 Name:           cairomm
 Version:        1.12.0
-Release:        12%{?dist}
+Release:        13%{?dist}
 URL:            http://www.cairographics.org
 License:        LGPLv2+
 Source:         http://www.cairographics.org/releases/%{name}-%{version}.tar.gz
@@ -83,6 +83,9 @@ find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 %doc %{_datadir}/devhelp/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,70 +4,67 @@
 patching API provided by the mock package, but with the benefit of not having \
 to worry about undoing patches at the end of a test.
 
-
 Name:           python-%{pypi_name}
-Version:        1.10.4
-Release:        9%{?dist}
+Version:        3.3.1
+Release:        1%{?dist}
 Summary:        Thin-wrapper around the mock package for easier use with py.test
 
 License:        MIT
-URL:            https://pypi.python.org/pypi/pytest-mock
-Source0:        https://files.pythonhosted.org/packages/source/p/pytest-mock/pytest-mock-%{version}.tar.gz
+URL:            https://github.com/pytest-dev/pytest-mock/
+Source0:        %{pypi_source}
 BuildArch:      noarch
-# Fix tests expectations with latest pytest (4.6.3+)
-Patch0:         fix-expectations-pytest-4.6.3.patch
-# Fix tests due to new formatting in mock 3.0 and python 3.8 (See https://github.com/pytest-dev/pytest-mock/commit/b3badafebedea3605c90eb22a68adff2885a8bb0)
-Patch1:         fix-mock-python-3.8.patch
 
 %description
 %{desc}
-
 
 %package -n     python3-%{pypi_name}
 Summary:        %{summary}
 BuildArch:      noarch
 BuildRequires:  python3-devel
-BuildRequires:  python3-pytest >= 2.7
+BuildRequires:  python3-pytest
 BuildRequires:  python3-setuptools_scm
+BuildRequires:  python3-pytest-asyncio
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
 %description -n python3-%{pypi_name}
 %{desc}
 
-
 %prep
-%setup -qn %{pypi_name}-%{version}
+%autosetup -n %{pypi_name}-%{version} -p1
 rm -rf *.egg-info
-%patch0 -p1
-%patch1 -p1
-
 # Correct end of line encoding for README
 sed -i 's/\r$//' README.rst
-
 
 %build
 %py3_build
 
-
 %install
 %py3_install
 
-
 %check
-PYTHONPATH="$(pwd)" py.test-%{python3_version} test_pytest_mock.py
-
+PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests \
+  -k "not test_standalone_mock and not test_detailed_introspection and not test_detailed_introspection \
+  and not test_assert_called_args_with_introspection and not test_assert_called_kwargs_with_introspection"
 
 %files -n python3-%{pypi_name}
-%doc README.rst
+%doc CHANGELOG.rst README.rst
 %license LICENSE
+%{python3_sitelib}/%{file_name}/
 %{python3_sitelib}/%{file_name}-%{version}-py%{python3_version}.egg-info/
-%{python3_sitelib}/%{file_name}.py*
-%{python3_sitelib}/__pycache__/%{file_name}*.py*
-%{python3_sitelib}/_pytest_mock_version.py*
-%{python3_sitelib}/__pycache__/_pytest_mock_version.cpython*
-
 
 %changelog
+* Sat Aug 29 2020 Fabian Affolter <mail@fabian-affolter.ch> - 3.3.1-1
+- Update to latest upstream release 3.3.1 (rhbz#1871290)
+
+* Fri Aug 21 2020 Fabian Affolter <mail@fabian-affolter.ch> - 3.3.0-1
+- Update to latest upstream release 3.3.0 (rhbz#1871290)
+
+* Fri Aug 21 2020 Fabian Affolter <mail@fabian-affolter.ch> - 3.2.0-1
+- Update to latest upstream release 3.2.0 (rhbz#1756646)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.4-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Miro Hrončok <mhroncok@redhat.com> - 1.10.4-9
 - Drop manual requires on python3-pytest to support usage with pytest4 compat package
 

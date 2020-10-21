@@ -1,6 +1,6 @@
 Name:    usbutils
 Version: 012
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: Linux USB utilities
 URL:     http://www.linux-usb.org/
 License: GPLv2+
@@ -42,6 +42,9 @@ rm -rf %{buildroot}/%{_libdir}/pkgconfig/usbutils.pc
 %{_bindir}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 012-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 012-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

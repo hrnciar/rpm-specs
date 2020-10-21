@@ -1,7 +1,7 @@
 Name:          dianara
 Summary:       Pump.io application for the desktop
 Version:       1.4.3
-Release:       2%{?dist}
+Release:       3%{?dist}
 License:       GPLv2+
 URL:           https://jancoding.wordpress.com/dianara/
 Source0:       http://download.savannah.gnu.org/releases/dianara/dianara-v%{version}.tar.gz
@@ -56,6 +56,9 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_metainfodir}/*.appdata.x
 %{_datadir}/icons/hicolor/64x64/apps/dianara.png
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

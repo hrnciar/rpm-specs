@@ -1,6 +1,6 @@
 Name:    idzebra
 Version: 2.1.4
-Release: 8%{?dist}
+Release: 9%{?dist}
 Summary: High performance structured text indexing and retrieval engine
 
 License: GPLv2+
@@ -101,6 +101,9 @@ rm  %{buildroot}%{_libdir}/*.la \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.4-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 16 2020 Pete Walter <pwalter@fedoraproject.org> - 2.1.4-8
 - Rebuild for ICU 67
 

@@ -17,7 +17,7 @@
 
 Name:           php-phpunit-PHPUnit-SkeletonGenerator
 Version:        2.0.1
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Tool that can generate skeleton test classes
 
 License:        BSD
@@ -144,6 +144,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

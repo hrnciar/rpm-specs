@@ -2,7 +2,7 @@
 
 Name:		iodine
 Version:		0.7.0
-Release:		14%{?dist}
+Release:		15%{?dist}
 Summary:		Solution to tunnel IPv4 data through a DNS server
 Summary(ru):	Решение для туннелирования IPv4 трафика через DNS сервер
 License:		ISC
@@ -144,6 +144,9 @@ install -Dp -m 0644 %{SOURCE8} %{buildroot}/%{_unitdir}/%{name}-server.service
 %{_unitdir}/%{name}-server.service
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

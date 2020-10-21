@@ -1,6 +1,6 @@
 Name:           wireguard-tools
-Version:        1.0.20200513
-Release:        1%{?dist}
+Version:        1.0.20200827
+Release:        2%{?dist}
 URL:            https://www.wireguard.com/
 Summary:        Fast, modern, secure VPN tunnel
 License:        GPLv2
@@ -29,9 +29,11 @@ This package provides the wg binary for controlling WireGuard.
 %set_build_flags
 
 ## Start DNS Hatchet
+%if (0%{?fedora} && 0%{?fedora} < 33) || (0%{?rhel} && 0%{?rhel} < 9)
 pushd contrib/dns-hatchet
 ./apply.sh
 popd
+%endif
 ## End DNS Hatchet
 
 %make_build RUNSTATEDIR=%{_rundir} -C src
@@ -54,6 +56,27 @@ WITH_BASHCOMPLETION=yes WITH_WGQUICK=yes WITH_SYSTEMDUNITS=yes -C src
 %{_mandir}/man8/wg-quick.8*
 
 %changelog
+* Fri Oct 02 2020 Joe Doss <joe@solidadmin.com> - 1.0.20200827-2
+- Disable contrib/dns-hatchet/apply.sh on Fedora 33+ and RHEL9+
+
+* Sat Aug 29 2020 Joe Doss <joe@solidadmin.com> - 1.0.20200827-1
+- Update to 1.0.20200827
+- wg-quick: android: use iproute2 to bring up interface instead of ndc
+- wg-quick: Revert wait on process substitutions
+
+* Thu Aug 20 2020 Joe Doss <joe@solidadmin.com> - 1.0.20200820-1
+- Update to 1.0.20200820
+- ipc: split into separate files per-platform
+- wincompat: fold random into genkey
+- systemd: add reload target to systemd unit
+- man: wg-quick: use syncconf instead of addconf for strip example
+- pubkey: isblank is a subset of isspace
+- ctype: use non-locale-specific ctype.h
+- wg-quick: wait on process substitutions
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.20200513-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 13 2020 Joe Doss <joe@solidadmin.com> - 1.0.20200513-1
 - Update to 1.0.20200513
 - Makefile: remember to install all systemd units

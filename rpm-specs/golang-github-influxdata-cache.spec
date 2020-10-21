@@ -27,7 +27,7 @@ times, it doesn't need to serialize or transmit its contents over the network.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.17%{?dist}
+Release:        0.19%{?dist}
 Summary:        An in-memory key:value store/cache library for Go
 
 License:        MIT
@@ -65,6 +65,13 @@ end
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.19
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

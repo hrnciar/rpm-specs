@@ -1,6 +1,6 @@
 Name:           fedora-jam-backgrounds
 Version:        2.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Fedora Jam desktop backgrounds
 
 License:        CC0
@@ -87,6 +87,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 10 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 2.0.0-1
 - New background
 

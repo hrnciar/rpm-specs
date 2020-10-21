@@ -8,7 +8,7 @@
 
 Name:           debhelper
 Version:        12.7.3
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Helper programs for debian/rules
 
 License:        GPLv2+
@@ -168,6 +168,12 @@ make test
 %{perl_vendorlib}/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12.7.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 12.7.3-5
+- Perl 5.32 rebuild
+
 * Thu Mar 12 2020 Petr Pisar <ppisar@redhat.com> - 12.7.3-4
 - Specify all dependencies
 

@@ -6,7 +6,7 @@
 
 Name:		lincity-ng
 Version:	2.9
-Release:	0.21.%{commitdate}git%{shortcommit}%{?dist}
+Release:	0.23.%{commitdate}git%{shortcommit}%{?dist}
 License:	GPLv2+
 Summary:	City Simulation Game
 URL:		http://lincity-ng.berlios.de/
@@ -138,6 +138,13 @@ EOF
 %{_datadir}/lincity-ng/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9-0.23.20160605git7f266b1
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9-0.22.20160605git7f266b1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Tom Callaway <spot@fedoraproject.org> - 2.9-0.21.20160605git7f266b1
 - be smarter about how we make the dejavusans font symlink (bz1835504)
 

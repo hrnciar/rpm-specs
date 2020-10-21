@@ -19,7 +19,7 @@ Python 3 version.}
 
 Name:           python-%{modname}
 Version:        2.0.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Read, modify and write DICOM files with python code
 
 # There are generated data (private dict) in special format from GDCM
@@ -92,6 +92,9 @@ popd
 %doc doc/_build-3/html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Alessio <alciregi AT fedoraproject DOT org> - 2.0.0-3
 - New build
 

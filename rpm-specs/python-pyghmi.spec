@@ -19,8 +19,8 @@ incorporate the pyghmi library into a Python application.
 
 Summary: %{common_summary}
 Name: python-%{sname}
-Version: %{?version:%{version}}%{!?version:1.5.14}
-Release: 4%{?dist}
+Version: %{?version:%{version}}%{!?version:1.5.16}
+Release: 1%{?dist}
 Source0: https://tarballs.opendev.org/x/%{sname}/%{sname}-%{version}.tar.gz
 License: ASL 2.0
 Prefix: %{_prefix}
@@ -176,6 +176,12 @@ popd
 %doc doc/build/html README.md
 
 %changelog
+* Sun Aug 30 2020 Dmitry Tantsur <divius.inside@gmail.com> - 1.5.16-1
+- Updated to 1.5.16.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.14-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Dmitry Tantsur <divius.inside@gmail.com> - 1.5.14-4
 - Relax dateutil requirement in requirement.txt as well (#1835084)
 

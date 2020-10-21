@@ -1,6 +1,6 @@
 Name:           lame
 Version:        3.100
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Free MP3 audio compressor
 
 License:        GPLv2+
@@ -111,6 +111,9 @@ make test
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.100-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.100-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

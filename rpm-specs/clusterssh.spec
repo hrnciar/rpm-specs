@@ -1,8 +1,8 @@
 Name:          clusterssh
-Version:       4.15
+Version:       4.16
 Release:       1%{?dist}
 %define modname App-ClusterSSH
-%define modver v4.15
+%define modver v4.16
 Summary:       Secure concurrent multiple server terminal control
 License:       GPL+ or Artistic
 URL:           https://github.com/duncs/clusterssh
@@ -109,6 +109,15 @@ mv  %{buildroot}/%{_bindir}/clusterssh_bash_completion.dist \
 %{perl_privlib}/*
 
 %changelog
+* Mon Aug 17 2020 Filipe Rosset <rosset.filipe@gmail.com> - 4.16-1
+- Update to 4.16 fixes rhbz#1849285
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.15-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.15-2
+- Perl 5.32 rebuild
+
 * Tue May 19 2020 Filipe Rosset <rosset.filipe@gmail.com> - 4.15-1
 - Update to 4.15 fixes rhbz#1836808
 

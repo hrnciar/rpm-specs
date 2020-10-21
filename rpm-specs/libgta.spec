@@ -1,15 +1,13 @@
 Name:      libgta
-Version:   1.0.9
-Release:   4%{?dist}
+Version:   1.2.1
+Release:   1%{?dist}
 Summary:   Library that implements the Generic Tagged Arrays file format
 License:   LGPLv2+
 URL:       https://marlam.de/gta/
 Source0:   https://marlam.de/gta/releases/%{name}-%{version}.tar.xz
+BuildRequires: cmake
 BuildRequires: gcc
 BuildRequires: doxygen
-BuildRequires: bzip2-devel
-BuildRequires: zlib-devel
-BuildRequires: xz-devel
 
 %description
 Libgta is a portable library that implements the GTA (Generic Tagged Arrays)
@@ -39,24 +37,19 @@ examples for %{name}.
 %prep
 %setup -q
 
-# Preserve date for headers
-# Sent to gta-list@nongnu.org
-sed -i 's/-m 644/-pm 644/' configure
-
-
 %build
-%configure --disable-static
-make %{?_smp_mflags} V=1
+%cmake -D GTA_BUILD_STATIC_LIB:BOOL=FALSE
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 # Remove documentation; will install it with doc macro
 rm -rf %{buildroot}%{_docdir}
 
 
 %check
-make check V=1
+%ctest
 
 
 %ldconfig_scriptlets
@@ -67,7 +60,7 @@ make check V=1
 %{_libdir}/%{name}.so.*
 
 %files devel
-%{_datadir}/%{name}/cmake/FindGTA.cmake
+%{_libdir}/cmake/GTA-%{version}
 %{_libdir}/pkgconfig/gta.pc
 %{_includedir}/gta
 %{_libdir}/%{name}.so
@@ -78,6 +71,13 @@ make check V=1
 
 
 %changelog
+* Sat Aug 15 2020 Volker Fröhlich <volker27@gmx.at> - 1.2.1-1
+- New upstream release
+- Switch to the now-preferred cmake build system
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.9-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.9-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -16,7 +16,7 @@ avoids unnecessarily invalidating builds.
 
 Name:           python-%{shortname}
 Version:        0.6.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Efficiently update, split, and rearrange git commits
 
 License:        MIT
@@ -83,6 +83,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} -m pytest
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 13 2020 Ian McInerney <ian.s.mcinerney@ieee.org> - 0.6.0-1
 - Update to latest upstream release 0.6.0
 - Remove manpage location patch (fixed in 0.6.0)

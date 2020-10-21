@@ -1,7 +1,7 @@
 Name: iptstate
 Summary: A top-like display of IP Tables state table entries
 Version: 2.2.6
-Release: 10%{?dist}
+Release: 11%{?dist}
 Source: https://github.com/jaymzh/iptstate/releases/download/v%{version}/iptstate-%{version}.tar.bz2
 Patch0: iptstate-2.1-man8.patch
 Patch1: iptstate-2.2.6-no_debug.patch
@@ -53,6 +53,9 @@ make install PREFIX=%{buildroot}%{_prefix} INSTALL="install -p"
 %{_mandir}/man8/iptstate.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.6-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.6-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,8 +1,8 @@
 %global pypi_name nikola
 
 Name:           python-%{pypi_name}
-Version:        8.0.4
-Release:        10%{?dist}
+Version:        8.1.1
+Release:        2%{?dist}
 Summary:        A modular, fast, simple, static website and blog generator
 
 License:        MIT and CC0 and BSD
@@ -10,15 +10,7 @@ URL:            https://getnikola.com/
 Source0:        https://github.com/getnikola/nikola/archive/v%{version}/nikola-%{version}.tar.gz
 BuildArch:      noarch
 
-#Upstream patches for next release
-Patch0:         nikola-8.0.4-update-markdown-test.patch
-Patch1:         nikola-8.0.4-exclude-tests-install.patch
-
-
 BuildRequires:  python3-devel
-# Required to apply upstream patches
-BuildRequires:  git-core
-
 # Sphinx required for documentation
 BuildRequires:  python3dist(sphinx)
 
@@ -91,12 +83,13 @@ Requires:  python3dist(watchdog)
 Requires:  python3dist(ruamel.yaml)
 Requires:  python3dist(toml)
 
-# nikola carries these python modules
-## a modified version to dateutil instead of pytz
+# nikola carries these python modules bundled
+## a modified version to use dateutil instead of pytz
 Provides:  bundled(python3-pytzlocal)
 ## this is a small module made by Chris Warrick (a Nikola main contributor)
 Provides:  bundled(python3-datecond) = 0.1.6
-
+## this is a small module made by Chris Warrick (a Nikola main contributor)
+Provides:  bundled(python3-pygments_better_html)
 
 %description -n python3-%{pypi_name}
 Nikola is a static site and blog generator using Python. It generates sites
@@ -126,7 +119,7 @@ It also automatically builds image galleries.
 
 
 %prep
-%autosetup -S git -n nikola-%{version}
+%autosetup -n nikola-%{version}
 # Remove bundled egg-info
 rm -rf Nikola.egg-info
 
@@ -154,7 +147,6 @@ pytest
 %{python3_sitelib}/Nikola-%{version}-py%{python3_version}.egg-info
 
 
-
 %files -n python-%{pypi_name}-doc
 %license LICENSE.txt
 %doc html
@@ -169,6 +161,15 @@ pytest
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 José Matos <jamatos@fedoraproject.org> - 8.1.1-1
+- update to 8.1.1
+
+* Fri Jul  3 2020 José Matos <jamatos@fedoraproject.org> - 8.1.0-1
+- update to 8.1.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 8.0.4-10
 - Rebuilt for Python 3.9
 

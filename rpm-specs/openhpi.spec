@@ -1,7 +1,7 @@
 Summary:        Hardware Platform Interface library and tools
 Name:           openhpi
 Version:        3.8.0
-Release:        11%{?dist}
+Release:        13%{?dist}
 License:        BSD
 URL:            http://www.openhpi.org
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
@@ -149,6 +149,12 @@ make check
 
 
 %changelog
+* Thu Aug 27 2020 Josef Řídký <jridky@redhat.com> - 3.8.0-13
+- Rebuilt for new net-snmp release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Björn Esser <besser82@fedoraproject.org> - 3.8.0-11
 - Rebuild (json-c)
 

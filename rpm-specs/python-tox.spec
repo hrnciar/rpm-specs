@@ -1,13 +1,20 @@
-# Tests requiring Internet connections are disabled by default
-# pass --with internet to run them (e.g. when doing a local rebuild
-# for sanity checks before committing). Example:
-# $ mock --enable-network --with internet <SRPM>
-%bcond_with internet
+# Tests are disbaled by default, they require:
+#  a) tested tox to be installed
+#  b) internet connection
+# To test, do the following:
+#  1) Build --without tests (the default)
+#     (e.g. fedpkg mockbuild)
+#  2) Install the built package
+#     (e.g. mock install ./results_python-tox/.../python3-tox-...rpm)
+#  3) Build again --with tests (and internet connection)
+#     (e.g. fedpkg mockbuild --enable-network --no-clean-all)
+# The Fedora CI tests do this.
+%bcond_with tests
 
 
 %global pypi_name tox
 Name:           python-%{pypi_name}
-Version:        3.15.2
+Version:        3.20.0
 Release:        1%{?dist}
 Summary:        Virtualenv-based automation of test activities
 
@@ -62,13 +69,11 @@ Obsoletes:      python2-tox < 2.9.1-4
 # Replace detox (no longer supported, functionality is now in tox)
 Obsoletes:      python3-detox < 0.19-5
 
-%if %{with internet}
-# for tests
+%if %{with tests}
 BuildRequires:  python3-filelock
 BuildRequires:  python3-flaky
 BuildRequires:  python3-freezegun
 BuildRequires:  python3-packaging
-BuildRequires:  python3-pathlib2
 BuildRequires:  python3-pip
 BuildRequires:  python3-pluggy >= 0.12
 BuildRequires:  python3-poetry
@@ -76,7 +81,7 @@ BuildRequires:  python3-psutil
 BuildRequires:  python3-py
 BuildRequires:  python3-pytest
 BuildRequires:  python3-pytest-mock
-#BuildRequires:  python3-pytest-randomly -- not packaged
+BuildRequires:  python3-pytest-randomly
 BuildRequires:  python3-pytest-xdist
 BuildRequires:  python3-toml
 BuildRequires:  python3-virtualenv
@@ -84,8 +89,13 @@ BuildRequires:  python3-wheel
 BuildRequires:  (python3-importlib-metadata if python3 < 3.8)
 BuildRequires:  /usr/bin/gcc
 BuildRequires:  /usr/bin/git
+BuildRequires:  /usr/bin/pip
 BuildRequires:  /usr/bin/poetry
+BuildRequires:  /usr/bin/pytest
+BuildRequires:  /usr/bin/python
 BuildRequires:  libffi-devel
+# The tests only work if the tested tox is installed :(
+BuildRequires:  %{pypi_name} = %{version}-%{release}
 %endif
 
 %?python_enable_dependency_generator
@@ -104,6 +114,10 @@ can use for:
 %prep
 %autosetup -p1 -n %{pypi_name}-%{version}
 
+# Pathlib2 was retired in Fedora, instead of unretiring it,
+# it's enough to use pathlib instead.
+find . -type f -name "*.py" -print0 | xargs -0 sed -i "s/pathlib2/pathlib/g"
+
 # remove bundled egg-info
 rm -rf %{pypi_name}.egg-info
 
@@ -114,29 +128,9 @@ rm -rf %{pypi_name}.egg-info
 %install
 %py3_install
 
-# if internet connection available, run tests
-%if %{with internet}
+%if %{with tests}
 %check
-# there will be failures like
-#    ModuleNotFoundError: tox
-# or InterpreterNotFound: python
-# We juggle the environment variables as much as we can, but it's not perfect.
-# To workaround this:
-#    1. build --without internet
-#    2. install the new python3-tox
-#    3. build --with internet
-mkdir .path
-ln -s %{__python3} .path/python
-ln -s /usr/bin/easy_install-%{python3_version} .path/easy_install
-ln -s /usr/bin/pytest-%{python3_version} .path/pytest
-ln -s /usr/bin/pip3 .path/pip
-export PATH=$(pwd)/.path:%{buildroot}%{_bindir}:$PATH
-export PYTHONPATH=%{buildroot}%{python3_sitelib}
-export TOXENV=py%{python3_version_nodots}
-export TOX_TESTENV_PASSENV="PATH TOX_TESTENV_PASSENV"
-# TODO figure out why PEP517/518 tests and test_provision_cli_args_ignore won't pass
-pytest-3 -n auto -k "not test_verbose_isolated_build and not test_dist_exists_version_change and not test_provision_cli_args_ignore"
-rm -rf .path
+%pytest -n auto
 %endif
 
 %files -n python3-%{pypi_name}
@@ -146,6 +140,29 @@ rm -rf .path
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info/
 
 %changelog
+* Mon Sep 07 2020 Tomas Hrnciar <thrnciar@redhat.com> - 3.20.0-1
+- Update to 3.20.0
+- Fixes rhbz#1874601
+
+* Fri Aug 07 2020 Miro Hrončok <mhroncok@redhat.com> - 3.19.0-1
+- Update to 3.19.0
+- Fixes rhbz#1861313
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.18.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Miro Hrončok <mhroncok@redhat.com> - 3.18.0-1
+- Update to 3.18.0
+- Fixes rhbz#1859875
+
+* Tue Jul 14 2020 Miro Hrončok <mhroncok@redhat.com> - 3.17.0-1
+- Update to 3.17.0
+- Fixes rhbz#1856985
+
+* Thu Jul 09 2020 Miro Hrončok <mhroncok@redhat.com> - 3.16.1-1
+- Update to 3.16.1
+- Fixes rhbz#1851519
+
 * Mon Jun 08 2020 Miro Hrončok <mhroncok@redhat.com> - 3.15.2-1
 - Update to 3.15.2 (#1844689)
 

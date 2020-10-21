@@ -1,6 +1,6 @@
 Name:           codespell
 Version:        1.17.1
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Fix common misspellings in text files
 
 License:        GPLv2 and CC-BY-SA 3.0
@@ -44,6 +44,13 @@ rm -rf $RPM_BUILD_ROOT/%{python3_sitelib}/codespell_lib/tests
 %{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Bastien Nocera <bnocera@redhat.com> - 1.17.1-5
++ codespell-1.17.1-5
+- Replace Python version globs with macros to support 3.10
+
 * Fri Jun 19 2020 Bastien Nocera <bnocera@redhat.com> - 1.17.1-4
 + codespell-1.17.1-4
 - Bump version to match f32 branch

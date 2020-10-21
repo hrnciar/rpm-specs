@@ -2,7 +2,7 @@
 
 Name:           obs-service-%{service}
 Version:        1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        OBS source service: Generate rpm packaging for Rust crates
 
 License:        MIT
@@ -43,6 +43,9 @@ to generate RPM packaging to build packages for crates.
 %dir %{_localstatedir}/cache/obs/rust2rpm
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

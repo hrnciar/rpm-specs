@@ -1,14 +1,13 @@
-
-%global modname cmd2
+%global pypi_name cmd2
 
 Name:             python-cmd2
-Version:          0.9.16
-Release:          4%{?dist}
+Version:          1.3.10
+Release:          1%{?dist}
 Summary:          Extra features for standard library's cmd module
 
 License:          MIT
 URL:              https://pypi.python.org/pypi/cmd2
-Source0:          https://files.pythonhosted.org/packages/ef/77/7a13dbfc91018ad4d7ad07345c636e374a7655a17ac5b3c8c1248c4e722c/cmd2-0.9.16.tar.gz
+Source0:          %{pypi_source}
 BuildArch:        noarch
 
 
@@ -77,7 +76,7 @@ in place of cmd.Cmd.
 See docs at http://packages.python.org/cmd2/
 
 %prep
-%setup -q -n %{modname}-%{version}
+%setup -q -n %{pypi_name}-%{version}
 
 %build
 %py3_build
@@ -86,13 +85,19 @@ See docs at http://packages.python.org/cmd2/
 %py3_install
 
 
-%files -n python3-%{modname}
+%files -n python3-%{pypi_name}
 %license LICENSE
-%doc CHANGELOG.md CODEOWNERS CONTRIBUTING.md README.md
+%doc CHANGELOG.md CONTRIBUTING.md README.md CODE_OF_CONDUCT.md docs
 %{python3_sitelib}/cmd2
-%{python3_sitelib}/%{modname}-%{version}*
+%{python3_sitelib}/%{pypi_name}-%{version}*
 
 %changelog
+* Sun Sep 27 2020 Kevin Fenzi <kevin@scrye.com> - 1.3.10-1
+- Update to 1.3.10. Fixes bug #1878431
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.16-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.16-4
 - Rebuilt for Python 3.9
 

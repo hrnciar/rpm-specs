@@ -1,6 +1,6 @@
 Name:           perl-MetaCPAN-API
 Version:        0.51
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        A comprehensive, DWIM-featured API to MetaCPAN
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/MetaCPAN-API
@@ -77,6 +77,9 @@ make test
 %{_mandir}/man3/MetaCPAN::API::Source.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.51-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.51-10
 - Perl 5.32 rebuild
 

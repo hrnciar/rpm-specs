@@ -5,7 +5,7 @@
 %global crate multimap
 
 Name:           rust-%{crate}
-Version:        0.8.1
+Version:        0.8.2
 Release:        1%{?dist}
 Summary:        Multimap implementation
 
@@ -95,6 +95,16 @@ which use "serde_impl" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 0.8.2-1
+- Update to 0.8.2
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 08:11:35 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.8.1-1
 - Update to 0.8.1
 

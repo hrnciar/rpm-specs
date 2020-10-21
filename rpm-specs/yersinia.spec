@@ -1,6 +1,6 @@
 Name:           yersinia
 Version:        0.8.2
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Network protocols tester and attacker
 
 License:        GPLv2+
@@ -61,6 +61,9 @@ make %{?_smp_mflags} CFLAGS="%{optflags} -fcommon"
 %{_bindir}/%{name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 28 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.8.2-7
 - Fix FTBFS (rhbz#1800287)
 

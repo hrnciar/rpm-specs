@@ -1,6 +1,6 @@
 Name:           python-utils
 Version:        2.4.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python Utils is a module with some convenient utilities
 
 License:        BSD
@@ -65,6 +65,9 @@ rm -rf html/{.doctrees,.buildinfo,*.inv}
 %{python3_sitelib}/python_utils-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 2020 Charalampos Stratakis <cstratak@redhat.com> - 2.4.0-1
 - Update to 2.4.0 (#1809705)
 

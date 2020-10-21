@@ -1,6 +1,17 @@
+# The arm builders appear to run out of memory with LTO
+%ifarch %{arm}
+%global _lto_cflags %{nil}
+%endif
+
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 Name:           linbox
 Version:        1.6.3
-Release:        3%{?dist}
+Release:        7%{?dist}
 Summary:        C++ Library for High-Performance Exact Linear Algebra
 License:        LGPLv2+
 URL:            http://www.linalg.org/
@@ -21,7 +32,7 @@ BuildRequires:  m4rie-devel
 BuildRequires:  mpfr-devel
 BuildRequires:  ntl-devel
 BuildRequires:  ocl-icd-devel
-BuildRequires:  openblas-devel
+BuildRequires:  %{blaslib}-devel
 BuildRequires:  saclib-devel
 BuildRequires:  tinyxml2-devel
 
@@ -70,6 +81,9 @@ sed -e 's,include/saclib,&/saclib,' \
 
 # Remove spurious executable bits
 find -O3 . \( -name \*.h -o -name \*.inl \) -perm /0111 -exec chmod a-x {} +
+
+# Already removed upstream; this is never expanded
+sed -i 's/ @LINBOXSAGE_LIBS@//g' linbox.pc.in
 
 # Remove parts of the configure script that select non-default architectures
 # and ABIs, and don't nuke our compile flags
@@ -145,6 +159,19 @@ LD_LIBRARY_PATH=$PWD/linbox/.libs make check
 
 
 %changelog
+* Thu Aug 13 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.6.3-7
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.3-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 Jerry James <loganjerry@gmail.com> - 1.6.3-4
+- Rebuild for flint 2.6.0 and libfplll 5.3.3
+
 * Sat Feb  1 2020 Jerry James <loganjerry@gmail.com> - 1.6.3-3
 - Add -32bit patch to fix FTBFS on 32-bit platforms
 - Make docs arch-specific for now due to differences across platforms

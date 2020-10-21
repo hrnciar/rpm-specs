@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        1.5.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Jupyter notebook visualization tools for GAP
 BuildArch:      noarch
 
@@ -36,6 +36,7 @@ This package contains documentation for gap-pkg-%{pkgname}.
 %autosetup -p0 -n %{pkgname}-%{version}
 
 %build
+export LC_ALL=C.UTF-8
 python3 extract_examples.py
 gap < makedoc.g
 
@@ -46,6 +47,7 @@ cp -a doc examples lib tst *.g *.ipynb \
 rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}-%{version}/doc/*.{aux,bbl,blg,idx,ilg,ind,log,out,pnr,tex}
 
 %check
+export LC_ALL=C.UTF-8
 gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 
 %files
@@ -63,6 +65,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}-%{version}/examples/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

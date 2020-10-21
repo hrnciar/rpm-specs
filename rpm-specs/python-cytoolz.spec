@@ -7,8 +7,8 @@
 %endif
 
 Name:           python-%{srcname}
-Version:        0.10.1
-Release:        3%{?dist}
+Version:        0.11.0
+Release:        1%{?dist}
 Summary:        Cython implementation of the toolz package
 
 License:        BSD
@@ -148,6 +148,12 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} PYTHONDONTWRITEBYTECODE=1 py.test-%{p
 %exclude %{python3_sitearch}/.pytest_cache/
 
 %changelog
+* Wed Sep 23 2020 Orion Poplawski <orion@nwra.com> - 0.11.0-1
+- Update to 0.11.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.10.1-3
 - Rebuilt for Python 3.9
 

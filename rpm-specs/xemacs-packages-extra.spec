@@ -8,7 +8,7 @@
 
 Name:           xemacs-packages-extra
 Version:        20200216
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Collection of XEmacs lisp packages
 
 License:        GPLv2+ and GPLv3+
@@ -243,6 +243,12 @@ sed -i -e 's/^\(.*[_-]ja\.info.*\)$/%lang(ja) \1/' info-files
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200216-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 20200216-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Feb 20 2020 Jerry James <loganjerry@gmail.com> - 20200216-1
 - Update to the latest cc-mode and time packages
 - Add gdbm patch due to XEmacs switch from libdb to gdbm

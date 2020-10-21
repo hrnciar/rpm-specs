@@ -3,7 +3,7 @@
 
 # https://github.com/casbin/casbin
 %global goipath         github.com/casbin/casbin/v2
-Version:                2.7.1
+Version:                2.13.1
 
 %gometa
 
@@ -43,6 +43,34 @@ BuildRequires:  golang(github.com/Knetic/govaluate)
 %gopkgfiles
 
 %changelog
+* Tue Oct 06 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.13.1-1
+- Update to latest upstream release 2.13.1
+
+* Wed Sep 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.13.0-1
+- Update to latest upstream release 2.13.0
+
+* Fri Sep 25 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.12.0-1
+- Update to latest upstream release 2.12.0
+
+* Tue Sep 15 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.11.3-1
+- Update to latest upstream release 2.11.3
+
+* Tue Aug 18 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.10.0-1
+- Update to latest upstream release 2.10.0
+
+* Sun Aug 09 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.9.0-1
+- Update to latest upstream release 2.9.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.6-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 20:33:45 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.8.6-1
+- Update to 2.8.6
+
 * Wed Jun 17 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.7.1-1
 - Update to latest upstream release 2.7.1 (rhbz#1741998)
 

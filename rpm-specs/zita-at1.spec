@@ -2,7 +2,7 @@
 Summary:       Audio autotuner for JACK
 Name:          zita-at1
 Version:       0.6.2
-Release:       4%{?dist}
+Release:       5%{?dist}
 License:       GPLv2+
 URL:           http://kokkinizita.linuxaudio.org/
 Source0:       http://kokkinizita.linuxaudio.org/linuxaudio/downloads/%{name}-%{version}.tar.bz2
@@ -58,6 +58,9 @@ install -m 644 %{_builddir}/%{name}-%{version}/doc/redzita.png \
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

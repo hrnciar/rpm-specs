@@ -1,6 +1,6 @@
 Name:		jday
 Version:        2.4
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        A simple command to convert calendar dates to julian dates
 License:        BSD
 URL:            http://sourceforge.net/projects/jday/
@@ -52,6 +52,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/jday.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

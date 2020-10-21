@@ -3,8 +3,8 @@
 %global minorversion 0.2
 
 Name:           tumbler
-Version:        0.2.8
-Release:        3%{?dist}
+Version:        0.2.9
+Release:        1%{?dist}
 Summary:        D-Bus service for applications to request thumbnails
 
 License:        GPLv2+ and LGPLv2+
@@ -108,6 +108,12 @@ find %{buildroot} -type f -name "*.la" -delete
 
 
 %changelog
+* Thu Aug 06 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.2.9-1
+- Update to 0.2.9
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.8-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

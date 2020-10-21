@@ -2,7 +2,7 @@
 
 Name:           mingw-libglade2
 Version:        2.6.4
-Release:        27%{?dist}
+Release:        29%{?dist}
 Summary:        MinGW Windows Libglade2 library
 
 License:        LGPLv2+
@@ -140,6 +140,12 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 
 
 %changelog
+* Wed Aug 12 13:42:01 GMT 2020 Sandro Mani <manisandro@gmail.com> - 2.6.4-29
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.4-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 2.6.4-27
 - Rebuild (gettext)
 

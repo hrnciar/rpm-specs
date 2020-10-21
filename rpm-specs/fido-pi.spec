@@ -1,10 +1,12 @@
+%global __cmake_in_source_build 1
+
 %global  checkout   be99c1cea6c5e2cf012fdaef8910176cde9ac2d3
 %global  date       20150925
 
 Name:    fido-pi
 Summary: Protein identification in MS/MS proteomics
 Version: 0
-Release: 0.15.%{date}git%(echo %{checkout} | cut -c-6)%{?dist}
+Release: 0.18.%{date}git%(echo %{checkout} | cut -c-6)%{?dist}
 License: MIT
 URL:     https://github.com/hendrikweisser/Fido
 Source0: https://github.com/hendrikweisser/Fido/archive/%{checkout}.zip#/Fido-%{checkout}.zip
@@ -20,6 +22,7 @@ identifications based on database searches of tandem mass spectra.
 %setup -q -n Fido-%{checkout}
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 mkdir -p build && pushd build
 %cmake -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
  -DCMAKE_SKIP_RPATH:BOOL=YES -DCMAKE_SKIP_INSTALL_RPATH:BOOL=YES -DCMAKE_BINARY_DIR:PATH=%{_bindir} ..
@@ -38,6 +41,16 @@ install -pm 755 build/FidoChooseParameters %{buildroot}%{_bindir}
 %{_bindir}/Fido*
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 0-0.18.20150925gitbe99c1
+- Force C++14 as this code is not C++17 ready
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.17.20150925gitbe99c1
+- Second attempt - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+- Enable cmake_in_source_build
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.16.20150925gitbe99c1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.15.20150925gitbe99c1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Summary:		Generic logging layer
 Name:		vanessa_logger
 Version:		0.0.10
-Release:		15%{?dist}
+Release:		16%{?dist}
 License:		LGPLv2+
 URL:			http://www.vergenet.net/linux/vanessa/
 Source0:		http://www.vergenet.net/linux/vanessa/download/vanessa_logger/%{version}/%{name}-%{version}.tar.bz2
@@ -77,6 +77,9 @@ rm -f %{buildroot}%{_libdir}/*.*a
 %doc sample/*.c sample/*.h README
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.10-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.10-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

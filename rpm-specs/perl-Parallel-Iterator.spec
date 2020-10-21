@@ -1,6 +1,6 @@
 Name:           perl-Parallel-Iterator
 Version:        1.00
-Release:        26%{?dist}
+Release:        27%{?dist}
 Summary:        Simple parallel execution
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Parallel-Iterator
@@ -62,6 +62,9 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.00-26
 - Perl 5.32 rebuild
 

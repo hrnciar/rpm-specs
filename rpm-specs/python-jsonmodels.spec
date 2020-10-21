@@ -10,7 +10,7 @@
 Summary: Create Python structures that are converted to, or read from JSON
 Name: python-jsonmodels
 Version: 2.4
-Release: 6%{?dist}
+Release: 7%{?dist}
 Source0: https://github.com/beregond/%{pypi_name}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 License: BSD
 BuildArch: noarch
@@ -72,6 +72,9 @@ PYTHONPATH=$(pwd) %{__python3} setup.py test
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.4-6
 - Rebuilt for Python 3.9
 

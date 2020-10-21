@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.56.%{checkout}%{?dist}
+Release: 0.58.%{checkout}%{?dist}
 License: GPLv2+
 URL: http://sourceforge.net/projects/net-tools/
 
@@ -36,6 +36,7 @@ Patch21: net-tools-ifconfig-EiB.patch
 Patch22: net-tools-timer-man.patch
 Patch23: net-tools-interface-name-len.patch
 Patch24: net-tools-correct-exit-code.patch
+Patch25: net-tools-spelling-error.patch
 
 BuildRequires: bluez-libs-devel
 BuildRequires: gettext, libselinux
@@ -69,6 +70,7 @@ cp %SOURCE8 ./man/en_US
 %patch22 -p1 -b .timer-man
 %patch23 -p1 -b .interface-name-len
 %patch24 -p1 -b .exit-codes
+%patch25 -p1 -b .spelling
 
 touch ./config.h
 
@@ -141,6 +143,12 @@ install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Thu Aug 06 2020 Michal Ruprich <michalruprich@gmail.com> - 2.0-0.58.20160912git
+- Resolves: #1835155 - netstat says "packetes" instead of "packets"
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-0.57.20160912git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-0.56.20160912git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

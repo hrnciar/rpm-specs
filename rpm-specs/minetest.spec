@@ -1,6 +1,6 @@
 Name:     minetest
-Version:  5.2.0
-Release:  2%{?dist}
+Version:  5.3.0
+Release:  3%{?dist}
 Summary:  Multiplayer infinite-world block sandbox with survival mode
 
 License:  LGPLv2+ and CC-BY-SA
@@ -27,7 +27,7 @@ BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  cmake >= 2.6.0
 BuildRequires:  irrlicht-devel
-BuildRequires:  bzip2-devel gettext-devel sqlite-devel
+BuildRequires:  bzip2-devel gettext-devel sqlite-devel zlib-devel
 BuildRequires:  libpng-devel libjpeg-turbo-devel libXxf86vm mesa-libGL-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  systemd
@@ -38,16 +38,17 @@ BuildRequires:  libcurl-devel
 BuildRequires:  luajit-devel
 BuildRequires:  leveldb-devel
 BuildRequires:  gmp-devel
-BuildRequires:	libappstream-glib
+BuildRequires:  libappstream-glib
 BuildRequires:  freetype-devel
 
 Requires:       %{name}-server = %{version}-%{release}
+Requires:       %{name}-data-game = %{version}-%{release}
 Requires:       hicolor-icon-theme
 
-%description 
-Game of mining, crafting and building in the infinite world of cubic
-blocks with optional hostile creatures, features both single and the
-network multiplayer mode. There are no in-game sounds yet
+%description
+Game of mining, crafting and building in the infinite world of cubic blocks with
+optional hostile creatures, features both single and the network multiplayer
+mode, mods. Public multiplayer servers are available.
 
 %package server
 Summary:  Minetest multiplayer server
@@ -56,16 +57,32 @@ Requires(pre):    shadow-utils
 Requires(post):   systemd
 Requires(preun):  systemd
 Requires(postun): systemd
+Requires:         %{name}-data-common = %{version}-%{release}
+Recommends:       %{name}-data-game = %{version}-%{release}
 
 %description server
-Minetest multiplayer server. This package does not require X Window System
+Minetest multiplayer server. This package does not require X Window System.
+
+%package data-common
+Summary:  Minetest common data between client and server
+
+%description data-common
+Minetest common data. This package is shared between minetest server and client.
+
+%package data-game
+Summary:  Minetest default and minimal game data
+Requires: %{name}-data-common = %{version}-%{release}
+
+%description data-game
+Minetest default game data. This package is optional for a server if you install
+your own game.
 
 %prep
 %autosetup -p1
 
 pushd games
 tar xf %{SOURCE6}
-mv %{name}_game-5.2.0 %{name}_game
+mv %{name}_game-%{version} %{name}_game
 popd
 
 cp %{SOURCE7} doc/
@@ -78,6 +95,9 @@ find . -name .travis.yml -print -delete
 find . -name .luacheckrc -print -delete
 
 %build
+%ifarch aarch64
+%define _lto_cflags %{nil}
+%endif
 # -DENABLE_FREETYPE=ON needed for Unicode in text chat
 %cmake -DENABLE_CURL=TRUE           \
        -DENABLE_LEVELDB=TRUE        \
@@ -89,11 +109,11 @@ find . -name .luacheckrc -print -delete
        -DENABLE_FREETYPE=TRUE       \
        -DBUILD_SERVER=TRUE          \
        -DJSON_INCLUDE_DIR=/usr/include/json \
-.
-%make_build
+%{nil}
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 # Add desktop file
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
@@ -150,13 +170,15 @@ exit 0
 %systemd_preun %{name}@default.service
 
 %postun server
-%systemd_postun_with_restart %{name}@default.service 
+%systemd_postun_with_restart %{name}@default.service
 
 %files -f %{name}.lang
 %license doc/lgpl-2.1.txt
 %doc README.fedora
 %{_bindir}/%{name}
-%{_datadir}/%{name}/
+%{_datadir}/%{name}/client
+%{_datadir}/%{name}/fonts
+%{_datadir}/%{name}/textures
 %{_datadir}/applications/%{name}.desktop
 %exclude %{_datadir}/applications/net.%{name}.%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
@@ -176,7 +198,26 @@ exit 0
 %attr(-,minetest,minetest)%{_sysconfdir}/sysconfig/%{name}/
 %{_mandir}/man6/%{name}server.*
 
+%files data-common
+%license doc/lgpl-2.1.txt
+%{_datadir}/%{name}/builtin
+
+%files data-game
+%license doc/lgpl-2.1.txt
+%{_datadir}/%{name}/games
+
+
 %changelog
+* Mon Aug 10 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 5.3.0-3
+- Disable LTO only for aarch64
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Aleksandra Fedorova <alpha@bookwar.info> - 5.3.0-1
+- Update to new upstream version 5.3.0
+- Add -data subpackages (patch by Olivier Samyn)
+
 * Sat May 30 2020 Björn Esser <besser82@fedoraproject.org> - 5.2.0-2
 - Rebuild (jsoncpp)
 

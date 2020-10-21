@@ -1,8 +1,8 @@
 %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 Name:           lv2
-Version:        1.16.0
-Release:        3%{?dist}
+Version:        1.18.0
+Release:        1%{?dist}
 Summary:        Audio Plugin Standard
 
 # lv2specgen template.html is CC-AT-SA
@@ -17,7 +17,10 @@ BuildRequires:  gcc
 BuildRequires:  python3-devel
 BuildRequires:  python3-pygments
 Buildrequires:  python3-rdflib
+Buildrequires:  python3-markdown
+Buildrequires:  python3-lxml
 Buildrequires:  asciidoc
+Buildrequires:  cairo-devel >= 1.8.10
 
 # this package replaces lv2core 
 Provides:       lv2core = 6.0-4
@@ -44,6 +47,7 @@ Summary:        API for the LV2 Audio Plugin Standard
 
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       python3-rdflib
+Requires:       python3-markdown
 Provides:       lv2core-devel = 6.0-4
 Obsoletes:      lv2core-devel < 6.0-4
 Provides:       lv2-ui-devel = 2.4-5
@@ -80,12 +84,12 @@ sed -i '1s|^#!.*|#!%{__python3}|' lv2specgen/lv2specgen.py
 %build
 %set_build_flags
 %{__python3} waf configure -vv --prefix=%{_prefix} --libdir=%{_libdir} \
-  --docs --docdir=%{_pkgdocdir} --lv2dir=%{_libdir}/lv2
+  --docs --docdir=%{_pkgdocdir} --lv2dir=%{_libdir}/lv2 --no-check-links
 %{__python3} waf -vv %{?_smp_mflags}
 
 %install
-DESTDIR=%buildroot %{__python3} waf -vv install
-mv %{buildroot}%{_pkgdocdir}/%{name}/lv2plug.in/* %{buildroot}%{_pkgdocdir}
+DESTDIR=%{buildroot} %{__python3} waf -vv install
+mv %{buildroot}%{_pkgdocdir}/%{name}/* %{buildroot}%{_pkgdocdir}
 find %{buildroot}%{_pkgdocdir} -type d -empty | xargs rmdir
 for f in COPYING NEWS README.md build/plugins/book.{txt,html} ; do
     install -p -m0644 $f %{buildroot}%{_pkgdocdir}
@@ -120,6 +124,13 @@ done
 %{_pkgdocdir}/
 
 %changelog
+* Wed Aug 26 2020 Guido Aulisi <guido.aulisi@gmail.com> - 1.18.0-1
+- Update to 1.18.0
+- Add missing BR
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -162,7 +173,7 @@ done
 - Provide debuginfo for the examples
 - Use hardened LDFLAGS
 - Enable syntax highlighting in doc subpackage
-- Remove deprecated Groups tags
+- Remove deprecated Group tags
 
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
@@ -177,7 +188,7 @@ done
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
 * Tue Aug 19 2014 Brendan Jones <brendan.jones.it@gmail.com> 1.10.0-2
-- Ad miising libsndfile
+- Add missing libsndfile
 
 * Tue Aug 19 2014 Brendan Jones <brendan.jones.it@gmail.com> 1.10.0-1
 - Update to 1.10.0

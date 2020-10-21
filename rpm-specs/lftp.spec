@@ -1,6 +1,6 @@
 Summary:	A sophisticated file transfer program
 Name:		lftp
-Version:	4.9.1
+Version:	4.9.2
 Release:	1%{?dist}
 License:	GPLv3+
 Source0:	http://lftp.yar.ru/ftp/%{name}-%{version}.tar.xz
@@ -91,6 +91,12 @@ desktop-file-install	\
 
 
 %changelog
+* Wed Aug 19 2020 Michal Ruprich <michalruprich@gmail.com> - 4.9.2-1
+- New version 4.9.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 03 2020 Michal Ruprich <michalruprich@gmail.com> - 4.9.1-1
 - New version 4.9.1
 

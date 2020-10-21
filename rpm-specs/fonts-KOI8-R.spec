@@ -3,7 +3,7 @@
 
 Name:          fonts-%{ISONAME}
 Version:       1.0
-Release:       30%{?dist}
+Release:       31%{?dist}
 Summary:       Russian and Ukrainian language fonts for the X Window System
 License:       MIT
 #URL:          <none yet>
@@ -89,6 +89,9 @@ ln -sf %{_datadir}/fonts/%{ISONAME}/100dpi $RPM_BUILD_ROOT%{catalogue}/%{ISONAME
 %{_datadir}/fonts/%{ISONAME}/100dpi
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

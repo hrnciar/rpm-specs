@@ -14,7 +14,7 @@ A Tool for Domain Flyovers.}
 %global godocs          README.md CHANGELOG.md
 
 Name:           aquatone
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Tool for Domain Flyovers
 
 License:        MIT
@@ -61,6 +61,13 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 27 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.7.0-1
 - Initial package for Fedora
 

@@ -1,6 +1,8 @@
+%global __cmake_in_source_build 1
+
 Name:      spatialindex
 Version:   1.9.3
-Release:   2%{?dist}
+Release:   4%{?dist}
 Summary:   Spatial index library 
 License:   MIT
 URL:       http://libspatialindex.org
@@ -55,6 +57,12 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 1.9.3-3
+- Use __cmake_in_source_build
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,3 @@
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print (get_python_lib())")}
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print (get_python_lib(1))")}
-
 %{!?dmlite_test: %global dmlite_tests 0}
 
 # systemd definition, to do the right thing if we need to restart daemons
@@ -70,12 +67,18 @@
   %global python2_pkgversion 2
 %endif
 
+# Handle new cmake macros
+
+%if %{?fedora}%{!?fedora:99} <= 32 || %{?rhel}%{!?rhel:0} >= 7
+  %undefine __cmake_in_source_build
+  %undefine __cmake3_in_source_build
+%endif
 
 %{!?_httpd_mmn: %{expand: %%global _httpd_mmn %%(cat %{_includedir}/httpd/.mmn || echo 0-0)}}
 
 Name:					dmlite
 Version:				1.13.99
-Release:				7%{?dist}
+Release:				8%{?dist}
 Summary:				Lcgdm grid data management and storage framework
 License:				ASL 2.0
 URL:					https://gitlab.cern.ch/lcgdm/dmlite
@@ -767,11 +770,11 @@ This package provides the modules for the DPM configuration via puppet
 	%cmake3 . -DCMAKE_INSTALL_PREFIX=/ -DRUN_ONLY_STANDALONE_TESTS=ON -DOVERWRITE_CONFIGFILES=ON
 %endif
 
-make %{?_smp_mflags}
-make doc
+%{cmake_build} %{?_smp_mflags}
+make -C %{_vpath_builddir} doc
 
 %check
-pushd tests
+pushd %{_vpath_builddir}/tests
 LD_LIBRARY_PATH=~+/../src/ ctest -V
 if [ $? -ne 0 ]; then
     exit 1
@@ -779,6 +782,8 @@ fi
 popd
 
 %install
+pushd %{_vpath_builddir}
+
 rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_libdir}
 
@@ -795,6 +800,8 @@ make install DESTDIR=%{buildroot}
 %if %{?dmlite_tests} == 0
 rm -rf %{buildroot}/%{_libdir}/dmlite/test
 %endif
+
+popd
 
 %define basefolder %{buildroot}/%{_prefix}/share/dmlite/puppet/modules
 mkdir -p %{basefolder}
@@ -820,6 +827,7 @@ mkdir -p %{basefolder}/stdlib
 tar zxvf src/puppet/puppetlabs-stdlib-*.tar.gz -C %{basefolder}/stdlib --strip-components 1
 mkdir -p %{basefolder}/concat
 tar zxvf src/puppet/puppetlabs-concat-*.tar.gz  -C %{basefolder}/concat/ --strip-components 1
+
 
 ## for dpm-xrootd
 ln -s libXrdDPMFinder-4.so %{buildroot}%{_libdir}/libXrdDPMFinder.so-4.3
@@ -927,6 +935,9 @@ install -p -d -m 755 %{buildroot}%{_localstatedir}/log/dpm-gsiftp
 %{_prefix}/share/dmlite/puppet/modules
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.99-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Jonathan Wakely <jwakely@redhat.com> - 1.13.99-7
 - Rebuilt for Boost 1.73
 

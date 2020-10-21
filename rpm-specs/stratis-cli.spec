@@ -1,5 +1,5 @@
 Name:           stratis-cli
-Version:        2.0.1
+Version:        2.1.1
 Release:        2%{?dist}
 Summary:        Command-line tool for interacting with the Stratis daemon
 
@@ -11,7 +11,7 @@ BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 BuildRequires:  /usr/bin/a2x
 # It runs without, but totally useless
-Requires:       (stratisd >= 2.0.0 with stratisd < 3.0.0)
+Requires:       (stratisd >= 2.1.0 with stratisd < 3.0.0)
 
 # stratisd only available on certain arches
 ExclusiveArch:  %{rust_arches} noarch
@@ -52,6 +52,15 @@ install -Dpm0644 -t %{buildroot}%{_mandir}/man8 docs/stratis.8
 %{python3_sitelib}/stratis_cli-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 mulhern <amulhern@redhat.com> - 2.1.1-1
+- Update to 2.1.1
+
+* Thu Jul 9 2020 mulhern <amulhern@redhat.com> - 2.1.0-1
+- Update to 2.1.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.1-2
 - Rebuilt for Python 3.9
 

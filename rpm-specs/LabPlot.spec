@@ -7,7 +7,7 @@
 
 Name:		LabPlot
 Version:	2.7.0
-Release:	1%{?dist}
+Release:	6%{?dist}
 Summary:	Data Analysis and Visualization
 
 License:	GPLv2+
@@ -53,14 +53,12 @@ for easily viewing the project files in Konqueror.
 %setup -q -n %{genname}-%{version}
 
 %build
-mkdir build
-pushd build
-%{cmake_kf5} ..
-%make_build
-popd
+%cmake_kf5
+
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C build
+%cmake_install
 
 %find_lang %{genname}2 --all-name --with-html
 
@@ -84,6 +82,23 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.kde.%
 %{_sysconfdir}/xdg/%{genname}2_themes.knsrc
 
 %changelog
+* Wed Oct 07 2020 Mohan Boddu <mboddu@bhujji.com> - 2.7.0-6
+- Rebuilt for cantor soname-bump
+
+* Fri Aug 21 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.7.0-5
+- rebuild (cantor)
+- adapt to new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 2.7.0-2
+- Rebuild for hdf5 1.10.6
+
 * Sun Feb 23 2020 Christian Dersch <lupinix@fedoraproject.org> - 2.7.0-1
 - new version
 

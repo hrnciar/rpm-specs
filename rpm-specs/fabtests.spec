@@ -1,5 +1,5 @@
 Name:           fabtests
-Version:        1.10.1
+Version:        1.11.1
 Release:        1%{?dist}
 Summary:        Test suite for libfabric API
 # include/jsmn.h and common/jsmn.c are licensed under MIT.
@@ -40,6 +40,24 @@ rm -f %{buildroot}%{_libdir}/*.la
 %license COPYING
 
 %changelog
+* Sun Oct 11 2020 Honggang Li <honli@redhat.com> - 1.11.1
+- Rebase to upstream release v1.11.1
+
+* Fri Oct 09 2020 Honggang Li <honli@redhat.com> - 1.11.1rc1-1
+- Rebase to upstream release v1.11.1rc1
+
+* Mon Aug 17 2020 Honggang Li <honli@redhat.com> - 1.11.0-1
+- Rebase to upstream release v1.11.0
+
+* Wed Aug 05 2020 Honggang Li <honli@redhat.com> - 1.11.0rc2-1
+- Rebase to upstream release v1.11.0rc2
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.0rc1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Honggang Li <honli@redhat.com> - 1.11.0rc1-1
+- Rebase to upstream release v1.11.0rc1
+
 * Sat May 09 2020 Honggang Li <honli@redhat.com> - 1.10.1-1
 - Rebase to upstream release v1.10.1
 

@@ -1,7 +1,7 @@
 %global checkout 20130104cvs
 Name:           rachota
 Version:        2.3
-Release:        18.%{checkout}%{?dist}
+Release:        20.%{checkout}%{?dist}
 Summary:        Straightforward timetracking
 
 License:        CDDL
@@ -78,6 +78,12 @@ desktop-file-install --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{SOURCE1}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3-20.20130104cvs
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 2.3-19.20130104cvs
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3-18.20130104cvs
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

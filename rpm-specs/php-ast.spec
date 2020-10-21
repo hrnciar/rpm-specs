@@ -24,7 +24,7 @@
 
 Summary:       Abstract Syntax Tree
 Name:          php-ast
-Version:       1.0.6
+Version:       1.0.10
 Release:       1%{?dist}
 License:       BSD
 URL:           https://github.com/%{gh_owner}/%{gh_project}
@@ -172,13 +172,28 @@ REPORT_EXIT_STATUS=1 \
 
 
 %changelog
-* Mon Dec 24 2020 Remi Collet <remi@remirepo.net> - 1.0.6-1
+* Mon Sep 14 2020 Remi Collet <remi@remirepo.net> - 1.0.10-1
+- update to 1.0.10
+
+* Fri Sep  4 2020 Remi Collet <remi@remirepo.net> - 1.0.9-1
+- update to 1.0.9
+
+* Mon Aug 10 2020 Remi Collet <remi@remirepo.net> - 1.0.8-1
+- update to 1.0.8
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Remi Collet <remi@remirepo.net> - 1.0.7-1
+- update to 1.0.7
+
+* Mon Feb 24 2020 Remi Collet <remi@remirepo.net> - 1.0.6-1
 - update to 1.0.6
 
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
-* Thu Nov 27 2019 Remi Collet <remi@remirepo.net> - 1.0.5-1
+* Wed Nov 27 2019 Remi Collet <remi@remirepo.net> - 1.0.5-1
 - update to 1.0.5
 
 * Tue Nov 12 2019 Remi Collet <remi@remirepo.net> - 1.0.4-1

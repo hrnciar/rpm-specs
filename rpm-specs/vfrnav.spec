@@ -1,6 +1,6 @@
 Name:           vfrnav
 Version:        20200429
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        VFR/IFR Navigation
 
 License:        GPLv2+
@@ -462,6 +462,12 @@ fi
 %endif
 
 %changelog
+* Sun Aug 09 2020 Thomas Sailer <t.sailer@alumni.ethz.ch> - 20200429-3
+- rebuild for libpqxx
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200429-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Björn Esser <besser82@fedoraproject.org> - 20200429-1
 - update to 20200429
 

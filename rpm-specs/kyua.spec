@@ -3,7 +3,7 @@
 
 Name:           kyua
 Version:        0.13
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Testing framework for infrastructure software
 
 License:        BSD
@@ -78,6 +78,9 @@ HOME=$(pwd)/check %make_build check %{_make_args} || :
 %{_libexecdir}/%{name}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

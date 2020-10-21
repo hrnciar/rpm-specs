@@ -2,8 +2,8 @@
 
 Summary: Converts LaTeX documents to HTML
 Name: latex2html
-Version: 2019.2
-Release: 5%{?dist}
+Version: 2020.2
+Release: 2%{?dist}
 License: GPLv2+
 URL: https://github.com/latex2html/latex2html/releases
 # main latex2html source
@@ -12,10 +12,9 @@ Source1: cfgcache.pm
 Source2: %{name}-manpages.tar.gz
 # support for Japanese
 # http://takeno.iee.niit.ac.jp/~shige/TeX/latex2html/
-Source3: http://takeno.iee.niit.ac.jp/~shige/TeX/latex2html/data2/l2h-2018.2-jp20190902.tar.gz
+Source3: http://takeno.iee.niit.ac.jp/~shige/TeX/latex2html/data2/l2h-2020-jp20200515.tar.gz
 Patch1: latex2html-2018.2-teTeX-l2h-config.patch
 Patch4: latex2html-2002-2-1-SHLIB.patch
-Patch5: latex2html-2002-2-1-gsfont.patch
 Requires: tex(latex), tex(dvips), tex(url.sty), tex(preview.sty), netpbm-progs
 BuildRequires: perl-interpreter >= 5.003, perl-generators, ghostscript >= 4.03, netpbm-progs >= 9.21, tex(latex)
 BuildRequires: perl(Carp), perl(Config), perl(Cwd), perl(DB), perl(Exporter),
@@ -40,9 +39,6 @@ pushd %{name}-%{version}
 
 # fix SHLIBDIR
 %patch4 -p1 -b .shlib
-
-# don't require the font directory to be ended with PATH/fonts
-%patch5 -p1 -b .gsfont
 
 # remove all platforms we don't need
 for i in Dos Mac OS2 Win32; do
@@ -220,6 +216,12 @@ make -C %{name}-%{version}JA check
 %{_mandir}/man1/pstoimg.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Jindrich Novy <jnovy@redhat.com> - 2020.2-1
+- update to 2020.2 and l2h-2020
+
 * Tue Mar 24 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2019.2-5
 - Add perl dependencies needed for build
 

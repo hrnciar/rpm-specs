@@ -2,7 +2,7 @@
 
 Name: librvngabw
 Version: 0.0.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: An AbiWord document generator library
 
 License: LGPLv2+ or MPLv2.0
@@ -67,6 +67,9 @@ rm -rf %{buildroot}/%{_docdir}/%{name}
 %doc docs/doxygen/html
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 05 2020 David Tardon <dtardon@redhat.com> - 0.0.3-1
 - new upstream release
 

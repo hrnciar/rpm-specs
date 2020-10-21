@@ -10,12 +10,13 @@
 
 Name:           tcpreplay
 Version:        4.3.3
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Replay captured network traffic
 
 License:        GPLv3
 URL:            http://tcpreplay.appneta.com/
 Source:         https://github.com/appneta/tcpreplay/releases/download/v%{version}/tcpreplay-%{version}.tar.xz
+Patch0:         tcpreplay-4.3.3-tcpprep-heapoverflow.patch
 
 BuildRequires:  gcc
 BuildRequires:  %{pcapdep} >= 0.8.0, tcpdump
@@ -63,6 +64,12 @@ capture files.
 %{_bindir}/*
 
 %changelog
+* Wed Oct 21 2020 Bojan Smojver <bojan@rexursive com> - 4.3.3-2
+- CVE-2020-24265
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Bojan Smojver <bojan@rexursive com> - 4.3.3-1
 - bump up to 4.3.3
 - CVE-2020-12740

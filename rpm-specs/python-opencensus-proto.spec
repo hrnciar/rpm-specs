@@ -7,7 +7,7 @@ Java). The API interface types are defined using protos to ensure consistency
 and interoperability for the different implementations.}
 
 Name:           python-opencensus-proto
-Version:        0.2.1
+Version:        0.3.0
 Release:        2%{?dist}
 Summary:        Language Independent Interface Types For OpenCensus
 
@@ -59,6 +59,12 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 0.3.0-1
+- Update to 0.3.0
+
 * Sun May 31 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 0.2.1-2
 - Rebuild for Python 3.9
 

@@ -6,17 +6,17 @@
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    dd8de5620ec436d61cc8535e11f2879146ebc16b
+%global gh_commit    ce05b56aba72be67df862e397189d29b151801ce
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global c_vendor     tecnickcom
 %global gh_owner     tecnickcom
 %global gh_project   tc-lib-barcode
 %global php_project  %{_datadir}/php/Com/Tecnick/Barcode
-%global with_tests   0%{!?_without_tests:1}
+%bcond_without       tests
 
 Name:           php-%{gh_owner}-%{gh_project}
-Version:        1.15.20
-Release:        2%{?dist}.1
+Version:        1.16.1
+Release:        2%{?dist}
 Summary:        PHP library to generate linear and bidimensional barcodes
 
 License:        LGPLv3+
@@ -24,15 +24,11 @@ URL:            https://github.com/%{gh_owner}/%{gh_project}
 Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit}/%{gh_project}-%{version}-%{?gh_short}.tar.gz
 
 BuildArch:      noarch
-%if %{with_tests}
+%if %{with tests}
 # For tests
-%if 0%{?fedora} >= 28 || 0%{?rhel} >= 8
 %global phpunit %{_bindir}/phpunit7
-%else
-%global phpunit %{_bindir}/phpunit
-%endif
 BuildRequires:  %{phpunit}
-BuildRequires:  php(language) >= 5.3
+BuildRequires:  php(language) >= 5.4
 %if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
 BuildRequires: (php-composer(%{c_vendor}/tc-lib-color) >= 1.12.13 with php-composer(%{c_vendor}/tc-lib-color) <  2)
 %else
@@ -49,13 +45,13 @@ BuildRequires:  php-pecl-imagick
 %endif
 
 # From composer.json, "require": {
-#        "php": ">=5.3"
+#        "php": ">=5.4"
 #        "ext-bcmath": "*",
 #        "ext-date": "*",
 #        "ext-gd": "*",
 #        "ext-pcre": "*",
 #        "tecnickcom/tc-lib-color": "^1.12.15"
-Requires:       php(language) >= 5.3
+Requires:       php(language) >= 5.4
 Requires:       php-bcmath
 Requires:       php-ctype
 Requires:       php-date
@@ -113,7 +109,7 @@ cp -p  resources/autoload.php \
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 cat <<EOF | tee vendor/autoload.php
 <?php
@@ -123,7 +119,7 @@ require __DIR__ . '/../test/TestStrings.php';
 EOF
 
 ret=0
-for cmdarg in "php %{phpunit}" php71 php72 php73 php74; do
+for cmdarg in "php %{phpunit}" php72 php73 php74 php80; do
    if which $cmdarg; then
       set $cmdarg
       $1 ${2:-%{_bindir}/phpunit7} --no-coverage --verbose || ret=1
@@ -144,6 +140,12 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Remi Collet <remi@remirepo.net> - 1.16.1-1
+- update to 1.16.1
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.20-2.1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

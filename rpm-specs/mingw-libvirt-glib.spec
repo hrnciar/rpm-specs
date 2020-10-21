@@ -2,7 +2,7 @@
 
 Name:           mingw-libvirt-glib
 Version:        3.0.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows libvirt-glib virtualization library
 
 License:        LGPLv2+
@@ -186,6 +186,12 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 
 
 %changelog
+* Wed Aug 12 13:43:50 GMT 2020 Sandro Mani <manisandro@gmail.com> - 3.0.0-5
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 3.0.0-3
 - Rebuild (gettext)
 

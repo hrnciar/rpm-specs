@@ -5,8 +5,8 @@
 #global _with_ffmpeg 1
 
 Name:           guacamole-server
-Version:        1.1.0
-Release:        6%{?dist}
+Version:        1.2.0
+Release:        2%{?dist}
 Summary:        Server-side native components that form the Guacamole proxy
 License:        ASL 2.0
 URL:            http://guac-dev.org/
@@ -234,6 +234,12 @@ exit 0
 %attr(750,%{username},%{username}) %{_sharedstatedir}/guacd
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Simone Caronni <negativo17@gmail.com> - 1.2.0-1
+- Update to 1.2.0.
+
 * Fri May 22 2020 Simone Caronni <negativo17@gmail.com> - 1.1.0-6
 - Rebuild for updated FreeRDP.
 

@@ -1,6 +1,6 @@
 Name:           gnome-epub-thumbnailer
 Version:        1.6
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Thumbnailers for EPub and MOBI books
 
 License:        GPLv2+
@@ -42,6 +42,13 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

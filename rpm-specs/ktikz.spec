@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:           ktikz
 Version:        0.12
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        KDE Editor for the TikZ language
 
 # ktikz/qtikz are GPLv2+, documentation is GFDL
@@ -96,11 +98,8 @@ This package contains the Qt version of the program.
 
 %build
 # Build ktikz
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%cmake_kf5 ..
-popd
-%make_build -C %{_target_platform}
+%cmake_kf5
+%cmake_build
 
 # Build qtikz
 %qmake_qt5
@@ -109,7 +108,7 @@ popd
 
 %install
 # Install ktikz
-make install/fast DESTDIR=$RPM_BUILD_ROOT -C %{_target_platform}
+%cmake_install
 # Install qtikz
 %make_install INSTALL_ROOT=$RPM_BUILD_ROOT
 
@@ -176,6 +175,9 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/metainfo/qtikz.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

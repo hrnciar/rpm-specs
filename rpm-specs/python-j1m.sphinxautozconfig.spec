@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.1.0
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Sphinx support for ZConfig
 
 License:        MIT
@@ -22,7 +22,6 @@ rendering documentation for ZConfig section key.
 
 %package     -n python3-%{srcname}
 Summary:        Sphinx support for ZConfig
-%{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
 This sphinx extension provides a zconfigsectionkeys directive for
@@ -51,6 +50,9 @@ rst2html --no-datestamp README.rst README.html
 %{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}-nspkg.pth
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.0-10
 - Rebuilt for Python 3.9
 

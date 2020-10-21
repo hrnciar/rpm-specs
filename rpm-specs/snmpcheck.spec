@@ -1,6 +1,6 @@
 Name:           snmpcheck
 Version:        1.9
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        An utility to get information via SNMP protocols
 
 License:        GPLv3+
@@ -62,6 +62,9 @@ install -p -m 0644 %{SOURCE1} %{buildroot}%{_mandir}/man1/%{name}.1
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

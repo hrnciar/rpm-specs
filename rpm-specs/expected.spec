@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name: expected
 Version: 1.0.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 
 License: CC0
 Summary: C++11/14/17 std::expected with functional-style extensions
@@ -36,20 +38,16 @@ coding with expected cleaner.
 
 %prep
 %autosetup -p1
-mkdir -p %{_target_platform}
 
 %build
-pushd %{_target_platform}
-    %cmake -G Ninja \
+%cmake -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
     -DEXPECTED_BUILD_TESTS=OFF \
-    -DEXPECTED_BUILD_PACKAGE=OFF \
-    ..
-popd
-%ninja_build -C %{_target_platform}
+    -DEXPECTED_BUILD_PACKAGE=OFF
+%cmake_build
 
 %install
-%ninja_install -C %{_target_platform}
+%cmake_install
 
 %files devel
 %doc README.md
@@ -58,6 +56,9 @@ popd
 %{_datadir}/cmake/tl-%{name}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

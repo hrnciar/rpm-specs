@@ -5,7 +5,7 @@
 %global __requires_exclude_from ^%{python3_sitelib}/gns3server/compute/docker/resources/.*$
 
 Name:           gns3-server
-Version:        2.2.9
+Version:        2.2.15
 Release:        1%{?dist}
 Summary:        Graphical Network Simulator 3
 
@@ -140,6 +140,24 @@ cp -f %{_sbindir}/busybox %{python3_sitelib}/gns3server/compute/docker/resources
 %systemd_postun_with_restart gns3.service
 
 %changelog
+* Wed Oct 07 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.2.15-1
+- Update to 2.2.15
+
+* Fri Sep 25 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.2.14-1
+- Update to 2.2.14
+
+* Wed Aug 26 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.2.12-1
+- Update to 2.2.12
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.2.11-1
+- Update to 2.2.11
+
+* Tue Jun 30 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.2.10-1
+- Update to 2.2.10
+
 * Fri Jun 05 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.2.9-1
 - Update to 2.2.9
 - Fix docker image IP - rhbz#1834283

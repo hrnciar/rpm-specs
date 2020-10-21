@@ -2,8 +2,8 @@
 %global debug_package %{nil}
 
 Name:           py3c
-Version:        1.1
-Release:        3%{?dist}
+Version:        1.2
+Release:        2%{?dist}
 Summary:        Guide and compatibility macros for porting extensions to Python 3
 
 # Licences differ for subpackages
@@ -15,6 +15,7 @@ Source0:        https://github.com/encukou/%{name}/archive/v%{version}.tar.gz#/%
 
 BuildRequires:  gcc
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-sphinx
 BuildRequires:  python3-sphinx_rtd_theme
 
@@ -88,6 +89,13 @@ sed --in-place -e's!%{buildroot}!!' %{buildroot}%{_datadir}/pkgconfig/py3c.pc
 %doc %{_pkgdocdir}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jan 30 2020 Petr Viktorin <pviktori@redhat.com> - 1.2-1
+- Update to 1.2 to fix tests under Python 3.9
+- BuildRequire python3-setuptools explicitly
+
 * Thu Jan 30 2020 Petr Viktorin <pviktori@redhat.com> - 1.1-3
 - Drop tests and Suggests for Python 2; require python3-devel
 

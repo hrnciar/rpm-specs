@@ -6,7 +6,7 @@
 
 Name:           uberftp
 Version:        2.8
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        GridFTP-enabled ftp client
 
 
@@ -49,6 +49,9 @@ make install DESTDIR=%{buildroot}
 %license copyright
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

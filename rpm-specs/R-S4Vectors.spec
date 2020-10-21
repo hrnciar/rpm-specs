@@ -5,7 +5,7 @@
 
 Name:             R-%{packname}
 Version:          0.26.1
-Release:          1%{dist}
+Release:          2%{dist}
 Summary:          S4 implementation of vectors and lists
 License:          Artistic 2.0
 URL:              http://www.bioconductor.org/packages/release/bioc/html/S4Vectors.html
@@ -62,6 +62,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 %{rlibdir}/%{packname}/include/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.26.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun  8 2020 Tom Callaway <spot@fedoraproject.org> - 0.26.1-1
 - rebuild for R 4
 - update to 0.26.1

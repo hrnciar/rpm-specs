@@ -1,6 +1,6 @@
 Name:           perl-Number-Fraction
 Version:        2.01
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Perl extension to model fractions
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Number-Fraction
@@ -49,6 +49,9 @@ perl Build.PL installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.01-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.01-8
 - Perl 5.32 rebuild
 

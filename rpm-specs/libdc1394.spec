@@ -1,3 +1,4 @@
+%global sover 25
 
 #define svn_snapshot .svn459  
 #define real_version 2.1.0
@@ -5,8 +6,8 @@
 
 Summary: 1394-based digital camera control library
 Name: libdc1394
-Version: 2.2.2
-Release: 14%{?svn_snapshot}%{?dist}
+Version: 2.2.6
+Release: 3%{?svn_snapshot}%{?dist}
 License: LGPLv2+
 URL: http://sourceforge.net/projects/libdc1394/
 Source: http://downloads.sourceforge.net/project/libdc1394/libdc1394-2/%{version}/libdc1394-%{version}.tar.gz
@@ -83,7 +84,7 @@ done
 
 %files
 %doc AUTHORS ChangeLog COPYING NEWS README
-%{_libdir}/libdc1394*.so.*
+%{_libdir}/libdc1394*.so.%{sover}*
 
 %files devel
 %doc examples/*.h examples/*.c
@@ -100,6 +101,15 @@ done
 %{_mandir}/man1/dc1394_*.1.gz
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Till Hofmann <thofmann@fedoraproject.org> - 2.2.6-2
+- Do not glob soversion to avoid accidental bumps
+
+* Tue Jul 21 2020 Till Hofmann <thofmann@fedoraproject.org> - 2.2.6-1
+- Update to 2.2.6
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

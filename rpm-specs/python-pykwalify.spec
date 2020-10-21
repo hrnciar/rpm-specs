@@ -1,19 +1,16 @@
 %global pname pykwalify
 
 %if 0%{?rhel} && 0%{?rhel} < 8
+%global with_python2 1
 %global default_python 2
 %else
-%global with_python3 1
 %global default_python 3
 %endif
-
-%if 0%{?fedora} && 0%{?fedora} >= 31
-%global with_python2 0
-%endif
+%global with_python3 1
 
 Name:           python-%{pname}
 Version:        1.7.0
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        Python lib/cli for JSON/YAML schema validation
 
 License:        MIT
@@ -131,6 +128,12 @@ ln -s %{_bindir}/python2-%{pname} %{buildroot}%{_bindir}/%{pname}
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 08 2020 Orion Poplawski <orion@nwra.com> - 1.7.0-8
+- Build for python3 on EL7 (bz#1763554)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.0-7
 - Rebuilt for Python 3.9
 

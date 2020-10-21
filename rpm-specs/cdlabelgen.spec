@@ -1,7 +1,7 @@
 Name: cdlabelgen
 Summary: Generates frontcards and traycards for inserting in CD jewelcases
 Version: 4.3.0
-Release: 11%{?dist}
+Release: 12%{?dist}
 Source: http://www.aczoom.com/pub/tools/cdlabelgen-%{version}.tgz
 URL: http://www.aczoom.com/tools/cdinsert/
 License: BSD with advertising
@@ -34,6 +34,9 @@ install -pm644 cdlabelgen.1 $RPM_BUILD_ROOT%{_mandir}/man1/
 %{_mandir}/man1/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

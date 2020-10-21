@@ -5,8 +5,8 @@
 %global crate clap
 
 Name:           rust-%{crate}
-Version:        2.33.1
-Release:        1%{?dist}
+Version:        2.33.3
+Release:        2%{?dist}
 Summary:        Simple to use, efficient, and full-featured Command Line Argument Parser
 
 # Upstream license specification: MIT
@@ -15,7 +15,6 @@ URL:            https://crates.io/crates/clap
 Source:         %{crates_source}
 # Initial patched metadata
 # * Exclude useless files
-# * Update strsim to 0.9, https://github.com/clap-rs/clap/pull/1450
 Patch0:         clap-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -279,6 +278,15 @@ which use "yaml-rust" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Sep 26 2020 Fabio Valentini <decathorpe@gmail.com> - 2.33.3-2
+- Bump strsim to 0.10.
+
+* Thu Aug 20 2020 Josh Stone <jistone@redhat.com> - 2.33.3-1
+- Update to 2.33.3
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.33.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 2020 Josh Stone <jistone@redhat.com> - 2.33.1-1
 - Update to 2.33.1
 

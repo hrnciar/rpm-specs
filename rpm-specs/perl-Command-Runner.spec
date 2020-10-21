@@ -1,6 +1,6 @@
 Name:           perl-Command-Runner
-Version:        0.102
-Release:        3%{?dist}
+Version:        0.103
+Release:        2%{?dist}
 Summary:        Run external commands and Perl code references
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Command-Runner
@@ -9,6 +9,7 @@ Source0:        https://cpan.metacpan.org/authors/id/S/SK/SKAJI/Command-Runner-%
 # non-MSWin32 systems
 Patch0:         Command-Runner-0.100-Dont-load-Win32-ShellQuote.patch
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
 BuildRequires:  perl(:VERSION) >= 5.8.1
@@ -26,7 +27,7 @@ BuildRequires:  perl(String::ShellQuote)
 BuildRequires:  perl(Time::HiRes)
 # Tests
 BuildRequires:  perl(File::Temp)
-BuildRequires:  perl(Test::More)
+BuildRequires:  perl(Test::More) >= 0.98
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:       perl(String::ShellQuote)
 
@@ -55,6 +56,12 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.103-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Petr Pisar <ppisar@redhat.com> - 0.103-1
+- 0.103 bump
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.102-3
 - Perl 5.32 rebuild
 

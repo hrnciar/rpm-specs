@@ -4,7 +4,7 @@
 
 # https://github.com/go-openapi/analysis
 %global goipath         github.com/go-openapi/analysis
-Version:                0.19.0
+Version:                0.19.10
 
 %gometa
 
@@ -16,7 +16,7 @@ reasoning about the content.}
 %global godocs          CODE_OF_CONDUCT.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Openapi specification object model analyzer
 
 # Upstream license specification: Apache-2.0
@@ -59,6 +59,12 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 15:36:10 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.19.10-1
+- Update to 0.19.10
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

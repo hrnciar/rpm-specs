@@ -1,6 +1,6 @@
 Name:           jxrlib
 Version:        1.1
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Open source implementation of jpegxr
 
 # See JPEGXR_DPK_Spec_1.0.doc. Upstream request for plain text license file at
@@ -58,12 +58,12 @@ cp -a %{SOURCE2} doc
 
 
 %build
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %ldconfig_scriptlets
@@ -83,6 +83,9 @@ cp -a %{SOURCE2} doc
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

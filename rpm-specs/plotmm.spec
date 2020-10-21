@@ -1,6 +1,6 @@
 Name:           plotmm
 Version:        0.1.2
-Release:        32%{?dist}
+Release:        33%{?dist}
 Summary:        GTKmm plot widget for scientific applications
 License:        LGPLv2
 URL:            http://plotmm.sourceforge.net/
@@ -76,6 +76,9 @@ mv $RPM_BUILD_ROOT%{_bindir}/simple $RPM_BUILD_ROOT%{_bindir}/plotmm-simple
 %{_bindir}/plotmm-simple
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-32
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

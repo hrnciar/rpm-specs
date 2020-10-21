@@ -9,7 +9,7 @@
 
 Name:           lua-event
 Version:        0.4.6
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        This is a binding of libevent to Lua
 
 License:        MIT
@@ -87,6 +87,12 @@ export LDFLAGS="%{optflags} -shared %{?__global_ldflags}"
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.6-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Björn Esser <besser82@fedoraproject.org> - 0.4.6-5
+- Rebuilt for Lua 5.4
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.6-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

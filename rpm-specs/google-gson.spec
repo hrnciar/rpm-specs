@@ -1,17 +1,22 @@
 Name:           google-gson
 Version:        2.8.6
-Release:        4%{?dist}
+Release:        7%{?dist}
 Summary:        Java lib for conversion of Java objects into JSON representation
 License:        ASL 2.0
 URL:            https://github.com/google/gson
 Source0:        https://github.com/google/gson/archive/gson-parent-%{version}.tar.gz
-Patch0:         osgi-export-internal.patch
-Patch1:         java-eight-build.patch
 
-# This commit added a dependency on templating-maven-plugin,
-# we don't want it nor need it, so we revert it
-# https://github.com/google/gson/commit/d84e26d
-Patch2:         no-templating-maven-plugin.patch
+# PR sent upstream: https://github.com/google/gson/pull/1770
+Patch0: 0001-Update-to-latest-version-of-bnd-maven-plugin.patch
+
+# Internal packages are naughtily used by other packages in Fedora
+Patch1: 0002-Also-export-internal-packages-in-OSGi-metadata.patch
+
+Patch2: 0003-Allow-building-on-Java-8.patch
+
+# Remove dependency on unavailable templating-maven-plugin
+# Reverts upstream commit https://github.com/google/gson/commit/d84e26d
+Patch3: 0004-This-commit-added-a-dependency-on-templating-maven-p.patch
 
 BuildArch:      noarch
 
@@ -36,11 +41,12 @@ This package contains the API documentation for %{name}.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 # remove unnecessary dependency on parent POM
 %pom_remove_parent
 
-# presence of these files breaks builds with Java 8
+# presence of these files breaks builds with Java 8, see also Patch2: 0003-Allow-building-on-Java-8.patch
 find -name "module-info.java" -print -delete
 
 # Use felix maven-bundle-plugin only for OSGi metadata
@@ -59,7 +65,7 @@ find -name "module-info.java" -print -delete
   </executions>" gson
 
 %build
-%mvn_build --xmvn-javadoc
+%mvn_build
 
 %install
 %mvn_install
@@ -72,7 +78,17 @@ find -name "module-info.java" -print -delete
 %license LICENSE
 
 %changelog
-* Mon Jun 06 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.6-4
+* Thu Aug 27 2020 Mat Booth <mat.booth@redhat.com> - 2.8.6-7
+- Add patch to prevent hard OSGi dep on 'sun.misc' package
+- Fix bogus date in changelog
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.6-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.8.6-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Sat Jun 06 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.6-4
 - fixed javadoc to build on jdk11
 
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.6-3

@@ -1,6 +1,6 @@
 Name:           libxml2
 Version:        2.9.10
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        Library providing XML and HTML support
 
 License:        MIT
@@ -17,6 +17,8 @@ Patch3:         libxml2-2.9.10-CVE-2019-20388.patch
 Patch4:         libxml2-2.9.10-CVE-2020-7595.patch
 # https://gitlab.gnome.org/GNOME/libxml2/merge_requests/71
 Patch5:         libxml2-2.9.10-parenthesize-type-checks.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=1877788
+Patch6:         libxml2-2.9.10-CVE-2020-24977.patch
 
 BuildRequires:  gcc
 BuildRequires:  make
@@ -145,6 +147,12 @@ gzip -9 -c doc/libxml2-api.xml > doc/libxml2-api.xml.gz
 %{python3_sitearch}/libxml2mod.so
 
 %changelog
+* Fri Sep 11 2020 Richard W.M. Jones <rjones@redhat.com> - 2.9.10-7
+- Add fix for CVE-2020-24977 (RHBZ#1877788).
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.10-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 2.9.10-5
 - Rebuilt for Python 3.9
 

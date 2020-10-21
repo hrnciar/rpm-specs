@@ -1,15 +1,15 @@
 %global packname dbplyr
-%global packver  1.4.3
+%global packver  1.4.4
 %global rlibdir  %{_datadir}/R/library
 
-%global __suggests_exclude ^R\\((Lahman|RMariaDB|RPostgres)\\)
+%global __suggests_exclude ^R\\((Lahman)\\)
 
 # Not yet available.
 %global with_suggests 0
 
 Name:             R-%{packname}
-Version:          %{packver}
-Release:          2%{?dist}
+Version:          1.4.4
+Release:          1%{?dist}
 Summary:          A 'dplyr' Back End for Databases
 
 License:          MIT
@@ -18,8 +18,8 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-assertthat >= 0.2.0, R-DBI >= 1.0.0, R-dplyr >= 0.8.0, R-glue >= 1.2.0, R-lifecycle, R-methods, R-purrr >= 0.2.5, R-R6 >= 2.2.2, R-rlang >= 0.2.0, R-tibble >= 1.4.2, R-tidyselect >= 0.2.4, R-utils
-# Suggests:  R-bit64, R-covr, R-knitr, R-Lahman, R-nycflights13, R-RMariaDB >= 1.0.2, R-rmarkdown, R-RPostgres >= 1.1.3, R-RSQLite >= 2.1.0, R-testthat >= 2.0.0
+# Imports:   R-assertthat >= 0.2.0, R-DBI >= 1.0.0, R-dplyr >= 0.8.0, R-glue >= 1.2.0, R-lifecycle, R-magrittr, R-methods, R-purrr >= 0.2.5, R-R6 >= 2.2.2, R-rlang >= 0.2.0, R-tibble >= 1.4.2, R-tidyselect >= 0.2.4, R-blob >= 1.2.0, R-utils
+# Suggests:  R-bit64, R-covr, R-knitr, R-Lahman, R-nycflights13, R-odbc, R-RMariaDB >= 1.0.2, R-rmarkdown, R-RPostgres >= 1.1.3, R-RSQLite >= 2.1.0, R-testthat >= 2.0.0
 # LinkingTo:
 # Enhances:
 
@@ -31,23 +31,26 @@ BuildRequires:    R-DBI >= 1.0.0
 BuildRequires:    R-dplyr >= 0.8.0
 BuildRequires:    R-glue >= 1.2.0
 BuildRequires:    R-lifecycle
+BuildRequires:    R-magrittr
 BuildRequires:    R-methods
 BuildRequires:    R-purrr >= 0.2.5
 BuildRequires:    R-R6 >= 2.2.2
 BuildRequires:    R-rlang >= 0.2.0
 BuildRequires:    R-tibble >= 1.4.2
 BuildRequires:    R-tidyselect >= 0.2.4
+BuildRequires:    R-blob >= 1.2.0
 BuildRequires:    R-utils
 BuildRequires:    R-bit64
 BuildRequires:    R-knitr
 BuildRequires:    R-nycflights13
+BuildRequires:    R-odbc
+BuildRequires:    R-RMariaDB >= 1.0.2
 BuildRequires:    R-rmarkdown
+BuildRequires:    R-RPostgres >= 1.1.3
 BuildRequires:    R-RSQLite >= 2.1.0
 BuildRequires:    R-testthat >= 2.0.0
 %if %{with_suggests}
 BuildRequires:    R-Lahman
-BuildRequires:    R-RMariaDB >= 1.0.2
-BuildRequires:    R-RPostgres >= 1.1.3
 %endif
 
 %description
@@ -102,6 +105,12 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 
 
 %changelog
+* Fri Aug 28 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.4.4-1
+- Update to latest version
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.4.3-2
 - rebuild for R 4
 

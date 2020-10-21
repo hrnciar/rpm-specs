@@ -4,7 +4,7 @@
 
 Name:           libyami
 Version:        1.3.2
-Release:        1.%{commitdate0}git%{shortcommit0}%{?dist}
+Release:        2.%{commitdate0}git%{shortcommit0}%{?dist}
 Summary:        Yet Another Media Infrastructure
 
 License:        ASL 2.0 and BSD
@@ -90,6 +90,9 @@ make check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-2.20200125gitedd1ad1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 06 2020 Nicolas Chauvet <kwizart@gmail.com> - 1.3.2-1.20200125gitedd1ad1
 - Update to 1.3.2
 

@@ -20,16 +20,12 @@
 
 Name: appliance-tools
 Summary: Tools for building Appliances
-Version: 009.0
-Release: 11%{?dist}
+Version: 011.1
+Release: 1%{?dist}
 License: GPLv2
 URL: https://pagure.io/appliance-tools
 
 Source0: https://releases.pagure.org/%{name}/%{name}-%{version}.tar.bz2
-
-# Patches backported from upstream
-Patch0001: 0001-fstype-is-optional-for-swap-check-mountpoint-also.patch
-Patch0002: 0001-Leave-more-space-4MB-for-uboot-before-the-first-part.patch
 
 # Ensure system deps are installed (rhbz#1409536)
 Requires: python%{python_pkgversion}-imgcreate %{?min_imgcrate_evr:>= %{min_imgcreate_evr}}
@@ -39,6 +35,9 @@ Requires: curl rsync kpartx
 Requires: zlib
 Requires: qemu-img
 Requires: xz
+%if 0%{?fedora}
+Requires: btrfs-progs
+%endif
 Requires: xfsprogs
 Requires: sssd-client
 BuildRequires: python%{python_pkgversion}-devel
@@ -74,6 +73,36 @@ rm -rf %{buildroot}%{_datadir}/doc/%{name}
 %{python_sitelib}/ec2convert/
 
 %changelog
+* Thu Aug 27 2020 Neal Gompa <ngompa13@gmail.com> - 011.1-1
+- Update to 011.1 release
+
+* Wed Aug 26 2020 Neal Gompa <ngompa13@gmail.com> - 011.0-1
+- Update to 011.0 release
+- Drop merged patches
+
+* Wed Aug 26 2020 Neal Gompa <ngompa13@gmail.com> - 010.2-3
+- Refresh patches for fixing bootloader config for btrfs
+
+* Wed Aug 26 2020 Neal Gompa <ngompa13@gmail.com> - 010.2-2
+- Add proposed patch to fix configuring fstab and grub for btrfs (#1855034)
+
+* Mon Aug 24 2020 Neal Gompa <ngompa13@gmail.com> - 010.2-1
+- Update to 010.2 release
+
+* Sun Aug 23 2020 Neal Gompa <ngompa13@gmail.com> - 010.1-1
+- Update to 010.1 release
+- Drop merged patches
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 010.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Neal Gompa <ngompa13@gmail.com> - 010.0-2
+- Add patch to fix unmounting btrfs subvolumes
+
+* Fri Jul 10 2020 Neal Gompa <ngompa13@gmail.com> - 010.0-1
+- Update to 010.0 release
+- Drop merged patches
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 009.0-11
 - Rebuilt for Python 3.9
 

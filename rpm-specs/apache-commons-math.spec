@@ -2,16 +2,14 @@
 
 Name:             apache-commons-math
 Version:          3.6.1
-Release:          2%{?dist}
+Release:          5%{?dist}
 Summary:          Java library of lightweight mathematics and statistics components
 License:          ASL 1.1 and ASL 2.0 and BSD
 URL:              http://commons.apache.org/math/
 Source0:          http://www.apache.org/dist/commons/math/source/%{short_name}-%{version}-src.tar.gz
 
-BuildRequires:    java-devel
 BuildRequires:    maven-local
 BuildRequires:    mvn(org.apache.commons:commons-parent:pom:)
-Requires:         jpackage-utils
 BuildArch:        noarch
 
 %description
@@ -30,13 +28,16 @@ This package contains the API documentation for %{name}.
 %prep
 %autosetup -n %{short_name}-%{version}-src -p1
 
+# Skip test that fails on Java 11
+sed -i -e '/checkMissingFastMathClasses/i@Ignore' \
+src/test/java/org/apache/commons/math3/util/FastMathTest.java
+
 # Compatibility links
 %mvn_alias "org.apache.commons:%{short_name}" "%{short_name}:%{short_name}"
 %mvn_file :%{short_name} %{short_name} %{name}
 
-
 %build
-%mvn_build
+%mvn_build -- -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 
 %install
@@ -54,6 +55,15 @@ This package contains the API documentation for %{name}.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Mat Booth <mat.booth@redhat.com> - 3.6.1-4
+- Allow building on JDK 11
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.6.1-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

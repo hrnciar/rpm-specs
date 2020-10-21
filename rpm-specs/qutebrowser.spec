@@ -1,7 +1,7 @@
 %global srcname qutebrowser
 
 Name:		%{srcname}
-Version:	1.12.0
+Version:	1.14.0
 Release:	1%{?dist}
 Summary:	A keyboard-driven, vim-like browser based on PyQt5 and QtWebEngine
 License:	GPLv3
@@ -16,7 +16,6 @@ Requires:	qt5-qtbase
 Requires:	qt5-qtdeclarative
 Requires:	python3-setuptools
 Requires:	python3-qt5
-Requires:	python3-qt5-webengine
 Requires:	python3-jinja2
 Requires:	python3-pygments
 Requires:	python3-PyYAML
@@ -102,6 +101,19 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata
 %{_datadir}/metainfo/org.qutebrowser.qutebrowser.appdata.xml
 
 %changelog
+* Mon Oct 19 2020 Timothée Floure <fnux@fedoraproject.org> - 1.14.0-1
+- New upstream release
+
+* Tue Sep 22 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.13.1-3
+- Remove requires on python3-qt5-qtwebenging
+- fixes: 1814298
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 20 2020 Timothée Floure <fnux@fedoraproject.org> - 1.13.1-1
+- New upstream release
+
 * Sat Jun 20 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.12.0-1
 - Update to 1.12.0
 

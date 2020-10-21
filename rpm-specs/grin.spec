@@ -1,7 +1,7 @@
 Summary:       Grep-like tool for source code
 Name:          grin
 Version:       1.2.1
-Release:       25%{?dist}
+Release:       26%{?dist}
 License:       BSD
 URL:           http://pypi.python.org/pypi/grin
 Source0:       https://files.pythonhosted.org/packages/source/g/grin/grin-%{version}.tar.gz
@@ -56,6 +56,9 @@ nosetests
 %{python3_sitelib}/__pycache__/grin.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.1-25
 - Rebuilt for Python 3.9
 

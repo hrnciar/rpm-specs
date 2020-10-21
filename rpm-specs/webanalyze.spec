@@ -15,7 +15,7 @@ scanning.}
 %global godocs          README.md
 
 Name:           webanalyze
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tool to uncovers technologies used on websites
 
 License:        GPLv3
@@ -56,6 +56,9 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 27 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.3.1-1
 - Initial package for Fedora
 

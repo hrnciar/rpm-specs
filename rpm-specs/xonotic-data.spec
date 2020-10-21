@@ -3,7 +3,7 @@
 Summary: Game data for the Xonotic first person shooter
 Name: xonotic-data
 Version: 0.8.2
-Release: 8%{?dist}
+Release: 9%{?dist}
 License: GPLv2+
 URL: http://www.xonotic.org/
 # Source is custom, obtained with :
@@ -46,6 +46,9 @@ install -p key_0.d0pk %{buildroot}%{_datadir}/xonotic/
 %{_datadir}/xonotic/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.2-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

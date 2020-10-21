@@ -29,14 +29,12 @@
 
 Summary: Application and environment virtualization
 Name: singularity
-Version: 3.5.3
-Release: 1.1%{?dist}
+Version: 3.6.4
+Release: 1%{?dist}
 # https://spdx.org/licenses/BSD-3-Clause-LBNL.html
 License: BSD-3-Clause-LBNL
 URL: https://www.sylabs.io/singularity/
-Source: %{name}-3.5.3.tar.gz
-# https://github.com/sylabs/singularity/pull/4769.patch
-Patch0: 4769.patch
+Source: %{name}-3.6.4.tar.gz
 ExclusiveOS: linux
 # RPM_BUILD_ROOT wasn't being set ... for some reason
 %if "%{sles_version}" == "11"
@@ -53,8 +51,6 @@ BuildRequires: golang
 BuildRequires: git
 BuildRequires: gcc
 BuildRequires: make
-BuildRequires: libuuid-devel
-BuildRequires: openssl-devel
 %if ! 0%{?el6}
 %if "%{sles_version}" != "11"
 BuildRequires: libseccomp-devel
@@ -84,8 +80,14 @@ containers that can be used across host environments.
 export RPM_BUILD_ROOT="%{buildroot}"
 %endif
 
+if [ -d %{name}-%{version} ]; then
+    # Clean up old build root
+    # First clean go's modcache because directories are unwritable
+    GOPATH=$PWD/%{name}-%{version}/gopath go clean -modcache
+    rm -rf %{name}-%{version}
+fi
+
 # Create our build root
-rm -rf %{name}-%{version}
 mkdir %{name}-%{version}
 
 %build
@@ -97,10 +99,6 @@ tar -C "gopath/src/github.com/sylabs/" -xf "%SOURCE0"
 export GOPATH=$PWD/gopath
 export PATH=$GOPATH/bin:$PATH
 cd $GOPATH/%{singgopath}
-
-%if 0%{?el8}
-patch -p1 <%{PATCH0}
-%endif
 
 # Not all of these parameters currently have an effect, but they might be
 #  used someday.  They are the same parameters as in the configure macro.
@@ -161,8 +159,27 @@ make DESTDIR=$RPM_BUILD_ROOT install man
 
 
 %changelog
+* Tue Oct 13 2020 Dave Dykstra <dwd@fedoraproject.org> - 3.6.4-1
+- Upgrade to upstream 3.6.4.
+
+* Tue Sep 15 2020 Dave Dykstra <dwd@fedoraproject.org> - 3.6.3-1
+- Upgrade to upstream 3.6.3.
+
+* Wed Aug 26 2020 Dave Dykstra <dwd@fedoraproject.org> - 3.6.2-1
+- Upgrade to upstream 3.6.2.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Dave Dykstra <dwd@fedoraproject.org> - 3.6.1-1
+- Upgrade to upstream 3.6.1.
+
+* Tue Jul 14 2020 Dave Dykstra <dwd@fedoraproject.org> - 3.6.0-1
+- Upgrade to upstream 3.6.0.  Remove patch #4679 for el8, since
+  golang-12 is now available for that build machine.
+
 * Tue Feb 18 2020 Dave Dykstra <dwd@fedoraproject.org> - 3.5.3-1.1
-- Upgrade to upstream 3.5.3, keeping only patch #4768 on el8
+- Upgrade to upstream 3.5.3, keeping only patch #4769 on el8
 
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.2-2.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
@@ -173,10 +190,10 @@ make DESTDIR=$RPM_BUILD_ROOT install man
   to EPEL or Fedora other than rawhide..
 
 * Tue Dec 17 2019 Dave Dykstra <dwd@fedoraproject.org> - 3.5.2-1.1
-- Upgrade to upstream 3.5.2, keeping #4768 patch only on el8
+- Upgrade to upstream 3.5.2, keeping #4769 patch only on el8
 
 * Thu Dec 05 2019 Dave Dykstra <dwd@fedoraproject.org> - 3.5.1-1.1
-- Upgrade to upstream 3.5.1, keeping #4768 patch only on el8
+- Upgrade to upstream 3.5.1, keeping #4769 patch only on el8
 
 * Wed Nov 20 2019 Dave Dykstra <dwd@fedoraproject.org> - 3.5.0-1.1
 - Apply patch from PR #4769 to build with golang-1.11 on el8 only

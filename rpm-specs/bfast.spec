@@ -1,6 +1,6 @@
 Name:		bfast
 Version:	0.7.0a
-Release:	23%{?dist}
+Release:	25%{?dist}
 Summary:	Blat-like Fast Accurate Search Tool
 
 License:	GPLv2 and MIT
@@ -86,6 +86,13 @@ rm %{buildroot}/%{_docdir}/%{name}/bfast-book.pdf
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0a-25
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0a-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0a-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

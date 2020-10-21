@@ -1,6 +1,6 @@
 Name: imagefactory
 Version: 1.1.15
-Release: 2%{?dist}
+Release: 6%{?dist}
 Summary: System image generation tool
 License: ASL 2.0
 URL: https://github.com/redhat-imaging/imagefactory
@@ -8,12 +8,13 @@ URL: https://github.com/redhat-imaging/imagefactory
 Source0: https://github.com/redhat-imaging/imagefactory/archive/imagefactory-%{version}-2.tar.gz
 Patch0: imagefactory-1.1.14-utf8-config-id.patch
 Patch1: container-github-pr434.patch
+# https://github.com/redhat-imaging/imagefactory/pull/438
+Patch2: 0001-ApplicationConfiguration.py-drop-encoding-from-json..patch
 BuildArch: noarch
 
 BuildRequires: python3
 BuildRequires: python3-setuptools
-BuildRequires: python3-rpm-macros
-BuildRequires: python-rpm-macros
+BuildRequires: python3-devel
 BuildRequires: systemd-units
 
 Requires: python3-pycurl
@@ -57,8 +58,6 @@ install -d %{buildroot}/%{_localstatedir}/lib/imagefactory/images
 install -d %{buildroot}/%{_sysconfdir}/imagefactory/plugins.d
 install -d %{buildroot}/%{_sysconfdir}/logrotate.d
 
-#sed -i '/\/usr\/bin\/env python/d' %{buildroot}/%{python_sitelib}/imgfac/*.py
-
 install -m0600 conf/sysconfig/imagefactoryd %{buildroot}/%{_sysconfdir}/sysconfig/imagefactoryd
 install -m0600 conf/logrotate.d/imagefactoryd %{buildroot}/%{_sysconfdir}/logrotate.d/imagefactoryd
 
@@ -93,6 +92,19 @@ rm -f %{buildroot}/%{_initddir}/imagefactoryd
 %{_bindir}/imagefactoryd
 
 %changelog
+* Sat Oct 03 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.1.15-6
+- Fix for deprecated change dropped in py3.9
+
+* Sat Oct 03 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.1.15-5
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.15-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.15-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 30 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.1.15-2
 - Update container patch to latest rev
 

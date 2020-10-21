@@ -3,7 +3,7 @@
 
 # https://github.com/influxdata/tdigest
 %global goipath         github.com/influxdata/tdigest
-%global commit          bf2b5ad3c0a925c44a0d2842c5d8182113cd248e
+Version:                0.0.1
 
 %gometa
 
@@ -21,8 +21,7 @@ The implementation is based off Derrick Burns' C++ implementation.}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.3%{?dist}
+Release:        1%{?dist}
 Summary:        Implementation of Ted Dunning's t-digest in Go
 
 # Upstream license specification: Apache-2.0
@@ -52,6 +51,12 @@ BuildRequires:  golang(gonum.org/v1/gonum/stat/distuv)
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 00:40:27 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.0.1-1
+- Update to 0.0.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

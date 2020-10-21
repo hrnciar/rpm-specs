@@ -1,10 +1,10 @@
-%global gh_owner     oscarotero
+%global gh_owner     php-gettext
 %global gh_project   Gettext
 
 
 Name:       php-gettext-gettext
-Version:    4.7.0
-Release:    3%{?dist}
+Version:    5.5.1
+Release:    2%{?dist}
 BuildArch:  noarch
 
 License:    MIT
@@ -14,7 +14,6 @@ Source0:    %{url}/archive/v%{version}.tar.gz
 # Upstream strips the tests from the tarball, so we have to generate it manually.
 # dltests.sh is used to do this, and is included in this repository.
 Source1:    tests-v%{version}.tar.bz2
-Patch0:     230.patch
 
 BuildRequires: dos2unix
 %if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
@@ -52,7 +51,6 @@ Autoloader: %{_datadir}/php/Gettext/autoload.php
 
 %prep
 %setup -a1 -n Gettext-%{version}
-%patch0 -p1
 
 # The documentation has the wrong newline codes
 dos2unix *.md
@@ -85,7 +83,8 @@ cp -ar src/* %{buildroot}/%{_datadir}/php/Gettext/
 
 
 %check
-sed -i "s:include_once.*:\ninclude_once '%{buildroot}/%{_datadir}/php/Gettext/autoload.php';:" tests/bootstrap.php
+# Upstream no longer contains tests/bootstrap.php file
+#sed -i "s:include_once.*:\ninclude_once '%{buildroot}/%{_datadir}/php/Gettext/autoload.php';:" tests/bootstrap.php
 
 # gettext has some optional dependencies that we are not integrating with at this time (we can later
 # if desired). Thus, we need to skip the tests on these integration points since they will fail
@@ -96,7 +95,7 @@ sed -i "s:include_once.*:\ninclude_once '%{buildroot}/%{_datadir}/php/Gettext/au
 ret=0
 for cmd in php php71 php72 php73 php74; do
   if which $cmd; then
-    $cmd %{_bindir}/phpunit --bootstrap tests/bootstrap.php --filter ^\(\(?!\(testBlade\|testTwig\)\).\)*$ tests
+    $cmd %{_bindir}/phpunit --bootstrap %{buildroot}/%{_datadir}/php/Gettext/autoload.php tests
   fi
 done
 exit $ret
@@ -111,6 +110,12 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Sundeep Anand <suanand@fedoraproject.org> - 5.5.1-1
+- update to 5.5.1 (#1768669)
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.7.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

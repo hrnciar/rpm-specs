@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          1.7
-Release:          4%{?dist}
+Release:          5%{?dist}
 Summary:          High Performance CommonMark and Github Markdown Rendering in R
 
 License:          BSD
@@ -72,6 +72,9 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --no-examples
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 1.7-4
 - Rebuild for R 4
 

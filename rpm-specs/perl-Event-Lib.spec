@@ -1,6 +1,6 @@
 Name:           perl-Event-Lib
 Version:        1.03
-Release:        44%{?dist}
+Release:        47%{?dist}
 Summary:        Perl wrapper around libevent
 
 License:        GPL+ or Artistic
@@ -10,6 +10,8 @@ Source0:        https://cpan.metacpan.org/authors/id/V/VP/VPARSEVAL/Event-Lib-%{
 Patch0:         https://rt.cpan.org/Ticket/Attachment/1136922/598341/lib-event.patch
 # Restore compatibility with libevent 2.1, bug #1549504, CPAN RT#124603
 Patch1:         Event-Lib-1.03-libevent_2_1.patch
+# Adapt to changes in Perl 5.33.1, bug #1876460, CPAN RT#133340
+Patch2:         Event-Lib-1.03-Fix-tests-on-indeed-non-blocking-UNIX-sockets.patch
 
 BuildRequires:  coreutils
 BuildRequires:  findutils
@@ -57,6 +59,7 @@ received.
 %setup -q -n Event-Lib-%{version}
 %patch0 -p1 -b .orig
 %patch1 -p1
+%patch2 -p1
 
 
 %build
@@ -91,6 +94,15 @@ make test || :
 
 
 %changelog
+* Tue Sep 29 20:41:31 CEST 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.03-47
+- Rebuilt for libevent 2.1.12
+
+* Tue Sep 15 2020 Petr Pisar <ppisar@redhat.com> - 1.03-46
+- Adapt to changes in Perl 5.33.1 (CPAN RT#133340)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.03-45
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.03-44
 - Perl 5.32 rebuild
 

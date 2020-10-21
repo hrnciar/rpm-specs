@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	1.5.2
-Release:	4%{?dist}
+Release:	5%{?dist}
 BuildArch:	noarch
 Summary:	A hunky Erlang worker pool factory
 License:	Public Domain or ASL 2.0
@@ -41,6 +41,9 @@ A hunky Erlang worker pool factory.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

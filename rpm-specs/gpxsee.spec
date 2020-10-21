@@ -1,14 +1,15 @@
 %global appname GPXSee
 
 Name:           gpxsee
-Version:        7.30
-Release:        1%{?dist}
+Version:        7.34
+Release:        2%{?dist}
 Summary:        GPS log file viewer and analyzer
 
 License:        GPLv3
 URL:            http://www.gpxsee.org/
 
 Source0:        https://github.com/tumic0/%{appname}/archive/%{version}/%{appname}-%{version}.tar.gz
+Patch0:         gpxsee-gcc11.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  qt5-linguist
@@ -25,7 +26,7 @@ GPX, TCX, KML, FIT, IGC and NMEA files.
 
 
 %prep
-%autosetup -n %{appname}-%{version}
+%autosetup -p1 -n %{appname}-%{version}
 
 
 %build
@@ -56,13 +57,31 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %{_datadir}/%{name}/csv/
 %{_datadir}/%{name}/maps/
 %dir %{_datadir}/%{name}/translations
-%{_datadir}/pixmaps/%{name}.png
+%{_datadir}/icons/*/*/*/%{name}.*
 %{_datadir}/appdata/%{name}.appdata.xml
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/mime/packages/%{name}.xml
 
 
 %changelog
+* Wed Oct 14 2020 Jeff Law <law@redhat.com> - 7.34-2
+- Add missing #includes for gcc-11
+
+* Mon Oct 12 2020 Nikola Forró <nforro@redhat.com> - 7.34-1
+- Update to version 7.34
+  resolves: #1886210
+
+* Wed Sep 23 2020 Nikola Forró <nforro@redhat.com> - 7.32-1
+- Update to version 7.32
+  resolves: #1880878
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.31-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Nikola Forró <nforro@redhat.com> - 7.31-1
+- Update to version 7.31
+  resolves: #1852674
+
 * Tue Jun 02 2020 Nikola Forró <nforro@redhat.com> - 7.30-1
 - Update to version 7.30
   resolves: #1842047

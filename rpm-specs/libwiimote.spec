@@ -1,6 +1,6 @@
 Name:           libwiimote
 Version:        0.4
-Release:        26%{?dist}
+Release:        27%{?dist}
 Summary:        Simple Wiimote Library for Linux
 
 License:        GPLv2+
@@ -64,6 +64,9 @@ rm $RPM_BUILD_ROOT%{_libdir}/*.a
 %{_libdir}/*.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

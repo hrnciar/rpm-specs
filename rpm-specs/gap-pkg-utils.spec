@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        0.69
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Utility functions for GAP
 
 License:        GPLv2+
@@ -33,6 +33,8 @@ This package contains documentation for gap-pkg-%{pkgname}.
 %autosetup -n %{pkgname}-%{version}
 
 %build
+export LC_ALL=C.UTF-8
+
 # Link to main GAP documentation
 ln -s %{_gap_dir}/doc ../../doc
 mkdir ../pkg
@@ -47,6 +49,7 @@ rm -fr %{buildroot}%{_gap_dir}/pkg/%{pkgname}/{CHANGES.md,LICENSE.txt,README.md,
 rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}/doc/*.{aux,bbl,blg,brf,idx,ilg,ind,log,out,pnr,tex}
 
 %check
+export LC_ALL=C.UTF-8
 gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 
 %files
@@ -60,6 +63,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.69-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.69-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

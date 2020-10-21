@@ -5,7 +5,7 @@
 %global crate ffsend
 
 Name:           rust-%{crate}
-Version:        0.2.64
+Version:        0.2.65
 Release:        1%{?dist}
 Summary:        Easily and securely share files from the command line
 
@@ -90,6 +90,19 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
 %endif
 
 %changelog
+* Wed Sep 16 2020 Fabio Valentini <decathorpe@gmail.com> - 0.2.65-1
+- Update to version 0.2.65.
+
+* Sun Aug 16 15:01:27 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.64-4
+- Rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.64-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.64-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 17 19:05:53 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.64-1
 - Update to 0.2.64
 

@@ -14,7 +14,7 @@ Summary: A library for generating Macromedia Flash files
 Name: ming
 Version: 0.4.9
 %global fver %(echo %{version} | tr . _)
-Release: 0.6.%{date}git%{shortcommit}%{?dist}
+Release: 0.8.%{date}git%{shortcommit}%{?dist}
 URL: http://www.libming.org/
 Source0: https://github.com/libming/libming/archive/%{commit}/ming-%{commit}.tar.gz
 # make ming-config multilib-compatible
@@ -201,6 +201,12 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} %make_build check
 %{tcl_sitearch}/ming
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.9-0.8.20181112git5009802
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.4.9-0.7.20181112git5009802
+- Perl 5.32 rebuild
+
 * Mon May 11 2020 Dominik Mierzejewski <rpm@greysector.net> - 0.4.9-0.6.20181112git5009802
 - work around build issues with gcc-10 (#1793907)
 - add missing dependency for running tests

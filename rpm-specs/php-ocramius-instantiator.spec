@@ -21,7 +21,7 @@
 
 Name:           php-ocramius-instantiator
 Version:        1.1.4
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Instantiate objects in PHP without invoking their constructors
 
 License:        MIT
@@ -109,6 +109,9 @@ sed -e 's/colors="true"//' \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,16 +1,18 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 %if 0%{?fedora} >= 32 || 0%{?rhel} >= 8
 %bcond_with python2
 %else
 %bcond_without python2
 %endif
 
+# Note that we could package and use sionlib, which can improve otf2
+# scalability, but it's not clear how worthwhile that might be for the
+# packaging.  A maintainer says it will help around 8000 processes,
+# and maybe fewer, and that building with it still allows reading and
+# writing of non-sionlib traces.
+
 Name:           otf2
 Version:        2.2
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        Open Trace Format 2 library
 
 License:        BSD
@@ -192,6 +194,13 @@ make check
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.2-10
 - Rebuilt for Python 3.9
 

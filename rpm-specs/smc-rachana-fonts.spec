@@ -3,7 +3,7 @@
 
 Name:		%{fontname}-fonts
 Version:	7.0.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Open Type Fonts for Malayalam script
 License:	OFL
 URL:		https://gitlab.com/smc/fonts/rachana
@@ -60,6 +60,9 @@ appstream-util validate-relax --nonet \
 %{_datadir}/metainfo/%{fontname}.metainfo.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Vishal Vijayraghavan <vishalvvr@fedoraproject.org> - 7.0.3-1
 - New release smc-rachana-fonts-7.0.3
 

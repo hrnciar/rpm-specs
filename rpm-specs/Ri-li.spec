@@ -1,6 +1,6 @@
 Name:           Ri-li
 Version:        2.0.1
-Release:        27%{?dist}
+Release:        30%{?dist}
 Summary:        Arcade game where you drive a toy wood engine
 License:        GPLv2 or GPLv3
 URL:            http://ri-li.sourceforge.net/index.html
@@ -9,6 +9,7 @@ Source1:        %{name}.desktop
 Source2:        %{name}.appdata.xml
 Patch0:         Ri-li-2.0.1-build-fix.patch
 Patch1:         Ri-li-2.0.1-gcc43.patch
+Patch2:         Ri-li-gcc11.patch
 BuildRequires:  gcc-c++
 BuildRequires:  SDL_mixer-devel desktop-file-utils libappstream-glib
 Requires:       hicolor-icon-theme
@@ -23,6 +24,7 @@ to win. Full-featured: 18 languages, Colorful animated wood engine, 50 levels,
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 sed -i 's/\r//g' README COPYING AUTHORS NEWS
 
 
@@ -60,6 +62,16 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/appdata/*.xml
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-30
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 2.0.1-29
+- Avoid ordered comparisons of pointers against zero
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

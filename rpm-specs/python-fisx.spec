@@ -1,6 +1,6 @@
 Name:           python-fisx
 Version:        1.1.6
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Calculate x-ray fluorescence intensities
 
 License:        MIT
@@ -44,6 +44,9 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} %__python3 -m fisx.tests.testAll
 %{python3_sitearch}/fisx-%{version}-py%{python3_version}.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.6-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.6-7
 - Rebuilt for Python 3.9
 

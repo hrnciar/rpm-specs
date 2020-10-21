@@ -5,7 +5,7 @@
 
 Name:           elixir
 Version:        1.10.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        A modern approach to programming for the Erlang VM
 
 License:        ASL 2.0
@@ -153,6 +153,13 @@ HTML documentation for eex, elixir, iex, logger and mix.
 %doc docs/doc/eex docs/doc/elixir docs/doc/iex docs/doc/logger docs/doc/mix
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 16 2020 Timothée Floure <fnux@fedoraproject.org> - 1.10.2-1
 - New upstream release
 

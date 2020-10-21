@@ -1,7 +1,7 @@
 Summary: Graphical effect and filter library
 Name:    qimageblitz
 Version: 0.0.6
-Release: 19%{?dist}
+Release: 22%{?dist}
 
 License: BSD and ImageMagick
 URL:     http://qimageblitz.sourceforge.net/
@@ -38,17 +38,12 @@ This package contains the blitztest example program for %{name}.
 
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake} %{?_cmake_skip_rpath}  .. 
-popd 
-
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake %{?_cmake_skip_rpath}
+%cmake_build
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make install/fast  DESTDIR=$RPM_BUILD_ROOT -C %{_target_platform}
+%cmake_install
 
 
 %check
@@ -74,6 +69,16 @@ test "$(pkg-config --modversion qimageblitz)" = "4.0.0"
 
 
 %changelog
+* Thu Sep 03 2020 Than Ngo <than@redhat.com> - 0.0.6-22
+- Fixed FBTFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.6-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.6-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.6-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

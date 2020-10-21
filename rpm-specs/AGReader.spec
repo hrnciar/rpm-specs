@@ -1,6 +1,6 @@
 Name:           AGReader
 Version:        1.2
-Release:        24%{?dist}
+Release:        26%{?dist}
 Summary:        Console reader for viewing AmigaGuide files
 License:        GPL+
 URL:            http://main.aminet.net/misc/unix/
@@ -19,7 +19,7 @@ subset of the v40 specifications.
 
 
 %build
-make -C Sources %{?_smp_mflags} CFLAGS="$RPM_OPT_FLAGS"
+%make_build -C Sources CFLAGS="$RPM_OPT_FLAGS"
 
 
 %install
@@ -38,6 +38,13 @@ install -m0755 Sources/agr %{buildroot}%{_bindir}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.2-25
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

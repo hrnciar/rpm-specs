@@ -1,6 +1,6 @@
 Name:           perl-Test-WriteVariants
 Version:        0.014
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Dynamic generation of tests in nested combinations of contexts
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test-WriteVariants
@@ -72,6 +72,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.014-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.014-10
 - Perl 5.32 rebuild
 

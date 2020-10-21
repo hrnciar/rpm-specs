@@ -4,7 +4,7 @@
 
 Name:          drupal7-%{module}
 Version:       3.1
-Release:       5%{?dist}
+Release:       6%{?dist}
 Summary:       Add automatically numbered footnotes to your posts
 
 License:       GPLv2+
@@ -60,6 +60,9 @@ cp -pr * %{buildroot}%{drupal7_modules}/%{module}/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 3.1-5
 - Bump build requires drupal7-rpmbuild to ">= 7.70-2" to fix F32+ auto provides
 

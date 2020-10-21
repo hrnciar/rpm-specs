@@ -45,7 +45,8 @@
 
 # Do not run Go tests, they failed with 4.0.0 on ppc64le
 %ifarch %{ix86} x86_64 %{arm} aarch64
-%{!?golang:%global golang 1}
+# Tests do not work with Go 1.15
+%{!?golang:%global golang 0}
 %else
 %{!?golang:%global golang 0}
 %endif
@@ -53,7 +54,7 @@
 Summary: Connects C/C++/Objective C to some high-level programming languages
 Name:    swig
 Version: 4.0.2
-Release: 1%{?dist}
+Release: 3%{?dist}
 License: GPLv3+ and BSD
 URL:     http://swig.sourceforge.net/
 Source0: http://downloads.sourceforge.net/project/swig/swig/swig-%{version}/swig-%{version}.tar.gz
@@ -176,16 +177,18 @@ done
 # Disable maximum compile warnings when octave is supported, because Octave
 # code produces lots of the warnings demanded by strict ISO C and ISO C++.
 # It causes that log had more then 600M.
+# AC_CHECK_PROGS requires just the name, so use for configure
+#   --with-python3=python3 --with-2to3=2to3
 %configure \
   --without-ocaml \
 %if %{python3lang}
-  --with-python3=%__python3 \
-  --with-2to3=%{_bindir}/2to3 \
+  --with-python3=python3 \
+  --with-2to3=2to3 \
 %else
   --without-python3 \
 %endif
 %if %{phplang}
-  --with-php=%{__php} \
+  --with-php \
 %else
   --without-php \
 %endif
@@ -212,11 +215,11 @@ done
   --disable-ccache \
 %endif
 ;
-make %{?_smp_mflags}
+%{make_build}
 
 %if %{with testsuite}
 # Test suite
-make check
+make check PY3=1
 %endif
 
 %install
@@ -239,7 +242,7 @@ for all in `find -type f`; do
 done
 popd
 
-make DESTDIR=%{buildroot} install
+%{make_install}
 
 #################################################
 # Use help output for generating of man page swig
@@ -334,6 +337,14 @@ install -pm 644 Tools/swig.gdb %{buildroot}%{_datadir}/%{name}/gdb
 %{_datadir}/%{name}/gdb
 
 %changelog
+* Fri Aug 28 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.0.2-3
+- Enable tests for Python 3
+
+* Wed Jul 29 2020 Tom Stellard <tstellar@redhat.com> - 4.0.2-2
+- Use make macros
+  https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+- Disable Go tests
+
 * Mon Jun 08 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.0.2-1
 - Update to 4.0.2
 

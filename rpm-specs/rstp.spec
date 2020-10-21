@@ -1,7 +1,7 @@
 Name:		rstp
 Summary:	Rapid Spanning Tree User Space Daemon
 Version:	04012009git
-Release:	29%{dist}
+Release:	31%{dist}
 # Note the lack of a URL tag here.  rstp has no official upstream project page,
 # just a git repository, so we don't include the URL here. rpmlint will yell
 # about this, rpmlint is wrong,
@@ -58,6 +58,13 @@ install -m 755 bridge-stp $RPM_BUILD_ROOT/sbin
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 04012009git-31
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 04012009git-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 04012009git-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

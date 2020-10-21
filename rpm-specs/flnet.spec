@@ -1,6 +1,6 @@
 Name:           flnet
 Version:        7.3.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Amateur Radio Net Control Station
 
 License:        GPLv3+
@@ -69,6 +69,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.3.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.3.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

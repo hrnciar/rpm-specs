@@ -1,7 +1,7 @@
 Summary: A ncurses-based presentation tool
 Name: tpp
 Version: 1.3.1
-Release: 27%{?dist}
+Release: 28%{?dist}
 License: GPLv2
 URL: http://www.ngolde.de/tpp.html
 Source0: http://www.ngolde.de/download/%{name}-%{version}.tar.gz
@@ -65,6 +65,9 @@ install -p -m 644 doc/tpp.1 $RPM_BUILD_ROOT%{_mandir}/man1/tpp.1
 %{_datadir}/vim/vimfiles/syntax/tpp.vim
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

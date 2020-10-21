@@ -1,5 +1,5 @@
 Name:           vulkan-loader
-Version:        1.2.135.0
+Version:        1.2.148.1
 Release:        1%{?dist}
 Summary:        Vulkan ICD desktop loader
 
@@ -12,7 +12,7 @@ BuildRequires:  gcc-c++
 BuildRequires:  cmake3
 BuildRequires:  ninja-build
 BuildRequires:  python%{python3_pkgversion}-devel
-BuildRequires:  vulkan-headers = %{version}
+BuildRequires:  vulkan-headers = 1.2.148.0
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-cursor)
 BuildRequires:  pkgconfig(wayland-server)
@@ -57,11 +57,11 @@ developing applications that use %{name}.
 
 %build
 %cmake3 -GNinja -DCMAKE_BUILD_TYPE=Release .
-%ninja_build
+%cmake_build
 
 
 %install
-%ninja_install
+%cmake_install
 
 # create the filesystem
 mkdir -p %{buildroot}%{_sysconfdir}/vulkan/{explicit,implicit}_layer.d/ \
@@ -91,6 +91,19 @@ mkdir -p %{buildroot}%{_sysconfdir}/vulkan/{explicit,implicit}_layer.d/ \
 
 
 %changelog
+* Thu Oct 08 2020 Dave Airlie <airlied@redhat.com> - 1.2.148.1-1
+- Update to 1.2.148.1 loader - fixes layer loading issue
+
+* Tue Aug 04 2020 Dave Airlie <airlied@redhat.com> - 1.2.148.0-1
+- Update to 1.2.148.0 loader
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.135.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.135.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Dave Airlie <airlied@redhat.com> - 1.2.135.0-1
 - Update to 1.2.135.0
 

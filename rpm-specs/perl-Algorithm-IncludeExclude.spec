@@ -1,6 +1,6 @@
 Name:           perl-Algorithm-IncludeExclude
 Version:        0.01
-Release:        32%{?dist}
+Release:        33%{?dist}
 Summary:        Build and evaluate include/exclude lists
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Algorithm-IncludeExclude
@@ -56,6 +56,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.01-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.01-32
 - Perl 5.32 rebuild
 

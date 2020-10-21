@@ -18,7 +18,7 @@ Prometheus HTTP API.}
                         MAINTAINERS.md README.md
 
 Name:           %{goname}
-Release:        3.pre1%{?dist}
+Release:        5.pre1%{?dist}
 Summary:        Prometheus instrumentation library for Go applications
 
 # Upstream license specification: Apache-2.0
@@ -55,6 +55,13 @@ find . -name "*.go" -exec sed -i "s|github.com/prometheus/client_model|github.co
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-5.pre1
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-4.pre1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-3.pre1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

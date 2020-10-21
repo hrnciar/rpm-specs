@@ -2,8 +2,8 @@
 %global gem_name webmock
 
 Name: rubygem-%{gem_name}
-Version: 3.5.1
-Release: 3%{?dist}
+Version: 3.8.3
+Release: 1%{?dist}
 Summary: Library for stubbing HTTP requests in Ruby
 License: MIT
 URL: http://github.com/bblimke/webmock
@@ -15,6 +15,7 @@ BuildRequires: rubygem(addressable)
 BuildRequires: rubygem(crack)
 BuildRequires: rubygem(curb)
 BuildRequires: rubygem(excon)
+BuildRequires: rubygem(em-http-request)
 BuildRequires: rubygem(hashdiff)
 BuildRequires: rubygem(httpclient)
 BuildRequires: rubygem(minitest)
@@ -40,9 +41,6 @@ Documentation for %{name}.
 %prep
 %setup -q -n %{gem_name}-%{version}
 
-sed -i '/^#!\/usr\/bin\/env\ rake/ d' Rakefile
-chmod -x Rakefile
-
 %build
 gem build ../%{gem_name}-%{version}.gemspec
 %gem_install
@@ -58,12 +56,11 @@ pushd .%{gem_instdir}
 ruby -e 'Dir.glob "./minitest/**/*.rb", &method(:require)'
 ruby -e 'Dir.glob "./test/**/test_*.rb", &method(:require)'
 
-# rubygem-{patron,em-http-request,http} are not in Fedora yet.
+# rubygem-{async-http,patron,http} are not in Fedora yet.
 sed -i '/patron/ s/^/#/' spec/spec_helper.rb
-sed -i '/em-http/ s/^/#/' spec/spec_helper.rb
 
 # and we don't care about code quality, that's upstream business.
-rspec spec --exclude-pattern 'spec/{quality_spec.rb,acceptance/{patron,http_rb,em_http_request}/*}'
+rspec spec --exclude-pattern 'spec/{quality_spec.rb,acceptance/{async_http_client,patron,http_rb}/*}'
 
 popd
 
@@ -87,6 +84,13 @@ popd
 %{gem_instdir}/webmock.gemspec
 
 %changelog
+* Wed Aug 26 2020 Vít Ondruch <vondruch@redhat.com> - 3.8.3-1
+- Update to WebMock 3.8.3.
+  Resolves: rhbz#1717226
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

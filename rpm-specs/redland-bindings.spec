@@ -1,6 +1,6 @@
 Name:           redland-bindings
 Version:        1.0.16.1
-Release:        37%{?dist}
+Release:        38%{?dist}
 Summary:        Redland RDF Application Framework API Bindings
 
 License:        LGPLv2+ or GPLv2+ or ASL 2.0
@@ -190,6 +190,9 @@ make check ||:
 %{ruby_vendorarchdir}/rdf
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.16.1-38
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.0.16.1-37
 - Perl 5.32 rebuild
 

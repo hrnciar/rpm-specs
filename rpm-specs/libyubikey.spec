@@ -1,6 +1,6 @@
 Name:           libyubikey
 Version:        1.13
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        C library for decrypting and parsing Yubikey One-time passwords
 
 License:        BSD
@@ -57,6 +57,9 @@ make check
 %exclude %{_libdir}/libyubikey.la
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

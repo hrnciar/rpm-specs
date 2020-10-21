@@ -4,7 +4,7 @@
 
 # https://github.com/linode/linodego
 %global goipath         github.com/linode/linodego
-Version:                0.10.0
+Version:                0.20.0
 
 %gometa
 
@@ -15,17 +15,23 @@ Go client for Linode REST v4 API.}
 %global godocs          API_SUPPORT.md CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Go client for Linode REST v4 API
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
 
-BuildRequires:  golang(gopkg.in/resty.v1)
+BuildRequires:  golang(github.com/go-resty/resty/v2)
+BuildRequires:  golang(k8s.io/api/core/v1)
+BuildRequires:  golang(k8s.io/apimachinery/pkg/apis/meta/v1)
+BuildRequires:  golang(k8s.io/client-go/kubernetes)
+BuildRequires:  golang(k8s.io/client-go/tools/clientcmd)
+BuildRequires:  golang(k8s.io/client-go/transport)
 
 %if %{with check}
 # Tests
+BuildRequires:  golang(github.com/google/go-cmp/cmp)
 BuildRequires:  golang(golang.org/x/oauth2)
 %endif
 
@@ -48,6 +54,12 @@ BuildRequires:  golang(golang.org/x/oauth2)
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 13:54:20 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.20.0-1
+- Update to 0.20.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

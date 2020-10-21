@@ -53,12 +53,12 @@
 %endif
 
 # Hypervisor ABI
-%define hv_abi  4.13
+%define hv_abi  4.14
 
 Summary: Xen is a virtual machine monitor
 Name:    xen
-Version: 4.13.1
-Release: 3%{?dist}
+Version: 4.14.0
+Release: 6%{?dist}
 License: GPLv2+ and LGPLv2+ and BSD
 URL:     http://xen.org/
 Source0: https://downloads.xenproject.org/release/xen/%{version}/xen-%{version}.tar.gz
@@ -73,7 +73,6 @@ Source15: polarssl-1.1.4-gpl.tgz
 # .config file for xen hypervisor
 Source21: xen.hypervisor.config
 
-Patch1: xen-net-disable-iptables-on-bridge.patch
 Patch3: xen.fedora.efi.build.patch
 Patch4: CVE-2014-0150.patch
 Patch5: xen.fedora.systemd.patch
@@ -110,12 +109,32 @@ Patch37: droplibvirtconflict.patch
 Patch38: qemu.trad.CVE-2017-8309.patch
 Patch39: qemu.trad.CVE-2017-9330.patch
 Patch40: xen.drop.brctl.patch
-Patch41: xen.python.env.patch
 Patch42: xen.gcc9.fixes.patch
-Patch44: xen.ocaml.4.10.patch
 Patch45: xen.gcc10.fixes.patch
-Patch46: xsa320-4.13-1.patch
-Patch47: xsa320-4.13-2.patch
+Patch46: xsa335-qemu.patch
+Patch47: xsa335-trad.patch
+Patch48: xsa333.patch
+Patch49: xsa334.patch
+Patch50: xsa336.patch
+Patch51: xsa337-1.patch
+Patch52: xsa337-2.patch
+Patch53: xsa338.patch
+Patch54: xsa339.patch
+Patch55: xsa340.patch
+Patch56: xsa342.patch
+Patch57: xsa343-1.patch
+Patch58: xsa343-2.patch
+Patch59: xsa343-3.patch
+Patch60: xsa344-1.patch
+Patch61: xsa344-2.patch
+Patch62: xsa345-4.14-0001-x86-mm-Refactor-map_pages_to_xen-to-have-only-a-sing.patch
+Patch63: xsa345-4.14-0002-x86-mm-Refactor-modify_xen_mappings-to-have-one-exit.patch
+Patch64: xsa345-4.14-0003-x86-mm-Prevent-some-races-in-hypervisor-mapping-upda.patch
+Patch65: xsa346-1.patch
+Patch66: xsa346-2.patch
+Patch67: xsa347-4.14-1.patch
+Patch68: xsa347-4.14-2.patch
+Patch69: xsa347-4.14-3.patch
 
 
 %if %build_qemutrad
@@ -171,6 +190,7 @@ ExclusiveArch: %{ix86} x86_64 armv7hl aarch64
 #ExclusiveArch: %#{ix86} x86_64 ia64 noarch
 %if %with_ocaml
 BuildRequires: ocaml, ocaml-findlib
+BuildRequires: perl(Data::Dumper)
 %endif
 %if %with_systemd_presets
 Requires(post): systemd
@@ -183,6 +203,9 @@ BuildRequires: libfdt-devel
 %endif
 %if %build_ovmf
 BuildRequires: edk2-ovmf
+%endif
+%if %build_hyp
+BuildRequires: bison flex
 %endif
 
 %description
@@ -236,14 +259,8 @@ Summary: Xen documentation
 BuildArch: noarch
 Requires: xen-licenses
 # for the docs
-%if "%dist" >= ".fc18"
-BuildRequires: texlive-times texlive-courier texlive-helvetic texlive-ntgclass
-%endif
-BuildRequires: transfig texi2html ghostscript texlive-latex
-BuildRequires: perl(Pod::Man) perl(Pod::Text) texinfo graphviz
-# optional requires for more documentation
-#BuildRequires: pandoc discount
-BuildRequires: discount
+BuildRequires: perl(Pod::Man) perl(Pod::Text) perl(File::Find)
+BuildRequires: transfig pandoc perl(Pod::Html)
 
 %description doc
 This package contains the Xen documentation.
@@ -290,7 +307,6 @@ manage Xen virtual machines.
 
 %prep
 %setup -q
-%patch1 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
@@ -318,12 +334,31 @@ manage Xen virtual machines.
 %patch37 -p1
 %patch3 -p1
 %patch40 -p1
-%patch41 -p1
 %patch42 -p1
-%patch44 -p1
 %patch45 -p1
-%patch46 -p1
 %patch47 -p1
+%patch48 -p1
+%patch49 -p1
+%patch50 -p1
+%patch51 -p1
+%patch52 -p1
+%patch53 -p1
+%patch54 -p1
+%patch55 -p1
+%patch56 -p1
+%patch57 -p1
+%patch58 -p1
+%patch59 -p1
+%patch60 -p1
+%patch61 -p1
+%patch62 -p1
+%patch63 -p1
+%patch64 -p1
+%patch65 -p1
+%patch66 -p1
+%patch67 -p1
+%patch68 -p1
+%patch69 -p1
 
 # qemu-xen-traditional patches
 pushd tools/qemu-xen-traditional
@@ -340,6 +375,7 @@ popd
 
 # qemu-xen patches
 pushd tools/qemu-xen
+%patch46 -p1
 popd
 
 # stubdom sources
@@ -349,6 +385,11 @@ cp -v %{SOURCE21} xen/.config
 
 
 %build
+# This package calls binutils components directly and would need to pass
+# in flags to enable the LTO plugins
+# Disable LTO
+%define _lto_cflags %{nil}
+
 %if !%build_ocaml
 %define ocaml_flags OCAML_TOOLS=n
 %endif
@@ -370,15 +411,15 @@ export EXTRA_CFLAGS_QEMU_XEN="$RPM_OPT_FLAGS"
 export PYTHON="/usr/bin/python3"
 %if %build_hyp
 %if %build_crosshyp
-XEN_TARGET_ARCH=x86_64 make %{?_smp_mflags} prefix=/usr xen CC="/usr/bin/x86_64-linux-gnu-gcc `echo $RPM_OPT_FLAGS | sed -e 's/-m32//g' -e 's/-march=i686//g' -e 's/-mtune=atom//g' -e 's/-specs=\/usr\/lib\/rpm\/redhat\/redhat-annobin-cc1//g' -e 's/-fstack-clash-protection//g' -e 's/-mcet//g' -e 's/-fcf-protection//g'`"
+XEN_TARGET_ARCH=x86_64 %make_build prefix=/usr xen CC="/usr/bin/x86_64-linux-gnu-gcc `echo $RPM_OPT_FLAGS | sed -e 's/-m32//g' -e 's/-march=i686//g' -e 's/-mtune=atom//g' -e 's/-specs=\/usr\/lib\/rpm\/redhat\/redhat-annobin-cc1//g' -e 's/-fstack-clash-protection//g' -e 's/-mcet//g' -e 's/-fcf-protection//g'`"
 %else
 %ifarch armv7hl
-make %{?_smp_mflags} prefix=/usr xen CC="gcc `echo $RPM_OPT_FLAGS | sed -e 's/-mfloat-abi=hard//g' -e 's/-march=armv7-a//g'`"
+%make_build prefix=/usr xen CC="gcc `echo $RPM_OPT_FLAGS | sed -e 's/-mfloat-abi=hard//g' -e 's/-march=armv7-a//g'`"
 %else
 %ifarch aarch64
-make %{?_smp_mflags} prefix=/usr xen CC="gcc $RPM_OPT_FLAGS -mno-outline-atomics"
+%make_build prefix=/usr xen CC="gcc $RPM_OPT_FLAGS -mno-outline-atomics"
 %else
-make %{?_smp_mflags} prefix=/usr xen CC="gcc `echo $RPM_OPT_FLAGS | sed -e 's/-specs=\/usr\/lib\/rpm\/redhat\/redhat-annobin-cc1//g' -e 's/-fcf-protection//g'`"
+%make_build prefix=/usr xen CC="gcc `echo $RPM_OPT_FLAGS | sed -e 's/-specs=\/usr\/lib\/rpm\/redhat\/redhat-annobin-cc1//g' -e 's/-fcf-protection//g'`"
 %endif
 %endif
 %endif
@@ -395,7 +436,7 @@ CONFIG_EXTRA="$CONFIG_EXTRA --with-system-ovmf=%{_libexecdir}/%{name}/boot/ovmf.
 CONFIG_EXTRA="$CONFIG_EXTRA --with-system-ipxe=/usr/share/ipxe/10ec8139.rom"
 %endif
 ./configure --prefix=%{_prefix} --libdir=%{_libdir} --libexecdir=%{_libexecdir} --with-system-seabios=%{seabiosloc} --with-system-qemu=/usr/bin/qemu-system-i386 --with-linux-backend-modules="xen-evtchn xen-gntdev xen-gntalloc xen-blkback xen-netback xen-pciback xen-scsiback xen-acpi-processor" $CONFIG_EXTRA
-make %{?_smp_mflags} %{?ocaml_flags} prefix=/usr tools
+%make_build %{?ocaml_flags} prefix=/usr tools
 %if %build_docs
 make                 prefix=/usr docs
 %endif
@@ -453,7 +494,6 @@ rm -rf %{buildroot}/boot
 
 # silly doc dir fun
 rm -fr %{buildroot}%{_datadir}/doc/xen
-rm -rf %{buildroot}%{_datadir}/doc/qemu
 
 # Pointless helper
 rm -f %{buildroot}%{_sbindir}/xen-python-path
@@ -701,6 +741,8 @@ fi
 %{_libdir}/libxenvchan.so.4.*
 %{_libdir}/libxlutil.so.4.*
 %{_libdir}/xenfsimage
+%{_libdir}/libxenhypfs.so.1
+%{_libdir}/libxenhypfs.so.1.0
 
 # All runtime stuff except for XenD/xm python stuff
 %files runtime
@@ -760,6 +802,8 @@ fi
 %{_mandir}/man5/xl-network-configuration.5.gz
 %{_mandir}/man7/xen-pv-channel.7.gz
 %{_mandir}/man7/xl-numa-placement.7.gz
+%{_mandir}/man1/xenhypfs.1.gz
+%{_mandir}/man7/xen-vbd-interface.7.gz
 %endif
 
 %{python3_sitearch}/xenfsimage*.so
@@ -849,6 +893,8 @@ fi
 %ifnarch armv7hl aarch64
 %{_sbindir}/xen-ucode
 %endif
+%{_bindir}/vchan-socket-proxy
+%{_sbindir}/xenhypfs
 
 # Xen logfiles
 %dir %attr(0700,root,root) %{_localstatedir}/log/xen
@@ -911,6 +957,74 @@ fi
 %endif
 
 %changelog
+* Tue Oct 20 2020 Michael Young <m.a.young@durham.ac.uk> - 4.14.0-6
+- x86: Race condition in Xen mapping code [XSA-345]
+- undue deferral of IOMMU TLB flushes [XSA-346]
+- unsafe AMD IOMMU page table updates [XSA-347]
+* Tue Sep 22 2020 Michael Young <m.a.young@durham.ac.uk> - 4.14.0-5
+- x86 pv: Crash when handling guest access to MSR_MISC_ENABLE [XSA-333,
+	CVE-2020-25602] (#1881619)
+- Missing unlock in XENMEM_acquire_resource error path [XSA-334,
+	CVE-2020-25598] (#1881616)
+- race when migrating timers between x86 HVM vCPU-s [XSA-336,
+	CVE-2020-25604] (#1881618)
+- PCI passthrough code reading back hardware registers [XSA-337,
+	CVE-2020-25595] (#1881587)
+- once valid event channels may not turn invalid [XSA-338, CVE-2020-25597]
+	(#1881588)
+- x86 pv guest kernel DoS via SYSENTER [XSA-339, CVE-2020-25596]
+	(#1881617)
+- Missing memory barriers when accessing/allocating an event channel [XSA-340,
+	CVE-2020-25603] (#1881583)
+- out of bounds event channels available to 32-bit x86 domains [XSA-342,
+	CVE-2020-25600] (#1881582)
+- races with evtchn_reset() [XSA-343, CVE-2020-25599] (#1881581)
+- lack of preemption in evtchn_reset() / evtchn_destroy() [XSA-344,
+	CVE-2020-25601] (#1881586)
+
+* Thu Sep 03 2020 Michael Young <m.a.young@durham.ac.uk> - 4.14.0-4
+- rebuild for OCaml 4.11.1
+
+* Mon Aug 24 2020 Michael Young <m.a.young@durham.ac.uk> - 4.14.0-3
+- QEMU: usb: out-of-bounds r/w access issue [XSA-335, CVE-2020-14364]
+	(#1871850)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Michael Young <m.a.young@durham.ac.uk> - 4.14.0-1
+- update to 4.14.0
+  remove or adjust patches now included or superceded upstream
+  adjust xen.hypervisor.config
+  bison and flex packages now needed for hypervisor build
+  /usr/bin/vchan-socket-proxy and /usr/sbin/xenhypfs have been added
+	with associated libraries and man page
+- re-enable pandoc for more documentation
+  adding xen-vbd-interface.7.gz
+- revise documentation build dependencies
+  drop tex, texinfo, ghostscript, graphviz, discount
+  add perl(Pod::Html) perl(File::Find)
+- additional build dependency for ocaml on perl(Data::Dumper)
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 4.13.1-5
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Tue Jul 07 2020 Michael Young <m.a.young@durham.ac.uk> - 4.13.1-4
+- incorrect error handling in event channel port allocation leads to
+	DoS [XSA-317, CVE-2020-15566] (#1854465)
+- inverted code paths in x86 dirty VRAM tracking leads to DoS
+	[XSA-319, CVE-2020-15563] (#1854463)
+- xen: insufficient cache write-back under VT-d leads to DoS
+	[XSA-321, CVE-2020-15565] (#1854467)
+- missing alignment check in VCPUOP_register_vcpu_info leads to DoS
+	[XSA-327, CVE-2020-15564] (#1854458)
+- non-atomic modification of live EPT PTE leads to DoS
+	[XSA-328, CVE-2020-15567] (#1854464)
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com>
+Disable LTO
+
 * Wed Jun 10 2020 Michael Young <m.a.young@durham.ac.uk> - 4.13.1-3
 - Special Register Buffer speculative side channel [XSA-320]
 

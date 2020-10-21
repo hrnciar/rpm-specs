@@ -1,8 +1,9 @@
 #Blaze is a header only library
 %global debug_package %{nil}
+
 Name:           blaze
-Version:        3.7
-Release:        1%{?dist}
+Version:        3.8
+Release:        2%{?dist}
 Summary:        An high-performance C++ math library for dense and sparse arithmetic
 License:        BSD
 URL:            https://bitbucket.org/blaze-lib/blaze
@@ -10,8 +11,7 @@ Source0:        https://bitbucket.org/blaze-lib/blaze/downloads/%{name}-%{versio
 
 BuildRequires: gcc-c++ >= 4.9
 BuildRequires: cmake
-BuildRequires: openblas-devel
-BuildRequires: lapack
+BuildRequires: flexiblas-devel
 BuildRequires: boost-devel
 
 %global blaze_desc \
@@ -29,8 +29,7 @@ the most intuitive and fastest C++ math libraries available. \
 Summary:    Development headers for BLAZE
 Provides:   blaze-static = %{version}-%{release}
 
-Requires: lapack
-Requires: openblas-devel
+Requires: flexiblas-devel
 Requires: boost
 
 %description devel
@@ -41,13 +40,17 @@ Requires: boost
 
 %build
 pushd blaze
-%{cmake} -DLIB=%{_lib} %{?cmake_opts:%{cmake_opts}} ..
+%{cmake} -DLIB=%{_lib} -DBLAS_LIBRARIES=-lflexiblas %{?cmake_opts:%{cmake_opts}} ..
+cd %{__cmake_builddir}
 %make_build
+cd ..
 popd
 
 %install
 pushd blaze
+cd %{__cmake_builddir}
 %make_install
+cd ..
 popd
 rm -rf %{_includedir}/%{name}/CMakeFiles/3.12.2
 rm -rf %{_includedir}/%{name}/CMakeFiles/FindOpenMP
@@ -62,6 +65,14 @@ rm -rf %{_includedir}/%{name}/CMakeFiles/FindOpenMP
 %dir %{_datadir}/%{name}/cmake
 
 %changelog
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 3.8-2
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+* Sat Aug 15  2020 Patrick Diehl  <patrickdiehl@lsu.edu> - 3.8-1
+- Update to Blaze 3.8
+* Mon Jul 27 2020 Patrick Diehl  <patrickdiehl@lsu.edu> - 3.7-3
+- CMake fixes
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 * Mon Feb 24 2020 Patrick Diehl <patrickdiehl@lsu.edu> - 3.7.1
 - Initial Release of blaze 3.7
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6-2

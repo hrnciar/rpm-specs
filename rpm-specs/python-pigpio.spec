@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.46
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Raspberry Pi GPIO module
 
 License:        Unlicense
@@ -39,6 +39,9 @@ Raspberry Pi Python module to access the pigpio daemon.
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.46-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Tomas Hrnciar <thrnciar@redhat.com> - 1.46-1
 - Update to 1.46
 

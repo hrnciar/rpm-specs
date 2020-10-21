@@ -1,11 +1,12 @@
 Name:           jhdf5
 Version:        3.3.2
-Release:        4%{?dist}
+Release:        9%{?dist}
 Summary:        Java HDF5 Package
 License:        BSD with advertising
 URL:            https://support.hdfgroup.org/products/java/
 Source0:        https://support.hdfgroup.org/ftp/HDF5/releases/HDF-JAVA/hdfjni-%{version}/src/HDFJava-%{version}-Source.tar.gz
 
+Patch0:         jhdf5-jdk11.patch
 Patch1:         jhdf5-0001-add-a-generic-linux-host.patch
 Patch3:         jhdf5-0003-use-system-linker-for-shared-library.patch
 Patch4:         libdf.diff
@@ -77,7 +78,8 @@ ln -s slf4j-api.jar lib/slf4j-api-1.7.5.jar
 ln -s slf4j-nop.jar lib/slf4j-nop-1.7.5.jar
 
 # Prevent javadoc build failure
-sed -i 's/$(JAVADOC_FLAGS)/$(JAVADOC_FLAGS) -Xdoclint:none/' Makefile*
+sed -i -e 's/$(JAVADOC_FLAGS)/$(JAVADOC_FLAGS) -Xdoclint:none/' \
+       -e 's,-sourcepath,-classpath $(CLASSPATH)/lib/slf4j-api-1.7.5.jar -sourcepath,' Makefile*
 
 # Add missing H4_ prefixes, also
 # neuter H5_VERS_RELEASE check (the number has gone down in recent releases!)
@@ -143,6 +145,22 @@ install -Dm744 -t%{buildroot}%{_libdir}/jhdf5/ lib/*/libjhdf5.so
 %license COPYING
 
 %changelog
+* Mon Oct 12 2020 Orion Poplawski <orion@nwra.com> - 3.3.2-9
+- Fix build with openjdk11
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.2-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.3.2-6
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 3.3.2-5
+- Rebuild for hdf5 1.10.6
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

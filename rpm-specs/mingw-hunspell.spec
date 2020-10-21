@@ -4,7 +4,7 @@
 
 Name:          mingw-%{pkgname}
 Version:       1.7.0
-Release:       8%{?dist}
+Release:       10%{?dist}
 Summary:       MinGW Windows spell checker and morphological analyzer library
 
 URL:           http://hunspell.github.io/
@@ -181,6 +181,12 @@ rm -rf %{buildroot}%{mingw64_datadir}/man
 
 
 %changelog
+* Wed Aug 12 13:41:09 GMT 2020 Sandro Mani <manisandro@gmail.com> - 1.7.0-10
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 1.7.0-8
 - Rebuild (gettext)
 

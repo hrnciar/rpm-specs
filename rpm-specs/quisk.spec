@@ -1,5 +1,5 @@
 Name:           quisk
-Version:        4.1.60
+Version:        4.1.72
 Release:        1%{?dist}
 Summary:        Software Defined Radio (SDR) software
 
@@ -16,6 +16,7 @@ BuildRequires:  alsa-lib-devel
 BuildRequires:  portaudio-devel
 BuildRequires:  pulseaudio-libs-devel
 BuildRequires:  dos2unix
+BuildRequires:  libsoundio-devel
 Requires:       python3-wxpython4
 Suggests:       codec2-devel
 
@@ -63,6 +64,60 @@ done
 
 
 %changelog
+* Wed Sep 23 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.1.72-1
+- New version
+  Resolves: rhbz#1880465
+
+* Tue Sep  8 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.1.71-1
+- New version
+  Resolves: rhbz#1875953
+
+* Sun Aug 30 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.1.70-1
+- New version
+  Resolves: rhbz#1873818
+
+* Mon Aug 24 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.1.69-1
+- New version
+  Resolves: rhbz#1871976
+
+* Sat Aug 15 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.1.68-1
+- New version
+  Resolves: rhbz#1868941
+
+* Fri Jul 31 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.1.67-1
+- New version
+  Resolves: rhbz#1862424
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.66-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.1.66-1
+- New version
+  Resolves: rhbz#1858527
+
+* Thu Jul  9 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.1.65-1
+- New version
+  Resolves: rhbz#1854984
+
+* Wed Jul  8 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.1.64-2
+- Enabled libsoundio support
+
+* Thu Jul  2 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.1.64-1
+- New version
+  Resolves: rhbz#1853315
+
+* Sun Jun 28 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.1.63-1
+- New version
+  Related: rhbz#1851600
+
+* Sun Jun 28 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.1.62-1
+- New version
+  Resolves: rhbz#1851600
+
+* Fri Jun 26 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.1.61-1
+- New version
+  Resolves: rhbz#1851441
+
 * Tue Jun 23 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 4.1.60-1
 - New version
   Resolves: rhbz#1849989

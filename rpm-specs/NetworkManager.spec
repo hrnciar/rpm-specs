@@ -5,9 +5,9 @@
 %global glib2_version %(pkg-config --modversion glib-2.0 2>/dev/null || echo bad)
 
 %global epoch_version 1
-%global rpm_version 1.26.0
-%global real_version 1.25.90
-%global release_version 0.1
+%global rpm_version 1.28.0
+%global real_version 1.27.91
+%global release_version 0.2
 %global snapshot %{nil}
 %global git_sha %{nil}
 
@@ -51,7 +51,11 @@
 %bcond_without regen_docs
 %bcond_with    debug
 %bcond_with    test
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+%bcond_without lto
+%else
 %bcond_with    lto
+%endif
 %bcond_with    sanitizer
 %if 0%{?fedora}
 %bcond_without connectivity_fedora
@@ -103,13 +107,21 @@
 
 %if 0%{?fedora} || 0%{?rhel} > 7
 %global logging_backend_default journal
+%if 0%{?fedora} || 0%{?rhel} > 8
+%global dns_rc_manager_default auto
+%else
 %global dns_rc_manager_default symlink
+%endif
 %else
 %global logging_backend_default syslog
 %global dns_rc_manager_default file
 %endif
 
+%if 0%{?rhel} > 8 || 0%{?fedora} > 32
+%global config_plugins_default keyfile,ifcfg-rh
+%else
 %global config_plugins_default ifcfg-rh
+%endif
 
 %if 0%{?fedora}
 # Although eBPF would be available on Fedora's kernel, it seems
@@ -121,6 +133,11 @@
 %else
 %global ebpf_enabled "no"
 %endif
+
+# Fedora 33 enables LTO by default by setting CFLAGS="-flto -ffat-lto-objects".
+# However, we also require "-flto -flto-partition=none", so disable Fedora's
+# default and use our configure option --with-lto instead.
+%define _lto_cflags %{nil}
 
 ###############################################################################
 
@@ -619,6 +636,8 @@ This tool is still experimental.
 %endif
 	-Ddist_version=%{version}-%{release} \
 	-Dconfig_plugins_default=%{config_plugins_default} \
+	-Dresolvconf=no \
+	-Dnetconfig=no \
 	-Dconfig_dns_rc_manager_default=%{dns_rc_manager_default} \
 	-Dconfig_logging_backend_default=%{logging_backend_default} \
 	-Djson_validation=true
@@ -757,6 +776,8 @@ intltoolize --automake --copy --force
 %endif
 	--with-dist-version=%{version}-%{release} \
 	--with-config-plugins-default=%{config_plugins_default} \
+	--with-resolvconf=no \
+	--with-netconfig=no \
 	--with-config-dns-rc-manager-default=%{dns_rc_manager_default} \
 	--with-config-logging-backend-default=%{logging_backend_default} \
 	--enable-json-validation
@@ -1082,6 +1103,28 @@ fi
 
 
 %changelog
+* Tue Oct 20 2020 Beniamino Galvani <bgalvani@redhat.com> - 1:1.28.0-0.2
+- update to 1.28-rc2 (1.27.91)
+
+* Tue Oct  6 2020 Thomas Haller <thaller@redhat.com> - 1:1.28.0-0.1
+- update to 1.28-rc1 (1.27.90)
+
+* Sat Sep 19 2020 Yaroslav Fedevych <yaroslav@fedevych.name> - 1:1.26.2-2
+- fix build failure due to generating invalid XML documentation
+
+* Wed Aug 19 2020 Thomas Haller <thaller@redhat.com> - 1:1.26.2-1
+- update to 1.26.2
+- enable link time optimization (LTO).
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.26.0-2.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Thomas Haller <thaller@redhat.com> - 1:1.26.0-2
+- prefer keyfile settings plugin over ifcfg-rh (rh #1857391)
+
+* Mon Jul 13 2020 Thomas Haller <thaller@redhat.com> - 1:1.26.0-1
+- update to 1.26.0
+
 * Mon Jun 15 2020 Thomas Haller <thaller@redhat.com> - 1:1.26.0-0.1
 - update to 1.26-rc1 (1.25.90)
 

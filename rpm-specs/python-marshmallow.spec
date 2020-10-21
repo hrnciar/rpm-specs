@@ -5,14 +5,17 @@
 %global _docdir_fmt %{name}
 
 Name:           python-%{modname}
-Version:        3.5.1
-Release:        2%{?dist}
+Version:        3.8.0
+Release:        1%{?dist}
 Summary:        Python library for converting complex datatypes to and from primitive types
 License:        MIT
 URL:            http://marshmallow.readthedocs.org/
 Source0:        https://github.com/marshmallow-code/marshmallow/archive/%{version}/%{modname}-%{version}.tar.gz
 Patch0:         ordered_set.patch
 Patch1:         versionwarning-disable.patch
+# python3-autodocsumm is not in Fedora
+# This is needed only for doc subpackage.
+Patch2:         disable-autodocsumm.patch
 
 BuildArch:      noarch
 
@@ -133,8 +136,9 @@ rm -rf html/{.buildinfo,.doctrees}
 
 
 %changelog
-* Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.5.1-2
-- Rebuilt for Python 3.9
+* Wed Sep 16 2020 Miroslav Suchý <msuchy@redhat.com> 3.8.0-1
+- disable autodocsumm in doc
+- rebase to 3.8.0
 
 * Tue Mar 24 2020 Miroslav Suchý <miroslav@suchy.cz> 3.5.1-1
 - rebase to 3.5.1

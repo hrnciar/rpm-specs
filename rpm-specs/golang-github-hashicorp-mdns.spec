@@ -4,7 +4,7 @@
 
 # https://github.com/hashicorp/mdns
 %global goipath         github.com/hashicorp/mdns
-Version:                1.0.1
+Version:                1.0.3
 
 %gometa
 
@@ -15,7 +15,7 @@ Simple mdns client/server library in golang.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Simple mdns client/server library in golang
 
 License:        MIT
@@ -45,6 +45,12 @@ BuildRequires:  golang(golang.org/x/net/ipv6)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 20:03:20 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.3-1
+- Update to 1.0.3
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,13 @@
+%undefine __cmake_in_source_build
 %global gmthome %{_datadir}/gmt
 %global gmtconf %{_sysconfdir}/gmt
 %global gmtdoc %{_docdir}/gmt
+
+%if 0%{?fedora} >= 33
+%bcond_without flexiblas
+%else
+%bcond_with flexiblas
+%endif
 
 %bcond_with octave
 %if %with octave
@@ -15,28 +22,30 @@
 %endif
 
 Name:           GMT
-Version:        6.0.0 
-Release:        4%{?dist}
+Version:        6.1.1
+Release:        1%{?dist}
 Summary:        Generic Mapping Tools
 
 License:        LGPLv3+
 URL:            https://www.generic-mapping-tools.org/
 Source0:        https://github.com/GenericMappingTools/gmt/releases/download/%{version}/gmt-%{version}-src.tar.xz
 
-# Fix GCC10 FTBS
-Patch0:         gmt_gcc10.patch
-
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  bash-completion
+%if %{with flexiblas}
+BuildRequires:  flexiblas-devel
+%else
+BuildRequires:  openblas-devel
+%endif
 BuildRequires:  fftw-devel
 BuildRequires:  gdal
 BuildRequires:  gdal-devel
+BuildRequires:  geos-devel
 BuildRequires:  glib2-devel
 BuildRequires:  GraphicsMagick
 BuildRequires:  libXt-devel libXaw-devel libXmu-devel libXext-devel
 BuildRequires:  netcdf-devel
-BuildRequires:  openblas-devel
 BuildRequires:  pcre-devel
 BuildRequires:  dcw-gmt
 BuildRequires:  gshhg-gmt-nc4
@@ -134,9 +143,7 @@ applications that use %{name}.
 
 
 %build
-mkdir build
-pushd build
-%{cmake} \
+%cmake \
   -DGSHHG_ROOT=%{_datadir}/gshhg-gmt-nc4 \
   -DGMT_INSTALL_MODULE_LINKS=off \
   -DGMT_INSTALL_TRADITIONAL_FOLDERNAMES=off \
@@ -144,15 +151,20 @@ pushd build
 %if %with octave
   -DGMT_OCTAVE=BOOL:ON \
 %endif
-  -DGMT_OPENMP=BOOL:ON \
+  -DGMT_ENABLE_OPENMP=BOOL:ON \
   -DGMT_USE_THREADS=BOOL:ON \
-  -DBASH_COMPLETION_DIR=%{completion_dir} \
-  ..
-%make_build
+%if %{with flexiblas}
+  -DGMT_EXCLUDE_BLAS=BOOL:ON \
+  -DGMT_EXCLUDE_LAPACK=BOOL:ON \
+  -DBLAS_LIBRARY=-lflexiblas \
+  -DLAPACK_LIBRARY=-lflexiblas \
+%endif
+  -DBASH_COMPLETION_DIR=%{completion_dir}
+%cmake_build
 
 
 %install
-%make_install -C build
+%cmake_install
 #Setup configuration files 
 mkdir -p $RPM_BUILD_ROOT%{gmtconf}/{mgg,dbase,mgd77}
 pushd $RPM_BUILD_ROOT%{gmthome}/
@@ -208,6 +220,23 @@ find $RPM_BUILD_ROOT -name \*.bat -delete
 
 
 %changelog
+* Thu Sep  3 2020 Orion Poplawski <orion@nwra.com> - 6.1.1-1
+- Update to 6.1.1
+
+* Fri Aug 07 2020 Orion Poplawski <orion@nwra.com> - 6.1.0-4
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+- Use new cmake macros
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Jeff Law <law@redhat.com> - 6.1.0-2
+- Use strsignal, not str_siglist
+- Use __cmake_in_source_build for now
+
+* Sun Jul 05 2020 Orion Poplawski <orion@nwra.com> - 6.1.0-1
+- Update to 6.1.0
+
 * Thu May 21 2020 Sandro Mani <manisandro@gmail.com> - 6.0.0-4
 - Rebuild (gdal)
 

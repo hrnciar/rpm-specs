@@ -3,7 +3,7 @@
 
 Name:           python-%{pkg_name}
 Version:        1.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Use an URL to configure email backend settings in your Django Application
 
 License:        BSD
@@ -44,6 +44,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/dj_email_url-%{version}-py*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.0.1-1
 - Add license file
 - Update to new upstream release 1.0.1

@@ -14,14 +14,14 @@
 %global tracker_miners_version 2.0.4
 
 Name:          gnome-photos
-Version:       3.37.2
+Version:       3.38.0
 Release:       1%{?dist}
 Summary:       Access, organize and share your photos on GNOME
 
 # GNOME Photos itself is GPLv3+, but the bundled libgd is LGPLv2+
 License:       GPLv3+ and LGPLv2+
 URL:           https://wiki.gnome.org/Apps/Photos
-Source0:       http://download.gnome.org/sources/%{name}/3.37/%{name}-%{version}.tar.xz
+Source0:       http://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires: desktop-file-utils
 BuildRequires: gettext >= %{gettext_version}
@@ -49,7 +49,11 @@ BuildRequires: pkgconfig(tracker-control-2.0) >= %{tracker_version}
 BuildRequires: pkgconfig(tracker-sparql-2.0) >= %{tracker_version}
 
 Requires:      baobab
+
+%if 0%{?fedora} || 0%{?rhel} < 9
 Requires:      dleyna-renderer
+%endif
+
 Requires:      gdk-pixbuf2%{?isa} >= %{gdk_pixbuf_version}
 Requires:      gegl04%{?_isa} >= %{gegl_version}
 Requires:      gfbgraph%{?_isa} >= %{gfbgraph_version}
@@ -109,10 +113,16 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Photos.desk
 %{_datadir}/metainfo/org.gnome.Photos.appdata.xml
 %{_datadir}/applications/org.gnome.Photos.desktop
 %{_datadir}/dbus-1/services/org.gnome.Photos.service
+%{_datadir}/dbus-1/services/org.gnome.Photos.Tracker1.service
+%{_datadir}/dbus-1/services/org.gnome.Photos.Tracker1.Miner.Extract.service
+%{_datadir}/dbus-1/services/org.gnome.Photos.Tracker1.Miner.Files.service
 %{_datadir}/glib-2.0/schemas/org.gnome.photos.gschema.xml
 %{_datadir}/gnome-shell/
 %{_datadir}/icons/hicolor/scalable/apps/org.gnome.Photos.svg
 %{_datadir}/icons/hicolor/symbolic/apps/org.gnome.Photos-symbolic.svg
+%{_datadir}/tracker/domain-ontologies/org.gnome.Photos.rule
+%{_datadir}/tracker/miners/org.gnome.Photos.Tracker1.Miner.Extract.service
+%{_datadir}/tracker/miners/org.gnome.Photos.Tracker1.Miner.Files.service
 %{_docdir}/%{name}
 
 %dir %{_libdir}/%{name}
@@ -126,6 +136,25 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Photos.desk
 
 
 %changelog
+* Wed Sep 23 2020 Debarshi Ray <rishi@fedoraproject.org> - 3.38.0-1
+- Update to 3.38.0
+
+* Mon Aug 24 2020 Debarshi Ray <rishi@fedoraproject.org> - 3.37.91.1-1
+- Update to 3.37.91.1
+
+* Mon Aug 24 2020 Debarshi Ray <rishi@fedoraproject.org> - 3.37.91-1
+- Update to 3.37.91
+
+* Tue Aug 11 2020 Debarshi Ray <rishi@fedoraproject.org> - 3.37.2-4
+- The dLeyna stack won't be part of RHEL 9
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Debarshi Ray <rishi@fedoraproject.org> - 3.37.2-1
 - Update to 3.37.2
 

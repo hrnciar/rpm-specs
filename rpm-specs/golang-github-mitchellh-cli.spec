@@ -3,7 +3,7 @@
 
 # https://github.com/mitchellh/cli
 %global goipath         github.com/mitchellh/cli
-Version:                1.0.0
+Version:                1.1.1
 
 %gometa
 
@@ -16,7 +16,7 @@ Cli is a library for implementing powerful command-line interfaces in Go.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Go library for implementing command-line interfaces
 
 # Upstream license specification: MPL-2.0
@@ -45,15 +45,6 @@ cp %{S:1} %{S:2} .
 %install
 %gopkginstall
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck
@@ -62,6 +53,12 @@ end
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 22:45:49 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.1-1
+- Update to 1.1.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -99,4 +96,3 @@ end
 * Thu May 18 2017 Jan Chaloupka <jchaloup@redhat.com> - 0-0.1.git8102d0e
 - First package for Fedora
   resolves: #1060502
-

@@ -1,5 +1,5 @@
 Name:       ibus-typing-booster
-Version:    2.9.3
+Version:    2.10.0
 Release:    1%{?dist}
 Summary:    A completion input method
 License:    GPLv3+, ASL 2.0
@@ -43,6 +43,7 @@ BuildRequires:  m17n-lib
 BuildRequires:  m17n-db-extras
 BuildRequires:  python3-enchant
 BuildRequires:  python3-libvoikko
+BuildRequires:  appstream
 BuildRequires:  libappstream-glib
 BuildRequires:  desktop-file-utils
 BuildRequires:  python3-mock
@@ -99,11 +100,11 @@ Unicode symbols.
 %build
 export PYTHON=%{__python3}
 %configure --disable-static --disable-additional --enable-installed-tests
-make %{?_smp_mflags}
+%make_build
 
 %install 
 export PYTHON=%{__python3}
-make install DESTDIR=${RPM_BUILD_ROOT} NO_INDEX=true  INSTALL="install -p"   pkgconfigdir=%{_datadir}/pkgconfig
+%make_install NO_INDEX=true  pkgconfigdir=%{_datadir}/pkgconfig
 %py_byte_compile %{python3} /usr/share/ibus-typing-booster/engine
 %py_byte_compile %{python3} /usr/share/ibus-typing-booster/setup
 %if 0%{?fedora} >= 26 || 0%{?rhel} > 7
@@ -128,6 +129,7 @@ make install DESTDIR=${RPM_BUILD_ROOT} NO_INDEX=true  INSTALL="install -p"   pkg
 
 %check
 export LC_ALL=C.UTF-8
+appstreamcli validate --pedantic --no-net %{buildroot}/%{_datadir}/metainfo/*.appdata.xml
 appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/*.appdata.xml
 desktop-file-validate \
     $RPM_BUILD_ROOT%{_datadir}/applications/ibus-setup-typing-booster.desktop
@@ -224,9 +226,79 @@ fi
 
 %files -n emoji-picker
 %{_bindir}/emoji-picker
+%{_datadir}/metainfo/emoji-picker.appdata.xml
 %{_datadir}/applications/emoji-picker.desktop
 
 %changelog
+* Mon Oct 19 2020 Mike FABIAN <mfabian@redhat.com> - 2.10.0-1
+- Update to 2.10.0
+- Add option to automatically capitalize after punctuation
+  (Resolves: https://github.com/mike-fabian/ibus-typing-booster/issues/96)
+- Don't record in user database when stripped_input_phrase or
+  stripped_commit_phrase are emty
+- When interactively deleting a candidate from the user database,
+  remove all case modes
+- Add 4 more characters ÞĦŊŦ to get special treatment in remove_accents()
+- Translation updates from Weblate for ca, es, fr, it, ja, nl, sv
+
+* Thu Oct 08 2020 Mike FABIAN <mfabian@redhat.com> - 2.9.9-1
+- Update to 2.9.9
+- Fix typo in variable name in do_reset()
+- KP_Delete should be handled the same way as Delete
+- Translation update form Weblate for de, he, pl, tr, uk
+
+* Tue Oct 06 2020 Mike FABIAN <mfabian@redhat.com> - 2.9.8-1
+- Update to 2.9.8
+- Prevent also Delete from reopening a preedit when the option
+  “Arrow keys can reopen a preedit” is off
+- When the input is empty, Escape should be passed through,
+  not inserted into the preedit
+- Fix itb_util.tokenize(): if the input is only whitespace,
+  the return should be an empty list
+- Don’t clear context after typing Return, KP_Enter, ISO_Enter
+- Improve behaviour of case modes
+- Update emoji annotations from CLDR
+
+* Mon Sep 07 2020 Mike FABIAN <mfabian@redhat.com> - 2.9.7-1
+- Update to 2.9.7
+- Add commands “next_case_mode” and “previous_case_mode”
+  with configurable key bindings
+- Better hot key handling for modifier keys like Shift_L, …
+- Use labels 1, 2, 3, … for the lookup table instead of 1., 2., 3., …
+- Update emoji annotations from CLDR
+
+* Thu Aug 27 2020 Mike FABIAN <mfabian@redhat.com> - 2.9.6-1
+- Update to 2.9.6
+- Make translations of 'Edit key bindings for command “%s”' work
+- Don't hide emoji-picker.desktop from AppStream (by Gunnar Hjalmarsson)
+- Translation update from Weblate for pt_BR, sv (100%)
+
+* Wed Aug 05 2020 Mike FABIAN <mfabian@redhat.com> - 2.9.5-1
+- Update to 2.9.5
+- Treat characters 'ÅåÄäÖö' as special when matching in the Swedish dictionary
+  (Resolves: http ://github.com/mike-fabian/ibus-typing-booster/issues/126)
+- Update emoji annotations from CLDR
+- AppStream tweaks by Gunnar Hjalmarsson
+- Translation update from Weblate for ca, de, es, sv
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Mike FABIAN <mfabian@redhat.com> - 2.9.4-2
+- Fix build on rawhide and f31
+
+* Tue Jul 14 2020 Mike FABIAN <mfabian@redhat.com> - 2.9.4-1
+- Update to 2.9.4
+- Add emoji-picker.appdata.xml
+- Fix warnings and errors in typing-booster.appdata.xml
+- Update emoji annotations from CLDR
+- Support %%S expansion in include statements in compose files
+- Translation update from Weblate for fr, he, hu, zh_CN
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 2.9.3-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Mon Jun 22 2020 Mike FABIAN <mfabian@redhat.com> - 2.9.3-1
 - Update to 2.9.3
 - Translation updates from Weblate for he

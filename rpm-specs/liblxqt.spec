@@ -5,7 +5,7 @@
 
 Name:		liblxqt
 Version:	0.15.0
-Release:	1%{?dist}
+Release:	3%{?dist}
 License:	LGPLv2
 Summary:	Core shared library for LXQt desktop suite
 Url:		http://lxqt.org/
@@ -64,18 +64,16 @@ This package provides translations for the liblxqt package.
 scl enable devtoolset-7 - <<\EOF
 %endif
 
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-	%{?fedora:%{cmake}}%{!?fedora:%{cmake3}} -DPULL_TRANSLATIONS=NO ..
-popd
+%cmake3 -DPULL_TRANSLATIONS=NO
 
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake_build
+
 %if 0%{?el7}
 EOF
 %endif
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 # RPM macros
 install -p -m0644 -D %{SOURCE1} %{buildroot}%{rpm_macros_dir}/macros.lxqt
@@ -108,6 +106,13 @@ touch -r %{SOURCE1} %{buildroot}%{rpm_macros_dir}/macros.lxqt
 %{_datadir}/lxqt/translations/%{name}/liblxqt_arn.qm
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 03 2020 Zamir SUN <sztsian@gmail.com> - 0.15.0-1
 - Update to 0.15.0
 

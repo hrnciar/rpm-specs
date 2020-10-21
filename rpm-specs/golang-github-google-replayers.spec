@@ -3,8 +3,8 @@
 
 # https://github.com/google/go-replayers
 %global goipath         github.com/google/go-replayers
-Version:                0.1.0
-%global commit          f5d346523041f541f6b1226dd2149312442803d1
+Version:                0.1.1
+%global commit          bd9e3607ce6aa15c8efa64828ddd4f43fc5ff1fc
 %global distprefix      %{nil}
 
 %gometa
@@ -32,12 +32,12 @@ Source0:        %{gosource}
 BuildRequires:  golang(github.com/golang/protobuf/proto)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/any)
-BuildRequires:  golang(github.com/google/martian)
-BuildRequires:  golang(github.com/google/martian/fifo)
-BuildRequires:  golang(github.com/google/martian/httpspec)
-BuildRequires:  golang(github.com/google/martian/martianhttp)
-BuildRequires:  golang(github.com/google/martian/martianlog)
-BuildRequires:  golang(github.com/google/martian/mitm)
+BuildRequires:  golang(github.com/google/martian/v3)
+BuildRequires:  golang(github.com/google/martian/v3/fifo)
+BuildRequires:  golang(github.com/google/martian/v3/httpspec)
+BuildRequires:  golang(github.com/google/martian/v3/martianhttp)
+BuildRequires:  golang(github.com/google/martian/v3/martianlog)
+BuildRequires:  golang(github.com/google/martian/v3/mitm)
 BuildRequires:  golang(golang.org/x/net/context)
 BuildRequires:  golang(google.golang.org/api/option)
 BuildRequires:  golang(google.golang.org/api/transport/http)
@@ -60,6 +60,7 @@ BuildRequires:  golang(google.golang.org/grpc/codes)
 
 %prep
 %goprep
+sed -i 's|github.com/google/martian|github.com/google/martian/v3|' $(find -iname "*.go" -type f)
 
 %install
 %gopkginstall
@@ -72,6 +73,12 @@ BuildRequires:  golang(google.golang.org/grpc/codes)
 %gopkgfiles
 
 %changelog
+* Mon Aug 10 21:09:38 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.1.1-2
+- Update martian import path
+
+* Mon Jul 27 13:24:37 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.1.1-1
+- Update to 0.1.1
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

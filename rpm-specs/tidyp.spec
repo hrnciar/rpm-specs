@@ -1,7 +1,7 @@
 Summary:	Clean up and pretty-print HTML/XHTML/XML
 Name:		tidyp
 Version:	1.02
-Release:	24%{?dist}
+Release:	25%{?dist}
 License:	W3C
 Url:		http://www.tidyp.com/
 Source0:	http://github.com/downloads/petdance/tidyp/tidyp-%{version}.tar.gz
@@ -81,6 +81,9 @@ make check
 %exclude %{_libdir}/libtidyp.la
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.02-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.02-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

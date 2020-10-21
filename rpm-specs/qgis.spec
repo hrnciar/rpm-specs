@@ -23,8 +23,8 @@
 #TODO: Run test suite (see debian/rules)
 
 Name:           qgis
-Version:        3.12.1
-Release:        4%{?dist}
+Version:        3.14.16
+Release:        1%{?dist}
 Summary:        A user friendly Open Source Geographic Information System
 
 # http://issues.qgis.org/issues/3789
@@ -76,9 +76,12 @@ BuildRequires:  libspatialite-devel
 
 BuildRequires:  libdxfrw-devel
 BuildRequires:  libzip-devel
+BuildRequires:  netcdf-devel
+BuildRequires:  ocl-icd-devel
 BuildRequires:  opencl-headers
 BuildRequires:  postgresql-devel
 BuildRequires:  proj-devel
+BuildRequires:  protobuf-lite-devel
 BuildRequires:  qt5-qtlocation-devel
 BuildRequires:  qt5-qtwebkit-devel
 BuildRequires:  qt5-qttools-static
@@ -251,45 +254,29 @@ gzip ChangeLog
 
 # Parallel build appears to occasionally result in build failures
 # (UI form headers generated too late)
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
 # Necessary for the test suite
 #export LD_LIBRARY_PATH=%{_builddir}%{name}-%{version}/output/%{_lib}
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 # Install desktop file without connecting proprietary file types
-desktop-file-install \
+desktop-file-edit \
     --remove-mime-type="application/x-raster-ecw" \
     --remove-mime-type="application/x-raster-mrsid" \
-    --dir=%{buildroot}%{_datadir}/applications \
-    org.qgis.qgis.desktop
+    %{buildroot}%{_datadir}/applications/org.qgis.qgis.desktop
 
 # Install MIME type definitions
 install -d %{buildroot}%{_datadir}/mime/packages
 install -pm0644 %{SOURCE5} \
     %{buildroot}%{_datadir}/mime/packages/%{name}.xml
 
-# Install application and MIME icons
-for size in 8x8 16x16 22x22 24x24 32x32 36x36 42x42 48x48 64x64 72x72 80x80 96x96 128x128 192x192 256x256 512x512; do
-    install -pd %{buildroot}%{_datadir}/icons/hicolor/$size/apps
-    install -pm0644 linux/icons/%{name}-icon$size.png %{buildroot}%{_datadir}/icons/hicolor/$size/apps/qgis.png
-done
-
-for size in 8x8 16x16 22x22 24x24 32x32 36x36 42x42 48x48 64x64 72x72 80x80 96x96 128x128 192x192 256x256 512x512; do
-    install -pd %{buildroot}%{_datadir}/icons/hicolor/$size/mimetypes
-    install -pm0644 linux/icons/qgis-mime-icon$size.png %{buildroot}%{_datadir}/icons/hicolor/$size/mimetypes/qgis-mime.png
-done
-
 install -pd %{buildroot}%{_datadir}/pixmaps
-install -pd %{buildroot}%{_datadir}/icons/hicolor/scalable/apps
-
 install -pm0644 images/icons/%{name}-icon-512x512.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
 install -pm0644 images/icons/%{name}_icon.svg %{buildroot}%{_datadir}/pixmaps/%{name}.svg
-install -pm0644 images/icons/%{name}_icon.svg %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 install -pm0644 images/icons/%{name}-mime-icon.png %{buildroot}%{_datadir}/pixmaps/%{name}-mime.png
-install -pm0644 images/icons/%{name}_mime_icon.svg %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/%{name}-mime.svg
 
 # Install basic QGIS Mapserver configuration for Apache
 install -pd %{buildroot}%{_sysconfdir}/httpd/conf.d
@@ -314,7 +301,8 @@ rm -f %{buildroot}%{_datadir}/%{name}/doc/INSTALL*
 
 
 %files -f %{name}.lang
-%doc BUGS NEWS Exception_to_GPL_for_Qt.txt ChangeLog.gz
+%license COPYING
+%doc BUGS NEWS.md README.md Exception_to_GPL_for_Qt.txt ChangeLog.gz
 # QGIS shows the following files in the GUI, including the license text
 %doc %{_datadir}/%{name}/doc/
 %dir %{_datadir}/%{name}/i18n/
@@ -329,6 +317,7 @@ rm -f %{buildroot}%{_datadir}/%{name}/doc/INSTALL*
 %{_libdir}/%{name}/
 %{_qt5_plugindir}/sqldrivers/libqsqlspatialite.so
 %{_bindir}/%{name}
+%{_bindir}/%{name}_process
 %{_mandir}/man1/%{name}.1*
 %dir %{_datadir}/%{name}/
 %{_datadir}/mime/packages/qgis.xml
@@ -381,6 +370,19 @@ rm -f %{buildroot}%{_datadir}/%{name}/doc/INSTALL*
 
 
 %changelog
+* Sun Oct 18 2020 Orion Poplawski <orion@nwra.com> - 3.14.16-1
+- Update to 3.14.16
+
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 3.12.1-7
+- rebuild (qt5)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.12.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.12.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.12.1-4
 - Rebuilt for Python 3.9
 

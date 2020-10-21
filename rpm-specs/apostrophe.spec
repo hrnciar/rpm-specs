@@ -2,7 +2,7 @@
 
 Name:           apostrophe
 Version:        2.2.0.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Distraction free Markdown editor for GNU/Linux made with GTK+
 
 # Entire source code is GPLv3+ except:
@@ -83,6 +83,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{appname}.desktop
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.2.0.3-3
 - Rebuilt for Python 3.9
 

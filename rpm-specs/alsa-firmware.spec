@@ -4,8 +4,8 @@
 
 Summary:        Firmware for several ALSA-supported sound cards
 Name:           alsa-firmware
-Version:        1.2.1
-Release:        7%{?dist}
+Version:        1.2.4
+Release:        3%{?dist}
 # See later in the spec for a breakdown of licensing
 License:        GPL+ and BSD and GPLv2+ and GPLv2 and LGPLv2+
 URL:            http://www.alsa-project.org/
@@ -199,6 +199,12 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Tue Oct 20 2020 Jaroslav Kysela <perex@perex.cz> - 1.2.4-3
+- Updated to 1.2.4
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar  3 2020 Jaroslav Kysela <perex@perex.cz> - 1.2.1-7
 - Removed Intel SOF firmware files (moved to alsa-sof-firmware package)
 

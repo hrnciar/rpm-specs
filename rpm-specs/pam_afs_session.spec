@@ -1,7 +1,7 @@
 Name: pam_afs_session
 Summary: AFS PAG and AFS tokens on login
 Version: 2.6
-Release: 12%{?dist}
+Release: 13%{?dist}
 License: MIT
 URL: https://www.eyrie.org/~eagle/software/pam-afs-session/
 Source: https://archives.eyrie.org/software/afs/pam-afs-session-%{version}.tar.gz
@@ -37,6 +37,9 @@ rm -f $RPM_BUILD_ROOT%{pamdir}/*.la
 %{_mandir}/man5/pam_afs_session.5.gz
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

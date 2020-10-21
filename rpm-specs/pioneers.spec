@@ -1,12 +1,11 @@
 Name:           pioneers
-Version:        15.5
-Release:        3%{?dist}
+Version:        15.6
+Release:        1%{?dist}
 Summary:        Turnbased board strategy game (colonize an island)
 License:        GPLv2+
 URL:            http://pio.sourceforge.net/
 Source0:        http://downloads.sourceforge.net/pio/%{name}-%{version}.tar.gz
-Patch0:         pioneers-15.5-sanitize.patch
-Patch1:         pioneers-15.5-gcc10.patch
+Patch0:         pioneers-15.6-sanitize.patch
 BuildRequires:  gcc
 BuildRequires:  libgnome-devel gtk2-devel gettext scrollkeeper intltool
 BuildRequires:  itstool
@@ -38,9 +37,7 @@ edited graphically.
 
 
 %prep
-%setup -q
-%patch0 -p1 -z .sanitize
-%patch1 -p1 -b .gcc10	
+%autosetup -p1
 
 %build
 # pioneers uses some GNU extensions
@@ -143,13 +140,19 @@ scrollkeeper-update -q || :
 %{_datadir}/icons/hicolor/scalable/apps/%{name}-editor.svg
 
 %changelog
+* Sat Sep 12 2020 Avram Lubkin <aviso@rockhopper.net> - 15.6-1
++- Updated to 15.6
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 15.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 06 2020 Than Ngo <than@redhat.com> - 15.5-3
 - fix FTBFS against gcc10
 
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 15.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
-* Sat Oct 28 2019 Avram Lubkin <aviso@rockhopper.net> - 15.5-1
+* Mon Oct 28 2019 Avram Lubkin <aviso@rockhopper.net> - 15.5-1
 +- Updated to 15.5
 
 * Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 15.3-11

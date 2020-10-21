@@ -3,7 +3,7 @@
 
 Name:           %{fontname}-fonts
 Version:        1.9
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        A Devanagari font
 
 License:        GPLv2+
@@ -65,6 +65,9 @@ install -Dm 0644 -p %{SOURCE2} \
 %{_datadir}/appdata/%{fontname}.metainfo.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

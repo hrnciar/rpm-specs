@@ -1,3 +1,6 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 %global git_commit bfb667080936ca5c2d23b3282f5893931ec38d3f
 %global git_date 20180615
 
@@ -6,7 +9,7 @@
 
 Name:           airspyone_host
 Version:        1.0.9
-Release:        8.%{git_suffix}%{?dist}
+Release:        10.%{git_suffix}%{?dist}
 Summary:        AirSpy host tools and library
 
 License:        GPLv2+
@@ -38,14 +41,12 @@ rm -rf libairspy/vc
 sed -i -e 's/GROUP="plugdev"/ENV{ID_SOFTWARE_RADIO}="1"/g' airspy-tools/52-airspy.rules
 
 %build
-mkdir build
-cd build
-%cmake ../ -DINSTALL_UDEV_RULES=on
+%cmake -DINSTALL_UDEV_RULES=on
 
-make %{?_smp_mflags}
+%cmake_build
 
 %install
-make -C build install DESTDIR=%{buildroot}
+%cmake_install
 
 # Remove static object
 rm -f %{buildroot}%{_libdir}/libairspy.a
@@ -75,6 +76,13 @@ mv %{buildroot}%{_sysconfdir}/udev/rules.d/52-airspy.rules %{buildroot}%{_udevru
 %{_libdir}/libairspy.so
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.9-10.20180615gitbfb66708
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.9-9.20180615gitbfb66708
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.9-8.20180615gitbfb66708
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:		java-sleep
 Version:	2.1
-Release:	19%{?dist}
+Release:	21%{?dist}
 Summary:	Multi-paradigm scripting language for Java
 
 License:	LGPLv2+ and BSD
@@ -10,6 +10,8 @@ Source0:	http://sleep.dashnine.org/download/sleep21-bsd.zip
 Patch0:		sleep-bootstrap.patch
 # Bump target version to 1.6 for JDF 11 support
 Patch1:         sleep-target.patch
+# Fix docs target
+Patch2:         java-sleep-docs.patch
 BuildArch:	noarch
 
 BuildRequires:	jpackage-utils
@@ -44,6 +46,8 @@ This package contains the API documentation for %{name}.
 %prep
 %setup -q -n sleep-master
 %patch0 -p1 -b .bootstrap
+%patch1 -p1 -b .target
+%patch2 -p1 -b .docs
 find -name \*.jar -delete
 sed -i -e 's/\r//' *.txt
 # Fix FSF address
@@ -90,6 +94,15 @@ java -jar sleep.jar runtests.sl
 
 
 %changelog
+* Wed Jul 29 2020 Orion Poplawski <orion@nwra.com> - 2.1-21
+- Fix doc build
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.1-20
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri May 01 2020 Orion Poplawski <orion@nwra.com> - 2.1-19
 - Update to 2.1 update 5 tarball
 

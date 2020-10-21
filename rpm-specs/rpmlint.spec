@@ -20,7 +20,7 @@
 
 Name:           rpmlint
 Version:        1.11
-Release:        9%{?dist}
+Release:        12%{?dist}
 Summary:        Tool for checking common errors in RPM packages
 License:        GPLv2
 URL:            https://github.com/rpm-software-management/rpmlint
@@ -36,6 +36,9 @@ Patch212:       rpmlint-1.11-rpm4.15.patch
 # https://github.com/rpm-software-management/rpmlint/pull/363
 # This patch does the same on the 1.11 code
 Patch213:	rpmlint-1.11-libc-warnings.patch
+# Don't use the %%python_sitelib macro, because it errors
+# See https://fedoraproject.org/wiki/Changes/PythonMacroError
+Patch214:       rpmlint-1.11-no-python-macro.patch
 
 BuildArch:      noarch
 %if %{with python3}
@@ -61,7 +64,7 @@ BuildRequires:  bash-completion
 # python-magic and python-enchant are actually optional dependencies, but
 # they bring quite desirable features.
 %if %{with python3}
-%if 0%{?fedora} >= 33
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
 Requires:       python3-file-magic
 BuildRequires:  python3-file-magic
 %else
@@ -101,8 +104,9 @@ and source packages as well as spec files can be checked.
 %patch199 -p1
 %patch212 -p1
 %patch213 -p1
+%patch214 -p1
 
-%if 0%{?fedora} >= 31
+%if 0%{?fedora} >= 31 || 0%{?rhel} >= 9
 # TODO, take upstream (RPM 4.15 related)
 sed -i "s/'wb'/'w'/" PostCheck.py
 %endif
@@ -158,6 +162,16 @@ make check PYTHON=%{python} PYTEST=%{pytest} FLAKE8=%{flake8}
 %{_mandir}/man1/rpmlint.1*
 
 %changelog
+* Fri Aug 21 2020 Miro Hrončok <mhroncok@redhat.com> - 1.11-12
+- Filter out empty REQUESTED files in pip installed Python metadata dist-info dirs
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Miro Hrončok <mhroncok@redhat.com> - 1.11-10
+- Don't use the %%python_sitelib macro, because it errors
+- See https://fedoraproject.org/wiki/Changes/PythonMacroError
+
 * Tue Jun 23 2020 Tom Callaway <spot@fedoraproject.org> - 1.11-9
 - use python3-file-magic on f33+
 

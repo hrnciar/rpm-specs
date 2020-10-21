@@ -6,7 +6,7 @@
 %global w64_dir %{_builddir}/mingw64-%{pkgname}-%{version}-%{release}
 
 Name:          mingw-%{pkgname}
-Version:       3.1.0
+Version:       3.1.3
 Release:       2%{?dist}
 Summary:       MinGW Windows GDAL library
 
@@ -19,6 +19,13 @@ Source0:       %{pkgname}-%{version}-fedora.tar.xz
 
 # Fix MinGW build
 Patch0:        gdal_mingw.patch
+# Adapt to jasper 2.0.21
+# See https://github.com/OSGeo/gdal/commit/9ef8e16e27c5fc4c491debe50bf2b7f3e94ed334
+Patch1:        gdal_jasper.patch
+# Assume numpy is present since build-time detection does not work
+# (numpy attempts to load binary modules, which does clearly not work for
+# cross-compiled modules)
+Patch2:        gdal_assume-numpy.patch
 
 
 BuildRequires: automake autoconf libtool
@@ -187,7 +194,7 @@ cp -a . %{w64_dir}
 %mingw32_make %{?_smp_mflags}
 
 pushd swig/python
-%{mingw32_python3} setup.py build
+NUMPY_INCLUDEDIR=%{mingw32_python3_sitearch}/numpy/core/include %{mingw32_python3} setup.py build
 popd
 
 (
@@ -204,7 +211,7 @@ cd %{w64_dir}
 %mingw64_make %{?_smp_mflags}
 
 pushd swig/python
-%{mingw64_python3} setup.py build
+NUMPY_INCLUDEDIR=%{mingw64_python3_sitearch}/numpy/core/include %{mingw64_python3} setup.py build
 popd
 )
 
@@ -271,6 +278,24 @@ find %{buildroot}%{mingw64_prefix} | grep -E '.(exe|dll|pyd)$' | sed 's|^%{build
 
 
 %changelog
+* Fri Oct 16 21:27:12 CEST 2020 Sandro Mani <manisandro@gmail.com> - 3.1.3-2
+- Rebuild (jasper)
+
+* Mon Sep 07 2020 Sandro Mani <manisandro@gmail.com> - 3.1.3-1
+- Update to 3.1.3
+
+* Mon Aug 17 2020 Sandro Mani <manisandro@gmail.com> - 3.1.2-3
+- Add gdal_assume-numpy.patch
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Sandro Mani <manisandro@gmail.com> - 3.1.2-1
+- Update to 3.1.2
+
+* Tue Jun 30 2020 Sandro Mani <manisandro@gmail.com> - 3.1.1-1
+- Update to 3.1.1
+
 * Sat May 30 2020 Sandro Mani <manisandro@gmail.com> - 3.1.0-2
 - Rebuild (python-3.9)
 

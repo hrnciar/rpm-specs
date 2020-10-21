@@ -1,7 +1,7 @@
 Summary:    Extensible Binary Meta Language library
 Name:       libebml
-Version:    1.3.10
-Release:    2%{?dist}
+Version:    1.4.0
+Release:    4%{?dist}
 License:    LGPLv2+
 URL:        https://www.matroska.org/
 Source:     https://dl.matroska.org/downloads/%{name}/%{name}-%{version}.tar.xz
@@ -38,12 +38,12 @@ rm -r src/lib/utf8-cpp
 
 
 %build
-%cmake3 .
-make %{?_smp_mflags}
+%cmake3
+%cmake3_build
 
 
 %install
-%make_install
+%cmake3_install
 
 
 %ldconfig_scriptlets
@@ -52,7 +52,7 @@ make %{?_smp_mflags}
 %files
 %license LICENSE.LGPL
 %doc ChangeLog
-%{_libdir}/%{name}.so.4*
+%{_libdir}/%{name}.so.5*
 
 %files devel
 %{_includedir}/ebml/
@@ -66,6 +66,19 @@ make %{?_smp_mflags}
 
 
 %changelog
+* Mon Aug 10 2020 Hans de Goede <hdegoede@redhat.com> - 1.4.0-4
+- Fix FTBFS, straight-forward cmake macro fix (rhbz#1863992)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.4.0-1
+- update to 1.4.0 (#1851593), ABI bump
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.10-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

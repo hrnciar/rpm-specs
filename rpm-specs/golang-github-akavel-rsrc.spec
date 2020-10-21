@@ -3,7 +3,7 @@
 
 # https://github.com/akavel/rsrc
 %global goipath         github.com/akavel/rsrc
-Version:                0.8.0
+Version:                0.9.0
 
 %gometa
 
@@ -14,7 +14,7 @@ Tool for embedding binary resources in Go programs.}
 %global godocs          AUTHORS README.txt
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Tool for embedding .ico & manifest resources in Go programs
 
 License:        MIT
@@ -50,6 +50,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 09:32:43 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.9.0-1
+- Update to 0.9.0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

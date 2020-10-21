@@ -4,12 +4,12 @@ Name:           python-simpleparse
 License:        BSD
 Summary:        A simple and fast parser generator
 Version:        2.2.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 URL:            http://launchpad.net/simpleparse
 Source0:        https://pypi.io/packages/source/S/SimpleParse/%{oname}-%{version}.tar.gz
 Patch0:         pytuple_check.patch
 BuildRequires:  gcc
-BuildRequires:  python3-devel
+BuildRequires:  python3-devel python3-setuptools
 
 %global _description\
 SimpleParse is a BSD-licensed Python package providing a simple and fast parser\
@@ -41,6 +41,12 @@ Summary:        %summary
 %{python3_sitearch}/*
 
 %changelog
+* Thu Oct 15 2020 Maurizio Lombardi <mlombard@redhat.com> - 2.2.2-3
+- Add python3-setuptools to BuildRequires
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 11 2020 Maurizio Lombardi <mlombard@redhat.com> - 2.2.2-1
 - Update to version 2.2.2
 

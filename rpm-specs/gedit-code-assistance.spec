@@ -2,7 +2,7 @@
 
 Name:           gedit-code-assistance
 Version:        3.16.0
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        gedit plugin for code assistance for C, C++ and Objective-C
 
 License:        GPLv3+
@@ -61,6 +61,9 @@ find $RPM_BUILD_ROOT/%{_libdir}/gedit/plugins -name "*.la" -exec rm {} \;
 %{_includedir}/gedit-3.0/gca/gca.h
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.16.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.16.0-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

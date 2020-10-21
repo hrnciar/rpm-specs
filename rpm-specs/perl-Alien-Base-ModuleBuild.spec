@@ -4,8 +4,8 @@
 %bcond_without perl_Alien_Base_ModuleBuild_enables_ssl
 
 Name:           perl-Alien-Base-ModuleBuild
-Version:        1.14
-Release:        2%{?dist}
+Version:        1.15
+Release:        1%{?dist}
 Summary:        Perl framework for building Alien:: modules and their libraries
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Alien-Base-ModuleBuild
@@ -78,9 +78,7 @@ BuildRequires:  perl(URI::file)
 %if !%{defined perl_bootstrap}
 # Break build-cycle: Acme::Alien::DontPanic → Alien::Base::ModuleBuild
 BuildRequires:  perl(Acme::Alien::DontPanic) >= 0.010
-BuildRequires:  perl(Inline) >= 0.56
-BuildRequires:  perl(Inline::C)
-BuildRequires:  perl(Inline::CPP)
+BuildRequires:  perl(Acme::Alien::DontPanic2)
 %endif
 BuildRequires:  perl(LWP::UserAgent)
 %endif
@@ -148,6 +146,22 @@ unset ALIEN_FORCE ALIEN_INSTALL_TYPE
 %{_mandir}/man3/*
 
 %changelog
+* Wed Sep 02 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.15-1
+- 1.15 bump
+
+* Thu Aug 27 2020 Petr Pisar <ppisar@redhat.com> - 1.14-6
+- Fix an external declaration in the tests
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.14-3
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.14-2
 - Perl 5.32 rebuild
 

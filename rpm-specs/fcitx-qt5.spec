@@ -1,15 +1,15 @@
 %global project_name FcitxQt5
 
 Name:           fcitx-qt5
-Version:        1.2.4
-Release:        4%{?dist}
+Version:        1.2.5
+Release:        2%{?dist}
 Summary:        Fcitx IM module for Qt5
 
 # The entire source code is GPLv2+ except
 # platforminputcontext/ which is BSD
 License:        GPLv2+ and BSD
 URL:            https://github.com/fcitx/fcitx-qt5
-Source0:        http://download.fcitx-im.org/%{name}/%{name}-%{version}.tar.xz
+Source0:        https://download.fcitx-im.org/%{name}/%{name}-%{version}.tar.xz
 
 BuildRequires:  cmake
 BuildRequires:  fcitx-devel
@@ -42,14 +42,11 @@ developing programs using fcitx-qt5 libraries.
 %setup -q
 
 %build
-mkdir -pv build
-pushd build
-%cmake ..
-popd
-make %{?_smp_mflags} -C build
+%cmake
+%cmake_build
 
 %install
-make install/fast DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p" -C build
+%cmake_install
 %find_lang %{name}
 
 %ldconfig_scriptlets
@@ -69,6 +66,22 @@ make install/fast DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p" -C build
 
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 1.2.5-2
+- rebuild (qt5)
+
+* Thu Aug 06 2020 Qiyu Yan <yanqiyu@fedoraproject.org> - 1.2.5-1
+- update to 1.2.5 upstream release
+
+* Tue Aug 04 2020 Qiyu Yan <yanqiyu@fedoraproject.org> - 1.2.4-7
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.2.4-4
 - rebuild (qt5)
 

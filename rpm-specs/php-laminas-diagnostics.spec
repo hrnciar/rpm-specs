@@ -18,7 +18,7 @@
 
 Name:           php-%{gh_project}
 Version:        1.6.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A set of components for performing diagnostic tests
 
 License:        BSD
@@ -212,6 +212,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

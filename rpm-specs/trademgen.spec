@@ -1,13 +1,10 @@
-#
-%global mydocs __tmp_docdir
-
 # Build -python subpackage
 %bcond_without python
 
 #
 Name:           trademgen
 Version:        1.00.6
-Release:        3%{?dist}
+Release:        5%{?dist}
 
 Summary:        C++ Simulated Travel Demand Generation Library
 License:        LGPLv2+
@@ -80,19 +77,17 @@ This package contains Python libraries for %{name}
 
 
 %build
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 # Remove extra libraries, which are generated only for the tests
 rm -f %{buildroot}%{_libdir}/libsequential_generation*.so*
 
-#
-mkdir -p %{mydocs}
-mv %{buildroot}%{_docdir}/%{name}/html %{mydocs}
-rm -f %{mydocs}/html/installdox
+# Remove the Doxygen installer
+rm -f %{buildroot}%{_docdir}/%{name}/html/installdox
 
 # Remove additional documentation files (those files are already available
 # in the project top directory)
@@ -131,8 +126,8 @@ rm -f %{buildroot}%{_docdir}/%{name}/{NEWS,README,AUTHORS}
 %{_mandir}/man3/%{name}-library.3.*
 
 %files doc
-%doc %{mydocs}/html
-%doc COPYING
+%doc %{_docdir}/%{name}/html
+%license COPYING
 
 %if %{with python}
 %files -n python3-%{name}
@@ -145,6 +140,12 @@ rm -f %{buildroot}%{_docdir}/%{name}/{NEWS,README,AUTHORS}
 
 
 %changelog
+* Sun Aug 09 2020 Denis Arnaud <denis.arnaud_fedora@m4x.org> - 1.00.6-5
+- Removed the work around for documentation directory
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Denis Arnaud <denis.arnaud_fedora@m4x.org> - 1.00.6-3
 - Rebuilt for SOCI 4.0.1-alpha2
 

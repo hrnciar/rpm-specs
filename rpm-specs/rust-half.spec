@@ -7,7 +7,7 @@
 
 Name:           rust-%{crate}
 Version:        1.6.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Half-precision floating point f16 and bf16 types for Rust
 
 # Upstream license specification: MIT/Apache-2.0
@@ -133,6 +133,9 @@ which use "use-intrinsics" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 10 14:26:13 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.6.0-1
 - Update to 1.6.0
 

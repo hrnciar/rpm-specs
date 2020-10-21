@@ -1,12 +1,12 @@
 Name: ipcalc
-Version: 0.4.1
+Version: 1.0.0
 Release: 1%{?dist}
 Summary: IP network address calculator
 License: GPLv2+
 URL: https://gitlab.com/ipcalc/ipcalc
 Source0: https://gitlab.com/ipcalc/ipcalc/-/archive/%{version}/ipcalc-%{version}.tar.gz
 
-BuildRequires: gcc, libmaxminddb-devel, meson
+BuildRequires: gcc, libmaxminddb-devel, meson, rubygem(ronn)
 Recommends:    libmaxminddb, geolite2-city, geolite2-country
 
 # Explicitly conflict with older initscript packages that ship ipcalc
@@ -43,6 +43,12 @@ or check the validity of an address.
 %{_mandir}/man1/ipcalc.1*
 
 %changelog
+* Sat Oct 03 2020 Nikos Mavrogiannopoulos <nmav@redhat.com> - 1.0.0-1
+- Updated to 1.0.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 24 2020 Nikos Mavrogiannopoulos <nmav@redhat.com> - 0.4.1-1
 - Updated to 0.4.1
 

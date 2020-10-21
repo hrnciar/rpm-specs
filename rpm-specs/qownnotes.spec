@@ -33,7 +33,7 @@
 
 Name:           qownnotes
 Version:        20.6.7
-Release:        1.%{date}git%{shortcommit}%{?dist}
+Release:        3.%{date}git%{shortcommit}%{?dist}
 Summary:        Plain-text file markdown note taking with Nextcloud integration
 
 # The entire source code is MIT except bundled libs:
@@ -176,7 +176,7 @@ install -m 0644 -Dp obs/%{name}.appdata.xml %{buildroot}/%{_metainfodir}/%{name}
 
 
 %check
-appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.xml
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
@@ -196,6 +196,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Wed Sep  2 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 20.6.7-3.20200618gitb669baa
+- Rebuild | Fix RH#1871615
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.6.7-2.20200618gitb669baa
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 20.6.7-1.20200618gitb669baa
 - Update to 20.6.7
 

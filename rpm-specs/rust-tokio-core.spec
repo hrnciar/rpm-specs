@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.1.17
-Release:        12%{?dist}
+Release:        14%{?dist}
 Summary:        Core I/O and event loop primitives for asynchronous I/O in Rust
 
 # Upstream license specification: MIT/Apache-2.0
@@ -78,6 +78,13 @@ sed -i -e '/deny(warnings)/d' src/lib.rs
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.17-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.17-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.17-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

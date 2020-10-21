@@ -2,7 +2,7 @@
 %bcond_without gtk
 
 Name: audacious
-Version: 4.0.4
+Version: 4.0.5
 Release: 2%{?dist}
 
 %global tar_ver %{version}
@@ -18,9 +18,6 @@ URL: http://audacious-media-player.org/
 Group: Applications/Multimedia
 
 Source0: http://distfiles.audacious-media-player.org/%{name}-%{tar_ver}.tar.bz2
-
-# rhbz #1844577, upstream #992, fixed post 4.0.4
-Patch0: audacious-4.0.4-ape.patch
 
 # for /usr/bin/appstream-util
 BuildRequires: libappstream-glib
@@ -48,8 +45,10 @@ Requires: audacious-plugins%{?_isa} >= %{aud_ver}
 # Audacious stores its own icon(s) in the hicolor tree
 # and updates the icon cache.
 Requires: hicolor-icon-theme
+%if 0%{?fedora}
 # for icons such as 'go-next', 'go-previous'
 Requires: gnome-icon-theme
+%endif
 
 # Skin packages can require this from xmms and all GUI compatible players
 Provides: xmms-gui
@@ -181,6 +180,12 @@ fi
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Michael Schwendt <mschwendt@fedoraproject.org> - 4.0.5-1
+- Update to 4.0.5 for important bug fixes.
+
 * Sun Jun  7 2020 Michael Schwendt <mschwendt@fedoraproject.org> - 4.0.4-2
 - Merge fix for Large APE tag (> 1 MB) causes Audacious to abort
   with std::bad_alloc exception.

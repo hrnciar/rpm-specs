@@ -2,7 +2,7 @@
 
 Name:       nodejs-hoek
 Version:    0.9.1
-Release:    13%{?dist}
+Release:    14%{?dist}
 Summary:    General purpose Node.js utilities
 License:    BSD
 URL:        https://github.com/spumko/hoek
@@ -42,6 +42,9 @@ cp -pr lib index.js package.json %{buildroot}%{nodejs_sitelib}/hoek
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

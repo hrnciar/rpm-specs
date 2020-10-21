@@ -1,36 +1,33 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:           sugar-recall
-Version:        6
-Release:        5%{?dist}
+Version:        7
+Release:        2%{?dist}
 Summary:        A series of memory games
 
 License:        GPLv3+ and MIT
 URL:            http://wiki.sugarlabs.org/go/Activities/Recall
-Source0:        https://github.com/sugarlabs/recall/archive/v%{version}.tar.gz
+Source0:        http://download.sugarlabs.org/sources/honey/Recall/Recall-%{version}.tar.bz2
 
-BuildRequires:  python2 sugar-toolkit-gtk3 gettext
+BuildRequires:  python3 python3-devel sugar-toolkit-gtk3 gettext
 BuildArch:      noarch
-Requires:       sugar >= 0.98.0
+Requires:       sugar >= 0.116
 
 %description
-Recall is a series of memory games for sugar. The game becomes 
-difficult as the user keeps on playing. This helps to increase 
+Recall is a series of memory games for sugar. The game becomes
+difficult as the user keeps on playing. This helps to increase
 the memorizing ability of children.
 
 %prep
-%autosetup -n recall-%{version}
-
-sed -i 's/python/python2/' *.py
+%autosetup -n Recall-%{version}
 
 %build
-python2 ./setup.py build
+python3 ./setup.py build
 
 %install
-python2 ./setup.py install --prefix=%{buildroot}/%{_prefix}
+python3 ./setup.py install --prefix=%{buildroot}/%{_prefix}
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
+
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}/%{sugaractivitydir}/Recall.activity/
 
 %find_lang org.sugarlabs.RecallActivity
 
@@ -40,6 +37,20 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 %{sugaractivitydir}/Recall.activity/
 
 %changelog
+* Fri Oct  2 2020 José Matos <jamatos@fedoraproject.org> - 7-2
+- Shebang lines already refer to python3 (remove unneeded sed call)
+
+* Tue Aug 11 2020 Ibiam Chihurumnaya <ibiamchihurumnaya@gmail.com> - 7-1
+- Release version 7
+- Change to py_byte_compile as stated in phase 3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

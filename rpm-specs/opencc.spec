@@ -1,12 +1,10 @@
 Name:       opencc
-Version:    1.0.5
-Release:    6%{?dist}
+Version:    1.1.1
+Release:    1%{?dist}
 Summary:    Libraries for Simplified-Traditional Chinese Conversion
 License:    ASL 2.0
 URL:        https://github.com/BYVoid/OpenCC
 Source0:    https://github.com/BYVoid/OpenCC/archive/ver.%{version}.tar.gz#/OpenCC-ver.%{version}.tar.gz
-Patch1:     opencc-fixes-cmake.patch
-Patch2:     opencc-check-bounds.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  gettext
@@ -46,19 +44,16 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n OpenCC-ver.%{version}
-%patch1 -p1 -b .cmake
-%patch2 -p1 -b .bounds
 
 %build
-%cmake . -DENABLE_GETTEXT:BOOL=ON -DBUILD_DOCUMENTATION:BOOL=ON
-make VERBOSE=1 %{?_smp_mflags}
+%cmake -DENABLE_GETTEXT:BOOL=ON -DBUILD_DOCUMENTATION:BOOL=ON
+%cmake_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
-rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
+%cmake_install
 
 %check
-ctest
+%ctest
 
 #%find_lang %{name}
 
@@ -82,6 +77,16 @@ ctest
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Aug  4 2020 Peng Wu <pwu@redhat.com> - 1.1.1-1
+- Update to 1.1.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

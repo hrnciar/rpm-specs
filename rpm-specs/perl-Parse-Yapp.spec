@@ -3,7 +3,7 @@
 Name:           perl-Parse-Yapp
 # Keep 2-digit version for history
 Version:        %{cpan_version}
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Perl extension for generating and using LALR parsers
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Parse-Yapp
@@ -50,6 +50,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.21-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.21-8
 - Perl 5.32 rebuild
 

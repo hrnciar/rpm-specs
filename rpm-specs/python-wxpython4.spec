@@ -12,7 +12,7 @@ specific code.
 
 Name:           python-wxpython4
 Version:        4.0.7
-Release:        6%{?dist}
+Release:        10%{?dist}
 Summary:        %{sum}
 # wxPython is licensed under the wxWidgets license.  The only exception is
 # the pubsub code in wx/lib/pubsub which is BSD licensed.  Note: wxPython
@@ -28,6 +28,7 @@ Source0:        https://files.pythonhosted.org/packages/source/w/%{srcname}/%{sr
 # for sipgen is not included.  Thus we unbundle sip and the sip package builds
 # a wx.siplib for us in Fedora.
 Patch0:         unbundle-sip.patch
+Patch1:         fix-ftbfs-sip-4.19.23.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  doxygen
@@ -50,7 +51,6 @@ BuildRequires:  python3-wx-siplib
 Summary:        %{sum}
 %{?python_provide:%python_provide python3-%{pkgname}}
 BuildRequires:  python3-devel
-BuildRequires:  python3-pathlib2
 BuildRequires:  python3-pillow
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-sip-devel >= 4.19.1
@@ -165,6 +165,18 @@ xvfb-run -a %{__python3} build.py test --pytest_timeout=60 --extra_pytest="-k $S
 
 
 %changelog
+* Wed Aug 12 2020 Scott Talbert <swt@techie.net> - 4.0.7-10
+- Remove BD on python3-pathlib2 (not needed)
+
+* Mon Aug 03 2020 Scott Talbert <swt@techie.net> - 4.0.7-9
+- Rebuild with latest wxGTK3 build to fix missing symbol issue (#1862822)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.7-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Scott Talbert <swt@techie.net> - 4.0.7-7
+- Fix FTBFS with sip 4.19.23
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 4.0.7-6
 - Rebuilt for Python 3.9
 

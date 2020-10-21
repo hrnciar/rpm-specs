@@ -14,7 +14,7 @@ Select(2) implementation in Go.}
 %global godocs          example README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Select(2) implementation in Go
 
 License:        MIT
@@ -40,6 +40,9 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Nov 25 2019 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.1.1-1
 - Update to latest version
 

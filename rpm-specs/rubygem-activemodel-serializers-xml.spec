@@ -2,16 +2,19 @@
 %global gem_name activemodel-serializers-xml
 
 Name: rubygem-%{gem_name}
-Version: 1.0.1
-Release: 9%{?dist}
+Version: 1.0.2
+Release: 1%{?dist}
 Summary: XML serialization for Active Model objects and Active Record models
 License: MIT
 URL: http://github.com/rails/activemodel-serializers-xml
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
-# git clone https://github.com/rails/activemodel-serialization-xml
-# cd activemodel-serialization-xml/
-# git checkout v1.0.1 && tar czvf activemodel-serialization-xml-1.0.1-tests.tgz test/
-Source1: activemodel-serialization-xml-%{version}-tests.tgz
+# git clone https://github.com/rails/activemodel-serializers-xml
+# cd activemodel-serializers-xml/
+# git archive -v -o activemodel-serializers-xml-1.0.2-tests.tar.gz v1.0.2 test/
+Source1: activemodel-serializers-xml-%{version}-tests.tar.gz
+# Fix `you can't define an already defined column 'created_at'` test error.
+# https://github.com/rails/activemodel-serializers-xml/pull/18
+Patch0: rubygem-activemodel-serializers-xml-1.0.2-timestamps-creates-created_at-field.patch
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby
@@ -35,15 +38,15 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-gem unpack %{SOURCE0}
+%setup -q -n %{gem_name}-%{version} -b 1
 
-%setup -q -D -T -n  %{gem_name}-%{version}
-
-gem spec %{SOURCE0} -l --ruby > %{gem_name}.gemspec
+pushd %{_builddir}
+%patch0 -p1
+popd
 
 %build
 # Create the gem as gem install only works on a gem file
-gem build %{gem_name}.gemspec
+gem build ../%{gem_name}-%{version}.gemspec
 
 # %%gem_install compiles any C extensions and installs the gem into ./%%gem_dir
 # by default, so that we can move it into the buildroot in %%install
@@ -60,13 +63,9 @@ cp -a .%{gem_dir}/* \
 # Run the test suite
 %check
 pushd .%{gem_instdir}
-tar xzvf %{SOURCE1}
+ln -s %{_builddir}/test .
 
-# ActiveModel::TestCase was removed in Rails 5.1 (#27928).
-# https://github.com/rails/activemodel-serializers-xml/pull/15
-sed -i "s/ActiveModel::TestCase/ActiveSupport::TestCase/" test/active_model/xml_serialization_test.rb
-
-ruby -Itest -e 'Dir.glob "./test/**/*_test.rb", &method(:require)'
+ruby -Ilib:test -e 'Dir.glob "./test/**/*_test.rb", &method(:require)'
 popd
 
 %files
@@ -83,9 +82,16 @@ popd
 %{gem_instdir}/Gemfile
 %doc %{gem_instdir}/README.md
 %{gem_instdir}/Rakefile
-%exclude %{gem_instdir}/activemodel-serializers-xml.gemspec
+%{gem_instdir}/activemodel-serializers-xml.gemspec
 
 %changelog
+* Fri Sep 11 2020 Vít Ondruch <vondruch@redhat.com> - 1.0.2-1
+- Update to ActiveModel::Serializers::Xml 1.0.2.
+  Resolves: rhbz#1482281
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

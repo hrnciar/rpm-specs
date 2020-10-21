@@ -6,7 +6,7 @@
 
 Name: libreoffice-gallery-vrt-network-equipment
 Version: 1.2.0
-Release: 13%{?dist}
+Release: 14%{?dist}
 Summary: A network equipment shape gallery for LibreOffice
 
 License: CC-BY-SA
@@ -50,6 +50,9 @@ install -p -m 0644 %{SOURCE1} %{buildroot}%{_datadir}/appdata
 %{_libdir}/libreoffice/share/extensions/vrt-network-equipment
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           entr
-Version:        4.5
-Release:        1%{?dist}
+Version:        4.6
+Release:        2%{?dist}
 Summary:        Run arbitrary commands when files change
 
 # The entire source code is ISC except missing/sys/event.h which is BSD
@@ -40,6 +40,12 @@ make test
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Lubomír Sedlář <lsedlar@redhat.com> - 4.6-1
+- New upstream release 4.6
+
 * Tue Apr 21 2020 Lubomír Sedlář <lsedlar@redhat.com> - 4.5-1
 - New upstream release 4.5
 

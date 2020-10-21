@@ -14,7 +14,7 @@
 %global win64_py3_dir %{_builddir}/mingw64-py3-%{name}-%{version}-%{release}
 
 %global pkgname python-qt5
-%global qt_ver 5.14.2
+%global qt_ver 5.15.1
 
 # Workaround "error: create archive failed: cpio: write failed - Cannot allocate memory"
 # https://bugzilla.redhat.com/show_bug.cgi?id=1729382
@@ -25,14 +25,13 @@
 
 Name:           mingw-%{pkgname}
 Summary:        MinGW Windows PyQt5
-Version:        5.14.2
-Release:        2%{?pre:.%pre}%{?dist}
+Version:        5.15.0
+Release:        3%{?pre:.%pre}%{?dist}
 
 # GPLv2 exceptions(see GPL_EXCEPTIONS*.txt)
 License:        (GPLv3 or GPLv2 with exceptions) and BSD
 Url:            http://www.riverbankcomputing.com/software/pyqt/
-# Source0:        https://www.riverbankcomputing.com/static/Downloads/PyQt5/%{version}/PyQt5-%{version}%{?pre:.%pre}.tar.gz
-Source0:        https://files.pythonhosted.org/packages/4d/81/b9a66a28fb9a7bbeb60e266f06ebc4703e7e42b99e3609bf1b58ddd232b9/PyQt5-%{version}.tar.gz
+Source0:        https://files.pythonhosted.org/packages/source/P/PyQt5/PyQt5-%{version}.tar.gz
 # Hack in WS_WIN instead of WS_X11 in sip-flags
 Patch0:         PyQt5_wswin.patch
 # Tweak configure for cross build
@@ -220,6 +219,18 @@ find %{buildroot}%{mingw64_prefix} | grep -E '.(exe|dll|pyd)$' | sed 's|^%{build
 
 
 %changelog
+* Thu Oct  8 09:25:25 CEST 2020 Sandro Mani <manisandro@gmail.com> - 5.15.0-3
+- Rebuild (qt5)
+
+* Tue Sep 15 2020 Sandro Mani <manisandro@gmail.com> - 5.15.0-2
+- Rebuild (qt5)
+
+* Tue Aug 18 2020 Sandro Mani <manisandro@gmail.com> - 5.15.0-1
+- Update to 5.15.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.14.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Sandro Mani <manisandro@gmail.com> - 5.14.2-2
 - Rebuild (python-3.9)
 

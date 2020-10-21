@@ -1,6 +1,6 @@
 Name: sqm-scripts
 Version: 1.4.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Traffic shaper scripts of the CeroWrt project
 # License GPLv2 except these files:
 # sqm-scripts-1.4.0/luci/sqm-cbi.lua: Apache License 2.0
@@ -41,5 +41,8 @@ queue length management (AQM), traffic shaping/rate limiting, and QoS
 %{_tmpfilesdir}/sqm.conf
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 23 2020 Juan Orti Alcaine <jortialc@redhat.com> - 1.4.0-1
 - Initial release

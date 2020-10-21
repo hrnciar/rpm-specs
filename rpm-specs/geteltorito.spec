@@ -1,6 +1,6 @@
 Name:           geteltorito
 Version:        0.6
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        El Torito boot image extractor
 
 License:        GPLv2+
@@ -40,6 +40,9 @@ specify the filename wanted on the commandline using option -o <filename>.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

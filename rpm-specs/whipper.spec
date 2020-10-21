@@ -5,7 +5,7 @@
 
 Name:    %{srcname}
 Version: 0.9.0
-Release: 8%{?dist}
+Release: 9%{?dist}
 Summary: %{sum}
 URL:     https://github.com/whipper-team/whipper
 License: GPLv3+
@@ -67,6 +67,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/com.github.wh
 %doc README.md TODO CHANGELOG.md HACKING
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.0-8
 - Rebuilt for Python 3.9
 

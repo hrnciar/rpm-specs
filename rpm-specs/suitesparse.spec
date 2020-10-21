@@ -23,10 +23,16 @@
 %if 0%{?__isa_bits} == 64
 %global build64 1
 %endif
+
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
  
 Name:           suitesparse
 Version:        5.4.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        A collection of sparse matrix libraries
 
 License:        (LGPLv2+ or BSD) and LGPLv2+ and GPLv2+
@@ -37,6 +43,8 @@ BuildRequires:  gcc
 BuildRequires:  gcc-c++
 
 BuildRequires:  metis-devel
+BuildRequires:  %{blaslib}-devel
+# openblas is still required for 64-bit suffixed versions
 BuildRequires:  openblas-devel
 BuildRequires:  tbb-devel
 BuildRequires:  hardlink
@@ -199,7 +207,7 @@ do
   if [ $build = SuiteSparse64 ]
   then
      export CFLAGS="$CFLAGS -DBLAS64"
-     export BLAS=-lopenblas64
+     export BLAS=-l%{blaslib}64
      export LIBRARY_SUFFIX=64
   elif [ $build = SuiteSparse64_ ]
   then
@@ -207,7 +215,7 @@ do
      export BLAS=-lopenblas64_
      export LIBRARY_SUFFIX=64_
   else
-     export BLAS=-lopenblas
+     export BLAS=-l%{blaslib}
   fi   
    
   # SuiteSparse_config needs to come first
@@ -379,7 +387,7 @@ do
     if [ $build = SuiteSparse64 ]
     then
        export CFLAGS="$CFLAGS -DBLAS64"
-       export BLAS=-lopenblas64
+       export BLAS=-l%{blaslib}64
        export LIBRARY_SUFFIX=64
     elif [ $build = SuiteSparse64_ ]
     then
@@ -387,7 +395,7 @@ do
        export BLAS=-lopenblas64_
        export LIBRARY_SUFFIX=64_
     else
-       export BLAS=-lopenblas
+       export BLAS=-l%{blaslib}
     fi   
 
     for d in $TESTDIRS ; do
@@ -480,6 +488,12 @@ done
 %doc SuiteSparse/Doc/*
 
 %changelog
+* Thu Aug 13 2020 Iñaki Úcar <iucar@fedoraproject.org> - 5.4.0-5
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

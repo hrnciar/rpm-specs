@@ -1,7 +1,7 @@
 Summary		: CUPS backend for the Canon BJNP network printers 
 Name		: cups-bjnp
 Version		: 2.0.3
-Release		: 1%{?dist}
+Release		: 2%{?dist}
 License		: GPLv2+
 Source		: http://downloads.sourceforge.net/cups-bjnp/cups-bjnp-%{version}.tar.gz
 Group		: System Environment/Daemons
@@ -34,6 +34,9 @@ make DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p" install
 %doc COPYING ChangeLog TODO NEWS README README.levels
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 12 2020 Louis Lagendijk <llagendijk@users.sourceforge.net> - 2.0.3-1
 - New upstream version 2.0.3 
 - Fixes FTBS

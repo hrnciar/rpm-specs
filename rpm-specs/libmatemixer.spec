@@ -14,11 +14,11 @@
 
 Name:        libmatemixer
 Summary:     Mixer library for MATE desktop
-Version:     %{branch}.0
+Version:     %{branch}.1
 %if 0%{?rel_build}
 Release:     1%{?dist}
 %else
-Release:     0.10%{?git_rel}%{?dist}
+Release:     0.11%{?git_rel}%{?dist}
 %endif
 License:     GPLv2+
 URL:         http://mate-desktop.org
@@ -95,6 +95,12 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Wed Aug 12 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- update to 1.24.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-1
 - update to 1.24.0
 

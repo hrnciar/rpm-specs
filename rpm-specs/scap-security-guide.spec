@@ -1,13 +1,19 @@
 Name:		scap-security-guide
-Version:	0.1.49
-Release:	1%{?dist}
+Version:	0.1.52
+Release:	3%{?dist}
 Summary:	Security guidance and baselines in SCAP formats
 License:	BSD-3-Clause
 URL:		https://github.com/ComplianceAsCode/content/
 Source0:	https://github.com/ComplianceAsCode/content/releases/download/v%{version}/scap-security-guide-%{version}.tar.bz2
 BuildArch:	noarch
 
-BuildRequires:	libxslt, expat, python3, openscap-scanner >= 1.2.5, cmake >= 3.8, python3-jinja2, python3-PyYAML
+BuildRequires:	libxslt
+BuildRequires:	expat
+BuildRequires:	openscap-scanner >= 1.2.5
+BuildRequires:	cmake >= 2.8
+BuildRequires:	python%{python3_pkgversion}
+BuildRequires:	python%{python3_pkgversion}-jinja2
+BuildRequires:	python%{python3_pkgversion}-PyYAML
 Requires:	xml-common, openscap-scanner >= 1.2.5
 Obsoletes:	openscap-content < 0:0.9.13
 Provides:	openscap-content
@@ -35,16 +41,13 @@ present in %{name} package.
 
 %prep
 %setup -q
-mkdir build
 
 %build
-cd build
-%cmake ../
-%make_build
+%cmake
+%cmake_build
 
 %install
-cd build
-%make_install
+%cmake_install
 
 %files
 %{_datadir}/xml/scap/ssg/content
@@ -61,6 +64,32 @@ cd build
 %doc %{_docdir}/%{name}/tables/*.html
 
 %changelog
+* Wed Sep 23 2020 Vojtech Polasek <vpolasek@redhat.com> - 0.1.52-3
+- revert previous rework, it did not solve the problem
+
+* Wed Sep 23 2020 Vojtech Polasek <vpolasek@redhat.com> - 0.1.52-2
+- rewrite solution for CMake out of source builds
+
+* Mon Sep 21 2020 Vojtech Polasek <vpolasek@redhat.com> - 0.1.52-1
+- Update to latest upstream SCAP-Security-Guide-0.1.52 release:
+  https://github.com/ComplianceAsCode/content/releases/tag/v0.1.52
+
+* Tue Aug 04 2020 Jan Černý <jcerny@redhat.com> - 0.1.51-4
+- Update for new CMake out of source builds
+  https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+- Fix FTBS in Rawhide/F33 (RHBZ#1863741)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.51-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.51-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Vojtech Polasek <vpolasek@redhat.com> - 0.1.51-1
+- Update to latest upstream SCAP-Security-Guide-0.1.51 release:
+  https://github.com/ComplianceAsCode/content/releases/tag/v0.1.51
+
 * Mon Mar 23 2020 Watson Sato <wsato@redhat.com> - 0.1.49-1
 - Update to latest upstream SCAP-Security-Guide-0.1.49 release:
   https://github.com/ComplianceAsCode/content/releases/tag/v0.1.49

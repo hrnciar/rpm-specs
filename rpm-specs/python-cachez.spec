@@ -7,7 +7,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.1.2
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Cache decorator for global or instance level memoize
 
 License:        ASL 2.0
@@ -92,6 +92,9 @@ py.test-3 cachez_test.py
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Eric Harney <eharney@redhat.com> - 0.1.2-14
 - Add python3-setuptools BuildRequires
 

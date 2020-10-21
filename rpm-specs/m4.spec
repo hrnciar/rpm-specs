@@ -1,7 +1,7 @@
 Summary: The GNU macro processor
 Name: m4
 Version: 1.4.18
-Release: 12%{?dist}
+Release: 16%{?dist}
 License: GPLv3+
 Source0: http://ftp.gnu.org/gnu/m4/m4-%{version}.tar.xz
 Source1: http://ftp.gnu.org/gnu/m4/m4-%{version}.tar.xz.sig
@@ -51,6 +51,21 @@ make %{?_smp_mflags} check
 %{_mandir}/man1/m4.1*
 
 %changelog
+* Tue Oct 13 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 1.4.18-16
+- Drop workaround introduced in previous release
+  Resolves: #1864107
+
+* Thu Aug 06 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 1.4.18-15
+- Disable %%check on ppc64le (workaround for FTBFS)
+  Resolves: #1864107
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.18-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.18-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.18-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

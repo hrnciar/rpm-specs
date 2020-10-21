@@ -1,6 +1,6 @@
 Name: nss-mdns
 Version: 0.14.1
-Release: 7%{?dist}
+Release: 9%{?dist}
 Summary: glibc plugin for .local name resolution
 
 License: LGPLv2+
@@ -44,11 +44,11 @@ rm -rf $RPM_BUILD_ROOT
 function mod_nss() {
     if [ -f "$1" ] ; then
         # sed-fu to add mdns4_minimal to the hosts line of /etc/nsswitch.conf
-	    sed -i.bak '
-		    /^hosts:/ !b
-    		/\<mdns\(4\|6\)\?\(_minimal\)\?\>/ b
-    		s/\([[:blank:]]\+\)dns\>/\1mdns4_minimal [NOTFOUND=return] dns/g
-    		' "$1"
+        sed -i.bak '
+                /^hosts:/ !b
+            /\<mdns\(4\|6\)\?\(_minimal\)\?\>/ b
+            s/\<files\([[:blank:]]\+\)/files\1mdns4_minimal [NOTFOUND=return] /g
+            ' "$1"
     fi
 }
 
@@ -97,6 +97,13 @@ fi
 
 
 %changelog
+* Wed Sep  2 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 0.14.1-9
+- Place 'mdns4_minimal' in /etc/nsswitch.conf after 'files' in /etc/nsswitch.conf,
+  so that it ends up before 'resolve' (#1867830)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 17 2020 Pavel Březina <pbrezina@redhat.com> - 0.14.1-7
 - Do not remove mdns from nsswitch.conf during upgrade
 

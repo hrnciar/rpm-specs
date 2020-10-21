@@ -1,15 +1,15 @@
 Name:           pdfposter
 Version:        0.7.post1
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        Scale and tile PDF images/pages to print on multiple pages
 
 License:        GPLv3+
 URL:            https://pdfposter.readthedocs.io
 Source0:        %pypi_source pdftools.pdfposter
-
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 
 Requires:       python3-PyPDF2
 
@@ -42,6 +42,12 @@ done
 %{python3_sitelib}/pdftools.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.post1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.7.post1-8
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.post1-7
 - Rebuilt for Python 3.9
 

@@ -8,7 +8,7 @@
 
 Name:           dillo
 Version:        3.0.5
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Very small and fast GUI web browser
 
 License:        GPLv3+
@@ -97,6 +97,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.5-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 27 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 3.0.5-8
 - Fix/workaround FTBFS | RHBZ#1799282
 - Packaging improvements

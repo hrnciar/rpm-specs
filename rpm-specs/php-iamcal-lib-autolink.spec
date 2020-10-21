@@ -15,7 +15,7 @@
 
 Name:           php-iamcal-lib-autolink
 Version:        1.7
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Adds anchors to urls in a text
 
 License:        MIT
@@ -88,6 +88,9 @@ grep -q '^not ok' tests.log && exit 1 || exit 0
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

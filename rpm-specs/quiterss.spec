@@ -1,6 +1,6 @@
 Name:		quiterss
 Version:	0.19.4
-Release:	1%{?dist}
+Release:	3%{?dist}
 License:	GPLv3
 Summary:	RSS/Atom aggregator
 URL:		http://quiterss.org/
@@ -45,6 +45,13 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 23 2020 TI_Eugene <ti.eugene@gmail.com> - 0.19.4-1
 - Version bump
 

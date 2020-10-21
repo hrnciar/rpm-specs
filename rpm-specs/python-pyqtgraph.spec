@@ -11,7 +11,7 @@ GraphicsView framework for fast display.
 
 Name:           python-%{srcname}
 Version:        0.10.0
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        %{sum}
 License:        MIT
 URL:            http://www.pyqtgraph.org/
@@ -70,6 +70,9 @@ PYTHONDONTWRITEBYTECODE=1 xvfb-run -a py.test-%{python3_version} -k "not (test_I
 %doc examples doc/build/html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.10.0-15
 - Rebuilt for Python 3.9
 

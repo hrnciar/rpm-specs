@@ -1,6 +1,6 @@
 Name:       alleyoop
 Version:    0.9.8
-Release:    14%{?dist}
+Release:    16%{?dist}
 License:    GPLv2+
 Summary:    Graphical front-end to the Valgrind memory checker for x86
 URL:        http://alleyoop.sourceforge.net/
@@ -62,6 +62,13 @@ scrollkeeper-update -q
 
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.8-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.8-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.8-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

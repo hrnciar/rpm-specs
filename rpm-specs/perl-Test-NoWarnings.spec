@@ -1,14 +1,19 @@
 # Enable dumping a stack trace
+%if 0%{?rhel}
+%bcond_with perl_Test_NoWarnings_enables_stack_trace
+%else
 %bcond_without perl_Test_NoWarnings_enables_stack_trace
+%endif
 
 Name:           perl-Test-NoWarnings
 Version:        1.04
-Release:        22%{?dist}
+Release:        24%{?dist}
 Summary:        Make sure you didn't emit any warnings while testing
 License:        LGPLv2+
 URL:            https://metacpan.org/release/Test-NoWarnings
 Source0:        https://cpan.metacpan.org/authors/id/A/AD/ADAMK/Test-NoWarnings-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -45,11 +50,11 @@ going on when the it occurred.
 %setup -q -n Test-NoWarnings-%{version}
 
 %build
-perl Makefile.PL NO_PACKLIST=1 INSTALLDIRS=vendor
-make %{?_smp_mflags}
+perl Makefile.PL NO_PACKLIST=1 NO_PERLLOCAL=1 INSTALLDIRS=vendor
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
@@ -62,6 +67,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Wed Jul 29 2020 Petr Pisar <ppisar@redhat.com> - 1.04-24
+- Modernize a spec file
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.04-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.04-22
 - Perl 5.32 rebuild
 

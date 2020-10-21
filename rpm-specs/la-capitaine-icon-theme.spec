@@ -1,26 +1,24 @@
-%global commit      36b97689cfaa2e20344590d4b01e079149106fc8
+%global commit 95646067eed24e75352fac55b42e7cc742bef057
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global date        20200414
-%global giturl      https://github.com/keeferrourke/%{name}
+%global date 20200922
 
-%global themename   La-Capitaine
+%global giturl https://github.com/keeferrourke/%{name}
+%global themename La-Capitaine
 
-Name:           la-capitaine-icon-theme
-Version:        0.6.1
-Release:        7.%{date}git%{shortcommit}%{?dist}
-Summary:        Icon pack designed to integrate with most desktop environments
+Name: la-capitaine-icon-theme
+Version: 0.6.1
+Release: 9.%{date}git%{shortcommit}%{?dist}
+Summary: Icon pack designed to integrate with most desktop environments
+BuildArch: noarch
 
 # For a breakdown of the licensing, see COPYING and LICENSE
-License:        GPLv3+ and MIT
-URL:            https://krourke.org/projects/art/la-capitaine-icon-theme
-Source0:        %{giturl}/archive/%{commit}/%{name}-%{version}.%{date}git%{shortcommit}.tar.gz
-BuildArch:      noarch
+License: GPLv3+ and MIT
+URL: https://krourke.org/projects/art/la-capitaine-icon-theme
+Source0: %{giturl}/archive/%{commit}/%{name}-%{version}.%{date}git%{shortcommit}.tar.gz
 
-BuildRequires:  fdupes
-
-Requires:       adwaita-icon-theme
-Requires:       gnome-icon-theme
-Requires:       hicolor-icon-theme
+Requires: adwaita-icon-theme
+Requires: gnome-icon-theme
+Requires: hicolor-icon-theme
 
 %description
 La Capitaine is an icon pack — designed to integrate with most desktop
@@ -30,37 +28,35 @@ gradients, shadowing, and simple icon geometry.
 
 
 %prep
-%autosetup -n %{name}-%{commit}
+%autosetup -n %{name}-%{commit} -p1
 
 # Remove executable bit
 find -executable -type f -exec chmod -x {} +
 
 
 %install
-mkdir -p            %{buildroot}%{_datadir}/icons/%{themename}
-cp -rp actions      %{buildroot}%{_datadir}/icons/%{themename}
-cp -rp animations   %{buildroot}%{_datadir}/icons/%{themename}
-cp -rp apps         %{buildroot}%{_datadir}/icons/%{themename}
-cp -rp devices      %{buildroot}%{_datadir}/icons/%{themename}
-cp -rp emblems      %{buildroot}%{_datadir}/icons/%{themename}
-cp -rp emotes       %{buildroot}%{_datadir}/icons/%{themename}
-cp -rp mimetypes    %{buildroot}%{_datadir}/icons/%{themename}
-cp -rp panel        %{buildroot}%{_datadir}/icons/%{themename}
-cp -rp places       %{buildroot}%{_datadir}/icons/%{themename}
-cp -rp status       %{buildroot}%{_datadir}/icons/%{themename}
+mkdir -p %{buildroot}%{_datadir}/icons/%{themename}
+cp -rp actions %{buildroot}%{_datadir}/icons/%{themename}
+cp -rp animations %{buildroot}%{_datadir}/icons/%{themename}
+cp -rp apps %{buildroot}%{_datadir}/icons/%{themename}
+cp -rp devices %{buildroot}%{_datadir}/icons/%{themename}
+cp -rp emblems %{buildroot}%{_datadir}/icons/%{themename}
+cp -rp emotes %{buildroot}%{_datadir}/icons/%{themename}
+cp -rp mimetypes %{buildroot}%{_datadir}/icons/%{themename}
+cp -rp panel %{buildroot}%{_datadir}/icons/%{themename}
+cp -rp places %{buildroot}%{_datadir}/icons/%{themename}
+cp -rp status %{buildroot}%{_datadir}/icons/%{themename}
 install -Dpm0644 index.theme %{buildroot}%{_datadir}/icons/%{themename}/index.theme
 
 # Remove all logos except Fedora
-find    %{buildroot}%{_datadir}/icons/%{themename}/apps/scalable/distributor-logo* \
+find %{buildroot}%{_datadir}/icons/%{themename}/apps/scalable/distributor-logo* \
     ! -name 'distributor-logo-fedora.svg' -type f -exec rm {} +
-mv      %{buildroot}%{_datadir}/icons/%{themename}/apps/scalable/distributor-logo-fedora.svg \
-        %{buildroot}%{_datadir}/icons/%{themename}/apps/scalable/distributor-logo.svg
+mv %{buildroot}%{_datadir}/icons/%{themename}/apps/scalable/distributor-logo-fedora.svg \
+    %{buildroot}%{_datadir}/icons/%{themename}/apps/scalable/distributor-logo.svg
 
 # Remove all logos except GNOME and Red Hat
-find    %{buildroot}%{_datadir}/icons/%{themename}/places/scalable/distributor-logo* \
+find %{buildroot}%{_datadir}/icons/%{themename}/places/scalable/distributor-logo* \
     ! -name '{distributor-logo-gnome.svg,distributor-logo-redhat.svg}' -type f -exec rm {} +
-
-%fdupes -s %{buildroot}%{_datadir}
 
 touch %{buildroot}/%{_datadir}/icons/%{themename}/icon-theme.cache
 
@@ -79,6 +75,13 @@ gtk-update-icon-cache --force %{_datadir}/icons/%{themename} &>/dev/null || :
 
 
 %changelog
+* Sun Sep 27 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.6.1-9.20200922git9564606
+- Update to latest git snapshot
+- build: remove fdupes
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-8.20200414git36b9768
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.6.1-7.20200414git36b9768
 - Update to latest git snapshot
 

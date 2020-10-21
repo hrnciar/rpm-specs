@@ -9,8 +9,8 @@ Available features:\
 - Remove test_ and underscores for every test.
 
 Name:           python-%{pypi_name}
-Version:        2.0.0
-Release:        3%{?dist}
+Version:        3.0.4
+Release:        1%{?dist}
 Summary:        Pytest plugin to display test execution output like a SPECIFICATION
 
 License:        GPLv2+
@@ -61,6 +61,15 @@ sed -i 's/^\[pytest\]$/[tool:pytest]/' setup.cfg
 %{python3_sitelib}/%{modname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Thu Oct 01 2020 Fabian Affolter <mail@fabian-affolter.ch> - 3.0.4-1
+- Update to latest upstream release 3.0.4
+
+* Wed Sep 23 2020 Lumír Balhar <lbalhar@redhat.com> - 3.0.0-1
+- Update to 3.0.0 (#1881693)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.0-3
 - Rebuilt for Python 3.9
 

@@ -1,13 +1,13 @@
 %global pypi_name javalang
 
 Name:           python-%{pypi_name}
-Version:        0.12.0
-Release:        6%{?dist}
-Summary:        A pure Python Java parser and tools
+Version:        0.13.0
+Release:        1%{?dist}
+Summary:        Python Java parser and tools
 
 License:        MIT
 URL:            https://github.com/c2nes/javalang
-Source0:        %{pypi_source}
+Source0:        %{url}/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
 
 %description
@@ -16,7 +16,9 @@ provides a lexer and parser targeting Java 8.
 
 %package -n python3-%{pypi_name}
 Summary:        %{summary}
+
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
 %description -n python3-%{pypi_name}
@@ -34,10 +36,21 @@ provides a lexer and parser targeting Java 8.
 
 %files -n python3-%{pypi_name}
 %doc README.rst
+%license LICENSE.txt
 %{python3_sitelib}/*.egg-info
 %{python3_sitelib}/%{pypi_name}/
 
 %changelog
+* Wed Sep 16 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.13.0-1
+- Switch to GitHub as source to have the license file
+- Update to latest upstrema release 0.13.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.12.0-7
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.12.0-6
 - Rebuilt for Python 3.9
 

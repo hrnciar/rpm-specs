@@ -1,3 +1,4 @@
+%global __cmake_in_source_build 1
 
 ## build/include liblastfm_fingerprint
 %define fingerprint 1
@@ -12,7 +13,7 @@
 Name:	 liblastfm
 Summary: Libraries to integrate Last.fm services
 Version: 1.1.0
-Release: 2%{?dist}
+Release: 6%{?dist}
 
 License: GPLv2+
 URL:     https://github.com/lastfm/liblastfm
@@ -76,6 +77,7 @@ Requires: %{name}-qt5-fingerprint%{?_isa} = %{version}-%{release}
 
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 mkdir %{_target_platform}
 pushd %{_target_platform}
 %{cmake} .. \
@@ -162,6 +164,19 @@ make test ARGS="-E UrlBuilderTest" -C %{_target_platform}-qt5
 
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 1.1.0-6
+- Force C++14 as this code is not C++17 ready
+
+* Tue Aug 04 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.1.0-5
+- Fix FTBFS.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

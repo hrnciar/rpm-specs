@@ -32,7 +32,7 @@
 Summary: An utility for manipulating storage encryption keys and passphrases
 Name: volume_key
 Version: 0.3.12
-Release: 8%{?dist}
+Release: 9%{?dist}
 # lib/{SECerrs,SSLerrs}.h are both licensed under MPLv1.1, GPLv2 and LGPLv2
 License: GPLv2 and (MPLv1.1 or GPLv2 or LGPLv2)
 URL: https://pagure.io/%{name}/
@@ -166,6 +166,9 @@ exit 1; \
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.12-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.12-8
 - Rebuilt for Python 3.9
 

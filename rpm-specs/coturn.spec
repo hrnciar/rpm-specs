@@ -1,6 +1,6 @@
 Name:           coturn
-Version:        4.5.1.2
-Release:        1%{?dist}
+Version:        4.5.1.3
+Release:        3%{?dist}
 Summary:        TURN/STUN & ICE Server
 License:        BSD
 URL:            https://github.com/coturn/coturn/
@@ -247,6 +247,15 @@ exit 0
 
 
 %changelog
+* Sun Sep 27 2020 Christian Glombek <lorbus@fedoraproject.org> - 4.5.1.3-3
+- Rebuilt for libevent 2.1.12 soname bump
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.1.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Robert Scheck <robert@fedoraproject.org> - 4.5.1.3-1
+- Update to 4.5.1.3
+
 * Sat May 16 2020 Robert Scheck <robert@fedoraproject.org> - 4.5.1.2-1
 - Update to 4.5.1.2
 

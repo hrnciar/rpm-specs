@@ -3,7 +3,7 @@
 
 # https://github.com/zyedidia/clipboard
 %global goipath         github.com/zyedidia/clipboard
-%global commit          7c45b8673834045ddc6dd553fcb65f3bf4224119
+Version:                1.0.3
 
 %gometa
 
@@ -14,8 +14,7 @@ Clipboard for golang.}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.10%{?dist}
+Release:        1%{?dist}
 Summary:        Clipboard for golang
 
 # Upstream license specification: BSD-3-Clause
@@ -42,6 +41,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Tue Aug 04 23:03:08 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.3-
+- Update to 1.0.3
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 19:47:19 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.10.20200718git7c45b86
 - Bump to commit 7c45b8673834045ddc6dd553fcb65f3bf4224119
 

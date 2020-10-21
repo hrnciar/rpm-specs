@@ -4,8 +4,8 @@
 %global crate zram-generator
 
 Name:           rust-%{crate}
-Version:        0.2.0~rc.1
-Release:        1%{?dist}
+Version:        0.2.0
+Release:        4%{?dist}
 Summary:        Systemd unit generator for zram swap devices
 
 # Upstream license specification: MIT
@@ -44,7 +44,7 @@ Recommends:     /usr/bin/zramctl
 %files       -n %{crate}
 %license LICENSE
 %doc zram-generator.conf.example
-%doc README.md TODO
+%doc README.md
 %{_systemdgeneratordir}/zram-generator
 %{_unitdir}/swap-create@.service
 %{_mandir}/man8/zram-generator.8*
@@ -53,6 +53,7 @@ Recommends:     /usr/bin/zramctl
 %package     -n %{crate}-defaults
 Summary:        Default configuration for %{crate}
 Requires:       %{crate} = %{version}-%{release}
+Obsoletes:      zram < 0.4-2
 BuildArch:      noarch
 
 %description -n %{crate}-defaults
@@ -73,7 +74,7 @@ which use "%{crate}" crate.
 
 %files          devel
 %license LICENSE
-%doc README.md TODO
+%doc README.md
 %{cargo_registry}/%{crate}-%{version_no_tilde}/
 
 %package     -n %{name}+default-devel
@@ -117,6 +118,18 @@ install -Dpm0644 -t %{buildroot}%{_mandir}/man5 man/zram-generator.5
 %endif
 
 %changelog
+* Sun Aug 16 15:02:03 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.0-4
+- Rebuild
+
+* Sat Aug  1 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 0.2.0-3
+- Obsolete zram package from zram-generator-defaults
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 17:30:46 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.0-1
+- Update to 0.2.0
+
 * Tue Jun 23 19:56:14 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.0~rc.1-1
 - Update to 0.2.0-rc.1
 

@@ -17,7 +17,7 @@
 
 Name:           php-%{gh_owner}-%{cname}
 Version:        1.5.2
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Zeta Graph Component
 
 License:        ASL 2.0
@@ -147,6 +147,9 @@ sed -e 's/testBarChartWithSingleDataPointNumericAxis/SKIP_testBarChartWithSingle
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

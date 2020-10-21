@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          1.0.3
-Release:          7%{?dist}
+Release:          8%{?dist}
 Summary:          Create Disposable R Packages for Testing
 
 License:          MIT
@@ -69,6 +69,9 @@ rm %{buildroot}%{rlibdir}/%{packname}/README.markdown
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 1.0.3-7
 - rebuild for R 4
 

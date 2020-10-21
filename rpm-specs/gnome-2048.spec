@@ -1,11 +1,11 @@
 Name:           gnome-2048
-Version:        3.37.1
+Version:        3.38.0
 Release:        1%{?dist}
 Summary:        A 2048 clone for GNOME
 
 License:        GPLv3+
 URL:            https://wiki.gnome.org/Apps/2048
-Source0:        https://download.gnome.org/sources/gnome-2048/3.37/gnome-2048-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/gnome-2048/3.38/gnome-2048-%{version}.tar.xz
 
 
 BuildRequires:  gcc
@@ -57,6 +57,19 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.TwentyFo
 
 
 %changelog
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Sat Aug 29 2020 Kalev Lember <klember@redhat.com> - 3.37.91-1
+- Update to 3.37.91
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 30 2020 Kalev Lember <klember@redhat.com> - 3.37.1-1
 - Update to 3.37.1
 

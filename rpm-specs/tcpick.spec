@@ -1,7 +1,7 @@
 Summary:	A tcp stream sniffer, tracker and capturer
 Name: 		tcpick
 Version: 	0.2.1
-Release: 	37%{?dist}
+Release: 	38%{?dist}
 License: 	GPLv2+
 URL: 		http://tcpick.sourceforge.net/
 Source:		http://downloads.sourceforge.net/sourceforge/%{name}/%{name}-%{version}.tar.gz
@@ -57,6 +57,9 @@ touch -c -r AUTHORS AUTHORS.utf8; mv -f AUTHORS.utf8 AUTHORS
 %{_mandir}/it/man8/%{name}.8*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-38
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 02 2020 Robert Scheck <robert@fedoraproject.org> 0.2.1-37
 - Added patch to declare structs as extern in header file
 

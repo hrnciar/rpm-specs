@@ -1,6 +1,6 @@
 Name:           nethogs
 Version:        0.8.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A tool resembling top for network traffic
 
 License:        GPL+
@@ -43,6 +43,9 @@ install -m 0644 doc/nethogs.8 "${RPM_BUILD_ROOT}%{_mandir}/man8/"
 %doc %{_mandir}/man*/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 Anderson Silva <ansilva@redhat.com> - 0.8.6-2
 - Making nethogs binary only as it fails to build tests under arm and aarch64
 

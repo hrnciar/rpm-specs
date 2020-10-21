@@ -1,6 +1,6 @@
 Name:		libappindicator
 Version:	12.10.0
-Release:	28%{?dist}
+Release:	29%{?dist}
 Summary:	Application indicators library
 
 License:	LGPLv2 and LGPLv3
@@ -221,6 +221,9 @@ find %{buildroot} -type f -name '*.la' -delete
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12.10.0-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 13 2020 Eduardo Echeverria <echevemaster@gmail.com> - 12-10-0-28
 - Added mono to sharp sub-package 
 

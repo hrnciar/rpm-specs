@@ -1,6 +1,6 @@
 Name:       ibus-table
-Version:    1.9.25
-Release:    3%{?dist}
+Version:    1.12.1
+Release:    1%{?dist}
 Summary:    The Table engine for IBus platform
 License:    LGPLv2+
 URL:        http://code.google.com/p/ibus/
@@ -10,9 +10,15 @@ Requires:       ibus > 1.3.0
 BuildRequires:  gcc
 BuildRequires:  ibus-devel > 1.3.0
 BuildRequires:  python3-devel
-BuildRequires:  libappstream-glib
 # for the unit tests
+BuildRequires:  appstream
+BuildRequires:  libappstream-glib
+BuildRequires:  desktop-file-utils
+BuildRequires:  python3-mock
+BuildRequires:  python3-gobject
+BuildRequires:  python3-gobject-base
 BuildRequires:  dbus-x11
+BuildRequires:  xorg-x11-server-Xvfb
 BuildRequires:  ibus-table-chinese-wubi-jidian
 BuildRequires:  ibus-table-chinese-cangjie
 BuildRequires:  ibus-table-chinese-stroke5
@@ -20,6 +26,8 @@ BuildRequires:  ibus-table-code
 BuildRequires:  ibus-table-latin
 BuildRequires:  ibus-table-translit
 BuildRequires:  ibus-table-tv
+# A window manger is needed for the GUI test
+BuildRequires:  i3
 
 Obsoletes:   ibus-table-additional < 1.2.0.20100111-5
 
@@ -35,12 +43,20 @@ Requires:       %{name} = %{version}-%{release}, pkgconfig
 %description -n %{name}-devel
 Development files for %{name}.
 
+%package tests
+Summary:        Tests for the %{name} package
+Requires:       %{name} = %{version}-%{release}
+
+%description tests
+The %{name}-tests package contains tests that can be used to verify
+the functionality of the installed %{name} package.
+
 %prep
 %setup -q
 
 %build
 export PYTHON=%{__python3}
-%configure --disable-static --disable-additional
+%configure --disable-static --disable-additional --enable-installed-tests
 %__make %{?_smp_mflags}
 
 %install
@@ -53,6 +69,7 @@ export PYTHON=%{__python3}
 %find_lang %{name}
 
 %check
+appstreamcli validate --pedantic --explain --no-net %{buildroot}/%{_datadir}/metainfo/*.appdata.xml
 appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/*.appdata.xml
 desktop-file-validate \
     $RPM_BUILD_ROOT%{_datadir}/applications/ibus-setup-table.desktop
@@ -71,11 +88,32 @@ dconf dump /
 dconf write /org/freedesktop/ibus/engine/table/wubi-jidian/chinesemode 1
 dconf write /org/freedesktop/ibus/engine/table/wubi-jidian/spacekeybehavior false
 dconf dump /
-ibus-daemon -drx
-make -C tests run_tests
-pushd tests
-    ./run_tests
-popd
+export DISPLAY=:1
+Xvfb $DISPLAY -screen 0 1024x768x16 &
+# A window manager and and ibus-daemon are needed to run the GUI
+# test tests/test_gtk.py, for example i3 can be used.
+#
+# To debug what is going on if there is a problem with the GUI test
+# add BuildRequires: x11vnc and start a vnc server:
+#
+#     x11vnc -display $DISPLAY -unixsock /tmp/mysock -bg -nopw -listen localhost -xkb
+#
+# Then one can view what is going on outside of the chroot with vncviewer:
+#
+#     vncviewer /var/lib/mock/fedora-32-x86_64/root/tmp/mysock
+#
+# The GUI test will be skipped if XDG_SESSION_TYPE is not x11 or wayland.
+#
+#ibus-daemon -drx
+#touch /tmp/i3config
+#i3 -c /tmp/i3config &
+#export XDG_SESSION_TYPE=x11
+
+make check && rc=0 || rc=1
+cat tests/*.log
+if [ $rc != 0 ] ; then
+    exit $rc
+fi
 
 %post
 [ -x %{_bindir}/ibus ] && \
@@ -101,7 +139,65 @@ popd
 %files devel
 %{_datadir}/pkgconfig/%{name}.pc
 
+%files tests
+%dir %{_libexecdir}/installed-tests
+%{_libexecdir}/installed-tests/%{name}
+%dir %{_datadir}/installed-tests
+%{_datadir}/installed-tests/%{name}
+
 %changelog
+* Fri Sep 04 2020 Mike FABIAN <mfabian@redhat.com> - 1.12.1-1
+- Update to 1.12.1
+- Enable compose support.
+- Add buttons to move key bindings for a command up or down.
+- Make translations of 'Edit key bindings for command “%s”' work
+- Added it_util.py to POTFILES, it had translatable strings for
+  the “About” dialog and the key settings dialog.
+- Update translations from Weblate (updated ca, de, fr, tr, uk)
+
+* Wed Aug 26 2020 Mike FABIAN <mfabian@redhat.com> - 1.12.0-1
+- Update to 1.12.0
+- New setup tool, now keybindings can be configured with a GUI.
+- Resolves: https://github.com/kaio/ibus-table/issues/57
+- Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=1133127
+- Put exact (except tone) pinyin matches next after exact
+  matches in the candidate list.
+- Resolves: https://github.com/kaio/ibus-table/issues/63
+- Allow lookup table orientation “System Default” in the setup
+- Remove “spacekeybehavior” option, it became useless as all
+  keybindings are configurable now.
+- Added a “debuglevel” option.
+- Update translations from Weblate (updated ca, cs, de, es, fa,
+  fr, ja, pt_BR, pt_PT, uk, zh_TW, zh_HK, zh_CN)
+
+* Sun Aug 16 2020 Mike FABIAN <mfabian@redhat.com> - 1.11.0-1
+- Update to 1.11.0
+- Make key bindings configurable.
+  Only via the command line for the moment, not yet easy to do
+  for normal users. I have to rewrite the setup tool eventually
+  to make that possible.
+- Resolves: https://github.com/ibus/ibus/issues/2241
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Mike FABIAN <mfabian@redhat.com> - 1.10.1-1
+- Update to 1.10.1
+- Add GUI test
+- Make output of ibus-table-createdb deterministic
+- Update translations from Weblate (updated fr, tr, zh_CN)
+
+* Wed Jul 01 2020 Mike FABIAN <mfabian@redhat.com> - 1.10.0-1
+- Update to 1.10.0
+- Add suggestion mode feature
+- Resolves: https://github.com/mike-fabian/ibus-table/pull/9
+- Resolves: rhbz#835376
+- Add test cases for suggestion mode feature
+- Fix problems with the behaviour of the property menus
+- Use python logging module with log file rotation instead
+  of writing to stdout/stderr
+- Update translations from Weblate (updated de, es, fr, pt_BR, pt_PT, tr, uk)
+
 * Mon Jun 22 2020 Mike FABIAN <mfabian@redhat.com> - 1.9.25-3
 - Byte compile python files namually,
   see: https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3

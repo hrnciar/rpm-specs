@@ -1,6 +1,6 @@
 Name:           lpsk31
 Version:        1.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A ncurses application for ham radio communications using PSK31 digital mode
 
 License:        GPLv2+
@@ -47,6 +47,9 @@ install -m 0755 -D -p %{SOURCE1} %{buildroot}%{_bindir}/lpsk31
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

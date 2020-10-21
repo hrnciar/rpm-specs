@@ -2,22 +2,21 @@
 
 %global         api_version      1.0
 
-Name:    mingw-gstreamer1-plugins-base
-Version: 1.16.2
-Release: 1%{?dist}
-Summary: Cross compiled GStreamer1 media framework base plug-ins
+Name:           mingw-gstreamer1-plugins-base
+Version:        1.18.0
+Release:        3%{?dist}
+Summary:        Cross compiled GStreamer1 media framework base plug-ins
 
-License: LGPLv2+
-URL:     http://gstreamer.freedesktop.org/
-Source:  http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-%{version}.tar.xz
-
-# Fix build with Make 4.3
-Patch0:         gst-plugins-base-1.16.2-make43.patch
+License:        LGPLv2+
+URL:            http://gstreamer.freedesktop.org/
+Source:         http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-%{version}.tar.xz
 
 BuildArch:      noarch
 
-# For Patch0
-BuildRequires:  automake autoconf libtool gettext-devel
+BuildRequires:  gettext
+BuildRequires:  gcc
+BuildRequires:  meson
+BuildRequires:  orc-compiler
 
 BuildRequires:  mingw32-filesystem >= 95
 BuildRequires:  mingw32-gcc
@@ -102,43 +101,29 @@ This package contains a set of well-maintained base plug-ins.
 
 
 %build
-# For Patch0
-autoreconf -i
+%mingw_meson                                                            \
+    -Dpackage-name='Fedora MinGW GStreamer-plugins-base package'        \
+    -Dpackage-origin='http://download.fedoraproject.org'                \
+    -D doc=disabled \
+    -D gtk_doc=disabled \
+    -D orc=enabled \
+    -D tremor=disabled \
+    -D tests=disabled \
+    -D examples=disabled
 
-%mingw_configure                                                        \
-    --with-package-name='Fedora MinGW GStreamer-plugins-base package'   \
-    --with-package-origin='http://download.fedoraproject.org'           \
-    --enable-experimental                                               \
-    --disable-fatal-warnings                                            \
-    --disable-silent-rules                                              \
-    --disable-gtk-doc                                                   \
-    --enable-orc                                                        \
-    --disable-static
-
-%mingw_make %{?_smp_mflags}
+%mingw_ninja
 
 
 %install
-%mingw_make install DESTDIR=%{buildroot}
+%mingw_ninja_install
 
-# Clean out files that should not be part of the rpm.
-rm -f %{buildroot}%{mingw32_libdir}/gstreamer-%{api_version}/*.a
-rm -f %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.a
-rm -f %{buildroot}%{mingw32_bindir}/gst-visualise*
-rm -f %{buildroot}%{mingw64_bindir}/gst-visualise*
-rm -f %{buildroot}%{mingw32_mandir}/man1/*gst*
-rm -f %{buildroot}%{mingw64_mandir}/man1/*gst*
-rm -rf %{buildroot}%{mingw32_datadir}/gtk-doc
-rm -rf %{buildroot}%{mingw64_datadir}/gtk-doc
+# Drop man pages
+rm -rf %{buildroot}%{mingw32_mandir}
+rm -rf %{buildroot}%{mingw64_mandir}
 
-# Drop all .la files
-find %{buildroot} -name "*.la" -delete
-
-mv %{buildroot}%{mingw32_bindir}/%{mingw32_target}-gst-discoverer-%{api_version}.exe \
-   %{buildroot}%{mingw32_bindir}/gst-discoverer-%{api_version}.exe
-
-mv %{buildroot}%{mingw64_bindir}/%{mingw64_target}-gst-discoverer-%{api_version}.exe \
-   %{buildroot}%{mingw64_bindir}/gst-discoverer-%{api_version}.exe
+# Drop import libs for plugins
+rm -rf %{buildroot}%{mingw32_libdir}/gstreamer-%{api_version}/*.dll.a
+rm -rf %{buildroot}%{mingw64_libdir}/gstreamer-%{api_version}/*.dll.a
 
 %mingw_find_lang gst-plugins-base-%{api_version}
 
@@ -148,8 +133,8 @@ mv %{buildroot}%{mingw64_bindir}/%{mingw64_target}-gst-discoverer-%{api_version}
 %license COPYING
 %doc AUTHORS README REQUIREMENTS
 
-%{mingw32_bindir}/%{mingw32_target}-gst-device-monitor-%{api_version}.exe
-%{mingw32_bindir}/%{mingw32_target}-gst-play-%{api_version}.exe
+%{mingw32_bindir}/gst-device-monitor-%{api_version}.exe
+%{mingw32_bindir}/gst-play-%{api_version}.exe
 %{mingw32_bindir}/gst-discoverer-%{api_version}.exe
 %{mingw32_bindir}/libgstallocators-%{api_version}-0.dll
 %{mingw32_bindir}/libgstapp-%{api_version}-0.dll
@@ -190,8 +175,8 @@ mv %{buildroot}%{mingw64_bindir}/%{mingw64_target}-gst-discoverer-%{api_version}
 %license COPYING
 %doc AUTHORS README REQUIREMENTS
 
-%{mingw64_bindir}/%{mingw64_target}-gst-device-monitor-%{api_version}.exe
-%{mingw64_bindir}/%{mingw64_target}-gst-play-%{api_version}.exe
+%{mingw64_bindir}/gst-device-monitor-%{api_version}.exe
+%{mingw64_bindir}/gst-play-%{api_version}.exe
 %{mingw64_bindir}/gst-discoverer-%{api_version}.exe
 %{mingw64_bindir}/libgstallocators-%{api_version}-0.dll
 %{mingw64_bindir}/libgstapp-%{api_version}-0.dll
@@ -228,6 +213,21 @@ mv %{buildroot}%{mingw64_bindir}/%{mingw64_target}-gst-discoverer-%{api_version}
 %{mingw64_datadir}/gst-plugins-base
 
 %changelog
+* Mon Sep 14 2020 Sandro Mani <manisandro@gmail.com> - 1.18.0-3
+- Use same meson options as native package
+
+* Mon Sep 14 2020 Sandro Mani <manisandro@gmail.com> - 1.18.0-2
+- Drop import libs for plugins
+
+* Sun Sep 13 2020 Sandro Mani <manisandro@gmail.com> - 1.18.0-1
+- Update to 1.18.0
+
+* Wed Aug 12 13:38:23 GMT 2020 Sandro Mani <manisandro@gmail.com> - 1.16.2-3
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 1.16.2-1
 - Update to 1.16.2
 

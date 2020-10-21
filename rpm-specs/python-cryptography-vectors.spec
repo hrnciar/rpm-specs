@@ -16,8 +16,8 @@
 %global pysrcname cryptography_vectors
 
 Name:           python-%{srcname}
-Version:        2.9
-Release:        2%{?dist}
+Version:        3.1
+Release:        1%{?dist}
 License:        ASL 2.0 or BSD
 Summary:        Test vectors for the cryptography package
 URL:            https://pypi.python.org/pypi/cryptography-vectors
@@ -105,6 +105,15 @@ rm -vrf %{pysrcname}.egg-info
 %endif
 
 %changelog
+* Mon Sep 07 2020 Christian Heimes <cheimes@redhat.com> - 3.1-1
+- Update to 3.1 (#1872979)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Christian Heimes <cheimes@redhat.com> - 3.0-1
+- Update to 3.0 (#185896)
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 2.9-2
 - Rebuilt for Python 3.9
 

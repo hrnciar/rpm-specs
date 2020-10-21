@@ -1,6 +1,6 @@
 Name: pipepanic
 Version: 0.1.3
-Release: 28%{?dist}
+Release: 29%{?dist}
 Summary: A pipe connecting game
 
 License: GPLv2+
@@ -94,6 +94,9 @@ desktop-file-install \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-28
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

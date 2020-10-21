@@ -1,6 +1,6 @@
 Name:           linsmith
 Version:        0.99.31
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A Smith charting program
 
 License:        GPLv2
@@ -65,6 +65,9 @@ mv %{buildroot}/%{_datadir}/%{name} examples/
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99.31-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 2020 Filipe Rosset <rosset.filipe@gmail.com> - 0.99.31-5
 - Fix FTBFS
 

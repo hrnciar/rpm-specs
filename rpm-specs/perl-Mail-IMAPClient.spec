@@ -1,6 +1,6 @@
 Name:           perl-Mail-IMAPClient
 Version:        3.42
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        An IMAP Client API
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Mail-IMAPClient
@@ -48,6 +48,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.42-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.42-5
 - Perl 5.32 rebuild
 

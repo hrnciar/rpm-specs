@@ -15,7 +15,7 @@ format, as defined in RFC5208 and RFC5958.}
 %global godocs          README README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Parse and convert private keys in PKCS#8 format
 
 License:        MIT
@@ -43,6 +43,9 @@ BuildRequires:  golang(golang.org/x/crypto/pbkdf2)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

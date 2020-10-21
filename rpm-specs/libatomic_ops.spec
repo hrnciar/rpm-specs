@@ -1,7 +1,7 @@
 Name:    libatomic_ops
 Summary: Atomic memory update operations
 Version: 7.6.10
-Release: 4%{?dist}
+Release: 5%{?dist}
 
 # libatomic_ops MIT, libatomic_ops_gpl GPLv2
 License: GPLv2 and MIT
@@ -83,6 +83,9 @@ export LD_LIBRARY_PATH=%{_builddir}/%{name}-%{version}/src/.libs/
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.6.10-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Than Ngo <than@redhat.com> - 7.6.10-4
 - Fixed error while loading shared libraries in tests
 

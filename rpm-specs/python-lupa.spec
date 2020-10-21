@@ -1,4 +1,7 @@
 %global srcname lupa
+%global commit 831599a4f7333626d336c2ac77968877b2655ab2
+%global shortcommit 831599a
+%global snapinfo 20200822git%{shortcommit}
 
 %global _description\
 Lupa integrates the run-times of Lua or LuaJIT2 into CPython. It is a\
@@ -6,42 +9,47 @@ partial rewrite of LunaticPython in Cython with some additional features\
 such as proper co-routine support.
 
 Name:		python-%{srcname}
-Version:	1.6
-Release:	11%{?dist}
+Version:	1.9
+Release:	1.%{snapinfo}%{?dist}
 Summary:	Python wrapper around Lua and LuaJIT
 
 License:	MIT
 URL:		https://pypi.python.org/pypi/lupa
-Source0:	https://github.com/scoder/%{srcname}/archive/%{srcname}-%{version}/%{srcname}-%{srcname}-%{version}.tar.gz
+#Source0:	https://github.com/scoder/{srcname}/archive/{srcname}-{version}/{srcname}-{srcname}-{version}.tar.gz
+# Lua 5.4 support
+Source0:    https://github.com/scoder/%{srcname}/archive/%{commit}/%{srcname}-%{shortcommit}.tar.gz
 
-
-#For Python2
-BuildRequires:  gcc
+BuildRequires: gcc
 BuildRequires: lua-devel
-BuildRequires: lua
 
 %description %_description
 
 %package -n python3-%{srcname}
 Summary:	%{summary}
 BuildRequires:	python3-devel
-BuildRequires:	lua-devel
-BuildRequires:	lua
 BuildRequires:	python3-Cython
 BuildRequires:	python3-setuptools
 %{?python_provide:%python_provide python3-%{srcname}}
-Requires:	python3
 
 %description -n python3-%{srcname} %_description
 
+
 %prep
-%autosetup -n %{srcname}-%{srcname}-%{version}
+#autosetup -n {srcname}-{srcname}-{version}
+%autosetup -n %{srcname}-%{commit}
+
 
 %build
 %py3_build
 
+
 %install
 %py3_install
+
+
+%check
+%python3 setup.py test
+
 
 %files -n python3-%{srcname}
 %license LICENSE.txt
@@ -49,7 +57,19 @@ Requires:	python3
 %{python3_sitearch}/%{srcname}/
 %{python3_sitearch}/%{srcname}-*.egg-info
 
+
 %changelog
+* Tue Sep  8 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 1.9-1.20200820git831599a
+- Update to 1.9 post-release snapshot with Lua 5.4 support
+- Enable tests
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.6-11
 - Rebuilt for Python 3.9
 

@@ -5,7 +5,7 @@
 Summary:       A supervisor program for running nodejs programs
 Name:          nodejs-%{npm_name}
 Version:       0.12.0
-Release:       7%{?dist}
+Release:       8%{?dist}
 License:       MIT
 URL:           https://github.com/isaacs/node-supervisor
 Source0:       http://registry.npmjs.org/%{npm_name}/-/%{npm_name}-%{version}.tgz
@@ -52,6 +52,9 @@ rm -f helpfile
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

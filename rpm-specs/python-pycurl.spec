@@ -15,13 +15,15 @@
 %global modname pycurl
 
 Name:           python-%{modname}
-Version:        7.43.0.5
-Release:        3%{?dist}
+Version:        7.43.0.6
+Release:        1%{?dist}
 Summary:        A Python interface to libcurl
 
 License:        LGPLv2+ or MIT
 URL:            http://pycurl.sourceforge.net/
-Source0:        https://dl.bintray.com/pycurl/pycurl/pycurl-%{version}.tar.gz
+# reported as unavailable: https://github.com/pycurl/pycurl/issues/651
+# Source0:        https://dl.bintray.com/pycurl/pycurl/pycurl-%%{version}.tar.gz
+Source0:        https://github.com/pycurl/pycurl/archive/REL_7_43_0_6.tar.gz#/pycurl-%{version}.tar.gz
 
 # drop link-time vs. run-time TLS backend check (#1446850)
 Patch2:         0002-python-pycurl-7.43.0-tls-backend.patch
@@ -84,7 +86,7 @@ Python 3 version.
 %endif
 
 %prep
-%autosetup -n %{modname}-%{version} -p1
+%autosetup -n %{modname}-REL_7_43_0_6 -p1
 
 # remove windows-specific build script
 rm -f winbuild.py
@@ -107,11 +109,18 @@ sed -e 's/ --show-skipped//' \
     -e 's/ --with-flaky//' \
     -i tests/run.sh
 
+# use %%{python3} instead of python to invoke tests, to make them work on f34
+sed -e 's|python |%{python3} |' -i tests/ext/test-suite.sh
+sed -e 's|^#! */usr/bin/env python$|#! /usr/bin/env %{python3}|' \
+    -i tests/*.py tests/bin/* setup.py
+
 %build
 %if %{with python2}
+%{python2} setup.py docstrings
 %py2_build -- --with-openssl
 %endif
 %if %{with python3}
+%{python3} setup.py docstrings
 %py3_build -- --with-openssl
 %endif
 
@@ -127,6 +136,10 @@ rm -rf %{buildroot}%{_datadir}/doc/pycurl
 
 %if %{with python3}
 %check
+# relax crypto policy for the test-suite to make it pass again (#1863711)
+export OPENSSL_SYSTEM_CIPHERS_OVERRIDE=XXX
+export OPENSSL_CONF=
+
 export PYTHONPATH=%{buildroot}%{python3_sitearch}
 export PYCURL_SSL_LIBRARY=openssl
 export PYCURL_VSFTPD_PATH=vsftpd
@@ -153,6 +166,19 @@ rm -fv tests/fake-curl/libcurl/*.so
 %endif
 
 %changelog
+* Thu Sep 03 2020 Kamil Dudka <kdudka@redhat.com> - 7.43.0.6-1
+- update to 7.43.0.6
+
+* Tue Aug 04 2020 Kamil Dudka <kdudka@redhat.com> - 7.43.0.5-6
+- relax crypto policy for the test-suite to make it pass again (#1863711)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.43.0.5-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.43.0.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Kamil Dudka <kdudka@redhat.com> - 7.43.0.5-3
 - do not use discontinued %%_python_bytecompile_extra macro
 - explicitly require python3-setuptools for build

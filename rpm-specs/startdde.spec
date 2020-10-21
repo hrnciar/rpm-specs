@@ -1,53 +1,74 @@
+%if 0%{?fedora} == 0
+%global without_debug 1
+%endif
+%if 0%{?without_debug}
+%global debug_package   %{nil}
+%endif
+
 Name:           startdde
-Version:        5.0.1
-Release:        2%{?dist}
+Version:        5.6.0.10
+Release:        1%{?dist}
 Summary:        Starter of deepin desktop environment
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/startdde
+%if 0%{?fedora}
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
-
 ExclusiveArch:  %{?go_arches:%{go_arches}}%{!?go_arches:%{ix86} x86_64 %{arm}}
+%else
+Source0:        %{name}_%{version}.orig.tar.xz
+%endif
+
 BuildRequires:  golang jq
-BuildRequires:  deepin-gir-generator
-BuildRequires:  golang(pkg.deepin.io/dde/api/dxinput) >= 3.1.26
-BuildRequires:  golang(pkg.deepin.io/lib) >= 1.2.11
-BuildRequires:  golang(github.com/linuxdeepin/go-dbus-factory/org.bluez)
+%if 0%{?fedora}
+BuildRequires:  golang(pkg.deepin.io/dde/api/dxinput)
+BuildRequires:  golang(pkg.deepin.io/lib)
+BuildRequires:  golang(github.com/godbus/dbus)
 BuildRequires:  golang(github.com/linuxdeepin/go-x11-client)
-BuildRequires:  golang(github.com/cryptix/wav)
-BuildRequires:  golang(github.com/BurntSushi/xgb)
-BuildRequires:  golang(github.com/BurntSushi/xgbutil)
-BuildRequires:  pkgconfig(alsa)
-BuildRequires:  pkgconfig(libcanberra)
-BuildRequires:  pkgconfig(libpulse)
-BuildRequires:  pkgconfig(gobject-2.0)
-BuildRequires:  pkgconfig(glib-2.0)
-BuildRequires:  pkgconfig(gdk-3.0)
-BuildRequires:  pkgconfig(gdk-pixbuf-xlib-2.0)
-BuildRequires:  pkgconfig(gnome-keyring-1)
-BuildRequires:  pkgconfig(x11)
-BuildRequires:  pkgconfig(xi)
-BuildRequires:  pkgconfig(systemd)
-%{?systemd_requires}
+BuildRequires:  golang(github.com/davecgh/go-spew/spew)
+BuildRequires:  golang(golang.org/x/xerrors)
+BuildRequires:  systemd-rpm-macros
 Requires:       deepin-daemon
-Requires:       deepin-kwin
-Requires:       libcgroup-tools
+%else
+BuildRequires:  golang-github-davecgh-go-spew-devel
+BuildRequires:  gocode >= 0.0.0.1
+BuildRequires:  golang-golang-x-xerrors-devel
+%endif
+BuildRequires:  golang-github-cryptix-wav-devel
+BuildRequires:  glib2-devel
+BuildRequires:  pkgconfig(x11)
+BuildRequires:  libXcursor-devel
+BuildRequires:  libXfixes-devel
+BuildRequires:  gtk3-devel
+BuildRequires:  pulseaudio-libs-devel
+BuildRequires:  libgnome-keyring-devel
+BuildRequires:  alsa-lib-devel
+BuildRequires:  pkgconfig(gudev-1.0)
 
 %description
 Startdde is used for launching DDE components and invoking user's
 custom applications which compliant with xdg autostart specification.
 
 %prep
-%setup -q
-
+%autosetup
+patch Makefile < rpm/Makefile.patch
+# fix deepin-daemon executables path
+find * -type f -not -path "rpm/*" -print0 | xargs -0 sed -i 's:/lib/deepin-daemon/:/libexec/deepin-daemon/:'
+# fix dde-polkit-agent path
 sed -i '/polkit/s|lib|libexec|' watchdog/dde_polkit_agent.go
-sed -i '/deepin-daemon/s|lib|libexec|' utils.go session.go misc/auto_launch/*.json
-# Fix fallback session script path (RHBZ#1706281)
-sed -i 's|/usr/sbin/lightdm-session|%{_sysconfdir}/X11/xinit/Xsession|' misc/deepin-session
 
 %build
 export GOPATH="%{gopath}"
+%if 0%{?without_debug}
+GO_BUILD_FLAGS="-trimpath"
+%endif
 BUILD_ID="0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n')"
-%make_build GOBUILD="go build -compiler gc -ldflags \"${LDFLAGS} -B $BUILD_ID\" -a -v -x"
+%make_build GOBUILD="go build -compiler gc -ldflags \"${LDFLAGS} -B $BUILD_ID\" -a $GO_BUILD_FLAGS -v -x"
+# rebuild other executables with different build-ids
+for cmd in fix-xauthority-perm greeter-display-daemon; do
+    rm $cmd
+    BUILD_ID="0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n')"
+    %make_build $cmd GOBUILD="go build -compiler gc -ldflags \"${LDFLAGS} -B $BUILD_ID\" -a $GO_BUILD_FLAGS -v -x"
+done
 
 %install
 %make_install
@@ -64,16 +85,27 @@ BUILD_ID="0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n')"
 %files
 %doc README.md
 %license LICENSE
-%{_sysconfdir}/X11/Xsession.d/00deepin-dde-env
+%{_sysconfdir}/X11/xinit/xinitrc.d/00deepin-dde-env
+%{_sysconfdir}/X11/xinit/xinitrc.d/01deepin-profile
+%{_sysconfdir}/profile.d/deepin-xdg-dir.sh
 %{_bindir}/%{name}
-%{_sbindir}/deepin-session
 %{_sbindir}/deepin-fix-xauthority-perm
 %{_datadir}/xsessions/deepin.desktop
 %{_datadir}/lightdm/lightdm.conf.d/60-deepin.conf
-%{_datadir}/%{name}/auto_launch.json
-%{_datadir}/%{name}/memchecker.json
+%{_datadir}/%{name}/
+%{_libexecdir}/deepin-daemon/greeter-display-daemon
 
 %changelog
+* Wed Sep 30 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.6.0.10-1
+- new upstream release: 5.6.0.10
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

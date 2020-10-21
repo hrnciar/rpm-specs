@@ -2,7 +2,7 @@
 
 Name:		proxychains-ng
 Version:	4.13
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	Redirect connections through proxy servers
 
 License:	GPLv2+
@@ -45,6 +45,9 @@ chmod +x %{buildroot}%{_libdir}/%{name}/libproxychains4.so
 %{_libdir}/%{name}/libproxychains4.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.13-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.13-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

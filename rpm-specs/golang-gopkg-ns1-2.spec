@@ -4,7 +4,7 @@
 # https://github.com/ns1/ns1-go
 %global goipath         gopkg.in/ns1/ns1-go.v2
 %global forgeurl        https://github.com/ns1/ns1-go
-%global commit          6c599e5e57901a8e58e1729f444de1edeb77bf97
+Version:                2.4.1
 
 %gometa
 
@@ -15,17 +15,19 @@ Golang API client for NS1.}
 %global godocs          README.md _examples
 
 Name:           %{goname}
-Version:        0
-Release:        0.4%{?dist}
+Release:        1%{?dist}
 Summary:        Golang API client for NS1
 
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
+BuildRequires:  golang(github.com/stretchr/testify/assert)
+
 %if %{with check}
 # Tests
-BuildRequires:  golang(github.com/stretchr/testify/assert)
+BuildRequires:  golang(github.com/stretchr/testify/mock)
+BuildRequires:  golang(github.com/stretchr/testify/require)
 %endif
 
 %description
@@ -47,6 +49,12 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 18:24:07 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.4.1-1
+- Update to 2.4.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           tinyobjloader
 Version:        1.0.6
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Tiny wavefront obj loader
 
 License:        MIT
@@ -28,13 +28,13 @@ Requires: %{name}%{?_isa} = %{version}-%{release}
 
 
 %build
-%cmake . \
+%cmake \
   -DTINYOBJLOADER_COMPILATION_SHARED=ON
-%make_build
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 rm -rf %{buildroot}/%{_docdir}
 
 %ldconfig_scriptlets
@@ -51,6 +51,9 @@ rm -rf %{buildroot}/%{_docdir}
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

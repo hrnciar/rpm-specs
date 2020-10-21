@@ -1,19 +1,20 @@
-%global packname  import
+%global packname import
+%global packver  1.2.0
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          1.1.0
-Release:          8%{?dist}
+Version:          1.2.0
+Release:          1%{?dist}
 Summary:          An Import Mechanism for R
 
 License:          MIT
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
 # Imports:
-# Suggests:  R-knitr
+# Suggests:  R-knitr, R-rmarkdown, R-magrittr, R-testthat
 # LinkingTo:
 # Enhances:
 
@@ -21,27 +22,20 @@ BuildArch:        noarch
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    R-knitr
+BuildRequires:    R-rmarkdown
+BuildRequires:    R-magrittr
+BuildRequires:    R-testthat
 
 %description
-This is an alternative mechanism for importing objects from packages. The
-syntax allows for importing multiple objects from a package with a single
-command in an expressive way. The import package bridges some of the gap
-between using library (or require) and direct (single-object) imports.
-Furthermore the imported objects are not placed in the current
-environment. It is also possible to import objects from stand-alone .R
-files. For more information, refer to the package vignette.
+Alternative mechanism for importing objects from packages and R modules.
+The syntax allows for importing multiple objects with a single command in
+an expressive way. The import package bridges some of the gap between using
+library (or require) and direct (single-object) imports. Furthermore the
+imported objects are not placed in the current environment.
 
 
 %prep
 %setup -q -c -n %{packname}
-
-for file in %{packname}/NEWS %{packname}/inst/doc/import.R*; do
-    iconv --from=latin1 --to=UTF-8 ${file} > ${file}.new
-    touch -r ${file} ${file}.new
-    sed "s|\r||g" ${file}.new > ${file}
-    touch -r ${file}.new ${file}
-    rm ${file}.new
-done
 
 
 %build
@@ -63,7 +57,7 @@ rm -f %{buildroot}%{rlibdir}/R.css
 %doc %{rlibdir}/%{packname}/doc
 %doc %{rlibdir}/%{packname}/html
 %{rlibdir}/%{packname}/DESCRIPTION
-%doc %{rlibdir}/%{packname}/NEWS
+%doc %{rlibdir}/%{packname}/NEWS.md
 %license %{rlibdir}/%{packname}/LICENSE
 %{rlibdir}/%{packname}/INDEX
 %{rlibdir}/%{packname}/NAMESPACE
@@ -73,6 +67,12 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Fri Sep 25 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.2.0-1
+- Update to latest version (#1882439)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 1.1.0-8
 - rebuild for R 4
 

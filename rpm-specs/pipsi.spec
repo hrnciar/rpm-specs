@@ -9,7 +9,7 @@
 
 Name:           %{pypi_name}
 Version:        0.9
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Wraps pip and virtualenv to install scripts
 
 License:        BSD
@@ -79,6 +79,9 @@ export LC_CTYPE="C.UTF-8"
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9-16
 - Rebuilt for Python 3.9
 

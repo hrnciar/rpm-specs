@@ -1,7 +1,7 @@
 Summary:          Library to support IDNA2008 internationalized domain names
 Name:             libidn2
 Version:          2.3.0
-Release:          3%{?dist}
+Release:          4%{?dist}
 License:          (GPLv2+ or LGPLv3+) and GPLv3+
 URL:              https://www.gnu.org/software/libidn/#libidn2
 
@@ -14,6 +14,7 @@ BuildRequires:    gnupg2
 BuildRequires:    gcc
 BuildRequires:    gettext
 BuildRequires:    libunistring-devel
+BuildRequires:    automake
 Provides:         bundled(gnulib)
 
 %description
@@ -103,6 +104,9 @@ fi
 %{_infodir}/%{name}.info*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Jeff Law <law@redhat.com> - 2.3.0-3
 - Touch a couple autoconf related files to prevent undesired rebuilding
   if %configure changes one or more configure files.

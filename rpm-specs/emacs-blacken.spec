@@ -1,16 +1,16 @@
 %global pkg blacken
 
-%global commit 1874018ae242176d0780cdcd0109e8f9a123a914
+%global commit 784da60033fe3743336d1da0f33239f1bf514266
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global commitdate 20190521
+%global commitdate 20200626
 
 Name:           emacs-%{pkg}
 Version:        0
-Release:        0.2.%{commitdate}git%{shortcommit}%{?dist}
+Release:        0.4.%{commitdate}git%{shortcommit}%{?dist}
 Summary:        Python Black for Emacs
 
 License:        GPLv3+
-URL:            https://github.com/proofit404/%{pkg}
+URL:            https://github.com/pythonic-emacs/%{pkg}
 Source0:        %{url}/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
 Source1:        %{pkg}-init.el
 
@@ -46,11 +46,19 @@ install -Dpm 0644 %{SOURCE1} $RPM_BUILD_ROOT%{_emacs_sitestartdir}/%{pkg}-init.e
 
 
 %files
+%doc README.md
 %{_emacs_sitelispdir}/%{pkg}/
 %{_emacs_sitestartdir}/*.el
 
 
 %changelog
+* Tue Sep 01 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 0-0.4.20200626git784da60
+- Switch to new upstream
+- Update to latest snapshot
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3.20190521git1874018
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2.20190521git1874018
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

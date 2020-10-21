@@ -1,6 +1,6 @@
 Name:           multicat
 Version:        2.3
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Simple and efficient multicast and transport stream manipulation
 
 License:        GPLv2+
@@ -49,6 +49,9 @@ chmod -x %{buildroot}%{_mandir}/man1/*
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

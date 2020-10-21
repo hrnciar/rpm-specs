@@ -3,7 +3,7 @@
 
 Name:           resteasy
 Version:        3.0.26
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Framework for RESTful Web services and Java applications
 License:        ASL 2.0 and CDDL
 URL:            http://resteasy.jboss.org/
@@ -14,12 +14,14 @@ BuildArch:      noarch
 BuildRequires:  maven-local
 BuildRequires:  mvn(commons-io:commons-io)
 BuildRequires:  mvn(com.sun.xml.bind:jaxb-impl)
+BuildRequires:  mvn(javax.xml.bind:jaxb-api)
 BuildRequires:  mvn(log4j:log4j)
 BuildRequires:  mvn(org.apache.httpcomponents:httpclient)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-source-plugin)
 BuildRequires:  mvn(org.apache.tomcat:tomcat-servlet-api)
 
 # Jackson 2
+BuildRequires:  mvn(com.fasterxml.jackson.core:jackson-annotations)
 BuildRequires:  mvn(com.fasterxml.jackson.core:jackson-core)
 BuildRequires:  mvn(com.fasterxml.jackson.core:jackson-databind)
 BuildRequires:  mvn(com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider)
@@ -158,6 +160,9 @@ find -name '*.jar' -print -delete
 %pom_change_dep org.jboss.spec.javax.servlet: org.apache.tomcat:tomcat-servlet-api providers/jaxb
 %pom_change_dep org.jboss.spec.javax.servlet: org.apache.tomcat:tomcat-servlet-api providers/jackson2
 
+# add dependencies for EE APIs that were removed in Java 11
+%pom_add_dep javax.xml.bind:jaxb-api resteasy-jaxrs
+
 %pom_remove_plugin :maven-clean-plugin
 
 %mvn_package ":resteasy-jaxrs" core
@@ -168,39 +173,6 @@ find -name '*.jar' -print -delete
 %mvn_package ":resteasy-jackson2-provider" jackson2-provider
 %mvn_package ":resteasy-jaxb-provider" jaxb-provider
 %mvn_package ":resteasy-client" client
-
-# Fixing JDK7 ASCII issues
-files='
-resteasy-jaxrs/src/main/java/org/jboss/resteasy/annotations/Query.java
-resteasy-jaxrs/src/main/java/org/jboss/resteasy/core/QueryInjector.java
-resteasy-jsapi/src/main/java/org/jboss/resteasy/jsapi/JSAPIWriter.java
-resteasy-jsapi/src/main/java/org/jboss/resteasy/jsapi/JSAPIServlet.java
-resteasy-jsapi/src/main/java/org/jboss/resteasy/jsapi/ServiceRegistry.java
-resteasy-links/src/main/java/org/jboss/resteasy/links/AddLinks.java
-resteasy-links/src/main/java/org/jboss/resteasy/links/ELProvider.java
-resteasy-links/src/main/java/org/jboss/resteasy/links/LinkELProvider.java
-resteasy-links/src/main/java/org/jboss/resteasy/links/LinkResource.java
-resteasy-links/src/main/java/org/jboss/resteasy/links/LinkResources.java
-resteasy-links/src/main/java/org/jboss/resteasy/links/ParentResource.java
-resteasy-links/src/main/java/org/jboss/resteasy/links/RESTServiceDiscovery.java
-resteasy-links/src/main/java/org/jboss/resteasy/links/ResourceFacade.java
-resteasy-links/src/main/java/org/jboss/resteasy/links/ResourceID.java
-resteasy-links/src/main/java/org/jboss/resteasy/links/ResourceIDs.java
-security/resteasy-oauth/src/main/java/org/jboss/resteasy/auth/oauth/OAuthConsumer.java
-security/resteasy-oauth/src/main/java/org/jboss/resteasy/auth/oauth/OAuthException.java
-security/resteasy-oauth/src/main/java/org/jboss/resteasy/auth/oauth/OAuthFilter.java
-security/resteasy-oauth/src/main/java/org/jboss/resteasy/auth/oauth/OAuthMemoryProvider.java
-security/resteasy-oauth/src/main/java/org/jboss/resteasy/auth/oauth/OAuthProvider.java
-security/resteasy-oauth/src/main/java/org/jboss/resteasy/auth/oauth/OAuthProviderChecker.java
-security/resteasy-oauth/src/main/java/org/jboss/resteasy/auth/oauth/OAuthRequestToken.java
-security/resteasy-oauth/src/main/java/org/jboss/resteasy/auth/oauth/OAuthServlet.java
-security/resteasy-oauth/src/main/java/org/jboss/resteasy/auth/oauth/OAuthToken.java
-security/resteasy-oauth/src/main/java/org/jboss/resteasy/auth/oauth/OAuthValidator.java
-'
-
-for f in ${files}; do
-native2ascii -encoding UTF8 ${f} ${f}
-done
 
 # Disable useless artifacts generation, package __noinstall do not work
 %pom_add_plugin org.apache.maven.plugins:maven-source-plugin . '
@@ -237,6 +209,16 @@ done
 %license License.html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.26-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Fabio Valentini <decathorpe@gmail.com> - 3.0.26-4
+- Migrate away from native2ascii (removed with OpenJDK 11).
+- Add missing dependencies for packages that were removed from OpenJDK 11.
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 3.0.26-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.26-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:       pacmanager
 Version:    4.5.5.7
-Release:    15%{?dist}
+Release:    16%{?dist}
 Summary:    Perl Auto Connector a multi-purpose SSH/terminal connection manager
 License:    GPLv3+
 URL:        https://sites.google.com/site/davidtv/
@@ -94,6 +94,9 @@ rm -rf %{buildroot}/%{_datadir}/%{name}/lib/ex/vte*
 %{_bindir}/%{name}*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.5.7-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.5.7-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

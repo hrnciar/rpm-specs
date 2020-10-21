@@ -5,7 +5,7 @@
 
 Name:           dain-snappy
 Version:        0.4
-Release:        9%{?dist}
+Release:        11%{?dist}
 Summary:        Snappy compression library
 License:        ASL 2.0 and BSD
 URL:            https://github.com/dain/snappy
@@ -65,6 +65,12 @@ sed -i /@Test/d $(find -name SnappyTest.java)
 %license license.txt notice.md
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0.4-10
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

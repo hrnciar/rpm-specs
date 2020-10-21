@@ -1,6 +1,6 @@
 Name:       js-jquery-prettyphoto
 Version:    3.1.6
-Release:    7%{?dist}
+Release:    8%{?dist}
 BuildArch:  noarch
 
 License:    GPLv2
@@ -47,6 +47,9 @@ install -D -p -m 0644 js/jquery.prettyPhoto.js %{buildroot}/%{_webassetdir}/jque
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.6-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.6-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

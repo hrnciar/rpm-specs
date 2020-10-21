@@ -5,7 +5,7 @@
 
 Name:       perl-POE
 Version:    1.368
-Release:    2%{?dist}
+Release:    4%{?dist}
 Summary:    Portable multitasking and networking framework for event loops
 License:    GPL+ or Artistic
 URL:        https://metacpan.org/release/POE
@@ -137,6 +137,12 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.368-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.368-3
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.368-2
 - Perl 5.32 rebuild
 

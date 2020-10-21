@@ -1,13 +1,9 @@
 # Note: compton fork renamed to 'picom' since version 7.5
 
-# Enable LTO. Slightly less footprint.
-%global optflags        %{optflags} -flto
-%global build_ldflags   %{build_ldflags} -flto
-
 %global oldname compton-ng
 
 Name:           picom
-Version:        8
+Version:        8.1
 Release:        1%{?dist}
 Summary:        Lightweight compositor for X11 (previously a compton fork)
 
@@ -54,9 +50,9 @@ Obsoletes:      %{oldname} =< 7.5-1
 This is forked from the original Compton because that seems to have become
 unmaintained.
 
-The current battle plan of this fork is to refactor it to make the code possible
-to maintain, so potential contributors won't be scared away when they take a
-look at the code.
+The current battle plan of this fork is to refactor it to make the code
+possible to maintain, so potential contributors won't be scared away when they
+take a look at the code.
 
 We also try to fix bugs.
 
@@ -90,6 +86,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Tue Sep  8 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 8.1-1
+- Update to 8.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 8-1
 - Update to 8
 

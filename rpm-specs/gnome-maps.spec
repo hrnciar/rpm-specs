@@ -2,13 +2,13 @@
 %global champlain_version 0.12.14
 
 Name:           gnome-maps
-Version:        3.37.2
+Version:        3.38.1.1
 Release:        1%{?dist}
 Summary:        Map application for GNOME
 
 License:        GPLv2+
 URL:            https://wiki.gnome.org/Apps/Maps
-Source0:        https://download.gnome.org/sources/%{name}/3.37/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires:  gcc
 BuildRequires:  gettext
@@ -19,6 +19,7 @@ BuildRequires:  pkgconfig(gee-0.8)
 BuildRequires:  pkgconfig(geocode-glib-1.0)
 BuildRequires:  pkgconfig(geoclue-2.0)
 BuildRequires:  pkgconfig(gjs-1.0) >= %{gjs_version}
+BuildRequires:  pkgconfig(libhandy-1)
 BuildRequires:  pkgconfig(rest-0.7)
 BuildRequires:  /usr/bin/appstream-util
 BuildRequires:  /usr/bin/desktop-file-validate
@@ -75,6 +76,34 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Maps.deskto
 %{_libdir}/%{name}/
 
 %changelog
+* Fri Oct  9 2020 Kalev Lember <klember@redhat.com> - 3.38.1.1-1
+- Update to 3.38.1.1
+
+* Mon Oct  5 2020 Kalev Lember <klember@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Sun Sep 06 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Sat Aug 22 2020 Kalev Lember <klember@redhat.com> - 3.37.91-1
+- Update to 3.37.91
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Kalev Lember <klember@redhat.com> - 3.37.3-1
+- Update to 3.37.3
+
 * Thu Jun 04 2020 Kalev Lember <klember@redhat.com> - 3.37.2-1
 - Update to 3.37.2
 

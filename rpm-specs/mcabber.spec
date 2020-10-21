@@ -1,12 +1,11 @@
 Name:           mcabber
-Version:        1.1.0
-Release:        5%{?dist}
+Version:        1.1.2
+Release:        1%{?dist}
 Summary:        Console Jabber instant messaging client
 
 License:        GPLv2+
 URL:            https://mcabber.com
 Source0:        http://mcabber.com/files/%{name}-%{version}.tar.bz2
-Patch0:         mcabber-fno-common-fix.patch
 
 BuildRequires:  gcc
 BuildRequires:  enchant-devel
@@ -58,6 +57,15 @@ find contrib/ -type f | xargs chmod -x
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Sat Sep 19 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 1.1.2-1
+- Update to 1.1.2
+
+* Mon Sep 07 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 1.1.1-1
+- Update to 1.1.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

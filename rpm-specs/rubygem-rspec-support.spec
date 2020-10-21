@@ -12,7 +12,7 @@
 
 Name:		rubygem-%{gem_name}
 Version:	%{mainver}
-Release:	%{?prever:0.}%{mainrel}%{?prever:.%{prerpmver}}%{?dist}
+Release:	%{?prever:0.}%{mainrel}%{?prever:.%{prerpmver}}%{?dist}.1
 
 Summary:	Common functionality to Rspec series
 License:	MIT
@@ -102,6 +102,9 @@ ruby -rrubygems -Ilib/ -S rspec spec/ || \
 %doc	%{gem_docdir}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.3-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May  3 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.9.3-1
 - 3.9.3
 

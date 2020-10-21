@@ -1,6 +1,6 @@
 Name:           libifp
 Version:        1.0.0.2
-Release:        29%{?dist}
+Release:        30%{?dist}
 Summary:        A general-purpose library-driver for iRiver's iFP portable audio players
 
 License:        GPLv2
@@ -65,6 +65,9 @@ install -D -m 0644 %{SOURCE2} $RPM_BUILD_ROOT%{_udevrulesdir}/10-libifp.rules
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0.2-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0.2-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,13 +1,13 @@
 Name:		anaconda-realmd
 Version:	0.2
-Release:	12%{?dist}
+Release:	14%{?dist}
 Summary:	Anaconda addon which interacts with realmd to join domains
 License:	GPLv2+
 URL:		http://git.fedorahosted.org/cgit/anaconda-realmd.git/
 Source0:	https://fedorahosted.org/releases/a/n/anaconda-realmd/anaconda-realmd-%{version}.tgz
 
 BuildArch:	noarch
-BuildRequires:	python2-devel
+BuildRequires:	python3-devel
 Requires:	anaconda >= 19
 Requires:	realmd >= 0.12
 
@@ -32,6 +32,12 @@ make install DESTDIR=%{buildroot}
 %doc COPYING ChangeLog NEWS README
 
 %changelog
+* Wed Sep 09 2020 Petr Viktorin <pviktori@redhat.com> - 0.2-14
+- Switch to Python 3 for build
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,17 +1,13 @@
-# On platforms with a native OCaml compiler, proofs can be compiled into cmxs
-# files, but there are no source files that rpm recognizes as such.
-%ifarch %{ocaml_native_compiler}
-%global _debugsource_template %{nil}
-%else
+# This package is installed into an archful location, but contains no ELF
+# objects.
 %global debug_package %{nil}
-%endif
 
-%global flocqdir %{_libdir}/coq/user-contrib/Flocq
-%global coqver 8.11.2
+%global flocqdir %{_libdir}/ocaml/coq/user-contrib/Flocq
+%global coqver 8.12.0
 
 Name:           flocq
 Version:        3.3.1
-Release:        2%{?dist}
+Release:        7%{?dist}
 Summary:        Formalization of floating point numbers for Coq
 
 License:        LGPLv3+
@@ -24,6 +20,9 @@ BuildRequires:  coq = %{coqver}
 BuildRequires:  ocaml
 BuildRequires:  ocaml-findlib
 Requires:       coq%{?_isa} = %{coqver}
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=1874879
+ExcludeArch:    s390x
 
 %description
 Flocq (Floats for Coq) is a floating-point formalization for the Coq
@@ -42,11 +41,6 @@ purposes.
 
 %prep
 %autosetup -p1
-
-# Force native compilation when available
-%ifarch %{ocaml_native_compiler}
-sed -i 's/@COQC@.* -R src Flocq/& -native-compiler yes/' Remakefile.in
-%endif
 
 %build
 # We do NOT want to specify --libdir, and we don't need CFLAGS, etc.
@@ -69,6 +63,9 @@ cp -p src/IEEE754/*.v $RPM_BUILD_ROOT%{flocqdir}/IEEE754
 cp -p src/Pff/*.v $RPM_BUILD_ROOT%{flocqdir}/Pff
 cp -p src/Prop/*.v $RPM_BUILD_ROOT%{flocqdir}/Prop
 
+# And the opam file
+cp -p opam $RPM_BUILD_ROOT%{flocqdir}
+
 %files
 %doc AUTHORS NEWS.md README.md html
 %license COPYING
@@ -85,6 +82,26 @@ cp -p src/Prop/*.v $RPM_BUILD_ROOT%{flocqdir}/Prop
 %{flocqdir}/Prop/*.v
 
 %changelog
+* Fri Sep 25 2020 Jerry James <loganjerry@gmail.com> - 3.3.1-7
+- Flocq is installed in an archful directory, so cannot be noarch
+- ExcludeArch s390x due to bz 1874879
+
+* Wed Sep 02 2020 Richard W.M. Jones <rjones@redhat.com> - 3.3.1-6
+- OCaml 4.11.1 rebuild
+
+* Tue Sep  1 2020 Jerry James <loganjerry@gmail.com> - 3.3.1-5
+- Rebuild for coq 8.12.0
+- Revert to a noarch package
+
+* Sat Aug 22 2020 Richard W.M. Jones <rjones@redhat.com> - 3.3.1-5
+- OCaml 4.11.0 rebuild
+
+* Thu Aug  6 2020 Jerry James <loganjerry@gmail.com> - 3.3.1-4
+- Rebuild to fix OCaml dependencies
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Jerry James <loganjerry@gmail.com> - 3.3.1-2
 - Rebuild for coq 8.11.2
 

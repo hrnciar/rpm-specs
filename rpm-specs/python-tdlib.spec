@@ -7,7 +7,7 @@
 
 Name:           python-%{srcname}
 Version:        0.9.0
-Release:        5.%{gitdate}.%{shorttag}%{?dist}
+Release:        7.%{gitdate}.%{shorttag}%{?dist}
 Summary:        Tree decomposition algorithms
 
 License:        GPLv2+
@@ -17,6 +17,8 @@ Source0:        %{url}/archive/%{gittag}/%{srcname}-%{shorttag}.tar.gz
 Patch0:         %{name}-python-includes.patch
 # Fix FTBFS on 32-bit systems
 Patch1:         %{name}-32bit.patch
+# Fix FTBFS due to missing includes with gcc-11
+Patch2:         %{name}-gcc11.patch
 
 BuildRequires:  boost-devel
 BuildRequires:  freetdi-gala-devel
@@ -39,7 +41,6 @@ bag, which is a notion for the (width of T)+1.}
 %package -n    python3-%{srcname}
 Summary:       Tree decomposition algorithms for python 3
 Requires:      %{name}%{?_isa} = %{version}-%{release}
-%{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname} %_description
 
@@ -48,7 +49,6 @@ Summary:       Headers for python3-%{srcname}
 BuildArch:     noarch
 Requires:      python3-%{srcname} = %{version}-%{release}
 Requires:      freetdi-gala-devel
-%{?python_provide:%python_provide python3-%{srcname}-devel}
 
 %description -n python3-%{srcname}-devel
 Headers for developing applications that use python3-%{srcname}.
@@ -96,6 +96,12 @@ rm -f %{buildroot}%{python3_sitearch}/tdlib/*.la
 %{_includedir}/treedec/
 
 %changelog
+* Fri Oct 16 2020 Jeff Law <law@redhat.com> - 0.9.0-7.20200404.4c6109e
+- Fix missing #include for gcc-11
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-6.20200404.4c6109e
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Jerry James <loganjerry@gmail.com> - 0.9.0-5.20200404.4c6109e
 - Update to latest git snapshot
 

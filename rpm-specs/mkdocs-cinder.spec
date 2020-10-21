@@ -1,6 +1,6 @@
 Name:           mkdocs-cinder
 Version:        1.0.3
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        A clean responsive theme for the MkDocs
 
 License:        MIT
@@ -9,6 +9,7 @@ Source0:        %{pypi_source}
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
+BuildRequires:  python3dist(setuptools)
 BuildRequires:  mkdocs
 Requires:       mkdocs
 
@@ -39,6 +40,12 @@ popd
 %{python3_sitelib}/mkdocs_cinder-%{version}-py*.egg-info/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Robin Lee <cheeselee@fedoraproject.org> - 1.0.3-3
+- BR python3dist(setuptools)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.3-2
 - Rebuilt for Python 3.9
 

@@ -6,7 +6,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.14
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Python module to interface with %{pypi_name}
 
 License:        GPLv2
@@ -76,6 +76,9 @@ export PYTHONPATH=%{buildroot}%{python3_sitearch}
 %{python3_sitearch}/%{pypi_name}-%{version}-py%{python3_version}.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.14-7
 - Rebuilt for Python 3.9
 

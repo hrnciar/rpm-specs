@@ -19,7 +19,7 @@
 
 Name:           php-%{gh_owner}-%{gh_project}%{major}
 Version:        2.0.0
-Release:        1%{?gh_date:.%{gh_date}git%{gh_short}}%{?dist}
+Release:        2%{?gh_date:.%{gh_date}git%{gh_short}}%{?dist}
 Summary:        Semver library version %{major}
 
 License:        MIT
@@ -107,6 +107,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Remi Collet <remi@remirepo.net> - 2.0.0-1
 - update to 2.0.0
 - rename to php-composer-semver2

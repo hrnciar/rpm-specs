@@ -8,7 +8,7 @@ fun, more predictable, and more productive.
 
 Name:           python-%{modname}
 Version:        1.10.4
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        %{sum}
 
 License:        BSD
@@ -31,12 +31,7 @@ BuildRequires:  python3-webtest
 BuildRequires:  python3-zope-component >= 3.6.0
 BuildRequires:  python3-zope-deprecation >= 3.5.0
 BuildRequires:  python3-zope-interface
-
-%if 0%{?fedora}
 BuildRequires:  python3-webob >= 1.8.3
-%else
-BuildRequires:  python3-webob1.8 >= 1.8.3
-%endif
 
 %description
 %{desc}
@@ -110,6 +105,9 @@ done;
 %{_bindir}/pviews
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.4-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 1.10.4-7
 - Rebuilt for Python 3.9
 

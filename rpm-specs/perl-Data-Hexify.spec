@@ -1,6 +1,6 @@
 Name:           perl-Data-Hexify
 Version:        1.00
-Release:        25%{?dist}
+Release:        26%{?dist}
 Summary:        Perl extension to hexdump arbitrary data
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Data-Hexify
@@ -46,6 +46,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.00-25
 - Perl 5.32 rebuild
 

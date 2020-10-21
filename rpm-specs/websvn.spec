@@ -1,23 +1,19 @@
 Name:           websvn
-Version:        2.3.3
-Release:        20%{?dist}
+Version:        2.5
+Release:        2%{?dist}
 Summary:        Online subversion repository browser
 
 License:        GPLv2+
-URL:            http://www.websvn.info
-Source0:        http://websvn.tigris.org/files/documents/1380/49056/websvn-2.3.3.tar.gz
+URL:            https://websvnphp.github.io
+Source0:        https://github.com/websvnphp/websvn/archive/%{version}/%{name}-%{version}.tar.gz
 Source1:        websvn-httpd.conf
-Patch1:         websvn-2.3.3-use_system_libs.patch
-# https://bugs.debian.org/cgi-bin/bugreport.cgi?msg=5;filename=websvn_symlinks.patch;att=1;bug=775682
-Patch2:         websvn-2.3.3-CVE-2013-6892.patch
-Patch3:         websvn-2.3.3-CVE-2016-2511.patch
-Patch4:         websvn-2.3.3-CVE-2016-1236.patch
+
 BuildArch:      noarch
 
 Requires(pre):  httpd
 Requires:       sed
 Requires:       enscript
-Requires:       php >= 4.3.0
+Requires:       php >= 5.4.0
 Requires:       php-mbstring
 Requires:       php-xml
 Requires:       php-geshi
@@ -46,23 +42,8 @@ SElinux context for %{name}.
 
 %prep
 %setup -q
-### Let websvn use the system provided php classes and remove bundled ones.
-%patch1 -p1
-rm -rf lib/
-# CVE-2013-6892
-%patch2 -p1
-# CVE-2016-2511
-%patch3 -p1
-# CVE-2016-1236.patch
-%patch4 -p1
 
 mv include/distconfig.php include/config.php
-find templates/calm -type f -exec chmod -R a-x {} ';'
-sed -i -e 's/\r//' doc/style.css
-iconv -f iso8859-1 -t utf-8 changes.txt > changes.txt.conv \
-&& touch -r changes.txt changes.txt.conv \
-&& mv -f changes.txt.conv changes.txt
-sed -i -e "s#^\$locwebsvnhttp = '';#\$locwebsvnhttp = '/websvn';#" wsvn.php
 sed -i -e "s#^\/\/ \$config->useMultiViews();#\$config->useMultiViews();#" \
     include/config.php
 
@@ -72,8 +53,6 @@ sed -i -e "s#^\/\/ \$config->useMultiViews();#\$config->useMultiViews();#" \
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
 # Install the code
 mkdir -p $RPM_BUILD_ROOT/%{_datadir}/%{name}
 cp -a *.php include javascript languages templates \
@@ -100,6 +79,9 @@ ln -s ../../..%{_localstatedir}/cache/%{name} \
 mkdir -p $RPM_BUILD_ROOT/%{_localstatedir}/tmp
 ln -s ../../..%{_localstatedir}/tmp $RPM_BUILD_ROOT/%{_datadir}/%{name}/temp
 
+# Add a compat symlink from removed wsvn.php to new browse.php
+# This needs FollowSymlinks option in the httpd conf
+ln -s %{_datadir}/%{name}/browse.php %{buildroot}/%{_datadir}/%{name}/wsvn.php
 
 
 %post selinux
@@ -114,7 +96,8 @@ fi
 
 
 %files
-%doc changes.txt license.txt doc/
+%doc README.md changes.txt
+%license license.txt
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %config(noreplace) %{_sysconfdir}/%{name}/config.php
 %{_datadir}/%{name}
@@ -125,6 +108,21 @@ fi
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Xavier Bachelot <xavier@bachelot.org> 2.5-1
+- Update to 2.5
+
+* Fri Jul 10 2020 Xavier Bachelot <xavier@bachelot.org> 2.3.3-23
+- Better website URL fix
+
+* Thu Jul 09 2020 Xavier Bachelot <xavier@bachelot.org> 2.3.3-22
+- Fix website URL
+
+* Thu May  7 2020 Tom Hughes <tom@compton.nu> - 2.3.3-21
+- Add patch to fix exceptions accessing GeSHi error property
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.3-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

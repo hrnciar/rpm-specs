@@ -7,7 +7,7 @@ Provides:	perl(IO::AIO) = %{upstream_version}%{extraversion}
 
 Name:		perl-IO-AIO
 Version:	%{upstream_version}%{extraversion}
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	Asynchronous Input/Output
 License:	GPLv2+
 URL:		https://metacpan.org/release/IO-AIO
@@ -104,6 +104,9 @@ make test
 %{_mandir}/man1/treescan.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.72-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.72-5
 - Perl 5.32 rebuild
 

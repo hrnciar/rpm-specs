@@ -1,7 +1,7 @@
 Summary:        Library providing low-level IEEE-1394 access - 2.1.2-
 Name:           libraw1394
 Version:        2.1.2
-Release:        11%{?dist}
+Release:        12%{?dist}
 License:        LGPLv2+
 Source:         http://www.kernel.org/pub/linux/libs/ieee1394/%{name}-%{version}.tar.xz
 URL:            http://www.dennedy.org/libraw1394/
@@ -55,6 +55,9 @@ rm -f %{buildroot}%{_libdir}/libraw1394.la
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.2-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

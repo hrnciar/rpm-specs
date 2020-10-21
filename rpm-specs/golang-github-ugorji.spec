@@ -20,7 +20,7 @@ codec/encoding library for binc, msgpack, cbor, json.}
 %global godocs          msgpack.org.md README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Idiomatic codec and rpc lib for msgpack, cbor, json, etc.
 
 License:        MIT
@@ -48,6 +48,9 @@ BuildRequires:  golang(golang.org/x/tools/go/packages)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.7-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

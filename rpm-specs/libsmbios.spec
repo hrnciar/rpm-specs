@@ -1,14 +1,10 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 # these are all substituted by autoconf
 %define pot_file  libsmbios
 %define lang_dom  libsmbios-2.4
 
 Name: libsmbios
 Version: 2.4.2
-Release: 8%{?dist}
+Release: 10%{?dist}
 Summary: Libsmbios C/C++ shared libraries
 
 License: GPLv2+ or OSL 2.1
@@ -148,6 +144,9 @@ find %{buildroot}/%{_includedir} out/libsmbios_c -exec touch -r $TOPDIR/configur
 
 mv out/libsmbios_c    out/libsmbios_c-%{_arch}
 
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}%{python3_sitearch}/
+
 rename %{pot_file}.mo %{lang_dom}.mo $(find %{buildroot}/%{_datadir} -name %{pot_file}.mo)
 %find_lang %{lang_dom}
 
@@ -213,6 +212,13 @@ rename %{pot_file}.mo %{lang_dom}.mo $(find %{buildroot}/%{_datadir} -name %{pot
 %{_datadir}/smbios-utils
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.2-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.4.2-8
 - Rebuilt for Python 3.9
 

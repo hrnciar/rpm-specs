@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:       utox
 Version:    0.17.2
-Release:    1%{?dist}
+Release:    3%{?dist}
 Summary:    The lightweight Tox client
 
 License:    MIT or GPLv3+
@@ -41,20 +43,19 @@ Requires:       hicolor-icon-theme
 %autosetup -N -T -D -a 2 -n uTox-%{version}
 
 %build
-mkdir build
-cd build
-%cmake ..
-%make_build
+%cmake
+%cmake_build
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 install -Dp -m 644 %{SOURCE1} %{buildroot}/%{_datadir}/metainfo/%{name}.appdata.xml
 rm -rf %{buildroot}/%{_datadir}/icons/hicolor/14x14
 
 %check
-ctest -V %{?_smp_mflags}
+# Test "chrono" fails on armv7l
+%ifnarch %{arm}
+%ctest
+%endif
 desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/%{name}.appdata.xml
 
@@ -68,6 +69,13 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/%{name}.
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 12:40:14 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.17.2-1
 - Update to 0.17.2 (#1823346)
 

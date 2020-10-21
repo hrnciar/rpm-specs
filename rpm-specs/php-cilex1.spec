@@ -49,7 +49,7 @@
 
 Name:          php-%{composer_project}1
 Version:       %{github_version}
-Release:       9%{?github_release}%{?dist}
+Release:       10%{?github_release}%{?dist}
 Summary:       PHP micro-framework for Command line tools
 
 # License file request for cilex/console-service-provider:
@@ -215,6 +215,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

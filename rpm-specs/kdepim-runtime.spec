@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 # uncomment to enable bootstrap mode
 #global bootstrap 1
 
@@ -11,7 +12,7 @@
 Name:    kdepim-runtime
 Summary: KDE PIM Runtime Environment
 Epoch:   1
-Version: 20.04.2
+Version: 20.08.1
 Release: 1%{?dist}
 
 License: GPLv2
@@ -60,6 +61,7 @@ BuildRequires:  kf5-kross-devel
 BuildRequires:  kf5-kcodecs-devel
 BuildRequires:  kf5-kwindowsystem-devel
 BuildRequires:  kf5-ktextwidgets-devel
+BuildRequires:  cmake(KF5KCMUtils)
 
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtdeclarative-devel
@@ -88,6 +90,8 @@ BuildRequires:  kf5-kpimtextedit-devel >= %{majmin_ver}
 BuildRequires:  kf5-pimcommon-devel >= %{majmin_ver}
 BuildRequires:  kf5-syndication-devel >= %{majmin_ver}
 BuildRequires:  libkgapi-devel >= %{majmin_ver}
+BuildRequires:  kf5-libkdepim-devel >= %{majmin_ver}
+BuildRequires:  kf5-kldap-devel >= %{majmin_ver}
 # https://bugzilla.redhat.com/show_bug.cgi?id=1662756
 Requires: libkgapi%{?_isa} >= %{majmin_ver}
 BuildRequires:  cmake(KF5PimCommon)
@@ -134,17 +138,14 @@ Requires: kf5-akonadi-server%{?_isa} >= %{version}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%cmake_kf5 \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{!?tests:OFF}
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -177,6 +178,7 @@ make test ARGS="--output-on-failure --timeout 20" -C %{_target_platform} ||:
 %{_kf5_datadir}/dbus-1/interfaces/*.xml
 %{_kf5_datadir}/kservices5/pop3.protocol
 %{_kf5_datadir}/kservices5/pop3s.protocol
+%{_kf5_datadir}/kservices5/kcmldap.desktop
 
 %ldconfig_scriptlets libs
 
@@ -190,9 +192,25 @@ make test ARGS="--output-on-failure --timeout 20" -C %{_target_platform} ||:
 %{_kf5_plugindir}/kio/pop3.so
 # todo: enumerate akonadi config plugins -- rdieter
 %{_kf5_qtplugindir}/akonadi/config/
+%{_kf5_qtplugindir}/kcm_ldap.so
 
 
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:20.08.1-1
+- 20.08.1
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:20.08.0-1
+- 20.08.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:20.04.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:20.04.3-2
+- rebuild (kdav)
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:20.04.2-1
 - 20.04.2
 

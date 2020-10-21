@@ -1,21 +1,20 @@
-%global glib2_version 2.58.1
+%global glib2_version 2.62.0
 %global gtk3_version 3.22.27
 
 Name:           nautilus
-Version:        3.37.1
+Version:        3.38.1
 Release:        1%{?dist}
 Summary:        File manager for GNOME
 
 License:        GPLv3+
 URL:            https://wiki.gnome.org/Apps/Nautilus
-Source0:        https://download.gnome.org/sources/%{name}/3.37/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc
 BuildRequires:  gettext
 BuildRequires:  gtk-doc
 BuildRequires:  meson
-BuildRequires:  git
 BuildRequires:  pkgconfig(gexiv2)
 BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
 BuildRequires:  pkgconfig(gnome-autoar-0)
@@ -28,7 +27,7 @@ BuildRequires:  pkgconfig(gtk+-3.0) >= %{gtk3_version}
 BuildRequires:  pkgconfig(libseccomp)
 BuildRequires:  pkgconfig(libselinux)
 BuildRequires:  pkgconfig(libxml-2.0)
-BuildRequires:  pkgconfig(tracker-sparql-2.0)
+BuildRequires:  pkgconfig(tracker-sparql-3.0)
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  /usr/bin/appstream-util
 
@@ -39,11 +38,8 @@ Requires:       gvfs%{_isa}
 # the main binary links against libnautilus-extension.so
 # don't depend on soname, rather on exact version
 Requires:       %{name}-extensions%{_isa} = %{version}-%{release}
-# For the org.freedesktop.Tracker.Miner.Files GSettings schema.
-Requires:       tracker-miners
-
-# libtotem-properties-page.so was shipped in totem-nautilus before
-Conflicts:      totem-nautilus < 1:3.31.91
+# For the org.freedesktop.Tracker3.Miner.Files GSettings schema.
+Requires:       tracker3-miners
 
 # https://gitlab.gnome.org/GNOME/nautilus/issues/117#note_496825
 # https://gitlab.gnome.org/GNOME/nautilus/merge_requests/518
@@ -74,7 +70,7 @@ This package provides libraries and header files needed
 for developing nautilus extensions.
 
 %prep
-%autosetup -p1 -S git
+%autosetup -p1
 
 # Remove -Werror from compiler flags
 sed -i '/-Werror/d' meson.build
@@ -91,21 +87,21 @@ sed -i '/-Werror/d' meson.build
 %install
 %meson_install
 
-%find_lang %name
+%find_lang %{name}
 
 %check
 appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/metainfo/org.gnome.Nautilus.appdata.xml
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
-
-%ldconfig_scriptlets extensions
 
 %files  -f %{name}.lang
 %doc NEWS README.md
 %license LICENSE
 %{_datadir}/applications/*
 %{_bindir}/*
-%{_datadir}/dbus-1/services/org.gnome.Nautilus.service
 %{_datadir}/dbus-1/services/org.freedesktop.FileManager1.service
+%{_datadir}/dbus-1/services/org.gnome.Nautilus.service
+%{_datadir}/dbus-1/services/org.gnome.Nautilus.Tracker3.Miner.Extract.service
+%{_datadir}/dbus-1/services/org.gnome.Nautilus.Tracker3.Miner.Files.service
 %dir %{_datadir}/gnome-shell
 %dir %{_datadir}/gnome-shell/search-providers
 %{_datadir}/gnome-shell/search-providers/org.gnome.Nautilus.search-provider.ini
@@ -115,17 +111,18 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %{_mandir}/man1/nautilus-autorun-software.1*
 %{_datadir}/glib-2.0/schemas/org.gnome.nautilus.gschema.xml
 %{_datadir}/metainfo/org.gnome.Nautilus.appdata.xml
-%dir %{_libdir}/nautilus
-%dir %{_libdir}/nautilus/extensions-3.0
+%{_datadir}/nautilus/
+%{_datadir}/tracker3/domain-ontologies/org.gnome.Nautilus.domain.rule
 %{_libdir}/nautilus/extensions-3.0/libnautilus-image-properties.so
 %{_libdir}/nautilus/extensions-3.0/libnautilus-sendto.so
 %{_libdir}/nautilus/extensions-3.0/libtotem-properties-page.so
 
 %files extensions
 %license libnautilus-extension/LICENSE
-%{_libdir}/libnautilus-extension.so.*
+%{_libdir}/libnautilus-extension.so.1*
 %{_libdir}/girepository-1.0/*.typelib
 %dir %{_libdir}/nautilus
+%dir %{_libdir}/nautilus/extensions-3.0
 
 %files devel
 %{_includedir}/nautilus
@@ -137,6 +134,27 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %doc %{_datadir}/gtk-doc/html/libnautilus-extension/
 
 %changelog
+* Mon Oct  5 2020 Kalev Lember <klember@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Fri Sep 11 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Tue Sep 08 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+- Switch to tracker3
+- Tighten nautilus-extensions soname glob
+- Fix directory ownership for /usr/lib/nautilus/extensions-3.0 directory
+
+* Fri Aug 21 2020 Kalev Lember <klember@redhat.com> - 3.37.91-1
+- Update to 3.37.91
+
+* Tue Aug 18 2020 Kalev Lember <klember@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 27 2020 Kalev Lember <klember@redhat.com> - 3.37.1-1
 - Update to 3.37.1
 

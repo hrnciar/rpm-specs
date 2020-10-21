@@ -1,7 +1,7 @@
 Summary:      Platform independent library for scheme
 Name:         slib
 Version:      3b6
-Release:      1%{?dist}
+Release:      2%{?dist}
 License:      SLIB
 BuildArch:    noarch
 Source0:      http://swiss.csail.mit.edu/ftpdir/scm/slib-%{version}.zip
@@ -34,6 +34,9 @@ install -m644 slib.info $RPM_BUILD_ROOT%{_infodir}
 %{_infodir}/slib.*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3b6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 21 2020 Tomas Korbar <tkorbar@redhat.com> - 3b6-1
 - Rebase to version 3b6 (#1803412)
 

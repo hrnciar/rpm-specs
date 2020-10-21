@@ -1,15 +1,23 @@
 %global __os_install_post /usr/lib/rpm/brp-compress %{nil}
 
-# Set this to one and below to 0 when mingw-crt isn't built yet
+# Steps:
+# 1. Build mingw-gcc with bootstrap=1, enable_libgomp=0
+# 2. Build mingw-crt
+# 3. Build mingw-gcc with bootstrap=0, enable_libgomp=0
+# 4. Build mingw-winpthreads
+# 5. Build mingw-gcc with bootstrap=0, enable_libgomp=1
+
+# Set this to one when mingw-crt isn't built yet
 %global bootstrap 0
+# Set this one to zero when mingw-winpthreads isn't built yet
 %global enable_libgomp 1
 
 # Run the testsuite
 %global enable_tests 0
 
-%global DATE 20200618
-%global GITREV c518050989be3a224a04a8b33d73f37a16c30fbb
-%global gcc_version 10.1.1
+%global DATE 20200723
+%global GITREV 3fc88aa16f1bf661db4518d6d62869f081981981
+%global gcc_version 10.2.1
 %global gcc_major 10
 
 Name:           mingw-gcc
@@ -28,7 +36,9 @@ URL:            http://gcc.gnu.org
 # rm -rf gcc-dir.tmp
 %global srcdir gcc-%{version}-%{DATE}
 Source0: %{srcdir}.tar.xz
+Patch0: mingw-gcc-config.patch
 
+BuildRequires:	autoconf
 BuildRequires:  gcc-c++
 BuildRequires:  texinfo
 BuildRequires:  mingw32-filesystem >= 95
@@ -51,8 +61,10 @@ BuildRequires:  cloog-ppl cloog-ppl-devel
 %if 0%{bootstrap} == 0
 BuildRequires:  mingw32-crt
 BuildRequires:  mingw64-crt
+%if 0%{enable_libgomp}
 BuildRequires:  mingw32-winpthreads
 BuildRequires:  mingw64-winpthreads
+%endif
 %if 0%{enable_tests}
 BuildRequires:  wine
 BuildRequires:  autogen
@@ -206,6 +218,14 @@ needed for OpenMP v3.0 support for the win32 target.
 %autosetup -p1 -n %{srcdir}
 echo 'Fedora MinGW %{version}-%{release}' > gcc/DEV-PHASE
 
+# Force updating the configure files after patching the .m4 files
+pushd libiberty
+autoconf -f
+popd
+pushd intl
+autoconf -f
+popd
+
 %build
 # Default configure arguments
 configure_args="\
@@ -262,9 +282,9 @@ popd
 
 # If we're bootstrapping, only build the GCC core
 %if 0%{bootstrap}
-%mingw_make %{?_smp_mflags} all-gcc
+%mingw_make_build all-gcc
 %else
-%mingw_make %{?_smp_mflags} all
+%mingw_make_build all
 %endif
 
 
@@ -403,6 +423,11 @@ find %{buildroot} -name '*.la' -delete
 rm -f %{buildroot}%{_bindir}/%{mingw32_target}-%{mingw32_target}-*
 rm -f %{buildroot}%{_bindir}/%{mingw64_target}-%{mingw64_target}-*
 
+# HACK symlink libssp dll over import lib, otherwise linking with -lssp failes for mysterious reasons
+# Needed to build gdb and everything which adds -D_FORTIFY_SOURCES=... and -fstack-protector
+ln -sf %{mingw32_bindir}/libssp-0.dll %{buildroot}%{mingw32_libdir}/libssp.dll.a
+ln -sf %{mingw64_bindir}/libssp-0.dll %{buildroot}%{mingw64_libdir}/libssp.dll.a
+
 
 %files -n mingw32-gcc
 %{_bindir}/%{mingw32_target}-gcc
@@ -413,7 +438,6 @@ rm -f %{buildroot}%{_bindir}/%{mingw64_target}-%{mingw64_target}-*
 %{_bindir}/%{mingw32_target}-gcov
 %{_bindir}/%{mingw32_target}-gcov-dump
 %{_bindir}/%{mingw32_target}-gcov-tool
-%{_bindir}/%{mingw32_target}-lto-dump
 %dir %{_prefix}/lib/gcc/%{mingw32_target}/%{version}
 %dir %{_prefix}/lib/gcc/%{mingw32_target}/%{version}/include-fixed
 %dir %{_prefix}/lib/gcc/%{mingw32_target}/%{version}/include
@@ -429,10 +453,10 @@ rm -f %{buildroot}%{_bindir}/%{mingw64_target}-%{mingw64_target}-*
 %{_mandir}/man1/%{mingw32_target}-gcov.1*
 %{_mandir}/man1/%{mingw32_target}-gcov-dump.1*
 %{_mandir}/man1/%{mingw32_target}-gcov-tool.1*
-%{_mandir}/man1/%{mingw32_target}-lto-dump.1*
 
 # Non-bootstrap files
 %if 0%{bootstrap} == 0
+%{_bindir}/%{mingw32_target}-lto-dump
 %{mingw32_bindir}/libatomic-1.dll
 %{mingw32_bindir}/libgcc_s_dw2-1.dll
 %{mingw32_bindir}/libssp-0.dll
@@ -455,6 +479,7 @@ rm -f %{buildroot}%{_bindir}/%{mingw64_target}-%{mingw64_target}-*
 %{_libexecdir}/gcc/%{mingw32_target}/%{version}/liblto_plugin.so
 %{_libexecdir}/gcc/%{mingw32_target}/%{version}/liblto_plugin.so.0
 %{_libexecdir}/gcc/%{mingw32_target}/%{version}/liblto_plugin.so.0.0.0
+%{_mandir}/man1/%{mingw32_target}-lto-dump.1*
 %endif
 
 %files -n mingw64-gcc
@@ -466,7 +491,6 @@ rm -f %{buildroot}%{_bindir}/%{mingw64_target}-%{mingw64_target}-*
 %{_bindir}/%{mingw64_target}-gcov
 %{_bindir}/%{mingw64_target}-gcov-dump
 %{_bindir}/%{mingw64_target}-gcov-tool
-%{_bindir}/%{mingw64_target}-lto-dump
 %dir %{_prefix}/lib/gcc/%{mingw64_target}/%{version}
 %dir %{_prefix}/lib/gcc/%{mingw64_target}/%{version}/include-fixed
 %dir %{_prefix}/lib/gcc/%{mingw64_target}/%{version}/include
@@ -482,10 +506,10 @@ rm -f %{buildroot}%{_bindir}/%{mingw64_target}-%{mingw64_target}-*
 %{_mandir}/man1/%{mingw64_target}-gcov.1*
 %{_mandir}/man1/%{mingw64_target}-gcov-dump.1*
 %{_mandir}/man1/%{mingw64_target}-gcov-tool.1*
-%{_mandir}/man1/%{mingw64_target}-lto-dump.1*
 
 # Non-bootstrap files
 %if 0%{bootstrap} == 0
+%{_bindir}/%{mingw64_target}-lto-dump
 %{mingw64_bindir}/libatomic-1.dll
 %{mingw64_bindir}/libgcc_s_seh-1.dll
 %{mingw64_bindir}/libssp-0.dll
@@ -508,6 +532,7 @@ rm -f %{buildroot}%{_bindir}/%{mingw64_target}-%{mingw64_target}-*
 %{_libexecdir}/gcc/%{mingw64_target}/%{version}/liblto_plugin.so
 %{_libexecdir}/gcc/%{mingw64_target}/%{version}/liblto_plugin.so.0
 %{_libexecdir}/gcc/%{mingw64_target}/%{version}/liblto_plugin.so.0.0.0
+%{_mandir}/man1/%{mingw64_target}-lto-dump.1*
 %endif
 
 %files -n mingw32-cpp
@@ -597,9 +622,7 @@ rm -f %{buildroot}%{_bindir}/%{mingw64_target}-%{mingw64_target}-*
 %{mingw32_libdir}/libquadmath.a
 %{mingw32_libdir}/libquadmath.dll.a
 %{_prefix}/lib/gcc/%{mingw32_target}/%{version}/libcaf_single.a
-%if 0%{enable_libgomp}
 %{_prefix}/lib/gcc/%{mingw32_target}/%{version}/finclude
-%endif
 %endif
 
 %files -n mingw64-gcc-gfortran
@@ -615,9 +638,7 @@ rm -f %{buildroot}%{_bindir}/%{mingw64_target}-%{mingw64_target}-*
 %{mingw64_libdir}/libquadmath.a
 %{mingw64_libdir}/libquadmath.dll.a
 %{_prefix}/lib/gcc/%{mingw64_target}/%{version}/libcaf_single.a
-%if 0%{enable_libgomp}
 %{_prefix}/lib/gcc/%{mingw64_target}/%{version}/finclude
-%endif
 %endif
 
 %if 0%{enable_libgomp}
@@ -636,6 +657,19 @@ rm -f %{buildroot}%{_bindir}/%{mingw64_target}-%{mingw64_target}-*
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Sandro Mani <manisandro@gmail.com> - 10.2.1-1
+- Update to 10.2.1
+
+* Mon Jul 20 2020 Jeff Law <law@redhat.com> - 10.1.1-4
+- Fix broken configure tests compromised by LTO
+- Add autoconf to BuildRequires
+
+* Sun Jul 19 2020 Sandro Mani <manisandro@gmail.com> - 10.1.1-3
+- Hack: symlink libssp-0.dll over libssp.dll.a
+
 * Sat Jun 20 2020 Sandro Mani <manisandro@gmail.com> - 10.1.1-2
 - Full build
 

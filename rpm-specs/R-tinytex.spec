@@ -1,13 +1,11 @@
-%bcond_with check
-
 %global packname tinytex
-%global packver  0.23
+%global packver  0.26
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          0.23
+Version:          0.26
 Release:          1%{?dist}
-Summary:          Helper Functions to Install and Maintain 'TeX Live', and Compile 'LaTeX' Documents
+Summary:          Helper Functions to Install and Maintain TeX Live, and Compile LaTeX Documents
 
 License:          MIT
 URL:              https://CRAN.R-project.org/package=%{packname}
@@ -26,8 +24,6 @@ BuildRequires:    tex(latex)
 BuildRequires:    R-xfun >= 0.5
 BuildRequires:    R-testit
 BuildRequires:    R-rstudioapi
-# Not in Fedora yet
-# BuildRequires:    R-bookdown
 
 %description
 Helper functions to install and maintain the 'LaTeX' distribution named
@@ -52,9 +48,8 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %check
-%if %{with check}
 %{_bindir}/R CMD check %{packname}
-%endif
+
 
 %files
 %dir %{rlibdir}/%{packname}
@@ -71,6 +66,18 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Wed Sep 23 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.26-1
+- Update to latest version (#1881355)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.25-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.25-1
+- Update to latest version
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.24-1
+- Update to latest version
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 0.23-1
 - update to 0.23
 - rebuild for R 4

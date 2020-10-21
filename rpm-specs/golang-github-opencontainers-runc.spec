@@ -7,7 +7,7 @@
 # https://github.com/opencontainers/runc
 %global goipath         github.com/opencontainers/runc
 Version:                1.0.0
-%global tag             v1.0.0-rc10
+%global tag             v1.0.0-rc92
 %global distprefix      %{nil}
 
 %gometa
@@ -21,7 +21,7 @@ specification.}
                         PRINCIPLES.md README.md
 
 Name:           %{goname}
-Release:        2.rc10%{?dist}
+Release:        3.rc92%{?dist}
 Summary:        CLI tool for spawning and running containers
 
 # Upstream license specification: Apache-2.0
@@ -29,16 +29,18 @@ License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
-BuildRequires:  golang(github.com/checkpoint-restore/go-criu/rpc)
+BuildRequires:  golang(github.com/checkpoint-restore/go-criu/v4)
+BuildRequires:  golang(github.com/checkpoint-restore/go-criu/v4/rpc)
 BuildRequires:  golang(github.com/cilium/ebpf)
 BuildRequires:  golang(github.com/cilium/ebpf/asm)
 BuildRequires:  golang(github.com/containerd/console)
-BuildRequires:  golang(github.com/coreos/go-systemd/activation)
-BuildRequires:  golang(github.com/coreos/go-systemd/dbus)
+BuildRequires:  golang(github.com/coreos/go-systemd/v22/activation)
+BuildRequires:  golang(github.com/coreos/go-systemd/v22/dbus)
 BuildRequires:  golang(github.com/cyphar/filepath-securejoin)
 BuildRequires:  golang(github.com/docker/go-units)
-BuildRequires:  golang(github.com/godbus/dbus)
+BuildRequires:  golang(github.com/godbus/dbus/v5)
 BuildRequires:  golang(github.com/golang/protobuf/proto)
+BuildRequires:  golang(github.com/moby/sys/mountinfo)
 BuildRequires:  golang(github.com/mrunalp/fileutils)
 BuildRequires:  golang(github.com/opencontainers/runtime-spec/specs-go)
 BuildRequires:  golang(github.com/opencontainers/selinux/go-selinux)
@@ -74,6 +76,12 @@ BuildRequires:  golang(golang.org/x/sys/unix)
 %gopkgfiles
 
 %changelog
+* Thu Sep 17 19:51:00 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-3.rc92
+- Update to 1.0.0-rc92
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2.rc10.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 02 00:26:51 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-2.rc10
 - Update to 1.0.0-rc10
 

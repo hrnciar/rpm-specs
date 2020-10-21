@@ -1,6 +1,6 @@
 Name:           perl-Tk-Text-SuperText
 Version:        0.11
-Release:        12%{?dist}
+Release:        14%{?dist}
 Summary:        Improved text widget for perl/tk
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Tk-Text-SuperText
@@ -58,6 +58,12 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.11-13
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

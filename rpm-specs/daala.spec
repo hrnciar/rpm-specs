@@ -1,15 +1,15 @@
-%global commit0 72783687ce4963478b8ab4d97809510f40c7c855
-%global date 20170616
+%global commit0 0b5ce2f45870f7ca2278d5457bf7406a97e8e341
+%global date 20200512
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Name:       daala
 Version:    0
-Release:    14%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+Release:    17%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
 Summary:    Daala video compression
 License:    BSD
 URL:        http://xiph.org/daala/
 
-Source0:    https://git.xiph.org/?p=%{name}.git;a=snapshot;h=%{commit0};sf=tgz#/%{name}-%{shortcommit0}.tar.gz
+Source0:    https://gitlab.xiph.org/xiph/%{name}/-/archive/%{commit0}/%{name}-%{shortcommit0}.tar.gz
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -56,7 +56,7 @@ The %{name}-tools package contains a test player and encoder plus programs for
 testing %{name} support in your applications.
 
 %prep
-%setup -q -n %{name}-%{shortcommit0}
+%autosetup -n %{name}-%{commit0}
 
 %build
 autoreconf -vif
@@ -97,7 +97,6 @@ install -m 755 -p \
     tools/.libs/daalainfo \
     tools/png2y4m \
     tools/to_monochrome \
-    tools/trans \
     tools/trans2d \
     tools/trans_gain \
     tools/upsample \
@@ -125,12 +124,20 @@ rm -f %{buildroot}/%{_mandir}/man3/_*_include_daala_.3
 %files libs
 %license COPYING
 %doc AUTHORS
-%{_libdir}/*.so.*
+%{_libdir}/libdaalabase.so.0
+%{_libdir}/libdaalabase.so.0.0.1
+%{_libdir}/libdaaladec.so.0
+%{_libdir}/libdaaladec.so.0.0.1
+%{_libdir}/libdaalaenc.so.0
+%{_libdir}/libdaalaenc.so.0.0.1
 
 %files devel
 %doc doc/html
-%{_libdir}/*.so
-%{_libdir}/pkgconfig/*.pc
+%{_libdir}/libdaalabase.so
+%{_libdir}/libdaaladec.so
+%{_libdir}/libdaalaenc.so
+%{_libdir}/pkgconfig/daaladec.pc
+%{_libdir}/pkgconfig/daalaenc.pc
 %{_includedir}/%{name}/
 %{_mandir}/man3/*
 
@@ -138,6 +145,16 @@ rm -f %{buildroot}/%{_mandir}/man3/_*_include_daala_.3
 %{_bindir}/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-17.20200512git0b5ce2f
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Simone Caronni <negativo17@gmail.com> - 0-16.20200512git0b5ce2f
+- Do not install trans command.
+
+* Tue Jul 14 2020 Simone Caronni <negativo17@gmail.com> - 0-15.20200512git0b5ce2f
+- Update to latest snapshot.
+- Update SPEC file.
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-14.20170616git7278368
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

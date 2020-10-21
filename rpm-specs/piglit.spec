@@ -1,9 +1,10 @@
+%define __cmake_in_source_build 1
 %global gitrev 51f87891081840a7ea3cd6ad8d43062b3d35f1c8
 %global shortgit 51f87891081840a
 
 Name:           piglit
 Version:        1.0.20200330
-Release:        1.git51f87891081840a%{?dist}
+Release:        4.git51f87891081840a%{?dist}
 Summary:        Collection of automated tests for OpenGL implementations
 
 License:        MIT and GPLv2+ and GPLv3 and LGPLv2
@@ -93,6 +94,16 @@ rm -fv %{buildroot}%{_datadir}/bash-completion
 
 
 %changelog
+* Tue Sep 22 2020 Jeff Law <law@redhat.com> - 1.0.20200330-4.git51f87891081840a
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.20200330-3.git51f87891081840a
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.20200330-2.git51f87891081840a
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 Dave Airlie <airlied@redhat.com> - 1.0.20200330-1.git51f87891081840a
 - Update to latest to avoid ftbfs
 

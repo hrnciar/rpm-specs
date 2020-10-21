@@ -1,6 +1,6 @@
 Name:           perl-Email-Find
 Version:        0.10
-Release:        34%{?dist}
+Release:        35%{?dist}
 Summary:        Find RFC 822 email addresses in plain text
 
 License:        GPL+ or Artistic
@@ -54,6 +54,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10-35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.10-34
 - Perl 5.32 rebuild
 

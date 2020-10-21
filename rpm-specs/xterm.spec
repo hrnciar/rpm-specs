@@ -1,12 +1,12 @@
 Summary: Terminal emulator for the X Window System
 Name: xterm
-Version: 356
+Version: 360
 Release: 1%{?dist}
 URL: https://invisible-island.net/xterm
 License: MIT
 BuildRequires: gcc pkgconfig ncurses-devel libutempter-devel
 BuildRequires: libXft-devel libXaw-devel libXext-devel desktop-file-utils
-BuildRequires: libxkbfile-devel xorg-x11-apps
+BuildRequires: libxkbfile-devel luit
 Requires: xterm-resize = %{version}-%{release}
 Recommends: xorg-x11-fonts-misc
 
@@ -63,10 +63,10 @@ done
 	--disable-full-tgetent \
 	--enable-sixel-graphics
 
-make %{?_smp_mflags}
+%make_build
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install
+%make_install
 
 cp -fp %{SOURCE1} 16colors.txt
 
@@ -101,6 +101,21 @@ install -m644 -p xterm.appdata.xml $RPM_BUILD_ROOT%{_datadir}/appdata
 %{_mandir}/man1/resize.1*
 
 %changelog
+* Mon Sep 21 2020 Tomas Korbar <tkorbar@redhat.com> - 360-1
+- Rebase to version 360 (#1880883)
+
+* Tue Aug 18 2020 Tomas Korbar <tkorbar@redhat.com> - 359-1
+- Rebase to version 359 (#1869418)
+
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 358-2
+- BuildRequires luit, not xorg-x11-apps
+
+* Mon Jul 13 2020 Tomas Korbar <tkorbar@redhat.com> - 358-1
+- Rebase to version 358 (#1856126)
+
+* Mon Jul 06 2020 Tomas Korbar <tkorbar@redhat.com> - 357-1
+- Rebase to version 357 (#1853951)
+
 * Sun May 03 2020 Tomas Korbar <tkorbar@redhat.com> - 356-1
 - Rebase to version 356 (#1830237)
 

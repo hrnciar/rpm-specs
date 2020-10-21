@@ -1,6 +1,6 @@
 Name: bharati-m17n
 Version: 1.2
-Release: 15%{?dist}
+Release: 16%{?dist}
 Summary: Bharati input method based on InScript layout
 
 License: GPLv3+
@@ -33,6 +33,9 @@ make install DESTDIR=%buildroot INSTALL="install -p"
 %doc ChangeLog COPYING COPYRIGHT README doc/index.html doc/*.png
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

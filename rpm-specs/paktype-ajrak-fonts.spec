@@ -3,13 +3,13 @@
 %global fontconf %{priority}-%{fontname}
 
 Name:	%{fontname}-fonts
-Version:     5.0
-Release:     1%{?dist}
+Version:     6.0
+Release:     2%{?dist}
 Summary:     Fonts for Arabic from PakType
 
 License:     GPLv2 with exceptions
 URL:	https://sourceforge.net/projects/paktype/
-Source0:	https://sourceforge.net/projects/paktype/files/PakType-Release-2019-03-11.tar.gz#/%{name}-%{version}.tar.gz
+Source0:	https://sourceforge.net/projects/paktype/files/PakType-Release-2020-06-03.tar.gz#/%{name}-%{version}.tar.gz
 Source1:	%{fontconf}.conf
 BuildArch:   noarch
 BuildRequires:	fontpackages-devel
@@ -52,6 +52,12 @@ ln -s %{_fontconfig_templatedir}/%{fontconf}.conf \
 %doc PakType_Ajrak_License.txt PakTypeAjrakFeatures.pdf 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Vishal Vijayraghavan <vishalvvr@fedoraproject.org> - 6.0-1
+- Upstream 6.0 Release
+
 * Mon Feb 10 2020 Vishal Vijayraghavan <vishalvvr@fedoraproject.org> - 5.0-1
 - Upstream 5.0 Release
 

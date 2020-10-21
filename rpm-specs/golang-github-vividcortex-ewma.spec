@@ -14,7 +14,7 @@ Exponentially Weighted Moving Average algorithms for Go.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Exponentially Weighted Moving Average algorithms for Go
 
 License:        MIT
@@ -43,6 +43,9 @@ Patch0: 0001-Fix-wrong-format-type-in-Errorf.patch
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

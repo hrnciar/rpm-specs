@@ -5,7 +5,7 @@
 %global crate compiletest_rs
 
 Name:           rust-%{crate}
-Version:        0.4.1
+Version:        0.5.0
 Release:        1%{?dist}
 Summary:        Compiletest utility from the Rust compiler as a standalone testing harness
 
@@ -122,6 +122,12 @@ which use "tmp" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Tue Sep 15 2020 Fabio Valentini <decathorpe@gmail.com> - 0.5.0-1
+- Update to version 0.5.0.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 05 2020 Josh Stone <jistone@redhat.com> - 0.4.1-1
 - Update to 0.4.1
 

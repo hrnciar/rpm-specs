@@ -10,7 +10,7 @@
 Summary: MinGW Windows Tool Command Language, pronounced tickle
 Name: mingw-%{name1}
 Version: %{vers}
-Release: 5%{?dist}
+Release: 6%{?dist}
 License: TCL
 URL: http://tcl.sourceforge.net/
 Source0: http://downloads.sourceforge.net/sourceforge/tcl/%{name1}-core%{version}-src.tar.gz
@@ -205,6 +205,9 @@ rm -f $RPM_BUILD_ROOT/%{mingw64_bindir}/zlib1.dll
 %doc license.terms
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.6.8-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.6.8-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

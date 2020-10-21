@@ -7,7 +7,7 @@
 
 Name:           jansi-native
 Version:        1.8
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Jansi Native implements the JNI Libraries used by the Jansi project
 License:        ASL 2.0
 URL:            http://jansi.fusesource.org/
@@ -39,6 +39,19 @@ This package contains the API documentation for %{name}.
 %mvn_alias :jansi-linux%{bits} :jansi-linux
 %mvn_file :jansi-linux%{bits} %{name}/jansi-linux%{bits} %{name}/jansi-linux
 
+# remove hard-coded compiler settings
+%pom_remove_plugin :maven-compiler-plugin
+
+# fix javadoc generation for java 11
+%pom_remove_plugin :maven-javadoc-plugin
+%pom_xpath_inject pom:pluginManagement/pom:plugins "<plugin>
+<artifactId>maven-javadoc-plugin</artifactId>
+<configuration>
+<source>1.8</source>
+<detectJavaApiLink>false</detectJavaApiLink>
+</configuration>
+</plugin>"
+
 %build
 %mvn_build
 %mvn_build -- -Dplatform=linux%{bits}
@@ -54,6 +67,15 @@ This package contains the API documentation for %{name}.
 %license license.txt
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.8-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Fri Jun 26 2020 Mat Booth <mat.booth@redhat.com> - 1.8-3
+- Allow building against Java 11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:		64tass
 Version:	1.55.2200
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	6502 assembler
 License:	GPLv2+
 URL:		http://tass64.sourceforge.net/
@@ -35,6 +35,9 @@ install -m 755 64tass %{buildroot}%{_bindir}/
 %doc LICENSE-my_getopt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.55.2200-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 07 2020 Filipe Rosset <rosset.filipe@gmail.com> - 1.55.2200-1
 - Update to 1.55.2200 fixes rhbz#1821925
 

@@ -1,5 +1,5 @@
 Name:		perl-Mail-Message
-Version:	3.009
+Version:	3.010
 Release:	1%{?dist}
 Summary:	MIME message handling
 License:	GPL+ or Artistic
@@ -58,7 +58,7 @@ BuildRequires:	perl(Text::Autoformat)
 BuildRequires:	perl(Time::HiRes) >= 1.51
 BuildRequires:	perl(Time::Zone)
 BuildRequires:	perl(URI) >= 1.23
-BuildRequires:	perl(User::Identity) >= 0.94
+BuildRequires:	perl(User::Identity) >= 1.00
 BuildRequires:	perl(User::Identity::Collection::Emails)
 BuildRequires:	perl(utf8)
 BuildRequires:	perl(vars)
@@ -91,7 +91,7 @@ MIME message handling code, formerly part of the Mail::Box package.
 
 %prep
 %setup -q -n Mail-Message-%{version}
-# The licensing on these test files is unclear. 
+# The licensing on these test files is unclear.
 # They seem to contain content posted publicly to usenet
 # so there is an argument that the content is distributable
 # but its not under a Free license.
@@ -102,7 +102,7 @@ rm -rf t/203head-listgroup.t t/204head-spamgroup.t
 
 %{?perl_default_filter}
 
-%build 
+%build
 yes y |%{__perl} Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
 make
 
@@ -126,6 +126,18 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Mon Oct 19 2020 Tom Callaway <spot@fedoraproject.org> - 3.010-1
+- update to 3.010
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.009-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.009-3
+- Perl 5.32 re-rebuild of bootstrapped packages
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.009-2
+- Perl 5.32 rebuild
+
 * Tue Feb 11 2020 Tom Callaway <spot@fedoraproject.org> - 3.009-1
 - update to 3.009
 

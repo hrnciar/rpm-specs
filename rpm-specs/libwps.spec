@@ -1,7 +1,7 @@
 %global apiversion 0.4
 
 Name:		libwps
-Version:	0.4.11
+Version:	0.4.12
 Release:	1%{?dist}
 Summary:	A library for import of Microsoft Works documents
 
@@ -98,6 +98,12 @@ install -m 0644 wks2*.1 wps2*.1 %{buildroot}/%{_mandir}/man1
 %doc docs/doxygen/html
 
 %changelog
+* Sun Sep 06 2020 David Tardon <dtardon@redhat.com> - 0.4.12-1
+- new upstream release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 05 2020 David Tardon <dtardon@redhat.com> - 0.4.11-1
 - new upstream release
 

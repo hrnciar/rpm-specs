@@ -1,9 +1,11 @@
 
+%undefine __cmake_in_source_build
+
 Summary: Exif and Iptc metadata manipulation library
 Name:    exiv2
-Version: 0.27.2
+Version: 0.27.3
 %global internal_ver %{version}
-Release: 2%{?dist}
+Release: 4%{?dist}
 
 License: GPLv2+
 URL:     http://www.exiv2.org/
@@ -16,6 +18,9 @@ Source0: http://exiv2.org/builds/%{name}-%{version}-Source.tar.gz
 ## upstream patches
 
 ## upstreamable patches
+# don't unconditionally use -fcf-protection flag, not supported on all archs
+# fedora already includes this on archs that do support it
+Patch100: exiv2-0.27.3-fcf-protection.patch
 
 BuildRequires: cmake
 BuildRequires: expat-devel
@@ -76,19 +81,18 @@ BuildArch: noarch
 
 
 %build
-
-%{cmake} . \
+%cmake \
   -DCMAKE_INSTALL_DOCDIR="%{_pkgdocdir}" \
   -DEXIV2_BUILD_DOC:BOOL=ON \
   -DEXIV2_ENABLE_NLS:BOOL=ON \
   -DEXIV2_BUILD_SAMPLES:BOOL=OFF
 
-%make_build
-%make_build doc
+%cmake_build
+%cmake_build --target doc
 
 
 %install
-make install/fast DESTDIR=%{buildroot}
+%cmake_install
 
 %find_lang exiv2 --with-man
 
@@ -131,6 +135,19 @@ test -x %{buildroot}%{_libdir}/libexiv2.so
 
 
 %changelog
+* Wed Aug 26 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.27.3-4
+- support new cmake macro semantics
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.27.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.27.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.27.3-1
+- 0.27.3
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.27.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

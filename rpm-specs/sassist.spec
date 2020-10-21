@@ -1,6 +1,6 @@
 Name:		sassist
 Version:	0.8.5
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Dell SupportAssist log collector
 
 License:	MIT
@@ -54,6 +54,9 @@ install -p -m644 src/systemd/run-media-iDRAC_NATOSC.mount %{buildroot}%{_unitdir
 %systemd_postun_with_restart sassist.service
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.5-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,8 +2,8 @@
 %global sum The py.test astropy plugin
 
 Name:           python-%{srcname}
-Version:        0.5.0
-Release:        5%{?dist}
+Version:        0.7.0
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        BSD
@@ -14,9 +14,11 @@ BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  python3-pytest
 BuildRequires:  python3-pytest-arraydiff
+BuildRequires:  python3-pytest-astropy-header
 BuildRequires:  python3-pytest-doctestplus
 BuildRequires:  python3-pytest-openfiles
 BuildRequires:  python3-pytest-remotedata
+BuildRequires:  python3-hypothesis
 BuildRequires:  python3-setuptools
 
 %description
@@ -28,9 +30,11 @@ testing Astropy and its affiliated packages.
 Summary:        %{sum}
 Requires:       python3-pytest
 Requires:       python3-pytest-arraydiff
+Requires:       python3-pytest-astropy-header
 Requires:       python3-pytest-doctestplus
 Requires:       python3-pytest-openfiles
 Requires:       python3-pytest-remotedata
+Requires:       python3-hypothesis
 Requires:       python3-six
 %{?python_provide:%python_provide python3-%{srcname}}
 
@@ -55,6 +59,12 @@ testing Astropy and its affiliated packages.
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Christian Dersch <lupinix@fedoraproject.org> - 0.7.0-1
+- new version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.0-5
 - Rebuilt for Python 3.9
 

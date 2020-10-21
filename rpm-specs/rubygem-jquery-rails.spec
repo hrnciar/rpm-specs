@@ -4,23 +4,22 @@
 # Unfortunately, lib/jquery/rails/version.rb specifies exact versions of
 # bundled jquery, so be specific with the require to keep this relieable.
 %global jquery1_version 1.12.4
-%global jquery1_system_version 1.12.4
+#%%global jquery1_system_version 1.12.4
 %global jquery2_version 2.2.4
-%global jquery2_system_version 2.2.4
+#%%global jquery2_system_version 2.2.4
 %global jquery3_version 3.1.1
-# TODO:
-#%%global jquery3_system_version 3.1.0
+%global jquery3_system_version 3.5.0
 
 # In case bundled jQuery should be used, comment out appropriate line.
-%global unbundle_jquery1 1
-# jQuery 2.x is in old version in Fedora.
-%global unbundle_jquery2 1
-# jQuery 3.x is not in Fedora yet.
+# jQuery {1,2}.x were dropped from Fedora.
+#%%global unbundle_jquery1 1
+#%%global unbundle_jquery2 1
+# jQuery 3.x is in newer version in Fedora.
 #%%global unbundle_jquery3 1
 
 Name: rubygem-%{gem_name}
 Version: 4.2.2
-Release: 8%{?dist}
+Release: 10%{?dist}
 Summary: Use jQuery with Rails 4+
 License: MIT
 URL: https://github.com/rails/jquery-rails
@@ -36,10 +35,11 @@ BuildRequires: web-assets-devel
 # FTBFS as soon as the version changes and will make somebody to notice and
 # possibly unbundle sooner.
 %{?unbundle_jquery1:BuildRequires: jquery = %{jquery1_version}}
-%{!?unbundle_jquery1:BuildRequires: jquery = %{jquery1_system_version}}
+#%%{!?unbundle_jquery1:BuildRequires: jquery = %{jquery1_system_version}}
 %{?unbundle_jquery2:BuildRequires: jquery = %{jquery2_version}}
-%{!?unbundle_jquery2:BuildRequires: jquery = %{jquery2_system_version}}
+#%%{!?unbundle_jquery2:BuildRequires: jquery = %{jquery2_system_version}}
 %{?unbundle_jquery3:BuildRequires: jquery = %{jquery3_version}}
+%{!?unbundle_jquery3:BuildRequires: jquery = %{jquery3_system_version}}
 BuildRequires: rubygem(activesupport)
 BuildRequires: rubygem(nokogiri)
 BuildRequires: rubygem(rails-dom-testing)
@@ -133,6 +133,15 @@ popd
 %{gem_instdir}/test
 
 %changelog
+* Wed Aug 05 2020 Vít Ondruch <vondruch@redhat.com> - 4.2.2-10
+- jQuery {1,2}.x were dropped from Fedora while jQuery 3.x available in
+  more recent version.
+  Related: rhbz#1863662
+  Related: rhbz#1863663
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.2-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Name:           python-resultsdb_api
 # NOTE: if you update version, *make sure* to also update `setup.py`
 Version:        2.1.3
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Interface api to ResultsDB
 
 License:        GPLv2+
@@ -54,6 +54,9 @@ BuildRequires:  python3-virtualenv
 %{python3_sitelib}/*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.3-6
 - Rebuilt for Python 3.9
 

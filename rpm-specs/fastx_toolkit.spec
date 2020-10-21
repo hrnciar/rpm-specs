@@ -1,6 +1,6 @@
 Name:		fastx_toolkit
 Version:	0.0.14
-Release:	24%{?dist}
+Release:	26%{?dist}
 Summary:	Tools to process short-reads FASTA/FASTQ files
 
 License:	AGPLv3+
@@ -57,7 +57,7 @@ annotations, profiling metagenomic samples and much more.
 
 %build
 %configure
-make %{?_smp_mflags} CFLAGS="%{optflags}" CXXFLAGS="%{optflags} -std=c++11"
+make %{?_smp_mflags} CFLAGS="%{optflags}" CXXFLAGS="%{optflags}"
 
 
 %install
@@ -82,6 +82,12 @@ find %{buildroot}/%{_datadir}/%{name}/galaxy/ -name "Makefile\.*" -delete
 %{_datadir}/%{name}
 
 %changelog
+* Wed Aug 26 2020 Jeff Law <law@redhat.com> - 0.0.14-26
+- No longer force C++11 mode
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.14-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.14-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

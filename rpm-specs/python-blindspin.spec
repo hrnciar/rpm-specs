@@ -6,7 +6,7 @@ feasible option.
 
 Name:           python-%{srcname}
 Version:        2.0.1
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Braille Spinner for Click
 
 License:        MIT
@@ -54,6 +54,9 @@ sed -i "s/version='0.1.0'/version='%{version}'/" setup.py
 %{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.1-10
 - Rebuilt for Python 3.9
 

@@ -1,7 +1,9 @@
+%global __cmake_in_source_build 1
+
 Name:           libsbw
 Summary:        C++ Broker library 
 Version:        2.12.2
-Release:        4%{?dist}
+Release:        7%{?dist}
 URL:            http://sourceforge.net/projects/sbw/
 Source0:        https://sourceforge.net/projects/sbw/files/sbw/%{version}/sbw-core-%{version}.tar.bz2
 License:        BSD
@@ -64,7 +66,7 @@ find ./include/SBW \( -name \*.h \) -print0 | xargs -0 chmod -x
 
 %build
 mkdir -p build && cd build
-export CXXFLAGS="%{optflags} -Wl,-z,now -Wno-deprecated"
+export CXXFLAGS="-std=c++14 %{optflags} -Wl,-z,now -Wno-deprecated"
 export LDFLAGS="%{__global_ldflags} -Wl,-z,now -Wl,--as-needed"
 %cmake -Wno-cpp \
  -DLIBXML_INCLUDE_DIR:PATH=%{_includedir}/libxml2 -DLIBXML_LIBRARY:FILEPATH=%{_libdir}/libxml2.so \
@@ -108,6 +110,16 @@ install -pm 644 Broker.1 $RPM_BUILD_ROOT%{_mandir}/man1
 %{_libdir}/cmake/SBW-static-config.cmake
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 2.12.2-7
+- Force C++14 as this code is not C++17 ready
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.2-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

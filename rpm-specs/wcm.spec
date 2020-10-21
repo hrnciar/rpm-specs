@@ -1,14 +1,8 @@
-%global _hardened_build 1
-%global cmake_pkg cmake
-%if 0%{?rhel}
-%if 0%{?rhel} < 7
-%global cmake_pkg cmake28
-%endif
-%endif
+%undefine __cmake_in_source_build
 
 Name:		wcm
 Version:	0.20.0
-Release:	15%{?dist}
+Release:	16%{?dist}
 Summary:	WCM Commander
 License:	MIT
 Url:		https://github.com/corporateshark/WalCommander
@@ -27,7 +21,7 @@ BuildRequires:  gcc-c++
 BuildRequires:	utf8proc-devel
 # https://github.com/corporateshark/WCMCommander/issues/507
 Patch2:		wcm-changelog.patch
-BuildRequires:	%{cmake_pkg} >= 2.8
+BuildRequires:	cmake >= 2.8
 BuildRequires:	desktop-file-utils
 # libsmbclient-devel
 BuildRequires:	pkgconfig(smbclient)
@@ -38,9 +32,7 @@ BuildRequires:	pkgconfig(freetype2)
 # libX11-devel
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	ImageMagick
-%if 0%{?fedora}
 BuildRequires:	libappstream-glib
-%endif
 Requires:	hicolor-icon-theme
 
 
@@ -51,11 +43,9 @@ File manager mimicking the look-n-feel of Far Manager.
 %prep
 %setup0 -q -n WCMCommander-release-%{version}
 %patch0 -p 0
-%if 0%{?fedora}
 %patch1 -p 0
 cp %{SOURCE2} cmake/
 rm -rf src/utf8proc
-%endif
 %patch2 -p 0
 # https://github.com/corporateshark/WCMCommander/issues/490
 rm -rf install-files/share/wcm/fonts
@@ -66,24 +56,16 @@ rm -f tools/*
 
 
 %build
-mkdir build
-pushd build
-%{?cmake28}%{!?cmake28:%{?cmake}} \
-  -DCMAKE_BUILD_TYPE=RelWithDebInfo %cmakeflags ..
-make %{?_smp_mflags}
-popd
+%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo
+%cmake_build
 
 
 %install
-pushd build
-%{make_install}
-popd
+%cmake_install
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 # appdata
 install -Dm 0644 %{SOURCE1} %{buildroot}/%{_datadir}/appdata/wcm.appdata.xml
-%if 0%{?fedora}
 appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/wcm.appdata.xml
-%endif
 # additional icons
 # https://github.com/corporateshark/WCMCommander/issues/371
 for i in 16x16 22x22 24x24 32x32 48x48 64x64 72x72 96x96 128x128
@@ -91,7 +73,7 @@ do
     mkdir -p %{buildroot}/%{_datadir}/icons/hicolor/$i/apps
     convert install-files/share/pixmaps/wcm.png -resize $i %{buildroot}/%{_datadir}/icons/hicolor/$i/apps/wcm.png;
 done
-install -Dm 0644 %{SOURCE3} %{buildroot}/%{_mandir}/man1/%{name}.1.gz
+install -Dm 0644 %{SOURCE3} %{buildroot}/%{_mandir}/man1/%{name}.1
 
 %files
 %doc CHANGELOG.txt Contributors.txt README.md
@@ -106,6 +88,9 @@ install -Dm 0644 %{SOURCE3} %{buildroot}/%{_mandir}/man1/%{name}.1.gz
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.0-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

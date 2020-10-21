@@ -1,6 +1,6 @@
 Name:           pyshp
-Version:        2.1.0
-Release:        6%{?dist}
+Version:        2.1.2
+Release:        1%{?dist}
 Summary:        Pure Python read/write support for ESRI Shapefile format
 License:        MIT
 URL:            https://github.com/GeospatialPython/pyshp
@@ -51,6 +51,15 @@ rm -rf pyshp.egg-info
 
 
 %changelog
+* Fri Sep 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.1.2-1
+- 2.1.2
+
+* Thu Sep 10 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.1.1-1
+- 2.1.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.0-6
 - Rebuilt for Python 3.9
 

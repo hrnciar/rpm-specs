@@ -2,7 +2,7 @@
 
 Name:          sms_ntsc
 Version:       0.2.3
-Release:       22%{?dist}
+Release:       23%{?dist}
 Summary:       Provides an SMS NTSC video filtering library
 
 License:       LGPLv2+
@@ -104,6 +104,9 @@ install -pm0755 %{name}_demo %{buildroot}%{_bindir}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.3-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.3-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

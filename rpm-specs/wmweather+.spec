@@ -2,7 +2,7 @@
 
 Name:           wmweather+
 Version:        2.17
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Weather status dockapp
 
 License:        GPLv2+
@@ -45,6 +45,9 @@ autoreconf -fv
 %{_mandir}/man1/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.17-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 29 2020 Jani Juhani Sinervo - 2.17-7
 - Fix FTBFS on Rawhide and 32
 - Modernize the spec-file

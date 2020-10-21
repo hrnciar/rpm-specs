@@ -1,13 +1,11 @@
 Summary: The Reliable Event Logging Protocol library
 Name: librelp
-Version: 1.5.0
+Version: 1.7.0
 Release: 1%{?dist}
 License: GPLv3+
 URL: http://www.rsyslog.com/
-Source0: http://download.rsyslog.com/librelp/%{name}-%{version}.tar.gz
+Source0: http://download.rsyslog.com/%{name}/%{name}-%{version}.tar.gz
 BuildRequires: gnutls-devel >= 1.4.0
-
-Patch0: librelp-1.4.0-crypto-compliance.patch
 
 %description
 Librelp is an easy to use library for the RELP protocol. RELP (stands
@@ -29,7 +27,6 @@ to develop applications using librelp.
 
 %prep
 %setup -q
-%patch0 -p1 -b .crypto
 
 %build
 autoreconf -ivf
@@ -54,6 +51,13 @@ rm $RPM_BUILD_ROOT/%{_libdir}/*.la
 %{_libdir}/pkgconfig/relp.pc
 
 %changelog
+* Tue Sep 08 2020 Attila Lakatos <alakatos@redhat.com> - 1.7.0-1
+- rebase to 1.7.0
+  resolves: rhbz#1826269
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 03 2020 Jiri Vymazal <jvymazal@redhat.com> - 1.5.0-1
 - rebase to 1.5.0
   resolves: rhbz#1790820

@@ -1,6 +1,6 @@
 Name:           extundelete
 Version:        0.2.4
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        An ext3 and ext4 file system undeletion utility
 
 License:        GPLv2+
@@ -39,6 +39,9 @@ recovering your files!
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.4-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.4-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

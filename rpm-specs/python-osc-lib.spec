@@ -9,7 +9,7 @@
 
 Name:       python-%{library}
 Version:    2.0.0
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    OpenStack library for writing OSC plugins
 License:    ASL 2.0
 URL:        https://github.com/openstack/%{library}/
@@ -133,6 +133,9 @@ PYTHON=%{__python3} %{__python3} setup.py test
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Joel Capitao <jcapitao@redhat.com> 2.0.0-1
 - Update to upstream version 2.0.0
 

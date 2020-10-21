@@ -1,7 +1,7 @@
 Summary: IrcII chat client
 Name: BitchX
 Version: 1.2.1
-Release: 23%{?dist}
+Release: 24%{?dist}
 License: BSD and GPLv2+
 URL: http://www.bitchx.org
 Source0: http://www.bitchx.ca/%{name}-%{version}.tar.gz
@@ -39,6 +39,9 @@ make DESTDIR=%{buildroot} install
 %{_mandir}/man1/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Kevin Easton <kme@fedoraproject.org> - 1.2.1-23
 - Add patch to mark all inline functions in expr2.c static, fixing build on s390
 

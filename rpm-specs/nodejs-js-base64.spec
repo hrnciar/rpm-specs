@@ -7,7 +7,7 @@
 
 Name:               nodejs-js-base64
 Version:            2.1.7
-Release:            11%{?dist}
+Release:            12%{?dist}
 Summary:            Yet another Base64 transcoder in pure-JS
 
 License:            BSD
@@ -67,6 +67,9 @@ mocha
 %{nodejs_sitelib}/js-base64/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.7-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.7-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

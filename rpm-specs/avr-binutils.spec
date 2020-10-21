@@ -2,7 +2,7 @@
 
 Name:           %{target}-binutils
 Version:        2.32
-Release:        3%{?dist}
+Release:        5%{?dist}
 Epoch:          1
 Summary:        Cross Compiling GNU binutils targeted at %{target}
 License:        GPLv2+
@@ -11,6 +11,7 @@ Source0:        ftp://ftp.gnu.org/pub/gnu/binutils/binutils-%{version}.tar.xz
 Source1:        README.fedora
 #add widespread options to avr-size: --format=avr -mcu=XX
 Patch1: http://distribute.atmel.no/tools/opensource/avr-gcc/binutils-2.20.1/30-binutils-2.20.1-avr-size.patch
+Patch2: avr-binutils-config.patch
 
 BuildRequires:  gawk texinfo gcc
 #for autoreconf:
@@ -27,12 +28,24 @@ native %{_arch} platform.
 %setup -q -c
 pushd binutils-%{version}
 %patch1 -p2 -b .avr-size
+%patch2 -p1 -b .config
+
+# We call configure directly rather than via macros, thus if
+# we are using LTO, we have to manually fix the broken configure
+# scripts
+pushd libiberty
+autoconf -f
+popd
+pushd intl
+autoconf -f
+popd
 
 popd 
 cp %{SOURCE1} .
 
 
 %build
+
 mkdir -p build
 pushd build
 CFLAGS="$RPM_OPT_FLAGS" ../binutils-%{version}/configure --prefix=%{_prefix} \
@@ -67,6 +80,12 @@ rm    $RPM_BUILD_ROOT%{_libdir}/libiberty.a ||:
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.32-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 1:2.32-4
+- Fix broken configure tests compromised by LTO
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.32-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

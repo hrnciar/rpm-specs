@@ -1,68 +1,97 @@
-%global srcname azure-sdk
-%global common_description This project provides a set of Python packages that make it easy to access\
-Management (Virtual Machines, ...) or Runtime (ServiceBus using HTTP, Batch,\
-Monitor) components of Microsoft Azure Complete feature list of this repo and\
-where to find Python packages not in this repo can be found on our Azure SDK for\
-Python documentation.
+# Commit corresponding to the 5.0.0 release of the azure bundle on PyPi
+%global commit 2b2cfd46758e7b9d55346f79f05592d7488c1bd0
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
 
+%global srcname azure-sdk
+%global _description %{expand:This project provides a set of Python packages that make it easy to access
+Management (Virtual Machines, ...) or Runtime (ServiceBus using HTTP, Batch,
+Monitor) components of Microsoft Azure Complete feature list of this repo and
+where to find Python packages not in this repo can be found on our Azure SDK for
+Python documentation.}
+
+# Too many tests require an Internet connection
 %global _with_tests 0
 %global _with_doc 1
 
-%global azure_storage_min_version 1.0.0
-%global msrest_min_version 0.4.26
-%global msrestazure_min_version 0.5.0
-
 Name:           python-%{srcname}
-Version:        4.0.0
-Release:        12%{?dist}
+Version:        5.0.0
+Release:        3%{?dist}
 Summary:        Microsoft Azure SDK for Python
 
-# All packages are licensed under the MIT license, except:
-# - azure-servicebus
-# - azure-servicemanagement-legacy
+# All packages are licensed under the MIT license, except
+# azure-servicemanagement-legacy
 License:        MIT and ASL 2.0
 URL:            https://github.com/Azure/azure-sdk-for-python
-Source0:        %{url}/archive/azure_%{version}/%{srcname}-%{version}.tar.gz
-# Install namespace package modules (disabled by default, may be required by
-# modules depending on Azure SDK for development)
-Patch0:         %{name}-4.0.0-nspkgs.patch
-# Disable tests requiring online access to Azure
-Patch1:         %{name}-4.0.0-tests.patch
+Source0:        %{url}/archive/%{shortcommit}/%{srcname}-%{shortcommit}.tar.gz
+# Fix Python requirement versions
+Patch0:         %{name}-5.0.0-requirements.patch
+# Fix tests
+Patch1:         %{name}-5.0.0-tests.patch
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
+BuildRequires:  %{py3_dist setuptools}
+%if 0%{?_with_tests} || 0%{?_with_doc}
+BuildRequires:  %{py3_dist adal}
+BuildRequires:  %{py3_dist msal}
+BuildRequires:  %{py3_dist msrestazure}
+BuildRequires:  %{py3_dist msrest}
+BuildRequires:  %{py3_dist opencensus}
+BuildRequires:  %{py3_dist uamqp}
+%endif
 %if 0%{?_with_tests}
-BuildRequires:  python3-azure-devtools
-BuildRequires:  python3-azure-storage >= %{azure_storage_min_version}
-BuildRequires:  python3-msrest >= %{msrest_min_version}
-BuildRequires:  python3-msrestazure >= %{msrestazure_min_version}
-BuildRequires:  python3-pyOpenSSL
-BuildRequires:  python3-pytest
-BuildRequires:  python3-pytest-cov
-BuildRequires:  python3-requests
+BuildRequires:  %{py3_dist aiodns}
+BuildRequires:  %{py3_dist aiohttp}
+BuildRequires:  %{py3_dist configargparse}
+BuildRequires:  %{py3_dist cryptography}
+BuildRequires:  %{py3_dist httpretty}
+BuildRequires:  %{py3_dist mock}
+BuildRequires:  %{py3_dist msal-extensions}
+BuildRequires:  %{py3_dist msal}
+BuildRequires:  %{py3_dist opencensus-ext-azure}
+BuildRequires:  %{py3_dist opencensus-ext-threading}
+BuildRequires:  %{py3_dist opentelemetry-api}
+BuildRequires:  %{py3_dist opentelemetry-sdk}
+BuildRequires:  %{py3_dist pyopenssl}
+BuildRequires:  %{py3_dist pytest-asyncio}
+BuildRequires:  %{py3_dist pytest-trio}
+BuildRequires:  %{py3_dist pytest}
+BuildRequires:  %{py3_dist python-dateutil}
+BuildRequires:  %{py3_dist requests}
+BuildRequires:  %{py3_dist six}
+BuildRequires:  %{py3_dist urllib3}
+BuildRequires:  %{py3_dist vcrpy}
 %endif
 %if 0%{?_with_doc}
-BuildRequires:  python3-recommonmark
-BuildRequires:  python3-sphinx
-BuildRequires:  python3-sphinx_rtd_theme
+BuildRequires:  fontpackages-devel
+BuildRequires:  %{py3_dist recommonmark}
+BuildRequires:  %{py3_dist sphinx}
+BuildRequires:  %{py3_dist sphinx-rtd-theme}
 %endif
 BuildArch:      noarch
 
 %description
-%{common_description}
+%{_description}
 
 
 %package -n python3-%{srcname}
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
+Provides:       python3-azure-devtools = %{version}-%{release}
+Provides:       python3-azure-storage = %{version}-%{release}
+Obsoletes:      python3-azure-devtools < 1.0.0-11
+Obsoletes:      python3-azure-storage < 2.1.0-4
 
 %description -n python3-%{srcname}
-%{common_description}
+%{_description}
 
 
 %if 0%{?_with_doc}
 %package doc
 Summary:        Documentation for %{name}
+Requires:       google-roboto-slab-fonts
+Requires:       lato-fonts
+Requires:       fontawesome-fonts
+Requires:       fontawesome-fonts-web
 
 %description doc
 This package provides documentation for %{name}.
@@ -70,30 +99,66 @@ This package provides documentation for %{name}.
 
 
 %prep
-%autosetup -p0 -n %{srcname}-for-python-azure_%{version}%{?prerelease}
+%autosetup -p0 -n %{srcname}-for-python-%{commit}
+
+# Remove bundled egg-info
+for i in $(find . -name "setup.py"); do
+    rm -rf ${i%/*}/*.egg-info
+done
 
 
 %build
 %py3_build
 
+pushd tools/azure-devtools/
+%py3_build
+popd
+
 %if 0%{?_with_doc}
-%make_build -C doc/ html SPHINXBUILD=sphinx-build-3
-rm doc/_build/html/.buildinfo
+PYTHONPATH=
+for i in $(find . -name "setup.py"); do
+    PYTHONPATH+="$PWD/${i%/*}:"
+done
+export PYTHONPATH=${PYTHONPATH%:}
+%make_build -C doc/sphinx/ html
+rm doc/sphinx/_build/html/.buildinfo
+
+# Drop bundled web fonts in HTML documentation
+pushd ./doc/sphinx/_build/html/_static/fonts/
+rm fontawesome-webfont.*
+ln -s %{_fontbasedir}/fontawesome/fontawesome-webfont.* .
+
+pushd Lato/
+rm *.ttf
+for i in Bold BoldItalic Italic Regular; do
+    ln -s %{_fontbasedir}/lato/Lato-$i.ttf lato-${i,,}.ttf
+done
+popd
+
+pushd RobotoSlab/
+rm *.ttf
+for i in Bold Regular; do
+    ln -s %{_fontbasedir}/google-roboto-slab/RobotoSlab-$i.ttf roboto-slab-v7-${i,,}.ttf
+done
+popd
+popd
 %endif
 
 
 %install
 %py3_install
 
+pushd tools/azure-devtools/
+%py3_install
+popd
+
 
 %check
 %if 0%{_with_tests}
-PYTHONPATH=
-for d in azure-*/; do
-    PYTHONPATH+="$d:"
+export PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/:tools/azure-sdk-tools/
+for i in $(find sdk/ -name "tests"); do
+    pytest-%{python3_version} ${i%/*}
 done
-export PYTHONPATH=${PYTHONPATH%:}
-py.test-%{python3_version}
 %endif
 
 
@@ -101,17 +166,27 @@ py.test-%{python3_version}
 %doc CONTRIBUTING.md README.rst
 %license LICENSE.txt
 %{python3_sitelib}/azure/
+%{python3_sitelib}/azure_devtools/
 %{python3_sitelib}/azure_*.egg-info/
 
 
 %if 0%{?_with_doc}
 %files doc
-%doc doc/_build/html/
+%doc doc/sphinx/_build/html/
 %license LICENSE.txt
 %endif
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 5.0.0-2
+- Rebuilt
+
+* Wed Jul 01 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 5.0.0-1
+- Update to 5.0.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.0.0-12
 - Bootstrap for Python 3.9
 

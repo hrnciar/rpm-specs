@@ -1,6 +1,6 @@
 Name:           Mars
 Version:        4.5
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        An interactive development environment for programming in MIPS assembly language
 
 License:        MIT
@@ -51,6 +51,12 @@ desktop-file-install                                \
 %doc MARSlicense.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 4.5-12
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

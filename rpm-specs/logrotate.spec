@@ -1,7 +1,7 @@
 Summary: Rotates, compresses, removes and mails system log files
 Name: logrotate
-Version: 3.16.0
-Release: 1%{?dist}
+Version: 3.17.0
+Release: 3%{?dist}
 License: GPLv2+
 Url: https://github.com/logrotate/logrotate
 Source: https://github.com/logrotate/logrotate/releases/download/%{version}/logrotate-%{version}.tar.xz
@@ -41,14 +41,6 @@ EOF
 git add .gitignore
 git commit -m "update .gitignore"
 
-%if 0%{?fedora} == 0 && 0%{?rhel} < 7
-sed -e 's/^AM_EXTRA_RECURSIVE_TARGETS/dnl AM_EXTRA_RECURSIVE_TARGETS/' \
-    -e 's/ serial-tests//' \
-    -i configure.ac
-git add configure.ac
-git commit -m "configure.ac: compatibility fixes for RHEL-6"
-%endif
-
 autoreconf -fiv
 git add --all
 git commit -m "force autoreconf" --allow-empty
@@ -57,10 +49,10 @@ git commit -m "force autoreconf" --allow-empty
 mkdir build && cd build
 %global _configure ../configure
 %configure --with-state-file-path=%{_localstatedir}/lib/logrotate/logrotate.status
-make %{?_smp_mflags} V=1
+%make_build
 
 %check
-make %{?_smp_mflags} -C build check
+%make_build -C build -s check
 
 %install
 %make_install -C build
@@ -116,6 +108,16 @@ fi
 %config(noreplace) %{_sysconfdir}/rwtab.d/logrotate
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.17.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 3.17.0-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Fri Jul 10 2020 Kamil Dudka <kdudka@redhat.com> - 3.17.0-1
+- new upstream version 3.17.0
+
 * Fri Feb 28 2020 Kamil Dudka <kdudka@redhat.com> - 3.16.0-1
 - new upstream version 3.16.0
 

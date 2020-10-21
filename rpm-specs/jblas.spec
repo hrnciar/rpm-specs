@@ -1,7 +1,7 @@
 Summary: Java bindings for BLAS
 Name: jblas
 Version: 1.2.4
-Release: 10%{?dist}
+Release: 13%{?dist}
 License: BSD
 URL: http://jblas.org
 
@@ -98,6 +98,16 @@ install -pm 755 src/main/resources/lib/dynamic/Linux/*/sse/libjblas.so \
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.2.4-11
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

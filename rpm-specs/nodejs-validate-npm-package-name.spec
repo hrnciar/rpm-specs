@@ -8,7 +8,7 @@
 
 Name:		nodejs-validate-npm-package-name
 Version:	2.2.2
-Release:	10%{?dist}
+Release:	12%{?dist}
 Summary:	Give me a string and I'll tell you if it's a valid npm package name
 Url:		https://github.com/npm/validate-npm-package-name
 Source0:	https://github.com/npm/%{npm_name}/archive/%{commit}/%{npm_name}-%{commit}.tar.gz
@@ -57,6 +57,13 @@ tap test/*.js
 %license LICENSE
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

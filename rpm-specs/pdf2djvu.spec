@@ -1,6 +1,6 @@
 Name:           pdf2djvu
 Version:        0.9.17
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        PDF to DjVu converter
 License:        GPLv2+
 URL:            http://jwilk.net/software/pdf2djvu
@@ -25,6 +25,7 @@ metadata.
 %autosetup
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure
 %make_build
 
@@ -46,6 +47,15 @@ install -p -m 644 -D {doc,%{buildroot}%{_mandir}/man1}/%{name}.1
 %{_mandir}/ru/man1/%{name}.1*
 
 %changelog
+* Wed Aug 19 2020 Jeff Law <law@redhat.com> - 0.9.17-4
+- Force C++14 as this code is not C++17 ready
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.17-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Marek Kasik <mkasik@redhat.com> - 0.9.17-2
+- Rebuild for poppler-0.90.0
+
 * Sun Mar 15 2020 Filipe Rosset <rosset.filipe@gmail.com> - 0.9.17-1
 - Update to 0.9.17 fixes rhbz#1805167
 

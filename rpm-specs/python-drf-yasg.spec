@@ -3,7 +3,7 @@
 Name:           python-%{srcname}
 Version:        1.17.0
 %global pyversion %(v=%{version}; echo ${v%%.0*})
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Automated generation of real Swagger/OpenAPI 2.0 schemas from Django Rest
 
 # Not all license texts are included: https://github.com/axnsan12/drf-yasg/issues/536
@@ -78,8 +78,15 @@ rm -vr src/*.egg-info
 %{python3_sitelib}/drf_yasg-*.egg-info/
 
 %files -n python3-%{srcname}+validation
+%{?python_extras_subpkg:%ghost %{python3_sitelib}/drf_yasg-*.egg-info/}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Miro Hrončok <mhroncok@redhat.com> - 1.17.0-3
+- Add metadata for Python extras subpackages
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.17.0-2
 - Rebuilt for Python 3.9
 

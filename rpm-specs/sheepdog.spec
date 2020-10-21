@@ -1,7 +1,7 @@
 Name: sheepdog
 Summary: The Sheepdog distributed storage system for KVM/QEMU
 Version: 1.0.1
-Release: 12%{?dist}
+Release: 13%{?dist}
 License: GPLv2 and GPLv2+
 URL: http://sheepdog.github.io/sheepdog
 Source0: https://github.com/sheepdog/sheepdog/archive/v1.0.1.tar.gz
@@ -119,6 +119,9 @@ cp -a %{SOURCE3} %{buildroot}/%{_sysconfdir}/sysconfig
 %{_libdir}/libsheepdog.so
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 Paolo Bonzini <pbonzini@redhat.com> - 1.0.1-12
 - New patch sha1-extern.patch to fix FTBFS
 - Delete obsolete patches

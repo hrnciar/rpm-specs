@@ -17,7 +17,7 @@
 
 Name:           love
 Version:        11.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A free 2D game engine which enables easy game creation in Lua
 
 #All is licensed as zlib with one exception:
@@ -111,6 +111,9 @@ rm -f %{buildroot}%{_libdir}/lib%{name}.la
 %{_libdir}/lib%{name}*.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

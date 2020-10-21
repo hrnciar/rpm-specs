@@ -6,8 +6,8 @@
 %endif
 
 Name:           perl-Archive-Tar
-Version:        2.36
-Release:        456%{?dist}
+Version:        2.38
+Release:        3%{?dist}
 Summary:        A module for Perl manipulation of .tar files
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Archive-Tar
@@ -17,6 +17,7 @@ Patch0:         Archive-Tar-2.02-Do-not-sleep-in-Makefile.PL.patch
 BuildArch:      noarch
 # Most of the BRS are needed only for tests, compression support at run-time
 # is optional soft dependency.
+BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -117,6 +118,15 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.38-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.38-2
+- Perl 5.32 re-rebuild of bootstrapped packages
+
+* Thu Jun 25 2020 Petr Pisar <ppisar@redhat.com> - 2.38-1
+- 2.38 bump
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.36-456
 - Increase release to favour standalone package
 

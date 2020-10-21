@@ -1,7 +1,7 @@
 Summary:	The Vorbis General Audio Compression Codec tools
 Name:		vorbis-tools
 Version:	1.4.0
-Release:	33%{?dist}
+Release:	35%{?dist}
 Epoch:		1
 License:	GPLv2
 URL:		http://www.xiph.org/
@@ -67,12 +67,12 @@ export CFLAGS="$RPM_OPT_FLAGS -Wno-error=format-security"
 #CFLAGS="$CFLAGS -O0"
 
 %configure
-make %{?_smp_mflags}
-make %{?_smp_mflags} update-gmo -C po
+%make_build
+%make_build update-gmo -C po
 
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install
+%make_install
 rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %find_lang %{name}
 
@@ -84,6 +84,13 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.4.0-35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1:1.4.0-34
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.4.0-33
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

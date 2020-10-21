@@ -5,18 +5,14 @@
 %global crate git-delta
 
 Name:           rust-%{crate}
-Version:        0.1.1
-Release:        2%{?dist}
+Version:        0.4.1
+Release:        1%{?dist}
 Summary:        Syntax-highlighting pager for git
 
 # Upstream license specification: MIT
 License:        MIT
 URL:            https://crates.io/crates/git-delta
 Source:         %{crates_source}
-# Initial patched metadata
-# * Update console to 0.11, https://github.com/dandavison/delta/pull/143
-# * Update shell-words to 1, https://github.com/dandavison/delta/pull/182
-Patch0:         git-delta-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 
@@ -29,16 +25,15 @@ Syntax-highlighting pager for git.}
 
 %package     -n %{crate}
 Summary:        %{summary}
-# * ASL 2.0
-# * ASL 2.0 or Boost
-# * ASL 2.0 or MIT
-# * BSD
-# * ISC
-# * LGPLv3+
-# * MIT
-# * MIT or ASL 2.0
-# * Unlicense or MIT
-# * zlib
+# ASL 2.0
+# ASL 2.0 or Boost
+# BSD
+# ISC
+# LGPLv3+
+# MIT
+# MIT or ASL 2.0
+# Unlicense or MIT
+# zlib
 License:        MIT and ASL 2.0 and BSD and ISC and LGPLv3+ and zlib
 
 %description -n %{crate} %{_description}
@@ -50,6 +45,9 @@ License:        MIT and ASL 2.0 and BSD and ISC and LGPLv3+ and zlib
 %dir %{_datadir}/bash-completion
 %dir %{_datadir}/bash-completion/completions
 %{_datadir}/bash-completion/completions/delta.bash
+%dir %{_datadir}/zsh
+%dir %{_datadir}/zsh/site-functions
+%{_datadir}/zsh/site-functions/_delta
 
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
@@ -63,8 +61,10 @@ License:        MIT and ASL 2.0 and BSD and ISC and LGPLv3+ and zlib
 
 %install
 %cargo_install
-install -Dpm0644 completion/bash/completion.sh \
+install -Dpm0644 etc/completion/completion.bash \
   -T %{buildroot}%{_datadir}/bash-completion/completions/delta.bash
+install -Dpm0644 etc/completion/completion.zsh \
+  -T %{buildroot}%{_datadir}/zsh/site-functions/_delta
 
 %if %{with check}
 %check
@@ -72,6 +72,15 @@ install -Dpm0644 completion/bash/completion.sh \
 %endif
 
 %changelog
+* Thu Aug 27 16:43:44 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.4.1-1
+- Update to 0.4.1
+
+* Sun Aug 16 15:01:28 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.1.1-4
+- Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 08:01:45 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.1.1-2
 - Update shell-words to 1
 

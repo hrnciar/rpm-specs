@@ -15,13 +15,13 @@
 
 
 Name:		rb_libtorrent
-Version:	1.2.7
-Release:	1%{?dist}
+Version:	1.2.10
+Release:	2%{?dist}
 Summary:	A C++ BitTorrent library aiming to be the best alternative
 
 License:	BSD
 URL:		https://www.libtorrent.org
-Source0:	https://github.com/arvidn/libtorrent/releases/download/libtorrent-1_2_7/libtorrent-rasterbar-%{version}.tar.gz
+Source0:	https://github.com/arvidn/libtorrent/releases/download/libtorrent-%{version}/libtorrent-rasterbar-%{version}.tar.gz
 Source1:	%{name}-README-renames.Fedora
 Source2:	%{name}-COPYING.Boost
 Source3:	%{name}-COPYING.zlib
@@ -33,8 +33,10 @@ ExcludeArch:	aarch64
 
 BuildRequires:	asio-devel
 BuildRequires:	automake
+BuildRequires:	autoconf-archive
 BuildRequires:	boost-devel
 BuildRequires:	gcc-c++
+BuildRequires:	openssl-devel
 BuildRequires:	pkgconfig(zlib)
 %if 0%{?fedora} < 31 && 0%{?rhel} < 8
 BuildRequires:	pkgconfig(python2)
@@ -121,6 +123,14 @@ Python applications.
 %prep
 %setup -q -n "libtorrent-rasterbar-%{version}"
 sed -i -e 's|include/libtorrent/version.hpp|../include/libtorrent/version.hpp|' configure configure.ac
+
+# Remove the default debug flags as we provide our own
+sed -i -e 's|"-g0 -Os"|""|' configure configure.ac
+
+# Use c++14 to fix LTO issue with qbittorrent 
+# qbittorrent: symbol lookup error: qbittorrent: undefined symbol: _ZN10libtorrent5entryC1ESt3mapINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES0_NS_3aux12strview_lessESaISt4pairIKS7_S0_EEE
+rm m4/ax_cxx_compile_stdcxx.m4 m4/ax_cxx_compile_stdcxx_11.m4
+sed -i -e 's|AX_CXX_COMPILE_STDCXX_11|AX_CXX_COMPILE_STDCXX_14|' configure.ac
 
 autoreconf -fiv
 
@@ -290,6 +300,19 @@ find %{buildroot} -name '*.la' -or -name '*.a' | xargs rm -f
 %endif # with python3
 
 %changelog
+* Fri Oct  9 2020 Leigh Scott <leigh123linux@gmail.com> - 1.2.10-2
+- Use c++14 to fix LTO issue with qbittorrent
+
+* Thu Oct  8 2020 Leigh Scott <leigh123linux@gmail.com> - 1.2.10-1
+- Upgrade to 1.2.10
+
+* Thu Aug 06 2020 Leigh Scott <leigh123linux@gmail.com> - 1.2.8-1
+- Upgrade to 1.2.8
+- Remove extra debug flags
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Leigh Scott <leigh123linux@gmail.com> - 1.2.7-1
 - Upgrade to 1.2.7
 

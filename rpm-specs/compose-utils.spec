@@ -1,6 +1,6 @@
 Name:       compose-utils
 Version:    0.1.42
-Release:    2%{?dist}
+Release:    4%{?dist}
 Summary:    Utilities for working with composes
 
 License:    GPLv2
@@ -11,6 +11,7 @@ Patch0:     0001-Revert-Update-for-newer-RPM.patch
 %endif
 
 BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
 BuildRequires:  python%{python3_pkgversion}-productmd >= 1.1
 BuildRequires:  python%{python3_pkgversion}-freezegun
 BuildRequires:  python%{python3_pkgversion}-mock
@@ -74,6 +75,12 @@ Python 3 libraries supporting tools for working with composes
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.42-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Lubomír Sedlář <lsedlar@redhat.com> - 0.1.42-3
+- Explicitly buildrequire python-setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.42-2
 - Rebuilt for Python 3.9
 

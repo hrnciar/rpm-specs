@@ -28,7 +28,7 @@ being considered. All endpoint responses are JSON-encoded.
 
 Name:           python-%{modname}
 Version:        0.7.0
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        HTTP Request & Response Service, written in Python + Flask
 
 License:        MIT
@@ -123,6 +123,9 @@ chmod ugo-x httpbin/templates/forms-post.html
 
 #################################################################################
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.0-11
 - Rebuilt for Python 3.9
 

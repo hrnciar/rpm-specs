@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        2.0.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Python implementation of Protocol Buffers data types with dataclasses support
 
 License:        MIT
@@ -77,6 +77,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Lyes Saadi <fedora@lyes.eu> - 2.0.0-3
 - Removing useless dependencies (coverage/linting)
 

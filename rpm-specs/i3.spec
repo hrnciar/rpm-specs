@@ -1,6 +1,6 @@
 Name:           i3
-Version:        4.18.1
-Release:        2%{?dist}
+Version:        4.18.3
+Release:        1%{?dist}
 Summary:        Improved tiling window manager
 License:        BSD
 URL:            https://i3wm.org
@@ -72,7 +72,6 @@ BuildRequires:  gnupg2
 
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 %{!?rhel:Recommends:     rxvt-unicode}
-%{!?rhel:Recommends:     xorg-x11-apps}
 Requires:       xorg-x11-fonts-misc
 Recommends:     pulseaudio-utils
 # for i3-save-tree
@@ -116,7 +115,7 @@ Doxygen generated documentations for %{name}.
 
 %prep
 %{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
-%autosetup
+%autosetup -p1
 
 # Drop /usr/bin/env lines in those which will be installed to %%_bindir.
 find . -maxdepth 1 -type f -name "i3*" -exec sed -i -e '1s;^#!/usr/bin/env perl;#!/usr/bin/perl;' {} + -print
@@ -178,6 +177,18 @@ install -Dpm0644 %{SOURCE3} \
 %doc pseudo-doc/doxygen/
 
 %changelog
+* Tue Oct 20 2020 Dan Čermák <dan.cermak@cgc-instruments.com> - 4.18.3-1
+- New upstream release 4.18.3
+
+* Wed Aug 26 2020 Dan Čermák <dan.cermak@cgc-instruments.com> - 4.18.2-2
+- Add patch to fix disappearing tray icons on reload (rhbz#1872261)
+
+* Tue Aug  4 2020 Dan Čermák <dan.cermak@cgc-instruments.com> - 4.18.2-1
+- New upstream release 4.18.2 (rhbz#1860651)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.18.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.18.1-2
 - Perl 5.32 rebuild
 

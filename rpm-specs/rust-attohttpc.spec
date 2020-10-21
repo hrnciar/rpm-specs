@@ -6,7 +6,7 @@
 %global crate attohttpc
 
 Name:           rust-%{crate}
-Version:        0.14.0
+Version:        0.15.0
 Release:        1%{?dist}
 Summary:        Small and lightweight HTTP client
 
@@ -14,6 +14,12 @@ Summary:        Small and lightweight HTTP client
 License:        MPLv2.0
 URL:            https://crates.io/crates/attohttpc
 Source:         %{crates_source}
+# Initial patched metadata
+# * bump multipart from 0.16.1 to 0.17.0 and mime from 0.2 to 0.3
+# * adapt to minor API changes between mime 0.2 and mime 0.3
+# https://github.com/sbstp/attohttpc/pull/78
+Patch0:         attohttpc-fix-metadata.diff
+Patch1:         00-multipart-0.17-mime-0.3-port.patch
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -312,6 +318,15 @@ which use "webpki-roots" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Tue Sep 29 2020 Fabio Valentini <decathorpe@gmail.com> - 0.15.0-1
+- Update to version 0.15.0.
+
+* Mon Sep 21 2020 Fabio Valentini <decathorpe@gmail.com> - 0.14.0-3
+- Bump multipart from 0.16.1 to 0.17.0, and mime from 0.2 to 0.3.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 10 2020 Josh Stone <jistone@redhat.com> - 0.14.0-1
 - Update to 0.14.0
 

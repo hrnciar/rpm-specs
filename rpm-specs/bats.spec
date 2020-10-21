@@ -1,18 +1,19 @@
-%global         commit          c706d1470dd1376687776bbe985ac22d09780327
-%global         shortcommit     %(c=%{commit}; echo ${c:0:7})
+%global         upstreamname  bats-core
 
 Name:           bats
-Version:        1.1.0
-Release:        4%{?dist}
+Version:        1.2.1
+Release:        1%{?dist}
 Summary:        Bash Automated Testing System
 
 License:        MIT
-URL:            https://github.com/bats-core/bats-core
-Source0:        https://github.com/bats-core/bats-core/archive/%{commit}/%{name}-%{version}-%{shortcommit}.tar.gz
+URL:            https://github.com/%{upstreamname}/%{upstreamname}
+Source0:        https://github.com/%{upstreamname}/%{upstreamname}/archive/v%{version}.tar.gz#/%{upstreamname}-%{version}.tar.gz
 
 BuildArch:      noarch
 
 Requires:       bash
+Requires:       parallel
+BuildRequires:	parallel
 
 %description
 Bats is a TAP-compliant testing framework for Bash. It provides a simple way to
@@ -21,28 +22,36 @@ when testing software written in Bash, but you can use it to test any UNIX
 program.
 
 %prep
-%autosetup -n %{name}-core-%{commit}
-sed -i '1s|#!/usr/bin/env bash|#!/usr/bin/bash|' ./libexec/bats-core/*
-
-%build
-# nothing to build
+%setup -q -n %{upstreamname}-%{version}
 
 %install
 ./install.sh ${RPM_BUILD_ROOT}%{_prefix}
 
 %check
 ./bin/bats test/bats.bats
+./bin/bats test/parallell.bats
 ./bin/bats test/suite.bats
 
 %files
 %doc README.md AUTHORS
 %license LICENSE.md
 %{_bindir}/%{name}
-%{_libexecdir}/%{name}-core
+%{_libexecdir}/%{upstreamname}
+%{_prefix}/lib/%{upstreamname}
 %{_mandir}/man1/%{name}.1.gz
 %{_mandir}/man7/%{name}.7.gz
 
 %changelog
+* Mon Aug 10 2020 Ondřej Míchal <harrymichal@seznam.cz> - 1.2.1-1
+- Update to 1.2.1
+- new dependency - GNU Parallel
+- new upstream test in %check - parallel.bats
+- remove the sed in %prep because shebang mangling is done automatically
+- change the URL for Source0 so that it does not rely on hardcoded commit
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

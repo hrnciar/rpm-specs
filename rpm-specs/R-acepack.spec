@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          %{packver}
-Release:          13%{?dist}
+Release:          14%{?dist}
 Summary:          ACE and AVAS methods for choosing regression transformations
 License:          Public Domain and MIT
 URL:              http://cran.r-project.org/web/packages/acepack/index.html
@@ -48,6 +48,9 @@ test -d %{packname}/src && (cd %{packname}/src; rm -f *.o *.so)
 %{_libdir}/R/library/%{packname}/help
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 2020 Tom Callaway <spot@fedoraproject.org> - 1.4.1-13
 - rebuild for R 4.0.0
 

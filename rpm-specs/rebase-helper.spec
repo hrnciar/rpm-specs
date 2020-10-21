@@ -3,8 +3,8 @@
 %global pkgname rebasehelper
 
 Name:           rebase-helper
-Version:        0.22.0
-Release:        2%{?dist}
+Version:        0.23.1
+Release:        1%{?dist}
 Summary:        The tool that helps you to rebase your package to the latest version
 
 License:        GPLv2+
@@ -42,6 +42,7 @@ Recommends:     licensecheck
 Recommends:     rpmlint
 Recommends:     libabigail
 Recommends:     pkgdiff >= 1.6.3
+Recommends:     rpminspect-data-fedora
 
 
 %description
@@ -100,6 +101,15 @@ PYTHONPATH=$(pwd) py.test-3 -v %{pkgname}
 
 
 %changelog
+* Wed Sep 30 2020 Packit Service <user-cont-team+packit-service@redhat.com> - 0.23.1-1
+- new upstream release: 0.23.1
+
+* Fri Aug 28 2020 rebase-helper <rebase-helper@localhost.local> - 0.23.0-1
+- new upstream release: 0.23.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.22.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.22.0-2
 - Rebuilt for Python 3.9
 

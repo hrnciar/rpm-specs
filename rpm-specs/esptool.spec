@@ -1,6 +1,6 @@
 Name:           esptool
 Version:        2.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A utility to communicate with the ROM bootloader in Espressif ESP8266
 
 License:        GPLv2+
@@ -55,6 +55,9 @@ done
 %{python3_sitelib}/__pycache__/esp*.*.pyc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Tomas Hrnciar <thrnciar@redhat.com> - 2.8-1
 - Update to 2.8
 

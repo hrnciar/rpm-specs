@@ -1,6 +1,6 @@
 Name:           python-css-parser
 Version:        1.0.4
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Parse and build Cascading Style Sheets
 
 %global forgeurl https://github.com/ebook-utils/css-parser
@@ -49,6 +49,9 @@ sed -r -i '1{/.usr.bin.env python/d;}' src/css_parser/*py src/css_parser/*/*py
 %license COPYING COPYING.LESSER
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.4-8
 - Rebuilt for Python 3.9
 

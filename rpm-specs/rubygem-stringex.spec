@@ -3,7 +3,7 @@
 Name:           rubygem-%{gem_name}
 Summary:        Useful extensions to Ruby's String class
 Version:        2.8.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        MIT
 
 URL:            http://github.com/rsl/stringex
@@ -83,6 +83,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,5 +1,6 @@
 %define release_name Rawhide
-%define dist_version 33
+%define dist_version 34
+%define rhel_dist_version 9
 %define bug_version rawhide
 
 # Change this when branching to fNN
@@ -7,14 +8,11 @@
 
 # Changes should be submitted as pull requests under
 #     https://src.fedoraproject.org/rpms/fedora-release
-#
-# The package can only be built by a very small number of people
-# if you are not sure you can build it do not attempt to
 
 Summary:        Fedora release files
 Name:           fedora-release
-Version:        33
-Release:        0.9
+Version:        34
+Release:        0.7%{?eln:.eln%{eln}}
 License:        MIT
 URL:            https://fedoraproject.org/
 
@@ -32,9 +30,11 @@ Source17:       org.projectatomic.rpmostree1.rules
 Source18:       80-iot.preset
 Source19:       distro-template.swidtag
 Source20:       distro-edition-template.swidtag
+Source21:       gnome-shell.conf
 Source22:       80-coreos.preset
 Source23:       zezere-ignition-url
 Source24:       80-iot-user.preset
+Source25:       80-kde.preset
 
 BuildArch:      noarch
 
@@ -57,7 +57,7 @@ BuildRequires:  redhat-rpm-config > 121-1
 %description
 Fedora release files such as various /etc/ files that define the release
 and systemd preset files that determine which services are enabled by default.
-# See https://fedoraproject.org/wiki/Packaging:DefaultServices for details.
+# See https://docs.fedoraproject.org/en-US/packaging-guidelines/DefaultServices/ for details.
 
 
 %package common
@@ -161,6 +161,41 @@ Conflicts:      fedora-release-identity
 Provides the necessary files for a Fedora installation that is identifying
 itself as Fedora Cloud Edition.
 
+%package compneuro
+Summary:        Base package for Fedora Comp Neuro specific default configurations
+
+RemovePathPostfixes: .compneuro
+Provides:       fedora-release = %{version}-%{release}
+Provides:       fedora-release-variant = %{version}-%{release}
+Provides:       system-release
+Provides:       system-release(%{version})
+Provides:       base-module(platform:f%{version})
+Requires:       fedora-release-common = %{version}-%{release}
+
+# fedora-release-common Requires: fedora-release-identity, so at least one
+# package must provide it. This Recommends: pulls in
+# fedora-release-identity-compneuro if nothing else is already doing so.
+Recommends:     fedora-release-identity-compneuro
+
+
+%description compneuro
+Provides a base package for Fedora Comp Neuro specific configuration files to
+depend on as well as Comp Neuro system defaults.
+
+
+%package identity-compneuro
+Summary:        Package providing the identity for Fedora Comp Neuro Lab
+
+RemovePathPostfixes: .compneuro
+Provides:       fedora-release-identity = %{version}-%{release}
+Conflicts:      fedora-release-identity
+
+
+%description identity-compneuro
+Provides the necessary files for a Fedora installation that is identifying
+itself as Fedora Comp Neuro Lab.
+
+
 
 %package container
 Summary:        Base package for Fedora container specific default configurations
@@ -230,6 +265,78 @@ Conflicts:      fedora-release-identity
 %description identity-coreos
 Provides the necessary files for a Fedora installation that is identifying
 itself as Fedora CoreOS.
+
+%package designsuite
+Summary:        Base package for Fedora Design Suite specific default configurations
+
+RemovePathPostfixes: .designsuite
+Provides:       fedora-release = %{version}-%{release}
+Provides:       fedora-release-variant = %{version}-%{release}
+Provides:       system-release
+Provides:       system-release(%{version})
+Provides:       base-module(platform:f%{version})
+Requires:       fedora-release-common = %{version}-%{release}
+Provides:       system-release-product
+
+# fedora-release-common Requires: fedora-release-identity, so at least one
+# package must provide it. This Recommends: pulls in
+# fedora-release-identity-designsuite if nothing else is already doing so.
+Recommends:     fedora-release-identity-designsuite
+
+
+%description designsuite
+Provides a base package for Fedora Design Suite specific configuration files to
+depend on.
+
+
+%package identity-designsuite
+Summary:        Package providing the identity for Fedora Design Suite Lab
+
+RemovePathPostfixes: .designsuite
+Provides:       fedora-release-identity = %{version}-%{release}
+Conflicts:      fedora-release-identity
+
+
+%description identity-designsuite
+Provides the necessary files for a Fedora installation that is identifying
+itself as Fedora Design Suite Lab.
+
+
+%package eln
+Summary:        Base package for Fedora ELN specific default configurations
+
+RemovePathPostfixes: .eln
+Provides:       fedora-release = %{version}-%{release}
+Provides:       fedora-release-variant = %{version}-%{release}
+Provides:       system-release
+Provides:       system-release(%{version})
+Provides:       base-module(platform:eln)
+Requires:       fedora-release-common = %{version}-%{release}
+Provides:       system-release-product
+Requires:       fedora-repos-eln
+
+# fedora-release-common Requires: fedora-release-identity, so at least one
+# package must provide it. This Recommends: pulls in
+# fedora-release-identity-eln if nothing else is already doing so.
+Recommends:     fedora-release-identity-eln
+
+
+%description eln
+Provides a base package for Fedora ELN specific configuration files to
+depend on.
+
+
+%package identity-eln
+Summary:        Package providing the identity for Fedora ELN
+
+RemovePathPostfixes: .eln
+Provides:       fedora-release-identity = %{version}-%{release}
+Conflicts:      fedora-release-identity
+
+
+%description identity-eln
+Provides the necessary files for a Fedora installation that is identifying
+itself as Fedora ELN.
 
 
 %package iot
@@ -632,6 +739,16 @@ echo "VARIANT_ID=cloud" >> %{buildroot}%{_prefix}/lib/os-release.cloud
 sed -i -e "s|(%{release_name}%{?prerelease})|(Cloud Edition%{?prerelease})|g" %{buildroot}%{_prefix}/lib/os-release.cloud
 sed -e "s#\$version#%{bug_version}#g" -e 's/$edition/Cloud/;s/<!--.*-->//;/^$/d' %{SOURCE20} > %{buildroot}%{_swidtagdir}/org.fedoraproject.Fedora-edition.swidtag.cloud
 
+# Comp Neuro
+cp -p %{buildroot}%{_prefix}/lib/os-release \
+      %{buildroot}%{_prefix}/lib/os-release.compneuro
+echo "VARIANT=\"Comp Neuro\"" >> %{buildroot}%{_prefix}/lib/os-release.compneuro
+echo "VARIANT_ID=compneuro" >> %{buildroot}%{_prefix}/lib/os-release.compneuro
+sed -i -e "s|(%{release_name}%{?prerelease})|(CompNeuro%{?prerelease})|g" %{buildroot}%{_prefix}/lib/os-release.compneuro
+sed -i -e 's|DOCUMENTATION_URL=.*|DOCUMENTATION_URL="https://neuro.fedoraproject.org"|' %{buildroot}%{_prefix}/lib/os-release.compneuro
+sed -i -e 's|HOME_URL=.*|HOME_URL="https://labs.fedoraproject.org"|' %{buildroot}/%{_prefix}/lib/os-release.compneuro
+sed -e "s#\$version#%{bug_version}#g" -e 's/$edition/CompNeuro/;s/<!--.*-->//;/^$/d' %{SOURCE20} > %{buildroot}%{_swidtagdir}/org.fedoraproject.Fedora-edition.swidtag.compneuro
+
 # Container
 cp -p %{buildroot}%{_prefix}/lib/os-release \
       %{buildroot}%{_prefix}/lib/os-release.container
@@ -652,6 +769,26 @@ sed -i -e 's|SUPPORT_URL=.*|SUPPORT_URL="https://github.com/coreos/fedora-coreos
 sed -i -e 's|BUG_REPORT_URL=.*|BUG_REPORT_URL="https://github.com/coreos/fedora-coreos-tracker/"|' %{buildroot}/%{_prefix}/lib/os-release.coreos
 sed -i -e 's|PRETTY_NAME=.*|PRETTY_NAME="Fedora CoreOS %{dist_version}"|' %{buildroot}/%{_prefix}/lib/os-release.coreos
 sed -e "s#\$version#%{bug_version}#g" -e 's/$edition/CoreOS/;s/<!--.*-->//;/^$/d' %{SOURCE20} > %{buildroot}%{_swidtagdir}/org.fedoraproject.Fedora-edition.swidtag.coreos
+
+# Design Suite
+cp -p %{buildroot}%{_prefix}/lib/os-release \
+      %{buildroot}%{_prefix}/lib/os-release.designsuite
+echo "VARIANT=\"Design Suite\"" >> %{buildroot}%{_prefix}/lib/os-release.designsuite
+echo "VARIANT_ID=designsuite" >> %{buildroot}%{_prefix}/lib/os-release.designsuite
+sed -i -e "s|(%{release_name}%{?prerelease})|(Design Suite%{?prerelease})|g" %{buildroot}%{_prefix}/lib/os-release.designsuite
+sed -i -e 's|DOCUMENTATION_URL=.*|DOCUMENTATION_URL="https://fedoraproject.org/wiki/Design_Suite"|' %{buildroot}%{_prefix}/lib/os-release.designsuite
+sed -i -e 's|HOME_URL=.*|HOME_URL="https://labs.fedoraproject.org"|' %{buildroot}/%{_prefix}/lib/os-release.designsuite
+sed -e "s#\$version#%{bug_version}#g" -e 's/$edition/DesignSuite/;s/<!--.*-->//;/^$/d' %{SOURCE20} > %{buildroot}%{_swidtagdir}/org.fedoraproject.Fedora-edition.swidtag.designsuite
+
+# ELN
+cp -p %{buildroot}%{_prefix}/lib/os-release \
+      %{buildroot}%{_prefix}/lib/os-release.eln
+echo "VARIANT=\"ELN\"" >> %{buildroot}%{_prefix}/lib/os-release.eln
+echo "VARIANT_ID=eln" >> %{buildroot}%{_prefix}/lib/os-release.eln
+sed -i -e 's|PLATFORM_ID=.*|PLATFORM_ID="platform:eln"|' %{buildroot}/%{_prefix}/lib/os-release.eln
+sed -i -e 's|PRETTY_NAME=.*|PRETTY_NAME="Fedora ELN"|' %{buildroot}/%{_prefix}/lib/os-release.eln
+sed -i -e 's|DOCUMENTATION_URL=.*|DOCUMENTATION_URL="https://docs.fedoraproject.org/en-US/eln/"|' %{buildroot}%{_prefix}/lib/os-release.eln
+sed -e "s#\$version#%{bug_version}#g" -e 's/$edition/ELN/;s/<!--.*-->//;/^$/d' %{SOURCE20} > %{buildroot}%{_swidtagdir}/org.fedoraproject.Fedora-edition.swidtag.eln
 
 # IoT
 cp -p %{buildroot}%{_prefix}/lib/os-release \
@@ -735,10 +872,18 @@ install -d -m 755 %{buildroot}%{_rpmconfigdir}/macros.d
 cat >> %{buildroot}%{_rpmconfigdir}/macros.d/macros.dist << EOF
 # dist macros.
 
-%%fedora              %{dist_version}
 %%__bootstrap         ~bootstrap
-%%dist                %%{!?distprefix0:%%{?distprefix}}%%{expand:%%{lua:for i=0,9999 do print("%%{?distprefix" .. i .."}") end}}.fc%%{fedora}%%{?with_bootstrap:%{__bootstrap}}
+%if 0%{?eln}
+%%rhel              %{rhel_dist_version}
+%%el%{rhel_dist_version}                1
+# Although eln is set in koji tags, we put it in the macros.dist file for local and mock builds.
+%%eln              %{eln}
+%%dist                %%{!?distprefix0:%%{?distprefix}}%%{expand:%%{lua:for i=0,9999 do print("%%{?distprefix" .. i .."}") end}}.el%%{eln}%%{?with_bootstrap:%{__bootstrap}}
+%else
+%%fedora              %{dist_version}
 %%fc%{dist_version}                1
+%%dist                %%{!?distprefix0:%%{?distprefix}}%%{expand:%%{lua:for i=0,9999 do print("%%{?distprefix" .. i .."}") end}}.fc%%{fedora}%%{?with_bootstrap:%{__bootstrap}}
+%endif
 EOF
 
 # Install licenses
@@ -761,6 +906,9 @@ install -Dm0644 %{SOURCE22} -t %{buildroot}%{_prefix}/lib/systemd/system-preset/
 install -Dm0644 %{SOURCE18} -t %{buildroot}%{_prefix}/lib/systemd/system-preset/
 install -Dm0644 %{SOURCE24} -t %{buildroot}%{_prefix}/lib/systemd/user-preset/
 
+# Fedora KDE
+install -Dm0644 %{SOURCE25} -t %{buildroot}%{_prefix}/lib/systemd/system-preset/
+
 # Fedora Server
 install -Dm0644 %{SOURCE14} -t %{buildroot}%{_prefix}/lib/systemd/system-preset/
 
@@ -769,7 +917,10 @@ install -Dm0644 %{SOURCE15} -t %{buildroot}%{_prefix}/lib/systemd/system-preset/
 
 # Override the list of enabled gnome-shell extensions for Workstation
 install -Dm0644 %{SOURCE16} -t %{buildroot}%{_datadir}/glib-2.0/schemas/
+# Install rpm-ostree polkit rules
 install -Dm0644 %{SOURCE17} -t %{buildroot}%{_datadir}/polkit-1/rules.d/
+# Add gnome-shell to dnf protected packages list for Workstation
+install -Dm0644 %{SOURCE21} -t %{buildroot}%{_sysconfdir}/dnf/protected.d/
 
 # Create distro-level SWID tag file
 install -d %{buildroot}%{_swidtagdir}
@@ -822,6 +973,11 @@ ln -s %{_swidtagdir} %{buildroot}%{_sysconfdir}/swid/swidtags.d/fedoraproject.or
 %{_prefix}/lib/os-release.cloud
 %attr(0644,root,root) %{_swidtagdir}/org.fedoraproject.Fedora-edition.swidtag.cloud
 
+%files compneuro
+%files identity-compneuro
+%{_prefix}/lib/os-release.compneuro
+%attr(0644,root,root) %{_swidtagdir}/org.fedoraproject.Fedora-edition.swidtag.compneuro
+
 
 %files container
 %files identity-container
@@ -836,6 +992,18 @@ ln -s %{_swidtagdir} %{buildroot}%{_sysconfdir}/swid/swidtags.d/fedoraproject.or
 %attr(0644,root,root) %{_swidtagdir}/org.fedoraproject.Fedora-edition.swidtag.coreos
 
 
+%files designsuite
+%files identity-designsuite
+%{_prefix}/lib/os-release.designsuite
+%attr(0644,root,root) %{_swidtagdir}/org.fedoraproject.Fedora-edition.swidtag.designsuite
+
+
+%files eln
+%files identity-eln
+%{_prefix}/lib/os-release.eln
+%attr(0644,root,root) %{_swidtagdir}/org.fedoraproject.Fedora-edition.swidtag.eln
+
+
 %files iot
 %files identity-iot
 %{_prefix}/lib/os-release.iot
@@ -848,6 +1016,7 @@ ln -s %{_swidtagdir} %{buildroot}%{_sysconfdir}/swid/swidtags.d/fedoraproject.or
 %files kde
 %files identity-kde
 %{_prefix}/lib/os-release.kde
+%{_prefix}/lib/systemd/system-preset/80-kde.preset
 %attr(0644,root,root) %{_swidtagdir}/org.fedoraproject.Fedora-edition.swidtag.kde
 
 
@@ -889,6 +1058,7 @@ ln -s %{_swidtagdir} %{buildroot}%{_sysconfdir}/swid/swidtags.d/fedoraproject.or
 %files identity-workstation
 %{_prefix}/lib/os-release.workstation
 %attr(0644,root,root) %{_swidtagdir}/org.fedoraproject.Fedora-edition.swidtag.workstation
+%{_sysconfdir}/dnf/protected.d/gnome-shell.conf
 # Keep this in sync with silverblue above
 %{_datadir}/glib-2.0/schemas/org.gnome.shell.gschema.override
 %{_prefix}/lib/systemd/system-preset/80-workstation.preset
@@ -902,6 +1072,33 @@ ln -s %{_swidtagdir} %{buildroot}%{_sysconfdir}/swid/swidtags.d/fedoraproject.or
 
 
 %changelog
+* Wed Oct 14 2020 Mohan Boddu <mboddu@bhujji.com> - 33-0.7
+- Enable low-memory-monitor for GMemoryMonitor API (hadess)
+
+* Fri Oct 09 2020 Mohan Boddu <mboddu@bhujji.com> - 33-0.6
+- Add ELN support to fedora-release (sgallagh)
+
+* Thu Sep 17 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 34-0.5
+- IoT: Enable parsec and dbus-parsec services
+
+* Tue Aug 25 2020 Kalev Lember <klember@redhat.com> - 34-0.4
+- Add gnome-shell to dnf protected packages list for Workstation
+
+* Mon Aug 17 2020 Troy Dawson <tdawson@redhat.com> - 34-0.3
+- Change release if building for eln
+
+* Tue Aug 11 2020 Troy Dawson <tdawson@redhat.com> - 34-0.2
+- Set %rhel and %eln when appropriate
+
+* Mon Aug 10 2020 Tomas Hrcka <thrcka@redhat.com> - 34-0.1
+- Setup for rawhide being F34
+
+* Mon Aug 10 2020 Troy Dawson <tdawson@redhat.com> - 33-0.11
+- No %fedora set for eln
+
+* Thu Aug 06 2020 Ben Cotton <bcotton@fedoraproject.org> - 33-0.10
+- KDE: Add EarlyOOM by default
+
 * Fri Jun 05 2020 Mohan Boddu <mboddu@bhujji.com> - 33-0.9
 - iot: Remove preset for greenboot.service (lorbus)
 
@@ -919,7 +1116,7 @@ ln -s %{_swidtagdir} %{buildroot}%{_sysconfdir}/swid/swidtags.d/fedoraproject.or
 * Sun Apr 12 2020 Kevin Fenzi <kevin@scrye.com> - 33-0.5
 - Update color to Fedora blue. Fixes bug #1823099
 
-* Mon Apr 01 2020 Christian Glombek <cglombek@redhat.com> 33-0.4
+* Wed Apr 01 2020 Christian Glombek <cglombek@redhat.com> 33-0.4
 - Add IoT user preset to disable grub-boot-success.timer
 - Update links in 80-coreos.preset
 

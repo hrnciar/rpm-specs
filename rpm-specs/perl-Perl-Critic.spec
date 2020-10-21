@@ -7,13 +7,14 @@
 
 Name:		perl-Perl-Critic
 Version:	1.138
-Release:	3%{?dist}
+Release:	6%{?dist}
 Summary:	Critique Perl source code for best-practices
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Perl-Critic
 Source0:	https://cpan.metacpan.org/modules/by-module/Perl/Perl-Critic-%{version}.tar.gz
 Patch0:		0001-Change-default-spell-check-tool-from-aspell-to-hunsp.patch
 Patch3:		Perl-Critic-1.136-ppidump-shellbang.patch
+Patch4:		Perl-Critic-1.138-gh911.patch
 BuildArch:	noarch
 
 # Build process
@@ -132,6 +133,11 @@ of Perl code were mixed directly in the test script. That sucked.
 # Fix shellbang in ppidump tool
 %patch3
 
+# Workaround for 'Subroutine name is a homonym for builtin function isa'
+# https://github.com/Perl-Critic/Perl-Critic/issues/911
+# https://bugzilla.redhat.com/show_bug.cgi?id=1852437
+%patch4
+
 # Drop exec bits from samples/docs to avoid dependency bloat
 find tools examples -type f -exec chmod -c -x {} ';'
 
@@ -167,6 +173,16 @@ LC_ALL=en_US ./Build test
 %{_mandir}/man3/Test::Perl::Critic::Policy.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.138-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Paul Howarth <paul@city-fan.org> - 1.138-5
+- Add workaround for 'Subroutine name is a homonym for builtin function isa'
+  (#1852437, GH#911)
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.138-4
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.138-3
 - Perl 5.32 rebuild
 

@@ -4,7 +4,7 @@
 Summary:        Utility to clone and restore a partition
 Name:           partclone
 Version:        0.3.12
-Release:        4%{?dist}
+Release:        5%{?dist}
 # Partclone itself is GPLv2+ but uses other source codes, breakdown:
 # GPLv3+: fail-mbr/fail-mbr.S
 # GPLv2 and GPLv2+: src/btrfs*
@@ -149,6 +149,9 @@ make check || (cat tests/test-suite.log; exit 1)
 %{_mandir}/man8/%{name}*.8*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.12-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 02 2020 Robert Scheck <robert@fedoraproject.org> 0.3.12-4
 - Added patch to declare variables as extern in header files
 

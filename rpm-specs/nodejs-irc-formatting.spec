@@ -5,7 +5,7 @@
 
 Name:           nodejs-%{npmname}
 Version:        1.0.0
-Release:        0.4.%{rctag}%{?dist}
+Release:        0.5.%{rctag}%{?dist}
 Summary:        Turns IRC formatted text into easy to use blocks
 
 License:        ISC
@@ -49,6 +49,9 @@ cp -a package.json %{buildroot}%{nodejs_sitelib}/%{npmname}/
 %doc readme.md
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-0.5.rc3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-0.4.rc3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

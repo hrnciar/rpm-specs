@@ -1,6 +1,6 @@
 Name:           perl-Pod-Markdown-Github
 Version:        0.04
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Convert POD to Github's specific markdown
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Pod-Markdown-Github
@@ -56,6 +56,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.04-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.04-6
 - Perl 5.32 rebuild
 

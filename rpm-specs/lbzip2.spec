@@ -2,13 +2,19 @@
 %global date 20171011
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
+%ifarch s390x
+%global _lto_cflags %{nil}
+%endif
+
 Name:           lbzip2
 Version:        2.5
-Release:        15.%{date}git%{shortcommit}%{?dist}
+Release:        19.%{date}git%{shortcommit}%{?dist}
 Summary:        Fast, multi-threaded bzip2 utility
 License:        GPLv3+
 URL:            https://github.com/kjn/lbzip2/
 Source0:        https://github.com/kjn/lbzip2/archive/%{commit}/%{name}-%{commit}.tar.gz
+# fix build with gnulib newer than 47bae8a, which requires autoconf >= 2.64
+Patch0:         lbzip2-gnulib.patch
 
 BuildRequires:  gcc
 BuildRequires:  gnulib-devel
@@ -24,6 +30,7 @@ decompressor.
 
 %prep
 %setup -q -n %{name}-%{commit}
+%patch0 -p1
 
 
 %build
@@ -52,6 +59,18 @@ build-aux/autogen.sh
 
 
 %changelog
+* Sat Sep 19 2020 Dominik Mierzejewski <rpm@greysector.net> - 2.5-19.20171011gitb6dc48a
+- fix FTBFS with recent gnulib
+
+* Fri Aug 21 2020 Dominik Mierzejewski <rpm@greysector.net> - 2.5-18.20171011gitb6dc48a
+- opt out of LTO to fix testsuite on s390x (#1871087)
+
+* Fri Aug 21 2020 Dominik Mierzejewski <rpm@greysector.net> - 2.5-17.20171011gitb6dc48a
+- disable testsuite on s390x (#1871087)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-16.20171011gitb6dc48a
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-15.20171011gitb6dc48a
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

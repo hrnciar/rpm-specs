@@ -6,7 +6,7 @@
 Name:    lensfun
 Version: 0.3.2
 Summary: Library to rectify defects introduced by photographic lenses
-Release: 26%{?dist}
+Release: 30%{?dist}
 
 License: LGPLv3 and CC-BY-SA
 URL: https://lensfun.github.io/
@@ -101,23 +101,20 @@ sed -i.shbang \
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} .. \
+%cmake \
   -DBUILD_DOC:BOOL=ON \
   -DBUILD_TESTS:BOOL=%{?tests:ON}%{!?tests:OFF} \
   -DCMAKE_BUILD_TYPE:STRING=Release \
   -DCMAKE_INSTALL_DOCDIR:PATH=%{_pkgdocdir} \
   %{?!python3:-DINSTALL_HELPER_SCRIPTS:BOOL=OFF}
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 make doc -C %{_target_platform}
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 # create/own /var/lib/lensfun-updates
 mkdir -p %{buildroot}/var/lib/lensfun-updates
@@ -125,15 +122,14 @@ mkdir -p %{buildroot}/var/lib/lensfun-updates
 ## unpackaged files
 # omit g-lensfun-update-data because it needs gksudo which we don't ship
 rm -fv %{buildroot}%{_bindir}/g-lensfun-update-data \
-       %{buildroot}%{_mandir}/man1/g-lensfun-update-data.*
+       %{buildroot}%{_mandir}/man1/g-lensfun-update-data.* \
+       %{buildroot}%{_docdir}/%{name}/doxygen.svg
 
 
 %check
 %if 0%{?tests}
-pushd %{_target_platform}
 export CTEST_OUTPUT_ON_FAILURE=1
-ctest -vv
-popd
+%ctest
 %endif
 
 
@@ -170,6 +166,19 @@ popd
 
 
 %changelog
+* Mon Sep 07 2020 Than Ngo <than@redhat.com> - 0.3.2-30
+- Fix FTBFS
+
+* Tue Aug 11 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.3.2-29
+- fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-28
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.2-26
 - Rebuilt for Python 3.9
 

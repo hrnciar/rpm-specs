@@ -20,14 +20,14 @@
 
 Summary:        MongoDB driver for PHP
 Name:           php-pecl-%{pecl_name}
-%global upstream_version 1.8.0
-%global upstream_prever  beta2
-%global upstream_lower   ~beta2
+%global upstream_version 1.8.1
+#global upstream_prever  RC1
+#global upstream_lower   ~rc1
 Version:        %{upstream_version}%{?upstream_lower}
 Release:        1%{?dist}
 License:        ASL 2.0
-URL:            http://pecl.php.net/package/%{pecl_name}
-Source0:        http://pecl.php.net/get/%{pecl_name}-%{upstream_version}%{?upstream_prever}.tgz
+URL:            https://pecl.php.net/package/%{pecl_name}
+Source0:        https://pecl.php.net/get/%{pecl_name}-%{upstream_version}%{?upstream_prever}.tgz
 
 BuildRequires:  gcc
 BuildRequires:  php-devel > 7.0
@@ -169,6 +169,18 @@ cd ../ZTS
 
 
 %changelog
+* Tue Oct  6 2020 Remi Collet <remi@remirepo.net> - 1.8.1-1
+- update to 1.8.1
+
+* Mon Aug 10 2020 Remi Collet <remi@remirepo.net> - 1.8.0-1
+- update to 1.8.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0~rc1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Remi Collet <remi@remirepo.net> - 1.8.0~rc1-1
+- update to 1.8.0RC1
+
 * Thu Jun 11 2020 Remi Collet <remi@remirepo.net> - 1.8.0~beta2-1
 - update to 1.8.0beta2
 

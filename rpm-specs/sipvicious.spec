@@ -2,7 +2,7 @@
 
 Name:           %{pypi_name}
 Version:        0.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Set of tools to audit SIP based VoIP systems
 
 License:        GPLv3+
@@ -65,5 +65,8 @@ done
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.3.0-1
 - Initial package for Fedora

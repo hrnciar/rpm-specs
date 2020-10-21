@@ -4,7 +4,7 @@
 
 Name:           mingw-%{pkgname}
 Version:        0.9.6
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        MinGW Windows %{pkgname} library
 
 License:        LGPLv2+
@@ -97,6 +97,9 @@ rm -rf %{buildroot}%{mingw64_datadir}/{applications,icons,metainfo}/
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.6-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.6-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

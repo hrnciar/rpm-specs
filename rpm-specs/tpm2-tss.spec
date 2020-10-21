@@ -1,27 +1,30 @@
-Name:           tpm2-tss
-Version:        2.4.1
-Release:        1%{?dist}
-Summary:        TPM2.0 Software Stack
+Name:          tpm2-tss
+Version:       3.0.1
+Release:       1%{?dist}
+Summary:       TPM2.0 Software Stack
 
 # The entire source code is under BSD except implementation.h and tpmb.h which
 # is under TCGL(Trusted Computing Group License).
-License:        BSD and TCGL
-URL:            https://github.com/tpm2-software/tpm2-tss
-Source0:        https://github.com/tpm2-software/tpm2-tss/releases/download/%{version}/%{name}-%{version}.tar.gz
+License:       BSD and TCGL
+URL:           https://github.com/tpm2-software/tpm2-tss
+Source0:       https://github.com/tpm2-software/tpm2-tss/releases/download/%{version}/%{name}-%{version}.tar.gz
+# doxygen crash
+Patch0:        tpm2-tss-3.0.0-doxygen.patch
 
 %global udevrules_prefix 60-
 
-BuildRequires:  autoconf-archive
-BuildRequires:  doxygen
-BuildRequires:  gcc
-BuildRequires:  gcc-c++
-BuildRequires:  json-c-devel
-BuildRequires:  libcurl-devel
-BuildRequires:  libgcrypt-devel
-BuildRequires:  libtool
-BuildRequires:  openssl-devel
-BuildRequires:  pkgconfig
-BuildRequires:  systemd
+BuildRequires: autoconf-archive
+BuildRequires: doxygen
+BuildRequires: gcc
+BuildRequires: gcc-c++
+BuildRequires: json-c-devel
+BuildRequires: libcurl-devel
+BuildRequires: libgcrypt-devel
+BuildRequires: libtool
+BuildRequires: openssl-devel
+BuildRequires: pkgconfig
+BuildRequires: systemd
+Requires(pre): shadow-utils
 
 %description
 tpm2-tss is a software stack supporting Trusted Platform Module(TPM) 2.0 system
@@ -35,7 +38,7 @@ APIs for applications to access TPM module through kernel TPM drivers.
 # Use built-in tpm-udev.rules, with specified installation path and prefix.
 %configure --disable-static --disable-silent-rules \
            --with-udevrulesdir=%{_udevrulesdir} --with-udevrulesprefix=%{udevrules_prefix} \
-           --with-runstatedir=%{_rundir} --with-tmpfilesdir=%{_tmpfilesdir}
+           --with-runstatedir=%{_rundir} --with-tmpfilesdir=%{_tmpfilesdir} --with-sysusersdir=%{_sysusersdir}
 
 # This is to fix Rpath errors. Taken from https://fedoraproject.org/wiki/Packaging:Guidelines#Removing_Rpath
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
@@ -47,22 +50,35 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %make_install
 find %{buildroot}%{_libdir} -type f -name \*.la -delete
 
+%pre
+getent group tss >/dev/null || groupadd -f -g 59 -r tss
+if ! getent passwd tss >/dev/null ; then
+    if ! getent passwd 59 >/dev/null ; then
+      useradd -r -u 59 -g tss -d /dev/null -s /sbin/nologin -c "Account used for TPM access" tss
+    else
+      useradd -r -g tss -d /dev/null -s /sbin/nologin -c "Account used for TPM access" tss
+    fi
+fi
+exit 0
+
 %ldconfig_scriptlets
 
 %files
 %doc README.md CHANGELOG.md
 %license LICENSE
-%{_sysconfdir}/sysusers.d/tpm2-tss.conf
-%{_tmpfilesdir}/tpm2-tss-fapi.conf
 %{_sysconfdir}/tpm2-tss/
 %{_libdir}/libtss2-mu.so.0*
-%{_libdir}/libtss2-sys.so.0*
+%{_libdir}/libtss2-sys.so.1*
 %{_libdir}/libtss2-esys.so.0*
-%{_libdir}/libtss2-fapi.so.0*
+%{_libdir}/libtss2-fapi.so.1*
 %{_libdir}/libtss2-rc.so.0*
 %{_libdir}/libtss2-tctildr.so.0*
+%{_libdir}/libtss2-tcti-cmd.so.0*
 %{_libdir}/libtss2-tcti-device.so.0*
 %{_libdir}/libtss2-tcti-mssim.so.0*
+%{_libdir}/libtss2-tcti-swtpm.so.0*
+%{_sysusersdir}/tpm2-tss.conf
+%{_tmpfilesdir}/tpm2-tss-fapi.conf
 %{_udevrulesdir}/%{udevrules_prefix}tpm-udev.rules
 
 %package        devel
@@ -81,21 +97,47 @@ use tpm2-tss.
 %{_libdir}/libtss2-fapi.so
 %{_libdir}/libtss2-rc.so
 %{_libdir}/libtss2-tctildr.so
+%{_libdir}/libtss2-tcti-cmd.so
 %{_libdir}/libtss2-tcti-device.so
 %{_libdir}/libtss2-tcti-mssim.so
+%{_libdir}/libtss2-tcti-swtpm.so
 %{_libdir}/pkgconfig/tss2-mu.pc
 %{_libdir}/pkgconfig/tss2-sys.pc
 %{_libdir}/pkgconfig/tss2-esys.pc
 %{_libdir}/pkgconfig/tss2-fapi.pc
 %{_libdir}/pkgconfig/tss2-rc.pc
 %{_libdir}/pkgconfig/tss2-tctildr.pc
+%{_libdir}/pkgconfig/tss2-tcti-cmd.pc
 %{_libdir}/pkgconfig/tss2-tcti-device.pc
 %{_libdir}/pkgconfig/tss2-tcti-mssim.pc
+%{_libdir}/pkgconfig/tss2-tcti-swtpm.pc
 %{_mandir}/man3/*.3.gz
+%{_mandir}/man5/*.5.gz
 %{_mandir}/man7/tss2*.7.gz
 
 
 %changelog
+* Wed Sep 23 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 3.0.1-1
+- Update to 3.0.1
+
+* Tue Sep 15 2020 Than Ngo <than@redhat.com> - 3.0.0-4
+- Fix doxygen crash
+
+* Tue Sep 15 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 3.0.0-3
+- Create tss user, if it doesn't exist, for userspace TPM access
+
+* Fri Aug 07 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 3.0.0-2
+- Install sysusers config in sysusersdir (rhbz #1834519)
+
+* Wed Aug 05 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 3.0.0-1
+- Update to 3.0.0
+
+* Wed Aug 05 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2.4.2-1
+- Update to 2.4.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 14 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2.4.1-1
 - Update to 2.4.1
 

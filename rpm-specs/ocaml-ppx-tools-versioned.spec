@@ -1,6 +1,6 @@
 Name:           ocaml-ppx-tools-versioned
-Version:        5.3.0
-Release:        3%{?dist}
+Version:        5.4.0
+Release:        7%{?dist}
 Summary:        Tools for authors of ppx rewriters
 
 License:        MIT
@@ -8,8 +8,8 @@ URL:            https://github.com/ocaml-ppx/ppx_tools_versioned
 Source0:        %{URL}/archive/%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  ocaml
-BuildRequires:  ocaml-migrate-parsetree-devel >= 1.5.0
-BuildRequires:  ocaml-dune
+BuildRequires:  ocaml-migrate-parsetree-devel >= 1.7.0
+BuildRequires:  ocaml-dune >= 2.6.2-2
 
 %description
 A variant of ppx_tools based on ocaml-migrate-parsetree.
@@ -31,7 +31,7 @@ files for developing applications that use %{name}.
 
 
 %build
-dune build @install --profile=release
+dune build @install --profile=release --verbose
 
 
 %install
@@ -66,6 +66,28 @@ find $OCAMLFIND_DESTDIR -regextype sed -regex '.*/ppx_metaquot_[0-9]*' -exec chm
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 5.4.0-7
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 5.4.0-6
+- OCaml 4.11.0 rebuild
+
+* Tue Aug 04 2020 Richard W.M. Jones <rjones@redhat.com> - 5.4.0-5
+- Enable debuginfo generation now dune is fixed.
+
+* Mon Aug 03 2020 Richard W.M. Jones <rjones@redhat.com> - 5.4.0-4
+- Bump and rebuild to fix Location/Longident dependency.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Dan Čermák <dan.cermak@cgc-instruments.com> - 5.4.0-1
+- New upstream release 5.4.0
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 5.3.0-3
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

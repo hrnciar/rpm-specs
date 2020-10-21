@@ -20,13 +20,17 @@
 
 Name: SuperLUMT
 Version: 3.1.0
-Release: 26%{?dist}
+Release: 29%{?dist}
 Summary: Single precision real SuperLU routines for shared memory parallel machines
 License: BSD
 URL: http://crd-legacy.lbl.gov/~xiaoye/SuperLU/
 Source0: http://crd-legacy.lbl.gov/~xiaoye/SuperLU/superlu_mt_%{majorver}.tar.gz
 
+%if 0%{?fedora} >= 33
+BuildRequires: pkgconfig(flexiblas)
+%else
 BuildRequires: openblas-devel, openblas-srpm-macros
+%endif
 BuildRequires: pkgconfig
 BuildRequires: tcsh
 BuildRequires: %{?dts}gcc
@@ -91,7 +95,11 @@ Shared links and header files used by SuperLUMT.
 %package -n SuperLUMT64
 Summary: Single precision real SuperLU routines (64bit INTEGER)
 
+%if 0%{?fedora} >= 33
+BuildRequires: pkgconfig(flexiblas)
+%else
 BuildRequires: openblas-devel, openblas-srpm-macros
+%endif
 Requires: %{name}-common = %{version}-%{release}
 %description -n SuperLUMT64
 Subroutines to solve sparse linear systems for shared memory parallel machines
@@ -177,7 +185,11 @@ sed -i -e "s|-O3|$RPM_OPT_FLAGS|" \
 make.inc
 
 ## Build lib ##########################################
+%if 0%{?fedora} >= 33
+export LIBBLASLINK=-lflexiblas
+%else
 export LIBBLASLINK=-lopenblaso
+%endif
 export LDFLAGS="%{__global_ldflags} -lgomp $LIBBLASLINK" \
 
 %if 0%{?el7}
@@ -207,7 +219,11 @@ cp -p SRC/libsuperlumt_*.so.%{majorver} lib/
 cp -p SRC/libsuperlumt_*.so lib/
 
 # Make example files
+%if 0%{?fedora} >= 33
+export LIBBLASLINK=-lflexiblas
+%else
 export LIBBLASLINK=-lopenblaso
+%endif
 export LDFLAGS="%{__global_ldflags} -lgomp $LIBBLASLINK" \
 
 make -j1 \
@@ -244,7 +260,11 @@ patch -p0 < %{PATCH2}
 patch -p0 < %{PATCH3}
 patch -p0 < %{PATCH5}
 
+%if 0%{?fedora} >= 33
+export LIBBLASLINK=-lflexiblas64
+%else
 export LIBBLASLINK=-lopenblaso64
+%endif
 export LDFLAGS="%{__global_ldflags} -lgomp $LIBBLASLINK" \
 
 make -j1 \
@@ -271,7 +291,11 @@ cp -p SRC/libsuperlumt64_*.so lib
 
 # Make example files
 
+%if 0%{?fedora} >= 33
+export LIBBLASLINK=-lflexiblas64
+%else
 export LIBBLASLINK=-lopenblaso64
+%endif
 export LDFLAGS="%{__global_ldflags} -lgomp $LIBBLASLINK" \
 
 make -j1 \
@@ -434,6 +458,16 @@ done
 %doc DOC README
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-29
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Iñaki Úcar <iucar@fedoraproject.org> - 3.1.0-27
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
 * Sat Mar 21 2020 Antonio Trande <sagitterATfedoraproject.org> - 3.1.0-26
 - Do not mix-up pthread and openmp support
 

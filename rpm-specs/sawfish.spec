@@ -1,6 +1,6 @@
 Name:           sawfish
 Version:        1.12.90
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        An extensible window manager for the X Window System
 License:        GPLv2+ and Artistic 2.0
 # GPLv2+ is for Sawfish
@@ -120,6 +120,9 @@ desktop-file-validate %{buildroot}%{_datadir}/xsessions/sawfish-xfce.desktop
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.90-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb  2 2020 Kim B. Heino <b@bbbs.net> - 1.12.90-9
 - Fix compile with new gcc
 

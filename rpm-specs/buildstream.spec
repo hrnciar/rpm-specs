@@ -3,8 +3,8 @@ Summary:       Build/integrate software stacks
 License:       LGPLv2+
 URL:           https://buildstream.gitlab.io/buildstream/
 
-Version:       1.4.1
-Release:       3%{?dist}
+Version:       1.6.0
+Release:       2%{?dist}
 Source0:       https://gitlab.com/BuildStream/buildstream/-/archive/%{version}/buildstream-%{version}.tar.bz2
 
 BuildRequires: bubblewrap >= 0.1.2
@@ -44,6 +44,7 @@ BuildRequires: python3-ruamel-yaml >= 0.16
 BuildRequires: python3-ujson
 
 Requires:      bubblewrap
+Requires:      fuse
 Requires:      fuse-libs
 Requires:      git
 Requires:      lzip
@@ -132,6 +133,18 @@ cp -pr doc/build/devhelp %{buildroot}%{_datadir}/gtk-doc/html/BuildStream
 
 
 %changelog
+* Wed Oct  7 22:26:09 EEST 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.6.0-2
+- build(add dep): fuse | rh#1886152
+
+* Sat Oct  3 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.6.0-1
+- Update to 1.6.0
+
+* Sat Aug 15 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.4.3-1
+- Update to 1.4.3 | Fix Python 3.8 compatibility | RH#1821245
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.1-3
 - Rebuilt for Python 3.9
 

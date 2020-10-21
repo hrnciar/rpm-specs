@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          0.20.137
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          Control the Number of Threads on BLAS
 
 License:          AGPLv3
@@ -59,6 +59,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.137-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 0.20.137-1
 - update to 0.20-137, rebuild for R 4
 

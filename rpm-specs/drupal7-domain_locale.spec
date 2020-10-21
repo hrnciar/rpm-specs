@@ -5,7 +5,7 @@
 
 Name:          drupal7-%{module_name}
 Version:       1.0
-Release:       0.17.%{pre_release}%{?dist}
+Release:       0.18.%{pre_release}%{?dist}
 Summary:       Adds language handling functionality per domain basis
 
 License:       GPLv2+
@@ -55,6 +55,9 @@ cp -pr * %{buildroot}%{drupal7_modules}/%{module_name}/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.18.beta6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.0-0.17.beta6
 - Bump build requires drupal7-rpmbuild to ">= 7.70-2" to fix F32+ auto provides
 

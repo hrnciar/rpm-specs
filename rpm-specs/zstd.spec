@@ -13,7 +13,7 @@
 
 Name:           zstd
 Version:        1.4.5
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        Zstd compression library
 
 License:        BSD and GPLv2
@@ -63,11 +63,10 @@ find -name .gitignore -delete
 %build
 export CFLAGS="$RPM_OPT_FLAGS"
 export LDFLAGS="$RPM_LD_FLAGS"
-for dir in lib programs; do
-  %make_build -C "$dir"
-done
+%make_build -C lib lib-mt
+%make_build -C programs
 %if %{with pzstd}
-export CXXFLAGS="$RPM_OPT_FLAGS -std=c++11"
+export CXXFLAGS="$RPM_OPT_FLAGS"
 %make_build -C contrib/pzstd
 %endif
 
@@ -76,7 +75,7 @@ export CFLAGS="$RPM_OPT_FLAGS"
 export LDFLAGS="$RPM_LD_FLAGS"
 make -C tests test-zstd
 %if %{with pzstd}
-export CXXFLAGS="$RPM_OPT_FLAGS -std=c++11"
+export CXXFLAGS="$RPM_OPT_FLAGS"
 make -C contrib/pzstd test
 %endif
 
@@ -124,6 +123,15 @@ install -D -m644 programs/%{name}.1 %{buildroot}%{_mandir}/man1/p%{name}.1
 %ldconfig_scriptlets -n lib%{name}
 
 %changelog
+* Wed Aug 26 2020 Jeff Law <law@redhat.com> - 1.4.5-6
+- Do not force C++11 mode
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.4.5-4
+- Build libzstd with multi-threading support
+
 * Mon May 25 2020 Pádraig Brady <P@draigBrady.com> - 1.4.5-3
 - Build shared library with correct compiler flags
 

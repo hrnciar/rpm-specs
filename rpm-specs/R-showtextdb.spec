@@ -1,19 +1,23 @@
-%global packname  showtextdb
+%global packname showtextdb
+%global packver  3.0
 %global rlibdir  %{_datadir}/R/library
 
+# Examples use the network.
+%bcond_with network
+
 Name:             R-%{packname}
-Version:          2.0
-Release:          8%{?dist}
+Version:          3.0
+Release:          2%{?dist}
 Summary:          Font Files for the 'showtext' Package
 
 License:          ASL 2.0
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 Patch0001:        0001-Load-existing-font-file.patch
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-sysfonts >= 0.7.1, R-utils
+# Imports:   R-sysfonts >= 0.7, R-utils
 # Suggests:  R-curl
 # LinkingTo:
 # Enhances:
@@ -23,7 +27,7 @@ Requires:         wqy-microhei-fonts
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    wqy-microhei-fonts
-BuildRequires:    R-sysfonts >= 0.7.1
+BuildRequires:    R-sysfonts >= 0.7
 BuildRequires:    R-utils
 BuildRequires:    R-curl
 
@@ -59,13 +63,18 @@ popd
 
 
 %check
+%if %{with network}
 %{_bindir}/R CMD check %{packname}
+%else
+%{_bindir}/R CMD check %{packname} --no-examples
+%endif
 
 
 %files
 %dir %{rlibdir}/%{packname}
 %doc %{rlibdir}/%{packname}/html
 %{rlibdir}/%{packname}/DESCRIPTION
+%doc %{rlibdir}/%{packname}/NEWS.Rd
 %{rlibdir}/%{packname}/INDEX
 %{rlibdir}/%{packname}/NAMESPACE
 %{rlibdir}/%{packname}/Meta
@@ -75,6 +84,12 @@ popd
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 3.0-1
+- Update to latest version
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 2.0-8
 - rebuild for R 4
 

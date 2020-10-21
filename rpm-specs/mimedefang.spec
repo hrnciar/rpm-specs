@@ -1,7 +1,7 @@
 Summary:           E-Mail filtering framework using Sendmail's Milter interface
 Name:              mimedefang
 Version:           2.84
-Release:           8%{?dist}
+Release:           9%{?dist}
 License:           GPLv2+
 URL:               https://mimedefang.org/
 Source0:           https://mimedefang.org/static/%{name}-%{version}.tar.gz
@@ -150,6 +150,9 @@ fi
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.84-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.84-8
 - Perl 5.32 rebuild
 

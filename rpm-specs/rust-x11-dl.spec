@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        2.18.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        X11 library bindings for Rust
 
 # Upstream license specification: MIT
@@ -73,5 +73,8 @@ cp -p %{SOURCE1} .
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.18.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 17:45:28 CEST 2020 returntrip <stefano@figura.im> - 2.18.5-1
 - Initial package

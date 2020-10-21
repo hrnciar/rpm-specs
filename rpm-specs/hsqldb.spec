@@ -1,6 +1,6 @@
 Name:           hsqldb
 Version:        2.4.0
-Release:        7%{?dist}
+Release:        10%{?dist}
 Epoch:          1
 Summary:        HyperSQL Database Engine
 License:        BSD
@@ -30,6 +30,7 @@ BuildRequires:  ant
 BuildRequires:  javapackages-local
 BuildRequires:  systemd-units
 BuildRequires:  glassfish-servlet-api
+BuildRequires:  java-1.8.0-openjdk-devel
 
 Requires:       %{name}-lib = %{epoch}:%{version}-%{release}
 Requires:       glassfish-servlet-api
@@ -108,6 +109,7 @@ sed -i -e 's|doc/apidocs|%{_javadocdir}/%{name}|g' index.html
 
 %build
 pushd build
+export JAVA_HOME="/usr/lib/jvm/java-1.8.0"
 export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
 ant hsqldb javadoc -Dservletapi.lib=$(build-classpath glassfish-servlet-api)
 popd
@@ -201,6 +203,16 @@ popd
 %files demo
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.4.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Jeff Johnston <jjohnstn@redhat.com> - 1:2.4.0-9
+- Fix to use Java 1.8.0
+- Resolves rhbz#1857952
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1:2.4.0-8
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.4.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -12,7 +12,7 @@
 Version: 0.68.5.1
 Name: flow-tools
 Summary: Tool set for working with NetFlow data
-Release: 29%{?dist}
+Release: 30%{?dist}
 License: BSD 
 URL: http://code.google.com/p/%{name}/
 Source0: http://%{name}.googlecode.com/files/%{name}-%{version}.tar.bz2
@@ -233,6 +233,9 @@ exit 0
 %doc docs/*.html ChangeLog.old TODO INSTALL SECURITY
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.68.5.1-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Orion Poplawski <orion@nwra.com> - 0.68.5.1-29
 - Add patch to fix extern usage for gcc 10
 

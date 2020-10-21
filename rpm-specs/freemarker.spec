@@ -2,8 +2,8 @@
 %bcond_with jp_minimal
 
 Name:           freemarker
-Version:        2.3.29
-Release:        4%{?dist}
+Version:        2.3.30
+Release:        2%{?dist}
 Summary:        The Apache FreeMarker Template Engine
 License:        ASL 2.0
 URL:            https://freemarker.apache.org/
@@ -24,6 +24,7 @@ Patch7:         javacc-7.patch
 
 BuildArch:      noarch
 
+BuildRequires: java-1.8.0-openjdk-devel
 BuildRequires: ant
 BuildRequires: apache-parent
 BuildRequires: apache-commons-logging
@@ -98,10 +99,14 @@ sed -i -e '/dom4j/d' -e '/saxpath/d' ivy.xml
 rm src/main/java/freemarker/ext/xml/_Dom4jNavigator.java
 %endif
 
+# Don't import all the logger implementations in the OSGi metadata
+sed -i -e '/^Import-Package/s/:/: !org.apache.log4j, /' osgi.bnd
+
 %mvn_file org.%{name}:%{name} %{name}
 
 %build
 export LANG=C.UTF-8
+export JAVA_HOME=%{_jvmdir}/java-1.8.0
 ant -Divy.mode=local -Ddeps.available=true javacc jar javadoc maven-pom
 
 %install
@@ -117,6 +122,17 @@ export LANG=C.UTF-8
 %license LICENSE NOTICE
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.30-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Mat Booth <mat.booth@redhat.com> - 2.3.30-1
+- Update to latest upstream release
+- Fixing to Java 8 due to requirement for Java 8 boot classpath; this should
+  be ported to use the compiler release flag in the future
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.3.29-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Apr 01 2020 Mat Booth <mat.booth@redhat.com> - 2.3.29-4
 - Rebuild for rawhide
 

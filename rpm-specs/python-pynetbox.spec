@@ -1,8 +1,8 @@
 %global srcname pynetbox
 
 Name:           python-%{srcname}
-Version:        4.3.1
-Release:        2%{?dist}
+Version:        5.0.8
+Release:        1%{?dist}
 Summary:        Python API client library for Netbox
 
 License:        ASL 2.0
@@ -22,6 +22,7 @@ Summary:        %{summary}
 BuildRequires:  python3-devel
 BuildRequires:  python3dist(setuptools)
 BuildRequires:  python3dist(setuptools-scm)
+BuildRequires:  python3dist(pytest)
 BuildRequires:  (python3dist(requests) >= 2.20 with python3dist(requests) < 3)
 BuildRequires:  (python3dist(six) >= 1 with python3dist(six) < 2)
 
@@ -41,7 +42,7 @@ rm -vr *.egg-info
 rm -vr %{buildroot}%{python3_sitelib}/tests
 
 %check
-%python3 -m unittest discover
+%python3 -m pytest
 
 %files -n python3-%{srcname}
 %license LICENSE
@@ -50,6 +51,18 @@ rm -vr %{buildroot}%{python3_sitelib}/tests
 %{python3_sitelib}/%{srcname}-*.egg-info/
 
 %changelog
+* Wed Sep 02 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 5.0.8-1
+- Update to 5.0.8
+
+* Thu Aug 20 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 5.0.7-1
+- Update to 5.0.7
+
+* Sun Aug 09 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 5.0.5-1
+- Update to 5.0.5
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.3.1-2
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           orion
 Version:        1.6.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Seek and watch streams on Twitch
 
 License:        GPLv3+
@@ -58,6 +58,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/Orion.app
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 20:14:18 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.6.7-1
 - Update to 1.6.7
 

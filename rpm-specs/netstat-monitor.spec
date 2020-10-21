@@ -1,6 +1,6 @@
 Name:           netstat-monitor
 Version:        1.1.3
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        A command line tool to monitor network connections
 
 License:        AGPLv3+
@@ -52,6 +52,9 @@ PYTHONPATH=./ %{__python3} test/test-netstat
 %{python3_sitelib}/__pycache__/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.3-15
 - Rebuilt for Python 3.9
 

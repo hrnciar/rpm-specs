@@ -1,30 +1,31 @@
-%global commit      7d366e19dc2640a2f9eaadcef410e96a61708783
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global date        20200610
+%global uuid material-shell@papyelgringo
 
-%global uuid    material-shell@papyelgringo
+Name: gnome-shell-extension-material-shell
+Version: 8
+Release: 1%{?dist}
+Summary: Modern desktop interface for Linux
+BuildArch: noarch
 
-Name:           gnome-shell-extension-material-shell
-Version:        1
-Release:        1.%{date}git%{shortcommit}%{?dist}
-Summary:        Performant and simple opinionated mouse/keyboard workflow
+License: MIT
+URL: https://github.com/PapyElGringo/material-shell
+Source0: %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
-License:        MIT
-URL:            https://github.com/PapyElGringo/material-shell
-Source0:        %{url}/archive/%{commit}/%{name}-%{version}.%{date}git%{shortcommit}.tar.gz
-BuildArch:      noarch
-
-Requires:       gnome-shell >= 3.32.0
+Requires: gnome-shell >= 3.34.0
 
 %description
-New shell for Gnome following the Material-design guidelines. Proposing a
-performant and simple opinionated mouse/keyboard workflow to increase daily
-productivity and comfort.
+A modern desktop interface for Linux extending GNOME Shell.
+
+Providing an unique, simple, productivity oriented, innovative and automated
+mouse and keyboard workflow which aims to be faster and easier to use and
+creates a great user experience.
+
+Powered by its unique spatial model, its modern material design interface, its
+tiling engine and its persistability.
 
 How to install:
 
 1. Reload gnome-shell by logout and re-login
-2. Open 'gnome-tweaks' and activate 'Material-shell' extension
+2. Open 'gnome-extensions-app' and activate 'Material-shell' extension
 
 or run in terminal:
 
@@ -32,17 +33,19 @@ or run in terminal:
 
 
 %prep
-%autosetup -n material-shell-%{commit}
+%autosetup -n material-shell-%{version} -p1
 
 
 %install
-rm demo.gif
-mkdir -p    %{buildroot}%{_datadir}/gnome-shell/extensions/%{uuid}
-cp -ap *    %{buildroot}%{_datadir}/gnome-shell/extensions/%{uuid}/
-pushd       %{buildroot}%{_datadir}/gnome-shell/extensions/%{uuid}
-rm  LICENSE         \
-    README.md       \
-    CONTRIBUTING.md
+rm -rf documentation/ \
+    Makefile
+mkdir -p %{buildroot}%{_datadir}/gnome-shell/extensions/%{uuid}
+cp -ap * %{buildroot}%{_datadir}/gnome-shell/extensions/%{uuid}/
+
+pushd %{buildroot}%{_datadir}/gnome-shell/extensions/%{uuid}
+rm  CONTRIBUTING.md \
+    README.md \
+    LICENSE
 popd
 
 
@@ -53,6 +56,30 @@ popd
 
 
 %changelog
+* Fri Oct 16 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 8-1
+- build(update): 8
+
+* Mon Sep 28 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 7-1
+- Update to 7
+
+* Sat Sep 26 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 6-1
+- Update to 6
+
+* Tue Sep 22 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 5-1
+- Update to 5
+
+* Wed Sep 16 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 4-1
+- Update to 4
+
+* Mon Aug 10 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 3-2
+- Bump minimum required gnome-shell version
+
+* Mon Aug 10 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 3-1
+- Update to 3
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-2.20200610git7d366e1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 10 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1-1.20200610git7d366e1
 - Update to '2-beta'
 

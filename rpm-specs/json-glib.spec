@@ -1,13 +1,13 @@
 %define glib2_version 2.44.0
 
 Name:		json-glib
-Version:	1.4.4
-Release:	4%{?dist}
+Version:	1.6.0
+Release:	1%{?dist}
 Summary:	Library for JavaScript Object Notation format
 
 License:	LGPLv2+
 URL:		https://wiki.gnome.org/Projects/JsonGlib
-Source0:	http://download.gnome.org/sources/%{name}/1.4/%{name}-%{version}.tar.xz
+Source0:	http://download.gnome.org/sources/%{name}/1.6/%{name}-%{version}.tar.xz
 
 BuildRequires:	docbook-style-xsl
 BuildRequires:	gettext
@@ -83,6 +83,19 @@ the functionality of the installed json-glib package.
 
 
 %changelog
+* Fri Sep 11 2020 Kalev Lember <klember@redhat.com> - 1.6.0-1
+- Update to 1.6.0
+
+* Mon Aug 24 2020 Kalev Lember <klember@redhat.com> - 1.5.2-1
+- Update to 1.5.2
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

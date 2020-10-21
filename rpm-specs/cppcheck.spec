@@ -1,8 +1,7 @@
-# Gui built in all branches
-%global gui 1
+%undefine __cmake_in_source_build
 
 Name:           cppcheck
-Version:        2.1
+Version:        2.2
 Release:        3%{?dist}
 Summary:        Tool for static C/C++ code analysis
 License:        GPLv3+
@@ -10,30 +9,34 @@ URL:            http://cppcheck.wiki.sourceforge.net/
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 
 # Use system tinyxml2
-Patch0:         cppcheck-2.1-tinyxml.patch
+Patch0:         cppcheck-2.2-tinyxml.patch
 # Fix location of translations
-Patch1:         cppcheck-1.89-translations.patch
+Patch1:         cppcheck-2.2-translations.patch
 # Select python3 explicitly
 Patch2:         cppcheck-1.88-htmlreport-python3.patch
+# https://github.com/danmar/cppcheck/commit/b052843
+Patch3:         cppcheck-2.2-exprengine.patch
+# Look for Qt online-help file also in FILESDIR
+# https://github.com/danmar/cppcheck/commit/df9f6f3
+Patch4:         cppcheck-2.2-online-help.patch
+# Fix for missing #include with gcc-11
+Patch5:         cppcheck-gcc11.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  pcre-devel
 BuildRequires:  docbook-style-xsl
 BuildRequires:  libxslt
 BuildRequires:  pandoc
+BuildRequires:  cmake
 BuildRequires:  desktop-file-utils
 BuildRequires:  tinyxml2-devel >= 2.1.0
 BuildRequires:  zlib-devel
+BuildRequires:  python3-devel
+BuildRequires:  z3-devel >= 4.7.1
 BuildRequires:  qt5-qtbase-devel
+BuildRequires:  qt5-qttools-devel
 BuildRequires:  qt5-linguist
 
-%if %{gui}
-BuildRequires:  python3-devel
-BuildRequires:  cmake
-BuildRequires:  z3-devel >= 4.7.1
-%else
-Obsoletes:      %{name}-gui < %{version}-%{release}
-%endif
 
 %description
 Cppcheck is a static analysis tool for C/C++ code. Unlike C/C++
@@ -42,14 +45,12 @@ errors in the code. Cppcheck primarily detects the types of bugs that
 the compilers normally do not detect. The goal is to detect only real
 errors in the code (i.e. have zero false positives).
 
-%if %{gui}
 %package gui
 Summary:        Graphical user interface for cppcheck
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description gui
 This package contains the graphical user interface for cppcheck.
-%endif
 
 %package htmlreport
 Summary:        HTML reporting for cppcheck
@@ -65,8 +66,14 @@ from xml files first generated using cppcheck.
 %patch0 -p1 -b .tinyxml
 %patch1 -p1 -b .translations
 %patch2 -p1 -b .python3
+%patch3 -p1 -b .exprengine
+%patch4 -p1 -b .online-help
+%patch5 -p1 -b .gcc11
 # Make sure bundled tinyxml is not used
 rm -r externals/tinyxml
+# Generate the Qt online-help file
+cd gui/help
+qhelpgenerator-qt5 online-help.qhcp -o online-help.qhc
 
 %build
 # Manuals
@@ -75,31 +82,27 @@ pandoc man/manual.md -o man/manual.html -s --number-sections --toc
 pandoc man/reference-cfg-format.md -o man/reference-cfg-format.html -s --number-sections --toc
 
 # Binaries
-mkdir objdir-%{_target_platform}
-cd objdir-%{_target_platform}
 # Upstream doesn't support shared libraries (unversioned solib)
-%cmake .. -DCMAKE_BUILD_TYPE=Release -DUSE_MATCHCOMPILER=yes -DUSE_Z3=yes -DHAVE_RULES=yes -DBUILD_GUI=%{gui} -DBUILD_SHARED_LIBS:BOOL=OFF -DBUILD_TESTS=yes -DFILESDIR=%{_datadir}/Cppcheck
-# SMP make doesn't seem to work
-make cppcheck
+%cmake -DCMAKE_BUILD_TYPE=Release -DUSE_MATCHCOMPILER=yes -DUSE_Z3=yes -DHAVE_RULES=yes -DBUILD_GUI=1 -DBUILD_SHARED_LIBS:BOOL=OFF -DBUILD_TESTS=yes -DFILESDIR=%{_datadir}/Cppcheck
+%cmake_build
 
 %install
 rm -rf %{buildroot}
-make -C objdir-%{_target_platform} DESTDIR=%{buildroot} install
+%cmake_install
 install -D -p -m 644 cppcheck.1 %{buildroot}%{_mandir}/man1/cppcheck.1
-
-%if %{gui}
 # Install desktop file
 desktop-file-validate %{buildroot}%{_datadir}/applications/cppcheck-gui.desktop
 # Install logo
 install -D -p -m 644 gui/cppcheck-gui.png %{buildroot}%{_datadir}/pixmaps/cppcheck-gui.png
-%endif
+# Install the Qt online-help file
+install -D -p -m 644 gui/help/online-help.qhc %{buildroot}%{_datadir}/Cppcheck/help/online-help.qhc
+install -D -p -m 644 gui/help/online-help.qch %{buildroot}%{_datadir}/Cppcheck/help/online-help.qch
 
 # Install htmlreport
 install -D -p -m 755 htmlreport/cppcheck-htmlreport %{buildroot}%{_bindir}/cppcheck-htmlreport
 
-
 %check
-cd objdir-%{_target_platform}/bin
+cd %{_vpath_builddir}/bin
 ./testrunner -g -q
 
 %files
@@ -109,19 +112,39 @@ cd objdir-%{_target_platform}/bin
 %{_bindir}/cppcheck
 %{_mandir}/man1/cppcheck.1*
 
-%if %{gui}
 %files gui
 %{_bindir}/cppcheck-gui
 %{_datadir}/applications/cppcheck-gui.desktop
 %{_datadir}/pixmaps/cppcheck-gui.png
 %{_datadir}/icons/hicolor/64x64/apps/cppcheck-gui.png
 %{_datadir}/icons/hicolor/scalable/apps/cppcheck-gui.svg
-%endif
 
 %files htmlreport
 %{_bindir}/cppcheck-htmlreport
 
 %changelog
+* Tue Oct 13 2020 Jeff Law <law@redhat.com> - 2.2-3
+- Fix missing #include for gcc-11
+
+* Sun Oct 11 2020 Wolfgang Stöggl <c72578@yahoo.de> - 2.2-2
+- Fix Helpfile 'online-help.qhc' was not found
+
+* Sun Oct 04 2020 Wolfgang Stöggl <c72578@yahoo.de> - 2.2-1
+- Update to 2.2.
+
+* Tue Aug 18 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.1-7
+- Gui package is always built.
+
+* Tue Aug 04 2020 Wolfgang Stöggl <c72578@yahoo.de> - 2.1-6
+- Fix FTBFS #1863368
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 16 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.1-3
 - Drop EPEL specifics since cppcheck is included in RHEL8.
 

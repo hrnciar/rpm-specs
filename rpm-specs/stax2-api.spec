@@ -1,6 +1,6 @@
 Name:             stax2-api
 Version:          4.2.1
-Release:          2%{?dist}
+Release:          4%{?dist}
 Summary:          Experimental API extending basic StAX implementation
 License:          BSD
 
@@ -49,6 +49,12 @@ This package contains the API documentation for %{name}.
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 4.2.1-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jun 23 2020 ElXreno <elxreno@gmail.com> - 4.2.1-2
 - Rebuild
 

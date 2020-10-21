@@ -6,8 +6,8 @@
 Summary: Support for east_asian_width string widths
 Name: %{?scl_prefix}rubygem-%{gem_name}
 
-Version: 1.2.1
-Release: 7%{dist}
+Version: 1.7.0
+Release: 1%{dist}
 License: MIT
 URL: https://github.com/janlelis/unicode-display_width
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -66,11 +66,14 @@ fi
 
 %files doc
 %doc %{gem_docdir}
-%{gem_instdir}/Rakefile
-%{gem_instdir}/*.gemspec
-%{gem_instdir}/spec
 
 %changelog
+* Tue Oct 13 2020 Dan Callaghan <djc@djc.id.au> - 1.7.0-1
+- new upstream release 1.7.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

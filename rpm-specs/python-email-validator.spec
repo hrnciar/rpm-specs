@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A robust email syntax and deliverability validation library
 
 License:        CC0
@@ -72,6 +72,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests \
 %{python3_sitelib}/email_validator-%{version}-py*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.1.1-1
 - Enable tests
 - Update to new upstream release 1.1.1

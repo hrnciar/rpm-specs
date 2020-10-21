@@ -1,17 +1,19 @@
+%global rawhide_release 34
+
 Summary:        Fedora package repositories
 Name:           fedora-repos
-Version:        33
-Release:        0.6%{?_module_build:%{?dist}}
+Version:        34
+Release:        0.8%{?eln:.eln%{eln}}
 License:        MIT
 URL:            https://fedoraproject.org/
 
 Provides:       fedora-repos(%{version}) = %{release}
 Requires:       system-release(%{version})
+Obsoletes:      fedora-repos < 33-0.7
+%if %{rawhide_release} == %{version}
 Requires:       fedora-repos-rawhide = %{version}-%{release}
+%endif
 Requires:       fedora-gpg-keys >= %{version}-%{release}
-Obsoletes:      fedora-repos-anaconda < 22-0.3
-Obsoletes:      fedora-repos-modular < 29-0.6
-Provides:       fedora-repos-modular = %{version}-%{release}
 BuildArch:      noarch
 
 Source1:        archmap
@@ -20,6 +22,9 @@ Source3:        fedora-updates.repo
 Source4:        fedora-updates-testing.repo
 Source5:        fedora-rawhide.repo
 Source6:        fedora-cisco-openh264.repo
+Source7:        fedora-updates-archive.repo
+Source8:        fedora-eln.repo
+
 
 Source10:       RPM-GPG-KEY-fedora-7-primary
 Source11:       RPM-GPG-KEY-fedora-8-primary
@@ -65,6 +70,7 @@ Source50:       RPM-GPG-KEY-fedora-30-primary
 Source51:       RPM-GPG-KEY-fedora-31-primary
 Source52:       RPM-GPG-KEY-fedora-32-primary
 Source53:       RPM-GPG-KEY-fedora-33-primary
+Source54:       RPM-GPG-KEY-fedora-34-primary
 
 Source100:      fedora-modular.repo
 Source101:      fedora-updates-modular.repo
@@ -77,22 +83,47 @@ Source151:      fedora.conf
 Source152:      fedora-compose.conf
 
 %description
-Fedora package repository files for yum and dnf along with gpg public keys
+Fedora package repository files for yum and dnf along with gpg public keys.
+
+%package modular
+Summary:        Fedora modular package repositories
+Requires:       fedora-repos = %{version}-%{release}
+%if %{rawhide_release} == %{version}
+Requires:       fedora-repos-rawhide-modular = %{version}-%{release}
+%endif
+Obsoletes:      fedora-repos < 33-0.7
+
+%description modular
+This package provides the repo definitions with modular packages.
 
 %package rawhide
 Summary:        Rawhide repo definitions
 Requires:       fedora-repos = %{version}-%{release}
-Obsoletes:      fedora-release-rawhide <= 22-0.3
-Obsoletes:      fedora-repos-rawhide-modular < 29-0.6
-Provides:       fedora-repos-rawhide-modular = %{version}-%{release}
+Obsoletes:      fedora-repos-rawhide < 33-0.7
+
+%package archive
+Summary:        Fedora updates archive package repository
+Requires:       fedora-repos = %{version}-%{release}
+
+%description archive
+This package provides the repo definition for the updates archive repo.
+It is a package repository that contains any RPM that has made it to
+stable in Bodhi and been available in the Fedora updates repo in the past.
 
 %description rawhide
 This package provides the rawhide repo definitions.
 
+%package rawhide-modular
+Summary:        Rawhide modular repo definitions
+Requires:       fedora-repos = %{version}-%{release}
+Requires:       fedora-repos-rawhide = %{version}-%{release}
+Obsoletes:      fedora-repos-rawhide < 33-0.7
+
+%description rawhide-modular
+This package provides the rawhide modular repo definitions.
 
 %package -n fedora-gpg-keys
 Summary:        Fedora RPM keys
-Obsoletes:      fedora-release-rawhide <= 22-0.3
 
 %description -n fedora-gpg-keys
 This package provides the RPM signature keys.
@@ -105,6 +136,15 @@ Summary:        OSTree specific files
 This package provides ostree specfic files like remote config from
 where client's system will pull OSTree updates.
 
+
+%package eln
+Summary: ELN repo definitions
+Requires: fedora-repos-rawhide = %{version}-%{release}
+
+%description eln
+This package provides repository files for ELN (Enterprise Linux Next)
+packages that can be installed atop Rawhide. Note that these packages are
+experimental and should not be used in a production environment.
 
 
 %prep
@@ -121,6 +161,8 @@ install -m 644 %{_sourcedir}/RPM-GPG-KEY* $RPM_BUILD_ROOT/etc/pki/rpm-gpg/
 #     says "fedora-19-primary: i386 x86_64",
 #     RPM-GPG-KEY-fedora-19-{i386,x86_64} will be symlinked to that key.
 pushd $RPM_BUILD_ROOT/etc/pki/rpm-gpg/
+# Also add a symlink for ELN keys
+ln -s RPM-GPG-KEY-fedora-%{rawhide_release}-primary RPM-GPG-KEY-fedora-eln-primary
 for keyfile in RPM-GPG-KEY*; do
     key=${keyfile#RPM-GPG-KEY-} # e.g. 'fedora-20-primary'
     arches=$(sed -ne "s/^${key}://p" %{_sourcedir}/archmap) \
@@ -144,19 +186,37 @@ install -d -m 755 $RPM_BUILD_ROOT/etc/ostree/remotes.d/
 install -m 644 %{_sourcedir}/fedora.conf $RPM_BUILD_ROOT/etc/ostree/remotes.d/
 install -m 644 %{_sourcedir}/fedora-compose.conf $RPM_BUILD_ROOT/etc/ostree/remotes.d/
 
+
+%check
+# assert all rawhide/eln repos are set to enabled only when this is rawhide
+for repo in $RPM_BUILD_ROOT/etc/yum.repos.d/fedora-{rawhide,eln}*.repo; do
+  %if %{rawhide_release} == %{version}
+    grep 'enabled=1' $repo
+  %else
+    grep 'enabled=1' $repo && exit 1 || :
+  %endif
+done
+
+
 %files
 %dir /etc/yum.repos.d
 %config(noreplace) /etc/yum.repos.d/fedora.repo
-%config(noreplace) /etc/yum.repos.d/fedora-modular.repo
 %config(noreplace) /etc/yum.repos.d/fedora-cisco-openh264.repo
 %config(noreplace) /etc/yum.repos.d/fedora-updates.repo
 %config(noreplace) /etc/yum.repos.d/fedora-updates-testing.repo
+
+%files modular
 %config(noreplace) /etc/yum.repos.d/fedora-modular.repo
 %config(noreplace) /etc/yum.repos.d/fedora-updates-modular.repo
 %config(noreplace) /etc/yum.repos.d/fedora-updates-testing-modular.repo
 
+%files archive
+%config(noreplace) /etc/yum.repos.d/fedora-updates-archive.repo
+
 %files rawhide
 %config(noreplace) /etc/yum.repos.d/fedora-rawhide.repo
+
+%files rawhide-modular
 %config(noreplace) /etc/yum.repos.d/fedora-rawhide-modular.repo
 
 
@@ -170,7 +230,47 @@ install -m 644 %{_sourcedir}/fedora-compose.conf $RPM_BUILD_ROOT/etc/ostree/remo
 /etc/ostree/remotes.d/fedora.conf
 /etc/ostree/remotes.d/fedora-compose.conf
 
+%files eln
+%config(noreplace) /etc/yum.repos.d/fedora-eln.repo
+
+
 %changelog
+* Wed Oct 14 2020 Stephen Gallagher <sgallagh@redhat.com> - 34-0.8
+- ELN: Drop dependency on fedora-repos-rawhide-modular
+
+* Tue Oct 13 2020 Stephen Gallagher <sgallagh@redhat.com> - 34-0.7
+- Ensure that the ELN GPG key always points at the Rawhide key
+
+* Tue Oct 13 2020 Stephen Gallagher <sgallagh@redhat.com> - 34-0.6
+- Drop the fedora-eln-modular.repo
+
+* Thu Oct 08 2020 Stephen Gallagher <sgallagh@redhat.com> - 34-0.5
+- Update the ELN repos for the BaseOS and AppStream split
+
+* Mon Oct 05 2020 Dusty Mabe <dusty@dustymabe.com> - 34-0.4
+- Add the fedora-repos-archive subpackage.
+
+* Fri Aug 21 2020 Miro Hrončok <mhroncok@redhat.com> - 34-0.3
+- Fix a copy-paste error in eln repo name
+- Drop fedora-modular from base package since it's in the modular subpackage
+- Fixes: rhbz#1869150
+
+* Wed Aug 19 2020 Stephen Gallagher <sgallagh@redhat.com> - 34-0.2
+- Enable rebuilding of fedora-repos in ELN
+- Drop unused modularity-specific release information
+
+* Mon Aug 10 2020 Tomas Hrcka <thrcka@redhat.com> - 34-0.1
+- Setup for rawhide being F34
+
+* Thu Aug 06 2020 Mohan Boddu <mboddu@bhujji.com> - 33-0.9
+- Adding F34 key
+
+* Tue Jun 30 2020 Stephen Gallagher <sgallagh@redhat.com> - 33-0.8
+- Add optional repositories for ELN
+
+* Mon Jun 29 21:10:15 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 33-0.7
+- Split modular repos to the separate packages
+
 * Mon Jun 01 2020 Dusty Mabe <dusty@dustymabe.com> - 33-0.6
 - Add fedora compose ostree repo to fedora-repos-ostree
 

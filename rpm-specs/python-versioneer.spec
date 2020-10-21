@@ -9,7 +9,7 @@ version-control system about the current tree.}
 
 Name:           python-%{pypi_name}
 Version:        0.18
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Easy VCS-based management of project version strings
 
 License:        Public Domain
@@ -53,6 +53,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.18-5
 - Rebuilt for Python 3.9
 

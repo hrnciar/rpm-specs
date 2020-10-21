@@ -1,16 +1,14 @@
 %global srcname flatpak-module-tools
 
 Name:		%{srcname}
-Version:	0.11.3
-Release:	4%{?dist}
+Version:	0.12
+Release:	3%{?dist}
 Summary:	Tools for maintaining Flatpak applications and runtimes as Fedora modules
 
 License:	MIT
 URL:		https://pagure.io/flatpak-module-tools
 Source0:	https://releases.pagure.org/flatpak-module-tools/flatpak-module-tools-%{version}.tar.gz
-
-Patch0:		0001-FlatpakBuilder-Add-xa.metadata-as-ostree-commit-meta.patch
-Patch1:		0002-FlatpakBuilder-Add-end-of-life-and-end-of-life-rebas.patch
+Patch0:		0001-FlatpakBuilder-Fix-argument-passing-for-app-end-of-l.patch
 
 BuildArch:	noarch
 
@@ -73,6 +71,18 @@ Python3 library for Flatpak handling
 %{python3_sitelib}/*
 
 %changelog
+* Mon Oct 05 2020 Kalev Lember <klember@redhat.com> - 0.12-3
+- Fix argument passing for app end-of-life/end-of-life-rebase
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Fedora <otaylor@redhat.com> - 0.12-1
+- Version 0.12 - fix installing Flatpaks created by flatpak-1.6
+
+* Tue Jul 14 2020 Owen Taylor <otaylor@redhat.com> - 0.11.5-1
+- Version 0.11.5 - compatibility fixes for recent dnf and mock
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.11.3-4
 - Rebuilt for Python 3.9
 

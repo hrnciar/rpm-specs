@@ -13,7 +13,7 @@ algorithm of Myers", (2001).}
 
 Name:           python-%{pypi_name}
 Version:        0.5.3
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Fast implementation of the Levenshtein distance
 
 License:        MIT
@@ -27,6 +27,7 @@ Source0:        https://github.com/aflc/%{pypi_name}/archive/v%{version}/%{pypi_
 %package -n python3-%{pypi_name}
 Summary:        %{summary}
 BuildRequires:  python3-devel
+BuildRequires:  %{py3_dist setuptools}
 BuildRequires:  %{py3_dist Cython}
 BuildRequires:  gcc-c++
 
@@ -75,6 +76,12 @@ pytest-%{python3_version}
 %exclude %{python3_sitearch}/%{pypi_name}/*.h
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Aniket Pradhan <major AT fedoraproject DOT org> - 0.5.3-4
+- Added setuptools to BuildRequires
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.3-3
 - Rebuilt for Python 3.9
 

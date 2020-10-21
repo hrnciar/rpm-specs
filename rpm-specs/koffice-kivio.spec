@@ -4,7 +4,7 @@
 Name:           koffice-kivio
 Epoch:          3
 Version:        1.6.3
-Release:        56%{?dist}
+Release:        57%{?dist}
 Summary:        A flowcharting application
 
 License:        GPLv2+
@@ -213,6 +213,9 @@ mv -f kivio-unique.lang kivio.lang
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3:1.6.3-57
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3:1.6.3-56
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

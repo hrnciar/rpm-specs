@@ -3,7 +3,7 @@
 Summary:	Modular text mode IRC client with Perl scripting
 Name:		irssi
 Version:	1.2.2
-Release:	4%{?dist}
+Release:	6%{?dist}
 
 License:	GPLv2+
 URL:		http://irssi.org/
@@ -15,7 +15,9 @@ BuildRequires:	autoconf automake libtool utf8proc-devel libotr-devel
 Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
 # rhbz#1773190
-Obsoletes:      irc-otr
+Obsoletes:	irc-otr
+# https://github.com/irssi/irssi/pull/1183
+Patch:		irssi-1.2.2-ctrl-space-fix.patch
 
 %package devel
 Summary:	Development package for irssi
@@ -36,6 +38,8 @@ being maintained.
 
 %prep
 %setup -q
+%patch0 -p1 -b .ctrl-space-fix
+
 
 %build
 autoreconf -i
@@ -83,6 +87,13 @@ chmod -R u+w $RPM_BUILD_ROOT%{perl_vendorarch}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 1.2.2-5
+- Fixed ctrl+space problem
+  Resolves: rhbz#1854822
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.2.2-4
 - Perl 5.32 rebuild
 

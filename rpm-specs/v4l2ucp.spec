@@ -1,6 +1,6 @@
 Name:           v4l2ucp
 Version:        2.0.1
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        Video4linux universal control panel
 License:        GPLv2+
 URL:            http://v4l2ucp.sourceforge.net/
@@ -24,21 +24,16 @@ controls to their default state.
 
 
 %prep
-%setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
+%autosetup -p1
 
 
 %build
-%cmake .
-make VERBOSE=1 %{?_smp_mflags}
+%cmake
+%cmake_build
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
+%cmake_install
 
 # below is the desktop file and icon stuff.
 desktop-file-install --delete-original \
@@ -49,7 +44,8 @@ mv $RPM_BUILD_ROOT%{_datadir}/icons/%{name}.png \
   $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/128x128/apps
 
 %files
-%doc COPYING README
+%license COPYING
+%doc README
 %{_bindir}/%{name}
 %{_bindir}/v4l2ctrl
 %{_datadir}/applications/%{name}.desktop
@@ -57,6 +53,9 @@ mv $RPM_BUILD_ROOT%{_datadir}/icons/%{name}.png \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

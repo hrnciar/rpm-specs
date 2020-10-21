@@ -1,9 +1,10 @@
+%undefine __cmake_in_source_build
 %global commit 6a5938047287eb90b63f441f3e5dd67fb5581408
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           tipl
 Version:        0
-Release:        0.9.git%{shortcommit}%{?dist}
+Release:        0.10.git%{shortcommit}%{?dist}
 Summary:        Template image processing library
 
 License:        BSD
@@ -29,16 +30,13 @@ Header-only template image processing library.
 
 %prep
 %autosetup -n TIPL-%{commit} -p1
-mkdir %{_target_platform}
 
 %build
-pushd %{_target_platform}
-  %cmake ..
-popd
-%make_build -C %{_target_platform}
+%cmake
+%cmake_build
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 
 %files devel
 %license COPYRIGHT
@@ -48,6 +46,9 @@ popd
 %{_datadir}/pkgconfig/%{name}.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.10.git6a59380
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9.git6a59380
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

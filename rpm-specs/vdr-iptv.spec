@@ -1,6 +1,6 @@
 Name:           vdr-iptv
 Version:        2.4.0
-Release:        7%{?dist}
+Release:        10%{?dist}
 Summary:        IPTV plugin for VDR
 
 License:        GPLv2+
@@ -29,7 +29,7 @@ sed -i "s|^CHANNELS_CONF=.*|CHANNELS_CONF=%{vdr_configdir}/channels.conf|; \
         iptv/vlc2iptv
 
 %build
-make CFLAGS="%{optflags} -fPIC" CXXFLAGS="%{optflags} -fPIC" STRIP=: %{?_smp_mflags} all
+make CFLAGS="%{optflags} -fPIC" CXXFLAGS="-std=gnu++14 %{optflags} -fPIC" STRIP=: %{?_smp_mflags} all
 
 %install
 make install DESTDIR=%{buildroot}
@@ -45,6 +45,15 @@ make install DESTDIR=%{buildroot}
 %config(noreplace) %{vdr_resdir}/plugins/iptv/vlc2iptv
 
 %changelog
+* Fri Aug 28 2020 Martin Gansser <martinkg@fedoraproject.org> - 2.4.0-10
+- Rebuilt for new VDR API version
+
+* Wed Aug 19 2020 Jeff Law <law@redhat.com> - 2.4.0-9
+- Force C++14 as this code is not C++17 ready
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

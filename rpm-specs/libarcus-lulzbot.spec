@@ -1,6 +1,6 @@
 Name:           libarcus-lulzbot
 Version:        3.6.21
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        Communication library between Cura components, Lulzbot fork
 License:        LGPLv3+
 URL:            https://code.alephobjects.com/source/arcus
@@ -25,6 +25,9 @@ BuildRequires:  /usr/bin/sip
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  git-core
+
+# Get Fedora 33++ behavior on anything older
+%undefine __cmake_in_source_build
 
 %description
 Arcus library contains C++ code and Python 3 bindings for creating a socket in
@@ -69,11 +72,11 @@ between Cura and its backend and similar code. This is the Lulzbot fork.
 %patch3 -p1 -b .sipfix
 
 %build
-%{cmake} -DBUILD_EXAMPLES:BOOL=OFF -DCMAKE_SKIP_RPATH:BOOL=ON .
-make %{?_smp_mflags}
+%cmake -DBUILD_EXAMPLES:BOOL=OFF -DCMAKE_SKIP_RPATH:BOOL=ON .
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 mv %{buildroot}%{_libdir}/cmake/Arcus-lulzbot/ArcusConfig.cmake %{buildroot}%{_libdir}/cmake/Arcus-lulzbot/Arcus-lulzbotConfig.cmake
 
 %files
@@ -96,6 +99,12 @@ mv %{buildroot}%{_libdir}/cmake/Arcus-lulzbot/ArcusConfig.cmake %{buildroot}%{_l
 %{python3_sitearch}/Arcus-lulzbot.so
 
 %changelog
+* Wed Sep 23 2020 Adrian Reber <adrian@lisas.de> - 3.6.21-8
+- Rebuilt for protobuf 3.13
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.21-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 3.6.21-6
 - Rebuilt for protobuf 3.12
 

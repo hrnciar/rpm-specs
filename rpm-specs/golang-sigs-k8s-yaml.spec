@@ -26,7 +26,7 @@ methods MarshalJSON and UnmarshalJSON unlike go-yaml.}
                         conduct.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Marshal and unmarshal YAML in Go
 
 License:        MIT and BSD
@@ -59,6 +59,9 @@ BuildRequires:  golang(github.com/davecgh/go-spew/spew)
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 17:40:51 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.2.0-1
 - Update to 1.2.0
 

@@ -2,15 +2,16 @@
 
 Name:           past-time
 Version:        0.2.0
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        Visualizer for the days of the year
 
 License:        MIT
 URL:            https://github.com/fabaff/past-time
-Source0:        https://github.com/fabaff/past-time/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-freezegun
 BuildRequires:  python3-click
 BuildRequires:  python3-tqdm
@@ -38,6 +39,12 @@ A simple tool to visualize the progress of the year based on the past days.
 %{python3_sitelib}/%{pypi_name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.2.0-6
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.0-5
 - Rebuilt for Python 3.9
 

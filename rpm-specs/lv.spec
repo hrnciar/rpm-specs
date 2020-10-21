@@ -2,7 +2,7 @@
 
 Name:		lv
 Version:	4.51
-Release:	37%{?dist}
+Release:	42%{?dist}
 License:	GPLv2+
 URL:		http://www.ff.iij4u.or.jp/~nrt/lv/
 BuildRequires:	ncurses-devel autoconf
@@ -16,6 +16,7 @@ Patch4:		lv-fastio.patch
 Patch5:		lv-lfs.patch
 Patch6:		%{name}-aarch64.patch
 Patch7:		%{name}-no-sigvec.patch
+Patch8:		%{name}-inline.patch
 
 Summary:	A Powerful Multilingual File Viewer
 %description
@@ -37,18 +38,19 @@ for text decoration.
 %patch5 -p1 -b .lfs
 %patch6 -p1 -b .6-aarch64
 %patch7 -p1 -b .7-sigvec
+%patch8 -p1 -b .inline
 
 %build
 cd src
 autoconf
 %configure --enable-fastio
-make %{?_smp_mflags}
+%make_build
 
 %install
 cd src
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
-make install bindir=$RPM_BUILD_ROOT%{_bindir} libdir=$RPM_BUILD_ROOT%{_libdir} mandir=$RPM_BUILD_ROOT%{_mandir} INSTALL="install -p"
+%make_install bindir=$RPM_BUILD_ROOT%{_bindir} libdir=$RPM_BUILD_ROOT%{_libdir} mandir=$RPM_BUILD_ROOT%{_mandir}
 
 %files
 %license GPL.txt
@@ -61,6 +63,24 @@ make install bindir=$RPM_BUILD_ROOT%{_bindir} libdir=$RPM_BUILD_ROOT%{_libdir} m
 
 
 %changelog
+* Thu Aug 20 2020 Jeff Law <law@redhat.com> - 4.51-42
+- Re-enable LTO
+- Fix extern inline vs public inline issue
+
+* Mon Aug 10 2020 Jeff Law <law@redhat.com> - 4.51-41
+- Disable LTO for now
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.51-40
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.51-39
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Tom Stellard <tstellar@redhat.com> - 4.51-38
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.51-37
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

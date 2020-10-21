@@ -1,7 +1,7 @@
 Name:             gawk-redis
 Summary:          Redis client library for gawk
 Version:          1.7.8
-Release:          2%{?dist}
+Release:          3%{?dist}
 License:          GPLv3+
 
 URL:              https://sourceforge.net/projects/gawkextlib
@@ -60,6 +60,9 @@ rm -f %{buildroot}%{_infodir}/dir
 # =============================================================================
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.8-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

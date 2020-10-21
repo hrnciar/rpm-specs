@@ -1,6 +1,12 @@
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 Name:           getdp
 Version:        3.3.0
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        General Environment for the Treatment of Discrete Problems
 
 License:        GPLv2+
@@ -12,7 +18,7 @@ BuildRequires:  gcc-c++ gcc-gfortran
 BuildRequires:  arpack-devel
 BuildRequires:  gmsh-devel
 BuildRequires:  gsl-devel
-BuildRequires:  lapack-devel blas-devel openblas-devel
+BuildRequires:  %{blaslib}-devel
 BuildRequires:  python3-devel
 BuildRequires:  petsc-devel
 BuildRequires:  SuperLU-devel
@@ -39,6 +45,7 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
 
+
 %prep
 %autosetup -n %{name}-%{version}-source
 
@@ -48,10 +55,12 @@ find contrib/ -mindepth 1 -maxdepth 1 -type d -not \( -name pewe \) -prune -exec
 # fix lib -> lib64 for petsc detection
 sed -i 's|${ENV_PETSC_ARCH}/lib|${ENV_PETSC_ARCH}/%_lib|g' CMakeLists.txt
 
+# set blas in bundled lib
+sed -i 's|-llapack -lblas|-l%{blaslib}|' contrib/pewe/fortran/Makefile
+
 %build
-mkdir build
-pushd build/
-  %cmake ../ \
+%cmake \
+    -DBLAS_LAPACK_LIBRARIES="-l%{blaslib}" \
     -DENABLE_MULTIHARMONIC=ON \
     -DENABLE_NX=OFF           \
     -DENABLE_OPENMP=ON        \
@@ -59,21 +68,26 @@ pushd build/
     -DENABLE_SPARSKIT=OFF     \
     -DENABLE_BUILD_SHARED=ON  \
     -DENABLE_BUILD_DYNAMIC=ON
-  %make_build
-popd
+%cmake_build
+
 
 %install
-%make_install -C build
+%cmake_install
 
 # remove auto-installed docs
 rm -rf %{buildroot}%{_datadir}/doc/%{name}
 
+
 %check
-pushd build/
-  ctest -VV
-popd
+%ifarch s390x
+%ctest || :
+%else
+%ctest
+%endif
+
 
 %ldconfig_scriptlets
+
 
 %files
 %license LICENSE.txt CREDITS.txt
@@ -88,6 +102,12 @@ popd
 %{_libdir}/libgetdp.so
 
 %changelog
+* Fri Aug 14 2020 Iñaki Úcar <iucar@fedoraproject.org> - 3.3.0-6
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.3.0-4
 - Rebuilt for Python 3.9
 

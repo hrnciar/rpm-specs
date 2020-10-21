@@ -30,7 +30,7 @@ ExclusiveArch: x86_64
 %global url_ver	%%(echo %{version}|cut -d. -f1,2)
 
 Name:		gnome-boxes
-Version:	3.37.1
+Version:	3.38.1
 Release:	1%{?dist}
 Summary:	A simple GNOME 3 application to access remote or virtual systems
 
@@ -47,6 +47,7 @@ BuildRequires:	pkgconfig(freerdp2)
 BuildRequires:	pkgconfig(glib-2.0) >= 2.52
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
 BuildRequires:	pkgconfig(gtk+-3.0) >= 3.22.20
+BuildRequires:	pkgconfig(gtksourceview-4)
 BuildRequires:	pkgconfig(gtk-vnc-2.0)
 BuildRequires:	pkgconfig(libarchive)
 BuildRequires:	pkgconfig(json-glib-1.0)
@@ -59,7 +60,7 @@ BuildRequires:	pkgconfig(gudev-1.0)
 BuildRequires:	pkgconfig(libosinfo-1.0) >= 1.4.0
 BuildRequires:	pkgconfig(libsoup-2.4) >= 2.44
 BuildRequires:	pkgconfig(libusb-1.0)
-BuildRequires:	pkgconfig(tracker-sparql-2.0)
+BuildRequires:	pkgconfig(tracker-sparql-3.0)
 BuildRequires:	pkgconfig(vte-2.91)
 BuildRequires:	pkgconfig(webkit2gtk-4.0)
 BuildRequires:	spice-gtk3-vala
@@ -106,7 +107,7 @@ gnome-boxes lets you easily create, setup, access, and use:
     local virtual machines
 
 %prep
-%setup -q
+%autosetup -p1
 
 %build
 %meson \
@@ -151,8 +152,31 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Boxes.deskt
 %{_datadir}/dbus-1/services/org.gnome.Boxes.service
 %{_datadir}/metainfo/org.gnome.Boxes.appdata.xml
 %{_datadir}/osinfo/os/gnome.org/gnome-nightly.xml
+%{_datadir}/osinfo/os/gnome.org/gnome-3.38.xml
 
 %changelog
+* Tue Oct 06 2020 Felipe Borges <feborges@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Fri Sep 11 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Wed Sep 09 2020 Kalev Lember <klember@redhat.com> - 3.37.91-2
+- Switch to tracker3
+
+* Mon Sep 07 2020 Kalev Lember <klember@redhat.com> - 3.37.91-1
+- Update to 3.37.91
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 09 2020 Kalev Lember <klember@redhat.com> - 3.37.1-1
 - Update to 3.37.1
 

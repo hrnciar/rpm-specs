@@ -1,6 +1,8 @@
+# Disable swt by default
+%bcond_with swt
 Name:           jfreechart
 Version:        1.0.19
-Release:        13%{?dist}
+Release:        17%{?dist}
 Summary:        Java chart library
 
 License:        LGPLv2+
@@ -12,10 +14,9 @@ BuildRequires:  maven-local
 BuildRequires:  maven-plugin-bundle
 BuildRequires:  mvn(org.jfree:jcommon) >= 1.0.23
 BuildRequires:  mvn(javax.servlet:javax.servlet-api) >= 2.5
-%if 0%{?fedora}
+%if %{with swt}
 BuildRequires:  eclipse-swt
 %endif
-BuildRequires:  sonatype-oss-parent
 BuildRequires:  ant
 
 BuildArch:      noarch
@@ -24,7 +25,7 @@ BuildArch:      noarch
 JFreeChart is a free 100% Java chart library that makes it easy for
 developers to display professional quality charts in their applications.
 
-%if 0%{?fedora}
+%if %{with swt}
 %package swt
 Summary:        Swt extension for jfreechart
 Requires:       %{name} = %{version}-%{release}
@@ -34,20 +35,15 @@ Requires:       eclipse-swt jpackage-utils
 Experimental swt extension for jfreechart.
 %endif
 
-%package javadoc
-Summary:        Javadocs for %{name}
-Requires:       %{name} = %{version}-%{release}
-Requires:       jpackage-utils
-
-%description javadoc
-This package contains the API documentation for %{name}.
-
 
 %prep
 %setup -q
 # Erase prebuilt files
 find \( -name '*.jar' -o -name '*.class' \) -exec rm -f '{}' \;
 %patch0 -p2
+
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
 
 MVN_BUNDLE_PLUGIN_EXTRA_XML="<extensions>true</extensions>
         <configuration>
@@ -74,16 +70,15 @@ MVN_BUNDLE_PLUGIN_EXTRA_XML="<extensions>true</extensions>
 %pom_change_dep javax.servlet:servlet-api: javax.servlet:javax.servlet-api:
 
 %pom_add_plugin org.apache.felix:maven-bundle-plugin . "$MVN_BUNDLE_PLUGIN_EXTRA_XML"
-%pom_add_plugin org.apache.maven.plugins:maven-javadoc-plugin . "<configuration><excludePackageNames>org.jfree.chart.fx*</excludePackageNames></configuration>"
 # Change to packaging type bundle so as to be able to use it
 # as an OSGi bundle.
 %pom_xpath_set "pom:packaging" "bundle"
 
 %build
 # Ignore failing test: SegmentedTimelineTest
-%mvn_build -- -Dmaven.test.failure.ignore=true
+%mvn_build -j -- -Dmaven.test.failure.ignore=true
 
-%if 0%{?fedora}
+%if %{with swt}
 # /usr/lib/java/swt.jar is an arch independent path to swt
 ant -f ant/build-swt.xml \
         -Dswt.jar=/usr/lib/java/swt.jar \
@@ -94,7 +89,7 @@ ant -f ant/build-swt.xml \
 %install
 %mvn_install
 
-%if 0%{?fedora}
+%if %{with swt}
 install -m 644 lib/swtgraphics2d.jar  $RPM_BUILD_ROOT%{_javadir}/%{name}/swtgraphics2d.jar
 install -m 644 lib/jfreechart-%{version}-swt.jar  $RPM_BUILD_ROOT%{_javadir}/%{name}/%{name}-swt.jar
 %endif
@@ -102,15 +97,26 @@ install -m 644 lib/jfreechart-%{version}-swt.jar  $RPM_BUILD_ROOT%{_javadir}/%{n
 %files -f .mfiles
 %doc ChangeLog NEWS README.txt
 
-%if 0%{?fedora}
+%if %{with swt}
 %files swt
 %{_javadir}/%{name}/swtgraphics2d*.jar
 %{_javadir}/%{name}/%{name}-swt*.jar
 %endif
 
-%files javadoc -f .mfiles-javadoc
-
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.19-17
+- Remove unnecessary dependency on parent POM.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.19-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Severin Gehwolf <sgehwolf@redhat.com> - 1.0.19-15
+- Disable -swt sub-package by default.
+- Remove -javadoc sub-package since it would fail anyway with JDK 11.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.0.19-14
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.19-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

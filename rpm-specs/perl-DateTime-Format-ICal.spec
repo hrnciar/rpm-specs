@@ -1,6 +1,6 @@
 Name:           perl-DateTime-Format-ICal
 Version:        0.09
-Release:        33%{?dist}
+Release:        34%{?dist}
 Summary:        Parse and format iCal datetime and duration strings
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/DateTime-Format-ICal
@@ -58,6 +58,9 @@ perl Build.PL installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.09-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.09-33
 - Perl 5.32 rebuild
 

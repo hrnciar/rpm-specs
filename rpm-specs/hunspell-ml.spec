@@ -1,7 +1,7 @@
 Name: hunspell-ml
 Summary: Malayalam hunspell dictionaries
 Version: 0.1
-Release: 22%{?dist}
+Release: 23%{?dist}
 Source: http://download.savannah.gnu.org/releases/smc/Spellchecker/ooo-hunspell-ml-%{version}.tar.bz2
 URL: http://download.savannah.gnu.org/releases/smc/Spellchecker/
 License: GPLv3+
@@ -29,6 +29,9 @@ cp -p *.dic *.aff $RPM_BUILD_ROOT/%{_datadir}/myspell
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

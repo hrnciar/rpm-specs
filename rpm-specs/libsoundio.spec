@@ -1,6 +1,6 @@
 Name:		libsoundio
 Version:	2.0.0
-Release:	2%{?dist}
+Release:	5%{?dist}
 Summary:	C library for cross-platform real-time audio input and output
 License:	MIT
 URL:		http://libsound.io/
@@ -43,21 +43,20 @@ Utilities files for libsoundio.
 %setup -q
 
 %build
-mkdir build
-cd build
-%cmake -DBUILD_STATIC_LIBS=FALSE ../
-%make_build
+%cmake -DBUILD_STATIC_LIBS=FALSE
+%cmake_build
+cd %{__cmake_builddir}
 make doc
 
 %install
-cd build
-%make_install
+%cmake_install
 
 # install docs
+cd %{__cmake_builddir}
 install -m 0644 -pDt %{buildroot}%{_docdir}/%{name}-doc/html html/*
 
 %check
-cd build
+cd %{__cmake_builddir}
 ./unit_tests
 ./overflow
 ./underflow
@@ -82,6 +81,17 @@ cd build
 %{_bindir}/sio_sine
 
 %changelog
+* Thu Aug  6 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 2.0.0-5
+- Fixed FTBFS
+  Resolves: rhbz#1864049
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 2.0.0-2
 - Minor packaging changes according to the review
 

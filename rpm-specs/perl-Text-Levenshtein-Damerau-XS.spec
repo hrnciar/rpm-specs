@@ -1,6 +1,6 @@
 Name:           perl-Text-Levenshtein-Damerau-XS
 Version:        3.2
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        XS Damerau Levenshtein edit distance
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Text-Levenshtein-Damerau-XS
@@ -49,6 +49,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.2-13
 - Perl 5.32 rebuild
 

@@ -3,7 +3,7 @@
 
 # https://github.com/sanity-io/litter
 %global goipath         github.com/sanity-io/litter
-Version:                1.2.0
+Version:                1.3.0
 
 %gometa
 
@@ -15,7 +15,7 @@ and testing.}
 %global godocs          CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Pretty printer for Go data structures for debugging and testing
 
 License:        MIT
@@ -41,6 +41,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Thu Aug 06 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.3.0-1
+- Update to latest version (#1866580)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           perl-Hardware-Vhdl-Parser
 Version:        0.12
-Release:        34%{?dist}
+Release:        35%{?dist}
 Summary:        Complete grammar for parsing VHDL code using perl
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Hardware-Vhdl-Parser
@@ -53,6 +53,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.12-34
 - Perl 5.32 rebuild
 

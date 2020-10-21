@@ -6,8 +6,8 @@
 %endif
 
 Name:           perl-MongoDB
-Version:        2.2.1
-Release:        3%{?dist}
+Version:        2.2.2
+Release:        1%{?dist}
 Summary:        MongoDB driver for Perl
 ## Installed:
 # lib/MongoDB/_Link.pm:             ASL 2.0 and (GPL+ or Artistic)
@@ -195,6 +195,12 @@ exit $test_rc
 %{_mandir}/man3/*
 
 %changelog
+* Tue Aug 18 2020 Petr Pisar <ppisar@redhat.com> - 2.2.2-1
+- 2.2.2 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.2.1-3
 - Perl 5.32 rebuild
 

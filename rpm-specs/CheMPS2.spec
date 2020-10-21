@@ -1,6 +1,6 @@
 Name:           CheMPS2
 Version:        1.8.9
-Release:        6%{?dist}
+Release:        10%{?dist}
 Summary:        A spin-adapted implementation of DMRG for ab initio quantum chemistry
 
 License:        GPLv2+
@@ -8,7 +8,7 @@ URL:            https://github.com/SebWouters/CheMPS2
 Source0:        https://github.com/SebWouters/CheMPS2/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  gcc-c++
-BuildRequires:  openblas-devel
+BuildRequires:  pkgconfig(flexiblas)
 BuildRequires:  cmake
 BuildRequires:  hdf5-devel
 BuildRequires:  zlib-devel
@@ -39,14 +39,12 @@ developing applications that use %{name}.
 %setup -q
 
 %build
-mkdir build
-cd build
 export CXXFLAGS="%{optflags} -Wl,--as-needed"
-%cmake .. -DMKL=OFF -DLAPACK_LIBRARIES="-lopenblaso" -DENABLE_XHOST=OFF -DSHARED_ONLY=ON
-make %{?_smp_mflags} VERBOSE=1
+%cmake -DMKL=OFF -DLAPACK_LIBRARIES="-lflexiblas" -DENABLE_XHOST=OFF -DSHARED_ONLY=ON
+%cmake_build
 
 %install
-make -C build install DESTDIR=%{buildroot}
+%cmake_install
 install -D -p -m 644 chemps2.1 %{buildroot}%{_mandir}/man1/chemps2.1
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
 find %{buildroot} -name '*.a' -exec rm -f {} ';'
@@ -66,6 +64,19 @@ find %{buildroot} -name '*.a' -exec rm -f {} ';'
 %{_libdir}/libchemps2.so
 
 %changelog
+* Fri Aug 07 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.8.9-10
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.9-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.9-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 1.8.9-7
+- Rebuild for hdf5 1.10.6
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.9-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

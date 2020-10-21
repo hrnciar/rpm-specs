@@ -1,11 +1,18 @@
+%undefine __cmake_in_source_build
+
 Name:       cswrap
-Version:    1.6.0
+Version:    1.9.0
 Release:    1%{?dist}
 Summary:    Generic compiler wrapper
 
 License:    GPLv3+
 URL:        https://github.com/kdudka/%{name}
 Source0:    https://github.com/kdudka/%{name}/releases/download/%{name}-%{version}/%{name}-%{version}.tar.xz
+
+%ifarch x86_64
+# csexec (supported on x86_64 only for now) can be later moved to a subpackage
+Provides:   csexec = %{version}-%{release}
+%endif
 
 # cswrap-1.3.0+ emits internal warnings per timed out scans (used by csdiff to
 # eliminate false positivies that such a scan would otherwise cause) ==> force
@@ -15,7 +22,7 @@ Conflicts: csdiff        < 1.2.0
 Conflicts: csmock-common < 1.7.0
 
 BuildRequires: asciidoc
-BuildRequires: cmake
+BuildRequires: cmake3
 BuildRequires: gcc
 
 # The test-suite runs automatically trough valgrind if valgrind is available
@@ -43,22 +50,18 @@ Generic compiler wrapper used by csmock to capture diagnostic messages.
 %setup -q
 
 %build
-mkdir cswrap_build
-cd cswrap_build
 export CFLAGS="$RPM_OPT_FLAGS"' -DPATH_TO_WRAP=\"%{_libdir}/cswrap\"'
 %ifnarch %{arm}
 export LDFLAGS="$RPM_OPT_FLAGS -static -pthread"
 %endif
-%cmake ..
-make %{?_smp_mflags} VERBOSE=yes
+%cmake3
+%cmake3_build
 
 %check
-cd cswrap_build
-ctest %{?_smp_mflags} --output-on-failure
+%ctest3
 
 %install
-cd cswrap_build
-make install DESTDIR="$RPM_BUILD_ROOT"
+%cmake3_install
 
 install -m0755 -d "$RPM_BUILD_ROOT%{_libdir}"{,/cswrap}
 for i in c++ cc g++ gcc clang clang++ cppcheck smatch \
@@ -70,12 +73,26 @@ do
 done
 
 %files
+%ifarch x86_64
+%{_bindir}/csexec
+%{_bindir}/csexec-loader
+%{_libdir}/libcsexec-preload.so
+%endif
 %{_bindir}/cswrap
 %{_libdir}/cswrap
 %{_mandir}/man1/%{name}.1*
 %doc COPYING README
 
 %changelog
+* Tue Oct 20 2020 Kamil Dudka <kdudka@redhat.com> 1.9.0-1
+- update to latest upstream
+
+* Wed Aug 19 2020 Kamil Dudka <kdudka@redhat.com> 1.8.0-1
+- update to latest upstream
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 05 2020 Kamil Dudka <kdudka@redhat.com> 1.6.0-1
 - update to latest upstream
 

@@ -2,7 +2,7 @@
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 Name:           librealsense1
 Version:        1.12.4
-Release:        2.%{shortcommit}%{?dist}
+Release:        5.%{shortcommit}%{?dist}
 Summary:        Cross-platform camera capture for Intel RealSense
 
 License:        ASL 2.0 and BSD
@@ -57,17 +57,13 @@ with %{name}.
 
 
 %build
-mkdir -p build
-pushd build
 %cmake \
   -DBUILD_UNIT_TESTS=NO \
   -DCMAKE_INSTALL_BINDIR=%{_bindir} \
   -DCMAKE_INSTALL_LIBDIR=%{_libdir} \
-  -DCMAKE_INSTALL_INCLUDEDIR=%{_includedir} \
-  ..
-%make_build realsense1
+  -DCMAKE_INSTALL_INCLUDEDIR=%{_includedir}
+%cmake_build
 
-popd
 sed -i "s:/usr/local/bin:%{_datadir}/realsense1:" config/*
 sed -i "s/plugdev/users/g" config/*rules
 
@@ -77,12 +73,11 @@ sed -i \
   -e "s/GENERATE_HTMLHELP[[:space:]]*=[[:space:]]*YES/GENERATE_HTMLHELP = NO/" \
   Doxyfile
 doxygen
+popd
 
 
 %install
-pushd build
-%make_install realsense1
-popd
+%cmake_install
 
 mkdir -p %{buildroot}/%{_udevrulesdir}
 install -p -m644 config/99-realsense-libusb.rules \
@@ -109,6 +104,17 @@ install -p -m755 config/usb-R200-in{,_udev} %{buildroot}/%{_datadir}/realsense1
 
 
 %changelog
+* Fri Sep 04 2020 Till Hofmann <thofmann@fedoraproject.org> - 1.12.4-5.24ddaec
+- Adapt to CMake out-of-source builds
+  https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.4-4.24ddaec
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.4-3.24ddaec
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.4-2.24ddaec
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

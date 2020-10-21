@@ -11,7 +11,7 @@
 
 Name:		python-%{pypi_name}
 Version:	0.1
-Release:	0.21%{?git_rel}%{?dist}
+Release:	0.22%{?git_rel}%{?dist}
 Summary:	USB programmer for devices based on the Joyetech Evic VTC Mini
 
 License:	GPLv3+
@@ -124,6 +124,9 @@ done
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.22.git20161101.176cf0b
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1-0.21.git20161101.176cf0b
 - Rebuilt for Python 3.9
 

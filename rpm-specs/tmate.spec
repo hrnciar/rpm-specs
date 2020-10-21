@@ -1,6 +1,6 @@
 Name:           tmate
 Version:        2.4.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 
 Summary:        Instant terminal sharing
 License:        MIT
@@ -40,6 +40,12 @@ make DESTDIR=%{buildroot} install
 %{_mandir}/man1/tmate.1*
 
 %changelog
+* Tue Sep 29 20:46:05 CEST 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 2.4.0-4
+- Rebuilt for libevent 2.1.12
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

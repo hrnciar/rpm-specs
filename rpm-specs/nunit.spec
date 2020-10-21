@@ -2,7 +2,7 @@
 
 Name:           nunit
 Version:        3.7.1
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Unit test framework for CLI
 License:        MIT with advertising
 Url:            http://www.nunit.org/
@@ -81,6 +81,9 @@ done
 %{_libdir}/pkgconfig/nunit.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.1-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

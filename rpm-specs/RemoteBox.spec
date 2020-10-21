@@ -3,7 +3,7 @@
 
 Name:           RemoteBox
 Version:        2.6
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        Open Source VirtualBox Client with Remote Management
 License:        GPLv2
 
@@ -86,6 +86,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/remotebox.desktop
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.6-7
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.6-6
 - Perl 5.32 rebuild
 

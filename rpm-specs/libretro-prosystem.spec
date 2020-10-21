@@ -6,7 +6,7 @@
 
 Name:           libretro-%{corename}
 Version:        0
-Release:        0.3.%{date}git%{shortcommit}%{?dist}
+Release:        0.4.%{date}git%{shortcommit}%{?dist}
 Summary:        Port of ProSystem to the libretro API
 
 License:        GPLv2
@@ -43,6 +43,9 @@ install -Dp -m 0644 %{SOURCE1} %{buildroot}%{_libdir}/libretro/%{corename}.libre
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4.20190914gitcb4aa3e
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3.20190914gitcb4aa3e
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

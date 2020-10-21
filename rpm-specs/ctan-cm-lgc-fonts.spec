@@ -14,7 +14,7 @@ LGR, and TS1 encodings, i.e. Latin, Cyrillic, and Greek.
 
 Name:           ctan-cm-lgc-fonts
 Version:        0.5
-Release:        32%{?dist}
+Release:        33%{?dist}
 Summary:        CM-LGC Type1 fonts
 # Font exception
 License:        GPLv2+ with exceptions
@@ -109,6 +109,9 @@ done
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-32
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           rep-gtk
 Version:        0.90.8.3
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        GTK+ binding for librep Lisp environment
 License:        GPLv2+
 URL:            http://sawfish.wikia.com/
@@ -47,6 +47,9 @@ find %{buildroot}%{_libdir} -name \*.la -exec rm '{}' \;
 %{_libdir}/pkgconfig/rep-gtk.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.90.8.3-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.90.8.3-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

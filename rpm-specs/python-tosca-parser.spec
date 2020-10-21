@@ -1,16 +1,8 @@
 %global pypi_name tosca-parser
 
-%if 0%{?fedora} || 0%{?rhel} > 7
-%bcond_with    python2
-%bcond_without python3
-%else
-%bcond_without python2
-%bcond_with    python3
-%endif
-
 Name:           python-%{pypi_name}
-Version:        1.4.0
-Release:        7%{?dist}
+Version:        2.1.0
+Release:        1%{?dist}
 Summary:        Parser for TOSCA Simple Profile in YAML
 
 License:        ASL 2.0
@@ -19,61 +11,10 @@ Source0:        https://pypi.io/packages/source/t/%{pypi_name}/%{pypi_name}-%{ve
 BuildArch:      noarch
 
 %description
-The TOSCA Parser is an OpenStack project and licensed under Apache 2. 
+The TOSCA Parser is an OpenStack project and licensed under Apache 2.
 It is developed to parse TOSCA Simple Profile in YAML. It reads the TOSCA
 templates and creates an in-memory graph of TOSCA nodes and their relationship.
 
-%if %{with python2}
-%package -n python2-%{pypi_name}
-Summary:        Parser for TOSCA Simple Profile in YAML
-%{?python_provide:%python_provide python2-%{pypi_name}}
-
-BuildRequires:  python2-devel
-BuildRequires:  python2-pbr >= 1.3
-BuildRequires:  python2-babel
-BuildRequires:  PyYAML
-BuildRequires:  python2-setuptools
-# Required for testing
-BuildRequires:  python2-six
-BuildRequires:  python2-dateutil
-BuildRequires:  python-cliff
-BuildRequires:  python2-fixtures
-BuildRequires:  python2-testrepository
-BuildRequires:  python2-testtools
-BuildRequires:  python2-testscenarios
-BuildRequires:  python-oslotest
-BuildRequires:  python2-subunit
-BuildRequires:  python2-stestr
-# Required for doc
-BuildRequires:  python2-sphinx
-BuildRequires:  python2-openstackdocstheme
-
-Requires:       python2-pyyaml
-Requires:       python2-cliff
-Requires:       python2-dateutil
-Requires:       python2-requests 
-Requires:       python2-stevedore
-Requires:       python2-six
-
-%description -n python2-%{pypi_name}
-The TOSCA Parser is an OpenStack project and licensed under Apache 2. 
-It is developed to parse TOSCA Simple Profile in YAML. It reads the TOSCA
-templates and creates an in-memory graph of TOSCA nodes and their relationship.
-%endif
-
-%package -n python-%{pypi_name}-doc
-Summary:        Parser for TOSCA Simple Profile in YAML - documentation
-Provides:  python2-%{pypi_name}-doc = %{version}-%{release}
-Obsoletes: python2-%{pypi_name}-doc < %{version}-%{release}
-Provides:  python3-%{pypi_name}-doc = %{version}-%{release}
-Obsoletes: python3-%{pypi_name}-doc < %{version}-%{release}
-
-
-%description -n python-%{pypi_name}-doc
-The TOSCA Parser is an OpenStack project and licensed under Apache 2. 
-This package contains its documentation
-
-%if %{with python3}
 %package -n python3-%{pypi_name}
 Summary:        Parser for TOSCA Simple Profile in YAML
 %{?python_provide:%python_provide python3-%{pypi_name}}
@@ -106,47 +47,42 @@ Requires:       python3-stevedore
 Requires:       python3-six
 
 %description -n python3-%{pypi_name}
-The TOSCA Parser is an OpenStack project and licensed under Apache 2. 
+The TOSCA Parser is an OpenStack project and licensed under Apache 2.
 It is developed to parse TOSCA Simple Profile in YAML. It reads the TOSCA
 templates and creates an in-memory graph of TOSCA nodes and their relationship.
-%endif
+
+
+%package -n python-%{pypi_name}-doc
+Summary:        Parser for TOSCA Simple Profile in YAML - documentation
+Provides:  python3-%{pypi_name}-doc = %{version}-%{release}
+Obsoletes: python3-%{pypi_name}-doc < %{version}-%{release}
+
+%description -n python-%{pypi_name}-doc
+The TOSCA Parser is an OpenStack project and licensed under Apache 2.
+This package contains its documentation
 
 
 %prep
 %setup -q -n %{pypi_name}-%{version}
-
 # Let's manage requirements using rpm.
 rm -f *requirements.txt
 
 %build
-
-%if %{with python2}
-%py2_build
-%endif
-
-%if %{with python3}
 %py3_build
-%endif
-
-%check
-%if %{with python3}
-# Cleanup test repository
-PYTHON=python3 %{__python3} setup.py test || :
-rm -rf .testrepository
-%endif
-
-%if %{with python2}
-# Ignore test results for now, they are trying to access external URLs
-# which are not accessible in Koji
-PYTHON=python2 %{__python2} setup.py test || :
-%endif
-
-%install
-%if %{with python3}
-%{py3_install}
 sphinx-build-3 doc/source html
 # remove the sphinx-build leftovers
 rm -rf html/.{doctrees,buildinfo}
+
+%check
+# Ignore test results for now, they are trying to access external URLs
+# which are not accessible in Koji
+PYTHON=python3 %{__python3} setup.py test || :
+# Cleanup test repository
+rm -rf .testrepository
+
+%install
+%{py3_install}
+
 # Set executable permission on test scripts
 find %{buildroot}/%{python3_sitelib}/toscaparser/tests -name '*.sh' -execdir chmod +x '{}' \;
 # Fix shebang on some test scripts
@@ -154,39 +90,7 @@ find %{buildroot}/%{python3_sitelib}/toscaparser/tests -name '*.py' -exec sed -i
 mv %{buildroot}%{_bindir}/tosca-parser %{buildroot}%{_bindir}/tosca-parser-%{python3_version}
 ln -s ./tosca-parser-%{python3_version} %{buildroot}%{_bindir}/tosca-parser-3
 ln -s ./tosca-parser-3 %{buildroot}%{_bindir}/tosca-parser
-%endif
 
-%if %{with python2}
-%{py2_install}
-# generate html docs 
-sphinx-build doc/source html
-# remove the sphinx-build leftovers
-rm -rf html/.{doctrees,buildinfo}
-# Set executable permission on test scripts
-find %{buildroot}/%{python2_sitelib}/toscaparser/tests -name '*.sh' -execdir chmod +x '{}' \;
-# Fix shebang on some test scripts
-find %{buildroot}/%{python2_sitelib}/toscaparser/tests -name '*.py' -exec sed -i 's/^#!\/usr\/bin\/python/#!\/usr\/bin\/python2/' {} \;
-mv %{buildroot}%{_bindir}/tosca-parser %{buildroot}%{_bindir}/tosca-parser-%{python2_version}
-ln -s ./tosca-parser-%{python2_version} %{buildroot}%{_bindir}/tosca-parser-2
-ln -s ./tosca-parser-2 %{buildroot}%{_bindir}/tosca-parser
-%endif
-
-%if %{with python2}
-%files -n python2-%{pypi_name}
-%doc README.rst
-%license LICENSE
-%{_bindir}/tosca-parser
-%{_bindir}/tosca-parser-2
-%{_bindir}/tosca-parser-%{python2_version}
-%{python2_sitelib}/toscaparser
-%{python2_sitelib}/tosca_parser-%{version}-py?.?.egg-info
-%endif
-
-%files -n python-%{pypi_name}-doc
-%doc html README.rst
-%license LICENSE
-
-%if %{with python3}
 %files -n python3-%{pypi_name}
 %doc README.rst
 %license LICENSE
@@ -195,9 +99,19 @@ ln -s ./tosca-parser-2 %{buildroot}%{_bindir}/tosca-parser
 %{_bindir}/tosca-parser-%{python3_version}
 %{python3_sitelib}/toscaparser
 %{python3_sitelib}/tosca_parser-%{version}-py%{python3_version}.egg-info
-%endif
+
+%files -n python-%{pypi_name}-doc
+%doc html README.rst
+%license LICENSE
 
 %changelog
+* Thu Sep 10 2020 Joel Capitao <jcapitao@redhat.com> - 2.1.0-1
+- Update to 2.1.0
+- Remove python2 subpackage
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 2020 Javier Peña <jpena@redhat.com> - 1.4.0-7
 - Remove python-hacking requirement, it is not actually needed for the build
 

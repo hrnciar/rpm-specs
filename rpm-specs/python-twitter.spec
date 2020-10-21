@@ -4,7 +4,7 @@
 Name:			python-%{srcname}
 Summary:		%{sum}
 Version:		3.5
-Release:		8%{?dist}
+Release:		9%{?dist}
 License:		ASL 2.0
 Source0:		https://github.com/bear/python-twitter/archive/v%{version}.tar.gz
 URL:			https://github.com/bear/python-twitter
@@ -56,6 +56,9 @@ export PYTHONPATH=%{buildroot}/%{python_sitelib}
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Charalampos Stratakis <cstratak@redhat.com> - 3.5-8
 - Remove flake8 build dependency
 

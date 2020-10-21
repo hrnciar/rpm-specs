@@ -3,7 +3,7 @@
 
 Name:           apache-%{short_name}
 Version:        1.20
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Java API for working with compressed files and archivers
 License:        ASL 2.0
 URL:            http://commons.apache.org/proper/commons-compress/
@@ -68,6 +68,9 @@ rm src/test/java/org/apache/commons/compress/OsgiITest.java
 %pom_add_dep org.mockito:mockito-core::test
 rm src/test/java/org/apache/commons/compress/compressors/z/ZCompressorInputStreamTest.java
 
+# Generate Java 8 level bytecode when built on Java 11
+%pom_xpath_replace "pom:maven.compiler.release" "<maven.compiler.release>8</maven.compiler.release>"
+
 %build
 %mvn_file  : %{short_name} %{name}
 %mvn_alias : commons:
@@ -83,6 +86,15 @@ rm src/test/java/org/apache/commons/compress/compressors/z/ZCompressorInputStrea
 %doc LICENSE.txt NOTICE.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.20-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Mat Booth <mat.booth@redhat.com> - 1.20-3
+- Ensure Java 8 level bytecode when built on Java 11
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.20-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon Mar 02 2020 Fabio Valentini <decathorpe@gmail.com> - 1.20-1
 - Update to version 1.20.
 

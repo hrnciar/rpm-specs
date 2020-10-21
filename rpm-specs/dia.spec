@@ -1,6 +1,6 @@
 Name:           dia
 Version:        0.97.3
-Release:        13%{?dist}
+Release:        15%{?dist}
 Epoch:          1
 Summary:        Diagram drawing program
 License:        GPLv2+
@@ -40,11 +40,11 @@ sed -i 's|Exec=dia|Exec=dia --integrated|' dia.desktop.in.in
 
 %build
 %configure --enable-db2html --disable-silent-rules
-make %{?_smp_mflags}
+%make_build
  
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 %find_lang %{name} --with-man
 
 # Since we're not using the cairo stuff, but a stub plugin still
@@ -141,6 +141,13 @@ fi
 %{_datadir}/icons/hicolor/*/apps/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.97.3-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1:0.97.3-14
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.97.3-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

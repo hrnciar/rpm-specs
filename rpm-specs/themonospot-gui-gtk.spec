@@ -1,7 +1,7 @@
 Summary   : Gtk application to use themonospot (multimedia files parser/editor)
 Name      : themonospot-gui-gtk
 Version   : 0.2.2
-Release   : 25%{?dist}
+Release   : 26%{?dist}
 License   : GPLv2
 Group     : Applications/Multimedia
 URL       : http://www.integrazioneweb.com/themonospot
@@ -50,6 +50,9 @@ desktop-file-install \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

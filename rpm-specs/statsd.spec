@@ -3,16 +3,13 @@
 
 %global enable_tests 0
 
-%global commit0 8d5363cb109cc6363661a1d5813e0b96787c4411
-%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
-
 Name:       statsd
-Version:    0.8.0
-Release:    7.%{shortcommit0}%{?dist}
+Version:    0.8.6
+Release:    1%{?dist}
 Summary:    A simple, lightweight network daemon to collect metrics over UDP
 License:    MIT
-URL:        https://github.com/etsy/statsd/
-Source0:    https://github.com/etsy/%{name}/archive/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
+URL:        https://github.com/statsd/statsd
+Source0:    %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 Source1:    statsd.service
 
 BuildArch:      noarch
@@ -20,10 +17,13 @@ ExclusiveArch:  %{nodejs_arches} noarch
 
 BuildRequires:  dos2unix
 BuildRequires:  nodejs-packaging
-BuildRequires:  nodeunit
-BuildRequires:  npm(temp)
-BuildRequires:  npm(underscore)
 BuildRequires:  perl-generators
+
+%if 0%{?enable_tests}
+BuildRequires:  npm(temp)
+BuildRequires:  nodeunit
+BuildRequires:  npm(underscore)
+%endif
 
 Requires(pre):  shadow-utils
 
@@ -40,7 +40,7 @@ more pluggable backend services (e.g., Graphite).
 
 
 %prep
-%autosetup -n %{name}-%{commit0}
+%autosetup -n %{name}-%{version}
 
 %nodejs_fixdep generic-pool 2.x
 
@@ -111,6 +111,18 @@ exit 0
 
 
 %changelog
+* Mon Aug 17 2020 Piotr Popieluch <piotr1212@gmail.com> - 0.8.6-1
+- Update upstream from etsy/statsd to statsd/statsd
+  Update to 8.6
+  Conditionalize buildrequires
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-9.8d5363c
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-8.8d5363c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-7.8d5363c
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

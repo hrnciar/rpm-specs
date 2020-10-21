@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        6.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Set of rust bindings for the oniguruma regular expression library
 
 # Upstream license specification: MIT
@@ -128,6 +128,9 @@ which use "std-pattern" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 21:23:13 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 6.0.0-1
 - Update to 6.0.0
 

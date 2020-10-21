@@ -3,7 +3,7 @@
 
 # https://github.com/prometheus/alertmanager
 %global goipath         github.com/prometheus/alertmanager
-Version:                0.20.0
+Version:                0.21.0
 
 %gometa
 
@@ -24,8 +24,12 @@ Summary:        Prometheus Alertmanager
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+# Temporary patch to work with latest github.com/go-openapi/errors
+# Drop when upstream has adapted to the new API
+Patch0:         0001-Add-missing-argument-for-new-go-openapi-errors.patch
 
-BuildRequires:  golang(github.com/cenkalti/backoff)
+BuildRequires:  golang(github.com/alecthomas/units)
+BuildRequires:  golang(github.com/cenkalti/backoff/v4)
 BuildRequires:  golang(github.com/cespare/xxhash)
 BuildRequires:  golang(github.com/go-kit/kit/log)
 BuildRequires:  golang(github.com/go-kit/kit/log/level)
@@ -80,10 +84,9 @@ BuildRequires:  golang(github.com/kylelemons/godebug/pretty)
 
 %prep
 %goprep
+%patch0 -p1
 # https://github.com/satori/go.uuid/issues/18
 sed -i "s|uuid.NewV4().String()|uuid.Must(uuid.NewV4()).String()|" silence/silence.go
-# Disable until we can update github.com/prometheus/client_golang to 1.0.0
-rm -rf client
 
 %build
 for cmd in cmd/* ; do
@@ -108,6 +111,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 23:17:24 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.21.0-1
+- Update to 0.21.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 02 01:22:57 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.20.0-1
 - Update to 0.20.0
 

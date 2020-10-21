@@ -1,11 +1,11 @@
 #The debug build is disabled by default, please use # --with debug to override
 %bcond_with debug
 
-%global baseversion 221
+%global baseversion 225
 
 Name:           mame
 Version:        0.%{baseversion}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Multiple Arcade Machine Emulator
 
 #From COPYING:
@@ -20,12 +20,17 @@ Source0:        https://github.com/mamedev/%{name}/releases/download/%{name}0%{b
 Source1:        http://mamedev.org/releases/whatsnew_0%{baseversion}.txt
 Patch0:         %{name}-fortify.patch
 Patch1:         %{name}-genie-systemlua.patch
+Patch2:         0f6a1cec4adb9c59f323c4608f1a7b7a81eaaa79.patch
+Patch3:         aca0aaaa3d6870f0372316912031794329a5ca41.patch
+
 # %%{arm}:
 # https://bugzilla.redhat.com/show_bug.cgi?id=1627625
 # %%{power64}:
 # https://github.com/mamedev/mame/issues/3157
 # https://bugzilla.redhat.com/show_bug.cgi?id=1541613
-ExcludeArch:    %{arm} %{power64}
+# %%{ix86}
+# https://bugzilla.redhat.com/show_bug.cgi?id=1884122
+ExcludeArch:    %{arm} %{power64} %{ix86}
 
 #asio in Fedora repositories is too old (1.11.x is needed)
 #BuildRequires:  asio-devel
@@ -53,6 +58,7 @@ BuildRequires:  utf8proc-devel
 BuildRequires:  zlib-devel
 Requires:       %{name}-data = %{version}-%{release}
 
+Provides:       bundled(asmjit)
 #bx and bgfx are not made to be linked to dynamically as per http://forums.bannister.org/ubbthreads.php?ubb=showflat&Number=104437
 Provides:       bundled(bgfx)
 Provides:       bundled(bimg)
@@ -61,6 +67,9 @@ Provides:       bundled(bx)
 Provides:       bundled(linenoise)
 #Below have no fedora packages ATM and are very tiny
 Provides:       bundled(lsqlite3)
+%if 0%{?fedora} >= 33
+Provides:       bundled(lua) = 5.3.4
+%endif
 Provides:       bundled(luafilesystem)
 Provides:       bundled(lua-linenoise)
 Provides:       bundled(lua-zlib)
@@ -136,11 +145,15 @@ HTML documentation for MAME.
     -xr!3rdparty/compat \
     -xr!3rdparty/dxsdk \
     -xr!3rdparty/expat \
+%if 0%{?fedora} < 33
     -xr!3rdparty/genie/src/host/lua-5.3.0 \
+%endif
     -xr!3rdparty/glm \
     -xr!3rdparty/libflac \
     -xr!3rdparty/libjpeg \
+%if 0%{?fedora} < 33
     -xr!3rdparty/lua \
+%endif
     -xr!3rdparty/portaudio \
     -xr!3rdparty/portmidi \
     -xr!3rdparty/pugixml \
@@ -160,7 +173,11 @@ find \( -regex '.*\.\(c\|cpp\|fsh\|fx\|h\|hpp\|lua\|make\|map\|md\|txt\|vsh\|xml
     -o -wholename ./makefile \) -exec sed -i 's@\r$@@' {} \;
 
 %patch0 -p1 -b .fortify
+%if 0%{?fedora} < 33
 %patch1 -p1 -b .systemlua
+%endif
+%patch2 -p1
+%patch3 -p1
 
 # Create ini files
 cat > %{name}.ini << EOF
@@ -205,7 +222,9 @@ MAME_FLAGS="NOWERROR=1 OPTIMIZE=2 PYTHON_EXECUTABLE=python3 VERBOSE=1 \
     USE_SYSTEM_LIB_FLAC=1 \
     USE_SYSTEM_LIB_GLM=1 \
     USE_SYSTEM_LIB_JPEG=1 \
+%if 0%{?fedora} < 33
     USE_SYSTEM_LIB_LUA=1 \
+%endif
     USE_SYSTEM_LIB_PORTAUDIO=1 \
     USE_SYSTEM_LIB_PORTMIDI=1 \
     USE_SYSTEM_LIB_PUGIXML=1 \
@@ -226,6 +245,11 @@ RPM_OPT_FLAGS=$(echo $RPM_OPT_FLAGS | sed "s@-O2@-Os@")
 RPM_LD_FLAGS="$RPM_LD_FLAGS -Wl,--no-keep-memory -fuse-ld=gold"
 MAME_FLAGS=$(echo $MAME_FLAGS | sed "s@OPTIMIZE=2@OPTIMIZE=s@")
 %endif
+
+#mame fails to build with LTO enabled
+#according to upstream LTO would not help much anyway:
+#https://github.com/mamedev/mame/issues/7046
+%define _lto_cflags %{nil}
 
 %if %{with debug}
 %make_build $MAME_FLAGS DEBUG=1 TOOLS=1 OPT_FLAGS="$RPM_OPT_FLAGS" \
@@ -371,6 +395,31 @@ find $RPM_BUILD_ROOT%{_datadir}/%{name} -name LICENSE -exec rm {} \;
 
 
 %changelog
+* Sat Oct 03 2020 Julian Sikorski <belegdol@fedoraproject.org> - 0.225-2
+- Fix -verifyroms regression (github #7314)
+
+* Wed Sep 30 2020 Julian Sikorski <belegdol@fedoraproject.org> - 0.225-1
+- Update to 0.225
+- Excludearch %%{ix86} due to linker running out of memory
+
+* Fri Aug 28 2020 Julian Sikorski <belegdol@fedoraproject.org> - 0.224-1
+- Update to 0.224
+
+* Thu Aug 06 2020 Julian Sikorski <belegdol@fedoraproject.org> - 0.223-1
+- Update to 0.223
+- Use bundled lua for f33 and later until building with lua-5.4 is fixed
+- Disable LTO for now
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.222-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.222-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Julian Sikorski <belegdol@fedoraproject.org> - 0.222-1
+- Update to 0.222
+
 * Wed May 20 2020 Julian Sikorski <belegdol@fedoraproject.org> - 0.221-1
 - Update to 0.221
 

@@ -1,7 +1,7 @@
 Name:             tpm-tools
 Summary:          Management tools for the TPM hardware
 Version:          1.3.9
-Release:          8%{?dist}
+Release:          9%{?dist}
 License:          CPL
 URL:              http://trousers.sourceforge.net
 Source0:          http://downloads.sourceforge.net/trousers/%{name}-%{version}.tar.gz
@@ -70,6 +70,9 @@ rm -f $RPM_BUILD_ROOT/%{_libdir}/libtpm_unseal.la
 %{_mandir}/man3/tpmUnseal*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.9-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.9-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

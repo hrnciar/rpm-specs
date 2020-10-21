@@ -3,7 +3,7 @@ Summary: Gstreamer phonon backend
 Name:    phonon-backend-gstreamer
 Epoch:   2
 Version: 4.10.0
-Release: 1%{?dist}
+Release: 4%{?dist}
 
 License: LGPLv2+
 URL:     https://community.kde.org/Phonon
@@ -50,19 +50,16 @@ Requires: gstreamer1-plugins-good%{?_isa}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%cmake_kf5 \
   -DCMAKE_BUILD_TYPE:STRING="Release" \
   -DUSE_INSTALL_PLUGIN:BOOL=ON \
   -DPHONON_BUILD_PHONON4QT5:BOOL=ON
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang phonon_gstreamer --with-qt
 
@@ -74,6 +71,16 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Aug 11 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:4.10.0-4
+- use new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:4.10.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:4.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jan 20 2020 Rex Dieter <rdieter@fedoraproject.org> - 2:4.10.0-1
 - 4.10.0
 - qt4 support now packaged separately (phonon-qt4-backend-gstreamer)

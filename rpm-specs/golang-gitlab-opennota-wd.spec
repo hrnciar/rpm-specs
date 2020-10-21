@@ -4,7 +4,7 @@
 # https://gitlab.com/opennota/wd
 %global goipath         gitlab.com/opennota/wd
 %global forgeurl        https://gitlab.com/opennota/wd
-%global commit          c5d65f63c638bf505428030c7d6ba1e372354ca9
+%global commit          236695b0ea6304781f21dd55e2f07476c36bed72
 
 %gometa
 
@@ -17,7 +17,7 @@ coloured diff.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Comparing strings on a word per word basis and generating a coloured diff
 
 License:        GPLv3
@@ -42,6 +42,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 13:41:53 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200805git236695b
+- Bump to commit 236695b0ea6304781f21dd55e2f07476c36bed72
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -23,7 +23,7 @@
 
 Name:           mingw-openssl
 Version:        1.1.1c
-Release:        2%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW port of the OpenSSL toolkit
 
 License:        OpenSSL
@@ -93,6 +93,10 @@ BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-zlib
 
 BuildRequires:  perl-interpreter
+BuildRequires:  perl-FindBin
+BuildRequires:  perl-lib
+BuildRequires:  perl-File-Compare
+BuildRequires:  perl-File-Copy
 BuildRequires:  sed
 BuildRequires:  /usr/bin/cmp
 BuildRequires:  lksctp-tools-devel
@@ -214,11 +218,6 @@ mv ../build_win32 .
 mkdir build_win64
 cp -Rp build_win32/* build_win64
 
-# Use mingw cflags instead of hardcoded ones
-# FIXME
-sed -i -e '/^"mingw"/ s/-fomit-frame-pointer -O3 -march=i486 -Wall/%{mingw32_cflags}/' build_win32/Configure
-sed -i -e '/^"mingw"/ s/-fomit-frame-pointer -O3 -march=i486 -Wall/%{mingw64_cflags}/' build_win64/Configure
-
 
 %build
 ###############################################################################
@@ -227,6 +226,8 @@ sed -i -e '/^"mingw"/ s/-fomit-frame-pointer -O3 -march=i486 -Wall/%{mingw64_cfl
 pushd build_win32
 
 PERL=%{__perl} \
+CFLAGS="%{mingw32_cflags}" \
+LDFLAGS="%{mingw32_ldflags}" \
 ./Configure \
   --prefix=%{mingw32_prefix} \
   --openssldir=%{mingw32_sysconfdir}/pki/tls \
@@ -235,7 +236,7 @@ PERL=%{__perl} \
   enable-weak-ssl-ciphers \
   no-mdc2 no-ec2m \
   --cross-compile-prefix=%{mingw32_target}- \
-  %{mingw32_cflags} shared mingw
+  shared mingw
 
 # Do not run this in a production package the FIPS symbols must be patched-in
 #util/mkdef.pl crypto update
@@ -253,6 +254,8 @@ popd
 pushd build_win64
 
 PERL=%{__perl} \
+CFLAGS="%{mingw64_cflags}" \
+LDFLAGS="%{mingw64_ldflags}" \
 ./Configure \
   --prefix=%{mingw64_prefix} \
   --openssldir=%{mingw64_sysconfdir}/pki/tls \
@@ -261,7 +264,7 @@ PERL=%{__perl} \
   enable-weak-ssl-ciphers enable-ec_nistp_64_gcc_128 \
   no-mdc2 no-ec2m no-hw \
   --cross-compile-prefix=%{mingw64_target}- \
-  %{mingw64_cflags} shared mingw64
+  shared mingw64
 
 # Do not run this in a production package the FIPS symbols must be patched-in
 #util/mkdef.pl crypto update
@@ -422,6 +425,21 @@ find %{buildroot}%{mingw64_prefix} | grep -E '.(exe|dll|pyd)$' | sed 's|^%{build
 
 
 %changelog
+* Tue Aug 04 2020 Sandro Mani <manisandro@gmail.com> - 1.1.1c-6
+- Ensure mingw CFLAGS and LDFLAGS are used
+- Add BR: perl-File-Copy
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1c-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Richard W.M. Jones <rjones@redhat.com> - 1.1.1c-4
+- +BR perl-FindBin and perl-lib, no longer pulled in implicitly.
+- +BR perl-File-Compare.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1c-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1c-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

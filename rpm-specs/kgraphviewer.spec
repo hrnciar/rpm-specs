@@ -1,7 +1,7 @@
 Name:           kgraphviewer
 Summary:        Graphviz dot graph file viewer
 Version:        2.4.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 # Bit of a mess. README states it's GPLv2+, however the source files
 # indicate it's GPLv2. FDL is included in COPYING.DOC, but does not
 # apply to anything.
@@ -65,12 +65,12 @@ th KGraphViewer library.
 
 
 %build
-%cmake_kf5 .
-make %{?_smp_mflags}
+%cmake_kf5
+%cmake_build
 
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/*.desktop
 appstream-util validate-relax --nonet %{buildroot}%{_kf5_metainfodir}/*.appdata.xml
 %find_lang %{name} --with-html
@@ -104,6 +104,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_kf5_metainfodir}/*.appdata.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -24,8 +24,8 @@
 %define rpmhome /usr/lib/rpm
 
 %global rpmver 4.16.0
-%global snapver beta1
-%global rel 4
+#global snapver rc1
+%global rel 2
 
 %global srcver %{rpmver}%{?snapver:-%{snapver}}
 %global srcdir %{?snapver:testing}%{!?snapver:rpm-%(echo %{rpmver} | cut -d'.' -f1-2).x}
@@ -59,16 +59,11 @@ Patch5: rpm-4.12.0-rpm2cpio-hack.patch
 Patch6: 0001-find-debuginfo.sh-decompress-DWARF-compressed-ELF-se.patch
 
 # Patches already upstream:
-Patch100: 0001-Don-t-auto-enable-IO-flushing-on-non-rotational-disk.patch
-Patch101: 0001-metainfo.attr-Fix-execution-of-the-generator.patch
-Patch102: 0001-Fix-completely-broken-prefix-search-on-sqlite-backen.patch
 
 # These are not yet upstream
 Patch906: rpm-4.7.1-geode-i686.patch
 # Probably to be upstreamed in slightly different form
 Patch907: rpm-4.15.x-ldflags.patch
-
-Patch912: 0001-Revert-Improve-ARM-detection.patch
 
 # Partially GPL/LGPL dual-licensed and some bits with BSD
 # SourceLicense: (GPLv2+ and LGPLv2+ with exceptions) and BSD
@@ -396,7 +391,9 @@ rm -f $RPM_BUILD_ROOT/%{_fileattrsdir}/{perl*,python*}
 
 %if %{with check}
 %check
-make check || (cat tests/rpmtests.log; exit 1)
+make check TESTSUITEFLAGS=-j%{_smp_build_ncpus} || (cat tests/rpmtests.log; exit 1)
+# rpm >= 4.16.0 testsuite leaves a read-only tree behind, clean it up
+make clean
 %endif
 
 # Handle rpmdb rebuild service on erasure of old to avoid ordering issues
@@ -555,6 +552,32 @@ fi
 %doc doc/librpm/html/*
 
 %changelog
+* Mon Oct 05 2020 Panu Matilainen <pmatilai@redhat.com> - 4.16.0-2
+- Clean up after test-suite which leaves a read-only tree behind
+
+* Wed Sep 30 2020 Panu Matilainen <pmatilai@redhat.com> - 4.16.0-1
+- Rebase to 4.16.0 final (https://rpm.org/wiki/Releases/4.16.0)
+
+* Mon Aug 31 2020 Panu Matilainen <pmatilai@redhat.com> - 4.16.0-0.rc1.1
+- Rebase to 4.16.0-rc1
+- Run test-suite in parallel
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.16.0-0.beta3.2.3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.16.0-0.beta3.2.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 4.16.0-0.beta3.2.1
+- rebuild for ima-evm-utils 1.3
+
+* Mon Jun 29 2020 Tom Callaway <spot@fedoraproject.org> - 4.16.0-0.beta3.2
+- rebuild for lua 5.4
+
+* Wed Jun 24 2020 Panu Matilainen <pmatilai@redhat.com> - 4.16.0-0.beta3.1
+- Rebase to beta3
+
 * Wed Jun 10 2020 Panu Matilainen <pmatilai@redhat.com> - 4.16.0-0.beta1.4
 - Fix prefix search on sqlite backend (many file triggers not running)
 

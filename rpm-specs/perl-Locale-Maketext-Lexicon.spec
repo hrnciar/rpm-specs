@@ -1,6 +1,6 @@
 Name:           perl-Locale-Maketext-Lexicon
 Version:        1.00
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Extract translatable strings from source
 License:        MIT
 
@@ -101,6 +101,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.00-21
 - Perl 5.32 rebuild
 

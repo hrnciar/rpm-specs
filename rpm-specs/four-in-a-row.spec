@@ -1,11 +1,11 @@
 Name:           four-in-a-row
-Version:        3.37.2
+Version:        3.38.1
 Release:        1%{?dist}
 Summary:        GNOME Four-in-a-row game
 
 License:        GPLv2+ and GFDL and GPLv3+
 URL:            https://wiki.gnome.org/Apps/Four-in-a-row
-Source0:        https://download.gnome.org/sources/four-in-a-row/3.37/four-in-a-row-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/four-in-a-row/3.38/four-in-a-row-%{version}.tar.xz
 
 BuildRequires:  gcc
 BuildRequires:  desktop-file-utils
@@ -54,6 +54,18 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.Four-in-
 
 
 %changelog
+* Mon Oct  5 2020 Kalev Lember <klember@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Sat Aug 29 2020 Kalev Lember <klember@redhat.com> - 3.37.91-1
+- Update to 3.37.91
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Kalev Lember <klember@redhat.com> - 3.37.2-1
 - Update to 3.37.2
 

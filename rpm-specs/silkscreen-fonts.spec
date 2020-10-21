@@ -12,7 +12,7 @@ multiples (8pt., 16pt., 24pt., etc.) with anti-aliasing turned off. \
 Name:		%{fontname}-fonts
 Summary: 	Silkscreen four member type family
 Version:	1.0
-Release:	21%{?dist}
+Release:	22%{?dist}
 # License attribution confirmed by author and Open Font Library
 # http://openfontlibrary.org/media/files/jkottke/218
 License:	OFL
@@ -82,6 +82,9 @@ install -Dm 0644 -p %{SOURCE4} \
 %dir %{_fontdir}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

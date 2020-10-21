@@ -1,53 +1,67 @@
-%global pypi_name beniget
-
-Name:           python-%{pypi_name}
-Version:        0.2.0
-Release:        3%{?dist}
+Name:           python-beniget
+Version:        0.3.0
+Release:        1%{?dist}
 Summary:        Extract semantic information about static Python code
-
 License:        BSD
 URL:            https://github.com/serge-sans-paille/beniget/
-Source0:        %{pypi_source}
+Source0:        %{url}/archive/%{version}/beniget-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-gast >= 0.3
-BuildRequires:  python3-setuptools
+BuildRequires:  pyproject-rpm-macros
 
-%description
+
+%global _description %{expand:
 A static analyzer for Python2 and Python3 code.Beniget provides a static over-
 approximation of the global and local definitions inside Python
-Module/Class/Function. It can also compute def-use chains from each definition.
+Module/Class/Function. It can also compute def-use chains from each definition.}
+%description %_description
 
-%package -n     python3-%{pypi_name}
+
+%package -n     python3-beniget
 Summary:        %{summary}
-%{?python_provide:%python_provide python3-%{pypi_name}}
 
-%description -n python3-%{pypi_name}
-A static analyzer for Python2 and Python3 code.Beniget provides a static over-
-approximation of the global and local definitions inside Python
-Module/Class/Function. It can also compute def-use chains from each definition.
+%description -n python3-beniget %_description
 
 
 %prep
-%autosetup -n %{pypi_name}-%{version}
+%autosetup -n beniget-%{version}
+
+
+%generate_buildrequires
+%pyproject_buildrequires -t
+
 
 %build
-%py3_build
+%pyproject_wheel
+
 
 %install
-%py3_install
+%pyproject_install
+%pyproject_save_files beniget
+
 
 %check
-%{__python3} setup.py test
+%tox
 
-%files -n python3-%{pypi_name}
+
+%files -n python3-beniget -f %{pyproject_files}
 %license LICENSE
 %doc README.rst
-%{python3_sitelib}/%{pypi_name}/
-%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info/
+
 
 %changelog
+* Mon Sep 14 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.0-1
+- Update to 0.3.0
+- Fixes rhbz#1878161
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.0-3
 - Rebuilt for Python 3.9
 

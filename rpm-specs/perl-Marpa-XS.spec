@@ -1,11 +1,15 @@
 Name:           perl-Marpa-XS
 Version:        1.008000
-Release:        26%{?dist}
+Release:        29%{?dist}
 Summary:        Language grammar parser module for Perl
 License:        LGPLv3+
 URL:            https://metacpan.org/release/Marpa-XS
 Source0:        https://cpan.metacpan.org/authors/id/J/JK/JKEGL/Marpa-XS-%{version}.tar.gz
 Patch1:         0001-Require-2.124-Data-Dumper.patch
+# Adjust to Perl 5.32, bug #1851334
+Patch2:         Marpa-XS-1.008000-Adjust-to-Perl-5.32.patch
+# Suppress the warnings about an intentionally used smartmatch operator
+Patch3:         Marpa-XS-1.008000-Suppress-warnings-about-an-experimental-smartmatch-o.patch
 
 BuildRequires:  coreutils
 BuildRequires:  findutils
@@ -66,10 +70,12 @@ grammars and grammars with useless or empty productions.
 %prep
 %setup -q -n Marpa-XS-%{version}
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 # Update the various config.guess to upstream release for newer arch support
-find ./ -name config.guess -exec cp /usr/lib/rpm/config.guess {} ';'
-find ./ -name config.sub -exec cp /usr/lib/rpm/config.sub {} ';'
+find ./ -name config.guess -exec cp /usr/lib/rpm/redhat/config.guess {} ';'
+find ./ -name config.sub -exec cp /usr/lib/rpm/redhat/config.sub {} ';'
 
 %build
 %{__perl} Build.PL installdirs=vendor optimize="$RPM_OPT_FLAGS"
@@ -95,6 +101,17 @@ find $RPM_BUILD_ROOT -type f -name '*.bs' -size 0 -delete
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.008000-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Petr Pisar <ppisar@redhat.com> - 1.008000-28
+- Adjust to Perl 5.32 (bug #1851334)
+- Suppress the warnings about an intentionally used smartmatch operator
+- Copy autoconf cache from /usr/lib/rpm/redhat
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.008000-27
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.008000-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

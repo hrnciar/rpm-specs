@@ -1,22 +1,17 @@
-%global commit 8edab23fbc867adbada21378d65774c670c2aaf9
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global checkout .20170711git%{shortcommit}
-
-Summary:    Find peak OpenCL capacities like bandwidth & compute
 Name:       clpeak
-Version:    0.1
-Release:    21%{?checkout}%{?dist}
+Version:    1.1.0
+Release:    1%{?checkout}%{?dist}
+Summary:    Find peak OpenCL capacities like bandwidth & compute
 License:    Public Domain
 URL:        https://github.com/krrishnarraj/%{name}
+Source0:    %{url}/archive/%{commit}/%{name}-%{version}.tar.gz
 
-Source0:    %{url}/archive/%{commit}/%{name}-%{version}-%{shortcommit}.tar.gz
-
-BuildRequires:  gcc
-BuildRequires:  gcc-c++
-BuildRequires: cmake >= 2.6
-BuildRequires: opencl-headers
-BuildRequires: ocl-icd-devel
+BuildRequires: cmake
+BuildRequires: gcc
+BuildRequires: gcc-c++
 BuildRequires: mesa-libGL-devel
+BuildRequires: ocl-icd-devel
+BuildRequires: opencl-headers
 
 
 %description
@@ -24,29 +19,37 @@ A tool which profiles OpenCL devices to find their peak capacities like
 bandwidth & compute.
 
 %prep
-%setup -q -n %{name}-%{commit}
+%autosetup
 
 
 %build
-mkdir build
-cd build
-
-%cmake ..
-
-make %{?_smp_mflags}
+%cmake .
+%cmake_build
 
 
 %install
-mkdir -p %{buildroot}/%{_bindir}/
-install -pm0755 build/clpeak %{buildroot}%{_bindir}/
+%cmake_install
+rm -f %{buildroot}/%{_datadir}/clpeak/LICENSE
 
 
 %files
-%doc README.md LICENSE STATUS
+%license LICENSE
+%doc README.md
 %{_bindir}/clpeak
 
 
 %changelog
+* Tue Aug 04 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.1.0-1
+- Update to 1.1.0
+- Package cleanups
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-23.20170711git8edab23
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-22.20170711git8edab23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-21.20170711git8edab23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

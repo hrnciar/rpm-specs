@@ -1,6 +1,6 @@
 Name:           lxshortcut
 Version:        0.1.2
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Small utility to edit application shortcuts
 
 License:        GPLv2+
@@ -42,6 +42,9 @@ make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 # https://github.com/rakyll/statik
 %global goipath         github.com/rakyll/statik
-Version:                0.1.6
+Version:                0.1.7
 
 %gometa
 
@@ -15,7 +15,7 @@ later served from an http.FileSystem.}
 %global godocs          example README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Embed files into a Go executable
 
 # Upstream license specification: Apache-2.0
@@ -44,7 +44,7 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
-%gocheck
+%gocheck -d fs
 %endif
 
 %files
@@ -55,6 +55,16 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 17:37:04 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.1.7-1
+- Update to 0.1.7
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.6-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.6-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

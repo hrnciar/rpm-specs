@@ -2,7 +2,7 @@
 
 Name: ctorrent
 Version: 1.3.4
-Release: 33.%{dnh}%{?dist}
+Release: 34.%{dnh}%{?dist}
 Summary: Command line BitTorrent client for unix-like environments
 License: GPLv2+
 URL: http://www.rahul.net/dholmes/ctorrent/
@@ -34,6 +34,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %doc AUTHORS COPYING ChangeLog NEWS README README-DNH.TXT UserGuide
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.4-34.dnh3.3.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.4-33.dnh3.3.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

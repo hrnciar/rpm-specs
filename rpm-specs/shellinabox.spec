@@ -2,7 +2,7 @@
 
 Name:           shellinabox
 Version:        2.20
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        Web based AJAX terminal emulator
 License:        GPLv2
 URL:            https://github.com/%{name}/%{name}
@@ -13,6 +13,7 @@ Source2:        shellinaboxd.service
 Source3:        shellinaboxd.init
 
 Patch0:         %{name}-ssh-options.patch
+Patch1:         %{name}-gcc11.patch
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -46,6 +47,7 @@ browser plugins.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 autoreconf -vif
@@ -130,6 +132,12 @@ fi
 %attr(750,%{username},%{username}) %{_sharedstatedir}/%{name}
 
 %changelog
+* Wed Jul 29 2020 Jeff Law <law@redhat.com> - 2.20-12
+- Initialize sigset in configure test
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.20-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.20-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

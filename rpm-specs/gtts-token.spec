@@ -5,7 +5,7 @@
 
 Name:           gtts-token
 Version:        1.1.3
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Calculates a token to run the Google Translate text to speech
 # LICENSE file is currently missing, already reported upstream
 # https://github.com/Boudewijn26/gTTS-token/issues/5 
@@ -55,6 +55,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/gtts_token/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.3-8
 - Rebuilt for Python 3.9
 

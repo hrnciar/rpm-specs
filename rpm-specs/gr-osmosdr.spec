@@ -17,7 +17,7 @@
 Name:             gr-osmosdr
 URL:              http://sdr.osmocom.org/trac/wiki/GrOsmoSDR
 Version:          0.1.4
-Release:          24.%{git_suffix}%{?dist}
+Release:          29.%{git_suffix}%{?dist}
 License:          GPLv3+
 BuildRequires:    cmake, gcc-c++, python3-devel, gnuradio-devel, boost-devel
 BuildRequires:    doxygen, graphviz, swig, rtl-sdr-devel, uhd-devel
@@ -47,10 +47,10 @@ Requires:         %{name}%{?_isa} = %{version}-%{release}
 %description devel
 Development files for gr-osmosdr.
 
+# Made doc arch due to bug in doxygen
 %package doc
 Summary:        Documentation files for gr-osmosdr
 Requires:       %{name} = %{version}-%{release}
-BuildArch:      noarch
 
 %description doc
 Documentation files for gr-osmosdr.
@@ -66,15 +66,11 @@ Documentation files for gr-osmosdr.
 sed -i 's|/lib/|/%{_lib}/|g' CMakeLists.txt
 
 %build
-mkdir build
-cd build
-%cmake -DENABLE_DOXYGEN=on -DGR_PKG_DOC_DIR=%{_docdir}/%{name} ..
-# parallel build is broken
-make
+%cmake -DENABLE_DOXYGEN=on -DGR_PKG_DOC_DIR=%{_docdir}/%{name}
+%cmake_build
 
 %install
-cd build
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 # fix docs
 mkdir -p %{buildroot}%{_docdir}/%{name}
@@ -103,6 +99,25 @@ rmdir %{buildroot}%{_docdir}/gnuradio
 %doc %{_docdir}/%{name}/xml
 
 %changelog
+* Mon Aug 24 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 0.1.4-29.20191112gitf3905d35
+- Rebuilt for new gnuradio
+
+* Mon Aug 24 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 0.1.4-28.20191112gitf3905d35
+- Rebuilt for new gr-iqbal
+  Resolves: rhbz#1777874
+
+* Wed Aug  5 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 0.1.4-27.20191112gitf3905d35
+- Fixed FTBFS
+  Resolves: rhbz#1863822
+- Made doc arch due to bug in doxygen
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-26.20191112gitf3905d35
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-25.20191112gitf3905d35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Jonathan Wakely <jwakely@redhat.com> - 0.1.4-24.20191112gitf3905d35
 - Rebuilt and patched for Boost 1.73.0
 

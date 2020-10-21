@@ -4,7 +4,7 @@
 
 Name:           %{srcname}
 Version:        1.3.0
-Release:        20%{?dist}
+Release:        22%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -21,6 +21,7 @@ Fonts, so you can serve them on your local servers.
 
 %package -n python3-%{srcname}
 Summary:        %{sum}
+BuildRequires:   python3-setuptools
 BuildRequires:   python3dist(docopt)
 BuildRequires:   python3dist(cssutils)
 BuildRequires:   python3dist(requests)
@@ -53,6 +54,12 @@ sed -i -e '/^#!\//, 1d' fontdump/*.py
 %{python3_sitelib}/%{srcname}-%{version}-py3.*.egg-info
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Parag Nemade <pnemade AT redhat DOT com> - 1.3.0-21
+- Add missing BR: python3-setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.0-20
 - Rebuilt for Python 3.9
 

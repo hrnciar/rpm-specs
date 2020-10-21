@@ -4,7 +4,7 @@
 # https://github.com/opencensus-integrations/ocsql
 %global goipath         contrib.go.opencensus.io/integrations/ocsql
 %global forgeurl        https://github.com/opencensus-integrations/ocsql
-Version:                0.1.5
+Version:                0.1.6
 
 %gometa
 
@@ -50,6 +50,12 @@ BuildRequires:  golang(go.opencensus.io/trace)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 22:40:36 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.1.6-1
+- Update to 0.1.6
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

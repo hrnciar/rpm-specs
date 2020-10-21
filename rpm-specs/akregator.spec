@@ -1,3 +1,5 @@
+# Force out of source build
+%undefine __cmake_in_source_build
 
 # uncomment to enable bootstrap mode
 #global bootstrap 1
@@ -10,7 +12,7 @@
 
 Name:    akregator
 Summary: Feed Reader
-Version: 20.04.2
+Version: 20.08.1
 Release: 1%{?dist}
 
 # code (generally) GPLv2, docs GFDL
@@ -93,17 +95,12 @@ Requires: %{name} = %{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
-  -DBUILD_TESTING:BOOL=%{?tests:ON}%{!?tests:OFF}
-popd
-
-%make_build -C %{_target_platform}
+%cmake_kf5 -DBUILD_TESTING:BOOL=%{?tests:ON}%{!?tests:OFF}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -152,10 +149,23 @@ make test ARGS="--output-on-failure --timeout 20" -C %{_target_platform} ||:
 %{_kf5_qtplugindir}/akregatorpart.so
 %{_kf5_qtplugindir}/akregator_*.so
 # Kontact integration
-%{_kf5_qtplugindir}/kontact_akregatorplugin.so
+%dir %{_kf5_qtplugindir}/kontact5/
+%{_kf5_qtplugindir}/kontact5/kontact_akregatorplugin.so
 
 
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.2-1
 - 20.04.2
 

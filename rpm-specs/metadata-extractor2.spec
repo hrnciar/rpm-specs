@@ -1,7 +1,7 @@
 %global majorversion 2
 Name:          metadata-extractor2
 Version:       2.10.1
-Release:       7%{?dist}
+Release:       11%{?dist}
 Summary:       Extracts EXIF, IPTC, XMP, ICC and other metadata from image files
 License:       ASL 2.0
 URL:           http://drewnoakes.com/code/exif/
@@ -11,7 +11,6 @@ BuildRequires: maven-local
 BuildRequires: mvn(com.adobe.xmp:xmpcore)
 BuildRequires: mvn(junit:junit)
 BuildRequires: mvn(org.apache.felix:maven-bundle-plugin)
-BuildRequires: mvn(org.sonatype.oss:oss-parent:pom:)
 # Explicit requires for javapackages-tools since metadata-extractor2 script
 # uses /usr/share/java-utils/java-functions
 Requires:      javapackages-tools
@@ -35,6 +34,8 @@ This package contains javadoc for %{name}.
 find -name '*.jar' -delete
 find -name '*.class' -delete
 
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
 # Unavailable plugins
 %pom_remove_plugin org.sonatype.plugins:nexus-staging-maven-plugin
 # Unwanted plugins
@@ -66,12 +67,6 @@ find -name '*.class' -delete
   </execution>
 </executions>"
 
-# Fix non ASCII chars
-for s in Source/com/drew/lang/GeoLocation.java \
- Source/com/drew/metadata/icc/IccDescriptor.java;do
-  native2ascii -encoding UTF8 ${s} ${s}
-done
-
 sed -i 's/\r//' LICENSE-2.0.txt README.md Resources/javadoc-stylesheet.css
 
 %mvn_file :metadata-extractor %{name}
@@ -96,6 +91,20 @@ sed -i 's/\r//' LICENSE-2.0.txt README.md Resources/javadoc-stylesheet.css
 %license LICENSE-2.0.txt
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 2.10.1-11
+- Remove unnecessary dependency on parent POM.
+- Drop native2ascii invocations (no longer necessary?).
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.1-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 2.10.1-8
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

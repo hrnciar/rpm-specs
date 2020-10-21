@@ -3,7 +3,7 @@
 Name:		coin-or-%{module}
 Summary:	Coin-or Sample data files
 Version:	1.2.12
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	Public Domain
 URL:		https://projects.coin-or.org/svn/Data/%{module}
 Source0:	http://www.coin-or.org/download/pkgsource/Data/Data-%{module}-%{version}.tgz
@@ -30,6 +30,9 @@ cp -p %{SOURCE1} ./COPYING
 %license COPYING
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 2020 Jerry James <loganjerry@gmail.com> - 1.2.12-1
 - Release 1.2.12
 

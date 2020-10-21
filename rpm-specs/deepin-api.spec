@@ -15,7 +15,7 @@ Version:        5.0.0
 %gometa
 
 Name:           deepin-api
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Go-lang bingding for dde-daemon
 License:        GPLv3+
 URL:            %{gourl}
@@ -139,6 +139,13 @@ exit 0
 %files -n golang-%{name}-devel -f devel.file-list
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

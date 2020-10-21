@@ -1,6 +1,6 @@
 Name:		freetiger
 Version:	5
-Release:	15%{?dist}
+Release:	17%{?dist}
 Summary:	Free implementation of the tiger hash algorithm
 %{?el5:Group:	System Environment/Libraries}
 
@@ -92,6 +92,13 @@ make install DESTDIR=%{buildroot}
 %{_libdir}/cmake/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5-17
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,17 +1,18 @@
-%global packname  rvest
+%global packname rvest
+%global packver  0.3.6
 %global rlibdir  %{_datadir}/R/library
 
 # Some things use the network.
 %bcond_with network
 
 Name:             R-%{packname}
-Version:          0.3.5
-Release:          3%{?dist}
+Version:          0.3.6
+Release:          2%{?dist}
 Summary:          Easily Harvest (Scrape) Web Pages
 
 License:          GPLv3
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:   R-xml2
@@ -81,6 +82,12 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.3.6-1
+- Update to latest version
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.3.5-3
 - rebuild for R 4
 

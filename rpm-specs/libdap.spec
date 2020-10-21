@@ -1,7 +1,7 @@
 Name: libdap
 Summary: The C++ DAP2 library from OPeNDAP
 Version: 3.20.6
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 License: LGPLv2+
 URL: http://www.opendap.org/
@@ -128,6 +128,9 @@ make check || :
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.20.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 08 2020 Orion Poplawski <orion@nwra.com> - 3.20.6-1
 - Update to 3.20.6
 

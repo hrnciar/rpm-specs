@@ -8,7 +8,7 @@
 
 Name:           uhttpmock
 Version:        0.5.0
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        HTTP web service mocking library
 License:        LGPLv2
 URL:            https://gitlab.com/groups/uhttpmock
@@ -74,6 +74,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 %doc %{_datadir}/gtk-doc/html/libuhttpmock-%{uhm_api_version}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 %global pkgname django-reversion
 Name:           python-django-reversion
 Version:        2.0.13
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Version control extension for the Django web framework
 
 License:        BSD
@@ -87,6 +87,9 @@ find $RPM_BUILD_ROOT -name "*.po" | xargs rm -f
 %{python3_sitelib}/django_reversion-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.13-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.13-10
 - Rebuilt for Python 3.9
 

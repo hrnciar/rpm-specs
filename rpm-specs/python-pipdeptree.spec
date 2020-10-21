@@ -6,8 +6,8 @@ packages in form of a dependency tree. It works for packages installed\
 globally on a machine as well as in a virtualenv.
 
 Name:           python-%{srcname}
-Version:        0.13.2
-Release:        6%{?dist}
+Version:        1.0.0
+Release:        1%{?dist}
 Summary:        Command line utility to show dependency tree of packages
 
 License:        MIT
@@ -16,9 +16,7 @@ Source0:        https://github.com/naiquevin/pipdeptree/archive/%{version}/%{src
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
-BuildRequires:  python3dist(setuptools)
-# Dependencies for the tests
-# BuildRequires:  python3dist(tox)
+BuildRequires:  pyproject-rpm-macros
 
 %description %_description
 
@@ -26,33 +24,40 @@ BuildRequires:  python3dist(setuptools)
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
 
-Requires:       python3dist(graphviz)
-Requires:       python3dist(pip) >= 6
-Requires:       python3dist(setuptools)
 %description -n python3-%{srcname} %_description
+
+%pyproject_extras_subpkg -n python3-%{srcname} graphviz
 
 %prep
 %autosetup -n %{srcname}-%{version}
-# Remove bundled egg-info
-rm -rf %{srcname}.egg-info
+
+# Remove pinned versions from tox.ini
+# Upstream already did the same in master branch
+# https://github.com/naiquevin/pipdeptree/commit/bcc7f4308a3371d62eca28eff680b48ab7b112ff#diff-b91f3d5bd63fcd17221b267e851608e8
+sed -i "s/\(.*\)==.*/\1/" tox.ini
+
+%generate_buildrequires
+%pyproject_buildrequires -r
 
 %build
-%py3_build
+%pyproject_wheel
 
 %install
-%py3_install
+%pyproject_install
+%pyproject_save_files %{srcname}
 
-%files -n python3-%{srcname}
+%files -n python3-%{srcname} -f %pyproject_files
 %license LICENSE
 %doc README.rst
 %{_bindir}/pipdeptree
-# Ignore the tests directory
-%exclude %{python3_sitelib}/tests
-%{python3_sitelib}/__pycache__/*
-%{python3_sitelib}/%{srcname}.py
-%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Sep 08 2020 Lumír Balhar <lbalhar@redhat.com> - 1.0.0-1
+- Update to 1.0.0 (#1846897)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.13.2-6
 - Rebuilt for Python 3.9
 

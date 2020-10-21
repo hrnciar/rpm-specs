@@ -4,7 +4,7 @@
 
 Name:           python-smi
 Version:        0.3.4
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        A Python implementation of SNMP/SMI MIB parsing and conversion library
 
 License:        BSD
@@ -67,6 +67,9 @@ mv %{buildroot}%{_bindir}/mibdump.py %{buildroot}%{_bindir}/mibdump
 %{python3_sitelib}/%{srcname}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.4-8
 - Rebuilt for Python 3.9
 

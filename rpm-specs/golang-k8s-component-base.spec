@@ -4,8 +4,8 @@
 # https://github.com/kubernetes/component-base
 %global goipath         k8s.io/component-base
 %global forgeurl        https://github.com/kubernetes/component-base
-Version:                1.18.3
-%global tag             kubernetes-1.18.3
+Version:                1.18.9
+%global tag             kubernetes-1.18.9
 %global distprefix      %{nil}
 
 %gometa
@@ -24,6 +24,8 @@ Summary:        Shared code for Kubernetes core components
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+# Backport from 1.19, drop wnen packaging it
+Patch0:         https://github.com/kubernetes/component-base/commit/d9afff89f5d31dd46bf87ea83816a42b0e31deef.patch#/0001-backport-from-1.19.patch
 
 BuildRequires:  golang(github.com/blang/semver)
 BuildRequires:  golang(github.com/google/go-cmp/cmp)
@@ -52,7 +54,7 @@ BuildRequires:  golang(k8s.io/client-go/tools/leaderelection)
 BuildRequires:  golang(k8s.io/client-go/tools/metrics)
 BuildRequires:  golang(k8s.io/client-go/util/flowcontrol)
 BuildRequires:  golang(k8s.io/client-go/util/workqueue)
-BuildRequires:  golang(k8s.io/klog)
+BuildRequires:  golang(k8s.io/klog/v2)
 BuildRequires:  golang(k8s.io/utils/pointer)
 
 %if %{with check}
@@ -67,6 +69,8 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 
 %prep
 %goprep
+sed -i "s|k8s.io/klog|k8s.io/klog/v2|" $(find . -name "*.go")
+%patch0 -p1
 
 %install
 %gopkginstall
@@ -79,6 +83,15 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 15:30:14 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.9-1
+- Update to 1.18.9
+
+* Fri Aug 21 23:15:26 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-3
+- Backport logs/logreduction/ from 1.19 for compatibility
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 15:32:16 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-1
 - Update to 1.18.3
 

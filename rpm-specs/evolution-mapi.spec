@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+
 %define openchange_version 2.0
 %define intltool_version 0.35.5
 
@@ -6,12 +8,12 @@
 ### Abstract ###
 
 Name: evolution-mapi
-Version: 3.37.2
+Version: 3.38.0
 Release: 1%{?dist}
 Summary: Evolution extension for MS Exchange 2007 servers
 License: LGPLv2+
 URL: https://wiki.gnome.org/Apps/Evolution
-Source: http://download.gnome.org/sources/%{name}/3.37/%{name}-%{version}.tar.xz
+Source: http://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 Obsoletes: evolution-mapi-devel <= 3.23.1
 
@@ -57,13 +59,9 @@ Requires: %{name} = %{version}-%{release}
 This package contains translations for %{name}.
 
 %prep
-%setup -q
+%autosetup -p1 -S gendiff
 
 %build
-
-mkdir _build
-cd _build
-
 CFLAGS="$RPM_OPT_FLAGS"
 
 # Add stricter build settings here as the source code gets cleaned up.
@@ -87,15 +85,11 @@ CFLAGS="$CFLAGS \
 
 export CFLAGS="$CFLAGS -Wno-deprecated-declarations"
 
-%cmake -G "Unix Makefiles" ..
-
-make %{?_smp_mflags}
+%cmake -G "Unix Makefiles"
+%cmake_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
-cd _build
-make install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 
 %find_lang %{name}
 
@@ -113,9 +107,24 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_datadir}/metainfo/org.gnome.Evolution-mapi.metainfo.xml
 %{_datadir}/evolution-data-server/mapi
 
-%files langpacks -f _build/%{name}.lang
+%files langpacks -f %{name}.lang
 
 %changelog
+* Fri Sep 11 2020 Milan Crha <mcrha@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Fri Sep 04 2020 Milan Crha <mcrha@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Fri Aug 07 2020 Milan Crha <mcrha@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Milan Crha <mcrha@redhat.com> - 3.37.3-1
+- Update to 3.37.3
+
 * Fri May 29 2020 Milan Crha <mcrha@redhat.com> - 3.37.2-1
 - Update to 3.37.2
 

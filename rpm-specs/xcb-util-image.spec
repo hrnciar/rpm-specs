@@ -1,6 +1,6 @@
 Name:		xcb-util-image
 Version:	0.4.0
-Release:	14%{?dist}
+Release:	16%{?dist}
 Summary:	Port of Xlib's XImage and XShmImage functions on top of libxcb
 License:	MIT
 URL:		http://xcb.freedesktop.org
@@ -29,7 +29,7 @@ Development files for xcb-util-image.
 
 %build
 %configure --with-pic --disable-static --disable-silent-rules
-make %{?_smp_mflags}
+%make_build
 
 
 %check
@@ -37,7 +37,7 @@ make check
 
 
 %install
-make install DESTDIR=%{buildroot} INSTALL="install -p"
+%make_install
 rm %{buildroot}%{_libdir}/*.la
 
 
@@ -65,6 +65,13 @@ rm %{buildroot}%{_libdir}/*.la
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 0.4.0-15
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

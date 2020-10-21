@@ -2,12 +2,16 @@
 
 Name:             python-%{modname}
 Version:          3.8.3
-Release:          1%{?dist}
+Release:          3%{?dist}
 Summary:          Python code checking using pyflakes, pycodestyle, and mccabe
 
 License:          MIT
 URL:              https://gitlab.com/pycqa/flake8
 Source0:          %{pypi_source %{modname}}
+
+# Fix compatibility with pytest 6
+Patch1:           %{url}/merge_requests/443.patch
+
 BuildArch:        noarch
 
 %description
@@ -78,6 +82,12 @@ export PATH=%{buildroot}%{_bindir}:$PATH
 
 
 %changelog
+* Mon Aug 10 2020 Miro Hrončok <mhroncok@redhat.com> - 3.8.3-3
+- Fix compatibility with pytest 6
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 09 2020 Matthias Runge <mrunge@redhat.com> - 3.8.3-1
 - update to 3.8.3 (rhbz#1845273)
 

@@ -3,7 +3,7 @@
 
 # https://github.com/vmware/vmw-guestinfo
 %global goipath         github.com/vmware/vmw-guestinfo
-%global commit          25eff159a728be87e103a0b8045e08273f4dbec4
+%global commit          687661b8bd8e72a55ac988ecdb2a1cdef76fa78d
 
 %gometa
 
@@ -16,7 +16,7 @@ virtual machine.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Get access to the guestinfo variables exposed to a VMware virtual machine
 
 # Upstream license specification: Apache-2.0
@@ -45,6 +45,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Tue Aug 04 18:21:47 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200804git687661b
+- Bump to commit 687661b8bd8e72a55ac988ecdb2a1cdef76fa78d
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

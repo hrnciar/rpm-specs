@@ -15,17 +15,20 @@ Encrypted overlay filesystem written in Go.}
 
 %global golicenses      LICENSE
 %global godocs          README.md
+
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        3%{?dist}
 Summary:        Encrypted overlay filesystem written in Go
 
 License:        MIT
 URL:            %{gourl}
 Source0:        https://%{goipath}/releases/download/v%{version}/gocryptfs_v%{version}_src.tar.gz
+# Update go-fuse import path to github.com/hanwen/go-fuse/v2
+Patch0:         https://github.com/rfjakob/gocryptfs/commit/ec74d1d2f4217a9a337d1db9902f32ae2aecaf33.patch#/0001-Update-go-fuse-import-path.patch
 
-BuildRequires:  golang(github.com/hanwen/go-fuse/fuse)
-BuildRequires:  golang(github.com/hanwen/go-fuse/fuse/nodefs)
-BuildRequires:  golang(github.com/hanwen/go-fuse/fuse/pathfs)
+BuildRequires:  golang(github.com/hanwen/go-fuse/v2/fuse)
+BuildRequires:  golang(github.com/hanwen/go-fuse/v2/fuse/nodefs)
+BuildRequires:  golang(github.com/hanwen/go-fuse/v2/fuse/pathfs)
 BuildRequires:  golang(github.com/jacobsa/crypto/siv)
 BuildRequires:  golang(github.com/pkg/xattr)
 BuildRequires:  golang(github.com/rfjakob/eme)
@@ -59,6 +62,7 @@ This package contains the xray tool.
 
 %prep
 %goprep
+%patch0 -p1
 
 %build
 USVERSION=$(cat VERSION)
@@ -98,6 +102,12 @@ install -D -m 644 Documentation/gocryptfs-xray.1 %{buildroot}%{_mandir}/man1/goc
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.8-2
+- Update go-fuse import path
+
 * Thu May 21 2020 Brian (bex) Exelbierd <bex@pobox.com> - 1.8-1
 - Upgrade to 1.8
 

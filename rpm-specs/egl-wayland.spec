@@ -1,12 +1,14 @@
 Name:           egl-wayland
 Version:        1.1.5
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Wayland EGL External Platform library
 
 License:        MIT
 URL:            https://github.com/NVIDIA/%{name}
 Source0:        %url/archive/%{version}/%{name}-%{version}.tar.gz
 Source1:        10_nvidia_wayland.json
+Patch0:         %url/commit/9558ec02d0f7bbf30dc1f9ee4c0b06c9b0c49afe.patch
+Patch1:         %url/commit/9c9c4c684983f7b0821f516f8821118170a785ea.patch
 
 BuildRequires:  meson
 BuildRequires:  libtool
@@ -65,6 +67,12 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_datadir}/wayland-eglstream/
 
 %changelog
+* Fri Aug 14 2020 Leigh Scott <leigh123linux@gmail.com> - 1.1.5-3
+- Add upstream patch to address rhbz#1842473
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 2020 Leigh Scott <leigh123linux@gmail.com> - 1.1.5-1
 - Update to 1.1.5
 

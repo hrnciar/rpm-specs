@@ -2,7 +2,7 @@
 
 Name:           freeDiameter
 Version:        1.4.0
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        A Diameter protocol open implementation
 
 License:        BSD
@@ -36,11 +36,11 @@ for %{name} package.
 %autosetup
 
 %build
-%cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} -DDISABLE_SCTP=ON .
-%make_build
+%cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} -DDISABLE_SCTP=ON . -Wno-dev
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %ldconfig_scriptlets
 
@@ -60,6 +60,16 @@ for %{name} package.
 %{_libdir}/libfdproto.so
 
 %changelog
+* Mon Aug 24 2020 Filipe Rosset <rosset.filipe@gmail.com> - 1.4.0-4
+- Fix FTBFS rhbz#1863579
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 05 2020 Filipe Rosset <rosset.filipe@gmail.com> - 1.4.0-1
 - Update to 1.4.0 fixes rhbz#1596273 and rhbz#1799370
 

@@ -4,7 +4,7 @@
 %global         rname MellowPlayer
 
 Name:           mellowplayer
-Version:        3.6.4
+Version:        3.6.6
 #Release:        1.%%{commitdate}git%%{shortcommit}%%{?dist}
 Release:        1%{?dist}
 Summary:        Cloud music integration for your desktop
@@ -69,14 +69,14 @@ rm -rf src/3rdparty/libqxt
 
 %build
 %cmake .
-%make_build
+%cmake_build
 
 # Generate man page and html documentation (needs python3-sphinx)
 sphinx-build-3 -N -bhtml docs/ docs/html
 sphinx-build-3 -N -bman docs/ docs/man
 
 %install
-%make_install
+%cmake_install
 
 # install man page
 install -p -d -m755 %{buildroot}%{_mandir}/man1
@@ -115,6 +115,22 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/%{name}.
 %{_mandir}/man1/%{rname}.1.*
 
 %changelog
+* Fri Sep 18 2020 Martin Gansser <martinkg@fedoraproject.org> - 3.6.6-1
+- Update to 3.6.6
+
+* Fri Aug 07 2020 Martin Gansser <martinkg@fedoraproject.org> - 3.6.5-1
+- Update to 3.6.5
+
+* Tue Aug 04 2020 Martin Gansser <martinkg@fedoraproject.org> - 3.6.4-4
+- Fixed FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.4-3
+- Second attempt - Rebuilt for
+- https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 20 2020 Martin Gansser <martinkg@fedoraproject.org> - 3.6.4-1
 - Update to 3.6.4-1
 

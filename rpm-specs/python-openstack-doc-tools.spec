@@ -12,7 +12,7 @@
 
 Name:           python-openstack-doc-tools
 Version:        1.8.0
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Tools for OpenStack Documentation
 License:        ASL 2.0
 Url:            https://launchpad.net/%{sname}
@@ -193,6 +193,9 @@ PYTHON=python2 %{__python2} setup.py testr
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.8.0-11
 - Rebuilt for Python 3.9
 

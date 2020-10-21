@@ -9,7 +9,7 @@
 
 Name:           prometheus-jmx-exporter
 Version:        0.12.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Prometheus JMX Exporter
 
 License:        ASL 2.0
@@ -76,6 +76,9 @@ a Java Agent, exposing a HTTP server and serving metrics of the local JVM.
 %doc NOTICE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 17 2020 Severin Gehwolf <sgehwolf@redhat.com> - 0.12.0-4
 - Fix CVE-2017-18640 by using updated snakeyaml.
 

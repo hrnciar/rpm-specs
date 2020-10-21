@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 Version: 20090618
-Release: 24%{?dist}
+Release: 25%{?dist}
 URL:     http://www.greekfontsociety-gfs.gr/typefaces/20th_21st_century
 
 %global foundry           GFS
@@ -62,6 +62,9 @@ unzip -j -q  %{SOURCE0}
 %doc *.pdf
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 20090618-24
 🐞 Workaround Fedora problems created by rpm commit 93604e2

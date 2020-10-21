@@ -1,7 +1,7 @@
 Summary: Produces a document with syntax highlighting
 Name: source-highlight
 Version: 3.1.9
-Release: 3%{?dist}
+Release: 5%{?dist}
 License: GPLv3+
 Source0: ftp://ftp.gnu.org/gnu/src-highlite/%{name}-%{version}.tar.gz
 Source1: ftp://ftp.gnu.org/gnu/src-highlite/%{name}-%{version}.tar.gz.sig
@@ -32,6 +32,7 @@ Development files for source-highlight
 %autosetup -p1
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure --disable-static \
            --with-boost-regex=boost_regex
 %make_build
@@ -79,6 +80,12 @@ rmdir $RPM_BUILD_ROOT%{_sysconfdir}/bash_completion.d
 %{_includedir}/srchilite/*.h
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.9-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 3.1.9-4
+- Force C++14 as this code is not C++17 ready
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 3.1.9-3
 - Rebuilt for Boost 1.73
 

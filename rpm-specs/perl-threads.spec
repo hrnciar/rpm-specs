@@ -2,7 +2,7 @@
 Name:           perl-threads
 Epoch:          1
 Version:        2.25
-Release:        456%{?dist}
+Release:        457%{?dist}
 Summary:        Perl interpreter-based threads
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/threads
@@ -81,6 +81,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.25-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:2.25-456
 - Upgrade to 2.25 as provided in perl-5.32.0
 

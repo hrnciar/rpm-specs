@@ -7,7 +7,7 @@
 # https://github.com/golang/image
 %global goipath         golang.org/x/image
 %global forgeurl        https://github.com/golang/image
-%global commit          58c23975cae11f062d4b3b0c143fe248faac195d
+%global commit          972c09e46d762a13c1a3c48b1fa9b87e2c537805
 
 %gometa
 
@@ -72,11 +72,6 @@ Enhances: font(go)
 This variant of the Go font family provides small capitals, since they are not
 exposed via standard OpenType features in the main font family.}
 
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-x-image-devel < 0-0.8
-}
-
 %global common_description %{expand:
 This package holds supplementary Go image libraries.}
 
@@ -85,7 +80,7 @@ This package holds supplementary Go image libraries.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.19%{?dist}
+Release:        0.21%{?dist}
 Summary:        Go supplementary image libraries
 
 # Upstream license specification: BSD-3-Clause
@@ -125,8 +120,13 @@ BuildRequires:  golang(golang.org/x/text/encoding/charmap)
 %fontfiles -a
 
 %changelog
-* Thu Apr 02 2020 Nicolas Mailhot <nim@fedoraproject.org>
-- 0-0.19.20200218git58c2397
+* Fri Aug 07 19:21:26 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.21.20200807git972c09e
+- Bump to commit 972c09e46d762a13c1a3c48b1fa9b87e2c537805
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Apr 02 2020 Nicolas Mailhot <nim@fedoraproject.org> - 0-0.19.20200218git58c2397
 💥 Actually rebuild with fonts-rpm-macros 2.0.4 to make sure fontconfig files are
   valid
 

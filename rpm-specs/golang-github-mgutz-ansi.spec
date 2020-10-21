@@ -3,7 +3,7 @@
 
 # https://github.com/mgutz/ansi
 %global goipath         github.com/mgutz/ansi
-%global commit          9520e82c474b0a04dd04f8a40959027271bab992
+%global commit          d51e80ef957dba7f19388ca64afefbd5a096af30
 
 %gometa
 
@@ -15,7 +15,7 @@ Package Ansi is a small, fast library to create ANSI colored strings and codes.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.7%{?dist}
+Release:        0.9%{?dist}
 Summary:        Small, fast library to create ANSI colored strings and codes
 License:        MIT
 URL:            %{gourl}
@@ -54,6 +54,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 21:48:29 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.9.20200729gitd51e80e
+- Bump to commit d51e80ef957dba7f19388ca64afefbd5a096af30
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

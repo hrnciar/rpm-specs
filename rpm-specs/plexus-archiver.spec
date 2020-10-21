@@ -2,7 +2,7 @@
 
 Name:           plexus-archiver
 Version:        4.2.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Epoch:          0
 Summary:        Plexus Archiver Component
 License:        ASL 2.0
@@ -73,6 +73,12 @@ rm src/test/java/org/codehaus/plexus/archiver/DuplicateFilesTest.java
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:4.2.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0:4.2.2-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon Mar 02 2020 Fabio Valentini <decathorpe@gmail.com> - 0:4.2.2-1
 - Update to version 4.2.2.
 

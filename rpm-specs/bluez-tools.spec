@@ -8,7 +8,7 @@
 
 Name:		bluez-tools
 Version:	0.2.0
-Release:	0.13%{?git_rel}%{?dist}
+Release:	0.15%{?git_rel}%{?dist}
 Summary:	A set of tools to manage Bluetooth devices for Linux
 
 License:	GPLv2+
@@ -60,6 +60,13 @@ pedometers and other specific APIs have not been ported to bluez-tools.
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-0.15.git20170912.7cb788c
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-0.14.git20170912.7cb788c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Leigh Scott <leigh123linux@googlemail.com> - 0.2.0-0.13.git20170912.7cb788c
 - Fix gcc-10 compile
 

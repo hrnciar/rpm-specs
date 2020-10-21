@@ -1,7 +1,7 @@
 Summary: A GNU archiving program
 Name: cpio
 Version: 2.13
-Release: 5.1%{?dist}
+Release: 8%{?dist}
 License: GPLv3+
 URL: http://www.gnu.org/software/cpio/
 Source: ftp://ftp.gnu.org/gnu/cpio/cpio-%{version}.tar.bz2
@@ -43,6 +43,11 @@ Patch9: cpio-2.13-mutiple-definition.patch
 # reverts upstream commit 45b0ee2b4
 Patch10: cpio-2.13-revert-CVE-2015-1197-fix.patch
 
+# Extract: retain times for symlinks
+# downstream patch (#1486364)
+# https://www.mail-archive.com/bug-cpio@gnu.org/msg00605.html
+Patch11: cpio-2.11-retain-symlink-times.patch
+
 Provides: bundled(gnulib)
 Provides: bundled(paxutils)
 Provides: /bin/cpio
@@ -72,12 +77,12 @@ Install cpio if you need a program to manage file archives.
 autoreconf -fi
 export CFLAGS="$RPM_OPT_FLAGS -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -pedantic -fno-strict-aliasing -Wall $CFLAGS"
 %configure --with-rmt="%{_sysconfdir}/rmt"
-make %{?_smp_mflags}
+%make_build
 (cd po && make update-gmo)
 
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p" install
+%make_install
 
 rm -f $RPM_BUILD_ROOT%{_libexecdir}/rmt
 rm -f $RPM_BUILD_ROOT%{_infodir}/dir
@@ -104,6 +109,16 @@ make check || {
 %{_infodir}/*.info*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.13-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 2.13-7
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Mon Jun 15 2020 Ondrej Dubaj <odubaj@redhat.com> - 2.13-6
+- Extract: retain times for symlinks (#1486364)
+
 * Tue Apr 07 2020 Ondrej Dubaj <odubaj@redhat.com> - 2.13-5.1
 - Release bump due to testing of gating
 

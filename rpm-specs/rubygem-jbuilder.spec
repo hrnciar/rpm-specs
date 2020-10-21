@@ -2,8 +2,8 @@
 %global gem_name jbuilder
 
 Name: rubygem-%{gem_name}
-Version: 2.7.0
-Release: 7%{?dist}
+Version: 2.10.0
+Release: 1%{?dist}
 Summary: Create JSON structures via a Builder-style DSL
 License: MIT
 URL: https://github.com/rails/jbuilder
@@ -12,7 +12,6 @@ BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby
 BuildRequires: rubygem(activemodel)
-BuildRequires: rubygem(multi_json)
 BuildRequires: rubygem(mocha)
 BuildRequires: rubygem(railties)
 BuildArch: noarch
@@ -71,6 +70,16 @@ popd
 %{gem_instdir}/Appraisals
 
 %changelog
+* Fri Sep 11 2020 Vít Ondruch <vondruch@redhat.com> - 2.10.0-1
+- Remove unneeded BR: rubygem(multi_json).
+
+* Thu Aug 20 23:37:59 GMT 2020 Pavel Valena <pvalena@redhat.com> - 2.10.0-1
+- Update to jbuilder 2.10.0.
+  Resolves: rhbz#1709483
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

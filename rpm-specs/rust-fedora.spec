@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.2.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Base library for interacting with fedora services
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -83,6 +83,9 @@ which use "debug" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Fabio Valentini <decathorpe@gmail.com> - 0.2.2-1
 - Initial package
 

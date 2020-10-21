@@ -2,8 +2,8 @@
 %global pypi_name cloudflare
 
 Name:           python-%{pypi_name}
-Version:        2.7.1
-Release:        2%{?dist}
+Version:        2.8.13
+Release:        1%{?dist}
 Summary:        Python wrapper for the Cloudflare Client API v4
 
 License:        MIT
@@ -24,9 +24,9 @@ Patch2:         remove-examples.patch
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-future
 BuildRequires:  python3-PyYAML
-BuildRequires:  python3-requests
+# version restriction in requirements.txt (see upstream commit fd6464e1)
+BuildRequires:  python3-requests >= 2.4.2
 BuildRequires:  python3-setuptools
 
 # Used to verify OpenPGP signature
@@ -37,9 +37,9 @@ BuildRequires:  sed
 Python wrapper library for the Cloudflare Client API v4.
 
 %package -n python3-%{pypi_name}
-Requires:       python3-future
+Requires:       python3-beautifulsoup4
 Requires:       python3-PyYAML
-Requires:       python3-requests
+Requires:       python3-requests >= 2.4.2
 
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{pypi_name}}
@@ -78,6 +78,15 @@ mv %{buildroot}%{_prefix}/man/man1/cli4* %{buildroot}%{_mandir}/man1/cli4.1
 %{python3_sitelib}/cloudflare-%{version}*.egg-info
 
 %changelog
+* Tue Aug 18 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 2.8.13-1
+- update to 2.8.13
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 2.8.3-1
+- update to 2.8.3 (#1849241)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.7.1-2
 - Rebuilt for Python 3.9
 

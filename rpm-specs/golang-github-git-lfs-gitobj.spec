@@ -7,6 +7,8 @@ Version:                1.4.1
 
 %gometa
 
+%global goaltipaths     github.com/git-lfs/gitobj/v2
+
 %global common_description %{expand:
 Package Gitobj reads and writes loose and packed Git objects.}
 
@@ -14,7 +16,8 @@ Package Gitobj reads and writes loose and packed Git objects.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Epoch:          1
+Release:        1%{?dist}
 Summary:        Read and write Git objects
 
 License:        MIT
@@ -46,6 +49,15 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 23:33:36 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1:1.4.1-1
+- Revert update
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 19:27:03 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.0.0-1
+- Update to 2.0.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

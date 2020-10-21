@@ -1,6 +1,6 @@
 Name:       trojan
 Version:    1.16.0
-Release:    4%{?dist}
+Release:    6%{?dist}
 Summary:    An unidentifiable mechanism that helps you avoid censorship
 
 #GPLv3+ with opelssl exceptions
@@ -11,6 +11,11 @@ Source0:    %{URL}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 Source1:    %{URL}/releases/download/v%{version}/%{name}-%{version}.tar.gz.asc
 # keyid obtained from upstream auther's GitHub profile
 Source2:    https://pgp.key-server.io/0xA1DDD486533B0112
+
+# see: https://github.com/trojan-gfw/trojan/pull/473
+# Changes/CMake to do out-of-source builds F33 make tests fail
+# this is a workaround
+Patch0:     0001-Avoid-a-race-condition-that-makes-the-test-to-fail.patch
 
 # for build
 BuildRequires:    gcc
@@ -49,28 +54,21 @@ without being identified ever.
 
 %prep
 %{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
-%setup -q
+%autosetup
 # change cipher list in shipped configuration file&example into PROFILE=SYSTEM
 sed -i '/"cipher"/c\        "cipher": "PROFILE=SYSTEM",' examples/*.json-example
 sed -i '/"cipher_tls13"/c\        "cipher_tls13": "PROFILE=SYSTEM",' examples/*.json-example
 
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake} ..
-%make_build
-popd
+%cmake
+%cmake_build
 
 %install
-pushd %{_target_platform}
-%make_install
-popd
+%cmake_install
 
 %check
-pushd %{_target_platform}
-make test
-popd
+%ctest
 
 %post
 %systemd_post %{name}.service
@@ -95,6 +93,12 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Qiyu Yan <yanqiyu@fedoraproject.org> - 1.16.0-5
+- rebuilt with new CMake macros
+
 * Sun Jun 14 2020 Qiyu Yan <yanqiyu01@gmail.com> - 1.16.0-4
 - Change due to review suggestions
 - see: https://bugzilla.redhat.com/show_bug.cgi?id=1846175

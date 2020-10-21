@@ -1,6 +1,14 @@
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%global blasvar %{nil}
+%else
+%global blaslib openblas
+%global blasvar o
+%endif
+
 Name:           libcint
-Version:        3.0.20
-Release:        2%{?dist}
+Version:        4.0.3
+Release:        1%{?dist}
 Summary:        General Gaussian-type orbitals integrals for quantum chemistry
 
 License:        BSD
@@ -11,7 +19,7 @@ Source0:        https://github.com/sunqm/libcint/archive/v%{version}/libcint-%{v
 Conflicts:      qcint
 
 BuildRequires:  gcc-gfortran
-BuildRequires:  openblas-devel 
+BuildRequires:  %{blaslib}-devel
 BuildRequires:  cmake 
 BuildRequires:  python3-devel 
 BuildRequires:  python3-numpy 
@@ -42,22 +50,19 @@ developing applications that use %{name}.
 %setup -q
 
 %build
-mkdir build
-cd build
 export CFLAGS="%{optflags} -Wl,--as-needed"
-%cmake -DENABLE_EXAMPLE=1 -DWITH_F12=1 -DWITH_COULOMB_ERF=1 -DWITH_RANGE_COULOMB=1 -DENABLE_TEST=1 -DQUICK_TEST=1 -DBLAS_LIBRARIES=%{_libdir}/libopenblaso.so ..
-%make_build
-cd ..
+%cmake -DENABLE_EXAMPLE=1 -DWITH_F12=1 -DWITH_COULOMB_ERF=1 -DWITH_RANGE_COULOMB=1 -DENABLE_TEST=1 -DQUICK_TEST=1 -DBLAS_LIBRARIES=%{_libdir}/lib%{blaslib}%{blasvar}.so -S . -B %{_host}
+%make_build -C %{_host}
 
 # Build documentation
 cd doc
 bash compile.sh
 
 %install
-%make_install -C build
+%make_install -C %{_host}
 
 %check
-make -C build test ARGS=-V
+make -C %{_host} test ARGS=-V
 
 %files
 %doc README ChangeLog
@@ -71,6 +76,35 @@ make -C build test ARGS=-V
 %{_libdir}/libcint.so
 
 %changelog
+* Thu Oct 08 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.0.2-1
+- Update to 4.0.3.
+
+* Mon Oct 05 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.0.2-1
+- Update to 4.0.2.
+- Make CMake build work also on released branches.
+
+* Sat Oct 03 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.0.1-1
+- Update to 4.0.1.
+
+* Sun Sep 27 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.0.0-1
+- Update to 4.0.0.
+
+* Wed Aug 26 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 3.1.1-1
+- Update to 3.1.1.
+
+* Thu Aug 13 2020 Iñaki Úcar <iucar@fedoraproject.org> - 3.0.20-6
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Wed Aug 05 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 3.0.20-5
+- Adapt to new CMake macros.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.20-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.20-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 3.0.20-2
 - Add missing conflicts: qcint-devel to libcint-devel.
 

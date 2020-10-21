@@ -1,6 +1,6 @@
 Name:           jcal
 Version:        0.4.1
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Unix cal-like interface to libjalali
 
 License:        GPLv3+
@@ -65,6 +65,9 @@ rm -f %{buildroot}/%{_libdir}/*.la
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           qastools
 Version:        0.21.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Collection of desktop applications for ALSA
 License:        GPLv3
 
@@ -63,11 +63,11 @@ Desktop mixer for ALSA's "Simple Mixer Interface" (alsamixer).
 
 %build
 %cmake -DSKIP_LICENSE_INSTALL:BOOL=ON
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 for file in %{buildroot}/%{_datadir}/applications/*.desktop; do
     desktop-file-validate $file
 done
@@ -105,6 +105,9 @@ rm -f %{buildroot}/%{_datadir}/%{name}/l10n/qastools_default.qm
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.21.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.21.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

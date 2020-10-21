@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:           xtensor-python
 Version:        0.24.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python bindings for xtensor
 License:        BSD
 URL:            https://xtensor-python.readthedocs.io/
@@ -49,14 +51,14 @@ Requires:       python3-numpy
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTS=ON .
-%make_build
+%cmake -DBUILD_TESTS=ON
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %check
-%make_build xtest
+%make_build -C %{_vpath_builddir} xtest
 
 %files devel
 %doc README.md
@@ -65,6 +67,9 @@ Requires:       python3-numpy
 %{_libdir}/cmake/%{name}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.24.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 sguelton@redhat.com - 0.24.1-0
 - Upstream release
 

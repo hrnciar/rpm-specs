@@ -1,6 +1,6 @@
 Name:           fastbit
 Version:        2.0.3
-Release:        16%{?dist}
+Release:        18%{?dist}
 Summary:        An Efficient Compressed Bitmap Index Technology
 License:        BSD
 URL:            https://sdm.lbl.gov/fastbit/
@@ -136,6 +136,12 @@ find %{buildroot} -name \*.la | xargs rm -f
 %{_jnidir}/%{name}.jar
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.0.3-17
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Feb 5 2020 Philip Kovacs <pkfed@fedoraproject.org> - 2.0.3-16
 - Exclude arch s390x
 

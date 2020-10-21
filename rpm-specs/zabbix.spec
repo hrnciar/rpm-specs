@@ -8,17 +8,21 @@
 %global srcname zabbix
 %global with_selinux 1
 %global selinuxtype targeted
+# go is needed for agent2, but there are missing deps
+%bcond_with go
+# Missing dependencies for the java connector
+%bcond_with java
 #%%global prerelease rc2
 
 Name:           zabbix
 Epoch:          1
-Version:        4.0.19
-Release:        3%{?prerelease:.%{prerelease}.1}%{?dist}
+Version:        5.0.3
+Release:        2%{?dist}
 Summary:        Open-source monitoring solution for your IT infrastructure
 
 License:        GPLv2+
-URL:            http://www.zabbix.com
-Source0:        http://downloads.sourceforge.net/%{srcname}/%{srcname}-%{version}%{?prerelease:%{prerelease}}.tar.gz
+URL:            https://www.zabbix.com
+Source0:        https://cdn.zabbix.com/zabbix/sources/stable/5.0/zabbix-%{version}.tar.gz
 Source1:        %{srcname}-web.conf
 Source5:        %{srcname}-logrotate.in
 Source9:        %{srcname}-tmpfiles-zabbix.conf
@@ -38,8 +42,16 @@ Source20:       %{srcname}.fc
 
 # This is not a symlink, because we don't want the webserver to possibly ever serve it.
 # local rules for config files
-Patch0:         %{srcname}-4.0.3-config.patch
-%if 0%{?fedora} >= 28
+Patch0:         %{srcname}-config.patch
+# Allow out-of-tree builds
+# https://support.zabbix.com/browse/ZBXNEXT-6077
+Patch1:         %{srcname}-out-of-tree.patch
+# Enforce Fedora Crypto Policy
+Patch2:         %{srcname}-crypto-policy.patch
+
+# Patch1 patches automake files so we need to autoreconf
+BuildRequires:   libtool
+%if 0%{?fedora} || 0%{?rhel} >= 8
 BuildRequires:   mariadb-connector-c-devel
 %else
 BuildRequires:   mysql-devel
@@ -58,6 +70,24 @@ BuildRequires:   libxml2-devel
 BuildRequires:   libevent-devel
 BuildRequires:   pcre-devel
 BuildRequires:   gcc
+# For Agent 2 - has missing deps
+%if %{with go}
+BuildRequires:   gcc-go
+#BuildRequires:   golang(github.com/alimy/mc/v2)
+BuildRequires:   golang(github.com/docker/go-connections)
+#BuildRequires:   golang(github.com/dustin/gomemcached)
+BuildRequires:   golang(github.com/fsnotify/fsnotify)
+BuildRequires:   golang(github.com/go-ldap/ldap)
+#BuildRequires:   golang(github.com/go-ole/go-ole)
+BuildRequires:   golang(github.com/go-sql-driver/mysql)
+BuildRequires:   golang(github.com/godbus/dbus)
+#BuildRequires:   golang(github.com/jackc/pgx/v4)
+BuildRequires:   golang(github.com/mattn/go-sqlite3)
+#BuildRequires:   golang(github.com/mediocregopher/radix/v3)
+#BuildRequires:   golang(github.com/natefinch/npipe)
+#BuildRequires:   golang(github.com/testcontainers/testcontainers-go)
+#BuildRequires:   golang(golang.org/x/sys)
+%endif
 BuildRequires:   systemd
 
 Requires:        logrotate
@@ -235,7 +265,7 @@ Requires:        php-xml
 Requires:        php-gettext
 Requires:        php-fpm
 # jquery 3.3.1 and jquery-ui 1.12.1 in the sources
-Requires:        js-jquery3
+Requires:        js-jquery >= 3.3.1
 Provides:        bundled(js-jquery-ui) = 1.12.1
 # prototype 1.6.1 in the sources, Fedora package is dead
 #Requires:        prototype
@@ -267,6 +297,19 @@ Provides:        %{name}-web-database = %{?epoch:%{epoch}:}%{version}-%{release}
 %description web-pgsql
 Zabbix web frontend for PostgreSQL
 
+%if %{with java}
+%package -n java-%{srcname}
+Summary:         Zabbix Java connector
+BuildArch:       noarch
+BuildRequires:   java-devel
+BuildRequires:   osgi(org.junit)
+BuildRequires:   osgi(slf4j.api)
+BuildRequires:   osgi(logback)
+
+%description -n java-%{srcname}
+Zabbix Java connector.
+%endif
+
 %if 0%{?with_selinux}
 # SELinux subpackage
 %package selinux
@@ -285,28 +328,26 @@ Custom SELinux policy module
 %prep
 %setup0 -q -n %{srcname}-%{version}%{?prerelease:.%{prerelease}}
 %patch0 -p1
+%patch1 -p1 -b .out-of-tree
+%patch2 -p1 -b .crypto-policy
+autoreconf
 
 # Remove bundled java libs
-rm -rf src/zabbix_java/lib/*.jar
+find -name \*.jar -delete
 
 # Remove prebuilt Windows binaries
 rm -rf bin
 
 # Override creation of statically named directory for alertscripts and externalscripts
 # https://support.zabbix.com/browse/ZBX-6159
-sed -i 's|$(DESTDIR)@datadir@/zabbix|$(DESTDIR)/var/lib/zabbixsrv|' \
-    src/zabbix_server/Makefile.in \
-    src/zabbix_proxy/Makefile.in
+sed -i '/CURL_SSL_.*_LOCATION\|SCRIPTS_PATH/s|\${datadir}/zabbix|/var/lib/zabbixsrv|' \
+    configure
 
 # Kill off .htaccess files, options set in SOURCE1
-rm -f frontends/php/app/.htaccess
-rm -f frontends/php/conf/.htaccess
-rm -f frontends/php/include/.htaccess
-rm -f frontends/php/local/.htaccess
+find -name .htaccess -delete
 
-# Fix path to traceroute utility
+# Fix path to traceroute utility (on all Linux targets)
 find database -name 'data.sql' -exec sed -i 's|/usr/bin/traceroute|/bin/traceroute|' {} \;
-
 
 # Common
 # Settings with hard-coded defaults that are not suitable for Fedora
@@ -318,9 +359,9 @@ find database -name 'data.sql' -exec sed -i 's|/usr/bin/traceroute|/bin/tracerou
 sed -i \
     -e '\|^# LogFileSize=.*|a LogFileSize=0' \
     -e 's|^DBUser=root|DBUser=zabbix|' \
-    -e 's|^# DBSocket=/tmp/mysql.sock|# DBSocket=%{_sharedstatedir}/mysql/mysql.sock|' \
-    -e '\|^# ExternalScripts=\${datadir}/zabbix/externalscripts|a ExternalScripts=%{_sharedstatedir}/zabbixsrv/externalscripts' \
-    -e '\|^# AlertScripts=\${datadir}/zabbix/alertscripts|a AlertScripts=%{_sharedstatedir}/zabbixsrv/externalscripts' \
+    -e 's|^# DBSocket=.*|DBSocket=%{_sharedstatedir}/mysql/mysql.sock|' \
+    -e '\|^# ExternalScripts=|a ExternalScripts=%{_sharedstatedir}/zabbixsrv/externalscripts' \
+    -e '\|^# AlertScriptsPath=|a AlertScriptsPath=%{_sharedstatedir}/zabbixsrv/alertscripts' \
     -e '\|^# TmpDir=\/tmp|a TmpDir=%{_sharedstatedir}/zabbixsrv/tmp' \
     -e 's|/usr/local||' \
     -e 's|\${datadir}|/usr/share|' \
@@ -350,10 +391,8 @@ install -m 0644 -p %{SOURCE16} .
 
 common_flags="
     --enable-dependency-tracking
-    --enable-agent
     --enable-proxy
     --enable-ipv6
-    --disable-java
     --with-net-snmp
     --with-ldap
     --with-libcurl
@@ -365,27 +404,31 @@ common_flags="
     --with-libpcre
     --with-openssl
 "
+# Setup out of tree builds
+%global _configure ../configure
+
+%if %{with java}
+export CLASSPATH=$(build-classpath junit slf4j-api logback-core logback-classic android-json)
+%endif
 
 # Frontend doesn't work for SQLite, thus don't build server
-%configure $common_flags --with-sqlite3
-make %{?_smp_mflags}
-mv src/zabbix_proxy/zabbix_proxy src/zabbix_proxy/zabbix_proxy_sqlite3
+mkdir -p build-frontend
+cd build-frontend
+%configure $common_flags --enable-agent --with-sqlite3 %{?with_go:--enable-agent2} %{?with_java:--enable-java}
+%make_build
+cd -
 
+mkdir -p build-server-mysql
+cd build-server-mysql
 %configure $common_flags --with-mysql --enable-server
-make clean
-make %{?_smp_mflags}
-mv src/zabbix_server/zabbix_server src/zabbix_server/zabbix_server_mysql
-mv src/zabbix_proxy/zabbix_proxy src/zabbix_proxy/zabbix_proxy_mysql
+%make_build
+cd -
 
+mkdir -p build-server-postgresql
+cd build-server-postgresql
 %configure $common_flags --with-postgresql --enable-server
-make clean
-make %{?_smp_mflags}
-mv src/zabbix_server/zabbix_server src/zabbix_server/zabbix_server_pgsql
-mv src/zabbix_proxy/zabbix_proxy src/zabbix_proxy/zabbix_proxy_pgsql
-
-# Ghosted alternatives
-touch src/zabbix_server/zabbix_server
-touch src/zabbix_proxy/zabbix_proxy
+%make_build
+cd -
 
 %if 0%{?with_selinux}
 # SELinux policy (originally from selinux-policy-contrib)
@@ -401,14 +444,26 @@ bzip2 -9 %{srcname}.pp
 
 
 %install
-# Configuration, runtime and start-up
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/%{srcname}
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/%{srcname}/web
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d
+# Install binaries
+%make_install -C build-frontend
+mv $RPM_BUILD_ROOT%{_sbindir}/zabbix_proxy{,_sqlite3}
+%make_install -C build-server-mysql
+mv $RPM_BUILD_ROOT%{_sbindir}/zabbix_proxy{,_mysql}
+mv $RPM_BUILD_ROOT%{_sbindir}/zabbix_server{,_mysql}
+%make_install -C build-server-postgresql
+mv $RPM_BUILD_ROOT%{_sbindir}/zabbix_proxy{,_pgsql}
+mv $RPM_BUILD_ROOT%{_sbindir}/zabbix_server{,_pgsql}
+
+# Ghosted alternatives
+touch $RPM_BUILD_ROOT%{_sbindir}/zabbix_{proxy,server}
+
+# Home directory for the agent;
+# The other home directory is created during installation
+mkdir -p $RPM_BUILD_ROOT%{_sharedstatedir}/zabbix
+
+# Log directories
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/log/zabbix
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/log/zabbixsrv
-mkdir -p $RPM_BUILD_ROOT%{_unitdir}
 
 # systemd tmpfiles
 mkdir -p $RPM_BUILD_ROOT%{_prefix}/lib/tmpfiles.d
@@ -418,46 +473,32 @@ mkdir -p $RPM_BUILD_ROOT%{_rundir}
 install -d -m 0755 $RPM_BUILD_ROOT%{_rundir}/zabbix/
 install -d -m 0755 $RPM_BUILD_ROOT%{_rundir}/zabbixsrv/
 
-# Frontend
-mkdir -p $RPM_BUILD_ROOT%{_datadir}
-
-# Home directory for the agent;
-# The other home directory is created during installation
-mkdir -p $RPM_BUILD_ROOT%{_sharedstatedir}/zabbix
-
-# Install binaries
-make DESTDIR=$RPM_BUILD_ROOT install
-install -m 0755 -p src/zabbix_server/zabbix_server_* $RPM_BUILD_ROOT%{_sbindir}/
-install -m 0755 -p src/zabbix_proxy/zabbix_proxy_* $RPM_BUILD_ROOT%{_sbindir}/
-
 # Install the frontend after removing backup files from patching
-find frontends/php -name '*.orig' -exec rm {} \;
-cp -a frontends/php/* $RPM_BUILD_ROOT%{_datadir}/%{srcname}
+find ui -name '*.orig' -delete
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{srcname}
+cp -a ui/* $RPM_BUILD_ROOT%{_datadir}/%{srcname}/
 
 # Prepare ghosted config file
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/%{srcname}/web
 touch $RPM_BUILD_ROOT%{_sysconfdir}/%{srcname}/web/zabbix.conf.php
 
-# Replace bundled font and JS libraries
-# There is no jquery-ui package yet
-#pushd $RPM_BUILD_ROOT%{_datadir}/%{srcname}/fonts/
-#rm DejaVuSans.ttf && ln -sf %{_datadir}/fonts/dejavu/DejaVuSans.ttf
-#popd
-pushd $RPM_BUILD_ROOT%{_datadir}/%{srcname}/js/vendors/
-rm jquery.js && ln -sf %{_datadir}/javascript/jquery/3/jquery.min.js jquery.js
-popd
+# Replace bundled font
+ln -sf ../../../fonts/dejavu/DejaVuSans.ttf $RPM_BUILD_ROOT%{_datadir}/%{srcname}/assets/fonts/
 
-# Move MVC override directory out; We are not owning or creating this directory!
-#TODO: README dort
-rm -r frontends/php/local/ && ln -sf %{_usr}/local/share/zabbix/local $RPM_BUILD_ROOT%{_datadir}/%{srcname}/local
-#TODO: local vielleicht doch unter /etc/zabbix/web?
+# Replace JS libraries
+# There is no jquery-ui package yet
+ln -sf ../../../javascript/jquery/3/jquery.min.js $RPM_BUILD_ROOT%{_datadir}/%{srcname}/js/vendors/jquery.js
+#ln -sf ../../../javascript/jquery-ui/1/jquery-ui.min.js $RPM_BUILD_ROOT%{_datadir}/%{srcname}/js/vendors/jquery-ui.js
 
 # This file is used to switch the frontend to maintenance mode
-mv $RPM_BUILD_ROOT%{_datadir}/%{srcname}/conf/maintenance.inc.php $RPM_BUILD_ROOT%{_sysconfdir}/%{srcname}/web/maintenance.inc.php
+mv $RPM_BUILD_ROOT%{_datadir}/%{srcname}/conf/maintenance.inc.php $RPM_BUILD_ROOT%{_sysconfdir}/%{srcname}/web/maintenance.inc.php || :
 
 # Drop Apache config file in place
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d
 install -m 0644 -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/%{srcname}.conf
 
 # Install log rotation
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d
 sed -e 's|COMPONENT|agentd|g; s|USER|zabbix|g' %{SOURCE5} > \
      $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/zabbix-agent
 sed -e 's|COMPONENT|server|g; s|USER|zabbixsrv|g' %{SOURCE5} > \
@@ -466,6 +507,7 @@ sed -e 's|COMPONENT|proxy|g; s|USER|zabbixsrv|g' %{SOURCE5} > \
      $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/zabbix-proxy
 
 # Install different systemd units because of the requirements for DBMS daemons
+mkdir -p $RPM_BUILD_ROOT%{_unitdir}
 install -m 0644 -p %{SOURCE10} $RPM_BUILD_ROOT%{_unitdir}/zabbix-agent.service
 install -m 0644 -p %{SOURCE11} $RPM_BUILD_ROOT%{_unitdir}/zabbix-proxy-mysql.service
 install -m 0644 -p %{SOURCE12} $RPM_BUILD_ROOT%{_unitdir}/zabbix-proxy-pgsql.service
@@ -477,22 +519,13 @@ install -m 0644 -p %{SOURCE15} $RPM_BUILD_ROOT%{_unitdir}/zabbix-server-pgsql.se
 touch $RPM_BUILD_ROOT%{_unitdir}/zabbix-server.service
 touch $RPM_BUILD_ROOT%{_unitdir}/zabbix-proxy.service
 
-# Install compatibility links for config files
-#TODO: Switch to .wants files instead!
-ln -sf %{_sysconfdir}/zabbix_agentd.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{srcname}/zabbix_agentd.conf
-ln -sf %{_sysconfdir}/zabbix_server.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{srcname}/zabbix_server.conf
-ln -sf %{_sysconfdir}/zabbix_proxy.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{srcname}/zabbix_proxy.conf
-ln -sf %{_sharedstatedir}/zabbixsrv/externalscripts $RPM_BUILD_ROOT%{_sysconfdir}/%{srcname}/externalscripts
-ln -sf %{_sharedstatedir}/zabbixsrv/alertscripts $RPM_BUILD_ROOT%{_sysconfdir}/%{srcname}/alertscripts
-#TODO: What does that do to existing directories?
-
 # Directory for fping spooling files 
 mkdir -p $RPM_BUILD_ROOT%{_sharedstatedir}/zabbixsrv/tmp
 
 # Install sql files
 for db in postgresql mysql; do
     mkdir $RPM_BUILD_ROOT%{_datadir}/%{srcname}-$db
-    cp -p database/$db/* $RPM_BUILD_ROOT%{_datadir}/%{srcname}-$db
+    cp -p database/$db/*.sql $RPM_BUILD_ROOT%{_datadir}/%{srcname}-$db
 done
 
 install -dm 755 $RPM_BUILD_ROOT%{_datadir}/%{srcname}-sqlite3
@@ -658,8 +691,8 @@ fi
 %doc AUTHORS ChangeLog NEWS README zabbix-fedora-epel.README
 %dir %{_sysconfdir}/%{srcname}
 %config(noreplace) %{_sysconfdir}/zabbix_agentd.conf
-%config(noreplace) %{_sysconfdir}/%{srcname}/zabbix_agentd.conf
 %{_bindir}/zabbix_get
+%{_bindir}/zabbix_js
 %{_bindir}/zabbix_sender
 %{_mandir}/man1/zabbix_get.1*
 %{_mandir}/man1/zabbix_sender.1*
@@ -682,15 +715,12 @@ fi
 %{_prefix}/lib/tmpfiles.d/zabbixsrv.conf
 %attr(0640,root,zabbixsrv) %config(noreplace) %{_sysconfdir}/zabbix_server.conf
 %attr(0775,root,zabbixsrv) %dir %{_localstatedir}/log/zabbixsrv
-%config(noreplace) %{_sysconfdir}/%{srcname}/zabbix_server.conf
-%config(noreplace) %{_sysconfdir}/%{srcname}/externalscripts
-%config(noreplace) %{_sysconfdir}/%{srcname}/alertscripts
 %config(noreplace) %{_sysconfdir}/logrotate.d/zabbix-server
 %ghost %{_sbindir}/zabbix_server
 %attr(0750,zabbixsrv,zabbixsrv) %dir %{_sharedstatedir}/zabbixsrv
 %attr(0750,zabbixsrv,zabbixsrv) %dir %{_sharedstatedir}/zabbixsrv/tmp
-#%attr(0750,zabbixsrv,zabbixsrv) %dir %{_sharedstatedir}/zabbixsrv/alertscripts
-#%attr(0750,zabbixsrv,zabbixsrv) %dir %{_sharedstatedir}/zabbixsrv/externalscripts
+%attr(0750,zabbixsrv,zabbixsrv) %dir %{_sharedstatedir}/zabbixsrv/alertscripts
+%attr(0750,zabbixsrv,zabbixsrv) %dir %{_sharedstatedir}/zabbixsrv/externalscripts
 %ghost %{_unitdir}/zabbix-server.service
 %{_mandir}/man8/zabbix_server.8*
 
@@ -714,7 +744,6 @@ fi
 %{_prefix}/lib/tmpfiles.d/zabbix.conf
 %attr(0775,root,zabbix) %dir %{_localstatedir}/log/zabbix
 %config(noreplace) %{_sysconfdir}/zabbix_agentd.conf
-%config(noreplace) %{_sysconfdir}/%{srcname}/zabbix_agentd.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/zabbix-agent
 %attr(750,zabbix,zabbix) %dir %{_sharedstatedir}/zabbix
 %{_unitdir}/zabbix-agent.service
@@ -727,14 +756,12 @@ fi
 %{_prefix}/lib/tmpfiles.d/zabbixsrv.conf
 %attr(0640,root,zabbixsrv) %config(noreplace) %{_sysconfdir}/zabbix_proxy.conf
 %attr(0775,root,zabbixsrv) %dir %{_localstatedir}/log/zabbixsrv
-%config(noreplace) %{_sysconfdir}/%{srcname}/zabbix_proxy.conf
-%config(noreplace) %{_sysconfdir}/%{srcname}/externalscripts
 %config(noreplace) %{_sysconfdir}/logrotate.d/zabbix-proxy
 %ghost %{_sbindir}/zabbix_proxy
 %attr(0750,zabbixsrv,zabbixsrv) %dir %{_sharedstatedir}/zabbixsrv
 %attr(0750,zabbixsrv,zabbixsrv) %dir %{_sharedstatedir}/zabbixsrv/tmp
-#%attr(0750,zabbixsrv,zabbixsrv) %dir %{_sharedstatedir}/zabbixsrv/alertscripts
-#%attr(0750,zabbixsrv,zabbixsrv) %dir %{_sharedstatedir}/zabbixsrv/externalscripts
+%attr(0750,zabbixsrv,zabbixsrv) %dir %{_sharedstatedir}/zabbixsrv/alertscripts
+%attr(0750,zabbixsrv,zabbixsrv) %dir %{_sharedstatedir}/zabbixsrv/externalscripts
 %ghost %{_unitdir}/zabbix-proxy.service
 %{_mandir}/man8/zabbix_proxy.8*
 
@@ -762,6 +789,26 @@ fi
 %files web-pgsql
 
 %changelog
+* Tue Sep 15 2020 Volker Froehlich <volker27@gmx.at> - 1:5.0.3-2
+- Rebuild for libevent soname bump
+
+* Tue Sep  1 2020 Orion Poplawski <orion@nwra.com> - 1:5.0.3-1
+- Update to 5.0.3
+
+* Tue Sep  1 2020 Orion Poplawski <orion@nwra.com> - 1:5.0.2-1
+- Update to 5.0.2
+- Enforce Fedora crypto policy
+
+* Thu Aug 27 2020 Josef Řídký <jridky@redhat.com> - 1:4.0.22-3
+- Rebuilt for new net-snmp release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.0.22-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Orion Poplawski <orion@nwra.com> - 1:4.0.22-1
+- Update to 4.0.22 (bz#1858259) CVE-2020-15803
+- Fix alert/external scripts directories
+
 * Mon Apr 20 2020 Orion Poplawski <orion@nwra.com> - 1:4.0.19-3
 - Fix chmod/chown in scriptlet
 

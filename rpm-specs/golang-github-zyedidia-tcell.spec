@@ -3,7 +3,7 @@
 
 # https://github.com/zyedidia/tcell
 %global goipath         github.com/zyedidia/tcell
-Version:                1.4.7
+Version:                1.4.10
 
 %gometa
 
@@ -55,6 +55,15 @@ BuildRequires:  golang(golang.org/x/text/transform)
 %gopkgfiles
 
 %changelog
+* Tue Aug 04 23:13:51 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.10-1
+- Update to 1.4.10
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 19:36:44 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.8-1
+- Update to 1.4.8 (#1837077)
+
 * Thu Jun 18 19:53:04 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.7-1
 - Update to 1.4.7
 

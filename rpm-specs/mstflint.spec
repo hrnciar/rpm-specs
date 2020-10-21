@@ -2,11 +2,11 @@
 
 Name:		mstflint
 Summary:	Mellanox firmware burning tool
-Version:	4.14.0
-Release:	3%{?dist}
+Version:	4.15.0
+Release:	1%{?dist}
 License:	GPLv2+ or BSD
 Group:		Applications/System
-Source: 	https://github.com/Mellanox/mstflint/releases/download/v4.14.0-3/mstflint-4.14.0-3.tar.gz
+Source: 	https://github.com/Mellanox/mstflint/releases/download/v4.15.0-1/mstflint-4.15.0-1.tar.gz
 Patch3: 	extend-buffer.patch
 Patch4: 	add-default-link-flags-for-shared-libraries.patch
 Patch6: 	replace-mlxfwreset-with-mstfwreset-in-mstflint-message.patch
@@ -25,7 +25,7 @@ This package contains firmware update tool, vpd dump and register dump tools
 for network adapters based on Mellanox Technologies chips.
 
 %prep
-%setup -q -n mstflint-4.14.0-3
+%setup -q -n mstflint-4.15.0
 %patch3 -p1
 %patch4 -p1
 %patch6 -p1
@@ -40,7 +40,7 @@ find . -type f -iname '*.cpp' -exec chmod a-x '{}' ';'
 %make_build
 
 %install
-make DESTDIR=%{buildroot} install
+%make_install
 # Remove the devel files that we don't ship
 rm -fr %{buildroot}%{_includedir}
 find %{buildroot} -type f -name '*.la' -delete
@@ -56,6 +56,16 @@ find %{buildroot} -type f -name '*.a' -delete
 %{_mandir}/man1/*
 
 %changelog
+* Wed Sep 16 2020 Honggang Li <honli@redhat.com> - 4.15.0-1
+- Rebase mstflint to latest upstream release v4.15.0-1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 4.14.0-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Mon Jun 22 2020 Honggang Li <honli@redhat.com> - 4.14.0-3
 - Rebase mstflint to latest upstream release v4.14.0-3
 

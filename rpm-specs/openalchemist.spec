@@ -1,6 +1,6 @@
 Name:           openalchemist
 Version:        0.4
-Release:        31%{?dist}
+Release:        32%{?dist}
 Summary:        Reflection game
 License:        GPLv2+ and CC-BY-SA
 URL:            http://www.openalchemist.com
@@ -102,6 +102,9 @@ EOF
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

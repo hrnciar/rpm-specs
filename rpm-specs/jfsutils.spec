@@ -3,7 +3,7 @@
 Summary: Utilities for managing the JFS filesystem
 Name: jfsutils
 Version: 1.1.15
-Release: 17%{?dist}
+Release: 18%{?dist}
 Source0: http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Patch0: jfsutils-1.1.15_stdint.patch
 Patch1: jfsutils_format-security_ftbs.patch
@@ -46,6 +46,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %doc AUTHORS COPYING NEWS ChangeLog
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.15-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 29 2020 François Cami <fcami@fedoraproject.org> - 1.1.15-17
 - Fix rhbz#1799538 (FTBFS)
 

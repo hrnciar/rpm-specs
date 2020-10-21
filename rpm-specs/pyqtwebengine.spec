@@ -8,13 +8,13 @@
 
 Summary: Python bindings for QtWebEngine
 Name:    pyqtwebengine
-Version: 5.14.0
+Version: 5.15.0
 Release: 2%{?dist}
 
 License: GPLv3
 Url:     https://www.riverbankcomputing.com/software/pyqt/
 #Source0: https://www.riverbankcomputing.com/static/Downloads/PyQtWebEngine/%{version}/PyQtWebEngine_gpl-%{version}.tar.gz
-Source0: https://files.pythonhosted.org/packages/47/9f/60e630711fd1dd14ef3bd95c86c733c86b8c0853749c7a03691f681f13fd/PyQtWebEngine-%{version}.tar.gz
+Source0: https://files.pythonhosted.org/packages/0d/8d/aece7598d2959f66f09fcced6487dd7727f44ad867fc09978c5aeeaf1d29/PyQtWebEngine-5.15.0.tar.gz
 ExclusiveArch: %{qt5_qtwebengine_arches}
 
 ## downstream patches
@@ -76,7 +76,7 @@ BuildArch: noarch
 %prep
 %setup -q -n PyQtWebEngine-%{version}
 
-%patch100 -p1
+%patch100 -p1 -b .Timeline
 
 
 %build
@@ -170,6 +170,12 @@ done
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.15.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.15.0-1
+- 5.15.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.14.0-2
 - Rebuilt for Python 3.9
 

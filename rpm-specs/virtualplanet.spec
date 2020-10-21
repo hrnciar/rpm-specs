@@ -2,7 +2,7 @@
 
 Name: virtualplanet
 Version: 2.5
-Release: 9.%{revision}svn%{?dist}
+Release: 10.%{revision}svn%{?dist}
 Summary: An atlas for planets surface formations
 # Some component of glscene used by virtualplanet are licensed MPLv1.1 only
 License: GPLv3+ and MPLv1.1
@@ -186,6 +186,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-10.164svn
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 01 2020 Mattia Verga <mattia.verga@protonmail.com> - 2.5-9.164svn
 - Add libxxf86vm to BR
 - Disable arm, aarch64 and ppc64le

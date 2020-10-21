@@ -5,8 +5,8 @@ Name:           python-configshell
 License:        ASL 2.0
 Summary:        A framework to implement simple but nice CLIs
 Epoch:          1
-Version:        1.1.fb25
-Release:        9%{?dist}
+Version:        1.1.28
+Release:        2%{?dist}
 URL:            https://github.com/open-iscsi/configshell-fb
 Source:         %{url}/archive/v%{version}/%{oname}-%{version}.tar.gz
 BuildArch:      noarch
@@ -40,6 +40,12 @@ Requires:       python3-pyparsing python3-urwid
 %doc COPYING README.md
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.1.28-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 18 2020 Matt Coleman <matt@datto.com> - 1:1.1.28-1
+- New upstream version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1:1.1.fb25-9
 - Rebuilt for Python 3.9
 

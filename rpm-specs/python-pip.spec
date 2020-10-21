@@ -3,12 +3,13 @@
 %bcond_without doc
 
 %global srcname pip
-%global base_version 20.1.1
+%global base_version 20.2.2
 %global upstream_version %{base_version}%{?prerel}
 %global python_wheelname %{srcname}-%{upstream_version}-py2.py3-none-any.whl
 %global python_wheeldir %{_datadir}/python-wheels
 
 %if %{with doc}
+# Commit hash to use from the repo https://github.com/pypa/pypa-docs-theme
 %global pypa_theme_commit_hash d2e63fbfc62af3b7050f619b2f5bb8658985b931
 %endif
 
@@ -18,7 +19,7 @@ Name:           python-%{srcname}
 # When updating, update the bundled libraries versions bellow!
 # You can use vendor_meta.sh in the dist git repo
 Version:        %{base_version}%{?prerel:~%{prerel}}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        A tool for installing and managing Python packages
 
 # We bundle a lot of libraries with pip, which itself is under MIT license.
@@ -40,11 +41,12 @@ Summary:        A tool for installing and managing Python packages
 # pep517: MIT
 # progress: ISC
 # pyparsing: MIT
-# pytoml: MIT
 # requests: ASL 2.0
+# resolvelib: ISC
 # retrying: ASL 2.0
 # setuptools: MIT
 # six: MIT
+# toml: MIT
 # urllib3: MIT
 # webencodings: BSD
 
@@ -122,30 +124,32 @@ Packages" or "Pip Installs Python".
 
 
 # Virtual provides for the packages bundled by pip.
-# You can find the versions in src/pip/_vendor/vendor.txt file.
+# You can generate it with:
+# %%{_rpmconfigdir}/pythonbundles.py --namespace 'python%%{1}dist' src/pip/_vendor/vendor.txt
 %global bundled() %{expand:
-Provides: bundled(python%{1}dist(appdirs)) = 1.4.3
-Provides: bundled(python%{1}dist(CacheControl)) = 0.12.6
-Provides: bundled(python%{1}dist(certifi)) = 2019.11.28
+Provides: bundled(python%{1}dist(appdirs)) = 1.4.4
+Provides: bundled(python%{1}dist(cachecontrol)) = 0.12.6
+Provides: bundled(python%{1}dist(certifi)) = 2020.6.20
 Provides: bundled(python%{1}dist(chardet)) = 3.0.4
 Provides: bundled(python%{1}dist(colorama)) = 0.4.3
-Provides: bundled(python%{1}dist(contextlib2)) = 0.6.0
-Provides: bundled(python%{1}dist(distlib)) = 0.3.0
-Provides: bundled(python%{1}dist(distro)) = 1.4.0
-Provides: bundled(python%{1}dist(html5lib)) = 1.0.1
-Provides: bundled(python%{1}dist(idna)) = 2.8
+Provides: bundled(python%{1}dist(contextlib2)) = 0.6^post1
+Provides: bundled(python%{1}dist(distlib)) = 0.3.1
+Provides: bundled(python%{1}dist(distro)) = 1.5
+Provides: bundled(python%{1}dist(html5lib)) = 1.1
+Provides: bundled(python%{1}dist(idna)) = 2.10
 Provides: bundled(python%{1}dist(ipaddress)) = 1.0.23
-Provides: bundled(python%{1}dist(msgpack)) = 0.6.2
-Provides: bundled(python%{1}dist(packaging)) = 20.1
-Provides: bundled(python%{1}dist(pep517)) = 0.7.0
+Provides: bundled(python%{1}dist(msgpack)) = 1
+Provides: bundled(python%{1}dist(packaging)) = 20.4
+Provides: bundled(python%{1}dist(pep517)) = 0.8.2
 Provides: bundled(python%{1}dist(progress)) = 1.5
-Provides: bundled(python%{1}dist(pyparsing)) = 2.4.6
-Provides: bundled(python%{1}dist(pytoml)) = 0.1.21
-Provides: bundled(python%{1}dist(requests)) = 2.22.0
+Provides: bundled(python%{1}dist(pyparsing)) = 2.4.7
+Provides: bundled(python%{1}dist(requests)) = 2.24
+Provides: bundled(python%{1}dist(resolvelib)) = 0.4
 Provides: bundled(python%{1}dist(retrying)) = 1.3.3
-Provides: bundled(python%{1}dist(setuptools)) = 44.0.0
-Provides: bundled(python%{1}dist(six)) = 1.14.0
-Provides: bundled(python%{1}dist(urllib3)) = 1.25.7
+Provides: bundled(python%{1}dist(setuptools)) = 44
+Provides: bundled(python%{1}dist(six)) = 1.15
+Provides: bundled(python%{1}dist(toml)) = 0.10.1
+Provides: bundled(python%{1}dist(urllib3)) = 1.25.9
 Provides: bundled(python%{1}dist(webencodings)) = 0.5.1
 }
 
@@ -173,7 +177,9 @@ Summary:        A tool for installing and managing Python3 packages
 BuildRequires:  python%{python3_pkgversion}-devel
 # python3 bootstrap: this is rebuilt before the final build of python3, which
 # adds the dependency on python3-rpm-generators, so we require it manually
-BuildRequires:  python%{python3_pkgversion}-rpm-generators
+# Note that the package prefix is always python3-, even if we build for 3.X
+# The minimal version is for bundled provides verification script
+BuildRequires:  python3-rpm-generators >= 11-8
 BuildRequires:  python%{python3_pkgversion}-setuptools
 BuildRequires:  bash-completion
 %if %{with tests}
@@ -203,12 +209,6 @@ Recommends:     python%{python3_pkgversion}-setuptools
 
 Provides:       pip = %{version}-%{release}
 Conflicts:      python-pip < %{version}-%{release}
-
-# %%pyX_install_wheel and %%pyproject_install was adapted to workaround PEP 610 handling in pip 20.1+
-# (This explicit conflict can be removed after we update to Python 3.9)
-Conflicts: python-rpm-macros < 3.8-4
-Conflicts: python3-rpm-macros < 3.8-4
-Conflicts: pyproject-rpm-macros < 0-15
 
 %{crypt_compat_recommends 3}
 
@@ -255,11 +255,7 @@ mv python-docs-theme-2018.2 python-docs-theme
 popd
 %endif
 
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
+%autopatch -p1
 
 # this goes together with patch4
 rm src/pip/_vendor/certifi/*.pem
@@ -342,6 +338,10 @@ install -p dist/%{python_wheelname} -t %{buildroot}%{python_wheeldir}
 
 %if %{with tests}
 %check
+# Verify bundled provides are up to date
+%{_rpmconfigdir}/pythonbundles.py src/pip/_vendor/vendor.txt --compare-with '%{bundled 3}'
+
+# Upstream tests
 # bash completion tests only work from installed package
 # needs unaltered sys.path and we cannot do that in %%check
 #     test_pep517_and_build_options
@@ -360,16 +360,11 @@ pytest_k='not completion and
           not test_from_link_vcs_without_source_dir and
           not test_should_cache_git_sha'
 
-mkdir _bin
-export PATH="$PWD/_bin:$PATH"
-
-export PYTHONPATH=%{buildroot}%{python3_sitelib}
-ln -sf %{buildroot}%{_bindir}/pip3 _bin/pip
 # --deselect'ed tests are not compatible with the latest virtualenv
 # These files contain almost 500 tests so we should enable them back
 # as soon as pip will be compatible upstream
 # https://github.com/pypa/pip/pull/8441
-%{__python3} -m pytest -m 'not network' -k "$(echo $pytest_k)" \
+%pytest -m 'not network' -k "$(echo $pytest_k)" \
     --deselect tests/functional --deselect tests/lib/test_lib.py --deselect tests/unit/test_build_env.py
 %endif
 
@@ -406,6 +401,18 @@ ln -sf %{buildroot}%{_bindir}/pip3 _bin/pip
 %{python_wheeldir}/%{python_wheelname}
 
 %changelog
+* Wed Aug 05 2020 Tomas Orsava <torsava@redhat.com> - 20.2.2-1
+- Update to 20.2.2 (#1838553)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.1.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Lumír Balhar <lbalhar@redhat.com> - 20.1.1-6
+- Do not emit a warning about root privileges when --root is used
+
+* Wed Jul 08 2020 Miro Hrončok <mhroncok@redhat.com> - 20.1.1-5
+- Update bundled provides to match 20.1.1
+
 * Tue Jun 16 2020 Lumír Balhar <lbalhar@redhat.com> - 20.1.1-4
 - Deselect tests incompatible with the latest virtualenv
 

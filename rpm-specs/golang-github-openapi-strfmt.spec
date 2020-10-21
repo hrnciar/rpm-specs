@@ -3,7 +3,7 @@
 
 # https://github.com/go-openapi/strfmt
 %global goipath         github.com/go-openapi/strfmt
-Version:                0.19.0
+Version:                0.19.5
 
 %gometa
 
@@ -18,7 +18,7 @@ go toolkit for OpenAPI specifications knows how to deal with those.}
 %global godocs          CODE_OF_CONDUCT.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Openapi toolkit common string formats
 
 # Upstream license specification: Apache-2.0
@@ -27,11 +27,11 @@ URL:            %{gourl}
 Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/asaskevich/govalidator)
-BuildRequires:  golang(github.com/globalsign/mgo/bson)
 BuildRequires:  golang(github.com/go-openapi/errors)
-BuildRequires:  golang(github.com/mailru/easyjson/jlexer)
-BuildRequires:  golang(github.com/mailru/easyjson/jwriter)
 BuildRequires:  golang(github.com/mitchellh/mapstructure)
+BuildRequires:  golang(go.mongodb.org/mongo-driver/bson)
+BuildRequires:  golang(go.mongodb.org/mongo-driver/bson/bsontype)
+BuildRequires:  golang(go.mongodb.org/mongo-driver/bson/primitive)
 
 %if %{with check}
 # Tests
@@ -58,6 +58,12 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 17:08:40 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.19.5-1
+- Update to 0.19.5
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 %bcond_with runtests
 
 Name:      pykickstart
-Version:   3.26
+Version:   3.29
 Release:   1%{?dist}
 License:   GPLv2 and MIT
 Summary:   Python utilities for manipulating kickstart files.
@@ -20,8 +20,6 @@ BuildArch: noarch
 BuildRequires: gettext
 BuildRequires: python3-coverage
 BuildRequires: python3-devel
-BuildRequires: python3-nose
-BuildRequires: python3-ordered-set
 BuildRequires: python3-requests
 BuildRequires: python3-setuptools
 BuildRequires: python3-six
@@ -36,7 +34,6 @@ Python utilities for manipulating kickstart files.
 Summary:  Python 3 library for manipulating kickstart files.
 Requires: python3-six
 Requires: python3-requests
-Requires: python3-ordered-set
 
 %description -n python3-kickstart
 Python 3 library for manipulating kickstart files.  The binaries are found in
@@ -77,6 +74,33 @@ make PYTHON=%{__python3} test
 %{python3_sitelib}/pykickstart*.egg-info
 
 %changelog
+* Mon Aug 31 2020 Brian C. Lane <bcl@redhat.com> - 3.29-1
+- setup.py: Fix script installation without filename extension (bcl)
+
+* Mon Aug 31 2020 Brian C. Lane <bcl@redhat.com> - 3.28-1
+- Makefile: Add __init__.py with new version to bumpver commit (bcl)
+- tests: Ignore W0707 raise-missing-from warnings (bcl)
+- Add Fedora 34 support (bcl)
+- Add new tests for the harddrive biospart parameter removal (jkonecny)
+- Remove biospart from harddrive command (jkonecny)
+- move dependencies into setup.py and use setuptools (carlos)
+- remove reference to py3 as a requirement (carlos)
+- remove references to nose test framework (carlos)
+- update dist to 18.04 (carlos)
+- add ci test for future py ver (carlos)
+- use new travis-ci syntax (carlos)
+- parser: Remove OrderedSet (bcl)
+- tests: Add a slightly different test for Package.add (bcl)
+- Add pykickstart.__version__ string (bcl)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.27-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Brian C. Lane <bcl@redhat.com> - 3.27-1
+- tests: Fix pylint warnings in timezone tests (bcl)
+- Mark --ntpservers and --nontp options of timezone command as deprecated (mkolman)
+- Add the timesource command (mkolman)
+
 * Mon Jun 01 2020 Brian C. Lane <bcl@redhat.com> - 3.26-1
 - Makefile: Fix gpg signature (bcl)
 - Add RHEL8_Repo, RHEL8_RepoData, and RHEL8_Url classes (bcl)

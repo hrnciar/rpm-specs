@@ -3,7 +3,7 @@
 
 Name:           perl-Text-Bidi
 Version:        2.15
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Unicode bidirectional algorithm using libfribidi
 # LICENSE:          GPL+ or Artistic
 ## not in the binary package
@@ -115,6 +115,9 @@ make test
 %{_libdir}/urxvt/perl/bidi
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.15-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.15-7
 - Perl 5.32 rebuild
 

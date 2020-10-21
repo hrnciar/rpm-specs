@@ -1,14 +1,14 @@
 Summary: Network traffic tracker
 Name: jnettop
 Version: 0.13.0
-Release: 25%{?dist}
+Release: 28%{?dist}
 License: GPLv2+
 Source: http://jnettop.kubs.info/dist/jnettop-%{version}.tar.gz
 Source1: README.Fedora
 URL: http://jnettop.kubs.info/wiki/
 BuildRequires:  gcc
 BuildRequires: libpcap-devel 
-BuildRequires: ncurses-devel glib2-devel db4-devel
+BuildRequires: ncurses-devel glib2-devel libdb-devel
 
 
 %description
@@ -40,6 +40,16 @@ install -p -m 644 %{SOURCE1} README.Fedora
 %doc AUTHORS ChangeLog COPYING NEWS README README.UIA .jnettop PORTING README.Fedora
 
 %changelog
+* Tue Sep 22 2020 Jeff Law <law@redhat.com> - 0.13.0-28
+- Depend on libdb-devel rather than db4-devel
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-27
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

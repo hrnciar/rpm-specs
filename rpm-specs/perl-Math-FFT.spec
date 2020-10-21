@@ -1,11 +1,12 @@
 Name:           perl-Math-FFT
-Version:        1.34
-Release:        14%{?dist}
+Version:        1.36
+Release:        1%{?dist}
 Summary:        Perl module to calculate Fast Fourier Transforms
-# Perl module code is GPL+ or same as Perl itself
-# arrays.c has same licence as Perl itself
-# FFT code is based on the C routine of fft4g.c Takuya OOURA,
-# which is public domain
+# arrays.c:         GPL+ or Artistic (copied from the PGPLOT)
+# fft4g.c:          copied from <http://www.kurims.kyoto-u.ac.jp/~ooura/fft.html>
+#                   a package reviewer named it "Public Domain",
+#                   Debian names it an OOURA license
+# lib/Math/FFT.pm:  GPL+ or Artistic
 License:        (GPL+ or Artistic) and Public Domain
 URL:            https://metacpan.org/release/Math-FFT
 Source0:        https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/Math-FFT-%{version}.tar.gz
@@ -14,10 +15,11 @@ BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  gcc
 BuildRequires:  make
-BuildRequires:  perl-interpreter
 BuildRequires:  perl-devel
 BuildRequires:  perl-generators
-BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl-interpreter
+BuildRequires:  perl(:VERSION) >= 5.8
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
 # Run-time
@@ -27,13 +29,12 @@ BuildRequires:  perl(vars)
 BuildRequires:  perl(blib)
 BuildRequires:  perl(Exporter)
 BuildRequires:  perl(File::Spec)
-BuildRequires:  perl(File::Temp)
 BuildRequires:  perl(IO::Handle)
 BuildRequires:  perl(IPC::Open3)
 BuildRequires:  perl(lib)
 BuildRequires:  perl(parent)
-BuildRequires:  perl(Test::More)
-Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+BuildRequires:  perl(Test::More) >= 0.88
+Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 
 %description
 This module implements some algorithms for calculating Fast Fourier
@@ -43,16 +44,12 @@ Transforms for one-dimensional data sets of size 2^n.
 %setup -q -n Math-FFT-%{version}
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor OPTIMIZE="$RPM_OPT_FLAGS"
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 OPTIMIZE="$RPM_OPT_FLAGS"
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
-
-find $RPM_BUILD_ROOT -type f -name .packlist -exec rm -f {} \;
-find $RPM_BUILD_ROOT -type f -name '*.bs' -size 0 -exec rm -f {} \;
-find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
-
+%{make_install}
+find $RPM_BUILD_ROOT -type f -name '*.bs' -size 0 -delete
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
@@ -66,6 +63,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Mon Oct 19 2020 Petr Pisar <ppisar@redhat.com> - 1.36-1
+- 1.36 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.34-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.34-14
 - Perl 5.32 rebuild
 

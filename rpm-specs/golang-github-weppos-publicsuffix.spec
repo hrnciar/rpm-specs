@@ -3,7 +3,7 @@
 
 # https://github.com/weppos/publicsuffix-go
 %global goipath         github.com/weppos/publicsuffix-go
-Version:                0.5.0
+Version:                0.13.0
 
 %gometa
 
@@ -15,13 +15,14 @@ Suffix List.}
 %global godocs          CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Domain name parser for Go based on the Public Suffix List
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
 
+BuildRequires:  golang(github.com/google/go-github/github)
 BuildRequires:  golang(golang.org/x/net/idna)
 
 %if %{with check}
@@ -48,6 +49,12 @@ BuildRequires:  golang(golang.org/x/net/publicsuffix)
 %gopkgfiles
 
 %changelog
+* Tue Aug 04 18:36:26 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.13.0-1
+- Update to 0.13.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

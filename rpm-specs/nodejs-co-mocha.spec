@@ -7,7 +7,7 @@
 
 Name:		nodejs-co-mocha
 Version:	1.1.2
-Release:	8%{?dist}
+Release:	9%{?dist}
 Summary:	Enable support for generators in Mocha tests
 
 License:	MIT
@@ -71,6 +71,9 @@ cp -pr package.json co-mocha.js lib/ \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

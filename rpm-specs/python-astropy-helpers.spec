@@ -10,8 +10,8 @@ leverage this work. The motivation behind this package and details of its    \
 implementation are in the accepted Astropy Proposal for Enhancement (APE) 4.
 
 Name:           python-%{srcname}
-Version:        3.2.2
-Release:        3%{?dist}
+Version:        4.0.1
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        BSD
@@ -61,6 +61,12 @@ Requires:       python3-sphinx
 %{python3_sitelib}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Christian Dersch <lupinix@fedoraproject.org> - 4.0.1-1
+- new version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.2.2-3
 - Rebuilt for Python 3.9
 

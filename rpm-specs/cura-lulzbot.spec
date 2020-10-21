@@ -1,15 +1,15 @@
 %global shortname cura-lulzbot
 
 Name:           cura-lulzbot
-Version:        3.6.21
-Release:        4%{?dist}
+Version:        3.6.22
+Release:        1%{?dist}
 Epoch:		1
 Summary:        3D printer control software
 License:        AGPLv3+
 URL:            https://code.alephobjects.com/project/profile/10/
-# git clone https://code.alephobjects.com/source/cura-lulzbot.git
+# git clone https://gitlab.com/lulzbot3d/cura-le/cura-lulzbot.git
 # cd cura-lulzbot
-# git checkout v3.6.21
+# git checkout v3.6.22
 ## CANNOT use git archive here, need git hash for version
 # cd ..
 # mv cura-lulzbot cura-lulzbot-3.6.21
@@ -33,19 +33,20 @@ BuildRequires:  gettext
 BuildRequires:  git
 BuildRequires:  python3-devel
 BuildRequires:  python3-pytest
-BuildRequires:  python3-uranium-lulzbot == %{version}
-BuildRequires:  CuraEngine-lulzbot >= 1:%{version}
+BuildRequires:  python3-uranium-lulzbot >= 3.6.21
+BuildRequires:  CuraEngine-lulzbot >= 1:3.6.21
 
 Requires:       open-sans-fonts
 Requires:	python3-numpy-stl
 Requires:       python3-pyserial
 Requires:       python3-savitar >= 2.6
-Requires:       python3-uranium-lulzbot == %{version}
+Requires:       python3-uranium-lulzbot >= 3.6.21
 Requires:       python3-zeroconf
 Requires:       qt5-qtquickcontrols2, qt5-qtquickcontrols
-Requires:       CuraEngine-lulzbot >= 1:%{version}
-Requires:	lulzbot-marlin-firmware >= 1:1.1.9.34
-Requires:	lulzbot-marlin-firmware-pro >= 1:2.0.0.144
+Requires:       CuraEngine-lulzbot >= 1:3.6.21
+# -12 has the M175 firmware needed for cura-le 3.6.22
+Requires:	lulzbot-marlin-firmware >= 1:1.1.9.34-12
+Requires:	lulzbot-marlin-firmware-pro >= 1:2.0.0.144-12
 Requires:	lulzbot-marlin-firmware-bio >= 1:2.0.0.174
 # lulzbot package has the materials inside it, does not conflict
 # Requires:       cura-fdm-materials == %%{version}
@@ -54,6 +55,9 @@ Requires:	lulzbot-marlin-firmware-bio >= 1:2.0.0.174
 Requires:       3dprinter-udev-rules
 # Needs this or it segfaults. *shrug*
 Requires:	libglvnd-devel
+
+# Get Fedora 33++ behavior on anything older
+%undefine __cmake_in_source_build
 
 %description
 Cura is a project which aims to be an single software solution for 3D printing.
@@ -125,8 +129,8 @@ sed -i 's/"Language: jp\n"/"Language: ja\n"/' resources/i18n/ja/*.po
 %endif
 
 %build
-%{cmake} -DCURA_VERSION:STRING=%{version} .
-make %{?_smp_mflags}
+%cmake -DCURA_VERSION:STRING=%{version}
+%cmake_build
 
 # rebuild locales
 cd resources/i18n
@@ -141,7 +145,7 @@ done
 cd -
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 cp -a version.json %{buildroot}%{_datadir}/%{shortname}
 
@@ -202,6 +206,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{shortname}.desktop
 %{_prefix}/lib/%{shortname}
 
 %changelog
+* Wed Sep 23 2020 Tom Callaway <spot@fedoraproject.org> - 1:3.6.22-1
+- update to 3.6.22
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.6.21-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1:3.6.21-4
 - Rebuilt for Python 3.9
 

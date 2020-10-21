@@ -15,7 +15,7 @@ A Syntax highlighting extension for the goldmark markdown parser.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.1%{?dist}
+Release:        0.2%{?dist}
 Summary:        A Syntax highlighting extension for the goldmark markdown parser
 
 License:        MIT
@@ -53,5 +53,8 @@ BuildRequires:  golang(github.com/yuin/goldmark/util)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 04:12:16 EST 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0-0.1.20200218gitd1af22c
 - Initial package

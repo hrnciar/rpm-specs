@@ -5,19 +5,14 @@
 %global crate openssh-keys
 
 Name:           rust-%{crate}
-Version:        0.4.1
-Release:        5%{?dist}
+Version:        0.4.2
+Release:        1%{?dist}
 Summary:        Read and write OpenSSH public keys
 
 # Upstream license specification: MIT OR Apache-2.0
 License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/openssh-keys
 Source:         %{crates_source}
-# Initial patched metadata
-# * Update dirs to 2.0, https://github.com/coreos/openssh-keys/pull/33
-# * Update sha2 and md5 to 0.9, https://github.com/coreos/openssh-keys/commit/28ba57710dc21947348d3c53ba56427378203ab7
-Patch0:         openssh-keys-fix-metadata.diff
-Patch0001:      0001-lib-update-to-new-hmac-API.patch
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -76,6 +71,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 0.4.2-1
+- Update to 0.4.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 10:14:07 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.4.1-5
 - Update sha2 and md5 to 0.9
 

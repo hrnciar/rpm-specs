@@ -13,8 +13,8 @@
 
 Name:       distgen
 Summary:    Templating system/generator for distributions
-Version:    1.5
-Release:    2%{?dist}
+Version:    1.6
+Release:    1%{?dist}
 License:    GPLv2+
 URL:        https://github.com/devexp-db/distgen
 BuildArch:  noarch
@@ -71,6 +71,13 @@ make PYTHON=%{pybin} check
 
 
 %changelog
+* Mon Aug 24 2020 Honza Horak <hhorak@redhat.com> - 1.6-1
+- Provide F32 branched configs
+  Provide CentOS 8 config
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5-2
 - Rebuilt for Python 3.9
 

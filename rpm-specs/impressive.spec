@@ -2,7 +2,7 @@
 %global	svnversion	275
 Name:           impressive
 Version:        0.13.0
-Release:        0.3.%{timestamp}svn%{svnversion}%{?dist}
+Release:        0.4.%{timestamp}svn%{svnversion}%{?dist}
 Summary:        A program that displays presentation slides
 
 License:        GPLv2
@@ -65,6 +65,9 @@ install -D -p -m 755 impressive.sh %{buildroot}%{_bindir}/impressive
 %{_mandir}/man1/impressive.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-0.4.20190902svn275
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.13.0-0.3.20190902svn275
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           xpanes
-Version:        4.1.1
-Release:        2%{?dist}
+Version:        4.1.2
+Release:        1%{?dist}
 Summary:        Awesome tmux-based terminal divider
 License:        MIT
 URL:            https://github.com/greymd/tmux-xpanes
@@ -32,9 +32,9 @@ features:
 
 
 %install
-install -D -p -m 0755 -t %{buildroot}%{_bindir} bin/xpanes
-install -D -p -m 0644 -t %{buildroot}%{_mandir}/man1 man/xpanes.1
-install -D -p -m 0644 -t %{buildroot}%{_datadir}/zsh/site-functions completion/zsh/_xpanes
+install -D -p -m 0755 bin/xpanes %{buildroot}%{_bindir}/xpanes
+install -D -p -m 0644 man/xpanes.1 %{buildroot}%{_mandir}/man1/xpanes.1
+install -D -p -m 0644 completion/zsh/_xpanes %{buildroot}%{_datadir}/zsh/site-functions/_xpanes
 ln -s xpanes %{buildroot}%{_bindir}/tmux-xpanes
 ln -s xpanes.1 %{buildroot}%{_mandir}/man1/tmux-xpanes.1
 ln -s _xpanes %{buildroot}%{_datadir}/zsh/site-functions/_tmux-xpanes
@@ -53,6 +53,12 @@ ln -s _xpanes %{buildroot}%{_datadir}/zsh/site-functions/_tmux-xpanes
 
 
 %changelog
+* Sat Aug 29 2020 Carl George <carl@george.computer> - 4.1.2-1
+- Latest upstream
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

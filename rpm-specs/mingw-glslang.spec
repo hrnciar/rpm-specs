@@ -2,11 +2,11 @@
 
 %global pkgname glslang
 
-%global commit c9b28b9f3388c607ea5506f5e6197b7150238ad3
+%global commit 5743eed4d16757402517a1068137f4bc1645ee87
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:          mingw-%{pkgname}
-Version:       8.13.3559
+Version:       11.0.0
 Release:       1%{?commit:.git%{shortcommit}}%{?dist}
 Summary:       MinGW Windows %{pkgname} library
 
@@ -18,6 +18,8 @@ Source0:       https://github.com/KhronosGroup/%{pkgname}/archive/%{commit}/%{pk
 %else
 Source0:       https://github.com/KhronosGroup/%{pkgname}/archive/%{version}/%{pkgname}-%{version}.tar.gz
 %endif
+# Remove debug suffix for mingw builds
+Patch0:        glslang_debug-suffix.patch
 
 BuildRequires: make
 BuildRequires: cmake
@@ -62,11 +64,11 @@ MinGW Windows %{pkgname} library.
 
 %build
 %mingw_cmake -DBUILD_SHARED_LIBS=OFF
-%mingw_make %{?_smp_mflags}
+%mingw_make_build
 
 
 %install
-%mingw_make install DESTDIR=%{buildroot}
+%mingw_make_install
 
 # We don't want them in here
 rm -rf %{buildroot}%{mingw32_includedir}/SPIRV
@@ -77,7 +79,9 @@ rm -rf %{buildroot}%{mingw64_includedir}/SPIRV
 %{mingw32_bindir}/glslangValidator.exe
 %{mingw32_bindir}/spirv-remap.exe
 %{mingw32_includedir}/glslang/
+%{mingw32_libdir}/libGenericCodeGen.a
 %{mingw32_libdir}/libHLSL.a
+%{mingw32_libdir}/libMachineIndependent.a
 %{mingw32_libdir}/libOGLCompiler.a
 %{mingw32_libdir}/libOSDependent.a
 %{mingw32_libdir}/libSPIRV.a
@@ -89,7 +93,9 @@ rm -rf %{buildroot}%{mingw64_includedir}/SPIRV
 %{mingw64_bindir}/glslangValidator.exe
 %{mingw64_bindir}/spirv-remap.exe
 %{mingw64_includedir}/glslang/
+%{mingw64_libdir}/libGenericCodeGen.a
 %{mingw64_libdir}/libHLSL.a
+%{mingw64_libdir}/libMachineIndependent.a
 %{mingw64_libdir}/libOGLCompiler.a
 %{mingw64_libdir}/libOSDependent.a
 %{mingw64_libdir}/libSPIRV.a
@@ -99,6 +105,12 @@ rm -rf %{buildroot}%{mingw64_includedir}/SPIRV
 
 
 %changelog
+* Mon Aug 10 2020 Sandro Mani <manisandro@gmail.com> - 11.0.0-1
+- Update to 11.0.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.13.3559-2.gitc9b28b9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Sandro Mani <manisandro@gmail.com> - 8.13.3559-2.gitc9b28b9
 - Update to git c9b28b9
 

@@ -1,6 +1,7 @@
+%undefine __cmake_in_source_build
 Name:		tint2
 Version:	16.7
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	A lightweight X11 desktop panel and task manager
 
 License:	GPLv2
@@ -34,16 +35,11 @@ specifically made for Openbox3 but should also work with other window managers
 %autosetup -p1 -n %{name}-v%{version}
 
 %build
-mkdir -p build
-pushd build
-%{cmake3} -DENABLE_EXAMPLES=ON -GNinja ..
-%{ninja_build}
-popd
+%{cmake3} -DENABLE_EXAMPLES=ON -GNinja
+%{cmake3_build}
 
 %install
-pushd build
-%{ninja_install}
-popd
+%{cmake3_install}
 
 rm -rf %{buildroot}%{_datadir}/doc/
 
@@ -92,6 +88,9 @@ fi
 %{_mandir}/man1/tint2*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16.7-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

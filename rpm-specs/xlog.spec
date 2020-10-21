@@ -1,6 +1,6 @@
 Name:          xlog
 Version:       2.0.19
-Release:       1%{?dist}
+Release:       3%{?dist}
 Summary:       Logging program for Hamradio Operators
 
 License:       GPLv3
@@ -61,6 +61,13 @@ desktop-file-install \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.19-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.19-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 14 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 2.0.19-1
 - New version
   Resolves: rhbz#1834548

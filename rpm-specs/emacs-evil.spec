@@ -3,7 +3,7 @@
 
 Name:		emacs-%{pkg}
 Version:	1.2.14
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Extensible vi layer for Emacs	
 Summary(fr):	Surcouche vi extensible pour Emacs
 
@@ -50,6 +50,9 @@ cp -p *.el *.elc $RPM_BUILD_ROOT%{_emacs_sitelispdir}/%{pkg}
 %{_emacs_sitelispdir}/%{pkg}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.14-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.14-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

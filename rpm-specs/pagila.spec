@@ -4,7 +4,7 @@
 Summary:	A sample database for PostgreSQL
 Name:		%{sname}
 Version:	0.10.1
-Release:	11%{?dist}
+Release:	12%{?dist}
 License:	BSD
 URL:		http://pgfoundry.org/projects/dbsamples
 
@@ -33,6 +33,9 @@ install -m 644 -p *.sql %{buildroot}%{_pagiladir}
 %{_pagiladir}/*.sql
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

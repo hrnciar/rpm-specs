@@ -48,7 +48,8 @@
 
 %if 0%{?fedora} >= 18 || 0%{?rhel} >= 6
    %define initdir %{_initddir}
-%else # RHEL5 doesn't know _initddir
+%else
+   # RHEL5 doesn't know _initddir
    %define initdir %{_initrddir}
 %endif
 
@@ -58,7 +59,8 @@
    %else
       %if 0%{?rhel} >= 6
          %define udevrulesdir /lib/udev/rules.d
-      %else # RHEL5
+      %else
+         # RHEL5
          %define udevrulesdir /etc/udev/rules.d
       %endif
    %endif
@@ -86,8 +88,8 @@
 %define __brp_mangle_shebangs_exclude_from .stp$
 
 Name: systemtap
-Version: 4.3
-Release: 1%{?release_override}%{?dist}
+Version: 4.4
+Release: 0.20200922git05179173e71c%{?dist}
 # for version, see also configure.ac
 
 
@@ -121,7 +123,7 @@ Release: 1%{?release_override}%{?dist}
 Summary: Programmable system-wide instrumentation system
 License: GPLv2+
 URL: http://sourceware.org/systemtap/
-Source: ftp://sourceware.org/pub/systemtap/releases/systemtap-%{version}.tar.gz
+Source: %{name}-%{version}-0.20200922git05179173e71c.tar.gz
 
 # Build*
 BuildRequires: gcc-c++
@@ -363,6 +365,7 @@ Requires: systemtap = %{version}-%{release}
 Requires: systemtap-sdt-devel = %{version}-%{release}
 Requires: systemtap-server = %{version}-%{release}
 Requires: dejagnu which elfutils grep nc
+Requires: elfutils-debuginfod
 Requires: gcc gcc-c++ make glibc-devel
 # testsuite/systemtap.base/ptrace.exp needs strace
 Requires: strace
@@ -1226,6 +1229,42 @@ done
 
 # PRERELEASE
 %changelog
+* Tue Sep 22 2020 Frank Ch. Eigler <fche@redhat.com> - 4.4-0.20200922git05179173e71c
+- Automated weekly rawhide release
+- Applied spec changes from upstream git
+
+* Wed Sep 09 2020 Stan Cox <scox@redhat.com> - 4.4-0.20200909git82b8e1a07
+- Rebuild for dyninst 10.2.0
+
+* Wed Aug 05 2020 William Cohen <wcohen@redhat.com> - 4.4-0.20200805git82b8e1a07
+- Automated weekly rawhide release
+- Applied spec changes from upstream git
+
+* Fri Jul 31 2020 Frank Ch. Eigler <fche@redhat.com> - 4.4-0.20200731git87344e948606
+- Automated weekly rawhide release
+- Applied spec changes from upstream git
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4-0.20200716gitce0fa621eb35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Frank Ch. Eigler <fche@redhat.com> - 4.4-0.20200715gitce0fa621eb35
+- Automated weekly rawhide release
+- Applied spec changes from upstream git
+
+* Tue Jul 14 2020 Frank Ch. Eigler <fche@redhat.com> - 4.4-0.20200714gite5a63d9c000a
+- Automated weekly rawhide release
+- Applied spec changes from upstream git
+
+* Tue Jul 14 2020 Frank Ch. Eigler <fche@redhat.com> - 4.4-0.20200714git8212024da2ae
+- Automated weekly rawhide release
+- Applied spec changes from upstream git
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 4.3-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> - 4.3-2
+- Disable LTO
+
 * Thu Jun 11 2020 Frank Ch. Eigler <fche@redhat.com> - 4.3-1
 - Upstream release.
 

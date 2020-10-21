@@ -7,7 +7,7 @@
 
 Name:           bolzplatz2006
 Version:        1.0.3
-Release:        42%{?dist}
+Release:        46%{?dist}
 Summary:        Slam Soccer 2006 is a funny football game in 3D-comic-style
 Summary(fr):    Coup de Foot 2006 est un jeu comique en 3D
 Summary(de):    Bolzplatz 2006 ist ein spaßiges Fußballspiel im 3D-Comic-Stil
@@ -36,15 +36,15 @@ Patch9:         %{name}-1.0.3-libpng15.patch
 Patch10:        %{name}-class-version15.patch
 Patch11:        %{name}-use-system-extgl.patch
 Patch12:        %{name}-gcc6.patch
+Patch13:        %{name}-openjdk11.patch
 BuildRequires:  gcc-c++
 BuildRequires:  ant sdljava dom4j vecmath1.2 swig xml-commons-apis
 BuildRequires:  libGLU-devel DevIL-devel libXxf86vm-devel libjpeg-devel
 BuildRequires:  libpng-devel libXext-devel libXrandr-devel libXcursor-devel
 BuildRequires:  libXt-devel libXrender-devel libvorbis-devel desktop-file-utils
-# Make sure we get the normal openjdk and not the incomplete aarch32 version
-BuildRequires:  java-1.8.0-openjdk-devel
+BuildRequires:  java-devel
 BuildRequires:  libappstream-glib
-Requires:       sdljava dom4j vecmath1.2 java >= 1:1.6.0 jpackage-utils
+Requires:       sdljava dom4j vecmath1.2 java jpackage-utils
 Requires:       hicolor-icon-theme autodownloader
 # These are dynamically opened by lwjgl:
 Requires:       openal-soft
@@ -133,6 +133,7 @@ popd
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+%patch13 -p1
 cp %{SOURCE7} .
 sed -i 's/\r//' license.txt
 # we use the system versions of these
@@ -235,6 +236,19 @@ install -p -m 644 %{name}-functions.sh %{SOURCE8} %{SOURCE9} \
 
 
 %changelog
+* Tue Aug 11 2020 Hans de Goede <hdegoede@redhat.com> - 1.0.3-46
+- Fix FTBFS (rhbz#1863284, rhbz#1859123)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-45
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-44
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.0.3-43
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-42
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

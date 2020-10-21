@@ -1,6 +1,6 @@
 Name:           perl-Class-Exporter
 Version:        0.03
-Release:        32%{?dist}
+Release:        33%{?dist}
 Summary:        Export class methods as regular subroutines
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Class-Exporter
@@ -51,6 +51,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.03-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.03-32
 - Perl 5.32 rebuild
 

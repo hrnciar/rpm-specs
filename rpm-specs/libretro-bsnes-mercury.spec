@@ -6,7 +6,7 @@
 
 Name:           libretro-%{corename}
 Version:        0
-Release:        0.4.%{date}git%{shortcommit}%{?dist}
+Release:        0.5.%{date}git%{shortcommit}%{?dist}
 Summary:        Fork of bsnes with various performance improvements
 
 License:        GPLv3+
@@ -48,6 +48,9 @@ sed -i 's!balanced!accuracy!' %{buildroot}%{_libdir}/libretro/%{corename}_accura
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5.20190817git4a38262
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4.20190817git4a38262
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

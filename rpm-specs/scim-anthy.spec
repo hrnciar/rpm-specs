@@ -1,6 +1,6 @@
 Name:           scim-anthy
 Version:        1.2.7
-Release:        26%{?dist}
+Release:        27%{?dist}
 
 License:        GPLv2+
 URL:            http://scim-imengine.sourceforge.jp/
@@ -51,6 +51,9 @@ rm $RPM_BUILD_ROOT%{_libdir}/scim-1.0/*/*/*.la
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.7-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.7-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

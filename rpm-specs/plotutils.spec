@@ -1,6 +1,6 @@
 Name:      plotutils
 Version:   2.6
-Release:   24%{?dist}
+Release:   25%{?dist}
 Summary:   GNU vector and raster graphics utilities and libraries
 
 # libxmi is GPLv2+
@@ -93,6 +93,9 @@ rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,8 @@
+%global __cmake_in_source_build 1
+
 Name:           gerbera
-Version:        1.4.0
-Release:        3%{?dist}
+Version:        1.6.4
+Release:        1%{?dist}
 Summary:        UPnP Media Server
 License:        GPLv2 and MIT and OFL
 Url:            https://gerbera.io
@@ -11,7 +13,6 @@ BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  libupnp-devel
 BuildRequires:  libuuid-devel
-BuildRequires:  expat-devel
 BuildRequires:  sqlite-devel
 BuildRequires:  duktape-devel
 BuildRequires:  curl-devel
@@ -23,6 +24,8 @@ BuildRequires:  cmake
 BuildRequires:  zlib-devel
 BuildRequires:  libebml-devel
 BuildRequires:  libmatroska-devel
+BuildRequires:  spdlog-devel
+BuildRequires:  pugixml-devel
 Requires(pre): shadow-utils
 %{?systemd_requires}
 BuildRequires:  systemd
@@ -116,6 +119,27 @@ exit 0
 %config(noreplace) %{_datadir}/%{name}/js/common.js
 
 %changelog
+* Thu Oct 15 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.6.4-1
+- 1.6.4
+
+* Fri Sep 04 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.6.1-1
+- 1.6.1
+
+* Tue Aug 04 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.6.0-3
+- fmt rebuild.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.6.0-1
+- 1.6.0
+
+* Fri Jul 17 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.5.0-2
+- rebuild for libebml and libmatroska soname bump
+
+* Thu Jul 16 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.5.0-1
+- 1.5.0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

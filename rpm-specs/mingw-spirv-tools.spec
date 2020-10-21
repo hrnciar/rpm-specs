@@ -1,6 +1,6 @@
 %{?mingw_package_header}
 
-%global commit 67f4838659f475d618c120e13d1a196d7e00ba4b
+%global commit 92a71657fcbae77caf79181f655fabe8be7e0d84
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 
@@ -8,8 +8,8 @@
 %global srcname SPIRV-Tools
 
 Name:          mingw-%{pkgname}
-Version:       2019.5
-Release:       4%{?commit:.git%{shortcommit}}%{?dist}
+Version:       2020.5
+Release:       1%{?commit:.git%{shortcommit}}%{?dist}
 Summary:       MinGW Windows %{pkgname}
 
 License:       ASL 2.0
@@ -21,8 +21,10 @@ Source0:       https://github.com/KhronosGroup/%{srcname}/archive/%{commit}/%{sr
 Source0:       https://github.com/KhronosGroup/%{srcname}/archive/v%{version}/%{srcname}-%{version}.tar.gz
 %endif
 
+# Re-enable shared libs build
+Patch0:        0001-Revert-CMake-Enable-building-with-BUILD_SHARED_LIBS-.patch
 # Fix installation dir for cmake modules
-Patch0:        spirv-tool_cmake-install.patch
+Patch1:        spirv-tool_cmake-install.patch
 
 BuildRequires: make
 BuildRequires: cmake
@@ -132,6 +134,12 @@ MINGW64_CMAKE_ARGS="-DSPIRV-Headers_SOURCE_DIR=%{mingw64_prefix} -DPYTHON_EXECUT
 
 
 %changelog
+* Mon Aug 10 2020 Sandro Mani <manisandro@gmail.com> - 2020.5-1.git92a7165
+- Update to git 92a7165
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.5-5.git67f4838
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Sandro Mani <manisandro@gmail.com> - 2019.5-4.git67f4838
 - Rebuild (python-3.9)
 

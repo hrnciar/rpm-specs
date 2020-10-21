@@ -17,7 +17,7 @@
 
 Name:           php-phpdocumentor-reflection-docblock%{major}
 Version:        4.3.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        DocBlock parser
 
 License:        MIT
@@ -159,6 +159,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Summary: Database-specific drivers for libdbi
 Name: libdbi-drivers
 Version: 0.9.0
-Release: 15%{?dist}
+Release: 16%{?dist}
 License: LGPLv2+
 URL: http://libdbi-drivers.sourceforge.net/
 
@@ -109,6 +109,9 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
 %{_libdir}/dbd/libdbdsqlite3.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

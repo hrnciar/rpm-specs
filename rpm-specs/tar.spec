@@ -5,7 +5,7 @@ Summary: A GNU file archiving program
 Name: tar
 Epoch: 2
 Version: 1.32
-Release: 4%{?dist}
+Release: 6%{?dist}
 License: GPLv3+
 URL: http://www.gnu.org/software/tar/
 
@@ -19,6 +19,7 @@ Patch3:  tar-1.29-wildcards.patch
 Patch4:  tar-1.28-atime-rofs.patch
 Patch9:  tar-1.28-document-exclude-mistakes.patch
 Patch10: tar-1.32-testsuite-fix.patch
+Patch11: tar-1.32-bugfix-sparse-diff-mode.patch
 
 BuildRequires:  gcc
 BuildRequires: autoconf automake texinfo gettext libacl-devel
@@ -113,6 +114,12 @@ make check || (
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:1.32-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Ondrej Dubaj <odubaj@redhat.com> - 2:1.32-5
+- Bugfix of --sparse option in --diff mode
+
 * Wed Feb 05 2020 Than Ngo <than@redhat.com> - 2:1.32-4
 - Skip the test if genfile is unable to create
 

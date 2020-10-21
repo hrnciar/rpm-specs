@@ -6,8 +6,8 @@ numbers.\
 
 
 Name:           python-%{pypi_name}
-Version:        8.12.5
-Release:        1%{?dist}
+Version:        8.12.6
+Release:        2%{?dist}
 Summary:        A Python port of Google's libphonenumber
 
 License:        ASL 2.0
@@ -56,6 +56,12 @@ sed -i -e '/^#!\//, 1d' python/%{pypi_name}/util.py
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.12.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Dan Callaghan <djc@djc.id.au> - 8.12.6-1
+- new upstream release 8.12.6
+
 * Sat Jun 13 2020 Dan Callaghan <djc@djc.id.au> - 8.12.5-1
 - new upstream release 8.12.5
 

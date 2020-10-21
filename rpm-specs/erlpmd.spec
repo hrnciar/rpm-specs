@@ -4,7 +4,7 @@
 
 Name:		%{realname}
 Version:	3.0.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 BuildArch:	noarch
 Summary:	A drop-in replacement for epmd written in Erlang
 License:	MIT
@@ -61,6 +61,9 @@ useradd -r -g %{realname} -d %{_localstatedir}/empty -s /sbin/nologin \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

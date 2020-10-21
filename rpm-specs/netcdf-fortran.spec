@@ -1,6 +1,6 @@
 Name:           netcdf-fortran
 Version:        4.5.2
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Fortran libraries for NetCDF-4
 
 License:        NetCDF and ASL 2.0
@@ -136,10 +136,13 @@ NetCDF Fortran parallel openmpi static libraries
 autoreconf
 sed -i -e '1i#!/bin/sh' examples/F90/run_f90_par_examples.sh
 
-# Update config.guess/sub to fix builds on new architectures (aarch64/ppc64le)
-cp /usr/lib/rpm/config.* .
 
 %build
+# This package fails its testsuite if LTO is enabled on i686
+# Disable LTO for now
+%ifarch i686
+%define _lto_cflags %{nil}
+%endif
 #Do out of tree builds
 %global _configure ../configure
 
@@ -154,7 +157,7 @@ export FFLAGS="$RPM_OPT_FLAGS"
 # Temporary fix for FTBFS due to gcc 10 - reported upstream:
 # https://github.com/Unidata/netcdf-fortran/issues/212
 %if 0%{?fedora} >= 32
-export FCFLAGS="$FCLAGS -fallow-argument-mismatch"
+export FCFLAGS="$FCFLAGS -fallow-argument-mismatch"
 export FFLAGS="$FFLAGS -fallow-argument-mismatch"
 %endif
 %configure --enable-extra-example-tests --with-fmoddir=%{_fmoddir}
@@ -163,11 +166,6 @@ make #{?_smp_mflags}
 popd
 
 # MPI builds
-export CC=mpicc
-# netcdf gets confused about Fortran type
-export CPPFLAGS=-DpgiFortran
-export F77=mpif90
-export FC=mpif90
 for mpi in %{mpi_list}
 do
   mkdir $mpi
@@ -175,6 +173,7 @@ do
   module load mpi/$mpi-%{_arch}
   ln -s ../configure .
   %configure \
+    CC=mpicc CPPFLAGS=-DpgiFortran F77=mpif90 FC=mpif90 \
     FCFLAGS="$FCFLAGS -I$MPI_FORTRAN_MOD_DIR" \
     --libdir=%{_libdir}/$mpi/lib \
     --bindir=%{_libdir}/$mpi/bin \
@@ -277,6 +276,12 @@ done
 
 
 %changelog
+* Mon Aug 10 2020 Jeff Law <law@redhat.com> - 4.5.2-5
+- Disable LTO on i686 for now
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Orion Poplawski <orion@nwra.com> - 4.5.2-3
 - Make netcdf-fortran report module directory (bz#1738541)
 - Fix FTBFS (bz#1799681)

@@ -3,8 +3,8 @@
 %global pkgname protobuf
 
 Name:          mingw-%{pkgname}
-Version:       3.11.4
-Release:       1%{?dist}
+Version:       3.13.0
+Release:       2%{?dist}
 Summary:       MinGW Windows protobuf library
 
 BuildArch:     noarch
@@ -25,9 +25,6 @@ BuildRequires: mingw64-filesystem >= 102
 BuildRequires: mingw64-gcc-c++
 BuildRequires: mingw64-zlib
 
-# Ensure packages stay in sync
-Requires:      protobuf-compiler = %{version}
-
 
 
 %description
@@ -36,9 +33,12 @@ MinGW Windows protobuf library.
 
 %package -n mingw32-%{pkgname}
 Summary:       MinGW Windows protobuf library
+# Ensure packages stay in sync
+Requires:      protobuf-compiler = %{version}
 
 %description -n mingw32-%{pkgname}
 MinGW Windows protobuf library.
+
 
 %package -n mingw32-%{pkgname}-static
 Summary:       Static version of the MinGW Windows protobuf library
@@ -58,6 +58,9 @@ MinGW Windows protobuf library tools.
 
 %package -n mingw64-%{pkgname}
 Summary:       MinGW Windows protobuf library
+# Ensure packages stay in sync
+Requires:      protobuf-compiler = %{version}
+
 
 %description -n mingw64-%{pkgname}
 MinGW Windows protobuf library.
@@ -100,9 +103,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 %files -n mingw32-%{pkgname}
 %license LICENSE
-%{mingw32_bindir}/libprotobuf-22.dll
-%{mingw32_bindir}/libprotobuf-lite-22.dll
-%{mingw32_bindir}/libprotoc-22.dll
+%{mingw32_bindir}/libprotobuf-24.dll
+%{mingw32_bindir}/libprotobuf-lite-24.dll
+%{mingw32_bindir}/libprotoc-24.dll
 %dir %{mingw32_includedir}/google
 %{mingw32_includedir}/google/protobuf/
 %{mingw32_libdir}/pkgconfig/protobuf-lite.pc
@@ -122,9 +125,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 %files -n mingw64-%{pkgname}
 %license LICENSE
-%{mingw64_bindir}/libprotobuf-22.dll
-%{mingw64_bindir}/libprotobuf-lite-22.dll
-%{mingw64_bindir}/libprotoc-22.dll
+%{mingw64_bindir}/libprotobuf-24.dll
+%{mingw64_bindir}/libprotobuf-lite-24.dll
+%{mingw64_bindir}/libprotoc-24.dll
 %dir %{mingw64_includedir}/google
 %{mingw64_includedir}/google/protobuf/
 %{mingw64_libdir}/pkgconfig/protobuf-lite.pc
@@ -143,6 +146,18 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Mon Sep 28 2020 Sandro Mani <manisandro@gmail.com> - 3.13.0-2
+- Correctly require protobuf-compiler
+
+* Sun Sep 27 2020 Sandro Mani <manisandro@gmail.com> - 3.13.0-1
+- Update to 3.13.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.12.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 23 2020 Sandro Mani <manisandro@gmail.com> - 3.12.3-1
+- Update to 3.12.3
+
 * Fri May 22 2020 Sandro Mani <manisandro@gmail.com> - 3.11.4-1
 - Update to 3.11.4
 

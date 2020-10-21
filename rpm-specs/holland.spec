@@ -5,8 +5,8 @@
 %bcond_without mariabackup
 
 Name: holland
-Version: 1.1.21
-Release: 3%{?dist}
+Version: 1.2.2
+Release: 1%{?dist}
 Summary: Pluggable Backup Framework
 License: BSD
 URL: http://hollandbackup.org
@@ -463,6 +463,12 @@ EOF
 
 
 %changelog
+* Fri Sep 04 2020 Sam P <survient@fedoraproject.org> - 1.2.2-1
+- Updated to latest upstream release.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.21-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.21-3
 - Rebuilt for Python 3.9
 

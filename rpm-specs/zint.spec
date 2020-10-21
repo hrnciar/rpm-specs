@@ -1,6 +1,6 @@
 Name:      zint
 Version:   2.6.6
-Release:   2%{?dist}
+Release:   3%{?dist}
 Summary:   Barcode generator library
 License:   GPLv3+
 URL:       http://www.zint.org.uk
@@ -74,13 +74,13 @@ rm -f frontend/getopt*.*
 find -type f -exec chmod 644 {} \;
 
 %build
-%cmake .
-make VERBOSE=1 %{?_smp_mflags}
+%cmake
+%cmake_build
 gunzip frontend/%{name}.1.gz
 
 
 %install
-%make_install
+%cmake_install
 rm -rf %{buildroot}/%{_datadir}/apps
 install -D -p -m 644 frontend/%{name}.1 %{buildroot}%{_mandir}/man1/%{name}.1
 install -D -p -m 644 cmake/modules/FindZint.cmake %{buildroot}%{_datadir}/cmake/Modules/FindZint.cmake
@@ -116,6 +116,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}-qt.desktop
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

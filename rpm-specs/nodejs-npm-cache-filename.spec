@@ -4,7 +4,7 @@
 
 Name:		nodejs-npm-cache-filename
 Version:	1.0.2
-Release:	9%{?dist}
+Release:	11%{?dist}
 Summary:	Return NPM cache folder
 License:	ISC
 Url:		https://github.com/npm/npm-cache-filename
@@ -45,6 +45,13 @@ cp -pr package.json index.js \
 %{nodejs_sitelib}/npm-cache-filename
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

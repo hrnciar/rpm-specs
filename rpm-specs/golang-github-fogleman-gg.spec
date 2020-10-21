@@ -7,7 +7,7 @@
 # https://github.com/fogleman/gg
 %global goipath         github.com/fogleman/gg
 Version:                1.3.0
-%global commit          72436a171bf31757dc87fb8fa9f7485307350307
+%global commit          ad4d1eafac46916fde6a6b375f7389e555f7e040
 
 %gometa
 
@@ -18,7 +18,7 @@ Gg is a library for rendering 2D graphics in pure Go.}
 %global godocs          examples README.md
 
 Name:           %{goname}
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        2D rendering in Go with a simple API
 
 License:        MIT
@@ -56,6 +56,12 @@ BuildRequires:  golang(golang.org/x/image/math/fixed)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 17:33:04 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.3.0-6.20200726gitad4d1ea
+- Bump to commit ad4d1eafac46916fde6a6b375f7389e555f7e040
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

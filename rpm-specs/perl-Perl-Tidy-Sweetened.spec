@@ -1,6 +1,6 @@
 Name:           perl-Perl-Tidy-Sweetened
 Version:        1.16
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Tweaks to Perl::Tidy to support some syntactic sugar
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Perl-Tidy-Sweetened
@@ -52,6 +52,9 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.16-2
 - Perl 5.32 rebuild
 

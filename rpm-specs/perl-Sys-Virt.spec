@@ -1,7 +1,7 @@
 
 Name:           perl-Sys-Virt
-Version:        6.3.0
-Release:        2%{?dist}
+Version:        6.8.0
+Release:        1%{?dist}
 Summary:        Represent and manage a libvirt hypervisor connection
 License:        GPLv2+ or Artistic
 URL:            https://metacpan.org/release/Sys-Virt
@@ -69,6 +69,12 @@ virtualization containers to be managed with a consistent API.
 
 
 %changelog
+* Mon Oct  5 2020 Daniel P. Berrangé <berrange@redhat.com> - 6.8.0-1
+- Update to 6.8.0 release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 6.3.0-2
 - Perl 5.32 rebuild
 

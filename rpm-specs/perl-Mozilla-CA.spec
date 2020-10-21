@@ -3,7 +3,7 @@ Name:           perl-Mozilla-CA
 # certificates. They are taken from ca-certificates package instead
 # per bug #738383.
 Version:        20200520
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Mozilla's CA certificate bundle in PEM format
 # README:                       MPLv2.0
 ## Unbundled
@@ -61,6 +61,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200520-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 20200520-2
 - Perl 5.32 rebuild
 

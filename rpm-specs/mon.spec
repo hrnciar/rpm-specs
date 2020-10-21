@@ -7,7 +7,7 @@
 Name:           mon
 Summary:        General-purpose resource monitoring system
 Version:        1.2.0
-Release:        28%{?dist}
+Release:        29%{?dist}
 License:        GPLv2+
 URL:            http://www.kernel.org/software/mon/
 
@@ -193,6 +193,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-28
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

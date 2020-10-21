@@ -1,7 +1,8 @@
+%global __cmake_in_source_build 1
 
 Name: smokegen
 Version: 4.14.3
-Release: 14%{?dist}
+Release: 16%{?dist}
 Summary: Smoke Generator
 
 License: LGPLv2 and GPLv2+
@@ -70,6 +71,12 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.3-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 4.14.3-15
+- Use __cmake_in_source_build
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.3-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

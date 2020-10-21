@@ -5,7 +5,7 @@
 
 Name:		nodejs-bundle-dependencies
 Version:	1.0.2
-Release:	10%{?dist}
+Release:	11%{?dist}
 Summary:	Generates bundledDependencies package.json value
 
 License:	BSD
@@ -64,6 +64,9 @@ cp -pr package.json dist/ %{buildroot}%{nodejs_sitelib}/%{packagename}
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

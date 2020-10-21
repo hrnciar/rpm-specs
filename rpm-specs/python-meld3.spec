@@ -4,7 +4,7 @@
 Summary: %{sum}
 Name: python-%{srcname}
 Version: 2.0.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 
 License: BSD
 URL: https://github.com/Supervisor/%{srcname}
@@ -46,6 +46,9 @@ template markup and dynamic rendering logic separate from one another.
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.0-4
 - Rebuilt for Python 3.9
 

@@ -1,12 +1,11 @@
 Name: pdns-recursor
-Version: 4.3.1
-Release: 2%{?dist}
+Version: 4.3.5
+Release: 1%{?dist}
 Summary: Modern, advanced and high performance recursing/non authoritative name server
 License: GPLv2
 URL: https://powerdns.com
 Source0: https://downloads.powerdns.com/releases/%{name}-%{version}.tar.bz2
-Patch0: fix-build-with-gcc10.patch
-Patch1: 0001-Replace-boost-s-placeholders-with-the-ones-from-the-.patch
+Patch0: 0001-Replace-boost-s-placeholders-with-the-ones-from-the-.patch
 
 Provides: powerdns-recursor = %{version}-%{release}
 BuildRequires: boost-devel
@@ -43,9 +42,7 @@ package if you need a dns cache for your network.
 
 
 %prep
-%setup -q
-%patch0 -p1
-%patch1 -p2
+%autosetup
 
 %build
 %configure \
@@ -117,6 +114,18 @@ exit 0
 
 
 %changelog
+* Mon Oct 19 2020 Morten Stevens <mstevens@fedoraproject.org> - 4.3.5-1
+- Update to 4.3.5
+
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 4.3.4-2
+- Rebuilt for protobuf 3.13
+
+* Tue Sep 08 2020 Morten Stevens <mstevens@fedoraproject.org> - 4.3.4-1
+- Update to 4.3.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 4.3.1-2
 - Rebuilt for protobuf 3.12
 

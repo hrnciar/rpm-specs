@@ -3,8 +3,8 @@
 %global pkgname LibRaw
 
 Name:          mingw-%{pkgname}
-Version:       0.19.5
-Release:       3%{?dist}
+Version:       0.20.2
+Release:       1%{?dist}
 Summary:       Library for reading RAW files obtained from digital photo cameras
 
 # LibRaw base package is dual licensed (actually triple licensed LGPLv2+, CDDL, LibRaw Software License)
@@ -87,9 +87,7 @@ Requires:      mingw64-%{pkgname} = %{version}-%{release}
 
 
 %prep
-%setup -q -n %{pkgname}-%{version}
-%patch0 -p1
-%patch1 -p1
+%autosetup -p1 -n %{pkgname}-%{version}
 
 # Remove executable bit on license files
 chmod -x LICENSE.CDDL
@@ -99,11 +97,11 @@ chmod -x LICENSE.LGPL
 %build
 autoreconf -ifv
 %mingw_configure --enable-jasper --enable-lcms CPPFLAGS=-DLIBRAW_NODLL
-%mingw_make %{?_smp_mflags}
+%mingw_make_build
 
 
 %install
-%mingw_make install DESTDIR=%{buildroot}
+%mingw_make_install
 
 # Delete *.la files
 find %{buildroot} -name '*.la' -delete
@@ -115,8 +113,8 @@ rm -rf %{buildroot}%{mingw64_datadir}
 
 %files -n mingw32-%{pkgname}
 %license LICENSE.CDDL LICENSE.LGPL COPYRIGHT
-%{mingw32_bindir}/libraw-19.dll
-%{mingw32_bindir}/libraw_r-19.dll
+%{mingw32_bindir}/libraw-20.dll
+%{mingw32_bindir}/libraw_r-20.dll
 %{mingw32_includedir}/libraw/
 %{mingw32_libdir}/libraw.dll.a
 %{mingw32_libdir}/libraw_r.dll.a
@@ -132,8 +130,8 @@ rm -rf %{buildroot}%{mingw64_datadir}
 
 %files -n mingw64-%{pkgname}
 %license LICENSE.CDDL LICENSE.LGPL COPYRIGHT
-%{mingw64_bindir}/libraw-19.dll
-%{mingw64_bindir}/libraw_r-19.dll
+%{mingw64_bindir}/libraw-20.dll
+%{mingw64_bindir}/libraw_r-20.dll
 %{mingw64_includedir}/libraw/
 %{mingw64_libdir}/libraw.dll.a
 %{mingw64_libdir}/libraw_r.dll.a
@@ -149,6 +147,18 @@ rm -rf %{buildroot}%{mingw64_datadir}
 
 
 %changelog
+* Thu Oct 15 2020 Sandro Mani <manisandro@gmail.com> - 0.20.2-1
+- Update to 0.20.2
+
+* Wed Oct 14 2020 Sandro Mani <manisandro@gmail.com> - 0.20.1-1
+- Update to 0.20.1
+
+* Thu Jul 23 2020 Sandro Mani <manisandro@gmail.com> - 0.20.0-1
+- Update to 0.20.0
+
+* Mon Jul 13 2020 Sandro Mani <manisandro@gmail.com> - 0.19.5-4
+- Backport patch for CVE-2020-15503
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

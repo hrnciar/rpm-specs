@@ -5,7 +5,7 @@
 
 Name:           xfce4-mailwatch-plugin
 Version:        1.2.0
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        Mail Watcher plugin for the Xfce panel
 
 License:        GPLv2
@@ -61,6 +61,9 @@ chmod -c +x %{buildroot}%{_libdir}/xfce4/panel/plugins/*.so
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

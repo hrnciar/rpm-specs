@@ -2,13 +2,13 @@
 %global desc "colorlog.ColoredFormatter is a formatter for use with Python's logging module that outputs records using terminal colors."
 
 Name:           python-%{srcname}
-Version:        4.1.0
-Release:        3%{?dist}
-Summary:        A colored formatter for the Python logging module
+Version:        4.4.0
+Release:        1%{?dist}
+Summary:        Colored formatter for the Python logging module
 
 License:        MIT
 URL:            https://github.com/borntyping/python-colorlog
-Source0:        https://github.com/borntyping/python-colorlog/archive/v%{version}/%{srcname}-%{version}.tar.gz
+Source0:        %{url}/archive/v%{version}/%{srcname}-%{version}.tar.gz
 BuildArch:      noarch
 
 %if 0%{?rhel} && 0%{?rhel} < 8
@@ -16,6 +16,7 @@ BuildRequires:  python2-devel
 BuildRequires:  python2-setuptools
 %else
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 %endif
 
 %description
@@ -71,14 +72,23 @@ Summary:        %{summary}
 %endif
 
 %changelog
+* Thu Oct 08 2020 Fabian Affolter <mail@fabian-affolter.ch> - 4.4.0-1
+- Update to latest upstream release 4.4.0 (#1886516)
+
+* Tue Jul 28 2020 Fabian Affolter <mail@fabian-affolter.ch> - 4.2.1-1
+- Update to latest upstream release 4.2.1 (#1860075)
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 4.1.0-4
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.1.0-3
 - Rebuilt for Python 3.9
 
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
-* Sun Jan 05 2019 Fabian Affolter <mail@fabian-affolter.ch> - 4.1.0-1
-- Update to latest upstream release 4.1.0 (rhbz#1753875)
+* Sun Jan 05 2020 Fabian Affolter <mail@fabian-affolter.ch> - 4.1.0-1
+- Update to latest upstream release 4.1.0 (#1753875)
 
 * Thu Oct 03 2019 Miro Hrončok <mhroncok@redhat.com> - 4.0.1-6
 - Rebuilt for Python 3.8.0rc1 (#1748018)
@@ -109,16 +119,16 @@ Summary:        %{summary}
 - Rebuilt for Python 3.7
 
 * Sat May 05 2018 Fabian Affolter <mail@fabian-affolter.ch> - 3.1.4-1
-- Update to latest upstream release 3.1.4 (rhbz#1568639)
+- Update to latest upstream release 3.1.4 (#1568639)
 
 * Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
 * Sun Jan 28 2018 Fabian Affolter <mail@fabian-affolter.ch> - 3.1.2-1
-- Update to latest upstream release 3.1.2 (rhbz#1539019)
+- Update to latest upstream release 3.1.2 (#1539019)
 
 * Sat Jul 29 2017 Fabian Affolter <mail@fabian-affolter.ch> - 3.1.0-1
-- Update to latest upstream release 3.1.0 (rhbz#1476423)
+- Update to latest upstream release 3.1.0 (#1476423)
 
 * Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild

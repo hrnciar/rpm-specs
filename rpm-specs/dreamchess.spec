@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+
 %global commit0 1c68b1e2b13bc113cbf41f142f2105f446a3cdce
 %global cdate0  20180601
 
@@ -5,7 +7,7 @@
 
 Name:           dreamchess
 Version:        0.3.0
-Release:        0.7.%{cdate0}git%{?dist}
+Release:        0.9.%{cdate0}git%{?dist}
 Summary:        Portable chess game
 # GPLv2+ generally for most of sources
 # but BSD for dreamchess/src/include/gamegui/queue.h
@@ -79,19 +81,16 @@ Boards, Pieces, Sounds, Styles, Themes.
 %autosetup -n %{name}-%{commit0}
 
 %build
-mkdir b
-pushd b
-%cmake .. \
+%cmake \
  -DCMAKE_INSTALL_DOCDIR=%{_docdir}/%{name}
-%make_build
+%cmake_build
 # generate manpage
-ls -la %{name}/src/%{name}
-help2man -o ../%{name}.1 --no-discard-stderr \
+help2man -o %{name}.1 --no-discard-stderr \
  --version-string='%{version}' -v'%{release}' \
- %{name}/src/%{name}
+ %{_vpath_builddir}/%{name}/src/%{name}
 
 %install
-%make_install -C b
+%cmake_install
 install -D -t %{buildroot}%{_mandir}/man1 %{name}.1
 
 
@@ -119,6 +118,13 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-0.9.20180601git
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-0.8.20180601git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-0.7.20180601git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

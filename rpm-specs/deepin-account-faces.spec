@@ -2,7 +2,7 @@
 
 Name:           deepin-account-faces
 Version:        1.0.11
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Account faces for Linux Deepin
 License:        GPLv2+
 URL:            https://github.com/linuxdeepin/dde-account-faces
@@ -24,6 +24,9 @@ Account faces for Linux Deepin
 %{_sharedstatedir}/AccountsService/icons/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.11-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.11-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

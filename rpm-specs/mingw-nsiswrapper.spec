@@ -1,6 +1,6 @@
 Name:           mingw-nsiswrapper
 Version:        11
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Helper program for making NSIS Windows installers
 
 License:        GPLv2+
@@ -77,6 +77,9 @@ pod2man -c "NSIS" -r "%{name}-%{version}" %{SOURCE0} \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,5 +1,5 @@
 Name:           calcurse
-Version:        4.6.0
+Version:        4.7.0
 Release:        1%{?dist}
 Summary:        Text-based personal organizer
 
@@ -40,6 +40,12 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/%{name}
 
 
 %changelog
+* Mon Oct 12 2020 Gwyn Ciesla <gwync@protonmail.com> - 4.7.0-1
+- 4.7.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 27 2020 Gwyn Ciesla <gwync@protonmail.com> - 4.6.0-1
 - 4.6.0
 

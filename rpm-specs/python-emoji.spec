@@ -4,8 +4,8 @@
 %global appdesc Full featured simple emoji library for Python
 
 Name: python-%{appname}
-Version: 0.5.4
-Release: 3%{?dist}
+Version: 0.6.0
+Release: 1%{?dist}
 Summary: %{appsum}
 
 License: BSD
@@ -14,6 +14,7 @@ Source0: %{pypi_source %{appname}}
 BuildArch: noarch
 
 BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 BuildRequires: python3dist(nose)
 BuildRequires: python3dist(coverage)
 
@@ -46,6 +47,15 @@ Summary: %{appsum}
 %{python3_sitelib}/%{appname}-*.egg-info
 
 %changelog
+* Sun Aug 02 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 0.6.0-1
+- Updated to version 0.6.0.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 0.5.4-4
+- Added python3-setuptools to build requirements.
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.4-3
 - Rebuilt for Python 3.9
 

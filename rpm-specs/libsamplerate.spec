@@ -1,7 +1,7 @@
 Summary:	Sample rate conversion library for audio data
 Name:		libsamplerate
 Version:	0.1.9
-Release:	5%{?dist}
+Release:	7%{?dist}
 License:	BSD
 URL:		http://www.mega-nerd.com/SRC/
 Source0:	http://www.mega-nerd.com/SRC/%{name}-%{version}.tar.gz
@@ -41,11 +41,11 @@ This package contains development files for %{name}
 # Don't use rpath!
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
-make %{?_smp_mflags}
+%make_build
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 rm $RPM_BUILD_ROOT%{_libdir}/%{name}.la
 rm -rf $RPM_BUILD_ROOT%{_docdir}/libsamplerate0-dev _doc
 cp -a doc _doc
@@ -73,6 +73,13 @@ unset LD_LIBRARY_PATH
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.9-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 0.1.9-6
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.9-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

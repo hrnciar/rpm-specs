@@ -8,7 +8,7 @@
 %global snaprel %{?snapdate:.git%{snapdate}.%{shortcommit}}
 
 # for rpmdev-bumpspec
-%global baserelease 14
+%global baserelease 15
 
 Name:       ipsilon
 Version:    2.1.0
@@ -478,6 +478,9 @@ exit 0
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-15.git20200618.c90a76b
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Neal Gompa <ngompa13@gmail.com> - 2.1.0-14.git20200618.c90a76b
 - Bump to new snapshot
 

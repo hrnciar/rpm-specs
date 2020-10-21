@@ -2,7 +2,7 @@ Name:           perl-JSON-XS
 Summary:        JSON serializing/de-serializing, done correctly and fast
 Epoch:          1
 Version:        4.02
-Release:        5%{?dist}
+Release:        6%{?dist}
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/JSON-XS
 Source0:        https://cpan.metacpan.org/modules/by-module/JSON/JSON-XS-%{version}.tar.gz
@@ -72,6 +72,9 @@ make test
 %{_mandir}/man[13]/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.02-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:4.02-5
 - Perl 5.32 rebuild
 

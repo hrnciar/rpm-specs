@@ -5,7 +5,7 @@
 %global crate r2d2
 
 Name:           rust-%{crate}
-Version:        0.8.8
+Version:        0.8.9
 Release:        1%{?dist}
 Summary:        Generic connection pool
 
@@ -71,5 +71,15 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Fri Sep 11 2020 Josh Stone <jistone@redhat.com> - 0.8.9-1
+- Update to 0.8.9
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.8-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 16 09:02:56 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 0.8.8-1
 - Initial package

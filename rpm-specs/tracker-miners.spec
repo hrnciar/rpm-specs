@@ -17,8 +17,8 @@
 %global __requires_exclude ^(libtracker-extract\.so|libtracker-miners-common\.so|libextract-.*\.so|libwriteback-.*\.so)
 
 Name:           tracker-miners
-Version:        2.3.3
-Release:        2%{?dist}
+Version:        2.3.5
+Release:        1%{?dist}
 Summary:        Tracker miners and metadata extractors
 
 # libtracker-extract is LGPLv2+; the miners are a mix of GPLv2+ and LGPLv2+ code
@@ -127,11 +127,22 @@ rm -rf %{buildroot}%{_datadir}/tracker-tests
 %{_datadir}/tracker/
 %{_datadir}/tracker-miners/
 %{_mandir}/man1/tracker-*.1*
-%config(noreplace) %{_sysconfdir}/xdg/autostart/tracker*.desktop
 %{_userunitdir}/tracker*.service
 
 
 %changelog
+* Mon Sep 07 2020 Kalev Lember <klember@redhat.com> - 2.3.5-1
+- Update to 2.3.5
+
+* Mon Sep 07 2020 Kalev Lember <klember@redhat.com> - 2.3.4-2
+- Backport an upstream patch to allow statx syscall (#1875398)
+
+* Tue Aug 25 2020 Kalev Lember <klember@redhat.com> - 2.3.4-1
+- Update to 2.3.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 16 2020 Pete Walter <pwalter@fedoraproject.org> - 2.3.3-2
 - Rebuild for ICU 67
 

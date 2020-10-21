@@ -4,7 +4,7 @@ Name:           jaxen
 Summary:        An XPath engine written in Java
 Epoch:          0
 Version:        1.2.0
-Release:        3%{?dist}
+Release:        6%{?dist}
 License:        BSD
 
 URL:            https://github.com/jaxen-xpath/jaxen
@@ -48,7 +48,12 @@ Summary:        Javadoc for %{name}
 %prep
 %setup -q
 
+# remove unnecessary maven plugins
+%pom_remove_plugin :maven-javadoc-plugin
 %pom_remove_plugin :maven-source-plugin
+
+# remove maven-compiler-plugin configuration that is broken with Java 11
+%pom_xpath_remove 'pom:plugin[pom:artifactId="maven-compiler-plugin"]/pom:configuration'
 
 %if %{without dom4j}
 rm -rf src/java/main/org/jaxen/dom4j
@@ -62,7 +67,7 @@ rm -rf src/java/main/org/jaxen/xom
 
 
 %build
-%mvn_build -f
+%mvn_build -f -- -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 
 %install
@@ -84,6 +89,16 @@ cp -pr src/java/samples/* %{buildroot}%{_datadir}/%{name}/samples
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.2.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Fabio Valentini <decathorpe@gmail.com> - 0:1.2.0-5
+- Drop unnecessary dependency on maven-javadoc-plugin.
+- Fix javac source / target versions for Java 11.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0:1.2.0-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.2.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

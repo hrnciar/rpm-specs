@@ -1,6 +1,6 @@
 Name:           plexus-cipher
 Version:        1.7
-Release:        18%{?dist}
+Release:        21%{?dist}
 Summary:        Plexus Cipher: encryption/decryption Component
 License:        ASL 2.0
 # project moved to GitHub and it looks like there is no official website anymore
@@ -44,6 +44,13 @@ API documentation for %{name}.
 
 %mvn_file : plexus/%{name}
 
+sed -i -e "s|1.5|1.8|" pom.xml
+# Fix javadoc generation on java 11
+%pom_xpath_inject pom:build/pom:plugins "<plugin>
+<artifactId>maven-javadoc-plugin</artifactId>
+<configuration><source>1.8</source></configuration>
+</plugin>" 
+
 %build
 # Tests depend on sisu-guice
 %mvn_build -f
@@ -58,6 +65,15 @@ API documentation for %{name}.
 %doc LICENSE.txt NOTICE.txt
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.7-20
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jun 25 2020 Alexander Kurtakov <akurtako@redhat.com> 1.7-19
+- Fix compile with Java 11.
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

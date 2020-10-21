@@ -6,7 +6,7 @@
 
 Name:             R-%{packname}
 Version:          0.6.6
-Release:          2%{?dist}
+Release:          4%{?dist}
 Summary:          Measurement Units for R Vectors
 
 License:          GPLv2
@@ -64,6 +64,13 @@ export _R_CHECK_FORCE_SUGGESTS_=0
 %{rlibdir}/%{packname}/share
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.6-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.6.6-2
 - rebuild for R 4
 

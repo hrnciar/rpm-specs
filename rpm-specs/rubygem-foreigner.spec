@@ -4,7 +4,7 @@
 Summary:       Foreign Keys for Rails
 Name:          rubygem-%{gem_name}
 Version:       1.7.2
-Release:       10%{?dist}
+Release:       11%{?dist}
 License:       MIT
 
 URL:           http://github.com/matthuhiggins/foreigner
@@ -73,6 +73,9 @@ cp -a ./%{gem_dir}/* %{buildroot}%{gem_dir}/
 %doc %{gem_docdir}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.2-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

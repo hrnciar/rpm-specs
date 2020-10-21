@@ -3,7 +3,7 @@
 
 Name:           octave-%{octpkg}
 Version:        0.9.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MCXLAB - A GPU Monte Carlo 3-D photon transport simulator for MATLAB/Octave
 License:        GPLv3+
 URL:            http://mcx.space
@@ -121,6 +121,9 @@ rm -rf doc
 %{octpkgdir}/packinfo
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

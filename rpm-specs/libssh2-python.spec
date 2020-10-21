@@ -3,7 +3,7 @@
 Summary:        Python binding for the libssh2 library
 Name:           libssh2-python
 Version:        0.7.1
-Release:        27%{?dist}
+Release:        28%{?dist}
 License:        LGPLv2+
 URL:            https://github.com/wallunit/ssh4py
 # The source for the package was pulled from upstream's vcs.  Use the
@@ -50,6 +50,9 @@ Summary:        %summary
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.1-27
 - Rebuilt for Python 3.9
 

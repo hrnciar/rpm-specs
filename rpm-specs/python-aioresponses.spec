@@ -5,7 +5,7 @@ easy way  to test asynchronous HTTP requests.
 
 Name:           python-%{srcname}
 Version:        0.6.4
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Mock out requests made by ClientSession from aiohttp package
 
 License:        MIT
@@ -13,6 +13,14 @@ URL:            https://github.com/pnuckowski/aioresponses
 Source0:        %pypi_source
 
 BuildArch:      noarch
+# Since python-aiohttp excludes s390x we have to exclude it, as well
+# See also:
+# https://src.fedoraproject.org/rpms/python-aiohttp/blob/67855c61bee706fcd99305d1715aad02d898cbfc/f/python-aiohttp.spec#_22
+# https://fedoraproject.org/wiki/EPEL/FAQ#RHEL_8.2B_has_binaries_in_the_release.2C_but_is_missing_some_corresponding_-devel_package._How_do_I_build_a_package_that_needs_that_missing_-devel_package.3F
+%if %{defined el8}
+ExcludeArch:    s390x
+%endif
+
 
 # required for py3_build macro
 BuildRequires:  python3-devel
@@ -68,6 +76,12 @@ rm tests/test_aioresponses.py
 
 
 %changelog
+* Thu Sep 10 2020 Georg Sauthoff <mail@gms.tf> - 0.6.4-3
+- EPEL8: exclude s390x because of aiohttp
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Georg Sauthoff <mail@gms.tf> - 0.6.4-1
 - Skip asynctest dependency for Python 3.9
 - bump to latest upstream

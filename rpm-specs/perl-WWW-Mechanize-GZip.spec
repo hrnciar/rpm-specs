@@ -1,6 +1,6 @@
 Name:       perl-WWW-Mechanize-GZip 
 Version:    0.14
-Release:    6%{?dist}
+Release:    7%{?dist}
 # lib/WWW/Mechanize/GZip.pm -> GPL+ or Artistic
 License:    GPL+ or Artistic 
 
@@ -55,6 +55,9 @@ make test
 %{_mandir}/man3/WWW*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.14-6
 - Perl 5.32 rebuild
 

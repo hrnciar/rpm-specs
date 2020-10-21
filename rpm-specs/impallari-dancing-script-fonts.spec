@@ -4,7 +4,7 @@
 %forgemeta
 
 Version: 2.000
-Release: 9%{?dist}
+Release: 10%{?dist}
 URL:     %{forgeurl}
 
 %global foundry           Impallari
@@ -53,6 +53,9 @@ chmod 644 %{fontdocs} %{fontlicenses}
 %fontfiles
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 2.000-9.20200215gitf7f54bc
 🐞 Workaround Fedora problems created by rpm commit 93604e2

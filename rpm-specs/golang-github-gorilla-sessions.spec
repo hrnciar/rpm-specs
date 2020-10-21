@@ -3,7 +3,7 @@
 
 # https://github.com/gorilla/sessions
 %global goipath         github.com/gorilla/sessions
-Version:                1.1.3
+Version:                1.2.0
 
 %gometa
 
@@ -17,7 +17,7 @@ infrastructure for custom session backends.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Cookie and filesystem sessions and infrastructure for custom session backends
 
 # Upstream license specification: BSD-3-Clause
@@ -27,7 +27,6 @@ Source0:        %{gosource}
 Source1:        glide.yaml
 Source2:        glide.lock
 
-BuildRequires:  golang(github.com/gorilla/context)
 BuildRequires:  golang(github.com/gorilla/securecookie)
 
 %description
@@ -42,15 +41,6 @@ cp %{S:1} %{S:2} .
 %install
 %gopkginstall
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck
@@ -59,6 +49,12 @@ end
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 17:17:16 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.2.0-1
+- Update to 1.2.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

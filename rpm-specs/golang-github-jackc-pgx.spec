@@ -4,9 +4,11 @@
 
 # https://github.com/jackc/pgx
 %global goipath         github.com/jackc/pgx
-Version:                3.3.0
+Version:                4.8.1
 
 %gometa
+
+%global goaltipaths     github.com/jackc/pgx/v4
 
 %global common_description %{expand:
 Pgx is a pure Go driver and toolkit for PostgreSQL. pgx is different from other
@@ -18,23 +20,24 @@ database/sql that offers better performance and more features.}
 %global godocs          examples CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        PostgreSQL driver and toolkit for Go
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
 
-BuildRequires:  golang(github.com/cockroachdb/apd)
-BuildRequires:  golang(github.com/jackc/fake)
-BuildRequires:  golang(github.com/lib/pq)
-BuildRequires:  golang(github.com/pkg/errors)
+BuildRequires:  golang(github.com/jackc/pgconn)
+BuildRequires:  golang(github.com/jackc/pgconn/stmtcache)
+BuildRequires:  golang(github.com/jackc/pgio)
+BuildRequires:  golang(github.com/jackc/pgproto3/v2)
+BuildRequires:  golang(github.com/jackc/pgtype)
+BuildRequires:  golang(github.com/jackc/puddle)
 BuildRequires:  golang(github.com/rs/zerolog)
-BuildRequires:  golang(github.com/satori/go.uuid)
-BuildRequires:  golang(github.com/shopspring/decimal)
 BuildRequires:  golang(github.com/sirupsen/logrus)
 BuildRequires:  golang(go.uber.org/zap)
 BuildRequires:  golang(go.uber.org/zap/zapcore)
+BuildRequires:  golang(golang.org/x/xerrors)
 BuildRequires:  golang(gopkg.in/inconshreveable/log15.v2)
 
 %description
@@ -56,6 +59,16 @@ BuildRequires:  golang(gopkg.in/inconshreveable/log15.v2)
 %gopkgfiles
 
 %changelog
+* Wed Sep 09 12:38:43 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 4.8.1-1
+- Update to 4.8.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

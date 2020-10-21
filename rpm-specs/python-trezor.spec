@@ -5,7 +5,7 @@
 
 Name:           python-%{srcname}
 Version:        0.12.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Python library for communicating with TREZOR Hardware Wallet
 
 License:        LGPLv3
@@ -25,7 +25,7 @@ BuildRequires:  protobuf-devel
 %package -n python3-%{srcname}
 Summary:        %{summary}
 BuildRequires:  python3-devel
-Requires:       %{py3_dist hidapi} >= 0.7.99.post20
+Requires:       %{py3_dist hidapi}
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
@@ -63,6 +63,12 @@ install -Dpm 644 %{SOURCE1} %{buildroot}%{_udevrulesdir}/51-trezor.rules
 %{_udevrulesdir}/51-trezor.rules
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jonny Heggheim <hegjon@gmail.com> - 0.12.0-2
+- Will install with any version of python-hidapi
+
 * Thu Jun 04 2020 Jonny Heggheim <hegjon@gmail.com> - 0.12.0-1
 - Updated to version 0.12.0
 

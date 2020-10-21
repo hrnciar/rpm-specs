@@ -1,9 +1,12 @@
 # Generated from rspec-collection_matchers-1.1.3.gem by gem2rpm -*- rpm-spec -*-
 %global gem_name rspec-collection_matchers
 
+# To skip execution of cucumber tests
+%bcond_without cucumber
+
 Name: rubygem-%{gem_name}
-Version: 1.1.3
-Release: 5%{?dist}
+Version: 1.2.0
+Release: 1%{?dist}
 Summary: Collection cardinality matchers
 License: MIT
 URL: https://github.com/rspec/rspec-collection_matchers
@@ -12,8 +15,13 @@ BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby
 BuildRequires: rubygem(rspec)
-BuildRequires: rubygem(aruba)
+BuildRequires: rubygem(rspec-support)
 BuildRequires: rubygem(activemodel)
+%if %{with cucumber}
+BuildRequires: rubygem(aruba)
+%endif
+BuildRequires: rubygem(activemodel)
+BuildRequires: rubygem(contracts)
 BuildArch: noarch
 
 %description
@@ -44,9 +52,10 @@ cp -a .%{gem_dir}/* \
 pushd .%{gem_instdir}
 rspec spec
 
-# requires loaded 'rspec/matchers' in file executed by tests
-sed -i '/\s*When I run `rspec /,/^$/ s/^/#/' features/have.feature
+%if %{with cucumber}
+RUBYOPT="-I${PWD}/lib" \
 cucumber
+%endif
 popd
 
 %files
@@ -70,6 +79,17 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Thu Aug 06 15:17:11 GMT 2020 Pavel Valena <pvalena@redhat.com> - 1.2.0-1
+- Update to rspec-collection_matchers 1.2.0.
+  Resolves: rhbz#1863731
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

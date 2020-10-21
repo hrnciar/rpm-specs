@@ -5,7 +5,7 @@
 %global crate opaque-debug
 
 Name:           rust-%{crate}
-Version:        0.2.3
+Version:        0.3.0
 Release:        2%{?dist}
 Summary:        Macro for opaque Debug trait implementation
 
@@ -70,6 +70,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.3.0-1
+- Update to 0.3.0
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

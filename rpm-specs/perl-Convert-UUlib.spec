@@ -7,7 +7,7 @@ Summary:	Perl interface to the uulib library
 Name:		perl-Convert-UUlib
 Epoch:		2
 Version:	1.71
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/%{pkgname}
 Source:		https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/%{pkgname}-%{version}.tar.gz
@@ -57,6 +57,9 @@ make test
 %{_mandir}/man?/Convert::UUlib*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:1.71-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2:1.71-2
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:		perl-Test2-Plugin-NoWarnings
-Version:	0.08
-Release:	3%{?dist}
+Version:	0.09
+Release:	2%{?dist}
 Summary:	Fail if tests warn
 License:	Artistic 2.0
 URL:		https://metacpan.org/release/Test2-Plugin-NoWarnings
@@ -16,7 +16,7 @@ BuildRequires:	perl(ExtUtils::MakeMaker) > 6.75
 BuildRequires:	perl(Carp)
 BuildRequires:	perl(parent)
 BuildRequires:	perl(strict)
-BuildRequires:	perl(Test2) >= 1.302096
+BuildRequires:	perl(Test2) >= 1.302167
 BuildRequires:	perl(Test2::API)
 BuildRequires:	perl(Test2::Event)
 BuildRequires:	perl(Test2::Util::HashBase)
@@ -63,6 +63,14 @@ make test
 %{_mandir}/man3/Test2::Plugin::NoWarnings.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.09-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Paul Howarth <paul@city-fan.org> - 0.09-1
+- Update to 0.09
+  - Don't emit a failing test if there is a warning _after_ done_testing() is
+    called (based on GH#3)
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.08-3
 - Perl 5.32 rebuild
 

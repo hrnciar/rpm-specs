@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.0.4
-Release:        4%{?dist}
+Release:        7%{?dist}
 Summary:        Telemetry service for Fedora CoreOS
 
 # Upstream license specification: Apache-2.0
@@ -43,10 +43,6 @@ Summary:        %{summary}
 %{_prefix}/lib/fedora-coreos-pinger/config.d/10-default-enable.toml
 %{_tmpfilesdir}/fedora-coreos-pinger.conf
 %{_sysusersdir}/50-fedora-coreos-pinger.conf
-
-%pre         -n %{crate}
-%sysusers_create_package %{crate} 50-fedora-coreos-pinger.conf
-%tmpfiles_create_package %{crate} fedora-coreos-pinger.conf
 
 %post        -n %{crate}
 %systemd_post fedora-coreos-pinger.service
@@ -87,6 +83,15 @@ install -Dpm0644 -t %{buildroot}%{_tmpfilesdir} \
 %endif
 
 %changelog
+* Wed Sep 23 2020 Kelvin Fan <kfan@redhat.com> - 0.0.4-7
+- Remove unnecessary usage of systemd RPM macro in %pre
+
+* Sun Aug 16 15:01:25 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.0.4-6
+- Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 8 2020 Robert Fairley <rfairley@redhat.com> - 0.0.4-4
 - Bump release to have latest build retagged into f32, so a Bodhi
   update for a non-modular build can be opened (https://github.com/coreos/fedora-coreos-tracker/issues/525)

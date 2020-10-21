@@ -1,6 +1,6 @@
 Name:		coco-coq
 Version:	0.1
-Release:	21%{?dist}
+Release:	22%{?dist}
 Summary:	Coco Coq in Grostesteing's base, an AGI adventure game
 
 License:	Redistributable, no modification permitted
@@ -64,6 +64,9 @@ install -p -m 0644 %{SOURCE3} %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/%
 %{_bindir}/coco-coq-wrapper.sh
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

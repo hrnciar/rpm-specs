@@ -1,6 +1,6 @@
 Name:           perl-Dist-Metadata
 Version:        0.927
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Information about a perl module distribution
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Dist-Metadata
@@ -71,6 +71,9 @@ make test AUTOMATED_TESTING=1
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.927-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.927-13
 - Perl 5.32 rebuild
 

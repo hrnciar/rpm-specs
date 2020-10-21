@@ -1,6 +1,6 @@
 Name:		perl-Test-Version
 Version:	2.09
-Release:	10%{?dist}
+Release:	12%{?dist}
 Summary:	Check to see that versions in modules are sane
 License:	Artistic 2.0
 URL:		https://metacpan.org/release/Test-Version
@@ -94,6 +94,12 @@ make test TEST_FILES="$(echo $(find xt/ -name '*.t'))"
 %{_mandir}/man3/Test::Version.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.09-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.09-11
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.09-10
 - Perl 5.32 rebuild
 

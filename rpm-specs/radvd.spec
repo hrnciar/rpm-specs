@@ -1,14 +1,12 @@
 Summary: A Router Advertisement daemon
 Name: radvd
-Version: 2.18
-Release: 4%{?dist}
+Version: 2.19
+Release: 1%{?dist}
 
 # The code includes the advertising clause, so it's GPL-incompatible
 License: BSD with advertising
 URL: http://www.litech.org/radvd/
 Source0: %{url}dist/%{name}-%{version}.tar.xz
-Patch1: radvd-pidfile.patch
-Patch2: radvd-tmpfiles.patch
 
 BuildRequires: gcc
 BuildRequires: bison
@@ -47,10 +45,10 @@ export LDFLAGS='-pie -Wl,-z,relro,-z,now,-z,noexecstack,-z,nodlopen'
     --with-check \
     --disable-silent-rules \
     --with-pidfile=/run/radvd/radvd.pid
-make %{?_smp_mflags} 
+%make_build 
 
 %install
-make DESTDIR=%{buildroot} install
+%make_install
 
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
 mkdir -p %{buildroot}/run/radvd
@@ -95,6 +93,16 @@ exit 0
 %{_sbindir}/radvdump
 
 %changelog
+* Mon Oct 19 2020 Pavel Zhukov <pzhukov@redhat.com> - 2.19-1
+- new version v2.19
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.18-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 2.18-5
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri Apr  3 2020 Pavel Zhukov <pzhukov@redhat.com> - 2.18-4
 - Update pidfile path (#1785862)
 

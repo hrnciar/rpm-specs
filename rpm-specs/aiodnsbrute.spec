@@ -2,7 +2,7 @@
 
 Name:           %{pypi_name}
 Version:        0.3.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        DNS asynchronous brute force utility
 
 License:        GPLv3
@@ -34,6 +34,9 @@ sed -i -e $'s/ \''asyncio\'',//g' setup.py
 %{python3_sitelib}/%{pypi_name}*.egg-info
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.2-4
 - Rebuilt for Python 3.9
 

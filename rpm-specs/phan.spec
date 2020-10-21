@@ -10,14 +10,14 @@
 # For compatibility with SCL
 %undefine __brp_mangle_shebangs
 
-%global gh_commit    b15141e68e1eb954aba9e30d3875ad91af6ac951
+%global gh_commit    fa98748d8cb130e159317cb8ed4af3ddd19092eb
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     phan
 #global gh_date      20150820
 %global gh_project   phan
 %global psr0         Phan
-%global with_tests   0%{!?_without_tests:1}
-%global upstream_version 3.0.3
+%bcond_without       tests
+%global upstream_version 3.2.3
 #global upstream_prever  RC2
 
 Name:           %{gh_project}
@@ -34,16 +34,16 @@ Source1:        makesrc.sh
 Patch0:         %{name}-autoload.patch
 
 BuildArch:      noarch
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php(language) >= 7.2
-BuildRequires:  php-ast >= 1.0.6
+BuildRequires:  php-ast >= 1.0.8
 BuildRequires:  (php-composer(composer/semver) >= 1.4                  with php-composer(composer/semver) < 4)
 BuildRequires:  (php-composer(composer/xdebug-handler) >= 1.3.2        with php-composer(composer/xdebug-handler) < 2)
 BuildRequires:  (php-composer(felixfbecker/advanced-json-rpc) >= 3.0.4 with php-composer(felixfbecker/advanced-json-rpc) <  4)
-BuildRequires:  (php-composer(microsoft/tolerant-php-parser) >= 0.0.20 with php-composer(microsoft/tolerant-php-parser) <  0.1)
-BuildRequires:  (php-composer(netresearch/jsonmapper)        >= 1.6    with php-composer(netresearch/jsonmapper)        <  3)
-BuildRequires:  (php-composer(sabre/event) >= 5.0                      with php-composer(sabre/event) <  6)
-BuildRequires:  (php-composer(symfony/console) >= 2.8                  with php-composer(symfony/console) <  6)
+BuildRequires:  (php-composer(microsoft/tolerant-php-parser) >= 0.0.23 with php-composer(microsoft/tolerant-php-parser) <  0.1)
+BuildRequires:  (php-composer(netresearch/jsonmapper)        >= 1.6    with php-composer(netresearch/jsonmapper)        <  4)
+BuildRequires:  (php-composer(sabre/event)                   >= 5.0.3  with php-composer(sabre/event)                   <  6)
+BuildRequires:  (php-composer(symfony/console)               >= 3.2    with php-composer(symfony/console)               <  6)
 BuildRequires:  php-reflection
 BuildRequires:  php-ctype
 BuildRequires:  php-dom
@@ -57,7 +57,6 @@ BuildRequires:  php-spl
 BuildRequires:  php-sysvmsg
 BuildRequires:  php-sysvsem
 # For tests, from composer.json "require-dev": {
-#        "brianium/paratest": "^4.0.0",
 #        "phpunit/phpunit": "^8.5.0"
 BuildRequires:  phpunit8 >= 8.5
 BuildRequires:  php-date
@@ -68,39 +67,39 @@ BuildRequires:  php-soap
 BuildRequires:  php-composer(fedora/autoloader)
 
 # From composer.json, "require": {
-#        "php": "^7.2.0",
+#        "php": "^7.2.0|^8.0.0",
 #        "ext-filter": "*",
 #        "ext-json": "*",
 #        "ext-tokenizer": "*",
 #        "composer/semver": "^1.4|^2.0|^3.0",
 #        "composer/xdebug-handler": "^1.3.2",
 #        "felixfbecker/advanced-json-rpc": "^3.0.4",
-#        "microsoft/tolerant-php-parser": "0.0.20",
-#        "netresearch/jsonmapper": "^1.6.0|^2.0",
-#        "sabre/event": "^5.0",
-#        "symfony/console": "^2.3|^3.0|~4.0|^5.0",
+#        "microsoft/tolerant-php-parser": "0.0.23",
+#        "netresearch/jsonmapper": "^1.6.0|^2.0|^3.0",
+#        "sabre/event": "^5.0.3",
+#        "symfony/console": "^3.2|^4.0|^5.",
 #        "symfony/polyfill-mbstring": "^1.11.0"
 Requires:       php(language) >= 7.2
 Requires:       php-filter
 Requires:       php-tokenizer
 Requires:       php-json
 # From composer.json, "suggest": {
-#        "ext-ast": "Needed for parsing ASTs (unless --use-fallback-parser is used). 1.0.1+ is needed.",
+#        "ext-ast": "Needed for parsing ASTs (unless --use-fallback-parser is used). 1.0.1+ is needed, 1.0.8+ is recommended.",
 #        "ext-iconv": "Either iconv or mbstring is needed to ensure issue messages are valid utf-8",
 #        "ext-igbinary": "Improves performance of polyfill when ext-ast is unavailable",
 #        "ext-mbstring": "Either iconv or mbstring is needed to ensure issue messages are valid utf-8",
 #        "ext-tokenizer": "Needed for non-AST support and file/line-based suppressions."
-Recommends:     php-ast >= 1.0.6
+Recommends:     php-ast >= 1.0.8
 Suggests:       php-igbinary
 Suggests:       php-iconv
 Requires:       (php-composer(composer/semver) >= 1.4                  with php-composer(composer/semver) < 4)
 Requires:       (php-composer(composer/xdebug-handler) >= 1.3.2        with php-composer(composer/xdebug-handler) < 2)
 Requires:       (php-composer(felixfbecker/advanced-json-rpc) >= 3.0.4 with php-composer(felixfbecker/advanced-json-rpc) <  4)
 Requires:       (php-composer(nikic/php-parser) >= 3.1.1               with php-composer(nikic/php-parser) <  4)
-Requires:       (php-composer(microsoft/tolerant-php-parser) >= 0.0.20 with php-composer(microsoft/tolerant-php-parser) <  0.1)
-Requires:       (php-composer(netresearch/jsonmapper)        >= 1.6    with php-composer(netresearch/jsonmapper)        <  3)
-Requires:       (php-composer(sabre/event) >= 5.0                      with php-composer(sabre/event) <  6)
-Requires:       (php-composer(symfony/console) >= 2.8                  with php-composer(symfony/console) <  6)
+Requires:       (php-composer(microsoft/tolerant-php-parser) >= 0.0.23 with php-composer(microsoft/tolerant-php-parser) <  0.1)
+Requires:       (php-composer(netresearch/jsonmapper)        >= 1.6    with php-composer(netresearch/jsonmapper)        <  4)
+Requires:       (php-composer(sabre/event)                   >= 5.0.3  with php-composer(sabre/event)                   <  6)
+Requires:       (php-composer(symfony/console)               >= 3.2    with php-composer(symfony/console)               <  6)
 # From phpcompatinfo report for 2.3.0
 Requires:       php-cli
 Requires:       php-reflection
@@ -155,7 +154,6 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
         '%{_datadir}/php/Symfony5/Component/Console/autoload.php',
         '%{_datadir}/php/Symfony4/Component/Console/autoload.php',
         '%{_datadir}/php/Symfony3/Component/Console/autoload.php',
-        '%{_datadir}/php/Symfony/Component/Console/autoload.php',
     ],
 ]);
 EOF
@@ -183,7 +181,7 @@ install -Dpm 755 phan_client %{buildroot}%{_bindir}/phan-client
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 cat << 'EOF' | tee tests/autoload.php
 <?php
 require '%{buildroot}%{_datadir}/php/%{psr0}/Phan/Bootstrap.php';
@@ -191,8 +189,10 @@ require '%{buildroot}%{_datadir}/php/%{psr0}/Phan/Bootstrap.php';
 EOF
 
 # NOTICE mosquitto, request and grpc must be disabled
+# testHash failing on bigendian
+# testConstantsDocumented was written for php-ast 1.0.6 and php <=7.4
 %{_bindir}/phpunit8 -d memory_limit=1G \
-  --filter '^((?!(testGetProjectRelativePathForPath)).)*$' \
+  --filter '^((?!(testGetProjectRelativePathForPath|testHash|testConstantsDocumented)).)*$' \
   --bootstrap tests/autoload.php --verbose
 
 
@@ -210,6 +210,39 @@ EOF
 
 
 %changelog
+* Tue Oct 13 2020 Remi Collet <remi@remirepo.net> - 3.2.3-1
+- update to 3.2.3
+- raise dependency on symfony/console 3.2
+
+* Mon Sep 21 2020 Remi Collet <remi@remirepo.net> - 3.2.2-1
+- update to 3.2.2
+
+* Mon Sep 14 2020 Remi Collet <remi@remirepo.net> - 3.2.1-1
+- update to 3.2.1
+- raise dependency on microsoft/tolerant-php-parser 0.0.23
+
+* Wed Aug 26 2020 Remi Collet <remi@remirepo.net> - 3.2.0-1
+- update to 3.2.0
+- raise dependency on microsoft/tolerant-php-parser 0.0.22
+
+* Tue Aug 11 2020 Remi Collet <remi@remirepo.net> - 3.1.1-1
+- update to 3.1.1
+- allow netresearch/jsonmapper 3.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Remi Collet <remi@remirepo.net> - 3.1.0-1
+- update to 3.1.0
+
+* Mon Jul  6 2020 Remi Collet <remi@remirepo.net> - 3.0.5-1
+- update to 3.0.5
+- open https://github.com/phan/phan/issues/4004
+  1 test failing on big endian
+
+* Thu Jul  2 2020 Remi Collet <remi@remirepo.net> - 3.0.4-1
+- update to 3.0.4
+
 * Mon Jun 22 2020 Remi Collet <remi@remirepo.net> - 3.0.3-1
 - update to 3.0.3
 

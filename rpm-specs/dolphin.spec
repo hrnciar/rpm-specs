@@ -1,4 +1,3 @@
-
 # uncomment to enable bootstrap mode
 #global bootstrap 1
 
@@ -15,7 +14,7 @@
 
 Name:    dolphin
 Summary: KDE File Manager
-Version: 20.04.2
+Version: 20.08.1
 Release: 1%{?dist}
 
 License: GPLv2+
@@ -33,7 +32,7 @@ Source0: http://download.kde.org/%{stable}/release-service/%{version}/src/%{name
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
 
-BuildRequires:  extra-cmake-modules
+BuildRequires:  extra-cmake-modules >= 5.71
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  cmake(KF5DocTools)
 BuildRequires:  cmake(KF5Init)
@@ -100,17 +99,14 @@ Requires:       kf5-kio-devel%{?_isa}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%cmake_kf5 \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{!?tests:OFF}
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang dolphin --all-name --with-html
 
@@ -138,14 +134,14 @@ make test ARGS="--output-on-failure --timeout 10" -C %{_target_platform} ||:
 
 %files -f dolphin.lang
 %license COPYING*
-%doc README
+%doc README*
 %{_kf5_datadir}/qlogging-categories5/dolphin.*
 %{_kf5_bindir}/dolphin
 %{_kf5_bindir}/servicemenuinstaller
-%{_sysconfdir}/xdg/servicemenu.knsrc
 %{_kf5_libdir}/libkdeinit5_dolphin.so
 %{_kf5_datadir}/kservices5/kcmdolphin*.desktop
 %{_kf5_datadir}/config.kcfg/dolphin_*
+%{_kf5_datadir}/knsrcfiles/*
 %if 0%{?dolphin_autostart}
 %{_kf5_sysconfdir}/xdg/autostart/org.kde.%{name}.desktop
 %else
@@ -178,6 +174,21 @@ make test ARGS="--output-on-failure --timeout 10" -C %{_target_platform} ||:
 
 
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Mon Aug 17 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Mon Aug 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-3
+- .spec cosmetics
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.2-1
 - 20.04.2
 

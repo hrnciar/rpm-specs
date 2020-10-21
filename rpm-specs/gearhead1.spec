@@ -10,7 +10,7 @@ Summary: %{about_game}
 License: LGPLv2
 
 Version: 1.310
-Release: 4%{?dist}
+Release: 5%{?dist}
 
 URL: http://gearheadrpg.com
 Source0: https://github.com/jwvhewitt/%{reponame}/archive/v%{version}/%{reponame}-%{version}.tar.gz
@@ -217,6 +217,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}-sdl.desktop
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.310-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Artur Iwicki <fedora@svgames.pl> - 1.310-4
 - Fix DOS line endings in files
 

@@ -1,6 +1,6 @@
 Name:           unzoo
 Version:        4.4
-Release:        26%{?dist}
+Release:        27%{?dist}
 Summary:        ZOO archive extractor
 
 License:        Public Domain
@@ -50,6 +50,9 @@ install -Dpm 755 unzoo %{buildroot}%{_bindir}/unzoo
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

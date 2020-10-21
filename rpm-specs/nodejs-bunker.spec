@@ -2,7 +2,7 @@
 
 Name:           nodejs-bunker
 Version:        0.1.2
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Code coverage in native JavaScript
 BuildArch:      noarch
 %if 0%{?fedora} >= 19
@@ -44,6 +44,9 @@ cp -pr package.json index.js %{buildroot}%{nodejs_sitelib}/bunker
 %doc README.markdown example
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

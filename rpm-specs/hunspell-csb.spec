@@ -2,7 +2,7 @@ Name: hunspell-csb
 Summary: Kashubian hunspell dictionaries
 %global upstreamid 20050311
 Version: 0.%{upstreamid}
-Release: 21%{?dist}
+Release: 22%{?dist}
 Source: http://ftp.gnu.org/gnu/aspell/dict/csb/aspell6-csb-0.02-0.tar.bz2
 URL: http://borel.slu.edu/crubadan/apps.html
 License: GPLv2+
@@ -43,6 +43,9 @@ cp -p *.dic *.aff $RPM_BUILD_ROOT/%{_datadir}/myspell
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20050311-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20050311-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

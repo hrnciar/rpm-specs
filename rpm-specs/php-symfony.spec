@@ -104,7 +104,7 @@
 
 Name:          php-%{composer_project}
 Version:       %{github_version}
-Release:       3%{?dist}
+Release:       4%{?dist}
 Summary:       PHP framework for web projects
 
 License:       MIT
@@ -2707,6 +2707,9 @@ done
 # ##############################################################################
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.52-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.52-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

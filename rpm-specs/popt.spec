@@ -1,14 +1,14 @@
 %define ver 1.18
-%define snap rc1
+#define snap rc1
 %define srcver %{ver}%{?snap:-%{snap}}
 
 Summary:	C library for parsing command line parameters
 Name:		popt
 Version:	%{ver}%{?snap:~%{snap}}
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	MIT
 URL:		https://github.com/rpm-software-management/popt/
-Source:		http://ftp.rpm.org/releases/testing/%{name}/%{name}-%{srcver}.tar.gz
+Source:		http://ftp.rpm.org/popt/releases/popt-1.1x/%{name}-%{srcver}.tar.gz
 BuildRequires:	gcc gettext
 
 %description
@@ -77,6 +77,12 @@ make check
 %{_libdir}/libpopt.a
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Panu Matilainen <pmatilai@redhat.com> - 1.18-1
+- Update to popt 1.18 final (no changes from rc1)
+
 * Fri May 29 2020 Panu Matilainen <pmatilai@redhat.com> - 1.18~rc1-1
 - Rebase to popt 1.18-rc1
 - Update URLs to the new upstream

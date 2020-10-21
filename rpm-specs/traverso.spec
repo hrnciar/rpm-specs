@@ -15,7 +15,7 @@
 
 Name:           traverso
 Version:        0.49.6
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Multitrack Audio Recording and Editing Suite
 
 License:        GPLv2+
@@ -101,16 +101,15 @@ sed -i 's|libslv2|slv2|g' CMakeLists.txt
          -DWANT_PORTAUDIO=ON                           \
          -DCXX_FLAGS:STRING="%{sse_cxxflags}"          \
          %{sse_cmakeflags}                             \
-         .
-
-%make_build VERBOSE=1
+         %{nil}
+%cmake_build
 
 # Add Comment to the .desktop file
 echo "Comment=Digital Audio Workstation" >> resources/%{name}.desktop
 
 
 %install
-%make_install
+%cmake_install
 
 # icons
 install -dm 755 %{buildroot}%{_datadir}/icons/hicolor/
@@ -142,6 +141,9 @@ install -pm 644 resources/x-%{name}.xml %{buildroot}%{_datadir}/mime/packages/
 %{_datadir}/mime/packages/*.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.49.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.49.6-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

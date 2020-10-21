@@ -1,6 +1,6 @@
 Name:           TurboGears2
 Version:        2.4.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Next generation front-to-back web development megaframework
 
 License:        MIT
@@ -89,6 +89,9 @@ rm -fr %{buildroot}%{python3_sitelib}/tests
 %{python3_sitelib}/tg/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.4.3-3
 - Rebuilt for Python 3.9
 

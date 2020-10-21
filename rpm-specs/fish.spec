@@ -1,10 +1,6 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:           fish
 Version:        3.1.2
-Release:        1%{?dist}
+Release:        5%{?dist}
 Summary:        Friendly interactive shell
 
 # GPLv2
@@ -69,11 +65,24 @@ for f in $(find share/tools -type f -name '*.py'); do
 done
 
 %build
-%cmake . -B%{_vpath_builddir} -GNinja -DCMAKE_INSTALL_SYSCONFDIR=%{_sysconfdir}
+%cmake . -B%{_vpath_builddir} -GNinja \
+    -DCMAKE_INSTALL_SYSCONFDIR=%{_sysconfdir} \
+    -Dextra_completionsdir=%{_datadir}/%{name}/vendor_completions.d \
+    -Dextra_functionsdir=%{_datadir}/%{name}/vendor_functions.d \
+    -Dextra_confdir=%{_datadir}/%{name}/vendor_conf.d
+
 %ninja_build -C %{_vpath_builddir} all fish_tests
+
+# We still need to slightly manually adapt the pkgconfig file and remove
+# some /usr/local/ references (RHBZ#1869376)
+sed -i 's^/usr/local/^/usr/^g' %{_vpath_builddir}/*.pc
 
 %install
 %ninja_install -C %{_vpath_builddir}
+
+# No more automagic Python bytecompilation phase 3
+# * https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}%{_datadir}/%{name}/tools/
 
 # Install docs from tarball root
 cp -a README.md %{buildroot}%{_pkgdocdir}
@@ -111,6 +120,19 @@ fi
 %{_pkgdocdir}
 
 %changelog
+* Tue Aug 25 2020 Oliver Falk <oliver@linux-kernel.at> - 3.1.2-5
+- Correct pkgconfig references to /usr/local (RHBZ#1869376)
+
+* Mon Aug 17 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 3.1.2-4
+- Remove automagic Python bytecompilation | Fix FTBFS f33 | RH#1863559
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 06 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 3.1.2-1
 - Update to 3.1.2
 

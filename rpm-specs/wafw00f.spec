@@ -1,14 +1,16 @@
 Name:           wafw00f
 Version:        2.1.0
-Release:        2%{?dist}
-Summary:        A tool to identifies and fingerprints Web Application Firewall (WAF)
+Release:        4%{?dist}
+Summary:        Tool to identifies and fingerprints Web Application Firewall (WAF)
+
 
 License:        BSD
 URL:            https://github.com/sandrogauci/wafw00f
-Source0:        https://github.com/sandrogauci/wafw00f/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 
 %description
 WAFW00F identifies and fingerprints Web Application Firewall (WAF) products.
@@ -31,6 +33,12 @@ sed -i -e '/^#!\//, 1d' {wafw00f/*.py,wafw00f/*/*.py}
 %{python3_sitelib}/%{name}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.1.0-3
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.0-2
 - Rebuilt for Python 3.9
 

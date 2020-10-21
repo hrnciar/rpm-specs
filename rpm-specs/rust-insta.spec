@@ -5,18 +5,14 @@
 %global crate insta
 
 Name:           rust-%{crate}
-Version:        0.16.0
-Release:        1%{?dist}
+Version:        0.16.1
+Release:        2%{?dist}
 Summary:        Snapshot testing library for Rust
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            https://crates.io/crates/insta
 Source:         %{crates_source}
-# Initial patched metadata
-# * https://github.com/mitsuhiko/insta/pull/124
-# - Bump 'console' to 0.11.0
-Patch0:         insta-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -24,6 +20,11 @@ BuildArch:      noarch
 %endif
 
 BuildRequires:  rust-packaging
+
+# https://github.com/mitsuhiko/insta/issues/126
+%if %{with check}
+BuildRequires:  rustfmt
+%endif
 
 %global _description %{expand:
 Snapshot testing library for Rust.}
@@ -167,12 +168,15 @@ which use "serialization" feature of "%{crate}" crate.
 
 %if %{with check}
 %check
-# thread 'runtime::test_format_rust_expression' panicked at 'snapshot assertion
-# for 'format_rust_expression' failed in line 90', src/runtime.rs:995:9
-# * https://github.com/mitsuhiko/insta/issues/126
-%cargo_test -- -- --skip runtime::test_format_rust_expression
+%cargo_test
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.16.1-1
+- Update to 0.16.1
+
 * Wed Jun 17 22:28:51 EEST 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.16.0-1
 - Initial package

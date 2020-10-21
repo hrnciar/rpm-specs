@@ -5,7 +5,7 @@
 
 Name:		nodejs-is-buffer
 Version:	1.1.5
-Release:	6%{?dist}
+Release:	8%{?dist}
 Summary:	Determine if an object is Buffer
 
 License:	MIT
@@ -61,6 +61,13 @@ cp -pr package.json index.js \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

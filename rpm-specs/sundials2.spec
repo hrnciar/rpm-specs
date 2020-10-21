@@ -1,3 +1,5 @@
+%global __cmake_in_source_build 1
+
 ## Debug builds?
 %bcond_with debug
 #
@@ -9,10 +11,18 @@
 %global dtsbindir /opt/rh/devtoolset-8/root/usr/bin/
 %endif
 
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+%global blaslib flexiblas
+%global blasvar %{nil}
+%else
+%global blaslib openblas
+%global blasvar o
+%endif
+
 Summary:    Suite of nonlinear solvers
 Name:       sundials2
 Version:    2.7.0
-Release:    4%{?dist}
+Release:    7%{?dist}
 # SUNDIALS is licensed under BSD with some additional (but unrestrictive) clauses.
 # Check the file 'LICENSE' for details.
 License:    BSD
@@ -24,10 +34,10 @@ Patch0:     %{name}-%{version}-set_superlumt_name.patch
 
 BuildRequires: %{?dts}gcc-gfortran
 BuildRequires: %{?dts}gcc
+BuildRequires: %{?dts}gcc-c++
 BuildRequires: suitesparse-devel
 BuildRequires: cmake3
-BuildRequires: lapack-devel
-BuildRequires: blas-devel
+BuildRequires: %{blaslib}-devel
 BuildRequires: SuperLUMT-devel
 BuildRequires: rsh
 
@@ -200,25 +210,31 @@ cp -a sundials-%{version} buildmpich_dir
 %build
 pushd sundials-%{version}
 mkdir -p build && cd build
+
+## Blas
+export LIBBLASLINK=-l%{blaslib}%{blasvar}
+export INCBLAS=%{_includedir}/%{blaslib}
+##
+
 %if %{with debug}
 export CFLAGS=""
 cmake \
  -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
  -DCMAKE_BUILD_TYPE:STRING=Debug \
- -DCMAKE_C_FLAGS_DEBUG:STRING="-O0 -g -Wl,-z,relro -Wl,-z,now" \
- -DCMAKE_Fortran_FLAGS_DEBUG:STRING="-O0 -g -Wl,-z,relro -Wl,-z,now -I%{_fmoddir} -pthread -fopenmp" \
- -DCMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING="%{__global_ldflags} -Wl,-z,now -lklu -llapack -lblas -lgomp -lsuperlumt_d -lpthread -lm" \
+ -DCMAKE_C_FLAGS_DEBUG:STRING="-O0 -g %{__global_ldflags} -I$INCBLAS" \
+ -DCMAKE_Fortran_FLAGS_DEBUG:STRING="-O0 -g %{__global_ldflags} -I%{_fmoddir} -pthread -fopenmp -I$INCBLAS" \
+ -DCMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING="%{__global_ldflags} -lklu $LIBBLASLINK -lgomp -lsuperlumt_d -lpthread -lm" \
 %else
 %cmake3 \
  -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
  -DCMAKE_BUILD_TYPE:STRING=Release \
- -DCMAKE_C_FLAGS_RELEASE:STRING="%{optflags} -Wl,-z,relro -Wl,-z,now -pthread -fopenmp" \
- -DCMAKE_Fortran_FLAGS_RELEASE:STRING="%{optflags} -Wl,-z,relro -Wl,-z,now -pthread -fopenmp" \
- -DCMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING="%{__global_ldflags} -Wl,-z,now -lklu -llapack -lblas -lgomp -lsuperlumt_d -lpthread -lm" \
+ -DCMAKE_C_FLAGS_RELEASE:STRING="%{optflags} %{__global_ldflags} -pthread -fopenmp -I$INCBLAS" \
+ -DCMAKE_Fortran_FLAGS_RELEASE:STRING="%{optflags} %{__global_ldflags} -pthread -fopenmp -I$INCBLAS" \
+ -DCMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING="%{__global_ldflags} -lklu $LIBBLASLINK -lgomp -lsuperlumt_d -lpthread -lm" \
 %endif
  -DCMAKE_C_COMPILER:FILE=%{?dtsbindir}gcc \
  -DCMAKE_Fortran_COMPILER:FILE=%{?dtsbindir}gcc-gfortran \
- -DCMAKE_MODULE_LINKER_FLAGS:STRING="%{__global_ldflags} -Wl,-z,now" \
+ -DCMAKE_MODULE_LINKER_FLAGS:STRING="%{__global_ldflags}" \
  -DCMAKE_INSTALL_PREFIX=%{_prefix} \
  -DEXAMPLES_ENABLE=OFF -DEXAMPLES_INSTALL=OFF \
  -DCMAKE_SKIP_RPATH:BOOL=YES -DCMAKE_SKIP_INSTALL_RPATH:BOOL=YES \
@@ -231,7 +247,7 @@ cmake \
  -DOPENMP_ENABLE:BOOL=ON \
  -DCXX_ENABLE:BOOL=ON \
  -DPTHREAD_ENABLE:BOOL=ON \
- -DLAPACK_ENABLE:BOOL=ON \
+ -DLAPACK_ENABLE:BOOL=OFF \
  -DSUNDIALS_PRECISION:STRING=double \
  -DSUPERLUMT_ENABLE:BOOL=ON \
  -DSUPERLUMT_INCLUDE_DIR:PATH=%{_includedir}/SuperLUMT \
@@ -256,6 +272,12 @@ sed -i 's|TARGETS sundials_fnvecparallel_shared DESTINATION lib|TARGETS sundials
 sed -i 's|TARGETS sundials_nvecparhyp_shared DESTINATION lib|TARGETS sundials_nvecparhyp_shared DESTINATION %{_libdir}/openmpi/lib|g' src/nvec_parhyp/CMakeLists.txt
 
 mkdir -p build && cd build
+
+## Blas
+export LIBBLASLINK=-l%{blaslib}%{blasvar}
+export INCBLAS=%{_includedir}/%{blaslib}
+##
+
 %{_openmpi_load}
 export CC=mpicc
 export CXX=mpicxx
@@ -265,9 +287,9 @@ export CFLAGS=""
 cmake \
  -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
  -DCMAKE_BUILD_TYPE:STRING=Debug \
- -DCMAKE_C_FLAGS_DEBUG:STRING="-O0 -g -Wl,-z,relro -Wl,-z,now" \
- -DCMAKE_Fortran_FLAGS_DEBUG:STRING="-O0 -g -Wl,-z,relro -Wl,-z,now -I${MPI_FORTRAN_MOD_DIR} -pthread -fopenmp" \
- -DCMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING="%{__global_ldflags} -Wl,-z,now -lm -lpthread -lgomp -lklu \
+ -DCMAKE_C_FLAGS_DEBUG:STRING="-O0 -g %{__global_ldflags} -I$INCBLAS" \
+ -DCMAKE_Fortran_FLAGS_DEBUG:STRING="-O0 -g %{__global_ldflags} -I${MPI_FORTRAN_MOD_DIR} -pthread -fopenmp -I$INCBLAS" \
+ -DCMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING="%{__global_ldflags} -lm -lpthread $LIBBLASLINK -lgomp -lklu \
 %ifnarch s390x
 -L${MPI_LIB} -lHYPRE" \
 %endif
@@ -275,12 +297,12 @@ cmake \
 %cmake3 \
  -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
  -DCMAKE_BUILD_TYPE:STRING=Release \
- -DCMAKE_C_FLAGS_RELEASE:STRING="%{optflags} -Wl,-z,relro -Wl,-z,now" \
- -DCMAKE_Fortran_FLAGS_RELEASE:STRING="%{optflags} -Wl,-z,relro -Wl,-z,now -pthread -fopenmp" \
+ -DCMAKE_C_FLAGS_RELEASE:STRING="%{optflags} %{__global_ldflags} -I$INCBLAS" \
+ -DCMAKE_Fortran_FLAGS_RELEASE:STRING="%{optflags} %{__global_ldflags} -pthread -fopenmp -I$INCBLAS" \
 %ifnarch s390x
- -DCMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING="%{__global_ldflags} -Wl,-z,now -lm -lpthread -lgomp -lklu -L${MPI_LIB} -lHYPRE" \
+ -DCMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING="%{__global_ldflags} -lm -lpthread $LIBBLASLINK -lgomp -lklu -L${MPI_LIB} -lHYPRE" \
 %else
- -DCMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING="%{__global_ldflags} -Wl,-z,now -lm -lpthread -lgomp -lklu" \
+ -DCMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING="%{__global_ldflags} -lm -lpthread $LIBBLASLINK -lgomp -lklu" \
 %endif
 %endif
  -DCMAKE_INSTALL_PREFIX=%{_prefix} \
@@ -298,7 +320,7 @@ cmake \
  -DCXX_ENABLE:BOOL=ON \
  -DCMAKE_Fortran_COMPILER:STRING=${MPI_BIN}/mpif77 \
  -DPTHREAD_ENABLE:BOOL=ON \
- -DLAPACK_ENABLE:BOOL=ON \
+ -DLAPACK_ENABLE:BOOL=OFF \
  -DSUPERLUMT_ENABLE:BOOL=OFF \
 %ifnarch s390x
  -DHYPRE_ENABLE:BOOL=ON \
@@ -325,6 +347,12 @@ sed -i 's|TARGETS sundials_fnvecparallel_shared DESTINATION lib|TARGETS sundials
 sed -i 's|TARGETS sundials_nvecparhyp_shared DESTINATION lib|TARGETS sundials_nvecparhyp_shared DESTINATION %{_libdir}/mpich/lib|g' src/nvec_parhyp/CMakeLists.txt
 
 mkdir -p build && cd build
+
+## Blas
+export LIBBLASLINK=-l%{blaslib}%{blasvar}
+export INCBLAS=%{_includedir}/%{blaslib}
+##
+
 %{_mpich_load}
 export CC=mpicc
 export CXX=mpicxx
@@ -335,9 +363,9 @@ export CFLAGS=""
 cmake \
  -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
  -DCMAKE_BUILD_TYPE:STRING=Debug \
- -DCMAKE_C_FLAGS_DEBUG:STRING="-O0 -g -Wl,-z,relro -Wl,-z,now" \
- -DCMAKE_Fortran_FLAGS_DEBUG:STRING="-O0 -g -Wl,-z,relro -Wl,-z,now -I${MPI_FORTRAN_MOD_DIR} -lm -lpthread -lgomp" \
- -DCMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING="%{__global_ldflags} -Wl,-z,now -lm -lpthread -lgomp -lklu \
+ -DCMAKE_C_FLAGS_DEBUG:STRING="-O0 -g %{__global_ldflags} -I$INCBLAS" \
+ -DCMAKE_Fortran_FLAGS_DEBUG:STRING="-O0 -g %{__global_ldflags} -I${MPI_FORTRAN_MOD_DIR} -lm -lpthread -I$INCBLAS" \
+ -DCMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING="%{__global_ldflags} -lm -lpthread $LIBBLASLINK -lgomp -lklu \
 %ifnarch s390x
 -L${MPI_LIB} -lHYPRE" \
 %endif
@@ -345,12 +373,12 @@ cmake \
 %cmake3 \
  -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
  -DCMAKE_BUILD_TYPE:STRING=Release \
- -DCMAKE_C_FLAGS_RELEASE:STRING="%{optflags} -Wl,-z,relro -Wl,-z,now" \
- -DCMAKE_Fortran_FLAGS_RELEASE:STRING="%{optflags} -Wl,-z,relro -Wl,-z,now -lm -lpthread -lgomp" \
+ -DCMAKE_C_FLAGS_RELEASE:STRING="%{optflags} %{__global_ldflags}" \
+ -DCMAKE_Fortran_FLAGS_RELEASE:STRING="%{optflags} -%{__global_ldflags} -lm -lpthread $LIBBLASLINK -lgomp" \
 %ifnarch s390x
- -DCMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING="%{__global_ldflags} -Wl,-z,now -lm -lpthread -lgomp -lklu -L${MPI_LIB} -lHYPRE" \
+ -DCMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING="%{__global_ldflags} -lm -lpthread $LIBBLASLINK -lgomp -lklu -L${MPI_LIB} -lHYPRE" \
 %else
- -DCMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING="%{__global_ldflags} -Wl,-z,now -lm -lpthread -lgomp -lklu" \
+ -DCMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING="%{__global_ldflags} -lm -lpthread $LIBBLASLINK -lgomp -lklu" \
 %endif
 %endif
  -DCMAKE_INSTALL_PREFIX=%{_prefix} \
@@ -369,7 +397,7 @@ cmake \
  -DCXX_ENABLE:BOOL=ON \
  -DCMAKE_Fortran_COMPILER:STRING=${MPI_BIN}/mpif77 \
  -DPTHREAD_ENABLE:BOOL=ON \
- -DLAPACK_ENABLE:BOOL=ON \
+ -DLAPACK_ENABLE:BOOL=OFF \
  -DSUPERLUMT_ENABLE:BOOL=OFF \
 %ifnarch s390x
  -DHYPRE_ENABLE:BOOL=ON \
@@ -491,6 +519,16 @@ find %{buildroot}${MPI_LIB} -name "libsundials-*" -exec rename 's/libsundials/li
 %endif
 
 %changelog
+* Fri Aug 21 2020 Iñaki Úcar <iucar@fedoraproject.org> - 2.7.0-7
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 05 2020 Antonio Trande <sagitterATfedoraproject.org> - 2.7.0-4
 - Fix rhbz#1820991
 

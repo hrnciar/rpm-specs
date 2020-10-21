@@ -24,14 +24,12 @@ many of its ideas have influenced other libraries with similar functionality.
 
 
 Name:           python-%{pkgname}
-Version:        1.1
-Release:        2%{?dist}
+Version:        1.4
+Release:        1%{?dist}
 Summary:        Building blocks for performing concurrent I/O
 License:        BSD
 URL:            https://github.com/dabeaz/curio
 Source0:        %pypi_source
-# https://github.com/dabeaz/curio/issues/320
-Patch0:         add-custom-marker-for-tests-that-require-internet.patch
 BuildArch:      noarch
 
 
@@ -78,6 +76,12 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} --verbose -
 
 
 %changelog
+* Mon Oct 05 2020 Yatin Karel <ykarel@redhat.com> - 1.4-1
+- Update to 1.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1-2
 - Rebuilt for Python 3.9
 

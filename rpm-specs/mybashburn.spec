@@ -1,6 +1,6 @@
 Name:    mybashburn
 Version: 1.0.2
-Release: 21%{?dist}
+Release: 22%{?dist}
 Summary: Burn data and create songs with interactive dialogs
 License: GPLv2+
 URL:     http://mybashburn.sf.net
@@ -70,6 +70,9 @@ ln -sf ../../usr/share/mybashburn/MyBashBurn.sh %{buildroot}%{_bindir}/mybashbur
 %attr(0644,root,root) %{_mandir}/man1/mybashburn.1.gz
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

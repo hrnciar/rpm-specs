@@ -1,6 +1,6 @@
 Name:       jalv
 Version:    1.6.4
-Release:    2%{?dist}
+Release:    4%{?dist}
 Summary:    A simple but fully featured LV2 host for Jack
 
 License:    MIT
@@ -21,7 +21,6 @@ BuildRequires:  qt-devel >= 4.0.0
 BuildRequires:  gtk2-devel >= 2.18.0
 BuildRequires:  gtk3-devel >= 3.0.0
 BuildRequires:  gtkmm24-devel >= 2.20.0
-BuildRequires:  qt5-devel >= 5.1.0
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 Requires:       lv2 >= 1.16.0
@@ -94,6 +93,12 @@ ln -fs %{name}.qt4 %{buildroot}%{_bindir}/%{name}.qt
 %{_mandir}/man1/%{name}.gtkmm.1.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Jeff Law <law@redhat.com> - 1.6.4-3
+- Drop qt5-devel buildrequires
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

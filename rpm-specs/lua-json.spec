@@ -1,11 +1,11 @@
-%define luaver 5.3
+%define luaver 5.4
 %define luapkgdir %{_datadir}/lua/%{luaver}
 %global commit 7a86bc22066858afeb23845a191a6ab680b46233
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           lua-json
 Version:        1.3.2
-Release:        14%{?dist}
+Release:        16%{?dist}
 Summary:        JSON Parser/Constructor for Lua
 License:        MIT
 URL:            http://luaforge.net/projects/luajson/
@@ -41,6 +41,12 @@ make check-regression
 %{luapkgdir}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.2-15
+- Rebuilt for Lua 5.4
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -27,7 +27,7 @@ platform, is provided.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.4%{?dist}
+Release:        0.5%{?dist}
 Summary:        Backtrace Crash Delivery for Go
 
 License:        MIT
@@ -55,6 +55,9 @@ BuildRequires:  golang(golang.org/x/sys/unix)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 03:07:41 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200129git4f0105f
 - Bump to commit 4f0105f93d7c5035eb8006ce98b50ee48e8e0ea6
 

@@ -5,7 +5,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 2.7.8
-Release: 5%{?dist}
+Release: 6%{?dist}
 Summary: High performance memcached client for Ruby
 License: MIT
 URL: https://github.com/petergoldstein/dalli
@@ -82,6 +82,9 @@ popd
 %{gem_instdir}/Gemfile
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.8-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.8-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

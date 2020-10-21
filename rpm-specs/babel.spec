@@ -17,7 +17,7 @@
 
 Name:           babel
 Version:        2.8.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 License:        BSD
@@ -175,6 +175,9 @@ export TZ=America/New_York
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 2.8.0-6
 - Rebuilt for Python 3.9
 

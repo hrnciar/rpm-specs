@@ -3,7 +3,7 @@
 
 Name:           xfce4-cpufreq-plugin
 Version:        1.2.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        CPU frequency scaling plugin for the Xfce4 panel 
 
 License:        GPLv2+
@@ -53,6 +53,9 @@ find %{buildroot} -name \*.la -exec rm {} \;
 %{_datadir}/xfce4/panel/plugins/cpufreq.desktop
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 03 2020 Jonathan Wakely <jwakely@redhat.com> - 1.2.1-6
 - Correct fix for GCC -fno-common behaviour (#1830261)
 

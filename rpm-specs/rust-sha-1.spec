@@ -5,18 +5,14 @@
 %global crate sha-1
 
 Name:           rust-%{crate}
-Version:        0.9.0
-Release:        1%{?dist}
+Version:        0.9.1
+Release:        2%{?dist}
 Summary:        SHA-1 hash function
 
 # Upstream license specification: MIT OR Apache-2.0
 License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/sha-1
 Source:         %{crates_source}
-# Initial patched metadata
-# * Update block-buffer to 0.9, https://github.com/RustCrypto/hashes/commit/d24f26b1650156b1da4fced389559cee17805910
-Patch0:         sha-1-fix-metadata.diff
-Patch0001:      0001-Update-block-buffer-to-v0.9-164.patch
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -135,6 +131,12 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 10:16:51 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.9.1-1
+- Update to 0.9.1
+
 * Sun Jun 21 17:15:34 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.9.0-1
 - Update to 0.9.0
 

@@ -1,8 +1,8 @@
-%global release_dir m2e-core-8328691915d0e67544c97597b0ea02d559f0f4ea
+%global release_dir m2e-core-%{version}
 
 Name:           eclipse-m2e-core
-Version:        1.15.0
-Release:        3%{?dist}
+Version:        1.16.1
+Release:        2%{?dist}
 Summary:        Maven integration for Eclipse
 
 # Most of components are under EPL, but some of them are licensed under
@@ -10,7 +10,7 @@ Summary:        Maven integration for Eclipse
 License:        EPL-2.0 and ASL 2.0
 URL:            https://eclipse.org/m2e/
 
-Source0:        https://git.eclipse.org/c/m2e/m2e-core.git/snapshot/%{release_dir}.tar.xz
+Source0:        https://github.com/eclipse-m2e/m2e-core/archive/%{version}.tar.gz
 
 # Allow building against the Fedora shipped guava version
 Patch0: 0001-Fix-manifests-for-guava-and-use-OSGi-fied-archetypes.patch
@@ -28,7 +28,8 @@ Patch3: 0004-Remove-mandatory-attirbutes-from-OSGi-manifests-whic.patch
 # Use latest version of maven-archetypes
 Patch4: 0005-Port-to-latest-version-of-maven-archetypes.patch
 
-Patch1000: core.patch
+# Avoid dep on aether-connector, use java 11 instead
+Patch5: 0006-Remove-dep-on-aether-connector.patch
 
 BuildArch:      noarch
 
@@ -38,43 +39,43 @@ ExcludeArch: s390 %{arm} %{ix86}
 # Maven build-requires for the main build.  After successfull build
 # they can be regenerated with the following command:
 #   xmvn-builddep <path-to-build-log>
+BuildRequires:  java-11-openjdk-devel
 BuildRequires:  maven-local
 BuildRequires:  mvn(io.takari.m2e.workspace:org.eclipse.m2e.workspace.cli)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-install-plugin)
 BuildRequires:  mvn(org.codehaus.modello:modello-maven-plugin)
 BuildRequires:  mvn(org.codehaus.mojo:build-helper-maven-plugin)
+BuildRequires:  mvn(org.eclipse.tycho.extras:tycho-p2-extras-plugin)
 BuildRequires:  mvn(org.eclipse.tycho:target-platform-configuration)
 BuildRequires:  mvn(org.eclipse.tycho:tycho-compiler-plugin)
 BuildRequires:  mvn(org.eclipse.tycho:tycho-maven-plugin)
 BuildRequires:  mvn(org.eclipse.tycho:tycho-p2-plugin)
 BuildRequires:  mvn(org.eclipse.tycho:tycho-packaging-plugin)
 BuildRequires:  mvn(org.eclipse.tycho:tycho-source-plugin)
-BuildRequires:  mvn(org.eclipse.tycho:tycho-surefire-plugin)
 BuildRequires:  mvn(org.sonatype.forge:forge-parent:pom:)
 
 # Additional Maven build-requires for m2e-maven-runtime.  They cannot
 # be regenerated using xmvn-builddep because m2e-maven-runtime is not
 # built using %%mvn_build.
-BuildRequires:  mvn(io.takari.aether:aether-connector-okhttp)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
-BuildRequires:  mvn(org.apache.maven.archetype:archetype-common) >= 3.1.1
+BuildRequires:  mvn(org.apache.maven.archetype:archetype-common) >= 3.2.0
 BuildRequires:  mvn(org.apache.maven.indexer:indexer-core) >= 6.0.0
 BuildRequires:  mvn(org.apache.maven:maven-compat)
 BuildRequires:  mvn(org.apache.maven:maven-core)
 BuildRequires:  mvn(org.apache.maven:maven-embedder)
+BuildRequires:  mvn(org.apache.maven.resolver:maven-resolver-api)
+BuildRequires:  mvn(org.apache.maven.resolver:maven-resolver-connector-basic)
+BuildRequires:  mvn(org.apache.maven.resolver:maven-resolver-impl)
+BuildRequires:  mvn(org.apache.maven.resolver:maven-resolver-spi)
+BuildRequires:  mvn(org.apache.maven.resolver:maven-resolver-transport-wagon)
+BuildRequires:  mvn(org.apache.maven.resolver:maven-resolver-util)
 BuildRequires:  mvn(org.apache.maven.wagon:wagon-file)
 BuildRequires:  mvn(org.apache.maven.wagon:wagon-http)
-BuildRequires:  mvn(org.eclipse.aether:aether-api)
-BuildRequires:  mvn(org.eclipse.aether:aether-connector-basic)
-BuildRequires:  mvn(org.eclipse.aether:aether-impl)
-BuildRequires:  mvn(org.eclipse.aether:aether-spi)
-BuildRequires:  mvn(org.eclipse.aether:aether-util)
-BuildRequires:  mvn(org.eclipse.aether:aether-transport-wagon)
 BuildRequires:  mvn(org.eclipse.sisu:org.eclipse.sisu.plexus)
 BuildRequires:  mvn(org.eclipse.tycho:tycho-maven-plugin)
 BuildRequires:  mvn(org.eclipse.tycho:tycho-p2-plugin)
+BuildRequires:  mvn(org.fusesource.jansi:jansi)
 BuildRequires:  mvn(org.slf4j:slf4j-simple)
-BuildRequires:  mvn(org.sonatype.forge:forge-parent:pom:)
 BuildRequires:  mvn(org.sonatype.plexus:plexus-build-api)
 
 # OSGi build-requires.  They can be regenerated with the following command:
@@ -82,7 +83,6 @@ BuildRequires:  mvn(org.sonatype.plexus:plexus-build-api)
 BuildRequires:  osgi(com.google.gson)
 BuildRequires:  osgi(com.google.guava)
 BuildRequires:  osgi(com.ibm.icu)
-BuildRequires:  osgi(javax.annotation-api)
 BuildRequires:  osgi(org.apache.ant)
 BuildRequires:  osgi(org.apache.commons.io)
 BuildRequires:  osgi(org.apache.maven.archetype.catalog)
@@ -159,22 +159,18 @@ BuildRequires:  maven-install-plugin
 # for symlinks to JARs installed by other packages.  After installing
 # m2e these requires can be regenerated with the following command:
 #   rpm -qf --qf 'Requires:       %%{name}\n' $(readlink -f $(find /usr/share/eclipse/droplets/m2e-core -type l)) | sort -u
-Requires:       aether-connector-okhttp
 Requires:       aopalliance
 Requires:       apache-commons-cli
 Requires:       apache-commons-codec
 Requires:       apache-commons-collections
 Requires:       apache-commons-io
-Requires:       apache-commons-lang
 Requires:       apache-commons-lang3
 Requires:       atinject
 Requires:       cdi-api
 Requires:       eclipse-m2e-workspace
-Requires:       glassfish-annotation-api
 Requires:       glassfish-el-api
 Requires:       google-gson
 Requires:       google-guice
-Requires:       guava20
 Requires:       hawtjni-runtime
 Requires:       jansi
 Requires:       jansi-native
@@ -185,9 +181,9 @@ Requires:       lucene-memory
 Requires:       lucene-queries
 Requires:       lucene-queryparser
 Requires:       lucene-sandbox
-Requires:       maven-archetype-catalog >= 3.1.1
-Requires:       maven-archetype-common >= 3.1.1
-Requires:       maven-archetype-descriptor >= 3.1.1
+Requires:       maven-archetype-catalog >= 3.2.0
+Requires:       maven-archetype-common >= 3.2.0
+Requires:       maven-archetype-descriptor >= 3.2.0
 Requires:       maven-artifact-transfer
 Requires:       maven-common-artifact-filters
 Requires:       maven-indexer >= 6.0.0
@@ -201,9 +197,8 @@ Requires:       maven-resolver-transport-wagon
 Requires:       maven-resolver-util
 Requires:       maven-shared-utils
 Requires:       maven-wagon-file
+Requires:       maven-wagon-http
 Requires:       maven-wagon-provider-api
-Requires:       okhttp
-Requires:       okio
 Requires:       plexus-build-api
 Requires:       plexus-cipher
 Requires:       plexus-classworlds
@@ -222,8 +217,9 @@ Requires:       xml-commons-apis
 Obsoletes: eclipse-m2e-sourcelookup < 1.1.1-1
 Provides: eclipse-m2e-sourcelookup = %{version}-%{release}
 
-# Not shipping tests since F31
-Obsoletes: %{name}-tests < 1.14.0-2
+# Not shipping tests or javadoc since F33
+Obsoletes: %{name}-javadoc < 1.16.1-1
+Obsoletes: %{name}-tests < 1.16.1-1
 
 %description
 The goal of the m2ec project is to provide a first-class Apache Maven support
@@ -237,13 +233,6 @@ additional Maven plugins (e.g. Android, web development, etc.), and facilitates
 the distribution of those extensions through the m2e marketplace.
 
 
-%package javadoc
-Summary:        API documentation for %{name}
-
-%description javadoc
-This package contains %{summary}.
-
-
 %prep
 %setup -q -n %{release_dir}
 %patch0 -p1
@@ -254,6 +243,7 @@ This package contains %{summary}.
 rm org.eclipse.m2e.core.ui/src/org/eclipse/m2e/core/ui/internal/preferences/LocalArchetypeCatalogDialog.java
 rm org.eclipse.m2e.core.ui/src/org/eclipse/m2e/core/ui/internal/preferences/RemoteArchetypeCatalogDialog.java
 %pom_remove_dep :dom4j m2e-maven-runtime/org.eclipse.m2e.archetype.common
+%patch5 -p1
 
 # Remove unnecessary parent pom
 %pom_remove_parent m2e-maven-runtime
@@ -275,9 +265,16 @@ do
   rm -rf $mod
 done
 
+# Don't build lemminx editor
+%pom_disable_module org.eclipse.m2e.lemminx.feature
+%pom_disable_module org.eclipse.m2e.editor.lemminx
+%pom_disable_module org.eclipse.m2e.editor.lemminx.tests
+
 # Don't ship tests
 %pom_disable_module org.eclipse.m2e.tests.common
 %pom_disable_module org.eclipse.m2e.core.tests
+%pom_disable_module org.eclipse.m2e.jdt.tests
+%pom_disable_module org.eclipse.m2e.editor.xml.sse.tests
 %pom_disable_module org.eclipse.m2e.importer.tests
 %pom_disable_module org.eclipse.m2e.binaryproject.tests
 %mvn_package ":*.tests*::{}:" __noinstall
@@ -309,6 +306,8 @@ done
 %pom_remove_dep :tycho-sourceref-jgit
 %pom_xpath_remove 'pom:configuration/pom:timestampProvider'
 %pom_xpath_remove 'pom:configuration/pom:sourceReferences'
+%pom_remove_plugin ":exec-maven-plugin" m2e-maven-runtime
+%pom_remove_plugin ":properties-maven-plugin" m2e-maven-runtime
 
 # Specify a guava version
 sed -i -e '/com.google.guava/a<version>20.0</version>' \
@@ -318,30 +317,26 @@ sed -i -e '/com.google.guava/a<version>20.0</version>' \
 sed -i -e '/org.slf4j/s|^\(.*\)|\1,org.apache.lucene.analysis,org.apache.lucene.analysis.standard,org.apache.lucene.analysis.util,org.apache.lucene.document,org.apache.lucene.index,org.apache.lucene.queryparser.classic,org.apache.lucene.search,org.apache.lucene.search.highlight,org.apache.lucene.store,org.apache.lucene.util|' \
   org.eclipse.m2e.core/META-INF/MANIFEST.MF org.eclipse.m2e.core.ui/META-INF/MANIFEST.MF
 
-# Maven 3.6.2 API
-sed -i -e 's/DefaultProjectBuilder\.DISABLE_GLOBAL_MODEL_CACHE_SYSTEM_PROPERTY/"maven.defaultProjectBuilder.disableGlobalModelCache"/' \
-  org.eclipse.m2e.core/src/org/eclipse/m2e/core/internal/MavenPluginActivator.java
-
-%patch1000 -p1
-
 %build
+export JAVA_HOME=%{_jvmdir}/java-11
 # Building m2e is a two step process.  See upstream documentation:
 # http://wiki.eclipse.org/M2E_Development_Environment#Building_m2e_on_command_line
 repo=localrepo
-xmvn -B -o package -f m2e-maven-runtime/pom.xml -Dmaven.repo.local=${repo}
+pushd m2e-maven-runtime
+xmvn -B -o package org.fedoraproject.xmvn:xmvn-mojo:builddep -Dmaven.repo.local=../${repo}
+popd
 # Manually install the first stage (don't rely on felix OBR)
 mkdir tmp && pushd tmp
-xmvn -B -o install:install-file -DgroupId=org.eclipse.m2e -DartifactId=org.eclipse.m2e.archetype.common -Dversion=%{version}-SNAPSHOT -Dpackaging=jar \
-  -Dmaven.repo.local=../${repo} -Dfile=../m2e-maven-runtime/org.eclipse.m2e.archetype.common/target/org.eclipse.m2e.archetype.common-%{version}-SNAPSHOT.jar
-xmvn -B -o install:install-file -DgroupId=org.eclipse.m2e -DartifactId=org.eclipse.m2e.maven.indexer -Dversion=%{version}-SNAPSHOT -Dpackaging=jar \
-  -Dmaven.repo.local=../${repo} -Dfile=../m2e-maven-runtime/org.eclipse.m2e.maven.indexer/target/org.eclipse.m2e.maven.indexer-%{version}-SNAPSHOT.jar
-xmvn -B -o install:install-file -DgroupId=org.eclipse.m2e -DartifactId=org.eclipse.m2e.maven.runtime -Dversion=%{version}-SNAPSHOT -Dpackaging=jar \
-  -Dmaven.repo.local=../${repo} -Dfile=../m2e-maven-runtime/org.eclipse.m2e.maven.runtime/target/org.eclipse.m2e.maven.runtime-%{version}-SNAPSHOT.jar
-xmvn -B -o install:install-file -DgroupId=org.eclipse.m2e -DartifactId=org.eclipse.m2e.maven.runtime.slf4j.simple -Dversion=%{version}-SNAPSHOT -Dpackaging=jar \
-  -Dmaven.repo.local=../${repo} -Dfile=../m2e-maven-runtime/org.eclipse.m2e.maven.runtime.slf4j.simple/target/org.eclipse.m2e.maven.runtime.slf4j.simple-%{version}-SNAPSHOT.jar
+for aid in org.eclipse.m2e.archetype.common \
+           org.eclipse.m2e.maven.indexer \
+           org.eclipse.m2e.maven.runtime \
+           org.eclipse.m2e.maven.runtime.slf4j.simple ; do
+  xmvn -B -o install:install-file -DgroupId=org.eclipse.m2e -DartifactId=$aid -Dversion=1.16.0-SNAPSHOT -Dpackaging=jar \
+    -Dmaven.repo.local=../${repo} -Dfile=../m2e-maven-runtime/$aid/target/$aid-1.16.0-SNAPSHOT.jar
+done
 popd
 # Second stage build
-%mvn_build -f -- -Dmaven.repo.local=${repo} -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
+%mvn_build -j -f -- -Dmaven.repo.local=${repo} -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 %install
 %mvn_artifact m2e-maven-runtime/$mod/pom.xml
@@ -350,7 +345,7 @@ for mod in org.eclipse.m2e.archetype.common \
            org.eclipse.m2e.maven.runtime \
            org.eclipse.m2e.maven.runtime.slf4j.simple
 do
-    %mvn_artifact -Dtype=eclipse-plugin m2e-maven-runtime/$mod/pom.xml m2e-maven-runtime/$mod/target/$mod-%{version}-SNAPSHOT.jar
+    %mvn_artifact -Dtype=eclipse-plugin m2e-maven-runtime/$mod/pom.xml m2e-maven-runtime/$mod/target/$mod-1.16.0-SNAPSHOT.jar
 done
 
 %mvn_install
@@ -363,10 +358,36 @@ xmvn-subst -s $(find %{buildroot}%{_datadir}/eclipse/droplets/m2e-core -name jar
 %files -f .mfiles
 %license LICENSE-2.0.txt
 
-%files javadoc -f .mfiles-javadoc
-%license LICENSE-2.0.txt
-
 %changelog
+* Sun Aug 16 2020 Mat Booth <mat.booth@redhat.com> - 1.16.1-2
+- Rebuild against maven-archetype/commons-lang3
+- Regenerate Rs/BRs
+
+* Fri Aug 14 2020 Mat Booth <mat.booth@redhat.com> - 1.16.1-1
+- Update to latest upstream release
+
+* Thu Aug 06 2020 Mat Booth <mat.booth@redhat.com> - 1.16.0-7
+- Fix broken requires
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Mat Booth <mat.booth@redhat.com> - 1.16.0-5
+- Remove explicit BR on javax.annotation-api, since Eclipse platform will pull
+  in either the javax or jakarta version as required
+
+* Mon Jul 13 2020 Jiri Vanek <jvanek@redhat.com> - 1.16.0-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Mon Jul 13 2020 Mat Booth <mat.booth@redhat.com> - 1.16.0-3
+- Patch out dep on aether and obsolete javadoc package
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.16.0-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jun 25 2020 Mat Booth <mat.booth@redhat.com> - 1.16.0-1
+- Update to latest upstream release
+
 * Wed Apr 01 2020 Mat Booth <mat.booth@redhat.com> - 1.15.0-3
 - Add patch to fix NoClassDefFoundErrors
 

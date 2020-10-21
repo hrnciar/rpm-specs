@@ -1,5 +1,5 @@
 Name:       googler
-Version:    4.1
+Version:    4.2
 Release:    1%{?dist}
 Summary:    Access google search, google site search, google news from the terminal
 
@@ -62,6 +62,12 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
 
 
 %changelog
+* Mon Aug 24 17:40:57 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 4.2-1
+- Release 4.2 (#1861154)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 23:28:58 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 4.1-1
 - Release 4.1 (#1830152)
 

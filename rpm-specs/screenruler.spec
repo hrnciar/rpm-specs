@@ -1,6 +1,6 @@
 Name:          screenruler
 Version:       0.96
-Release:       14%{?dist}
+Release:       15%{?dist}
 Summary:       GNOME screen ruler
 License:       GPLv2+
 URL:           https://launchpad.net/screenruler/
@@ -74,6 +74,9 @@ install -Dm 0644 -p %{SOURCE2} \
 %{_datadir}/appdata/%{name}.appdata.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.96-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.96-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

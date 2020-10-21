@@ -1,6 +1,6 @@
 Name:           javacc-maven-plugin
 Version:        2.6
-Release:        29%{?dist}
+Release:        31%{?dist}
 Summary:        JavaCC Maven Plugin
 License:        ASL 2.0
 URL:            http://mojo.codehaus.org/javacc-maven-plugin/ 
@@ -54,6 +54,12 @@ cp -p %{SOURCE1} .
 %doc LICENSE-2.0.txt src/main/resources/NOTICE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.6-30
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

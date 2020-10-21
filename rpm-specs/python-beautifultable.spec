@@ -1,8 +1,8 @@
 %global pypi_name beautifultable
 
 Name:           python-%{pypi_name}
-Version:        0.8.0
-Release:        2%{?dist}
+Version:        1.0.0
+Release:        1%{?dist}
 Summary:        Print ASCII tables for terminals
 
 License:        MIT
@@ -80,6 +80,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} test.py
 %license LICENSE.txt
 
 %changelog
+* Tue Jul 28 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.0.0-1
+- Update to latest upstream release 1.0.0 (rhbz#1858630)
+
 * Thu Apr 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.8.0-2
 - Add missing BR for tests (rhbz#1812435)
 

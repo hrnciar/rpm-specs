@@ -1,6 +1,6 @@
 Name:		orc
 Version:	0.4.31
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	The Oil Run-time Compiler
 
 License:	BSD
@@ -88,6 +88,9 @@ rm -rf %{buildroot}/%{_libdir}/orc
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.31-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.31-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -9,7 +9,7 @@ fields are supported.
 
 Name:           python-%{pypi_name}
 Version:        0.96.005
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        %{sum}
 
 License:        BSD
@@ -53,6 +53,9 @@ sed -i "s|\r||g" dbf/README.md
 %{python3_sitelib}/%{pypi_name}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.96.005-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.96.005-17
 - Rebuilt for Python 3.9
 

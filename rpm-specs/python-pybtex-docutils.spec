@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.2.2
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Docutils backend for pybtex
 
 License:        MIT
@@ -31,16 +31,14 @@ bibliography processor written in Python.  Bibliographic references in
 BibTeX format (or any other format supported by pybtex) can be inserted
 into python documentation to be rendered by docutils.}
 
-%description
-%common_desc
+%description %common_desc
 
 %package -n python3-%{srcname}
 Summary:        Docutils backend for pybtex
 Provides:       bundled(jquery)
 Provides:       bundled(js-underscore)
 
-%description -n python3-%{srcname}
-%common_desc
+%description -n python3-%{srcname} %common_desc
 
 %prep
 %autosetup -n %{srcname}-%{version} -p1
@@ -52,7 +50,7 @@ sed -i "s/'default'/'classic'/" doc/conf.py
 sed -i "s|\('http://docs\.python\.org/', \)None|\1'%{_docdir}/python3-docs/html/objects.inv'|" doc/conf.py
 
 %generate_buildrequires
-%pyproject_buildrequires -t
+%pyproject_buildrequires -r
 
 %build
 %pyproject_wheel
@@ -63,7 +61,7 @@ rst2html --no-datestamp LICENSE.rst LICENSE.html
 %pyproject_install
 
 %check
-PYTHONPATH=$PWD pytest test
+%pytest test
 
 %files -n python3-%{srcname}
 %doc doc/_build/html/*
@@ -72,6 +70,12 @@ PYTHONPATH=$PWD pytest test
 %{python3_sitelib}/__pycache__/pybtex_docutils*
 
 %changelog
+* Tue Aug 11 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.2-6
+- Fix build with tox 3.19 (by not using it without tox config)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.2-4
 - Rebuilt for Python 3.9
 

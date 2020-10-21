@@ -10,7 +10,7 @@
 
 Summary:	A pkg-config implementation by Ruby
 Name:		rubygem-%{gem_name}
-Version:	1.4.1
+Version:	1.4.4
 Release:	1%{?dist}
 License:	LGPLv2+
 URL:		http://github.com/rcairo/pkg-config
@@ -18,7 +18,7 @@ URL:		http://github.com/rcairo/pkg-config
 Source0:	http://rubygems.org/gems/%{gem_name}-%{version}.gem
 # Observe test failure on test_cflags test_cflags_only_I
 # with pkgconf 1.4.2
-Patch0:	rubygem-pkg-config-1.1.3-cflags-result-sort.patch
+Patch0:	rubygem-pkg-config-1.4.4-cflags-result-sort.patch
 
 %if 0%{?fedora} || 0%{?rhel} >= 7
 Requires:	ruby(release)
@@ -82,7 +82,7 @@ require "rubygems"
 gem "test-unit"
 require "test/unit"
 
-Dir.glob("test/**/test_*.rb") do |file|
+Dir.glob("test/**/test-*.rb") do |file|
   require file
 end
 EOF
@@ -103,6 +103,15 @@ ruby -Ilib:test:. ./test.rb
 %{gem_docdir}
 
 %changelog
+* Wed Sep 23 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.4.4-1
+- 1.4.4
+
+* Tue Aug 11 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.4.2-1
+- 1.4.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 13 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.4.1-1
 - 1.4.1
 

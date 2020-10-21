@@ -1,5 +1,5 @@
 Name:           vulkan-validation-layers
-Version:        1.2.135.0
+Version:        1.2.148.0
 Release:        1%{?dist}
 Summary:        Vulkan validation layers
 
@@ -15,6 +15,7 @@ BuildRequires:  glslang-devel
 BuildRequires:  ninja-build
 BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  spirv-tools-devel
+BuildRequires:  spirv-headers-devel
 BuildRequires:  vulkan-loader-devel
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-cursor)
@@ -45,16 +46,16 @@ developing applications that use %{name}.
 %global optflags %(echo %{optflags} | sed 's/-g /-g1 /')
 
 
-%cmake3 -GNinja \
-        -DCMAKE_BUILD_TYPE=Release \
+%cmake3 -DCMAKE_BUILD_TYPE=Release \
         -DGLSLANG_INSTALL_DIR=%{_prefix} \
         -DBUILD_LAYER_SUPPORT_FILES:BOOL=ON \
-        -DCMAKE_INSTALL_INCLUDEDIR=%{_includedir}/vulkan/ .
-%ninja_build
+        -DSPIRV_HEADERS_INSTALL_DIR=%{_includedir}/spirv \
+        -DCMAKE_INSTALL_INCLUDEDIR=%{_includedir}/vulkan/
+%cmake_build
 
 
 %install
-%ninja_install
+%cmake_install
 
 
 %ldconfig_scriptlets
@@ -70,6 +71,16 @@ developing applications that use %{name}.
 %{_includedir}/vulkan/
 
 %changelog
+* Wed Aug 05 2020 Dave Airlie <airlied@redhat.com> - 1.2.148.0-1
+- Update to 1.2.148.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.135.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.135.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Dave Airlie <airlied@redhat.com> - 1.2.135.0-1
 - Update validation layers to 1.2.135.0
 

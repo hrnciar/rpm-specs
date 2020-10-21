@@ -1,6 +1,6 @@
 Name:           i3status
 Version:        2.13
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Status bar generator for i3bar, dzen2, xmobar or similar programs
 License:        BSD
 URL:            https://i3wm.org/i3status/
@@ -61,6 +61,9 @@ popd
 %{_mandir}/man*/%{name}.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.13-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.13-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

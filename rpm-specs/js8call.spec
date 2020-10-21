@@ -1,11 +1,13 @@
+%define _lto_cflags %{nil}
+
 # Commit hash for tagged release
 # https://bitbucket.org/widefido/js8call/downloads/?tab=tags
 %global commit c5236ed22f06
 %global project widefido
 
 Name:           js8call
-Version:        2.1.1
-Release:        3%{?dist}
+Version:        2.2.0
+Release:        4%{?dist}
 Summary:        Amateur Radio message passing using FT8 modulation
 
 License:        GPLv3+
@@ -15,10 +17,13 @@ URL:            http://js8call.com/
 # Use repack.sh to repack the archive.
 Source0:        http://files.js8call.com/%{version}/js8call-%{version}.tgz
 
-# Unbundle boost and hamlib libraries.
+# Unbundle boost libraries.
 Patch0:         js8call-sys_boost.patch
+# js8call assumes it's using bundled hamlib and copies and installs binaries to
+# new names.
 Patch1:         js8call-hamlib.patch
-Patch2:         js8call-gcc-10.patch
+# Fix missing headers exposed by gcc-11
+Patch2:         js8call-gcc11.patch
 
 BuildRequires:  cmake%{?rhel:3} gcc gcc-c++ gcc-gfortran tar
 BuildRequires:  asciidoc dos2unix rubygem-asciidoctor
@@ -49,7 +54,7 @@ work and dedication of the many developers in the amateur radio community.
 
 
 %prep
-%autosetup -p1
+%autosetup -p1 -c %{name}-%{version}
 
 # remove bundled boost
 rm -rf boost
@@ -66,19 +71,14 @@ sed -i 's/--std=gnu++11 //' CMakeLists.txt
 %build
 # workaround for hamlib check, i.e. for hamlib_LIBRARY_DIRS not to be empty
 export PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
-# Upstream has moved on to unreleased hamlib with API changes.
-export CXXFLAGS="%{optflags} -DJS8_USE_LEGACY_HAMLIB"
-mkdir build && pushd build
 %cmake3 -DBoost_NO_SYSTEM_PATHS=FALSE \
-        -Dhamlib_STATIC=FALSE \
-        ../
+        -Dhamlib_STATIC=FALSE
 
-%make_build
+%cmake_build
 
 
 %install
-pushd build
-%make_install
+%cmake_install
 
 # Buttons don't look right with system default style.
 desktop-file-edit --set-key=Exec --set-value="js8call --style=fusion" \
@@ -101,6 +101,19 @@ rm -f %{buildroot}%{_datadir}/doc/JS8Call/INSTALL*
 
 
 %changelog
+* Wed Oct 14 2020 Jeff Law <law@redhat.com> - 2.2.0-4
+- Add missing #include for gcc-11
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Richard Shaw <hobbes1069@gmail.com> - 2.2.0-1
+- Update to 2.2.0.
+
 * Tue Mar 31 2020 Richard Shaw <hobbes1069@gmail.com> - 2.1.1-3
 - Rebuild for hamlib 4.
 

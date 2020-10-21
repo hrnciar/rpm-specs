@@ -1,6 +1,6 @@
 Name:           sage
 Version:        0.2.0
-Release:        22%{?dist}
+Release:        24%{?dist}
 Summary:        OpenGL extensions library using SDL
 
 License:        LGPLv2+
@@ -37,19 +37,19 @@ rm -f sage/wglext_sage.h
 
 %build
 %configure --disable-static
-make %{?_smp_mflags}
+%make_build
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib%{name}.la
 
 %check
 # There are no tests yet, but upstream tends to be good about adding 
 # them.  This is a placeholder for when upstread finally adds the tests.
-make %{?_smp_mflags} check
+%make_build check
 
 
 
@@ -69,6 +69,13 @@ make %{?_smp_mflags} check
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 0.2.0-23
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

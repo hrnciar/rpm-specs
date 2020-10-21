@@ -1,8 +1,8 @@
 %global gem_name sequel
 
 Name: rubygem-%{gem_name}
-Version: 5.31.0
-Release: 2%{?dist}
+Version: 5.36.0
+Release: 1%{?dist}
 Summary: The Database Toolkit for Ruby
 License: MIT
 URL: http://sequel.jeremyevans.net
@@ -75,5 +75,5 @@ popd
 %{gem_instdir}/doc/
 
 %changelog
-* Thu Apr 2 2020 Alejandro Perez <alejandro.perez.torres@gmail.com> - 5.31.0-2
+* Tue Sep 1 2020 Alejandro Perez <alejandro.perez.torres@gmail.com> - 5.36.0-2
 - Initial package

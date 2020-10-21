@@ -5,14 +5,9 @@
 %global goipath         gopkg.in/mgo.v2
 %global forgeurl        https://github.com/go-mgo/mgo
 Version:                r2016.08.01
-%global commit          9856a29383ce1c59f308dd1cf0363a79b5bef6b5
+%global commit          a6b53ec6cb22a3699387a57a161566f9402ee85b
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-go-mgo-mgo-devel < 0-0.15
-}
 
 %global common_description %{expand:
 The MongoDB driver for Go.}
@@ -21,15 +16,13 @@ The MongoDB driver for Go.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        MongoDB driver for Go
 
 # Upstream license specification: BSD-2-Clause
 License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
-# Fix debugf format error
-Patch0:         0001-Fix-debugf-format-error.patch
 
 BuildRequires:  golang(gopkg.in/tomb.v2)
 
@@ -45,7 +38,6 @@ BuildRequires:  golang(gopkg.in/check.v1)
 
 %prep
 %goprep
-%patch0 -p1
 
 %install
 %gopkginstall
@@ -60,6 +52,12 @@ BuildRequires:  golang(gopkg.in/check.v1)
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 18:13:59 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - r2016.08.01-6.20200805gita6b53ec
+- Bump to commit a6b53ec6cb22a3699387a57a161566f9402ee85b
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - r2016.08.01-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - r2016.08.01-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

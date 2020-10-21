@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}0.9
 Version:        0.9.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Terminal and console abstraction for Rust
 
 # Upstream license specification: MIT
@@ -86,5 +86,8 @@ which use "unicode-width" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 23 07:09:10 CET 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 0.9.2-1
 - Initial package

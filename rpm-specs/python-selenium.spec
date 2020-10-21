@@ -2,7 +2,7 @@
 
 Name:          python-%{upstream_name}
 Version:       3.14.0
-Release:       3%{?dist}
+Release:       4%{?dist}
 Summary:       Python bindings for Selenium
 License:       ASL 2.0
 URL:           http://docs.seleniumhq.org/
@@ -55,6 +55,9 @@ rm -f %{buildroot}%{python3_sitelib}/selenium/webdriver/firefox/x86/x_ignore_nof
 %doc README.rst
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 3.14.0-3
 - Rebuilt for Python 3.9
 

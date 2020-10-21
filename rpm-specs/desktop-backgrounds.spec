@@ -1,12 +1,12 @@
 %global rh_backgrounds_version 15
 %global waves_version 0.1.2
-%global fedora_release_name f32
+%global fedora_release_name f33
 %global gnome_default default
 %global picture_ext png
 
 Name:           desktop-backgrounds
-Version:        32.0.0
-Release:        4%{?dist}
+Version:        33.0.0
+Release:        1%{?dist}
 Summary:        Desktop backgrounds
 
 License:        LGPLv2
@@ -162,17 +162,14 @@ mkdir -p %{buildroot}%{_datadir}/glib-2.0/schemas
   )
 %else
   (cd %{buildroot}%{_datadir}/backgrounds/images;
-  convert %{_datadir}/backgrounds/%{fedora_release_name}/default/standard/%{fedora_release_name}.%{picture_ext}\
+  convert %{_datadir}/backgrounds/%{fedora_release_name}/default/%{fedora_release_name}.%{picture_ext}\
         -alpha off default.png
-  convert %{_datadir}/backgrounds/%{fedora_release_name}/default/normalish/%{fedora_release_name}.%{picture_ext}\
+  convert %{_datadir}/backgrounds/%{fedora_release_name}/default/%{fedora_release_name}.%{picture_ext}\
         -alpha off default-5_4.png
-  convert %{_datadir}/backgrounds/%{fedora_release_name}/default/tv-wide/%{fedora_release_name}.%{picture_ext}\
+  convert %{_datadir}/backgrounds/%{fedora_release_name}/default/%{fedora_release_name}.%{picture_ext}\
         -alpha off default-16_9.png
-  convert %{_datadir}/backgrounds/%{fedora_release_name}/default/wide/%{fedora_release_name}.%{picture_ext}\
+  convert %{_datadir}/backgrounds/%{fedora_release_name}/default/%{fedora_release_name}.%{picture_ext}\
         -alpha off default-16_10.png
-  cd ..
-  ln -s ./images/default-16_9.png \
-        default.png
   )
 %endif
 
@@ -211,6 +208,14 @@ mkdir -p %{buildroot}%{_datadir}/glib-2.0/schemas
 %{_datadir}/backgrounds/default.png
 
 %changelog
+* Wed Jul 29 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 33.0.0-1
+- Enable F33 theme
+- Clean up spec file
+- Drop all old subfolders (standard,normalish,wide) in favor of single default source folder
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 32.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 02 2020 Björn Esser <besser82@fedoraproject.org> - 32.0.0-4
 - Fix string quoting for rpm >= 4.16
 

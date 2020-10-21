@@ -1,6 +1,6 @@
 Name:           clipit
 Version:        1.4.4
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        A lightweight, fully featured GTK+ clipboard manager
 
 License:        GPLv3+
@@ -11,6 +11,9 @@ Source1:        %{name}.appdata.xml
 # Fixed upstream but not yet merged
 Patch0:         0001-Autostart-in-MATE.patch
 Patch1:         0002-Fix-starting-outside-terminal.patch
+# Upstream: https://github.com/CristianHenzel/ClipIt/commit/99d1d57875c5672a1b22e6b8b10786f4ff5cea0b
+# Fix bug introduced by "History purge timeout"
+Patch2:         clipit-1.4.4-config-item-member-fix.patch
 
 BuildRequires:  gcc
 BuildRequires:  make
@@ -36,6 +39,7 @@ ClipIts main features are:
 
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 ./autogen.sh
@@ -69,6 +73,12 @@ install -m 644 %{SOURCE1} %{buildroot}%{_datadir}/appdata/%{name}.appdata.xml
 
 
 %changelog
+* Fri Sep 11 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.4.4-8
+- Backport upstream patch to fix history purge time being too short (bug 1640765)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

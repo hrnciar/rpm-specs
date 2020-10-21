@@ -6,7 +6,7 @@ the design (such as a decreased emphasis on the display side of things.)
 
 Name: python-%{srcname}
 Version: 1.1.5
-Release: 9%{?dist}
+Release: 10%{?dist}
 Summary: Relaxed test discovery for pytest
 
 License: BSD
@@ -48,6 +48,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version}
 %{python3_sitelib}/pytest_relaxed/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Paul Howarth <paul@city-fan.org> - 1.1.5-9
 - Avoid FTBFS with pytest 5
 

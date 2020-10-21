@@ -1,5 +1,5 @@
 Name:           timescaledb
-Version:        1.7.1
+Version:        1.7.4
 Release:        1%{?dist}
 Summary:        Open-source time-series database powered by PostgreSQL
 
@@ -30,15 +30,15 @@ rm -rf tsl
 
 %build
 %if 0%{?fedora} >= 30
-%cmake -DPROJECT_INSTALL_METHOD=fedora -DREGRESS_CHECKS=OFF -DAPACHE_ONLY=1 -DPG_CONFIG=%_bindir/pg_server_config .
+%cmake -DPROJECT_INSTALL_METHOD=fedora -DREGRESS_CHECKS=OFF -DAPACHE_ONLY=1 -DPG_CONFIG=%_bindir/pg_server_config
 %else
-%cmake -DPROJECT_INSTALL_METHOD=fedora -DREGRESS_CHECKS=OFF -DAPACHE_ONLY=1 -DPG_CONFIG=%_bindir/pg_config .
+%cmake -DPROJECT_INSTALL_METHOD=fedora -DREGRESS_CHECKS=OFF -DAPACHE_ONLY=1 -DPG_CONFIG=%_bindir/pg_config
 %endif
-%make_build
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %files
@@ -51,6 +51,12 @@ rm -rf tsl
 
 
 %changelog
+* Tue Sep 15 2020 Patrik Novotný <panovotn@redhat.com> - 1.7.4-1
+- Rebase to upstream release 1.7.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Patrik Novotný <panovotn@redhat.com> - 1.7.1-1
 - New upstream release 1.7.1
 

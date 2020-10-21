@@ -10,7 +10,7 @@ checkout" (e.g, created by running setup.py develop).}
 Name:           python-%{pypi_name}
 Summary:        Query metadata from sdists / bdists / installed packages
 Version:        1.5.0.1
-Release:        3%{?dist}
+Release:        6%{?dist}
 License:        MIT
 
 URL:            https://pypi.python.org/pypi/%{pypi_name}
@@ -25,6 +25,7 @@ Patch2:         0002-disable-a-broken-test.patch
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3dist(nose)
 BuildRequires:  python3dist(sphinx)
 
@@ -86,6 +87,15 @@ rm -rf html/.{doctrees,buildinfo}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.5.0.1-5
+- Revert previous changes
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.5.0.1-4
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5.0.1-3
 - Rebuilt for Python 3.9
 

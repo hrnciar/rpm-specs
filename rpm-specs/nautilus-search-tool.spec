@@ -3,7 +3,7 @@
 
 Name:           nautilus-search-tool
 Version:        0.3.0
-Release:        32%{?dist}
+Release:        33%{?dist}
 Summary:        A Nautilus extension that makes searching for files easier
 
 License:        GPLv2+
@@ -63,6 +63,9 @@ install -m 644 -D %{SOURCE1} $RPM_BUILD_ROOT/%{_datadir}/appdata/%{SOURCE1}
 %{_datadir}/appdata/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 06 2020 Than Ngo <than@redhat.com> - 0.3.0-32
 - Fix FTBFS
 

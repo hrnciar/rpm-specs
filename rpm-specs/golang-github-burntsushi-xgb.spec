@@ -22,7 +22,7 @@ XCB and xpyb.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.9%{?dist}
+Release:        0.10%{?dist}
 Summary:        Low-level api to communicate with the X server
 
 License:        WTFPL
@@ -60,6 +60,9 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

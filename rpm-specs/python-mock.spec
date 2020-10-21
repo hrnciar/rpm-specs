@@ -8,7 +8,7 @@
 
 Name:           python-mock
 Version:        3.0.5
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        A Python Mocking and Patching Library for Testing
 
 License:        BSD
@@ -69,6 +69,9 @@ needed attributes in the normal way.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.5-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.5-10
 - Rebuilt for Python 3.9
 

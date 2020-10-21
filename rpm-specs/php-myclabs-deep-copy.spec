@@ -6,17 +6,17 @@
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    b2c28789e80a97badd14145fda39b545d83ca3ef
+%global gh_commit    969b211f9a51aa1f6c01d1d2aef56d3bd91598e5
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     myclabs
 %global gh_project   DeepCopy
 %global c_project    deep-copy
 %global major        %nil
 %global php_home     %{_datadir}/php
-%global with_tests   0%{!?_without_tests:1}
+%bcond_without       tests
 
 Name:           php-myclabs-deep-copy%{major}
-Version:        1.9.5
+Version:        1.10.1
 Release:        2%{?dist}
 
 Summary:        Create deep copies (clones) of your objects
@@ -29,7 +29,7 @@ Source1:        makesrc.sh
 Source2:        php-myclabs-deep-copy-autoload.php
 
 BuildArch:      noarch
-%if %{with_tests}
+%if %{with tests}
 # For tests
 BuildRequires:  php(language) >= 7.1
 BuildRequires:  php-reflection
@@ -46,7 +46,7 @@ BuildRequires:  php-composer(fedora/autoloader)
 %endif
 
 # From composer.json, "require": {
-#        "php": "^7.1"
+#        "php": "^7.1 || ^8.0"
 Requires:       php(language) >= 7.1
 # From phpcompatinfo report for version 1.8.0
 Requires:       php-reflection
@@ -80,7 +80,7 @@ cp -pr src/%{gh_project} %{buildroot}%{php_home}/%{gh_project}%{major}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 cat << 'EOF' | tee vendor/autoload.php
 <?php
@@ -92,7 +92,7 @@ require_once '%{php_home}/Doctrine/Common/autoload.php';
 EOF
 
 ret=0
-for cmd in php php71 php72 php73 php74; do
+for cmd in php php72 php73 php74 php80; do
   if which $cmd; then
     $cmd -d auto_prepend_file=%{buildroot}%{php_home}/%{gh_project}%{major}/autoload.php \
          %{_bindir}/phpunit7 --verbose || ret=1
@@ -112,6 +112,15 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Remi Collet <remi@remirepo.net> - 1.10.1-1
+- update to 1.10.1
+
+* Mon Jun 29 2020 Remi Collet <remi@remirepo.net> - 1.10.0-2
+- update to 1.10.0 (no change)
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

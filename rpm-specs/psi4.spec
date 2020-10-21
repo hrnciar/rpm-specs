@@ -1,7 +1,15 @@
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%global blasvar %{nil}
+%else
+%global blaslib openblas
+%global blasvar o
+%endif
+
 Name:           psi4
 Epoch:          1
 Version:        1.3.2
-Release:        3%{?dist}
+Release:        8%{?dist}
 Summary:        An ab initio quantum chemistry package
 License:        LGPLv3 and MIT
 URL:            http://www.psicode.org/
@@ -25,7 +33,7 @@ BuildRequires:  gsl-devel
 BuildRequires:  hdf5-devel
 BuildRequires:  zlib-devel
 
-BuildRequires:  openblas-devel
+BuildRequires:  %{blaslib}-devel
 BuildRequires:  CheMPS2-devel
 BuildRequires:  libint-devel >= 1.1.5-3
 BuildRequires:  libxc-devel
@@ -100,23 +108,21 @@ This package contains static libraries and development headers for psi.
 export F77=gfortran
 export FC=gfortran
 
-mkdir objdir-%{_target_platform}
-cd objdir-%{_target_platform}
-%cmake .. \
+%cmake \
        -DENABLE_OPENMP=ON -DENABLE_MPI=OFF -DENABLE_XHOST=OFF \
-       -DBLAS_LIBRARIES='-lopenblaso' -DLAPACK_LIBRARIES='-lopenblaso' -DENABLE_AUTO_LAPACK=OFF \
+       -DBLAS_LIBRARIES='-l%{blaslib}%{blasvar}' -DLAPACK_LIBRARIES='-l%{blaslib}%{blasvar}' -DENABLE_AUTO_LAPACK=OFF \
        -DCMAKE_Fortran_COMPILER=gfortran -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ \
-       -DCUSTOM_C_FLAGS='%{optflags} -std=c11 -DNDEBUG' -DCUSTOM_CXX_FLAGS='%{optflags} -std=c++11 -DNDEBUG' \
+       -DCUSTOM_C_FLAGS='%{optflags} -std=c11 -DNDEBUG' -DCUSTOM_CXX_FLAGS='%{optflags} -DNDEBUG' \
        -DCUSTOM_Fortran_FLAGS='-I%{_libdir}/gfortran/modules %{optflags} -DNDEBUG' \
        -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_LIBDIR="%{_lib}" \
        -DENABLE_CheMPS2=ON -DENABLE_libefp=OFF
 #libefp turned off since it needs a separate Python wrapper
 
 # Build program
-make %{?_smp_mflags} VERBOSE=1
+%cmake_build
 
 %install
-make -C objdir-%{_target_platform} install DESTDIR=%{buildroot}
+%cmake_install
 
 # Get rid of spurious files
 rm -rf %{buildroot}%{_builddir}
@@ -129,7 +135,7 @@ rm -rf %{buildroot}%{_datadir}/cmake/TargetLAPACK/
 %check
 # Run quick tests to see the program works.
 # quicktests are too long, whole test suite way too long.
-cd objdir-%{_target_platform}/tests
+cd %{_vpath_builddir}/tests
 ctest -L smoketests
 
 %files
@@ -149,6 +155,22 @@ ctest -L smoketests
 %{_libdir}/psi4/
 
 %changelog
+* Wed Aug 26 2020 Jeff Law <law@redhat.com> - 1:1.3.2-8
+- Do not force C++11 mode
+
+* Sun Aug 16 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1:1.3.2-7
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Wed Aug 05 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 1:1.3.2-6
+- Adapt to new CMake scripts.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.3.2-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.3.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 1:1.3.2-3
 - Rebuild against libxc 5 in rawhide.
 - Add missing deepdiff requires.

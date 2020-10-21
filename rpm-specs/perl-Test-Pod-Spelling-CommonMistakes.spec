@@ -1,6 +1,6 @@
 Name:           perl-Test-Pod-Spelling-CommonMistakes
 Version:        1.001
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Checks POD for common spelling mistakes
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test-Pod-Spelling-CommonMistakes
@@ -53,6 +53,9 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.001-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.001-17
 - Perl 5.32 rebuild
 

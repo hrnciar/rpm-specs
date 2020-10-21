@@ -4,8 +4,8 @@
 # https://github.com/kubernetes/apimachinery
 %global goipath         k8s.io/apimachinery
 %global forgeurl        https://github.com/kubernetes/apimachinery
-Version:                1.18.3
-%global tag             kubernetes-1.18.3
+Version:                1.18.9
+%global tag             kubernetes-1.18.9
 %global distprefix      %{nil}
 
 %gometa
@@ -35,8 +35,8 @@ BuildRequires:  golang(github.com/golang/protobuf/proto)
 BuildRequires:  golang(github.com/google/go-cmp/cmp)
 BuildRequires:  golang(github.com/google/gofuzz)
 BuildRequires:  golang(github.com/google/uuid)
-BuildRequires:  golang(github.com/googleapis/gnostic/compiler)
-BuildRequires:  golang(github.com/googleapis/gnostic/openapiv2)
+BuildRequires:  golang(github.com/googleapis/gnostic-0.4/compiler)
+BuildRequires:  golang(github.com/googleapis/gnostic-0.4/openapiv2)
 BuildRequires:  golang(github.com/hashicorp/golang-lru)
 BuildRequires:  golang(github.com/json-iterator/go)
 BuildRequires:  golang(github.com/modern-go/reflect2)
@@ -49,7 +49,7 @@ BuildRequires:  golang(gopkg.in/inf.v0)
 BuildRequires:  golang(gopkg.in/yaml.v2)
 BuildRequires:  golang(k8s.io/klog)
 BuildRequires:  golang(k8s.io/kube-openapi/pkg/util/proto)
-BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/value)
+BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/v4/value)
 BuildRequires:  golang(sigs.k8s.io/yaml)
 
 %if %{with check}
@@ -68,21 +68,34 @@ BuildRequires:  golang(golang.org/x/net/websocket)
 
 %prep
 %goprep
-sed -i "s|sigs.k8s.io/structured-merge-diff/v3|sigs.k8s.io/structured-merge-diff|" $(find . -type f -iname "*.go")
+sed -i "s|sigs.k8s.io/structured-merge-diff/v3|sigs.k8s.io/structured-merge-diff/v4|" $(find . -type f -iname "*.go")
 sed -i "s|github.com/googleapis/gnostic/OpenAPIv2|github.com/googleapis/gnostic/openapiv2|" $(find . -type f -iname "*.go")
+sed -i 's|github.com/googleapis/gnostic|github.com/googleapis/gnostic-0.4|' $(find . -iname "*.go" -type f)
 
 %install
 %gopkginstall
 
 %if %{with check}
 %check
-# https://github.com/kubernetes/apimachinery/issues/81
-%gocheck -d pkg/runtime/serializer/json -d pkg/util/httpstream/spdy
+%gocheck -d pkg/util/httpstream/spdy -d pkg/util/proxy
 %endif
 
 %gopkgfiles
 
 %changelog
+* Tue Sep 29 20:43:53 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.9-1
+- Update to 1.18.9
+
+* Wed Aug 19 18:24:00 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-4
+- Use gnostic compat package
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 18:24:27 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-1
 - Update to 1.18.3
 

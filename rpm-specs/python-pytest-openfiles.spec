@@ -2,8 +2,8 @@
 %global sum The py.test openfiles plugin
 
 Name:           python-%{srcname}
-Version:        0.3.2
-Release:        6%{?dist}
+Version:        0.5.0
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        BSD
@@ -15,6 +15,7 @@ BuildRequires:  python3-devel
 BuildRequires:  python3-psutil
 BuildRequires:  python3-pytest
 BuildRequires:  python3-setuptools
+BuildRequires:  python3-setuptools_scm
 
 %description
 The pytest-openfiles plugin allows for the detection of open I/O resources at
@@ -56,6 +57,13 @@ rm -fr %{buildroot}%{python3_sitelib}/tests
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Christian Dersch <lupinix@fedoraproject.org> - 0.5.0-1
+- new version
+- New BR: python3-setuptools_scm
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.2-6
 - Rebuilt for Python 3.9
 

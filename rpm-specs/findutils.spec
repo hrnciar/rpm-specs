@@ -1,7 +1,7 @@
 Summary: The GNU versions of find utilities (find and xargs)
 Name: findutils
 Version: 4.7.0
-Release: 4%{?dist}
+Release: 7%{?dist}
 Epoch: 1
 License: GPLv3+
 URL: http://www.gnu.org/software/findutils/
@@ -77,24 +77,30 @@ git commit -m "remove ignored files from git"
 # apply all patches
 %autopatch
 
+# replace weirdo constant in gnulib tests causing test failures on armv7hl
+sed -e 's/1729576/EPERM/' \
+    -i gnulib-tests/test-{perror2,strerror_r}.c
+
 # needed because of findutils-4.5.15-no-locate.patch
 autoreconf -fiv
 git add --all .
 git commit -q -m "after invocation of autoreconf"
 
 %build
-# prevent test-isinf from failing with gcc-5.3.1 on ppc64le (#1294016)
-export CFLAGS="$RPM_OPT_FLAGS -D__SUPPORT_SNAN__"
+# disable -flto on ppc64le to make test-float pass (#1789115)
+%ifarch ppc64le
+export CFLAGS="$RPM_OPT_FLAGS -fno-lto"
+%endif
 
 mkdir build
 cd build
 %global _configure ../configure
 %configure
 
-make %{?_smp_mflags}
+%make_build
 
 %check
-make %{?_smp_mflags} check -C build
+make %{?_smp_mflags} check -C build V=1
 
 %install
 %make_install -C build
@@ -115,6 +121,17 @@ rm -f %{buildroot}%{_infodir}/dir
 %{_infodir}/find-maint.info.*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.7.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Kamil Dudka <kdudka@redhat.com> - 1:4.7.0-6
+- disable -flto on ppc64le to make test-float pass (#1789115)
+- do not compile with -D__SUPPORT_SNAN__ (#1294016)
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1:4.7.0-5
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri Apr 17 2020 Kamil Dudka <kdudka@redhat.com> - 1:4.7.0-4
 - simplify leaf optimization for XFS (#1823247)
 

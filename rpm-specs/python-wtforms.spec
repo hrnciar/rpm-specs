@@ -1,13 +1,13 @@
-%global mod_name wtforms
+%global srcname WTForms
 
 Name:           python-wtforms
-Version:        2.2.1
-Release:        9%{?dist}
+Version:        2.3.3
+Release:        1%{?dist}
 Summary:        Forms validation and rendering library for python
 
 License:        BSD
-URL:            http://wtforms.simplecodes.com/
-Source0:        http://pypi.python.org/packages/source/W/%{mod_name}/%{mod_name}-%{version}.tar.gz
+URL:            https://wtforms.simplecodes.com/
+Source0:        %{pypi_source}
 
 BuildArch:      noarch
 
@@ -26,13 +26,13 @@ Summary:        Forms validation and rendering library for python
 %{?python_provide:%python_provide python3-wtforms}
 
 %description -n python%{python3_pkgversion}-wtforms
-With wtforms, your form field HTML can be generated for you. 
-This allows you to maintain separation of code and presentation, 
+With wtforms, your form field HTML can be generated for you.
+This allows you to maintain separation of code and presentation,
 and keep those messy parameters out of your python code.
 
 
 %prep
-%setup -q -n %{mod_name}-%{version}
+%setup -q -n %{srcname}-%{version}
 sed -i "s|\r||g" docs/Makefile
 sed -i "s|\r||g" CHANGES.rst
 rm wtforms/locale/README.md
@@ -42,18 +42,24 @@ rm wtforms/locale/README.md
 
 %install
 %py3_install
-# rm -rf %{buildroot}/%{python3_sitelib}/wtforms/locale
+# rm -rf %%{buildroot}/%{python3_sitelib}/wtforms/locale
 
 #% find_lang wtforms
 
 %files -n python%{python3_pkgversion}-wtforms
 # -f wtforms.lang
-%doc docs/ README.rst AUTHORS.rst  CHANGES.rst
+%doc docs/ README.rst CHANGES.rst
 %license LICENSE.rst
 %{python3_sitelib}/WTForms-%{version}-py*.egg-info
 %{python3_sitelib}/wtforms/
 
 %changelog
+* Fri Aug 21 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 2.3.3-1
+- Update to wtforms 2.3.3
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.2.1-9
 - Rebuilt for Python 3.9
 

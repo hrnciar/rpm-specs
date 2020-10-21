@@ -1,5 +1,6 @@
-%global packname  nanotime
-%global rlibdir  %{_datadir}/R/library
+%global packname nanotime
+%global packver  0.3.2
+%global rlibdir  %{_libdir}/R/library
 
 %global __suggests_exclude ^R\\((xts)\\)
 
@@ -7,38 +8,50 @@
 %global with_suggests 0
 
 Name:             R-%{packname}
-Version:          0.2.4
-Release:          5%{?dist}
-Summary:          Nanosecond-Resolution Time for R
+Version:          0.3.2
+Release:          1%{?dist}
+Summary:          Nanosecond-Resolution Time Support for R
 
 License:          GPLv2+
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-methods, R-bit64, R-RcppCCTZ >= 0.2.3, R-zoo
-# Suggests:  R-RUnit, R-data.table, R-xts
-# LinkingTo:
+# Imports:   R-methods, R-bit64, R-RcppCCTZ >= 0.2.9, R-zoo
+# Suggests:  R-tinytest, R-data.table, R-xts
+# LinkingTo: R-Rcpp, R-RcppCCTZ, R-RcppDate
 # Enhances:
 
-BuildArch:        noarch
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    R-methods
 BuildRequires:    R-bit64
-BuildRequires:    R-RcppCCTZ >= 0.2.3
+BuildRequires:    R-RcppCCTZ-devel >= 0.2.9
 BuildRequires:    R-zoo
-BuildRequires:    R-RUnit
+BuildRequires:    R-Rcpp-devel
+BuildRequires:    R-RcppDate-devel
+BuildRequires:    R-tinytest
 BuildRequires:    R-data.table
 %if %{with_suggests}
 BuildRequires:    R-xts
 %endif
 
 %description
-Full 64-bit resolution date and time support with resolution up to
-nanosecond granularity is provided, with easy transition to and from the
-standard 'POSIXct' type.
+Full 64-bit resolution date and time functionality with nanosecond granularity
+is provided, with easy transition to and from the standard 'POSIXct' type.
+Three additional classes offer interval, period and duration functionality for
+nanosecond-resolution timestamps.
+
+%package devel
+Summary:          Development files for %{name}
+Requires:         %{name}%{?_isa} = %{version}-%{release}
+Requires:         R-Rcpp-devel
+Requires:         R-RcppCCTZ-devel
+Requires:         R-RcppDate-devel
+
+%description devel
+Development files for %{name}.
 
 
 %prep
@@ -65,6 +78,7 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 
 %files
 %dir %{rlibdir}/%{packname}
+%doc %{rlibdir}/%{packname}/doc
 %doc %{rlibdir}/%{packname}/html
 %{rlibdir}/%{packname}/DESCRIPTION
 %doc %{rlibdir}/%{packname}/NEWS.Rd
@@ -74,10 +88,24 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 %{rlibdir}/%{packname}/R
 %{rlibdir}/%{packname}/help
 %{rlibdir}/%{packname}/demo
-%{rlibdir}/%{packname}/unitTests
+%{rlibdir}/%{packname}/tinytest
+%dir %{rlibdir}/%{packname}/libs
+%{rlibdir}/%{packname}/libs/%{packname}.so
+
+%files devel
+%{rlibdir}/%{packname}/include
 
 
 %changelog
+* Sat Sep 05 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.3.2-1
+- Update to latest version (#1875711)
+
+* Fri Aug 14 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.3.1-1
+- Update to latest version (#1866958)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.4-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.2.4-5
 - rebuild for R 4
 

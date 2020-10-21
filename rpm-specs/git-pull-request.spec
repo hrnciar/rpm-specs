@@ -3,7 +3,7 @@
 
 Name:           %{pypi_name}
 Version:        2.4.0
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Command line tool to send GitHub pull-request
 
 License:        ASL 2.0
@@ -44,6 +44,9 @@ rm -rf %{pypi_name}.egg-info
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.4.0-10
 - Rebuilt for Python 3.9
 

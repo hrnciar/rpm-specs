@@ -18,7 +18,7 @@
 
 Name:           php-pear-crypt-gpg
 Version:        1.6.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GNU Privacy Guard (GnuPG)
 
 License:        LGPLv2+
@@ -158,6 +158,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 23 2020 Remi Collet <remi@remirepo.net> - 1.6.4-2
 - update to 1.6.4
 - add classmap autoloader

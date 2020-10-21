@@ -10,7 +10,7 @@
 %define split_getimage   1
 %endif
 
-%define fedora_rel    2
+%define fedora_rel    8
 
 %global use_clang_as_cc 0
 %global use_clang_analyze 0
@@ -51,7 +51,11 @@
 # (currently works with selinux-policy-targeted)
 #%%global support_setcap 1
 %endif
-# TODO enable xscreensaver-systemd for F-31
+# enable xscreensaver-systemd for F-33
+%global  support_systemd 0
+%if 0%{?fedora} >= 33
+%global  support_systemd 1
+%endif
 
 %undefine        _changelog_trimtime
 
@@ -71,6 +75,8 @@ Source10:        update-xscreensaver-hacks
 Source11:        xscreensaver-autostart
 Source12:        xscreensaver-autostart.desktop
 %endif
+# wrapper script for switching user (bug 1878730)
+Source13:        xscreensaver-newlogin-wrapper
 ##
 ## Patches
 ##
@@ -93,6 +99,10 @@ Patch4261:       xscreensaver-5.42-0061-open-new-window-for-man-when-using-gnome
 Patch4401:       xscreensaver-5.44-0101-free_gibson-fix-order-of-freeing-memory.patch
 # ya_rand_init: avoid signed integer overflow by with recent pid_max value
 Patch4402:       xscreensaver-5.44-0102-ya_rand_init-avoid-signed-integer-overflow-by-with-r.patch
+# FuzzyFlakesFreeFlake: avoid double free on subsequent calls
+Patch4403:       xscreensaver-5.44-0103-FuzzyFlakesFreeFlake-avoid-double-free-on-subsequent.patch
+# peepers / reset_floater : fix logic for choosing color
+Patch4404:       xscreensaver-5.44-0104-peepers-reset_floater-fix-logic-for-choosing-color.patch
 #
 # Debugging patch
 # Not apply by default
@@ -170,6 +180,10 @@ BuildRequires:   libglade2-devel
 %if 0%{?support_setcap} >= 1
 BuildRequires:   pkgconfig(libcap)
 %endif
+# From F-33, enable systemd support
+%if 0%{?support_systemd} >= 1
+BuildRequires:   pkgconfig(systemd)
+%endif
 %if 0%{?fedora}
 BuildRequires:   %{default_text}
 %endif
@@ -187,9 +201,11 @@ Requires:        pam > %{pam_ver}
 # For xdg-open
 Requires:        xdg-utils
 %if ! %{split_getimage}
-Requires:        xorg-x11-resutils
+Requires:        appres
 %endif
 Requires:        xorg-x11-fonts-ISO8859-1-100dpi
+# For switch user wrapper
+Requires:        %{_bindir}/pidof
 %if 0%{?build_tests} < 1
 # Obsoletes but not Provides
 Obsoletes:       xscreeensaver-tests < %{epoch}:%{version}-%{release}
@@ -200,8 +216,7 @@ Summary:         A base package for screensavers
 %if 0%{?fedora} < 19
 Requires:        %{name}-base = %{epoch}:%{version}-%{release}
 %endif
-# For appres, etc
-Requires:        xorg-x11-resutils
+Requires:        appres
 
 %package extras
 Summary:         An enhanced set of screensavers
@@ -362,6 +377,8 @@ find . -name \*.c -exec chmod ugo-x {} \;
 %__cat %PATCH4261 | %__git am
 %__cat %PATCH4401 | %__git am
 %__cat %PATCH4402 | %__git am
+%__cat %PATCH4403 | %__git am
+%__cat %PATCH4404 | %__git am
 
 #%%__cat %PATCH13501 | %%__git am
 
@@ -544,40 +561,36 @@ export PATH=$(pwd):$PATH
 ln -sf /bin/true xdg-open
 popd
 
-export CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}"
+# Set optflags first
+%set_build_flags
+
 # Doesn't work well when generating debuginfo...
 # export CFLAGS="$(echo $CFLAGS | sed -e 's|-g |-g3 -ggdb |')"
 
-%if 0%{?fedora} >= 24
 export CFLAGS="$CFLAGS -Wno-long-long"
 export CFLAGS="$CFLAGS -Wno-variadic-macros"
-%endif
 
 %if 0%{?use_clang_as_cc}
 export CC=clang
 export CFLAGS="$(echo $CFLAGS | sed -e 's|-fstack-protector-strong|-fstack-protector|')"
 export CFLAGS="$(echo $CFLAGS | sed -e 's|-specs=[^ \t][^ \t]*||')"
 export CFLAGS="$CFLAGS -Wno-gnu-statement-expression"
-export LDFLAGS="$(echo $LDFLAGS %__global_ldflags | sed -e 's|-specs=[^ \t][^ \t]*||g')"
+export LDFLAGS="$(echo $LDFLAGS | sed -e 's|-specs=[^ \t][^ \t]*||g')"
 %endif
 
 %if 0%{?use_gcc_strict_sanitize}
 export CC="gcc -fsanitize=address -fsanitize=undefined"
-%if 0%{?fedora} >= 24
 export LDFLAGS="%__global_ldflags -pthread"
-%endif
 %if 0%{?use_gcc_trap_on_sanitize}
 export CC="$CC -fsanitize-undefined-trap-on-error"
 %endif
 # Currently -fPIE binary cannot work with ASAN on kernel 4.12
 # https://github.com/google/sanitizers/issues/837
 export CFLAGS="$(echo $CFLAGS | sed -e 's|-specs=[^ \t][^ \t]*||')"
-export LDFLAGS="$(echo $LDFLAGS %__global_ldflags | sed -e 's|-specs=[^ \t][^ \t]*||g')"
+export LDFLAGS="$(echo $LDFLAGS | sed -e 's|-specs=[^ \t][^ \t]*||g')"
 %endif
+
 %if 0%{?use_gcc_analyzer}
-if [ "x${CC}" == x ] ; then
-	export CC=gcc
-fi
 export CC="${CC} -fanalyzer"
 # make build log look clear
 %global _smp_mflags -j1
@@ -589,29 +602,31 @@ CONFIG_OPTS="$CONFIG_OPTS --with-text-file=%{default_text}"
 CONFIG_OPTS="$CONFIG_OPTS --with-x-app-defaults=%{_datadir}/X11/app-defaults"
 CONFIG_OPTS="$CONFIG_OPTS --disable-root-passwd"
 CONFIG_OPTS="$CONFIG_OPTS --with-browser=xdg-open"
+
 # From xscreensaver 5.12, login-manager option is on by default
 # For now, let's enable it on F-14 and above
-%if 0%{?fedora} >= 14
 pushd TMPBINDIR
-ln -sf /bin/true gdmflexiserver
+# ln -sf /bin/true gdmflexiserver
+install -cpm 0755 %{SOURCE13} .
+CONFIG_OPTS="$CONFIG_OPTS --with-login-manager=xscreensaver-newlogin-wrapper"
 popd
-%else
-CONFIG_OPTS="$CONFIG_OPTS --without-login-manager"
-%endif
+
 # Enable extrusion on F-13 and above
-%if 0%{?fedora} <= 12
-CONFIG_OPTS="$CONFIG_OPTS --without-gle"
-%endif
+# CONFIG_OPTS="$CONFIG_OPTS --with-gle" # default
+
 # Enable account type pam validation on F-18+,
 # debian bug 656766
-%if 0%{?fedora} >= 18
 CONFIG_OPTS="$CONFIG_OPTS --enable-pam-check-account-type"
-%endif
+
 # xscreensaver 5.30
 CONFIG_OPTS="$CONFIG_OPTS --with-record-animation"
 
 %if 0%{?support_setcap}
 CONFIG_OPTS="$CONFIG_OPTS --with-setcap-hacks"
+%endif
+
+%if 0%{?support_systemd}
+CONFIG_OPTS="$CONFIG_OPTS --with-systemd"
 %endif
 
 # This is flaky:
@@ -625,6 +640,9 @@ unlink configure || :
 ln -s ../configure .
 %configure $CONFIG_OPTS || { cat config.log ; sleep 10 ; exit 1; }
 rm -f configure
+
+# Remove embedded build path
+sed -i driver/XScreenSaver.ad -e "s|$(pwd)/TMPBINDIR/||"
 
 %if %{update_po}
 #( cd po ; make generate_potfiles_in update-po )
@@ -689,22 +707,23 @@ cd ..
 
 # test
 # for now, build tests anyway (even if they are not to be installed)
-#%if %{build_tests}
-%if 1
 make tests -C driver
-%endif
 
 %if 0%{?use_cppcheck} >= 1
 cd ..
 CPPCHECK_FLAGS=""
 CPPCHECK_FLAGS="$CPPCHECK_FLAGS --enable=all --std=c89 -U__STRICT_ANSI__"
-CPPCHECK_FLAGS="$CPPCHECK_FLAGS -I. -Iutils -Idriver -Ihacks -I$archdir -I$archdir/hacks/"
+CPPCHECK_FLAGS="$CPPCHECK_FLAGS -I. -Iutils -Iutils/images -Idriver -Ihacks"
+CPPCHECK_FLAGS="$CPPCHECK_FLAGS -I$archdir -I$archdir/driver -I$archdir/hacks"
+CPPCHECK_FLAGS="$CPPCHECK_FLAGS -I$archdir/hacks/glx"
 CPPCHECK_FLAGS="$CPPCHECK_FLAGS -I%{_includedir}"
 # find stddef.h
 GCC_HEADER_PATH=$(echo '#include <stddef.h>' | gcc -E - | sed -n -e 's|^.*"\(.*\)stddef\.h".*$|\1|p' | head -n 1)
 CPPCHECK_FLAGS="$CPPCHECK_FLAGS -I$GCC_HEADER_PATH"
 CPPCHECK_FLAGS="$CPPCHECK_FLAGS $(pkg-config --cflags gtk+-2.0 | sed -e 's|-pthread||')"
 CPPCHECK_FLAGS="$CPPCHECK_FLAGS -DSTANDALONE -DHAVE_CONFIG_H -DUSE_GL"
+# C default macros
+CPPCHECK_FLAGS="$CPPCHECK_FLAGS -D__STDC__"
 
 cppcheck $CPPCHECK_FLAGS . 2>&1 | tee cppcheck-result.log
 cppcheck $CPPCHECK_FLAGS --check-config . 2>&1 | tee cppcheck-path-inclusion-check.log
@@ -1000,6 +1019,11 @@ chmod 0755 webcollage
 echo "%%{_libexecdir}/%%{name}/webcollage.original" >> \
 	$dd/extras.files
 
+# install wrapper-script for switching user
+install -cpm 0755 %{SOURCE13} ${RPM_BUILD_ROOT}%{_libexecdir}/%{name}
+echo "%{_libexecdir}/%{name}/xscreensaver-newlogin-wrapper" >> $dd/base.files
+
+
 # Make sure all files are readable by all, and writable only by owner.
 #
 chmod -R a+r,u+w,og-w ${RPM_BUILD_ROOT}
@@ -1068,6 +1092,24 @@ exit 0
 %endif
 
 %changelog
+* Tue Oct 20 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1:5.44-8
+- peepers / reset_floater : fix logic for choosing color
+
+* Wed Oct 14 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1:5.44-6
+- Install experimental wrapper script for switching user (bug 1878730)
+
+* Sat Oct  3 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1:5.44-5
+- FuzzyFlakesFreeFlake: avoid double free on subsequent calls
+  such as when ConfigureNotify event happens (bug 1884822)
+
+* Fri Sep 25 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1:5.44-4
+- Some spec file cleanup, deleting conditions for no longer supported branches
+- Use %%set_build_flags
+- F-33+: enable systemd integration
+
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> 1:5.44-3
+- Requires appres not xorg-x11-resutils
+
 * Thu Apr 16 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1:5.44-2
 - ya_rand_init: avoid signed integer overflow by with recent pid_max value
 

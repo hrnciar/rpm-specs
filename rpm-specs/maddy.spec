@@ -1,15 +1,17 @@
+%undefine __cmake_in_source_build
+
 # This is a header-only library, but it install also cmake
 # scripts to %%{_libdir}, so it cannot be noarch.
 %global debug_package %{nil}
 
 Name: maddy
-Version: 1.1.1
-Release: 2%{?dist}
+Version: 1.1.2
+Release: 1%{?dist}
 
 License: MIT
 Summary: C++ Markdown to HTML header-only parser library
 URL: https://github.com/progsource/%{name}
-Source0: %{url}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source0: %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 Patch0: %{name}-cmake-fixes.patch
 
 BuildRequires: ninja-build
@@ -29,18 +31,14 @@ Provides: %{name}-static = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %prep
 %autosetup -p1
-mkdir -p %{_target_platform}
 
 %build
-pushd %{_target_platform}
-    %cmake -G Ninja \
-    -DCMAKE_BUILD_TYPE=Release \
-    ..
-popd
-%ninja_build -C %{_target_platform}
+%cmake -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release
+%cmake_build
 
 %install
-%ninja_install -C %{_target_platform}
+%cmake_install
 
 %files devel
 %doc README.md
@@ -50,6 +48,12 @@ popd
 %{_libdir}/cmake/%{name}
 
 %changelog
+* Wed Oct 14 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1.1.2-1
+- Updated to version 1.1.2.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

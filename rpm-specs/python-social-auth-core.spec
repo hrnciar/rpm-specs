@@ -1,89 +1,151 @@
-%global srcname social-auth-core
-%global desc Python Social Auth is an easy to setup social \
-authentication/registration mechanism with support for several frameworks and \
-auth providers. This is the core component of the python-social-auth ecosystem, \
-it implements the common interface to define new authentication backends to \
-third parties services, implement integrations with web frameworks and storage \
-solutions. \
+%global pypi_name social-auth-core
+%global egginfo_name social_auth_core
 
-Name:           python-%{srcname}
-Version:        1.7.0
-Release:        11%{?dist}
-Summary:        The core component of the python-social-auth ecosystem
+# The Python module name is different from the package name published to PyPI.
+%global module_name social_core
 
+%global desc Python Social Auth aims to be an easy-to-setup social \
+authentication and authorization mechanism for Python projects supporting \
+protocols like OAuth (1 and 2), OpenID and others. \
+\
+The initial codebase is derived from django-social-auth with the idea of \
+generalizing the process to suit the different frameworks around, providing \
+the needed tools to bring support to new frameworks. \
+\
+django-social-auth itself was a product of modified code from \
+django-twitter-oauth and django-openid-auth projects. \
+\
+The project is now split into smaller modules to isolate and reduce \
+responsibilities and improve reusability.\
+\
+Documentation: https://python-social-auth.readthedocs.io/en/latest/
+
+%global summary Python Social Auth is an easy to setup social authentication\/registration mechanism with support for several frameworks and auth providers.
+
+Name:           python-%{pypi_name}
+Version:        3.3.3
+Release:        2%{?dist}
+Summary:        %{summary}
 License:        BSD
-URL:            https://pypi.python.org/pypi/%{srcname}
-Source0:        https://github.com/python-social-auth/social-core/archive/%{version}/%{srcname}-%{version}.tar.gz
-Patch0:         Unpin-the-test-requirements-and-use-unittest2-for-Py.patch
+URL:            https://github.com/python-social-auth/social-core/
+Source0:        %{pypi_source}
+
+# Remove these two patches when packaging version 3.4.0
+Patch0:         fix-base64-in-tests-models.py.patch
+Patch1:         fix-base64-in-tests-open_id_connect.py.patch
+
+# Remove these two patches when the tests are fixed in upstream by not
+# accessing real Goolge and LiveJournal services.
+Patch2:         disable-test-GoogleOpenIdTest.patch
+Patch3:         disable-test-LiveJournalOpenIdTest.patch
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
 
+# Requirements for running social-core
+BuildRequires:  python3dist(requests)
+BuildRequires:  python3dist(oauthlib)
+BuildRequires:  python3dist(requests-oauthlib)
+BuildRequires:  python3dist(six)
+BuildRequires:  python3dist(pyjwt)
+BuildRequires:  python3dist(cryptography)
+BuildRequires:  python3dist(python-jose)
+BuildRequires:  python3dist(defusedxml)
+BuildRequires:  python3dist(python3-openid)
+BuildRequires:  python3dist(python3-saml)
+
+# Requirements for running tests
+BuildRequires:  python3dist(coverage)
+BuildRequires:  python3dist(httpretty)
+BuildRequires:  python3dist(pytest)
+BuildRequires:  python3dist(pytest-cov)
 
 %description
 %{desc}
 
-
-%package -n python3-%{srcname}
+%package -n python3-%{pypi_name}
 Summary: %{summary}
-%{?python_provide:%python_provide python3-%{srcname}}
-BuildRequires: %{py3_dist cryptography}
-BuildRequires: %{py3_dist nose}
-BuildRequires: %{py3_dist httpretty}
-BuildRequires: %{py3_dist defusedxml}
-BuildRequires: %{py3_dist python3-openid}
-BuildRequires: %{py3_dist python3-saml}
-BuildRequires: %{py3_dist requests}
-BuildRequires: %{py3_dist oauthlib}
-BuildRequires: %{py3_dist requests-oauthlib}
-BuildRequires: %{py3_dist six}
-BuildRequires: %{py3_dist PyJWT}
-Requires: %{py3_dist cryptography}
-Requires: %{py3_dist defusedxml}
-Requires: %{py3_dist python3-openid}
-Requires: %{py3_dist python3-saml}
-Requires: %{py3_dist requests}
-Requires: %{py3_dist oauthlib}
-Requires: %{py3_dist requests-oauthlib}
-Requires: %{py3_dist six}
-Requires: %{py3_dist PyJWT}
+%{?python_provide:%python_provide python3-%{pypi_name}}
 
+Requires:       python3dist(requests)
+Requires:       python3dist(oauthlib)
+Requires:       python3dist(requests-oauthlib)
+Requires:       python3dist(six)
+Requires:       python3dist(cryptography)
+Requires:       python3dist(defusedxml)
+Requires:       python3dist(python3-openid)
 
-%description -n python3-%{srcname}
+%description -n python3-%{pypi_name}
 %{desc}
 
+If you want social-core to work with azuread (the Azure Active Directory), this
+is the package you need.
+
+%package -n python3-%{pypi_name}-saml
+Summary: %{pypi_name} with SAML support
+%{?python_provide:%python_provide python3-%{pypi_name}-saml}
+
+Requires:       python3dist(python-%{pypi_name}) = %{version}
+Requires:       python3dist(python3-saml)
+
+%description -n python3-%{pypi_name}-saml
+%{pypi_name} with SAML support
+
+For detailed description, please refer to package python3-%{pypi_name}
+
+%package -n python3-%{pypi_name}-openidconnect
+Summary: %{pypi_name} with OpenIDConnect support
+%{?python_provide:%python_provide python3-%{pypi_name}-openidconnect}
+
+Requires:       python3dist(python-%{pypi_name}) = %{version}
+Requires:       python3dist(pyjwt)
+Requires:       python3dist(python-jose)
+
+%description -n python3-%{pypi_name}-openidconnect
+%{pypi_name} with OpenIDConnect support
+
+For detailed description, please refer to package python3-%{pypi_name}
 
 %prep
-%autosetup -p1 -n social-core-%{version}
-rm -f requirements-openidconnect.txt
-touch requirements-openidconnect.txt
-rm -f social_core/tests/requirements-base.txt
-touch social_core/tests/requirements-base.txt
+%autosetup -p0 -n %{pypi_name}-%{version}
 
-sed -i -e 's|defusedxml>=0.5.0rc1|defusedxml>=0.5.0|' requirements-python3.txt
+rm -rf %{egginfo_name}.egg-info
 
+# Use Python3 builtin unittest module instead
 sed -i /unittest2/d social_core/tests/requirements-python3.txt
-sed -i s/unittest2/unittest/ social_core/tests/*.py social_core/tests/*/*.py
+sed -i s/unittest2/unittest/ \
+    %{module_name}/tests/*.py \
+    %{module_name}/tests/actions/*.py \
+    %{module_name}/tests/backends/*.py
 
 %build
 %py3_build
 
-
 %install
 %py3_install
 
+rm -r %{buildroot}%{python3_sitelib}/%{module_name}/tests/
 
 %check
-%__python3 setup.py test
+python3 -m pytest %{module_name}/tests/
 
-
-%files -n python3-%{srcname}
+%files -n python3-%{pypi_name}
 %license LICENSE
 %doc README.md CHANGELOG.md
-%{python3_sitelib}/*
+%{python3_sitelib}/%{module_name}/
+%{python3_sitelib}/%{egginfo_name}-%{version}-py*.egg-info
 
+%files -n python3-%{pypi_name}-saml
+
+%files -n python3-%{pypi_name}-openidconnect
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Chenxiong Qi <qcxhome@gmail.com> - 3.3.3-1
+- Rebuilt version 3.3.3
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.0-11
 - Rebuilt for Python 3.9
 

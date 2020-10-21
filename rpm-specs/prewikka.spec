@@ -1,5 +1,5 @@
 Name:           prewikka
-Version:        5.1.1
+Version:        5.2.0
 Release:        3%{?dist}
 Summary:        Graphical front-end analysis console for IDMEF
 License:        GPLv2+
@@ -14,7 +14,7 @@ BuildRequires:  python3-babel
 BuildRequires:  python3-lesscpy
 BuildRequires:  python3-setuptools
 
-Requires:       python3-%{name} >= 5.1.0
+Requires:       python3-%{name} >= %{version}
 
 # Since mass rebuild, debugpackage wont works for prewikka
 %define debug_package %{nil}
@@ -29,16 +29,18 @@ whois and traceroute.
 %package -n python3-%{name}
 Summary:        Graphical front-end analysis console for IDMEF
 Requires:       %{name} = %{version}-%{release}
-Requires:       python3-prelude >= 5.1.0
-Requires:       python3-preludedb >= 5.1.0
+Requires:       python3-prelude >= %{version}
+Requires:       python3-preludedb >= %{version}
 Requires:       python3-babel
 Requires:       python3-croniter
 Requires:       python3-dateutil
 Requires:       python3-gevent
 Requires:       python3-lark-parser
 Requires:       python3-mako
+Requires:       python3-passlib
 Requires:       python3-pytz
 Requires:       python3-pyyaml
+Requires:       python3-requests
 Requires:       python3-voluptuous
 Requires:       python3-werkzeug
 %{?python_provide:%python_provide python3-%{name}}
@@ -87,8 +89,13 @@ ln -s %{_datadir}/locale %{buildroot}%{python3_sitelib}/%{name}/locale
 %license COPYING
 %doc AUTHORS NEWS README
 %dir %{_sysconfdir}/%{name}
+%dir %{_sysconfdir}/%{name}/conf.d
 %config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf
 %config(noreplace) %{_sysconfdir}/%{name}/menu.yml
+%config(noreplace) %{_sysconfdir}/%{name}/conf.d/auth.conf
+%config(noreplace) %{_sysconfdir}/%{name}/conf.d/external_app.conf
+%config(noreplace) %{_sysconfdir}/%{name}/conf.d/logs.conf
+%config(noreplace) %{_sysconfdir}/%{name}/conf.d/riskoverview.conf
 %{_datadir}/%{name}
 
 %files -n python3-%{name}
@@ -105,6 +112,18 @@ ln -s %{_datadir}/locale %{buildroot}%{python3_sitelib}/%{name}/locale
 %{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Fri Oct 16 2020 Thomas Andrejak <thomas.andrejak@gmail.com> - 5.2.0-3
+- Add missing dependency
+
+* Thu Oct 15 2020 Thomas Andrejak <thomas.andrejak@gmail.com> - 5.2.0-2
+- Add missing dependency
+
+* Thu Sep 17 2020 Thomas Andrejak <thomas.andrejak@gmail.com> - 5.2.0-1
+- Bump version 5.2.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.1.1-3
 - Rebuilt for Python 3.9
 
@@ -123,7 +142,7 @@ ln -s %{_datadir}/locale %{buildroot}%{python3_sitelib}/%{name}/locale
 * Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
-* Thu Jul 24 2019 Thomas Andrejak <thomas.andrejak@gmail.com> - 5.0.2-2
+* Wed Jul 24 2019 Thomas Andrejak <thomas.andrejak@gmail.com> - 5.0.2-2
 - Add missing dependencie
 
 * Sun Jul 14 2019 Thomas Andrejak <thomas.andrejak@gmail.com> - 5.0.2-1

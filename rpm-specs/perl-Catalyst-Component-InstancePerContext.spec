@@ -1,6 +1,6 @@
 Name:           perl-Catalyst-Component-InstancePerContext
 Version:        0.001001
-Release:        31%{?dist}
+Release:        33%{?dist}
 Summary:        Return a new instance a component on each request
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Catalyst-Component-InstancePerContext
@@ -59,6 +59,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.001001-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.001001-32
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.001001-31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

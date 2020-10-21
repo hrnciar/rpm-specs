@@ -1,8 +1,9 @@
+%undefine __cmake_in_source_build
 # %global gitcommit_full ad0d6a26ef59652247322971753bf142231a703a
 # %global gitcommit %(c=%{gitcommit_full}; echo ${c:0:7})
 
 Name:           kdiff3
-Version:        1.8.2
+Version:        1.8.4
 Release:        1%{?dist}
 Summary:        Compare + merge 2 or 3 files or directories
 
@@ -46,17 +47,11 @@ KDiff3 is a program that
 
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-    %cmake_kf5 ..
-    %make_build
-popd
-
+%cmake_kf5
+%cmake_build
 
 %install
-pushd %{_target_platform}
-    %make_install
-popd
+%cmake_install
 
 %find_lang %{name} --with-html --all-name
 
@@ -83,6 +78,15 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.kde.%{name}.deskt
 
 
 %changelog
+* Sat Sep 05 2020 Marie Loise Nolden <loise@kde.org> - 1.8.4-1
+- Update to 1.8.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Marie Loise Nolden <loise@kde.org> - 1.8.3-1
+- Update to 1.8.3
+
 * Thu Jun 18 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 1.8.2-1
 - Update to 1.8.2
 

@@ -1,6 +1,6 @@
 Name:	trafshow
 Version:	5.2.3
-Release:	24%{?dist}
+Release:	25%{?dist}
 
 Summary:	A tool for real-time network traffic visualization
 Summary(ru):	Полноэкранное отображение текущего сетевого трафика в сети
@@ -61,6 +61,9 @@ install -D -m 0644  %{name}.1 %{buildroot}%{_mandir}/man1/%{name}.1
 %{_mandir}/man?/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.3-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.3-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -9,7 +9,7 @@
 
 Name:           rdkit
 Version:        %{year}.%{month}.%{extraver}
-Release:        8%{?dist}
+Release:        12%{?dist}
 Summary:        Chemical informatics and machine learning toolkit
 License:        BSD
 URL:            http://www.rdkit.org/
@@ -164,7 +164,7 @@ pushd python3
 %ifnarch %{ix86} x86_64
         -D RDK_OPTIMIZE_NATIVE:BOOL=OFF \
 %endif
-        .
+        . -B .
 #        -D RDK_BUILD_SWIG_WRAPPERS:BOOL=ON \
 
 make %{?_smp_mflags}
@@ -257,6 +257,19 @@ popd
 %{_datadir}/pgsql/extension/rdkit.control
 
 %changelog
+* Thu Oct 01 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2019.03.3-12
+- Make the package build with updated %%cmake macro (#1884363)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.03.3-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.03.3-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 2019.03.3-9
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat May 30 2020 Jonathan Wakely <jwakely@redhat.com> - 2019.03.3-8
 - Rebuilt for Boost 1.73
 

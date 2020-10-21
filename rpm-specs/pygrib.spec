@@ -12,7 +12,7 @@
 
 Name:       pygrib
 Version:    2.0.4
-Release:    6%{?dist}
+Release:    7%{?dist}
 Summary:    Python module for reading and writing GRIB (editions 1 and 2) files
 
 License:    MIT
@@ -158,6 +158,9 @@ export PYTHONPATH=%{buildroot}/%{python3_sitearch}
 %{_mandir}/man1/grib_*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.4-6
 - Rebuilt for Python 3.9
 

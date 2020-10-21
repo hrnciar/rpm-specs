@@ -3,7 +3,7 @@
 
 Name:             hibernate-jpa-2.0-api
 Version:          1.0.1
-Release:          26%{?dist}
+Release:          29%{?dist}
 Summary:          Java Persistence 2.0 (JSR 317) API
 License:          EPL and BSD
 URL:              http://www.hibernate.org/
@@ -36,15 +36,13 @@ This package contains the API documentation for %{name}.
 %pom_remove_plugin :maven-release-plugin
 %pom_remove_plugin :maven-source-plugin
 
-# Fixing wrong-file-end-of-line-encoding
-sed -i 's/\r//' src/main/javadoc/jdstyle.css
+# remove maven-compiler-plugin configuration that is broken with Java 11
+%pom_xpath_remove 'pom:plugin[pom:artifactId="maven-compiler-plugin"]/pom:configuration'
 
 %build
-%mvn_build
+%mvn_build -- -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 %install
-# Fixing wrong-file-end-of-line-encoding
-sed -i 's/\r//' target/site/apidocs/jdstyle.css
 %mvn_install
 
 %files -f .mfiles
@@ -55,6 +53,15 @@ sed -i 's/\r//' target/site/apidocs/jdstyle.css
 %license license.txt
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.1-28
+- Set javac source and target to 1.8 to fix Java 11 builds.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.0.1-27
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

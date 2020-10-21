@@ -1,6 +1,6 @@
 Name:           qepcad-B
 Version:        1.72
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Quantifier elimination tool
 
 License:        MIT
@@ -113,6 +113,9 @@ ln -s %{_bindir}/qepcad %{buildroot}%{_datadir}/qepcad/bin
 %{_datadir}/qepcad/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.72-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Jerry James <loganjerry@gmail.com> - 1.72-6
 - Drop unneeded -freeglut patch
 - Add BR on pkgconfig(xext) to fix FTBFS

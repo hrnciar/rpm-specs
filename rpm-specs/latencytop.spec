@@ -1,6 +1,6 @@
 Name:           latencytop
 Version:        0.5
-Release:        25%{?dist}
+Release:        26%{?dist}
 Summary:        System latency monitor (with GUI)
 
 License:        GPLv2
@@ -77,6 +77,9 @@ ln -s latencytop.8 %{buildroot}%{_mandir}/man8/latencytop-tui.8
 %{_mandir}/man8/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

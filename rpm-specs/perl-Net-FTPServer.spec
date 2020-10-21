@@ -1,6 +1,6 @@
 Name:           perl-Net-FTPServer
 Version:        1.125
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Secure, extensible and configurable Perl FTP server
 License:        GPLv2+
 URL:            https://metacpan.org/release/Net-FTPServer
@@ -136,6 +136,9 @@ make test
 %{_sbindir}/ro-ftpd.pl
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.125-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.125-19
 - Perl 5.32 rebuild
 

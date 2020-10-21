@@ -1,6 +1,6 @@
 Name:           xnec2c
 Version:        3.9
-Release:        0.5%{?dist}
+Release:        0.6%{?dist}
 Summary:        GTK based graphical wrapper for nec2c
 
 License:        GPLv2+
@@ -125,6 +125,9 @@ fi
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9-0.6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9-0.5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

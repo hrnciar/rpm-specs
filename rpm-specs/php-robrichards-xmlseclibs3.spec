@@ -1,7 +1,7 @@
 #
 # Fedora spec file for php-robrichards-xmlseclibs3
 #
-# Copyright (c) 2017-2019 Shawn Iwinski <shawn@iwin.ski>
+# Copyright (c) 2017-2020 Shawn Iwinski <shawn@iwin.ski>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -11,8 +11,8 @@
 
 %global github_owner     robrichards
 %global github_name      xmlseclibs
-%global github_version   3.0.4
-%global github_commit    0a53d3c3aa87564910cae4ed01416441d3ae0db5
+%global github_version   3.1.1
+%global github_commit    f8f19e58f26cdb42c54b214ff8a820760292f8df
 
 %global composer_vendor  robrichards
 %global composer_project xmlseclibs
@@ -27,14 +27,14 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}3
 Version:       %{github_version}
-Release:       2%{?github_release}%{?dist}
+Release:       1%{?github_release}%{?dist}
 Summary:       A PHP library for XML Security (version 3)
 
 License:       BSD
 URL:           https://github.com/%{github_owner}/%{github_name}
 
-# GitHub export does not include tests.
-# Run php-robrichards-xmlseclibs3-get-source.sh to create full source.
+# GitHub export does not include tests
+# Run php-robrichards-xmlseclibs3-get-source.sh to create full source
 Source0:       %{name}-%{version}-%{github_commit}.tar.gz
 Source1:       %{name}-get-source.sh
 
@@ -45,12 +45,10 @@ BuildRequires: php-composer(phpunit/phpunit)
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-openssl
-## phpcompatinfo (computed from version 3.0.4)
+## phpcompatinfo (computed from version 3.1.1)
 BuildRequires: php-dom
-BuildRequires: php-filter
 BuildRequires: php-hash
 BuildRequires: php-pcre
-BuildRequires: php-spl
 ## Autoloader
 BuildRequires: php-composer(fedora/autoloader)
 %endif
@@ -58,7 +56,7 @@ BuildRequires: php-composer(fedora/autoloader)
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
 Requires:      php-openssl
-# phpcompatinfo (computed from version 3.0.4)
+# phpcompatinfo (computed from version 3.1.1)
 Requires:      php-dom
 Requires:      php-hash
 Requires:      php-pcre
@@ -133,6 +131,12 @@ exit $RETURN_CODE
 
 
 %changelog
+* Sat Sep 05 2020 Shawn Iwinski <shawn@iwin.ski> - 3.1.1-1
+- Update to 3.1.1 (RHBZ #1826916)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

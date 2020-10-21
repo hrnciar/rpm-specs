@@ -2,7 +2,7 @@
 
 Name: mingw-libpsl
 Version: 0.21.0
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: MinGW port of C library for the Publix Suffix List
 License: MIT
 URL: https://rockdaboot.github.io/libpsl
@@ -191,6 +191,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/man
 %{mingw64_libdir}/pkgconfig/libpsl.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.21.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 06 2020 Fabiano Fidêncio <fidencio@redhat.com> - 0.21.0-3
 - Add python as a build requirement - rhbz#1799649
 

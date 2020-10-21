@@ -1,5 +1,5 @@
 Name:           perl-Metrics-Any
-Version:        0.05
+Version:        0.06
 Release:        2%{?dist}
 Summary:        Abstract collection of monitoring metrics
 License:        GPL+ or Artistic
@@ -54,6 +54,12 @@ programs to collect up and send those metrics to monitoring services.
 %{_mandir}/man3/Metrics*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.06-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 0.06-1
+- Update to 0.06
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.05-2
 - Perl 5.32 rebuild
 

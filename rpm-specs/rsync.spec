@@ -8,8 +8,8 @@
 
 Summary: A program for synchronizing files over a network
 Name: rsync
-Version: 3.1.3
-Release: 11%{?dist}
+Version: 3.2.3
+Release: 1%{?dist}
 URL: http://rsync.samba.org/
 
 Source0: https://download.samba.org/pub/rsync/src/rsync-%{version}%{?prerelease}.tar.gz
@@ -20,16 +20,17 @@ Source4: rsyncd.conf
 Source5: rsyncd.sysconfig
 Source6: rsyncd@.service
 
-BuildRequires:  gcc
+BuildRequires: gcc gcc-c++
 BuildRequires: libacl-devel, libattr-devel, autoconf, popt-devel, systemd
-#Requires: zlib
+BuildRequires: lz4-devel openssl-devel libzstd-devel
 #Added virtual provide for zlib due to https://fedoraproject.org/wiki/Bundled_Libraries?rd=Packaging:Bundled_Libraries
 Provides: bundled(zlib) = 1.2.8
 License: GPLv3+
 
-Patch0: rsync-man.patch
-Patch1: rsync-noatime.patch
-Patch2: rsync-3.0.6-iconv-logging.patch
+#Added temporarily until new rebase
+Patch0: rsync-3.2.2-ssl-verify-hostname.patch
+#Added due to rhbz#1873975 - default-acls test fail on s390x due to libacl
+Patch1: rsync-3.2.2-runtests.patch
 
 %description
 Rsync uses a reliable algorithm to bring remote and host files into
@@ -60,20 +61,15 @@ package provides the anonymous rsync service.
 %setup -q -b 1
 %endif
 
-#Needed for compatibility with previous patched rsync versions
-patch -p1 -i patches/acls.diff
-patch -p1 -i patches/xattrs.diff
-
 #Enable --copy-devices parameter
 patch -p1 -i patches/copy-devices.diff
 
-%patch0 -p1 -b .man
-%patch1 -p1 -b .noatime
-%patch2 -p1 -b .iconv
+%patch0 -p1 -b .verify-hostname
+%patch1 -p1 -b .runtests
 
 %build
 
-%configure
+%configure --disable-xxhash
 # --with-included-zlib=no temporary disabled because of #1043965
 
 make %{?_smp_mflags}
@@ -96,9 +92,11 @@ install -D -m644 %{SOURCE6} $RPM_BUILD_ROOT/%{_unitdir}/rsyncd@.service
 %files
 %{!?_licensedir:%global license %%doc}
 %license COPYING
-%doc NEWS OLDNEWS README support/ tech_report.tex
+%doc support/ tech_report.tex
 %{_bindir}/%{name}
+%{_bindir}/%{name}-ssl
 %{_mandir}/man1/%{name}.1*
+%{_mandir}/man1/%{name}-ssl.1*
 %{_mandir}/man5/rsyncd.conf.5*
 %config(noreplace) %{_sysconfdir}/rsyncd.conf
 
@@ -118,6 +116,20 @@ install -D -m644 %{SOURCE6} $RPM_BUILD_ROOT/%{_unitdir}/rsyncd@.service
 %systemd_postun_with_restart rsyncd.service
 
 %changelog
+* Mon Aug 31 2020 Michal Ruprich <mruprich@redhat.com> - 3.2.3-1
+- New version 3.2.3
+- Removed upstream patches acls.diff and xattrs.diff
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Michal Ruprich <michalruprich@gmail.com> - 3.2.2-1
+- New version 3.2.2
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.3-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

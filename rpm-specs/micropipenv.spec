@@ -1,5 +1,5 @@
 Name:           micropipenv
-Version:        0.3.0
+Version:        1.0.0
 Release:        1%{?dist}
 Summary:        A simple wrapper around pip to support Pipenv and Poetry files
 
@@ -16,6 +16,7 @@ BuildRequires:  python3dist(toml)
 BuildRequires:  python3dist(flexmock)
 BuildRequires:  python3dist(pytest)
 BuildRequires:  python3dist(pytest-timeout)
+BuildRequires:  python3dist(pytest-venv)
 
 %{?python_provide:%python_provide python3-%{name}}
 
@@ -39,8 +40,8 @@ sed -i '1{\@^#!/usr/bin/env python@d}' %{name}.py
 %py3_install
 
 %check
-# test_install requires pytest-venv not available in Fedora
-%{python3} -m pytest tests -k "not test_install"
+# skipped tests requires internet
+%pytest -m "not online"
 
 %files
 %doc README.rst
@@ -50,6 +51,21 @@ sed -i '1{\@^#!/usr/bin/env python@d}' %{name}.py
 %{python3_sitelib}/%{name}-%{version}-py*.egg-info/
 
 %changelog
+* Fri Oct 02 2020 Lumír Balhar <lbalhar@redhat.com> - 1.0.0-1
+- Update to 1.0.0 (#1884346)
+
+* Thu Sep 03 2020 Lumír Balhar <lbalhar@redhat.com> - 0.6.0-1
+- Update to 0.6.0 (#1875250)
+
+* Thu Jul 30 2020 Lumír Balhar <lbalhar@redhat.com> - 0.5.1-1
+- Update to 0.5.1 (#1859995)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Lumír Balhar <lbalhar@redhat.com> - 0.4.0-1
+- Update to 0.4.0 (#1854424)
+
 * Mon Jun 15 2020 Lumír Balhar <lbalhar@redhat.com> - 0.3.0-1
 - Update to 0.3.0 (#1846944)
 

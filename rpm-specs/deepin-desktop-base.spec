@@ -1,14 +1,18 @@
+%global _tag 2020.04.12-2
+
 Name:           deepin-desktop-base
-Version:        2019.07.10
-Release:        2%{?dist}
+Version:        2020.04.12.2
+Release:        1%{?dist}
 Summary:        Base component for Deepin
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/deepin-desktop-base
-Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:        %{url}/archive/%{_tag}/%{name}-%{_tag}.tar.gz
+Source1:        distribution.info
 BuildArch:      noarch
 Recommends:     deepin-wallpapers
 Recommends:     deepin-screensaver
 Recommends:     plymouth-theme-deepin
+Requires:       fedora-logos
 # since F31
 Obsoletes:      deepin-clone <= 1.1.4
 Obsoletes:      deepin-qml-widgets <= 2.3.6
@@ -29,12 +33,7 @@ This package owns the Deepin manual directory. This is a workaround
 before deepin-manual actually comes into Fedora to unblock packaging.
 
 %prep
-%setup -q
-
-# Remove Deepin distro's lsb-release
-# Don't override systemd timeouts
-# Remove apt-specific templates
-sed -i -E '/lsb-release|systemd|apt|back/d' Makefile
+%setup -q -n %{name}-%{_tag}
 
 # Fix data path
 sed -i 's|/usr/lib|%{_datadir}|' Makefile
@@ -43,13 +42,31 @@ sed -i 's|/usr/lib|%{_datadir}|' Makefile
 sed -i 's|Type=.*|Type=Fedora|; /Type\[/d' files/desktop-version.in
 
 %build
-%make_build
+# don't rely on upstream Makefile build since it depends on buildarch
+VERSION=20
+RELEASE=
+sed -e "s|@@VERSION@@|$VERSION|g" -e "s|@@RELEASE@@|$RELEASE|g" files/lsb-release.in > files/lsb-release
+sed -e "s|@@VERSION@@|$VERSION|g" -e "s|@@RELEASE@@|$RELEASE|g" files/desktop-version.in > files/desktop-version
 
 %install
 %make_install
 
+install -Dm644 %{SOURCE1} -t %{buildroot}%{_datadir}/deepin
+
+# Remove Deepin distro's lsb-release
+rm %{buildroot}/etc/lsb-release
+
+# Don't override systemd timeouts
+rm -r %{buildroot}/etc/systemd
+
 # Make a symlink for deepin-version
-ln -sfv ..%{_datadir}/deepin/desktop-version %{buildroot}/etc/deepin-version
+ln -sfv ..%{_datadir}/deepin/desktop-version %{buildroot}%{_sysconfdir}/deepin-version
+
+# Remove UOS logo
+rm %{buildroot}%{_datadir}/deepin/uos_logo.svg
+
+# Remove apt-specific templates
+rm -r %{buildroot}%{_datadir}/python-apt
 
 mkdir %{buildroot}/%{_datadir}/dman
 echo "This package owns the Deepin manual directory. This is a workaround
@@ -59,8 +76,7 @@ before deepin-manual actually comes into Fedora to unblock packaging." > %{build
 %license LICENSE
 %config(noreplace) %{_sysconfdir}/appstore.json
 %{_sysconfdir}/deepin-version
-%dir %{_datadir}/deepin/
-%{_datadir}/deepin/desktop-version
+%{_datadir}/deepin/
 %dir %{_datadir}/distro-info/
 %{_datadir}/i18n/i18n_dependent.json
 %{_datadir}/i18n/language_info.json
@@ -71,6 +87,12 @@ before deepin-manual actually comes into Fedora to unblock packaging." > %{build
 %{_datadir}/dman
 
 %changelog
+* Wed Sep 23 2020 Robin Lee <cheeselee@fedoraproject.org> - 2020.04.12.2-1
+- New release 2020.04.12-2
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.07.10-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.07.10-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

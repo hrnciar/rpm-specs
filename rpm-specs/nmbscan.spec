@@ -1,6 +1,6 @@
 Name:           nmbscan
 Version:        1.2.6
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        NMB/SMB network scanner
 
 License:        GPLv2
@@ -48,6 +48,9 @@ install -p -m 0644 %{SOURCE1} %{buildroot}%{_mandir}/man1/
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.6-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.6-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

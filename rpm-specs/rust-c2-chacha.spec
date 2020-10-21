@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.2.4
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        ChaCha family of stream ciphers
 
 # Upstream license specification: MIT/Apache-2.0
@@ -143,6 +143,13 @@ which use "stream-cipher" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 17 07:18:32 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.4-1
 - Update to 0.2.4
 

@@ -1,6 +1,6 @@
 Name:		glue-schema
 Version:	2.0.11
-Release:	10%{?dist}
+Release:	11%{?dist}
 Summary:	LDAP schema files for the GLUE 1.3 and GLUE 2.0 Schema
 License:	ASL 2.0
 URL:		http://forge.ogf.org/sf/projects/glue-wg
@@ -47,6 +47,9 @@ install -m 644 -p etc/ldap/schema/* %{buildroot}/%{_sysconfdir}/ldap/schema
 %doc GFD.147.pdf
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.11-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.11-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

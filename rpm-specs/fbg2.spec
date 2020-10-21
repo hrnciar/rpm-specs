@@ -1,6 +1,6 @@
 Name:		fbg2
 Version:	0.4
-Release:	23%{?dist}
+Release:	24%{?dist}
 Summary:	A falling block stacking game
 # Code is GPLv2+, music and graphics are CC-BY-SA
 License:	GPLv2+ and CC-BY-SA
@@ -93,6 +93,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/fbg2.desktop
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

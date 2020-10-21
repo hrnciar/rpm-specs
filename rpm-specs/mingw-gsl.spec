@@ -2,7 +2,7 @@
 
 Name:           mingw-gsl
 Version:        1.16
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        MinGW Windows port of the GNU Scientific Library
 
 # info part of this package is under GFDL license
@@ -129,6 +129,9 @@ rm -r $RPM_BUILD_ROOT%{mingw64_infodir}
 %{mingw64_libdir}/libgsl.a
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

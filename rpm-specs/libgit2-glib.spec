@@ -3,7 +3,7 @@
 
 Name:           libgit2-glib
 Version:        0.99.0.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Git library for GLib
 
 License:        LGPLv2+
@@ -69,6 +69,9 @@ developing applications that use %{name}.
 %doc %{_datadir}/gtk-doc/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99.0.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 0.99.0.1-4
 - Rebuilt for Python 3.9
 

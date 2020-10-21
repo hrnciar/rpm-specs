@@ -1,7 +1,7 @@
 Summary: A menu system for the Cinnamon project
 Name:    cinnamon-menus
-Version: 4.6.0
-Release: 1%{?dist}
+Version: 4.6.1
+Release: 2%{?dist}
 License: LGPLv2+
 URL:     https://github.com/linuxmint/%{name} 
 Source0: %url/archive/%{version}/%{name}-%{version}.tar.gz
@@ -56,6 +56,12 @@ find %buildroot -name '*.la' -exec rm -f {} ';'
 %{_datadir}/gir-1.0/CMenu-3.0.gir
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Leigh Scott <leigh123linux@gmail.com> - 4.6.1-1
+- Update to 4.6.1 release
+
 * Tue May 12 2020 Leigh Scott <leigh123linux@gmail.com> - 4.6.0-1
 - Update to 4.6.0 release
 

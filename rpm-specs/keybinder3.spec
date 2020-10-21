@@ -1,6 +1,6 @@
 Name:		keybinder3
 Version:	0.3.2
-Release:	9%{?dist}
+Release:	10%{?dist}
 Summary:	A library for registering global keyboard shortcuts
 License:	MIT
 URL:		https://github.com/kupferlauncher/keybinder
@@ -63,6 +63,9 @@ rm -rf %{buildroot}/%{_libdir}/libkeybinder-3.0.la
 %{_datadir}/gtk-doc/html/keybinder-3.0/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 14 2020 Leigh Scott <leigh123linux@gmail.com> - 0.3.2-9
 - Fix FTBFS
 

@@ -4,7 +4,7 @@
 # https://github.com/golang/arch
 %global goipath         golang.org/x/arch
 %global forgeurl        https://github.com/golang/arch
-%global commit          788fe5ffcd8c07da9e57a7f3b134c13864be60be
+%global commit          f7c78586839d44dc82dc2187bb3cd956bbc4446a
 
 %gometa
 
@@ -16,7 +16,7 @@ This package holds machine architecture information used by the Go toolchain.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.5%{?dist}
+Release:        0.7%{?dist}
 Summary:        Machine architecture information used by the Go toolchain
 
 # Upstream license specification: BSD-3-Clause
@@ -48,6 +48,12 @@ BuildRequires:  golang(rsc.io/pdf)
 %gopkgfiles
 
 %changelog
+* Fri Aug 07 18:20:51 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.7.20200807gitf7c7858
+- Bump to commit f7c78586839d44dc82dc2187bb3cd956bbc4446a
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

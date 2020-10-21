@@ -3,7 +3,7 @@
 
 Name:		boom-boot
 Version:	1.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	%{summary}
 
 License:	GPLv2
@@ -157,6 +157,9 @@ rm doc/conf.py
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 07 2020 Marian Csontos <mcsontos@redhat.com> 1.2-1
 - Update to bug fix release 1.2.
 

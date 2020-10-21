@@ -1,15 +1,12 @@
 Name:           sympow
-Version:        2.023.5
-Release:        4%{?dist}
+Version:        2.023.6
+Release:        2%{?dist}
 Summary:        Special Values of Symmetric Power Elliptic Curve L-Functions
 License:        BSD
 URL:            https://gitlab.com/rezozer/forks/sympow
 Source0:        https://gitlab.com/rezozer/forks/sympow/-/archive/v%{version}/%{name}-v%{version}.tar.bz2
 # Do not try to create the cachedir; RPM already created it
 Patch0:         sympow-2.023.5-cachedir.patch
-# Fix FTBFS with GCC 10 due to -fno-common
-# https://gitlab.com/rezozer/forks/sympow/merge_requests/3
-Patch1:         sympow-2.023.5-f-no-common.patch
 BuildRequires:  autoconf
 BuildRequires:  gcc
 BuildRequires:  help2man
@@ -60,15 +57,15 @@ mkdir -p %{buildroot}%{_var}/cache/%{name}
 
 # The install step creates the txt files, so we cannot convert them to bin
 # files until now.
-mkdir binfiles
+mkdir -p binfiles/$(config/endiantuple)
 for fil in datafiles/*.txt; do
   NUM=$(grep -Fc AT ${fil} || :)
   if [ "$NUM" -gt 0 ]; then
-    ./sympow -txt2bin $NUM binfiles/$(basename ${fil/txt/bin}) < $fil
+    ./sympow -txt2bin $NUM binfiles/$(config/endiantuple)/$(basename ${fil/txt/bin}) < $fil
   fi
 done
-chmod 0644 binfiles/*.bin
-cp -a binfiles %{buildroot}%{_var}/cache/%{name}/$(config/endiantuple)
+chmod 0644 binfiles/$(config/endiantuple)/*.bin
+cp -a binfiles %{buildroot}%{_var}/cache/%{name}/datafiles
 
 
 %files
@@ -84,6 +81,14 @@ cp -a binfiles %{buildroot}%{_var}/cache/%{name}/$(config/endiantuple)
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.023.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul  9 2020 Jerry James <loganjerry@gmail.com> - 2.023.6-1
+- Update to 2.023.6
+- Drop upstreamed -f-no-common patch
+- Fix installation path for the binary files
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.023.5-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

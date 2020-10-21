@@ -1,7 +1,7 @@
 %global pkgname pygit2
 
 Name:           python-%{pkgname}
-Version:        1.2.1
+Version:        1.3.0
 Release:        1%{?dist}
 Summary:        Python bindings for libgit2
 
@@ -80,6 +80,12 @@ rm -f pygit2/__init__.py
 
 
 %changelog
+* Sat Sep 19 2020 Pete Walter <pwalter@fedoraproject.org> - 1.3.0-1
+- Update to 1.3.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Pete Walter <pwalter@fedoraproject.org> - 1.2.1-1
 - Update to 1.2.1
 

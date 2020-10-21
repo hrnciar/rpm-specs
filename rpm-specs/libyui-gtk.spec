@@ -2,42 +2,23 @@
 %{!?_pkgdocdir:%global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 # CMake-builds go out-of-tree.
-%global _cmake_build_subdir build-%{_target_platform}
+%undefine __cmake_in_source_build
 
 
 Name:		libyui-gtk
-Version:	2.44.9
-Release:	15%{?dist}
+Version:	2.49.0
+Release:	1%{?dist}
 Summary:	Gtk3 User Interface for libyui
 
 License:	LGPLv2 or LGPLv3
 URL:		https://github.com/libyui/%{name}
-Source0:	%{url}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
-
-%if 0%{?fedora} >= 25 || 0%{?rhel} >= 8
-# Patches submitted upstream.
-# See:  https://github.com/libyui/libyui-gtk/pull/58
-Patch10:	https://github.com/besser82/libyui-gtk/commit/cc3ac74b1186b33bd9e6dcd532e189b5b4cb29bb.patch#/libyui-gtk-2.44.9-fix_misleading_indentation.patch
-Patch11:	https://github.com/besser82/libyui-gtk/commit/5077aae7d96d607d96600a38484384ca8e5a0dee.patch#/libyui-gtk-2.44.9-fix_gtk_style_context_get_background_color.patch
-Patch12:	https://github.com/besser82/libyui-gtk/commit/e48985c2384ee09fe60fd06003b013e90c94205a.patch#/libyui-gtk-2.44.9-fix_gtk_container_set_resize_mode.patch
-Patch13:	https://github.com/besser82/libyui-gtk/commit/21ecc082bdf5628b91bb844e6993de4789e5d15d.patch#/libyui-gtk-2.44.9-fix_gtk_window_set_has_resize_grip.patch
-Patch14:	https://github.com/besser82/libyui-gtk/commit/2c5c33d978b95bc9dd7613ddfc61810fa42c2ec8.patch#/libyui-gtk-2.44.9-fix_gtk_misc_set_alignment.patch
-Patch15:	https://github.com/besser82/libyui-gtk/commit/a7b7b50c21f6e59b1325143dcbdf8555d4027804.patch#/libyui-gtk-2.44.9-fix_gtk_misc_set_padding.patch
-Patch16:	https://github.com/besser82/libyui-gtk/commit/8ab57a0d462e3d65859cd56bcd1b73eacba9740d.patch#/libyui-gtk-2.44.9-fix_gtk_alignment_set_padding.patch
-Patch17:	https://github.com/besser82/libyui-gtk/commit/d963977c528dc694f06ecd52a47c7f2129e1aca0.patch#/libyui-gtk-2.44.9-fix_gtk_alignment_new.patch
-Patch18:	https://github.com/besser82/libyui-gtk/commit/7f6cc848f21e9f76c7247e46e934c80c339a0371.patch#/libyui-gtk-2.44.9-fix_gdk_cursor_new.patch
-Patch19:	https://github.com/besser82/libyui-gtk/commit/11884a67cf26ed46e967dca9dee5e6fa32eb92b6.patch#/libyui-gtk-2.44.9-fix_gtk_widget_get_root_window.patch
-Patch20:	https://github.com/besser82/libyui-gtk/commit/1191d564180b0a2ca489fdc762c302cc65a8c876.patch#/libyui-gtk-2.44.9-fix_gtk_menu_popup.patch
-Patch21:	https://github.com/besser82/libyui-gtk/commit/355cbac51273f87b68e19430f591cee2c16766ed.patch#/libyui-gtk-2.44.9-fix_gtk_tree_view_set_rules_hint.patch
-Patch22:	https://github.com/besser82/libyui-gtk/commit/509292d88c1cf4bf198aab2d7e5e5d075f301722.patch#/libyui-gtk-2.44.9-fix_gtk_arrow_new.patch
-Patch23:	https://github.com/besser82/libyui-gtk/commit/a7eb80016ca13d33872b558cdb00eac353b3cde1.patch#/libyui-gtk-2.44.9-fix_display_get_device_manager_gdk_device_manager_get_client_pointer.patch
-%endif # 0%%{?fedora} >= 25 || 0%%{?rhel} >= 8
+Source0:	%{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  gcc-c++
 BuildRequires:	boost-devel
 BuildRequires:	cmake
 BuildRequires:	gtk3-devel
-BuildRequires:	libyui-devel
+BuildRequires:	libyui-devel >= 3.10.0
 
 Supplements:	(libyui%{?_isa} and gtk3%{?_isa})
 
@@ -77,34 +58,30 @@ for %{name}.
 
 
 %prep
-%autosetup -p 1
+%autosetup -p1
 ./bootstrap.sh
 
 
 %build
-%{__mkdir} -p %{_cmake_build_subdir}
-pushd %{_cmake_build_subdir}
 %cmake							\
 	-DENABLE_WERROR=OFF				\
 	-DYPREFIX=%{_prefix}				\
 	-DLIB_DIR=%{_libdir}				\
 	-DCMAKE_BUILD_TYPE=RELEASE			\
 	-DRESPECT_FLAGS=ON				\
-	-DSKIP_LATEX=ON					\
-	..
+	-DSKIP_LATEX=ON
 
-%make_build
-%make_build docs
-popd
+%cmake_build
+%cmake_build --target docs
 
 
 %install
-pushd %{_cmake_build_subdir}
 %{__mkdir} -p	%{buildroot}%{_libdir}/yui		\
 		%{buildroot}%{_datadir}/%{name}/theme
 
-%make_install
+%cmake_install
 
+pushd %{_vpath_builddir}
 # Delete obsolete files.
 %{__rm} -rf	%{buildroot}%{_defaultdocdir}		\
 		doc/html/*.m*
@@ -139,6 +116,16 @@ popd
 
 
 %changelog
+* Sat Aug 01 2020 Neal Gompa <ngompa13@gmail.com> - 2.49.0-1
+- Rebase to 2.49.0 (#1669819)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.44.9-17
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.44.9-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.44.9-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

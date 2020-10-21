@@ -1,23 +1,32 @@
 %global _dwz_low_mem_die_limit 0
 
 Name:           reposurgeon
-Version:        3.47
-Release:        3%{?dist}
+Version:        4.19
+Release:        1%{?dist}
 Summary:        SCM Repository Manipulation Tool
 License:        BSD
 URL:            http://www.catb.org/~esr/reposurgeon/
 Source0:        http://www.catb.org/~esr/reposurgeon/%{name}-%{version}.tar.xz
 
-Patch0:         0001-Fix-tab-space-inconsistency.patch
-
-BuildRequires:  asciidoc
+BuildRequires:  asciidoctor
 BuildRequires:  golang
 BuildRequires:  make
 BuildRequires:  sed
 BuildRequires:  xmlto
-BuildRequires:  patch
 
 BuildRequires:  golang(golang.org/x/crypto/ssh/terminal)
+BuildRequires:  golang(golang.org/x/text/encoding/ianaindex)
+BuildRequires:  golang(github.com/emirpasic/gods/sets/linkedhashset)
+BuildRequires:  golang(github.com/anmitsu/go-shlex)
+BuildRequires:  golang(github.com/kballard/go-shellquote)
+BuildRequires:  golang(github.com/ianbruene/go-difflib/difflib)
+BuildRequires:  golang(github.com/termie/go-shutil)
+BuildRequires:  golang(gitlab.com/ianbruene/kommandant)
+BuildRequires:  golang(gitlab.com/esr/fqme)
+
+# Tests
+BuildRequires:  golint
+BuildRequires:  ShellCheck
 
 Requires:       emacs-filesystem
 
@@ -32,21 +41,19 @@ DVCS.
 
 %prep
 %setup -q
-%patch0 -p1
-# Change shebang in individual files
-sed -i '1s=^#!/usr/bin/\(pypy\|env pypy\)[0-9.]*=#!%{__python3}=' repo{surgeon,tool}
-# Strip go-reposurgeon
-sed -i '/-o goreposurgeon .\/go-reposurgeon/d' Makefile
 # Set go build options
-sed -i 's/^GOFLAGS=-gcflags.*/GOFLAGS=-gcflags "-N -l" -ldflags "-B 0x\$\(shell head -c20 \/dev\/urandom|od -An -tx1|tr -d '\'' \\n'\'')"/g' Makefile
+sed -i 's/^#GOFLAGS=-gcflags.*/GOFLAGS=-gcflags "-N -l" -ldflags "-B 0x\$\(shell head -c20 \/dev\/urandom|od -An -tx1|tr -d '\'' \\n'\'')"/g' Makefile
 
 %build
 export GOPATH=$(pwd):%{gopath}
-make %{?_smp_mflags}
-asciidoc README.adoc
+export GO111MODULE=off
+
+asciidoctor README.adoc NEWS.adoc
+
+# preserve build order
+make
 
 %install
-export GOPATH=$(pwd):%{gopath}
 %make_install prefix=%{_prefix}
 
 install -pDm644 reposurgeon-mode.el %{buildroot}%{_datadir}/emacs/site-lisp/reposurgeon-mode.el
@@ -54,8 +61,19 @@ install -pDm644 reposurgeon-mode.el %{buildroot}%{_datadir}/emacs/site-lisp/repo
 # Use %%doc to install docs.
 rm -frv %{buildroot}%{_docdir}
 
+# Strip repobench
+rm -f %{buildroot}%{_bindir}/repobench
+rm -f %{buildroot}%{_mandir}/man1/repobench.1*
+
+%check
+export GOPATH=$(pwd):%{gopath}
+export GO111MODULE=off
+
+make check
+
 %files
-%doc NEWS TODO *.html
+%doc *.html oops.svg
+%license COPYING
 %{_bindir}/%{name}
 %{_bindir}/repocutter
 %{_bindir}/repomapper
@@ -67,6 +85,16 @@ rm -frv %{buildroot}%{_docdir}
 %{_mandir}/man1/repotool.1*
 
 %changelog
+* Tue Sep 01 2020 Denis Fateyev <denis@fateyev.com> - 4.19-1
+- Update to 4.19
+
+* Tue Aug 18 2020 Denis Fateyev <denis@fateyev.com> - 4.17-1
+- Switch to Go-based version
+- Update to 4.17
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.47-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Maya Rashish <mrashish@redhat.com> - 3.47-3
 - Fix tab/space inconsistency
 

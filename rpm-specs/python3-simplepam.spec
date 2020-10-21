@@ -1,6 +1,6 @@
 Name:           python3-simplepam
 Version:        0.1.5
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Pure Python interface to the Pluggable Authentication Modules system on Linux
 
 License:        MIT
@@ -34,6 +34,9 @@ authenticate a given username / password against the PAM system on Linux.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.5-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.5-18
 - Rebuilt for Python 3.9
 

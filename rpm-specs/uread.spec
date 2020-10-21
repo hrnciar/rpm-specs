@@ -2,7 +2,7 @@
 
 Name:           uread
 Version:        0
-Release:        0.22.%{stamp}%{?dist}
+Release:        0.23.%{stamp}%{?dist}
 Summary:        Utilities for unformatted fortran files
 
 License:        GPL+
@@ -55,6 +55,9 @@ install -m0755 uread ustrip uswap $RPM_BUILD_ROOT%{_bindir}/
 %{_mandir}/man1/u*.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.23.20081006
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.22.20081006
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

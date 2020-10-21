@@ -1,6 +1,6 @@
 Name:           perl-GD-Barcode
 Version:        1.15
-Release:        35%{?dist}
+Release:        36%{?dist}
 Summary:        Create barcode image with GD
 # see Barcode.pm
 License:        GPL+ or Artistic
@@ -47,6 +47,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15-36
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.15-35
 - Perl 5.32 rebuild
 

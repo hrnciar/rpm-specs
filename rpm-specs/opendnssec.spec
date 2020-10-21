@@ -4,7 +4,7 @@
 Summary: DNSSEC key and zone management software
 Name: opendnssec
 Version: 2.1.6
-Release: 6%{?prever}%{?dist}
+Release: 8%{?prever}%{?dist}
 License: BSD
 Url: http://www.opendnssec.org/
 Source0: http://www.opendnssec.org/files/source/%{?prever:testing/}%{name}-%{version}%{?prever}.tar.gz
@@ -61,7 +61,7 @@ export CXXFLAGS="$RPM_OPT_FLAGS -fPIE -pie -Wformat-nonliteral -Wformat-security
 sh ./autogen.sh
 %endif
 %configure --with-ldns=%{_libdir}
-make %{?_smp_mflags}
+%make_build
 
 %check
 # Requires sample db not shipped with upstream
@@ -69,7 +69,7 @@ make %{?_smp_mflags}
 
 %install
 rm -rf %{buildroot}
-make DESTDIR=%{buildroot} install
+%make_install
 mkdir -p %{buildroot}%{_localstatedir}/opendnssec/{tmp,signed,signconf,enforcer}
 install -d -m 0755 %{buildroot}%{_initrddir} %{buildroot}%{_sysconfdir}/cron.d/
 install -m 0644 %{SOURCE6} %{buildroot}/%{_sysconfdir}/cron.d/opendnssec
@@ -182,6 +182,13 @@ ods-enforcer update all >/dev/null 2>/dev/null ||:
 %systemd_postun_with_restart ods-signerd.service
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.6-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 2.1.6-7
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Thu May 28 2020 Paul Wouters <pwouters@redhat.com> - 2.1.6-6
 - Resolves: rhbz#1833718 ods-signerd.service missing .service
 

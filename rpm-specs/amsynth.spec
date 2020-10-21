@@ -1,5 +1,5 @@
 Name:           amsynth
-Version:        1.10.0
+Version:        1.11.0
 Release:        1%{?dist}
 Summary:        A classic synthesizer with dual oscillators
 
@@ -114,6 +114,16 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*%{name}.*
 
 
 %changelog
+* Sun Oct 04 2020 Guido Aulisi <guido.aulisi@gmail.com> - 1.11.0-1
+- Update to 1.11.0
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 08 2020 Guido Aulisi <guido.aulisi@gmail.com> - 1.10.0-1
 - Update to 1.10.0
 - Some spec cleanup

@@ -1,6 +1,6 @@
 Name:           hct
 Version:        0.7.60
-Release:        28%{?dist}
+Release:        29%{?dist}
 Summary:        A HDL complexity tool
 
 License:        GPLv3 and LGPLv3
@@ -104,6 +104,9 @@ find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.60-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.7.60-28
 - Perl 5.32 rebuild
 

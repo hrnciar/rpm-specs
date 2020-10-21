@@ -1,6 +1,6 @@
 Name:             xdp-tools
-Version:          1.0.0~beta1
-Release:          0.1%{?dist}
+Version:          1.0.1
+Release:          1%{?dist}
 Summary:          Utilities and example programs for use with XDP
 %global _soversion 1.0.0
 
@@ -20,6 +20,9 @@ BuildRequires:    pkgconfig
 BuildRequires:    m4
 BuildRequires:    emacs-nox
 BuildRequires:    wireshark-cli
+
+# Always keep xdp-tools and libxdp packages in sync
+Requires:         libxdp = %{version}-%{release}
 
 # find-debuginfo produces empty debugsourcefiles.list
 # disable the debug package to avoid rpmbuild error'ing out because of this
@@ -62,12 +65,14 @@ The libxdp-static package contains the static library version of libxdp.
 export CFLAGS='%{build_cflags}'
 export LDFLAGS='%{build_ldflags}'
 export LIBDIR='%{_libdir}'
-export PRODUCTION=1
-export DYNAMIC_LIBXDP=1
 export CLANG=%{_bindir}/clang
 export LLC=%{_bindir}/llc
+export PRODUCTION=1
+export DYNAMIC_LIBXDP=1
+export FORCE_SYSTEM_LIBBPF=1
+export FORCE_EMACS=1
 ./configure
-make %{?_smp_mflags}
+make %{?_smp_mflags} V=1
 
 %install
 export DESTDIR='%{buildroot}'
@@ -76,11 +81,7 @@ export LIBDIR='%{_libdir}'
 export MANDIR='%{_mandir}'
 export DATADIR='%{_datadir}'
 export HDRDIR='%{_includedir}/xdp'
-make install
-
-# Don't expose libxdp itself in -devel package just yet
-rm -f %{buildroot}%{_includedir}/xdp/libxdp.h
-rm -f %{buildroot}%{_libdir}/libxdp.so
+make install V=1
 
 %files
 %{_sbindir}/xdp-filter
@@ -96,15 +97,32 @@ rm -f %{buildroot}%{_libdir}/libxdp.so
 %{_libdir}/libxdp.so.1
 %{_libdir}/libxdp.so.%{_soversion}
 %{_libdir}/bpf/xdp-dispatcher.o
-%{_libdir}/pkgconfig/libxdp.pc
+%{_mandir}/man3/*
 
 %files -n libxdp-static
 %{_libdir}/libxdp.a
 
 %files -n libxdp-devel
 %{_includedir}/xdp/*.h
+%{_libdir}/libxdp.so
+%{_libdir}/pkgconfig/libxdp.pc
 
 %changelog
+* Thu Aug 20 2020 Toke Høiland-Jørgensen <toke@redhat.com> 1.0.1-1
+- Upstream version bump
+
+* Tue Aug 18 2020 Toke Høiland-Jørgensen <toke@redhat.com> 1.0.0-1
+- Upstream version bump
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0~beta3-0.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Eelco Chaudron <echaudro@redhat.com> 1.0.0~beta3-0.1
+- Upstream version bump
+
+* Fri Jul 10 2020 Toke Høiland-Jørgensen <toke@redhat.com> 1.0.0~beta2-0.1
+- Upstream version bump
+
 * Mon Jun 15 2020 Toke Høiland-Jørgensen <toke@redhat.com> 1.0.0~beta1-0.1
 - Upstream version bump
 

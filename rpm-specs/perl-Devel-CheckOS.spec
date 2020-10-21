@@ -1,6 +1,6 @@
 Name:           perl-Devel-CheckOS
-Version:        1.83
-Release:        2%{?dist}
+Version:        1.85
+Release:        1%{?dist}
 Summary:        Check what OS we're running on
 # Devel/AssertOS/Extending.pod: CC-BY-SA
 # Devel/CheckOS/Families.pod:   CC-BY-SA
@@ -9,6 +9,7 @@ License:        (GPLv2 or Artistic) and CC-BY-SA
 URL:            https://metacpan.org/release/Devel-CheckOS
 Source0:        https://cpan.metacpan.org/authors/id/D/DC/DCANTRELL/Devel-CheckOS-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -63,6 +64,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Mon Oct 19 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.852-1
+- 1.85 bump
+
+* Tue Oct 06 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.84-1
+- 1.84 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.83-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.83-2
 - Perl 5.32 rebuild
 

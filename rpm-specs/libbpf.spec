@@ -1,5 +1,5 @@
 %global githubname   libbpf
-%global githubver    0.0.8
+%global githubver    0.1.0
 %global githubfull   %{githubname}-%{githubver}
 
 Name:           %{githubname}
@@ -25,7 +25,7 @@ ABI.
 %package devel
 Summary:        Development files for %{name}
 Requires:       %{name} = 2:%{version}-%{release}
-Requires:       kernel-headers >= 5.4.0-0.rc6.git0.1
+Requires:       kernel-headers >= 5.9.0-0.rc2.1
 Requires:       zlib
 
 %description devel
@@ -39,6 +39,8 @@ Requires: %{name}-devel = 2:%{version}-%{release}
 %description static
 The %{name}-static package contains static library for
 developing applications that use %{name}
+
+%define _lto_cflags %{nil}
 
 %global make_flags DESTDIR=%{buildroot} OBJDIR=%{_builddir} CFLAGS="%{build_cflags} -fPIC" LDFLAGS="%{build_ldflags} -Wl,--no-as-needed" LIBDIR=/%{_libdir} NO_PKG_CONFIG=1
 
@@ -64,6 +66,19 @@ developing applications that use %{name}
 %{_libdir}/libbpf.a
 
 %changelog
+* Thu Oct 01 2020 Jiri Olsa <jolsa@redhat.com> - 2:0.1.0-1
+- release 0.1.0
+
+* Sun Aug 02 2020 Jiri Olsa <jolsa@redhat.com> - 2:0.0.9-1
+- release 0.0.9
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:0.0.8-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:0.0.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 10 2020 Jiri Olsa <jolsa@redhat.com> - 2:0.0.8-1
 - release 0.0.8
 

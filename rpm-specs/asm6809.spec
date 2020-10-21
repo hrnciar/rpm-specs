@@ -1,6 +1,6 @@
 Name:           asm6809
 Version:        2.12
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Multiple pass 6809 & 6309 cross assembler
 
 License:        GPLv3+
@@ -39,6 +39,9 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

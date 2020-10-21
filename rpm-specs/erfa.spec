@@ -1,6 +1,6 @@
 Name: erfa
-Version: 1.7.0
-Release: 2%{?dist}
+Version: 1.7.1
+Release: 1%{?dist}
 Summary: Essential Routines for Fundamental Astronomy
 
 License: BSD
@@ -49,6 +49,12 @@ make check
 %exclude %{_libdir}/*.la
 
 %changelog
+* Sun Sep 20 2019 Sergio Pascual <sergiopr at fedoraproject.org> - 1.7.1-1
+- New upstream source (1.7.1)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

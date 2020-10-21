@@ -1,6 +1,6 @@
 Name:           perl-PBKDF2-Tiny
 Version:        0.005
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Minimalist PBKDF2 (RFC 2898) with HMAC-SHA1 or HMAC-SHA2
 # inc/MakeMaker.pm:     GPL+ or Artistic (derived from
 #                       Package-Stash:inc/MMPackageStash.pm)
@@ -60,6 +60,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.005-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.005-16
 - Perl 5.32 rebuild
 

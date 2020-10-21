@@ -1,31 +1,37 @@
 Name:           gnome-sound-recorder
-Version:        3.34.0
-Release:        2%{?dist}
+Version:        3.38.0
+Release:        1%{?dist}
 Summary:        Make simple recordings from your desktop
 
 License:        GPLv2+
 URL:            https://wiki.gnome.org/Design/Apps/SoundRecorder
-Source0:        https://download.gnome.org/sources/%{name}/3.34/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildArch:      noarch
 BuildRequires:  /usr/bin/appstream-util
 BuildRequires:  desktop-file-utils
+BuildRequires:  gstreamer1-plugins-bad-free
 BuildRequires:  gstreamer1-plugins-base
 BuildRequires:  gstreamer1-plugins-good
 BuildRequires:  meson
 BuildRequires:  pkgconfig(gjs-1.0)
 BuildRequires:  pkgconfig(gobject-introspection-1.0)
 BuildRequires:  pkgconfig(gstreamer-1.0)
+BuildRequires:  pkgconfig(gstreamer-player-1.0)
 BuildRequires:  pkgconfig(gtk+-3.0)
+BuildRequires:  pkgconfig(libhandy-1)
 
 # Version requirement is for the first release with package.js.
 Requires:       gjs >= 1.41.4
 Requires:       gstreamer1
+Requires:       gstreamer1-plugins-bad-free
 Requires:       gstreamer1-plugins-base
 Requires:       gstreamer1-plugins-good
+Requires:       libhandy1
 
 %description
 Make simple recordings from your desktop.
+
 
 %prep
 %autosetup -p1
@@ -38,14 +44,15 @@ Make simple recordings from your desktop.
 
 %install
 %meson_install
-%find_lang %{name}
+%find_lang org.gnome.SoundRecorder
 
 
 %check
-appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/org.gnome.SoundRecorder.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/org.gnome.SoundRecorder.metainfo.xml
 desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.SoundRecorder.desktop
 
-%files -f %{name}.lang
+
+%files -f org.gnome.SoundRecorder.lang
 %doc AUTHORS README.md NEWS
 %license COPYING
 %{_bindir}/%{name}
@@ -53,11 +60,17 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.SoundRecord
 %{_datadir}/glib-2.0/schemas/*
 %{_datadir}/icons/hicolor/*/apps/org.gnome.SoundRecorder.svg
 %{_datadir}/icons/hicolor/symbolic/apps/org.gnome.SoundRecorder-symbolic.svg
-%{_datadir}/metainfo/org.gnome.SoundRecorder.appdata.xml
+%{_datadir}/metainfo/org.gnome.SoundRecorder.metainfo.xml
 %{_datadir}/org.gnome.SoundRecorder/
 
 
 %changelog
+* Fri Sep 18 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.34.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.34.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

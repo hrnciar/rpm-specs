@@ -1,6 +1,6 @@
 Name:           perl-LWP-Protocol-PSGI
 Version:        0.11
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Override LWP's HTTP/HTTPS backend with your own PSGI application
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/LWP-Protocol-PSGI
@@ -48,6 +48,12 @@ PSGI application.
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.11-3
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

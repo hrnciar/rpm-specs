@@ -1,6 +1,6 @@
 Name:           ezstream
 Version:        1.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Command line source client for Icecast media streaming servers
 ## Not installed files:
 # aclocal.m4:               FSFULLR
@@ -146,6 +146,9 @@ rm -rf $RPM_BUILD_ROOT%{_docdir} $RPM_BUILD_ROOT%{_datadir}/examples
 %{_mandir}/man1/ezstream-file.sh.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Petr Pisar <ppisar@redhat.com> - 1.0.1-1
 - 1.0.1 bump
 

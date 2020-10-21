@@ -3,7 +3,7 @@
 
 Name:           libcutl
 Version:        %{base_version}.0
-Release:        18%{?dist}
+Release:        20%{?dist}
 Summary:        C++ utility library from Code Synthesis
 License:        MIT
 URL:            http://www.codesynthesis.com/projects/libcutl/
@@ -48,6 +48,7 @@ rm -rv cutl/details/boost
 rm -rv cutl/details/expat
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 # Use the system Boost and expat libraries
 confopts="--disable-static --with-external-expat %{?external_boost}"
 # If building on RHEL 5
@@ -76,6 +77,12 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}
 %{_libdir}/pkgconfig/libcutl.pc
 
 %changelog
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 1.10.0-20
+- Force C++14 as this code is not C++17 ready
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

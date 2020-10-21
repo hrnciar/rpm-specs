@@ -5,7 +5,7 @@ Version: 7.2.1
 # - Older releases used year.month
 # - Newer releases use x.y.z
 Epoch: 1
-Release: 3%{?dist}
+Release: 6%{?dist}
 License: Qhull
 Source0: https://github.com/qhull/qhull/archive/v%{version}.tar.gz#/qhull-%{version}.tar.gz
 
@@ -65,7 +65,7 @@ about a point.
 %build
 mkdir -p build
 cd build
-%cmake ..
+%cmake -S .. -B .
 make VERBOSE=1 %{?_smp_mflags}
 cd ..
 
@@ -114,6 +114,16 @@ chrpath --delete ${RPM_BUILD_ROOT}%{_libdir}/lib*.so.*
 
 
 %changelog
+* Mon Aug 03 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 1:7.2.1-6
+- Work around cmake madness (RHBZ#1863716).
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:7.2.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:7.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:7.2.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,5 +1,5 @@
 Name:       fedora-jam-kde-theme
-Version:    3.0.4
+Version:    3.0.6
 Release:    1%{?dist}
 Summary:    Fedora Jam KDE Theme and Configs
 
@@ -53,6 +53,15 @@ cp -p %{SOURCE1} .
 %config(noreplace) %{_sysconfdir}/sysctl.d/50-fedora-jam.conf
 
 %changelog
+* Thu Sep 24 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 3.0.6-1
+- Add previews to global theme
+
+* Wed Sep 23 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 3.0.5-1
+- Fix for missing XDG environment variables affecting menu
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 3.0.4-1
 - Change from dark to default Fedora Breeze theme
 

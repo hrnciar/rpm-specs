@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.3.1
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        JSON-RPC v2.0 client library for Python
 
 License:        ASL 2.0
@@ -45,6 +45,9 @@ rm -rf jsonrpclib_pelix.egg-info
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.1-11
 - Rebuilt for Python 3.9
 

@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.3.0
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Python PAM interface
 
 License:        MIT
@@ -46,6 +46,9 @@ py.test-%{python3_version} -v
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.0-13
 - Rebuilt for Python 3.9
 

@@ -13,7 +13,7 @@
 
 Name:           php-phpseclib-file-asn1
 Version:        0.3.9
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Pure-PHP ASN1 parser
 
 # License text included in the header
@@ -79,6 +79,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.9-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.9-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

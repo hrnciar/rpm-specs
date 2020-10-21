@@ -1,15 +1,15 @@
-%global packname  coda
-%global packvers  0.19-3
+%global packname coda
+%global packver  0.19-4
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          0.19.3
-Release:          5%{?dist}
+Version:          0.19.4
+Release:          1%{?dist}
 Summary:          Output Analysis and Diagnostics for MCMC
 
 License:          GPLv2+
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packvers}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
@@ -62,6 +62,12 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Wed Sep 30 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.19.4-1
+- Update to latest version (#1884075)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 0.19.3-5
 - rebuild for R 4
 

@@ -7,7 +7,7 @@
 
 Name:           rust-%{crate}
 Version:        0.1.6
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Macros for deriving common traits for newtype structures
 
 # Upstream license specification: MIT/Apache-2.0
@@ -102,6 +102,13 @@ grep -IUlr $'\r' | xargs sed -i 's/\r$//'
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.6-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.6-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.6-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

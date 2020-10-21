@@ -21,6 +21,23 @@
 
 %bcond_with html_man
 %bcond_with glue
+%bcond_with run_build_tests
+
+# set following to the result of  `git describe --abbrev=128 $commit`
+# This will be used to fill booth_ver, booth_numcomm and booth_sha1.
+# It is important to keep abbrev to get full length sha1! When updating source use
+# `spectool -g booth.spec` to download source.
+%global git_describe_str v1.0-237-gdd88847c8e7c55f18ace774cf70545aa137bd296
+
+# Set this to 1 when rebasing (changing git_describe_str) and increase otherwise
+%global release 2
+
+# Run shell script to parse git_describe str into version, numcomm and sha1 hash
+%global booth_ver %(s=%{git_describe_str}; vver=${s%%%%-*}; echo ${vver:1})
+%global booth_numcomm %(s=%{git_describe_str}; t=${s#*-}; echo ${t%%%%-*})
+%global booth_sha1 %(s=%{git_describe_str}; t=${s##*-}; echo ${t:1})
+%global booth_short_sha1 %(s=%{booth_sha1}; echo ${s:0:7})
+%global booth_archive_name %{name}-%{booth_ver}-%{booth_numcomm}-%{booth_short_sha1}
 
 ## User and group to use for nonprivileged services (should be in sync with pacemaker)
 %global uname hacluster
@@ -29,29 +46,7 @@
 # Disable automatic compilation of Python files in extra directories
 %global _python_bytecompile_extra 0
 
-%global specver 6
-%global boothver 1.0
-# set following to the actual commit or, for final release, concatenate
-# "boothver" macro to "v" (will yield a tag per the convention)
-%global commit ac1d34ce172678a8f5ba415e976cf2366d45e15e
-%global lparen (
-%global rparen )
-%global shortcommit %(c=%{commit}; case ${c} in
-                      v*%{rparen} echo ${c:1};;
-                      *%{rparen} echo ${c:0:7};; esac)
-%global pre_release %(s=%{shortcommit}; [ ${s: -3:2} != rc ]; echo $?)
-%global post_release %([ %{commit} = v%{shortcommit} ]; echo $?)
 %global github_owner ClusterLabs
-
-%if 0%{pre_release}
-%global boothrel    0.%{specver}.%(s=%{shortcommit}; echo ${s: -3})
-%else
-%if 0%{post_release}
-%global boothrel    %{specver}.%{shortcommit}.git
-%else
-%global boothrel    %{specver}
-%endif
-%endif
 
 %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}}
 # https://fedoraproject.org/wiki/EPEL:Packaging?rd=Packaging:EPEL#The_.25license_tag
@@ -60,13 +55,12 @@
 %global test_path   %{_datadir}/booth/tests
 
 Name:           booth
-Version:        %{boothver}
-Release:        %{boothrel}%{?dist}.3
+Version:        %{booth_ver}
+Release:        %{booth_numcomm}.%{release}.%{booth_short_sha1}.git%{?dist}
 Summary:        Ticket Manager for Multi-site Clusters
 License:        GPLv2+
 Url:            https://github.com/%{github_owner}/%{name}
-Source0:        https://github.com/%{github_owner}/%{name}/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
-Patch0:         0001-build-Do-not-link-with-pcmk-libraries.patch
+Source0:        https://github.com/%{github_owner}/%{name}/archive/%{booth_short_sha1}/%{booth_archive_name}.tar.gz
 
 # direct build process dependencies
 BuildRequires:  autoconf
@@ -102,8 +96,10 @@ BuildRequires:  sed
 BuildRequires:  systemd
 ## for autosetup
 BuildRequires:  git
-# check scriptlet (for perl and netstat)
-BuildRequires:  perl-interpreter net-tools
+%if 0%{?with_run_build_tests}
+# check scriptlet (for perl and ss)
+BuildRequires:  perl-interpreter iproute
+%endif
 
 # this is for a composite-requiring-its-components arranged
 # as an empty package (empty files section) requiring subpackages
@@ -182,8 +178,8 @@ Requires:       %{name}-site = %{version}-%{release}
 Requires:       gdb
 Requires:       %{__python3}
 Requires:       python3-pexpect
-# runtests.py suite (for perl and netstat)
-Requires:       perl-interpreter net-tools
+# runtests.py suite (for perl and ss)
+Requires:       perl-interpreter iproute
 
 %description    test
 Automated tests for running Booth, ticket manager for multi-site clusters.
@@ -191,7 +187,7 @@ Automated tests for running Booth, ticket manager for multi-site clusters.
 # BUILD #
 
 %prep
-%autosetup -n %{name}-%{commit} -S git_am
+%autosetup -n %{name}-%{booth_sha1} -S git_am
 
 %build
 ./autogen.sh
@@ -199,7 +195,7 @@ Automated tests for running Booth, ticket manager for multi-site clusters.
         --with-initddir=%{_initrddir} \
         --docdir=%{_pkgdocdir} \
         --enable-user-flags \
-        %{!?with_html_man:--without-html_man} \
+        %{?with_html_man:--with-html_man} \
         %{!?with_glue:--without-glue} \
         PYTHON=%{__python3}
 %{make_build}
@@ -246,7 +242,9 @@ sed -e 's#PYTHON_SHEBANG#%{__python3} -Es#g' \
 
 %check
 # alternatively: test/runtests.py
+%if 0%{?with_run_build_tests}
 VERBOSE=1 make check
+%endif
 
 %files          core
 %license COPYING
@@ -263,6 +261,12 @@ VERBOSE=1 make check
 
 %dir %attr (750, %{uname}, %{gname}) %{_var}/lib/booth/
 %dir %attr (750, %{uname}, %{gname}) %{_var}/lib/booth/cores
+
+# Generated html docs
+%if 0%{?with_html_man}
+%{_pkgdocdir}/booth-keygen.8.html
+%{_pkgdocdir}/boothd.8.html
+%endif
 
 %files          arbitrator
 %{_unitdir}/booth@.service
@@ -284,6 +288,11 @@ VERBOSE=1 make check
 %dir %{_datadir}/booth
      %{_datadir}/booth/service-runnable
 
+# Generated html docs
+%if 0%{?with_html_man}
+%{_pkgdocdir}/geostore.8.html
+%endif
+
 %files          test
 %doc %{_pkgdocdir}/README-testing
 # /usr/share/booth provided by -site
@@ -292,6 +301,22 @@ VERBOSE=1 make check
 %{_usr}/lib/ocf/resource.d/booth/sharedrsc
 
 %changelog
+* Thu Oct 15 2020 Jan Friesse <jfriesse@redhat.com> - 1.0-237.2.dd88847.git
+- Fix dist macro
+
+* Thu Oct 15 2020 Jan Friesse <jfriesse@redhat.com> - 1.0-237.1.dd88847.git
+- Rebase to newest upstream snapshot
+
+* Thu Oct 15 2020 Jan Friesse <jfriesse@redhat.com> - 1.0-199.1.ac1d34c.git
+- Implement new versioning scheme
+
+* Tue Sep 29 2020 Jan Friesse <jfriesse@redhat.com> - 1.0-6.ac1d34c.git.5
+- Remove net-tools (netstat) dependency and replace it with iproute (ss)
+- Disable running tests during build by default (conditional run_build_tests)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-6.ac1d34c.git.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 3 2020 Jan Friesse <jfriesse@redhat.com> - 1.0-6.ac1d34c.git.3
 - Do not link with the pcmk libraries
 - Generate runtests.py and boothtestenv.py with -Es as make check does

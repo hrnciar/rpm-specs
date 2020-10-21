@@ -2,7 +2,7 @@
 
 Name:           python-phyghtmap
 Version:        2.21
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Generate OSM contour lines from NASA SRTM data
 License:        GPLv2+
 URL:            http://katze.tfiu.de/projects/phyghtmap/
@@ -50,6 +50,9 @@ install -Dpm 644 docs/%{modname}.1 %{buildroot}%{_mandir}/man1/%{modname}.1
 %{python3_sitelib}/%{modname}-%{version}-py*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.21-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.21-6
 - Rebuilt for Python 3.9
 

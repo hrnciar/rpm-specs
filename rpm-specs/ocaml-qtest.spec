@@ -1,5 +1,5 @@
 Name:           ocaml-qtest
-Version:        2.11
+Version:        2.11.1
 Release:        1%{?dist}
 Summary:        Inline (Unit) Tests for OCaml
 
@@ -11,7 +11,7 @@ BuildRequires:  ocaml >= 4.03.0
 BuildRequires:  ocaml-dune >= 1.1
 BuildRequires:  ocaml-odoc
 BuildRequires:  ocaml-ounit-devel >= 2.0.0
-BuildRequires:  ocaml-qcheck-devel >= 0.5
+BuildRequires:  ocaml-qcheck-devel >= 0.14
 BuildRequires:  help2man
 
 
@@ -42,10 +42,7 @@ Documentation for %{name}.
 
 
 %prep
-%setup -q -n qtest-%{version}
-
-# Work around name change in recent ounit versions
-sed -i 's/oUnit/ounit2/' src/dune
+%autosetup -n qtest-%{version}
 
 
 %build
@@ -108,6 +105,22 @@ make test -W build # ignore dependency on "build" target
 
 
 %changelog
+* Fri Sep 25 2020 Jerry James <loganjerry@gmail.com> - 2.11.1-1
+- Version 2.11.1
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 2.11-5
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 2.11-4
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 2020 Jerry James <loganjerry@gmail.com> - 2.11-1
 - New upstream release (bz 1835054)
 

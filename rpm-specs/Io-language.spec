@@ -6,7 +6,7 @@
  
 Name:           Io-language
 Version:        20151111
-Release:        0.e64ff9%{?dist}.22
+Release:        0.e64ff9%{?dist}.24
 Summary:        Io is a small, prototype-based programming language
 License:        BSD
 URL:            http://www.iolanguage.com/
@@ -270,6 +270,12 @@ done
 
 
 %changelog
+* Tue Sep 15 2020 Gwyn Ciesla <gwync@protonmail.com> - 20151111-0.e64ff9.24
+- Libevent rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20151111-0.e64ff9.23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 20151111-0.e64ff9.22
 - Rebuilt for Python 3.9
 

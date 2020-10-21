@@ -5,7 +5,7 @@
 %global goa_version 3.17.91
 
 Name:		grilo-plugins
-Version:	0.3.11
+Version:	0.3.12
 Release:	2%{?dist}
 Summary:	Plugins for the Grilo framework
 
@@ -33,10 +33,12 @@ BuildRequires:	rest-devel
 BuildRequires:	sqlite-devel
 BuildRequires:	libgdata-devel
 BuildRequires:	totem-pl-parser-devel
-BuildRequires:	tracker-devel >= 2.3.0
-BuildRequires:	libdmapsharing-devel
+BuildRequires:	tracker3-devel
 BuildRequires:	json-glib-devel
 BuildRequires:	pkgconfig(oauth)
+%if ! 0%{?rhel}
+BuildRequires:	libdmapsharing-devel
+%endif
 
 %if ! 0%{?rhel}
 Requires:	dleyna-server
@@ -79,11 +81,12 @@ This package contains plugins to get information from theses sources:
     -Denable-bookmarks=yes \
 %if 0%{?rhel}
     -Denable-dleyna=no \
+    -Denable-dmap=no \
 %endif
 %if ! 0%{?rhel}
     -Denable-dleyna=yes \
-%endif
     -Denable-dmap=yes \
+%endif
     -Denable-filesystem=yes \
     -Denable-flickr=yes \
     -Denable-freebox=yes \
@@ -97,7 +100,7 @@ This package contains plugins to get information from theses sources:
     -Denable-tmdb=yes \
     -Denable-vimeo=yes \
     -Denable-youtube=yes \
-    -Denable-tracker=yes
+    -Denable-tracker3=yes
 
 %meson_build
 
@@ -115,6 +118,19 @@ This package contains plugins to get information from theses sources:
 %{_libdir}/grilo-%{release_version}/*.so*
 
 %changelog
+* Wed Sep 09 2020 Kalev Lember <klember@redhat.com> - 0.3.12-2
+- Switch to tracker3
+
+* Thu Sep  3 2020 Victor Toso <victortoso@redhat.com> - 0.3.12-1
+- Update to 0.3.12
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.11-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Bastien Nocera <bnocera@redhat.com> - 0.3.11-3
++ grilo-plugins-0.3.11-3
+- Disable DMAP plugins on RHEL
+
 * Mon Mar 16 2020 Yaroslav Fedevych <yaroslav@fedevych.name> - 0.3.11-2
 - Added pkgconfig(oauth) as an explicit build dependency
 

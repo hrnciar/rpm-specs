@@ -5,7 +5,7 @@
 
 Name:       perl-DateTimeX-Easy
 Version:    0.089
-Release:    25%{?dist}
+Release:    26%{?dist}
 # See lib/DateTimeX/Easy.pm.
 License:    GPL+ or Artistic
 Summary:    Parse a date/time string using the best method available
@@ -80,6 +80,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.089-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.089-25
 - Perl 5.32 rebuild
 

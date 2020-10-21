@@ -1,7 +1,11 @@
 Name:		mmseq
 Version:	1.0.11
-Release:	3%{?dist}
+Release:	5%{?dist}
 Summary:	Haplotype and isoform specific expression estimation for RNA-seq
+
+%if 0%{?fedora} >= 33
+%bcond_without flexiblas
+%endif
 
 License:	GPLv2+
 URL:		https://github.com/eturro/%{name}
@@ -16,6 +20,9 @@ BuildRequires:	htslib-devel
 BuildRequires:	gsl-devel
 BuildRequires:	zlib-devel
 BuildRequires:	armadillo-devel
+%if %{with flexiblas}
+BuildRequires:	flexiblas-devel
+%endif
 
 Requires:	ruby
 Requires:	samtools
@@ -35,6 +42,10 @@ estimation using multi-mapping RNA-seq reads.  Example scripts are included.
 # Remove bundled binaries
 # Only 2 bin/*-linux files are included in Source0 archive.
 rm -f bin/*-linux
+
+%if %{with flexiblas}
+sed -e 's/-lblas/-lflexiblas/g' -e 's/-llapack/-lflexiblas/g' -i src/Makefile
+%endif
 
 %build
 cd src
@@ -82,6 +93,12 @@ install -p -m 0755 bin/ensembl_gtf_to_gff.pl %{buildroot}%{_bindir}
 
 
 %changelog
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.0.11-5
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.11-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 1.0.11-3
 - Rebuilt for Boost 1.73
 

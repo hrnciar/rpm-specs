@@ -1,14 +1,15 @@
-%global packname  globals
+%global packname globals
+%global packver  0.13.1
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          0.12.5
-Release:          3%{?dist}
+Version:          0.13.1
+Release:          1%{?dist}
 Summary:          Identify Global Objects in R Expressions
 
 License:          LGPLv2+
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
@@ -24,10 +25,10 @@ BuildRequires:    R-codetools
 
 %description
 Identifies global ("unknown" or "free") objects in R expressions by code
-inspection using various strategies, e.g. conservative or liberal. The
+inspection using various strategies (ordered, liberal, or conservative). The
 objective of this package is to make it as simple as possible to identify
-global objects for the purpose of exporting them in distributed compute
-environments.
+global objects for the purpose of exporting them in parallel, distributed
+compute environments.
 
 
 %prep
@@ -62,6 +63,15 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Oct 12 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.13.1-1
+- Update to latest version (#1887227)
+
+* Fri Sep 18 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.13.0-1
+- Update to latest version (#1879817)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 0.12.5-3
 - rebuild for R 4
 

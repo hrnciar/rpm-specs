@@ -8,7 +8,7 @@
 
 Name:           rust-%{crate}
 Version:        0.9.0
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        Modern replacement for ls
 
 # Upstream license specification: MIT
@@ -90,6 +90,12 @@ install -Dpm0644 -T contrib/completions.zsh \
 %endif
 
 %changelog
+* Sun Aug 16 15:01:23 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.9.0-13
+- Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.9.0-11
 - Update users to 0.10
 

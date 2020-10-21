@@ -2,8 +2,8 @@
 %global gem_name minitest-stub-const
 
 Name: rubygem-%{gem_name}
-Version: 0.5
-Release: 9%{?dist}
+Version: 0.6
+Release: 2%{?dist}
 Summary: Stub constants for the duration of a block in MiniTest
 License: MIT
 URL: https://github.com/adammck/minitest-stub-const
@@ -16,7 +16,6 @@ BuildArch: noarch
 
 %description
 Stub constants for the duration of a block in MiniTest.
-Like RSpec's stub_const, but boring and non-magical.
 
 
 %package doc
@@ -28,18 +27,10 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-gem unpack %{SOURCE0}
-
-%setup -q -D -T -n  %{gem_name}-%{version}
-
-gem spec %{SOURCE0} -l --ruby > %{gem_name}.gemspec
+%setup -q -n %{gem_name}-%{version}
 
 %build
-# Create the gem as gem install only works on a gem file
-gem build %{gem_name}.gemspec
-
-# %%gem_install compiles any C extensions and installs the gem into ./%%gem_dir
-# by default, so that we can move it into the buildroot in %%install
+gem build ../%{gem_name}-%{version}.gemspec
 %gem_install
 
 %install
@@ -49,7 +40,7 @@ cp -a .%{gem_dir}/* \
 
 %check
 pushd .%{gem_instdir}
-ruby test/test_stub_const.rb
+ruby -e 'Dir.glob "./test/**/test_*.rb", &method(:require)'
 popd
 
 %files
@@ -65,6 +56,13 @@ popd
 %{gem_instdir}/test
 
 %changelog
+* Fri Jul 31 10:45:24 GMT 2020 Pavel Valena <pvalena@redhat.com> - 0.6-2
+- Update to minitest-stub-const 0.6.
+  Resolves: rhbz#1400187
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

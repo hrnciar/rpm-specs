@@ -1,6 +1,6 @@
 Name:           perl-Math-Vec
 Version:        1.01
-Release:        33%{?dist}
+Release:        34%{?dist}
 Summary:        Object-Oriented Vector Math Methods in Perl
 
 License:        GPL+ or Artistic
@@ -49,6 +49,9 @@ chmod -R u+w $RPM_BUILD_ROOT/*
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.01-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.01-33
 - Perl 5.32 rebuild
 

@@ -1,7 +1,7 @@
 Name:           libusb
 Epoch:          1
 Version:        0.1.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Compatibility shim around libusb-1.0 offering the old 0.1 API
 License:        LGPLv2+
 URL:            https://github.com/libusb/libusb-compat-0.1
@@ -81,6 +81,9 @@ LD_LIBRARY_PATH=libusb/.libs $RPM_BUILD_ROOT%{_bindir}/libusb-compat-0.1-testlib
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.1.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 14 2020 Hans de Goede <hdegoede@redhat.com> - 1:0.1.7-1
 - New upstream release 0.1.7 (rhbz#1805154)
 - Add tests-examples sub-package and %%check

@@ -1,8 +1,8 @@
-%global prerelease 20200114
+%global prerelease 20200714
 
 Name:           lv2-x42-plugins
-Version:        0.14.0
-Release:        0.2.%{prerelease}%{?dist}
+Version:        0.15.0
+Release:        0.1.%{prerelease}%{?dist}
 Summary:        A number of LV2 plugins
 
 # files in balance.lv2/pugl are ISC, the rest are GPLv2+
@@ -45,25 +45,15 @@ convolver, fader, parametric equalizer, auto-tune.
 cp -p %{SOURCE1} .
 
 %build
-flags=" -ffast-math -fno-finite-math-only"
-
-%ifarch %{ix86}
-flags+=" -msse -mfpmath=sse"
-%endif
-
-%ifarch x86_64
-flags+=" -msse2 -mfpmath=sse"
-%endif
-
 %set_build_flags
 export FONTFILE="/usr/share/fonts/gnu-free/FreeSansBold.ttf"
 export STRIP=/bin/true
 export PKG_CONFIG=pkgconf
-export OPTIMIZATIONS="%{optflags} ${flags}"
+export OPTIMIZATIONS="%{optflags}"
 %make_build LIBDIR=%{_libdir} LV2DIR=%{_libdir}/lv2 PREFIX=%{_prefix}
 
 %install
-%{make_install} LIBDIR=%{_libdir} LV2DIR=%{_libdir}/lv2 PREFIX=%{_prefix}
+%make_install LIBDIR=%{_libdir} LV2DIR=%{_libdir}/lv2 PREFIX=%{_prefix}
 
 %files
 # all plugins share the same license
@@ -74,6 +64,13 @@ export OPTIMIZATIONS="%{optflags} ${flags}"
 %{_mandir}/man1/x42*
 
 %changelog
+* Wed Aug 12 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.15.0-0.1.20200114
+- Update to 20200714
+- Some spec cleanup
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-0.3.20200114
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-0.2.20200114
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

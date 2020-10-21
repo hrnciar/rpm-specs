@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        8.1.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Simple, fast and user-friendly alternative to find
 
 # Upstream license specification: MIT/Apache-2.0
@@ -80,6 +80,12 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
 %endif
 
 %changelog
+* Sun Aug 16 15:01:25 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 8.1.1-3
+- Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 17:00:41 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 8.1.1-1
 - Update to 8.1.1
 

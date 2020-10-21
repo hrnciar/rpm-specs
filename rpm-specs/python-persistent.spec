@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        4.6.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Translucent persistent python objects
 
 License:        ZPLv2.1
@@ -31,8 +31,6 @@ database such as python-ZODB3.
 %package -n python3-%{srcname}
 Summary:        Translucent persistent python objects
 
-%{?python_provide:%python_provide python3-%{srcname}}
-
 %description -n python3-%{srcname}
 %{common_desc}
 
@@ -40,8 +38,6 @@ Summary:        Translucent persistent python objects
 Summary:        Development files for python3-%{srcname}
 Requires:       python3-%{srcname} = %{version}-%{release}
 BuildArch:      noarch
-
-%{?python_provide:%python_provide python3-%{srcname}-devel}
 
 %description -n python3-%{srcname}-devel
 Header files for building applications that use python3-%{srcname}.
@@ -53,7 +49,6 @@ BuildArch:      noarch
 
 Provides:       bundled(jquery)
 Provides:       bundled(js-underscore)
-%{?python_provide:%python_provide python3-%{srcname}-doc}
 
 %description -n python3-%{srcname}-doc
 Documentation for python3-%{srcname}.
@@ -96,6 +91,9 @@ chmod 0755 %{buildroot}%{python3_sitearch}/%{srcname}/*.so
 %doc docs/_build/html/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.6.4-2
 - Rebuilt for Python 3.9
 

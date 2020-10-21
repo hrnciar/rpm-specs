@@ -1,6 +1,6 @@
 Name:           perl-Lucy
 Version:        0.6.2
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Search engine library
 # other files:                              ASL 2.0
 # modules/unicode/ucd/WordBreak.tab:        MIT (Unicode variant)
@@ -129,6 +129,9 @@ rm -f $RPM_BUILD_ROOT/%{perl_vendorarch}/auto/Lucy/Lucy.bs
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.6.2-8
 - Perl 5.32 rebuild
 

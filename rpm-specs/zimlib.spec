@@ -1,8 +1,8 @@
 %global appname libzim
 
 Name: zimlib
-Version: 6.1.1
-Release: 2%{?dist}
+Version: 6.2.2
+Release: 1%{?dist}
 
 License: GPLv2 and ASL 2.0 and BSD
 Summary: Reference implementation of the ZIM specification
@@ -11,6 +11,7 @@ URL: https://github.com/openzim/%{appname}
 Source0: %{url}/archive/%{version}.tar.gz
 
 BuildRequires: xapian-core-devel
+BuildRequires: libzstd-devel
 BuildRequires: libicu-devel
 BuildRequires: gtest-devel
 BuildRequires: ninja-build
@@ -53,6 +54,18 @@ Requires: %{name}%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 %{_libdir}/pkgconfig/%{appname}.pc
 
 %changelog
+* Thu Oct 15 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 6.2.2-1
+- Updated to version 6.2.2.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.1.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 6.1.8-1
+- Updated to version 6.1.8.
+
+* Wed Jul 01 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 6.1.7-1
+- Updated to version 6.1.7.
+
 * Fri May 15 2020 Pete Walter <pwalter@fedoraproject.org> - 6.1.1-2
 - Rebuild for ICU 67
 

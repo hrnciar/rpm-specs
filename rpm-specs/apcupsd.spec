@@ -4,7 +4,7 @@
 
 Name:       apcupsd
 Version:    3.14.14
-Release:    18%{?dist}
+Release:    20%{?dist}
 Summary:    APC UPS Power Control Daemon
 
 License:    GPLv2
@@ -164,6 +164,13 @@ rm examples/*.in
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14.14-20
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14.14-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 08 2020 Germano Massullo <germano.massullo@gmail.com> - 3.14.14-18
 - Replaced BuildRequires: gnome-vfs2 with BuildRequires: GConf2-devel More infos at https://bugzilla.redhat.com/show_bug.cgi?id=1745727#c5
 

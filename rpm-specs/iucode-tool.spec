@@ -1,25 +1,24 @@
-%define release_commit 212149f40b34514d87a355ad099be4ea4acd96a9
-
 Name:           iucode-tool
-Version:        2.2
-Release:        6%{?dist}
+Version:        2.3.1
+Release:        2%{?dist}
 Summary:        iucode_tool is a program to manipulate microcode update collections for Intel i686 and X86-64 system processors, and prepare them for use by the Linux kernel
 
 License:        GPlv2+
 URL:            https://gitlab.com/iucode-tool/iucode-tool
-Source0:	https://gitlab.com/iucode-tool/releases/raw/%{release_commit}/iucode-tool_%{version}.tar.xz
+Source0:	https://gitlab.com/iucode-tool/iucode-tool/-/archive/v%{version}/iucode-tool-v%{version}.tar.gz
 
 # This tool is only useful for x86_64 and i686
 ExclusiveArch:	%{ix86} x86_64
 
-BuildRequires:  gcc
+BuildRequires:  gcc autoconf automake
 %description
 iucode_tool is a program to manipulate microcode update collections for Intel i686 and X86-64 system processors, and prepare them for use by the Linux kernel.
 
 %prep
-%autosetup
+%autosetup -n iucode-tool-v%{version}
 
 %build
+./autogen.sh
 %configure
 %make_build
 
@@ -34,6 +33,9 @@ iucode_tool is a program to manipulate microcode update collections for Intel i6
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

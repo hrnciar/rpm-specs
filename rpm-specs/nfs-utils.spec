@@ -1,8 +1,8 @@
 Summary: NFS utilities and supporting clients and daemons for the kernel NFS server
 Name: nfs-utils
 URL: http://linux-nfs.org/
-Version: 2.4.3
-Release: 1.rc2%{?dist}
+Version: 2.5.1
+Release: 5.rc4%{?dist}
 Epoch: 1
 
 # group all 32bit related archs
@@ -16,7 +16,9 @@ Source4: nfsconvert.py
 Source5: nfsconvert.sh
 Source6: nfs-convert.service
 
-Patch001: nfs-utils.2.4.4-rc2.patch
+Patch001: nfs-utils-2.5.2-rc4.patch
+Patch002: nfs-utils-2.5.1-rpcidmap-dontfreeconfig.patch
+Patch003: nfs-utils-2.5.1-nfsiostat-KeyError.patch
 
 Patch100: nfs-utils-1.2.1-statdpath-man.patch
 Patch101: nfs-utils-1.2.1-exp-subtree-warn-off.patch
@@ -197,8 +199,6 @@ done
 cat /etc/group | cut -d':' -f 1 | grep --quiet rpcuser 2>/dev/null
 if [ "$?" -eq 1 ]; then
     /usr/sbin/groupadd -g %{rpcuser_uid} rpcuser >/dev/null 2>&1 || :
-else
-    /usr/sbin/groupmod -g %{rpcuser_uid} rpcuser >/dev/null 2>&1 || :
 fi
 
 # Create rpcuser uid as long as it does not already exist.
@@ -300,7 +300,8 @@ fi
 %{_sbindir}/nfsref
 %{_sbindir}/nfsconvert
 %{_sbindir}/nfsdcld
-%{_sbindir}/clddb-tool
+%{_sbindir}/nfsdclddb
+%{_sbindir}/nfsdclnts
 %{_mandir}/*/*
 %{_pkgdir}/*/*
 
@@ -366,6 +367,32 @@ fi
 %{_pkgdir}/*/var-lib-nfs-rpc_pipefs.mount
 
 %changelog
+* Tue Sep 15 2020 Steve Dickson <steved@redhat.com> 2.5.2-5.rc4
+- Rebuild for the soname change on libevent
+
+* Tue Sep 08 2020 Steve Dickson <steved@redhat.com> 2.5.2-4.rc4
+- rpc.idmapd: Do not free config variables (bz 1873965)
+- nfsiostat: Drop autofs entries before calling compare_iostats()
+
+* Mon Aug 31 2020 Steve Dickson <steved@redhat.com> 2.5.2-3.rc4
+- Fixed rpc.gssd: munmap_chunk(): invalid pointer
+
+* Mon Aug 31 2020 Steve Dickson <steved@redhat.com> 2.5.2-2.rc4
+- Updated to the latest RC release: nfs-utils-2-5-2-rc4 
+
+* Fri Aug 07 2020 Steve Dickson <steved@redhat.com> 2.5.2-2.rc3
+- rpc.idmapd: Turn down the verbosity in flush_inotify() (bz 1867172)
+- Don't modify /etc/group on upgrades (bz 1856890)
+
+* Tue Aug 04 2020 Steve Dickson <steved@redhat.com> 2.5.1-1.rc3
+- Updated to the latest RC release: nfs-utils-2-5-2-rc3 (bz 1856958)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.5.1-1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Steve Dickson <steved@redhat.com> 2.5.1-0
+- Updated to latest upstream release: nfs-utils-2-5-1
+
 * Tue Apr 07 2020 Steve Dickson <steved@redhat.com> 2.4.3-1.rc2
 - Updated to the latest RC release: nfs-utils-2-4-4-rc2 (bz 1807999)
 

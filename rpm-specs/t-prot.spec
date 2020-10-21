@@ -1,6 +1,6 @@
 Name:           t-prot
 Version:        3.4
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        A filter which improves the readability of email messages and Usenet posts
 
 License:        BSD
@@ -37,6 +37,9 @@ install -p -m 644 t-prot.1 $RPM_BUILD_ROOT%{_mandir}/man1/
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

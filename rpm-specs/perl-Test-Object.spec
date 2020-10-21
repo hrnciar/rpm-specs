@@ -1,6 +1,6 @@
 Name:           perl-Test-Object
 Version:        0.08
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Thoroughly testing objects via registered handlers
 
 License:        GPL+ or Artistic
@@ -55,6 +55,9 @@ make test
 %{_mandir}/man3/*.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.08-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.08-9
 - Perl 5.32 rebuild
 

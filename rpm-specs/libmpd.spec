@@ -1,7 +1,7 @@
 Summary: Music Player Daemon Library
 Name: libmpd
 Version: 11.8.17
-Release: 15%{?dist}
+Release: 16%{?dist}
 License: GPLv2+
 Url: http://gmpc.wikia.com/wiki/Gnome_Music_Player_Client
 Source: http://download.sarine.nl/Programs/gmpc/11.8/libmpd-11.8.17.tar.gz
@@ -46,6 +46,9 @@ for developing program with libmpd.
 %{_includedir}/libmpd-1.0
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.8.17-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.8.17-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

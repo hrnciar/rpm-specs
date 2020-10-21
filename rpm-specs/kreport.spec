@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+
 # uncomment to enable bootstrap mode
 #global bootstrap 1
 
@@ -9,7 +11,7 @@
 Name:    kreport
 Summary: Framework for creation and generation of reports
 Version: 3.2.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 
 License: LGPLv2+
 
@@ -72,18 +74,14 @@ Requires: cmake(KF5GuiAddons)
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%{cmake_kf5} \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{?!tests:OFF} \
   -DPYTHON_EXECUTABLE:PATH="%{__python3}"
-popd
-
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang_kf5 kreport_barcodeplugin_qt
 %find_lang_kf5 kreport_mapsplugin_qt
@@ -124,6 +122,9 @@ make test ARGS="--output-on-failure --timeout 20" -C %{_target_platform} ||:
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Rex Dieter <rdieter@fedoraproject.org> - 3.2.0-2
 - BR: python3
 

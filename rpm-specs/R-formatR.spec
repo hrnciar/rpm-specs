@@ -6,7 +6,7 @@
 
 Name:             R-%{packname}
 Version:          1.7
-Release:          5%{?dist}
+Release:          6%{?dist}
 Summary:          Format R Code Automatically
 
 License:          GPLv2+
@@ -76,6 +76,9 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 1.7-5
 - rebuild for R 4
 

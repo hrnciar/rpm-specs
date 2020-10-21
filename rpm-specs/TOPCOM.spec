@@ -1,6 +1,6 @@
 Name:           TOPCOM
 Version:        0.17.8
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Triangulations Of Point Configurations and Oriented Matroids
 
 License:        GPLv2+
@@ -122,6 +122,9 @@ done
 %doc examples
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.8-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.8-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

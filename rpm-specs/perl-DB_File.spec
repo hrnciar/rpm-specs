@@ -6,8 +6,8 @@
 %endif
 
 Name:           perl-DB_File
-Version:        1.853
-Release:        456%{?dist}
+Version:        1.855
+Release:        1%{?dist}
 Summary:        Perl5 access to Berkeley DB version 1.x
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/DB_File
@@ -84,6 +84,18 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Wed Oct 14 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.855-1
+- 1.855 bump
+
+* Wed Sep 16 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.854-1
+- 1.854 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.853-458
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.853-457
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.853-456
 - Increase release to favour standalone package
 

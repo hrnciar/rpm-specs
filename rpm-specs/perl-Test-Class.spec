@@ -1,6 +1,6 @@
 Name:           perl-Test-Class
 Version:        0.50
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Easily create test classes in an xUnit/JUnit style
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test-Class
@@ -82,6 +82,9 @@ make test
 %{_mandir}/man3/Test::Class::MethodInfo.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.50-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.50-17
 - Perl 5.32 rebuild
 

@@ -1,7 +1,7 @@
 Summary: Text file format converters
 Name: dos2unix
-Version: 7.4.1
-Release: 2%{?dist}
+Version: 7.4.2
+Release: 1%{?dist}
 License: BSD
 URL: http://waterlan.home.xs4all.nl/dos2unix.html
 Source: http://waterlan.home.xs4all.nl/dos2unix/%{name}-%{version}.tar.gz
@@ -43,6 +43,12 @@ make test
 %{_mandir}/man1/*.1*
 
 %changelog
+* Mon Oct 12 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 7.4.2-1
+- Update to 7.4.2 (#1887599)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.4.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.4.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

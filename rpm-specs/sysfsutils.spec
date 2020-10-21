@@ -1,16 +1,29 @@
+%global so_major_version 2
+%global so_minor_version 0
+%global so_patch_version 1
+
 Name:           sysfsutils
 Version:        2.1.0
-Release:        29%{?dist}
+Release:        32%{?dist}
 Summary:        Utilities for interfacing with sysfs
-URL:            http://sourceforge.net/projects/linux-diag/
+URL:            https://github.com/linux-ras/sysfsutils
 License:        GPLv2
 
-Source0:        http://prdownloads.sourceforge.net/linux-diag/%{name}-%{version}.tar.gz
-Patch0:         sysfsutils-2.0.0-redhatify.patch
-Patch1:         sysfsutils-2.0.0-class-dup.patch
-Patch2:         sysfsutils-2.1.0-get_link.patch
-Patch3:         sysfsutils-2.1.0-manpages.patch
-Patch4:         sysfsutils-aarch64.patch
+Source0:        https://github.com/linux-ras/sysfsutils/archive/sysfsutils-%(echo %{version} | tr '.' '_').tar.gz
+# backport upstream fixes up to commit b688c65
+# these also obsolete sysfsutils-2.0.0-class-dup.patch & sysfsutils-aarch64.patch
+Patch1:         0001-update-README.patch
+Patch2:         0002-fix-compiler-complaints.patch
+Patch3:         0003-use-stat-not-lstat.patch
+Patch4:         0004-support-ppc64le.patch
+Patch5:         0005-fix-sysfs-name-comparisons.patch
+Patch6:         0006-limit-cdev-name-length-comparsion.patch
+# upstreamed version of sysfsutils-2.1.0-get_link.patch, PR#10
+Patch7:         0007-fix-sysfs_get_link.patch
+# upstreamed version of formatting/typo/license-related fedora patches, PR#9
+Patch8:         0008-clarify-license-fix-typos.patch
+# upstream issue #12 / PR#13
+Patch9:         0009-fix-GCC-11-build-failure.patch
 
 BuildRequires:  gcc
 
@@ -35,16 +48,23 @@ libsysfs-devel provides the header files and static libraries required
 to build programs using the libsysfs API.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name}-%{name}-%(echo %{version} | tr '.' '_')
 
 %build
-%configure --disable-static --libdir=/%{_lib}
+%configure --disable-static
 %{make_build}
 
 %install
 %{make_install}
 
-rm -f %{buildroot}/%{_bindir}/dlist_test %{buildroot}/%{_bindir}/get_bus_devices_list %{buildroot}/%{_bindir}/get_class_dev %{buildroot}/%{_bindir}/get_classdev_parent %{buildroot}/%{_bindir}/get_device %{buildroot}/%{_bindir}/get_driver %{buildroot}/%{_bindir}/testlibsysfs %{buildroot}/%{_bindir}/write_attr
+rm -f %{buildroot}%{_bindir}/dlist_test \
+      %{buildroot}%{_bindir}/get_bus_devices_list \
+      %{buildroot}%{_bindir}/get_class_dev \
+      %{buildroot}%{_bindir}/get_classdev_parent \
+      %{buildroot}%{_bindir}/get_device \
+      %{buildroot}%{_bindir}/get_driver \
+      %{buildroot}%{_bindir}/testlibsysfs \
+      %{buildroot}%{_bindir}/write_attr
 find %{buildroot} -type f -name "*.la" -delete
 
 %ldconfig_scriptlets -n libsysfs
@@ -58,17 +78,29 @@ find %{buildroot} -type f -name "*.la" -delete
 
 %files -n libsysfs
 %license COPYING lib/LGPL
-/%{_lib}/libsysfs.so.2
-/%{_lib}/libsysfs.so.2.0.1
+/%{_libdir}/libsysfs.so.%{so_major_version}
+/%{_libdir}/libsysfs.so.%{so_major_version}.%{so_minor_version}.%{so_patch_version}
 
 %files -n libsysfs-devel
 %dir %{_includedir}/sysfs
 %{_includedir}/sysfs/libsysfs.h
 %{_includedir}/sysfs/dlist.h
-/%{_lib}/libsysfs.so
+/%{_libdir}/libsysfs.so
 
 
 %changelog
+* Mon Sep 21 2020 Christopher Engelhard <ce@lcts.de> - 2.1.0-32
+- fix GCC-11 build failure due to buffer overread, h/t Jeff Law
+
+* Mon Aug 17 2020 Christopher Engelhard <ce@lcts.de> - 2.1.0-31
+- use tarball hosted at new upstream site
+- Fedora's patches have been merged upstream, so use those instead
+- apply various unreleased upstream fixes that deal with compiler warnings
+
+* Wed Jul 29 2020 Christopher Engelhard <ce@lcts.de> - 2.1.0-30
+- specify .so and release versions via global vars
+- update URL to reflect new upstream
+
 * Tue Jun 23 2020 Christopher Engelhard <ce@lcts.de> - 2.1.0-29
 - list .so files explicitly in %%files instead of via glob, cleanup spec
 
@@ -133,7 +165,7 @@ find %{buildroot} -type f -name "*.la" -delete
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
 * Thu Jun 17 2010 Anton Arapov <anton@redhat.com> - 2.1.0-8
-- Move libraries from /usr/lib to /lib since we need them 
+- Move libraries from /usr/lib to /lib since we need them
   during the system boot. (#605546)
 
 * Mon Jan 18 2010 Anton Arapov <anton@redhat.com> - 2.1.0-7

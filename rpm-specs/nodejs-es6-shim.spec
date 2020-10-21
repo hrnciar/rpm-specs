@@ -6,7 +6,7 @@
 
 Name:		nodejs-es6-shim
 Version:	0.35.1
-Release:	8%{?dist}
+Release:	10%{?dist}
 Summary:	ECMAScript 6 (Harmony) compatibility shims for legacy JavaScript engines
 
 License:	MIT
@@ -64,6 +64,13 @@ NODE_ENV=test %{_bindir}/mocha -R spec test-sham/*.js
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.35.1-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.35.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.35.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           gauche
 Version:        0.9.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Scheme script interpreter with multibyte character handling
 
 %if 0%{?rhel}
@@ -113,6 +113,9 @@ cd src; LD_LIBRARY_PATH=$RPM_BUILD_ROOT%{_libdir} make test
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.9.9-1
 - Update to 0.9.9
 

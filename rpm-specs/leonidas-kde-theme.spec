@@ -1,6 +1,6 @@
 Name:		leonidas-kde-theme
 Version:	11.0.3
-Release:	16%{?dist}
+Release:	17%{?dist}
 Summary:	Leonidas KDE Theme
 
 License:	GPLv2+ and CC-BY-SA and CC-BY
@@ -196,6 +196,9 @@ ln -s ../../../../backgrounds/leonidas/landscape/normal/1400x1050/leonidas-1-noo
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.0.3-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.0.3-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

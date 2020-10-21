@@ -2,7 +2,7 @@
 
 Name:		pmdk-convert
 Version:	1.7
-Release:	2%{?dist}
+Release:	5%{?dist}
 Summary:	Conversion tool for PMDK pools
 # Note: utils/cstyle is CDDL licensed. It's only used during development and it's NOT part of the binary RPM.
 License:	BSD
@@ -69,21 +69,31 @@ mkdir build
 cd build
 # TESTS_USE_FORCED_PMEM=ON to speed up tests on non-pmem file systems
 %cmake .. -DTESTS_USE_FORCED_PMEM=ON
-%make_build
+%cmake_build
 
 %install
 cd build
-%make_install
+%cmake_install
 
 %check
 cd build
-ctest -V
+%ctest
 
 %if 0%{?__debug_package} == 0
 %debug_package
 %endif
 
 %changelog
+* Sat Oct 03 2020 Adam Borowski <kilobyte@angband.pl> - 1.7-5
+- Convert to new cmake macros, fixing FTBFS.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

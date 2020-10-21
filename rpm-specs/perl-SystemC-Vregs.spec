@@ -12,7 +12,7 @@
 
 Name:           perl-SystemC-Vregs
 Version:        1.470
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        Utility routines used by vregs
 
 License:        LGPLv3+ or Artistic 2.0
@@ -120,6 +120,9 @@ emacs -batch -f batch-byte-compile vregs-mode.el
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.470-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.470-22
 - Perl 5.32 rebuild
 

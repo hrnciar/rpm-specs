@@ -1,7 +1,7 @@
 Name:           binclock
 Summary:        Fullscreen console binary clock
 Version:        0.4.0
-Release:        10%{?dist}
+Release:        11%{?dist}
 License:        GPLv2
 URL:            https://github.com/frenzymadness/%{name}
 Source0:        %{url}/archive/v%{version}.tar.gz
@@ -30,6 +30,9 @@ install -Dp -m0755 binclock.py %{buildroot}%{_bindir}/%{name}
 %{_bindir}/binclock
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

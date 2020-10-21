@@ -1,7 +1,7 @@
 Epoch:          1
 Name:           kawa
 Version:        3.1.1
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Scheme programming language
 License:        MIT
 URL:            https://www.gnu.org/software/kawa/
@@ -81,6 +81,16 @@ make check
 %doc %{_javadocdir}/%{name}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.1.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.1.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1:3.1.1-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Mosaab Alzoubi <moceap[at]hotmail[dot]com> - 1:3.1.1-2
 - Fix notes in #1795884
 

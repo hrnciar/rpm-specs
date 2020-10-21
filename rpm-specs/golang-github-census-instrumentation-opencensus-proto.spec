@@ -3,7 +3,7 @@
 
 # https://github.com/census-instrumentation/opencensus-proto
 %global goipath         github.com/census-instrumentation/opencensus-proto
-Version:                0.2.0
+Version:                0.3.0
 
 %gometa
 
@@ -19,7 +19,7 @@ consistency and interoperability for the different implementations.}
 %global godocs          AUTHORS CONTRIBUTING.md README.md RELEASING.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Language Independent Interface Types For OpenCensus
 
 # Upstream license specification: Apache-2.0
@@ -27,16 +27,18 @@ License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
+BuildRequires:  golang(github.com/golang/protobuf/descriptor)
 BuildRequires:  golang(github.com/golang/protobuf/proto)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/timestamp)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/wrappers)
 BuildRequires:  golang(github.com/grpc-ecosystem/grpc-gateway/runtime)
 BuildRequires:  golang(github.com/grpc-ecosystem/grpc-gateway/utilities)
-BuildRequires:  golang(golang.org/x/net/context)
 BuildRequires:  golang(google.golang.org/grpc)
 BuildRequires:  golang(google.golang.org/grpc/codes)
 BuildRequires:  golang(google.golang.org/grpc/grpclog)
 BuildRequires:  golang(google.golang.org/grpc/status)
+BuildRequires:  golang(google.golang.org/protobuf/reflect/protoreflect)
+BuildRequires:  golang(google.golang.org/protobuf/runtime/protoimpl)
 
 %description
 %{common_description}
@@ -57,6 +59,12 @@ BuildRequires:  golang(google.golang.org/grpc/status)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 20:45:47 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.3.0-1
+- Update to  0.3.0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

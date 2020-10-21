@@ -5,7 +5,7 @@
 
 Name:           OpenColorIO
 Version:        1.1.1
-Release:        8%{?dist}
+Release:        12%{?dist}
 Summary:        Enables color transforms and image display across graphics apps
 
 License:        BSD
@@ -51,11 +51,13 @@ BuildRequires:  lcms2-devel
 BuildRequires:  yaml-cpp-devel >= 0.5.0
 
 %if 0%{?docs}
+BuildRequires:  python3-sphinx-latex
 # Needed for pdf documentation generation
 BuildRequires:  texlive-latex-bin-bin texlive-gsftopk-bin texlive-dvips
 # Explicit "\usepackage" dependencies from OpenColorIO.tex
 # Note that sphinx.sty is bundled in OpenColorIO.
 BuildRequires:  tex(inputenc.sty)
+# Map tables
 BuildRequires:  tex(cmap.sty)
 BuildRequires:  tex(fontenc.sty)
 BuildRequires:  tex(babel.sty)
@@ -63,30 +65,25 @@ BuildRequires:  tex(times.sty)
 BuildRequires:  tex(fncychap.sty)
 BuildRequires:  tex(longtable.sty)
 BuildRequires:  tex(multirow.sty)
+BuildRequires:  tex(tabulary.sty)
+BuildRequires:  tex(upquote.sty)
+BuildRequires:  tex(capt-of.sty)
+BuildRequires:  tex(needspace.sty)
+BuildRequires:  tex(cm-super-ts1.enc)
 # Fonts
 BuildRequires:  texlive-cm texlive-ec texlive-times texlive-helvetic
 BuildRequires:  texlive-courier
-# Map tables
-BuildRequires:  texlive-cmap
 # Font maps
 BuildRequires:  texlive-updmap-map
 # Babel
 BuildRequires:  texlive-babel-english
 # Styles
 BuildRequires:  texlive-fancyhdr texlive-fancybox texlive-mdwtools
-BuildRequires:  texlive-parskip texlive-multirow texlive-titlesec
+BuildRequires:  texlive-parskip texlive-titlesec
 BuildRequires:  texlive-framed texlive-threeparttable texlive-wrapfig
 # Other
 BuildRequires:  texlive-hyphen-base
 %endif
-
-
-# The following bundled projects are only used for document generation.
-#BuildRequires:  python-docutils
-#BuildRequires:  python-jinja2
-#BuildRequires:  python-pygments
-#BuildRequires:  python-setuptools
-#BuildRequires:  python-sphinx
 
 %if ! 0%{?docs}
 # upgrade path for when/if docs are not included
@@ -136,7 +133,6 @@ rm -f ext/yaml*
 
 
 %build
-rm -rf build && mkdir build && pushd build
 %cmake -DOCIO_BUILD_STATIC=OFF \
        -DOCIO_BUILD_DOCS=%{?docs:ON}%{?!docs:OFF} \
        -DOCIO_BUILD_PYGLUE=OFF \
@@ -149,17 +145,16 @@ rm -rf build && mkdir build && pushd build
 %ifnarch x86_64
        -DOCIO_USE_SSE=OFF \
 %endif
-       -DOpenGL_GL_PREFERENCE=GLVND \
-       ../
+       -DOpenGL_GL_PREFERENCE=GLVND
 
-%make_build
+%cmake_build
 
 
 %install
-pushd build
-%make_install
+%cmake_install
 
 # Generate man pages
+pushd %{_vpath_builddir}
 mkdir -p %{buildroot}%{_mandir}/man1
 help2man -N -s 1 %{?fedora:--version-string=%{version}} \
          -o %{buildroot}%{_mandir}/man1/ociocheck.1 \
@@ -214,6 +209,19 @@ find %{buildroot} -name "*.cmake" -exec mv {} %{buildroot}%{_datadir}/cmake/Modu
 
 
 %changelog
+* Fri Oct  9 2020 Orion Poplawski <orion@nwra.com> - 1.1.1-12
+- Add BR python3-sphinx-latex
+
+* Fri Sep 04 2020 Richard Shaw <hobbes1069@gmail.com> - 1.1.1-11
+- Rebuild for OpenImageIO 2.2.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 20 2020 Tom Callaway <spot@fedoraproject.org> - 1.1.1-8
 - update tex buildrequires
 

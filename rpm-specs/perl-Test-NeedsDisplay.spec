@@ -1,6 +1,6 @@
 Name:           perl-Test-NeedsDisplay
 Version:        1.07
-Release:        26%{?dist}
+Release:        27%{?dist}
 Summary:        Ensure that tests needing a display have one
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test-NeedsDisplay
@@ -34,8 +34,8 @@ BuildRequires:  perl(warnings)
 # Test::CPAN::Meta 0.12 not used
 # Test::MinimumVersion 0.008 not used
 # Test::Pod 1.26 not used
-# xorg-x11-apps for xeyes
-BuildRequires:  xorg-x11-apps
+# xeyes for xeyes (will pull in xorg-x11-apps on older distros)
+BuildRequires:  xeyes
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:       perl(File::Spec) >= 0.80
 Requires:       perl(Test::More) >= 0.47
@@ -74,6 +74,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 1.07-27
+- Requires xeyes, not xorg-x11-apps
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.07-26
 - Perl 5.32 rebuild
 

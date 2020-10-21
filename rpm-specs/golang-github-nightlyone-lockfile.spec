@@ -3,7 +3,7 @@
 
 # https://github.com/nightlyone/lockfile
 %global goipath         github.com/nightlyone/lockfile
-%global commit          0ad87eef1443f64d3d8c50da647e2b1552851124
+Version:                1.0.0
 
 %gometa
 
@@ -16,8 +16,7 @@ Handle locking via pid files.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Version:        0
-Release:        0.8%{?dist}
+Release:        1%{?dist}
 Summary:        Handle locking via pid files
 
 License:        MIT
@@ -38,15 +37,6 @@ cp %{S:1} %{S:2} .
 %install
 %gopkginstall
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck
@@ -55,6 +45,12 @@ end
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 12:25:47 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-1
+- Update to 1.0.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

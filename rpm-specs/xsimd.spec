@@ -1,11 +1,12 @@
 Name:           xsimd
-Version:        7.4.6
-Release:        1%{?dist}
+Version:        7.4.8
+Release:        2%{?dist}
 Summary:        C++ wrappers for SIMD intrinsics
 License:        BSD
 URL:            https://xsimd.readthedocs.io/
 %global github  https://github.com/QuantStack/xsimd
 Source0:        %{github}/archive/%{version}/%{name}-%{version}.tar.gz
+Patch0:         %{name}-gcc11.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -18,6 +19,9 @@ BuildRequires:  gtest-devel
 
 # there is no actual arched content - this is a header only library
 %global debug_package %{nil}
+
+# Get Fedora 33++ behavior on anything older
+%undefine __cmake_in_source_build
 
 %global _description \
 SIMD (Single Instruction, Multiple Data) is a feature of microprocessors that \
@@ -44,17 +48,16 @@ Provides:       %{name}-static = %{version}-%{release}
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTS=ON .
-
-%make_build
+%cmake -DBUILD_TESTS=ON
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %check
 # Explicitly not supported upstream for simd mode. Still valuable for scalar mode layer.
 %ifnarch ppc64le s390x
-%make_build xtest
+%cmake_build -- xtest
 %endif
 
 %files devel
@@ -65,6 +68,15 @@ Provides:       %{name}-static = %{version}-%{release}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Sat Oct 17 2020 sguelton@redhat.com - 7.4.8-2
+- Fix missing #include for gcc-11
+
+* Sat Oct 3 2020 sguelton@redhat.com - 7.4.8-1
+- Update to latest version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.4.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 16 2020 sguelton@redhat.com - 7.4.6-1
 - Update to latest version
 

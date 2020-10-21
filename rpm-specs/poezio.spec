@@ -1,6 +1,6 @@
 Name:		poezio
 Version:	0.12.1
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	IRC-like jabber (XMPP) console client
 
 License:	zlib
@@ -70,6 +70,9 @@ mv -f %{buildroot}%{_pkgdocdir}/source/ %{buildroot}%{_pkgdocdir}/rst/
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.12.1-4
 - Rebuilt for Python 3.9
 

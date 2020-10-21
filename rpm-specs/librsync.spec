@@ -1,7 +1,7 @@
 Summary:        Rsync remote-delta algorithm library
 Name:           librsync
 Version:        2.3.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 License:        LGPLv2+
 URL:            https://librsync.github.io/
 Source:         https://github.com/%{name}/%{name}/archive/v%{version}/librsync-%{version}.tar.gz
@@ -41,6 +41,7 @@ developing programs based on librsync.
 Summary:         Documentation files for %{name}
 BuildArch:       noarch
 BuildRequires:   doxygen
+BuildRequires:   graphviz
 
 %description doc
 librsync is a library for calculating and applying network deltas, with an
@@ -53,21 +54,31 @@ use librsync.
 
 %build
 %if 0%{?rhel} && 0%{?rhel} < 8
-%global __cmake %{_bindir}/cmake3
+%global cmake %cmake3
+%global cmake_build %cmake3_build
+%global cmake_install %cmake3_install
 %endif
 
 %cmake .
-%make_build
-%make_build doc
+%cmake_build
+%if 0%{?rhel} == 8
+%cmake_build doc  # RHBZ#1858941
+%else
+%cmake_build --target doc
+%endif
 
 %install
-%make_install
+%cmake_install
 
 %check
 %if 0%{?rhel} == 6
 export LD_LIBRARY_PATH="$(pwd):$LD_LIBRARY_PATH"
 %endif
-make check
+%if 0%{?rhel} == 8
+%cmake_build check  # RHBZ#1858941
+%else
+%cmake_build --target check
+%endif
 
 %ldconfig_scriptlets
 
@@ -84,9 +95,19 @@ make check
 %{_mandir}/man3/%{name}.3*
 
 %files doc
+%if 0%{?__cmake_in_source_build}%{?__cmake3_in_source_build}
 %doc html
+%else
+%doc %{_vpath_builddir}/html
+%endif
 
 %changelog
+* Tue Aug 04 2020 Robert Scheck <robert@fedoraproject.org> 2.3.1-3
+- Work around CMake out-of-source builds on all branches (#1864045)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 21 2020 Robert Scheck <robert@fedoraproject.org> 2.3.1-1
 - Upgrade to 2.3.1
 

@@ -3,7 +3,7 @@
 #global shortcommit %(c=%{gitcommit}; echo ${c:0:5})
 
 Name:		gst-editing-services
-Version:        1.17.1
+Version:        1.18.0
 Release:        1%{?gitcommit:.git%{shortcommit}}%{?dist}
 Summary:	Gstreamer editing services
 
@@ -87,6 +87,18 @@ cp data/completions/ges-launch-1.0 \
 
 
 %changelog
+* Tue Sep 8 2020 Wim Taymans <wtaymans@redhat.com> - 1.18.0-1
+- Update to 1.18.0
+
+* Fri Aug 21 2020 Wim Taymans <wtaymans@redhat.com> - 1.17.90-1
+- Update to 1.17.90
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 6 2020 Wim Taymans <wtaymans@redhat.com> - 1.17.2-1
+- Update to 1.17.2
+
 * Mon Jun 22 2020 Wim Taymans <wtaymans@redhat.com> - 1.17.1-1
 - Update to 1.17.1
 

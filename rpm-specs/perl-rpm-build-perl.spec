@@ -1,6 +1,6 @@
 Name:       perl-rpm-build-perl 
 Version:    0.82
-Release:    31%{?dist}
+Release:    32%{?dist}
 # README: GPLv2+
 # perl.prov: LGPLv2+
 # ConstOptree/ppport.h: GPL+ or Artistic
@@ -105,6 +105,9 @@ make test
 %{_mandir}/man1/*.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.82-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.82-31
 - Perl 5.32 rebuild
 

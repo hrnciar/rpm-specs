@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.10.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Powerful, extensible, generic, endian-aware Read/Write traits for byte buffers
 
 # Upstream license specification: MIT
@@ -108,6 +108,9 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 19 2020 Josh Stone <jistone@redhat.com> - 0.10.1-1
 - Update to 0.10.1
 

@@ -2,8 +2,8 @@
 
 Summary: Mail delivery agent with filtering abilities
 Name: maildrop
-Version: 3.0.0
-Release: 2%{?dist}
+Version: 3.0.1
+Release: 1%{?dist}
 # Exception is explicit permission to link to OpenSSL
 License: GPLv2 with exceptions
 URL: http://www.courier-mta.org/maildrop/
@@ -12,7 +12,7 @@ Source1: https://downloads.sourceforge.net/project/courier/%{name}/%{version}/%{
 Source2: pubkey.maildrop
 
 BuildRequires: automake, libtool, autoconf
-BuildRequires: gcc-c++, gdbm-devel, db4-devel, pcre-devel
+BuildRequires: gcc-c++, gdbm-devel, libdb-devel, pcre-devel
 BuildRequires: gawk
 BuildRequires: gnupg
 BuildRequires: courier-unicode-devel >= 2.1
@@ -62,11 +62,11 @@ gpg --verify %{SOURCE1} %{SOURCE0}
 # prevent 'install: will not overwrite just-created' error
 # notification sent to courier-maildrop@lists.sourceforge.net on 2009/09/04
 #sed -i 's|DELIVERQUOTAMAN = maildirquota.7 deliverquota.8|DELIVERQUOTAMAN =|' Makefile
-make
+%make_build
 
 %install
 rm -rf %{buildroot}
-make install DESTDIR=%{buildroot} htmldir=%{_defaultdocdir}/%{name}
+%make_install DESTDIR=%{buildroot} htmldir=%{_defaultdocdir}/%{name}
 cp -pr COPYING COPYING.GPL AUTHORS %{buildroot}%{_defaultdocdir}/%{name}
 cp -pr README README.postfix ChangeLog UPGRADE %{buildroot}%{_defaultdocdir}/%{name}
 
@@ -88,6 +88,18 @@ cp -pr README README.postfix ChangeLog UPGRADE %{buildroot}%{_defaultdocdir}/%{n
 %{_mandir}/man8/*.8*
 
 %changelog
+* Mon Aug 03 2020 Brian C. Lane <bcl@redhat.com> - 3.0.1-1
+- New upstreamv3.0.1
+- Use %%make_build and %%make_install macros
+- Switch Build Requirement from libdb4-devel to libdb-devel
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

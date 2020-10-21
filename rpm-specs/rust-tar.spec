@@ -5,7 +5,7 @@
 %global crate tar
 
 Name:           rust-%{crate}
-Version:        0.4.29
+Version:        0.4.30
 Release:        1%{?dist}
 Summary:        Rust implementation of a TAR file reader and writer
 
@@ -90,6 +90,16 @@ which use "xattr" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Tue Sep 01 2020 Josh Stone <jistone@redhat.com> - 0.4.30-1
+- Update to 0.4.30
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.29-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.29-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Josh Stone <jistone@redhat.com> - 0.4.29-1
 - Update to 0.4.29
 

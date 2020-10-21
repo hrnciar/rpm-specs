@@ -1,14 +1,10 @@
 Name:		qclib
-Version:	2.1.0
+Version:	2.2.1
 Release:	1%{?dist}
 Summary:	Library for extraction of system information for Linux on z Systems
 License:	BSD
 URL:		http://www.ibm.com/developerworks/linux/linux390/qclib.html
-Source0:	http://public.dhe.ibm.com/software/dw/linux390/ht_src/%{name}-%{version}.tgz
-# https://bugzilla.redhat.com/show_bug.cgi?id=1306280
-Patch0:		0001-introduce-DOCDIR.patch
-# https://bugzilla.redhat.com/show_bug.cgi?id=1552658
-Patch1:		0002-introduce-LDFLAGS.patch
+Source0:	http://public.dhe.ibm.com/software/dw/linux390/ht_src/%{name}-%{version}.tar.gz
 ExclusiveArch:	s390 s390x
 BuildRequires:	gcc
 BuildRequires:	glibc-static
@@ -68,7 +64,11 @@ make test-sh test
 %dir %{_docdir}/%{name}
 %license %{_docdir}/%{name}/LICENSE
 %doc %{_docdir}/%{name}/README
+%{_bindir}/zhypinfo
+%{_bindir}/zname
 %{_libdir}/libqc.so.*
+%{_mandir}/man8/zhypinfo.8*
+%{_mandir}/man8/zname.8*
 
 %files devel
 %doc %{_docdir}/%{name}/html/
@@ -80,6 +80,18 @@ make test-sh test
 
 
 %changelog
+* Fri Oct 16 2020 Dan Horák <dan[at]danny.cz> - 2.2.1-1
+- updated to 2.2.1
+
+* Thu Sep 24 2020 Dan Horák <dan[at]danny.cz> - 2.2.0-2
+- fix linking
+
+* Wed Sep 23 2020 Dan Horák <dan[at]danny.cz> - 2.2.0-1
+- updated to 2.2.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Dan Horák <dan[at]danny.cz> - 2.1.0-1
 - updated to 2.1.0
 

@@ -1,6 +1,6 @@
 Name:           ecdsautils
 Version:        0.3.2
-Release:        12%{?dist}
+Release:        15%{?dist}
 Summary:        Tiny collection of programs used for ECDSA (keygen, sign, verify)
 
 License:        BSD
@@ -26,12 +26,12 @@ simple manner.
 
 
 %build
-%cmake .
-make %{?_smp_mflags}
+%cmake
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %files
@@ -43,6 +43,16 @@ make %{?_smp_mflags}
 
 
 %changelog
+* Thu Aug 13 2020 Felix Kaechele <heffer@fedoraproject.org> - 0.3.2-15
+- update cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

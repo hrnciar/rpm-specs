@@ -1,6 +1,6 @@
 Name:		lightdm-settings
 Version:	1.4.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Configuration tool for the LightDM display manager
 
 License:	GPLv3+
@@ -74,6 +74,9 @@ f=".%{_bindir}/%{name}"
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 2020 Leigh Scott <leigh123linux@gmail.com> - 1.4.2-1
 - Update to 1.4.2 release
 

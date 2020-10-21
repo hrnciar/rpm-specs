@@ -1,7 +1,7 @@
 Name:		perl-Test-Requires
 Summary:	Checks to see if a given module can be loaded
 Version:	0.11
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Test-Requires
 Source0:	https://cpan.metacpan.org/modules/by-module/Test/Test-Requires-%{version}.tar.gz
@@ -50,6 +50,9 @@ make test
 %{_mandir}/man3/Test::Requires.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.11-2
 - Perl 5.32 rebuild
 

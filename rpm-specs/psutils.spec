@@ -1,7 +1,7 @@
 Summary: PostScript Utilities
 Name:    psutils
 Version: 1.23
-Release: 17%{?dist}
+Release: 18%{?dist}
 License: psutils
 
 # We can't follow https://fedoraproject.org/wiki/Packaging:SourceURL#Github
@@ -81,6 +81,9 @@ sed -i -e 's,/usr/bin/env perl,%{__perl},' \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.23-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.23-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

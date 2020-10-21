@@ -8,7 +8,7 @@
 
 Name:    extra-cmake-modules
 Summary: Additional modules for CMake build system
-Version: 5.71.0
+Version: 5.75.0
 Release: 1%{?dist}
 
 License: BSD
@@ -25,10 +25,11 @@ URL:     https://api.kde.org/ecm/
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{name}-%{version}.tar.xz
 BuildArch:      noarch
 
-# bundle clang python bindings here, at least until they are properly packaged elsewhere, see:
-# https://bugzilla.redhat.com/show_bug.cgi?id=1490997
-Source1: clang-python-4.0.1.tar.gz
-%if 0%{?fedora} && 0%{?fedora} < 27
+## bundle clang python bindings here, at least until they are properly packaged elsewhere, see:
+## https://bugzilla.redhat.com/show_bug.cgi?id=1490997
+#Source1: clang-python-4.0.1.tar.gz
+#if 0%{?fedora} && 0%{?fedora} < 27
+%if 0
 %global clang 1
 Provides: bundled(python2-clang) = 4.0.1
 %if 0%{?tests}
@@ -56,7 +57,7 @@ BuildRequires: python2-sphinx
 %endif
 
 Requires: kf5-rpm-macros
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel} > 7
 # /usr/share/ECM/kde-modules/appstreamtest.cmake references appstreamcli
 # hard vs soft dep?  --rex
 Requires: appstream
@@ -74,7 +75,7 @@ Additional modules for CMake build system needed by KDE Frameworks.
 
 
 %prep
-%autosetup -p1 -a1
+%autosetup -p1 %{?clang:-a1}
 
 
 %build
@@ -84,20 +85,17 @@ PYTHONPATH=`pwd`/python
 export PYTHONPATH
 %endif
 
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%cmake_kf5 \
   -DBUILD_HTML_DOCS:BOOL=%{?docs:ON}%{!?docs:OFF} \
   -DBUILD_MAN_DOCS:BOOL=%{?docs:ON}%{!?docs:OFF} \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{!?tests:OFF} \
   %{?sphinx_build}
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %if 0%{?clang}
 # hack clang-python install
@@ -119,7 +117,7 @@ make test ARGS="--output-on-failure --timeout 300" -C %{_target_platform} ||:
 
 %files
 %doc README.rst
-%license COPYING-CMAKE-SCRIPTS
+%license LICENSES/*.txt
 %{_datadir}/ECM/
 %if 0%{?docs}
 %{_kf5_docdir}/ECM/html/
@@ -128,6 +126,27 @@ make test ARGS="--output-on-failure --timeout 300" -C %{_target_platform} ||:
 
 
 %changelog
+* Wed Oct 14 09:42:12 CDT 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.75.0-1
+- 5.75.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.74.0-1
+- 5.74.0
+
+* Mon Aug 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.73.0-1
+- 5.73.0, use %%cmake_build, %%cmake_install
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.72.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.72.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-1
+- 5.72
+- unconditionallly disable bundled python/clang bindings
+- rhel8+ appstream support enabled
+
 * Tue Jun 16 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.71.0-1
 - 5.71.0
 

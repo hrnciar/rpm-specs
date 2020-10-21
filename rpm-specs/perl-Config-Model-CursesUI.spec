@@ -1,6 +1,6 @@
 Name:           perl-Config-Model-CursesUI
 Version:        1.106
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        Curses interface to edit config data
 License:        LGPLv2+
 URL:            https://metacpan.org/release/Config-Model-CursesUI
@@ -55,6 +55,12 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.106-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.106-11
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.106-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

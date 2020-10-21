@@ -1,10 +1,10 @@
 %global srcname mqtree
 
-%global p1_utils_ver 1.0.17
+%global p1_utils_ver 1.0.20
 
 
 Name:       erlang-%{srcname}
-Version:    1.0.6
+Version:    1.0.10
 Release:    1%{?dist}
 
 # c_src/uthash.h is unspecified BSD
@@ -16,6 +16,7 @@ Source0:    %{url}/archive/%{version}/%{srcname}-%{version}.tar.gz
 BuildRequires: erlang-p1_utils >= %{p1_utils_ver}
 BuildRequires: erlang-rebar
 BuildRequires: gcc
+BuildRequires: openssl-devel
 
 Requires: erlang-p1_utils >= %{p1_utils_ver}
 
@@ -51,6 +52,17 @@ install -pm755 priv/lib/* %{buildroot}%{_erllibdir}/%{srcname}-%{version}/priv/l
 
 
 %changelog
+* Fri Jul 31 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.10-1
+- Update to 1.0.10 (#1807345).
+- https://github.com/processone/mqtree/blob/1.0.10/CHANGELOG.md
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.6-1
 - Update to 1.0.6 (#1788885).
 - https://github.com/processone/mqtree/blob/1.0.6/CHANGELOG.md

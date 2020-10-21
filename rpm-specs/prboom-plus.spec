@@ -1,7 +1,7 @@
 
 Name:    prboom-plus
 Version: 2.5.1.4
-Release: 18%{?dist}
+Release: 19%{?dist}
 Summary: Free enhanced DOOM engine
 URL:     http://prboom-plus.sourceforge.net/
 License: GPLv2+ and MIT and Public Domain and BSD and LGPLv2+
@@ -65,6 +65,9 @@ install -Dpm 644 %{SOURCE2} %{buildroot}%{_datadir}/pixmaps/%{name}.png
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.1.4-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.5.1.4-18
 - Patch for CVE-2019-20797.
 

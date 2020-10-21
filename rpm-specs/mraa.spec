@@ -9,7 +9,7 @@
 
 Name:          mraa
 Version:       2.1.0
-Release:       3%{?dist}
+Release:       5%{?dist}
 Summary:       A low level skeleton library for Industrial IO Communication
 License:       MIT
 URL:           https://projects.eclipse.org/projects/iot.mraa
@@ -90,14 +90,14 @@ sed -i '1s/env //' examples/python/*.py
 %build
 %cmake -DBUILDSWIGNODE=%{BUILD_NODEJS} -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_SKIP_RPATH=ON -DVERSION:STRING=%{version} .
 
-%make_build
+%cmake_build
 #make_build iio_driver
 #make_build mraajs
 #make_build npmpkg
 #make_build mraa-gpio
 
 %install
-%make_install
+%cmake_install
 
 #Move the examples to the proper location
 mkdir -p %{buildroot}%{_libexecdir}/mraa
@@ -105,29 +105,6 @@ mv %{buildroot}%{_datarootdir}/mraa/examples/ %{buildroot}%{_libexecdir}/mraa/ex
 
 #Remove libtool archives.
 find %{buildroot} -name '*.la' -delete
-
-#Set some permissions
-chmod 0755 %{buildroot}%{_libexecdir}/mraa/examples/c++/*_cpp
-%if %{with nodejs_pkg}
-chmod 0755 %{buildroot}%{_libexecdir}/mraa/examples/javascript/*.js
-%else
-rm -fr %{buildroot}%{_libexecdir}/mraa/examples/javascript/
-%endif
-chmod 0755 %{buildroot}%{_libexecdir}/mraa/examples/python/*.py
-
-chmod 0755 %{buildroot}%{_libexecdir}/mraa/examples/c/aio
-chmod 0755 %{buildroot}%{_libexecdir}/mraa/examples/c/gpio
-chmod 0755 %{buildroot}%{_libexecdir}/mraa/examples/c/gpio_advanced
-chmod 0755 %{buildroot}%{_libexecdir}/mraa/examples/c/hellomraa
-chmod 0755 %{buildroot}%{_libexecdir}/mraa/examples/c/i2c_hmc5883l
-chmod 0755 %{buildroot}%{_libexecdir}/mraa/examples/c/i2c_mpu6050
-chmod 0755 %{buildroot}%{_libexecdir}/mraa/examples/c/iio
-chmod 0755 %{buildroot}%{_libexecdir}/mraa/examples/c/led
-chmod 0755 %{buildroot}%{_libexecdir}/mraa/examples/c/pwm
-chmod 0755 %{buildroot}%{_libexecdir}/mraa/examples/c/spi
-chmod 0755 %{buildroot}%{_libexecdir}/mraa/examples/c/uart
-chmod 0755 %{buildroot}%{_libexecdir}/mraa/examples/c/uart_advanced
-chmod 0755 %{buildroot}%{_libexecdir}/mraa/examples/c/uart_ow
 
 find %{buildroot}%{_libexecdir}/mraa/examples/python -name \*.py -exec chmod -x "{}" \;
 
@@ -164,6 +141,13 @@ chmod 0755 %{buildroot}%{nodejs_sitelib}/mraa/mraa.node
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.0-3
 - Rebuilt for Python 3.9
 

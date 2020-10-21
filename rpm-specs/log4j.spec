@@ -1,7 +1,7 @@
 %bcond_without  jp_minimal
 
 Name:           log4j
-Version:        2.13.1
+Version:        2.13.3
 Release:        1%{?dist}
 Summary:        Java logging package
 BuildArch:      noarch
@@ -17,11 +17,14 @@ BuildRequires:  mvn(com.fasterxml.jackson.core:jackson-annotations)
 BuildRequires:  mvn(com.fasterxml.jackson.core:jackson-core)
 BuildRequires:  mvn(com.fasterxml.jackson.core:jackson-databind)
 BuildRequires:  mvn(com.lmax:disruptor)
+BuildRequires:  mvn(com.sun.activation:jakarta.activation)
 BuildRequires:  mvn(com.sun.mail:javax.mail)
 BuildRequires:  mvn(commons-logging:commons-logging)
 BuildRequires:  mvn(org.apache.commons:commons-compress)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.apache:apache:pom:)
+BuildRequires:  mvn(org.apache.maven.plugins:maven-assembly-plugin)
+BuildRequires:  mvn(org.apache.maven.plugins:maven-dependency-plugin)
 BuildRequires:  mvn(org.codehaus.mojo:build-helper-maven-plugin)
 BuildRequires:  mvn(org.fusesource.jansi:jansi)
 BuildRequires:  mvn(org.jctools:jctools-core)
@@ -157,12 +160,8 @@ rm -rf docs/api
 # artifact for upstream testing of log4j itself, shouldn't be distributed
 %pom_disable_module %{name}-perf
 
-# needs java 9 to build
-%pom_disable_module %{name}-api-java9
-%pom_disable_module %{name}-core-java9
-%pom_remove_dep -r :%{name}-api-java9
-%pom_remove_dep -r :%{name}-core-java9
-%pom_remove_plugin -r :maven-dependency-plugin
+# add dependency for javax.activation package (no longer part of OpenJDK)
+%pom_add_dep com.sun.activation:jakarta.activation
 
 # unavailable com.conversantmedia:disruptor
 rm log4j-core/src/main/java/org/apache/logging/log4j/core/async/DisruptorBlockingQueueFactory.java
@@ -279,6 +278,18 @@ rm -r log4j-1.2-api/src/main/java/org/apache/log4j/or/jms
 
 
 %changelog
+* Thu Aug 20 2020 Fabio Valentini <decathorpe@gmail.com> - 2.13.3-1
+- Update to version 2.13.3.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.13.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Fabio Valentini <decathorpe@gmail.com> - 2.13.1-3
+- Add missing javax.activation dependency.
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 2.13.1-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon Mar 02 2020 Fabio Valentini <decathorpe@gmail.com> - 2.13.1-1
 - Update to version 2.13.1.
 - Drop upstream patch that's included in the new release.

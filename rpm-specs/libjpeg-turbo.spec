@@ -1,6 +1,6 @@
 Name:           libjpeg-turbo
-Version:        2.0.4
-Release:        3%{?dist}
+Version:        2.0.5
+Release:        5%{?dist}
 Summary:        A MMX/SSE2/SIMD accelerated library for manipulating JPEG image files
 License:        IJG
 URL:            http://sourceforge.net/projects/libjpeg-turbo
@@ -8,7 +8,6 @@ URL:            http://sourceforge.net/projects/libjpeg-turbo
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Patch0:         libjpeg-turbo-cmake.patch
 Patch1:         libjpeg-turbo-CET.patch
-Patch2:         libjpeg-turbo-CVE-2020-13790.patch
 
 BuildRequires:  gcc
 BuildRequires:  cmake
@@ -72,7 +71,6 @@ manipulate JPEG files using the TurboJPEG library.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 # NASM object files are missing GNU Property note for Intel CET,
@@ -83,12 +81,12 @@ export LDFLAGS="$RPM_LD_FLAGS -Wl,-z,ibt -Wl,-z,shstk"
 
 %{cmake} -DCMAKE_SKIP_RPATH:BOOL=YES \
          -DCMAKE_SKIP_INSTALL_RPATH:BOOL=YES \
-         -DENABLE_STATIC:BOOL=NO .
+         -DENABLE_STATIC:BOOL=NO
 
-make %{?_smp_mflags} V=1
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 find %{buildroot} -name "*.la" -delete
 
 # Fix perms
@@ -133,7 +131,8 @@ EOF
 fi
 
 %check
-LD_LIBRARY_PATH=%{buildroot}%{_libdir} make test %{?_smp_mflags}
+export LD_LIBRARY_PATH=%{buildroot}%{_libdir}
+%ctest
 
 %ldconfig_scriptlets
 %ldconfig_scriptlets -n turbojpeg
@@ -178,6 +177,23 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} make test %{?_smp_mflags}
 %{_libdir}/pkgconfig/libturbojpeg.pc
 
 %changelog
+* Tue Aug 04 2020 Nikola Forró <nforro@redhat.com> - 2.0.5-5
+- Fix FTBFS (#1864007)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.5-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 2.0.5-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Fri Jul 03 2020 Nikola Forró <nforro@redhat.com> - 2.0.5-1
+- New upstream release 2.0.5 (#1850293)
+
 * Tue Jun 16 2020 Nikola Forró <nforro@redhat.com> - 2.0.4-3
 - Fix CVE-2020-13790 (#1847159)
 

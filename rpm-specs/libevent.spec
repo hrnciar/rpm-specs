@@ -1,8 +1,8 @@
 %global develdocdir %{_docdir}/%{name}-devel
 
 Name:           libevent
-Version:        2.1.8
-Release:        8%{?dist}
+Version:        2.1.12
+Release:        2%{?dist}
 Summary:        Abstract asynchronous event notification library
 
 # arc4random.c, which is used in build, is ISC. The rest is BSD.
@@ -11,6 +11,8 @@ URL:            http://libevent.org/
 Source0:        https://github.com/libevent/libevent/releases/download/release-%{version}-stable/libevent-%{version}-stable.tar.gz
 
 BuildRequires:  gcc
+# Needed for ./autogen.sh:
+BuildRequires:  automake libtool
 %if ! 0%{?_module_build}
 BuildRequires: doxygen
 %endif
@@ -19,9 +21,15 @@ BuildRequires: python3-devel
 
 # Disable network tests
 Patch01: libevent-nonettests.patch
-# Port the python scripts to Python 3
-# Fixed upstream: https://github.com/libevent/libevent/commit/8b0aa7b36a3250fad4953f194c8a94ab25032583
-Patch02: port-scripts-to-python3.patch
+# Upstream patch:
+Patch02: 0001-build-do-not-try-install-doxygen-man-pages-if-they-w.patch
+# Upstream patch:
+Patch03: 0001-build-add-doxygen-to-all.patch
+# Temporary downstream change: revert a problematic upstream change
+# until Transmission is fixed. Please drop the patch when the Transmission
+# issue is fixed.
+# https://github.com/transmission/transmission/issues/1437
+Patch04: 0001-Revert-Fix-checking-return-value-of-the-evdns_base_r.patch
 
 %description
 The libevent API provides a mechanism to execute a callback function
@@ -53,24 +61,31 @@ This package contains the development documentation for %{name}.
 %prep
 %setup -q -n libevent-%{version}-stable
 %patch01 -p1 -b .nonettests
-%patch02 -p1 -b .py3port
+%patch02 -p1 -b .fix-install
+%patch03 -p1 -b .fix-install-2
+%patch04 -p1 -b .revert-problematic-change
 
 pathfix.py -i %{__python3} -pn test/check-dumpevents.py \
                                event_rpcgen.py
 
 %build
+# We're patching doxygen.am, so regenerate the autotools stuff to be
+# safe
+./autogen.sh
 %configure \
-    --disable-dependency-tracking --disable-static
-make %{?_smp_mflags} all
-
 %if ! 0%{?_module_build}
-# Create the docs
-make doxygen
+    --enable-doxygen-doc \
 %endif
+    --disable-dependency-tracking --disable-static
+%make_build all
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install
+%make_install
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
+
+# Maintain the Fedora-specific location of libevent documentation, at
+# least for now
+mv $RPM_BUILD_ROOT/%{_docdir}/%{name} $RPM_BUILD_ROOT/%{develdocdir}
 
 # Fix multilib install of devel (bug #477685)
 mv $RPM_BUILD_ROOT%{_includedir}/event2/event-config.h \
@@ -86,12 +101,6 @@ cat > $RPM_BUILD_ROOT%{_includedir}/event2/event-config.h << EOF
 #error "Unknown word size"
 #endif
 EOF
-
-%if ! 0%{?_module_build}
-mkdir -p $RPM_BUILD_ROOT/%{develdocdir}/html
-(cd doxygen/html; \
-	install -p -m 644 *.* $RPM_BUILD_ROOT/%{develdocdir}/html)
-%endif
 
 mkdir -p $RPM_BUILD_ROOT/%{develdocdir}/sample
 (cd sample; \
@@ -138,6 +147,20 @@ mkdir -p $RPM_BUILD_ROOT/%{develdocdir}/sample
 %doc %{develdocdir}/
 
 %changelog
+* Tue Sep 29 2020 Ondřej Lysoněk <olysonek@redhat.com> - 2.1.12-2
+- Temporarily revert a problematic upstream change
+
+* Mon Sep 14 2020 Ondřej Lysoněk <olysonek@redhat.com> - 2.1.12-1
+- new version
+- Resolves: rhbz#1713942
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.8-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 2.1.8-9
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.8-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

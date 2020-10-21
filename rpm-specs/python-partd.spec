@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.1.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Appendable key-value storage
 
 License:        BSD
@@ -23,20 +23,19 @@ Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-pytest
-BuildRequires:  python3-locket
-BuildRequires:  python3-toolz
-BuildRequires:  python3-numpy >= 1.9.0
-BuildRequires:  python3-pandas >= 0.19.0
-BuildRequires:  python3-zmq
-BuildRequires:  python3-blosc
+BuildRequires:  python3dist(setuptools)
+BuildRequires:  python3dist(pytest)
+BuildRequires:  python3dist(locket)
+BuildRequires:  python3dist(toolz)
+BuildRequires:  python3dist(numpy) >= 1.9
+BuildRequires:  python3dist(pandas) >= 0.19
+BuildRequires:  python3dist(pyzmq)
+BuildRequires:  python3dist(blosc)
 
-Requires:    python3-locket
-Requires:    python3-toolz
-Recommends:  python3-numpy >= 1.9.0
-Recommends:  python3-pandas >= 0.19.0
-Recommends:  python3-zmq
-Recommends:  python3-blosc
+Recommends:  python3dist(numpy) >= 1.9
+Recommends:  python3dist(pandas) >= 0.19
+Recommends:  python3dist(pyzmq)
+Recommends:  python3dist(blosc)
 
 %description -n python3-%{srcname} %{_description}
 
@@ -54,8 +53,7 @@ Recommends:  python3-blosc
 
 
 %check
-PYTHONPATH="%{buildroot}%{python3_sitelib}" \
-    py.test-%{python3_version}
+%{pytest}
 
 
 %files -n python3-%{srcname}
@@ -66,6 +64,9 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}" \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.0-3
 - Rebuilt for Python 3.9
 

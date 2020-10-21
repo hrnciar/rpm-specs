@@ -4,7 +4,7 @@
 
 Name:		gold
 Version:	2.1.12.2
-Release:	33%{?dist}
+Release:	34%{?dist}
 Summary:	Tracks and manages resource usage on High Performance Computers
 License:	BSD
 URL:		http://www.clusterresources.com/products/%{name}
@@ -190,6 +190,9 @@ fi
 %{goldcgidir}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.12.2-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.1.12.2-33
 - Perl 5.32 rebuild
 

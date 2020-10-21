@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          0.27.1
-Release:          2%{?dist}
+Release:          3%{?dist}
 Summary:          Provides Access to Git Repositories
 
 License:          GPLv2
@@ -74,6 +74,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.27.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 0.27.1-2
 - rebuild for R 4
 

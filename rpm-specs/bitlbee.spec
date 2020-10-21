@@ -17,7 +17,7 @@
 Summary:           IRC to other chat networks gateway
 Name:              bitlbee
 Version:           3.6
-Release:           2%{?dist}
+Release:           3%{?dist}
 License:           GPLv2+ and MIT
 URL:               https://www.bitlbee.org/
 Source0:           https://get.bitlbee.org/src/%{name}-%{version}.tar.gz
@@ -183,6 +183,9 @@ fi
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

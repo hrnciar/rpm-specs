@@ -20,9 +20,6 @@
 # please read http://rpm.org/user_doc/conditional_builds.html for explanation of
 # bcond syntax!
 #################################################################################
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
 %global _hardened_build 1
 
 %bcond_with make_check
@@ -103,7 +100,7 @@
 # main package definition
 #################################################################################
 Name:		ceph
-Version:	15.2.3
+Version:	15.2.5
 Release:	1%{?dist}
 %if 0%{?fedora} || 0%{?rhel}
 Epoch:		2
@@ -655,9 +652,11 @@ Requires:	python%{python3_pkgversion}-remoto
 Requires:	cephadm = %{_epoch_prefix}%{version}-%{release}
 %if 0%{?suse_version}
 Requires:	openssh
+Requires:	python%{python3_pkgversion}-Jinja2
 %endif
 %if 0%{?rhel} || 0%{?fedora}
 Requires:	openssh-clients
+Requires:	python%{python3_pkgversion}-jinja2
 %endif
 %description mgr-cephadm
 ceph-mgr-cephadm is a ceph-mgr module for orchestration functions using
@@ -758,6 +757,7 @@ Requires:	ceph-base = %{_epoch_prefix}%{version}-%{release}
 Requires:	lvm2
 Requires:	sudo
 Requires:	libstoragemgmt
+Requires:	python%{python3_pkgversion}-ceph-common = %{_epoch_prefix}%{version}-%{release}
 %description osd
 ceph-osd is the object storage daemon for the Ceph distributed file
 system.  It is responsible for storing objects on a local file system
@@ -999,6 +999,12 @@ descriptions, and submitting the command to the appropriate daemon.
 
 %package -n python%{python3_pkgversion}-ceph-common
 Summary:	Python 3 utility libraries for Ceph
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	python%{python3_pkgversion}-pyyaml
+%endif
+%if 0%{?suse_version}
+Requires:	python%{python3_pkgversion}-PyYAML
+%endif
 %if 0%{?suse_version}
 Group:		Development/Libraries/Python
 %endif
@@ -1223,6 +1229,7 @@ cd build
 %if 0%{with ocf}
     -DWITH_OCF=ON \
 %endif
+    -DWITH_REENTRANT_STRSIGNAL=ON \
     -DWITH_SYSTEM_BOOST=ON \
 %ifarch aarch64 armv7hl mips mipsel ppc ppc64 ppc64le %{ix86} x86_64
     -DWITH_BOOST_CONTEXT=ON \
@@ -1263,7 +1270,7 @@ cat ./CMakeFiles/CMakeError.log
 
 export VERBOSE=1
 export V=1
-make "$CEPH_MFLAGS_JOBS"
+%cmake_build "$CEPH_MFLAGS_JOBS"
 
 
 %if 0%{with make_check}
@@ -1276,7 +1283,7 @@ make "$CEPH_MFLAGS_JOBS"
 
 %install
 pushd build
-make DESTDIR=%{buildroot} install
+%cmake_install
 # we have dropped sysvinit bits
 rm -f %{buildroot}/%{_sysconfdir}/init.d/ceph
 popd
@@ -1350,7 +1357,7 @@ install -m 644 -D monitoring/prometheus/alerts/ceph_default_alerts.yml %{buildro
 %fdupes %{buildroot}%{_prefix}
 %endif
 
-%if 0%{?rhel} == 8
+%if 0%{?rhel} == 8 || 0%{?fedora} >= 33
 %py_byte_compile %{__python3} %{buildroot}%{python3_sitelib}
 %endif
 
@@ -1504,6 +1511,7 @@ exit 0
 %{_mandir}/man8/ceph-authtool.8*
 %{_mandir}/man8/ceph-conf.8*
 %{_mandir}/man8/ceph-dencoder.8*
+%{_mandir}/man8/ceph-diff-sorted.8*
 %{_mandir}/man8/ceph-rbdnamer.8*
 %{_mandir}/man8/ceph-syn.8*
 %{_mandir}/man8/ceph-post-file.8*
@@ -1516,6 +1524,7 @@ exit 0
 %{_mandir}/man8/rbd-replay.8*
 %{_mandir}/man8/rbd-replay-many.8*
 %{_mandir}/man8/rbd-replay-prep.8*
+%{_mandir}/man8/rgw-orphan-list.8*
 %dir %{_datadir}/ceph/
 %{_datadir}/ceph/known_hosts_drop.ceph.com
 %{_datadir}/ceph/id_rsa_drop.ceph.com
@@ -1933,10 +1942,12 @@ fi
 %{_mandir}/man8/rbd-nbd.8*
 
 %files radosgw
+%{_bindir}/ceph-diff-sorted
 %{_bindir}/radosgw
 %{_bindir}/radosgw-token
 %{_bindir}/radosgw-es
 %{_bindir}/radosgw-object-expirer
+%{_bindir}/rgw-orphan-list
 %{_libdir}/libradosgw.so*
 %{_mandir}/man8/radosgw.8*
 %dir %{_localstatedir}/lib/ceph/radosgw
@@ -2185,7 +2196,7 @@ fi
 %files -n libcephfs-devel
 %dir %{_includedir}/cephfs
 %{_includedir}/cephfs/libcephfs.h
-%{_includedir}/cephfs/ceph_statx.h
+%{_includedir}/cephfs/ceph_ll_client.h
 %{_libdir}/libcephfs.so
 
 %files -n python%{python3_pkgversion}-cephfs
@@ -2364,8 +2375,49 @@ exit 0
 %config %{_sysconfdir}/prometheus/ceph/ceph_default_alerts.yml
 
 %changelog
+* Wed Sep 16 2020 Kaleb S. KEITHLEY <kkeithle[at]redhat.com> - 2:15.2.5-1
+- ceph 15.2.5 GA
+
+* Wed Jul 29 2020 Richard W.M. Jones <rjones@redhat.com> - 2:15.2.4-11
+- Rebuild against fmt 7.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:15.2.4-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Kaleb S. KEITHLEY <kkeithle[at]redhat.com> - 2:15.2.4-9
+- %cmake_build and %cmake_install
+
+* Mon Jul 20 2020 Kaleb S. KEITHLEY <kkeithle[at]redhat.com> - 2:15.2.4-8
+- see 15.2.4-4 (f33-java11) for real this time
+- and use %make_install macro
+
+* Mon Jul 20 2020 Kaleb S. KEITHLEY <kkeithle[at]redhat.com> - 2:15.2.4-7
+- see 15.2.4-3, hopefully for real this time
+- and use %make_install macro
+
+* Fri Jul 17 2020 Kaleb S. KEITHLEY <kkeithle[at]redhat.com> - 2:15.2.4-6
+- see 15.2.4-4
+
+* Fri Jul 17 2020 Kaleb S. KEITHLEY <kkeithle[at]redhat.com> - 2:15.2.4-5
+- see 15.2.4-3
+
+* Fri Jul 17 2020 Kaleb S. KEITHLEY <kkeithle[at]redhat.com> - 2:15.2.4-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Fri Jul 17 2020 Kaleb S. KEITHLEY <kkeithle[at]redhat.com> - 2:15.2.4-3
+- use `ld -r -z ibt -z shstk...` instead of magic hackery to get CET ibt
+  and shstk. N.B. updated yasm in f33/rawhide now has support for
+  .note.gnu.properties so even this will go away in the next build
+- signal_handler.cc, use HAVE_REENTRANT_STRSIGNAL, strsignal(3)
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2:15.2.4-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Wed Jul 1 2020 Kaleb S. KEITHLEY <kkeithle[at]redhat.com> - 2:15.2.4-1
+- ceph 15.2.4 GA
+
 * Tue Jun 23 2020 Kaleb S. KEITHLEY <kkeithle[at]redhat.com>
-- explict BuildRequires python3-setuptools
+- explicit BuildRequires python3-setuptools
 
 * Mon Jun 1 2020 Kaleb S. KEITHLEY <kkeithle[at]redhat.com> - 2:15.2.3-1
 - ceph 15.2.3 GA

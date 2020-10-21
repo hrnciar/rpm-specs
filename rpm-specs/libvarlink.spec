@@ -2,7 +2,7 @@
 
 Name:           libvarlink
 Version:        19
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Varlink C Library
 License:        ASL 2.0
 URL:            https://github.com/varlink/%{name}
@@ -31,6 +31,11 @@ The %{name}-util package contains varlink command line tools.
 %setup -q
 
 %build
+# The testsuite in this packages uses readelf which does not understand LTO
+# .o files
+# Disable LTO
+%define _lto_cflags %{nil}
+
 %meson
 %meson_build
 
@@ -58,6 +63,12 @@ export LC_CTYPE=C.utf8
 %{_libdir}/pkgconfig/libvarlink.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 19-2
+Disable LTO
+
 * Fri Mar 06 2020 Harald Hoyer <harald@redhat.com> - 19-1
 - libvarlink 19
 

@@ -1,5 +1,5 @@
 Name:           vulkan-tools
-Version:        1.2.135.0
+Version:        1.2.148.0
 Release:        1%{?dist}
 Summary:        Vulkan tools
 
@@ -33,12 +33,12 @@ Vulkan tools
 
 
 %build
-%cmake3 -GNinja -DCMAKE_BUILD_TYPE=Release -DGLSLANG_INSTALL_DIR=%{_prefix} .
-%ninja_build
+%cmake3 -GNinja -DCMAKE_BUILD_TYPE=Release -DGLSLANG_INSTALL_DIR=%{_prefix}
+%cmake3_build
 
 
 %install
-%ninja_install
+%cmake3_install
 
 %files
 %license LICENSE.txt
@@ -46,6 +46,12 @@ Vulkan tools
 %{_bindir}/*
 
 %changelog
+* Wed Aug 05 2020 Dave Airlie <airlied@redhat.com> - 1.2.148.0-1
+- Update to 1.2.148.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.135.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Dave Airlie <airlied@redhat.com> - 1.2.135.0-1
 - Update to 1.2.135.0
 

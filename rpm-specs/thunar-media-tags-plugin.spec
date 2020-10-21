@@ -6,7 +6,7 @@
 
 Name:           thunar-media-tags-plugin
 Version:        0.3.0
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        Media Tags plugin for the Thunar file manager
 
 License:        GPLv2+
@@ -55,6 +55,9 @@ find %{buildroot} -type f -name "*.la" -exec rm -f {} ';'
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

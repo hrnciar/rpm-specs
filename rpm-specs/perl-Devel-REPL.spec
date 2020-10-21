@@ -1,6 +1,6 @@
 Name:           perl-Devel-REPL
 Version:        1.003028
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Modern perl interactive shell
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Devel-REPL
@@ -301,6 +301,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.003028-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.003028-14
 - Perl 5.32 rebuild
 

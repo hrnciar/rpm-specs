@@ -4,7 +4,7 @@
 
 # https://github.com/nats-io/nats.go
 %global goipath         github.com/nats-io/nats.go
-Version:                1.9.1
+Version:                1.10.0
 
 %gometa
 
@@ -26,16 +26,17 @@ License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
-BuildRequires:  golang(github.com/golang/protobuf/proto)
 BuildRequires:  golang(github.com/nats-io/jwt)
 BuildRequires:  golang(github.com/nats-io/nkeys)
 BuildRequires:  golang(github.com/nats-io/nuid)
+BuildRequires:  golang(google.golang.org/protobuf/proto)
 
 %if %{without bootstrap}
 %if %{with check}
 # Tests
-BuildRequires:  golang(github.com/nats-io/nats-server/server)
-BuildRequires:  golang(github.com/nats-io/nats-server/test)
+BuildRequires:  golang(github.com/nats-io/nats-server/v2/server)
+BuildRequires:  golang(github.com/nats-io/nats-server/v2/test)
+BuildRequires:  golang(github.com/golang/protobuf/proto)
 %endif
 %endif
 
@@ -46,7 +47,6 @@ BuildRequires:  golang(github.com/nats-io/nats-server/test)
 
 %prep
 %goprep
-find . -type f -name "*.go" -exec sed -i "s|github.com/nats-io/nats-server/v2|github.com/nats-io/nats-server|" "{}" +;
 
 %install
 %gopkginstall
@@ -61,6 +61,16 @@ find . -type f -name "*.go" -exec sed -i "s|github.com/nats-io/nats-server/v2|gi
 %gopkgfiles
 
 %changelog
+* Thu Oct 01 21:38:53 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.10.0-1
+- Update to 1.10.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 01 20:06:26 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.9.1-1
 - Update to 1.9.1
 

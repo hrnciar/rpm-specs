@@ -3,7 +3,7 @@
 
 # https://github.com/niklasfasching/go-org
 %global goipath         github.com/niklasfasching/go-org
-Version:                1.1.0
+Version:                1.3.2
 
 %gometa
 
@@ -68,6 +68,18 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.3.2-1
+- Update to latest version
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.3.1-1
+- Update to latest version
+
+* Sun Jul 05 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.3.0-1
+- Update to latest version
+
 * Sat Apr 18 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.1.0-1
 - Update to latest version
 

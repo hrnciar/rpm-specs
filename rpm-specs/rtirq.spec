@@ -3,7 +3,7 @@
 Summary:       Realtime IRQ thread system tuning
 Name:          rtirq
 Version:       20130402
-Release:       17%{?dist}
+Release:       18%{?dist}
 License:       GPLv2+
 URL:           http://www.rncbc.org/jack/
 Source0:       http://www.rncbc.org/jack/%{name}-%{version}.tar.gz
@@ -96,6 +96,9 @@ install -vD rtirq.service -m 0644 %{buildroot}%{_prefix}/lib/systemd/system/rtir
 %{_prefix}/lib/systemd/system/rtirq.service
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20130402-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20130402-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

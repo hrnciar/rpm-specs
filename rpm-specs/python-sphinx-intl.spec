@@ -9,8 +9,8 @@ support the Transifex service for translation with Sphinx (not packaged yet).
 
 
 Name:           python-%{pypi_name}
-Version:        2.0.0
-Release:        6%{?dist}
+Version:        2.0.1
+Release:        2%{?dist}
 Summary:        Sphinx utility that make it easy to translate and to apply translation
 
 License:        BSD
@@ -82,6 +82,12 @@ PYTHONPATH="$(pwd)" py.test-%{python3_version} -v .
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Julien Enselme <jujens@jujens.eu> - 2.0.1-1
+- Update to 2.0.1
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.0-6
 - Rebuilt for Python 3.9
 

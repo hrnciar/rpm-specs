@@ -1,13 +1,13 @@
-%define libsepolver 3.0-1
-%define libselinuxver 3.0-1
+%define libsepolver 3.1-3
+%define libselinuxver 3.1-2
 
-Summary: SELinux binary policy manipulation library 
+Summary: SELinux binary policy manipulation library
 Name: libsemanage
-Version: 3.0
-Release: 4%{?dist}
+Version: 3.1
+Release: 2%{?dist}
 License: LGPLv2+
-Source0: https://github.com/SELinuxProject/selinux/releases/download/20191204/libsemanage-3.0.tar.gz
-# fedora-selinux/selinux: git format-patch -N libsemanage-3.0 -- libsemanage
+Source0: https://github.com/SELinuxProject/selinux/releases/download/20200710/libsemanage-3.1.tar.gz
+# fedora-selinux/selinux: git format-patch -N libsemanage-3.1 -- libsemanage
 # i=1; for j in 00*patch; do printf "Patch%04d: %s\n" $i $j; i=$((i+1));done
 # Patch list start
 Patch0001: 0001-libsemanage-Fix-RESOURCE_LEAK-and-USE_AFTER_FREE-cov.patch
@@ -78,7 +78,10 @@ SELinux management applications.
 
 
 %build
+# Disable LTO
+%define _lto_cflags %{nil}
 %set_build_flags
+CFLAGS="$CFLAGS -fno-semantic-interposition"
 
 # To support building the Python wrapper against multiple Python runtimes
 # Define a function, for how to perform a "build" of the python wrapper against
@@ -95,7 +98,7 @@ BuildPythonWrapper() {
 
 make clean
 make swigify
-make LIBDIR="%{_libdir}" SHLIBDIR="%{_lib}" all
+%make_build LIBDIR="%{_libdir}" SHLIBDIR="%{_lib}" all
 
 BuildPythonWrapper \
   %{__python3}
@@ -114,7 +117,7 @@ mkdir -p ${RPM_BUILD_ROOT}%{_libdir}
 mkdir -p ${RPM_BUILD_ROOT}%{_includedir} 
 mkdir -p ${RPM_BUILD_ROOT}%{_sharedstatedir}/selinux
 mkdir -p ${RPM_BUILD_ROOT}%{_sharedstatedir}/selinux/tmp
-make DESTDIR="${RPM_BUILD_ROOT}" LIBDIR="%{_libdir}" SHLIBDIR="%{_libdir}" install
+%make_install LIBDIR="%{_libdir}" SHLIBDIR="%{_libdir}"
 
 InstallPythonWrapper \
   %{__python3} \
@@ -122,8 +125,6 @@ InstallPythonWrapper \
   
 cp %{SOURCE1} ${RPM_BUILD_ROOT}/etc/selinux/semanage.conf
 ln -sf  %{_libdir}/libsemanage.so.1 ${RPM_BUILD_ROOT}/%{_libdir}/libsemanage.so
-
-sed -i '1s%\(#! */usr/bin/python\)\([^3].*\|\)$%\13\2%' %{buildroot}%{_libexecdir}/selinux/semanage_migrate_store
 
 %files
 %{!?_licensedir:%global license %%doc}
@@ -156,6 +157,14 @@ sed -i '1s%\(#! */usr/bin/python\)\([^3].*\|\)$%\13\2%' %{buildroot}%{_libexecdi
 %{_libexecdir}/selinux/semanage_migrate_store
 
 %changelog
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 3.1-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+- Use -fno-semantic-interposition and more make macros
+
+* Fri Jul 10 2020 Petr Lautrbach <plautrba@redhat.com> - 3.1-1
+- SELinux userspace 3.1 release
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0-4
 - Rebuilt for Python 3.9
 

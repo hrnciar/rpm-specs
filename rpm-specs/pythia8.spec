@@ -1,9 +1,3 @@
-%if %{?rhel}%{!?rhel:0} == 6
-%filter_provides_in %{python2_sitearch}/.*\.so$
-%filter_provides_in %{python3_sitearch}/.*\.so$
-%filter_setup
-%endif
-
 %if %{?fedora}%{!?fedora:0} >= 30
 # Don't build Python 2 package for Fedora >= 30
 %global buildpy2 0
@@ -12,13 +6,13 @@
 %endif
 
 Name:		pythia8
-Version:	8.2.43
-Release:	6%{?dist}
+Version:	8.2.44
+Release:	2%{?dist}
 Summary:	Pythia Event Generator for High Energy Physics
 
 License:	GPLv2+
 URL:		http://home.thep.lu.se/~torbjorn/Pythia.html
-Source0:	http://home.thep.lu.se/~torbjorn/pythia8/pythia8243.tgz
+Source0:	http://home.thep.lu.se/~torbjorn/pythia8/pythia8244.tgz
 #		Link plugins to the shared library
 #		Remove rpath
 Patch0:		%{name}-makefile.patch
@@ -26,9 +20,6 @@ Patch0:		%{name}-makefile.patch
 BuildRequires:	lhapdf-devel
 BuildRequires:	zlib-devel
 BuildRequires:	gcc-c++
-%if %{?rhel}%{!?rhel:0} == 6
-BuildRequires:	gcc-gfortran
-%endif
 %if %{buildpy2}
 BuildRequires:	python2-devel
 %endif
@@ -88,7 +79,7 @@ This package provides the Python 3 bindings for Pythia 8.
 %if %{?rhel}%{!?rhel:0} == 7
 %package -n python%{python3_other_pkgversion}-%{name}
 Summary:	Pythia 8 Python 3 bindings
-%{?python_provide:%python_provide python%{python3_other_pkgversion}-%{name}}
+%{?python_provide:%python_provide python%{?python3_other_pkgversion}-%{name}}
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description -n python%{python3_other_pkgversion}-%{name}
@@ -117,7 +108,7 @@ BuildArch:	noarch
 This package provides documentation for Pythia 8.
 
 %prep
-%setup -q -n pythia8243
+%setup -q -n pythia8244
 %patch0 -p1
 
 # Remove DOS end-of-line
@@ -125,81 +116,57 @@ dos2unix -k share/Pythia8/htmldoc/pythia.css \
 	    share/Pythia8/phpdoc/pythia.css \
 	    share/Pythia8/xmldoc/mrstlostarstar.00.dat
 
-# Remove junk
-find . -name '._*' -exec rm {} ';'
-
 %build
 ./configure --prefix=%{_prefix} --prefix-lib=%{_libdir} \
-	    --cxx-common="%{optflags} -fPIC" \
+	    --cxx-common="%{optflags} -std=c++11 -fPIC" \
 	    --cxx-shared="%{?__global_ldflags} -Wl,-z,defs -shared" \
 	    --lib-suffix="-%{version}.so" \
 	    --enable-shared \
-%if %{?rhel}%{!?rhel:0} == 6
-	    --with-lhapdf5 \
-%else
 	    --with-lhapdf6 \
-%endif
 	    --with-gzip
-make %{?_smp_mflags}
+%make_build
 ln -s libpythia8-%{version}.so lib/libpythia8.so
 
 make lib/pythia8.py PYTHON_BIN='#'
 mv lib/pythia8.py .
 
-%if %{?fedora}%{!?fedora:0} >= 30
 %ifarch %{arm}
 # Reduce memory usage during compilation of the python module on 32 bit arm
 MEMSAVE=-g1
 %endif
-%endif
 
 %if %{buildpy2}
 mkdir py2
-if pkg-config --exists python2 ; then
-    PY2INC=$(pkg-config --cflags python2)
-    PY2LIB=$(pkg-config --libs python2)
-else
-    PY2INC=-I/usr/include/python%{python2_version}
-    PY2LIB=-lpython%{python2_version}
-fi
+PY2INC=$(pkg-config --cflags python2)
+PY2LIB=$(pkg-config --libs python2)
 g++ -x c++ include/Pythia8Plugins/PythonWrapper.h -c -o py2/PythonWrapper.o \
-    ${PY2INC} -Iinclude %{optflags} -fPIC -DGZIPSUPPORT $MEMSAVE
+    ${PY2INC} -Iinclude %{optflags} -std=c++11 -fPIC -DGZIPSUPPORT $MEMSAVE
 g++ py2/PythonWrapper.o -Llib -lpythia8 -o py2/_pythia8.so \
-    ${PY2LIB} -ldl %{?__global_ldflags} -Wl,-z,defs -shared
+    ${PY2LIB} -ldl %{?__global_ldflags} -shared
 %endif
 
 mkdir py3
-if pkg-config --exists python3-embed ; then
-    PY3INC=$(pkg-config --cflags python3-embed)
-    PY3LIB=$(pkg-config --libs python3-embed)
-else
-    PY3INC=$(pkg-config --cflags python3)
-    PY3LIB=$(pkg-config --libs python3)
-fi
+PY3INC=$(pkg-config --cflags python3)
+PY3LIB=$(pkg-config --libs python3)
 PY3SOABI=$(%{__python3} -c "from distutils import sysconfig; print(sysconfig.get_config_vars().get('SOABI'))")
 g++ -x c++ include/Pythia8Plugins/PythonWrapper.h -c -o py3/PythonWrapper.o \
-    ${PY3INC} -Iinclude %{optflags} -fPIC -DGZIPSUPPORT $MEMSAVE
+    ${PY3INC} -Iinclude %{optflags} -std=c++11 -fPIC -DGZIPSUPPORT $MEMSAVE
 g++ py3/PythonWrapper.o -Llib -lpythia8 -o py3/_pythia8.${PY3SOABI}.so \
-    ${PY3LIB} -ldl %{?__global_ldflags} -Wl,-z,defs -shared
+    ${PY3LIB} -ldl %{?__global_ldflags} -shared
 
 %if %{?rhel}%{!?rhel:0} == 7
 mkdir py3oth
-if pkg-config --exists python-%{python3_other_version}-embed ; then
-    PY3INC=$(pkg-config --cflags python-%{python3_other_version}-embed)
-    PY3LIB=$(pkg-config --libs python-%{python3_other_version}-embed)
-else
-    PY3INC=$(pkg-config --cflags python-%{python3_other_version})
-    PY3LIB=$(pkg-config --libs python-%{python3_other_version})
-fi
+PY3INC=$(pkg-config --cflags python-%{python3_other_version})
+PY3LIB=$(pkg-config --libs python-%{python3_other_version})
 PY3SOABI=$(%{__python3_other} -c "from distutils import sysconfig; print(sysconfig.get_config_vars().get('SOABI'))")
 g++ -x c++ include/Pythia8Plugins/PythonWrapper.h -c -o py3oth/PythonWrapper.o \
-    ${PY3INC} -Iinclude %{optflags} -fPIC -DGZIPSUPPORT
+    ${PY3INC} -Iinclude %{optflags} -std=c++11 -fPIC -DGZIPSUPPORT
 g++ py3oth/PythonWrapper.o -Llib -lpythia8 -o py3oth/_pythia8.${PY3SOABI}.so \
-    ${PY3LIB} -ldl %{?__global_ldflags} -Wl,-z,defs -shared
+    ${PY3LIB} -ldl %{?__global_ldflags} -shared
 %endif
 
 %install
-make %{?_smp_mflags} install \
+%make_install \
      PREFIX_BIN=%{buildroot}%{_bindir} \
      PREFIX_INCLUDE=%{buildroot}%{_includedir} \
      PREFIX_LIB=%{buildroot}%{_libdir} \
@@ -293,6 +260,17 @@ touch %{buildroot}%{python3_other_sitearch}/%{name}-%{version}.egg-info
 %license COPYING
 
 %changelog
+* Sun Aug 23 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 8.2.44-2
+- Add -std=c++11 for lhapdf 6.3
+
+* Sun Aug 23 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 8.2.44-1
+- Update to version 8.2.44
+- Drop EPEL 6 specializations (will be EOL November 2020)
+- Don't use python-embed when compiling python modules
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.2.43-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 8.2.43-6
 - Rebuilt for Python 3.9
 

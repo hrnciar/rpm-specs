@@ -13,7 +13,7 @@
 
 Name:           lxdm
 Version:        0.5.3
-Release:        15%{?git_version:.%{?git_version}}%{?dist}
+Release:        17%{?git_version:.%{?git_version}}%{?dist}
 Summary:        Lightweight X11 Display Manager
 
 License:        GPLv2+ and LGPLv2+
@@ -88,7 +88,7 @@ sed -i.reset data/lxdm.conf.in \
 install -cpm 644  %{SOURCE10} pam/lxdm
 
 cat << EOF > tempfiles.lxdm.conf
-d %{_localstatedir}/run/%{name} 0755 root root
+d /run/%{name} 0755 root root
 EOF
 
 %build
@@ -105,7 +105,7 @@ make install DESTDIR=%{buildroot} INSTALL='install -p'
 
 # these files are not in the package, but should be owned by lxdm 
 touch %{buildroot}%{_sysconfdir}/%{name}/xinitrc
-mkdir -p %{buildroot}%{_localstatedir}/run/%{name}
+mkdir -p %{buildroot}/run/%{name}
 mkdir -p %{buildroot}%{_localstatedir}/lib/%{name}
 touch %{buildroot}%{_localstatedir}/lib/%{name}.conf
 
@@ -170,17 +170,19 @@ install -m644 -p -D %{SOURCE2} %{buildroot}%{_unitdir}-preset/83-fedora-lxdm.pre
 %{_unitdir}-preset/83-fedora-lxdm.preset
 %endif
 
-%if 0%{?fedora} >= 15
-%ghost %dir %{_localstatedir}/run/%{name}
-%else
-%dir %{_localstatedir}/run/%{name}
-%endif
+%ghost %dir /run/%{name}
 
 %dir %{_localstatedir}/lib/%{name}
 %ghost %{_localstatedir}/lib/%{name}.conf
 
 
 %changelog
+* Wed Aug 12 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 0.5.3-17.D20161111gita548c73e
+- Use /run instead of %%_localstatedir/run (bug 1775734)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-16.D20161111gita548c73e
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-15.D20161111gita548c73e
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

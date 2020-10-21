@@ -1,6 +1,6 @@
 Name:           python3-iep
 Version:        3.7
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        The interactive editor for Python
 
 License:        BSD
@@ -75,6 +75,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/iep.desktop
 %{_datadir}/applications/iep.desktop
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.7-17
 - Rebuilt for Python 3.9
 

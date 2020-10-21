@@ -4,7 +4,7 @@
 # https://github.com/layeh/gopher-luar
 %global goipath         layeh.com/gopher-luar
 %global forgeurl        https://github.com/layeh/gopher-luar
-Version:                1.0.7
+Version:                1.0.8
 
 %gometa
 
@@ -15,7 +15,7 @@ Gopher-luar simplifies data passing to and from gopher-lua.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Simplifies data passing to and from gopher-lua
 
 # Upstream license specification: MPL-2.0
@@ -44,6 +44,12 @@ BuildRequires:  golang(github.com/yuin/gopher-lua)
 %gopkgfiles
 
 %changelog
+* Thu Aug 06 15:25:05 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.8-1
+- Update to 1.0.8
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.7-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.7-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

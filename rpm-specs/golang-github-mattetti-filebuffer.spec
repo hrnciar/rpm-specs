@@ -3,8 +3,7 @@
 
 # https://github.com/mattetti/filebuffer
 %global goipath         github.com/mattetti/filebuffer
-Version:                1.0.0
-%global tag             v1.0.0
+Version:                1.0.1
 
 %gometa
 
@@ -43,5 +42,11 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 20:02:26 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.1-1
+- Update to 1.0.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 12 2020 Mark Goodwin <mgoodwin@redhat.com> - 1.0.0-1
 - Initial package

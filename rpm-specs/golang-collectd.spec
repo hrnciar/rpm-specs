@@ -4,15 +4,9 @@
 # https://github.com/collectd/go-collectd
 %global goipath         collectd.org
 %global forgeurl        https://github.com/collectd/go-collectd
-Version:                0.3.0
-%global commit          f80706d1e115f0e4a6cbd8bf7c5cddf99d836495
+Version:                0.5.0
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-collectd-go-collectd-devel < 0-0.14
-}
 
 %global common_description %{expand:
 Utilities for using collectd together with Go.}
@@ -23,7 +17,7 @@ Utilities for using collectd together with Go.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Utilities for using Collectd together with Go
 
 License:        ISC
@@ -36,9 +30,16 @@ BuildRequires:  golang(github.com/golang/protobuf/proto)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/duration)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/timestamp)
+BuildRequires:  golang(github.com/google/go-cmp/cmp)
+BuildRequires:  golang(go.uber.org/multierr)
 BuildRequires:  golang(golang.org/x/net/context)
 BuildRequires:  golang(google.golang.org/grpc)
 BuildRequires:  golang(google.golang.org/grpc/codes)
+
+%if %{with check}
+# Tests
+BuildRequires:  golang(github.com/google/go-cmp/cmp/cmpopts)
+%endif
 
 %description
 %{common_description}
@@ -53,15 +54,6 @@ mv plugin/README.md README-plugin.md
 %install
 %gopkginstall
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck
@@ -70,6 +62,12 @@ end
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 20:30:24 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.5.0-1
+- Update to 0.5.0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

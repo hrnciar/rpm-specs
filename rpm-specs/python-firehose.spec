@@ -1,12 +1,15 @@
 Name:           python-firehose
 Version:        0.5
-Release:        13%{?dist}
+Release:        15%{?dist}
 Summary:        Library for working with output from static code analyzers
 
 License:        LGPLv2+
 URL:            https://github.com/fedora-static-analysis/firehose
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 BuildArch:      noarch
+
+# https://github.com/fedora-static-analysis/firehose/pull/42
+Patch0:         0001-Remove-calls-to-deprecated-plistlib-function.patch
 
 BuildRequires:  libxml2
 # ^^^: for xmllint
@@ -40,6 +43,7 @@ Requires:  python3-six
 
 %prep
 %setup -q -n firehose-%{version}
+%patch0 -p1
 
 # Change shebang according to Python version
 sed -i '1s=^#!/usr/bin/\(python\|env python\)[0-9.]*=#!%{__python3}=' firehose/parsers/cppcheck.py
@@ -66,6 +70,12 @@ chmod +x %{buildroot}/%{python3_sitelib}/firehose/parsers/gcc.py
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 Athos Ribeiro <athoscr@fedoraproject.org> - 0.5-14
+- Remove call to deprecated plistlib functions for python 3.9 compatibility
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5-13
 - Rebuilt for Python 3.9
 

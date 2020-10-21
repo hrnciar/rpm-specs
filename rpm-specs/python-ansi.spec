@@ -1,6 +1,6 @@
 Name:		python-ansi
 Version:	0.1.3
-Release:	21%{?dist}
+Release:	22%{?dist}
 Summary:	ANSI cursor movement and graphics
 
 License:	MIT
@@ -53,6 +53,9 @@ popd
 %{python3_sitelib}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.3-21
 - Rebuilt for Python 3.9
 

@@ -1,5 +1,5 @@
 %global year 2020
-%global month 02
+%global month 07
 
 %global __provides_exclude_from ^.*libperl6_ops_moar\\.so.*$
 
@@ -161,6 +161,12 @@ rm -f t/08-performance/99-misc.t
 
 
 %changelog
+* Wed Aug 12 2020 Gerd Pokorra <gp@zimt.uni-siegen.de> 0.2020.07-1 
+- update to 2020.07
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2020.02-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 25 2020 Gerd Pokorra <gp@zimt.uni-siegen.de> 0.2020.02-1 
 - update to 2020.02
 

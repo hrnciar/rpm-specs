@@ -1,6 +1,6 @@
 %global module_name pycodestyle
 
-%if 0%{?fedora} >= 32
+%if 0%{?fedora} >= 32 || 0%{?rhel} >= 9
 %bcond_with python2
 %else
 %bcond_without python2
@@ -9,7 +9,7 @@
 Name:           python-%{module_name}
 # WARNING: When updating pycodestyle, check not to break flake8!
 Version:        2.6.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python style guide checker
 License:        MIT
 URL:            https://pypi.python.org/pypi/%{module_name}
@@ -122,6 +122,9 @@ install -D docs/_build/man/%{module_name}.1 %{buildroot}%{_mandir}/man1/%{module
 %{python3_sitelib}/%{module_name}-%{version}-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 31 2020 Miro Hrončok <mhroncok@redhat.com> - 2.6.0-1
 - Update to 2.6.0 (#1827430)
 

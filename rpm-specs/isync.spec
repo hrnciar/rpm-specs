@@ -1,7 +1,7 @@
 Name:           isync
-Version:        1.3.1
-Release:        3%{?dist}
-Summary:        A tool to synchronize IMAP4 and Maildir mailboxes
+Version:        1.3.3
+Release:        1%{?dist}
+Summary:        Tool to synchronize IMAP4 and Maildir mailboxes
 
 License:        GPLv2+
 URL:            http://isync.sourceforge.net/
@@ -15,9 +15,9 @@ BuildRequires:  cyrus-sasl-devel
 Requires:       cyrus-sasl
 
 %description
-isync is a command line application which synchronizes mailboxes; currently
-Maildir and IMAP4 mailboxes are supported.  New messages, message deletions
-and flag changes can be propagated both ways.  isync is suitable for use in
+isync is a command line application which synchronizes mailboxes. Currently
+Maildir and IMAP4 mailboxes are supported. New messages, message deletions
+and flag changes can be propagated both ways. isync is suitable for use in
 IMAP-disconnected mode.
 
 %prep
@@ -50,6 +50,15 @@ rm -r %{buildroot}%{_datadir}/doc/isync
 %{_mandir}/man1/*
 
 %changelog
+* Thu Aug 06 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.3.3-1
+- Update to latest upstream release 1.3.3 (rhbz#1865992)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.3.2-1
+- Update to latest upstream release 1.3.2 (rhbz#1854842)
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,14 +3,9 @@
 
 # https://github.com/golang/groupcache
 %global goipath         github.com/golang/groupcache
-%global commit          5b532d6fd5efaf7fa130d4e859a2fde0fc3a9e1b
+%global commit          8c9f03a8e57eb486e42badaed3fb287da51807ba
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-golang-groupcache-devel < 0-0.18
-}
 
 %global common_description %{expand:
 Package Groupcache provides a data loading mechanism with caching and
@@ -28,7 +23,7 @@ the same key result in just one cache fill.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.21%{?dist}
+Release:        0.23%{?dist}
 Summary:        Caching and cache-filling library, intended as a replacement
 
 # Upstream license specification: Apache-2.0
@@ -60,6 +55,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 17:52:46 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.22.20200727git8c9f03a
+- Bump to commit 8c9f03a8e57eb486e42badaed3fb287da51807ba
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

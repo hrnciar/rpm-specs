@@ -4,8 +4,8 @@
 %global srcname flit
 
 Name:		python-%{srcname}
-Version:	2.3.0
-Release:	3%{?dist}
+Version:	3.0.0
+Release:	1%{?dist}
 Summary:	Simplified packaging of Python modules
 
 # ./flit/logo.py  under ASL 2.0 license
@@ -20,6 +20,7 @@ Source1:	https://pypi.org/pypi?%3Aaction=list_classifiers#/classifiers.lst
 
 BuildArch:	noarch
 BuildRequires:	python3-devel
+BuildRequires:	pyproject-rpm-macros
 BuildRequires:	python3-pip
 BuildRequires:	python3-requests
 BuildRequires:	python3-docutils
@@ -86,22 +87,17 @@ at flit_core.buildapi.
 export FLIT_NO_NETWORK=1
 
 # first, build flit_core with self
-# TODO do it in a less hacky way, this is reconstructed from pyoroject.toml
 cd flit_core
-PYTHONPATH=$PWD %{python3} -c 'from flit_core.build_thyself import build_wheel; build_wheel(".")'
-
-# %%py3_install_wheel unfortunately hardcodes installing from dist/
-mkdir ../dist
-mv flit_core-%{version}-py2.py3-none-any.whl ../dist
+%pyproject_wheel
+# Move %%{_pyproject_wheeldir}/flit_core wheel to the main dir
+mv %{_pyproject_wheeldir} ..
 cd -
 
-PYTHONPATH=$PWD:$PWD/flit_core %{python3} -m flit build --format wheel
-
+# build of the main flit (needs flit_core)
+PYTHONPATH=$PWD:$PWD/flit_core %pyproject_wheel
 
 %install
-%py3_install_wheel flit_core-%{version}-py2.py3-none-any.whl
-%py3_install_wheel flit-%{version}-py3-none-any.whl
-
+%pyproject_install
 
 %if %{with tests}
 %check
@@ -132,6 +128,12 @@ pytest-3
 
 
 %changelog
+* Mon Sep 21 2020 Tomas Hrnciar <thrnciar@redhat.com> - 3.0.0-1
+- Update to 3.0.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 2.3.0-3
 - Rebuilt for Python 3.9
 

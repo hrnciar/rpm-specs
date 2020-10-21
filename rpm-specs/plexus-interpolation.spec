@@ -1,6 +1,6 @@
 Name:           plexus-interpolation
 Version:        1.26
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Plexus Interpolation API
 License:        ASL 2.0 and ASL 1.1 and MIT
 URL:            https://github.com/codehaus-plexus/%{name}
@@ -41,6 +41,12 @@ API documentation for %{name}.
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.26-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.26-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.26-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:           xiphos
 Version:        4.2.1
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Bible study and research tool
 License:        GPLv2+
 URL:            http://xiphos.org/
@@ -54,20 +56,14 @@ export CXXFLAGS="$CXXFLAGS -fPIC"
 export CXXFLAGS
 export CFLAGS
 
-mkdir build
-pushd build
 LDFLAGS='%{?__global_ldflags}' \
 %cmake -DGTKHTML:BOOL=ON \
     -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-    ..
-
-%make_build
-popd
+    %{nil}
+%cmake_build
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 
 desktop-file-install --delete-original         \
     --add-category=X-Bible                     \
@@ -98,6 +94,13 @@ rm -frv %{buildroot}%{_docdir}/%{name}
 %{_mandir}/man1/%{name}-nav.1.gz
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 11 2020 Greg Hellings <greg.hellings@gmail.com> - 4.2.1-4
 - Remove libglade2 from BR
 

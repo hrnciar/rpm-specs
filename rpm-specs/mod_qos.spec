@@ -8,7 +8,7 @@
 
 Name:           mod_qos
 Version:        11.66
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Quality of service module for Apache
 
 License:        GPLv2
@@ -92,6 +92,9 @@ install -Dpm 644 man1/*  %{buildroot}%{_mandir}/man1/
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.66-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Othman Madjoudj <athmane@fedoraproject.org> - 11.66-1
 - Update to 11.66 (rhbz #1838788)
 

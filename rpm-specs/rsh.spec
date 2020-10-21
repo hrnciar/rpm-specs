@@ -3,7 +3,7 @@
 Summary: Clients for remote access commands (rsh, rlogin, rcp)
 Name: rsh
 Version: 0.17
-Release: 94%{?dist}
+Release: 96%{?dist}
 License: BSD
 
 BuildRequires: perl-interpreter, ncurses-devel, pam-devel, audit-libs-devel, systemd, gcc
@@ -254,6 +254,13 @@ install -m644 %SOURCE10 %{buildroot}%{_unitdir}/rexec.socket
 %{_mandir}/man8/*.8*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-96
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-95
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 03 2020 Michal Ruprich <mruprich@redhat.com> - 0.17-94
 - Resolves: #1797540 - rexecd prints incorrect IP addresses with -D
 

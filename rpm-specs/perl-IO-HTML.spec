@@ -1,14 +1,21 @@
 Name:           perl-IO-HTML
-Version:        1.001
-Release:        17%{?dist}
+Version:        1.004
+Release:        1%{?dist}
 Summary:        Open an HTML file with automatic character set detection
-License:        GPL+ or Artistic
+License:        (GPL+ or Artistic) and Public Domain
 URL:            https://metacpan.org/release/IO-HTML
 Source0:        https://cpan.metacpan.org/authors/id/C/CJ/CJM/IO-HTML-%{version}.tar.gz
+# Do not use /usr/bin/env in a shebang
+Patch0:         IO-HTML-1.004-Normalize-a-shebang.patch
 BuildArch:      noarch
-BuildRequires:  perl-interpreter
+BuildRequires:  coreutils
+BuildRequires:  make
 BuildRequires:  perl-generators
-BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.30
+BuildRequires:  perl-interpreter
+BuildRequires:  perl(:VERSION) >= 5.8
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
+BuildRequires:  perl(strict)
+BuildRequires:  perl(warnings)
 # Run-time:
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(Encode) >= 2.10
@@ -26,25 +33,32 @@ algorithm specified in section 8.2.2.1 of the draft standard.
 
 %prep
 %setup -q -n IO-HTML-%{version}
+%patch0 -p1
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
-find $RPM_BUILD_ROOT -type f -name .packlist -exec rm -f {} \;
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
 make test
 
 %files
-%doc Changes LICENSE README
+%license LICENSE
+%doc Changes examples README
 %{perl_vendorlib}/*
 %{_mandir}/man3/*
 
 %changelog
+* Tue Sep 29 2020 Petr Pisar <ppisar@redhat.com> - 1.004-1
+- 1.004 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.001-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.001-17
 - Perl 5.32 rebuild
 

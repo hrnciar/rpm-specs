@@ -5,7 +5,7 @@
 Summary:	MinGW build of a C++ port of Lucene
 Name:		mingw-%{_pkg_name}
 Version:	2.3.3.4
-Release:	23%{?dist}
+Release:	24%{?dist}
 License:	LGPLv2+ or ASL 2.0
 URL:		http://www.sourceforge.net/projects/clucene
 Source0:	http://downloads.sourceforge.net/clucene/clucene-core-%{version}.tar.gz
@@ -153,6 +153,9 @@ mv $RPM_BUILD_ROOT%{mingw64_libdir}/libclucene-core.dll \
 %{mingw64_includedir}/CLucene.h
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.3.4-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.3.4-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

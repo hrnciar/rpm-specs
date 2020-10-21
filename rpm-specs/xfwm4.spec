@@ -1,7 +1,7 @@
 %global xfceversion 4.14
 
 Name:           xfwm4
-Version:        4.14.2
+Version:        4.14.5
 Release:        1%{?dist}
 Summary:        Next generation window manager for Xfce
 
@@ -64,6 +64,26 @@ done
 
 
 %changelog
+* Sun Aug 09 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 4.14.5-1
+- Update to 4.14.5
+
+* Sat Aug 01 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 4.14.4-1
+- Update to 4.14.4
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 4.14.3-1
+- Update to 4.14.3
+- Drop merged patch
+
+* Wed Jul 15 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 4.14.2-2
+- Add patch to fix crashes with glib 2.65.x
+
 * Fri May 01 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 4.14.2-1
 - Update to 4.14.2
 

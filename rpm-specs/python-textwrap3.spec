@@ -3,7 +3,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.9.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Text wrap backport
 
 License:        Python
@@ -52,5 +52,8 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v test
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.9.2-1
 - Initial package for Fedora

@@ -1,6 +1,6 @@
 Name:           humanity-icon-theme
 Version:        0.6.15
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Humanity icon theme
 
 License:        GPLv2
@@ -60,6 +60,9 @@ rm $RPM_BUILD_ROOT%{_datadir}/icons/Humanity-Dark/{AUTHORS,COPYING}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.15-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.15-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

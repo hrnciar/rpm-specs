@@ -1,6 +1,6 @@
 Name:		libcsv
 Version:	3.0.3
-Release:	13%{?dist}
+Release:	14%{?dist}
 Summary:	Small, simple and fast CSV library
 
 License:	LGPLv2+
@@ -53,6 +53,9 @@ make install DESTDIR=%{buildroot}
 %exclude %{_libdir}/libcsv.la
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.3-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.3-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

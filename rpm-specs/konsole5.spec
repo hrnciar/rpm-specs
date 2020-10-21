@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 
 # uncomment to enable bootstrap mode
 #global bootstrap 1
@@ -10,7 +11,7 @@
 
 Name:    konsole5
 Summary: KDE Terminal emulator
-Version: 20.04.2
+Version: 20.08.1
 Release: 1%{?dist}
 
 # sources: MIT and LGPLv2 and LGPLv2+ and GPLv2+
@@ -106,17 +107,14 @@ Summary: Konsole5 kpart plugin
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%cmake_kf5 \
   %{?tests:-DBUILD_TESTING:BOOL=ON}
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 install -m644 -p -b -D %{SOURCE10} %{buildroot}%{_kf5_sysconfdir}/xdg/konsolerc
 
@@ -140,7 +138,7 @@ make test -C %{_target_platform} ARGS="--output-on-failure --timeout 30" ||:
 
 
 %files -f konsole.lang
-%doc README
+%doc README*
 %{_kf5_datadir}/qlogging-categories5/konsole.*
 %dir %{_kf5_datadir}/knsrcfiles/
 %{_kf5_datadir}/knsrcfiles/konsole.knsrc
@@ -167,6 +165,18 @@ make test -C %{_target_platform} ARGS="--output-on-failure --timeout 30" ||:
 
 
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Mon Aug 17 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.2-1
 - 20.04.2
 

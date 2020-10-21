@@ -2,7 +2,7 @@
 
 Name:		libdkimpp
 Version:	2.0.0
-Release:	3%{?dist}
+Release:	6%{?dist}
 Summary:	Lightweight and portable DKIM (RFC4871) library
 
 License:	LGPLv3+
@@ -12,7 +12,6 @@ Source0:	https://github.com/halonsecurity/libdkimpp/archive/v%{version}.tar.gz
 BuildRequires:	cmake
 BuildRequires:	coreutils
 BuildRequires:	gcc-c++
-BuildRequires:	make
 BuildRequires:	pkgconfig
 
 BuildRequires:	pkgconfig(cppunit)
@@ -37,20 +36,14 @@ with %{name}.
 %setup -q
 
 %build
-mkdir -p build
-cd build
-
-%cmake ..
-
-make %{?_smp_mflags}
+%cmake
+%cmake_build
 
 %check
-cd build
-make test
+%ctest
 
 %install
-cd build
-make install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 
 chmod +x $RPM_BUILD_ROOT/%{_libdir}/*.so*
 
@@ -68,6 +61,16 @@ chmod +x $RPM_BUILD_ROOT/%{_libdir}/*.so*
 
 
 %changelog
+* Tue Aug 11 2020 Denis Fateyev <denis@fateyev.com> - 2.0.0-6
+- Spec file upgrade and cleanup
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

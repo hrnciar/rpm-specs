@@ -1,6 +1,6 @@
 Name:          maven-dependency-tree
 Version:       3.0.1
-Release:       3%{?dist}
+Release:       5%{?dist}
 Summary:       Maven dependency tree artifact
 License:       ASL 2.0
 Url:           http://maven.apache.org/
@@ -52,6 +52,12 @@ find -name Maven3DependencyGraphBuilder.java -delete
 %doc LICENSE NOTICE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.0.1-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

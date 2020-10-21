@@ -1,18 +1,14 @@
-# https://fedoraproject.org/wiki/Packaging:DistTag?rd=Packaging/DistTag#Conditionals
-# http://rpm.org/user_doc/conditional_builds.html
-%if 0%{?fedora} >= 30
-# disabled by default
-%bcond_with py2
-%else
-%bcond_without py2 0
-%endif
-
 # No tests included in package
 # and since they use versioneer, I'm unable to figure out what git commit this
 # release comes from
-%bcond_with tests
+%bcond_without tests
+
+# Use github commit tar instead of pypi which does not include tests
+%global commit 18f8d8bb1d301157533fc7f02693697e661aaf18
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 %global srcname efel
+%global prettyname eFEL
 
 %global desc %{expand: \
 The Electrophys Feature Extraction Library (eFEL) allows neuroscientists to
@@ -28,17 +24,13 @@ the moment we provide a way to automatically compile and install the library as
 a Python module.}
 
 Name:           python-%{srcname}
-Version:        3.0.66
-Release:        4%{?dist}
+Version:        3.1.39
+Release:        3%{?dist}
 Summary:        Electrophys Feature Extraction Library
 
 License:        LGPLv3
 URL:            http://efel.readthedocs.io/
-Source0:        %pypi_source
-# Upstream does not include these. Issue filed:
-# https://github.com/BlueBrain/eFEL/issues/144
-Source1:        https://github.com/BlueBrain/eFEL/raw/master/LICENSE.txt
-Source2:        https://github.com/BlueBrain/eFEL/raw/master/LGPL.txt
+Source0:        https://github.com/BlueBrain/%{prettyname}/archive/%{commit}/%{srcname}-%{shortcommit}.tar.gz
 
 BuildRequires:  gcc-c++
 %{?python_enable_dependency_generator}
@@ -46,19 +38,18 @@ BuildRequires:  gcc-c++
 %description
 %{desc}
 
-%if %{with py2}
-%package -n python2-%{srcname}
-Summary:        %{summary}
-BuildRequires:  python2-devel
-%{?python_provide:%python_provide python2-%{srcname}}
-
-%description -n python2-%{srcname}
-%{desc}
-%endif
-
 %package -n python3-%{srcname}
 Summary:        %{summary}
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
+%if %{with tests}
+BuildRequires:  %{py3_dist six}
+BuildRequires:  %{py3_dist scipy}
+BuildRequires:  %{py3_dist neo}
+BuildRequires:  %{py3_dist nose}
+BuildRequires:  %{py3_dist numpy}
+%endif
+
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
@@ -66,29 +57,15 @@ BuildRequires:  python3-devel
 
 
 %prep
-%autosetup -n %{srcname}-%{version}
+%autosetup -n %{prettyname}-%{commit}
 rm -rf %{srcname}.egg-info
 
-cp -v %{SOURCE1} LICENSE
-cp -v %{SOURCE2} LGPL
+sed -i 's/HEAD -> master/tag: %{version}/' efel/_version.py
 
 %build
 %py3_build
 
-%if %{with py2}
-%py2_build
-%endif
-
 %install
-# Must do the python2 install first because the scripts in /usr/bin are
-# overwritten with every setup.py install, and in general we want the
-# python3 version to be the default.
-# If, however, we're installing separate executables for python2 and python3,
-# the order needs to be reversed so the unversioned executable is the python2 one.
-%if %{with py2}
-%py2_install
-%endif
-
 %py3_install
 
 # Remove headers. We won't provide them here.
@@ -97,27 +74,32 @@ rm -rf %{buildroot}/%{python3_sitearch}/%{srcname}/cppcore
 
 %check
 %if %{with tests}
-%if %{with py2}
-%{__python2} setup.py test
-%endif
-%{__python3} setup.py test
-%endif
-
-%if %{with py2}
-%files -n python2-%{srcname}
-%license LGPL
-%doc README.md LICENSE
-%{python2_sitearch}/%{srcname}-%{version}-py2.?.egg-info
-%{python2_sitearch}/%{srcname}
+# https://github.com/BlueBrain/eFEL/blob/master/Makefile#L36
+pushd efel/tests
+PYTHONPATH=%{buildroot}/%{python3_sitearch} nosetests-%{python3_version}  -s -v -x
+popd
 %endif
 
 %files -n python3-%{srcname}
-%license LGPL
-%doc README.md LICENSE
-%{python3_sitearch}/%{srcname}-%{version}-py3.?.egg-info
+%license LGPL.txt
+%doc README.md LICENSE.txt
+%{python3_sitearch}/%{srcname}-%{version}-py%{python3_version}.egg-info
 %{python3_sitearch}/%{srcname}
 
 %changelog
+* Sun Sep 13 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.1.39-3
+- Use github tarball
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.39-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.1.39-1
+- Update to latest release
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.0.66-5
+- Remove py2 bits
+- Explicitly BR setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.66-4
 - Rebuilt for Python 3.9
 

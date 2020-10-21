@@ -1,6 +1,6 @@
 Name:           opencity
 Version:        0.0.6.5
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Full 3D city simulator game project
 
 License:        GPLv2
@@ -108,6 +108,9 @@ rm -rfv %{buildroot}%{_defaultdocdir}/%{name}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.6.5-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.6.5-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

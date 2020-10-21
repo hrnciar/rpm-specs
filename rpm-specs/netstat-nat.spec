@@ -1,6 +1,6 @@
 Name:           netstat-nat
 Version:        1.4.10
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        A tool that displays NAT connections
 
 License:        GPLv2+
@@ -33,6 +33,9 @@ make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.10-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.10-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

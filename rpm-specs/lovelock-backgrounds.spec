@@ -1,6 +1,6 @@
 Name:           lovelock-backgrounds
 Version:        14.91.1
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Lovelock desktop backgrounds
 
 License:        CC-BY-SA
@@ -247,6 +247,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 14.91.1-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 14.91.1-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

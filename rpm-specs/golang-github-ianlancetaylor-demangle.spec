@@ -3,7 +3,7 @@
 
 # https://github.com/ianlancetaylor/demangle
 %global goipath         github.com/ianlancetaylor/demangle
-%global commit          5e5cf60278f657d30daa329dd0e7e893b6b8f027
+%global commit          053cf528c12f92d0c9155329933bc2e079830b46
 
 %gometa
 
@@ -15,7 +15,7 @@ A Go package that can be used to demangle C++ symbol names.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.6%{?dist}
+Release:        0.7%{?dist}
 Summary:        C++ symbol name demangler written in Go
 
 # Upstream license specification: BSD-3-Clause
@@ -42,6 +42,9 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 23:09:33 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.7.20200727git053cf52
+- Bump to commit 053cf528c12f92d0c9155329933bc2e079830b46
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

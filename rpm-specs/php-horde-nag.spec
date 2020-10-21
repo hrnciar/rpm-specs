@@ -12,7 +12,7 @@
 
 Name:           php-horde-nag
 Version:        4.2.19
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A web based task list manager
 
 License:        GPLv2
@@ -219,6 +219,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.19-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun  2 2020 Remi Collet <remi@remirepo.net> - 4.2.19-5
 - requires php(httpd)
 

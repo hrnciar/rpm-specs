@@ -5,8 +5,8 @@
 %bcond_with     release_tests
 
 Name:           perl-Log-Dispatch
-Version:        2.69
-Release:        4%{?dist}
+Version:        2.70
+Release:        1%{?dist}
 Summary:        Dispatches messages to one or more outputs
 License:        Artistic 2.0
 URL:            https://metacpan.org/release/Log-Dispatch
@@ -66,7 +66,6 @@ BuildRequires:  perl(CPAN::Meta) >= 2.120900
 # testsuite
 BuildRequires:  perl(Test::Fatal)
 BuildRequires:  perl(Test::More) >= 0.96
-# N/A in Fedora < 24
 BuildRequires:  perl(Test::Needs)
 BuildRequires:  perl(threads)
 BuildRequires:  perl(threads::shared)
@@ -87,7 +86,6 @@ BuildRequires:  perl(Test::CPAN::Changes)
 BuildRequires:  perl(Test::Mojibake)
 BuildRequires:  perl(Test::Portability::Files)
 BuildRequires:  perl(Test::Version)
-# N/A in Fedora < 24
 BuildRequires:  perl(Test::Code::TidyAll) > 0.24
 
 # Required by t/release-pod-no404s.t
@@ -127,6 +125,13 @@ make test %{?with_release_tests:RELEASE_TESTING=1} LOG_DISPATCH_TEST_EMAIL="root
 %{_mandir}/man3/*.3pm*
 
 %changelog
+* Fri Jul 31 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 2.70-1
+- Update to 2.70.
+- Remove outdated comments.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.69-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.69-4
 - Perl 5.32 rebuild
 

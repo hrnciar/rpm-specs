@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.06
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        Hypothesis Strategy for Generating Arbitrary DBus Signatures
 
 License:        MPLv2.0
@@ -52,6 +52,13 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests
 %{python3_sitelib}/hs_dbus_signature-*.egg-info/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.06-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.06-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.06-7
 - Rebuilt for Python 3.9
 

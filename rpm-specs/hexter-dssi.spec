@@ -3,7 +3,7 @@
 Summary:      DSSI software synthesizer plugin emulating DX7
 Name:         hexter-dssi
 Version:      1.1.0
-Release:      2%{?dist}
+Release:      3%{?dist}
 URL:          http://smbolton.com/hexter.html
 Source0:      https://github.com/smbolton/%{srcname0}/archive/version_%{version}/%{srcname0}-version_%{version}.tar.gz
 Source1:      hexter.desktop
@@ -72,6 +72,9 @@ install -pm 644 %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/36x36/apps/h
 %exclude %{_libdir}/dssi/hexter.la
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 17 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 1.1.0-2
 - Fix for GUI still not working
 

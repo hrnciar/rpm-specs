@@ -28,7 +28,7 @@
 
 Name:          php-%{lib_name_old}
 Version:       %{github_version}
-Release:       11%{?dist}
+Release:       12%{?dist}
 Summary:       A PHP parser written in PHP - version 1
 
 License:       BSD
@@ -127,6 +127,9 @@ install -Dpm 755 bin/php-parse.php %{buildroot}%{_bindir}/php-parse
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb  4 2020 Remi Collet <remi@fedoraproject.org> - 1.4.1-11
 - skip 1 failed test with 7.4
 

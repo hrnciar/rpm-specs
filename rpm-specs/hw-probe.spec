@@ -1,7 +1,7 @@
 Summary:    Check operability of computer hardware and find drivers
 Name:       hw-probe
 Version:    1.5
-Release:    2%{?dist}
+Release:    4%{?dist}
 BuildArch:  noarch
 License:    LGPLv2+
 URL:        https://github.com/linuxhw/hw-probe
@@ -20,7 +20,7 @@ Requires:   lm_sensors
 Recommends: dmidecode
 Recommends: mcelog
 Recommends: acpica-tools
-Recommends: xorg-x11-utils
+Recommends: edid-decode xdpyinfo xinput xrandr xvinfo
 Recommends: glx-utils
 %endif
 %if 0%{?el6}%{?el7}
@@ -67,6 +67,12 @@ mkdir -p %{buildroot}%{_prefix}
 %{_bindir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 1.5-4
+- Recommend edid-decode xdpyinfo xinput xrandr xvinfo, not xorg-x11-utils
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

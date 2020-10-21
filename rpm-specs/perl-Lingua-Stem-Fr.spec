@@ -1,6 +1,6 @@
 Name:           perl-Lingua-Stem-Fr
 Version:        0.02
-Release:        29%{?dist}
+Release:        30%{?dist}
 Summary:        Perl French Stemming
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Lingua-Stem-Fr
@@ -49,6 +49,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.02-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.02-29
 - Perl 5.32 rebuild
 

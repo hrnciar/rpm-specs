@@ -16,7 +16,7 @@ monitor events; build circuits; create onion services; etcetera.}
 Name:           python-%{pypi_name}
 Summary:        Twisted-based Tor controller client
 Version:        20.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 
 # code: MIT; alabaster sphinx theme: BSD
 License:        MIT and BSD
@@ -103,6 +103,9 @@ PYTHONPATH=. trial-3 --reporter=text test
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 20.0.0-2
 - Rebuilt for Python 3.9
 

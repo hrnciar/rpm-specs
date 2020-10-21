@@ -5,7 +5,7 @@
 %endif
 
 Name:           lynis
-Version:        3.0.0
+Version:        3.0.1
 Release:        1%{?dist}
 Summary:        Security and system auditing tool
 License:        GPLv3
@@ -81,6 +81,12 @@ touch %{buildroot}%{_localstatedir}/log/lynis-report.dat
 %ghost %{_localstatedir}/log/lynis-report.dat
 
 %changelog
+* Wed Oct 07 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.0.1-1
+- 3.0.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 20 2020 Othman Madjoudj Othman Madjoudj <athmane@fedoraproject.org> - 3.0.0-1
 - Update to 3.0.0 (rhbz #1848716)
 - Fixes CVE-2020-13882 / CVE-2019-13033

@@ -2,7 +2,7 @@
 
 Name:           nodejs-slide
 Version:        1.1.6
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        A flow control library that fits in a slideshow
 License:        ISC
 URL:            https://github.com/isaacs/slide-flow-control
@@ -16,6 +16,7 @@ ExclusiveArch:  %{ix86} x86_64 %{arm} noarch
 %endif
 
 BuildRequires:  nodejs-packaging
+BuildRequires:  nodejs(engine)
 
 %description
 Provides simple, easy callbacks for node.js.
@@ -48,6 +49,9 @@ cp -pr package.json index.js lib %{buildroot}%{nodejs_sitelib}/slide
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.6-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.6-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

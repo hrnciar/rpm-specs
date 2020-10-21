@@ -1,7 +1,7 @@
 Summary: A panoramic photo stitcher and more
 Name: hugin
 Version: 2019.2.0
-Release: 4%{?dist}
+Release: 7%{?dist}
 License: GPLv2+
 Source: http://downloads.sourceforge.net/hugin/%{name}-%{version}.tar.bz2
 URL: http://hugin.sourceforge.net/
@@ -39,16 +39,12 @@ src/hugin_script_interface/*.py \
 src/hugin_script_interface/plugins/*.py
 
 %build
-# hugin now forces build out of tree
-[ ! -d "build" ] && mkdir  build
-cd build
 # note -DUSE_GDKBACKEND_X11=1 can be removed for f32, see https://src.fedoraproject.org/rpms/panoglview/pull-request/2
-%cmake .. -DBUILD_HSI=1 -DUSE_GDKBACKEND_X11=1
-%make_build VERBOSE=1
+%cmake -DBUILD_HSI=1 -DUSE_GDKBACKEND_X11=1
+%cmake_build
 
 %install
-cd build
-%make_install
+%cmake_install
 
 desktop-file-install --vendor="" --delete-original \
   --dir=%{buildroot}/%{_datadir}/applications \
@@ -59,7 +55,6 @@ desktop-file-install --vendor="" --delete-original \
 desktop-file-install --vendor="" --delete-original \
   --dir=%{buildroot}/%{_datadir}/applications \
   %{buildroot}/%{_datadir}/applications/pto_gen.desktop
-cd ..
 %find_lang %{name}
 
 # Merge applications into one software center item
@@ -198,6 +193,15 @@ EOF
 %{_mandir}/man1/hugin_lensdb.*
 
 %changelog
+* Sat Aug 08 2020 Rich Mattes <richmattes@gmail.com> - 2019.2.0-7
+- Rebuild for flann-1.9.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.2.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Bruno Postle <bruno@postle.net> - 2019.2.0-5
+- cmake macros have changed, rebuild
+
 * Fri May 29 2020 Jonathan Wakely <jwakely@redhat.com> - 2019.2.0-4
 - Rebuilt for Boost 1.73
 

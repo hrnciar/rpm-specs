@@ -1,6 +1,6 @@
 Name: libqmatrixclient
 Version: 0.5.3.2
-Release: 1%{?dist}
+Release: 4%{?dist}
 
 Summary: Qt5 library to write cross-platform clients for Matrix
 License: LGPLv2
@@ -36,17 +36,14 @@ Requires: %{name}%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %prep
 %autosetup -n libQuotient-%{version}
-mkdir -p %{_target_platform}
 rm -rf 3rdparty
 
 %build
-pushd %{_target_platform}
-    %cmake -G Ninja \
+%cmake -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
     -DQMATRIXCLIENT_INSTALL_EXAMPLE=OFF \
     -DCMAKE_INSTALL_INCLUDEDIR:PATH="include/QMatrixClient" \
     ..
-popd
 %ninja_build -C %{_target_platform}
 
 %install
@@ -65,6 +62,16 @@ rm -rf %{buildroot}%{_datadir}/ndk-modules
 %{_libdir}/libQMatrixClient.so
 
 %changelog
+* Thu Aug 06 2020 Brendan Early <mymindstorm@evermiss.net> - 0.5.3.2-4
+- Fix build failure
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 01 2020 Brendan Early <mymindstorm@evermiss.net> - 0.5.3.2-1
 - Version 0.5.3.2
 

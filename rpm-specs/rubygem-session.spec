@@ -3,7 +3,7 @@
 Summary: Session drives external programs
 Name: rubygem-%{gem_name}
 Version: 3.1.0
-Release: 20%{?dist}
+Release: 21%{?dist}
 License: Ruby
 URL: http://github.com/ahoward/session/tree/master
 Source0: http://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -70,6 +70,9 @@ ruby -Ilib -e 'Dir.glob "./test/*.rb", &method(:require)'
 %doc %{gem_instdir}/test
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

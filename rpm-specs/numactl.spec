@@ -1,12 +1,12 @@
 Name:		numactl
 Summary:	Library for tuning for Non Uniform Memory Access machines
-Version:	2.0.12
-Release:	4%{dist}
+Version:	2.0.14
+Release:	1%{dist}
 # libnuma is LGPLv2 and GPLv2
 # numactl binaries are GPLv2 only
 License:	GPLv2
 URL:		https://github.com/numactl/numactl
-Source0:	https://github.com/numactl/numactl/releases/download/v2.0.12/numactl-2.0.12.tar.gz
+Source0:	%{url}/releases/download/v%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:	libtool automake autoconf
 
@@ -34,7 +34,7 @@ License: LGPLv2 and GPLv2
 Provides development headers for numa library calls
 
 %prep
-%setup -q -n %{name}-%{version}
+%autosetup
 
 %build
 %configure --prefix=/usr --libdir=%{_libdir}
@@ -42,13 +42,11 @@ Provides development headers for numa library calls
 # https://fedoraproject.org/wiki/RPath_Packaging_Draft#Removing_Rpath
 sed -i -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
        -e 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
-make clean
-make CFLAGS="$RPM_OPT_FLAGS -I."
+%make_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
-make DESTDIR=$RPM_BUILD_ROOT install
+%make_install
 
 %ldconfig_scriptlets
 %ldconfig_scriptlets libs
@@ -79,6 +77,16 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %{_mandir}/man3/*.3*
 
 %changelog
+* Thu Sep 17 2020 Filipe Brandenburger <filbranden@gmail.com> - 2.0.14-1
+- Upgrade to 2.0.14
+- Re-enabled LTO, now that upstream has been fixed to support it.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.12-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> - 2.0.12-5
+- Disable LTO
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.12-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

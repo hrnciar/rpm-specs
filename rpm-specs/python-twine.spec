@@ -4,8 +4,8 @@
 %bcond_with internet
 
 Name:           python-%{srcname}
-Version:        3.1.1
-Release:        1%{?dist}
+Version:        3.2.0
+Release:        2%{?dist}
 Summary:        Collection of utilities for interacting with PyPI
 
 License:        ASL 2.0
@@ -25,6 +25,8 @@ Summary:        Twine is a utility for publishing Python packages on PyPI
 BuildRequires:  python3-devel
 BuildRequires:  python3dist(setuptools)
 BuildRequires:  python3dist(setuptools-scm)
+BuildRequires:  python3dist(rfc3986)
+BuildRequires:  python3dist(colorama)
 
 %if %{with tests}
 BuildRequires:  python3dist(pytest)
@@ -38,6 +40,7 @@ BuildRequires:  python3dist(pkginfo)
 BuildRequires:  python3dist(keyring)
 BuildRequires:  python3dist(pretend)
 BuildRequires:  python3dist(readme-renderer)
+BuildRequires:  python3dist(pytest-cov)
 
 %if %{with internet}
 # pytest-services is not packaged yet
@@ -85,6 +88,12 @@ install -p -D -T -m 0644 %{SOURCE1} %{buildroot}%{_mandir}/man1/%{srcname}.1
 %{python3_sitelib}/twine-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Charalampos Stratakis <cstratak@redhat.com> - 3.2.0-1
+- Update to 3.2.0 (#1850277)
+
 * Fri Jun 05 2020 Charalampos Stratakis <cstratak@redhat.com> - 3.1.1-1
 - Update to 3.1.1 (#1755042)
 

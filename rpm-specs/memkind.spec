@@ -1,24 +1,20 @@
-%global gittag0 v1.10.0
+%global gittag0 v1.10.1
 
 Name: memkind
 Summary: User Extensible Heap Manager
-Version: 1.10.0
-Release: 1%{?checkout}%{?dist}
+Version: 1.10.1
+Release: 2%{?checkout}%{?dist}
 License: BSD
 URL: http://memkind.github.io/memkind
-BuildRequires: automake libtool numactl-devel systemd gcc gcc-c++
+BuildRequires: automake libtool numactl-devel systemd gcc gcc-c++ daxctl-devel
 
-# x86_64 is the only arch memkind will build and work due to
-# its current dependency on SSE4.2 CRC32 instruction which
-# is used to compute thread local storage arena mappings
-# with polynomial accumulations via GCC's intrinsic _mm_crc32_u64
-# For further info check: 
-# - /lib/gcc/<target>/<version>/include/smmintrin.h
-# - https://gcc.gnu.org/bugzilla/show_bug.cgi?id=36095 
-# - http://en.wikipedia.org/wiki/SSE4
-ExclusiveArch: x86_64
+# Upstream testing of memkind is done exclusively on x86_64; other archs
+# are unsupported but may work.
+ExclusiveArch: x86_64 ppc64 ppc64le s390x aarch64
 
 Source0: https://github.com/%{name}/%{name}/archive/%{gittag0}/%{name}-%{version}.tar.gz
+# Work around false positive Wuninitialized warning with gcc-11
+Patch0: memkind-gcc11.patch
 
 %description
 The memkind library is an user extensible heap manager built on top of
@@ -50,6 +46,7 @@ alpha release. Feedback on design or implementation is greatly appreciated.
 
 %prep
 %setup -q -a 0 -n %{name}-%{version}
+%patch0 -p1
 
 %build
 # It is required that we configure and build the jemalloc subdirectory
@@ -97,6 +94,18 @@ rm -f %{buildroot}/%{_docdir}/%{name}/VERSION
 %{_mandir}/man3/pmemallocator.3.*
 
 %changelog
+* Thu Oct 15 2020 Rafael Aquini <aquini@linux.com> - 1.10.1-2
+- Work around false positive warning with gcc-11
+
+* Wed Oct 07 2020 Rafael Aquini <aquini@linux.com> - 1.10.1-1
+- Update memkind source file to 1.10.1 upstream
+
+* Wed Jul 29 2020 Jeff Law <law@redhat.com> - 1.10.0-3
+- Avoid uninitialized variable in testsuite
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 01 2020 Rafael Aquini <aquini@linux.com> - 1.10.0-1
 - Update memkind source file to 1.10.0 upstream
 

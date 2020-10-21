@@ -1,6 +1,6 @@
 Name:           tabbed
 Version:        0.6
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Simple Xembed container manager
 
 %global         _tabbedsourcedir %{_usrsrc}/tabbed-user-%{version}-%{release}
@@ -107,6 +107,9 @@ fi
 %{_tabbedsourcedir}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,8 +1,8 @@
 # Upstream stopped making release tarballs in 2015.  Pull from git until
 # upstream starts making them again.
-%global gittag   12652a071bd43802eaf234b6489eeb9d395e284c
+%global gittag   4cb56e73aa7c277566aa94a6c000fc7891492624
 %global shorttag %(cut -b -7 <<< %{gittag})
-%global gitdate  20200527
+%global gitdate  20200818
 
 %ifarch %{ix86}
 %global pvsarch ix86
@@ -16,7 +16,7 @@
 
 Name:           pvs-sbcl
 Version:        7.0
-Release:        2.%{gitdate}.%{shorttag}%{?dist}
+Release:        3.%{gitdate}.%{shorttag}%{?dist}
 Summary:        Interactive theorem prover from SRI
 
 License:        GPLv2+ and BSD and Public Domain
@@ -31,7 +31,7 @@ URL:            http://pvs.csl.sri.com/
 # 2. cd PVS
 # 3. git reset --hard %%{gittag}
 # 4. cd ..
-# 5. tar cJf PVS-%%{version}-%%{shorttag}.tar PVS
+# 5. tar cJf PVS-%%{version}-%%{shorttag}.tar.xz PVS
 Source0:        PVS-%{version}-%{shorttag}.tar.xz
 Source1:        http://pvs.csl.sri.com/doc/pvs-prelude.pdf
 Source2:        http://pvs.csl.sri.com/doc/interpretations.pdf
@@ -52,16 +52,10 @@ Patch1:         pvs-siglongjmp.patch
 Patch2:         pvs-fno-common.patch
 # Fix texinfo errors that cause makeinfo to exit with nonzero status
 # https://github.com/SRI-CSL/PVS/pull/72
-# https://github.com/SRI-CSL/PVS/pull/74
 Patch3:         pvs-texi.patch
-# Fix Emacs Lisp error that caused building the language manual to abort
-# https://github.com/SRI-CSL/PVS/pull/76
-Patch4:         pvs-language-manual.patch
 # Fix build problems with the user guide
 # https://github.com/SRI-CSL/PVS/pull/77
-Patch5:         pvs-user-guide.patch
-# Fix LaTeX sources in the language manual
-Patch6:         pvs-language-manual-latex.patch
+Patch4:         pvs-user-guide.patch
 
 BuildRequires:  automake
 BuildRequires:  desktop-file-utils
@@ -251,6 +245,13 @@ rm %{buildroot}%{_libdir}/pvs/emacs/.readme
 %{_texmf}/tex/latex/pvs/
 
 %changelog
+* Fri Aug 21 2020 Jerry James <loganjerry@gmail.com> - 7.0-3.20200818.4cb56e7
+- Update to latest git snapshot for bug fixes
+- Drop upstreamed -language-manual and -language-manual-latex patches
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0-3.20200527.12652a0
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jerry James <loganjerry@gmail.com> - 7.0-2.20200218.12652a0
 - Update to latest git snapshot for bug fixes
 - Adapt to TexLive 2020; add -language-manual-latex patch

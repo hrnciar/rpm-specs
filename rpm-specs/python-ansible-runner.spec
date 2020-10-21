@@ -11,7 +11,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.4.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A tool and python library to interface with Ansible
 
 License:        ASL 2.0
@@ -171,6 +171,9 @@ py.test-3 -v test
 %{_bindir}/ansible-runner
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.6-2
 - Rebuilt for Python 3.9
 

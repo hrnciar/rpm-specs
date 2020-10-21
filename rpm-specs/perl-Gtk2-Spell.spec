@@ -2,7 +2,7 @@
 
 Name:           perl-Gtk2-Spell
 Version:        1.04
-Release:        28%{?dist}
+Release:        29%{?dist}
 Summary:        Gtk2::Spell perl module
 License:        LGPLv2+
 URL:            https://metacpan.org/release/Gtk2-Spell
@@ -89,6 +89,9 @@ find %{buildroot} -type f -name '*.bs' -a -size 0 -delete
 %{perl_vendorarch}/Gtk2/Spell/Install
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.04-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.04-28
 - Perl 5.32 rebuild
 

@@ -9,7 +9,7 @@ probably want one of those.
 
 Name:           python-%{pypi_name}
 Version:        1.15.0
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        %{summary}
 
 License:        MIT
@@ -85,6 +85,9 @@ rm -rf %{pypi_name}.egg-info
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.0-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 1.15.0-19
 - Rebuilt for Python 3.9
 

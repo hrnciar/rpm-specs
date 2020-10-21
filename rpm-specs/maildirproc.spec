@@ -1,6 +1,6 @@
 Name:           maildirproc
 Version:        1.0.1
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Sort mail from mail boxes in the maildir format
 
 License:        GPLv2+
@@ -37,6 +37,9 @@ processes mail which has already been delivered. That is a feature, not a bug.
 %{python3_sitelib}/%{name}-%{version}-*.egg-info
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.1-12
 - Rebuilt for Python 3.9
 

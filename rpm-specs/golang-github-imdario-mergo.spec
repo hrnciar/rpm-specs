@@ -3,7 +3,7 @@
 
 # https://github.com/imdario/mergo
 %global goipath         github.com/imdario/mergo
-Version:                0.3.8
+Version:                0.3.10
 
 %gometa
 
@@ -15,19 +15,13 @@ values, avoiding messy if-statements.}
 %global godocs          CODE_OF_CONDUCT.md README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Tool to merge Go structs and maps
 
 # Upstream license specification: BSD-3-Clause
 License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
-
-%if %{with check}
-# Tests
-BuildRequires:  golang(github.com/stretchr/testify/assert)
-BuildRequires:  golang(gopkg.in/yaml.v2)
-%endif
 
 %description
 %{common_description}
@@ -48,6 +42,9 @@ BuildRequires:  golang(gopkg.in/yaml.v2)
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 00:05:41 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.3.10-1
+- Update to 0.3.10
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.8-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Name:		globus-gram-protocol
 %global _name %(tr - _ <<< %{name})
 Version:	13.2
-Release:	5%{?dist}
+Release:	7%{?dist}
 Summary:	Grid Community Toolkit - GRAM Protocol Library
 
 License:	ASL 2.0
@@ -126,6 +126,13 @@ GLOBUS_HOSTNAME=localhost make %{?_smp_mflags} check VERBOSE=1
 %{?_licensedir: %license GLOBUS_LICENSE}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 13.2-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 13.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 13.2-5
 - Perl 5.32 rebuild
 

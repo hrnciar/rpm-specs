@@ -1,7 +1,4 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
 %if (0%{?fedora} > 29 || 0%{?rhel} > 7)
 %global with_python2 0
 %else
@@ -9,12 +6,6 @@
 %endif
 
 %global with_pkg_config %(pkg-config --version >/dev/null 2>&1 && echo -n "1" || echo -n "0")
-
-%if (0%{?fedora} > 21 || 0%{?rhel} > 7)
-%global with_kde5 1
-%else
-%global with_kde5 0
-%endif
 
 %global ibus_api_version 1.0
 
@@ -34,8 +25,8 @@
 %global dbus_python_version 0.83.0
 
 Name:           ibus
-Version:        1.5.22
-Release:        8%{?dist}
+Version:        1.5.23
+Release:        1%{?dist}
 Summary:        Intelligent Input Bus for Linux OS
 License:        LGPLv2+
 URL:            https://github.com/ibus/%name/wiki
@@ -43,7 +34,6 @@ Source0:        https://github.com/ibus/%name/releases/download/%{version}/%{nam
 Source1:        %{name}-xinput
 Source2:        %{name}.conf.5
 # Patch0:         %%{name}-HEAD.patch
-Patch0:         %{name}-HEAD.patch
 # Under testing #1349148 #1385349 #1350291 #1406699 #1432252 #1601577
 Patch1:         %{name}-1385349-segv-bus-proxy.patch
 
@@ -74,9 +64,6 @@ BuildRequires:  vala
 BuildRequires:  iso-codes-devel
 BuildRequires:  libnotify-devel
 BuildRequires:  wayland-devel
-%if %with_kde5
-BuildRequires:  qt5-qtbase-devel
-%endif
 BuildRequires:  cldr-emoji-annotation
 BuildRequires:  unicode-emoji
 BuildRequires:  unicode-ucd
@@ -98,8 +85,7 @@ Requires:       python3-gobject
 %{?__python3:Requires: %{__python3}}
 # Owner of %%{_sysconfdir}/X11/xinit
 Requires:       xorg-x11-xinit
-# for setxkbmap
-Requires:       xorg-x11-xkb-utils
+Requires:       setxkbmap
 %if (0%{?fedora} > 29 || 0%{?rhel} > 8)
 %else
 Requires:       dbus-x11
@@ -256,20 +242,23 @@ the functionality of the installed %{name} package.
 %prep
 %autosetup -S git
 # cp client/gtk2/ibusimcontext.c client/gtk3/ibusimcontext.c || :
+# cp client/gtk2/ibusim.c client/gtk3/ibusim.c || :
 
 
 # prep test
-diff client/gtk2/ibusimcontext.c client/gtk3/ibusimcontext.c
-if test $? -ne 0 ; then
-    echo "Have to copy ibusimcontext.c into client/gtk3"
-    abort
-fi
+for f in ibusimcontext.c ibusim.c
+do
+    diff client/gtk2/$f client/gtk3/$f
+    if test $? -ne 0 ; then
+        echo "Have to copy $f into client/gtk3"
+        abort
+    fi
+done
 
 %build
 #autoreconf -f -i -v
 #make -C ui/gtk3 maintainer-clean-generic
 #make -C tools maintainer-clean-generic
-autoreconf -f -i -v
 %configure \
     --disable-static \
     --enable-gtk2 \
@@ -284,14 +273,10 @@ autoreconf -f -i -v
     --enable-python-library \
 %endif
     --enable-wayland \
-%if ! %with_kde5
-    --disable-appindicator \
-%endif
     --enable-introspection \
     --enable-install-tests \
     %{nil}
 
-make -C ui/gtk3 maintainer-clean-generic
 %make_build
 
 %install
@@ -463,6 +448,43 @@ dconf update || :
 %{_datadir}/installed-tests/ibus
 
 %changelog
+* Tue Sep 29 2020 Takao Fujiwara <tfujiwar@redhat.com> - 1.5.23-1
+- Bump to 1.5.23
+
+* Tue Sep 15 2020 Takao Fujiwara <tfujiwar@redhat.com> - 1.5.22-17
+- Update po files
+
+* Wed Sep 09 2020 Takao Fujiwara <tfujiwar@redhat.com> - 1.5.22-16
+- Bug 1876877 - Fix to pull the correct language with no iso639 variants
+- Accept xdigits only for Unicode typing
+
+* Thu Aug 27 2020 Takao Fujiwara <tfujiwar@redhat.com> - 1.5.22-15
+- Rename simple.xml to simple.xml.in
+
+* Thu Aug 27 2020 Takao Fujiwara <tfujiwar@redhat.com> - 1.5.22-14
+- Update ibusunicodegen.h with latest unicode-ucd
+- Update simple.xml with latest xkeyboard-config
+- Fix gvfsd-fuse to unbind directory
+- Update translations
+
+* Fri Aug 21 2020 Takao Fujiwara <tfujiwar@redhat.com> - 1.5.22-13
+- Update simple.xml with layout_variant
+
+* Fri Aug 21 2020 Takao Fujiwara <tfujiwar@redhat.com> - 1.5.22-12
+- Generate simple.xml with denylist
+- Tell Pango about the engine language in the candidate panel
+- Add file list in registry file for Silverblue
+
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 1.5.22-11
+- Require setxkbmap not xorg-x11-xkb-utils
+
+* Tue Jul 28 2020 Takao Fujiwara <tfujiwar@redhat.com> - 1.5.22-10
+- Delete _python_bytecompile_extra
+- Update CI from ibus-typing-booster
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.22-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5.22-8
 - Rebuilt for Python 3.9
 

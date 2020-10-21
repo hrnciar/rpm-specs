@@ -7,11 +7,13 @@
 
 %bcond_with check
 
-%{!?openblas_arches:%global openblas_arches x86_64 %{ix86} armv7hl %{power64} aarch64}
-%ifarch %{openblas_arches}
-%global use_openblas 1
+%if 0%{?fedora} >= 33
+%bcond_without flexiblas
+%endif
+%if %{with flexiblas}
+%global blaslib flexiblas
 %else
-%global use_openblas 0
+%global blaslib openblas
 %endif
 
 %global somajor 2
@@ -21,7 +23,7 @@
 %{!?el8:%global docs 1}
 
 Name:           hypre
-Version:        2.18.1
+Version:        2.18.2
 Release:        2%{?dist}
 Summary:        High performance matrix preconditioners
 License:        LGPLv2
@@ -32,6 +34,7 @@ Patch2:         hypre-test.patch
 
 BuildRequires:  gcc-c++ gcc-gfortran automake libtool libtool-ltdl-devel
 BuildRequires:  SuperLU-devel
+BuildRequires:  %{blaslib}-devel
 %if 0%{?docs}
 BuildRequires:  doxygen-latex python-sphinx python-sphinx-theme-alabaster
 BuildRequires:  python%{?el7:3}-sphinx-latex /usr/bin/latexmk
@@ -39,12 +42,6 @@ BuildRequires:  tex(threeparttable.sty) tex(hanging.sty) tex(adjustbox.sty)
 BuildRequires:  tex(fncychap.sty) tex(tabulary.sty) tex(capt-of.sty)
 BuildRequires:  tex(needspace.sty) tex(stackengine.sty) tex(listofitems.sty)
 BuildRequires:  tex(ulem.sty) tex(etoc.sty)
-%endif
-
-%if %use_openblas
-BuildRequires:  openblas-devel
-%else
-BuildRequires:  atlas-devel
 %endif
 
 %global __requires_exclude libHYPRE.*
@@ -64,11 +61,7 @@ solution of large systems of linear equations.
 Summary:        Development files for %name
 Requires:       %{?name}%{?_isa} = %{version}-%{release}
 Requires:       SuperLU-devel%{?_isa} 
-%if %use_openblas
-Requires:       openblas-devel%{?_isa}
-%else
-Requires:       atlas-devel
-%endif
+Requires:       %{blaslib}-devel%{?_isa}
 
 %description devel
 Development files for %name
@@ -89,11 +82,7 @@ Summary:        Development files for %name-openmpi
 Requires:       %{name}-openmpi%{?_isa} = %{version}-%{release}
 Requires:       openmpi-devel%{?_isa} superlu_dist-openmpi-devel%{?_isa}
 Requires:       ptscotch-openmpi-devel%{?_isa}
-%if %use_openblas
-Requires:       openblas-devel%{?_isa}
-%else
-Requires:       atlas-devel%{?_isa}
-%endif
+Requires:       %{blaslib}-devel%{?_isa}
 
 %description openmpi-devel
 Development files for %name-openmpi
@@ -120,11 +109,7 @@ Requires:       mpich-devel
 Requires:       mpich-devel%{?_isa}
 %endif
 Requires:       superlu_dist-mpich-devel%{?_isa} ptscotch-mpich-devel%{?_isa}
-%if %use_openblas
-Requires:       openblas-devel%{?_isa}
-%else
-Requires:       atlas-devel%{?_isa}
-%endif
+Requires:       %{blaslib}-devel%{?_isa}
 
 %description mpich-devel
 Development files for %name-mpich
@@ -154,13 +139,8 @@ cp -a src mpich
 %endif
 
 %build
-%if %use_openblas
-%global lalibs --with-blas-libs=openblas --with-lapack-libs=openblas \\\
+%global lalibs --with-blas-libs=%{blaslib} --with-lapack-libs=%{blaslib} \\\
            --with-blas-lib-dirs=%_libdir --with-lapack-lib-dirs=%_libdir
-%else
-%global lalibs --with-blas-libs=satlas --with-lapack-libs=satlas \\\
-   --with-blas-lib-dirs=%_libdir/atlas --with-lapack-lib-dirs=%_libdir/atlas
-%endif
 
 pushd src
 # -O3 seems like a good idea for vectorization, at least.  We need LIBS to
@@ -176,6 +156,8 @@ export LIBS='-lsuperlu -fopenmp'
 rm docs/usr-manual-html/.buildinfo}
 popd
 
+# Specifying CC is necessary on f33 as MPI_LIB isn't being passed on
+# for some reason; it was OK previously
 %global do_mpi_build \
 %configure --prefix=$MPI_HOME --with-MPI --with-MPI-include=$MPI_INCLUDE \\\
            --with-MPI-lib-dirs=$MPI_LIB --with-timing --without-openmp \\\
@@ -183,7 +165,7 @@ popd
            --enable-shared=yes --with-fei --with-mli \\\
            --with-dsuperlu --with-dsuperlu-include=$MPI_INCLUDE/superlu_dist \\\
            --with-dsuperlu-libs='superlu_dist ptscotch' \\\
-           CFLAGS="$CFLAGS -O3" \
+           CFLAGS="$CFLAGS -O3" CC=mpicc \
   %make_build SONAME=libHYPRE.so.%soversion
 
 export LIBS='-lsuperlu_dist -lptscotch'
@@ -289,6 +271,20 @@ done
 %endif
 
 %changelog
+* Thu Aug 13 2020 Iñaki Úcar <iucar@fedoraproject.org> - 2.18.2-2
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Fri Aug  7 2020  <vagrant@rawhide.localdomain> - 2.18.2-1
+- Configure with CC=mpicc to fix FTBFS (#1863655)
+- Update to 2.18.2
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.18.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.18.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.18.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

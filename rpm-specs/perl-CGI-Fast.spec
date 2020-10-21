@@ -1,6 +1,6 @@
 Name:           perl-CGI-Fast
 Version:        2.15
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        CGI Interface for Fast CGI
 # lib/CGI/Fast.pm probably qotes piece of Artistic license before declaring
 # "as Perl itself" <https://github.com/leejo/cgi-fast/issues/13>
@@ -62,6 +62,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.15-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.15-5
 - Perl 5.32 rebuild
 

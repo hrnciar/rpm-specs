@@ -5,11 +5,11 @@
 %global crate actix-utils
 
 Name:           rust-%{crate}
-Version:        1.0.6
+Version:        2.0.0
 Release:        1%{?dist}
-Summary:        Actix utils - various actix net related services
+Summary:        Various network related services and utilities for Actix
 
-# Upstream license specification: MIT/Apache-2.0
+# Upstream license specification: MIT OR Apache-2.0
 License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/actix-utils
 Source:         %{crates_source}
@@ -22,7 +22,7 @@ BuildArch:      noarch
 BuildRequires:  rust-packaging
 
 %global _description %{expand:
-Actix utils - various actix net related services.}
+Various network related services and utilities for the Actix ecosystem.}
 
 %description %{_description}
 
@@ -71,6 +71,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Mon Sep 21 2020 Fabio Valentini <decathorpe@gmail.com> - 2.0.0-1
+- Update to version 2.0.0.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 10:03:52 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.0.6-1
 - Update to 1.0.6
 

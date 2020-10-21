@@ -1,7 +1,7 @@
 Summary: A multi-threaded FTP client for the X Window System
 Name: gftp
 Version: 2.0.19
-Release: 24%{?dist}
+Release: 25%{?dist}
 Epoch: 2
 License: GPLv2+
 Url: http://gftp.seul.org/
@@ -62,6 +62,9 @@ desktop-file-install --vendor net --delete-original         \
 %{_mandir}/man1/gftp.1.gz
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:2.0.19-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:2.0.19-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

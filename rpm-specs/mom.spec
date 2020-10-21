@@ -1,7 +1,7 @@
 %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
 %{!?with_check: %global with_check 1}
 
-%global		package_version 0.5.16
+%global		package_version 0.6.0
 %global		package_name mom
 
 %if 0%{?fedora} >= 30 || 0%{?rhel} >= 8
@@ -15,8 +15,8 @@
 %endif
 
 Name:		%{package_name}
-Version:	0.5.16
-Release:	4%{?dist}
+Version:	0.6.0
+Release:	1%{?dist}
 Summary:	Dynamically manage system resources on virtualization hosts
 
 License:	GPLv2
@@ -24,9 +24,10 @@ URL:		http://www.ovirt.org
 Source:		https://resources.ovirt.org/pub/src/%{name}/%{package_name}-%{package_version}.tar.gz
 BuildArch:	noarch
 
-# Fix build with Python 3.9
-# From the upstream PR: https://gerrit.ovirt.org/#/c/108074/
-Patch0:         fix-py39-build.patch
+# Fixes from upstream post 0.6.0 release
+Patch0:         0001-python3-fix-re-string-bytes-like-type-mismatch.patch
+Patch1:         0002-python3-Decode-bytes-result-of-Popen.communicate.patch
+Patch2:         0003-Change-Threading.isAlive-to-is_alive.patch
 
 BuildRequires:	%{python_target_version}-devel
 BuildRequires:	%{python_target_version}-nose
@@ -65,8 +66,7 @@ designed to accommodate new mechanisms such as cgroups.
 
 %prep
 %setup -q -n %{package_name}-%{package_version}
-
-%patch0 -p1
+%autopatch -p1
 
 %build
 %configure \
@@ -111,6 +111,12 @@ make check %{?_smp_mflags}
 %{python_sitelib}/mom/
 
 %changelog
+* Wed Jul 29 2020 Sandro Bonazzola <sbonazzo@redhat.com> - 0.6.0-1
+- Rebase on upstream 0.6.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.16-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Charalampos Stratakis <cstratak@redhat.com> - 0.5.16-4
 - Fix build with Python 3.9 (#1813907)
 

@@ -3,7 +3,7 @@
 
 Name:           %{pypi_name}
 Version:        2.5.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Framework for managing and maintaining multi-language pre-commit hooks
 
 License:        MIT
@@ -81,6 +81,9 @@ export PYTHONPATH=%{buildroot}%{python3_sitelib}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Lumír Balhar <lbalhar@redhat.com> - 2.5.1-1
 - Update to 2.5.1
 

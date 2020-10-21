@@ -1,21 +1,12 @@
 #global indice   a
 %undefine _strict_symbol_defs_build
+%undefine __cmake_in_source_build
 %bcond_without  tests
 %bcond_with     ffmpeg
 %bcond_without  gstreamer
 %bcond_with     eigen2
 %bcond_without  eigen3
-%ifnarch ppc64le
 %bcond_without  opencl
-%else
-# https://bugzilla.redhat.com/show_bug.cgi?id=1487174
-# fixed on f30
-%if 0%{?fedora} > 29
-%bcond_without  opencl
-%else
-%bcond_with     opencl
-%endif
-%endif
 %ifarch %{ix86} x86_64 %{arm}
 %bcond_without  openni
 %else
@@ -43,19 +34,18 @@
 %bcond_without  java
 %bcond_without  vulkan
 
-%global srcname opencv
-%global abiver  4.3
+%ifarch ppc64le
+%define _lto_cflags %{nil}
+%endif
 
-# Required because opencv-core has lot of spurious dependencies
-# (despite supposed to be "-core")
-# TODO: to be fixed properly upstream
-# https://github.com/opencv/opencv/issues/7001
-%global optflags %(echo %{optflags} -Wl,--as-needed )
+%global srcname opencv
+
 
 Name:           opencv
-Version:        4.3.0
+Version:        4.5.0
 %global javaver %(foo=%{version}; echo ${foo//./})
-Release:        5%{?dist}
+%global abiver  %(foo=%{version}; echo ${foo:0:3})
+Release:        1%{?dist}
 Summary:        Collection of algorithms for computer vision
 # This is normal three clause BSD.
 License:        BSD
@@ -74,10 +64,6 @@ Source4:        b624b995ec9c439cbc2e9e6ee940d3a2-v0.1.1f.zip
 Source5:        xorg.conf
 
 Patch0:         opencv-4.1.0-install_3rdparty_licenses.patch
-Patch1:         https://patch-diff.githubusercontent.com/raw/opencv/opencv/pull/17431.patch
-Patch2:         https://patch-diff.githubusercontent.com/raw/opencv/opencv_contrib/pull/2549.patch
-# Comment out removed vulkan symbols
-Patch3:         opencv_vulkan.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  libtool
@@ -144,6 +130,7 @@ BuildRequires:  qt5-qtbase-devel
 BuildRequires:  libGL-devel
 BuildRequires:  libGLU-devel
 BuildRequires:  hdf5-devel
+BuildRequires:  openjpeg2-devel
 # Module opencv_ovis disabled because of incompatible OGRE3D version < 1.10
 # BuildRequires:  ogre-devel
 %{?with_vtk:BuildRequires: vtk-devel}
@@ -255,11 +242,15 @@ popd &>/dev/null
 %endif
 
 %patch0 -p1 -b .install_3rdparty_licenses
-%patch1 -p1
-%patch3 -p1
 
 pushd %{name}_contrib-%{version}
-%patch2 -p1
+popd
+
+# Install face_landmark_model
+mkdir -p .cache/data
+install -pm 0644 %{SOURCE3} .cache/data
+pushd .cache/data
+  xz -d face_landmark_model.dat.xz
 popd
 
 # Install ADE, needed for opencv_gapi
@@ -271,18 +262,10 @@ install -pm 0644 %{SOURCE4} .cache/ade/
 # enabled by default if libraries are presents at build time:
 # GTK, GSTREAMER, 1394, V4L, eigen3
 # non available on Fedora: FFMPEG, XINE
-mkdir -p build
-pushd build
-
-mkdir -p share/opencv4/testdata/cv/face
-install -pm 0644 %{SOURCE3} share/opencv4/testdata/cv/face
-pushd share/opencv4/testdata/cv/face
-  xz -d face_landmark_model.dat.xz
-popd
-
 # disabling IPP because it is closed source library from intel
 
-%cmake CMAKE_VERBOSE=1 \
+%cmake \
+ -DCV_TRACE=OFF \
  -DWITH_IPP=OFF \
  -DWITH_ITT=OFF \
  -DWITH_QT=ON \
@@ -325,7 +308,7 @@ popd
 %{?with_opencl: -DOPENCL_INCLUDE_DIR=%{_includedir}/CL } \
 %{!?with_opencl: -DWITH_OPENCL=OFF } \
  -DOPENCV_SKIP_PYTHON_LOADER=ON \
- -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib-%{version}/modules \
+ -DOPENCV_EXTRA_MODULES_PATH=opencv_contrib-%{version}/modules \
  -DWITH_LIBV4L=ON \
  -DWITH_OPENMP=ON \
  -DOPENCV_CONFIG_INSTALL_PATH=%{_lib}/cmake/OpenCV \
@@ -336,17 +319,14 @@ popd
  %{?with_clp: -DWITH_CLP=ON } \
  %{?with_va: -DWITH_VA=ON } \
  %{!?with_vtk: -DWITH_VTK=OFF} \
- %{?with_vulkan: -DWITH_VULKAN=ON -DVULKAN_INCLUDE_DIRS=%{_includedir}/vulkan } \
- ..
+ %{?with_vulkan: -DWITH_VULKAN=ON -DVULKAN_INCLUDE_DIRS=%{_includedir}/vulkan }
 
-%make_build VERBOSE=1
-
-popd
+%cmake_build
 
 
 %install
-%make_install -C build
-find %{buildroot} -name '*.la' -delete
+%cmake_install
+
 rm -rf %{buildroot}%{_datadir}/OpenCV/licenses/
 %if %{with java}
 ln -s -r %{buildroot}%{_jnidir}/libopencv_java%{javaver}.so %{buildroot}%{_jnidir}/libopencv_java.so
@@ -365,7 +345,6 @@ ln -s -r %{buildroot}%{_jnidir}/opencv-%{javaver}.jar %{buildroot}%{_jnidir}/ope
 # ARGS=-V increases output verbosity
 #ifnarch ppc64
 %if %{with tests}
-pushd build
     cp %SOURCE5 .
     if [ -x /usr/libexec/Xorg ]; then
        Xorg=/usr/libexec/Xorg
@@ -374,8 +353,7 @@ pushd build
     fi
     $Xorg -noreset +extension GLX +extension RANDR +extension RENDER -logfile ./xorg.log -config ./xorg.conf -configdir . :99 &
     export DISPLAY=:99
-    LD_LIBRARY_PATH=%{_builddir}/%{name}-%{version}/build/lib:$LD_LIBARY_PATH make test ARGS=-V || :
-popd
+    LD_LIBRARY_PATH=%{_builddir}/%{name}-%{version}/build/lib:$LD_LIBARY_PATH %ctest || :
 %endif
 #endif
 
@@ -465,6 +443,7 @@ popd
 %{_libdir}/libopencv_hdf.so.%{abiver}*
 %{_libdir}/libopencv_img_hash.so.%{abiver}*
 %{_libdir}/libopencv_line_descriptor.so.%{abiver}*
+%{_libdir}/libopencv_mcc.so.%{abiver}*
 %{_libdir}/libopencv_optflow.so.%{abiver}*
 %{_libdir}/libopencv_phase_unwrapping.so.%{abiver}*
 %{_libdir}/libopencv_plot.so.%{abiver}*
@@ -482,6 +461,28 @@ popd
 %{_libdir}/libopencv_xphoto.so.%{abiver}*
 
 %changelog
+* Thu Oct 15 2020 Sérgio Basto <sergio@serjux.com> - 4.5.0-1
+- Update 4.5.0
+
+* Wed Oct 07 2020 Sérgio Basto <sergio@serjux.com> - 4.4.0-1
+- Update 4.4.0
+- opencv_vulkan.patch already applied in upstream
+
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 4.3.0-9
+- Rebuilt for protobuf 3.13
+
+* Fri Jul 24 2020 Nicolas Chauvet <kwizart@gmail.com> - 4.3.0-8
+- Rebuilt
+- Fix cmake build
+- Disable LTO on ppc64le
+- Add undefine __cmake_in_source_build to allow build on Fedora < 33
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 4.3.0-7
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Fri Jun 26 2020 Orion Poplawski <orion@nwra.com> - 4.3.0-6
+- Rebuild for hdf5 1.10.6
+
 * Tue Jun 23 2020 Adrian Reber <adrian@lisas.de> - 4.3.0-5
 - Rebuilt for protobuf 3.12
 

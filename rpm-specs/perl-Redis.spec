@@ -1,6 +1,6 @@
 Name:           perl-Redis
-Version:        1.996
-Release:        3%{?dist}
+Version:        1.998
+Release:        1%{?dist}
 Summary:        Perl binding for Redis database
 License:        ASL 2.0
 URL:            https://metacpan.org/release/Redis
@@ -8,7 +8,6 @@ Source0:        https://cpan.metacpan.org/modules/by-module/Redis/Redis-%{versio
 BuildArch:      noarch
 # Build
 BuildRequires:  coreutils
-BuildRequires:  findutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -51,7 +50,6 @@ BuildRequires:  perl(Test::More) >= 0.98
 BuildRequires:  perl(Test::SharedFork)
 BuildRequires:  perl(Test::TCP) >= 1.19
 BuildRequires:  redis
-BuildRequires:  util-linux
 # Author Tests (not run)
 %if 0
 BuildRequires:  perl(Pod::Coverage::TrustPod)
@@ -79,16 +77,8 @@ perl Build.PL --installdirs=vendor
 %{_fixperms} -c %{buildroot}
 
 %check
-export TEST_REDIS_SERVER_SOCK_PATH=%{buildroot}/redis.sock
-redis-server - <<_OUT_ &
-unixsocket $TEST_REDIS_SERVER_SOCK_PATH
-unixsocketperm 700
-pidfile %{buildroot}/redis.pid
-daemonize yes
-port 0
-_OUT_
+unset AUTHOR_TESTING PERL_COMPILE_TEST_DEBUG REDIS_DEBUG REDIS_SERVER REDIS_SERVER_PATH
 RELEASE_TESTING=1 ./Build test
-kill -TERM `cat %{buildroot}/redis.pid`
 
 %files
 %license LICENSE
@@ -101,6 +91,12 @@ kill -TERM `cat %{buildroot}/redis.pid`
 %{_mandir}/man3/Redis::Sentinel.3*
 
 %changelog
+* Tue Aug 18 2020 Petr Pisar <ppisar@redhat.com> - 1.998-1
+- 1.998 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.996-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.996-3
 - Perl 5.32 rebuild
 

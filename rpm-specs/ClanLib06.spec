@@ -1,7 +1,7 @@
 Summary:        Version 0.6 of this Cross platform C++ game library
 Name:           ClanLib06
 Version:        0.6.5
-Release:        49%{?dist}
+Release:        51%{?dist}
 License:        LGPLv2
 URL:            http://www.clanlib.org/
 # No URL as this old version is no longer available on clanlib.org
@@ -29,6 +29,7 @@ Patch15:        ClanLib-0.6.5-xwayland-fixes.patch
 Patch16:        ClanLib-0.6.5-resolution-sort-fix.patch
 Patch17:        ClanLib-0.6.5-numpad-keys-fix.patch
 Patch18:        ClanLib-0.6.5-compiler-warnings.patch
+Patch19:	ClanLib-header.patch
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  libX11-devel libXext-devel libXt-devel libGLU-devel
@@ -102,6 +103,13 @@ chmod -x $RPM_BUILD_ROOT%{_mandir}/man1/clanlib-config.1*
 
 
 %changelog
+* Mon Sep 14 2020 Jeff Law <law@redhat.com> - 0.6.5-51
+- Explicitly include <cstddef> for NULL as its not implicitly included
+  by gcc-11's header files
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.5-50
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.5-49
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

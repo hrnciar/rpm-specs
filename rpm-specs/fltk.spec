@@ -6,7 +6,7 @@
 Summary:	C++ user interface toolkit
 Name:		fltk
 Version:	1.3.5
-Release:	5%{?dist}
+Release:	8%{?dist}
 
 # see COPYING (or http://www.fltk.org/COPYING.php ) for exceptions details
 License:	LGPLv2+ with exceptions	
@@ -39,7 +39,7 @@ BuildRequires: pkgconfig(sm)
 BuildRequires: pkgconfig(xext) pkgconfig(xinerama) pkgconfig(xft) pkgconfig(xt) pkgconfig(x11) 
 BuildRequires: pkgconfig(xcursor)
 BuildRequires: pkgconfig(xproto)
-BuildRequires: xorg-x11-utils
+BuildRequires: xprop
 BuildRequires: zlib-devel
 
 %description
@@ -81,23 +81,19 @@ Requires: %{name}-devel
 
 
 %build
-mkdir build
-pushd build
-%cmake .. \
-       -DFLTK_CONFIG_PATH:PATH=%{_libdir}/cmake/fltk \
+%cmake -DFLTK_CONFIG_PATH:PATH=%{_libdir}/cmake/fltk \
        -DOpenGL_GL_PREFERENCE=GLVND \
        -DOPTION_BUILD_HTML_DOCUMENTATION:BOOL=ON \
        -DOPTION_BUILD_PDF_DOCUMENTATION:BOOL=OFF \
        -DOPTION_BUILD_SHARED_LIBS:BOOL=ON
-popd
 
-%make_build -C build
+%cmake_build
 
-make docs -C build
+make docs -C %{_vpath_builddir}
 
 
 %install
-%make_install -C build
+%cmake_install
 
 # we only apply this hack to multilib arch's
 %ifarch x86_64 %{ix86} ppc64 ppc s390x s390 sparc64 sparc
@@ -123,7 +119,7 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/fluid.desktop
 %{_libdir}/libfltk_images.so.1.3*
 
 %files devel
-%doc build/documentation/html
+%doc %{_vpath_builddir}/documentation/html
 %{_bindir}/fltk-config
 %{?arch:%{_bindir}/fltk-config-%{arch}}
 %{_includedir}/FL/
@@ -151,6 +147,16 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/fluid.desktop
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 1.3.5-7
+- BuildRequires xprop not xorg-x11-server-utils
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 14 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.3.5-5
 - restore fltk_config.patch lost in last (cmake) merge
 

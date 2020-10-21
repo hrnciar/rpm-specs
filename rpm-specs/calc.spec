@@ -16,7 +16,7 @@ License:       LGPLv2
 
 Name:          calc
 Version:       2.12.7.2
-Release:       5%{?dist}
+Release:       6%{?dist}
 Summary:       Arbitrary precision arithmetic system and calculator
 
 # Also, https://github.com/lcn2/calc
@@ -222,6 +222,9 @@ make chk
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.7.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.7.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

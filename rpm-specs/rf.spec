@@ -1,6 +1,6 @@
 Name:           rf
 Version:        0.4.18
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Read feeds from any source
 
 License:        GPLv3+
@@ -44,6 +44,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.18-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.18-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

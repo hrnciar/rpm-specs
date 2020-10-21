@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        1.3.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        %{sum}
 
 License:        ASL 2.0
@@ -50,6 +50,9 @@ install -m 644 $RPM_SOURCE_DIR/LICENSE LICENSE
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.0-9
 - Rebuilt for Python 3.9
 

@@ -21,7 +21,7 @@ Summary: A scripting language for games
 License: %{license_main}
 
 Version: 0.5.4.4
-Release: 1%{?dist}
+Release: 3%{?dist}
 
 URL: https://opensurge2d.org
 Source0: https://github.com/alemart/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -84,18 +84,16 @@ using static linking.
 
 
 %build
-mkdir build && cd build
 %cmake \
 	-DWANT_SHARED=ON  \
 	-DWANT_STATIC=ON  \
 	-DWANT_EXECUTABLE=ON  \
-	..
-%make_build
+	./
+%cmake_build
 
 
 %install
-cd build/
-%make_install
+%cmake_install
 
 # "make install" also installs an AppStream metainfo file and an icon
 # for the surgescript interpreter, which is a terminal-based program.
@@ -124,6 +122,12 @@ rmdir %{buildroot}%{_datadir}
 
 
 %changelog
+* Wed Jul 29 2020 Artur Iwicki <fedora@svgames.pl> - 0.5.4.4-3
+- Update spec to work properly with CMake out-of-source builds
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 16 2020 Artur Iwicki <fedora@svgames.pl> - 0.5.4.4-1
 - Update to upstream release v.0.5.4.4
 - Remove the /lib -> /lib64 shenanigans from %%prep (issue solved upstream)

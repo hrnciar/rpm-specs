@@ -1,14 +1,10 @@
-# Enable LTO
-%global optflags        %{optflags} -flto=$(nproc)
-%global build_ldflags   %{build_ldflags} -flto
-
-%global commit      e982347664b4071ab75b86dfeb5de9cf125be64d
+%global commit      28a53b937cb2c75583fbdd6beb233284b28713ea
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global date        20190217
+%global date        20200723
 
 Name:           gnome-radio
 Version:        0.1.0
-Release:        2.%{date}git%{shortcommit}%{?dist}
+Release:        5.%{date}git%{shortcommit}%{?dist}
 Summary:        GNOME Radio
 
 License:        GPLv3+
@@ -50,6 +46,16 @@ automake --add-missing
 %{_bindir}/%{name}
 
 %changelog
+* Wed Oct 14 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.1.0-5.20200723git28a53b9
+- build(update): commit 28a53b9
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-4.20190217gite982347
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-3.20190217gite982347
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-2.20190217gite982347
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -24,8 +24,10 @@
 %global sysvinitdir %{_initrddir}
 %endif
 
+%bcond_with xmlrpc
+
 Name:		certmonger
-Version:	0.79.9
+Version:	0.79.13
 Release:	1%{?dist}
 Summary:	Certificate status monitor and PKI enrollment client
 
@@ -33,8 +35,6 @@ License:	GPLv3+
 URL:		http://pagure.io/certmonger/
 Source0:	http://releases.pagure.org/certmonger/certmonger-%{version}.tar.gz
 #Source1:	http://releases.pagure.org/certmonger/certmonger-%%{version}.tar.gz.sig
-Patch0001:	0001-Adjust-dbus-python-output-more-for-python-3.8.patch
-
 
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -55,7 +55,11 @@ BuildRequires:	libcurl-devel
 %else
 BuildRequires:	curl-devel
 %endif
-BuildRequires:	libxml2-devel, xmlrpc-c-devel
+BuildRequires:	libxml2-devel
+%if %{with xmlrpc}
+BuildRequires:  xmlrpc-c-devel
+%endif
+BuildRequires:  jansson-devel
 %if 0%{?rhel} && 0%{?rhel} < 6
 BuildRequires:	bind-libbind-devel
 BuildRequires:	mktemp
@@ -117,8 +121,7 @@ Certmonger is a service which is primarily concerned with getting your
 system enrolled with a certificate authority (CA) and keeping it enrolled.
 
 %prep
-%setup -q
-%patch1 -p1
+%autosetup -p1
 
 %if 0%{?rhel} > 0
 # Enabled by default for RHEL for bug #765600, still disabled by default for
@@ -139,10 +142,17 @@ autoreconf -i -f
 	--enable-tmpfiles \
 %endif
 	--with-homedir=/run/certmonger \
+%if %{with xmlrpc}
+    --with-xmlrpc \
+%endif
 	--with-tmpdir=/run/certmonger --enable-pie --enable-now
+%if %{with xmlrpc}
 # For some reason, some versions of xmlrpc-c-config in Fedora and RHEL just
 # tell us about libxmlrpc_client, but we need more.  Work around.
 make %{?_smp_mflags} XMLRPC_LIBS="-lxmlrpc_client -lxmlrpc_util -lxmlrpc"
+%else
+make %{?_smp_mflags}
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -158,6 +168,12 @@ make check
 if test $1 -eq 1 ; then
 	%{_bindir}/dbus-send --system --type=method_call --dest=org.freedesktop.DBus / org.freedesktop.DBus.ReloadConfig 2>&1 || :
 fi
+%if %{without xmlrpc}
+# remove any existing certmaster CA configuration
+if test $1 -gt 1 ; then
+    %{_bindir}/getcert remove-ca -c certmaster 2>&1 || :
+fi
+%endif
 %if %{systemd}
 if test $1 -eq 1 ; then
 	/bin/systemctl daemon-reload >/dev/null 2>&1 || :
@@ -246,6 +262,28 @@ exit 0
 %endif
 
 %changelog
+* Tue Oct 20 2020 Rob Crittenden <rcritten@redhat.com> - 0.79.13-1
+- Update to upstream 0.79.13
+
+* Mon Oct  5 2020 Rob Crittenden <rcritten@redhat.com> - 0.79.12-1
+- Update to upstream 0.79.12
+
+* Fri Sep 18 2020 Rob Crittenden <rcritten@redhat.com> - 0.79.11-4
+- Don't send SIGKILL to child processes to terminate them
+- Switch to JSON for communication with IPA
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.79.11-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Rob Crittenden <rcritten@redhat.com> - 0.79.11-2
+- Fix for an unnecessary free() which can cause core dump.
+
+* Tue Jun 30 2020 Rob Crittenden <rcritten@redhat.com> - 0.79.11-1
+- Update to upstream 0.79.11
+
+* Thu Jun 25 2020 Rob Crittenden <rcritten@redhat.com> - 0.79.10-1
+- Update to upstream 0.79.10
+
 * Thu Jan 30 2020 Rob Crittenden <rcritten@redhat.com> - 0.79.9-1
 - Update to upstream 0.79.9
 

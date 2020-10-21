@@ -1,6 +1,6 @@
 Name:		snownews
 Version: 	1.5.12
-Release: 	23%{?dist}
+Release: 	24%{?dist}
 Summary: 	A text mode RSS/RDF newsreader
 License: 	GPLv2
 Url:		https://kiza.eu/media/software/snownews
@@ -53,6 +53,9 @@ make DESTDIR="$RPM_BUILD_ROOT" install
 %{_mandir}/*/man1/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.12-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.12-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

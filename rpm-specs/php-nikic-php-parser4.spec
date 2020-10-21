@@ -10,7 +10,7 @@
 # For compatibility with SCL
 %undefine __brp_mangle_shebangs
 
-%global gh_commit    53c2753d756f5adb586dca79c2ec0e2654dd9463
+%global gh_commit    658f1be311a230e0907f5dfe0213742aff0596de
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     nikic
 %global gh_project   PHP-Parser
@@ -21,7 +21,7 @@
 %global major        4
 
 Name:           php-%{gh_owner}-%{pk_project}%{major}
-Version:        4.5.0
+Version:        4.10.2
 Release:        1%{?dist}
 Summary:        A PHP parser written in PHP - version %{major}
 
@@ -36,7 +36,8 @@ Patch0:         %{name}-rpm.patch
 BuildArch:      noarch
 %if %{with_tests}
 # For tests
-BuildRequires:  php(language) >= 7.0
+# as we use phpunit8
+BuildRequires:  php(language) >= 7.2
 BuildRequires:  php-tokenizer
 BuildRequires:  php-reflection
 BuildRequires:  php-ctype
@@ -44,12 +45,12 @@ BuildRequires:  php-json
 BuildRequires:  php-pcre
 BuildRequires:  php-spl
 # From composer.json, "require-dev": {
-#        "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0",
-#        "ircmaxell/php-yacc": "0.0.5"
+#        "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0 || ^9.0",
+#        "ircmaxell/php-yacc": "0.0.7"
 %global phpunit %{_bindir}/phpunit8
 BuildRequires:  phpunit8
 # Autoloader
-BuildRequires:  php-composer(fedora/autoloader)
+BuildRequires:  php-fedora-autoloader-devel
 %endif
 
 # From composer.json, "require": {
@@ -65,7 +66,7 @@ Requires:       php-pcre
 Requires:       php-spl
 Requires:       php-cli
 # Autoloader
-BuildRequires:  php-composer(fedora/autoloader)
+Requires:       php-composer(fedora/autoloader)
 
 Provides:       php-composer(%{gh_owner}/%{pk_project}) = %{version}
 
@@ -88,14 +89,10 @@ Autoloader: %{php_home}/%{ns_project}%{major}/autoload.php
 
 
 %build
-: Generate an simple PSR-4 autoloader
-cat << 'AUTOLOAD' | tee lib/%{ns_project}/autoload.php
-<?php
-/* Autoloader for %{name} and its dependencies */
-require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
-
-\Fedora\Autoloader\Autoload::addPsr4('%{ns_project}\\', __DIR__);
-AUTOLOAD
+: Generate an simple classmap autoloader
+phpab --template fedora \
+      --output lib/%{ns_project}/autoload.php \
+      lib/%{ns_project}
 
 
 %install
@@ -118,19 +115,24 @@ php bin/php-parse-test --help
 mkdir vendor
 cat << 'AUTOLOAD' | tee vendor/autoload.php
 <?php
-require_once '%{buildroot}/%{php_home}/%{ns_project}%{major}/autoload.php';
 \Fedora\Autoloader\Autoload::addPsr4('%{ns_project}\\', dirname(__DIR__).'/test/PhpParser/');
 AUTOLOAD
 
 : Upstream test suite
-# ignore test failing on 32-bit (in koji)
+BITS=$(php -r 'echo PHP_INT_SIZE;')
+if [ $BITS -lt 8 ]; then
+   # ignore test failing on 32-bit (in koji)
+   FILTER="--filter '^((?!(testParse|testLexNewFeatures)).)*$'"
+else
+   FILTER=""
+fi
+
 ret=0
-for cmdarg in "php %{phpunit}" "php71 %{_bindir}/phpunit7" php72 php73 php74 php80; do
+for cmdarg in "php %{phpunit}" "php72%{_bindir}/phpunit8" php73 php74 php80; do
   if which $cmdarg; then
     set $cmdarg
-    $1 ${2:-%{_bindir}/phpunit8} \
-      --filter '^((?!(testParse|testLexNewFeatures)).)*$' \
-      --verbose || ret=1
+    $1 -d auto_prepend_file=%{buildroot}/%{php_home}/%{ns_project}%{major}/autoload.php \
+      ${2:-%{_bindir}/phpunit9} $FILTER --verbose || ret=1
   fi
 done
 exit $ret
@@ -148,6 +150,34 @@ exit $ret
 
 
 %changelog
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 4.10.2-1
+- update to 4.10.2
+
+* Thu Sep 24 2020 Remi Collet <remi@remirepo.net> - 4.10.1-1
+- update to 4.10.1
+
+* Sun Sep 20 2020 Remi Collet <remi@remirepo.net> - 4.10.0-1
+- update to 4.10.0
+
+* Mon Aug 31 2020 Remi Collet <remi@remirepo.net> - 4.9.1-1
+- update to 4.9.1
+
+* Wed Aug 19 2020 Remi Collet <remi@remirepo.net> - 4.9.0-1
+- update to 4.9.0
+
+* Mon Aug 10 2020 Remi Collet <remi@remirepo.net> - 4.8.0-1
+- update to 4.8.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul  3 2020 Remi Collet <remi@remirepo.net> - 4.6.0-1
+- update to 4.6.0
+
+* Thu Jun 25 2020 Remi Collet <remi@remirepo.net> - 4.5.0-2
+- switch to classmap autoloader
+- add missing dependency on fedora/autoloader
+
 * Wed Jun  3 2020 Remi Collet <remi@remirepo.net> - 4.5.0-1
 - update to 4.5.0
 

@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	0.1
-Release:	29.20120116git665cc80%{?dist}
+Release:	31.20120116git665cc80%{?dist}
 Summary:	Simple Authentication and Security Layer (SASL) support for Erlang
 # erlang sources are under BSD, C sources - under LGPLv2+
 License:	BSD and LGPLv2+
@@ -57,6 +57,13 @@ install -D -p -m 0755 priv/gsasl_drv $RPM_BUILD_ROOT%{_libdir}/erlang/lib/%{real
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-31.20120116git665cc80
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-30.20120116git665cc80
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-29.20120116git665cc80
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

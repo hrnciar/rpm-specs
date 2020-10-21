@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.1.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Automata construction and matching using regular expressions
 
 # Upstream license specification: Unlicense/MIT
@@ -122,6 +122,9 @@ which use "transducer" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 10 2020 Josh Stone <jistone@redhat.com> - 0.1.9-1
 - Update to 0.1.9
 

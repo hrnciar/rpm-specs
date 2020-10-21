@@ -2,7 +2,7 @@
 
 Name: cppunit
 Version: 1.15.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 
 Summary: C++ unit testing framework
 # no license in files
@@ -83,6 +83,9 @@ mv __dist-examples __dist-examples-dir/examples
 %doc doc/html
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:		skinlf	
 Version:	6.7
-Release:	27.%{cvsver}%{?dist}
+Release:	30.%{cvsver}%{?dist}
 Summary:	Skin look and feel Skinning library for java
 
 License:	ASL 2.0
@@ -109,6 +109,16 @@ cd %{buildroot}%{_javadir}/
 %{_javadir}/%{name}.jar
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.7-30.cvs20091205
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.7-29.cvs20091205
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 6.7-28.cvs20091205
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.7-27.cvs20091205
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

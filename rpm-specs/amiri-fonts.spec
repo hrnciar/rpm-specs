@@ -16,7 +16,7 @@ the font is named.
 
 Name: %{fontname}-fonts
 Version: 0.112
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: OFL
 
 Source0: https://github.com/alif-type/amiri/releases/download/%{version}/Amiri-%{version}.zip
@@ -106,6 +106,9 @@ done
 %doc NEWS README README-Arabic NEWS-Arabic Documentation-Arabic.pdf
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.112-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.112-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

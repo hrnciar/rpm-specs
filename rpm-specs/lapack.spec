@@ -10,7 +10,7 @@
 Summary: Numerical linear algebra package libraries
 Name: lapack
 Version: %{mediumver}.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: BSD
 URL: http://www.netlib.org/lapack/
 Source0: https://github.com/Reference-LAPACK/lapack/archive/v%{version}.tar.gz
@@ -596,6 +596,9 @@ sed -i 's|Requires.private: blas|Requires.private: blas64_|g' %{buildroot}%{_lib
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Iñaki Úcar <iucar@fedoraproject.org> - 3.9.0-4
 - make separate packages for 64-bit versions with and without suffix (bz1295965)
 

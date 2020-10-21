@@ -4,16 +4,9 @@
 # https://github.com/golang/exp
 %global goipath         golang.org/x/exp
 %global forgeurl        https://github.com/golang/exp
-%global commit          8c7d1c524af6eaf18eadc4f57955a748e7001194
+%global commit          00229845015e38294862ecd9909318241789d41c
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-googlecode-go-exp-devel < 0-0.20
-Obsoletes:      golang-github-golang-exp-devel < 0-0.20
-Obsoletes:      golang-googlecode-go-exp-unit-test < 0-0.20
-}
 
 %global common_description %{expand:
 This subrepository holds experimental and deprecated packages.
@@ -28,7 +21,7 @@ to make it possible to go get these packages.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.23%{?dist}
+Release:        0.25%{?dist}
 Summary:        Experimental and deprecated Go packages
 
 # Upstream license specification: BSD-3-Clause
@@ -54,8 +47,14 @@ BuildRequires:  golang(golang.org/x/mobile/event/paint)
 BuildRequires:  golang(golang.org/x/mobile/event/size)
 BuildRequires:  golang(golang.org/x/mobile/geom)
 BuildRequires:  golang(golang.org/x/mobile/gl)
+BuildRequires:  golang(golang.org/x/mod/modfile)
+BuildRequires:  golang(golang.org/x/mod/module)
+BuildRequires:  golang(golang.org/x/mod/semver)
+BuildRequires:  golang(golang.org/x/mod/zip)
 BuildRequires:  golang(golang.org/x/tools/go/gcexportdata)
 BuildRequires:  golang(golang.org/x/tools/go/packages)
+BuildRequires:  golang(golang.org/x/tools/txtar)
+BuildRequires:  golang(golang.org/x/xerrors)
 
 %description
 %{common_description}
@@ -71,6 +70,12 @@ BuildRequires:  golang(golang.org/x/tools/go/packages)
 %gopkgfiles
 
 %changelog
+* Fri Aug 07 19:13:51 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - sumdb/v0.0.2-1.20200807git0022984
+- Bump to commit 00229845015e38294862ecd9909318241789d41c
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,83 +1,76 @@
-%bcond_without asciidoc
+%global srcname cdi
 
-%global namedreltag .NOTHING
-%global namedversion %{version}%{?namedreltag}
+Name:           cdi-api
+Version:        2.0
+Release:        1%{?dist}
+Summary:        Contexts and Dependency Injection API
+License:        ASL 2.0
 
-Name:             cdi-api
-Version:          1.2
-Release:          12%{?dist}
-Summary:          CDI API
-License:          ASL 2.0
-URL:              http://seamframework.org/Weld
-BuildArch:        noarch
+URL:            https://github.com/eclipse-ee4j/cdi
+Source0:        %{url}/archive/%{version}/%{srcname}-%{version}.tar.gz
 
-Source0:          https://github.com/cdi-spec/cdi/archive/%{version}.tar.gz
+BuildArch:      noarch
 
-BuildRequires:    maven-local
-BuildRequires:    mvn(javax.el:javax.el-api)
-BuildRequires:    mvn(javax.inject:javax.inject)
-BuildRequires:    mvn(org.apache.felix:maven-bundle-plugin)
-BuildRequires:    mvn(org.apache.maven.plugins:maven-enforcer-plugin)
-BuildRequires:    mvn(org.apache.maven.surefire:surefire-testng)
-BuildRequires:    mvn(org.codehaus.mojo:build-helper-maven-plugin)
-BuildRequires:    mvn(org.jboss.spec.javax.interceptor:jboss-interceptors-api_1.2_spec)
-BuildRequires:    mvn(org.jboss.weld:weld-parent:pom:)
-BuildRequires:    mvn(org.testng:testng::jdk15:)
-%if %{with asciidoc}
-BuildRequires:    asciidoc
-BuildRequires:    /usr/bin/pygmentize
-%endif
+BuildRequires:  maven-local
+BuildRequires:  mvn(jakarta.interceptor:jakarta.interceptor-api)
+BuildRequires:  mvn(javax.el:javax.el-api)
+BuildRequires:  mvn(javax.inject:javax.inject)
+BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
+BuildRequires:  mvn(org.jboss.weld:weld-parent:pom:)
+BuildRequires:  mvn(org.testng:testng)
 
 %description
 APIs for JSR-299: Contexts and Dependency Injection for Java EE
 
+
 %package javadoc
-Summary:          Javadoc for %{name}
+Summary:        Javadoc for %{name}
 
 %description javadoc
 This package contains the API documentation for %{name}.
 
+
 %prep
-%setup -q -n cdi-%{version}
+%autosetup -n %{srcname}-%{version} -p1
 
-cd api
-# J2EE API directory
-%mvn_file :{cdi-api} %{name}/@1 javax.enterprise.inject/@1
+# do not build specification documentation
+%pom_disable_module spec
 
-# Use newer version of interceptors API
-%pom_change_dep "javax.interceptor:javax.interceptor-api" "org.jboss.spec.javax.interceptor:jboss-interceptors-api_1.2_spec"
+# do not install useless parent POM
+%mvn_package javax.enterprise:cdi-spec __noinstall
+
+# use new jakarta interceptors coordinates
+%pom_change_dep :javax.interceptor-api jakarta.interceptor:jakarta.interceptor-api api
+
 
 %build
+%mvn_build
 
-(
- cd api
- %mvn_build -- -Denforcer.skip
-)
-
-%if %{with asciidoc}
-cd spec/src/main/doc
-asciidoc -n -b html5 -a toc2 -a toclevels=3 -a pygments -f html5.conf -o cdi-spec.html cdi-spec.asciidoc
-asciidoc -n -b html5 -a toc2 -a toclevels=3 -a pygments -f html5.conf -o license-asl2.html license-asl2.asciidoc
-asciidoc -n -b html5 -a toc2 -a toclevels=3 -a pygments -f html5.conf -o license-jcp.html license-jcp.asciidoc
-%global adoc html
-%else
-%global adoc asciidoc
-%endif
 
 %install
-cd api
 %mvn_install
 
-%files -f api/.mfiles
-%doc spec/src/main/doc/cdi-spec.%{adoc}
-%license spec/src/main/doc/license-asl2.%{adoc}
-%license spec/src/main/doc/license-jcp.%{adoc}
 
-%files javadoc -f api/.mfiles-javadoc
-%license spec/src/main/doc/license-asl2.%{adoc}
-%license spec/src/main/doc/license-jcp.%{adoc}
+%files -f .mfiles
+%license spec/src/main/asciidoc/license-asl2.asciidoc
+%license spec/src/main/asciidoc/license-jcp-final.asciidoc
+%doc spec/src/main/asciidoc/cdi-spec.asciidoc
+
+%files javadoc -f .mfiles-javadoc
+%license spec/src/main/asciidoc/license-asl2.asciidoc
+%license spec/src/main/asciidoc/license-jcp-final.asciidoc
+
 
 %changelog
+* Sun Aug 23 2020 Fabio Valentini <decathorpe@gmail.com> - 2.0-1
+- Update to version 2.0.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.2-13
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -187,3 +180,4 @@ cd api
 
 * Mon Feb 20 2012 Marek Goldmann <mgoldman@redhat.com> 1.0-1.SP4
 - Initial packaging
+

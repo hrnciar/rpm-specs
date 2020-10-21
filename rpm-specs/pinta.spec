@@ -1,8 +1,8 @@
 %global debug_package %{nil}
 
 Name:		pinta
-Version:	1.6
-Release:	16%{?dist}
+Version:	1.7
+Release:	2%{?dist}
 Summary:	An easy to use drawing and image editing program
 
 # the code is licensed under the MIT license while the icons are licensed as CC-BY
@@ -10,10 +10,13 @@ License:	MIT and CC-BY
 URL:		http://pinta-project.com/
 
 Source0:	http://github.com/PintaProject/Pinta/releases/download/%{version}/%{name}-%{version}.tar.gz
-Source1:	%{name}.appdata.xml
 
 # Mono only available on these:
 ExclusiveArch:	%mono_arches
+
+# Pinta fails to build on armv7hl. Mono crashes.
+# https://bugzilla.redhat.com/show_bug.cgi?id=1869214
+ExcludeArch:	armv7hl
 
 BuildRequires:	gcc
 BuildRequires:	mono-devel
@@ -33,25 +36,6 @@ It's goal is to provide a simplified alternative to GIMP for casual users.
 %prep
 %setup -q
 
-chmod -x readme.md
-chmod -x license-mit.txt
-chmod -x license-pdn.txt
-chmod -x xdg/pinta.1
-chmod -x xdg/pinta.xpm
-chmod -x xdg/scalable/pinta.svg
-
-sed -i 's/\r//' readme.md
-sed -i 's/\r//' license-mit.txt
-sed -i 's/\r//' license-pdn.txt
-sed -i 's/\r//' pinta.in
-sed -i 's/\r//' xdg/pinta.xpm
-sed -i 's/\r//' xdg/pinta.1
-sed -i 's/\r//' xdg/scalable/pinta.svg
-
-# update the project and solution files for mono4
-find . -name "*.sln" -print -exec sed -i 's/Format Version 10.00/Format Version 11.00/g' {} \;
-find . \( -name "*.csproj" -o -name "*.proj" \) -print -exec sed -i 's#ToolsVersion="3.5"#ToolsVersion="4.0"#g; s#<TargetFrameworkVersion>.*</TargetFrameworkVersion>##g; s#<PropertyGroup>#<PropertyGroup><TargetFrameworkVersion>v4.5</TargetFrameworkVersion>#g; s#Mono.Posix, Version.*"#Mono.Posix"#g' {} \;
-
 
 %build
 %configure
@@ -64,10 +48,8 @@ find . \( -name "*.csproj" -o -name "*.proj" \) -print -exec sed -i 's#ToolsVers
 # Validate desktop file
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
-# Install AppData file
-install -d %{buildroot}%{_datadir}/metainfo
-install -p -m 644 %{SOURCE1} %{buildroot}%{_datadir}/metainfo
-appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/%{name}.appdata.xml
+# Validate AppData file
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdata.xml
 
 %find_lang %name
 
@@ -76,14 +58,25 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/%{name}.a
 %license license-mit.txt license-pdn.txt
 %doc readme.md
 %{_libdir}/%{name}
+%{_libdir}/pkgconfig/%{name}.pc
 %{_bindir}/%{name}
-%{_datadir}/metainfo/%{name}.appdata.xml
+%{_metainfodir}/%{name}.appdata.xml
+%exclude %{_datadir}/appdata/%{name}.appdata.xml
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/*/%{name}.*
 %{_datadir}/man/man1/%{name}*
 %{_datadir}/pixmaps/%{name}*
 
 %changelog
+* Tue Aug 25 2020 Andrea Musuruane <musuruan@gmail.com> - 1.7-2
+- Exclude building on armv7hl (BZ #1869214)
+
+* Sun Aug 09 2020 Andrea Musuruane <musuruan@gmail.com> - 1.7-1
+- Updated to new upstream release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

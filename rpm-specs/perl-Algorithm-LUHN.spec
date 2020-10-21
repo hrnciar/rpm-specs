@@ -1,6 +1,6 @@
 Name:		perl-Algorithm-LUHN
 Version:	1.02
-Release:	14%{?dist}
+Release:	15%{?dist}
 Summary:	Calculate the Modulus 10 Double Add Double checksum
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Algorithm-LUHN
@@ -53,6 +53,9 @@ make test
 %{_mandir}/man3/Algorithm::LUHN.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.02-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.02-14
 - Perl 5.32 rebuild
 

@@ -1,5 +1,5 @@
 Name:               igraph
-Version:            0.8.2
+Version:            0.8.3
 Release:            1%{?dist}
 Summary:            Library for creating and manipulating graphs
 
@@ -68,6 +68,12 @@ make check || :
 %doc %{_infodir}/igraph.info*
 
 %changelog
+* Mon Oct 05 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.8.3-1
+- 0.8.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 29 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.8.2-1
 - 0.8.2
 

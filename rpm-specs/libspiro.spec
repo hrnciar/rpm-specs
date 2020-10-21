@@ -1,6 +1,6 @@
 Name:           libspiro
 Version:        20200505
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Library to simplify the drawing of beautiful curves
 
 # The files that are used to compile this library are all in GPLv3+
@@ -50,6 +50,9 @@ make check
 %{_mandir}/man3/libspiro.3.gz
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200505-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 06 2020 Parag Nemade <pnemade AT redhat DOT com> - 20200505-1
 - Update to 20200505 version (#1831576)
 

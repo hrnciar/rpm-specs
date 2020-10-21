@@ -10,7 +10,7 @@
 
 Name:           libgpuarray
 Version:        0.7.6
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Library to manipulate tensors on a GPU
 
 # All files are ISC except src/util/xxhash.{c,h}, which are BSD
@@ -69,8 +69,6 @@ License:        ISC and MIT
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       python3dist(numpy)
 
-%{?python_provide:%python_provide python3-%{srcname}}
-
 %description -n python3-%{srcname}
 The goal of this project is to make a common GPU ndarray (n dimensional
 array) that can be reused by all projects, that is as future proof as
@@ -79,8 +77,6 @@ possible, while keeping it easy to use for simple needs and quick tests.
 %package -n     python3-%{srcname}-devel
 Summary:        Development files for python3-%{srcname}
 Requires:       python3-%{srcname}%{?_isa} = %{version}-%{release}
-
-%{?python_provide:%python_provide python3-%{srcname}-devel}
 
 %description -n python3-%{srcname}-devel
 The python3-%{srcname}-devel package contains libraries and header files
@@ -106,8 +102,8 @@ sed -e "s|^\(include_dirs = \[\)|\1\"$PWD/src\",|" \
 
 %build
 # Build the library
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 # Build pygpu for python 3
 %py3_build
@@ -134,7 +130,7 @@ cd -
 
 %install
 # Install the library
-%make_install
+%cmake_install
 
 # We do not want the static library
 rm -f %{buildroot}%{_libdir}/%{name}-static.a
@@ -172,6 +168,9 @@ make test
 %{python3_sitearch}/%{srcname}/*.h
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.6-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.6-8
 - Rebuilt for Python 3.9
 

@@ -2,7 +2,7 @@
 
 Name:           findbugs
 Version:        3.0.1
-Release:        21%{?dist}
+Release:        24%{?dist}
 Summary:        Find bugs in Java code
 
 License:        LGPLv2+
@@ -241,6 +241,15 @@ end
 %{_javadir}/findbugs-tools.jar
 
 %changelog
+* Sun Oct 11 2020 Richard Fearn <richardfearn@gmail.com> - 3.0.1-24
+- Remove dependency on oss-parent (bug #1886844)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.0.1-22
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat May 23 2020 Richard Fearn <richardfearn@gmail.com> - 3.0.1-21
 - Enable building with JDK 11
 

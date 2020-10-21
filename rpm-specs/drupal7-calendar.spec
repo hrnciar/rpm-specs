@@ -2,7 +2,7 @@
 
 Name:    drupal7-calendar
 Version: 3.5
-Release: 11%{?dist}
+Release: 12%{?dist}
 Summary: This module will display any Views date field in calendar formats
 
 License: GPLv2+
@@ -42,6 +42,9 @@ cp -pr * %{buildroot}%{drupaldir}/modules/calendar
 %exclude %{drupaldir}/modules/calendar/*.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

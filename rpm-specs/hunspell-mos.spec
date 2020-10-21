@@ -2,7 +2,7 @@ Name: hunspell-mos
 Summary: Mossi hunspell dictionaries
 %global upstreamid 20101130
 Version: 0.%{upstreamid}
-Release: 17%{?dist}
+Release: 18%{?dist}
 Source: http://www.abcburkina.net/ancien/documents/lingu/DicoMoore.zip
 URL: http://www.abcburkina.net/content/view/377/48/lang,fr
 License: LGPLv3
@@ -28,6 +28,9 @@ cp -p mos_BF.* $RPM_BUILD_ROOT/%{_datadir}/myspell
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20101130-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20101130-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

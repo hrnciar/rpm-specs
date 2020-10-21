@@ -2,7 +2,7 @@
 
 Name:      perl-XML-Entities
 Version:   1.0002
-Release:   14%{?dist}
+Release:   15%{?dist}
 Summary:   Decode strings with XML entities
 
 License:   GPL+ or Artistic
@@ -58,6 +58,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0002-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.0002-14
 - Perl 5.32 rebuild
 

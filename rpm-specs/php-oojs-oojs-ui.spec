@@ -1,7 +1,7 @@
 
 Name:		php-oojs-oojs-ui
 Version:	0.34.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Object-Oriented JavaScript – User Interface
 
 License:	MIT
@@ -50,6 +50,9 @@ cp -rp php/* %{buildroot}%{_datadir}/php/OOUI
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.34.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 05 2020 Michael Cronenworth <mike@cchtml.com> - 0.34.1-1
 - version update
 

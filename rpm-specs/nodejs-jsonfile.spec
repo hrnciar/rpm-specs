@@ -4,7 +4,7 @@
 
 Name:       nodejs-jsonfile
 Version:    6.0.1
-Release:    1%{?dist}
+Release:    3%{?dist}
 Summary:    Easily read/write JSON files
 
 License:    MIT
@@ -58,6 +58,13 @@ cp -pr package.json index.js %{buildroot}%{nodejs_sitelib}/jsonfile
 %{nodejs_sitelib}/jsonfile
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 6.0.1-1
 - Update to latest upstream release 6.0.1
 

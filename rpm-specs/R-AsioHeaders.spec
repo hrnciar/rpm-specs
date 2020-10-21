@@ -1,9 +1,9 @@
 %global packname AsioHeaders
-%global packver  1.12.2-1
+%global packver  1.16.1-1
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          1.12.2.1
+Version:          1.16.1.1
 Release:          2%{?dist}
 Summary:          Asio C++ Header Files
 
@@ -36,7 +36,7 @@ Summary:          Asio C++ Header Files
 
 # Newer than the version that's in Fedora.
 # https://bugzilla.redhat.com/show_bug.cgi?id=1551800
-Provides: bundled(asio) = 1.12.2
+Provides: bundled(asio) = 1.16.1
 
 Requires: openssl-devel
 Recommends: boost-devel
@@ -82,6 +82,15 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.16.1.1-1
+- Update to latest version
+
+* Thu Jun 25 2020 José Abílio Matos <jamatos@fedoraproject.org> - 1.12.2.1-3
+- bump version to ensure upgrade path (due to a F32 rebuild)
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 1.12.2.1-2
 - rebuild for R 4
 

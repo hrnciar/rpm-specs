@@ -1,6 +1,6 @@
 Name:           kmodtool
 Version:        1
-Release:        38%{?dist}
+Release:        41%{?dist}
 Summary:        Tool for building kmod packages
 License:        MIT
 URL:            http://rpmfusion.org/Packaging/KernelModules/Kmods2
@@ -40,6 +40,15 @@ sed -i 's|^default_prefix=.*|default_prefix=%{_datadir}/%{name}/|'  \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-41
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 2020 Neal Gompa <ngompa13@gmail.com> - 1-40
+- Always use /lib/modules for kmod install path
+
+* Mon Jul 06 2020 Neal Gompa <ngompa13@gmail.com> - 1-39
+- Don't force-disable debuginfo subpackages
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-38
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

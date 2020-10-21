@@ -2,8 +2,8 @@
 %global backends %{nil}
 
 Name: pdns
-Version: 4.3.0
-Release: 4%{?dist}
+Version: 4.3.1
+Release: 2%{?dist}
 Summary: A modern, advanced and high performance authoritative-only nameserver
 License: GPLv2
 URL: http://powerdns.com
@@ -189,6 +189,7 @@ exit 0
 %post
 # Update file permissions to root:pdns
 chown -R root:pdns %{_sysconfdir}/%{name}
+chmod 640 %{_sysconfdir}/%{name}/%{name}.conf
 
 %systemd_post pdns.service
 
@@ -255,6 +256,8 @@ chown -R root:pdns %{_sysconfdir}/%{name}
 %{_mandir}/man1/nsec3dig.1.gz
 %{_mandir}/man1/saxfr.1.gz
 %{_mandir}/man1/sdig.1.gz
+%{_pkgdocdir}/bind-dnssec.4.2.0_to_4.3.0_schema.sqlite3.sql
+%{_pkgdocdir}/bind-dnssec.schema.sqlite3.sql
 
 %files backend-mysql
 %{_pkgdocdir}/schema.mysql.sql
@@ -296,6 +299,7 @@ chown -R root:pdns %{_sysconfdir}/%{name}
 %{_pkgdocdir}/3.4.0_to_4.0.0_schema.sqlite3.sql
 %{_pkgdocdir}/4.0.0_to_4.2.0_schema.sqlite3.sql
 %{_pkgdocdir}/4.2.0_to_4.3.0_schema.sqlite3.sql
+%{_pkgdocdir}/4.3.0_to_4.3.1_schema.sqlite3.sql
 %{_libdir}/%{name}/libgsqlite3backend.so
 
 %files backend-tinydns
@@ -310,6 +314,19 @@ chown -R root:pdns %{_sysconfdir}/%{name}
 %{_unitdir}/ixfrdist@.service
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 4.3.1-2
+- Rebuilt for protobuf 3.13
+
+* Wed Sep 23 2020 Morten Stevens <mstevens@fedoraproject.org> - 4.3.1-1
+- Update to 4.3.1
+- PowerDNS Security Advisory 2020-05 (CVE-2020-17482)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Morten Stevens <mstevens@fedoraproject.org> - 4.3.0-5
+- Updated file permissions
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 4.3.0-4
 - Rebuilt for protobuf 3.12
 

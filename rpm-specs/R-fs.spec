@@ -1,25 +1,22 @@
-%global packname  fs
+%global packname fs
+%global packver  1.5.0
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          1.4.1
+Version:          1.5.0
 Release:          1%{?dist}
 Summary:          Cross-Platform File System Operations Based on 'libuv'
 
 License:          GPLv3
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 # Fedora-specific.
 Patch0001:        0001-Use-system-libuv.patch
-# Workaround for https://github.com/libuv/libuv/issues/2262
-Patch0002:        0002-Initialize-stat-buf-to-be-zero.patch
-# Fix issue where file.cc needs cstring.h
-Patch0003:        0003-fix-cstring.patch
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-methods, R-Rcpp
-# Suggests:  R-testthat, R-covr, R-pillar >= 1.0.0, R-tibble >= 1.1.0, R-crayon, R-rmarkdown, R-knitr, R-withr, R-spelling
+# Imports:   R-methods
+# Suggests:  R-testthat, R-covr, R-pillar >= 1.0.0, R-tibble >= 1.1.0, R-crayon, R-rmarkdown, R-knitr, R-withr, R-spelling, R-vctrs >= 0.3.0
 # LinkingTo:
 # Enhances:
 
@@ -27,7 +24,6 @@ BuildRequires:    pkgconfig(libuv) >= 1.18.0
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    R-methods
-BuildRequires:    R-Rcpp-devel
 BuildRequires:    R-testthat
 BuildRequires:    R-pillar >= 1.0.0
 BuildRequires:    R-tibble >= 1.1.0
@@ -36,6 +32,9 @@ BuildRequires:    R-rmarkdown
 BuildRequires:    R-knitr
 BuildRequires:    R-withr
 BuildRequires:    R-spelling
+%if %{fedora} > 32
+BuildRequires:    R-vctrs >= 0.3.0
+%endif
 
 %description
 A cross-platform interface to file system operations, built on top of the
@@ -48,12 +47,8 @@ A cross-platform interface to file system operations, built on top of the
 pushd %{packname}
 # Remove bundled libuv.
 %patch0001 -p1
-rm -rf src/libuv
+rm -rf src/libuv-*
 sed -i -e '/libuv/d' MD5
-
-%patch0002 -p1
-
-%patch0003 -p1
 
 # Don't need coverage; it's not packaged either.
 sed -i 's/, covr//g' DESCRIPTION
@@ -72,7 +67,11 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 %check
 export LANG=C.UTF-8
+%if %{fedora} > 32
 %{_bindir}/R CMD check %{packname}
+%else
+_R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
+%endif
 
 
 %files
@@ -93,6 +92,15 @@ export LANG=C.UTF-8
 
 
 %changelog
+* Sat Aug 01 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.5.0-1
+- Update to latest version
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.4.2-1
+- Update to latest version
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 1.4.1-1
 - update to 1.4.1
 - rebuild for R 4

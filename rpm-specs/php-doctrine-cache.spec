@@ -11,8 +11,8 @@
 
 %global github_owner     doctrine
 %global github_name      cache
-%global github_version   1.10.1
-%global github_commit    35a4a70cd94e09e2259dfae7488afc6b474ecbd3
+%global github_version   1.10.2
+%global github_commit    13e3381b25847283a91948d04640543941309727
 
 %global composer_vendor  doctrine
 %global composer_project cache
@@ -21,13 +21,13 @@
 %global php_min_ver 7.1
 
 # Build using "--without tests" to disable tests
-%global with_tests 0%{!?_without_tests:1}
+%bcond_without   tests
 
 %{!?phpdir:  %global phpdir  %{_datadir}/php}
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Doctrine Cache
 
 License:       MIT
@@ -40,7 +40,7 @@ Source1:       %{name}-get-source.sh
 
 BuildArch:     noarch
 # Tests
-%if %{with_tests}
+%if %{with tests}
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: phpunit7
@@ -126,7 +126,7 @@ cp -rp lib/Doctrine/Common/Cache %{buildroot}%{phpdir}/Doctrine/Common/
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 : Create tests bootstrap
 cat <<'BOOTSTRAP' | tee bootstrap.php
 <?php
@@ -174,6 +174,12 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 Remi Collet <remi@remirepo.net> - 1.10.2-1
+- update to 1.10.2
+
 * Thu May 28 2020 Remi Collet <remi@remirepo.net> - 1.10.1-1
 - update to 1.10.1 (no change)
 

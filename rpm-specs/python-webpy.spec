@@ -1,11 +1,9 @@
 %global pkgname webpy
 %global srcname web.py
 
-%global commit b725a4f7dda3114c626ccdf7a7004c21efb8ba8b
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
 Name:           python-%{pkgname}
-Version:        0.50
-Release:        3%{dist}
+Version:        0.61
+Release:        2%{dist}
 Summary:        A simple web framework for Python
 
 # The entire source code is Public Domain save for the following exceptions:
@@ -32,13 +30,9 @@ purpose with absolutely no restrictions.
 Summary:        %{summary}
 BuildRequires:  python3-devel
 BuildRequires:  python3-pytest
-BuildRequires:  python3-cherrypy
 BuildRequires:  python3-cheroot
-BuildRequires:  python3-markdown
 
-Requires:       python3-cherrypy
 Requires:       python3-cheroot
-Requires:       python3-markdown
 
 %{?python_provide:%python_provide python3-%{pkgname}}
 
@@ -68,6 +62,12 @@ pytest tests
 
 
 %changelog
+* Mon Jul 27 2020 Paweł Marciniak <sunwire+webpy@gmail.com> - 0.61-2
+- Fix small mistake in the changelog
+
+* Sat Jul 25 2020 Paweł Marciniak <sunwire+webpy@gmail.com> - 0.61-1
+- update to 0.61-1
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.50-3
 - Rebuilt for Python 3.9
 

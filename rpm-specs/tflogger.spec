@@ -1,6 +1,7 @@
+%define __cmake_in_source_build 1
 Name:           tflogger
 Version:        0.1.1
-Release:        8%{?dist}
+Release:        12%{?dist}
 Summary:        TensorFlow event logger
 
 License:        ASL 2.0
@@ -70,6 +71,19 @@ popd
 
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 0.1.1-12
+- Rebuilt for protobuf 3.13
+
+* Tue Sep 22 2020 Jeff Law <law@redhat.com> - 0.1.1-11
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 0.1.1-8
 - Rebuilt for protobuf 3.12
 

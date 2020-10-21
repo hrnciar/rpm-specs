@@ -25,14 +25,12 @@ the syntax tree.}
 %endif
 
 Name:           python-%{pkgname}
-Version:        0.6.2
-Release:        2%{?dist}
+Version:        0.8.0
+Release:        1%{?dist}
 Summary:        Parser that supports error recovery and round-trip parsing
 License:        MIT and Python
 URL:            https://parso.readthedocs.io
 Source0:        %pypi_source
-# https://github.com/davidhalter/parso/issues/103
-Patch0:         python-3.8.2-error-message.patch
 BuildArch:      noarch
 
 
@@ -47,6 +45,7 @@ BuildRequires:  python2-setuptools
 %if %{with tests}
 BuildRequires:  python2-pytest >= 3.0.7
 %endif
+
 %{?python_provide:%python_provide python2-%{pkgname}}
 
 
@@ -108,6 +107,15 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} --verbose -
 
 
 %changelog
+* Wed Sep 09 2020 Charalampos Stratakis <cstratak@redhat.com> - 0.8.0-1
+- Update to 0.8.0 (rhbz#1860194)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.7.0-1
+- Update to 0.7.0
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.2-2
 - Rebuilt for Python 3.9
 

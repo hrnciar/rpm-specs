@@ -1,21 +1,20 @@
 %global packname showtext
-%global packver  0.8
-%global packrel  1
+%global packver  0.9
 %global rlibdir  %{_libdir}/R/library
 
 # knitr suggests this package and vice versa.
-%global with_doc 1
+%bcond_with bootstrap
 
 Name:             R-%{packname}
-Version:          %{packver}.%{packrel}
-Release:          2%{?dist}
+Version:          0.9
+Release:          1%{?dist}
 Summary:          Using Fonts More Easily in R Graphs
 
 # Main: ASL 2.0
 # src/tidy.h, src/utf8.c and src/utf8.h: libpng/zlib
 License:          ASL 2.0 and zlib
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}-%{packrel}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:   R-sysfonts >= 0.7.1, R-showtextdb >= 2.0
@@ -34,7 +33,7 @@ BuildRequires:    R-showtextdb >= 2.0
 BuildRequires:    R-grDevices
 BuildRequires:    R-curl
 BuildRequires:    R-jsonlite
-%if %{with_doc}
+%if %{without bootstrap}
 BuildRequires:    R-knitr
 BuildRequires:    R-rmarkdown
 BuildRequires:    R-prettydoc
@@ -64,7 +63,7 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %check
-%if %{with_doc}
+%if %{without bootstrap}
 %{_bindir}/R CMD check %{packname}
 %else
 _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --ignore-vignettes
@@ -89,6 +88,16 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --ignore-vignettes
 
 
 %changelog
+* Thu Aug 13 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.9-1
+- Update to latest version (#1868570)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.8.1-2
 - rebuild for R 4
 

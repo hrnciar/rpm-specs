@@ -1,6 +1,6 @@
 Name:           perl-XML-NamespaceSupport
 Version:        1.12
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        A simple generic name space support class
 License:        GPL+ or Artistic
 Url:            https://metacpan.org/release/XML-NamespaceSupport
@@ -46,6 +46,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.12-11
 - Perl 5.32 rebuild
 

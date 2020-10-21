@@ -2,6 +2,8 @@
 # uncomment to enable bootstrap mode
 #global bootstrap 1
 
+%global __cmake_in_source_build 1
+
 %if ! 0%{?bootstrap}
 %global docs 1
 %global tests 1
@@ -15,7 +17,7 @@
 Name:    libalkimia
 Summary: Financial library
 Version: 8.0.3
-Release: 1%{?dist}
+Release: 4%{?dist}
 
 License: LGPLv2+
 URL:     https://kmymoney.org/
@@ -235,6 +237,16 @@ make test ARGS="-E alkonlinequotestest --output-on-failure --timeout 20" -C %{_t
 
 
 %changelog
+* Mon Aug 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 8.0.3-4
+- FTBFS, adjust to new cmake macros (#1863974)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.0.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 11 2020 Rex Dieter <rdieter@fedoraproject.org> - 8.0.3-1
 - 8.0.3
 

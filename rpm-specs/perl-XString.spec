@@ -1,6 +1,6 @@
 Name:		perl-XString
-Version:	0.002
-Release:	4%{?dist}
+Version:	0.005
+Release:	1%{?dist}
 Summary:	Isolated String helpers from B
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/XString
@@ -26,11 +26,6 @@ BuildRequires:	perl(Test::More) >= 0.88
 # Optional Tests
 BuildRequires:	perl(CPAN::Meta) >= 2.120900
 BuildRequires:	perl(CPAN::Meta::Prereqs)
-# Requirements from upstream metadata that are not actually used
-# https://github.com/atoomic/XString/issues/2
-BuildRequires:	perl(Test2::Bundle::Extended)
-BuildRequires:	perl(Test2::Plugin::NoWarnings)
-BuildRequires:	perl(Test2::Tools::Explain)
 # Runtime
 Requires:	perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:	perl(XSLoader)
@@ -62,6 +57,15 @@ make test
 %{_mandir}/man3/XString.3*
 
 %changelog
+* Tue Oct 20 2020 Paul Howarth <paul@city-fan.org> - 0.005-1
+- Update to 0.005
+  - Fix cstring for Perl 5.32 (GH#6, GH#7)
+  - Remove unneeded module dependencies (GH#2)
+  - Add compatibility with Perl 5.8 (GH#9)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.002-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.002-4
 - Perl 5.32 rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        1.54
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Computation with real Lie groups
 
 License:        GPLv2+
@@ -62,6 +62,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}-%{version}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.54-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 13 2020 Jerry James <loganjerry@gmail.com> - 1.54-3
 - Rebuild for gap 4.11.0
 

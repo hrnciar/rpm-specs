@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          2.56.0
-Release:          1%{dist}
+Release:          2%{dist}
 Summary:          String objects representing biological sequences
 License:          Artistic 2.0 
 URL:              http://bioconductor.org/packages/release/bioc/html/Biostrings.html
@@ -70,6 +70,9 @@ rm -f %{buildroot}%{_libdir}/R/library/%{packname}/doc/GenomeSearching.R
 %{_libdir}/R/library/%{packname}/include
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.56.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun  8 2020 Tom Callaway <spot@fedoraproject.org> - 2.56.0-1
 - update to 2.56.0
 - rebuild for R 4

@@ -1,6 +1,6 @@
 Name:           bear
-Version:        2.4.3
-Release:        2%{?dist}
+Version:        2.4.4
+Release:        1%{?dist}
 Summary:        Tool that generates a compilation database for clang tooling
 
 License:        GPLv3+
@@ -26,10 +26,10 @@ tooling.
 
 %build
 %cmake .
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 # Fix shebang line
 for f in %{buildroot}/%{_bindir}/* ; do
@@ -44,7 +44,7 @@ rm %{buildroot}/%{_datadir}/doc/bear/COPYING
 # Tests fail on EPEL, only run them on Fedora
 %if 0%{?fedora}
 %check
-make check
+make check -C %{_vpath_builddir}
 %endif
 
 
@@ -64,6 +64,12 @@ make check
 %doc ChangeLog.md README.md
 
 %changelog
+* Sun Sep 13 2020 Dan Čermák <dan.cermak@cgc-instruments.com> - 2.4.4-1
+- New upstream release 2.4.4 (rhbz#1877901)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

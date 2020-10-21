@@ -4,8 +4,8 @@
 %global srcname fsspec
 
 Name:           python-%{srcname}
-Version:        0.7.4
-Release:        2%{?dist}
+Version:        0.8.3
+Release:        1%{?dist}
 Summary:        Specification for Pythonic file system interfaces
 
 License:        BSD
@@ -23,6 +23,7 @@ BuildRequires:  python3dist(pyftpdlib)
 %if %{without bootstrap}
 BuildRequires:  python3dist(distributed)
 %endif
+BuildRequires:  python3dist(aiohttp)
 BuildRequires:  python3dist(requests)
 BuildRequires:  python3dist(pandas)
 BuildRequires:  python3dist(cloudpickle)
@@ -62,17 +63,32 @@ rm -rf %{srcname}.egg-info
 
 
 %check
-%{python3} -m pytest -vra -k 'not test_strip_protocol_expanduser'
+%{pytest} -vra
 
 
 %files -n python3-%{srcname}
 %doc README.md
 %license LICENSE
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py*.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 
 %changelog
+* Fri Sep 25 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.8.3-1
+- Update to latest version (#1882492)
+
+* Fri Sep 11 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.8.2-1
+- Update to latest version (#1877896)
+
+* Wed Sep 09 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.8.1-1
+- Update to latest version (#1877412)
+
+* Sun Aug 02 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.8.0-1
+- Update to latest version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.4-2
 - Rebuilt for Python 3.9
 

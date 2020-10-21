@@ -3,7 +3,7 @@
 
 Name:           upslug2
 Version:        0.0
-Release:        0.23.%{snapshot_date}.svn%{svn_revision}%{?dist}
+Release:        0.24.%{snapshot_date}.svn%{svn_revision}%{?dist}
 Summary:        Firmware update utility for the nslu2
 License:        MIT
 URL:            http://www.nslu2-linux.org/wiki/Main/UpSlug2
@@ -51,6 +51,9 @@ install -p -m 644 upslug2.8 $RPM_BUILD_ROOT/%{_mandir}/man8
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0-0.24.20071107.svn39
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0-0.23.20071107.svn39
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,13 +6,16 @@
 
 Name:           rust-%{crate}
 Version:        0.4.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Simple library for maildir manipulation
 
 # Upstream license specification: 0BSD
 License:        0BSD
 URL:            https://crates.io/crates/maildir
 Source:         %{crates_source}
+# Initial patched metadata
+# * bump mailparse from 0.12 to 0.13
+Patch0:         maildir-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -71,6 +74,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Tue Oct 20 2020 Fabio Valentini <decathorpe@gmail.com> - 0.4.2-3
+- Bump to mailparse 0.13.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 07:01:28 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.4.2-1
 - Update to 0.4.2
 

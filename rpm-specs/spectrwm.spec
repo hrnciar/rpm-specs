@@ -1,6 +1,6 @@
 Name:           spectrwm
-Version:        3.3.0
-Release:        2%{?dist}
+Version:        3.4.1
+Release:        1%{?dist}
 
 # build github tag name from package name and version
 %global tag_base    %{lua: print(string.upper(rpm.expand("%name")))}
@@ -40,6 +40,8 @@ for hackers and it strives to be small, compact and fast.
 
 %prep
 %autosetup -S git -n spectrwm-%{tag_base}_%{tag_version}
+sed -i 's/examples//g' linux/Makefile
+sed -i '/LICENSE.md/d' linux/Makefile
 # Generate license files as per
 # https://opensource.conformal.com/wiki/spectrwm#License
 head -n14 version.h | tail -n13 | sed -e 's/ \* //g' -e 's/\*//g' > LICENSE
@@ -64,6 +66,9 @@ make -C linux install CC="%{__cc} %{optflags} %{__global_ldflags}" \
     DESTDIR=%{buildroot} \
     SYSCONFDIR=%{_sysconfdir}
 
+install -dp %{buildroot}%{_datadir}/%{name}
+mv %{buildroot}%{_datadir}/doc/%{name}/%{name}_*.conf %{buildroot}%{_datadir}/%{name}/.
+
 # This needs to be +x for find-provides to process it
 # correctly.
 chmod 755 %{buildroot}%{_libdir}/libswmhack.so
@@ -86,7 +91,7 @@ done
 %files
 %license LICENSE.md LICENSE-LD_PRELOAD LICENSE-dwm
 %doc baraction.sh initscreen.sh screenshot.sh
-%doc CHANGELOG.md LICENSE.md README.md
+%doc CHANGELOG.md README.md
 %config(noreplace) %{_sysconfdir}/%{name}.conf
 %{_bindir}/%{name}
 %{_bindir}/scrotwm
@@ -98,6 +103,12 @@ done
 %{_mandir}/man1/scrotwm.1.gz
 
 %changelog
+* Sat Sep 12 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 3.4.1-1
+- bump to v3.4.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -13,7 +13,7 @@
 
 Name:		sphinx
 Version:	2.2.11
-Release:	14%{?dist}
+Release:	16%{?dist}
 Summary:	Free open-source SQL full-text search engine
 License:	GPLv2+
 URL:		http://sphinxsearch.com
@@ -281,6 +281,12 @@ chown -R %{sphinx_user}:root %{_localstatedir}/lib/%{name}/
 %{_datadir}/php/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.11-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 2.2.11-15
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.11-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

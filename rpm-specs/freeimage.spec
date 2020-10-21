@@ -2,10 +2,11 @@
 %undefine _ld_as_needed
 
 %define major 3
+%global svn_rev 1859
 
 Name:           freeimage
-Version:        3.18.0
-Release:        8%{?dist}
+Version:        3.19.0
+Release:        0.1%{?svn_rev:.svn%svn_rev}%{?dist}
 Summary:        Multi-format image decoder library
 
 # freeimage is tripple-licensed, see
@@ -13,17 +14,16 @@ Summary:        Multi-format image decoder library
 # https://lists.fedoraproject.org/pipermail/legal/2013-October/002271.html
 License:        GPLv2 or GPLv3 or MPLv1.0
 URL:            http://freeimage.sourceforge.net/
-Source0:        http://downloads.sourceforge.net/%{name}/FreeImage%(echo %{version} | sed 's|\.||g').zip
+%if 0%{?svn_rev:1}
+# https://sourceforge.net/p/freeimage/svn/%{svn_rev}/tarball?path=/FreeImage/trunk
+Source:        freeimage-svn-r%{svn_rev}-FreeImage-trunk.zip
+%else
+Source:        http://downloads.sourceforge.net/%{name}/FreeImage%(echo %{version} | sed 's|\.||g').zip
+%endif
 # Unbundle bundled libraries
 Patch0:         FreeImage_unbundle.patch
 # Fix incorrect path in doxyfile
 Patch1:         FreeImage_doxygen.patch
-# Fix incorrect variable names in BIGENDIAN blocks
-Patch2:         FreeImage_bigendian.patch
-# Backport fixes for CVE-2019-12211 and 2019-12213
-# https://sourceforge.net/p/freeimage/svn/1825/tree//FreeImage/trunk/Source/FreeImage/PluginTIFF.cpp?diff=5a0ca8dd5a4a1f6b3942a079:1824
-Patch3:         CVE-2019-12211_2019-12213.patch
-Patch4:         substream.patch
 
 BuildRequires:  doxygen
 BuildRequires:  gcc-c++
@@ -71,7 +71,11 @@ developing applications that use %{name}-plus.
 
 
 %prep
+%if 0%{?svn_rev:1}
+%autosetup -p1 -n freeimage-svn-r%{svn_rev}-FreeImage-trunk
+%else
 %autosetup -p1 -n FreeImage
+%endif
 
 # remove all included libs to make sure these don't get used during compile
 rm -r Source/Lib* Source/ZLib Source/OpenEXR
@@ -147,6 +151,9 @@ ldconfig -n %{buildroot}%{_libdir}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.18.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.18.0-8
 - Rebuild for new LibRaw
 

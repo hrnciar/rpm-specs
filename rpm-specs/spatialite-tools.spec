@@ -1,8 +1,8 @@
-%global sqlitever 3.32.2
+%global sqlitever 3.33.0
 
 Name:           spatialite-tools
 Version:        4.3.0
-Release:        43%{?dist}
+Release:        46%{?dist}
 Summary:        A set of useful CLI tools for SpatiaLite
 
 License:        GPLv3+
@@ -61,6 +61,15 @@ make install DESTDIR=%{buildroot}
 %{_bindir}/spatialite_xml_*
 
 %changelog
+* Thu Aug 20 08:46:50 GMT 2020 Sandro Mani <manisandro@gmail.com> - 4.3.0-46
+- Rebuild (sqlite)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.0-45
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Ondrej Dubaj <odubaj@redhat.com> - 4.3.0-44
+- Rebuild for sqlite 3.32.3
+
 * Fri Jun 05 2020 Ondrej Dubaj <odubaj@redhat.com> - 4.3.0-43
 - Rebuild for sqlite 3.32.2
 

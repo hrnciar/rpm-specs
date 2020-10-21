@@ -2,12 +2,13 @@
 Summary:         Picture viewer
 Name:            xzgv
 Version:         0.9.2
-Release:         8%{?dist}
+Release:         10%{?dist}
 License:         GPLv2+
 URL:             http://sourceforge.net/projects/xzgv/
 Source0:         http://downloads.sourceforge.net/xzgv/xzgv-%{version}.tar.gz
-Patch1:          xzgv-0.9-fix-doc-install.patch
-Patch3:          xzgv-0.9-fix-thumbnail-generation.patch
+Patch0:          xzgv-0.9-fix-doc-install.patch
+Patch1:          xzgv-0.9-fix-thumbnail-generation.patch
+Patch2:          0001-Fix-xzgv-man-page-so-it-is-valid-nroff.patch
 BuildRequires:   gcc
 BuildRequires:   gtk2-devel
 BuildRequires:   libexif-devel
@@ -22,15 +23,12 @@ formats are supported, and the thumbnails used are compatible with xv,
 zgv and the Gimp.
 
 %prep
-%setup -q
-%patch1 -p1
-%patch3 -p1
-iconv -f iso8859-1 -t utf8 ChangeLog -o ChangeLog.txt
-touch -r ChangeLog.txt ChangeLog
-mv ChangeLog.txt ChangeLog
-iconv -f iso8859-1 -t utf8 NEWS -o NEWS.txt
-touch -r NEWS.txt NEWS
-mv NEWS.txt NEWS
+%autosetup -p1
+for f in ChangeLog NEWS; do
+  iconv -f iso8859-1 -t utf8 $f -o $f.txt
+  touch -r $f.txt $f
+  mv $f.txt $f
+done
 
 %build
 sed -i 's|^CFLAGS.*|CFLAGS=%{optflags}|' config.mk
@@ -107,6 +105,12 @@ EOF
 %{_datadir}/pixmaps/xzgv.xpm
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Terje Rosten <terjeros@phys.ntnu.no> - 0.9.2-9
+- Add patch from upstream to fix man page
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

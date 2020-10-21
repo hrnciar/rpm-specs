@@ -1,6 +1,6 @@
 Name:           parallel
 Summary:        Shell tool for executing jobs in parallel
-Version:        20200522
+Version:        20200722
 Release:        1%{?dist}
 
 License:        GPLv3+
@@ -73,6 +73,12 @@ chmod -x %{buildroot}%{_bindir}/env_parallel.*
 %{_mandir}/man1/niceload.1*
 
 %changelog
+* Mon Aug 17 2020 Filipe Rosset <rosset.filipe@gmail.com> - 20200722-1
+- Update to 20200722
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200522-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Filipe Rosset <rosset.filipe@gmail.com> - 20200522-1
 - Update to 20200522
 

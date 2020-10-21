@@ -2,7 +2,7 @@
 
 Name:           trac-spamfilter-plugin
 Version:        1.4.0
-Release:        0.2.20190829svn%{svnrev}%{?dist}
+Release:        0.4.20190829svn%{svnrev}%{?dist}
 Summary:        Spam-Filter plugin for Trac
 License:        BSD
 URL:            http://trac.edgewall.org/wiki/SpamFilter
@@ -68,6 +68,13 @@ illegitimate/unwanted content) in submitted content.
 %lang(ko) %{python2_sitelib}/tracspamfilter/locale/ko/LC_MESSAGES/tracspamfilter.mo
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-0.4.20190829svn17127
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-0.3.20190829svn17127
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-0.2.20190829svn17127
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

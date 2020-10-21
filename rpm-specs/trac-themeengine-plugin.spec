@@ -2,7 +2,7 @@
 
 Name:           trac-themeengine-plugin
 Version:        2.0.1
-Release:        20120328svn11382%{?dist}
+Release:        20120329svn11382%{?dist}
 Summary:        Simple API and GUI for packaging and configuring Trac themes
 
 License:        BSD
@@ -34,6 +34,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python2_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-20120329svn11382
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-20120328svn11382
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

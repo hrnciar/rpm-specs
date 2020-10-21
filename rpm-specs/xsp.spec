@@ -1,6 +1,6 @@
 Name:			xsp
-Version:	4.5
-Release:	6%{?dist}
+Version:	4.7.1
+Release:	1%{?dist}
 License:	MIT
 URL:			http://www.mono-project.com/Main_Page
 Summary:	A small web server that hosts ASP.NET
@@ -96,6 +96,12 @@ done
 %{_prefix}/lib/xsp/test
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.7.1-1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Timotheus Pokorra <timotheus.pokorra@solidcharity.com> - 4.7.1-0
+- Upgrade to new version 4.7.1
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

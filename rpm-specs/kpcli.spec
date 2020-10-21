@@ -1,6 +1,6 @@
 Name:		kpcli	
-Version:	3.4
-Release:	2%{?dist}
+Version:	3.5
+Release:	1%{?dist}
 Summary:	KeePass Command Line Interface (CLI) / interactive shell
 License:	GPL+ or Artistic
 BuildArch:	noarch
@@ -38,6 +38,15 @@ install -p -m0755 %{name}-%{version}.pl %{buildroot}%{_bindir}/%{name}
 %{_bindir}/kpcli
 
 %changelog
+* Sat Sep 19 2020 Charles R. Anderson <cra@wpi.edu> - 3.5-1
+- Updated to 3.5
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.4-3
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.4-2
 - Perl 5.32 rebuild
 

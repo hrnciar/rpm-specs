@@ -5,7 +5,7 @@
 
 Summary: powerful, easy to use console email client
 Name: alpine
-Version: 2.23
+Version: 2.24
 Release: 1%{?dist}
 
 License: ASL 2.0
@@ -13,7 +13,7 @@ URL:     http://alpine.x10host.com/
 Source0: http://alpine.x10host.com/alpine/patches/alpine-%{version}/alpine-%{version}.tar.xz
 Source1: README.fedora
 
-Patch1: alpine-2.21-useragent.patch
+Patch1: alpine-2.24-useragent.patch
 Patch2: alpine-2.23-gcc10.patch
 
 # Using "Conflicts" instead of Obsoletes because while alpine is substantially
@@ -123,6 +123,20 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/pine.conf.fixed
 
 
 %changelog
+* Sun Oct 11 2020 josef radinger <cheese@nosuchhost.net> - 2.24-1
+- bump version
+- modify %%patch1
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.23-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.23-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 23 2020 josef radinger <cheese@nosuchhost.net> - 2.23-2
+- 2.23 fixes CVE-2020-14929 (#1850048) and new version (#1848786)
+
 * Mon Jun 22 2020 josef radinger <cheese@nosuchhost.net> - 2.23-1
 - bump version
 - update patch2 alpine-2.23-gcc10.patch

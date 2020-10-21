@@ -1,20 +1,18 @@
-%global commitdate 20170118
-%global commit0 a77bf9940c19aca602faa41bbf987e43e51a5305
-%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+%global build_options -DGENERATE_SRS_SECRET=OFF -DUSE_SELINUX=ON -DINIT_FLAVOR=systemd
 
+%undefine __cmake_in_source_build
 
 Name:           postsrsd
-Version:        1.4
-Release:        14.%{commitdate}git%{shortcommit0}%{?dist}
+Version:        1.6
+Release:        1%{?dist}
 Summary:        Sender Rewriting Scheme (SRS) provider
 
 License:        GPLv2+
 URL:            https://github.com/roehling/postsrsd
-#Source0:       https://github.com/roehling/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
-Source0:        https://github.com/roehling/%{name}/archive/%{commit0}/%{name}-%{commit0}.tar.gz
+Source0:        https://github.com/roehling/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:  gcc
 BuildRequires:     cmake
+BuildRequires:     gcc
 BuildRequires:     help2man
 BuildRequires:     selinux-policy-devel
 %{?systemd_requires}
@@ -30,17 +28,29 @@ SRS is needed if your mail server acts as forwarder.
 
 
 %prep
-%autosetup -n %{name}-%{commit0}
+%autosetup -n %{name}-%{version}
+%if (0%{?rhel} && 0%{?rhel} < 8)
 mkdir build
-cd build && %cmake .. -DGENERATE_SRS_SECRET=OFF -DUSE_SELINUX=ON
+cd build && %cmake .. %build_options
+%else
+%cmake %build_options
+%endif
 
 
 %build
+%if (0%{?rhel} && 0%{?rhel} < 8)
 %make_build -C build
+%else
+%cmake_build
+%endif
 
 
 %install
+%if (0%{?rhel} && 0%{?rhel} < 8)
 %make_install -C build
+%else
+%cmake_install
+%endif
 
 # %%ghost file requires it is present in the build root
 touch %{buildroot}/%{_sysconfdir}/postsrsd.secret
@@ -97,22 +107,17 @@ fi
 
 
 %changelog
-* Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-14.20170118gita77bf99
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+* Tue Oct 06 2020 Marc Dequènes (Duck) <duck@redhat.com> - 1.6-1
+- NUR
+- define INIT_FLAVOR as detection does not work in build environment
+- ensure build in not done in-source
+- add gcc to BuildRequires (removing it was a mistake)
+- add compat for EL7 around cmake_* macros
 
-* Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-13.20170118gita77bf99
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+* Thu Aug 13 2020 Marc Dequènes (Duck) <duck@redhat.com> - 1.4-10.20170118gita77bf99
+- migrate to new cmake macros for out-of-source builds
 
-* Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-12.20170118gita77bf99
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
-
-* Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-11.20170118gita77bf99
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
-
-* Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-10.20170118gita77bf99
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
-
-* Thu Oct 04 2017 Marc Dequènes (Duck) <duck@redhat.com> - 1.4-9.20170118gita77bf99
+* Thu Oct 05 2017 Marc Dequènes (Duck) <duck@redhat.com> - 1.4-9.20170118gita77bf99
 - use the %%ghost feature to ensure the secret file is owned by the package
 - it is then not necessary to handle its removal in %%postun
 

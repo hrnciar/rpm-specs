@@ -3,7 +3,7 @@
 
 Name:           vdr-%{pname}
 Version:        2.4.0
-Release:        11%{?dist}
+Release:        14%{?dist}
 Summary:        Powerful schedules menu replacement plugin for VDR
 
 License:        GPLv2+
@@ -21,6 +21,7 @@ Patch1:         replace_auto_ptr_with_unique_ptr.patch
 Patch2:         Fix_possible_format_overflow_and_avoid_compiler_warning.patch
 # https://projects.vdr-developer.org/git/vdr-plugin-epgsearch.git/patch/?id=602d66c55964998ce25c6c57b302949a9517f149
 Patch3:         menu_conflictcheck.patch
+Patch4:         %{name}-gcc11.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  vdr-devel >= 1.7.36
@@ -38,6 +39,7 @@ sed -e 's|__VARDIR__|%{vdr_vardir}|g' %{PATCH0} | %{__patch} -p1 --fuzz=0
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 for f in scripts/epgsearchcmds-french.conf conf/epgsearchcats.conf-tvm2vdr* ; do
     iconv -f iso-8859-1 -t utf-8 -o $f.utf8 $f ; mv $f.utf8 $f
@@ -83,6 +85,16 @@ install -dm 755 $RPM_BUILD_ROOT%{vdr_vardir}/epgsearch
 %defattr(-,root,root,-)
 
 %changelog
+* Fri Aug 28 2020 Martin Gansser <martinkg@fedoraproject.org> - 2.4.0-14
+- Rebuilt for new VDR API version
+
+* Wed Aug 19 2020 Jeff Law <law@redhat.com> - 2.4.0-13
+- Force C++14 as this code is not C++17 ready
+- Avoid ordered pointer comparisons against zero
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

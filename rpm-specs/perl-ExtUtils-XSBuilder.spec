@@ -1,6 +1,6 @@
 Name:           perl-ExtUtils-XSBuilder
 Version:        0.28
-Release:        36%{?dist}
+Release:        37%{?dist}
 Summary:        Modules that parse C header files and create XS glue code
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/ExtUtils-XSBuilder
@@ -72,6 +72,9 @@ make test
 %{_mandir}/man3/ExtUtils::xsbuilder.osc2002.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.28-37
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.28-36
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 %global ghdlver 0.38~dev
-%global ghdldate 20200428
-%global ghdlcommit ad4e2f38bd77ace5333b6849dd5564dcaba6bfc6
+%global ghdldate 20200827
+%global ghdlcommit 4ce9925590a96055dabfdd8646055dd378d33650
 %global ghdlshortcommit %(c=%{ghdlcommit}; echo ${c:0:7})
 %global ghdlgitrev %{ghdldate}git%{ghdlshortcommit}
 
@@ -13,7 +13,7 @@
 #workaround for another compiler error
 #bcond_without llvm
 
-#ifarch %{ix86} x86_64 ppc64le
+#ifarch %%{ix86} x86_64 ppc64le
 %ifarch x86_64 ppc64le
 %bcond_without llvm
 %else
@@ -22,13 +22,13 @@
 
 %bcond_with gnatwae
 
-%global DATE 20200420
-%global gitrev dbc1bb99e280740e5bda658a911d9dd3f431ad4d
-%global gcc_version 10.0.1
+%global DATE 20200826
+%global gitrev c59c8927f43fb78d6a72a0ff93a47b36e43282d5
+%global gcc_version 10.2.1
 %global gcc_major 10
 # Note, gcc_release must be integer, if you want to add suffixes to
 # %%{release}, append them after %%{gcc_release} on Release: line.
-%global gcc_release 0.12
+%global gcc_release 3
 # Hardening slows the compiler way too much.
 %undefine _hardened_build
 %if 0%{?fedora} > 27 || 0%{?rhel} > 7
@@ -40,7 +40,7 @@
 Summary: A VHDL simulator, using the GCC technology
 Name: ghdl
 Version: %{ghdlver}
-Release: 2.%{ghdlgitrev}%{?dist}
+Release: 9.%{ghdlgitrev}%{?dist}
 License: GPLv2+ and GPLv3+ and GPLv3+ with exceptions and GPLv2+ with exceptions and LGPLv2+ and BSD
 URL: http://ghdl.free.fr/
 # The source for this package was pulled from upstream's vcs.  Use the
@@ -61,9 +61,13 @@ Patch7: gcc10-no-add-needed.patch
 Patch8: gcc10-foffload-default.patch
 Patch9: gcc10-Wno-format-security.patch
 Patch10: gcc10-rh1574936.patch
+Patch12: gcc10-pr96383.patch
+Patch13: gcc10-pr96385.patch
+Patch14: gcc10-pr96690.patch
 
 Source100: https://github.com/ghdl/ghdl/archive/%{ghdlcommit}/%{name}-%{ghdlshortcommit}.tar.gz
 Patch100: ghdl-llvmflags.patch
+Patch101: ghdl-llvm11.patch
 # From: Thomas Sailer <t.sailer@alumni.ethz.ch>
 # To: ghdl-discuss@gna.org
 # Date: Thu, 02 Apr 2009 15:36:00 +0200
@@ -71,15 +75,13 @@ Patch100: ghdl-llvmflags.patch
 Patch106: ghdl-ppc64abort.patch
 Requires: gcc
 
+Patch200: gcc-config.patch
+
 BuildRequires: binutils >= 2.31
-BuildRequires: zlib-devel, gettext, bison, flex, sharutils
-BuildRequires: texinfo, texinfo-tex, /usr/bin/pod2man
-BuildRequires: systemtap-sdt-devel >= 1.3
+BuildRequires: zlib-devel, gettext, bison, flex
+BuildRequires: texinfo
 BuildRequires: gmp-devel >= 4.1.2-8, mpfr-devel >= 2.2.1, libmpc-devel >= 0.8.1
-BuildRequires: python2-devel, python3-devel
 BuildRequires: gcc, gcc-c++
-# For VTA guality testing
-BuildRequires: gdb
 # Make sure pthread.h doesn't contain __thread tokens
 # Make sure glibc supports stack protector
 # Make sure glibc supports DT_GNU_HASH
@@ -130,16 +132,17 @@ ExcludeArch: armv7hl
 %global __os_install_post %(echo '%{__os_install_post}' | sed -e 's#/usr/lib/rpm/redhat/brp-strip-static-archive .*##g')
 
 %description
-GHDL is a VHDL simulator, using the GCC technology. VHDL is a language
-standardized by the IEEE, intended for developing electronic systems. GHDL
-implements the VHDL language according to the IEEE 1076-1987 or the IEEE
-1076-1993 standard. It compiles VHDL files and creates a binary that simulates
-(or executes) your design. GHDL does not do synthesis: it cannot translate your
-design into a netlist.
+GHDL is the open-source analyzer, compiler, simulator and (experimental)
+synthesizer for VHDL, a Hardware Description Language (HDL). GHDL implements
+the VHDL language according to the 1987, 1993 and 2002 versions of the IEEE
+1076 VHDL standard, and partial for 2008. It compiles VHDL files and creates
+a binary that simulates (or executes) your design. GHDL can also translate
+a design into a VHDL 1993 netlist, or it can be plugged into Yosys for
+open-source synthesis.
 
 Since GHDL is a compiler (i.e., it generates object files), you can call
-functions or procedures written in a foreign language, such as C, C++, or
-Ada95.
+functions or procedures written in a foreign language, such as C, C++, Ada95
+or Python.
 
 %package grt
 Summary: GHDL runtime libraries
@@ -204,6 +207,17 @@ that tracks signal updates and schedules processes.
 %if 0%{?fedora} >= 29 || 0%{?rhel} > 7
 %patch10 -p0 -b .rh1574936~
 %endif
+%patch12 -p0 -b .pr96383~
+%patch13 -p0 -b .pr96385~
+%patch14 -p0 -b .pr96690~
+
+%patch200 -p1
+pushd libiberty
+autoconf -f
+popd
+pushd intl
+autoconf -f
+popd
 
 echo 'Red Hat %{version}-%{gcc_release}' > gcc/DEV-PHASE
 
@@ -221,6 +235,7 @@ rm -f gcc/testsuite/go.test/test/chan/goroutines.go
 # ghdl
 mv ghdl-%{ghdlcommit} ghdl
 %patch100 -p0 -b .llvmflags~
+%patch101 -p0 -b .llvm11~
 
 # fix library and include path
 pushd ghdl
@@ -288,6 +303,7 @@ export CONFIG_SITE=NONE
 CC=gcc
 CXX=g++
 OPT_FLAGS=`echo %{optflags}|sed -e 's/\(-Wp,\)\?-D_FORTIFY_SOURCE=[12]//g'`
+OPT_FLAGS=`echo $OPT_FLAGS|sed -e 's/-flto=auto//g;s/-flto//g;s/-ffat-lto-objects//g'`
 OPT_FLAGS=`echo $OPT_FLAGS|sed -e 's/-m64//g;s/-m32//g;s/-m31//g'`
 OPT_FLAGS=`echo $OPT_FLAGS|sed -e 's/-mfpmath=sse/-mfpmath=sse -msse2/g'`
 OPT_FLAGS=`echo $OPT_FLAGS|sed -e 's/ -pipe / /g'`
@@ -387,8 +403,7 @@ CC="$CC" CXX="$CXX" CFLAGS="$OPT_FLAGS" \
 	--enable-languages=vhdl \
 	$CONFIGURE_OPTS
 
-# workaround for gcc gnat ICE on valid, do not compile trans-chap8 with optimization
-make || true
+make %{?_smp_mflags}
 pushd gcc/vhdl
 gnatmake -c -aI%{_builddir}/gcc-%{gcc_version}-%{DATE}/gcc/vhdl ortho_gcc-main \
   -cargs -g -Wall -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 \
@@ -402,8 +417,7 @@ gnatmake -c -aI%{_builddir}/gcc-%{gcc_version}-%{DATE}/gcc/vhdl ortho_gcc-main \
 #-gnatwae
 popd
 
-#make %{?_smp_mflags}
-make
+make %{?_smp_mflags}
 
 popd
 
@@ -419,36 +433,24 @@ popd
 # install llvm
 %if %{with llvm}
 pushd ghdl-llvm
-make DESTDIR=%{buildroot} install
+%make_install
 mv %{buildroot}/%{_bindir}/ghdl %{buildroot}/%{_bindir}/ghdl-llvm
 popd
 %endif
 
 # install gcc
-make -C obj-%{gcc_target_platform} DESTDIR=%{buildroot} install
+%make_install -C obj-%{gcc_target_platform}
 
 PBINDIR=`pwd`/obj-%{gcc_target_platform}/gcc/
 
 pushd ghdl
 make bindir=${PBINDIR} GHDL1_GCC_BIN="--GHDL1=${PBINDIR}/ghdl1" ghdllib
-make DESTDIR=%{buildroot} install
+%make_install
 popd
 
 # Add additional libraries to link
 (
-%if 0%{?fedora} >= 30
-echo "-lgnat-9"
-%else
-%if 0%{?fedora} >= 28
-echo "-lgnat-8"
-%else
-%if 0%{?fedora} >= 26
-echo "-lgnat-7"
-%else
-echo "-lgnat-6"
-%endif
-%endif
-%endif
+echo "-lgnat-`gnatmake --version| sed -n 's/^GNATMAKE \([^.]*\)\..*$/\1/p'`"
 ) >> %{buildroot}%{_prefix}/lib/ghdl/grt.lst
 
 # Remove files not to be packaged
@@ -493,12 +495,14 @@ mv %{buildroot}%{_includedir}/ghdlsynth*.h %{buildroot}%{_includedir}/ghdl
 mv %{buildroot}/usr/lib/libghdlvpi.so %{buildroot}%{_libdir}/
 mv %{buildroot}/usr/lib/libghdl-*.so %{buildroot}%{_libdir}/
 %endif
+# remove static libghdl
+rm %{buildroot}/usr/lib/libghdl.{a,link}
 
 %files
 %{_bindir}/ghdl
 %{_infodir}/ghdl.info.*
-# Need to own directory %{_libexecdir}/gcc even though we only want the
-# %{gcc_target_platform}/%{gcc_version} subdirectory
+# Need to own directory %%{_libexecdir}/gcc even though we only want the
+# %%{gcc_target_platform}/%%{gcc_version} subdirectory
 %{_libexecdir}/gcc/
 %{_mandir}/man1/*
 %{_includedir}/ghdl/vpi_user.h
@@ -506,8 +510,8 @@ mv %{buildroot}/usr/lib/libghdl-*.so %{buildroot}%{_libdir}/
 %{_libdir}/libghdl*.so
 
 %files grt
-# Need to own directory %{_libdir}/gcc even though we only want the
-# %{gcc_target_platform}/%{gcc_version} subdirectory
+# Need to own directory %%{_libdir}/gcc even though we only want the
+# %%{gcc_target_platform}/%%{gcc_version} subdirectory
 %{_prefix}/lib/gcc/
 %{_prefix}/lib/ghdl/
 
@@ -531,6 +535,31 @@ mv %{buildroot}/usr/lib/libghdl-*.so %{buildroot}%{_libdir}/
 %endif
 
 %changelog
+* Fri Aug 28 2020 Dan Horák <dan[at]danny.cz> - 0.38~dev-9.20200827git4ce9925
+- updated to new ghdl snapshot
+- updated to gcc 10.2.1-3
+- enabled parallel make
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.38~dev-8.20200702git9828b51
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.38~dev-7.20200702git9828b51
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Jeff Law <law@redhat.com> - 0.38~dev-6.20200702git9828b51
+- Fix broken configure tests compromised by LTO
+
+* Fri Jul 03 2020 Dan Horák <dan[at]danny.cz> - 0.38~dev-5.20200702git9828b51
+- updated to new ghdl snapshot
+
+* Thu Jun 25 2020 Dan Horák <dan[at]danny.cz> - 0.38~dev-4.20200619git18a71a4
+- updated to new ghdl snapshot
+- updated to gcc 10.1.1-2
+
+* Tue Jun 23 2020 Matthias Wächter <matthias@waechter.wiz.at> - 0.38~dev-3.20200428gitad4e2f3
+- fix dependency on libgnat
+
 * Wed Apr 29 2020 Dan Horák <dan[at]danny.cz> - 0.38~dev-2.20200428gitad4e2f3
 - updated to new ghdl snapshot
 
@@ -1015,4 +1044,3 @@ mv %{buildroot}/usr/lib/libghdl-*.so %{buildroot}%{_libdir}/
 
 * Tue Feb  8 2005 Thomas Sailer <t.sailer@alumni.ethz.ch> - 0.16-1
 - Initial build.
-

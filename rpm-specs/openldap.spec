@@ -4,8 +4,8 @@
 %global check_password_version 1.1
 
 Name: openldap
-Version: 2.4.50
-Release: 2%{?dist}
+Version: 2.4.54
+Release: 1%{?dist}
 Summary: LDAP support libraries
 License: OpenLDAP
 URL: http://www.openldap.org/
@@ -33,7 +33,6 @@ Patch17: openldap-allop-overlay.patch
 # http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=327585
 Patch19: openldap-switch-to-lt_dlopenadvise-to-get-RTLD_GLOBAL-set.patch
 Patch24: openldap-openssl-manpage-defaultCA.patch
-Patch25: openldap-ITS-8650-Fix-Debug-usage-to-follow-RE24-format.patch
 
 # check-password module specific patches
 Patch90: check-password-makefile.patch
@@ -111,7 +110,6 @@ AUTOMAKE=%{_bindir}/true autoreconf -fi
 %patch17 -p1
 %patch19 -p1
 %patch24 -p1
-%patch25 -p1
 
 # build smbk5pwd with other overlays
 ln -s ../../../contrib/slapd-modules/smbk5pwd/smbk5pwd.c servers/slapd/overlays
@@ -481,6 +479,22 @@ exit 0
 %{_mandir}/man3/*
 
 %changelog
+* Thu Oct 13 2020 Simon Pichugin <spichugi@redhat.com> - 2.4.54-1
+- Rebase to version 2.4.54 (#1887581)
+
+* Thu Sep 10 2020 Simon Pichugin <spichugi@redhat.com> - 2.4.53-1
+- Rebase to version 2.4.53 (#1868240)
+
+* Thu Sep 03 2020 Simon Pichugin <spichugi@redhat.com> - 2.4.52-1
+- Rebase to version 2.4.52 (#1868240)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.50-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.50-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.4.50-2
 - Perl 5.32 rebuild
 

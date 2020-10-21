@@ -4,7 +4,7 @@
 
 Name:           svgsalamander
 Version:        1.1.2
-Release:        5%{?dist}
+Release:        8%{?dist}
 Summary:        An SVG engine for Java
 
 License:        LGPLv2+ or BSD
@@ -22,7 +22,6 @@ BuildRequires:  maven-local
 BuildRequires:  java-devel
 BuildRequires:  javacc-maven-plugin
 BuildRequires:  maven-enforcer-plugin
-BuildRequires:  sonatype-oss-parent
 BuildRequires:  dos2unix
 BuildRequires:  ant
 
@@ -80,6 +79,15 @@ popd
 %doc www/license/*
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 1.1.2-8
+- Remove unnecessary dependency on parent POM.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.1.2-6
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon Feb 10 2020 Jakub Jelen <jjelen@redhat.com> - 1.1.2-5
 - Unbreak build by adding missing dependency (#1800173)
 

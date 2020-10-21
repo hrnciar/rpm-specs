@@ -2,7 +2,7 @@
 
 Name:           trac-privateticketsplugin
 Version:        2.0.2
-Release:        0.20.svn5073%{?dist}
+Release:        0.21.svn5073%{?dist}
 Summary:        Trac extension to allow users to view only related tickets
 
 # BSD license derived from metadata in setup.py
@@ -37,6 +37,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python2_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-0.21.svn5073
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-0.20.svn5073
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -5,7 +5,7 @@
 %global crate libloading
 
 Name:           rust-%{crate}
-Version:        0.6.2
+Version:        0.6.4
 Release:        1%{?dist}
 Summary:        Safer binding to platform’s dynamic library loading utilities
 
@@ -74,6 +74,15 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sun Oct 11 2020 Fabio Valentini <decathorpe@gmail.com> - 0.6.4-1
+- Update to version 0.6.4.
+
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 0.6.3-1
+- Update to 0.6.3
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Josh Stone <jistone@redhat.com> - 0.6.2-1
 - Update to 0.6.2
 

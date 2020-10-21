@@ -33,7 +33,7 @@
 %global patches_touch_autotools 1
 
 # The source directory.
-%global source_directory 1.42-stable
+%global source_directory 1.43-development
 
 # Filter perl provides.
 %{?perl_default_filter}
@@ -44,12 +44,12 @@
 Summary:       Access and modify virtual machine disk images
 Name:          libguestfs
 Epoch:         1
-Version:       1.42.0
-Release:       7%{?dist}
+Version:       1.43.2
+Release:       1%{?dist}
 License:       LGPLv2+
 
-# No kernel https://fedoraproject.org/wiki/Changes/Stop_Building_i686_Kernels
-ExcludeArch:   i686
+# Build only for architectures that have a kernel
+ExclusiveArch: %{kernel_arches}
 
 # Source and patches.
 URL:           http://libguestfs.org/
@@ -75,12 +75,6 @@ Source7:       libguestfs.keyring
 %if 0%{patches_touch_autotools}
 BuildRequires: autoconf, automake, libtool, gettext-devel
 %endif
-
-# Upstream patch which fixes build from tarball.
-Patch1:        0001-po-Remove-virt-v2v-related-dependency-from-POTFILES-.patch
-
-# Fix path to libguestfs appliance.
-Patch2:        0001-appliance-Set-default-guestfs-appliance-path-to-libd.patch
 
 # Basic build requirements for the library and virt tools.
 BuildRequires: gcc, gcc-c++
@@ -117,7 +111,7 @@ BuildRequires: unzip
 BuildRequires: systemd-units
 BuildRequires: netpbm-progs
 BuildRequires: icoutils
-BuildRequires: libvirt-daemon-qemu
+BuildRequires: libvirt-daemon-kvm
 BuildRequires: perl(Expect)
 BuildRequires: libacl-devel
 BuildRequires: libcap-devel
@@ -853,7 +847,7 @@ rm $RPM_BUILD_ROOT%{_mandir}/man1/virt-list-partitions.1*
 rm $RPM_BUILD_ROOT%{_mandir}/man1/virt-tar.1*
 
 # golang: Ignore what libguestfs upstream installs, and just copy the
-# source files to %{_datadir}/gocode/src.
+# source files to %%{_datadir}/gocode/src.
 %ifarch %{golang_arches}
 rm -r $RPM_BUILD_ROOT/usr/lib/golang
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/gocode/src
@@ -1191,6 +1185,33 @@ rm ocaml/html/.gitignore
 
 
 %changelog
+* Mon Sep 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1:1.43.2-1
+- New upstream version 1.43.2.
+- Replace libvirt-daemon-qemu with libvirt-daemon-kvm.
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1:1.43.1-7
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1:1.43.1-6
+- OCaml 4.11.0 rebuild
+
+* Mon Aug 10 2020 Merlin Mathesius <mmathesi@redhat.com> - 1.43.1-5
+- Use ExclusiveArch: %%{kernel_arches}
+
+* Fri Jul 31 2020 Richard W.M. Jones <rjones@redhat.com> - 1:1.43.1-4
+- Disable then reenable LTO.
+  https://lists.fedoraproject.org/archives/list/devel@lists.fedoraproject.org/thread/ULGH5JYL7MHKDKTINJLOEN2QG6LOHWH7/
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.43.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul  6 2020 Richard W.M. Jones <rjones@redhat.com> - 1:1.43.1-1
+- New development branch 1.43.
+- Remove upstream patches.
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:1.42.0-8
+- Perl 5.32 rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1:1.42.0-7
 - Rebuilt for Python 3.9
 

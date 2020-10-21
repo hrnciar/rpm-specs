@@ -1,6 +1,6 @@
 Name: omping
 Version: 0.0.4
-Release: 21%{?dist}
+Release: 23%{?dist}
 Summary: Utility to test IP multicast functionality
 License: ISC
 URL: https://github.com/jfriesse/omping
@@ -17,10 +17,10 @@ primarily in local network.
 
 %build
 %set_build_flags
-make %{?_smp_mflags}
+%make_build
 
 %install
-make DESTDIR="%{buildroot}" PREFIX="%{_prefix}" install
+%make_install PREFIX="%{_prefix}"
 
 %files
 %doc AUTHORS
@@ -29,6 +29,13 @@ make DESTDIR="%{buildroot}" PREFIX="%{_prefix}" install
 %{_mandir}/man8/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.4-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Jan Friesse <jfriesse@redhat.com> - 0.0.4-22
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Thu Mar 19 2020 Jan Friesse <jfriesse@redhat.com> - 0.0.4-21
 - Add CI tests
 - Enable gating

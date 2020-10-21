@@ -12,7 +12,7 @@ the company's primary corporate typography.
 
 Name:           %{fontname}-fonts
 Version:        1.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Datto D-DIN fonts
 # Only the metainfo files are CC-BY-SA
 License:        OFL and CC-BY-SA
@@ -106,6 +106,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.metainf
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

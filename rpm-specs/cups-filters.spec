@@ -3,8 +3,8 @@
 
 Summary: OpenPrinting CUPS filters and backends
 Name:    cups-filters
-Version: 1.27.5
-Release: 1%{?dist}
+Version: 1.28.2
+Release: 2%{?dist}
 
 # For a breakdown of the licensing, see COPYING file
 # GPLv2:   filters: commandto*, imagetoraster, pdftops, rasterto*,
@@ -20,16 +20,7 @@ License: GPLv2 and GPLv2+ and GPLv3 and GPLv3+ and LGPLv2+ and MIT and BSD with 
 Url:     http://www.linuxfoundation.org/collaborate/workgroups/openprinting/cups-filters
 Source0: http://www.openprinting.org/download/cups-filters/cups-filters-%{version}.tar.xz
 
-# set defaults in cups-browsed.conf
-Patch01: cups-filters-createall.patch
-# Links in man page is wrong - it shows 'cups-browsed' in path, but we
-# have 'cups-filters' in path, because it is shipped in 'cups-filters' package
-# instead of 'cups-browsed' as Ubuntu does. I can repack the project later,
-# so cups-browsed would have separate sub package, so the link would be correct
-Patch02: cups-browsed.8.patch
-# upstream decided on keep queues after restart - IMO it causes more issues than it
-# solves https://github.com/OpenPrinting/cups-filters/issues/241
-Patch03: cups-filters-remove-queues-on-restart.patch
+Patch01: cups-filters-init-buf.patch
 
 Requires: cups-filters-libs%{?_isa} = %{version}-%{release}
 
@@ -42,6 +33,8 @@ Requires: cups-filters-libs%{?_isa} = %{version}-%{release}
 BuildRequires: gcc
 # gcc-c++ for pdftoopvp, pdftopdf
 BuildRequires: gcc-c++
+# for autosetup
+BuildRequires: git
 
 BuildRequires: cups-devel
 BuildRequires: pkgconf-pkg-config
@@ -68,8 +61,6 @@ BuildRequires: avahi-devel
 BuildRequires: pkgconfig(avahi-glib)
 BuildRequires: pkgconfig(glib-2.0)
 BuildRequires: systemd
-# for test suite
-BuildRequires: cups-ipptool
 
 # Make sure we get postscriptdriver tags.
 BuildRequires: python3-cups
@@ -113,7 +104,11 @@ Requires(postun): systemd
 # or device during discovery for newer (2012+) devices - make it recommended together
 # with avahi - needed for device discovery as well
 Recommends: nss-mdns
+# avahi is needed for device discovery
 Recommends: avahi
+
+# ipptool is used in driverless backend, not needed classic PPD based print queue
+Recommends: cups-ipptool
 
 %package libs
 Summary: OpenPrinting CUPS filters and backends - cupsfilters and fontembed libraries
@@ -140,13 +135,7 @@ This package provides cupsfilters and fontembed libraries.
 This is the development package for OpenPrinting CUPS filters and backends.
 
 %prep
-%setup -q
-
-# set LocalQueueNamingRemoteCUPS and CreateIPPPrinterQueues by default
-%patch01 -p1 -b .createall
-# links in manpage
-%patch02 -p1 -b .manpage
-%patch03 -p1 -b .remove-queues-on-restart
+%autosetup -S git
 
 %build
 # work-around Rpath
@@ -165,6 +154,8 @@ This is the development package for OpenPrinting CUPS filters and backends.
 # --disable-silent-rules - verbose build output
 # --disable-mutool - mupdf is retired in Fedora, use qpdf
 # --enable-pclm - support for pclm language
+# --with-remote-cups-local-queue-naming=RemoteName - name created local queues, which point to
+#                                                    remote CUPS queue, by its name from the server
 
 %configure --disable-static \
            --disable-silent-rules \
@@ -173,12 +164,13 @@ This is the development package for OpenPrinting CUPS filters and backends.
            --with-rcdir=no \
            --disable-mutool \
            --enable-driverless \
-           --enable-pclm
+           --enable-pclm \
+           --with-remote-cups-local-queue-naming=RemoteName
 
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 
 # Don't ship libtool la files.
 rm -f %{buildroot}%{_libdir}/lib*.la
@@ -245,7 +237,47 @@ done
 %{_pkgdocdir}/AUTHORS
 %{_pkgdocdir}/NEWS
 %config(noreplace) %{_sysconfdir}/cups/cups-browsed.conf
-%attr(0755,root,root) %{_cups_serverbin}/filter/*
+%{_cups_serverbin}/filter/cgmtopdf
+%{_cups_serverbin}/filter/cmxtopdf
+%{_cups_serverbin}/filter/emftopdf
+%{_cups_serverbin}/filter/imagetoubrl
+%{_cups_serverbin}/filter/svgtopdf
+%{_cups_serverbin}/filter/textbrftoindexv4
+%{_cups_serverbin}/filter/vectortoubrl
+%{_cups_serverbin}/filter/wmftopdf
+%{_cups_serverbin}/filter/xfigtopdf
+%attr(0755,root,root) %{_cups_serverbin}/filter/bannertopdf
+%attr(0755,root,root) %{_cups_serverbin}/filter/brftoembosser
+%attr(0755,root,root) %{_cups_serverbin}/filter/brftopagedbrf
+%attr(0755,root,root) %{_cups_serverbin}/filter/commandtoescpx
+%attr(0755,root,root) %{_cups_serverbin}/filter/commandtopclx
+%attr(0755,root,root) %{_cups_serverbin}/filter/foomatic-rip
+%attr(0755,root,root) %{_cups_serverbin}/filter/gstopdf
+%attr(0755,root,root) %{_cups_serverbin}/filter/gstopxl
+%attr(0755,root,root) %{_cups_serverbin}/filter/gstoraster
+%attr(0755,root,root) %{_cups_serverbin}/filter/imagetobrf
+%attr(0755,root,root) %{_cups_serverbin}/filter/imagetopdf
+%attr(0755,root,root) %{_cups_serverbin}/filter/imagetops
+%attr(0755,root,root) %{_cups_serverbin}/filter/imagetoraster
+%attr(0755,root,root) %{_cups_serverbin}/filter/imageubrltoindexv3
+%attr(0755,root,root) %{_cups_serverbin}/filter/imageubrltoindexv4
+%attr(0755,root,root) %{_cups_serverbin}/filter/musicxmltobrf
+%attr(0755,root,root) %{_cups_serverbin}/filter/pdftopdf
+%attr(0755,root,root) %{_cups_serverbin}/filter/pdftops
+%attr(0755,root,root) %{_cups_serverbin}/filter/pdftoraster
+%attr(0755,root,root) %{_cups_serverbin}/filter/rastertoescpx
+%attr(0755,root,root) %{_cups_serverbin}/filter/rastertopclm
+%attr(0755,root,root) %{_cups_serverbin}/filter/rastertopclx
+%attr(0755,root,root) %{_cups_serverbin}/filter/rastertopdf
+%attr(0755,root,root) %{_cups_serverbin}/filter/rastertops
+%attr(0755,root,root) %{_cups_serverbin}/filter/sys5ippprinter
+%attr(0755,root,root) %{_cups_serverbin}/filter/textbrftoindexv3
+%attr(0755,root,root) %{_cups_serverbin}/filter/texttobrf
+%attr(0755,root,root) %{_cups_serverbin}/filter/texttopdf
+%attr(0755,root,root) %{_cups_serverbin}/filter/texttops
+%attr(0755,root,root) %{_cups_serverbin}/filter/texttotext
+%attr(0755,root,root) %{_cups_serverbin}/filter/vectortobrf
+%attr(0755,root,root) %{_cups_serverbin}/filter/vectortopdf
 # all backends needs to be run only as root because of kerberos
 %attr(0700,root,root) %{_cups_serverbin}/backend/parallel
 # Serial backend needs to run as root (bug #212577#c4).
@@ -258,8 +290,11 @@ done
 %attr(0700,root,root) %{_cups_serverbin}/backend/cups-brf
 %{_bindir}/foomatic-rip
 %{_bindir}/driverless
+%{_bindir}/driverless-fax
 %{_cups_serverbin}/backend/driverless
+%{_cups_serverbin}/backend/driverless-fax
 %{_cups_serverbin}/driver/driverless
+%{_cups_serverbin}/driver/driverless-fax
 %{_datadir}/cups/banners
 %{_datadir}/cups/braille
 %{_datadir}/cups/charsets
@@ -298,6 +333,7 @@ done
 %files libs
 %dir %{_pkgdocdir}/
 %{_pkgdocdir}/COPYING
+%dir %{_pkgdocdir}/fontembed
 %{_pkgdocdir}/fontembed/README
 %{_libdir}/libcupsfilters.so.1*
 %{_libdir}/libfontembed.so.1*
@@ -312,6 +348,45 @@ done
 %{_libdir}/libfontembed.so
 
 %changelog
+* Thu Sep 17 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.28.2-2
+- 1879147 - driverless cannot generate ppd for dns-sd based uris
+
+* Tue Sep 15 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.28.2-1
+- 1.28.2
+
+* Thu Sep 03 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.28.1-2
+- revert previous commit - systemd-resolved doesn't work with avahi right now
+  because missing link in NetworkManager
+
+* Mon Aug 31 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.28.1-2
+- MDNS resolving should be done by systemd-resolved now
+
+* Thu Aug 27 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.28.1-1
+- 1.28.1 - added driverless fax support
+
+* Fri Aug 21 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.27.5-7
+- use configure option instead of downstream, cups-browsed.conf editing, patch
+- the exact path in cups-browsed manpage was removed, use the patch removing it instead of downstream one
+- use configure option to dont save queues between restarts instead of downstream patch reverting the issue
+- memory leaks patch is from upstream too
+
+* Wed Aug 19 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.27.5-6
+- 1867412 - cups-browsed leaks memory
+
+* Thu Aug 06 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.27.5-5
+- require ipptool explicitly
+- remove buildrequire on ipptool
+
+* Wed Aug 05 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.27.5-4
+- use %%make_build and %%make_install according FPG
+- own 'new' directories
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.27.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.27.5-2
+- 1848575 - [cups, cups-filters] PPD generators creates invalid cupsManualCopies entry
+
 * Mon Jun 08 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.27.5-1
 - 1.27.5
 

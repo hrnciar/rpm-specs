@@ -4,8 +4,8 @@
 
 Summary: Core X11 protocol client library
 Name: libX11
-Version: 1.6.9
-Release: 3%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
+Version: 1.6.12
+Release: 1%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
 License: MIT
 URL: http://www.x.org
 
@@ -18,7 +18,6 @@ Source0: https://xorg.freedesktop.org/archive/individual/lib/%{name}-%{version}.
 %endif
 
 Patch2: dont-forward-keycode-0.patch
-Patch3: 0001-Handle-ssharp-in-XConvertCase.patch
 
 BuildRequires: xorg-x11-util-macros >= 1.11
 BuildRequires: pkgconfig(xproto) >= 7.0.15
@@ -57,7 +56,6 @@ libX11/libxcb interoperability library
 %prep
 %setup -q -n %{tarball}-%{?gitdate:%{gitdate}}%{!?gitdate:%{version}}
 %patch2 -p1 -b .dont-forward-keycode-0
-%patch3 -p1
 
 %build
 autoreconf -v --install --force
@@ -123,6 +121,15 @@ make %{?_smp_mflags} check
 %{_mandir}/man5/*.5*
 
 %changelog
+* Wed Aug 26 2020 Peter Hutterer <peter.hutterer@redhat.com> 1.6.12-1
+- libX11 1.6.12 (CVE-2020-14363, CVE 2020-14344)
+
+* Fri Jul 31 2020 Adam Jackson <ajax@redhat.com> - 1.6.9-5
+- Fix server reply validation issue in XIM (CVE 2020-14344)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.9-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.9-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

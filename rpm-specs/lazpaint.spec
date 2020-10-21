@@ -2,18 +2,18 @@ Name: lazpaint
 %global prettyname LazPaint
 
 Summary: Simple image editor
-URL: https://wiki.freepascal.org/LazPaint
+URL: https://lazpaint.github.io
 
 # LazPaint itself is GPLv3
 # BGRABitmap and BGRAControls libraries are modified LGPLv2 (allow static linking in closed-source programs)
 # BGRAControls also borrows some Boost-licensed code
 License: GPLv3 and LGPLv2 and Boost
 
-Version: 7.1.3
+Version: 7.1.5
 Release: 1%{?dist}
 
-%global bitmap_version   11
-%global controls_version 6.7.1
+%global bitmap_version   11.2.5
+%global controls_version 7.0
 
 %global github https://github.com/bgrabitmap
 Source0: %{github}/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -29,6 +29,8 @@ BuildRequires: fpc-srpm-macros
 BuildRequires: gtk2-devel
 BuildRequires: lazarus
 BuildRequires: libappstream-glib
+
+BuildRequires: %{_bindir}/dos2unix
 
 Requires: hicolor-icon-theme
 
@@ -49,10 +51,10 @@ to write their own layer effects.
 
 %prep
 %setup -q
-cp -a %{SOURCE100} lazpaint/release/%{name}.appdata.xml
+ln %{SOURCE100} lazpaint/release/%{name}.appdata.xml
 
 # unpack BGRABitmap
-cp %{SOURCE10} ./bitmap.tgz
+ln %{SOURCE10} ./bitmap.tgz
 tar xzf ./bitmap.tgz
 rm ./bitmap.tgz
 
@@ -60,12 +62,20 @@ mv bgrabitmap-%{bitmap_version}/bgrabitmap  ./bgrabitmap
 rm -rf bgrabitmap-%{bitmap_version}/
 
 # unpack BGRAControls
-cp %{SOURCE20} ./controls.tgz
+ln %{SOURCE20} ./controls.tgz
 tar xzf ./controls.tgz
 rm ./controls.tgz
 
 mv bgracontrols-%{controls_version}  ./bgracontrols
 rm -rf bgracontrols-%{controls_version}/
+
+# Apply patches.
+# We do it only now, and not right after %%setup, since some patches affect bgrabitmap/bgracontrols, too.
+# - - - nothing to apply currently - - - #
+
+# Some of the .po files have DOS line endings. Fix those.
+dos2unix lazpaint/release/bin/i18n/*.po
+
 
 %global laz_packages  %{expand:
 	bgrabitmap/bgrabitmappack.lpk
@@ -102,11 +112,17 @@ done
 # See: - https://bugs.freepascal.org/view.php?id=36318
 #      - https://bugs.freepascal.org/view.php?id=36959
 #
-# As a workaround, we build all stuff manually in order.
+# As a workaround, we build everything manually in order.
 for PROJECT in ${LAZ_PROJECTS[@]}; do
 	lazbuild --build-mode=Release --widgetset=gtk2 --skip-dependencies "${PROJECT}"
 done
 
+
+# We need to manually compile the translation files
+for PO_FILE in lazpaint/release/bin/i18n/*.po; do
+	MO_FILE="$(dirname "${PO_FILE}")/$(basename "${PO_FILE}" ".po").mo"
+	msgfmt --check -o "${MO_FILE}" "${PO_FILE}"
+done
 
 # Upstream provides a desktop file, but it's a bit of a mess
 # and doesn't pass desktop-file-validate.
@@ -129,15 +145,43 @@ EOF
 install -m 755 -d %{buildroot}%{_bindir}
 install -m 755 lazpaint/release/bin/%{name} %{buildroot}%{_bindir}/
 
-# -- scripts
+# -- run-time resources
 
-install -m 755 -d %{buildroot}%{_datadir}/%{name}
-cp -a scripts/ %{buildroot}%{_datadir}/%{name}/
-rm -rf %{buildroot}%{_datadir}/%{name}/scripts/test/
+RESDIR="%{buildroot}%{_datadir}/%{name}"
+install -m 755 -d "${RESDIR}"
+cp -a lazpaint/release/bin/models/ "${RESDIR}/models"
+
+cp -a resources/scripts/ "${RESDIR}/scripts"
+rm -rf "${RESDIR}/scripts/test/"
+
+# -- translation files
+
+for MO_SRC in lazpaint/release/bin/i18n/*.mo; do
+	MO_FILE="$(basename "${MO_SRC}")"
+
+	# The translation files have names like lazpaint.nl.mo
+	# MO_TYPE - detect the translation type (lazpaint / lclstrconsts / lcresourcestring)
+	MO_TYPE="$(echo "${MO_FILE}" | sed -e 's|\([^.]*\)\..*$|\1|')"
+	# MO_LANG - detect the translation language
+	MO_LANG="$(echo "${MO_FILE}" | sed -e 's|^[^.]*\.\([^.]*\)\.po$|\1|')"
+	# English translation files do not have names ending in .en.mo, just .mo
+	if [[ "${MO_LANG}" == "${MO_FILE}" ]]; then
+		MO_LANG="en"
+	fi
+
+	MO_DIR="%{buildroot}%{_datadir}/locale/${MO_LANG}/LC_MESSAGES"
+	install -m 755 -d "${MO_DIR}"
+	install -m 644 -p "${MO_SRC}" "${MO_DIR}/${MO_TYPE}.mo"
+done
+
+%find_lang lazpaint
+%find_lang lclstrconsts
+%find_lang lcresourcestring
+
 
 # -- 48px icon
 
-PIXMAP_SOURCE="lazpaint/release/debian/linux64/usr/share/pixmaps/lazpaint.png"
+PIXMAP_SOURCE="lazpaint/release/debian/pixmaps/lazpaint.png"
 PIXMAP_SIZE="$(file "${PIXMAP_SOURCE}" | grep --only-matching -E -e '[0-9]+ x [0-9]+' | cut -f1 -d' ')"
 PIXMAP_DIR="%{buildroot}%{_datadir}/icons/hicolor/${PIXMAP_SIZE}x${PIXMAP_SIZE}/apps"
 install -m 755 -d "${PIXMAP_DIR}"
@@ -165,8 +209,8 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdata.xml
 
 
-%files
-%license lazpaint/COPYING.GPL.txt
+%files -f lazpaint.lang -f lclstrconsts.lang -f lcresourcestring.lang
+%license COPYING.txt
 %license bgracontrols/docs/COPYING.LGPL.txt
 %license bgracontrols/docs/COPYING.modifiedLGPL.txt
 %license "bgracontrols/docs/Boost Software License.txt"
@@ -178,6 +222,24 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
+* Mon Oct 19 2020 Artur Frenszek-Iwicki <fedora@svgames.pl> - 7.1.5-1
+- Update to v7.1.5 (with BGRABitmap v11.2.5 and BGRAControls v7.0)
+- Update upstream URL
+- Drop Patch0 (mangled headers in .po files - accepted upstream)
+- Drop dependency on iconv (file encoding issues fixed upstream)
+
+* Wed Oct 07 2020 Artur Frenszek-Iwicki <fedora@svgames.pl> - 7.1.4-1
+- Update to v7.1.4 (with BGRABitmap v11.2.4 and BGRAControls v6.9)
+- Drop Patch0 (BGRABitmap conditional compilation failure - issue fixed upstream)
+- Include models in the package
+- Include translations in the package
+
+* Wed Jul 29 2020 Artur Iwicki <fedora@svgames.pl> - 7.1.3-3
+- Add a patch to fix build failures with Lazarus 2.0.10
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.1.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 15 2020 Artur Iwicki <fedora@svgames.pl> - 7.1.3-1
 - Update to v7.1.3 (with BGRABitmap v11 and BGRAControls v6.7.1)
 - Fix the Comment field in the auto-generated .desktop file

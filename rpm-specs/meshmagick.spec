@@ -1,6 +1,6 @@
 Name:           meshmagick
 Version:        0.6.0
-Release:        42.svn2898%{?dist}
+Release:        44.svn2898%{?dist}
 Summary:        Command line manipulation tool for Ogre meshes
 
 License:        MIT
@@ -84,6 +84,13 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/lib%{name}.la
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-44.svn2898
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-43.svn2898
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-42.svn2898
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

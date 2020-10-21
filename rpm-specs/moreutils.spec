@@ -1,6 +1,6 @@
 Name:           moreutils
 Version:        0.63
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Additional unix utilities
 License:        GPLv2
 URL:            http://kitenet.net/~joey/code/moreutils/
@@ -137,6 +137,9 @@ install -m644 errno.1 %{buildroot}%{_mandir}/man1/
 %{_bindir}/parallel
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.63-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.63-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,8 +2,8 @@
 %global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
 
 Name:           wesnoth
-Version:        1.15.3
-Release:        4%{?dist}
+Version:        1.15.6
+Release:        1%{?dist}
 Summary:        Turn-based strategy game with a fantasy theme
 
 License:        GPLv2+
@@ -184,6 +184,21 @@ done
 %{_mandir}/*/man6/wesnoth*.6*
 
 %changelog
+* Mon Oct 19 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.15.6-1
+- 1.15.6
+
+* Mon Sep 21 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.15.5-1
+- 1.15.5
+
+* Wed Sep 02 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.15.4-2
+- Upstream crash patch.
+
+* Mon Aug 24 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.15.4-1
+- 1.15.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Jonathan Wakely <jwakely@redhat.com> - 1.15.3-4
 - Rebuilt for Boost 1.73
 

@@ -9,7 +9,7 @@ using a single entry point.
 
 Name:           python-%{srcname}
 Version:        0.7.1
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        An astonishingly awesome application argument helper
 
 License:        BSD
@@ -53,6 +53,9 @@ py.test-3 -v
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.1-14
 - Rebuilt for Python 3.9
 

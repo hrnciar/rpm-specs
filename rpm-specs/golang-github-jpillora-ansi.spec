@@ -14,7 +14,7 @@ Easy to use ANSI control codes.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Easy to use ANSI control codes
 
 License:        MIT
@@ -41,6 +41,13 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.0.2-1
 - Add LICENSE file
 - Update to latest upstream release 1.0.2 (rhbz#1820856)

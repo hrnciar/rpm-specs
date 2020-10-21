@@ -1,6 +1,6 @@
 Name:           munge
 Version:        0.5.13
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Enables uid & gid authentication across a host cluster
 
 # The libs and devel package is GPLv3+ and LGPLv3+ where as the main package is GPLv3 only.
@@ -19,18 +19,18 @@ Requires:       logrotate
 
 Requires(pre):    shadow-utils
 
-%systemd_requires
+%{?systemd_requires}
 %{?sysusers_requires_compat}
 
 %description
-MUNGE (MUNGE Uid 'N' Gid Emporium) is an authentication service for creating 
-and validating credentials. It is designed to be highly scalable for use 
-in an HPC cluster environment. 
-It allows a process to authenticate the UID and GID of another local or 
-remote process within a group of hosts having common users and groups. 
-These hosts form a security realm that is defined by a shared cryptographic 
-key. Clients within this security realm can create and validate credentials 
-without the use of root privileges, reserved ports, or platform-specific 
+MUNGE (MUNGE Uid 'N' Gid Emporium) is an authentication service for creating
+and validating credentials. It is designed to be highly scalable for use
+in an HPC cluster environment.
+It allows a process to authenticate the UID and GID of another local or
+remote process within a group of hosts having common users and groups.
+These hosts form a security realm that is defined by a shared cryptographic
+key. Clients within this security realm can create and validate credentials
+without the use of root privileges, reserved ports, or platform-specific
 methods.
 
 %package devel
@@ -58,7 +58,7 @@ echo "d /run/munge 0755 munge munge -" > src/etc/munge.tmpfiles.conf.in
 # Get rid of some rpaths for /usr/sbin
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
-make %{?_smp_mflags} 
+%make_build
 
 
 %install
@@ -72,10 +72,8 @@ install -p -D -m 0644 %{SOURCE3} %{buildroot}%{_sysusersdir}/munge.conf
 
 # rm unneeded files.
 rm %{buildroot}/%{_sysconfdir}/sysconfig/munge
-# 
-rm %{buildroot}/%{_initddir}/munge
-
-# Exclude .la files 
+rm %{buildroot}/%{_sysconfdir}/init.d/munge
+# Exclude .la files
 rm %{buildroot}/%{_libdir}/libmunge.la
 
 
@@ -84,7 +82,7 @@ chmod 700 %{buildroot}%{_var}/lib/munge %{buildroot}%{_var}/log/munge
 chmod 700 %{buildroot}%{_sysconfdir}/munge
 
 # Create and empty key file and pid file to be marked as a ghost file below.
-# i.e it is not actually included in the rpm, only the record 
+# i.e it is not actually included in the rpm, only the record
 # of it is.
 touch %{buildroot}%{_var}/run/munge/munged.pid
 mv %{buildroot}%{_var}/run %{buildroot}
@@ -128,7 +126,7 @@ mv %{buildroot}%{_var}/run %{buildroot}
 
 %license COPYING COPYING.LESSER
 %doc AUTHORS
-%doc JARGON META NEWS QUICKSTART README 
+%doc JARGON META NEWS QUICKSTART README
 %doc doc
 
 %files libs
@@ -157,6 +155,12 @@ mv %{buildroot}%{_var}/run %{buildroot}
 
 
 %changelog
+* Tue Sep 29 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.5.13-10
+- Fix spec + build
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.13-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 0.5.13-8
 - Provide a sysusers.d file to get user() and group() provides
   (see https://fedoraproject.org/wiki/Changes/Adopting_sysusers.d_format).
@@ -279,7 +283,7 @@ mv %{buildroot}%{_var}/run %{buildroot}
 - rhbz#530128 Move runtime libs to a new -libs package.
   ldconfig moved to new -libs package as a result.
 * Sat Sep 26 2009 Steve Traylen <steve.traylen@cern.ch> - 0.5.8-6
-- Patch for rhbz #525732 - Loads /etc/sysconfig/munge 
+- Patch for rhbz #525732 - Loads /etc/sysconfig/munge
   correctly.
 - Mark pid file as ghost file on oses that support that.
 - Permisions on pid directory to 755
@@ -305,7 +309,7 @@ mv %{buildroot}%{_var}/run %{buildroot}
 - chmod /var/lib/munge /var/log/munge and /etc/munge to 700.
 - Apply patch to not error when GPL_LICENSED is not set.
 - Patch service script to print error on if munge.key not present
-  on start only and with a better error. 
+  on start only and with a better error.
 - Remove dont-exit-form-lib.patch. munge is expecting munge to
   do this.
 - Remove libgcrypt-devel from BuildRequires, uses openssl by

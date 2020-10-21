@@ -15,7 +15,7 @@ Pure Go Kerberos library for clients and services.}
 %global godocs          examples CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Pure Go Kerberos library for clients and services
 
 # Upstream license specification: Apache-2.0
@@ -57,5 +57,8 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 20 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 5.3.0-1
 - Initial package

@@ -1,11 +1,11 @@
 %global srcname xarray
-%global data_commit 870b5d7a9dbfa821423f1b88056890c22341f085
+%global data_commit 5fdb22b5613ba8176b9f6fa67be783d7810643eb
 
 %bcond_with docs
 
 Name:           python-%{srcname}
-Version:        0.15.1
-Release:        3%{?dist}
+Version:        0.16.1
+Release:        1%{?dist}
 Summary:        N-D labeled arrays and datasets in Python
 
 License:        ASL 2.0
@@ -18,10 +18,8 @@ Source2:        https://github.com/mapbox/rasterio/raw/1.0.21/tests/data/RGB.byt
 Patch0001:      0001-DOC-Don-t-download-RGB.byte.tif-during-build.patch
 Patch0002:      0002-DOC-Skip-examples-using-unpackaged-dependencies.patch
 Patch0003:      0003-DOC-Don-t-print-out-conda-pip-environment.patch
-# https://github.com/pydata/xarray/pull/3274
-Patch0004:      0004-Use-drawstyle-instead-of-linestyle-in-plot.step.patch
-# https://github.com/pydata/xarray/pull/3930
-Patch0005:      https://github.com/pydata/xarray/pull/3930.patch
+# We do not have new enough pint.
+Patch0004:      0004-Revert-un-xfail-the-pint-assert_allclose-and-assert_.patch
 
 BuildArch:      noarch
 
@@ -78,7 +76,6 @@ BuildRequires:  python3-ipython-sphinx
 BuildRequires:  python3dist(jupyter-client)
 BuildRequires:  python3dist(matplotlib)
 BuildRequires:  python3dist(netcdf4)
-BuildRequires:  python3dist(numpydoc)
 BuildRequires:  python3dist(rasterio)
 BuildRequires:  python3dist(sphinx)
 BuildRequires:  python3dist(sphinx-gallery)
@@ -136,6 +133,15 @@ rm -rf xarray
 
 
 %changelog
+* Sat Sep 26 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.16.1-1
+- Update to latest version (#1880864)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.16.0-1
+- Update to latest version
+
 * Tue Jun 23 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.15.1-3
 - Backport patch to fix tests catching too many warnings
 

@@ -2,7 +2,7 @@
 
 Name:           mingw-libgnurx
 Version:        2.5.1
-Release:        25%{?dist}
+Release:        26%{?dist}
 Summary:        MinGW Regex library
 
 License:        LGPLv2+
@@ -126,6 +126,9 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.1-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.1-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

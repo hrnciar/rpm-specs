@@ -2,7 +2,7 @@
 
 Name:		xcf-pixbuf-loader
 Version:	0.0.1
-Release:	26.20120530git%{commit}%{?dist}
+Release:	27.20120530git%{commit}%{?dist}
 Summary:	XCF (GIMP) image loader for GTK+ applications
 
 License:	LGPLv2+
@@ -51,6 +51,9 @@ fi
 %{_libdir}/%{loaders_dir}/*.so
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.1-27.20120530gitb037c59
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.1-26.20120530gitb037c59
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

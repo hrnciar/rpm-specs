@@ -3,7 +3,7 @@
 
 Name:           tcl-thread
 Version:        2.8.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Tcl Thread extension
 License:        TCL
 URL:            http://tcl.sourceforge.net
@@ -49,6 +49,9 @@ chmod 755 %{buildroot}%{tcl_sitearch}/thread%{version}/libthread%{version}.so
 %{_includedir}/tclThread.h
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

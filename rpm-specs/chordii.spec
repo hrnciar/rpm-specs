@@ -1,7 +1,7 @@
 Summary: Print songbooks (lyrics + chords)
 Name: chordii
 Version: 4.5.3b
-Release: 12%{?dist}
+Release: 13%{?dist}
 URL: http://www.chordii.org
 Source: http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 License: GPLv3+
@@ -50,6 +50,9 @@ make DESTDIR=%{buildroot} INSTALL="install -p" install
 %{_mandir}/man1/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.3b-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb  2 2020 Johan Vromans <jvromans@squirrel.nl> - 4.5.3b-12
 - Upgrade to upstream 4.5.3b (compiler bug fix).
 

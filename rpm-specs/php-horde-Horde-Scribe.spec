@@ -13,7 +13,7 @@
 
 Name:           php-horde-Horde-Scribe
 Version:        2.0.3
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Scribe
 
 # http://bugs.horde.org/ticket/11909
@@ -87,6 +87,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

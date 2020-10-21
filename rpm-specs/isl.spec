@@ -16,7 +16,7 @@ URL: http://isl.gforge.inria.fr/
 #
 # % global buildid .local
 
-Release: 10%{?buildid}%{?dist}
+Release: 12%{?buildid}%{?dist}
 
 BuildRequires:  gcc
 BuildRequires: gmp-devel
@@ -60,20 +60,20 @@ graphs), dependence analysis and bounds on piecewise step-polynomials.
 %build
 cd isl-%{oldversion}
 %configure
-make %{?_smp_mflags} V=1
+%make_build
 cd ..
 
 cd isl-%{version}
 %configure
-make %{?_smp_mflags} V=1
+%make_build
 
 %install
 cd isl-%{oldversion}
-%make_install INSTALL="install -p" install-libLTLIBRARIES
+%make_install install-libLTLIBRARIES
 cd ..
 
 cd isl-%{version}
-%make_install INSTALL="install -p"
+%make_install
 rm -f %{buildroot}/%{_libdir}/libisl.a
 rm -f %{buildroot}/%{_libdir}/libisl.la
 mkdir -p %{buildroot}/%{_datadir}
@@ -108,6 +108,13 @@ cd isl-%{version}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Tom Stellard <tstellar@redhat.com> - 0.16.1-11
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Summary:	Tool for splitting .wav files
 Name:		wavbreaker
 Version: 	0.10
-Release: 	23%{?dist}
+Release: 	24%{?dist}
 License: 	GPLv2+
 URL: 		http://wavbreaker.sourceforge.net
 Source: 	http://downloads.sourceforge.net/wavbreaker/%{name}-%{version}.tar.gz
@@ -48,6 +48,9 @@ desktop-file-install               \
 %doc ChangeLog CONTRIBUTORS NEWS AUTHORS COPYING README TODO
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

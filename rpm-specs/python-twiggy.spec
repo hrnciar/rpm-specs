@@ -7,15 +7,16 @@
 
 %global modname twiggy
 %global distname Twiggy
+%global pypi_name Twiggy
 
 Name:               python-twiggy
-Version:            0.4.7
-Release:            20%{?dist}
+Version:            0.5.0
+Release:            1%{?dist}
 Summary:            A Pythonic logger
 
 License:            BSD
 URL:                http://pypi.python.org/pypi/Twiggy
-Source0:            http://pypi.python.org/packages/source/T/%{distname}/%{distname}-%{version}.tar.gz
+Source0:            %{pypi_source}
 
 BuildArch:          noarch
 
@@ -66,6 +67,12 @@ rm -rf %{distname}.egg-info
 %{python3_sitelib}/%{distname}-%{version}-*
 
 %changelog
+* Sun Oct 04 2020 Kevin Fenzi <kevin@scrye.com> - 0.5.0-1
+- Update to 0.5.0. Fixes bug #1844516
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.7-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.7-20
 - Rebuilt for Python 3.9
 

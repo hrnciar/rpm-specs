@@ -3,7 +3,7 @@
 
 Name:		jaxodraw
 Version:	%{major}.%{minor}
-Release:	24%{?dist}
+Release:	27%{?dist}
 Summary:	A Java program for drawing Feynman diagrams
 License:	GPLv2+
 URL:		http://jaxodraw.sourceforge.net/
@@ -152,6 +152,16 @@ EOF
 %{_datadir}/texmf/tex/latex/axodraw4j/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-27
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.0.1-25
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

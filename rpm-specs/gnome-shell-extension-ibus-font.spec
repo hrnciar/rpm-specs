@@ -1,10 +1,10 @@
 %global uuid          ibus-font-setting@ibus.github.com
 %global shortname     ibus-font
-%global snapshot_date 20170217
+%global snapshot_date 20200831
 
 Name:       gnome-shell-extension-%{shortname}
 Version:    0.%{snapshot_date}
-Release:    7%{?dist}
+Release:    1%{?dist}
 Summary:    A GNOME Shell extension for ibus-setup custom font settings
 
 License:    GPLv3+
@@ -35,6 +35,12 @@ install -Dp -m 0644 {extension.js,metadata.json,prefs.js,stylesheet.css} \
 
 
 %changelog
+* Mon Aug 31 2020 Peng Wu <pwu@redhat.com> - 0.20200831-1
+- Update the package
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20170217-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20170217-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

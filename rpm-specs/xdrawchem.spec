@@ -2,7 +2,7 @@
 
 Name:		xdrawchem
 Version:	1.10.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	2D chemical structures drawing tool
 Source0:        https://github.com/bryanherger/xdrawchem/archive/%{tag}/%{name}-%{tag}.tar.gz
 Source1:	%{name}.desktop
@@ -68,6 +68,9 @@ popd
 %{_datadir}/icons/hicolor/*/apps/xdrawchem.png
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

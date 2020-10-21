@@ -13,22 +13,22 @@
 %endif
 
 Name: rpkg-util
-Version: 2.7
-Release: 6%{?dist}
+Version: 2.9
+Release: 1%{?dist}
 Summary: RPM packaging utility
 License: GPLv2+
 URL: https://pagure.io/rpkg-util.git
 
 %if 0%{?fedora} || 0%{?rhel} > 6
-VCS: git+ssh://git@pagure.io/rpkg-util.git#ecfcf3b21bc2dcd25895a39427693e11be28edc9:
+VCS: git+ssh://git@pagure.io/rpkg-util.git#82f9a59c76136852f4d42c6840aa9ae8bd20bf76:
 %endif
 
 # Source is created by:
 # git clone https://pagure.io/rpkg-util.git
 # cd rpkg-util
-# git checkout rpkg-util-2.7-1
+# git checkout --1
 # ./rpkg spec --sources
-Source0: rpkg-util-2.7.tar.gz
+Source0: rpkg-util-2.9.tar.gz
 
 BuildArch: noarch
 
@@ -80,7 +80,7 @@ It works with both DistGit and standard Git repositories and
 it handles packed directory content as well as unpacked content.
 
 %prep
-%setup -q
+%setup -q -n rpkg-util-2.9
 
 %check
 FULL=1 PYTHON=%{python} ./run_tests.sh
@@ -115,20 +115,11 @@ cp -a rpkg.bash %{buildroot}%{_datarootdir}/bash-completion/completions/
 %{_mandir}/*/*
 
 %changelog
-* Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.7-6
-- Rebuilt for Python 3.9
+* Sat Oct 03 2020 clime <clime@fedoraproject.org> 2.9-1
+- fix for the latest pyrpkg extra_args addition
 
-* Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7-5
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
-
-* Thu Oct 03 2019 Miro Hrončok <mhroncok@redhat.com> - 2.7-4
-- Rebuilt for Python 3.8.0rc1 (#1748018)
-
-* Mon Aug 19 2019 Miro Hrončok <mhroncok@redhat.com> - 2.7-3
-- Rebuilt for Python 3.8
-
-* Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2.7-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+* Sat Oct 03 2020 clime <clime@fedoraproject.org> 2.8-1
+- kojiconfig parameter was renamed to kojiprofile in pyrpkg #ff235770
 
 * Mon Mar 11 2019 clime <clime@redhat.com> 2.7-1
 - remove dependency on python3-configparser

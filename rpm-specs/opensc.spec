@@ -3,7 +3,7 @@
 
 Name:           opensc
 Version:        0.20.0
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        Smart card library and applications
 
 License:        LGPLv2+
@@ -30,7 +30,9 @@ BuildRequires:  bash-completion
 BuildRequires:  zlib-devel
 # For tests
 BuildRequires:  libcmocka-devel
+%if ! 0%{?rhel}
 BuildRequires:  softhsm
+%endif
 BuildRequires:  openssl
 Requires:       pcsc-lite-libs%{?_isa}
 Requires:       pcsc-lite
@@ -84,7 +86,7 @@ sed -i -e 's|"/lib /usr/lib\b|"/%{_lib} %{_libdir}|' configure # lib64 rpaths
   --enable-cmocka \
   --enable-sm \
   --with-pcsc-provider=libpcsclite.so.1
-make %{?_smp_mflags} V=1
+%make_build
 
 
 %check
@@ -92,7 +94,7 @@ make check
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 install -Dpm 644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/p11-kit/modules/opensc.module
 
 %ifarch %{ix86}
@@ -133,9 +135,6 @@ rm %{buildroot}%{_bindir}/opensc-notify
 rm %{buildroot}%{_datadir}/applications/org.opensc.notify.desktop
 rm %{buildroot}%{_mandir}/man1/opensc-notify.1*
 
-
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
 
 %files
 %doc COPYING NEWS README*
@@ -209,6 +208,12 @@ rm %{buildroot}%{_mandir}/man1/opensc-notify.1*
 
 
 %changelog
+* Wed Aug 19 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.20.0-8
+- Drop useless ldconfig scriptlets
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 13 2020 Jakub Jelen <jjelen@redhat.com> - 0.20.0-6
 - Unbreak CardOS 5.x support (#1830528)
 

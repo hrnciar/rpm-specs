@@ -20,7 +20,7 @@
 
 Name:           php-%{gh_project}
 Version:        2.10.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        %{namespace} Framework %{library} component
 
 License:        BSD
@@ -215,6 +215,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 Remi Collet <remi@remirepo.net> - 2.10.3-1
 - update to 2.10.3 (no change)
 

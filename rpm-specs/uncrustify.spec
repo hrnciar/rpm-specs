@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:		uncrustify
 Version:	0.71.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Reformat Source
 
 License:	GPLv2
@@ -15,18 +17,16 @@ Source Code Beautifier for C, C++, C#, D, Java, and Pawn
 %autosetup -c
 
 %build
-mkdir build && cd build
-%cmake ..
-make %{?_smp_mflags}
+%cmake
+%cmake_build
 
 
 %install
-cd build
-make install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 
 
 %files
-%doc COPYING
+%license COPYING
 %doc AUTHORS
 %doc NEWS
 %doc README.md
@@ -38,6 +38,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.71.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 2020 Michael Catanzaro <mcatanzaro@gnome.org> - 0.71.0-1
 - Update to 0.71.0
 

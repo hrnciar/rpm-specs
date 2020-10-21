@@ -3,7 +3,7 @@
 
 # https://github.com/justinas/alice
 %global goipath         github.com/justinas/alice
-%global commit          03f45bd4b7dad4734bc4620e46a35789349abb20
+Version:                1.2.0
 
 %gometa
 
@@ -15,8 +15,7 @@ app handler.}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.6%{?dist}
+Release:        1%{?dist}
 Summary:        Painless middleware chaining for Go
 
 License:        MIT
@@ -42,6 +41,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 16:44:27 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.2.0-1
+- Update to 1.2.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

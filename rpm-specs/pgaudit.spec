@@ -1,6 +1,6 @@
 Name:		pgaudit
 Version:	1.4.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	PostgreSQL Audit Extension
 
 License:	PostgreSQL
@@ -54,6 +54,9 @@ trail or audit log. The term audit log is used in this documentation.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 13 2020 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-1
 - Update to 1.4.0 for PostgreSQL 12 support
 

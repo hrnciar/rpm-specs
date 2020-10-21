@@ -1,17 +1,14 @@
 # asio only ships headers, so no debuginfo package is needed
 %global debug_package %{nil}
 
-%global commit 28d9b8d6df708024af5227c551673fdb2519f5bf
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-
 Name:           asio
-Version:        1.14.0
-Release:        12%{?dist}
+Version:        1.16.1
+Release:        2%{?dist}
 Summary:        A cross-platform C++ library for network programming
 
 License:        Boost
 URL:            https://think-async.com
-Source0:        %{name}-%{version}.tar.bz2
+Source0:        https://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -28,8 +25,8 @@ modern C++ approach.
 
 %package devel
 Summary:        Header files for asio
-Requires:       openssl-devel
-Requires:       boost-devel
+Recommends:     openssl-devel
+Recommends:     boost-devel
 
 %description devel
 Header files you can use to develop applications with asio.
@@ -56,6 +53,12 @@ autoreconf --install
 %{_includedir}/asio.hpp
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 Fabio Alessandro Locati <me@fale.io> - 1.16.1-1
+* Bump to 1.16.1
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.8-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 Name:           elfio
-Version:        3.6
+Version:        3.7
 Release:        1%{?dist}
 Summary:        C++ library for reading and generating ELF files
 
@@ -66,6 +66,12 @@ examples/elfdump/elfdump %{_bindir}/make
 
 
 %changelog
+* Thu Sep 17 2020 Orion Poplawski <orion@nwra.com> - 3.7-1
+- Update to 3.7
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 20 2020 Orion Poplawski <orion@nwra.com> - 3.6-1
 - Update to 3.6
 

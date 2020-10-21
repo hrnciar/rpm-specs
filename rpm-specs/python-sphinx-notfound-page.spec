@@ -13,7 +13,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.4
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Create a custom 404 page with absolute URLs hardcoded
 
 License:        MIT
@@ -99,6 +99,9 @@ PYTHONPATH="$(pwd)" py.test-%{python3_version} -v .
 %{python3_sitelib}/%{importname}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4-8
 - Rebuilt for Python 3.9
 

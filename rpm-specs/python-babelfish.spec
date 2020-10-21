@@ -2,7 +2,7 @@
 
 Name:           python-%{pkgname}
 Version:        0.5.5
-Release:        19%{?dist}
+Release:        21%{?dist}
 Summary:        Python library to work with countries and languages
 
 License:        BSD
@@ -12,6 +12,7 @@ Patch0:         python-babelfish-0.5.5-add_python39_support.patch
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-sphinx
 
 %description
@@ -66,6 +67,12 @@ sed -i -e 's,^#!/usr/bin/env python$,#!/usr/bin/python3,g' %{buildroot}%{python3
 %{_mandir}/man1/%{pkgname}.1*
 
 %changelog
+* Thu Oct 08 2020 Juan Orti Alcaine <jortialc@redhat.com> - 0.5.5-21
+- BR: python3-setuptools
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.5-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.5-19
 - Rebuilt for Python 3.9
 

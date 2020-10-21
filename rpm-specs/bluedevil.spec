@@ -1,6 +1,6 @@
 Name:    bluedevil
 Summary: Bluetooth stack for KDE
-Version: 5.19.2
+Version: 5.20.1
 Release: 1%{?dist}
 
 License: GPLv2+
@@ -25,6 +25,7 @@ BuildRequires:  kf5-kwidgetsaddons-devel
 BuildRequires:  kf5-kdbusaddons-devel
 BuildRequires:  kf5-knotifications-devel
 BuildRequires:  kf5-kiconthemes-devel
+BuildRequires:  kf5-kdeclarative-devel
 BuildRequires:  kf5-plasma-devel
 BuildRequires:  kf5-ki18n-devel
 BuildRequires:  kf5-kio-devel
@@ -58,16 +59,12 @@ BlueDevil is the bluetooth stack for KDE.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%{cmake_kf5}
 
-%make_build -C %{_target_platform}
-
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -81,7 +78,9 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.bluedevil
 %doc README
 %{_kf5_bindir}/bluedevil-sendfile
 %{_kf5_bindir}/bluedevil-wizard
-%{_kf5_qtplugindir}/kcm_*.so
+%{_kf5_qtplugindir}/kcms/kcm_*.so
+%{_kf5_datadir}/kpackage/kcms/kcm_bluetooth/contents/ui/*.qml
+%{_kf5_datadir}/kpackage/kcms/kcm_bluetooth/metadata.*
 %{_kf5_qtplugindir}/kio_*.so
 %{_kf5_plugindir}/kded/*.so
 %{_kf5_datadir}/remoteview/bluetooth-network.desktop
@@ -98,6 +97,27 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.bluedevil
 
 
 %changelog
+* Tue Oct 20 15:27:17 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.1-1
+- 5.20.1
+
+* Sun Oct 11 19:50:01 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.0-1
+- 5.20.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.90-1
+- 5.19.90
+
+* Tue Sep 01 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.5-1
+- 5.19.5
+
+* Tue Jul 28 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.4-1
+- 5.19.4
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.19.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.3-1
+- 5.19.3
+
 * Tue Jun 23 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.2-1
 - 5.19.2
 

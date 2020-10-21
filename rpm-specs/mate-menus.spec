@@ -1,13 +1,10 @@
 Name:           mate-menus
-Version:        1.24.0
-Release:        2%{?dist}
+Version:        1.24.1
+Release:        1%{?dist}
 Summary:        Displays menus for MATE Desktop
 License:        GPLv2+ and LGPLv2+
 URL:            http://mate-desktop.org
 Source0:        http://pub.mate-desktop.org/releases/1.24/%{name}-%{version}.tar.xz
-
-# https://github.com/mate-desktop/mate-menus/pull/77
-Patch1:         mate-menus_0001-Do-not-collect-the-translation-for-Icon.patch
 
 BuildRequires:  gobject-introspection-devel
 BuildRequires:  mate-common
@@ -46,9 +43,6 @@ Development files for mate-menus
 sed -i -e '/<!-- End Other -->/ a\  <MergeFile>applications-merged/multimedia-categories.menu</MergeFile>' layout/mate-applications.menu
 sed -i -e '/<MergeFile>applications-merged\/multimedia-categories.menu<\/MergeFile>/ a\  <MergeFile>applications-merged/games-categories.menu</MergeFile>' layout/mate-applications.menu
 sed -i -e '/<MergeFile>applications-merged\/games-categories.menu<\/MergeFile>/ a\  <MergeFile>applications-merged/wine.menu</MergeFile>' layout/mate-applications.menu
-
-# patch1
-NOCONFIGURE=1 ./autogen.sh
 
 %build
 %configure \
@@ -90,6 +84,12 @@ find %{buildroot} -name '*.a' -exec rm -f {} ';'
 
 
 %changelog
+* Thu Aug 13 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- test 1.24.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 02 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-2
 - use https://github.com/mate-desktop/mate-menus/pull/77
 - fix icons in panel menu with pt and pt_BR locale

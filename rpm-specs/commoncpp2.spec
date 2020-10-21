@@ -1,6 +1,6 @@
 Name:          commoncpp2
 Version:       1.8.1
-Release:       21%{?dist}
+Release:       23%{?dist}
 Summary:       GNU Common C++ class framework
 
 # Library is GPLv2+ with exceptions
@@ -79,11 +79,11 @@ sed -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -i libtool
 
 # Parallel build occasionally broken
-make
+make CXX="g++ -std=c++14"
 
 # Build tests
 pushd tests
-%make_build
+%make_build CXX="g++ -std=c++14"
 popd
 
 
@@ -118,6 +118,12 @@ popd
 %{_infodir}/commoncpp2.info*
 
 %changelog
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 1.8.1-23
+- Force C++14 as the code is not C++17 ready
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 05 2020 Sandro Mani <manisandro@gmail.com> - 1.8.1-21
 - Actually add files to %%doc
 - Only list GFDL license for %%doc subpackage

@@ -1,10 +1,10 @@
 Name:           OpenMesh
 Version:        6.3
-Release:        8%{?dist}
+Release:        11%{?dist}
 Summary:        A generic and efficient polygon mesh data structure
 License:        LGPLv3+ with exceptions
 URL:            http://www.openmesh.org/
-Source0:        http://www.openmesh.org/media/Releases/%{version}/OpenMesh-%{version}.tar.bz2
+Source0:        https://www.graphics.rwth-aachen.de/media/openmesh_static/Releases/%{version}/OpenMesh-%{version}.tar.bz2
 Source1:        README.Fedora
 # Fedora specifics
 Patch0:         OpenMesh-4.1-fedora.patch
@@ -72,16 +72,15 @@ EOF
 done
 
 %build
-mkdir objdir
-cd objdir
-%{cmake} -DCMAKE_BUILD_TYPE=RELEASE ..
-make %{?_smp_mflags}
-make doc %{?_smp_mflags}
+%{cmake} -DCMAKE_BUILD_TYPE=RELEASE
+%{cmake_build}
+make -C %{_vpath_builddir} %{?_smp_mflags}
+make -C %{_vpath_builddir} doc %{?_smp_mflags}
 
 %install
-make -C objdir/src/OpenMesh/Apps install DESTDIR=%{buildroot}
-make -C objdir/src/OpenMesh/Core install DESTDIR=%{buildroot}
-make -C objdir/src/OpenMesh/Tools install DESTDIR=%{buildroot}
+make -C %{_vpath_builddir}/src/OpenMesh/Apps install DESTDIR=%{buildroot}
+make -C %{_vpath_builddir}/src/OpenMesh/Core install DESTDIR=%{buildroot}
+make -C %{_vpath_builddir}/src/OpenMesh/Tools install DESTDIR=%{buildroot}
 
 # Get rid of static libraries
 rm %{buildroot}%{_libdir}/*.a
@@ -119,9 +118,19 @@ done
 
 %files doc
 %doc LICENSE
-%doc objdir/Build/share/OpenMesh/Doc/html/*
+%doc %{_vpath_builddir}/Build/share/OpenMesh/Doc/html/*
 
 %changelog
+* Wed Aug 05 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 6.3-11
+- Adapt to new CMake scripts.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.3-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.3-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,5 +1,5 @@
 Name:           perl-Text-CSV_XS
-Version:        1.43
+Version:        1.44
 Release:        2%{?dist}
 Summary:        Comma-separated values manipulation routines
 License:        GPL+ or Artistic
@@ -13,6 +13,7 @@ BuildRequires:  make
 BuildRequires:  perl-devel
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
+BuildRequires:  perl(charnames)
 BuildRequires:  perl(Config::Tiny)
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 # Run-time:
@@ -28,7 +29,6 @@ BuildRequires:  perl(warnings)
 BuildRequires:  perl(XSLoader)
 # Tests:
 BuildRequires:  perl(base)
-BuildRequires:  perl(charnames)
 BuildRequires:  perl(Config)
 BuildRequires:  perl(Test::More)
 BuildRequires:  perl(Tie::Scalar)
@@ -81,6 +81,16 @@ find %{buildroot} -type f -name '*.bs' -empty -delete
 %{_mandir}/man3/Text::CSV_XS.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.44-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Paul Howarth <paul@city-fan.org> - 1.44-1
+- Update to 1.44
+  - EBCDIC now fully functional
+  - Prevent false negative CPANTESTERS fail reports
+  - Fully tested on perl-5.32.0 and perl-5.33.0
+  - Fix partly decoded fields in header
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.43-2
 - Perl 5.32 rebuild
 

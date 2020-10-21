@@ -1,33 +1,40 @@
 Name:           perl-Acme-Alien-DontPanic
-%global cpan_version 2.1100
-Version:        2.110.0
-Release:        2%{?dist}
+%global cpan_version 2.2900
+Version:        2.290.0
+Release:        1%{?dist}
 Summary:        Test module for Alien::Base
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Acme-Alien-DontPanic
 Source0:        https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/Acme-Alien-DontPanic-%{cpan_version}.tar.gz
-# Remove useless dependencies,
-# <https://github.com/Perl5-Alien/Acme-Alien-DontPanic/issues/3>
-Patch0:         Acme-Alien-DontPanic-2.0400-Remove-a-dependency-on-lib.patch
-BuildArch:      noarch
+# Full-arch for files storing architecture-specific paths
+%global debug_package %{nil}
+BuildRequires:  coreutils
+BuildRequires:  gcc
+BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
 BuildRequires:  perl(:VERSION) >= 5.6
-BuildRequires:  perl(Alien::Base::ModuleBuild) >= 1.14
-BuildRequires:  perl(Module::Build) >= 0.28
+BuildRequires:  perl(Alien::Build::MM) >= 0.40
+BuildRequires:  perl(Alien::Build::Plugin::Build::Autoconf)
+BuildRequires:  perl(Alien::Build::Plugin::Probe::CommandLine)
+BuildRequires:  perl(alienfile)
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
-# Use system dontpanic library instead of downloading it from the Internet at
-# build time (it's forbidden in the build system).
+# Use a system dontpanic library instead of downloading it from the Internet at
+# build time.
 BuildRequires:  pkgconfig(dontpanic)
-# Dependecies for generated Build script
-BuildRequires:  perl(Cwd)
-BuildRequires:  perl(File::Basename)
 # Run-time:
 BuildRequires:  perl(Alien::Base) >= 2.04
 BuildRequires:  perl(base)
 # Tests:
 BuildRequires:  perl(Config)
+BuildRequires:  perl(Data::Dumper)
+BuildRequires:  perl(File::Temp)
+BuildRequires:  perl(Inline) >= 0.56
+BuildRequires:  perl(Inline::C)
+BuildRequires:  perl(Inline::CPP)
+BuildRequires:  perl(Path::Tiny)
 BuildRequires:  perl(Test2::V0) >= 0.000060
 BuildRequires:  perl(Test::Alien) >= 0.05
 BuildRequires:  perl(Test::Alien::Diag)
@@ -35,13 +42,11 @@ BuildRequires:  perl(Test::Alien::Diag)
 # Test::More not helpful
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:       perl(Alien::Base) >= 2.04
-# Generated code:
-Requires:       perl(Data::Dumper)
-Requires:       perl(Module::Build)
-# The maning of the package is to dontpanic library is installed and
-# application can build against it. Because we use system dontpanic library
-# instead of bundling that one that had been dowloaded and compiled at build
-# time, we nee to explicitly run-require developmental files of the library.
+# The maning of the package is have dontpanic library installed and
+# application being able to build against it. Because we use system dontpanic
+# library instead of bundling one that had been dowloaded and compiled at
+# build time, we need to explicitly run-require the developmental files of the
+# library.
 Requires:       pkgconfig(dontpanic)
 
 # Remove under-specified dependencies
@@ -52,26 +57,35 @@ This Perl module is a toy module to test the efficacy of the Alien::Base system.
 
 %prep
 %setup -q -n Acme-Alien-DontPanic-%{cpan_version}
-%patch0 -p1
 
 %build
-perl Build.PL --installdirs=vendor
-./Build
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-./Build install --destdir=$RPM_BUILD_ROOT --create_packlist=0
-%{_fixperms} $RPM_BUILD_ROOT/*
+%{make_install}
+%{_fixperms} %{buildroot}/*
 
 %check
-./Build test
+make test
 
 %files
 %license LICENSE
 %doc Changes README
-%{perl_vendorlib}/*
+%{perl_vendorarch}/auto/*
+%{perl_vendorarch}/Acme
 %{_mandir}/man3/*
 
 %changelog
+* Tue Sep 01 2020 Petr Pisar <ppisar@redhat.com> - 2.290.0-1
+- 2.2900 bump
+
+* Mon Aug 17 2020 Petr Pisar <ppisar@redhat.com> - 2.260.0-1
+- 2.2600 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.110.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.110.0-2
 - Perl 5.32 rebuild
 

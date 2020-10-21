@@ -3,7 +3,7 @@
 
 # https://github.com/RoaringBitmap/roaring
 %global goipath         github.com/RoaringBitmap/roaring
-Version:                0.4.18
+Version:                0.5.0
 
 %gometa
 
@@ -20,7 +20,7 @@ eBay's Apache Kylin.}
 %global godocs          AUTHORS CONTRIBUTORS README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Go version of the Roaring bitmap data structure
 
 # Upstream license specification: Apache-2.0
@@ -57,6 +57,12 @@ BuildRequires:  golang(github.com/willf/bitset)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 21:55:01 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.5.0-1
+- Update to 0.5.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.18-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.18-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

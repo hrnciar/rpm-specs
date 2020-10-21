@@ -1,36 +1,38 @@
+%global __cmake_in_source_build 1
+
 #For git snapshots, set to 0 to use release instead:
-%global usesnapshot 0
+%global usesnapshot 1
 %if 0%{?usesnapshot}
-%global commit0 5df46eebc716450a06703e7240335ba4ae5092f2
+%global commit0 6164dd963f154ce9a05661167b23c6c06b2649dd
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global snapshottag .git%{shortcommit0}
-%global commitdate 20191014
+%global commitdate 20200905
 %endif
 
 Name:           GoldenCheetah
-Version:        3.5
 %if 0%{?usesnapshot}
-Release:        0.14.%%{commitdate}git%%{shortcommit0}%%{?dist}
+Version:        3.6
+Release:        0.3.%{commitdate}git%{shortcommit0}%{?dist}
 %else
-Release:        2%{?dist}
+Version:        3.5
+Release:        3%{?dist}
 %endif
 Summary:        Cycling Performance Software
+Epoch:          1
 License:        GPLv3
 URL:            http://www.goldencheetah.org/
 %if 0%{?usesnapshot}
-Source0:        https://github.com/GoldenCheetah/GoldenCheetah/archive/%{commit0}/%{name}-%{shortcommit0}.tar.gz
+Source0:        https://github.com/GoldenCheetah/GoldenCheetah/archive/%{commit0}/%{name}-%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
 %else
 Source0:        https://github.com/GoldenCheetah/GoldenCheetah/archive/V%{version}.tar.gz#/%{name}-%{version}.tar.gz
 %endif
 Source1:        %{name}.desktop
 # https://github.com/GoldenCheetah/GoldenCheetah/issues/2690
 Source2:        %{name}.appdata.xml
-# Use system libraries 
-Patch0:         %{name}_20180927git.patch
-# Use system libraries 
-Patch1:         %{name}_20180927git.fc29.patch
-# Patch that adds qxt lmfit and levmar system library
-Patch2:         %{name}-sys-path.patch
+# Use Qwt Widget Library
+Patch0:         %{name}_20200614git5c84f7f.patch
+Patch1:         %{name}_bison-3.7.patch
+Patch2:         %{name}-gcc11.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  flex
@@ -52,23 +54,22 @@ BuildRequires:  pkgconfig(Qt5Bluetooth)
 BuildRequires:  pkgconfig(Qt5WebEngine)
 BuildRequires:  pkgconfig(Qt5WebChannel)
 BuildRequires:  pkgconfig(Qt5Location)
-BuildRequires:  pkgconfig(QxtCore-qt5)
+#BuildRequires:  pkgconfig(QxtCore-qt5)
 BuildRequires:  pkgconfig(libical)
 BuildRequires:  pkgconfig(samplerate)
 BuildRequires:  pkgconfig(zlib)
 BuildRequires:  lmfit-devel
-BuildRequires:  levmar-devel
+BuildRequires:  libkml-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
 BuildRequires:  qt5-linguist
 BuildRequires:  qt5-qttranslations
-BuildRequires:  libkml-devel
-BuildRequires:  srmio-devel
 BuildRequires:  R-core-devel
 BuildRequires:  R-Rcpp-devel
 BuildRequires:  R-RInside-devel
 BuildRequires:  python3-devel
 BuildRequires:  python3-sip-devel
+BuildRequires:  gsl-devel
 Requires:       hicolor-icon-theme
 
 # qt5-qtwebengine-devel is missing on ppc64, ppc64le, s390x CPU architectures.
@@ -86,7 +87,7 @@ ExclusiveArch:  %{qt5_qtwebengine_arches}
 %package data
 Summary:       Icons and translation files for %{name}
 BuildArch:     noarch
-Requires:      %{name} = %{version}-%{release}
+Requires:      %{name} = %{epoch}:%{version}-%{release}
 
 %description data
 This package contains icons and translation files.
@@ -105,33 +106,14 @@ that use %{name}.
 %else
 %setup -qn %{name}-%{version}
 %endif
-%if 0%{?fedora} >=29
-%patch1 -p1
-%else
 %patch0 -p1
-%endif
-%patch2 -p1 -b .sys-path
+%patch1 -p1
+%patch2 -p1
 
 # fixes W: spurious-executable-perm
 find . -type f  \( -name "*.cpp" -o -name "*.h" \) -exec chmod a-x {} \;
 
-sed -i -e 's|DEFINES += QXT_STATIC||' src/src.pro
-
 %build
-# Add system libraries to build
-echo QXT_INSTALL = %{_prefix} >> src/gcconfig.pri
-echo QXT_INCLUDE = %{_qt5_headerdir}/QxtWidgets >> src/gcconfig.pri
-echo QXT_LIBS = -lQxtCore-qt5 -lQxtWidgets-qt5 -lQxtNetwork-qt5 -lQxtSql-qt5 -lQxtWeb-qt5 -lQxtZeroconf-qt5 >> src/gcconfig.pri
-echo LMFIT_INSTALL = %{_prefix} >> src/gcconfig.pri
-echo LMFIT_INCLUDE = %{_includedir} >> src/gcconfig.pri
-echo LMFIT_LIBS = -L%{_libdir} -llmfit >> src/gcconfig.pri
-echo LEVMAR_INSTALL = %{_prefix} >> src/gcconfig.pri
-echo LEVMAR_INCLUDE = %{_includedir} >> src/gcconfig.pri
-echo LEVMAR_LIBS = -L%{_libdir} -llevmar >> src/gcconfig.pri
-echo SRMIO_INSTALL = %{_prefix} >> src/gcconfig.pri
-echo SRMIO_INCLUDE = %{_includedir} >> src/gcconfig.pri
-echo SRMIO_LIBS = -L%{_libdir} -lsrmio >> src/gcconfig.pri
-
 # Create translation files.
 lrelease-qt5 src/Resources/translations/*.ts
 %{_qt5_qmake} %{_qt5_qmake_flags}
@@ -178,6 +160,24 @@ appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}.appda
 %doc doc/user/*.pdf
 
 %changelog
+* Mon Oct 12 2020 Jeff Law <law@redhat.com> - 3.6-0.3.20200908git6164dd9
+- Add missing #include for gcc-11
+
+* Fri Sep 18 2020 Martin Gansser <martinkg@fedoraproject.org> - 3.6-0.2.20200908git6164dd9
+- Update to 3.6-0.2.20200905git6164dd9
+- Add GoldenCheetah_bison-3.7.patch
+- Rebuilt for new qt5-qtcharts
+
+* Sun Aug 09 2020 Martin Gansser <martinkg@fedoraproject.org> - 3.6-0.1.20200908git7c90abf
+- Revert version 4.0 and use master git
+- Add epoch to allow install older version
+
+* Sun Jul 26 2020 Martin Gansser <martinkg@fedoraproject.org> - 4.0-0.1.20200614git5c84f7f
+- Update to 4.0-0.1.20200614git5c84f7f
+- fixes (BZ#1842192) and (BZ#1859481)
+- Add BR gsl-devel
+- Cleanup spec file
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

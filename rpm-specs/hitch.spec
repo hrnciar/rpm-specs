@@ -17,8 +17,8 @@
 %global _hardened_build 1
 
 Name:		hitch
-Version:	1.5.2
-Release:	3%{?dist}
+Version:	1.6.1
+Release:	2%{?dist}
 Summary:	Network proxy that terminates TLS/SSL connections
 
 License:	BSD
@@ -35,9 +35,6 @@ Requires:	openssl
 
 Patch0:		hitch.systemd.service.patch
 Patch1:		hitch.initrc.redhat.patch
-
-# Upstream commit 60e4da2
-Patch100:       hitch-1.5.2_fix_gcc-10.patch
 
 %if 0%{?fedora} >= 18 || 0%{?rhel} >= 7
 Requires(post): systemd
@@ -57,7 +54,6 @@ of connections efficiently on multicore machines.
 %setup -q -n %{name}-%{version}%{?v_rc}
 %patch0
 %patch1
-%patch100 -p1
 
 %build
 #./bootstrap
@@ -174,6 +170,23 @@ fi
 
 
 %changelog
+* Fri Oct 16 2020 Ingvar Hagelund <ingvar@redpill-linpro.com> - 1.6.1-2
+- Built from recently released official upstream tarball
+- Removed extra buildreqs and stuff
+
+* Tue Oct 13 2020 Ingvar Hagelund <ingvar@redpill-linpro.com> - 1.6.1-1
+- New upstream release.
+- Built from git tag, as no upstream tarball exists since August. Pinged
+  upstream about it.
+- Extra buildreqs and stuff
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ingvar Hagelund <ingvar@redpill-linpro.com> - 1.6.0-1
+- New upstream release
+- Removed patches merged upstream
+
 * Mon Feb 10 2020 Ingvar Hagelund <ingvar@redpill-linpro.com> - 1.5.2-3
 - Added upstream patch for gcc-10.0.1, upstream issue 326
 

@@ -27,7 +27,7 @@ Basic LDAP v3 functionality for the GO programming language.}
 %global godocs          CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Basic LDAP v3 functionality for the GO programming language
 
 License:        MIT
@@ -57,6 +57,9 @@ rm ldap_test.go
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

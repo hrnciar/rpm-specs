@@ -1,21 +1,14 @@
 Name:           ocaml-seq
-Version:        0.1
-Release:        14%{?dist}
+Version:        0.2.2
+Release:        2%{?dist}
 Summary:        Compatibility package for OCaml's standard iterator type
 License:        LGPLv2+ with exceptions
 
 URL:            https://github.com/c-cube/seq
-Source0:        https://github.com/c-cube/seq/archive/0.1.tar.gz
-
-# Upstream patches since 0.1 was released.
-Patch0001:      0001-switch-between-definition-alias-module-depending-on-.patch
-Patch0002:      0002-fix-opam-set-LGPL-as-the-license-close-2.patch
-Patch0003:      0003-fix-opam-specify-constraints-on-ocaml-4.07.patch
-Patch0004:      0004-add-license.patch
+Source0:        %{url}/archive/%{version}/seq-%{version}.tar.gz
 
 BuildRequires:  ocaml
-BuildRequires:  ocaml-findlib-devel
-BuildRequires:  ocaml-ocamlbuild-devel
+BuildRequires:  ocaml-dune >= 1.1.0
 
 
 %description
@@ -33,50 +26,73 @@ developing applications that use %{name}.
 
 
 %prep
-%setup -q -n seq-%{version}
-%autopatch -p1
+%autosetup -n seq-%{version}
 
 
 %build
-make %{?_smp_mflags} all
+dune build %{?_smp_mflags}
 
 
 %install
-export DESTDIR=$RPM_BUILD_ROOT
-export OCAMLFIND_DESTDIR=$RPM_BUILD_ROOT%{_libdir}/ocaml
-mkdir -p $OCAMLFIND_DESTDIR
-mkdir -p $OCAMLFIND_DESTDIR/stublibs
-make install
+dune install --destdir=%{buildroot}
 
-# Don't ship the .ml file.
-rm $OCAMLFIND_DESTDIR/seq/seq.ml
+# We do not want the ml files
+find %{buildroot}%{_libdir}/ocaml -name \*.ml -delete
+
+# We install the documentation with the doc macro
+rm -fr %{buildroot}%{_prefix}/doc
+
+%ifarch %{ocaml_native_compiler}
+# Add missing executable bits
+find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod a+x {} \+
+%endif
 
 
 %files
 %doc README.md
 %license LICENSE
-%{_libdir}/ocaml/seq
+%dir %{_libdir}/ocaml/seq/
+%{_libdir}/ocaml/seq/seq.cma
+%{_libdir}/ocaml/seq/seq.cmi
 %ifarch %{ocaml_native_compiler}
-%exclude %{_libdir}/ocaml/seq/*.a
-%exclude %{_libdir}/ocaml/seq/*.cmxa
-%exclude %{_libdir}/ocaml/seq/*.cmx
+%{_libdir}/ocaml/seq/seq.cmxs
 %endif
-%exclude %{_libdir}/ocaml/seq/*.mli
-%exclude %{_libdir}/ocaml/seq/META
 
 
 %files devel
 %license LICENSE
 %ifarch %{ocaml_native_compiler}
-%{_libdir}/ocaml/seq/*.a
-%{_libdir}/ocaml/seq/*.cmxa
-%{_libdir}/ocaml/seq/*.cmx
+%{_libdir}/ocaml/seq/seq.a
+%{_libdir}/ocaml/seq/seq.cmxa
+%{_libdir}/ocaml/seq/seq.cmx
 %endif
-%{_libdir}/ocaml/seq/*.mli
+%{_libdir}/ocaml/seq/seq.mli
+%{_libdir}/ocaml/seq/seq.cmt
+%{_libdir}/ocaml/seq/seq.cmti
 %{_libdir}/ocaml/seq/META
+%{_libdir}/ocaml/seq/dune-package
+%{_libdir}/ocaml/seq/opam
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.2.2-2
+- OCaml 4.11.1 rebuild
+
+* Tue Sep  1 2020 Jerry James <loganjerry@gmail.com> - 0.2.2-1
+- Version 0.2.2
+- Drop all patches
+- Build with dune
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.1-17
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 0.1-14
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

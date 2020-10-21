@@ -3,7 +3,7 @@
 
 Name:           perl-Socket-MsgHdr
 Version:        0.05
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Sendmsg, recvmsg and ancillary data operations
 License:        GPL+ or Artistic
 
@@ -53,6 +53,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.05-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.05-6
 - Perl 5.32 rebuild
 

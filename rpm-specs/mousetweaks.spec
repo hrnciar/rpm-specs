@@ -1,6 +1,6 @@
 Name:           mousetweaks
 Version:        3.32.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Mouse accessibility support for the GNOME desktop
 License:        GPLv3 and GFDL
 #VCS: git:git://git.gnome.org/mousetweaks
@@ -32,11 +32,11 @@ tab of the Mouse Preferences of GNOME Control Center or through command-line.
 
 %build
 %configure
-make %{?_smp_mflags}
+%make_build
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 
 %find_lang mousetweaks --with-gnome
 
@@ -54,6 +54,13 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %doc %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.32.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 3.32.0-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.32.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

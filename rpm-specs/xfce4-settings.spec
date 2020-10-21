@@ -2,7 +2,7 @@
 
 Name:           xfce4-settings
 Version:        4.14.3
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Settings Manager for Xfce
 
 License:        GPLv2+
@@ -87,6 +87,16 @@ done
 %{_datadir}/icons/hicolor/scalable/apps/xfce*.svg
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Adam Williamson <awilliam@redhat.com> - 4.14.3-2
+- Switch default icon theme to Adwaita (#1853462)
+
 * Sun Apr 12 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 4.14.3-1
 - Update to 4.14.3
 

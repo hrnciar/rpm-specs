@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        2.4.11
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Python's Filesystem abstraction layer
 
 License:        MIT
@@ -12,6 +12,7 @@ Patch0:         fix-for-py3.9-release.patch
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 
 BuildRequires:  python3dist(appdirs)
 BuildRequires:  python3dist(pytz)
@@ -54,6 +55,12 @@ Summary:        %{summary}
 %{python3_sitelib}/%{srcname}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.11-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Parag Nemade <pnemade AT redhat DOT com> - 2.4.11-5
+- Add missing BR: python3-setuptools
+
 * Mon Jun 01 2020 Parag Nemade <pnemade AT redhat DOT com> - 2.4.11-4
 - Disable few tests temporary for now (rhbz#1820916, rhbz#1841708)
 

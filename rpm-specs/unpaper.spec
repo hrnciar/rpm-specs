@@ -1,6 +1,6 @@
 Name:           unpaper
 Version:        0.3
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        Post-processing of scanned and photocopied book pages
 # Licensed under any GPL version since none is specified
 License:        GPL+
@@ -44,6 +44,9 @@ install -p -m 0755 src/unpaper $RPM_BUILD_ROOT/%{_bindir}
 %doc doc CHANGELOG README
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

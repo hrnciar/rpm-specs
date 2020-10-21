@@ -4,7 +4,7 @@
 
 Name:           pychess
 Version:        0.12.4
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Chess game for GNOME
 
 License:        GPLv3
@@ -109,6 +109,9 @@ EOF
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.4-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.12.4-19
 - Rebuilt for Python 3.9
 

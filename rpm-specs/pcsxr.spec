@@ -5,7 +5,7 @@
 %undefine _hardened_build
 Name:           pcsxr
 Version:        1.9.94
-Release:        24%{?fgittag:.%{fgittag}}%{?dist}
+Release:        26%{?fgittag:.%{fgittag}}%{?dist}
 Summary:        A plugin based PlayStation (PSX) emulator with high compatibility
 
 #All code is distributed as GPLv3+ except:
@@ -72,9 +72,10 @@ sed -i 's/"git"/"%{fgittag}"/' gui/AboutDlg.c
 %cmake . -DUSE_LIBCDIO:BOOL=ON -DUSE_LIBARCHIVE:BOOL=ON \
   -DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS -zmuldefs -fno-pie" \
   -DCMAKE_MODULE_LINKER_FLAGS="$LDFLAGS -zmuldefs"
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 #Install appdata.xml and verify
 install -p -D -m 0644 %{SOURCE1} \
@@ -95,6 +96,13 @@ appstream-util validate-relax --nonet \
 %{_datadir}/icons/hicolor/*/apps/%{name}-icon.png
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.94-26.20190306.git62467b8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.94-25.20190306.git62467b8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 16 2020 Jeremy Newton <alexjnewt AT hotmail DOT com> - 1.9.94-24.20190306.git62467b8
 - Fix LDFLAGS
 

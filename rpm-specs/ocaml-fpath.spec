@@ -5,20 +5,19 @@
 %global srcname fpath
 
 Name:           ocaml-%{srcname}
-Version:        0.7.2
-Release:        8%{?dist}
+Version:        0.7.3
+Release:        1%{?dist}
 Summary:        File paths for OCaml
 
 License:        ISC
 URL:            https://erratique.ch/software/fpath
 Source0:        https://github.com/dbuenzli/fpath/archive/v%{version}/%{srcname}-%{version}.tar.gz
 
-BuildRequires:  ocaml >= 4.01.0
+BuildRequires:  ocaml >= 4.03.0
 BuildRequires:  ocaml-astring-devel
 BuildRequires:  ocaml-findlib
 BuildRequires:  ocaml-ocamlbuild
 BuildRequires:  ocaml-ocamldoc
-BuildRequires:  ocaml-result-devel
 BuildRequires:  ocaml-topkg-devel >= 0.9.0
 
 %description
@@ -98,6 +97,22 @@ ocaml pkg/pkg.ml test
 %{_libdir}/ocaml/%{srcname}/%{srcname}*.mli
 
 %changelog
+* Sun Sep 13 2020 Dan Čermák <dan.cermak@cgc-instruments.com> - 0.7.3-1
+- New upstream release 0.7.3 (rhbz#1876818)
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.7.2-12
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.7.2-11
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 0.7.2-8
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

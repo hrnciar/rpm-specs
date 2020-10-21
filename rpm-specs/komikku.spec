@@ -2,14 +2,14 @@
 %global uuid    info.febvre.%{appname}
 
 Name:           komikku
-Version:        0.17.0
-Release:        2%{?dist}
+Version:        0.21.1
+Release:        1%{?dist}
 Summary:        Online/offline manga reader for GNOME
+BuildArch:      noarch
 
 License:        GPLv3+
 URL:            https://gitlab.com/valos/Komikku
 Source0:        %{url}/-/archive/v%{version}/%{appname}-v%{version}.tar.gz
-BuildArch:      noarch
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  intltool
@@ -18,13 +18,14 @@ BuildRequires:  meson >= 0.50.0
 BuildRequires:  python3-devel >= 3.6
 BuildRequires:  pkgconfig(gobject-introspection-1.0)
 BuildRequires:  pkgconfig(gtk+-3.0) >= 3.24.1
-BuildRequires:  pkgconfig(libhandy-1)
+BuildRequires:  pkgconfig(libhandy-1) >= 1.0.0
 
 Requires:       hicolor-icon-theme
-Requires:       libhandy1
+Requires:       libhandy1 >= 1.0.0
 Requires:       python3-beautifulsoup4
 Requires:       python3-cloudscraper
 Requires:       python3-dateparser
+Requires:       python3-keyring
 Requires:       python3-lxml
 
 # # This could help to build Komikku for current Fedora releases at least in Copr
@@ -79,6 +80,24 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Mon Oct 12 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.21.1-1
+- build(update): 0.21.1
+
+* Tue Sep 15 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.20.0-1
+- Update to 0.20.0
+
+* Sat Aug 08 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.19.0-1
+- Update to 0.19.0
+
+* Wed Jul 29 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.18.0-2
+- Add new dep: python3-keyring
+
+* Wed Jul 29 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.18.0-1
+- Update to 0.18.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.17.0-2
 - Add explicitly dep: libhandy1
 

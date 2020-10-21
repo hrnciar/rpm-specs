@@ -1,13 +1,13 @@
 Name:           perl-Pod-Usage
 # Compete with perl.spec's epoch
 Epoch:          4
-Version:        1.70
-Release:        2%{?dist}
+Version:        2.01
+Release:        1%{?dist}
 Summary:        Print a usage message from embedded POD documentation
 # License clarification CPAN RT#102529
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Pod-Usage
-Source0:        https://cpan.metacpan.org/authors/id/M/MA/MAREKR/Pod-Usage-%{version}.tar.gz
+Source0:        https://cpan.metacpan.org/authors/id/A/AT/ATOOMIC/Pod-Usage-%{version}.tar.gz
 BuildArch:      noarch
 BuildRequires:  coreutils
 BuildRequires:  make
@@ -22,8 +22,9 @@ BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(File::Basename)
 BuildRequires:  perl(File::Spec) >= 0.82
 BuildRequires:  perl(strict)
-BuildRequires:  sed
+BuildRequires:  perl(warnings)
 # Run-time:
+BuildRequires:  perl(:VERSION) >= 5.6
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(Config)
 BuildRequires:  perl(Exporter)
@@ -31,14 +32,17 @@ BuildRequires:  perl(Exporter)
 # Pod::Usage executes perldoc from perl-Pod-Perldoc by default
 BuildRequires:  perl-Pod-Perldoc
 BuildRequires:  perl(Pod::Text) >= 4
-BuildRequires:  perl(vars)
 # Tests:
 BuildRequires:  perl(blib)
 BuildRequires:  perl(FileHandle)
+BuildRequires:  perl(Pod::Perldoc) >= 3.28
 BuildRequires:  perl(Pod::PlainText)
 BuildRequires:  perl(Test::More) >= 0.6
+BuildRequires:  perl(vars)
 # VMS::Filespec not used
-BuildRequires:  perl(warnings)
+# Optional tests:
+# CPAN::Meta not helpful
+# CPAN::Meta::Prereqs not helpful
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:       perl(File::Spec) >= 0.82
 # Pod::Usage executes perldoc from perl-Pod-Perldoc by default
@@ -75,13 +79,20 @@ perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
 make test
 
 %files
-%doc CHANGES README
+%license LICENSE
+%doc Changes README
 %{_bindir}/*
 %{perl_vendorlib}/*
 %{_mandir}/man1/*
 %{_mandir}/man3/*
 
 %changelog
+* Wed Oct 14 2020 Petr Pisar <ppisar@redhat.com> - 4:2.01-1
+- 2.01 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4:1.70-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4:1.70-2
 - Perl 5.32 rebuild
 

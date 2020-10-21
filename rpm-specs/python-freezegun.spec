@@ -2,8 +2,8 @@
 %global sum Let your Python tests travel through time
 
 Name:               python-freezegun
-Version:            0.3.12
-Release:            6%{?dist}
+Version:            0.3.15
+Release:            1%{?dist}
 Summary:            %{sum}
 
 License:            ASL 2.0
@@ -63,6 +63,12 @@ pytest-3 --deselect tests/test_uuid.py::test_uuid1_future --deselect tests/test_
 %{python3_sitelib}/%{modname}-%{version}-*
 
 %changelog
+* Tue Sep 08 2020 Yatin Karel <ykarel@redhat.com> - 0.3.15-1
+- Update to 0.3.15
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.12-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.12-6
 - Rebuilt for Python 3.9
 

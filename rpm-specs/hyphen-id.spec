@@ -2,7 +2,7 @@ Name: hyphen-id
 Summary: Indonesian hyphenation rules
 %global upstreamid 20040812
 Version: 0.%{upstreamid}
-Release: 20%{?dist}
+Release: 21%{?dist}
 Source: http://download.services.openoffice.org/contrib/dictionaries/hyph_id_ID.zip
 URL: http://wiki.services.openoffice.org/wiki/Dictionaries
 License: GPL+
@@ -30,6 +30,9 @@ cp -p *.dic $RPM_BUILD_ROOT/%{_datadir}/hyphen
 %{_datadir}/hyphen/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20040812-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20040812-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

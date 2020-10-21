@@ -3,7 +3,7 @@
 Name:    kmplayer
 Summary: A simple front-end for MPlayer/FFMpeg/Phonon
 Version: 0.12.0b
-Release: 2%{?dist}
+Release: 3%{?dist}
 # The documentation is GFDL.
 # The files under src/moz-sdk are MPLv1.1 or GPLv2+ or LGPLv2+
 # except src/moz-sdk/npruntime.h is BSD.
@@ -61,14 +61,11 @@ sed -i "s:Exec=kmplayer -caption %c %i %U:Exec=kmplayer %U:g" src/kmplayer.deskt
 
 %build
 %{cmake}
-make %{?_smp_mflags}
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot}
+%cmake_install
 %find_lang %{name}
-
-%posttrans
-gtk-update-icon-cache %{_iconsdir}/hicolor >/dev/null 2>&1 || :
 
 %files -f %{name}.lang
 %doc AUTHORS ChangeLog COPYING* README TODO
@@ -87,6 +84,9 @@ gtk-update-icon-cache %{_iconsdir}/hicolor >/dev/null 2>&1 || :
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0b-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0b-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Summary:        Utilities for SAS management protocol (SMP)
 Name:           smp_utils
 Version:        0.99
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        BSD
 URL:            http://sg.danny.cz/sg/smp_utils.html
 Source0:        http://sg.danny.cz/sg/p/%{name}-%{version}.tgz
@@ -75,6 +75,9 @@ rm -rf %{buildroot}%{_libdir}/*.la
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 21 2020 Dan Horák <dan[at]danny.cz> - 0.99-1
 - updated to 0.99 (#1815273)
 

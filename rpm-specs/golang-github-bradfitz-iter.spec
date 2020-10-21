@@ -3,7 +3,7 @@
 
 # https://github.com/bradfitz/iter
 %global goipath         github.com/bradfitz/iter
-%global commit          33e6a9893b0c090a6ba5a4227a98c4145c61d09a
+%global commit          e8f45d346db8021e0dd53899bf55eb6e21218b33
 
 %gometa
 
@@ -15,7 +15,7 @@ Package Iter provides a syntactically different way to iterate over integers.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.4%{?dist}
+Release:        0.6%{?dist}
 Summary:        Range over integers [0,n)
 
 # Upstream license specification: BSD-3-Clause
@@ -42,6 +42,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 14:34:27 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200724gite8f45d3
+- Bump to commit e8f45d346db8021e0dd53899bf55eb6e21218b33
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -55,7 +55,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       Library for building an evented http server
 
 License:       MIT
@@ -224,6 +224,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 06 2020 Shawn Iwinski <shawn@iwin.ski> - 0.8.6-1
 - Update to 0.8.6 (RHBZ #1790302)
 - Use PHPUnit 7

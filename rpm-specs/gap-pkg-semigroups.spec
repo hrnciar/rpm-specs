@@ -8,13 +8,15 @@
 %bcond_with bigtest
 
 Name:           gap-pkg-%{pkgname}
-Version:        3.3.1
-Release:        2%{?dist}
+Version:        3.4.0
+Release:        1%{?dist}
 Summary:        GAP methods for semigroups
 
 License:        GPLv3+
 URL:            http://gap-packages.github.io/Semigroups/
 Source0:        https://github.com/gap-packages/Semigroups/releases/download/v%{version}/%{pkgname}-%{version}.tar.gz
+# Adapt to libsemigroups 1.3.1
+Patch0:         %{name}-libsemigroups.patch
 
 BuildRequires:  gap-devel
 BuildRequires:  GAPDoc-doc
@@ -83,6 +85,7 @@ rm -fr libsemigroups
 
 %build
 export LC_ALL=C.UTF-8
+export CPPFLAGS="-I%{_includedir}/eigen3"
 %configure --with-gaproot=%{_gap_dir} --disable-silent-rules \
   --with-external-libsemigroups
 
@@ -131,7 +134,7 @@ gap -l "%{_gap_dir};%{buildroot}%{_gap_dir}" < teststandard.g
 cd -
 
 %files
-%doc CHANGELOG.md CONTRIBUTING.md README.md VERSIONS
+%doc CHANGELOG.md README.md VERSIONS
 %license GPL LICENSE
 %{_gap_dir}/pkg/%{pkgname}-%{version}/
 %exclude %{_gap_dir}/pkg/%{pkgname}-%{version}/doc/
@@ -141,6 +144,16 @@ cd -
 %{_gap_dir}/pkg/%{pkgname}-%{version}/doc/
 
 %changelog
+* Mon Aug 31 2020 Jerry James <loganjerry@gmail.com> - 3.4.0-1
+- Version 3.4.0
+- Add -libsemigroups patch
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Jerry James <loganjerry@gmail.com> - 3.3.2-1
+- Version 3.3.2
+
 * Fri Jun 12 2020 Jerry James <loganjerry@gmail.com> - 3.3.1-2
 - Rebuild for libsemigroups 1.1.0
 

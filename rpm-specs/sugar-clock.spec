@@ -1,10 +1,6 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:           sugar-clock
 Version:        22.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Clock activity for Sugar
 
 License:        GPLv3+
@@ -13,7 +9,7 @@ Source0:        https://download.sugarlabs.org/sources/honey/Clock/Clock-%{versi
 BuildArch:      noarch
 
 BuildRequires:  gettext
-BuildRequires:  python3
+BuildRequires:  python3-devel
 BuildRequires:  sugar-toolkit-gtk3
 
 Requires:       sugar
@@ -40,8 +36,11 @@ python3 ./setup.py build
 
 %install
 python3 ./setup.py install --prefix=%{buildroot}/%{_prefix}
-
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
+
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}/%{sugaractivitydir}/Clock.activity/
+
 %find_lang tv.alterna.Clock
 
 
@@ -51,6 +50,13 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 22.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 22.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Chihurumnaya Ibiam <ibiamchihurumnaya@gmail.com> - 22.1-1 
 - Release 22.1
 

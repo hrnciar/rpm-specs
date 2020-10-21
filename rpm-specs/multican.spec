@@ -1,7 +1,7 @@
 Summary:	Remote control utility for Canon cameras
 Name:		multican
 Version:	0.0.5
-Release:	25%{?dist}
+Release:	26%{?dist}
 Source0:	http://iweb.dl.sourceforge.net/project/%{name}/%{name}/%{version}/%{name}-%{version}.tar.gz
 URL:		http://multican.sourceforge.net/
 License:	GPLv2
@@ -52,6 +52,9 @@ make	BINDIR="$RPM_BUILD_ROOT%{_bindir}" \
 %{_libdir}/*.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.5-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Jindrich Novy <jnovy@redhat.com> - 0.0.5-25
 - upload the proper upstream tarball
 - fix build with gcc-10

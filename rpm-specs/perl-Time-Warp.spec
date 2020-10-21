@@ -1,6 +1,6 @@
 Name:       perl-Time-Warp 
 Version:    0.54
-Release:    6%{?dist}
+Release:    7%{?dist}
 License:    GPL+ or Artistic 
 Summary:    Control over the flow of time
 Source:     https://cpan.metacpan.org/authors/id/M/MA/MANWAR/Time-Warp-%{version}.tar.gz
@@ -50,6 +50,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.54-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.54-6
 - Perl 5.32 rebuild
 

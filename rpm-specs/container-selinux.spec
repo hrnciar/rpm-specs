@@ -2,7 +2,7 @@
 
 # container-selinux
 %global git0 https://github.com/containers/container-selinux
-%global commit0 6b721daa0b9ff46a444e174995e5ac6600604db5
+%global commit0 9b3b66f400ed2f2bee76559fb200cf1c1f92d29c
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 # container-selinux stuff (prefix with ds_ for version/release etc.)
@@ -16,16 +16,13 @@
 # Format must contain '$x' somewhere to do anything useful
 %global _format() export %1=""; for x in %{modulenames}; do %1+=%2; %1+=" "; done;
 
-# Version of SELinux we were using
-%global selinux_policyver 3.14.4-43
-
 # Hooked up to autobuilder, please check with @lsm5 before updating
 Name: container-selinux
 %if 0%{?fedora}
 Epoch: 2
 %endif
-Version: 2.137.0
-Release: 2.dev.git%{shortcommit0}%{?dist}
+Version: 2.148.0
+Release: 3.dev.git%{shortcommit0}%{?dist}
 License: GPLv2
 URL: %{git0}
 Summary: SELinux policies for container runtimes
@@ -33,18 +30,18 @@ Source0: %{git0}/archive/%{commit0}/%{name}-%{shortcommit0}.tar.gz
 BuildArch: noarch
 BuildRequires: git
 BuildRequires: pkgconfig(systemd)
-BuildRequires: selinux-policy >= %{selinux_policyver}
-BuildRequires: selinux-policy-devel >= %{selinux_policyver}
+BuildRequires: selinux-policy >= %_selinux_policy_version
+BuildRequires: selinux-policy-devel >= %_selinux_policy_version
 # RE: rhbz#1195804 - ensure min NVR for selinux-policy
-Requires: selinux-policy >= %{selinux_policyver}
-Requires(post): selinux-policy-base >= %{selinux_policyver}
-Requires(post): selinux-policy-targeted >= %{selinux_policyver}
+Requires: selinux-policy >= %_selinux_policy_version
+Requires(post): selinux-policy-base >= %_selinux_policy_version
+Requires(post): selinux-policy-targeted >= %_selinux_policy_version
 Requires(post): policycoreutils
 Requires(post): libselinux-utils
 Requires(post): sed
 Obsoletes: %{name} <= 2:1.12.5-13
 Obsoletes: docker-selinux <= 2:1.12.4-28
-Provides: docker-selinux = %{epoch}:%{version}-%{release}
+Provides: docker-selinux = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description
 SELinux policy modules for use with container runtimes.
@@ -64,12 +61,6 @@ install -p -m 644 container.if %{buildroot}%{_datadir}/selinux/devel/include/ser
 install -m 0644 $MODULES %{buildroot}%{_datadir}/selinux/packages
 install -d %{buildroot}/%{_datadir}/containers/selinux
 install -m 644 container_contexts %{buildroot}/%{_datadir}/containers/selinux/contexts
-# Currently shipped as part of selinux-policy package
-#install -d %{buildroot}/%{_datadir}/man/man8
-#install -m 644 container_selinux.8 %{buildroot}/%{_datadir}/man/man8
-
-# remove spec file
-rm -rf container-selinux.spec
 
 %check
 
@@ -111,6 +102,68 @@ fi
 
 # Hooked up to autobuilder, please check with @lsm5 before updating
 %changelog
+* Thu Oct 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.148.0-3.dev.git9b3b66f
+- autobuilt 9b3b66f
+
+* Wed Oct 14 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.148.0-2.dev.git3c361a2
+- bump to 2.148.0
+- autobuilt 3c361a2
+
+* Mon Oct 12 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.147.0-2.dev.git9fb1698
+- bump to 2.147.0
+- autobuilt 9fb1698
+
+* Thu Oct  8 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.146.0-2.dev.git2908536
+- bump to 2.146.0
+- autobuilt 2908536
+
+* Thu Sep 10 18:12:36 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.145.0-2.dev.git464e922
+- bump to 2.145.0
+- autobuilt 464e922
+
+* Mon Aug 31 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 2:2.144.0-5.dev.git5d929d4
+- Resolves: #1797554 - use _selinux_policy_version macro
+
+* Fri Aug 28 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 2:2.144.0-4.dev.git5d929d4
+- Resolves: #1780129 - bump min selinux-policy
+
+* Thu Aug 13 14:10:45 GMT 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.144.0-3.dev.git5d929d4
+- autobuilt 5d929d4
+
+* Wed Aug 12 15:10:04 GMT 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.144.0-2.dev.git746ea7a
+- bump to 2.144.0
+- autobuilt 746ea7a
+
+* Wed Aug 05 22:10:34 GMT 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.143.0-2.dev.gite2d5a9e
+- bump to 2.143.0
+- autobuilt e2d5a9e
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:2.142.0-3.dev.gitfe6a25c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 11:09:45 GMT 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.142.0-2.dev.gitfe6a25c
+- bump to 2.142.0
+- autobuilt fe6a25c
+
+* Fri Jul 24 10:09:44 GMT 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.141.0-2.dev.git2750e78
+- bump to 2.141.0
+- autobuilt 2750e78
+
+* Thu Jul 23 2020 Merlin Mathesius <mmathesi@redhat.com> - 2:2.140.0-2.dev.git965c7fb
+- Cleanup usage of %%{epoch} macro to allow building for ELN
+
+* Thu Jul 23 19:10:26 GMT 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.140.0-2.dev.git965c7fb
+- bump to 2.140.0
+- autobuilt 965c7fb
+
+* Sat Jul 18 11:10:04 GMT 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.139.0-2.dev.git8c26927
+- bump to 2.139.0
+- autobuilt 8c26927
+
+* Thu Jul 09 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.138.0-2.dev.git9884317
+- bump to 2.138.0
+- autobuilt 9884317
+
 * Thu Jun 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.137.0-2.dev.git6b721da
 - bump to 2.137.0
 - autobuilt 6b721da

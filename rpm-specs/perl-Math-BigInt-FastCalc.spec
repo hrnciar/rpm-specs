@@ -1,7 +1,7 @@
 Name:           perl-Math-BigInt-FastCalc
 %global cpan_version 0.5009
 Version:        0.500.900
-Release:        456%{?dist}
+Release:        457%{?dist}
 Summary:        Math::BigInt::Calc with some XS for more speed
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Math-BigInt-FastCalc
@@ -66,6 +66,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.500.900-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.500.900-456
 - Increase release to favour standalone package
 

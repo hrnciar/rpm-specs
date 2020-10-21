@@ -6,7 +6,7 @@
 %global crate serde
 
 Name:           rust-%{crate}
-Version:        1.0.113
+Version:        1.0.116
 Release:        1%{?dist}
 Summary:        Generic serialization/deserialization framework
 
@@ -144,6 +144,18 @@ which use "unstable" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Fri Sep 11 2020 Josh Stone <jistone@redhat.com> - 1.0.116-1
+- Update to 1.0.116
+
+* Thu Aug 20 2020 Josh Stone <jistone@redhat.com> - 1.0.115-1
+- Update to 1.0.115
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.114-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 1.0.114-1
+- Update to 1.0.114
+
 * Fri Jun 19 2020 Josh Stone <jistone@redhat.com> - 1.0.113-1
 - Update to 1.0.113
 

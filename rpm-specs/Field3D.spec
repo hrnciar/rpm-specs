@@ -1,6 +1,6 @@
 Name:           Field3D
 Version:        1.7.3
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Library for storing voxel data
 
 License:        BSD
@@ -36,23 +36,19 @@ Development headers and documentation for %{name}.
 
 
 %build
-mkdir build && pushd build
-%cmake -DINSTALL_DOCS=OFF \
-       ../
+%cmake -DINSTALL_DOCS=OFF
 
-%make_build
+%cmake_build
 
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 
 install -D -m 0644 man/f3dinfo.1 %{buildroot}%{_mandir}/man1/f3dinfo.1
 
 
 %check
-pushd build
+pushd %{_vpath_builddir}
 ./unitTest
 
 
@@ -70,6 +66,16 @@ pushd build
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.3-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 1.7.3-3
+- Rebuild for hdf5 1.10.6
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 1.7.3-2
 - Rebuilt for Boost 1.73
 

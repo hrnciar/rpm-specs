@@ -8,15 +8,16 @@
 %bcond_without mlogc
 
 Summary: Security module for the Apache HTTP Server
-Name: mod_security 
+Name: mod_security
 Version: 2.9.3
-Release: 4%{?dist}
+Release: 7%{?dist}
 License: ASL 2.0
 URL: http://www.modsecurity.org/
 Source: https://github.com/SpiderLabs/ModSecurity/releases/download/v%{version}/modsecurity-%{version}.tar.gz
 Source1: mod_security.conf
 Source2: 10-mod_security.conf
 Source3: modsecurity_localrules.conf
+Patch0: modsecurity-2.9.3-lua-54.patch
 Requires: httpd httpd-mmn = %{_httpd_mmn}
 %if 0%{?fedora} || 0%{?rhel} > 7
 # Ensure apache user exists for file ownership
@@ -36,7 +37,7 @@ BuildRequires: pkgconfig(lua)
 %if 0%{?el6}
 BuildRequires: yajl-devel
 %else
-BuildRequires: pkgconfig(yajl)  
+BuildRequires: pkgconfig(yajl)
 %endif
 
 
@@ -59,7 +60,7 @@ This package contains the ModSecurity Audit Log Collector.
 %endif
 
 %prep
-%setup -q -n modsecurity-%{version}
+%autosetup -p1 -n modsecurity-%{version}
 
 %build
 %configure --enable-pcre-match-limit=1000000 \
@@ -137,6 +138,16 @@ install -m0644 mlogc/mlogc-default.conf %{buildroot}%{_sysconfdir}/mlogc.conf
 %endif
 
 %changelog
+* Sat Aug 08 2020 Othman Madjoudj <athmane@fedoraproject.org> - 2.9.3-7
+- Add a patch to fix build with Lua 5.4 until we completely switch to mod_sec3 as default
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.3-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -16,7 +16,7 @@ Remote Procedure Call libraries
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Remote Procedure Call libraries
 
 # Upstream license specification: Apache-2.0
@@ -43,5 +43,8 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 20 20:43:58 EST 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.0.2-1
 - Initial package

@@ -11,32 +11,40 @@
 
 %global github_owner     mnapoli
 %global github_name      phpunit-easymock
-%global github_version   1.2.0
-%global github_commit    11b754737e25c27bb2591c9e21959cd80b03a1aa
+%global github_version   1.3.0
+%global github_commit    3620599d773e9c4924acc7e40061047c75bac574
 
 %global composer_vendor  mnapoli
 %global composer_project phpunit-easymock
 
-# "php": "^7.2"
-%global php_min_ver 7.2
-# "phpunit/phpunit": "^8.5"
+# "php": "^7.3"
+%global php_min_ver 7.3
+# "phpunit/phpunit": "^8.5|^9.0"
 %global phpunit8_min_ver 8.5
+%global phpunit9_min_ver 9.0
 
 # Build using "--without tests" to disable tests
 %global with_tests 0%{!?_without_tests:1}
+
+# Rich dependencies supported?
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+%global with_rich_dependencies 1
+%else
+%global with_rich_dependencies 0
+%endif
 
 %{!?phpdir:  %global phpdir  %{_datadir}/php}
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       Helpers to build PHPUnit mocks
 
 License:       MIT
 URL:           https://github.com/%{github_owner}/%{github_name}
 
-# GitHub export does not include tests.
-# Run php-mnapoli-phpunit-easymock-get-source.sh to create full source.
+# GitHub export does not include tests
+# Run php-mnapoli-phpunit-easymock-get-source.sh to create full source
 Source0:       %{name}-%{github_version}-%{github_commit}.tar.gz
 Source1:       %{name}-get-source.sh
 
@@ -45,8 +53,10 @@ BuildArch:     noarch
 %if %{with_tests}
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
+# test suite run with all allowed versions
 BuildRequires: phpunit8 >= %{phpunit8_min_ver}
-## phpcompatinfo (computed from version 1.2.0)
+BuildRequires: phpunit9 >= %{phpunit9_min_ver}
+## phpcompatinfo (computed from version 1.3.0)
 BuildRequires: php-reflection
 ## Autoloader
 BuildRequires: php-composer(fedora/autoloader)
@@ -54,8 +64,12 @@ BuildRequires: php-composer(fedora/autoloader)
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
-Requires:      phpunit8 >= %{phpunit8_min_ver}
-# phpcompatinfo (computed from version 1.2.0)
+#
+%if %{with_rich_dependencies}
+# Single version required at runtime
+Requires:     (phpunit8 >= %{phpunit8_min_ver} or phpunit9 >= %{phpunit9_min_ver})
+%endif
+# phpcompatinfo (computed from version 1.3.0)
 #     <none>
 # Autoloader
 Requires:      php-composer(fedora/autoloader)
@@ -85,10 +99,6 @@ cat <<'AUTOLOAD' | tee src/autoload.php
 require_once '%{phpdir}/Fedora/Autoloader/autoload.php';
 
 \Fedora\Autoloader\Autoload::addPsr4('EasyMock\\', __DIR__);
-
-\Fedora\Autoloader\Dependencies::required([
-    '%{phpdir}/PHPUnit8/autoload.php',
-]);
 AUTOLOAD
 
 
@@ -115,6 +125,13 @@ for PHP_EXEC in "" php73 php74; do
             || RETURN_CODE=1
     fi
 done
+PHPUNIT=$(which phpunit9)
+for PHP_EXEC in "" php73 php74 php80; do
+    if [ -z "$PHP_EXEC" ] || which $PHP_EXEC; then
+        $PHP_EXEC $PHPUNIT --verbose --bootstrap bootstrap.php \
+            || RETURN_CODE=1
+    fi
+done
 exit $RETURN_CODE
 %else
 : Tests skipped
@@ -130,6 +147,15 @@ exit $RETURN_CODE
 
 
 %changelog
+* Mon Aug 24 2020 Remi Collet <remirepo.net> -1.3.0-2
+- allow phpunit8 and phpunit9
+
+* Fri Aug 21 2020 Shawn Iwinski <shawn@iwin.ski> - 1.3.0-1
+- Update to 1.3.0 (RHBZ #1784948)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 09 2020 Shawn Iwinski <shawn@iwin.ski> - 1.2.0-1
 - Update to 1.2.0 (RHBZ #1784948)
 

@@ -1,6 +1,6 @@
 Name:           perl-Pod-PseudoPod-LaTeX
 Version:        1.20190729
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Pod::PseudoPod::LaTeX Perl module
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Pod-PseudoPod-LaTeX
@@ -52,6 +52,9 @@ make test
 %{_bindir}/ppod2latex
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.20190729-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.20190729-3
 - Perl 5.32 rebuild
 

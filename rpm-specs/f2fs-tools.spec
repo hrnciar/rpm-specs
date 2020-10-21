@@ -1,11 +1,12 @@
 Name:		f2fs-tools
-Version:	1.13.0
-Release:	2%{?dist}
+Version:	1.14.0
+Release:	1%{?dist}
 Summary:	Tools for Flash-Friendly File System (F2FS)
 License:	GPLv2+
 URL:		http://sourceforge.net/projects/f2fs-tools/
 Source0:	http://git.kernel.org/cgit/linux/kernel/git/jaegeuk/f2fs-tools.git/snapshot/%{name}-%{version}.tar.gz
 Patch0:		f2fs-tools-1.8.0-bigendian.patch
+
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	uuid-devel
@@ -50,22 +51,20 @@ sed -i 's/AC_PROG_LIBTOOL/LT_INIT/' configure.ac
 
 %build
 autoreconf --install
-%configure \
-	--disable-static
-make %{?_smp_mflags}
+%configure --disable-static
+%{make_build}
 
 
 %install
-make DESTDIR=%{buildroot} INSTALL="install -p" CP="cp -p" sbindir=%{_sbindir} install
-mkdir -m 755 -p %{buildroot}%{_includedir}
-install -m 644 include/f2fs_fs.h %{buildroot}%{_includedir}
+%{make_install}
 install -m 644 mkfs/f2fs_format_utils.h %{buildroot}%{_includedir}
-rm -f %{buildroot}/%{_libdir}/*.la
+find %{buildroot} -type f -name "*.la" -delete
 
 %ldconfig_scriptlets
 
 %files
-%doc COPYING AUTHORS ChangeLog
+%license COPYING
+%doc AUTHORS ChangeLog
 %{_sbindir}/mkfs.f2fs
 %{_sbindir}/fibmap.f2fs
 %{_sbindir}/fsck.f2fs
@@ -86,6 +85,12 @@ rm -f %{buildroot}/%{_libdir}/*.la
 %{_libdir}/*.so
 
 %changelog
+* Thu Sep 24 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.14.0-1
+- Update to 1.14.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

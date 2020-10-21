@@ -12,7 +12,7 @@
 %global relccache %(%abs2rel %{_bindir}/ccache %{_libdir}/ccache)
 
 Name:           ccache
-Version:        3.7.9
+Version:        3.7.12
 Release:        1%{?dist}
 Summary:        C/C++ compiler cache
 
@@ -22,7 +22,7 @@ Source0:        https://github.com/ccache/ccache/releases/download/v%{version}/%
 Source1:        %{name}.sh.in
 Source2:        %{name}.csh.in
 
-BuildRequires:  perl(File::Spec)
+BuildRequires:  perl perl(File::Spec)
 BuildRequires:  zlib-devel >= 1.2.3
 # clang for additional tests
 BuildRequires:  clang
@@ -215,6 +215,22 @@ getent group ccache >/dev/null || groupadd -r ccache || :
 
 
 %changelog
+* Thu Oct  1 2020 Orion Poplawski <orion@nwra.com> - 3.7.12-1
+- Update to 3.7.12
+
+* Sat Aug 15 2020 Orion Poplawski <orion@nwra.com> - 3.7.11-1
+- Update to 3.7.11
+
+* Fri Aug 07 2020 Jeff Law <law@redhat.com> - 3.7.9-4
+- Depend on perl
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.9-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 LuK1337 <priv.luk@gmail.com> - 3.7.9-1
 - Update to 3.7.9
 

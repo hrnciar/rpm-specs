@@ -1,14 +1,14 @@
 %global pypi_name aiosnmp
+%bcond_with local
 
 Name:           python-%{pypi_name}
-Version:        0.2.2
-Release:        4%{?dist}
+Version:        0.2.4
+Release:        1%{?dist}
 Summary:        Asyncio Python SNMP client
 
 License:        MIT
 URL:            https://github.com/hh-h/aiosnmp
-Source0:        %{pypi_source}
-Source1:        https://raw.githubusercontent.com/hh-h/aiosnmp/master/LICENSE
+Source0:        %{url}/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
 
 %description
@@ -29,7 +29,6 @@ aiosnmp is an asynchronous SNMP client for use with asyncio.
 %prep
 %autosetup -n %{pypi_name}-%{version}
 rm -rf %{pypi_name}.egg-info
-cp -a %{SOURCE1} LICENSE
 
 %build
 %py3_build
@@ -37,13 +36,27 @@ cp -a %{SOURCE1} LICENSE
 %install
 %py3_install
 
+%check
+%if %{with local}
+%pytest -v tests
+%else
+%pytest -v tests --ignore tests/test_connection.py --ignore tests/test_exceptions.py --ignore tests/test_snmp.py
+%endif
+
 %files -n python3-%{pypi_name}
 %doc README.md
 %license LICENSE
 %{python3_sitelib}/%{pypi_name}/
-%{python3_sitelib}/%{pypi_name}-%{version}-py*.egg-info
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info/
 
 %changelog
+* Mon Sep 14 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.4-1
+- Enable tests
+- Update to latest upstream release 0.2.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.2-4
 - Rebuilt for Python 3.9
 

@@ -10,7 +10,7 @@
 
 Name:		nodejs-type-check
 Version:	0.3.2
-Release:	9%{?dist}
+Release:	10%{?dist}
 Summary:	Allows you to check the types of JavaScript values at runtime
 
 License:	MIT
@@ -99,6 +99,9 @@ cp -pr package.json lib/ \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

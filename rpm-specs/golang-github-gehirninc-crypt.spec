@@ -14,7 +14,7 @@ Pure Go crypt(3) Implementation.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Pure Go crypt(3) Implementation
 
 # Upstream license specification: BSD-2-Clause
@@ -41,6 +41,13 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 15 2020 Brandon Perkins <bperkins@redhat.com> - 0-0.3.20200415gitbb7000b
 - New method to check is key has supported format
 

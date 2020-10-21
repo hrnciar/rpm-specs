@@ -1,6 +1,6 @@
 Name:           fuse-convmvfs
 Version:        0.2.6
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        FUSE-Filesystem to convert filesystem encodings
 
 License:        GPLv2
@@ -39,6 +39,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.6-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.6-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

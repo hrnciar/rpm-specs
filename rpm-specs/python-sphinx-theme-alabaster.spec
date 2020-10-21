@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.7.12
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Configurable sidebar-enabled Sphinx theme
 
 License:        BSD
@@ -54,6 +54,9 @@ rm -rf %{pypi_name}.egg-info
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.12-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.12-9
 - Rebuilt for Python 3.9
 

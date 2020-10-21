@@ -1,6 +1,6 @@
 Name:		perl-Test-Distribution
 Version:	2.00
-Release:	34%{?dist}
+Release:	35%{?dist}
 Summary:	Perform tests on all modules of a distribution
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Test-Distribution
@@ -64,6 +64,9 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/Test::Distribution.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.00-35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.00-34
 - Perl 5.32 rebuild
 

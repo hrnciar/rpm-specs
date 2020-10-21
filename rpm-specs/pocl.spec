@@ -1,41 +1,36 @@
 %global sover 2
 %global with_tests 1
 
-Summary:        Portable Computing Language - an OpenCL implementation
 Name:           pocl
 %global ver 1.5
 Version:        %{lua:ver = string.gsub(rpm.expand("%{ver}"), "-", "~"); print(string.lower(ver))}
-Release:        3%{?dist}
-
+Release:        10%{?dist}
+Summary:        Portable Computing Language - an OpenCL implementation
 # The whole code is under MIT
 # except include/utlist.h which is under BSD (and unbundled) and
 # except lib/kernel/vecmath which is under GPLv3+ or LGPLv3+ (and unbundled in future)
 License:        MIT and BSD and (GPLv3+ or LGPLv3+)
-URL:            http://pocl.sourceforge.net
-
+URL:            http://portablecl.org/
 Source0:        https://github.com/pocl/pocl/archive/v%{version}/%{name}-%{version}.tar.gz
-
 Patch0:         0001-Fix-build-failure.patch
-
-# ppc64le builds fine, but: 97% tests passed, 4 tests failed out of 120
-# ppc64 builds fine, but: 87% tests passed, 16 tests failed out of 120
-# s390x builds fine, but: 15% tests passed, 102 tests failed out of 120
-ExclusiveArch:  %{arm} aarch64 %{ix86} x86_64
+Patch1:         0001-LLVM11-support.patch
+Patch2:         0001-Fixing-llvm11-support-due-to-recent-changes.patch
+Patch3:         0001-Add-missing-include.patch
 
 BuildRequires:  cmake
 BuildRequires:  clang clang-devel
 BuildRequires:  compiler-rt
-BuildRequires:  llvm llvm-devel
+BuildRequires:  glew-devel
 BuildRequires:  hwloc-devel
+BuildRequires:  libedit-devel
 BuildRequires:  libtool
 BuildRequires:  libtool-ltdl-devel
+BuildRequires:  llvm llvm-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libEGL-devel
 BuildRequires:  ocl-icd-devel
 BuildRequires:  uthash-devel
 BuildRequires:  zlib-devel
-BuildRequires:  libedit-devel
-BuildRequires:  glew-devel
 #BuildRequires:  vecmath-devel
 # https://bugzilla.redhat.com/show_bug.cgi?id=1082364
 Requires:       libstdc++-devel%{?_isa}
@@ -60,8 +55,8 @@ superscalar,...).
 %package devel
 Summary:        Portable Computing Language development files
 Requires:       %{name}%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       ocl-icd-devel%{?_isa}
 Requires:       clang%{?_isa}
+Requires:       ocl-icd-devel%{?_isa}
 Requires:       opencl-filesystem
 Requires:       uthash-devel
 
@@ -76,13 +71,11 @@ find . -depth -name utlist* -print -delete
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
 # CPU detection fails on ARM, so we need to manually specify the CPU as generic.
 %cmake .. \
     -DENABLE_ICD=1 \
     -DPOCL_INSTALL_ICD_VENDORDIR=%{_sysconfdir}/OpenCL/vendors \
-    -DEXTRA_KERNEL_CXX_FLAGS="%{optflags} -std=c++11" \
+    -DEXTRA_KERNEL_CXX_FLAGS="%{optflags}" \
 %ifarch %{ix86} x86_64
     -DKERNELLIB_HOST_CPU_VARIANTS=distro \
 %endif
@@ -92,11 +85,10 @@ pushd %{_target_platform}
     -DPOCL_ICD_ABSOLUTE_PATH=OFF \
     %{nil}
     # -DENABLE_TESTSUITES=all Requires clBLAS
-popd
-%make_build -C %{_target_platform}
+%cmake_build
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 
 # Unbundle vecmath
 #rm -vf %%{buildroot}/%%{_libdir}/pocl/vecmath/
@@ -105,7 +97,6 @@ popd
 
 %if 0%{?with_tests}
 %check
-pushd %{_target_platform}
 # https://github.com/pocl/pocl/issues/602
 # https://github.com/pocl/pocl/issues/603
   ctest -VV \
@@ -114,12 +105,12 @@ pushd %{_target_platform}
   %else
     ;
   %endif
-popd
 %endif
 
 %ldconfig_scriptlets
 
 %files
+%license LICENSE
 %doc README doc/sphinx/source/*.rst
 %{_sysconfdir}/OpenCL/vendors/%{name}.icd
 %{_libdir}/lib%{name}.so.%{sover}*
@@ -132,6 +123,28 @@ popd
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Fri Oct 02 2020 sguelton@redhat.com - 1.5-10
+- rebuilt for llvm 11.0.0.rc5
+
+* Mon Sep 28 2020 sguelton@redhat.com - 1.5-9
+- rebuilt for llvm 11.0.0.rc3
+
+* Wed Aug 26 2020 Jeff Law <law@redhat.com> - 1.5-8
+- Do not force C++11 mode
+
+* Tue Aug 11 2020 Tom Stellard <tstellar@redhat.com> - 1.5-7
+- Rebuild for LLVM11
+
+* Tue Aug 04 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.5-6
+- Update for cmake change, build for all arches
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 23 2020 sguelton@redhat.com - 1.5-3
 - Use same std version as LLVM, see rhbz#1817631
 

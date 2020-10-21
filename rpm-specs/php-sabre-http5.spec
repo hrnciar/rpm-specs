@@ -6,8 +6,11 @@
 #
 # Please, preserve the changelog entries
 #
+
+%bcond_without      tests
+
 # Github
-%global gh_commit    23446999f1f6e62892bbd89745070aa902dd3539
+%global gh_commit    d0aafede6961df6195ce7a8dad49296b0aaee22e
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sabre-io
 %global gh_project   http
@@ -18,11 +21,10 @@
 %global ns_vendor    Sabre
 %global ns_project   HTTP
 %global major        5
-%global with_tests   %{?_without_tests:0}%{!?_without_tests:1}
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
 Summary:        Library for dealing with http requests and responses
-Version:        5.1.0
+Version:        5.1.1
 Release:        1%{?dist}
 
 URL:            https://github.com/%{gh_owner}/%{gh_project}
@@ -30,7 +32,7 @@ License:        BSD
 Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit}/%{name}-%{version}-%{gh_short}.tar.gz
 
 BuildArch:      noarch
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php(language) >= 7.1
 BuildRequires:  php-mbstring
 BuildRequires:  php-ctype
@@ -38,9 +40,15 @@ BuildRequires: (php-composer(sabre/event) >= 4.0   with php-composer(sabre/event
 BuildRequires: (php-composer(sabre/uri)   >= 2.0   with php-composer(sabre/uri)   < 3)
 # From composer.json, "require-dev" : {
 #        "friendsofphp/php-cs-fixer": "~2.16.1",
-#        "phpunit/phpunit" : "^7.0 || ^8.0"
+#        "phpstan/phpstan": "^0.12",
+#        "phpunit/phpunit" : "^7.5 || ^8.5 || ^9.0"
+%if 0%{?fedora} >= 31 || 0%{?rhel} >= 9
+BuildRequires:  phpunit9
+%global phpunit %{_bindir}/phpunit9
+%else
 BuildRequires:  phpunit8
 %global phpunit %{_bindir}/phpunit8
+%endif
 BuildRequires:  php-curl
 BuildRequires:  php-date
 BuildRequires:  php-hash
@@ -52,7 +60,7 @@ BuildRequires:  php-xml
 BuildRequires:  php-fedora-autoloader-devel
 
 # From composer.json, "require" : {
-#        "php"          : "^7.1",
+#        "php"          : "^7.1 || ^8.0",
 #        "ext-mbstring" : "*",
 #        "ext-ctype"    : "*",
 #        "ext-curl"     : "*",
@@ -135,7 +143,7 @@ cp -pr lib %{buildroot}%{_datadir}/php/%{ns_vendor}/%{ns_project}%{major}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 
 cd tests
 ln -sf %{buildroot}%{_datadir}/php/%{ns_vendor}/%{ns_project}%{major}/autoload.php bootstrap.php
@@ -148,9 +156,10 @@ PHPPID=$!
 
 : Run upstream test suite against installed library
 ret=0
-for cmd in php php72 php73 php74; do
-  if which $cmd; then
-    $cmd %{phpunit} --verbose || ret=1
+for cmdarg in "php %{phpunit}" "php72 %{_bindir}/phpunit8" php73 php74 php80; do
+  if which $cmdarg; then
+    set $cmdarg
+    $1 ${2:-%{_bindir}/phpunit9} --verbose || ret=1
   fi
 done
 
@@ -170,6 +179,13 @@ exit $ret
 
 
 %changelog
+* Mon Oct  5 2020 Remi Collet <remi@remirepo.net> - 5.1.1-1
+- update to 5.1.1
+- switch to phpunit9
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb  1 2020 Remi Collet <remi@remirepo.net> - 5.1.0-1
 - update to 5.1.0
 - raise dependency on PHP 7.1

@@ -1,9 +1,9 @@
 %global packname haven
-%global packver  2.3.0
+%global packver  2.3.1
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          %{packver}
+Version:          2.3.1
 Release:          2%{?dist}
 Summary:          Import and Export 'SPSS', 'Stata' and 'SAS' Files
 
@@ -81,6 +81,13 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.3.1-1
+- Update to latest version
+- Fixes rhbz#1842613
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 2.3.0-2
 - rebuild for R 4
 

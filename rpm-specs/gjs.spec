@@ -1,11 +1,11 @@
 %global glib2_version 2.58.0
 %global gobject_introspection_version 1.61.2
 %global gtk3_version 3.20
-%global mozjs68_version 68.9.0-1
+%global mozjs78_version 78.4.0-1
 
 Name:          gjs
-Version:       1.65.3
-Release:       1%{?dist}
+Version:       1.66.1
+Release:       2%{?dist}
 Summary:       Javascript Bindings for GNOME
 
 # The following files contain code from Mozilla which
@@ -14,7 +14,7 @@ Summary:       Javascript Bindings for GNOME
 # Stack printer (gjs/stack.c)
 License:       MIT and (MPLv1.1 or GPLv2+ or LGPLv2+)
 URL:           https://wiki.gnome.org/Projects/Gjs
-Source0:       https://download.gnome.org/sources/%{name}/1.65/%{name}-%{version}.tar.xz
+Source0:       https://download.gnome.org/sources/%{name}/1.66/%{name}-%{version}.tar.xz
 
 BuildRequires: cairo-gobject-devel
 BuildRequires: dbus-daemon
@@ -25,7 +25,7 @@ BuildRequires: gettext
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: gobject-introspection-devel >= %{gobject_introspection_version}
 BuildRequires: gtk3-devel >= %{gtk3_version}
-BuildRequires: mozjs68-devel >= %{mozjs68_version}
+BuildRequires: mozjs78-devel >= %{mozjs78_version}
 BuildRequires: pkgconfig
 BuildRequires: readline-devel
 BuildRequires: sysprof-devel
@@ -33,7 +33,7 @@ BuildRequires: sysprof-devel
 Requires: glib2%{?_isa} >= %{glib2_version}
 Requires: gobject-introspection%{?_isa} >= %{gobject_introspection_version}
 Requires: gtk3%{?_isa} >= %{gtk3_version}
-Requires: mozjs68%{?_isa} >= %{mozjs68_version}
+Requires: mozjs78%{?_isa} >= %{mozjs78_version}
 
 # Filter provides for private libraries
 %global __provides_exclude_from ^%{_libdir}/gjs/
@@ -94,6 +94,46 @@ the functionality of the installed gjs package.
 %{_datadir}/installed-tests/
 
 %changelog
+* Mon Oct 19 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 1.66.1-2
+- Rebuild against mozjs78-78.4.0-1
+
+* Fri Oct  9 2020 Kalev Lember <klember@redhat.com> - 1.66.1-1
+- Update to 1.66.1
+
+* Tue Sep 22 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 1.66.0-2
+- Rebuild against mozjs78-78.3.0-1
+
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 1.66.0-1
+- Update to 1.66.0
+
+* Sun Sep 06 2020 Kalev Lember <klember@redhat.com> - 1.65.92-1
+- Update to 1.65.92
+
+* Fri Aug 28 2020 Adam Williamson <awilliam@redhat.com> - 1.65.91-3
+- Backport MR #483 to fix frequent g_variant_unref errors in journal
+
+* Mon Aug 24 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 1.65.91-2
+- Rebuild against mozjs78-78.2.0-1
+
+* Sun Aug 23 2020 Kalev Lember <klember@redhat.com> - 1.65.91-1
+- Update to 1.65.91
+
+* Mon Aug 17 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 1.65.90-1
+- Update to 1.65.90
+- Switch over from mozjs68 to mozjs78
+
+* Fri Jul 31 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 1.65.4-3
+- Rebuild against mozjs68-68.11.0-1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.65.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Kalev Lember <klember@redhat.com> - 1.65.4-1
+- Update to 1.65.4
+
+* Tue Jun 30 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 1.65.3-2
+- Rebuild against mozjs68-68.10.0-1
+
 * Fri Jun 05 2020 Kalev Lember <klember@redhat.com> - 1.65.3-1
 - Update to 1.65.3
 

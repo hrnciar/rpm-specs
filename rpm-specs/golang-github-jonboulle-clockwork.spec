@@ -3,7 +3,7 @@
 
 # https://github.com/jonboulle/clockwork
 %global goipath         github.com/jonboulle/clockwork
-Version:                0.1.0
+Version:                0.2.0
 
 %gometa
 
@@ -16,7 +16,7 @@ A simple fake clock for Go.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Fake clock for Go
 
 # Upstream license specification: Apache-2.0
@@ -46,6 +46,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 15:07:04 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.2.0-1
+- Update to 0.2.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

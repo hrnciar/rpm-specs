@@ -1,6 +1,6 @@
 Name:           gfan
 Version:        0.6.2
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Software for Computing Gröbner Fans and Tropical Varieties
 License:        GPLv2+
 URL:            http://home.math.au.dk/jensen/software/gfan/gfan.html
@@ -154,6 +154,9 @@ export LD_LIBRARY_PATH=%{buildroot}%{_libdir}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

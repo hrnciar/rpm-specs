@@ -1,10 +1,12 @@
 Name:           deepin-editor
 Version:        1.2.9.1
-Release:        5%{?dist}
+Release:        8%{?dist}
 Summary:        Simple editor for Linux Deepin
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/deepin-editor
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+
+Patch0:         deepin-editor-fix-build-qt-5.15.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  freeimage-devel
@@ -33,14 +35,16 @@ Requires:       deepin-qt5integration
 %prep
 %setup -q
 
+%patch0 -p1 -b .fix-build-qt-5.15
+
 %build
 # help find (and prefer) qt5 utilities, e.g. qmake, lrelease
 export PATH=%{_qt5_bindir}:$PATH
-%cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} -DCMAKE_BUILD_TYPE=Release .
-%make_build
+%cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} -DCMAKE_BUILD_TYPE=Release
+%cmake_build
 
 %install
-%make_install INSTALL_ROOT=%{buildroot}
+%cmake_install
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop ||:
@@ -54,6 +58,19 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop ||:
 %{_datadir}/applications/%{name}.desktop
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 1.2.9.1-8
+- rebuild (qt5)
+
+* Fri Aug  7 2020 Robin Lee <cheeselee@fedoraproject.org> - 1.2.9.1-7
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.9.1-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.9.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.2.9.1-5
 - rebuild (qt5)
 

@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 Name:           lutris
-Version:        0.5.6
-Release:        2%{?dist}
+Version:        0.5.7.1
+Release:        3%{?dist}
 Summary:        Install and play any video game easily
 
 License:        GPLv3
@@ -12,7 +12,7 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  python3-devel
 BuildRequires:  python3-gobject, python3-wheel, python3-setuptools, python3-gobject
 Requires:       python3-evdev, python3-gobject, python3-PyYAML, cabextract
-Requires:       gtk3, psmisc, xorg-x11-server-Xephyr, xorg-x11-server-utils
+Requires:       gtk3, psmisc, xorg-x11-server-Xephyr, xrandr
 Requires:       hicolor-icon-theme
 Requires:       gnome-desktop3
 
@@ -71,11 +71,24 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications share/applicatio
 %{_datadir}/icons/hicolor/48x48/apps/%{name}.png
 %{_datadir}/icons/hicolor/64x64/apps/%{name}.png
 %{_datadir}/icons/hicolor/128x128/apps/%{name}.png
+%{_datadir}/man/%{name}.1
 %{python3_sitelib}/%{name}-*.egg-info
 %{python3_sitelib}/%{name}/
 %{_datadir}/metainfo/
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 0.5.7.1-3
+- Require xrandr not xorg-x11-server-utils
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.7.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Christopher King <bunnyapocalypse@protonmail.com> - 0.5.7.1-1
+- New Version
+
+* Sun Jul 5 2020 Christopher King <bunnyapocalypse@protonmail.com> - 0.5.7-1
+- New Version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.6-2
 - Rebuilt for Python 3.9
 

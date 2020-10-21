@@ -1,6 +1,6 @@
 Name:           sdcc
 Version:        4.0.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Small Device C Compiler
 License:        GPLv2+
 URL:            http://sdcc.sourceforge.net/
@@ -115,6 +115,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Roy Rankin <rrankin@ihug.com.au> - 4.0.0-3
 - Patch buffer overflow
 

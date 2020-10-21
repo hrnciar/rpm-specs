@@ -1,6 +1,6 @@
 Name:           libsigc++
 Version:        1.2.7
-Release:        28%{?dist}
+Release:        31%{?dist}
 Summary:        Typesafe signal framework for C++
 License:        LGPLv2+
 URL:            http://libsigc.sourceforge.net/
@@ -51,7 +51,7 @@ This package contains the full API documentation for %{name}.
 
 %build
 %configure %{!?_with_static: --disable-static}
-make %{?_smp_mflags}
+%make_build
 cd doc/manual
 make
 cd -
@@ -60,7 +60,7 @@ cd -
 
 %install
 rm -rf ${RPM_BUILD_ROOT}
-make DESTDIR=${RPM_BUILD_ROOT} install
+%make_install
 find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 # Clean up a temporary doc dir prior to including files from it.
 rm -rf _doc ; cp -a doc _doc
@@ -93,6 +93,17 @@ find _doc -type d -empty -print0 | xargs -0r rmdir
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.7-31
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.7-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.2.7-29
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.7-28
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

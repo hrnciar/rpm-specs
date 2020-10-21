@@ -1,22 +1,8 @@
 %global srcname yappi
 
-# python3 is enabled in any fedora and rhel>7
-%if 0%{?fedora} || 0%{?rhel} > 7
-%global with_python3 1
-%else
-%global with_python3 0
-%endif
-
-# python2 is disabled only in fedora >= 30
-%if 0%{?fedora} >= 30 
-%global with_python2 0
-%else
-%global with_python2 1
-%endif
-
 Name:           python-%{srcname}
-Version:        1.0
-Release:        6%{?dist}
+Version:        1.2.5
+Release:        1%{?dist}
 Summary:        Yet Another Python Profiler, supports Multithread/CPU time profiling
 
 License:        MIT
@@ -30,22 +16,6 @@ BuildRequires:  gcc
 Yappi, Yet Another Python Profiler, provides multithreading and cpu-time
 support to profile python programs.
 
-%if 0%{?with_python2}
-%package -n python2-%{srcname}
-Summary:        Yet Another Python Profiler, supports Multithread/CPU time profiling.
-%{?python_provide:%python_provide python2-%{srcname}}
-
-# Previously bundled things:
-BuildRequires:       python2-devel
-BuildRequires:       python2-setuptools
-
-%description -n python2-%{srcname}
-Yappi, Yet Another Python Profiler, provides multithreading and cpu-time
-support to profile python programs.
-
-%endif
-
-%if 0%{?with_python3}
 %package -n python3-%{srcname}
 Summary:        Yet Another Python Profiler, supports Multithread/CPU time profiling.
 
@@ -56,61 +26,24 @@ BuildRequires:  python3-setuptools
 Yappi, Yet Another Python Profiler, provides multithreading and cpu-time
 support to profile python programs.
 
-%endif
-
 %prep
 %autosetup -n %{srcname}-%{version} -S git
 
 %build
-%if 0%{?with_python2}
-%py2_build
-%endif
-%if 0%{?with_python3}
 %py3_build
-%endif
 
 %install
-%if 0%{?with_python2}
-%py2_install
-mv %{buildroot}%{_bindir}/%{srcname} %{buildroot}%{_bindir}/%{srcname}-%{python2_version}
-ln -s %{srcname}-%{python2_version} %{buildroot}%{_bindir}/%{srcname}-2
-ln -s %{srcname}-2 %{buildroot}%{_bindir}/%{srcname}
-%endif
-%if 0%{?with_python3}
-rm -f %{buildroot}%{_bindir}/%{srcname}
 %py3_install
 mv %{buildroot}%{_bindir}/%{srcname} %{buildroot}%{_bindir}/%{srcname}-%{python3_version}
 ln -s %{srcname}-%{python3_version} %{buildroot}%{_bindir}/%{srcname}-3
 ln -s %{srcname}-3 %{buildroot}%{_bindir}/%{srcname}
-%endif
 
 %check
-%if 0%{?with_python2}
-export PYTHONPATH=%{buildroot}/%{python2_sitearch}
-%{__python2} tests/test_functionality.py
-%{__python2} tests/test_hooks.py
-%endif
-%if 0%{?with_python3}
+export PATH=$PATH:%{buildroot}/usr/bin
 export PYTHONPATH=%{buildroot}/%{python3_sitearch}
 %{__python3} tests/test_functionality.py
 %{__python3} tests/test_hooks.py
-%endif
 
-%if 0%{?with_python2}
-%files -n python2-%{srcname}
-%license LICENSE
-%doc README.md
-%{python2_sitearch}/%{srcname}.py*
-%{python2_sitearch}/_%{srcname}.so
-%{python2_sitearch}/%{srcname}-*.egg-info
-%{_bindir}/%{srcname}-2*
-%if 0%{?with_python3} == 0
-%{_bindir}/%{srcname}
-%endif
-%endif
-
-
-%if 0%{?with_python3}
 %files -n python3-%{srcname}
 %license LICENSE
 %doc README.md
@@ -120,9 +53,19 @@ export PYTHONPATH=%{buildroot}/%{python3_sitearch}
 %{python3_sitearch}/%{srcname}-*.egg-info
 %{_bindir}/%{srcname}
 %{_bindir}/%{srcname}-3*
-%endif
 
 %changelog
+* Fri Aug 28 2020 Alfredo Moralejo <amoralej@redhat.com> - 1.2.5-1
+- Update to 1.2.5 version
+- Removed python2 subpackage
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0-6
 - Rebuilt for Python 3.9
 

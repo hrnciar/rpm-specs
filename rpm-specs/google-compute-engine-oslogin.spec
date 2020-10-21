@@ -5,7 +5,7 @@
 
 Name:           google-compute-engine-oslogin
 Version:        1.4.3
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        OS Login Functionality for Google Compute Engine
 
 License:        ASL 2.0
@@ -83,6 +83,9 @@ mkdir -p %{buildroot}%{_localstatedir}/google-sudoers.d
 %selinux_modules_uninstall oslogin
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Björn Esser <besser82@fedoraproject.org> - 1.4.3-5
 - Rebuild (json-c)
 

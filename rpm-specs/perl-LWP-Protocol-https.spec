@@ -2,8 +2,8 @@
 %bcond_with perl_LWP_Protocol_https_enables_internet_test
 
 Name:           perl-LWP-Protocol-https
-Version:        6.07
-Release:        12%{?dist}
+Version:        6.09
+Release:        3%{?dist}
 Summary:        Provide HTTPS support for LWP::UserAgent
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/LWP-Protocol-https
@@ -15,21 +15,24 @@ Patch0:         LWP-Protocol-https-6.06-Debian-746576-don-t-disale-verification-
 # proposed in https://github.com/libwww-perl/lwp-protocol-https/pull/14
 Patch1:         LWP-Protocol-https-6.06-Debian-746576-fix-test-make-it-workable-for-Crypt-SS.patch
 BuildArch:      noarch
-%if !%{with perl_LWP_Protocol_https_enables_internet_test}
 BuildRequires:  coreutils
-%endif
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
 BuildRequires:  perl(:VERSION) >= 5.8.1
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(strict)
+BuildRequires:  perl(warnings)
 # Run-time:
+BuildRequires:  perl(base)
 BuildRequires:  perl(IO::Socket::SSL) >= 1.54
 BuildRequires:  perl(LWP::Protocol::http)
-BuildRequires:  perl(Mozilla::CA) >= 20110101
+BuildRequires:  perl(LWP::Protocol::http::SocketMethods)
+BuildRequires:  perl(Mozilla::CA) >= 20180117
 BuildRequires:  perl(Net::HTTPS) >= 6
 # Tests:
+BuildRequires:  perl(blib)
+BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(File::Temp)
 BuildRequires:  perl(IO::Select)
 BuildRequires:  perl(IO::Socket::INET)
@@ -39,13 +42,12 @@ BuildRequires:  perl(Test::More)
 %if %{with perl_LWP_Protocol_https_enables_internet_test}
 BuildRequires:  perl(Test::RequiresInternet)
 %endif
-BuildRequires:  perl(warnings)
 # Optional tests:
 BuildRequires:  perl(IO::Socket::SSL) >= 1.953
 BuildRequires:  perl(IO::Socket::SSL::Utils)
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:       perl(IO::Socket::SSL) >= 1.54
-Requires:       perl(Mozilla::CA) >= 20110101
+Requires:       perl(Mozilla::CA) >= 20180117
 Requires:       perl(Net::HTTPS) >= 6
 
 # Remove underspecified dependencies
@@ -78,11 +80,21 @@ perl Makefile.PL NO_PACKLIST=1 NO_PERLLOCAL=1 INSTALLDIRS=vendor
 make test
 
 %files
-%doc Changes README
+%license LICENSE
+%doc Changes
 %{perl_vendorlib}/*
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.09-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Petr Pisar <ppisar@redhat.com> - 6.09-2
+- Remove unused build-time dependencies
+
+* Fri Jul 17 2020 Jitka Plesnikova <jplesnik@redhat.com> - 6.09-1
+- 6.09 bump
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 6.07-12
 - Perl 5.32 rebuild
 

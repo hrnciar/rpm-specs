@@ -20,7 +20,7 @@
 
 Name:           php-%{pk_vendor}-%{pk_name}
 Version:        6.0.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A security checker for your composer.lock
 
 License:        MIT
@@ -121,6 +121,9 @@ sed -e 's:%{_datadir}:%{buildroot}%{_datadir}:' security-checker >test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           seahorse-sharing
 Version:        3.8.0
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Sharing of PGP public keys via DNS-SD and HKP
 # daemon is GPLv2+
 # libegg is LGPLv2+
@@ -56,6 +56,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_sysconfdir}/xdg/autostart/%{name}.deskto
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.0-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

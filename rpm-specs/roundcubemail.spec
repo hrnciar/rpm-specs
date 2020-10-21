@@ -10,7 +10,7 @@
 
 # support for apache / nginx / php-fpm
 %global with_phpfpm 1
-%global upstream_version     1.4.6
+%global upstream_version     1.4.9
 #global upstream_prever      rc2
 
 %global roundcubedir %{_datadir}/roundcubemail
@@ -318,6 +318,18 @@ fi
 
 
 %changelog
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 1.4.9-1
+- update to 1.4.9
+
+* Tue Aug 11 2020 Remi Collet <remi@remirepo.net> - 1.4.8-1
+- update to 1.4.8
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul  6 2020 Remi Collet <remi@remirepo.net> - 1.4.7-1
+- update to 1.4.7
+
 * Mon Jun  8 2020 Remi Collet <remi@remirepo.net> - 1.4.6-1
 - update to 1.4.6
 

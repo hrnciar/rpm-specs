@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        1.6.8
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Cohomology groups of finite groups on finite modules
 
 License:        GPLv2+
@@ -97,6 +97,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}-%{version}/htm/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 11 2020 Jerry James <loganjerry@gmail.com> - 1.6.8-3
 - Rebuild for gap 4.11.0
 

@@ -4,7 +4,7 @@
 
 # https://github.com/uber/jaeger-lib
 %global goipath         github.com/uber/jaeger-lib
-Version:                2.0.0
+Version:                2.2.0
 
 %gometa
 
@@ -26,7 +26,7 @@ standalone, and provides no guarantees of backwards compatibility.}
 %global godocs          CHANGELOG.md CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Collection of shared infrastructure libraries used by Jaeger
 
 # Upstream license specification: Apache-2.0
@@ -62,7 +62,6 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 
 %prep
 %goprep
-find . -name "*.go" -exec sed -i "s|github.com/influxdata/influxdb/client|github.com/influxdata/influxdb1-client|" "{}" +;
 
 %install
 %gopkginstall
@@ -75,6 +74,12 @@ find . -name "*.go" -exec sed -i "s|github.com/influxdata/influxdb/client|github
 %gopkgfiles
 
 %changelog
+* Mon Aug 03 20:42:52 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.2.0-1
+- Update to 2.2.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

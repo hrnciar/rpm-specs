@@ -1,5 +1,7 @@
+%global _vpath_srcdir src
+
 Name:		yoshimi
-Version:	1.7.1
+Version:	1.7.2
 Release:	1%{?dist}
 Summary:	Rewrite of ZynAddSubFx aiming for better JACK support
 
@@ -42,22 +44,19 @@ effects like Reverb, Echo, Chorus, Phaser...
 %patch0 -p1
 
 %build
-cd src
 export CFLAGS="%{optflags}"
-%cmake -DCMAKE_CXX_FLAGS="${RPM_OPT_FLAGS} -fPIC" -DFLTK_INCLUDE_DIR=%{_includedir}/Fl .
-make clean
-make VERBOSE=1 %{?_smp_mflags}
+%cmake -DCMAKE_CXX_FLAGS="${RPM_OPT_FLAGS} -fPIC" -DFLTK_INCLUDE_DIR=%{_includedir}/Fl
+%cmake_build
 
 
 %install
-cd src
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 mkdir -p %{buildroot}%{_datadir}/applications
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 
 mkdir -p %{buildroot}%{_datadir}/icons/hicolor/scalable/apps
-install -m 644 ../desktop/%{name}.png %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/
+install -m 644 desktop/%{name}.png %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/
 
 # Fix directory permissions without affecting patch files
 chmod 755 %{buildroot}%{_datadir}/%{name}/banks
@@ -65,7 +64,7 @@ chmod 755 %{buildroot}%{_datadir}/%{name}/banks/*
 chmod 755 %{buildroot}%{_datadir}/%{name}/presets
 chmod 755 %{buildroot}%{_datadir}/%{name}/presets/*
 
-rm %{buildroot}%{_datadir}/doc/%{name}/yoshimi-user-manual-1.7.1.pdf
+rm %{buildroot}%{_datadir}/doc/%{name}/yoshimi-user-manual-1.7.2.pdf
 
 %files
 %doc Changelog COPYING README.txt doc/* 
@@ -83,6 +82,12 @@ rm %{buildroot}%{_datadir}/doc/%{name}/yoshimi-user-manual-1.7.1.pdf
 %{_mandir}/man1/yoshimi.1*
 
 %changelog
+* Wed Aug 19 2020 Adam Huffman <bloch@verdurin.com> - 1.7.2-1
+- Update to upstream release 1.7.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Adam Huffman <bloch@verdurin.com> - 1.7.1-1
 - Update to upstream release 1.7.1
 

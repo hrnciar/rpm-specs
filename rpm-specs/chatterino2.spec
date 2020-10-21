@@ -35,7 +35,7 @@
 
 Name:           chatterino2
 Version:        2.1.7
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Chat client for twitch.tv
 
 # Boost Software License (v1.0) Boost Software License 1.0
@@ -185,6 +185,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Jonathan Wakely <jwakely@redhat.com> - 2.1.7-2
 - Rebuilt for Boost 1.73
 

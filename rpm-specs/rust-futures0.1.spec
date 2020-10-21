@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}0.1
 Version:        0.1.29
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Implementation of futures and streams featuring zero allocations
 
 # Upstream license specification: MIT/Apache-2.0
@@ -108,6 +108,9 @@ which use "with-deprecated" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.29-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 03:44:58 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.1.29-3
 - Disable tests
 

@@ -1,6 +1,6 @@
 Name:           perl-Lingua-EN-Sentence
 Version:        0.31
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Module for splitting text into sentences
 # "same as perl", cf. lib/Lingua/EN/Sentence.pm
 License:        GPL+ or Artistic
@@ -52,6 +52,9 @@ mv Changes~ Changes
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.31-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.31-6
 - Perl 5.32 rebuild
 

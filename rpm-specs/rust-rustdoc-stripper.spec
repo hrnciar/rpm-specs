@@ -4,7 +4,7 @@
 %global crate rustdoc-stripper
 
 Name:           rust-%{crate}
-Version:        0.1.12
+Version:        0.1.16
 Release:        1%{?dist}
 Summary:        Tool to manipulate rustdoc comments
 
@@ -82,6 +82,21 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Thu Oct 01 2020 Fabio Valentini <decathorpe@gmail.com> - 0.1.16-1
+- Update to version 0.1.16.
+
+* Sun Sep 20 2020 Fabio Valentini <decathorpe@gmail.com> - 0.1.15-1
+- Update to version 0.1.15.
+
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 0.1.14-1
+- Update to 0.1.14
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.1.13-1
+- Update to 0.1.13
+
 * Tue May 05 2020 Josh Stone <jistone@redhat.com> - 0.1.12-1
 - Update to 0.1.12
 

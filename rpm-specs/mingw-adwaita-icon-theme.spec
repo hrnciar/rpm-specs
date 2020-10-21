@@ -1,13 +1,13 @@
 %{?mingw_package_header}
 
 Name:           mingw-adwaita-icon-theme
-Version:        3.36.1
+Version:        3.38.0
 Release:        1%{?dist}
 Summary:        Adwaita icon theme for MingGW
 
 License:        LGPLv3+ or CC-BY-SA
 URL:            http://www.gnome.org
-Source0:        http://download.gnome.org/sources/adwaita-icon-theme/3.36/adwaita-icon-theme-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/adwaita-icon-theme/3.38/adwaita-icon-theme-%{version}.tar.xz
 
 BuildArch:      noarch
 BuildRequires:  mingw32-filesystem >= 95
@@ -92,6 +92,12 @@ the Adwaita icon theme.
 %ghost %{mingw64_datadir}/icons/Adwaita/icon-theme.cache
 
 %changelog
+* Tue Sep 15 2020 Sandro Mani <manisandro@gmail.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Sandro Mani <manisandro@gmail.com> - 3.36.1-1
 - Update to 3.36.1
 

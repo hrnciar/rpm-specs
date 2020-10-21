@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.9.0
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Eliminate annoying things in the Django framework
 
 License:        BSD
@@ -48,6 +48,9 @@ This package provides Python 3 build of %{pypi_name}.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.0-14
 - Rebuilt for Python 3.9
 

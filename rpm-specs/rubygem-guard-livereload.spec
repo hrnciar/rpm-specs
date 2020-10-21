@@ -3,7 +3,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 2.5.2
-Release: 6%{?dist}
+Release: 8%{?dist}
 Summary: Guard plugin for livereload
 License: MIT
 URL: https://rubygems.org/gems/guard-livereload
@@ -58,16 +58,6 @@ pushd .%{gem_instdir}
 # We don't care about code coverage.
 sed -i "/[Cc]overalls/ s/^/#/" spec/spec_helper.rb
 
-# Comment out File.expand_path stub, test suite otherwise fails to load some rspec matchers
-# "stub called for File.expand_path("/usr/share/gems/gems/http_parser.rb-0.6.0/lib/rspec/matchers/built_in/be")"
-# not entirely sure why :/
-sed -i "/allow(File).to receive(:expand_path) do |\*args|/,/and_return('\/foo\/js\/livereload.js.erb')/ s/^/#/" spec/lib/guard/livereload_spec.rb
-
-# Comment out tests failing as a result of not stubbing File.expand_path
-sed -i "/^  describe '#start' do$/,/^  end$/ s/^/#/" spec/lib/guard/livereload_spec.rb
-sed -i "/^      context 'when no value is provided' do$/,/^      end$/ s/^/#/"  spec/lib/guard/livereload_spec.rb
-sed -i "/^    it 'is set to a tmpfile with the ERB result' do$/,/^    end$/ s/^/#/" spec/lib/guard/livereload/snippet_spec.rb
-
 CI=true rspec spec
 popd
 
@@ -91,6 +81,12 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 7 2020 Jaroslav Prokop <jar.prokop@volny.cz> - 2.5.2-7
+- Revert commented out tests. Problem disappeared after update to Ruby 2.7.1-132.
+
 * Wed Mar 4 2020 Jaroslav Prokop <jar.prokop@volny.cz> - 2.5.2-6
 - Comment out tests failing on ruby 2.7.
 

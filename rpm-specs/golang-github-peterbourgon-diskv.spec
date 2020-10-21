@@ -7,6 +7,8 @@ Version:                3.0.0
 
 %gometa
 
+%global goaltipaths     github.com/peterbourgon/diskv/v3
+
 %global common_description %{expand:
 Diskv (disk-vee) is a simple, persistent key-value store written in the Go
 language. It starts with an incredibly simple API for storing arbitrary data
@@ -18,7 +20,7 @@ performant, disk-backed storage system.}
 %global godocs          examples README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Disk-backed key-value store
 
 License:        MIT
@@ -46,6 +48,12 @@ BuildRequires:  golang(github.com/google/btree)
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 21:09:36 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.0.0-5
+- Add alternative import path
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

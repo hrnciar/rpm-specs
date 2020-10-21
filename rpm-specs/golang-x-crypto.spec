@@ -6,14 +6,9 @@
 # https://github.com/golang/crypto
 %global goipath         golang.org/x/crypto
 %global forgeurl        https://github.com/golang/crypto
-%global commit          86ce3cb696783b739e41e834e2eead3e1b4aa3fb
+%global commit          123391ffb6de907695e1066dc40c1ff09322aeb6
 
 %gometa
-
-# Remove Obsoletes in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-golangorg-crypto-devel < 0-0.30
-Requires:       golang(golang.org/x/sys/cpu)}
 
 %global common_description %{expand:
 Go supplementary cryptography libraries.}
@@ -25,7 +20,7 @@ Go supplementary cryptography libraries.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.34%{?dist}
+Release:        0.37%{?dist}
 Summary:        Go supplementary cryptography libraries
 
 # Upstream license specification: BSD-3-Clause
@@ -56,6 +51,15 @@ BuildRequires:  golang(golang.org/x/sys/unix)
 %gopkgfiles
 
 %changelog
+* Fri Aug 07 18:45:47 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.37.20200807git123391f
+- Bump to commit 123391ffb6de907695e1066dc40c1ff09322aeb6
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.36
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 00:11:41 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.34.20200706git75b2880
+- Bump to commit 75b288015ac94e66e3d6715fb68a9b41bf046ec2
+
 * Tue Feb 11 20:23:29 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.34.20200211git86ce3cb
 - Bump to commit 86ce3cb696783b739e41e834e2eead3e1b4aa3fb
 

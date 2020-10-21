@@ -1,6 +1,6 @@
 Name:           perl-Ace
 Version:        1.92
-Release:        35%{?dist}
+Release:        36%{?dist}
 Summary:        Perl module for interfacing with ACE bioinformatics databases
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/AcePerl
@@ -61,6 +61,9 @@ find $RPM_BUILD_ROOT -type f -name '*.bs' -size 0 -delete
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.92-36
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.92-35
 - Perl 5.32 rebuild
 

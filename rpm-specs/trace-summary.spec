@@ -1,11 +1,11 @@
 Name:           trace-summary
-Version:        0.89
+Version:        0.91
 Release:        1%{?dist}
-Summary:        A script generating break-downs of network traffic
+Summary:        Script generating break-downs of network traffic
 
 License:        BSD
 URL:            https://github.com/zeek/trace-summary
-Source0:        https://github.com/zeek/trace-summary/archive/v%{version}/%{name}-%{version}.tar.gz
+Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
@@ -34,6 +34,12 @@ install -Dp -m 0755 %{name} %{buildroot}%{_bindir}/%{name}
 %{_bindir}/%{name}
 
 %changelog
+* Sat Aug 08 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.91-1
+- Update to latest upstream release 0.91
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.89-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 07 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.89-1
 - Update URLs
 - Update to latest upstream release 0.89

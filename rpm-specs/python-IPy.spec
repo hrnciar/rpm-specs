@@ -2,7 +2,7 @@
 Summary:        Python module for handling IPv4 and IPv6 Addresses and Networks
 Name:           python-%{oname}
 Version:        1.00
-Release:        1%{?dist}
+Release:        2%{?dist}
 URL:            https://github.com/haypo/python-ipy
 Source0:        https://files.pythonhosted.org/packages/source/I/IPy/IPy-%{version}.tar.gz
 # https://github.com/autocracy/python-ipy/pull/69
@@ -58,6 +58,9 @@ PYTHONPATH=$PWD %{__python3} test/test_IPy.py
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Adam Williamson <awilliam@redhat.com> - 1.00-1
 - Update to 1.00
 - Backport PR #69 to fix for Python 3.9

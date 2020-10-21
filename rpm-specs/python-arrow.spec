@@ -9,7 +9,7 @@
 
 Name:               python-%{modname}
 Version:            0.15.6
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            Better dates and times for Python
 
 License:            ASL 2.0
@@ -87,6 +87,9 @@ pytest-%{python3_version} tests
 %{python3_sitelib}/%{modname}-%{version}-*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Pierre-Yves Chibon <pingou@pingoured.fr> - 0.15.6-1
 - Update to upstream release 0.15.6
 - Add BR on pytest, pytest-mock and pytest-cov

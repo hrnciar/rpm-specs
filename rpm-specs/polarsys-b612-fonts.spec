@@ -15,7 +15,7 @@ to all sizes of alpha numeric characters.
 %forgemeta
 
 Name:           %{fontname}-fonts
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A typeface designed for reading comfort and safety in aeroplane cockpits
 
 # README.md explains, "This program and the accompanying materials are
@@ -140,6 +140,9 @@ install -m 0644 -p %{SOURCE4} \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.008-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Peter Oliver <rpm@mavit.org.uk> - 1.008-4
 - Polarsys.org was merged into Eclipse.org.
 

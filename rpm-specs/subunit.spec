@@ -12,7 +12,7 @@
 
 Name:           subunit
 Version:        1.4.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        C bindings for subunit
 
 %global majver  %(cut -d. -f-2 <<< %{version})
@@ -106,8 +106,6 @@ Summary:        Streaming protocol for test results
 BuildArch:      noarch
 Requires:       python2-extras
 Requires:       python2-testtools >= 1.8.0
-
-%{?python_provide:%python_provide python2-%{name}}
 Provides:       bundled(python2-iso8601) = 0.1.4
 
 %description -n python2-%{name}
@@ -141,8 +139,6 @@ BuildArch:      noarch
 Requires:       python3-extras
 Requires:       python3-testtools >= 1.8.0
 %endif
-
-%{?python_provide:%python_provide python3-%{name}}
 Provides:       bundled(python3-iso8601) = 0.1.4
 
 %description -n python3-%{name}
@@ -172,8 +168,6 @@ Summary:        Test code for the python 3 subunit bindings
 BuildArch:      noarch
 Requires:       python3-%{name} = %{version}-%{release}
 Requires:       %{name}-filters = %{version}-%{release}
-
-%{?python_provide:%python_provide python3-%{name}-test}
 
 %description -n python3-%{name}-test
 %{summary}.
@@ -210,7 +204,7 @@ test cases.
 %autosetup -p1
 
 # Verify the source file
-gpgv2 --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
+%{gpgverify} --keyring=%{SOURCE2} --signature=%{SOURCE1} --data=%{SOURCE0}
 
 fixtimestamp() {
   touch -r $1.orig $1
@@ -425,6 +419,13 @@ popd
 %exclude %{_bindir}/%{name}-diff
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.4.0-3
 - Perl 5.32 rebuild
 

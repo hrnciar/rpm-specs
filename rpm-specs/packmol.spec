@@ -1,6 +1,6 @@
 Name:		packmol
 Version:	20.010
-Release:	2%{?dist}
+Release:	4%{?dist}
 Summary:	Packing optimization for molecular dynamics simulations
 License:	MIT
 URL:		http://m3g.iqm.unicamp.br/packmol/home.shtml
@@ -37,24 +37,30 @@ find . -name \*.o -delete
 
 %build
 export FC=gfortran
-
-mkdir objdir
-cd objdir
-%cmake .. 
-make %{?_smp_mflags} VERBOSE=1
-cd ..
+%cmake
+%cmake_build
 
 %install
-rm -rf %{buildroot}
-install -D -p -m 755 objdir/packmol %{buildroot}%{_bindir}/packmol
+%cmake_install
 install -D -p -m 755 solvate.tcl %{buildroot}%{_bindir}/packmol_solvate
 
 %files
-%doc AUTHORS LICENSE
+%doc AUTHORS
+%license LICENSE
 %{_bindir}/packmol
 %{_bindir}/packmol_solvate
 
 %changelog
+* Wed Aug 05 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 20.010-5
+- Adapt to new CMake macros.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.010-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.010-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.010-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

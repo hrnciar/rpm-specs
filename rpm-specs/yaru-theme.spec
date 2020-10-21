@@ -1,26 +1,24 @@
 %global _license COPYING COPYING.LGPL-2.1 COPYING.LGPL-3.0 LICENSE_CCBYSA
 
-Name:           yaru-theme
-Version:        20.04.6
-Release:        3%{?dist}
-Summary:        Ubuntu community theme "yaru"
+Name:       yaru-theme
+Version:    20.10.6.1
+Release:    1%{?dist}
+Summary:    Ubuntu community theme "yaru"
+BuildArch:  noarch
 
-License:        GPLv3+ and CC-BY-SA
-URL:            https://community.ubuntu.com/c/desktop/theme-refresh
-Source0:        https://github.com/ubuntu/yaru/archive/%{version}/%{name}-%{version}.tar.gz
-BuildArch:      noarch
+License:    GPLv3+ and CC-BY-SA
+URL:        https://community.ubuntu.com/c/desktop/theme-refresh
+Source0:    https://github.com/ubuntu/yaru/archive/%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:  meson >= 0.45
-BuildRequires:  sassc
-BuildRequires:  pkgconfig(appstream-glib)
+BuildRequires: meson >= 0.51
+BuildRequires: sassc
+BuildRequires: pkgconfig(appstream-glib)
 
-Requires:       gnome-shell-theme-yaru
-Requires:       yaru-gtk2-theme
-Requires:       yaru-gtk3-theme
-Requires:       yaru-icon-theme
-Requires:       yaru-sound-theme
-
-Suggests:       yaru-unity-theme
+Requires:   gnome-shell-theme-yaru
+Requires:   yaru-gtk2-theme
+Requires:   yaru-gtk3-theme
+Requires:   yaru-icon-theme
+Requires:   yaru-sound-theme
 
 %global _description %{expand:
 Yaru theme is the default theme for Ubuntu, entirely backed by the community.
@@ -94,15 +92,6 @@ License:        CC-BY-SA
 This package contains the sound theme following the XDG theming specification.
 
 
-%package     -n yaru-unity-theme
-Summary:        Yaru Unity theme
-License:        CC-BY-SA
-
-%description -n yaru-unity-theme %{_description}
-
-This package contains the Unity theme.
-
-
 %prep
 %autosetup -n yaru-%{version} -p1
 
@@ -115,9 +104,9 @@ This package contains the Unity theme.
 %install
 %meson_install
 
-rm  %{buildroot}%{_datadir}/glib-2.0/schemas/99_Yaru.gschema.override               \
-    %{buildroot}%{_datadir}/xsessions/Yaru.desktop                                  \
-    %{buildroot}%{_datadir}/wayland-sessions/Yaru-wayland.desktop                   \
+rm  %{buildroot}%{_datadir}/glib-2.0/schemas/99_Yaru.gschema.override \
+    %{buildroot}%{_datadir}/xsessions/Yaru.desktop \
+    %{buildroot}%{_datadir}/wayland-sessions/Yaru-wayland.desktop \
     %{buildroot}%{_datadir}/gnome-shell/extensions/ubuntu-dock@ubuntu.com/yaru.css
 
 touch %{buildroot}%{_datadir}/icons/Yaru/icon-theme.cache
@@ -190,13 +179,24 @@ end
 %license %{_license}
 %{_datadir}/sounds/Yaru/
 
-%files -n yaru-unity-theme
-%license %{_license}
-%{_datadir}/themes/Yaru/unity
-%dir %{_datadir}/themes/Yaru
-
 
 %changelog
+* Sun Oct 11 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 20.10.6.1-1
+- build(update): 20.10.6.1
+
+* Tue Oct  6 19:52:37 EEST 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 20.10.6-1
+- build(update): 20.10.6
+
+* Thu Sep 24 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 20.10.4-1
+- Update to 20.10.4
+
+* Fri Sep 11 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 20.10.3-1
+- Update to 20.10.3
+- Don't build yaru-unity-theme
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 20.04.6-3
 - Workaround for replace directory with symlink which was added in Yaru | Thanks for tip @zawertun
 

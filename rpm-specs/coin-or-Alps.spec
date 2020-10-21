@@ -1,9 +1,15 @@
 %global		module		Alps
 
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 Name:		coin-or-%{module}
 Summary:	COIN-OR High-Performance Parallel Search Framework
 Version:	1.5.7
-Release:	3%{?dist}
+Release:	5%{?dist}
 License:	EPL-1.0
 URL:		https://github.com/coin-or/CHiPPS-ALPS
 Source0:	https://github.com/coin-or/CHiPPS-ALPS/archive/releases/%{version}/CHiPPS-ALPS-%{version}.tar.gz
@@ -14,7 +20,7 @@ BuildRequires:	doxygen
 BuildRequires:	gcc-c++
 BuildRequires:	gcc-gfortran
 BuildRequires:	glpk-devel
-BuildRequires:	openblas-devel
+BuildRequires:  %{blaslib}-devel
 
 # Install documentation in standard rpm directory
 Patch0:		%{name}-docdir.patch
@@ -57,12 +63,12 @@ This package contains the documentation for %{name}.
 
 %build
 %configure \
-  --with-blas-incdir=%{_includedir}/openblas \
-  --with-blas-lib=-lopenblas \
+  --with-blas-incdir=%{_includedir}/%{blaslib} \
+  --with-blas-lib=-l%{blaslib} \
   --with-glpk-incdir=%{_includedir} \
   --with-glpk-lib=-lglpk \
-  --with-lapack-incdir=%{_includedir}/openblas \
-  --with-lapack-lib=-lopenblas
+  --with-lapack-incdir=%{_includedir}/%{blaslib} \
+  --with-lapack-lib=-l%{blaslib}
 
 # Get rid of undesirable hardcoded rpaths; workaround libtool reordering
 # -Wl,--as-needed after all the libraries.
@@ -103,6 +109,12 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} make test
 %{_docdir}/%{name}/alps_doxy.tag
 
 %changelog
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.5.7-5
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.7-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.7-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

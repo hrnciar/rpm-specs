@@ -4,7 +4,7 @@
 %global crate cbindgen
 
 Name:           rust-%{crate}
-Version:        0.14.2
+Version:        0.14.6
 Release:        1%{?dist}
 Summary:        Tool for generating C bindings to Rust code
 
@@ -32,13 +32,13 @@ Summary:        %{summary}
 # * ASL 2.0 or Boost
 # * MIT
 # * MIT or ASL 2.0
-License:        MIT and (ASL 2.0 or Boost)
+License:        MPLv2.0 and MIT and (ASL 2.0 or Boost)
 
 %description -n %{crate} %{_description}
 
 %files       -n %{crate}
 %license LICENSE
-%doc docs.md README.md
+%doc contributing.md docs.md internals.md README.md
 %{_bindir}/cbindgen
 %endif
 
@@ -103,6 +103,18 @@ echo '/usr/bin/gcc'
 %endif
 
 %changelog
+* Wed Sep 23 2020 Fabio Valentini <decathorpe@gmail.com> - 0.14.6-1
+- Update to version 0.14.6.
+
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 0.14.4-1
+- Update to 0.14.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Josh Stone <jistone@redhat.com> - 0.14.3-1
+- Update to 0.14.3
+
 * Tue May 05 2020 Josh Stone <cuviper@gmail.com> - 0.14.2-1
 - Update to 0.14.2
 

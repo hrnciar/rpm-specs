@@ -13,11 +13,11 @@
 %{!?rel_build:%global git_tar %{name}-%{version}-%{git_ver}.tar.xz}
 
 Name:           mate-notification-daemon
-Version:        %{branch}.0
+Version:        %{branch}.1
 %if 0%{?rel_build}
 Release:        1%{?dist}
 %else
-Release:        0.14%{?git_rel}%{?dist}
+Release:        0.15%{?git_rel}%{?dist}
 %endif
 Summary:        Notification daemon for MATE Desktop
 License:        GPLv2+
@@ -33,8 +33,8 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  libcanberra-devel
 BuildRequires:  libnotify-devel
 BuildRequires:  libwnck3-devel
+BuildRequires:  libxml2-devel
 BuildRequires:  mate-common
-BuildRequires:  mate-desktop-devel
 
 Provides:       desktop-notification-daemon
 
@@ -90,6 +90,12 @@ rm -f  %{buildroot}%{_datadir}/applications/mate-notification-daemon.desktop
 
 
 %changelog
+* Thu Aug 13 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- update to 1.24.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-1
 - update to 1.24.0
 

@@ -1,6 +1,6 @@
 Name:           perl-Inline-Struct
 Version:        0.27
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Manipulate C structures directly from Perl
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Inline-Struct
@@ -58,6 +58,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.27-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.27-6
 - Perl 5.32 rebuild
 

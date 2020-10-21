@@ -11,13 +11,13 @@
 
 %global github_owner     webimpress
 %global github_name      safe-writer
-%global github_version   2.0.0
-%global github_commit    d03bea3b98abe1d4c8b24cbebf524361ffaafee4
+%global github_version   2.1.0
+%global github_commit    5cfafdec5873c389036f14bf832a5efc9390dcdd
 
 %global composer_vendor  webimpress
 %global composer_project safe-writer
 
-# "php": "^7.2"
+# "php": "^7.2 || ^8.0"
 %global php_min_ver 7.2
 
 # Build using "--without tests" to disable tests
@@ -43,7 +43,7 @@ BuildArch:     noarch
 %if %{with_tests}
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
-BuildRequires: phpunit8
+BuildRequires: phpunit8 >= 8.5.8
 ## phpcompatinfo for version 2.0.0
 BuildRequires: php-json
 BuildRequires: php-spl
@@ -102,7 +102,7 @@ sed 's/function testMultipleWriters/function SKIP_testMultipleWriters/' \
 : Upstream tests
 RETURN_CODE=0
 PHPUNIT=$(which phpunit8)
-for PHP_EXEC in php php70 php71 php72 php73 php74; do
+for PHP_EXEC in php php72 php73 php74 php80; do
     if [ "php" == "$PHP_EXEC" ] || which $PHP_EXEC; then
         $PHP_EXEC $PHPUNIT --verbose \
             --bootstrap %{buildroot}%{phpdir}/Webimpress/SafeWriter/autoload.php \
@@ -125,5 +125,11 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Aug 25 2020 Remi Collet <remi@remirepo.net> - 2.1.0-1
+- update to 2.1.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 23 2020 Shawn Iwinski <shawn@iwin.ski> - 2.0.0-1
 - Initial package

@@ -1,13 +1,12 @@
 %global packname roxygen2
-%global packver  7.1.0
+%global packver  7.1.1
 %global rlibdir  %{_libdir}/R/library
 
-# Dependency loop.
-%global with_suggests 0
+%bcond_with bootstrap
 
 Name:             R-%{packname}
-Version:          7.1.0
-Release:          2%{?dist}
+Version:          7.1.1
+Release:          1%{?dist}
 Summary:          In-Line Documentation for R
 
 License:          GPLv2+
@@ -42,7 +41,7 @@ BuildRequires:    R-rmarkdown
 BuildRequires:    R-testthat >= 2.1.0
 BuildRequires:    R-R.methodsS3
 BuildRequires:    R-R.oo
-%if %{with_suggests}
+%if %{without bootstrap}
 BuildRequires:    R-devtools
 %endif
 
@@ -72,7 +71,7 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 %check
 export LANG=C.UTF-8
-%if %{with_suggests}
+%if %{without bootstrap}
 %{_bindir}/R CMD check %{packname}
 %else
 _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
@@ -95,6 +94,16 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 
 
 %changelog
+* Mon Sep 07 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 7.1.1-1
+- Update to latest version (#1851631)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.1.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 7.1.0-2
 - rebuild for R 4
 - disable with_suggests to break the loop with devtools

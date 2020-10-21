@@ -3,7 +3,7 @@
 
 Name:		python-auth-credential
 Version:	1.0
-Release:	23%{?dist}
+Release:	24%{?dist}
 Summary:	Python abstraction of a credential
 License:	ASL 2.0
 URL:		https://github.com/cern-mig/%{name}
@@ -62,6 +62,9 @@ rm -fr $RPM_BUILD_ROOT
 %{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0-23
 - Rebuilt for Python 3.9
 

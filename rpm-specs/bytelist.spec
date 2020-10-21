@@ -6,12 +6,14 @@
 
 Name:           bytelist
 Version:        1.0.8
-Release:        19%{?dist}
+Release:        22%{?dist}
 Summary:        A java library for lists of bytes
 
 License:        CPL or GPLv2+ or LGPLv2+
 URL:            http://github.com/%{cluster}/%{name}
 Source0:        http://download.github.com/%{cluster}-%{name}-%{version}-0-g%{git_commit}.tar.gz
+
+Patch0:         00-set-javac-1.8-source-target.patch
 
 BuildArch:      noarch
 
@@ -34,6 +36,7 @@ A small java library for manipulating lists of bytes.
 
 %prep
 %setup -q -n %{cluster}-%{name}-%{git_commit}
+%patch0 -p1
 
 find -name '*.class' -delete
 find -name '*.jar' -delete
@@ -67,6 +70,15 @@ export CLASSPATH=$(build-classpath junit jcodings)
 %doc README.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.8-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 19 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.8-21
+- Set javac source and target to 1.8 to fix Java 11 builds.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.0.8-20
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.8-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

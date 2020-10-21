@@ -1,6 +1,6 @@
 Name:           perl-Data-Page
 Version:        2.03
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Help when paging through sets of results
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Data-Page
@@ -47,6 +47,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.03-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.03-4
 - Perl 5.32 rebuild
 

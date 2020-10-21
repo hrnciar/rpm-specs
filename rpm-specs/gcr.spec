@@ -3,13 +3,13 @@
 %endif
 
 Name:           gcr
-Version:        3.36.0
-Release:        1%{?dist}
+Version:        3.38.0
+Release:        2%{?dist}
 Summary:        A library for bits of crypto UI and parsing
 
 License:        LGPLv2+
 URL:            https://wiki.gnome.org/Projects/CryptoGlue
-Source0:        https://download.gnome.org/sources/%{name}/3.36/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires:  gettext
 BuildRequires:  gtk-doc
@@ -26,7 +26,6 @@ BuildRequires:  vala
 BuildRequires:  valgrind-devel
 %endif
 BuildRequires:  /usr/bin/gpg2
-BuildRequires:  /usr/bin/valac
 BuildRequires:  /usr/bin/xsltproc
 Requires: %{name}-base%{?_isa} = %{version}-%{release}
 
@@ -110,6 +109,18 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/gcr-viewer.desktop
 %{_libdir}/libgcr-base-3.so.*
 
 %changelog
+* Mon Sep 28 2020 Kalev Lember <klember@redhat.com> - 3.38.0-2
+- Avoid BuildRequiring vala twice
+
+* Mon Sep 28 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Sun Sep 20 2020 Kalev Lember <klember@redhat.com> - 3.37.91-1
+- Update to 3.37.91
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 11 2020 Kalev Lember <klember@redhat.com> - 3.36.0-1
 - Update to 3.36.0
 

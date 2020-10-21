@@ -6,7 +6,7 @@ d=%{_sysconfdir}/rpm; echo $d)
 
 Name:           gnustep-make
 Version:        2.8.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        GNUstep makefile package
 License:        GPLv3+
 URL:            http://www.gnustep.org/
@@ -108,6 +108,13 @@ install -p -m 644 macros.gnustep %{buildroot}%{macrosdir}
 %doc %{_datadir}/GNUstep/Documentation/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 16 2020 Antonio Trande <sagitter@fedoraproject.org> - 2.8.0-1
 - Update to 2.8.0
 

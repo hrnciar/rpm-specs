@@ -1,13 +1,10 @@
-#
-%global mydocs __tmp_docdir
-
 # Build -python subpackage
 %bcond_without python
 
 #
 Name:           rmol
 Version:        1.00.6
-Release:        3%{?dist}
+Release:        5%{?dist}
 
 Summary:        C++ library of Revenue Management and Optimisation classes and functions
 
@@ -86,15 +83,14 @@ This package contains Python libraries for %{name}
 
 
 %build
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
-mkdir -p %{mydocs}
-mv %{buildroot}%{_docdir}/%{name}/html %{mydocs}
-rm -f %{mydocs}/html/installdox
+# Removed the Doxygen installer
+rm -f %{buildroot}%{_docdir}/%{name}/html/installdox
 
 # Remove additional documentation files (those files are already available
 # in the project top directory)
@@ -137,7 +133,7 @@ rm -f %{_bindir}/py%{name}
 %{_mandir}/man3/%{name}-library.3.*
 
 %files doc
-%doc %{mydocs}/html
+%doc %{_docdir}/%{name}/html
 %doc COPYING
 
 %if %{with python}
@@ -150,6 +146,13 @@ rm -f %{_bindir}/py%{name}
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00.6-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 06 2020 Denis Arnaud <denis.arnaud_fedora@m4x.org> - 1.00.6-3
 - Rebuilt for SOCI 4.0.1-alpha2
 

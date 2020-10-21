@@ -1,6 +1,6 @@
 Name:           resolv_wrapper
 Version:        1.1.6
-Release:        1%{?dist}
+Release:        4%{?dist}
 
 Summary:        A wrapper for dns name resolving or dns faking
 License:        BSD
@@ -39,30 +39,20 @@ gpgv2 --quiet --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %autosetup -p1
 
 %build
-if test ! -e "obj"; then
-  mkdir obj
-fi
-pushd obj
 %cmake \
-  -DUNIT_TESTING=ON \
-  %{_builddir}/%{name}-%{version}
+  -DUNIT_TESTING=ON
 
-make %{?_smp_mflags} VERBOSE=1
-popd
+%cmake_build
 
 %install
-pushd obj
-make DESTDIR=%{buildroot} install
-popd
+%cmake_install
 
 %ldconfig_scriptlets
 
 %check
-pushd obj
-ctest --output-on-failure
+%ctest
 
-LD_PRELOAD=src/libpam_wrapper.so bash -c '>/dev/null'
-popd
+LD_PRELOAD=%{__cmake_builddir}/src/libpam_wrapper.so bash -c '>/dev/null'
 
 %files
 %doc AUTHORS README.md CHANGELOG
@@ -75,6 +65,13 @@ popd
 %{_mandir}/man1/resolv_wrapper.1*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.6-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 24 2020 Andreas Schneider <asn@redhat.com> - 1.1.6-8
 - Update to version 1.1.6
   * https://gitlab.com/cwrap/resolv_wrapper/-/blob/master/CHANGELOG

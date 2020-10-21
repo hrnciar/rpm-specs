@@ -5,7 +5,7 @@
 %global crate calloop
 
 Name:           rust-%{crate}
-Version:        0.6.2
+Version:        0.6.5
 Release:        1%{?dist}
 Summary:        Callback-based event loop
 
@@ -71,5 +71,14 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Oct 07 2020 Fabio Valentini <decathorpe@gmail.com> - 0.6.5-1
+- Update to version 0.6.5.
+
+* Sun Oct 04 2020 Fabio Valentini <decathorpe@gmail.com> - 0.6.4-1
+- Update to version 0.6.4.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 14:10:58 PDT 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.6.2-1
 - Initial package

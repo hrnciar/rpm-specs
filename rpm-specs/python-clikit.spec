@@ -9,7 +9,7 @@ line interfaces. This is at the core of Cleo.}
 Name:           python-%{pypi_name}
 Summary:        Utilities to build beautiful and testable CLIs
 Version:        0.4.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        MIT
 
 URL:            https://github.com/sdispater/clikit
@@ -51,6 +51,9 @@ Summary:        %{summary}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.2-2
 - Rebuilt for Python 3.9
 

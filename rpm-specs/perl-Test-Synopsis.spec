@@ -3,7 +3,7 @@
 
 Name:		perl-Test-Synopsis
 Version:	0.16
-Release:	7%{?dist}
+Release:	9%{?dist}
 Summary:	Test your SYNOPSIS code
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Test-Synopsis
@@ -93,6 +93,12 @@ make test TEST_FILES="$(echo $(find xt/ -name '*.t'))"
 %{_mandir}/man3/Test::Synopsis.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.16-8
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.16-7
 - Perl 5.32 rebuild
 

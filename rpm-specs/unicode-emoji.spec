@@ -3,7 +3,7 @@
 
 Name:           unicode-emoji
 Version:        13.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Unicode Emoji Data Files
 
 License:        Unicode
@@ -46,6 +46,9 @@ cp -p %{SOURCE6} %{buildroot}%{emojidir}
 %{emojidir}/emoji-*txt
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 13.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 06 2020 Mike FABIAN <mfabian@redhat.com> - 13.0-1
 - Update to Unicode Emoji Data 13.0 (was released on January 29, 2020)
 

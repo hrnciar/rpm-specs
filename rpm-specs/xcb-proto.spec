@@ -2,7 +2,7 @@
 
 Name:           xcb-proto
 Version:        1.13
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        XCB protocol descriptions
 
 License:        MIT
@@ -45,6 +45,9 @@ the protocol.
 %{python3_sitelib}/xcbgen
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Björn Esser <besser82@fedoraproject.org> - 1.13-13
 - Update patch to fix python module for use with Python 3.9
 

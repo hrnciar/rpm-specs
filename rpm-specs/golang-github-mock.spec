@@ -6,7 +6,7 @@
 
 # https://github.com/golang/mock
 %global goipath         github.com/golang/mock
-Version:                1.2.0
+Version:                1.4.4
 
 %gometa
 
@@ -18,7 +18,7 @@ well with Go's built-in testing package, but can be used in other contexts too.}
 %global godocs          AUTHORS CONTRIBUTORS README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        Gomock is a mocking framework for the go programming language
 
 # Upstream license specification: Apache-2.0
@@ -26,8 +26,8 @@ License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
-# Remove in F33:
-Obsoletes:      golang-googlecode-gomock < 0-0.18
+BuildRequires:  golang(golang.org/x/tools/go/packages)
+BuildRequires:  golang(golang.org/x/tools/present)
 
 %description
 %{common_description}
@@ -49,7 +49,7 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
-%gocheck
+%gocheck -d mockgen
 %endif
 
 %files
@@ -60,6 +60,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 23:22:36 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.4-1
+- Update to 1.4.4
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

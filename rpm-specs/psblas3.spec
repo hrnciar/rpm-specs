@@ -2,6 +2,18 @@
 %global with_openmpi 1
 %global with_serial 1
 
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
+%if %{?__isa_bits:%{__isa_bits}}%{!?__isa_bits:32} == 64
+%global arch64 0
+%else
+%global arch64 0
+%endif
+
 # Use devtoolset 8
 %if 0%{?rhel} && 0%{?rhel} == 7
 %global dts devtoolset-8-
@@ -19,12 +31,12 @@
 
 %global major_version 3
 %global major_minor %{major_version}.6
-%global postrelease_version -2
+%global postrelease_version -4
 
 Name: psblas3
 Summary: Parallel Sparse Basic Linear Algebra Subroutines
 Version: %{major_minor}.1
-Release: 7%{?dist}
+Release: 11%{?dist}
 License: BSD
 URL: https://github.com/sfilippone/psblas3
 Source0: https://github.com/sfilippone/psblas3/archive/v%{version}%{?postrelease_version}/psblas3-%{version}%{?postrelease_version}.tar.gz
@@ -32,8 +44,11 @@ Source0: https://github.com/sfilippone/psblas3/archive/v%{version}%{?postrelease
 # Call default Fedora ldflags when linker creates links 
 Patch0: %{name}-fix_ldflags.patch
 
+# Rename libraries for psblas3_64
+Patch1: %{name}-rename_libs_for_arch64.patch
+
 BuildRequires: suitesparse-devel
-BuildRequires: openblas-devel, openblas-srpm-macros
+BuildRequires: %{blaslib}-devel
 BuildRequires: metis-devel
 
 %description
@@ -85,6 +100,37 @@ BuildArch: noarch
 #BuildRequires: texlive-mfware, texlive-iftex
 %description common
 HTML, PDF and license files of %{name}.
+
+########################################################
+%if 0%{?arch64}
+%package -n %{name}_64
+Summary: %{name} for long-integer (8-byte) data
+BuildRequires: suitesparse64-devel
+BuildRequires: %{blaslib}-devel
+BuildRequires: metis64-devel
+
+Requires: %{name}-common = %{version}-%{release}
+%description -n psblas3_64
+The PSBLAS library, developed with the aim to facilitate the parallelization
+of computationally intensive scientific applications,
+is designed to address parallel implementation of iterative solvers for sparse
+linear systems through the distributed memory paradigm.
+It includes routines for multiplying sparse matrices by dense matrices,
+solving block diagonal systems with triangular diagonal entries,
+preprocessing sparse matrices, and contains additional routines for
+dense matrix operations.
+The current implementation of PSBLAS addresses a distributed memory execution
+model operating with message passing.
+This is a PSBLAS version for long-integer (8-byte) data.
+
+%package -n %{name}_64-devel
+Summary: The %{name}_64 headers and development-related files
+Requires: %{name}_64%{?_isa} = %{version}-%{release}
+Provides: %{name}_64-static = %{version}-%{release}
+%description -n %{name}_64-devel
+Shared links, header files and static libraries for %{name}_64.
+%endif
+##########################################################
 
 ########################################################
 %if 0%{?with_openmpi}
@@ -162,37 +208,75 @@ cp -a psblas3-%{version}%{?postrelease_version} mpich-build
 %endif
 ######################################################
 
+#######################################################
+## Copy source for long-integer version
+%if 0%{?arch64}
+cp -a psblas3-%{version}%{?postrelease_version} build64
+pushd build64
+%patch1 -p1
+popd
+%endif
+#####################################################
+
 %build
 %if 0%{?with_serial}
 cd psblas3-%{version}%{?postrelease_version}
-
-export LIBBLAS=-lopenblas
-export INCBLAS=-I%{_includedir}/openblas
 
 %if 0%{?el7}
 %{?dts:source /opt/rh/devtoolset-8/enable}
 %endif
 
 %configure \
- --enable-serial --with-fcopt="%{?fc_optflags} -Wno-unused-variable -Wno-unused-dummy-argument -fPIC -I%{_fmoddir} $INCBLAS" --with-ccopt="%{build_cflags} -fPIC $INCBLAS" \
- --with-metis=-lmetis --with-amd=-lamd --with-blas=$LIBBLAS --with-lapack=$LIBLAPACK \
+ --enable-serial --with-fcopt="%{?fc_optflags} -Wno-unused-variable -Wno-unused-dummy-argument -fPIC" \
+ --with-ccopt="%{build_cflags} -fPIC" --with-include-path="%{_includedir}/%{blaslib} -I%{_fmoddir}" \
+ --with-metis=-lmetis --with-amd=-lamd --with-blas=-l%{blaslib} --with-lapack= \
  --with-amdincdir=%{_includedir}/suitesparse
 %make_build
 
 # Make shared libraries
 pushd lib
-gfortran -shared %{__global_ldflags} -Wl,--whole-archive libpsb_base.a -Wl,-no-whole-archive -Wl,-Bdynamic -L%{_libdir} $LIBBLAS $LIBLAPACK -lgfortran -lm -Wl,-soname,libpsb_base.so.%{version} -o libpsb_base.so.%{version}
+gfortran -shared %{__global_ldflags} -Wl,--whole-archive libpsb_base.a -Wl,-no-whole-archive -Wl,-Bdynamic -L%{_libdir} -l%{blaslib} -lgfortran -lm -Wl,-soname,libpsb_base.so.%{version} -o libpsb_base.so.%{version}
 
-gfortran -shared %{__global_ldflags} -Wl,--whole-archive libpsb_krylov.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb_base -L%{_libdir} $LIBBLAS $LIBLAPACK -lgfortran -lm -Wl,-soname,libpsb_krylov.so.%{version} -o libpsb_krylov.so.%{version}
+gfortran -shared %{__global_ldflags} -Wl,--whole-archive libpsb_krylov.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb_base -L%{_libdir} -l%{blaslib} -lgfortran -lm -Wl,-soname,libpsb_krylov.so.%{version} -o libpsb_krylov.so.%{version}
 
-gfortran -shared %{__global_ldflags} -Wl,--whole-archive libpsb_prec.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb_base -L%{_libdir} $LIBBLAS $LIBLAPACK -lgfortran -lm -Wl,-soname,libpsb_prec.so.%{version} -o libpsb_prec.so.%{version}
+gfortran -shared %{__global_ldflags} -Wl,--whole-archive libpsb_prec.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb_base -L%{_libdir} -l%{blaslib} -lgfortran -lm -Wl,-soname,libpsb_prec.so.%{version} -o libpsb_prec.so.%{version}
 
-gfortran -shared %{__global_ldflags} -Wl,--whole-archive libpsb_util.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb_base -L%{_libdir} $LIBBLAS $LIBLAPACK -lmetis -lamd -lgfortran -lm -Wl,-soname,libpsb_util.so.%{version} -o libpsb_util.so.%{version}
+gfortran -shared %{__global_ldflags} -Wl,--whole-archive libpsb_util.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb_base -L%{_libdir} -l%{blaslib} -lmetis -lamd -lgfortran -lm -Wl,-soname,libpsb_util.so.%{version} -o libpsb_util.so.%{version}
 popd
 
 cd ../
 
 #make -C test/util MODDIR=../../modules -j1
+##
+
+%if 0%{?arch64}
+cd build64
+
+%if 0%{?el7}
+%{?dts:source /opt/rh/devtoolset-8/enable}
+%endif
+
+%configure \
+ --enable-serial --enable-long-integers --with-fcopt="%{?fc_optflags} -Wno-unused-variable -Wno-unused-dummy-argument -fPIC" \
+ --with-ccopt="%{build_cflags} -fPIC" --with-include-path="%{_includedir}/%{blaslib} -I%{_fmoddir}" \
+ --with-metis=-lmetis64 --with-amd=-lamd64 --with-blas=-l%{blaslib}64 --with-lapack= \
+ --with-amdincdir=%{_includedir}/suitesparse
+%make_build
+
+# Make shared libraries
+pushd lib
+gfortran -shared %{__global_ldflags} -Wl,--whole-archive libpsb64_base.a -Wl,-no-whole-archive -Wl,-Bdynamic -L%{_libdir} -l%{blaslib}64 -lgfortran -lm -Wl,-soname,libpsb64_base.so.%{version} -o libpsb64_base.so.%{version}
+
+gfortran -shared %{__global_ldflags} -Wl,--whole-archive libpsb64_krylov.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb64_base -L%{_libdir} -l%{blaslib}64 -lgfortran -lm -Wl,-soname,libpsb64_krylov.so.%{version} -o libpsb64_krylov.so.%{version}
+
+gfortran -shared %{__global_ldflags} -Wl,--whole-archive libpsb64_prec.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb64_base -L%{_libdir} -l%{blaslib}64 -lgfortran -lm -Wl,-soname,libpsb_prec.so.%{version} -o libpsb_prec.so.%{version}
+
+gfortran -shared %{__global_ldflags} -Wl,--whole-archive libpsb64_util.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb64_base -L%{_libdir} -l%{blaslib}64 -lmetis64 -lamd64 -lgfortran -lm -Wl,-soname,libpsb64_util.so.%{version} -o libpsb64_util.so.%{version}
+popd
+
+cd ../
+
+%endif
 %endif
 
 #######################################################
@@ -201,25 +285,23 @@ cd ../
 pushd openmpi-build
 %{_openmpi_load}
 export CC=mpicc
-export LIBBLAS=-lopenblas
-export INCBLAS=-I%{_includedir}/openblas
 %configure \
- --with-fcopt="%{?fc_optflags} -Wno-unused-variable -Wno-unused-dummy-argument -fPIC -I${MPI_FORTRAN_MOD_DIR} $INCBLAS" \
- --with-ccopt="%{build_cflags} -fPIC $INCBLAS" \
+ --with-fcopt="%{?fc_optflags} -Wno-unused-variable -Wno-unused-dummy-argument -fPIC" \
+ --with-ccopt="%{build_cflags} -fPIC" --with-include-path="%{_includedir}/%{blaslib} -I${MPI_FORTRAN_MOD_DIR}" \
  MPIFC=mpifort MPICC=mpicc \
- --with-metis=-lmetis --with-amd=-lamd --with-blas=$LIBBLAS --with-lapack= \
+ --with-metis=-lmetis --with-amd=-lamd --with-blas=-l%{blaslib} --with-lapack= \
  --with-amdincdir=%{_includedir}/suitesparse
 %make_build
 
 # Make shared libraries
 cd lib
-mpifort -shared %{__global_ldflags} -Wl,--whole-archive libpsb_base.a -Wl,-no-whole-archive -Wl,-Bdynamic -L$MPI_LIB -Wl,-rpath -Wl,$MPI_LIB -Wl,--enable-new-dtags -lmpi_mpifh -L%{_libdir} $LIBBLAS $LIBLAPACK -lgfortran -lm -Wl,-soname,libpsb_base.so.%{version} -o libpsb_base.so.%{version}
+mpifort -shared %{__global_ldflags} -Wl,--whole-archive libpsb_base.a -Wl,-no-whole-archive -Wl,-Bdynamic -L$MPI_LIB -Wl,-rpath -Wl,$MPI_LIB -Wl,--enable-new-dtags -lmpi_mpifh -L%{_libdir} -l%{blaslib} -lgfortran -lm -Wl,-soname,libpsb_base.so.%{version} -o libpsb_base.so.%{version}
 
-mpifort -shared %{__global_ldflags} -Wl,--whole-archive libpsb_krylov.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb_base -L$MPI_LIB -Wl,-rpath -Wl,$MPI_LIB -Wl,--enable-new-dtags -lmpi_mpifh -L%{_libdir} $LIBBLAS $LIBLAPACK -lmetis -lamd -lgfortran -lm -lrt -Wl,-soname,libpsb_krylov.so.%{version} -o libpsb_krylov.so.%{version}
+mpifort -shared %{__global_ldflags} -Wl,--whole-archive libpsb_krylov.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb_base -L$MPI_LIB -Wl,-rpath -Wl,$MPI_LIB -Wl,--enable-new-dtags -lmpi_mpifh -L%{_libdir} -l%{blaslib} -lmetis -lamd -lgfortran -lm -lrt -Wl,-soname,libpsb_krylov.so.%{version} -o libpsb_krylov.so.%{version}
 
-mpifort -shared %{__global_ldflags} -Wl,--whole-archive libpsb_prec.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb_base -L$MPI_LIB -Wl,-rpath -Wl,$MPI_LIB -Wl,--enable-new-dtags -lmpi_mpifh -L%{_libdir} $LIBBLAS $LIBLAPACK -lmetis -lamd -lgfortran -lm -lrt -Wl,-soname,libpsb_prec.so.%{version} -o libpsb_prec.so.%{version}
+mpifort -shared %{__global_ldflags} -Wl,--whole-archive libpsb_prec.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb_base -L$MPI_LIB -Wl,-rpath -Wl,$MPI_LIB -Wl,--enable-new-dtags -lmpi_mpifh -L%{_libdir} -l%{blaslib} -lmetis -lamd -lgfortran -lm -lrt -Wl,-soname,libpsb_prec.so.%{version} -o libpsb_prec.so.%{version}
 
-mpifort -shared %{__global_ldflags} -Wl,--whole-archive libpsb_util.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb_base -L$MPI_LIB -Wl,-rpath -Wl,$MPI_LIB -Wl,--enable-new-dtags -lmpi_mpifh -L%{_libdir} $LIBBLAS $LIBLAPACK -lmetis -lamd -lgfortran -lm -lrt -Wl,-soname,libpsb_util.so.%{version} -o libpsb_util.so.%{version}
+mpifort -shared %{__global_ldflags} -Wl,--whole-archive libpsb_util.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb_base -L$MPI_LIB -Wl,-rpath -Wl,$MPI_LIB -Wl,--enable-new-dtags -lmpi_mpifh -L%{_libdir} -l%{blaslib} -lmetis -lamd -lgfortran -lm -lrt -Wl,-soname,libpsb_util.so.%{version} -o libpsb_util.so.%{version}
 cd ../
 
 %{_openmpi_unload}
@@ -230,13 +312,11 @@ popd
 pushd mpich-build
 %{_mpich_load}
 export CC=mpicc
-export LIBBLAS=-lopenblas
-export INCBLAS=-I%{_includedir}/openblas
 %configure \
- --with-fcopt="%{?fc_optflags} -Wno-unused-variable -Wno-unused-dummy-argument -fPIC -I${MPI_FORTRAN_MOD_DIR} $INCBLAS" \
- --with-ccopt="%{build_cflags} -fPIC $INCBLAS" \
+ --with-fcopt="%{?fc_optflags} -Wno-unused-variable -Wno-unused-dummy-argument -fPIC" \
+ --with-ccopt="%{build_cflags} -fPIC" --with-include-path="%{_includedir}/%{blaslib} -I${MPI_FORTRAN_MOD_DIR}" \
  MPIFC=mpif90 MPICC=mpicc \
- --with-metis=-lmetis --with-amd=-lamd --with-blas=$LIBBLAS --with-lapack= \
+ --with-metis=-lmetis --with-amd=-lamd --with-blas=-l%{blaslib} --with-lapack= \
  --with-amdincdir=%{_includedir}/suitesparse
 %make_build
 
@@ -249,13 +329,13 @@ export MPIFLIB=-lmpifort
 export MPIFLIB=-lmpich
 %endif
 
-mpif90 -shared %{__global_ldflags} -Wl,--whole-archive libpsb_base.a -Wl,-no-whole-archive -Wl,-Bdynamic -L$MPI_LIB -Wl,-rpath -Wl,$MPI_LIB -Wl,-z,noexecstack $MPIFLIB -L%{_libdir} $LIBBLAS $LIBLAPACK -lgfortran -lm -Wl,-soname,libpsb_base.so.%{version} -o libpsb_base.so.%{version}
+mpif90 -shared %{__global_ldflags} -Wl,--whole-archive libpsb_base.a -Wl,-no-whole-archive -Wl,-Bdynamic -L$MPI_LIB -Wl,-rpath -Wl,$MPI_LIB -Wl,-z,noexecstack $MPIFLIB -L%{_libdir} -l%{blaslib} -lgfortran -lm -Wl,-soname,libpsb_base.so.%{version} -o libpsb_base.so.%{version}
 
-mpif90 -shared %{__global_ldflags} -Wl,--whole-archive libpsb_krylov.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb_base -L$MPI_LIB -Wl,-rpath -Wl,$MPI_LIB -Wl,-z,noexecstack $MPIFLIB -L%{_libdir} $LIBBLAS $LIBLAPACK -lmetis -lamd -lgfortran -lm -lrt -Wl,-soname,libpsb_krylov.so.%{version} -o libpsb_krylov.so.%{version}
+mpif90 -shared %{__global_ldflags} -Wl,--whole-archive libpsb_krylov.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb_base -L$MPI_LIB -Wl,-rpath -Wl,$MPI_LIB -Wl,-z,noexecstack $MPIFLIB -L%{_libdir} -l%{blaslib} -lmetis -lamd -lgfortran -lm -lrt -Wl,-soname,libpsb_krylov.so.%{version} -o libpsb_krylov.so.%{version}
 
-mpif90 -shared %{__global_ldflags} -Wl,--whole-archive libpsb_prec.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb_base -L$MPI_LIB -Wl,-rpath -Wl,$MPI_LIB -Wl,-z,noexecstack $MPIFLIB -L%{_libdir} $LIBBLAS $LIBLAPACK -lmetis -lamd -lgfortran -lm -lrt -Wl,-soname,libpsb_prec.so.%{version} -o libpsb_prec.so.%{version}
+mpif90 -shared %{__global_ldflags} -Wl,--whole-archive libpsb_prec.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb_base -L$MPI_LIB -Wl,-rpath -Wl,$MPI_LIB -Wl,-z,noexecstack $MPIFLIB -L%{_libdir} -l%{blaslib} -lmetis -lamd -lgfortran -lm -lrt -Wl,-soname,libpsb_prec.so.%{version} -o libpsb_prec.so.%{version}
 
-mpif90 -shared %{__global_ldflags} -Wl,--whole-archive libpsb_util.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb_base -L$MPI_LIB -Wl,-rpath -Wl,$MPI_LIB $MPIFLIB -Wl,-z,noexecstack -L%{_libdir} $LIBBLAS $LIBLAPACK -lmetis -lamd -lgfortran -lm -lrt -Wl,-soname,libpsb_util.so.%{version} -o libpsb_util.so.%{version}
+mpif90 -shared %{__global_ldflags} -Wl,--whole-archive libpsb_util.a -Wl,-no-whole-archive -Wl,-Bdynamic -L./ -lpsb_base -L$MPI_LIB -Wl,-rpath -Wl,$MPI_LIB $MPIFLIB -Wl,-z,noexecstack -L%{_libdir} -l%{blaslib} -lmetis -lamd -lgfortran -lm -lrt -Wl,-soname,libpsb_util.so.%{version} -o libpsb_util.so.%{version}
 cd ../
 
 %{_mpich_unload}
@@ -295,6 +375,37 @@ popd
 
 install -pm 644 modules/*.mod $RPM_BUILD_ROOT%{_fmoddir}/%{name}
 install -pm 644 include/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}/
+popd
+%endif
+
+%if 0%{?arch64}
+pushd build64
+mkdir -p $RPM_BUILD_ROOT%{_includedir}/%{name}64
+mkdir -p $RPM_BUILD_ROOT%{_fmoddir}/%{name}64
+
+pushd lib
+install -pm 755 *.so.%{version} $RPM_BUILD_ROOT%{_libdir}/
+install -pm 644 *.a $RPM_BUILD_ROOT%{_libdir}/
+
+ln -sf %{_libdir}/libpsb64_base.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libpsb64_base.so.%{major_version}
+ln -sf %{_libdir}/libpsb64_base.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libpsb64_base.so.%{major_minor}
+ln -sf %{_libdir}/libpsb64_base.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libpsb64_base.so
+
+ln -sf %{_libdir}/libpsb64_krylov.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libpsb64_krylov.so.%{major_version}
+ln -sf %{_libdir}/libpsb64_krylov.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libpsb64_krylov.so.%{major_minor}
+ln -sf %{_libdir}/libpsb64_krylov.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libpsb64_krylov.so
+
+ln -sf %{_libdir}/libpsb64_prec.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libpsb64_prec.so.%{major_version}
+ln -sf %{_libdir}/libpsb64_prec.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libpsb64_prec.so.%{major_minor}
+ln -sf %{_libdir}/libpsb64_prec.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libpsb64_prec.so
+
+ln -sf %{_libdir}/libpsb64_util.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libpsb64_util.so.%{major_version}
+ln -sf %{_libdir}/libpsb64_util.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libpsb64_util.so.%{major_minor}
+ln -sf %{_libdir}/libpsb64_util.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libpsb64_util.so
+popd
+
+install -pm 644 modules/*.mod $RPM_BUILD_ROOT%{_fmoddir}/%{name}64
+install -pm 644 include/*.h $RPM_BUILD_ROOT%{_includedir}/%{name}64/
 popd
 %endif
 
@@ -378,6 +489,17 @@ popd
 %{_libdir}/*.a
 %{_fmoddir}/%{name}/
 %{_includedir}/%{name}/
+
+%if 0%{?arch64}
+%files -n %{name}_64
+%{_libdir}/libpsb64*.so.*
+
+%files -n %{name}_64-devel
+%{_libdir}/libpsb64*.so
+%{_libdir}/libpsb64*.a
+%{_fmoddir}/%{name}64/
+%{_includedir}/%{name}64/
+%endif
 %endif
 
 %files common
@@ -420,6 +542,18 @@ popd
 ######################################################
 
 %changelog
+* Thu Aug 13 2020 Iñaki Úcar <iucar@fedoraproject.org> - 3.6.1-11
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.6.1-9
+- Release 3.6.1-4
+
+* Sun Jun 28 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.6.1-8
+- Release 3.6.1-3
+
 * Sat Apr 11 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.6.1-7
 - Fix Fortran optimization compiler flags
 

@@ -1,6 +1,6 @@
 Name:          qwtpolar
 Version:       1.1.1
-Release:       14%{?dist}
+Release:       16%{?dist}
 Summary:       Qwt/Qt Polar Plot Library
 License:       LGPLv2 with exceptions
 URL:           http://qwtpolar.sourceforge.net
@@ -76,6 +76,13 @@ mv %{buildroot}/%{_qt4_docdir}/html/html \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

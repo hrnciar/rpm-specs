@@ -1,6 +1,6 @@
 %global modname traitsui 
 Name:           python-%{modname}
-Version:        7.0.0
+Version:        7.0.1
 Release:        2%{?dist}
 Summary:        User interface tools designed to complement Traits
 
@@ -33,6 +33,7 @@ BuildRequires:  python%{python3_pkgversion}-setuptools
 BuildRequires:  python%{python3_pkgversion}-pyface
 BuildRequires:  python%{python3_pkgversion}-pyface-qt
 BuildRequires:  python%{python3_pkgversion}-nose
+BuildRequires:  python%{python3_pkgversion}-packaging
 BuildRequires:  python%{python3_pkgversion}-six
 BuildRequires:  python%{python3_pkgversion}-Traits >= 6.0.0
 # For demo
@@ -71,6 +72,12 @@ popd
 %{python3_sitelib}/%{modname}*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Orion Poplawski <orion@nwra.com> - 7.0.1-1
+- Update to 7.0.1
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 7.0.0-2
 - Rebuilt for Python 3.9
 

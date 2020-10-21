@@ -1,10 +1,12 @@
+%global __cmake_in_source_build 1
+
 %global commit ca1bf4b810e2d188d04cb6286f957008ee1b7681
 %global short_commit %(c=%{commit}; echo ${c:0:7})	
 %global date 20190529
 
 Name: crossguid2
 Version: 0.2.2
-Release: 4.%{date}git%{short_commit}%{?dist}
+Release: 6.%{date}git%{short_commit}%{?dist}
 Summary: Lightweight cross platform C++ GUID/UUID library
 License: MIT
 URL: https://github.com/graeme-hill/crossguid/
@@ -69,6 +71,13 @@ pushd build
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-6.20190529gitca1bf4b
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-5.20190529gitca1bf4b
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-4.20190529gitca1bf4b
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

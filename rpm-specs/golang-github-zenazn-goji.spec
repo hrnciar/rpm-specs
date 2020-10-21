@@ -3,7 +3,7 @@
 
 # https://github.com/zenazn/goji
 %global goipath         github.com/zenazn/goji
-Version:                1.0
+Version:                1.0.1
 
 %gometa
 
@@ -14,14 +14,12 @@ Goji is a minimalistic web framework that values composability and simplicity.}
 %global godocs          example README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Minimalistic web framework for Go
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
-# Fix Errorf format
-Patch0:         https://github.com/zenazn/goji/commit/4a0a089f56dffba35ba29a37303bbc3e3e496f96.patch#/0001-upgrade-travis.yml-Updated-to-1.10.patch
 
 BuildRequires:  golang(github.com/goji/param)
 
@@ -32,7 +30,6 @@ BuildRequires:  golang(github.com/goji/param)
 
 %prep
 %goprep
-%patch0 -p1
 
 %install
 %gopkginstall
@@ -45,6 +42,12 @@ BuildRequires:  golang(github.com/goji/param)
 %gopkgfiles
 
 %changelog
+* Tue Aug 04 22:16:56 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.1-1
+- Update to 1.0.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

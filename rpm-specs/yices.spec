@@ -1,6 +1,6 @@
 Name:           yices
 Version:        2.6.2
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        SMT solver
 
 # The yices code is GPLv3+.  The cudd code is BSD.
@@ -152,6 +152,12 @@ make check MODE=debug
 %license copyright.txt LICENSE.txt
 
 %changelog
+* Mon Aug  3 2020 Jerry James <loganjerry@gmail.com> - 2.6.2-5
+- Rebuild for cadical 1.3.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 25 2020 Jerry James <loganjerry@gmail.com> - 2.6.2-3
 - Rebuild for cryptominisat 5.7.0
 - Switch to upstream's solution for sphinx 3 support

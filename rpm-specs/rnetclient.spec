@@ -1,6 +1,6 @@
 Name:		rnetclient
 Version:	2017.1
-Release:	6%{?dist}
+Release:	8%{?dist}
 Summary:	Submit the Brazilian Income Tax Report to the Brazilian Tax Authority
 
 License:	GPLv3+
@@ -39,6 +39,13 @@ make %{?_smp_mflags}
 %{_mandir}/pt_BR/man1/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2017.1-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2017.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2017.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

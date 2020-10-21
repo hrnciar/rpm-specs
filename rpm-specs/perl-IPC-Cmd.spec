@@ -5,7 +5,7 @@ Name:           perl-IPC-Cmd
 # Epoch to compete with perl.spec
 Epoch:          2
 Version:        1.04
-Release:        456%{?dist}
+Release:        458%{?dist}
 Summary:        Finding and running system commands made easy
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/IPC-Cmd
@@ -94,6 +94,12 @@ make test
 %{_mandir}/man3/IPC::Cmd.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:1.04-458
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2:1.04-457
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2:1.04-456
 - Increase release to favour standalone package
 

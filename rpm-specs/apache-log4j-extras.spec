@@ -5,13 +5,15 @@
 
 Name:          apache-log4j-extras
 Version:       1.2.17.1
-Release:       15%{?dist}
+Release:       18%{?dist}
 Summary:       Apache Extras Companion for Apache log4j
-
 License:       ASL 2.0
+
 URL:           http://logging.apache.org/log4j/extras
 Source0:       https://github.com/apache/log4j-extras/archive/%{commit}/%{name}-%{version}-%{shortcommit}.tar.gz
+
 BuildArch:     noarch
+
 BuildRequires: maven-local
 BuildRequires: mvn(junit:junit)
 BuildRequires: mvn(log4j:log4j:1.2.17)
@@ -20,6 +22,7 @@ BuildRequires: mvn(org.apache.geronimo.specs:specs:pom:)
 BuildRequires: mvn(org.apache.geronimo.specs:geronimo-jms_1.1_spec)
 BuildRequires: mvn(org.apache.rat:apache-rat-plugin)
 BuildRequires: mvn(org.hsqldb:hsqldb)
+
 Requires:      mvn(log4j:log4j:1.2.17)
 
 %description
@@ -49,12 +52,15 @@ find . -name '*.jar' -delete
 
 %pom_xpath_set "pom:project/pom:dependencies/pom:dependency[pom:groupId='hsqldb']/pom:groupId" org.hsqldb
 
+# remove maven-compiler-plugin configuration that is broken with Java 11
+%pom_xpath_remove 'pom:plugin[pom:artifactId="maven-compiler-plugin"]/pom:configuration'
+
 %build
 %if %{without javadoc}
 args="-j"
 %endif
 # Tests disabled because of failures
-%mvn_build $args -- -DskipTests
+%mvn_build $args -- -DskipTests -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 %install
 %mvn_install
@@ -69,6 +75,15 @@ args="-j"
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.17.1-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Fabio Valentini <decathorpe@gmail.com> - 1.2.17.1-17
+- Set javac source and target to 1.8 to fix Java 11 builds.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.2.17.1-16
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.17.1-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

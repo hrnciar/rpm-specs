@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        3.0.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Relay library for Graphql
 
 License:        MIT
@@ -49,6 +49,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests
 %{python3_sitelib}/graphql_relay-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 08 2020 Fabian Affolter <mail@fabian-affolter.ch> - 3.0.0-3
 - Add missing BRs
 

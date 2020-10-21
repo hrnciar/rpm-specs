@@ -1,12 +1,12 @@
-%global frrversion	7.3.1
+%global frrversion	7.4
 %global frr_libdir /usr/lib/frr
 
 %global _hardened_build 1
 %define _legacy_common_support 1
 
 Name: frr
-Version: 7.3.1
-Release: 2%{?checkout}%{?dist}
+Version: 7.4
+Release: 1%{?checkout}%{?dist}
 Summary: Routing daemon
 License: GPLv2+
 URL: http://www.frrouting.org
@@ -183,6 +183,15 @@ make check PYTHON=%{__python3}
 #%%{_libdir}/frr/frr/libyang_plugins/*
 
 %changelog
+* Mon Sep 21 2020 Michal Ruprich <mruprich@redhat.com> - 7.4-1
+- New version 7.4
+
+* Thu Aug 27 2020 Josef Řídký <jridky@redhat.com> - 7.3.1-4
+- Rebuilt for new net-snmp release
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Michal Ruprich <michalruprich@gmail.com> - 7.3.1-1
 - New version 7.3.1
 - Fixes a couple of bugs(#1832259, #1835039, #1830815, #1830808, #1830806, #1830800, #1830798, #1814773)

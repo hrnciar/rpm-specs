@@ -1,7 +1,7 @@
 
 Name:           python-tempita
 Version:        0.5.1
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        A very small text templating language
 
 License:        MIT
@@ -53,6 +53,9 @@ Tempita is a small templating language for text substitution.
 %{python3_sitelib}/*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.1-27
 - Rebuilt for Python 3.9
 

@@ -2,7 +2,7 @@
 
 Name:           openstack-java-sdk
 Version:        3.2.9
-Release:        2%{?git_hash}%{?dist}
+Release:        6%{?git_hash}%{?dist}
 Summary:        OpenStack Java SDK
 
 License:        ASL 2.0
@@ -17,7 +17,6 @@ BuildRequires:  jackson-core >= 2.9.0
 BuildRequires:  jackson-databind >= 2.9.0
 BuildRequires:  jackson-jaxrs-json-provider >= 2.9.0
 BuildRequires:  maven-local
-BuildRequires:  sonatype-oss-parent
 BuildRequires:  mvn(org.apache.httpcomponents:httpclient) >= 4.5.0
 BuildRequires:  mvn(org.jboss.resteasy:resteasy-jaxrs)
 
@@ -29,6 +28,11 @@ Requires:  jackson-jaxrs-json-provider >= 2.9.0
 %description
 OpenStack client implementation in Java.
 
+%package javadoc
+Summary:        API documentation for %{name}
+
+%description javadoc
+This package provides %{summary}.
 
 %package -n openstack-java-client
 Summary:        OpenStack Java Client
@@ -159,16 +163,21 @@ This package contains the %{summary}.
 
 %prep
 %setup -q -n %{name}-%{name}-%{version}
+
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
+
 %mvn_package ":{openstack-java-sdk,openstack-client-connectors}" __noinstall
 
 
 %build
-%mvn_build -s -- -P "!console,!examples,!jersey2,!jersey,resteasy" -DskipTests -Dmaven.javadoc.skip=true
+%mvn_build -s -- -P "!console,!examples,!jersey2,!jersey,resteasy" -DskipTests
 
 
 %install
 %mvn_install
 
+%files javadoc -f .mfiles-javadoc
 
 %files -n openstack-java-client -f .mfiles-openstack-client
 %license LICENSE.txt
@@ -252,6 +261,18 @@ This package contains the %{summary}.
 %dir %{_javadir}/%{name}
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 3.2.9-6
+- Remove unnecessary dependency on parent POM.
+
+* Wed Jul 29 2020 Dominik Holler <dholler@redhat.com> - 3.2.9-5
+- adding a packaging-guidelines conformant -javadoc subpackage
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.9-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 3.2.9-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri May 15 2020 Dominik Holler <dholler@redhat.com> - 3.2.9-2
 - disable openstack-java-javadoc
 

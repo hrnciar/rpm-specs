@@ -1,6 +1,6 @@
 Name:           admesh
 Version:        0.98.4
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Diagnose and/or repair problems with STereo Lithography files
 License:        GPLv2+
 URL:            http://github.com/admesh/admesh/
@@ -68,6 +68,13 @@ rm -f %{buildroot}%{_libdir}/lib%{name}.la
 %{_libdir}/lib%{name}.so.1*
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.98.4-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.98.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.98.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

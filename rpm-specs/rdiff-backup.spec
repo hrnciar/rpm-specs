@@ -1,4 +1,4 @@
-%global gittag 2.0.3
+%global gittag 2.0.5
 
 Version: %{gittag}
 Summary: Convenient and transparent local/remote incremental mirror/backup
@@ -10,8 +10,12 @@ Source0: https://github.com/%{name}/%{name}/releases/download/v%{gittag}/%{name}
 
 License: GPLv2+
 BuildRequires: python3-devel >= 3.5, librsync-devel >= 1.0.0
+BuildRequires: python3-setuptools
 BuildRequires: python3-setuptools_scm
 BuildRequires: gcc
+
+# Required to report version info from build with python3-setuptools_scm
+Requires: python3-setuptools
 
 #recommended runtime dependencies
 Recommends: py3libacl
@@ -57,6 +61,25 @@ differences from the previous backup will be transmitted.
 %license COPYING
 
 %changelog
+* Sat Aug 01 2020 Frank Crawford <frank@crawford.emu.id.au> 2.0.5-2
+- Bump to separate from COPR build
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Frank Crawford <frank@crawford.emu.id.au> 2.0.5-1
+- Last bug-fix before code cleanu-up
+
+* Thu Jul 09 2020 Frank Crawford <frank@crawford.emu.id.au> 2.0.3-5
+- Bumped due to a Koji build error
+
+* Tue Jul 07 2020 Frank Crawford <frank@crawford.emu.id.au> 2.0.3-4
+- Add requirement of python3-setuptools (Ref upstream issue #305)
+
+* Sat Jun 27 2020 Frank Crawford <frank@crawford.emu.id.au> 2.0.3-3
+- Add BuildRequire python3-setuptools in addition to python3-devel
+  (see https://lists.fedoraproject.org/archives/list/devel@lists.fedoraproject.org/thread/GCPGM34ZGEOVUHSBGZTRYR5XKHTIJ3T7/)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.3-2
 - Rebuilt for Python 3.9
 

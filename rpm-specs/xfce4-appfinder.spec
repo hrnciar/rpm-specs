@@ -2,7 +2,7 @@
 
 Name:           xfce4-appfinder
 Version:        4.14.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Appfinder for the Xfce4 Desktop Environment
 
 License:        GPLv2+
@@ -58,6 +58,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/org.xfce.%{nam
 %{_metainfodir}/org.xfce.%{name}.appdata.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

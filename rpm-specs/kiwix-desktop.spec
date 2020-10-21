@@ -1,6 +1,6 @@
 Name: kiwix-desktop
-Version: 2.0.1
-Release: 1%{?dist}
+Version: 2.0.4
+Release: 3%{?dist}
 
 License: GPLv3+
 Summary: Kiwix desktop application
@@ -12,6 +12,7 @@ Requires: hicolor-icon-theme
 Requires: shared-mime-info
 Requires: aria2%{?_isa}
 
+BuildRequires: qtsingleapplication-qt5-devel
 BuildRequires: qt5-qtwebengine-devel
 BuildRequires: desktop-file-utils
 BuildRequires: libappstream-glib
@@ -35,18 +36,19 @@ which.
 
 %prep
 %autosetup -p1
-sed -e "/static {/,+2d" -e "/git describe/c\DEFINES += GIT_VERSION='%{version}'" -e "s/shell date/shell date +\%G-\%m-\%d/g" -e "s@lupdate@%{_libdir}/qt5/bin/lupdate-qt5@g" -e "s@lrelease@%{_libdir}/qt5/bin/lrelease-qt5@g" -i %{name}.pro
-mkdir -p %{_target_platform}
+mkdir %{_vpath_builddir}
+sed -e "/static {/,+2d" -e "/VERSION=/c\DEFINES += VERSION=\"%{version}\"" -i %{name}.pro
+rm -rf subprojects
 
 %build
-pushd %{_target_platform}
-    %qmake_qt5 PREFIX=%{_prefix} ..
+pushd %{_vpath_builddir}
+    %qmake_qt5 PREFIX=%{_prefix} CONFIG+=qtsingleapplication ..
 popd
 
-%make_build -C %{_target_platform}
+%make_build -C %{_vpath_builddir}
 
 %install
-%make_install INSTALL_ROOT=%{buildroot} -C %{_target_platform}
+%make_install INSTALL_ROOT=%{buildroot} -C %{_vpath_builddir}
 
 %check
 appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata.xml
@@ -62,6 +64,21 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %{_metainfodir}/*.appdata.xml
 
 %changelog
+* Thu Oct 15 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 2.0.4-3
+- Rebuilt due to kiwix-lib update.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 2.0.4-1
+- Updated to version 2.0.4.
+
+* Fri Jul 03 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 2.0.3-1
+- Updated to version 2.0.3.
+
+* Wed Jul 01 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 2.0.2-1
+- Updated to version 2.0.2.
+
 * Sun May 10 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 2.0.1-1
 - Updated to version 2.0.1.
 

@@ -1,7 +1,7 @@
 Name:    lksctp-tools
 Summary: User-space access to Linux Kernel SCTP
 Version: 1.0.18
-Release: 4%{?dist}
+Release: 8%{?dist}
 # src/apps/bindx_test.C is GPLv2, I've asked upstream for clarification
 License: GPLv2 and GPLv2+ and LGPLv2 and MIT
 Group:   System Environment/Libraries
@@ -15,6 +15,7 @@ Patch3: lksctp-tools-1.0.18-build-fix-netinet-sctp.h-not-to-be-installed.patch
 Patch4: lksctp-tools-1.0.18-build-remove-v4.12-secondary-defines-in-favor-of-HAV.patch
 Patch5: lksctp-tools-1.0.18-build-fix-probing-for-HAVE_SCTP_SENDV.patch
 Patch6: lksctp-tools-1.0.18-build-0b0dce7a36fb-actually-belongs-to-v4.19.patch
+Patch7: lksctp-tools-symver.patch
 BuildRequires: libtool, automake, autoconf
 
 %description
@@ -56,6 +57,7 @@ Drafts).
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 [ ! -x ./configure ] && sh bootstrap
@@ -64,17 +66,13 @@ Drafts).
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
-make %{?_smp_mflags}
+%make_build
 
 %install
 rm -f doc/rfc2960.txt doc/states.txt
-make install DESTDIR="$RPM_BUILD_ROOT" INSTALL="install -p"
+%make_install
 
 find $RPM_BUILD_ROOT -type f -name "*.la" -delete
-
-%post -p /sbin/ldconfig
-
-%postun -p /sbin/ldconfig
 
 %files
 %doc AUTHORS ChangeLog COPYING* README
@@ -96,6 +94,18 @@ find $RPM_BUILD_ROOT -type f -name "*.la" -delete
 %doc doc/*.txt
 
 %changelog
+* Wed Sep 09 2020 Jeff Law <law@redhat.com> - 1.0.18-8
+- Use symver attribute for symbol versioning.  Re-enable LTO
+
+* Wed Aug 19 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.0.18-7
+- Drop useless ldconfig scriptlets
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.18-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> - 1.0.18-5
+- Disable LTO
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.18-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

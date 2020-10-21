@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:           xmount
 Version:        0.7.6
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        A on-the-fly convert for multiple hard disk image types
 
 License:        GPLv3+
@@ -44,18 +46,16 @@ chmod -x src/xmount.*
 
 
 %build
-mkdir build && cd build
 %cmake \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_SKIP_RPATH=ON \
-    ..
+    %{nil}
 
-%make_build V=1
+%cmake_build
 
 
 %install
-cd build
-%make_install
+%cmake_install
 
 
 %files
@@ -67,6 +67,9 @@ cd build
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.6-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.6-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

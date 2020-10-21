@@ -3,7 +3,7 @@
 
 # https://github.com/karrick/godirwalk
 %global goipath         github.com/karrick/godirwalk
-Version:                1.10.3
+Version:                1.16.1
 
 %gometa
 
@@ -14,13 +14,16 @@ Godirwalk is a library for traversing a directory tree on a file system..}
 %global godocs          examples README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Fast directory traversal for Golang
 
 # Upstream license specification: BSD-2-Clause
 License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
+
+BuildRequires:  golang(github.com/karrick/golf)
+BuildRequires:  golang(github.com/mattn/go-isatty)
 
 %description
 %{common_description}
@@ -41,6 +44,16 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Thu Sep 10 11:33:00 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.16.1-1
+- Update to 1.16.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.3-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

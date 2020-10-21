@@ -1,6 +1,6 @@
 Name: wcstools
-Version: 3.9.5
-Release: 11%{?dist}
+Version: 3.9.6
+Release: 2%{?dist}
 Summary: Software utilities to display and manipulate the WCS of a FITS image
 License: GPLv2+
 URL: http://tdc-www.harvard.edu/wcstools
@@ -10,7 +10,7 @@ BuildRequires:  gcc
 
 # Patch from Debian to create shared lib and rename it to avoid
 # conflicts with Mark Calabretta's wcslib package.
-Patch0: wcstools-3.9.4-rename-shlib.patch
+Patch0: wcstools-3.9.6-rename-shlib.patch
 
 %description
 Wcstools is a set of software utilities, written in C, which create,
@@ -79,7 +79,7 @@ mv %{buildroot}%{_bindir}/remap %{buildroot}%{_bindir}/wcsremap
 
 %files libs
 %license libwcs/COPYING
-%{_libdir}/*.so.*
+%{_libdir}/*.so.1*
 
 %files devel
 %doc libwcs/NEWS
@@ -88,6 +88,12 @@ mv %{buildroot}%{_bindir}/remap %{buildroot}%{_bindir}/wcsremap
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Mattia Verga <mattia.verga@protonmail.com> - 3.9.6-1
+- Update to 3.9.6
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.5-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

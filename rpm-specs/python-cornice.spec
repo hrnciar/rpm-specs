@@ -3,7 +3,7 @@
 
 Name:             python-cornice
 Version:          4.0.1
-Release:          2%{?dist}
+Release:          3%{?dist}
 BuildArch:        noarch
 
 License:          MPLv2.0
@@ -68,6 +68,9 @@ PYTHONPATH="." nosetests-3
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 4.0.1-2
 - Rebuilt for Python 3.9
 

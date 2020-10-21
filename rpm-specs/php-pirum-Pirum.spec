@@ -6,7 +6,7 @@
 
 Name:             php-pirum-Pirum
 Version:          1.1.5
-Release:          12%{?dist}
+Release:          13%{?dist}
 Summary:          A simple PEAR channel server manager
 
 License:          MIT
@@ -88,6 +88,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

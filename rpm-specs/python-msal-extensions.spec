@@ -12,7 +12,7 @@ Authentication Extensions makes this simpler.}
 
 Name:           python-%{srcname}
 Version:        0.2.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Microsoft Authentication extensions for MSAL Python
 
 License:        MIT
@@ -65,5 +65,8 @@ mv README.md.new README.md
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 0.2.2-1
 - Initial RPM release

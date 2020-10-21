@@ -1,6 +1,6 @@
 Name:           opencascade
 Version:        7.4.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        SDK intended for development of applications dealing with 3D CAD data
 
 License:        LGPLv2+ with exception
@@ -162,7 +162,6 @@ chmod 0644 *.txt
 
 
 %build
-mkdir build && cd build
 # opencascade does some manual install trickery that does not respect DESTDIR.
 # Make DESTDIR and environment variable that can be passed into the CMake config.
 export DESTDIR="%{buildroot}"
@@ -171,15 +170,13 @@ export DESTDIR="%{buildroot}"
        -DUSE_TBB=True \
        -DUSE_VTK=True \
        -DINSTALL_DIR_LIB=%{_lib} \
-       -DINSTALL_DIR_CMAKE=%{_lib}/cmake/%{name} \
-       ../
+       -DINSTALL_DIR_CMAKE=%{_lib}/cmake/%{name} 
 
-%make_build
+%cmake_build
 
 
 %install
-cd build
-%make_install
+%cmake_install
 
 # Draw binary should not be versioned.
 mv %{buildroot}%{_bindir}/DRAWEXE-%{version} \
@@ -300,6 +297,13 @@ chmod 0755 %{buildroot}%{_bindir}/*.sh
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.4.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.4.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.4.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

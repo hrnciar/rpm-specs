@@ -1,7 +1,7 @@
 %global archivename crosextrafonts-carlito-20130920
 
 Version:        1.103
-Release:        0.14.20130920%{?dist}
+Release:        0.15.20130920%{?dist}
 URL:            http://code.google.com/p/chromium/issues/detail?id=280557
 
 %global foundry           google
@@ -45,6 +45,9 @@ Source2:        62-%{fontpkgname}.conf
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.103-0.15.20130920
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Parag Nemade <pnemade AT redhat DOT com> - 1.103-0.14.20130920
 - Update fontconfig DTD id in conf file
 

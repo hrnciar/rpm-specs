@@ -5,7 +5,7 @@
 
 Name:		nodejs-is-dotfile
 Version:	1.0.2
-Release:	8%{?dist}
+Release:	10%{?dist}
 Summary:	Return true if a file path is (or has) a dotfile
 
 License:	MIT
@@ -68,6 +68,13 @@ cp -pr package.json index.js \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

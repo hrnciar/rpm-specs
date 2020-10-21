@@ -1,7 +1,7 @@
 Summary:       Convolution engine library
 Name:          zita-convolver
 Version:       4.0.3
-Release:       4%{?dist}
+Release:       5%{?dist}
 License:       GPLv3+
 URL:           http://kokkinizita.linuxaudio.org/
 Source0:       http://kokkinizita.linuxaudio.org/linuxaudio/downloads/%{name}-%{version}.tar.bz2
@@ -49,6 +49,9 @@ sed -i '\|^CXXFLAGS += -march=native|d' source/Makefile
 %{_libdir}/lib%{name}.so
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

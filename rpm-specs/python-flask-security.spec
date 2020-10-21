@@ -4,7 +4,7 @@
 
 Name:       python-%{pkg_name}
 Version:    3.0.0
-Release:    10%{?dist}
+Release:    11%{?dist}
 Summary:    Simple security for Flask apps
 License:    MIT
 URL:        http://github.com/mattupstate/%{pkg_name}/
@@ -73,6 +73,9 @@ install -Dp docs/_build/man/flask-security.1 %{buildroot}%{_mandir}/man1/flask-s
 %{python3_sitelib}/flask_security
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.0-10
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:       git-extras
-Version:    5.1.0
-Release:    2%{?dist}
+Version:    6.1.0
+Release:    1%{?dist}
 Summary:    Little git extras
 
 License:    MIT
@@ -59,6 +59,15 @@ install -pm 0644 man/*.md md
 
 
 %changelog
+* Mon Sep 28 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 6.1.0-1
+- Update to 6.1.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 22 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 6.0.0-1
+- Update to 6.0.0 (#1849487)
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           imagej
 Version:        1.50
-Release:        9.h%{?dist}
+Release:        13.h%{?dist}
 Summary:        Image Processing and Analysis in Java
 
 License:        Public Domain
@@ -15,6 +15,8 @@ Source4:        imagej.png
 patch0:         %{name}-%{version}-patch0.patch
 # modify imagej.sh for fedora compatibility
 patch1:         %{name}-%{version}-patch1.patch
+# set javac source / target version to 1.8 to fix building with Java 11
+Patch2:         imagej-1.50-patch2.patch
 BuildArch:      noarch
 
 
@@ -52,6 +54,9 @@ rm -rf __MACOSX
 #get and patch unix-script.txt
 cp %{SOURCE3} ./imagej.sh
 %patch1 -p1 -b .patch1
+cd source
+%patch2 -p1 -b .patch2
+cd ..
 
 find -name '*.class' -exec rm -f '{}' \;
 find -name '*.jar' -exec rm -f '{}' \;
@@ -120,6 +125,19 @@ desktop-file-install --vendor=""                     \
 
 
 %changelog
+* Tue Oct 06 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.50-13.h
+- Remove -dxx option from script (unsupported in java 11)
+- Fix patch
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.50-12.h
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 19 2020 Fabio Valentini <decathorpe@gmail.com> - 1.50-11.h
+- Set javac source and target to 1.8 to fix Java 11 builds.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.50-10.h
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.50-9.h
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

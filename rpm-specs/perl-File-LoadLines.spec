@@ -7,7 +7,7 @@ Name: perl-%{FullName}
 Summary: Loads the contents of a text file into an array of lines
 License: GPL+ or Artistic
 Version: 0.02
-Release: 5%{?dist}
+Release: 6%{?dist}
 Source: %{metacpan}/%{FullName}-%{version}.tar.gz
 Url: https://metacpan.org/release/%{FullName}
 
@@ -61,6 +61,9 @@ make test VERBOSE=1
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.02-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.02-5
 - Perl 5.32 rebuild
 

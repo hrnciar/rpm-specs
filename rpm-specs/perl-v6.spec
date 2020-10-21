@@ -3,7 +3,7 @@
 
 Name:           perl-v6
 Version:        0.047
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Perl 6 implementation
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/v6
@@ -132,6 +132,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.047-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.047-12
 - Perl 5.32 rebuild
 

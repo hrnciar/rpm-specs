@@ -1,8 +1,9 @@
-%global sover 2.1
+%undefine __cmake_in_source_build
+%global sover 2.2
 
 Name:           OpenImageIO
-Version:        2.1.16.0
-Release:        2%{?dist}
+Version:        2.2.7.0
+Release:        1%{?dist}
 Summary:        Library for reading and writing images
 
 License:        BSD and MIT
@@ -12,8 +13,6 @@ URL:            https://sites.google.com/site/openimageio/home
 Source0:        https://github.com/%{name}/oiio/archive/Release-%{version}/%{name}-%{version}.tar.gz
 # Images for test suite
 #Source1:        https://github.com/OpenImageIO/oiio-images/archive/master/oiio-images.tar.gz
-
-Patch0:         oiio-test.patch
 
 # Needed until LibRaw is available on s390x and aarch64
 %if 0%{?rhel} >= 8
@@ -132,38 +131,30 @@ rm -rf src/include/tbb
 
 
 %build
-mkdir -p build/linux && pushd build/linux
 # CMAKE_SKIP_RPATH is OK here because it is set to FALSE internally and causes
 # CMAKE_INSTALL_RPATH to be cleared, which is the desiered result.
+mkdir build/linux && pushd build/linux
 %cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo \
        -DCMAKE_SKIP_RPATH:BOOL=TRUE \
-       -DINCLUDE_INSTALL_DIR:PATH=/usr/include/%{name} \
        -DPYTHON_VERSION=%{python3_version} \
-       -DPYLIB_INSTALL_DIR:PATH=%{python3_sitearch} \
        -DBUILD_DOCS:BOOL=TRUE \
        -DINSTALL_DOCS:BOOL=FALSE \
        -DINSTALL_FONTS:BOOL=FALSE \
        -DUSE_EXTERNAL_PUGIXML:BOOL=TRUE \
-       -DUSE_OPENSSL:BOOL=TRUE \
        -DSTOP_ON_WARNING:BOOL=FALSE \
-       -DUSE_CPP:STRING=14 \
        -DJPEG_INCLUDE_DIR=%{_includedir} \
        -DOPENJPEG_INCLUDE_DIR=$(pkgconf --variable=includedir libopenjp2) \
        -DOpenGL_GL_PREFERENCE=GLVND \
-       -DVERBOSE=TRUE \
-       ../../
+       -DVERBOSE=TRUE
 
-%make_build
+%cmake_build
 
-#ifarch ppc ppc64
-#       -DNOTHREADS:BOOL=FALSE \
-#endif
 
 %install
-pushd build/linux
-%make_install
+%cmake_install
 
 # Move man pages to the right directory
+pushd %{_vpath_builddir}
 mkdir -p %{buildroot}%{_mandir}/man1
 cp -a src/doc/*.1 %{buildroot}%{_mandir}/man1
 
@@ -175,7 +166,7 @@ cp -a src/doc/*.1 %{buildroot}%{_mandir}/man1
 
 %files
 %doc CHANGES.md CREDITS.md README.md
-%license LICENSE.md LICENSE-THIRD-PARTY.md
+%license LICENSE.md THIRD-PARTY.md
 %{_libdir}/libOpenImageIO.so.%{sover}*
 %{_libdir}/libOpenImageIO_Util.so.%{sover}*
 
@@ -202,6 +193,34 @@ cp -a src/doc/*.1 %{buildroot}%{_mandir}/man1
 
 
 %changelog
+* Thu Oct 01 2020 Richard Shaw <hobbes1069@gmail.com> - 2.2.7.0-1
+- Update to 2.2.7.0.
+
+* Wed Sep 02 2020 Richard Shaw <hobbes1069@gmail.com> - 2.2.6.1-1
+- Update to 2.2.6.1.
+
+* Thu Aug 20 2020 Simone Caronni <negativo17@gmail.com> - 2.1.18.1-2
+- Rebuild for updated OpenVDB.
+
+* Mon Aug 03 2020 Richard Shaw <hobbes1069@gmail.com> - 2.1.18.1-5
+- Update to 2.1.18.1.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.17.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Richard Shaw <hobbes1069@gmail.com> - 2.1.17.0-3
+- Rebuild for unannounced soname bump in libdc1394.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.17.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Richard Shaw <hobbes1069@gmail.com> - 2.1.17.0-1
+- Update to 2.1.17.0.
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 2.1.16.0-3
+- Rebuild for hdf5 1.10.6
+
 * Thu Jun 04 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.1.16.0-2
 - Rebuilt for OpenCV 4.3
 

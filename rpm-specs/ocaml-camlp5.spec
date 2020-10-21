@@ -4,11 +4,11 @@
 %endif
 
 %global major 7
-%global minor 11
+%global minor 12
 
 Name:           ocaml-camlp5
 Version:        %{major}.%{minor}
-Release:        5%{?dist}
+Release:        9%{?dist}
 Summary:        Classical version of camlp4 OCaml preprocessor
 
 License:        BSD
@@ -18,19 +18,6 @@ Source0:        https://github.com/camlp5/camlp5/archive/rel%{major}%{minor}.tar
 
 # Kill -warn-error A
 Patch0:         camlp5-6.11-kill-warn-error.patch
-
-# All patches in the pre-7.12 branch upstream.  This includes
-# support for OCaml 4.11.
-Patch0001:      0001-added-etc-topfind.camlp5.patch
-Patch0002:      0002-fix-raw-string-lexing-bug.patch
-Patch0003:      0003-mkcamlp5-fix-removing-files-in-script.patch
-Patch0004:      0004-Add-pr_o-and-pr_dump-as-packages-in-META-file.patch
-Patch0005:      0005-add-pr_r-subpackage-to-META-to-go-with-pr_-o-dump.patch
-Patch0006:      0006-changelog-comment-for-changes-since-rel7.11.patch
-Patch0007:      0007-start-on-4.11.0.patch
-Patch0008:      0008-meh.patch
-Patch0009:      0009-builds-versdep-trip-test.patch
-Patch0010:      0010-bump-version-number.patch
 
 BuildRequires:  ocaml
 BuildRequires:  ocaml-ocamldoc
@@ -63,6 +50,14 @@ developing applications that use %{name}.
 %autopatch -p1
 find . -name .gitignore -delete
 
+# Fix to build with 4.11.1.
+pushd ocaml_stuff
+ln -s 4.11.0 4.11.1
+popd
+pushd ocaml_src/lib/versdep
+ln -s 4.11.0.ml 4.11.1.ml
+popd
+
 # Build with debug information
 sed -i 's,WARNERR="",WARNERR="-g",' configure
 sed -i 's,-linkall,& -g,g' top/Makefile
@@ -93,7 +88,6 @@ mkdir -p $RPM_BUILD_ROOT%{_libdir}/ocaml/ocaml
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
 mkdir -p $RPM_BUILD_ROOT%{_mandir}
 make install DESTDIR=$RPM_BUILD_ROOT
-mv $RPM_BUILD_ROOT%{_libdir}/ocaml/ocaml/topfind.camlp5 $RPM_BUILD_ROOT%{_libdir}/ocaml/
 cp -p etc/META $RPM_BUILD_ROOT%{_libdir}/ocaml/camlp5
 rm -f doc/htmlp/{*.sh,Makefile,html2*}
 
@@ -118,7 +112,6 @@ rm -f doc/htmlp/{*.sh,Makefile,html2*}
 %{_libdir}/ocaml/camlp5/*.cmx
 %endif
 %{_libdir}/ocaml/camlp5/*.mli
-%{_libdir}/ocaml/topfind.camlp5
 %{_bindir}/camlp5*
 %{_bindir}/mkcamlp5*
 %{_bindir}/ocpp5
@@ -126,6 +119,21 @@ rm -f doc/htmlp/{*.sh,Makefile,html2*}
 
 
 %changelog
+* Wed Sep 02 2020 Richard W.M. Jones <rjones@redhat.com> - 7.12-9
+- Rebuild with correct tag.
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 7.12-8
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 7.12-1
+- New upstream version 7.12.
+- Remove upstream patches.
+- OCaml 4.11.0 rebuild
+- Remove topfind.camlp5 - seems to have been removed from upstream.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.11-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 7.11-5
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

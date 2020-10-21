@@ -7,6 +7,8 @@ Version:                2.12.0
 
 %gometa
 
+%global goaltipaths     github.com/influxdata/promql/v2
+
 %global common_description %{expand:
 The PromQL module in this package is a pruned version of the native Prometheus
 promql package, but extracted into a single module with fewer dependencies.
@@ -18,7 +20,7 @@ parsing the PromQL language.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Pruned version of the native Prometheus promql package
 
 # Upstream license specification: Apache-2.0
@@ -51,5 +53,15 @@ BuildRequires:  golang(github.com/prometheus/common/model)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 20:28:47 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.12.0-2
+- Add alternate import path
+
 * Sat Feb 01 00:02:47 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.12.0-1
 - Initial package

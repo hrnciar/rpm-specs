@@ -6,7 +6,7 @@
 
 Name:            Falcon
 Version:         0.9.6.8
-Release:         19%{?dist}
+Release:         21%{?dist}
 Summary:         The Falcon Programming Language
 Summary(it):     Il linguaggio di programmazione Falcon
 
@@ -24,9 +24,15 @@ Patch2:         Falcon-0.9.6.8-gcc10.patch
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
-BuildRequires:  cmake pcre-devel
-BuildRequires:  sqlite-devel
-BuildRequires:  zlib-devel
+BuildRequires:  cmake
+BuildRequires:  pkgconfig(libcurl)
+BuildRequires:  pkgconfig(libpcre)
+BuildRequires:  pkgconfig(sdl)
+BuildRequires:  pkgconfig(SDL_image)
+BuildRequires:  pkgconfig(SDL_mixer)
+BuildRequires:  pkgconfig(SDL_ttf)
+BuildRequires:  pkgconfig(sqlite3)
+BuildRequires:  pkgconfig(zlib)
 
 %description
 The Falcon Programming Language is an embeddable scripting language
@@ -85,18 +91,18 @@ This package contains HTML documentation for %{name}.
 
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 reldocdir=$(echo %{_pkgdocdir} | sed -e 's|^%{_prefix}/||')
 %cmake . \
        -DFALCON_SHARE_DIR=$reldocdir
 #-DFALCON_LIB_DIR=%{_lib} \
 #       -DFALCON_CMAKE_DIR=%{_lib}/falcon/cmake \
 
-make VERBOSE=1 %{?_smp_flags}
+%cmake_build
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 cp -pR %{docver}-html $RPM_BUILD_ROOT%{_pkgdocdir}
 
 
@@ -133,6 +139,14 @@ cp -pR %{docver}-html $RPM_BUILD_ROOT%{_pkgdocdir}
 
 
 %changelog
+* Mon Sep 14 2020 Jeff Law <law@redhat.com> - 0.9.6.8-21
+- Force C++14 as this code is not C++17 ready
+
+* Tue Aug 25 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.9.6.8-20
+- Fix for CMake macro changes
+- Consistently use pkgconfig for build requirements
+- Add optional dependencies (curl, SDL)
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.6.8-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 # https://github.com/anmitsu/go-shlex
 %global goipath         github.com/anmitsu/go-shlex
-%global commit          648efa622239a2f6ff949fed78ee37b48d499ba4
+%global commit          38f4b401e2be5955e3e00b843d96e3c406f5094d
 
 %gometa
 
@@ -15,17 +15,12 @@ Package Shlex provides a simple lexical analysis like Unix shell.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.6%{?dist}
+Release:        0.8%{?dist}
 Summary:        Library to make a lexical analyzer like Unix shell for Go
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
-
-%if %{with check}
-# Tests
-BuildRequires:  golang(github.com/flynn/go-shlex)
-%endif
 
 %description
 %{common_description}
@@ -46,6 +41,12 @@ BuildRequires:  golang(github.com/flynn/go-shlex)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 17:08:26 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.7.20200723git38f4b40
+- Bump to commit 38f4b401e2be5955e3e00b843d96e3c406f5094d
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

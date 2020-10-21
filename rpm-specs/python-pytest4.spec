@@ -1,6 +1,6 @@
 Name:           python-pytest4
 Version:        4.6.11
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Simple powerful testing with Python
 License:        MIT
 URL:            https://pytest.org
@@ -144,6 +144,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} \
 %pycached %{python3_sitelib}/pytest.py
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Thomas Moschny <thomas.moschny@gmx.de> - 4.6.11-1
 - Update to 4.6.11.
 

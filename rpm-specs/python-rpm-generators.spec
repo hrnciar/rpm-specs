@@ -1,7 +1,7 @@
 Name:           python-rpm-generators
 Summary:        Dependency generators for Python RPMs
 Version:        11
-Release:        7%{?dist}
+Release:        11%{?dist}
 
 # Originally all those files were part of RPM, so license is kept here
 License:        GPLv2+
@@ -12,6 +12,7 @@ Source1:        python.attr
 Source2:        pythondist.attr
 Source3:        pythonname.attr
 Source4:        pythondistdeps.py
+Source5:        pythonbundles.py
 
 BuildArch:      noarch
 
@@ -35,7 +36,7 @@ cp -a %{sources} .
 
 %install
 install -Dpm0644 -t %{buildroot}%{_fileattrsdir} *.attr
-install -Dpm0755 -t %{buildroot}%{_rpmconfigdir} pythondistdeps.py
+install -Dpm0755 -t %{buildroot}%{_rpmconfigdir} *.py
 
 %files -n python3-rpm-generators
 %license COPYING
@@ -43,8 +44,27 @@ install -Dpm0755 -t %{buildroot}%{_rpmconfigdir} pythondistdeps.py
 %{_fileattrsdir}/pythondist.attr
 %{_fileattrsdir}/pythonname.attr
 %{_rpmconfigdir}/pythondistdeps.py
+%{_rpmconfigdir}/pythonbundles.py
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Miro Hrončok <mhroncok@redhat.com> - 11-10
+- pythondistdeps: Split Python Extras names after the rightmost plus sign
+- pythondistdeps: Handle edge cases of version comparisons more closely to
+  upstream, despite irrationality
+  See: https://github.com/pypa/packaging/issues/320
+
+* Fri Jul 10 2020 Tomas Orsava <torsava@redhat.com> - 11-9
+- pythondistdeps: Implement provides/requires for extras packages
+- Enable --require-extras-subpackages
+- Adapt Python version marker workaround for setuptools 42+
+
+* Fri Jun 26 2020 Miro Hrončok <mhroncok@redhat.com> - 11-8
+- Fix python(abi) requires generator, it picked files from almost good directories
+- Add a script to generate Python bundled provides
+
 * Thu May 21 2020 Miro Hrončok <mhroncok@redhat.com> - 11-7
 - Use PEP 503 names for requires
 

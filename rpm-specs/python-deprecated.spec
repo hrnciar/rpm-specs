@@ -2,15 +2,13 @@
 %global pkgname deprecated
 
 Name:           python-%{pkgname}
-Version:        1.2.6
-Release:        7%{?dist}
+Version:        1.2.10
+Release:        1%{?dist}
 Summary:        Python decorator to deprecate old python classes, functions or methods
 License:        MIT
 URL:            https://github.com/tantale/%{pkgname}
-Source0:        https://files.pythonhosted.org/packages/source/D/%{srcname}/%{srcname}-%{version}.tar.gz
+Source0:        %{pypi_source}
 BuildArch:      noarch
-
-%{?python_enable_dependency_generator}
 
 %description
 Python @deprecated decorator to deprecate old python classes,
@@ -44,6 +42,12 @@ rm -rf %{pkgname}.egg-info
 
 
 %changelog
+* Fri Aug 07 2020 Hunor Csomortáni <csomh@redhat.com> - 1.2.10-1
+- new upstream release: 1.2.10
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.6-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.6-7
 - Rebuilt for Python 3.9
 

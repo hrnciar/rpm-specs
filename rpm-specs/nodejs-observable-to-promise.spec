@@ -6,7 +6,7 @@
 
 Name:		nodejs-observable-to-promise
 Version:	0.5.0
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	Convert an Observable to a Promise
 
 License:	MIT
@@ -69,6 +69,9 @@ cp -pr package.json index.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

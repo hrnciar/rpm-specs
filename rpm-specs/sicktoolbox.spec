@@ -1,6 +1,6 @@
 Name:           sicktoolbox
 Version:        1.0.1
-Release:        13%{?dist}
+Release:        15%{?dist}
 Summary:        The SICK LIDAR Toolbox
 
 License:        BSD
@@ -41,6 +41,7 @@ Assorted documentation for %{name}.
 %patch1 -p1
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure --disable-static --program-prefix=sick_
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
@@ -67,6 +68,12 @@ rm -rf %{buildroot}%{_libdir}/*.la
 %doc manuals/*.pdf
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 1.0.1-14
+- Force C++14 as this code is not C++17 ready
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

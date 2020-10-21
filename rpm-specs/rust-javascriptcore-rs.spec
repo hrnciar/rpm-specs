@@ -5,8 +5,8 @@
 %global crate javascriptcore-rs
 
 Name:           rust-%{crate}
-Version:        0.9.0
-Release:        1%{?dist}
+Version:        0.10.0
+Release:        2%{?dist}
 Summary:        Rust bindings for the javacriptcore library
 
 # Upstream license specification: MIT
@@ -71,5 +71,11 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Josh Stone <jistone@redhat.com> - 0.10.0-1
+- Update to 0.10.0
+
 * Fri May 15 09:13:50 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 0.9.0-1
 - Initial package

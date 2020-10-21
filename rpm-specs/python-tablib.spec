@@ -3,7 +3,7 @@
 
 Name:             python-tablib
 Version:          0.12.1
-Release:          14%{?dist}
+Release:          15%{?dist}
 Summary:          Format agnostic tabular data library (XLS, JSON, YAML, CSV)
 
 License:          MIT
@@ -98,6 +98,9 @@ sed -i '/tablib.packages.*3/d' setup.py
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.12.1-14
 - Rebuilt for Python 3.9
 

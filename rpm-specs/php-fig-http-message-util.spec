@@ -16,7 +16,7 @@
 
 Name:           php-%{pk_owner}-%{pk_project}
 Version:        1.1.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        PSR Http Message Util
 
 License:        MIT
@@ -99,6 +99,9 @@ exit ($ok ? 0 : 1);
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 19 2020 Remi Collet <remi@remirepo.net> - 1.1.4-1
 - update to 1.1.4
 - psr/http-message is optional

@@ -1,10 +1,10 @@
 %global srcname eimp
 
-%global p1_utils_ver 1.0.17
+%global p1_utils_ver 1.0.20
 
 
 Name:    erlang-eimp
-Version: 1.0.13
+Version: 1.0.17
 Release: 1%{?dist}
 
 License: ASL 2.0
@@ -59,6 +59,17 @@ echo "Skipping tests."
 
 
 %changelog
+* Fri Jul 31 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.17-1
+- Update to 1.0.17 (#1807270).
+- https://github.com/processone/eimp/blob/1.0.17/CHANGELOG.md
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.13-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 14 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.13-1
 - Update to 1.0.13 (#1789164).
 - https://github.com/processone/eimp/blob/1.0.13/CHANGELOG.md

@@ -1,6 +1,6 @@
 Name:           qrq
 Version:        0.3.1
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Morse telegraphy trainer
 
 License:        GPLv2+
@@ -44,6 +44,9 @@ make install DESTDIR=%{buildroot}%{_prefix} OSX_BUNDLE=NO
 %{_datadir}/qrq
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

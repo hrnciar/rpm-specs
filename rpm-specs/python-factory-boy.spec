@@ -13,8 +13,8 @@ Its features include:\
 - Support for various ORMs (currently Django, Mogo, SQLAlchemy)\
 
 Name:           python-factory-boy
-Version:        2.12.0
-Release:        3%{?dist}
+Version:        3.1.0
+Release:        1%{?dist}
 Summary:        A versatile test fixtures replacement based on thoughtbot's factory_girl
 
 License:        MIT
@@ -23,10 +23,6 @@ Source0:        https://github.com/rbarrois/%{srcname}/archive/%{version}/%{srcn
 BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
-BuildRequires:  python3-sphinx
-BuildRequires:  python3-sphinx_rtd_theme
-#BuildRequires:  python3-mock
-#BuildRequires:  python3-django
 
 %description
 %desc
@@ -51,36 +47,42 @@ Documentation for the %{name} API
 
 %build
 %py3_build
-
-# Build the docs
-pushd docs
-%make_build html
-%make_build text
-%make_build man
-find . -name .buildinfo -print0 | xargs -0 rm -f
-sed -i 's/\r$//' _build/html/_static/jquery.js
-popd
+# Clean the doc dir
+rm -f docs/Makefile
+rm -rf docs/_static
+find examples -type f -print0 | xargs -0 chmod 0644
 
 %install
 %py3_install
-install -D -m 644 docs/_build/man/factoryboy.1 %{buildroot}%{_mandir}/man3/factoryboy.3
 
 %check
 # Checks disabled because they download packages from the Internet
-#%%{__python3} setup.py test
+#%%make_build testall
 
 %files -n python3-factory-boy
-%doc README.rst
+%license LICENSE
 %{python3_sitelib}/factory
 %{python3_sitelib}/%{srcname}-%{version}-py*.egg-info
 
 %files doc
-%doc README.rst
-%doc docs/_build/html
-%doc docs/_build/text
-%{_mandir}/man3/factoryboy.3*
+%doc README.rst CODE_OF_CONDUCT.md CONTRIBUTING.rst CREDITS docs examples
+%license LICENSE
 
 %changelog
+* Thu Oct 08 2020 Juan Orti Alcaine <jortialc@redhat.com> - 3.1.0-1
+- Version 3.1.0 (RHBZ#1884820)
+- BR: python3-setuptools
+
+* Fri Aug 14 2020 Juan Orti Alcaine <jortialc@redhat.com> - 3.0.1-1
+- Version 3.0.1 (RHBZ#1868502)
+
+* Thu Aug 13 2020 Juan Orti Alcaine <jortialc@redhat.com> - 3.0.0-1
+- Version 3.0.0
+- Include documentation in text format as sphinx fails to build
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.12.0-3
 - Rebuilt for Python 3.9
 

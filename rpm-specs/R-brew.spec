@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          1.0.6
-Release:          8%{?dist}
+Release:          9%{?dist}
 Summary:          Templating Framework for Report Generation
 
 License:          GPLv2+
@@ -47,6 +47,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 1.0.6-8
 - rebuild for R 4
 

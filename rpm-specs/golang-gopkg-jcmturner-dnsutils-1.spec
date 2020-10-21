@@ -14,7 +14,7 @@ DNS utilities for Go.}
 %global golicenses      LICENSE
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        DNS utilities for Go
 
 # Upstream license specification: Apache-2.0
@@ -46,5 +46,8 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 20 20:42:49 EST 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.0.1-1
 - Initial package

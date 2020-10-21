@@ -1,19 +1,19 @@
 # remirepo/fedora spec file for php-pear-HTTP-Request2
 #
-# Copyright (c) 2009-2016 Remi Collet
+# Copyright (c) 2009-2020 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
 # Please, preserve the changelog entries
 #
-%{!?pear_metadir: %global pear_metadir %{pear_phpdir}}
+%bcond_with tests
+
 %{!?__pear:       %global __pear       %{_bindir}/pear}
 %global pear_name   HTTP_Request2
-%global with_tests  %{?_with_tests:1}%{!?_with_tests:0}
 
 Name:           php-pear-HTTP-Request2
-Version:        2.3.0
-Release:        8%{?dist}
+Version:        2.4.2
+Release:        1%{?dist}
 Summary:        Provides an easy way to perform HTTP requests
 
 License:        BSD
@@ -21,15 +21,18 @@ URL:            http://pear.php.net/package/HTTP_Request2
 Source0:        http://pear.php.net/get/%{pear_name}-%{version}.tgz
 
 BuildArch:      noarch
+
+BuildRequires:  php(language) >= 5.6
 BuildRequires:  php-pear(PEAR) >= 1.9.2
 # For test suite
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php-pear(pear.phpunit.de/PHPUnit)
 BuildRequires:  php-pear(Net_URL2) >= 2.2.0
 %endif
 
 Requires(post): %{__pear}
 Requires(postun): %{__pear}
+Requires:       php(language) >= 5.6
 # From package.xml
 Requires:       php-pear(Net_URL2) >= 2.2.0
 Requires:       php-pear(PEAR) >= 1.9.2
@@ -90,7 +93,7 @@ install -pm 644 %{name}.xml %{buildroot}%{pear_xmldir}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 cd %{pear_name}-%{version}/tests
 # Tests: 97, Assertions: 171, Skipped: 3.
 
@@ -124,6 +127,16 @@ fi
 
 
 %changelog
+* Fri Sep 25 2020 Remi Collet <remi@remirepo.net> - 2.4.2-1
+- update to 2.4.2 (stable)
+
+* Mon Aug 10 2020 Remi Collet <remi@remirepo.net> - 2.4.1-1
+- update to 2.4.1 (stable)
+- raise dependency on PHP 5.6
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

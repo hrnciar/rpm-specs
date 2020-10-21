@@ -1,6 +1,6 @@
 Name:           perl-HTTP-Parser
 Version:        0.06
-Release:        26%{?dist}
+Release:        27%{?dist}
 Summary:        Parse HTTP/1.1 request into HTTP::Request/Response object
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/HTTP-Parser
@@ -48,6 +48,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.06-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.06-26
 - Perl 5.32 rebuild
 

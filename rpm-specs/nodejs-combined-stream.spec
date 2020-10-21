@@ -2,7 +2,7 @@
 
 Name:           nodejs-combined-stream
 Version:        1.0.5
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        A stream that emits multiple other streams one after another
 BuildArch:      noarch
 ExclusiveArch:  %{nodejs_arches} noarch
@@ -33,6 +33,9 @@ cp -pr package.json lib %{buildroot}%{nodejs_sitelib}/combined-stream
 %{nodejs_sitelib}/combined-stream
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

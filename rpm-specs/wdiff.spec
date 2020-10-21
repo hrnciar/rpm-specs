@@ -1,6 +1,6 @@
 Name:           wdiff
 Version:        1.2.2
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        A front-end to GNU diff
 
 License:        GPLv3+
@@ -49,6 +49,9 @@ find $RPM_BUILD_ROOT -type f -name '*gnulib.mo' -exec rm -f {} ';'
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

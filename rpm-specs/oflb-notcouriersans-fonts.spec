@@ -3,7 +3,7 @@
 
 Name:		%{fontname}-fonts
 Version:	1.1
-Release:	19%{?dist}
+Release:	20%{?dist}
 Summary:	NotCourier Sans is a re-interpretation of Nimbus Mono
 
 License:	GPLv2
@@ -68,6 +68,9 @@ install -Dm 0644 -p %{SOURCE2} \
 %{_datadir}/appdata/%{fontname}.metainfo.xml
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

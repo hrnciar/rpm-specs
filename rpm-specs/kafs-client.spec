@@ -4,7 +4,7 @@
 
 Name:		kafs-client
 Version:	0.4
-Release:	1%{?dist}%{?buildid}
+Release:	2%{?dist}%{?buildid}
 Summary:	The basic tools for kAFS and mounter for the AFS dynamic root
 License:	GPLv2+
 URL:		https://www.infradead.org/~dhowells/kafs/
@@ -145,6 +145,9 @@ ln -s aklog-kafs %{buildroot}/%{_bindir}/aklog
 %{_mandir}/man1/aklog.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 20 2020 David Howells <dhowells@redhat.com> 0.4-1
 - Use AF_ALG rather than OpenSSL's libcrypto.
 - Move the aklog.1 manpage to the -compat rpm.

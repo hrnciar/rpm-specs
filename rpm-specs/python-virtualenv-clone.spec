@@ -4,8 +4,8 @@
 %global srcname clonevirtualenv
 
 Name:             python-virtualenv-clone
-Version:          0.5.3
-Release:          5%{?dist}
+Version:          0.5.4
+Release:          2%{?dist}
 Summary:          Script to clone virtualenvs
 
 License:          MIT
@@ -15,6 +15,7 @@ Source0:          http://pypi.python.org/packages/source/v/%{modname}/%{modname}
 BuildArch:        noarch
 
 BuildRequires:    python3-devel
+BuildRequires:    python3-setuptools
 BuildRequires:    python3-virtualenv
 
 %description
@@ -74,6 +75,13 @@ existing virtualenv.
 %{_bindir}/virtualenv-clone
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Tadej Janež <tadej.j@nez.si> - 0.5.4-1
+- Update to 0.5.4 release
+- Add explicit BuildRequires on python3-setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.3-5
 - Rebuilt for Python 3.9
 

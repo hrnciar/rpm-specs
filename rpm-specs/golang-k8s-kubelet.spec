@@ -4,8 +4,8 @@
 # https://github.com/kubernetes/kubelet
 %global goipath         k8s.io/kubelet
 %global forgeurl        https://github.com/kubernetes/kubelet
-Version:                1.15.0
-%global tag             kubernetes-1.15.0
+Version:                1.18.9
+%global tag             kubernetes-1.18.9
 %global distprefix      %{nil}
 
 %gometa
@@ -19,7 +19,7 @@ any third-party tool writing Kubernetes ComponentConfig objects.}
 %global godocs          code-of-conduct.md CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Kubelet component configs
 
 # Upstream license specification: Apache-2.0
@@ -27,6 +27,13 @@ License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
+BuildRequires:  golang(github.com/gogo/protobuf/gogoproto)
+BuildRequires:  golang(github.com/gogo/protobuf/proto)
+BuildRequires:  golang(github.com/gogo/protobuf/sortkeys)
+BuildRequires:  golang(golang.org/x/net/context)
+BuildRequires:  golang(google.golang.org/grpc)
+BuildRequires:  golang(google.golang.org/grpc/codes)
+BuildRequires:  golang(google.golang.org/grpc/status)
 BuildRequires:  golang(k8s.io/api/core/v1)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/apis/meta/v1)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/runtime)
@@ -51,6 +58,15 @@ BuildRequires:  golang(k8s.io/apimachinery/pkg/runtime/schema)
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 04:06:22 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.9-1
+- Update to 1.18.9
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 14:35:37 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-1
+- Update to 1.18.3
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

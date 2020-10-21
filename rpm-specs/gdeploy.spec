@@ -8,7 +8,7 @@
 
 Name:           gdeploy
 Version:        3.0.0
-Release:        7.%{date}git%{shortcommit}%{?dist}
+Release:        8.%{date}git%{shortcommit}%{?dist}
 Summary:        Tool to deploy and manage GlusterFS cluster
 
 License:        GPLv3+
@@ -120,6 +120,9 @@ configuration files to deploy and configure GlusterFS.
 %doc %{_pkgdocdir}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-8.20200525git05d894b
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Charalampos Stratakis <cstratak@redhat.com> - 3.0.0-7.20200525git05d894b
 - Fix the sources
 

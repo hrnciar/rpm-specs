@@ -1,10 +1,11 @@
+%undefine __cmake_in_source_build
 # Upstream has only made 1 release tarball, so we build from git
 %global gittag   d59c325fb31812047e61aba3d75cc037f92c2b3d
 %global shorttag %(cut -b -7 <<< %{gittag})
 
 Name:           tlx
 Version:        0.5.20200222
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Sophisticated C++ data structures, algorithms, and helpers
 
 License:        Boost
@@ -53,25 +54,20 @@ Doxygen documentation for tlx.
 %autosetup -n tlx-%{gittag}
 
 %build
-mkdir build
-cd build
 %cmake \
   -DTLX_BUILD_SHARED_LIBS:BOOL=ON \
   -DTLX_BUILD_STATIC_LIBS:BOOL=OFF \
   -DTLX_BUILD_STRING_SORTING:BOOL=ON \
   -DTLX_BUILD_TESTS:BOOL=ON \
-  ..
-%make_build
-cd -
+  %{nil}
+%cmake_build
 doxygen
 
 %install
-cd build
-%make_install
+%cmake_install
 
 %check
-cd build
-make test
+%ctest
 
 %files
 %license LICENSE
@@ -89,6 +85,9 @@ make test
 %doc doxygen-html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.20200222-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Jerry James <loganjerry@gmail.com> - 0.5.20200222-1
 - Version 0.5.2020022
 - Drop -endian patch

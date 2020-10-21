@@ -1,33 +1,29 @@
 Name:           lazygal
-Version:        0.9.3
-Release:        10%{?dist}
+Version:        0.10
+Release:        1%{?dist}
 Summary:        A static web gallery generator
 
 License:        GPLv2+ and MIT
 URL:            https://sml.zincube.net/~niol/repositories.git/lazygal/about/
 Source0:        https://sml.zincube.net/~niol/repositories.git/lazygal/snapshot/lazygal-%{version}.tar.bz2
-Patch0:         lazygal-0.9.3-4f7e502.patch
+# https://github.com/niol/lazygal/issues/7
+Patch0:         https://github.com/niol/lazygal/commit/1d73d360382d35218c87c44ff07fb80500206aa2.patch
+# https://github.com/niol/lazygal/issues/8
+Patch1:         https://github.com/niol/lazygal/commit/12945173307bcb5140da258bdebc00f40ada8e8c.patch
 
 BuildArch:      noarch
 
 BuildRequires:  gettext
-BuildRequires:  gstreamer1-plugins-base
-BuildRequires:  gstreamer1-plugins-good
 BuildRequires:  js-jquery
 BuildRequires:  pandoc
 BuildRequires:  python3-devel
 BuildRequires:  python3-gexiv2
 BuildRequires:  python3-genshi
-BuildRequires:  python3-gstreamer1
 BuildRequires:  python3-pillow
-BuildRequires:  glibc-langpack-en
-Recommends:     gstreamer1-plugins-base
-Recommends:     gstreamer1-plugins-good
 Requires:       js-jquery
 Requires:       python3-gexiv2
 Requires:       python3-genshi
 Requires:       python3-pillow
-Recommends:     python3-gstreamer1
 Provides:       bundled(jquery.tipTip.js) = 1.3
 Provides:       bundled(respond.js) = 1.4.2
 Provides:       bundled(jquery.colorbox.js) = 1.4.36
@@ -49,6 +45,7 @@ It can be summed up by the following features :
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %py3_build
@@ -79,6 +76,19 @@ cp -pr build/mo/* %{buildroot}%{_datadir}/locale/
 %{_mandir}/man5/%{name}.conf.5*
 
 %changelog
+* Mon Aug 31 2020 Dominik Mierzejewski <rpm@greysector.net> - 0.10-1
+- update to 0.10 (#1873092)
+- upstream switched from GStreamer to FFmpeg, so drop GStreamer dependencies
+- backport upstream commit to skip tests which depend on FFmpeg
+- backport upstream commit to fix user comment test with recent gexiv2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 09 2020 Dominik Mierzejewski <rpm@greysector.net> - 0.9.4-1
+- update to 0.9.4 (#1836851)
+- drop obsolete patch
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.3-10
 - Rebuilt for Python 3.9
 

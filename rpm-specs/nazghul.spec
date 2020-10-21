@@ -1,6 +1,6 @@
 Name:           nazghul
 Version:        0.7.1
-Release:        26.20120228gitb0a402a%{?dist}
+Release:        28.20120228gitb0a402a%{?dist}
 Summary:        A computer role-playing game (CRPG) engine
 
 License:        GPLv2+
@@ -64,6 +64,7 @@ cp %SOURCE1 .
 
 
 %build
+export CFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 ./autogen.sh
 %configure
 make %{?_smp_mflags}
@@ -132,6 +133,12 @@ EOF
 
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 0.7.1-28.20120228gitb0a402a
+- Force C++14 as this code is not C++17 ready
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-27.20120228gitb0a402a
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-26.20120228gitb0a402a
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

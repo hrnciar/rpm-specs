@@ -6,7 +6,7 @@
 
 Name:           coin
 Version:        1.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Track the virtual currencies in real world currency value
 
 License:        GPLv3+
@@ -67,6 +67,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 01 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.3.0-1
 - Update to 1.3.0
 

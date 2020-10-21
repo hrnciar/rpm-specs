@@ -5,7 +5,7 @@
 Name:           libtheora
 Epoch:          1
 Version:        1.1.1
-Release:        25%{?dist}
+Release:        28%{?dist}
 Summary:        Theora Video Compression Codec
 License:        BSD
 URL:            http://www.theora.org
@@ -39,12 +39,6 @@ in the future to improve over what is possible with VP3.
 Summary:        Development tools for Theora applications
 Requires:       libogg-devel >= 2:1.1
 Requires:       %{name}%{?_isa} = %{epoch}:%{version}-%{release}
-# the new experimental decoder is now part of the regular libtheora
-# we do not obsolete theora-exp itself as that had a different soname and we
-# do not want to break deps, however we do now provide the same headers as
-# theora-exp-devel did.
-Obsoletes:      theora-exp-devel
-Provides:       theora-exp-devel
 
 %description devel
 The libtheora-devel package contains the header files needed to develop
@@ -75,19 +69,18 @@ with theora bitstreams.
 %patch1 -p0 -b .libpng16
 %patch2 -p1
 
-# no custom CFLAGS please
-sed -i 's/CFLAGS="$CFLAGS $cflags_save"/CFLAGS="$cflags_save"/g' configure
-
 # Update config.guess/sub to fix builds on new architectures (aarch64/ppc64le)
-cp /usr/lib/rpm/config.* .
+cp /usr/lib/rpm/redhat/config.* .
 
 %build
 ./autogen.sh
+# no custom CFLAGS please
+sed -i 's/CFLAGS="$CFLAGS $cflags_save"/CFLAGS="$cflags_save"/g' configure
 %configure --enable-shared --disable-static
 # Don't use rpath!
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
-make %{?_smp_mflags}
+%{make_build}
 
 %if ! 0%{?bootstrap}
 make -C doc/spec %{?_smp_mflags}
@@ -95,12 +88,12 @@ make -C doc/spec %{?_smp_mflags}
 
 
 %install
-%make_install
+%{make_install}
 
-rm $RPM_BUILD_ROOT/%{_libdir}/*.la
-rm -r $RPM_BUILD_ROOT/%{_docdir}/*
+find %{buildroot} -type f -name "*.la" -delete
+rm -r %{buildroot}/%{_docdir}/*
 
-mkdir -p $RPM_BUILD_ROOT/%{_bindir}
+mkdir -p %{buildroot}/%{_bindir}
 install -m 755 examples/.libs/dump_video $RPM_BUILD_ROOT/%{_bindir}/theora_dump_video
 install -m 755 examples/.libs/encoder_example $RPM_BUILD_ROOT/%{_bindir}/theora_encode
 install -m 755 examples/.libs/player_example $RPM_BUILD_ROOT/%{_bindir}/theora_player
@@ -130,6 +123,16 @@ install -m 755 examples/.libs/png2theora $RPM_BUILD_ROOT/%{_bindir}/png2theora
 
 
 %changelog
+* Mon Aug 03 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1:1.1.1-28
+- Use new macros, update config.\* locations
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.1.1-27
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.1.1-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.1.1-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

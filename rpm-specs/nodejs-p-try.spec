@@ -6,7 +6,7 @@
 
 Name: nodejs-p-try
 Version: 2.0.0
-Release: 1%{?dist}
+Release: 3%{?dist}
 Summary: Starts a promise chain
 License: MIT
 URL:     https://github.com/sindresorhus/p-try
@@ -47,5 +47,12 @@ cp -pr package.json index.js \
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 15 2020 Sérgio Basto <sergio@serjux.com> - 2.0.0-1
 - Initial RPM release, based on nodejs-p-try-2.0.0-1.mga8.src.rpm .

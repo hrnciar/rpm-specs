@@ -1,7 +1,7 @@
 Name: hunspell-ro
 Summary: Romanian hunspell dictionaries
 Version: 3.3.7
-Release: 16%{?dist}
+Release: 17%{?dist}
 Source: http://downloads.sourceforge.net/rospell/ro_RO.%{version}.zip
 URL: http://rospell.sourceforge.net/
 License: GPLv2+ or LGPLv2+ or MPLv1.1
@@ -28,6 +28,9 @@ cp -p ro_RO.* $RPM_BUILD_ROOT/%{_datadir}/myspell
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.7-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.7-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

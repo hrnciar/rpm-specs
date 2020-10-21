@@ -1,7 +1,7 @@
 Summary: Revision Control System (RCS) file version management tools
 Name: rcs
 Version: 5.9.4
-Release: 13%{?dist}
+Release: 14%{?dist}
 License: GPLv3+
 URL: http://www.gnu.org/software/rcs/
 Source: ftp://ftp.gnu.org/gnu/rcs/%{name}-%{version}.tar.xz
@@ -67,6 +67,9 @@ make check XFAIL_TESTS="`tests/known-failures %{version}`"
 %{_infodir}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.9.4-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.9.4-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

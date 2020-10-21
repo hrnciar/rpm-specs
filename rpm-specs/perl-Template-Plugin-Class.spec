@@ -1,6 +1,6 @@
 Name:           perl-Template-Plugin-Class
 Version:        0.14
-Release:        30%{?dist}
+Release:        31%{?dist}
 Summary:        Allow calling of class methods on arbitrary classes
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Template-Plugin-Class
@@ -39,6 +39,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.14-30
 - Perl 5.32 rebuild
 

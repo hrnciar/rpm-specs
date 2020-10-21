@@ -1,6 +1,6 @@
 Name:		gosnake
 Version:	2.0
-Release:	11%{?dist}
+Release:	12%{?dist}
 Summary:	The Console Snake Game
 
 License:	GPLv3+
@@ -42,6 +42,9 @@ install -m 0644 -p -D info/gosnake.info* %{buildroot}%{_infodir}/gosnake.info
 %license COPYING
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 08 2020 Mohammed Isam <mohammed_isam1984@yahoo.com> 2.0-11
 - Bug fixes
 

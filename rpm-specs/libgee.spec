@@ -1,6 +1,6 @@
 Name:           libgee
 Version:        0.20.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GObject collection library
 
 License:        LGPLv2+
@@ -100,6 +100,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb  9 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.20.3
 - Update to 0.20.3
 

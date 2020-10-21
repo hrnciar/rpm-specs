@@ -3,14 +3,9 @@
 
 # https://github.com/mattn/go-runewidth
 %global goipath         github.com/mattn/go-runewidth
-Version:                0.0.8
+Version:                0.0.9
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-mattn-go-runewidth-devel < 0.0.4-2
-}
 
 %global common_description %{expand:
 Package go-runewidth provides functions to get fixed width of a character or
@@ -51,6 +46,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 20:40:06 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.0.9-1
+- Update to 0.0.9
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.0.8-1
 - Update to latest version
 

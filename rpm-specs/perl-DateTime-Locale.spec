@@ -1,6 +1,6 @@
 Name:           perl-DateTime-Locale
-Version:        1.25
-Release:        3%{?dist}
+Version:        1.28
+Release:        1%{?dist}
 Summary:        Localization support for DateTime.pm
 # Although the CLDR license is listed as "MIT" on the Fedora Wiki, it's more
 # similar to recently added "Unicode" license.
@@ -36,11 +36,13 @@ BuildRequires:  perl(base)
 BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(File::Temp)
 BuildRequires:  perl(IPC::System::Simple)
-BuildRequires:  perl(Test::Fatal)
+BuildRequires:  perl(Path::Tiny)
 BuildRequires:  perl(Test::File::ShareDir::Dist)
 BuildRequires:  perl(Test::More) >= 0.96
-BuildRequires:  perl(Test::Requires)
-BuildRequires:  perl(Test::Warnings)
+BuildRequires:  perl(Test2::Plugin::UTF8)
+BuildRequires:  perl(Test2::Plugin::NoWarnings)
+BuildRequires:  perl(Test2::Require::Module)
+BuildRequires:  perl(Test2::V0)
 BuildRequires:  perl(utf8)
 # Optional tests:
 BuildRequires:  perl(CPAN::Meta) >= 2.120900
@@ -85,6 +87,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Mon Aug 31 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.28-1
+- 1.28 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.26-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.26-1
+- 1.26 bump
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.25-3
 - Perl 5.32 rebuild
 

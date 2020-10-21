@@ -2,7 +2,7 @@
 
 Name:           python-blinker
 Version:        1.4
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Fast, simple object-to-object and broadcast signaling
 
 License:        MIT
@@ -45,6 +45,9 @@ of interested parties to subscribe to events, or "signals".
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4-10
 - Rebuilt for Python 3.9
 

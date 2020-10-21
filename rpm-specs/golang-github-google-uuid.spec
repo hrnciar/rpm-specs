@@ -20,7 +20,7 @@ the ability to represent an invalid UUID (vs a NIL UUID).}
 %global godocs          CONTRIBUTING.md CONTRIBUTORS README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Go library to generate and inspect UUIDs
 
 # Upstream license specification: BSD-3-Clause
@@ -47,6 +47,9 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

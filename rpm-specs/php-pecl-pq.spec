@@ -10,18 +10,19 @@
 # Please, preserve the changelog entries
 #
 
+# Build using "--without tests" to disable tests
+%bcond_without     tests
+
 # we don't want -z defs linker flag
 %undefine _strict_symbol_defs_build
 
 %global with_zts   0%{?__ztsphp:1}
 %global pecl_name  pq
-# Build using "--without tests" to disable tests
-%global with_tests 0%{!?_without_tests:1}
 %global ini_name   50-%{pecl_name}.ini
 
 Summary:        PostgreSQL client library (libpq) binding
 Name:           php-pecl-%{pecl_name}
-Version:        2.1.7
+Version:        2.1.8
 Release:        1%{?dist}
 License:        BSD
 URL:            https://pecl.php.net/package/%{pecl_name}
@@ -33,7 +34,7 @@ BuildRequires:  php-devel > 7
 BuildRequires:  php-pear
 BuildRequires:  php-json
 BuildRequires:  php-pecl-raphf-devel >= 1.1.0
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  postgresql-server
 BuildRequires:  postgresql-contrib
 %endif
@@ -152,7 +153,7 @@ OPT="-n"
     --modules | grep %{pecl_name}
 %endif
 
-%if %{with_tests}
+%if %{with tests}
 RET=0
 
 : Running a server
@@ -219,6 +220,12 @@ exit $RET
 
 
 %changelog
+* Thu Sep 24 2020 Remi Collet <remi@remirepo.net> - 2.1.8-1
+- update to 2.1.8
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb  7 2020 Remi Collet <remi@remirepo.net> - 2.1.7-1
 - update to 2.1.7
 

@@ -5,7 +5,7 @@
 Summary: The Berkeley DB database library for C
 Name: libdb
 Version: 5.3.28
-Release: 40%{?dist}
+Release: 44%{?dist}
 Source0: http://download.oracle.com/berkeley-db/db-%{version}.tar.gz
 Source1: http://download.oracle.com/berkeley-db/db.1.85.tar.gz
 # For mt19937db.c
@@ -25,8 +25,6 @@ Patch24: db-4.5.20-jni-include-dir.patch
 # License clarification patch
 # http://devel.trisquel.info/gitweb/?p=package-helpers.git;a=blob;f=helpers/DATA/db4.8/007-mt19937db.c_license.patch;h=1036db4d337ce4c60984380b89afcaa63b2ef88f;hb=df48d40d3544088338759e8bea2e7f832a564d48
 Patch25: 007-mt19937db.c_license.patch
-#Adds missing constant to Optcodes.java and changes ClassReader.java to use it. This makes package to build with Java 8. 
-Patch26: java8-fix.patch
 # memp_stat fix provided by upstream (rhbz#1211871)
 Patch27: db-5.3.21-memp_stat-upstream-fix.patch
 # fix for mutexes not being released provided by upstream (rhbz#1277887)
@@ -63,7 +61,6 @@ License: BSD and LGPLv2 and Sleepycat
 BuildRequires: gcc gcc-c++
 BuildRequires: perl-interpreter libtool
 BuildRequires: tcl-devel >= %{__tclversion}
-BuildRequires: java-devel >= 1:1.6.0
 BuildRequires: chrpath
 BuildRequires: zlib-devel
 Conflicts: filesystem < 3
@@ -74,7 +71,7 @@ provides embedded database support for both traditional and
 client/server applications. The Berkeley DB includes B+tree, Extended
 Linear Hashing, Fixed and Variable-length record access methods,
 transactions, locking, logging, shared memory caching, and database
-recovery. The Berkeley DB supports C, C++, Java, and Perl APIs. It is
+recovery. The Berkeley DB supports C, C++, and Perl APIs. It is
 used by many applications, including Python and Perl, so this should
 be installed on all systems.
 
@@ -88,7 +85,7 @@ provides embedded database support for both traditional and
 client/server applications. Berkeley DB includes B+tree, Extended
 Linear Hashing, Fixed and Variable-length record access methods,
 transactions, locking, logging, shared memory caching, and database
-recovery. DB supports C, C++, Java and Perl APIs.
+recovery. DB supports C, C++ and Perl APIs.
 
 %package devel
 Summary: C development files for the Berkeley DB library
@@ -135,7 +132,7 @@ provides embedded database support for both traditional and
 client/server applications. The Berkeley DB includes B+tree, Extended
 Linear Hashing, Fixed and Variable-length record access methods,
 transactions, locking, logging, shared memory caching, and database
-recovery. The Berkeley DB supports C, C++, Java, and Perl APIs. It is
+recovery. The Berkeley DB supports C, C++, and Perl APIs. It is
 used by many applications, including Python and Perl, so this should
 be installed on all systems.
 
@@ -150,7 +147,7 @@ provides embedded database support for both traditional and
 client/server applications. The Berkeley DB includes B+tree, Extended
 Linear Hashing, Fixed and Variable-length record access methods,
 transactions, locking, logging, shared memory caching, and database
-recovery. The Berkeley DB supports C, C++, Java, and Perl APIs. It is
+recovery. The Berkeley DB supports C, C++, and Perl APIs. It is
 used by many applications, including Python and Perl, so this should
 be installed on all systems.
 
@@ -194,26 +191,6 @@ provides embedded database support for both traditional and
 client/server applications. This package contains the libraries
 for building programs which use the Berkeley DB in SQL.
 
-%package java
-Summary: Development files for using the Berkeley DB with Java
-Requires: %{name}%{?_isa} = %{version}-%{release}
-
-%description java
-The Berkeley Database (Berkeley DB) is a programmatic toolkit that
-provides embedded database support for both traditional and
-client/server applications. This package contains the libraries
-for building programs which use the Berkeley DB in Java.
-
-%package java-devel
-Summary: Development files for using the Berkeley DB with Java
-Requires: %{name}-java%{?_isa} = %{version}-%{release}
-
-%description java-devel
-The Berkeley Database (Berkeley DB) is a programmatic toolkit that
-provides embedded database support for both traditional and
-client/server applications. This package contains the libraries
-for building programs which use the Berkeley DB in Java.
-
 %prep
 %setup -q -n db-%{version} -a 1
 cp %{SOURCE2} .
@@ -233,7 +210,6 @@ popd
 %patch22 -p1
 %patch24 -p1
 %patch25 -p1
-%patch26 -p1
 %patch27 -p1
 %patch28 -p1
 %patch29 -p1
@@ -277,7 +253,6 @@ pushd dist/dist-tls
 	--enable-shared --enable-static \
 	--enable-tcl --with-tcl=%{_libdir} \
 	--enable-cxx --enable-sql \
-	--enable-java \
 	--enable-test \
 	--disable-rpath \
   --with-tcl=%{_libdir}/tcl%{__tclversion}
@@ -290,13 +265,7 @@ perl -pi -e 's/^predep_objects=".*$/predep_objects=""/' libtool
 perl -pi -e 's/^postdep_objects=".*$/postdep_objects=""/' libtool
 perl -pi -e 's/-shared -nostdlib/-shared/' libtool
 
-make %{?_smp_mflags}
-
-# XXX hack around libtool not creating ./libs/libdb_java-X.Y.lai
-LDBJ=./.libs/libdb_java-%{__soversion}.la
-if test -f ${LDBJ} -a ! -f ${LDBJ}i; then
-	sed -e 's,^installed=no,installed=yes,' < ${LDBJ} > ${LDBJ}i
-fi
+%make_build
 
 # Run some quick subsystem checks
 echo "source ../../test/tcl/test.tcl; r env; r mut; r memp" | tclsh
@@ -308,7 +277,7 @@ mkdir -p ${RPM_BUILD_ROOT}%{_includedir}
 mkdir -p ${RPM_BUILD_ROOT}%{_libdir}
 mkdir -p ${RPM_BUILD_ROOT}%{_mandir}/man1
 
-%makeinstall STRIP=/bin/true -C dist/dist-tls
+%make_install STRIP=/bin/true -C dist/dist-tls
 
 # XXX Nuke non-versioned archives and symlinks
 rm -f ${RPM_BUILD_ROOT}%{_libdir}/{libdb.a,libdb_cxx.a,libdb_tcl.a,libdb_sql.a}
@@ -324,10 +293,6 @@ mv ${RPM_BUILD_ROOT}%{_includedir}/*.h ${RPM_BUILD_ROOT}%{_includedir}/%{name}/
 for i in db.h db_cxx.h db_185.h; do
 	ln -s %{name}/$i ${RPM_BUILD_ROOT}%{_includedir}
 done
-
-# Move java jar file to the correct place
-mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/java
-mv ${RPM_BUILD_ROOT}%{_libdir}/*.jar ${RPM_BUILD_ROOT}%{_datadir}/java
 
 # Eliminate installed doco
 rm -rf ${RPM_BUILD_ROOT}%{_prefix}/docs
@@ -352,7 +317,6 @@ mv man/* ${RPM_BUILD_ROOT}%{_mandir}/man1
 %ldconfig_scriptlets cxx
 %ldconfig_scriptlets sql
 %ldconfig_scriptlets tcl
-%ldconfig_scriptlets java
 
 %files
 %license LICENSE lgpl-2.1.txt
@@ -376,7 +340,6 @@ mv man/* ${RPM_BUILD_ROOT}%{_mandir}/man1
 %{_libdir}/libdb_cxx-%{__soversion}.a
 %{_libdir}/libdb_tcl-%{__soversion}.a
 %{_libdir}/libdb_sql-%{__soversion}.a
-%{_libdir}/libdb_java-%{__soversion}.a
 
 %files utils
 %{_bindir}/db*_archive
@@ -419,14 +382,20 @@ mv man/* ${RPM_BUILD_ROOT}%{_mandir}/man1
 %{_libdir}/libdb_sql.so
 %{_includedir}/%{name}/dbsql.h
 
-%files java
-%{_libdir}/libdb_java-%{__soversion_major}*.so
-%{_datadir}/java/*.jar
-
-%files java-devel
-%{_libdir}/libdb_java.so
-
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.28-44
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Tom Stellard <tstellar@redhat.com> - 5.3.28-43
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Tue Jul 14 2020 Ondrej Dubaj <odubaj@redhat.com> - 5.3.28-42
+- Remove java subpackage due to jdk-11 (#1846398)
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 5.3.28-41
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.28-40
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

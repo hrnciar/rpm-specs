@@ -6,7 +6,9 @@
 %bcond_with pthread
 #
 
+%global __cmake_in_source_build 1
 %define _legacy_common_support 1
+%define _lto_cflags %{nil}
 
 %if 0%{?fedora}
 %global with_mpich 1
@@ -20,6 +22,16 @@
 # Use devtoolset 8
 %global dts devtoolset-8-
 %endif
+
+## BLAS ##
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+%global blaslib flexiblas
+%global blasvar %{nil}
+%else
+%global blaslib openblas
+%global blasvar o
+%endif
+###########
 
 ## Hypre ##
 %global with_hypre 1
@@ -53,7 +65,7 @@
 
 Summary:    Suite of nonlinear solvers
 Name:       sundials
-Version:    5.3.0
+Version:    5.4.0
 Release:    1%{?dist}
 # SUNDIALS is licensed under BSD with some additional (but unrestrictive) clauses.
 # Check the file 'LICENSE' for details.
@@ -67,18 +79,18 @@ Patch0:     %{name}-3.1.1-set_superlumt_name.patch
 # This patch rename superLUMT64 library
 Patch1:     %{name}-3.1.1-set_superlumt64_name.patch
 
-Patch2:     sundials-change_petsc_variable.patch
+Patch2:     %{name}-change_petsc_variable.patch
 
 %if 0%{?with_fortran}
 BuildRequires: gcc-gfortran
 %endif
 BuildRequires: python%{python3_pkgversion}-devel
 BuildRequires: %{?dts}gcc, %{?dts}gcc-c++
-%if 0%{?rhel}
+%if 0%{?epel}
 BuildRequires: epel-rpm-macros
 %endif
 BuildRequires: cmake3 >= 3.10
-BuildRequires: openblas-devel, openblas-srpm-macros
+BuildRequires: %{blaslib}-devel
 %if 0%{?with_superlumt}
 %ifarch s390x x86_64 %{power64} aarch64
 BuildRequires: SuperLUMT64-devel
@@ -240,10 +252,8 @@ pushd sundials-%{version}
 
 mkdir -p build && cd build
 
-# Add -lopenblasp if thread support is enabled
-export LIBBLASLINK=-lopenblaso
-export LIBBLAS=libopenblas
-export INCBLAS=%{_includedir}/openblas
+export LIBBLASLINK=-l%{blaslib}%{blasvar}
+export INCBLAS=%{_includedir}/%{blaslib}
 
 %if 0%{?with_superlumt}
 %ifarch s390x x86_64 %{power64} aarch64
@@ -266,8 +276,8 @@ export FFLAGS=" "
 %_cmake \
  -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
  -DCMAKE_BUILD_TYPE:STRING=Debug \
- -DCMAKE_C_FLAGS_DEBUG:STRING="-O0 -g -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -I$INCBLAS" \
- -DCMAKE_Fortran_FLAGS_DEBUG:STRING="-O0 -g -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -I$INCBLAS" \
+ -DCMAKE_C_FLAGS_DEBUG:STRING="-O0 -g %{__global_ldflags} -I$INCBLAS" \
+ -DCMAKE_Fortran_FLAGS_DEBUG:STRING="-O0 -g %{__global_ldflags} -I$INCBLAS" \
  -DCMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING="%{__global_ldflags} -lklu $LIBBLASLINK $LIBSUPERLUMTLINK" \
 %else
 export CFLAGS="%{build_cflags}"
@@ -347,9 +357,8 @@ mkdir -p build && cd build
 %{_openmpi_load}
 
 ## Blas
-export LIBBLASLINK=-lopenblaso
-export LIBBLAS=libopenblas
-export INCBLAS=%{_includedir}/openblas
+export LIBBLASLINK=-l%{blaslib}%{blasvar}
+export INCBLAS=%{_includedir}/%{blaslib}
 ##
 
 ## SuperLUMT
@@ -390,8 +399,8 @@ export FFLAGS=" "
 %_cmake \
  -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
  -DCMAKE_BUILD_TYPE:STRING=Debug \
- -DCMAKE_C_FLAGS_DEBUG:STRING="-O0 -g -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -I$INCBLAS" \
- -DCMAKE_Fortran_FLAGS_DEBUG:STRING="-O0 -g -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -I$INCBLAS" \
+ -DCMAKE_C_FLAGS_DEBUG:STRING="-O0 -g %{__global_ldflags} -I$INCBLAS" \
+ -DCMAKE_Fortran_FLAGS_DEBUG:STRING="-O0 -g %{__global_ldflags} -I$INCBLAS" \
  -DCMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING="%{__global_ldflags} -lklu $LIBBLASLINK $LIBSUPERLUMTLINK $LIBHYPRELINK" \
 %else
 export CFLAGS="%{build_cflags}"
@@ -491,9 +500,8 @@ mkdir -p build && cd build
 %{_mpich_load}
 
 ## Blas
-export LIBBLASLINK=-lopenblaso
-export LIBBLAS=libopenblas
-export INCBLAS=%{_includedir}/openblas
+export LIBBLASLINK=-l%{blaslib}%{blasvar}
+export INCBLAS=%{_includedir}/%{blaslib}
 ##
 
 ## SuperLUMT
@@ -534,8 +542,8 @@ export FFLAGS=" "
 %_cmake \
  -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
  -DCMAKE_BUILD_TYPE:STRING=Debug \
- -DCMAKE_C_FLAGS_DEBUG:STRING="-O0 -g -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -I$INCBLAS" \
- -DCMAKE_Fortran_FLAGS_DEBUG:STRING="-O0 -g -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -I$INCBLAS" \
+ -DCMAKE_C_FLAGS_DEBUG:STRING="-O0 -g %{__global_ldflags} -I$INCBLAS" \
+ -DCMAKE_Fortran_FLAGS_DEBUG:STRING="-O0 -g %{__global_ldflags} -I$INCBLAS" \
  -DCMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING="%{__global_ldflags} -lklu $LIBBLASLINK $LIBSUPERLUMTLINK $LIBHYPRELINK" \
 %else
 export CFLAGS="%{build_cflags}"
@@ -729,7 +737,7 @@ popd
 %{_libdir}/libsundials_sunlinsol*.so.*
 %{_libdir}/libsundials_sunnonlinsol*.so.*
 %if 0%{?with_fortran}
-%{_libdir}/libsundials_*_mod.so.*
+%{_libdir}/libsundials_f*_mod.so.*
 %{_libdir}/libsundials_fnvecserial.so.*
 %{_libdir}/libsundials_fnvecopenmp.so.*
 %if %{with pthread}
@@ -769,9 +777,8 @@ popd
 %{_libdir}/libsundials_sunnonlinsol*.so
 %if 0%{?with_fortran}
 %{_includedir}/sundials/sundials_fconfig.h
-%{_libdir}/libsundials_*_mod.so
+%{_libdir}/libsundials_f*_mod.so
 %{_fmoddir}/%{name}/
-%{_libdir}/libsundials_fcvode_mod.so
 %{_libdir}/libsundials_fnvecserial.so
 %{_libdir}/libsundials_fnvecopenmp.so
 %if %{with pthread}
@@ -841,13 +848,12 @@ popd
 %{_libdir}/openmpi/lib/libsundials_nvecpthreads.so.*
 %endif
 %if 0%{?with_fortran}
-%{_libdir}/openmpi/lib/libsundials_fnvecparallel.so.*
-%{_libdir}/openmpi/lib/libsundials_*_mod.so.*
-%{_libdir}/openmpi/lib/libsundials_fnvecserial.so.*
-%{_libdir}/openmpi/lib/libsundials_fnvecopenmp.so.*
-%{_libdir}/openmpi/lib/libsundials_fsunmatrix*.so.*
-%{_libdir}/openmpi/lib/libsundials_fsunlinsol*.so.*
-%{_libdir}/openmpi/lib/libsundials_fsunnonlinsol*.so.*
+%{_libdir}/openmpi/lib/libsundials_fcvode*.so.*
+%{_libdir}/openmpi/lib/libsundials_fnvec*.so.*
+%{_libdir}/openmpi/lib/libsundials_fsun*.so.*
+%{_libdir}/openmpi/lib/libsundials_fark*.so.*
+%{_libdir}/openmpi/lib/libsundials_fida*.so.*
+%{_libdir}/openmpi/lib/libsundials_fkinsol*.so.*
 %endif
 
 %files openmpi-devel
@@ -855,14 +861,12 @@ popd
 %{_includedir}/openmpi-%{_arch}/sundials/
 %if 0%{?with_fortran}
 %{_fmoddir}/openmpi%{?el7:-%_arch}/%{name}/
-%{_libdir}/openmpi/lib/libsundials_fnvecparallel.so
-%{_libdir}/openmpi/lib/libsundials_*_mod.so
-%{_libdir}/openmpi/lib/libsundials_fcvode_mod.so
-%{_libdir}/openmpi/lib/libsundials_fnvecserial.so
-%{_libdir}/openmpi/lib/libsundials_fnvecopenmp.so
-%{_libdir}/openmpi/lib/libsundials_fsunmatrix*.so
-%{_libdir}/openmpi/lib/libsundials_fsunlinsol*.so
-%{_libdir}/openmpi/lib/libsundials_fsunnonlinsol*.so
+%{_libdir}/openmpi/lib/libsundials_fcvode*.so
+%{_libdir}/openmpi/lib/libsundials_fnvec*.so
+%{_libdir}/openmpi/lib/libsundials_fsun*.so
+%{_libdir}/openmpi/lib/libsundials_fark*.so
+%{_libdir}/openmpi/lib/libsundials_fida*.so
+%{_libdir}/openmpi/lib/libsundials_fkinsol*.so
 %{_includedir}/openmpi-%{_arch}/sundials/sundials_fconfig.h
 %endif
 %{_libdir}/openmpi/lib/libsundials_nvecparallel.so
@@ -923,13 +927,12 @@ popd
 %{_libdir}/mpich/lib/libsundials_nvecpthreads.so.*
 %endif
 %if 0%{?with_fortran}
-%{_libdir}/mpich/lib/libsundials_fnvecparallel.so.*
-%{_libdir}/mpich/lib/libsundials_*_mod.so.*
-%{_libdir}/mpich/lib/libsundials_fnvecserial.so.*
-%{_libdir}/mpich/lib/libsundials_fnvecopenmp.so.*
-%{_libdir}/mpich/lib/libsundials_fsunmatrix*.so.*
-%{_libdir}/mpich/lib/libsundials_fsunlinsol*.so.*
-%{_libdir}/mpich/lib/libsundials_fsunnonlinsol*.so.*
+%{_libdir}/mpich/lib/libsundials_fcvode*.so.*
+%{_libdir}/mpich/lib/libsundials_fnvec*.so.*
+%{_libdir}/mpich/lib/libsundials_fsun*.so.*
+%{_libdir}/mpich/lib/libsundials_fark*.so.*
+%{_libdir}/mpich/lib/libsundials_fida*.so.*
+%{_libdir}/mpich/lib/libsundials_fkinsol*.so.*
 %endif
 
 
@@ -938,14 +941,12 @@ popd
 %{_includedir}/mpich-%{_arch}/sundials/
 %if 0%{?with_fortran}
 %{_fmoddir}/mpich%{?el7:-%_arch}/%{name}/
-%{_libdir}/mpich/lib/libsundials_fnvecparallel.so
-%{_libdir}/mpich/lib/libsundials_*_mod.so
-%{_libdir}/mpich/lib/libsundials_fcvode_mod.so
-%{_libdir}/mpich/lib/libsundials_fnvecserial.so
-%{_libdir}/mpich/lib/libsundials_fnvecopenmp.so
-%{_libdir}/mpich/lib/libsundials_fsunmatrix*.so
-%{_libdir}/mpich/lib/libsundials_fsunlinsol*.so
-%{_libdir}/mpich/lib/libsundials_fsunnonlinsol*.so
+%{_libdir}/mpich/lib/libsundials_fcvode*.so
+%{_libdir}/mpich/lib/libsundials_fnvec*.so
+%{_libdir}/mpich/lib/libsundials_fsun*.so
+%{_libdir}/mpich/lib/libsundials_fark*.so
+%{_libdir}/mpich/lib/libsundials_fida*.so
+%{_libdir}/mpich/lib/libsundials_fkinsol*.so
 %{_includedir}/mpich-%{_arch}/sundials/sundials_fconfig.h
 %endif
 %{_libdir}/mpich/lib/libsundials_nvecparallel.so
@@ -982,6 +983,22 @@ popd
 %doc sundials-%{version}/doc/arkode/*
 
 %changelog
+* Fri Sep 25 2020 Antonio Trande <sagitter@fedoraproject.org> - 5.4.0-1
+- Release 5.4.0
+
+* Mon Aug 24 2020 Antonio Trande <sagitter@fedoraproject.org> - 5.3.0-5
+- Increase build release number
+
+* Thu Aug 20 2020 Iñaki Úcar <iucar@fedoraproject.org> - 5.3.0-4
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Antonio Trande <sagitter@fedoraproject.org> - 5.3.0-1
 - Release 5.3.0
 - CMake option SUNDIALS_BUILD_WITH_MONITORING activated

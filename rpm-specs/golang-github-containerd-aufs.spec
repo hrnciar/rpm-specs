@@ -3,7 +3,7 @@
 
 # https://github.com/containerd/aufs
 %global goipath         github.com/containerd/aufs
-%global commit          f894a800659b6e11c1a13084abd1712f346e349c
+%global commit          dab0cbea06f43329c07667afe1a70411ad555a86
 
 %gometa
 
@@ -15,7 +15,7 @@ AUFS implementation of the snapshot interface for containerd.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.6%{?dist}
 Summary:        Aufs snapshotter for containerd
 
 # Upstream license specification: Apache-2.0
@@ -58,6 +58,15 @@ BuildRequires:  golang(github.com/containerd/containerd/snapshots/testsuite)
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 22:18:34 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.6.20200930gitdab0cbe
+- Bump to commit dab0cbea06f43329c07667afe1a70411ad555a86
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 14:19:24 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200725git76944a9
+- Bump to commit 76944a95669d1aa9b85a72b4a9226f1129e0558f
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

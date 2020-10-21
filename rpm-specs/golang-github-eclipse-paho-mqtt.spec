@@ -17,7 +17,7 @@ messages.}
 %global godocs          CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Eclipse Paho MQTT Go client
 
 License:        EPL-1.0 or BSD
@@ -46,5 +46,8 @@ BuildRequires:  golang(golang.org/x/net/websocket)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 23:34:52 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.2.0-1
 - Initial package

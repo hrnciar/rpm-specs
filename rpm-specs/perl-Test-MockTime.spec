@@ -1,6 +1,6 @@
 Name:           perl-Test-MockTime
 Version:        0.17
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Replaces actual time with simulated time
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test-MockTime
@@ -56,6 +56,9 @@ chmod -x lib/Test/MockTime.pm t/test.t
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.17-8
 - Perl 5.32 rebuild
 

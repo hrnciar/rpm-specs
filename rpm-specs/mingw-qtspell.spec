@@ -4,7 +4,7 @@
 
 Name:          mingw-%{pkgname}
 Version:       0.9.0
-Release:       2%{?dist}
+Release:       4%{?dist}
 Summary:       Spell checking for Qt text widgets
 
 License:       GPLv3+
@@ -115,6 +115,12 @@ popd
 
 
 %changelog
+* Wed Aug 12 13:45:26 GMT 2020 Sandro Mani <manisandro@gmail.com> - 0.9.0-4
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 0.9.0-2
 - Rebuild (gettext)
 

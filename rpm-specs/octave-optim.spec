@@ -2,7 +2,7 @@
 
 Name:           octave-%{octpkg}
 Version:        1.6.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A non-linear optimization tool kit for Octave
 # C++ and .m are GPLv3+, documentation is GFDL
 License:        GPLv3+ and GFDL
@@ -69,6 +69,9 @@ rm -rf  %{buildroot}/%{octpkgdir}/doc
 %doc doc/development/interfaces.txt
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Summary: Automated Testing Framework
 Name: atf
 Version: 0.20
-Release: 15%{?dist}
+Release: 16%{?dist}
 License: BSD
 URL: http://code.google.com/p/kyua/wiki/ATF
 Source0: https://github.com/jmmv/atf/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
@@ -50,6 +50,9 @@ make install DESTDIR=%{buildroot} doc_DATA= \
 rm %{buildroot}%{_libdir}/libatf*.la
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

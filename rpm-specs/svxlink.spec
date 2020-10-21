@@ -1,3 +1,5 @@
+%define __cmake_in_source_build 1
+
 %define main_version 17.12.2
 %define async_version 1.5.0
 %define echolib_version 1.3.3
@@ -8,7 +10,7 @@
 Name:		svxlink
 Epoch:		2
 Version:	%{main_version}
-Release:	5%{?dist}
+Release:	8%{?dist}
 Summary:	Repeater controller and EchoLink (simplex or repeater)
 
 License:	GPLv2+
@@ -324,6 +326,16 @@ exit 0
 %{_unitdir}/svxreflector.service
 
 %changelog
+* Tue Sep 22 2020 Jeff Law <law@redhat.com> - 2:17.12.2-8
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:17.12.2-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:17.12.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:17.12.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

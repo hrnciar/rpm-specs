@@ -1,17 +1,16 @@
 %global pkgname Log-Handler
 
 Name:           perl-Log-Handler
-Version:        0.88
-Release:        13%{?dist}
+Version:        0.90
+Release:        2%{?dist}
 Summary:        Log messages to several outputs
 License:        GPL+ or Artistic
 Url:            https://metacpan.org/release/Log-Handler
 Source0:        https://cpan.metacpan.org/modules/by-module/Log/%{pkgname}-%{version}.tar.gz
-Patch0:         Log-Handler-0.88-Fix-for-RT-125842.patch
 BuildRequires:  coreutils
 BuildRequires:  make
-BuildRequires:  perl-interpreter
 BuildRequires:  perl-generators
+BuildRequires:  perl-interpreter
 BuildRequires:  perl(base)
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(Config::General)
@@ -51,7 +50,6 @@ patterns to format the messages and reload the complete logging machine.
 
 %prep
 %setup -qn %{pkgname}-%{version} 
-%patch0 -p0
 
 %build
 perl Makefile.PL NO_PERLLOCAL=1 NO_PACKLIST=1 INSTALLDIRS=vendor
@@ -71,6 +69,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.90-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.90-1
+- 0.90 bump
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.88-14
+- Perl 5.32 rebuild
+
 * Thu May 14 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.88-13
 - Apply the patch
 

@@ -12,7 +12,7 @@
 
 Name:		fantasdic
 Version:	%{mainver}
-Release:	%{fullrel}%{?dist}.2
+Release:	%{fullrel}%{?dist}.3
 Summary:	Dictionary application using Ruby
 
 License:	GPLv2+
@@ -200,6 +200,9 @@ exit 0
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.17.beta7.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.17.beta7.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           yokadi
 Version:        1.1.1
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Command line oriented todo list system
 
 License:        GPLv3+
@@ -49,6 +49,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.1-13
 - Rebuilt for Python 3.9
 

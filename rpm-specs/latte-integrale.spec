@@ -1,6 +1,6 @@
 Name:           latte-integrale
 Version:        1.7.5
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        Lattice point enumeration
 
 %global tarver %(tr . _ <<< %{version})
@@ -91,6 +91,7 @@ cp -p %{_datadir}/libtool/build-aux/missing .
 popd
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 # Make a place for a fake install of LiDIA
 mkdir -p local%{_includedir}
 ln -s lidia local%{_includedir}/LiDIA
@@ -169,6 +170,12 @@ popd
 %{_libdir}/libnormalize.so.0*
 
 %changelog
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 1.7.5-8
+- Force C++14 as this code is not C++17 ready
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.5-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.5-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

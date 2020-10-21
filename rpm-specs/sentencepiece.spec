@@ -1,8 +1,10 @@
+%define __cmake_in_source_build 1
+
 %define _epel   %{?epel:%{epel}}%{!?epel:0}
 
 Name:		sentencepiece
-Version:	0.1.84
-Release:	3%{?dist}
+Version:	0.1.92
+Release:	2%{?dist}
 Summary:	An unsupervised text tokenizer for Neural Network-based text generation
 
 License:	ASL 2.0
@@ -18,6 +20,7 @@ BuildRequires:	gcc-c++
 BuildRequires:	gperftools-devel
 BuildRequires:	pkgconfig
 BuildRequires:	python3-devel
+BuildRequires:	python3-setuptools
 
 %description
 The SentencePiece is an unsupervised text tokenizer for Neural Network-based
@@ -102,6 +105,22 @@ find %{buildroot} -name '*.a' -delete
 
 
 %changelog
+* Wed Oct 07 2020 Kentaro Hayashi <kenhys@gmail.com> - 0.1.92-2
+- Add missing BuildRequires: python3-setuptools
+
+* Thu Oct 01 2020 Kentaro Hayashi <kenhys@gmail.com> - 0.1.92-1
+- New upstream release
+
+* Tue Sep 22 2020 Jeff Law <law@redhat.com> - 0.1.84-6
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.84-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.84-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.84-3
 - Rebuilt for Python 3.9
 

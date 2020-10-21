@@ -5,7 +5,7 @@
 %global crate nix
 
 Name:           rust-%{crate}
-Version:        0.17.0
+Version:        0.18.0
 Release:        1%{?dist}
 Summary:        Rust friendly bindings to *nix APIs
 
@@ -75,6 +75,16 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sun Oct 04 2020 Fabio Valentini <decathorpe@gmail.com> - 0.18.0-1
+- Update to version 0.18.0.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 21 2020 Josh Stone <jistone@redhat.com> - 0.17.0-1
 - Update to 0.17.0
 

@@ -1,29 +1,21 @@
 # TODO: Package mplrs, the MPI version.
 
-# Upstream sometimes releases new tarballs that contain the same version
-# number but a later date.  In that case, upstream uses a letter ('a', 'b',
-# etc.) to distinguish the new tarballs from the previous tarballs.
-%global vsuffix a
-
 Name:           lrslib
-Version:        7.0
-Release:        6%{?dist}
+Version:        7.1a
+Release:        1%{?dist}
 Summary:        Reverse search for vertex enumeration/convex hull problems
 
 %global upver 0%(sed 's/\\.//' <<< %{version})
-%global lrsdir %(sed 's/[[:alpha:]]//' <<< %{upver})
 
 License:        GPLv2+
 URL:            http://cgm.cs.mcgill.ca/~avis/C/lrs.html
-Source0:        http://cgm.cs.mcgill.ca/~avis/C/%{name}/archive/%{name}-%{upver}%{?vsuffix}.tar.gz
+Source0:        http://cgm.cs.mcgill.ca/~avis/C/%{name}/archive/%{name}-%{upver}.tar.gz
 # These man pages were written by Jerry James.  Text from the sources was used,
 # therefore the man pages have the same copyright and license as the sources.
 Source1:        %{name}-man.tar.xz
 # This patch was sent upstream on 31 May 2011.  It fixes some miscellaneous
-# bugs and adapts to the naming scheme we choose for installation.
+# bugs.
 Patch0:         %{name}-fixes.patch
-# Adapt to GCC 10's default of -fno-common, sent upstream 22 Jan 2020.
-Patch1:         %{name}-common.patch
 
 BuildRequires:  boost-devel
 BuildRequires:  gcc
@@ -55,11 +47,11 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 Sample programs that use %{name}.
 
 %prep
-%autosetup -n %{name}-%{lrsdir}
-%setup -q -n %{name}-%{lrsdir} -T -D -a 1
+%autosetup -n %{name}-%{upver}
+%setup -q -n %{name}-%{upver} -T -D -a 1
 
-# Remove spurious executable bits
-find -O3 . -type f -exec chmod a-x {} \+
+# Remove extraneous executable bits
+find . -type f -perm /0111 \! -name xref -exec chmod a-x {} \+
 
 %build
 # The Makefile is too primitive to use.  For one thing, it only builds
@@ -67,11 +59,11 @@ find -O3 . -type f -exec chmod a-x {} \+
 # Recent changes to the Makefile make it less primitive, but it still does not
 # work well for building on a mixture of 32-bit and 64-bit architectures.
 
-# Upstream wants to use 0.0.0 as the soname version number for now.
-%global sover 0
-%global ver 0.0.0
+# Upstream wants to use 1.0.0 as the soname version number for now.
+%global sover 1
+%global ver 1.0.0
 
-CFLAGS="${RPM_OPT_FLAGS} -DMA -I. -I%{_includedir}/boost"
+CFLAGS="%{build_cflags} -DMA -I. -I%{_includedir}/boost"
 
 # Build the individual objects
 gcc $CFLAGS -fPIC -DSAFE -DLRSLONG -c -o lrslong1.o lrslong.c
@@ -79,53 +71,50 @@ gcc $CFLAGS -fPIC -DSAFE -DLRSLONG -c -o lrslib1.o lrslib.c
 gcc $CFLAGS -fPIC -DGMP -c -o lrslibgmp.o lrslib.c
 gcc $CFLAGS -fPIC -DGMP -c -o lrsgmp.o lrsgmp.c
 gcc $CFLAGS -fPIC -c -o lrsdriver.o lrsdriver.c
-if [ %{__isa_bits} = "64" ]; then
-  gcc $CFLAGS -fPIC -DSAFE -DLRSLONG -DB128 -c -o lrslong2.o lrslong.c
-  gcc $CFLAGS -fPIC -DSAFE -DLRSLONG -DB128 -c -o lrslib2.o lrslib.c
-fi
+%if 0%{?__isa_bits} == 64
+gcc $CFLAGS -fPIC -DSAFE -DLRSLONG -DB128 -c -o lrslong2.o lrslong.c
+gcc $CFLAGS -fPIC -DSAFE -DLRSLONG -DB128 -c -o lrslib2.o lrslib.c
+%endif
 
 # Build the library
-if [ %{__isa_bits} = "64" ]; then
-  gcc $CFLAGS $RPM_LD_FLAGS -fPIC -shared -Wl,-soname,liblrs.so.%{sover} \
-    -o liblrs.so.%{ver} lrslong1.o lrslong2.o lrslib1.o lrslib2.o lrslibgmp.o \
-    lrsgmp.o lrsdriver.o -lgmp
-else
-  gcc $CFLAGS $RPM_LD_FLAGS -fPIC -shared -Wl,-soname,liblrs.so.%{sover} \
-    -o liblrs.so.%{ver} lrslong1.o lrslib1.o lrslibgmp.o lrsgmp.o lrsdriver.o \
-    -lgmp
-fi
+%if 0%{?__isa_bits} == 64
+gcc $CFLAGS %{build_ldflags} -fPIC -shared -Wl,-soname,liblrs.so.%{sover} \
+  -o liblrs.so.%{ver} lrslong1.o lrslong2.o lrslib1.o lrslib2.o lrslibgmp.o \
+  lrsgmp.o lrsdriver.o -lgmp
+%else
+gcc $CFLAGS %{build_ldflags} -fPIC -shared -Wl,-soname,liblrs.so.%{sover} \
+  -o liblrs.so.%{ver} lrslong1.o lrslib1.o lrslibgmp.o lrsgmp.o lrsdriver.o \
+  -lgmp
+%endif
 ln -s liblrs.so.%{ver} liblrs.so.%{sover}
 ln -s liblrs.so.%{sover} liblrs.so
 
 # Build the binaries
-if [ %{__isa_bits} = "64" ]; then
-  gcc $CFLAGS -DB128 -DSAFE lrs.c -o lrs $RPM_LD_FLAGS -L. -llrs
-  gcc $CFLAGS -DB128 lrs.c -o lrsn $RPM_LD_FLAGS -L. -llrs
-  gcc $CFLAGS -DB128 redund.c -o lrs-redund $RPM_LD_FLAGS -L. -llrs
-else
-  gcc $CFLAGS -DSAFE lrs.c -o lrs $RPM_LD_FLAGS -L. -llrs
-  gcc $CFLAGS lrs.c -o lrsn $RPM_LD_FLAGS -L. -llrs
-  gcc $CFLAGS redund.c -o lrs-redund $RPM_LD_FLAGS -L. -llrs
-fi
-gcc $CFLAGS -DGMP lrs.c -o lrsgmp $RPM_LD_FLAGS -L. -llrs -lgmp
-gcc $CFLAGS -DGMP redund.c -o lrs-redundgmp $RPM_LD_FLAGS -L. -llrs
-gcc $CFLAGS -DGMP lrsnash.c lrsnashlib.c -o lrsnash $RPM_LD_FLAGS -L. -llrs \
+%if 0%{?__isa_bits} == 64
+gcc $CFLAGS -DB128 -DSAFE lrs.c -o lrs %{build_ldflags} -L. -llrs
+gcc $CFLAGS -DB128 lrs.c -o lrsn %{build_ldflags} -L. -llrs
+%else
+gcc $CFLAGS -DSAFE lrs.c -o lrs %{build_ldflags} -L. -llrs
+gcc $CFLAGS lrs.c -o lrsn %{build_ldflags} -L. -llrs
+%endif
+gcc $CFLAGS -DGMP lrs.c -o lrsgmp %{build_ldflags} -L. -llrs -lgmp
+gcc $CFLAGS -DGMP lrsnash.c lrsnashlib.c -o lrsnash %{build_ldflags} -L. -llrs \
   -lgmp
-gcc $CFLAGS -DLRSLONG -DSAFE lrsnash.c lrsnashlib.c -o lrsnash1 $RPM_LD_FLAGS \
+gcc $CFLAGS -DLRSLONG -DSAFE lrsnash.c lrsnashlib.c -o lrsnash1 %{build_ldflags} \
   -L. -llrs
-if [ %{__isa_bits} = "64" ]; then
-  gcc $CFLAGS -DLRSLONG -DSAFE -DB128 lrsnash.c lrsnashlib.c -o lrsnash2 \
-    $RPM_LD_FLAGS -L. -llrs
-fi
-gcc $CFLAGS 2nash.c -o lrs-2nash $RPM_LD_FLAGS
-gcc $CFLAGS buffer.c -o lrs-buffer $RPM_LD_FLAGS
-gcc $CFLAGS -DGMP fourier.c -o lrs-fourier $RPM_LD_FLAGS -L. -llrs -lgmp
-gcc $CFLAGS -DGMP setupnash.c -o lrs-setupnash $RPM_LD_FLAGS -L. -llrs
-gcc $CFLAGS -DGMP setupnash2.c -o lrs-setupnash2 $RPM_LD_FLAGS -L. -llrs
+%if 0%{?__isa_bits} == 64
+gcc $CFLAGS -DLRSLONG -DSAFE -DB128 lrsnash.c lrsnashlib.c -o lrsnash2 \
+    %{build_ldflags} -L. -llrs
+%endif
+gcc $CFLAGS 2nash.c -o lrs-2nash %{build_ldflags}
+gcc $CFLAGS buffer.c -o lrs-buffer %{build_ldflags}
+gcc $CFLAGS -DGMP fourier.c -o lrs-fourier %{build_ldflags} -L. -llrs -lgmp
+gcc $CFLAGS -DGMP setupnash.c -o lrs-setupnash %{build_ldflags} -L. -llrs
+gcc $CFLAGS -DGMP setupnash2.c -o lrs-setupnash2 %{build_ldflags} -L. -llrs
 gcc $CFLAGS -DLRSMP -Dcopy=copy_dict_1 -Dlrs_mp_init=lrs_mp_init_1 -Dpmp=pmp_1 \
   -Drattodouble=rattodouble_1 -Dreadrat=readrat_1 rat2float.c -o lrs-rat2float \
-  $RPM_LD_FLAGS -L. -llrs
-gcc $CFLAGS float2rat.c -o lrs-float2rat $RPM_LD_FLAGS
+  %{build_ldflags} -L. -llrs
+gcc $CFLAGS float2rat.c -o lrs-float2rat %{build_ldflags}
 
 %install
 # Install the library
@@ -136,9 +125,9 @@ chmod 0755 %{buildroot}%{_libdir}/lib*.so.%{ver}
 # Install the binaries
 mkdir -p %{buildroot}%{_bindir}
 install -p -m 0755 lrs lrsn lrsgmp lrsnash lrsnash1 lrs-* %{buildroot}%{_bindir}
-if [ %{__isa_bits} = "64" ]; then
-  install -p -m 0755 lrsnash2 %{buildroot}%{_bindir}
-fi
+%if 0%{?__isa_bits} == 64
+install -p -m 0755 lrsnash2 %{buildroot}%{_bindir}
+%endif
 
 # Install the header files, but fix up the include directives.
 mkdir -p %{buildroot}%{_includedir}/%{name}
@@ -150,7 +139,11 @@ sed -e 's|"gmp.h"|<gmp.h>|' lrsgmp.h > \
     %{buildroot}%{_includedir}/%{name}/lrsgmp.h
 touch -r lrsgmp.h %{buildroot}%{_includedir}/%{name}/lrsgmp.h
 
-cp -p lrsdriver.h lrslong.h lrsmp.h lrsnashlib.h \
+sed -e 's|"lrsrestart.h"|<lrslib/lrsrestart.h>|' lrsdriver.h > \
+    %{buildroot}%{_includedir}/%{name}/lrsdriver.h
+touch -r lrsdriver.h %{buildroot}%{_includedir}/%{name}/lrsdriver.h
+
+cp -p lrslong.h lrsmp.h lrsnashlib.h lrsrestart.h \
   %{buildroot}%{_includedir}/%{name}
 
 # Install the man pages
@@ -164,8 +157,8 @@ done
 %files
 %doc README
 %license COPYING
-%{_libdir}/liblrs.so.0
-%{_libdir}/liblrs.so.0.*
+%{_libdir}/liblrs.so.1
+%{_libdir}/liblrs.so.1.*
 
 %files devel
 %doc chdemo.c lpdemo.c lpdemo1.c lpdemo2.c nashdemo.c vedemo.c
@@ -175,9 +168,24 @@ done
 %files utils
 %{_bindir}/lrs*
 %{_mandir}/man1/lrs*
+%{_mandir}/man1/mplrs*
 %{_mandir}/man1/plrs*
 
 %changelog
+* Mon Oct 19 2020 Jerry James <loganjerry@gmail.com> - 7.1a-1
+- Version 071a
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 Jerry James <loganjerry@gmail.com> - 7.1-1
+- Version 071
+- Drop upstreamed -common patch
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

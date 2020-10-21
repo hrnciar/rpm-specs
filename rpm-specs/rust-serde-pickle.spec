@@ -5,8 +5,8 @@
 %global crate serde-pickle
 
 Name:           rust-%{crate}
-Version:        0.6.0
-Release:        1%{?dist}
+Version:        0.6.1
+Release:        2%{?dist}
 Summary:        Serde-based serialization library for Python's pickle format
 
 # Upstream license specification: MIT/Apache-2.0
@@ -15,6 +15,7 @@ URL:            https://crates.io/crates/serde-pickle
 Source:         %{crates_source}
 # Initial patched metadata
 # * Update dev-deps, revert of https://github.com/birkenfeld/serde-pickle/commit/1142573d0ed6cab7a3ddd31089471a85bdc8b66f
+# * Bump num-bigint to 0.3
 Patch0:         serde-pickle-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -86,6 +87,12 @@ which use "unstable" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.6.1-1
+- Update to 0.6.1
+
 * Sat Feb 15 12:38:50 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.6.0-1
 - Update to 0.6.0
 

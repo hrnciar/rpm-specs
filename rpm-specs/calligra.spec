@@ -17,7 +17,7 @@
 
 Name:    calligra 
 Version: 3.2.1
-Release: 1%{?dist}
+Release: 5%{?dist}
 Summary: An integrated office suite
 
 License: GPLv2+ and LGPLv2+
@@ -37,6 +37,9 @@ Source0: http://download.kde.org/%{stable}/calligra/%{version}/calligra-%{versio
 ## downstream patches
 # FIXME/TODO: (re)enable gemini for propper packaging
 Patch200: calligra-disable_products.patch
+
+# Fix missing #includes for gcc-11
+Patch201: calligra-gcc11.patch
 
 BuildRequires: boost-devel
 BuildRequires: bzip2-devel bzip2
@@ -420,17 +423,12 @@ Requires: okular5-part
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
-  -Wno-dev
-popd
-
-%make_build -C %{_target_platform}
+%cmake_kf5 -Wno-dev
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 ## unpackaged files
 rm -fv %{buildroot}%{_datadir}/mime/packages/{krita_ora,x-iwork-keynote-sffkey}.xml
@@ -757,6 +755,19 @@ fi
 
 
 %changelog
+* Wed Oct 14 2020 Jeff Law <law@redhat.com> - 3.2.1-5
+- Add missing #includes for gcc-11
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Rex Dieter <rdieter@fedoraproject.org> - 3.2.1-2
+- rebuild (poppler)
+
 * Fri May 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 3.2.1-1
 - 3.2.1
 

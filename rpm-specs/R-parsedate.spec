@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          1.2.0
-Release:          5%{?dist}
+Release:          7%{?dist}
 Summary:          Recognize and Parse Dates in Various Formats
 
 License:          GPLv2
@@ -67,6 +67,13 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.2.0-5
 - rebuild for R 4
 

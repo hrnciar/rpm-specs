@@ -16,14 +16,14 @@ ExcludeArch: ppc64 s390x
 %endif
 
 ##  Filtering of private libraries 
-%global _privatelibs  ^%{python_sitearch}/prody/.*\\.so$
+%global _privatelibs  ^%{python3_sitearch}/prody/.*\\.so$
 %global __provides_exclude_from ^(%{_privatelibs})$
 %global __requires_exclude_from ^(%{_privatelibs})$
 
 Name: ProDy
 Summary: Application for protein structure, dynamics and sequence analysis
 Version: 1.10.10
-Release: 7%{?dist}
+Release: 10%{?dist}
 
 # MIT is the main license for ProDy
 # prody/utilities/tnt/* code --> 'Public domain' license
@@ -98,6 +98,7 @@ BuildRequires: python3-scipy
 BuildRequires: python3-numpy >= 1:1.10.0
 BuildRequires: python3-matplotlib
 BuildRequires: python3-biopython
+BuildRequires: python3-setuptools
 
 Requires: python3-scipy
 Requires: python3-biopython
@@ -265,6 +266,16 @@ popd
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.10-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.10-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Antonio Trande <sagitterATfedoraproject.org> - 1.10.10-8
+- BuildRequires python3-setuptools explicitly
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.10.10-7
 - Rebuilt for Python 3.9
 

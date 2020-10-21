@@ -1,7 +1,7 @@
 Name:		nkf
 Epoch:		1
 Version:	2.1.4
-Release:	17%{?dist}
+Release:	18%{?dist}
 License:	BSD
 URL:		http://nkf.osdn.jp/
 Source0:	http://iij.dl.osdn.jp/nkf/64158/%{name}-%{version}.tar.gz
@@ -80,6 +80,9 @@ make test
 %{_mandir}/man3/NKF.3pm.gz
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.1.4-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:2.1.4-17
 - Perl 5.32 rebuild
 

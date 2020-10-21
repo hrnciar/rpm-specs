@@ -1,6 +1,6 @@
 Name:       lifeograph
 Version:    1.5.1.1
-Release:    3%{?dist}
+Release:    6%{?dist}
 Summary:    A diary program
 
 License:    GPLv3+
@@ -35,11 +35,11 @@ sed -i 's|<build_time.h>|"build_time.h"|' src/lifeograph.cpp
 find . -name "build_time.h" -print
 
 %cmake -DCMAKE_BUILD_TYPE=Release .
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 mkdir -p %{buildroot}/%{_datadir}/applications/
 cp -p build/%{name}.desktop %{buildroot}/%{_datadir}/applications
@@ -72,6 +72,16 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %{_datadir}/mime/packages/%{name}*
 
 %changelog
+* Wed Sep 30 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.5.1.1-6
+- Use cmake macros to fix build
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

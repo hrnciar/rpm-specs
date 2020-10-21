@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+
 %bcond_with doxy
 
 %global gitdate 20191104
@@ -8,11 +10,11 @@
 Name:           trojita
 %if 0%{?gitdate}
 Version:        0.7.0.1
-Release:        0.5.%{gitdate}git%(c=%{commit0}; echo ${c:0:7} )%{?dist}
+Release:        0.7.%{gitdate}git%(c=%{commit0}; echo ${c:0:7} )%{?dist}
 Source0:        %{srcurl}/archive/%{commit0}.tar.gz#/%{name}-%{commit0}.tar.gz
 %else
 Version:        0.7
-Release:        4%{?dist}
+Release:        6%{?dist}
 Source0:        %{srcurl}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 %endif
 # manually generated manpage with help2man
@@ -152,10 +154,8 @@ This application is heavily based on Qt and uses WebKit.
 %if %{without testsqtwebkit}
 export CXXFLAGS="%{optflags} -DSKIP_WEBKIT_TESTS"
 %endif
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
 # change path for the library, https://bugs.kde.org/show_bug.cgi?id=332579
-%cmake_kf5 .. \
+%cmake_kf5 \
     -DCMAKE_INSTALL_LIBDIR:PATH=%{_libdir}/%{name} \
     -DCMAKE_INSTALL_RPATH=%{_libdir}/%{name} \
     -DBUILD_SHARED_LIBS:BOOL=OFF \
@@ -164,16 +164,14 @@ pushd %{_target_platform}
     -DWITH_GPGMEPP:BOOL=ON \
     -DWITH_SONNET_PLUGIN:BOOL=ON \
     -DWITH_RAGEL:BOOL=OFF
-popd
-
-%make_build -C %{_target_platform}
+%cmake_build
 
 %if %{with doxy}
 doxygen src/Doxyfile
 %endif
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 %find_lang %{name}_common --with-qt
 # work around find_lang not supporting nds
 echo '%lang(nds) %{_datadir}/%{name}/locale/%{name}_common_nds.qm' \
@@ -189,7 +187,6 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*%{name}.
 %endif
 # do tests in some fake X
 #xvfb-run -a find %%{_target_platform} -name test_\* -print -exec '{}' \;
-pushd %{_target_platform}
 xvfb-run -a %ctest
 
 
@@ -223,6 +220,13 @@ Summary:   Documentation files for %{name}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0.1-0.7.20191104git36b0587
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0.1-0.6.20191104git36b0587
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0.1-0.5.20191104git36b0587
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

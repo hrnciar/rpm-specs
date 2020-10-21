@@ -1,6 +1,6 @@
 Name:           libverto-jsonrpc
 Version:        0.1.0
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        JSON-RPC support for libverto
 
 License:        MIT
@@ -52,6 +52,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Björn Esser <besser82@fedoraproject.org> - 0.1.0-24
 - Rebuild (json-c)
 

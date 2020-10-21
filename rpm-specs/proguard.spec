@@ -1,6 +1,6 @@
 Name:           proguard
 Version:        5.3.3
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Java class file shrinker, optimizer, obfuscator and preverifier
 
 License:        GPLv2+
@@ -111,6 +111,12 @@ cp -p %{name}16.png ${RPM_BUILD_ROOT}%{_datadir}/icons/hicolor/16x16/apps/%{name
 %{_datadir}/icons/*/*/apps/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.3-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 5.3.3-9
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.3-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

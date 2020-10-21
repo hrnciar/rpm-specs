@@ -3,7 +3,7 @@
 
 # https://github.com/influxdata/influxdb1-client
 %global goipath         github.com/influxdata/influxdb1-client
-%global commit          8ff2fc3824fcb533795f9a2f233275f0bb18d6c5
+%global commit          02f0bf5dbca364fe200ee3f5709c8cc0c9bda0d0
 
 %gometa
 
@@ -15,7 +15,7 @@ Influxdb1-clientv2 is the current Go client API for InfluxDB 1.x.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Old clientv2 for InfluxDB 1.x
 
 License:        MIT
@@ -41,6 +41,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 00:19:01 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200728git02f0bf5
+- Bump to commit 02f0bf5dbca364fe200ee3f5709c8cc0c9bda0d0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

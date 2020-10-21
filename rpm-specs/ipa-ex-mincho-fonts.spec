@@ -6,7 +6,7 @@
 
 Name:		%{fontname}-fonts
 Version:	004.01
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Japanese Mincho-typeface OpenType font by IPA
 
 License:	IPA
@@ -56,6 +56,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 004.01-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 004.01-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

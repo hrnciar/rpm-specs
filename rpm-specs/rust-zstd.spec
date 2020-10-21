@@ -8,7 +8,7 @@
 
 Name:           rust-%{crate}
 Version:        0.5.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Binding for the zstd compression library
 
 # Upstream license specification: MIT
@@ -149,6 +149,9 @@ which use "zstdmt" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Josh Stone <jistone@redhat.com> - 0.5.3-1
 - Update to 0.5.3+zstd.1.4.5
 

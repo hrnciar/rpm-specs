@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.9.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Provides 16 stemmer algorithms generated from Snowball algorithms
 
 License:        BSD
@@ -132,6 +132,9 @@ cp %{SOURCE1} .
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 1.9.0-6
 - Rebuilt for Python 3.9
 

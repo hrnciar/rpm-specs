@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+
 %define ldap_support 1
 %define static_ldap 0
 %define krb5_support 1
@@ -34,22 +36,27 @@
 %define modules_dir %{_libdir}/evolution-data-server/registry-modules
 %define uimodules_dir %{_libdir}/evolution-data-server/ui-modules
 
+%global dbus_service_name_address_book	org.gnome.evolution.dataserver.AddressBook10
+%global dbus_service_name_calendar	org.gnome.evolution.dataserver.Calendar8
+%global dbus_service_name_sources	org.gnome.evolution.dataserver.Sources5
+%global dbus_service_name_user_prompter	org.gnome.evolution.dataserver.UserPrompter0
+
+%if "%{?_eds_dbus_services_prefix}" != ""
+%global dbus_service_name_address_book	%{?_eds_dbus_services_prefix}.%{dbus_service_name_address_book}
+%global dbus_service_name_calendar	%{?_eds_dbus_services_prefix}.%{dbus_service_name_calendar}
+%global dbus_service_name_sources	%{?_eds_dbus_services_prefix}.%{dbus_service_name_sources}
+%global dbus_service_name_user_prompter	%{?_eds_dbus_services_prefix}.%{dbus_service_name_user_prompter}
+%endif
+
 ### Abstract ###
 
 Name: evolution-data-server
-Version: 3.37.2
+Version: 3.38.1
 Release: 2%{?dist}
 Summary: Backend data server for Evolution
 License: LGPLv2+
 URL: https://wiki.gnome.org/Apps/Evolution
-Source: http://download.gnome.org/sources/%{name}/3.37/%{name}-%{version}.tar.xz
-
-# Various bugfixes backported from upstream mainline
-Patch0001:  0001-I-222-Camel-Match-All-condition-doesn-t-show-any-mes.patch
-Patch0002:  0002-evo-I-982-Message-contains-search-broken-in-3.36.3.patch
-Patch0003:  0003-camel-folder-search-Fix-a-memory-leak-when-searching.patch
-Patch0004:  0004-evo-I-982-Message-contains-search-broken-in-3.36.3.patch
-
+Source: http://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 Provides: evolution-webcal = %{version}
 Obsoletes: evolution-webcal < 2.24.0
@@ -79,7 +86,6 @@ BuildRequires: gtk-doc >= %{gtk_doc_version}
 %endif
 BuildRequires: intltool >= %{intltool_version}
 BuildRequires: make
-BuildRequires: perl-generators
 BuildRequires: vala
 %if ! 0%{?flatpak}
 BuildRequires: systemd
@@ -170,6 +176,7 @@ This package contains developer documentation for %{name}.
 %package perl
 Summary: Supplemental utilities that require Perl
 Requires: %{name}%{?_isa} = %{version}-%{release}
+Requires: perl-interpreter
 
 %description perl
 This package contains supplemental utilities for %{name} that require Perl.
@@ -183,12 +190,9 @@ The %{name}-tests package contains tests that can be used to verify
 the functionality of the installed %{name} package.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -S gendiff
 
 %build
-
-mkdir -p _build
-cd _build
 
 %if %{ldap_support}
 
@@ -266,15 +270,12 @@ export CFLAGS="$RPM_OPT_FLAGS -DLDAP_DEPRECATED -fPIC -I%{_includedir}/et -Wno-d
 	%endif
 	%ldap_flags %krb5_flags %ssl_flags \
 	%largefile_flags %gtkdoc_flags %phonenum_flags \
-	..
+	%{nil}
 
-make %{?_smp_mflags}
+%cmake_build
 
 %install
-cd _build
-rm -rf $RPM_BUILD_ROOT
-
-make DESTDIR=$RPM_BUILD_ROOT install
+%cmake_install
 
 # make sure the directory exists, because it's owned by eds
 mkdir $RPM_BUILD_ROOT/%{uimodules_dir} || :
@@ -303,8 +304,8 @@ find $RPM_BUILD_ROOT -name '*.so.*' -exec chmod +x {} \;
 %{_libdir}/libedata-book-1.2.so.26.0.0
 %{_libdir}/libedata-cal-2.0.so.1
 %{_libdir}/libedata-cal-2.0.so.1.0.0
-%{_libdir}/libedataserver-1.2.so.24
-%{_libdir}/libedataserver-1.2.so.24.0.0
+%{_libdir}/libedataserver-1.2.so.25
+%{_libdir}/libedataserver-1.2.so.25.0.0
 %{_libdir}/libedataserverui-1.2.so.2
 %{_libdir}/libedataserverui-1.2.so.2.0.0
 
@@ -347,10 +348,10 @@ find $RPM_BUILD_ROOT -name '*.so.*' -exec chmod +x {} \;
 %{_datadir}/glib-2.0/schemas/org.gnome.evolution.shell.network-config.gschema.xml
 
 %{_datadir}/evolution-data-server
-%{_datadir}/dbus-1/services/org.gnome.evolution.dataserver.AddressBook10.service
-%{_datadir}/dbus-1/services/org.gnome.evolution.dataserver.Calendar8.service
-%{_datadir}/dbus-1/services/org.gnome.evolution.dataserver.Sources5.service
-%{_datadir}/dbus-1/services/org.gnome.evolution.dataserver.UserPrompter0.service
+%{_datadir}/dbus-1/services/%{dbus_service_name_address_book}.service
+%{_datadir}/dbus-1/services/%{dbus_service_name_calendar}.service
+%{_datadir}/dbus-1/services/%{dbus_service_name_sources}.service
+%{_datadir}/dbus-1/services/%{dbus_service_name_user_prompter}.service
 %{_datadir}/pixmaps/evolution-data-server
 
 %if ! 0%{?flatpak}
@@ -461,7 +462,7 @@ find $RPM_BUILD_ROOT -name '*.so.*' -exec chmod +x {} \;
 %{_datadir}/vala/vapi/libedataserverui-1.2.deps
 %{_datadir}/vala/vapi/libedataserverui-1.2.vapi
 
-%files langpacks -f _build/%{name}.lang
+%files langpacks -f %{name}.lang
 
 %if %{with_docs}
 
@@ -481,6 +482,37 @@ find $RPM_BUILD_ROOT -name '*.so.*' -exec chmod +x {} \;
 %{_datadir}/installed-tests
 
 %changelog
+* Mon Oct 05 2020 Milan Crha <mcrha@redhat.com> - 3.38.1-2
+- Correct D-Bus service file name - it can change when _eds_dbus_services_prefix is defined
+- Replace perl-generators build time dependency with perl-interpreter install time dependency
+
+* Fri Oct 02 2020 Milan Crha <mcrha@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Sat Sep 26 2020 Adrian Reber <adrian@lisas.de> - 3.38.0-2
+- Rebuilt for protobuf 3.13
+
+* Fri Sep 11 2020 Milan Crha <mcrha@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Fri Sep 04 2020 Milan Crha <mcrha@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Fri Aug 07 2020 Milan Crha <mcrha@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Milan Crha <mcrha@redhat.com> - 3.37.3-3
+- Rebuild in a side tag for bodhi, to be able to create an update
+
+* Fri Jul 03 2020 Milan Crha <mcrha@redhat.com> - 3.37.3-2
+- Add a patch for missing G_BEGIN_DECLS in e-soup-logger.h
+
+* Fri Jul 03 2020 Milan Crha <mcrha@redhat.com> - 3.37.3-1
+- Update to 3.37.3
+
 * Tue Jun 23 2020 Adam Williamson <awilliam@redhat.com> - 3.37.2-2
 - Rebuild with newer protobuf and libphonenumber
 - Backport several fixes for annoying bugs from mainline

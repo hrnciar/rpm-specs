@@ -1,13 +1,14 @@
 Name:           paps
-Version:        0.6.8
-Release:        45%{?dist}
+Version:        0.7.1
+Release:        1%{?dist}
 
 License:        LGPLv2+
 URL:            http://paps.sourceforge.net/
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Source1:        paps.convs
 Source2:	29-paps.conf
-BuildRequires:  pango-devel automake autoconf libtool doxygen cups-devel
+Source3:        http://downloads.sourceforge.net/%{name}/%{name}-0.6.8.tar.gz
+BuildRequires:  pango-devel automake autoconf libtool doxygen cups-devel intltool
 ## https://sourceforge.net/tracker/index.php?func=detail&aid=1832897&group_id=153049&atid=786241
 Patch0:         paps-0.6.8-shared.patch
 ## https://sourceforge.net/tracker/index.php?func=detail&aid=1832924&group_id=153049&atid=786241
@@ -42,29 +43,24 @@ Patch60:        %{name}-a3.patch
 Patch61:	%{name}-fix-paper-size-truncate.patch
 
 Summary:        Plain Text to PostScript converter
-Requires:       %{name}-libs = %{version}-%{release}
-Requires:       cups-filesystem fontpackages-filesystem
 %description
 paps is a PostScript converter from plain text file using Pango.
 
-%package libs
-Summary:        Libraries for paps
-%description libs
+%package -n texttopaps
+Summary:        CUPS filter based on paps
+Obsoletes:	%{name}-libs < %{version}
+Obsoletes:	%{name}-devel < %{version}
+Requires:       cups-filesystem fontpackages-filesystem
+%description -n texttopaps
+
 paps is a PostScript converter from plain text file using Pango.
 
-This package contains the library for paps.
+This package contains a CUPS filter based on paps.
 
-%package devel
-Summary:        Development files for paps
-Requires:       %{name}-libs = %{version}-%{release}
-%description devel
-paps is a PostScript converter from plain text file using Pango.
-
-This package contains the development files that is necessary to develop
-applications using paps API.
 
 %prep
-%setup -q
+%setup -q -a 3
+pushd %{name}-0.6.8
 %patch0 -p1 -b .shared
 %patch1 -p1 -b .wordwrap
 %patch2 -p1 -b .langinfo
@@ -85,14 +81,20 @@ applications using paps API.
 %patch61 -p1 -b .paper-size
 libtoolize -f -c
 autoreconf -f -i
+popd
 
 
 %build
 %configure --disable-static
 make %{?_smp_mflags}
 
+pushd %{name}-0.6.8
+%configure --disable-static
+make %{?_smp_mflags}
+popd
 
 %install
+pushd %{name}-0.6.8
 make install DESTDIR=$RPM_BUILD_ROOT INSTALL="/usr/bin/install -p"
 
 # remove unnecessary files
@@ -100,7 +102,8 @@ rm $RPM_BUILD_ROOT%{_libdir}/libpaps.la
 
 # make a symlink for CUPS filter
 install -d $RPM_BUILD_ROOT%{_cups_serverbin}/filter # Not libdir
-ln -s %{_bindir}/paps $RPM_BUILD_ROOT%{_cups_serverbin}/filter/texttopaps
+mv $RPM_BUILD_ROOT%{_bindir}/paps $RPM_BUILD_ROOT%{_cups_serverbin}/filter/texttopaps
+mv $RPM_BUILD_ROOT%{_mandir}/man1/paps.1 $RPM_BUILD_ROOT%{_mandir}/man1/texttopaps.1
 
 install -d $RPM_BUILD_ROOT%{_datadir}/cups/mime
 install -p -m0644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/cups/mime/
@@ -108,27 +111,37 @@ install -p -m0644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/cups/mime/
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/fonts/conf.d
 install -p -m0644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/fonts/conf.d/
 
+rm -rf $RPM_BUILD_ROOT%{_includedir}
+rm $RPM_BUILD_ROOT%{_libdir}/libpaps.so
+popd
+
+make install DESTDIR=$RPM_BUILD_ROOT INSTALL="/usr/bin/install -p"
 
 %ldconfig_scriptlets libs
 
 %files
-%doc AUTHORS COPYING.LIB README TODO
+%doc AUTHORS COPYING.LIB README
 %{_bindir}/paps
 %{_mandir}/man1/paps.1*
+
+%files -n texttopaps
+%doc %{name}-0.6.8/COPYING.LIB %{name}-0.6.8/AUTHORS %{name}-0.6.8/README
+%{_mandir}/man1/texttopaps.1*
+%{_libdir}/libpaps.so.*
 %{_cups_serverbin}/filter/texttopaps
 %{_datadir}/cups/mime/paps.convs
 %{_sysconfdir}/fonts/conf.d/29-paps.conf
 
-%files libs
-%doc COPYING.LIB
-%{_libdir}/libpaps.so.*
-
-%files devel
-%doc COPYING.LIB
-%{_includedir}/libpaps.h
-%{_libdir}/libpaps.so
 
 %changelog
+* Thu Oct  8 2020 Akira TAGOH <tagoh@redhat.com> - 0.7.1-1
+- New upstream release.
+  Resolves: rhbz#1254352
+- Sub-package texttopaps with old code.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.8-46
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.8-45
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

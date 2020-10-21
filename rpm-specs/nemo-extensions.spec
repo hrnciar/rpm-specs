@@ -3,7 +3,7 @@
 
 Name:           nemo-extensions
 Version:        4.6.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Extensions for Nemo
 
 License:        GPLv2+ and LGPLv2
@@ -25,7 +25,11 @@ BuildRequires:  intltool
 BuildRequires:  meson
 BuildRequires:  pkgconfig(gtk-doc)
 BuildRequires:  pkgconfig(libnotify)
+%if 0%{?fedora} >= 34
+BuildRequires:  pkgconfig(gjs-1.0) >= 1.56.0
+%else
 BuildRequires:  pkgconfig(cjs-1.0) >= 4.6.0
+%endif
 BuildRequires:  pkgconfig(xreader-view-1.5)
 BuildRequires:  pkgconfig(libmusicbrainz5)
 BuildRequires:  pkgconfig(gstreamer-plugins-base-1.0)
@@ -152,6 +156,10 @@ and decryption of OpenPGP files using GnuPG.
 
 %prep
 %autosetup -p1
+%if 0%{?fedora} >= 34
+sed -i -e 's@cjs-1.0@gjs-1.0@g' nemo-preview/configure.ac
+sed -i -e 's@cjs/gjs.h@gjs/gjs.h@g' nemo-preview/src/main.c
+%endif
 
 %build
 pushd nemo-audio-tab
@@ -340,6 +348,12 @@ desktop-file-install                                    \
 %{_mandir}/man1/nemo-seahorse-tool.1.* 
 
 %changelog
+* Sun Sep 20 2020 Leigh Scott <leigh123linux@gmail.com> - 4.6.0-4
+- Switch to gjs f34+
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.6.0-2
 - Rebuilt for Python 3.9
 

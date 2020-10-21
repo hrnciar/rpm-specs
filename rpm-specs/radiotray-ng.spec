@@ -1,6 +1,6 @@
 Name:           radiotray-ng
 Version:        0.2.7
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Internet radio player
 
 License:        GPLv3+
@@ -35,20 +35,14 @@ sed -i '/execute_process(COMMAND lsb_release/d' package/CMakeLists.txt
 
 
 %build
-mkdir build
-pushd build
-    %cmake3 \
-        -DLSB_RELEASE_EXECUTABLE="lsb_release" \
-        -DDISTRIBUTOR_ID="fedora" \
-        ..
-    %make_build
-popd
+%cmake3 \
+    -DLSB_RELEASE_EXECUTABLE="lsb_release" \
+    -DDISTRIBUTOR_ID="fedora"
+%cmake_build
 
 
 %install
-pushd build
-    %make_install
-popd
+%cmake_install
 # Remove autostart
 rm %{buildroot}%{_sysconfdir}/xdg/autostart/%{name}.desktop
 # Remove themes
@@ -78,6 +72,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/rtng-bookmark-editor.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 31 2020 Björn Esser <besser82@fedoraproject.org> - 0.2.7-6
 - Rebuilt again for Boost 1.73
 

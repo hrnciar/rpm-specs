@@ -2,17 +2,16 @@
 %global gem_name hitimes
 
 Name: rubygem-%{gem_name}
-Version: 1.3.1
-Release: 4%{?dist}
+Version: 2.0.0
+Release: 1%{?dist}
 Summary: A fast, high resolution timer library for recording performance metrics
 License: ISC
 URL: http://github.com/copiousfreetime/hitimes
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
-BuildRequires: ruby-devel
 BuildRequires: rubygem(minitest)
-BuildRequires: gcc
+BuildArch: noarch
 
 %description
 Hitimes is a fast, high resolution timer library for recording performance
@@ -43,26 +42,17 @@ mkdir -p %{buildroot}%{gem_dir}
 cp -pa .%{gem_dir}/* \
         %{buildroot}%{gem_dir}/
 
-mkdir -p %{buildroot}%{gem_extdir_mri}/%{gem_name}
-
-# Plese note this directory is Ruby version specific.
-cp -a .%{gem_extdir_mri}/%{gem_name}/%(ruby -e 'puts RUBY_VERSION.to_f')/%{gem_name}.so %{buildroot}%{gem_extdir_mri}/%{gem_name}/%{gem_name}.so
-cp -a .%{gem_extdir_mri}/gem.build_complete %{buildroot}%{gem_extdir_mri}/
-
-rm -rf %{buildroot}/%{gem_instdir}/{ext/,Rakefile}
-
 %check
 pushd ./%{gem_instdir}
 # Remove simplecov uneeded dependency
 sed -i '/^if RUBY_VERSION/,/^end$/ s/^/# /g' spec/spec_helper.rb
-ruby -I$(dirs +1)%{gem_extdir_mri}:lib:spec -e 'Dir.glob "./spec/*spec.rb", &method(:require)'
+ruby -Ilib:spec -e 'Dir.glob "./spec/*spec.rb", &method(:require)'
 popd
 
 %files
 %dir %{gem_instdir}
 %{gem_libdir}
 %license %{gem_instdir}/LICENSE
-%{gem_extdir_mri}
 %{gem_spec}
 %exclude %{gem_cache}
 
@@ -75,8 +65,16 @@ popd
 %{gem_instdir}/spec/
 %{gem_instdir}/tasks/
 %{gem_instdir}/examples/
+%{gem_instdir}/Rakefile
 
 %changelog
+* Wed Aug 05 12:50:37 GMT 2020 Pavel Valena <pvalena@redhat.com> - 2.0.0-1
+- Update to hitimes 2.0.0.
+  Resolves: rhbz#1754539
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

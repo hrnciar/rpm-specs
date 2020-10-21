@@ -1,6 +1,6 @@
 Name:           perl-GD
-Version:        2.71
-Release:        5%{?dist}
+Version:        2.73
+Release:        1%{?dist}
 Summary:        Perl interface to the GD graphics library
 License:        GPL+ or Artistic 2.0
 URL:            https://metacpan.org/release/GD
@@ -94,6 +94,20 @@ make test TEST_VERBOSE=1
 %{_mandir}/man3/GD::Simple.3*
 
 %changelog
+* Thu Sep 24 2020 Paul Howarth <paul@city-fan.org> - 2.73-1
+- Update to 2.73
+  - Allow Makefile.PL --options to override the libgd options; not recommended
+    (see GH#33 and CPAN RT#130045)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.72-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Paul Howarth <paul@city-fan.org> - 2.72-1
+- Update to 2.72
+  - Fix for colorMatch with older unpatched libgd versions, which has an
+    exploitable heap overflow (CVE-2019-6977)
+- Note: libgd in Fedora is already patched for CVE-2019-6977
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.71-5
 - Perl 5.32 rebuild
 

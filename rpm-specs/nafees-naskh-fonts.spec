@@ -4,7 +4,7 @@
 
 Name:           %{fontname}-fonts
 Version:        2.01
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Nafees naskh font for writing Urdu in the Naskh script with full aerab support
 
 License:        Bitstream Vera
@@ -63,6 +63,9 @@ install -Dm 0644 -p %{SOURCE3} \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.01-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.01-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

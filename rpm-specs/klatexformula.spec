@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+
 # This package depends on automagic byte compilation
 # https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
 %global _python_bytecompile_extra 1
@@ -7,7 +9,7 @@
 
 Name:             klatexformula
 Version:          4.0.0
-Release:          8%{?dist}
+Release:          10%{?dist}
 Summary:          Application for easy image creating from a LaTeX equation
 License:          GPLv2+
 URL:              http://klatexformula.sourceforge.net/
@@ -61,8 +63,6 @@ Development files for the libklfbackend.
 %autosetup -p1
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
 %{cmake_kf5} \
         -DCMAKE_SKIP_RPATH=ON \
         -DKLF_LIBKLFAPP_STATIC=OFF \
@@ -77,13 +77,11 @@ pushd %{_target_platform}
         -DKLF_INSTALL_DESKTOP_CATEGORIES="Qt;Office;" \
         -DKLF_INSTALL_DESKTOP_ICON="%{name}" \
         -DKLF_INSTALL_DESPLUGIN_DIR=%{_qt5_plugindir}/designer/ \
-        ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+        %{nil}
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 
 %check
@@ -124,6 +122,13 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_includedir}/klftools
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 4.0.0-8
 - cleanup qt5 deps (mostly replacing qt5-devel with qt5-qtbase-devel)
 - tighten subpkg dep with %%{?_isa}

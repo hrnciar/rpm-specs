@@ -1,8 +1,8 @@
 %global libauditver     3.0
-%global libsepolver     3.0-1
-%global libsemanagever  3.0-1
-%global libselinuxver   3.0-1
-%global sepolgenver     3.0-1
+%global libsepolver     3.1
+%global libsemanagever  3.1
+%global libselinuxver   3.1
+%global sepolgenver     3.1
 
 %global generatorsdir %{_prefix}/lib/systemd/system-generators
 
@@ -11,17 +11,17 @@
 
 Summary: SELinux policy core utilities
 Name:    policycoreutils
-Version: 3.0
+Version: 3.1
 Release: 4%{?dist}
 License: GPLv2
 # https://github.com/SELinuxProject/selinux/wiki/Releases
-Source0: https://github.com/SELinuxProject/selinux/releases/download/20191204/policycoreutils-3.0.tar.gz
-Source1: https://github.com/SELinuxProject/selinux/releases/download/20191204/selinux-python-3.0.tar.gz
-Source2: https://github.com/SELinuxProject/selinux/releases/download/20191204/selinux-gui-3.0.tar.gz
-Source3: https://github.com/SELinuxProject/selinux/releases/download/20191204/selinux-sandbox-3.0.tar.gz
-Source4: https://github.com/SELinuxProject/selinux/releases/download/20191204/selinux-dbus-3.0.tar.gz
-Source5: https://github.com/SELinuxProject/selinux/releases/download/20191204/semodule-utils-3.0.tar.gz
-Source6: https://github.com/SELinuxProject/selinux/releases/download/20191204/restorecond-3.0.tar.gz
+Source0: https://github.com/SELinuxProject/selinux/releases/download/20200710/policycoreutils-3.1.tar.gz
+Source1: https://github.com/SELinuxProject/selinux/releases/download/20200710/selinux-python-3.1.tar.gz
+Source2: https://github.com/SELinuxProject/selinux/releases/download/20200710/selinux-gui-3.1.tar.gz
+Source3: https://github.com/SELinuxProject/selinux/releases/download/20200710/selinux-sandbox-3.1.tar.gz
+Source4: https://github.com/SELinuxProject/selinux/releases/download/20200710/selinux-dbus-3.1.tar.gz
+Source5: https://github.com/SELinuxProject/selinux/releases/download/20200710/semodule-utils-3.1.tar.gz
+Source6: https://github.com/SELinuxProject/selinux/releases/download/20200710/restorecond-3.1.tar.gz
 URL:     https://github.com/SELinuxProject/selinux
 Source13: system-config-selinux.png
 Source14: sepolicy-icons.tgz
@@ -35,7 +35,7 @@ Source21: python-po.tgz
 Source22: gui-po.tgz
 Source23: sandbox-po.tgz
 # https://github.com/fedora-selinux/selinux
-# $ git format-patch -N 20191204 -- policycoreutils python gui sandbox dbus semodule-utils restorecond
+# $ git format-patch -N 20200710 -- policycoreutils python gui sandbox dbus semodule-utils restorecond
 # $ for j in [0-9]*.patch; do printf "Patch%s: %s\n" ${j/-*/} $j; done
 # Patch list start
 Patch0001: 0001-sandbox-add-reset-to-Xephyr-as-it-works-better-with-.patch
@@ -54,7 +54,6 @@ Patch0013: 0013-policycoreutils-setfiles-Improve-description-of-d-sw.patch
 Patch0014: 0014-sepolicy-generate-Handle-more-reserved-port-types.patch
 Patch0015: 0015-semodule-utils-Fix-RESOURCE_LEAK-coverity-scan-defec.patch
 Patch0016: 0016-sandbox-Use-matchbox-window-manager-instead-of-openb.patch
-Patch0017: 0017-python-Use-ipaddress-instead-of-IPy.patch
 # Patch list end
 
 Obsoletes: policycoreutils < 2.0.61-2
@@ -141,19 +140,19 @@ mkdir -p %{buildroot}%{_mandir}/man5
 mkdir -p %{buildroot}%{_mandir}/man8
 %{__mkdir} -p %{buildroot}/%{_usr}/share/doc/%{name}/
 
-make -C policycoreutils LSPP_PRIV=y  DESTDIR="%{buildroot}" SBINDIR="%{_sbindir}" LIBDIR="%{_libdir}" SEMODULE_PATH="/usr/sbin" LIBSEPOLA="%{_libdir}/libsepol.a" install
+%make_install -C policycoreutils LSPP_PRIV=y SBINDIR="%{_sbindir}" LIBDIR="%{_libdir}" SEMODULE_PATH="/usr/sbin" LIBSEPOLA="%{_libdir}/libsepol.a"
 
-make -C python PYTHON=%{__python3} DESTDIR="%{buildroot}" SBINDIR="%{_sbindir}" LIBDIR="%{_libdir}" LIBSEPOLA="%{_libdir}/libsepol.a" install
+%make_install -C python PYTHON=%{__python3} SBINDIR="%{_sbindir}" LIBDIR="%{_libdir}" LIBSEPOLA="%{_libdir}/libsepol.a"
 
-make -C gui PYTHON=%{__python3} DESTDIR="%{buildroot}" SBINDIR="%{_sbindir}" LIBDIR="%{_libdir}" LIBSEPOLA="%{_libdir}/libsepol.a" install
+%make_install -C gui PYTHON=%{__python3} SBINDIR="%{_sbindir}" LIBDIR="%{_libdir}" LIBSEPOLA="%{_libdir}/libsepol.a"
 
-make -C sandbox PYTHON=%{__python3} DESTDIR="%{buildroot}" SBINDIR="%{_sbindir}" LIBDIR="%{_libdir}" LIBSEPOLA="%{_libdir}/libsepol.a" install
+%make_install -C sandbox PYTHON=%{__python3} SBINDIR="%{_sbindir}" LIBDIR="%{_libdir}" LIBSEPOLA="%{_libdir}/libsepol.a"
 
-make -C dbus PYTHON=%{__python3} DESTDIR="%{buildroot}" SBINDIR="%{_sbindir}" LIBDIR="%{_libdir}" LIBSEPOLA="%{_libdir}/libsepol.a" install
+%make_install -C dbus PYTHON=%{__python3} SBINDIR="%{_sbindir}" LIBDIR="%{_libdir}" LIBSEPOLA="%{_libdir}/libsepol.a"
 
-make -C semodule-utils PYTHON=%{__python3} DESTDIR="%{buildroot}" SBINDIR="%{_sbindir}" LIBDIR="%{_libdir}" LIBSEPOLA="%{_libdir}/libsepol.a" install
+%make_install -C semodule-utils PYTHON=%{__python3} SBINDIR="%{_sbindir}" LIBDIR="%{_libdir}" LIBSEPOLA="%{_libdir}/libsepol.a"
 
-make -C restorecond PYTHON=%{__python3} DESTDIR="%{buildroot}" SBINDIR="%{_sbindir}" LIBDIR="%{_libdir}" LIBSEPOLA="%{_libdir}/libsepol.a" install
+%make_install -C restorecond PYTHON=%{__python3} SBINDIR="%{_sbindir}" LIBDIR="%{_libdir}" LIBSEPOLA="%{_libdir}/libsepol.a"
 
 # Fix perms on newrole so that objcopy can process it
 chmod 0755 %{buildroot}%{_bindir}/newrole
@@ -221,7 +220,6 @@ an SELinux environment.
 %files python-utils
 %{_sbindir}/semanage
 %{_bindir}/chcat
-%{_bindir}/sandbox
 %{_bindir}/audit2allow
 %{_bindir}/audit2why
 %{_mandir}/man1/audit2allow.1*
@@ -231,8 +229,6 @@ an SELinux environment.
 %{_sysconfdir}/dbus-1/system.d/org.selinux.conf
 %{_mandir}/man8/chcat.8*
 %{_mandir}/ru/man8/chcat.8*
-%{_mandir}/man8/sandbox.8*
-%{_mandir}/ru/man8/sandbox.8*
 %{_mandir}/man8/semanage*.8*
 %{_mandir}/ru/man8/semanage*.8*
 %{_datadir}/bash-completion/completions/semanage
@@ -344,8 +340,11 @@ sandboxes
 %caps(cap_setpcap,cap_setuid,cap_fowner,cap_dac_override,cap_sys_admin,cap_sys_nice=pe) %{_sbindir}/seunshare
 %{_mandir}/man8/seunshare.8*
 %{_mandir}/ru/man8/seunshare.8*
+%{_bindir}/sandbox
 %{_mandir}/man5/sandbox.5*
 %{_mandir}/ru/man5/sandbox.5*
+%{_mandir}/man8/sandbox.8*
+%{_mandir}/ru/man8/sandbox.8*
 
 %package newrole
 Summary: The newrole application for RBAC/MLS
@@ -469,6 +468,7 @@ The policycoreutils-restorecond package contains the restorecond service.
 %files restorecond
 %{_sbindir}/restorecond
 %{_unitdir}/restorecond.service
+%{_userunitdir}/restorecond_user.service
 %config(noreplace) %{_sysconfdir}/selinux/restorecond.conf
 %config(noreplace) %{_sysconfdir}/selinux/restorecond_user.conf
 %{_sysconfdir}/xdg/autostart/restorecond.desktop
@@ -531,6 +531,20 @@ The policycoreutils-restorecond package contains the restorecond service.
 %systemd_postun_with_restart restorecond.service
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 3.1-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Fri Jul 10 2020 Petr Lautrbach <plautrba@redhat.com> - 3.1-1
+- SELinux userspace 3.1 release
+
 * Mon Jun  1 2020 Petr Lautrbach <plautrba@redhat.com> - 3.0-4
 - policycoreutils-dbus requires python3-gobject-base
 

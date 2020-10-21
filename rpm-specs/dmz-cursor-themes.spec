@@ -3,7 +3,7 @@
 
 Name:           dmz-cursor-themes
 Version:        0.4.5
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Style neutral cursors themes
 License:        CC-BY-SA
 URL:            https://packages.debian.org/sid/gnome/dmz-cursor-theme
@@ -39,6 +39,9 @@ done
 %{_datadir}/icons/DMZ-Black/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.5-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

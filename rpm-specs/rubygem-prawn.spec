@@ -2,22 +2,26 @@
 
 Summary: A fast and nimble PDF generator for Ruby
 Name: rubygem-%{gem_name}
-Version: 2.2.2
-Release: 4%{?dist}
+Version: 2.3.0
+Release: 1%{?dist}
 # afm files are licensed by APAFML, the rest of package is GPLv2 or GPLv3 or Ruby
 License: (GPLv2 or GPLv3 or Ruby) and APAFML
 URL: http://prawnpdf.org
-Source0: http://rubygems.org/gems/%{gem_name}-%{version}.gem 
-# Patch ruby.rb to fix errors due to updated pdf-core dependencies
-# https://github.com/prawnpdf/prawn/commit/c504ae4e683017d7afadece084734a9190230cd8
-Patch0: prawn-fix-test-errors.patch
+Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
+# Not all of data is shipped, but it's needed for the test suite.
+# You may check it like so:
+# git clone --no-checkout https://github.com/prawnpdf/prawn.git
+# cd prawn && git archive -v -o prawn-2.3.0-data.txz 2.3.0 data
+Source1: %{gem_name}-%{version}-data.txz
+BuildRequires: ruby
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel >= 1.3.6
 BuildRequires: rubygem(rspec) >= 3.0
-BuildRequires: rubygem(ttfunk) >= 1.5
+BuildRequires: rubygem(ttfunk) >= 1.6
 BuildRequires: rubygem(pdf-reader) >= 1.4.0
 BuildRequires: rubygem(pdf-inspector) >= 1.2.1
-BuildRequires: rubygem(pdf-core) >= 0.7.0
+BuildRequires: rubygem(pdf-core) >= 0.8.1
+BuildRequires: rubygem(bigdecimal)
 BuildArch: noarch
 
 %description
@@ -54,15 +58,12 @@ BuildArch: noarch
 Documentation for %{name}
 
 %prep
-%setup -q -n %{gem_name}-%{version}
-%gemspec_remove_dep -g pdf-core "~> 0.7.0"
-%gemspec_add_dep -g pdf-core ">= 0.7.0"
-%patch0
+%setup -q -n %{gem_name}-%{version} -b1
 
 %build
 gem build ../%{gem_name}-%{version}.gemspec
 
-%gem_install -n %{gem_name}-%{version}.gem
+%gem_install
 
 %install
 mkdir -p %{buildroot}%{gem_dir}
@@ -71,14 +72,18 @@ cp -a .%{gem_dir}/* \
 
 %check
 pushd .%{gem_instdir}
+rm -rf data
+ln -s %{_builddir}/data .
+
 sed -i "/^require 'bundler'/d" ./spec/spec_helper.rb
 sed -i "/^Bundler.setup/d" ./spec/spec_helper.rb
 
+# manual_builder dependency is not in Fedora yet
+mv spec/prawn_manual_spec.rb{,.disable}
+
 # There are missing font and image files required by test suite.
 # These are not bundled in the gem therefore some failures occur.
-rspec spec \
-  | tee /dev/stderr \
-  | grep '850 examples, 103 failures'
+rspec spec
 popd
 
 %files
@@ -86,12 +91,8 @@ popd
 %{gem_libdir}
 %exclude %{gem_cache}
 %{gem_spec}
-%doc %{gem_instdir}/LICENSE
-%doc %{gem_instdir}/COPYING
-%doc %{gem_instdir}/GPLv2
-%doc %{gem_instdir}/GPLv3
+%license %{gem_instdir}/{LICENSE,COPYING,GPLv2,GPLv3}
 %exclude %{gem_instdir}/%{gem_name}.gemspec
-%doc %{gem_instdir}/data/fonts/MustRead.html
 %{gem_instdir}/data/fonts/*.afm
 %exclude %{gem_instdir}/.yardopts
 
@@ -101,8 +102,16 @@ popd
 %{gem_instdir}/Rakefile
 %{gem_instdir}/spec
 %doc %{gem_instdir}/manual
+%doc %{gem_instdir}/data/fonts/MustRead.html
 
 %changelog
+* Mon Aug 03 06:49:08 GMT 2020 Pavel Valena <pvalena@redhat.com> - 2.3.0-1
+- Update to prawn 2.3.0.
+  Resolves: rhbz#1862713
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

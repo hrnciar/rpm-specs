@@ -1,6 +1,6 @@
 Name:           ocaml-sha
 Version:        1.13
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Binding to the SHA cryptographic functions
 
 License:        ISC
@@ -78,6 +78,15 @@ dune runtest --profile release
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.13-4
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.13-3
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 20 2020 Andy Li <andy@onthewings.net> - 1.13-1
 - New upstream version. (RHBZ#1818607) (RHBZ#1799819)
 - Remove patches integrated in 1.13.

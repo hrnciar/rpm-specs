@@ -16,7 +16,7 @@
 Name:       %srcname
 Summary:    Resource allocator scripts for OpenStack
 Version:    7
-Release:    6%{?dist}
+Release:    7%{?dist}
 License:    GPLv2+
 URL:        https://github.com/praiskup/resalloc-openstack
 BuildArch:  noarch
@@ -77,6 +77,9 @@ general might be used separately.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 7-6
 - Rebuilt for Python 3.9
 

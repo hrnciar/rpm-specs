@@ -1,5 +1,5 @@
 %global forgeurl https://github.com/ralph-irving/squeezelite/
-%global commit   1b7a17616cd2bbd9935c710dc33cda11cd0de45e
+%global commit   c4c4108c5784dc294938b1484448240e98b41209
 %forgemeta
 
 # Raspberry Pi-specific GPIO support.
@@ -15,7 +15,7 @@
 
 
 Name:            squeezelite
-Version:         1.9.6.1210
+Version:         1.9.7.1273
 Release:         1%{?dist}
 Summary:         Headless music player for streaming from Logitech Media Server
 
@@ -48,6 +48,7 @@ BuildRequires:   openssl-devel
 BuildRequires:   opus-devel
 BuildRequires:   opusfile-devel
 BuildRequires:   pandoc
+BuildRequires:   pulseaudio-libs-devel
 BuildRequires:   soxr-devel
 BuildRequires:   systemd
 
@@ -67,13 +68,17 @@ used in place of dedicated Squeezebox network music playing hardware.
 %build
 %set_build_flags
 
-%make_build %{?with_ffmpeg:CPPFLAGS+="-I%{_includedir}/ffmpeg"} CPPFLAGS+="-I%{_includedir}/opus" OPTS="-DDSD -DLINKALL -DRESAMPLE -DVISEXPORT -DIR -DGPIO %{?with_raspberrypi:-DRPI} %{?with_ffmpeg:-DFFMPEG} %{?!with_faad:-DNO_FAAD} -DUSE_SSL -DOPUS"
+%make_build %{?with_ffmpeg:CPPFLAGS+="-I%{_includedir}/ffmpeg"} CPPFLAGS+="-I%{_includedir}/opus" OPTS="-DDSD -DLINKALL -DRESAMPLE -DVISEXPORT -DIR -DGPIO %{?with_raspberrypi:-DRPI} %{?with_ffmpeg:-DFFMPEG} %{?!with_faad:-DNO_FAAD} -DUSE_SSL -DOPUS" EXECUTABLE=%{name}-alsa
+%make_build clean
+%make_build %{?with_ffmpeg:CPPFLAGS+="-I%{_includedir}/ffmpeg"} CPPFLAGS+="-I%{_includedir}/opus" OPTS="-DDSD -DLINKALL -DRESAMPLE -DVISEXPORT -DIR -DGPIO %{?with_raspberrypi:-DRPI} %{?with_ffmpeg:-DFFMPEG} %{?!with_faad:-DNO_FAAD} -DUSE_SSL -DOPUS -DPULSEAUDIO" EXECUTABLE=%{name}-pulse
 
 pandoc --to=man --standalone --output=%{name}.service.7 %{SOURCE3}
 
 
 %install
-install -p -D -t %{buildroot}/%{_bindir} %{name}
+install -p -D -t %{buildroot}/%{_bindir} %{name}-alsa
+ln -s %{name}-alsa %{buildroot}/%{_bindir}/%{name}
+install -p -D -t %{buildroot}/%{_bindir} %{name}-pulse
 install -p -D -m 0644 %{SOURCE1} %{buildroot}/%{_unitdir}/%{name}.service
 install -p -D -m 0644 %{SOURCE2} %{buildroot}/%{_userunitdir}/%{name}.service
 # Change this to %%{_userpresetdir} once Fedora 27 is retired:
@@ -92,6 +97,8 @@ mkdir -p %{buildroot}/%{_sharedstatedir}/%{name}
 %doc README.md
 %license LICENSE.txt
 %{_bindir}/%{name}
+%{_bindir}/%{name}-alsa
+%{_bindir}/%{name}-pulse
 %{_unitdir}/%{name}.service
 %{_userunitdir}/%{name}.service
 %{_userunitdir}/../preset/70-%{name}.preset
@@ -121,6 +128,16 @@ exit 0
 
 
 %changelog
+* Fri Sep  4 2020 Peter Oliver <rpm@mavit.org.uk> - 1.9.7.1273-1
+- Update to version 1.9.7.1273.
+
+* Thu Sep  3 2020 Peter Oliver <rpm@mavit.org.uk> - 1.9.7.1270-1
+- Update to version 1.9.7.1270.
+- Build a native PulseAudio binary.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.6.1210-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb  7 2020 Peter Oliver <rpm@mavit.org.uk> - 1.9.6.1210-1
 - Update to 1.9.6.1210, fixing GCC 10 build failure.
 

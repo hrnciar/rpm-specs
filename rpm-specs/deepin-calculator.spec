@@ -1,6 +1,6 @@
 Name:           deepin-calculator
 Version:        5.0.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        An easy to use calculator for ordinary users
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/deepin-calculator
@@ -43,6 +43,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop ||:
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

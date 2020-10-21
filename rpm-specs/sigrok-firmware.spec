@@ -1,7 +1,7 @@
 Name:           sigrok-firmware
 Version:        0.1.0
 %global         checkout 20151211gitb2daf81
-Release:        15.%{checkout}%{?dist}
+Release:        16.%{checkout}%{?dist}
 Summary:        Firmware for some hardware supported by sigrok
 License:        GPLv2 and Redistributable, no modification permitted
 URL:            http://www.sigrok.org/
@@ -63,6 +63,9 @@ make %{?_smp_mflags}
 %{_datadir}/%{name}/sysclk-lwla1034-*.rbf
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-16.20151211gitb2daf81
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-15.20151211gitb2daf81
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

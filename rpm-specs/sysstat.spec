@@ -1,7 +1,7 @@
 Summary: Collection of performance monitoring tools for Linux
 Name: sysstat
 Version: 12.3.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+
 URL: http://sebastien.godard.pagesperso-orange.fr/
 Source: https://github.com/sysstat/sysstat/archive/v%{version}.tar.gz
@@ -83,6 +83,9 @@ fi
 %{_localstatedir}/log/sa
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12.3.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

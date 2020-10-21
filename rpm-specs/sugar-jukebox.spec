@@ -1,10 +1,6 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:		sugar-jukebox
 Version:	36
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	Media player activity for Sugar
 
 License:	GPLv2+
@@ -38,6 +34,9 @@ python3 ./setup.py build
 python3 ./setup.py install --prefix=$RPM_BUILD_ROOT/%{_prefix}
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}%{_datadir}/{sugaractivitydir}/Jukebox.activity/
+
 %find_lang org.laptop.sugar.Jukebox
 
 
@@ -48,6 +47,13 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 36-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 36-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 5 2020 Chihurumnaya Ibiam <ibiamchihurumnaya@gmail.com> 36-1
 - New 36 release
 

@@ -4,7 +4,7 @@
 
 Name:			transflac
 Version:		1.0.1
-Release:		2%{?dist}
+Release:		3%{?dist}
 Summary:		Transcode FLAC to lossy formats
 
 License:		GPLv3+
@@ -54,6 +54,9 @@ that transcodes FLAC audio files into various lossy formats.
 %{_mandir}/man1/transflac.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

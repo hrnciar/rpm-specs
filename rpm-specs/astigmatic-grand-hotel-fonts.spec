@@ -3,7 +3,7 @@
 
 Name:		%{fontname}-fonts
 Version:	1.000
-Release:	10%{?dist}
+Release:	11%{?dist}
 Summary:	Script retro style fonts
 
 License:	OFL
@@ -62,6 +62,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/%{fontnam
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.000-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.000-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

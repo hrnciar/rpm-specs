@@ -1,7 +1,7 @@
 Summary:        Email filter with virus scanner and spamassassin support
 Name:           amavis
 Version:        2.12.0
-Release:        6%{?dist}
+Release:        9%{?dist}
 # LDAP schema is GFDL, some helpers are BSD, core is GPLv2+
 License:        GPLv2+ and BSD and GFDL
 URL:            https://gitlab.com/amavis/amavis
@@ -14,17 +14,20 @@ Source9:        amavisd.service
 Source10:       amavisd-snmp.service
 Patch0:         amavis-2.12.0-conf.patch
 BuildArch:      noarch
-BuildRequires:  perl-generators
+%if 0%{?fedora}
 BuildRequires:  systemd-rpm-macros
+%else
+BuildRequires:  systemd
+%endif
+BuildRequires:  perl-generators
+%if 0%{?rhel} > 7 || 0%{?fedora} > 24
 Suggests:       %{name}-doc
 Recommends:     clamav-server-systemd
 Recommends:     binutils
-Requires:       altermime
 Recommends:     arj
 Recommends:     bzip2
 Recommends:     cabextract
 Recommends:     pax
-Requires:       file
 Recommends:     freeze
 Recommends:     gzip
 Recommends:     lzop
@@ -32,21 +35,41 @@ Recommends:     nomarch
 Recommends:     p7zip, p7zip-plugins
 Recommends:     tar
 Recommends:     unzoo
-# We probably should parse the fetch_modules() code in amavisd for this list.
-# These are just the dependencies that don't get picked up otherwise.
+Recommends:     perl(DBD::SQLite)
+Recommends:     perl(DBI)
+Recommends:     perl(Mail::SpamAssassin)
+Recommends:     perl(Net::LDAP)
+Recommends:     perl(Convert::TNEF)
+Recommends:     perl(Convert::UUlib)
+%else
+Requires:       binutils
+Requires:       arj
+Requires:       bzip2
+Requires:       cabextract
+Requires:       pax
+Requires:       freeze
+Requires:       gzip
+Requires:       lzop
+Requires:       nomarch
+Requires:       p7zip, p7zip-plugins
+Requires:       tar
+Requires:       unzoo
+Requires:       perl(DBD::SQLite)
+Requires:       perl(DBI)
+Requires:       perl(Mail::SpamAssassin)
+Requires:       perl(Net::LDAP)
+%endif
+Requires:       clamav-filesystem
+Requires:       altermime
+Requires:       file
 Requires:       perl(Archive::Tar)
 Requires:       perl(Archive::Zip) >= 1.14
 Requires:       perl(Authen::SASL)
 Requires:       perl(Compress::Zlib) >= 1.35
 Requires:       perl(Compress::Raw::Zlib) >= 2.017
-Requires:       perl(Convert::TNEF)
-Requires:       perl(Convert::UUlib)
 Requires:       perl(Crypt::OpenSSL::RSA)
-Recommends:     perl(DBD::SQLite)
-Recommends:     perl(DBI)
 Requires:       perl(Digest::MD5) >= 2.22
 Requires:       perl(Digest::SHA)
-Requires:       perl(Digest::SHA1)
 Requires:       perl(File::LibMagic)
 Requires:       perl(IO::Socket::IP)
 Requires:       perl(IO::Socket::SSL)
@@ -66,9 +89,7 @@ Requires:       perl(Mail::Field)
 Requires:       perl(Mail::Header)
 Requires:       perl(Mail::Internet) >= 1.58
 Requires:       perl(Mail::SPF)
-Recommends:     perl(Mail::SpamAssassin)
 Requires:       perl(Net::DNS)
-Recommends:     perl(Net::LDAP)
 Requires:       perl(Net::LibIDN)
 Requires:       perl(Net::SSLeay)
 Requires:       perl(Net::Server) >= 2.0
@@ -87,7 +108,6 @@ Obsoletes:      amavisd-new < 2.12.0-3
 %package snmp
 Summary:        Exports amavis SNMP data
 Requires:       %{name} = %{version}-%{release}
-Requires:       perl(NetSNMP::OID)
 Provides:       amavisd-new-snmp = %{version}-%{release}
 Obsoletes:      amavisd-new-snmp < 2.12.0-3
 
@@ -206,6 +226,16 @@ exit 0
 %doc README_FILES test-messages amavisd.conf-* amavisd-custom.conf
 
 %changelog
+* Tue Aug 18 2020 Juan Orti Alcaine <jortialc@redhat.com> - 2.12.0-9
+- Drop unused dependency: perl(Digest::SHA1)
+- Make optional: perl(Convert::TNEF), perl(Convert::UUlib)
+
+* Tue Aug 18 2020 Juan Orti Alcaine <jortialc@redhat.com> - 2.12.0-8
+- Unify Fedora and EPEL >= 7 spec files
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

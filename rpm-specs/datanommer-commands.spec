@@ -2,7 +2,7 @@
 
 Name:           datanommer-commands
 Version:        0.7.2
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Console commands for datanommer
 
 License:        GPLv3+
@@ -56,6 +56,9 @@ rm -rf *.egg-info
 %{_bindir}/datanommer-dump
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.2-9
 - Rebuilt for Python 3.9
 

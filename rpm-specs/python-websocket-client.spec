@@ -13,18 +13,10 @@ the low level APIs for WebSocket. All APIs are the synchronous functions.
 
 python-websocket-client supports only hybi-13.}
 
-%if (%{defined fedora} && 0%{?fedora} < 31) || (%{defined rhel} && 0%{?rhel} < 8)
-%bcond_without  python2
-%endif
-
-%if %{defined fedora} || (%{defined rhel} && 0%{?rhel} >= 7)
-%bcond_without  python3
-%endif
-
 
 Name:               python-%{pkgname}
-Version:            0.56.0
-Release:            7%{?dist}
+Version:            0.57.0
+Release:            1%{?dist}
 Summary:            WebSocket client for python
 License:            BSD
 URL:                https://github.com/websocket-client/websocket-client
@@ -35,22 +27,6 @@ BuildArch:          noarch
 %description %{common_description}
 
 
-%if %{with python2}
-%package -n python2-%{pkgname}
-Summary:            %{summary}
-BuildRequires:      python2-devel
-BuildRequires:      python2-setuptools
-BuildRequires:      python2-backports-ssl_match_hostname
-BuildRequires:      python2-six
-Requires:           python2-backports-ssl_match_hostname
-Requires:           python2-six
-%{?python_provide:%python_provide python2-%{pkgname}}
-
-
-%description -n python2-%{pkgname} %{common_description}
-%endif # with python2
-
-%if %{with python3}
 %package -n python3-%{pkgname}
 Summary:            %{summary}
 BuildRequires:      python3-devel
@@ -65,7 +41,6 @@ Conflicts:          python2-websocket-client <= 0.40.0-4
 
 
 %description -n python3-%{pkgname} %{common_description}
-%endif # with python3
 
 
 %prep
@@ -75,26 +50,11 @@ rm -r %{eggname}.egg-info
 
 
 %build
-%if %{with python2}
-%py2_build
-%endif # with python2
-
-%if %{with python3}
 %py3_build
-%endif # with python3
 
 
 %install
-%if %{with python2}
-# Must do the python2 install first because the scripts in /usr/bin are
-# overwritten with every setup.py install, and in general we want the
-# python3 version to be the default.
-%py2_install
-%endif # with python2
-
-%if %{with python3}
 %py3_install
-%endif # with python3
 
 # https://fedoraproject.org/wiki/Packaging:Python#Executables_in_.2Fusr.2Fbin
 # wsdump has the same functionality on py2 and py3, so only ship one version
@@ -102,28 +62,8 @@ mv %{buildroot}%{_bindir}/wsdump.py %{buildroot}%{_bindir}/wsdump
 
 
 %check
-%if %{with python3}
 %{__python3} setup.py test
-%endif # with python3
 
-%if %{with python2}
-%{__python2} setup.py test
-%endif # with python2
-
-%if %{with python2}
-%files -n python2-%{pkgname}
-%license LICENSE
-%doc README.rst
-%{python2_sitelib}/%{libname}
-%exclude %{python2_sitelib}/%{libname}/tests
-%{python2_sitelib}/%{eggname}-%{version}-py%{python2_version}.egg-info
-%if %{without python3}
-%{_bindir}/wsdump
-%endif
-%endif # with python2
-
-
-%if %{with python3}
 %files -n python3-%{pkgname}
 %license LICENSE
 %doc README.rst
@@ -131,10 +71,16 @@ mv %{buildroot}%{_bindir}/wsdump.py %{buildroot}%{_bindir}/wsdump
 %exclude %{python3_sitelib}/%{libname}/tests
 %{python3_sitelib}/%{eggname}-%{version}-py%{python3_version}.egg-info
 %{_bindir}/wsdump
-%endif # with python3
 
 
 %changelog
+* Thu Sep 10 2020 Joel Capitao <jcapitao@redhat.com> - 0.57.0-1
+- Update to 0.57.0
+- Remove python2 subpackage
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.56.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.56.0-7
 - Rebuilt for Python 3.9
 

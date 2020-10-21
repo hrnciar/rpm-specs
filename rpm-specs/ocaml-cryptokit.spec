@@ -2,7 +2,7 @@
 
 Name:           ocaml-cryptokit
 Version:        1.11
-Release:        26%{?dist}
+Release:        30%{?dist}
 Summary:        OCaml library of cryptographic and hash functions
 License:        LGPLv2 with exceptions
 
@@ -101,6 +101,18 @@ make install
 
 
 %changelog
+* Fri Sep 25 2020 Jerry James <loganjerry@gmail.com> - 1.11-30
+- Rebuild for ocaml-zarith 1.10
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.11-29
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.11-28
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 1.11-26
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

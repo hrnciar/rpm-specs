@@ -1,6 +1,6 @@
 Name:           subnetcalc
 Version:        2.4.16
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        IPv4/IPv6 Subnet Calculator
 License:        GPLv3+
 URL:            https://www.uni-due.de/~be0001/subnetcalc/
@@ -23,10 +23,10 @@ interface ID, etc.).
 
 %build
 %cmake
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %files
 %doc AUTHORS ChangeLog README
@@ -35,6 +35,16 @@ interface ID, etc.).
 %{_mandir}/man1/subnetcalc.1*
 
 %changelog
+* Tue Aug  4 2020 Yanko Kaneti <yaneti@declera.com> - 2.4.16-4
+- Up to date cmake setup
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.16-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.16-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Yanko Kaneti <yaneti@declera.com> - 2.4.16-1
 - Update to 2.4.16
 

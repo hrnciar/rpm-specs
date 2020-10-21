@@ -4,7 +4,7 @@
 
 Name:           xfce4-sensors-plugin
 Version:        1.3.92
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Sensors plugin for the Xfce panel
 
 License:        GPLv2+
@@ -86,6 +86,13 @@ desktop-file-install --vendor "" \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.92-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.92-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Robin Lee <cheeselee@fedoraproject.org> - 1.3.92-4
 - Fix FTBFS #1800268
 

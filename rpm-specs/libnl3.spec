@@ -1,6 +1,6 @@
 Name: libnl3
 Version: 3.5.0
-Release: 3%{?dist}
+Release: 5%{?dist}
 Summary: Convenience library for kernel netlink sockets
 License: LGPLv2
 URL: http://www.infradead.org/~tgr/libnl/
@@ -132,6 +132,13 @@ popd
 %{python3_sitearch}/netlink-*.egg-info
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.5.0-3
 - Rebuilt for Python 3.9
 

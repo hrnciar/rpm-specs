@@ -5,7 +5,7 @@
 
 Name:           nodejs-ctype
 Version:        0.5.3
-Release:        15%{?dist}
+Release:        17%{?dist}
 Summary:        Read and write binary structures and data types with Node.js
 BuildArch:      noarch
 ExclusiveArch:  %{nodejs_arches} noarch
@@ -68,6 +68,13 @@ popd
 %license LICENSE
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-17
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

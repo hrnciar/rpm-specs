@@ -1,6 +1,7 @@
+%define __cmake_in_source_build 1
 Name:       ArpON
 Version:    3.0
-Release:    13%{?dist}
+Release:    16%{?dist}
 Summary:    ARP handler inspection
 
 License:    BSD
@@ -45,6 +46,16 @@ attack.
 %{_mandir}/man8/arpon.8*
 
 %changelog
+* Mon Oct 12 2020 Jeff Law <law@redhat.com> - 3.0-16
+- Use __cmake_in_source_build
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-15
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

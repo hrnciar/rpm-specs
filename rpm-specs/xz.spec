@@ -4,7 +4,7 @@
 Summary:	LZMA compression utilities
 Name:		xz
 Version:	5.2.5
-Release:	2%{?dist}
+Release:	3%{?dist}
 
 # Scripts xz{grep,diff,less,more} and symlinks (copied from gzip) are
 # GPLv2+, binaries are Public Domain (linked against LGPL getopt_long but its
@@ -157,6 +157,9 @@ LD_LIBRARY_PATH=$PWD/src/liblzma/.libs make check
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun  8 2020 Richard W.M. Jones <rjones@redhat.com> - 5.2.5-2
 - Fix location of German man pages (RHBZ#1844813).
 

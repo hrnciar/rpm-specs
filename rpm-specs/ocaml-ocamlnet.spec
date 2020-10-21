@@ -9,7 +9,7 @@
 
 Name:           ocaml-ocamlnet
 Version:        4.1.6
-Release:        15%{?dist}
+Release:        18%{?dist}
 Summary:        Network protocols for OCaml
 License:        BSD
 
@@ -221,6 +221,15 @@ echo -e '-b /usr/bin/netplex-admin\n-b /usr/bin/ocamlrpcgen' \
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 4.1.6-18
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 4.1.6-17
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.6-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 4.1.6-15
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

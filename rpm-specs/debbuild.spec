@@ -3,7 +3,7 @@
 
 Name:           debbuild
 Version:        20.04.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Build Debian-compatible .deb packages from RPM .spec files
 
 License:        GPLv2+
@@ -74,6 +74,9 @@ make
 %dir %{_sysconfdir}/%{name}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 20.04.0-2
 - Perl 5.32 rebuild
 

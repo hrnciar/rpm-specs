@@ -1,6 +1,6 @@
 Name: cadaver
 Version: 0.23.3
-Release: 22%{?dist}
+Release: 23%{?dist}
 Summary: Command-line WebDAV client
 License: GPLv2+
 Source: http://www.webdav.org/cadaver/%{name}-%{version}.tar.gz
@@ -35,6 +35,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.23.3-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Joe Orton <jorton@redhat.com> - 0.23.3-22
 - rebuild to support neon 0.31
 

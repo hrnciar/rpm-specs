@@ -3,7 +3,7 @@
 
 # https://github.com/opentracing/basictracer-go
 %global goipath         github.com/opentracing/basictracer-go
-Version:                1.0.0
+Version:                1.1.0
 
 %gometa
 
@@ -15,7 +15,7 @@ OpenTracing.}
 %global godocs          examples README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Go incarnation of the cross-platform "BasicTracer" reference impl for OpenTracing
 
 License:        MIT
@@ -31,6 +31,7 @@ BuildRequires:  golang(golang.org/x/net/trace)
 
 %if %{with check}
 # Tests
+BuildRequires:  golang(github.com/opentracing/opentracing-go/harness)
 BuildRequires:  golang(github.com/stretchr/testify/assert)
 %endif
 
@@ -53,6 +54,12 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 18:28:16 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.0-1
+- Update to 1.1.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

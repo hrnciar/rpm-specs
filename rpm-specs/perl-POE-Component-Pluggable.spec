@@ -1,6 +1,6 @@
 Name:       perl-POE-Component-Pluggable
 Version:    1.28
-Release:    11%{?dist}
+Release:    12%{?dist}
 # lib/POE/Component/Pluggable.pm -> GPL+ or Artistic
 License:    GPL+ or Artistic
 Summary:    A base class for creating plugin-enabled POE components
@@ -72,6 +72,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.28-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.28-11
 - Perl 5.32 rebuild
 

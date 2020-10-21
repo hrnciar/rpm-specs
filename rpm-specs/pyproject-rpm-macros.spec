@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        15%{?dist}
+Release:        31%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -14,6 +14,8 @@ Source001:      macros.pyproject
 # Implementation files
 Source101:      pyproject_buildrequires.py
 Source102:      pyproject_save_files.py
+Source103:      pyproject_convert.py
+Source104:      pyproject_preprocess_record.py
 
 # Tests
 Source201:      test_pyproject_buildrequires.py
@@ -32,19 +34,6 @@ URL:            https://src.fedoraproject.org/rpms/pyproject-rpm-macros
 
 BuildArch:      noarch
 
-Requires: python3-pip >= 19
-Requires: python3-devel
-
-# We keep these here for now to avoid one loop of %%generate_buildrequires
-# But those are also always in the output of %%generate_buildrequires
-# in order to be removable in the future
-Requires: python3dist(packaging)
-Requires: python3dist(pytoml)
-
-# This is not output from %%generate_buildrequires to work around:
-#   https://github.com/rpm-software-management/mock/issues/336
-Requires: (python3dist(importlib-metadata) if python3 < 3.8)
-
 %if %{with tests}
 BuildRequires: python3dist(pytest)
 BuildRequires: python3dist(pyyaml)
@@ -54,10 +43,10 @@ BuildRequires: python3dist(packaging)
 #   https://github.com/rpm-software-management/mock/issues/336
 BuildRequires: (python3dist(importlib-metadata) if python3 < 3.8)
 %endif
-BuildRequires: python3dist(pytoml)
 BuildRequires: python3dist(pip)
 BuildRequires: python3dist(setuptools)
-BuildRequires: python3dist(tox-current-env) >= 0.0.2
+BuildRequires: python3dist(toml)
+BuildRequires: python3dist(tox-current-env) >= 0.0.3
 BuildRequires: python3dist(wheel)
 %endif
 
@@ -83,10 +72,13 @@ mkdir -p %{buildroot}%{_rpmmacrodir}
 mkdir -p %{buildroot}%{_rpmconfigdir}/redhat
 install -m 644 macros.pyproject %{buildroot}%{_rpmmacrodir}/
 install -m 644 pyproject_buildrequires.py %{buildroot}%{_rpmconfigdir}/redhat/
+install -m 644 pyproject_convert.py %{buildroot}%{_rpmconfigdir}/redhat/
 install -m 644 pyproject_save_files.py  %{buildroot}%{_rpmconfigdir}/redhat/
+install -m 644 pyproject_preprocess_record.py %{buildroot}%{_rpmconfigdir}/redhat/
 
 %if %{with tests}
 %check
+export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856356
 %{python3} -m pytest -vv --doctest-modules
 %endif
 
@@ -94,12 +86,74 @@ install -m 644 pyproject_save_files.py  %{buildroot}%{_rpmconfigdir}/redhat/
 %files
 %{_rpmmacrodir}/macros.pyproject
 %{_rpmconfigdir}/redhat/pyproject_buildrequires.py
+%{_rpmconfigdir}/redhat/pyproject_convert.py
 %{_rpmconfigdir}/redhat/pyproject_save_files.py
+%{_rpmconfigdir}/redhat/pyproject_preprocess_record.py
 
 %doc README.md
 %license LICENSE
 
 %changelog
+* Mon Oct 05 2020 Miro Hrončok <mhroncok@redhat.com> - 0-31
+- Support PEP 517 list based backend-path
+
+* Tue Sep 29 2020 Lumír Balhar <lbalhar@redhat.com> - 0-30
+- Process RECORD files in %%pyproject_install and remove them
+- Support the extras configuration option of tox in %%pyproject_buildrequires -t
+- Support multiple -x options for %%pyproject_buildrequires
+- Fixes: rhbz#1877977
+- Fixes: rhbz#1877978
+
+* Wed Sep 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0-29
+- Check the requirements after installing "requires_for_build_wheel"
+- If not checked, installing runtime requirements might fail
+
+* Tue Sep 08 2020 Gordon Messmer <gordon.messmer@gmail.com> - 0-28
+- Support more Python version specifiers in generated BuildRequires
+- This adds support for the '~=' operator and wildcards
+
+* Fri Sep 04 2020 Miro Hrončok <miro@hroncok.cz> - 0-27
+- Make code in $PWD importable from %%pyproject_buildrequires
+- Only require toml for projects with pyproject.toml
+- Remove a no longer useful warning for unrecognized files in %%pyproject_save_files
+
+* Mon Aug 24 2020 Tomas Hrnciar <thrnciar@redhat.com> - 0-26
+- Implement automatic detection of %%lang files in %%pyproject_save_files
+  and mark them with %%lang in filelist
+
+* Fri Aug 14 2020 Miro Hrončok <mhroncok@redhat.com> - 0-25
+- Handle Python Extras in %%pyproject_buildrequires on Fedora 33+
+
+* Tue Aug 11 2020 Miro Hrončok <mhroncok@redhat.com> - 0-24
+- Allow multiple, comma-separated extras in %%pyproject_buildrequires -x
+
+* Mon Aug 10 2020 Lumír Balhar <lbalhar@redhat.com> - 0-23
+- Make macros more universal for alternative Python stacks
+
+* Thu Aug 06 2020 Tomas Hrnciar <thrnciar@redhat.com> - 0-22
+- Change %%pyproject_save_files +bindir argument to +auto
+  to list all unclassified files in filelist
+
+* Tue Aug 04 2020 Miro Hrončok <mhroncok@redhat.com> - 0-21
+- Actually implement %%pyproject_extras_subpkg
+
+* Wed Jul 29 2020 Miro Hrončok <mhroncok@redhat.com> - 0-20
+- Implement %%pyproject_extras_subpkg
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Miro Hrončok <mhroncok@redhat.com> - 0-18
+- %%pyproject_buildrequires -x (extras requires for tests) now implies -r
+  (runtime requires) instead of erroring without it for better UX.
+
+* Wed Jul 15 2020 Miro Hrončok <mhroncok@redhat.com> - 0-17
+- Set HOSTNAME to prevent tox 3.17+ from a DNS query
+- Fixes rhbz#1856356
+
+* Fri Jun 19 2020 Miro Hrončok <mhroncok@redhat.com> - 0-16
+- Switch from upstream deprecated pytoml to toml
+
 * Thu May 07 2020 Tomas Hrnciar <thrnciar@redhat.com> - 0-15
 - Adapt %%pyproject_install not to create a PEP 610 direct_url.json file
 

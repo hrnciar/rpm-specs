@@ -1,6 +1,6 @@
 Name:           perl-Email-Date
 Version:        1.104
-Release:        17%{?dist}
+Release:        19%{?dist}
 Summary:        Find and format date headers
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Email-Date
@@ -68,6 +68,12 @@ make test
 %{_mandir}/man3/Email::Date.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.104-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.104-18
+- Perl 5.32 rebuild
+
 * Tue Mar 10 2020 Paul Howarth <paul@city-fan.org> - 1.104-17
 - BR: perl(blib) for t/00-compile.t
 

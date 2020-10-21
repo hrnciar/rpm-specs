@@ -5,7 +5,7 @@
 
 Name:           yubikey-manager
 Version:        3.1.1
-Release:        2.git%{shortcommit}%{?dist}
+Release:        4.git%{shortcommit}%{?dist}
 Summary:        Python library and command line tool for configuring a YubiKey
 
 License:        BSD
@@ -14,7 +14,7 @@ Source0:        https://github.com/%{owner}/%{name}/archive/%{commit}.tar.gz#/%{
 Source1:        %{name}.rpmlintrc
 
 BuildArch:      noarch
-BuildRequires:  python3-devel swig pcsc-lite-devel ykpers
+BuildRequires:  python3-devel swig pcsc-lite-devel ykpers python3-setuptools
 # install_requires from setup.py
 BuildRequires:  %{py3_dist six pyscard pyusb click cryptography pyopenssl fido2}
 Requires:       python3-%{name} python3-setuptools u2f-hidraw-policy
@@ -52,6 +52,12 @@ Python library for configuring a YubiKey.
 %{_bindir}/ykman
 
 %changelog
+* Mon Oct 05 2020 Gerald Cox <gbcox@fedoraproject.org> - 3.1.1.4.git87dd1d8
+- BuildRequire python3-setuptools explicitly
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.1-3.git87dd1d8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.1.1-2.git87dd1d8
 - Rebuilt for Python 3.9
 

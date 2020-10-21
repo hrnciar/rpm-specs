@@ -1,6 +1,6 @@
 Name:           perl-Sub-Exporter-ForMethods
 Version:        0.100052
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Helper routines for using Sub::Exporter to build methods
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Sub-Exporter-ForMethods
@@ -55,6 +55,9 @@ make test
 %{_mandir}/man3/Sub::Exporter::ForMethods.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.100052-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.100052-15
 - Perl 5.32 rebuild
 

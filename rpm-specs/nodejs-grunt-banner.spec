@@ -7,7 +7,7 @@
 
 Name:               nodejs-grunt-banner
 Version:            0.3.1
-Release:            10%{?dist}
+Release:            12%{?dist}
 Summary:            Adds a simple banner to files
 
 License:            MIT
@@ -69,6 +69,13 @@ grunt test
 %{nodejs_sitelib}/grunt-banner/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

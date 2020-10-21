@@ -4,7 +4,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.1.0
-Release:        29%{?dist}
+Release:        30%{?dist}
 Summary:        Coverage 3.x support for Nose
 
 License:        LGPLv2+
@@ -51,6 +51,9 @@ rm -rf %{pypi_name}.egg-info
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.0-29
 - Rebuilt for Python 3.9
 

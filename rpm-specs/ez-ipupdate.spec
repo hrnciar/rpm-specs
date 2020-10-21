@@ -1,6 +1,6 @@
 Name:           ez-ipupdate
 Version:        3.0.11
-Release:        0.41.b8%{?dist}
+Release:        0.42.b8%{?dist}
 Summary:        Client for Dynamic DNS Services
 
 ## Note: Upstream is no longer reachable. Thanks to openSUSE and
@@ -158,6 +158,9 @@ install -m 0644 tmpfiles.conf $RPM_BUILD_ROOT%{_tmpfilesdir}/%{name}.conf
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.11-0.42.b8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.11-0.41.b8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

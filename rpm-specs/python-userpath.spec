@@ -2,8 +2,8 @@
 %global pypi_name userpath
 
 Name:           python-%{pypi_name}
-Version:        1.4.0
-Release:        2%{?dist}
+Version:        1.4.1
+Release:        4%{?dist}
 Summary:        Cross-platform tool for adding locations to the user PATH
 
 License:        MIT OR ASL 2.0
@@ -37,7 +37,7 @@ Requires:       python3dist(setuptools)
 # Old package name
 Provides:       python3-adduserpath = %{version}-%{release}
 Provides:       python3dist(adduserpath) = %{version}-%{release}
-Provides:       python%{python_version}dist(adduserpath) = %{version}-%{release}
+Provides:       python%{python3_version}dist(adduserpath) = %{version}-%{release}
 Obsoletes:      python3-adduserpath < 0.4.0.10
 
 %description -n python3-%{pypi_name}
@@ -72,6 +72,19 @@ dos2unix -v README.rst
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Aug 04 2020 Lumír Balhar <lbalhar@redhat.com> - 1.4.1-4
+- Fix FTBFS — remove unversioned python macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Charalampos Stratakis <cstratak@redhat.com> - 1.4.1-1
+- Update to 1.4.1 (#1851126)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.0-2
 - Rebuilt for Python 3.9
 

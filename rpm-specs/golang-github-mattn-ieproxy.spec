@@ -3,7 +3,7 @@
 
 # https://github.com/mattn/go-ieproxy
 %global goipath         github.com/mattn/go-ieproxy
-%global commit          6dee0af9227d0863f1508ce7937af3396d6605c1
+Version:                0.0.1
 
 %gometa
 
@@ -14,8 +14,7 @@ Go package to detect the proxy settings on Windows platform.}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.2%{?dist}
+Release:        1%{?dist}
 Summary:        Detect the proxy settings on Windows platform
 
 License:        MIT
@@ -41,6 +40,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 20:19:39 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.0.1-1
+- Update to 0.0.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

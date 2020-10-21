@@ -2,7 +2,7 @@
 Summary: A utility for uploading files or whole directories to remote ftp-servers
 Name: wput
 Version: 0.6.1
-Release: 27%{?dist}
+Release: 28%{?dist}
 License: GPLv2+
 URL: http://wput.sourceforge.net/
 Source: http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tgz
@@ -35,6 +35,9 @@ downloading, uploads files or whole directories to remote ftp-servers.
 %{_bindir}/%{name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 29 2020 Itamar Reis Peixoto <itamar@ispbrasil.com.br> - 0.6.1-27
 - fix FTBS rhbz#1800261
 

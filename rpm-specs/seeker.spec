@@ -3,7 +3,7 @@
 
 Name:           seeker
 Version:        3.0
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Random access disk benchmark utility
 
 License:        GPLv2 and CC-BY-SA
@@ -51,6 +51,9 @@ install -Dpm 755 seeker $RPM_BUILD_ROOT%{_sbindir}/seeker
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

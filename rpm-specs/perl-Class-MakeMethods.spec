@@ -1,6 +1,6 @@
 Name:           perl-Class-MakeMethods
 Version:        1.009
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Generate common types of methods
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Class-MakeMethods
@@ -83,6 +83,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.009-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.009-18
 - Perl 5.32 rebuild
 

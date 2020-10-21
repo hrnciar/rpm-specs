@@ -1,13 +1,13 @@
 %global         oname uTidylib
 
-%if 0%{?fedora} < 31
+%if 0%{?fedora} < 31 && 0%{?rhel} < 9
 %global         py2 1
 %endif
 
 Summary:        Python wrapper for tidy, from the HTML tidy project
 Name:           python-tidy
 Version:        0.6
-Release:        4%{?dist}
+Release:        5%{?dist}
 License:        MIT
 URL:            https://cihar.com/software/utidylib/
 Source0:        http://dl.cihar.com/utidylib/uTidylib-%{version}.tar.bz2
@@ -76,6 +76,9 @@ Requires:       python3-six
 %{python3_sitelib}/uTidylib-*-py3*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6-4
 - Rebuilt for Python 3.9
 

@@ -1,7 +1,7 @@
 Name:           mpqc
 Summary:        Ab-inito chemistry program
 Version:        2.3.1
-Release:        45%{?dist}
+Release:        48%{?dist}
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mpqc.org/
 Source0:        http://downloads.sourceforge.net/mpqc/%{name}-%{version}.tar.bz2
@@ -15,7 +15,8 @@ BuildRequires:  gcc-c++
 BuildRequires:  libtool flex bison
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc-gfortran perl-generators tk doxygen
-BuildRequires:  libint-devel atlas-devel
+BuildRequires:  libint-devel
+BuildRequires:  flexiblas-devel
 
 %description
 MPQC is the Massively Parallel Quantum Chemistry Program. It computes
@@ -90,23 +91,16 @@ Version=1.0
 EOF
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 export F77=gfortran
 autoreconf -v -f -i -I lib/autoconf
-
-# Libraries to use
-%if 0%{?fedora} > 20
-lapacklib="-L%{_libdir}/atlas -ltatlas"
-%else
-lapacklib="-L%{_libdir}/atlas -llapack -lf77blas -latlas"
-%endif
 
 %configure --enable-shared --disable-static \
     --enable-threads --disable-parallel \
     --includedir="%{_includedir}/mpqc"  \
-    --with-libdirs="-L%{_libdir}/atlas" \
     --with-cxx-optflags="$CXXFLAGS"     \
     --with-cc-optflags="$CFLAGS" \
-    --with-libs="$lapacklib"
+    --with-libs="-lflexiblas"
 sed -i 's|.rpath .libdir||g' bin/sc-config
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
@@ -193,6 +187,15 @@ done
 
 
 %changelog
+* Sun Aug 16 2020 Iñaki Úcar <iucar@fedoraproject.org> - 2.3.1-48
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-47
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 2.3.1-46
+- Use C++14 as this code is not C++17 ready
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-45
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,8 +4,8 @@
 # https://github.com/kubernetes/api
 %global goipath         k8s.io/api
 %global forgeurl        https://github.com/kubernetes/api
-Version:                1.18.3
-%global tag             kubernetes-1.18.3
+Version:                1.18.9
+%global tag             kubernetes-1.18.9
 %global distprefix      %{nil}
 
 %gometa
@@ -53,6 +53,16 @@ BuildRequires:  golang(k8s.io/apimachinery/pkg/util/intstr)
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 13:19:04 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.9-1
+- Update to 1.18.9
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 18:13:55 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-1
 - Update to 1.18.3
 

@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        1.0.10
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        Fork of Sebastian Thiel's complete library to interact with drive (protocol v3)
 
 License:        MIT
@@ -85,6 +85,13 @@ find -type f -exec sed -r -i \
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.7.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Parameterized testing with any Python test framework
 
 License:        BSD
@@ -55,6 +55,9 @@ py.test-%{python3_version} -v parameterized/test.py
 %{python3_sitelib}/%{srcname}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.0-3
 - Rebuilt for Python 3.9
 

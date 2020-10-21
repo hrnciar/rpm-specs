@@ -6,15 +6,17 @@
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    95c63ab2117a72f48f5a55da9740a3273d45b7fd
+
+%bcond_without       tests
+
+%global gh_commit    8a7ecad675253e4654ea05505233285377405215
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     composer
 %global gh_project   ca-bundle
 %global php_home     %{_datadir}/php
-%global with_tests   0%{!?_without_tests:1}
 
 Name:           php-composer-ca-bundle
-Version:        1.2.7
+Version:        1.2.8
 Release:        1%{?dist}
 Summary:        Lets you find a path to the system CA
 
@@ -28,7 +30,7 @@ Source1:        makesrc.sh
 Patch0:         %{name}-rpm.patch
 
 BuildArch:      noarch
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php(language) >= 5.3.2
 BuildRequires:  php-openssl
 BuildRequires:  php-pcre
@@ -104,7 +106,7 @@ cp -pr src %{buildroot}%{php_home}/Composer/CaBundle
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 cat << 'EOF' | tee vendor/autoload.php
 <?php
@@ -121,7 +123,7 @@ require_once '%{buildroot}%{php_home}/Composer/CaBundle/autoload.php';
 EOF
 
 ret=0
-for cmdarg in "php %{phpunit}" "php56 %{_bindir}/phpunit" "php70  %{_bindir}/phpunit6" "php71  %{_bindir}/phpunit7" php72 php73 php74; do
+for cmdarg in "php %{phpunit}" php72 php73 "php74 %{_bindir}/phpunit8"; do
   if which $cmdarg; then
     set $cmdarg
     $1 ${2:-%{_bindir}/phpunit8} --verbose || ret=1
@@ -143,6 +145,12 @@ exit $ret
 
 
 %changelog
+* Mon Aug 24 2020 Remi Collet <remi@remirepo.net> - 1.2.8-1
+- update to 1.2.8 (no change)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr  8 2020 Remi Collet <remi@remirepo.net> - 1.2.7-1
 - update to 1.2.7
 

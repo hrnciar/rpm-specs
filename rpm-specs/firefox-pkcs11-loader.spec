@@ -5,8 +5,8 @@
 # in %%cmake section, check if the comment still applies on versions > 3.13.0
 
 Name:           firefox-pkcs11-loader
-Version:        3.13.5
-Release:        1%{?dist}
+Version:        3.13.6
+Release:        3%{?dist}
 Summary:        Helper script for Firefox that sets up the browser for authentication with Estonian ID-card
 License:        LGPLv2+
 URL:            https://github.com/open-eid/firefox-pkcs11-loader
@@ -85,6 +85,16 @@ make install DESTDIR=%{buildroot}
 %{_libdir}/mozilla/pkcs11-modules/idemiaawppkcs11.json
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.13.6-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.13.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Dmitri Smirnov <dmitri@smirnov.ee> - 3.13.6-1
+- Upstream release 3.13.6
+
 * Mon Apr 06 2020 Dmitri Smirnov <dmitri@smirnov.ee> 3.13.5-1
 - Upstream release 3.13.5: Create linux policy to install Firefox extension from Mozilla Addon store
 

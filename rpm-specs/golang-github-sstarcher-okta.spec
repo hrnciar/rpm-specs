@@ -3,14 +3,9 @@
 
 # https://github.com/sstarcher/go-okta
 %global goipath         github.com/sstarcher/go-okta
-%global commit          37dad0657e316a970dc7f884cb2b053bba5f1504
+%global commit          e6abf211661add1e009d13d2261214d560a20631
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-sstarcher-go-okta-devel < 0-0.5
-}
 
 %global common_description %{expand:
 Okta Golang client.}
@@ -20,7 +15,7 @@ Okta Golang client.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.8%{?dist}
+Release:        0.10%{?dist}
 Summary:        Okta Golang client
 
 License:        MIT
@@ -47,6 +42,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 21:46:38 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.10.20200802gite6abf21
+- Bump to commit e6abf211661add1e009d13d2261214d560a20631
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

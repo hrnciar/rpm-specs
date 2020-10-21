@@ -9,7 +9,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        2.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Simple web access for GAP
 
 License:        GPLv2+
@@ -73,6 +73,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{upname}-%{version}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr  3 2020 Jerry James <loganjerry@gmail.com> - 2.2.1-1
 - Version 2.2.1
 - Drop upstreamed -backtick patch

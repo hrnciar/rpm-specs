@@ -2,7 +2,7 @@
 
 Name:           yaml-cpp
 Version:        0.6.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A YAML parser and emitter for C++
 License:        MIT 
 URL:            https://github.com/jbeder/yaml-cpp
@@ -41,29 +41,23 @@ The %{name}-static package contains the static library for %{name}.
 
 
 %build
-rm -rf build_shared && mkdir build_shared
-rm -rf build_static && mkdir build_static
-
-pushd build_shared
-%cmake -DYAML_CPP_BUILD_TOOLS=OFF \
+%cmake -B build_shared \
+       -DYAML_CPP_BUILD_TOOLS=OFF \
        -DYAML_BUILD_SHARED_LIBS=ON \
        -DYAML_CPP_BUILD_TESTS=OFF \
-       ../
-%make_build
-popd
+       %{nil}
+%make_build -C build_shared
 
-pushd build_static
-%cmake -DYAML_CPP_BUILD_TOOLS=OFF \
+%cmake -B build_static \
+       -DYAML_CPP_BUILD_TOOLS=OFF \
        -DYAML_BUILD_SHARED_LIBS=OFF \
        -DYAML_CPP_BUILD_TESTS=OFF \
-       ../
-%make_build
+       %{nil}
+%make_build -C build_static
 
 
 %install
-pushd build_static
-%make_install yaml-cpp
-popd
+%make_install -C build_static yaml-cpp
 
 # Move files so they don't get trampled
 mv %{buildroot}%{_libdir}/cmake/%{name} \
@@ -72,8 +66,7 @@ mv %{buildroot}%{_libdir}/pkgconfig/%{name}.pc \
    %{buildroot}%{_libdir}/pkgconfig/%{name}-static.pc
 
 
-pushd build_shared
-%make_install
+%make_install -C build_shared
 
 %ldconfig_scriptlets
 
@@ -97,6 +90,9 @@ pushd build_shared
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

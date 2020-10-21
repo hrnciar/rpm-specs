@@ -1,10 +1,11 @@
 Name:           perl-Gnome2-GConf
-Version:        1.044
-Release:        41%{?dist}
+Version:        1.046
+Release:        1%{?dist}
 Summary:        Perl wrappers for the GConf configuration engine
 License:        LGPLv2+
 URL:            https://metacpan.org/release/Gnome2-GConf
 Source0:        https://cpan.metacpan.org/modules/by-module/Gnome2/Gnome2-GConf-%{version}.tar.gz
+BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  gcc
 BuildRequires:  make
@@ -12,7 +13,7 @@ BuildRequires:  perl-devel
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
 BuildRequires:  perl(Cwd)
-BuildRequires:  perl(ExtUtils::Depends) >= 0.2
+BuildRequires:  perl(ExtUtils::Depends) >= 0.2000
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(ExtUtils::PkgConfig) >= 1.03
 BuildRequires:  perl(File::Spec)
@@ -50,25 +51,35 @@ that monitors those keys. GConf is used by GNOME 2.x.
 %setup -q -n Gnome2-GConf-%{version}
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 OPTIMIZE="%{optflags}"
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 OPTIMIZE="%{optflags}"
+%{make_build}
 
 %install
-make pure_install DESTDIR=%{buildroot}
+%{make_install}
 find %{buildroot} -type f -name '*.bs' -size 0 -delete
 %{_fixperms} %{buildroot}/*
 
 %check
-xvfb-run -a make test
+xvfb-run -d make test
 
 %files
-%doc AUTHOR ChangeLog copyright.pod NEWS README examples
+%license copyright.pod
+%doc AUTHOR ChangeLog NEWS README examples
 %{perl_vendorarch}/auto/*
 %{perl_vendorarch}/Gnome2*
 %{_mandir}/man3/*
 
 
 %changelog
+* Fri Oct 02 2020 Petr Pisar <ppisar@redhat.com> - 1.046-1
+- 1.046 bump
+
+* Thu Sep 24 2020 Petr Pisar <ppisar@redhat.com> - 1.045-1
+- 1.045 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.044-42
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.044-41
 - Perl 5.32 rebuild
 

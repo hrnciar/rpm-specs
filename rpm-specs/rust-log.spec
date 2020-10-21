@@ -5,17 +5,14 @@
 %global crate log
 
 Name:           rust-%{crate}
-Version:        0.4.8
-Release:        3%{?dist}
+Version:        0.4.11
+Release:        2%{?dist}
 Summary:        Lightweight logging facade for Rust
 
 # Upstream license specification: MIT OR Apache-2.0
 License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/log
 Source:         %{crates_source}
-# Initial patched metadata
-# * Bump sval to 0.5, https://github.com/rust-lang/log/pull/379
-Patch0:         log-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -278,6 +275,12 @@ which use "sval" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Josh Stone <jistone@redhat.com> - 0.4.11-1
+- Update to 0.4.11
+
 * Thu Feb 27 2020 Josh Stone <jistone@redhat.com> - 0.4.8-3
 - Bump sval to 0.5
 

@@ -2,7 +2,7 @@
 
 Name:           nodejs-asn1
 Version:        0.2.3
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Contains parsers and serializers for ASN.1 (currently BER only)
 
 License:        MIT
@@ -45,6 +45,13 @@ cp -pr package.json lib %{buildroot}%{nodejs_sitelib}/asn1
 %license LICENSE
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.2.3-1
 - Update to latest upstream release 0.2.3
 

@@ -1,6 +1,6 @@
 Name:           apron
-Version:        0.9.12
-Release:        7%{?dist}
+Version:        0.9.13
+Release:        1%{?dist}
 Summary:        Numerical abstract domain library
 
 # The entire package is LGPLv2+ except newpolka/mf_qsort.c and ppl/*, all of
@@ -15,10 +15,8 @@ Source0:        https://github.com/antoinemine/%{name}/archive/v%{version}/%{nam
 # libap_pkgrid be weak references, since that library can be combined with
 # either of the 2 implementations.
 Patch0:         %{name}-weak.patch
-# Adapt to texinfo 6.x
-Patch1:         %{name}-texinfo.patch
 # Adapt to mpfr 4
-Patch2:         %{name}-mpfr4.patch
+Patch1:         %{name}-mpfr4.patch
 
 BuildRequires:  doxygen-latex
 BuildRequires:  gcc-c++
@@ -88,6 +86,7 @@ Development files for the Ocaml interface to the APRON library.
 %package -n     japron
 Summary:        Java interface to APRON
 Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       javapackages-filesystem
 
 %description -n japron
 Java interface to the APRON library.
@@ -232,6 +231,19 @@ test/ctest1
 %{_jnidir}/*.so
 
 %changelog
+* Fri Sep 25 2020 Jerry James <loganjerry@gmail.com> - 0.9.13-1
+- Version 0.9.13
+- Drop upstreamed -texinfo patch
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.9.12-10
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.9.12-9
+- OCaml 4.11.0 rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.12-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 0.9.12-7
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

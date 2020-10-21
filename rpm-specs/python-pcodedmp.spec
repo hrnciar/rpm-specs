@@ -14,7 +14,7 @@
 Summary:        VBA p-code disassembler
 Name:           python-%{srcname}
 Version:        1.2.6
-Release:        2%{?dist}
+Release:        4%{?dist}
 License:        GPLv3+
 URL:            https://github.com/bontchev/pcodedmp
 Source0:        %{pypi_source}
@@ -43,6 +43,7 @@ Requires:       python%{python3_pkgversion}-%{srcname} = %{version}-%{release}
 %package -n python2-%{srcname}
 Summary:        %{summary}
 BuildRequires:  python2-devel
+BuildRequires:  python2-setuptools
 %if %{with pypandoc}
 BuildRequires:  python2-pypandoc
 %endif
@@ -58,6 +59,7 @@ Requires:       python2-oletools >= 0.54
 %package -n python%{python3_pkgversion}-%{srcname}
 Summary:        %{summary}
 BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
 %if %{with pypandoc}
 BuildRequires:  python%{python3_pkgversion}-pypandoc
 %endif
@@ -74,6 +76,7 @@ Requires:       python%{python3_pkgversion}-oletools >= 0.54
 %package -n python%{python3_other_pkgversion}-%{srcname}
 Summary:        %{summary}
 BuildRequires:  python%{python3_other_pkgversion}-devel
+BuildRequires:  python%{python3_other_pkgversion}-setuptools
 %if %{with pypandoc}
 BuildRequires:  python%{python3_other_pkgversion}-pypandoc
 %endif
@@ -136,6 +139,12 @@ Requires:       python%{python3_other_pkgversion}-oletools >= 0.54
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Robert Scheck <robert@fedoraproject.org> 1.2.6-3
+- Require python-setuptools during build-time explicitly
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.6-2
 - Rebuilt for Python 3.9
 

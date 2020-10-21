@@ -2,8 +2,8 @@
 
 Name:           python-%{pypi_name}
 Version:        1.3
-Release:        6%{?dist}
-Summary:        A Python implementation of the CRC algorithm
+Release:        8%{?dist}
+Summary:        Python implementation of the CRC algorithm
 
 License:        MIT
 URL:            https://github.com/zeroSteiner/crcelk
@@ -19,6 +19,7 @@ starting polynomial, etc.
 Summary:        %{summary}
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
 %description -n python3-%{pypi_name}
@@ -43,6 +44,12 @@ sed -i -e '/^#!\//, 1d' crcelk.py
 %{python3_sitelib}/__pycache__/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.3-7
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3-6
 - Rebuilt for Python 3.9
 

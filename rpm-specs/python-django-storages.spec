@@ -1,14 +1,13 @@
 %global srcname django-storages
 
 Name:           python-%{srcname}
-Version:        1.8
-Release:        2%{?dist}
+Version:        1.9.1
+Release:        1%{?dist}
 Summary:        Support for many storage backends in Django
 
 License:        BSD
 URL:            https://github.com/jschneier/django-storages
 Source:         %{pypi_source}
-
 BuildArch:      noarch
 
 %global _description %{expand:
@@ -24,8 +23,6 @@ BuildRequires:  python3dist(setuptools)
 
 %description -n python3-%{srcname} %{_description}
 
-Python 3 version.
-
 %package     -n python3-%{srcname}+azure
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}+azure}
@@ -38,18 +35,6 @@ Requires:       (python%{python3_version}dist(azure-storage-blob) >= 1.3.1 with 
 
 "azure" extras. Python 3 version.
 
-%package     -n python3-%{srcname}+boto
-Summary:        %{summary}
-%{?python_provide:%python_provide python3-%{srcname}+boto}
-Provides:       python3dist(%{srcname}/boto) = %{version}
-Provides:       python%{python3_version}dist(%{srcname}/boto) = %{version}
-Requires:       python%{python3_version}dist(%{srcname}) = %{version}
-Requires:       python%{python3_version}dist(boto) >= 2.32.0
-
-%description -n python3-%{srcname}+boto %{_description}
-
-"boto" extras. Python 3 version.
-
 %package     -n python3-%{srcname}+boto3
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}+boto3}
@@ -60,7 +45,7 @@ Requires:       python%{python3_version}dist(boto3) >= 1.4.4
 
 %description -n python3-%{srcname}+boto3 %{_description}
 
-"boto3" extras. Python 3 version.
+"boto3" extras.
 
 %package     -n python3-%{srcname}+dropbox
 Summary:        %{summary}
@@ -68,11 +53,11 @@ Summary:        %{summary}
 Provides:       python3dist(%{srcname}/dropbox) = %{version}
 Provides:       python%{python3_version}dist(%{srcname}/dropbox) = %{version}
 Requires:       python%{python3_version}dist(%{srcname}) = %{version}
-Requires:       python%{python3_version}dist(dropbox) >= 7.2.1
+Requires:       python%{python3_version}dist(dropbox)
 
 %description -n python3-%{srcname}+dropbox %{_description}
 
-"dropbox" extras. Python 3 version.
+"dropbox" extras.
 
 %package     -n python3-%{srcname}+google
 Summary:        %{summary}
@@ -84,7 +69,7 @@ Requires:       python%{python3_version}dist(google-cloud-storage) >= 1.15.0
 
 %description -n python3-%{srcname}+google %{_description}
 
-"google" extras. Python 3 version.
+"google" extras.
 
 %package     -n python3-%{srcname}+libcloud
 Summary:        %{summary}
@@ -96,7 +81,7 @@ Requires:       python%{python3_version}dist(apache-libcloud)
 
 %description -n python3-%{srcname}+libcloud %{_description}
 
-"libcloud" extras. Python 3 version.
+"libcloud" extras.
 
 %package     -n python3-%{srcname}+sftp
 Summary:        %{summary}
@@ -108,7 +93,7 @@ Requires:       python%{python3_version}dist(paramiko)
 
 %description -n python3-%{srcname}+sftp %{_description}
 
-"sftp" extras. Python 3 version.
+"sftp" extras.
 
 %prep
 %autosetup -n %{srcname}-%{version} -p1
@@ -132,15 +117,34 @@ rm -vr *.egg-info
 %{python3_sitelib}/django_storages-*.egg-info/
 
 %files -n python3-%{srcname}+azure
-%files -n python3-%{srcname}+boto
+%{?python_extras_subpkg:%ghost %{python3_sitelib}/django_storages-*.egg-info}
+
 %files -n python3-%{srcname}+boto3
+%{?python_extras_subpkg:%ghost %{python3_sitelib}/django_storages-*.egg-info}
+
 %files -n python3-%{srcname}+dropbox
-# Missing dependency for google connector
+%{?python_extras_subpkg:%ghost %{python3_sitelib}/django_storages-*.egg-info}
+
+# Missing requirement google-cloud-storage
 #files -n python3-%{srcname}+google
+#{?python_extras_subpkg:%%ghost %%{python3_sitelib}/django_storages-*.egg-info}
+
 %files -n python3-%{srcname}+libcloud
+%{?python_extras_subpkg:%ghost %{python3_sitelib}/django_storages-*.egg-info}
+
 %files -n python3-%{srcname}+sftp
+%{?python_extras_subpkg:%ghost %{python3_sitelib}/django_storages-*.egg-info}
 
 %changelog
+* Thu Aug 20 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.9.1-1
+- Update to latest upstream release 1.9.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Miro Hrončok <mhroncok@redhat.com> - 1.8-3
+- Add metadata for Python extras subpackages
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.8-2
 - Rebuilt for Python 3.9
 

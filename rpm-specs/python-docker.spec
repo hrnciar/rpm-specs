@@ -14,7 +14,7 @@
 %global srcname docker
 
 Name:           python-%{srcname}
-Version:        4.2.1
+Version:        4.3.1
 Release:        1%{?dist}
 Summary:        A Python library for the Docker Engine API
 License:        ASL 2.0
@@ -34,17 +34,6 @@ Summary:        A Python library for the Docker Engine API
 
 BuildRequires:  python2-devel
 BuildRequires:  python%{?fedora:2}-setuptools
-Requires:       python%{?fedora:2}-requests >= 2.14.2
-Requires:       python%{?fedora:2}-six >= 1.4.0
-Requires:       python%{?fedora:2}-websocket-client >= 0.32.0
-Requires:       python%{?fedora:2}-docker-pycreds >= 0.2.1
-Requires:       python%{?fedora:2}-backports-ssl_match_hostname >= 3.5
-Requires:       python%{?fedora:2}-ipaddress >= 1.0.16
-Requires:       python%{?fedora:2}-pyOpenSSL
-Requires:       python%{?fedora:2}-idna
-Requires:       python%{?fedora:2}-cryptography
-Requires:       python%{?fedora:2}-paramiko
-
 Obsoletes:      python-docker-py < 1:2
 
 %description -n python2-%{srcname}
@@ -69,25 +58,14 @@ Summary:        A Python library for the Docker Engine API
 
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
-Requires:       python3-requests >= 2.14.2
-Requires:       python3-six >= 1.4.0
-Requires:       python3-websocket-client >= 0.32.0
-Requires:       python3-docker-pycreds >= 0.2.1
-Requires:       python3-pyOpenSSL
-Requires:       python3-idna
-Requires:       python3-cryptography
-Requires:       python3-paramiko
-
-%if 0%{?fedora} >= 26
 Obsoletes:      python3-docker-py < 1:2
-%else
-Obsoletes:      python3-docker-py < 2
-%endif
 
 %description -n python3-%{srcname}
 It lets you do anything the docker command does, but from within Python apps –
 run containers, manage containers, manage Swarms, etc.
 %endif # with_python3
+
+%{?python_extras_subpkg:%python_extras_subpkg -n python3-%{srcname} -i %{python3_sitelib}/*.egg-info ssh}
 
 %prep
 %setup -n %{srcname}-%{version}
@@ -138,6 +116,16 @@ cp -avr tests/ %{buildroot}%{_libexecdir}/installed-tests/%{name}/
 %endif # tests
 
 %changelog
+* Mon Sep 14 2020 Tomas Tomecek <ttomecek@redhat.com> - 4.3.1-1
+- new upstream release: 4.3.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Miro Hrončok <mhroncok@redhat.com> - 4.2.1-2
+- Add docker[ssh] subpackage
+- Drop all manual requires
+
 * Thu Jun 18 2020 Tomas Tomecek <ttomecek@redhat.com> - 4.2.1-1
 - new upstream release: 4.2.1
 

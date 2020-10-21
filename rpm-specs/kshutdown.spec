@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:           kshutdown
 Version:        5.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Graphical shutdown utility for Plasma 5
 License:        GPLv2
 URL:            http://kshutdown.sourceforge.net/
@@ -30,18 +32,14 @@ or suspend computer at the specified time. It features various time and delay
 options, command line support, and notifications.
 
 %prep
-%setup -q -n %{name}-%{version}
+%autosetup
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} -DKS_KF5=true ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake_kf5} -DKS_KF5=true
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 %find_lang %{name} --with-kde --all-name
 
 %check
@@ -55,6 +53,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/kshutdown.desktop
 %{_datadir}/icons/hicolor/*/apps/kshutdown.png
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

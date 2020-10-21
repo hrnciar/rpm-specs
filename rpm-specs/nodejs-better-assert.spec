@@ -2,7 +2,7 @@
 
 Name:           nodejs-better-assert
 Version:        1.0.2
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        C-style assert() for Node.js
 BuildArch:      noarch
 ExclusiveArch:  %{nodejs_arches} noarch
@@ -35,6 +35,9 @@ cp -pr index.js package.json %{buildroot}%{nodejs_sitelib}/better-assert
 %doc Readme.md example.js History.md
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -5,19 +5,16 @@ Name:           python-jsonpickle
 # to use a Python-compatible version number if you need to set an "uncommon"
 # version for this RPM.
 Version:        1.4.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A module that allows any object to be serialized into JSON
 
 License:        BSD
 URL:            https://pypi.io/project/jsonpickle/
 Source0:        %{pypi_source}
 Source1:        %{pypi_source}.asc
-# upstream does not indicate which key ids are used to sign releases so this is
-# purely "trust on first use":
+# upstream mentioned the signing key in
 #    https://github.com/jsonpickle/jsonpickle/issues/310
-# gpg2 --recv-keys "FA41 BF59 C1B4 8E8C 5F3D A61C 8CE2 6BF4 A9F6 06B0"
-# gpg2 --export --export-options export-minimal "FA41 BF59 C1B4 8E8C 5F3D A61C 8CE2 6BF4 A9F6 06B0" > gpgkey-FA41_BF59_C1B4_8E8C_5F3D_A61C_8CE2_6BF4_A9F6_06B0.gpg
-Source2:        gpgkey-FA41_BF59_C1B4_8E8C_5F3D_A61C_8CE2_6BF4_A9F6_06B0.gpg
+Source2:        https://keys.openpgp.org/vks/v1/by-fingerprint/FA41BF59C1B48E8C5F3DA61C8CE26BF4A9F606B0
 
 # Use importlib.metadata from the standard library on Python 3.8+
 # https://github.com/jsonpickle/jsonpickle/commit/8debff4511089dad850930c702106a436275f118
@@ -127,6 +124,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version}
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.1-5
 - Rebuilt for Python 3.9
 

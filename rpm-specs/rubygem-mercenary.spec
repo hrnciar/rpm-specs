@@ -4,7 +4,7 @@
 
 Name:		rubygem-%{gem_name}
 Version:	0.3.6
-Release:	8%{?dist}
+Release:	9%{?dist}
 Summary:	An easier way to build your command-line scripts in Ruby
 
 License:	MIT
@@ -67,6 +67,9 @@ done
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.6-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.6-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           ii
 Version:        1.7
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        IRC IT, simple FIFO based IRC client
 License:        MIT
 URL:            http://tools.suckless.org/%{name}
@@ -37,6 +37,9 @@ make install DESTDIR=%{buildroot}
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

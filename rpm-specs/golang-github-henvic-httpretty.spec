@@ -15,7 +15,7 @@ terminal.}
 %global godocs          example README.md CONTRIBUTING.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Prints the HTTP requests you make with Go pretty on your terminal
 
 License:        MIT
@@ -41,6 +41,13 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.5-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 14 12:07:19 EDT 2020 Jared K. Smith <jsmith@fedoraproject.org> - 0.0.5-1
 - Initial package
 

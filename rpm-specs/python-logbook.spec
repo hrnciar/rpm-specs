@@ -5,7 +5,7 @@
 
 Name:		python-logbook
 Version:	1.5.3
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	A logging replacement for Python
 
 License:	BSD
@@ -59,6 +59,9 @@ Logbook can do that.
 %{python3_sitearch}/logbook/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5.3-4
 - Rebuilt for Python 3.9
 

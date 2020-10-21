@@ -5,17 +5,14 @@
 %global crate gettext-rs
 
 Name:           rust-%{crate}
-Version:        0.4.4
-Release:        3%{?dist}
+Version:        0.5.0
+Release:        1%{?dist}
 Summary:        GNU Gettext FFI binding for Rust
 
 # Upstream license specification: MIT
 License:        MIT
 URL:            https://crates.io/crates/gettext-rs
 Source:         %{crates_source}
-# Initial patched metadata
-# * Bump to locale_config 0.3, https://github.com/Koka/gettext-rs/pull/20
-Patch0:         gettext-rs-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -86,6 +83,12 @@ which use "gettext-system" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Thu Oct 08 2020 Jan Staněk <jstanek@redhat.com> - 0.5.0-1
+- Update to 0.5.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 20 2020 Josh Stone <jistone@redhat.com> - 0.4.4-3
 - Bump to locale_config 0.3
 

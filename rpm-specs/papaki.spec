@@ -3,7 +3,7 @@
 
 Name:           papaki
 Version:        1.0.0
-Release:        0.17%{?namedreltag}%{?dist}
+Release:        0.19%{?namedreltag}%{?dist}
 Summary:        An annotation scanner and repository
 
 License:        LGPLv2+
@@ -103,6 +103,12 @@ cp -rp target/docs/indexer/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}/%{name}-index
 %{_javadocdir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-0.19.Beta3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.0.0-0.18.Beta3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-0.17.Beta3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

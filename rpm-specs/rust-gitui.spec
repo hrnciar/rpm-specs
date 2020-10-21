@@ -5,7 +5,7 @@
 %global crate gitui
 
 Name:           rust-%{crate}
-Version:        0.7.0
+Version:        0.9.0
 Release:        1%{?dist}
 Summary:        Blazing fast terminal-ui for git
 
@@ -26,9 +26,11 @@ Blazing fast terminal-ui for git.}
 %package     -n %{crate}
 Summary:        %{summary}
 # (MIT or ASL 2.0) and BSD
+# ASL 2.0
 # MIT
 # MIT or ASL 2.0
-License:        MIT and BSD
+# zlib
+License:        MIT and ASL 2.0 and BSD and zlib
 
 %description -n %{crate} %{_description}
 
@@ -56,6 +58,25 @@ License:        MIT and BSD
 %endif
 
 %changelog
+* Tue Aug 18 15:04:08 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.9.0-1
+- Update to 0.9.0
+
+* Sun Aug 16 15:01:29 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.8.1-4
+- Rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.8.1-1
+- Update to 0.8.1
+
+* Mon Jul 06 16:30:46 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.8.0-1
+- Update to 0.8.0
+
 * Mon Jun 15 12:44:06 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.7.0-1
 - Update to 0.7.0
 

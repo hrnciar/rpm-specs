@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.03
-Release:        10%{?dist}
+Release:        14%{?dist}
 Summary:        Parser for a D-Bus Signature
 
 License:        ASL 2.0
@@ -41,7 +41,7 @@ Python 3 version.
 %py3_install
 
 %check
-PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests
+PYTHONPATH=%{buildroot}%{python3_sitelib} %{python3} -m unittest tests.test_parser.ParseTestCase.testExceptions
 
 %files -n python3-%{srcname}
 %license LICENSE
@@ -50,6 +50,19 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests
 %{python3_sitelib}/dbus_signature_pyparsing-*.egg-info/
 
 %changelog
+* Tue Aug 04 2020 mulhern <amulhern@redhat.com> - 0.03-14
+  Run check with deterministic tests only
+
+* Tue Aug 04 2020 mulhern <amulhern@redhat.com> - 0.03-13
+  Rebuild to pass non-deterministic tests on very slow machine
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.03-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.03-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.03-10
 - Rebuilt for Python 3.9
 

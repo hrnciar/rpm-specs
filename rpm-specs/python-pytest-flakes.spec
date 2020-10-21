@@ -2,8 +2,8 @@
 %global srcname pytest-flakes
 
 Name:           python-%{srcname}
-Version:        4.0.0
-Release:        8%{?dist}
+Version:        4.0.1
+Release:        1%{?dist}
 Summary:        Pytest plugin to check source code with pyflakes
 
 License:        MIT
@@ -40,7 +40,7 @@ rm -rf *.egg-info
 
 %check
 %{__python3} setup.py test
- 
+
 %files -n python3-%{srcname}
 %license LICENSE
 %doc README.rst
@@ -49,6 +49,9 @@ rm -rf *.egg-info
 %{python3_sitelib}/__pycache__/pytest_flakes.*
 
 %changelog
+* Tue Jul 28 2020 Chedi Toueiti <chedi.toueiti@gmail.com> - 4.0.1-1
+- Update to 4.0.1 (#1861534)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.0.0-8
 - Rebuilt for Python 3.9
 

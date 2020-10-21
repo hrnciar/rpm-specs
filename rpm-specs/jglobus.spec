@@ -14,7 +14,7 @@
 
 Name:		jglobus
 Version:	2.1.0
-Release:	17%{?dist}
+Release:	20%{?dist}
 Summary:	Globus Java client libraries
 
 #		Everything is Apache 2.0 except for one file that is MIT:
@@ -214,6 +214,12 @@ This package contains the API documentation for %{name}.
 %pom_remove_plugin org.apache.maven.plugins:maven-release-plugin
 %pom_remove_plugin org.apache.maven.plugins:maven-source-plugin
 
+%if %{?fedora}%{!?fedora:0} >= 33 || %{?rhel}%{!?rhel:0} >= 8
+# F33+ and EPEL8+ doesn't use the maven-javadoc-plugin to generate javadoc
+# Remove maven-javadoc-plugin configuration to avoid build failure
+%pom_remove_plugin org.apache.maven.plugins:maven-javadoc-plugin
+%endif
+
 %if ! %{gaxismodule}
 %pom_disable_module axis
 %endif
@@ -261,6 +267,15 @@ This package contains the API documentation for %{name}.
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 2.1.0-19
+- Remove maven-javadoc-plugin configuration (F33+, EPEL8+)
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.1.0-18
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed May 06 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 2.1.0-17
 - Update source and target for JDK 11
 - Add maven-javadoc-plugin configuration for JDK 11

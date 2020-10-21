@@ -1,6 +1,6 @@
 Name:    dolphin-plugins
 Summary: Dolphin plugins for revision control systems
-Version: 20.04.2
+Version: 20.08.1
 Release: 1%{?dist}
 
 License: GPLv2+
@@ -48,16 +48,13 @@ systems:
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name
 
@@ -70,6 +67,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_qtplugindir}/fileviewgitplugin.so
 %{_kf5_qtplugindir}/fileviewsvnplugin.so
 %{_kf5_qtplugindir}/fileviewhgplugin.so
+%{_kf5_plugindir}/kfileitemaction/mountisoaction.so
 %{_kf5_datadir}/config.kcfg/fileviewgitpluginsettings.kcfg
 %{_kf5_datadir}/config.kcfg/fileviewsvnpluginsettings.kcfg
 %{_kf5_datadir}/config.kcfg/fileviewhgpluginsettings.kcfg
@@ -81,6 +79,21 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Mon Aug 17 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Mon Aug 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-3
+- .spec cosmetics
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.2-1
 - 20.04.2
 

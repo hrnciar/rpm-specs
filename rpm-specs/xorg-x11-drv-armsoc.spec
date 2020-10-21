@@ -8,7 +8,7 @@
 Summary:   Xorg X11 armsocdrm driver
 Name:      xorg-x11-drv-armsoc
 Version:   1.4.0
-Release:   12%{?gitrev}%{?dist}
+Release:   13%{?gitrev}%{?dist}
 URL:       http://cgit.freedesktop.org/xorg/driver/xf86-video-armsoc
 License:   MIT
 
@@ -70,6 +70,9 @@ find $RPM_BUILD_ROOT -regex ".*\.la$" | xargs rm -f --
 %{_mandir}/man4/armsoc.4*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-13.20160929
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-12.20160929
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

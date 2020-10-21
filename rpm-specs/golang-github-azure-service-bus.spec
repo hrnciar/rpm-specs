@@ -4,7 +4,7 @@
 
 # https://github.com/Azure/azure-service-bus-go
 %global goipath         github.com/Azure/azure-service-bus-go
-Version:                0.10.0
+Version:                0.10.3
 
 %gometa
 
@@ -21,21 +21,21 @@ Service Bus entities such as Queues, Topics and Subscriptions.}
 %global godocs          CONTRIBUTING.md README.md changelog.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Golang library for Azure Service Bus
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
 
-BuildRequires:  golang(github.com/Azure/azure-amqp-common-go)
-BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/aad)
-BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/auth)
-BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/cbs)
-BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/conn)
-BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/rpc)
-BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/sas)
-BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/uuid)
+BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/v3)
+BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/v3/aad)
+BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/v3/auth)
+BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/v3/cbs)
+BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/v3/conn)
+BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/v3/rpc)
+BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/v3/sas)
+BuildRequires:  golang(github.com/Azure/azure-amqp-common-go/v3/uuid)
 BuildRequires:  golang(github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2017-05-10/resources)
 BuildRequires:  golang(github.com/Azure/azure-sdk-for-go/services/servicebus/mgmt/2017-04-01/servicebus)
 BuildRequires:  golang(github.com/Azure/go-amqp)
@@ -65,7 +65,6 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 
 %prep
 %goprep
-find . -name "*.go" -exec sed -i "s|github.com/Azure/azure-amqp-common-go/v3|github.com/Azure/azure-amqp-common-go|" "{}" +;
 
 %install
 %gopkginstall
@@ -78,6 +77,12 @@ find . -name "*.go" -exec sed -i "s|github.com/Azure/azure-amqp-common-go/v3|git
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 23:09:12 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.10.3-1
+- Update to 0.10.3
+
 * Wed Jan 29 02:33:55 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.10.0-1
 - Update to 0.10.0
 

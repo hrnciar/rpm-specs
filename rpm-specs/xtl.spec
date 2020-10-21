@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           xtl
-Version:        0.6.13
+Version:        0.6.20
 Release:        1%{?dist}
 License:        BSD
 Summary:        QuantStack tools library
@@ -47,8 +47,8 @@ Documentation files for %{name} library.
 
 
 %build
-%cmake -DBUILD_TESTS=ON .
-%make_build
+%cmake -DBUILD_TESTS=ON
+%cmake_build
 
 pushd docs
 make html SPHINXBUILD=sphinx-build-3
@@ -57,11 +57,11 @@ popd
 
 
 %install
-%make_install
+%cmake_install
 
 
 %check
-make xtest
+make -C "%{_vpath_builddir}" xtest
 
 
 %files devel
@@ -76,6 +76,27 @@ make xtest
 
 
 %changelog
+* Fri Oct 16 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.6.20-1
+- Update to latest version (#1888869)
+
+* Sat Sep 26 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.6.19-1
+- Update to latest version (#1881965)
+
+* Thu Sep 03 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.6.18-1
+- Update to latest version (#1875020)
+
+* Sun Aug 30 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.6.17-1
+- Update to latest version (#1873863)
+
+* Thu Aug 13 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.6.16-1
+- Update to latest version (#1867970)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.15-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.6.15-1
+- Update to latest version
+
 * Sat Mar 14 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.6.13-1
 - Update to latest version
 

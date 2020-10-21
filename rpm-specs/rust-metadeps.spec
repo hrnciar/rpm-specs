@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        1.1.2
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Run pkg-config from declarative dependencies in Cargo.toml
 
 # Upstream license specification: MIT/Apache-2.0
@@ -81,6 +81,9 @@ sed -i -e 's/#!\[deny(missing_docs, warnings)\]/#!\[deny(missing_docs)\]/' src/l
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

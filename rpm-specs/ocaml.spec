@@ -30,8 +30,8 @@
 %global rcver %{nil}
 
 Name:           ocaml
-Version:        4.11.0
-Release:        0.4.dev2%{?dist}
+Version:        4.11.1
+Release:        1%{?dist}
 
 Summary:        OCaml compiler and programming environment
 
@@ -39,10 +39,8 @@ License:        QPL and (LGPLv2+ with exceptions)
 
 URL:            http://www.ocaml.org
 
-#Source0:        http://caml.inria.fr/pub/distrib/ocaml-4.10/ocaml-%{version}%{rcver}.tar.xz
-# This is a pre-release of OCaml 4.11.0.  See:
-# https://pagure.io/fedora-ocaml/commits/fedora-33-4.11.0-dev2
-Source0:        ocaml-4.11.0.tar.gz
+Source0:        https://caml.inria.fr/pub/distrib/ocaml-4.11/ocaml-%{version}.tar.xz
+#Source0:        https://github.com/ocaml/ocaml/archive/%%{version}.tar.gz
 
 # IMPORTANT NOTE:
 #
@@ -53,7 +51,7 @@ Source0:        ocaml-4.11.0.tar.gz
 #
 # https://pagure.io/fedora-ocaml
 #
-# Current branch: fedora-33-4.11.0-dev2
+# Current branch: fedora-34-4.11.1
 #
 # ALTERNATIVELY add a patch to the end of the list (leaving the
 # existing patches unchanged) adding a comment to note that it should
@@ -64,10 +62,8 @@ Patch0002:      0002-configure-Allow-user-defined-C-compiler-flags.patch
 Patch0003:      0003-configure-Remove-incorrect-assumption-about-cross-co.patch
 Patch0004:      0004-Remove-configure-from-.gitattributes.patch
 
-# Add RISC-V backend.  This is upstream in 4.12 (not 4.11).
-Patch0005:      0005-Add-RISC-V-native-code-backend-9441.patch
-Patch0006:      0006-Support-FP-reg-int-reg-moves.patch
-Patch0007:      0007-Update-C-calling-conventions-to-the-RISC-V-ELF-psABI.patch
+# Fix compilation with LTO (upstream, but not in 4.11 branch).
+Patch0005:      0005-Fix-type-mismatches-between-definition-and-declarati.patch
 
 BuildRequires:  git
 BuildRequires:  gcc
@@ -175,7 +171,7 @@ autoconf --force
 
 %build
 %ifnarch %{no_parallel_build_arches}
-make="make %{?_smp_mflags}"
+make="%make_build"
 %else
 unset MAKEFLAGS
 make=make
@@ -226,7 +222,7 @@ make -j1 all ||:
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 perl -pi -e "s|^$RPM_BUILD_ROOT||" $RPM_BUILD_ROOT%{_libdir}/ocaml/ld.conf
 
 echo %{version} > $RPM_BUILD_ROOT%{_libdir}/ocaml/fedora-ocaml-release
@@ -263,6 +259,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/ocaml/eventlog_metadata
 %{_bindir}/ocamlmklib
 %{_bindir}/ocamlmktop
 %{_bindir}/ocamlobjinfo
+%{_bindir}/ocamloptp
 %{_bindir}/ocamlprof
 
 # bytecode versions
@@ -273,6 +270,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/ocaml/eventlog_metadata
 %{_bindir}/ocamlmklib.byte
 %{_bindir}/ocamlmktop.byte
 %{_bindir}/ocamlobjinfo.byte
+%{_bindir}/ocamloptp.byte
 %{_bindir}/ocamlprof.byte
 
 %if %{native_compiler}
@@ -284,6 +282,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/ocaml/eventlog_metadata
 %{_bindir}/ocamlmklib.opt
 %{_bindir}/ocamlmktop.opt
 %{_bindir}/ocamlobjinfo.opt
+%{_bindir}/ocamloptp.opt
 %{_bindir}/ocamlprof.opt
 %endif
 
@@ -375,6 +374,26 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/ocaml/eventlog_metadata
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 4.11.1-1
+- OCaml 4.11.1 release (RHBZ#1870368#c26).
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 4.11.0-1
+- OCaml 4.11.0 release (RHBZ#1870368).
+
+* Tue Aug 04 2020 Richard W.M. Jones <rjones@redhat.com> - 4.11.0-0.9.dev2
+- Bump and rebuild to fix DWARF versioning issues.
+- Enable LTO again.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.11.0-0.7.dev2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 4.11.0-0.6.dev2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> - 4.11.0-0.5.dev2.fc33
+- Disable LTO
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 4.11.0-0.4.dev2.fc33
 - Move to OCaml 4.11.0+dev2-2020-04-22.
 - Backport upstream RISC-V backend from 4.12 + fixes.

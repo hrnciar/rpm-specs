@@ -5,7 +5,7 @@
 %global crate gtk
 
 Name:           rust-%{crate}
-Version:        0.8.1
+Version:        0.9.2
 Release:        1%{?dist}
 Summary:        Rust bindings for the GTK+ 3 library
 
@@ -233,6 +233,18 @@ which use "v3_24_8" feature of "%{crate}" crate.
 %files       -n %{name}+v3_24_8-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+v3_24_9-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+v3_24_9-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "v3_24_9" feature of "%{crate}" crate.
+
+%files       -n %{name}+v3_24_9-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
 %cargo_prep
@@ -252,6 +264,15 @@ which use "v3_24_8" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 0.9.2-1
+- Update to 0.9.2
+
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 0.9.1-1
+- Update to 0.9.1
+
+* Thu Jul 09 2020 Josh Stone <jistone@redhat.com> - 0.9.0-1
+- Update to 0.9.0
+
 * Mon Feb 10 2020 Josh Stone <jistone@redhat.com> - 0.8.1-1
 - Update to 0.8.1
 

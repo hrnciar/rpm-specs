@@ -3,7 +3,7 @@
 
 # https://github.com/google/gopacket
 %global goipath         github.com/google/gopacket
-Version:                1.1.17
+Version:                1.1.18
 
 %gometa
 
@@ -24,6 +24,8 @@ Summary:        Provides packet processing capabilities for Go
 License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/google/gopacket/issues/803
+Patch0:         0001-Convert-id-to-string-using-strconv.Itoa.patch
 
 BuildRequires:  golang(golang.org/x/net/bpf)
 BuildRequires:  golang(golang.org/x/sys/unix)
@@ -36,6 +38,7 @@ BuildRequires:  libpcap-devel
 
 %prep
 %goprep
+%patch0 -p1
 
 %install
 %gopkginstall
@@ -48,6 +51,16 @@ BuildRequires:  libpcap-devel
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.18-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.18-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 22:45:15 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.18-1
+- Update to 1.1.18
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.17-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

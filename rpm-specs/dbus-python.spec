@@ -1,7 +1,7 @@
 Summary: D-Bus Python Bindings
 Name:    dbus-python
 Version: 1.2.16
-Release: 2%{?dist}
+Release: 3%{?dist}
 
 License: MIT
 URL:     http://www.freedesktop.org/wiki/Software/DBusBindings/
@@ -17,7 +17,7 @@ BuildRequires: dbus-devel
 BuildRequires: glib2-devel
 # for %%check
 BuildRequires: dbus-x11
-BuildRequires: python3-gobject
+BuildRequires: python%{python3_pkgversion}-gobject
 # autoreconf and friends
 BuildRequires: autoconf-archive automake libtool
 
@@ -26,14 +26,14 @@ D-Bus python bindings for use with python programs.
 
 %description %_description
 
-%package -n python3-dbus
+%package -n python%{python3_pkgversion}-dbus
 Summary: D-Bus bindings for python3
-%{?python_provide:%python_provide python3-dbus}
-BuildRequires: python3-devel
+%{?python_provide:%python_provide python%{python3_pkgversion}-dbus}
+BuildRequires: python%{python3_pkgversion}-devel
 # for py3_build
 BuildRequires: python3dist(setuptools)
 
-%description -n python3-dbus
+%description -n python%{python3_pkgversion}-dbus
 %{summary}.
 
 %package devel
@@ -66,7 +66,7 @@ rm -rfv $RPM_BUILD_ROOT%{_datadir}/doc/dbus-python/
 %check
 make check -k || (cat test-suite.log && false)
 
-%files -n python3-dbus
+%files -n python%{python3_pkgversion}-dbus
 %doc NEWS
 %license COPYING
 %{python3_sitearch}/*.so
@@ -79,6 +79,9 @@ make check -k || (cat test-suite.log && false)
 %{_libdir}/pkgconfig/dbus-python.pc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.16-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.16-2
 - Rebuilt for Python 3.9
 

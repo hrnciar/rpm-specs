@@ -2,7 +2,7 @@
 
 Name:           lib%{libname}
 Version:        0.1.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        An abstract library implementation of a VT220/xterm/ECMA-48 terminal emulator
 
 License:        MIT
@@ -66,6 +66,9 @@ make test
 %{_bindir}/%{libname}-dump
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

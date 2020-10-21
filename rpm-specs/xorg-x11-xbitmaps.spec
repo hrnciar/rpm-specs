@@ -5,7 +5,7 @@
 Summary: X.Org X11 application bitmaps
 Name: xorg-x11-%{pkgname}
 Version: 1.1.1
-Release: 18%{?dist}
+Release: 19%{?dist}
 License: MIT
 URL: http://www.x.org
 BuildArch: noarch
@@ -34,6 +34,9 @@ make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 %{_datadir}/pkgconfig/xbitmaps.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

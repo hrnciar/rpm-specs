@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.1.2
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Tool for helping to find SSL certificate locations on the system for OpenSSL
 
 # Upstream license specification: MIT/Apache-2.0
@@ -71,6 +71,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

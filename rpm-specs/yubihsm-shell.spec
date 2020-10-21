@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:		yubihsm-shell
 Version:	2.0.2
-Release:	3%{?dist}
+Release:	7%{?dist}
 Summary:	Tools to interact with YubiHSM 2
 
 License:	ASL 2.0 
@@ -44,14 +46,18 @@ gpgv2 --quiet --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 
 
 %build
-mkdir build && cd build
-%cmake ../
-%make_build
+# https://bugzilla.redhat.com/show_bug.cgi?id=1865658#c6
+# The generated code fails to build on s390x in Fedora 33
+# For now, disable this particular check when building this arch
+%ifarch s390x
+export CFLAGS="$CFLAGS -Wno-error=format-overflow"
+%endif
+%cmake
+%cmake_build
 
 
 %install
-cd build
-%make_install
+%cmake_install
 chrpath --delete $RPM_BUILD_ROOT%{_bindir}/yubihsm-shell
 chrpath --delete $RPM_BUILD_ROOT%{_bindir}/yubihsm-wrap
 chrpath --delete $RPM_BUILD_ROOT%{_libdir}/pkcs11/yubihsm_pkcs11.so
@@ -86,6 +92,19 @@ chrpath --delete $RPM_BUILD_ROOT%{_libdir}/pkcs11/yubihsm_pkcs11.so
 
 
 %changelog
+* Thu Aug 06 2020 Jakub Jelen <jjelen@redhat.com> - 2.0.2-7
+- Workaround FTBFS on s390x (#1865658)
+
+* Thu Aug 06 2020 Jakub Jelen <jjelen@redhat.com> - 2.0.2-6
+- Rebuild after libz3 soname bump (#1865658)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 16 2020 Jakub Jelen <jjelen@redhat.com> - 2.0.2-3
 - Avoid warnings/errors with new gcc on s390x (#1800289)
 

@@ -9,7 +9,7 @@ order.
 
 Name:		%{projname}
 Version:	1.11
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Maintains a jump-list of the directories you actually use
 License:	WTFPL
 Source0:	https://github.com/rupa/%{projname}/archive/v%{version}.tar.gz
@@ -39,6 +39,9 @@ install -pm 644 z.1 %{buildroot}%{_mandir}/man1/z.1
 %{_mandir}/man1/z.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

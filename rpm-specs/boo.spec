@@ -4,7 +4,7 @@
 Summary: An OO statically typed language for CLI
 Name: boo
 Version: 0.9.7.0
-Release: 14%{?dist}
+Release: 16%{?dist}
 License: MIT
 URL: https://github.com/bamboo/boo
 
@@ -85,6 +85,13 @@ rm $RPM_BUILD_ROOT/%{_defaultdocdir}/boo/license.txt $RPM_BUILD_ROOT/%{_defaultd
 %{_datadir}/%{name}/examples/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.7.0-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.7.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.7.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,4 +1,5 @@
 %undefine _ld_as_needed
+%global __cmake_in_source_build 1
 
 %if %{?__isa_bits:%{__isa_bits}}%{!?__isa_bits:32} == 64
 %global arch64 1
@@ -8,7 +9,7 @@
 
 Name:    metis
 Version: 5.1.0
-Release: 24%{?dist}
+Release: 27%{?dist}
 Summary: Serial Graph Partitioning and Fill-reducing Matrix Ordering
 License: ASL 2.0 and BSD and LGPLv2+
 URL:     http://glaros.dtc.umn.edu/gkhome/views/%{name}
@@ -37,7 +38,7 @@ Patch4: %{name}_lib64.patch
 Patch5: %{name}-pcre2.patch
 
 BuildRequires: cmake3, gcc, gcc-c++
-%if 0%{?rhel}
+%if 0%{?rhel} && 0%{?rhel} < 9
 BuildRequires: pcre-devel
 %else
 BuildRequires: pcre2-devel
@@ -102,7 +103,7 @@ cp -a %{name}-%{version} metis64
 
 %build
 pushd %{name}-%{version}/build
-%if 0%{?rhel}
+%if 0%{?rhel} && 0%{?rhel} < 9
 PCRE_LDFLAGS="-lpcreposix"
 %else
 PCRE_LDFLAGS="-lpcre2-posix"
@@ -127,7 +128,7 @@ patch -p0 < %{PATCH2}
 patch -p0 < %{PATCH4}
 mkdir -p build64
 pushd build64
-%if 0%{?rhel}
+%if 0%{?rhel} && 0%{?rhel} < 9
 PCRE_LDFLAGS="-lpcreposix"
 %else
 PCRE_LDFLAGS="-lpcre2-posix"
@@ -265,6 +266,16 @@ popd
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.0-27
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.0-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Merlin Mathesius <mmathesi@redhat.com> - 5.1.0-25
+- Minor conditional fixes for ELN
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.0-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

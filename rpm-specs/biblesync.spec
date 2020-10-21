@@ -1,8 +1,9 @@
+%define __cmake_in_source_build 1
 %global __soversion 2.0
 
 Name:		biblesync
 Version:	2.1.0
-Release:	1%{?dist}
+Release:	4%{?dist}
 Summary:	A Cross-platform library for sharing Bible navigation
 
 License:	Public Domain
@@ -66,6 +67,16 @@ popd
 %{_mandir}/man7/biblesync.7*
 
 %changelog
+* Mon Oct 12 2020 Jeff Law <law@redhat.com> - 2.1.0-4
+- Use __cmake_in_source_build
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Greg Hellings <greg.hellings@gmail.com> - 2.1.0-1
 - Upstream version 2.1.0
 - Remove pkgconfig file patch

@@ -2,7 +2,7 @@ Name: hunspell-it
 Summary: Italian hunspell dictionaries
 %global upstreamid 20070901
 Version: 2.4
-Release: 0.21.%{upstreamid}%{?dist}
+Release: 0.22.%{upstreamid}%{?dist}
 Source: http://downloads.sourceforge.net/sourceforge/linguistico/italiano_2_4_2007_09_01.zip
 URL: http://linguistico.sourceforge.net
 License: GPLv3+
@@ -40,6 +40,9 @@ done
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-0.22.20070901
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-0.21.20070901
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

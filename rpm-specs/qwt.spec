@@ -1,4 +1,3 @@
-
 # trim changelog included in binary rpms
 %global _changelog_trimtime %(date +%s -d "1 year ago")
 
@@ -11,8 +10,8 @@
 
 Name:    qwt
 Summary: Qt Widgets for Technical Applications
-Version: 6.1.4
-Release: 2%{?dist}
+Version: 6.1.5
+Release: 3%{?dist}
 
 License: LGPLv2 with exceptions
 URL:     http://qwt.sourceforge.net
@@ -24,7 +23,7 @@ Source:  http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 # fix pkgconfig support
 Patch50: qwt-6.1.1-pkgconfig.patch
 # use QT_INSTALL_ paths instead of custom prefix
-Patch51: qwt-6.1.2-qt_install_paths.patch
+Patch51: qwt-6.1.5-qt_install_paths.patch
 # parallel-installable qt5 version
 Patch52: qwt-qt5.patch
 #
@@ -206,6 +205,16 @@ mv %{buildroot}%{_qt5_docdir}/html/man/man3 \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.1.5-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.1.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Marie Loise Nolden <loise@kde.org - 6.1.5-1
+- Update to 6.1.5 (compatibility to Qt 5.15)
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.1.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

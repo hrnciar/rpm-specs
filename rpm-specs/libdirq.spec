@@ -4,7 +4,7 @@
 Summary:	C implementation of the simple directory queue algorithm
 Name:		libdirq
 Version:	0.5
-Release:	7%{?dist}
+Release:	8%{?dist}
 License:	ASL 2.0
 URL:		https://github.com/%{github_owner}/%{github_name}/
 Source0:	https://github.com/%{github_owner}/%{github_name}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
@@ -69,6 +69,9 @@ rm -rf %{buildroot}
 %{_libdir}/*.a
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

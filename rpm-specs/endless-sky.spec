@@ -2,7 +2,7 @@
 
 Name:		endless-sky
 Version:	0.9.12
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	Space exploration, trading, and combat game
 
 License:	GPLv3
@@ -17,6 +17,7 @@ Patch0:		endless-sky-0.8.10-remove-games-path.patch
 # Unset CCFLAGS override inside SConstruct.
 Patch1:		endless-sky-0.9.4-remove-additional-ccflags.patch
 Patch2:		endless-sky-0.9.10-gcc10.patch
+Patch3:         endless-sky-gcc11.patch
 
 Requires:	%{name}-data = %{version}-%{release}
 BuildRequires:	scons
@@ -105,6 +106,12 @@ sed -i 's|/app|%{_prefix}|g' %{buildroot}%{_bindir}/%{name}
 
 
 %changelog
+* Wed Oct 14 2020 Jeff Law <law@redhat.com> - 0.9.12-3
+- Add missing #includes for gcc-11
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 02 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.9.12-1
 - 0.9.12
 

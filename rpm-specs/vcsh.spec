@@ -3,7 +3,7 @@
 
 Name:           vcsh
 Version:        1.20151229
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Version Control System for $HOME
 
 License:        GPLv2+
@@ -44,6 +44,9 @@ make %{?_smp_mflags}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.20151229-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.20151229-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

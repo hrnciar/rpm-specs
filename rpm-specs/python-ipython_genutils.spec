@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.1.0
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        IPython vestigial utilities
 
 License:        BSD
@@ -62,6 +62,9 @@ nosetests-%{python3_version} -v
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.0-22
 - Rebuilt for Python 3.9
 

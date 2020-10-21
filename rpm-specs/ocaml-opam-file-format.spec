@@ -3,7 +3,7 @@
 
 Name:           ocaml-opam-file-format
 Version:        2.0.0
-Release:        16%{?dist}
+Release:        19%{?dist}
 Summary:        Parser and printer for the opam file syntax
 
 %global libname %(echo %{name} | sed -e 's/^ocaml-//')
@@ -70,6 +70,15 @@ cp -a src/*.mli %{buildroot}%{_libdir}/ocaml/%{libname}/
 %{_libdir}/ocaml/*/*.mli
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 2.0.0-19
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 2.0.0-18
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 2.0.0-16
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

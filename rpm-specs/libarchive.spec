@@ -2,7 +2,7 @@
 
 Name:           libarchive
 Version:        3.4.3
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        A library for handling streaming archive formats
 
 License:        BSD
@@ -84,7 +84,7 @@ standard output.
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 # rhbz#1294252
@@ -212,6 +212,13 @@ run_testsuite
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 3.4.3-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri May 22 2020 Ondrej Dubaj <odubaj@redhat.com> - 3.4.3-1
 - Rebased to version 3.4.3
 

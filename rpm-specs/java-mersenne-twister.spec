@@ -1,6 +1,6 @@
 Name:           java-mersenne-twister
 Version:        22
-Release:        10%{?dist}
+Release:        13%{?dist}
 Summary:        Mersenne Twister random number generator in Java
 
 License:        BSD
@@ -44,7 +44,7 @@ jar cf mersenne-twister.jar ec/util/*.class
 
 # Build the documentation
 mkdir doc
-javadoc -d doc -source 1.6 ec/util/*.java
+javadoc -Xdoclint:none -d doc -source 1.6 ec/util/*.java
 
 %install
 # Install the JAR
@@ -62,6 +62,15 @@ cp -a doc %{buildroot}%{_javadocdir}/mersenne-twister
 %{_javadocdir}/mersenne-twister
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 22-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Severin Gehwolf <sgehwolf@redhat.com> - 22-12
+- Use -Xdoclint:none so as to be able to build with JDK 11.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 22-11
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 22-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

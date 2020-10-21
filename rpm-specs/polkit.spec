@@ -5,16 +5,14 @@
 
 Summary: An authorization framework
 Name: polkit
-Version: 0.116
-Release: 7%{?dist}
+Version: 0.117
+Release: 2%{?dist}
 License: LGPLv2+
 URL: http://www.freedesktop.org/wiki/Software/polkit
 Source0: http://www.freedesktop.org/software/polkit/releases/%{name}-%{version}.tar.gz
 Source1: http://www.freedesktop.org/software/polkit/releases/%{name}-%{version}.tar.gz.sign
 
-Patch1: polkit-0.116-pkttyagent-sigttou-bg-job.patch
-Patch2: pkttyagent-tcsaflush-batch-erase.patch
-Patch3: jsauthority-memleak.patch
+Patch1: mozjs78.patch
 
 BuildRequires: gcc-c++
 BuildRequires: glib2-devel >= 2.30.0
@@ -24,7 +22,7 @@ BuildRequires: gtk-doc
 BuildRequires: intltool
 BuildRequires: gobject-introspection-devel
 BuildRequires: systemd, systemd-devel
-BuildRequires: pkgconfig(mozjs-60)
+BuildRequires: pkgconfig(mozjs-78)
 BuildRequires: git
 
 %if 0%{?enable_autoreconf}
@@ -109,7 +107,7 @@ export LDFLAGS='-pie -Wl,-z,now -Wl,-z,relro'
 make V=1
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL='install -p' \
+%make_install \
     typelibsdir=%{_libdir}/girepository-1.0 \
     girdir=%{_datadir}/gir-1.0
 
@@ -178,6 +176,19 @@ exit 0
 %{_libdir}/girepository-1.0/*.typelib
 
 %changelog
+* Wed Aug 12 2020 Jan Rybar <jrybar@redhat.com> - 0.117-2
+- update dependency to mozjs78
+
+* Fri Jul 31 2020 Jan Rybar <jrybar@redhat.com> - 0.117-1
+- Rebased to polkit-0.117
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.116-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Tom Stellard <tstellar@redhat.com> - 0.116-8
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.116-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

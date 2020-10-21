@@ -3,7 +3,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 4.0.5
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Domain name parser based on the Public Suffix List
 # MPLv2.0: %%{gem_instdir}/data/list.txt
 License: MIT and MPLv2.0
@@ -83,6 +83,9 @@ popd
 %{gem_instdir}/test
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Pavel Valena <pvalena@redhat.com> - 4.0.5-1
 - Update to public_suffix 4.0.5.
 

@@ -3,7 +3,7 @@
 
 # https://github.com/openzipkin-contrib/zipkin-go-opentracing
 %global goipath         github.com/openzipkin-contrib/zipkin-go-opentracing
-Version:                0.3.5
+Version:                0.4.5
 
 %gometa
 
@@ -19,25 +19,26 @@ OpenTracing API.}
 %global godocs          examples README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        OpenTracing Tracer implementation for Zipkin v1 in Go
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
 
-BuildRequires:  golang(github.com/apache/thrift/lib/go/thrift)
-BuildRequires:  golang(github.com/go-logfmt/logfmt)
-BuildRequires:  golang(github.com/gogo/protobuf/proto)
 BuildRequires:  golang(github.com/opentracing-contrib/go-observer)
 BuildRequires:  golang(github.com/opentracing/opentracing-go)
 BuildRequires:  golang(github.com/opentracing/opentracing-go/ext)
 BuildRequires:  golang(github.com/opentracing/opentracing-go/log)
-BuildRequires:  golang(github.com/Shopify/sarama)
-BuildRequires:  golang(golang.org/x/net/trace)
+BuildRequires:  golang(github.com/openzipkin/zipkin-go)
+BuildRequires:  golang(github.com/openzipkin/zipkin-go/model)
+BuildRequires:  golang(github.com/openzipkin/zipkin-go/propagation)
+BuildRequires:  golang(github.com/openzipkin/zipkin-go/propagation/b3)
 
 %if %{with check}
 # Tests
+BuildRequires:  golang(github.com/openzipkin/zipkin-go/reporter)
+BuildRequires:  golang(github.com/openzipkin/zipkin-go/reporter/recorder)
 BuildRequires:  golang(github.com/stretchr/testify/assert)
 %endif
 
@@ -60,6 +61,12 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 18:48:22 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.4.5-1
+- Update to 0.4.5
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

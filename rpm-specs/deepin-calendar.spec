@@ -2,7 +2,7 @@
 
 Name:           deepin-calendar
 Version:        5.0.1
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Calendar for Deepin Desktop Environment
 License:        GPLv3+
 URL:            https://github.com/linuxdeepin/dde-calendar
@@ -28,11 +28,11 @@ Calendar for Deepin Desktop Environment.
 %build
 # help find (and prefer) qt5 utilities, e.g. qmake, lrelease
 export PATH=%{_qt5_bindir}:$PATH
-%cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} -DCMAKE_BUILD_TYPE=Release .
-%make_build
+%cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} -DCMAKE_BUILD_TYPE=Release
+%cmake_build
 
 %install
-%make_install INSTALL_ROOT=%{buildroot}
+%cmake_install
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{repo}.desktop
@@ -47,6 +47,16 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{repo}.desktop
 %{_datadir}/icons/hicolor/scalable/apps/%{repo}.svg
 
 %changelog
+* Fri Aug  7 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.0.1-4
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           sweep
 Version:        0.9.3
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        An audio editor and live playback tool
 License:        GPLv2+
 URL:            http://www.metadecks.org/software/sweep/index.html
@@ -109,6 +109,9 @@ find $RPM_BUILD_ROOT%{_libdir}/sweep -name "*.a" | xargs rm -f
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

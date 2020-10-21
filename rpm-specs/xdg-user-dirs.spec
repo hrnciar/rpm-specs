@@ -3,16 +3,12 @@
 
 Name:		xdg-user-dirs
 Version:	0.17
-Release:	5%{?dist}
+Release:	7%{?dist}
 Summary:	Handles user special directories
 
 License:	GPLv2+ and MIT
 URL:		http://freedesktop.org/wiki/Software/xdg-user-dirs
 Source0:	http://user-dirs.freedesktop.org/releases/%{name}-%{version}.tar.gz
-
-# use fuzzy translations (for Downloads)
-# https://bugzilla.redhat.com/show_bug.cgi?id=532399
-Patch0:		use-fuzzy.patch
 
 BuildRequires:  gcc
 BuildRequires:	gettext
@@ -26,7 +22,6 @@ homedirectory based on the defaults configured by the administrator.
 
 %prep
 %setup -q
-%patch0 -p1 -b .use-fuzzy
 
 %build
 %configure
@@ -54,6 +49,12 @@ make update-gmo
 
 
 %changelog
+* Mon Sep 21 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 0.17-7
+- Drop fuzzy translations patch, no longer necessary
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

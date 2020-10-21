@@ -2,7 +2,7 @@
 %define ver 6_00
 Name:           quake2
 Version:        6.00
-Release:        14%{?dist}
+Release:        16%{?dist}
 Summary:        Quake II (Yamagi version)
 License:        GPLv2 
 URL:            http://www.yamagi.org/quake2 
@@ -103,6 +103,13 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 %{_defaultdocdir}/%{name}/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.00-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.00-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 29 2020 Itamar Reis Peixoto <itamar@ispbrasil.com.br> - 6.00-14
 - fix FTBS rhbz#1799959
 

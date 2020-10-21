@@ -3,7 +3,7 @@
 
 # https://github.com/ua-parser/uap-go
 %global goipath         github.com/ua-parser/uap-go
-%global commit          daf92ba38329329419decc8e322bcd9480964294
+%global commit          e1c09f13e2fe20d591e97106ab10758f5a80f07b
 %global uap_core_commit 286809e09706ea891b9434ed875574d65e0ff6b7
 %gometa
 
@@ -15,7 +15,7 @@ Go implementation of ua-parser.}
 
 Name:           %{goname}
 Version:        0
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Go implementation of ua-parser
 
 BuildArch:      noarch
@@ -59,6 +59,12 @@ mv uaparser/LICENSE.md uaparser/uaparser-LICENSE.md
 %gopkgfiles
 
 %changelog
+* Mon Aug 03 20:39:14 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200803gite1c09f1
+- Bump to commit e1c09f13e2fe20d591e97106ab10758f5a80f07b
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

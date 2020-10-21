@@ -1,13 +1,14 @@
 Summary:        Open Programmable Acceleration Engine (OPAE) SDK
 Name:           opae
 Version:        1.4.1
-Release:        5%{?dist}
+Release:        10%{?dist}
 License:        BSD and MIT
 ExclusiveArch:  x86_64
 URL:            https://github.com/OPAE/%{name}-sdk
 Source0:        https://github.com/OPAE/opae-sdk/releases/download/%{version}-1/%{name}-%{version}-1.tar.gz
 Patch01:        0001-Do-not-install-static-libraries.patch
 Patch02:        improve-library-link.patch
+Patch03:        0001-python-3.9-deprecates-PyEval_InitThreads.patch
 
 BuildRequires:  gcc, gcc-c++
 BuildRequires:  cmake, make
@@ -17,6 +18,7 @@ BuildRequires:  libuuid-devel
 BuildRequires:  rpm-build
 BuildRequires:  hwloc-devel
 BuildRequires:  doxygen
+BuildRequires:  python3-setuptools
 
 %description
 Open Programmable Acceleration Engine (OPAE) is a software framework
@@ -46,6 +48,7 @@ OPAE headers, tools, sample source, and documentation
 %setup -q -n %{name}-%{version}-1
 %patch01 -p1
 %patch02 -p1
+%patch03 -p1
 
 # Remove hidden .clang-format
 rm opae-libs/tests/xfpga/.clang-format
@@ -53,10 +56,8 @@ rm tests/.clang-format
 rm tools/argsfilter/.clang-format
 
 %build
-mkdir -p _build
-cd _build
 %cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DOPAE_PRESERVE_REPOS=ON
-%make_build
+%cmake_build
 
 %install
 mkdir -p %{buildroot}%{_datadir}/opae
@@ -87,7 +88,7 @@ mkdir -p %{buildroot}%{_usr}/src/opae/samples
 mkdir -p %{buildroot}%{_usr}/src/opae/samples/hello_fpga/
 cp samples/hello_fpga/hello_fpga.c %{buildroot}%{_usr}/src/opae/samples/hello_fpga/
 
-%make_install -C _build
+%cmake_install
 
 %files
 %dir %{_datadir}/opae
@@ -133,6 +134,22 @@ cp samples/hello_fpga/hello_fpga.c %{buildroot}%{_usr}/src/opae/samples/hello_fp
 %{_usr}/src/opae/opae-libs/cmake/modules/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Tom Rix <trix@redhat.com> 1.4.1-8
+- Fix py 3.9 patch
+
+* Fri Jun 26 2020 Tom Rix <trix@redhat.com> 1.4.1-7
+- Fix py 3.9 issue with pybind11
+
+* Wed Jun 24 2020 Tom Rix <trix@redhat.com> 1.4.1-6
+- Add python3-setuptools to BuildRequires
+
 * Tue Apr 21 2020 Björn Esser <besser82@fedoraproject.org> - 1.4.1-5
 - Rebuild (json-c)
 

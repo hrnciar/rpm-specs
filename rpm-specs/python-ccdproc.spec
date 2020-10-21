@@ -4,8 +4,8 @@
 #%%global reltag .post1
 
 Name:           python-%{srcname}
-Version:        2.0.1
-Release:        3%{?dist}
+Version:        2.1.0
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        BSD
@@ -17,6 +17,7 @@ BuildRequires:  python3-devel
 BuildRequires:  python3-astropy python3-astropy-helpers
 BuildRequires:  python3-astroscrappy
 BuildRequires:  python3-reproject
+BuildRequires:  python3-setuptools_scm
 BuildRequires:  python3-scikit-image
 
 %description
@@ -57,6 +58,12 @@ stand-alone processing or as part of a pipeline.
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Christian Dersch <lupinix@fedoraproject.org> - 2.1.0-1
+- new version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.1-3
 - Rebuilt for Python 3.9
 

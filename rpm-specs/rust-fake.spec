@@ -5,7 +5,7 @@
 %global crate fake
 
 Name:           rust-%{crate}
-Version:        2.2.2
+Version:        2.2.3
 Release:        1%{?dist}
 Summary:        Easy to use library for generating fake data
 
@@ -132,5 +132,8 @@ which use "wasm-bindgen" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 2.2.3-1
+- Update to 2.2.3
+
 * Wed Jun 17 17:34:39 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 2.2.2-1
 - Initial package

@@ -3,9 +3,11 @@
 
 # https://github.com/pierrec/lz4
 %global goipath         github.com/pierrec/lz4
-Version:                3.2.1
+Version:                4.0.2
 
 %gometa
+
+%global goaltipaths     github.com/pierrec/lz4/v4
 
 %global common_description %{expand:
 Package lz4 implements reading and writing lz4 compressed data (a frame), as
@@ -31,7 +33,7 @@ Source0:        %{gosource}
 
 BuildRequires:  golang(code.cloudfoundry.org/bytefmt)
 BuildRequires:  golang(github.com/pierrec/cmdflag)
-BuildRequires:  golang(github.com/schollz/progressbar/v2)
+BuildRequires:  golang(github.com/schollz/progressbar/v3)
 
 %description
 %{common_description}
@@ -64,6 +66,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Thu Sep 17 21:21:55 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 4.0.2-1
+- Update to 4.0.2
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 16 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 3.2.1-1
 - Update to latest version
 

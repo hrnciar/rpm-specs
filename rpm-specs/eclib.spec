@@ -2,7 +2,7 @@
 
 Name:           eclib
 Version:        20190909
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Library for Computations on Elliptic Curves
 License:        GPLv2+
 URL:            http://homepages.warwick.ac.uk/~masgaj/mwrank/
@@ -47,13 +47,13 @@ if [ %{__isa_bits} = "64" ]; then
 fi
 
 # autoconf is not run by upstream
-autoreconf -fi
+autoreconf -fi .
 
 %build
 export CPPFLAGS="-I %{_includedir}/flint"
 %ifarch %{ix86}
 # Excess precision leads to test failures
-export CFLAGS="%{optflags} -ffloat-store"
+export CFLAGS="%{build_cflags} -ffloat-store"
 export CXXFLAGS="$CFLAGS"
 %endif
 %configure \
@@ -74,11 +74,11 @@ export CXXFLAGS="$CFLAGS"
      -e 's|CC="\(g..\)"|CC="\1 -Wl,--as-needed"|' \
      -i libtool
 
-make %{?_smpflags}
+%make_build
 
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install
+%make_install
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 %if !%{with_allprogs}
 rm $RPM_BUILD_ROOT%{_docdir}/%{name}/{g0n,howto,progs}.txt
@@ -109,6 +109,12 @@ make check LD_LIBRARY_PATH=$RPM_BUILD_ROOT%{_libdir}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190909-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 Jerry James <loganjerry@gmail.com> - 20190909-5
+- Rebuild for flint 2.6.0
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 20190909-4
 - Rebuilt for Boost 1.73
 

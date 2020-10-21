@@ -1,21 +1,21 @@
-%define rpmrelease %{nil}
-%define debug_package %{nil}
+# this is purely a shell script, so no debug packages
+%global debug_package %{nil}
 
-### Work-around the fact that openSUSE/SLES _always_ defined both :-/
-%if 0%{?sles_version} == 0
-%undefine sles_version
-%endif
-
-Summary: Relax-and-Recover is a Linux disaster recovery and system migration tool
 Name: rear
-Version: 2.4
-Release: 5%{?rpmrelease}%{?dist}
-License: GPLv3
+Version: 2.6
+Release: 3%{?dist}
+Summary: Relax-and-Recover is a Linux disaster recovery and system migration tool
 URL: http://relax-and-recover.org/
+License: GPLv3
 
 # as GitHub stopped with download section we need to go back to Sourceforge for downloads
-Source: https://sourceforge.net/projects/rear/files/rear/%{version}/rear-%{version}.tar.gz
-
+Source0: https://sourceforge.net/projects/rear/files/rear/%{version}/rear-%{version}.tar.gz
+# Add cronjob and systemd timer as documentation
+Source1: rear.cron
+Source2: rear.service
+Source3: rear.timer
+# Skip buildin modules, RHBZ#1831311
+Patch0: 0001-skip-kernel-buildin-modules.patch
 
 # rear contains only bash scripts plus documentation so that on first glance it could be "BuildArch: noarch"
 # but actually it is not "noarch" because it only works on those architectures that are explicitly supported.
@@ -35,7 +35,10 @@ Requires: syslinux
 # (in addition to the default installed bootloader grub2) while on ppc ppc64 the
 # default installed bootloader yaboot is also useed to make the bootable ISO image.
 
-### Dependencies on all distributions
+# Required for HTML user guide
+BuildRequires: asciidoctor
+
+### Mandatory dependencies:
 Requires: binutils
 Requires: ethtool
 Requires: gzip
@@ -46,57 +49,8 @@ Requires: openssl
 Requires: gawk
 Requires: attr
 Requires: bc
-
-### If you require NFS, you may need the below packages
-#Requires: nfsclient portmap rpcbind
-
-### We drop LSB requirements because it pulls in too many dependencies
-### The OS is hardcoded in /etc/rear/os.conf instead
-#Requires: redhat-lsb
-
-### Required for Bacula/MySQL support
-#Requires: bacula-mysql
-
-### Required for OBDR
-#Requires: lsscsi sg3_utils
-
-### Optional requirement
-#Requires: cfg2html
-
-%if %{?suse_version:1}0
-Requires: iproute2
-### recent SUSE versions have an extra nfs-client package
-### and switched to genisoimage/wodim
-%if 0%{?suse_version} >= 1020
-Requires: genisoimage
-%else
-Requires: mkisofs
-%endif
-###
-%endif
-
-%if %{?mandriva_version:1}0
-Requires: iproute2
-### Mandriva switched from 2008 away from mkisofs,
-### and as a specialty call the package cdrkit-genisoimage!
-%if 0%{?mandriva_version} >= 2008
-Requires: cdrkit-genisoimage
-%else
-Requires: mkisofs
-%endif
-#Requires: lsb
-%endif
-
-### On RHEL/Fedora the genisoimage packages provides mkisofs
-%if %{?centos_version:1}%{?fedora:1}%{?rhel_version:1}0
-Requires: crontabs
 Requires: iproute
-#Requires: mkisofs
 Requires: genisoimage
-#Requires: redhat-lsb
-%endif
-
-# Note that CentOS also has rhel defined so there is no need to use centos
 %if 0%{?rhel}
 Requires: util-linux
 %endif
@@ -112,7 +66,7 @@ a migration tool as well.
 Currently Relax-and-Recover supports various boot media (incl. ISO, PXE,
 OBDR tape, USB or eSATA storage), a variety of network protocols (incl.
 sftp, ftp, http, nfs, cifs) as well as a multitude of backup strategies
-(incl.  IBM TSM, HP DataProtector, Symantec NetBackup, EMC NetWorker,
+(incl.  IBM TSM, MircroFocus Data Protector, Symantec NetBackup, EMC NetWorker,
 Bacula, Bareos, BORG, Duplicity, rsync).
 
 Relax-and-Recover was designed to be easy to set up, requires no maintenance
@@ -121,35 +75,50 @@ removes any excuse for not having a disaster recovery solution implemented.
 
 Professional services and support are available.
 
-%pre
-if [ $1 -gt 1 ] ; then
-# during upgrade remove obsolete directories
-%{__rm} -rf %{_datadir}/rear/output/NETFS
-fi
-
+#-- PREP, BUILD & INSTALL -----------------------------------------------------#
 %prep
-%setup -q
-
-echo "30 1 * * * root /usr/sbin/rear checklayout || /usr/sbin/rear mkrescue" >rear.cron
+%autosetup -p1
 
 %build
+# build HTML user guide
+make doc
 
 %install
-%{__rm} -rf %{buildroot}
-%{__make} install DESTDIR="%{buildroot}"
-%{__install} -Dp -m0644 rear.cron %{buildroot}%{_sysconfdir}/cron.d/rear
+%{make_install}
+install -p -d %{buildroot}%{_docdir}/%{name}/
+install -m 0644 %{SOURCE1} %{buildroot}%{_docdir}/%{name}/
+install -m 0644 %{SOURCE2} %{buildroot}%{_docdir}/%{name}/
+install -m 0644 %{SOURCE3} %{buildroot}%{_docdir}/%{name}/
 
+#-- FILES ---------------------------------------------------------------------#
 %files
-%doc MAINTAINERS COPYING README.adoc doc/*.txt
+%doc MAINTAINERS COPYING README.adoc doc/*.txt doc/user-guide/*.html
 %doc %{_mandir}/man8/rear.8*
-%config(noreplace) %{_sysconfdir}/cron.d/rear
+%doc %{_docdir}/%{name}/rear.*
 %config(noreplace) %{_sysconfdir}/rear/
-%config(noreplace) %{_sysconfdir}/rear/cert/
 %{_datadir}/rear/
-%{_localstatedir}/lib/rear/
+%{_sharedstatedir}/rear/
 %{_sbindir}/rear
 
+#-- CHANGELOG -----------------------------------------------------------------#
 %changelog
+* Wed Sep 23 2020 Christopher Engelhard <ce@lcts.de> - 2.6-3
+- Stop auto-creating a cronjob, but ship example cronjob/
+  systemd timer units in docdir instead (upstream issue #1829)
+- Build & ship HTML user guide
+- Remove %pre scriptlet, as it was introduced only to fix a
+  specific upgrade issue with v1.15 in 2014
+
+* Tue Sep 22 2020 Christopher Engelhard <ce@lcts.de> - 2.6-2
+- Backport upstream PR#2469 to fix RHBZ #1831311
+
+* Tue Sep 22 2020 Christopher Engelhard <ce@lcts.de> - 2.6-1
+- Update to 2.6
+- Streamline & clean up spec file
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

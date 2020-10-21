@@ -10,7 +10,7 @@
 Summary:	FLV progressive download streaming for the Apache HTTP Server
 Name:		mod_flvx
 Version:	0
-Release:	0.20.20100525git%{?dist}
+Release:	0.21.20100525git%{?dist}
 License:	ASL 2.0
 URL:		http://tperspective.blogspot.com/2009/02/apache-flv-streaming-done-right.html
 # https://github.com/osantana/mod_flvx/tarball/48bb8781945dfa2e94b2814e9bae5e7d0cc8f29d
@@ -66,6 +66,9 @@ touch -c -r README.md README
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.21.20100525git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.20.20100525git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

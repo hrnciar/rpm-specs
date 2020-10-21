@@ -40,8 +40,8 @@
 %endif
 
 Name:            openmpi%{?_cc_name_suffix}
-Version:         4.0.4
-Release:         1%{?dist}
+Version:         4.0.5
+Release:         2%{?dist}
 Summary:         Open Message Passing Interface
 License:         BSD and MIT and Romio
 URL:             http://www.open-mpi.org/
@@ -362,6 +362,18 @@ make check
 
 
 %changelog
+* Wed Sep 23 2020 Orion Poplawski <orion@nwra.com> - 4.0.5-2
+- Rebuild for libevent 2.1.12
+
+* Wed Sep 02 2020 Orion Poplawski <orion@nwra.com> - 4.0.5-1
+- Update to 4.0.5
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 4.0.4-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jun 17 2020 Orion Poplawski <orion@nwra.com> - 4.0.4-1
 - Update to 4.0.4
 

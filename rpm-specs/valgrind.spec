@@ -3,7 +3,7 @@
 Summary: Tool for finding memory management bugs in programs
 Name: %{?scl_prefix}valgrind
 Version: 3.16.1
-Release: 1%{?dist}
+Release: 6%{?dist}
 Epoch: 1
 License: GPLv2+
 URL: http://www.valgrind.org/
@@ -92,6 +92,27 @@ Patch5: valgrind-3.16.0-some-stack-protector.patch
 
 # Add some -Wl,z,now.
 Patch6: valgrind-3.16.0-some-Wl-z-now.patch
+
+# KDE#422174  unhandled instruction bytes: 0x48 0xE9 (REX prefix JMP instr)
+Patch7: valgrind-3.16.1-REX-prefix-JMP.patch
+
+# KDE#422623  epoll_ctl warns for uninit padding on non-amd64 64bit arches
+Patch8: valgrind-3.16.1-epoll.patch
+
+# KDE#369029  handle linux syscalls sched_getattr and sched_setattr
+Patch9: valgrind-3.16.1-sched_getsetattr.patch
+
+# KDE#415293  Incorrect call-graph tracking due to new _dl_runtime_resolve*
+Patch10: valgrind-3.16.1-dl_runtime_resolve.patch
+
+# KDE#427787  Support new faccessat2 linux syscall (439)
+Patch11: valgrind-3.16.1-faccessat2.patch
+
+# KDE#427931 gdbserver_tests/nlcontrolc.vgtest hangs on fedora rawhide
+Patch12: valgrind-3.16.1-gdbserver_nlcontrolc.patch
+
+# KDE#427870 lmw, lswi and related PowerPC insns aren't allowed on ppc64le
+Patch13: valgrind-3.16.1-PPC64BE-lsw.patch
 
 BuildRequires: glibc-devel
 
@@ -224,7 +245,19 @@ Valgrind User Manual for details.
 %patch6 -p1
 %endif
 
+%patch7 -p1
+%patch8 -p1
+%patch9 -p1
+%patch10 -p1
+%patch11 -p1
+%patch12 -p1
+%patch13 -p1
+
 %build
+# LTO triggers undefined symbols in valgrind.  Valgrind has a --enable-lto
+# configure time option, but that doesn't seem to help.
+# Disable LTO for now.
+%define _lto_cflags %{nil}
 
 # Some patches (might) touch Makefile.am or configure.ac files.
 # Just always autoreconf so we don't need patches to prebuild files.
@@ -290,11 +323,11 @@ export LDFLAGS
   %{only_arch} \
   GDB=%{_bindir}/gdb
 
-make %{?_smp_mflags}
+%make_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make DESTDIR=$RPM_BUILD_ROOT install
+%make_install
 mkdir docs/installed
 mv $RPM_BUILD_ROOT%{_datadir}/doc/valgrind/* docs/installed/
 rm -f docs/installed/*.ps
@@ -356,7 +389,7 @@ cat /proc/cpuinfo
 %{?scl:PATH=%{_bindir}${PATH:+:${PATH}}}
 # Make sure no extra CFLAGS, CXXFLAGS or LDFLAGS leak through,
 # the testsuite sets all flags necessary. See also configure above.
-make %{?_smp_mflags} CFLAGS="" CXXFLAGS="" LDFLAGS="" check
+%make_build CFLAGS="" CXXFLAGS="" LDFLAGS="" check
 
 # Workaround https://bugzilla.redhat.com/show_bug.cgi?id=1434601
 # for gdbserver tests.
@@ -443,6 +476,27 @@ fi
 %endif
 
 %changelog
+* Fri Oct 16 2020 Mark Wielaard <mjw@fedoraproject.org> - 3.16.1-6
+- Add valgrind-3.16.1-faccessat2.patch
+- Add valgrind-3.16.1-gdbserver_nlcontrolc.patch
+- Add valgrind-3.16.1-PPC64BE-lsw.patch
+
+* Tue Aug 18 2020 Mark Wielaard <mjw@fedoraproject.org> - 3.16.1-5
+- Update valgrind-3.16.1-epoll.patch
+
+* Mon Jul 27 2020 Mark Wielaard <mjw@fedoraproject.org> - 3.16.1-4
+- Add valgrind-3.16.1-REX-prefix-JMP.patch
+- Add valgrind-3.16.1-epoll.patch
+- Add valgrind-3.16.1-sched_getsetattr.patch
+- Add valgrind-3.16.1-dl_runtime_resolve.patch
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 3.16.1-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Wed Jul  8 2020 Jeff Law <law@redhat.org> - 3.16.1-2
+- Disable LTO
+
 * Tue Jun 23 2020 Mark Wielaard <mjw@fedoraproject.org> - 3.16.1-1
 - Update to upstream valgrind 3.16.1.
 

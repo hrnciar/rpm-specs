@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.5.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Library to provide an easy API to file locking
 
 License:        Python
@@ -42,6 +42,9 @@ rm -vr *.egg-info %{srcname}_tests
 %{python3_sitelib}/%{srcname}-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5.0-5
 - Rebuilt for Python 3.9
 

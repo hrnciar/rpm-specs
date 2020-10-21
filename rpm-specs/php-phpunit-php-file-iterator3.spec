@@ -8,7 +8,7 @@
 # Please, preserve the changelog entries
 #
 %global bootstrap    0
-%global gh_commit    eba15e538f2bb3fe018b7bbb47d2fe32d404bfd2
+%global gh_commit    aa4be8575f26070b100fccb67faabb28f21f66f8
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sebastianbergmann
 %global gh_project   php-file-iterator
@@ -21,14 +21,14 @@
 %global ns_vendor    SebastianBergmann
 %global ns_project   FileIterator
 %if %{bootstrap}
-%global with_tests   0%{?_with_tests:1}
+%bcond_with          tests
 %else
-%global with_tests   0%{!?_without_tests:1}
+%bcond_without       tests
 %endif
 
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
-Version:        3.0.2
+Version:        3.0.5
 Release:        1%{?dist}
 Summary:        FilterIterator implementation that filters files based on a list of suffixes
 
@@ -38,10 +38,10 @@ Source0:        %{name}-%{version}-%{gh_short}.tgz
 Source1:        makesrc.sh
 
 BuildArch:      noarch
-%if %{with_tests}
+%if %{with tests}
 # From composer.json, "require-dev"
-#        "phpunit/phpunit": "^9.0"
-BuildRequires:  phpunit9
+#        "phpunit/phpunit": "^9.3"
+BuildRequires:  phpunit9 >= 9.3
 BuildRequires:  php(language) >= 7.3
 BuildRequires:  php-pcre
 BuildRequires:  php-spl
@@ -49,7 +49,7 @@ BuildRequires:  php-spl
 BuildRequires:  php-fedora-autoloader-devel
 
 # From composer.json, "require"
-#        "php": "^7.3"
+#        "php": ">=7.3"
 Requires:       php(language) >= 7.3
 # From phpcompatinfo report for 3.0.0
 Requires:       php-pcre
@@ -107,6 +107,18 @@ exit $ret
 
 
 %changelog
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 3.0.5-1
+- update to 3.0.5 (no change)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Remi Collet <remi@remirepo.net> - 3.0.4-1
+- update to 3.0.4
+
+* Mon Jun 29 2020 Remi Collet <remi@remirepo.net> - 3.0.3-1
+- update to 3.0.3
+
 * Tue Jun 16 2020 Remi Collet <remi@remirepo.net> - 3.0.2-1
 - update to 3.0.2
 - sources from git snapshot

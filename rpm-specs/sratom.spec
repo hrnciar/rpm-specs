@@ -2,19 +2,22 @@
 %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 Name:       sratom
-Version:    0.6.4
-Release:    2%{?dist}
+Version:    0.6.6
+Release:    1%{?dist}
 Summary:    A C library for serializing LV2 plugins
 
 License:    MIT
 URL:        http://drobilla.net/software/%{name}/
 Source0:    http://download.drobilla.net/%{name}-%{version}.tar.bz2
+# Patch from upstream
+Patch0:     %{name}-remove-deprecated-doxygen.patch
+
 BuildRequires:  python3
 BuildRequires:  doxygen
 BuildRequires:  graphviz
 BuildRequires:  sord-devel >= 0.14.0
 BuildRequires:  serd-devel >= 0.30.0
-BuildRequires:  lv2-devel >= 1.10.0
+BuildRequires:  lv2-devel >= 1.16.0
 BuildRequires:  gcc
 
 %description
@@ -38,7 +41,7 @@ control with network transparency.
 This package contains the headers and development libraries for %{name}.
 
 %prep
-%setup -q 
+%autosetup -p1
 
 # for packagers sake, build the tests with debug symbols
 sed -i -e "s| '-ftest-coverage'\]|\
@@ -46,7 +49,7 @@ sed -i -e "s| '-ftest-coverage'\]|\
 
 %build
 %set_build_flags
-python3 waf configure -v \
+%{python3} waf configure -v \
     --prefix=%{_prefix} \
     --libdir=%{_libdir} \
     --mandir=%{_mandir} \
@@ -54,10 +57,10 @@ python3 waf configure -v \
     --docdir=%{_pkgdocdir} \
     --test \
     --docs 
-python3 waf build -v %{?_smp_mflags}
+%{python3} waf build -v %{?_smp_mflags}
 
 %install
-DESTDIR=%{buildroot} python3 waf install
+DESTDIR=%{buildroot} %{python3} waf install
 chmod +x %{buildroot}%{_libdir}/lib%{name}-0.so.*
 install -pm 644 COPYING NEWS README.md %{buildroot}%{_pkgdocdir}
 
@@ -79,6 +82,12 @@ install -pm 644 COPYING NEWS README.md %{buildroot}%{_pkgdocdir}
 %{_mandir}/man3/*
 
 %changelog
+* Sun Oct 04 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.6.6-1
+- Update to 0.6.6
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

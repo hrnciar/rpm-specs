@@ -5,8 +5,8 @@
 %global crate askalono
 
 Name:           rust-%{crate}
-Version:        0.4.2
-Release:        2%{?dist}
+Version:        0.4.3
+Release:        1%{?dist}
 Summary:        Library to detect the contents of license files
 
 # Upstream license specification: Apache-2.0
@@ -14,7 +14,7 @@ License:        ASL 2.0
 URL:            https://crates.io/crates/askalono
 Source:         %{crates_source}
 # Initial patched metadata
-# - Bump rmp-serde to 0.14.0: https://github.com/amzn/askalono/pull/50
+# * No wasm deps
 Patch0:         askalono-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -53,6 +53,30 @@ This package contains library source intended for building other packages
 which use "default" feature of "%{crate}" crate.
 
 %files       -n %{name}+default-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+flate2-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+flate2-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "flate2" feature of "%{crate}" crate.
+
+%files       -n %{name}+flate2-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+gzip-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+gzip-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "gzip" feature of "%{crate}" crate.
+
+%files       -n %{name}+gzip-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %package     -n %{name}+serde_json-devel
@@ -98,6 +122,12 @@ which use "spdx" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Thu Oct 01 2020 Fabio Valentini <decathorpe@gmail.com> - 0.4.3-1
+- Update to version 0.4.3.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

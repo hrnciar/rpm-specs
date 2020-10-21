@@ -17,7 +17,7 @@
 Name:    kdebase3
 Summary: KDE 3 core files
 Version: 3.5.10
-Release: 59%{?dist}
+Release: 61%{?dist}
 
 # programs: GPLv2, libs: LGPLv2
 License: GPLv2
@@ -151,7 +151,7 @@ BuildRequires: openldap-devel
 BuildRequires: cyrus-sasl-devel
 BuildRequires: libart_lgpl-devel
 ## X11 support details (xmkmf, bdftopcf)
-BuildRequires: xorg-x11-font-utils
+BuildRequires: bdftopcf mkfontdir mkfontscale
 BuildRequires: imake
 BuildRequires: xorg-x11-proto-devel
 BuildRequires: libfontenc-devel
@@ -746,6 +746,12 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 3.5.10-61
+- BuildRequires bdftopcf mkfontdir mkfontscale, not xorg-x11-font-utils
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.10-60
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.10-59
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

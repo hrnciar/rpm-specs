@@ -1,7 +1,9 @@
+%undefine __cmake_in_source_build
+
 %global         base_name oxygen
 
 Name:    plasma-%{base_name}
-Version: 5.19.2
+Version: 5.20.1
 Release: 1%{?dist}
 Summary: Plasma and Qt widget style and window decorations for Plasma 5 and KDE 4
 
@@ -115,29 +117,27 @@ sed -i.optional \
 %build
 %if 0%{?qt4}
 # Build for Qt 4
-%global qt4_target_platform %{_target_platform}-qt4
-mkdir %{qt4_target_platform}
-pushd %{qt4_target_platform}
-%{cmake_kde4} .. -DOXYGEN_USE_KDE4:BOOL=ON
-popd
-
-%make_build -C %{qt4_target_platform}
+%global _vpath_builddir %{_target_platform}-qt4
+%{cmake_kde4} -DOXYGEN_USE_KDE4:BOOL=ON -B %{_vpath_builddir}
+%cmake_build
+%undefine _vpath_builddir
 %endif
 
 # Build for Qt 5
-%global qt5_target_platform %{_target_platform}-qt5
-mkdir %{qt5_target_platform}
-pushd %{qt5_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{qt5_target_platform}
+%global _vpath_builddir %{_target_platform}-qt5
+%{cmake_kf5}
+%cmake_build
+%undefine _vpath_builddir
 
 %install
 %if 0%{?qt4}
-make install/fast DESTDIR=%{buildroot} -C %{qt4_target_platform}
+%global _vpath_builddir %{_target_platform}-qt4
+%cmake_install
+%undefine _vpath_builddir
 %endif
-make install/fast DESTDIR=%{buildroot} -C %{qt5_target_platform}
+%global _vpath_builddir %{_target_platform}-qt5
+%cmake_install
+%undefine _vpath_builddir
 
 
 ## unpackaged files
@@ -210,6 +210,27 @@ rm -rfv %{buildroot}%{_kf5_datadir}/plasma/look-and-feel/org.kde.oxygen/
 
 
 %changelog
+* Tue Oct 20 15:29:15 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.1-1
+- 5.20.1
+
+* Sun Oct 11 19:50:04 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.0-1
+- 5.20.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.90-1
+- 5.19.90
+
+* Tue Sep 01 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.5-1
+- 5.19.5
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.19.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.4-1
+- 5.19.4
+
+* Tue Jul 07 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.3-1
+- 5.19.3
+
 * Tue Jun 23 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.2-1
 - 5.19.2
 

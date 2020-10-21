@@ -1,6 +1,6 @@
 Name:           perl-Mojolicious-Plugin-OAuth2
 Version:        1.58
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A Mojolicious plugin that allows OAuth2 authentication
 
 License:        Artistic 2.0
@@ -59,6 +59,9 @@ add your own easily as well.
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.58-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.58-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

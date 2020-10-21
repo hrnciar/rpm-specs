@@ -1,7 +1,3 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 # Last updated for version 2.17.0
 %define glib2_version		2.8.0
 %define pango_version		1.16.0
@@ -14,7 +10,7 @@
 
 Name: pygtk2
 Version: 2.24.0
-Release: 30%{?dist}
+Release: 33%{?dist}
 License: LGPLv2+
 Summary: Python bindings for GTK+
 URL: http://www.pygtk.org/
@@ -132,6 +128,16 @@ find %{buildroot} -name '*.la' -or -name '*.a' | xargs rm -f
 %{_datadir}/gtk-doc/html/pygtk/
 
 %changelog
+* Tue Aug 04 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.24.0-33
+- Fix FTBFS.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.24.0-32
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.24.0-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 27 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.24.0-30
 - Drop libglade subpackage.
 

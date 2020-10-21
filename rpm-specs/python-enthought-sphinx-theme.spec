@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.6.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Sphinx theme for Enthought projects
 
 # Bundled bootstrap is MIT
@@ -48,6 +48,9 @@ Provides:       bundled(bootstrap) = 2.3.2
 %{python3_sitelib}/%{modname}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 24 2020 Orion Poplawski <orion@nwra.com> - 0.6.2-1
 - Update to 0.6.2
 - Add BR on python-setuptools

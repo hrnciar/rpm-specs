@@ -1,6 +1,6 @@
 Name:           xbacklight
 Version:        1.2.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Adjust backlight brightness using RandR
 
 %if 0%{?el6}
@@ -42,6 +42,9 @@ brightness control and changes them all in the same way.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb  2 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 1.2.3-1
 - Update to 1.2.3
 

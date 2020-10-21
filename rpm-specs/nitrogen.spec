@@ -1,6 +1,6 @@
 Name:           nitrogen
 Version:        1.6.1
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Background browser and setter for X windows
 
 # Code is GPLv2+ and zlib, icons are CC-BY-SA as described in COPYING
@@ -63,6 +63,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

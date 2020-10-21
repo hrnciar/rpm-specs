@@ -6,7 +6,7 @@
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    11336f6f84e16a720dae9d8e6ed5019efa85a0f9
+%global gh_commit    75a63c33a8577608444246075ea0af0d052e452a
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_vendor    theseer
 %global gh_project   tokenizer
@@ -14,13 +14,14 @@
 %global ns_project   Tokenizer
 
 Name:           php-%{gh_vendor}-%{gh_project}
-Version:        1.1.3
-Release:        3%{?dist}
+Version:        1.2.0
+Release:        2%{?dist}
 Summary:        Library for converting tokenized PHP source code into XML
 
 License:        BSD
 URL:            https://github.com/%{gh_vendor}/%{gh_project}
-Source0:        https://github.com/%{gh_vendor}/%{gh_project}/archive/%{gh_commit}/%{gh_project}-%{version}-%{?gh_short}.tar.gz
+Source0:        %{name}-%{version}-%{?gh_short}.tgz
+Source1:        makesrc.sh
 
 BuildArch:      noarch
 BuildRequires:  php(language) >= 7.0
@@ -36,7 +37,7 @@ BuildRequires:  php-fedora-autoloader-devel >= 1.0.0
 BuildRequires:  %{phpunit}
 
 # From composer.json, "require": {
-#    "php": "^7.0",
+#    "php": "^7.0 || ^8.0",
 #    "ext-xmlwriter": "*",
 #    "ext-dom": "*",
 #    "ext-tokenizer": "*"
@@ -75,7 +76,7 @@ cp -pr src %{buildroot}%{_datadir}/php/%{ns_vendor}/%{ns_project}
 
 %check
 ret=0
-for cmdarg in "php %{phpunit}" php71 php72 php73 php74; do
+for cmdarg in "php %{phpunit}" php72 php73 php74 php80; do
   if which $cmdarg; then
       set $cmdarg
       $1 -d auto_prepend_file=%{buildroot}%{_datadir}/php/%{ns_vendor}/%{ns_project}/autoload.php \
@@ -94,6 +95,13 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Remi Collet <remi@remirepo.net> - 1.2.0-1
+- update to 1.2.0
+- sources from git snapshot
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

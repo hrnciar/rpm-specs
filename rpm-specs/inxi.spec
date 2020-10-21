@@ -1,5 +1,5 @@
 Name:           inxi
-Version:        3.1.03
+Version:        3.1.06
 Release:        1%{?dist}
 Summary:        A full featured system information script
 Summary(ru):    Скрипт вывода полной информации об оборудовании и системе
@@ -16,7 +16,7 @@ Requires:       procps
 Requires:       lm_sensors
 Requires:       usbutils
 Requires:       hddtemp
-Requires:       xorg-x11-utils
+Requires:       xdpyinfo xprop xrandr
 Requires:       bind-utils
 Requires:       ipmitool
 Requires:       freeipmi
@@ -61,6 +61,15 @@ install -p -D -m 644 %{name}.1.gz %{buildroot}/%{_mandir}/man1/%{name}.1.gz
 
 
 %changelog
+* Thu Aug 20 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 3.1.06-1
+- Update to 3.1.06
+
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 3.1.03-3
+- Require xdpyinfo xprop xrandr, not xorg-x11-utils
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.03-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 13 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 3.1.03-1
 - Update to 3.1.03
 

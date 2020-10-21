@@ -5,9 +5,11 @@
 # https://github.com/kubernetes/klog
 %global goipath         k8s.io/klog
 %global forgeurl        https://github.com/kubernetes/klog
-Version:                2.0.0
+Version:                2.3.0
 
 %gometa
+
+%global goaltipaths      k8s.io/klog/v2
 
 %global common_description %{expand:
 This is an efficient pure Go implementation of leveled logs in the manner of the
@@ -18,7 +20,7 @@ open source C++ package}
                         of-conduct.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Leveled execution logs for Go
 
 # Upstream license specification: Apache-2.0
@@ -48,6 +50,12 @@ BuildRequires:  golang(github.com/golang/glog)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 15:18:51 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.3.0-1
+- Update to 2.3.0
+
 * Mon Apr 13 22:47:17 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.0.0-1
 - Update to 2.0.0
 

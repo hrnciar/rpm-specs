@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          0.0.2
-Release:          4%{?dist}
+Release:          6%{?dist}
 Summary:          Common S3 model fitting generics not provided by base R methods
 
 License:          GPLv2
@@ -69,6 +69,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun  6 2020 Tom Callaway <spot@fedoraproject.org> - 0.0.2-5
 - break loop with tibble
 - rebuild for R 4

@@ -3,7 +3,7 @@
 
 Name:           mediaconch
 Version:        18.03.2
-Release:        12%{?dist}
+Release:        14%{?dist}
 Summary:        Most relevant technical and tag data for video and audio files (CLI)
 
 License:        BSD
@@ -178,6 +178,12 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/*.appdata
 
 
 %changelog
+* Tue Sep 29 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 18.03.2-14
+- Rebuild for libevent soname change
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 18.03.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 07 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 18.03.2-12
 - Rebuild with new mediainfo 20.03
 

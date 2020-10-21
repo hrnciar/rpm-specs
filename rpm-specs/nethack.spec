@@ -5,7 +5,7 @@
 
 Name:           nethack
 Version:        3.6.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A rogue-like single player dungeon exploration game
 
 License:        NGPL
@@ -174,6 +174,9 @@ fi;
 %files -n %{fontname}-fonts-core
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 10 2020 Ron Olson <tachoknight@gmail.com> - 3.6.6-1
 - Update to NetHack 3.6.6
 

@@ -15,7 +15,6 @@
 # it is not possible to build the package without PKCS11 sub-package
 # due to extensive changes to Makefiles
 %bcond_without PKCS11
-%bcond_without DEVEL
 %bcond_without JSON
 %bcond_without DLZ
 %bcond_with    BDB
@@ -60,15 +59,15 @@
 
 # lib*.so.X versions of selected libraries
 %global sover_dns 1110
-%global sover_isc 1105
+%global sover_isc 1107
 %global sover_irs 161
 %global sover_isccfg 163
 
 Summary:  The Berkeley Internet Name Domain (BIND) DNS (Domain Name System) server
 Name:     bind
 License:  MPLv2.0
-Version:  9.11.20
-Release:  3%{?PATCHVER:.%{PATCHVER}}%{?PREVER:.%{PREVER}}%{?dist}
+Version:  9.11.23
+Release:  2%{?PATCHVER:.%{PATCHVER}}%{?PREVER:.%{PREVER}}%{?dist}
 Epoch:    32
 Url:      https://www.isc.org/downloads/bind/
 #
@@ -169,6 +168,8 @@ Patch177: bind-9.11-serve-stale.patch
 Patch178: bind-9.11-serve-stale-dbfix.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1736762
 Patch183: bind-9.11-rh1736762-5.patch
+# https://gitlab.isc.org/isc-projects/bind9/-/issues/2167
+Patch184: bind-9.11.23-atomic.patch
 
 # SDB patches
 Patch11: bind-9.3.2b2-sdbsrc.patch
@@ -186,12 +187,6 @@ Requires(post): glibc-common
 Requires(post): grep
 Requires:       bind-libs%{?_isa} = %{epoch}:%{version}-%{release}
 Requires:       bind-libs-lite%{?_isa} = %{epoch}:%{version}-%{release}
-Obsoletes:      bind-config < 30:9.3.2-34.fc6
-Provides:       bind-config = 30:9.3.2-34.fc6
-Obsoletes:      caching-nameserver < 31:9.4.1-7.fc8
-Provides:       caching-nameserver = 31:9.4.1-7.fc8
-Obsoletes:      dnssec-conf < 1.27-2
-Provides:       dnssec-conf = 1.27-2
 # This wild require should satisfy %%selinux_set_boolean macro only
 # in case it needs to be used
 Requires(post): ((policycoreutils-python-utils and libselinux-utils) if (selinux-policy-targeted or selinux-policy-mls))
@@ -276,6 +271,7 @@ For other supported HSM modules please check the BIND documentation.
 Summary: Bind tools with native PKCS#11 for using DNSSEC
 Requires: bind-pkcs11-libs%{?_isa} = %{epoch}:%{version}-%{release}
 Obsoletes: bind-pkcs11 < 32:9.9.4-16.P2
+Requires: bind-dnssec-doc = %{epoch}:%{version}-%{release}
 
 %description pkcs11-utils
 This is a set of PKCS#11 utilities that when used together create rsa
@@ -294,7 +290,7 @@ functionality.
 %package pkcs11-devel
 Summary: Development files for Bind libraries compiled with native PKCS#11
 Requires: bind-pkcs11-libs%{?_isa} = %{epoch}:%{version}-%{release}
-Requires: bind-lite-devel%{?_isa} = %{epoch}:%{version}-%{release}
+Requires: bind-devel%{?_isa} = %{epoch}:%{version}-%{release}
 
 %description pkcs11-devel
 This a set of development files for BIND libraries (dns, isc) compiled
@@ -322,8 +318,6 @@ or in the filesystem (dirdb), in addition to the standard in-memory RBT
 
 %package libs-lite
 Summary:  Libraries for working with the DNS protocol
-Obsoletes:bind-libbind-devel < 31:9.3.3-4.fc7
-Provides: bind-libbind-devel = 31:9.3.3-4.fc7
 Requires: bind-license = %{epoch}:%{version}-%{release}
 
 %description libs-lite
@@ -364,10 +358,11 @@ You should install bind-utils if you need to get information from DNS name
 servers.
 
 %package dnssec-utils
-Summary: Utilities for DNSSEC keys and DNS zone files management
+Summary: DNSSEC keys and zones management utilities
 Requires: bind-libs-lite%{?_isa} = %{epoch}:%{version}-%{release}
 Recommends: bind-utils
 Requires: python3-bind = %{epoch}:%{version}-%{release}
+Requires: bind-dnssec-doc = %{epoch}:%{version}-%{release}
 
 %description dnssec-utils
 Bind-dnssec-utils contains a collection of utilities for editing
@@ -377,28 +372,28 @@ revocation and verification of keys and DNSSEC signatures in zone files.
 You should install bind-dnssec-utils if you need to sign a DNS zone
 or maintain keys for it.
 
-%if %{with DEVEL}
+%package dnssec-doc
+Summary: Manual pages of DNSSEC utilities
+Requires: bind-license = %{epoch}:%{version}-%{release}
+BuildArch:noarch
+
+%description dnssec-doc
+Bind-dnssec-doc contains manual pages for bind-dnssec-utils.
+
 %package devel
 Summary:  Header files and libraries needed for BIND DNS development
-Obsoletes:bind-libbind-devel < 31:9.3.3-4.fc7
-Provides: bind-libbind-devel = 31:9.3.3-4.fc7
 Requires: bind-libs%{?_isa} = %{epoch}:%{version}-%{release}
-Requires: bind-lite-devel%{?_isa} = %{epoch}:%{version}-%{release}
-
-%description devel
-The bind-devel package contains full version of the header files and libraries
-required for development with ISC BIND 9
-%endif
-
-%package lite-devel
-Summary:  Lite version of header files and libraries needed for BIND DNS development
+Provides: bind-lite-devel = %{epoch}:%{version}-%{release}
+Obsoletes: bind-lite-devel < 32:9.11.23-1
 Requires: bind-libs-lite%{?_isa} = %{epoch}:%{version}-%{release}
 Requires: openssl-devel%{?_isa} libxml2-devel%{?_isa}
+# Not required by headers, but "isc-config.sh --libs isc" requires it
+Requires: libcap-devel%{?_isa}
 %if %{with GSSTSIG}
 Requires: krb5-devel%{?_isa}
 %endif
 %if %{with LMDB}
-Requires: lmdb-devel
+Requires: lmdb-devel%{?_isa}
 %endif
 %if %{with JSON}
 Requires:  json-c-devel%{?_isa}
@@ -407,9 +402,9 @@ Requires:  json-c-devel%{?_isa}
 Requires:  fstrm-devel%{?_isa} protobuf-c-devel%{?_isa}
 %endif
 
-%description lite-devel
-The bind-lite-devel package contains lite version of the header
-files and libraries required for development with ISC BIND 9
+%description devel
+The bind-devel package contains full version of the header files and libraries
+required for development with ISC BIND 9
 
 %package chroot
 Summary:        A chroot runtime environment for the ISC BIND DNS server, named(8)
@@ -590,6 +585,7 @@ are used for building ISC DHCP.
 %patch177 -p1 -b .serve-stale
 %patch178 -p1 -b .rh1770492
 %patch183 -p1 -b .rh1736762-5
+%patch184 -p1 -b .rbtdb-atomic
 
 mkdir lib/dns/tests/testdata/dstrandom
 cp -a %{SOURCE50} lib/dns/tests/testdata/dstrandom/random.data
@@ -1060,14 +1056,6 @@ popd
 # Remove libtool .la files:
 find ${RPM_BUILD_ROOT}/%{_libdir} -name '*.la' -exec '/bin/rm' '-f' '{}' ';';
 
-# Remove -devel files out of buildroot if not needed
-%if !%{with DEVEL}
-rm -f ${RPM_BUILD_ROOT}/%{_libdir}/bind9/*so
-rm -rf ${RPM_BUILD_ROOT}/%{_includedir}/bind9
-rm -f ${RPM_BUILD_ROOT}/%{_mandir}/man1/isc-config.sh.1*
-rm -f ${RPM_BUILD_ROOT}/%{_mandir}/man3/lwres*
-rm -f ${RPM_BUILD_ROOT}/%{_bindir}/isc-config.sh
-%endif
 
 # SDB manpages
 %if %{with SDB}
@@ -1215,12 +1203,17 @@ fi
 %systemd_postun_with_restart named-pkcs11.service
 %endif
 
-%triggerpostun -n bind -- bind <= 32:9.5.0-20.b1
-if [ "$1" -gt 0 ]; then
-  [ -e /etc/rndc.key ] && chown root:named /etc/rndc.key
-  [ -e /etc/rndc.key ] && chmod 0640 /etc/rndc.key
+# Fix permissions on existing device files on upgrade
+%define chroot_fix_devices() \
+if [ $1 -gt 1 ]; then \
+  for DEV in "%{1}/dev"/{null,random,zero}; do \
+    if [ -e "$DEV" -a "$(/bin/stat --printf="%G %a" "$DEV")" = "root 644" ]; \
+    then \
+      /bin/chmod 0664 "$DEV" \
+      /bin/chgrp named "$DEV" \
+    fi \
+  done \
 fi
-:;
 
 %triggerun -- bind < 32:9.9.0-0.6.rc1
 /sbin/chkconfig --del named >/dev/null 2>&1 || :
@@ -1240,18 +1233,6 @@ fi
 %postun export-libs -p /sbin/ldconfig
 %end
 %endif
-
-# Fix permissions on existing device files on upgrade
-%define chroot_fix_devices() \
-if [ $1 -gt 1 ]; then \
-  for DEV in "%{1}/dev"/{null,random,zero}; do \
-    if [ -e "$DEV" -a "$(/bin/stat --printf="%G %a" "$DEV")" = "root 644" ]; \
-    then \
-      /bin/chmod 0664 "$DEV" \
-      /bin/chgrp named "$DEV" \
-    fi \
-  done \
-fi
 
 %post chroot
 %systemd_post named-chroot.service
@@ -1424,34 +1405,34 @@ fi;
 
 %files dnssec-utils
 %{_sbindir}/dnssec*
-%{_mandir}/man8/dnssec*.8*
 %if %{with PKCS11}
 %exclude %{_sbindir}/dnssec*pkcs11
+%endif
+
+%files dnssec-doc
+%{_mandir}/man8/dnssec*.8*
+%if %{with PKCS11}
 %exclude %{_mandir}/man8/dnssec*-pkcs11.8*
 %endif
 
-%if %{with DEVEL}
 %files devel
 %{_libdir}/libbind9.so
 %{_libdir}/libisccc.so
 %{_libdir}/liblwres.so
-%{_includedir}/bind9/config.h
-%{_includedir}/bind9/bind9
-%{_includedir}/bind9/isccc
 %{_includedir}/bind9/lwres
 %{_mandir}/man1/isc-config.sh.1*
 %{_mandir}/man1/bind9-config.1*
 %{_mandir}/man3/lwres*
 %{_bindir}/isc-config.sh
 %{_bindir}/bind9-config
-%endif
-
-%files lite-devel
 %{_libdir}/libdns.so
 %{_libdir}/libirs.so
 %{_libdir}/libisc.so
 %{_libdir}/libisccfg.so
 %dir %{_includedir}/bind9
+%{_includedir}/bind9/config.h
+%{_includedir}/bind9/bind9
+%{_includedir}/bind9/isccc
 %{_includedir}/bind9/dns
 %{_includedir}/bind9/dst
 %{_includedir}/bind9/irs
@@ -1549,9 +1530,6 @@ fi;
 %{_sbindir}/pkcs11-tokens
 %{_mandir}/man8/pkcs11*.8*
 %{_mandir}/man8/dnssec*-pkcs11.8*
-%{_mandir}/man8/dnssec*.8*
-%exclude %{_mandir}/man8/dnssec-coverage.8*
-%exclude %{_mandir}/man8/dnssec-keymgr.8*
 
 %files pkcs11-libs
 %{_libdir}/libdns-pkcs11.so.%{sover_dns}*
@@ -1641,6 +1619,29 @@ fi;
 %endif
 
 %changelog
+* Wed Sep 23 2020 Adrian Reber <adrian@lisas.de> - 32:9.11.23-2
+- Rebuilt for protobuf 3.13
+
+* Thu Sep 17 2020 Petr Menšík <pemensik@redhat.com> - 32:9.11.23-1
+- Update to 9.11.23
+- Merge bind-lite-devel into devel package
+
+* Tue Sep 01 2020 Petr Menšík <pemensik@redhat.com> - 32:9.11.22-2
+- Require libcap from devel package
+
+* Thu Aug 20 2020 Petr Menšík <pemensik@redhat.com> - 32:9.11.22-1
+- Update to 9.11.22
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 32:9.11.21-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 32:9.11.21-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Petr Menšík <pemensik@redhat.com> - 32:9.11.21-1
+- Update to 9.11.21
+
 * Tue Jun 23 2020 Petr Menšík <pemensik@redhat.com> - 32:9.11.20-3
 - Move documentation to separate bind-doc package
 

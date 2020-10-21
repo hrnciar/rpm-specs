@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        2.0.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Lexer and codec to work with LaTeX code in Python
 
 License:        MIT
@@ -20,7 +20,6 @@ This package contains a lexer and codec to work with LaTeX code in Python.
 
 %package -n python3-%{srcname}
 Summary:        Lexer and codec to work with LaTeX code in Python
-%{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
 This package contains a lexer and codec to work with LaTeX code in Python.
@@ -43,7 +42,7 @@ sed -i 's/default/classic/' doc/conf.py
 sed -i "s|\('http://docs\.python\.org/', \)None|\1'%{_docdir}/python3-docs/html/objects.inv'|" doc/conf.py
 
 %generate_buildrequires
-%pyproject_buildrequires -t
+%pyproject_buildrequires -r
 
 %build
 %pyproject_wheel
@@ -55,7 +54,7 @@ rst2html --no-datestamp LICENSE.rst LICENSE.html
 %pyproject_install
 
 %check
-PYTHONPATH=%{buildroot}%{python3_sitelib} pytest
+%pytest
 
 %files -n python3-%{srcname}
 %license LICENSE.html
@@ -66,6 +65,12 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest
 %doc doc/_build/html/*
 
 %changelog
+* Tue Aug 11 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.1-3
+- Fix build with tox 3.19 (by not using it without tox config)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jerry James <loganjerry@gmail.com> - 2.0.1-1
 - Version 2.0.1
 

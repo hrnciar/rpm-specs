@@ -1,10 +1,11 @@
 Summary: Screen lock and screen saver
 Name: xlockmore
 Version: 5.64
-Release: 1%{?dist}
+Release: 3%{?dist}
 License: BSD
 URL: http://sillycycle.com/xlockmore.html
 Source0: http://sillycycle.com/xlock/xlockmore-%{version}.tar.xz
+Patch9: xlockmore-5.64-exit.patch
 BuildRequires: gcc gcc-c++
 BuildRequires: pam-devel
 BuildRequires: mesa-libGL-devel mesa-libGLU-devel
@@ -36,6 +37,7 @@ GTK based frontend for xlockmore.
 
 %prep
 %setup -q
+%patch9 -p1
 
 %{__sed} -i -e "s,/lib,/%{_lib},g;s,-Wno-format,,g;" configure
 
@@ -100,6 +102,12 @@ desktop-file-install \
 %{_bindir}/xglock
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.64-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Adrian Reber <adrian@lisas.de> - 5.64-2
+- Applied patch from Jan Kratochvil (#1852546)
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 5.64-1
 - Updated to 5.64
 

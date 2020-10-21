@@ -4,6 +4,7 @@
 # https://github.com/cheekybits/genny
 %global goipath         github.com/cheekybits/genny
 Version:                1.0.0
+%global commit          3e22f1a88ff23bad753790c156bb20565820d747
 
 %gometa
 
@@ -16,7 +17,7 @@ replace the generics with specific types.}
 %global godocs          examples README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Elegant generics for Go
 
 License:        MIT
@@ -59,6 +60,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 22:54:14 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-4.20200724git3e22f1a
+- Bump to commit 3e22f1a88ff23bad753790c156bb20565820d747
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

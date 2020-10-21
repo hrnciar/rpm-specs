@@ -1,6 +1,6 @@
 Name:           perl-Catalyst-Plugin-CustomErrorMessage
 Version:        0.06
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Catalyst plugin to have more cute error message
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Catalyst-Plugin-CustomErrorMessage
@@ -51,6 +51,9 @@ make test
 %doc Changes README
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.06-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.06-20
 - Perl 5.32 rebuild
 

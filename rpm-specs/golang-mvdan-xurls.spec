@@ -4,11 +4,11 @@
 # https://github.com/mvdan/xurls
 %global goipath         mvdan.cc/xurls
 %global forgeurl        https://github.com/mvdan/xurls
-Version:                2.1.0
+Version:                2.2.0
 
 %gometa
 
-%global goaltipaths     github.com/mvdan/xurls
+%global goaltipaths     github.com/mvdan/xurls mvdan.cc/xurls/v2
 
 %global common_description %{expand:
 Extract urls from text using regular expressions. Requires Go 1.10.3 or later.}
@@ -17,13 +17,18 @@ Extract urls from text using regular expressions. Requires Go 1.10.3 or later.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Extract urls from text
 
 # Upstream license specification: BSD-3-Clause
 License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
+
+%if %{with check}
+# Tests
+BuildRequires:  golang(github.com/rogpeppe/go-internal/testscript)
+%endif
 
 %description
 %{common_description}
@@ -45,7 +50,7 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
-%gocheck
+%gocheck -d cmd/xurls
 %endif
 
 %files
@@ -56,6 +61,15 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Fri Aug 07 21:26:12 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.2.0-2
+- Add alternate import path
+
+* Thu Aug 06 22:43:35 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.2.0-1
+- Update to 2.2.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 16 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.1.0-1
 - Update to latest version
 

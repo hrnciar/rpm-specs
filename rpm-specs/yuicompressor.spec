@@ -1,6 +1,6 @@
 Name:		yuicompressor
 Version:	2.4.8
-Release:	8%{?dist}
+Release:	10%{?dist}
 Summary:	YUI Compressor - The Yahoo JavaScript and CSS Compressor
 
 #		Source 0 is BSD, Source 1 is MPLv1.1 or GPLv2+
@@ -89,6 +89,12 @@ tests/suite.sh
 %license LICENSE.TXT LICENSE.txt
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.8-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 2.4.8-9
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue May 05 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 2.4.8-8
 - Update source and target for JDK 11
 

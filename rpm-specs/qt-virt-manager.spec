@@ -1,8 +1,10 @@
+%undefine __cmake_in_source_build
+
 %global binname qt5-virt-manager
 
 Name:           qt-virt-manager
-Version:        0.70.91
-Release:        4%{?dist}
+Version:        0.71.95
+Release:        2%{?dist}
 Summary:        Qt Virtual Machine Manager
 
 License:        GPLv2+
@@ -34,9 +36,9 @@ Requires:       krdc-libs
 # optional runtime extensions
 %if 0%{?fedora}
 # for scrubbing
-Suggests:       scrub
+#Suggests:       scrub
 # for use VNC client with tls
-Suggests:       gnutls
+#Suggests:       gnutls
 %endif
 
 BuildRequires:  qt5-qtbase-devel
@@ -81,17 +83,13 @@ Qt viewer for remote access to Spice/VNC desktops.
 %setup -q
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%cmake .. \
+%cmake \
   -DBUILD_QT_VERSION=5 \
   %{?libcacard:-DWITH_LIBCACARD=1}
-
-popd
-%make_build -C %{_target_platform}
+%cmake_build
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 
 %check
 desktop-file-validate %{buildroot}/%{_datadir}/applications/%{binname}.desktop
@@ -114,6 +112,13 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/qt5-remote-viewer.de
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.71.95-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Raphael Groner <projects.rg@smart.ms> - 0.71.95-1
+- version updated;
+- use cmake macro for out-of-source-build
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.70.91-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

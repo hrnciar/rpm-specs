@@ -1,5 +1,5 @@
 Name:           perl-JSON-Parse
-Version:        0.56
+Version:        0.57
 Release:        2%{?dist}
 Summary:        Read JSON into a Perl variable
 License:        GPL+ or Artistic
@@ -57,6 +57,12 @@ chmod -x examples/tokenize-synopsis.pl
 %{_bindir}/validjson
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.57-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 0.57-1
+- Update to 0.57
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.56-2
 - Perl 5.32 rebuild
 

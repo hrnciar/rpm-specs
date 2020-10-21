@@ -1,7 +1,7 @@
-#global pre_release .pre1-20180601
+#global pre_release .pre1
 
 Name:		libva-utils
-Version:	2.7.1
+Version:	2.9.1
 Release:	1%{?dist}
 Summary:	Tools for VAAPI (including vainfo)
 License:	MIT and BSD
@@ -70,6 +70,21 @@ autoreconf -vif
 
 
 %changelog
+* Sun Oct 11 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.9.1-1
+- Update to 2.9.1
+
+* Sun Sep 13 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.9.0-1
+- Update to 2.9.0
+
+* Wed Sep 09 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.9.0-0.1.pre1
+- Update to 2.9.0.pre1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.8.0-1
+- Update to 2.8.0
+
 * Thu Apr 02 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.7.1-1
 - Update to 2.7.1
 

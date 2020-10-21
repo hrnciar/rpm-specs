@@ -1,6 +1,6 @@
 Name:       yubikey-val
 Version:    2.39
-Release:    7%{?dist}
+Release:    8%{?dist}
 Summary:    The YubiKey Validation Server
 
 License:    BSD
@@ -57,6 +57,9 @@ install -p -m 0644 %SOURCE1 $RPM_BUILD_ROOT%{_httpd_confdir}/yubikey-val.conf
 %{_datadir}/munin/plugins/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.39-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.39-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:		kakasi
 Version:	2.3.6
-Release:	15%{?dist}
+Release:	18%{?dist}
 URL:		http://kakasi.namazu.org/
 License:	GPLv2+
 BuildRequires:	autoconf automake libtool gettext-devel
@@ -44,7 +44,6 @@ Japanese character set filter.
 
 %prep
 %autosetup -p1
-cp -p /usr/lib/rpm/config.{guess,sub} .
 autoreconf -f -i
 
 %build
@@ -95,6 +94,17 @@ iconv -f euc-jp -t utf-8 man/kakasi.1.ja > man/kakasi.1.ja.utf8 && touch -r man/
 
 
 %changelog
+* Tue Aug 11 2020 Akira TAGOH <tagoh@redhat.com> - 2.3.6-18
+- Fix FTBFS
+  Resolves: rhbz#1863927
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.6-17
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.6-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.6-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

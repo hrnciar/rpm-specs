@@ -1,5 +1,5 @@
 Name:              bashmount
-Version:           4.2.5
+Version:           4.3.2
 Release:           1%{?dist}
 
 Summary:           A menu-driven bash script for mounting removable media
@@ -45,6 +45,18 @@ install -p -D -m644 bashmount.1 \
 
 
 %changelog
+* Wed Sep 09 2020 Jamie Nguyen <jamielinux@fedoraproject.org> - 4.3.2-1
+- Update to upstream release 4.3.2
+
+* Sun Aug 23 2020 Jamie Nguyen <jamielinux@fedoraproject.org> - 4.3.1-1
+- Update to upstream release 4.3.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Jamie Nguyen <jamielinux@fedoraproject.org> - 4.3.0-1
+- Update to upstream release 4.3.0
+
 * Fri Jun 12 2020 Jamie Nguyen <jamielinux@fedoraproject.org> - 4.2.5-1
 - Update to upstream release 4.2.5
 

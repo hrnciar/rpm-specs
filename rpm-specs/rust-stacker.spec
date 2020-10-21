@@ -5,7 +5,7 @@
 %global crate stacker
 
 Name:           rust-%{crate}
-Version:        0.1.9
+Version:        0.1.12
 Release:        1%{?dist}
 Summary:        Stack growth library useful when implementing deeply recursive algorithms
 
@@ -75,6 +75,19 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sun Sep 20 2020 Fabio Valentini <decathorpe@gmail.com> - 0.1.12-1
+- Update to version 0.1.12.
+
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 0.1.11-1
+- Update to 0.1.11
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.9-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 11 2020 Josh Stone <jistone@redhat.com> - 0.1.9-1
 - Update to 0.1.9
 

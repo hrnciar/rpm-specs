@@ -1,7 +1,7 @@
 Name:		xmbdfed
 Summary: 	Bitmap Font Editor
 Version:	4.7
-Release:	28%{?dist}
+Release:	29%{?dist}
 License:	MIT
 Source0:	http://crl.nmsu.edu/~mleisher/%{name}-%{version}.tar.bz2
 Source1:	http://crl.nmsu.edu/~mleisher/%{name}.png
@@ -63,6 +63,9 @@ desktop-file-install					\
 %{_mandir}/man1/xmbdfed*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.7-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb  1 2020 Tom Callaway <spot@fedoraproject.org> - 4.7-28
 - fix FTBFS
 

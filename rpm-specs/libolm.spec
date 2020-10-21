@@ -1,8 +1,9 @@
+%undefine __cmake_in_source_build
 %global appname olm
 
 Name: libolm
-Version: 3.1.4
-Release: 3%{?dist}
+Version: 3.2.1
+Release: 1%{?dist}
 
 Summary: Double Ratchet cryptographic library
 License: ASL 2.0
@@ -15,6 +16,7 @@ BuildRequires: cmake
 BuildRequires: gcc
 
 BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 BuildRequires: python3dist(cffi)
 BuildRequires: python3dist(future)
 
@@ -38,29 +40,25 @@ Requires: %{name}%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %prep
 %autosetup -n %{appname}-%{version} -p1
-mkdir -p %{_target_platform}
-sed -e "s@/build@/%{_target_platform}@g" -i python/olm_build.py
+sed -e "s@/build@/%{_vpath_builddir}@g" -i python/olm_build.py
 
 %build
-pushd %{_target_platform}
-    %cmake -G Ninja \
+%cmake -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
-    -DOLM_TESTS=ON \
-    ..
-popd
-%ninja_build -C %{_target_platform}
+    -DOLM_TESTS=ON
+%cmake_build
 
 pushd python
 %py3_build
 popd
 
 %check
-pushd %{_target_platform}/tests
+pushd %{_vpath_builddir}/tests
     ctest --output-on-failure
 popd
 
 %install
-%ninja_install -C %{_target_platform}
+%cmake_install
 
 pushd python
 %py3_install
@@ -82,6 +80,22 @@ popd
 %{python3_sitearch}/python_%{appname}-*.egg-info
 
 %changelog
+* Wed Oct 14 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 3.2.1-1
+- Updated to version 3.2.1.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.5-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 3.1.5-1
+- Updated to version 3.1.5.
+
+* Wed Jun 24 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 3.1.4-4
+- Added python3-setuptools to build requirements.
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.1.4-3
 - Rebuilt for Python 3.9
 

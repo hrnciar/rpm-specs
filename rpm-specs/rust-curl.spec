@@ -6,8 +6,8 @@
 %global crate curl
 
 Name:           rust-%{crate}
-Version:        0.4.29
-Release:        2%{?dist}
+Version:        0.4.33
+Release:        1%{?dist}
 Summary:        Rust bindings to libcurl for making HTTP requests
 
 # Upstream license specification: MIT
@@ -16,6 +16,7 @@ URL:            https://crates.io/crates/curl
 Source:         %{crates_source}
 # Initial patched metadata
 # * No windows/osx
+# * No zlib-ng features
 Patch0:         curl-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -195,6 +196,22 @@ which use "static-ssl" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Thu Aug 20 2020 Josh Stone <jistone@redhat.com> - 0.4.33-1
+- Update to 0.4.33
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.31-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.31-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Josh Stone <jistone@redhat.com> - 0.4.31-1
+- Update to 0.4.31
+
+* Fri Jun 26 2020 Josh Stone <jistone@redhat.com> - 0.4.30-1
+- Update to 0.4.30
+
 * Sun May 17 16:11:49 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.4.29-2
 - Restore static features
 

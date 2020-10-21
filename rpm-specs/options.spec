@@ -1,6 +1,6 @@
 Name:           options
 Version:        1.2
-Release:        14%{?dist}
+Release:        17%{?dist}
 Summary:        Library for managing sets of JVM properties to configure an app or library
 License:        ASL 2.0
 URL:            https://github.com/headius/%{name}
@@ -8,7 +8,6 @@ Source0:        https://github.com/headius/%{name}/archive/%{name}-%{version}.zi
 Source1:        http://www.apache.org/licenses/LICENSE-2.0.txt
 BuildArch:      noarch
 BuildRequires:  maven-local
-BuildRequires:  sonatype-oss-parent
 
 %description
 Provides a simple mechanism for defining JVM property-based
@@ -24,6 +23,9 @@ Javadoc for %{name}.
 %setup -q -n %{name}-%{name}-%{version}
 cp %{SOURCE1} .
 
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
+
 %build
 %mvn_build
 
@@ -38,6 +40,15 @@ cp %{SOURCE1} .
 %doc LICENSE-2.0.txt
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 1.2-17
+- Remove unnecessary dependency on parent POM.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.2-15
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

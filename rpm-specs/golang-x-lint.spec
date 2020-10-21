@@ -4,15 +4,9 @@
 # https://github.com/golang/lint
 %global goipath         golang.org/x/lint
 %global forgeurl        https://github.com/golang/lint
-%global commit          910be7a94367618fd0fd25eaabbee4fdc0ac7092
+%global commit          738671d3881b9731cc63024d5d88cf28db875626
 
 %gometa
-
-# Remove in F33
-%global godevelheader %{expand:
-Obsoletes:      golint-devel < 0-0.11
-Obsoletes:      golint-unit-test-devel < 0-0.11
-}
 
 %global goaltipaths     github.com/golang/lint
 
@@ -26,7 +20,7 @@ Golint is a linter for Go source code.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.14%{?dist}
+Release:        0.16%{?dist}
 Summary:        Linter for Go source code
 
 # Upstream license specification: BSD-3-Clause
@@ -89,6 +83,12 @@ cp -ar misc/vim/ftplugin %{buildroot}%{vimfiles_root}
 %{vimfiles_root}/ftplugin/*
 
 %changelog
+* Fri Aug 07 19:35:48 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.16.20200807git738671d
+- Bump to commit 738671d3881b9731cc63024d5d88cf28db875626
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 07 00:24:01 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.14.20200207git910be7a
 - Bump to commit 910be7a94367618fd0fd25eaabbee4fdc0ac7092
 

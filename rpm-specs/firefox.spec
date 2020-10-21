@@ -4,14 +4,8 @@
 %global build_with_clang  0
 %global build_with_asan   0
 
-# disable arm builds with gcc 10 until bug 94050 is backported to Fedora
-%if 0%{?fedora} > 31
-ExcludeArch: armv7hl
-%endif
-# Disabled due to https://pagure.io/fedora-infrastructure/issue/7581
+# Disabled due to https://bugzilla.redhat.com/show_bug.cgi?id=1886672
 ExcludeArch: s390x
-# Disabled due to neon build error
-# ExcludeArch: aarch64
 
 %global enable_mozilla_crashreporter 0
 %ifarch x86_64 %{ix86}
@@ -38,20 +32,16 @@ ExcludeArch: s390x
 %global use_bundled_cbindgen  1
 # Build PGO+LTO on x86_64 and aarch64 only due to build issues
 # on other arches.
-%ifarch x86_64 aarch64
+%global build_with_pgo    0
+%ifarch x86_64
 %if %{release_build}
 %global build_with_pgo    1
-%else
-%global build_with_pgo    0
 %endif
 # Build PGO builds on Wayland backend
 %global pgo_wayland       0
 %endif
-%if 0%{?fedora} > 30
 %global wayland_backend_default 1
-%endif
 %if 0%{?flatpak}
-%global wayland_backend_default 1
 %global build_with_pgo    0
 %endif
 # Big endian platforms
@@ -87,7 +77,7 @@ ExcludeArch: s390x
 %if %{?system_nss}
 %global nspr_version 4.21
 %global nspr_build_version %{nspr_version}
-%global nss_version 3.52
+%global nss_version 3.56
 %global nss_build_version %{nss_version}
 %endif
 
@@ -105,7 +95,6 @@ ExcludeArch: s390x
 %endif
 %if %{build_with_clang}
 %global pre_tag .clang
-%global build_with_pgo    0
 %endif
 %if %{build_with_asan}
 %global pre_tag .asan
@@ -117,13 +106,13 @@ ExcludeArch: s390x
 
 Summary:        Mozilla Firefox Web browser
 Name:           firefox
-Version:        77.0.1
-Release:        3%{?nss_tag}%{?dist}
+Version:        82.0
+Release:        5%{?dist}
 URL:            https://www.mozilla.org/firefox/
 License:        MPLv1.1 or GPLv2+ or LGPLv2+
 Source0:        https://archive.mozilla.org/pub/firefox/releases/%{version}%{?pre_version}/source/firefox-%{version}%{?pre_version}.source.tar.xz
 %if %{with langpacks}
-Source1:        firefox-langpacks-%{version}%{?pre_version}-20200603.tar.xz
+Source1:        firefox-langpacks-%{version}%{?pre_version}-20201015.tar.xz
 %endif
 Source2:        cbindgen-vendor.tar.xz
 Source10:       firefox-mozconfig
@@ -142,27 +131,26 @@ Source31:       firefox-x11.desktop
 Source32:       node-stdout-nonblocking-wrapper
 Source33:       firefox.appdata.xml.in
 Source34:       firefox-search-provider.ini
+Source35:       google-loc-api-key
 
 # Build patches
 Patch3:         mozilla-build-arm.patch
 Patch25:        rhbz-1219542-s390-build.patch
-Patch26:        build-icu-big-endian.patch
 Patch32:        build-rust-ppc64le.patch
 Patch35:        build-ppc-jit.patch
-# Always feel lucky for unsupported platforms:
-# https://bugzilla.mozilla.org/show_bug.cgi?id=1347128
-Patch37:        build-jit-atomic-always-lucky.patch
 # Fixing missing cacheFlush when JS_CODEGEN_NONE is used (s390x)
 Patch38:        build-cacheFlush-missing.patch
 Patch40:        build-aarch64-skia.patch
 Patch41:        build-disable-elfhack.patch
 Patch44:        build-arm-libopus.patch
-#Patch45:        build-disable-multijobs-rust.patch
 Patch46:        firefox-nss-version.patch
 Patch47:        fedora-shebang-build.patch
 Patch48:        build-arm-wasm.patch
 Patch49:        build-arm-libaom.patch
-#Patch50:        Bug-1610814-Fix-NEON-compile-error-with-gcc-and-RGB-.patch
+Patch53:        firefox-gcc-build.patch
+# This should be fixed in Firefox 83
+Patch54:        mozilla-1669639.patch
+Patch55:        mozilla-1669442.patch
 
 # Fedora specific patches
 Patch215:        firefox-enable-addons.patch
@@ -172,15 +160,20 @@ Patch224:        mozilla-1170092.patch
 #ARM run-time patch
 Patch226:        rhbz-1354671.patch
 Patch227:        firefox-locale-debug.patch
+Patch228:        disable-openh264-download.patch
 
 # Upstream patches
 Patch402:        mozilla-1196777.patch
-Patch412:        mozilla-1337988.patch
-Patch415:        Bug-1238661---fix-mozillaSignalTrampoline-to-work-.patch
-Patch417:        bug1375074-save-restore-x28.patch
-Patch422:        mozilla-1580174-webrtc-popup.patch
-Patch500:        mozilla-1634293.patch
-Patch501:        mozilla-1639197.patch
+Patch406:        mozilla-1665329.patch
+Patch407:        mozilla-1667096.patch
+Patch408:        mozilla-1663844.patch
+Patch409:        mozilla-1640567.patch
+Patch410:        mozilla-1661192.patch
+Patch411:        mozilla-1668771.patch
+Patch412:        mozilla-1634404.patch
+Patch413:        mozilla-1669495.patch
+Patch414:        mozilla-1656727.patch
+Patch415:        mozilla-1670333.patch
 
 # Wayland specific upstream patches
 Patch574:        firefox-pipewire-0-2.patch
@@ -189,15 +182,9 @@ Patch575:        firefox-pipewire-0-3.patch
 #VA-API patches
 Patch584:        firefox-disable-ffvpx-with-vapi.patch
 Patch585:        firefox-vaapi-extra-frames.patch
-Patch586:        mozilla-1619882-1.patch
-Patch587:        mozilla-1619882-2.patch
-Patch588:        mozilla-1619882-3.patch
-Patch589:        mozilla-1634213.patch
-Patch590:        mozilla-1632456.patch
 
 # PGO/LTO patches
 Patch600:        pgo.patch
-Patch601:        mozilla-1516081.patch
 Patch602:        mozilla-1516803.patch
 
 %if %{?system_nss}
@@ -234,7 +221,7 @@ BuildRequires:  llvm
 BuildRequires:  llvm-devel
 BuildRequires:  clang
 BuildRequires:  clang-libs
-%if 0%{?build_with_clang}
+%if %{build_with_clang}
 BuildRequires:  lld
 %endif
 
@@ -247,13 +234,17 @@ BuildRequires:  nodejs
 BuildRequires:  nasm >= 1.13
 BuildRequires:  libappstream-glib
 
+%if 0%{?big_endian}
+BuildRequires:  icu
+%endif
+
 Requires:       mozilla-filesystem
 Requires:       p11-kit-trust
 %if %{?system_nss}
 Requires:       nspr >= %{nspr_build_version}
 Requires:       nss >= %{nss_build_version}
 %endif
-BuildRequires:  python2-devel
+BuildRequires:  python3-devel
 %if !0%{?flatpak}
 Requires:       u2f-hidraw-policy
 %endif
@@ -273,6 +264,9 @@ BuildRequires:  xorg-x11-server-Xvfb
 %endif
 %if 0%{?pgo_wayland}
 BuildRequires:  mutter
+BuildRequires:  gsettings-desktop-schemas
+BuildRequires:  gnome-settings-daemon
+BuildRequires:  mesa-dri-drivers
 %endif
 BuildRequires:  rust
 BuildRequires:  cargo
@@ -281,8 +275,8 @@ BuildRequires:  clang-devel
 BuildRequires:  libasan
 BuildRequires:  libasan-static
 %endif
-
 BuildRequires:  perl-interpreter
+BuildRequires:  fdk-aac-free-devel
 
 Obsoletes:      mozilla <= 37:1.7.13
 Provides:       webclient
@@ -349,27 +343,22 @@ This package contains results of tests executed during build.
 # there is a compare of config and js/config directories and .orig suffix is
 # ignored during this compare.
 
-
 %ifarch s390
 %patch25 -p1 -b .rhbz-1219542-s390
 %endif
-#%patch37 -p1 -b .jit-atomic-lucky
 %patch40 -p1 -b .aarch64-skia
 %if 0%{?disable_elfhack}
 %patch41 -p1 -b .disable-elfhack
 %endif
 %patch3  -p1 -b .arm
 %patch44 -p1 -b .build-arm-libopus
-#%patch45 -p1 -b .build-disable-multijobs-rust
-# Patch for big endian platforms only
-%if 0%{?big_endian}
-%patch26 -p1 -b .icu
-%endif
-%patch46 -p1 -b .nss-version
+#%patch46 -p1 -b .nss-version
 %patch47 -p1 -b .fedora-shebang
 %patch48 -p1 -b .build-arm-wasm
 %patch49 -p1 -b .build-arm-libaom
-#%patch50 -p1 -b .build-arm-SwizzleNEON
+%patch53 -p1 -b .firefox-gcc-build
+%patch54 -p1 -b .1669639
+%patch55 -p1 -b .1669442
 
 # Fedora patches
 %patch215 -p1 -b .addons
@@ -381,35 +370,38 @@ This package contains results of tests executed during build.
 %patch226 -p1 -b .1354671
 %endif
 %patch227 -p1 -b .locale-debug
+%patch228 -p1 -b .disable-openh264-download
 
 %patch402 -p1 -b .1196777
-%ifarch %{arm}
-%patch415 -p1 -b .1238661
-%endif
-
-%patch500 -p1 -b .mozilla-1634293
-%patch501 -p1 -b .mozilla-1639197
+%patch406 -p1 -b .1665329
+%patch407 -p1 -b .1667096
+%patch408 -p1 -b .1663844
+%patch409 -p1 -b .1640567
+%patch410 -p1 -b .1661192
+%patch411 -p1 -b .1668771
+%patch412 -p1 -b .1634404
+%patch413 -p1 -b .1669495
+%patch414 -p1 -b .1656727
+%patch415 -p1 -b .1670333
 
 # Wayland specific upstream patches
-%if 0%{?fedora} < 32
-%patch574 -p1 -b .firefox-pipewire-0-2
-%else
+%if 0%{?fedora} > 31 || 0%{?eln}
 %patch575 -p1 -b .firefox-pipewire-0-3
+%else
+%patch574 -p1 -b .firefox-pipewire-0-2
 %endif
 
+# VA-API fixes
 %patch584 -p1 -b .firefox-disable-ffvpx-with-vapi
 %patch585 -p1 -b .firefox-vaapi-extra-frames
-%patch586 -p1 -b .mozilla-1619882-1
-%patch587 -p1 -b .mozilla-1619882-2
-%patch588 -p1 -b .mozilla-1619882-3
-%patch589 -p1 -b .mozilla-1634213
-%patch590 -p1 -b .mozilla-1632456
 
 # PGO patches
+%if %{build_with_pgo}
+%if !%{build_with_clang}
 %patch600 -p1 -b .pgo
-#fix
-#%patch601 -p1 -b .1516081
 %patch602 -p1 -b .1516803
+%endif
+%endif
 
 %{__rm} -f .mozconfig
 %{__cp} %{SOURCE10} .mozconfig
@@ -419,6 +411,7 @@ echo "ac_add_options --enable-official-branding" >> .mozconfig
 %endif
 %{__cp} %{SOURCE24} mozilla-api-key
 %{__cp} %{SOURCE27} google-api-key
+%{__cp} %{SOURCE35} google-loc-api-key
 
 echo "ac_add_options --prefix=\"%{_prefix}\"" >> .mozconfig
 echo "ac_add_options --libdir=\"%{_libdir}\"" >> .mozconfig
@@ -460,10 +453,6 @@ echo "ac_add_options --disable-debug" >> .mozconfig
 echo "ac_add_options --disable-jemalloc" >> .mozconfig
 %endif
 
-%ifnarch %{ix86} x86_64 ppc64le
-echo "ac_add_options --disable-webrtc" >> .mozconfig
-%endif
-
 %if !%{enable_mozilla_crashreporter}
 echo "ac_add_options --disable-crashreporter" >> .mozconfig
 %endif
@@ -487,7 +476,7 @@ echo "ac_add_options --without-system-libvpx" >> .mozconfig
 %endif
 
 %ifarch s390 s390x
-echo "ac_add_options --disable-ion" >> .mozconfig
+echo "ac_add_options --disable-jit" >> .mozconfig
 %endif
 
 %if %{build_with_asan}
@@ -495,17 +484,10 @@ echo "ac_add_options --enable-address-sanitizer" >> .mozconfig
 echo "ac_add_options --disable-jemalloc" >> .mozconfig
 %endif
 
-# We don't have recent nasm on Fedora 30...time to update to Fedora 31.
-%if 0%{?fedora} < 31
-echo "ac_add_options --disable-av1" >> .mozconfig
-%else
-echo "ac_add_options --enable-av1" >> .mozconfig
-%endif
-
 # api keys full path
 echo "ac_add_options --with-mozilla-api-keyfile=`pwd`/mozilla-api-key" >> .mozconfig
 # It seems that the api key we have is for the safe browsing only
-#echo "ac_add_options --with-google-location-service-api-keyfile=`pwd`/google-api-key" >> .mozconfig
+echo "ac_add_options --with-google-location-service-api-keyfile=`pwd`/google-loc-api-key" >> .mozconfig
 echo "ac_add_options --with-google-safebrowsing-api-keyfile=`pwd`/google-api-key" >> .mozconfig
 
 echo 'export NODEJS="%{_buildrootdir}/bin/node-stdout-nonblocking-wrapper"' >> .mozconfig
@@ -520,6 +502,9 @@ chmod a-x third_party/rust/ash/src/extensions/khr/*.rs
 #---------------------------------------------------------------------
 
 %build
+# Disable LTO to work around rhbz#1883904
+%define _lto_cflags %{nil}
+
 %if 0%{?use_bundled_cbindgen}
 
 mkdir -p my_rust_vendor
@@ -539,12 +524,12 @@ export PATH=`pwd`/.cargo/bin:$PATH
 %endif
 cd -
 
-echo "Generate big endian version of config/external/icu/data/icud58l.dat"
-%if 0%{?big_endian}
-  ./mach python intl/icu_sources_data.py .
-  ls -l config/external/icu/data
-  rm -f config/external/icu/data/icudt*l.dat
-%endif
+#echo "Generate big endian version of config/external/icu/data/icudt67l.dat"
+#%if 0%{?big_endian}
+#  icupkg -tb config/external/icu/data/icudt67l.dat config/external/icu/data/icudt67b.dat
+#  ls -l config/external/icu/data
+#  rm -f config/external/icu/data/icudt*l.dat
+#%endif
 
 mkdir %{_buildrootdir}/bin || :
 cp %{SOURCE32} %{_buildrootdir}/bin || :
@@ -585,7 +570,7 @@ export MOZ_DEBUG_FLAGS=" "
 MOZ_OPT_FLAGS=$(echo "$MOZ_OPT_FLAGS" | %{__sed} -e 's/-g/-g0/')
 export MOZ_DEBUG_FLAGS=" "
 %endif
-%if !0%{?build_with_clang}
+%if !%{build_with_clang}
 %ifarch s390 ppc aarch64 %{ix86}
 MOZ_LINK_FLAGS="-Wl,--no-keep-memory -Wl,--reduce-memory-overheads"
 %endif
@@ -610,18 +595,16 @@ MOZ_LINK_FLAGS="$MOZ_LINK_FLAGS -fsanitize=address -ldl"
 # We don't wantfirefox to use CK_GCM_PARAMS_V3 in nss
 MOZ_OPT_FLAGS="$MOZ_OPT_FLAGS -DNSS_PKCS11_3_0_STRICT"
 
-%if !%{build_with_clang}
 echo "export CFLAGS=\"$MOZ_OPT_FLAGS\"" >> .mozconfig
 echo "export CXXFLAGS=\"$MOZ_OPT_FLAGS\"" >> .mozconfig
 echo "export LDFLAGS=\"$MOZ_LINK_FLAGS\"" >> .mozconfig
-%endif
 
-%if 0%{?build_with_clang}
+%if %{build_with_clang}
 echo "export LLVM_PROFDATA=\"llvm-profdata\"" >> .mozconfig
 echo "export AR=\"llvm-ar\"" >> .mozconfig
 echo "export NM=\"llvm-nm\"" >> .mozconfig
 echo "export RANLIB=\"llvm-ranlib\"" >> .mozconfig
-echo "export --enable-linker=lld" >> .mozconfig
+echo "ac_add_options --enable-linker=lld" >> .mozconfig
 %else
 echo "export CC=gcc" >> .mozconfig
 echo "export CXX=g++" >> .mozconfig
@@ -631,7 +614,16 @@ echo "export RANLIB=\"gcc-ranlib\"" >> .mozconfig
 %endif
 %if 0%{?build_with_pgo}
 echo "ac_add_options MOZ_PGO=1" >> .mozconfig
+
+# Temporary disabled due to GCC bug
+# Fixed by https://bugzilla.mozilla.org/show_bug.cgi?id=1671345
+# Should be in Firefox 83
+%if 0%{?fedora} > 33
 echo "ac_add_options --enable-lto" >> .mozconfig
+%endif
+
+# PGO build doesn't work with ccache
+export CCACHE_DISABLE=1
 %endif
 
 MOZ_SMP_FLAGS=-j1
@@ -642,19 +634,25 @@ MOZ_SMP_FLAGS=-j1
      RPM_BUILD_NCPUS="`/usr/bin/getconf _NPROCESSORS_ONLN`"
 [ "$RPM_BUILD_NCPUS" -ge 2 ] && MOZ_SMP_FLAGS=-j2
 %endif
-%ifarch x86_64 ppc ppc64 ppc64le aarch64
+%ifarch x86_64 ppc ppc64 ppc64le %{arm} aarch64
 [ -z "$RPM_BUILD_NCPUS" ] && \
      RPM_BUILD_NCPUS="`/usr/bin/getconf _NPROCESSORS_ONLN`"
 [ "$RPM_BUILD_NCPUS" -ge 2 ] && MOZ_SMP_FLAGS=-j2
 [ "$RPM_BUILD_NCPUS" -ge 4 ] && MOZ_SMP_FLAGS=-j4
 [ "$RPM_BUILD_NCPUS" -ge 8 ] && MOZ_SMP_FLAGS=-j8
+[ "$RPM_BUILD_NCPUS" -ge 16 ] && MOZ_SMP_FLAGS=-j16
+[ "$RPM_BUILD_NCPUS" -ge 24 ] && MOZ_SMP_FLAGS=-j24
 %endif
 
-echo "export MOZ_MAKE_FLAGS=\"$MOZ_SMP_FLAGS\"" >> .mozconfig
-echo "export MOZ_SERVICES_SYNC=1" >> .mozconfig
+echo "mk_add_options MOZ_MAKE_FLAGS=\"$MOZ_SMP_FLAGS\"" >> .mozconfig
+echo "mk_add_options MOZ_SERVICES_SYNC=1" >> .mozconfig
 echo "export STRIP=/bin/true" >> .mozconfig
-%if 0%{?build_with_pgo}
-%if 0%{?pgo_wayland}
+export MACH_USE_SYSTEM_PYTHON=1
+%if %{build_with_pgo}
+%if %{pgo_wayland}
+if [ -z "$XDG_RUNTIME_DIR" ]; then
+  export XDG_RUNTIME_DIR=$HOME
+fi
 xvfb-run mutter --wayland --nested &
 if [ -z "$WAYLAND_DISPLAY" ]; then
   export WAYLAND_DISPLAY=wayland-0
@@ -983,6 +981,152 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 #---------------------------------------------------------------------
 
 %changelog
+* Tue Oct 20 2020 Martin Stransky <stransky@redhat.com> - 82.0-5
+- Added fix for rhbz#1889742 - Typo in /usr/bin/firefox
+
+* Mon Oct 19 2020 Martin Stransky <stransky@redhat.com> - 82.0-4
+- Updated openh264 patch to use keyframes from contained
+  for openh264 only.
+
+* Mon Oct 19 2020 Martin Stransky <stransky@redhat.com> - 82.0-3
+- Added ELN build fixes
+
+* Thu Oct 15 2020 Martin Stransky <stransky@redhat.com> - 82.0-2
+- Updated SELinux relabel setup (rhbz#1731371)
+
+* Thu Oct 15 2020 Martin Stransky <stransky@redhat.com> - 82.0-1
+- Updated to 82.0 Build 2
+
+* Thu Oct 15 2020 Martin Stransky <stransky@redhat.com> - 81.0.2-3
+- Added experimental openh264 seek patch (mzbz#1670333)
+
+* Mon Oct 12 2020 Martin Stransky <stransky@redhat.com> - 81.0.2-2
+- Added a partial fox for rhbz#1886722
+
+* Mon Oct 12 2020 Martin Stransky <stransky@redhat.com> - 81.0.2-1
+- Updated to latest upstream - 81.0.2
+
+* Thu Oct 8 2020 Martin Stransky <stransky@redhat.com> - 81.0.1-9
+- Added an updated fix for mozbz#1656727
+
+* Thu Oct 8 2020 Martin Stransky <stransky@redhat.com> - 81.0.1-8
+- Added fixes for mozbz#1634404, mozbz#1669495
+
+* Thu Oct 8 2020 Martin Stransky <stransky@redhat.com> - 81.0.1-7
+- Removed mozbz#1656727 as it causes a regression rhbz#1886243
+
+* Wed Oct 7 2020 Martin Stransky <stransky@redhat.com> - 81.0.1-6
+- PGO patch update
+- Added fix for mzbz#1669442 (LTO builds)
+
+* Mon Oct 5 2020 Martin Stransky <stransky@redhat.com> - 81.0.1-5
+- Added fix for mozbz#1656727
+
+* Fri Oct 2 2020 Martin Stransky <stransky@redhat.com> - 81.0.1-4
+- Added fix for mozbz#1668771
+
+* Thu Oct 1 2020 Martin Stransky <stransky@redhat.com> - 81.0.1-3
+- Added fix for mozbz#1661192
+
+* Thu Oct 1 2020 Martin Stransky <stransky@redhat.com> - 81.0.1-2
+- Added fix for mozbz#1640567
+- Enable PGO
+
+* Wed Sep 30 2020 Martin Stransky <stransky@redhat.com> - 81.0.1-1
+- Updated to 81.0.1
+
+* Wed Sep 30 2020 Martin Stransky <stransky@redhat.com> - 81.0-9
+- Disabled openh264 download
+- Removed fdk-aac-free dependency (rhbz#1883672)
+- Enabled LTO
+
+* Sat Sep 26 2020 Dan Horák <dan[at]danny.cz> - 81.0-8
+- Re-enable builds for ppc64le
+
+* Fri Sep 25 2020 Martin Stransky <stransky@redhat.com> - 81.0-7
+- Added openh264 fixes
+
+* Wed Sep 23 2020 Martin Stransky <stransky@redhat.com> - 81.0-6
+- Added fix for rhbz#1731371
+
+* Tue Sep 22 2020 Kalev Lember <klember@redhat.com> - 81.0-5
+- Re-enable builds for armv7hl and aarch64 architectures
+
+* Tue Sep 22 2020 Kalev Lember <klember@redhat.com> - 81.0-4
+- Disable LTO to work around firefox build failing in F33+
+
+* Mon Sep 21 2020 Martin Stransky <stransky@redhat.com> - 81.0-3
+- Updated to 81.0 Build 2
+- Updated firefox-disable-ffvpx-with-vapi patch
+- Deleted old changelog entries
+
+* Thu Sep 17 2020 Martin Stransky <stransky@redhat.com> - 81.0-2
+- Added upstream patches mzbz#1665324 mozbz#1665329
+- Updated requested nss version to 3.56
+
+* Tue Sep 15 2020 Martin Stransky <stransky@redhat.com> - 81.0-1
+- Updated to 81.0
+
+* Thu Sep 10 2020 Martin Stransky <stransky@redhat.com> - 80.0.1-3
+- Test build for all arches.
+
+* Fri Sep 4 2020 Martin Stransky <stransky@redhat.com> - 80.0.1-2
+- Added patch for mozbz#1875469
+
+* Tue Sep 1 2020 Martin Stransky <stransky@redhat.com> - 80.0.1-1
+- Updated to 80.0.1
+
+* Tue Aug 18 2020 Martin Stransky <stransky@redhat.com> - 80.0-1
+- Updated to 80.0 Build 2
+- Go back to gcc
+- Disabled WebGL dmabuf backend due to reported errors
+  (mzbz#1655323, mozbz#1656505).
+
+* Tue Aug 18 2020 Martin Stransky <stransky@redhat.com> - 79.0-6
+- Enabled pgo
+- Build with clang
+
+* Tue Aug 4 2020 Martin Stransky <stransky@redhat.com> - 79.0-5
+- Added upstream fix for mozbz#1656436.
+
+* Mon Aug 3 2020 Martin Stransky <stransky@redhat.com> - 79.0-4
+- Updated fix for mozbz#1645671
+
+* Thu Jul 30 2020 Martin Stransky <stransky@redhat.com> - 79.0-3
+- Added VA-API fix for mozbz#1645671
+
+* Wed Jul 29 2020 Martin Stransky <stransky@redhat.com> - 79.0-2
+- Try to enable armv7hl again.
+- Disabled ppc64le due to cargo crash (rhbz#1862012).
+
+* Mon Jul 27 2020 Martin Stransky <stransky@redhat.com> - 79.0-1
+- Update to 79.0
+- Disabled PGO due to rhbz#1849165 (gcc internal error).
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 78.0.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 78.0-4
+- Use python3 instead of python2 for build
+
+* Tue Jul 21 2020 Martin Stransky <stransky@redhat.com> - 78.0-3
+- Added fix for mozbz#1651701/rhbz#1855730
+
+* Fri Jul 10 2020 Jan Horak <jhorak@redhat.com> - 78.0.2-2
+- Fixing clang build - linker setup
+
+* Thu Jul 09 2020 Jan Horak <jhorak@redhat.com> - 78.0.2-1
+- Update to 78.0.2 build2
+
+* Wed Jul 01 2020 Jan Horak <jhorak@redhat.com> - 78.0.1-1
+- Update to 78.0.1 build1
+
+* Wed Jul 1 2020 Martin Stransky <stransky@redhat.com> - 78.0-2
+- Add 'Open the Profile Manager' desktop file entry
+
+* Mon Jun 29 2020 Jan Horak <jhorak@redhat.com> - 78.0-1
+- Update to 78.0 build2
+
 * Tue Jun 23 2020 Martin Stransky <stransky@redhat.com> - 77.0.1-3
 - Build with PGO/LTO again.
 
@@ -1192,407 +1336,3 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 * Tue Oct 15 2019 Martin Stransky <stransky@redhat.com> - 70.0-1
 - Updated to 70.0
-
-* Mon Oct 14 2019 Martin Stransky <stransky@redhat.com> - 69.0.3-2
-- Build firefox-wayland again (rhbz#1761578).
-
-* Thu Oct 10 2019 Martin Stransky <stransky@redhat.com> - 69.0.3-1
-- Updated to 69.0.3
-
-* Wed Oct 9 2019 Martin Stransky <stransky@redhat.com> - 69.0.2-3
-- Obsolete firefox-wayland when we're on wayland by default.
-
-* Thu Oct 3 2019 Martin Stransky <stransky@redhat.com> - 69.0.2-2
-- Added fix for mozilla#1587008 - flickering during GL resize.
-
-* Thu Oct 3 2019 Martin Stransky <stransky@redhat.com> - 69.0.2-1
-- Updated to 69.0.2
-
-* Mon Sep 30 2019 Martin Stransky <stransky@redhat.com> - 69.0.1-5
-- Updated rhbz#1754460/mzbz#1583466 - per user policy dir.
-
-* Tue Sep 24 2019 Martin Stransky <stransky@redhat.com> - 69.0.1-4
-- Added fix for rhbz#1754460
-
-* Thu Sep 19 2019 Martin Stransky <stransky@redhat.com> - 69.0.1-3
-- Updated cache-missing strategy for Wayland image cache.
-
-* Thu Sep 19 2019 Martin Stransky <stransky@redhat.com> - 69.0.1-2
-- Do PGO builds with X11 backend.
-
-* Wed Sep 18 2019 Martin Stransky <stransky@redhat.com> - 69.0.1-1
-- Updated to 69.0.1
-
-* Wed Sep 18 2019 Martin Stransky <stransky@redhat.com> - 69.0-11
-- Do PGO builds with Wayland backend.
-
-* Wed Sep 18 2019 Martin Stransky <stransky@redhat.com> - 69.0-10
-- Disabled DoH by default (rhbz#1751410),
-  patch by Eduardo Mínguez Pérez (eminguez).
-
-* Tue Sep 17 2019 Martin Stransky <stransky@redhat.com> - 69.0-9
-- Enable Wayland cache mode control (mozbz#1577024)
-
-* Tue Sep 17 2019 Martin Stransky <stransky@redhat.com> - 69.0-7
-- Added fixes for mozbz#1581748
-
-* Mon Sep 16 2019 Martin Stransky <stransky@redhat.com> - 69.0-6
-- Added fixes for mozbz#1579823, mozbz#1580152
-
-* Wed Sep 11 2019 Martin Stransky <stransky@redhat.com> - 69.0-5
-- Added fix for mozbz#1579849 - partial screen update when
-  page switches.
-
-* Wed Sep 11 2019 Martin Stransky <stransky@redhat.com> - 69.0-4
-- Added fix for mozbz#1579794 - Flickering on video playback on
-  4k/HiDPI displays.
-
-* Mon Sep 9 2019 Martin Stransky <stransky@redhat.com> - 69.0-3
-- Added fix for mozbz#1579023
-
-* Mon Sep 2 2019 Martin Stransky <stransky@redhat.com> - 69.0-2
-- Added upstream Wayland patches (mozilla-1548475, mozilla-1562827,
-  mozilla-1567434, mozilla-1573813, mozilla-1574036,
-  mozilla-1576268).
-- Enable multiprocess compilation.
-- Enable profile downgrade.
-- Disabled ppc64le on Fedora 29 (rhbz#1749729)
-
-* Thu Aug 29 2019 Jan Horak <jhorak@redhat.com> - 69.0-1
-- Update to 69.0
-
-* Wed Aug 14 2019 Jan Horak <jhorak@redhat.com> - 68.0.2-1
-- Update to 68.0.2
-
-* Mon Aug  5 2019 Jan Horak <jhorak@redhat.com> - 68.0.1-3
-- Added workaround fix for webrtc indicator
-- Added rust build workaround
-
-* Wed Jul 24 2019 Martin Stransky <stransky@redhat.com> - 68.0.1-2
-- Added fix for rhbz#1709840
-- Added node js wrapper to fix koji freezes
-  (https://pagure.io/fedora-infrastructure/issue/8026)
-- Updated mozbz#1512162 for ppc64le
-
-* Mon Jul 22 2019 Martin Stransky <stransky@redhat.com> - 68.0.1-1
-- Updated to 68.0.1
-- Enabled WebRTC on ppc64le (rhbz#1732069)
-
-* Thu Jul 11 2019 Martin Stransky <stransky@redhat.com> - 68.0-5
-- Enabled aarch64 and ppc64le
-
-* Wed Jul 10 2019 Martin Stransky <stransky@redhat.com> - 68.0-4
-- Added fixes for aarch64 builds.
-
-* Tue Jul  9 2019 Dan Horák <dan[at]danny.cz> - 68.0-3
-- Fix crash on ppc64le (mozilla#1512162)
-
-* Mon Jul  8 2019 Jan Horak <jhorak@redhat.com> - 68.0-2
-- Update pipewire patch
-
-* Tue Jul 2 2019 Martin Stransky <stransky@redhat.com> - 68.0-1
-- Updated to 68.0
-
-* Thu Jun 20 2019 Martin Stransky <stransky@redhat.com> - 67.0.4-1
-- Updated to 67.0.4
-
-* Tue Jun 18 2019 Martin Stransky <stransky@redhat.com> - 67.0.3-1
-- Updated to 67.0.3
-
-* Tue Jun 11 2019 Martin Stransky <stransky@redhat.com> - 67.0.2-1
-- Updated to 67.0.2 Build 2
-
-* Thu May 23 2019 Martin Stransky <stransky@redhat.com> - 67.0-4
-- Added wayland buffer optimization (mozilla#1553747).
-
-* Fri May 17 2019 Martin Stransky <stransky@redhat.com> - 67.0-3
-- Use %lang() in regular builds.
-- Updated to 67.0 Build 2
-
-* Thu May 16 2019 Jan Horak <jhorak@redhat.com> - 67.0-2
-- Removed %lang() prefix from langpacks file list due to flatpak
-
-* Wed May 15 2019 Martin Stransky <stransky@redhat.com> - 67.0-1
-- Updated to 67.0
-
-* Wed May 8 2019 Martin Stransky <stransky@redhat.com> - 66.0.5-1
-- Updated to 66.0.5
-
-* Sun May 5 2019 Martin Stransky <stransky@redhat.com> - 66.0.4-1
-- Updated to 66.0.4
-
-* Thu May 2 2019 Martin Stransky <stransky@redhat.com> - 66.0.3-2
-- Removed fix for mozbz#526293 as it's broken and does not
-  bring any new functionality.
-
-* Thu Apr 11 2019 Martin Stransky <stransky@redhat.com> - 66.0.3-1
-- Updated to 66.0.3 (Build 1)
-
-* Mon Apr 1 2019 Martin Stransky <stransky@redhat.com> - 66.0.2-1
-- Updated to 66.0.2 (Build 1)
-- Added fixes for mozbz#1526243, mozbz#1540145
-
-* Thu Mar 28 2019 Martin Stransky <stransky@redhat.com> - 66.0.1-4
-- Added fix for mozbz#1539471 - wayland popups/tooltips
-
-* Wed Mar 27 2019 Martin Stransky <stransky@redhat.com> - 66.0.1-3
-- Added fix for mozbz#526293 - show remote locations at
-  file chooser dialog
-
-* Fri Mar 22 2019 Martin Stransky <stransky@redhat.com> - 66.0.1-1
-- Updated to 66.0.1 (Build 1)
-
-* Thu Mar 21 2019 Martin Stransky <stransky@redhat.com> - 66.0-10.test
-- Test module build, use flatpak global define
-- Added fix for F31 (mozbz#1533969)
-
-* Thu Mar 21 2019 Martin Stransky <stransky@redhat.com> - 66.0-9
-- Release build
-
-* Thu Mar 21 2019 Martin Stransky <stransky@redhat.com> - 66.0-8.test
-- Added module specific build config
-- Fixed mozbz#1423598 for multi-monitor setup
-
-* Wed Mar 20 2019 Martin Stransky <stransky@redhat.com> - 66.0-7.test
-- Switched to test builds
-- Updated mozbz#1468911 patch
-
-* Mon Mar 18 2019 Martin Stransky <stransky@redhat.com> - 66.0-6
-- Build release candidate
-- Disabled default Wayland backend for Fedora 30
-
-* Mon Mar 18 2019 Martin Stransky <stransky@redhat.com> - 66.0-5
-- Added fix for mozbz#1468911
-
-* Mon Mar 18 2019 Martin Stransky <stransky@redhat.com> - 66.0-4
-- Release build
-
-* Fri Mar 15 2019 Martin Stransky <stransky@redhat.com> - 66.0-3
-- Updated to 66.0 (Build 3)
-- Re-enable s390x arches
-- Fixed Wayland specific bugs mozbz#1535567, mozbz#1431399
-
-* Tue Mar 12 2019 Martin Stransky <stransky@redhat.com> - 66.0-1
-- Updated to 66.0 (Build 1)
-
-* Fri Mar 1 2019 Martin Stransky <stransky@redhat.com> - 65.0.2-1
-- Updated to 65.0.2
-- Disabled PGO+LTO for Fedora 30
-- Disabled Mozilla Crashreporter to get Wayland crashes by ABRT
-- Disabled s390x builds due to
-  https://pagure.io/fedora-infrastructure/issue/7581
-
-
-* Thu Feb 28 2019 Martin Stransky <stransky@redhat.com> - 65.0.1-2
-- Enable ARBT for Fedora 29 and later to catch wayland crashes.
-- Disable system libvpx for Fedora 30 and later.
-
-* Wed Feb 20 2019 Martin Stransky <stransky@redhat.com> - 65.0.1-1
-- Disabled s390x/f28 builds due to
-  https://pagure.io/fedora-infrastructure/issue/7581
-
-* Fri Feb 15 2019 Jan Horak <jhorak@redhat.com> - 65.0.1-1
-- Update to 65.0.1
-
-* Mon Feb 4 2019 Martin Stransky <stransky@redhat.com> - 65.0-4
-- Added fix for mozbz#1522780
-
-* Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org> - 65.0-3
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
-
-* Thu Jan 31 2019 Jan Grulich <jgrulich@redhat.com> - 65.0-2
-- Re-enable PipeWire support
-
-* Mon Jan 28 2019 Martin Stransky <stransky@redhat.com> - 65.0-1
-- Update to 65.0 build 2
-
-* Wed Jan 16 2019 Martin Stransky <stransky@redhat.com> - 64.0.2-2
-- Rebuild
-
-* Thu Jan 10 2019 Jan Horak <jhorak@redhat.com> - 64.0.2-1
-- Update to 64.0.2
-
-* Mon Jan  7 2019 Jan Horak <jhorak@redhat.com> - 64.0-7
-- Pipewire patch rebased (thanks to Tomas Popela)
-- Enabled PGO on some arches.
-
-* Fri Jan 4 2019 Carmen Bianca Bakker <carmenbianca@fedoraproject.org> - 64.0-6
-- Changed locale detector to handle Esperanto (rhbz#1656900)
-
-* Fri Dec 21 2018 Martin Stransky <stransky@redhat.com> - 64.0-5
-- Test PGO build.
-
-* Wed Dec 12 2018 Martin Stransky <stransky@redhat.com> - 64.0-4
-- Use gcc on all platforms for official release.
-
-* Wed Dec 12 2018 Martin Stransky <stransky@redhat.com> - 64.0-3
-- Updated PGO build setup.
-
-* Tue Dec 4 2018 Martin Stransky <stransky@redhat.com> - 64.0-2
-- Updated to Firefox 64 (Build 3)
-- Built with Clang on some arches.
-
-* Mon Nov 26 2018 Martin Stransky <stransky@redhat.com> - 63.0.3-3
-- [Wayland] Fixed issues with Sway compositor and wl_keyboard setup
-  (mozbz#1507475).
-
-* Wed Nov 21 2018 Martin Stransky <stransky@redhat.com> - 63.0.3-2
-- [Wayland] Fixed mozbz#1507475 - crash when display changes
-  (rhbz#1646151).
-
-* Thu Nov 15 2018 Martin Stransky <stransky@redhat.com> - 63.0.3-1
-- Updated to latest upstream (63.0.3)
-
-* Tue Nov 13 2018 Martin Stransky <stransky@redhat.com> - 63.0.1-6
-- Added an option to build with clang/llvm.
-- Fixed debug builds.
-- Fixed warnings at Wayland clipboard code.
-
-* Tue Nov 6 2018 Martin Stransky <stransky@redhat.com> - 63.0.1-5
-- Added fix for mozbz#1502457- disable Contextual Feature
-  Recommender/shield studies by default.
-
-* Mon Nov 5 2018 Martin Stransky <stransky@redhat.com> - 63.0.1-4
-- Added clipboard fix (mozbz#1504689)
-
-* Fri Nov 2 2018 Dan Horak <dhorak@redhat.com> - 63.0.1-3
-- Added fixes for ppc64le
-
-* Thu Nov 1 2018 Martin Stransky <stransky@redhat.com> - 63.0.1-2
-- Fixed typo on man page (rhbz#1643766)
-
-* Thu Nov 1 2018 Martin Stransky <stransky@redhat.com> - 63.0.1-1
-- Updated to latest upstream (63.0.1 build 4)
-
-* Tue Oct 23 2018 Martin Stransky <stransky@redhat.com> - 63.0-2
-- Updated to latest upstream (63.0 build 2)
-
-* Thu Oct 18 2018 Martin Stransky <stransky@redhat.com> - 63.0-1
-- Updated to latest upstream (63.0)
-- Updated PipeWire patch
-
-* Tue Oct 9 2018 Martin Stransky <stransky@redhat.com> - 62.0.3-4
-- Added fix for mozbz#1447775 - wrong dropspace sizing.
-
-* Tue Oct 9 2018 Martin Stransky <stransky@redhat.com> - 62.0.3-3
-- Added fix for mozbz#1493081 - popups incorrectly placed and sized.
-
-* Mon Oct 8 2018 Martin Stransky <stransky@redhat.com> - 62.0.3-2
-- Added pipewire patch (mozbz#1496359)
-- Added Wayland patches from Firefox 63
-- Enable Wayland backed by default on Fedora 30
-
-* Tue Oct 2 2018 Martin Stransky <stransky@redhat.com> - 62.0.3-1
-- Updated to latest upstream (62.0.3)
-
-* Wed Sep 26 2018 Martin Stransky <stransky@redhat.com> - 62.0.2-3
-- Enabled DBus remote for all Gtk+ backends
-- Removed obsoleted patches
-
-* Tue Sep 25 2018 Martin Stransky <stransky@redhat.com> - 62.0.2-2
-- Disable workaround for mozbz#1342344 - GFX glitches when building
-  with -O3/gcc 7.2
-
-* Mon Sep 24 2018 Jan Horak <jhorak@redhat.com> - 62.0.2-1
-- Update to 62.0.2
-
-* Mon Sep 17 2018 Martin Stransky <stransky@redhat.com> - 62.0-3
-- Added spellchecker.dictionary_path pref pointer to /usr/share/myspell.
-  Thanks to Peter Oliver (rhbz#1627837)
-
-* Tue Sep 4 2018 Martin Stransky <stransky@redhat.com> - 62.0-2
-- Update to 62.0 (Build 2)
-
-* Tue Aug 28 2018 Martin Stransky <stransky@redhat.com> - 62.0-1
-- Update to 62.0
-
-* Wed Aug 15 2018 Ondrej Zoder <ozoder@redhat.com> - 61.0.2-3
-- Added patches for mozbz#1427700 and mozbz#1463809
-
-* Mon Aug 13 2018 Ondrej Zoder <ozoder@redhat.com> - 61.0.2-2
-- Updated symbolic icon
-
-* Thu Aug 9 2018 Martin Stransky <stransky@redhat.com> - 61.0.2-1
-- Update to 61.0.2
-
-* Wed Aug 1 2018 Ondrej Zoder <ozoder@redhat.com> - 61.0.1-4
-- Fixed rhbz#1610428
-
-* Tue Jul 17 2018 Ondrej Zoder <ozoder@redhat.com> - 61.0.1-3
-- Bump release
-
-* Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 61.0.1-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
-
-* Tue Jul 10 2018 Ondrej Zoder <ozoder@redhat.com> - 61.0.1
-- Update to 61.0.1
-
-* Mon Jun 25 2018 Martin Stransky <stransky@redhat.com> - 61.0-4
-- Disabled mozbz#1424422 as it's broken.
-
-* Fri Jun 22 2018 Martin Stransky <stransky@redhat.com> - 61.0-3
-- Update to 61.0 Build 3
-
-* Thu Jun 21 2018 Martin Stransky <stransky@redhat.com> - 61.0-2
-- Disabled system hunspell due to rhbz#1593494
-
-* Tue Jun 19 2018 Martin Stransky <stransky@redhat.com> - 61.0-1
-- Updated to 61.0
-- Created firefox-wayland subpackage with wayland launcher.
-
-* Mon Jun 11 2018 Jan Horak <jhorak@redhat.com> - 60.0.2-1
-- Update to 60.0.2
-
-* Mon Jun 4 2018 Martin Stransky <stransky@redhat.com> - 60.0.1-6
-- Fixed mozbz#1466473, rhbz#1585300 - Fix GL detection.
-- Fixed desktop file names (rhbz#1585369).
-
-* Wed May 30 2018 Martin Stransky <stransky@redhat.com> - 60.0.1-5
-- Added workaround for mozbz#1464823 which makes GL layer
-  compositor usable on Wayland.
-
-* Tue May 29 2018 Martin Stransky <stransky@redhat.com> - 60.0.1-4
-- Added fix for mozbz#1464808 - Set default D&D action to move
-  on Wayland.
-
-* Fri May 25 2018 Martin Stransky <stransky@redhat.com> - 60.0.1-3
-- Added fix for mozbz#1436242 (rhbz#1577277) - Firefox IPC crashes.
-- Added fix for mozbz#1462640 - Sandbox disables eglGetDisplay()
-  call on Wayland/EGL backend.
-
-* Fri May 25 2018 Martin Stransky <stransky@redhat.com> - 60.0.1-2
-- Enable Wayland backend.
-
-* Wed May 23 2018 Jan Horak <jhorak@redhat.com> - 60.0.1-1
-- Update to 60.0.1
-
-* Wed May 16 2018 Martin Stransky <stransky@redhat.com> - 60.0-6
-- Added patch from rhbz#1498561 - second arch (ppc*) crashes.
-
-* Wed May 16 2018 Martin Stransky <stransky@redhat.com> - 60.0-5
-- Disabled jemalloc on second arches.
-
-* Thu May 3 2018 Martin Stransky <stransky@redhat.com> - 60.0-4
-- Updated to Firefox 60 build 2
-
-* Thu May 3 2018 Martin Stransky <stransky@redhat.com> - 60.0-3
-- Added patch from mozbz#1375074 - fixes aarch64 baseline JIT crashes
-
-* Thu May 3 2018 Martin Stransky <stransky@redhat.com> - 60.0-2
-- Make Wayland backend optional and disable it by default due to WebGL issues.
-
-* Wed May 2 2018 Martin Stransky <stransky@redhat.com> - 60.0-1
-- Update to Firefox 60 build 1
-- Ship firefox-wayland launch script
-
-* Mon Apr 30 2018 Martin Stransky <stransky@redhat.com> - 60.0-0.5
-- Build with Wayland backend enabled.
-
-* Mon Apr 30 2018 Martin Stransky <stransky@redhat.com> - 60.0-0.4
-- Added patches for correct popups position at CSD mode (mozilla-1457691).
-
-* Fri Apr 27 2018 Martin Stransky <stransky@redhat.com> - 60.0-0.2
-- Update to 60.0 Beta 16
-
-* Tue Apr 24 2018 Martin Stransky <stransky@redhat.com> - 60.0-0.1
-- Update to 60.0 Beta 15

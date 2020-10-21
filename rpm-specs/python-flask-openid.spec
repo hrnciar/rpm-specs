@@ -2,7 +2,7 @@
 
 Name:           python-flask-openid
 Version:        1.2.5
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        OpenID support for Flask
 
 License:        BSD
@@ -58,6 +58,9 @@ mkdir -p $RPM_BUILD_ROOT%{python3_sitelib}
 %{python3_sitelib}/__pycache__/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.5-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.5-19
 - Rebuilt for Python 3.9
 

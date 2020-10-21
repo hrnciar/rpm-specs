@@ -1,6 +1,6 @@
 Name:           flam3
 Version:        3.0.1
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Programs to generate and render cosmic recursive fractal flames
 
 License:        GPLv2+
@@ -76,6 +76,9 @@ chrpath --delete %{buildroot}%{_bindir}/flam3-*
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

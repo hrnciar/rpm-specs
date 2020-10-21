@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        1.0.1
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        Provides the raw data needed to convert to and from HTML entities
 
 # Upstream license specification: MIT
@@ -71,6 +71,13 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 01 01:32:57 EET 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.0.1-5
 - Update spec file
 - Rebuild for F32 Mass Rebuild

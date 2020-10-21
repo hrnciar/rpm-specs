@@ -1,6 +1,6 @@
 Name:           raidem
 Version:        0.3.1
-Release:        42%{?dist}
+Release:        43%{?dist}
 Summary:        2d top-down shoot'em up
 License:        zlib
 URL:            http://home.exetel.com.au/tjaden/raidem/
@@ -86,6 +86,9 @@ install -p -m 644 %{SOURCE1} \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-43
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 17 2020 Bruno Wolff III <bruno@wolff.to> - 0.3.1-42
 - Rebuild for gnustep-base 1.27
 

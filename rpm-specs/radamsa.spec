@@ -1,6 +1,6 @@
 Name:		radamsa
 Version:	0.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	A general-purpose fuzzer
 License:	MIT 
 URL:		https://gitlab.com/akihe/radamsa
@@ -31,6 +31,9 @@ chmod 644 radamsa.c
 %{_mandir}/man1/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.6-1
 - Update to 0.6
 - Update URLs

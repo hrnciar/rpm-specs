@@ -2,7 +2,7 @@
 
 Name:           catch1
 Version:        1.12.2
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A modern, C++-native, header-only, framework for unit-tests, TDD and BDD
 
 License:        Boost
@@ -35,8 +35,8 @@ is packaged up as a single header for extra convenience.
 
 
 %build
-%cmake . -Bbuild
-%make_build -Cbuild
+%cmake
+%cmake_build
 
 
 %install
@@ -45,8 +45,7 @@ cp -pr include  %{buildroot}%{_includedir}/catch
 
 
 %check
-cd build
-ctest -V %{?_smp_mflags}
+%ctest
 
 
 %files devel
@@ -56,6 +55,9 @@ ctest -V %{?_smp_mflags}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

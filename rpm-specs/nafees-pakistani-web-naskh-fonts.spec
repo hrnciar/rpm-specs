@@ -2,7 +2,7 @@
 %global fontconf   67-%{fontname}.conf 
 Name:		%{fontname}-fonts
 Version:	2.0
-Release:	16%{?dist}
+Release:	17%{?dist}
 Summary:	Nafees pakistani web naskh font for writing Urdu 
 
 License:	Bitstream Vera
@@ -50,6 +50,9 @@ ln -s %{_fontconfig_templatedir}/%{fontconf} \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

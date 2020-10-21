@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.1.5
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Use requests to talk HTTP via a UNIX domain socket
 
 License:        ASL 2.0
@@ -61,6 +61,9 @@ sed -i '/pytest-capturelog/d' test-requirements.txt
 %{python3_sitelib}/requests_unixsocket-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.5-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.5-7
 - Rebuilt for Python 3.9
 

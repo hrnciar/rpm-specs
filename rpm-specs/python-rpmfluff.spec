@@ -1,8 +1,8 @@
 %global modname rpmfluff
 
 Name:          python-%{modname}
-Version:       0.5.7.1
-Release:       6%{?dist}
+Version:       0.6.1
+Release:       1%{?dist}
 Summary:       Lightweight way of building RPMs, and sabotaging them
 
 License:       GPLv2+
@@ -17,7 +17,7 @@ sabotaging them so they are broken in controlled ways.\
 \
 It is intended for use when validating package analysis tools such as RPM lint.\
 It can also be used to construct test cases for package management software\
-such as rpm and yum.
+such as RPM, YUM, and DNF.
 
 %description %{_description}
 
@@ -44,16 +44,42 @@ Python 3 version.
 %py3_install
 
 %check
-python3 %{modname}.py
+python3 -m unittest %{modname}.test
 
 %files -n python3-%{modname}
 %license LICENSE
 %doc README.md
-%{python3_sitelib}/%{modname}.py
-%{python3_sitelib}/__pycache__/%{modname}.*
-%{python3_sitelib}/%{modname}-*.egg-info
+%{python3_sitelib}/*
 
 %changelog
+* Wed Aug 12 2020 Jan Hutar <jhutar@redhat.com> - 0.6.1-1
+- jhutar: Expose two more items
+* Fri Aug 07 2020 Jan Hutar <jhutar@redhat.com> - 0.6-1
+- jhutar: Workaround for https://github.com/rpm-software-management/rpm/issues/1301
+- msuchy: Do not write %clean by default
+- msuchy: Make build directory in /tmp
+- msuchy: Call buildArchs as named argument
+- msuchy: Do not clean install
+- msuchy: BuildRoot is ignored by rpm
+- msuchy: Remove artefacts after the test
+- msuchy: Fix various pylint warnings
+- msuchy: Break down package into several modules
+- msuchy: Remove dead code
+- msuchy: Apply 2to3 script
+- msuchy: Mention DNF in description
+- msuchy: Move rpmfluff.py to rpmfluff/__init__.py
+- dcantrell: Only write the License tag if it is set
+- jhutar: Sanitize values we use to construct file paths
+- tbaeder: Read compiler from CC environment variable
+- dcantrell: Allow setting a different spec file basename than the package name
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.7.1-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.7.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.7.1-6
 - Rebuilt for Python 3.9
 

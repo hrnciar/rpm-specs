@@ -2,8 +2,8 @@
 %global vagrant_plugin_name vagrant-sshfs
 
 Name: %{vagrant_plugin_name}
-Version: 1.3.4
-Release: 1%{?dist}
+Version: 1.3.5
+Release: 2%{?dist}
 Summary: A Vagrant synced folder plugin that mounts folders via SSHFS
 License: GPLv2
 URL: https://github.com/dustymabe/vagrant-sshfs
@@ -77,6 +77,12 @@ cp -a .%{vagrant_plugin_dir}/* \
 %{vagrant_plugin_instdir}/vagrant-sshfs.gemspec
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Dusty Mabe <dusty@dustymabe.com> - 1.3.5-1
+- new upstream release: 1.3.5
+
 * Mon Mar 16 2020 Dusty Mabe <dusty@dustymabe.com> - 1.3.4-1
 - new upstream release: 1.3.4
 

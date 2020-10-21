@@ -5,7 +5,7 @@
 
 Name:           cli11
 Version:        1.9.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Command line parser for C++11
 
 License:        BSD
@@ -46,17 +46,17 @@ Documentation for CLI11.
 %autosetup -p0 -n CLI11-%{version}
 
 %build
-%cmake -DCLI11_BUILD_DOCS:BOOL=TRUE -DCLI11_BUILD_TESTS:BOOL=TRUE .
-%make_build
+%cmake -DCLI11_BUILD_DOCS:BOOL=TRUE -DCLI11_BUILD_TESTS:BOOL=TRUE
+%cmake_build
 
 # Build the documentation
-make docs
+make -C %{__cmake_builddir} docs
 
 %install
-%make_install
+%cmake_install
 
 %check
-make test
+%ctest
 
 %files devel
 %doc CHANGELOG.md README.md
@@ -65,9 +65,16 @@ make test
 %{_libdir}/cmake/CLI11/
 
 %files docs
-%doc docs/html docs/CLI11.svg docs/CLI11_100.png docs/CLI11_300.png
+%doc %{__cmake_builddir}/docs/html
+%doc docs/CLI11.svg docs/CLI11_100.png docs/CLI11_300.png
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jerry James <loganjerry@gmail.com> - 1.9.1-2
+- Adapt to cmake changes in Rawhide
+
 * Sun Jun 21 2020 Jerry James <loganjerry@gmail.com> - 1.9.1-1
 - Version 1.9.1
 

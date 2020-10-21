@@ -6,7 +6,7 @@
 
 # https://github.com/hashicorp/memberlist
 %global goipath         github.com/hashicorp/memberlist
-Version:                0.1.3
+Version:                0.2.2
 
 %gometa
 
@@ -29,7 +29,7 @@ attempting to communicate to potentially dead nodes through multiple routes.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Go package for gossip based membership and failure detection
 
 # Upstream license specification: MPL-2.0
@@ -64,15 +64,6 @@ cp %{S:1} %{S:2} .
 %install
 %gopkginstall
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck
@@ -81,6 +72,12 @@ end
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 20:11:32 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.2.2-1
+- Update to 0.2.2
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

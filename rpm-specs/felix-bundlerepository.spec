@@ -1,6 +1,6 @@
 Name:           felix-bundlerepository
 Version:        2.0.10
-Release:        9%{?dist}
+Release:        11%{?dist}
 Summary:        Bundle repository service
 License:        ASL 2.0 and MIT
 URL:            https://felix.apache.org/documentation/subprojects/apache-felix-osgi-bundle-repository.html
@@ -75,6 +75,12 @@ This package contains the API documentation for %{name}.
 %license LICENSE LICENSE.kxml2 NOTICE
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.10-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.0.10-10
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Apr 28 2020 Dinesh Prasanth M K <dmoluguw@redhat.com> - 2.0.10-9
 - Inject junit and mockito dependecy for test
 

@@ -2,7 +2,7 @@
 
 Name:           %{pypi_name}
 Version:        3.0.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        CLI for Postgres Database. With auto-completion and syntax highlighting
 
 License:        BSD
@@ -61,6 +61,7 @@ CLI for Postgres Database. With auto-completion and syntax highlighting
 %autosetup
 # Remove bundled egg-info
 rm -rf %{pypi_name}.egg-info
+sed -i 's#"prompt_toolkit>=.*"#"prompt_toolkit >= 2.0.6"#' setup.py
 
 %build
 %py3_build
@@ -79,6 +80,12 @@ PYTHONPATH=build/lib/ py.test-3
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Itamar Reis Peixoto <itamar@ispbrasil.com.br> - 3.0.0-4
+- lower requirements to prompt_toolkit 2.0.6 +
+
 * Tue Jun 2 2020 Dick Marinus <dick@mrns.nl> - 3.0.0-3
 - Add tests
 

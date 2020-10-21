@@ -10,8 +10,8 @@
 %define lispdir %{_emacs_sitelispdir}/bbdb
 
 Name:           emacs-bbdb
-Version:        3.1.2
-Release:        15%{?dist}
+Version:        3.2
+Release:        1.20201013gitd25c298%{?dist}
 Epoch:          1
 Summary:        A contact management utility for use with Emacs
 Summary(sv):    Ett verktyg för att hantera kontakter i Emacs
@@ -19,13 +19,18 @@ Summary(sv):    Ett verktyg för att hantera kontakter i Emacs
 License:        GPLv3+
 URL:            http://savannah.nongnu.org/projects/bbdb/
 
-Source0:        http://download.savannah.gnu.org/releases/bbdb/bbdb-%{version}.tar.gz
+# Releases are somewhat sporadic. Using the lates commit seems more
+# reliable. The forgemeta macros don't support Savannah. Use the following
+# commands to generate the tarball:
+#   git clone --depth=1 https://git.savannah.gnu.org/git/bbdb.git
+#   tar cJ --exclude=.git --file=bbdb-20201013.tar.xz bbdb
+Source0:	bbdb-20201013.tar.xz
 Source1:	emacs-bbdb.metainfo.xml
-Patch0:         bbdb-3.1.2-migrate-fix.patch
-Patch1:         bbdb-3.1.2-mh-folder-mode-fix.patch
+Patch0:		bbdb-3.2-migrate-fix.patch
+Patch1:		bbdb-3.2-mh-folder-mode-fix.patch
 
 BuildArch:      noarch
-BuildRequires:  emacs info texinfo texinfo-tex
+BuildRequires:  autoconf automake emacs info texinfo texinfo-tex
 BuildRequires:	libappstream-glib
 
 %if %{vmsupport}
@@ -50,11 +55,12 @@ och VM).  BBDB går att anpassa fullständigt.
 
 
 %prep 
-%setup -q -n bbdb-%{version}
+%setup -q -n bbdb
 %patch0 -p1
 %patch1 -p1
 
 %build
+./autogen.sh
 %if %{vmsupport}
 %configure --with-lispdir=%{_emacs_sitelispdir}/bbdb --with-vm-dir=%{_emacs_sitelispdir}/vm
 %else
@@ -106,6 +112,13 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Tue Oct 13 2020 Göran Uddeborg <goeran@uddeborg.se> - 1:3.2-1
+- Upgrade to 3.2
+- Add upstreams patches to build with emacs 27
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.1.2-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.1.2-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:          replacer
 Version:       1.6
-Release:       13%{?dist}
+Release:       17%{?dist}
 Summary:       Replacer Maven Mojo
 License:       MIT
 URL:           https://github.com/beiliubei/maven-replacer-plugin
@@ -9,8 +9,8 @@ Source0:       https://github.com/beiliubei/maven-replacer-plugin/archive/%{vers
 
 BuildRequires:  maven-local
 BuildRequires:  mvn(commons-io:commons-io)
-BuildRequires:  mvn(commons-lang:commons-lang)
 BuildRequires:  mvn(org.apache.ant:ant)
+BuildRequires:  mvn(org.apache.commons:commons-lang3)
 BuildRequires:  mvn(org.apache.maven:maven-plugin-api)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-plugin-plugin)
 BuildRequires:  mvn(xerces:xercesImpl)
@@ -38,11 +38,26 @@ This package contains javadoc for %{name}.
 %pom_remove_plugin :dashboard-maven-plugin
 %pom_remove_plugin :maven-assembly-plugin
 
+# remove hard-coded compiler settings
+%pom_remove_plugin :maven-compiler-plugin
+
+%pom_xpath_inject pom:build/pom:plugins "<plugin>
+<artifactId>maven-javadoc-plugin</artifactId>
+<configuration><source>\${maven.compiler.source}</source><detectJavaApiLink>false</detectJavaApiLink></configuration>
+</plugin>"
+
+# trivial port to commons-lang3
+%pom_change_dep :commons-lang org.apache.commons:commons-lang3:3.8.1
+
+for i in $(find -name "*.java"); do
+    sed -i "s/org.apache.commons.lang./org.apache.commons.lang3./g" $i;
+done
+
 %mvn_file :%{name} %{name}
 %mvn_alias :%{name} com.google.code.maven-replacer-plugin:maven-replacer-plugin
 
 %build
-%mvn_build -f
+%mvn_build -f -- -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 %install
 %mvn_install
@@ -55,6 +70,18 @@ This package contains javadoc for %{name}.
 %license LICENSE
 
 %changelog
+* Thu Jul 30 2020 Fabio Valentini <decathorpe@gmail.com> - 1.6-17
+- Port to commons-lang3.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.6-15
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Fri Jun 26 2020 Mat Booth <mat.booth@redhat.com> - 1.6-14
+- Allow building against Java 11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

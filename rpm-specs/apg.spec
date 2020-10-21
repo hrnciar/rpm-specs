@@ -3,7 +3,7 @@ Summary:		Automated Password Generator for random password generation
 Name:			apg
 
 Version:		2.3.0b
-Release:		36%{?dist}
+Release:		37%{?dist}
 License:		BSD
 URL:			http://www.adel.nursat.kz/%{name}/
 
@@ -97,6 +97,9 @@ fi
 %{_unitdir}/%{name}.socket
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0b-37
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0b-36
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

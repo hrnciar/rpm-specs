@@ -3,7 +3,7 @@
 
 # https://github.com/elves/elvish
 %global goipath         github.com/elves/elvish
-Version:                0.13.1
+Version:                0.14.0
 
 %gometa
 
@@ -11,27 +11,10 @@ Version:                0.13.1
 Friendly Interactive Shell and Expressive Programming Language.}
 
 %global golicenses      LICENSE
-%global godocs          README.md CONTRIBUTING.md website/README.md\\\
-                        website/home.md website/_ttyshot/README.md\\\
-                        website/get/prelude.md website/ref/name.md\\\
-                        website/ref/builtin.md website/ref/bundled.md\\\
-                        website/ref/store.md website/ref/re.md\\\
-                        website/ref/philosophy.md website/ref/prelude.md\\\
-                        website/ref/epm.md website/ref/edit.md\\\
-                        website/ref/language.md website/blog/newsletter-\\\
-                        july-2017.md website/blog/0.11-release-notes.md\\\
-                        website/blog/0.12-release-notes.md\\\
-                        website/blog/newsletter-sep-2017.md\\\
-                        website/blog/0.10-release-notes.md\\\
-                        website/blog/0.9-release-notes.md\\\
-                        website/blog/live.md website/blog/0.13-release-\\\
-                        notes.md website/learn/unique-semantics.md\\\
-                        website/learn/cookbook.md\\\
-                        website/learn/fundamentals.md\\\
-                        website/learn/effective-elvish.md examples
+%global godocs          README.md CONTRIBUTING.md examples
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Friendly Interactive Shell and Expressive Programming Language
 
 # Upstream license specification: BSD-2-Clause
@@ -39,10 +22,11 @@ License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
 
-BuildRequires:  golang(github.com/boltdb/bolt)
+BuildRequires:  golang(github.com/BurntSushi/toml)
 BuildRequires:  golang(github.com/xiaq/persistent/hash)
 BuildRequires:  golang(github.com/xiaq/persistent/hashmap)
 BuildRequires:  golang(github.com/xiaq/persistent/vector)
+BuildRequires:  golang(go.etcd.io/bbolt)
 BuildRequires:  golang(golang.org/x/sys/unix)
 
 %if %{with check}
@@ -79,21 +63,16 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %files
 %license LICENSE
-%doc CONTRIBUTING.md website/README.md website/home.md
-%doc website/_ttyshot/README.md website/get/prelude.md website/ref/name.md
-%doc website/ref/builtin.md website/ref/bundled.md website/ref/store.md
-%doc website/ref/re.md website/ref/philosophy.md website/ref/prelude.md
-%doc website/ref/epm.md website/ref/edit.md website/ref/language.md
-%doc website/blog/newsletter-july-2017.md website/blog/0.11-release-notes.md
-%doc website/blog/0.12-release-notes.md website/blog/newsletter-sep-2017.md
-%doc website/blog/0.10-release-notes.md website/blog/0.9-release-notes.md
-%doc website/blog/live.md website/blog/0.13-release-notes.md
-%doc website/learn/unique-semantics.md website/learn/cookbook.md
-%doc website/learn/fundamentals.md website/learn/effective-elvish.md examples
+%doc CONTRIBUTING.md website/README.md examples
 %{_bindir}/*
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 16:11:15 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.14.0-1
+- Update to 0.14.0
+
 * Tue May 19 21:36:38 EDT 2020 Carson Black <uhhadd@gmail.com> - 0.13.1-1
 - Initial package
-

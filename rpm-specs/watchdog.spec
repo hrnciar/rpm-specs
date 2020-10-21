@@ -1,7 +1,7 @@
 Summary:          Software and/or Hardware watchdog daemon
 Name:             watchdog
 Version:          5.15
-Release:          7%{?dist}
+Release:          8%{?dist}
 License:          GPLv2+
 
 URL:              http://sourceforge.net/projects/watchdog/
@@ -142,6 +142,9 @@ rm %{name}.sysconfig
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.15-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 03 2020 Václav Doležal <vdolezal@redhat.com> - 5.15-7
 - Clean up old SysV-init related files
 

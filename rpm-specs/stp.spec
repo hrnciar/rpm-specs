@@ -1,6 +1,6 @@
 Name:		stp
 Version:	2.3.3
-Release:	8%{?dist}
+Release:	10%{?dist}
 Summary:	Constraint solver/decision procedure
 
 License:	MIT
@@ -53,8 +53,6 @@ Summary:	Python 3 interface to STP
 Requires:	%{name} = %{version}-%{release}
 BuildArch:	noarch
 
-%{?python_provide:%python_provide python3-%{name}}
-
 %description -n python3-%{name}
 Python 3 interface to STP.
 
@@ -73,20 +71,18 @@ rm -f include/stp/Sat/CryptoMinisat5.h.orig
 %build
 export CFLAGS="%{optflags} -I %{_includedir}/minisat"
 export CXXFLAGS="%{optflags} -I %{_includedir}/minisat"
-%cmake -DCMAKE_SKIP_RPATH:BOOL=YES \
-       -DCMAKE_SKIP_INSTALL_RPATH:BOOL=YES \
-       -DPYTHON_EXECUTABLE:FILEPATH=%{_bindir}/python%{python3_version} \
+%cmake -DPYTHON_EXECUTABLE:FILEPATH=%{_bindir}/python%{python3_version} \
        -DPYTHON_LIBRARY:FILEPATH=%{_libdir}/libpython%{python3_version}.so \
-       -DPYTHON_INCLUDE_DIR:FILEPATH=%{_includedir}/python%{python3_version} .
+       -DPYTHON_INCLUDE_DIR:FILEPATH=%{_includedir}/python%{python3_version}
 
 # Fix the help2man invocation
-sed -i "s,help2man,LD_LIBRARY_PATH=$PWD/lib &," CMakeFiles/man_stp.dir/build.make
+sed -i "s,help2man,LD_LIBRARY_PATH=$PWD/lib &," \
+    %{__cmake_builddir}/CMakeFiles/man_stp.dir/build.make
 
-# FIXME: %%{?_smp_mflags} doesn't work due to running genkinds.pl too late
-make
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 # Fix the location of the man page
 mkdir -p %{buildroot}%{_datadir}
@@ -108,6 +104,13 @@ mv %{buildroot}%{_prefix}/man %{buildroot}%{_datadir}/man
 %{python3_sitelib}/%{name}/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.3-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 31 2020 Jonathan Wakely <jwakely@redhat.com> - 2.3.3-8
 - Rebuilt for Boost 1.73
 

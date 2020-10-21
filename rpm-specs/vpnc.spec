@@ -2,7 +2,7 @@
 
 Name:		vpnc
 Version:	0.5.3
-Release:	37%{snapshot}%{?dist}
+Release:	40%{snapshot}%{?dist}
 Summary:	IPSec VPN client compatible with Cisco equipment
 License:	GPLv2+
 URL:		http://www.unix-ag.uni-kl.de/~massar/vpnc/
@@ -23,7 +23,11 @@ Patch2:		vpnc-0.5.3-use-autodie.patch
 BuildRequires:  gcc
 BuildRequires:	libgcrypt-devel > 1.1.90
 BuildRequires:	gnutls-devel
+# required for ./makeman.pl
+BuildRequires:	perl-interpreter
 BuildRequires:	perl(autodie)
+BuildRequires:	perl(filetest)
+BuildRequires:	perl(if)
 BuildRequires: systemd
 Requires:	iproute vpnc-script
 
@@ -95,6 +99,16 @@ install -m 0644 %{SOURCE8} %{buildroot}%{_tmpfilesdir}/%{name}.conf
 
 
 %changelog
+* Mon Aug 03 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 0.5.3-40.svn550
+- add missing perl dependencies for makeman.pl
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-39.svn550
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-38.svn550
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-37.svn550
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

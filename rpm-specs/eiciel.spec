@@ -1,16 +1,13 @@
 Name: eiciel
-Version: 0.9.12.1
-Release: 8%{?dist}
+Version: 0.9.13
+Release: 1%{?dist}
 Summary: Graphical editor for ACLs and xattr
 License: GPLv2+
 URL: http://rofi.roger-ferrer.org/eiciel
 Source0: http://rofi.roger-ferrer.org/eiciel/files/eiciel-%{version}.tar.bz2
 
-# libxattr < 2.4.48-3.fc29 was missing xattr.h
-# and <attr/xattr.h> is deprecated, use <sys/xattr.h> instead
-Patch0: eiciel-0.9.12.1-sys-xattr.patch
-# avoid C++ name mangling for Nautilus extension symbols 
-Patch1: eiciel-0.9.12.1-nautilus-exports.patch
+# upstream PR #6
+Patch2: eiciel-0.9.13-missing-file.patch
 
 BuildRequires: gcc-c++
 BuildRequires: libgnomeui-devel
@@ -42,7 +39,6 @@ iconv -f ISO-8859-1 -t UTF-8 AUTHORS > foo ; mv foo AUTHORS
 
 
 %build
-export CXXFLAGS="%{optflags} -std=c++11"
 %configure --with-nautilus-extensions-dir=%{ext_dir} \
     --disable-static
 V=1 make %{?_smp_mflags}
@@ -73,6 +69,15 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Sat Aug 29 2020 Michael Schwendt <mschwendt@fedoraproject.org> - 0.9.13-1
+- Update to 0.9.13 (adds recursive changing of permissions).
+
+* Wed Aug 26 2020 Jeff Law <law@redhat.com> - 0.9.12.1-10
+- No longer force C++11 mode
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.12.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 26 2020 Michael Schwendt <mschwendt@fedoraproject.org> - 0.9.12.1-8
 - Avoid C++ name mangling for Nautilus extension symbols. (#1807260)
 

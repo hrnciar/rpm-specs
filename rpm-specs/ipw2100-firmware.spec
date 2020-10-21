@@ -1,7 +1,7 @@
 Summary: Firmware for Intel® PRO/Wireless 2100 network adaptors
 Name: ipw2100-firmware
 Version: 1.3
-Release: 26%{?dist}
+Release: 27%{?dist}
 License: Redistributable, no modification permitted
 URL: http://ipw2100.sourceforge.net/firmware.php
 # License agreement must be displayed before download (referer protection)
@@ -42,6 +42,9 @@ in /lib/firmware/LICENSE.ipw2100. Please read it carefully.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

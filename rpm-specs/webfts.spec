@@ -1,6 +1,6 @@
 Name:           webfts
 Version:        2.2.11
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Web Interface for FTS 
 License:        ASL 2.0
 URL:            https://gitlab.cern.ch/fts/webfts
@@ -45,6 +45,9 @@ service httpd restart
 /var/www/%{name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.11-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.11-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

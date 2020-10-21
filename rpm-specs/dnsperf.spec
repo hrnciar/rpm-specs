@@ -11,7 +11,7 @@
 Summary: Benchmarking authorative and recursing DNS servers
 Name: dnsperf
 Version: 2.3.4
-Release: 1%{?dist}
+Release: 6%{?dist}
 # New page was found, but on github is also project, that seems to be official.
 #
 # Github project has different license and so far is the only one with any
@@ -38,12 +38,22 @@ Source1: https://www.dns-oarc.net/files/dnsperf/data/queryfile-example-10million
 
 Patch1: dnsperf-nolicense.patch
 
-BuildRequires: bind-devel >= 9.10.0, gcc, make
+BuildRequires: gcc, make
 BuildRequires: autoconf automake libtool
+# libcap-devel is not required by BIND headers,
+# but it is contained in isc-config --libs isc
+# Both Fedora and RHEL 8 is missing such dependency
+BuildRequires: libcap-devel
+%if 0%{?rhel} && 0%{?rhel} < 8
 # Following are (incomplete dependencies of bind-devel)
 # since 9.11.5 should provides all in requires, leave these for compatibility
-BuildRequires: libcap-devel, gzip, openssl-devel
-BuildRequires: krb5-devel, libxml2-devel, GeoIP-devel
+BuildRequires: gzip, openssl-devel
+BuildRequires: krb5-devel, libxml2-devel
+BuildRequires: GeoIP-devel
+BuildRequires: bind-devel >= 9.10.0
+%else
+BuildRequires: bind-devel >= 9.11.5
+%endif
 
 BuildRequires: /usr/bin/pathfix.py
 
@@ -82,7 +92,7 @@ This package provides example query file to use by dnsperf and resperf tools.
 
 %build
 autoreconf -fi
-%configure
+%configure CPPFLAGS='-I /usr/include/bind9'
 %make_build
 
 %if %{with python2}
@@ -113,6 +123,22 @@ chmod 644 %{buildroot}%{_datadir}/%{name}/queryfile-example-current
 %{_datadir}/dnsperf/queryfile-example-current
 
 %changelog
+* Tue Sep 01 2020 Petr Menšík <pemensik@redhat.com> - 2.3.4-6
+- Stop demanding GeoIP-devel where not required
+
+* Fri Aug 21 2020 Petr Menšík <pemensik@redhat.com> - 2.3.4-5
+- Rebuilt for bind 9.11.22
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.4-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Petr Menšík <pemensik@redhat.com> - 2.3.4-2
+- Add manual include for bind 9.16 support
+
 * Mon May 25 2020 Petr Menšík <pemensik@redhat.com> - 2.3.4-1
 - Update to 2.3.4
 

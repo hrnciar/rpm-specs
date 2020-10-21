@@ -1,6 +1,6 @@
 Name:           dumpasn1
 Version:        20170309
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        ASN.1 object dump utility
 
 License:        Copyright only
@@ -49,6 +49,9 @@ install -Dpm 644 dumpasn1.1 $RPM_BUILD_ROOT%{_mandir}/man1/dumpasn1.1
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20170309-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20170309-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

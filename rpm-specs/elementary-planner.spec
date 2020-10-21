@@ -2,7 +2,7 @@
 %global uuid    com.github.alainm23.%{appname}
 
 Name:           elementary-%{appname}
-Version:        2.4.2
+Version:        2.5.4
 Release:        1%{?dist}
 Summary:        Task manager with Todoist support designed for GNU/Linux
 
@@ -89,6 +89,36 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Mon Oct 12 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2.5.4-1
+- build(update): 2.5.4
+
+* Wed Oct  7 21:03:44 EEST 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2.5.3-1
+- build(update): 2.5.3
+
+* Wed Oct  7 19:58:57 EEST 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2.5.2-1
+- build(update): 2.5.2
+
+* Sat Oct  3 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2.5.1-1
+- Update to 2.5.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Kevin Fenzi <kevin@scrye.com> - 2.4.6-2
+- Rebuild for new evolution-data-server
+
+* Wed Jul 08 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2.4.6-1
+- Update 2.4.6
+
+* Mon Jun 29 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2.4.5-1
+- Update 2.4.5
+
+* Sun Jun 28 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2.4.4-1
+- Update 2.4.4
+
+* Sun Jun 28 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2.4.3-1
+- Update 2.4.3
+
 * Mon Jun 22 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2.4.2-1
 - Update 2.4.2
 

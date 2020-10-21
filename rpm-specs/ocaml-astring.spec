@@ -5,15 +5,15 @@
 %global srcname astring
 
 Name:           ocaml-%{srcname}
-Version:        0.8.3
-Release:        8%{?dist}
+Version:        0.8.5
+Release:        3%{?dist}
 Summary:        Alternative String module for OCaml
 
 License:        ISC
 URL:            https://erratique.ch/software/astring
-Source0:        https://github.com/dbuenzli/astring/archive/v%{version}/%{srcname}-%{version}.tar.gz
+Source0:        https://github.com/dbuenzli/%{srcname}/archive/v%{version}/%{srcname}-%{version}.tar.gz
 
-BuildRequires:  ocaml >= 4.01.0
+BuildRequires:  ocaml >= 4.05.0
 BuildRequires:  ocaml-findlib
 BuildRequires:  ocaml-ocamlbuild
 BuildRequires:  ocaml-ocamldoc
@@ -40,7 +40,7 @@ The %{name}-devel package contains libraries and signature files for
 developing applications that use %{name}.
 
 %prep
-%autosetup -n %{srcname}-%{version} -p0
+%autosetup -n %{srcname}-%{version}
 
 # Topkg does watermark replacements only if run inside a git checkout.  Github
 # tarballs do not come with a .git directory.  Therefore, we do the watermark
@@ -102,6 +102,25 @@ ocaml pkg/pkg.ml test
 %{_libdir}/ocaml/%{srcname}/%{srcname}*.mli
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.8.5-3
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.8.5-2
+- OCaml 4.11.0 rebuild
+
+* Wed Aug 19 2020 Jerry James <loganjerry@gmail.com> - 0.8.5-1
+- Version 0.8.5
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Dan Čermák <dan.cermak@cgc-instruments.com> - 0.8.4-1
+- New upstream release 0.8.4 (rhbz#1849120)
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 0.8.3-8
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

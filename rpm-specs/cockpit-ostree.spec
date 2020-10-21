@@ -1,5 +1,5 @@
 # This spec file has been automatically updated
-Version:        182
+Version:        184
 Release: 1%{?dist}
 Name: cockpit-ostree
 BuildArch: noarch
@@ -17,6 +17,8 @@ Requires: rpm-ostree
 # Download from https://github.com/cockpit-project/cockpit-ostree/releases
 Source: cockpit-ostree-%{version}.tar.gz
 
+%define debug_package %{nil}
+
 %description
 Cockpit component for managing software updates for ostree based systems.
 
@@ -33,6 +35,22 @@ find %{buildroot}%{_datadir}/cockpit/ -name '*.map' | xargs rm --verbose
 %{_datadir}/cockpit/*
 
 %changelog
+* Mon Oct 12 2020 Martin Pitt <martin@piware.de> - 184-1
+
+- NPM updates
+- Release to Fedora 33
+
+* Mon Oct 05 2020 Martin Pitt <martin@piware.de> - 183-3
+- Rebuilt after accidental test release 999
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 183-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 08 2020 Martin Pitt <martin@piware.de> - 183-1
+
+- Rewrite with PatternFly 4
+- Send update availability to Overview Health notifications
+
 * Sun Jun 14 2020 Martin Pitt <martin@piware.de> - 182-1
 
 - Stop importing cockpit's deprecated base1/patternfly.css

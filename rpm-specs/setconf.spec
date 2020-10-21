@@ -1,14 +1,15 @@
 Name:           setconf
-Version:        0.7.6 
-Release:        6%{?dist}
+Version:        0.7.7 
+Release:        3%{?dist}
 Summary:        Utility for changing settings in configuration text files 
 
 License:        GPLv2
 URL:            http://setconf.roboticoverlords.org/ 
 Source0:        https://github.com/xyproto/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 
-Patch0:         %{name}-%{version}-rm_sb.patch
-Patch1:         %{name}-%{version}-add_man.patch
+# Patch#:       setconf-version-description.patch
+Patch0:         setconf-0.7.6-rm_sb.patch
+Patch2:         setconf-0.7.7-add_man.patch
 
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
@@ -44,6 +45,16 @@ cd testcases/ && ./py3_test.sh
 %{_bindir}/%{name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Jan Macku <jamacku@redhat.com> - 0.7.7-2
+- Fix names of patches in spec
+- Fix Patch1 to match the source
+
+* Tue Jul 07 2020 Jan Macku <jamacku@redhat.com> - 0.7.7-1
+- New release - setconf 0.7.7
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.6-6
 - Rebuilt for Python 3.9
 

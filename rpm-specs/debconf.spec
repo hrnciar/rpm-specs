@@ -1,6 +1,6 @@
 Name:           debconf
 Version:        1.5.74
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Debian configuration management system
 
 License:        BSD
@@ -259,6 +259,12 @@ done
 %{python3_sitelib}/__pycache__/debconf.*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.74-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.5.74-5
+- Perl 5.32 rebuild
+
 * Sat Jun 06 2020 Sérgio Basto <sergio@serjux.com> - 1.5.74-4
 - Add sub-package LDAP driver to avoid the big number of dependencies of
   perl-LDAP

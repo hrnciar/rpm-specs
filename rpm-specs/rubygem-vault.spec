@@ -7,7 +7,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 0.13.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: A Ruby API client for interacting with a Vault server
 License: MPLv2.0
 URL: https://github.com/hashicorp/vault-ruby
@@ -79,6 +79,9 @@ popd
 %{gem_instdir}/vault.gemspec
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 03 2020 Ed Marshall <esm@logic.net> - 0.13.1-2
 - Filter out aws-sigv4 requirement, since it's explicitly optional.
 

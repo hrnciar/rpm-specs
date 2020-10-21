@@ -5,11 +5,11 @@
 %global crate actix-service
 
 Name:           rust-%{crate}
-Version:        1.0.5
+Version:        1.0.6
 Release:        1%{?dist}
 Summary:        Actix service
 
-# Upstream license specification: MIT/Apache-2.0
+# Upstream license specification: MIT OR Apache-2.0
 License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/actix-service
 Source:         %{crates_source}
@@ -22,7 +22,8 @@ BuildArch:      noarch
 BuildRequires:  rust-packaging
 
 %global _description %{expand:
-Actix service.}
+Service trait and combinators for representing asynchronous request/response
+operations.}
 
 %description %{_description}
 
@@ -37,7 +38,7 @@ which use "%{crate}" crate.
 
 %files          devel
 %license LICENSE-MIT LICENSE-APACHE
-%doc CHANGES.md
+%doc CHANGES.md README.md
 %{cargo_registry}/%{crate}-%{version_no_tilde}/
 
 %package     -n %{name}+default-devel
@@ -71,6 +72,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Sep 12 2020 Josh Stone <jistone@redhat.com> - 1.0.6-1
+- Update to 1.0.6
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 02 08:51:48 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.0.5-1
 - Update to 1.0.5
 

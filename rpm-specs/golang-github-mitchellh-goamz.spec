@@ -15,7 +15,7 @@ An Amazon Library for Go.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.20%{?dist}
+Release:        0.22%{?dist}
 Summary:        Golang Amazon Library
 
 License:        LGPLv3.0-only
@@ -48,6 +48,13 @@ find . -name "*.go" -exec sed -i "s|github.com/motain/gocheck|gopkg.in/check.v1|
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.22
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -7,7 +7,7 @@
 
 Name:           avr-libc
 Version:        2.0.0
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        C library for use with GCC on Atmel AVR microcontrollers
 License:        BSD
 URL:            http://www.nongnu.org/avr-libc/
@@ -137,6 +137,9 @@ chmod -R u=rwX,g=rX,o=rX $RPM_BUILD_ROOT%{_docdir}/%{name}/html
 %doc %{_docdir}/%{name}/%{name}*.pdf
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

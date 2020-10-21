@@ -1,4 +1,4 @@
-%if 0%{?fedora} >= 31
+%if 0%{?fedora} >= 31 || 0%{?rhel} > 8
 %bcond_with python2
 %else
 %bcond_without python2
@@ -6,7 +6,7 @@
 
 Name:       python-multilib
 Version:    1.2
-Release:    15%{?dist}
+Release:    16%{?dist}
 Summary:    A module for determining if a package is multilib or not
 License:    GPLv2
 URL:        https://pagure.io/releng/python-multilib
@@ -99,6 +99,9 @@ Requires:       %{name}-conf = %{version}-%{release}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2-15
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           opam
 Version:        2.0.6
-Release:        6%{?dist}
+Release:        10%{?dist}
 Summary:        Source-based package manager for OCaml
 
 # Standard "OCaml linking exception", see included file.
@@ -110,6 +110,19 @@ rm -rf %{buildroot}%{_prefix}/doc
 %{_mandir}/man1/opam-installer.1*
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 2.0.6-10
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 2.0.6-9
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.6-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.6-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Richard W.M. Jones <rjones@redhat.com> - 2.0.6-6
 - Rebuild for updated ocaml-extlib (RHBZ#1837823).
 

@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          2.2.2
-Release:          2%{?dist}
+Release:          4%{?dist}
 Summary:          General Smoothing Splines
 
 License:          GPLv2+
@@ -61,6 +61,12 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Aug 10 2020 Tom Callaway <spot@fedoraproject.org> - 2.2.2-4
+- rebuild for FlexiBLAS R
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 2.2.2-2
 - rebuild for R 4
 

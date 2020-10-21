@@ -4,10 +4,9 @@
 # https://github.com/kubernetes/cri-api
 %global goipath         k8s.io/cri-api
 %global forgeurl        https://github.com/kubernetes/cri-api
-Version:                1.17.2
-%global tag             kubernetes-1.17.2
+Version:                1.18.9
+%global tag             kubernetes-1.18.9
 %global distprefix      %{nil}
-
 
 %gometa
 
@@ -31,8 +30,9 @@ BuildRequires:  golang(github.com/gogo/protobuf/gogoproto)
 BuildRequires:  golang(github.com/gogo/protobuf/proto)
 BuildRequires:  golang(github.com/gogo/protobuf/sortkeys)
 BuildRequires:  golang(github.com/stretchr/testify/assert)
-BuildRequires:  golang(golang.org/x/net/context)
 BuildRequires:  golang(google.golang.org/grpc)
+BuildRequires:  golang(google.golang.org/grpc/codes)
+BuildRequires:  golang(google.golang.org/grpc/status)
 
 %description
 %{common_description}
@@ -53,6 +53,15 @@ BuildRequires:  golang(google.golang.org/grpc)
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 15:56:31 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.9-1
+- Update to 1.18.9
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 17:59:24 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-1
+- Update to 1.18.3
+
 * Wed Apr 01 2020 Olivier Lemasle <o.lemasle@gmail.com> - 1.17.2-1
 - Update to 1.17.2
 

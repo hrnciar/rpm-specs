@@ -4,7 +4,7 @@
 
 # https://github.com/rubiojr/go-vhd
 %global goipath         github.com/rubiojr/go-vhd
-%global commit          0bfd3b39853cdde5762efda92289f14b0ac0491b
+%global commit          ccecf6c0760f5698115dda767d15ba2b9a31469a
 
 %gometa
 
@@ -16,15 +16,17 @@ Go package and CLI to work with VHD images.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Go package and CLI to work with VHD images
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
 
-BuildRequires:  golang(github.com/codegangsta/cli)
 BuildRequires:  golang(github.com/dustin/go-humanize)
+BuildRequires:  golang(github.com/urfave/cli)
+BuildRequires:  golang(golang.org/x/text/encoding/unicode)
+BuildRequires:  golang(golang.org/x/text/transform)
 
 %description
 %{common_description}
@@ -45,6 +47,12 @@ BuildRequires:  golang(github.com/dustin/go-humanize)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 23:56:41 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200801gitccecf6c
+- Bump to commit ccecf6c0760f5698115dda767d15ba2b9a31469a
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

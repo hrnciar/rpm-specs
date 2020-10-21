@@ -1,9 +1,14 @@
 # Currently all of the test suite requires the old Perl infrastructure to run.
+# When building flatpak, tests have to be disabled by default due to some missing dependencies.
+%if 0%{?flatpak}
+%bcond_with perltests
+%else
 %bcond_without perltests
+%endif
 
 Name:           prusa-slicer
 Version:        2.2.0
-Release:        2%{?dist}
+Release:        6%{?dist}
 Summary:        3D printing slicer optimized for Prusa printers
 
 # The main PrusaSlicer code and resources are AGPLv3, with small parts as
@@ -29,6 +34,11 @@ Patch1:         endian.patch
 # Highly-parallel uild can run out of memory on PPC64le
 %ifarch ppc64le
 %global _smp_ncpus_max 8
+%endif
+
+# See https://bugzilla.redhat.com/show_bug.cgi?id=1865257
+%ifarch %{arm}
+%global _lto_cflags %{nil}
 %endif
 
 BuildRequires:  boost-devel
@@ -217,6 +227,9 @@ Obsoletes: slic3r-prusa3d < 1.41.3-2
 Provides: slic3r-prusa3d = %version-%release
 %endif
 
+# Get Fedora 33++ behavior on anything older
+%undefine __cmake_in_source_build
+
 %description
 PrusaSlicer takes 3D models (STL, OBJ, AMF) and converts them into G-code
 instructions for FFF printers or PNG layers for mSLA 3D printers. It's
@@ -290,20 +303,16 @@ commit "Remove xfail tests."
 
 
 %build
-mkdir Build
-pushd Build
-
 # -DSLIC3R_PCH=0 - Disable precompiled headers, which break cmake for some reason
 # -DSLIC3R_FHS=1 - Enable FHS layout instead of installing things into the resources directory
 # -DSLIC3R_WX_STABLE=1 - Allow use of wxGTK version 3.0 instead of 3.1.
-%cmake .. -DSLIC3R_PCH=0 -DSLIC3R_FHS=1 -DSLIC3R_WX_STABLE=1 -DSLIC3R_GTK=3 \
+%cmake -DSLIC3R_PCH=0 -DSLIC3R_FHS=1 -DSLIC3R_WX_STABLE=1 -DSLIC3R_GTK=3 \
     -DSLIC3R_BUILD_TESTS=1 -DCMAKE_BUILD_TYPE=Release \
 %if %{with perltests}
     -DSLIC3R_PERL_XS=1
 %endif
 
-%make_build
-popd
+%cmake_build
 
 # Extract multiple sizes of PNG from the included .ico file.  The order of
 # extracted files can change, so a bit of magic is required to get stable
@@ -325,9 +334,7 @@ popd
 
 
 %install
-pushd Build
-%make_install
-popd
+%cmake_install
 
 # Since the binary segfaults under Wayland, we have to wrap it.
 mv %buildroot%_bindir/prusa-slicer %buildroot%_bindir/prusa-slicer.wrapped
@@ -350,8 +357,11 @@ desktop-file-install --dir=%buildroot%_datadir/applications %SOURCE1
 # we want the test suite to run.  It could be placed into a subpackage, but
 # nothing needs it currently and it would conflict with the other slic3r
 # package.
-rm -rf %buildroot/%perl_vendorarch
-rm -rf %buildroot/%perl_vendorlib
+#
+# The %%perl_vendorarch and %%perl_vendorlib can be undefined,
+# which would cause deleting of the whole buildroot.
+%{?perl_vendorarch:rm -rf %buildroot/%perl_vendorarch}
+%{?perl_vendorlib:rm -rf %buildroot/%perl_vendorlib}
 
 # Upstream installs the translation source files when they probably shouldn't
 ls -lR %buildroot%_datadir/PrusaSlicer/localization
@@ -386,8 +396,7 @@ find %buildroot%_datadir/PrusaSlicer/localization -type d | sed '
 # Some tests are Perl but there is a framework for other tests even though
 # currently the only thing that uses them is one of the bundled libraries.
 # There's no reason not to run as much as we can.
-pushd Build
-make test ARGS=-V
+%cmake_build -- test ARGS=-V
 
 
 %files -f license-files -f lang-files
@@ -403,6 +412,21 @@ make test ARGS=-V
 
 
 %changelog
+* Wed Aug 26 2020 Jan Beran <jaberan@redhat.com> - 2.2.0-6
+- Add fixes for the flatpak build:
+  disable perltests by default when building flatpak
+  don't remove Perl modules when building without perltests
+
+* Mon Aug 24 2020 Miro Hrončok <mhroncok@redhat.com> - 2.2.0-5
+- Rebuilt for openvdb 7.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Miro Hrončok <mhroncok@redhat.com> - 2.2.0-2
 - Rebuilt and fix for Boost 1.73.0 (#1842011)
 

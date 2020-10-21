@@ -1,6 +1,6 @@
 Name:           capstats
 Version:        0.26
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A command-line tool collecting packet statistics
 
 License:        BSD
@@ -34,6 +34,9 @@ tool's total run-time.
 %{_bindir}/%{name}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.26-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.26-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

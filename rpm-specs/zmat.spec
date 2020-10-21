@@ -1,6 +1,6 @@
 Name:           zmat
 Version:        0.9.8
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        An easy-to-use data compression library
 License:        GPLv3+
 URL:            https://github.com/fangq/%{name}
@@ -88,6 +88,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.8-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Qianqian Fang <fangqq@gmail.com> - 0.9.8-4
 - Move sample codes to devel and remove from the main package
 

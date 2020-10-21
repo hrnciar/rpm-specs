@@ -1,6 +1,6 @@
 Name:           python-deap
 Version:        1.3.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Distributed Evolutionary Algorithms in Python
 
 License:        LGPLv3
@@ -93,6 +93,9 @@ rm -rf build/html/.{doctrees,buildinfo}
 %doc build/html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.1-2
 - Rebuilt for Python 3.9
 

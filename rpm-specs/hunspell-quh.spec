@@ -2,7 +2,7 @@ Name: hunspell-quh
 Summary: Quechua, South Bolivia hunspell dictionaries
 %global upstreamid 20110816
 Version: 0.%{upstreamid}
-Release: 17%{?dist}
+Release: 18%{?dist}
 # Following links are dead now
 # don't report any bugs
 Source: http://www.runasimipi.org/quh_BO-pack.zip
@@ -33,6 +33,9 @@ cp -p quh_BO/quh_BO.* $RPM_BUILD_ROOT/%{_datadir}/myspell/
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20110816-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20110816-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

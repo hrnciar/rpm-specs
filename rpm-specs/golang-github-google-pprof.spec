@@ -3,7 +3,7 @@
 
 # https://github.com/google/pprof
 %global goipath         github.com/google/pprof
-%global commit          f8f10df8421355d11843c3719debc9dec2cc1ad7
+%global commit          1a94d8640e99342fa76ae6296aaa921d08ac451f
 
 %gometa
 
@@ -19,7 +19,7 @@ text and graphical reports (through the use of the dot visualization package).}
 
 Name:           %{goname}
 Version:        0
-Release:        0.7%{?dist}
+Release:        0.8%{?dist}
 Summary:        Tool for visualization and analysis of profiling data
 
 # Upstream license specification: BSD-3-Clause and Apache-2.0
@@ -53,7 +53,7 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
-%gocheck
+%gocheck -d internal/binutils
 %endif
 
 %files
@@ -64,6 +64,9 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 13:06:34 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.8.20200727git1a94d86
+- Bump to commit 1a94d8640e99342fa76ae6296aaa921d08ac451f
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

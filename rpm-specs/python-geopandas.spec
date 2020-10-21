@@ -1,8 +1,8 @@
 %global srcname geopandas
 
 Name:           python-%{srcname}
-Version:        0.7.0
-Release:        2%{?dist}
+Version:        0.8.1
+Release:        3%{?dist}
 Summary:        Geographic Pandas extensions
 %global _description \
 GeoPandas is a project to add support for geographic data to Pandas objects. \
@@ -28,6 +28,7 @@ Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-descartes
 BuildRequires:  python3-fiona >= 1.0.1
 BuildRequires:  python3-pandas >= 0.23
@@ -54,8 +55,7 @@ BuildRequires:  python3-matplotlib >= 2.0.1
 
 
 %check
-PYTHONPATH="%{buildroot}%{python3_sitelib}" \
-    py.test-%{python3_version} -ra geopandas -m 'not web'
+%{pytest} -ra geopandas -m 'not web'
 
 
 %files -n python3-%{srcname}
@@ -66,6 +66,18 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}" \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.8.1-2
+- Fix alternate architecture patch.
+
+* Thu Jul 16 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.8.1-1
+- Update to latest version
+
+* Thu Jul 02 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.8.0-1
+- Update to latest version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.0-2
 - Rebuilt for Python 3.9
 

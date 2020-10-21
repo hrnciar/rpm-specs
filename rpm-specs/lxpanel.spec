@@ -41,7 +41,7 @@
 
 Name:           lxpanel
 Version:        0.10.0
-Release:        %{fedorarel}%{?dist}.2
+Release:        %{fedorarel}%{?dist}.3
 Summary:        A lightweight X11 desktop panel
 
 License:        GPLv2+
@@ -221,6 +221,9 @@ cd ..
 %{_libdir}/pkgconfig/lxpanel.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-2.D20190301gitb9ad6f2a.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-2.D20190301gitb9ad6f2a.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

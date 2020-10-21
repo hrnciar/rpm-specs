@@ -8,7 +8,7 @@
 
 Name:           wagyu
 Version:        0.5.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A general library for geometry operations of union, intersections, difference, and xor
 
 License:        Boost
@@ -86,6 +86,9 @@ cp -pr include/mapbox %{buildroot}%{_includedir}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar  4 2020 Tom Hughes <tom@compton.nu> - 0.5.0-1
 - Update to 0.5.0 upstream release
 

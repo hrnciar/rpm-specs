@@ -1,6 +1,6 @@
 Name:           ballbuster
 Version:        1.0
-Release:        33%{?dist}
+Release:        34%{?dist}
 Summary:        Move the paddle to bounce the ball and break all the bricks
 License:        GPLv2+
 # Upstream is dead, all downloads are gone
@@ -61,6 +61,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-33
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

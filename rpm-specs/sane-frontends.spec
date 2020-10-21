@@ -1,6 +1,6 @@
 Name: sane-frontends
 Version: 1.0.14
-Release: 34%{?dist}
+Release: 37%{?dist}
 Summary: Graphical frontend to SANE
 URL: http://www.sane-project.org
 Source0: ftp://ftp.sane-project.org/pub/sane/%{name}-%{version}/%{name}-%{version}.tar.gz
@@ -17,6 +17,8 @@ Patch1: sane-frontends-1.0.14-sane-backends-1.0.20.patch
 Patch2: sane-frontends-1.0.14-xcam-man.patch
 # Update lib/snprintf.c to current version from LPRng to resolve license issue (#1102522)
 Patch3: sane-frontends-1.0.14-update-to-current-lprng-plp_snprintf.patch
+# 1837961 - [abrt] sane-frontends: operator delete(): scanadf killed by SIGSEGV
+Patch4: frontends-scanadf-segv.patch
 
 License: GPLv2+ and LGPLv2+ and GPLv2+ with exceptions
 # gcc is no longer in buildroot by default
@@ -34,13 +36,14 @@ This packages includes the scanadf and xcam programs.
 %patch1 -p1 -b .sane-backends-1.0.20
 %patch2 -p1 -b .xcam-man
 %patch3 -p1 -b .snprintf
+%patch4 -p1 -b .scanadf-segv
 
 %build
 %configure --with-gnu-ld --prefix=%{_prefix} --sysconfdir=%{_sysconfdir} --mandir=%{_mandir}
-make %{?_smp_mflags}
+%make_build
 
 %install
-make DESTDIR=%{buildroot} install
+%make_install
 
 # Not xscanimage; use xsane instead.
 rm -f %{buildroot}%{_bindir}/xscanimage
@@ -55,6 +58,16 @@ rm -f %{buildroot}%{_datadir}/sane/sane-style.rc
 # intended to be used from the command line
 
 %changelog
+* Thu Aug 20 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.0.14-37
+- 1837961 - [abrt] sane-frontends: operator delete(): scanadf killed by SIGSEGV
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.14-36
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1.0.14-35
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.14-34
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

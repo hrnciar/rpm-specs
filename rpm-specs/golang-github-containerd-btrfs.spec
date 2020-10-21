@@ -3,7 +3,7 @@
 
 # https://github.com/containerd/btrfs
 %global goipath         github.com/containerd/btrfs
-%global commit          af5082808c833de0e79c1e72eea9fea239364877
+%global commit          153935315f4ab9be5bf03650a1341454b05efa5d
 
 %gometa
 
@@ -15,7 +15,7 @@ Package btrfs provides bindings for working with btrfs partitions from Go.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Btrfs bindings for Go
 
 # Upstream license specification: Apache-2.0
@@ -44,6 +44,12 @@ BuildRequires:  golang(github.com/pkg/errors)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 14:21:47 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200725git1539353
+- Bump to commit 153935315f4ab9be5bf03650a1341454b05efa5d
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

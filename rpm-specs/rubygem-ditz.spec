@@ -3,7 +3,7 @@
 Summary:	A command-line issue tracker
 Name:		rubygem-%{gem_name}
 Version:	0.5
-Release:	22%{?dist}
+Release:	23%{?dist}
 License:	GPLv3+ with exceptions
 URL:		http://ditz.rubyforge.org/
 Requires:	rubygem(trollop)
@@ -78,6 +78,9 @@ ln -s ../../../../%{gem_instdir}/man/ditz.1 ditz.1
 %{_mandir}/man1/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

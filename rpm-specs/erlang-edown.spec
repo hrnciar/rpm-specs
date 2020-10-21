@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	0.8.1
-Release:	12%{?dist}
+Release:	13%{?dist}
 BuildArch:	noarch
 Summary:	EDoc extension for generating Github-flavored Markdown
 License:	ASL 2.0
@@ -43,6 +43,9 @@ EDoc extension for generating Github-flavored Markdown.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

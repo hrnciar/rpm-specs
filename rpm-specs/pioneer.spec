@@ -1,6 +1,8 @@
 # https://github.com/pioneerspacesim/pioneer/issues/3846
 ExclusiveArch: %{ix86} x86_64
 
+%global __cmake_in_source_build 1
+
 %global use_autotools 0
 %global use_intermediate 0
 
@@ -24,7 +26,7 @@ ExclusiveArch: %{ix86} x86_64
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20200203
-Release:       2%{date}%{shortcommit}%{?dist}
+Release:       4%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -284,6 +286,13 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200203-4
+- Second attempt - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+- Enable cmake_in_source_build
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200203-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 14 2020 Antonio Trande <sagitter@fedoraproject.org> - 20200203-2
 - Conform fonts symlinks to the new paths (rhbz#1835506)
 

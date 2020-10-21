@@ -3,7 +3,7 @@
 
 # https://github.com/googleapis/gnostic
 %global goipath         github.com/googleapis/gnostic
-Version:                0.4.1
+Version:                0.5.1
 
 %gometa
 
@@ -49,7 +49,11 @@ BuildRequires:  golang(github.com/golang/protobuf/jsonpb)
 BuildRequires:  golang(github.com/golang/protobuf/proto)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/any)
-BuildRequires:  golang(gopkg.in/yaml.v2)
+BuildRequires:  golang(github.com/stoewer/go-strcase)
+BuildRequires:  golang(google.golang.org/protobuf/proto)
+BuildRequires:  golang(google.golang.org/protobuf/reflect/protoreflect)
+BuildRequires:  golang(google.golang.org/protobuf/runtime/protoimpl)
+BuildRequires:  golang(gopkg.in/yaml.v3)
 
 %if %{with check}
 # Tests
@@ -84,7 +88,13 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %if %{with check}
 %check
 # Needs network
-%gocheck -d . -d generate-gnostic -d compiler -d extensions -d plugins
+%gocheck -d . \
+         -d generate-gnostic \
+         -d compiler \
+         -d extensions \
+         -d plugins \
+         -d plugins/gnostic-complexity \
+         -d plugins/gnostic-vocabulary
 %endif
 
 %files
@@ -97,6 +107,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Fri Aug 14 01:00:35 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.5.1-1
+- Update to 0.5.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 14 01:03:04 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.4.1-1
 - Update to 0.4.1
 

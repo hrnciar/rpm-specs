@@ -10,7 +10,7 @@ Name:			ndesk-dbus-glib
 URL:			http://www.ndesk.org/DBusSharp
 License:		MIT
 Version:		0.4.1
-Release:		31%{?dist}
+Release:		32%{?dist}
 Summary:		Provides glib mainloop integration for ndesk-dbus
 Source0:		http://www.ndesk.org/archive/dbus-sharp/ndesk-dbus-glib-%{version}.tar.gz
 
@@ -59,6 +59,9 @@ test "%{_libdir}" = "%{_prefix}/lib" || mv $RPM_BUILD_ROOT%{_prefix}/lib/pkgconf
 %{_libdir}/pkgconfig/ndesk-dbus-glib-1.0.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

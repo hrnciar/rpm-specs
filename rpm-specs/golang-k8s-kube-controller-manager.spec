@@ -4,8 +4,8 @@
 # https://github.com/kubernetes/kube-controller-manager
 %global goipath         k8s.io/kube-controller-manager
 %global forgeurl        https://github.com/kubernetes/kube-controller-manager
-Version:                1.15.0
-%global tag             kubernetes-1.15.0
+Version:                1.18.9
+%global tag             kubernetes-1.18.9
 %global distprefix      %{nil}
 
 %gometa
@@ -17,7 +17,7 @@ This library contains code to expose kube-controller-manager API.}
 %global godocs          README.md code-of-conduct.md CONTRIBUTING.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Kube-controller-manager component configs
 
 # Upstream license specification: Apache-2.0
@@ -49,6 +49,15 @@ BuildRequires:  golang(k8s.io/component-base/config/v1alpha1)
 %gopkgfiles
 
 %changelog
+* Mon Jul 06 12:24:28 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.9-1
+- Update to 1.18.9
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 12:24:28 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-1
+- Update to 1.18.3
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:        2.0.11
-Release:        10%{?dist}
+Release:        12%{?dist}
 BuildArch:      noarch
 Summary:        A library for dealing with sysctl-like configuration syntax
 License:        ASL 2.0
@@ -62,6 +62,13 @@ install -D -p -m 0755 %{SOURCE1} %{buildroot}%{_bindir}/%{realname}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.11-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.11-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.11-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

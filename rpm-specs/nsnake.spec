@@ -1,6 +1,6 @@
 Name:           nsnake
 Version:        3.0.1
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        The classic snake game with textual interface
 # the old homepage is down
 #URL:            http://nsnake.alexdantas.net/
@@ -38,6 +38,9 @@ make doc
 %{_datadir}/pixmaps/%{name}.xpm
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

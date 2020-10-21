@@ -7,7 +7,7 @@
 
 Name:           xfconf
 Version:        4.14.3
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Hierarchical configuration system for Xfce
 
 License:        GPLv2
@@ -73,6 +73,11 @@ interact with xfconf using perl.
 %setup -q
 
 %build
+# gobject introspection does not work with LTO.  There is an effort to fix this
+# in the appropriate project upstreams, so hopefully LTO can be enabled someday
+# Disable LTO.
+%define _lto_cflags %{nil}
+
 %configure --disable-static --with-perl-options=INSTALLDIRS="vendor"
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
@@ -131,6 +136,16 @@ find %{buildroot} -type f -name *.la -exec rm -f {} \;
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 4.14.3-2
+Disable LTO
+
 * Wed May 06 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 4.14.3-1
 - Update to 4.14.3
 

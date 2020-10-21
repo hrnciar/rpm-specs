@@ -1,17 +1,18 @@
 %global pypi_name artifacts
-%global date 20200118
+%global date 20200515
 
 Name:           %{pypi_name}
 Version:        0.0.%{date}
 Release:        2%{?dist}
-Summary:        A collection of digital forensic artifacts
+Summary:        Collection of digital forensic artifacts
 
 License:        ASL 2.0
 URL:            https://github.com/ForensicArtifacts/artifacts
-Source0:        https://github.com/ForensicArtifacts/artifacts/releases/download/%{date}/%{pypi_name}-%{date}.tar.gz
+Source0:        %{url}/releases/download/%{date}/%{pypi_name}-%{date}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-pytest
 BuildRequires:  python3-pyyaml
 
@@ -47,6 +48,15 @@ PYTHONPATH=%{buildroot}/%{python3_sitelib}/ pytest-%{python3_version} -v tests
 %{python3_sitelib}/%{pypi_name}-%{date}*.egg-info
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.20200515-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.0.20200515-1
+- UPdate to latest upstream release 20200515
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.0.20200118-3
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.0.20200118-2
 - Rebuilt for Python 3.9
 

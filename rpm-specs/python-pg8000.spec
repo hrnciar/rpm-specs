@@ -1,14 +1,14 @@
-%global pypi pg8000
+%{?python_enable_dependency_generator}
 %global srcname pg8000
 
-Name:           python-%{pypi}
-Version:        1.15.3
+Name:           python-%{srcname}
+Version:        1.16.6
 Release:        1%{?dist}
 Summary:        Pure Python PostgreSQL Driver
 
 License:        BSD
 URL:            http://github.com/tlocke/pg8000/
-Source0:        %pypi_source
+Source0:        %{pypi_source}
 BuildArch:      noarch
 
 %description
@@ -16,7 +16,7 @@ pg8000 is a pure-Python PostgreSQL driver that complies with DB-API 2.0.
 The driver communicates with the database using the PostgreSQL Backend / 
 Frontend Protocol.
 
-%package -n python%{python3_pkgversion}-%{pypi}
+%package -n python%{python3_pkgversion}-%{srcname}
 Summary:        Pure Python3 PostgreSQL Driver
 BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-six
@@ -29,13 +29,13 @@ Requires:       python3dist(scramp)
 %{?fedora:Suggests:       postgresql}
 %{?python_provide:%python_provide python3-%{srcname}}
 
-%description -n python%{python3_pkgversion}-%{pypi}
+%description -n python%{python3_pkgversion}-%{srcname}
 pg8000 is a pure Python3 PostgreSQL driver that complies with DB-API 2.0. 
 The driver communicates with the database using the PostgreSQL Backend / 
 Frontend Protocol.
 
 %prep
-%autosetup -n %{pypi}-%{version}
+%autosetup -n %{srcname}-%{version}
 
 %build
 %py3_build
@@ -46,12 +46,25 @@ Frontend Protocol.
 %check
 #Test requires a runing PostgreSQL instance
 
-%files -n python%{python3_pkgversion}-%{pypi}
+%files -n python%{python3_pkgversion}-%{srcname}
 %license LICENSE
 %{python3_sitelib}/%{srcname}-*.egg-info/
 %{python3_sitelib}/%{srcname}
 
 %changelog
+* Sat Oct 10 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 1.16.6-1
+- Update to 1.16.6 (#1887083)
+- Enable python dependency generator
+
+* Sun Aug 09 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.16.5-1
+- Update to new upstream release 1.16.5 (rhbz#1855968)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.16.0-1
+- Update to latest upstream release 1.16.0 (rhbz#1855968)
+
 * Mon Jun 15 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.15.3-1
 - Update to latest upstream release 1.15.3 (rhbz#1846920)
 

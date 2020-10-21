@@ -1,6 +1,6 @@
 # remirepo/fedora spec file for php-bartlett-PHP-CompatInfo
 #
-# Copyright (c) 2011-2019 Remi Collet
+# Copyright (c) 2011-2020 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
@@ -11,13 +11,13 @@
 %undefine __brp_mangle_shebangs
 
 %{!?php_version:  %global php_version  %(php -r 'echo PHP_VERSION;' 2>/dev/null)}
-%global gh_commit    ec29a4eea541d3bfdbf00b6ff85700dd926bf6b6
+%global gh_commit    5b58fb55f2a759f6c134d1649d1e1df1b8cd5cf2
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 #global gh_date      20151005
 %global gh_owner     llaville
 %global gh_project   php-compat-info
 #global prever       RC2
-%global with_tests   %{?_without_tests:0}%{!?_without_tests:1}
+%bcond_without       tests
 
 %if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
 %global sym_prefix php-symfony3
@@ -26,9 +26,9 @@
 %endif
 
 Name:           php-bartlett-PHP-CompatInfo
-Version:        5.2.3
+Version:        5.3.0
 %global specrel 1
-Release:        %{?gh_date:1%{specrel}.%{?prever}%{!?prever:%{gh_date}git%{gh_short}}}%{!?gh_date:%{specrel}}%{?dist}
+Release:        %{?gh_date:1%{specrel}.%{?prever}%{!?prever:%{gh_date}git%{gh_short}}}%{!?gh_date:%{specrel}}%{?dist}.1
 Summary:        Find out version and the extensions required for a piece of code to run
 
 License:        BSD
@@ -38,41 +38,41 @@ Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit
 # Script for fedora-review
 Source1:        fedora-review-check
 
-# Autoloader for RPM - die composer !
+# RPM autoloader
 Source2:        %{name}-5.1.0-autoload.php
 
 # Autoload and sqlite database path
-Patch0:         %{name}-5.2.3-rpm.patch
+# avoid jean85/pretty-package-versions
+Patch0:         %{name}-5.3.0-rpm.patch
 
 BuildArch:      noarch
-BuildRequires:  php(language) >= 5.5
-%if %{with_tests}
+BuildRequires:  php(language) >= 7.1.3
+%if %{with tests}
 # to run test suite
 BuildRequires:  php-pdo_sqlite
-%global phpunit %{_bindir}/phpunit7
-BuildRequires:  (php-composer(bartlett/php-reflect)       >= 4.3  with php-composer(bartlett/php-reflect)       < 5)
-BuildRequires:  (php-composer(nikic/php-parser)           >= 3.1  with php-composer(nikic/php-parser)           < 4)
-BuildRequires:  (php-composer(bartlett/php-compatinfo-db) >= 1.23 with php-composer(bartlett/php-compatinfo-db) < 3)
+BuildRequires:  (php-composer(bartlett/php-reflect)       >= 4.4  with php-composer(bartlett/php-reflect)       < 5)
+BuildRequires:  (php-composer(bartlett/php-compatinfo-db) >= 2.0  with php-composer(bartlett/php-compatinfo-db) < 3)
 BuildRequires:  (php-composer(psr/log)                    >= 1.0  with php-composer(psr/log)                    < 2)
-Requires:       (php-composer(doctrine/cache)             >= 1.3  with php-composer(doctrine/cache)             < 2)
+BuildRequires:  (php-composer(doctrine/cache)             >= 1.3  with php-composer(doctrine/cache)             < 2)
+%global phpunit %{_bindir}/phpunit8
 BuildRequires:  %{phpunit}
 # For our patch / autoloader
 BuildRequires:  php-composer(fedora/autoloader)
 %endif
 
 # From composer.json, "require"
-#        "php": "^5.5|^7.0",
+#        "php": "^7.1.3",
 #        "ext-libxml": "*",
 #        "ext-pcre": "*",
 #        "ext-spl": "*",
 #        "ext-json": "*",
 #        "ext-pdo": "*",
 #        "ext-pdo_sqlite": "*",
-#        "bartlett/php-reflect": "^4.3",
-#        "nikic/php-parser": "^3.1",
-#        "bartlett/php-compatinfo-db": "^1.23|^2.0",
+#        "bartlett/php-reflect": "^4.4",
+#        "bartlett/php-compatinfo-db": "^2.0",
+#        "jean85/pretty-package-versions": "^1.5",
 #        "psr/log": "^1.0"
-Requires:       php(language) >= 5.5
+Requires:       php(language) >= 7.1.3
 Requires:       php-cli
 Requires:       php-json
 Requires:       php-libxml
@@ -80,25 +80,11 @@ Requires:       php-pcre
 Requires:       php-pdo
 Requires:       php-pdo_sqlite
 Requires:       php-spl
-Requires:       (php-composer(bartlett/php-reflect)       >= 4.3  with php-composer(bartlett/php-reflect)       < 5)
-Requires:       (php-composer(nikic/php-parser)           >= 3.1  with php-composer(nikic/php-parser)           < 4)
-Requires:       (php-composer(bartlett/php-compatinfo-db) >= 1.23 with php-composer(bartlett/php-compatinfo-db) < 3)
+Requires:       (php-composer(bartlett/php-reflect)       >= 4.4  with php-composer(bartlett/php-reflect)       < 5)
+Requires:       (php-composer(bartlett/php-compatinfo-db) >= 2.0  with php-composer(bartlett/php-compatinfo-db) < 3)
 Requires:       (php-composer(psr/log)                    >= 1.0  with php-composer(psr/log)                    < 2)
 # Mandatory for our patch
 Requires:       (php-composer(doctrine/cache)             >= 1.3  with php-composer(doctrine/cache)             < 2)
-# From composer.json, "require-dev": {
-#        "monolog/monolog": "^1.10",
-# From composer.json, "suggest"
-#        "doctrine/cache": "Allow caching results, since bartlett/php-reflect 2.2",
-#        "monolog/monolog": "Allow logging events with the LogPlugin",
-#        "bartlett/monolog-callbackfilterhandler": "Advanced filtering strategies for Monolog",
-#        "bartlett/monolog-growlhandler": "Sends notifications to Growl for Monolog",
-#        "bartlett/phpunit-loggertestlistener": "Allow logging unit tests to your favorite PSR-3 logger interface",
-#        "bartlett/umlwriter": "Allow writing UML class diagrams (Graphviz or PlantUML)"
-#        "doctrine/cache": "Allow caching results, since bartlett/php-reflect 2.2"
-#        "bartlett/umlwriter": "Allow writing UML class diagrams (Graphviz or PlantUML)"
-Suggests:       php-composer(monolog/monolog)
-# Required by autoloader
 Requires:       php-composer(fedora/autoloader)
 
 Provides:       phpcompatinfo = %{version}
@@ -123,9 +109,11 @@ cp %{SOURCE2} src/Bartlett/CompatInfo/autoload.php
 # Cleanup patched files
 find src -name \*rpm -delete -print
 
-# Set package version
-sed -e 's/@package_version@/%{version}%{?prever}/' \
-    -i $(find src -name \*.php) bin/phpcompatinfo
+# Check package version
+FILE=src/Bartlett/CompatInfo/Console/Application.php
+grep " VERSION" $FILE
+sed -e '/VERSION/s/5.3.x-dev/%{version}/' -i $FILE
+grep %{version} $FILE
 
 
 %build
@@ -143,7 +131,7 @@ install -D -p -m 644 bin/phpcompatinfo.1         %{buildroot}%{_mandir}/man1/php
 install -D -p -m 755 %{SOURCE1}                  %{buildroot}%{_datadir}/%{name}/fedora-review-check
 
 
-%if %{with_tests}
+%if %{with tests}
 %check
 mkdir vendor
 ln -s %{buildroot}%{_datadir}/php/Bartlett/CompatInfo/autoload.php vendor/
@@ -153,7 +141,7 @@ ret=0
 for cmdarg in "php %{phpunit}" php72 php73 php74 php80; do
   if which $cmdarg; then
     set $cmdarg
-    $1 ${2:-%{_bindir}/phpunit7} \
+    $1 ${2:-%{_bindir}/phpunit8} \
        --include-path %{buildroot}%{_datadir}/php --verbose || ret=1
   fi
 done
@@ -179,6 +167,16 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.0-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 Remi Collet <remi@remirepo.net> - 5.3.0-1
+- update to 5.3.0
+- raise dependency on PHP 7.1.3
+- raise dependency on bartlett/php-reflect 4.4
+- raise dependency on bartlett/php-compatinfo-db 2.0
+- switch to phpunit8
+
 * Wed Apr 29 2020 Remi Collet <remi@remirepo.net> - 5.2.3-1
 - update to 5.2.3
 

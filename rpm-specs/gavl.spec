@@ -1,6 +1,6 @@
 Name:           gavl
 Version:        1.4.0
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        A library for handling uncompressed audio and video data
 
 License:        GPLv3+
@@ -89,6 +89,9 @@ touch -r include/gavl/gavl.h $RPM_BUILD_ROOT%{_includedir}/gavl/gavl_version.h
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

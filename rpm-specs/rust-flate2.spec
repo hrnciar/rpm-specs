@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        1.0.14
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        DEFLATE compression and decompression exposed as Reader/Writer streams
 
 # Upstream license specification: MIT/Apache-2.0
@@ -184,6 +184,9 @@ which use "zlib" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.14-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 17 2020 Josh Stone <jistone@redhat.com> - 1.0.14-1
 - Update to 1.0.14
 

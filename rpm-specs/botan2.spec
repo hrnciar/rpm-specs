@@ -1,14 +1,13 @@
 %global major_version 2
 
 Name:           botan2
-Version:        2.13.0
-Release:        3%{?dist}
+Version:        2.16.0
+Release:        1%{?dist}
 Summary:        Crypto and TLS for C++11
 
 License:        BSD
 URL:            https://botan.randombit.net/
 Source0:        https://botan.randombit.net/releases/Botan-%{version}.tar.xz
-Patch0:         01-remove-rpath-gcc.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  python3
@@ -59,8 +58,7 @@ This package contains the Python3 binding for %{name}.
 
 
 %prep
-%setup -q -n Botan-%{version}
-%patch0 -p0
+%autosetup -n Botan-%{version}
 
 
 %build
@@ -104,7 +102,7 @@ rm -r %{buildroot}%{_pkgdocdir}/handbook/{.doctrees,.buildinfo}
 %license license.txt
 %dir %{_pkgdocdir}
 %{_pkgdocdir}/*.txt
-%{_libdir}/libbotan-%{major_version}.so.13*
+%{_libdir}/libbotan-%{major_version}.so.16*
 %{_bindir}/botan
 %{_mandir}/man1/botan.1.gz
 
@@ -133,6 +131,28 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} ./botan-test
 
 
 %changelog
+* Mon Oct 12 2020 Benjamin Kircher <bkircher@0xadd.de> - 2.16.0-1
+- Update to 2.16
+
+* Fri Oct 02 2020 Jeff Law <law@redhat.com> - 2.15.0-5
+- Re-enable LTO
+
+* Thu Aug 13 2020 Jeff Law <law@redhat.com> - 2.15.0-4
+- Temporarily disable LTO on armv7hl
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.15.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.15.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Thomas Moschny <thomas.moschny@gmx.de> - 2.15.0-1
+- Update to 2.15.0.
+
+* Sat Jun 27 2020 Thomas Moschny <thomas.moschny@gmx.de> - 2.14.0-1
+- Update to 2.14.0.
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.13.0-3
 - Rebuilt for Python 3.9
 

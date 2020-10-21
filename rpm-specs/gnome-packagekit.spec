@@ -1,6 +1,6 @@
 Name:      gnome-packagekit
 Version:   3.32.0
-Release:   4%{?dist}
+Release:   6%{?dist}
 Summary:   Session applications to manage packages
 
 License:   GPLv2+
@@ -116,6 +116,13 @@ rm -f $RPM_BUILD_ROOT%{_datadir}/applications/gpk-install-local-file.desktop
 %{_mandir}/man1/gpk-update-viewer.1*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.32.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.32.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.32.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

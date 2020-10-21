@@ -17,7 +17,7 @@
 Name: preprocess
 Summary: A portable multi-language file Python2 preprocessor
 Version: 1.2.3
-Release: 0.16.%{date}git%{shortcommit}%{?dist}
+Release: 0.17.%{date}git%{shortcommit}%{?dist}
 License: MIT
 URL: https://github.com/doconce/preprocess/
 Source0: https://github.com/doconce/preprocess/archive/%{checkout}.zip#/preprocess-%{commit}.zip
@@ -326,6 +326,9 @@ popd
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-0.17.20170318git6e868bc
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.3-0.16.20170318git6e868bc
 - Rebuilt for Python 3.9
 

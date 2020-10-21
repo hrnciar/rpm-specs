@@ -1,17 +1,24 @@
-Name:           psi
-Version:        1.4
-Release:        4%{?dist}
+%undefine __cmake_in_source_build
 
+Name:           psi
+Version:        1.5
+Release:        2%{?dist}
+
+# GPLv2+ - core project.
+# LGPLv2.1+ - iris library, widgets, several tools.
+# zlib/libpng - bundled minizip library.
+License:        GPLv2+ and LGPLv2+ and zlib
 Summary:        Jabber client based on Qt
-License:        GPLv2+
 URL:            https://psi-im.org
 
-Source0:        https://sourceforge.net/projects/%{name}/files/Psi/%{version}/%{name}-%{version}.tar.xz
-Source1:        https://github.com/%{name}-im/%{name}-l10n/archive/%{version}.tar.gz#/%{name}-l10n-%{version}.tar.gz
-Source2:        https://github.com/%{name}-im/plugins/archive/%{version}.tar.gz#/%{name}-plugins-%{version}.tar.gz
+Source0:        https://github.com/%{name}-im/%{name}/releases/download/%{version}/%{name}-%{version}.tar.xz
+Source1:        https://github.com/%{name}-im/%{name}-l10n/archive/%{version}/%{name}-l10n-%{version}.tar.gz
+Source2:        https://github.com/%{name}-im/plugins/archive/%{version}/%{name}-plugins-%{version}.tar.gz
 
 # https://github.com/psi-im/psi/commit/2212aeb8412ef790fba62e3cf96c36e6a8bd7b8e
 Patch100:       hunspell-1.7.patch
+# https://github.com/psi-im/plugins/commit/77d213dfd57df8658eae0266dcbc224323c6f5e8
+Patch101:       %{name}-screenshot-plugin-qt515.patch
 
 BuildRequires:  cmake(Qt5LinguistTools)
 BuildRequires:  cmake(Qt5XmlPatterns)
@@ -26,7 +33,6 @@ BuildRequires:  cmake(Qca-qt5)
 BuildRequires:  cmake(Qt5Gui)
 BuildRequires:  cmake(Qt5Svg)
 BuildRequires:  cmake(Qt5Xml)
-BuildRequires:  cmake(Qca)
 
 BuildRequires:  pkgconfig(xscrnsaver)
 BuildRequires:  pkgconfig(hunspell)
@@ -35,11 +41,6 @@ BuildRequires:  pkgconfig(libotr)
 BuildRequires:  pkgconfig(libidn)
 BuildRequires:  pkgconfig(zlib)
 BuildRequires:  pkgconfig(tidy)
-%if 0%{?fedora} && 0%{?fedora} < 30
-BuildRequires:  pkgconfig(minizip)
-%else
-Provides:       bundled(minizip) = 1.2
-%endif
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
@@ -54,8 +55,8 @@ Requires:       qca-qt5-gnupg%{?_isa}
 Requires:       qca-qt5-ossl%{?_isa}
 Requires:       hicolor-icon-theme
 
-# FIXME: wait for upstream to unbundle iris, rhbz#737304, https://github.com/psi-im/iris/issues/31
-Provides:       bundled(iris)
+Provides:       bundled(iris) = 0~git
+Provides:       bundled(minizip) = 1.2.11
 
 # Obsolete and remove old subpackages
 Provides:       %{name}-i18n = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -72,51 +73,48 @@ with no bloated extras that slow your computer down. The Jabber protocol
 provides gateways to other protocols as AIM, ICQ, MSN and Yahoo!.
 
 %package plugins
-Summary:       Additional plugins for %{name}
-Requires:      %{name}%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
+# GPLv2+ is used for the most plugins.
+# BSD - screenshot plugin.
+License:        GPLv2+ and BSD
+Summary:        Additional plugins for %{name}
+Requires:       %{name}%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description plugins
 This package adds additional plugins to %{name}.
 
 %prep
 # Unpacking main tarball...
-%autosetup -p1
+%setup -q
 
 # Unpacking tarball with additional locales...
 tar -xf %{SOURCE1} %{name}-l10n-%{version}/translations --strip=1
 
 # Unpacking tarball with additional plugins...
 tar -C src/plugins -xf %{SOURCE2} plugins-%{version}/generic --strip=1
-sed -i 's/psi-plus/psi/g' src/plugins/CMakeLists.txt
 
-# Creating build directory...
-mkdir -p %{_target_platform}
+# Applying patches...
+%patch100 -p1
+%patch101 -p1
 
 # Removing bundled libraries...
-%if 0%{?fedora} && 0%{?fedora} < 30
-rm -rf src/libpsi/tools/zip/minizip
-%endif
 rm -rf iris/src/jdns
 
 %build
-pushd %{_target_platform}
-    %cmake -G Ninja \
+%cmake -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
-    -DUSE_QT5=ON \
-    -DUSE_ENCHANT=OFF \
-    -DUSE_HUNSPELL=ON \
-    -DUSE_QJDNS=ON \
-    -DSEPARATE_QJDNS=ON \
-    -DENABLE_PLUGINS=ON \
-    -DENABLE_WEBKIT=ON \
-    ..
-popd
-%ninja_build -C %{_target_platform}
+    -DUSE_QT5:BOOL=ON \
+    -DUSE_ENCHANT:BOOL=OFF \
+    -DUSE_HUNSPELL:BOOL=ON \
+    -DUSE_QJDNS:BOOL=ON \
+    -DSEPARATE_QJDNS:BOOL=ON \
+    -DENABLE_PLUGINS:BOOL=ON \
+    -DENABLE_WEBKIT:BOOL=ON \
+    -DPLUGINS_PATH:PATH="%{_lib}/%{name}/plugins"
+%cmake_build
 
 %install
-%ninja_install -C %{_target_platform}
+%cmake_install
 %find_lang %{name} --with-qt
-
 install -m 0644 -p -D %{name}.appdata.xml %{buildroot}%{_metainfodir}/%{name}.appdata.xml
 
 %check
@@ -141,6 +139,15 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_libdir}/%{name}
 
 %changelog
+* Sat Oct 03 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1.5-2
+- Backported upstream patch with Qt 5.15 build fixes.
+
+* Mon Sep 07 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1.5-1
+- Updated to upstream version 1.5.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

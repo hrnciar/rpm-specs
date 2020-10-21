@@ -10,8 +10,8 @@
 
 %global github_owner     egulias
 %global github_name      EmailValidator
-%global github_version   2.1.18
-%global github_commit    cfa3d44471c7f5bfb684ac2b0da7114283d78441
+%global github_version   2.1.22
+%global github_commit    68e418ec08fbfc6f58f6fd2eea70ca8efc8cc7d5
 %global github_short     %(c=%{github_commit}; echo ${c:0:7})
 %global major            2
 
@@ -39,6 +39,9 @@ URL:           https://github.com/%{github_owner}/%{github_name}
 Source0:       %{name}-%{github_version}-%{github_short}.tgz
 Source1:       makesrc.sh
 
+# adapt for recent PHPUnit
+Patch0:        %{name}-phpunit.patch
+
 BuildArch:     noarch
 # Tests
 %if %{with tests}
@@ -46,9 +49,14 @@ BuildArch:     noarch
 #    "dominicsayers/isemail": "^3.0.7",
 #    "phpunit/phpunit": "^4.8.36|^7.5.15",
 #    "satooshi/php-coveralls": "^1.0.1"
+%if 0%{?fedora} >= 31 || 0%{?rhel} >= 9
 BuildRequires: (php-composer(doctrine/lexer) >= %{doctrine_lexer_min_ver} with php-composer(doctrine/lexer) <  %{doctrine_lexer_max_ver})
-BuildRequires:  phpunit7 >= 7.5.15
-%global phpunit %{_bindir}/phpunit6
+%global phpunit %{_bindir}/phpunit9
+%else
+BuildRequires:  php-doctrine-lexer  >= %{doctrine_lexer_min_ver}
+%global phpunit %{_bindir}/phpunit8
+%endif
+BuildRequires:  %{phpunit}
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 ## phpcompatinfo (computed from version 2.1.2)
@@ -82,6 +90,7 @@ Autoloader: %{phpdir}/Egulias/EmailValidator%{major}/autoload.php
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
+%patch0 -p1 -b .phpunit
 
 
 %build
@@ -112,19 +121,16 @@ require_once "%{buildroot}%{phpdir}/Egulias/EmailValidator%{major}/autoload.php"
 \Fedora\Autoloader\Autoload::addPsr4('Egulias\\Tests\\', dirname(__DIR__) . "/tests");
 EOF
 
-# See https://github.com/egulias/EmailValidator/pull/244
-sed -e 's/Tests/tests/' phpunit.xml.dist >phpunit.xml
-
 : Skip online tests
 rm tests/EmailValidator/Validation/DNSCheckValidationTest.php
 rm tests/EmailValidator/Validation/SpoofCheckValidationTest.php
 
 : Upstream tests
 ret=0
-for cmdarg in "php %{phpunit}" php72 php73 php74 php80; do
+for cmdarg in "php %{phpunit}" "php72 %{_bindir}/phpunit8" php73 php74 php80; do
   if which $cmdarg; then
     set $cmdarg
-    $1 ${2:-%{_bindir}/phpunit7} \
+    $1 ${2:-%{_bindir}/phpunit9} \
       --verbose || ret=1
   fi
 done
@@ -143,6 +149,22 @@ exit $ret
 
 
 %changelog
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 2.1.22-1
+- update to 2.1.22
+
+* Mon Sep 21 2020 Remi Collet <remi@remirepo.net> - 2.1.21-1
+- update to 2.1.21
+
+* Mon Sep  7 2020 Remi Collet <remi@remirepo.net> - 2.1.20-1
+- update to 2.1.20
+
+* Tue Aug 11 2020 Remi Collet <remi@remirepo.net> - 2.1.19-1
+- update to 2.1.19
+- switch to phpunit9
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.18-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 2020 Remi Collet <remi@remirepo.net> - 2.1.18-1
 - update to 2.1.18
 - open https://github.com/egulias/EmailValidator/pull/244

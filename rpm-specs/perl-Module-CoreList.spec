@@ -4,13 +4,14 @@
 Name:           perl-Module-CoreList
 # Epoch to compete with perl.spec
 Epoch:          1
-Version:        5.20200620
-Release:        456%{?dist}
+Version:        5.20200920
+Release:        1%{?dist}
 Summary:        What modules are shipped with versions of perl
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Module-CoreList
 Source0:        https://cpan.metacpan.org/authors/id/B/BI/BINGOS/Module-CoreList-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -82,6 +83,21 @@ make test
 %{_mandir}/man1/corelist.*
 
 %changelog
+* Mon Sep 21 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:5.20200920-1
+- 5.20200920 bump
+
+* Fri Aug 21 2020 Petr Pisar <ppisar@redhat.com> - 1:5.20200820-1
+- 5.20200820 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.20200717-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Petr Pisar <ppisar@redhat.com> - 1:5.20200717-1
+- 5.20200717 bump
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:5.20200620-457
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:5.20200620-456
 - Increase release to favour standalone package
 

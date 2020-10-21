@@ -1,6 +1,9 @@
+%undefine __cmake_in_source_build
+%global _vpath_srcdir src
+
 Name:           daggy
 Version:        2.0.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Data Aggregation Utility
 
 License:        MIT
@@ -40,16 +43,13 @@ Summary: Development files for %{name}
 %prep
 %autosetup
 sed -i 's|kainjow/mustache.hpp|mustache.hpp|' src/Daggy/Precompiled.h
-mkdir -p %{_target_platform}
 
 %build
-pushd %{_target_platform}
-  %cmake -DVERSION=%{version} ../src/
-popd
-%make_build -C %{_target_platform}
+%cmake -DVERSION=%{version} src
+%cmake_build
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 
 %files
 %license LICENSE
@@ -64,6 +64,9 @@ daggy --version
 %{_includedir}/DaggyCore
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 20 2020 Mikhail Milovidov <milovidovmikhail@gmail.com> - 2.0.2-1
 - Update up to 2.0.2 version
 

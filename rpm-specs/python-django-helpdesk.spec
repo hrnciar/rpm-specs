@@ -6,7 +6,7 @@ plug into an existing Django website and provide you with internal (or,
 perhaps, external) helpdesk management.}
 
 Name:           python-%{pypi_name}
-Version:        0.2.21
+Version:        0.2.22
 Release:        2%{?dist}
 Summary:        Django-powered ticket tracker for your helpdesk
 
@@ -82,10 +82,19 @@ done
 %{python3_sitelib}/django_helpdesk-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Sat Aug 08 2020 Luis Bazan <lbazan@fedoraproject.org> - 0.2.22-2
+- Fix typo changelog
+
+* Sat Aug 08 2020 Luis Bazan <lbazan@fedoraproject.org> - 0.2.22-1
+- New upstream version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.21-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.21-2
 - Rebuilt for Python 3.9
 
-- Tue Apr 21 2020 Luis Bazan <lbazan@fedoraproject.org> - 0.2.21-1
+* Tue Apr 21 2020 Luis Bazan <lbazan@fedoraproject.org> - 0.2.21-1
 - New upstream version
 
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.19-2

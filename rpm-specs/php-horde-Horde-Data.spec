@@ -13,7 +13,7 @@
 
 Name:           php-horde-Horde-Data
 Version:        2.1.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Horde Data API
 
 License:        LGPLv2
@@ -152,6 +152,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb  5 2020 Remi Collet <remi@remirepo.net> - 2.1.5-1
 - update to 2.1.5
 - use range dependencies

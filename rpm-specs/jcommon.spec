@@ -1,6 +1,6 @@
 Name: jcommon
 Version: 1.0.23
-Release: 12%{?dist}
+Release: 15%{?dist}
 Summary: JFree Java utility classes
 License: LGPLv2+
 # Github: https://github.com/jfree/jcommon
@@ -12,7 +12,6 @@ Source: %{name}-%{version}.tar.gz
 URL: http://www.jfree.org/jcommon
 BuildRequires: maven-local
 BuildRequires: maven-plugin-bundle
-BuildRequires: sonatype-oss-parent
 Requires: java-headless, jpackage-utils
 BuildArch: noarch
 
@@ -34,6 +33,8 @@ Javadoc for %{name}.
 %setup -q
 %patch0 -b javadoc-11
 find . -name "*.jar" -exec rm -f {} \;
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
 MVN_BUNDLE_PLUGIN_EXTRA_XML="<extensions>true</extensions>
         <configuration>
           <instructions>
@@ -70,6 +71,15 @@ fi
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.23-15
+- Remove unnecessary dependency on parent POM.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.23-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.0.23-13
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed May 06 2020 Caolan McNamara <caolanm@redhat.com> 1.0.23-12
 - bump n-v-r and use maven.compiler.release of 6
 

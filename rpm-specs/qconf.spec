@@ -1,7 +1,7 @@
 Summary:        Tool for generating configure script for qmake-based projects
 Name:           qconf
 Version:        2.4
-Release:        6%{?dist}
+Release:        7%{?dist}
 Epoch:          1
 
 License:        GPLv2+ with exceptions
@@ -52,6 +52,9 @@ ln -v %{buildroot}%{_bindir}/qconf-qt4 %{buildroot}%{_bindir}/qconf-qt5
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.4-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -10,7 +10,7 @@
 Summary: A TLS-encrypting socket wrapper
 Name: stunnel
 Version: 5.56
-Release: 7%{?dist}
+Release: 9%{?dist}
 License: GPLv2
 URL: http://www.stunnel.org/
 Source0: https://www.stunnel.org/downloads/stunnel-%{version}.tar.gz
@@ -140,6 +140,13 @@ make test || (for i in tests/logs/*.log ; do echo "$i": ; cat "$i" ; done)
 %systemd_postun_with_restart %{name}.service
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.56-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.56-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 16 2020 Sahana Prasad <sahana@redhat.com> - 5.56-7
 - Updates documentation to specify that the option "curves" can be used in server mode only.
 

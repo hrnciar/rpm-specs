@@ -11,34 +11,30 @@
 
 %global github_owner     consolidation
 %global github_name      config
-%global github_version   1.2.1
-%global github_commit    cac1279bae7efb5c7fb2ca4c3ba4b8eb741a96c1
+%global github_version   2.0.0
+%global github_commit    9842670aad3406dbc8df3069fd680a9f8cd6edd7
 
 %global composer_vendor  consolidation
 %global composer_project config
 
-%if 0%{?fedora} >= 32 || 0%{?rhel} >= 8
-%global with_symfony2 0
-%else
-%global with_symfony2 1
-%endif
-
-# "php": ">=5.4.0"
-%global php_min_ver 5.4.0
+# "php": ">=7.1.3"
+%global php_min_ver 7.1.3
 # "dflydev/dot-access-data": "^1.1.0"
 %global dflydev_dot_access_data_min_ver 1.1.0
 %global dflydev_dot_access_data_max_ver 2.0
 # "grasmash/expander": "^1"
 %global grasmash_expander_min_ver 1.0
 %global grasmash_expander_max_ver 2.0
-# "symfony/console": "^2.5|^3|^4"
-# "symfony/yaml": "^2.8.11|^3|^4"
-%if %{with_symfony2}
-%global symfony_min_ver 2.8.11
-%else
-%global symfony_min_ver 3.0
-%endif
-%global symfony_max_ver 5.0
+# "symfony/console": "^4|^5"
+# "symfony/event-dispatcher": "^4|^5"
+# "symfony/yaml": "^4|^5"
+%global symfony_min_ver 4.0
+%global symfony_max_ver 6.0
+
+# "phpunit/phpunit": "^6"
+%global phpunit_require phpunit6
+%global phpunit_min_ver 6
+%global phpunit_exec    phpunit6
 
 # Build using "--without tests" to disable tests
 %global with_tests 0%{!?_without_tests:1}
@@ -54,7 +50,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       4%{?github_release}%{?dist}
+Release:       1%{?github_release}%{?dist}
 Summary:       Provide configuration services for a command-line tool
 
 License:       MIT
@@ -70,7 +66,7 @@ BuildArch:     noarch
 %if %{with_tests}
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
-BuildRequires: php-composer(phpunit/phpunit)
+BuildRequires: %{phpunit_require} >= %{phpunit_min_ver}
 %if %{with_range_dependencies}
 BuildRequires: (php-composer(dflydev/dot-access-data) >= %{dflydev_dot_access_data_min_ver} with php-composer(dflydev/dot-access-data) < %{dflydev_dot_access_data_max_ver})
 BuildRequires: (php-composer(grasmash/expander) >= %{grasmash_expander_min_ver} with php-composer(grasmash/expander) < %{grasmash_expander_max_ver})
@@ -91,7 +87,7 @@ BuildRequires: php-composer(symfony/yaml) >= %{symfony_min_ver}
 BuildRequires: php-composer(symfony/event-dispatcher) <  %{symfony_max_ver}
 BuildRequires: php-composer(symfony/event-dispatcher) >= %{symfony_min_ver}
 %endif
-## phpcompatinfo for version 1.2.1
+## phpcompatinfo for version 2.0.0
 BuildRequires: php-json
 BuildRequires: php-pcre
 BuildRequires: php-reflection
@@ -121,7 +117,7 @@ Requires:      php-composer(symfony/event-dispatcher) >= %{symfony_min_ver}
 %endif
 ## suggest (weak dependencies)
 Recommends:    php-composer(symfony/yaml)
-# phpcompatinfo for version 1.2.1
+# phpcompatinfo for version 2.0.0
 Requires:      php-pcre
 Requires:      php-spl
 # Autoloader
@@ -168,28 +164,19 @@ require_once '%{phpdir}/Fedora/Autoloader/autoload.php';
     '%{phpdir}/Dflydev/DotAccessData/autoload.php',
     '%{phpdir}/Grasmash/Expander/autoload.php',
     [
+        '%{phpdir}/Symfony5/Component/Console/autoload.php',
         '%{phpdir}/Symfony4/Component/Console/autoload.php',
-        '%{phpdir}/Symfony3/Component/Console/autoload.php',
-%if %{with_symfony2}
-        '%{phpdir}/Symfony/Component/Console/autoload.php',
-%endif
     ],
     [
+        '%{phpdir}/Symfony5/Component/EventDispatcher/autoload.php',
         '%{phpdir}/Symfony4/Component/EventDispatcher/autoload.php',
-        '%{phpdir}/Symfony3/Component/EventDispatcher/autoload.php',
-%if %{with_symfony2}
-        '%{phpdir}/Symfony/Component/EventDispatcher/autoload.php',
-%endif
     ],
 ]);
 
 \Fedora\Autoloader\Dependencies::optional([
     [
+        '%{phpdir}/Symfony5/Component/Yaml/autoload.php',
         '%{phpdir}/Symfony4/Component/Yaml/autoload.php',
-        '%{phpdir}/Symfony3/Component/Yaml/autoload.php',
-%if %{with_symfony2}
-        '%{phpdir}/Symfony/Component/Yaml/autoload.php',
-%endif
     ]
 ]);
 AUTOLOAD
@@ -212,8 +199,8 @@ BOOTSTRAP
 
 : Upstream tests
 RETURN_CODE=0
-PHPUNIT=$(which phpunit)
-for PHP_EXEC in "" php70 php71 php72 php73 php74; do
+PHPUNIT=$(which %{phpunit_exec})
+for PHP_EXEC in "" php72 php73 php74; do
     if [ -z "$PHP_EXEC" ] || which $PHP_EXEC; then
         $PHP_EXEC $PHPUNIT --verbose --bootstrap bootstrap.php || RETURN_CODE=1
     fi
@@ -234,6 +221,12 @@ exit $RETURN_CODE
 
 
 %changelog
+* Mon Sep 07 2020 Shawn Iwinski <shawn@iwin.ski> - 2.0.0-1
+- Update to 2.0.0 (RHBZ #1840911)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Shawn Iwinski <shawn@iwin.ski> - 1.2.1-4
 - Drop Symfony 2 interoperability
 - Add get source script

@@ -1,3 +1,9 @@
+# doxygen is known not to work properly with LTO at this point.  Some of the issues
+# are being worked on upstream and disabling LTO should be re-evaluated as
+# we update this change.  Until such time...
+# Disable LTO
+%global _lto_cflags %{nil}
+
 %if 0%{?fedora}
 %global xapian_core_support ON
 %global clang_support ON
@@ -5,13 +11,12 @@
 %global xapian_core_support OFF
 %global clang_support OFF
 %endif
-%global BuildDir Out
 
 Summary: A documentation system for C/C++
 Name:    doxygen
 Epoch:   1
-Version: 1.8.18
-Release: 3%{?dist}
+Version: 1.8.20
+Release: 5%{?dist}
 
 # No version is specified.
 License: GPL+
@@ -19,11 +24,15 @@ Url: http://www.doxygen.nl
 Source0: http://doxygen.nl/files/%{name}-%{version}.src.tar.gz
 # this icon is part of kdesdk
 Source1: doxywizard.desktop
-
 # upstream patches
-Patch0: doxygen-1.8.17-buffer-overflow.patch
-Patch1: doxygen-1.8.18-memory-leaks.patch
-Patch3: doxygen-1.8.18-md5-hash-does-not-match-for-two-different-runs.patch
+Patch0: doxygen-1.8.20-enums-multiple-files.patch
+Patch1: doxygen-different-results-on-64-and-32-bit.patch
+Patch2: doxygen-1.8.20-glibc-assert.patch
+Patch3: doxygen-1.8.20-broken-ref-for-enum-entry.patch
+Patch4: doxygen-1.8.20-links-using-ref-stopp-working.patch
+Patch5: doxygen-1.8.20-python3.patch
+Patch6: doxygen-1.8.20-does-not-handle-simple-example-in-md-file.patch
+Patch7: doxygen-1.8.20-attribute-target-redefined-in-svg.patch
 
 BuildRequires: %{_bindir}/python3
 BuildRequires: ImageMagick
@@ -105,6 +114,7 @@ BuildRequires: zlib-devel
 %endif
 %if "x%{?clang_support}" == "xON"
 BuildRequires: llvm-devel
+BuildRequires: clang-devel
 %endif
 Requires: perl-interpreter
 Requires: graphviz
@@ -210,8 +220,6 @@ mv LANGUAGE.HOWTO.new LANGUAGE.HOWTO
 
 
 %build
-mkdir -p %{BuildDir}
-pushd %{BuildDir}
 %if ! 0%{?_module_build}
 %cmake \
       -DPYTHON_EXECUTABLE=%{_bindir}/python3 \
@@ -223,7 +231,6 @@ pushd %{BuildDir}
       -DMAN_INSTALL_DIR=%{_mandir}/man1 \
       -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \
       -DBUILD_SHARED_LIBS=OFF \
-      ..
 %else
 %cmake \
       -DPYTHON_EXECUTABLE=%{_bindir}/python3 \
@@ -235,14 +242,12 @@ pushd %{BuildDir}
       -DMAN_INSTALL_DIR=%{_mandir}/man1 \
       -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \
       -DBUILD_SHARED_LIBS=OFF \
-      ..
 %endif
-popd
 
-make %{?_smp_mflags} -C %{BuildDir}
+%cmake_build %{?_smp_mflags}
 
 %install
-make install DESTDIR=%{buildroot} -C %{BuildDir}
+%cmake_install
 
 # convert icons
 convert addon/doxywizard/doxywizard.ico doxywizard.png
@@ -274,7 +279,7 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 %endif
 
 %check
-make tests -C %{BuildDir}
+%ctest
 
 %files
 %doc LANGUAGE.HOWTO README.md
@@ -305,6 +310,31 @@ make tests -C %{BuildDir}
 %endif
 
 %changelog
+* Tue Sep 29 2020 Than Ngo <than@redhat.com> - 1.8.20-5
+- backport upstream patches
+
+* Thu Sep 17 2020 Than Ngo <than@redhat.com> - 1.8.20-4
+- Fix doxygen crash
+
+* Tue Sep 15 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 1:1.8.20-3
+- Fix doxygen producing different results on 32 and 64 bit architectures
+
+* Fri Aug 28 2020 Scott Talbert <swt@techie.net> - 1:1.8.20-2
+- Fix issue with enums being defined in multiple files
+
+* Tue Aug 25 2020 Than Ngo <than@redhat.com> - 1.8.20-1
+- update to 1.8.20
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.8.18-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.8.18-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 08 2020 Than Ngo <than@redhat.com> - 1.8.18-4
+- fixed link issue against new clang
+
 * Thu Jun 18 2020 Than Ngo <than@redhat.com> - 1.8.18-3
 - fixed bz#1834591, enable clang support in fedora
 

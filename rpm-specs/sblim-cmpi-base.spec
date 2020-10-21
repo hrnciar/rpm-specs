@@ -1,6 +1,6 @@
 Name:           sblim-cmpi-base
 Version:        1.6.4
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        SBLIM CMPI Base Providers
 
 License:        EPL-1.0
@@ -119,6 +119,9 @@ rm -f $RPM_BUILD_ROOT/%{_libdir}/cmpi/*a
 %postun -p /sbin/ldconfig
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.4-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 04 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 1.6.4-16
 - Fix possible null pointer dereferences after strstr calls
 

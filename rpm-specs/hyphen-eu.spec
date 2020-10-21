@@ -2,7 +2,7 @@ Name: hyphen-eu
 Summary: Basque hyphenation rules
 %global upstreamid 20110620
 Version: 0.%{upstreamid}
-Release: 16%{?dist}
+Release: 17%{?dist}
 #? in a url causes trouble
 #http://tug.org/svn/texhyphen/trunk/hyph-utf8/tex/generic/hyph-utf8/patterns/tex/hyph-eu.tex?view=co
 Source: hyph-eu.tex
@@ -39,6 +39,9 @@ cp -p hyph_eu_ES.dic $RPM_BUILD_ROOT/%{_datadir}/hyphen
 %{_datadir}/hyphen/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20110620-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20110620-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

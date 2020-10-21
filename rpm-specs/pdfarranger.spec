@@ -1,6 +1,6 @@
 Name:           pdfarranger
-Version:        1.5.3
-Release:        2%{?dist}
+Version:        1.6.2
+Release:        1%{?dist}
 Summary:        PDF file merging, rearranging, and splitting
 
 License:        GPLv3
@@ -9,6 +9,7 @@ Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-distutils-extra
 BuildRequires:  python3-wheel
 BuildRequires:  python3-pip
@@ -17,7 +18,8 @@ BuildRequires:  python3-pip
 BuildRequires:  libappstream-glib
 BuildRequires:  desktop-file-utils
 
-Requires:       python3-pikepdf
+Requires:       python3-pikepdf >= 1.15.1
+Recommends:     python3-img2pdf >= 0.3.4
 
 # These seem to be included in the default desktop install
 Requires:       python3-gobject
@@ -78,6 +80,22 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 %endif
 
 %changelog
+* Sat Aug 01 2020 David Auer <dreua@posteo.de> - 1.6.2-1
+- Update to 1.6.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 David Auer <dreua@posteo.de> - 1.6.0-2
+- Recommend img2pdf
+
+* Wed Jul 15 2020 David Auer <dreua@posteo.de> - 1.6.0-1
+- Update to 1.6.0
+- Require pikepdf >= 1.15.1 as suggested in Readme.
+
+* Wed Jun 24 2020 David Auer <dreua@posteo.de> - 1.5.3-3
+- Explicitly require python3-setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5.3-2
 - Rebuilt for Python 3.9
 

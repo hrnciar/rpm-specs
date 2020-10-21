@@ -1,6 +1,6 @@
 Name:           openvas-libraries
 Version:        11.0.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Support libraries for Greenbone Vulnerability Management Solution and OpenVAS
 
 License:        GPLv2+
@@ -106,6 +106,13 @@ find %{buildroot} -name '*.a' -delete
 %doc doc/generated/html
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.0.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 josef radinger <cheese@nosuchhost.net> - 11.0.1-1
 - bump version
 - fix path to Source1

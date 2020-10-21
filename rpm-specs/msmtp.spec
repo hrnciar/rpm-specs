@@ -1,6 +1,6 @@
 Name:		msmtp
 Version:	1.8.10
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	SMTP client
 License:	GPLv3+
 URL:		https://marlam.de/%{name}/
@@ -70,6 +70,9 @@ fi
 %{_mandir}/man1/%{name}*.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 23 2020 Peter Lemenkov <lemenkov@gmail.com> - 1.8.10-1
 - Ver. 1.8.10 (rhbz#1827068)
 

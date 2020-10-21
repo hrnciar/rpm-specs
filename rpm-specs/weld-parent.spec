@@ -1,17 +1,16 @@
-Name:             weld-parent
-Version:          40
-Release:          1%{?dist}
-Summary:          Parent POM for Weld
-License:          ASL 2.0
-URL:              http://weld.cdi-spec.org
-Source0:          https://github.com/weld/parent/archive/%{version}.tar.gz
+Name:           weld-parent
+Version:        41
+Release:        1%{?dist}
+Summary:        Parent POM for Weld
+License:        ASL 2.0
 
-BuildArch:        noarch
+URL:            http://weld.cdi-spec.org
+Source0:        https://github.com/weld/parent/archive/%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:    maven-local
-BuildRequires:    mvn(org.apache.maven.plugins:maven-install-plugin)
-BuildRequires:    mvn(org.apache.maven.plugins:maven-source-plugin)
-BuildRequires:    mvn(org.codehaus.mojo:build-helper-maven-plugin)
+BuildArch:      noarch
+
+BuildRequires:  maven-local
+BuildRequires:  mvn(org.codehaus.mojo:build-helper-maven-plugin)
 
 %description
 Parent POM for Weld
@@ -19,9 +18,10 @@ Parent POM for Weld
 %prep
 %setup -q -n parent-%{version}
 
-%pom_remove_plugin ":maven-enforcer-plugin"
-%pom_remove_plugin ":maven-remote-resources-plugin"
-%pom_remove_plugin ":buildnumber-maven-plugin"
+%pom_remove_plugin :buildnumber-maven-plugin
+%pom_remove_plugin :maven-enforcer-plugin
+%pom_remove_plugin :maven-remote-resources-plugin
+%pom_remove_plugin :maven-source-plugin
 
 %build
 %mvn_build
@@ -32,6 +32,15 @@ Parent POM for Weld
 %files -f .mfiles
 
 %changelog
+* Tue Aug 11 2020 Fabio Valentini <decathorpe@gmail.com> - 41-1
+- Update to version 41.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 40-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 40-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon Feb 17 2020 Alexander Scheel <ascheel@redhat.com> - 40-1
 - Update to version 40.
 

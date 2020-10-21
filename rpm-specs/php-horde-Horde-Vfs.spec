@@ -1,6 +1,6 @@
 # remirepo/fedora spec file for php-horde-Horde-Vfs
 #
-# Copyright (c) 2012-2017 Nick Bebout, Remi Collet
+# Copyright (c) 2012-2020 Nick Bebout, Remi Collet
 #
 # License: MIT
 # https://fedoraproject.org/wiki/Licensing:MIT#Modern_Style_with_sublicense
@@ -14,8 +14,8 @@
 %global with_tests   %{?_without_tests:0}%{!?_without_tests:1}
 
 Name:           php-horde-Horde-Vfs
-Version:        2.4.0
-Release:        7%{?dist}
+Version:        2.4.1
+Release:        1%{?dist}
 Summary:        Virtual File System API
 
 License:        LGPLv2
@@ -29,8 +29,13 @@ BuildRequires:  php-channel(%{pear_channel})
 BuildRequires:  gettext
 %if %{with_tests}
 # To run unit tests
-BuildRequires:  php-pear(%{pear_channel}/Horde_Test) >= 2.1.0
-BuildRequires:  php-pear(%{pear_channel}/Horde_Db) >= 2.4.0
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+BuildRequires: (php-pear(%{pear_channel}/Horde_Test)    >= 2.1.0  with php-pear(%{pear_channel}/Horde_Test)    < 3)
+BuildRequires: (php-pear(%{pear_channel}/Horde_Db)      >= 2.4.0  with php-pear(%{pear_channel}/Horde_Db)      < 3)
+%else
+BuildRequires:  php-pear(%{pear_channel}/Horde_Test)    >= 2.1.0
+BuildRequires:  php-pear(%{pear_channel}/Horde_Db)      >= 2.4.0
+%endif
 %endif
 
 Requires(post): %{__pear}
@@ -41,26 +46,34 @@ Requires:       php-pcre
 Requires:       php-posix
 Requires:       php-pear(PEAR) >= 1.7.0
 Requires:       php-channel(%{pear_channel})
-Requires:       php-pear(%{pear_channel}/Horde_Exception) >= 2.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Exception) <  3.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Translation) >= 2.2.0
-Requires:       php-pear(%{pear_channel}/Horde_Translation) <  3.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Util) >= 2.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Util) <  3.0.0
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+Requires:      (php-pear(%{pear_channel}/Horde_Exception)     >= 2.0.0  with php-pear(%{pear_channel}/Horde_Exception)     < 3)
+Requires:      (php-pear(%{pear_channel}/Horde_Translation)   >= 2.2.0  with php-pear(%{pear_channel}/Horde_Translation)   < 3)
+Requires:      (php-pear(%{pear_channel}/Horde_Util)          >= 2.0.0  with php-pear(%{pear_channel}/Horde_Util)          < 3)
 # Optional
-Requires:       php-ftp
-%if 0%{?rhel} != 6
-# https://bugzilla.redhat.com/1023989 update to 0.12 in EPEL-6
-Requires:       php-pecl(ssh2) >= 0.12
-%endif
-Requires:       php-pear(%{pear_channel}/Horde_Auth) >= 2.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Auth) <  3.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Db) >= 2.4.0
-Requires:       php-pear(%{pear_channel}/Horde_Db) <  3.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Kolab_Session) >= 2.0.0
+Recommends:     php-ftp
+Recommends:     php-pecl(ssh2) >= 0.12
+Recommends:    (php-pear(%{pear_channel}/Horde_Auth)          >= 2.0.0  with php-pear(%{pear_channel}/Horde_Auth)          < 3)
+Recommends:    (php-pear(%{pear_channel}/Horde_Db)            >= 2.4.0  with php-pear(%{pear_channel}/Horde_Db)            < 3)
+Recommends:    (php-pear(%{pear_channel}/Horde_Kolab_Session) >= 2.0.0  with php-pear(%{pear_channel}/Horde_Kolab_Session) < 3)
+Recommends:    (php-pear(%{pear_channel}/Horde_Perms)         >= 2.0.0  with php-pear(%{pear_channel}/Horde_Perms)         < 3)
+%else
+Requires:       php-pear(%{pear_channel}/Horde_Exception)     <  3.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Exception)     >= 2.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Translation)   <  3.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Translation)   >= 2.2.0
+Requires:       php-pear(%{pear_channel}/Horde_Util)          <  3.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Util)          >= 2.0.0
+# Optional
+Requires:       php-pear(%{pear_channel}/Horde_Auth)          <  3.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Auth)          >= 2.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Db)            <  3.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Db)            >= 2.4.0
 Requires:       php-pear(%{pear_channel}/Horde_Kolab_Session) <  3.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Perms) >= 2.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Perms) <  3.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Kolab_Session) >= 2.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Perms)         <  3.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Perms)         >= 2.0.0
+%endif
 # Optional and skiped to avoid circular dependency: Horde_Core
 # Optional and implicitly required: Horde_Db, Horde_Mime, Horde_Mime
 
@@ -134,7 +147,14 @@ cd %{pear_name}-%{version}/test/$(echo %{pear_name} | sed -e s:_:/:g)
 sed -e 's/testDeleteUnusalFileNames/SKIP_testDeleteUnusalFileNames/' \
     -i FileTest.php
 
-%{_bindir}/phpunit --verbose .
+ret=0
+# TODO: php80
+for cmd in php php72 php73 php74; do
+  if which $cmd; then
+    $cmd %{_bindir}/phpunit --bootstrap bootstrap.php --verbose . || ret=1
+  fi
+done
+exit $ret
 %else
 : Test disabled
 %endif
@@ -157,13 +177,20 @@ fi
 %{pear_xmldir}/%{name}.xml
 %{pear_phpdir}/Horde/Vfs
 %{pear_phpdir}/Horde/Vfs.php
-%{pear_testdir}/%{pear_name}
+%doc %{pear_testdir}/%{pear_name}
 %dir %{pear_datadir}/%{pear_name}
 %dir %{pear_datadir}/%{pear_name}/locale
 %{pear_datadir}/%{pear_name}/migration
 
 
 %changelog
+* Wed Oct 14 2020 Remi Collet <remi@remirepo.net> - 2.4.1-1
+- update to 2.4.1
+- use weak and range dependencies
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

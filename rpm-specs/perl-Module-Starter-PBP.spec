@@ -8,7 +8,7 @@
 
 Name:           perl-Module-Starter-PBP
 Version:        0.000003        
-Release:        36%{?dist}
+Release:        37%{?dist}
 Summary:        Create a module as recommended in "Perl Best Practices" 
 
 License:        GPL+ or Artistic        
@@ -73,6 +73,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.000003-37
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.000003-36
 - Perl 5.32 rebuild
 

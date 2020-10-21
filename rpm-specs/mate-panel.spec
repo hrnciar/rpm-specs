@@ -13,11 +13,11 @@
 %{!?rel_build:%global git_tar %{name}-%{version}-%{git_ver}.tar.xz}
 
 Name:           mate-panel
-Version:        %{branch}.0
+Version:        %{branch}.1
 %if 0%{?rel_build}
-Release:        5%{?dist}
+Release:        1%{?dist}
 %else
-Release:        0.11%{?git_rel}%{?dist}
+Release:        0.12%{?git_rel}%{?dist}
 %endif
 Summary:        MATE Desktop panel and applets
 #libs are LGPLv2+ applications GPLv2+
@@ -33,17 +33,6 @@ URL:            http://mate-desktop.org
 Source1:        mate-panel_fedora-30.layout
 Source2:        mate-panel_fedora-28.layout
 Source3:        mate-panel_rhel.layout
-Source4:        mate-panel-icons.tar.xz
-
-# https://github.com/mate-desktop/mate-panel/pull/816
-Patch1:         mate-panel_0001-Enable-applications-in-addto-menu.patch
-# https://github.com/mate-desktop/mate-panel/pull/1060
-Patch2:         mate-panel_0001-Do-not-collect-the-translation-for-Icon.patch
-# https://github.com/mate-desktop/mate-panel/pull/1066
-Patch3:         mate-panel_0002-Add-256x256-icons.patch
-Patch4:         mate-panel_0003-Add-64x64-icons.patch
-Patch5:         mate-panel_0004-Add-96x96-icons.patch
-Patch6:         mate-panel_0005-Add-48x48-icons.patch
 
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 #for fish
@@ -90,18 +79,12 @@ Development files for mate-panel
 %autosetup -n %{name}-%{commit} -p1
 %endif
 
-tar -xf %{SOURCE4}
-cp -rf mate-panel-icons/icons .
-
 %if 0%{?rel_build}
 #NOCONFIGURE=1 ./autogen.sh
 %else # 0%{?rel_build}
 # needed for git snapshots
 NOCONFIGURE=1 ./autogen.sh
 %endif # 0%{?rel_build}
-
-# patch2,3,4,5,6
-NOCONFIGURE=1 ./autogen.sh
 
 %build
 
@@ -163,7 +146,6 @@ install -D -m 0644 %{SOURCE3} %{buildroot}%{_datadir}/mate-panel/layouts/rhel.la
 %{_datadir}/dbus-1/services/org.mate.panel.applet.FishAppletFactory.service
 %{_datadir}/dbus-1/services/org.mate.panel.applet.NotificationAreaAppletFactory.service
 %{_datadir}/dbus-1/services/org.mate.panel.applet.WnckletFactory.service
-#%%{_libdir}/mate-panel/
 
 %files libs
 %doc COPYING.LIB
@@ -179,6 +161,12 @@ install -D -m 0644 %{SOURCE3} %{buildroot}%{_datadir}/mate-panel/layouts/rhel.la
 
 
 %changelog
+* Mon Aug 10 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- update to 1.24.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 27 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-5
 - build applets out-of-process to fix high memory consumption
 - see rhbz (#1830885)

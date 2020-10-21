@@ -3,7 +3,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 4.14.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A branch of ParseTree providing generic sexp processing tools
 License: MIT
 URL: https://github.com/seattlerb/sexp_processor
@@ -66,6 +66,9 @@ popd
 %{gem_instdir}/test
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 09 2020 Vít Ondruch <vondruch@redhat.com> - 4.14.1-1
 - Update to sexp_processor 4.14.1.
 

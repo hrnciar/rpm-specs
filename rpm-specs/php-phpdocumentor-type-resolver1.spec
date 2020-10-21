@@ -1,6 +1,6 @@
 # remirepo/fedora spec file for php-phpdocumentor-type-resolver1
 #
-# Copyright (c) 2017-2019 Remi Collet, Shawn Iwinski
+# Copyright (c) 2017-2020 Remi Collet, Shawn Iwinski
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -10,8 +10,8 @@
 
 %global github_owner     phpDocumentor
 %global github_name      TypeResolver
-%global github_version   1.2.0
-%global github_commit    30441f2752e493c639526b215ed81d54f369d693
+%global github_version   1.4.0
+%global github_commit    6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0
 
 %global composer_vendor  phpdocumentor
 %global composer_project type-resolver
@@ -20,11 +20,8 @@
 # Install in reflection-common tree
 %global ns_major         2
 
-# "php": "^7.2"
+# "php": "^7.2 || ^8.0"
 %global php_min_ver 7.2
-# "mockery/mockery": "^1"
-%global mockery_min_ver 1
-%global mockery_max_ver 2
 # "phpdocumentor/reflection-common": "^2.0"
 %global reflection_common_min_ver 2.0
 %global reflection_common_max_ver 3
@@ -53,9 +50,14 @@ BuildArch:     noarch
 %if %{with tests}
 ## composer.json
 BuildRequires:  php(language) >= %{php_min_ver}
+%if 0%{?fedora} >= 31 || 0%{?rhel} >= 9
+%global phpunit %{_bindir}/phpunit9
+BuildRequires:  phpunit9
+%else
+%global phpunit %{_bindir}/phpunit8
 BuildRequires:  phpunit8
+%endif
 BuildRequires: (php-composer(phpdocumentor/reflection-common) >= %{reflection_common_min_ver} with php-composer(phpdocumentor/reflection-common) <  %{reflection_common_max_ver})
-BuildRequires: (php-composer(mockery/mockery)                 >= %{mockery_min_ver}           with php-composer(mockery/mockery)                 <  %{mockery_max_ver})
 ## phpcompatinfo (computed from version 1.0.0)
 BuildRequires:  php-reflection
 BuildRequires:  php-pcre
@@ -129,22 +131,15 @@ cat <<'BOOTSTRAP' | tee bootstrap.php
 require '%{buildroot}%{phpdir}/phpDocumentor/Reflection%{ns_major}/autoload-type-resolver.php';
 
 \Fedora\Autoloader\Autoload::addPsr4('phpDocumentor\\Reflection\\', __DIR__.'/tests/unit');
-
-\Fedora\Autoloader\Dependencies::required([
-    '%{phpdir}/Mockery1/autoload.php',
-]);
 BOOTSTRAP
-
-: Adjust listener path
-sed 's#vendor/mockery/mockery/library/Mockery#%{phpdir}/Mockery1#' phpunit.xml.dist > phpunit.xml
 
 : Upstream tests
 RETURN_CODE=0
-for cmdarg in php php72 php73 php74 php80; do
+for cmdarg in "php %{phpunit}" "php72 %{_bindir}/phpunit8" php73 php74 php80; do
     if which $cmdarg; then
         set $cmdarg
         $1 -d auto_prepend_file=$PWD/bootstrap.php \
-            ${2:-%{_bindir}/phpunit8} --verbose --bootstrap bootstrap.php \
+            ${2:-%{_bindir}/phpunit9} --verbose --no-coverage --bootstrap bootstrap.php \
             || RETURN_CODE=1
     fi
 done
@@ -161,12 +156,21 @@ exit $RETURN_CODE
 %doc examples
 %{phpdir}/phpDocumentor/Reflection%{ns_major}/autoload-type-resolver.php
 %{phpdir}/phpDocumentor/Reflection%{ns_major}/FqsenResolver.php
-%{phpdir}/phpDocumentor/Reflection%{ns_major}/Type.php
-%{phpdir}/phpDocumentor/Reflection%{ns_major}/TypeResolver.php
-%{phpdir}/phpDocumentor/Reflection%{ns_major}/Types
+%{phpdir}/phpDocumentor/Reflection%{ns_major}/Type*
+%{phpdir}/phpDocumentor/Reflection%{ns_major}/PseudoType*
 
 
 %changelog
+* Fri Sep 18 2020 Remi Collet <remi@remirepo.net> - 1.4.0-1
+- update to 1.4.0
+- switch to phpunit9
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Remi Collet <remi@remirepo.net> - 1.3.0-1
+- update to 1.3.0
+
 * Tue Jun 23 2020 Remi Collet <remi@remirepo.net> - 1.2.0-1
 - update to 1.2.0
 

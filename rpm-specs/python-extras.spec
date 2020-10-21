@@ -5,7 +5,7 @@
 
 Name:           python-extras
 Version:        1.0.0
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Useful extra bits for Python
 
 License:        MIT
@@ -55,6 +55,9 @@ rm -vrf *.egg-info
 %{python3_sitelib}/extras-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.0-13
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           perl-Data-ICal
 Version:        0.24
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Generates iCalendar (RFC 2445) calendar files
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Data-ICal
@@ -60,6 +60,9 @@ rm -rf inc
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.24-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.24-3
 - Perl 5.32 rebuild
 

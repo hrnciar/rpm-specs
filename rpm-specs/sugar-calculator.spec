@@ -1,10 +1,6 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:           sugar-calculator
 Version:        46
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Calculator for Sugar
 
 License:        GPLv2+
@@ -30,6 +26,9 @@ mkdir -p $RPM_BUILD_ROOT%{sugaractivitydir}
 python3 ./setup.py install --prefix=$RPM_BUILD_ROOT/%{_prefix}
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}%{_datadir}/{sugaractivitydir}/Calculator.activity/
+
 %find_lang org.laptop.Calculate
 
 %files -f org.laptop.Calculate.lang
@@ -37,6 +36,13 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 %{sugaractivitydir}/Calculate.activity/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 46-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 46-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jan 27 2020 Chihurumnaya Ibiam <ibiamchihurumnaya@gmail.com> - 46-1
 - v46
 - Update Python 3 dependency declarations

@@ -4,7 +4,7 @@
 
 Name:           mingw-gstreamer1-plugins-bad-free
 Version:        1.16.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Cross compiled GStreamer1 plug-ins "bad"
 
 # The freeze and nfs plugins are LGPLv2 (only)
@@ -421,6 +421,12 @@ find %{buildroot} -name '*.la' -delete
 
 
 %changelog
+* Wed Aug 12 13:38:11 GMT 2020 Sandro Mani <manisandro@gmail.com> - 1.16.2-3
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 1.16.2-1
 - Update to 1.16.2
 

@@ -1,6 +1,6 @@
 Name:           sendKindle
 Version:        3
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        CLI tool for sending files via email to your Amazon Kindle device
 BuildArch:      noarch
 License:        AGPLv3+
@@ -38,6 +38,9 @@ mv sendKindle.py{.new,}
 %license LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3-7
 - Rebuilt for Python 3.9
 

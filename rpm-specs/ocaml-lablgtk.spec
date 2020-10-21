@@ -1,8 +1,6 @@
-%global opt %(test -x %{_bindir}/ocamlopt && echo 1 || echo 0)
-
 Name:           ocaml-lablgtk
-Version:        2.18.10
-Release:        7%{?dist}
+Version:        2.18.11
+Release:        4%{?dist}
 
 Summary:        Objective Caml interface to gtk+
 
@@ -10,9 +8,6 @@ License:        LGPLv2 with exceptions
 
 URL:            http://lablgtk.forge.ocamlcore.org/
 Source:         https://github.com/garrigue/lablgtk/archive/%{version}/lablgtk-%{version}.tar.gz
-# Fix the build with -fno-common
-# https://github.com/garrigue/lablgtk/pull/105
-Patch0:         %{name}-fno-common.patch
 
 BuildRequires:  help2man
 BuildRequires:  ocaml >= 3.12.1-3
@@ -65,7 +60,7 @@ sed -e "s|-O|$RPM_OPT_FLAGS|" \
     -e "s|-shared|& -ccopt \"$RPM_LD_FLAGS\"|" \
     -e "s|(CAMLMKLIB)|& -ldopt \"$RPM_LD_FLAGS\"|" \
     -i src/Makefile
-%if %{opt}
+%ifarch %{ocaml_native_compiler}
 make world CAMLOPT="ocamlopt.opt -g"
 make opt CAMLOPT="ocamlopt.opt -g"
 %else
@@ -120,7 +115,7 @@ done
 %dir %{_libdir}/ocaml/lablgtk2
 %{_libdir}/ocaml/lablgtk2/*.cmi
 %{_libdir}/ocaml/lablgtk2/*.cma
-%if %{opt}
+%ifarch %{ocaml_native_compiler}
 %{_libdir}/ocaml/lablgtk2/*.cmxs
 %endif
 %{_libdir}/ocaml/stublibs/*.so*
@@ -137,7 +132,7 @@ done
 %dir %{_libdir}/ocaml/lablgtk2
 %{_libdir}/ocaml/lablgtk2/META
 %{_libdir}/ocaml/lablgtk2/*.a
-%if %{opt}
+%ifarch %{ocaml_native_compiler}
 %{_libdir}/ocaml/lablgtk2/*.cmxa
 %{_libdir}/ocaml/lablgtk2/*.cmx
 %endif
@@ -145,12 +140,12 @@ done
 %{_libdir}/ocaml/lablgtk2/*.ml
 %{_libdir}/ocaml/lablgtk2/*.h
 %{_libdir}/ocaml/lablgtk2/gtkInit.cmo
-%if %{opt}
+%ifarch %{ocaml_native_compiler}
 %{_libdir}/ocaml/lablgtk2/gtkInit.o
 %endif
 %{_libdir}/ocaml/lablgtk2/gtkThInit.cmo
 %{_libdir}/ocaml/lablgtk2/gtkThread.cmo
-%if %{opt}
+%ifarch %{ocaml_native_compiler}
 %{_libdir}/ocaml/lablgtk2/gtkThread.o
 %endif
 %{_libdir}/ocaml/lablgtk2/propcc
@@ -158,6 +153,19 @@ done
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 2.18.11-4
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 2.18.11-3
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.18.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Jerry James <loganjerry@gmail.com> - 2.18.11-1
+- New upstream version 2.18.11
+- Drop upstreamed -fno-common patch
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 2.18.10-7
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

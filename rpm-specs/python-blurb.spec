@@ -1,19 +1,22 @@
 %global pypi_name blurb
 
 Name:           python-%{pypi_name}
-Version:        1.0.7
+Version:        1.0.8
 %global uversion %{version}
-Release:        7%{?dist}
+Release:        2%{?dist}
 Summary:        Command-line tool to manage CPython Misc/NEWS.d entries
 
 License:        BSD
 URL:            https://github.com/python/core-workflow/tree/master/blurb
 Source0:        %pypi_source %{pypi_name} %{uversion}
+# flit 3.0.0 requires pyproject.toml file instead of flit.ini.
+# This can be removed once upstream PR is merged.
+# https://github.com/python/core-workflow/pull/375
+Patch0:         https://github.com/python/core-workflow/commit/0c98be37887a0ec00d181ed253e1fd031783d270.patch
 BuildArch:      noarch
  
 BuildRequires:  python3-devel
-BuildRequires:  python3-flit >= 0.11
-BuildRequires:  python3-pip
+BuildRequires:  pyproject-rpm-macros
 
 %description
 Blurb is a tool designed to rid CPython core development of the scourge of
@@ -28,7 +31,7 @@ Provides:       %{pypi_name} == %{version}-%{release}
 Requires:       python3-setuptools
 
 # Calls git in subprocess
-Requires:       git
+Requires:       /usr/bin/git
 
 %description -n python3-%{pypi_name}
 Blurb is a tool designed to rid CPython core development of the scourge of
@@ -42,25 +45,34 @@ sed -i '1d' %{pypi_name}.py
 chmod -x %{pypi_name}.py
 
 
+%generate_buildrequires
+%pyproject_buildrequires
+
+
 %build
-# we use flit to create a wheel from sources
-flit build --format wheel
+%pyproject_wheel
 
 %install
-# We install the wheel created at %%build
-%py3_install_wheel %{pypi_name}-%{uversion}-py3-none-any.whl 
+%pyproject_install
+%pyproject_save_files %{pypi_name}
 
-
-%files -n python3-%{pypi_name}
+%files -n python3-%{pypi_name} -f %{pyproject_files}
 %license LICENSE.txt
 %doc README.rst
 %{_bindir}/blurb
 
-%{python3_sitelib}/__pycache__/*
-%{python3_sitelib}/%{pypi_name}.py
-%{python3_sitelib}/%{pypi_name}-%{uversion}.dist-info
-
 %changelog
+* Thu Oct 01 2020 Tomas Hrnciar <thrnciar@redhat.com> - 1.0.8-2
+- Backport patch to replace flit.ini with pyproject.toml needed by flit 3.0.0
+- Convert spec to use pyproject-rpm-macros
+
+* Thu Sep 24 2020 Tomas Hrnciar <thrnciar@redhat.com> - 1.0.8-1
+- Update to 1.0.8
+- Only require /usr/bin/git, not full git
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.7-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.7-7
 - Rebuilt for Python 3.9
 

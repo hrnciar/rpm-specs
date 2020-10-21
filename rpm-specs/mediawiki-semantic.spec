@@ -2,7 +2,7 @@
 
 Name:       mediawiki-semantic
 Version:    1.8.0.4
-Release:    13%{?dist}
+Release:    14%{?dist}
 Summary:    An extension of MediaWiki that improves content organization
 License:    GPLv2
 URL:        http://semantic-mediawiki.org
@@ -64,6 +64,9 @@ EOF
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0.4-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0.4-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

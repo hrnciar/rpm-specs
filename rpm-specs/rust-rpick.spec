@@ -5,7 +5,7 @@
 
 Name:           rust-%{crate}
 Version:        0.6.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Helps you pick items from a list by various algorithms
 
 # Upstream license specification: GPL-3.0
@@ -90,6 +90,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sun Aug 16 15:01:41 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.6.1-3
+- Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 07 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 0.6.1-1
 - Update to 0.6.1.
 

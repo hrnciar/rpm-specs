@@ -10,11 +10,11 @@ offline.}
 
 Name:           python-APScheduler
 Version:        3.6.3
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        In-process task scheduler with Cron-like capabilities
 
 License:        MIT
-URL:            http://pythonhosted.org/APScheduler/
+URL:            https://github.com/agronholm/apscheduler
 Source0:        %pypi_source
 
 BuildArch:      noarch
@@ -68,6 +68,12 @@ export TZ=UTC
 %{python3_sitelib}/apscheduler/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Fabien Boucher <fboucher@redhat.com> - 3.6.3-3
+- Update project url
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.6.3-2
 - Rebuilt for Python 3.9
 

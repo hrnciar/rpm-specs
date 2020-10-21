@@ -1,6 +1,6 @@
 Name:           sdlhack
 Version:        1.4
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Force full-screen games to minimize
 License:        LGPLv2+
 URL:            http://www.jspenguin.org/software/sdlhack/
@@ -45,6 +45,9 @@ install -Dpm 644 %{SOURCE1} $RPM_BUILD_ROOT%{_mandir}/man1
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@
 
 Name:		bdii
 Version:	5.2.25
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	The Berkeley Database Information Index (BDII)
 
 License:	ASL 2.0
@@ -152,6 +152,9 @@ fi
 %license COPYRIGHT LICENSE.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.25-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.25-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

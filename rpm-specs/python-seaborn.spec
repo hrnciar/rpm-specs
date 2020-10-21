@@ -2,7 +2,7 @@
 
 Name: python-%{srcname}
 Version: 0.10.1
-Release: 2%{?dist}
+Release: 5%{?dist}
 Summary: Statistical data visualization in Python
 License: BSD
 
@@ -10,6 +10,7 @@ URL: http://seaborn.pydata.org/
 Source0: %{pypi_source}
 # Use system python-husl
 Patch0: seaborn-husl.patch
+Patch1: seaborn-square-aspect.patch
 BuildArch: noarch
 
 BuildRequires: python3-devel
@@ -72,6 +73,16 @@ popd
 %{python3_sitelib}/seaborn-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Aug 18 2020 Sergio Pascual <sergiopr@fedoraproject.org> - 0.10.1-5
+- Fix problem with get_aspect in tests
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 06 2020 Sergio Pascual <sergiopr@fedoraproject.com> - 0.10.1-2
 - New upstream version (0.10.1)
 - Enable tests

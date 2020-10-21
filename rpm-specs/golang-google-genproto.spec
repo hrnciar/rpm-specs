@@ -4,7 +4,7 @@
 # https://github.com/google/go-genproto
 %global goipath         google.golang.org/genproto
 %global forgeurl        https://github.com/google/go-genproto
-%global commit          3caeed10a8bf5b67c6007d5b0a7016f367cedbad
+%global commit          8632dd7979872b9d9aaec9182aded5f0fc2162ea
 
 %gometa
 
@@ -23,7 +23,7 @@ APIs.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.17%{?dist}
+Release:        0.21%{?dist}
 Summary:        Generated code for Google Cloud client libraries
 
 # Upstream license specification: Apache-2.0
@@ -32,7 +32,6 @@ URL:            %{gourl}
 Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/golang/protobuf/proto)
-BuildRequires:  golang(github.com/golang/protobuf/protoc-gen-go/descriptor)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/any)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/duration)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/empty)
@@ -42,6 +41,19 @@ BuildRequires:  golang(github.com/golang/protobuf/ptypes/wrappers)
 BuildRequires:  golang(google.golang.org/grpc)
 BuildRequires:  golang(google.golang.org/grpc/codes)
 BuildRequires:  golang(google.golang.org/grpc/status)
+BuildRequires:  golang(google.golang.org/protobuf/reflect/protoreflect)
+BuildRequires:  golang(google.golang.org/protobuf/runtime/protoimpl)
+BuildRequires:  golang(google.golang.org/protobuf/types/descriptorpb)
+BuildRequires:  golang(google.golang.org/protobuf/types/known/anypb)
+BuildRequires:  golang(google.golang.org/protobuf/types/known/apipb)
+BuildRequires:  golang(google.golang.org/protobuf/types/known/durationpb)
+BuildRequires:  golang(google.golang.org/protobuf/types/known/emptypb)
+BuildRequires:  golang(google.golang.org/protobuf/types/known/fieldmaskpb)
+BuildRequires:  golang(google.golang.org/protobuf/types/known/sourcecontextpb)
+BuildRequires:  golang(google.golang.org/protobuf/types/known/structpb)
+BuildRequires:  golang(google.golang.org/protobuf/types/known/timestamppb)
+BuildRequires:  golang(google.golang.org/protobuf/types/known/typepb)
+BuildRequires:  golang(google.golang.org/protobuf/types/known/wrapperspb)
 
 %description
 %{common_description}
@@ -57,6 +69,18 @@ BuildRequires:  golang(google.golang.org/grpc/status)
 %gopkgfiles
 
 %changelog
+* Fri Sep 04 20:20:49 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.21.20200904git8632dd7
+- Bump to commit 8632dd7979872b9d9aaec9182aded5f0fc2162ea
+
+* Wed Jul 22 18:36:40 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.20.20200809gita062522
+- Bump to commit a062522353410256bd306d0ef7514b1777c4d8c0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 18:36:40 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.18.20200722git88e3419
+- Bump to commit 88e341933a542e6f21b9ad041696148fee087ab1
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

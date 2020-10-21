@@ -4,7 +4,7 @@
 
 Name:       nodejs-character-parser
 Version:    1.2.0
-Release:    11%{?dist}
+Release:    13%{?dist}
 Summary:    Parse JavaScript one character at a time to look for snippets in templates
 License:    MIT
 URL:        https://github.com/ForbesLindesay/character-parser
@@ -68,6 +68,13 @@ cp -pr package.json index.js \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

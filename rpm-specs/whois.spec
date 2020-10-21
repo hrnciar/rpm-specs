@@ -10,7 +10,7 @@
 %{bcond_without whois_enables_libidn2}
 
 Name:       whois       
-Version:    5.5.6
+Version:    5.5.7
 Release:    1%{?dist}
 Summary:    Improved WHOIS client
 License:    GPLv2+
@@ -139,6 +139,12 @@ fi
 %endif
 
 %changelog
+* Mon Oct 05 2020 Petr Pisar <ppisar@redhat.com> - 5.5.7-1
+- 5.5.7 bump
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.5.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Petr Pisar <ppisar@redhat.com> - 5.5.6-1
 - 5.5.6 bump
 

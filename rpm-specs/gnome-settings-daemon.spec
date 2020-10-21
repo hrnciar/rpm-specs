@@ -8,13 +8,13 @@
 %global geoclue_version 2.3.1
 
 Name:           gnome-settings-daemon
-Version:        3.36.1
+Version:        3.38.1
 Release:        1%{?dist}
 Summary:        The daemon sharing settings from GNOME to GTK+/KDE applications
 
 License:        GPLv2+
 URL:            https://download.gnome.org/sources/%{name}
-Source0:        https://download.gnome.org/sources/%{name}/3.36/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 Source1:        org.gnome.settings-daemon.plugins.power.gschema.override
 
 BuildRequires:  meson >= 0.44.0
@@ -109,8 +109,6 @@ mkdir $RPM_BUILD_ROOT%{_libdir}/gnome-settings-daemon-3.0/gtk-modules
 %{_libexecdir}/gsd-datetime
 %{_sysconfdir}/xdg/autostart/org.gnome.SettingsDaemon.Datetime.desktop
 
-%{_libexecdir}/gsd-dummy
-
 %{_libexecdir}/gsd-housekeeping
 %{_sysconfdir}/xdg/autostart/org.gnome.SettingsDaemon.Housekeeping.desktop
 %{_datadir}/glib-2.0/schemas/org.gnome.settings-daemon.plugins.housekeeping.gschema.xml
@@ -154,7 +152,6 @@ mkdir $RPM_BUILD_ROOT%{_libdir}/gnome-settings-daemon-3.0/gtk-modules
 
 %ifnarch s390 s390x
 %{_libexecdir}/gsd-wacom
-%{_libexecdir}/gsd-wacom-led-helper
 %{_libexecdir}/gsd-wacom-oled-helper
 %{_datadir}/polkit-1/actions/org.gnome.settings-daemon.plugins.wacom.policy
 %endif
@@ -194,6 +191,28 @@ mkdir $RPM_BUILD_ROOT%{_libdir}/gnome-settings-daemon-3.0/gtk-modules
 %{_libdir}/pkgconfig/gnome-settings-daemon.pc
 
 %changelog
+* Fri Oct  9 2020 Kalev Lember <klember@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Mon Sep 14 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Mon Sep 07 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Sat Aug 29 2020 Kalev Lember <klember@redhat.com> - 3.37.1-1
+- Update to 3.37.1
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 3.37.0-1
+- Update to 3.37.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 30 2020 Kalev Lember <klember@redhat.com> - 3.36.1-1
 - Update to 3.36.1
 

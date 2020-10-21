@@ -4,7 +4,7 @@
 
 Name:          google-roboto-mono-fonts
 Version:       2.002
-Release:       0.1.20200129git%{?dist}
+Release:       0.2.20200129git%{?dist}
 Summary:       Google Roboto Mono fonts
 
 License:       ASL 2.0
@@ -64,6 +64,9 @@ install -m 0644 -p %{SOURCE12} %{buildroot}%{_metainfodir}
 %license LICENSE.txt
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.002-0.2.20200129git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Web Jan 29 2020 Link Dupont <linkdupont@fedoraproject.org> - 2.002-0.1.20200129git
 - New upstream version
 

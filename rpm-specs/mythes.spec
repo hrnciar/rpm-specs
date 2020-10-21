@@ -1,7 +1,7 @@
 Name:      mythes
 Summary:   A thesaurus library
 Version:   1.2.4
-Release:   13%{?dist}
+Release:   15%{?dist}
 Source:    http://downloads.sourceforge.net/hunspell/%{name}-%{version}.tar.gz
 URL:       http://hunspell.sourceforge.net/
 License:   BSD and MIT
@@ -24,7 +24,7 @@ Includes and definitions for developing with mythes
 
 %build
 %configure --disable-rpath --disable-static
-make %{?_smp_mflags}
+%make_build
 
 %check
 ./example th_en_US_new.idx th_en_US_new.dat checkme.lst
@@ -32,7 +32,7 @@ make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make DESTDIR=$RPM_BUILD_ROOT install
+%make_install
 rm -f $RPM_BUILD_ROOT/%{_libdir}/*.a
 rm -f $RPM_BUILD_ROOT/%{_libdir}/*.la
 mkdir -p $RPM_BUILD_ROOT/%{_datadir}/mythes
@@ -52,6 +52,13 @@ mkdir -p $RPM_BUILD_ROOT/%{_datadir}/mythes
 %{_bindir}/th_gen_idx.pl
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1.2.4-14
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

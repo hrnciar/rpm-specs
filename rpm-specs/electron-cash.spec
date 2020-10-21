@@ -1,5 +1,5 @@
 Name:           electron-cash
-Version:        4.0.15
+Version:        4.1.1
 Release:        1%{?dist}
 Summary:        A lightweight Bitcoin Cash client
 
@@ -98,6 +98,18 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.elect
 %{python3_sitelib}/Electron_Cash-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Mon Sep 14 2020 Jonny Heggheim <hegjon@gmail.com> - 4.1.1-1
+- Updated to version 4.1.1
+
+* Fri Jul 31 2020 Jonny Heggheim <hegjon@gmail.com> - 4.1.0-2
+- Added dependency on python-certifi
+
+* Fri Jul 31 2020 Jonny Heggheim <hegjon@gmail.com> - 4.1.0-1
+- Updated to version 4.1.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.15-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Jonny Heggheim <hegjon@gmail.com> - 4.0.15-1
 - Updated to version 4.0.15
 

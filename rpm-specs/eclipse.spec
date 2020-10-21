@@ -8,20 +8,14 @@
 
 Epoch:                  1
 
-%global eb_commit       c985e357223668b4bc1fb76ea6b9e0c12829b7e8
+%global eb_commit       d2d5e1813a3213c8c4ff3f6a5049fecd003111df
 %global eclipse_rel     %{version}
 %global eclipse_tag     R-%{eclipse_rel}-202006040540
 
-%global _jetty_version  9.4.30
+%global _jetty_version  9.4.31
 %global _lucene_version 8.4.1
-%global _batik_version 1.11
+%global _batik_version 1.13
 
-%ifarch %{ix86}
-    %global eclipse_arch x86
-%endif
-%ifarch %{arm}
-    %global eclipse_arch arm
-%endif
 %ifarch s390x x86_64 aarch64 ppc64le
     %global eclipse_arch %{_arch}
 %endif
@@ -40,25 +34,35 @@ Epoch:                  1
 %endif
 
 # Glassfish EE APIs that moved to jakarta namespace
-%if 0%{?fedora}
+%if 0%{?fedora} >= 33
 %global _jakarta_annotations jakarta.annotation-api
+%global _jakarta_servlet_api jakarta.servlet-api
+%global _jakarta_jsp_api javax.servlet.jsp-api
+%global _jakarta_jsp org.glassfish.web.jakarta.servlet.jsp
+%global _jakarta_el_api jakarta.el-api
+%global _jakarta_el org.glassfish.jakarta.el
 %else
 %global _jakarta_annotations javax.annotation-api
+%global _jakarta_servlet_api javax.servlet-api
+%global _jakarta_jsp_api javax.servlet.jsp
+%global _jakarta_jsp org.glassfish.web.javax.servlet.jsp
+%global _jakarta_el_api javax.el-api
+%global _jakarta_el com.sun.el.javax.el
 %endif
 
 Summary:        An open, extensible IDE
 Name:           eclipse
 Version:        4.16
-Release:        3%{?dist}
+Release:        13%{?dist}
 License:        EPL-2.0
-URL:            http://www.eclipse.org/
+URL:            https://www.eclipse.org/
 
 Source0: https://download.eclipse.org/eclipse/downloads/drops4/%{eclipse_tag}/eclipse-platform-sources-%{eclipse_rel}.tar.xz
 
 # Can generate locally with:
 # git archive --format=tar --prefix=org.eclipse.linuxtools.eclipse-build-%%{eb_commit}/ \
 #   %%{eb_commit} | xz > org.eclipse.linuxtools.eclipse-build-%%{eb_commit}.tar.xz
-Source1: http://git.eclipse.org/c/linuxtools/org.eclipse.linuxtools.eclipse-build.git/snapshot/org.eclipse.linuxtools.eclipse-build-%{eb_commit}.tar.xz
+Source1: https://git.eclipse.org/c/linuxtools/org.eclipse.linuxtools.eclipse-build.git/snapshot/org.eclipse.linuxtools.eclipse-build-%{eb_commit}.tar.xz
 
 # Toolchain configurations for all EEs needed by Eclipse bundles
 Source2: toolchains.xml
@@ -87,12 +91,6 @@ Patch12: eclipse-fix-dropins.patch
 # Feature plugin definitions lock onto version of plugin at build-time.
 # If plugin is external, updating it breaks the feature. (version changes)
 # Workaround : Change <plugin> definition to a 'requirement'
-# Also makes the following BSN changes at the same time:
-# com.sun.el -> com.sun.el.javax.el
-# javax.el -> javax.el-api
-# javax.servlet -> javax.servlet-api
-# org.apache.jasper.glassfish -> org.glassfish.web.javax.servlet.jsp
-# org.w3c.dom.smil -> removed
 Patch13: eclipse-feature-plugins-to-category-ius.patch
 
 Patch14: eclipse-support-symlink-bundles.patch
@@ -146,7 +144,6 @@ BuildRequires: maven-enforcer-plugin
 BuildRequires: maven-install-plugin
 BuildRequires: maven-shade-plugin
 BuildRequires: xml-maven-plugin
-BuildRequires: sonatype-oss-parent
 BuildRequires: rsync
 BuildRequires: make, gcc
 BuildRequires: zip, unzip
@@ -160,14 +157,13 @@ BuildRequires: pkgconfig(cairo)
 BuildRequires: pkgconfig(xt)
 BuildRequires: pkgconfig(xtst)
 BuildRequires: pkgconfig(libsecret-1)
-BuildRequires: pkgconfig(gtk+-2.0)
 BuildRequires: pkgconfig(gtk+-3.0)
 BuildRequires: pkgconfig(webkit2gtk-4.0)
 BuildRequires: icu4j >= 1:65.1
 BuildRequires: ant >= 1.10.5
-BuildRequires: ant-antlr ant-apache-bcel ant-apache-log4j ant-apache-oro ant-apache-regexp ant-apache-resolver ant-commons-logging ant-apache-bsf
+BuildRequires: ant-antlr ant-apache-bcel ant-apache-oro ant-apache-regexp ant-apache-resolver ant-commons-logging ant-apache-bsf
 BuildRequires: ant-commons-net ant-javamail ant-jdepend ant-junit ant-swing ant-jsch ant-testutil ant-apache-xalan2 ant-jmf ant-xz ant-junit5
-BuildRequires: jsch >= 0:0.1.46-2
+BuildRequires: jsch
 BuildRequires: apache-commons-logging
 BuildRequires: apache-commons-codec
 BuildRequires: apache-commons-jxpath
@@ -231,8 +227,6 @@ everything in between.
 
 %package        swt
 Summary:        SWT Library for GTK+
-Requires:       java-headless >= 1:1.8.0
-Requires:       javapackages-tools
 Requires:       gtk3
 Requires:       webkitgtk4
 
@@ -241,8 +235,6 @@ SWT Library for GTK+.
 
 %package        equinox-osgi
 Summary:        Eclipse OSGi - Equinox
-Requires:       java-headless >= 1:1.8.0
-Requires:       javapackages-tools
 Provides:       osgi(system.bundle) = %{epoch}:%{version}
 
 %description  equinox-osgi
@@ -250,12 +242,13 @@ Eclipse OSGi - Equinox
 
 %package        platform
 Summary:        Eclipse platform common files
+Requires:       java-11-openjdk-devel
+Requires:       javapackages-tools
 Recommends:     eclipse-usage
 
 Requires: ant >= 1.10.5
-Requires: ant-antlr ant-apache-bcel ant-apache-log4j ant-apache-oro ant-apache-regexp ant-apache-resolver ant-commons-logging ant-apache-bsf
+Requires: ant-antlr ant-apache-bcel ant-apache-oro ant-apache-regexp ant-apache-resolver ant-commons-logging ant-apache-bsf
 Requires: ant-commons-net ant-javamail ant-jdepend ant-junit ant-swing ant-jsch ant-testutil ant-apache-xalan2 ant-jmf ant-xz ant-junit5
-Requires: jsch >= 0.1.46-2
 Requires: apache-commons-logging
 Requires: apache-commons-codec
 Requires: apache-commons-jxpath
@@ -274,8 +267,6 @@ Requires: lucene-core >= %{_lucene_version}
 Requires: lucene-analysis >= %{_lucene_version}
 Requires: lucene-queryparser >= %{_lucene_version}
 Requires: lucene-analyzers-smartcn >= %{_lucene_version}
-Requires: sat4j
-Requires: sac
 Requires: batik-css >= %{_batik_version}
 Requires: batik-util >= %{_batik_version}
 Requires: xmlgraphics-commons >= 2.3
@@ -294,7 +285,6 @@ Requires: %{name}-swt = %{epoch}:%{version}-%{release}
 Requires: %{name}-equinox-osgi = %{epoch}:%{version}-%{release}
 Requires: httpcomponents-core
 Requires: httpcomponents-client
-Requires: osgi(org.tukaani.xz)
 
 # Obsoletes added in F31
 Obsoletes: eclipse-epp-logging <= 2.0.8-4
@@ -350,8 +340,6 @@ Summary:        Tools for Eclipse Contributors
 # No longer shipping tests
 Obsoletes:      %{name}-tests < 1:4.14-2
 
-Requires:       %{name}-platform = %{epoch}:%{version}-%{release}
-
 %description    contributor-tools
 This package contains tools specifically for Eclipse contributors. It includes
 SWT tools, E4 tools, Rel-Eng tools and Eclipse Test frameworks.
@@ -404,9 +392,6 @@ rm -rf rt.equinox.binaries/org.eclipse.equinox.executable/{bin,contributed}/
 # Optional (unused) multipart support (see patch 25)
 rm rt.equinox.bundles/bundles/org.eclipse.equinox.http.servlet/src/org/eclipse/equinox/http/servlet/internal/multipart/MultipartSupport{Impl,FactoryImpl,Part}.java
 
-# No strict bin includes
-sed -i -e '/jgit.dirtyWorkingTree>/a<strictSrcIncludes>false</strictSrcIncludes><strictBinIncludes>false</strictBinIncludes>' eclipse-platform-parent/pom.xml
-
 # Remove jgit deps because building from source tarball, not a git repo
 %pom_remove_dep :tycho-buildtimestamp-jgit eclipse-platform-parent
 %pom_remove_dep :tycho-sourceref-jgit eclipse-platform-parent
@@ -450,11 +435,21 @@ sed -i -e '/jgit.dirtyWorkingTree>/a<strictSrcIncludes>false</strictSrcIncludes>
 %pom_xpath_remove "plugin[@version='1.1.500.qualifier']" eclipse.jdt/org.eclipse.jdt-feature/feature.xml
 
 # javax.annotation -> jakarta.annotation-api
-sed -i -e 's/javax.annotation/%{_jakarta_annotations}/' eclipse-platform-parent/pom.xml \
+# javax.servlet -> jakarta.servlet-api
+# javax.el -> jakarta.el-api
+# javax.servlet.jsp -> jakarta.servlet.jsp-api
+sed -i -e 's/javax.annotation/%{_jakarta_annotations}/' -e 's/javax.servlet\([^.]\)/%{_jakarta_servlet_api}\1/' \
+       -e 's/javax.el/%{_jakarta_el_api}/' -e 's/com.sun.el/%{_jakarta_el}/' \
+       -e 's/javax.servlet.jsp/%{_jakarta_jsp_api}/' -e 's/org.apache.jasper.glassfish/%{_jakarta_jsp}/' \
+  eclipse-platform-parent/pom.xml \
+  eclipse.platform.releng/features/org.eclipse.help-feature/feature.xml \
+  eclipse.platform.common/bundles/org.eclipse.*/pom.xml \
+  eclipse.platform.common/bundles/org.eclipse.platform.doc.isv/platformOptions.txt \
   eclipse.platform.ui/features/org.eclipse.e4.rcp/feature.xml \
-  eclipse.platform.common/bundles/org.eclipse.jdt.doc.isv/pom.xml \
-  eclipse.platform.common/bundles/org.eclipse.pde.doc.user/pom.xml \
-  eclipse.platform.common/bundles/org.eclipse.platform.doc.isv/pom.xml
+  rt.equinox.bundles/features/org.eclipse.equinox.server.{jetty,simple}/feature.xml
+
+# Fix requirement on junit 4
+sed -i -e 's/4.13.0,5.0.0/4.12.0,5.0.0/' eclipse.jdt.ui/org.eclipse.jdt.junit.core/src/org/eclipse/jdt/internal/junit/buildpath/BuildPathSupport.java
 
 # Disable examples
 %pom_disable_module infocenter-web eclipse.platform.ua
@@ -568,6 +563,9 @@ for f in eclipse.jdt/org.eclipse.jdt-feature/feature.xml \
   done
 done
 
+# Fix javadoc generation relying on Windows version of SWT
+sed -i -e '/swt/s/swt.win32.win32.x86_64/swt.gtk.linux.%{eclipse_arch}/' eclipse.platform.common/bundles/org.eclipse*/*Options.txt
+
 %if %{with bootstrap} || %{without contrib_tools}
 # Disable contributor tools that have external dependencies during bootstrap
 %pom_disable_module eclipse.platform.ui.tools
@@ -585,7 +583,7 @@ sed -i -e '/<features>/a<feature id="org.eclipse.core.runtime.feature"/>' \
   eclipse.platform.releng.tychoeclipsebuilder/platform/platform.product
 
 # Ensure batch compiler gets installed correctly
-sed -i -e '/org.eclipse.ui.themes/i<plugin id="org.eclipse.jdt.core.compiler.batch" download-size="0" install-size="0" version="0.0.0" unpack="false"/>' \
+%pom_xpath_inject 'feature' '<plugin id="org.eclipse.jdt.core.compiler.batch" download-size="0" install-size="0" version="0.0.0" unpack="false"/>' \
   eclipse.platform.releng/features/org.eclipse.platform-feature/feature.xml
 sed -i -e '/<\/excludes>/i<plugin id="org.eclipse.jdt.core.compiler.batch"/>' \
   eclipse.platform.releng/features/org.eclipse.platform-feature/pom.xml
@@ -606,19 +604,11 @@ for f in eclipse.platform.swt.binaries/bundles/org.eclipse.swt.gtk.linux.*/META-
     echo -e "Eclipse-BundleShape: dir\n\n" >> $f;
 done
 
-# Add dep on Java API stubs when compiling with JDT
-%pom_xpath_inject "pom:pluginManagement/pom:plugins/pom:plugin[pom:artifactId='tycho-compiler-plugin']/pom:dependencies" \
-  "<dependency><groupId>org.eclipse</groupId><artifactId>java10api</artifactId><version>10</version></dependency>" eclipse-platform-parent
-
 # Build fake ant bundle that contains symlinks to system jars
 dependencies/fake_ant_dependency.sh
 
 # Allow usage of javax.servlet.jsp 2.3.
 sed -i '/javax\.servlet\.jsp/ s/2\.3/2\.4/' rt.equinox.bundles/bundles/org.eclipse.equinox.jsp.jasper/META-INF/MANIFEST.MF
-
-# Use javax.servlet-api (Glassfish) instead of javax.servlet (Tomcat)
-find -name feature.xml | xargs sed -i -e 's|"javax.servlet"|"javax.servlet-api"|'
-sed -i -e "2iRequire-Bundle: javax.servlet-api" rt.equinox.bundles/bundles/org.eclipse.equinox.http.{jetty,servlet}/META-INF/MANIFEST.MF
 
 # Fix constraint on gogo runtime
 sed -i -e '/org.apache.felix.service.command/s/;status=provisional//' rt.equinox.bundles/bundles/org.eclipse.equinox.console{,.ssh}/META-INF/MANIFEST.MF
@@ -731,16 +721,11 @@ popd
 sed -i "s|-Xms40m|-Xms512m|g" eclipse.ini
 sed -i "s|-Xmx512m|-Xmx1024m|g" eclipse.ini
 sed -i '1i-protect\nroot' eclipse.ini
+sed -i '/-vmargs/i-vm\n%{_jvmdir}/java-11/bin/java' eclipse.ini
 
 # Temporary fix until https://bugs.eclipse.org/294877 is resolved
 cat >> eclipse.ini <<EOF
 -Dorg.eclipse.swt.browser.UseWebKitGTK=true
--XX:CompileCommand=exclude,org/eclipse/core/internal/dtree/DataTreeNode,forwardDeltaWith
--XX:CompileCommand=exclude,org/eclipse/jdt/internal/compiler/lookup/ParameterizedMethodBinding,<init>
--XX:CompileCommand=exclude,org/eclipse/cdt/internal/core/dom/parser/cpp/semantics/CPPTemplates,instantiateTemplate
--XX:CompileCommand=exclude,org/eclipse/cdt/internal/core/pdom/dom/cpp/PDOMCPPLinkage,addBinding
--XX:CompileCommand=exclude,org/python/pydev/editor/codecompletion/revisited/PythonPathHelper,isValidSourceFile
--XX:CompileCommand=exclude,org/eclipse/tycho/core/osgitools/EquinoxResolver,newState
 -Dorg.eclipse.equinox.p2.reconciler.dropins.directory=%{_datadir}/eclipse/dropins
 -Dp2.fragments=%{_eclipsedir}/droplets,%{_datadir}/eclipse/droplets
 -Declipse.p2.skipMovedInstallDetection=true
@@ -750,6 +735,7 @@ EOF
 popd #eclipse
 
 %install
+export JAVA_HOME=%{_jvmdir}/java-11
 %mvn_install
 
 # Some directories we need
@@ -895,10 +881,14 @@ echo "%{version}-%{release}" > %{buildroot}%{_eclipsedir}/.pkgs/Distro%{?dist}
 %{_eclipsedir}/features/org.eclipse.rcp_*
 %{_eclipsedir}/plugins/com.ibm.icu_*
 %{_eclipsedir}/plugins/com.jcraft.jsch_*
-%{_eclipsedir}/plugins/com.sun.el.javax.el_*
 %{_eclipsedir}/plugins/javax.*
-%if 0%{?fedora}
+%if 0%{?fedora} >= 33
 %{_eclipsedir}/plugins/jakarta.*
+%{_eclipsedir}/plugins/org.glassfish.jakarta.el_*
+%{_eclipsedir}/plugins/org.glassfish.web.jakarta.servlet.jsp_*
+%else
+%{_eclipsedir}/plugins/com.sun.el.javax.el_*
+%{_eclipsedir}/plugins/org.glassfish.web.javax.servlet.jsp_*
 %endif
 %{_eclipsedir}/plugins/org.apache.*
 %{_eclipsedir}/plugins/org.eclipse.ant.core_*
@@ -1041,7 +1031,6 @@ echo "%{version}-%{release}" > %{buildroot}%{_eclipsedir}/.pkgs/Distro%{?dist}
 %{_eclipsedir}/plugins/org.eclipse.ui.workbench.texteditor_*
 %{_eclipsedir}/plugins/org.eclipse.update.configurator_*
 %{_eclipsedir}/plugins/org.eclipse.urischeme_*
-%{_eclipsedir}/plugins/org.glassfish.web.javax.servlet.jsp_*
 %{_eclipsedir}/plugins/org.sat4j.core_*
 %{_eclipsedir}/plugins/org.sat4j.pb_*
 %{_eclipsedir}/plugins/org.tukaani.xz_*
@@ -1072,6 +1061,41 @@ echo "%{version}-%{release}" > %{buildroot}%{_eclipsedir}/.pkgs/Distro%{?dist}
 %{_eclipsedir}/plugins/org.eclipse.osgi.util_*
 
 %changelog
+* Tue Aug 25 2020 Mat Booth <mat.booth@redhat.com> - 1:4.16-13
+- Platform actually requires OpenJDK devel package for ct.sym
+
+* Mon Aug 24 2020 Mat Booth <mat.booth@redhat.com> - 1:4.16-12
+- Rebuild against new jakarta-el,-jsp packages
+- Fix javadoc generation relying on Windows version of SWT
+
+* Fri Aug 21 2020 Mat Booth <mat.booth@redhat.com> - 1:4.16-11
+- Rebuild with a dependency on obsolete log4j package
+- Run mvn_install with Java 11
+
+* Wed Aug 19 2020 Mat Booth <mat.booth@redhat.com> - 1:4.16-10
+- Rebuild against jakarta servlet API and updated batik
+- Update eclipse-build snapshot
+
+* Fri Aug 14 2020 Mat Booth <mat.booth@redhat.com> - 1:4.16-9
+- Restore explicit glassfish-annotation-api dep
+
+* Fri Aug 14 2020 Mat Booth <mat.booth@redhat.com> - 1:4.16-8
+- Rebuild for new jetty version
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.16-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Mat Booth <mat.booth@redhat.com> - 1:4.16-6
+- Require Java 11 explicitly
+- Drop hotspot exclusions from the JDK 6 era
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1:4.16-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Mon Jun 29 2020 Mat Booth <mat.booth@redhat.com> - 1:4.16-4
+- Update linux-build snapshot and fix adding junit classpath containers to java
+  projects
+
 * Tue Jun 23 2020 Mat Booth <mat.booth@redhat.com> - 1:4.16-3
 - Make a bit more portable and fix bootstrap mode
 

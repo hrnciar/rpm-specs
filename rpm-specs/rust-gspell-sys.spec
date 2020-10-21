@@ -5,7 +5,7 @@
 %global crate gspell-sys
 
 Name:           rust-%{crate}
-Version:        0.4.0
+Version:        0.5.0
 Release:        1%{?dist}
 Summary:        Raw C-FFI bindings for the gspell library
 
@@ -84,6 +84,16 @@ echo 'pkgconfig(gspell-1) >= 1.6'
 %endif
 
 %changelog
+* Tue Aug 11 2020 Josh Stone <jistone@redhat.com> - 0.5.0-1
+- Update to 0.5.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 19 14:37:33 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.4.0-1
 - Update to 0.4.0
 

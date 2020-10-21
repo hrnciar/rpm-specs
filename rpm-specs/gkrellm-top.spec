@@ -3,7 +3,7 @@
 Summary:	GKrellM plugin which shows 3 most CPU intensive processes
 Name:		gkrellm-top
 Version:	2.2.13
-Release:	18%{?dist}
+Release:	19%{?dist}
 License:	GPL+
 URL:		http://gkrelltop.sourceforge.net/
 Source:		http://downloads.sf.net/gkrelltop/gkrelltop_%{version}.orig.tar.gz
@@ -34,6 +34,9 @@ install -D -m 755 gkrelltopd.so $RPM_BUILD_ROOT%{gkplugindir}/gkrelltopd.so
 %{gkplugindir}/gkrelltopd.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.13-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.13-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

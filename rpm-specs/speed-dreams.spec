@@ -15,9 +15,9 @@ Summary: The Open Racing Car Simulator
 Name:    speed-dreams
 Version: 2.2.2
 %if 0%{?sf_release}
-Release: 6%{?dist}
+Release: 11%{?dist}
 %else
-Release: 0.7.%{svndate}svn%(echo %{src_release} | tr '-' '_').rc2%{?dist}
+Release: 0.9.%{svndate}svn%(echo %{src_release} | tr '-' '_').rc2%{?dist}
 %endif
 Epoch:   1
          # Contains LGPLv2 files also published under GPLv2+
@@ -37,6 +37,7 @@ Source2: %{?repo_url}%{name}-src-hq-cars-and-tracks-%{src_version}.tar.xz
 Source3: %{?repo_url}%{name}-src-more-hq-cars-and-tracks-%{src_version}.tar.xz
 #Source4: %%{?repo_url}%%{name}-src-unmaintained-%%{src_version}.tar.xz
 Source5: %{name}.desktop
+Patch0: %{name}-gcc11.patch
 
 ExcludeArch:   s390x
 
@@ -104,6 +105,7 @@ This package contains the development files for the game.
 
 %prep
 %setup -q -c -n %{name}-src-base-%{version}-%{release} -a1 -a2 -a3
+%patch0 -p1
 
 # delete unused header file on arm achitecture
 sed -i -e 's|#include "OsgReferenced.h"||g' src/modules/graphic/osggraph/Sky/OsgDome.h
@@ -121,10 +123,11 @@ find . -name '*.c' -o -name '*.h' -o -name '*.cpp' -o -name '*.hpp' | \
         -DSD_BINDIR:PATH=bin                                  \
         -DOPTION_3RDPARTY_SOLID:BOOL=ON                       \
         -DOPTION_OFFICIAL_ONLY:BOOL=ON
-make %{?_smp_mflags}
+%cmake_build
 
 %install
-make DESTDIR=%{buildroot} install >/dev/null
+#make DESTDIR=%{buildroot} install >/dev/null
+%cmake_install
 find %{buildroot} -type f -name "*.cmake" -delete
 
 desktop-file-install \
@@ -201,6 +204,22 @@ find %{buildroot} -size 0 -delete
 %{_includedir}/%{name}-2/
 
 %changelog
+* Tue Sep 15 2020 Jeff Law <law@redhat.com> - 1:2.2.2-11
+- Fix ordered comparison between pointer and NULL for gcc11
+
+* Fri Aug 28 2020 Martin Gansser <martinkg@fedoraproject.org> - 1:2.2.2-10
+- Rebuilt for rawhide
+
+* Fri Aug 07 2020 Martin Gansser <martinkg@fedoraproject.org> - 1:2.2.2-9
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.2.2-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.2.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 07 2020 Martin Gansser <martinkg@fedoraproject.org> - 1:2.2.2-6
 - Rebuilt
 - Add ExcludeArch s390x

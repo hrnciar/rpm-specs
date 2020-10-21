@@ -7,7 +7,7 @@
 
 Name:       lnst
 Version:    15
-Release:    6%{?dist}
+Release:    7%{?dist}
 Summary:    Common code for lnst-ctl and lnst-slave
 Requires:   python3, python3-pyroute2, bzip2, tar
 
@@ -120,6 +120,9 @@ semanage fcontext -d -t bin_t -f f %{_bindir}/%{name}-slave
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 15-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 15-6
 - Rebuilt for Python 3.9
 

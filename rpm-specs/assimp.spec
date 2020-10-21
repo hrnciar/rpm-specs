@@ -1,6 +1,7 @@
+%undefine __cmake_in_source_build
 Name:           assimp
 Version:        3.3.1
-Release:        24%{?dist}
+Release:        27%{?dist}
 Summary:        Library to import various 3D model formats into applications
 # Assimp is BSD, the bundled openddlparser is MIT.
 License:        BSD and MIT
@@ -21,6 +22,9 @@ Patch2:         0001-Assimp-cmake-provider-fix.patch
 # fix FTBFS on bigendian platform s390x/ppc64
 Patch3:         assimp-3.3.1-namespace-bigendian.patch
 Patch10:        assimp-3.3.1-install-pkgconfig.patch
+Patch11:        assimp-3.3.1-cmakemacros.patch
+Patch12:	assimp-gcc11.patch
+
 #Upstream backports
 # Collada morph animation
 Patch100:       0001-Morph-animation-support-for-collada.patch
@@ -105,11 +109,12 @@ rm -r contrib/poly2tri
 %patch100 -p1 -b .docfix
 %patch101 -p1 -b .qt3d
 %patch102 -p1 -b .systemirrxml
+%patch11 -p0 -b .cmakemacros
+%patch12 -p1 -b .gcc11
 
 %build
-mkdir build
-pushd build
-%cmake .. \
+%cmake \
+ -DCMAKE_BUILD_TYPE=Release \
  -DASSIMP_LIB_INSTALL_DIR=%{_libdir} \
  -DASSIMP_BIN_INSTALL_DIR=%{_bindir} \
  -DASSIMP_INCLUDE_INSTALL_DIR=%{_includedir} \
@@ -121,18 +126,17 @@ pushd build
  -DCMAKE_INSTALL_DOCDIR=%{_docdir} \
  -DPOLY2TRI_INCLUDE_PATH=%{_includedir}/poly2tri \
  -DSYSTEM_IRRXML=ON
-popd
 # To use system polyclipping if assimp ever becomes compatible:
 # -DCLIPPER_INCLUDE_PATH=%{_includedir}/polyclipping
-make %{?_smp_mflags} -C build
+
+%cmake_build
 
 # Fix file encoding
 dos2unix README LICENSE CREDITS port/PyAssimp/README.md
 iconv -f iso8859-1 -t utf-8 CREDITS > CREDITS.conv && mv -f CREDITS.conv CREDITS
 
 %install
-rm -rf %{buildroot}
-make -C build install DESTDIR=%{buildroot}
+%cmake_install
 mkdir -p %{buildroot}%{python3_sitelib}/pyassimp/
 install -m0644 port/PyAssimp/pyassimp/*.py %{buildroot}%{python3_sitelib}/pyassimp/
 
@@ -161,6 +165,16 @@ install -m0644 port/PyAssimp/pyassimp/*.py %{buildroot}%{python3_sitelib}/pyassi
 %endif
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 3.3.1-27
+- Fix minor C++17 issues
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.1-26
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.1-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.3.1-24
 - Rebuilt for Python 3.9
 

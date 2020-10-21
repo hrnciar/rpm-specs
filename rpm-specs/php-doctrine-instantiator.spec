@@ -22,7 +22,7 @@
 
 Name:           php-doctrine-instantiator
 Version:        1.3.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Instantiate objects in PHP without invoking their constructors
 
 License:        MIT
@@ -112,6 +112,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun  2 2020 Remi Collet <remi@remirepo.net> - 1.3.1-1
 - update to 1.3.1 (no change)
 - switch to phpunit8

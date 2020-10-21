@@ -2,7 +2,7 @@
 
 Name:           darkhttpd
 Version:        1.12
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        A secure, lightweight, fast, single-threaded HTTP/1.1 server
 
 License:        BSD
@@ -72,6 +72,9 @@ install -pDm644 %{S:2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 %config %{_unitdir}/%{name}.service
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

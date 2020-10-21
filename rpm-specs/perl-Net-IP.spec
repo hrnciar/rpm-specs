@@ -2,7 +2,7 @@
 
 Name:           perl-Net-IP
 Version:        1.26
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        Perl module for manipulation of IPv4 and IPv6 addresses
 # Some ambiguity here, see http://rt.cpan.org/Ticket/Display.html?id=28689
 # MIT-like for the IP.pm itself, and "like Perl itself" for all the other
@@ -82,6 +82,9 @@ PERL5LIB=%{buildroot}%{perl_vendorlib} ./iptab
 %{_mandir}/man3/Net::IP.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.26-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.26-22
 - Perl 5.32 rebuild
 

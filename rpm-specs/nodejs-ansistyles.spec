@@ -2,7 +2,7 @@
 
 Name:           nodejs-ansistyles
 Version:        0.1.3
-Release:        15%{?dist}
+Release:        17%{?dist}
 Summary:        Functions that surround a string with ansistyle codes so it prints in style
 License:        MIT
 Url:            https://github.com/sindresorhus/ansi-styles
@@ -38,6 +38,13 @@ tap test/
 %doc LICENSE README.md
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-17
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

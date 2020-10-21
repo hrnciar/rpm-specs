@@ -1,6 +1,6 @@
 Name:           libarcus
-Version:        4.6.1
-Release:        3%{?dist}
+Version:        4.7.1
+Release:        2%{?dist}
 Summary:        Communication library between internal components for Ultimaker software
 License:        LGPLv3+
 URL:            https://github.com/Ultimaker/libArcus
@@ -18,6 +18,9 @@ BuildRequires:  /usr/bin/sip
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  git-core
+
+# Get Fedora 33++ behavior on anything older
+%undefine __cmake_in_source_build
 
 %description
 Arcus library contains C++ code and Python 3 bindings for creating a socket in
@@ -60,11 +63,11 @@ between Cura and its backend and similar code.
 sed -i 's/Python3_SITELIB/Python3_SITEARCH/' cmake/SIPMacros.cmake
 
 %build
-%{cmake} -DBUILD_EXAMPLES:BOOL=OFF -DCMAKE_SKIP_RPATH:BOOL=ON .
-%make_build
+%cmake -DBUILD_EXAMPLES:BOOL=OFF -DCMAKE_SKIP_RPATH:BOOL=ON .
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %files
 %license LICENSE
@@ -86,6 +89,15 @@ sed -i 's/Python3_SITELIB/Python3_SITEARCH/' cmake/SIPMacros.cmake
 %{python3_sitearch}/Arcus.so
 
 %changelog
+* Wed Sep 23 2020 Adrian Reber <adrian@lisas.de> - 4.7.1-2
+- Rebuilt for protobuf 3.13
+
+* Thu Sep 03 2020 Miro Hrončok <mhroncok@redhat.com> - 4.7.1-1
+- Update to 4.7.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 4.6.1-3
 - Rebuilt for protobuf 3.12
 

@@ -1,7 +1,7 @@
 Name:             gawk-lmdb
 Summary:          LMDB Lightning Memory-Mapped Database binding for gawk
 Version:          1.1.1
-Release:          6%{?dist}
+Release:          7%{?dist}
 License:          GPLv3+
 
 URL:              https://sourceforge.net/projects/gawkextlib
@@ -61,6 +61,9 @@ make check
 # =============================================================================
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

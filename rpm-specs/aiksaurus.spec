@@ -1,6 +1,6 @@
 Name:           aiksaurus
 Version:        1.2.1
-Release:        42%{?dist}
+Release:        45%{?dist}
 Summary:        An English-language thesaurus library
 
 Epoch:          1
@@ -61,6 +61,7 @@ A standalone thesaurus program base on aiksaurus-gtk.
 %patch1 -p1
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool 
@@ -109,6 +110,16 @@ desktop-file-install --dir $RPM_BUILD_ROOT%{_datadir}/applications %{SOURCE2}
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.2.1-45
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 1:1.2.1-44
+- Force C++14 as the code is not ready for C++17
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.2.1-43
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.2.1-42
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

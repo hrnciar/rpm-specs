@@ -1,6 +1,7 @@
+%undefine __cmake_in_source_build
 Name:		kcm-fcitx
 Version:	0.5.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	KDE Config Module for Fcitx
 License:	GPLv2+
 URL:		https://github.com/fcitx/kcm-fcitx
@@ -24,14 +25,11 @@ through "Personalization" - "Regional Settings" - "Input Method" now.
 %patch0 -p1
 
 %build
-mkdir -pv build
-pushd build
-%{cmake_kf5} ../
-make %{?_smp_mflags}
-popd
+%{cmake_kf5}
+%cmake_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT -C build
+%cmake_install
 
 %find_lang %{name} --all-name --with-kde
 
@@ -44,6 +42,9 @@ make install DESTDIR=$RPM_BUILD_ROOT -C build
 %{_datadir}/applications/kbd-layout-viewer.desktop
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 12 2020 Qiyu Yan <yanqiyu01@gmail.com> - 0.5.6-1
 - update to upstream
 

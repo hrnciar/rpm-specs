@@ -6,7 +6,7 @@
 
 Name:           ocaml-re
 Version:        1.9.0
-Release:        14%{?dist}
+Release:        18%{?dist}
 Summary:        A regular expression library for OCaml
 
 License:        LGPLv2 with exceptions
@@ -83,6 +83,19 @@ cp -aLr _build/install/default/lib/* %{buildroot}%{_libdir}/ocaml/
 %{_libdir}/ocaml/re/*.mli
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.9.0-18
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.9.0-17
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.0-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 1.9.0-14
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

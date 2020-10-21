@@ -1,7 +1,7 @@
 #
 # Fedora spec file for php-di
 #
-# Copyright (c) 2016-2019 Shawn Iwinski <shawn@iwin.ski>
+# Copyright (c) 2016-2020 Shawn Iwinski <shawn@iwin.ski>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -11,35 +11,34 @@
 
 %global github_owner     PHP-DI
 %global github_name      PHP-DI
-%global github_version   6.0.11
-%global github_commit    9bdcc2f41f5fb700ddd01bc4fa8d5bd7b3f94620
+%global github_version   6.2.2
+%global github_commit    40140b5bca07c5fed6919a0f1029ff67617faccd
 
 %global composer_vendor  php-di
 %global composer_project php-di
 
-# "php": ">=7.0.0"
-%global php_min_ver 7.0.0
+# "php": ">=7.2.0"
+%global php_min_ver 7.2.0
 # "doctrine/annotations": "~1.2"
 %global doctrine_annotations_min_ver 1.2
 %global doctrine_annotations_max_ver 2.0
-# "jeremeamia/superclosure": "^2.0"
-%global jeremeamia_superclosure_min_ver 2.0
-%global jeremeamia_superclosure_max_ver 3.0
-# "mnapoli/phpunit-easymock": "~1.0"
-%global phpunit_easymock_min_ver 1.0
+# "mnapoli/phpunit-easymock": "^1.2"
+%global phpunit_easymock_min_ver 1.2
 %global phpunit_easymock_max_ver 2.0
-# "nikic/php-parser": "^2.0|^3.0|^4.0"
-%global nikic_php_parser_min_ver 2.0
-%global nikic_php_parser_max_ver 5.0
 # "ocramius/proxy-manager": "~2.0.2"
 %global proxy_manager_min_ver 2.0.2
 %global proxy_manager_max_ver 3.0
+# "opis/closure": "^3.5.5"
+%global opis_closure_min_ver 3.5.5
+%global opis_closure_max_ver 4.0
 # "php-di/invoker": "^2.0"
 %global di_invoker_min_ver 2.0
 %global di_invoker_max_ver 3.0
 # "php-di/phpdoc-reader": "^2.0.1"
 %global di_phpdoc_reader_min_ver 2.0.1
 %global di_phpdoc_reader_max_ver 3.0
+# "phpunit/phpunit": "^8.5"
+%global phpunit_min_ver 8.5
 # "psr/container": "^1.0"
 %global psr_container_min_ver 1.0
 %global psr_container_max_ver 2.0
@@ -47,18 +46,32 @@
 # Build using "--without tests" to disable tests
 %global with_tests 0%{!?_without_tests:1}
 
+# Range dependencies supported?
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+%global with_range_dependencies 1
+%else
+%global with_range_dependencies 0
+%endif
+
+# Weak dependencies supported?
+%if 0%{?fedora} >= 21 || 0%{?rhel} >= 8
+%global with_weak_dependencies 1
+%else
+%global with_weak_dependencies 0
+%endif
+
 %{!?phpdir:  %global phpdir  %{_datadir}/php}
 
 Name:          %{composer_project}
 Version:       %{github_version}
-Release:       2%{?github_release}%{?dist}
+Release:       1%{?github_release}%{?dist}
 Summary:       The dependency injection container for humans
 
 License:       MIT
-URL:           http://php-di.org/
+URL:           https://php-di.org/
 
-# GitHub export does not include tests.
-# Run php-di-get-source.sh to create full source.
+# GitHub export does not include tests
+# Run php-di-get-source.sh to create full source
 Source0:       %{name}-%{github_version}-%{github_commit}.tar.gz
 Source1:       %{name}-get-source.sh
 
@@ -67,27 +80,24 @@ BuildArch:     noarch
 %if %{with_tests}
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
-BuildRequires: phpunit6
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+BuildRequires: phpunit8 >= %{phpunit_min_ver}
+%if %{with_range_dependencies}
 BuildRequires: (php-composer(doctrine/annotations) >= %{doctrine_annotations_min_ver} with php-composer(doctrine/annotations) < %{doctrine_annotations_max_ver})
-BuildRequires: (php-composer(jeremeamia/superclosure) >= %{jeremeamia_superclosure_min_ver} with php-composer(jeremeamia/superclosure) < %{jeremeamia_superclosure_max_ver})
 BuildRequires: (php-composer(mnapoli/phpunit-easymock) >= %{phpunit_easymock_min_ver} with php-composer(mnapoli/phpunit-easymock) < %{phpunit_easymock_max_ver})
-BuildRequires: (php-composer(nikic/php-parser) >= %{nikic_php_parser_min_ver} with php-composer(nikic/php-parser) < %{nikic_php_parser_max_ver})
 BuildRequires: (php-composer(ocramius/proxy-manager) >= %{proxy_manager_min_ver} with php-composer(ocramius/proxy-manager) < %{proxy_manager_max_ver})
+BuildRequires: (php-composer(opis/closure) >= %{opis_closure_min_ver} with php-composer(opis/closure) < %{opis_closure_max_ver})
 BuildRequires: (php-composer(php-di/invoker) >= %{di_invoker_min_ver} with php-composer(php-di/invoker) < %{di_invoker_max_ver})
 BuildRequires: (php-composer(php-di/phpdoc-reader) >= %{di_phpdoc_reader_min_ver} with php-composer(php-di/phpdoc-reader) < %{di_phpdoc_reader_max_ver})
 BuildRequires: (php-composer(psr/container) >= %{psr_container_min_ver} with php-composer(psr/container) < %{psr_container_max_ver})
 %else
 BuildRequires: php-composer(doctrine/annotations) <  %{doctrine_annotations_max_ver}
 BuildRequires: php-composer(doctrine/annotations) >= %{doctrine_annotations_min_ver}
-BuildRequires: php-composer(jeremeamia/superclosure) <  %{jeremeamia_superclosure_max_ver}
-BuildRequires: php-composer(jeremeamia/superclosure) >= %{jeremeamia_superclosure_min_ver}
 BuildRequires: php-composer(mnapoli/phpunit-easymock) <  %{phpunit_easymock_max_ver}
 BuildRequires: php-composer(mnapoli/phpunit-easymock) >= %{phpunit_easymock_min_ver}
-BuildRequires: php-composer(nikic/php-parser) <  %{nikic_php_parser_max_ver}
-BuildRequires: php-composer(nikic/php-parser) >= %{nikic_php_parser_min_ver}
 BuildRequires: php-composer(ocramius/proxy-manager) <  %{proxy_manager_max_ver}
 BuildRequires: php-composer(ocramius/proxy-manager) >= %{proxy_manager_min_ver}
+BuildRequires: php-composer(opis/closure) <  %{opis_closure_max_ver}
+BuildRequires: php-composer(opis/closure) >= %{opis_closure_min_ver}
 BuildRequires: php-composer(php-di/invoker) <  %{di_invoker_max_ver}
 BuildRequires: php-composer(php-di/invoker) >= %{di_invoker_min_ver}
 BuildRequires: php-composer(php-di/phpdoc-reader) <  %{di_phpdoc_reader_max_ver}
@@ -95,7 +105,7 @@ BuildRequires: php-composer(php-di/phpdoc-reader) >= %{di_phpdoc_reader_min_ver}
 BuildRequires: php-composer(psr/container) <  %{psr_container_max_ver}
 BuildRequires: php-composer(psr/container) >= %{psr_container_min_ver}
 %endif
-## phpcompatinfo (computed from version 6.0.8)
+## phpcompatinfo (computed from version 6.2.2)
 BuildRequires: php-date
 BuildRequires: php-json
 BuildRequires: php-pcre
@@ -107,17 +117,14 @@ BuildRequires: php-composer(fedora/autoloader)
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
-Requires:      (php-composer(jeremeamia/superclosure) >= %{jeremeamia_superclosure_min_ver} with php-composer(jeremeamia/superclosure) < %{jeremeamia_superclosure_max_ver})
-Requires:      (php-composer(nikic/php-parser) >= %{nikic_php_parser_min_ver} with php-composer(nikic/php-parser) < %{nikic_php_parser_max_ver})
+%if %{with_range_dependencies}
+Requires:      (php-composer(opis/closure) >= %{opis_closure_min_ver} with php-composer(opis/closure) < %{opis_closure_max_ver})
 Requires:      (php-composer(php-di/invoker) >= %{di_invoker_min_ver} with php-composer(php-di/invoker) < %{di_invoker_max_ver})
 Requires:      (php-composer(php-di/phpdoc-reader) >= %{di_phpdoc_reader_min_ver} with php-composer(php-di/phpdoc-reader) < %{di_phpdoc_reader_max_ver})
 Requires:      (php-composer(psr/container) >= %{psr_container_min_ver} with php-composer(psr/container) < %{psr_container_max_ver})
 %else
-Requires:      php-composer(jeremeamia/superclosure) <  %{jeremeamia_superclosure_max_ver}
-Requires:      php-composer(jeremeamia/superclosure) >= %{jeremeamia_superclosure_min_ver}
-Requires:      php-composer(nikic/php-parser) <  %{nikic_php_parser_max_ver}
-Requires:      php-composer(nikic/php-parser) >= %{nikic_php_parser_min_ver}
+Requires:      php-composer(opis/closure) <  %{opis_closure_max_ver}
+Requires:      php-composer(opis/closure) >= %{opis_closure_min_ver}
 Requires:      php-composer(php-di/invoker) <  %{di_invoker_max_ver}
 Requires:      php-composer(php-di/invoker) >= %{di_invoker_min_ver}
 Requires:      php-composer(php-di/phpdoc-reader) <  %{di_phpdoc_reader_max_ver}
@@ -125,7 +132,7 @@ Requires:      php-composer(php-di/phpdoc-reader) >= %{di_phpdoc_reader_min_ver}
 Requires:      php-composer(psr/container) <  %{psr_container_max_ver}
 Requires:      php-composer(psr/container) >= %{psr_container_min_ver}
 %endif
-# phpcompatinfo (computed from version 5.4.6)
+# phpcompatinfo (computed from version 6.2.2)
 Requires:      php-json
 Requires:      php-pcre
 Requires:      php-reflection
@@ -134,7 +141,7 @@ Requires:      php-spl
 Requires:      php-composer(fedora/autoloader)
 
 # Weak dependencies
-%if 0%{?fedora} >= 21 || 0%{?rhel} >= 8
+%if %{with_weak_dependencies}
 Suggests:      php-composer(doctrine/annotations)
 Suggests:      php-composer(ocramius/proxy-manager)
 Suggests:      php-pecl(apcu)
@@ -170,15 +177,10 @@ require_once '%{phpdir}/Fedora/Autoloader/autoload.php';
 require_once __DIR__.'/functions.php';
 
 \Fedora\Autoloader\Dependencies::required([
-    [
-        '%{phpdir}/PhpParser4/autoload.php',
-        '%{phpdir}/PhpParser3/autoload.php',
-        '%{phpdir}/PhpParser2/autoload.php',
-    ],
     '%{phpdir}/Invoker/autoload.php',
+    '%{phpdir}/Opis/Closure/autoload.php',
     '%{phpdir}/PhpDocReader/autoload.php',
     '%{phpdir}/Psr/Container/autoload.php',
-    '%{phpdir}/SuperClosure/autoload.php',
 ]);
 
 \Fedora\Autoloader\Dependencies::optional([
@@ -208,8 +210,8 @@ BOOTSTRAP
 
 : Upstream tests
 RETURN_CODE=0
-PHPUNIT=$(which phpunit6)
-for PHP_EXEC in "" php71 php72 php73 php74; do
+PHPUNIT=$(which phpunit8)
+for PHP_EXEC in "" php73 php74; do
     if [ -z "$PHP_EXEC" ] || which $PHP_EXEC; then
         $PHP_EXEC $PHPUNIT --verbose --bootstrap bootstrap.php \
             || RETURN_CODE=1
@@ -231,6 +233,21 @@ exit $RETURN_CODE
 
 
 %changelog
+* Sun Sep 06 2020 Shawn Iwinski <shawn@iwin.ski> - 6.2.2-1
+- Update to 6.2.2 (RHBZ #1871668)
+
+* Sat Aug 22 2020 Shawn Iwinski <shawn@iwin.ski> - 6.2.1-1
+- Update to 6.2.1 (RHBZ #1821537)
+- Fix FTBFS (RHBZ #1865217)
+- Use PHPUnit 8
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.11-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.11-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.11-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

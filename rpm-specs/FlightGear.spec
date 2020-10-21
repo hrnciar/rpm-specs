@@ -1,7 +1,7 @@
 Name:           FlightGear
 Summary:        The FlightGear Flight Simulator
-Version:        2020.1.2
-Release:        1%{?dist}
+Version:        2020.1.3
+Release:        4%{?dist}
 License:        GPLv2+
 Source0:        https://sourceforge.net/projects/flightgear/files/release-2020.1/flightgear-%{version}.tar.bz2
 Patch1:         0001-check-to-be-sure-that-n-is-not-being-set-as-format-t.patch
@@ -12,6 +12,7 @@ Patch5:         0005-make-fgqmlui-a-static-library.patch
 Patch6:         0006-fgviewer-fix-crash-on-exit.patch
 Patch7:         0007-fgviewer-connect-the-viewer-to-the-renderer.patch
 Patch8:         0008-build-fix-for-gcc-10.patch
+Patch9:         0009-cmake-revert-automatic-translations-detection.patch
 
 URL:            http://www.flightgear.org/
 BuildRequires:  openal-soft-devel, SimGear-devel >= %{version}
@@ -51,17 +52,18 @@ do
 done
 
 %build
-%{cmake} \
+export CXXFLAGS="-fPIC $RPM_OPT_FLAGS"
+%cmake \
     -DCMAKE_BUILD_TYPE=Release \
     -DSIMGEAR_SHARED=ON \
     -DSYSTEM_SQLITE=ON \
     -DFG_DATA_DIR:PATH=%{_datadir}/flightgear \
-    -DCMAKE_INSTALL_DOCDIR:PATH=%{_docdir}/%{name} \
-.
-make %{?_smp_mflags}
+    -DCMAKE_INSTALL_DOCDIR:PATH=%{_docdir}/%{name}
+
+%cmake_build
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install
+%cmake_install
 ln -s opengl-game-wrapper.sh $RPM_BUILD_ROOT%{_bindir}/fgfs-wrapper
 
 # Register as an application to be visible in the software center
@@ -120,7 +122,7 @@ SentUpstream: 2014-09-17
     <content_attribute id="social-chat">intense</content_attribute>
   </content_rating>
   <releases>
-    <release date="2020-05-23" version="2020.1.2" />
+    <release date="2020-06-26" version="2020.1.3" />
   </releases>
   <!-- FIXME: change this to an upstream email address for spec updates
   <updatecontact>someone_who_cares@upstream_project.org</updatecontact>
@@ -140,6 +142,19 @@ EOF
 %{_datadir}/zsh/site-functions/*
 
 %changelog
+* Tue Oct 06 2020 Jeff Law <law@redhat.com> - 2020.1.3-4
+- Force -fPIC into CXXFLAGS for QT
+
+* Mon Jul 27 2020 Fabrice Bellet <fabrice@bellet.info> - 2020.1.3-3
+- use latest cmake macros
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.1.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Fabrice Bellet <fabrice@bellet.info> - 2020.1.3-1
+- new upstream release
+- cmake: revert automatic translations detection
+
 * Sat May 23 2020 Fabrice Bellet <fabrice@bellet.info> - 2020.1.2-1
 - new upstream release
 

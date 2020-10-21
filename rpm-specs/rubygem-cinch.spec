@@ -4,7 +4,7 @@
 Summary:       An IRC Bot Building Framework
 Name:          rubygem-%{gem_name}
 Version:       2.2.4
-Release:       10%{?dist}
+Release:       11%{?dist}
 License:       MIT
 
 URL:           http://cinchrb.org
@@ -82,6 +82,9 @@ rm %{buildroot}%{gem_instdir}/.yardopts \
 %doc %{gem_instdir}/README.md
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.4-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.4-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

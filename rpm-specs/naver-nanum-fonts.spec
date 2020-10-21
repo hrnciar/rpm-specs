@@ -9,7 +9,7 @@ publisher is Naver Corporation.
 
 Name:       %{fontname}-fonts
 Version:    3.020
-Release:    27.20140930%{?dist}
+Release:    28.20140930%{?dist}
 Summary:    Nanum family of Korean TrueType fonts
 
 License:    OFL
@@ -208,6 +208,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 %{_metainfodir}/%{fontname}.metainfo.xml
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.020-28.20140930
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.020-27.20140930
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

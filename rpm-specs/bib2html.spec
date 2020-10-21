@@ -1,7 +1,7 @@
 Summary:       Converting bibTeX file to HTML
 Name:          bib2html
 Version:       1.2.1
-Release:       24%{?dist}
+Release:       28%{?dist}
 License:       GPL+
 URL:           http://www.litech.org/~wkiri/bib2html/
 Source0:       http://www.litech.org/~wkiri/bib2html/bib2html-%{version}.tar.gz
@@ -17,6 +17,7 @@ make appropriate links in the HTML output to the URL location.
 chmod 0644 ChangeLog NEWS README Docs/bib2html.html
 
 %build
+
 %configure
 make %{?_smp_mflags}
 
@@ -29,6 +30,19 @@ make DESTDIR=%{buildroot} install
 %{_bindir}/bib2html
 
 %changelog
+* Sun Oct 11 2020 Jeff Law <law@redhat.com> - 1.2.1-28
+- Re-enable LTO
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-27
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  1 2020 Jeff Law <law@redhat.com> - 1.2.1-25
+- Disable LTO
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

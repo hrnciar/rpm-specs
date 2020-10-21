@@ -1,11 +1,14 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 %global with_lua 1
 %global with_luajit 0
 %global with_sysfs 1
-%global with_opcua 1
+%global with_opcua 0
 
 Name:     4diac-forte
-Version:  1.11.0
-Release:  2%{?dist}
+Version:  1.12.0
+Release:  3%{?dist}
 Summary:  IEC 61499 runtime environment
 License:  EPL
 URL:      http://eclipse.org/4diac
@@ -40,8 +43,6 @@ execution of all function block types provided by the IEC 61499 standard.
 %setup -q -n org.eclipse.4diac.forte-%{version}
 
 %build
-mkdir -p bin/posix
-cd bin/posix
 %cmake -DFORTE_ARCHITECTURE=Posix \
        -DFORTE_COM_ETH=ON \
        -DFORTE_COM_FBDK=ON \
@@ -61,10 +62,9 @@ cd bin/posix
 %if 0%{?with_luajit}
        -DFORTE_USE_LUATYPES=LuaJIT \
 %endif
-       -DFORTE_TESTS=OFF \
-       ../..
+       -DFORTE_TESTS=OFF
 
-%make_build
+%cmake_build
 
 %install
 mkdir -p %{buildroot}%{_unitdir}
@@ -73,8 +73,7 @@ install -p systemd/4diac-forte.service %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
 install -p systemd/4diac-forte-sysconfig %{buildroot}%{_sysconfdir}/sysconfig/4diac-forte
 
-cd bin/posix
-%make_install
+%cmake_install
 
 %post
 %systemd_post 4diac-forte.service
@@ -92,6 +91,19 @@ cd bin/posix
 %config(noreplace) %{_sysconfdir}/sysconfig/4diac-forte
 
 %changelog
+* Mon Aug 24 2020 Jens Reimann <ctron@dentrassi.de> - 1.12.0-4
+- Disable OPC UA as doesn't work with the current release of libopen62541
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 05 2020 Neal Gompa <ngompa13@gmail.com> - 1.12.0-1
+- Update to release 1.12.0 to fix with CMake 3.17+
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

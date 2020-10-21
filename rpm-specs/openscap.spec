@@ -1,11 +1,12 @@
 Name:           openscap
-Version:        1.3.3
-Release:        3%{?dist}
+Version:        1.3.4
+Release:        1%{?dist}
 Epoch:          1
 Summary:        Set of open source libraries enabling integration of the SCAP line of standards
 License:        LGPLv2+
 URL:            http://www.open-scap.org/
 Source0:        https://github.com/OpenSCAP/%{name}/releases/download/%{version}/%{name}-%{version}.tar.gz
+Patch0:         openscap-1.3.4-plug-memory-leak.patch
 BuildRequires:  cmake >= 2.6
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -120,12 +121,12 @@ Tool for scanning Atomic containers.
 
 %prep
 %autosetup -p1
-mkdir build
 
 %build
-cd build
-%cmake -DENABLE_DOCS=ON ..
-make %{?_smp_mflags}
+# gconf is a legacy system not used any more, and it blocks testing of oscap-anaconda-addon
+# as gconf is no longer part of the installation medium
+%cmake -DENABLE_DOCS=ON .. -DOPENSCAP_PROBE_UNIX_GCONF=OFF -DGCONF_LIBRARY=
+%cmake_build
 make docs
 
 %check
@@ -134,8 +135,7 @@ ctest -V %{?_smp_mflags}
 %endif
 
 %install
-cd build
-%make_install
+%cmake_install
 
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
@@ -198,6 +198,21 @@ pathfix.py -i %{__python3} -p -n $RPM_BUILD_ROOT%{_bindir}/scap-as-rpm
 %{_mandir}/man8/oscap-podman.8*
 
 %changelog
+* Wed Oct 07 2020 Evgenii Kolesnikov <ekolesni@redhat.com> - 1:1.3.4-1
+- Upgrade to the latest upstream release
+
+* Thu Aug 27 2020 Jan Černý <jcerny@redhat.com> - 1:1.3.3-6
+- Disabled the gconf probe, and removed the gconf dependency.
+  gconf is a legacy system not used any more, and it blocks testing of oscap-anaconda-addon
+  as gconf is no longer part of the installation medium for Fedora 32
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.3.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1:1.3.3-4
+- Update spec file to use new cmake macros
+- https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1:1.3.3-3
 - Rebuilt for Python 3.9
 

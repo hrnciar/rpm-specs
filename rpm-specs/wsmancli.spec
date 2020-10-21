@@ -1,6 +1,6 @@
 Name:           wsmancli
 Version:        2.6.0
-Release:        11%{?dist}
+Release:        12%{?dist}
 License:        BSD
 Url:            http://www.openwsman.org/
 # You can get this tarball here:
@@ -40,6 +40,9 @@ make DESTDIR=%{buildroot} install
 %doc COPYING README AUTHORS
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           nqc
 Version:        3.1.7
-Release:        26%{?dist}
+Release:        27%{?dist}
 Summary:        Not Quite C compiler
 
 License:        MPLv1.0
@@ -163,6 +163,9 @@ fi
 %lang(pt) %doc nqc-tutorial-pt.pdf
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.7-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.7-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

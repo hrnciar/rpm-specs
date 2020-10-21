@@ -10,7 +10,7 @@
 
 Name:       SDL
 Version:    1.2.15
-Release:    43%{?dist}
+Release:    45%{?dist}
 Summary:    A cross-platform multimedia library
 URL:        https://www.libsdl.org/
 # The license of the file src/video/fbcon/riva_mmio.h is bad, but the contents
@@ -261,6 +261,13 @@ rm -f %{buildroot}%{_libdir}/*.la
 %{_libdir}/lib*.a
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.15-45
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.15-44
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.15-43
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

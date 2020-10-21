@@ -1,6 +1,6 @@
 Name: 		perl-File-Flat
-Version: 	1.05
-Release: 	6%{?dist}
+Version: 	1.07
+Release: 	1%{?dist}
 Summary: 	Implements a flat filesystem
 License: 	GPL+ or Artistic
 URL: 		https://metacpan.org/release/File-Flat
@@ -15,18 +15,17 @@ BuildRequires: %{__make}
 BuildRequires: perl-generators
 BuildRequires: perl(Cwd)
 BuildRequires: perl(ExtUtils::MakeMaker)
-BuildRequires: perl(Test::More) >= 0.47
-BuildRequires: perl(Test::ClassAPI) >= 1.02
-BuildRequires: perl(File::Find)
-BuildRequires: perl(prefork) >= 0.02
-BuildRequires: perl(File::Spec) >= 0.85
 BuildRequires: perl(File::Copy)
-BuildRequires: perl(File::Copy::Recursive)
-BuildRequires: perl(File::Remove) >= 0.21
+BuildRequires: perl(File::Copy::Recursive) >= 0.35
+BuildRequires: perl(File::Find)
+BuildRequires: perl(File::Remove) >= 0.38
+BuildRequires: perl(File::Spec) >= 0.85
 BuildRequires: perl(File::Temp) >= 0.17
 BuildRequires: perl(IO::File)
-BuildRequires: perl(prefork)
+BuildRequires: perl(prefork) >= 0.02
 BuildRequires: perl(strict)
+BuildRequires: perl(Test::ClassAPI) >= 1.02
+BuildRequires: perl(Test::More) >= 0.47
 BuildRequires: perl(vars)
 BuildRequires: perl(warnings)
 
@@ -64,6 +63,15 @@ chmod -R u+w $RPM_BUILD_ROOT/*
 %{_mandir}/man3/*
 
 %changelog
+* Wed Aug 26 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 1.07-1
+- Upstream update.
+
+* Mon Aug 03 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 1.06-1
+- Upstream update.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.05-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.05-6
 - Perl 5.32 rebuild
 

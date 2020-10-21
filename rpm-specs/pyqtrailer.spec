@@ -5,7 +5,7 @@ It shows descriptions, posters, and other movie information.
 
 Name:           pyqtrailer
 Version:        0.6.2
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        PyQt4 application to download trailers from apple.com
 License:        GPLv3
 URL:            http://github.com/sochotnicky/%{name}
@@ -65,6 +65,9 @@ install -m 644 xdg/%{name}.svg %{buildroot}%{_datadir}/pixmaps/%{name}.svg
 %{_datadir}/pixmaps/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.2-24
 - Rebuilt for Python 3.9
 

@@ -1,7 +1,7 @@
 Summary:	A Module::Build class for building XS modules
 Name:		perl-Module-Build-XSUtil
 Version:	0.19
-Release:	9%{?dist}
+Release:	10%{?dist}
 License:	GPL+ or Artistic
 URL:		https://github.com/hideo55/Module-Build-XSUtil
 Source0:	https://cpan.metacpan.org/modules/by-module/Module/Module-Build-XSUtil-%{version}.tar.gz
@@ -63,6 +63,9 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/Module::Build::XSUtil.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.19-9
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:             jline
 Version:          2.14.6
-Release:          6%{?dist}
+Release:          10%{?dist}
 Summary:          JLine is a Java library for handling console input
 License:          BSD
 URL:              https://github.com/jline/jline2
@@ -14,9 +14,6 @@ BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-source-plugin)
 BuildRequires:  mvn(org.easymock:easymock)
 BuildRequires:  mvn(org.fusesource.jansi:jansi)
-BuildRequires:  mvn(org.powermock:powermock-api-easymock)
-BuildRequires:  mvn(org.powermock:powermock-module-junit4)
-BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
 
 Obsoletes: jline2 < %{version}-%{release}
 Provides: jline2 = %{version}-%{release}
@@ -38,6 +35,9 @@ This package contains the API documentation for %{name}.
 
 %prep
 %setup -q -n jline2-jline-%{version}
+
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
 
 # Remove maven-shade-plugin usage
 %pom_remove_plugin "org.apache.maven.plugins:maven-shade-plugin"
@@ -65,11 +65,19 @@ This package contains the API documentation for %{name}.
 mkdir -p target/generated-sources/annotations
 mkdir -p target/generated-test-sources/test-annotations
 
-# nondeterministic
+# drop a nondeterministic test
 find -name TerminalFactoryTest.java -delete
+# it's also the only test that uses powermock, so drop the powermock dependency
+%pom_remove_dep org.powermock:
+
+# Fix javadoc generation on java 11
+%pom_xpath_inject pom:build/pom:plugins "<plugin>
+<artifactId>maven-javadoc-plugin</artifactId>
+<configuration><source>1.8</source></configuration>
+</plugin>" 
 
 %build
-%mvn_build
+%mvn_build --xmvn-javadoc -- -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 %install
 %mvn_install
@@ -79,6 +87,18 @@ find -name TerminalFactoryTest.java -delete
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Sun Aug 09 2020 Fabio Valentini <decathorpe@gmail.com> - 2.14.6-10
+- Drop useless parent POM and powermock build dependencies.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.14.6-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.14.6-8
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jun 25 2020 Alexander Kurtakov <akurtako@redhat.com> 2.14.6-7
+- Fix Java 11 build.
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.14.6-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

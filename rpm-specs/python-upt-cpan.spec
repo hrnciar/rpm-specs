@@ -4,7 +4,7 @@
 
 Name: python-upt-cpan  
 Version: 0.5
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: CPAN front-end for upt
 
 License: BSD
@@ -49,6 +49,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} -m unittest
 %{python3_sitelib}/upt_cpan/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5-4
 - Rebuilt for Python 3.9
 

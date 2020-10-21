@@ -1,16 +1,22 @@
 Summary: A GNU general-purpose parser generator
 Name: bison
-Version: 3.5
-Release: 2%{?dist}
+Version: 3.7.2
+Release: 1%{?dist}
 License: GPLv3+
-Source: ftp://ftp.gnu.org/pub/gnu/bison/bison-%{version}.tar.xz
+Source0: https://ftp.gnu.org/gnu/%{name}/%{name}-%{version}.tar.xz
+Source1: https://ftp.gnu.org/gnu/%{name}/%{name}-%{version}.tar.xz.sig
+# genereted from https://ftp.gnu.org/gnu/gnu-keyring.gpg via:
+# curl https://ftp.gnu.org/gnu/gnu-keyring.gpg | gpg2 --import
+# gpg2 --export --export-options export-minimal 7DF84374B1EE1F9764BBE25D0DDCAA3278D5264E > gpgkey-7DF84374B1EE1F9764BBE25D0DDCAA3278D5264E.gpg
+Source2: gpgkey-7DF84374B1EE1F9764BBE25D0DDCAA3278D5264E.gpg
 
 # testsuite dependency
 BuildRequires: gcc-c++
 BuildRequires: autoconf
 BuildRequires: flex
+BuildRequires: gnupg2
 
-URL: http://www.gnu.org/software/bison/
+URL: http://www.gnu.org/software/%{name}/
 BuildRequires: m4 >= 1.4
 #java-1.7.0-openjdk-devel
 Requires: m4 >= 1.4
@@ -68,25 +74,25 @@ these files are available.  See the Internationalization in the
 Bison manual section for more information.
 
 %prep
-%setup -q
+%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
+%autosetup
 
 %build
 %configure
-make
+%make_build
 
 %check
 make check
 #make maintainer-check
 
 %install
-rm -rf $RPM_BUILD_ROOT
-%makeinstall
+%make_install
 
 # Remove unpackaged files.
-rm -f $RPM_BUILD_ROOT/%{_bindir}/yacc
-rm -f $RPM_BUILD_ROOT/%{_infodir}/dir
-rm -f $RPM_BUILD_ROOT/%{_mandir}/man1/yacc*
-rm -rf $RPM_BUILD_ROOT/%{_docdir}/%{name}/examples/*
+rm -f %{buildroot}/%{_bindir}/yacc
+rm -f %{buildroot}/%{_infodir}/dir
+rm -f %{buildroot}/%{_mandir}/man1/yacc*
+rm -rf %{buildroot}/%{_docdir}/%{name}/examples/*
 
 %find_lang %{name}
 %find_lang %{name}-runtime
@@ -113,6 +119,22 @@ gzip -9nf ${RPM_BUILD_ROOT}%{_infodir}/bison.info*
 %{_libdir}/liby.a
 
 %changelog
+* Tue Sep  8 2020 Arjun Shankar <arjun@redhat.com> - 3.7.2-1
+- Update to bison 3.7.2 (#1876120)
+
+* Thu Aug 27 2020 Arjun Shankar <arjun@redhat.com> - 3.7.1-1
+- Update to bison 3.7.1 (#1859887)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Dan Čermák <dan.cermak@cgc-instruments.com> - 3.6.4-1
+- Update to bison 3.6.4 (#1792738, #1847608)
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

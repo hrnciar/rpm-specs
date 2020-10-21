@@ -10,7 +10,7 @@
 Summary:        Speed up perl scripts by running them persistently
 Name:           perl-CGI-SpeedyCGI
 Version:        2.22
-Release:        41%{?dist}
+Release:        42%{?dist}
 License:        GPLv3+
 URL:            https://metacpan.org/release/%{pkgname}
 Source0:	https://cpan.metacpan.org/modules/by-authors/id/H/HO/HORROCKS/%{pkgname}-%{version}.tar.gz
@@ -114,6 +114,9 @@ install -p -m 644 10-speedycgi.conf $RPM_BUILD_ROOT%{_httpd_modconfdir}/
 %config(noreplace) %{_httpd_modconfdir}/*.conf
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.22-42
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.22-41
 - Perl 5.32 rebuild
 

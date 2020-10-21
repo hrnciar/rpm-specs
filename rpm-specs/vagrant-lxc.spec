@@ -2,7 +2,7 @@
 
 Name: %{vagrant_plugin_name}
 Version: 1.1.0
-Release: 17%{?dist}
+Release: 18%{?dist}
 Summary: LXC provider for vagrant
 License: MIT
 URL: https://github.com/fgrehm/vagrant-lxc
@@ -112,6 +112,9 @@ getent group vagrant >/dev/null || groupadd -r vagrant
 %{vagrant_plugin_instdir}/vagrant-spec.config.rb
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

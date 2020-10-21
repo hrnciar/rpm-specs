@@ -1,8 +1,9 @@
+%undefine __cmake_in_source_build
 %bcond_without tests
 
 Name:           gammu
 Version:        1.41.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Command Line utility to work with mobile phones
 
 License:        GPLv2+
@@ -11,7 +12,9 @@ Source0:        https://github.com/gammu/%{name}/archive/%{version}/%{name}-%{ve
 Patch0:         gammu-1.3.7-udev.patch
 
 BuildRequires:  gcc
-BuildRequires:  cmake3 autoconf pkgconfig
+BuildRequires:  cmake3
+BuildRequires:  autoconf
+BuildRequires:  pkgconfig
 BuildRequires:  gettext-devel
 BuildRequires:  doxygen
 %ifnarch s390 s390x
@@ -37,13 +40,14 @@ BuildREquires:  libgudev1-devel
 BuildRequires:  bash-completion
 
 %{?systemd_requires}
-BuildRequires: systemd
+BuildRequires: systemd-rpm-macros
 
-Requires:       bluez, dialog
+Requires:       bluez
+Requires:       dialog
 # drive sqlite is in use by default
 Requires:       libdbi-dbd-sqlite
 # we should force the exact EVR for an ISA - not only the same ABI
-Requires: %{name}-libs%{?_isa} = %{version}-%{release}
+Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 
 
 %package    libs
@@ -87,8 +91,6 @@ developing applications that use %{name}
 %patch0 -p1 -b .udev
 
 %build
-mkdir build
-pushd build
 %cmake3                  \
     -DENABLE_BACKUP=ON      \
     -DWITH_NOKIA_SUPPORT=ON     \
@@ -107,11 +109,10 @@ pushd build
     -DWITH_SYSTEMD=ON \
     -DSYSTEMD_SERVICES_INSTALL_DIR=%{_unitdir} \
     ../
-%make_build
-popd
+%cmake_build
 
 %install
-%make_install -C build
+%cmake_install
 
 # Install config file
 install -d %{buildroot}%{_sysconfdir}
@@ -122,20 +123,19 @@ install -pm 0644 docs/config/smsdrc %{buildroot}%{_sysconfdir}/gammu-smsdrc
 
 %check
 %if %{with tests}
-pushd build
 # add %%{?_smp_mflags} breaks the tests
-ctest3 -V
-popd
+%global _smp_mflags %{nil}
+%ctest3
 %endif
 
 %post
-if [ $1 -eq 1 ] ; then
-    # Initial installation
-    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-fi
+%systemd_post gammu-smsd.service
+
+%preun
+%systemd_preun gammu-smsd.service
 
 %postun
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+%systemd_postun_with_restart gammu-smsd.service
 
 %ldconfig_scriptlets -n %{name}-libs
 
@@ -172,6 +172,13 @@ fi
 
 
 %changelog
+* Sun Aug 02 2020 Sérgio Basto <sergio@serjux.com> - 1.41.0-4
+- modernize spec
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.41.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+- Fix cmake build
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.41.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

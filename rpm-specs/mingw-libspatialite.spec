@@ -6,7 +6,7 @@
 Name:          mingw-%{pkgname}
 Version:       5.0.0
 Summary:       MinGW Windows libspatialite library
-Release:       0.3%{?pre:.%pre}%{?dist}
+Release:       0.4%{?pre:.%pre}%{?dist}
 
 BuildArch:     noarch
 License:       MPLv1.1 or GPLv2+ or LGPLv2+
@@ -120,6 +120,9 @@ find %{buildroot}%{mingw64_prefix} | grep -E '.(exe|dll|pyd)$' | sed 's|^%{build
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-0.4.beta0
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-0.3.beta0
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

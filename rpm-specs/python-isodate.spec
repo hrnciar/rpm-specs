@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.6.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        An ISO 8601 date/time/duration parser and formatter
 License:        BSD
 URL:            https://pypi.org/project/isodate/
@@ -66,6 +66,9 @@ Summary: %summary
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.0-6
 - Rebuilt for Python 3.9
 

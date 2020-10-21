@@ -1,7 +1,7 @@
 Name:           eyesight
 Summary:        Hawaii desktop image viewer
 Version:        0.1.4
-Release:        11%{?dist}
+Release:        13%{?dist}
 License:        GPLv2+
 URL:            http://hawaiios.org/projects/eyesight
 Source0:        https://github.com/hawaii-desktop/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.gz
@@ -53,6 +53,13 @@ desktop-file-install --delete-original                          \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

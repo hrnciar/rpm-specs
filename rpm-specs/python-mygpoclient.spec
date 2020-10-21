@@ -1,6 +1,6 @@
 Name:       python-mygpoclient
 Version:    1.8
-Release:    11%{?dist}
+Release:    12%{?dist}
 Summary:    Python module to connect to the my.gpodder.org webservice
 
 License:    GPLv3+
@@ -49,6 +49,9 @@ nosetests-3 --cover-erase --with-coverage --with-doctest --cover-package=mygpocl
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.8-11
 - Rebuilt for Python 3.9
 

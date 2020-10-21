@@ -3,7 +3,7 @@
 Name:		coin-or-%{module}
 Summary:	COIN-OR Open Solver Interface Library
 Version:	0.108.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	EPL-1.0
 URL:		https://github.com/coin-or/%{module}
 Source0:	%{url}/archive/releases/%{version}/%{module}-%{version}.tar.gz
@@ -45,6 +45,10 @@ This package contains the documentation for %{name}.
 
 %prep
 %autosetup -p1 -n %{module}-releases-%{version}
+
+# The pkgconfig file lists transitive dependencies.  Those are necessary when
+# using static libraries, but not with shared libraries.
+sed -i 's/ @OSILIB_PCLIBS@/\nLibs.private:&/' Osi/osi.pc.in
 
 %build
 %configure --with-glpk-incdir=%{_includedir} --with-glpk-lib=-lglpk
@@ -95,6 +99,9 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} make test
 %{_docdir}/%{name}/osi_doxy.tag
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.108.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 21 2020 Jerry James <loganjerry@gmail.com> - 0.108.6-1
 - Version 0.108.6
 

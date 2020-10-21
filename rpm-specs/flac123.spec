@@ -1,6 +1,6 @@
 Name:           flac123
 Version:        0.0.12 
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Command-line program for playing FLAC audio files
 
 License:        GPLv2+
@@ -41,6 +41,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_bindir}/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.12-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.12-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

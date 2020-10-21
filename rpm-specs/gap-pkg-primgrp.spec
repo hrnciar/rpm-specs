@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        3.4.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Primitive permutation groups library
 BuildArch:      noarch
 
@@ -65,6 +65,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}-%{version}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May  5 2020 Jerry James <loganjerry@gmail.com> - 3.4.1-1
 - Version 3.4.1
 

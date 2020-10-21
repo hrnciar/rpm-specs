@@ -1,15 +1,15 @@
 Name:          nmh
 Version:       1.7.1
-Release:       7%{?dist}
+Release:       11%{?dist}
 Summary:       A capable MIME-email-handling system with a command-line interface
 License:       BSD
 URL:           http://savannah.nongnu.org/projects/nmh
-Source0:       http://download.savannah.gnu.org/releases/nmh/nmh-%{version}.tar.gz
+Source0:       http://download.savannah.gnu.org/releases/%{name}/%{name}-%{version}.tar.gz
 Patch0:        nmh-use-smtp-port.patch
 BuildRequires: cyrus-sasl-devel
 BuildRequires: gcc
+BuildRequires: gdbm-devel
 BuildRequires: libcurl-devel
-BuildRequires: libdb-devel
 BuildRequires: ncurses-devel
 BuildRequires: openssl-devel
 BuildRequires: readline-devel
@@ -33,10 +33,10 @@ projects.  nmh is a descendant of the RAND MH, Mail Handler, project.
 %build
 CFLAGS="$RPM_OPT_FLAGS"
 %configure
-make
+%make_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
+%make_install INSTALL="install -p"
 
 %files
 %{_bindir}/*
@@ -48,6 +48,21 @@ make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 %doc %{_pkgdocdir}/*
 
 %changelog
+* Sun 09 Aug 2020 David Levine  <par.packager@gmail.com> - 1.7.1-11
+- Replaced ='s in changelog with -'s.
+
+* Tue Jul 28 2020 David Levine  <par.packager@gmail.com> - 1.7.1-10
+- Replace make invocations with macros.
+
+* Tue Jul 28 2020 David Levine  <par.packager@gmail.com> - 1.7.1-9
+- Updated BuildRequires to use gdbm-devel instead of libdb-devel.
+
+- It would use gdbm if it was installed anyway.  This allows nmh to
+  be removed from Bug 1361971.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 
 Name:           perl-VOMS-Lite
 Version:        0.20
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Perl extension for VOMS Attribute certificate creation
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/VOMS-Lite
@@ -178,6 +178,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.20-20
 - Perl 5.32 rebuild
 

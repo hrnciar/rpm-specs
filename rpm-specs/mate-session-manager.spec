@@ -15,11 +15,11 @@
 Name:           mate-session-manager
 Summary:        MATE Desktop session manager
 License:        GPLv2+
-Version:        %{branch}.0
+Version:        %{branch}.1
 %if 0%{?rel_build}
-Release:        2%{?dist}
+Release:        1%{?dist}
 %else
-Release:        0.14%{?git_rel}%{?dist}
+Release:        0.15%{?git_rel}%{?dist}
 %endif
 URL:            http://mate-desktop.org
 
@@ -28,9 +28,6 @@ URL:            http://mate-desktop.org
 %{?rel_build:Source0:     http://pub.mate-desktop.org/releases/%{branch}/%{name}-%{version}.tar.xz}
 # Source for snapshot-builds.
 %{!?rel_build:Source0:    http://git.mate-desktop.org/%{name}/snapshot/%{name}-%{commit}.tar.xz#/%{git_tar}}
-
-# https://github.com/mate-desktop/mate-session-manager/pull/234
-Patch1:         mate-session-manager_0001-Accept-Desktop-Entry-Specification-v1.1.patch
 
 BuildRequires:  dbus-glib-devel
 BuildRequires:  desktop-file-utils
@@ -120,6 +117,12 @@ desktop-file-install                               \
 
 
 %changelog
+* Fri Aug 14 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- update to 1.24.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-2
 - drop BR pangox-compat-devel
 - add an upstream patch

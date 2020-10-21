@@ -1,6 +1,6 @@
 Name:		rktime
 Version:	0.6
-Release:	17%{?dist}
+Release:	18%{?dist}
 Summary:	Multi-zone time display utility
 License:	GPLv2
 URL:		http://people.redhat.com/rkeech/#rktime
@@ -33,6 +33,9 @@ hours.
 %{_bindir}/%{name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

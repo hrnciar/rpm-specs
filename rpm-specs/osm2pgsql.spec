@@ -1,11 +1,11 @@
 Name:           osm2pgsql
-Version:        1.2.1
-Release:        3%{?dist}
+Version:        1.3.0
+Release:        1%{?dist}
 Summary:        Import map data from OpenStreetMap to a PostgreSQL database
 
 License:        GPLv2+
 URL:            https://github.com/openstreetmap/osm2pgsql
-Source0:        https://github.com/openstreetmap/osm2pgsql/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
@@ -46,13 +46,22 @@ make install DESTDIR=%{buildroot} INSTALL="install -p"
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 %files
-%doc AUTHORS ChangeLog README.md
+%doc AUTHORS CONTRIBUTING.md README.md
 %license COPYING
 %{_mandir}/man1//%{name}.1*
 %{_bindir}/%{name}
 %{_datadir}/%{name}/
 
 %changelog
+* Sun Aug 09 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.3.0-1
+- Update to latest upstream version 1.3.0 (rhbz#1861496)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.2.2-1
+- Update to latest upstream version 1.2.2 (rhbz#1851781)
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 1.2.1-3
 - Rebuilt for Boost 1.73
 
@@ -61,7 +70,7 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 * Tue Dec 31 2019 Fabian Affolter <mail@fabian-affolter.ch> - 1.2.1-1
 - Update BRs
-- Update to latest upstream version 1.2.0 (rhbz#1763938)
+- Update to latest upstream version 1.2.1 (rhbz#1763938)
 
 * Tue Oct 22 2019 Fabian Affolter <mail@fabian-affolter.ch> - 1.2.0-1
 - Update to latest upstream version 1.2.0 (rhbz#1763938)

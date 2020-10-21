@@ -1,6 +1,6 @@
 Name:		samefile
 Version:	2.14
-Release:	14%{?dist}
+Release:	15%{?dist}
 Summary:	Command-line utility to find identical files on the file system
 
 License:	BSD
@@ -42,6 +42,9 @@ make test
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.14-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.14-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

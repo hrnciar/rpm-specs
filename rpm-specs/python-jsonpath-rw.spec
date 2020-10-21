@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.4.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Extended implementation of JSONPath for Python
 
 License:        ASL 2.0
@@ -55,6 +55,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} setup.py test
 %{python3_sitelib}/jsonpath_rw-%{version}*-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.0-2
 - Rebuilt for Python 3.9
 

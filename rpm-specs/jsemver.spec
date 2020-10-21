@@ -1,6 +1,6 @@
 Name:           jsemver
 Version:        0.9.0
-Release:        11%{?dist}
+Release:        14%{?dist}
 Summary:        A Java implementation of the Semantic Versioning Specification
 
 License:        MIT
@@ -13,7 +13,6 @@ BuildRequires:  maven-local
 BuildRequires:  maven-compiler-plugin >= 3.2
 BuildRequires:  maven-javadoc-plugin >= 2.10.2
 BuildRequires:  junit >= 4.12
-BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
 
 %description
 JSemVer (formerly Java SemVer) is a Java implementation of
@@ -29,6 +28,9 @@ This package contains the API documentation for %{name}
 %setup -q
 find -name \*.jar -delete
 find -name \*.class -delete
+
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
 
 %build
 %mvn_build
@@ -48,6 +50,15 @@ find -name \*.class -delete
 
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 0.9.0-14
+- Remove unnecessary dependency on parent POM.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0.9.0-12
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

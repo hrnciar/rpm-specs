@@ -1,7 +1,7 @@
 Name:	 frobby
 Summary: Computations With Monomial Ideals
 Version: 0.9.0
-Release: 21%{?dist}
+Release: 22%{?dist}
 
 License: GPLv2+
 URL:	 http://www.broune.com/frobby/
@@ -124,6 +124,9 @@ test/runTests
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

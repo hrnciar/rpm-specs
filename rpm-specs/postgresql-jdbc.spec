@@ -43,41 +43,34 @@
 
 %{!?runselftest:%global runselftest 1}
 
-
 %global section		devel
 %global source_path	pgjdbc/src/main/java/org/postgresql
-%global parent_ver	1.1.6
-%global parent_poms_builddir	./pgjdbc-parent-poms
-
-%global pgjdbc_mvn_options -DwaffleEnabled=false -DosgiEnabled=false \\\
-	-DexcludePackageNames=org.postgresql.osgi:org.postgresql.sspi -Dmaven.javadoc.skip=true
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql-jdbc
-Version:  42.2.12
+Version:  42.2.18
 Release:	1%{?dist}
 License:	BSD
 URL:		http://jdbc.postgresql.org/
 
-Source0:	https://github.com/pgjdbc/pgjdbc/archive/REL%{version}/pgjdbc-REL%{version}.tar.gz
+Source0:	https://repo1.maven.org/maven2/org/postgresql/postgresql/%{version}/postgresql-%{version}-jdbc-src.tar.gz
 Provides:	pgjdbc = %version-%release
-
-# Upstream moved parent pom.xml into separate project (even though there is only
-# one dependant project on it?).  Let's try to not complicate packaging by
-# having separate spec file for it, too.
-Source1:	https://github.com/pgjdbc/pgjdbc-parent-poms/archive/REL%parent_ver/pgjdbc-parent-poms-REL%{parent_ver}.tar.gz
 
 BuildArch:	noarch
 BuildRequires:	java-devel >= 1.8
 BuildRequires:	maven-local
-BuildRequires:	java-comment-preprocessor
+BuildRequires:	maven-javadoc-plugin
 BuildRequires:	maven-enforcer-plugin
 BuildRequires:	maven-plugin-bundle
-BuildRequires:	maven-plugin-build-helper
 BuildRequires:	classloader-leak-test-framework
 
 BuildRequires:	mvn(com.ongres.scram:client)
 BuildRequires:	mvn(org.apache.maven.plugins:maven-clean-plugin)
+BuildRequires:	mvn(org.apache.maven.surefire:surefire-junit-platform)
+BuildRequires:	mvn(org.junit.jupiter:junit-jupiter-api)
+BuildRequires:	mvn(org.junit.jupiter:junit-jupiter-engine)
+BuildRequires:	mvn(org.junit.jupiter:junit-jupiter-params)
+BuildRequires:	mvn(org.junit.vintage:junit-vintage-engine)
 
 %if %runselftest
 BuildRequires:	postgresql-contrib
@@ -103,39 +96,22 @@ This package contains the API Documentation for %{name}.
 
 
 %prep
-%setup -c -q -a 1
+%setup -c -q
 
-mv pgjdbc-REL%version/* .
-mv pgjdbc-parent-poms-REL%parent_ver pgjdbc-parent-poms
-
+mv postgresql-%{version}-jdbc-src/* .
 
 # remove any binary libs
-find -name "*.jar" -or -name "*.class" | xargs rm -f
+find -type f \( -name "*.jar" -or -name "*.class" \) | xargs rm -f
 
 # Build parent POMs in the same Maven call.
-%pom_xpath_inject pom:modules "<module>%parent_poms_builddir</module>"
-%pom_xpath_inject pom:parent "<relativePath>pgjdbc-parent-poms/pgjdbc-versions</relativePath>"
-%pom_xpath_set pom:relativePath ../pgjdbc-parent-poms/pgjdbc-core-parent pgjdbc
-%pom_xpath_remove "pom:plugin[pom:artifactId = 'maven-shade-plugin']" pgjdbc
-%pom_remove_plugin :karaf-maven-plugin pgjdbc
-%pom_remove_plugin :properties-maven-plugin pgjdbc-parent-poms/pgjdbc-core-parent
-%pom_remove_plugin :properties-maven-plugin pgjdbc-parent-poms/pgjdbc-versions
-
+%pom_xpath_remove "pom:plugin[pom:artifactId = 'maven-shade-plugin']"
 
 # compat symlink: requested by dtardon (libreoffice), reverts part of
 # 0af97ce32de877 commit.
 %mvn_file org.postgresql:postgresql %{name}/postgresql %{name} postgresql
 
-# Parent POMs should not be installed.
-%mvn_package ":*{parent,versions,prevjre}*" __noinstall
-
 # For compat reasons, make Maven artifact available under older coordinates.
 %mvn_alias org.postgresql:postgresql postgresql:postgresql
-
-# Hack #1!  This directory is missing for some reason, it is most probably some
-# misunderstanding between maven, maven-compiler-plugin and
-# java-comment-preprocessor?  Not solved yet.  See rhbz#1325060.
-mkdir -p pgjdbc/target/generated-sources/annotations
 
 
 %build
@@ -171,7 +147,7 @@ EOF
 opts="-f"
 %endif
 
-%mvn_build $opts -- %pgjdbc_mvn_options
+%mvn_build $opts --xmvn-javadoc
 
 
 %install
@@ -183,11 +159,28 @@ opts="-f"
 %doc README.md
 
 
-#%files javadoc -f .mfiles-javadoc
+%files javadoc -f .mfiles-javadoc
 %license LICENSE
 
 
 %changelog
+* Tue Oct 20 2020 Ondrej Dubaj <odubaj@redhat.com> - 42.2.18-1
+- rebase to version 42.2.18
+
+* Wed Aug 26 2020 Ondrej Dubaj <odubaj@redhat.com> - 42.2.16-1
+- rebased to version 42.2.16
+
+* Fri Jul 24 2020 Ondrej Dubaj <odubaj@redhat.com> - 42.2.15-1
+- rebased to version 42.2.15
+
+* Fri Jul 24 2020 Ondrej Dubaj <odubaj@redhat.com> - 42.2.12-3
+- fixed javadoc build problem + added missing dependencies
+- remove SSPIClient for windows API
+- fixed XXE vulnerability (CVE-2020-13692)
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 42.2.12-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed May 13 2020 Ondrej Dubaj <odubaj@redhat.com> - 42.2.12-1
 - new upstream release + skip javadoc due to jdk-11
 

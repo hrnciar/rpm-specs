@@ -6,7 +6,7 @@
 
 Name:		nodejs-graceful-readlink
 Version:	1.0.1
-Release:	9%{?dist}
+Release:	10%{?dist}
 Summary:	The graceful fs.readlink functionality
 
 License:	MIT
@@ -17,6 +17,7 @@ ExclusiveArch:	%{nodejs_arches} noarch
 BuildArch:	noarch
 
 BuildRequires:	nodejs-packaging
+BuildRequires:  nodejs(engine)
 %if 0%{?enable_tests}
 #BuildRequires:
 %endif
@@ -57,6 +58,9 @@ cp -pr package.json *.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Summary: DNS Visualization Tool
 Name: dnssec-nodes
 Version: 2.1
-Release: 13%{?dist}
+Release: 14%{?dist}
 License: BSD
 URL: http://www.dnssec-tools.org/
 Source0: https://www.dnssec-tools.org/download/%{name}-%{version}.tar.gz
@@ -47,6 +47,9 @@ install -p -D -m 644 man/dnssec-nodes.1 %{buildroot}/%{_mandir}/man1/dnssec-node
 %doc %{_mandir}/man1/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

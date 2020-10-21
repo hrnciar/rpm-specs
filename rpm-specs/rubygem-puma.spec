@@ -1,14 +1,13 @@
 # Generated from puma-3.6.0.gem by gem2rpm -*- rpm-spec -*-
 %global gem_name puma
 
-# Current Ragel version does not support Ruby.
-# https://github.com/whitequark/parser/issues/317
-# https://github.com/puma/puma/issues/2207
-%bcond_with ragel
+# Allow to use precompiled version of parser, because Ragel not always
+# behaves correctly.
+%bcond_without ragel
 %bcond_without help2man
 
 Name: rubygem-%{gem_name}
-Version: 4.3.3
+Version: 4.3.6
 Release: 1%{?dist}
 Summary: A simple, fast, threaded, and highly concurrent HTTP 1.1 server
 License: BSD
@@ -16,15 +15,23 @@ URL: http://puma.io
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
 # The puma gem doesn't ship with the test suite.
 # git clone https://github.com/puma/puma --no-checkout
-# cd puma && git archive -v -o puma-4.3.3-tests.txz v4.3.3 test
+# cd puma && git archive -v -o puma-4.3.6-tests.txz v4.3.6 test
 Source1: %{gem_name}-%{version}-tests.txz
 # The puma gem doesn't ship with the examples used in test suite.
-# git archive -v -o puma-4.3.3-examples.txz v4.3.3 examples
+# git archive -v -o puma-4.3.6-examples.txz v4.3.6 examples
 Source3: %{gem_name}-%{version}-examples.txz
 # Set the default cipher list "PROFILE=SYSTEM".
 # https://fedoraproject.org/wiki/Packaging:CryptoPolicies
 Patch2: rubygem-puma-3.6.0-fedora-crypto-policy-cipher-list.patch
+# Don't exit Puma on test failure.
+# https://github.com/puma/puma/pull/2332
+Patch3: rubygem-puma-5.0.0-Report-pumactl-exit.patch
+# Fix SSL certificates.
+# https://github.com/puma/puma/pull/2333
+Patch4: rubygem-puma-5.0.0-Update-test-certs-and-code.patch
 
+# Git is needed just to apply Patch4.
+BuildRequires: %{_bindir}/git
 BuildRequires: openssl-devel
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
@@ -32,8 +39,6 @@ BuildRequires: ruby-devel
 BuildRequires: rubygem(rack)
 BuildRequires: rubygem(minitest)
 BuildRequires: rubygem(nio4r)
-# The support for ruby was temporarily dropped
-# https://github.com/whitequark/parser/issues/317
 %if %{with ragel}
 BuildRequires: %{_bindir}/ragel
 %endif
@@ -45,8 +50,11 @@ BuildRequires: help2man
 BuildRequires: gcc
 
 %description
-A simple, fast, threaded, and highly concurrent HTTP 1.1 server for
-Ruby/Rack applications.
+Puma is a simple, fast, threaded, and highly concurrent HTTP 1.1 server for
+Ruby/Rack applications. Puma is intended for use in both development and
+production environments. It's great for highly concurrent Ruby implementations
+such as Rubinius and JRuby as well as as providing process worker support to
+support CRuby well.
 
 
 %package doc
@@ -58,16 +66,31 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -n  %{gem_name}-%{version} -b 1 -b 3
+%setup -q -n %{gem_name}-%{version} -b 1 -b 3
 
 %patch2 -p1
 
+pushd %{_builddir}
+%patch3 -p1
+
+# When removed, remove also the `BR: git` above.
+%global __scm git_am
+%{expand:%__scm_setup_%{__scm}}
+%apply_patch -p1 %{PATCH4}
+popd
+
 %if %{with ragel}
+# Test suite on s390x fails on various places with following error:
+# ext/puma_http11/http11_parser.rl:123: puma_parser_execute: Assertion `parser->nread <= len && "nread longer than length"' failed.
+# Keep the upstream generated parser which appears to work.
+# https://github.com/adrian-thurston/ragel/issues/51
+%ifnarch s390x
 # Regenarate the parser.
 # https://fedoraproject.org/wiki/Packaging:Guidelines#Use_of_pregenerated_code
 rm -f ext/puma_http11/http11_parser.c
-ragel ext/puma_http11/http11_parser.rl -C -G2 -I ext/puma_http11 \
+ragel ext/puma_http11/http11_parser.rl -G2 -I ext/puma_http11 \
   -o ext/puma_http11/http11_parser.c
+%endif
 %endif
 
 %build
@@ -101,9 +124,9 @@ find %{buildroot}%{gem_instdir}/bin -type f | \
 
 %if %{with help2man}
 # Turn `puma --help` into man page.
-export GEM_PATH="%{gem_dir}:%{buildroot}/usr/share/gems/gems"
+export RUBYOPT="-I%{buildroot}%{gem_extdir_mri}:%{buildroot}%{gem_libdir}"
 mkdir -p %{buildroot}%{_mandir}/man1
-help2man --no-discard-stderr -N -s1 -o %{buildroot}%{_mandir}/man1/%{name}.1 \
+help2man --no-discard-stderr -N -s1 -o %{buildroot}%{_mandir}/man1/%{gem_name}.1 \
     %{buildroot}/usr/share/gems/gems/%{gem_name}-%{version}/bin/%{gem_name}
 %endif
 
@@ -125,29 +148,26 @@ sed -i '/::Timeout.timeout/ s/60/600/' test/helper.rb
 # Skip an unstable test on Koji.
 # TestCLI#test_control failing with "pool_capacity": 0
 # https://github.com/puma/puma/issues/2212
-%ifarch ppc64le s390x
+%ifarch ppc64le s390x aarch64
 sed -i '/^  def test_control$/,/^  end$/ s/^/#/' test/test_cli.rb
 %endif
 
-# Skip a test that needs internet.
-# This test often takes long time on Koji.
+# These test often timeouts on Koji.
 sed -i '/^  def test_timeout_in_data_phase$/a\
     skip' test/test_puma_server.rb
+sed -i '/^  def test_plugin$/a\
+    skip' test/test_plugin.rb
 
-# Skip a randomly failed SSL test with openssl-libs-1:1.1.1e-2.fc33.ppc64le.
+# Skip a randomly failed SSL test.
 # Errno::ECONNRESET: Connection reset by peer
 #   /usr/share/ruby/openssl/buffering.rb:182:in `sysread_nonblock'
 #   /usr/share/ruby/openssl/buffering.rb:182:in `read_nonblock'
-%ifarch ppc64le
 sed -i '/^  def test_verify_fail_if_client_unknown_ca$/a\
     skip' test/test_puma_server_ssl.rb
-%endif
 
 # Skip unstable tests on Koji.
 # test_integration_cluster.rb: not expected replies
 # https://github.com/puma/puma/issues/2209
-sed -i '/^  def test_term_closes_listeners_/a\
-    skip' test/test_integration_cluster.rb
 sed -i '/^  def test_usr1_all_respond_/a\
     skip' test/test_integration_cluster.rb
 
@@ -160,6 +180,13 @@ RUBYOPT="-Ilib:$(dirs +1 -l)%{gem_extdir_mri}" CI=1 ruby \
 # Integration test
 # Make binary exension available in Ruby load path.
 RUBYOPT="-I$(dirs +1 -l)%{gem_extdir_mri}" ruby test/shell/run.rb
+
+%if %{with help2man}
+# Check `--help` output, using which man page is created
+export RUBYOPT="-I%{buildroot}%{gem_extdir_mri}:%{buildroot}%{gem_libdir}"
+%{buildroot}/usr/share/gems/gems/%{gem_name}-%{version}/bin/%{gem_name} --help 2> /dev/null \
+  | grep -q '^puma <options> <rackup file>'
+%endif
 popd
 
 %files
@@ -172,6 +199,9 @@ popd
 %{gem_libdir}
 %exclude %{gem_cache}
 %{gem_spec}
+%if %{with help2man}
+%{_mandir}/man1/%{gem_name}.1*
+%endif
 
 %files doc
 %doc %{gem_docdir}
@@ -179,11 +209,23 @@ popd
 %doc %{gem_instdir}/README.md
 %doc %{gem_instdir}/docs
 %{gem_instdir}/tools
-%if %{with help2man}
-%{_mandir}/man1/%{name}.1*
-%endif
 
 %changelog
+* Mon Sep 07 2020 Vít Ondruch <vondruch@redhat.com> - 4.3.6-1
+- Update to Puma 4.3.6.
+  Resolves: rhbz#1837148
+  Resolves: rhbz#1863729
+  Resolves: rbhz#1842535
+  Resolves: rbhz#1842540
+- Fix the man pages generation and move them into the main package.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 31 2020 Jun Aruga <jaruga@redhat.com> - 4.3.3-1
 - Update to puma 4.3.3.
 - Fix newline characters to insert malicious content (CVE-2020-5247).

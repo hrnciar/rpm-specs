@@ -4,7 +4,7 @@
 
 Name: catatonit
 Version: 0.1.5
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: A signal-forwarding process manager for containers
 License: GPLv3+
 URL: https://github.com/openSUSE/catatonit
@@ -58,6 +58,9 @@ ln -s %{_libexecdir}/%{name}/%{name} %{buildroot}%{_libexecdir}/podman/%{name}
 %{_libexecdir}/podman/%{name}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 29 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 0.1.5-2
 - complain if not statically linked, patch from Jindrich Novy <jnovy@redhat.com> 
 

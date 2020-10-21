@@ -1,7 +1,7 @@
 Name: pymol
 Summary: PyMOL Molecular Graphics System
 Version: 2.4.0
-Release: 1%{?dist}
+Release: 3%{?dist}
 
 # Which files use following license:
 # BSD: main license of open source PyMOL and some plugins
@@ -26,6 +26,9 @@ Patch3: %{name}-mmtf.patch
 
 # Fix brp-python-bytecompile script
 Patch4: %{name}-python3.patch
+
+# Fix https://github.com/schrodinger/pymol-open-source/issues/119
+Patch5: %{name}-2.4.0-fix_bug119.patch
 
 BuildRequires: desktop-file-utils
 BuildRequires: libappstream-glib
@@ -140,6 +143,12 @@ appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/*.appdata.xml
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Wed Jul 29 2020 Antonio Trande <sagitter@fedoraproject.org> 2.4.0-3
+- Fix for upstream bug #119 (rhbz#1861558)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Antonio Trande <sagitter@fedoraproject.org> 2.4.0-1
 - Release 2.4.0
 

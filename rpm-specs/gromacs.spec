@@ -1,6 +1,12 @@
 #global _rcname rc1
 #global _rc -%%_rcname
 
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 %global with_opencl 1
 # compilation of OpenCL support is failing only on ppc64le (retested 15 Feb 2019)
 # only 64-bit archs: https://redmine.gromacs.org/issues/2821
@@ -31,7 +37,7 @@
 
 Name:		gromacs
 Version:	2019.6
-Release:	2%{?dist}
+Release:	8%{?dist}
 Summary:	Fast, Free and Flexible Molecular Dynamics
 License:	GPLv2+
 URL:		http://www.gromacs.org
@@ -47,9 +53,11 @@ Patch0:		gromacs-dssp-path.patch
 # enable some test on aarch64 - https://redmine.gromacs.org/issues/2366
 # bug#1558206
 Patch1:		gromacs-issue-2366.patch
+Patch2:         test_timeout.patch 
+Patch3:         gromacs-gcc11.patch
 BuildRequires:	gcc-c++
 BuildRequires:  cmake3 >= 3.4.3
-BuildRequires:	openblas-devel
+BuildRequires:	%{blaslib}-devel
 BuildRequires:	fftw-devel
 BuildRequires:	gsl-devel
 BuildRequires:	hwloc
@@ -232,13 +240,15 @@ This package single and double precision binaries and libraries.
 %setup -q %{?SOURCE2:-a 2} -n gromacs-%{version}%{?_rc}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 install -Dpm644 %{SOURCE1} ./serial/docs/manual/gromacs.pdf
 # Delete bundled stuff so that it doesn't get used accidentally
 # Don't remove tinyxml2 as gromacs needs an old version to build
 # test, see: https://redmine.gromacs.org/issues/2389
 rm -r src/external/{fftpack,tng_io,lmfit}
 
-sed -i 's/set(_timeout [0-9]*)/set(_timeout 900)/' src/testutils/TestMacros.cmake
+sed -i 's/set(_timeout [0-9]*)/set(_timeout 9000)/' src/testutils/TestMacros.cmake
 
 %build
 # Default options, used for all compilations
@@ -246,15 +256,15 @@ sed -i 's/set(_timeout [0-9]*)/set(_timeout 900)/' src/testutils/TestMacros.cmak
  -DBUILD_TESTING:BOOL=ON \\\
  -DCMAKE_SKIP_RPATH:BOOL=ON \\\
  -DCMAKE_SKIP_BUILD_RPATH:BOOL=ON \\\
- -DGMX_BLAS_USER=openblas \\\
+ -DGMX_BLAS_USER=%{blaslib} \\\
  -DGMX_BUILD_UNITTESTS:BOOL=ON \\\
  -DGMX_EXTERNAL_LMFIT:BOOL=ON \\\
  -DGMX_USE_LMFIT=external \\\
  -DGMX_EXTERNAL_TNG:BOOL=ON \\\
  -DGMX_EXTERNAL_TINYXML2:BOOL=OFF \\\
- -DGMX_LAPACK_USER=openblas \\\
+ -DGMX_LAPACK_USER=%{blaslib} \\\
  -DGMX_USE_RDTSCP=OFF \\\
- -DGMX_SIMD=%{simd} \\\
+ -DGMX_SIMD=%{simd}
 
 %if %{with_opencl}
 # OpenCL is available for single precision only
@@ -262,6 +272,7 @@ sed -i 's/set(_timeout [0-9]*)/set(_timeout 900)/' src/testutils/TestMacros.cmak
 %endif
 %global double -DGMX_DOUBLE:BOOL=ON
 %global mpi -DGMX_BUILD_MDRUN_ONLY:BOOL=ON -DGMX_MPI:BOOL=ON -DGMX_THREAD_MPI:BOOL=OFF -DGMX_DEFAULT_SUFFIX:BOOL=OFF -DBUILD_SHARED_LIBS:BOOL=OFF
+%global _vpath_srcdir ..
 
 . /etc/profile.d/modules.sh
 for p in '' _d ; do
@@ -275,9 +286,8 @@ for p in '' _d ; do
 %ifnarch i686 %arm ppc64le # regressiontest are not support on 32-bit archs: http://redmine.gromacs.org/issues/2584#note-35, ppc64le: https://redmine.gromacs.org/issues/2734
       $(test -z "${mpi}" && echo "-DREGRESSIONTEST_PATH=${PWD}/tests") \
 %endif
-      $(test -n "$p" && echo %{double} || echo %{?single}) \
-      ..
-    %make_build
+      $(test -n "$p" && echo %{double} || echo %{?single})
+    %cmake_build
     popd
     test -n "${mpi}" && module unload mpi/${mpi}-%{_arch}
   done
@@ -288,7 +298,9 @@ done
 for p in '' _d ; do
   for mpi in '' mpich openmpi ; do
     test -n "${mpi}" && module load mpi/${mpi}-%{_arch}
-    %make_install -C ${mpi:-serial}${p}
+    pushd ${mpi:-serial}${p}
+    %cmake_install
+    popd
     test -n "${mpi}" && module unload mpi/${mpi}-%{_arch}
   done
 done
@@ -325,9 +337,14 @@ for p in '' _d ; do
 %ifarch s390x armv7hl
     test "${mpi}"  = "openmpi" && continue
 %endif
+    old_LD_LIBRARY_PATH="${LD_LIBRARY_PATH}"
     test -n "${mpi}" && module load mpi/${mpi}-%{_arch}
     test -n "${mpi}" && xLD_LIBRARY_PATH=$LD_LIBRARY_PATH:%{buildroot}${MPI_LIB} || xLD_LIBRARY_PATH=%{buildroot}%{_libdir}
-    LD_LIBRARY_PATH="${xLD_LIBRARY_PATH}" make -C ${mpi:-serial}${p} VERBOSE=1 %{?_smp_mflags} check
+    pushd ${mpi:-serial}${p}
+    export LD_LIBRARY_PATH="${xLD_LIBRARY_PATH}"
+    %cmake_build --target check
+    export LD_LIBRARY_PATH="${old_LD_LIBRARY_PATH}"
+    popd
     test -n "${mpi}" && module unload mpi/${mpi}-%{_arch}
   done
 done
@@ -371,6 +388,25 @@ done
 %{_libdir}/mpich/bin/mdrun_mpich*
 
 %changelog
+* Wed Oct 14 2020 Jeff Law <law@redhat.com> - 2019.6-8
+- Add missing #includes for gcc-11
+
+* Wed Aug 12 2020 Iñaki Úcar <iucar@fedoraproject.org> - 2019.6-7
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Mon Aug 03 2020 Christoph Junghans <junghans@votca.org> - 2019.6-6
+- Fix out-of-source build on F33 (bug #1863834)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.6-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 2019.6-3
+- Use __cmake_in_source_build
+
 * Wed Apr 01 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2019.6-2
 - Specify perl dependencies needed for tests
 

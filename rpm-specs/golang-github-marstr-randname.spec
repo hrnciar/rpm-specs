@@ -16,7 +16,7 @@ of use.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.8%{?dist}
+Release:        0.10%{?dist}
 Summary:        Go package which creates random names
 
 License:        MIT
@@ -44,6 +44,13 @@ BuildRequires:  golang(github.com/marstr/collection)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

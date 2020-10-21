@@ -1,6 +1,6 @@
 Name:           openfortivpn
 Version:        1.14.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Client for PPP+SSL VPN tunnel services
 
 License:        GPLv3+
@@ -45,6 +45,13 @@ make %{?_smp_mflags} V=1
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 2020 Adrien Vergé <adrienverge@gmail.com> - 1.14.1-1
 - Update to latest upstream version
 - Switch build requirements xyz-devel to pkgconfig(xyz)

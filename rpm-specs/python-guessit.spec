@@ -2,13 +2,14 @@
 
 Name:           python-%{srcname}
 Version:        3.1.1
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Library to extract as much information as possible from a video filename
 License:        LGPLv3
 URL:            https://guessit.readthedocs.org/
 Source:         https://github.com/guessit-io/%{srcname}/archive/%{version}/%{srcname}-%{version}.tar.gz
 BuildArch:      noarch
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-pytest-runner
 # Doc building
 BuildRequires:  python3-sphinx
@@ -80,6 +81,12 @@ install -D -m 0644 docs/_build/man/%{srcname}.1 %{buildroot}%{_mandir}/man1/%{sr
 %{_mandir}/man1/%{srcname}.1*
 
 %changelog
+* Thu Oct 08 2020 Juan Orti Alcaine <jortialc@redhat.com> - 3.1.1-4
+- BR: python3-setuptools
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.1.1-2
 - Rebuilt for Python 3.9
 

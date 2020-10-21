@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	2.9.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 BuildArch:	noarch
 Summary:	Support library for manipulating Web protocols
 License:	ASL 2.0
@@ -43,6 +43,9 @@ Support library for manipulating Web protocols.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 19 2020 Peter Lemenkov <lemenkov@gmail.com> - 2.9.1-1
 - Ver. 2.9.1
 

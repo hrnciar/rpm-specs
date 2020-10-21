@@ -1,35 +1,25 @@
 %global srcname pybtex
 
-# The python-sphinxcontrib-bibtex package needs fixes to the sorting code that
-# have not yet been released, so we check out from git until the next release.
-%global commit e1336fb33c92a878465f664d57179bc8d1c21b78
-%global shortcommit %(c=%{commit}; echo ${c:0:12})
-%global gitdate 20200126
-
 Name:           python-%{srcname}
-Version:        0.22.2
-Release:        10.%{gitdate}.%{shortcommit}%{?dist}
+Version:        0.23.0
+Release:        1%{?dist}
 Summary:        BibTeX-compatible bibliography processor written in Python
 
 License:        MIT
 URL:            http://pybtex.org/
-#Source0:        %%pypi_source
-Source0:        https://bitbucket.org/pybtex-devs/pybtex/get/%{commit}.tar.gz#/%{srcname}-%{shortcommit}.tar.gz
+Source0:        %pypi_source
 # Fix a minor sphinx problem, leads to bad man page output
 Patch0:         %{name}-parsing.patch
-# Do not use cElementTree.  It was deprecated in python 3.3 and removed in 3.9.
-# https://bitbucket.org/pybtex-devs/pybtex/pull-requests/19/
-Patch1:         %{name}-elementtree.patch
 
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
-BuildRequires:  python3dist(latexcodec)
-BuildRequires:  python3dist(pytest)
-BuildRequires:  python3dist(pyyaml)
-BuildRequires:  python3dist(setuptools)
-BuildRequires:  python3dist(six)
-BuildRequires:  python3dist(sphinx)
+BuildRequires:  %{py3_dist latexcodec}
+BuildRequires:  %{py3_dist pytest}
+BuildRequires:  %{py3_dist pyyaml}
+BuildRequires:  %{py3_dist setuptools}
+BuildRequires:  %{py3_dist six}
+BuildRequires:  %{py3_dist sphinx}
 
 %global common_desc %{expand:
 Pybtex is a BibTeX-compatible bibliography processor written in Python.
@@ -45,21 +35,14 @@ Additionally:
   markup besides the usual LaTeX.
 Pybtex also includes a Python API for managing bibliographies from Python.}
 
-%description
-%common_desc
+%description %common_desc
 
 %package -n python3-%{srcname}
 Summary:        BibTeX-compatible bibliography processor written in Python
 Provides:       bundled(jquery)
 Provides:       bundled(js-underscore)
-%{?python_provide:%python_provide python3-%{srcname}}
 
-# This can be removed when F29 reaches EOL
-Obsoletes:      python2-%{srcname} < 0.21-8
-Provides:       python2-%{srcname} = %{version}-%{release}
-
-%description -n python3-%{srcname}
-%common_desc
+%description -n python3-%{srcname} %common_desc
 
 %package doc
 Summary:        Documentation for python-%{srcname}
@@ -68,7 +51,7 @@ Summary:        Documentation for python-%{srcname}
 Documentation for python-%{srcname}.
 
 %prep
-%autosetup -p0 -n pybtex-devs-pybtex-%{shortcommit}
+%autosetup -p0 -n pybtex-%{version}
 
 # Remove useless shebang
 sed -i '\@/usr/bin/env python@d' pybtex/cmdline.py
@@ -95,6 +78,8 @@ rm -f docs/build/html/.buildinfo
 
 mkdir -p %{buildroot}%{_mandir}/man1
 cp -p docs/build/man/*.1 %{buildroot}%{_mandir}/man1
+echo ".so man1/pybtex.1" > %{buildroot}%{_mandir}/man1/pybtex-convert.1
+echo ".so man1/pybtex.1" > %{buildroot}%{_mandir}/man1/pybtex-format.1
 
 pushd %{buildroot}%{python3_sitelib}
 rm -fr custom_fixers tests
@@ -117,6 +102,13 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest
 %doc CHANGES docs/build/html
 
 %changelog
+* Mon Oct 12 2020 Jerry James <loganjerry@gmail.com> - 0.23.0-1
+- Version 0.23.0
+- Drop upstreamed -elementtree patch
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.22.2-11.20200126.e1336fb33c92
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 0.22.2-10.20200126.e1336fb33c92
 - Rebuilt for Python 3.9
 

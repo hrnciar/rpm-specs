@@ -3,52 +3,45 @@ Summary:       Graphical interface for ModemManager
 Summary(de):   Grafische Oberfläche für ModemManager
 Summary(ru):   Графический интерфейс для демона ModemManager
 
-Version:       0.0.19.1
-Release:       12%{?dist}
+Version:       0.0.20
+Release:       1%{?dist}
 License:       GPLv3
 
 URL:           https://linuxonly.ru/page/modem-manager-gui
 Source0:       http://download.tuxfamily.org/gsf/source/modem-manager-gui-%{version}.tar.gz
 
-# Avoid string truncation
-Patch0: mmgui-fix-strncpy-usage.patch
-
-# Upstream patches for memory corruption issues
-# https://bitbucket.org/linuxonly/modem-manager-gui/commits/COMMIT_HASH_GOES_HERE/raw
-Patch1: mmgui-6710bf86869852bb8a9946b628eff5bc1019b5aa.diff
-Patch2: mmgui-83553d042443c71be71533b6b91ee10f228d935f.diff
-
 # Fix the NetworkManager dispatcher script location
-Patch3: 0001-Move-the-NetworkManager-dispatcher-script-out-of-etc.patch
+Patch1: 0001-Move-the-NetworkManager-dispatcher-script-out-of-etc.patch
 
 # Appdata XML validation fails
-Patch4: mmgui-missing-appdata-tags.patch
+Patch2: 0002-add-missing-appdata-tags.patch
 
-%global build_using_meson 0
+%global build_using_meson 1
 %global with_ofono 0
 
 BuildRequires: gcc
 BuildRequires: desktop-file-utils
-BuildRequires: gdbm-devel > 1.10
+BuildRequires: gdbm-devel >= 1.10
 BuildRequires: gettext
-BuildRequires: glib2-devel > 2.32.1
+BuildRequires: glib2-devel >= 2.32.1
 BuildRequires: gtk3-devel >= 3.4.0
 BuildRequires: gtkspell3-devel >= 3.0.3
-BuildRequires: itstool
+BuildRequires: itstool >= 1.2.0
 BuildRequires: libappindicator-gtk3-devel >= 0.4.92
 BuildRequires: libappstream-glib
 BuildRequires: libnotify-devel >= 0.7.5
 BuildRequires: pkgconfig
-BuildRequires: po4a
+BuildRequires: po4a > 0.45
 
 %if %{build_using_meson}
-BuildRequires: meson
+BuildRequires: meson >= 0.38
 %else
 BuildRequires: make
 %endif
 
 %if %{with_ofono}
-BuildRequires: ofono-devel >= 1.09
+%global ofono_version 1.9
+BuildRequires: ofono-devel >= %{ofono_version}
 %endif
 
 Requires: filesystem
@@ -131,7 +124,7 @@ Plugin for %{name} allowing to use ModemManager as the modem manager.
 %if %{with_ofono}
 %package mm-ofono
 Summary: Use ofono to manage modems in %{name}
-Requires: ofono >= 1.09
+Requires: ofono >= %{ofono_version}
 Provides: %{name}-mm%{?_isa}
 %description mm-ofono
 Plugin for %{name} allowing to use ofono as the modem manager. 
@@ -139,13 +132,9 @@ Plugin for %{name} allowing to use ofono as the modem manager.
 
 
 %prep
-%setup -q
-%patch0 -p1
+%setup -q -n %{name}
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
-sed -e "s/meson_version: '>=0.37'/meson_version: '>=0.38'/" -i meson.build
 
 
 %build
@@ -226,6 +215,15 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Sun Aug 02 2020 Artur Iwicki <fedora@svgames.pl> - 0.0.20-1
+- Update to new upstream release v0.0.20
+- Switch back to using Meson instead of Make
+- Drop Patch0 (strncpy() fixes - accepted and merged upstream)
+- Drop Patch1 and Patch2 (backports from this release)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.19.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 02 2020 Artur Iwicki <fedora@svgames.pl> - 0.0.19.1-12
 - Add a patch to fix Appdata XML validation errors
 

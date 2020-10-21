@@ -1,6 +1,6 @@
 Name:           lucidlife
 Version:        0.9.2
-Release:        26%{?dist}
+Release:        27%{?dist}
 Summary:        A Conway's Life simulator
 
 License:        GPLv2+
@@ -60,6 +60,9 @@ desktop-file-install \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

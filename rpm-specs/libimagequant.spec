@@ -1,6 +1,6 @@
 Name:           libimagequant
-Version:        2.12.6
-Release:        2%{?dist}
+Version:        2.13.0
+Release:        1%{?dist}
 Summary:        Palette quantization library
 
 License:        GPLv3+ and MIT
@@ -57,6 +57,12 @@ rm -f %{buildroot}%{_libdir}/%{name}.a
 
 
 %changelog
+* Mon Oct 19 2020 Sandro Mani <manisandro@gmail.com> - 2.13.0-1
+- Update to 2.13.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

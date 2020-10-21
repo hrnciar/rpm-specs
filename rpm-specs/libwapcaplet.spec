@@ -1,6 +1,6 @@
 Name: libwapcaplet
 Version: 0.4.3
-Release: 1%{?dist}
+Release: 3%{?dist}
 Summary: A string internment library
 
 License: MIT
@@ -54,6 +54,13 @@ make %{?_smp_mflags} test %{make_vars}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 David Tardon <dtardon@redhat.com> - 0.4.3-1
 - new upstream release
 

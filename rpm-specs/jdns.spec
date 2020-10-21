@@ -1,6 +1,9 @@
+# override default value to allow build both qt4 and qt5 versions
+%define _vpath_srcdir ..
+
 Name:           jdns
 Version:        2.0.6
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        A simple DNS queries library
 
 License:        MIT
@@ -99,26 +102,31 @@ developing applications that use qjdns-qt5.
 mkdir %{_target_platform}-qt5
 pushd %{_target_platform}-qt5
 # FIXME: JDNS_TOOL FTBFS due to -fPIC/-fPIE wierdness, omit for now -- rex
-%{cmake} .. \
+%{cmake} %_vpath_srcdir \
   -DBUILD_JDNS_TOOL:BOOL=OFF \
   -DCMAKE_BUILD_TYPE:STRING="Release"
 
-make %{?_smp_mflags}
+%cmake_build
 popd
 
 mkdir %{_target_platform}-qt4
 pushd %{_target_platform}-qt4
-%{cmake} .. \
+%{cmake} %_vpath_srcdir \
   -DCMAKE_BUILD_TYPE:STRING="Release" \
   -DQT4_BUILD:BOOL=ON
 
-make %{?_smp_mflags}
+%cmake_build
 popd
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}-qt5
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}-qt4
+pushd %{_target_platform}-qt5
+%cmake_install
+popd
+
+pushd %{_target_platform}-qt4
+%cmake_install
+popd
 
 # Avoid api/abi breaking wich introduced with jdns-2.0.3
 ln -s libqjdns-qt4.so.2 %{buildroot}%{_libdir}/libqjdns.so.2
@@ -183,6 +191,17 @@ test "$(pkg-config --modversion qjdns-qt5)" = "%{version}"
 
 
 %changelog
+* Mon Aug  3 2020 Ivan Romanov <drizt72@zoho.eu> - 2.0.6-4
+- Use new cmake macroses
+- Fix #1863901
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.6-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Ivan Romanov <drizt72@zoho.eu> - 2.0.6-1
 - Bump to 2.0.6
 

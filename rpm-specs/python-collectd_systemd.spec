@@ -7,13 +7,19 @@
 
 Name:           python-%{pypi_name}
 Version:        0.0.1
-Release:        0.17.%{snapinfo}%{?dist}
+Release:        0.19.%{snapinfo}%{?dist}
 Summary:        Collectd plugin to monitor systemd services
 
 License:        MIT
 URL:            https://github.com/mbachry/collectd-systemd/
 Source0:        https://github.com/mbachry/collectd-systemd/archive/%{commit}/collectd-system-%{shortcommit}.tar.gz
 Source1:        collectd_systemd.te
+# https://github.com/mbachry/collectd-systemd/pull/12
+Patch0:         oneshot-dead.patch
+# https://github.com/mbachry/collectd-systemd/pull/13
+Patch1:         state-start.patch
+# https://github.com/mbachry/collectd-systemd/pull/14
+Patch2:         getunit_loadunit.patch
 BuildArch:      noarch
  
 BuildRequires:  python3-devel
@@ -88,6 +94,14 @@ fi
 PYTHONPATH=. pytest-3
 
 %changelog
+* Mon Sep 28 2020 Steve Traylen <steve.traylen@cern.ch> - 0.0.1-0.19.20181018git212cb79
+- Backport bug fix for start state of services.
+- Backport bug fix for acceptable dead oneshot services.
+- Backport bug fix for LoadUnit rather than GetUnit
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.1-0.18.20181018git212cb79
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.0.1-0.17.20181018git212cb79
 - Rebuilt for Python 3.9
 

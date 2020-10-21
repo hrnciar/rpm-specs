@@ -4,7 +4,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 3.4.0
-Release: 6%{?dist}
+Release: 7%{?dist}
 Summary: All-purpose Property List manipulation library
 License: MIT
 URL: http://plist.rubyforge.org
@@ -79,6 +79,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

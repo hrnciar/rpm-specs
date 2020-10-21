@@ -3,14 +3,11 @@
 
 # https://github.com/emicklei/go-restful
 %global goipath         github.com/emicklei/go-restful
-Version:                2.9.3
+Version:                3.2.0
 
 %gometa
 
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-emicklei-go-restful-devel < 1.1.3-0.22
-}
+%global goaltipaths     github.com/emicklei/go-restful/v3
 
 %global common_description %{expand:
 Package for building REST-style Web Services using Go.}
@@ -21,7 +18,7 @@ Package for building REST-style Web Services using Go.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Package for building REST-style Web Services using Go
 
 License:        MIT
@@ -29,7 +26,10 @@ URL:            %{gourl}
 Source0:        %{gosource}
 Source1:        glide.yaml
 Source2:        glide.lock
+# Go 1.15: https://github.com/emicklei/go-restful/issues/442
+Patch0:         0001-Convert-to-string-using-rune.patch
 
+BuildRequires:  golang(github.com/dgrijalva/jwt-go)
 BuildRequires:  golang(github.com/go-openapi/spec)
 BuildRequires:  golang(github.com/gorilla/schema)
 BuildRequires:  golang(github.com/mjibson/appstats)
@@ -47,18 +47,10 @@ BuildRequires:  golang(gopkg.in/vmihailenco/msgpack.v2)
 %prep
 %goprep
 cp %{S:1} %{S:2} .
+%patch0 -p1
 
 %install
 %gopkginstall
-
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
 
 %if %{with check}
 %check
@@ -68,6 +60,12 @@ end
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 16:24:59 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.2.0-1
+- Update to 3.2.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

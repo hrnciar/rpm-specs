@@ -1,6 +1,6 @@
 Name:           perl-MLDBM
 Version:        2.05
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Store multi-level hash structure in single level tied hash
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/MLDBM
@@ -61,6 +61,9 @@ make test
 %{_mandir}/man3/MLDBM.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.05-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.05-21
 - Perl 5.32 rebuild
 

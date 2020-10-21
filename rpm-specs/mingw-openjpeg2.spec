@@ -4,7 +4,7 @@
 
 Name:           mingw-%{pkgname}
 Version:        2.3.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        MinGW Windows %{pkgname} library
 
 # windirent.h is MIT, the rest is BSD
@@ -128,6 +128,9 @@ rm -rf %{buildroot}%{mingw64_datadir}/doc
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 13 2020 Sandro Mani <manisandro@gmail.com> - 2.3.1-7
 - Backport patch for CVE 2020-8112
 

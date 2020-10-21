@@ -1,6 +1,6 @@
 Name:           bonnie++
 Version:        1.98
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Filesystem and disk benchmark & burn-in suite
 License:        GPLv2
 URL:            http://www.coker.com.au/bonnie++/
@@ -25,7 +25,7 @@ test servers.
 
 %build
 %configure --disable-stripping
-make %{?_smp_mflags} CFLAGS="$RPM_OPT_FLAGS"
+make %{?_smp_mflags} CFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 
 %install
 %make_install
@@ -48,6 +48,16 @@ make %{?_smp_mflags} CFLAGS="$RPM_OPT_FLAGS"
 
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 1.98-5
+- Force C++14 as this code is not C++17 ready
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.98-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.98-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.98-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

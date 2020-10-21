@@ -1,22 +1,21 @@
 # remirepo/fedora spec file for php-true-punycode
 #
-# Copyright (c) 2015-2018 Remi Collet
+# Copyright (c) 2015-2020 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
 # Please, preserve the changelog entries
 #
+%bcond_without tests
+
 %global gh_commit    a4d0c11a36dd7f4e7cd7096076cab6d3378a071e
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     true
 %global gh_project   php-punycode
-%global with_tests   %{?_without_tests:0}%{!?_without_tests:1}
-
-# Notice: single file / class, so no need to provide an autoloader for now
 
 Name:           php-true-punycode
 Version:        2.1.1
-Release:        9%{?dist}
+Release:        11%{?dist}
 Summary:        A Bootstring encoding of Unicode for IDNA
 
 License:        MIT
@@ -34,7 +33,7 @@ BuildRequires:  php-fedora-autoloader-devel
 #               "symfony/polyfill-mbstring": "^1.3",
 #               "php": ">=5.3.0"
 Requires:       php(language) >= 5.3
-# Simpler, and we don't have symfony/polyfill-mbstring
+# Simpler, and we don't want symfony/polyfill-mbstring
 Requires:       php-mbstring
 # Autoloader
 Requires:       php-composer(fedora/autoloader)
@@ -64,14 +63,14 @@ cp -pr src %{buildroot}%{_datadir}/php/TrueBV
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 ln -s %{buildroot}%{_datadir}/php/TrueBV/autoload.php vendor/autoload.php
 
 # testEncodeUppercase affected by IDNA2003/2008 changes
 : Run test suite
 ret=0
-for cmd in php php70 php71 php72 php73; do
+for cmd in php php72 php73 php74 php80; do
   if which $cmd; then
     $cmd %{_bindir}/phpunit \
       --filter '^((?!(testEncodeUppercase)).)*$' \
@@ -85,7 +84,6 @@ exit $ret
 
 
 %files
-%{!?_licensedir:%global license %%doc}
 %license LICENSE
 %doc *.md
 %doc composer.json
@@ -93,6 +91,12 @@ exit $ret
 
 
 %changelog
+* Tue Aug 11 2020 Remi Collet <remi@remirepo.net> - 2.1.1-11
+- cleanup
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

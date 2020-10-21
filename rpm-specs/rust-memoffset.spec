@@ -5,7 +5,7 @@
 %global crate memoffset
 
 Name:           rust-%{crate}
-Version:        0.5.4
+Version:        0.5.6
 Release:        1%{?dist}
 Summary:        Offset_of functionality for Rust structs
 
@@ -64,6 +64,18 @@ which use "unstable_const" feature of "%{crate}" crate.
 %files       -n %{name}+unstable_const-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+unstable_raw-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+unstable_raw-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "unstable_raw" feature of "%{crate}" crate.
+
+%files       -n %{name}+unstable_raw-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
 %cargo_prep
@@ -83,6 +95,15 @@ which use "unstable_const" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Sep 23 2020 Fabio Valentini <decathorpe@gmail.com> - 0.5.6-1
+- Update to version 0.5.6.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.5.5-1
+- Update to 0.5.5
+
 * Tue Mar 17 16:46:04 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.5.4-1
 - Update to 0.5.4
 

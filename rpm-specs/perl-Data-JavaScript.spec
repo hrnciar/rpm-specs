@@ -1,14 +1,31 @@
 Name:           perl-Data-JavaScript
-Version:        1.13
-Release:        29%{?dist}
+Version:        1.15
+Release:        1%{?dist}
 Summary:        Dump perl data structures into JavaScript code
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Data-JavaScript
-Source0:        https://cpan.metacpan.org/authors/id/J/JP/JPIERCE/Data-JavaScript-%{version}.tgz
+Source0:        https://cpan.metacpan.org/authors/id/M/MS/MSTEMLE/Data-JavaScript-%{version}.tar.gz
 BuildArch:      noarch
+# bnuild requirements
+BuildRequires:  make
 BuildRequires:  perl-generators
-BuildRequires:  perl(ExtUtils::MakeMaker)
-Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+BuildRequires:  perl-interpreter
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
+BuildRequires:  perl(warnings)
+# runtime requirements
+BuildRequires:  perl(Encode)
+BuildRequires:  perl(Modern::Perl)
+BuildRequires:  perl(Readonly)
+BuildRequires:  perl(Scalar::Util)
+BuildRequires:  perl(bytes)
+BuildRequires:  perl(strict)
+# test requirements
+BuildRequires:  perl(Test2::Require::Perl)
+BuildRequires:  perl(Test2::Tools::Subtest)
+BuildRequires:  perl(Test2::Tools::PerlCritic)
+BuildRequires:  perl(Test2::V0)
+BuildRequires:  perl(utf8)
+Requires:       perl(:MODULE_COMPAT_%(eval "`/usr/bin/perl -V:version`"; echo $version))
 
 %{?perl_default_filter}
 
@@ -21,26 +38,33 @@ structures created on the server.
 %setup -q -n Data-JavaScript-%{version}
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags}
+/usr/bin/perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install PERL_INSTALL_ROOT=$RPM_BUILD_ROOT
-
-find $RPM_BUILD_ROOT -type f -name .packlist -exec rm -f {} \;
-find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
-
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
-make test
+%{make_build} test
 
 %files
-%doc CHANGES README TODO
-%{perl_vendorlib}/*
-%{_mandir}/man3/*
+%doc CHANGES CONTRIBUTING.md README.md TODO
+%license LICENSE
+%{perl_vendorlib}/Data*
+%{_mandir}/man3/Data*
 
 %changelog
+* Sun Oct 18 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 1.15-1
+- Update to 1.15
+- Replace calls to %%{__perl} with /usr/bin/perl
+- Pass NO_PACKLIST=1 NO_PERLLOCAL=1 to Makefile.PL
+- Replace calls to "make pure_install" with %%{make_install}
+- Replace calls to make with %%{make_build}
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.13-29
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:           ogmtools
 Version:        1.5
-Release:        26%{?dist}
+Release:        29%{?dist}
 Summary:        Tools for Ogg media streams
 
 License:        GPLv2+
@@ -31,6 +31,7 @@ mv ChangeLog.txt ChangeLog
 
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure --disable-dependency-tracking
 make %{?_smp_mflags}
 
@@ -48,6 +49,15 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Oct 17 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.5-29
+- rebuild for libdvdread-6.1 ABI bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 1.5-27
+- Use C++14 as this code is not C++17 ready
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

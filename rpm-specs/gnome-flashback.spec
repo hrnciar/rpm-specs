@@ -3,13 +3,13 @@
 %bcond_with compiz_session
 
 Name:           gnome-flashback
-Version:        3.36.3
-Release:        5%{?dist}
+Version:        3.38.0
+Release:        1%{?dist}
 Summary:        GNOME Flashback session
 
 License:        GPLv3+
 URL:            https://wiki.gnome.org/Projects/GnomeFlashback
-Source0:        https://download.gnome.org/sources/%{name}/3.36/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 Source1:        gnome-flashback.pamd
 
 BuildRequires:  desktop-file-utils
@@ -59,6 +59,7 @@ Requires:       metacity%{?_isa}
 Recommends:     alacarte
 Recommends:     nautilus%{?_isa}
 Recommends:     network-manager-applet%{?_isa}
+Recommends:     gnome-power-manager
 
 %if %{with compiz_session}
 Suggests:       compiz%{?_isa}
@@ -138,6 +139,22 @@ install -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/pam.d/%{name}
 
 
 %changelog
+* Wed Oct 14 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 3.38.0-1
+- build(update): 3.38.0
+
+* Sat Aug 22 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 3.37.3-1
+- Update to 3.37.3
+
+* Sat Aug 22 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 3.36.4-1
+- Update to 3.36.4
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.3-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 3.36.3-5
 - Rebuilt | https://pagure.io/koji/issue/2286
 

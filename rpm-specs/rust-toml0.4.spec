@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}0.4
 Version:        0.4.10
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Native Rust encoder and decoder of TOML-formatted files and streams
 
 # Upstream license specification: MIT/Apache-2.0
@@ -73,6 +73,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.10-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 04:02:08 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.4.10-5
 - Disable tests
 

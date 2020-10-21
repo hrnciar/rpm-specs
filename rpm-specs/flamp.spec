@@ -1,11 +1,12 @@
 Name:           flamp
 Version:        2.2.05
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Amateur Multicast Protocol - file transfer program
 
 License:        GPLv3+
 URL:            http://www.w1hkj.com/
 Source0:        http://www.w1hkj.com/files/%{name}/%{name}-%{version}.tar.gz
+Patch0:         flamp-gcc11.patch
 
 BuildRequires:  autoconf automake libtool
 BuildRequires:  gcc gcc-c++
@@ -31,10 +32,11 @@ of the NBEMS applications.
 
 
 %prep
-%autosetup
+%autosetup -p1
 
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure
 %make_build
 
@@ -56,6 +58,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Wed Jul 29 2020 Jeff Law <law@redhat.com> - 2.2.05-5
+- Use equality comparisons of pointers and 0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.05-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.05-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

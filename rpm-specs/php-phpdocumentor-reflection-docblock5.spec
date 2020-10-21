@@ -8,15 +8,15 @@
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    cd72d394ca794d3466a3b2fc09d5a6c1dc86b47e
+%global gh_commit    069a785b2141f5bcf49f3e353548dc1cce6df556
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     phpDocumentor
 %global gh_project   ReflectionDocBlock
 %global major        5
-%global with_tests   %{?_without_tests:0}%{!?_without_tests:1}
+%bcond_without       tests
 
 Name:           php-phpdocumentor-reflection-docblock%{major}
-Version:        5.1.0
+Version:        5.2.2
 Release:        1%{?dist}
 Summary:        DocBlock parser
 
@@ -30,17 +30,22 @@ Source1:       makesrc.sh
 
 BuildArch:      noarch
 BuildRequires:  php-fedora-autoloader-devel
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php(language) >= 7.2
 BuildRequires:  php-filter
-BuildRequires: (php-composer(phpdocumentor/type-resolver)     >= 1.0   with php-composer(phpdocumentor/type-resolver)     <  2)
-BuildRequires: (php-composer(webmozart/assert)                >= 1.0   with php-composer(webmozart/assert)                <  2)
-BuildRequires: (php-composer(phpdocumentor/reflection-common) >= 2.0   with php-composer(phpdocumentor/reflection-common) <  3)
+BuildRequires: (php-composer(phpdocumentor/type-resolver)     >= 1.3   with php-composer(phpdocumentor/type-resolver)     <  2)
+BuildRequires: (php-composer(webmozart/assert)                >= 1.9.1 with php-composer(webmozart/assert)                <  2)
+BuildRequires: (php-composer(phpdocumentor/reflection-common) >= 2.2   with php-composer(phpdocumentor/reflection-common) <  3)
 # From composer.json, require-dev
-#        "mockery/mockery": "^1",
-#        "doctrine/instantiator": "^1"
-BuildRequires: (php-composer(mockery/mockery) >= 1.0 with php-composer(mockery/mockery) <  2)
+#        "mockery/mockery": "~1.3.2"
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 9
+BuildRequires:  phpunit9
+%global phpunit %{_bindir}/phpunit9
+%else
 BuildRequires:  phpunit8
+%global phpunit %{_bindir}/phpunit8
+%endif
+BuildRequires: (php-composer(mockery/mockery) >= 1.3.2 with php-composer(mockery/mockery) <  2)
 # From phpcompatinfo report for 5.0.0
 BuildRequires:  php-reflection
 BuildRequires:  php-pcre
@@ -48,16 +53,16 @@ BuildRequires:  php-spl
 %endif
 
 # From composer.json, require
-#        "php": "^7.2",
-#        "phpdocumentor/type-resolver": "^1.0",
-#        "webmozart/assert": "^1",
-#        "phpdocumentor/reflection-common": "^2.0",
-#        "ext-filter": "^7.1"
+#        "php": "^7.2 || ^8.0",
+#        "phpdocumentor/type-resolver": "^1.3",
+#        "webmozart/assert": "^1.9.1",
+#        "phpdocumentor/reflection-common": "^2.2",
+#        "ext-filter": "*"
 Requires:       php(language) >= 7.2
 Requires:       php-filter
-Requires:      (php-composer(phpdocumentor/type-resolver)     >= 1.0   with php-composer(phpdocumentor/type-resolver)     < 2)
-Requires:      (php-composer(webmozart/assert)                >= 1.0   with php-composer(webmozart/assert)                < 2)
-Requires:      (php-composer(phpdocumentor/reflection-common) >= 2.0   with php-composer(phpdocumentor/reflection-common) < 3)
+Requires:      (php-composer(phpdocumentor/type-resolver)     >= 1.3   with php-composer(phpdocumentor/type-resolver)     < 2)
+Requires:      (php-composer(webmozart/assert)                >= 1.9.1 with php-composer(webmozart/assert)                < 2)
+Requires:      (php-composer(phpdocumentor/reflection-common) >= 2.2   with php-composer(phpdocumentor/reflection-common) < 3)
 # From phpcompatinfo report for 4.3.2
 Requires:       php-reflection
 Requires:       php-pcre
@@ -85,7 +90,8 @@ sed 's#vendor/mockery/mockery/library/Mockery#%{_datadir}/php/Mockery1#' phpunit
     > phpunit.xml
 
 # single directory tree
-mv src/*php src/DocBlock/
+mv src/*php      src/DocBlock/
+mv src/Exception src/DocBlock/
 
 
 %build
@@ -110,7 +116,7 @@ cp -pr src/DocBlock %{buildroot}%{_datadir}/php/phpDocumentor/Reflection/DocBloc
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 sed -e '/autoload.php/d' -i examples/*.php examples/*/*.php
 
 phpab \
@@ -127,10 +133,11 @@ cat <<BOOTSTRAP | tee -a bootstrap.php
 BOOTSTRAP
 
 RETURN_CODE=0
-for PHP_EXEC in php php72 php73 php74; do
+for PHP_EXEC in "php %{phpunit}" "php72 %{_bindir}/phpunit8" php73 php74 php80; do
     if which $PHP_EXEC; then
-        $PHP_EXEC -d auto_prepend_file=$PWD/bootstrap.php \
-            %{_bindir}/phpunit8 \
+        set $PHP_EXEC
+        $1 -d auto_prepend_file=$PWD/bootstrap.php \
+            ${2:-%{_bindir}/phpunit9} \
                 --bootstrap bootstrap.php \
                 --verbose || RETURN_CODE=1
     fi
@@ -150,6 +157,23 @@ exit $RETURN_CODE
 
 
 %changelog
+* Fri Sep 18 2020 Remi Collet <remi@remirepo.net> - 5.2.2-1
+- update to 5.2.2
+
+* Mon Aug 17 2020 Remi Collet <remi@remirepo.net> - 5.2.1-1
+- update to 5.2.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Remi Collet <remi@remirepo.net> - 5.2.0-1
+- update to 5.2.0
+- raise dependency on phpdocumentor/type-resolver 1.3
+- raise dependency on webmozart/assert 1.9.1
+- raise dependency on phpdocumentor/reflection-common 2.2
+- raise build dependency on mockery/mockery 1.3.2
+- switch to phpunit9
+
 * Wed Feb 26 2020 Remi Collet <remi@remirepo.net> - 5.1.0-1
 - update to 5.1.0
 - drop unneeded hack as our PR was merged upstream

@@ -152,8 +152,8 @@ fi                                          \
 
 
 Name:           libxcrypt
-Version:        4.4.16
-Release:        4%{?dist}
+Version:        4.4.17
+Release:        1%{?dist}
 Summary:        Extended crypt library for descrypt, md5crypt, bcrypt, and others
 
 # For explicit license breakdown, see the
@@ -165,6 +165,7 @@ Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 # Patch 0000 - 2999: Backported patches from upstream.
 
 # Patch 3000 - 5999: Backported patches from pull requests.
+Patch3000:      libxcrypt-4.4.17-enable_LTO_build.patch
 
 # Patch 6000 - 9999: Downstream patches.
 
@@ -482,6 +483,20 @@ done
 
 
 %changelog
+* Sun Aug 23 2020 Björn Esser <besser82@fedoraproject.org> - 4.4.17-1
+- New upstream release
+
+* Sat Aug 15 2020 Björn Esser <besser82@fedoraproject.org> - 4.4.16-7
+- Add a patch to add support for LTO builds
+- Enable LTO
+- Add a patch to fix Wformat-overflow
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.16-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 4.4.16-5
+- Disable LTO
+
 * Fri Jun 19 2020 Björn Esser <besser82@fedoraproject.org> - 4.4.16-4
 - Trim %%changelog starting with v4.4.0
 - Remove memcheck conditional

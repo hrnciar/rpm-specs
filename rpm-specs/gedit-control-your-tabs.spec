@@ -3,7 +3,7 @@
 
 Name:           gedit-control-your-tabs
 Version:        0.3.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Gedit plugin to switch between document tabs using
 
 License:        GPLv3+
@@ -60,6 +60,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 13 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.3.3-1
 - Update to 0.3.3
 

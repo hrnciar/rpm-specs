@@ -1,6 +1,9 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 Name:           abseil-cpp
 Version:        20200225.2
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        C++ Common Libraries
 
 License:        ASL 2.0
@@ -37,12 +40,12 @@ Development headers for %{name}
 
 
 %build
-%cmake . -DCMAKE_BUILD_TYPE=RelWithDebInfo
-%make_build
+%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %files
@@ -55,6 +58,13 @@ Development headers for %{name}
 %{_libdir}/cmake/absl
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200225.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200225.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 27 2020 Rich Mattes <richmattes@gmail.com> - 20200225.2-2
 - Don't remove buildroot in install
 

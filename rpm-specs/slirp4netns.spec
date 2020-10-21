@@ -1,5 +1,5 @@
 %global git0 https://github.com/rootless-containers/%{name}
-%global commit0 99e1516d2b8c9187740082a0f975a87cd6a981b4
+%global commit0 676792204708ce10c7553000dcf293a79db6277a
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 # Used for comparing with latest upstream tag
@@ -7,8 +7,8 @@
 %global built_tag v1.0.0
 
 Name: slirp4netns
-Version: 1.1.1
-Release: 5.dev.git%{shortcommit0}%{?dist}
+Version: 1.1.4
+Release: 7.dev.git%{shortcommit0}%{?dist}
 # no go-md2man in ppc64
 ExcludeArch: ppc64
 Summary: slirp for network namespaces
@@ -63,6 +63,39 @@ make DESTDIR=%{buildroot} install install-man
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Sat Oct  3 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.4-7.dev.git6767922
+- autobuilt 6767922
+
+* Tue Sep 29 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 1.1.4-6.dev.giteecccdb
+- bump release tag
+
+* Tue Sep 29 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 1.1.4-5.dev.giteecccdb
+- bump release tag
+
+* Tue Aug 04 08:10:13 GMT 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.4-4.dev.giteecccdb
+- autobuilt eecccdb
+
+* Tue Jul 28 06:09:58 GMT 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.4-3.dev.git6d002ad
+- autobuilt 6d002ad
+
+* Mon Jul 13 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.4-2.dev.git4c6befe
+- bump to 1.1.4
+- autobuilt 4c6befe
+
+* Thu Jul 09 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.3-2.dev.git23ce219
+- bump to 1.1.3
+- autobuilt 23ce219
+
+* Tue Jul 07 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.2-3.dev.git8bf8338
+- autobuilt 8bf8338
+
+* Mon Jul 06 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.2-2.dev.git4a30e56
+- bump to 1.1.2
+- autobuilt 4a30e56
+
+* Fri Jul 03 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.1-6.dev.gitdd4af4f
+- autobuilt dd4af4f
+
 * Sun Jun 14 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 1.1.1-5.dev.git99e1516
 - autobuilt 99e1516
 

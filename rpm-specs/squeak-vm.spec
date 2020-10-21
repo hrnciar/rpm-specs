@@ -8,7 +8,7 @@
 
 Name:           squeak-vm
 Version:        %{vmver}
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        The Squeak virtual machine
 
 License:        MIT
@@ -26,7 +26,7 @@ Patch4:         squeak-vm-4.10.2-format-security.patch
 Provides:       %{name}-nonXOplugins = %{version}-%{release}
 Obsoletes:      %{name}-nonXOplugins < 4.10.2.2614-1
 
-Requires:       xorg-x11-apps
+Requires:       xmessage
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -149,6 +149,9 @@ install -m0755 %{SOURCE1} %{buildroot}%{_bindir}/inisqueak
 %{_datadir}/icons/gnome/*/mimetypes/*.png
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 4.10.2.2614-24
+- Require xmessage not xorg-x11-apps
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.10.2.2614-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

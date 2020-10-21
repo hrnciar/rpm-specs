@@ -1,6 +1,6 @@
 Name:           dnsmap
 Version:        0.30
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Sub-domains bruteforcer
 
 License:        GPLv2+
@@ -28,6 +28,9 @@ make install DESTDIR=%{buildroot} BINDIR="%{_bindir}"
 %{_bindir}/dnsmap*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.30-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.30-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

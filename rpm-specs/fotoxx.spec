@@ -1,5 +1,5 @@
 Name:    fotoxx
-Version: 20.14
+Version: 20.18
 Release: 1%{?dist}
 Summary: Photo editor
 
@@ -76,6 +76,21 @@ rm %{buildroot}/%{_docdir}/%{name}/changelog.gz
 %{_datadir}/appdata/
 
 %changelog
+* Mon Sep 21 2020 Gwyn Ciesla <gwync@protonmail.com> - 20.18-1
+- 20.18
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.17-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Gwyn Ciesla <gwync@protonmail.com> - 20.17-1
+- 20.17
+
+* Mon Jul 06 2020 Gwyn Ciesla <gwync@protonmail.com> - 20.16-1
+- 20.16
+
+* Fri Jul 03 2020 Gwyn Ciesla <gwync@protonmail.com> - 20.15-1
+- 20.15
+
 * Tue Jun 16 2020 Gwyn Ciesla <gwync@protonmail.com> - 20.14-1
 - 20.14
 

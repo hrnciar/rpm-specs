@@ -1,10 +1,11 @@
 Name:           fakechroot
 Version:        2.20.1
-Release:        4%{?dist}
+Release:        7%{?dist}
 Summary:        Gives a fake chroot environment
 License:        LGPLv2+
 URL:            https://github.com/dex4er/fakechroot
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+Patch1:         https://github.com/dex4er/fakechroot/commit/b42d1fb9538f680af2f31e864c555414ccba842a.patch
 
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 BuildRequires:  autoconf
@@ -13,7 +14,7 @@ BuildRequires:  libtool
 BuildRequires:  gcc
 # Required for manpage
 BuildRequires:  /usr/bin/pod2man
-BuildRequires:  perl-generators
+BuildRequires:  gdbm-libs
 # ldd.fakechroot
 Requires:       /usr/bin/objdump
 
@@ -34,6 +35,8 @@ This package contains the libraries required by %{name}.
 %autosetup -p1
 # For %%doc dependency-clean.
 chmod -x scripts/{relocatesymlinks,restoremode,savemode}.sh
+
+#rm test/t/escape-nested-chroot.t
 
 %build
 autoreconf -vfi
@@ -72,6 +75,17 @@ find %{buildroot}%{_libdir} -name '*.la' -delete -print
 %{_libdir}/%{name}/
 
 %changelog
+* Sat Aug 29 2020 Sérgio Basto <sergio@serjux.com> - 2.20.1-7
+- Use upstream fix for t/escape-nested-chroot.t
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.20.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+- Disable escape-nested-chroot test temporarily
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.20.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 12 2020 Sérgio Basto <sergio@serjux.com> - 2.20.1-4
 - Use if "%{_libdir}" == "/usr/lib64" instead %if 0%{__isa_bits} == 64
 

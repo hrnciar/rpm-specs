@@ -4,7 +4,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 2.0.8.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Ruby-based web application framework
 License: MIT
 URL: http://sinatrarb.com/
@@ -105,6 +105,9 @@ popd
 %{gem_instdir}/sinatra.gemspec
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.0.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 29 2020 Vít Ondruch <vondruch@redhat.com> - 1:2.0.8.1-1
 - Update to Sinatra 2.0.8.1.
   Resolves: rhbz#1744278

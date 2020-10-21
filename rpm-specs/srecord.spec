@@ -1,6 +1,6 @@
 Name:		srecord
 Version:	1.64
-Release:	18%{?dist}
+Release:	19%{?dist}
 Summary:	Manipulate EPROM load files
 License:	GPLv3+ and LGPLv3+
 URL:		http://srecord.sourceforge.net/
@@ -79,6 +79,9 @@ make sure
 %{_libdir}/pkgconfig/srecord.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.64-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.64-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

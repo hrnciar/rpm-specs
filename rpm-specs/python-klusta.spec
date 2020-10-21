@@ -3,7 +3,7 @@
 
 Name:       python-%{srcname}
 Version:    3.0.16
-Release:    13%{?dist}
+Release:    15%{?dist}
 Summary:    %{sum}
 
 License:    BSD
@@ -31,6 +31,7 @@ graph formed by the recording sites in the probe.
 Summary:        %{sum}
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist numpy six pytest h5py scipy tqdm responses click mock}
+BuildRequires:  %{py3_dist setuptools}
 Requires:       %{py3_dist numpy scipy six h5py tqdm click}
 %{?python_provide:%python_provide python3-%{srcname}}
 
@@ -71,6 +72,12 @@ rm -fr *egg-info
 %{_bindir}/%{srcname}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.16-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.0.16-14
+- Explicitly BR setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.16-13
 - Rebuilt for Python 3.9
 

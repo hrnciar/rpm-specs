@@ -6,8 +6,8 @@
 #Dolphin now uses gitsnapshots for it's versions.
 #See upstream release notes for this snapshot:
 #https://dolphin-emu.org/download/dev/$commit
-%global commit 8d4e8314a3dcd8680ae81d91fb7e076b4496b43b
-%global snapnumber 11991
+%global commit 31524288e3b2450eaefff8202c6d26c4ba3f7333
+%global snapnumber 12716
 
 Name:           dolphin-emu
 Version:        5.0.%{snapnumber}
@@ -34,19 +34,24 @@ Source1:        %{name}.appdata.xml
 Patch1:         0001-Use-system-headers-for-Vulkan.patch
 #Update soundtouch:
 #https://github.com/dolphin-emu/dolphin/pull/8725
-Patch2:         0001-soundtounch-update-to-2.1.2.patch
-Patch3:         0002-soundtouch-Use-shorts-instead-of-floats-for-samples.patch
-Patch4:         0003-soundtounch-disable-exceptions.patch
+Patch2:         0002-soundtounch-update-to-2.1.2.patch
+Patch3:         0003-soundtouch-Use-shorts-instead-of-floats-for-samples.patch
+Patch4:         0004-soundtounch-disable-exceptions.patch
 #This needs to be fixed, I've reverted the patch that breaks minizip
-Patch5:         0001-Revert-Externals-Update-minizip-search-path.patch
+Patch5:         0005-Revert-Externals-Update-minizip-search-path.patch
 
 ##Bundled code ahoy
 #The following isn't in Fedora yet:
 Provides:       bundled(FreeSurround)
 Provides:       bundled(imgui) = 1.70
 Provides:       bundled(cpp-argparse)
+#Is this technically bundled code? Adding this just in case:
+#https://github.com/AdmiralCurtiss/rangeset
+Provides:       bundled(rangeset)
 #soundtouch cannot be unbundled easily, as it requires compile time changes:
 Provides:       bundled(soundtouch) = 2.1.2
+#dolphin uses tests not included in upstream gtest (possibly unbundle later):
+Provides:       bundled(gtest) = 1.9.0
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -68,6 +73,7 @@ BuildRequires:  libpng-devel
 BuildRequires:  libusb-devel
 BuildRequires:  libXi-devel
 BuildRequires:  libXrandr-devel
+BuildRequires:  libzstd-devel
 BuildRequires:  lzo-devel
 BuildRequires:  mbedtls-devel
 BuildRequires:  mesa-libGL-devel
@@ -85,6 +91,7 @@ BuildRequires:  spirv-tools
 BuildRequires:  spirv-tools-devel
 BuildRequires:  systemd-devel
 BuildRequires:  qt5-qtbase-devel
+BuildRequires:  qt5-qtbase-private-devel
 BuildRequires:  vulkan-headers
 BuildRequires:  xxhash-devel
 BuildRequires:  zlib-devel
@@ -136,10 +143,22 @@ sed -i '/CMAKE_C.*_FLAGS/d' CMakeLists.txt
 echo "%{_datadir}/%{name}/Sys/GC:" > font-licenses.txt
 cat Data/Sys/GC/font-licenses.txt >> font-licenses.txt
 
+#Fix for newer vulkan/glslang
+%if 0%{?fedora} > 32
+sed -i "s/VK_PRESENT_MODE_RANGE_SIZE_KHR/(VkPresentModeKHR)("`
+    `"VK_PRESENT_MODE_FIFO_RELAXED_KHR - VK_PRESENT_MODE_IMMEDIATE_KHR + 1)/" \
+    Source/Core/VideoBackends/Vulkan/SwapChain.h
+sed -i "/maxMeshViewCountNV/ a /* .maxDualSourceDrawBuffersEXT = */ 1," \
+    Source/Core/VideoBackends/Vulkan/ShaderCompiler.cpp
+sed -i -e "/OSDependent/ a MachineIndependent" \
+    -e "/OSDependent/ a GenericCodeGen" -e "/HLSL/d" \
+    Source/Core/VideoBackends/Vulkan/CMakeLists.txt
+%endif
+
 ###Remove Bundled:
 cd Externals
 #Keep what we need...
-rm -rf `ls | grep -v 'Bochs' | grep -v 'FreeSurround' | grep -v 'imgui' | grep -v 'cpp-optparse' | grep -v 'soundtouch' | grep -v 'picojson'`
+rm -rf `ls | grep -v 'Bochs' | grep -v 'FreeSurround' | grep -v 'imgui' | grep -v 'cpp-optparse' | grep -v 'soundtouch' | grep -v 'picojson' | grep -v 'gtest' | grep -v 'rangeset'`
 #Remove Bundled Bochs source and replace with links (for x86 only):
 %ifarch x86_64
 pushd Bochs_disasm
@@ -147,6 +166,8 @@ rm -rf `ls | grep -v 'stdafx' | grep -v 'CMakeLists.txt'`
 ln -s %{_includedir}/bochs/* ./
 ln -s %{_includedir}/bochs/disasm/* ./
 popd
+#FIXME: This test fails because we unbundle bochs
+sed -i "/x64EmitterTest/d" ../Source/UnitTests/Common/CMakeLists.txt
 %else
 rm -rf Bochs_disasm
 %endif
@@ -160,20 +181,21 @@ popd
 %build
 #Script to find xxhash is not implemented, just tell cmake it was found
 #Note some items are disabled to avoid bundling
+#Set APPROVED_VENDORED_DEPENDENCIES to nothing to safe guard against bundling
 %cmake . \
+       -DAPPROVED_VENDORED_DEPENDENCIES=";" \
        -DXXHASH_FOUND=ON \
        -DUSE_SHARED_ENET=ON \
-       -DENABLE_TESTS=OFF \
        -DENABLE_ANALYTICS=OFF \
        -DENCODE_FRAMEDUMPS=OFF \
        -DUSE_DISCORD_PRESENCE=OFF \
        -DDOLPHIN_WC_DESCRIBE=5.0-%{snapnumber} \
        -DDOLPHIN_WC_REVISION=%{commit} \
        -DDOLPHIN_WC_BRANCH="beta"
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 #Install udev rules
 mkdir -p %{buildroot}%{_udevrulesdir}
@@ -196,6 +218,7 @@ install -p -D -m 0644 %{SOURCE1} \
 %find_lang %{name}
 
 %check
+%cmake_build --target unittests
 desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 appstream-util validate-relax --nonet \
   %{buildroot}/%{_datadir}/appdata/*.appdata.xml
@@ -231,6 +254,19 @@ appstream-util validate-relax --nonet \
 %{_udevrulesdir}/51-dolphin-usb-device.rules
 
 %changelog
+* Mon Oct 05 2020 Jeremy Newton <alexjnewt at hotmail dot com> - 5.0.12716-1
+- Update to latest beta version
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.12247-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.12247-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Jeremy Newton <alexjnewt at hotmail dot com> - 5.0.12247-1
+- Update to latest beta version
+
 * Tue May 05 2020 Jeremy Newton <alexjnewt at hotmail dot com> - 5.0.11991-1
 - Update to latest beta version
 

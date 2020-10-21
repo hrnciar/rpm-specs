@@ -1,6 +1,6 @@
 Name:           perl-Authen-Captcha
 Version:        1.024
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Perl extension for creating captchas
 License:        GPLv2
 
@@ -62,6 +62,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.024-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.024-19
 - Perl 5.32 rebuild
 

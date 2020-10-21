@@ -1,10 +1,9 @@
-
 # trim changelog included in binary rpms
 %global _changelog_trimtime %(date +%s -d "1 year ago")
 
 Name:           ktorrent
-Version:        5.1.2
-Release:        2%{?dist}
+Version:        5.2.0
+Release:        5%{?dist}
 Summary:        A BitTorrent program
 
 License:        GPLv2+
@@ -20,6 +19,7 @@ URL:            https://www.kde.org/applications/internet/ktorrent/
 Source0: http://download.kde.org/%{stable}/ktorrent/%{version}/%{name}-%{version}.tar.xz
 
 ## upstream patches
+Patch16: 0016-Update-FindTaglib-from-ECM.patch
 
 ## upstreamable patches
 
@@ -60,10 +60,13 @@ BuildRequires: cmake(KF5ItemViews)
 BuildRequires: cmake(KF5Kross)
 BuildRequires: cmake(KF5Plotting)
 BuildRequires: cmake(KF5TextWidgets)
-BuildRequires: cmake(KF5WebKit)
 
 BuildRequires: cmake(KF5Syndication)
 BuildRequires: cmake(LibKWorkspace)
+
+%ifarch %{qt5_qtwebengine_arches}
+BuildRequires: cmake(Qt5WebEngineWidgets)
+%endif
 
 BuildRequires: cmake(KF5Torrent) >= 2.%{minmic}
 BuildRequires: kf5-libktorrent-devel >= 2.%{minmic}
@@ -100,17 +103,14 @@ Requires: %{name}-libs%{?_isa} = %{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%cmake_kf5 \
   -DWITH_SYSTEM_GEOIP:BOOL=ON
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --with-html
 
@@ -141,6 +141,22 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.ktorrent.
 
 
 %changelog
+* Fri Oct 02 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.2.0-5
+- pull in upstream build fix (taglib)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.2.0-2
+- BR: Qt5WebEngineWidgets
+
+* Wed Jul 01 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.2.0-1
+- 5.2.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 
 Name:           grive2
 Version:        0.5.1
-Release:        4%{?dist}
+Release:        7%{?dist}
 #Release:        22.%%{commit_date}git%%{shortcommit}%%{?dist}
 Summary:        Google Drive client
 
@@ -33,11 +33,11 @@ REST API to talk to Google Drive service.
 %setup -q
 
 %build
-%cmake .
-make %{?_smp_mflags}
+%cmake3 .
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 mkdir -p %{buildroot}%{_libdir}/%{name}/
 mv %{buildroot}/usr/lib/grive/grive-sync.sh %{buildroot}%{_libdir}/%{name}/
 sed -i 's|/usr/lib/grive/grive-sync.sh|%{_libdir}/%{name}/grive-sync.sh|g'  %{buildroot}%{_userunitdir}/grive-changes@.service
@@ -59,6 +59,16 @@ sed -i 's|/usr/lib/grive/grive-sync.sh|%{_libdir}/%{name}/grive-sync.sh|g'  %{bu
 %{_libdir}/%{name}
 
 %changelog
+* Tue Aug 11 2020 Zamir SUN <sztsian@gmail.com> - 0.5.1-7
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 0.5.1-4
 - Rebuilt for Boost 1.73
 

@@ -1,12 +1,13 @@
 Name:           squeekboard
-Version:        1.9.2
+Version:        1.9.3
 Release:        1%{?dist}
 Summary:        a Wayland virtual keyboard
 
 License:        GPLv3+
 URL:            https://source.puri.sm/Librem5/squeekboard
-Source0:        https://source.puri.sm/Librem5/squeekboard/-/archive/v%{version}/squeekboard-v%{version}.tar.gz
+Source0:        https://source.puri.sm/Librem5/squeekboard/-/archive/v%{version}/%{name}-v%{version}.tar.gz
 Source1:        squeekboard.desktop
+Source2:	Cargo.toml
 
 # temporary until upstreamed
 Patch0:         0002-use-latest-compatible-crates.patch
@@ -18,6 +19,7 @@ ExcludeArch:    ppc64le
 
 BuildRequires:  gcc
 BuildRequires:  meson
+BuildRequires:	cmake
 BuildRequires:  rust-packaging
 BuildRequires:  pkgconfig(gio-2.0) >= 2.26
 BuildRequires:  pkgconfig(gio-unix-2.0)
@@ -26,6 +28,7 @@ BuildRequires:  pkgconfig(gtk+-3.0) >= 3.0
 BuildRequires:  pkgconfig(wayland-client) >= 1.14
 BuildRequires:  pkgconfig(xkbcommon)
 BuildRequires:  pkgconfig(wayland-protocols) >= 1.12
+BuildRequires:  pkgconfig(libfeedback-0.0)
 BuildRequires:  desktop-file-utils
 
 %description
@@ -34,10 +37,11 @@ for the Librem 5 phone. It squeaks because some Rust got inside.
 
 
 %prep
-%autosetup -p1 -n squeekboard-v%{version}
+%autosetup -p1 -n %{name}-v%{version}
 %cargo_prep
 
-
+# We need the old Cargo.toml for the rust build to work
+cp %{SOURCE2} .
 %generate_buildrequires
 %cargo_generate_buildrequires -a
 
@@ -70,6 +74,15 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/sm.puri.Squeekboard.
 
 
 %changelog
+* Sun Aug 09 2020 Torrey Sorensen <sorensentor@tuta.io> - 1.9.3-1
+- Update to 1.9.3 including new dependencies and new patch file and Cargo.toml
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Josh Stone <jistone@redhat.com> - 1.9.2-2
+- Bump to cairo 0.9 and gtk 0.9
+
 * Fri Jun 19 2020 Torrey Sorensen <sorensentor@tuta.io> - 1.9.2-1
 - Update to 1.9.2, including updated patch file.
 - Remove unused libcroco

@@ -8,7 +8,7 @@ characters, and many other things.}
 
 Name:           ptpython
 Version:        3.0.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Python REPL build on top of prompt_toolkit
 License:        BSD
 URL:            https://github.com/prompt-toolkit/ptpython
@@ -60,6 +60,9 @@ find -name \*.py | xargs sed -i -e '1 {/^#!\//d}'
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.2-2
 - Rebuilt for Python 3.9
 

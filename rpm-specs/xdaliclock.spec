@@ -1,7 +1,7 @@
 Summary: A clock for the X Window System
 Name: xdaliclock
 Version: 2.43
-Release: 10%{?dist}
+Release: 11%{?dist}
 License: BSD
 URL: http://www.jwz.org/xdaliclock/
 Source0: http://www.jwz.org/xdaliclock/xdaliclock-%{version}.tar.gz
@@ -57,6 +57,9 @@ desktop-file-install  \
 %{_datadir}/applications/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.43-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.43-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

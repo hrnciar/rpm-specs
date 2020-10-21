@@ -3,7 +3,7 @@
 
 Name:           procdump
 Version:        1.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Sysinternals process dump utility
 
 License:        MIT
@@ -49,6 +49,9 @@ other scripts.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 04 2020 Matěj Grabovský <mgrabovs@redhat.com> - 1.1.1-1
 - Added -T thread count trigger and -F file descriptor count trigger
 

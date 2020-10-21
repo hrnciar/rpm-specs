@@ -17,8 +17,8 @@
 %endif
 
 Name:       pl
-Version:    8.2.0
-Release:    2%{?dist}
+Version:    8.2.1
+Release:    4%{?dist}
 Summary:    SWI-Prolog - Edinburgh compatible Prolog compiler
 #LICENSE:                               BSD
 #library/qsave.pl                       BSD
@@ -75,7 +75,7 @@ Summary:    SWI-Prolog - Edinburgh compatible Prolog compiler
 #bench/simple_analyzer.pl               Free for non-commercial
 #man/txt/dvi2tty/dvi2tty.c              Free for non-commercial
 License:    (GPLv2+ with exceptions or Artistic 2.0) and (GPL+ or Artistic) and (BSD or GPL+) and TCL and UCD and MIT and BSD and Public Domain
-URL:        http://www.swi-prolog.org/
+URL:        https://www.swi-prolog.org/
 # Source0: %%{url}download/stable/src/swipl-%%{version}.tar.gz
 # To create the repackaged archive, use ./repackage.sh %%{version}
 Source0:    swipl-%{version}_repackaged.tar.gz
@@ -85,9 +85,11 @@ Source3:    repackage.sh
 # Upstream installation paths differ from distribution ones
 Patch0:     swipl-8.2.0-Remove-files-locations-from-swipl-1-manual.patch
 # Use JNI for Java binding
-Patch1:     swipl-8.2.0-Fix-JNI.patch
+Patch1:     swipl-8.2.1-Fix-JNI.patch
 # Unbundle libstemmer
 Patch2:     swipl-8.2.0-unbundle-libstemmer.patch
+# Fix a bad BibTeX entry
+Patch3:     swipl-8.2.1-bad-bibtex-entry.patch
 BuildRequires:  cmake
 BuildRequires:  findutils
 BuildRequires:  gcc-c++
@@ -259,6 +261,7 @@ in Prolog. In both setups it provides a re-entrant bidirectional interface.
 %patch0 -p1 -b .man-files
 %patch1 -p1 -b .jni
 %patch2 -p1 -b .libstemmer
+%patch3 -p1 -b .bibtex
 
 # Fix the installation path on 64-bit systems
 if [ "%{_lib}" = "lib64" ]; then
@@ -280,7 +283,7 @@ cp -p %{SOURCE2} .
 
 # Adjustments to take into account the new location of JNI stuff
 sed --in-place=.jni2 -e 's#LIBDIR#%{_libdir}#g' packages/jpl/jpl.pl
-sed --in-place=.jni2 -e 's#LIBDIR#"%{_libdir}/swipl-jpl"#g' packages/jpl/src/java/org/jpl7/JPL.java
+sed --in-place=.jni2 -e 's#LIBDIR#"%{_libdir}/swipl-jpl"#g' packages/jpl/src/main/java/org/jpl7/JPL.java
 
 # Find junit.jar
 sed --in-place 's,\(%{_datadir}/java/junit\)4\.jar,\1.jar,' \
@@ -290,9 +293,6 @@ sed --in-place 's,\(%{_datadir}/java/junit\)4\.jar,\1.jar,' \
 # to install paths that don't exist yet; then switch before installing.
 mv packages/jpl/jpl.pl packages/jpl/jpl.pl.install
 mv packages/jpl/jpl.pl.jni packages/jpl/jpl.pl
-
-# Remove executable bits from documentation
-chmod 0644 packages/jpl/examples/java/runall.sh
 
 # Remove CVS files
 find . -name ".cvsignore" -delete
@@ -315,37 +315,34 @@ export DISABLE_PKGS="jpl"
 %endif
 
 # Build
-mkdir build
-cd build
 %cmake \
   -DBUILD_PDF_DOCUMENTATION:BOOL=ON \
   -DCPACK_GENERATOR:STRING=RPM \
   -DGET0SIG_CONST_T:STRING=const \
   -DJQUERYDIR:STRING=%{_datadir}/javascript/jquery/latest \
   -DSWIPL_VERSIONED_DIR:BOOL=ON \
-  -G Ninja ..
-ninja
+  -G Ninja .
+%cmake_build
 
 # Switch back before installing; see above
-cp -p ../packages/jpl/jpl.pl.install home/library/jpl.pl
+mv packages/jpl/jpl.pl.install packages/jpl/jpl.pl
 
 
 %install
-cd build
 # See <http://www.swi-prolog.org/build/guidelines.html> for file layout
-DESTDIR=%{buildroot} ninja install
+%cmake_install
 
 # Script with shebang should be executable
 chmod 0755 %{buildroot}%{_libdir}/swipl-%{version}/library/dialect/sicstus/swipl-lfr.pl
 chmod 0755 %{buildroot}%{_libdir}/swipl-%{version}/customize/edit
 
 # Some XPCE files do not get installed
-cp -p ../packages/xpce/man/*.1 %{buildroot}%{_mandir}/man1
+cp -p packages/xpce/man/*.1 %{buildroot}%{_mandir}/man1
 
 %if %{with_java}
 # Move the JPL JNI stuff to where the Java packaging guidelines 
 # say it should be
-jpl_ver=$(sed -n 's/.*JPL_VERSION \([.[:digit:]]*\).*/\1/p' ../packages/jpl/CMakeLists.txt)
+jpl_ver=$(sed -n 's/.*JPL_VERSION \([.[:digit:]]*\).*/\1/p' packages/jpl/CMakeLists.txt)
 
 pushd %{buildroot}%{_libdir}
 mkdir -p swipl-jpl
@@ -466,7 +463,7 @@ rm %{buildroot}%{_libdir}/swipl-%{version}/customize/README.md
 
 %files doc
 %{_libdir}/swipl-%{version}/doc/
-%doc build/man/SWI-Prolog-%{version}.pdf
+%doc %{__cmake_builddir}/man/SWI-Prolog-%{version}.pdf
 %doc %{docdir}-xpce/*
 
 %files odbc
@@ -477,7 +474,6 @@ rm %{buildroot}%{_libdir}/swipl-%{version}/customize/README.md
 %if %{with_java}
 %files jpl
 %doc packages/jpl/docs/*
-%doc packages/jpl/examples
 %{_libdir}/swipl-%{version}/lib/jpl*jar
 %{_libdir}/swipl-%{version}/lib/%{swipl_arch}/libjpl.so
 %{_libdir}/swipl-%{version}/library/jpl.pl
@@ -486,6 +482,19 @@ rm %{buildroot}%{_libdir}/swipl-%{version}/customize/README.md
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Jerry James <loganjerry@gmail.com> - 8.2.1-3
+- Update for cmake changes in Rawhide
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 8.2.1-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Mon Jun 29 2020 Jerry James <loganjerry@gmail.com> - 8.2.1-1
+- 8.2.1 bump
+- Add -bad-bibtex-entry patch
+
 * Tue Jun 16 2020 Jerry James <loganjerry@gmail.com> - 8.2.0-2
 - Fix broken symlinks in the jpl subpackage (bz 1847510)
 

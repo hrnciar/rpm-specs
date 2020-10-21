@@ -4,7 +4,7 @@
 
 Name:		erlang-riak_client
 Version:	2.5.3
-Release:	9%{?dist}
+Release:	11%{?dist}
 BuildArch:	noarch
 Summary:	Erlang client for Riak
 License:	ASL 2.0
@@ -48,6 +48,13 @@ rm -f edoc/edoc-info
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.3-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.3-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.3-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

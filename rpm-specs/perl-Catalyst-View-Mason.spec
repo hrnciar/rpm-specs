@@ -1,6 +1,6 @@
 Name:           perl-Catalyst-View-Mason
 Version:        0.19
-Release:        17%{?dist}
+Release:        19%{?dist}
 Summary:        Mason View Class
 License:        GPL+ or Artistic
 
@@ -52,6 +52,12 @@ make test
 %{_mandir}/man3/Catalyst*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.19-18
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           rpmspectool
 Version:        1.99.7
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Utility for handling RPM spec files
 
 License:        GPLv3+
@@ -34,6 +34,9 @@ RPM spec files.
 %{_datadir}/bash-completion/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.99.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.99.7-2
 - Rebuilt for Python 3.9
 

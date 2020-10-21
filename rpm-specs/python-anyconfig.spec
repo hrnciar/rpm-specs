@@ -18,7 +18,7 @@ contents merge, templates, query, schema validation and generation support.
 
 Name:           python-%{pkgname}
 Version:        0.9.9
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Python library to load and dump configuration files in various formats
 License:        MIT
 URL:            https://github.com/ssato/python-anyconfig
@@ -99,6 +99,9 @@ export WITH_PYTHON_3=1
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.9-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.9-3
 - Rebuilt for Python 3.9
 

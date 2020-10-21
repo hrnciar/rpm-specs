@@ -1,6 +1,6 @@
 Name:           flwkey
 Version:        1.2.3
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Modem program for the K1EL Winkeyer series
 
 License:        GPLv3+ and MIT
@@ -65,6 +65,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

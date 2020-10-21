@@ -8,10 +8,18 @@
 %bcond_without tests
 %endif
 
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+%global blaslib flexiblas
+%global blasvar %{nil}
+%else
+%global blaslib openblas
+%global blasvar p
+%endif
+
 %global modname numpy
 
 Name:           numpy
-Version:        1.19.0
+Version:        1.19.2
 Release:        1%{?dist}
 Epoch:          1
 Summary:        A fast multidimensional array facility for Python
@@ -20,7 +28,7 @@ Summary:        A fast multidimensional array facility for Python
 License:        BSD and Python and ASL 2.0
 URL:            http://www.numpy.org/
 Source0:        https://github.com/%{name}/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.gz
-Source1:        https://docs.scipy.org/doc/numpy/numpy-html-1.17.0.zip
+Source1:        https://numpy.org/doc/1.19/numpy-html.zip
 
 %description
 NumPy is a general-purpose array-processing package designed to
@@ -42,6 +50,9 @@ License:        BSD
 %{?python_provide:%python_provide python3-numpy}
 Provides:       libnpymath-static = %{epoch}:%{version}-%{release}
 Provides:       libnpymath-static%{?_isa} = %{epoch}:%{version}-%{release}
+Provides:       numpy = %{epoch}:%{version}-%{release}
+Provides:       numpy%{?_isa} = %{epoch}:%{version}-%{release}
+Obsoletes:      numpy < 1:1.10.1-3
 
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
@@ -53,11 +64,7 @@ BuildRequires:  python3-hypothesis
 BuildRequires:  python3-pytest
 BuildRequires:  python3-test
 %endif
-%ifarch %{openblas_arches}
-BuildRequires: openblas-devel
-%else
-BuildRequires: atlas-devel
-%endif
+BuildRequires: %{blaslib}-devel
 
 %description -n python3-numpy
 NumPy is a general-purpose array-processing package designed to
@@ -78,6 +85,9 @@ Requires:       python3-devel
 Provides:       python3-f2py = %{version}-%{release}
 Obsoletes:      python3-f2py <= 2.45.241_1927
 %{?python_provide:%python_provide python3-numpy-f2py}
+Provides:       f2py = %{epoch}:%{version}-%{release}
+Provides:       numpy-f2py = %{epoch}:%{version}-%{release}
+Obsoletes:      numpy-f2py < 1:1.10.1-3
 
 %description -n python3-numpy-f2py
 This package includes a version of f2py that works properly with NumPy.
@@ -97,32 +107,18 @@ This package provides the complete documentation for NumPy.
 # Force re-cythonization (ifed for PKG-INFO presence in setup.py)
 rm PKG-INFO
 
-%ifarch %{openblas_arches}
+# openblas is provided by flexiblas by default; otherwise,
 # Use openblas pthreads as recommended by upstream (see comment in site.cfg.example)
 cat >> site.cfg <<EOF
 [openblas]
-libraries = openblasp
+libraries = %{blaslib}%{blasvar}
 library_dirs = %{_libdir}
 EOF
-%else
-# Atlas 3.10 library names
-%if 0%{?fedora} >= 21 || 0%{?rhel} > 7
-cat >> site.cfg <<EOF
-[atlas]
-library_dirs = %{_libdir}/atlas
-atlas_libs = satlas
-EOF
-%endif
-%endif
 
 %build
 %set_build_flags
 
-%ifarch %{openblas_arches}
 env OPENBLAS=%{_libdir} \
-%else
-env ATLAS=%{_libdir} \
-%endif
     BLAS=%{_libdir} \
     LAPACK=%{_libdir} CFLAGS="%{optflags}" \
     %{__python3} setup.py build
@@ -135,11 +131,7 @@ popd
 
 #%%{__python3} setup.py install -O1 --skip-build --root %%{buildroot}
 # skip-build currently broken, this works around it for now
-%ifarch %{openblas_arches}
 env OPENBLAS=%{_libdir} \
-%else
-env ATLAS=%{_libdir} \
-%endif
     FFTW=%{_libdir} BLAS=%{_libdir} \
     LAPACK=%{_libdir} CFLAGS="%{optflags}" \
     %{__python3} setup.py install --root %{buildroot}
@@ -186,6 +178,7 @@ python3 runtests.py
 %exclude %{python3_sitearch}/%{name}/LICENSE.txt
 %{_includedir}/numpy
 %{python3_sitearch}/%{name}/__init__.pxd
+%{python3_sitearch}/%{name}/__init__.cython-30.pxd
 
 %files -n python3-numpy-f2py
 %{_bindir}/f2py
@@ -199,6 +192,21 @@ python3 runtests.py
 
 
 %changelog
+* Thu Sep 10 2020 Gwyn Ciesla <gwync@protonmail.com> - 1:1.19.2-1
+- 1.19.2
+
+* Sun Aug 16 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1:1.19.1-3
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.19.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Gwyn Ciesla <gwync@protonmail.com> - 1:1.19.1-1
+- 1.19.1
+
+* Thu Jul 16 2020 Gwyn Ciesla <gwync@protonmail.com> - 1:1.19.0-2
+- Assume old-style numpy provides from python2-numpy
+
 * Mon Jun 22 2020 Gwyn Ciesla <gwync@protonmail.com> - 1:1.19.0-1
 - 1.19.0 final.
 

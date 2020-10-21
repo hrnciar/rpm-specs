@@ -1,10 +1,14 @@
 %bcond_without openmpi
 %bcond_without mpich
 
+%if 0%{?fedora} >= 33
+%bcond_without flexiblas
+%endif
+
 Name:       gmsh
 Summary:    A three-dimensional finite element mesh generator
-Version:    4.5.6
-Release:    4%{?dist}
+Version:    4.6.0
+Release:    5%{?dist}
 
 # gmsh is GPLv2+ with exceptions, see LICENSE.txt
 # contrib/{DiscreteIntegration, HighOrderMeshOptimizer, MeshOptimizer, onelab} are MIT, see respective README.txt
@@ -32,7 +36,11 @@ Patch6:     gmsh_unbundle_gl2ps.patch
 
 BuildRequires: alglib-devel
 BuildRequires: ann-devel
-BuildRequires: blas-devel
+%if %{with flexiblas}
+BuildRequires:  flexiblas-devel
+%else
+BuildRequires:  blas-devel, lapack-devel
+%endif
 BuildRequires: cgnslib-devel
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -42,7 +50,6 @@ BuildRequires: gcc-gfortran
 BuildRequires: gmm-devel
 BuildRequires: gmp-devel
 BuildRequires: hdf5-devel
-BuildRequires: lapack-devel
 BuildRequires: libjpeg-turbo-devel
 BuildRequires: liblbfgs-devel
 BuildRequires: libpng-devel
@@ -51,13 +58,19 @@ BuildRequires: mathex-devel
 BuildRequires: med-devel
 BuildRequires: mesa-libGLU-devel
 BuildRequires: metis-devel
-BuildRequires: mmg3d-devel
 BuildRequires: netgen-mesher-devel-private
 BuildRequires: opencascade-devel
 BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 BuildRequires: voro++-devel
 BuildRequires: zlib-devel
 BuildRequires: texinfo
+# For transforming icon
+BuildRequires: ImageMagick
+
+# TODO: Unbundle as soon as gmsh starts bundling a more recent version of mmg3d again
+# BuildRequires: mmg3d-devel
+Provides:      bundled(mmg3d)
 
 Requires:       %{name}-common = %{version}-%{release}
 
@@ -195,6 +208,7 @@ cp contrib/Netgen/nglib_gmsh.h contrib/Netgen/nglib_gmsh.cpp Mesh
 # hxt: see contrib/hxt/CREDITS.txt
 # kbipack: Source not available on the net anymore
 # onelab: gmsh internal module
+# mmg: Currently not unbundleable
 (
 cd contrib;
 ls -1 | \
@@ -206,6 +220,7 @@ ls -1 | \
     grep -v ^hxt$ | \
     grep -v ^kbipack$ | \
     grep -v ^onelab$ | \
+    grep -v ^mmg$ | \
 xargs rm -rf
 )
 
@@ -222,6 +237,7 @@ done
 # blossoms is nonfree, see contrib/blossoms/README.txt
 
 gmsh_cmake_args="\
+    %{?with_flexiblas:-DBLAS_LIBRARIES=-lflexiblas} \
     -DENABLE_SYSTEM_CONTRIB=YES \
     -DENABLE_BUILD_LIB=YES \
     -DENABLE_BUILD_SHARED=YES \
@@ -240,7 +256,7 @@ LDFLAGS="%{__global_ldflags} -Wl,--as-needed" %cmake .. \
     -DENABLE_OPENMP=ON \
     $gmsh_cmake_args
 
-%make_build
+%cmake_build
 popd
 
 ### openmpi version ###
@@ -256,7 +272,7 @@ LDFLAGS="%{__global_ldflags} -Wl,--as-needed" %cmake .. \
     -DCMAKE_INSTALL_INCLUDEDIR=$MPI_INCLUDE \
     $gmsh_cmake_args
 
-%make_build
+%cmake_build
 popd
 %{_openmpi_unload}
 %endif
@@ -274,13 +290,13 @@ LDFLAGS="%{__global_ldflags} -Wl,--as-needed" %cmake .. \
     -DCMAKE_INSTALL_INCLUDEDIR=$MPI_INCLUDE \
     $gmsh_cmake_args
 
-%make_build
+%cmake_build
 popd
 %{_mpich_unload}
 %endif
 
 # Built html documentation
-make -C build-serial html
+make -C build-serial/%{__cmake_builddir} html
 
 # Fix to create correct debuginfo
 cp -a Parser/Gmsh.* build-serial
@@ -294,18 +310,19 @@ cp -a Parser/Gmsh.* build-mpich
 
 %install
 %if %{with openmpi}
-%make_install -C build-openmpi
+(cd build-openmpi && %cmake_install)
 %endif
 %if %{with mpich}
-%make_install -C build-mpich
+(cd build-mpich && %cmake_install)
 %endif
-%make_install -C build-serial
+(cd build-serial && %cmake_install)
 
 # Remove static libraries
 find %{buildroot} -type f -name libgmsh.a -exec rm -f {} \;
 
 # Install icon and .desktop file
-install -Dpm 0644 utils/icons/solid_128x128.png  %{buildroot}%{_datadir}/icons/hicolor/128x128/apps/%{name}.png
+convert -scale 128 utils/icons/gmsh.png icon_128x128.png
+install -Dpm 0644 icon_128x128.png  %{buildroot}%{_datadir}/icons/hicolor/128x128/apps/%{name}.png
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 
 # Install License.txt via %%license
@@ -341,7 +358,7 @@ rm -f %{buildroot}%{_defaultdocdir}/%{name}/LICENSE.txt
 
 %files libs
 %license LICENSE.txt
-%{_libdir}/libgmsh.so.4.5*
+%{_libdir}/libgmsh.so.4.6*
 
 %files -n python3-%{name}
 %{python3_sitelib}/gmsh.py
@@ -359,7 +376,7 @@ rm -f %{buildroot}%{_defaultdocdir}/%{name}/LICENSE.txt
 
 %files openmpi-libs
 %license LICENSE.txt
-%{_libdir}/openmpi/lib/libgmsh.so.4.5*
+%{_libdir}/openmpi/lib/libgmsh.so.4.6*
 %endif
 
 %if %{with mpich}
@@ -374,11 +391,26 @@ rm -f %{buildroot}%{_defaultdocdir}/%{name}/LICENSE.txt
 
 %files mpich-libs
 %license LICENSE.txt
-%{_libdir}/mpich/lib/libgmsh.so.4.5*
+%{_libdir}/mpich/lib/libgmsh.so.4.6*
 %endif
 
 
 %changelog
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 4.6.0-5
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Sat Aug 01 21:40:30 GMT 2020 Sandro Mani <manisandro@gmail.com> - 4.6.0-4
+- Rebuild (med)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 4.6.0-2
+- Use __cmake_in_source_build
+
+* Mon Jul 13 2020 Sandro Mani <manisandro@gmail.com> - 4.6.0-1
+- Update to 4.6.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.5.6-4
 - Rebuilt for Python 3.9
 

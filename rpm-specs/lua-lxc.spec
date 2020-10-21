@@ -1,5 +1,5 @@
 %if 0%{?fedora} || 0%{?rhel} >= 8
-%global luaver 5.3
+%global luaver 5.4
 %else
 %global luaver 5.1
 %endif
@@ -8,7 +8,7 @@
 
 Name:           lua-lxc
 Version:        3.0.2
-Release:        5%{?dist}
+Release:        8%{?dist}
 Summary:        Lua binding for LXC
 License:        LGPLv2+
 URL:            https://linuxcontainers.org/lxc
@@ -51,6 +51,16 @@ The lua-lxc package contains the Lua binding for LXC.
 
 
 %changelog
+* Wed Aug  5 2020 Thomas Moschny <thomas.moschny@gmx.de> - 3.0.2-8
+- Update for Lua 5.4.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -10,7 +10,7 @@
 
 Name:           php-phpunit-bytekit
 Version:        1.1.3
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        A command-line tool built on the PHP Bytekit extension
 
 License:        BSD
@@ -82,6 +82,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

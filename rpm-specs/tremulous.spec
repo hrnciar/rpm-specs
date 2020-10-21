@@ -1,6 +1,6 @@
 Name:           tremulous
 Version:        1.2.0
-Release:        0.24.beta1%{?dist}
+Release:        0.28.beta1%{?dist}
 Summary:        First Person Shooter game based on the Quake 3 engine
 
 License:        GPLv2+
@@ -66,6 +66,14 @@ removing their ability to respawn by destroying their spawn structures.
 rm -r src/SDL12 src/AL src/libcurl src/libspeex src/libs
 
 %build
+# This package uses top level ASM constructs which are incompatible with LTO.
+# Top level ASMs are often used to implement symbol versioning.  gcc-10
+# introduces a new mechanism for symbol versioning which works with LTO.
+# Converting packages to use that mechanism instead of toplevel ASMs is
+# recommended.
+# Disable LTO
+%define _lto_cflags %{nil}
+
 # the CROSS_COMPILING=1 is a hack to not build q3cc and qvm files
 # since we've stripped out q3cc as this is not Free Software.
 make %{?_smp_mflags} \
@@ -86,9 +94,9 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 desktop-file-install            \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications \
   %{SOURCE1}
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/128x128/apps
 install -p -m 644 %{SOURCE2} \
-  $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps
+  $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/128x128/apps
 
 # Register as an application to be visible in the software center
 #
@@ -143,9 +151,21 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/tremulous.desktop
 %{_bindir}/tremded
 %{_datadir}/appdata/%{name}.appdata.xml
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/icons/hicolor/48x48/apps/%{name}.png
+%{_datadir}/icons/hicolor/128x128/apps/%{name}.png
 
 %changelog
+* Sun Aug 30 2020 AsciiWolf <mail@asciiwolf.com> - 1.2.0-0.28.beta1
+- Update desktop file
+
+* Fri Aug 21 2020 AsciiWolf <mail@asciiwolf.com> - 1.2.0-0.27.beta1
+- Use new icon
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-0.26.beta1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> - 1.2.0-0.25.beta1
+- Disable LTO
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-0.24.beta1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

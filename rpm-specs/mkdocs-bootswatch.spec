@@ -1,24 +1,18 @@
 Name:           mkdocs-bootswatch
-Version:        0.5.0
-Release:        4%{?dist}
+Version:        1.1
+Release:        3%{?dist}
 Summary:        Bootswatch themes for MkDocs
 
 License:        BSD and MIT
 URL:            http://mkdocs.github.io/mkdocs-bootswatch/
-Source0:        https://files.pythonhosted.org/packages/source/m/%{name}/%{name}-%{version}.tar.gz
+Source0:        %{pypi_source}
 
 BuildArch:      noarch
 
-BuildRequires:  fontawesome-fonts
-BuildRequires:  fontawesome-fonts-web
-BuildRequires:  js-highlight
 BuildRequires:  python3-devel
-
-Requires:       mkdocs-bootstrap
-Requires:       fontawesome-fonts
-Requires:       fontawesome-fonts-web
-Requires:       js-highlight
-Requires:       python3-libs
+BuildRequires:  python3dist(setuptools)
+BuildRequires:  mkdocs
+Requires:       mkdocs
 
 %description
 %{summary}.
@@ -26,42 +20,41 @@ Requires:       python3-libs
 %prep
 %setup -q -n %{name}-%{version}
 
-rm -rf %{name}/*/fonts/fontawesome-webfont.*
-
-rm -rf %{name}/*/js/highlight.pack.js
-
 %build
 %py3_build
 
 %install
 %py3_install
 
-themes="yeti united spacelab slate simplex readable journal flatly cyborg cosmo cerulean amelia"
-
-for theme in $themes
-do 
-mkdir -p %{buildroot}/%{python3_sitelib}/mkdocs_bootswatch/$theme/fonts/
-ln -sf %{_datadir}/fonts/fontawesome/FontAwesome.otf \
-%{buildroot}/%{python3_sitelib}/mkdocs_bootswatch/$theme/fonts/
-ln -sf %{_datadir}/fonts/fontawesome/fontawesome-webfont.svg \
-%{buildroot}/%{python3_sitelib}/mkdocs_bootswatch/$theme/fonts/
-ln -sf %{_datadir}/fonts/fontawesome/fontawesome-webfont.ttf \
-%{buildroot}/%{python3_sitelib}/mkdocs_bootswatch/$theme/fonts/
-ln -sf %{_datadir}/fonts/fontawesome/fontawesome-webfont.woff \
-%{buildroot}/%{python3_sitelib}/mkdocs_bootswatch/$theme/fonts/
-ln -sf %{_datadir}/javascript/highlight.js/highlight.pack.js \
-%{buildroot}/%{python3_sitelib}/mkdocs_bootswatch/$theme/js/
-done
-
 %check
-#Test requires mkdocs 1.15.1 than requires this lib.
-#I need to package both to run the test.
+export PYTHONPATH=%{buildroot}/%{python3_sitelib}
+mkdocs new testing
+pushd testing
+for theme_dir in ../mkdocs_bootswatch/*; do
+    if [ -d $theme_dir ]; then
+       mkdocs build --theme $(basename $theme_dir)
+    fi
+done
+popd
+
 
 %files
+%license LICENSE
 %doc README.md
-%{python3_sitelib}/*
+%{python3_sitelib}/mkdocs_bootswatch/
+%{python3_sitelib}/mkdocs_bootswatch-%{version}-py*.egg-info/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Robin Lee <cheeselee@fedoraproject.org> - 1.1-2
+- No globbing %%{python3_sitelib}
+- BR python3dist(setuptools)
+
+* Mon Mar  9 2020 Robin Lee <cheeselee@fedoraproject.org> - 1.1-1
+- Update to 1.1
+
 * Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 

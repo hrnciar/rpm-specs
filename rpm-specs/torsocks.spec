@@ -1,6 +1,6 @@
 Name:              torsocks
 Version:           2.3.0
-Release:           5%{?dist}
+Release:           8%{?dist}
 
 Summary:           Use SOCKS-friendly applications with Tor
 License:           GPLv2+
@@ -23,11 +23,11 @@ rejects UDP traffic from the application you're using.
 
 %prep
 %autosetup -p1
-%if 0%{?fedora} >= 29
-sed -i 's/1.15/1.16.1/g' aclocal.m4 configure
+%if 0%{?fedora} >= 33
+sed -i 's/1.15/1.16.2/g' aclocal.m4 configure
 %endif
-%if 0%{?fedora} > 26 && 0%{?fedora} < 29
-sed -i 's/1.15/1.15.1/g' aclocal.m4 configure
+%if 0%{?fedora} >= 29 && 0%{?fedora} < 33
+sed -i 's/1.15/1.16.1/g' aclocal.m4 configure
 %endif
 %if 0%{?rhel} == 7
 sed -i 's/1.15/1.13.4/g' aclocal.m4 configure
@@ -35,6 +35,9 @@ sed -i 's/1.15/1.13.4/g' aclocal.m4 configure
 
 
 %build
+%if 0%{?fedora} >= 33
+aclocal
+%endif
 %if 0%{?rhel} == 7 || 0%{?fedora} > 26
 automake
 %endif
@@ -76,6 +79,16 @@ popd
 
 
 %changelog
+* Tue Aug 04 2020 Marcel Haerry <mh+fedora@scrit.ch> - 2.3.0-8
+- Fix bz#1865583 We have newer autotools from F33 on
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

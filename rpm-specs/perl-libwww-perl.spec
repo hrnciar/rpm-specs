@@ -4,8 +4,8 @@
 %bcond_with perl_libwww_perl_enables_internet_test
 
 Name:           perl-libwww-perl
-Version:        6.45
-Release:        2%{?dist}
+Version:        6.49
+Release:        1%{?dist}
 Summary:        A Perl interface to the World-Wide Web
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/libwww-perl
@@ -42,14 +42,14 @@ BuildRequires:  perl(Exporter)
 BuildRequires:  perl(HTML::Entities)
 BuildRequires:  perl(HTML::HeadParser)
 BuildRequires:  perl(HTTP::Config)
-# HTTP::Cookies 6 not used at tests
+BuildRequires:  perl(HTTP::Cookies) >= 6
 BuildRequires:  perl(HTTP::Date) >= 6
 BuildRequires:  perl(HTTP::Headers::Util)
 # HTTP::Negotiate 6 not used at tests
 BuildRequires:  perl(HTTP::Request) >= 6
 BuildRequires:  perl(HTTP::Request::Common) >= 6
 BuildRequires:  perl(HTTP::Response) >= 6
-BuildRequires:  perl(HTTP::Status) >= 6
+BuildRequires:  perl(HTTP::Status) >= 6.07
 # Tests fail with buggy HTTP::Status 6.17
 BuildConflicts: perl(HTTP::Status) = 6.17
 # integer not used at tests
@@ -115,7 +115,7 @@ Requires:       perl(HTTP::Negotiate) >= 6
 Requires:       perl(HTTP::Request) >= 6
 Requires:       perl(HTTP::Request::Common) >= 6
 Requires:       perl(HTTP::Response) >= 6
-Requires:       perl(HTTP::Status) >= 6
+Requires:       perl(HTTP::Status) >= 6.07
 Requires:       perl(LWP::MediaTypes) >= 6
 Suggests:       perl(LWP::Protocol::https) >= 6.02
 Requires:       perl(MIME::Base64) >= 2.1
@@ -142,8 +142,8 @@ use and even classes that help you implement simple HTTP servers.
 %setup -q -n libwww-perl-%{version} 
 %patch0 -p1
 %if !%{with perl_libwww_perl_enables_internet_test}
-rm t/leak/no_leak.t
-perl -i -ne 'print $_ unless m{^t/leak/no_leak.t}' MANIFEST
+rm t/leak/no_leak.t t/redirect.t
+perl -i -ne 'print $_ unless m{^(?:t/leak/no_leak\.t|t/redirect\.t)}' MANIFEST
 %endif
 
 %build
@@ -170,6 +170,24 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Thu Sep 24 2020 Petr Pisar <ppisar@redhat.com> - 6.49-1
+- 6.49 bump
+
+* Mon Sep 21 2020 Petr Pisar <ppisar@redhat.com> - 6.48-1
+- 6.48 bump
+
+* Wed Aug 19 2020 Petr Pisar <ppisar@redhat.com> - 6.47-1
+- 6.47 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.46-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Jitka Plesnikova <jplesnik@redhat.com> - 6.46-2
+- Perl 5.32 re-rebuild updated packages
+
+* Wed Jun 24 2020 Petr Pisar <ppisar@redhat.com> - 6.46-1
+- 6.46 bump
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 6.45-2
 - Perl 5.32 rebuild
 

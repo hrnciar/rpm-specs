@@ -1,13 +1,13 @@
 %define glib2_version 2.44.0
 
 Name:           dconf
-Version:        0.36.0
+Version:        0.38.0
 Release:        1%{?dist}
 Summary:        A configuration system
 
 License:        LGPLv2+ and GPLv2+ and GPLv3+
 URL:            https://wiki.gnome.org/Projects/dconf
-Source0:        https://download.gnome.org/sources/dconf/0.36/dconf-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/dconf/0.38/dconf-%{version}.tar.xz
 
 Patch1:         dconf-override.patch
 
@@ -92,6 +92,12 @@ dconf update
 %{_datadir}/vala
 
 %changelog
+* Sun Sep 13 2020 Kalev Lember <klember@redhat.com> - 0.38.0-1
+- Update to 0.38.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.36.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 10 2020 Kalev Lember <klember@redhat.com> - 0.36.0-1
 - Update to 0.36.0
 

@@ -19,8 +19,8 @@
 
 Summary: A text mode mail user agent
 Name: mutt
-Version: 1.14.4
-Release: 1%{?dist}
+Version: 1.14.7
+Release: 2%{?dist}
 Epoch: 5
 # The entire source code is GPLv2+ except
 # pgpewrap.c setenv.c sha1.c wcwidth.c which are Public Domain
@@ -144,14 +144,14 @@ rm -f mutt_ssl.c
     %{?with_sidebar: --enable-sidebar} \
     --with-docdir=%{_pkgdocdir}
 
-make %{?_smp_mflags}
+%make_build
 
 # remove unique id in manual.html because multilib conflicts
 sed -i -r 's/<a id="id[a-z0-9]\+">/<a id="id">/g' doc/manual.html
 
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 
 # we like GPG here
 cat contrib/gpg.rc >> \
@@ -211,11 +211,30 @@ ln -sf ./muttrc.5 %{buildroot}%{_mandir}/man5/muttrc.local.5
 
 
 %changelog
-* Fri Jun 19 2020 Fabio Alessandro Locati <me@fale.io> - 5:1.14.4-1
+* Tue Sep 01 2020 Matej Mužila <mmuzila@redhat.com> - 5:1.14.7-2
+- Fix mutt-1.9.4-lynx_no_backscapes.patch
+
+* Mon Aug 31 2020 Matej Mužila <mmuzila@redhat.com> - 5:1.14.7-1
+- Upgrade to 1.14.7
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5:1.14.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Fabio Alessandro Locati <fale@fedoraproject.org> - 5:1.14.6-1
+- Upgrade to 1.14.6
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 5:1.14.5-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Wed Jun 24 2020 Fabio Alessandro Locati <fale@fedoraproject.org> - 5:1.14.5-1
+- Upgrade to 1.14.5
+
+* Fri Jun 19 2020 Fabio Alessandro Locati <fale@fedoraproject.org> - 5:1.14.4-1
 - Upgrade to 1.14.4
 - Resolves: #1848768
 
-* Mon Jun 15 2020 Fabio Alessandro Locati <me@fale.io> - 5:1.14.3-1
+* Mon Jun 15 2020 Fabio Alessandro Locati <fale@fedoraproject.org> - 5:1.14.3-1
 - Upgrade to 1.14.3
 - Resolves: #1836550
 
@@ -223,7 +242,7 @@ ln -sf ./muttrc.5 %{buildroot}%{_mandir}/man5/muttrc.local.5
 - Upgrade to 1.14.2
 - Resolves: #1836550
 
-* Sat May 09 2020 Fabio Alessandro Locati <me@fale.io> - 5:1.14.0-1
+* Sat May 09 2020 Fabio Alessandro Locati <fale@fedoraproject.org> - 5:1.14.0-1
 - Upgrade to 1.14.0
 - Resolves: #1818513
 

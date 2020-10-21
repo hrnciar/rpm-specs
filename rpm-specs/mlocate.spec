@@ -3,7 +3,7 @@
 Summary: An utility for finding files by name
 Name: mlocate
 Version: 0.26
-Release: 25%{?dist}
+Release: 26%{?dist}
 License: GPLv2
 URL: https://fedorahosted.org/mlocate/
 Source0: https://fedorahosted.org/releases/m/l/mlocate/mlocate-%{version}.tar.xz
@@ -82,6 +82,9 @@ systemctl start mlocate-updatedb.timer
 %ghost %attr(0640,root,slocate) %{_localstatedir}/lib/mlocate/mlocate.db
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.26-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.26-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

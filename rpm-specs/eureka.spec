@@ -1,6 +1,6 @@
 Name:       eureka
 Version:    1.27
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    A cross-platform map editor for the classic DOOM games
 
 %global nodotver %(echo %{version} | tr -d '.')
@@ -64,6 +64,9 @@ desktop-file-install \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.27-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 06 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.27-1
 - 1.27
 

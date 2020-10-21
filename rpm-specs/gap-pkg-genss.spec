@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        1.6.6
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Randomized Schreier-Sims algorithm
 
 License:        GPLv3+
@@ -80,6 +80,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}-%{version}/examples/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.6-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 12 2020 Jerry James <loganjerry@gmail.com> - 1.6.6-4
 - Add tomlib BR to eliminate build warnings
 

@@ -1,7 +1,7 @@
 Summary: Grid-entry natural handwriting input panel
 Name: cellwriter
 Version: 1.3.5
-Release: 18%{?dist}
+Release: 19%{?dist}
 License: GPLv2+
 URL: http://code.google.com/p/cellwriter/
 Source0: http://cellwriter.googlecode.com/files/cellwriter_%{version}-1.tar.gz
@@ -47,6 +47,9 @@ desktop-file-install --delete-original \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.3.5-18
 - Fix FTBFS
 

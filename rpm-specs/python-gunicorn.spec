@@ -3,7 +3,7 @@
 
 Name:           python-%{upstream_name}
 Version:        20.0.4
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Python WSGI application server
 License:        MIT
 URL:            http://gunicorn.org/
@@ -70,6 +70,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} --verbose te
 %doc build/sphinx/html/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.0.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 20.0.4-3
 - Rebuilt for Python 3.9
 

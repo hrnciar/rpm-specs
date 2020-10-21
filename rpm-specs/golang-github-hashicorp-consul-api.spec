@@ -4,8 +4,8 @@
 
 # https://github.com/hashicorp/consul/api
 %global goipath         github.com/hashicorp/consul
-Version:                1.0.1
-%global tag             api/v1.0.1
+Version:                1.5.0
+%global tag             api/v1.5.0
 %global distprefix      %{nil}
 
 %gometa
@@ -35,17 +35,16 @@ Consul provides several key features:
 %global godocs          INTERNALS.md README.md CHANGELOG.md README-api.md
 
 Name:           %{goname}-api
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Solution to connect and configure applications across dynamic, distributed infrastructure
 
 # Upstream license specification: MPL-2.0
 License:        MPLv2.0
 URL:            %{gourl}
 Source0:        %{gosource}
-# https://github.com/hashicorp/consul/commit/ac45b1748215eee71ed3c7d311757d0db62fa8ca
-Patch0:         0001-fix-remaining-CI-failures-after-Go-1.12.1-Upgrade.patch
 
 BuildRequires:  golang(github.com/hashicorp/go-cleanhttp)
+BuildRequires:  golang(github.com/hashicorp/go-hclog)
 BuildRequires:  golang(github.com/hashicorp/go-rootcerts)
 BuildRequires:  golang(github.com/hashicorp/serf/coordinate)
 BuildRequires:  golang(github.com/mitchellh/mapstructure)
@@ -55,8 +54,8 @@ BuildRequires:  golang(github.com/mitchellh/mapstructure)
 BuildRequires:  golang(github.com/hashicorp/consul/sdk/testutil)
 BuildRequires:  golang(github.com/hashicorp/consul/sdk/testutil/retry)
 BuildRequires:  golang(github.com/hashicorp/go-uuid)
+BuildRequires:  golang(github.com/hashicorp/serf/coordinate)
 BuildRequires:  golang(github.com/hashicorp/serf/serf)
-BuildRequires:  golang(github.com/pascaldekloe/goe/verify)
 BuildRequires:  golang(github.com/stretchr/testify/assert)
 BuildRequires:  golang(github.com/stretchr/testify/require)
 %endif
@@ -68,7 +67,6 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 
 %prep
 %goprep
-%patch0 -p1
 find ./* -maxdepth 0 -type d -not -name "api" -and -not -name "_build" -exec rm -rf "{}" \;
 rm -rf ./*.go
 mv api/README.md README-api.md
@@ -84,6 +82,12 @@ mv api/README.md README-api.md
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 19:07:16 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.5.0-1
+- Update to 1.5.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 
 Name:           findbugs-bcel
 Version:        6.0
-Release:        0.18.%{findbugsver}%{?dist}
+Release:        0.21.%{findbugsver}%{?dist}
 Summary:        Byte Code Engineering Library for FindBugs
 
 License:        ASL 2.0
@@ -41,7 +41,7 @@ Summary:        Javadoc for %{name}
 %build
 mkdir classes
 find src/main/java -type f -name '*.java' | \
-xargs javac -g -d classes -source 1.8 -encoding ISO8859-1
+xargs javac -g -d classes -source 1.8 -target 1.8 -encoding ISO8859-1
 cd classes
 jar cf findbugs-bcel.jar org
 cd ..
@@ -79,6 +79,15 @@ end
 %{_javadocdir}/findbugs-bcel*
 
 %changelog
+* Sat Aug 01 2020 Richard Fearn <richardfearn@gmail.com> - 6.0-0.21.20140707svn1547656
+- Use -target 1.8 when compiling
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0-0.20.20140707svn1547656
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 6.0-0.19.20140707svn1547656
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat May 23 2020 Richard Fearn <richardfearn@gmail.com> - 6.0-0.18.20140707svn1547656
 - Enable building with JDK 11: use source/target 1.8
 

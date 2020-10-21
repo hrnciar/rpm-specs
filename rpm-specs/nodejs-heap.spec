@@ -5,7 +5,7 @@
 
 Name:		nodejs-heap
 Version:	0.2.6
-Release:	12%{?dist}
+Release:	14%{?dist}
 Summary:	Binary heap (priority queue) algorithms
 
 License:	Python
@@ -64,6 +64,13 @@ cp -pr package.json *.js lib/ \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.6-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.6-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.6-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

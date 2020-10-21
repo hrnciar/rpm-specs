@@ -1,7 +1,7 @@
 Name: hunspell-gd
 Summary: Scots Gaelic hunspell dictionaries
 Version: 2.6
-Release: 14%{?dist}
+Release: 15%{?dist}
 Source: http://downloads.sourceforge.net/project/aoo-extensions/4587/8/hunspell-gd-2.6.oxt
 URL: http://extensions.services.openoffice.org/en/project/faclair-afb
 License: GPLv2+ and GPLv3+
@@ -28,6 +28,9 @@ cp -p dictionaries/gd_GB.dic dictionaries/gd_GB.aff $RPM_BUILD_ROOT/%{_datadir}/
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

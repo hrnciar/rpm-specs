@@ -1,5 +1,5 @@
 Name:           perl-App-Cme
-Version:        1.031
+Version:        1.032
 Release:        2%{?dist}
 Summary:        Check or edit configuration data with Config::Model
 License:        LGPLv2+
@@ -44,6 +44,7 @@ BuildRequires:  perl(YAML)
 # Tests
 BuildRequires:  perl(App::Cmd::Tester)
 BuildRequires:  perl(Probe::Perl)
+BuildRequires:  perl(Term::ANSIColor) >= 2.01
 BuildRequires:  perl(Test::File::Contents)
 BuildRequires:  perl(Test::More)
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
@@ -78,6 +79,7 @@ perl Build.PL installdirs=vendor
 install -D -m 0644 contrib/bash_completion.cme %{buildroot}%{_sysconfdir}/bash_completion.d/cme
 
 %check
+unset AUTHOR_TESTING
 ./Build test
 
 %files
@@ -90,6 +92,15 @@ install -D -m 0644 contrib/bash_completion.cme %{buildroot}%{_sysconfdir}/bash_c
 %{_sysconfdir}/bash_completion.d
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.032-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.032-1
+- 1.032 bump
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.031-3
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.031-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

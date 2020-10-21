@@ -1,5 +1,5 @@
 Name:           klavaro
-Version:        3.10
+Version:        3.11
 Release:        1%{?dist}
 Summary:        Typing tutor
 
@@ -62,6 +62,12 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 %{_libdir}/libgtkdataboks.*
 
 %changelog
+* Thu Aug 20 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 3.11-1
+- Update to 3.11
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 31 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 3.10-1
 - Update to 3.10
 

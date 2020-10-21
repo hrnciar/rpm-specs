@@ -1,6 +1,6 @@
 Name:       perl-MooseX-MultiInitArg 
 Version:    0.02 
-Release:    18%{?dist}
+Release:    19%{?dist}
 # lib/MooseX/MultiInitArg.pm -> GPL+ or Artistic
 # lib/MooseX/MultiInitArg/Attribute.pm -> GPL+ or Artistic
 # lib/MooseX/MultiInitArg/Trait.pm -> GPL+ or Artistic
@@ -51,6 +51,9 @@ perl Build.PL --installdirs vendor
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.02-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.02-18
 - Perl 5.32 rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           mingw-pixman
 Version:        0.40.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows Pixman library
 
 License:        MIT
@@ -102,6 +102,9 @@ Static version of the cross compiled Pixman library.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.40.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Sandro Mani <manisandro@gmail.com> - 0.40.0-1
 - Update to 0.40.0
 

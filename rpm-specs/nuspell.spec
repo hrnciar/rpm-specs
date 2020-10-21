@@ -1,6 +1,6 @@
 Name:		nuspell
-Version:	3.1.1
-Release:	3%{?dist}
+Version:	3.1.2
+Release:	4%{?dist}
 Summary:	C++ spelling checking library and command-line tool
 License:	LGPLv3+
 URL:		https://nuspell.github.io
@@ -35,12 +35,12 @@ The %{name}-devel package contains the header files and developer docs for \
 %autosetup -n %{name}-%{version}
 
 %build
-%cmake . -DBUILD_SHARED_LIBS=1 -DCMAKE_BUILD_TYPE=Release \
+%cmake -DBUILD_SHARED_LIBS=1 -DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix}
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %check
 ctest
@@ -61,6 +61,20 @@ ctest
 %doc %{_docdir}/nuspell/
 
 %changelog
+* Fri Oct 09 2020 Vishal Vijayraghavan <vishalvvr@fedoraproject.org> - 3.1.2-4
+- Resolves: rhbz#1865076: FTBFS in Fedora rawhide/f33
+- updated make_build and make_install to cmake_build and cmake_install macro
+  
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Vishal Vijayraghavan <vishalvvr@fedoraproject.org> - 3.1.2-1 
+- New release 3.1.2
+
 * Sat May 30 2020 Jonathan Wakely <jwakely@redhat.com> - 3.1.1-3
 - Rebuilt for Boost 1.73
 

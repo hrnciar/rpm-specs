@@ -2,7 +2,7 @@ Name:           nacl
 # http://nacl.cr.yp.to/
 URL:            http://nacl.cace-project.eu/
 Version:        20110221
-Release:        23%{?dist}
+Release:        24%{?dist}
 License:        Public Domain
 Summary:        Networking and Cryptography library
 
@@ -99,6 +99,9 @@ install -m 0755 -t %{buildroot}%{_bindir} build/fedora/bin/*
 %{_includedir}/nacl
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20110221-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20110221-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

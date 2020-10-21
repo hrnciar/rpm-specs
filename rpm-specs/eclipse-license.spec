@@ -7,7 +7,7 @@
 
 Name:      eclipse-license
 Version:   %{eplv2_ver}
-Release:   9%{?dist}
+Release:   10%{?dist}
 Summary:   Shared license features for Eclipse
 License:   EPL-1.0 and EPL-2.0
 URL:       http://wiki.eclipse.org/CBI
@@ -88,6 +88,9 @@ popd
 %license %{eplv2_tag}/org.eclipse.license/*.html
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

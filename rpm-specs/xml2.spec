@@ -1,6 +1,6 @@
 Name:           xml2
 Version:        0.5
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        XML/Unix Processing Tools
 License:        GPLv2+
 URL:            http://dan.egnor.name/xml2/
@@ -48,6 +48,9 @@ symlinks -c %{buildroot}%{_bindir}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

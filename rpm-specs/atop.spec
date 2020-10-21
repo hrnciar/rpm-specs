@@ -2,7 +2,7 @@
 
 Name:           atop
 Version:        2.5.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        An advanced interactive monitor to view the load on system and process level
 
 License:        GPLv2+
@@ -116,6 +116,9 @@ install -Dp -m 0644 atop-rotate.* $RPM_BUILD_ROOT%{_unitdir}/
 %{_sbindir}/atopgpud
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.5.1-1
 - Fix unit file path.
 

@@ -2,7 +2,7 @@
 
 Name: libcdr
 Version: 0.1.6
-Release: 2%{?dist}
+Release: 4%{?dist}
 Summary: A library for import of CorelDRAW drawings
 
 # the only Public Domain source is src/lib/CDRColorProfiles.h
@@ -59,10 +59,10 @@ sed -i \
     -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -e 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' \
     libtool
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 rm -f %{buildroot}/%{_libdir}/*.la
 # rhbz#1001251 we install API docs directly from build
 rm -rf %{buildroot}/%{_docdir}/%{name}
@@ -79,7 +79,7 @@ install -m 0644 cdr2*.1 cmx2*.1 %{buildroot}/%{_mandir}/man1
 
 %check
 export LD_LIBRARY_PATH=%{buildroot}%{_libdir}${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-make %{?_smp_mflags} check
+%make_build check
 
 %files
 %doc AUTHORS ChangeLog README
@@ -111,6 +111,13 @@ make %{?_smp_mflags} check
 %{_mandir}/man1/cmx2xhtml.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 0.1.6-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Sat May 16 2020 Pete Walter <pwalter@fedoraproject.org> - 0.1.6-2
 - Rebuild for ICU 67
 

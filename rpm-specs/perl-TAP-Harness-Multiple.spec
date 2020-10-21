@@ -1,6 +1,6 @@
 Name:           perl-TAP-Harness-Multiple
 Version:        0.07
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        TAP::Harness::Multiple Perl module
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/TAP-Harness-Multiple
@@ -61,6 +61,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.07-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.07-23
 - Perl 5.32 rebuild
 

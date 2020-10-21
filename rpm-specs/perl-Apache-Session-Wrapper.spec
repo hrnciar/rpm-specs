@@ -1,6 +1,6 @@
 Name:           perl-Apache-Session-Wrapper
 Version:        0.34
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        A simple wrapper around Apache::Session
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Apache-Session-Wrapper
@@ -40,6 +40,9 @@ APACHE_TEST_HTTPD=/usr/sbin/httpd ./Build test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.34-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.34-27
 - Perl 5.32 rebuild
 

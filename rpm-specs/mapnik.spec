@@ -1,6 +1,6 @@
 Name:      mapnik
 Version:   3.0.23
-Release:   5%{?dist}
+Release:   6%{?dist}
 Summary:   Free Toolkit for developing mapping applications
 License:   LGPLv2+
 URL:       http://mapnik.org/
@@ -21,6 +21,8 @@ Patch3:    mapnik-rpath.patch
 Patch4:    mapnik-proj.patch
 # https://github.com/mapnik/mapnik/pull/4144
 Patch5:    mapnik-boost173.patch
+# https://github.com/mapnik/mapnik/pull/4159
+Patch6:    mapnik-scons4.patch
 
 # Exclude big endian architectures as mapnik does not support them
 # https://github.com/mapnik/mapnik/issues/2313
@@ -258,6 +260,9 @@ LANG="C.UTF-8" make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.23-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun  2 2020 Tom Hughes <tom@compton.nu> - 3.0.23-5
 - Add patch for boost 1.73 support
 

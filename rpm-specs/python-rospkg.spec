@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.2.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Utilities for ROS package, stack, and distribution information
 
 License:        BSD
@@ -110,6 +110,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Scott K Logan <logans@cottsay.net> - 1.2.8-1
 - Update to 1.2.8 (rhbz#1849858)
 

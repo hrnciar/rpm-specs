@@ -1,11 +1,14 @@
 Name: par2cmdline
-Version: 0.8.0
-Release: 4%{?dist}
+Version: 0.8.1
+Release: 2%{?dist}
 Summary: PAR 2.0 compatible file verification and repair tool
 
 License: GPLv2+
 URL: https://github.com/Parchive/par2cmdline/
 Source0: https://github.com/Parchive/par2cmdline/releases/download/v%{version}/par2cmdline-%{version}.tar.bz2
+# Fix tests to account for endianness correctly.
+# Backport of https://github.com/Parchive/par2cmdline/commit/4f3576a314d7169912842ec9dc1e595e61e52653.
+Patch0: 0001-Fix-for-Github-issue-143.-Test-did-not-account-for-e.patch
 
 BuildRequires: gcc-c++
 
@@ -19,7 +22,8 @@ multi-part archives.
 
 
 %prep
-%autosetup
+%autosetup -p 1
+
 # Remove executable permission from text files
 chmod -x ChangeLog configure.ac INSTALL Makefile.am NEWS stamp-h.in
 
@@ -48,6 +52,13 @@ make check-TESTS
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Tadej Janež <tadej.j@nez.si> - 0.8.1-1
+- Update to 0.8.1 release
+- Add patch to fix tests to account for endianness correctly
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

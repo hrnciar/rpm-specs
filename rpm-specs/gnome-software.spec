@@ -1,23 +1,27 @@
+%global appstream_glib_version 0.7.15
+%global libxmlb_version 0.1.7
 %global glib2_version 2.61.1
 %global gtk3_version 3.22.4
 %global json_glib_version 1.2.0
-%global packagekit_version 1.1.1
-%global appstream_glib_version 0.7.15
 %global libsoup_version 2.52.0
-%global gsettings_desktop_schemas_version 3.12.0
 %global gnome_desktop_version 3.18.0
+%global packagekit_version 1.1.1
 %global fwupd_version 1.3.3
 %global flatpak_version 1.5.1
-%global libxmlb_version 0.1.7
 
 Name:      gnome-software
-Version:   3.36.1
-Release:   1%{?dist}
+Version:   3.38.0
+Release:   2%{?dist}
 Summary:   A software center for GNOME
 
 License:   GPLv2+
 URL:       https://wiki.gnome.org/Apps/Software
-Source0:   https://download.gnome.org/sources/gnome-software/3.36/%{name}-%{version}.tar.xz
+Source0:   https://download.gnome.org/sources/gnome-software/3.38/%{name}-%{version}.tar.xz
+
+# Revert an optimization that broke packagekit updates
+# https://gitlab.gnome.org/GNOME/gnome-software/-/issues/1061
+# https://bodhi.fedoraproject.org/updates/FEDORA-2020-7f57486c95#comment-1621958
+Patch0:    0001-Revert-packagekit-Avoid-600000-allocations-when-comp.patch
 
 BuildRequires: gcc
 BuildRequires: gettext
@@ -28,7 +32,7 @@ BuildRequires: fwupd-devel >= %{fwupd_version}
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: gnome-desktop3-devel
 BuildRequires: gnome-online-accounts-devel
-BuildRequires: gsettings-desktop-schemas-devel >= %{gsettings_desktop_schemas_version}
+BuildRequires: gsettings-desktop-schemas-devel
 BuildRequires: gspell-devel
 BuildRequires: gtk3-devel >= %{gtk3_version}
 BuildRequires: gtk-doc
@@ -45,6 +49,7 @@ BuildRequires: ostree-devel
 BuildRequires: rpm-devel
 BuildRequires: rpm-ostree-devel
 BuildRequires: libgudev1-devel
+BuildRequires: sysprof-devel
 BuildRequires: valgrind-devel
 
 Requires: appstream-data
@@ -55,7 +60,7 @@ Requires: glib2%{?_isa} >= %{glib2_version}
 Requires: gnome-desktop3%{?_isa} >= %{gnome_desktop_version}
 # gnome-menus is needed for app folder .directory entries
 Requires: gnome-menus%{?_isa}
-Requires: gsettings-desktop-schemas%{?_isa} >= %{gsettings_desktop_schemas_version}
+Requires: gsettings-desktop-schemas%{?_isa}
 Requires: gtk3%{?_isa} >= %{gtk3_version}
 Requires: json-glib%{?_isa} >= %{json_glib_version}
 Requires: iso-codes
@@ -117,6 +122,9 @@ This package includes the rpm-ostree backend.
 # remove unneeded dpkg plugin
 rm %{buildroot}%{_libdir}/gs-plugins-%{gs_plugin_version}/libgs_plugin_dpkg.so
 
+# remove unneeded static library
+rm %{buildroot}%{_libdir}/libgnomesoftware.a
+
 # make the software center load faster
 desktop-file-edit %{buildroot}%{_datadir}/applications/org.gnome.Software.desktop \
     --set-key=X-AppInstall-Package --set-value=%{name}
@@ -160,7 +168,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %{_libdir}/gs-plugins-%{gs_plugin_version}/libgs_plugin_flatpak.so
 %{_libdir}/gs-plugins-%{gs_plugin_version}/libgs_plugin_fwupd.so
 %{_libdir}/gs-plugins-%{gs_plugin_version}/libgs_plugin_generic-updates.so
-%{_libdir}/gs-plugins-%{gs_plugin_version}/libgs_plugin_hardcoded-blacklist.so
+%{_libdir}/gs-plugins-%{gs_plugin_version}/libgs_plugin_hardcoded-blocklist.so
 %{_libdir}/gs-plugins-%{gs_plugin_version}/libgs_plugin_hardcoded-popular.so
 %{_libdir}/gs-plugins-%{gs_plugin_version}/libgs_plugin_icons.so
 %{_libdir}/gs-plugins-%{gs_plugin_version}/libgs_plugin_key-colors-metadata.so
@@ -203,6 +211,25 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %{_datadir}/gtk-doc/html/gnome-software
 
 %changelog
+* Mon Sep 14 2020 Kalev Lember <klember@redhat.com> - 3.38.0-2
+- Revert an optimization that broke packagekit updates
+
+* Fri Sep 11 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Tue Sep 01 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Tue Aug 18 2020 Richard Hughes <richard@hughsie.com> - 3.36.1-4
+- Rebuild for the libxmlb API bump.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Richard Hughes <rhughes@redhat.com> - 3.36.1-1
 - Update to 3.36.1
 

@@ -7,7 +7,7 @@ Name: rubygem-%{gem_name}
 Version: 2.2.3
 # Introduce Epoch (related to bug 552972)
 Epoch:  1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A modular Ruby webserver interface
 # lib/rack/show_{status,exceptions}.rb contains snippets from Django under BSD license.
 License: MIT and BSD
@@ -127,6 +127,9 @@ popd
 #{gem_instdir}/test
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.2.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 2020 Gerd Pokorra <gp@zimt.uni-siegen.de> - 1:2.2.3-1
 - Update to Rack 2.2.3
 

@@ -4,7 +4,7 @@
 
 Name:          drupal7-%{module}
 Version:       3.9
-Release:       8%{?dist}
+Release:       9%{?dist}
 Summary:       Allows a site administrator to create customized layouts
 
 License:       GPLv2+
@@ -66,6 +66,9 @@ cp -pr * %{buildroot}%{drupal7_modules}/%{module}/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 3.9-8
 - Bump build requires drupal7-rpmbuild to ">= 7.70-2" to fix F32+ auto provides
 

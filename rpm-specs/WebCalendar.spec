@@ -22,7 +22,7 @@
 Name:		WebCalendar
 Summary:	Single/multi-user web-based calendar application
 Version:	1.2.9
-Release:	6%{?dist}
+Release:	7%{?dist}
 License:	GPLv2
 Source0:	WebCalendar-%{version}-clean.tar.gz
 Source1:	WebCalendar-1.2.0-newmenuicons.tar.gz
@@ -255,6 +255,9 @@ EOF
 
 #-------------------------------------------------------------------------------
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.9-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.9-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

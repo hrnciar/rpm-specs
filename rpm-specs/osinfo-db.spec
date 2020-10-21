@@ -2,7 +2,7 @@
 
 Summary: osinfo database files
 Name: osinfo-db
-Version: 20200529
+Version: 20201015
 Release: 1%{?dist}
 License: LGPLv2+
 Source0: https://fedorahosted.org/releases/l/i/libosinfo/%{name}-%{version}.tar.xz
@@ -33,6 +33,21 @@ osinfo-db-import  --root %{buildroot} --dir %{_datadir}/osinfo %{SOURCE0}
 %{_datadir}/osinfo/schema
 
 %changelog
+* Thu Oct 15 2020 Fabiano Fidêncio <fidencio@redhat.com> - 20201015-1
+- Update to new release (v20201015)
+
+* Sun Oct 11 2020 Fabiano Fidêncio <fidencio@redhat.com> - 20201011-1
+- Update to new release (v20201011)
+
+* Thu Aug 13 2020 Fabiano Fidêncio <fidencio@redhat.com> - 20200813-1
+- Update to new release (v20200813)
+
+* Tue Aug 04 2020 Fabiano Fidêncio <fidencio@redhat.com> - 20200804-1
+- Update to new release (V20200804)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200529-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Fabiano Fidêncio <fidencio@redhat.com> - 20200529-1
 - Update to new release (v20200529)
 

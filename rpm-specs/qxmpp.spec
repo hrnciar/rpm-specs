@@ -1,6 +1,6 @@
 Name:       qxmpp
 Version:    0.9.3
-Release:    11%{?dist}
+Release:    12%{?dist}
 License:    LGPLv2+
 
 Source0:    https://github.com/qxmpp-project/qxmpp/archive/v%{version}.tar.gz
@@ -127,6 +127,9 @@ mv ${RPM_BUILD_ROOT}%{_docdir}/%{name}/* __tmp_doc
 %{_libdir}/pkgconfig/%{name}-qt5.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

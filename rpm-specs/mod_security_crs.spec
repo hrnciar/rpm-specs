@@ -1,7 +1,7 @@
 Summary: ModSecurity Rules
 Name: mod_security_crs
 Version: 3.0.0
-Release: 10%{?dist}
+Release: 11%{?dist}
 License: ASL 2.0
 URL: https://www.owasp.org/index.php/Category:OWASP_ModSecurity_Core_Rule_Set_Project
 Source: https://github.com/SpiderLabs/owasp-modsecurity-crs/archive/v%{version}/owasp-modsecurity-crs-%{version}.tar.gz
@@ -44,6 +44,9 @@ done
 %{_datarootdir}/mod_modsecurity_crs
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

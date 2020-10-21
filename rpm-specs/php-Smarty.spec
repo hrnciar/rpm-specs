@@ -14,7 +14,7 @@
 Name:          php-Smarty
 Summary:       Smarty - the compiling PHP template engine
 Version:       %{github_version}
-Release:       3%{?dist}
+Release:       4%{?dist}
 
 License:       LGPLv3
 URL:           http://www.smarty.net
@@ -86,6 +86,9 @@ php -r '
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.33-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.33-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

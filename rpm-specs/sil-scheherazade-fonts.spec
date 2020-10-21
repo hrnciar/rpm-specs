@@ -3,7 +3,7 @@
 
 Name:           %{fontname}-fonts
 Version:        2.100
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        An Arabic script unicode font
 
 License:        OFL
@@ -55,6 +55,9 @@ install -Dm 0644 -p %{SOURCE2} \
 %{_datadir}/appdata/%{fontname}.metainfo.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.100-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.100-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

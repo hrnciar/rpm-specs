@@ -4,7 +4,7 @@
 Summary:	Perl interface to PARI
 Name:		perl-Math-Pari
 Version:	2.030518
-Release:	5%{?dist}
+Release:	6%{?dist}
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Math-Pari
 Source0:	https://cpan.metacpan.org/modules/by-module/Math/Math-Pari-%{version}%{extraversion}%{?extrasuffix}.zip
@@ -113,6 +113,9 @@ make test MP_NOGNUPLOT=1
 %exclude %{_mandir}/man3/Math::libPARI.dumb.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.030518-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.030518-5
 - Perl 5.32 rebuild
 

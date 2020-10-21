@@ -4,7 +4,7 @@
 
 Name:           mocha
 Version:        2.4.5
-Release:        14%{?dist}
+Release:        16%{?dist}
 Summary:        A simple, flexible, fun test framework for Node.js
 
 License:        MIT
@@ -112,6 +112,13 @@ sed -i -e 's/200/30000/' test/acceptance/context.js
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.5-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.5-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.5-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

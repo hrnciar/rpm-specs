@@ -2,8 +2,8 @@
 %global sum Find new systemd journal entries since last run
 
 Name:		python-%{srcname}
-Version:	1.1.5
-Release:	15%{?dist}
+Version:	1.1.7
+Release:	3%{?dist}
 Summary:	%{sum}
 
 License:	GPLv2+
@@ -15,6 +15,7 @@ BuildArch:	noarch
 BuildRequires:	glibc-langpack-en
 BuildRequires:	python3-devel
 BuildRequires:	python3-PyYAML
+BuildRequires:	python3-setuptools
 %if 0%{?with_check}
 BuildRequires:	python3-pytest python3-flexmock
 %endif # with_check
@@ -74,6 +75,18 @@ journal entries.
 
 
 %changelog
+* Mon Oct  5 2020 Tim Waugh <twaugh@redhat.com> - 1.1.7-3
+- Build requires python3-setuptools.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tim Waugh <twaugh@redhat.com> - 1.1.7-1
+- 1.1.7.
+
+* Tue Jul  7 2020 Tim Waugh <twaugh@redhat.com> - 1.1.6-1
+- 1.1.6.
+
 * Fri Jun 19 2020 Tim Waugh <twaugh@redhat.com> - 1.1.5-16
 - Add conditional markers for checks.
 

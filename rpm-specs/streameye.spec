@@ -1,6 +1,6 @@
 Name:		streameye
 Version:	0.9
-Release:	2%{?dist}
+Release:	4%{?dist}
 Summary:	Simple MJPEG streamer for Linux
 License:	GPLv3
 URL:		https://github.com/ccrisan/streameye
@@ -31,6 +31,13 @@ cp -p %{name} %{buildroot}%{_bindir}
 %{_bindir}/%{name}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

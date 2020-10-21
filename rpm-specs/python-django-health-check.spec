@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        3.11.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Checks for various conditions and provides reports
 
 License:        MIT
@@ -65,6 +65,9 @@ rm -rf html/.{doctrees,buildinfo}
 %license LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.11.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.11.0-3
 - Rebuilt for Python 3.9
 

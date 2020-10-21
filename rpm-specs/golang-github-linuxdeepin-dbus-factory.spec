@@ -3,7 +3,7 @@
 
 # https://github.com/linuxdeepin/go-dbus-factory
 %global goipath         github.com/linuxdeepin/go-dbus-factory
-Version:                0.9.0
+Version:                1.8.0.23
 %global tag             %{version}
 
 %gometa
@@ -14,16 +14,16 @@ Go DBus factory for Deepin Desktop Environment.}
 %global godocs          CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Go DBus factory for Deepin Desktop Environment
 
 License:        GPLv3
 URL:            %{gourl}
 Source0:        %{gosource}
 
-BuildRequires:  golang(pkg.deepin.io/lib/dbus1)
 BuildRequires:  golang(pkg.deepin.io/lib/dbusutil)
 BuildRequires:  golang(pkg.deepin.io/lib/dbusutil/proxy)
+BuildRequires:  golang(github.com/godbus/dbus)
 
 %description
 %{common_description}
@@ -44,6 +44,16 @@ BuildRequires:  golang(pkg.deepin.io/lib/dbusutil/proxy)
 %gopkgfiles
 
 %changelog
+* Fri Sep 18 2020 Robin Lee <cheeselee@fedoraproject.org> - 1.8.0.23-1
+- new upstream release: 1.8.0.23
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

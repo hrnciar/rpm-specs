@@ -2,7 +2,7 @@
 %global basen rinutils
 
 Name: %{basen}
-Version: 0.4.0
+Version: 0.6.0
 %global basenver %{basen}-%{version}
 Release: 1%{dist}
 License: MIT
@@ -35,10 +35,10 @@ of limited general interest, but nevertheless free and open source software
 
 %build
 %cmake -DLOCALE_INSTALL_DIR=%{_datadir}/locale -DLIB_INSTALL_DIR=%{_libdir} -DWITH_TEST_SUITE=OFF
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %files devel
 %license LICENSE
@@ -48,6 +48,15 @@ of limited general interest, but nevertheless free and open source software
 %{_libdir}/cmake/Rinutils/*.cmake
 
 %changelog
+* Fri Sep 25 2020 Shlomi Fish <shlomif@shlomifish.org> 0.6.0-1
+- New upstream version
+
+* Fri Jul 31 2020 Shlomi Fish <shlomif@shlomifish.org> 0.4.1-1
+- New upstream version&use cmake macros.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 28 2020 Shlomi Fish <shlomif@shlomifish.org> - 0.4.0-1
 - New upstream version
 

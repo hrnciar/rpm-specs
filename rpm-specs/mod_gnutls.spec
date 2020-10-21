@@ -1,7 +1,7 @@
 %{!?_httpd_mmn: %{expand: %%global _httpd_mmn %%(cat %{_includedir}/httpd/.mmn || echo 0-0)}}
 Name:      mod_gnutls
 Version:   0.9.0
-Release:   4%{?dist}
+Release:   5%{?dist}
 Summary:   GnuTLS module for the Apache HTTP server
 License:   ASL 2.0
 URL:       http://mod.gnutls.org/
@@ -62,6 +62,9 @@ rm -fr %{_localstatedir}/cache/mod_gnutls
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/mod_gnutls.conf
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

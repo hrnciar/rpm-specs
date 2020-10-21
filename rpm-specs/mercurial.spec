@@ -1,7 +1,7 @@
 Summary: Mercurial -- a distributed SCM
 Name: mercurial
 Version: 5.4
-Release: 1%{?dist}
+Release: 4%{?dist}
 
 # Release: 1.rc1%%{?dist}
 
@@ -14,6 +14,7 @@ URL: http://www.selenic.com/mercurial/
 Source0: http://www.selenic.com/mercurial/release/%{name}-%{upstreamversion}.tar.gz
 Source1: mercurial-site-start.el
 Patch2: 0001-setup-hg3.patch
+Patch3: hgdemandimport_ast.patch
 BuildRequires: python2-devel python3-devel bash-completion
 BuildRequires: emacs-nox emacs-el pkgconfig gettext python3-docutils
 BuildRequires: gcc
@@ -133,6 +134,8 @@ Locales for mercurial.
 # sed -ri 's|python\b|python2|' %{_builddir}/%{name}-%{version}/Makefile %{_builddir}/%{name}-%{version}/doc/Makefile
 %patch2 -p1 -b .create_hg3
 
+%patch3 -p1
+
 %build
 # copy hg to hg2/hg3 to be able to create /usr/bin/hg(2|3) script
 cp -a hg hg2
@@ -239,6 +242,11 @@ touch %{buildroot}%{_bindir}/hg
 touch %{buildroot}%{_bindir}/hg-ssh
 
 %post py2
+for fname in %{_bindir}/{hg,hg-ssh}; do
+  if [ ! -L "$fname" ]; then
+    rm -f "$fname"
+  fi
+done
 %{_sbindir}/update-alternatives --install %{_bindir}/hg \
   hg %{_bindir}/hg2 %{py2_priority} \
   --slave %{_bindir}/hg-ssh hg-ssh %{_bindir}/hg-ssh2 || :
@@ -250,6 +258,11 @@ if [ $1 -eq 0 ]; then
 fi
 
 %post py3
+for fname in %{_bindir}/{hg,hg-ssh}; do
+  if [ ! -L "$fname" ]; then
+    rm -f "$fname"
+  fi
+done
 %{_sbindir}/update-alternatives --install %{_bindir}/hg \
   hg %{_bindir}/hg3 %{py3_priority} \
   --slave %{_bindir}/hg-ssh hg-ssh %{_bindir}/hg-ssh3 || :
@@ -322,6 +335,18 @@ fi
 
 
 %changelog
+* Wed Sep 02 2020 Petr Viktorin <pviktori@redhat.com> - 5.4-4
+- Add _ast to hgdemandimport ignore list
+  Works around: BZ#1871992
+
+* Mon Aug 10 2020 Petr Stodulka <pstodulk@redhat.com> - 5.4-3
+- Fix upgrade from previous mercurial 4.9 causing broken alternatives for
+  mercurial
+- Resolves: #1831562
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Neal Becker <ndbecker2@gmail.com> - 5.4-1
 - Update to 5.4
 

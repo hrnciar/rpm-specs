@@ -3,7 +3,7 @@
 
 Name:           chck
 Version:        0
-Release:        9.20161208git%{shortcommit}%{?dist}
+Release:        11.20161208git%{shortcommit}%{?dist}
 Summary:        Collection of C utilities
 License:        zlib
 URL:            https://github.com/Cloudef/chck
@@ -26,15 +26,15 @@ Collection of C utilities taken and cleaned up from my other projects
 %autosetup -n %{name}-%{commit}
 
 %build
-%cmake .
-make %{?_smp_mflags}
+%cmake
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 %check
-ctest -V -R dl_test
-ctest -V %{?_smp_mflags}
+%ctest -- -R dl_test
+%ctest
 
 %ldconfig_scriptlets
 
@@ -49,6 +49,13 @@ ctest -V %{?_smp_mflags}
 %{_libdir}/libchck-*.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-11.20161208git0036426
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-10.20161208git0036426
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-9.20161208git0036426
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

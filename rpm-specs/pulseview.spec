@@ -1,6 +1,6 @@
 Name:           pulseview
 Version:        0.4.2
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Signal acquisition and analysis GUI for sigrok
 # Combined GPLv3+ (libsigrok and libsigrokdecode) and GPLv2+ (pulseview)
 License:        GPLv3+
@@ -32,11 +32,11 @@ libraries under the hood.
 %autosetup -p1
 
 %build
-%cmake -DCMAKE_BUILD_TYPE=Release -DDISABLE_WERROR=True .
-make %{?_smp_mflags}
+%cmake -DCMAKE_BUILD_TYPE=Release -DDISABLE_WERROR=True
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 # Why you install appdata in bad location, you sigrok upstream?
 mv %{buildroot}/%{_datadir}/metainfo %{buildroot}/%{_datadir}/appdata
@@ -57,6 +57,13 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/*.appdata
 %{_datadir}/appdata/org.sigrok.PulseView.appdata.xml
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 0.4.2-2
 - Rebuilt for Boost 1.73
 - Replace qt5-devel with qt5-qtbase-devel, qt5-linguist, qt5-qtsvg-devel

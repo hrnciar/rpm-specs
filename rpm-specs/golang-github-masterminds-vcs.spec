@@ -3,14 +3,9 @@
 
 # https://github.com/Masterminds/vcs
 %global goipath         github.com/Masterminds/vcs
-Version:                1.13.0
+Version:                1.13.1
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-Masterminds-vcs-devel < 1.11.1-7
-}
 
 %global common_description %{expand:
 Package Vcs provides the ability to work with varying version control systems
@@ -22,7 +17,7 @@ Package Vcs provides the ability to work with varying version control systems
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        VCS Repo management through a common interface in Go
 
 License:        MIT
@@ -45,15 +40,6 @@ cp %{S:1} %{S:2} .
 %install
 %gopkginstall
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 # .: needs network
@@ -63,6 +49,12 @@ end
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 19:39:31 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.13.1-1
+- Update to 1.13.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

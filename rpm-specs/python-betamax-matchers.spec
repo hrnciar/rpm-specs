@@ -2,12 +2,12 @@
 
 Name:           python-%{pypi_name}
 Version:        0.4.0
-Release:        7%{?dist}
-Summary:        A set of third-party matchers for Betamax
+Release:        9%{?dist}
+Summary:        Set of third-party matchers for Betamax
 
 License:        ASL 2.0
 URL:            https://github.com/betamaxpy/betamax_matchers
-Source0:        https://github.com/betamaxpy/betamax_matchers/archive/%{version}.tar.gz#/%{pypi_name}-%{version}.tar.gz
+Source0:        %{url}/archive/%{version}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
 
 %description
@@ -17,6 +17,7 @@ A set of third-party matchers for Betamax.
 Summary:        %{summary}
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-pytest
 BuildRequires:  python3-betamax
 BuildRequires:  python3-requests-toolbelt
@@ -44,6 +45,12 @@ pytest-%{python3_version} -v tests
 %{python3_sitelib}/betamax_matchers/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.4.0-8
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.0-7
 - Rebuilt for Python 3.9
 

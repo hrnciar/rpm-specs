@@ -4,25 +4,20 @@
 
 # https://github.com/skratchdot/open-golang
 %global goipath         github.com/skratchdot/open-golang
-%global commit          79abb63cd66e41cb1473e26d11ebdcd68b04c8e5
+%global commit          eef8423979666925a58eb77f9db583e54320d5a4
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-skratchdot-open-golang-devel < 0-0.16
-}
 
 %global common_description %{expand:
 Open a file, directory, or URI using the OS's default application for
 that object type. Optionally, you can specify an application to use.}
 
-%global golicenses      LICENSE-MIT
+%global golicenses      LICENSE
 %global godocs          README.md
 
 Name:           %{goname}
 Version:        0
-Release:        0.19%{?dist}
+Release:        0.21%{?dist}
 Summary:        Open a file, directory, or URI using the OS's default application
 
 License:        MIT
@@ -48,6 +43,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 20:07:32 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.21.20200802giteef8423
+- Bump to commit eef8423979666925a58eb77f9db583e54320d5a4
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

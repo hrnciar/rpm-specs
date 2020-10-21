@@ -8,21 +8,22 @@ through the files in the projects, finds the import statements and generates \
 the output file.
 
 Name:           python-%{srcname}
-Version:        0.4.9
-Release:        6%{?dist}
+Version:        0.4.10
+Release:        1%{?dist}
 Summary:        Pip requirements.txt generator based on imports in project
 
 License:        ASL 2.0
 URL:            https://github.com/bndr/pipreqs
-Source0:        %pypi_source
+Source0:        https://github.com/bndr/%{srcname}/archive/v%{version}.tar.gz
 
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
-BuildRequires:  %{py3_dist docopt}
-BuildRequires:  %{py3_dist setuptools}
-BuildRequires:  %{py3_dist yarg}
-BuildRequires:  %{py3_dist sphinx}
+BuildRequires:  pyproject-rpm-macros
+BuildRequires:  python3-sphinx
+# Upstream does not depend on pytest but uses obsoleted setup.py test.
+# Pytest is just a runner here for unittest tests.
+BuildRequires:  python3-pytest
 
 %description %_description
 
@@ -30,7 +31,6 @@ BuildRequires:  %{py3_dist sphinx}
 Summary: %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
 
-%{?python_enable_dependency_generator}
 %description -n python3-%{srcname} %_description
 
 %package -n python-%{srcname}-doc
@@ -40,11 +40,15 @@ Documentation for the pipreqs tool.
 
 %prep
 %autosetup -n %{srcname}-%{version}
-# Remove bundled egg-info
-rm -rf %{srcname}.egg-info
+
+# Remove pinned versions from requirements.txt
+sed -i "s/\(.*\)==.*/\1/" requirements.txt
+
+%generate_buildrequires
+%pyproject_buildrequires -r -t
 
 %build
-%py3_build
+%pyproject_wheel
 # generate html docs
 PYTHONPATH=${PWD} sphinx-build-3 docs html
 sphinx-build -b man docs build/man/
@@ -52,7 +56,8 @@ sphinx-build -b man docs build/man/
 rm -rf html/.{doctrees,buildinfo}
 
 %install
-%py3_install
+%pyproject_install
+%pyproject_save_files %{srcname}
 install -Dm0644 -p build/man/pipreqs.1 -t %buildroot/%_mandir/man1/
 # Remove shebang lines from python files
 for lib in %{buildroot}%{python3_sitelib}/%{srcname}/*.py; do
@@ -61,26 +66,26 @@ for lib in %{buildroot}%{python3_sitelib}/%{srcname}/*.py; do
  mv $lib.new $lib
 done
 
-# Checks are disabled because it tries to access pypi.python.org over the
-# interwebz which fails.
+%check
+%pytest -k "not test_get_imports_info and not test_ignored_directory and not test_init and not test_init_overwrite and not test_init_savepath and not test_omit_version"
 
-# check
-# {__python3} setup.py test
-
-%files -n python3-%{srcname}
+%files -n python3-%{srcname} -f %pyproject_files
 %license LICENSE
 %doc docs/readme.rst README.rst
 %{_bindir}/pipreqs
 %{_mandir}/man1/pipreqs.1*
-# Ignore tests
-%exclude %{python3_sitelib}/tests
-%{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
+
 
 %files -n python-%{srcname}-doc
 %doc html
 
 %changelog
+* Wed Sep 09 2020 Lumír Balhar <lbalhar@redhat.com> - 0.4.10-1
+- Update to 0.4.10
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.9-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.9-6
 - Rebuilt for Python 3.9
 

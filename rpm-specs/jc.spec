@@ -2,8 +2,8 @@ Name: jc
 Summary: Serialize the output of CLI tools and file-types to structured JSON
 License: MIT
 
-Version: 1.11.2
-Release: 3%{?dist}
+Version: 1.13.4
+Release: 1%{?dist}
 
 URL: https://github.com/kellyjonbrazil/%{name}
 Source0: %{URL}/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -48,6 +48,12 @@ command-line tools and file types for easier parsing in scripts.
 
 
 %changelog
+* Fri Aug 14 2020 Artur Iwicki <fedora@svgames.pl> - 1.13.4-1
+- Update to upstream release v1.13.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Artur Iwicki <fedora@svgames.pl> - 1.11.2-3
 - Switch to using only the GitHub source
 - Formatting changes

@@ -6,7 +6,7 @@
 
 Name:           gnome-shell-extension-openweather
 Version:        1
-Release:        0.44.%{date}git%{shortcommit}%{?dist}
+Release:        0.45.%{date}git%{shortcommit}%{?dist}
 Summary:        Display weather information from many locations in the world
 
 # The entire source code is GPLv3+ except convenience.js, which is BSD
@@ -64,6 +64,9 @@ NOCONFIGURE=1 ./autogen.sh
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-0.45.20200531git7a9236a
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1-0.44.20200531git7a9236a
 - Update to latest git snapshot
 

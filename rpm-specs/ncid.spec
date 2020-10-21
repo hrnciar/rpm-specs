@@ -1,6 +1,6 @@
 Name:       ncid
 Version:    1.11
-Release:    4%{?dist}
+Release:    5%{?dist}
 Summary:    Network Caller ID server, client and gateways
 Requires:   perl-interpreter, perl-Config-Simple, perl-Data-HexDump, logrotate
 License:    GPLv3+
@@ -421,6 +421,9 @@ touch --no-create %{_datadir}/icons/hicolor &>/dev/null
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 3 2020 John Chmielewski <jlc@users.sourceforge.net> 1.11-4
 - added ncid-usrlocal-manpage-fixes.patch
 - added logrotate dependency

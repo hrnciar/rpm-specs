@@ -2,7 +2,7 @@
 
 Name:           catch
 Version:        2.11.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Modern, C++-native, header-only, framework for unit-tests, TDD and BDD
 
 License:        Boost
@@ -36,18 +36,17 @@ sed -i -e "s|COMMAND python |COMMAND python3 |" projects/CMakeLists.txt
 
 
 %build
-%cmake . -Bbuild -DCATCH_ENABLE_WERROR=OFF
-%make_build -Cbuild
+%cmake -DCATCH_ENABLE_WERROR=OFF
+%cmake_build
 
 
 %install
-%make_install -Cbuild
+%cmake_install
 rm -rf %{buildroot}/%{_docdir}
 
 
 %check
-cd build
-ctest -V %{?_smp_mflags}
+%ctest
 
 
 %files devel
@@ -60,6 +59,9 @@ ctest -V %{?_smp_mflags}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 Summary: C# bindings for D-Bus glib main loop integration
 Name: dbus-sharp-glib
 Version: 0.6.0
-Release: 9%{?dist}
+Release: 10%{?dist}
 URL: http://mono.github.com/dbus-sharp/
 Source0: https://github.com/mono/dbus-sharp-glib/releases/download/v0.6/%{name}-%{version}.tar.gz
 License: MIT
@@ -48,6 +48,9 @@ test "%{_libdir}" = "%{_prefix}/lib" || mv $RPM_BUILD_ROOT/%{_prefix}/lib/pkgcon
 %{_libdir}/pkgconfig/dbus-sharp-glib-2.0.pc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

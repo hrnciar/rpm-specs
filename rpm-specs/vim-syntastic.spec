@@ -6,7 +6,7 @@
 
 Name:           vim-%{upstream_name}
 Version:        3.10.0
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        A vim plugins to check syntax for programming languages
 Summary(fr):    Une extension de vim vérifiant la syntaxe pour les langages de programmation
 
@@ -17,6 +17,7 @@ Source1:        vim-syntastic.metainfo.xml
 
 Patch0:         vim-syntastic-3.9.0-python3-shebang.patch
 Patch1:         vim-syntastic-3.10.0-5-rvim.patch
+Patch2:         vim-syntastic-3.10.0-yamllint-default.patch
 
 BuildArch:      noarch
 Requires:       vim
@@ -143,7 +144,7 @@ Permet de vérifier les fichiers sources écrit en %{-n*}.                      
 %add_subpackage -n xml /usr/bin/xmllint
 %add_subpackage -n xslt /usr/bin/xmllint
 %add_subpackage -n yacc byacc
-%add_subpackage -n yaml nodejs-js-yaml perl-YAML-LibYAML
+%add_subpackage -n yaml yamllint perl-YAML-LibYAML
 %add_subpackage -n yara yara
 %add_subpackage -n z80 z80asm
 %add_subpackage -n zsh zsh
@@ -277,6 +278,12 @@ appstream-util validate-relax --nonet %{buildroot}%{appdata_dir}/vim-syntastic.m
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.10.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Pavel Raiskup <praiskup@redhat.com> - 3.10.0-6
+- switch the default YAML checker to yamllint (rhbz#1852240)
+
 * Wed May 06 2020 Pavel Raiskup <praiskup@redhat.com> - 3.10.0-5
 - disable vhdl subpackage
 

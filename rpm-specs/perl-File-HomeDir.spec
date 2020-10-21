@@ -1,6 +1,6 @@
 Name:           perl-File-HomeDir
-Version:        1.004
-Release:        8%{?dist}
+Version:        1.006
+Release:        1%{?dist}
 Summary:        Find your home and other directories on any platform
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/File-HomeDir
@@ -79,6 +79,12 @@ make test
 %{_mandir}/man3/File::HomeDir::Windows.3*
 
 %changelog
+* Mon Sep 28 2020 Tom Callaway <spot@fedoraproject.org> - 1.006-1
+- update to 1.006
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.004-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.004-8
 - Perl 5.32 rebuild
 

@@ -3,9 +3,11 @@
 
 # https://github.com/yunify/qingstor-sdk-go
 %global goipath         github.com/yunify/qingstor-sdk-go
-Version:                3.0.2
+Version:                3.2.0
 
 %gometa
+
+%global goaltipaths     github.com/yunify/qingstor-sdk-go/v3
 
 %global common_description %{expand:
 The official QingStor SDK for the Go programming language.}
@@ -14,7 +16,7 @@ The official QingStor SDK for the Go programming language.}
 %global godocs          docs AUTHORS CHANGELOG.md README.Fedora_29_Mass_Rebuild
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Official QingStor SDK for the Go programming language
 
 # Upstream license specification: Apache-2.0
@@ -50,6 +52,15 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Fri Sep 18 12:44:40 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.2.0-1
+- Update to 3.2.0
+
+* Sat Aug 08 11:46:18 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.0.2-4
+- Add alternative import path
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

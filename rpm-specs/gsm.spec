@@ -4,7 +4,7 @@
 
 Name:           gsm
 Version:        %{ver_major}.%{ver_minor}.%{ver_patch}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Shared libraries for GSM speech compressor
 
 License:        MIT
@@ -61,7 +61,7 @@ full-rate speech transcoding, prI-ETS 300 036, which uses RPE/LTP
 
 %build
 export LDFLAGS="%{?__global_ldflags}"
-make %{?_smp_mflags} all SO_MAJOR=%{ver_major} SO_MINOR=%{ver_minor} SO_PATCH=%{ver_patch}
+%make_build all SO_MAJOR=%{ver_major} SO_MINOR=%{ver_minor} SO_PATCH=%{ver_patch}
 
 %install
 export LDFLAGS="%{?__global_ldflags}"
@@ -111,6 +111,13 @@ make addtst
 %{_mandir}/man3/gsm_print.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.19-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.0.19-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Apr  1 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 1.0.19-1
 - New version
   Resolves: rhbz#1818181

@@ -6,7 +6,7 @@
 
 Name:           ocaml-%{srcname}
 Version:        1.0.0
-Release:        1%{?dist}
+Release:        5%{?dist}
 Summary:        Strict impure trie tree
 
 License:        MIT
@@ -76,5 +76,18 @@ find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod a+x {} \+
 %{_libdir}/ocaml/%{srcname}/%{srcname}.mli
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.0.0-5
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.0.0-4
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 2020 Jerry James <loganjerry@gmail.com> - 1.0.0-1
 - Initial RPM

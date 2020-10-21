@@ -2,7 +2,7 @@ Summary:	Macros for aclocal to install configuration files
 Summary(pl):	Makra dla aclocal do instalacji plików konfiguracyjnych
 Name:		sysconftool
 Version:	0.17
-Release:	11%{?dist}
+Release:	12%{?dist}
 License:	GPLv3 with exceptions
 Source0:	http://downloads.sourceforge.net/project/courier/sysconftool/%{version}/%{name}-%{version}.tar.bz2
 URL:		http://www.courier-mta.org/sysconftool/
@@ -52,6 +52,9 @@ make check
 %{_datadir}/aclocal/sysconftool.m4
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

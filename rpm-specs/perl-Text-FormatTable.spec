@@ -1,6 +1,6 @@
 Name:           perl-Text-FormatTable
 Version:        1.03
-Release:        31%{?dist}
+Release:        32%{?dist}
 Summary:        Format text tables
 License:        GPL+ or Artistic
 
@@ -56,6 +56,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.03-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.03-31
 - Perl 5.32 rebuild
 

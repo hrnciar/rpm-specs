@@ -13,9 +13,9 @@
 Name:		YafaRay
 License:	LGPLv2+
 Summary:	A free open-source ray-tracing render engine
-Version:	3.4.4
-URL:		http://www.yafaray.org/
-Release:	%{?prerelease:0.}2%{?prerelease}%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+Version:	3.5.1
+URL:		https://www.yafaray.org/
+Release:	%{?prerelease:0.}3%{?prerelease}%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
 
 %{?shortcommit0:
 Source0:	https://github.com/%{name}/Core/archive/%{commit0}.tar.gz#/Core-%{shortcommit0}.tar.gz}
@@ -29,22 +29,23 @@ Source1:	https://github.com/%{name}/Blender-Exporter/archive/v%{version}.tar.gz#
 
 Source2:	yafaray-blender.metainfo.xml
 
+Patch0:         YafaRay-gcc11.patch
+
 BuildRequires:	blender-rpm-macros
 BuildRequires:	boost-devel
 BuildRequires:	cmake
 BuildRequires:	gcc-c++
 #BuildRequires:	git
 BuildRequires:	libappstream-glib
-BuildRequires:	libjpeg-devel 
-BuildRequires:	libxml2-devel 
-BuildRequires:	opencv-devel
-BuildRequires:	OpenEXR-devel >= 1.2 
 BuildRequires:	pkgconfig(freetype2)
+BuildRequires:	pkgconfig(libjpeg)
 BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(libtiff-4)
+BuildRequires:	pkgconfig(libxml-2.0)
+BuildRequires:	pkgconfig(opencv)
+BuildRequires:	pkgconfig(OpenEXR) >= 1.2 
 BuildRequires:	pkgconfig(Qt5)
 BuildRequires:	pkgconfig(zlib)
-BuildRequires:	python3-devel
 BuildRequires:	swig
 
 
@@ -81,6 +82,18 @@ Requires:	blender
 Obsoletes:	%{yname}-blender < 0.1.1-4
 Provides:	%{yname}-blender = %{version}-%{release}
 
+%description	blender
+%{name} is a free open-source ray-tracing render engine. Ray-tracing is a
+rendering technique for generating realistic images by tracing the path of
+light through a 3D scene. A render engine consists of a "faceless" computer
+program that interacts with a host 3D application to provide very specific
+ray-tracing capabilities "on demand". Blender 3D is the host application of
+%{name}.
+
+%{name} uses a python-coded settings interface to set lighting and rendering
+parameters. This settings interface is launched by an entry automatically
+added to the Blender Render menu.
+
 %package    devel
 Summary:    Development files for %{name}
 Requires:   %{name}-lib%{?_isa} = %{version}-%{release}
@@ -96,17 +109,12 @@ ray-tracing capabilities "on demand". Blender 3D is the host application of
 The %{name}-devel package contains libraries and header files for applications
 that use %{name}.
 
-%description	blender
-%{name} is a free open-source ray-tracing render engine. Ray-tracing is a
-rendering technique for generating realistic images by tracing the path of
-light through a 3D scene. A render engine consists of a "faceless" computer
-program that interacts with a host 3D application to provide very specific
-ray-tracing capabilities "on demand". Blender 3D is the host application of
-%{name}.
+%package -n python3-%{name}
+Summary:        %{summary}
+BuildRequires:  pkgconfig(python3)
 
-%{name} uses a python-coded settings interface to set lighting and rendering
-parameters. This settings interface is launched by an entry automatically
-added to the Blender Render menu.
+%description -n python3-%{name} 
+The python3-%{name} contains Python 3 binning for the library.
 
 %prep
 %if %{?snapshot}
@@ -116,8 +124,8 @@ added to the Blender Render menu.
 #Fix syntax for python 3.5+ declaration
 sed -i 's|metaclass=RNAMeta|metaclass.RNAMeta|' Blender-Exporter-%{commit1}/ot/%{yname}_presets.py
 %else
-%autosetup -D -n Core-%{version}
-%autosetup -D -T -a 1 -n Core-%{version}
+%autosetup -p1 -D -n Core-%{version}
+%autosetup -N -D -T -a 1 -n Core-%{version}
 
 #Fix syntax for python 3.5+ declaration
 sed -i 's|metaclass=RNAMeta|metaclass.RNAMeta|' Blender-Exporter-%{version}/ot/%{yname}_presets.py
@@ -143,13 +151,13 @@ find . -name "*.cc" -exec chmod 644 {} \;
 	-DUSER_DBGFLAGS="%{optflags}" \
 	-DYAF_PY_VERSION="%{python3_version}" \
 	-DYAF_BINDINGS_PY_DIR="%{python3_sitearch}" \
-	.
+	%{nil}
 
-%make_build VERBOSE=1
+%cmake_build
 
 
 %install
-%make_install VERBOSE=1
+%cmake_install
 
 
 # Let RPM pick docs in the file section
@@ -173,18 +181,16 @@ install -p -m 644 -D %{SOURCE2} %{buildroot}%{_metainfodir}/%{yname}-blender.met
 %check
 appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{yname}-blender.metainfo.xml
 
-%ldconfig_scriptlets
+#%%ldconfig_scriptlets
 
 %files
+%license LICENSES
+%doc AUTHORS.md CHANGELOG.md README.md
 %{_bindir}/%{yname}-xml
 %{_datadir}/%{yname}/*
-%{python3_sitearch}/*
 
 %files lib
-%license LICENSES
-%doc AUTHORS CHANGELOG README
 %{_libdir}/%{yname}-plugins
-#%%{_libdir}/*.py
 %{_libdir}/*.so
 %{_libdir}/libyafarayqt.so
 
@@ -192,10 +198,36 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{yname}-blend
 %{_includedir}/%{yname}/
 
 %files blender
+%license LICENSES
 %{_metainfodir}/%{yname}-blender.metainfo.xml
 %{blender_addons}/%{yname}/*
 
+%files -n python3-%{name}
+%{python3_sitearch}/*.{py,so}
+
 %changelog
+* Mon Oct 12 2020 Jeff Law <law@redhat.com> - 3.5.1-3
+- Add missing #include for gcc-11
+
+* Sat Sep 05 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 3.5.1-2
+- Rebuild for Blender 2.90
+
+* Sat Aug 29 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 3.5.1-1
+- Update to 3.5.1 (#1855915)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.0-1.2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.0-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 3.5.0-1
+- Update to 3.5.0 (#1855915)
+
+* Fri Jun 26 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 3.4.4-3
+- Rebuild for Blender 2.83.1
+
 * Mon Jun 08 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 3.4.4-2
 - Rebuilt for Blender 2.83.0
 

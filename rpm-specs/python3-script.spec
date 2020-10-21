@@ -1,6 +1,6 @@
 Name:           python3-script
 Version:        1.7.2
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Help for writing shell scripts in Python
 
 License:        Python
@@ -48,6 +48,9 @@ install -m 0644 %{SOURCE1} .
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.2-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.2-21
 - Rebuilt for Python 3.9
 

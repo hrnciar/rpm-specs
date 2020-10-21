@@ -10,7 +10,7 @@
 %global crate libxml
 
 Name:           rust-%{crate}
-Version:        0.2.14
+Version:        0.2.15
 Release:        1%{?dist}
 Summary:        Rust wrapper for libxml2
 
@@ -18,6 +18,10 @@ Summary:        Rust wrapper for libxml2
 License:        MIT
 URL:            https://crates.io/crates/libxml
 Source:         %{crates_source}
+# Initial patched metadata
+# * No macos deps
+# * No windows deps
+Patch0:         libxml-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -79,5 +83,11 @@ echo 'pkgconfig(libxml-2.0)'
 %endif
 
 %changelog
+* Thu Oct 01 2020 Fabio Valentini <decathorpe@gmail.com> - 0.2.15-1
+- Update to version 0.2.15.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.14-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 16:35:46 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 0.2.14-1
 - Initial package

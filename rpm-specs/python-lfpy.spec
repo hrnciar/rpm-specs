@@ -15,7 +15,7 @@ have a model...}
 
 Name:           python-lfpy
 Version:        2.0.7
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        Model extracellular potentials of multicompartment neuron models built on NEURON
 
 License:        GPLv3
@@ -117,6 +117,13 @@ rm -rf %{buildroot}/usr/lib/debug/%{python3_sitearch}/%{pretty_name}/test/
 %{python3_sitearch}/%{pretty_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.7-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.7-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.7-6
 - Rebuilt for Python 3.9
 

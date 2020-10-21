@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 %global framework kitinerary
 
 # uncomment to enable bootstrap mode
@@ -8,7 +9,7 @@
 %endif
 
 Name:    kf5-%{framework}
-Version: 20.04.2
+Version: 20.08.1
 Release: 2%{?dist}
 Summary: A library containing itinerary data model and itinerary extraction code
 
@@ -22,6 +23,7 @@ URL:     https://cgit.kde.org/%{framework}.git
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/release-service/%{version}/src/%{framework}-%{version}.tar.xz
+Patch0:         %{name}-gcc11.patch
 
 # libical (and thus kcalendarcore) not on all arches for RHEL8.
 %if 0%{?rhel} == 8
@@ -83,17 +85,14 @@ developing applications that use %{name}.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%cmake_kf5 \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{!?tests:OFF}
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name
 
@@ -111,7 +110,7 @@ make test/fast ARGS="--output-on-failure --timeout 10" -C %{_target_platform} ||
 
 %files -f %{name}.lang
 %doc README.md
-%license COPYING*
+%license LICENSES/*
 %{_kf5_datadir}/qlogging-categories5/*%{framework}.*
 %{_kf5_libdir}/libKPimItinerary.so.5*
 %{_kf5_libexecdir}/kitinerary-extractor
@@ -124,6 +123,24 @@ make test/fast ARGS="--output-on-failure --timeout 10" -C %{_target_platform} ||
 
 
 %changelog
+* Fri Oct 16 2020 Jeff Law <law@redhat.com> - 20.08.1-2
+- Fix missing #include for gcc-11
+
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Marek Kasik <mkasik@redhat.com> - 20.04.3-2
+- Rebuild for poppler-0.90.0
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Sat Jun 13 2020 Marie Loise Nolden <loise@kde.org> - 20.04.2-2
 - fix epel build and enhance optional additions at compile time
 

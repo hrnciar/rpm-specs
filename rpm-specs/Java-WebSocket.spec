@@ -1,16 +1,23 @@
+%global forgeurl https://github.com/TooTallNate/Java-WebSocket
+
 Name: Java-WebSocket
-Version: 1.3.8
-Release: 5%{?dist}
+Version: 1.5.1
+Release: 1%{?dist}
 Summary: A barebones WebSocket client and server implementation written in 100% Java
 
+%forgemeta
+
 License: MIT
-URL: http://java-websocket.org/
-Source0: https://github.com/TooTallNate/%{name}/archive/v%{version}.tar.gz
+URL: %{forgeurl}
+Source0: %{forgesource}
 BuildArch: noarch
 
+Requires: java-headless
+
 BuildRequires: maven-local
-BuildRequires: mvn(net.iharder:base64)
-BuildRequires: mvn(org.json:json)
+BuildRequires: mvn(biz.aQute.bnd:bnd-maven-plugin)
+
+Provides: bundled(net.iharder:base64) = 2.3.8
 
 %description
 A barebones WebSocket server and client implementation written in 100% Java.
@@ -24,19 +31,15 @@ Summary: Javadoc for %{name}
 This package contains the API documentation for %{name}.
 
 %prep
-%setup -q
+%forgesetup
 
-rm -f src/main/java/org/java_websocket/util/Base64.java
-find -name '*.java' -exec sed -i 's/org.java_websocket.util.Base64/net.iharder.Base64/g' {} +
-%pom_add_dep net.iharder:base64:2.3.8
+%pom_remove_dep org.json:json
 
 %pom_remove_plugin :maven-javadoc-plugin
 %pom_remove_plugin :maven-source-plugin
-%pom_remove_plugin :maven-gpg-plugin
-%pom_remove_plugin org.sonatype.plugins:nexus-staging-maven-plugin
 
 %build
-#unknown compile errors in tests
+#missing dependencies
 %mvn_build -f
 
 %install
@@ -44,13 +47,28 @@ find -name '*.java' -exec sed -i 's/org.java_websocket.util.Base64/net.iharder.B
 
 %files -f .mfiles
 %doc README.markdown
+%doc CHANGELOG.md
 %license LICENSE
 
 %files javadoc -f .mfiles-javadoc
 %doc README.markdown
+%doc CHANGELOG.md
 %license LICENSE
 
 %changelog
+* Tue Aug 04 2020 Jonny Heggheim <hegjon@gmail.com> - 1.5.1-1
+- Updated to version 1.5.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.8-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.8-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.3.8-6
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.8-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:         stow
 Version:      2.3.1
-Release:      2%{?dist}
+Release:      3%{?dist}
 
 License:      GPLv3+
 URL:          https://www.gnu.org/software/stow/stow.html
@@ -97,6 +97,9 @@ make check
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.3.1-2
 - Perl 5.32 rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.7.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python bindings for the remote Jenkins API
 
 License:        BSD
@@ -90,6 +90,9 @@ install -D -m0644 -p doc/build/man/pythonjenkins.1 %{buildroot}%{_mandir}/man1/p
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Scott K Logan <logans@cottsay.net> - 1.7.0-1
 - Update to 1.7.0 (rhbz#1552355)
 - Use OpenDev upstream

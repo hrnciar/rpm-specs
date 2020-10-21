@@ -1,6 +1,6 @@
 Name:           perl-Net-IP-Minimal
 Version:        0.06
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Minimal functions from Net::IP
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Net-IP-Minimal
@@ -46,6 +46,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.06-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.06-18
 - Perl 5.32 rebuild
 

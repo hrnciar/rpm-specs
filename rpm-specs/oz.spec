@@ -1,6 +1,6 @@
 Name: oz
 Version: 0.17.0
-Release: 7%{?dist}
+Release: 12%{?dist}
 Summary: Library and utilities for automated guest OS installs
 License: LGPLv2
 URL: http://github.com/clalancette/oz
@@ -10,7 +10,7 @@ Source0: https://github.com/clalancette/%{name}/archive/v%{version}/%{name}-%{ve
 Patch1: 01-clarify-bz-instance.patch
 Patch2: 02-drop-armv7-special-console-handling.patch
 Patch3: 03-add-appropriate-arch-checks.patch
-Patch4: 04-armv7-define-gicv2.patch
+#Patch4: 04-armv7-define-gicv2.patch
 Patch5: 05-arm-fix-input-devices.patch
 Patch6: 06-setup-graphical-all-except-s390x.patch
 Patch7: 07-use-2gb-ram.patch
@@ -20,10 +20,15 @@ Patch10: 10-check-edk2-firmware-armv7.patch
 Patch11: 11-make-uefi-configurable.patch
 Patch12: 12-fix-f29-config.patch
 Patch13: 13-add-f30-support.patch
+# https://github.com/clalancette/oz/pull/282
+# fix compatibility with new qemu/libvirt on s390x
+Patch14: oz-0.17.0-s390-input.patch
+Patch15: 0001-aarch64-for-linux-tty-if-acpi.patch
+Patch16: 0002-aarch64-Less-strict-CPU-checking-for-armv7-guests-on.patch
+#Patch17: 0003-fedora-default-to-F30-for-versions-30.patch
 
 BuildArch: noarch
 
-%if 0%{?fedora} > 30
 BuildRequires: python3
 BuildRequires: python3-devel
 BuildRequires: python3-setuptools
@@ -34,18 +39,6 @@ Requires: python3-libvirt
 Requires: python3-m2crypto
 Requires: python3-monotonic
 Requires: python3-requests
-%else
-BuildRequires: python2
-BuildRequires: python2-devel
-BuildRequires: python3-setuptools
-Requires: m2crypto
-Requires: python2
-Requires: python2-lxml
-Requires: python2-libguestfs >= 1.18
-Requires: python2-libvirt
-Requires: python2-monotonic
-Requires: python2-requests
-%endif
 # in theory, oz doesn't really require libvirtd to be local to operate
 # properly.  However, because of the libguestfs manipulations, in practice
 # it really does.  Make it depend on libvirt (so we get libvirtd) for now,
@@ -65,18 +58,10 @@ installations, with minimal input from the user.
 %autosetup -p1
 
 %build
-%if 0%{?fedora} > 30
 %py3_build
-%else
-%py2_build
-%endif
 
 %install
-%if 0%{?fedora} > 30
 %py3_install
-%else
-%py2_install
-%endif
 
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/oz/
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/oz/isocontent/
@@ -115,15 +100,25 @@ fi
 %{_bindir}/oz-customize
 %{_bindir}/oz-cleanup-cache
 %{_mandir}/man1/*
-%if 0%{?fedora} > 30
 %{python3_sitelib}/oz
 %{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
-%else
-%{python2_sitelib}/oz
-%{python2_sitelib}/%{name}-%{version}-py%{python2_version}.egg-info
-%endif
 
 %changelog
+* Mon Oct 05 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.17.0-12
+- Futher arm fixes, drop EOL conditionals
+
+* Sun Oct 04 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.17.0-11
+- Add missing fixes patch
+
+* Sat Oct 03 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.17.0-10
+- Fix screenshots on armv7/aarch64, ARMv7 fixes, drop old release conditionals
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Dan Horák <dan[at]danny.cz> - 0.17.0-8
+- fix compatibility with new qemu/libvirt on s390x
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.17.0-7
 - Rebuilt for Python 3.9
 

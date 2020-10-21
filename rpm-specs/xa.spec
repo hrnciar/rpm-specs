@@ -1,6 +1,6 @@
 Name:           xa
 Version:        2.3.11
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        6502/65816 cross-assembler
 
 License:        GPLv2+
@@ -43,7 +43,7 @@ done
 
 
 %build
-make %{?_smp_mflags} CFLAGS="$RPM_OPT_FLAGS"
+%make_build CFLAGS="$RPM_OPT_FLAGS"
 
 
 %check
@@ -51,7 +51,7 @@ make test
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT PREFIX=%{_prefix} INSTALL="install -p"
+%make_install PREFIX=%{_prefix}
 
 
 %files
@@ -61,6 +61,13 @@ make install DESTDIR=$RPM_BUILD_ROOT PREFIX=%{_prefix} INSTALL="install -p"
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.11-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 2.3.11-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Thu May 07 2020 Dan Horák <dan[at]danny.cz> - 2.3.11-2
 - rebuilt with new source archive
 

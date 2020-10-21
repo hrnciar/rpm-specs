@@ -29,7 +29,7 @@
 
 Name: cri-tools
 Version: 1.11.0
-Release: 5.dev.git%{shortcommit0}%{?dist}
+Release: 6.dev.git%{shortcommit0}%{?dist}
 Summary: CLI and validation tools for Container Runtime Interface
 License: ASL 2.0
 URL: https://%{provider_prefix}
@@ -131,6 +131,9 @@ install -p -m 644 docs/crictl.1 %{buildroot}%{_mandir}/man1
 %{_mandir}/man1/crictl*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.0-6.dev.git19b7255
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.0-5.dev.git19b7255
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

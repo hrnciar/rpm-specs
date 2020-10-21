@@ -8,7 +8,7 @@ one project at a time without introducing conflicts in their dependencies.
 
 Name:             python-%{modname}
 Version:          4.8.2
-Release:          14%{?dist}
+Release:          15%{?dist}
 Summary:          %{sum}
 
 License:          MIT
@@ -91,6 +91,9 @@ ln -s %{_bindir}/virtualenvwrapper.sh %{buildroot}/%{_bindir}/virtualenvwrapper-
 %config(noreplace) %{_sysconfdir}/profile.d/virtualenvwrapper.sh
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.8.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.8.2-14
 - Rebuilt for Python 3.9
 

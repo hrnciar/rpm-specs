@@ -1,6 +1,6 @@
 Name:           flobopuyo
 Version:        0.20
-Release:        30%{?dist}
+Release:        31%{?dist}
 Summary:        2-player falling bubbles game
 
 License:        GPLv2+
@@ -105,6 +105,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

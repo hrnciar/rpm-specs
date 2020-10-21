@@ -1,7 +1,7 @@
 Summary: KDE frontend for anyRemote
 Name: kanyremote
 Version: 8.0
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv3+
 Source0: http://downloads.sourceforge.net/anyremote/%{name}-%{version}.tar.gz
 Requires: python3-qt5-base, python3-bluez >= 0.22, bluez >= 4.64, anyremote >= 6.5
@@ -35,6 +35,9 @@ desktop-file-install --vendor="" \
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

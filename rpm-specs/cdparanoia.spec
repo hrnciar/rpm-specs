@@ -1,7 +1,7 @@
 Summary: Compact Disc Digital Audio (CDDA) extraction tool (or ripper)
 Name: cdparanoia
 Version: 10.2
-Release: 31%{?dist}
+Release: 34%{?dist}
 # the app is GPLv2, everything else is LGPLv2
 License: GPLv2 and LGPLv2
 URL: http://www.xiph.org/paranoia/index.html
@@ -21,7 +21,10 @@ Patch5: cdparanoia-10.2-ldflags.patch
 Requires: %{name}-libs%{?_isa} = %{version}-%{release}
 
 BuildRequires:  gcc
-%description 
+BuildRequires:  autoconf
+BuildRequires:  automake
+
+%description
 Cdparanoia (Paranoia III) reads digital audio directly from a CD, then
 writes the data to a file or pipe in WAV, AIFC or raw 16 bit linear
 PCM format.  Cdparanoia doesn't contain any extra features (like the ones
@@ -70,6 +73,7 @@ for developing applications to read CD Digital Audio disks.
 cp /usr/lib/rpm/redhat/config.* .
 
 %build
+autoreconf -ifv
 %configure --includedir=%{_includedir}/cdda
 # Also remove many warnings which we are aware of
 # Lastly, don't use _smp_mflags since it also makes the build fail
@@ -97,6 +101,16 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_libdir}/*.a
 
 %changelog
+* Mon Oct 05 2020 Stephen Gallagher <sgallagh@redhat.com> - 10.2-34
+- Fix build on Fedora 33+
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.2-33
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.2-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.2-31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

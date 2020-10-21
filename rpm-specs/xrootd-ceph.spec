@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:		xrootd-ceph
 Epoch:		1
-Version:	4.11.3
+Version:	5.0.2
 Release:	1%{?dist}
 Summary:	XRootD plug-in for interfacing with the Ceph storage platform
 
@@ -28,28 +30,31 @@ with the Ceph storage platform.
 %setup -q
 
 %build
-mkdir build
-
-pushd build
-%cmake ..
-%make_build
-popd
+%cmake -DPLUGIN_VERSION:STRING=$(xrootd-config --plugin-version)
+%cmake_build
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 rm %{buildroot}%{_libdir}/libXrdCephPosix.so
 
 %ldconfig_scriptlets
 
 %files
-%{_libdir}/libXrdCeph-4.so
-%{_libdir}/libXrdCephXattr-4.so
+%{_libdir}/libXrdCeph-5.so
+%{_libdir}/libXrdCephXattr-5.so
 %{_libdir}/libXrdCephPosix.so.*
 %license COPYING* LICENSE
 
 %changelog
+* Fri Sep 18 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 1:5.0.2-1
+- Update to version 5.0.2
+
+* Thu Aug 27 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 1:5.0.1-1
+- Update to version 5.0.1 (no code changes)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.11.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 21 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 1:4.11.3-1
 - Update to version 4.11.3
 

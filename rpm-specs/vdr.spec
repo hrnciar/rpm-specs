@@ -26,11 +26,11 @@
 %global vdr_user  vdr
 %global vdr_group video
 # From APIVERSION in config.h
-%global apiver    2.4.1
+%global apiver    2.4.4
 
 Name:           vdr
-Version:        2.4.1
-Release:        5%{?dist}
+Version:        2.4.4
+Release:        2%{?dist}
 Summary:        Video Disk Recorder
 
 License:        GPLv2+
@@ -62,22 +62,21 @@ Source32:       ftp://ftp.tvdr.de/vdr/Plugins/vdr-rcu-2.2.0.tgz
 
 Patch0:         define_AUDIO_GET_PTS.patch
 Patch1:         http://zap.tartarus.org/~ds/debian/dists/stable/main/source/vdr_1.4.5-2.ds.diff.gz
-Patch2:         http://www.saunalahti.fi/~rahrenbe/vdr/patches/vdr-2.4.1-editrecording.patch.gz
+#Patch2:         http://www.saunalahti.fi/~rahrenbe/vdr/patches/vdr-2.4.1-editrecording.patch.gz
 # Extracted from http://copperhead.htpc-forum.de/downloads/extensionpatch/extpngvdr1.7.21v1.diff.gz
 Patch3:         %{name}-1.7.21-plugin-missing.patch
 Patch4:         %{name}-2.4.0-paths.patch
-# https://alioth-lists.debian.net/pipermail/pkg-vdr-dvb-changes/2018-February/015443.html
-Patch6:         vdr-2.4.1-skincurses-log-errors.patch
 # http://vdrportal.de/board/thread.php?postid=343665#post343665
 Patch7:         12_osdbase-maxitems.patch
-Patch8:         http://www.saunalahti.fi/~rahrenbe/vdr/patches/vdr-2.4.1-lcn-support-v2.patch.gz
+#Patch8:         http://www.saunalahti.fi/~rahrenbe/vdr/patches/vdr-2.4.1-lcn-support-v2.patch.gz
 # http://www.udo-richter.de/vdr/naludump.en.html
 Patch10:        http://www.udo-richter.de/vdr/files/vdr-2.1.5-naludump-0.1.diff
 # http://article.gmane.org/gmane.linux.vdr/43590
 Patch11:        %{name}-2.4.0-mainmenuhooks101.patch
 # Sent upstream 2016-06-17
 Patch15:        %{name}-1.7.37-fedora-pkgconfig.patch
-Patch16:        %{name}-2.4.1-glibc231.patch
+Patch17:	%{name}-gcc11.patch
+Patch99:        %{name}-2.4.1-mark-obsolete-NidTid.patch
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -189,7 +188,7 @@ mv $RPM_BUILD_DIR/vdr-%{apiver}/PLUGINS/src/rcu-2.2.0 $RPM_BUILD_DIR/vdr-%{apive
 # TODO: does not apply since 1.7.24
 #patch -F 0 -i debian/patches/06_recording_scan_speedup.dpatch
 patch -F 2 -i debian/patches/07_blockify_define.dpatch
-%patch2 -p1
+#%%patch2 -p1
 %patch3 -p1
 sed \
     -e 's|__CACHEDIR__|%{cachedir}|'   \
@@ -198,13 +197,17 @@ sed \
     -e 's|__VARDIR__|%{vardir}|'       \
     -e 's|__VIDEODIR__|%{videodir}|'   \
     %{PATCH4} | %{__patch} -p1
-%patch6 -p1
 %patch7 -p1
-%patch8 -p1
+#%%patch8 -p1
 %patch10 -p1
 %patch11 -p1
 %patch15 -p1
-%patch16 -p1
+%patch17 -p1
+%patch99 -p1
+
+# Patch APIVERSION TO 2.4.4 to match VDRVERSION
+sed -i 's/2\.4\.3/2.4.4/' config.h
+sed -i 's/20403/20404/' config.h
 
 for f in CONTRIBUTORS HISTORY UPDATE-1.4.0 \
     PLUGINS/src/dvbhddevice/HISTORY; do
@@ -276,7 +279,7 @@ CFLAGS += -I$PWD/include
 CXXFLAGS += -I$PWD/include
 EOF
 
-cflags="${RPM_OPT_FLAGS/-O2/-O3} -fPIC" # see HISTORY for 1.7.17 for -O3
+cflags="-std=c++14 ${RPM_OPT_FLAGS/-O2/-O3} -fPIC" # see HISTORY for 1.7.17 for -O3
 
 make vdr.pc BINDIR=%{_bindir} MANDIR=%{_mandir} CONFDIR=%{configdir} \
     VIDEODIR=%{videodir} CACHEDIR=%{cachedir} RESDIR=%{_datadir}/vdr \
@@ -546,6 +549,27 @@ useradd -r -g %{vdr_group} -d %{vardir} -s /sbin/nologin -M -N \
 
 
 %changelog
+* Tue Sep 15 2020 Jeff Law <law@redhat.com> - 2.4.4-2
+- Re-instate patch to force C++14 as this code is not C++17 ready
+  and to fix ordered pointer comparison against zero.
+
+* Wed Aug 26 2020 Martin Gansser <martinkg@fedoraproject.org> - 2.4.4-1
+- Update to 2.4.4
+- Add vdr-2.4.1-mark-obsolete-NidTid.patch
+- Dropped vdr-2.4.1-skincurses-log-errors.patch
+- Dropped vdr-2.4.1-glibc231.patch
+- Dropped vdr-2.4.1-editrecording.patch.gz
+- Dropped vdr-2.4.1-lcn-support-v2.patch.gz
+
+* Fri Aug 14 2020 Martin Gansser <martinkg@fedoraproject.org> - 2.4.1-8
+- Rebuilt for rawhide
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Martin Gansser <martinkg@fedoraproject.org> - 2.4.1-6
+- Rebuilt for rawhide
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           perl-Test-Deep-JSON
 Version:        0.05
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Compare JSON with Test::Deep
 License:        GPL+ or Artistic
 
@@ -59,6 +59,9 @@ RELEASE_TESTING=1 %{__perl} Build.PL --installdirs=vendor
 %{_mandir}/man3/Test*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.05-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.05-8
 - Perl 5.32 rebuild
 

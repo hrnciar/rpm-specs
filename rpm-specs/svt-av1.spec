@@ -5,17 +5,17 @@ work-in-progress targeting performance levels applicable to both VOD and Live
 encoding / transcoding video applications.}
 
 Name:           svt-av1
-Version:        0.8.3
-Release:        1%{?dist}
+Version:        0.8.4
+Release:        3%{?dist}
 Summary:        Scalable Video Technology for AV1 Encoder
 
 # Main library: BSD-2-Clause-Patent
 # Source/Lib/Common/Codec/EbHmCode.c: BSD
-# Source/App/EncApp/EbAppString.*
+# Source/App/EncApp/EbAppString.*
 # Source/Lib/Common/Codec/EbString.*
 # Source/Lib/Common/Codec/vector.*: MIT
-# Source/Lib/Common/ASM_SSE2/x86inc.asm: ISC
-# Source/App/DecApp/EbMD5Utility.*: PublicDomain
+# Source/Lib/Common/ASM_SSE2/x86inc.asm: ISC
+# Source/App/DecApp/EbMD5Utility.*: PublicDomain
 License:        BSD-2-Clause-Patent and BSD and MIT and ISC and Public Domain
 URL:            https://github.com/OpenVisualCloud/SVT-AV1
 Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -65,10 +65,8 @@ sed -e "s|install: true,|install: true, include_directories : [ include_director
 -e "/svtav1enc_dep =/d" -e 's|, svtav1enc_dep||' -e "s|svtav1enc_dep.found()|true|" -i gstreamer-plugin/meson.build
 
 %build
-mkdir _build
-pushd _build
 # https://github.com/OpenVisualCloud/SVT-AV1/issues/999
-# Use -fcommon until all tho global variables are fixed upstream
+# Use -fcommon until all the global variables are fixed upstream
 export CFLAGS="%build_cflags -fcommon"
 export CXXFLAGS="%build_cxxflags -fcommon"
 %cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo \
@@ -80,20 +78,18 @@ export CXXFLAGS="%build_cxxflags -fcommon"
        -DBUILD_TESTING=OFF \
        -DNATIVE=OFF \
        ..
-%make_build
-popd
+%cmake_build
 
-pushd gstreamer-plugin
-    export LIBRARY_PATH="$PWD/../Bin/RelWithDebInfo:$LIBRARY_PATH"
-    %meson
-    %meson_build
-popd
+cd gstreamer-plugin
+export LIBRARY_PATH="$PWD/../Bin/RelWithDebInfo:$LIBRARY_PATH"
+%meson
+%meson_build
 
 %install
-pushd _build
-%make_install
+%cmake_install
 rm -f %{buildroot}%{_libdir}/*.{a,la}
 
+pushd %{_vpath_builddir}
 mkdir -p %{buildroot}/%{_mandir}/man1
 export PATH=$PATH:%{buildroot}%{_bindir}
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:%{buildroot}%{_libdir}
@@ -101,9 +97,8 @@ help2man -N --help-option=-help --version-string=%{version} SvtAv1DecApp > %{bui
 help2man -N --help-option=-help --no-discard-stderr --version-string=%{version} SvtAv1EncApp > %{buildroot}%{_mandir}/man1/SvtAv1EncApp.1
 popd
 
-pushd gstreamer-plugin
-    %meson_install
-popd
+cd gstreamer-plugin
+%meson_install
 
 %files
 %{_bindir}/SvtAv1DecApp
@@ -128,6 +123,16 @@ popd
 %{_libdir}/gstreamer-1.0/libgstsvtav1enc.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 18:53:17 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.8.4-1
+- Update to 0.8.4 (#1851799)
+
 * Fri Jun 19 18:36:37 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.8.3-1
 - Update to 0.8.3
 

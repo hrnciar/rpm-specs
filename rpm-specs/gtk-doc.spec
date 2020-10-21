@@ -1,19 +1,13 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 %global debug_package %{nil}
 
-%global __python %{__python3}
-
 Name: gtk-doc
-Version: 1.32
-Release: 3%{?dist}
+Version: 1.33.0
+Release: 1%{?dist}
 Summary: API documentation generation tool for GTK+ and GNOME
 
 License: GPLv2+ and GFDL
 URL: http://www.gtk.org/gtk-doc
-Source0: http://download.gnome.org/sources/gtk-doc/1.32/gtk-doc-%{version}.tar.xz
+Source0: http://download.gnome.org/sources/%{name}/1.33/%{name}-%{version}.tar.xz
 
 # Partially revert a gtk-doc 1.31 change that broke e-d-s and NM builds
 # https://bugzilla.redhat.com/show_bug.cgi?id=1775560
@@ -27,6 +21,8 @@ BuildRequires: /usr/bin/xsltproc
 BuildRequires: docbook-style-xsl
 BuildRequires: gcc
 BuildRequires: gettext
+BuildRequires: glib2-devel
+BuildRequires: meson
 BuildRequires: python3-devel
 BuildRequires: python3-pygments
 BuildRequires: python3-parameterized
@@ -53,18 +49,16 @@ and GNOME.
 mv doc/README doc/README.docs
 
 %build
-export PYTHON=%{__python3}
-%configure --disable-silent-rules
-make %{?_smp_mflags}
+%meson
+%meson_build
 
 %install
-%make_install
+%meson_install
+
+%py_byte_compile %{__python3} %{buildroot}%{_datadir}/gtk-doc/
 
 %check
-if ! make check; then
-    cat tests/test-suite.log
-    exit 1
-fi
+%meson_test
 
 %files
 %license COPYING COPYING-DOCS
@@ -77,6 +71,18 @@ fi
 %{_datadir}/cmake/
 
 %changelog
+* Thu Oct 01 2020 Kalev Lember <klember@redhat.com> - 1.33-1
+- Update to 1.33
+- Switch to meson build system
+- Explicitly byte-compile python files using py_byte_compile macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.32-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.32-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.32-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

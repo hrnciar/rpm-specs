@@ -1,4 +1,3 @@
-
 # define to allow khtml to remain the default
 %ifarch ppc ppc64 s390 s390x
 %global khtml 1
@@ -13,7 +12,7 @@
 Name:    kwebkitpart
 Summary: A KPart based on QtWebKit
 Version: 1.4.0
-Release: 0.6.%{snap}%{?dist}
+Release: 0.8.%{snap}%{?dist}
 
 License: LGPLv2+
 URL:     https://cgit.kde.org/kwebkitpart.git/
@@ -69,16 +68,13 @@ sed -i.InitialPreference \
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=$RPM_BUILD_ROOT -C %{_target_platform}
+%cmake_install
 
 %find_lang kwebkitpart
 
@@ -110,6 +106,12 @@ fi
 
 
 %changelog
+* Fri Sep 11 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.4.0-0.8.20190110
+- minor cosmetics
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-0.7.20190110
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-0.6.20190110
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -12,7 +12,7 @@
 
 Name: google-compute-engine-tools
 Version: 2.8.12
-Release: 7%{?dist}
+Release: 8%{?dist}
 Summary: Google Compute Engine guest environment tools
 License: ASL 2.0
 URL: https://github.com/GoogleCloudPlatform/%{srcname}
@@ -116,6 +116,9 @@ cp google_config/dhcp/google_hostname.sh %{buildroot}%{_sysconfdir}/dhcp/dhclien
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.12-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.8.12-7
 - Rebuilt for Python 3.9
 

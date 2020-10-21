@@ -1,5 +1,7 @@
+%undefine __cmake_in_source_build
+
 Name:           intel-gmmlib
-Version:        20.1.1
+Version:        20.3.2
 Release:        1%{?dist}
 Summary:        Intel Graphics Memory Management Library
 
@@ -38,23 +40,14 @@ find Source -name "*.h" -exec chmod -x {} ';'
 
 
 %build
-mkdir build
-pushd build
 %cmake \
-  -DRUN_TEST_SUITE:BOOL=False \
-  ..
+  -DRUN_TEST_SUITE:BOOL=False
 
-%make_build
-
-popd
+%cmake_build
 
 
 %install
-pushd build
-%make_install
-find %{buildroot} -name '*.la' -exec rm -f {} ';'
-
-popd
+%cmake_install
 
 
 %ldconfig_scriptlets
@@ -74,6 +67,34 @@ popd
 
 
 %changelog
+* Fri Sep 25 2020 Nicolas Chauvet <kwizart@gmail.com> - 20.3.2-1
+- Update to 20.3.2
+
+* Mon Sep 14 2020 Nicolas Chauvet <kwizart@gmail.com> - 20.3.1-1
+- Update to 20.3.1
+
+* Sun Sep 13 2020 Nicolas Chauvet <kwizart@gmail.com> - 20.2.5-2
+- rebuilt
+
+* Tue Sep 01 2020 Nicolas Chauvet <kwizart@gmail.com> - 20.2.5-1
+- Update to 20.2.5
+
+* Thu Aug 20 2020 Vasiliy N. Glazov <vascom2@gmail.com> - Update to 20.2.4-1
+- Update to 20.2.4
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.2.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.2.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Nicolas Chauvet <kwizart@gmail.com> - 20.2.3-1
+- Update to 20.2.3
+
+* Wed Jun 24 2020 Nicolas Chauvet <kwizart@gmail.com> - 20.2.2-1
+- Update to 20.2.2
+
 * Thu Mar 26 2020 Nicolas Chauvet <kwizart@gmail.com> - 20.1.1-1
 - Update to 20.1.1
 

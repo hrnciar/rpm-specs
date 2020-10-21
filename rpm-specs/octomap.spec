@@ -1,10 +1,11 @@
+%undefine __cmake_in_source_build
 %global commit 857fd12b2ec010a086e6044f1b47b250b29276df
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 %global soversion 1.9
 
 Name:           octomap
 Version:        1.9.5
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Efficient Probabilistic 3D Mapping Framework Based on Octrees
 
 # octovis is GPLv2, octomap and dynamic-edt-3d are BSD
@@ -86,22 +87,19 @@ you will need to install dynamic-edt-3d-devel.
 rm -fr octovis/src/extern/
 
 %build
-mkdir build; pushd build
-%cmake .. \
+%cmake \
   -DCMAKE_BUILD_TYPE=Release
 
-make %{?_smp_mflags}
-make docs
-popd
+%cmake_build
+%cmake_build --target docs
 
 %install
-%make_install -C build
+%cmake_install
 
 %check
-pushd build
 export LD_LIBRARY_PATH=%{buildroot}%{_libdir}
 # Color octree comes out to be wrong size on ix86; ignore for now
-make test ARGS="--output-on-failure" || exit 0
+%ctest --output-on-failure || exit 0
 
 %ldconfig_scriptlets
 
@@ -158,6 +156,13 @@ make test ARGS="--output-on-failure" || exit 0
 %{_libdir}/dynamicEDT3D
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.5-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 18 2020 Rich Mattes <richmattes@gmail.com> - 1.9.5-2
 - Fix CMake exports
 

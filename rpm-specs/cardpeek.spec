@@ -1,6 +1,6 @@
 Name:           cardpeek
 Version:        0.8.4
-Release:        15%{?dist}
+Release:        17%{?dist}
 Summary:        Tool to read the contents of smart cards
 
 License:        GPLv3+
@@ -61,6 +61,13 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/cardpeek.desktop
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.4-17
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.4-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.4-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

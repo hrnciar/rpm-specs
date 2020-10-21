@@ -1,13 +1,13 @@
 %global pypi_name slugify
 
 Name:           python-slugify
-Version:        4.0.0
-Release:        3%{?dist}
-Summary:        A Python module to deal with unicode slugs
+Version:        4.0.1
+Release:        4%{?dist}
+Summary:        Python module to deal with unicode slugs
 
 License:        BSD
 URL:            https://github.com/un33k/python-slugify
-Source0:        https://github.com/un33k/python-slugify/archive/%{version}/python-%{pypi_name}-%{version}.tar.gz
+Source0:        %{url}/archive/%{version}/python-%{pypi_name}-%{version}.tar.gz
 
 BuildArch:      noarch
 
@@ -42,9 +42,15 @@ A Python slugify application that handles Unicode.
 %license LICENSE
 %{_bindir}/%{pypi_name}
 %{python3_sitelib}/%{pypi_name}/
-%{python3_sitelib}/python_slugify-%{version}-py%{python3_version}.egg-info
+%{python3_sitelib}/python_slugify-%{version}-py*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Fabian Affolter <mail@fabian-affolter.ch> - 4.0.1-1
+- Update to latest upstream release 4.0.1
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.0.0-3
 - Rebuilt for Python 3.9
 

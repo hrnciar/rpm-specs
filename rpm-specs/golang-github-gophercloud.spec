@@ -6,7 +6,7 @@
 
 # https://github.com/gophercloud/gophercloud
 %global goipath         github.com/gophercloud/gophercloud
-Version:                0.8.0
+Version:                0.12.0
 
 %gometa
 
@@ -19,7 +19,7 @@ resources.}
 %global godocs          docs CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenStack SDK for Go
 
 # Upstream license specification: Apache-2.0
@@ -53,6 +53,12 @@ BuildRequires:  golang(gopkg.in/yaml.v2)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 15:50:15 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.12.0-1
+- Update to 0.12.0
+
 * Wed Feb 12 20:43:02 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.8.0-1
 - Update to 0.8.0
 

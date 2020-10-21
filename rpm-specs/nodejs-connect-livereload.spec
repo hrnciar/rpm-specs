@@ -5,7 +5,7 @@
 
 Name:               nodejs-connect-livereload
 Version:            0.4.0
-Release:            11%{?dist}
+Release:            12%{?dist}
 Summary:            Connect middleware for adding the livereload script to the response
 
 License:            MIT
@@ -50,6 +50,9 @@ cp -pr package.json index.js \
 %{nodejs_sitelib}/connect-livereload/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

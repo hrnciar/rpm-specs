@@ -1,7 +1,7 @@
 %global use_wayland 1
 
 Name:		enlightenment
-Version:	0.24.1
+Version:	0.24.2
 Release:	1%{?dist}
 License:	BSD
 Summary:	Enlightenment window manager
@@ -123,6 +123,12 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/*.desktop
 %{_includedir}/enlightenment
 
 %changelog
+* Fri Jul 31 2020 Tom Callaway <spot@fedoraproject.org> - 0.24.2-1
+- update to 0.24.2
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.24.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun  2 2020 Tom Callaway <spot@fedoraproject.org> - 0.24.1-1
 - update to 0.24.1
 

@@ -3,14 +3,9 @@
 
 # https://github.com/hashicorp/go-uuid
 %global goipath         github.com/hashicorp/go-uuid
-Version:                1.0.1
+Version:                1.0.2
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-hashicorp-go-uuid-devel < 1.0.1-2
-}
 
 %global common_description %{expand:
 Generates UUID-format strings using high quality, purely random bytes. It is not
@@ -22,7 +17,7 @@ their component bytes.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        5%{?dist}
+Release:        2%{?dist}
 Summary:        Generates uuid-format strings using purely high quality random bytes
 
 # Upstream license specification: MPL-2.0
@@ -49,6 +44,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 22:08:29 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.2-1
+- Update to 1.0.2
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

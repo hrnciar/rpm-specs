@@ -1,6 +1,6 @@
 Name:		perl-Switch
 Version:	2.17
-Release:	19%{?dist}
+Release:	20%{?dist}
 Summary:	A switch statement for Perl
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Switch
@@ -53,6 +53,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.17-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.17-19
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:       swaybg
 Version:    1.0
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    Wallpaper tool for Wayland compositors
 
 License:    MIT
@@ -39,6 +39,9 @@ BuildRequires:  scdoc
 %{_mandir}/man1/swaybg.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

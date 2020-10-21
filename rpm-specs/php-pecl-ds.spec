@@ -29,7 +29,7 @@
 Summary:        Data Structures for PHP
 Name:           php-pecl-%{pecl_name}
 Version:        1.2.9
-Release:        4%{?dist}
+Release:        5%{?dist}
 License:        MIT
 URL:            http://pecl.php.net/package/%{pecl_name}
 Source0:        http://pecl.php.net/get/%{pecl_name}-%{version}.tgz
@@ -183,6 +183,9 @@ cd ..
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.9-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.9-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

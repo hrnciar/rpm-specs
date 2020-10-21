@@ -18,7 +18,7 @@ discover your full name and email address.}
 %global godocs          README.adoc
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Go module that mines configuration files to discover full name and email address
 
 License:        BSD
@@ -45,5 +45,8 @@ rm -rf demo
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Denis Fateyev <denis@fateyev.com> - 0.1.0-1
 - Initial Fedora RPM package

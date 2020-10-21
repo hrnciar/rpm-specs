@@ -1,6 +1,6 @@
 Name:           perl-Math-Factor-XS
 Version:        0.40
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        Factorize numbers and calculate matching multiplications
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Math-Factor-XS
@@ -53,6 +53,9 @@ find %{buildroot} -type f -name '*.bs' -size 0 -exec rm -f {} \;
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.40-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.40-27
 - Perl 5.32 rebuild
 

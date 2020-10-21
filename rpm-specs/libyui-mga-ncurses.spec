@@ -2,14 +2,7 @@
 # and so-version of libyui.
 %global libsuffix yui
 %global libname lib%{libsuffix}
-%global devel_min_ver 3.0.4
-
-# No proper release-tags, yet.  :(
-%global commit 026f2e68b204e317dfeacca01ae582c75fbfadb9
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global gitdate 20131215
-%global git_ver -git%{shortcommit}.%{gitdate}
-%global git_rel .git%{shortcommit}.%{gitdate}
+%global devel_min_ver 3.10.0
 
 # Setup _pkgdocdir if not defined already.
 %{!?_pkgdocdir:%global _pkgdocdir %{_docdir}/%{name}-%{version}}
@@ -19,22 +12,22 @@
 
 
 Name:			%{libname}-mga-ncurses
-Version:		1.0.2
-Release:		0.20%{?git_rel}%{?dist}
+Version:		1.1.0
+Release:		1%{?dist}
 Summary:		Libyui-Ncurses extensions for Mageia tools
 
 License:		LGPLv2 or LGPLv3
-URL:			https://github.com/xquiet/%{name}
-Source0:		%{url}/archive/%{commit}.tar.gz#/%{name}-%{version}%{?git_ver}.tar.gz
+URL:			https://github.com/manatools/%{name}
+Source0:		%{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  gcc-c++
 BuildRequires:		boost-devel
 BuildRequires:		cmake				>= 2.8
 BuildRequires:		%{libname}-devel		>= %{devel_min_ver}
-BuildRequires:		%{libname}-mga-devel
-BuildRequires:		%{libname}-ncurses-devel
+BuildRequires:		%{libname}-mga-devel		>= 1.1.0
+BuildRequires:		%{libname}-ncurses-devel	>= 2.55.0
 
-Supplements:(libyui-mga%{?_isa} and libyui-ncurses%{?_isa})
+Supplements:		(libyui-mga%{?_isa} and libyui-ncurses%{?_isa})
 
 %description
 This package contains the Libyui-Ncurses extensions for Mageia tools.
@@ -72,34 +65,30 @@ for %{name}.
 
 
 %prep
-%setup -qn %{name}-%{commit}
+%autosetup -p1
 ./bootstrap.sh
 
 
 %build
-%{__mkdir} -p %{_cmake_build_subdir}
-pushd %{_cmake_build_subdir}
 %cmake							\
 	-DENABLE_WERROR=OFF				\
 	-DYPREFIX=%{_prefix}				\
 	-DLIB_DIR=%{_libdir}				\
 	-DCMAKE_BUILD_TYPE=RELEASE			\
 	-DRESPECT_FLAGS=ON				\
-	-DSKIP_LATEX=ON					\
-	..
+	-DSKIP_LATEX=ON
 
-%make_build
-%make_build docs
-popd
+%cmake_build
+%cmake_build --target docs
 
 
 %install
-pushd %{_cmake_build_subdir}
 %{__mkdir} -p	%{buildroot}%{_libdir}/%{libsuffix}	\
 		%{buildroot}%{_datadir}/%{name}/theme
 
-%make_install
+%cmake_install
 
+pushd %{_vpath_builddir}
 # Delete obsolete files.
 %{__rm} -rf	%{buildroot}%{_defaultdocdir}		\
 		doc/html/*.m*
@@ -134,6 +123,16 @@ popd
 
 
 %changelog
+* Sat Aug 01 2020 Neal Gompa <ngompa13@gmail.com> - 1.1.0-1
+- Rebase to 1.1.0 (#1539458)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-0.22.git026f2e6.20131215
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-0.21.git026f2e6.20131215
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-0.20.git026f2e6.20131215
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

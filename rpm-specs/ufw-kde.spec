@@ -1,12 +1,8 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 %global snapdate 20161006
 
 Name:           ufw-kde
 Version:        0.5.0
-Release:        0.14.%{snapdate}git%{?dist}
+Release:        0.17.%{snapdate}git%{?dist}
 Summary:        UFW control module for KDE
 
 # Some files GPLv3 only, some files GPLv2+
@@ -57,6 +53,8 @@ make %{?_smp_mflags} -C %{_target_platform}
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE3}
+
+%py_byte_compile %{__python3} %{buildroot}%{_libexecdir}/kde4/
 %find_lang %{name} --all-name --with-kde
 
 %files -f %{name}.lang
@@ -75,6 +73,16 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE3}
 %{_datadir}/applications/ufw-kde.desktop
 
 %changelog
+* Mon Sep 07 2020 Than Ngo <than@redhat.com> - 0.5.0-0.17.git
+- Fixed FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-0.16.20161006git
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-0.15.20161006git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-0.14.20161006git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

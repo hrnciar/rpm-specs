@@ -1,6 +1,6 @@
 
 Name:		console-setup
-Version:	1.195
+Version:	1.197
 Release:	1%{?dist}
 Summary:	Tools for configuring the console using X Window System key maps
 
@@ -45,7 +45,7 @@ not wasted but used for another symbol.
 
 
 %prep
-%setup -q -n %{name}
+%setup -q -n %{name}-%{version}
 %patch0 -p1 -b .paths
 %patch1 -p1 -b .fsf-address
 %patch2 -p1 -b .ctrll-lock
@@ -93,6 +93,17 @@ cp -a Fonts/fontsets Fonts/*.equivalents Fonts/*.set \
 
 
 %changelog
+* Tue Sep 22 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 1.197-1
+- Update to latest upstream version
+  Resolves: #1881276
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.196-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 1.196-1
+- Update to latest upstream version
+  Resolves: #1856118
+
 * Mon Mar 30 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 1.195-1
 - Update to latest upstream version
   Resolves: #1817552

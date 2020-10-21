@@ -18,7 +18,7 @@ Go wrapper for libsass, the only Sass 3.5 compiler for Go.}
 %global godocs          examples README.md docs
 
 Name:           %{goname}
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Go wrapper for libsass, the only Sass 3.5 compiler for Go
 
 # Upstream license specification: Apache-2.0
@@ -58,6 +58,9 @@ done
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

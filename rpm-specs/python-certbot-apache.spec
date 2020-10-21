@@ -13,7 +13,7 @@
 %endif
 
 Name:       python-%{pypi_name}
-Version:    1.5.0
+Version:    1.9.0
 Release:    1%{?dist}
 Summary:    The apache plugin for certbot
 
@@ -40,7 +40,7 @@ BuildRequires:  python3-devel
 %if %{with python2}
 #For running tests
 BuildRequires: python2-acme >= 0.29.0
-BuildRequires: python2-certbot >= 1.1.0
+BuildRequires: python2-certbot >= 1.6.0
 BuildRequires: python2-mock
 BuildRequires: python2-zope-component
 BuildRequires: python2-zope-interface
@@ -56,7 +56,7 @@ BuildRequires: python2-pytest
 
 %if %{with python3}
 BuildRequires: python3-acme >= 0.29.0
-BuildRequires: python3-certbot >= 1.1.0
+BuildRequires: python3-certbot >= 1.6.0
 BuildRequires: python3-augeas
 BuildRequires: python3-pytest
 BuildRequires: python3-zope-component
@@ -80,7 +80,7 @@ Provides:      %{pypi_name} = %{version}-%{release}
 # Although a plugin for the certbot command it's technically
 # an extension to the certbot python libraries
 Requires:      python2-acme >= 0.29.0
-Requires:      python2-certbot >= 0.39.0
+Requires:      python2-certbot >= 1.6.0
 %if 0%{?rhel} && 0%{?rhel} <= 7
 # EL7 has unversioned names for these packages
 Requires:      python-augeas
@@ -112,7 +112,7 @@ Provides:      %{pypi_name} = %{version}-%{release}
 # Although a plugin for the certbot command it's technically
 # an extension to the certbot python libraries
 Requires:      python3-acme >= 0.29.0
-Requires:      python3-certbot >= 0.39.0
+Requires:      python3-certbot >= 1.6.0
 Requires:      python3-augeas
 Requires:      mod_ssl
 %if 0%{?fedora} || (0%{?rhel} && 0%{?rhel} >= 8)
@@ -147,7 +147,7 @@ rm -rf %{pypi_name}.egg-info
 %{__python2} setup.py test
 %endif
 %if %{with python3}
-%{__python3} setup.py test
+%{__python3} -m pytest
 %endif
 
 
@@ -176,6 +176,21 @@ rm -rf %{pypi_name}.egg-info
 %endif
 
 %changelog
+* Thu Oct 08 2020 Nick Bebout <nb@fedoraproject.org> - 1.9.0-1
+- Update to 1.9.0
+
+* Tue Oct 06 2020 Nick Bebout <nb@fedoraproject.org> - 1.8.0-1
+- Update to 1.8.0
+
+* Sun Aug 16 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.7.0-1
+- Update to 1.7.0 (#1866069)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.6.0-1
+- Update to 1.6.0 (#1854617)
+
 * Sat Jun 06 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.5.0-1
 - Update to 1.5.0 (#1843202)
 

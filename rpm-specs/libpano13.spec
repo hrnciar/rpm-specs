@@ -1,7 +1,7 @@
 Summary: Library for manipulating panoramic images
 Name: libpano13
 Version: 2.9.19
-Release: 11%{?dist}
+Release: 13%{?dist}
 License: GPLv2+
 URL: http://panotools.sourceforge.net/
 Source: http://downloads.sourceforge.net/panotools/%{name}-%{version}.tar.gz
@@ -47,15 +47,13 @@ programs which will manipulate panoramas using the libpano13 library.
 %setup -q
 
 %build
-%cmake . -DSUPPORT_JAVA_PROGRAMS=0
-make VERBOSE=1 %{?_smp_mflags}
+%cmake -DSUPPORT_JAVA_PROGRAMS=0
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 rm %{buildroot}/%{_libdir}/libpano13.a
 rm -rf %{buildroot}/usr/share/pano13
-
-%ldconfig_scriptlets
 
 %files
 %doc AUTHORS ChangeLog COPYING NEWS README README.linux
@@ -83,6 +81,12 @@ rm -rf %{buildroot}/usr/share/pano13
 %{_libdir}/pkgconfig/libpano13.pc
 
 %changelog
+* Wed Jul 29 2020 Bruno Postle <bruno@postle.net> - 2.9.19-13
+- cmake macros have changed, fix mass rebuild failure
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.19-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.19-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,5 +1,5 @@
 Name:           metamath
-Version:        0.182
+Version:        0.193
 Release:        1%{?dist}
 Summary:        Construct mathematics from basic axioms
 
@@ -48,7 +48,7 @@ mathematics and computers, with references to other proof verifiers and
 automated theorem provers.
 
 %prep
-%setup -q -n %{name}
+%autosetup -n %{name}
 cp -p %{SOURCE1} .
 touch special-settings.sty
 
@@ -63,7 +63,7 @@ autoreconf -fi
 
 %build
 %configure CFLAGS="%{optflags} -DINLINE=inline -fwrapv"
-make %{?_smp_mflags}
+%make_build
 
 # Build the manual
 touch metamath.ind
@@ -100,6 +100,30 @@ cp -p %{name}.pdf %{buildroot}%{_docdir}/%{name}
 %{_docdir}/metamath/metamath.pdf
 
 %changelog
+* Thu Sep 17 2020 Jerry James <loganjerry@gmail.com> - 0.193-1
+- Version 0.193
+
+* Mon Sep  7 2020 Jerry James <loganjerry@gmail.com> - 0.192-1
+- Version 0.192
+
+* Mon Aug 24 2020 Jerry James <loganjerry@gmail.com> - 0.188-1
+- Version 0.188
+
+* Tue Aug 18 2020 Jerry James <loganjerry@gmail.com> - 0.187-1
+- Version 0.187
+
+* Sun Aug  9 2020 Jerry James <loganjerry@gmail.com> - 0.186-1
+- Version 0.186
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.184-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Jerry James <loganjerry@gmail.com> - 0.184-1
+- Version 0.184
+
+* Wed Jul  1 2020 Jerry James <loganjerry@gmail.com> - 0.183-1
+- Version 0.183
+
 * Mon Apr 13 2020 Jerry James <loganjerry@gmail.com> - 0.182-1
 - Version 0.182
 

@@ -1,6 +1,6 @@
 Name:           perl-HTTP-Entity-Parser
-Version:        0.22
-Release:        3%{?dist}
+Version:        0.24
+Release:        1%{?dist}
 Summary:        PSGI compliant HTTP Entity Parser
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/HTTP-Entity-Parser
@@ -69,6 +69,15 @@ data and application/json.
 %{_mandir}/man3/*
 
 %changelog
+* Sat Aug 22 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 0.24-1
+- Update to 0.24.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.23-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 0.23-1
+- Update to 0.23.
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.22-3
 - Perl 5.32 rebuild
 

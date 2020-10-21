@@ -1,19 +1,15 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:           sugar-nutrition
-Version:        15
-Release:        8%{?dist}
+Version:        16
+Release:        1%{?dist}
 Summary:        A collection of nutrition games
 
 License:        GPLv3+ and MIT
 URL:            http://wiki.sugarlabs.org/go/Activities/Nutrition
-Source0:        https://github.com/sugarlabs/nutrition/archive/v%{version}.tar.gz
+Source0:        http://download.sugarlabs.org/sources/honey/Nutrition/Nutrition-%{version}.tar.bz2
 
-BuildRequires:  python2 gettext python2-devel sugar-toolkit-gtk3
+BuildRequires:  python3 gettext python3-devel sugar-toolkit-gtk3
 BuildArch:      noarch
-Requires:       sugar >= 0.97.0
+Requires:       sugar >= 0.116
 
 %description
 Nutrition is a collection of nutrition games for sugar. There are 
@@ -23,16 +19,19 @@ answer a smiley face will appear. It educates the children about
 food and nutrition.
 
 %prep
-%autosetup -n nutrition-%{version}
+%autosetup -n Nutrition-%{version}
 
-sed -i 's/python/python2/' *.py
+sed -i 's/python/python3/' *.py
 
 %build
-python2 ./setup.py build
+python3 ./setup.py build
 
 %install
-python2 ./setup.py install --prefix=$RPM_BUILD_ROOT/%{_prefix}
+python3 ./setup.py install --prefix=$RPM_BUILD_ROOT/%{_prefix}
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
+
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}/%{sugaractivitydir}/Nutrition.activity/
 
 %find_lang org.sugarlabs.NutritionActivity
 
@@ -42,6 +41,17 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 %{sugaractivitydir}/Nutrition.activity/
 
 %changelog
+* Mon Aug 10 2020 Ibiam Chihurumnaya <ibiamchihurumnaya@gmail.com> - 16-1
+- Release version 16
+- Change to py_byte_compile as stated in phase 3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 15-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 15-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 15-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

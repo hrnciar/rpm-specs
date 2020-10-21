@@ -6,6 +6,7 @@
 %bcond_without sqlite
 %bcond_without cdb
 %bcond_without ldap
+%bcond_without lmdb
 %bcond_without pcre
 %bcond_without sasl
 %bcond_without tls
@@ -47,7 +48,7 @@
 
 Name: postfix
 Summary: Postfix Mail Transport Agent
-Version: 3.5.3
+Version: 3.5.7
 Release: 1%{?dist}
 Epoch: 2
 URL: http://www.postfix.org
@@ -104,6 +105,7 @@ BuildRequires: systemd-units, libicu-devel, libnsl2-devel
 BuildRequires: gcc, m4, findutils
 
 %{?with_ldap:BuildRequires: openldap-devel}
+%{?with_lmdb:BuildRequires: lmdb-devel}
 %{?with_sasl:BuildRequires: cyrus-sasl-devel}
 %{?with_pcre:BuildRequires: pcre-devel}
 %{?with_mysql:BuildRequires: mariadb-connector-c-devel}
@@ -197,6 +199,16 @@ This provides support for LDAP maps in Postfix. If you plan to use LDAP
 maps with Postfix, you need this.
 %endif
 
+%if %{with lmdb}
+%package lmdb
+Summary: Postfix LDMB map support
+Requires: %{name} = %{epoch}:%{version}-%{release}
+
+%description lmdb
+This provides support for LMDB maps in Postfix. If you plan to use LMDB
+maps with Postfix, you need this.
+%endif
+
 %if %{with pcre}
 %package pcre
 Summary: Postfix PCRE map support
@@ -235,7 +247,7 @@ for f in README_FILES/TLS_{LEGACY_,}README TLS_ACKNOWLEDGEMENTS; do
 done
 
 %build
-unset AUXLIBS AUXLIBS_LDAP AUXLIBS_PCRE AUXLIBS_MYSQL AUXLIBS_PGSQL AUXLIBS_SQLITE AUXLIBS_CDB
+unset AUXLIBS AUXLIBS_LDAP AUXLIBS_LMDB AUXLIBS_PCRE AUXLIBS_MYSQL AUXLIBS_PGSQL AUXLIBS_SQLITE AUXLIBS_CDB
 CCARGS="-fPIC -fcommon"
 AUXLIBS="-lnsl"
 
@@ -246,6 +258,10 @@ CCARGS="${CCARGS} -fsigned-char"
 %if %{with ldap}
   CCARGS="${CCARGS} -DHAS_LDAP -DLDAP_DEPRECATED=1 %{?with_sasl:-DUSE_LDAP_SASL}"
   AUXLIBS_LDAP="-lldap -llber"
+%endif
+%if %{with lmdb}
+  CCARGS="${CCARGS} -DHAS_LMDB"
+  AUXLIBS_LMDB="-llmdb"
 %endif
 %if %{with pcre}
   # -I option required for pcre 3.4 (and later?)
@@ -297,19 +313,17 @@ LDFLAGS="%{?__global_ldflags} %{?_hardened_build:-Wl,-z,relro,-z,now}"
 # way how to get them in
 make -f Makefile.init makefiles shared=yes dynamicmaps=yes \
   %{?_hardened_build:pie=yes} CCARGS="${CCARGS}" AUXLIBS="${AUXLIBS}" \
-  AUXLIBS_LDAP="${AUXLIBS_LDAP}" AUXLIBS_PCRE="${AUXLIBS_PCRE}" \
-  AUXLIBS_MYSQL="${AUXLIBS_MYSQL}" AUXLIBS_PGSQL="${AUXLIBS_PGSQL}" \
-  AUXLIBS_SQLITE="${AUXLIBS_SQLITE}" AUXLIBS_CDB="${AUXLIBS_CDB}"\
+  AUXLIBS_LDAP="${AUXLIBS_LDAP}" AUXLIBS_LMDB="${AUXLIBS_LMDB}" \
+  AUXLIBS_PCRE="${AUXLIBS_PCRE}" AUXLIBS_MYSQL="${AUXLIBS_MYSQL}" \
+  AUXLIBS_PGSQL="${AUXLIBS_PGSQL}" AUXLIBS_SQLITE="${AUXLIBS_SQLITE}" \
+  AUXLIBS_CDB="${AUXLIBS_CDB}" \
   DEBUG="" SHLIB_RPATH="-Wl,-rpath,%{postfix_shlib_dir} $LDFLAGS" \
   OPT="$RPM_OPT_FLAGS -fno-strict-aliasing -Wno-comment" \
   POSTFIX_INSTALL_OPTS=-keep-build-mtime
 
-make %{?_smp_mflags}
+%make_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT
-
 # install postfix into $RPM_BUILD_ROOT
 
 # Move stuff around so we don't conflict with sendmail
@@ -337,12 +351,6 @@ make non-interactive-package \
        sample_directory=%{postfix_sample_dir} \
        readme_directory=%{postfix_readme_dir} || exit 1
 
-%if 0%{?fedora} < 23
-# This installs into the /etc/rc.d/init.d directory
-mkdir -p $RPM_BUILD_ROOT%{_initrddir}
-install -c %{SOURCE1} $RPM_BUILD_ROOT%{_initrddir}/postfix
-%endif
-
 # Systemd
 mkdir -p %{buildroot}%{_unitdir}
 install -m 644 %{SOURCE2} %{buildroot}%{_unitdir}
@@ -355,8 +363,8 @@ for i in active bounce corrupt defer deferred flush incoming private saved maild
     mkdir -p $RPM_BUILD_ROOT%{postfix_queue_dir}/$i
 done
 
-# install performance benchmark tools by hand
-for i in smtp-sink smtp-source ; do
+# install performance benchmark and test tools by hand
+for i in smtp-sink smtp-source posttls-finger ; do
   install -c -m 755 bin/$i $RPM_BUILD_ROOT%{postfix_command_dir}/
   install -c -m 755 man/man1/$i.1 $RPM_BUILD_ROOT%{_mandir}/man1/
 done
@@ -433,7 +441,7 @@ function split_file
 # split global dynamic maps configuration to individual sub-packages
 pushd $RPM_BUILD_ROOT%{postfix_config_dir}
 for map in %{?with_mysql:mysql} %{?with_pgsql:pgsql} %{?with_sqlite:sqlite} \
-%{?with_cdb:cdb} %{?with_ldap:ldap} %{?with_pcre:pcre}; do
+%{?with_cdb:cdb} %{?with_ldap:ldap} %{?with_lmdb:lmdb} %{?with_pcre:pcre}; do
   rm -f dynamicmaps.cf.d/"$map" "postfix-files.d/$map"
   split_file "^\s*$map\b" "$map" dynamicmaps.cf
   sed -i "s|postfix-$map\\.so|%{postfix_shlib_dir}/\\0|" "dynamicmaps.cf.d/$map"
@@ -585,6 +593,8 @@ fi
 %exclude %{postfix_doc_dir}/README_FILES/CDB_README
 %exclude %{_mandir}/man5/ldap_table.5*
 %exclude %{postfix_doc_dir}/README_FILES/LDAP_README
+%exclude %{_mandir}/man5/lmdb_table.5*
+%exclude %{postfix_doc_dir}/README_FILES/LMDB_README
 %exclude %{_mandir}/man5/pcre_table.5*
 %exclude %{postfix_doc_dir}/README_FILES/PCRE_README
 
@@ -625,6 +635,7 @@ fi
 
 %attr(0755, root, root) %{postfix_command_dir}/smtp-sink
 %attr(0755, root, root) %{postfix_command_dir}/smtp-source
+%attr(0755, root, root) %{postfix_command_dir}/posttls-finger
 
 %attr(0755, root, root) %{postfix_command_dir}/postalias
 %attr(0755, root, root) %{postfix_command_dir}/postcat
@@ -745,6 +756,15 @@ fi
 %attr(0644, root, root) %{postfix_doc_dir}/README_FILES/LDAP_README
 %endif
 
+%if %{with lmdb}
+%files lmdb
+%attr(0644, root, root) %{postfix_config_dir}/dynamicmaps.cf.d/lmdb
+%attr(0644, root, root) %{postfix_config_dir}/postfix-files.d/lmdb
+%attr(0755, root, root) %{postfix_shlib_dir}/postfix-lmdb.so
+%attr(0644, root, root) %{_mandir}/man5/lmdb_table.5*
+%attr(0644, root, root) %{postfix_doc_dir}/README_FILES/LMDB_README
+%endif
+
 %if %{with pcre}
 %files pcre
 %attr(0644, root, root) %{postfix_config_dir}/dynamicmaps.cf.d/pcre
@@ -755,6 +775,30 @@ fi
 %endif
 
 %changelog
+* Mon Aug 31 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 2:3.5.7-1
+- New version
+  Resolves: rhbz#1873857
+
+* Thu Aug  6 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 2:3.5.6-2
+- Minor spec cleanup
+- Added posttls-finger test tool
+  Resolves: rhbz#1865701
+
+* Tue Jul 28 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 2:3.5.6-1
+- New version
+  Resolves: rhbz#1860547
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 2:3.5.4-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Wed Jul  8 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 2:3.5.4-2
+- Added support for LMDB maps
+
+* Mon Jun 29 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 2:3.5.4-1
+- New version
+  Resolves: rhbz#1851650
+
 * Mon Jun 15 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 2:3.5.3-1
 - New version
   Resolves: rhbz#1846939

@@ -5,8 +5,8 @@
 %global crate ostree
 
 Name:           rust-%{crate}
-Version:        0.7.2
-Release:        1%{?dist}
+Version:        0.8.0
+Release:        2%{?dist}
 Summary:        Rust bindings for libostree
 
 # Upstream license specification: MIT
@@ -467,5 +467,11 @@ which use "v2020_1" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 0.8.0-1
+- Update to 0.8.0
+
 * Fri Jun 19 02:19:12 EEST 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.7.2-1
 - Initial package

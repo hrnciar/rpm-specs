@@ -1,7 +1,7 @@
 %global _unitdir /usr/lib/systemd/system
 Summary: A log file analysis program
 Name: logwatch
-Version: 7.5.3
+Version: 7.5.4
 Release: 1%{?dist}
 License: MIT
 URL: https://sourceforge.net/projects/logwatch
@@ -117,6 +117,12 @@ echo "# Configuration overrides for specific logfiles/services may be placed her
 %{_unitdir}/logwatch.timer
 
 %changelog
+* Mon Aug 03 2020 Jan Synáček <jsynacek@redhat.com> - 7.5.4-1
+- Update to 7.5.4 (#1862935)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.5.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 25 2020 Jan Synáček <jsynacek@redhat.com> - 7.5.3-1
 - Update to 7.5.3 (#1800953)
 

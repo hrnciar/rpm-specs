@@ -1,6 +1,6 @@
 %global pkgver 2.2.11
 #global prerel rc1
-%global baserelease 2
+%global baserelease 3
 
 Name:		bluefish
 Version:	%{pkgver}
@@ -206,6 +206,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.11-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.11-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

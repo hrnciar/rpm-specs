@@ -1,6 +1,6 @@
 Name:           rfcdiff
-Version:        1.47
-Release:        4%{?dist}
+Version:        1.48
+Release:        1%{?dist}
 Summary:        Compares two internet draft files and outputs the difference
 
 License:        GPLv2+
@@ -46,6 +46,12 @@ install -pm 0644 %{name}.1.gz %{buildroot}%{_mandir}/man1/
 
 
 %changelog
+* Tue Aug 11 2020 Richard Shaw <hobbes1069@gmail.com> - 1.48-1
+- Update to 1.48.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.47-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.47-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           accountsservice
 Version:        0.6.55
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        D-Bus interfaces for querying and manipulating user account information
 License:        GPLv3+
 URL:            https://www.freedesktop.org/wiki/Software/AccountsService/
@@ -58,6 +58,8 @@ files needed to build applications that use accountsservice-libs.
 %install
 %meson_install
 
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/accountsservice/interfaces/
+
 %find_lang accounts-service
 
 %ldconfig_scriptlets libs
@@ -76,6 +78,8 @@ files needed to build applications that use accountsservice-libs.
 %doc README.md AUTHORS
 %{_sysconfdir}/dbus-1/system.d/org.freedesktop.Accounts.conf
 %{_libexecdir}/accounts-daemon
+%dir %{_datadir}/accountsservice/
+%dir %{_datadir}/accountsservice/interfaces/
 %{_datadir}/dbus-1/interfaces/org.freedesktop.Accounts.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.Accounts.User.xml
 %{_datadir}/dbus-1/system-services/org.freedesktop.Accounts.service
@@ -98,6 +102,17 @@ files needed to build applications that use accountsservice-libs.
 %{_datadir}/gtk-doc/html/libaccountsservice/*
 
 %changelog
+* Fri Sep 04 2020 Bastien Nocera <bnocera@redhat.com> - 0.6.55-5
++ accountsservice-0.6.55-5
+- Own /usr/share/accountsservice
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.55-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.55-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.55-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,15 +1,15 @@
 Name:           smc-tools
-Version:        1.2.0
-Release:        3%{?dist}
+Version:        1.3.1
+Release:        1%{?dist}
 Summary:        Shared Memory Communication Tools
 
 License:        EPL
 URL:            https://www.ibm.com/developerworks/linux/linux390/smc-tools.html
 Source0:        https://public.dhe.ibm.com/software/dw/linux390/ht_src/%{name}-%{version}.tar.gz
-Patch0:         %{name}-1.2.0-s390.patch
 
 BuildRequires:  gcc
 BuildRequires:  libnl3-devel
+BuildRequires:  bash-completion
 
 
 %description
@@ -44,9 +44,16 @@ sockets in Linux.
 %{_bindir}/smc_rnics
 %{_mandir}/man8/smc_rnics.8*
 %endif
+%{_datadir}/bash-completion/
 
 
 %changelog
+* Wed Sep 23 2020 Dan Horák <dan@danny.cz> - 1.3.1-1
+- update to 1.3.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

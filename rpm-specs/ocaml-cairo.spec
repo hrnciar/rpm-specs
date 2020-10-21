@@ -15,7 +15,7 @@
 Name:           ocaml-cairo
 Epoch:          2
 Version:        0.6.1
-Release:        6%{?dist}
+Release:        9%{?dist}
 Summary:        OCaml library for accessing cairo graphics
 
 License:        LGPLv3+
@@ -247,6 +247,15 @@ dune runtest
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 2:0.6.1-9
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 2:0.6.1-8
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:0.6.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 2:0.6.1-6
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

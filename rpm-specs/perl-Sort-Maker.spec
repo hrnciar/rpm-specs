@@ -1,24 +1,32 @@
 Name:           perl-Sort-Maker
 Version:        0.06
-Release:        19%{?dist}
+Release:        21%{?dist}
 Summary:        Simple way to make efficient sort subs
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Sort-Maker
 Source0:        https://cpan.metacpan.org/modules/by-module/Sort/Sort-Maker-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
+BuildRequires:  findutils
+BuildRequires:  make
 BuildRequires:  perl-generators
+BuildRequires:  perl-interpreter
+BuildRequires:  perl(ExtUtils::MakeMaker)
+# Run-time:
+BuildRequires:  perl(B::Deparse)
 BuildRequires:  perl(base)
-BuildRequires:  perl(Benchmark)
 BuildRequires:  perl(Data::Dumper)
 BuildRequires:  perl(Exporter)
-BuildRequires:  perl(ExtUtils::MakeMaker)
-BuildRequires:  perl(lib)
 BuildRequires:  perl(List::Util)
 BuildRequires:  perl(strict)
+# Tests:
+BuildRequires:  perl(Benchmark)
+BuildRequires:  perl(lib)
 BuildRequires:  perl(Test::More)
 BuildRequires:  perl(vars)
 BuildRequires:  perl(warnings)
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+Requires:       perl(B::Deparse)
 Requires:       perl(List::Util)
 
 
@@ -26,8 +34,8 @@ Requires:       perl(List::Util)
 This module has two main goals: to make it easy to create correct sort
 functions, and to make it simple to select the optimum sorting algorithm
 for the number of items to be sorted. Sort::Maker generates complete sort
-subroutines in one of four styles, plain, orcish manouver, Schwartzian
-Transform and the Guttman-Rosler Transform. You can also get the source for
+subroutines in one of four styles: plain, Orcish Maneuver, Schwartzian
+Transform, and the Guttman-Rosler Transform. You can also get the source for
 a sort sub you create via the sorter_source call.
 
 
@@ -57,6 +65,13 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.06-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Petr Pisar <ppisar@redhat.com> - 0.06-20
+- Specify all dependencies
+- Correct a spelling
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.06-19
 - Perl 5.32 rebuild
 

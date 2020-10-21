@@ -1,13 +1,13 @@
 # remirepo/fedora spec file for php-league-flysystem
 #
-# Copyright (c) 2016-2019 Remi Collet
+# Copyright (c) 2016-2020 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
 # Please, preserve the changelog entries
 #
 # Github
-%global gh_commit    021569195e15f8209b1c4bebb78bd66aa4f08c21
+%global gh_commit    9be3b16c877d477357c015cec057548cf9b2a14a
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     thephpleague
 %global gh_project   flysystem
@@ -19,7 +19,7 @@
 %global ns_project   Flysystem
 
 Name:           php-%{pk_vendor}-%{pk_name}
-Version:        1.0.66
+Version:        1.1.3
 Release:        1%{?dist}
 Summary:        Filesystem abstraction: Many filesystems, one API
 
@@ -30,29 +30,30 @@ Source0:        %{name}-%{version}-%{gh_short}.tgz
 Source1:        makesrc.sh
 
 BuildArch:      noarch
-# As we use phpunit 6 and phpspec 5
 BuildRequires:  php(language) >= 7.2
-BuildRequires:  php-date
 BuildRequires:  php-fileinfo
+BuildRequires: (php-composer(league/mime-type-detection) >= 1.3   with php-composer(league/mime-type-detection) < 2)
+BuildRequires:  php-date
 BuildRequires:  php-ftp
 BuildRequires:  php-hash
 BuildRequires:  php-mbstring
 BuildRequires:  php-pcre
 BuildRequires:  php-spl
 # From composer.json, "require-dev": {
-#        "phpspec/phpspec": "^3.4",
-#        "phpunit/phpunit": "^5.7.26"
-BuildRequires:  php-composer(phpspec/phpspec) >= 3.4
-BuildRequires:  phpunit6
+#        "phpspec/prophecy": "^1.11.1",
+#        "phpunit/phpunit": "^8.5.8"
+BuildRequires:  phpunit8 >= 8.5.8
 # Autoloader
-BuildRequires:  php-composer(fedora/autoloader)
+BuildRequires:  php-fedora-autoloader-devel
 
 # From composer.json, "require": {
-#        "php": ">=5.5.9",
-#        "ext-fileinfo": "*"
-Requires:       php(language) >= 5.5.9
+#        "php": "^7.2.5 || ^8.0",
+#        "ext-fileinfo": "*",
+#        "league/mime-type-detection": "^1.3"
+Requires:       php(language) >= 7.2.5
 Requires:       php-fileinfo
-# From phpcompatifo report for 1.0.49
+Requires:      (php-composer(league/mime-type-detection) >= 1.3   with php-composer(league/mime-type-detection) < 2)
+# From phpcompatifo report for 1.1.3
 Requires:       php-date
 Requires:       php-ftp
 Requires:       php-hash
@@ -77,15 +78,18 @@ Autoloader: %{_datadir}/php/%{ns_vendor}/%{ns_project}/autoload.php
 
 
 %build
-: Create autoloader
-cat <<'AUTOLOAD' | tee src/autoload.php
-<?php
-/* Autoloader for %{name} and its dependencies */
-require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
+: Create classmap autoloader
+phpab \
+  --template fedora \
+  --output src/autoload.php \
+  src
 
-\Fedora\Autoloader\Autoload::addPsr4('%{ns_vendor}\\%{ns_project}\\', __DIR__);
-AUTOLOAD
+cat << 'EOF' | tee -a src/autoload.php
+\Fedora\Autoloader\Dependencies::required([
+    '%{_datadir}/php/%{ns_vendor}/MimeTypeDetection/autoload.php',
+]);
 
+EOF
 
 %install
 # Restore PSR-0 tree
@@ -103,25 +107,13 @@ require '%{buildroot}%{_datadir}/php/%{ns_vendor}/%{ns_project}/autoload.php';
 
 // Test suite
 \Fedora\Autoloader\Autoload::addPsr4('%{ns_vendor}\\%{ns_project}\\Stub\\', dirname(__DIR__).'/stub');
-require_once dirname(__DIR__) . '/tests/PHPUnitHacks.php';
 EOF
 
-: Fix bootstraping
-sed -e 's/file="[^"]*"//' -i phpunit.xml
-echo 'bootstrap: vendor/autoload.php' >>phpspec.yml
-
-PHPSPECVER=$(%{_bindir}/phpspec --version | sed 's/.* //;s/\..*//')
-if [ "$PHPSPECVER" -lt 3 ]
-then PHPSPEC=/dev/null
-else PHPSPEC=%{_bindir}/phpspec
-fi
-
 ret=0
-for cmd in php php72 php73 php74; do
+for cmd in php php72 php73 php74 php80; do
   if which $cmd; then
    : Run upstream test suite
-   $cmd $PHPSPEC run || ret=1
-   $cmd %{_bindir}/phpunit6 \
+   $cmd %{_bindir}/phpunit8 \
      --exclude-group integration \
      --filter '^((?!(testPathinfoHandlesUtf8|testStreamSizeForUrl|testListingFromUnixFormat)).)*$' \
      --no-coverage --verbose || ret=1
@@ -135,10 +127,20 @@ exit $ret
 %license LICENSE
 %doc *.md
 %doc composer.json
-%{_datadir}/php/%{ns_vendor}
+%{_datadir}/php/%{ns_vendor}/%{ns_project}
 
 
 %changelog
+* Mon Aug 24 2020 Remi Collet <remi@remirepo.net> - 1.1.3-1
+- update to 1.1.3
+- raise dependency on PHP 7.2
+- add dependency on league/mime-type-detection
+- switch to classmap autoloader
+- switch to phpunit8
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.66-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 18 2020 Remi Collet <remi@remirepo.net> - 1.0.66-1
 - update to 1.0.66
 

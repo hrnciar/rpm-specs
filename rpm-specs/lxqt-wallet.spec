@@ -2,7 +2,7 @@
 
 Name:           %(echo %{srcname} |tr _ - )
 Version:        3.1.0
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Create a kwallet like functionality for LXQt
 
 License:        BSD
@@ -82,6 +82,9 @@ popd
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

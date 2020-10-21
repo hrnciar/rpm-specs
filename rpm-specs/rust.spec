@@ -9,10 +9,10 @@
 # e.g. 1.10.0 wants rustc: 1.9.0-2016-05-24
 # or nightly wants some beta-YYYY-MM-DD
 # Note that cargo matches the program version here, not its crate version.
-%global bootstrap_rust 1.43.1
-%global bootstrap_cargo 1.43.1
-%global bootstrap_channel 1.43.1
-%global bootstrap_date 2020-05-07
+%global bootstrap_rust 1.46.0
+%global bootstrap_cargo 1.46.0
+%global bootstrap_channel 1.46.0
+%global bootstrap_date 2020-08-27
 
 # Only the specified arches will use bootstrap binaries.
 #global bootstrap_arches %%{rust_arches}
@@ -21,35 +21,39 @@
 %bcond_with llvm_static
 
 # We can also choose to just use Rust's bundled LLVM, in case the system LLVM
-# is insufficient.  Rust currently requires LLVM 7.0+.
-%if 0%{?rhel} && !0%{?epel}
-%bcond_without bundled_llvm
-%else
+# is insufficient.  Rust currently requires LLVM 8.0+.
 %bcond_with bundled_llvm
+
+# Requires stable libgit2 1.0
+%if 0%{?fedora} >= 32
+%bcond_with bundled_libgit2
+%else
+%bcond_without bundled_libgit2
 %endif
 
-# libgit2-sys expects to use its bundled library, which is sometimes just a
-# snapshot of libgit2's master branch.  This can mean the FFI declarations
-# won't match our released libgit2.so, e.g. having changed struct fields.
-# So, tread carefully if you toggle this...
-%bcond_without bundled_libgit2
-
 %if 0%{?rhel}
-%bcond_without bundled_libssh2
+# Disable cargo->libgit2->libssh2 on RHEL, as it's not approved for FIPS (rhbz1732949)
+%bcond_without disabled_libssh2
 %else
-%bcond_with bundled_libssh2
+%bcond_with disabled_libssh2
+%endif
+
+%if 0%{?rhel} && 0%{?rhel} < 8
+%bcond_with curl_http2
+%else
+%bcond_without curl_http2
 %endif
 
 # LLDB isn't available everywhere...
-%if !0%{?rhel}
-%bcond_without lldb
-%else
+%if 0%{?rhel} && 0%{?rhel} < 8
 %bcond_with lldb
+%else
+%bcond_without lldb
 %endif
 
 Name:           rust
-Version:        1.44.1
-Release:        1%{?dist}
+Version:        1.47.0
+Release:        2%{?dist}
 Summary:        The Rust Programming Language
 License:        (ASL 2.0 or MIT) and (BSD and MIT)
 # ^ written as: (rust itself) and (bundled libraries)
@@ -63,8 +67,25 @@ ExclusiveArch:  %{rust_arches}
 %endif
 Source0:        https://static.rust-lang.org/dist/%{rustc_package}.tar.xz
 
-# https://github.com/rust-lang/rust/pull/71782
-Patch1:         rust-pr71782-Use-a-non-existent-test-path.patch
+# https://github.com/rust-lang/backtrace-rs/pull/373
+Patch1:         0001-use-NativeEndian-in-symbolize-gimli-Context.patch
+
+# https://github.com/rust-lang/rust/pull/77777
+Patch2:         0001-doc-disambiguate-stat-in-MetadataExt-as_raw_stat.patch
+
+### RHEL-specific patches below ###
+
+# Disable cargo->libgit2->libssh2 on RHEL, as it's not approved for FIPS (rhbz1732949)
+Patch100:       rustc-1.47.0-disable-libssh2.patch
+
+# libcurl on RHEL7 doesn't have http2, but since cargo requests it, curl-sys
+# will try to build it statically -- instead we turn off the feature.
+Patch101:       rustc-1.47.0-disable-http2.patch
+
+# kernel rh1410097 causes too-small stacks for PIE.
+# (affects RHEL6 kernels when building for RHEL7)
+Patch102:       rustc-1.45.0-no-default-pie.patch
+
 
 # Get the Rust triple for any arch.
 %{lua: function rust_triple(arch)
@@ -76,6 +97,8 @@ Patch1:         rust-pr71782-Use-a-non-existent-test-path.patch
     arch = "powerpc64"
   elseif arch == "ppc64le" then
     arch = "powerpc64le"
+  elseif arch == "riscv64" then
+    arch = "riscv64gc"
   end
   return arch.."-unknown-linux-"..abi
 end}
@@ -109,11 +132,11 @@ end}
 Provides:       bundled(%{name}-bootstrap) = %{bootstrap_rust}
 %else
 BuildRequires:  cargo >= %{bootstrap_cargo}
-%if 0%{?fedora} >= 27
-BuildRequires:  (%{name} >= %{bootstrap_rust} with %{name} <= %{version})
-%else
+%if 0%{?rhel} && 0%{?rhel} < 8
 BuildRequires:  %{name} >= %{bootstrap_rust}
 BuildConflicts: %{name} > %{version}
+%else
+BuildRequires:  (%{name} >= %{bootstrap_rust} with %{name} <= %{version})
 %endif
 %global local_rust_root %{_prefix}
 %endif
@@ -123,6 +146,8 @@ BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  ncurses-devel
 BuildRequires:  curl
+# explicit curl-devel to avoid httpd24-curl (rhbz1540167)
+BuildRequires:  curl-devel
 BuildRequires:  pkgconfig(libcurl)
 BuildRequires:  pkgconfig(liblzma)
 BuildRequires:  pkgconfig(openssl)
@@ -132,24 +157,20 @@ BuildRequires:  pkgconfig(zlib)
 BuildRequires:  pkgconfig(libgit2) >= 1.0.0
 %endif
 
-%if %without bundled_libssh2
+%if %{without disabled_libssh2} && %{without bundled_libssh2}
 # needs libssh2_userauth_publickey_frommemory
 BuildRequires:  pkgconfig(libssh2) >= 1.6.0
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} <= 7
-%global python python2
-%else
 %global python python3
-%endif
 BuildRequires:  %{python}
 
 %if %with bundled_llvm
 BuildRequires:  cmake3 >= 3.4.3
-Provides:       bundled(llvm) = 9.0.1
+Provides:       bundled(llvm) = 11.0.0
 %else
 BuildRequires:  cmake >= 2.8.11
-%if 0%{?epel}
+%if 0%{?epel} == 7
 %global llvm llvm9.0
 %endif
 %if %defined llvm
@@ -170,9 +191,6 @@ BuildRequires:  procps-ng
 
 # debuginfo-gdb tests need gdb
 BuildRequires:  gdb
-
-# TODO: work on unbundling these!
-Provides:       bundled(libbacktrace) = 1.0.20200219
 
 # Virtual provides for folks who attempt "dnf install rustc"
 Provides:       rustc = %{version}-%{release}
@@ -195,14 +213,14 @@ Requires:       /usr/bin/cc
 
 # While we don't want to encourage dynamic linking to Rust shared libraries, as
 # there's no stable ABI, we still need the unallocated metadata (.rustc) to
-# support custom-derive plugins like #[proc_macro_derive(Foo)].  But eu-strip is
-# very eager by default, so we have to limit it to -g, only debugging symbols.
-%if 0%{?fedora} >= 27
-# Newer find-debuginfo.sh supports --keep-section, which is preferable. rhbz1465997
-%global _find_debuginfo_opts --keep-section .rustc
-%else
+# support custom-derive plugins like #[proc_macro_derive(Foo)].
+%if 0%{?rhel} && 0%{?rhel} < 8
+# eu-strip is very eager by default, so we have to limit it to -g, only debugging symbols.
 %global _find_debuginfo_opts -g
 %undefine _include_minidebuginfo
+%else
+# Newer find-debuginfo.sh supports --keep-section, which is preferable. rhbz1465997
+%global _find_debuginfo_opts --keep-section .rustc
 %endif
 
 # Use hardening ldflags.
@@ -254,11 +272,7 @@ programs.
 Summary:        LLDB pretty printers for Rust
 BuildArch:      noarch
 Requires:       lldb
-%if 0%{?fedora} >= 31
-Requires:       python3-lldb
-%else
-Requires:       python2-lldb
-%endif
+Requires:       %{python}-lldb
 Requires:       %{name}-debugger-common = %{version}-%{release}
 
 %description lldb
@@ -394,10 +408,25 @@ test -f '%{local_rust_root}/bin/rustc'
 
 %setup -q -n %{rustc_package}
 
-%patch1 -p1
+%patch1 -p1 -d library/backtrace
+%patch2 -p1
 
-%if "%{python}" == "python3"
-sed -i.try-py3 -e '/try python2.7/i try python3 "$@"' ./configure
+%if %with disabled_libssh2
+%patch100 -p1
+%endif
+
+%if %without curl_http2
+%patch101 -p1
+rm -rf vendor/libnghttp2-sys/
+%endif
+
+%if 0%{?rhel} && 0%{?rhel} < 8
+%patch102 -p1 -b .no-pie
+%endif
+
+%if "%{python}" != "python3"
+# Use our preferred python first
+sed -i.try-python -e '/^try python3 /i try "%{python}" "$@"' ./configure
 %endif
 
 %if %without bundled_llvm
@@ -418,14 +447,14 @@ rm -rf vendor/libgit2-sys/libgit2/
 %if %without bundled_libssh2
 rm -rf vendor/libssh2-sys/libssh2/
 %endif
+%if %with disabled_libssh2
+rm -rf vendor/libssh2-sys/
+%endif
 
 # This only affects the transient rust-installer, but let it use our dynamic xz-libs
 sed -i.lzma -e '/LZMA_API_STATIC/d' src/bootstrap/tool.rs
 
-# rename bundled license for packaging
-cp -a vendor/backtrace-sys/src/libbacktrace/LICENSE{,-libbacktrace}
-
-%if %{with bundled_llvm} && 0%{?epel}
+%if %{with bundled_llvm} && 0%{?epel} == 7
 mkdir -p cmake-bin
 ln -s /usr/bin/cmake3 cmake-bin/cmake
 %global cmake_path $PWD/cmake-bin
@@ -448,21 +477,23 @@ find vendor -name .cargo-checksum.json \
 # it's a shebang and make them executable. Then brp-mangle-shebangs gets upset...
 find -name '*.rs' -type f -perm /111 -exec chmod -v -x '{}' '+'
 
-
-%build
-
+# Set up shared environment variables for build/install/check
+%global rust_env RUSTFLAGS="%{rustflags}"
+%if 0%{?cmake_path:1}
+%global rust_env %{rust_env} PATH="%{cmake_path}:$PATH"
+%endif
 %if %without bundled_libgit2
 # convince libgit2-sys to use the distro libgit2
-export LIBGIT2_SYS_USE_PKG_CONFIG=1
+%global rust_env %{rust_env} LIBGIT2_SYS_USE_PKG_CONFIG=1
 %endif
-
 %if %without bundled_libssh2
 # convince libssh2-sys to use the distro libssh2
-export LIBSSH2_SYS_USE_PKG_CONFIG=1
+%global rust_env %{rust_env} LIBSSH2_SYS_USE_PKG_CONFIG=1
 %endif
 
-%{?cmake_path:export PATH=%{cmake_path}:$PATH}
-%{?rustflags:export RUSTFLAGS="%{rustflags}"}
+
+%build
+export %{rust_env}
 
 # We're going to override --libdir when configuring to get rustlib into a
 # common path, but we'll fix the shared libraries during install.
@@ -472,7 +503,7 @@ export LIBSSH2_SYS_USE_PKG_CONFIG=1
 %ifarch %{arm} %{ix86} s390x
 # full debuginfo is exhausting memory; just do libstd for now
 # https://github.com/rust-lang/rust/issues/45854
-%if (0%{?fedora} && 0%{?fedora} < 27) || (0%{?rhel} && 0%{?rhel} <= 7)
+%if 0%{?rhel} && 0%{?rhel} < 8
 # Older rpmbuild didn't work with partial debuginfo coverage.
 %global debug_package %{nil}
 %define enable_debuginfo --debuginfo-level=0
@@ -490,6 +521,14 @@ export LIBSSH2_SYS_USE_PKG_CONFIG=1
 %define codegen_units_std --set rust.codegen-units-std=1
 %endif
 
+# Some builders have relatively little memory for their CPU count.
+# At least 2GB per CPU is a good rule of thumb for building rustc.
+ncpus=$(/usr/bin/getconf _NPROCESSORS_ONLN)
+max_cpus=$(( ($(free -g | awk '/^Mem:/{print $2}') + 1) / 2 ))
+if [ "$max_cpus" -ge 1 -a "$max_cpus" -lt "$ncpus" ]; then
+  ncpus="$max_cpus"
+fi
+
 %configure --disable-option-checking \
   --libdir=%{common_libdir} \
   --build=%{rust_triple} --host=%{rust_triple} --target=%{rust_triple} \
@@ -501,18 +540,18 @@ export LIBSSH2_SYS_USE_PKG_CONFIG=1
   --disable-rpath \
   %{enable_debuginfo} \
   --enable-extended \
+  --tools=analysis,cargo,clippy,rls,rustfmt,src \
   --enable-vendor \
   --enable-verbose-tests \
   %{?codegen_units_std} \
   --release-channel=%{channel}
 
-%{python} ./x.py build
-%{python} ./x.py doc
+%{python} ./x.py build -j "$ncpus" --stage 2
+%{python} ./x.py doc --stage 2
 
 
 %install
-%{?cmake_path:export PATH=%{cmake_path}:$PATH}
-%{?rustflags:export RUSTFLAGS="%{rustflags}"}
+export %{rust_env}
 
 DESTDIR=%{buildroot} %{python} ./x.py install
 
@@ -576,20 +615,19 @@ ln -sT ../rust/html/cargo/ %{buildroot}%{_docdir}/cargo/html
 
 %if %without lldb
 rm -f %{buildroot}%{_bindir}/rust-lldb
-rm -f %{buildroot}%{rustlibdir}/etc/lldb_*.py*
+rm -f %{buildroot}%{rustlibdir}/etc/lldb_*
 %endif
 
 
 %check
-%{?cmake_path:export PATH=%{cmake_path}:$PATH}
-%{?rustflags:export RUSTFLAGS="%{rustflags}"}
+export %{rust_env}
 
 # The results are not stable on koji, so mask errors and just log it.
-%{python} ./x.py test --no-fail-fast || :
-%{python} ./x.py test --no-fail-fast cargo || :
-%{python} ./x.py test --no-fail-fast clippy || :
-%{python} ./x.py test --no-fail-fast rls || :
-%{python} ./x.py test --no-fail-fast rustfmt || :
+%{python} ./x.py test --no-fail-fast --stage 2 || :
+%{python} ./x.py test --no-fail-fast --stage 2 cargo || :
+%{python} ./x.py test --no-fail-fast --stage 2 clippy || :
+%{python} ./x.py test --no-fail-fast --stage 2 rls || :
+%{python} ./x.py test --no-fail-fast --stage 2 rustfmt || :
 
 
 %ldconfig_scriptlets
@@ -597,7 +635,6 @@ rm -f %{buildroot}%{rustlibdir}/etc/lldb_*.py*
 
 %files
 %license COPYRIGHT LICENSE-APACHE LICENSE-MIT
-%license vendor/backtrace-sys/src/libbacktrace/LICENSE-libbacktrace
 %doc README.md
 %{_bindir}/rustc
 %{_bindir}/rustdoc
@@ -608,7 +645,6 @@ rm -f %{buildroot}%{rustlibdir}/etc/lldb_*.py*
 %dir %{rustlibdir}/%{rust_triple}
 %dir %{rustlibdir}/%{rust_triple}/lib
 %{rustlibdir}/%{rust_triple}/lib/*.so
-%exclude %{_bindir}/*miri
 
 
 %files std-static
@@ -621,19 +657,19 @@ rm -f %{buildroot}%{rustlibdir}/etc/lldb_*.py*
 %files debugger-common
 %dir %{rustlibdir}
 %dir %{rustlibdir}/etc
-%{rustlibdir}/etc/debugger_*.py*
+%{rustlibdir}/etc/rust_*.py*
 
 
 %files gdb
 %{_bindir}/rust-gdb
-%{rustlibdir}/etc/gdb_*.py*
+%{rustlibdir}/etc/gdb_*
 %exclude %{_bindir}/rust-gdbgui
 
 
 %if %with lldb
 %files lldb
 %{_bindir}/rust-lldb
-%{rustlibdir}/etc/lldb_*.py*
+%{rustlibdir}/etc/lldb_*
 %endif
 
 
@@ -700,6 +736,33 @@ rm -f %{buildroot}%{rustlibdir}/etc/lldb_*.py*
 
 
 %changelog
+* Sat Oct 10 2020 Jeff Law <law@redhat.com> - 1.47.0-2
+- Re-enable LTO
+
+* Thu Oct 08 2020 Josh Stone <jistone@redhat.com> - 1.47.0-1
+- Update to 1.47.0.
+
+* Fri Aug 28 2020 Fabio Valentini <decathorpe@gmail.com> - 1.46.0-2
+- Fix LTO with doctests (backported cargo PR#8657).
+
+* Thu Aug 27 2020 Josh Stone <jistone@redhat.com> - 1.46.0-1
+- Update to 1.46.0.
+
+* Mon Aug 03 2020 Josh Stone <jistone@redhat.com> - 1.45.2-1
+- Update to 1.45.2.
+
+* Thu Jul 30 2020 Josh Stone <jistone@redhat.com> - 1.45.1-1
+- Update to 1.45.1.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.45.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Josh Stone <jistone@redhat.com> - 1.45.0-1
+- Update to 1.45.0.
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> - 1.44.1-2
+- Disable LTO
+
 * Thu Jun 18 2020 Josh Stone <jistone@redhat.com> - 1.44.1-1
 - Update to 1.44.1.
 

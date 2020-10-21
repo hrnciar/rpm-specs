@@ -13,8 +13,8 @@
 #global shortcommit %(c=%{gitcommit}; echo ${c:0:5})
 
 Name:           gstreamer1-plugins-bad-free
-Version:        1.17.1
-Release:        1%{?gitcommit:.git%{shortcommit}}%{?dist}
+Version:        1.18.0
+Release:        4%{?gitcommit:.git%{shortcommit}}%{?dist}
 Summary:        GStreamer streaming media framework "bad" plugins
 
 License:        LGPLv2+ and LGPLv2
@@ -30,9 +30,13 @@ URL:            http://gstreamer.freedesktop.org/
 %endif
 Source0:        gst-plugins-bad-free-%{version}.tar.xz
 Source1:        gst-p-bad-cleanup.sh
+# Fix build failure with opencv disabled:
+# https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/issues/1406
+# https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/merge_requests/1570
+Patch0:         0001-examples-only-check-opencv_dep-if-option-is-not-disa.patch
 
 BuildRequires:  meson >= 0.48.0
-BuildRequires:  gcc
+BuildRequires:  gcc-c++
 BuildRequires:  gstreamer1-devel >= %{version}
 BuildRequires:  gstreamer1-plugins-base-devel >= %{version}
 
@@ -43,7 +47,7 @@ BuildRequires:  gobject-introspection-devel >= %{_gobject_introspection}
 
 BuildRequires:  bzip2-devel
 BuildRequires:  exempi-devel
-%if 0%{?fedora} >= 31
+%if 0%{?fedora} >= 31 || 0%{?rhel} >= 9
 BuildRequires:  fdk-aac-free-devel
 %endif
 BuildRequires:  gsm-devel
@@ -90,6 +94,8 @@ BuildRequires:  wpebackend-fdo-devel
 %endif
 BuildRequires:  glslc
 BuildRequires:  libdrm-devel
+BuildRequires:  liblrdf-devel
+BuildRequires:  zvbi-devel
 
 %if %{with extras}
 BuildRequires:  libbs2b-devel >= 3.1.0
@@ -112,24 +118,29 @@ BuildRequires:  libofa-devel
 #BuildRequires:  libmusicbrainz-devel
 #BuildRequires:  libtimidity-devel
 BuildRequires:  libvdpau-devel
+BuildRequires:  libva-devel
 BuildRequires:  openal-soft-devel
+## If enabled, adds ~90 additional deps; perhaps can be moved to a
+## subpackage?
 #BuildRequires:  opencv-devel
 BuildRequires:  openjpeg2-devel
 BuildRequires:  pkgconfig(spandsp) >= 0.0.6
 ## Plugins not ported
 #BuildRequires:  SDL-devel
-BuildRequires:  liblrdf-devel
 BuildRequires:  lilv-devel
 BuildRequires:  wildmidi-devel
 BuildRequires:  zbar-devel
-BuildRequires:  zvbi-devel
 BuildRequires:  OpenEXR-devel
 %endif
 
-%if 0%{?fedora} >= 31
+%if 0%{?fedora} >= 31 || 0%{?rhel} >= 9
 # libgstfdkaac.so used to be shipped in -nonfree
 Obsoletes: gstreamer1-plugins-bad-nonfree < 1.16.1-2
 %endif
+
+# Drop after f36
+Provides: gst-transcoder = 1.16.0-4
+Obsoletes: gst-transcoder < 1.16.0-4
 
 %description
 GStreamer is a streaming media framework, based on graphs of elements which
@@ -156,6 +167,19 @@ extra "bad" plugins for sources (mythtv), sinks (fbdev) and
 effects (pitch) which are not used very much and require additional
 libraries to be installed.
 
+%package zbar
+Summary:         GStreamer "bad" plugins zbar plugin
+Requires:        %{name}%{?_isa} = %{version}-%{release}
+
+%description zbar
+GStreamer is a streaming media framework, based on graphs of elements which
+operate on media data.
+
+gstreamer-plugins-bad contains plug-ins that aren't tested well enough,
+or the code is not of good enough quality.
+
+This package (%{name}-zbar) contains the zbar
+plugin which allows decode bar codes.
 
 %package fluidsynth
 Summary:         GStreamer "bad" plugins fluidsynth plugin
@@ -194,6 +218,11 @@ Summary:        Development files for the GStreamer media framework "bad" plug-i
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       gstreamer1-plugins-base-devel
 
+# Drop after f36
+Provides: gst-transcoder-devel = 1.16.0-4
+Obsoletes: gst-transcoder-devel < 1.16.0-4
+
+
 %description devel
 GStreamer is a streaming media framework, based on graphs of elements which
 operate on media data.
@@ -204,19 +233,30 @@ aren't tested well enough, or the code is not of good enough quality.
 
 %prep
 %setup -q -n gst-plugins-bad-%{version}
-
+%patch0 -p1
 
 %build
 %meson \
     -D package-name="Fedora GStreamer-plugins-bad package" \
     -D package-origin="http://download.fedoraproject.org" \
     %{!?with_extras:-D fbdev=disabled -D decklink=disabled } \
+    %{!?with_extras:-D assrender=disabled -D bs2b=disabled } \
+    %{!?with_extras:-D chromaprint=disabled -D d3dvideosink=disabled } \
+    %{!?with_extras:-D directsound=disabled -D dts=disabled } \
+    %{!?with_extras:-D fluidsynth=disabled -D openexr=disabled } \
+    %{!?with_extras:-D curl=disabled -D curl-ssh2=disabled } \
+    %{!?with_extras:-D ttml=disabled -D kate=disabled } \
+    %{!?with_extras:-D modplug=disabled -D ofa=disabled } \
+    %{!?with_extras:-D vdpau=disabled -D openal=disabled } \
+    %{!?with_extras:-D opencv=disabled -D openjpeg=disabled } \
+    %{!?with_extras:-D wildmidi=disabled -D zbar=disabled } \
+    %{!?with_extras:-D gme=disabled -D lv2=disabled } \
     -D doc=disabled -D magicleap=disabled -D msdk=disabled \
     -D dts=disabled -D faac=disabled -D faad=disabled \
     -D libmms=disabled -D mpeg2enc=disabled -D mplex=disabled \
     -D neon=disabled -D rtmp=disabled -D rtmp2=disabled \
     -D flite=disabled -D sbc=disabled -D opencv=disabled \
-    %{!?with_extras:-D spandsp=disabled } \
+    %{!?with_extras:-D spandsp=disabled -D va=disabled } \
     -D voamrwbenc=disabled -D x265=disabled \
     -D dvbsuboverlay=disabled -D dvdspu=disabled -D siren=disabled \
     -D real=disabled -D opensles=disabled -D tinyalsa=disabled \
@@ -321,6 +361,7 @@ rm $RPM_BUILD_ROOT%{_bindir}/playout
 %{_libdir}/libgstinsertbin-%{majorminor}.so.*
 %{_libdir}/libgstisoff-%{majorminor}.so.*
 %{_libdir}/libgstmpegts-%{majorminor}.so.*
+#{_libdir}/libgstopencv-%{majorminor}.so.*
 %{_libdir}/libgstplayer-%{majorminor}.so.*
 %{_libdir}/libgstphotography-%{majorminor}.so.*
 %{_libdir}/libgstsctp-%{majorminor}.so.*
@@ -339,6 +380,7 @@ rm $RPM_BUILD_ROOT%{_bindir}/playout
 %{_libdir}/girepository-1.0/GstPlayer-1.0.typelib
 %{_libdir}/girepository-1.0/GstTranscoder-1.0.typelib
 %{_libdir}/girepository-1.0/GstVulkan-1.0.typelib
+%{_libdir}/girepository-1.0/GstVulkanWayland-1.0.typelib
 %{_libdir}/girepository-1.0/GstWebRTC-1.0.typelib
 
 # Plugins without external dependencies
@@ -363,7 +405,7 @@ rm $RPM_BUILD_ROOT%{_bindir}/playout
 %{_libdir}/gstreamer-%{majorminor}/libgstfbdevsink.so
 %endif
 
-%if 0%{?fedora} >= 31
+%if 0%{?fedora} >= 31 || 0%{?rhel} >= 9
 %{_libdir}/gstreamer-%{majorminor}/libgstfdkaac.so
 %endif
 %{_libdir}/gstreamer-%{majorminor}/libgstfestival.so
@@ -432,7 +474,6 @@ rm $RPM_BUILD_ROOT%{_bindir}/playout
 %{_libdir}/gstreamer-%{majorminor}/libgstgsm.so
 %{_libdir}/gstreamer-%{majorminor}/libgstkms.so
 %{_libdir}/gstreamer-%{majorminor}/libgstladspa.so
-%{_libdir}/gstreamer-%{majorminor}/libgstlv2.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmicrodns.so
 %{_libdir}/gstreamer-%{majorminor}/libgstnvcodec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenmpt.so
@@ -442,7 +483,6 @@ rm $RPM_BUILD_ROOT%{_bindir}/playout
 %{_libdir}/gstreamer-%{majorminor}/libgstsoundtouch.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsrt.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsrtp.so
-%{_libdir}/gstreamer-%{majorminor}/libgstttmlsubs.so
 %{_libdir}/gstreamer-%{majorminor}/libgstvulkan.so
 %if 0%{?fedora} || 0%{?rhel} > 7
 %{_libdir}/gstreamer-%{majorminor}/libgstwaylandsink.so
@@ -452,6 +492,13 @@ rm $RPM_BUILD_ROOT%{_bindir}/playout
 %{_libdir}/gstreamer-%{majorminor}/libgstwebrtcdsp.so
 %if 0
 %{_libdir}/gstreamer-%{majorminor}/libgstwpe.so
+%endif
+%if %{with extras}
+%{_libdir}/gstreamer-%{majorminor}/libgstlv2.so
+%{_libdir}/gstreamer-%{majorminor}/libgstttmlsubs.so
+%endif
+%if !%{with extras}
+%exclude %{_libdir}/gstreamer-%{majorminor}/libgstteletext.so
 %endif
 
 #debugging plugin
@@ -476,8 +523,11 @@ rm $RPM_BUILD_ROOT%{_bindir}/playout
 %{_libdir}/gstreamer-%{majorminor}/libgstopenjpeg.so
 %{_libdir}/gstreamer-%{majorminor}/libgstspandsp.so
 %{_libdir}/gstreamer-%{majorminor}/libgstteletext.so
-%{_libdir}/gstreamer-%{majorminor}/libgstzbar.so
+%{_libdir}/gstreamer-%{majorminor}/libgstva.so
 
+%files zbar
+# Plugins with external dependencies
+%{_libdir}/gstreamer-%{majorminor}/libgstzbar.so
 
 %files fluidsynth
 # Plugins with external dependencies
@@ -501,6 +551,7 @@ rm $RPM_BUILD_ROOT%{_bindir}/playout
 %{_datadir}/gir-1.0/GstPlayer-%{majorminor}.gir
 %{_datadir}/gir-1.0/GstTranscoder-%{majorminor}.gir
 %{_datadir}/gir-1.0/GstVulkan-%{majorminor}.gir
+%{_datadir}/gir-1.0/GstVulkanWayland-%{majorminor}.gir
 %{_datadir}/gir-1.0/GstWebRTC-%{majorminor}.gir
 
 %{_libdir}/libgstadaptivedemux-%{majorminor}.so
@@ -511,6 +562,7 @@ rm $RPM_BUILD_ROOT%{_bindir}/playout
 %{_libdir}/libgstinsertbin-%{majorminor}.so
 %{_libdir}/libgstisoff-%{majorminor}.so
 %{_libdir}/libgstmpegts-%{majorminor}.so
+#{_libdir}/libgstopencv-%{majorminor}.so
 %{_libdir}/libgstplayer-%{majorminor}.so
 %{_libdir}/libgstphotography-%{majorminor}.so
 %{_libdir}/libgstsctp-%{majorminor}.so
@@ -529,6 +581,7 @@ rm $RPM_BUILD_ROOT%{_bindir}/playout
 %{_includedir}/gstreamer-%{majorminor}/gst/interfaces/photography*
 %{_includedir}/gstreamer-%{majorminor}/gst/isoff/
 %{_includedir}/gstreamer-%{majorminor}/gst/mpegts
+#{_includedir}/gstreamer-%{majorminor}/gst/opencv
 %{_includedir}/gstreamer-%{majorminor}/gst/player
 %{_includedir}/gstreamer-%{majorminor}/gst/sctp
 %{_includedir}/gstreamer-%{majorminor}/gst/transcoder
@@ -541,15 +594,46 @@ rm $RPM_BUILD_ROOT%{_bindir}/playout
 %{_libdir}/pkgconfig/gstreamer-codecparsers-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-insertbin-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-mpegts-%{majorminor}.pc
+%{_libdir}/pkgconfig/gstreamer-photography-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-player-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-plugins-bad-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-sctp-%{majorminor}.pc
-%{_libdir}/pkgconfig/gstreamer-bad-transcoder-%{majorminor}.pc
+%{_libdir}/pkgconfig/gstreamer-transcoder-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-webrtc-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-vulkan-%{majorminor}.pc
+%{_libdir}/pkgconfig/gstreamer-vulkan-wayland-%{majorminor}.pc
 
 
 %changelog
+* Sat Oct 17 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.18.0-4
+- rebuild for libdvdread-6.1 ABI bump
+
+* Tue Sep 22 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.18.0-3
+- Obsolete/Provide gst-transcoder
+
+* Thu Sep 10 2020 Adam Williamson <awilliam@redhat.com> - 1.18.0-2
+- Disable opencv again (pulls in huge number of deps)
+
+* Tue Sep 8 2020 Wim Taymans <wtaymans@redhat.com> - 1.18.0-1
+- Update to 1.18.0
+- Enable opencv
+
+* Fri Aug 21 2020 Wim Taymans <wtaymans@redhat.com> - 1.17.90-1
+- Update to 1.17.90
+- Remove obsolete -bad-transcoder .pc file
+- Add vulkan wayland
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.17.2-2
+- Rebuilt for aom 2.0.0
+
+* Mon Jul 6 2020 Wim Taymans <wtaymans@redhat.com> - 1.17.2-1
+- Update to 1.17.2
+- Add new libva plugin
+- Add new pkgconfig files
+
 * Mon Jun 22 2020 Wim Taymans <wtaymans@redhat.com> - 1.17.1-1
 - Update to 1.17.1
 - Add sources

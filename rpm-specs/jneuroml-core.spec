@@ -20,7 +20,7 @@ doi:10.3389/fninf.2014.00079
 
 Name:           jneuroml-core
 Version:        1.6.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        The NeuroML 2 Schema and ComponentType definitions in LEMS
 
 License:        LGPLv3
@@ -37,7 +37,7 @@ BuildRequires:  maven-remote-resources-plugin
 # NO javadocs
 
 %package doc
-Summary:        NeuroML2 core documentation and examples
+Summary:        NeuroML2 core documentation, schemas, and examples
 # bootstrap.css file is ASL 2.0
 License:        LGPLv3 and ASL 2.0
 
@@ -63,10 +63,16 @@ rm -fv LEMSexamples/test/.test*
 %files doc
 %license LICENSE.lesser
 %doc HISTORY.md
-%doc examples docs Schemas LEMSexamples
+%doc examples docs Schemas LEMSexamples NeuroML2CoreTypes
 
 
 %changelog
+* Tue Sep 22 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.6.1-3
+- Include core types
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 07 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.6.1-1
 - Update as per review comments: #1828079
 - Remove unneeded file listing

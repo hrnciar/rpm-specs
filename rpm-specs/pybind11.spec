@@ -7,7 +7,7 @@
 # Whether to run the tests, enabled by default
 %bcond_without tests
 
-%if 0%{?fedora} >= 30
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 9
 %global python2_enabled 0
 %else
 %global python2_enabled 1
@@ -18,7 +18,7 @@
 
 Name:    pybind11
 Version: 2.5.0
-Release: 3%{?dist}
+Release: 5%{?dist}
 Summary: Seamless operability between C++11 and Python
 License: BSD
 URL:	 https://github.com/pybind/pybind11
@@ -119,10 +119,8 @@ pys="$pys python3"
 %endif
 for py in $pys; do
     mkdir $py
-    cd $py
-    %cmake .. -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=%{_bindir}/$py -DPYBIND11_INSTALL=TRUE -DUSE_PYTHON_INCLUDE_DIR=FALSE %{!?with_tests:-DPYBIND11_TEST=OFF}
-    make %{?_smp_mflags}
-    cd ..
+    %cmake -B $py -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=%{_bindir}/$py -DPYBIND11_INSTALL=TRUE -DUSE_PYTHON_INCLUDE_DIR=FALSE %{!?with_tests:-DPYBIND11_TEST=OFF}
+    %make_build -C $py
 done
 
 %if %{python2_enabled}
@@ -177,31 +175,44 @@ PYBIND11_USE_CMAKE=true %py3_install "--install-purelib" "%{python3_sitearch}"
 %endif
 
 %changelog
+* Wed Aug 12 2020 Merlin Mathesius <mmathesi@redhat.com> - 2.5.0-5
+- Drop Python 2 support for ELN and RHEL9+
+
+* Wed Aug 05 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.5.0-6
+- Adapt to new CMake macros.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.5.0-3
 - Rebuilt for Python 3.9
 
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 2.5.0-2
 - Bootstrap for Python 3.9
 
-* Wed Apr 01 2020 Susi Lehtola - 2.5.0-1
+* Wed Apr 01 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.5.0-1
 - Update to 2.5.0.
 
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
-* Tue Oct 15 2019 Susi Lehtola - 2.4.3-1
+* Tue Oct 15 2019 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.4.3-1
 - Update to 2.4.3.
 
-* Tue Oct 08 2019 Susi Lehtola - 2.4.2-2
+* Tue Oct 08 2019 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.4.2-2
 - Fix Python 3.8 incompatibility.
 
-* Sat Sep 28 2019 Susi Lehtola - 2.4.2-1
+* Sat Sep 28 2019 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.4.2-1
 - Update to 2.4.2.
 
-* Fri Sep 20 2019 Susi Lehtola - 2.4.1-1
+* Fri Sep 20 2019 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.4.1-1
 - Update to 2.4.1.
 
-* Fri Sep 20 2019 Susi Lehtola - 2.4.0-1
+* Fri Sep 20 2019 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.4.0-1
 - Update to 2.4.0.
 
 * Mon Aug 19 2019 Miro Hrončok <mhroncok@redhat.com> - 2.3.0-3
@@ -210,16 +221,16 @@ PYBIND11_USE_CMAKE=true %py3_install "--install-purelib" "%{python3_sitearch}"
 * Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
-* Wed Jul 10 2019 Susi Lehtola - 2.3.0-1
+* Wed Jul 10 2019 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.3.0-1
 - Update to 2.3.0.
 
-* Fri May 03 2019 Susi Lehtola - 2.2.4-3
+* Fri May 03 2019 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.2.4-3
 - Fix incompatibility with pytest 4.0.
 
 * Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
-* Tue Sep 18 2018 Susi Lehtola - 2.2.4-1
+* Tue Sep 18 2018 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.2.4-1
 - Remove python2 packages for Fedora >= 30.
 - Update to 2.2.4.
 

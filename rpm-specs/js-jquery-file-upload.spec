@@ -1,6 +1,6 @@
 Name:       js-jquery-file-upload
 Version:    10.13.0
-Release:    1%{?dist}
+Release:    3%{?dist}
 BuildArch:  noarch
 
 License:    MIT
@@ -60,6 +60,13 @@ cp -a *.html cors css img js %{buildroot}/%{_webassetdir}/jQuery-File-Upload
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.13.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.13.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 11 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 10.13.0-1
 - Update to 10.13.0 (#1823106)
 

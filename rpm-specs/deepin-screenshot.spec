@@ -1,6 +1,6 @@
 Name:           deepin-screenshot
 Version:        5.0.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Deepin Screenshot Tool
 Summary(zh_CN): 深度截图工具
 License:        GPLv3
@@ -44,11 +44,11 @@ sed -i 's/deepin-turbo-invoker.*deepin/deepin/' \
        src/dbusservice/com.deepin.Screenshot.service deepin-screenshot.desktop
 
 %build
-%cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} .
-%make_build
+%cmake -DCMAKE_INSTALL_PREFIX=%{_prefix}
+%cmake_build
 
 %install
-%make_install INSTALL_ROOT=%{buildroot}
+%cmake_install
 install -Dm644 %SOURCE1 %{buildroot}%{_datadir}/appdata/%{name}.appdata.xml
 
 %check
@@ -76,6 +76,16 @@ fi
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 
 %changelog
+* Fri Aug  7 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.0.0-4
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

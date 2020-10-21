@@ -2,7 +2,7 @@
 
 Name:           tmw
 Version:        20130201
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        The Mana World is a 2D MMORPG
 
 License:        GPLv2
@@ -62,6 +62,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{name}.desktop
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20130201-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20130201-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

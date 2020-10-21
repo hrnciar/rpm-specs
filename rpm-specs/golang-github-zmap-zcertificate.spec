@@ -15,7 +15,7 @@ ZCertificate parses X.509 certificates and runs ZLint.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.2%{?dist}
+Release:        0.3%{?dist}
 Summary:        Command line utility for parsing certificates
 
 # Upstream license specification: Apache-2.0
@@ -69,6 +69,9 @@ popd
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

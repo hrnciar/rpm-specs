@@ -4,8 +4,8 @@
 # https://github.com/dominikh/go-tools
 %global goipath         honnef.co/go/tools
 %global forgeurl        https://github.com/dominikh/go-tools
-Version:                2019.2.3
-%global tag             2019.2.3
+Version:                2020.1.5
+%global tag             2020.1.5
 
 %gometa
 
@@ -13,11 +13,11 @@ Version:                2019.2.3
 honnef.co/go/tools/... is a collection of tools and libraries for working with
 Go code, including linters and static analysis, most prominently staticcheck.}
 
-%global golicenses      LICENSE LICENSE-gcsizes LICENSE-lint LICENSE-ssa
+%global golicenses      LICENSE
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Collection of static analysis tools for working with Go code
 
 # Upstream license specification: BSD-3-Clause and MIT
@@ -50,9 +50,6 @@ BuildRequires:  golang(golang.org/x/tools/refactor/importgraph)
 
 %prep
 %goprep
-mv gcsizes/LICENSE LICENSE-gcsizes
-mv lint/LICENSE LICENSE-lint
-mv ssa/LICENSE LICENSE-ssa
 
 %build
 for cmd in cmd/go-module-query cmd/keyify cmd/rdeps cmd/staticcheck cmd/structlayout-optimize cmd/structlayout-pretty cmd/structlayout; do
@@ -67,17 +64,23 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %if %{with check}
 %check
 # https://github.com/dominikh/go-tools/issues/687
-%gocheck -d unused
+%gocheck -d unused -d staticcheck
 %endif
 
 %files
-%license LICENSE LICENSE-gcsizes LICENSE-lint LICENSE-ssa
+%license LICENSE
 %doc README.md
 %{_bindir}/*
 
 %gopkgfiles
 
 %changelog
+* Thu Aug 06 14:57:49 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2020.1.5-1
+- Update to 2020.1.5
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.2.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 05 16:57:55 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2019.2.3-1
 - Update to 2019.2.3
 

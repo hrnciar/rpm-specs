@@ -1,6 +1,6 @@
 Name:		sqlite3-dbf
 Version:		2011.01.24
-Release:		16%{?dist}
+Release:		17%{?dist}
 Summary:		Converter of XBase / FoxPro tables to SQLite
 
 License:		GPLv3+
@@ -38,6 +38,9 @@ install -D %{name} %{buildroot}/usr/bin/%{name}
 %doc README LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2011.01.24-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2011.01.24-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

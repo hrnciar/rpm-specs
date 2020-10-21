@@ -1,5 +1,5 @@
 %global packname svglite
-%global packver  1.2.3
+%global packver  1.2.3.2
 %global rlibdir  %{_libdir}/R/library
 
 %global __suggests_exclude ^R\\((fontquiver)\\)
@@ -7,8 +7,8 @@
 %global with_suggests 0
 
 Name:             R-%{packname}
-Version:          %{packver}
-Release:          2%{?dist}
+Version:          1.2.3.2
+Release:          3%{?dist}
 Summary:          An 'SVG' Graphics Device
 
 License:          GPLv2+
@@ -83,6 +83,16 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --no-tests
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.2.3.2-1
+- Update to latest version
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.2.3-2
 - rebuild for R 4
 

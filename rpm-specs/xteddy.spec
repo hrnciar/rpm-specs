@@ -1,6 +1,6 @@
 Name:           xteddy
 Version:        2.2
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Tool to sit around silently, look cute, and make you smile
 
 License:        GPL+
@@ -46,6 +46,9 @@ install -p -m644 %{SOURCE1} %{buildroot}%{_datadir}/xteddy/
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

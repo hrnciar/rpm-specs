@@ -1,8 +1,8 @@
 %global debug_package %{nil}
 
 Name:		python-zope-interface
-Version:	5.1.0
-Release:	2%{?dist}
+Version:	5.1.2
+Release:	1%{?dist}
 Summary:	Zope 3 Interface Infrastructure
 License:	ZPLv2.1
 URL:		https://pypi.io/project/zope.interface
@@ -64,6 +64,12 @@ popd
 %{python3_sitearch}/zope.interface-*-nspkg.pth
 
 %changelog
+* Fri Oct 02 2020 Lumír Balhar <lbalhar@redhat.com> - 5.1.2-1
+- Update to 5.1.2 (#1883998)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 5.1.0-2
 - Rebuilt for Python 3.9
 

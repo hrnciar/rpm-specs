@@ -1,10 +1,10 @@
 %global packname backports
-%global packver  1.1.7
+%global packver  1.1.10
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          1.1.7
-Release:          2%{?dist}
+Version:          1.1.10
+Release:          1%{?dist}
 Summary:          Reimplementations of Functions Introduced Since R-3.0.0
 
 License:          GPLv2 or GPLv3
@@ -64,6 +64,18 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Wed Sep 16 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.1.10-1
+- Update to latest version (#1879297)
+
+* Tue Aug 25 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.1.9-1
+- Update to latest version (#1871938)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.1.8-1
+- Update to latest version
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 1.1.7-2
 - rebuild for R 4
 

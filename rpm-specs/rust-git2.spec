@@ -5,7 +5,7 @@
 %global crate git2
 
 Name:           rust-%{crate}
-Version:        0.13.6
+Version:        0.13.11
 Release:        1%{?dist}
 Summary:        Bindings to libgit2 for interoperating with git repositories
 
@@ -14,7 +14,7 @@ License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/git2
 Source:         %{crates_source}
 # Initial patched metadata
-# * No vendored
+# * No vendored/zlib-ng features
 Patch0:         git2-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -152,6 +152,21 @@ echo '/usr/bin/git'
 %endif
 
 %changelog
+* Fri Sep 18 2020 Fabio Valentini <decathorpe@gmail.com> - 0.13.11-1
+- Update to version 0.13.11.
+
+* Fri Aug 21 2020 Josh Stone <jistone@redhat.com> - 0.13.10-1
+- Update to 0.13.10
+
+* Wed Aug 19 2020 Josh Stone <jistone@redhat.com> - 0.13.9-1
+- Update to 0.13.9
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Josh Stone <jistone@redhat.com> - 0.13.8-1
+- Update to 0.13.8
+
 * Tue May 19 19:55:47 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.13.6-1
 - Update to 0.13.6
 

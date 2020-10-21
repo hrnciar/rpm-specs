@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.11.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Opposite of format()
 
 License:        BSD
@@ -48,6 +48,9 @@ chmod -x README.rst
 %{python3_sitelib}/__pycache__/%{srcname}.*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.11.1-7
 - Rebuilt for Python 3.9
 

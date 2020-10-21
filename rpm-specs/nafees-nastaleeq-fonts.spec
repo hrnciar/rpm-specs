@@ -4,7 +4,7 @@
 
 Name:           %{fontname}-fonts
 Version:        1.02
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Nafees nastaleeq font for writing Urdu in the Nastaleeq script
 
 License:        Bitstream Vera
@@ -64,6 +64,9 @@ install -Dm 0644 -p %{SOURCE3} \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.02-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.02-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

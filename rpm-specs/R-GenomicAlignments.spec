@@ -5,7 +5,7 @@
 
 Name:             R-%{packname}
 Version:          %{packver}
-Release:          1%{?dist}
+Release:          3%{?dist}
 Source0:          http://www.bioconductor.org/packages/release/bioc/src/contrib/%{packname}_%{packver}.tar.gz
 License:          Artistic 2.0
 URL:              http://www.bioconductor.org/packages/release/bioc/html/%{packname}.html
@@ -54,6 +54,12 @@ test -d %{packname}/src && (cd %{packname}/src; rm -f *.o *.so)
 %{_libdir}/R/library/%{packname}/unitTests
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.22.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 José Abílio Matos <jamatos@fc.up.pt> - 1.22.1-2
+- rebuild for R 4
+
 * Sat Feb  1 2020 Tom Callaway <spot@fedoraproject.org> - 1.22.1-1
 - update to 1.22.1
 

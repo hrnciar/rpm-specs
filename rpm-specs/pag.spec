@@ -1,6 +1,6 @@
 Name:               pag
 Version:            0.8
-Release:            9%{?dist}
+Release:            10%{?dist}
 Summary:            Commandline interaction with pagure.io
 
 License:            GPLv3+
@@ -57,6 +57,9 @@ sed -i 's|/usr/bin/python$|/usr/bin/python3|' %{buildroot}/%{_bindir}/pag
 %{_bindir}/pag
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8-9
 - Rebuilt for Python 3.9
 

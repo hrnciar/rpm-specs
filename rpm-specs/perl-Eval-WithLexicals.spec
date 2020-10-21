@@ -1,6 +1,6 @@
 Name:           perl-Eval-WithLexicals
 Version:        1.003006
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Pure Perl eval with persistent lexical variables
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Eval-WithLexicals
@@ -53,6 +53,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.003006-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.003006-9
 - Perl 5.32 rebuild
 

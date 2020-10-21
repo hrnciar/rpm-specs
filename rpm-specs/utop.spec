@@ -1,5 +1,5 @@
 Name:           utop
-Version:        2.4.3
+Version:        2.6.0
 Release:        3%{?dist}
 Summary:        Improved toplevel for OCaml
 
@@ -7,15 +7,14 @@ License:        BSD
 URL:            https://github.com/ocaml-community/utop
 Source0:        https://github.com/ocaml-community/%{name}/releases/download/%{version}/%{name}-%{version}.tbz
 
-BuildRequires:  ocaml
-BuildRequires:  ocaml-bisect-ppx-devel
-BuildRequires:  ocaml-findlib
-BuildRequires:  ocaml-lwt-devel
-BuildRequires:  ocaml-lambda-term-devel
-BuildRequires:  ocaml-seq
-BuildRequires:  ocaml-cppo
-BuildRequires:  ocaml-dune
-BuildRequires:  opam-installer
+BuildRequires:  ocaml >= 4.03.0
+BuildRequires:  ocaml-camomile-devel
+BuildRequires:  ocaml-cppo >= 1.1.2
+BuildRequires:  ocaml-dune >= 1.0
+BuildRequires:  ocaml-findlib >= 1.7.2
+BuildRequires:  ocaml-lambda-term-devel >= 3.1.0
+BuildRequires:  ocaml-lwt-react-devel
+BuildRequires:  ocaml-react-devel >= 1.0.0
 
 # for utop.el
 BuildRequires:  emacs-common
@@ -32,6 +31,10 @@ colors, and more.
 %package devel
 Summary:        Development files for %{name}
 Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       ocaml-camomile-devel%{?_isa}
+Requires:       ocaml-lambda-term-devel%{?_isa}
+Requires:       ocaml-lwt-react-devel%{?_isa}
+Requires:       ocaml-react-devel%{?_isa}
 Provides:       ocaml-%{name}-devel%{?_isa} = %{version}-%{release}
 
 %description devel
@@ -68,12 +71,28 @@ rm -f %{buildroot}/usr/doc/%{name}/{LICENSE,CHANGES.md,README.md}
 %exclude %{_libdir}/ocaml/%{name}/*.mli
 
 %files devel
-%license LICENSE
-%doc README.md CHANGES.md
 %{_libdir}/ocaml/%{name}/*.mli
 
 
 %changelog
+* Wed Sep 02 2020 Richard W.M. Jones <rjones@redhat.com> - 2.6.0-3
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 2.6.0-2
+- OCaml 4.11.0 rebuild
+
+* Fri Aug  7 2020 Jerry James <loganjerry@gmail.com> - 2.6.0-1
+- Update to 2.6.0
+- Add ocaml-lwt-react-devel and ocaml-react-devel BRs
+- Drop unneeded ocaml-bisect-ppx, ocaml-seq, and opam-installer BRs
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.3-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 2.4.3-3
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

@@ -7,7 +7,7 @@
 
 Name:		nodejs-braces
 Version:	2.3.2
-Release:	5%{?dist}
+Release:	7%{?dist}
 Summary:	Fastest brace expansion for node.js
 
 License:	MIT
@@ -100,6 +100,13 @@ cp -pr package.json *.js lib/ \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.2-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

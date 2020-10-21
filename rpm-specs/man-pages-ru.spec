@@ -2,7 +2,7 @@
 Summary: Russian man pages from the Linux Documentation Project
 Name: man-pages-ru
 Version: 5.03
-Release: 3.20191017%{?dist}
+Release: 4.20191017%{?dist}
 # Multiple man pages are distributed under different licenses.
 License: GPL+ and BSD and MIT and GFDL
 URL: http://sourceforge.net/projects/man-pages-ru/
@@ -44,6 +44,9 @@ cp -pr ./man? $RPM_BUILD_ROOT%{_mandir}/ru
 %{_mandir}/ru/man*/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.03-4.20191017
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.03-3.20191017
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

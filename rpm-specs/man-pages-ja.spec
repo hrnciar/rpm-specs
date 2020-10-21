@@ -1,6 +1,6 @@
 Name: man-pages-ja
 Version: 20200315
-Release: 1%{?dist}
+Release: 2%{?dist}
 # BSD - shadow, bsd-games, byacc, bzip2, dhcpcd, dump, file, hdparm, rssh, tcp_wrappers, tcsh
 # GFDL - GNU_*, cron, glibc-linuxthreads
 # GPL+/GPLv2+/BSD/MIT/Copyright only/IEEE - LDP_manpages, gnumaniak, ld.so
@@ -157,6 +157,9 @@ done
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200315-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 25 2020 Akira TAGOH <tagoh@redhat.com> - 20200315-1
 - Updates to 20200315.
 

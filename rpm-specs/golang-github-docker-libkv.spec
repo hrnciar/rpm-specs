@@ -26,7 +26,7 @@ and BoltDB (Local store).}
 %global godocs          docs README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Distributed key/value store abstraction library
 
 # Upstream license specification: CC-BY-SA-4.0 and Apache-2.0
@@ -63,6 +63,9 @@ BuildRequires:  golang(golang.org/x/net/context)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

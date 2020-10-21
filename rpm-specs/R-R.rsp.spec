@@ -1,19 +1,20 @@
-%global packname  R.rsp
+%global packname R.rsp
+%global packver  0.44.0
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          0.43.2
-Release:          3%{?dist}
+Version:          0.44.0
+Release:          1%{?dist}
 Summary:          Dynamic Generation of Scientific Reports
 
 License:          LGPLv2+
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-methods, R-stats, R-tools, R-utils, R-R.methodsS3 >= 1.7.1, R-R.oo >= 1.22.0, R-R.utils, R-R.cache >= 0.13.0, R-digest >= 0.6.13
-# Suggests:  R-tcltk, R-markdown >= 0.8, R-knitr >= 1.9, R-R.devices >= 2.15.1, R-base64enc >= 0.1-2
+# Imports:   R-methods, R-stats, R-tools, R-utils, R-R.methodsS3 >= 1.7.1, R-R.oo >= 1.23.0, R-R.utils, R-R.cache, R-digest >= 0.6.13
+# Suggests:  R-tcltk, R-markdown >= 0.8, R-knitr >= 1.9, R-R.devices >= 2.16.1, R-base64enc >= 0.1-2
 # LinkingTo:
 # Enhances:
 
@@ -28,15 +29,15 @@ BuildRequires:    R-stats
 BuildRequires:    R-tools
 BuildRequires:    R-utils
 BuildRequires:    R-R.methodsS3 >= 1.7.1
-BuildRequires:    R-R.oo >= 1.22.0
+BuildRequires:    R-R.oo >= 1.23.0
 BuildRequires:    R-R.utils
-BuildRequires:    R-R.cache >= 0.13.0
+BuildRequires:    R-R.cache
 BuildRequires:    R-digest >= 0.6.13
 BuildRequires:    R-tcltk
 BuildRequires:    R-ascii >= 2.1
 BuildRequires:    R-markdown >= 0.8
 BuildRequires:    R-knitr >= 1.9
-BuildRequires:    R-R.devices >= 2.15.1
+BuildRequires:    R-R.devices >= 2.16.1
 BuildRequires:    R-base64enc >= 0.1.2
 
 %description
@@ -60,30 +61,14 @@ script, you'll be up and running within minutes.
 %setup -q -c -n %{packname}
 
 # Fix line endings.
-for file in %{packname}/NEWS \
-%{packname}/inst/doc/Dynamic_document_creation_using_RSP.tex.rsp \
-%{packname}/inst/doc/RSP_refcard.tex.rsp \
-%{packname}/inst/doc/R_packages-RSP_vignettes.md.rsp \
+for file in \
 %{packname}/inst/doc/R_packages-Static_PDF_and_HTML_vignettes.pdf.asis \
-%{packname}/inst/doc/R_packages-Vignettes_prior_to_R300.tex.rsp \
-%{packname}/inst/doc/incl/example.txt.rsp \
-%{packname}/inst/doc/templates/Rinstignore \
-%{packname}/inst/doc/templates/dummy.Rnw \
-%{packname}/inst/doc/templates/enginesMap.R \
 %{packname}/inst/tcl/r-httpd.tcl \
 ; do
     sed "s|\r||g" ${file} > ${file}.new
     touch -r ${file} ${file}.new
     mv ${file}.new ${file}
 done
-
-# Fix permissions.
-chmod -x \
-    %{packname}/inst/rsp/*.* \
-    %{packname}/inst/rsp/*/*.* \
-    %{packname}/inst/rsp/*/*/*.* \
-    %{packname}/inst/rsp/*/*/*/*.* \
-    %{packname}/exec/*.bat
 
 
 %build
@@ -125,6 +110,12 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Sun Aug 09 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.44.0-1
+- Update to latest version (rhbz#1855381)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.43.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.43.2-3
 - rebuild for R 4
 

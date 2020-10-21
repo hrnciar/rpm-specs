@@ -23,8 +23,8 @@ AutoReqProv: no
 %endif
 
 Name:          drupal7
-Version:       7.70
-Release:       2%{?dist}
+Version:       7.72
+Release:       1%{?dist}
 Summary:       An open-source content-management platform
 
 License:       GPLv2+ and BSD and MIT
@@ -257,6 +257,13 @@ install -pm0755 %{SOURCE11} %{buildroot}%{_prefix}/lib/rpm/%{name}.req
 
 
 %changelog
+* Fri Sep 04 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 7.72-1
+- Update to 7.72
+- SA-CORE-2020-004/CVE-2020-13663 (RHBZ #1860912, #1860913)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.70-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 31 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 7.70-2
 - rpmbuild sub-pkg: Fix auto-provides for F32+
 

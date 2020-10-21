@@ -1,9 +1,8 @@
 Name:               studio-controls
-Version:            1.99.1
+Version:            2.0.9
 Release:            1%{?dist}
 Summary:            Studio control for audio devices
 BuildArch:          noarch
-
 
 # The entire source code is GPLv2+
 
@@ -23,6 +22,7 @@ Requires:           pulseaudio-module-jack
 Requires:           python3-dbus
 Requires:           python3-gobject
 Requires:           python3
+Requires:           python3-alsaaudio
 Requires:           python-jack-client
 Requires:           zita-ajbridge
 Requires:           qasmixer
@@ -47,8 +47,9 @@ jackdbus master.
 #Intentionally blank
 
 %install
+cp -r etc %{buildroot} --preserve=mode,timestamps
 cp -r usr %{buildroot} --preserve=mode,timestamps
-cp -r lib/systemd %{buildroot}/usr/lib --preserve=mode,timestamps
+cp -r lib/systemd %{buildroot}/%{_libdir} --preserve=mode,timestamps
 rm -rf %{buildroot}/usr/lib/systemd/system/ondemand.service.d
 
 %check
@@ -87,8 +88,89 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %{_datadir}/man/man2/autojack.2.gz
 %{_datadir}/man/man2/studio-system.2.gz
 %{_datadir}/polkit-1/actions/com.studiocontrols.pkexec.studio-controls.policy
+%config %{_sysconfdir}/acpi/studio.sh
+%config %{_sysconfdir}/acpi/events/studio-plug
+%config %{_sysconfdir}/acpi/events/studio-unplug
 
 %changelog
+* Tue Oct 06 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 2.0.9-1
+- Fixed: Single-channel interfaces were not being dealt with correctly for
+  pulse-jack bridges
+
+* Mon Sep 21 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 2.0.8-1
+- This a bugfix that accepts older versions of config files and coverts values
+  to something useful
+
+* Sat Sep 12 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 2.0.7-1
+- "MONITOR" should never be 'none' but was sometimes so this forces it to a
+  better value
+
+* Wed Sep 09 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 2.0.6-1
+- bugfix for variable used before initialized
+
+* Fri Aug 07 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 2.0.5-1
+- Add lockfile to autojack to prevent two instances running
+- Add lockfile to studio-controls to prevent two instances running
+- Depend on zita-ajbridge version 0.8.4 fixes
+- Fix phones detection for USB phones when not plugged in
+- Catch jack error messages so they don't alarm user
+- studio-controls: Catch system signals to exit
+- up autojack signal version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 2.0.4-1
+- Fix spelling mistake
+- Fix wrong indent
+- Add "NVidia" to HDMI names
+- Add a readout of the configuration to logging
+
+* Sat Jul 25 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 2.0.3-1
+- Make sure to use default-device and not PCH everywhere
+- Catch pulse connection port is integer
+- no more support for older config file
+- logging should have log level set at read config file
+- autojack needs to import glob before using it - bug fix
+
+* Thu Jul 23 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 2.0.1-1
+- Use saved value for device instead index - bug fix
+- Log file too long re-enable log rotate - bugfix
+- Dynamicly set default audio device - bugfix
+- Make sure bridges are created before connecting
+- Check if headphone device exists before checking
+
+* Tue Jul 21 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 2.0.0-1
+- Add white glow to icon to increase visibilty
+- Head phone detection for PCH devices added
+- Force PCH devices to be at least 128 buffer in extra devices
+- Remove old jackdbus settings file before starting jack
+- Pulse connect port extended to all Physical ports
+- Fixed extra devices that are not sub device 0 don't work
+- Fixed Apply for input only
+- USB units with sub devices other than 0 will now auto connect
+- Added extra logging level for lots of output
+- Added better method of finding device sample rate
+- Added new depend: python3-alsaaudio
+- Detect headphone plug state on startup
+- Use direct alsa mixer manipulation
+- Add manual headphone switching
+- Add ability use outputs other than system:playback_1/2
+- general code clean up
+- Readded Firewire backend
+- Added fixes for alsa firewire devices
+- make sure extra devices work correctly with all backends
+
+* Fri Jul 03 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 1.99.2+really1.99.1-1
+- Downgrade for regression
+
+* Thu Jun 25 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 1.99.2-1
+- New version 1.99.2
+- Add white glow to icon to increase visibilty
+- Start work on head phone detection
+- Force PCH devices to be at least 128 buffer in extra devices
+- Remove old jackdbus settings file before starting jack
+
 * Sun May 10 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 1.99.1-1
 - New version 1.99.1, removes tablet interface code for now
 

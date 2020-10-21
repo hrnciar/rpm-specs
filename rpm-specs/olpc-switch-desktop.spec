@@ -1,6 +1,6 @@
 Name:		olpc-switch-desktop
 Version:	0.9.2
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	OLPC desktop switching utilities
 
 License:	GPLv2+
@@ -45,6 +45,9 @@ desktop-file-validate $RPM_BUILD_ROOT/%{_datadir}/applications/olpc-switch-to-su
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

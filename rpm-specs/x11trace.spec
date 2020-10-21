@@ -9,7 +9,7 @@ URL: http://xtrace.alioth.debian.org/
 #
 # % global buildid .local
 
-Release: 18%{?buildid}%{?dist}
+Release: 19%{?buildid}%{?dist}
 Obsoletes: xtrace < 1.3.1-7
 
 Source0: ftp://ftp.debian.org/debian/pool/main/x/xtrace/xtrace_%{version}.orig.tar.gz
@@ -59,6 +59,9 @@ make install DESTDIR=%{buildroot} INSTALL="install -p"
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

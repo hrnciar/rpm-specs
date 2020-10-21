@@ -1,6 +1,6 @@
 Name:               raysession
-Version:            0.8.3
-Release:            1%{?dist}
+Version:            0.9.1
+Release:            2%{?dist}
 Summary:            Session manager for audio software
 BuildArch:          noarch
 
@@ -12,10 +12,6 @@ URL:                https://github.com/Houston4444/RaySession
 Source0:            %{url}/archive/v%{version}/RaySession-%{version}.tar.gz
 # https://github.com/Houston4444/RaySession/issues/44
 Source1:            README-wayland
-# https://github.com/Houston4444/RaySession/issues/38
-Patch0:             %{name}-0001-fix-invalid-category.patch
-# https://github.com/Houston4444/RaySession/issues/39
-Patch1:             %{name}-0002-remove-unnecessary-shebang.patch
 
 BuildRequires:      python3-qt5
 BuildRequires:      qt5-linguist
@@ -55,8 +51,6 @@ Ray Session offers a little more:
 %prep
 %autosetup -p 1 -n RaySession-%{version}
 /usr/bin/cp %{SOURCE1} ./
-#remove space in "snapshots explain" https://github.com/Houston4444/RaySession/issues/40
-mv snapshots\ explain snapshots-explain
 
 %build
 %{set_build_flags}
@@ -64,6 +58,16 @@ make LRELEASE=lrelease-qt5 %{?_smp_mflags}
 
 %install
 %make_install PREFIX=%{_prefix}
+# Build processs creates absolute symbolic links, they need to be replaced
+# https://github.com/Houston4444/RaySession/issues/91
+rm %{buildroot}%{_bindir}/ray-jack_checker_daemon
+ln -s %{_datadir}/%{name}/ray-jack_checker_daemon %{buildroot}%{_bindir}/ray-jack_checker_daemon
+rm %{buildroot}%{_bindir}/ray-jack_config_script
+ln -s %{_datadir}/%{name}/ray-jack_config_script %{buildroot}%{_bindir}/ray-jack_config_script
+rm %{buildroot}%{_bindir}/ray-pulse2jack
+ln -s %{_datadir}/%{name}/ray-pulse2jack %{buildroot}%{_bindir}/ray-pulse2jack
+rm %{buildroot}%{_bindir}/ray_git
+ln -s %{_datadir}/%{name}/ray_git %{buildroot}%{_bindir}/ray_git
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
@@ -72,17 +76,50 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %doc README.md
 %doc TODO
 %doc TRANSLATORS
-%doc snapshots-explain
+%doc snapshots_explain
 %doc README-wayland
 %license COPYING
 %{_bindir}/ray-daemon
+%{_bindir}/ray-jack_checker_daemon
+%{_bindir}/ray-jack_config_script
+%{_bindir}/ray-proxy
+%{_bindir}/ray-pulse2jack
+%{_bindir}/ray_git
 %{_bindir}/ray_control
 %{_bindir}/raysession
 %{_datadir}/applications/%{name}.desktop
+%{_datadir}/applications/ray-jack_checker.desktop
+%{_datadir}/applications/ray-jackpatch.desktop
+%{_datadir}/applications/ray-network.desktop
 %{_datadir}/%{name}/
 %{_datadir}/icons/hicolor/*/apps/%{name}.*
+%{_sysconfdir}/xdg/raysession/*
 # No manpages, developer is aware https://github.com/Houston4444/RaySession/issues/40
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 0.9.1-1
+- Removed patches, issues were fixed upstream
+- CLI: Control almost all GUI actions and more with the CLI ray_control.
+- Session scripts: allow user to edit shell scripts at session load, save and
+  close.
+- JACK config session script: script that saves and recalls the JACK
+  configuration for the session.
+- Add this from session templates in "New Session" window.
+- RayHack: New client protocol which is an alternative to ray-proxy.
+- This allows to launch directly the process and to edit its properties even if
+  process is stopped.
+- Obviously NSM protocol is highly preferred, this protocol is a workaround
+  only, nothing more.
+- Factory client templates are installed in /etc/xdg/raysession to allow
+  packagers to add some templates.
+- Always prefer NSM template if NSM compatibility is found in executable binary
+- Get client label, icon and description from their .desktop file
+- Subfolder combobox removed in New Session Dialog
+- Daemon option "Save from client" has been removed. Please affect a global
+  keyboard shortcut (Meta+Ctrl+S) to ray_control save instead.
+
 * Sat Feb 8 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 0.8.3-1
 - Initial release for Fedora

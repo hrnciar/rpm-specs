@@ -1,8 +1,10 @@
+%undefine __cmake_in_source_build
+
 %global srcname tqsl
 %global libtqslver 2.5
 
 Name:           trustedqsl
-Version:        2.5.3
+Version:        2.5.4
 Release:        1%{?dist}
 Summary:        Tool for digitally signing Amateur Radio QSO records
 License:        BSD
@@ -62,17 +64,13 @@ contains the to develop with tqsllib.
 %if 0%{?rhel}
 %global cmake %cmake3
 %endif
-rm -rf build && mkdir build && pushd build
-%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-       ../
+%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo
 
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 
 # Remove bundled language file that shouldn't be there.
 find %{buildroot}%{_datadir}/locale/ -type f -name wxstd.mo -exec rm -f {} \;
@@ -99,8 +97,7 @@ install -pm 0644 %{SOURCE1} %{buildroot}%{_datadir}/appdata/
 %check
 appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/*.appdata.xml
 
-%post -n tqsllib -p /sbin/ldconfig
-%postun -n tqsllib -p /sbin/ldconfig
+%ldconfig_scriptlets tqsllib
 
 
 %files -f tqslapp.lang
@@ -124,6 +121,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/*.appdata
 
 
 %changelog
+* Wed Jul 29 2020 Richard Shaw <hobbes1069@gmail.com> - 2.5.4-1
+- Update to 2.5.4.
+
 * Thu Apr 23 2020 Richard Shaw <hobbes1069@gmail.com> - 2.5.3-1
 - Update to 2.5.3.
 

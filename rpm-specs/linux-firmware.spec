@@ -1,11 +1,11 @@
 %global debug_package %{nil}
-%global firmware_release 109
+%global firmware_release 112
 
 %global _firmwarepath	/usr/lib/firmware
 %define _binaries_in_noarch_packages_terminate_build 0
 
 Name:		linux-firmware
-Version:	20200619
+Version:	20200918
 Release:	%{firmware_release}%{?dist}
 Summary:	Firmware files used by the Linux kernel
 License:	GPL+ and GPLv2+ and MIT and Redistributable, no modification permitted
@@ -465,6 +465,32 @@ sed -e 's/^/%%dir /' linux-firmware.dirs >> linux-firmware.files
 %{_firmwarepath}/netronome/*
 
 %changelog
+* Fri Sep 18 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 20200918-112
+- amdgpu firmware for 20.30: navi10/12
+- wl18xx: update firmware file 8.9.0.0.83
+- mt7615: update firmware to 20200814
+- qcom: Add updated a5xx and a6xx microcode
+- mediatek: update MT7915 firmware to 20200819
+- Intel Bluetooth updates 9260/9560/AX201/AX200
+- AMD SEV firmware update
+- Mellanox: Add new mlxsw_spectrum firmware xx.2008.1310
+
+* Mon Aug 17 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 20200817-111
+- Update to upstream 20200817 release
+- Link Raspberry Pi 3A+ WiFi NVRAM to the 3B+ NVRAM
+- Update RTL8822C BT UART firmware to 0x0599_8A4F
+- i915: Add DMC FW 2.02 for RKL, 2.08 for TGL, HuC FW v7.5.0 for TGL
+- amdgpu: update vega20/12/10, renoir, raven/2, picasso, navi10/14 firmware for 20.30
+- update NXP SDSD-8997 firmware image
+- Mellanox: Add new mlxsw_spectrum firmware xx.2008.1036
+
+* Tue Jul 21 2020 Peter Robinson <pbrobinson@fedoraproject.org> 20200721-110
+- Update to upstream 20200721 release
+- Bluetooth updates for Intel AX200/AX201/9560/9260, QCom QCA6390
+- rtl_nic updated RTL8125B
+- WiFi: WCN3991, MT7663, wilc1000 FW v15.4
+- amdgpu: add UVD firmware for SI asics
+
 * Fri Jun 19 2020 Peter Robinson <pbrobinson@fedoraproject.org> 20200619-109
 - Update to upstream 20200619 release
 - Bluetooth updates: Intel 9260/9560/AX200/AX201

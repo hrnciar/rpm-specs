@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 %global framework gpgmepp
 
 # uncomment to enable bootstrap mode
@@ -9,7 +10,7 @@
 
 Name:    kf5-%{framework}
 Version: 16.08.3
-Release: 13%{?dist}
+Release: 14%{?dist}
 Summary: C++ wrapper and Qt integration for GpgMe library
 
 License: LGPLv2+
@@ -53,17 +54,13 @@ developing applications that use %{name}.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%{cmake_kf5} \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{!?tests:OFF}
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 
 %check
@@ -93,6 +90,9 @@ make test ARGS="--output-on-failure --timeout 30" -C %{_target_platform} ||:
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16.08.3-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16.08.3-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

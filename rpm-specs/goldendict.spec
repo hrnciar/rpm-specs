@@ -1,13 +1,15 @@
 %global owner goldendict
-%global commit 6ca112b797e70774d252b3635d41b4c5d38ea9dd
+%global commit dda311cf9c44ffce7eadf489bfbf7f02d61fa0d4
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:		goldendict
 Version:	1.5
-Release:	0.27.RC2%{?dist}
+Release:	0.30.RC2%{?dist}
 Summary:	A feature-rich dictionary lookup program
 License:	GPLv3+
 URL:		http://goldendict.org
 Source0:	https://github.com/%{owner}/%{name}/archive/%{commit}/%{name}-%{commit}.tar.gz
+Patch0:         goldendict-gcc11.patch
 
 BuildRequires:	cmake(Qt5LinguistTools)
 BuildRequires:	cmake(Qt5XmlPatterns)
@@ -21,6 +23,7 @@ BuildRequires:	cmake(Qt5Help)
 BuildRequires:	cmake(Qt5Gui)
 BuildRequires:	cmake(Qt5Svg)
 BuildRequires:	cmake(Qt5Xml)
+
 BuildRequires:	libXtst-devel
 BuildRequires:	hunspell-devel
 BuildRequires:	libvorbis-devel
@@ -32,6 +35,7 @@ BuildRequires:	libtiff-devel
 BuildRequires:	eb-devel
 BuildRequires:	qtsingleapplication-qt5-devel
 BuildRequires:	libappstream-glib
+BuildRequires:	libzstd-devel
 
 Requires:		qt5-qtsvg%{?_isa}
 Recommends:		%{name}-docs = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -54,11 +58,12 @@ Contain doc files of %{name}.
 
 %prep
 %autosetup -n %{name}-%{commit} -p1
-rm -r qtsingleapplication
+rm -rf {qtsingleapplication,maclibs,winlibs}
 sed -e '/qtsingleapplication.pri/d' -i %{name}.pro
 
 %build
 %qmake_qt5 PREFIX=%{_prefix} CONFIG+=qtsingleapplication CONFIG+=no_ffmpeg_player %{name}.pro
+echo "1.5.0-RC2 (%{shortcommit})" > version.txt
 %make_build
 
 %install
@@ -83,6 +88,15 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_datadir}/%{name}/help
 
 %changelog
+* Wed Oct 14 2020 Jeff Law <law@redhat.com> - 1.5-0.30.RC2
+- Fix missing #include for gcc-11
+
+* Tue Sep 29 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1.5-0.29.RC2
+- Rebased to dda311c snapshot with different bugfixes.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-0.28.RC2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 27 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1.5-0.27.RC2
 - Rebased to 6ca112b snapshot with Wayland crash fixes.
 

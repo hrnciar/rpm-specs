@@ -11,8 +11,8 @@
 
 %global github_owner     symfony
 %global github_name      polyfill
-%global github_version   1.17.0
-%global github_commit    de7e60ee00ab492b93283795257c7d850fc3b1ff
+%global github_version   1.18.1
+%global github_commit    642d3c1e5d9712c0e26a9bc9c366e09ab5ec95f0
 
 %global composer_vendor  symfony
 %global composer_project polyfill
@@ -32,7 +32,7 @@
 %endif
 
 # Build using "--without tests" to disable tests
-%global with_tests 0%{!?_without_tests:1}
+%bcond_without     tests
 
 %{!?phpdir:  %global phpdir  %{_datadir}/php}
 
@@ -49,7 +49,7 @@ BuildArch:     noarch
 # Autoloader
 BuildRequires: php-fedora-autoloader-devel
 # Tests
-%if %{with_tests}
+%if %{with tests}
 BuildRequires: php-composer(phpunit/phpunit)
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
@@ -166,11 +166,12 @@ cp -rp src/* %{buildroot}%{phpdir}/Symfony/Polyfill/
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 : Upstream tests
 RETURN_CODE=0
 PHPUNIT=$(which phpunit)
-for PHP_EXEC in "" %{?rhel:php54 php55 php56 php70} php71 php72 php73 php74; do
+# TODO php80
+for PHP_EXEC in "" %{?rhel:php54 php55 php56 php70 php71} php72 php73 php74; do
     if [ -z "$PHP_EXEC" ] || which $PHP_EXEC; then
         $PHP_EXEC $PHPUNIT --verbose \
             --bootstrap %{buildroot}%{phpdir}/Symfony/Polyfill/autoload.php \
@@ -193,6 +194,18 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Aug 11 2020 Remi Collet <remi@remirepo.net> - 1.18.1-1
+- update to 1.18.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Remi Collet <remi@remirepo.net> - 1.18.0-1
+- update to 1.18.0
+
+* Thu Jul  2 2020 Remi Collet <remi@remirepo.net> - 1.17.1-1
+- update to 1.17.1
+
 * Wed May 13 2020 Remi Collet <remi@remirepo.net> - 1.17.0-1
 - update to 1.17.0
 

@@ -1,5 +1,6 @@
+%global abiver 2.38
 Name:           librealsense
-Version:        2.35.2
+Version:        2.38.0
 Release:        1%{?dist}
 Summary:        Cross-platform camera capture for Intel RealSense
 
@@ -10,8 +11,6 @@ Source0:        https://github.com/IntelRealSense/librealsense/archive/v%{versio
 # This was discussed with upstream, but upstream wants to keep those flags.
 Patch0:         librealsense.remove-cflags.patch
 Patch1:         librealsense.realsense-file-shared-library.patch
-# https://github.com/IntelRealSense/librealsense/pull/6220
-Patch2:         librealsense.separate-python-target.patch
 
 BuildRequires:  cmake
 BuildRequires:  cmake(glfw3)
@@ -25,6 +24,7 @@ BuildRequires:  mesa-libGLU-devel
 BuildRequires:  pkgconfig(gtk+-3.0)
 BuildRequires:  pkgconfig(libudev)
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 
 Provides:       librealsense2 = %{version}-%{release}
 
@@ -80,19 +80,15 @@ with %{name}.
 
 
 %build
-mkdir -p build
-pushd build
 %cmake \
   -DBUILD_UNIT_TESTS=NO \
   -DCMAKE_INSTALL_BINDIR=%{_bindir} \
   -DCMAKE_INSTALL_LIBDIR=%{_libdir} \
   -DCMAKE_INSTALL_INCLUDEDIR=%{_includedir} \
   -DBUILD_PYTHON_BINDINGS:bool=true \
-  -DPYTHON_EXECUTABLE=%{python3} \
-  ..
-%make_build
+  -DPYTHON_EXECUTABLE=%{python3}
+%cmake_build
 
-popd
 sed -i "s:/usr/local/bin:%{_datadir}/realsense:" config/*
 sed -i "s/plugdev/users/g" config/*rules
 
@@ -102,12 +98,11 @@ sed -i \
   -e "s/GENERATE_HTMLHELP[[:space:]]*=[[:space:]]*YES/GENERATE_HTMLHELP = NO/" \
   doxyfile
 doxygen
+popd
 
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 
 mkdir -p %{buildroot}/%{_udevrulesdir}
 install -p -m644 config/99-realsense-libusb.rules %{buildroot}/%{_udevrulesdir}
@@ -118,9 +113,9 @@ install -p -m755 config/usb-R200-in{,_udev} %{buildroot}/%{_datadir}/realsense
 %files
 %license LICENSE
 %doc readme.md
-%{_libdir}/librealsense-file.so.2.35*
-%{_libdir}/librealsense2-gl.so.2.35*
-%{_libdir}/librealsense2.so.2.35*
+%{_libdir}/librealsense-file.so.%{abiver}*
+%{_libdir}/librealsense2-gl.so.%{abiver}*
+%{_libdir}/librealsense2.so.%{abiver}*
 %{_datadir}/realsense
 %{_bindir}/realsense-viewer
 %{_bindir}/rs-align
@@ -173,7 +168,7 @@ install -p -m755 config/usb-R200-in{,_udev} %{buildroot}/%{_datadir}/realsense
 
 %files -n python3-%{name}
 %dir %{python3_sitearch}/pyrealsense2
-%{python3_sitearch}/pyrealsense2/pyrealsense2*.so.2.35*
+%{python3_sitearch}/pyrealsense2/pyrealsense2*.so.%{abiver}*
 %{python3_sitearch}/pyrealsense2/pybackend2*.so.2*
 
 %files -n python3-%{name}-devel
@@ -187,6 +182,20 @@ install -p -m755 config/usb-R200-in{,_udev} %{buildroot}/%{_datadir}/realsense
 
 
 %changelog
+* Fri Jul 31 2020 Till Hofmann <thofmann@fedoraproject.org> - 2.38.0-1
+- Update to 2.38.0
+- Adapt to https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.36.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Till Hofmann <thofmann@fedoraproject.org> - 2.36.0-1
+- Update to 2.36.0
+
+* Wed Jun 24 2020 Till Hofmann <thofmann@fedoraproject.org> - 2.35.2-2
+- Explicitly BR python3-setuptools
+  (https://lists.fedoraproject.org/archives/list/devel@lists.fedoraproject.org/message/GCPGM34ZGEOVUHSBGZTRYR5XKHTIJ3T7/)
+
 * Mon Jun 15 2020 Till Hofmann <thofmann@fedoraproject.org> - 2.35.2-1
 - Update to 2.35.2
 

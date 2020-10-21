@@ -1,6 +1,6 @@
 Name:           perl-CGI-Prototype
 Version:        0.9054
-Release:        25%{?dist}
+Release:        26%{?dist}
 Summary:        Create a CGI application by subclassing
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/CGI-Prototype
@@ -78,6 +78,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9054-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.9054-25
 - Perl 5.32 rebuild
 

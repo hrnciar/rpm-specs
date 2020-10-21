@@ -1,9 +1,6 @@
 # Disabled arm due to rhbz#1658940
 ExcludeArch: armv7hl
 
-# Disabled due to https://pagure.io/fedora-infrastructure/issue/7581
-ExcludeArch: s390x
-
 # Use system nspr/nss?
 %define system_nss        1
 
@@ -13,7 +10,6 @@ ExcludeArch: s390x
 # Hardened build?
 %define hardened_build    1
 
-%define system_sqlite 0
 %define system_ffi    1
 
 %define build_langpacks 1
@@ -26,19 +22,13 @@ ExcludeArch: s390x
 %endif
 
 %if %{?system_nss}
-%global nspr_version 4.10.6
+%global nspr_version 4.26.0
 %global nspr_build_version %(pkg-config --silence-errors --modversion nspr 2>/dev/null || echo 65536)
-%global nss_version 3.16.2.3
+%global nss_version 3.55.0
 %global nss_build_version %(pkg-config --silence-errors --modversion nss 2>/dev/null || echo 65536)
 %endif
 
 %define freetype_version 2.1.9
-
-%if %{?system_sqlite}
-%define sqlite_version 3.8.4.2
-# The actual sqlite version (see #480989):
-%global sqlite_build_version %(pkg-config --silence-errors --modversion sqlite3 2>/dev/null || echo 65536)
-%endif
 
 %define libnotify_version 0.4
 %define _default_patch_fuzz 2
@@ -93,18 +83,16 @@ ExcludeArch: s390x
 
 Summary:        Mozilla Thunderbird mail/newsgroup client
 Name:           thunderbird
-Version:        68.9.0
-Release:        1%{?dist}
+Version:        78.3.1
+Release:        2%{?dist}
 URL:            http://www.mozilla.org/projects/thunderbird/
 License:        MPLv1.1 or GPLv2+ or LGPLv2+
 Source0:        ftp://ftp.mozilla.org/pub/thunderbird/releases/%{version}%{?pre_version}/source/thunderbird-%{version}%{?pre_version}.source.tar.xz
 %if %{build_langpacks}
-Source1:        thunderbird-langpacks-%{version}-20200608.tar.xz
-# Locales for lightning
-Source2:        lightning-langpacks-%{version}.tar.xz
+Source1:        thunderbird-langpacks-%{version}-20200930.tar.xz
 %endif
 Source3:        get-calendar-langpacks.sh
-Source4:        cbindgen-vendor.tar.xz
+Source4:        cbindgen-vendor-0.14.3.tar.xz
 
 Source10:       thunderbird-mozconfig
 Source11:       thunderbird-mozconfig-branded
@@ -118,7 +106,6 @@ Source32:       node-stdout-nonblocking-wrapper
 
 # Build patches
 Patch9:         mozilla-build-arm.patch
-Patch26:        build-icu-big-endian.patch
 Patch226:       rhbz-1354671.patch
 Patch415:       Bug-1238661---fix-mozillaSignalTrampoline-to-work-.patch
 Patch416:       firefox-SIOCGSTAMP.patch
@@ -126,20 +113,15 @@ Patch417:       build-aarch64-user_vfp.patch
 Patch418:       mozilla-1512162.patch
 Patch419:       bindgen-d0dfc52706f23db9dc9d74642eeebd89d73cb8d0.patch
 Patch103:       rhbz-1219542-s390-build.patch
-Patch105:       thunderbird-debug.patch
 
 # PPC fix
 Patch304:       mozilla-1245783.patch
-Patch305:       build-big-endian.patch
-Patch306:       mozilla-1353817.patch
 Patch307:       build-disable-elfhack.patch
 
 # Fedora specific patches
 
 # Upstream patches
 Patch402:       mozilla-526293.patch
-Patch403:       mozilla-1576268.patch
-Patch404:       thunderbird-dbus-remote.patch
 
 %if %{official_branding}
 # Required by Mozilla Corporation
@@ -178,10 +160,6 @@ BuildRequires:  clang
 BuildRequires:  clang-libs
 %if 0%{?build_with_clang}
 BuildRequires:  lld
-%endif
-%if %{?system_sqlite}
-BuildRequires:  sqlite-devel >= %{sqlite_version}
-Requires:       sqlite >= %{sqlite_build_version}
 %endif
 %if %{?system_ffi}
 BuildRequires:  libffi-devel
@@ -256,14 +234,11 @@ debug %{name}, you want to install %{name}-debuginfo instead.
 %ifarch s390
 %patch103 -p1 -b .rhbz-1219542-s390-build
 %endif
-%patch105 -p1 -b .debug
 
 %patch304 -p1 -b .1245783
 # Patch for big endian platforms only
-%if 0%{?big_endian}
-%patch26 -p1 -b .icu
-%patch305 -p1 -b .big-endian
-%endif
+#%if 0%{?big_endian}
+#%endif
 
 #ARM run-time patch
 %ifarch aarch64
@@ -278,15 +253,12 @@ debug %{name}, you want to install %{name}-debuginfo instead.
 # most likely fixed
 #%patch419 -p1 -b .bindgen
 
-%patch306 -p1 -b .1353817
 %if 0%{?disable_elfhack}
 %patch307 -p1 -b .elfhack
 %endif
 #cd ..
 
 %patch402 -p1 -b .526293
-%patch403 -p1 -b .1576268
-%patch404 -p1 -b .thunderbird-dbus-remote
 
 %if %{official_branding}
 # Required by Mozilla Corporation
@@ -315,11 +287,6 @@ echo "ac_add_options --without-system-nss" >> .mozconfig
 echo "ac_add_options --disable-jemalloc" >> .mozconfig
 %endif
 
-%if %{?system_sqlite}
-echo "ac_add_options --enable-system-sqlite"  >> .mozconfig
-%else
-echo "ac_add_options --disable-system-sqlite" >> .mozconfig
-%endif
 
 %if %{?system_ffi}
 echo "ac_add_options --enable-system-ffi" >> .mozconfig
@@ -342,7 +309,7 @@ echo "ac_add_options --enable-system-ffi" >> .mozconfig
 %endif
 
 %ifarch aarch64
-echo "ac_add_options --disable-ion" >> .mozconfig
+echo "ac_add_options --disable-jit" >> .mozconfig
 %endif
 
 %ifnarch %{ix86} x86_64
@@ -392,9 +359,19 @@ echo "ac_add_options --disable-crashreporter" >> .mozconfig
 
 echo 'export NODEJS="%{_buildrootdir}/bin/node-stdout-nonblocking-wrapper"' >> .mozconfig
 
+# Remove executable bit to make brp-mangle-shebangs happy.
+chmod -x third_party/rust/itertools/src/lib.rs
+chmod a-x third_party/rust/gfx-backend-vulkan/src/*.rs
+chmod a-x third_party/rust/gfx-hal/src/*.rs
+chmod a-x third_party/rust/ash/src/extensions/ext/*.rs
+chmod a-x third_party/rust/ash/src/extensions/khr/*.rs
+
 #===============================================================================
 
 %build
+# Disable LTO to work around rhbz#1883904
+%define _lto_cflags %{nil}
+
 %if 0%{?use_bundled_cbindgen}
 
 mkdir -p my_rust_vendor
@@ -412,17 +389,6 @@ EOL
 
 env CARGO_HOME=.cargo cargo install cbindgen
 export PATH=`pwd`/.cargo/bin:$PATH
-%endif
-
-%if %{?system_sqlite}
-# Do not proceed with build if the sqlite require would be broken:
-# make sure the minimum requirement is non-empty, ...
-sqlite_version=$(expr "%{sqlite_version}" : '\([0-9]*\.\)[0-9]*\.') || exit 1
-# ... and that major number of the computed build-time version matches:
-case "%{sqlite_build_version}" in
-  "$sqlite_version"*) ;;
-  *) exit 1 ;;
-esac
 %endif
 
 %if 0%{?big_endian}
@@ -484,6 +450,10 @@ MOZ_LINK_FLAGS="-Wl,--no-keep-memory"
 echo "ac_add_options --enable-linker=gold" >> .mozconfig
 %endif
 %endif
+
+# We don't want thunderbird to use CK_GCM_PARAMS_V3 in nss
+MOZ_OPT_FLAGS="$MOZ_OPT_FLAGS -DNSS_PKCS11_3_0_STRICT"
+
 
 export CFLAGS=`echo $MOZ_OPT_FLAGS |sed -e 's/-fpermissive//g'`
 export CXXFLAGS=$MOZ_OPT_FLAGS
@@ -594,6 +564,7 @@ rm -f $RPM_BUILD_ROOT/%{_bindir}/thunderbird
 # Install langpacks
 %{__rm} -f %{name}.lang # Delete for --short-circuit option
 touch %{name}.lang
+
 %if %{build_langpacks}
 %{__mkdir_p} %{buildroot}%{langpackdir}
 %{__tar} xf %{SOURCE1}
@@ -613,13 +584,8 @@ for langpack in `ls thunderbird-langpacks/*.xpi`; do
   echo "%%lang($language) %{langpackdir}/${extensionID}.xpi" >> %{name}.lang
 done
 %{__rm} -rf thunderbird-langpacks
+%endif
 
-# lightning langpacks install
-cd %{buildroot}%{langpackdir}
-%{__tar} xf %{SOURCE2}
-chmod a+r *.xpi
-cd -
-%endif # build_langpacks
 
 # Get rid of devel package and its debugsymbols
 %{__rm} -rf $RPM_BUILD_ROOT%{_libdir}/%{name}-devel-%{version}
@@ -731,7 +697,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{mozappdir}/*.so
 %{mozappdir}/platform.ini
 %{mozappdir}/application.ini
-%{mozappdir}/blocklist.xml
 %{mozappdir}/features/*.xpi
 %exclude %{mozappdir}/removed-files
 %{_datadir}/icons/hicolor/16x16/apps/thunderbird.png
@@ -754,13 +719,34 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{mozappdir}/dependentlibs.list
 %{mozappdir}/distribution
 %{mozappdir}/fonts
-%{mozappdir}/chrome.manifest
 %{mozappdir}/pingsender
 %{mozappdir}/gtk2/libmozgtk.so
 
 #===============================================================================
 
 %changelog
+* Wed Oct 07 2020 Jan Horak <jhorak@redhat.com> - 78.3.1-2
+- Reenable s390x
+
+* Wed Sep 30 2020 Jan Horak <jhorak@redhat.com> - 78.3.1-1
+- Update to 78.3.1 build1
+
+* Tue Sep 08 2020 Jan Horak <jhorak@redhat.com> - 68.12.0-1
+- Update to 68.12.0 build1
+
+* Thu Aug 06 2020 Jan Horak <jhorak@redhat.com> - 68.11.0-1
+- Update to 68.11.0 build1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 68.10.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 68.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Jan Horak <jhorak@redhat.com> - 68.10.0-1
+- Update to 68.10.0 build1
+
 * Mon Jun 08 2020 Jan Horak <jhorak@redhat.com> - 68.9.0-1
 - Update to 68.9.0 build1
 

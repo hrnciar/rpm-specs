@@ -3,16 +3,15 @@
 
 
 Name:		erlang-%{realname}
-Version:	1.0
-Release:	14%{?dist}
+Version:	1.1
+Release:	1%{?dist}
+BuildArch:	noarch
 Summary:	Erlang interface to systemd notify subsystem
 License:	MIT
 URL:		https://github.com/%{upstream}/erlang-%{realname}
 VCS:		scm:git:https://github.com/%{upstream}/erlang-%{realname}.git
 Source0:	https://github.com/%{upstream}/erlang-%{realname}/archive/v%{version}/erlang-%{realname}-%{version}.tar.gz
 BuildRequires:	erlang-rebar
-BuildRequires:	gcc
-BuildRequires:	systemd-devel
 
 
 %description
@@ -41,6 +40,16 @@ BuildRequires:	systemd-devel
 
 
 %changelog
+* Sat Oct  3 2020 Peter Lemenkov <lemenkov@gmail.com> - 1.1-1
+- Ver. 1.1 (backwards API/ABI compatible)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

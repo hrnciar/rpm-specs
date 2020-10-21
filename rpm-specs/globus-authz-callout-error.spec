@@ -1,7 +1,7 @@
 Name:		globus-authz-callout-error
 %global _name %(tr - _ <<< %{name})
 Version:	4.1
-Release:	3%{?dist}
+Release:	5%{?dist}
 Summary:	Grid Community Toolkit - Globus authz error library
 
 License:	ASL 2.0
@@ -103,6 +103,13 @@ install -m 644 -p %{SOURCE8} %{buildroot}%{_pkgdocdir}/README
 %{?_licensedir: %license GLOBUS_LICENSE}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

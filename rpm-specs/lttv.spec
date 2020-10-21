@@ -1,7 +1,7 @@
 Summary: Linux Trace Toolkit Viewer
 Name:    lttv
 Version: 1.5
-Release: 17%{?dist}
+Release: 18%{?dist}
 License: GPLv2
 URL:     http://lttng.org/lttv
 Source:  http://www.lttng.org/files/packages/lttv-%{version}.tar.bz2
@@ -75,6 +75,9 @@ cp -p %{SOURCE5} %{buildroot}%{_mandir}/man1/
 %{_includedir}/lttvwindow
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

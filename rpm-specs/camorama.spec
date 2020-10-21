@@ -1,6 +1,6 @@
 Name:           camorama
 Version:        0.20.7
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Gnome webcam viewer
 License:        GPLv2+
 URL:            https://github.com/alessio/camorama
@@ -47,6 +47,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.7-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 27 2020 Hans de Goede <hdegoede@redhat.com> - 0.20.7-5
 - Fix FTBFS (rhbz#1799206)
 

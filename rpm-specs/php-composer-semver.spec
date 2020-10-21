@@ -6,18 +6,20 @@
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    c6bea70230ef4dd483e6bbcab6005f682ed3a8de
+
+%bcond_without tests
+
+%global gh_commit    38276325bd896f90dfcfe30029aa5db40df387a7
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 #global gh_date      20150717
 %global gh_owner     composer
 %global gh_project   semver
 %global php_home     %{_datadir}/php
-%global with_tests   0%{!?_without_tests:1}
 
 Name:           php-composer-semver
-Version:        1.5.1
-Release:        2%{?gh_date:.%{gh_date}git%{gh_short}}%{?dist}
-Summary:        Semver library that offers utilities, version constraint parsing and validation
+Version:        1.7.1
+Release:        1%{?gh_date:.%{gh_date}git%{gh_short}}%{?dist}
+Summary:        Semver library version 1
 
 License:        MIT
 URL:            https://github.com/%{gh_owner}/%{gh_project}
@@ -27,7 +29,7 @@ Source1:        makesrc.sh
 Source2:        %{name}-autoload.php
 
 BuildArch:      noarch
-%if %{with_tests}
+%if %{with tests}
 # For tests
 BuildRequires:  php(language) >= 5.3.2
 BuildRequires:  php-pcre
@@ -52,8 +54,8 @@ Provides:       php-composer(%{gh_owner}/%{gh_project}) = %{version}
 
 
 %description
-Semver library that offers utilities, version constraint parsing
-and validation.
+Semver library version 1 that offers utilities, version constraint
+parsing and validation.
 
 Originally written as part of composer/composer, now extracted and
 made available as a stand-alone library.
@@ -78,9 +80,9 @@ cp -pr src %{buildroot}%{php_home}/Composer/Semver
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 ret=0
-for cmd in php php72 php73 php74; do
+for cmd in php php72 php73 php74 php80; do
   if which $cmd; then
     $cmd %{_bindir}/phpunit \
       --bootstrap %{buildroot}%{php_home}/Composer/Semver/autoload.php \
@@ -104,6 +106,18 @@ exit $ret
 
 
 %changelog
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 1.7.1-1
+- update to 1.7.1
+
+* Wed Sep  9 2020 Remi Collet <remi@remirepo.net> - 1.7.0-1
+- update to 1.7.0
+
+* Wed Sep  9 2020 Remi Collet <remi@remirepo.net> - 1.6.0-1
+- update to 1.6.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

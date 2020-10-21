@@ -2,7 +2,7 @@
 
 Name:           python-coapthon3
 Version:        1.0.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Python library for the CoAP protocol
 
 License:        MIT
@@ -53,6 +53,9 @@ sed -i -e '1d;2i#!/usr/bin/python3' exampleresources.py
 %{_bindir}/*.py
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.0.1-7
 - Add runtime requirement (rhbz#1826566)
 

@@ -1,6 +1,7 @@
+%global _legacy_common_support 1
 Name:           libtpcmisc
 Version:        1.4.8
-Release:        21%{?dist}
+Release:        24%{?dist}
 Summary:        Miscellaneous PET functions
 
 License:        LGPLv2+
@@ -86,6 +87,16 @@ popd
 %{_libdir}/%{name}.a
 
 %changelog
+* Fri Aug 07 2020 Jeff Law <law@redhat.com> - 1.4.8-24
+- Enable _legacy_common_support
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.8-23
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.8-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.8-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

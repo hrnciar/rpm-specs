@@ -30,7 +30,7 @@
 
 Name:           dom4j
 Version:        2.0.0
-Release:        9%{?dist}
+Release:        12%{?dist}
 Epoch:          0
 Summary:        Open Source XML framework for Java
 License:        BSD
@@ -39,6 +39,8 @@ BuildArch:      noarch
 
 Source0:        https://github.com/%{name}/%{name}/archive/v%{version}.tar.gz
 Source1:        https://repo1.maven.org/maven2/org/%{name}/%{name}/%{version}/%{name}-%{version}.pom
+
+Patch0:         00-fix-java11-compilation.patch
 
 Obsoletes:      %{name}-demo < 2.0.0
 Obsoletes:      %{name}-manual < 2.0.0
@@ -68,6 +70,7 @@ Javadoc for %{name}.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %mvn_alias org.%{name}:%{name} %{name}:%{name}
 %mvn_file : %{name}/%{name} %{name}
@@ -87,7 +90,7 @@ rm src/main/java/org/dom4j/io/XPPReader.java
 rm src/test/java/org/dom4j/util/PerThreadSingletonTest.java
 
 %build
-%mvn_build -- -Dproject.build.sourceEncoding=UTF-8
+%mvn_build -- -Dproject.build.sourceEncoding=UTF-8 -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 %install
 %mvn_install
@@ -100,6 +103,15 @@ rm src/test/java/org/dom4j/util/PerThreadSingletonTest.java
 %license LICENSE
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:2.0.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Fabio Valentini <decathorpe@gmail.com> - 0:2.0.0-11
+- Add a small patch to fix build with Java 11.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0:2.0.0-10
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:2.0.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

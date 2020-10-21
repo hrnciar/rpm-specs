@@ -1,49 +1,45 @@
 %global srcname networkx
 
 Name:           python-%{srcname}
-Version:        2.4
-Release:        4%{?dist}
+Version:        2.5
+Release:        1%{?dist}
 Summary:        Creates and Manipulates Graphs and Networks
 License:        BSD
 URL:            http://networkx.github.io/
 Source0:        https://github.com/networkx/networkx/archive/%{srcname}-%{version}.tar.gz
 # The football example requires network access, so expect it to fail.
-# The parallel betweenness example hangs when executed, possibly due to a
-# function that cannot be pickled.  In any case, skip it.
 Patch0:         %{name}-doc.patch
-# Fix a test that fails on python 3.8 due to reordering of XML attributes.
-Patch1:         %{name}-test.patch
-# Update calls to deprecated APIs
-Patch2:         %{name}-deprecated.patch
-# Fix reversed arguments in gaussian-random_partition_graph
-# https://github.com/networkx/networkx/pull/3861
-Patch3:         %{name}-arg-order.patch
 
 BuildArch:      noarch
 
+BuildRequires:  fontawesome-fonts-web
+BuildRequires:  font(fontawesome)
+BuildRequires:  font(lato)
+BuildRequires:  font(robotoslab)
+BuildRequires:  fontconfig
 BuildRequires:  python3-devel
 BuildRequires:  python3-docs
 BuildRequires:  python3-numpy-doc
-BuildRequires:  python3dist(decorator)
-BuildRequires:  python3dist(gdal)
-BuildRequires:  python3dist(lxml)
-BuildRequires:  python3dist(matplotlib)
-BuildRequires:  python3dist(nb2plots)
-BuildRequires:  python3dist(numpy)
-BuildRequires:  python3dist(numpydoc)
-BuildRequires:  python3dist(pandas)
-BuildRequires:  python3dist(pillow)
-BuildRequires:  python3dist(pydot)
-BuildRequires:  python3dist(pygraphviz)
-BuildRequires:  python3dist(pytest)
-BuildRequires:  python3dist(pytest-cov)
-BuildRequires:  python3dist(pyyaml)
-BuildRequires:  python3dist(scipy)
-BuildRequires:  python3dist(setuptools)
-BuildRequires:  python3dist(sphinx)
-BuildRequires:  python3dist(sphinx-gallery)
-BuildRequires:  python3dist(sphinx-rtd-theme)
-BuildRequires:  python3dist(texext)
+BuildRequires:  %{py3_dist decorator}
+BuildRequires:  %{py3_dist gdal}
+BuildRequires:  %{py3_dist lxml}
+BuildRequires:  %{py3_dist matplotlib}
+BuildRequires:  %{py3_dist nb2plots}
+BuildRequires:  %{py3_dist numpy}
+BuildRequires:  %{py3_dist numpydoc}
+BuildRequires:  %{py3_dist pandas}
+BuildRequires:  %{py3_dist pillow}
+BuildRequires:  %{py3_dist pydot}
+BuildRequires:  %{py3_dist pygraphviz}
+BuildRequires:  %{py3_dist pytest}
+BuildRequires:  %{py3_dist pytest-cov}
+BuildRequires:  %{py3_dist pyyaml}
+BuildRequires:  %{py3_dist scipy}
+BuildRequires:  %{py3_dist setuptools}
+BuildRequires:  %{py3_dist sphinx}
+BuildRequires:  %{py3_dist sphinx-gallery}
+BuildRequires:  %{py3_dist sphinx-rtd-theme}
+BuildRequires:  %{py3_dist texext}
 BuildRequires:  xdg-utils
 
 # Documentation
@@ -56,20 +52,18 @@ study of the structure, dynamics, and functions of complex networks.
 
 %package -n python3-%{srcname}
 Summary:        Creates and Manipulates Graphs and Networks
-Recommends:     python3dist(gdal)
-Recommends:     python3dist(lxml)
-Recommends:     python3dist(matplotlib)
-Recommends:     python3dist(numpy)
-Recommends:     python3dist(pandas)
-Recommends:     python3dist(pillow)
-Recommends:     python3dist(pydot)
-Recommends:     python3dist(pygraphviz)
-Recommends:     python3dist(pyparsing)
-Recommends:     python3dist(pyyaml)
-Recommends:     python3dist(scipy)
+Recommends:     %{py3_dist gdal}
+Recommends:     %{py3_dist lxml}
+Recommends:     %{py3_dist matplotlib}
+Recommends:     %{py3_dist numpy}
+Recommends:     %{py3_dist pandas}
+Recommends:     %{py3_dist pillow}
+Recommends:     %{py3_dist pydot}
+Recommends:     %{py3_dist pygraphviz}
+Recommends:     %{py3_dist pyparsing}
+Recommends:     %{py3_dist pyyaml}
+Recommends:     %{py3_dist scipy}
 Recommends:     xdg-utils
-
-%{?python_provide:%python_provide python3-%{srcname}}
 
 # This can be removed when Fedora 30 reaches EOL
 Obsoletes:      python3-%{srcname}-test < 2.3-2
@@ -96,7 +90,7 @@ Documentation for networkx
 
 # Do not use env
 for f in $(grep -FRl %{_bindir}/env .); do
-  sed -e 's,%{_bindir}/env python[[:digit:]]*,%{__python3},' \
+  sed -e 's,%{_bindir}/env python[[:digit:]]*,%{python3},' \
       -e 's,%{_bindir}/env ,%{_bindir},' \
       -i.orig $f
   touch -r $f.orig $f
@@ -122,12 +116,12 @@ for suffix in eot svg ttf woff woff2; do
   ln -s %{_datadir}/fonts/fontawesome/fontawesome-webfont.$suffix .
 done
 rm {Lato,RobotoSlab}/*.ttf
-ln -s %{_datadir}/fonts/lato/Lato-Bold.ttf Lato/lato-bold.ttf
-ln -s %{_datadir}/fonts/lato/Lato-BoldItalic.ttf Lato/lato-bolditalic.ttf
-ln -s %{_datadir}/fonts/lato/Lato-Italic.ttf Lato/lato-italic.ttf
-ln -s %{_datadir}/fonts/lato/Lato-Regular.ttf Lato/lato-regular.ttf
-ln -s %{_datadir}/fonts/google-roboto-slab/RobotoSlab-Bold.ttf RobotoSlab/roboto-slab-v7-bold.ttf
-ln -s %{_datadir}/fonts/google-roboto-slab/RobotoSlab-Regular.ttf RobotoSlab/roboto-slab-v7-regular.ttf
+ln -s $(fc-match -f "%%{file}" "lato:bold") Lato/lato-bold.ttf
+ln -s $(fc-match -f "%%{file}" "lato:bold:italic") Lato/lato-bolditalic.ttf
+ln -s $(fc-match -f "%%{file}" "lato:italic") Lato/lato-italic.ttf
+ln -s $(fc-match -f "%%{file}" "lato") Lato/lato-regular.ttf
+ln -s $(fc-match -f "%%{file}" "robotoslab:bold") RobotoSlab/roboto-slab-v7-bold.ttf
+ln -s $(fc-match -f "%%{file}" "robotoslab") RobotoSlab/roboto-slab-v7-regular.ttf
 cd -
 
 %install
@@ -145,9 +139,6 @@ for fil in $(find doc/build -name \*.zip); do
   rm -fr zip
 done
 
-# The tests have shebangs, so mark them as executable
-grep -rlZ '^#!' %{buildroot}%{python3_sitelib}/networkx | xargs -0 chmod a+x
-
 %check
 pytest
 
@@ -160,6 +151,17 @@ pytest
 %doc doc/build/html/*
 
 %changelog
+* Sat Aug 22 2020 Jerry James <loganjerry@gmail.com> - 2.5-1
+- Version 2.5
+- All patches except -doc have been upstreamed; drop them
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.4-4
 - Rebuilt for Python 3.9
 

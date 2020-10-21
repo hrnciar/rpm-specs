@@ -17,7 +17,7 @@
 
 Name:           python-%{srcname}
 Version:        0.8.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Functionality for FIDO 2.0, including USB device communication
 
 # Main code is BSD
@@ -178,6 +178,9 @@ Requires:       python%{python3_other_pkgversion}-six
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 24 2020 Orion Poplawski <orion@nwra.com> - 0.8.1-4
 - Add BR on python-setuptools
 

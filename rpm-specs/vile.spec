@@ -1,6 +1,6 @@
 Name:		vile
 Version:	9.8u
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	VI Like Emacs
 License:	GPLv2
 URL:		http://invisible-island.net/vile/
@@ -103,6 +103,9 @@ ln -s %{_mandir}/man1/xvile.1 %{buildroot}%{_mandir}/man1/lxvile.1
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.8u-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Mark McKinstry <mmckinst@fedoraproject.org> - 9.8u-1
 - Update to 9.8u (RHBZ#1836721)
 

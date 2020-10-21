@@ -1,20 +1,16 @@
 Name:           libhandy
 Version:        0.0.13
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Library with GTK+ widgets for mobile phones
 
 License:        LGPLv2+
 URL:            https://source.puri.sm/Librem5/libhandy/
 Source0:        https://source.puri.sm/Librem5/libhandy/-/archive/v%{version}/libhandy-v%{version}.tar.bz2
 
-# Backported from upstream
-Patch0:         0001-glade-Adapt-to-Glade-3.36-API-changes.patch
-
 BuildRequires:  gcc
 BuildRequires:  gtk-doc
 BuildRequires:  meson
 BuildRequires:  pkgconfig(gio-2.0)
-BuildRequires:  pkgconfig(gladeui-2.0)
 BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  pkgconfig(gmodule-2.0)
 BuildRequires:  pkgconfig(gobject-introspection-1.0)
@@ -37,7 +33,7 @@ developing applications that use %{name}.
 %autosetup -n libhandy-v%{version} -p1
 
 %build
-%meson -Dgtk_doc=true -Dexamples=false
+%meson -Dgtk_doc=true -Dexamples=false -Dglade_catalog=disabled
 %meson_build
 
 %install
@@ -51,15 +47,19 @@ developing applications that use %{name}.
 
 %files devel
 %{_includedir}/libhandy-0.0/
-%{_libdir}/glade/
 %{_libdir}/libhandy-0.0.so
 %{_libdir}/pkgconfig/libhandy-0.0.pc
 %{_datadir}/gir-1.0/
-%{_datadir}/glade/
 %{_datadir}/gtk-doc/
 %{_datadir}/vala/
 
 %changelog
+* Sun Sep 13 2020 Kalev Lember <klember@redhat.com> - 0.0.13-6
+- Disable glade catalog for F33+
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.13-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Kalev Lember <klember@redhat.com> - 0.0.13-3
 - Rebuilt for libgladeui soname bump
 

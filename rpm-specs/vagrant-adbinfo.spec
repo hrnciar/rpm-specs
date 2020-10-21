@@ -3,7 +3,7 @@
 
 Name: %{vagrant_plugin_name}
 Version: 0.1.0
-Release: 7%{?dist}
+Release: 8%{?dist}
 Summary: Connection and configuration for a Docker daemon
 License: GPLv2
 URL: https://github.com/projectatomic/vagrant-adbinfo
@@ -73,6 +73,9 @@ popd
 %{vagrant_plugin_instdir}/vagrant-adbinfo.spec
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

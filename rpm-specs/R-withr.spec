@@ -1,15 +1,12 @@
-%bcond_with check
+%bcond_without bootstrap
 
 %global packname withr
-%global packver  2.2.0
+%global packver  2.3.0
 %global rlibdir  %{_datadir}/R/library
 
-# rmarkdown is not yet available.
-%global with_doc 0
-
 Name:             R-%{packname}
-Version:          2.2.0
-Release:          2%{?dist}
+Version:          2.3.0
+Release:          1%{?dist}
 Summary:          Run Code 'With' Temporarily Modified Global State
 
 License:          GPLv2+
@@ -29,16 +26,14 @@ BuildRequires:    tex(latex)
 BuildRequires:    R-graphics
 BuildRequires:    R-grDevices
 BuildRequires:    R-stats
-%if %{with check}
+%if %{without bootstrap}
 BuildRequires:    R-DBI
+BuildRequires:    R-knitr
 BuildRequires:    R-lattice
 BuildRequires:    R-methods
+BuildRequires:    R-rmarkdown
 BuildRequires:    R-RSQLite
 BuildRequires:    R-testthat >= 2.1.0
-%if %{with_doc}
-BuildRequires:    R-knitr
-BuildRequires:    R-rmarkdown
-%endif
 %endif
 
 %description
@@ -66,7 +61,7 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %check
-%if %{with check}
+%if %{without bootstrap}
 export LANG=C.UTF-8
 %if %{with_doc}
 %{_bindir}/R CMD check %{packname}
@@ -90,6 +85,12 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --ignore-vignettes
 
 
 %changelog
+* Wed Sep 23 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.3.0-1
+- Update to latest version (#1881624)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 2.2.0-2
 - conditionalize check to break testthat loop
 - rebuild for R 4

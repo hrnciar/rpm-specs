@@ -1,67 +1,75 @@
-Name:          spec-version-maven-plugin
-Version:       1.2
-Release:       15%{?dist}
-Summary:       Spec Version Maven Plugin
-License:       CDDL or GPLv2 with exceptions
-URL:           http://glassfish.java.net/
-# svn export https://svn.java.net/svn/glassfish~svn/tags/spec-version-maven-plugin-1.2
-# tar czf spec-version-maven-plugin-1.2-src-svn.tar.gz spec-version-maven-plugin-1.2
-Source0:       %{name}-%{version}-src-svn.tar.gz
-# wget -O glassfish-LICENSE.txt https://svn.java.net/svn/glassfish~svn/tags/legal-1.1/src/main/resources/META-INF/LICENSE.txt
-# spec-version-maven-plugin package don't include the license file
-Source1:       glassfish-LICENSE.txt
+Name:           spec-version-maven-plugin
+Version:        1.5
+Release:        1%{?dist}
+Summary:        Spec Version Maven Plugin
+License:        CDDL or GPLv2 with exceptions
 
+# project moved to eclipse-ee4j for versions > 1.5
+# https://github.com/eclipse-ee4j/glassfish-spec-version-maven-plugin
+URL:            https://github.com/javaee/spec-version-maven-plugin
+Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires: mvn(net.java:jvnet-parent:pom:)
-BuildRequires: mvn(org.apache.maven:maven-core)
-BuildRequires: mvn(org.apache.maven:maven-model)
-BuildRequires: mvn(org.apache.maven:maven-plugin-api)
-BuildRequires: mvn(org.codehaus.plexus:plexus-resources)
+BuildArch:      noarch
 
-# test dep
-BuildRequires: mvn(junit:junit)
-BuildRequires: mvn(org.apache.felix:maven-bundle-plugin)
-
-BuildRequires: maven-local
-BuildRequires: maven-plugin-build-helper
-BuildRequires: maven-plugin-plugin
-
-BuildArch:     noarch
+BuildRequires:  maven-local
+BuildRequires:  mvn(junit:junit)
+BuildRequires:  mvn(org.apache.maven.plugin-tools:maven-plugin-annotations)
+BuildRequires:  mvn(org.apache.maven.plugins:maven-plugin-plugin)
+BuildRequires:  mvn(org.apache.maven:maven-core)
+BuildRequires:  mvn(org.codehaus.mojo:build-helper-maven-plugin)
 
 %description
-Maven Plugin to configure APIs version and
-specs in a MANIFEST.MF file.
+Maven Plugin to configure APIs version and specs in a MANIFEST.MF file.
+
 
 %package javadoc
-Summary:       Javadoc for %{name}
+Summary:        Javadoc for %{name}
 
 %description javadoc
 This package contains javadoc for %{name}.
+
 
 %prep
 %setup -q
 
 sed -i "s|mvn|mvn-rpmbuild|" src/main/resources/checkVersion.sh
 
-cp -p %{SOURCE1} LICENSE.txt
-sed -i 's/\r//' LICENSE.txt
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
+
+# remove unnecessary maven plugins
+%pom_remove_plugin :glassfish-copyright-maven-plugin
+%pom_remove_plugin :maven-checkstyle-plugin
 
 %mvn_file :%{name} %{name}
 
-%build
 
+%build
 %mvn_build
+
 
 %install
 %mvn_install
 
+
 %files -f .mfiles
-%license LICENSE.txt
+%license LICENSE
+%doc README.md
 
 %files javadoc -f .mfiles-javadoc
-%license LICENSE.txt
+%license LICENSE
+
 
 %changelog
+* Sat Aug 22 2020 Fabio Valentini <decathorpe@gmail.com> - 1.5-1
+- Update to version 1.5.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.2-16
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -107,3 +115,4 @@ sed -i 's/\r//' LICENSE.txt
 
 * Wed May 22 2013 gil cattaneo <puntogil@libero.it> 1.2-1
 - initial rpm
+

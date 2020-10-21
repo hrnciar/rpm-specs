@@ -3,16 +3,17 @@
 
 
 Name:		scummvm-tools
-Version:	2.1.0
-Release:	4%{?dist}
+Version:	2.2.0
+Release:	1%{?dist}
 Summary:	Tools for scummVM / S.C.U.M.M scripting language
 License:	GPLv2+
 URL:		http://www.scummvm.org
 
 Source0:	http://www.scummvm.org/frs/%{name}/%{version}/%{name}-%{version}.tar.bz2
 Source1:	%{name}.desktop
-# Add compatibility for RPM's configure macro.
-Patch0:		%{git_url}/pull/23.patch#/%{name}-2.1.0-CONFIGURE-Ignore-options-valid-for-Autotools-configure.patch
+Patch1:		configure.patch
+# Add additional bug fix for compatibility for RPM's configure macro.
+Patch2:		%{git_url}/pull/30.patch#/%{name}-2.2.0-CONFIGURE-Add-an-environemt-variable-that-discards-the-host-option.patch
 BuildRequires:	gcc-c++
 BuildRequires:	wxGTK3-devel, libvorbis-devel, flac-devel, desktop-file-utils
 BuildRequires:	zlib-devel bzip2-devel libmad-devel
@@ -37,6 +38,10 @@ These tools are most useful to developers.
 %autosetup -p 1
 
 %build
+# The configure script shall ignore the parameter for the --host option
+#passed by %%configure.
+export CONFIGURE_NO_HOST=true
+
 %configure --enable-verbose-build
 %make_build
 
@@ -60,6 +65,18 @@ desktop-file-install \
 
 
 %changelog
+* Sun Oct 18 2020 Christian Krause <chkr@fedoraproject.org> - 2.2.0-1
+- Update to latest upstream
+- Drop upstreamed patch
+- Add patch from upstreamed PR to fix an build issue caused
+  by the --host option of the %%autosetup macro
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 2.1.0-5
+Fix broken configure test compromised by LTO
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 2.1.0-4
 - Rebuilt for Boost 1.73
 

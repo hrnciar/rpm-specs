@@ -2,7 +2,7 @@ Name: hunspell-mt
 Summary: Maltese hunspell dictionaries
 %global upstreamid 20110414
 Version: 0.%{upstreamid}
-Release: 5%{?dist}
+Release: 6%{?dist}
 Source: https://downloads.sourceforge.net/project/aoo-extensions/5039/0/dict-mt-2011-04-14.oxt
 URL: http://linux.org.mt/node/62
 License: LGPLv2+
@@ -32,6 +32,9 @@ cp -p mt.aff $RPM_BUILD_ROOT/%{_datadir}/myspell/mt_MT.aff
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20110414-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20110414-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

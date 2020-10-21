@@ -3,7 +3,7 @@
 
 # https://github.com/spf13/afero
 %global goipath         github.com/spf13/afero
-Version:                1.2.2
+Version:                1.3.3
 
 %gometa
 
@@ -30,7 +30,7 @@ filesystem for full interoperability.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        FileSystem Abstraction System for Go
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
@@ -60,6 +60,12 @@ BuildRequires:  golang(golang.org/x/text/unicode/norm)
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 21:20:44 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.3.3-1
+- Update to 1.3.3
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

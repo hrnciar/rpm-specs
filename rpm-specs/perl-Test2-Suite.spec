@@ -2,13 +2,14 @@
 %bcond_without perl_Test2_Suite_enables_unicode
 
 Name:           perl-Test2-Suite
-Version:        0.000130
-Release:        2%{?dist}
+Version:        0.000136
+Release:        1%{?dist}
 Summary:        Set of tools built upon the Test2 framework
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test2-Suite
 Source0:        https://cpan.metacpan.org/authors/id/E/EX/EXODIST/Test2-Suite-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -34,7 +35,7 @@ BuildRequires:  perl(Term::Table) >= 0.013
 BuildRequires:  perl(Term::Table::Cell)
 BuildRequires:  perl(Term::Table::LineBreak)
 BuildRequires:  perl(Term::Table::Util)
-BuildRequires:  perl(Test2::API) >= 1.302158
+BuildRequires:  perl(Test2::API) >= 1.302176
 BuildRequires:  perl(Test2::API::Context)
 BuildRequires:  perl(Test2::Event)
 BuildRequires:  perl(Test2::Event::Exception)
@@ -44,6 +45,7 @@ BuildRequires:  perl(Test2::Event::Note)
 BuildRequires:  perl(Test2::Event::Skip)
 BuildRequires:  perl(Test2::EventFacet)
 BuildRequires:  perl(Test2::EventFacet::Info::Table)
+BuildRequires:  perl(Test2::EventFacet::Trace)
 BuildRequires:  perl(Test2::Hub::Interceptor)
 BuildRequires:  perl(Test2::Hub::Subtest)
 BuildRequires:  perl(Test2::IPC)
@@ -67,13 +69,14 @@ BuildRequires:  perl(PerlIO)
 BuildRequires:  perl(Test2::EventFacet::Assert)
 BuildRequires:  perl(Test2::Formatter::TAP)
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
+Requires:       perl(Data::Dumper)
 Requires:       perl(Importer) >= 0.024
 Requires:       perl(Module::Pluggable) >= 2.7
 Requires:       perl(Sub::Info) >= 0.002
 # Sub::Util or Sub::Name
 Suggests:       perl(Sub::Util)
 Requires:       perl(Term::Table) >= 0.013
-Requires:       perl(Test2::API) >= 1.302158
+Requires:       perl(Test2::API) >= 1.302176
 Requires:       perl(Test2::Event)
 # Test2::Event::Note loaded by send_event()
 Requires:       perl(Test2::Event::Note)
@@ -123,6 +126,18 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Oct 06 2020 Petr Pisar <ppisar@redhat.com> - 0.000136-1
+- 0.000136 bump
+
+* Wed Aug 19 2020 Petr Pisar <ppisar@redhat.com> - 0.000135-1
+- 0.000135 bump
+
+* Fri Aug 07 2020 Petr Pisar <ppisar@redhat.com> - 0.000132-1
+- 0.000132 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.000130-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.000130-2
 - Perl 5.32 rebuild
 

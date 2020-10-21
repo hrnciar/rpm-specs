@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.17
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Python graph (network) package
 
 License:        MIT
@@ -65,6 +65,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v altgraph_
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.17-2
 - Rebuilt for Python 3.9
 

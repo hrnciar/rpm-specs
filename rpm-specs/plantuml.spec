@@ -1,6 +1,6 @@
 Name:           plantuml
 Version:        1.2019.1
-Release:        3%{?dist}
+Release:        6%{?dist}
 Epoch:          1
 Summary:        Program to generate UML diagram from a text description
 
@@ -45,11 +45,11 @@ touch -r README.orig README
 rm README.orig
 
 %build
-
 ant
 
 # build javadoc
-%javadoc -encoding UTF-8 -Xdoclint:none -classpath %{name}.jar -d javadoc $(find src -name "*.java") -windowtitle "PlantUML %{version}"
+export CLASSPATH=$(build-classpath ant):plantuml.jar
+%javadoc -source 1.8 -encoding UTF-8 -Xdoclint:none -d javadoc $(find src -name "*.java") -windowtitle "PlantUML %{version}"
 
 %install
 # Set jar location
@@ -69,6 +69,15 @@ ant
 %license COPYING
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.2019.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Fabio Valentini <decathorpe@gmail.com> - 1:1.2019.1-5
+- Fix javadoc generation with Java 11.
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1:1.2019.1-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.2019.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Summary: Library of Optimized Inner Loops, CPU optimized functions
 Name: liboil
 Version: 0.3.16
-Release: 21%{?dist}
+Release: 24%{?dist}
 # See COPYING which details everything, various BSD licenses apply
 License: BSD
 URL: http://liboil.freedesktop.org/
@@ -40,6 +40,14 @@ extended instructions provided by modern CPUs (Altivec, MMX, SSE, etc.).
 %patch4 -p0 -b .disable-ppc64-opts
 
 %build
+# configure tests try to compile code containing ASMs to a .o file
+# In an LTO world, that always works as compilation does not happen until
+# link time.  As a result we get the wrong results from configure.
+# This can be fixed by using -ffat-lto-objects
+# -ffat-lto-objects forces compilation even with LTO.  It is the default
+# for F33, but not expected to be enabled by default for F34
+%define _lto_cflags -flto=auto -ffat-lto-objects
+
 %configure
 # Remove standard rpath from oil-bugreport
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
@@ -69,6 +77,15 @@ rm -f %{buildroot}%{_libdir}/*.a
 
 
 %changelog
+* Fri Aug 21 2020 Jeff Law <law@redhat.com> - 0.3.16-24
+- Re-enable LTO
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.16-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Jeff Law <law@redhat.com> - 0.3.16-22
+- Disable LTO
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.16-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

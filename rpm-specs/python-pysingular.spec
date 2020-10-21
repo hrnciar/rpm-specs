@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.9.7
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Python interface to Singular
 
 License:        GPLv2+
@@ -18,15 +18,12 @@ BuildRequires:  python3-devel
 This package contains a basic interface to call Singular from python.
 It is meant to be used in the Jupyter interface to Singular.}
 
-%description
-%_description
+%description %_description
 
 %package     -n python3-%{srcname}
 Summary:        Python 3 interface to Singular
-%{?python_provide:%python_provide python3-%{srcname}}
 
-%description -n python3-%{srcname}
-%_description
+%description -n python3-%{srcname} %_description
 
 %prep
 %autosetup -n %{upname}-%{version}
@@ -43,6 +40,9 @@ Summary:        Python 3 interface to Singular
 %{python3_sitearch}/%{upname}*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.7-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.7-3
 - Rebuilt for Python 3.9
 

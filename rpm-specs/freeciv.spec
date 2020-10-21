@@ -6,7 +6,7 @@
 
 Name:           freeciv
 Version:        2.6.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A multi-player strategy game
 
 License:        GPLv2+
@@ -77,6 +77,9 @@ find $RPM_BUILD_ROOT -name '*.a' -delete
 %{_sysconfdir}/freeciv/database.lua
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 14 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.6.2-2
 - Drop ggz bits, deprecated.
 

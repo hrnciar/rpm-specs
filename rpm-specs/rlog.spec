@@ -1,7 +1,7 @@
 Name:		rlog
 Summary:	Runtime Logging for C++
 Version:	1.4
-Release:	28%{?dist}
+Release:	30%{?dist}
 License:	LGPLv2+
 Url:		http://arg0.net/rlog
 VCS:		http://rlog.googlecode.com/svn/trunk
@@ -63,6 +63,13 @@ rm -rf %{buildroot}%{_docdir}/rlog
 %doc docs/html docs/latex/refman.pdf
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-30
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-28
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

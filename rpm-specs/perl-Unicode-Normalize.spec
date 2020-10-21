@@ -1,7 +1,7 @@
 %global base_version 1.25
 Name:           perl-Unicode-Normalize
 Version:        1.27
-Release:        456%{?dist}
+Release:        458%{?dist}
 Summary:        Unicode Normalization Forms
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Unicode-Normalize
@@ -10,6 +10,7 @@ Source0:        https://cpan.metacpan.org/authors/id/K/KH/KHW/Unicode-Normalize-
 Patch0:         Unicode-Normalize-1.25-Upgrade-to-1.26.patch
 # Unbundled from perl 5.32.0
 Patch1:         Unicode-Normalize-1.25-Upgrade-to-1.27.patch
+BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  gcc
 BuildRequires:  make
@@ -39,13 +40,14 @@ Unicode normalization forms as defined in Unicode Standard Annex #15.
 %prep
 %setup -q -n Unicode-Normalize-%{base_version}
 %patch0 -p1
+%patch1 -p1
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 OPTIMIZE="%{optflags}"
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 OPTIMIZE="%{optflags}"
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 find $RPM_BUILD_ROOT -type f -name '*.bs' -size 0 -delete
 %{_fixperms} $RPM_BUILD_ROOT/*
 
@@ -60,6 +62,13 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.27-458
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Petr Pisar <ppisar@redhat.com> - 1.27-457
+- Modernize a spec file
+- Apply a forgotten Unicode-Normalize-1.25-Upgrade-to-1.27.patch patch
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.27-456
 - Upgrade to 1.27 as provided in perl-5.32.0
 

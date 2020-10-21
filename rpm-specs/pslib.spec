@@ -1,6 +1,6 @@
 Name:           pslib
 Version:        0.4.5
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        C-library to create PostScript files
 
 License:        LGPLv2+ and MPLv1.0 and MIT
@@ -75,6 +75,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.5-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.5-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

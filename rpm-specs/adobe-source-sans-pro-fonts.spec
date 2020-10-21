@@ -1,54 +1,60 @@
-%global fontname source-sans-pro
-%global fontconf 63-%{fontname}.conf
+%global major_version 3
+%global minor_version 028
 
-Name:           adobe-source-sans-pro-fonts
-Version:        3.006
-Release:        2%{?dist}
-Summary:        A set of OpenType fonts designed for user interfaces
+Version:        %{major_version}.%{minor_version}
+Release:        1%{?dist}
+URL:            https://github.com/adobe-fonts/source-sans-pro/
 
-License:        OFL
-URL:            https://github.com/adobe-fonts/%{fontname}/
-# Can't build fonts without nonfree softwares
-Source0:        %{url}/releases/download/%{version}R/%{fontname}-%{version}R.zip
-Source1:        %{name}-fontconfig.conf
-Source2:        %{fontname}.metainfo.xml
+%global foundry adobe
+%global fontlicense OFL
+%global fontlicenses LICENSE.md
+%global fontdocs README.md
+%global fontdocsex %{fontlicenses}
 
-BuildRequires:  fontpackages-devel
-Requires:       fontpackages-filesystem
-BuildArch:      noarch
-
-%description
-Source Sans is a set of OpenType fonts that have been designed to work well in
+%global fontfamily Source Sans Pro
+%global fontsummary A set of OpenType fonts designed for user interfaces
+%global fonts OTF/*.otf
+%global fontconfs %{SOURCE10}
+%global fontdescription %{expand:Source Sans is a set of OpenType fonts that have been designed to work well in
 user interface (UI) environments, as well as in text setting for screen and
-print.
+print.}
+
+Source0:        %{url}/releases/download/%{version}R/source-sans-%{major_version}v%{minor_version}R.zip
+# Adjust as necessary. Keeping the filename in sync with the package name is a good idea.
+# See the fontconfig templates in fonts-rpm-templates for information on how to
+# write good fontconfig files and choose the correct priority [number].
+Source10:       63-%{fontpkgname}.conf
+
+%fontpkg
 
 
 %prep
-%autosetup -n %{fontname}-%{version}R
+%autosetup -c
 
 
 %build
+%fontbuild
 
 
 %install
-install -dm 0755 $RPM_BUILD_ROOT%{_fontdir}
-install -pm 0644 OTF/*.otf $RPM_BUILD_ROOT%{_fontdir}
-
-install -dm 0755 $RPM_BUILD_ROOT%{_fontconfig_templatedir} $RPM_BUILD_ROOT%{_fontconfig_confdir}
-install -m 0644 -p %{SOURCE1} $RPM_BUILD_ROOT%{_fontconfig_templatedir}/%{fontconf}
-ln -s %{_fontconfig_templatedir}/%{fontconf} $RPM_BUILD_ROOT%{_fontconfig_confdir}/%{fontconf}
-
-# Add AppStream metadata
-install -Dpm 0644 %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/appdata/%{fontname}.metainfo.xml
+%fontinstall
 
 
-%_font_pkg -f %{fontconf} *.otf
-%doc README.md
-%license LICENSE.md
-%{_datadir}/appdata/%{fontname}.metainfo.xml
+%check
+%fontcheck
+
+
+%fontfiles
 
 
 %changelog
+* Tue Sep 08 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 3.028-1
+- Migrate to new font packaging scheme
+- Update to 3.028
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.006-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.006-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -113,4 +119,3 @@ install -Dpm 0644 %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/appdata/%{fontname}.meta
 
 * Fri Aug 03 2012 Alexis Lameire <alexisis-pristontale@hotmail.com> - 1.033-1
 - initial release
-

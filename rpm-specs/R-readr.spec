@@ -1,52 +1,59 @@
-%global packname  readr
+%global packname readr
+%global packver  1.4.0
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          1.3.1
-Release:          5%{?dist}
+Version:          1.4.0
+Release:          1%{?dist}
 Summary:          Read Rectangular Text Data
 
 # Mainly GPLv2+; only src/grisu3.? are ASL 2.0
 License:          GPLv2+ and ASL 2.0
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-Rcpp >= 0.12.0.5, R-tibble, R-hms >= 0.4.1, R-R6, R-clipr, R-crayon, R-methods
-# Suggests:  R-curl, R-testthat, R-knitr, R-rmarkdown, R-stringi, R-covr, R-spelling
-# LinkingTo: R-Rcpp, R-BH
+# Imports:   R-cli, R-clipr, R-crayon, R-hms >= 0.4.1, R-methods, R-rlang, R-R6, R-tibble, R-utils, R-lifecycle
+# Suggests:  R-covr, R-curl, R-dplyr, R-knitr, R-rmarkdown, R-spelling, R-stringi, R-testthat, R-xml2
+# LinkingTo: R-BH, R-cpp11
 # Enhances:
 
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
-BuildRequires:    R-Rcpp-devel >= 0.12.0.5
-BuildRequires:    R-tibble
-BuildRequires:    R-hms >= 0.4.1
-BuildRequires:    R-R6
 BuildRequires:    R-BH-devel
+BuildRequires:    R-cpp11-devel
+BuildRequires:    R-cli
 BuildRequires:    R-clipr
 BuildRequires:    R-crayon
+BuildRequires:    R-hms >= 0.4.1
 BuildRequires:    R-methods
+BuildRequires:    R-rlang
+BuildRequires:    R-R6
+BuildRequires:    R-tibble
+BuildRequires:    R-utils
+BuildRequires:    R-lifecycle
 BuildRequires:    R-curl
-BuildRequires:    R-testthat
+BuildRequires:    R-dplyr
 BuildRequires:    R-knitr
 BuildRequires:    R-rmarkdown
-BuildRequires:    R-stringi
 BuildRequires:    R-spelling
+BuildRequires:    R-stringi
+BuildRequires:    R-testthat
+BuildRequires:    R-xml2
 
 %description
-The goal of 'readr' is to provide a fast and friendly way to read
-rectangular data (like 'csv', 'tsv', and 'fwf'). It is designed to
-flexibly parse many types of data found in the wild, while still cleanly
-failing when data unexpectedly changes.
+The goal of 'readr' is to provide a fast and friendly way to read rectangular
+data (like 'csv', 'tsv', and 'fwf'). It is designed to flexibly parse many
+types of data found in the wild, while still cleanly failing when data
+unexpectedly changes.
 
 
 %prep
 %setup -q -c -n %{packname}
 
 # Don't need coverage; it's not packaged either.
-sed -i 's/, covr//g' %{packname}/DESCRIPTION
+sed -i 's/covr, //g' %{packname}/DESCRIPTION
 
 
 %build
@@ -78,13 +85,21 @@ export LANG=C.UTF-8
 %{rlibdir}/%{packname}/help
 %dir %{rlibdir}/%{packname}/libs
 %{rlibdir}/%{packname}/libs/%{packname}.so
-%dir %{rlibdir}/%{packname}/rcon
-%{rlibdir}/%{packname}/rcon/librcon.so
 %{rlibdir}/%{packname}/WORDLIST
 %{rlibdir}/%{packname}/extdata
 
 
 %changelog
+* Thu Oct 08 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.4.0-1
+- Update to latest version (#1885209)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.3.1-5
 - rebuild for R 4
 

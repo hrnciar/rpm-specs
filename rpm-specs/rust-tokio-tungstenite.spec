@@ -5,7 +5,7 @@
 %global crate tokio-tungstenite
 
 Name:           rust-%{crate}
-Version:        0.10.1
+Version:        0.11.0
 Release:        1%{?dist}
 Summary:        Tokio binding for Tungstenite
 
@@ -101,16 +101,16 @@ which use "tls" feature of "%{crate}" crate.
 %files       -n %{name}+tls-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
-%package     -n %{name}+tokio-tls-devel
+%package     -n %{name}+tokio-native-tls-devel
 Summary:        %{summary}
 BuildArch:      noarch
 
-%description -n %{name}+tokio-tls-devel %{_description}
+%description -n %{name}+tokio-native-tls-devel %{_description}
 
 This package contains library source intended for building other packages
-which use "tokio-tls" feature of "%{crate}" crate.
+which use "tokio-native-tls" feature of "%{crate}" crate.
 
-%files       -n %{name}+tokio-tls-devel
+%files       -n %{name}+tokio-native-tls-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %prep
@@ -132,5 +132,15 @@ which use "tokio-tls" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Tue Aug 25 2020 Josh Stone <jistone@redhat.com> - 0.11.0-1
+- Update to 0.11.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 18 17:34:03 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.10.1-1
 - Initial package

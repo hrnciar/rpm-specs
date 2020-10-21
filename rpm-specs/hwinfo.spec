@@ -8,7 +8,7 @@
 
 Name:           hwinfo
 Version:        21.68
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Hardware information tool
 
 License:        GPL+
@@ -87,6 +87,9 @@ make %{make_flags}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 21.68-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 01 2020 Neal Gompa <ngompa13@gmail.com> - 21.68-1
 - Rebase to 21.68
 - Split libraries into their own subpackage

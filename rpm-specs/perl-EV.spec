@@ -1,6 +1,6 @@
 Name:           perl-EV
 Version:        4.33
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Wrapper for the libev high-performance event loop library
 
 # Note: The source archive includes a libev/ folder which contents are licensed
@@ -15,7 +15,7 @@ Patch1:         perl-EV-4.30-Don-t-check-bundled-libev.patch
 BuildRequires:  gcc
 BuildRequires:  perl-devel
 BuildRequires:  perl-generators
-BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(common::sense)
 BuildRequires:  gdbm-devel
 BuildRequires:  libev-source >= 4.33
@@ -52,21 +52,17 @@ cp -r /usr/share/libev-source/* ./libev/
 
 
 %build
-PERL_CANARY_STABILITY_NOPROMPT=1 /usr/bin/perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="$RPM_OPT_FLAGS"
-make %{?_smp_mflags}
+PERL_CANARY_STABILITY_NOPROMPT=1 /usr/bin/perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="$RPM_OPT_FLAGS" NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 
 %install
-make pure_install PERL_INSTALL_ROOT=$RPM_BUILD_ROOT
-
-find $RPM_BUILD_ROOT -type f -name .packlist -exec rm -f {} ';'
-find $RPM_BUILD_ROOT -type f -name '*.bs' -a -size 0 -exec rm -f {} ';'
-
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 
 %check
-make test
+%{make_build} test
 
 
 %files
@@ -78,6 +74,13 @@ make test
 
 
 %changelog
+* Thu Oct 15 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 4.33-4
+- Replace "make pure_install" with %%{make_install}
+- Replace calls to make with %%{make_build}
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.33-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.33-2
 - Perl 5.32 rebuild
 

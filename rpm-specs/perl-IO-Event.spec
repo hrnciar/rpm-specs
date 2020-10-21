@@ -1,6 +1,6 @@
 Name:           perl-IO-Event
 Version:        0.813
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Tied filehandles for nonblocking IO with object callbacks
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/IO-Event
@@ -69,6 +69,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.813-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.813-19
 - Perl 5.32 rebuild
 

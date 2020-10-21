@@ -4,7 +4,7 @@
 # https://github.com/BurntSushi/toml-test
 %global goipath         github.com/BurntSushi/toml-test
 Version:                0.2.0
-%global commit          f910e151d1b14d94b1e8a4264db0814fb03520d9
+%global commit          280497fa5f12e43d7233aed0d74e07ca61ef176b
 
 %gometa
 
@@ -25,7 +25,7 @@ format as the JSON that a TOML decoder should output.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Language agnostic test suite for TOML parsers
 
 License:        MIT
@@ -68,6 +68,12 @@ cp -a tests %{buildroot}%{_datadir}/toml-test/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 18:37:50 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.2.0-5.20200724git280497f
+- Bump to commit 280497fa5f12e43d7233aed0d74e07ca61ef176b
+
 * Fri Jun 19 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.0-4
 - Package required test cases
 

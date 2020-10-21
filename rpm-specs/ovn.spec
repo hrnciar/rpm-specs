@@ -42,8 +42,8 @@
 Name: ovn
 Summary: Open Virtual Network support
 URL: http://www.openvswitch.org/
-Version: 20.03.0
-Release: 4%{?commit0:.%{date}git%{shortcommit0}}%{?dist}
+Version: 20.09.0
+Release: 1%{?commit0:.%{date}git%{shortcommit0}}%{?dist}
 Obsoletes: openvswitch-ovn-common < %{?epoch_ovs:%{epoch_ovs}:}2.11.0-8
 Provides: openvswitch-ovn-common = %{?epoch:%{epoch}:}%{version}-%{release}
 
@@ -60,29 +60,26 @@ Source: https://www.openvswitch.org/releases/ovn-%{version}.tar.gz
 # The OVN commit used for 2.12.0-4 is 0a51bb04f8d6194b2c706558d434b09a89196e26.
 # Update the above commit whenever the sources is updated.
 
-# Set the ovsversion to 2.12.90 which is the latest master. We always compile
+# Set the ovsversion to 2.14.90 which is the latest master. We always compile
 # OVN with the latest OVS master. Otherwise we will see compilation issues.
 # OVS is used only for compilation. The actual OVS binaries - ovs-vswitchd, ovsdb-server etc
 # comes from openvswitch package.
-# The ovs commit used is 91157afbd83aefb0c9f558d2841fece388b3b0cb.
+# The ovs commit used is 5601e86c4ec("Set release date for 2.14.0.").
 # The ovs tarball is generated manually by running - "make dist" in the ovs repository.
-%define ovsver 2.13.90
+%define ovsver 2.14.90
 %define ovsdir openvswitch-%{ovsver}
 
 Source10: https://openvswitch.org/releases/openvswitch-%{ovsver}.tar.gz
 
 # ovn-patches
-
-# OVN (including OVS if required) backports (0 - 399)
-Patch1: 0001-northd-By-pass-IPv6-Router-Adv-and-Router-Solicitati.patch
+# Bug 1845109
+Patch01: 0001-ovn-nbctl-add-may-exist-if-exists-options-for-policy.patch
 
 # OpenvSwitch backports (400-) if required.
 # Address crpto policy for fedora
 %if 0%{?fedora}
 Patch400: 0001-fedora-Use-PROFILE-SYSTEM-in-SSL_CTX_set_cipher_list.patch
 %endif
-
-Patch410: 0001-Revert-ovsdb-idl-Avoid-sending-redundant-conditional.patch
 
 BuildRequires: gcc autoconf automake libtool
 BuildRequires: systemd openssl openssl-devel
@@ -443,6 +440,50 @@ fi
 %{_unitdir}/ovn-controller-vtep.service
 
 %changelog
+* Wed Sep 30 2020 Numan Siddique <nusiddiq@redhat.com> - 20.09.0-1
+- Sync to upstream OVN v20.09.0.
+
+* Tue Sep 22 2020 Numan Siddique <numans@ovn.org> - 20.06.2-4
+- Backport many bug fix patches.
+
+* Tue Sep 01 2020 Numan Siddique <numans@ovn.org> - 20.06.2-3
+- Backport "ovn-controller: Fix incremental processing of Port_Binding deletes." (#1871961)
+
+* Tue Sep 01 2020 Numan Siddique <numans@ovn.org> - 20.06.2-2
+- Backport "Fix ovn-controller crash when a lport of type 'virtual' is deleted." (#1872681)
+
+* Mon Aug 24 2020 Numan Siddique <numans@ovn.org> - 20.06.2-1
+- Sync the OVN sources with the upstream v20.06.2 release and reorder
+  the other patches.
+
+* Wed Jul 29 2020 Numan Siddique <numans@ovn.org> - 20.06.1-6
+- Backport "ovn-controller: Release lport if the ofport of the VIF is -1.". (#1861298)
+- Backport "ovn-controller: Fix the missing flows when logical router port is added after its peer." (#1860053)
+- Backport "ovn-controller: Clear flows not associated with db rows in physical flow change handler." (#1861042)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.06.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Numan Siddique <nusiddiq@redhat.com> - 20.06.1-4
+- Backport "ovn-controller: Fix the missing ct zone entries for container ports." (#1858191)
+
+* Thu Jul 16 2020 Numan Siddique <nusiddiq@redhat.com> - 20.06.1-3
+- Backport "ovn-controller: Fix the missing flows with monitor-all set to True" (#1857537)
+
+* Thu Jul 16 2020 Numan Siddique <nusiddiq@redhat.com> - 20.06.1-2
+- Backport "Introduce icmp6_error action" (#1846300)
+- Backport "Introduce icmp6.frag_mtu action" (#1846300)
+- Backport "northd: introduce icmp6_error logical flows in router pipeline" (#1846300)
+
+* Thu Jul 16 2020 Numan Siddique <nusiddiq@redhat.com> - 20.06.1-1
+- Backport "Support packet metadata marking for logical router policies." (#1828933)
+- Backport "ovn-nbctl: Enhance lr-policy-add to set the options."(#1828933)
+- Backport "pinctrl: Support DHCPRELEASE and DHCPINFORM in native OVN dhcp responder." (#1801258)
+
+* Fri Jul 10 2020 Numan Siddique <nusiddiq@redhat.com> - 20.06.1-0
+- Sync the ovn tar ball to the ovn v20.06.1 release.
+- Sync the ovs (openvswitch-2.13.90) tar ball to the commit fa31efd211143f1adb06a62faad803a5aca1e400
+
 * Mon Jun 22 2020 Numan Siddique <nusiddiq@redhat.com> - 20.03.0-4
 - Backport "northd: By pass IPv6 Router Adv and Router Solicitation packets  from ACL stages."
 

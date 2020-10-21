@@ -3,7 +3,7 @@
 
 # https://github.com/docker/go-events
 %global goipath         github.com/docker/go-events
-%global commit          9461782956ad83b30282bf90e31fa6a70c255ba9
+%global commit          e31b211e4f1cd09aa76fe4ac244571fab96ae47f
 
 %gometa
 
@@ -16,7 +16,7 @@ Go.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Composable event distribution for Go
 
 # Upstream license specification: Apache-2.0
@@ -45,6 +45,12 @@ BuildRequires:  golang(github.com/sirupsen/logrus)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 13:49:09 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200726gite31b211
+- Bump to commit e31b211e4f1cd09aa76fe4ac244571fab96ae47f
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -7,7 +7,7 @@
 
 Name:           mod_annodex
 Version:        0.2.2
-Release:        32%{?dist}
+Release:        33%{?dist}
 Summary:        Apache module for server-side support of annodex media
 
 License:        ASL 1.1
@@ -81,6 +81,9 @@ install -Dp -m 644 annodex.conf \
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-32
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

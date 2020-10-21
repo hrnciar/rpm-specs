@@ -5,7 +5,7 @@
 
 Name:           python-%{srcname}
 Version:        4.1.3
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        %{sum}
 
 License:        ASL 2.0
@@ -79,6 +79,9 @@ rm -r $(find %{_buildrootdir} -type d -name 'tests') || /bin/true
 %{python3_sitelib}/%{srcname}*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.1.3-11
 - Rebuilt for Python 3.9
 

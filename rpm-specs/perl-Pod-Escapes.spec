@@ -2,7 +2,7 @@ Name:           perl-Pod-Escapes
 # Compete with perl.spec
 Epoch:          1
 Version:        1.07
-Release:        456%{?dist}
+Release:        457%{?dist}
 Summary:        Resolve POD escape sequences
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Pod-Escapes
@@ -48,6 +48,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.07-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:1.07-456
 - Increase release to favour standalone package
 

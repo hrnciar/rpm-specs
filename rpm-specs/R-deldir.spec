@@ -1,10 +1,10 @@
 %global packname deldir
-%global packver  0.1-25
+%global packver  0.1-29
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          0.1.25
-Release:          2%{?dist}
+Version:          0.1.29
+Release:          1%{?dist}
 Summary:          Delaunay Triangulation and Dirichlet (Voronoi) Tessellation
 
 License:          GPLv2+
@@ -73,6 +73,15 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Tue Sep 15 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.1.29-1
+- Update to latest version (#1878510)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.28-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.1.28-1
+- Update to latest version
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 0.1.25-2
 - rebuild for R 4
 

@@ -1,13 +1,13 @@
 %global packname chron
-%global packver  2.3-55
+%global packver  2.3-56
 %global rlibdir  %{_libdir}/R/library
 
 # Dependency loops.
-%global with_suggests 0
+%bcond_with bootstrap
 
 Name:             R-%{packname}
-Version:          2.3.55
-Release:          2%{?dist}
+Version:          2.3.56
+Release:          1%{?dist}
 Summary:          Chronological Objects which can Handle Dates and Times
 
 License:          GPLv2
@@ -25,7 +25,7 @@ BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    R-graphics
 BuildRequires:    R-stats
-%if %{with_suggests}
+%if %{without bootstrap}
 BuildRequires:    R-scales
 BuildRequires:    R-ggplot2
 %endif
@@ -49,7 +49,7 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %check
-%if %{with_suggests}
+%if %{without bootstrap}
 %{_bindir}/R CMD check %{packname}
 %else
 _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
@@ -71,6 +71,12 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 
 
 %changelog
+* Wed Aug 19 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.3.56-1
+- Update to latest version (#1869685)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.55-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 2.3.55-2
 - rebuild for R 4
 

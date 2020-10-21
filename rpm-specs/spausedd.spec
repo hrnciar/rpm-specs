@@ -3,15 +3,21 @@
 Name: spausedd
 Summary: Utility to detect and log scheduler pause
 Version: 20200323
-Release: 1%{?dist}
+Release: 4%{?dist}
 License: ISC
 URL: https://github.com/jfriesse/spausedd
 Source0: https://github.com/jfriesse/%{name}/releases/download/%{version}/%{name}-%{version}.tar.gz
 
-# VMGuestLib exists only for x86 architectures
+# VMGuestLib exists only for x86 architectures (for Fedora) and x86_64 (for RHEL)
 %if %{with vmguestlib}
+%if 0%{?rhel} >= 6
+%ifarch x86_64
+%global use_vmguestlib 1
+%endif
+%else
 %ifarch %{ix86} x86_64
 %global use_vmguestlib 1
+%endif
 %endif
 %endif
 
@@ -31,16 +37,15 @@ Utility to detect and log scheduler pause
 
 %build
 %set_build_flags
-make \
+%make_build \
 %if %{defined use_vmguestlib}
     WITH_VMGUESTLIB=1 \
 %else
     WITH_VMGUESTLIB=0 \
 %endif
-    %{?_smp_mflags}
 
 %install
-make DESTDIR="%{buildroot}" PREFIX="%{_prefix}" install
+%make_install PREFIX="%{_prefix}"
 
 mkdir -p %{buildroot}/%{_unitdir}
 install -m 644 -p init/%{name}.service %{buildroot}/%{_unitdir}
@@ -64,6 +69,16 @@ install -m 644 -p init/%{name}.service %{buildroot}/%{_unitdir}
 %systemd_postun spausedd.service
 
 %changelog
+* Tue Sep 22 2020 Jan Friesse <jfriesse@redhat.com> - 20200323-4
+- Fix build for ELN
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200323-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Jan Friesse <jfriesse@redhat.com> - 20200323-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Mon Mar 23 2020 Jan Friesse <jfriesse@redhat.com> - 20200323-1
 - Enhance man page
 - Add CI tests

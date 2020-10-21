@@ -1,6 +1,6 @@
 Name:           disomaster
 Version:        5.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Library to manipulate DISC burning
 License:        GPLv3+
 URL:            https://github.com/linuxdeepin/%{name}
@@ -46,6 +46,9 @@ export PATH=%{_qt5_bindir}:$PATH
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 # https://github.com/go-openapi/loads
 %global goipath         github.com/go-openapi/loads
-Version:                0.19.0
+Version:                0.19.5
 
 %gometa
 
@@ -15,7 +15,7 @@ JSON and YAML documents.}
 %global godocs          CODE_OF_CONDUCT.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Openapi specification object model
 
 # Upstream license specification: Apache-2.0
@@ -52,6 +52,12 @@ BuildRequires:  golang(gopkg.in/yaml.v2)
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 16:57:48 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.19.5-1
+- Update to 0.19.5
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

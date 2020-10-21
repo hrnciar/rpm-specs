@@ -12,8 +12,8 @@
 %global pear_name Mail_Mime
 
 Name:           php-pear-Mail-Mime
-Version:        1.10.8
-Release:        1%{?dist}
+Version:        1.10.9
+Release:        2%{?dist}
 Summary:        Classes to create MIME messages
 
 License:        BSD
@@ -99,6 +99,12 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Remi Collet <remi@remirepo.net> - 1.10.9-1
+- update to 1.10.9
+
 * Mon Jun 15 2020 Remi Collet <remi@remirepo.net> - 1.10.8-1
 - update to 1.10.8
 

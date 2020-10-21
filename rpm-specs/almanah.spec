@@ -1,6 +1,6 @@
 Name:		almanah
 Version:	0.12.0
-Release:	2%{?dist}
+Release:	5%{?dist}
 Summary:	Application for keeping an encrypted diary
 
 License:	GPLv3+
@@ -54,6 +54,16 @@ diary entries using multiple events.
 %{_datadir}/glib-2.0/schemas/org.gnome.%{name}.gschema.xml
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Milan Crha <mcrha@redhat.com> - 0.12.0-3
+- Rebuilt for evolution-data-server soname bump
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 Name:           qt5-%{qt_module}
 Summary:        Qt5 - AccountService addon
 Version:        0.6.0
-Release:        12%{?dist}
+Release:        15%{?dist}
 
 License:        LGPLv2+
 URL:            https://github.com/hawaii-desktop/qtaccountsservice
@@ -40,17 +40,13 @@ Files for development using Qt Account Service Addon.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-# please document why LINK= hack is needed -- rex
-make %{?_smp_mflags} LINK='g++ -Wl,--as-needed' -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 
 %ldconfig_scriptlets
@@ -68,6 +64,16 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Mon Aug 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.6.0-15
+- FTBFS, use new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

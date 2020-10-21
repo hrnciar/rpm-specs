@@ -4,7 +4,7 @@
 
 Name:           python-%{modname}
 Version:        0.15.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Super fast SSH library - bindings for libssh2
 
 License:        LGPLv2+
@@ -54,6 +54,9 @@ export HAVE_AGENT_FWD=0
 %{python3_sitearch}/ssh2/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.15.0-9
 - Rebuilt for Python 3.9
 

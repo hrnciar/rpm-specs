@@ -3,11 +3,14 @@
 Name:           rubygem-%{gem_name}
 Summary:        Kramdown parser for GitHub-flavored markdown
 Version:        1.1.0
-Release:        2%{?dist}
+Release:        5%{?dist}
 License:        MIT
 
 URL:            https://github.com/kramdown/parser-gfm
 Source0:        https://rubygems.org/gems/%{gem_name}-%{version}.gem
+
+# upstream patch to make test suite compatible with kramdown 2.2.0
+Patch0:         %{url}/commit/ad48572.patch
 
 BuildArch:      noarch
 
@@ -36,6 +39,7 @@ Documentation for %{name}.
 
 %prep
 %setup -q -n %{gem_name}-%{version}
+%patch0 -p1
 
 
 %build
@@ -82,6 +86,17 @@ popd
 
 
 %changelog
+* Sat Aug 15 2020 Fabio Valentini <decathorpe@gmail.com> - 1.1.0-5
+- Include upstream patch to make test suite compatible with kramdown 2.2.0.
+- Fixes RHBZ#1865414
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

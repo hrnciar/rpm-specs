@@ -2,18 +2,15 @@
 %global gem_name fakefs
 
 Name: rubygem-%{gem_name}
-Version: 0.13.1
-Release: 5%{?dist}
+Version: 1.2.2
+Release: 1%{?dist}
 Summary: A fake filesystem. Use it in your tests
 License: MIT
 URL: https://github.com/fakefs/fakefs
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
 # git clone https://github.com/fakefs/fakefs.git && cd fakefs/
-# git checkout v0.13.1 && tar czvf fakefs-0.13.1-tests.tgz spec/ test/
-Source1: fakefs-%{version}-tests.tgz
-# Skip test of methods introduced in Ruby 2.5.
-# https://github.com/fakefs/fakefs/issues/390
-Patch0: rubygem-fakefs-0.13.1-Skip-tests-of-pwrite-and-pwrite.patch
+# git archive -v -o fakefs-1.2.2-tests.tar.gz v1.2.2 spec/ test/
+Source1: fakefs-%{version}-tests.tar.gz
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby
@@ -35,10 +32,6 @@ Documentation for %{name}.
 
 %prep
 %setup -q -n  %{gem_name}-%{version} -b 1
-
-pushd %{_builddir}
-%patch0 -p1
-popd
 
 %build
 # Create the gem as gem install only works on a gem file
@@ -64,10 +57,10 @@ rspec spec
 # Get rid of Bundler.
 sed -i '/bundler/ s/^/#/' test/test_helper.rb
 
-# minitest-rg is not available in Fedora yet not it is needed.
-sed -i '/minitest\/rg/ s/^/#/' test/test_helper.rb
+# maxitest is not available in Fedora yet not it is needed.
+sed -i '/maxitest\/autorun/ s/^/#/' test/test_helper.rb
 
-ruby -Ilib -e 'Dir.glob "./test/**/*_test.rb", &method(:require)'
+LC_ALL=C.UTF-8 ruby -Ilib -rminitest/autorun -e 'Dir.glob "./test/**/*_test.rb", &method(:require)'
 popd
 
 %files
@@ -82,6 +75,10 @@ popd
 %doc %{gem_instdir}/README.md
 
 %changelog
+* Tue Jul 28 2020 Vít Ondruch <vondruch@redhat.com> - 1.2.2-1
+- Update to FakeFS 1.2.2.
+  Resolves: rhbz#1545465
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

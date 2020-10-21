@@ -13,9 +13,9 @@
 %{bcond_without perl_PDL_enables_optional_test}
 
 Name:           perl-PDL
-%global cpan_version 2.021
-Version:        2.21.0
-Release:        5%{?dist}
+%global cpan_version 2.024
+Version:        2.24.0
+Release:        1%{?dist}
 Summary:        The Perl Data Language
 License:        GPL+ or Artistic
 Url:            http://pdl.perl.org/
@@ -29,7 +29,6 @@ Patch3:         PDL-2.6.0.90-Compile-Slatec-code-as-PIC.patch
 # Disable Slatec code crashing on PPC64, bug #1041304
 Patch4:         PDL-2.14.0-Disable-PDL-Slatec.patch
 Patch5:         PDL-2.17.0-Update-additional-deps-for-Basic-Core.patch
-Patch6:         PDL-2.20.0-Compile-pdl-c-as-PIC.patch
 BuildRequires:  coreutils
 BuildRequires:  fftw2-devel
 BuildRequires:  findutils
@@ -181,7 +180,6 @@ such commercial packages as IDL and MatLab.
 %patch4 -p1 -b .slatec
 %endif
 %patch5 -p1
-%patch6 -p1
 # Fix shellbang
 sed -e 's,^#!/usr/bin/env perl,%(perl -MConfig -e 'print $Config{startperl}'),' -i Perldl2/pdl2
 
@@ -222,6 +220,18 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Thu Sep 17 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.24.0-1
+- 2.24.0 bump
+
+* Mon Sep 14 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.23.0-1
+- 2.23.0 bump
+
+* Mon Sep 07 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.22.0-1
+- 2.22.0 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.21.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.21.0-5
 - Perl 5.32 rebuild
 

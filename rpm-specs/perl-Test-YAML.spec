@@ -1,6 +1,9 @@
+# Perform author tests
+%bcond_without perl_Test_YAML_enables_extra_test
+
 Name:		perl-Test-YAML
 Version:	1.07
-Release:	8%{?dist}
+Release:	9%{?dist}
 Summary:	Testing Module for YAML Implementations
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Test-YAML
@@ -21,7 +24,9 @@ BuildRequires:	perl(Test::Base) >= 0.89
 BuildRequires:	perl(Test::Base::Filter)
 # Test Suite
 BuildRequires:	perl(Test::More)
+%if %{with perl_Test_YAML_enables_extra_test}
 BuildRequires:	perl(Test::Pod) >= 1.41
+%endif
 # Runtime
 Requires:	perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:	perl(Data::Dumper)
@@ -44,7 +49,8 @@ make install DESTDIR=%{buildroot}
 rm %{buildroot}%{_bindir}/test-yaml
 
 %check
-make test AUTHOR_TESTING=1
+unset AUTHOR_TESTING
+make test %{?with_perl_Test_YAML_enables_extra_test:AUTHOR_TESTING=1}
 
 %files
 %license LICENSE
@@ -53,6 +59,9 @@ make test AUTHOR_TESTING=1
 %{_mandir}/man3/Test::YAML.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.07-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.07-8
 - Perl 5.32 rebuild
 

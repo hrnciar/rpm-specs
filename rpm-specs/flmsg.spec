@@ -1,6 +1,6 @@
 Name:           flmsg
-Version:        4.0.15
-Release:        1%{?dist}
+Version:        4.0.16
+Release:        4%{?dist}
 Summary:        Fast Light Message Amateur Radio Forms Manager
 
 # Embedded mongoose is GPLv2
@@ -8,6 +8,9 @@ License:        GPLv3+ and GPLv2
 URL:            http://www.w1hkj.com/
 Source0:        http://www.w1hkj.com/files/%{name}/%{name}-%{version}.tar.gz
 Source100:      flmsg.appdata.xml
+
+# Various fixes for memory leaks and one segfault
+Patch0:         flmsg-fixes.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  fltk-devel >= 1.3.0
@@ -30,13 +33,14 @@ basis for emergency communications data transfers.
 
 
 %prep
-%autosetup
+%autosetup -p1
 
 # Remove bundled xmlrpc library.
 rm -rf src/xmlrpcpp
 
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure
 %make_build
 
@@ -68,6 +72,18 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 4.0.16-4
+- Force C++14 as this code is not C++17 ready
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.16-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Richard Shaw <hobbes1069@gmail.com> - 4.0.16-2
+- Add patch for various memory leaks and one segfault.
+
+* Fri Jun 26 2020 Richard Shaw <hobbes1069@gmail.com> - 4.0.16-1
+- Update to 4.0.16.
+
 * Mon Jun 01 2020 Richard Shaw <hobbes1069@gmail.com> - 4.0.14-1
 - Update to 4.0.15.
 

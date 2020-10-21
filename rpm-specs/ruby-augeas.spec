@@ -1,6 +1,6 @@
 Name:           ruby-augeas
 Version:        0.5.0
-Release:        23%{?dist}
+Release:        25%{?dist}
 Summary:        Ruby bindings for Augeas
 
 License:        LGPLv2+
@@ -46,6 +46,13 @@ ruby tests/tc_augeas.rb
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-25
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

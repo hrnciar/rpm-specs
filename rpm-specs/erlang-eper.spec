@@ -5,7 +5,7 @@
 Summary:        Erlang Performance and Debugging Tools
 Name:           erlang-%{realname}
 Version:        0.99.1
-Release:        4%{?dist}
+Release:        6%{?dist}
 BuildArch:	noarch
 License:        MIT
 URL:		https://github.com/%{upstream}/%{realname}
@@ -51,6 +51,13 @@ install -p -m 0755 priv/bin/{dtop,ntop,redbug} %{buildroot}%{erlang_appdir}/priv
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 Name:           perl-Dist-Zilla-Plugins-CJM
 Version:        6.000
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Christopher J. Madsen's Dist::Zilla plugins
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Dist-Zilla-Plugins-CJM
@@ -97,6 +97,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.000-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 6.000-9
 - Perl 5.32 rebuild
 

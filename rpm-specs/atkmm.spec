@@ -6,7 +6,7 @@
 
 Name:           atkmm
 Version:        2.24.3
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        C++ interface for the ATK library
 
 License:        LGPLv2+
@@ -55,7 +55,7 @@ documentation browser or through a web browser.
 
 %build
 %configure --disable-static
-make %{?_smp_mflags}
+%make_build
 
 
 %install
@@ -83,6 +83,13 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.24.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 2.24.3-5
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.24.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

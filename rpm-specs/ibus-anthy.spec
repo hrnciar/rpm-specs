@@ -1,7 +1,4 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
 %global sub_version                     1.0
 %global require_ibus_version            1.5.3
 %global have_default_layout             1
@@ -32,7 +29,7 @@
 
 Name:           ibus-anthy
 Version:        1.5.11
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        The Anthy engine for IBus input platform
 License:        GPLv2+
 URL:            https://github.com/ibus/ibus/wiki
@@ -107,6 +104,7 @@ for developers.
 %package  tests
 Summary:        Tests for the %{name} package
 Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       python3-pycotap
 
 %description tests
 The %{name}-tests package contains tests that can be used to verify
@@ -205,6 +203,14 @@ touch --no-create %{_datadir}/icons/hicolor || :
 %{_datadir}/installed-tests/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.11-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Takao Fujiwara <tfujiwar@redhat.com> - 1.5.11-7
+- Use pycotap instead of tappy in CI
+- Revise CI from ibus-typing-booster
+- Delete _python_bytecompile_extra
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.11-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

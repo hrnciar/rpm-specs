@@ -5,14 +5,17 @@
 %global crate actix-server
 
 Name:           rust-%{crate}
-Version:        1.0.3
+Version:        1.0.4
 Release:        1%{?dist}
-Summary:        Actix server - General purpose tcp server
+Summary:        General purpose TCP server built for the Actix ecosystem
 
-# Upstream license specification: MIT/Apache-2.0
+# Upstream license specification: MIT OR Apache-2.0
 License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/actix-server
 Source:         %{crates_source}
+# Initial patched metadata
+# * add missing "bytes" dependency for integration tests
+Patch0:         actix-server-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -22,7 +25,7 @@ BuildArch:      noarch
 BuildRequires:  rust-packaging
 
 %global _description %{expand:
-Actix server - General purpose tcp server.}
+General purpose TCP server built for the Actix ecosystem.}
 
 %description %{_description}
 
@@ -71,6 +74,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Mon Sep 21 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.4-1
+- Update to version 1.0.4.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 19 2020 Josh Stone <jistone@redhat.com> - 1.0.3-1
 - Update to 1.0.3
 

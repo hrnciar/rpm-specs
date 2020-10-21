@@ -1,6 +1,9 @@
+%undefine __cmake_in_source_build
+%global _vpath_builddir build
+
 Name: yajl
 Version: 2.1.0
-Release: 14%{?dist}
+Release: 15%{?dist}
 Summary: Yet Another JSON Library (YAJL)
 
 License: ISC
@@ -52,16 +55,12 @@ necessary for developing against the YAJL library
 # NB, we are not using upstream's 'configure'/'make'
 # wrapper, instead we use cmake directly to better
 # align with Fedora standards
-mkdir build
-cd build
-%cmake ..
-make VERBOSE=1 %{?_smp_mflags}
+%cmake
+%cmake_build
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
-cd build
-make install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 
 
 # No static libraries
@@ -95,6 +94,9 @@ cd test
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

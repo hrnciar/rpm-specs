@@ -6,7 +6,7 @@ serif and sans-serif versions. The fonts cover all European Latin characters.
 
 Name:          %{fontname}-fonts
 Version:       20030318
-Release:       22%{?dist}
+Release:       23%{?dist}
 Summary:       General purpose sans-serif font with bold, italic and bold-italic variations
 
 License:       GPLv2+
@@ -96,6 +96,9 @@ install -Dm 0644 -p %{SOURCE5} \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20030318-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20030318-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

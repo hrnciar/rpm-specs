@@ -2,7 +2,7 @@
 
 Name:           libreoffice-%{extname}
 Version:        0.48.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A LaTex Equation Editor for LibreOffice
 
 License:        GPLv2+
@@ -63,6 +63,9 @@ rm $RPM_BUILD_ROOT%{loextdir}/{README,license.txt}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.48.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 01 2020 Ian McInerney <ian.s.mcinerney@ieee.org> - 0.48.2-1
 - Update to 0.48.2
 

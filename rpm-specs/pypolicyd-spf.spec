@@ -1,6 +1,6 @@
 Name:           pypolicyd-spf
 Version:        2.0.2
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        SPF Policy Server for Postfix (Python implementation)
 
 License:        ASL 2.0
@@ -49,6 +49,9 @@ range of requirements.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.2-9
 - Rebuilt for Python 3.9
 

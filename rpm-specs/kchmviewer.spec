@@ -1,6 +1,6 @@
 Name:           kchmviewer
 Version:        7.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        CHM viewer
 
 License:        GPLv3+
@@ -67,6 +67,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 21 2020 Robin Lee <cheeselee@fedoraproject.org> - 7.7-1
 - Update to 7.7 (RHBZ#1382189)
 

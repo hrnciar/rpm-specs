@@ -13,7 +13,7 @@
 
 Name:           python-%{srcname}
 Version:        1.8
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -66,6 +66,9 @@ mkdir results
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.8-11
 - Rebuilt for Python 3.9
 

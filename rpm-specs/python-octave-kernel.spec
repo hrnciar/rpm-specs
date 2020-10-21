@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.32.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A Jupyter kernel for Octave
 
 License:        BSD
@@ -28,11 +28,12 @@ Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-metakernel >= 0.24.0
-BuildRequires:  python3-jupyter-client >= 4.3.0
-BuildRequires:  python3-ipykernel
+BuildRequires:  python3dist(setuptools)
+BuildRequires:  python3dist(metakernel) >= 0.24.0
+BuildRequires:  python3dist(jupyter-client) >= 4.3.0
+BuildRequires:  python3dist(ipykernel)
 
-BuildRequires:  python3-jupyter-kernel-test
+BuildRequires:  python3dist(jupyter-kernel-test)
 
 Requires:       octave
 
@@ -54,7 +55,7 @@ Requires:       octave
 %check
 PYTHONPATH="%{buildroot}%{python3_sitelib}" \
     JUPYTER_PATH="%{buildroot}%{_datadir}/jupyter" \
-        %{__python3} test_octave_kernel.py -v
+        %{python3} test_octave_kernel.py -v
 
 
 %files -n python3-%{srcname}
@@ -66,6 +67,9 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}" \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.32.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 31 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.32.0-1
 - Update to latest version
 

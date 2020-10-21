@@ -1,12 +1,12 @@
 %define nameapp pencil2d
 
 Name:           Pencil2D
-Version:        0.6.4
-Release:        3%{?dist}
+Version:        0.6.5
+Release:        1%{?dist}
 Summary:        Animation/drawing software
 License:        GPLv2
 URL:            https://gitlab.com/chchwy/%{nameapp}
-Source0:        %{url}/-/archive/v%{version}/%{nameapp}-v%{version}.tar.gz
+Source0:        %{url}/-/archive/v%{version}/pencil-%{version}.tar.gz
 
 BuildRequires:  qt5-devel
 BuildRequires:	desktop-file-utils
@@ -42,6 +42,19 @@ export INSTALL_ROOT=%{buildroot}
 
 
 %changelog
+* Wed Aug 26 2020 Luis M. Segundo <blackfile@fedoraproject.org> - 0.6.5-1
+- Update to 0.6.5
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Marie Loise Nolden <loise@kde.org> - 0.6.4-4	
+- Fix for Qt 5.15.0 
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 Name:		mISDN
 Version:	2.0.22
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Userspace part of Modular ISDN stack
 
 License:	LGPLv2+
@@ -97,6 +97,9 @@ exit 0
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.22-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 03 2020 Than Ngo <than@redhat.com> - 2.0.22-3
 - Fix FTBFS
 

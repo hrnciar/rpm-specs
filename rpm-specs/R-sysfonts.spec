@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          0.8.1
-Release:          2%{?dist}
+Release:          4%{?dist}
 Summary:          Loading Fonts into R
 
 License:          GPLv2
@@ -86,6 +86,13 @@ popd
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 0.8.1-2
 - rebuild for R 4
 

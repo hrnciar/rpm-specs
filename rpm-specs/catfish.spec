@@ -4,19 +4,25 @@ BuildRequires:  %1 \
 %{nil}
 
 %global		majorver	1.4
-%define		mainver		1.4.11
+%define		mainver		1.4.13
 %undefine		betaver		
 
-%define		fedoraver	1
+%define		fedoraver	2
 
 Name:		catfish
 Version:	%{mainver}
-Release:	%{?betaver:0.}%{fedoraver}%{?betaver:.%betaver}%{?dist}.2
+Release:	%{?betaver:0.}%{fedoraver}%{?betaver:.%betaver}%{?dist}
 Summary:	A handy file search tool
 
 License:	GPLv2+
 URL:		https://docs.xfce.org/apps/catfish/start
 Source0:	https://archive.xfce.org/src/apps/catfish/1.4/catfish-%{version}%{?betaver}.tar.bz2
+# https://gitlab.xfce.org/apps/catfish/-/issues/33
+# Currently under review
+Patch1:	0001-Support-python-3.9-and-drop-support-python-3.2.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=1883688
+# https://gitlab.xfce.org/apps/catfish/-/issues/35
+Patch2:	0002-Fix-python-crash-when-some-extension-scheme-is-used.patch
 BuildArch:	noarch
 
 BuildRequires:	desktop-file-utils
@@ -62,6 +68,8 @@ options.
 
 %setup -q -T -c -a 0 %{name}-%{mainver}%{?betaver}
 pushd %{name}-%{mainver}*
+%patch1 -p1
+%patch2 -p1
 
 # Fix up permissions...
 find . -type f -print0 | xargs --null chmod 0644
@@ -98,6 +106,9 @@ cp -a %{name}-%{mainver}*/[A-Z]* .
 cp -a _TMPINSTDIR/python3/* %{buildroot}
 
 # Explicitly set GDK_BACKEND
+%if 0%{?fedora} < 33
+# Release notes says 1.4.12 has wayland support
+
 mkdir %{buildroot}%{_libexecdir}
 mv %{buildroot}%{_bindir}/catfish %{buildroot}%{_libexecdir}/
 cat > %{buildroot}%{_bindir}/catfish <<EOF
@@ -107,6 +118,8 @@ export GDK_BACKEND=x11
 exec %{_libexecdir}/catfish \$@
 EOF
 chmod 0755 %{buildroot}%{_bindir}/catfish
+
+%endif
 
 # for backwards compatibility:
 ln -s catfish %{buildroot}%{_bindir}/catfish-py3
@@ -143,7 +156,11 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 %license COPYING
 %{_bindir}/%{name}
 %{_bindir}/%{name}-py3
+
+%if 0%{?fedora} < 33
 %{_libexecdir}/%{name}
+%endif
+
 %{_mandir}/man1/%{name}.1*
 %{_datadir}/%{name}/
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
@@ -155,6 +172,18 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
+* Thu Oct  1 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.4.13-2
+- Fix crash when some extensional scheme (supported by Thunar, PcmanFM,
+  for example) is used (bug 1883688)
+
+* Wed Sep 30 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.4.13-1
+- 1.4.13
+- Remove x11 backend wrapper, 1.4.12 says wayland is supported
+- Patch to support python 3.9
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.11-1.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.11-1.2
 - Rebuilt for Python 3.9
 

@@ -24,7 +24,7 @@
 
 Name:			NLopt
 Version:		2.6.2
-Release:		1%{?gitrel}%{?dist}
+Release:		5%{?gitrel}%{?dist}
 Summary:		Open-Source library for nonlinear optimization
 
 # The detailed license-breakdown of the sources is:
@@ -233,7 +233,7 @@ pushd %{sourcedir}
 %endif
  -DINSTALL_M_DIR=%{octpkgdir}    \
  -DINSTALL_OCT_DIR=%{octpkglibdir}  \
- .
+ . -B .
 
 # Parallel-build might fail because of some race-condition
 #make %{?_smp_mflags}
@@ -248,7 +248,7 @@ pushd _python3
 %endif
  -DINSTALL_M_DIR=%{octpkgdir}    \
  -DINSTALL_OCT_DIR=%{octpkglibdir}  \
- .
+ . -B .
 
 # Parallel-build might fail because of some race-condition
 #make %{?_smp_mflags}
@@ -376,10 +376,26 @@ octave -H -q --no-window-system --no-site-file --eval "pkg rebuild"
 %files -n python%{python3_pkgversion}-%{name}
 %{python3_sitearch}/*.so*
 %{python3_sitearch}/*.py*
+# No __pycache__ during flatpak build
+%if !0%{?flatpak}
 %{python3_sitearch}/__pycache__/*.py*
+%endif
 %endif
 
 %changelog
+* Thu Oct 01 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.6.2-5
+- Make the package build with updated %%cmake macro (#1863081)
+
+* Thu Aug 20 2020 Jan Beran <jaberan@redhat.com> - 2.6.2-4
+- Fix flatpak build
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 31 2020 Björn Esser <besser82@fedoraproject.org> - 2.6.2-1
 - Update to 2.6.2
 

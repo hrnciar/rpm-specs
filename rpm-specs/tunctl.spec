@@ -1,6 +1,6 @@
 Name:           tunctl
 Version:        1.5
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        Create and remove virtual network interfaces
 
 License:        GPL+
@@ -39,6 +39,9 @@ make DESTDIR=%{buildroot} install
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

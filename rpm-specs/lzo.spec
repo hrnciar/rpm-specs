@@ -1,6 +1,6 @@
 Name:           lzo
 Version:        2.10
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Data compression library with very fast (de)compression
 License:        GPLv2+
 URL:            http://www.oberhumer.com/opensource/lzo/
@@ -94,6 +94,9 @@ make check test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 02 2020 Michael Cronenworth <mike@cchtml.com> - 2.10-2
 - Disable -fno-strict-aliasing (RHBZ#1807737)
 

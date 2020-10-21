@@ -1,6 +1,6 @@
 Name:           beust-jcommander
 Version:        1.78
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Java framework for parsing command line parameters
 License:        ASL 2.0
 URL:            http://jcommander.org/
@@ -51,6 +51,12 @@ sed -i 's/@VERSION@/%{version}/g' pom.xml
 %doc license.txt notice.md
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.78-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.78-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jun 09 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.78-3
 - skipped tests as they require user input with jdk11, changed way of javadoc generation
 

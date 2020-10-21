@@ -14,7 +14,7 @@
 
 Name:           php-horde-Horde-Mail
 Version:        2.6.5
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Horde Mail Library
 
 License:        BSD
@@ -183,6 +183,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 Name:           jabrt
 Version:        1.0
-Release:        11.git%{shortcommit}%{?dist}
+Release:        13.git%{shortcommit}%{?dist}
 Summary:        ABRT Java bindings
 
 License:        GPLv2+
@@ -45,6 +45,12 @@ cp %{SOURCE1} LICENSE
 %doc LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-13.git0a3b423
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.0-12.git0a3b423
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-11.git0a3b423
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

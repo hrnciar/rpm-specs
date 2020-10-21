@@ -1,7 +1,7 @@
 Name:    audiocd-kio 
 Summary: Audiocd kio slave
 Version: 16.08.3
-Release: 12%{?dist}
+Release: 13%{?dist}
 
 # code GPLv2+, handbook/docs GFDL
 License: GPLv2+
@@ -126,6 +126,9 @@ bzip2 -9 %{buildroot}%{_kde4_docdir}/HTML/en/kioslave/audiocd/index.cache
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16.08.3-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16.08.3-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

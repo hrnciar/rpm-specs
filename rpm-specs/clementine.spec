@@ -1,13 +1,18 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 %global commit          edb8c3b4ed8f976c62f4b182f8f77a4d23bf9d33
 %global snapshotdate    20200617
 %global shortcommit     %(c=%{commit}; echo ${c:0:7})
 
 Name:           clementine
 Version:        1.4.0
-Release:        1.rc1.%{snapshotdate}git%{shortcommit}%{?dist}.1
+Release:        4.rc1.%{snapshotdate}git%{shortcommit}%{?dist}.1
 Summary:        A music player and library organizer
 
-License:        GPLv3+ and GPLv2+
+# 3rdparty/taglib, src/widgets/fancytabwidget and src/widgets/stylehelper: LGPLv2
+# 3rdparty/utf8-cpp: Boost
+License:        GPLv3+ and GPLv2+ amd Boost and LGPLv2
 URL:            https://www.clementine-player.org/
 Source0:        https://github.com/clementine-player/Clementine/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
 
@@ -87,11 +92,13 @@ Requires:       gstreamer1-plugins-good
 Requires:       hicolor-icon-theme
 Requires:       qtiocompressor >= 2.3.1-17
 
+Provides:       bundled(taglib) = 1.12-1
+Provides:       bundled(utf8-cpp)
+
 %description
 Clementine is a multi-platform music player. It is inspired by Amarok 1.4,
 focusing on a fast and easy-to-use interface for searching and playing your
 music.
-
 
 %prep
 %autosetup -p1 -n Clementine-%{commit}
@@ -103,30 +110,24 @@ mv 3rdparty/{gmock,qocoa,qsqlite,taglib,utf8-cpp}/ .
 rm -fr 3rdparty/*
 mv {gmock,qocoa,qsqlite,taglib,utf8-cpp}/ 3rdparty/
 
-
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
+# QT applications need to avoid local binding and copy relocations.  Forcing them to build with
+# -fPIC solves that problem
+export CXXFLAGS="-fPIC $RPM_OPT_FLAGS"
 %{cmake} \
   -DBUILD_WERROR:BOOL=OFF \
   -DCMAKE_BUILD_TYPE:STRING=Release \
   -DUSE_SYSTEM_QTSINGLEAPPLICATION=1 \
   -DUSE_SYSTEM_PROJECTM=1 \
-  -DUSE_SYSTEM_QXT=1 \
-  ..
-popd
-
-%make_build -C %{_target_platform}
-
+  -DUSE_SYSTEM_QXT=1
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot} -C %{_target_platform}
-
+%cmake_install
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/clementine.desktop
 appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/clementine.appdata.xml
-
 
 %files
 %license COPYING
@@ -138,8 +139,23 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/clementine.app
 %{_datadir}/icons/hicolor/*/apps/clementine.*
 %{_datadir}/kservices5/clementine-*.protocol
 
-
 %changelog
+* Thu Oct 01 2020 Jeff Law  <law@redhat.com> - 1.4.0-4.rc1.20200617gitedb8c3b
+- Force -fPIC into build flags.  Re-enable LTO
+
+* Wed Sep 30 15:03:47 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.0-3.rc1.20200617gitedb8c3b
+- Disable LTO
+- Fix #1873903
+
+* Wed Sep 23 2020 Adrian Reber <adrian@lisas.de> - 1.4.0-2.rc1.20200617gitedb8c3b.1
+- Rebuilt for protobuf 3.13
+
+* Tue Jul 28 15:54:20 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.0-2.rc1.20200617gitedb8c3b
+- Fix FTBFS
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-1.rc1.20200617gitedb8c3b.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Adrian Reber <adrian@lisas.de> - 1.4.0-1.rc1.20200617gitedb8c3b.1
 - Rebuilt for protobuf 3.12
 

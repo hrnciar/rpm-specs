@@ -13,11 +13,11 @@
 %{!?rel_build:%global git_tar %{name}-%{version}-%{git_ver}.tar.xz}
 
 Name:           mate-settings-daemon
-Version:        %{branch}.0
+Version:        %{branch}.1
 %if 0%{?rel_build}
 Release:        1%{?dist}
 %else
-Release:        0.10%{?git_rel}%{?dist}
+Release:        0.11%{?git_rel}%{?dist}
 %endif
 Summary:        MATE Desktop settings daemon
 License:        GPLv2+
@@ -130,6 +130,12 @@ desktop-file-validate %{buildroot}%{_sysconfdir}/xdg/autostart/mate-settings-dae
 
 
 %changelog
+* Fri Aug 14 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- update to 1.24.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-1
 - update to 1.24.0
 

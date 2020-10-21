@@ -2,7 +2,7 @@ Name:           free42
 URL:            http://www.thomasokken.com/free42/
 Epoch:          1
 Version:        1.4.77
-Release:        11%{?dist}
+Release:        12%{?dist}
 License:        GPLv2 and MIT
 Summary:        42S Calculator Simulator
 Source:         http://www.thomasokken.com/free42/upstream/free42-nologo-%{version}.tgz
@@ -55,6 +55,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.4.77-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.4.77-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

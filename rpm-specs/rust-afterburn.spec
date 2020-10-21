@@ -7,14 +7,18 @@
 %global crate afterburn
 
 Name:           rust-%{crate}
-Version:        4.4.0
-Release:        1%{?dist}
+Version:        4.5.1
+Release:        3%{?dist}
 Summary:        Simple cloud provider agent
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            https://crates.io/crates/afterburn
 Source:         %{crates_source}
+# Initial patched metadata
+Patch0:         afterburn-fix-metadata.diff
+# https://github.com/coreos/afterburn/pull/493
+Patch1:         0001-sshkeys-activate-service-on-OpenStack.patch
 
 ExclusiveArch:  %{rust_arches}
 
@@ -28,16 +32,15 @@ Simple cloud provider agent.}
 
 %package     -n %{crate}
 Summary:        %{summary}
-# * (MIT or ASL 2.0) and BSD
-# * ASL 2.0
-# * ASL 2.0 or Boost
-# * ASL 2.0 or MIT
-# * BSD
-# * MIT
-# * MIT or ASL 2.0
-# * MPLv2.0 or MIT or ASL 2.0
-# * Unlicense or MIT
-License:        ASL 2.0 and MIT and BSD
+# ASL 2.0
+# ASL 2.0 or Boost
+# BSD
+# MIT
+# MIT or ASL 2.0
+# MPLv2.0 or MIT or ASL 2.0
+# Unlicense or MIT
+# zlib
+License:        ASL 2.0 and MIT and BSD and zlib
 %{?systemd_requires}
 
 %description -n %{crate} %{_description}
@@ -50,6 +53,7 @@ License:        ASL 2.0 and MIT and BSD
 %{_unitdir}/afterburn-checkin.service
 %{_unitdir}/afterburn-firstboot-checkin.service
 %{_unitdir}/afterburn-sshkeys@.service
+%{_unitdir}/afterburn-sshkeys.target
 
 %post        -n %{crate}
 %systemd_post afterburn.service
@@ -102,7 +106,7 @@ sed -e 's,@DEFAULT_INSTANCE@,core,' < \
 %install
 %cargo_install
 install -Dpm0644 -t %{buildroot}%{_unitdir} \
-  systemd/*.service
+  systemd/*.service systemd/*.target
 mkdir -p %{buildroot}%{dracutmodulesdir}
 cp -a dracut/* %{buildroot}%{dracutmodulesdir}
 
@@ -112,6 +116,28 @@ cp -a dracut/* %{buildroot}%{dracutmodulesdir}
 %endif
 
 %changelog
+* Wed Oct 14 2020 Dusty Mabe <dusty@dustymabe.com> - 4.5.1-3
+- Backport patch to get afterburn sshkeys working on openstack.
+    - https://github.com/coreos/afterburn/pull/493
+
+* Wed Sep 30 2020 Fabio Valentini <decathorpe@gmail.com> - 4.5.1-2
+- Un-downgrade mockito to 0.27.
+
+* Thu Sep 03 2020 Dusty Mabe <dusty@dustymabe.com> - 4.5.1-1
+- Update to 4.5.1
+
+* Sun Aug 16 15:01:11 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 4.5.0-2
+- Rebuild
+
+* Thu Aug 13 2020 Dusty Mabe <dusty@dustymabe.com> - 4.5.0-1
+- Update to 4.5.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Dusty Mabe <dusty@dustymabe.com> - 4.4.2-1
+- Update to 4.4.2
+
 * Sat May 23 11:27:14 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 4.4.0-1
 - Update to 4.4.0
 

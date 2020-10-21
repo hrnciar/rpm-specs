@@ -5,7 +5,7 @@
 %global crate gstreamer
 
 Name:           rust-%{crate}
-Version:        0.15.7
+Version:        0.16.4
 Release:        1%{?dist}
 Summary:        Rust bindings for GStreamer
 
@@ -76,6 +76,18 @@ which use "embed-lgpl-docs" feature of "%{crate}" crate.
 %files       -n %{name}+embed-lgpl-docs-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+gstreamer-rs-lgpl-docs-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+gstreamer-rs-lgpl-docs-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "gstreamer-rs-lgpl-docs" feature of "%{crate}" crate.
+
+%files       -n %{name}+gstreamer-rs-lgpl-docs-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+purge-lgpl-docs-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -86,18 +98,6 @@ This package contains library source intended for building other packages
 which use "purge-lgpl-docs" feature of "%{crate}" crate.
 
 %files       -n %{name}+purge-lgpl-docs-devel
-%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
-
-%package     -n %{name}+rustdoc-stripper-devel
-Summary:        %{summary}
-BuildArch:      noarch
-
-%description -n %{name}+rustdoc-stripper-devel %{_description}
-
-This package contains library source intended for building other packages
-which use "rustdoc-stripper" feature of "%{crate}" crate.
-
-%files       -n %{name}+rustdoc-stripper-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %package     -n %{name}+ser_de-devel
@@ -196,6 +196,18 @@ which use "v1_16" feature of "%{crate}" crate.
 %files       -n %{name}+v1_16-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+v1_18-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+v1_18-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "v1_18" feature of "%{crate}" crate.
+
+%files       -n %{name}+v1_18-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
 %cargo_prep
@@ -215,6 +227,24 @@ which use "v1_16" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sun Oct 11 2020 Fabio Valentini <decathorpe@gmail.com> - 0.16.4-1
+- Update to version 0.16.4.
+
+* Wed Sep 09 2020 Josh Stone <jistone@redhat.com> - 0.16.3-1
+- Update to 0.16.3
+
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 0.16.2-2
+- Bump to paste 1.0
+
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 0.16.2-1
+- Update to 0.16.2
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.16.1-1
+- Update to 0.16.1
+
+* Thu Jul 09 2020 Josh Stone <jistone@redhat.com> - 0.15.7-2
+- Bump num-rational to 0.3
+
 * Wed Jun 10 2020 Josh Stone <jistone@redhat.com> - 0.15.7-1
 - Update to 0.15.7
 

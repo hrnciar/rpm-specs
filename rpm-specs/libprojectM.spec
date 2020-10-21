@@ -3,7 +3,7 @@
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Name:       libprojectM
-Version:    3.1.3
+Version:    3.1.7
 Release:    1%{?dist}
 Summary:    The libraries for the projectM music visualization plugin
 License:    LGPLv2+
@@ -202,6 +202,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/projectM-jack.desktop
 %endif
 
 %changelog
+* Wed Sep 23 2020 Sérgio Basto <sergio@serjux.com> - 3.1.7-1
+- Update libprojectM to 3.1.7
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Sérgio Basto <sergio@serjux.com> - 3.1.3-1
 - New version 3.1.3
 

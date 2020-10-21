@@ -4,7 +4,7 @@
 
 Name:           fedora-packager
 Version:        0.6.0.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tools for setting up a fedora maintainer environment
 
 License:        GPLv2+
@@ -78,6 +78,9 @@ sed -i -r 's|#!/usr/bin/python$|#!%{__python3}|' %{buildroot}/usr/*bin/*
 %{_sbindir}/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 31 2020 Mohan Boddu <mboddu@bhujji.com> - 0.6.0.4-1
 - Rebase to 0.6.0.4
   * Remove obsolete fedora-packager-setup (tmz)

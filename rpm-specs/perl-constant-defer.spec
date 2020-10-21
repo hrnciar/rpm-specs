@@ -3,7 +3,7 @@
 
 Name:           perl-constant-defer
 Version:        6
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Constant subs with deferred value calculation
 License:        GPLv3+
 URL:            https://metacpan.org/release/constant-defer
@@ -62,6 +62,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 6-17
 - Perl 5.32 rebuild
 

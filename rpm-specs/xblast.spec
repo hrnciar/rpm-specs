@@ -1,6 +1,6 @@
 Name:           xblast
 Version:        2.10.4
-Release:        30%{?dist}
+Release:        31%{?dist}
 Summary:        Lay bombs and Blast the other players of the field (SDL version)
 License:        GPLv2+
 URL:            http://xblast.sourceforge.net
@@ -118,6 +118,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.4-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar  4 2020 Hans de Goede <hdegoede@redhat.com> - 2.10.4-30
 - Fix xblast not starting because of dejavu-sans-fonts path changes
 - Replace 128x128 icon with a better version

@@ -4,17 +4,14 @@
 %global crate jql
 
 Name:           rust-%{crate}
-Version:        2.6.1
+Version:        2.7.4
 Release:        1%{?dist}
 Summary:        JSON query language CLI tool
 
-# Upstream license specification: None
+# Upstream license specification: MIT
 License:        MIT
 URL:            https://crates.io/crates/jql
 Source:         %{crates_source}
-# Initial patched metadata
-# * Downgrade criterion to 0.3 until 0.3.2 is packaged
-Patch0:         jql-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -37,8 +34,7 @@ Summary:        %{summary}
 # * EPL-2.0
 # * MIT
 # * MIT or ASL 2.0
-# * (MIT or ASL 2.0) and BSD
-License:       MIT and EPL-2.0 and BSD and (ASL 2.0 or Boost)
+License:       MIT and EPL-2.0 and (ASL 2.0 or Boost)
 
 %description -n %{crate} %{_description}
 
@@ -93,6 +89,18 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Thu Oct 15 2020 Fabio Valentini <decathorpe@gmail.com> - 2.7.4-1
+- Update to version 2.7.4.
+
+* Wed Sep 16 2020 Fabio Valentini <decathorpe@gmail.com> - 2.7.2-1
+- Update to version 2.7.2.
+
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 2.7.1-1
+- Update to 2.7.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Josh Stone <jistone@redhat.com> - 2.6.1-1
 - Update to 2.6.1
 

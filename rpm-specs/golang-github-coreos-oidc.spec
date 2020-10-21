@@ -3,14 +3,9 @@
 
 # https://github.com/coreos/go-oidc
 %global goipath         github.com/coreos/go-oidc
-Version:                2.0.0
+Version:                2.2.1
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-coreos-go-oidc-devel < 2.0.0-3
-}
 
 %global common_description %{expand:
 A Go OpenID Connect client.}
@@ -21,7 +16,7 @@ A Go OpenID Connect client.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        6%{?dist}
+Release:        2%{?dist}
 Summary:        Go OpenID Connect client
 
 # Upstream license specification: Apache-2.0
@@ -56,6 +51,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 18:42:44 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.2.1-1
+- Update to 2.2.1
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

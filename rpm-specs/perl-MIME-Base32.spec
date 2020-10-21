@@ -1,6 +1,6 @@
 Name:           perl-MIME-Base32
 Version:        1.303
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Base32 encoder / decoder
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/MIME-Base32
@@ -48,6 +48,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.303-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.303-9
 - Perl 5.32 rebuild
 

@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.12.0
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Highly configurable multi-output logging implementation for the `log` facade
 
 # Upstream license specification: MIT/Apache-2.0
@@ -15,6 +15,8 @@ URL:            https://crates.io/crates/log4rs
 Source:         %{crates_source}
 # Initial patched metadata
 # * No windows
+# * Bump to parking_lot 0.11, https://github.com/estk/log4rs/pull/173
+# * Bump to serde-value 0.7.0, https://github.com/estk/log4rs/commit/9a02da9
 Patch0:         log4rs-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -506,6 +508,15 @@ which use "yaml_format" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Sep 30 2020 Fabio Valentini <decathorpe@gmail.com> - 0.12.0-5
+- Bump to serde-value 0.7.0.
+
+* Fri Sep 11 2020 Josh Stone <jistone@redhat.com> - 0.12.0-4
+- Bump to parking_lot 0.11
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 16 20:54:27 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.12.0-2
 - Update serde-xml-rs to 0.4
 

@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+
 # https://github.com/vacuum-im/vacuum-im/commit/b6c5dad75568660ff19cdb29d93439af2f65be6d
 %global         commit b6c5dad75568660ff19cdb29d93439af2f65be6d
 %global         shortcommit %(c=%{commit}; echo ${c:0:7})
@@ -7,7 +9,7 @@
 Name:           %{sname}-im
 Summary:        XMPP/Jabber client
 Version:        1.3.0
-Release:        0.18.%{commitdate}git%{shortcommit}%{?dist}
+Release:        0.20.%{commitdate}git%{shortcommit}%{?dist}
 License:        GPLv3
 Url:            http://www.vacuum-im.org/
 Source0:        https://github.com/Vacuum-IM/vacuum-im/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
@@ -61,9 +63,7 @@ This package includes files needed to develop Vacuum-IM modules.
 
 %prep
 %setup -q -n %{name}-%{commit}
-%if 0%{?fedora} >= 30
 %patch0 -p0
-%endif
 
 # Fix W: wrong-file-end-of-line-encoding /usr/share/doc/vacuum-im/AUTHORS
 sed -i 's/\r$//' AUTHORS CHANGELOG README TRANSLATORS
@@ -78,21 +78,17 @@ rm -rf src/thirdparty/qxtglobalshortcut
 rm -rf src/thirdparty/zlib
 
 %build
-mkdir build
-cd build
-%cmake .. \
+%cmake \
           -DINSTALL_LIB_DIR=%{_lib} \
           -DINSTALL_APP_DIR=%{name} \
           -DLFLAGS="${RPM_LD_FLAGS} -Wl,--as-needed" \
           -DCFLAGS="%{optflags}"    \
           -DCXXFLAGS="%{optflags}"
 
-%make_build
+%cmake_build
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 install -D -m644 resources/menuicons/shared/mainwindowlogo128.png %{buildroot}%{_datadir}/icons/hicolor/128x128/apps/%{name}.png
 install -D -m644 resources/menuicons/shared/mainwindowlogo96.png %{buildroot}%{_datadir}/icons/hicolor/96x96/apps/%{name}.png
 install -D -m644 resources/menuicons/shared/mainwindowlogo64.png %{buildroot}%{_datadir}/icons/hicolor/64x64/apps/%{name}.png
@@ -142,6 +138,13 @@ appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}.metai
 %{_includedir}/%{name}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-0.20.20200608gitb6c5dad
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-0.19.20200608gitb6c5dad
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 20 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.3.0-0.18.20200608gitb6c5dad
 - Update to 1.3.0-0.18.20200608gitb6c5dad
 

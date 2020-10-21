@@ -4,7 +4,7 @@
 
 Name: hdf
 Version: 4.2.15
-Release: 1%{?dist}
+Release: 3%{?dist}
 Summary: A general purpose library and file format for storing scientific data
 License: BSD
 URL: https://portal.hdfgroup.org/
@@ -158,7 +158,7 @@ cd build-static
 # Java requires shared libraries, fortran requires static
 
 # Temporary workaround for compiling on GCC-10
-%if 0%{?fedora} && 0%{?fedora} > 31
+%if 0%{?fedora} > 31 || 0%{?rhel} > 8
 export FCFLAGS="%{build_fflags} -fallow-argument-mismatch"
 export FFLAGS="%{build_fflags} -fallow-argument-mismatch"
 %endif
@@ -260,6 +260,15 @@ make -j1 -C build-static check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.15-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Merlin Mathesius <mmathesi@redhat.com> - 4.2.15-2
+- Minor conditional fix for ELN
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 4.2.15-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri May 01 2020 Orion Poplawski <orion@nwra.com> - 4.2.15-1
 - Update to 4.2.15
 

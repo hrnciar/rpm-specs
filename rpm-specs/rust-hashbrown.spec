@@ -5,7 +5,7 @@
 %global crate hashbrown
 
 Name:           rust-%{crate}
-Version:        0.7.2
+Version:        0.9.1
 Release:        1%{?dist}
 Summary:        Rust port of Google's SwissTable hash map
 
@@ -79,6 +79,42 @@ which use "ahash-compile-time-rng" feature of "%{crate}" crate.
 %files       -n %{name}+ahash-compile-time-rng-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+alloc-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+alloc-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "alloc" feature of "%{crate}" crate.
+
+%files       -n %{name}+alloc-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+compiler_builtins-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+compiler_builtins-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "compiler_builtins" feature of "%{crate}" crate.
+
+%files       -n %{name}+compiler_builtins-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+core-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+core-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "core" feature of "%{crate}" crate.
+
+%files       -n %{name}+core-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+inline-more-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -89,6 +125,18 @@ This package contains library source intended for building other packages
 which use "inline-more" feature of "%{crate}" crate.
 
 %files       -n %{name}+inline-more-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+nightly-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+nightly-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "nightly" feature of "%{crate}" crate.
+
+%files       -n %{name}+nightly-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %package     -n %{name}+raw-devel
@@ -113,6 +161,30 @@ This package contains library source intended for building other packages
 which use "rayon" feature of "%{crate}" crate.
 
 %files       -n %{name}+rayon-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+rustc-dep-of-std-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+rustc-dep-of-std-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "rustc-dep-of-std" feature of "%{crate}" crate.
+
+%files       -n %{name}+rustc-dep-of-std-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+rustc-internal-api-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+rustc-internal-api-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "rustc-internal-api" feature of "%{crate}" crate.
+
+%files       -n %{name}+rustc-internal-api-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %package     -n %{name}+serde-devel
@@ -146,6 +218,21 @@ which use "serde" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Mon Sep 28 2020 Fabio Valentini <decathorpe@gmail.com> - 0.9.1-1
+- Update to version 0.9.1.
+
+* Tue Aug 11 2020 Josh Stone <jistone@redhat.com> - 0.8.2-1
+- Update to 0.8.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Josh Stone <jistone@redhat.com> - 0.8.1-1
+- Update to 0.8.1
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.8.0-1
+- Update to 0.8.0
+
 * Wed Apr 29 2020 Josh Stone <jistone@redhat.com> - 0.7.2-1
 - Update to 0.7.2
 

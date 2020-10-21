@@ -1,6 +1,6 @@
 Name:       perl-Best 
 Version:    0.15
-Release:    22%{?dist}
+Release:    23%{?dist}
 License:    MIT 
 Summary:    Fallbackable module loader 
 Url:        https://metacpan.org/release/Best
@@ -68,6 +68,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.15-22
 - Perl 5.32 rebuild
 

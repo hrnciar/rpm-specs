@@ -3,7 +3,7 @@
 
 Name:           mod_md
 Version:        2.2.7
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Certificate provisioning using ACME for the Apache HTTP Server
 License:        ASL 2.0
 URL:            https://icing.github.io/mod_md/
@@ -30,7 +30,7 @@ domains and their virtual hosts automatically, including at renewal.
 %patch3 -p1 -b .tol_missing_res
 
 %build
-%configure
+%configure --with-apxs=%{_httpd_apxs}
 # remove rpath
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
@@ -61,6 +61,12 @@ echo "LoadModule md_module modules/mod_md.so" > %{buildroot}%{_httpd_modconfdir}
 %{_mandir}/man1/*
 
 %changelog
+* Fri Aug 28 2020 Joe Orton <jorton@redhat.com> - 1:2.2.7-4
+- use _httpd_apxs macro
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.2.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Alexander Bokovoy <abokovoy@redhat.com> - 1:2.2.7-2
 - mod_md does not work with ACME server that does not provide revokeCert or
   keyChange resource (#1832841)

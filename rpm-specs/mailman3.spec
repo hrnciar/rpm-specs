@@ -1,5 +1,8 @@
 %global pypi_name mailman
 
+%global baseversion 3.3.2
+%global prerelease rc2
+
 # The user and group Mailman will run as, same values as in the mailman 2 RPM
 %global mmuser       mailman
 %global mmuserid     41
@@ -10,13 +13,13 @@
 
 
 Name:           mailman3
-Version:        3.2.2
-Release:        3%{?dist}
+Version:        %{baseversion}%{?prerelease:~%{prerelease}}
+Release:        1%{?dist}
 Summary:        The GNU mailing list manager
 
 License:        GPLv3
 URL:            http://www.list.org
-Source0:        https://pypi.python.org/packages/source/m/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+Source0:        https://pypi.python.org/packages/source/m/%{pypi_name}/%{pypi_name}-%{baseversion}%{?prerelease}.tar.gz
 Source1:        mailman3.cfg
 Source2:        mailman3-tmpfiles.conf
 Source3:        mailman3.service
@@ -24,20 +27,17 @@ Source4:        mailman3.logrotate
 Source5:        mailman3-digests.service
 Source6:        mailman3-digests.timer
 
-# <https://gitlab.com/mailman/mailman/merge_requests/64>
-Patch10:        %{name}-administrivia-headers.patch
-# <https://gitlab.com/mailman/mailman/merge_requests/70>
+# <https://gitlab.com/mailman/mailman/merge_requests/721>
 Patch11:        %{name}-subject-prefix.patch
-Patch12:        %{name}-subject-prefix_tests.patch
-Patch13:        %{name}-tests-content-type-fix.patch
+# <https://gitlab.com/mailman/mailman/merge_requests/722>
 Patch14:        %{name}-use-either-importlib_resources-or-directly-importlib.patch
-Patch15:        %{name}-invalid-url-exception-test-update.patch
-Patch16:        %{name}-python3.8-compat.patch
-Patch17:        %{name}-fix-model-delete-and_template-init.patch
-Patch18:        %{name}-use_python39_files_api_fixes_tests_hang.patch
-Patch19:        %{name}-Fix-tests-due-to-failing-comparison-of-single-and-do.patch
 
 BuildArch:      noarch
+
+%if 0%{?fedora} || 0%{?rhel} >= 8
+# Ensure that tests will work...
+BuildRequires:  glibc-langpack-en
+%endif
 
 BuildRequires:  python%{python3_pkgversion}-devel >= 3.5
 BuildRequires:  python%{python3_pkgversion}-setuptools
@@ -48,12 +48,16 @@ Requires:       python%{python3_pkgversion}-setuptools
 Requires:       python%{python3_pkgversion}-aiosmtpd >= 1.1
 Requires:       python%{python3_pkgversion}-alembic
 Requires:       python%{python3_pkgversion}-atpublic
+Requires:       python%{python3_pkgversion}-authheaders >= 0.9.2
+Requires:       python%{python3_pkgversion}-authres >= 1.0.1
 Requires:       python%{python3_pkgversion}-click >= 7.0
+Requires:       python%{python3_pkgversion}-dateutil >= 2.0
 Requires:       python%{python3_pkgversion}-dns >= 1.14.0
 Requires:       python%{python3_pkgversion}-falcon >= 1.0.0
 Requires:       python%{python3_pkgversion}-flufl-bounce
 Requires:       python%{python3_pkgversion}-flufl-i18n >= 2.0.1
 Requires:       python%{python3_pkgversion}-flufl-lock >= 3.1
+Requires:       python%{python3_pkgversion}-gunicorn
 Requires:       python%{python3_pkgversion}-lazr-config
 # Versionned dep on python-passlib, or else it fails with AttributeError in
 # mailman/utilities/passwords.py", line 43: 'CryptContext' has no attribute 'from_string'
@@ -63,7 +67,7 @@ Requires:       python%{python3_pkgversion}-sqlalchemy >= 1.2.3
 Requires:       python%{python3_pkgversion}-zope-component
 Requires:       python%{python3_pkgversion}-zope-configuration
 Requires:       python%{python3_pkgversion}-zope-event
-Requires:       python%{python3_pkgversion}-zope-interface
+Requires:       python%{python3_pkgversion}-zope-interface >= 5.0
 %if (%{defined fedora} && 0%{?fedora} < 29) || (%{defined rhel} && 0%{?rhel} < 9)
 Requires:       python%{python3_pkgversion}-importlib-resources
 %endif
@@ -73,13 +77,17 @@ Requires:       python%{python3_pkgversion}-importlib-resources
 BuildRequires:  python%{python3_pkgversion}-aiosmtpd >= 1.1
 BuildRequires:  python%{python3_pkgversion}-alembic
 BuildRequires:  python%{python3_pkgversion}-atpublic
+BuildRequires:  python%{python3_pkgversion}-authheaders >= 0.9.2
+BuildRequires:  python%{python3_pkgversion}-authres >= 1.0.1
 BuildRequires:  python%{python3_pkgversion}-click >= 7.0
+BuildRequires:  python%{python3_pkgversion}-dateutil >= 2.0
 BuildRequires:  python%{python3_pkgversion}-dns >= 1.14.0
 BuildRequires:  python%{python3_pkgversion}-falcon >= 1.0.0
 BuildRequires:  python%{python3_pkgversion}-flufl-bounce
 BuildRequires:  python%{python3_pkgversion}-flufl-i18n >= 2.0.1
 BuildRequires:  python%{python3_pkgversion}-flufl-lock >= 3.1
 BuildRequires:  python%{python3_pkgversion}-flufl-testing
+BuildRequires:  python%{python3_pkgversion}-gunicorn
 BuildRequires:  python%{python3_pkgversion}-lazr-config
 BuildRequires:  python%{python3_pkgversion}-lazr-smtptest
 BuildRequires:  python%{python3_pkgversion}-mock
@@ -91,7 +99,7 @@ BuildRequires:  python%{python3_pkgversion}-sqlalchemy >= 1.2.3
 BuildRequires:  python%{python3_pkgversion}-zope-component
 BuildRequires:  python%{python3_pkgversion}-zope-configuration
 BuildRequires:  python%{python3_pkgversion}-zope-event
-BuildRequires:  python%{python3_pkgversion}-zope-interface
+BuildRequires:  python%{python3_pkgversion}-zope-interface >= 5.0
 %if (%{defined fedora} && 0%{?fedora} < 29) || (%{defined rhel} && 0%{?rhel} < 9)
 BuildRequires:  python%{python3_pkgversion}-importlib-resources
 %endif
@@ -107,7 +115,7 @@ BuildRequires: selinux-policy-devel
 Requires(post): selinux-policy-base >= %{_selinux_policy_version}
 Requires(post): libselinux-utils
 Requires(post): policycoreutils
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel} >= 8
 Requires(post): policycoreutils-python-utils
 %else
 Requires(post): policycoreutils-python
@@ -130,7 +138,7 @@ case second `m'.  Any other spelling is incorrect.
 
 
 %prep
-%autosetup -p1 -n %{pypi_name}-%{version}
+%autosetup -p1 -n %{pypi_name}-%{baseversion}%{?prerelease}
 
 # SELinux
 mkdir SELinux
@@ -275,6 +283,17 @@ done
 
 
 %changelog
+* Fri Oct 16 2020 Neal Gompa <ngompa13@gmail.com> - 3.3.2~rc2-1
+- Update to 3.3.2rc2 to fix build
+- Refresh and clean up patch set
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.2-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Marc Dequènes (Duck) <duck@redhat.com> - 3.2.2-3
 - backport patch to use new Python 3.9 files API, fixes tests hang,
   adapted for older importlib_resources library

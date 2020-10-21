@@ -2,7 +2,7 @@
 
 Name:           python-%{modname}
 Version:        0.2
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        A key-value store supporting multiple backends
 License:        MIT
 URL:            http://pypi.python.org/pypi/%{modname}
@@ -59,6 +59,9 @@ rm -rf %{modname}/tests/integration/tests.py
 %{python3_sitelib}/%{modname}-%{version}*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2-27
 - Rebuilt for Python 3.9
 

@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        3.4.1.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        jQuery (XStatic packaging standard)
 
 License:        MIT
@@ -64,6 +64,9 @@ rm -rf %{buildroot}%{python3_sitelib}/xstatic/pkg/jquery/data/
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.4.1.0-2
 - Rebuilt for Python 3.9
 

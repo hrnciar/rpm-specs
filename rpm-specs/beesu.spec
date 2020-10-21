@@ -2,7 +2,7 @@ Name: beesu
 Version: 2.7
 # Don't ever decrease this version (unless beesu update) or the subpackages will go backwards.
 # It is easier to do this than to track a separate release field.
-Release: 37%{?dist}
+Release: 38%{?dist}
 Summary: Graphical wrapper for su
 URL: http://www.honeybeenet.altervista.org
 License: GPLv2+
@@ -52,6 +52,9 @@ mv %{buildroot}%{_sysconfdir}/profile.d/beesu-bash-completion.sh \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7-38
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7-37
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,17 +1,15 @@
 %global srcname visidata
 
 Name:           %{srcname}
-Version:        1.5.2
-Release:        7%{?dist}
-Summary:        Curses interface for exploring and arranging tabular data
+Version:        2.0.1
+Release:        1%{?dist}
+Summary:        Terminal interface for exploring and arranging tabular data
 
 License:        GPLv3
 URL:            https://visidata.org
 Source0:        %pypi_source
-# https://github.com/saulpw/visidata/pull/268
-Patch0001:      0001-Merge-pull-request-268-from-QuLogic-nox.patch
 # https://github.com/saulpw/visidata/pull/269
-Patch0002:      0002-Remove-extra-copy-of-man-page.patch
+Patch0001:      0001-Remove-extra-copy-of-man-page.patch
 
 BuildArch:      noarch
 
@@ -32,6 +30,7 @@ Summary:        %{summary}
 
 # Optional dependencies
 Recommends: python3dist(PyYAML)
+Recommends: python3dist(datapackage)
 Recommends: python3dist(dnslib)
 Recommends: python3dist(dpkt)
 Recommends: python3dist(fonttools)
@@ -39,14 +38,19 @@ Recommends: python3dist(h5py)
 Recommends: python3dist(lxml)
 Recommends: python3dist(mapbox-vector-tile)
 Recommends: python3dist(namestand)
+Recommends: python3dist(numpy)
 Recommends: python3dist(openpyxl)
 Recommends: python3dist(pandas) >= 0.19.2
+Recommends: python3dist(pdfminer.six)
 Recommends: python3dist(psycopg2)
 Recommends: python3dist(pypng)
 Recommends: python3dist(pyshp)
 Recommends: python3dist(requests)
 Recommends: python3dist(sas7bdat)
 Recommends: python3dist(savReaderWriter)
+Recommends: python3dist(tabulate)
+Recommends: python3dist(vobject)
+Recommends: python3dist(wcwidth)
 Recommends: python3dist(xlrd)
 Recommends: python3dist(xport)
 
@@ -62,9 +66,6 @@ a lightweight utility which can handle millions of rows with ease.
 # Remove bundled egg-info
 rm -rf %{srcname}.egg-info
 
-# Fix executable bits
-chmod -x visidata/vdtui.py visidata/man/vd.1
-
 
 %build
 %py3_build
@@ -75,6 +76,7 @@ chmod -x visidata/vdtui.py visidata/man/vd.1
 
 
 %files
+%{_bindir}/visidata
 %{_bindir}/vd
 %{_mandir}/man1/vd.1*
 
@@ -86,6 +88,12 @@ chmod -x visidata/vdtui.py visidata/man/vd.1
 
 
 %changelog
+* Mon Oct 12 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.0.1-1
+- Update to latest version (#1887632)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5.2-7
 - Rebuilt for Python 3.9
 

@@ -1,14 +1,14 @@
 %global pkgname zarith
 
 Name:           ocaml-%{pkgname}
-Version:        1.9.1
-Release:        11%{?dist}
+Version:        1.10
+Release:        1%{?dist}
 Summary:        OCaml interface to GMP
 
 # The license has a static linking exception
 License:        LGPLv2 with exceptions
 URL:            https://github.com/ocaml/Zarith/
-Source0:        https://github.com/ocaml/Zarith/archive/release-%{version}.tar.gz
+Source0:        %{URL}/archive/release-%{version}.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  gmp-devel
@@ -22,7 +22,7 @@ BuildRequires:  redhat-rpm-config
 
 %description
 This library implements arithmetic and logical operations over
-arbitrary-precision integers.  
+arbitrary-precision integers.
 
 The module is simply named "Z".  Its interface is similar to that of the
 Int32, Int64 and Nativeint modules from the OCaml standard library, with
@@ -62,7 +62,7 @@ developing applications that use %{name}.
 cp -p /usr/lib/rpm/redhat/config.guess config.guess
 
 # Fix compilation flags
-sed -i "s|^ccdef=''|ccdef='%{optflags}'|" configure
+sed -i "s|^ccdef=''|ccdef='%{build_cflags}'|" configure
 sed -ri "s/(-ccopt|-shared|-failsafe)/-g &/" project.mak
 sed -i "s/+compiler-libs/& -g/;s/\(\$(OCAMLC)\) -o/\1 -g -o/" project.mak
 
@@ -107,6 +107,18 @@ make tests
 %{_libdir}/ocaml/%{pkgname}/*.h
 
 %changelog
+* Sun Sep 13 2020 Dan Čermák <dan.cermak@cgc-instruments.com> - 1.10-1
+- New upstream release 1.10
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.9.1-14
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.9.1-13
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 1.9.1-11
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

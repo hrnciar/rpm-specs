@@ -1,6 +1,6 @@
 Name:           gnome-todo
 Version:        3.28.1
-Release:        7%{?dist}
+Release:        10%{?dist}
 Summary:        Personal task manager for GNOME
 
 License:        GPLv3+
@@ -71,6 +71,16 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.gnome
 %{_datadir}/gtk-doc/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.28.1-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.28.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Milan Crha <mcrha@redhat.com> - 3.28.1-8
+- Rebuilt for evolution-data-server soname version bump
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.28.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

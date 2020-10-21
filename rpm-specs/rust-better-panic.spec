@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.2.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Pretty panic backtraces inspired by Python's tracebacks
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -86,6 +86,9 @@ which use "syntect" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Josh Stone <jistone@redhat.com> - 0.2.0-3
 - Bump to syntect 4
 

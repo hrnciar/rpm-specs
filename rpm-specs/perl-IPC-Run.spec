@@ -1,6 +1,9 @@
+# Perform optinal tests
+%bcond_without perl_IPC_Run_enables_optional_test
+
 Name:           perl-IPC-Run
 Version:        20200505.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Perl module for interacting with child processes
 # the rest:                     GPL+ or Artistic
 # The Win32* modules are not part of the binary RPM package
@@ -49,8 +52,10 @@ BuildRequires:  perl(File::Temp)
 BuildRequires:  perl(IO::Tty)
 BuildRequires:  perl(Test::More) >= 0.47
 BuildRequires:  perl(warnings)
+%if %{with perl_IPC_Run_enables_optional_test}
 # Optional Tests
 BuildRequires:  perl(Readonly)
+%endif
 # Runtime
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:       perl(Data::Dumper)
@@ -80,6 +85,12 @@ for file in eg/run_daemon eg/abuse/timers eg/abuse/blocking_debug_with_sub_copro
     perl -pi -e 's,^#!.*/perl,%{__perl}, if ($. == 1)' "$file"
 done
 
+# Handle optional tests
+%if !%{with perl_IPC_Run_enables_optional_test}
+rm t/readonly.t
+sed -i -e '/^t/readonly\.t/d' MANIFEST
+%endif
+
 %build
 perl Makefile.PL INSTALLDIRS=vendor
 make %{?_smp_mflags}
@@ -102,6 +113,9 @@ make test
 %{_mandir}/man3/IPC::Run::Timer.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200505.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 20200505.0-2
 - Perl 5.32 rebuild
 
@@ -111,7 +125,7 @@ make test
   - Switch Readonly testing requirement to a recommends (GH#127)
   - Fix full_result to always return $? (GH#129)
   - kill_kill: Immediately KILL the child process as documented for Win32 (GH#136)
-  - Switch to GitHub ctions for CI testing
+  - Switch to GitHub actions for CI testing
   - Re-structure shipped files into eg/
   - Move author tests into xt/ and test them separately
 

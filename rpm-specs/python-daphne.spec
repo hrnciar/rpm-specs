@@ -18,7 +18,7 @@ versus HTTP endpoints.}
 
 Name:           python-%{pkgname}
 Version:        2.5.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Django ASGI (HTTP/WebSocket) server
 License:        BSD
 URL:            https://github.com/django/daphne
@@ -73,5 +73,8 @@ rm -rf %{eggname}.egg-info
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Carl George <carl@george.computer> - 2.5.0-1
 - Initial package

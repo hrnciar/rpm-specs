@@ -1,7 +1,7 @@
 Summary: Chdir for DOS and Unix
 Name: wcd
 Version: 6.0.3
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2
 Source: http://waterlan.home.xs4all.nl/wcd/%{name}-%{version}.tar.gz
 URL: http://waterlan.home.xs4all.nl/
@@ -49,6 +49,9 @@ make -C src install-profile DESTDIR=${RPM_BUILD_ROOT} prefix=%{_prefix} sysconfd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

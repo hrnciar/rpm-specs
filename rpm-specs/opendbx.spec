@@ -1,6 +1,6 @@
 Name:           opendbx
 Version:        1.4.6
-Release:        22%{?dist}
+Release:        24%{?dist}
 Summary:        Lightweight but extensible database access library written in C
 
 #License:        LGPLv2+
@@ -109,6 +109,7 @@ The %{name}-utils package provides the odbx-sql tool.
 ln -s api lib/%{name}/api.dox
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %if 0%{?fedora} ||  0%{?rhel} <= 7
 %configure --with-backends="mysql pgsql sqlite sqlite3 firebird mssql sybase" CPPFLAGS="-I%{_includedir}/mysql -I%{_includedir}/firebird" --disable-test --disable-static LDFLAGS="-L%{_libdir}/mysql"
 %else
@@ -174,6 +175,12 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %{_mandir}/man1/odbx-sql.1.gz
 
 %changelog
+* Tue Sep 15 2020 Jeff Law <law@redhat.com> - 1.4.6-24
+- Force C++14 as this code is not C++17 ready
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.6-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.6-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

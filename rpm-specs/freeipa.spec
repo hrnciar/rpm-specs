@@ -53,7 +53,7 @@
 %endif
 
 # Include SELinux subpackage
-%if 0%{?fedora} >= 30 || 0%{?rhel} > 8
+%if 0%{?fedora} >= 30 || 0%{?rhel}
     %global with_selinux 1
     %global selinuxtype targeted
     %global modulename ipa
@@ -62,8 +62,7 @@
 %if 0%{?rhel}
 %global package_name ipa
 %global alt_name freeipa
-%global krb5_version 1.16.1
-%global krb5_kdb_version 7.0
+%global krb5_version 1.18
 # 0.7.16: https://github.com/drkjam/netaddr/issues/71
 %global python_netaddr_version 0.7.16
 # Require 4.7.0 which brings Python 3 bindings
@@ -84,28 +83,25 @@
 %global alt_name ipa
 # Fix for CVE-2018-20217
 %global krb5_version 1.18
-%global krb5_kdb_version 8.0
 # 0.7.16: https://github.com/drkjam/netaddr/issues/71
 %global python_netaddr_version 0.7.16
 # Require 4.7.0 which brings Python 3 bindings
 # Require 4.12 which has DsRGetForestTrustInformation access rights fixes
 %global samba_version 2:4.12
 
-%global selinux_policy_version 3.14.5-40
-%global slapi_nis_version 0.56.5
-
-# krb5 can only provide one KDB at a time
+# SELinux context for dirsrv unit file, BZ 1820298
 %if 0%{?fedora} >= 32
-%global krb5_kdb_version 8.0
+%global selinux_policy_version 3.14.5-39
 %else
-%global krb5_kdb_version 7.0
+%global selinux_policy_version 3.14.4-52
 %endif
+%global slapi_nis_version 0.56.5
 
 # fix for segfault in python3-ldap, https://pagure.io/freeipa/issue/7324
 %global python_ldap_version 3.1.0-1
-# Fix for create suffix
-# https://pagure.io/389-ds-base/issue/49984
-%global ds_version 1.4.1.1
+# 1.4.3 moved nsslapd-db-locks to cn=bdb sub-entry
+# https://pagure.io/freeipa/issue/8515
+%global ds_version 1.4.3
 
 # Fix for TLS 1.3 PHA, RHBZ#1775146
 %if 0%{?fedora} >= 31
@@ -122,9 +118,16 @@
 # Fedora
 %endif
 
-# 10.7.3 supports LWCA key replication using AES
-# https://pagure.io/freeipa/issue/8020
-%global pki_version 10.7.3-1
+# krb5 can only provide one KDB at a time
+%if 0%{?fedora} >= 32 || 0%{?rhel} >= 8
+%global krb5_kdb_version 8.0
+%else
+%global krb5_kdb_version 7.0
+%endif
+
+# PKIConnection has been modified to always validate certs.
+# https://pagure.io/freeipa/issue/8379
+%global pki_version 10.9.0-0.4
 
 # https://pagure.io/certmonger/issue/90
 %global certmonger_version 0.79.7-1
@@ -149,7 +152,7 @@
 
 # Work-around fact that RPM SPEC parser does not accept
 # "Version: @VERSION@" in freeipa.spec.in used for Autoconf string replacement
-%define IPA_VERSION 4.8.7
+%define IPA_VERSION 4.8.10
 %define AT_SIGN @
 # redefine IPA_VERSION only if its value matches the Autoconf placeholder
 %if "%{IPA_VERSION}" == "%{AT_SIGN}VERSION%{AT_SIGN}"
@@ -158,14 +161,16 @@
 
 Name:           %{package_name}
 Version:        %{IPA_VERSION}
-Release:        1%{?dist}
+Release:        6%{?dist}
 Summary:        The Identity, Policy and Audit system
 
 License:        GPLv3+
 URL:            http://www.freeipa.org/
 Source0:        https://releases.pagure.org/freeipa/freeipa-%{version}.tar.gz
 Source1:        https://releases.pagure.org/freeipa/freeipa-%{version}.tar.gz.asc
-
+Patch0:         freeipa-4.8.10-systemd-resolved.patch
+Patch1:         freeipa-4.8.10-systemd-resolved-configuration.patch
+Patch2:         freeipa-4.8.10-systemd-resolved-selinux-fixes.patch
 
 # For the timestamp trick in patch application
 BuildRequires:  diffstat
@@ -204,14 +209,20 @@ BuildRequires:  libtevent-devel
 BuildRequires:  libuuid-devel
 BuildRequires:  libsss_idmap-devel
 BuildRequires:  libsss_certmap-devel
-BuildRequires:  libsss_nss_idmap-devel >=  %{sssd_version}
+BuildRequires:  libsss_nss_idmap-devel >= %{sssd_version}
 BuildRequires:  nodejs(abi)
-BuildRequires:  python-rjsmin
+# use old dependency on RHEL 8 for now
+%if 0%{?fedora} >= 31 || 0%{?rhel} > 8
+BuildRequires:  python3-rjsmin
+%else
+BuildRequires:  uglify-js
+%endif
 BuildRequires:  libverto-devel
 BuildRequires:  libunistring-devel
 # 0.13.0: https://bugzilla.redhat.com/show_bug.cgi?id=1584773
 # 0.13.0-2: fix for missing dependency on python-six
 BuildRequires:  python3-lesscpy >= 0.13.0-2
+
 # ONLY_CLIENT
 %endif 
 
@@ -226,6 +237,7 @@ BuildRequires:  python3-netaddr >= %{python_netaddr_version}
 BuildRequires:  python3-pyasn1
 BuildRequires:  python3-pyasn1-modules
 BuildRequires:  python3-six
+BuildRequires:  python3-psutil
 
 #
 # Build dependencies for wheel packaging and PyPI upload
@@ -247,10 +259,12 @@ BuildRequires:  python3-wheel
 # Build dependencies for lint and fastcheck
 #
 %if 0%{?with_lint}
+BuildRequires:  git
 BuildRequires:  jsl
+BuildRequires:  nss-tools
 BuildRequires:  rpmlint
 BuildRequires:  softhsm
-
+BuildRequires:  keyutils
 BuildRequires:  python3-augeas
 BuildRequires:  python3-cffi
 BuildRequires:  python3-cryptography >= 1.6
@@ -291,6 +305,7 @@ BuildRequires:  python3-sss
 BuildRequires:  python3-sss-murmur
 BuildRequires:  python3-sssdconfig >= %{sssd_version}
 BuildRequires:  python3-systemd
+BuildRequires:  python3-yaml
 BuildRequires:  python3-yubico
 # with_lint
 %endif
@@ -421,6 +436,7 @@ Requires: python3-lxml
 Requires: python3-pki >= %{pki_version}
 Requires: python3-pyasn1 >= 0.3.2-2
 Requires: python3-sssdconfig >= %{sssd_version}
+Requires: python3-psutil
 Requires: rpm-libs
 # Indirect dependency: use newer urllib3 with TLS 1.3 PHA support
 %if 0%{?rhel}
@@ -445,7 +461,6 @@ BuildArch: noarch
 Requires: %{name}-client-common = %{version}-%{release}
 Requires: httpd >= %{httpd_version}
 Requires: systemd-units >= 38
-Requires: custodia >= 0.3.1
 
 Provides: %{alt_name}-server-common = %{version}
 Conflicts: %{alt_name}-server-common
@@ -590,16 +605,18 @@ Requires: cifs-utils
 This package provides command-line tools to deploy Samba domain member
 on the machine enrolled into a FreeIPA environment
 
-%if ! %{ONLY_CLIENT}
 %package client-epn
 Summary: Tools to configure Expiring Password Notification in IPA
 Group: System Environment/Base
+Requires: systemd-units
+Requires(post): systemd-units
+Requires(preun): systemd-units
+Requires(postun): systemd-units
 Requires: %{name}-client = %{version}-%{release}
 
 %description client-epn
 This package provides a service to collect and send expiring password
 notifications via email (SMTP).
-%endif
 
 %package -n python3-ipaclient
 Summary: Python libraries used by IPA client
@@ -724,7 +741,7 @@ Conflicts: %{alt_name}-python < %{version}
 # This ensures that the *-selinux package and all it’s dependencies are not
 # pulled into containers and other systems that do not use SELinux. The
 # policy defines types and file contexts for client and server.
-Requires:       (%{name}-selinux if selinux-policy-%{selinuxtype})
+Requires:       (%{name}-selinux = %{version}-%{release} if selinux-policy-%{selinuxtype})
 %endif
 
 %description common
@@ -814,8 +831,7 @@ done
 export PATH=/usr/bin:/usr/sbin:$PATH
 
 export PYTHON=%{__python3}
-aclocal --force
-autoconf --force
+autoreconf -ivf
 %configure --with-vendor-suffix=-%{release} \
            %{enable_server_option} \
            %{with_ipatests_option} \
@@ -911,14 +927,6 @@ touch %{buildroot}%{_libdir}/krb5/plugins/libkrb5/winbind_krb5_locator.so
 %if ! %{ONLY_CLIENT}
 mkdir -p %{buildroot}%{_sysconfdir}/cron.d
 # ONLY_CLIENT
-%endif
-
-%if %{ONLY_CLIENT}
-# Remove ipa-epn parts as we don't have ipa-epn systemd integration generated
-# for client-only build
-rm %{buildroot}/%{_sbindir}/ipa-epn
-rm %{buildroot}/%{_mandir}/man1/ipa-epn.1*
-rm %{buildroot}/%{_mandir}/man5/epn.conf.5*
 %endif
 
 %if ! %{ONLY_CLIENT}
@@ -1034,6 +1042,17 @@ fi
 # ONLY_CLIENT
 %endif
 
+%preun client-epn
+%systemd_preun ipa-epn.service
+%systemd_preun ipa-epn.timer
+
+%postun client-epn
+%systemd_postun ipa-epn.service
+%systemd_postun ipa-epn.timer
+
+%post client-epn
+%systemd_post ipa-epn.service
+%systemd_post ipa-epn.timer
 
 %post client
 if [ $1 -gt 1 ] ; then
@@ -1058,14 +1077,10 @@ if [ $1 -gt 1 ] ; then
         fi
 
         %{__python3} -c 'from ipaclient.install.client import configure_krb5_snippet; configure_krb5_snippet()' >>/var/log/ipaupgrade.log 2>&1
-    fi
-
-    if [ $restore -ge 2 ]; then
-        %{__python3} -c 'from ipaclient.install.client import update_ipa_nssdb; update_ipa_nssdb()' >>/var/log/ipaupgrade.log 2>&1
-    fi
-
-    if [ $restore -ge 2 ]; then
-        sed -E --in-place=.orig 's/^(HostKeyAlgorithms ssh-rsa,ssh-dss)$/# disabled by ipa-client update\n# \1/' /etc/ssh/ssh_config
+        SSH_CLIENT_SYSTEM_CONF="/etc/ssh/ssh_config"
+        if [ -f "$SSH_CLIENT_SYSTEM_CONF" ]; then
+            sed -E --in-place=.orig 's/^(HostKeyAlgorithms ssh-rsa,ssh-dss)$/# disabled by ipa-client update\n# \1/' "$SSH_CLIENT_SYSTEM_CONF"
+        fi
     fi
 fi
 
@@ -1092,7 +1107,7 @@ fi
 %endif
 
 
-%triggerin client -- openssh-server
+%triggerin client -- openssh-server < 8.2
 # Has the client been configured?
 restore=0
 test -f '/var/lib/ipa-client/sysrestore/sysrestore.index' && restore=$(wc -l '/var/lib/ipa-client/sysrestore/sysrestore.index' | awk '{print $1}')
@@ -1124,6 +1139,37 @@ if [ -f '/etc/ssh/sshd_config' -a $restore -ge 2 ]; then
         chmod 600 /etc/ssh/sshd_config
 
         /bin/systemctl condrestart sshd.service 2>&1 || :
+    fi
+fi
+
+%triggerin client -- openssh-server >= 8.2
+# Has the client been configured?
+restore=0
+test -f '/var/lib/ipa-client/sysrestore/sysrestore.index' && restore=$(wc -l '/var/lib/ipa-client/sysrestore/sysrestore.index' | awk '{print $1}')
+
+if [ -f '/etc/ssh/sshd_config' -a $restore -ge 2 ]; then
+    # If the snippet already exists, skip
+    if [ ! -f '/etc/ssh/sshd_config.d/04-ipa.conf' ]; then
+        # Take the values from /etc/ssh/sshd_config and put them in 04-ipa.conf
+        grep -E '^(PubkeyAuthentication|KerberosAuthentication|GSSAPIAuthentication|UsePAM|ChallengeResponseAuthentication|AuthorizedKeysCommand|AuthorizedKeysCommandUser)' /etc/ssh/sshd_config 2>/dev/null > /etc/ssh/sshd_config.d/04-ipa.conf
+        # Remove the values from sshd_conf
+        sed -ri '
+            /^(PubkeyAuthentication|KerberosAuthentication|GSSAPIAuthentication|UsePAM|ChallengeResponseAuthentication|AuthorizedKeysCommand|AuthorizedKeysCommandUser)[ \t]/ d
+        ' /etc/ssh/sshd_config
+
+        /bin/systemctl condrestart sshd.service 2>&1 || :
+    fi
+    # If the snippet has been created, ensure that it is included
+    # either by /etc/ssh/sshd_config.d/*.conf or directly
+    if [ -f '/etc/ssh/sshd_config.d/04-ipa.conf' ]; then
+        if ! grep -E -q  '^\s*Include\s*/etc/ssh/sshd_config.d/\*\.conf' /etc/ssh/sshd_config 2> /dev/null ; then
+            if ! grep -E -q '^\s*Include\s*/etc/ssh/sshd_config.d/04-ipa\.conf' /etc/ssh/sshd_config 2> /dev/null ; then
+                # Include the snippet
+                echo "Include /etc/ssh/sshd_config.d/04-ipa.conf" > /etc/ssh/sshd_config.ipanew
+                cat /etc/ssh/sshd_config >> /etc/ssh/sshd_config.ipanew
+                mv -fZ --backup=existing --suffix .ipaold /etc/ssh/sshd_config.ipanew /etc/ssh/sshd_config
+            fi
+        fi
     fi
 fi
 
@@ -1191,7 +1237,6 @@ fi
 %attr(755,root,root) %{plugin_dir}/libipa_uuid.so
 %attr(755,root,root) %{plugin_dir}/libipa_modrdn.so
 %attr(755,root,root) %{plugin_dir}/libipa_lockout.so
-%attr(755,root,root) %{plugin_dir}/libipa_cldap.so
 %attr(755,root,root) %{plugin_dir}/libipa_dns.so
 %attr(755,root,root) %{plugin_dir}/libipa_range_check.so
 %attr(755,root,root) %{plugin_dir}/libipa_otp_counter.so
@@ -1248,6 +1293,7 @@ fi
 %{_usr}/share/ipa/kdcproxy.wsgi
 %{_usr}/share/ipa/ipaca*.ini
 %{_usr}/share/ipa/*.ldif
+%exclude %{_datadir}/ipa/ipa-cldap-conf.ldif
 %{_usr}/share/ipa/*.uldif
 %{_usr}/share/ipa/*.template
 %dir %{_usr}/share/ipa/advise
@@ -1339,6 +1385,8 @@ fi
 %{_sbindir}/ipa-adtrust-install
 %{_usr}/share/ipa/smb.conf.empty
 %attr(755,root,root) %{_libdir}/samba/pdb/ipasam.so
+%attr(755,root,root) %{plugin_dir}/libipa_cldap.so
+%{_datadir}/ipa/ipa-cldap-conf.ldif
 %{_mandir}/man1/ipa-adtrust-install.1*
 %ghost %{_libdir}/krb5/plugins/libkrb5/winbind_krb5_locator.so
 %{_sysconfdir}/dbus-1/system.d/oddjob-ipa-trust.conf
@@ -1375,17 +1423,17 @@ fi
 %{_sbindir}/ipa-client-samba
 %{_mandir}/man1/ipa-client-samba.1*
 
-%if ! %{ONLY_CLIENT}
 %files client-epn
 %doc README.md Contributors.txt
+%dir %{_sysconfdir}/ipa/epn
 %license COPYING
 %{_sbindir}/ipa-epn
 %{_mandir}/man1/ipa-epn.1*
 %{_mandir}/man5/epn.conf.5*
 %attr(644,root,root) %{_unitdir}/ipa-epn.service
 %attr(644,root,root) %{_unitdir}/ipa-epn.timer
-%attr(644,root,root) %{_sysconfdir}/ipa/epn/expire_msg.template
-%endif
+%attr(600,root,root) %config(noreplace) %{_sysconfdir}/ipa/epn.conf
+%attr(644,root,root) %config(noreplace) %{_sysconfdir}/ipa/epn/expire_msg.template
 
 %files -n python3-ipaclient
 %doc README.md Contributors.txt
@@ -1494,6 +1542,46 @@ fi
 %endif
 
 %changelog
+* Tue Oct 13 2020 Alexander Bokovoy <abokovoy@redhat.com> - 4.8.10-6
+- Handle sshd_config upgrade properly
+  Fixes: rhbz#1887928
+
+* Tue Sep 29 2020 Alexander Bokovoy <abokovoy@redhat.com> - 4.8.10-5
+- Properly handle upgrade case when systemd-resolved is enabled
+
+* Mon Sep 28 2020 Alexander Bokovoy <abokovoy@redhat.com> - 4.8.10-4
+- Fix permissions for /etc/systemd/resolved.conf.d/zzz-ipa.conf
+- Add NetworkManager and systemd-resolved configuration files to backup
+
+* Sun Sep 27 2020 Alexander Bokovoy <abokovoy@redhat.com> - 4.8.10-3
+- Fix dependency between freeipa-selinux and freeipa-common
+- Resolves: rhbz#1883005
+
+* Sat Sep 26 2020 Alexander Bokovoy <abokovoy@redhat.com> - 4.8.10-2
+- Support upgrade F32 -> F33 with systemd-resolved
+
+* Sat Sep 26 2020 Alexander Bokovoy <abokovoy@redhat.com> - 4.8.10-1
+- Upstream release FreeIPA 4.8.10
+
+* Fri Aug 21 2020 Alexander Bokovoy <abokovoy@redhat.com> - 4.8.9-2
+- Backport fix for detecting older installations on upgrade
+
+* Thu Aug 20 2020 François Cami <fcami@redhat.com> - 4.8.9-1
+- Upstream release FreeIPA 4.8.9
+
+* Mon Aug 03 2020 Alexander Bokovoy <abokovoy@redhat.com> - 4.8.7-5
+- Make use of unshare+chroot in ipa-extdom-extop unittests to work against glibc 2.32
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.8.7-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 30 2020 Merlin Mathesius <mmathesi@redhat.com> - 4.8.7-3
+- Conditional fixes for ELN to set krb5-kdb version appropriately
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.8.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 10 2020 Alexander Bokovoy <abokovoy@redhat.com> - 4.8.7-1
 - Upstream release FreeIPA 4.8.7
 

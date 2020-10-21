@@ -2,7 +2,7 @@
 
 Name: bullet
 Version: 2.87
-Release: 8%{?dist}
+Release: 10%{?dist}
 Summary: 3D Collision Detection and Rigid Body Dynamics Library
 License: zlib and MIT and BSD and Boost
 URL: http://www.bulletphysics.com
@@ -86,9 +86,7 @@ chmod -x src/BulletDynamics/ConstraintSolver/btSliderConstraint.h
 chmod -x src/BulletDynamics/ConstraintSolver/btSliderConstraint.cpp
 
 %build
-mkdir build
-pushd build
-%cmake .. \
+%cmake \
   -DCLSOCKET_DEP_ONLY=ON \
   -DBUILD_BULLET2_DEMOS=OFF \
   -DBUILD_EXTRAS=ON \
@@ -99,13 +97,12 @@ pushd build
   -DCMAKE_BUILD_TYPE=RelWithDebInfo \
   -DINCLUDE_INSTALL_DIR=%{_includedir}/bullet/
 
-%make_build
-popd
+%cmake_build
 
 doxygen Doxyfile
 
 %install
-%make_install -C build
+%cmake_install
 
 
 %ldconfig_scriptlets
@@ -188,6 +185,13 @@ doxygen Doxyfile
 %{_libdir}/libBulletXmlWorldImporter.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.87-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.87-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.87-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

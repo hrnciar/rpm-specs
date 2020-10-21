@@ -2,7 +2,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 9.0.0
-Release: 6%{?dist}
+Release: 7%{?dist}
 Summary: Arel is a SQL AST manager for Ruby
 License: MIT
 URL: https://github.com/rails/arel
@@ -77,6 +77,9 @@ popd
 %doc %{gem_instdir}/README.md
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.0.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 17 2020 Vít Ondruch <vondruch@redhat.com> - 9.0.0-6
 - Fix Ruby 2.7 compatibility.
   Resolves: rhbz#1799989

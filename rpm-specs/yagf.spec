@@ -1,6 +1,8 @@
+%global __cmake_in_source_build 1
+
 Name:           yagf
 Version:        0.9.5
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Graphical front-end for cuneiform
 
 License:        GPLv3+
@@ -40,12 +42,11 @@ chmod 644 src/mainform.cpp src/mainform.h src/main.cpp
 %build
 # CMakeLists.txt constructed in such a way that
 # translations can't be installed from %%{_target_platform}
-%{cmake} .
-
-make %{?_smp_mflags}
+%cmake
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 desktop-file-validate %{buildroot}%{_datadir}/applications/YAGF.desktop
 
@@ -63,6 +64,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/YAGF.desktop
 %{_datadir}/appdata/YAGF.appdata.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.5-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 22 2017 Dmitrij S. Kryzhevich <kryzhev@ispms.ru> 0.9.5-13
 - Requres: cuneiform -> Requers: tesseract
 

@@ -4,7 +4,7 @@
 
 Name:		adobe-source-han-sans-jp-fonts
 Version:	2.001
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Adobe OpenType Pan-CJK font family for Japanese
 
 License:	OFL
@@ -42,6 +42,9 @@ ln -s	%{_fontconfig_templatedir}/%{fontconf} \
 %license LICENSE.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.001-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.001-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

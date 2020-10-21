@@ -4,7 +4,7 @@
 
 Name:       nodejs-jade
 Version:    1.3.1
-Release:    14%{?dist}
+Release:    15%{?dist}
 Summary:    Jade template engine for Node.js
 License:    MIT
 URL:        https://github.com/visionmedia/jade
@@ -96,6 +96,9 @@ ln -sf %{nodejs_sitelib}/jade/bin/jade.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

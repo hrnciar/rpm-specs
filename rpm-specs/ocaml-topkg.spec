@@ -10,8 +10,8 @@
 %global srcname topkg
 
 Name:           ocaml-%{srcname}
-Version:        1.0.1
-Release:        8%{?dist}
+Version:        1.0.2
+Release:        2%{?dist}
 Summary:        The transitory OCaml software packager
 
 License:        ISC
@@ -130,6 +130,22 @@ ocaml pkg/pkg.ml test
 %doc html/*
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.0.2-2
+- OCaml 4.11.1 rebuild
+
+* Tue Sep  1 2020 Jerry James <loganjerry@gmail.com> - 1.0.2-1
+- Version 1.0.2
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.0.1-11
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 1.0.1-8
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

@@ -1,33 +1,29 @@
 Name:          gpsbabel
-Version:       1.6.0
-Release:       4%{?dist}
+Version:       1.7.0
+Release:       2%{?dist}
 Summary:       A tool to convert between various formats used by GPS devices
 
 License:       GPLv2+
 URL:           http://www.gpsbabel.org
 # Upstream's website hides tarball behind some ugly php script
 # Original repo is at https://github.com/gpsbabel/gpsbabel
-Source0:       %{name}-%{version}.tar.gz
+Source0:       GPSBabel-%{version}.tar.gz
 Source2:       %{name}.png
 Source21:      http://www.gpsbabel.org/style3.css
 # Remove network access requirement for XML doc builds and HTML doc reading
-Patch1:        0001-gpsbabel-1.4.2-xmldoc.patch
-# Use system shapelib - not suitable for upstream in this form.
-Patch2:        0002-gpsbabel-1.4.3-use-system-shapelib.patch
+Patch1:        0001-xmldoc-nonet.patch
+# No automatic phone home by default (RHBZ 668865)
+Patch2:        0002-No-solicitation.patch
 # Pickup gmapbase.html from /usr/share/gpsbabel
 Patch3:        0003-gpsbabel-1.4.3-gmapbase.patch
-# No automatic phone home by default (RHBZ 668865)
-Patch4:        0004-gpsbabel-1.4.3-nosolicitation.patch
-# Use system zlib
-Patch5:        0005-Use-system-zlib.patch
-# Address overflows
-Patch6:        0006-Fix-Wformat-overflow.patch
-# gpsbabelfe-bin was renamed into gpsbabelfe
-Patch7:        0007-correct-name-of-Exec-in-desktop-file.-353.patch
 # Pickup translations from /usr/share/qt5 instead of /usr/bin
-Patch8:        0008-Pickup-translations-from-usr-share-qt5-translations.patch
-# Fix loading of meta catalogs
-Patch9:        0009-Fix-loading-of-meta-catalogs.patch
+Patch4:        0004-Pickup-translations-from-usr-share-qt5-translations.patch
+# Use system shapelib - not suitable for upstream in this form.
+Patch5:        0005-Use-system-shapelib.patch
+# Use system zlib
+Patch6:        0006-Use-system-zlib.patch
+# gcc-11 fixes
+Patch7:        0007-gcc11.patch
 
 BuildRequires: %{__make}
 BuildRequires: %{__perl}
@@ -88,8 +84,6 @@ Qt GUI interface for GPSBabel
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1
-%patch9 -p1
 
 # Use system shapelib instead of bundled partial shapelib
 rm -rf shapelib
@@ -159,6 +153,19 @@ install -m 0644 -p %{SOURCE2} %{buildroot}%{_datadir}/icons/hicolor/256x256/apps
 %endif
 
 %changelog
+* Thu Sep 03 2020 Jeff Law <law@redhat.com> - 1.7.0-2
+- Drop local extern decl for errno (again)
+
+* Thu Aug 13 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 1.7.0-1
+- Update to 1.7.0.
+- Rework patches.
+
+* Wed Jul 29 2020 Jeff Law <law@redhat.com> - 1.6.0-6
+- Avoid function local external declaration of errno
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

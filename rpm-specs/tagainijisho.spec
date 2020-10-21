@@ -1,6 +1,8 @@
+%define __cmake_in_source_build 1
+
 Name:           tagainijisho
 Version:        1.0.3
-Release:        13%{?dist}
+Release:        16%{?dist}
 Summary:        A free Japanese dictionary and study assistant
 
 License:        GPLv3+ and CC-BY-SA
@@ -211,6 +213,16 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/appdata/%{name}
 
 
 %changelog
+* Tue Sep 22 2020 Jeff Law <law@redhat.com> - 1.0.3-16
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-15
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

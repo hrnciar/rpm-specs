@@ -1,9 +1,7 @@
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-
 Summary: An alternate posix capabilities library
 Name: libcap-ng
-Version: 0.7.10
-Release: 3%{?dist}
+Version: 0.8
+Release: 1%{?dist}
 License: LGPLv2+
 URL: http://people.redhat.com/sgrubb/libcap-ng
 Source0: http://people.redhat.com/sgrubb/libcap-ng/%{name}-%{version}.tar.gz
@@ -99,6 +97,15 @@ make check
 %attr(0644,root,root) %{_mandir}/man8/*
 
 %changelog
+* Tue Sep 08 2020 Steve Grubb <sgrubb@redhat.com> 0.8-1
+- New upstream feature release
+
+* Sun Aug 23 2020 Steve Grubb <sgrubb@redhat.com> 0.7.11-1
+- New upstream release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.10-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.10-3
 - Rebuilt for Python 3.9
 

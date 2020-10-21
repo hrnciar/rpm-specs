@@ -1,7 +1,7 @@
 %global project skiboot
 
 Name:		opal-prd
-Version:	6.6.1
+Version:	6.6.3
 Release:	1%{?dist}
 Summary:	OPAL Processor Recovery Diagnostics Daemon
 
@@ -12,6 +12,7 @@ URL:		http://github.com/open-power/skiboot
 ExclusiveArch:	ppc64le
 
 BuildRequires:	systemd
+BuildRequires:	openssl
 BuildRequires:	gcc
 %if 0%{?fedora}
 BuildRequires:	gcc-powerpc64-linux-gnu
@@ -25,6 +26,8 @@ Requires(postun):	systemd
 Source0: https://github.com/open-power/%{project}/archive/v%{version}/%{project}-%{version}.tar.gz
 Source1: opal-prd-rsyslog
 Source2: opal-prd-logrotate
+# https://patchwork.ozlabs.org/project/skiboot/patch/20200810120155.23109-1-dan@danny.cz/
+Patch0: skiboot-6.6.2-ffspart.patch
 
 
 %description
@@ -55,7 +58,7 @@ services to the OS (Linux) on IBM Power and OpenPower systems.
 
 
 %prep
-%setup -q -n %{project}-%{version}
+%autosetup -p1 -n %{project}-%{version}
 
 
 %build
@@ -63,6 +66,7 @@ OPAL_PRD_VERSION=%{version} make V=1 CC="gcc" CFLAGS="%{build_cflags}" LDFLAGS="
 GARD_VERSION=%{version} make V=1 CC="gcc" CFLAGS="%{build_cflags}" LDFLAGS="%{build_ldflags}" -C external/gard
 PFLASH_VERSION=%{version} make V=1 CC="gcc" CFLAGS="%{build_cflags}" LDFLAGS="%{build_ldflags}" -C external/pflash
 XSCOM_VERSION=%{version} make V=1 CC="gcc" CFLAGS="%{build_cflags}" LDFLAGS="%{build_ldflags}" -C external/xscom-utils
+FFSPART_VERSION=%{version} make V=1 CC="gcc" CFLAGS="%{build_cflags}" LDFLAGS="%{build_ldflags}" -C external/ffspart
 
 # build skiboot with a cross-compiler on Fedora and with system compiler otherwise
 # and always use upstream compiler flags for the firmware (no CFLAGS override)
@@ -78,6 +82,7 @@ make -C external/opal-prd install DESTDIR=%{buildroot} prefix=/usr
 make -C external/gard install DESTDIR=%{buildroot} prefix=/usr
 make -C external/pflash install DESTDIR=%{buildroot} prefix=/usr
 make -C external/xscom-utils install DESTDIR=%{buildroot} prefix=/usr
+make -C external/ffspart install DESTDIR=%{buildroot} prefix=/usr
 
 mkdir -p %{buildroot}%{_unitdir}
 install -m 644 -p external/opal-prd/opal-prd.service %{buildroot}%{_unitdir}/opal-prd.service
@@ -119,6 +124,7 @@ install -m 644 %{SOURCE2} %{buildroot}/%{_sysconfdir}/logrotate.d/opal-prd
 %{_sbindir}/putscom
 %{_sbindir}/pflash
 %{_sbindir}/getsram
+%{_sbindir}/ffspart
 %{_mandir}/man1/*
 
 %files -n opal-firmware
@@ -128,6 +134,19 @@ install -m 644 %{SOURCE2} %{buildroot}/%{_sysconfdir}/logrotate.d/opal-prd
 
 
 %changelog
+* Thu Sep 10 2020 Dan Horák <dan@danny.cz> - 6.6.3-1
+- update to 6.6.3
+
+* Mon Aug 10 2020 Dan Horák <dan@danny.cz> - 6.6.2-3
+- build and install ffspart
+- add BR: openssl for skibot image signing
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Dan Horák <dan@danny.cz> - 6.6.2-1
+- update to 6.6.2
+
 * Tue Jun 09 2020 Dan Horák <dan@danny.cz> - 6.6.1-1
 - update to 6.6.1
 

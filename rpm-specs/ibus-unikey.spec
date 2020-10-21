@@ -3,7 +3,7 @@
 
 Name:          ibus-unikey
 Version:       0.6.1
-Release:       22.20190311git46b5b9e%{?dist}
+Release:       25.20190311git46b5b9e%{?dist}
 Summary:       Vietnamese engine for IBus input platform
 
 License:       GPLv3
@@ -29,12 +29,11 @@ A Vietnamese engine for IBus input platform that uses Unikey.
 
 
 %build
-%cmake .
-make %{?_smp_mflags}
-
+%cmake
+%cmake_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
+%cmake_install
 %find_lang %{name}
 
 
@@ -48,6 +47,16 @@ make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 %{_datadir}/glib-2.0/schemas/org.freedesktop.ibus.engine.unikey.gschema.xml
 
 %changelog
+* Tue Aug 11 2020 Parag Nemade <pnemade AT redhat DOT com> - 0.6.1-25.20190311git46b5b9e
+- Update for new cmake macros (out of source builds)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-24.20190311git46b5b9e
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-23.20190311git46b5b9e
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-22.20190311git46b5b9e
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

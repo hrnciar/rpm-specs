@@ -1,14 +1,15 @@
-%global packname  pingr
+%global packname pingr
+%global packver  2.0.1
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          2.0.0
+Version:          2.0.1
 Release:          3%{?dist}
 Summary:          Check if a Remote Computer is Up
 
 License:          MIT
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
@@ -65,6 +66,16 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.0.1-1
+- Update to latest version
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 2.0.0-3
 - rebuild for R 4
 

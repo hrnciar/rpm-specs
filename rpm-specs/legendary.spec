@@ -1,6 +1,6 @@
 Name:           legendary
-Version:        0.0.19
-Release:        1%{?dist}
+Version:        0.20.1
+Release:        3%{?dist}
 Summary:        Free and open-source replacement for the Epic Games Launcher
 BuildArch:      noarch
 
@@ -9,9 +9,13 @@ URL:            https://github.com/derrod/legendary
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  python3-devel >= 3.8
+BuildRequires:  python3-setuptools
 BuildRequires:  python3dist(requests)
 
 Requires:       python3-requests
+
+Recommends:     wine
+Recommends:     wine-dxvk
 
 %description
 Legendary is an open-source game launcher that can download and install games
@@ -47,6 +51,21 @@ done
 
 
 %changelog
+* Mon Oct  5 16:51:11 EEST 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.20.1-3
+- build(add BR): python3-setuptools | per DL-BL7XMXVEHSDZDMH22YET3I4EK66PK4NI
+
+* Wed Sep  9 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.20.1-2
+- Add weak deps: wine & wine-dxvk
+
+* Wed Sep  9 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.20.1-1
+- Update to 0.20.1
+
+* Tue Sep  8 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.20.0-1
+- Update to 0.20.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.19-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.0.19-1
 - Update to 0.0.19
 

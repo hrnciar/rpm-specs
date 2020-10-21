@@ -17,7 +17,7 @@
 
 Name:           hamlib
 Version:        4.0
-Release:        0.6%{?dist}%{rel_string}
+Release:        0.9%{?dist}%{rel_string}
 Summary:        Run-time library to control radio transceivers and receivers
 
 License:        GPLv2+ and LGPLv2+
@@ -238,6 +238,15 @@ make V=1 check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0-0.9.20200615git779cd69287
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.0-0.8.20200615git779cd69287
+- Perl 5.32 rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.0-0.7.20200615git779cd69287
+- Perl 5.32 rebuild
+
 * Mon Jun 15 2020 Richard Shaw <hobbes1069@gmail.com> - 4.0-0.6.20200615git779cd69287
 - Update to master.
 

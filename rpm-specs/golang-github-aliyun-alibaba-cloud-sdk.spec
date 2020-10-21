@@ -5,7 +5,7 @@
 
 # https://github.com/aliyun/alibaba-cloud-sdk-go
 %global goipath         github.com/aliyun/alibaba-cloud-sdk-go
-Version:                1.60.348
+Version:                1.61.346
 
 %gometa
 
@@ -30,6 +30,7 @@ Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/jmespath/go-jmespath)
 BuildRequires:  golang(github.com/json-iterator/go)
+BuildRequires:  golang(github.com/modern-go/reflect2)
 BuildRequires:  golang(gopkg.in/ini.v1)
 
 %if %{with check}
@@ -51,12 +52,25 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 
 %if %{with check}
 %check
-%gocheck -d integration -d sdk/auth/credentials/providers -d sdk/auth/signers
+# sdk/responses: error messages slightly modified
+%gocheck -d integration \
+         -d sdk/auth/credentials/providers \
+         -d sdk/auth/signers \
+         -d sdk/responses
 %endif
 
 %gopkgfiles
 
 %changelog
+* Fri Aug 21 18:54:19 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.61.346-3
+- Fix FTBFS
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.61.346-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 14:36:55 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.61.346-1
+- Update to 1.61.346
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.60.348-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

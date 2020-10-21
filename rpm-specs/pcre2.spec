@@ -9,7 +9,7 @@
 #%%global rcversion RC1
 Name:       pcre2
 Version:    10.35
-Release:    %{?rcversion:0.}3%{?rcversion:.%rcversion}%{?dist}
+Release:    %{?rcversion:0.}7%{?rcversion:.%rcversion}%{?dist}
 %global     myversion %{version}%{?rcversion:-%rcversion}
 Summary:    Perl-compatible regular expression library
 # the library:                          BSD with exceptions
@@ -60,6 +60,24 @@ Patch2:     pcre2-10.35-Fix-previous-commit-include-CET_CFLAGS-in-16-bit-and.pat
 # Fix an infinite loop when a single-byte newline is search in JIT if an
 # invalid UTF-8 mode is enabled, upstream bug #2581, in upstream after 10.35
 Patch3:     pcre2-10.35-Fix-inifinite-loop-when-a-single-byte-newline-is-sea.patch
+# Fix a buffer overread when parsing an unterminated VERSION condition with
+# a single-digit minor number at the end of a regular expression,
+# ClusterFuzz #23779, in upstream after 10.35
+Patch4:     pcre2-10.35-Fix-read-overflow-for-invalid-VERSION-test-with-one-.patch
+# Fix an early fail optimization with character ranges and a buffer overread
+# in JIT, upstream bug #2621, in upstream after 10.35
+Patch5:     pcre2-10.35-Fix-an-early-fail-optimization-issue-and-a-buffer-ov.patch
+# Fix escaping test data, upstream bug #2641, in upstream after 10.35
+Patch6:     pcre2-10.35-Fix-delimiters-in-tests-1-and-4-for-correct-Perl-beh.patch
+# Fix escaping test data and only allow slash delimiter after perltest pragma,
+# upstream bug #2641, in upstream after 10.35
+Patch7:     pcre2-10.35-Update-pcre2test-to-check-delimiters-after-perltest-.patch
+# Fix a mismatch when caselessly searching in an invalid UTF-8 text and a start
+# optimization is enabled, upstream bug #2642, in upstream after 10.35
+Patch8:     pcre2-10.35-Fix-Bugzilla-2642-no-match-bug-in-8-bit-mode-for-cas.patch
+# Fix matching a character set when JIT is enabled and both Unicode script and
+# Unicode class are present, upstream bug #2644, in upstream after 10.35
+Patch9:     pcre2-10.35-Fixed-a-bug-in-character-set-matching-when-JIT-is-en.patch
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  coreutils
@@ -154,6 +172,12 @@ Utilities demonstrating PCRE2 capabilities like pcre2grep or pcre2test.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch8 -p1
+%patch9 -p1
 # Because of multilib patch
 libtoolize --copy --force
 autoreconf -vif
@@ -267,6 +291,29 @@ make %{?_smp_mflags} check VERBOSE=yes
 %{_mandir}/man1/pcre2test.*
 
 %changelog
+* Mon Sep 21 2020 Petr Pisar <ppisar@redhat.com> - 10.35-7
+- Fix matching a character set when JIT is enabled and both Unicode script and
+  Unicode class are present (upstream bug #2644)
+
+* Wed Sep 16 2020 Petr Pisar <ppisar@redhat.com> - 10.35-6
+- Fix escaping test data and only allow slash delimiter after perltest pragma
+  (upstream bug #2641)
+- Fix a mismatch when caselessly searching in an invalid UTF-8 text and a start
+  optimization is enabled (upstream bug #2642)
+
+* Mon Sep 14 2020 Petr Pisar <ppisar@redhat.com> - 10.35-5
+- Fix escaping test data (upstream bug #2641)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.35-4.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Petr Pisar <ppisar@redhat.com> - 10.35-4
+- Fix a buffer overread when parsing an unterminated VERSION condition with
+  a single-digit minor number at the end of a regular expression
+  (ClusterFuzz #23779)
+- Fix an early fail optimization with character ranges and a buffer overread
+  in JIT (upstream bug #2621)
+
 * Tue Jun 02 2020 Petr Pisar <ppisar@redhat.com> - 10.35-3
 - Fix an infinite loop when a single-byte newline is search in JIT if an
   invalid UTF-8 mode is enabled (upstream bug #2581)

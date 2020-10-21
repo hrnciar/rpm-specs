@@ -3,7 +3,7 @@
 
 Name:		newsx
 Version:	1.6
-Release:	33%{?dist}
+Release:	34%{?dist}
 License:	GPLv2+
 Summary:	NNTP news exchange utility
 Summary(pl):	Narzędzie do wymiany newsów po NNTP
@@ -67,6 +67,9 @@ popd
 %{_mandir}/man[158]/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 21 2020 Dominik Mierzejewski <rpm@greysector.net> 1.6-33
 - work around gcc10 build issue
 

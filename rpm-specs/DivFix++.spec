@@ -9,7 +9,7 @@
 Name:		DivFix++
 Summary:		Repair broken AVI file streams by rebuilding index part of file
 Version:		0.34
-Release:		30%{?dist}
+Release:		31%{?dist}
 License:		GPLv2+
 URL:			http://divfixpp.sourceforge.net/
 Source0:		http://downloads.sourceforge.net/divfixpp/%{name}_v%{version}-src.tar.bz2
@@ -90,6 +90,9 @@ desktop-file-install --delete-original \
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.34-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.34-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

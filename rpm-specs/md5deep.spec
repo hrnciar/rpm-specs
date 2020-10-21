@@ -6,12 +6,13 @@
 
 Name:           md5deep
 Version:        4.4
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        A set of cross-platform tools to compute hashes
 License:        GPLv2
 URL:            http://md5deep.sf.net/
 #Source0:       http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{commit}/%{name}-%{version}-%{shortcommit}.tar.gz
+Patch0:		md5deep-gcc11.patch
 
 
 BuildRequires:  gcc-c++
@@ -29,6 +30,7 @@ SHA-256, Tiger, and Whirlpool hashes.
 
 %prep
 %setup -q -n %{gitname}-%{commit}
+%patch0 -p1
 autoreconf -vif
 
 %build
@@ -47,6 +49,12 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 4.4-13
+- Avoid ordered comparisons of pointers against 0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

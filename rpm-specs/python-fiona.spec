@@ -2,19 +2,15 @@
 %global Srcname Fiona
 
 Name:           python-%{srcname}
-Version:        1.8.13
+Version:        1.8.14
 #global         pre rc1
 %global         uversion %{version}%{?pre}
-Release:        5%{?dist}
+Release:        1%{?dist}
 Summary:        Fiona reads and writes spatial data files
 
 License:        BSD
 URL:            https://pypi.python.org/pypi/%{srcname}
 Source0:        https://github.com/Toblerity/%{Srcname}/archive/%{uversion}/%{Srcname}-%{uversion}.tar.gz
-
-# Adapt test for gdal-3.1.0
-# https://github.com/Toblerity/Fiona/commit/02a1f39165abef2e138cdb0f39cb289a11cf79b2#diff-2341932de631b9528511ad91757d523a
-Patch0:         fiona_tests.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  gdal >= 1.8
@@ -46,6 +42,7 @@ BuildRequires:  python3-munch
 BuildRequires:  python3-six >= 1.7
 BuildRequires:  python3-boto3 >= 1.2.4
 BuildRequires:  python3-shapely
+BuildRequires:  python3-pytz
 
 BuildRequires:  python3-pytest
 
@@ -79,8 +76,7 @@ export LANG=C.UTF-8
 rm -rf fiona  # Needed to not load the unbuilt library.
 
 # Skip debian tests since we are not on debian
-PYTHONPATH="%{buildroot}%{python3_sitearch}" \
-    %{__python3} -m pytest -m "not network and not wheel" -k "not debian" -ra
+%{pytest} -m "not network and not wheel" -k "not debian" -ra
 
 
 %files -n python3-%{srcname}
@@ -92,6 +88,16 @@ PYTHONPATH="%{buildroot}%{python3_sitearch}" \
 
 
 %changelog
+* Tue Sep 01 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.8.14-1
+- Update to latest version (#1874310)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.13-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.13-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.8.13-5
 - Rebuilt for Python 3.9
 

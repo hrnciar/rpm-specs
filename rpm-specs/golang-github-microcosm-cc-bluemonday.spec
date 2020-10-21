@@ -3,8 +3,7 @@
 
 # https://github.com/microcosm-cc/bluemonday
 %global goipath         github.com/microcosm-cc/bluemonday
-Version:                1.0.2
-%global commit          89802068f71166e95c92040512bf2e11767721ed
+Version:                1.0.4
 
 %gometa
 
@@ -21,7 +20,7 @@ web page.}
 %global godocs          CONTRIBUTING.md CREDITS.md README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        Fast golang HTML sanitizer
 
 # Upstream license specification: BSD-3-Clause
@@ -29,6 +28,7 @@ License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
 
+BuildRequires:  golang(github.com/chris-ramon/douceur/parser)
 BuildRequires:  golang(golang.org/x/net/html)
 
 %description
@@ -62,6 +62,16 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Thu Sep 10 13:44:48 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.4-1
+- Update to 1.0.4
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

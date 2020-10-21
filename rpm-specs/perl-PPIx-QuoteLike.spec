@@ -2,13 +2,14 @@
 %bcond_without perl_PPIx_QuoteLike_enables_PPIx_Regexp
 
 Name:           perl-PPIx-QuoteLike
-Version:        0.011
-Release:        2%{?dist}
+Version:        0.013
+Release:        1%{?dist}
 Summary:        Parse Perl string literals and string-literal-like things
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/PPIx-QuoteLike
 Source0:        https://cpan.metacpan.org/authors/id/W/WY/WYANT/PPIx-QuoteLike-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -85,6 +86,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Fri Oct 09 2020 Petr Pisar <ppisar@redhat.com> - 0.013-1
+- 0.013 bump
+
+* Tue Jul 28 2020 Petr Pisar <ppisar@redhat.com> - 0.012-1
+- 0.012 bump
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.011-2
 - Perl 5.32 rebuild
 

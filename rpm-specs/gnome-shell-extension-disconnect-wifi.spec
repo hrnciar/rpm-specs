@@ -7,7 +7,7 @@
 
 Name:		gnome-shell-extension-disconnect-wifi
 Version:	17
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	GNOME Shell Extension Disconnect Wifi by kgshank
 
 License:	GPLv3+
@@ -61,6 +61,9 @@ connected.  Shows a Reconnect option, after network is disconnected.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 17-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 17-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

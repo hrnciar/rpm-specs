@@ -1,6 +1,6 @@
 Name:    qt5-doc
 Summary: Qt5 - Complete documentation
-Version: 5.14
+Version: 5.15.1
 Release: 1%{?dist}
 BuildArch: noarch
 
@@ -53,6 +53,9 @@ Requires: qt5-qtpurchasing-doc >= %{version}
 
 %description
 This is the meta package for all Qt library documentation
+
+# Empty files to produce qt5-doc package for easier installation of complete documentation
+%files
 
 %package -n qt5-qtbase-doc
 Summary: Documentation for qtbase
@@ -367,12 +370,22 @@ rm -rfv \
   qtdistancefieldgenerator* \
   qtdoc* qtcmake* \
   qtlottieanimation* \
+  qtpdf* \
   qtwebengine*
 
 popd
 
 
 %changelog
+* Thu Sep 10 2020 Jan Grulich <jgrulich@redhat.com> - 5.15.1-1
+- 5.15.1
+
+* Mon Aug 10 2020 Jan Grulich <jgrulich@redhat.com> - 5.14-3
+- Produce qt5-doc package for easier installation of complete documentation
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.14-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 11 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.14-1
 - 5.14
 

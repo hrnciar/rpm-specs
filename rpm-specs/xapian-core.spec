@@ -1,10 +1,11 @@
 Name:          xapian-core
-Version:       1.4.14
-Release:       1%{?dist}
+Version:       1.4.17
+Release:       2%{?dist}
 Summary:       The Xapian Probabilistic Information Retrieval Library
 License:       GPLv2+
 URL:           http://www.xapian.org/
 Source0:       http://www.oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.xz
+Patch0:        %{name}-gcc11.patch
 
 BuildRequires: gcc gcc-c++
 BuildRequires: libuuid-devel
@@ -102,6 +103,15 @@ rm -rf %{buildroot}%{_datadir}/doc/%{name}
 %{_mandir}/man1/xapian-config.1*
 
 %changelog
+* Sat Oct 17 2020 Jeff Law <law@redhat.com> - 1.4.17-2
+- Fix missing #include for gcc-11
+
+* Mon Sep 21 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.4.17-1
+- Update to 1.4.17
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.14-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Peter Robinson <pbrobinson@fedoraproject.org> 1.4.14-1
 - Update to 1.4.14
 

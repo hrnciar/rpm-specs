@@ -6,7 +6,7 @@
 
 Name:           ocaml-%{srcname}
 Version:        0.6.0
-Release:        5%{?dist}
+Release:        9%{?dist}
 Summary:        Various signed and unsigned integers for OCaml
 
 License:        MIT
@@ -108,6 +108,19 @@ dune runtest
 %license LICENSE
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.6.0-9
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.6.0-8
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 0.6.0-5
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

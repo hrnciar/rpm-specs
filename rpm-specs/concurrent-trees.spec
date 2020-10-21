@@ -1,6 +1,6 @@
 Name:          concurrent-trees
 Version:       2.6.1
-Release:       6%{?dist}
+Release:       9%{?dist}
 Summary:       Concurrent Trees for Java
 License:       ASL 2.0
 URL:           https://github.com/npgall/%{name}/
@@ -8,7 +8,6 @@ Source0:       https://github.com/npgall/%{name}/archive/%{version}.tar.gz
 
 BuildRequires: maven-local
 BuildRequires: mvn(junit:junit)
-BuildRequires: mvn(org.sonatype.oss:oss-parent:pom:)
 # for version 2.6.0 add bnd-maven-plugin
 BuildRequires: mvn(biz.aQute.bnd:bnd-maven-plugin)
 
@@ -29,6 +28,9 @@ This package contains javadoc for %{name}.
 rm -r documentation/javadoc
 rm -r documentation/documents
 rm documentation/images/dfs-comic.png
+
+# remove unnecessary dependency on parent POM
+%pom_remove_parent code
 
 # Unneeded tasks
 %pom_remove_plugin :maven-release-plugin code
@@ -56,6 +58,15 @@ cd code
 %license LICENSE.txt
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 2.6.1-9
+- Remove unnecessary dependency on parent POM.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.6.1-7
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -8,7 +8,7 @@
 
 Name:		alt-ergo
 Version:	2.2.0
-Release:	1%{?dist}
+Release:	5%{?dist}
 Summary:	Automated theorem prover including linear arithmetic
 License:	ASL 2.0
 
@@ -27,7 +27,7 @@ BuildRequires:	gtksourceview2-devel
 BuildRequires:	ocaml
 BuildRequires:	ocaml-findlib
 BuildRequires:	ocaml-lablgtk-devel
-BuildRequires:	ocaml-menhir-devel
+BuildRequires:	ocaml-menhir
 BuildRequires:	ocaml-num-devel
 BuildRequires:	ocaml-ocplib-simplex-devel
 BuildRequires:	ocaml-psmt2-frontend-devel
@@ -176,6 +176,18 @@ done
 %{_libdir}/ocaml/%{name}/altErgoLib.cmt
 
 %changelog
+* Fri Sep 25 2020 Jerry James <loganjerry@gmail.com> - 2.2.0-5
+- Rebuild for ocaml-zarith 1.10
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 2.2.0-4
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 2.2.0-3
+- OCaml 4.11.0 rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Jerry James <loganjerry@gmail.com> - 2.2.0-1
 - Version 2.2.0
 - Drop upstreamed -newline patch

@@ -6,7 +6,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 0.5.3
-Release: 3%{?dist}
+Release: 5%{?dist}
 Summary: A simple, fast Mysql library for Ruby, binding to libmysql
 License: MIT
 URL: https://github.com/brianmario/mysql2
@@ -111,7 +111,7 @@ for i in $(seq 10); do
 done
 
 # See https://github.com/brianmario/mysql2/blob/master/.travis_setup.sh
-mysql -u root \
+mysql -u $MYSQL_TEST_USER \
   -e 'CREATE DATABASE /*M!50701 IF NOT EXISTS */ test' \
   -S "${MYSQL_TEST_SOCKET}" \
   -P "${MYSQL_TEST_PORT}"
@@ -120,7 +120,7 @@ mysql -u root \
 cat <<EOF > spec/configuration.yml
 root:
   host: localhost
-  username: root
+  username: ${MYSQL_TEST_USER}
   password:
   database: test
   port: ${MYSQL_TEST_PORT}
@@ -170,6 +170,12 @@ kill "$(cat "${MYSQL_TEST_PID_FILE}")"
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul  2 2020 Alex Chernyakhovsky <achernya@mit.edu> - 0.5.3-4
+- Update tests to build and run on F32
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

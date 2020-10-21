@@ -6,7 +6,7 @@
 
 Name:          nodejs-%{npm_name}
 Version:       2.0.3
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Simple monitor script for use during development of a node.js app
 License:       MIT
 URL:           https://github.com/remy/nodemon
@@ -76,6 +76,9 @@ npm run test
 %{_bindir}/nodemon
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 01 2020 Honza Horak <hhorak@redhat.com> - 2.0.3-1
 - Update to 2.0.3
 

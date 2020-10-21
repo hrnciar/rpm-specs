@@ -7,7 +7,7 @@
 
 Name:           perl-Coro-Multicore
 Version:        1.06
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Make Coro threads on multiple cores with specially supported modules
 # COPYING:          GPL+ or Artistic
 # perlmulticore.h:  Public Domain or CC0
@@ -127,6 +127,9 @@ make test
 %{_mandir}/man3/perlmulticore.h.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.06-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.06-3
 - Perl 5.32 rebuild
 

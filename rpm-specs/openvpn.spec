@@ -7,7 +7,7 @@
 
 Name:              openvpn
 Version:           2.4.9
-Release:           1%{?prerelease:.%{prerelease}}%{?dist}
+Release:           2%{?prerelease:.%{prerelease}}%{?dist}
 Summary:           A full-featured SSL VPN solution
 URL:               https://community.openvpn.net/
 Source0:           https://build.openvpn.net/downloads/releases/%{name}-%{version}%{?prerelease:_%{prerelease}}.tar.xz
@@ -183,6 +183,9 @@ getent passwd openvpn &>/dev/null || \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 19 2020 David Sommerseth <dazo@eurephia.org> - 2.4.9-1
 - Update to upstream OpenVPN 2.4.9
 

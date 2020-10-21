@@ -1,8 +1,8 @@
 %global gem_name prawn-manual_builder
 
 Name: rubygem-%{gem_name}
-Version: 0.3.0
-Release: 4%{?dist}
+Version: 0.3.1
+Release: 2%{?dist}
 Summary: A tool for writing manuals for Prawn and Prawn accessories
 License: GPLv2 or GPLv3 or Ruby
 URL: https://github.com/prawnpdf/prawn-manual_builder
@@ -53,6 +53,12 @@ cp -a .%{gem_dir}/* \
 %doc %{gem_instdir}/README.md
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 6 2020 Christopher Brown <chris.brown@redhat.com> - 0.3.1-1
+- Bump to 0.3.1
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

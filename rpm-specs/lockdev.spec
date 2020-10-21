@@ -10,7 +10,7 @@
 Summary: A library for locking devices
 Name: lockdev
 Version: 1.0.4
-Release: 0.33.%{checkout}%{?dist}
+Release: 0.34.%{checkout}%{?dist}
 License: LGPLv2
 URL: https://alioth.debian.org/projects/lockdev/
 
@@ -111,6 +111,9 @@ fi
 %{_includedir}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-0.34.20111007git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-0.33.20111007git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

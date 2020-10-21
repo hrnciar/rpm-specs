@@ -6,7 +6,7 @@ Client-side Sieve and Managesieve library written in Python.\
 
 Name:           python-%{srcname}
 Version:        1.1.1
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Client-side SIEVE library
 License:        MIT
 URL:            https://github.com/tonioo/sievelib
@@ -69,6 +69,9 @@ nosetests-%{python3_version}
 %{python3_sitelib}/%{srcname}-%{version}-py*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 16 2020 Charalampos Stratakis <cstratak@redhat.com> - 1.1.1-11
 - Fix build with pip >= 20.1 (#1838484)
 

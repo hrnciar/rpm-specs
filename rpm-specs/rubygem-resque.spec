@@ -2,7 +2,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 1.25.2
-Release: 13%{?dist}
+Release: 14%{?dist}
 Summary: A Redis-backed queueing system
 License: MIT
 URL: https://github.com/resque/resque
@@ -137,6 +137,9 @@ popd
 %exclude %{gem_instdir}/test
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.25.2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.25.2-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

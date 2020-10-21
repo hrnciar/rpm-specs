@@ -8,14 +8,14 @@ commands implemented in Python.}
 Name:           python-%{srcname}
 License:        MIT
 Summary:        Python subprocess replacement
-Version:        1.12.14
-Release:        17%{?dist}
+Version:        1.13.1
+Release:        2%{?dist}
 URL:            https://github.com/amoffat/sh
 Source0:        %pypi_source
-Patch2:         no-coverage.patch
-Patch3:         pep-0538-test-fix.patch
-# https://github.com/amoffat/sh/pull/438
-Patch4:         always-use-fully-versioned-python-command-in-tests.patch
+Patch1:         no-coverage.patch
+# test_timeout expects the sleep binary to reside in /bin/
+# so we change it to the appropriate path for Fedora.
+Patch2:         fix-test_timeout.patch
 BuildArch:      noarch
 BuildRequires:  lsof
 
@@ -34,7 +34,7 @@ BuildRequires:  python3-setuptools
 
 
 %prep
-%autosetup -n %{srcname}-%{version}
+%autosetup -n %{srcname}-%{version} -p1
 
 
 %build
@@ -58,6 +58,12 @@ BuildRequires:  python3-setuptools
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Charalampos Stratakis <cstratak@redhat.com> - 1.13.1-1
+- Update to 1.13.1 (#1828679)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.12.14-17
 - Rebuilt for Python 3.9
 

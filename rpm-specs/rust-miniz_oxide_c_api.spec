@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.2.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        DEFLATE compression and decompression API, Rust drop-in replacement for miniz
 
 # Upstream license specification: MIT
@@ -90,6 +90,9 @@ export TEST_FILE="$(pwd)/src/lib_oxide.rs"
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 02 08:58:45 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.5-1
 - Update to 0.2.5
 

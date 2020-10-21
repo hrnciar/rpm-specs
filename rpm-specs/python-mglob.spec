@@ -1,6 +1,6 @@
 Name:           python-mglob
 Version:        0.4
-Release:        30%{?dist}
+Release:        31%{?dist}
 Summary:        Enhanced file name globbing module
 
 License:        MIT
@@ -61,6 +61,9 @@ ln -s ./mglob %{buildroot}%{_bindir}/python3-mglob
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4-30
 - Rebuilt for Python 3.9
 

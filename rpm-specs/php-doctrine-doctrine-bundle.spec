@@ -72,7 +72,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Symfony Bundle for Doctrine
 
 License:       MIT
@@ -91,7 +91,7 @@ BuildRequires: php-theseer-autoload
 BuildRequires:(php-composer(doctrine/dbal)                  >= %{dbal_min_ver}          with php-composer(doctrine/dbal)                  < %{dbal_max_ver})
 BuildRequires:(php-composer(doctrine/doctrine-cache-bundle) >= %{cache_bundle_min_ver}  with php-composer(doctrine/doctrine-cache-bundle) < %{cache_bundle_max_ver})
 BuildRequires:(php-composer(doctrine/orm)                   >= %{orm_min_ver}           with php-composer(doctrine/orm)                   < %{orm_max_ver})
-BuildRequires:(php-composer(doctrine/persistence)           >= %{persistence_min_ver}   with php-composer(doctrine/persistence)           < %{orm_max_ver})
+BuildRequires:(php-composer(doctrine/persistence)           >= %{persistence_min_ver}   with php-composer(doctrine/persistence)           < %{persistence_max_ver})
 BuildRequires:(php-composer(jdorn/sql-formatter)            >= %{sql_formatter_min_ver} with php-composer(jdorn/sql-formatter)            < %{sql_formatter_max_ver})
 BuildRequires:(php-composer(symfony/service-contracts)      >= %{contracts_min_ver}     with php-composer(symfony/service-contracts)      < %{contracts_max_ver})
 BuildRequires:(php-composer(ocramius/proxy-manager)         >= %{proxy_manager_min_ver} with php-composer(ocramius/proxy-manager)         < %{proxy_manager_max_ver})
@@ -125,12 +125,12 @@ BuildRequires: php-composer(fedora/autoloader)
 Requires:      php(language)                                >= %{php_min_ver}
 Requires:     (php-composer(doctrine/dbal)                  >= %{dbal_min_ver}          with php-composer(doctrine/dbal)                  <  %{dbal_max_ver})
 Requires:     (php-composer(doctrine/doctrine-cache-bundle) >= %{cache_bundle_min_ver}  with php-composer(doctrine/doctrine-cache-bundle) <  %{cache_bundle_max_ver})
-Requires:     (php-composer(doctrine/persistence)           >= %{persistence_min_ver}   with php-composer(doctrine/persistence)           < %{orm_max_ver})
+Requires:     (php-composer(doctrine/persistence)           >= %{persistence_min_ver}   with php-composer(doctrine/persistence)           <  %{persistence_max_ver})
 Requires:     (php-composer(jdorn/sql-formatter)            >= %{sql_formatter_min_ver} with php-composer(jdorn/sql-formatter)            <  %{sql_formatter_max_ver})
 Requires:     (php-composer(symfony/cache)                  >= %{symfony_min_ver}       with php-composer(symfony/cache)                  <  %{symfony_max_ver})
 Requires:     (php-composer(symfony/config)                 >= %{symfony_min_ver}       with php-composer(symfony/config)                 <  %{symfony_max_ver})
 Requires:     (php-composer(symfony/console)                >= %{symfony_min_ver}       with php-composer(symfony/console)                <  %{symfony_max_ver})
-Requires:     (php-composer(symfony/service-contracts)      >= %{contracts_min_ver}     with php-composer(symfony/service-contracts)      < %{contracts_max_ver})
+Requires:     (php-composer(symfony/service-contracts)      >= %{contracts_min_ver}     with php-composer(symfony/service-contracts)      <  %{contracts_max_ver})
 Requires:     (php-composer(symfony/dependency-injection)   >= %{symfony_min_ver}       with php-composer(symfony/dependency-injection)   <  %{symfony_max_ver})
 Requires:     (php-composer(symfony/doctrine-bridge)        >= %{symfony_min_ver}       with php-composer(symfony/doctrine-bridge)        <  %{symfony_max_ver})
 Requires:     (php-composer(symfony/framework-bundle)       >= %{symfony_min_ver}       with php-composer(symfony/framework-bundle)       <  %{symfony_max_ver})
@@ -272,6 +272,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue May 26 2020 Remi Collet <remi@remirepo.net> - 1.12.10-2
+- fix dependency and FTBFS #1863698
+
 * Tue May 26 2020 Remi Collet <remi@remirepo.net> - 1.12.10-1
 - update to 1.12.10
 

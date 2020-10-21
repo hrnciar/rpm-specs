@@ -2,13 +2,14 @@
 
 Name:           python-%{srcname}
 Version:        0.4.1
-Release:        12%{?dist}
+Release:        14%{?dist}
 Summary:        Python module to parse video metadata
 License:        ASL 2.0
 URL:            https://github.com/Diaoul/enzyme
 Source:         https://github.com/Diaoul/%{srcname}/archive/%{version}/%{srcname}-%{version}.tar.gz
 BuildArch:      noarch
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 # Tests disabled
 #BuildRequires:  PyYAML
 #BuildRequires:  python3-PyYAML
@@ -55,6 +56,12 @@ Summary:        %summary
 %license LICENSE
 
 %changelog
+* Thu Oct 08 2020 Juan Orti Alcaine <jortialc@redhat.com> - 0.4.1-14
+- BR: python3-setuptools
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.1-12
 - Rebuilt for Python 3.9
 

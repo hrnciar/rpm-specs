@@ -1,6 +1,6 @@
 Name:           perl-Email-MIME
 Version:        1.949
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Easy MIME message parsing
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Email-MIME
@@ -88,6 +88,9 @@ make test TEST_FILES="$(echo $(find xt/ -name '*.t'))"
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.949-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.949-2
 - Perl 5.32 rebuild
 

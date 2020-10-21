@@ -1,28 +1,28 @@
-# spec file for package python-more-itertools
-# https://fedoraproject.org/wiki/Packaging:Python#Example_common_spec
+%bcond_without tests
 %global srcname more-itertools
-%global _description \
-Opensource python library wrapping around itertools. Package also includes \
-implementations of the recipes from the itertools documentation.\
-\
-See https://pythonhosted.org/more-itertools/index.html for documentation.\
-%global sum Python library for efficient use of itertools utility
 
 Name:           python-%{srcname}
-Version:        7.2.0
-Release:        5%{?dist}
-Summary:        %{sum} 
+Version:        8.5.0
+Release:        1%{?dist}
+Summary:        More routines for operating on Python iterables, beyond itertools
 License:        MIT
 URL:            https://github.com/erikrose/more-itertools
-Source0:        https://pypi.io/packages/source/m/%{srcname}/%{srcname}-%{version}.tar.gz
+Source0:        %{pypi_source}
 BuildArch:      noarch
+
 BuildRequires:  python3-devel
-BuildRequires:  python3-six
+BuildRequires:  pyproject-rpm-macros
+
+%global _description %{expand:
+Python's itertools library is a gem - you can compose elegant solutions for
+a variety of problems with the functions it provides. In more-itertools we
+collect additional building blocks, recipes, and routines for working with
+Python iterables.}
 
 %description %_description
 
 %package -n python3-%{srcname}
-Summary:        %{sum}
+Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname} %_description
@@ -30,23 +30,36 @@ Summary:        %{sum}
 %prep
 %autosetup -n %{srcname}-%{version}
 
+%generate_buildrequires
+%pyproject_buildrequires %{?with_tests:-r -t}
+
 %build
-%py3_build
+%pyproject_wheel
 
 %install
-%py3_install
+%pyproject_install
+%pyproject_save_files more_itertools
 
+%if %{with tests}
 %check
-%{__python3} ./setup.py test
+%tox
+%endif
 
-%files -n python3-%{srcname}
+%files -n python3-%{srcname} -f %pyproject_files
 %license LICENSE
 %doc README.rst PKG-INFO
-%{python3_sitelib}/more_itertools/
-%exclude %{python3_sitelib}/more_itertools/tests
-%{python3_sitelib}/more_itertools-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Sep 09 2020 Lumír Balhar <lbalhar@redhat.com> - 8.5.0-1
+- Update to 8.5.0 (#1873653)
+
+* Wed Jul 29 2020 Miro Hrončok <mhroncok@redhat.com> - 8.4.0-1
+- Update to 8.4.0
+- Fixes rhbz#1778332
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.2.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 7.2.0-5
 - Rebuilt for Python 3.9
 

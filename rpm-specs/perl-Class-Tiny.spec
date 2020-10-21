@@ -6,13 +6,14 @@
 %endif
 
 Name:           perl-Class-Tiny
-Version:        1.006
-Release:        13%{?dist}
+Version:        1.008
+Release:        1%{?dist}
 Summary:        Minimalist class construction
 License:        ASL 2.0
 URL:            https://metacpan.org/release/Class-Tiny
 Source0:        https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Class-Tiny-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -66,11 +67,11 @@ of code. Here is a list of features:
 %setup -q -n Class-Tiny-%{version}
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
@@ -83,6 +84,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Mon Sep 07 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.008-1
+- 1.008 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.006-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.006-13
 - Perl 5.32 rebuild
 

@@ -18,7 +18,7 @@
 
 Name:       tracer
 Version:    0.7.4
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Finds outdated running applications in your system
 
 BuildArch:  noarch
@@ -207,6 +207,9 @@ make DESTDIR=%{buildroot}%{_datadir} mo
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 08 2020 Jakub Kadlcik <frostyx@email.cz> 0.7.4-1
 - Fix list index out of range for ssh process names (frostyx@email.cz)
 - When there is no helper, it doesn't contain anything (frostyx@email.cz)

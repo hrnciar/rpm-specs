@@ -1,6 +1,6 @@
 Name:           libslz
 Version:        1.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        StateLess Zip
 
 License:        MIT
@@ -61,6 +61,9 @@ rm %{buildroot}%{_libdir}/*.a
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 2020 Dridi Boukelmoune <dridi@fedoraproject.org> - 1.2.0-1
 - Bump version to 1.2.0
 - Switch upstream to github mirror for convenience

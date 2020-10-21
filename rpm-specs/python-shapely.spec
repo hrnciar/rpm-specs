@@ -1,13 +1,11 @@
-%global postrel b1
-
 Name:           python-shapely
-Version:        1.7
-Release:        3%{?postrel:}%{?dist}
+Version:        1.7.1
+Release:        1%{?dist}
 Summary:        Manipulation and analysis of geometric objects in the Cartesian plane
 
 License:        BSD
 URL:            https://github.com/Toblerity/Shapely
-Source0:        https://github.com/Toblerity/Shapely/archive/%{version}%{?postrel:}.tar.gz
+Source0:        https://github.com/Toblerity/Shapely/archive/%{version}%{?prerel}.tar.gz
 BuildRequires:  gcc
 BuildRequires:  geos-devel
 
@@ -36,21 +34,11 @@ See README.rst for more information!
 Summary:        Manipulation and analysis of geometric objects in the Cartesian plane
 %{?python_provide:%python_provide python3-shapely}
 
-%description -n python3-shapely
-Shapely is a package for creation, manipulation, and analysis
-of planar geometry objects – designed especially for developers
-of cutting edge geographic information systems. In a nutshell:
-Shapely lets you do PostGIS-ish stuff outside the context of a
-database using idiomatic Python.
-
-You can use this package with python3-matplotlib and python3-numpy.
-See README.rst for more information!
+%description -n python3-shapely %_description
 
 
 %prep
-%setup -q -n Shapely-%{version}%{?postrel:}
-
-find . -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
+%autosetup -p1 -n Shapely-%{version}%{?prerel}
 
 # Remove pre-generated sources
 rm -f shapely/speedups/_speedups.c
@@ -62,13 +50,13 @@ rm -f shapely/vectorized/_vectorized.c
 
 
 %check
-%{__python3} setup.py test
+%{python3} setup.py test
 
 
 %install
 %py3_install
 
-rm -f %{buildroot}%{python3_sitearch}/shapely/_geos.pxi
+rm %{buildroot}%{python3_sitearch}/shapely/speedups/_speedups.c
 
 
 %files -n python3-shapely
@@ -77,9 +65,18 @@ rm -f %{buildroot}%{python3_sitearch}/shapely/_geos.pxi
 %doc %{python3_sitearch}/shapely/examples/
 %exclude %{python3_sitearch}/shapely/examples/
 %{python3_sitearch}/shapely/
-%{python3_sitearch}/Shapely-%{version}%{?postrel:}-py*.egg-info
+%{python3_sitearch}/Shapely-%{version}%{?prerel}-py*.egg-info/
 
 %changelog
+* Fri Aug 21 2020 Volker Fröhlich <volker27@gmx.at> - 1.7.1-1
+- New upstream release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 17 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.0-4
+- Update to 1.7.0 final (#1795751)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7-3b1
 - Rebuilt for Python 3.9
 

@@ -2,7 +2,7 @@
 
 Name:           WoeUSB
 Version:        3.3.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Windows USB installation media creator
 License:        GPLv3+
 URL:            https://github.com/slacka/WoeUSB
@@ -72,6 +72,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/woeusbgui.desktop
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 16 2020 mprahl <mprahl@redhat.com> - 3.3.1-2
 - Stop building for s390x due to RHBZ#1813540
 

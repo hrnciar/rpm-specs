@@ -1,7 +1,7 @@
 Summary:        Application matching framework
 Name:           bamf
 Version:        0.5.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 # Library bits are LGPLv2 or LGPLv3 (but not open-ended LGPLv2+);
 # non-lib bits are GPLv3.
 # pbrobinson points out that three files in the lib are actually
@@ -113,6 +113,9 @@ find %{buildroot} -regex ".*\.la$" | xargs rm -f --
 %exclude %{_datadir}/upstart/sessions/bamfdaemon.conf
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

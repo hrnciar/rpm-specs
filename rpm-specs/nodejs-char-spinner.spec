@@ -2,28 +2,26 @@
 %{!?scl:%global pkg_name %{name}}
 %{?nodejs_find_provides_and_requires}
 
-%global enable_tests 1
-
 Name:		%{?scl_prefix}nodejs-char-spinner
 Version:	1.0.1
-Release:	12%{?dist}
+Release:	15%{?dist}
 Summary:	Node.js char spinner
 License:	ISC
 Url:		https://github.com/isaacs/char-spinner
-Source:		http://registry.npmjs.org/char-spinner/-/char-spinner-%{version}.tgz
-BuildRequires:	nodejs-packaging
+Source0:	http://registry.npmjs.org/char-spinner/-/char-spinner-%{version}.tgz
+# Cached development dependencies
+# $ npm install --save-dev && tar -czf ../char-spinner-%%{version}-node_modules.tar.gz node_modules
+Source1:	char-spinner-%{version}-node_modules.tar.gz
+BuildRequires:	nodejs-packaging nodejs(engine)
 BuildArch:	noarch
 ExclusiveArch:	%{nodejs_arches} noarch
 
-%if 0%{?enable_tests}
-BuildRequires:	npm(tap)
-%endif
-
 %description
-Put a little spinner on process.stderr, as unobtrusively as possible. 
+Put a little spinner on process.stderr, as unobtrusively as possible.
 
 %prep
-%setup -q -n package
+%autosetup -n package
+tar -xzf "%{SOURCE1}"
 
 %build
 
@@ -34,11 +32,9 @@ cp -pr package.json spin.js \
 
 %{nodejs_symlink_deps}
 
-%if 0%{?enable_tests}
 %check
 %{nodejs_symlink_deps} --check
-tap test/*.js
-%endif
+%{__nodejs} ./node_modules/tap/bin/tap.js test/*.js
 
 %files
 %doc README.md
@@ -46,6 +42,16 @@ tap test/*.js
 %license LICENSE
 
 %changelog
+* Mon Aug 17 2020 Jan Staněk <jstanek@redhat.com> - 1.0.1-15
+- Cache development dependencies to resolve FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

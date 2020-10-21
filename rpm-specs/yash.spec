@@ -18,7 +18,7 @@
 
 Name:		yash
 Version:	%{mainver}
-Release:	%{?minorver:0.}%{mainrel}%{?minorver:.%{minorver}}%{?dist}
+Release:	%{?minorver:0.}%{mainrel}%{?minorver:.%{minorver}}%{?dist}.1
 Summary:	Yet Another SHell
 
 License:	GPLv2+
@@ -148,6 +148,9 @@ exit 0
 %lang(ja)	%{yashdocdir}/ja/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.50-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 2.50-1
 - 2.50
 

@@ -1,30 +1,29 @@
 Name:           bibletime
-Version:        2.11.2
-Release:        6%{?dist}
+Version:        3.0
+Release:        1%{?dist}
 Summary:        An easy to use Bible study tool
 License:        GPLv2
 URL:            http://www.bibletime.info/
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.xz
 BuildRequires:  gcc-c++
-BuildRequires:  boost-devel
 BuildRequires:  clucene-core-devel >= 2.0
 BuildRequires:  cmake
-BuildRequires:  dbus-devel
 BuildRequires:  desktop-file-utils
-BuildRequires:  gettext
 BuildRequires:  openssl-devel
 BuildRequires:  pkgconfig(QtGui) >= 4.5.0
 BuildRequires:  sword-devel >= 1.8.1-15
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-linguist
+BuildRequires:  po4a
+BuildRequires:  libxslt
+BuildRequires:  fop
+BuildRequires:  docbook-style-xsl
 %ifarch %{qt5_qtwebengine_arches}
 BuildRequires:  qt5-qtwebengine-devel
 %else
 BuildRequires:  qt5-qtwebkit-devel
 %endif
 BuildRequires:  qt5-qtsvg-devel
-
-Patch0:         qtwebengine_header_renames.patch
 
 %description
 BibleTime is a free and easy to use cross-platform bible study tool. It
@@ -36,19 +35,8 @@ the SWORD Bible Framework.
 %prep
 %setup -q
 
-%patch0 -b .qtwebengine -p1
-
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%cmake -DCMAKE_BUILD_TYPE=Release \
-%ifarch %{qt5_qtwebengine_arches}
-    -DUSEWEBENGINE=ON \
-%else
-    -DUSEWEBENGINE=OFF \
-%endif
-    ..
-popd
+%cmake -DCMAKE_BUILD_TYPE=Release -B %{_target_platform}
 
 make %{?_smp_mflags} -C %{_target_platform}
 
@@ -56,40 +44,58 @@ make %{?_smp_mflags} -C %{_target_platform}
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 # rename wrongly-named locale
-mv %{buildroot}%{_datadir}/%{name}/locale/bibletime_ui_pt_{br,BR}.qm || :
-mv %{buildroot}%{_datadir}/%{name}/docs/howto/pt-{br,BR} || :
+mv %{buildroot}%{_docdir}/%{name}/handbook/html/{br,BR} || :
+mv %{buildroot}%{_docdir}/%{name}/handbook/pdf/{br,BR} || :
+mv %{buildroot}%{_docdir}/%{name}/howto/html/{br,BR} || :
+mv %{buildroot}%{_docdir}/%{name}/howto/pdf/{br,BR} || :
 
 # locale's
 %find_lang %{name} || touch %{name}.lang
-BT_DOC_DIR=%{_datadir}/%{name}/docs
+BT_DOC_DIR=%{_docdir}/%{name}/
 for doctype in handbook howto ; do
-    for lang_dir in %{buildroot}/$BT_DOC_DIR/$doctype/* ; do
-        lang=$(basename $lang_dir)
-        echo "%lang($lang) $BT_DOC_DIR/$doctype/$lang/*" >> %{name}.lang
-    done
+	for fmt in html pdf; do
+		for lang_dir in %{buildroot}/$BT_DOC_DIR/$doctype/$fmt/* ; do
+			lang=$(basename $lang_dir)
+			echo "%lang($lang) $BT_DOC_DIR/$doctype/$fmt/$lang/*" >> %{name}.lang
+		done
+	done
 done
 
 %check
-desktop-file-validate %{buildroot}%{_datadir}/applications/bibletime.desktop
+desktop-file-validate %{buildroot}%{_datadir}/applications/info.%{name}.BibleTime.desktop
 
 %files -f %{name}.lang
 %doc ChangeLog README.md
 %license LICENSE
+%license %{_docdir}/%{name}/license/license.html
 %{_bindir}/%{name}
-%{_datadir}/applications/%{name}.desktop
+# This one has been reported to upstream: #260
+%{_bindir}/DisplayView.qml
+%{_datadir}/applications/info.%{name}.BibleTime.desktop
 %dir %{_datadir}/%{name}
-%dir %{_datadir}/%{name}/docs/
-%dir %{_datadir}/%{name}/docs/handbook/
-%dir %{_datadir}/%{name}/docs/howto/
+%dir %{_docdir}/%{name}/handbook/
+%dir %{_docdir}/%{name}/howto/
 %{_datadir}/%{name}/display-templates/
 %{_datadir}/%{name}/icons/
-%{_datadir}/%{name}/javascript/
 %{_datadir}/%{name}/license/
 %{_datadir}/%{name}/locale/
 %{_datadir}/%{name}/pics/
-%{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
+%{_datadir}/metainfo/info.%{name}.BibleTime.metainfo.xml
+%{_datadir}/icons/hicolor/scalable/apps/info.%{name}.BibleTime.svg
 
 %changelog
+* Sun Aug 02 2020 Greg Hellings <greg.hellings@gmail.com> - 3.0-1
+- Upstream release 3.0
+- Drop patch
+- Adjust BRs for 3.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.2-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

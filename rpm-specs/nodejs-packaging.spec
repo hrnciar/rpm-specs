@@ -1,8 +1,8 @@
 %global macrosdir %(d=%{_rpmconfigdir}/macros.d; [ -d $d ] || d=%{_sysconfdir}/rpm; echo $d)
 
 Name:           nodejs-packaging
-Version:        23
-Release:        3%{?dist}
+Version:        25
+Release:        1%{?dist}
 Summary:        RPM Macros and Utilities for Node.js Packaging
 BuildArch:      noarch
 License:        MIT
@@ -51,6 +51,15 @@ install -Dpm0644 multiver_modules %{buildroot}%{_datadir}/node/multiver_modules
 
 
 %changelog
+* Wed Sep 02 2020 Stephen Gallagher <sgallagh@redhat.com> - 25-1
+- Fix incorrect bundled library detection for Requires
+
+* Tue Sep 01 2020 Stephen Gallagher <sgallagh@redhat.com> - 24-1
+- Check node_modules_prod for bundled dependencies
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 23-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Stephen Gallagher <sgallagh@redhat.com> - 23-3
 - Drop Requires: nodejs(engine)
 

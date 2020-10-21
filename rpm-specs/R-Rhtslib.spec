@@ -3,7 +3,7 @@
 
 Name:		R-%{packname}
 Version:	1.20.0
-Release:	1%{dist}
+Release:	2%{dist}
 Summary:	HTSlib high-throughput sequencing library as an R package
 License:	LGPLv2+
 URL:		http://www.bioconductor.org/packages/release/bioc/html/Rhtslib.html
@@ -65,6 +65,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 %{rlibdir}/%{packname}/usrlib/*.a
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.20.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun  8 2020 Tom Callaway <spot@fedoraproject.org> - 1.20.0-1
 - update to 1.20.0
 - rebuild for R 4

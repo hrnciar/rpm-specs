@@ -1,12 +1,13 @@
 Name:           mimetic
 Version:        0.9.8
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        A full featured C++ MIME library
 License:        MIT
 URL:            http://www.codesink.org/mimetic_mime_library.html
 
 Source0:        http://www.codesink.org/download/mimetic-%{version}.tar.gz
 Patch0:         mimetic-%{version}-signedness-fix.patch
+Patch1:         mimetic-gcc11.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  doxygen
@@ -39,6 +40,7 @@ developing applications that use %{name}.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %configure --disable-static
@@ -65,6 +67,12 @@ make check
 %{_libdir}/libmimetic.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.8-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 0.9.8-16
+- Avoid ordered comparisons of pointers against zero
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.8-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

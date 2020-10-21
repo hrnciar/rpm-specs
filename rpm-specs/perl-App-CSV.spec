@@ -1,6 +1,6 @@
 Name:           perl-App-CSV
 Version:        0.08
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        App::CSV Perl module
 License:        MIT
 URL:            https://metacpan.org/release/App-CSV
@@ -68,6 +68,9 @@ make test
 %{_mandir}/man1/csv.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.08-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.08-20
 - Perl 5.32 rebuild
 

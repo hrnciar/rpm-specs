@@ -1,16 +1,16 @@
 Name:           perl-Encode-Locale
 Version:        1.05
-Release:        16%{?dist}
+Release:        18%{?dist}
 Summary:        Determine the locale encoding
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Encode-Locale
 Source0:        https://cpan.metacpan.org/authors/id/G/GA/GAAS/Encode-Locale-%{version}.tar.gz
 BuildArch:      noarch
-BuildRequires:  findutils
+BuildRequires:  coreutils
 BuildRequires:  make
-BuildRequires:  perl-interpreter
 BuildRequires:  perl-generators
-BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl-interpreter
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 # Run-time:
 BuildRequires:  perl(base)
 BuildRequires:  perl(Encode) >= 2
@@ -48,12 +48,11 @@ way out.
 %setup -q -n Encode-Locale-%{version}
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
-find $RPM_BUILD_ROOT -type f -name .packlist -exec rm -f {} \;
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
@@ -65,6 +64,12 @@ make test
 %{_mandir}/man3/Encode::Locale.3*
 
 %changelog
+* Thu Jul 30 2020 Petr Pisar <ppisar@redhat.com> - 1.05-18
+- Modernize a spec file
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.05-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.05-16
 - Perl 5.32 rebuild
 

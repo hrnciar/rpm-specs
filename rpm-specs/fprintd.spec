@@ -1,6 +1,6 @@
 Name:		fprintd
 Version:	1.90.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	D-Bus service for Fingerprint reader access
 
 License:	GPLv2+
@@ -95,6 +95,9 @@ fi
 %{_datadir}/dbus-1/interfaces/net.reactivated.Fprint.Manager.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.90.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Bastien Nocera <bnocera@redhat.com> - 1.90.1-1
 + fprintd-1.90.1-1
 - Update to 1.90.1

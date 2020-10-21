@@ -20,7 +20,7 @@ features and commands that make working with GitHub easier.
 %global godocs          CODE_OF_CONDUCT.md CONTRIBUTING.md README.md
 
 Name:           hub
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Command-line tool that makes git easier to use with GitHub
 
 License:        MIT
@@ -118,6 +118,13 @@ cp -p etc/hub.fish_completion %{buildroot}%{_datadir}/fish/completions/hub.fish
 %{_datadir}/vim/vimfiles/syntax/pullrequest.vim
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.14.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.14.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 16 2020 Stephen Gallagher <sgallagh@redhat.com> - 2.14.2-1
 - Update to 2.14.2
 

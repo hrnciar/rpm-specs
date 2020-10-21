@@ -32,6 +32,9 @@ ExcludeArch: i686
 # Use Clang instead of GCC
 %global use_clang 0
 
+# Build cockpit plugin
+%global use_cockpit 1
+
 # fedora 15 and later uses tmpfiles.d
 # otherwise, comment this out
 %{!?with_tmpfiles_d: %global with_tmpfiles_d %{_sysconfdir}/tmpfiles.d}
@@ -44,8 +47,8 @@ ExcludeArch: i686
 
 Summary:          389 Directory Server (base)
 Name:             389-ds-base
-Version:          1.4.4.3
-Release:          %{?relprefix}1%{?prerel}%{?dist}.1
+Version:          1.4.4.4
+Release:          %{?relprefix}1%{?prerel}%{?dist}.4
 License:          GPLv3+
 URL:              https://www.port389.org
 Conflicts:        selinux-policy-base < 3.9.8
@@ -114,9 +117,11 @@ BuildRequires:    python%{python3_pkgversion}-libselinux
 BuildRequires:    python%{python3_pkgversion}-policycoreutils
 
 # For cockpit
+%if %{use_cockpit}
 BuildRequires:    rsync
 BuildRequires:    npm
 BuildRequires:    nodejs
+%endif
 
 Requires:         %{name}-libs = %{version}-%{release}
 Requires:         python%{python3_pkgversion}-lib389 = %{version}-%{release}
@@ -277,6 +282,7 @@ Requires: python%{python3_pkgversion}-setuptools
 This module contains tools and libraries for accessing, testing,
  and configuring the 389 Directory Server.
 
+%if %{use_cockpit}
 %package -n cockpit-389-ds
 Summary:          Cockpit UI Plugin for configuring and administering the 389 Directory Server
 BuildArch:        noarch
@@ -287,6 +293,7 @@ Requires:         python%{python3_pkgversion}-lib389
 
 %description -n cockpit-389-ds
 A cockpit UI Plugin for configuring and administering the 389 Directory Server
+%endif
 
 %prep
 %setup -q -n %{name}-%{version}%{?prerel}
@@ -317,6 +324,10 @@ LEGACY_FLAGS="--enable-legacy --enable-perl"
 %else
 LEGACY_FLAGS="--disable-legacy --disable-perl"
 %endif
+
+%if !%{use_cockpit}
+COCKPIT_FLAGS="--disable-cockpit"
+%endif 
 
 %if %{use_clang}
 export CC=clang
@@ -364,7 +375,7 @@ autoreconf -fiv
            --with-systemdsystemconfdir=%{_sysconfdir}/systemd/system \
            --with-systemdgroupname=%{groupname}  \
            --libexecdir=%{_libexecdir}/%{pkgname} \
-           $NSSARGS $ASAN_FLAGS $RUST_FLAGS $CLANG_FLAGS $LEGACY_FLAGS \
+           $NSSARGS $ASAN_FLAGS $RUST_FLAGS $CLANG_FLAGS $LEGACY_FLAGS $COCKPIT_FLAGS \
            --enable-cmocka \
            --enable-perl
 
@@ -389,11 +400,15 @@ make
 %install
 
 mkdir -p %{buildroot}%{_datadir}/gdb/auto-load%{_sbindir}
+%if %{use_cockpit}
 mkdir -p %{buildroot}%{_datadir}/cockpit
+%endif
 make DESTDIR="$RPM_BUILD_ROOT" install
 
+%if %{use_cockpit}
 find %{buildroot}%{_datadir}/cockpit/389-console -type d | sed -e "s@%{buildroot}@@" | sed -e 's/^/\%dir /' > cockpit.list
 find %{buildroot}%{_datadir}/cockpit/389-console -type f | sed -e "s@%{buildroot}@@" >> cockpit.list
+%endif
 
 # Copy in our docs from doxygen.
 cp -r %{_builddir}/%{name}-%{version}%{?prerel}/man/man3 $RPM_BUILD_ROOT/%{_mandir}/man3
@@ -772,11 +787,78 @@ exit 0
 %{_mandir}/man8/dsidm.8.gz
 %{_libexecdir}/%{pkgname}/dscontainer
 
+%if %{use_cockpit}
 %files -n cockpit-389-ds -f cockpit.list
 %{_datarootdir}/metainfo/389-console/org.port389.cockpit_console.metainfo.xml
 %doc README.md
+%endif
 
 %changelog
+* Tue Sep 29 22:52:34 CEST 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.4.4.4-1.4
+- Rebuilt for libevent 2.1.12 (attempt #2)
+
+* Tue Sep 29 20:25:49 CEST 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.4.4.4-1.3
+- Rebuilt for libevent 2.1.12
+
+* Thu Aug 27 2020 Josef Řídký <jridky@redhat.com> - 1.4.4.4-1.2
+- Rebuilt for new net-snmp release
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4.4-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 8 2020 Mark Reynolds <mreynolds@redhat.com> - 1.4.4.4-1
+- Bump version to 1.4.4.4
+- Issue 51175 - resolve plugin name leaking
+- Issue 51187 - UI - stop importing Cockpit's PF css
+- Issue 51192 - Add option to reject internal unindexed searches
+- Issue 50840 - Fix test docstrings metadata-1
+- Issue 50840 - Fix test docstrings metadata
+- Issue 50980 - fix foo_filter_rewrite
+- Issue 51165 - add more logconv stats for the new access log keywords
+- Issue 50928 - Unable to create a suffix with countryName either via dscreate or the admin console
+- Issue 51188 - db2ldif crashes when LDIF file can't be accessed
+- Issue 50545 - Port remaining legacy tools to new python CLI
+- Issue 51165 - add new access log keywords for wtime and optime
+- Issue 49761 - Fix CI test suite issues ( Port remaning acceptance test suit part 1)
+- Issue 51070 - Port Import TET module to python3 part2
+- Issue 51142 - Port manage Entry TET suit to python 3 part 1
+- Issue 50860 - Port Password Policy test cases from TET to python3 final
+- Issue 50696 - Fix Allowed and Denied Ciphers lists - WebUI
+- Issue 51169 - UI - attr uniqueness - selecting empty subtree crashes cockpit
+- Issue 49256 - log warning when thread number is very different from autotuned value
+- Issue 51157 - Reindex task may create abandoned index file
+- Issue 50873 - Fix issues with healthcheck tool
+- Issue 50860 - Port Password Policy test cases from TET to python3 part2
+- Issue 51166 - Log an error when a search is fully unindexed
+- Issue 50544 - OpenLDAP syncrepl compatability
+- Issue 51161 - fix SLE15.2 install issps
+- Issue 49999 - rpm.mk build-cockpit should clean cockpit_dist first
+- Issue 51144 - dsctl fails with instance names that contain slapd-
+- Issue 51155 - Fix OID for sambaConfig objectclass
+- Issue 51159 - dsidm ou delete fails
+- Issue 50984 - Memory leaks in disk monitoring
+- Issue 51131 - improve mutex alloc in conntable
+- Issue 49761 - Fix CI tests
+- Issue 49859 - A distinguished value can be missing in an entry
+- Issue 50791 - Healthcheck should look for notes=A/F in access log
+- Issue 51072 - Set the default minimum worker threads
+- Issue 51140 - missing ifdef
+- Issue 50912 - pwdReset can be modified by a user
+- Issue 50781 - Make building cockpit plugin optional
+- Issue 51100 - Correct numSubordinates value for cn=monitor
+- Issue 51136 - dsctl and dsidm do not errors correctly when using JSON
+- Issue 137 - fix compiler warning
+- Issue 50781 - Make building cockpit plugin optional
+- Issue 51132 - Winsync setting winSyncWindowsFilter not working as expected
+- Issue 51034 - labeledURIObject
+- Issue 50545 - Port remaining legacy tools to new python CLI
+- Issue 50889 - Extract pem files into a private namespace
+- Issue 137 - Implement EntryUUID plugin
+- Issue 51072 - improve autotune defaults
+- Issue 51115 - enable samba3.ldif by default
+- Issue 51118 - UI - improve modal validation when creating an instance
+- Issue 50746 - Add option to healthcheck to list all the lint reports
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.4.4.3-1.1
 - Perl 5.32 rebuild
 

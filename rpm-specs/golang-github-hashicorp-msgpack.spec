@@ -22,7 +22,7 @@ codec/encoding library for binc, msgpack, cbor, json.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Codec/encoding library for binc, msgpack, cbor, json
 
 # Upstream license specification: BSD-3-Clause
@@ -57,6 +57,13 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.5-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 17:55:40 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.5.5-3
 - Fix FTBFS with Go 1.13+
 

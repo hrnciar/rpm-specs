@@ -10,7 +10,7 @@
 
 Name:           xfce4-xkb-plugin
 Version:        0.8.1
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        XKB layout switcher for the Xfce panel
 
 License:        BSD
@@ -69,6 +69,9 @@ chmod -c +x %{buildroot}%{_libdir}/xfce4/panel/plugins/*.so
 %{_datadir}/xfce4/xkb/flags/*.svg
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

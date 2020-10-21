@@ -3,7 +3,7 @@
 
 Name:           perl-Test-POE-Client-TCP
 Version:        1.26
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        POE Component providing TCP client services for test cases
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test-POE-Client-TCP
@@ -77,6 +77,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.26-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.26-6
 - Perl 5.32 rebuild
 

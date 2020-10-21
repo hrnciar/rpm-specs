@@ -3,9 +3,11 @@
 
 # https://github.com/kyokomi/emoji
 %global goipath         github.com/kyokomi/emoji
-Version:                2.2.2
+Version:                2.2.5
 
 %gometa
+
+%global goaltipaths     github.com/kyokomi/emoji/v2
 
 %global common_description %{expand:
 Emoji terminal output for Go.}
@@ -32,7 +34,7 @@ BuildRequires:  golang(github.com/PuerkitoBio/goquery)
 %goprep
 
 %build
-for cmd in cmd/* ; do
+for cmd in cmd/generateEmojiCodeMap ; do
   %gobuild -o %{gobuilddir}/bin/$(basename $cmd) %{goipath}/$cmd
 done
 
@@ -54,6 +56,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 21:12:39 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.2.5-1
+- Update to 2.2.5
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 15 2020 Olivier Lemasle <o.lemasle@gmail.com> - 2.2.2-1
 - Update to latest upstream - v2.2.2 (#1824009)
 

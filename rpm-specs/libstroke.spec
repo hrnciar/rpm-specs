@@ -1,6 +1,6 @@
 Name:              libstroke
 Version:           0.5.1
-Release:           41%{?dist}
+Release:           42%{?dist}
 
 Summary:           A stroke interface library
 License:           GPLv2
@@ -108,6 +108,9 @@ rm %{buildroot}%{_libdir}/*.la
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-42
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-41
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

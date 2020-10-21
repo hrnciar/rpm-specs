@@ -1,5 +1,5 @@
 Name:           batctl
-Version:        2020.1
+Version:        2020.3
 Release:        1%{?dist}
 Summary:        B.A.T.M.A.N. advanced control and management tool
 
@@ -49,6 +49,15 @@ make %{?_smp_mflags} CFLAGS="%{optflags} -I%{_prefix}/include/libnl3" V=s
 
 
 %changelog
+* Fri Sep 04 2020 Felix Kaechele <heffer@fedoraproject.org> - 2020.3-1
+- update to 2020.3
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Felix Kaechele <heffer@fedoraproject.org> - 2020.2-1
+- update to 2020.2
+
 * Fri Apr 24 2020 Felix Kaechele <heffer@fedoraproject.org> - 2020.1-1
 - update to 2020.1
 

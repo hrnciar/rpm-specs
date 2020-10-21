@@ -19,7 +19,7 @@
 
 Name:		Singular
 Version:	%{downstreamver}%{?patchver}
-Release:	13%{?dist}
+Release:	21%{?dist}
 Summary:	Computer Algebra System for polynomial computations
 # License analysis:
 # - factory/readcf.cc, Singular/grammar.cc, and Singular/grammar.h are
@@ -101,6 +101,10 @@ Patch7:		%{name}-alias.patch
 Patch8:		%{name}-emacs.patch
 # Adapt to polymake >= 3.3
 Patch9:		%{name}-polymake.patch
+# Adapt to flint 2.6
+Patch10:	%{name}-flint.patch
+# Adapt to Java 11
+Patch11:	%{name}-javac.patch
 
 %description
 Singular is a computer algebra system for polynomial computations, with
@@ -462,6 +466,35 @@ make check
 
 
 %changelog
+* Wed Sep 30 2020 Jerry James <loganjerry@gmail.com> - 4.1.1p3-21
+- Rebuild for normaliz 3.8.9
+
+* Thu Sep 24 2020 Jerry James <loganjerry@gmail.com> - 4.1.1p3-20
+- Rebuild for polymake 4.2
+
+* Mon Aug 31 2020 Jerry James <loganjerry@gmail.com> - 4.1.1p3-19
+- Rebuild for normaliz 3.8.8
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.1p3-18
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.1p3-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Jerry James <loganjerry@gmail.com> - 4.1.1p3-16
+- Add -javac patch for better JDK 11 support
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 4.1.1p3-15
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jul  9 2020 Jerry James <loganjerry@gmail.com> - 4.1.1p3-14
+- Rebuild with polymake support
+
+* Wed Jul  8 2020 Jerry James <loganjerry@gmail.com> - 4.1.1p3-13.1
+- Rebuild for flint 2.6.0 and normaliz 3.8.6 without polymake support
+- Add -flint patch
+
 * Wed Mar  4 2020 Jerry James <loganjerry@gmail.com> - 4.1.1p3-13
 - Rebuild for polymake 4.0
 

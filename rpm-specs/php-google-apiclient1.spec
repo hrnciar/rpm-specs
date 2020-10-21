@@ -27,7 +27,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}1
 Version:       %{github_version}
-Release:       10%{?dist}
+Release:       11%{?dist}
 Summary:       Client library for Google APIs (version 1)
 
 License:       ASL 2.0
@@ -160,6 +160,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.7-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.7-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

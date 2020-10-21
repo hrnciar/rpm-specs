@@ -1,4 +1,4 @@
-%global apiversion 0.15
+%global apiversion 0.16
 
 # build conversion tools
 %bcond_without convtools
@@ -6,24 +6,29 @@
 %bcond_without python
 
 Name: liborcus
-Version: 0.15.3
-Release: 4%{?dist}
+Version: 0.16.1
+Release: 2%{?dist}
 Summary: Standalone file import filter library for spreadsheet documents
 
 License: MPLv2.0
 URL: https://gitlab.com/orcus/orcus
-Source0: http://kohei.us/files/orcus/src/%{name}-%{version}.tar.xz
+Source0: https://kohei.us/files/orcus/src/%{name}-%{version}.tar.xz
+Patch0:  %{name}-gcc11.patch
 
 BuildRequires: boost-devel
 BuildRequires: doxygen
 BuildRequires: gcc-c++
+BuildRequires: automake
 %if %{with convtools}
 BuildRequires: help2man
-BuildRequires: pkgconfig(libixion-0.15)
+BuildRequires: pkgconfig(libixion-0.16)
 %endif
 BuildRequires: pkgconfig(mdds-1.5)
 %if %{with python}
 BuildRequires: pkgconfig(python3)
+%if 0%{?rhel}
+BuildRequires: python3
+%endif
 %endif
 BuildRequires: pkgconfig(zlib)
 
@@ -85,16 +90,17 @@ API documentation for %{name}.
 %endif
 
 %build
+autoreconf
 %configure --disable-debug --disable-silent-rules --disable-static \
     --disable-werror --with-pic %{?condopts}
 sed -i \
     -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -e 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' \
     libtool
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 rm -f %{buildroot}%{_libdir}/*.la %{buildroot}%{python3_sitearch}/*.la
 
 %if %{with convtools}
@@ -113,10 +119,9 @@ install -p -m 0644 orcus-*.1 %{buildroot}/%{_mandir}/man1
 # build documentation
 make doc-doxygen
 
-#TODO, reenable with 0.15.1
-#%check
-#export LD_LIBRARY_PATH=%{buildroot}%{_libdir}${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-#make check %{?_smp_mflags}
+%check
+export LD_LIBRARY_PATH=%{buildroot}%{_libdir}${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+make check %{?_smp_mflags}
 
 %ldconfig_scriptlets
 
@@ -182,6 +187,28 @@ make doc-doxygen
 %doc doc/_doxygen/html
 
 %changelog
+* Mon Oct 19 2020 Jeff Law <law@redhat.com> - 0.16.1-2
+- Fix missing headers for gcc-11
+
+* Tue Sep 29 2020 Caolán McNamara <caolanm@redhat.com> - 0.16.1-1
+- latest release
+
+* Fri Sep 25 2020 Caolán McNamara <caolanm@redhat.com> - 0.16.0-3
+- reenable make check
+
+* Fri Sep 25 2020 Caolán McNamara <caolanm@redhat.com> - 0.16.0-2
+- replace -DSIZEOF_VOID_P=4 with upstream solution
+
+* Thu Sep 24 2020 Caolán McNamara <caolanm@redhat.com> - 0.16.0-1
+- latest release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 0.15.3-5
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 0.15.3-4
 - Rebuilt for Boost 1.73
 

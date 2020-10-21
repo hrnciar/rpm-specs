@@ -1,9 +1,11 @@
+%global __cmake_in_source_build 1
+
 %global with_check 0
 
 Name:      openms
 Summary:   LC/MS data management and analyses
-Version:   2.5.0
-Release:   4%{?dist}
+Version:   2.6.0
+Release:   1%{?dist}
 License:   BSD
 URL:       http://www.openms.de/
 Source0:   https://github.com/OpenMS/OpenMS/archive/Release%{version}/OpenMS-Release%{version}.tar.gz
@@ -63,10 +65,8 @@ Obsoletes: python3-openms < 0:2.5.0-1
 # Python2 binding is no longer available starting from 2.4.0 release
 Obsoletes: python2-openms < 0:2.4.0-1
 
-##Remove -O0 flag for tests compiling
+# Remove -O0 flag for tests compiling
 Patch0: %{name}-remove_testflag.patch
-
-Patch1: %{name}-bug4765.patch
 
 %description
 OpenMS is a C++ library for LC-MS data management and analyses.
@@ -334,6 +334,9 @@ popd
 %{_bindir}/TOPPAS
 %{_bindir}/INIFileEditor
 %{_bindir}/DTAExtractor
+%{_bindir}/DatabaseSuitability
+%{_bindir}/StaticModification
+%{_bindir}/SwathWizard
 %{_bindir}/FileConverter
 %{_bindir}/FileInfo
 %{_bindir}/FileMerger
@@ -423,8 +426,6 @@ popd
 %{_bindir}/FeatureFinderIdentification
 %{_bindir}/FeatureFinderMultiplex
 %{_bindir}/FidoAdapter
-%{_bindir}/LowMemPeakPickerHiRes
-%{_bindir}/LowMemPeakPickerHiResRandomAccess
 %{_bindir}/MRMTransitionGroupPicker
 %{_bindir}/MSGFPlusAdapter
 %{_bindir}/MetaboliteSpectralMatcher
@@ -546,6 +547,19 @@ popd
 %endif
 
 %changelog
+* Fri Oct 02 2020 Antonio Trande <sagitter@fedoraproject.org> - 2.6.0-1
+- Release 2.6.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-7
+- Second attempt - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+- Enable cmake_in_source_build
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 2.5.0-5
+- Rebuild for hdf5 1.10.6
+
 * Tue Jun 02 2020 Antonio Trande <sagitter@fedoraproject.org> - 2.5.0-4
 - Rebuild for boost-1.73
 

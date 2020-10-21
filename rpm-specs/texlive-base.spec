@@ -20,7 +20,7 @@
 
 Name: %{shortname}-base
 Version: %{source_date}
-Release: 6%{?dist}
+Release: 18%{?dist}
 Epoch: 7
 Summary: TeX formatting system
 # The only files in the base package are directories, cache, and license texts
@@ -444,6 +444,10 @@ Patch21: texlive-20190410-tlmgr-ignore-warning.patch
 Patch23: texlive-20200327-poppler-0.84.patch
 # bz#1798119, buffer overflow, CVE-2019-19601
 Patch28: texlive-base-20190410-CVE-2019-19601.patch
+# Fixes for poppler 0.90 (f33+)
+Patch29: texlive-20200327-poppler-0.90.patch
+# Fix pdflatex run out of memory
+Patch30: texlive-base-20200327-out-of-memory.patch
 
 # Can't do this because it causes everything else to be noarch
 # BuildArch: noarch
@@ -1137,8 +1141,10 @@ Requires: texlive-base
 Requires: texlive-kpathsea
 Requires(post,postun): coreutils
 Requires: texlive-metapost
+%if %{without bootstrap}
 Requires: texlive-pdftex
 Requires: texlive-xetex
+%endif
 Requires: texlive-luatex
 Requires: texlive-lm
 Requires: texlive-lm-math
@@ -2870,8 +2876,7 @@ Obsoletes: texlive-kpathsea-doc < 7:20170520
 Requires: coreutils, grep
 Requires: texlive-base
 # We absolutely need this to go in first, since the trigger needs it
-Requires(post): texlive-texlive-scripts
-Requires(post): texlive-context
+Requires(post): texlive-texlive-scripts = %{epoch}:%{source_date}-%{release}
 Provides: tex(fmtutil.cnf) = %{epoch}:%{source_date}-%{release}
 Provides: tex(mktex.cnf) = %{epoch}:%{source_date}-%{release}
 Provides: tex(texmf.cnf) = %{epoch}:%{source_date}-%{release}
@@ -2939,6 +2944,11 @@ Requires: texlive-luatex
 Requires: texlive-pdftex
 Requires: texlive-latexconfig
 Requires: texlive-latex-fonts
+# As a result of changes in textcomp, it requests TS1 fonts for some things
+# most notably, \textbullet. Since people probably want a working itemize
+# even on rather minimal installs, we add an explicit Requires on texlive-cm-super
+# here. (bz1867927)
+Requires: texlive-cm-super
 Requires(post,postun): coreutils
 Requires: tex(multicol.sty)
 Requires: tex(url.sty)
@@ -5637,7 +5647,7 @@ Obsoletes: texlive-texlive-scripts-bin < 7:20170520
 License: LPPL
 Summary: TeX Live infrastructure programs
 Requires: texlive-base
-Requires: texlive-kpathsea
+Requires: texlive-kpathsea = %{epoch}:%{source_date}-%{release}
 Requires: texlive-texlive.infra
 # perl
 BuildArch: noarch
@@ -6535,6 +6545,10 @@ xz -dc %{SOURCE0} | tar x
 %patch23 -p1 -b .poppler-0.84
 %endif
 %patch28 -p1 -b .CVE-2019-19601
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+%patch29 -p1 -b .poppler090
+%endif
+%patch30 -p1 -b .out_of_memory
 
 # Setup copies of the licenses
 for l in `unxz -c %{SOURCE3} | tar t`; do
@@ -6618,7 +6632,7 @@ sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' $i
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' $i
 done
 
-make world %{?_smp_mflags} STRIPPROG=/bin/true STRIP=/bin/true
+%make_build world STRIPPROG=/bin/true STRIP=/bin/true
 
 %install
 # make directories
@@ -6954,6 +6968,9 @@ if [ -x /usr/sbin/selinuxenabled ] && /usr/sbin/selinuxenabled; then
 fi
 :
 
+%transfiletriggerin -n %{shortname}-context -- %{_texdir}
+%{_bindir}/mtxrun --generate &> /dev/null || :
+
 %transfiletriggerin -n %{shortname}-kpathsea -- %{_texdir}
 # Commented lines are DEBUG mode
 # touch /usr/share/texlive/kpathsea.log
@@ -6964,9 +6981,7 @@ fi
 export TEXMF=/usr/share/texlive/texmf-dist
 export TEXMFCNF=/usr/share/texlive/texmf-dist/web2c
 export TEXMFCACHE=/var/lib/texmf
-# %{_bindir}/mtxrun --generate 2>&1 | tee -a /usr/share/texlive/kpathsea.log || :
 # %{_bindir}/fmtutil-sys --all 2>&1 | tee -a /usr/share/texlive/kpathsea.log || :
-%{_bindir}/mtxrun --generate &> /dev/null || :
 %{_bindir}/fmtutil-sys --all &> /dev/null || :
 
 %transfiletriggerpostun -n %{shortname}-kpathsea -- %{_texdir}
@@ -9087,6 +9102,50 @@ done <<< "$list"
 %doc %{_texdir}/texmf-dist/doc/latex/yplan/
 
 %changelog
+* Sun Oct 11 2020 Jeff Law <law@redhat.com> - 7:20200327-18
+- Re-enable LTO
+
+* Wed Sep 23 2020 Than Ngo <than@redhat.com> - 7:20200327-17
+- Fix pdflatex run out of memory
+
+* Mon Sep 21 2020 Tom Callaway <spot@fedoraproject.org> - 7:20200327-16
+- move "mtxrun --generate" call from -kpathsea transfiletriggerin to -context
+- drop Requires(post): texlive-context from -kpathsea
+- add an explicit versioning on the dependency of texlive-texlive-scripts in -kpathsea (and vice versa)
+
+* Thu Aug 13 2020 Tom Callaway <spot@fedoraproject.org> - 7:20200327-15
+- make texlive-latex have an explicit Requires on texlive-cm-super (bz1867927)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7:20200327-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Tom Stellard <tstellar@redhat.com> - 7:20200327-13
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Tue Jul 21 2020 Marek Kasik <mkasik@redhat.com> - 7:20200327-12
+- rebuild for poppler 0.90.0
+- bodhi needs latest build
+
+* Tue Jul 14 2020 Tom Callaway <spot@fedoraproject.org> - 7:20200327-11
+- disable bootstrap
+
+* Tue Jul 14 2020 Tom Callaway <spot@fedoraproject.org> - 7:20200327-10.1
+- unbootstrapped build (TEMPORARY, when -11 comes out of the side tag, it will replace this)
+
+* Tue Jul 14 2020 Tom Callaway <spot@fedoraproject.org> - 7:20200327-10
+- bootstrap again again
+
+* Tue Jul 14 2020 Tom Callaway <spot@fedoraproject.org> - 7:20200327-9
+- bootstrap again
+
+* Tue Jul 14 2020 Tom Callaway <spot@fedoraproject.org> - 7:20200327-8
+- rebuild for poppler 0.90.0
+- bootstrap on
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> - 7:20200327-7
+- Disable LTO
+
 * Wed May 27 2020 Tom Callaway <spot@fedoraproject.org> - 7:20200327-6
 - split off context-doc (bz1839593)
 - add Requires: tex(psfonts.map) to gsftopk (bz1840379)

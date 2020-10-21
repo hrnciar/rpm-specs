@@ -1,6 +1,6 @@
 Name:           flight-of-the-amazon-queen-cd
 Version:        1.0
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Flight of the Amazon Queen - Adventure Game - CD version
 # For further discussion on distribution rights see:
 # http://www.redhat.com/archives/fedora-extras-list/2006-November/msg00030.html
@@ -64,6 +64,9 @@ desktop-file-install \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

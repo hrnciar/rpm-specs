@@ -1,9 +1,10 @@
+%global __cmake_in_source_build 1
 %global genname superlu
 %global libver 5
 
 Name:		SuperLU
 Version:	5.2.1
-Release:	10%{?dist}
+Release:	14%{?dist}
 Summary:	Subroutines to solve sparse linear systems
 License:	BSD and GPLv2+
 URL:		https://portal.nersc.gov/project/sparse/superlu/
@@ -14,17 +15,21 @@ Patch1:		%{genname}-removemc64.patch
 # Patch soname (5 -> 5.2) of shared library
 Patch2:		%{name}-%{version}-set_soname.patch
 
+%if 0%{?fedora} >= 33
+BuildRequires: pkgconfig(flexiblas)
+%else
 %ifarch %{openblas_arches}
 BuildRequires:	openblas-devel, openblas-srpm-macros
 %else
 BuildRequires:	blas-devel
 %endif
-BuildRequires:	atlas-devel, gcc
-%if 0%{?rhel}
+BuildRequires:	atlas-devel
+%if 0%{?epel}
 BuildRequires:	epel-rpm-macros
 %endif
+%endif
 BuildRequires:	cmake3
-BuildRequires:	gcc-gfortran
+BuildRequires:	gcc, gcc-gfortran
 BuildRequires:	csh
 
 %description
@@ -63,12 +68,14 @@ sed -i.bak '/NOOPTS/d' make.inc.in
 sed -e 's|-O0|-O2|g' -i SRC/CMakeLists.txt
 
 %build
-mkdir -p build; pushd build
-
 # Do not use bundled CBLAS code
-%cmake3 -Denable_blaslib:BOOL=OFF -DCMAKE_BUILD_TYPE:STRING=Release ..
-%make_build
-popd
+%cmake3 -B build \
+   -Denable_blaslib:BOOL=OFF \
+%if 0%{?fedora} >= 33
+   -DBLAS_LIBRARIES=-lflexiblas \
+%endif
+   -DCMAKE_BUILD_TYPE:STRING=Release
+%make_build -C build
 
 # Compile Fortran example interface to use the C routines in SuperLU
 make -C FORTRAN
@@ -112,6 +119,20 @@ popd
 %doc DOC
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.1-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Iñaki Úcar <iucar@fedoraproject.org> - 5.2.1-12
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Jul 21 2020 Merlin Mathesius <mmathesi@redhat.com> - 5.2.1-11
+- Minor conditional fix for ELN
+- Stick to cmake in-source building
+
 * Sun Apr 19 2020 Antonio Trande <sagitter@fedoraproject.org> - 5.2.1-10
 - Doc sub-package provides its own license file
 

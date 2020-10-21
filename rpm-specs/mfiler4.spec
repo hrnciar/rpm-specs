@@ -4,7 +4,7 @@
 
 Name:			mfiler4
 Version:		1.3.1
-Release:		16%{?dist}
+Release:		17%{?dist}
 Summary:		2 pane file manager with a embedded shell
 
 License:		MIT
@@ -97,6 +97,9 @@ chmod 0755 %{buildroot}%{_bindir}/%{name}
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

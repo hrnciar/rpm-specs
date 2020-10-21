@@ -7,13 +7,16 @@
 
 Name:           rust-%{crate}
 Version:        1.4.5
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Safe, extensible ORM and Query Builder for PostgreSQL, SQLite, and MySQL
 
 # Upstream license specification: MIT OR Apache-2.0
 License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/diesel
 Source:         %{crates_source}
+# For rust-ipnetwork 0.17.0
+# https://github.com/diesel-rs/diesel/pull/2464
+Patch0:         diesel-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -492,6 +495,16 @@ which use "x64-column-tables" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.5-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Dusty Mabe <dusty@dustymabe.com> - 1.4.5-2
+- Respin. We updated rust-ipnetwork to 0.17.0
+
 * Wed Jun 10 2020 Josh Stone <jistone@redhat.com> - 1.4.5-1
 - Update to 1.4.5
 

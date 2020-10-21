@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        2.6.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Unix terminal drain and formatter for slog-rs
 
 # Upstream license specification: MPL-2.0/MIT/Apache-2.0
@@ -119,6 +119,13 @@ which use "serde_json" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 16:36:43 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 2.6.0-1
 - Update to 2.6.0
 

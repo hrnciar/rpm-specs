@@ -2,7 +2,7 @@
 
 Name:           perl-PathTools
 Version:        3.78
-Release:        456%{?dist}
+Release:        457%{?dist}
 Summary:        PathTools Perl module (Cwd, File::Spec)
 # Cwd.xs:                   BSD
 # other files:              GPL+ or Artistic
@@ -82,6 +82,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.78-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.78-456
 - Increase release to favour standalone package
 

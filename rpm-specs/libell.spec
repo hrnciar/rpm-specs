@@ -1,5 +1,5 @@
 Name:           libell
-Version:        0.32
+Version:        0.33
 Release:        1%{?dist}
 Summary:        Embedded Linux library
 License:        LGPLv2+
@@ -26,7 +26,7 @@ Headers for developing against libell.
 
 
 %prep
-%setup -q -n ell-%{version}
+%autosetup -p1 -n ell-%{version}
 
 
 %build
@@ -39,9 +39,12 @@ Headers for developing against libell.
 find %{buildroot} -type f -name "*.la" -delete
 
 
+%ldconfig_scriptlets
+
+
 %files
 %license COPYING
-%doc AUTHORS README TODO ChangeLog
+%doc AUTHORS ChangeLog
 %{_libdir}/libell.so.*
 
 
@@ -52,6 +55,16 @@ find %{buildroot} -type f -name "*.la" -delete
 
 
 %changelog
+* Sun Sep 06 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.33-1
+- Update to 0.33
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.32-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.32-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.32-1
 - Update to 0.32
 

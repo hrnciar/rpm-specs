@@ -11,12 +11,12 @@
 %endif
 
 Name:           python-%{pypi_name}
-Version:        6.0.0
-Release:        2%{?dist}
+Version:        6.2.0
+Release:        1%{?dist}
 Summary:        %{common_desc}
 License:        ASL 2.0
 URL:            https://github.com/jd/%{pypi_name}
-Source0:        https://pypi.io/packages/source/t/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+Source0:        %{pypi_source}
 BuildArch:      noarch
 
 %if %{with python2}
@@ -57,6 +57,7 @@ BuildRequires:    python3-pbr
 BuildRequires:    python3-six >= 1.9.0
 BuildRequires:    python3-tornado >= 4.5
 BuildRequires:    python3-pytest
+BuildRequires:    python3-typeguard
 %if %{undefined __pythondist_requires}
 Requires:         python3-six >= 1.9.0
 %endif
@@ -122,6 +123,12 @@ pytest-%{python2_version} --ignore='tenacity/tests/test_asyncio.py'
 
 
 %changelog
+* Fri Sep 04 2020 Yatin Karel <ykarel@redhat.com> - 6.2.0-1
+- Update to 6.2.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 6.0.0-2
 - Rebuilt for Python 3.9
 

@@ -19,7 +19,7 @@ Functions so far: we support Copy, CopyFile, CopyMode and CopyTree.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.1%{?dist}
+Release:        0.2%{?dist}
 Summary:        Golang port of python's shutil
 
 License:        MIT
@@ -46,5 +46,8 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Denis Fateyev <denis@fateyev.com> - 0-0.1.20200618gitbcacb06
 - Initial Fedora RPM release

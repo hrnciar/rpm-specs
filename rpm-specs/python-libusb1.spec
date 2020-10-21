@@ -1,19 +1,18 @@
 %global srcname libusb1
-%global sum Pure-python wrapper for libusb-1.0
 
 Name:           python-%{srcname}
-Version:        1.6.4
-Release:        10%{?dist}
-Summary:        %{sum}
+Version:        1.8
+Release:        2%{?dist}
+Summary:        Pure-python wrapper for libusb-1.0
 
 License:        LGPLv2+
 URL:            https://github.com/vpelletier/python-libusb1
-Source0:        https://files.pythonhosted.org/packages/source/l/%{srcname}/%{srcname}-%{version}.tar.gz
+Source0:        %{pypi_source}
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
+BuildRequires:  python3-Cython
 BuildRequires:  libusb-devel
-BuildRequires:  libusbx-devel
 
 %description
 Pure-python wrapper for libusb-1.0.
@@ -21,8 +20,8 @@ Pure-python wrapper for libusb-1.0.
 Supports all transfer types, both in synchronous and asynchronous mode.
 
 %package -n python3-%{srcname}
-Requires:       (libusb1 or libusbx)
-Summary:        %{sum}
+Requires:       libusb1
+Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
@@ -34,6 +33,7 @@ Supports all transfer types, both in synchronous and asynchronous mode.
 %prep
 %autosetup -n %{srcname}-%{version}
 rm -rf %{srcname}.egg-info
+rm -rf __pycache__
 
 %build
 %py3_build
@@ -46,10 +46,18 @@ rm -rf %{srcname}.egg-info
 
 %files -n python3-%{srcname}
 %license COPYING COPYING.LESSER
-%doc README.rst
-%{python3_sitelib}/*
+%doc README.rst PKG-INFO
+%pycached %{python3_sitelib}/%{srcname}.py
+%{python3_sitelib}/usb1/
+%{python3_sitelib}/%{srcname}-*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jonny Heggheim <hegjon@gmail.com> - 1.8-1
+- Updated to 1.8
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.6.4-10
 - Rebuilt for Python 3.9
 

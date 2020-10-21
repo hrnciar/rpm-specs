@@ -3,7 +3,7 @@
 
 Name: dwarves
 Version: 1.17
-Release: 1%{?dist}
+Release: 4%{?dist}
 License: GPLv2
 Summary: Debugging Information Manipulation Tools (pahole & friends)
 URL: http://acmel.wordpress.com
@@ -62,11 +62,11 @@ Debugging information processing library development files.
 
 %build
 %cmake .
-make VERBOSE=1 %{?_smp_mflags}
+%cmake_build
 
 %install
 rm -Rf %{buildroot}
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 %ldconfig_scriptlets -n %{libname}%{libver}
 
@@ -128,6 +128,17 @@ make install DESTDIR=%{buildroot}
 %{_libdir}/%{libname}_reorganize.so
 
 %changelog
+* Mon Aug 31 2020 - Zamir SUN <sztsian@gmail.com> - 1.17-4
+- Fix FTBFS
+- Resolves: bug 1863459
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 12 2020 Arnaldo Carvalho de Melo <acme@redhat.com> - 1.16-1
 - New release: 1.16
 

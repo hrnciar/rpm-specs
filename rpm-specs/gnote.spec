@@ -1,11 +1,12 @@
 Name:           gnote
-Version:        3.37.0
+Version:        3.38.0
 Release:        1%{?dist}
 Summary:        Note-taking application
 
 License:        GPLv3+
 URL:            https://wiki.gnome.org/Apps/Gnote
-Source0:        https://download.gnome.org/sources/gnote/3.37/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/gnote/3.38/%{name}-%{version}.tar.xz
+Patch0:         gnote-gcc11.patch
 
 BuildRequires:  boost-devel
 BuildRequires:  desktop-file-utils
@@ -31,6 +32,7 @@ and consumes fewer resources.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %configure --disable-static --with-gnu-ld
@@ -66,6 +68,19 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/gnote.desktop
 %{_mandir}/man1/gnote.1*
 
 %changelog
+* Sat Sep 19 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Thu Sep 17 2020 Jeff Law <law@redhat.com> - 3.37.0-4
+- Fix missing #include for gcc-11
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Kalev Lember <klember@redhat.com> - 3.37.0-1
 - Update to 3.37.0
 

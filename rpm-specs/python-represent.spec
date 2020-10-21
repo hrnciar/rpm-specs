@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        1.6.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        %{sum}
 License:        MIT
 URL:            https://pypi.python.org/pypi/%{srcname}
@@ -12,6 +12,7 @@ Source0:        https://github.com/RazerM/%{srcname}/archive/%{version}.tar.gz#/
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-six
 BuildRequires:  python3-pytest
 BuildRequires:  python3-ipython
@@ -52,6 +53,9 @@ Python3 package which creates __repr__ automatically or declaratively.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.6.0-6
 - Rebuilt for Python 3.9
 
@@ -99,4 +103,3 @@ Python3 package which creates __repr__ automatically or declaratively.
 
 * Wed Jun 22 2016 Dominika Krejci <dkrejci@redhat.com> - 1.5.1-1
 - initial release
-

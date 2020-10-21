@@ -2,7 +2,7 @@
 
 Name:           dwgrep
 Version:        0.4
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        A tool for querying Dwarf (debuginfo) graphs
 
 License:        GPLv3+ and (GPLv2+ or LGPLv3+)
@@ -147,6 +147,13 @@ popd
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 2020 Petr Machata <me@pmachata.org> - 0.4-6
 - Add 0001-cmake-modules-FindDWARF-Do-not-depend-on-libebl.patch
   - Fixes: BZ#1799294

@@ -3,8 +3,8 @@
 %undefine        _changelog_trimtime
 
 Name:		rubygem-%{gem_name}
-Version:	3.4.1
-Release:	2%{?dist}
+Version:	3.4.3
+Release:	1%{?dist}
 
 Summary:	Ruby binding of Clutter-GStreamer
 License:	LGPLv2+
@@ -26,7 +26,7 @@ BuildRequires:	%{_bindir}/xvfb-run
 # See bug 904851 and below
 BuildRequires:	mesa-dri-drivers
 # F-29+: switch to clutter-gst3 (bug 1578064)
-%if 0%{?fedora} >= 29
+%if 0%{?fedora} >= 29 || 0%{?rhel} > 8
 BuildRequires:	clutter-gst3
 Requires:	clutter-gst3
 %else
@@ -55,7 +55,7 @@ gem spec %{SOURCE0} -l --ruby > %{gem_name}.gemspec
 find . -name \*.rb -print0 | xargs --null chmod 0644
 
 # Adjust rubygems-gnome2 requirement to be more flexible
-sed -i -e 's|= 3\.4\.1|>= 3.4.1|' %{gem_name}.gemspec
+sed -i -e 's|= 3\.4\.3|>= 3.4.3|' %{gem_name}.gemspec
 sed -i dependency-check/Rakefile \
 	-e '\@PKGConfig\.check_version@s|clutter-gst-3.0|glib-2.0|'
 sed -i -e '\@s\.extensions@d'  %{gem_name}.gemspec
@@ -122,6 +122,12 @@ popd
 %doc	%{gem_instdir}/sample/
 
 %changelog
+* Thu Aug 13 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.4.3-1
+- 3.4.3
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

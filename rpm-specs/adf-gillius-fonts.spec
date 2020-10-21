@@ -9,7 +9,7 @@ bold weight.
 
 Name:		%{fontname}-fonts
 Version:	1.008
-Release:	19%{?dist}
+Release:	20%{?dist}
 Summary:	Gillius ADF sans-serif typeface family
 
 License:	GPLv2+ with exceptions
@@ -96,6 +96,9 @@ install -Dm 0644 -p %{SOURCE5} \
 %{_datadir}/appdata/%{fontname}.metainfo.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.008-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.008-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

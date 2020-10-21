@@ -1,6 +1,6 @@
 Name:		HepMC
 Version:	2.06.11
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	C++ Event Record for Monte Carlo Generators
 
 License:	GPLv2+
@@ -97,6 +97,9 @@ make check
 %{?_licensedir: %license COPYING}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.06.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 10 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 2.06.11-1
 - Update to version 2.06.11
 - Drop patches - all fixed in the new version

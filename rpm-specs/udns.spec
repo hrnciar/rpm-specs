@@ -1,7 +1,7 @@
 Summary: DNS resolver library for both synchronous and asynchronous DNS queries
 Name: udns
 Version: 0.4
-Release: 14%{?dist}
+Release: 15%{?dist}
 License: LGPLv2+
 URL: http://www.corpit.ru/mjt/udns.html
 Source: http://www.corpit.ru/mjt/udns/udns-%{version}.tar.gz
@@ -48,6 +48,9 @@ CFLAGS="%{optflags}" ./configure --enable-ipv6
 %{_libdir}/libudns.so
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 Name:           mod_bw
 Version:        0.8
-Release:        25%{?dist}
+Release:        26%{?dist}
 Summary:        Bandwidth Limiter For Apache
 
 License:        ASL 2.0
@@ -49,6 +49,9 @@ install -Dpm 644 %{SOURCE1} \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -8,7 +8,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.5.4
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Adds SQL read/write support to agate
 
 License:        MIT
@@ -81,6 +81,9 @@ nosetests-%{python3_version} tests -v -e test_to_sql_create_statement_unique_con
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.4-5
 - Rebuilt for Python 3.9
 

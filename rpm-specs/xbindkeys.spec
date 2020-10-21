@@ -1,13 +1,13 @@
 Name:           xbindkeys
-Version:        1.8.5
-Release:        17%{?dist}
+Version:        1.8.7
+Release:        1%{?dist}
 
 Summary:        Binds keys or mouse buttons to shell commands under X
 License:        GPLv2+
 URL:            http://www.nongnu.org/xbindkeys/
 Source:         http://www.nongnu.org/xbindkeys/xbindkeys-%{version}.tar.gz
 BuildRequires:  gcc
-BuildRequires:  guile-devel
+BuildRequires:  guile22-devel
 BuildRequires:  libX11-devel
 Requires:       tk
 
@@ -18,22 +18,29 @@ or mouse buttons using a simple configuration file, and is
 independent of the window manager.
 
 %prep
-%setup -q
+%autosetup
 
 %build
 %configure
-make %{?_smp_mflags} LDFLAGS="-lpthread"
+LDFLAGS="-lpthread" %{make_build}
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 
 %files
-%doc AUTHORS BUGS ChangeLog COPYING INSTALL NEWS README TODO xbindkeysrc*
+%license COPYING
+%doc AUTHORS INSTALL NEWS README xbindkeysrc*
 %attr(0755, root, root) %{_bindir}/xbindkeys*
 %attr(0644, root, root) %{_mandir}/man?/*
 
 %changelog
+* Sun Sep 13 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.8.7-1
+- Update to 1.8.7
+- Use Guile 2.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.5-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.5-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           python-bucky
 Version:        2.3.0
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        CollectD and StatsD adapter for Graphite
 
 License:        ASL 2.0
@@ -80,6 +80,9 @@ fi
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.3.0-10
 - Rebuilt for Python 3.9
 

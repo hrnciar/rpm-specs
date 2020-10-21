@@ -8,7 +8,7 @@
 Name:			mcomix3
 # For now, choose version 0
 Version:		0
-Release:		0.7.D%{gitdate}git%{shortcommit}%{?dist}
+Release:		0.8.D%{gitdate}git%{shortcommit}%{?dist}
 Summary:		User-friendly, customizable image viewer for comic books
 # GPL version info is from mcomix/mcomixstarter.py
 License:		GPLv2+
@@ -148,6 +148,9 @@ desktop-file-install \
 # TODO: appdata file, not availale yet (should item)
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8.D20191205gita098f81
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0-0.7.D20191205gita098f81
 - Rebuilt for Python 3.9
 

@@ -1,18 +1,20 @@
 Name:		globus-common
 %global _name %(tr - _ <<< %{name})
 Version:	18.5
-Release:	3%{?dist}
+Release:	6%{?dist}
 Summary:	Grid Community Toolkit - Common Library
 
 License:	ASL 2.0
 URL:		https://github.com/gridcf/gct/
 Source:		https://repo.gridcf.org/gct6/sources/%{_name}-%{version}.tar.gz
 Source8:	README
+Patch0:		%{name}-check-lto-in-cflags.patch
 
 BuildRequires:	gcc
 BuildRequires:	libtool-ltdl-devel
 BuildRequires:	doxygen
 BuildRequires:	perl-generators
+BuildRequires:	perl-interpreter
 
 Requires:	perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 #		Obsolete dropped packages from Globus Toolkit 4.2.1
@@ -108,6 +110,7 @@ Common Library Documentation Files
 
 %prep
 %setup -q -n %{_name}-%{version}
+%patch0 -p1
 
 %build
 # Reduce overlinking
@@ -199,6 +202,16 @@ make %{?_smp_mflags} check VERBOSE=1 NO_EXTERNAL_NET=1
 %{?_licensedir: %license GLOBUS_LICENSE}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 18.5-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 18.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 18.5-4
+- Check for LTO in CFLAGS instead of LDFLAGS
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 18.5-3
 - Perl 5.32 rebuild
 

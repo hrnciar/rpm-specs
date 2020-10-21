@@ -1,10 +1,11 @@
 Name:           beets
 Version:        1.4.9
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        Music library manager and MusicBrainz tagger
 License:        MIT and ISC
 URL:            http://beets.io
 Source0:        https://github.com/beetbox/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.gz
+Patch0:         0001-compatibility-with-breaking-changes-to-the-ast-modul.patch
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-sphinx
@@ -128,6 +129,12 @@ rm -f docs/_build/html/{.buildinfo,objects.inv}
 %files doc
 %doc docs/_build/html docs/_build/text
 %changelog
+* Mon Aug 03 2020 Michele Baldessari <michele@acksyn.org> - 1.4.9-8
+- Fix rhbz#1862737
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.9-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.9-6
 - Rebuilt for Python 3.9
 

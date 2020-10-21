@@ -1,17 +1,18 @@
-%global packname  R.oo
+%global packname R.oo
+%global packver  1.24.0
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          1.23.0
-Release:          3%{?dist}
+Version:          1.24.0
+Release:          1%{?dist}
 Summary:          R Object-Oriented Programming with or without References
 
 License:          LGPLv2+
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
-# Depends:   R-R.methodsS3 >= 1.7.1
+# Depends:   R-R.methodsS3 >= 1.8.0
 # Imports:   R-methods, R-utils
 # Suggests:  R-tools
 # LinkingTo:
@@ -20,7 +21,7 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.
 BuildArch:        noarch
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
-BuildRequires:    R-R.methodsS3 >= 1.7.1
+BuildRequires:    R-R.methodsS3 >= 1.8.0
 BuildRequires:    R-methods
 BuildRequires:    R-utils
 BuildRequires:    R-tools
@@ -77,9 +78,16 @@ rm -f %{buildroot}%{rlibdir}/R.css
 %{rlibdir}/%{packname}/R
 %{rlibdir}/%{packname}/help
 %{rlibdir}/%{packname}/misc
+%{rlibdir}/%{packname}/WORDLIST
 
 
 %changelog
+* Thu Aug 27 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.24.0-1
+- Update to latest version (#1872872)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.23.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 1.23.0-3
 - rebuild for R 4
 

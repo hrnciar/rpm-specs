@@ -1,6 +1,6 @@
 Name:           perl-Alien-SDL
 Version:        1.446
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Building, finding and using SDL binaries
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Alien-SDL
@@ -81,6 +81,9 @@ perl Build.PL installdirs=vendor --travis
 %{_bindir}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.446-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.446-17
 - Perl 5.32 rebuild
 

@@ -5,8 +5,8 @@ Transport, protocol and framing-independent async RPC client\
 and server implementation.
 
 Name:           python-%{srcname}
-Version:        0.11.0
-Release:        6%{?dist}
+Version:        0.18.4
+Release:        2%{?dist}
 Summary:        Generic async RPC implementation
 
 # https://github.com/kyuupichan/aiorpcX/issues/11
@@ -44,6 +44,12 @@ rm -vrf *.egg-info
 %{python3_sitelib}/%{pypi_name}-*.egg-info/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Jonny Heggheim <hegjon@gmail.com> - 0.18.4-1
+- Updated to 0.18.4
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.11.0-6
 - Rebuilt for Python 3.9
 

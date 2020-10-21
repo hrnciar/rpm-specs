@@ -5,7 +5,7 @@
 
 Name:           ocaml-camlimages
 Version:        4.2.5
-Release:        22%{?dist}
+Release:        26%{?dist}
 Summary:        OCaml image processing library
 License:        LGPLv2 with exceptions
 
@@ -23,13 +23,13 @@ Patch2:         camlimages-4.2.5-safe-string.patch
 
 BuildRequires:  ocaml, ocaml-findlib-devel, ocaml-omake
 BuildRequires:  ocaml-lablgtk-devel
-BuildRequires:  xorg-x11-server-utils
+BuildRequires:  rgb
 BuildRequires:  libpng-devel, libjpeg-devel, libexif-devel
 BuildRequires:  libXpm-devel, libgs-devel, freetype-devel
 BuildRequires:  giflib-devel
 BuildRequires:  libtiff-devel
 BuildRequires:  gtk2-devel
-Requires:       xorg-x11-server-utils
+Requires:       rgb
 
 %description
 This is an image processing library, which provides some basic
@@ -94,6 +94,18 @@ cp -pr License.txt htmlref $RPM_BUILD_ROOT/usr/share/doc/ocaml-camlimages
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 4.2.5-26
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 4.2.5-25
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 4.2.5-24
+- {Build,}Require rgb not xorg-x11-server-utils
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.5-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 4.2.5-22
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

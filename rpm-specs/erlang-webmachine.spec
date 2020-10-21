@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	1.11.1
-Release:	5%{?dist}
+Release:	6%{?dist}
 BuildArch:	noarch
 Summary:	A REST-based system for building web applications
 License:	ASL 2.0
@@ -52,6 +52,9 @@ cp -arv priv %{buildroot}%{erlang_appdir}/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

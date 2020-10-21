@@ -6,7 +6,7 @@
 Summary: Database of printers and printer drivers
 Name: foomatic-db
 Version: %{dbver_rel}
-Release: 66.%{dbver_snap}%{?dist}
+Release: 67.%{dbver_snap}%{?dist}
 License: GPLv2+
 Requires: %{name}-filesystem = %{version}-%{release}
 Requires: %{name}-ppds = %{version}-%{release}
@@ -178,6 +178,9 @@ ln -sf ../../foomatic/db/source/PPD %{buildroot}%{_datadir}/cups/model/foomatic-
 %{_datadir}/cups/model/foomatic-db-ppds
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0-67.20200526
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Zdenek Dohnal <zdohnal@redhat.com> - 4.0-66.20200526
 - Updated to foomatic-db-4.0-20200526
 

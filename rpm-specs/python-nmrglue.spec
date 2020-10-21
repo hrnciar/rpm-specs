@@ -3,7 +3,7 @@
 
 Name:		python-%{pkgname}
 Version:	0.7
-Release:	7%{?dist}
+Release:	8%{?dist}
 Summary:	%{pkgsum}
 
 License:	BSD
@@ -63,6 +63,9 @@ popd
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.7-7
 - Add BR:python3-setuptools
 

@@ -2,7 +2,7 @@
 
 Name:		mirage
 Version:	0.9.5.2
-Release:	28%{?dist}
+Release:	30%{?dist}
 Summary:	A fast and simple image viewer
 
 License:	GPLv3+
@@ -88,6 +88,13 @@ desktop-file-install \
 %{_datadir}/applications/*%{name}.desktop
 
 %changelog
+* Wed Sep  9 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 0.9.5.2-30
+- Properly terminate PyMethodDef array with sentinel in xmouse module
+  (bug 1873115)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.5.2-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.5.2-28
 - Rebuilt for Python 3.9
 

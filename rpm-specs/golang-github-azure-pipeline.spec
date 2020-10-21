@@ -3,7 +3,7 @@
 
 # https://github.com/Azure/azure-pipeline-go
 %global goipath         github.com/Azure/azure-pipeline-go
-Version:                0.2.2
+Version:                0.2.3
 
 %gometa
 
@@ -49,6 +49,12 @@ BuildRequires:  golang(github.com/pkg/errors)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 22:18:14 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.2.3-1
+- Update to 0.2.3
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

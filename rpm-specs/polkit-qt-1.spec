@@ -1,7 +1,8 @@
+%undefine __cmake_in_source_build
 
 Name:            polkit-qt-1
 Version:         0.113.0
-Release:         2%{?dist}
+Release:         5%{?dist}
 Summary:         Qt bindings for PolicyKit
 
 License:         GPLv2+
@@ -51,11 +52,7 @@ Requires: polkit-qt5-1%{?_isa} = %{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} .. \
-  -DBUILD_EXAMPLES:BOOL=OFF
-popd
+%cmake -DBUILD_EXAMPLES:BOOL=OFF
 %make_build -C %{_target_platform}
 
 ## build docs, needswork
@@ -93,6 +90,16 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Fri Aug 21 2020 Troy Dawson <tdawson@redhat.com> - 0.113.0-5
+- Fix FTBFS - cmake issues (#1863703)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.113.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.113.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.113.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

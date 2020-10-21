@@ -1,11 +1,11 @@
 %global commit 48a5c66d98505dd187e6352c2b9aca88985486c0
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
-%global __provides_exclude %{python_sitearch}/.*\.so$
+%global __provides_exclude %{python3_sitearch}/.*\.so$
 
 Name:           libfreenect
 Version:        0.6.1
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        Device driver for the Kinect
 # Core libfreenect is available as ASL 2.0 OR GPLv2
 # OpenNI driver is available as ASL 2.0
@@ -25,7 +25,7 @@ Patch4:         secarch.patch
 Patch7:         %{name}-0.5.5-py3.patch
 
 BuildRequires:  gcc-c++
-BuildRequires:  cmake
+BuildRequires:  cmake3
 BuildRequires:  Cython
 BuildRequires:  doxygen
 BuildRequires:  freeglut-devel
@@ -109,9 +109,7 @@ rm -rf platform/windows
 
 
 %build
-mkdir build
-pushd build
-%cmake .. \
+%cmake3 \
   -DBUILD_AUDIO=ON \
   -DBUILD_C_SYNC=ON \
   -DBUILD_CV=ON \
@@ -123,15 +121,14 @@ pushd build
   -DBUILD_PYTHON3=ON \
   -DBUILD_OPENNI2_DRIVER=ON
 
-%make_build VERBOSE=1
-popd
+%cmake3_build
 
 pushd doc
 doxygen Doxyfile
 popd
 
 %install
-%make_install -C build
+%cmake3_install
 
 # Install the kinect udev rule
 mkdir -p %{buildroot}/lib/udev/rules.d
@@ -188,6 +185,17 @@ mv %{buildroot}%{_libdir}/OpenNI2-FreenectDriver %{buildroot}%{_libdir}/openni2/
 %{_libdir}/openni2
 
 %changelog
+* Mon Aug 03 2020 Leigh Scott <leigh123linux@gmail.com> - 0.6.1-6
+- Fix unversioned python
+- Switch to new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Nicolas Chauvet <kwizart@gmail.com> - 0.6.1-3
 - Rebuilt for OpenCV 4.3
 

@@ -2,7 +2,7 @@
 
 Name:           python-path
 Version:        11.5.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Python module wrapper for os.path
 
 License:        MIT
@@ -60,6 +60,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.5.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 11.5.0-4
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           perl-Data-ICal-DateTime
 Version:        0.82
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Convenience methods for using Data::ICal with DateTime
 License:        GPL+ or Artistic
 
@@ -62,6 +62,9 @@ make test
 %{_mandir}/man3/Data*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.82-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.82-6
 - Perl 5.32 rebuild
 

@@ -3,7 +3,7 @@
 Name:      eclipse-gef
 Version:   3.11.0
 
-Release:   12%{?dist}
+Release:   13%{?dist}
 Summary:   Graphical Editing Framework (GEF) Eclipse plug-in
 License:   EPL-1.0
 URL:       http://www.eclipse.org/gef/
@@ -79,6 +79,9 @@ done
 %files sdk -f .mfiles-sdk
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.11.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 23 2020 Mat Booth <mat.booth@redhat.com> - 3.11.0-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

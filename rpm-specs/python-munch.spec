@@ -2,7 +2,7 @@
 
 Name:               python-munch
 Version:            2.5.0
-Release:            2%{?dist}
+Release:            3%{?dist}
 Summary:            A dot-accessible dictionary (a la JavaScript objects)
 
 License:            MIT
@@ -59,6 +59,9 @@ rm -rf %{modname}.egg-info
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 2.5.0-2
 - Rebuilt for Python 3.9
 

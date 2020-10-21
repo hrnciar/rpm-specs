@@ -1,7 +1,7 @@
 Name:          bpython
 Summary:       Fancy curses interface to the Python interactive interpreter
-Version:       0.19
-Release:       2%{?dist}
+Version:       0.20
+Release:       1%{?dist}
 URL:           http://www.bpython-interpreter.org/
 License:       MIT
 Source0:       https://github.com/bpython/bpython/archive/%{version}-release.tar.gz
@@ -31,7 +31,7 @@ Provides:      bpython = %{version}-%{release}
 Obsoletes:     bpython < 0.17.1-6
 Obsoletes:     bpython-gtk < 0.14
 %{?python_provide:%python_provide python3-bpython}
-Requires:      python3-curtsies >= 0.1.18
+Requires:      python3-curtsies >= 0.3.0
 Requires:      python3-greenlet
 Requires:      python3-pygments
 Requires:      python3-requests > 1.2.3
@@ -111,6 +111,12 @@ ln -s bpython %{buildroot}%{_bindir}/python3-bpython
 %{_bindir}/bpython-urwid
 
 %changelog
+* Tue Oct 13 2020 Terje Rosten <terje.rosten@ntnu.no> - 0.20-1
+- 0.20
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.19-2
 - Rebuilt for Python 3.9
 

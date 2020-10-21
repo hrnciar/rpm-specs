@@ -7,7 +7,7 @@
 
 Name:		perl-Params-ValidationCompiler
 Version:	0.30
-Release:	7%{?dist}
+Release:	9%{?dist}
 Summary:	Build an optimized subroutine parameter validator once, use it forever
 License:	Artistic 2.0
 URL:		https://metacpan.org/release/Params-ValidationCompiler
@@ -87,6 +87,12 @@ make test
 %{_mandir}/man3/Params::ValidationCompiler::Exceptions.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.30-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.30-8
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.30-7
 - Perl 5.32 rebuild
 

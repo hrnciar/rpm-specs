@@ -1,6 +1,6 @@
 Name: chan
 Version: 0.0.4
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: Pure C implementation of Go channels
 License: ASL 2.0
 URL: https://github.com/tylertreat/%{name}
@@ -59,6 +59,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

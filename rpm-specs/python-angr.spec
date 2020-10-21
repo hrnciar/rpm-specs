@@ -6,8 +6,8 @@ ExcludeArch: ppc64le
 %global debug_package %{nil}
 
 Name:           python-%{srcname}
-Version:        8.20.6.8
-Release:        4%{?dist}
+Version:        9.0.4495
+Release:        1%{?dist}
 Summary:        A multi-architecture binary analysis toolkit
 
 License:        BSD and ASL 2.0
@@ -58,6 +58,19 @@ cp %{SOURCE2} .
 %{python3_sitelib}/angr/
 
 %changelog
+* Thu Oct 08 2020 W. Michael Petullo <mike@flyn.org> - 9.0.4495-1
+- New upstream version
+
+* Sat Aug 01 2020 W. Michael Petullo <mike@flyn.org> - 8.20.7.27-1
+- New upstream version
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.20.6.8-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.20.6.8-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 W. Michael Petullo <mike@flyn.org> - 8.20.6.8-4
 - Exclude ppc64le, because python-pyvex not available on ppc64le
 

@@ -1,5 +1,5 @@
 Name:		hitori
-Version:	3.36.0
+Version:	3.38.0
 Release:	1%{?dist}
 Summary:	Logic puzzle game for GNOME
 Summary(de):	Logikpuzzle für GNOME
@@ -7,7 +7,7 @@ Summary(de):	Logikpuzzle für GNOME
 # The executable is licensed under GPLv3+, while the user manual is CC-BY-SA.
 License:	GPLv3+ and CC-BY-SA
 URL:		https://wiki.gnome.org/Apps/Hitori
-Source0:	https://download.gnome.org/sources/hitori/3.36/hitori-%{version}.tar.xz
+Source0:	https://download.gnome.org/sources/hitori/3.38/hitori-%{version}.tar.xz
 
 BuildRequires:  gcc
 BuildRequires:	desktop-file-utils
@@ -68,6 +68,18 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Hitori.desk
 
 
 %changelog
+* Thu Sep 10 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Thu Sep 03 2020 Kalev Lember <klember@redhat.com> - 3.37.1-1
+- Update to 3.37.1
+
+* Wed Aug 19 2020 Kalev Lember <klember@redhat.com> - 3.37.0-1
+- Update to 3.37.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 11 2020 Kalev Lember <klember@redhat.com> - 3.36.0-1
 - Update to 3.36.0
 

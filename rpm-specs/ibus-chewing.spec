@@ -19,13 +19,14 @@
 %endif
 Name:           ibus-chewing
 Version:        1.6.1
-Release:        8%{?dist}
+Release:        11%{?dist}
 Summary:        The Chewing engine for IBus input platform
 Summary(zh_TW): IBus新酷音輸入法
 License:        GPLv2+
 URL:            https://github.com/definite/ibus-chewing
 Source0:        https://github.com/definite/%{name}/releases/download/%{version}/%{name}-%{version}-Source.tar.gz
 Patch1:         %{name}-1799517-no-gob2.patch
+Patch2:         %{name}-1863869-cmake-build.patch
 
 BuildRequires:  cmake >= 2.6.2
 BuildRequires:  pkgconfig
@@ -70,10 +71,10 @@ IBus-chewing 是新酷音輸入法的IBus前端。
 %build
 # $RPM_OPT_FLAGS should be loaded from cmake macro.
 %cmake -DCMAKE_FEDORA_ENABLE_FEDORA_BUILD=1  -DGSETTINGS_SUPPORT=%{gsettings_support} -DGCONF2_SUPPORT=%{gconf2_support} .
-make VERBOSE=1 %{?_smp_mflags}
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot} INSTALL="install -p"
+%cmake_install
 
 # We install document using doc
 rm -fr %{buildroot}%{_docdir}/*
@@ -146,6 +147,17 @@ fi
 %{_libexecdir}/ibus-setup-chewing
 
 %changelog
+* Thu Aug 13 2020 Takao Fujiwara <tfujiwar@redhat.com> - 1.6.1-11
+- Resolves: #1863869 replace make with cmake_build
+- Add ibus-chewing-1863869-cmake-build.patch to replace builddir with srcdir
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 19 2020 Takao Fujiwara <tfujiwar@redhat.com> - 1.6.1-8
 - Add 1799517-no-gob2.patch to build without gob2
 

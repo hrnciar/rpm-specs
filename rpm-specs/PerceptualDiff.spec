@@ -1,12 +1,11 @@
 Name:			PerceptualDiff
-Version:		1.1.1
-Release:		25%{?dist}
+Version:		2.1
+Release:		1%{?dist}
 Summary:		An image comparison utility
 
 License:		GPLv2+
-URL:			http://pdiff.sourceforge.net
-Source:			http://downloads.sourceforge.net/pdiff/perceptualdiff-%{version}-src.tar.gz
-Patch1:			PerceptualDiff-1.0.2-gcc44.patch
+URL:			https://github.com/myint/perceptualdiff
+Source:		%{url}/archive/v%{version}/perceptualdiff-%{version}.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -14,6 +13,8 @@ BuildRequires: cmake
 BuildRequires: freeimage-devel
 BuildRequires: libtiff-devel
 BuildRequires: libpng-devel
+
+Provides: perceptualdiff = %{version}-%{release}
 
 
 %description
@@ -23,36 +24,43 @@ computational model of the human visual system to compare two images.
 This software is released under the GNU General Public License.
 
 %prep
-%setup -q -c
-%patch1 -p1 -b .gcc44
+%autosetup -p1 -n perceptualdiff-%{version}
 
 
 %build
-mkdir build
-cd build
-
 %cmake \
 	-DCMAKE_SKIP_RPATH:BOOL=ON \
 	-DBUILD_SHARED_LIBS:BOOL=ON \
-	-DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} ..
+	-DCMAKE_INSTALL_PREFIX:PATH=%{_prefix}
 
-%make_build VERBOSE=1
+%cmake_build
 
 
 %install
-cd build
-%make_install
+%cmake_install
 
-chmod 755 %{buildroot}%{_bindir}/perceptualdiff
-
+mkdir -p %{buildroot}%{_libdir}
+find . -name libpdiff.so -exec mv {} %{buildroot}%{_libdir}/libpdiff.so ';'
 
 %files
-%doc README.txt
-%license gpl.txt
+%doc README.rst
+%license LICENSE
 %{_bindir}/perceptualdiff
+# TODO: fix SONAME
+%{_libdir}/libpdiff.so
 
 
 %changelog
+* Wed Oct 07 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.1-1
+- Switch upstream perceptualdiff
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-27
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

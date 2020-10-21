@@ -6,13 +6,16 @@
 
 Name:           rust-%{crate}
 Version:        0.9.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        BLAKE2 hash functions
 
 # Upstream license specification: MIT OR Apache-2.0
 License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/blake2
 Source:         %{crates_source}
+# Initial patched metadata
+# - Bump opaque-debug to 0.3
+Patch0:         blake2-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -119,6 +122,13 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 18:23:06 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.9.0-1
 - Update to 0.9.0
 

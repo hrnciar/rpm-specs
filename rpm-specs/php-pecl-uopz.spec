@@ -3,7 +3,7 @@
 #
 # remirepo spec file for php-pecl-uopz
 #
-# Copyright (c) 2014-2019 Remi Collet
+# Copyright (c) 2014-2020 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
@@ -19,8 +19,8 @@
 
 Summary:        User Operations for Zend
 Name:           php-pecl-%{pecl_name}
-Version:        6.1.1
-Release:        3%{?dist}
+Version:        6.1.2
+Release:        2%{?dist}
 License:        PHP
 URL:            http://pecl.php.net/package/%{pecl_name}
 Source0:        http://pecl.php.net/get/%{pecl_name}-%{version}.tgz
@@ -35,6 +35,8 @@ Provides:       php-%{pecl_name}               = %{version}
 Provides:       php-%{pecl_name}%{?_isa}       = %{version}
 Provides:       php-pecl(%{pecl_name})         = %{version}
 Provides:       php-pecl(%{pecl_name})%{?_isa} = %{version}
+
+Conflicts:      php-pecl-xdebug < 2.9.4
 
 
 %description
@@ -176,6 +178,12 @@ REPORT_EXIT_STATUS=1 \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Remi Collet <remi@remirepo.net> - 6.1.2-1
+- update to 6.1.2
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.1.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

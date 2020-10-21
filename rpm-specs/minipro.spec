@@ -1,6 +1,6 @@
 Name:           minipro
 Version:        0.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Utility for MiniPro TL866A/TL866/CS programmer
 
 # From the bundled debian/copyright file,
@@ -46,6 +46,9 @@ rm %{buildroot}%{_prefix}/lib/udev/rules.d/61-minipro-plugdev.rules
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

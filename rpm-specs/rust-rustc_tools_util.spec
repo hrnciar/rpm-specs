@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Small helper to generate version information for git packages
 
 # Upstream license specification: MIT/Apache-2.0
@@ -71,5 +71,8 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 20:42:52 CEST 2020 returntrip <stefano@figura.im> - 0.2.0-1
 - Initial package

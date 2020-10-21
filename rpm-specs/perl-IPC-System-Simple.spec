@@ -7,7 +7,7 @@
 
 Name:		perl-IPC-System-Simple
 Version:	1.30
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPL+ or Artistic
 Summary:	Run commands simply, with detailed diagnostics
 URL:		https://metacpan.org/release/IPC-System-Simple
@@ -81,6 +81,9 @@ make test
 %{_mandir}/man3/IPC::System::Simple.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.30-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.30-2
 - Perl 5.32 rebuild
 
@@ -93,7 +96,7 @@ make test
   - Improved handling of shell commands on Windows, which should get us closer
     to resolving Win32-related issues; there should be no change of
     functionality on Unix-like platforms
-  - Better workaround for bug in perl-5.8.9 (GH#129)
+  - Better workaround for bug in perl-5.8.9 (GH#23)
   - Add t/args.t
   - Modify t/win32.t
   - Added Travis and AppVeyor configuration files

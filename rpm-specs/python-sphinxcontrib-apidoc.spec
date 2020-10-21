@@ -2,8 +2,8 @@
 
 
 Name:           python-%{pypi_name}
-Version:        0.2.1
-Release:        15%{?dist}
+Version:        0.3.0
+Release:        1%{?dist}
 Summary:        A Sphinx extension for running 'sphinx-apidoc' on each build
 
 License:        BSD
@@ -70,6 +70,12 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/sphinxcontrib_apidoc-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Sep 15 2020 Joel Capitao <jcapitao@redhat.com> - 0.3.0-1
+- Update to 0.3.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.1-15
 - Rebuilt for Python 3.9
 

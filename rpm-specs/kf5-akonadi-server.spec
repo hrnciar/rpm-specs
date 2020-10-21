@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 %global framework akonadi-server
 
 # trim changelog included in binary rpms
@@ -21,8 +22,8 @@
 
 Name:    kf5-%{framework}
 Summary: PIM Storage Service
-Version: 20.04.2
-Release: 1%{?dist}
+Version: 20.08.1
+Release: 2%{?dist}
 
 License: LGPLv2+
 URL:     https://cgit.kde.org/%{framework}.git
@@ -54,7 +55,7 @@ BuildRequires:  qt5-qtxmlpatterns-devel
 
 BuildRequires:  cmake(KF5ItemViews)
 BuildRequires:  cmake(KF5KIO)
-BuildRequires:  cmake(KF5Config)
+BuildRequires:  cmake(KF5Config) >= 5.71
 BuildRequires:  cmake(KF5I18n)
 BuildRequires:  cmake(KF5DBusAddons)
 BuildRequires:  cmake(KF5ItemModels)
@@ -159,19 +160,16 @@ See also: %{_sysconfdir}/akonadi/mysql-global.conf
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%cmake_kf5 \
   %{?database_backend:-DDATABASE_BACKEND=%{database_backend}} \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{!?tests:OFF} \
   -DINSTALL_APPARMOR:BOOL=OFF
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=$RPM_BUILD_ROOT -C %{_target_platform}
+%cmake_install
 
 %find_lang libakonadi5
 %find_lang akonadi_knut_resource
@@ -228,8 +226,9 @@ fi
 
 
 %files -f libakonadi5.lang
-%doc AUTHORS README
-%license COPYING*
+%doc AUTHORS
+%doc README*
+%license LICENSES/*
 %dir %{_sysconfdir}/xdg/akonadi/
 %ghost %config(missingok,noreplace) %{_sysconfdir}/xdg/akonadi/akonadiserverrc
 %config(noreplace) %{_sysconfdir}/xdg/akonadi/akonadiserverrc.sqlite
@@ -309,6 +308,27 @@ fi
 
 
 %changelog
+* Fri Oct 02 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-2
+- rebuild
+
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 20.08.0-2
+- rebuild (qt5)
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-2
+- rebuild (kaccounts)
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.2-1
 - 20.04.2
 

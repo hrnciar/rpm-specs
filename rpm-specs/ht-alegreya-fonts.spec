@@ -3,7 +3,7 @@
 Version: 2.008
 %forgemeta
 
-Release: 3%{?dist}
+Release: 6%{?dist}
 URL:     https://www.huertatipografica.com/en/fonts/alegreya-ht-pro
 
 %global foundry           HT
@@ -61,6 +61,16 @@ Source10: 58-%{fontpkgname}.conf
 %fontfiles
 
 %changelog
+* Tue Aug 04 2020 Parag Nemade <pnemade AT redhat DOT com> - 2.008-6
+- Fix fontconfig DTD id
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.008-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.008-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar  7 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 2.008-3
 ✅ Use traditional fontconfig syntax, upstream is clean enough the project does

@@ -3,7 +3,7 @@
 %define debug_package %{nil}
 
 Name:           lorax
-Version:        33.6
+Version:        34.3
 Release:        1%{?dist}
 Summary:        Tool for creating the anaconda install images
 
@@ -15,13 +15,9 @@ URL:            https://github.com/weldr/lorax
 # tito build --tgz
 Source0:        %{name}-%{version}.tar.gz
 
-# Temporary workaround - see rhbz#1848201
-# https://github.com/weldr/lorax/pull/1035
-# Ensure /proc exists before trying to touch /proc/modules
-Patch0:         0001-Ensure-proc-exists-before-trying-to-touch-proc-modul.patch
-
 BuildRequires:  python3-devel
 BuildRequires:  make
+BuildRequires:  systemd-rpm-macros
 
 Requires:       lorax-templates
 
@@ -99,8 +95,7 @@ Summary: Lorax html documentation
 Requires: lorax = %{version}-%{release}
 
 %description docs
-Includes the full html documentation for lorax, livemedia-creator, lorax-composer and the
-pylorax library.
+Includes the full html documentation for lorax, livemedia-creator, and the pylorax library.
 
 %package lmc-virt
 Summary:  livemedia-creator libvirt dependencies
@@ -137,42 +132,6 @@ Provides: lorax-templates = %{version}-%{release}
 Lorax templates for creating the boot.iso and live isos are placed in
 /usr/share/lorax/templates.d/99-generic
 
-%package composer
-Summary: Lorax Image Composer API Server
-# For Sphinx documentation build
-BuildRequires: python3-flask python3-gobject libgit2-glib python3-toml python3-semantic_version
-
-Requires: lorax = %{version}-%{release}
-Requires(pre): /usr/bin/getent
-Requires(pre): /usr/sbin/groupadd
-Requires(pre): /usr/sbin/useradd
-
-Requires: python3-toml
-Requires: python3-semantic_version
-Requires: libgit2
-Requires: libgit2-glib
-Requires: python3-flask
-Requires: python3-gevent
-Requires: anaconda-tui >= 29.19-1
-Requires: qemu-img
-Requires: tar
-Requires: python3-rpmfluff
-Requires: git
-Requires: xz
-Requires: createrepo_c
-Requires: python3-ansible-runner
-# For AWS playbook support
-Requires: python3-boto3
-
-%{?systemd_requires}
-BuildRequires: systemd
-
-# Implements the weldr API
-Provides: weldr
-
-%description composer
-lorax-composer provides a REST API for building images using lorax.
-
 %package -n composer-cli
 Summary: A command line tool for use with the lorax-composer API server
 
@@ -185,36 +144,13 @@ A command line tool for use with the lorax-composer API server. Examine blueprin
 build images, etc. from the command line.
 
 %prep
-%autosetup -n %{name}-%{version} -p1
+%setup -q -n %{name}-%{version}
 
 %build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
-
-# Install example blueprints from the test suite.
-# This path MUST match the lorax-composer.service blueprint path.
-mkdir -p $RPM_BUILD_ROOT/var/lib/lorax/composer/blueprints/
-for bp in example-http-server.toml example-development.toml example-atlas.toml; do
-    cp ./tests/pylorax/blueprints/$bp $RPM_BUILD_ROOT/var/lib/lorax/composer/blueprints/
-done
-
-%pre composer
-getent group weldr >/dev/null 2>&1 || groupadd -r weldr >/dev/null 2>&1 || :
-getent passwd weldr >/dev/null 2>&1 || useradd -r -g weldr -d / -s /sbin/nologin -c "User for lorax-composer" weldr >/dev/null 2>&1 || :
-
-%post composer
-%systemd_post lorax-composer.service
-%systemd_post lorax-composer.socket
-
-%preun composer
-%systemd_preun lorax-composer.service
-%systemd_preun lorax-composer.socket
-
-%postun composer
-%systemd_postun_with_restart lorax-composer.service
-%systemd_postun_with_restart lorax-composer.socket
 
 %files
 %defattr(-,root,root,-)
@@ -250,22 +186,6 @@ getent passwd weldr >/dev/null 2>&1 || useradd -r -g weldr -d / -s /sbin/nologin
 %dir %{_datadir}/lorax/templates.d
 %{_datadir}/lorax/templates.d/*
 
-%files composer
-%config(noreplace) %{_sysconfdir}/lorax/composer.conf
-%{python3_sitelib}/pylorax/api/*
-%{python3_sitelib}/lifted/*
-%{_sbindir}/lorax-composer
-%{_unitdir}/lorax-composer.service
-%{_unitdir}/lorax-composer.socket
-%dir %{_datadir}/lorax/composer
-%{_datadir}/lorax/composer/*
-%{_datadir}/lorax/lifted/*
-%{_tmpfilesdir}/lorax-composer.conf
-%dir %attr(0771, root, weldr) %{_sharedstatedir}/lorax/composer/
-%dir %attr(0771, root, weldr) %{_sharedstatedir}/lorax/composer/blueprints/
-%attr(0771, weldr, weldr) %{_sharedstatedir}/lorax/composer/blueprints/*
-%{_mandir}/man1/lorax-composer.1*
-
 %files -n composer-cli
 %{_bindir}/composer-cli
 %{python3_sitelib}/composer/*
@@ -273,11 +193,74 @@ getent passwd weldr >/dev/null 2>&1 || useradd -r -g weldr -d / -s /sbin/nologin
 %{_mandir}/man1/composer-cli.1*
 
 %changelog
+* Wed Oct 07 2020 Brian C. Lane <bcl@redhat.com> 34.3-1
+- composer: Fix open file warnings (bcl@redhat.com)
+- ltmpl: Fix deprecated escape in docstring (bcl@redhat.com)
+- tests: Fix open file warning in test_execWithRedirect (bcl@redhat.com)
+- Cleanup imgutil open files and processes (bcl@redhat.com)
+- tests: Remove test_del_execReadlines (bcl@redhat.com)
+- Fix unclosed files (bcl@redhat.com)
+- test: Use Python dev mode during testing (bcl@redhat.com)
+- tests: Update composer-cli blueprint server tests (bcl@redhat.com)
+- runtime-cleanup: Delete .pyc files (bcl@redhat.com)
+- New lorax documentation - 34.3 (bcl@redhat.com)
+- doc: Add Blueprint documentation and example to composer-cli.rst (bcl@redhat.com)
+- docs: Update docs for lorax-composer removal (bcl@redhat.com)
+- tests: Remove unused lorax-composer tests (bcl@redhat.com)
+- Remove lorax-composer, it has been replaced by osbuild-composer (bcl@redhat.com)
+
+* Tue Sep 29 2020 Brian C. Lane <bcl@redhat.com> 34.2-1
+- runtime-cleanup: Remove ncurses package (bcl@redhat.com)
+
+* Mon Sep 14 2020 Brian C. Lane <bcl@redhat.com> 34.1-1
+- Fix broken single-item tuples in a few places (awilliam@redhat.com)
+- Drop dpaa2 firmware on non-aarch64 arches (awilliam@redhat.com)
+- Drop firmware for Mellanox Spectrum (awilliam@redhat.com)
+- runtime-cleanup: big refresh of stale things (awilliam@redhat.com)
+
+* Tue Sep 08 2020 Brian C. Lane <bcl@redhat.com> 34.0-1
+- New lorax documentation - 34.0 (bcl@redhat.com)
+- runtime-cleanup: strip a bunch of unnecessary firmwares (awilliam@redhat.com)
+- runtime-install: specify polkit-gnome to avoid lxpolkit and GTK2 (awilliam@redhat.com)
+- runtime-install: exclude gnome-firmware and sigrok-firmware (awilliam@redhat.com)
+- runtime-cleanup: Drop video playback acceleration drivers (awilliam@redhat.com)
+- runtime-install: don't install notification-daemon (awilliam@redhat.com)
+
+* Tue Sep 08 2020 Brian C. Lane <bcl@redhat.com> 33.9-1
+- config_files: Update aarch64, ppc, and sparc timeouts to 60s (bcl@redhat.com)
+- templates: Ensure nano is installed for the runtime environment (ngompa13@gmail.com)
+- tests: Ignore W0707 raise-missing-from warnings (bcl@redhat.com)
+- Switch VMware testing env to improve stability results (chrobert@redhat.com)
+- tests: Allow skipping image build in compose sanity test (atodorov@redhat.com)
+
+* Thu Jul 23 2020 Brian C. Lane <bcl@redhat.com> 33.8-1
+- composer-cli: Make start-ostree parent and ref optional (bcl@redhat.com)
+- composer-cli: Add a get_arg function (bcl@redhat.com)
+- Set BACKEND=osbuild-composer if running that test scenario (atodorov@redhat.com)
+- tests: Don't check info after compose cancel with osbuild-composer (atodorov@redhat.com)
+- tests: Compare blueprints as TOML objects, not strings (atodorov@redhat.com)
+- tests: Remove lorax-composer specific checks (atodorov@redhat.com)
+- tests: Remove compose after we're done (atodorov@redhat.com)
+- tests: don't use beakerlib in blueprint (lars@karlitski.net)
+- tests: don't depend on internal state of composer (lars@karlitski.net)
+- tests: Do not rely on example blueprints (atodorov@redhat.com)
+- tests: Special case compose types for osbuild-composer (atodorov@redhat.com)
+- tests: Don't check example blueprints if we don't have to (atodorov@redhat.com)
+- tests: Use BACKEND env variable instead of hard-coded values (atodorov@redhat.com)
+- tests: Disable non-cli test scenarios b/c osbuild-composer (atodorov@redhat.com)
+
+* Mon Jul 20 2020 Brian C. Lane <bcl@redhat.com> 33.7-1
+- Add log entry about dracut and /proc (bcl@redhat.com)
+- Skip creating empty /proc/modules for dracut (bcl@redhat.com)
+- lorax: Install fcoe-utils (vponcova@redhat.com)
+- lorax: Enable swap on zram (vponcova@redhat.com)
+- Fix EFI booting for ISOs generated by `mkksiso` (michel@michel-slm.name)
+- tests: Disable cloud-init status check (atodorov@redhat.com)
+
 * Thu Jun 18 2020 Brian C. Lane <bcl@redhat.com> 33.6-1
 - lorax.spec: Add psmisc for fuser debugging of failed umounts in pylorax.imgutils (bcl@redhat.com)
 - composer-cli: Disable retry counter on connection timeout (bcl@redhat.com)
 - composer-cli: Change timeout to 5 minutes (bcl@redhat.com)
-- Temporary fix for running lorax inside mock (no /proc created)
 
 * Thu Jun 11 2020 Brian C. Lane <bcl@redhat.com> 33.5-1
 - lorax-composer: Add deprecation notice to documentation (bcl@redhat.com)

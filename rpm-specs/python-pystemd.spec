@@ -8,7 +8,7 @@ Name:           python-%{pypi_name}
 # GitHub tag lacks the final .0
 %global tag     0.6
 Version:        %{tag}.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        A thin Cython-based wrapper on top of libsystemd
 
 License:        LGPLv2+
@@ -84,6 +84,9 @@ popd
 %{python3_sitearch}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.0-6
 - Rebuilt for Python 3.9
 

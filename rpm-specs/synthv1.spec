@@ -1,6 +1,6 @@
 Summary:       A 4-oscillator subtractive polyphonic synthesizer
 Name:          synthv1
-Version:       0.9.14
+Version:       0.9.17
 Release:       1%{?dist}
 URL:           https://%{name}.sourceforge.io/
 Source0:       https://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
@@ -67,6 +67,15 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 %{_libdir}/lv2/%{name}.lv2/
 
 %changelog
+* Mon Sep 14 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.9.17-1
+- Update to 0.9.17
+
+* Fri Aug 28 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.9.16-1
+- Update to 0.9.16
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.14-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.9.14-1
 - Update to 0.9.14
 

@@ -1,6 +1,6 @@
 Name:           perl-Minion
-Version:        10.06
-Release:        2%{?dist}
+Version:        10.13
+Release:        1%{?dist}
 Summary:        High performance job queue for the Perl programming language
 License:        Artistic 2.0 and MIT and OFL
 
@@ -75,6 +75,24 @@ chmod -x lib/Mojolicious/Plugin/Minion/resources/public/minion/epoch/*
 %{_mandir}/man3/Mojolicious::Plugin::Minion*
 
 %changelog
+* Sun Aug 02 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 10.13-1
+- Update to 10.13
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 10.12-1
+- Update to 10.12
+
+* Sun Jul 12 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 10.10-1
+- Update to 10.10
+
+* Mon Jun 29 2020 Jitka Plesnikova <jplesnik@redhat.com> - 10.08-2
+- Perl 5.32 re-rebuild updated packages
+
+* Sun Jun 28 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 10.08-1
+- Update to 10.08
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 10.06-2
 - Perl 5.32 rebuild
 

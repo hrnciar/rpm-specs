@@ -1,6 +1,6 @@
 Name:           perl-syntax
 Version:        0.004
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        Activate syntax extensions
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/syntax
@@ -44,6 +44,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.004-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.004-23
 - Perl 5.32 rebuild
 

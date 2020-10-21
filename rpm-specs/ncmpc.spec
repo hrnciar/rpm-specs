@@ -1,17 +1,17 @@
 Name:           ncmpc
-Version:        0.38
+Version:        0.40
 Release:        1%{?dist}
 Summary:        A curses client for the Music Player Daemon (MPD)
 
 License:        GPLv2+
 URL:            http://www.musicpd.org/
 Source0:        http://www.musicpd.org/download/ncmpc/0/ncmpc-%{version}.tar.xz
-Source1:        http://www.musicpd.org/download/ncmpc/0/ncmpc-%{version}.tar.xz.sig
+#Source1:        http://www.musicpd.org/download/ncmpc/0/ncmpc-%{version}.tar.xz.sig
 
 # Created with
 #   $ gpg2 --receive-keys C6DB4512
 #   $ gpg2 --export --export-options export-minimal 236E8A58C6DB4512
-Source2:        gpgkey-236E8A58C6DB4512.gpg
+#Source2:        gpgkey-236E8A58C6DB4512.gpg
 
 BuildRequires:  gnupg2
 BuildRequires:  g++
@@ -31,7 +31,7 @@ interface inspired by cplay.
 
 
 %prep
-%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
+#%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
 %autosetup -p1
 
 
@@ -69,6 +69,16 @@ install -p -m644 doc/keys.sample $RPM_BUILD_ROOT%{_sysconfdir}/ncmpc/keys
 
 
 %changelog
+* Wed Oct 7 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 0.40-1
+- New upstream release
+
+* Fri Aug 21 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 0.39-1
+- New upstream release
+- Comment out signature checking until process issues are sorted out
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.38-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 0.38-1
 - New upstream release, drop upstreamed patches
 

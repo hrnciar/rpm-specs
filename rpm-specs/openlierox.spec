@@ -4,7 +4,7 @@ Name:           openlierox
 # Because we downgraded from 0.59 to 0.58 as 0.59 never became stable
 Epoch:          1
 Version:        0.58
-Release:        0.20.%{prever}%{?dist}
+Release:        0.23.%{prever}%{?dist}
 Summary:        Addictive realtime multi-player 2D shoot-em-up
 License:        LGPLv2+
 URL:            http://openlierox.sourceforge.net/
@@ -50,14 +50,17 @@ rm -rf share/gamedir/scripts share/gamedir/cfg/*.py
 
 %build
 %cmake -DDEBUG=OFF -DHAWKNL_BUILTIN=OFF -DBREAKPAD=OFF -DSYSTEM_DATA_DIR=%{_datadir}
-make %{?_smp_mflags}
+# The CMakefile is not written with out of tree builds in minds. It expects
+# this dir, which is part of the source-tree, to be present
+mkdir %{_vpath_builddir}/bin
+%cmake_build
 
 
 %install
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/OpenLieroX
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man6
-install -m 755 bin/%{name} $RPM_BUILD_ROOT%{_bindir}
+install -m 755 %{_vpath_builddir}/bin/%{name} $RPM_BUILD_ROOT%{_bindir}
 cp -pr share/gamedir/* $RPM_BUILD_ROOT%{_datadir}/OpenLieroX
 install -p -m 644 doc/%{name}.6 $RPM_BUILD_ROOT%{_mandir}/man6
 
@@ -86,6 +89,16 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Mon Aug 10 2020 Hans de Goede <hdegoede@redhat.com> - 1:0.58-0.23.rc5
+- Fix FTBFS, somewhat non-trivial cmake macro fix (rhbz#1865161)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.58-0.22.rc5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.58-0.21.rc5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.58-0.20.rc5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,8 +1,8 @@
 %define debug_package %{nil}
 
 Name:           inkscape
-Version:        1.0
-Release:        3%{?dist}
+Version:        1.0.1
+Release:        2%{?dist}
 Summary:        Vector-based drawing program using SVG
 
 # Inkscape tags their releases with underscores and in ALLCAPS
@@ -10,10 +10,14 @@ Summary:        Vector-based drawing program using SVG
 
 License:        GPLv2+ and CC-BY
 URL:            https://inkscape.org/
-Source0:        https://inkscape.org/gallery/item/18460/inkscape-1.0_2020-05-01_4035a4fb49.tar.xz
+Source0:        https://inkscape.org/gallery/item/21571/inkscape-1.0.1.tar.xz
 
 # Fedora Color Palette, GIMP format, CC-BY 3.0
 Source2:	Fedora-Color-Palette.gpl
+
+Patch1:         inkscape-gcc11.patch
+# Backported from upstream
+Patch2:         inkscape-appdata.patch
 
 Provides: bundled(libcroco)
 Provides: bundled(libgdl)
@@ -54,7 +58,6 @@ BuildRequires:  potrace-devel
 BuildRequires:  cmake
 BuildRequires:	libwpd-devel
 BuildRequires:	dbus-glib-devel
-BuildRequires:	gtk2-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libsigc++20-devel
 BuildRequires:  libsoup-devel
@@ -71,8 +74,6 @@ Requires:       python3
 Requires:       python3-lxml
 Requires:       python3-numpy
 Requires:       python3-scour
-Requires:       libcanberra-gtk3
-Requires:       PackageKit-gtk3-module
 
 # Weak dependencies for the LaTeX plugin
 Suggests:       pstoedit
@@ -110,7 +111,7 @@ graphics in W3C standard Scalable Vector Graphics (SVG) file format.
 
 
 %prep
-%autosetup -n inkscape-1.0_2020-05-01_4035a4fb49 -p1
+%autosetup -n inkscape-1.0.1_2020-09-07_3bc2e813f5 -p1
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" .
 find . -name CMakeLists.txt | xargs sed -i 's|COMMAND python |COMMAND %{__python3} |g'
 
@@ -148,23 +149,15 @@ cmake \
 %endif 
         -DBUILD_SHARED_LIBS:BOOL=OFF .
 
-make %{?_smp_mflags}
+%make_build
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 find $RPM_BUILD_ROOT -type f -name 'lib*.a' | xargs rm -f
-
-desktop-file-install --vendor="%{?desktop_vendor}" --delete-original --remove-key=TargetEnvironment \
-        --dir $RPM_BUILD_ROOT%{_datadir}/applications   \
-        $RPM_BUILD_ROOT%{_datadir}/applications/org.inkscape.Inkscape.desktop
-
 
 # No skencil anymore
 rm -f $RPM_BUILD_ROOT%{_datadir}/%{name}/extensions/sk2svg.sh
-
-# Validate appdata file
-appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/metainfo/*.appdata.xml
 
 # Install Fedora Color Pallette
 install -pm 644 %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/inkscape/palettes/
@@ -173,6 +166,14 @@ install -pm 644 %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/inkscape/palettes/
 
 rm -rf $RPM_BUILD_ROOT%{_datadir}/inkscape/doc
 rm -f $RPM_BUILD_ROOT%{_datadir}/doc/inkscape/copyright
+
+
+%check
+# Validate appdata file
+appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/metainfo/*.appdata.xml
+
+# Validate desktop file
+desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.inkscape.Inkscape.desktop
 
 
 %files -f %{name}.lang
@@ -206,6 +207,7 @@ rm -f $RPM_BUILD_ROOT%{_datadir}/doc/inkscape/copyright
 %exclude %{_mandir}/man1/inkview.1*
 %{_datadir}/inkscape/tutorials
 %{_datadir}/icons/hicolor/*/apps/*.png
+%{_datadir}/bash-completion/completions/inkscape
 
 %files view
 %{!?_licensedir:%global license %%doc}
@@ -223,6 +225,31 @@ rm -f $RPM_BUILD_ROOT%{_datadir}/doc/inkscape/copyright
 
 
 %changelog
+* Fri Sep 11 2020 Kalev Lember <klember@redhat.com> - 1.0.1-2
+- Fix appdata 1.0.1 release info
+
+* Tue Sep 08 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.0.1-1
+- 1.0.1
+
+* Thu Sep 03 2020 Jeff Law <law@redhat.com> - 1.0-8
+- Refine dynamic casts to avoid -Wnonnull warning with gcc-11
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 1.0-7
+- Drop two unneeded dependencies
+- Validate appdata file in check rather than install section
+- Use desktop-file-validate instead of desktop-file-install
+- Drop unused gtk2 buildrequires
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1.0-5
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Mon Jul 13 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.0-4
+- Poppler 0.90.0 rebuild.
+
 * Tue Jun 23 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.0-3
 - BR python3-setuptools.
 

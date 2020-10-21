@@ -5,7 +5,7 @@
 
 Name:           python-%{srcname}
 Version:        3.1.7
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Simple construction, analysis and modification of binary data
 
 License:        MIT
@@ -122,6 +122,9 @@ sed -i '1{s|^#!/usr/bin/env python||}' %{srcname}.py
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.1.7-2
 - Rebuilt for Python 3.9
 

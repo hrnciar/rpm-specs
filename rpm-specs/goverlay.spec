@@ -1,5 +1,5 @@
 Name:           goverlay
-Version:        0.3.5
+Version:        0.3.8
 Release:        1%{?dist}
 Summary:        Project that aims to create a Graphical UI to help manage Linux overlays
 
@@ -36,6 +36,10 @@ Linux and Gaming.
 %prep
 %autosetup -p1
 
+# Desktop file validation fails in 0.3.6
+# * https://github.com/benjamimgois/goverlay/issues/46
+sed -i 's|Gaming|Game|' data/goverlay.desktop
+
 
 %build
 lazbuild -B %{name}.lpi
@@ -53,7 +57,6 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.xml
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
-
 %files
 %license LICENSE
 %doc README.md
@@ -64,6 +67,18 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Thu Sep 10 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.3.8-1
+- Update to 0.3.8
+
+* Tue Aug 04 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.3.7-1
+- Update 0.3.7
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.3.6-1
+- Update 0.3.6
+
 * Mon Jun 22 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.3.5-1
 - Update 0.3.5
 

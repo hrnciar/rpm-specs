@@ -1,10 +1,11 @@
 Name:          mate-backgrounds
-Version:       1.24.1
-Release:       1%{?dist}
+Version:       1.24.2
+Release:       2%{?dist}
 Summary:       MATE Desktop backgrounds
 License:       GPLv2+
 URL:           http://mate-desktop.org
 Source0:       http://pub.mate-desktop.org/releases/1.24/%{name}-%{version}.tar.xz
+Source1:       default-mate.xml
 
 BuildArch:     noarch
 BuildRequires: mate-common
@@ -24,6 +25,8 @@ make %{?_smp_mflags} V=1
 %install
 %{make_install}
 
+cp -f %{SOURCE1} %{buildroot}%{_datadir}/backgrounds/mate/default-mate.xml
+
 %find_lang %{name} --with-gnome --all-name
 
 %files -f %{name}.lang
@@ -33,6 +36,16 @@ make %{?_smp_mflags} V=1
 
 
 %changelog
+* Tue Sep 15 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.2-2
+- update spec file
+
+* Tue Sep 15 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.2-1
+- update to 1.24.2
+- add default-mate.xml background
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 01 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
 - update to 1.24.1
 

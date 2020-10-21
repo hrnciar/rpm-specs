@@ -3,7 +3,7 @@
 %global git_commit_short %(c="%{git_commit}"; echo "${c:0:8}")
 
 Version: 163840
-Release: 2.%{git_date}git%{git_commit_short}%{?dist}
+Release: 3.%{git_date}git%{git_commit_short}%{?dist}
 
 URL: https://www.hanyang.co.kr/hygothic/
 
@@ -54,6 +54,9 @@ Source99: gothicA1-fetch.sh
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 163840-3.20180313git16680f86
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Artur Iwicki <fedora@svgames.pl> - 163840-2.20180313git16680f86
 - Add a basic fontconfig file
 

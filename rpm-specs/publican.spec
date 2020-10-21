@@ -22,13 +22,12 @@
 
 Name:           publican
 Version:        4.3.2
-Release:        16%{?dist}
+Release:        19%{?dist}
 Summary:        Common files and scripts for publishing with DocBook XML
 # For a breakdown of the licensing, refer to LICENSE
 License:        (GPLv2+ or Artistic) and CC0
 URL:            https://publican.fedorahosted.org
 Source0:        https://fedorahosted.org/released/publican/Publican-v%{version}.tar.gz
-Patch0:         no_fop.patch
 BuildArch:      noarch
 Provides:       publican-common = %{version}
 Provides:       publican-common-db5 = %{version}
@@ -166,6 +165,8 @@ BuildRequires:  lklug-fonts baekmuk-ttf-batang-fonts
 Requires:       liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
 Requires:       cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
 Requires:       lklug-fonts baekmuk-ttf-batang-fonts overpass-fonts
+Requires:       fop
+BuildRequires:  fop
 BuildRequires:  liberation-mono-fonts liberation-sans-fonts liberation-serif-fonts
 BuildRequires:  cjkuni-uming-fonts ipa-gothic-fonts ipa-pgothic-fonts
 BuildRequires:  lklug-fonts baekmuk-ttf-batang-fonts
@@ -210,7 +211,6 @@ Website style for common brand for DocBook5 content
 
 %prep
 %setup -q -n Publican-v%{version}
-%patch0 -p1
 
 %build
 sed -i -e 's,PATH,%{DBPATH},g' catalog
@@ -321,6 +321,15 @@ fi
 %{wwwdir}/common-db5
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.2-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Jeff Fearn <jfearn@redhat.com> 4.3.2-18
+- Bug 1856259 Re-add FOP.
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.3.2-17
+- Perl 5.32 rebuild
+
 * Fri May 22 2020 Jeff Fearn <jfearn@redhat.com> 4.3.2-16
 - Bug 1799903 remove FOP dependency.
 

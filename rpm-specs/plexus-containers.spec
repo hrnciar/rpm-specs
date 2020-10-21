@@ -1,7 +1,7 @@
 Name:           plexus-containers
 Summary:        Containers for Plexus
 Version:        2.1.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 # Most of the files are either under ASL 2.0 or MIT
 # The following files are under xpp:
 # plexus-component-metadata/src/main/java/org/codehaus/plexus/metadata/merge/Driver.java
@@ -132,6 +132,12 @@ rm plexus-component-metadata/src/test/java/org/codehaus/plexus/metadata/DefaultC
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 2.1.0-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

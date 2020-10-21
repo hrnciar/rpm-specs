@@ -1,7 +1,7 @@
 Summary: A library for editing typed command lines
 Name: compat-readline5
 Version: 5.2
-Release: 36%{?dist}
+Release: 38%{?dist}
 License: GPLv2+
 URL: http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html
 Source: ftp://ftp.gnu.org/gnu/readline/readline-%{version}.tar.gz
@@ -74,10 +74,10 @@ library.
 %build
 export CPPFLAGS="-I%{_includedir}/ncurses"
 %configure
-make %{?_smp_mflags}
+%make_build
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install
+%make_install
 
 mkdir -p $RPM_BUILD_ROOT{/%{_lib},%{_libdir}/readline5}
 mv $RPM_BUILD_ROOT%{_libdir}/libreadline.so.* $RPM_BUILD_ROOT/%{_lib}
@@ -109,6 +109,13 @@ rm -rf $RPM_BUILD_ROOT%{_mandir}
 %{_libdir}/readline5/lib*.a
 
 %changelog
+* Thu Aug 13 2020 Tomas Korbar <tkorbar@redhat.com> - 5.2-38
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2-37
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2-36
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

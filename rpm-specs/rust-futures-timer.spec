@@ -7,7 +7,7 @@
 
 Name:           rust-%{crate}
 Version:        3.0.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Timeouts for futures
 
 # Upstream license specification: MIT/Apache-2.0
@@ -108,6 +108,9 @@ which use "wasm-bindgen" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 19 07:14:30 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 3.0.2-1
 - Update to 3.0.2
 

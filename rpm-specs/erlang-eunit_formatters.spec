@@ -6,7 +6,7 @@
 
 Name:     erlang-%{realname}
 Version:  0.5.0
-Release:  4%{?dist}
+Release:  5%{?dist}
 Summary:  Better output format for eunit test suites
 License:  ASL 2.0
 URL:      https://github.com/%{upstream}/%{realname}
@@ -35,6 +35,9 @@ Requires:       erlang-rebar
 %{erlang_appdir}/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

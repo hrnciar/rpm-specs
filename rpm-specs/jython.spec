@@ -6,7 +6,7 @@
 
 Name:                      jython
 Version:                   2.7.1
-Release:                   11%{?dist}
+Release:                   14%{?dist}
 Summary:                   A Java implementation of the Python language
 License:                   ASL 1.1 and BSD and CNRI and JPython and Python
 URL:                       http://www.jython.org/
@@ -44,6 +44,7 @@ Requires:                  antlr32-java
 Requires:                  apache-commons-compress
 Requires:                  bouncycastle
 Requires:                  bouncycastle-pkix
+Requires:                  glassfish-jaxb-api
 Requires:                  guava
 Requires:                  objectweb-asm
 Requires:                  jctools >= 2.0.2
@@ -67,6 +68,7 @@ BuildRequires:             antlr32-tool
 BuildRequires:             apache-commons-compress
 BuildRequires:             bouncycastle
 BuildRequires:             bouncycastle-pkix
+BuildRequires:             glassfish-jaxb-api
 BuildRequires:             guava
 BuildRequires:             objectweb-asm
 BuildRequires:             jctools >= 2.0.2
@@ -114,9 +116,6 @@ mix the two languages both during development and in shipping products.
 
 %package javadoc
 Summary:           Javadoc for %{name}
-# Obsoletes/Provides added in F25
-Obsoletes:         %{name}-manual = %{version}-%{release}
-Provides:          %{name}-manual < %{version}-%{release}
 
 %description javadoc
 API documentation for %{name}.
@@ -157,12 +156,12 @@ sed -i -e 's/CharMatcher\.ascii()/CharMatcher.ASCII/' \
 %build
 # Symlink build-time libs
 build-jar-repository -p -s extlibs \
-  antlr32/antlr antlr32/antlr-runtime stringtemplate antlr \
+  antlr32/antlr antlr32/antlr-runtime stringtemplate antlr jaxb-api \
   jffi jffi-native jnr-constants jnr-ffi jnr-netdb jnr-posix jline/jline jansi/jansi icu4j/icu4j \
   glassfish-servlet-api guava objectweb-asm/asm objectweb-asm/asm-commons objectweb-asm/asm-util \
   commons-compress junit hamcrest/core
 
-ant \
+ant -Djython.java.version=1.8 \
   -Djython.dev.jar=jython.jar \
   -Dhas.repositories.connection=false \
   javatest javadoc
@@ -179,7 +178,7 @@ popd
 rm dist/javalib/*.jar
 build-jar-repository -p -s dist/javalib antlr32/antlr-runtime-3.2 \
   objectweb-asm/asm objectweb-asm/asm-commons objectweb-asm/asm-util guava icu4j/icu4j \
-  jffi jffi-native jnr-constants jnr-ffi jnr-netdb jnr-posix jline/jline jansi/jansi \
+  jffi jffi-native jnr-constants jnr-ffi jnr-netdb jnr-posix jline/jline jansi/jansi jaxb-api \
   netty/netty-buffer netty/netty-codec netty/netty-common netty/netty-handler netty/netty-resolver netty/netty-transport \
   jctools/jctools-core apache-commons-compress bcprov bcpkix xerces-j2
 
@@ -231,6 +230,15 @@ ln -s %{_datadir}/%{name}/bin/jython $RPM_BUILD_ROOT%{_bindir}
 %{_datadir}/%{name}/Demo
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.7.1-13
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Fri Jun 26 2020 Mat Booth <mat.booth@redhat.com> - 2.7.1-12
+- Remove ancient obsoletes and fix building on Java 11
+
 * Tue Feb 25 2020 Miro Hrončok <mhroncok@redhat.com> - 2.7.1-11
 - Use the bundled wheels (setuptools 45 drops Python 2 compatibility)
 

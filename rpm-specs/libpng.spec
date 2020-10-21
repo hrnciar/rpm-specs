@@ -2,7 +2,7 @@ Summary:       A library of functions for manipulating PNG image format files
 Name:          libpng
 Epoch:         2
 Version:       1.6.37
-Release:       3%{?dist}
+Release:       5%{?dist}
 License:       zlib
 URL:           http://www.libpng.org/pub/png/
 
@@ -65,10 +65,10 @@ cp -p %{SOURCE1} .
 %build
 autoreconf -vif
 %configure
-make %{?_smp_mflags} DFA_XTRA=pngusr.dfa
+%make_build DFA_XTRA=pngusr.dfa
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install
+%make_install
 
 # We don't ship .la files.
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
@@ -102,6 +102,13 @@ make check
 %{_bindir}/pngfix
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:1.6.37-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 2:1.6.37-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:1.6.37-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

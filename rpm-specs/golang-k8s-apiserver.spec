@@ -4,8 +4,8 @@
 # https://github.com/kubernetes/apiserver
 %global goipath         k8s.io/apiserver
 %global forgeurl        https://github.com/kubernetes/apiserver
-Version:                1.18.3
-%global tag             kubernetes-1.18.3
+Version:                1.18.9
+%global tag             kubernetes-1.18.9
 %global distprefix      %{nil}
 
 %gometa
@@ -18,13 +18,12 @@ are k8s.io/kubernetes, k8s.io/kube-aggregator, and
 github.com/kubernetes-incubator/service-catalog.}
 
 %global golicenses      LICENSE
-%global godocs          code-of-conduct.md CONTRIBUTING.md README.md example\\\
-                        pkg/server/routes/data/README.md
+%global godocs          code-of-conduct.md CONTRIBUTING.md README.md
 
 %global gosupfiles      ${example[@]}
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Library for writing a Kubernetes-style API server
 
 # Upstream license specification: Apache-2.0
@@ -32,6 +31,8 @@ License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 Patch0:         0001-Use-klog-v2.patch
+# Backport for sigs.k8s.io/apiserver-network-proxy
+Patch1:         https://github.com/kubernetes/apiserver/commit/c78dd46c272b441707c6c0d5222802eba8d4edba.patch#/0001-fix-API-change-in-apiserver-network-proxy.patch
 
 BuildRequires:  golang(bitbucket.org/ww/goautoneg)
 BuildRequires:  golang(github.com/coreos/go-oidc)
@@ -44,8 +45,8 @@ BuildRequires:  golang(github.com/gogo/protobuf/proto)
 BuildRequires:  golang(github.com/gogo/protobuf/sortkeys)
 BuildRequires:  golang(github.com/google/gofuzz)
 BuildRequires:  golang(github.com/google/uuid)
-BuildRequires:  golang(github.com/googleapis/gnostic/compiler)
-BuildRequires:  golang(github.com/googleapis/gnostic/openapiv2)
+BuildRequires:  golang(github.com/googleapis/gnostic-0.4/compiler)
+BuildRequires:  golang(github.com/googleapis/gnostic-0.4/openapiv2)
 BuildRequires:  golang(github.com/grpc-ecosystem/go-grpc-prometheus)
 BuildRequires:  golang(github.com/hashicorp/golang-lru)
 BuildRequires:  golang(github.com/pkg/errors)
@@ -154,7 +155,7 @@ BuildRequires:  golang(k8s.io/component-base/logs)
 BuildRequires:  golang(k8s.io/component-base/metrics)
 BuildRequires:  golang(k8s.io/component-base/metrics/legacyregistry)
 BuildRequires:  golang(k8s.io/component-base/metrics/testutil)
-BuildRequires:  golang(k8s.io/klog)
+BuildRequires:  golang(k8s.io/klog/v2)
 BuildRequires:  golang(k8s.io/kube-openapi/pkg/builder)
 BuildRequires:  golang(k8s.io/kube-openapi/pkg/common)
 BuildRequires:  golang(k8s.io/kube-openapi/pkg/handler)
@@ -164,11 +165,10 @@ BuildRequires:  golang(k8s.io/kube-openapi/pkg/util/proto)
 BuildRequires:  golang(k8s.io/utils/net)
 BuildRequires:  golang(k8s.io/utils/path)
 BuildRequires:  golang(k8s.io/utils/trace)
-BuildRequires:  golang(sigs.k8s.io/apiserver-network-proxy/konnectivity-client/pkg/client)
-BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/fieldpath)
-BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/merge)
-BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/typed)
-BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/value)
+BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/v4/fieldpath)
+BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/v4/merge)
+BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/v4/typed)
+BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/v4/value)
 BuildRequires:  golang(sigs.k8s.io/yaml)
 
 %if %{with check}
@@ -203,10 +203,12 @@ BuildRequires:  golang(k8s.io/utils/pointer)
 %prep
 %goprep
 %patch0 -p1
+%patch1 -p1
 sed -i "s|github.com/munnerz/goautoneg|bitbucket.org/ww/goautoneg|" $(find . -name "*.go")
 sed -i "s|github.com/googleapis/gnostic/OpenAPIv2|github.com/googleapis/gnostic/openapiv2|" $(find . -name "*.go")
-sed -i "s|sigs.k8s.io/structured-merge-diff/v3|sigs.k8s.io/structured-merge-diff|" $(find . -type f -iname "*.go")
-sed -i "s|k8s.io/klog/v2|k8s.io/klog|" $(find . -name "*.go")
+sed -i "s|k8s.io/klog|k8s.io/klog/v2|" $(find . -name "*.go")
+sed -i 's|github.com/googleapis/gnostic|github.com/googleapis/gnostic-0.4|' $(find . -iname "*.go" -type f)
+sed -i 's|sigs.k8s.io/structured-merge-diff/v3|sigs.k8s.io/structured-merge-diff/v4|' $(find . -iname "*.go" -type f)
 
 %install
 mapfile -t example <<< $(find pkg/apis/example* -type f)
@@ -232,6 +234,22 @@ mapfile -t example <<< $(find pkg/apis/example* -type f)
 %gopkgfiles
 
 %changelog
+* Tue Sep 29 19:06:23 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.9-1
+- Update to 1.18.9
+
+* Wed Aug 19 00:22:29 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-6
+- Update import pash for sigs.k8s.io/structured-merge-diff/v3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-3
+- Backport for sigs.k8s.io/apiserver-network-proxy
+
 * Mon Jun 15 21:22:46 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-2
 - Reinclude sigs.k8s.io/apiserver-network-proxy
 

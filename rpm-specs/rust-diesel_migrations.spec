@@ -7,7 +7,7 @@
 
 Name:           rust-%{crate}
 Version:        1.4.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Migration management for diesel
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -107,5 +107,12 @@ which use "sqlite" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 16 04:59:15 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 1.4.0-1
 - Initial package

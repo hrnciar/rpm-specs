@@ -1,3 +1,6 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 %global min_libsolv_ver 0.7.11
 
 # Small macro to define (Build)Requires for solv tools
@@ -7,13 +10,19 @@ Requires:       %{_bindir}/%{1}
 # End macro
 
 Name:           libzypp
-Version:        17.23.5
+Version:        17.24.1
 Release:        1%{?dist}
 Summary:        A package management library
 
 License:        GPLv2+
 URL:            https://en.opensuse.org/Portal:Libzypp
 Source0:        https://github.com/openSUSE/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
+
+# Backports from upstream
+## Fix signature checks with rpm 4.16.x
+Patch0001:      0001-Just-collect-details-for-the-signatures-found-fixes-.patch
+## Fix libxml2 link error
+Patch0002:      0001-Fix-template-with-C-linkage-build-error.patch
 
 # Fedora specific patches
 ## Fix include paths for fcgi headers
@@ -124,7 +133,7 @@ find -type f -exec sed -i -e "s|/usr/lib/zypp|%{_libexecdir}/zypp|g" {} ';'
 find -type f -exec sed -i -e "s|\${CMAKE_INSTALL_PREFIX}/lib/zypp|\${CMAKE_INSTALL_PREFIX}/libexec/zypp|g" {} ';'
 
 %build
-%cmake . -B"%{_vpath_builddir}" \
+%cmake \
          -DCMAKE_BUILD_TYPE=RelWithDebInfo \
          -DDOC_INSTALL_DIR=%{_docdir} \
          -DENABLE_BUILD_DOCS=ON \
@@ -132,10 +141,10 @@ find -type f -exec sed -i -e "s|\${CMAKE_INSTALL_PREFIX}/lib/zypp|\${CMAKE_INSTA
          -DENABLE_BUILD_TRANS=ON \
          -DENABLE_ZCHUNK_COMPRESSION=ON
 
-%make_build -C %{_vpath_builddir}
+%cmake_build
 
 %install
-%make_install -C %{_vpath_builddir}
+%cmake_install
 %find_lang zypp
 
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
@@ -164,7 +173,7 @@ rm %{buildroot}%{_sysconfdir}/zypp/needreboot
 
 %check
 pushd %{_vpath_builddir}/tests
-# Tests need to be compiled first
+# Tests need to be compiled first and cannot be run in parallel
 LD_LIBRARY_PATH=%{buildroot}%{_libdir}:${LD_LIBRARY_PATH} ctest -VV --output-on-failure .
 popd
 
@@ -220,6 +229,16 @@ end
 
 
 %changelog
+* Sat Aug 08 2020 Neal Gompa <ngompa13@gmail.com> - 17.24.1-1
+- Update to 17.24.1 (#1817137)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 17.23.5-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 17.23.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 17.23.5-1
 - Update to 17.23.5
 

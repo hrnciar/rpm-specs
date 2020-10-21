@@ -2,7 +2,7 @@
 
 Name:       ibus-table-others
 Version:    1.3.11
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    Various tables for IBus-Table
 License:    GPLv3
 URL:        http://github.com/moebiuscurve/ibus-table-others
@@ -235,6 +235,9 @@ EOF
 %{_datadir}/ibus-table/icons/mathwriter.png
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.11-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.11-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,22 +2,28 @@
 %global gem_name faraday
 
 Name: rubygem-%{gem_name}
-Version: 0.15.4
-Release: 3%{?dist}
+Version: 1.0.1
+Release: 1%{?dist}
 Summary: HTTP/REST API client library
 License: MIT
-URL: https://github.com/lostisland/faraday
+URL: https://lostisland.github.io/faraday
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
-# git clone https://github.com/lostisland/faraday.git && cd faraday
-# git checkout v0.15.4 && tar czvf faraday-0.15.4-tests.tgz test/ script/
-Source1: %{gem_name}-%{version}-tests.tgz
+# Since we don't have multipart-parser in Fedora, include the essential part
+# just for testing purposes.
+# https://github.com/danabr/multipart-parser/blob/master/lib/multipart_parser/parser.rb
+Source1: https://raw.githubusercontent.com/danabr/multipart-parser/master/lib/multipart_parser/parser.rb
+# https://github.com/danabr/multipart-parser/blob/master/lib/multipart_parser/reader.rb
+Source2: https://raw.githubusercontent.com/danabr/multipart-parser/master/lib/multipart_parser/reader.rb
+# Fix Rack 2.1+ test compatibility.
+# https://github.com/lostisland/faraday/pull/1171
+Patch0: rubygem-faraday-1.0.1-Properly-fix-test-failure-with-Rack-2.1.patch
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
-BuildRequires: ruby >= 1.9
-BuildRequires: %{_bindir}/lsof
-BuildRequires: rubygem(minitest)
+BuildRequires: ruby >= 2.3
 BuildRequires: rubygem(multipart-post)
-BuildRequires: rubygem(sinatra)
+BuildRequires: rubygem(rack)
+BuildRequires: rubygem(rspec)
+BuildRequires: rubygem(webmock)
 # Adapter test dependencies, might be optionally disabled.
 BuildRequires: rubygem(em-http-request)
 BuildRequires: rubygem(excon)
@@ -40,7 +46,12 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -n %{gem_name}-%{version} -b 1
+mkdir -p multipart_parser/multipart_parser
+cp %{SOURCE1} %{SOURCE2} multipart_parser/multipart_parser
+
+%setup -q -n %{gem_name}-%{version}
+
+%patch0 -p1
 
 %build
 # Create the gem as gem install only works on a gem file
@@ -59,29 +70,23 @@ cp -a .%{gem_dir}/* \
 
 %check
 pushd .%{gem_instdir}
-ln -s %{_builddir}/test test
-ln -s %{_builddir}/script script
-
-# Avoid Bundler.
-sed -i '/bundler\/setup/,/^fi$/ s/^/#/' script/test
-
-# Follow symlinks.
-sed -i "s/find /find -L /" script/test
-
 # We don't care about code coverage.
-sed -i "/simplecov/,/^end$/ s/^/#/" test/helper.rb
+sed -i "/simplecov/ s/^/#/" spec/spec_helper.rb
+sed -i "/coveralls/ s/^/#/" spec/spec_helper.rb
+sed -i "/SimpleCov/,/^end$/ s/^/#/" spec/spec_helper.rb
+
+# We don't need Pry.
+sed -i "/pry/ s/^/#/" spec/spec_helper.rb
 
 # We don't have {patron,em-synchrony} available in Fedora.
-mv test/adapters/em_synchrony_test.rb{,.disabled}
-mv test/adapters/patron_test.rb{,.disabled}
+mv spec/faraday/adapter/em_synchrony_spec.rb{,.disabled}
+mv spec/faraday/adapter/patron_spec.rb{,.disabled}
 
-# Rrequirs internet access.
-sed -i "/def test_dynamic_no_proxy/a\      skip" test/connection_test.rb
+# This needs http-net-persistent 3.0+.
+sed -i '/allows to set min_version in SSL settings/a\      skip' \
+  spec/faraday/adapter/net_http_persistent_spec.rb
 
-# Fails with Typhoeus 1.0.2
-sed -i "/def test_custom_adapter_config/a\      skip" test/adapters/typhoeus_test.rb
-
-RUBYOPT="-Ilib -ryaml" script/test
+rspec -I%{_builddir}/multipart_parser -rspec_helper -r%{SOURCE1} spec -f d
 popd
 
 %files
@@ -93,9 +98,17 @@ popd
 
 %files doc
 %doc %{gem_docdir}
+%doc %{gem_instdir}/CHANGELOG.md
 %doc %{gem_instdir}/README.md
+%{gem_instdir}/Rakefile
+%{gem_instdir}/examples
+%{gem_instdir}/spec
 
 %changelog
+* Thu Jul 23 2020 Vít Ondruch <vondruch@redhat.com> - 1.0.1-1
+- Update to Faraday 1.0.1.
+  Resolves: rhbz#1756449
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

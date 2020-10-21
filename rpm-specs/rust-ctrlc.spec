@@ -5,7 +5,7 @@
 %global crate ctrlc
 
 Name:           rust-%{crate}
-Version:        3.1.4
+Version:        3.1.6
 Release:        1%{?dist}
 Summary:        Easy Ctrl-C handler for Rust projects
 
@@ -87,6 +87,15 @@ which use "termination" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 3.1.6-1
+- Update to 3.1.6
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Josh Stone <jistone@redhat.com> - 3.1.5-1
+- Update to 3.1.5
+
 * Fri Feb 21 2020 Josh Stone <jistone@redhat.com> - 3.1.4-1
 - Update to 3.1.4
 

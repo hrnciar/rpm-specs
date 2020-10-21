@@ -1,7 +1,7 @@
 Summary: Emacs Speech interface
 Name: emacspeak
 Version: 45.0
-Release: 7%{?dist}
+Release: 9%{?dist}
 # main lisp files are GPL2+
 # lisp/atom-blogger and lisp/g-client are BSD
 License: GPLv2+ and BSD
@@ -92,6 +92,12 @@ make -C servers/linux-espeak install LIBPARENTDIR=%{buildroot}%{_prefix}/lib
 %{_infodir}/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 45.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 45.0-8
+- Perl 5.32 rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 45.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

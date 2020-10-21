@@ -1,7 +1,7 @@
 Name: hunspell-as
 Summary: Assamese hunspell dictionaries
 Version: 1.0.3
-Release: 21%{?dist}
+Release: 22%{?dist}
 Source: https://downloads.sourceforge.net/project/aoo-extensions/2318/4/as_in.oxt
 URL: https://extensions.openoffice.org/en/project/assamese-dictionaryspell-checker
 License: GPLv2+ or LGPLv2+ or MPLv1.1
@@ -28,6 +28,9 @@ cp -p as_IN.* $RPM_BUILD_ROOT/%{_datadir}/myspell/
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

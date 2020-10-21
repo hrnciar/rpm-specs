@@ -2,7 +2,7 @@
 
 Name:           python-pyrad
 Version:        2.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Python RADIUS client
 License:        BSD
 URL:            https://github.com/wichert/pyrad
@@ -57,6 +57,9 @@ rm -f docs/_build/html/.buildinfo
 %{python3_sitelib}/%{srcname}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1-6
 - Rebuilt for Python 3.9
 

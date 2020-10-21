@@ -13,7 +13,7 @@
 Summary:    Guifications Plugin for Pidgin
 Name:       pidgin-guifications
 Version:    2.16
-Release:    22%{?dist}
+Release:    23%{?dist}
 License:    GPLv2+
 Url:        http://plugins.guifications.org/trac/wiki/Guifications
 Source:     http://downloads.guifications.org/plugins/Guifications2/pidgin-guifications-%{version}.tar.bz2
@@ -56,6 +56,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/pidgin/*.la $RPM_BUILD_ROOT%{_libdir}/pidgin/*.a
 %{_datadir}/pixmaps/pidgin/guifications
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

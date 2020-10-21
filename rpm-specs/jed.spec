@@ -1,7 +1,7 @@
 Summary: Fast, compact editor based on the S-Lang screen library
 Name: jed
 Version: 0.99.19
-Release: 19%{?dist}
+Release: 20%{?dist}
 License: GPL+
 Source0: ftp://space.mit.edu/pub/davis/jed/v0.99/jed-0.99-19.tar.bz2
 Patch1: jed-0.99.12-xkeys.patch
@@ -72,6 +72,9 @@ sed -i "s|JED_ROOT|%{_datadir}/jed|g" $RPM_BUILD_ROOT/%{_mandir}/man1/jed.1
 %{_datadir}/jed
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99.19-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99.19-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

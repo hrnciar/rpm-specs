@@ -6,7 +6,7 @@
 
 Name:		nodejs-loud-rejection
 Version:	1.6.0
-Release:	7%{?dist}
+Release:	8%{?dist}
 Summary:	Make unhandled promise rejections fail loudly instead of the default silent fail
 
 License:	MIT
@@ -70,6 +70,9 @@ cp -pr package.json index.js api.js register.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

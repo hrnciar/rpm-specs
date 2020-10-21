@@ -1,15 +1,13 @@
 %global srcname zarr
 
 Name:           python-%{srcname}
-Version:        2.4.0
-Release:        2%{?dist}
+Version:        2.5.0
+Release:        1%{?dist}
 Summary:        Chunked, compressed, N-dimensional arrays for Python
 
 License:        MIT
 URL:            https://github.com/zarr-developers/zarr
 Source0:        %{pypi_source}
-# https://github.com/zarr-developers/zarr/pull/442
-Patch0001:      0001-Explicitly-close-stores-during-tests.patch
 
 BuildArch:      noarch
 
@@ -77,7 +75,7 @@ rm -rf html/.{doctrees,buildinfo,_static/donotdelete}
 
 
 %check
-%{__python3} -m pytest
+%{pytest}
 
 
 %files -n python3-%{srcname}
@@ -92,6 +90,12 @@ rm -rf html/.{doctrees,buildinfo,_static/donotdelete}
 
 
 %changelog
+* Sat Oct 10 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.5.0-1
+- Update to latest version (#1885678)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.4.0-2
 - Rebuilt for Python 3.9
 

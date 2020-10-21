@@ -1,26 +1,22 @@
 %define ruby_inc %(pkg-config --cflags ruby)
-%define libsepolver 3.0-1
+%define libsepolver 3.1-2
 
 Summary: SELinux library and simple utilities
 Name: libselinux
-Version: 3.0
-Release: 5%{?dist}
+Version: 3.1
+Release: 3%{?dist}
 License: Public Domain
 # https://github.com/SELinuxProject/selinux/wiki/Releases
-Source0: https://github.com/SELinuxProject/selinux/releases/download/20191204/libselinux-3.0.tar.gz
+Source0: https://github.com/SELinuxProject/selinux/releases/download/20200710/libselinux-3.1.tar.gz
 Source1: selinuxconlist.8
 Source2: selinuxdefcon.8
 Url: https://github.com/SELinuxProject/selinux/wiki
 # $ git clone https://github.com/fedora-selinux/selinux.git
 # $ cd selinux
-# $ git format-patch -N libselinux-3.0 -- libselinux
+# $ git format-patch -N libselinux-3.1 -- libselinux
 # $ i=1; for j in 00*patch; do printf "Patch%04d: %s\n" $i $j; i=$((i+1));done
 # Patch list start
 Patch0001: 0001-Fix-selinux-man-page-to-refer-seinfo-and-sesearch-to.patch
-Patch0002: 0002-Verify-context-input-to-funtions-to-make-sure-the-co.patch
-Patch0003: 0003-libselinux-export-flush_class_cache-call-it-on-polic.patch
-Patch0004: 0004-libselinux-Eliminate-use-of-security_compute_user.patch
-Patch0005: 0005-libselinux-deprecate-security_compute_user-update-ma.patch
 # Patch list end
 BuildRequires: gcc
 BuildRequires: ruby-devel ruby libsepol-static >= %{libsepolver} swig pcre2-devel xz-devel
@@ -98,6 +94,7 @@ export DISABLE_RPM="y"
 export USE_PCRE2="y"
 
 %set_build_flags
+CFLAGS="$CFLAGS -fno-semantic-interposition"
 
 # To support building the Python wrapper against multiple Python runtimes
 # Define a function, for how to perform a "build" of the python wrapper against
@@ -106,29 +103,22 @@ BuildPythonWrapper() {
   BinaryName=$1
 
   # Perform the build from the upstream Makefile:
-  make \
+  %make_build \
     PYTHON=$BinaryName \
-    LIBDIR="%{_libdir}" %{?_smp_mflags} \
+    LIBDIR="%{_libdir}" \
     pywrap
 }
 
-make clean
-make LIBDIR="%{_libdir}" %{?_smp_mflags} swigify
-make LIBDIR="%{_libdir}" %{?_smp_mflags} all
+%make_build LIBDIR="%{_libdir}" swigify
+%make_build LIBDIR="%{_libdir}" all
 
 BuildPythonWrapper %{__python3}
 
-make RUBYINC="%{ruby_inc}" SHLIBDIR="%{_libdir}" LIBDIR="%{_libdir}" LIBSEPOLA="%{_libdir}/libsepol.a" %{?_smp_mflags} rubywrap
+%make_build RUBYINC="%{ruby_inc}" SHLIBDIR="%{_libdir}" LIBDIR="%{_libdir}" LIBSEPOLA="%{_libdir}/libsepol.a" rubywrap
 
 %install
 InstallPythonWrapper() {
   BinaryName=$1
-
-  make \
-    PYTHON=$BinaryName \
-    LIBDIR="%{_libdir}" %{?_smp_mflags} \
-    LIBSEPOLA="%{_libdir}/libsepol.a" \
-    pywrap
 
   make \
     PYTHON=$BinaryName \
@@ -149,7 +139,8 @@ echo "d %{_rundir}/setrans 0755 root root" > %{buildroot}%{_tmpfilesdir}/libseli
 
 InstallPythonWrapper %{__python3}
 
-make DESTDIR="%{buildroot}" LIBDIR="%{_libdir}" SHLIBDIR="%{_libdir}" BINDIR="%{_bindir}" SBINDIR="%{_sbindir}" RUBYINSTALL=%{ruby_vendorarchdir} install install-rubywrap
+%make_install LIBDIR="%{_libdir}" SHLIBDIR="%{_libdir}" BINDIR="%{_bindir}" SBINDIR="%{_sbindir}"
+make DESTDIR="%{buildroot}" RUBYINSTALL=%{ruby_vendorarchdir} install-rubywrap
 
 # Nuke the files we don't want to distribute
 rm -f %{buildroot}%{_sbindir}/compute_*
@@ -222,6 +213,20 @@ rm -f %{buildroot}%{_mandir}/man8/togglesebool*
 %{ruby_vendorarchdir}/selinux.so
 
 %changelog
+* Wed Sep 02 2020 Jeff Law <law@redhat.com> - 3.1-3
+- Re-enable LTO
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 3.1-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+- Use -fno-semantic-interposition and more make macros
+
+* Fri Jul 10 2020 Petr Lautrbach <plautrba@redhat.com> - 3.1-1
+- SELinux userspace 3.1 release
+
+* Wed Jul  1 2020 Jeff Law <law@redhat.com> - 3.0-6
+- Disable LTO
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0-5
 - Rebuilt for Python 3.9
 

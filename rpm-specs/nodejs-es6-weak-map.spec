@@ -6,7 +6,7 @@
 
 Name:		nodejs-es6-weak-map
 Version:	2.0.1
-Release:	10%{?dist}
+Release:	11%{?dist}
 Summary:	ECMAScript6 WeakMap polyfill
 
 License:	MIT
@@ -64,6 +64,9 @@ cp -pr package.json *.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -5,7 +5,7 @@
 %global crate rustyline
 
 Name:           rust-%{crate}
-Version:        6.1.2
+Version:        6.3.0
 Release:        1%{?dist}
 Summary:        Readline implementation based on Antirez's Linenoise
 
@@ -13,11 +13,13 @@ Summary:        Readline implementation based on Antirez's Linenoise
 License:        MIT
 URL:            https://crates.io/crates/rustyline
 Source:         %{crates_source}
-
-# fixup Cargo.toml metadata:
-# - drop windows-specific dependencies
-# - adapt to versions of dependencies available on fedora
-Patch0:         00-fixup-cargo-toml.patch
+# Initial patched metadata
+# * use dirs instead of unpackaged dirs-next fork
+# * bump skim dependency from 0.7 to 0.8
+# * drop windows-only dependencies
+Patch0:         rustyline-fix-metadata.diff
+# revert unnecessary move to not-yet-packaged dirs-next
+Patch1:         0001-revert-dirs-next-move.patch
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -124,6 +126,15 @@ which use "with-fuzzy" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Fri Oct 09 2020 Fabio Valentini <decathorpe@gmail.com> - 6.3.0-1
+- Update to version 6.3.0.
+
+* Wed Sep 09 2020 Fabio Valentini <decathorpe@gmail.com> - 6.2.0-1
+- Update to version 6.2.0.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 23 2020 Josh Stone <jistone@redhat.com> - 6.1.2-1
 - Update to 6.1.2
 
@@ -135,4 +146,3 @@ which use "with-fuzzy" feature of "%{crate}" crate.
 
 * Sun Feb 02 2020 Fabio Valentini <decathorpe@gmail.com> - 6.0.0-1
 - Initial package
-

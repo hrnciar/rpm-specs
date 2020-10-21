@@ -1,6 +1,12 @@
+%if ! 0%{?fedora}%{?rhel} || 0%{?fedora} >= 32 || 0%{?rhel} >= 9
+%global fontfile %{_datadir}/fonts/bitstream-vera-sans-fonts/VeraBd.ttf
+%else
+%global fontfile %{_datadir}/fonts/bitstream-vera/VeraBd.ttf
+%endif
+
 Name:           setBfree
 Version:        0.8.11
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        A DSP Tonewheel Organ emulator
 
 License:        GPLv2+ and GPLv3+ and ISC
@@ -68,12 +74,12 @@ CC=gcc; export CC
 %set_build_flags
 
 %make_build OPTIMIZATIONS="%{optflags} ${flags}" \
- PREFIX=%{_prefix} FONTFILE=%{_datadir}/fonts/bitstream-vera/VeraBd.ttf \
+ PREFIX=%{_prefix} FONTFILE=%{fontfile} \
  lv2dir=%{_libdir}/lv2
 
 %install
 %make_install PREFIX=%{_prefix} \
- FONTFILE=%{_datadir}/fonts/bitstream-vera/VeraBd.ttf lv2dir=%{_libdir}/lv2
+ FONTFILE=%{fontfile} lv2dir=%{_libdir}/lv2
 
 # install desktop file
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications \
@@ -114,6 +120,16 @@ install -p -m644 doc/jboverdrive.1 doc/setBfree.1 doc/setBfreeUI.1 doc/x42-whirl
 %license COPYING
 
 %changelog
+* Tue Sep 01 2020 Nils Philippsen <nils@tiptoe.de> - 0.8.11-5
+- Use correct font path in Fedora >= 32
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.11-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.11-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.11-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

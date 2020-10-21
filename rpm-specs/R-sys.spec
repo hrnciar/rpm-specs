@@ -5,7 +5,7 @@
 
 Name:             R-%{packname}
 Version:          3.3
-Release:          3%{?dist}
+Release:          5%{?dist}
 Summary:          Powerful and Reliable Tools for Running System Commands in R
 
 License:          MIT
@@ -75,6 +75,13 @@ export LANG=C.UTF-8
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 3.3-3
 - conditionalize check to break loop
 - rebuild for R 4

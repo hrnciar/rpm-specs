@@ -2,8 +2,8 @@
 %global pypi_name webscrapbook
 
 Name:           python-%{pypi_name}
-Version:        0.6.2
-Release:        3%{?dist}
+Version:        0.15.4
+Release:        2%{?dist}
 Summary:        A backend toolkit for management of WebScrapBook collection
 
 License:        MIT
@@ -56,6 +56,12 @@ find webscrapbook/ -type f -exec sed -i -e '/^#!/,1d' {} \+
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 0.15.4-1
+- New upstream release
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.2-3
 - Rebuilt for Python 3.9
 

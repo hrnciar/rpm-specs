@@ -2,7 +2,7 @@
 
 Name:           dd_rescue
 Version:        1.99.8
-Release:        8%{?dist}
+Release:        12%{?dist}
 Summary:        Fault tolerant "dd" utility for rescuing data from bad media
 # No version specified
 License:        GPL+
@@ -65,6 +65,19 @@ install -D -m 755 dd_rhelp-%{rhelp_version}/dd_rhelp %{buildroot}%{_bindir}/dd_r
 
 
 %changelog
+* Mon Sep 28 2020 Jeff Law <law@redhat.com> - 1.99.8-12
+- Re-enable LTO as upstream GCC target/96939 has been fixed
+
+* Mon Aug 10 2020 Jeff Law <law@redhat.com> - 1.99.8-11
+- Disable LTO on armv7 for now
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.99.8-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.99.8-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.99.8-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

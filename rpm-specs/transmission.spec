@@ -1,8 +1,8 @@
 %global _hardened_build 1
 
 Name:           transmission
-Version:        2.94
-Release:        9%{?dist}
+Version:        3.00
+Release:        6%{?dist}
 Summary:        A lightweight GTK+ BitTorrent client
 # See COPYING. This licensing situation is... special.
 License:        MIT and GPLv2
@@ -11,12 +11,10 @@ URL:            http://www.transmissionbt.com
 Source0:        https://github.com/transmission/transmission-releases/raw/master/transmission-%{version}.tar.xz
 # https://bugzilla.redhat.com/show_bug.cgi?id=1221292
 Source1:        https://raw.githubusercontent.com/gnome-design-team/gnome-icons/master/apps-symbolic/Adwaita/scalable/apps/transmission-symbolic.svg
-Patch1:		transmission-libsystemd.patch
-Patch2:		transmission-fdlimits.patch
+Patch1:		transmission-fdlimits.patch
 # Fix the DBus name to match the app name for flatpak builds
 # https://github.com/transmission/transmission/pull/847
-Patch3:         0001-gtk-use-com.transmissionbt.Transmission.-D-Bus-names.patch
-Patch4:         2123adf8e5e1c2b48791f9d22fc8c747e974180e.patch
+Patch2:         0001-gtk-use-com.transmissionbt.Transmission.-D-Bus-names.patch
 
 BuildRequires:  openssl-devel >= 1.1.0
 BuildRequires:  glib2-devel >= 2.32.0
@@ -43,7 +41,6 @@ back-end.
 
 %package common
 Summary:       Transmission common files
-Conflicts:     transmission < 1.80-0.3.b4
 %description common
 Common files for Transmission BitTorrent client sub-packages. It includes
 the web user interface, icons and transmission-remote, transmission-create,
@@ -96,12 +93,11 @@ sed -i 's|Icon=%{name}-qt|Icon=%{name}|g' qt/%{name}-qt.desktop
 # convert to UTF encoding
 iconv --from=ISO-8859-1 --to=UTF-8 AUTHORS > AUTHORS.new
 mv AUTHORS.new AUTHORS
-iconv --from=ISO-8859-1 --to=UTF-8 NEWS > NEWS.new
-mv NEWS.new NEWS
 
 %build
 
 CXXFLAGS="%{optflags} -fPIC"
+CFLAGS="%{optflags} -fPIC"
 
 %configure --disable-static --enable-utp --enable-daemon --with-systemd-daemon \
            --enable-nls --enable-cli --enable-daemon \
@@ -134,50 +130,6 @@ desktop-file-install \
                 --dir=%{buildroot}%{_datadir}/applications/  \
                   qt/%{name}-qt.desktop
 
-# Register as an application to be visible in the software center
-#
-# NOTE: It would be *awesome* if this file was maintained by the upstream
-# project, translated and installed into the right place during `make install`.
-#
-# See http://www.freedesktop.org/software/appstream/docs/ for more details.
-#
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/appdata
-cat > $RPM_BUILD_ROOT%{_datadir}/appdata/transmission-gtk.appdata.xml <<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2014 Richard Hughes <richard@hughsie.com> -->
-<!--
-BugReportURL: https://forum.transmissionbt.com/viewtopic.php?f=3&t=16443
-SentUpstream: 2014-09-18
--->
-<application>
-  <id type="desktop">transmission-gtk.desktop</id>
-  <metadata_license>CC0-1.0</metadata_license>
-  <description>
-    <p>
-      BitTorrent is a peer-to-peer file-sharing protocol that is commonly used to
-      distribute large amounts of data between multiple users.
-    </p>
-    <p>
-      Transmission is a BitTorrent client with an easy-to-use frontend on top a
-      cross-platform backend.
-      Native frontends are available for OS X and Windows, as well as command line and
-      web frontends.
-    </p>
-    <p>
-      Notable features of Transmission include Local Peer Discovery and Full Encryption,
-      Full encryption, DHTµTP, PEX and Magnet Link support.
-    </p>
-  </description>
-  <url type="homepage">http://www.transmissionbt.com/</url>
-  <screenshots>
-    <screenshot type="default">https://raw.githubusercontent.com/hughsie/fedora-appstream/master/screenshots-extra/transmission-gtk/a.png</screenshot>
-  </screenshots>
-  <!-- FIXME: change this to an upstream email address for spec updates
-  <updatecontact>someone_who_cares@upstream_project.org</updatecontact>
-   -->
-</application>
-EOF
-
 %post daemon
 %systemd_post transmission-daemon.service
 
@@ -191,7 +143,7 @@ EOF
 
 %files common
 %license COPYING
-%doc AUTHORS NEWS README
+%doc AUTHORS NEWS.md README.md
 %{_bindir}/transmission-remote
 %{_bindir}/transmission-create
 %{_bindir}/transmission-edit
@@ -200,6 +152,7 @@ EOF
 %{_datadir}/pixmaps/*
 %{_datadir}/icons/hicolor/*/apps/transmission.*
 %{_datadir}/icons/hicolor/symbolic/apps/transmission-symbolic.svg
+%{_datadir}/icons/hicolor/scalable/apps/transmission-devel.svg
 %doc %{_mandir}/man1/transmission-remote*
 %doc %{_mandir}/man1/transmission-create*
 %doc %{_mandir}/man1/transmission-edit*
@@ -217,7 +170,7 @@ EOF
 
 %files gtk -f %{name}-gtk.lang
 %{_bindir}/transmission-gtk
-%{_datadir}/appdata/%{name}-gtk.appdata.xml
+%{_datadir}/appdata/transmission-gtk.appdata.xml
 %{_datadir}/applications/transmission-gtk.desktop
 %doc %{_mandir}/man1/transmission-gtk.*
 
@@ -227,6 +180,24 @@ EOF
 %doc %{_mandir}/man1/transmission-qt.*
 
 %changelog
+* Tue Oct 06 2020 Jeff Law <law@redhat.com> - 3.00-6
+- Force -fPIC into CFLAGS for QT
+
+* Tue Sep 29 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.00-5
+- libevent re-rebuild
+
+* Wed Sep 23 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.00-4
+- libevent rebuild
+
+* Sun Sep 13 2020 Kalev Lember <klember@redhat.com> - 3.00-3
+- Use upstream appdata file
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.00-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.00-1
+- 3.00
+
 * Mon May 18 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.94-9
 - Backported patch for CVE-2018-10756
 

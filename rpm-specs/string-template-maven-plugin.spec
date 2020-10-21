@@ -1,6 +1,6 @@
 Name:           string-template-maven-plugin
 Version:        1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Execute StringTemplate files during a maven build
 
 License:        MIT
@@ -14,7 +14,7 @@ Source1:        https://raw.githubusercontent.com/kevinbirch/%{name}/master/LICE
 Patch0:         %{name}-aether.patch
 # Tell javadoc about maven mojo tags
 # https://github.com/kevinbirch/string-template-maven-plugin/pull/13
-Patch1:         %%{name}-javadoc.patch
+Patch1:         %{name}-javadoc.patch
 
 BuildRequires:  maven-local
 BuildRequires:  mvn(org.antlr:ST4)
@@ -50,6 +50,9 @@ cp -p %{SOURCE1} .
 # We do not create any soure JARs
 %pom_remove_plugin :maven-source-plugin
 
+# We use xmvn-javadoc instead of maven-javadoc-plugin
+%pom_remove_plugin :maven-javadoc-plugin
+
 # sonatype-oss-parent is deprecated in Fedora
 %pom_remove_parent
 
@@ -66,5 +69,8 @@ cp -p %{SOURCE1} .
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jan 18 2020 Jerry James <loganjerry@gmail.com> - 1.1-1
 - Initial RPM

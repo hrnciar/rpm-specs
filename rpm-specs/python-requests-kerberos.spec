@@ -6,7 +6,7 @@
 
 Name:           python-%{upstream_name}
 Version:        0.12.0
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        A Kerberos authentication handler for python-requests
 License:        MIT
 URL:            https://github.com/requests/requests-kerberos
@@ -63,6 +63,9 @@ py.test-3 tests/
 %{python3_sitelib}/%{module_name}*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.12.0-10
 - Rebuilt for Python 3.9
 

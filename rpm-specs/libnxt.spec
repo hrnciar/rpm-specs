@@ -1,7 +1,7 @@
 Summary: Utility for flashing LEGO Mindstorms NXT firmware
 Name: libnxt
 Version: 0.3
-Release: 23%{?dist}
+Release: 24%{?dist}
 License: GPLv2+
 URL: http://code.google.com/p/libnxt/
 Source0: http://libnxt.googlecode.com/files/%{name}-%{version}.tar.gz
@@ -68,6 +68,9 @@ install -p -D -m 755 fwflash %{buildroot}%{_bindir}/nxt-fwflash
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

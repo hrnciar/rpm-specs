@@ -1,7 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+
 Summary: A set of tools to gather troubleshooting information from a system
 Name: sos
-Version: 3.9.1
+Version: 4.0
 Release: 2%{?dist}
 Source0: https://github.com/sosreport/sos/archive/%{version}.tar.gz
 License: GPLv2+
@@ -9,12 +10,14 @@ BuildArch: noarch
 Url: https://github.com/sosreport/sos
 BuildRequires: python3-devel
 BuildRequires: gettext
-BuildRequires: python3-six
 Requires: libxml2-python3
+Requires: python3-rpm
+Requires: tar
 Requires: bzip2
 Requires: xz
-Requires: python3-six
-Conflicts: vdsm <= 4.30.17
+Requires: python3-pexpect
+Obsoletes: sos-collector <= 1.9
+Patch1: 0001-options-Fix-dict-order-py38-incompatibility.patch
 
 %description
 Sos is a set of tools that gathers information about system
@@ -24,6 +27,7 @@ support technicians and developers.
 
 %prep
 %setup -qn %{name}-%{version}
+%patch1 -p1
 
 %build
 %py3_build
@@ -31,20 +35,40 @@ support technicians and developers.
 %install
 %py3_install '--install-scripts=%{_sbindir}'
 
-install -Dm644 %{name}.conf %{buildroot}%{_sysconfdir}/%{name}.conf
+install -d -m 755 %{buildroot}%{_sysconfdir}/%{name}
+install -d -m 700 %{buildroot}%{_sysconfdir}/%{name}/cleaner
+install -d -m 755 %{buildroot}%{_sysconfdir}/%{name}/presets.d
+install -d -m 755 %{buildroot}%{_sysconfdir}/%{name}/groups.d
+install -d -m 755 %{buildroot}%{_sysconfdir}/%{name}/extras.d
+install -m 644 %{name}.conf %{buildroot}%{_sysconfdir}/%{name}/%{name}.conf
 
 %find_lang %{name} || echo 0
 
 %files -f %{name}.lang
+%{_sbindir}/sos
 %{_sbindir}/sosreport
+%{_sbindir}/sos-collector
+%dir /etc/sos/cleaner
+%dir /etc/sos/presets.d
+%dir /etc/sos/extras.d
+%dir /etc/sos/groups.d
 %{python3_sitelib}/*
 %{_mandir}/man1/*
 %{_mandir}/man5/*
 %doc AUTHORS README.md
 %license LICENSE
-%config(noreplace) %{_sysconfdir}/sos.conf
+%config(noreplace) %{_sysconfdir}/sos/sos.conf
 
 %changelog
+* Thu Sep 24 2020 Sandro Bonazzola <sbonazzo@redhat.com> - 4.0-2
+- Fixes BZ#1882015
+
+* Mon Sep 14 2020 Sandro Bonazzola <sbonazzo@redhat.com> - 4.0-1
+- Update to 4.0 (#1869464)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.9.1-2
 - Rebuilt for Python 3.9
 

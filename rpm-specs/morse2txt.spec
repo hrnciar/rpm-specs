@@ -1,6 +1,8 @@
+%define _legacy_common_support 1
+
 Name:           morse2txt
 Version:        1.0.0
-Release:        27%{?dist}
+Release:        30%{?dist}
 Summary:        A Morse Code Reader
 
 License:        GPLv2+
@@ -41,6 +43,16 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Wed Aug 05 2020 Jeff Law <law@redhat.com> - 1.0.0-30
+- Turn on legacy common support
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-29
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

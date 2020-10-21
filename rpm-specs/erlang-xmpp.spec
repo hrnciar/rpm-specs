@@ -1,14 +1,14 @@
 %global srcname xmpp
 
-%global ezlib_ver 1.0.6
-%global fast_tls_ver 1.1.3
-%global fast_xml_ver 1.1.38
+%global ezlib_ver 1.0.8
+%global fast_tls_ver 1.1.8
+%global fast_xml_ver 1.1.43
 %global idna_ver 6.0.0
-%global p1_utils_ver 1.0.17
-%global stringprep_ver 1.0.18
+%global p1_utils_ver 1.0.20
+%global stringprep_ver 1.0.22
 
 Name:       erlang-%{srcname}
-Version:    1.4.4
+Version:    1.4.9
 Release:    1%{?dist}
 Summary:    Erlang/Elixir XMPP parsing and serialization library
 
@@ -69,6 +69,17 @@ install -p -D -m 755 priv/lib/* --target-directory=%{buildroot}%{erlang_appdir}/
 
 
 %changelog
+* Fri Jul 31 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.4.9-1
+- Update to 1.4.9 (#1807248).
+- https://github.com/processone/xmpp/blob/1.4.9/CHANGELOG.md
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.4.4-1
 - Update to 1.4.4 (#1789112).
 - https://github.com/processone/xmpp/blob/1.4.4/CHANGELOG.md

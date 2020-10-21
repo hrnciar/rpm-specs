@@ -1,9 +1,9 @@
-%global git_date 20171004
-%global git_commit_hash 6f87b0f
+%global git_date 20200918
+%global git_commit_hash 3885f8
 
 Name:		vpnc-script
 Version:	%{git_date}
-Release:	7.git%{git_commit_hash}%{?dist}
+Release:	1.git%{git_commit_hash}%{?dist}
 
 Summary:	Routing setup script for vpnc and openconnect
 BuildArch:	noarch
@@ -34,6 +34,12 @@ install -m 0755 vpnc-script \
 %{_sysconfdir}/vpnc/vpnc-script
 
 %changelog
+* Tue Sep 29 2020 Nikos Mavrogiannopoulos <nmav@redhat.com>
+- Updated to latest upstream vpnc-script
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20171004-8.git6f87b0f
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20171004-7.git6f87b0f
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

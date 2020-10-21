@@ -1,6 +1,6 @@
 Name:    cdrkit
 Version: 1.1.11
-Release: 44%{?dist}
+Release: 46%{?dist}
 Summary: A collection of CD/DVD utilities
 License: GPLv2
 URL:     http://cdrkit.org/
@@ -136,31 +136,24 @@ find doc -type f -print0 | xargs -0 chmod a-x
 
 
 %build
-mkdir fedora
-cd fedora
 export CFLAGS="$RPM_OPT_FLAGS -Wno-error=format-security -fno-strict-aliasing"
 export CXXFLAGS="$CFLAGS"
 export FFLAGS="$CFLAGS"
-%cmake CMAKE_VERBOSE=1 \
-	-DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \
-	-DBUILD_SHARED_LIBS:BOOL=ON \
-..
 
-make VERBOSE=1 %{?_smp_mflags}
+%cmake \
+	-DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \
+	-DBUILD_SHARED_LIBS:BOOL=ON
+
+%cmake_build
 
 %install
-cd fedora
-make install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 perl -pi -e 's#^require v5.8.1;##g' $RPM_BUILD_ROOT%{_bindir}/dirsplit
 ln -s genisoimage $RPM_BUILD_ROOT%{_bindir}/mkisofs
 ln -s genisoimage $RPM_BUILD_ROOT%{_bindir}/mkhybrid
 ln -s icedax $RPM_BUILD_ROOT%{_bindir}/cdda2wav
 ln -s wodim $RPM_BUILD_ROOT%{_bindir}/cdrecord
 ln -s wodim $RPM_BUILD_ROOT%{_bindir}/dvdrecord
-
-#do not include empty fedora/* directories in debuginfo package
-cd ..
-rm -rf fedora
 
 # missing man page. Do symlink like in debian
 ln -sf wodim.1.gz $RPM_BUILD_ROOT/%{_mandir}/man1/netscsid.1.gz
@@ -294,6 +287,13 @@ fi
 %{_includedir}/usal
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.11-46
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.11-45
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Than Ngo <than@redhat.com> - 1.1.11-44
 - Fixed FTBFS
 

@@ -1,7 +1,7 @@
 Name:		wifi-radar
 Summary:	A utility for managing WiFi profiles
 Version:	2.0.s10
-Release:	12%{?dist}
+Release:	13%{?dist}
 License:	GPLv2
 URL:		http://wifi-radar.tuxfamily.org/
 Source0:	http://wifi-radar.tuxfamily.org/pub/%{name}-%{version}.tar.bz2
@@ -79,6 +79,9 @@ desktop-file-install --delete-original --dir $RPM_BUILD_ROOT/%{_datadir}/applica
 %{_datadir}/pixmaps/%{name}.*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.s10-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.s10-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

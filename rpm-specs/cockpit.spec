@@ -1,7 +1,23 @@
 # This spec file has been automatically updated
-Version:        221.1
+Version:        230
 Release: 1%{?dist}
 #
+# Copyright (C) 2014-2020 Red Hat, Inc.
+#
+# Cockpit is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2.1 of the License, or
+# (at your option) any later version.
+#
+# Cockpit is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with Cockpit; If not, see <http://www.gnu.org/licenses/>.
+#
+
 # This file is maintained at the following location:
 # https://github.com/cockpit-project/cockpit/blob/master/tools/cockpit.spec
 #
@@ -24,25 +40,7 @@ Release: 1%{?dist}
 %define rhel %{centos}
 %endif
 
-%if "%{!?__python3:1}"
-%define __python3 /usr/bin/python3
-%endif
-
-# for testing this already gets set in fedora.install, as we want the target
-# VERSION_ID, not the mock chroot's one
-%if "%{!?os_version_id:1}"
-%define os_version_id %(. /etc/os-release; echo $VERSION_ID)
-%endif
-
 %define _hardened_build 1
-
-# define to build the dashboard
-%define build_dashboard 1
-
-# build basic packages like cockpit-bridge
-%define build_basic 1
-# build optional extensions like cockpit-docker
-%define build_optional 1
 
 %define __lib lib
 
@@ -68,6 +66,23 @@ Source0:        cockpit-%{version}.tar.gz
 Source0:        https://github.com/cockpit-project/cockpit/releases/download/%{version}/cockpit-%{version}.tar.xz
 %endif
 
+# in RHEL the source package is duplicated: cockpit (building basic packages like cockpit-{bridge,system})
+# and cockpit-appstream (building optional packages like cockpit-{machines,pcp})
+%if 0%{?rhel}
+
+%if "%{name}" == "cockpit"
+%define build_basic 1
+%define build_optional 0
+%else
+%define build_basic 0
+%define build_optional 1
+%endif
+
+%else
+%define build_basic 1
+%define build_optional 1
+%endif
+
 BuildRequires: gcc
 BuildRequires: pkgconfig(gio-unix-2.0)
 BuildRequires: pkgconfig(json-glib-1.0)
@@ -75,9 +90,10 @@ BuildRequires: pkgconfig(polkit-agent-1) >= 0.105
 BuildRequires: pam-devel
 
 BuildRequires: autoconf automake
+BuildRequires: make
 BuildRequires: /usr/bin/python3
 BuildRequires: gettext >= 0.19.7
-%if %{defined build_dashboard}
+%if 0%{?build_basic}
 BuildRequires: libssh-devel >= 0.8.5
 %endif
 BuildRequires: openssl-devel
@@ -88,7 +104,7 @@ BuildRequires: libxslt-devel
 BuildRequires: glib-networking
 BuildRequires: sed
 
-BuildRequires: glib2-devel >= 2.37.4
+BuildRequires: glib2-devel >= 2.50.0
 # this is for runtimedir in the tls proxy ace21c8879
 BuildRequires: systemd-devel >= 235
 %if 0%{?suse_version}
@@ -123,13 +139,6 @@ Recommends: (cockpit-storaged if udisks2)
 Recommends: cockpit-packagekit
 Suggests: cockpit-pcp
 
-%ifarch x86_64 %{arm} aarch64 ppc64le i686 s390x
-%if 0%{?fedora} == 31 && 0%{?build_optional}
-%define build_docker 1
-Recommends: (cockpit-docker if /usr/bin/docker)
-%endif
-%endif
-
 %if 0%{?rhel} == 0
 Recommends: (cockpit-networkmanager if NetworkManager)
 Suggests: cockpit-selinux
@@ -154,6 +163,9 @@ exec 2>&1
     --docdir=%_defaultdocdir/%{name} \
 %endif
     --with-pamdir='%{pamdir}' \
+%if 0%{?build_basic} == 0
+    --disable-ssh \
+%endif
     %{?vdo_on_demand:--with-vdo-package='"vdo"'}
 make -j4 %{?extra_flags} all
 
@@ -165,17 +177,26 @@ exec 2>&1
 %define testsuite_fail || true
 %endif
 %endif
-make -j4 check %{?testsuite_fail}
+# HACK: RHEL i686 builders hang after running all tests; not a supported architecture, so don't bother
+%if 0%{?rhel} >= 8
+%ifarch i686
+%define testsuite_skip #
+%endif
+%endif
+%{?testsuite_skip} make -j4 check %{?testsuite_fail}
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 make install-tests DESTDIR=%{buildroot}
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/pam.d
 install -p -m 644 tools/cockpit.pam $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/cockpit
 rm -f %{buildroot}/%{_libdir}/cockpit/*.so
-# shipped in firewalld since 0.6, everywhere in Fedora/RHEL 8
-rm -f %{buildroot}/%{_prefix}/%{__lib}/firewalld/services/cockpit.xml
 install -D -p -m 644 AUTHORS COPYING README.md %{buildroot}%{_docdir}/cockpit/
+
+# only ship deprecated PatternFly API for stable releases
+%if 0%{?fedora} > 33 || 0%{?rhel} > 8
+    rm %{buildroot}/%{_datadir}/cockpit/base1/patternfly.css
+%endif
 
 # Build the package lists for resource packages
 echo '%dir %{_datadir}/cockpit/base1' > base.list
@@ -187,13 +208,8 @@ echo '%dir %{_datadir}/cockpit/ssh' >> base.list
 find %{buildroot}%{_datadir}/cockpit/ssh -type f >> base.list
 echo '%{_libexecdir}/cockpit-ssh' >> base.list
 
-%if %{defined build_dashboard}
 echo '%dir %{_datadir}/cockpit/dashboard' >> dashboard.list
 find %{buildroot}%{_datadir}/cockpit/dashboard -type f >> dashboard.list
-%else
-rm -rf %{buildroot}/%{_datadir}/cockpit/dashboard
-touch dashboard.list
-%endif
 
 echo '%dir %{_datadir}/cockpit/pcp' >> pcp.list
 find %{buildroot}%{_datadir}/cockpit/pcp -type f >> pcp.list
@@ -237,25 +253,17 @@ find %{buildroot}%{_datadir}/cockpit/selinux -type f >> selinux.list
 echo '%dir %{_datadir}/cockpit/playground' > tests.list
 find %{buildroot}%{_datadir}/cockpit/playground -type f >> tests.list
 
-%if 0%{?build_docker}
-echo '%dir %{_datadir}/cockpit/docker' > docker.list
-find %{buildroot}%{_datadir}/cockpit/docker -type f >> docker.list
-%else
-rm -rf %{buildroot}/%{_datadir}/cockpit/docker
-rm -f %{buildroot}/%{_prefix}/share/metainfo/org.cockpit-project.cockpit-docker.metainfo.xml
-touch docker.list
-%endif
-
 # when not building basic packages, remove their files
 %if 0%{?build_basic} == 0
 for pkg in base1 branding motd kdump networkmanager selinux shell sosreport ssh static systemd tuned users; do
     rm -r %{buildroot}/%{_datadir}/cockpit/$pkg
+    rm -rf %{buildroot}/usr/src/debug/%{_datadir}/cockpit/$pkg
     rm -f %{buildroot}/%{_datadir}/metainfo/org.cockpit-project.cockpit-${pkg}.metainfo.xml
 done
 for data in doc locale man pixmaps polkit-1; do
     rm -r %{buildroot}/%{_datadir}/$data
 done
-for lib in systemd tmpfiles.d firewalld; do
+for lib in systemd tmpfiles.d; do
     rm -r %{buildroot}/%{_prefix}/%{__lib}/$lib
 done
 for libexec in cockpit-askpass cockpit-session cockpit-ws cockpit-tls cockpit-wsinstance-factory cockpit-desktop; do
@@ -269,8 +277,8 @@ rm -f %{buildroot}%{_datadir}/metainfo/cockpit.appdata.xml
 
 # when not building optional packages, remove their files
 %if 0%{?build_optional} == 0
-for pkg in apps dashboard docker machines packagekit pcp playground storaged; do
-    rm -rf %{buildroot}/%{_datadir}/cockpit/$pkg
+for pkg in apps dashboard machines packagekit pcp playground storaged; do
+    rm -rf %{buildroot}/%{_datadir}/cockpit/$pkg %{buildroot}/usr/src/debug/%{_datadir}/cockpit/$pkg
 done
 # files from -tests
 rm -r %{buildroot}/%{_prefix}/%{__lib}/cockpit-test-assets
@@ -280,17 +288,15 @@ rm -r %{buildroot}/%{_libexecdir}/cockpit-pcp %{buildroot}/%{_localstatedir}/lib
 rm -f %{buildroot}/%{_prefix}/share/metainfo/org.cockpit-project.cockpit-machines.metainfo.xml
 # files from -storaged
 rm -f %{buildroot}/%{_prefix}/share/metainfo/org.cockpit-project.cockpit-storaged.metainfo.xml
-# files from -docker
-rm -f %{buildroot}/%{_prefix}/share/metainfo/org.cockpit-project.cockpit-docker.metainfo.xml
 %endif
 
 sed -i "s|%{buildroot}||" *.list
 
 %if 0%{?suse_version}
-# remove brandings that don't match the distro as they may contain
-# stale symlinks
+# remove brandings with stale symlinks. Means they don't match
+# the distro.
 pushd %{buildroot}/%{_datadir}/cockpit/branding
-ls -1 | (. /etc/os-release; grep -v "default\|$ID") | xargs rm -vr
+find -L * -type l -printf "%H\n" | sort -u | xargs rm -rv
 popd
 # need this in SUSE as post build checks dislike stale symlinks
 install -m 644 -D /dev/null %{buildroot}/run/cockpit/motd
@@ -419,10 +425,10 @@ Recommends: (reportd >= 0.7.1 if abrt)
 %endif
 # NPM modules which are also available as packages
 Provides: bundled(js-jquery) = 3.5.1
-Provides: bundled(js-moment) = 2.25.3
+Provides: bundled(js-moment) = 2.28.0
 Provides: bundled(nodejs-flot) = 0.8.3
 Provides: bundled(xstatic-bootstrap-datepicker-common) = 1.9.0
-Provides: bundled(xstatic-patternfly-common) = 3.59.4
+Provides: bundled(xstatic-patternfly-common) = 3.59.5
 
 %description system
 This package contains the Cockpit shell and system configuration interfaces.
@@ -434,15 +440,11 @@ This package contains the Cockpit shell and system configuration interfaces.
 Summary: Cockpit Web Service
 Requires: glib-networking
 Requires: openssl
-Requires: glib2 >= 2.37.4
+Requires: glib2 >= 2.50.0
 Conflicts: firewalld < 0.6.0-1
 Recommends: sscg >= 2.3
 Recommends: system-logos
-Requires: systemd >= 235
 Suggests: sssd-dbus
-Requires(post): systemd
-Requires(preun): systemd
-Requires(postun): systemd
 
 %description ws
 The Cockpit Web Service listens on the network, and authenticates users.
@@ -489,7 +491,6 @@ authentication via sssd/FreeIPA.
 %{_libexecdir}/cockpit-tls
 %{_libexecdir}/cockpit-desktop
 %attr(4750, root, cockpit-wsinstance) %{_libexecdir}/cockpit-session
-%attr(775, -, wheel) %{_localstatedir}/lib/cockpit
 %{_datadir}/cockpit/static
 %{_datadir}/cockpit/branding
 
@@ -500,6 +501,7 @@ getent group cockpit-wsinstance >/dev/null || groupadd -r cockpit-wsinstance
 getent passwd cockpit-wsinstance >/dev/null || useradd -r -g cockpit-wsinstance -d /nonexisting -s /sbin/nologin -c "User for cockpit-ws instances" cockpit-wsinstance
 
 %post ws
+%tmpfiles_create cockpit-tempfiles.conf
 %systemd_post cockpit.socket
 # firewalld only partially picks up changes to its services files without this
 test -f %{_bindir}/firewall-cmd && firewall-cmd --reload --quiet || true
@@ -668,12 +670,8 @@ Cockpit support for reading PCP metrics and loading PCP archives.
 %{_localstatedir}/lib/pcp/config/pmlogconf/tools/cockpit
 
 %post -n cockpit-pcp
-# HACK - https://bugzilla.redhat.com/show_bug.cgi?id=1185764
-# We can't use "systemctl reload-or-try-restart" since systemctl might
-# be out of sync with reality.
-/usr/share/pcp/lib/pmlogger condrestart
+systemctl reload-or-try-restart pmlogger
 
-%if %{defined build_dashboard}
 %package -n cockpit-dashboard
 Summary: Cockpit remote server dashboard
 BuildArch: noarch
@@ -684,24 +682,6 @@ Conflicts: cockpit-ws < 135
 Cockpit page for showing performance graphs for up to 20 remote servers.
 
 %files -n cockpit-dashboard -f dashboard.list
-
-%endif
-
-%if 0%{?build_docker}
-%package -n cockpit-docker
-Summary: Cockpit user interface for Docker containers
-Requires: cockpit-bridge >= 122
-Requires: cockpit-shell >= 122
-Requires: (docker or moby-engine or docker-ce)
-Requires: %{__python3}
-
-%description -n cockpit-docker
-The Cockpit components for interacting with Docker and user interface.
-This package is not yet complete.
-
-%files -n cockpit-docker -f docker.list
-%{_datadir}/metainfo/org.cockpit-project.cockpit-docker.metainfo.xml
-%endif
 
 %package -n cockpit-packagekit
 Summary: Cockpit user interface for packages
@@ -720,6 +700,62 @@ via PackageKit.
 
 # The changelog is automatically generated and merged
 %changelog
+* Wed Oct 14 2020 Sanne Raymaekers <sanne.raymaekers@gmail.com> - 230-1
+
+- storage: List entries from /etc/crypttab that are still locked
+
+* Wed Sep 30 2020 Marius Vollmer <mvollmer@redhat.com> - 229-1
+
+-  shell: Any page can be the shell
+
+* Wed Sep 16 2020 Katerina Koukiou <kkoukiou@redhat.com> - 228-1
+
+- Accounts: Allow setting weak passwords
+- Changes to remote host logins
+- Machines: Add support for reverting and deleting VM snapshots
+- Drop cockpit-docker code
+
+* Wed Sep 02 2020 Martin Pitt <mpitt@redhat.com> - 227-1
+
+- Machines: Virtual machine list filtering
+- Continued PatternFly 4 migration
+
+* Wed Aug 19 2020 Marius Vollmer <mvollmer@redhat.com> - 226-1
+
+- Storage: Better support for "noauto" LUKS devices
+
+* Wed Aug 05 2020 Matej Marusak <mmarusak@redhat.com> - 225-1
+
+- machines: Add support for VM snapshots
+- developer API: Launch and reattach to a long-running process
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 224-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 224-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Katerina Koukiou <kkoukiou@redhat.com> - 224-1
+
+- machines/services: Multiple bug fixes
+
+* Wed Jul 08 2020 Katerina Koukiou <kkoukiou@redhat.com> - 223-1
+
+- Webserver: Standard-conformant lifetime of web server Certificate
+- Certificate authentication against Active Directory
+
+* Fri Jun 26 2020 Martin Pitt <mpitt@redhat.com> - 222.1-1
+
+- Machines: Fix crash on unset 'ui' property
+- Some integration test fixes for dist-git gating
+
+* Wed Jun 24 2020 Martin Pitt <mpitt@redhat.com> - 222-1
+
+- Logs: More flexible text filters
+- Services, Dashboard: Hide some buttons when access is limited
+- Webserver: Lock down cockpit.service privileges
+
 * Mon Jun 15 2020 Martin Pitt <mpitt@redhat.com> - 221.1-1
 
 - Put back missing base1/patternfly.css

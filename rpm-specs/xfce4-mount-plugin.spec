@@ -6,7 +6,7 @@
 
 Name:           xfce4-mount-plugin
 Version:        1.1.3
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        Mount/unmount utility for the Xfce panel
 
 License:        GPLv2+
@@ -51,6 +51,9 @@ chmod -c +x %{buildroot}%{_libdir}/xfce4/panel/plugins/*.so
 %{_datadir}/icons/hicolor/*/*/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

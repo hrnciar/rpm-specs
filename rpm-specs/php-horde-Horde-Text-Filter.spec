@@ -13,7 +13,7 @@
 
 Name:           php-horde-Horde-Text-Filter
 Version:        2.3.6
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Horde Text Filter API
 
 License:        LGPLv2
@@ -160,6 +160,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.6-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.6-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

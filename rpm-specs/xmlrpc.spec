@@ -1,6 +1,6 @@
 Name:           xmlrpc
 Version:        3.1.3
-Release:        25%{?dist}
+Release:        27%{?dist}
 Epoch:          1
 Summary:        Java XML-RPC implementation
 License:        ASL 2.0
@@ -106,6 +106,12 @@ sed -i -e '/<source>/d' \
 %license LICENSE.txt NOTICE.txt
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.1.3-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1:3.1.3-26
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jun 19 2020 Mat Booth <mat.booth@redhat.com> - 1:3.1.3-25
 - Allow building on Java 11
 

@@ -1,6 +1,6 @@
 Name:           mac-robber
 Version:        1.02
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Tool to create a timeline of file activity for mounted file systems
 
 License:        GPLv2+
@@ -37,6 +37,9 @@ install -pm 0755 mac-robber %{buildroot}%{_bindir}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.02-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.02-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

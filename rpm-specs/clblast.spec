@@ -1,17 +1,18 @@
 # TESTING NOTE: An OpenCL device is needed to run the tests.  Since the koji
 # builders may or may not have a GPU, we use the CPU-only POCL implementation.
 # However:
-# - POCL is not available on ppc64, ppc64le, or s390x due to failing tests.
+# - POCL is not available on ppc64le or s390x due to failing tests.
 # - Builds with POCL on 32-bit ARM fail with an undefined symbol error:
 #   __gnu_f2h_ieee.  This symbol is defined in libLLVM, but we are building
 #   with gcc/g++, not clang.  Since POCL is built with clang, this appears to
-#   be a POCL bug.
+#   be a POCL or clang bug.
 # - Builds with POCL on aarch64 fail one DAXPY test, not yet diagnosed.
-# That leaves only 32-bit and 64-bit x86 as platforms that can run the tests.
+# - Builds with POCL on i686 often fail due to memory exhaustion.
+# That leaves x86_64 as the only platform that can run the tests.
 
 Name:           clblast
 Version:        1.5.1
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Tuned OpenCL BLAS routines
 
 License:        ASL 2.0
@@ -24,7 +25,7 @@ BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  ocl-icd-devel
-BuildRequires:  openblas-devel
+BuildRequires:  pkgconfig(flexiblas)
 %ifarch %{ix86} x86_64
 BuildRequires:  pocl-devel
 # Work around bz 1734850
@@ -65,22 +66,25 @@ Programs to tune %{name} for your OpenCL device.
 
 # Fix the path to the openblas headers
 sed -i 's,openblas/include,include/openblas,' cmake/Modules/FindCBLAS.cmake
+# Add paths for FlexiBLAS
+sed -i 's,include/openblas,include/openblas include/flexiblas,' cmake/Modules/FindCBLAS.cmake
+sed -i 's,NAMES cblas blas,NAMES cblas blas flexiblas,' cmake/Modules/FindCBLAS.cmake
 
 %build
-%cmake -DTESTS:BOOL=ON .
-%make_build
+%cmake -DTESTS:BOOL=ON
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
-%ifarch %{ix86} x86_64
+%ifarch x86_64
 %check
-make alltests
+%ctest
 %endif
 
 %files
 %license LICENSE
-%doc CHANGELOG CONTRIBUTING.md README.md ROADMAP.md
+%doc CHANGELOG README.md ROADMAP.md
 %{_libdir}/lib{%name}.so.1
 %{_libdir}/lib{%name}.so.%{version}
 
@@ -95,6 +99,16 @@ make alltests
 %{_bindir}/*
 
 %changelog
+* Fri Aug 07 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.5.1-4
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 2020 Jerry James <loganjerry@gmail.com> - 1.5.1-1
 - Version 1.5.1
 

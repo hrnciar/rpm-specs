@@ -1,7 +1,7 @@
 Summary: Patch stack for Git repositories
 Name: stgit
 Version: 0.23
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 URL: http://www.procode.org/stgit/
 Source: https://github.com/stacked-git/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.gz
@@ -52,6 +52,9 @@ install -m 644 -D contrib/vim/ftdetect/stg.vim $RPM_BUILD_ROOT%{_datadir}/vim/vi
 %{_datadir}/vim/vimfiles/ftdetect/stg.vim
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.23-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Peter Schiffer <peter+fedora@pschiffer.eu> - 0.23-1
 - resolves: #1846723
   updated to 0.23

@@ -3,7 +3,7 @@
 
 # https://github.com/koofr/go-httpclient
 %global goipath         github.com/koofr/go-httpclient
-%global commit          e0dc8fd921dc6e75d0afaa0d68a57942034534a9
+%global commit          93aa7c75b348a76ab6ec66dd1c4aa7d53deaddcf
 
 %gometa
 
@@ -15,7 +15,7 @@ Go HTTP client.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.5%{?dist}
+Release:        0.7%{?dist}
 Summary:        Go HTTP client
 
 License:        MIT
@@ -41,6 +41,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 19:54:55 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.7.20200728git93aa7c7
+- Bump to commit 93aa7c75b348a76ab6ec66dd1c4aa7d53deaddcf
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 # https://github.com/exoscale/egoscale
 %global goipath         github.com/exoscale/egoscale
-Version:                0.23.0
+Version:                0.33.1
 
 %gometa
 
@@ -14,7 +14,7 @@ Package Egoscale is a mapping for the Exoscale API.}
 %global godocs          AUTHORS CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Wrapper for the Exoscale public cloud API
 
 # Upstream license specification: Apache-2.0
@@ -22,7 +22,16 @@ License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
+BuildRequires:  golang(github.com/deepmap/oapi-codegen/pkg/runtime)
 BuildRequires:  golang(github.com/gofrs/uuid)
+BuildRequires:  golang(github.com/jarcoal/httpmock)
+BuildRequires:  golang(github.com/pkg/errors)
+BuildRequires:  golang(github.com/stretchr/testify/mock)
+
+%if %{with check}
+# Tests
+BuildRequires:  golang(github.com/stretchr/testify/require)
+%endif
 
 %description
 %{common_description}
@@ -44,6 +53,12 @@ BuildRequires:  golang(github.com/gofrs/uuid)
 %gopkgfiles
 
 %changelog
+* Wed Sep 09 15:06:32 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.33.1-1
+- Update to 0.33.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.23.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 07 03:01:22 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.23.0-1
 - Update to 0.23.0
 

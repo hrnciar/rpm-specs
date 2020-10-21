@@ -1,6 +1,6 @@
 Name:           malaga
 Version:        7.12 
-Release:        29%{?dist}
+Release:        30%{?dist}
 Summary:        A programming language for automatic language analysis
 
 License:        GPLv2+
@@ -96,6 +96,9 @@ chmod 0755 $RPM_BUILD_ROOT%{_libdir}/libmalaga.so*
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.12-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.12-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

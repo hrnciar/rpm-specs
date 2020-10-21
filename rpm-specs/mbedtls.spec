@@ -3,23 +3,18 @@
 %endif
 
 Name: mbedtls
-Version: 2.16.6
-Release: 1%{?dist}
+Version: 2.16.8
+Release: 2%{?dist}
 Summary: Light-weight cryptographic and SSL/TLS library
 License: ASL 2.0
 URL: https://tls.mbed.org/
-Source0: https://tls.mbed.org/download/%{name}-%{version}-apache.tgz
+Source0: https://tls.mbed.org/download/%{name}-%{version}.tar.gz
 
 BuildRequires: gcc-c++
 BuildRequires: cmake
 BuildRequires: doxygen
 BuildRequires: graphviz
 BuildRequires: perl-interpreter
-BuildRequires: pkcs11-helper-devel
-BuildRequires: python3
-BuildRequires: zlib-devel
-
-Requires: pkcs11-helper
 
 # replace polarssl with mbedtls
 
@@ -45,8 +40,6 @@ Cryptographic utilities based on %{name}.
 %package        devel
 Summary:        Development files for %{name}
 Requires:       %{name}%{?_isa} = %{version}-%{release}
-Requires:       pkcs11-helper-devel
-Requires:       zlib-devel
 Obsoletes:      polarssl-devel < 1.3.10
 Provides:       polarssl-devel = %{version}-%{release}
 
@@ -70,35 +63,32 @@ BuildArch:      noarch
 The %{name}-doc package contains documentation.
 
 %prep
-%autosetup
+%autosetup -n %{name}-%{name}-%{version}
 
-sed -i 's|//\(#define MBEDTLS_PKCS11_C\)|\1|' include/mbedtls/config.h
 sed -i 's|//\(#define MBEDTLS_HAVEGE_C\)|\1|' include/mbedtls/config.h
 sed -i 's|//\(#define MBEDTLS_THREADING_C\)|\1|' include/mbedtls/config.h
 sed -i 's|//\(#define MBEDTLS_THREADING_PTHREAD\)|\1|' include/mbedtls/config.h
-sed -i 's|//\(#define MBEDTLS_ZLIB_SUPPORT\)|\1|' include/mbedtls/config.h
 
 %build
 
 %cmake \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DLINK_WITH_PTHREAD=ON \
-	-DUSE_PKCS11_HELPER_LIBRARY=ON \
-	-DENABLE_ZLIB_SUPPORT=ON \
 	-DINSTALL_MBEDTLS_HEADERS=ON \
 	-DUSE_SHARED_MBEDTLS_LIBRARY=ON \
 	-DUSE_STATIC_MBEDTLS_LIBRARY=ON
 
-make %{?_smp_mflags} all apidoc
+%cmake_build
+make apidoc
 
 %install
-%make_install
+%cmake_install
 
 mkdir -p $RPM_BUILD_ROOT%{_libexecdir}
 mv $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT%{_libexecdir}/mbedtls
 
 %check
-LD_LIBRARY_PATH=$PWD/library ctest --output-on-failure -V
+%ctest
 
 %ldconfig_scriptlets
 
@@ -122,6 +112,27 @@ LD_LIBRARY_PATH=$PWD/library ctest --output-on-failure -V
 %doc apidoc/*
 
 %changelog
+* Thu Oct 15 2020 Morten Stevens <mstevens@fedoraproject.org> - 2.16.8-2
+- Drop support for pkcs11 and zlib
+
+* Tue Sep 08 2020 Morten Stevens <mstevens@fedoraproject.org> - 2.16.8-1
+- Update to 2.16.8
+
+* Thu Aug 20 2020 Morten Stevens <mstevens@fedoraproject.org> - 2.16.7-4
+- Switch to cmake_build, cmake_install and ctest
+- FTBFS in Fedora rawhide/f33 (#1864124)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16.7-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Morten Stevens <mstevens@fedoraproject.org> - 2.16.7-1
+- Update to 2.16.7
+- Security Advisory 2020-07
+
 * Wed May 27 2020 Morten Stevens <mstevens@fedoraproject.org> - 2.16.6-1
 - Update to 2.16.6
 - Security Advisory 2020-04 (CVE-2020-10932)

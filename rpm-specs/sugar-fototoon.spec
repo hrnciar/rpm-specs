@@ -1,10 +1,6 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:           sugar-fototoon
 Version:        25
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        An activity used to create cartoons
 License:        GPLv3+
 URL:            http://activities.sugarlabs.org/en-US/sugar/addon/4253
@@ -30,12 +26,22 @@ python3 ./setup.py build
 python3 ./setup.py install --prefix=%{buildroot}/%{_prefix}
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}%{_datadir}/{sugaractivitydir}/Fototoon.activity/
+
 %find_lang org.eq.FotoToon
 
 %files -f org.eq.FotoToon.lang
 %{sugaractivitydir}/FotoToon.activity/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 25-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 25-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 25-2
 - drop python3 sed workaround
 

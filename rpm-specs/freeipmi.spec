@@ -2,7 +2,7 @@
 # Copyright (c) 2003 FreeIPMI Core Team
 
 Name:             freeipmi
-Version:          1.6.5
+Version:          1.6.6
 Release:          1%{?dist}
 Summary:          IPMI remote console and system management software
 License:          GPLv3+
@@ -341,6 +341,12 @@ rm -frv %{buildroot}%{_initrddir} %{buildroot}%{_sysconfdir}/init.d
 %dir %{_localstatedir}/cache/ipmiseld
 
 %changelog
+* Wed Oct 07 2020 Josef Ridky <jridky@redhat.com> - 1.6.6-1
+- New upstream release 1.6.6 (#1875941)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Václav Doležal <vdolezal@redhat.com> - 1.6.5-1
 - New upstream release 1.6.5
 

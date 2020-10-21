@@ -1,6 +1,6 @@
 Name:           protobuf-c
 Version:        1.3.3
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        C bindings for Google's Protocol Buffers
 
 License:        BSD
@@ -65,6 +65,12 @@ rm -vf $RPM_BUILD_ROOT/%{_libdir}/libprotobuf-c.la
 %{_libdir}/pkgconfig/libprotobuf-c.pc
 
 %changelog
+* Wed Sep 23 2020 Adrian Reber <adrian@lisas.de> - 1.3.3-4
+- Rebuilt for protobuf 3.13
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 1.3.3-2
 - Rebuilt for protobuf 3.12
 

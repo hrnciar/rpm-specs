@@ -3,15 +3,9 @@
 
 # https://github.com/fsouza/go-dockerclient
 %global goipath         github.com/fsouza/go-dockerclient
-Version:                1.4.0
+Version:                1.6.5
 
 %gometa
-
-# Remove in F33
-%global godevelheader %{expand:
-Obsoletes:      golang-github-fsouza-go-dockerclient-devel < 0.2.1-25
-Obsoletes:      golang-github-fsouza-go-dockerclient-unit-test < 0.2.1-25
-}
 
 %global common_description %{expand:
 This package presents a client for the Docker remote API. It also provides
@@ -24,7 +18,7 @@ passthrough to the libnetwork remote API.}
 %global godocs          AUTHORS README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Go client for the Docker remote API
 
 # Upstream license specification: BSD-2-Clause
@@ -34,20 +28,16 @@ Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/docker/docker/api/types/registry)
 BuildRequires:  golang(github.com/docker/docker/api/types/swarm)
+BuildRequires:  golang(github.com/docker/docker/pkg/archive)
 BuildRequires:  golang(github.com/docker/docker/pkg/fileutils)
 BuildRequires:  golang(github.com/docker/docker/pkg/homedir)
-BuildRequires:  golang(github.com/docker/docker/pkg/idtools)
-BuildRequires:  golang(github.com/docker/docker/pkg/pools)
+BuildRequires:  golang(github.com/docker/docker/pkg/jsonmessage)
 BuildRequires:  golang(github.com/docker/docker/pkg/stdcopy)
-BuildRequires:  golang(github.com/docker/docker/pkg/system)
 BuildRequires:  golang(github.com/docker/go-units)
 BuildRequires:  golang(github.com/gorilla/mux)
-BuildRequires:  golang(github.com/ijc/Gotty)
-BuildRequires:  golang(golang.org/x/sys/unix)
 
 %if %{with check}
 # Tests
-BuildRequires:  golang(github.com/docker/docker/pkg/archive)
 BuildRequires:  golang(github.com/google/go-cmp/cmp)
 BuildRequires:  golang(golang.org/x/crypto/ssh/terminal)
 %endif
@@ -71,6 +61,12 @@ BuildRequires:  golang(golang.org/x/crypto/ssh/terminal)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 17:56:27 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.6.5-1
+- Update to 1.6.5
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

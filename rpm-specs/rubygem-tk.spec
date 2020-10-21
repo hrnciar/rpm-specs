@@ -1,8 +1,8 @@
 %global	gem_name	tk
 
 Name:		rubygem-%{gem_name}
-Version:	0.2.0
-Release:	10%{?dist}
+Version:	0.3.0
+Release:	1%{?dist}
 
 Summary:	Tk interface module using tcltklib
 License:	BSD or Ruby
@@ -105,12 +105,17 @@ popd
 %doc	%{gem_instdir}/README.fork
 %{gem_instdir}/sample
 
-%doc %{gem_instdir}/ChangeLog.tkextlib
 %doc	%{gem_instdir}/README.ActiveTcl
 %doc	%{gem_instdir}/MANUAL_tcltklib.eng
 %doc	%{gem_instdir}/MANUAL_tcltklib.ja
 
 %changelog
+* Fri Oct  9 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 0.3.0-1
+- 0.3.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

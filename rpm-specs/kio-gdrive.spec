@@ -1,15 +1,13 @@
-%global optflags %{optflags} -flto=auto
-%global build_ldflags %{build_ldflags} -flto
 
 Name:           kio-gdrive
-Version:        1.3.0
+Version:        20.08.1
 Release:        1%{?dist}
 Summary:        An Google Drive KIO slave for KDE
 
 License:        GPLv2+
 URL:            https://community.kde.org/KIO_GDrive
 # use releaseme
-Source0:        http://download.kde.org/stable/%{name}/%{version}/src/%{name}-%{version}.tar.xz
+Source0:        https://download.kde.org/stable/release-service/%{version}/src/%{name}-%{version}.tar.xz
 
 # handled by qt5-srpm-macros, which defines %%qt5_qtwebengine_arches
 # arch's where libkgapi is available (due to inderect dependencies on qtwebengine)
@@ -34,19 +32,11 @@ Provides KIO Access to Google Drive using the gdrive:/// protocol.
 %autosetup
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-    %{cmake_kf5} \
-    -DCMAKE_AR=/usr/bin/gcc-ar \
-    -DCMAKE_RANLIB=/usr/bin/gcc-ranlib \
-    -DCMAKE_NM=/usr/bin/gcc-nm \
-    ..
-popd
-
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 %find_lang kio5_gdrive --all-name --with-html
 
 %check
@@ -66,6 +56,18 @@ desktop-file-validate %{buildroot}%{_datadir}/remoteview/*.desktop
 %{_kf5_datadir}/metainfo/org.kde.kio_gdrive.metainfo.xml
 
 %changelog
+* Wed Sep 23 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 20.08.1-1
+- Update to 20.08.1
+
+* Thu Aug 20 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 20.08.0-1
+- Update to 20.08.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.3.0-2
+- rebuild (kaccounts)
+
 * Mon May 25 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 1.3.0-1
 - Update to 1.3.0
 

@@ -2,7 +2,7 @@
 
 Name:		rapidjson
 Version:	1.1.0
-Release:	12%{?dist}
+Release:	15%{?dist}
 Summary:	Fast JSON parser and generator for C++
 
 License:	MIT
@@ -10,12 +10,13 @@ URL:		http://rapidjson.org/
 Source0:	https://github.com/Tencent/rapidjson/archive/v%{version}/%{name}-%{version}.tar.gz
 # Downstream-patch for gtest
 Patch0:		rapidjson-1.1.0-do_not_include_gtest_src_dir.patch
+# Upstream derived patch for C++20 support
+Patch1:         rapidjson-1.1.0-c++20.patch
 
 BuildRequires:	cmake
 BuildRequires:	gcc-c++
 BuildRequires:	gtest-devel
 BuildRequires:	valgrind
-BuildRequires:	util-linux
 BuildRequires:	doxygen
 
 %description
@@ -57,6 +58,7 @@ Provides:	%{name}-static = %{version}-%{release}
 
 %package doc
 Summary:	Documentation-files for %{name}
+BuildArch:	noarch
 
 %description doc
 This package contains the documentation-files for %{name}.
@@ -82,39 +84,46 @@ find . -type f -name CMakeLists.txt -print0 | \
 
 
 %build
-%cmake . -Bbuild -DLIB_INSTALL_DIR=%{_datadir} -DDOC_INSTALL_DIR=%{_pkgdocdir} -DGTESTSRC_FOUND=TRUE -DGTEST_SOURCE_DIR=.
-%make_build -Cbuild
+%cmake -DDOC_INSTALL_DIR=%{_pkgdocdir} -DGTESTSRC_FOUND=TRUE -DGTEST_SOURCE_DIR=.
+%cmake_build
 
 
 %install
-%make_install -Cbuild
+%cmake_install
 cp -a CHANGELOG.md readme*.md %{buildroot}%{_pkgdocdir}
 find %{buildroot} -type f -name 'CMake*.txt' -delete
-hardlink -v %{buildroot}%{_includedir}
-hardlink -v %{buildroot}%{_pkgdocdir}
 
 
 %check
-cd build
-ctest -V %{?_smp_mflags}
+%ctest
 
 
 %files devel
 %license license.txt
-%doc %dir %{_pkgdocdir}
-%doc %{_pkgdocdir}/CHANGELOG.md
-%doc %{_pkgdocdir}/readme*.md
-%{_datadir}/cmake
-%{_datadir}/pkgconfig/*
+%dir %{_pkgdocdir}
+%{_pkgdocdir}/CHANGELOG.md
+%{_pkgdocdir}/readme*.md
+%{_libdir}/cmake
+%{_libdir}/pkgconfig/*
 %{_includedir}/%{name}
 
 
 %files doc
 %license license.txt
-%doc %{_pkgdocdir}
+%{_pkgdocdir}
 
 
 %changelog
+* Tue Sep  1 2020 Tom Hughes <tom@compton.nu> - 1.1.0-15
+- Add patch for C++20 support
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Hughes <tom@compton.nu> - 1.1.0-13
+- Install pkg-config and cmake files to arched location
+- Build documentation as noarch
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

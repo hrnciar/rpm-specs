@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          1.58.0
-Release:          1%{dist}
+Release:          2%{dist}
 Summary:          Tools for parsing Affymetrix data files
 Summary(fr):      Outils d'analyse de fichier de données de puces affymetrix
 License:          LGPLv2+
@@ -55,6 +55,9 @@ rm -rf %{buildroot}%{_libdir}/R/library/R.css
 %{_libdir}/R/library/%{packname}/libs
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.58.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun  8 2020 Tom Callaway <spot@fedoraproject.org> - 1.58.0-1
 - rebuild for R 4
 - update to 1.58.0

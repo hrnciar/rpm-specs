@@ -1,12 +1,12 @@
-%global gitcommit_full eefc13513083b5daddc323f39bf0976a3fc5bc7a
+%global gitcommit_full dcb8453c21a4562727215e899dad083637bc30d3
 %global gitcommit %(c=%{gitcommit_full}; echo ${c:0:7})
-%global date 20190118
+%global date 20200924
 
 %global debug_package %{nil}
 
 Name:           falkon-pdfreader
 Version:        0
-Release:        0.4.%{date}git%{gitcommit}%{?dist}
+Release:        0.7.%{date}git%{gitcommit}%{?dist}
 Summary:        PDF reader extension for Falkon using pdf.js
 
 License:        GPLv3+ and ASL 2.0
@@ -40,7 +40,7 @@ popd
 
 %install
 pushd %{_target_platform}
-    %make_install
+    %cmake_install
 popd
 
 
@@ -52,6 +52,15 @@ popd
 
 
 %changelog
+* Fri Sep 25 2020 Vasiliy Glazov <vascom2@gmail.com> - 0-0.7.20200924gitdcb8453
+- Update to latest git
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6.20200725gita37de6f
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Vasiliy Glazov <vascom2@gmail.com> - 0-0.4.20200725gita37de6f
+- Update to latest git
+
 * Tue Jun 23 2020 Vasiliy Glazov <vascom2@gmail.com> - 0-0.4.20190118giteefc135
 - Correct build arches
 

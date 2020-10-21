@@ -1,6 +1,14 @@
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%global blasvar %{nil}
+%else
+%global blaslib openblas
+%global blasvar o
+%endif
+
 Name:           qcint
-Version:        3.0.20
-Release:        2%{?dist}
+Version:        4.0.3
+Release:        1%{?dist}
 Summary:        An optimized libcint branch for X86 platform
 
 License:        GPLv3+
@@ -14,10 +22,8 @@ Conflicts:      libcint
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
-BuildRequires:  openblas-devel 
+BuildRequires:  %{blaslib}-devel
 BuildRequires:  cmake 
-BuildRequires:  python2-devel 
-BuildRequires:  numpy 
 
 %description    
 Qcint is a branch of the libcint library.  It provides exactly the
@@ -38,16 +44,12 @@ developing applications that use %{name}.
 %setup -q
 
 %build
-mkdir build
-cd build
 export CFLAGS="%{optflags} -Wl,--as-needed"
-%cmake -DENABLE_EXAMPLE=1 -DWITH_F12=1 -DWITH_COULOMB_ERF=1 -DWITH_RANGE_COULOMB=1 -DQUICK_TEST=1 -DBLAS_LIBRARIES=%{_libdir}/libopenblaso.so ..
-make %{?_smp_mflags} VERBOSE=1
+%cmake -DENABLE_EXAMPLE=1 -DWITH_F12=1 -DWITH_COULOMB_ERF=1 -DWITH_RANGE_COULOMB=1 -DQUICK_TEST=1 -DBLAS_LIBRARIES=%{_libdir}/lib%{blaslib}%{blasvar}.so -S . -B %{_host}
+%make_build -C %{_host}
 
 %install
-make -C build install DESTDIR=%{buildroot}
-
-%check
+%make_install -C %{_host}
 
 %ldconfig_scriptlets
 
@@ -58,9 +60,38 @@ make -C build install DESTDIR=%{buildroot}
 
 %files devel
 %{_includedir}/cint.h
+%{_includedir}/cint_funcs.h
 %{_libdir}/libcint.so
 
 %changelog
+* Thu Oct 08 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.0.3-1
+- Update to 4.0.3.
+
+* Mon Oct 05 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.0.2-1
+- Update to 4.0.2.
+- Make CMake build work also on released branches.
+
+* Sat Oct 03 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.0.1-1
+- Update to 4.0.1.
+
+* Sun Sep 27 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 4.0.0-1
+- Update to 4.0.0.
+
+* Wed Aug 26 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 3.1.1-1
+- Update to 3.1.1.
+
+* Sun Aug 16 2020 Iñaki Úcar <iucar@fedoraproject.org> - 3.0.20-6
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Wed Aug 05 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 3.0.20-5
+- Adapt to new CMake macros.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.20-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Petr Viktorin <pviktori@redhat.com> - 3.0.20-3
+- Remove BuildRequires on python2
+
 * Sat May 23 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 3.0.20-2
 - Add conflicts with libcint-devel to qcint-devel package.
 

@@ -1,27 +1,37 @@
 Name:           maven-resources-plugin
-Version:        3.1.0
-Release:        6%{?dist}
+Version:        3.2.0
+Release:        1%{?dist}
 Summary:        Maven Resources Plugin
 License:        ASL 2.0
-URL:            http://maven.apache.org/plugins/maven-resources-plugin
-Source0:        http://repo2.maven.org/maven2/org/apache/maven/plugins/%{name}/%{version}/%{name}-%{version}-source-release.zip
-BuildArch: noarch
+
+URL:            https://maven.apache.org/plugins/maven-resources-plugin
+Source0:        https://repo1.maven.org/maven2/org/apache/maven/plugins/%{name}/%{version}/%{name}-%{version}-source-release.zip
+
+BuildArch:      noarch
 
 BuildRequires:  maven-local
 BuildRequires:  mvn(commons-io:commons-io)
+BuildRequires:  mvn(junit:junit)
+BuildRequires:  mvn(org.apache.commons:commons-lang3)
+BuildRequires:  mvn(org.apache.maven.plugin-testing:maven-plugin-testing-harness)
+BuildRequires:  mvn(org.apache.maven.plugin-tools:maven-plugin-annotations)
+BuildRequires:  mvn(org.apache.maven.plugins:maven-plugin-plugin)
+BuildRequires:  mvn(org.apache.maven.plugins:maven-plugins:pom:)
+BuildRequires:  mvn(org.apache.maven.shared:maven-filtering) >= 3.2.0
+BuildRequires:  mvn(org.apache.maven:maven-compat)
 BuildRequires:  mvn(org.apache.maven:maven-core)
 BuildRequires:  mvn(org.apache.maven:maven-model)
 BuildRequires:  mvn(org.apache.maven:maven-plugin-api)
-BuildRequires:  mvn(org.apache.maven.plugins:maven-plugin-plugin)
-BuildRequires:  mvn(org.apache.maven.plugins:maven-plugins:pom:)
-BuildRequires:  mvn(org.apache.maven.plugin-tools:maven-plugin-annotations)
-BuildRequires:  mvn(org.apache.maven.shared:maven-filtering)
+BuildRequires:  mvn(org.codehaus.plexus:plexus-component-annotations)
 BuildRequires:  mvn(org.codehaus.plexus:plexus-interpolation)
 BuildRequires:  mvn(org.codehaus.plexus:plexus-utils)
+BuildRequires:  mvn(org.eclipse.aether:aether-api)
+BuildRequires:  mvn(org.eclipse.sisu:org.eclipse.sisu.plexus)
 
 %description
 The Resources Plugin handles the copying of project resources
 to the output directory.
+
 
 %package javadoc
 Summary:        Javadoc for %{name}
@@ -33,11 +43,14 @@ API documentation for %{name}.
 %prep
 %setup -q
 
+
 %build
-%mvn_build -f
+%mvn_build
+
 
 %install
 %mvn_install
+
 
 %files -f .mfiles
 %license LICENSE NOTICE
@@ -45,7 +58,17 @@ API documentation for %{name}.
 %files javadoc -f .mfiles-javadoc
 %license LICENSE NOTICE
 
+
 %changelog
+* Tue Aug 11 2020 Fabio Valentini <decathorpe@gmail.com> - 3.2.0-1
+- Update to version 3.2.0.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.1.0-7
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -170,3 +193,4 @@ API documentation for %{name}.
 
 * Thu May 13 2010 Hui Wang <huwang@redhat.com> - 2.2-1
 - Initial version of the package
+

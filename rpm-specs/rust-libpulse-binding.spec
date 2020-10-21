@@ -5,7 +5,7 @@
 %global crate libpulse-binding
 
 Name:           rust-%{crate}
-Version:        2.16.0
+Version:        2.16.2
 Release:        1%{?dist}
 Summary:        Rust language binding for the PulseAudio libpulse library
 
@@ -171,6 +171,12 @@ which use "pa_v8" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Fri Sep 11 2020 Josh Stone <jistone@redhat.com> - 2.16.2-1
+- Update to 2.16.2
+
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 2.16.1-1
+- Update to 2.16.1
+
 * Tue Apr 21 2020 Josh Stone <jistone@redhat.com> - 2.16.0-1
 - Update to 2.16.0
 

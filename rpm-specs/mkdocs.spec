@@ -1,6 +1,6 @@
 Name:           mkdocs
 Version:        1.1.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Python tool to create HTML documentation from markdown sources
 
 # The entire source code is BSD except mkdocs/utils/ghp_import.py
@@ -21,12 +21,9 @@ BuildRequires:  python3dist(markdown) >= 3.2.1
 BuildRequires:  python3dist(pyyaml) >= 3.10
 BuildRequires:  python3dist(tornado) >= 5
 BuildRequires:  python3dist(mdx-gh-links) >= 0.2
-BuildRequires:  python3dist(nltk) >= 3.2.5
-BuildRequires:  python3dist(lunr) = 0.5.8
+BuildRequires:  python3dist(lunr[languages]) = 0.5.8
 BuildRequires:  /usr/bin/coverage
 
-BuildRequires:  js-jquery2
-BuildRequires:  js-jquery1
 BuildRequires:  fontawesome-fonts
 BuildRequires:  fontawesome-fonts-web
 BuildRequires:  lato-fonts
@@ -39,11 +36,8 @@ Recommends:     mkdocs-bootswatch
 Obsoletes:      mkdocs-basic-theme <= 1.0.1
 
 # runtime deps not auto generated
-Requires:       python3dist(nltk) >= 3.2.5
 Requires:       python3dist(mdx-gh-links) >= 0.2
 
-Requires:       js-jquery2
-Requires:       js-jquery1
 Requires:       fontawesome-fonts
 Requires:       fontawesome-fonts-web
 Requires:       lato-fonts
@@ -111,22 +105,6 @@ for to_replace in $(find %{buildroot}/%{python3_sitelib}/%{name}/themes/*/fonts 
     fi
 done
 
-if [ -f %{buildroot}/%{python3_sitelib}/%{name}/themes/readthedocs/js/jquery-2.1.1.min.js ]; then
-    ln -vsf $(realpath --canonicalize-missing --relative-to=%{python3_sitelib}/%{name}/themes/readthedocs/js %{_datadir}/javascript/jquery/2/jquery.min.js) \
-      %{buildroot}/%{python3_sitelib}/%{name}/themes/readthedocs/js/jquery-2.1.1.min.js
-else
-    echo %{buildroot}/%{python3_sitelib}/%{name}/themes/readthedocs/js/jquery-2.1.1.min.js is removed upstream
-    exit 1
-fi
-
-if [ -f %{buildroot}/%{python3_sitelib}/%{name}/themes/mkdocs/js/jquery-1.10.2.min.js ]; then
-    ln -vsf $(realpath --canonicalize-missing --relative-to=%{python3_sitelib}/%{name}/themes/mkdocs/js %{_datadir}/javascript/jquery/1/jquery.min.js) \
-    %{buildroot}/%{python3_sitelib}/%{name}/themes/mkdocs/js/jquery-1.10.2.min.js
-else
-    echo %{buildroot}/%{python3_sitelib}/%{name}/themes/mkdocs/js/jquery-1.10.2.min.js is removed upstream
-    exit 1
-fi
-
 # Build docs
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
@@ -149,6 +127,13 @@ PYTHONPATH=$PWD coverage run --source=mkdocs --omit 'mkdocs/tests/*' -m unittest
 %doc site/*
 
 %changelog
+* Fri Aug  7 2020 Robin Lee <cheeselee@fedoraproject.org> - 1.1.2-3
+- Bundle jquery since jquery1 and jquery2 are retired
+- Drop explicit nltk requirement
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 12 2020 Qiyu Yan <yanqiyu01@gmail.com> - 1.1.2-1
 - Update to 1.1.2 upstream release
 

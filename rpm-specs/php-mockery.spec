@@ -6,7 +6,7 @@
 #
 # Please preserve changelog entries
 #
-%global gh_commit    f69bbde7d7a75d6b2862d9ca8fab1cd28014b4be
+%global gh_commit    60fa2f67f6e4d3634bb4a45ff3171fa52215800d
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     mockery
 %global gh_project   mockery
@@ -15,13 +15,14 @@
 %global with_tests   0%{!?_without_tests:1}
 
 Name:           php-mockery
-Version:        1.3.1
-Release:        2%{?dist}
+Version:        1.3.3
+Release:        1%{?dist}
 Summary:        Mockery is a simple but flexible PHP mock object framework
 
 License:        BSD
 URL:            https://github.com/%{gh_owner}/%{gh_project}
-Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit}/%{name}-%{version}-%{gh_short}.tar.gz
+Source0:        %{name}-%{version}-%{gh_short}.tgz
+Source1:        makesrc.sh
 
 # Use our autoloader
 Patch0:         %{gh_project}-tests.patch
@@ -30,10 +31,10 @@ BuildArch:      noarch
 %if %{with_tests}
 BuildRequires:  php(language) >= 5.6.0
 # From composer.json, "require-dev": {
-#        "phpunit/phpunit": "~5.7.10|~6.5|~7.0|~8.0"
-%global phpunit %{_bindir}/phpunit8
-BuildRequires: phpunit8
-BuildRequires:  (php-composer(hamcrest/hamcrest-php) >= 2.0 with php-composer(hamcrest/hamcrest-php) < 3)
+#        "phpunit/phpunit": "^5.7.10|^6.5|^7.5|^8.5|^9.3"
+%global phpunit %{_bindir}/phpunit9
+BuildRequires: phpunit9
+BuildRequires:  (php-composer(hamcrest/hamcrest-php) >= 2.0.1 with php-composer(hamcrest/hamcrest-php) < 3)
 # Autoloader
 %endif
 BuildRequires:  php-fedora-autoloader-devel
@@ -43,7 +44,7 @@ BuildRequires:  php-fedora-autoloader-devel
 #        "lib-pcre": ">=7.0",
 #        "hamcrest/hamcrest-php": "~2.0"
 Requires:       php(language) >= 5.6.0
-Requires:       (php-composer(hamcrest/hamcrest-php) >= 2.0 with php-composer(hamcrest/hamcrest-php) < 3)
+Requires:       (php-composer(hamcrest/hamcrest-php) >= 2.0.1 with php-composer(hamcrest/hamcrest-php) < 3)
 # From phpcompatinfo report for version 1.0
 Requires:       php-pcre
 Requires:       php-spl
@@ -98,7 +99,7 @@ phpab --output tests/classmap.php --exclude */SemiReservedWordsAsMethods.php tes
 
 : Run upstream test suite
 ret=0
-for cmd in "php %{phpunit}" "php71 %{_bindir}/phpunit7" php72 php73 php74; do
+for cmd in "php %{phpunit}" "php72 %{_bindir}/phpunit8" php73 php74 php80; do
   if which $cmd; then
     set $cmd
     # see .travis.yml
@@ -106,7 +107,7 @@ for cmd in "php %{phpunit}" "php71 %{_bindir}/phpunit7" php72 php73 php74; do
     then SUITE="Mockery Test Suite PHP56"
     else SUITE="Mockery Test Suite"
     fi
-    $1 ${2:-%{_bindir}/phpunit8} \
+    $1 ${2:-%{_bindir}/phpunit9} \
       --no-coverage \
       --verbose --testsuite="$SUITE" || ret=1
   fi
@@ -124,6 +125,18 @@ exit $ret
 
 
 %changelog
+* Mon Aug 17 2020 Remi Collet <remi@remirepo.net> - 1.3.3-1
+- update to 1.3.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Remi Collet <remi@remirepo.net> - 1.3.2-1
+- update to 1.3.2
+- switch to phpunit9
+- raise dependency on hamcrest/hamcrest-php 2.0.1
+- sources from git snapshot
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

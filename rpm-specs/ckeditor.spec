@@ -1,6 +1,6 @@
 Name:          ckeditor
 Version:       4.14.0
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       WYSIWYG text editor to be used inside web pages
 
 License:       GPLv2+ or LGPLv2+ or MPLv1.1
@@ -103,6 +103,9 @@ end
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 20 2020 Shawn Iwinski <shawn@iwin.ski> - 4.14.0-1
 - Update to 4.14.0 (RHBZ #1810020)
 - CVE-2020-9281 (RHBZ #1814825,1814826,1814827)

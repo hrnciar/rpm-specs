@@ -1,6 +1,6 @@
 Name:           perl-Hash-Layout
 Version:        1.02
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Hashes with predefined levels, composite keys and default values
 License:        GPL+ or Artistic
 
@@ -58,6 +58,9 @@ RELEASE_TESTING=1 make test
 %{_mandir}/man3/Hash*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.02-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.02-15
 - Perl 5.32 rebuild
 

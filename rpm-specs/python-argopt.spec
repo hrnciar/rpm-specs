@@ -8,7 +8,7 @@ in the rest of your program.
 
 Name:           python-%{srcname}
 Version:        0.4.0
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Doc to argparse driven by docopt
 
 License:        MPLv2.0
@@ -48,6 +48,9 @@ sed -i -e "/install_requires/d" setup.py
 %{python3_sitelib}/%{srcname}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.0-8
 - Rebuilt for Python 3.9
 

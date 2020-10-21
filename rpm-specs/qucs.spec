@@ -1,23 +1,45 @@
+# Support a digital simulation with FreeHDL
+%bcond_with qucs_enables_freehdl
+
 Summary: Circuit simulator
 Name:    qucs
-Version: 0.0.18
-Release: 18%{?dist}
+Version: 0.0.19
+Release: 2%{?dist}
 License: GPL+
 URL:     http://qucs.sourceforge.net/
 
 Source0: http://downloads.sourceforge.net/project/%{name}/%{name}/%{version}/%{name}-%{version}.tar.gz
 
-Patch0: qucs-0.0.18-qucsrescodes-progname-typo.patch
-# Temporary fix for gcc bug #1299599
-Patch1:  %{name}-%{version}-gcc-ppc64le-bug.patch
 # Desktop file categories must terminate with a semicolon, bug #1424234
-Patch2:  %{name}-0.0.18-Fix-desktop-file.patch
+Patch0:  qucs-0.0.19-fix-desktop-file.patch
+Patch1:  qucs-0.0.19-compile-fix.patch
+Patch2:  qucs-0.0.19-latex-fix.patch
 
+BuildRequires: gcc-c++
+BuildRequires: coreutils
 BuildRequires: desktop-file-utils
 BuildRequires: qt-devel
 BuildRequires: flex
 BuildRequires: bison
-Requires: freehdl, perl-interpreter, iverilog
+BuildRequires: gperf
+BuildRequires: mot-adms >= 2.3.4
+BuildRequires: octave-devel
+BuildRequires: doxygen
+BuildRequires: transfig
+BuildRequires: latex2html
+BuildRequires: texlive
+BuildRequires: texlive-SIunits
+BuildRequires: texlive-relsize
+BuildRequires: texlive-IEEEtran
+BuildRequires: texlive-savesym
+BuildRequires: texlive-subfigure
+BuildRequires: texlive-keystroke
+BuildRequires: texlive-epstopdf
+BuildRequires: texlive-stmaryrd
+%if %{with qucs_enables_freehdl}
+Requires: freehdl
+%endif
+Requires: perl-interpreter, iverilog
 Requires: electronics-menu
 Requires: mot-adms >= 2.3.4
 
@@ -48,59 +70,56 @@ Qucs circuit simulator development headers
 %prep
 %setup -q
 
-%patch0 -p1
-%ifarch ppc64le
-%patch1 -p1
-%endif
-%patch2 -p1
+# fix file modes
+chmod 644 qucs/{AUTHORS,COPYING,ChangeLog,NEWS,README,THANKS,TODO}
 
-# fixing the icon path
-sed -i 's|Icon=/usr/share/pixmaps|Icon=/usr/share/qucs/bitmaps|' debian/%{name}.desktop
+%patch0 -p1 -b .fix-desktop-file
+%patch1 -p1 -b .compile-fix
+%patch2 -p1 -b .latex-fix
 
 
 %build
-%configure --disable-dependency-tracking
+export CFLAGS="%{optflags}"
+export CXXFLAGS="$CFLAGS"
+%configure --disable-dependency-tracking --enable-debug=yes
 
 # remove rpath
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' qucs-core/libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' qucs-core/libtool
 
-make %{?_smp_mflags}
+%make_build
 
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 install -d %{buildroot}%{_datadir}/applications
+
+%if !%{with qucs_enables_freehdl}
+rm -f %{buildroot}/%{_bindir}/qucsdigi*
+rm -f %{buildroot}/%{_mandir}/man1/qucsdigi*
+rm -f %{buildroot}/%{_datadir}/qucs/docs/*/{qucsdigi.png,start_digi.html}
+%endif
 
 desktop-file-install \
     --add-category "X-Fedora" \
     --add-category "Engineering" \
     --set-icon "qucs" \
     --dir=%{buildroot}%{_datadir}/applications \
-    debian/%{name}.desktop
+    qucs/qucs/%{name}.desktop
+
+# drop .la
+rm -f %{buildroot}%{_libdir}/libqucs.la
 
 
 %files
-%license COPYING
-%doc AUTHORS ChangeLog NEWS README TODO
+%license qucs/COPYING
+%doc qucs/AUTHORS qucs/ChangeLog qucs/NEWS NEWS.md README.md qucs/README qucs/THANKS qucs/TODO
 %{_bindir}/qucs*
 %{_bindir}/ps2sp*
 %{_datadir}/%{name}
+%{_datadir}/qucs-core
 %{_datadir}/applications/*
 %{_mandir}/man1/*
-# the following binaries were introduced in 0.0.17 (repoquery shows no conflicts with other pkgs)
-%{_bindir}/alter
-%{_bindir}/asco
-%{_bindir}/asco-test
-%{_bindir}/log
-%{_bindir}/monte
-%{_bindir}/postp
-%{_bindir}/rosen
-# introduced in 0.0.18 - adms provided by mot-adms
-%exclude %{_bindir}/admsCheck
-%exclude %{_bindir}/admsXml
-%exclude %{_mandir}/man1/admsXml.*
-%exclude %{_mandir}/man1/admsCheck.*
 %{_datadir}/icons/*
 
 
@@ -111,10 +130,27 @@ desktop-file-install \
 %files devel
 %{_includedir}/*
 %{_libdir}/libqucs.so
-%{_libdir}/libqucs.la
 
 
 %changelog
+* Mon Aug 31 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 0.0.19-2
+- Switched to the upstream latex-fix patch
+
+* Wed Aug 12 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 0.0.19-1
+- New version
+  Resolves: rhbz#1416791
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.18-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.18-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Petr Pisar <ppisar@redhat.com> - 0.0.18-19
+- Restore compatibility with GCC 10 (bug #1799962)
+- Remove a dependency on a nonexistent freehdl (bug #1732605)
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.18-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

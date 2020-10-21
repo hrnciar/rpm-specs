@@ -1,6 +1,6 @@
 Name:           drascula-international
 Version:        1.0
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Subtitles for Drascula: The Vampire Strikes Back
 # For further discussion on distribution rights see:
 # http://www.redhat.com/archives/fedora-extras-list/2006-November/msg00030.html
@@ -95,6 +95,9 @@ desktop-file-install --dir $RPM_BUILD_ROOT%{_datadir}/applications \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

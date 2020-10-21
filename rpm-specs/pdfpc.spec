@@ -1,12 +1,11 @@
 Name:           pdfpc
-Version:        4.3.4
-Release:        5%{?dist}
+Version:        4.4.0
+Release:        4%{?dist}
 Summary:        A GTK based presentation viewer application for GNU/Linux
 
 License:        GPLv2+
 URL:            https://%{name}.github.io/
 Source0:        https://github.com/%{name}/%{name}/archive/v%{version}.tar.gz
-Patch0:         0001-make-constructors-of-abstract-classes-protected.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc
@@ -36,11 +35,11 @@ software.
 
 %build
 %cmake -DSYSCONFDIR=/etc .
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %files
@@ -54,6 +53,19 @@ make %{?_smp_mflags}
 
 
 %changelog
+* Wed Sep 30 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 4.4.0-4
+- Use cmake macros to fix build
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 4.4.0-1
+- Update to latest release
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.4-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

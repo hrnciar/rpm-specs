@@ -2,7 +2,7 @@
 
 Name:           api-sanity-checker
 Version:        1.98.7
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        An automatic generator of basic unit tests for a shared C/C++ library
 
 License:        GPLv2
@@ -78,6 +78,9 @@ sed -i '3,5d' %{buildroot}%{_mandir}/man1/api-sanity-checker.1
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.98.7-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 31 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.98.7-10
 - Specify all dependencies
 

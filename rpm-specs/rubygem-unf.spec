@@ -1,5 +1,5 @@
 %global	gem_name	unf
-%if 0%{?fedora} < 19
+%if ! (0%{?fedora} >= 19 || 0%{?rhel} >= 9)
 %global	rubyabi	1.9.1
 %endif
 
@@ -8,13 +8,13 @@
 Summary:	Wrapper library to bring Unicode Normalization Form support to Ruby/JRuby
 Name:		rubygem-%{gem_name}
 Version:	0.1.4
-Release:	15%{?dist}
+Release:	16%{?dist}
 
 License:	BSD
 URL:		https://github.com/knu/ruby-unf
 Source0:	http://rubygems.org/gems/%{gem_name}-%{version}.gem
 
-%if 0%{?fedora} >= 19
+%if 0%{?fedora} >= 19 || 0%{?rhel} >= 9
 Requires:	ruby(release)
 BuildRequires:	ruby(release)
 %else
@@ -91,7 +91,7 @@ sed -i.orig \
 	-e '/bundler/d' \
 	test/helper.rb
 
-%if 0%{?fedora} >= 21
+%if 0%{?fedora} >= 21 || 0%{?rhel} >= 9
 sed -i.minitest \
 	-e 's|Test::Unit::TestCase|Minitest::Test|' \
 	test/*.rb
@@ -120,6 +120,12 @@ popd
 %doc	%{gem_docdir}
 
 %changelog
+* Wed Aug 05 2020 Merlin Mathesius <mmathesi@redhat.com> - 0.1.4-16
+- Minor conditional fixes for ELN
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

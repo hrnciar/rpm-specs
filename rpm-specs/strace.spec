@@ -1,6 +1,6 @@
 Summary: Tracks and displays system calls associated with a running process
 Name: strace
-Version: 5.7.0.6.7ab6
+Version: 5.9
 Release: 1%{?dist}
 # The test suite is GPLv2+, all the rest is LGPLv2.1+.
 License: LGPL-2.1+ and GPL-2.0+
@@ -14,6 +14,9 @@ Group: Development%{?suse_version:/Tools}/Debuggers
 URL: https://strace.io
 %if 0%{?fedora} >= 12 || 0%{?centos} >= 6 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1200
 Source: https://strace.io/files/%{version}/strace-%{version}.tar.xz
+Patch0: gcc-11.patch
+Patch1: 0001-noinline.patch
+Patch2: 0002-ipc-xfail.patch
 BuildRequires: xz
 %else
 Source: strace-%{version}.tar.gz
@@ -39,6 +42,12 @@ BuildRequires: pkgconfig(bluez)
 %{?!buildroot:BuildRoot: %_tmppath/buildroot-%name-%version-%release}
 %define maybe_use_defattr %{?suse_version:%%defattr(-,root,root)}
 
+# Fallback definitions for make_build/make_install macros
+%{?!__make:       %global __make %_bindir/make}
+%{?!__install:    %global __install %_bindir/install}
+%{?!make_build:   %global make_build %__make %{?_smp_mflags}}
+%{?!make_install: %global make_install %__make install DESTDIR="%{?buildroot}" INSTALL="%__install -p"}
+
 %description
 The strace program intercepts and records the system calls called and
 received by a running process.  Strace can print a record of each
@@ -51,9 +60,12 @@ received by a process.
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 echo -n %version-%release > .tarball-version
 echo -n 2020 > .year
-echo -n 2020-04-24 > .strace.1.in.date
+echo -n 2020-09-23 > .strace.1.in.date
 
 %build
 echo 'BEGIN OF BUILD ENVIRONMENT INFORMATION'
@@ -69,10 +81,10 @@ echo 'END OF BUILD ENVIRONMENT INFORMATION'
 
 CFLAGS_FOR_BUILD="$RPM_OPT_FLAGS"; export CFLAGS_FOR_BUILD
 %configure --enable-mpers=check
-make %{?_smp_mflags}
+%make_build
 
 %install
-make DESTDIR=%{buildroot} install
+%make_install
 
 # remove unpackaged files from the buildroot
 rm -f %{buildroot}%{_bindir}/strace-graph
@@ -85,7 +97,7 @@ wait
 
 %check
 %{buildroot}%{_bindir}/strace -V
-make %{?_smp_mflags} -k check VERBOSE=1
+%make_build -k check VERBOSE=1
 echo 'BEGIN OF TEST SUITE INFORMATION'
 tail -n 99999 -- tests*/test-suite.log tests*/ksysent.gen.log
 find tests* -type f -name '*.log' -print0 |
@@ -100,8 +112,14 @@ echo 'END OF TEST SUITE INFORMATION'
 %{_mandir}/man1/*
 
 %changelog
-* Mon Jun 08 2020 Dmitry V. Levin <ldv@altlinux.org> - 5.7.0.6.7ab6-1
-- v5.7 -> v5.7-6-g7ab6497fd.
+* Mon Oct 05 2020 Eugene Syromyatnikov <esyr@redhat.com> - 5.9-1
+- v5.8 -> v5.9 (resolves: #1035433).
+
+* Wed Aug 19 2020 Jeff Law <law@redhat.com> - 5.8-2
+- Work around gcc-11 false positive diagnostic
+
+* Thu Aug 06 2020 Dmitry V. Levin <ldv@altlinux.org> - 5.8-1
+- v5.7 -> v5.8.
 
 * Mon Jun 01 2020 Dmitry V. Levin <ldv@altlinux.org> - 5.7-1
 - v5.6 -> v5.7.

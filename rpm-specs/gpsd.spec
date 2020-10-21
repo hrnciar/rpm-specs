@@ -4,7 +4,7 @@
 
 Name:           gpsd
 Version:        3.20
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        Service daemon for mediating access to a GPS
 
@@ -314,6 +314,9 @@ desktop-file-install \
 %{python3_sitearch}/gps/__pycache__/fake*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.20-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Miroslav Lichvar <mlichvar@redhat.com> - 1:3.20-1
 - update to 3.20
 

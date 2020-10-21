@@ -3,7 +3,7 @@
 
 # https://github.com/cockroachdb/returncheck
 %global goipath         github.com/cockroachdb/returncheck
-%global commit          e91bb28baf9de4a530d3ae7f041953b23dcce9be
+%global commit          92cdbca611dd083736f8bdf426e4fc74791aab9e
 
 %gometa
 
@@ -15,7 +15,7 @@ Go return value checker.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Go return value checker
 
 # Upstream license specification: Apache-2.0
@@ -23,7 +23,7 @@ License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
-BuildRequires:  golang(golang.org/x/tools/go/loader)
+BuildRequires:  golang(golang.org/x/tools/go/packages)
 
 %description
 %{common_description}
@@ -44,6 +44,12 @@ BuildRequires:  golang(golang.org/x/tools/go/loader)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 14:03:31 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200725git92cdbca
+- Bump to commit 92cdbca611dd083736f8bdf426e4fc74791aab9e
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

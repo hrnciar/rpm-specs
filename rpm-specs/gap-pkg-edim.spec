@@ -3,7 +3,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        1.3.5
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Elementary divisors of integer matrices
 
 License:        GPLv2+
@@ -97,6 +97,9 @@ rm -f log
 %{_gap_dir}/pkg/%{upname}-%{version}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 11 2020 Jerry James <loganjerry@gmail.com> - 1.3.5-4
 - Rebuild for gap 4.11.0
 

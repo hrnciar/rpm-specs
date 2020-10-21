@@ -1,6 +1,6 @@
 Name:		pam_shield
 Version:	0.9.5
-Release:	26%{?dist}
+Release:	27%{?dist}
 Summary:	Pam Shield - A pam module to counter brute force attacks
 
 License:	GPLv2
@@ -91,6 +91,9 @@ fi
 %{_sbindir}/shield-trigger-iptables
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.5-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.5-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

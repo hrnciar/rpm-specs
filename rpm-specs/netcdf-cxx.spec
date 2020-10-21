@@ -1,6 +1,6 @@
 Name:           netcdf-cxx
 Version:        4.2
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        Legacy netCDF C++ library
 
 License:        NetCDF
@@ -74,6 +74,9 @@ make check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

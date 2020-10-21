@@ -1,10 +1,14 @@
 Name:           dvdbackup
 Version:        0.4.2
-Release:        15%{?dist}
+Release:        17%{?dist}
 Summary:        Command line tool for ripping video DVDs
 License:        GPLv3+
 URL:            http://dvdbackup.sourceforge.net/
 Source0:        http://downloads.sourceforge.net/dvdbackup/%{name}-%{version}.tar.xz
+# fix build with libdvdread-6.1
+# based on patch by Felix Palmen
+# https://bugs.launchpad.net/dvdbackup/+bug/1869226
+Patch0:         %{name}-0.4.2-libdvdread-6.1.patch
 
 BuildRequires:  gcc
 BuildRequires:  gettext
@@ -16,6 +20,7 @@ the advantages of being small, fast, and easy to use.
 
 %prep
 %setup -q
+%patch0 -p1 -b .orig
 
 %build
 %configure
@@ -34,6 +39,13 @@ make %{?_smp_mflags}
 %{_mandir}/man1/*
 
 %changelog
+* Thu Oct 15 2020 Dominik 'Rathann' Mierzejewski <rpm@greysector.net> - 0.4.2-17
+- rebuild for libdvdread ABI bump
+- adapt to API changes in libdvdread-6.1+
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

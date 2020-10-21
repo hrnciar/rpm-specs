@@ -2,8 +2,8 @@
 %global _description %{expand:An AMQP 1.0 client library for Python.}
 
 Name:           python-%{srcname}
-Version:        1.2.8
-Release:        2%{?dist}
+Version:        1.2.11
+Release:        1%{?dist}
 Summary:        AMQP 1.0 client library for Python
 
 License:        MIT
@@ -52,7 +52,7 @@ rm $RPM_BUILD_ROOT%{python3_sitearch}/%{srcname}/*.c
 
 
 %check
-PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitearch}/ pytest-%{python3_version} tests
+%pytest tests
 
 
 %files -n python3-%{srcname}
@@ -63,6 +63,18 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitearch}/ pytest-%{python3_version} tests
 
 
 %changelog
+* Fri Oct 02 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.2.11-1
+- Update to 1.2.11
+
+* Tue Aug 18 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.2.10-1
+- Update to 1.2.10
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.2.9-1
+- Update to 1.2.9
+
 * Sun May 31 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.2.8-2
 - Rebuild for Python 3.9
 

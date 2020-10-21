@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        1.5.0
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -11,7 +11,7 @@ URL:            https://pypi.python.org/pypi/%{srcname}
 Source0:        https://files.pythonhosted.org/packages/source/l/%{srcname}/%{srcname}-%{version}.tar.gz
 
 BuildArch:      noarch
-BuildRequires:  python3-devel
+BuildRequires:  python3-devel python3-setuptools
 
 %description
 Robust and effective logging for Python 2 and 3.
@@ -38,6 +38,12 @@ Robust and effective logging for Python 3.
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Gabriel L. Somlo <gsomlo@gmail.com> - 1.5.0-8
+- added setuptools build dependency
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5.0-7
 - Rebuilt for Python 3.9
 

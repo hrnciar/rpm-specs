@@ -1,17 +1,16 @@
-%global commit 6702bc0763e2a4e59ad59f6b128a310264b0fbac
-%global gittag 19.12.27
+%global forgeurl    https://github.com/numixproject/numix-icon-theme-square
+%global tag         %{version}
 
-%global gitdate %(date -d %(echo %{gittag} | tr -d '.') +%Y%m%d)
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
+%forgemeta
 
 Name:           numix-icon-theme-square
-Version:        0.1.0
-Release:        12.%{gitdate}.git%{shortcommit}%{?dist}
 Summary:        Numix Project square icon theme
+Version:        20.09.19
+Release:        1%{?dist}
 License:        GPLv3
 
-URL:            https://github.com/numixproject/numix-icon-theme-square
-Source:         https://github.com/numixproject/numix-icon-theme-square/archive/%{commit}/%{name}-%{commit}.tar.gz
+URL:            %{forgeurl}
+Source:         %{forgesource}
 
 BuildArch:      noarch
 Requires:       numix-icon-theme
@@ -20,7 +19,7 @@ Requires:       numix-icon-theme
 Numix Square is a modern icon theme for Linux from the Numix project.
 
 %prep
-%autosetup -n %{name}-%{commit}
+%forgesetup
 
 %install
 mkdir -p %{buildroot}%{_datadir}/icons
@@ -50,6 +49,16 @@ gtk-update-icon-cache %{_datadir}/icons/Numix-Square-Light &>/dev/null || :
 %{_datadir}/icons/Numix-Square-Light
 
 %changelog
+* Sat Oct 10 2020 Brendan Early <mymindstorm@evermiss.net> - 20.09.19-1
+- Update to release 20.09.19
+
+* Thu Aug 06 2020 Brendan Early <mymindstorm@evermiss.net> - 20.07.11-1
+- Update to release 20.07.11
+- Switch to forge marcos
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-13.20191227.git6702bc0
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-12.20191227.git6702bc0
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

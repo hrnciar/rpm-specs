@@ -1,8 +1,8 @@
 %global sum Simple packet creation/parsing library
 
 Name:           python-dpkt
-Version:        1.9.1
-Release:        14%{?dist}
+Version:        1.9.4
+Release:        1%{?dist}
 Summary:        %{sum}
 
 License:        BSD
@@ -16,6 +16,7 @@ BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  python3-pytest-cov
 BuildRequires:  python3-pytest
+BuildRequires:  python3-setuptools
 
 %description
 Fast, simple packet creation and parsing library
@@ -54,6 +55,13 @@ with definitions for the basic TCP/IP protocols.
 %{python3_sitelib}/dpkt*.egg-info
 
 %changelog
+* Mon Oct 05 2020 Michele Baldessari <michele@acksyn.org> - 1.9.4-1
+- New upstream
+- Add python3-setuptools BR
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.9.1-14
 - Rebuilt for Python 3.9
 

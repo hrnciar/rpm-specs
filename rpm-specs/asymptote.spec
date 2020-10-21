@@ -3,8 +3,8 @@
 %global optflags %{optflags} -DGLM_ENABLE_EXPERIMENTAL
 
 Name:           asymptote
-Version:        2.65
-Release:        1%{?dist}
+Version:        2.67
+Release:        3%{?dist}
 Summary:        Descriptive vector graphics language
 License:        LGPLv3+
 URL:            http://asymptote.sourceforge.net/
@@ -12,7 +12,7 @@ Source0:        http://download.sourceforge.net/sourceforge/asymptote/asymptote-
 Source1:        asy.gif
 Source2:        xasy.desktop
 Source3:        asymptote.sty.204
-Patch0:         asymptote-2.55-settings.patch
+Patch0:         asymptote-2.67-settings.patch
 # This doesn't need to go upstream. We put the info file in the topdir, not a subdir, so we need this fix.
 Patch3:         asymptote-2.08-info-path-fix.patch
 # Use libtirpc if found
@@ -21,6 +21,7 @@ Patch4:		asymptote-2.43-libtirpc.patch
 # only conflicts on s390x
 Patch5:		asymptote-2.52-const-memrchr.patch
 Patch6:         asymptote-2.63-freeglut.patch
+Patch7:		asymptote-2.67-fix-for-gs-9.35.patch
 BuildRequires:  gcc-c++
 BuildRequires:  ncurses-devel
 BuildRequires:  readline-devel
@@ -87,6 +88,7 @@ that LaTeX does for scientific text.
 %patch4 -p1 -b .libtirpc
 %patch5 -p1 -b .const-memrchr
 %patch6 -p1 -b .glut
+%patch7 -p1 -b .gs953
 %{__sed} -i 's/\r//' doc/CAD1.asy
 
 # convert to UTF-8
@@ -125,12 +127,15 @@ for i in %{buildroot}%{_xemacs_sitelispdir}/%{name}/*.el; do
 done
 
 
-# Vim syntax file
-for vimver in 63 64 70 71 72 73 ; do
-    install -dm 755 %{buildroot}%{_datadir}/vim/vim$vimver/syntax
-    cd %{buildroot}%{_datadir}/vim/vim$vimver/syntax
-    ln -s ../../../%{name}/asy.vim .
-done
+# Vim syntax file(s)
+install -dm 755 %{buildroot}%{_datadir}/vim/vimfiles/syntax
+pushd %{buildroot}%{_datadir}/vim/vimfiles/syntax
+ln -s ../../../%{name}/asy.vim .
+popd
+install -dm 755 %{buildroot}%{_datadir}/vim/vimfiles/ftdetect
+pushd %{buildroot}%{_datadir}/vim/vimfiles/ftdetect
+ln -s ../../../%{name}/asy_filetype.vim .
+popd
 
 # Move info file
 mv %{buildroot}%{_infodir}/asymptote/asymptote.info %{buildroot}%{_infodir}/asymptote.info
@@ -161,7 +166,8 @@ texhash >/dev/null 2>&1 || :
 %{_texmf}/tex/context/
 %{_mandir}/man1/*.1*
 %{_infodir}/*.info*
-%{_datadir}/vim/vim*/syntax/asy.vim
+%{_datadir}/vim/vimfiles/syntax/asy.vim
+%{_datadir}/vim/vimfiles/ftdetect/asy_filetype.vim
 # Strictly speaking, we shouldn't own these dirs.
 # However, we don't require emacs/xemacs, we just enhance them.
 # Thus, its ok for dual ownership.
@@ -179,6 +185,21 @@ texhash >/dev/null 2>&1 || :
 %{_xemacs_sitelispdir}/%{name}/*.el
 
 %changelog
+* Fri Oct  2 2020 Tom Callaway <spot@fedoraproject.org> - 2.67-3
+- apply patch to fix asy with ghostscript 9.53.* or newer
+
+* Fri Oct  2 2020 Tom Callaway <spot@fedoraproject.org> - 2.67-2
+- improve vim packaging (bz1884684)
+
+* Thu Aug  6 2020 Tom Callaway <spot@fedoraproject.org> - 2.67-1
+- update to 2.67
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.66-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul  9 2020 Tom Callaway <spot@fedoraproject.org> - 2.66-1
+- update to 2.66
+
 * Thu Mar 26 2020 Tom Callaway <spot@fedoraproject.org> - 2.65-1
 - update to 2.65
 

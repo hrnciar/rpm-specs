@@ -10,7 +10,7 @@
 Name: 	 sbcl
 Summary: Steel Bank Common Lisp
 Version: 2.0.1
-Release: 1%{?dist}
+Release: 4%{?dist}
 
 License: BSD
 URL:	 http://sbcl.sourceforge.net/
@@ -153,6 +153,10 @@ popd
 
 
 %build
+# LTO causes testsuite failures, though it may be the case that the tests are racy.
+# Until further analysis is complete, disable LTO
+%define _lto_cflags %{nil}
+
 pushd sbcl-%{version}
 
 export CFLAGS="%{?optflags}"
@@ -265,6 +269,16 @@ fi
 
 
 %changelog
+* Mon Aug 10 2020 Jeff Law <law@redhat.com> - 2.0.1-4
+- Disable LTO for now
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Than Ngo <than@redhat.com> - 2.0.1-1
 - update to 2.0.1
 

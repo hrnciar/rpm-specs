@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	1.14
-Release:	10%{?dist}
+Release:	11%{?dist}
 BuildArch:	noarch
 Summary:	HTTP 1.1 compliant XML-RPC library for Erlang
 License:	BSD
@@ -43,6 +43,9 @@ HTTP 1.1 compliant XML-RPC library for Erlang.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

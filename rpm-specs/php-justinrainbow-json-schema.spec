@@ -25,7 +25,7 @@
 
 Name:           php-%{gh_owner}-%{gh_project}
 Version:        2.0.5
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        A library to validate a json schema
 
 License:        MIT
@@ -162,6 +162,9 @@ php bin/validate-json-test \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.5-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.5-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

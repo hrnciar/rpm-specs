@@ -3,7 +3,7 @@
 
 # https://github.com/getkin/kin-openapi
 %global goipath         github.com/getkin/kin-openapi
-Version:                0.2.0
+Version:                0.20.0
 
 %gometa
 
@@ -15,7 +15,7 @@ A Go project for handling OpenAPI files. We target the latest OpenAPI version
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        OpenAPI 3.0 implementation for Go
 
 License:        MIT
@@ -26,6 +26,7 @@ BuildRequires:  golang(github.com/ghodss/yaml)
 
 %if %{with check}
 # Tests
+BuildRequires:  golang(github.com/stretchr/testify/assert)
 BuildRequires:  golang(github.com/stretchr/testify/require)
 %endif
 
@@ -48,6 +49,19 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %gopkgfiles
 
 %changelog
+* Sun Aug 23 15:47:18 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.20.0-1
+- Update to 0.20.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 23:29:03 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.19.0-1
+- Update to 0.19.0 (#1814487)
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

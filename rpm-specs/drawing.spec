@@ -1,31 +1,37 @@
-%global uuid    com.github.maoschanz.%{name}
+%global uuid com.github.maoschanz.%{name}
 
-Name:           drawing
-Version:        0.4.13
-Release:        1%{?dist}
-Summary:        Drawing application for the GNOME desktop
+Name: drawing
+Version: 0.6.2
+Release: 1%{?dist}
+Summary: Drawing application for the GNOME desktop
+BuildArch: noarch
 
-License:        GPLv3+
-URL:            https://github.com/maoschanz/drawing
-Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
-BuildArch:      noarch
+License: GPLv3+
+URL: https://github.com/maoschanz/drawing
+Source0: %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:  desktop-file-utils
-BuildRequires:  libappstream-glib
-BuildRequires:  meson
-BuildRequires:  python3-devel
-BuildRequires:  pkgconfig(gtk+-3.0)
-Requires:       hicolor-icon-theme
+BuildRequires: desktop-file-utils
+BuildRequires: libappstream-glib
+BuildRequires: meson >= 0.50.0
+BuildRequires: python3-cairo
+BuildRequires: python3-devel
+BuildRequires: python3-gobject
+BuildRequires: pkgconfig(gtk+-3.0)
+
+Requires: gtk3
+Requires: hicolor-icon-theme
+Requires: python3-cairo
+Requires: python3-gobject
 
 %description
-This application is a basic image editor, similar to Microsoft Paint, but aiming
-at the GNOME desktop.
+This application is a basic image editor, similar to Microsoft Paint, but
+aiming at the GNOME desktop.
 
 PNG, JPEG and BMP files are supported.
 
 Besides GNOME, some more traditional design layouts are available too, as well
-as an elementaryOS layout. It should also be compatible with Purism's Librem 5
-phone.
+as an elementaryOS layout. It should also be compatible with the Pinephone and
+Librem 5 smartphones.
 
 
 %prep
@@ -43,7 +49,7 @@ phone.
 
 
 %check
-appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.xml
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
@@ -55,10 +61,25 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %{_datadir}/applications/*.desktop
 %{_datadir}/glib-2.0/schemas/*.gschema.xml
 %{_datadir}/icons/hicolor/*/*/*
-%{_metainfodir}/*.appdata.xml
+%{_metainfodir}/*.xml
 
 
 %changelog
+* Sat Oct 17 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.6.2-1
+- build(update): 0.6.2
+
+* Fri Oct  2 2020 Artem - 0.6.1-1
+- Update to 0.6.1
+
+* Sun Sep 20 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.6.0-1
+- Update to 0.6.0
+
+* Sat Sep 12 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.4.14-1
+- Update to 0.4.14
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 08 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.4.13-1
 - Update to 0.4.13
 

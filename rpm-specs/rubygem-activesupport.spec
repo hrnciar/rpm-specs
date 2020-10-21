@@ -1,28 +1,37 @@
 %global gem_name activesupport
 
+#%%global prerelease .rc1
+
 Name: rubygem-%{gem_name}
 Epoch: 1
-Version: 5.2.3
-Release: 4%{?dist}
+Version: 6.0.3.4
+Release: 1%{?dist}
 Summary: A support libraries and Ruby core extensions extracted from the Rails framework
 License: MIT
 URL: http://rubyonrails.org
-Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
-
-# The activesupport gem doesn't ship with the test suite like the other
-# Rails rpms, you may check it out like so
+Source0: https://rubygems.org/gems/%{gem_name}-%{version}%{?prerelease}.gem
+# The activesupport gem doesn't ship with the test suite.
+# You may check it out like so
 # git clone http://github.com/rails/rails.git
-# cd rails/activesupport/
-# git checkout v5.2.3 && tar czvf activesupport-5.2.3-tests.tgz test/
-Source1: %{gem_name}-%{version}-tests.tgz
-# Make `LoadInterlockAwareMonitor` work in Ruby 2.7
-# https://github.com/rails/rails/pull/38069
-Patch0: rubygem-activesupport-6.1.0-Make-LoadInterlockAwareMonitor-work-in-Ruby-2.7.patch
+# cd rails/activesupport && git archive -v -o activesupport-6.0.3.4-tests.txz v6.0.3.4 test/
+Source1: %{gem_name}-%{version}%{?prerelease}-tests.txz
+# The tools are needed for the test suite, are however unpackaged in gem file.
+# You may get them like so
+# git clone http://github.com/rails/rails.git --no-checkout
+# cd rails && git archive -v -o rails-6.0.3.4-tools.txz v6.0.3.4 tools/
+Source2: rails-%{version}%{?prerelease}-tools.txz
 # Fix TZInfo 2.0 compatibility.
 # https://github.com/rails/rails/pull/34799
 # https://github.com/rails/rails/pull/38081
 Patch1: rubygem-activesupport-6.1.0-Update-to-TZInfo-v2.0.0.patch
 Patch2: rubygem-activesupport-6.1.0-Update-to-TZInfo-v2.0.0-tests.patch
+# Fix flaky `FileStoreTest#test_filename_max_size` test.
+# https://github.com/rails/rails/pull/40085
+Patch3: rubygem-activesupport-6.0.4-Reduce-FILENAME_MAX_SIZE-to-accomodate-large-PIDs.patch
+# Fix evaluator test from web-console.
+# https://github.com/rails/rails/pull/40198
+Patch4: rubygem-activesupport-6.1.0-Anchor-BacktraceCleaner-gem-filter-regexp.patch
+Patch5: rubygem-activesupport-6.1.0-Anchor-BacktraceCleaner-gem-filter-regexp-test.patch
 
 # ruby package has just soft dependency on rubygem({bigdecimal,json}), while
 # ActiveSupport always requires them.
@@ -62,21 +71,22 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -n %{gem_name}-%{version} -b 1
+%setup -q -n %{gem_name}-%{version}%{?prerelease} -b1 -b2
 
-%patch0 -p2
 %patch1 -p2
+%patch3 -p2
+%patch4 -p2
 
 pushd %{_builddir}
 %patch2 -p2
+%patch5 -p2
 popd
 
 %gemspec_remove_dep -g tzinfo "~> 1.1"
 %gemspec_add_dep -g tzinfo [">= 1.1", "< 3"]
 
 %build
-gem build ../%{gem_name}-%{version}.gemspec
-
+gem build ../%{gem_name}-%{version}%{?prerelease}.gemspec
 %gem_install
 
 %install
@@ -87,7 +97,8 @@ cp -a .%{gem_dir}/* \
 %check
 pushd .%{gem_instdir}
 # Move the tests into place
-cp -a %{_builddir}/test test
+ln -s %{_builddir}/tools ..
+mv %{_builddir}/test .
 
 # These tests are really unstable, but they seems to be passing upstream :/
 for f in \
@@ -126,6 +137,31 @@ popd
 %doc %{gem_instdir}/README.rdoc
 
 %changelog
+* Thu Oct  8 10:45:37 CEST 2020 Pavel Valena <pvalena@redhat.com> - 1:6.0.3.4-1
+- Update to activesupport 6.0.3.4.
+  Resolves: rhbz#1886136
+
+* Fri Sep 18 17:58:30 CEST 2020 Pavel Valena <pvalena@redhat.com> - 1:6.0.3.3-1
+- Update to activesupport 6.0.3.3.
+  Resolves: rhbz#1877502
+
+* Thu Sep 10 08:42:03 GMT 2020 Vít Ondruch <vondruch@redhat.com> - 1:6.0.3.2-3
+- Fix evaluator test from web-console.
+
+* Tue Sep 01 2020 Vít Ondruch <vondruch@redhat.com> - 1:6.0.3.2-2
+- Properly fix flaky `FileStoreTest#test_filename_max_size` test case.
+
+* Mon Aug 17 04:41:17 GMT 2020 Pavel Valena <pvalena@redhat.com> - 1:6.0.3.2-1
+- Update to activesupport 6.0.3.2.
+  Resolves: rhbz#1742797
+
+* Mon Aug 03 07:01:37 GMT 2020 Pavel Valena <pvalena@redhat.com> - 6.0.3.1-1
+- Update to ActiveSupport 6.0.3.1.
+  Resolves: rhbz#1742797
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.2.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 16 2020 Vít Ondruch <vondruch@redhat.com> - 1:5.2.3-4
 - Ruby 2.7 compatibility.
   Resolves: rhbz#1799093

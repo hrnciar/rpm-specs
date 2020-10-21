@@ -17,19 +17,26 @@
 
 %global with_openmpi 1
 %global with_mpich 1
+%global with_mpicheck 1
 
 %global with_asl 1
+
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
 
 Name:  coin-or-%{module}
 Summary: Interior Point OPTimizer
 Version: 3.13.0
-Release: 4%{?dist}
+Release: 8%{?dist}
 License: EPL-1.0
 URL:  https://coin-or.github.io/%{module}/
 Source0: https://github.com/coin-or/Ipopt/archive/releases/%{version}/%{module}-%{version}.tar.gz
 BuildRequires: %{?dts}gcc, %{?dts}gcc-c++
 BuildRequires: %{?dts}gcc-gfortran
-BuildRequires: openblas-devel
+BuildRequires: %{blaslib}-devel
 BuildRequires: pkgconfig(blas)
 BuildRequires: pkgconfig(lapack)
 BuildRequires: doxygen
@@ -164,8 +171,8 @@ sed -i 's,\(@includedir@/coin\)-or,\1,' ipopt.pc.in
 mkdir -p %{name}-%{version}-serial
 cd %{name}-%{version}-serial
 
-export LIBLAPACK=-lopenblas
-export INCLAPACK=-I%{_includedir}/openblas
+export LIBLAPACK=-l%{blaslib}
+export INCLAPACK=-I%{_includedir}/%{blaslib}
 
 CFLAGS="%{optflags}"
 OPT_CFLAGS="%{__global_ldflags}"
@@ -427,7 +434,6 @@ popd
 cp -far %{name}-%{version}-serial/doc/{html,*.tag} $RPM_BUILD_ROOT%{_docdir}/%{name}/
 
 #######################################################
-
 %check
 cd %{name}-%{version}-serial
 %if 0%{?with_asl}
@@ -436,6 +442,7 @@ export LD_LIBRARY_PATH=$RPM_BUILD_ROOT%{_libdir}:%{_libdir}
 make test
 cd ..
 
+%if 0%{?with_mpicheck}
 %if 0%{?with_openmpi}
 %{_openmpi_load}
 cd %{name}-%{version}-openmpi
@@ -458,6 +465,7 @@ export LD_LIBRARY_PATH=$RPM_BUILD_ROOT$MPI_LIB:$MPI_LIB
 MPICH_INTERFACE_HOSTNAME=localhost make test
 cd ..
 %{_mpich_unload}
+%endif
 %endif
 %endif
 
@@ -546,6 +554,20 @@ cd ..
 %{_docdir}/%{name}/
 
 %changelog
+* Tue Sep 22 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.13.0-8
+- Enable MPI tests on Fedora 34+
+
+* Sat Aug 22 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.13.0-7
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+- Disable MPI tests on Fedora 34+
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.13.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.13.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 14 2020 Jerry James <loganjerry@gmail.com> - 3.13.0-4
 - Fix include directory in pkgconfig file (bz 1833734)
 

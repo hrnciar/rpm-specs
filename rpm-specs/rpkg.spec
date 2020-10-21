@@ -1,6 +1,6 @@
 Name:           rpkg
-Version:        1.60
-Release:        4%{?dist}
+Version:        1.61
+Release:        1%{?dist}
 
 Summary:        Python library for interacting with rpm+git
 License:        GPLv2+ and LGPLv2
@@ -17,9 +17,7 @@ Source0:        https://pagure.io/releases/rpkg/%{name}-%{version}.tar.gz
 # and there is only old rpm-python package in EL6 and 7, so just simply to
 # remove rpm-py-installer for now.
 Patch0:         remove-koji-and-rpm-py-installer-from-requires.patch
-Patch1:         0001-Repair-downloading-sources-into-external-directory.patch
-Patch2:         0002-Repair-compatible-formatting-for-Python-2.6.patch
-Patch3:		0003-Switch-from-krb_login-to-gssapi_login.patch
+Patch1:         0001-Do-not-use-pytest-related-dependencies-temporarily.patch
 
 %if 0%{?fedora} || 0%{?rhel} > 7
 # Disable python2 build by default
@@ -271,6 +269,43 @@ nosetests tests
 
 
 %changelog
+* Mon Sep 07 2020 Ondřej Nosek <onosek@redhat.com> - 1.61-1
+- Pytest update and MANIFEST.in prune (onosek)
+- Re-enable clog tests (onosek)
+- Skip directories inside of imported srpm file - rhbz#1866297 (onosek)
+- Skip 'sources' file when it is missing - rhbz#1867440 (onosek)
+- New layout for retired packages - rhbz#1867822 (onosek)
+- added a extendable layout module to deal with different package layouts
+  within the CLI (2183506+odra)
+- Add (onosek)
+- Pytest replaces nosetests - #501 (onosek)
+- Disable some test for 'clog' functionality (onosek)
+- Suggest a way to track remote branch - update (onosek)
+- Suggest a way to track remote branch in the error log (cqi)
+- Remove deprecated support for kojiconfig (onosek)
+- Switch from krb_login to gssapi_login - rhbz#1830430 (onosek)
+- Disable test method's docstring in nosetests list (onosek)
+- Check repo name for correct format (onosek)
+- Unittests for passing additional arguments (onosek)
+- Passing additional arguments to underlaying commands - #432 (onosek)
+- Updated supported plaforms in documentation (onosek)
+- Repair compatible formatting for Python 2.6 (onosek)
+- Repair downloading sources into external directory (onosek)
+
+* Mon Aug 31 2020 Ondřej Nosek <onosek@redhat.com> - 1.60-8
+- Patch: Skip 'sources' file when it is missing
+
+* Fri Aug 07 2020 Ondřej Nosek <onosek@redhat.com> - 1.60-7
+- Patch: added layout module to deal with different package layouts
+- Patch: clog tests workaround
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.60-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.60-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 1.60-4
 - Rebuilt for Python 3.9
 

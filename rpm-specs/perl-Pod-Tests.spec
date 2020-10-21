@@ -1,6 +1,6 @@
 Name: 		perl-Pod-Tests
 Version: 	1.20
-Release: 	5%{?dist}
+Release: 	6%{?dist}
 Summary: 	Extract embedded tests and code examples from POD
 License: 	GPL+ or Artistic
 URL: 		https://metacpan.org/release/Pod-Tests
@@ -49,6 +49,9 @@ pod2test convert embedded tests and code examples to .t files.
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.20-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.20-5
 - Perl 5.32 rebuild
 

@@ -3,7 +3,7 @@
 
 Name:           qm-dsp
 Version:        1.7.1
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        Library for DSP and Music Informatics purposes
 
 # some source files with different original licenses, see README.txt
@@ -19,7 +19,6 @@ Patch0:         qm-dsp-flags.patch
 Patch1:         qm-dsp-install.patch
 
 BuildRequires:  gcc-c++
-BuildRequires:  atlas-devel
 BuildRequires:  imake
 BuildRequires:  kiss-fft-static
 BuildRequires:  valgrind
@@ -95,6 +94,12 @@ LDFLAGS="%{?__global_ldflags}" \
 
 
 %changelog
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.7.1-13
+- Drop unneeded dependency
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

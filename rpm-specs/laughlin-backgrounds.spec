@@ -1,6 +1,6 @@
 Name:           laughlin-backgrounds
 Version:        14.1.0
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Laughlin desktop backgrounds
 
 License:        CC-BY-SA
@@ -148,6 +148,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 14.1.0-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 14.1.0-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           fritzing
 Version:        0.9.2b
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Electronic Design Automation software; from prototype to product
 
 License:        GPLv3+
@@ -97,6 +97,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/fritzing.
 %{_mandir}/man?/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2b-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2b-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

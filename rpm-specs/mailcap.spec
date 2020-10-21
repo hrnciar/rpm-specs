@@ -1,6 +1,6 @@
 Name:           mailcap
 Version:        2.1.49
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Helper application and MIME type associations for file types
 
 License:        Public Domain and MIT
@@ -63,6 +63,9 @@ make check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.49-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Tomas Korbar <tkorbar@redhat.com> - 2.1.49-1
 - Rebase to 2.1.49
 

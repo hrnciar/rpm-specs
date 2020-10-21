@@ -1,7 +1,7 @@
 %global udevdir %(pkg-config --variable=udevdir udev)
 
 Name:           libratbag
-Version:        0.14
+Version:        0.15
 Release:        1%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
 Summary:        Programmable input device library
 License:        MIT
@@ -98,6 +98,12 @@ developing applications that use liblur.
 %{_libdir}/pkgconfig/liblur.pc
 
 %changelog
+* Mon Sep 28 2020 Peter Hutterer <peter.hutterer@redhat.com> 0.15-1
+- libratbag 0.15
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 21 2020 Peter Hutterer <peter.hutterer@redhat.com> 0.14-1
 - libratbag 0.14
 

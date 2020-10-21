@@ -1,7 +1,7 @@
 Name:        iverilog
 Version:     10.3
 %define uver 10_3
-Release:     3%{?dist}
+Release:     4%{?dist}
 Summary:     Icarus Verilog is a verilog compiler and simulator
 License:     GPLv2
 URL:         http://iverilog.icarus.com
@@ -69,6 +69,9 @@ make check
  
  
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 16 2020 Filipe Rosset <rosset.filipe@gmail.com> - 10.3-3
 - Fix FTBFS rhbz#1799526
 

@@ -8,8 +8,8 @@
 %{?aud_plugin_dep}
 
 Name: audacious-plugins
-Version: 4.0.4
-Release: 1%{?dist}
+Version: 4.0.5
+Release: 2%{?dist}
 
 %global tar_ver %{version}
 
@@ -295,6 +295,12 @@ install -p -m0644 %{SOURCE102} ${RPM_BUILD_ROOT}%{_datadir}/appdata
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Michael Schwendt <mschwendt@fedoraproject.org> - 4.0.5-1
+- Update to 4.0.5 for important bug fixes.
+
 * Mon Jun  1 2020 Michael Schwendt <mschwendt@fedoraproject.org> - 4.0.4-1
 - Update to 4.0.4 for minor bug fixes.
 

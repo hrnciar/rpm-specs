@@ -1,7 +1,7 @@
 %global upname bubblemail-gnome-shell
 
 Name:           gnome-shell-extension-bubblemail
-Version:        1.1
+Version:        1.3
 Release:        1%{?dist}
 Summary:        GNOME Shell indicator for new and unread mail using Bubblemail 
 
@@ -43,7 +43,17 @@ mv src/LICENSE ./
 %{_datadir}/gnome-shell/extensions/bubblemail@razer.framagit.org/
 
 %changelog
-* Wed Jun 17 2020 Alexander Ploumistos <alexpl@fedoraproject.org> - 1.0-1
+* Sat Oct 17 2020 Alexander Ploumistos <alexpl@fedoraproject.org> - 1.3-1
+- Update to v1.3
+
+* Thu Aug 27 2020 Alexander Ploumistos <alexpl@fedoraproject.org> - 1.2-1
+- Update to v1.2
+- Fix typo in changelog
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 17 2020 Alexander Ploumistos <alexpl@fedoraproject.org> - 1.1-1
 - Update to v1.1
 
 * Sun May 24 2020 Alexander Ploumistos <alexpl@fedoraproject.org> - 1.0-1

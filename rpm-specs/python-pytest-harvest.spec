@@ -1,6 +1,6 @@
 Name:		python-pytest-harvest
 Version:	1.7.2
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Store data created during test execution and retrieve it at the end
 
 License:	BSD
@@ -61,6 +61,9 @@ mv -i -v pytest_harvest/tests/conftest.py .
 %{python3_sitelib}/pytest_harvest-%{version}.dist-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.2-3
 - Rebuilt for Python 3.9
 

@@ -3,7 +3,7 @@ Summary: Slovak hunspell dictionaries
 Epoch: 1
 %global upstreamid 20110228
 Version: 0.%{upstreamid}
-Release: 16%{?dist}
+Release: 17%{?dist}
 Source: http://www.sk-spell.sk.cx/files/hunspell-sk-%{upstreamid}.zip
 URL: http://www.sk-spell.sk.cx/
 License: LGPLv2 or GPLv2 or MPLv1.1
@@ -30,6 +30,9 @@ cp -p *.dic *.aff $RPM_BUILD_ROOT/%{_datadir}/myspell
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.20110228-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.20110228-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

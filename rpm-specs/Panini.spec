@@ -2,16 +2,18 @@
 
 Name:       Panini
 Version:    0.73.0
-Release:    4%{?dist}
+Release:    7%{?dist}
 Summary:    A tool for creating perspective views from panoramic and wide angle images
 License:    GPLv3+
 URL:        https://lazarus-pkgs.github.io/lazarus-pkgs/%{src_name}.html
 Source0:    https://github.com/lazarus-pkgs/%{src_name}/archive/v%{version}/%{src_name}-%{version}.tar.gz
 
-BuildRequires:  qt5-devel desktop-file-utils
+BuildRequires:  desktop-file-utils
 BuildRequires:  gcc gcc-c++
+BuildRequires:  qt5-qtbase-devel
 BuildRequires:  mesa-libGLU-devel
 BuildRequires:  libappstream-glib
+BuildRequires:  zlib-devel
 
 %description
 Panini can load most common photo and panoramic formats from image files such
@@ -88,6 +90,16 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_datadir}/applications/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.73.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.73.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Jeff Law <law@redhat.com> - 0.73.0-5
+- Drop build requirement for qt5-devel
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.73.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

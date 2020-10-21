@@ -5,7 +5,7 @@
 %global crate serde_with_macros
 
 Name:           rust-%{crate}
-Version:        1.1.0
+Version:        1.2.2
 Release:        1%{?dist}
 Summary:        Proc-macro library for serde_with
 
@@ -36,7 +36,7 @@ This package contains library source intended for building other packages
 which use "%{crate}" crate.
 
 %files          devel
-%license LICENSE-APACHE	LICENSE-MIT
+%license LICENSE-APACHE LICENSE-MIT
 %doc README.md CHANGELOG.md
 %{cargo_registry}/%{crate}-%{version_no_tilde}/
 
@@ -71,5 +71,18 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Oct 07 2020 Fabio Valentini <decathorpe@gmail.com> - 1.2.2-1
+- Update to version 1.2.2.
+
+* Mon Oct 05 2020 Fabio Valentini <decathorpe@gmail.com> - 1.2.1-1
+- Update to version 1.2.1.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 21 22:11:52 EET 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.1.0-1
 - Initial package

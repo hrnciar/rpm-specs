@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        0.6.12
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GAP library of small semigroups
 
 License:        GPLv3+
@@ -35,6 +35,7 @@ This package contains documentation for gap-pkg-%{pkgname}.
 %autosetup -p0 -n %{pkgname}-%{version}
 
 %build
+export LC_ALL=C.UTF-8
 gap < makedoc.g
 
 %install
@@ -44,6 +45,7 @@ rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}/{CHANGELOG,LICENSE,README}
 rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}/doc/*.{aux,bbl,blg,brf,idx,ilg,ind,log,out,pnr,tex}
 
 %check
+export LC_ALL=C.UTF-8
 gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 
 %files
@@ -57,6 +59,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.12-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.12-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

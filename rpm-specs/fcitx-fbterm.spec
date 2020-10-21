@@ -1,6 +1,6 @@
 Name:		fcitx-fbterm
 Version:	0.2.0
-Release:	17%{?dist}
+Release:	20%{?dist}
 Summary:	Fbterm Support for Fcitx
 License:	GPLv2+
 URL:		http://code.google.com/p/fcitx/
@@ -21,15 +21,11 @@ a fast Framebuffer based terminal emulator.
 
 
 %build
-mkdir -pv build
-pushd build
-%cmake ..
-make %{?_smp_mflags} VERBOSE=1
+%cmake
+%cmake_build
 
 %install
-pushd build
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
-popd
+%cmake_install
 
 %files
 %doc AUTHORS README
@@ -39,6 +35,16 @@ popd
 
 
 %changelog
+* Tue Aug 04 2020 Qiyu Yan <yanqiyu@fedoraproject.org> - 0.2.0-20
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-19
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.0.1
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Python 2 compatible random module
 
 License:        Python
@@ -26,15 +26,12 @@ In my testing code I heavily rely on stable random generator results and
 it makes porting code to Python 3 a lot harder, if all those tests have
 to be adjusted.  This package fixes that.}
 
-%description
-%{common_desc}
+%description %{common_desc}
 
 %package -n python%{python3_pkgversion}-%{srcname}
 Summary:        Python 2 compatible random module for Python 3
-%{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
 
-%description -n python%{python3_pkgversion}-%{srcname}
-%{common_desc}
+%description -n python%{python3_pkgversion}-%{srcname} %{common_desc}
 
 %prep
 %autosetup -n %{srcname}-%{version}
@@ -56,6 +53,9 @@ sed -i '/self\.gen\.getrandbits, 0/d' src/tests.py
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.1-20
 - Rebuilt for Python 3.9
 

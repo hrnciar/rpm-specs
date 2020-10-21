@@ -1,10 +1,13 @@
 
 #global apidocs 1
 
+# set this until when/if we port to new cmake macros
+%global __cmake_in_source_build 1
+
 Name:    grantlee
 Summary: Qt string template engine based on the Django template system
 Version: 0.5.1
-Release: 14%{?dist}
+Release: 17%{?dist}
 
 License: LGPLv2+
 URL:     http://www.gitorious.org/grantlee/pages/Home
@@ -122,6 +125,16 @@ xvfb-run -a make test -C %{_target_platform} ||:
 
 
 %changelog
+* Tue Aug 11 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.5.1-17
+- FTBFS: set __cmake_in_source_build
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

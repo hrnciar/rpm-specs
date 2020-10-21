@@ -2,7 +2,7 @@
 
 Summary:        Desktop full text search tool with Qt GUI
 Name:           recoll
-Version:        1.27.2
+Version:        1.27.9
 Release:        1%{?dist}
 License:        GPLv2+
 URL:            https://www.lesbonscomptes.com/recoll/
@@ -78,11 +78,9 @@ export QMAKE=qmake-qt5
 make %{?_smp_mflags}
 
 # gssp
-(
 pushd gssp
 %configure
 popd
-)
 
 %install
 make install DESTDIR=%{buildroot} STRIP=/bin/true INSTALL='install -p'
@@ -99,30 +97,23 @@ rm -f %{buildroot}%{_libdir}/recoll/librecoll.la
 rm %{buildroot}%{_datadir}/recoll/filters/hotrecoll.py
 
 # kio_recoll -kde5
-(
-mkdir kde/kioslave/kio_recoll/build && pushd kde/kioslave/kio_recoll/build
-%cmake ..
-make %{?_smp_mflags} VERBOSE=1
-make install DESTDIR=%{buildroot}
+pushd kde/kioslave/kio_recoll
+%cmake
+%cmake_build
+%cmake_install
 popd
-)
 
 # kio_recoll -kde4
-(
-mkdir kde/kioslave/kio_recoll-kde4/build && \
-      pushd kde/kioslave/kio_recoll-kde4/build
-%cmake ..
-make %{?_smp_mflags} VERBOSE=1
-make install DESTDIR=%{buildroot}
+pushd kde/kioslave/kio_recoll-kde4
+%cmake
+%cmake_build
+%cmake_install
 popd
-)
 
 # gssp
-(
 pushd gssp
 make install DESTDIR=%{buildroot}
 popd
-)
 
 mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d
 echo "%{_libdir}/recoll" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}-%{_arch}.conf
@@ -140,7 +131,7 @@ echo "%{_libdir}/recoll" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}-%{_ar
 %{_bindir}/%{name}index
 %{_bindir}/%{name}q
 %{_datadir}/%{name}
-%{_datadir}/appdata/%{name}.appdata.xml
+%{_datadir}/metainfo/%{name}.appdata.xml
 %{_datadir}/applications/%{name}-searchgui.desktop
 %{_datadir}/icons/hicolor/48x48/apps/%{name}.png
 %{_datadir}/pixmaps/%{name}.png
@@ -175,6 +166,18 @@ echo "%{_libdir}/recoll" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}-%{_ar
 %{_datadir}/applications/org.recoll.Recoll.desktop
 
 %changelog
+* Mon Oct 05 2020 Terje Rosten <terje.rosten@ntnu.no> - 1.27.9-1
+- 1.27.9
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.27.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Terje Rosten <terje.rosten@ntnu.no> - 1.27.3-2
+- Fix cmake macro usage
+
+* Sun Jun 28 2020 Terje Rosten <terje.rosten@ntnu.no> - 1.27.3-1
+- 1.27.3
+
 * Sun Jun 07 2020 Terje Rosten <terje.rosten@ntnu.no> - 1.27.2-1
 - 1.27.2
 

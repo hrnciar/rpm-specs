@@ -6,7 +6,7 @@
 
 Name:		mozc
 Version:	2.23.2815.102
-Release:	12%{?dist}
+Release:	14%{?dist}
 Summary:	A Japanese Input Method Editor (IME) designed for multi-platform
 
 License:	BSD and ASL 2.0 and UCD and Public Domain and mecab-ipadic
@@ -241,6 +241,12 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 2.23.2815.102-14
+- Rebuilt for protobuf 3.13
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.23.2815.102-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Akira TAGOH <tagoh@redhat.com> - 2.23.2815.102-12
 - Fix the build failure with the latest protobuf.
 

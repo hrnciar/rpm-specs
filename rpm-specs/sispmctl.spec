@@ -1,6 +1,6 @@
 Name: sispmctl
 Version: 3.1
-Release: 12%{?dist}
+Release: 13%{?dist}
 Summary: Control Gembird SIS-PM programmable power outlet strips
 License: GPLv2
 URL: http://sispmctl.sourceforge.net/
@@ -33,6 +33,9 @@ make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 %{_mandir}/man1/sispmctl.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

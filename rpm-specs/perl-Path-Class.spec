@@ -1,6 +1,6 @@
 Name:		perl-Path-Class
 Version:	0.37
-Release:	16%{?dist}
+Release:	17%{?dist}
 Summary:	Cross-platform path specification manipulation
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Path-Class
@@ -72,6 +72,9 @@ make test
 %{_mandir}/man3/Path::Class::File.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.37-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.37-16
 - Perl 5.32 rebuild
 

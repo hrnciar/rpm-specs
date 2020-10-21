@@ -3,7 +3,7 @@
 
 Name:           qwtplot3d
 Version:        0.2.7
-Release:        32%{?dist}
+Release:        34%{?dist}
 Summary:        Qt/OpenGL-based C++ library providing a bunch of 3D-widgets
 
 # zlib/libpng License
@@ -136,6 +136,13 @@ ln -sf libqwtplot3d-qt4.so.%{version} %{buildroot}%{_qt4_libdir}/libqwtplot3d-qt
 %{_qt4_libdir}/libqwtplot3d-qt4.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-34
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-32
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

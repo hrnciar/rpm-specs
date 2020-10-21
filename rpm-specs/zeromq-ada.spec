@@ -1,24 +1,23 @@
 %define debug_package %{nil}
+%global git_commit fca30bb86f41e24d878c32ce399500f195513400
+%global git_date 20200330
+
+%global git_short_commit %(echo %{git_commit} | cut -c -8)
+%global git_suffix %{git_date}git%{git_short_commit}
 
 Name:       zeromq-ada
-Version:    2.1.0
-Release:    30.24032011git%{?dist}
+Version:    4.1.5
+Release:    2.git%{?dist}
 Summary:    Ada binding for zeromq
 License:    GPLv2+
 URL:        http://zeromq.org
-## Source from github. for get source use 
-## git clone https://landgraf@github.com/landgraf/zeromq-Ada.git
-## tar -czvf zeromq-ada-2.24032011.tar.gz zeromq-Ada
-Source0:    %{name}-24032011git.tar.gz
+Source0:    https://github.com/persan/zeromq-Ada/archive/%{git_commit}/%{name}-%{version}.tar.gz
 ## Use shared libs instead static
 Patch0:     %{name}-libdir.patch
 ## Use directories.gpr
 Patch1:     %{name}-fedora.patch
-## https://github.com/persan/zeromq-Ada/issues/10
-Patch2:     %{name}-autoinit_fix.patch
-Patch3:     %{name}-nogpr.patch
 BuildRequires: fedora-gnat-project-common >= 2 zeromq-devel >= 2.1
-BuildRequires:  chrpath gcc-gnat gprbuild
+BuildRequires: chrpath gcc-gnat gprbuild
 Requires:    zeromq >= 2.1
 # gcc-gnat only available on these:
 ExclusiveArch: %{GPRbuild_arches}
@@ -31,25 +30,26 @@ Summary:        Devel package for Ada binding for zeromq
 License:        GPLv2+
 Requires:       fedora-gnat-project-common  >= 2
 Requires:       %{name}%{?_isa} = %{version}-%{release}
-Requires:       zeromq >= 2.1
+Requires:       zeromq-devel >= 2.1
 
 %description devel
 %{summary}
 %prep
-%setup -q -n zeromq-Ada
+%setup -q -n zeromq-Ada-%{git_commit}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1 
+touch Makefile.config
+cp -v libsodium.gpr.in libsodium.gpr
+cp -v libzmq.gpr.in libzmq.gpr
 
 %build
-make %{?_smp_mflags}  GNATFLAGS="%{GNAT_optflags}"  GNATMAKE="gprbuild -p -R %{GNAT_optflags}"
+make %{?_smp_mflags}  GNATFLAGS="%{GNAT_optflags}"  GNATMAKE="gprbuild -p -R %{GNAT_optflags}" PREFIX=/usr
 ## for tests aunit needed
 
 
 %install
 rm -rf %{buildroot}
-make install DESTDIR=%{buildroot} LIBDIR=%{_libdir} ADA_PROJECT_DIR=%{_GNAT_project_dir}  GNATFLAGS="%{GNAT_optflags}"
+make install DESTDIR=%{buildroot} LIBDIR=%{_libdir} ADA_PROJECT_DIR=%{_GNAT_project_dir}  GNATFLAGS="%{GNAT_optflags}" PREFIX=/usr
 rm -f %{buildroot}/%{_libdir}/zmq/static/libzmqAda.a
 rm -rf %{buildroot}/%{_libdir}/zmq/static
 chrpath --delete %{buildroot}%{_libdir}/zmq/relocatable/libzmqAda.so.%{version}
@@ -57,7 +57,7 @@ chrpath --delete %{buildroot}%{_libdir}/zmq/relocatable/libzmqAda.so.%{version}
 %ldconfig_scriptlets
 
 %files
-%doc README COPYING
+%doc README.md COPYING
 %dir %{_libdir}/zmq
 %dir %{_libdir}/zmq/relocatable
 %{_libdir}/zmq/relocatable/libzmqAda.so.%{version}
@@ -75,6 +75,12 @@ chrpath --delete %{buildroot}%{_libdir}/zmq/relocatable/libzmqAda.so.%{version}
 %{_datadir}/zmq/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.5-2.git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 17 2020 Max Reznik <reznikmm@gmail.com> - 4.1.5-1.git
+- Update to 4.1.5
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-30.24032011git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

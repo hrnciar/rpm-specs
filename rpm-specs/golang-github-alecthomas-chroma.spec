@@ -1,6 +1,6 @@
 # https://github.com/alecthomas/chroma
 %global goipath         github.com/alecthomas/chroma
-Version:                0.7.3
+Version:                0.8.0
 
 %gometa
 
@@ -54,6 +54,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Athos Ribeiro <athoscr@fedoraproject.org> - 0.8.0-1
+- Update to latest revision
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Athos Ribeiro <athoscr@fedoraproject.org> - 0.7.3-1
 - Update to latest revision
 - Use generated dynamic buildrequires

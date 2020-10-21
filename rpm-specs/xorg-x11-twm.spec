@@ -3,7 +3,7 @@ Name:       xorg-x11-twm
 # NOTE: Remove Epoch line if package gets renamed to something like "twm"
 Epoch:      1
 Version:    1.0.9
-Release:    11%{?dist}
+Release:    12%{?dist}
 License:    MIT
 URL:        http://www.x.org
 
@@ -53,6 +53,9 @@ make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 %config %{_sysconfdir}/X11/twm/system.twmrc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.0.9-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.0.9-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 0.1.11
-Release: 12%{?dist}
+Release: 13%{?dist}
 Summary: Create executable versions of Sinatra/Rack apps
 License: MIT
 URL: http://code.quirkey.com/vegas/
@@ -91,6 +91,9 @@ popd
 %exclude %{gem_instdir}/test
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.11-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 21 2020 Jun Aruga <jaruga@redhat.com> - 0.1.11-12
 - Skip unit test as a temporary workaround, as Mocha does not work with Bacon.
 

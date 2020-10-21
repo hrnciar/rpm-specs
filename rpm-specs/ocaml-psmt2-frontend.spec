@@ -6,7 +6,7 @@
 
 Name:           ocaml-%{srcname}
 Version:        0.1
-Release:        1%{?dist}
+Release:        6%{?dist}
 Summary:        Parser and typechecker for an extension of SMT-LIB 2
 
 License:        ASL 2.0
@@ -16,7 +16,7 @@ Source0:        %{url}/archive/%{version}/%{srcname}-%{version}.tar.gz
 BuildRequires:  autoconf
 BuildRequires:  ocaml >= 4.04
 BuildRequires:  ocaml-findlib
-BuildRequires:  ocaml-menhir-devel
+BuildRequires:  ocaml-menhir
 
 %description
 This package contains a library to parse and typecheck a conservative
@@ -72,5 +72,21 @@ cp -p opam %{buildroot}%{_libdir}/ocaml/%{srcname}
 %{_libdir}/ocaml/%{srcname}/*.mli
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.1-6
+- OCaml 4.11.1 rebuild
+
+* Sat Aug 22 2020 Richard W.M. Jones <rjones@redhat.com> - 0.1-5
+- Bump and rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.1-4
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 2020 Jerry James <loganjerry@gmail.com> - 0.1-1
 - Initial RPM

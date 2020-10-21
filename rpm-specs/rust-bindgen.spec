@@ -5,7 +5,7 @@
 
 Name:           rust-%{crate}
 Version:        0.54.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Automatically generates Rust FFI bindings to C and C++ libraries
 
 # Upstream license specification: BSD-3-Clause
@@ -16,6 +16,7 @@ Source:         %{crates_source}
 # * No "runtime" feature by default. We can afford linking directly to libclang
 #   and rebuild it for each SONAME change. This just makes it better integrated
 #   in distribution context.
+# * Bump which from 3.0 to 4.0
 Patch0:         bindgen-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -267,6 +268,12 @@ which use "which-rustfmt" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Fri Sep 18 2020 Fabio Valentini <decathorpe@gmail.com> - 0.54.0-3
+- Bump to which 4.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.54.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Josh Stone <jistone@redhat.com> - 0.54.0-1
 - Update to 0.54.0
 

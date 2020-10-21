@@ -11,8 +11,8 @@ retrieve its DOT source code string. Save the source code to a file and
 render it with the Graphviz installation of your system.}
 
 Name:           python-%{pypi_name}
-Version:        0.14
-Release:        3%{?dist}
+Version:        0.14.1
+Release:        2%{?dist}
 # Set Epoch to avoid being obsoleted by graphviz-python
 Epoch:          1
 Summary:        Simple Python interface for Graphviz
@@ -22,8 +22,6 @@ URL:            https://github.com/xflr6/graphviz
 Source0:        %{pypi_source %{pypi_name} %{version} zip}
 
 BuildArch:      noarch
-
-%{?python_enable_dependency_generator}
 
 %description
 %{common_description}
@@ -48,6 +46,7 @@ Requires:       graphviz
 
 %package -n python-%{pypi_name}-doc
 Summary:        Documentation for %{name}
+
 %description -n python-%{pypi_name}-doc
 %{common_description}
 
@@ -86,6 +85,12 @@ rm -rf html/.{doctrees,buildinfo}
 %license LICENSE.txt
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.14.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 18:16:51 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1:0.14.1-1
+- Update to 0.14.1 (#1856318)
+
 * Fri Jun 19 19:36:17 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1:0.14-1
 - Update to 0.14 (#1826692)
 

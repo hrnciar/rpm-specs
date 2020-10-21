@@ -5,7 +5,7 @@
 
 Name:		nodejs-node-dot-extend
 Version:	2.0.0
-Release:	5%{?dist}
+Release:	7%{?dist}
 Summary:	A port of jQuery.extend that actually works on node.js
 
 License:	(MIT OR GPLv2)
@@ -67,6 +67,13 @@ cp -pr package.json *.js lib/ \
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

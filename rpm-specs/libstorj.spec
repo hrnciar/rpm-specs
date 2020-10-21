@@ -1,10 +1,14 @@
 Name: libstorj
 Version: 1.0.3
-Release: 4%{?dist}
+Release: 6%{?dist}
 Summary: Client library and CLI for encrypted file transfer on the Storj network
 License: LGPLv2+
 URL:     https://github.com/Storj/libstorj/
 Source0: %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
+%if 0%{?rhel} == 8
+# libuv-devel not present on s390x on EL-8
+ExcludeArch: s390x
+%endif
 
 BuildRequires: autoconf
 BuildRequires: automake
@@ -59,6 +63,12 @@ autoreconf -vif
 %{_libdir}/pkgconfig/libstorj.pc
 
 %changelog
+* Wed Aug 12 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.0.3-6
+- Exclude s390x on EL-8 due to missing libuv-devel
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Björn Esser <besser82@fedoraproject.org> - 1.0.3-4
 - Rebuild (json-c)
 

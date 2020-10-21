@@ -10,7 +10,7 @@
 Summary:   Color daemon
 Name:      colord
 Version:   1.4.4
-Release:   4%{?dist}
+Release:   5%{?dist}
 License:   GPLv2+ and LGPLv2+
 URL:       https://www.freedesktop.org/software/colord/
 Source0:   https://www.freedesktop.org/software/colord/releases/%{name}-%{version}.tar.xz
@@ -256,6 +256,9 @@ exit 0
 %{_datadir}/installed-tests/colord/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

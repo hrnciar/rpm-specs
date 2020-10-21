@@ -26,7 +26,7 @@ features:\
 
 Name:           gprof2dot
 Version:        1.0
-Release:        %{fedorarel}%{?dist}.2
+Release:        %{fedorarel}%{?dist}.3
 Summary:        Generate dot graphs from the output of several profilers
 
 License:        LGPLv3+
@@ -72,6 +72,9 @@ python3 ./tests/test.py
 %{_bindir}/gprof2dot
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.18.D20190826git6dc9bdf4b0.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.18.D20190826git6dc9bdf4b0.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

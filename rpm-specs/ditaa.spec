@@ -1,12 +1,14 @@
 Summary:        Diagrams Through ASCII Art
 Name:           ditaa
 Version:        0.10
-Release:        9%{?dist}
+Release:        12%{?dist}
 License:        GPLv2+
 URL:            http://ditaa.sourceforge.net/
 Source0:        https://github.com/stathissideris/ditaa/archive/v%{version}.tar.gz
 Source1:        ditaa.wrapper
 Patch0:         ditaa-0.9-port-to-batik-1.8.patch
+# Patch from Debian to build with JDK 10+
+Patch1:         https://sources.debian.org/data/main/d/ditaa/0.10+ds1-1.2/debian/patches/remove-JavadocTaglet.patch
 BuildArch:      noarch
 BuildRequires:  java-devel >= 1:1.6.0
 BuildRequires:  ant
@@ -31,6 +33,7 @@ graphics.
 %prep 
 %setup -q
 %patch0 -p1
+%patch1 -p1
 find -name '*.class' -delete
 find -name '*.jar' -delete
 
@@ -49,6 +52,15 @@ install -D -p -m 0755 %{SOURCE1} %{buildroot}%{_bindir}/%{name}
 %{_javadir}/%{name}.jar
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 19 2020 Terje Rosten <terje.rosten@ntnu.no> - 0.10-11
+- Add patch from Debian to build with JDK 10+
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0.10-10
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

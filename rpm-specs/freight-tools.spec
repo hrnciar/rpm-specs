@@ -3,7 +3,7 @@
 
 Name: freight-tools 
 Version: 0 
-Release: 14.%{checkout}%{?dist}
+Release: 15.%{checkout}%{?dist}
 URL: https://github.com/FreightAgent/freight-tools
 Source: freight-tools-%{checkout}.tgz
 Source1: freight-agent-node.config
@@ -135,6 +135,9 @@ install -m644 %{SOURCE7} $RPM_BUILD_ROOT/etc/freight-agent/freightproxy.config
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-15.20151221gitaa7fe1c1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-14.20151221gitaa7fe1c1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

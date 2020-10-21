@@ -19,7 +19,7 @@
 Name: audacity
 
 Version: 2.3.3
-Release: 6%{?dist}
+Release: 7%{?dist}
 Summary: Multitrack audio editor
 License: GPLv2
 URL:     http://audacity.sourceforge.net
@@ -278,6 +278,9 @@ rm %{buildroot}%{_datadir}/doc/%{realname}/LICENSE.txt
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Ian McInerney <Ian.S.McInerney@ieee.org> - 2.3.3-6
 - Fix incorrect appdata.xml type tag (bug #1810509)
 

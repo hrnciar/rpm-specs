@@ -2,13 +2,13 @@
 %global gtk3_version 3.23.1
 
 Name:           gnome-contacts
-Version:        3.36.2
+Version:        3.38
 Release:        1%{?dist}
 Summary:        Contacts manager for GNOME
 
 License:        GPLv2+
 URL:            https://wiki.gnome.org/Apps/Contacts
-Source0:        https://download.gnome.org/sources/%{name}/3.36/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  docbook-dtds
@@ -26,7 +26,7 @@ BuildRequires:  pkgconfig(gnome-desktop-3.0)
 BuildRequires:  pkgconfig(goa-1.0)
 BuildRequires:  pkgconfig(gobject-introspection-1.0)
 BuildRequires:  pkgconfig(gtk+-3.0) >= %{gtk3_version}
-BuildRequires:  pkgconfig(libhandy-0.0)
+BuildRequires:  pkgconfig(libhandy-1)
 
 Requires:       folks%{?_isa} >= 1:%{folks_version}
 Requires:       gtk3%{?_isa} >= %{gtk3_version}
@@ -68,6 +68,25 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/org.gnome.Contacts.d
 
 
 %changelog
+* Sat Sep 19 2020 Kalev Lember <klember@redhat.com> - 3.38-1
+- Update to 3.38
+
+* Mon Aug 24 2020 Kalev Lember <klember@redhat.com> - 3.37.2-1
+- Update to 3.37.2
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 3.37.1-1
+- Update to 3.37.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Milan Crha <mcrha@redhat.com> - 3.36.2-2
+- Rebuilt for evolution-data-server soname version bump
+
 * Mon Jun 22 2020 Kalev Lember <klember@redhat.com> - 3.36.2-1
 - Update to 3.36.2
 

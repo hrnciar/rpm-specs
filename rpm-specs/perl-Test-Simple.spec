@@ -1,4 +1,9 @@
 %if ! (0%{?rhel})
+%bcond_without perl_Test_Simple_enables_Module_Pluggable
+%else
+%bcond_with perl_Test_Simple_enables_Module_Pluggable
+%endif
+%if ! (0%{?rhel})
 %bcond_without perl_Test_Simple_enables_optional_test
 %else
 %bcond_with perl_Test_Simple_enables_optional_test
@@ -7,8 +12,8 @@
 Name:           perl-Test-Simple
 Summary:        Basic utilities for writing tests
 Epoch:          3
-Version:        1.302175
-Release:        456%{?dist}
+Version:        1.302182
+Release:        2%{?dist}
 # CC0: lib/ok.pm
 # Public Domain: lib/Test/Tutorial.pod
 # GPL+ or Artistic: the rest of the distribution
@@ -33,6 +38,9 @@ BuildRequires:  perl(File::Temp)
 BuildRequires:  perl(IO::Handle)
 BuildRequires:  perl(JSON::PP)
 BuildRequires:  perl(List::Util)
+%if %{with perl_Test_Simple_enables_Module_Pluggable} && !%{defined perl_bootstrap}
+BuildRequires:  perl(Module::Pluggable)
+%endif
 # mro used since Perl 5.010
 BuildRequires:  perl(mro)
 BuildRequires:  perl(overload)
@@ -72,6 +80,9 @@ BuildRequires:  perl(Test::Script)
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:       perl(Data::Dumper)
 Requires:       perl(JSON::PP)
+%if %{with perl_Test_Simple_enables_Module_Pluggable} && !%{defined perl_bootstrap}
+Suggests:       perl(Module::Pluggable)
+%endif
 # mro used since Perl 5.010
 Requires:       perl(mro)
 Requires:       perl(Term::ANSIColor)
@@ -136,6 +147,10 @@ make test %{!?perl_bootstrap:AUTHOR_TESTING=1}
 %{_mandir}/man3/Test2::API::Breakage.3*
 %{_mandir}/man3/Test2::API::Context.3*
 %{_mandir}/man3/Test2::API::Instance.3*
+%{_mandir}/man3/Test2::API::InterceptResult.3*
+%{_mandir}/man3/Test2::API::InterceptResult::Event.3*
+%{_mandir}/man3/Test2::API::InterceptResult::Hub.3*
+%{_mandir}/man3/Test2::API::InterceptResult::Squasher.3*
 %{_mandir}/man3/Test2::API::Stack.3*
 %{_mandir}/man3/Test2::Event.3*
 %{_mandir}/man3/Test2::Event::Bail.3*
@@ -185,6 +200,40 @@ make test %{!?perl_bootstrap:AUTHOR_TESTING=1}
 %{_mandir}/man3/Test2::Util::Trace.3*
 
 %changelog
+* Thu Oct 15 2020 Petr Pisar <ppisar@redhat.com> - 3:1.302182-2
+- Demote Module::Pluggable hard dependency to Suggests level
+
+* Tue Oct  6 2020 Paul Howarth <paul@city-fan.org> - 3:1.302182-1
+- Update to 1.302182
+  - Fix 5.6 support
+  - Fix fragile %%INC handling in a test
+
+* Mon Sep 14 2020 Paul Howarth <paul@city-fan.org> - 3:1.302181-1
+- Update to 1.302181
+  - Put try_sig_mask back where it goes (and add test to prevent this in the
+    future)
+  - Drop new List::Util requirement back down
+
+* Mon Sep 14 2020 Paul Howarth <paul@city-fan.org> - 3:1.302180-1
+- Update to 1.302180
+  - Move try_sig_mask to the only module that uses it
+  - Inherit warnings bitmask in cmp_ok string eval
+  - Update copyright date
+  - Improved API for intercept {} and what it returns
+  - Bump minimum List::Util version (for uniq)
+
+* Fri Aug 07 2020 Petr Pisar <ppisar@redhat.com> - 3:1.302177-1
+- Update to 1.302177
+  - Minor fix to author downstream test
+  - No significant changes since the last trial
+  - Fix Test::More's $TODO inside intercept (#862)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3:1.302175-458
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3:1.302175-457
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3:1.302175-456
 - Increase release to favour standalone package
 

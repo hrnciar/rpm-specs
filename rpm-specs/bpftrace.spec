@@ -1,6 +1,6 @@
 Name:           bpftrace
-Version:        0.10.0
-Release:        2%{?dist}
+Version:        0.11.0
+Release:        4%{?dist}
 Summary:        High-level tracing language for Linux eBPF
 License:        ASL 2.0
 
@@ -9,7 +9,7 @@ Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 # Arches will be included as upstream support is added and dependencies are
 # satisfied in the respective arches
-ExclusiveArch:  x86_64 %{power64} aarch64
+ExclusiveArch:  x86_64 %{power64} aarch64 s390x
 
 BuildRequires:  gcc-c++
 BuildRequires:  bison
@@ -45,11 +45,17 @@ and predecessor tracers such as DTrace and SystemTap
         -DBUILD_TESTING:BOOL=OFF \
         -DBUILD_SHARED_LIBS:BOOL=OFF \
         -DLIBBCC_LIBRARIES:PATH=/usr/lib64/libbcc-no-libbpf.so
-%make_build
+%cmake_build
 
 
 %install
-%make_install
+# The post hooks strip the binary which removes
+# the BEGIN_trigger and END_trigger functions
+# which are needed for the BEGIN and END probes
+%global __os_install_post %{nil}
+%global _find_debuginfo_opts -g
+
+%cmake_install
 
 # Fix shebangs (https://fedoraproject.org/wiki/Packaging:Guidelines#Shebang_lines)
 find %{buildroot}%{_datadir}/%{name}/tools -type f -exec \
@@ -70,6 +76,20 @@ find %{buildroot}%{_datadir}/%{name}/tools -type f -exec \
 
 
 %changelog
+* Tue Aug 04 2020 Augusto Caringi <acaringi@redhat.com> - 0.11.0-4
+- Fix FTBFS due to cmake wide changes #1863295
+- Fix 'bpftrace symbols are stripped' #1865787
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Augusto Caringi <acaringi@redhat.com> - 0.11.0-1
+* Rebased to version 0.11.0
+
 * Tue May 19 2020 Augusto Caringi <acaringi@redhat.com> - 0.10.0-2
 - Rebuilt for new bcc/libbpf versions
 

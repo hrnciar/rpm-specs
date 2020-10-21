@@ -1,6 +1,6 @@
 Name:           perl-MooseX-InsideOut
 Version:        0.106
-Release:        26%{?dist}
+Release:        27%{?dist}
 Summary:        Inside-out objects with Moose
 License:        GPL+ or Artistic
 
@@ -50,6 +50,9 @@ TEST_POD=1 make test
 %{_mandir}/man3/Moose*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.106-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.106-26
 - Perl 5.32 rebuild
 

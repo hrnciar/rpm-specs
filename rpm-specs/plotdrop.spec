@@ -1,6 +1,6 @@
 Name:           plotdrop
 Version:        0.5.3
-Release:        24%{?dist}
+Release:        26%{?dist}
 Summary:        A minimal GNOME front-end to Gnuplot
 
 License:        GPLv2
@@ -81,6 +81,13 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/plotdrop.desktop
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-26
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

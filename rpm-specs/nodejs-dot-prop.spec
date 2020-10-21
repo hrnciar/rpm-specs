@@ -7,7 +7,7 @@
 
 Name:		nodejs-dot-prop
 Version:	4.2.0
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	Get, set, or delete a property from a nested object using a dot path
 
 License:	MIT	
@@ -59,6 +59,9 @@ cp -pr package.json index.js \
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

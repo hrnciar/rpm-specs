@@ -1,8 +1,8 @@
 %global pypi_name trimesh
 
 Name:           python-%{pypi_name}
-Version:        3.6.34
-Release:        2%{?dist}
+Version:        3.8.10
+Release:        1%{?dist}
 Summary:        Import, export, process, analyze and view triangular meshes
 
 License:        MIT
@@ -148,6 +148,12 @@ Extra dependencies for trimesh[all].
 
 
 %changelog
+* Thu Oct 01 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.8.10-1
+- Update to latest release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.34-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.6.34-2
 - Rebuilt for Python 3.9
 

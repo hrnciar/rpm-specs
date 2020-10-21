@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        4.0.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Various tools to be used in conjunction with the 'failure' crate
 
 # Upstream license specification: MIT
@@ -70,6 +70,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 15 11:21:04 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 4.0.5-1
 - Update to 4.0.5
 

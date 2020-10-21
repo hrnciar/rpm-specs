@@ -10,7 +10,7 @@
 Summary:        Lua binding for OpenSSL library
 Name:           lua-sec
 Version:        0.9
-Release:        2%{?dist}
+Release:        4%{?dist}
 License:        MIT
 URL:            https://github.com/brunoos/luasec
 Source0:        https://github.com/brunoos/luasec/archive/v%{version}/luasec-%{version}.tar.gz
@@ -99,6 +99,12 @@ popd
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9-3
+- Rebuilt for Lua 5.4
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

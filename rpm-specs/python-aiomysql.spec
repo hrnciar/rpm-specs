@@ -2,12 +2,13 @@
 
 Name:           python-%{pypi_name}
 Version:        0.0.20
-Release:        4%{?dist}
+Release:        7%{?dist}
 Summary:        MySQL driver for asyncio
 
 License:        MIT
 URL:            https://github.com/aio-libs/aiomysql
-Source0:        https://github.com/aio-libs/aiomysql/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
+Source0:        %{url}/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
+Patch0:         fix-requirements.patch
 BuildArch:      noarch
 
 %description
@@ -29,8 +30,10 @@ aiomysql is a "driver" for accessing a MySQL database from the asyncio
 aiomysql tries to be like awesome aiopg library and preserve same api, look
 and feel.
 
++%{?python_extras_subpkg:%python_extras_subpkg -n python3-%{pypi_name} -i %{python3_sitelib}/*.egg-info sa}
+
 %prep
-%autosetup -n %{pypi_name}-%{version}
+%autosetup -n %{pypi_name}-%{version} -p1
 rm -rf %{pypi_name}.egg-info
 
 %build
@@ -46,10 +49,19 @@ rm -rf %{pypi_name}.egg-info
 %files -n python3-%{pypi_name}
 %license LICENSE
 %doc README.rst
-%{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py*.egg-info
+%{python3_sitelib}/%{pypi_name}/
+%{python3_sitelib}/%{pypi_name}-%{version}-py*.egg-info/
 
 %changelog
+* Sun Sep 20 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.0.20-7
+- Add metapackage sa
+
+* Thu Sep 03 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.0.20-6
+- Fix FTBFS (rhbz#1871591)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.20-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.0.20-4
 - Rebuilt for Python 3.9
 

@@ -12,7 +12,7 @@
 Summary:        Enhanced TeX modes for Emacs
 Name:           emacs-auctex
 Version:        12.1
-Release:        8%{?dist}
+Release:        9%{?dist}
 License:        GPLv3+ and GFDL
 URL:            http://www.gnu.org/software/auctex/
 Requires:       emacs(bin) >= %{_emacs_version}
@@ -167,6 +167,9 @@ touch %{buildroot}%{_emacs_sitelispdir}/auctex/style/.nosearch
 %doc doc/html
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

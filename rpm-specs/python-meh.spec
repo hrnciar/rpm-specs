@@ -3,8 +3,8 @@
 Summary:  A python library for handling exceptions
 Name: python-meh
 Url: https://github.com/rhinstaller/python-meh
-Version: 0.48
-Release: 3%{?dist}
+Version: 0.50
+Release: 1%{?dist}
 # This is a Red Hat maintained package which is specific to
 # our distribution.  Thus the source is only available from
 # within this srpm.
@@ -84,11 +84,24 @@ make DESTDIR=%{buildroot} install
 %{_datadir}/python-meh
 
 %changelog
-* Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 0.48-3
-- Rebuilt for Python 3.9
+* Tue Sep 29 2020 Martin Kolman <mkolman@redhat.com> - 0.50-1
+- Merge pull request #33 from mzidek-gh/master (mkolman)
+- dump: Use exception's type and value when calculating hash (mzidek)
 
-* Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.48-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+* Tue Aug 25 2020 Martin Kolman <mkolman@redhat.com> - 0.49-1
+- Merge pull request #31 from jkonecny12/master-fix-make-archive (mkolman)
+- Fix make archive command after pot file removal (jkonecny)
+- Merge pull request #29 from jkonecny12/master-weblate-support (jkonecny)
+- Add Readme with description and translation badge (jkonecny)
+- Add pot file to the git ignore (jkonecny)
+- Pause release when making bumpver to check and solve translations (jkonecny)
+- Remove unused PREFIX from Makefile (jkonecny)
+- Remove Zanata (jkonecny)
+- Push translations to our translation repository (jkonecny)
+- Download translations from Weblate (jkonecny)
+- Remove pot file (jkonecny)
+- Merge pull request #24 from M4rtinK/master-fix_zanata_client_detection_in_makefile (mkolman)
+- Fix Zanata client detection in Makefile (mkolman)
 
 * Wed Oct 23 2019 Martin Kolman <mkolman@redhat.com> - 0.48-1
 - Merge pull request #23 from poncovka/master-decode_bytes (mkolman)

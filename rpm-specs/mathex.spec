@@ -1,6 +1,6 @@
 Name:           mathex
 Version:        0.3b
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        C++ library to parse/evaluate mathematical expressions
 
 # Exceptions apply to static linking, see license.txt
@@ -26,22 +26,18 @@ developing applications that use %{name}.
 
 
 %prep
-%setup -q -n %{name}
+%autosetup -p1 -n %{name}
 cp %{SOURCE1} .
 sed -i 's|\r||g' changelog.txt license.txt lesser.txt
 
 
 %build
-mkdir build
-(
-cd build
-%cmake ..
-make %{?_smp_mflags}
-)
+%cmake
+%cmake_build
 
 
 %install
-%make_install -C build
+%cmake_install
 
 
 %ldconfig_scriptlets
@@ -58,6 +54,9 @@ make %{?_smp_mflags}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3b-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3b-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

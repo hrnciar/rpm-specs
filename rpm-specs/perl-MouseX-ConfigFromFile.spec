@@ -1,7 +1,7 @@
 Name:		perl-MouseX-ConfigFromFile
 Summary:	An abstract Mouse role for setting attributes from a configfile
 Version:	0.05
-Release:	20%{?dist}
+Release:	21%{?dist}
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/MouseX-ConfigFromFile
 Source0:	https://cpan.metacpan.org/authors/id/M/MA/MASAKI/MouseX-ConfigFromFile-%{version}.tar.gz
@@ -74,6 +74,9 @@ make test TEST_POD=1
 %{_mandir}/man3/MouseX::ConfigFromFile.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.05-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.05-20
 - Perl 5.32 rebuild
 

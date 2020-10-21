@@ -1,13 +1,7 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
-%global _default_patch_fuzz 2
-
-Summary: Constructionist learning platform
 Name:    sugar
 Version: 0.116
-Release: 7%{?dist}
+Release: 9%{?dist}
+Summary: Constructionist learning platform
 URL:     http://sugarlabs.org/
 License: GPLv2+
 
@@ -176,6 +170,10 @@ mkdir %{buildroot}/%{_datadir}/sugar/activities
 rm -rf %{buildroot}/%{_datadir}/sugar/extensions/cpsection/__pycache__/
 install -p %{SOURCE1} %{buildroot}%{_datadir}/sugar/data/activities.defaults
 
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}%{_datadir}/sugar/
+%py_byte_compile %{python3} %{buildroot}%{python3_sitelib}/jarabe/
+
 %find_lang %{name}
 
 %files -f %{name}.lang
@@ -186,7 +184,7 @@ install -p %{SOURCE1} %{buildroot}%{_datadir}/sugar/data/activities.defaults
 %{_datadir}/mime/packages/sugar.xml
 %{_datadir}/xsessions/sugar.desktop
 
-%{python3_sitelib}/*
+%{python3_sitelib}/jarabe/
 
 %dir %{_datadir}/sugar
 %dir %{_datadir}/sugar/activities
@@ -203,6 +201,7 @@ install -p %{SOURCE1} %{buildroot}%{_datadir}/sugar/data/activities.defaults
 %{_datadir}/sugar/extensions/cpsection/aboutme
 %exclude %{_datadir}/sugar/extensions/cpsection/[b-z]*
 %{_datadir}/polkit-1/actions/org.sugar.*.policy
+%{_datadir}/sugar/extensions/cpsection/__pycache__/
 
 %files cp-all
 
@@ -240,6 +239,13 @@ install -p %{SOURCE1} %{buildroot}%{_datadir}/sugar/data/activities.defaults
 %{_datadir}/sugar/extensions/cpsection/webaccount
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.116-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.116-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.116-7
 - Rebuilt for Python 3.9
 

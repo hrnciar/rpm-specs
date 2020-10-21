@@ -9,7 +9,7 @@ Summary: Python module for retrieving WHOIS information of domains
 License: MIT
 
 Version: 0.9.7
-Release: 2%{?dist}
+Release: 3%{?dist}
 
 URL: https://github.com/DannyCork/python-whois/
 Source0: %pypi_source
@@ -50,6 +50,9 @@ Summary: %{summary}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.7-2
 - Rebuilt for Python 3.9
 

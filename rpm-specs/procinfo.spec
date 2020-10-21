@@ -1,7 +1,7 @@
 Summary: A tool for gathering and displaying system information
 Name: procinfo
 Version: 18
-Release: 45%{dist}
+Release: 47%{dist}
 License: GPL+
 Source: ftp://ftp.cistron.nl/pub/people/00-OLD/svm/%{name}-%{version}.tar.gz
 Patch0: procinfo-14-misc.patch
@@ -19,6 +19,7 @@ Patch14: procinfo-18-version.patch
 Patch15: procinfo-18-man-comment.patch
 Patch16: procinfo-18-socklist.patch
 Patch17: procinfo-18-idle-overflow.patch
+Patch18: procinfo-strsignal.patch
 
 BuildRequires:  gcc
 BuildRequires: ncurses-devel
@@ -49,6 +50,7 @@ data.
 %patch15 -p1 -b .mancomment
 %patch16 -p0 -b .socklist
 %patch17 -p1 -b .idle
+%patch18 -p1 -b .strsignal
 
 %build
 make RPM_OPT_FLAGS="$RPM_OPT_FLAGS -I/usr/include/ncurses" LDFLAGS= LDLIBS=-lncurses
@@ -69,6 +71,12 @@ make install prefix=$RPM_BUILD_ROOT/usr mandir=$RPM_BUILD_ROOT/%{_mandir}
 %{_mandir}/man8/socklist.8*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 18-47
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Jeff Law <law@redhat.com> - 18-46
+- Use strsignal not sys_siglist
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 18-45
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

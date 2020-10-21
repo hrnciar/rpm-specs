@@ -1,6 +1,6 @@
 Name:           ocaml-gen
 Version:        0.5.3
-Release:        1%{?dist}
+Release:        5%{?dist}
 Summary:        Simple, efficient iterators for OCaml
 
 License:        BSD
@@ -99,6 +99,19 @@ dune runtest -p gen --no-buffer
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.5.3-5
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.5.3-4
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 2020 Jerry James <loganjerry@gmail.com> - 0.5.3-1
 - New upstream version 0.5.3 (bz 1834874)
 

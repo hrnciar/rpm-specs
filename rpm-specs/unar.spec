@@ -1,6 +1,6 @@
 Name:           unar
 Version:        1.10.1
-Release:        17%{dist}
+Release:        20%{dist}
 Summary:        Multi-format extractor
 License:        LGPLv2+
 URL:            https://theunarchiver.com/command-line
@@ -26,6 +26,11 @@ rm -fr __MACOSX The\ Unarchiver
 find . -type f -print0 | xargs -0 chmod -x
 
 %build
+# LTO is able to more thoroughly propagate constants and as a result
+# exposes the constant 0 to a point where an Objective-C object with
+# a catchable type must be used.  Disable LTO until the package
+# gets fixed
+%define _lto_cflags %{nil}
 export OBJCFLAGS="${RPM_OPT_FLAGS}"
 make -C XADMaster -f Makefile.linux
 
@@ -46,6 +51,16 @@ install -pm644 Extra/unar.bash_completion %{buildroot}%{_datadir}/bash-completio
 %{_datadir}/bash-completion/
 
 %changelog
+* Mon Aug 17 2020 Jeff Law <law@redhat.com> - 1.10.1-20
+- Disable LTO
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.1-19
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.1-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Pete Walter <pwalter@fedoraproject.org> - 1.10.1-17
 - Rebuild for ICU 67
 

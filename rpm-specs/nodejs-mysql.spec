@@ -7,17 +7,14 @@
 
 Summary:       A node.js driver for mysql
 Name:          nodejs-%{npm_name}
-Version:       2.10.1
-Release:       10%{?dist}
-License:       MIT
+Version:       2.18.1
+Release:       2%{?dist}
+License:       MIT and ISC
 URL:           http://github.com/felixge/node-mysql
 Source0:       http://registry.npmjs.org/%{npm_name}/-/%{npm_name}-%{version}.tgz
-BuildRequires: nodejs-devel
-%if 0%{?enable_tests}
-BuildRequires:  npm(underscore)
-BuildRequires:  npm(urun)
-BuildRequires:  npm(utest)
-%endif
+Source1:       %{npm_name}-%{version}-nm-prod.tgz
+Source2:       %{npm_name}-%{version}-nm-dev.tgz
+BuildRequires: nodejs-packaging
 BuildArch:     noarch
 ExclusiveArch: %{nodejs_arches} noarch
 
@@ -29,9 +26,6 @@ and is 100% MIT licensed.
 %prep
 %setup -q -n package
 
-%nodejs_fixdep bignumber.js '>=2.1.2'
-%nodejs_fixdep readable-stream '>=1.1.13'
-
 %build
 #nothing to do
 
@@ -39,8 +33,22 @@ and is 100% MIT licensed.
 mkdir -p %{buildroot}%{nodejs_sitelib}/%{npm_name}
 cp -pr index.js lib package.json %{buildroot}%{nodejs_sitelib}/%{npm_name}
 
-%if 0%{?enable_tests}
+# Setup bundled node modules
+tar xfz %{SOURCE1}
+mkdir -p node_modules
+pushd node_modules
+ln -s ../node_modules_prod/* .
+popd
+cp -pr node_modules node_modules_prod %{buildroot}%{nodejs_sitelib}/%{npm_name}
+
 %check
+%nodejs_symlink_deps --check
+%if 0%{?enable_tests}
+tar xfz %{SOURCE2}
+pushd node_modules
+ln -s ../node_modules_dev/* .
+popd
+ln -s ../../node_modules_dev/.bin/ .
 make test
 %endif
 
@@ -50,6 +58,16 @@ make test
 %{nodejs_sitelib}/%{npm_name}
 
 %changelog
+* Thu Sep 17 2020 Troy Dawson <tdawson@redhat.com> - 2.18.1-2
+- No need for nodejs_fixdep with bundling
+
+* Thu Sep 17 2020 Troy Dawson <tdawson@redhat.com> - 2.18.1-1
+- Update to 2.18.1
+- Use bundling for runtime deps
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

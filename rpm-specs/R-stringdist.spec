@@ -1,14 +1,15 @@
-%global packname  stringdist
+%global packname stringdist
+%global packver  0.9.6.3
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          0.9.5.5
-Release:          3%{?dist}
-Summary:          Approximate String Matching and String Distance Functions
+Version:          0.9.6.3
+Release:          1%{?dist}
+Summary:          Approximate String Matching, Fuzzy Text Search, and String Distance Functions
 
 License:          GPLv3
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
@@ -24,13 +25,15 @@ BuildRequires:    R-tinytest
 
 %description
 Implements an approximate string matching version of R's native 'match'
-function. Can calculate various string distances based on edits
+function. Also offers fuzzy text search based on various string distance
+measures. Can calculate various string distances based on edits
 (Damerau-Levenshtein, Hamming, Levenshtein, optimal sting alignment), qgrams
 (q-gram, cosine, jaccard distance) or heuristic metrics (Jaro, Jaro-Winkler).
 An implementation of soundex is provided as well. Distances can be computed
 between character vectors while taking proper care of encoding or between
 integer vectors representing generic sequences. This package is built for speed
 and runs in parallel by using 'openMP'. An API for C or C++ is exposed as well.
+Reference: MPJ van der Loo (2014) <doi:10.32614/RJ-2014-011>.
 
 
 %package devel
@@ -83,6 +86,19 @@ rm %{buildroot}%{rlibdir}/%{packname}/include/Doxyfile
 
 
 %changelog
+* Sat Oct 10 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.9.6.3-1
+- Update to latest version (#1886821)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.6-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.9.6-1
+- Update to latest version
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 0.9.5.5-3
 - rebuild for R 4
 

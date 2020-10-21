@@ -5,7 +5,7 @@
 %global crate parking_lot_core
 
 Name:           rust-%{crate}
-Version:        0.7.2
+Version:        0.8.0
 Release:        1%{?dist}
 Summary:        Advanced API for creating custom synchronization primitives
 
@@ -133,6 +133,12 @@ which use "thread-id" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Tue Aug 25 2020 Josh Stone <jistone@redhat.com> - 0.8.0-1
+- Update to 0.8.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Josh Stone <jistone@redhat.com> - 0.7.2-1
 - Update to 0.7.2
 

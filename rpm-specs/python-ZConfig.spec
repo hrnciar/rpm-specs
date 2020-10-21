@@ -1,6 +1,6 @@
 Name:           python-ZConfig
 Version:        3.1.0
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Structured Configuration Library
 License:        ZPLv2.1
 URL:            http://www.zope.org/Members/fdrake/zconfig/
@@ -59,6 +59,9 @@ rm -f %{buildroot}%{python3_sitelib}/ZConfig/*.txt
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.1.0-19
 - Rebuilt for Python 3.9
 

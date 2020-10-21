@@ -22,7 +22,7 @@
 
 Name:           php-%{gh_project}%{major}
 Version:        6.2.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Free Feature-rich PHP Mailer
 
 License:        MIT
@@ -157,6 +157,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Remi Collet <remi@remirepo.net> - 6.2.3-3
 - disable test suite where mockery < 1 is broken
 

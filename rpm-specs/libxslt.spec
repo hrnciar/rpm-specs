@@ -1,7 +1,7 @@
 Name:           libxslt
 Summary:        Library providing the Gnome XSLT engine
 Version:        1.1.34
-Release:        1%{?dist}
+Release:        4%{?dist}
 
 License:        MIT
 URL:            http://xmlsoft.org/XSLT
@@ -12,7 +12,6 @@ BuildRequires:  automake
 BuildRequires:  libtool
 BuildRequires:  make
 BuildRequires:  gcc
-BuildRequires:  %{_bindir}/libgcrypt-config
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.6.27
 
 # Fedora specific patches
@@ -20,6 +19,7 @@ Patch0:         multilib.patch
 Patch1:         libxslt-1.1.26-utf8-docs.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1467435
 Patch2:         multilib2.patch
+Patch3:         f165525fe744e6fe3b377b480d6cc5f9c546d360.patch
 
 %description
 This C library allows to transform XML files into other XML files
@@ -30,7 +30,6 @@ installed. The xsltproc command is a command line interface to the XSLT engine
 %package devel
 Summary:        Development libraries and header files for %{name}
 Requires:       %{name}%{?_isa} = %{version}-%{release}
-Requires:       libgcrypt-devel%{?_isa}
 Requires:       libgpg-error-devel%{?_isa}
 
 %description devel
@@ -69,7 +68,7 @@ chmod 644 python/tests/*
 autoreconf -vfi
 #export PYTHON=%{__python3}
 #%configure --disable-static --disable-silent-rules --with-python
-%configure --disable-static --disable-silent-rules --with-python=no
+%configure --disable-static --disable-silent-rules --with-python=no --with-crypto=no
 %make_build
 
 %install
@@ -127,6 +126,17 @@ rm -vrf %{buildroot}%{_docdir}
 %endif
 
 %changelog
+* Mon Sep 14 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.1.34-4
+- Patch for incorrect man page stylesheet.
+
+* Tue Sep  1 2020 Simo Sorce <simo@redhat.com> - 1.1.34-3
+- Drop crypto dependency.
+- The "cryptography" implemented in exslt is outdated and bad supporting only
+  insecure algorithms (RC4, SHA1, MD5, MD4), and should not be used anyway.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.34-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 09 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.1.34-1
 - 1.1.34
 

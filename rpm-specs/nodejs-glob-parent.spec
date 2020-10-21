@@ -7,7 +7,7 @@
 
 Name:		nodejs-glob-parent
 Version:	3.1.0
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	Strips glob magic from a string to provide the parent path
 
 License:	ISC
@@ -68,6 +68,9 @@ cp -pr package.json index.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

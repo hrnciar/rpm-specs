@@ -3,7 +3,7 @@
 
 # https://github.com/sacloud/libsacloud
 %global goipath         github.com/sacloud/libsacloud
-Version:                1.21.1
+Version:                1.36.1
 
 %gometa
 
@@ -15,13 +15,15 @@ APIs.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Library for SAKURA CLOUD API with Go
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/golang/go/issues/32479
+Patch0:         0001-Convert-int-to-string-using-fmt.Sprintf.patch
 
 BuildRequires:  golang(github.com/mattn/go-runewidth)
 BuildRequires:  golang(github.com/mattn/go-tty)
@@ -43,6 +45,7 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 
 %prep
 %goprep
+%patch0 -p1
 
 %install
 %gopkginstall
@@ -55,6 +58,16 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 00:24:39 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.36.1-1
+- Update to 1.36.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.21.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.21.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.21.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

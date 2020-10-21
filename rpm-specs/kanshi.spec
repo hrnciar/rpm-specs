@@ -1,6 +1,6 @@
 Name:           kanshi
 Version:        1.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Dynamic display configuration for sway
 
 License:        MIT
@@ -49,5 +49,8 @@ on Wayland compositors supporting the wlr-output-management protocol.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Aleksei Bavshin <alebastr89@gmail.com> - 1.1.0-1
 - Initial import (#1825361)

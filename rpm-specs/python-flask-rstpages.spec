@@ -13,7 +13,7 @@
 
 Name:           python-flask-rstpages
 Version:        0.3
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        Adds support for reStructuredText to a Flask application
 License:        BSD
 URL:            http://flask-rstpages.readthedocs.org/
@@ -78,6 +78,9 @@ rm -rf html/.{doctrees,buildinfo}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3-22
 - Rebuilt for Python 3.9
 

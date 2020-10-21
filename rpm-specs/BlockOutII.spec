@@ -5,7 +5,7 @@
 
 Name:           BlockOutII
 Version:        2.5
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        A free adaptation of the original BlockOut DOS game
 License:        GPLv2+
 URL:            http://www.blockout.net/blockout2/
@@ -139,6 +139,9 @@ EOF
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

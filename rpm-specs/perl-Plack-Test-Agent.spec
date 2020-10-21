@@ -2,8 +2,8 @@
 %bcond_without perl_Plack_Test_Agent_enables_optional_test
 
 Name:           perl-Plack-Test-Agent
-Version:        1.4
-Release:        5%{?dist}
+Version:        1.5
+Release:        1%{?dist}
 Summary:        Object-oriented interface for testing PSGI applications
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Plack-Test-Agent
@@ -17,6 +17,7 @@ BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
 # Run-time:
+BuildRequires:  perl(HTTP::Cookies)
 BuildRequires:  perl(HTTP::Message::PSGI)
 BuildRequires:  perl(HTTP::Request::Common)
 BuildRequires:  perl(HTTP::Response)
@@ -26,32 +27,19 @@ BuildRequires:  perl(Plack::Util::Accessor)
 BuildRequires:  perl(Test::TCP)
 BuildRequires:  perl(Test::WWW::Mechanize)
 # Tests:
-BuildRequires:  perl(blib)
 BuildRequires:  perl(File::Spec)
-BuildRequires:  perl(HTTP::Cookies)
 BuildRequires:  perl(HTTP::Server::Simple::PSGI)
-BuildRequires:  perl(IO::Handle)
-BuildRequires:  perl(IPC::Open3)
 BuildRequires:  perl(Modern::Perl)
 BuildRequires:  perl(open)
 BuildRequires:  perl(Plack::Request)
-# Pod::Coverage::TrustPod not used
-# Pod::Wordlist not used
-# Test::EOL not used
-BuildRequires:  perl(Test::More) >= 0.88
-# Test::NoTabs not used
-# Test::Pod 1.41 not used
-# Test::Pod::Coverage 1.08 not used
+BuildRequires:  perl(Test::More)
 BuildRequires:  perl(Test::Requires)
-# Test::Spelling 0.12 not used
 BuildRequires:  perl(utf8)
 %if %{with perl_Plack_Test_Agent_enables_optional_test}
 # Optional tests:
 # CPAN::Meta not helpful
 # CPAN::Meta::Prereqs not helpful
-# Test::CPAN::Changes not used
 BuildRequires:  perl(Test::Memory::Cycle)
-# Test::Portability::Files not used
 %endif
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 
@@ -72,7 +60,7 @@ perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
-unset AUTHOR_TESTING RELEASE_TESTING
+unset AUTHOR_TESTING http_proxy
 make test
 
 %files
@@ -82,6 +70,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Oct 06 2020 Petr Pisar <ppisar@redhat.com> - 1.5-1
+- 1.5 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.4-6
+- Perl 5.32 rebuild
+
 * Tue Mar 17 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.4-5
 - Add perl(blib) for tests
 

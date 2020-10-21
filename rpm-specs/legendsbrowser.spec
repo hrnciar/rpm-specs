@@ -1,6 +1,6 @@
 Name:           legendsbrowser
 Version:        1.17.1
-Release:        6%{?dist}
+Release:        9%{?dist}
 Summary:        Java-based legends viewer for Dwarf Fortress
 
 # Main library is under MIT, bundled JS/CSS/etc. (see below) introduce other licenses
@@ -92,6 +92,16 @@ sed "s,run,mkdir -p ~/\.local/share/legendsbrowser\nrun," -i %{buildroot}%{_bind
 %license LICENSE.md
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.1-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.17.1-7
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

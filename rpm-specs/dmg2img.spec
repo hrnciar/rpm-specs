@@ -1,7 +1,7 @@
 Summary:        Uncompress the Apple compressed disk image files
 Name:           dmg2img
 Version:        1.6.7
-Release:        8%{?dist}
+Release:        9%{?dist}
 # dmg2img is GPL without specific version
 # vfdecrypt is MIT licensed
 License:        GPL+ and MIT
@@ -43,6 +43,9 @@ install -D -p -m 0644 vfdecrypt.1 %{buildroot}%{_mandir}/man1/vfdecrypt.1
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.7-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.7-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

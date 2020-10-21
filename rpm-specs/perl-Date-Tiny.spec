@@ -1,6 +1,6 @@
 Name:           perl-Date-Tiny
 Version:        1.07
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Date object with as little code as possible
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Date-Tiny
@@ -48,6 +48,9 @@ make test
 %{_mandir}/man3/Date*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.07-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.07-12
 - Perl 5.32 rebuild
 

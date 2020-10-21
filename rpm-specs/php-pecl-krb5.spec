@@ -16,11 +16,11 @@
 
 Summary:        Kerberos authentification extension
 Name:           php-pecl-%{pecl_name}
-Version:        1.1.3
+Version:        1.1.4
 Release:        1%{?dist}
 License:        BSD
-URL:            http://pecl.php.net/package/%{pecl_name}
-Source0:        http://pecl.php.net/get/%{pecl_name}-%{version}.tgz
+URL:            https://pecl.php.net/package/%{pecl_name}
+Source0:        https://pecl.php.net/get/%{pecl_name}-%{version}.tgz
 
 BuildRequires:  gcc
 BuildRequires:  krb5-devel >= 1.8
@@ -168,6 +168,12 @@ cd ../ZTS
 
 
 %changelog
+* Mon Sep 14 2020 Remi Collet <remi@remirepo.net> - 1.1.4-1
+- update to 1.1.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 27 2020 Remi Collet <remi@remirepo.net> - 1.1.3-1
 - update to 1.1.3
 

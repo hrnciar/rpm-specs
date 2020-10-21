@@ -1,6 +1,6 @@
 Name:		python-decopatch
 Version:	1.4.6
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	A helper to write python decorators
 
 License:	BSD
@@ -56,6 +56,9 @@ sed -r -i '/^pandoc$/d' ci_tools/requirements-pip.txt
 %{python3_sitelib}/decopatch-%{version}.dist-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.6-3
 - Rebuilt for Python 3.9
 

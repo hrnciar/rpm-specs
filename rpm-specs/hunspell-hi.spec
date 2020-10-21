@@ -1,7 +1,7 @@
 Name: hunspell-hi
 Summary: Hindi hunspell dictionaries
 Version: 1.0.0
-Release: 13%{?dist}
+Release: 14%{?dist}
 Epoch:   1
 Source:  http://anishpatil.fedorapeople.org/hi_in.%{version}.tar.gz
 URL: https://gitorious.org/hunspell_dictionaries/hunspell_dictionaries.git
@@ -31,6 +31,9 @@ cp -p hi_IN/*.dic hi_IN/*.aff $RPM_BUILD_ROOT/%{_datadir}/myspell
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.0.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.0.0-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

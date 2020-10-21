@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 Version: 1.8
-Release: 21%{?dist}
+Release: 22%{?dist}
 URL:     http://arkandis.tuxfamily.org/adffonts.html
 
 %global foundry           ADF
@@ -94,6 +94,9 @@ install -m 0644 -p %{SOURCE1} .
 %doc *.pdf
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 1.8-21
 🐞 Workaround Fedora problems created by rpm commit 93604e2

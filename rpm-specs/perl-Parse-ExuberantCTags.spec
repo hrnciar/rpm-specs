@@ -1,6 +1,6 @@
 Name:           perl-Parse-ExuberantCTags
 Version:        1.02
-Release:        31%{?dist}
+Release:        32%{?dist}
 Summary:        Efficiently parse exuberant ctags files
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Parse-ExuberantCTags
@@ -52,6 +52,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.02-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.02-31
 - Perl 5.32 rebuild
 

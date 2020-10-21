@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.9.3
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Abstract algebra for Rust
 
 # Upstream license specification: Apache-2.0
@@ -15,6 +15,7 @@ URL:            https://crates.io/crates/alga
 Source:         %{crates_source}
 # Initial patched metadata
 # * Update quickcheck to 0.9, https://github.com/rustsim/alga/pull/95
+# * Update num-complex to 0.3
 Patch0:         alga-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -98,6 +99,12 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Josh Stone <jistone@redhat.com> - 0.9.3-2
+- Update num-complex to 0.3
+
 * Mon Mar 02 16:56:53 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.9.3-1
 - Update to 0.9.3
 

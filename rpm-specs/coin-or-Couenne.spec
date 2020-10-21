@@ -6,7 +6,7 @@
 Name:		coin-or-%{module}
 Summary:	An exact solver for nonconvex MINLPs
 Version:	0.5.8
-Release:	2%{?dist}
+Release:	4%{?dist}
 License:	EPL-1.0
 URL:		https://projects.coin-or.org/%{module}
 Source0:	http://www.coin-or.org/download/pkgsource/%{module}/%{module}-%{version}.tgz
@@ -33,6 +33,9 @@ Patch0:		%{name}-docdir.patch
 
 # Fix mixed signed/unsigned operations
 Patch1:		%{name}-signed.patch
+
+# Fix comparison operator signature
+Patch2:         %{name}-gcc11.patch
 
 %description
 Couenne (Convex Over and Under ENvelopes for Nonlinear Estimation) is a
@@ -145,6 +148,12 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir}:$LD_LIBRARY_PATH make test
 %{_pkgdocdir}/couenne_doxy.tag
 
 %changelog
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 0.5.8-4
+- Fix signature of comparison object
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun  2 2020 Jerry James <loganjerry@gmail.com> - 0.5.8-2
 - Rebuild for nauty 2.7.1
 

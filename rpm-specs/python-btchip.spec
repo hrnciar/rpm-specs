@@ -10,7 +10,7 @@ hardware wallets.
 
 Name:     python-%{libname}
 Version:  0.1.28
-Release:  7%{?dist}
+Release:  8%{?dist}
 Summary:  %{sum}
 
 License:  ASL 2.0
@@ -87,6 +87,9 @@ install -m644 %{SOURCE1} %{buildroot}%{_udevrulesdir}/20-hw1.rules
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.28-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.28-7
 - Rebuilt for Python 3.9
 

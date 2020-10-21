@@ -5,7 +5,7 @@
 
 Name:           perl-CryptX
 Version:        0.053
-Release:        14%{?dist}
+Release:        17%{?dist}
 Summary:        Cryptographic toolkit
 # Other file:   GPL+ or Artistic
 ## Unbundled
@@ -37,6 +37,7 @@ Patch5:         CryptX-0.062-HACK-needed-for-MBI-1.999715-compatibility.patch
 # Adapt to changes in Math-BigInt 1.999817, bug #1769850,
 # in upstream after 0.064, <https://github.com/DCIT/perl-CryptX/issues/56>
 Patch6:         CryptX-0.064-fix-56-Math-BigInt-1.999817-breaks-the-tests-of-Cryp.patch
+BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  gcc
 BuildRequires:  libtomcrypt-devel
@@ -96,6 +97,11 @@ rm -rf ./src
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+# Remove t/wycheproof.t test. It was removed by upstream in
+# cf2422dc467f1e10a8c20cd362f7b3b296c24529 comit and the test reveals a bug in
+# libtommath-1.2.0, bug #1850650, not related to perl-CryptX, bug #1850379.
+rm t/wycheproof.t
+perl -i -ne 'print $_ unless m{^t/wycheproof\.t\>}' MANIFEST
 
 %build
 perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 OPTIMIZE="$RPM_OPT_FLAGS"
@@ -119,6 +125,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.053-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.053-16
+- Perl 5.32 rebuild
+
+* Wed Jun 24 2020 Petr Pisar <ppisar@redhat.com> - 0.053-15
+- Remove t/wycheproof.t test (bug #1850379)
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.053-14
 - Perl 5.32 rebuild
 

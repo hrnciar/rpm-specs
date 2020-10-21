@@ -1,15 +1,15 @@
 %global srcname html5lib
 Name:           python-%{srcname}
 Summary:        A python based HTML parser/tokenizer
-Version:        1.0.1
-Release:        10%{?dist}
+Version:        1.1
+Release:        3%{?dist}
 Epoch:          1
 License:        MIT
 URL:            https://github.com/html5lib/html5lib-python
 Source0:        %pypi_source
-Patch0:         %{url}/pull/403.patch#/collections-abc.patch
-#{url}/pull/414.patch#/pytest4.patch (tox.ini hunk fails)
-Patch1:         pytest4.patch
+
+# Fix compatibility with pytest 6
+Patch1:         %{url}/pull/506.patch
 
 BuildArch:      noarch
 
@@ -27,14 +27,14 @@ BuildRequires:    python3-setuptools
 
 # Test deps
 BuildRequires:  python3dist(mock)
-BuildRequires:  python3dist(pytest) < 5
+BuildRequires:  python3dist(pytest)
 BuildRequires:  python3dist(pytest-expect)
 BuildRequires:  python3dist(six)
 BuildRequires:  python3dist(webencodings)
 
 # Optional test deps:
 BuildRequires:  python3dist(chardet)
-#BuildRequires:  python3dist(genshi) -- https://bugzilla.redhat.com/show_bug.cgi?id=1817711
+BuildRequires:  python3dist(genshi)
 BuildRequires:  python3dist(lxml)
 
 %{?python_provide:%python_provide python3-%{srcname}}
@@ -56,8 +56,7 @@ specification for maximum compatibility with major desktop web browsers.
 
 
 %check
-# XXX figure out the failure in test_encoding
-%{__python3} -m pytest -k "not test_encoding"
+%pytest
 
 
 %files -n python3-%{srcname}
@@ -68,6 +67,16 @@ specification for maximum compatibility with major desktop web browsers.
 
 
 %changelog
+* Mon Aug 10 2020 Miro Hrončok <mhroncok@redhat.com> - 1:1.1-3
+- Fix compatibility with pytest 6
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Charalampos Stratakis <cstratak@redhat.com> - 1:1.1-1
+- Update to 1.1 (#1849837)
+- Use pytest 5
+
 * Sat May 30 2020 Miro Hrončok <mhroncok@redhat.com> - 1:1.0.1-10
 - Use pytest 4
 

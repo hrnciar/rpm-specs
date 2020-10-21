@@ -1,6 +1,6 @@
 Name:           libmicrodns
 Version:        0.1.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Minimal mDNS resolver library
 
 License:        LGPLv2+
@@ -67,6 +67,9 @@ sed -i -e "/subdir('examples')/d" meson.build
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 23 2020 Nicolas Chauvet <kwizart@gmail.com> - 0.1.2-1
 - Update to 0.1.2
 - Switch to meson

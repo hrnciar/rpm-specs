@@ -1,6 +1,6 @@
 Name:           perl-Exception-Base
 Version:        0.2501
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Lightweight exceptions
 License:        GPL+ or Artistic
 
@@ -44,6 +44,9 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2501-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.2501-14
 - Perl 5.32 rebuild
 

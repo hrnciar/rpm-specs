@@ -1,36 +1,34 @@
-%define luaver 5.3
-%define lualibdir %{_libdir}/lua/%{luaver}
-%define luapkgdir %{_datadir}/lua/%{luaver}
-%global commit 2f2c4eb81685440968d6b238a827c09745a6d2d1
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-
 Name:           lua-sql
-Version:        2.3.5
-Release:        11%{?dist}
+Version:        2.5.0
+Release:        2%{?dist}
 Summary:        Database connectivity for the Lua programming language
 
 License:        MIT
-URL:            http://www.keplerproject.org/luasql/
-Source0:        https://github.com/keplerproject/luasql/archive/%{commit}/%{name}-%{version}-%{shortcommit}.tar.gz
-Patch1:		luasql-mariadb.patch
+URL:            https://keplerproject.github.io/luasql/
+Source0:        https://github.com/keplerproject/luasql/archive/%{version}.tar.gz#/luasql-%{version}.tar.gz
 
 BuildRequires:  gcc
-BuildRequires:  lua >= %{luaver}, lua-devel >= %{luaver}
+BuildRequires:  lua-devel >= 5.1
 BuildRequires:  pkgconfig
 BuildRequires:  sqlite-devel >= 3.0
 BuildRequires:  mariadb-connector-c-devel openssl-devel
 BuildRequires:  libpq-devel
 
-Requires:       lua-sql-sqlite, lua-sql-mysql, lua-sql-postgresql, lua-sql-doc
+Requires:       lua-sql-mysql%{?_isa} = %{version}-%{release}
+Requires:       lua-sql-postgresql%{?_isa} = %{version}-%{release}
+Requires:       lua-sql-sqlite%{?_isa} = %{version}-%{release}
 
 %description
 LuaSQL is a simple interface from Lua to a DBMS. This package of LuaSQL
 supports MySQL, SQLite and PostgreSQL databases. You can execute arbitrary SQL
 statements and it allows for retrieving results in a row-by-row cursor fashion.
 
+
 %package doc
 Summary:        Documentation for LuaSQL
-Requires:       lua >= %{luaver}
+Requires:       %{name} = %{version}-%{release}
+BuildArch:      noarch
+
 %description doc
 LuaSQL is a simple interface from Lua to a DBMS. This package contains the
 documentation for LuaSQL.
@@ -38,7 +36,7 @@ documentation for LuaSQL.
 
 %package sqlite
 Summary:        SQLite database connectivity for the Lua programming language
-Requires:       lua >= %{luaver}
+
 %description sqlite
 LuaSQL is a simple interface from Lua to a DBMS. This package provides access
 to SQLite databases.
@@ -46,7 +44,7 @@ to SQLite databases.
 
 %package mysql
 Summary:        MySQL database connectivity for the Lua programming language
-Requires:       lua >= %{luaver}
+
 %description mysql
 LuaSQL is a simple interface from Lua to a DBMS. This package provides access
 to MySQL databases.
@@ -54,15 +52,15 @@ to MySQL databases.
 
 %package postgresql
 Summary:        PostgreSQL database connectivity for the Lua programming language
-Requires:       lua >= %{luaver}
+
 %description postgresql
 LuaSQL is a simple interface from Lua to a DBMS. This package provides access
 to PostgreSQL databases.
 
 
 %prep
-%setup -q -n luasql-%{commit}
-%patch1 -p1
+%autosetup -n luasql-%{version} -p1
+
 
 %build
 make %{?_smp_mflags} sqlite3 PREFIX=%{_prefix} DRIVER_INCS_sqlite3="`pkg-config --cflags sqlite3`" DRIVER_LIBS_sqlite3="`pkg-config --libs sqlite3`" DEFS="%{optflags} -fPIC -std=c99 -DLUA_COMPAT_APIINTCASTS"
@@ -71,34 +69,42 @@ make %{?_smp_mflags} mysql PREFIX=%{_prefix} DRIVER_INCS_mysql="`mysql_config --
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make install PREFIX=$RPM_BUILD_ROOT%{_prefix} LUA_LIBDIR=$RPM_BUILD_ROOT%{lualibdir} LUA_DIR=$RPM_BUILD_ROOT%{luapkgdir} T=sqlite3
-make install PREFIX=$RPM_BUILD_ROOT%{_prefix} LUA_LIBDIR=$RPM_BUILD_ROOT%{lualibdir} LUA_DIR=$RPM_BUILD_ROOT%{luapkgdir} T=postgres
-make install PREFIX=$RPM_BUILD_ROOT%{_prefix} LUA_LIBDIR=$RPM_BUILD_ROOT%{lualibdir} LUA_DIR=$RPM_BUILD_ROOT%{luapkgdir} T=mysql
-
+make install PREFIX=$RPM_BUILD_ROOT%{_prefix} LUA_LIBDIR=$RPM_BUILD_ROOT%{lua_libdir} LUA_DIR=$RPM_BUILD_ROOT%{lua_pkgdir} T=sqlite3
+make install PREFIX=$RPM_BUILD_ROOT%{_prefix} LUA_LIBDIR=$RPM_BUILD_ROOT%{lua_libdir} LUA_DIR=$RPM_BUILD_ROOT%{lua_pkgdir} T=postgres
+make install PREFIX=$RPM_BUILD_ROOT%{_prefix} LUA_LIBDIR=$RPM_BUILD_ROOT%{lua_libdir} LUA_DIR=$RPM_BUILD_ROOT%{lua_pkgdir} T=mysql
 
 
 %files
-# There are no files in the main package
+%license doc/us/license.html doc/us/doc.css doc/us/luasql.png
+%doc README
 
 %files doc
-%doc README
 %doc doc/us/*
 
-%files sqlite
-%dir %{lualibdir}/luasql
-%{lualibdir}/luasql/sqlite3.so
-
 %files mysql
-%dir %{lualibdir}/luasql
-%{lualibdir}/luasql/mysql.so
+%dir %{lua_libdir}/luasql
+%{lua_libdir}/luasql/mysql.so
 
 %files postgresql
-%dir %{lualibdir}/luasql
-%{lualibdir}/luasql/postgres.so
+%dir %{lua_libdir}/luasql
+%{lua_libdir}/luasql/postgres.so
+
+%files sqlite
+%dir %{lua_libdir}/luasql
+%{lua_libdir}/luasql/sqlite3.so
 
 
 %changelog
+* Thu Aug 27 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 2.5.0-2
+- Use standard Lua macros
+
+* Tue Aug 25 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 2.5.0-1
+- Update to 2.5.0
+- Ensure base package ships license file
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.5-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.5-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

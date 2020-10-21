@@ -3,18 +3,19 @@ Name:		python-metakernel
 #		and release numbers - update below in each package section
 #		Running rpmdev-bumpspec on this specfile will update all the
 #		release tags automatically
-Version:	0.24.4
-Release:	2%{?dist}
+Version:	0.27.0
+Release:	1%{?dist}
 %global pkgversion %{version}
 %global pkgrelease %{release}
 Summary:	Metakernel for Jupyter
 
 License:	BSD
 URL:		https://github.com/Calysto/metakernel
-Source0:	https://github.com/Calysto/metakernel/archive/v%{version}/%{name}-%{version}.tar.gz
+Source0:	https://github.com/Calysto/metakernel/archive/%{version}/%{name}-%{version}.tar.gz
 
 BuildArch:	noarch
 BuildRequires:	python3-devel
+BuildRequires:	python3-setuptools
 BuildRequires:	python3-ipykernel
 BuildRequires:	python3-pexpect >= 4.2
 #		For testing:
@@ -68,7 +69,7 @@ This package contains the documentation of python-metakernel.
 
 %package -n python3-metakernel-python
 Version:	0.19.1
-Release:	31%{?dist}
+Release:	36%{?dist}
 Summary:	A Python kernel for Jupyter/IPython
 %{?python_provide:%python_provide python3-metakernel-python}
 Requires:	python3-metakernel = %{pkgversion}-%{pkgrelease}
@@ -80,7 +81,7 @@ A Python kernel for Jupyter/IPython, based on MetaKernel.
 
 %package -n python3-metakernel-echo
 Version:	0.19.1
-Release:	31%{?dist}
+Release:	36%{?dist}
 Summary:	A simple echo kernel for Jupyter/IPython
 %{?python_provide:%python_provide python3-metakernel-echo}
 Requires:	python3-metakernel = %{pkgversion}-%{pkgrelease}
@@ -136,7 +137,6 @@ pid=$!
 pytest-3 -v metakernel
 ipcluster stop
 wait $pid
-rm -f ${HOME}/.ipython/metakernel/magics/__pycache__/*.pyc
 
 %files -n python3-metakernel
 %license LICENSE.txt
@@ -172,6 +172,21 @@ rm -f ${HOME}/.ipython/metakernel/magics/__pycache__/*.pyc
 %{_datadir}/jupyter/kernels/python3-metakernel-echo
 
 %changelog
+* Thu Sep 03 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 0.27.0-1
+- Update to version 0.27.0
+
+* Wed Aug 26 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 0.26.1-1
+- Update to version 0.26.1
+
+* Sat Aug 22 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 0.26.0-1
+- Update to version 0.26.0
+
+* Wed Aug 19 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 0.25.1-1
+- Update to version 0.25.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.24.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.24.4-2
 - Rebuilt for Python 3.9
 

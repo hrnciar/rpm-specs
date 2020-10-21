@@ -23,7 +23,7 @@
 
 Name:           php-%{gh_project}
 Version:        3.4.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        %{namespace} Framework %{library} component
 
 License:        BSD
@@ -254,6 +254,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Remi Collet <remi@remirepo.net> - 3.4.2-1
 - update to 3.4.2
 

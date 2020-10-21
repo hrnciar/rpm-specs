@@ -5,7 +5,7 @@ Name: gravity-beams-and-evaporating-stars
 %global shortname %(echo "%{name}" | sed -e 's:\\([a-z]\\)[a-z]*:\\1:g' -e 's:-::g')
 
 Version: 1.0
-Release: 6%{?dist}
+Release: 8%{?dist}
 Summary: A game about hurling asteroids into the sun
 License: MIT
 
@@ -44,10 +44,8 @@ sed -e 's|__DATA_DIR__|"%{_datadir}/%{name}"|' -i src/main.cpp
 
 
 %build
-mkdir build
-cd build
-%cmake ..
-make %{?_smp_mflags}
+%cmake ./
+%cmake_build
 
 
 %install
@@ -100,6 +98,12 @@ appstream-util validate-relax --nonet packaging/%{name}.appdata.xml
 
 
 %changelog
+* Wed Jul 29 2020 Artur Iwicki <fedora@svgames.pl> - 1.0-8
+- Update spec to work properly with new cmake macros
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Artur Iwicki <fedora@svgames.pl> - 1.0-6
 - Modify Patch1 (store hiscores in XDG_DATA_DIR) - should fix crashes on Game Over
 

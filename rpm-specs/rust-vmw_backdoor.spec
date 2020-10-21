@@ -5,8 +5,8 @@
 %global crate vmw_backdoor
 
 Name:           rust-%{crate}
-Version:        0.1.2
-Release:        1%{?dist}
+Version:        0.1.3
+Release:        2%{?dist}
 Summary:        Pure-Rust library for VMware host-guest protocol ("VMXh backdoor")
 
 # Upstream license specification: MIT/Apache-2.0
@@ -71,5 +71,11 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Josh Stone <jistone@redhat.com> - 0.1.3-1
+- Update to 0.1.3
+
 * Sat Apr 25 15:45:50 UTC 2020 Robert Fairley <rfairley@redhat.com> - 0.1.2-1
 - Initial package

@@ -1,7 +1,7 @@
 Name:    sugar-artwork
 Summary: Artwork for Sugar look-and-feel
 Version: 0.116
-Release: 3%{?dist}
+Release: 4%{?dist}
 URL:     http://sugarlabs.org
 License: ASL 2.0
 Source0: http://download.sugarlabs.org/sources/sucrose/glucose/%{name}/%{name}-%{version}.tar.xz
@@ -14,7 +14,7 @@ BuildRequires: perl-XML-Parser
 BuildRequires: python3
 BuildRequires: python3-empy
 BuildRequires: icon-naming-utils
-BuildRequires: xorg-x11-apps
+BuildRequires: xcursorgen
 BuildRequires: autoconf automake libtool
 Requires: gtk3
 
@@ -78,6 +78,9 @@ touch --no-create %{_datadir}/icons/sugar || :
 %{_libdir}/gtk-2.0/*/engines/*.so
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 0.116-4
+- BuildRequires: xcursorgen, not xorg-x11-apps
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.116-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

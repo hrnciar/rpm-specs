@@ -2,8 +2,8 @@
 %global sum Python module to access astronomical online data resources
 
 Name:           python-%{srcname}
-Version:        0.3.10
-Release:        3%{?dist}
+Version:        0.4.1
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        BSD
@@ -16,6 +16,7 @@ BuildRequires:  python3-beautifulsoup4
 BuildRequires:  python3-devel
 BuildRequires:  python3-html5lib
 BuildRequires:  python3-keyring
+BuildRequires:  python3-pyvo
 BuildRequires:  python3-requests
 # Doc generation not yet working with rawhide 
 #BuildRequires:  python3-sphinx
@@ -31,6 +32,7 @@ Requires:       python3-astropy
 Requires:       python3-beautifulsoup4
 Requires:       python3-html5lib
 Requires:       python3-keyring
+Requires:       python3-pyvo
 Requires:       python3-requests
 
 %description -n python3-%{srcname}
@@ -57,6 +59,12 @@ chmod 755 %{buildroot}%{python3_sitelib}/%{srcname}/alma/tests/data/downloadRequ
 %exclude %{python3_sitelib}/%{srcname}/cosmosim/tests/test_cosmosim.py
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Christian Dersch <lupinix@fedoraproject.org> - 0.4.1-1
+- new version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.10-3
 - Rebuilt for Python 3.9
 

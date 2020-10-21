@@ -1,7 +1,8 @@
+%undefine __cmake_in_source_build
 %global framework      calendarsupport
 
 Name:    kf5-%{framework}
-Version: 20.04.2
+Version: 20.08.1
 Release: 1%{?dist}
 Summary: KDE PIM library for calendar and even handling
 
@@ -20,7 +21,7 @@ Source0:        http://download.kde.org/%{stable}/release-service/%{version}/src
 # available only where kdepim-apps-libs is
 %{?qt5_qtwebengine_arches:ExclusiveArch: %{qt5_qtwebengine_arches}}
 
-%global kf5_ver 5.23.0
+%global kf5_ver 5.71.0
 BuildRequires:  extra-cmake-modules >= %{kf5_ver}
 BuildRequires:  kf5-rpm-macros >= %{kf5_ver}
 
@@ -29,16 +30,16 @@ BuildRequires:  cmake(Qt5Test)
 BuildRequires:  cmake(Qt5UiTools)
 
 BuildRequires:  cmake(KF5Akonadi)
-BuildRequires:  cmake(KF5Mime)
+BuildRequires:  cmake(KF5AkonadiCalendar)
 BuildRequires:  cmake(KF5AkonadiMime)
+BuildRequires:  cmake(KF5AkonadiNotes)
+BuildRequires:  cmake(KF5Mime)
 BuildRequires:  cmake(KF5Codecs)
 BuildRequires:  cmake(KF5CalendarUtils)
 BuildRequires:  cmake(KF5CalendarCore)
 BuildRequires:  cmake(KF5IdentityManagement)
 BuildRequires:  cmake(KF5Holidays)
-BuildRequires:  cmake(KF5AkonadiCalendar)
 BuildRequires:  cmake(KF5PimCommon)
-BuildRequires:  cmake(KF5KdepimDBusInterfaces)
 
 #global majmin_ver %(echo %{version} | cut -d. -f1,2)
 %global majmin_ver %{version}
@@ -79,16 +80,13 @@ developing applications that use %{name}.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -111,6 +109,18 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.2-1
 - 20.04.2
 

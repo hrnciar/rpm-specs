@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.0.10
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Rust library to easily compare version numbers
 
 # Upstream license specification: MIT
@@ -84,6 +84,9 @@ which use "dev" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.10-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.10-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

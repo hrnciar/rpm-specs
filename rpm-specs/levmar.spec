@@ -2,9 +2,13 @@
 %global major 2
 %global minor 6
 
+%if 0%{?fedora} >= 33
+%bcond_without flexiblas
+%endif
+
 Name:		levmar
 Version:	2.6
-Release:	2%{?dist}
+Release:	6%{?dist}
 Summary:	Levenberg-Marquardt nonlinear least squares algorithm
 URL:		http://www.ics.forth.gr/~lourakis/levmar/
 
@@ -14,9 +18,14 @@ Source0:	http://www.ics.forth.gr/~lourakis/levmar/levmar-%{version}.tgz
 Patch0:		levmar-cmake-shared.patch
 
 License:	GPLv2+
+BuildRequires:	gcc
 BuildRequires:	cmake
 BuildRequires:	dos2unix
-BuildRequires:	lapack-devel
+%if %{with flexiblas}
+BuildRequires:	flexiblas-devel
+%else
+BuildRequires:	blas-devel, lapack-devel
+%endif
 
 %description
 levmar is a native ANSI C implementation of the Levenberg-Marquardt
@@ -39,22 +48,23 @@ Requires:	levmar = %{version}-%{release}
 Development files for the levmar library, and demo program.
 
 %prep
-%setup -q
-%patch0 -p1
+%autosetup -p1
 dos2unix -k README.txt
 
+%if %{with flexiblas}
+sed -i 's/lapack;blas/flexiblas;flexiblas/g' CMakeLists.txt
+%endif
+
 %build
-mkdir build
-cd build
-%cmake -DLINSOLVERS_RETAIN_MEMORY:BOOL=OFF -DNEED_F2C:BOOL=OFF ..
-%make_build
+%cmake -DLINSOLVERS_RETAIN_MEMORY:BOOL=OFF -DNEED_F2C:BOOL=OFF
+%cmake_build
 
 %install
-install -D -p -m 755 build/liblevmar.so.%{major}.%{minor} %{buildroot}%{_libdir}/liblevmar.so.%{major}.%{minor}
-install -D -p -m 644 levmar.h %{buildroot}%{_includedir}/levmar.h
-install -D -p -m 755 build/lmdemo %{buildroot}%{_bindir}/lmdemo
-ln -s liblevmar.so.%{major}.%{minor} %{buildroot}%{_libdir}/liblevmar.so.%{major}
-ln -s liblevmar.so.%{major}.%{minor} %{buildroot}%{_libdir}/liblevmar.so
+install -D -p -m 755 "%{_vpath_builddir}/liblevmar.so.%{major}.%{minor}" "%{buildroot}%{_libdir}/liblevmar.so.%{major}.%{minor}"
+install -D -p -m 644 levmar.h "%{buildroot}%{_includedir}/levmar.h"
+install -D -p -m 755 "%{_vpath_builddir}/lmdemo" %{buildroot}%{_bindir}/lmdemo
+ln -s "liblevmar.so.%{major}.%{minor}" "%{buildroot}%{_libdir}/liblevmar.so.%{major}"
+ln -s "liblevmar.so.%{major}.%{minor}" "%{buildroot}%{_libdir}/liblevmar.so"
 
 %ldconfig_scriptlets
 
@@ -72,6 +82,19 @@ ln -s liblevmar.so.%{major}.%{minor} %{buildroot}%{_libdir}/liblevmar.so
 %{_bindir}/lmdemo
 
 %changelog
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 2.6-6
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Mon Aug 17 2020 Alejandro Alvarez Ayllon <a.alvarezayllon@gmail.com> - 2.6-5
+- Use new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

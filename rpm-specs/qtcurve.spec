@@ -2,10 +2,12 @@
 # enable qt5 support (will probbably make this non-optional soon)
 %global qt5 1
 
+%undefine __cmake_in_source_build
+
 Name:		qtcurve
 Summary:        A set of widget styles for GTK+ and Qt widget toolkits
 Version:	1.9.1
-Release:	11%{?dist}
+Release:	16%{?dist}
 
 # KDE e.V. may determine that future LGPL versions are accepted
 License:	LGPLv2 or LGPLv3
@@ -15,6 +17,7 @@ Source0:        https://github.com/KDE/qtcurve/archive/%{version}.tar.gz#/qtcurv
 
 ## upstream patches (master branch)
 Patch37: 0037-utils-gtkprops-Remove-unnecessary-constexpr-this-is-.patch
+Patch66: 0066-Fix-build-with-Qt-5.15-missing-QPainterPath-include.patch
 
 ## downstream patches
 Patch101:  qtcurve-1.8.18-no_env.patch
@@ -94,18 +97,15 @@ Requires: %{name}-qt5%{?_isa} = %{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} .. \
+%cmake \
   -DQTC_QT4_ENABLE_KDE:BOOL=OFF \
   -DDENABLE_QT5:BOOL=%{?qt5:ON}%{!?qt5:OFF}
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast -C %{_target_platform} DESTDIR=%{buildroot}
+%cmake_install
 
 # unpackaged files
 rm -fv %{buildroot}%{_libdir}/libqtcurve-{cairo,utils}.so
@@ -141,6 +141,22 @@ rm -fv %{buildroot}%{_libdir}/libqtcurve-{cairo,utils}.so
 
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 1.9.1-16
+- rebuild (qt5)
+
+* Mon Aug 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.9.1-15
+- FTBFS, use new %%cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.9.1-12
+- pull in upstream Qt 5.15 fix
+
 * Mon Apr 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.9.1-11
 - rebuild (qt5)
 

@@ -10,7 +10,7 @@
 
 Name:           rust-%{crate}
 Version:        0.45.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cargo, a package manager for Rust
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -134,6 +134,9 @@ which use "pretty_env_logger" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.45.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Josh Stone <jistone@redhat.com> - 0.45.1-1
 - Update to 0.45.1
 

@@ -1,6 +1,6 @@
 Name:           yaz
 Version:        5.14.11
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Z39.50/SRW/SRU toolkit
 License:        BSD
 URL:            http://www.indexdata.com/yaz/
@@ -144,6 +144,9 @@ make check
 %{_pkgdocdir}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.14.11-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 15 2020 Pete Walter <pwalter@fedoraproject.org> - 5.14.11-21
 - Rebuild for ICU 67
 

@@ -1,8 +1,5 @@
 %global upstream_name manpages-l10n
 
-%global commit bff338d87e00d8347ea67e12553329409754a6b1
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-
 %global translations \
     de:    "German" \
     fr:    "French" \
@@ -12,8 +9,8 @@
     ro:    "Romanian"
 
 Name:           man-pages-l10n
-Version:        4.0.0
-Release:        1.20200322git%{shortcommit}%{?dist}
+Version:        4.2.0
+Release:        1%{?dist}
 Summary:        Translated man pages from the Linux Documentation Project and other software projects
 
 # original man pages are under various licenses, translations are GPLv3+
@@ -27,7 +24,7 @@ Summary:        Translated man pages from the Linux Documentation Project and ot
 License:        Artistic Licence 2.0 and BSD and BSD with advertising and Copyright only and GFDL and GPL+ and GPLv2 and GPLv2+ and (GPLv2+ or Artistic) and GPLv2 with exceptions and GPLv2+ with exceptions and GPLv3+ and (GPLv3+ and BSD) and (GPLv3+ or BSD) and IEEE and IJG and ISC and LGPLv2+ and LGPLv3+ and (LGPLv3+ or BSD) and MIT and psutils and Public Domain and Sendmail and Verbatim
 
 URL:            https://manpages-l10n-team.pages.debian.net/manpages-l10n/
-Source0:        https://salsa.debian.org/manpages-l10n-team/%{upstream_name}/-/archive/%{commit}/%{upstream_name}-%{commit}.tar.bz2
+Source0:        https://salsa.debian.org/manpages-l10n-team/%{upstream_name}/-/archive/v%{version}/%{upstream_name}-v%{version}.tar.bz2
 
 BuildArch:      noarch
 
@@ -54,7 +51,7 @@ end}
 
 
 %prep
-%autosetup -p1 -n %{upstream_name}-%{commit}
+%autosetup -p1 -n %{upstream_name}-v%{version}
 
 
 %build
@@ -64,10 +61,6 @@ end}
 
 %install
 %make_install
-
-# remove man pages provided by xz-5.2.5
-%{__rm} %{buildroot}%{_mandir}/de/man1/{xz*,unxz*}.1.gz
-
 
 # generate %files sections
 %{lua: for code in rpm.expand('%{translations}'):gmatch('(%S+):%s+%b""') do
@@ -84,6 +77,16 @@ end}
 
 
 %changelog
+* Thu Oct 15 2020 Rafael Fontenelle <rafaelff@gnome.org> - 4.2.0-1
+- Update to version 4.2.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Nikola Forró <nforro@redhat.com> - 4.1.0-1
+- Update to version 4.1.0
+  resolves: #1852799
+
 * Sun Mar 22 2020 Nikola Forró <nforro@redhat.com> - 4.0.0-1.20200322gitbff338d
 - Remove man pages provided by xz-5.2.5
 - Update to the latest commit

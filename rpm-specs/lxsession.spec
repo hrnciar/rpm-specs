@@ -3,7 +3,7 @@
 # https://bugzilla.redhat.com/show_bug.cgi?id=442268
 
 %global         usegit      0
-%global         mainrel     2
+%global         mainrel     4
 
 %global         githash     e284f41ad4467c8b292d94cbcbc9a3393c618da5
 %global         shorthash   %(TMP=%githash ; echo ${TMP:0:10})
@@ -117,6 +117,11 @@ Lightweight X11 Desktop Environment.
 %patch1005 -p1 -b .nullcheck
 %patch2001 -p1 -b .custom
 
+# Umm?? Why are warnings killed by default?
+sed -i.warn Makefile.am \
+	-e '\@include.*config\.h@s| -w | |'
+
+
 mkdir m4 || :
 sh autogen.sh
 
@@ -134,7 +139,11 @@ sed -i 's/^Icon=xfwm4/Icon=session-properties/g' data/lxsession-edit.desktop.in
 	--enable-debug \
 	%{nil}
 make clean
-make %{?_smp_mflags}
+
+# Tweak optflags here
+find . -name Makefile | \
+	xargs sed -i -e 's|\(-Werror=format-security\)|\1 -Werror=implicit-function-declaration -Werror=return-type |'
+make %{?_smp_mflags} -k
 
 
 %install
@@ -196,6 +205,18 @@ desktop-file-install \
 %{_datadir}/%{name}/ui/lxpolkit.ui
 
 %changelog
+* Mon Oct 12 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 0.5.5-4
+- Turn on warning flags disabled by default on tarball
+- Turn some warnings into error
+- Enable LTO again
+  - Breakage by LTO was because of -Wreturn-type issue
+
+* Thu Aug 27 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 0.5.5-3
+- Disable LTO for now for workaround (bug 1872429)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.5-2.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May  7 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 0.5.5-2
 - Add custom directory to XDG_CONFIG_DIRS (ref: bug 1830588)
 

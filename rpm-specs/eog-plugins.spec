@@ -1,12 +1,6 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
-%global __python %{__python3}
-
 Name:           eog-plugins
 Version:        3.26.5
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        A collection of plugins for the eog image viewer
 
 License:        GPLv2+
@@ -162,6 +156,8 @@ make %{?_smp_mflags}
 
 rm $RPM_BUILD_ROOT%{_libdir}/eog/plugins/*.la
 
+%py_byte_compile %{__python3} %{buildroot}%{_libdir}/eog/plugins/
+
 %find_lang %{name}
 
 %files
@@ -245,6 +241,17 @@ rm $RPM_BUILD_ROOT%{_libdir}/eog/plugins/*.la
 %{_datadir}/appdata/eog-slideshowshuffle.metainfo.xml
 
 %changelog
+* Fri Sep 18 2020 Kalev Lember <klember@redhat.com> - 3.26.5-5
+- Explicitly byte-compile python files using py_byte_compile macro
+- Fix FTBFS (#1863485)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.26.5-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.26.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.26.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

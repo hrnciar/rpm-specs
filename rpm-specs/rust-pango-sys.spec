@@ -5,7 +5,7 @@
 %global crate pango-sys
 
 Name:           rust-%{crate}
-Version:        0.9.1
+Version:        0.10.0
 Release:        2%{?dist}
 Summary:        FFI bindings to libpango-1.0
 
@@ -102,6 +102,19 @@ which use "v1_42" feature of "%{crate}" crate.
 %files       -n %{name}+v1_42-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+v1_44-devel
+Summary:        %{summary}
+BuildArch:      noarch
+Requires:       pkgconfig(pango) >= 1.44
+
+%description -n %{name}+v1_44-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "v1_44" feature of "%{crate}" crate.
+
+%files       -n %{name}+v1_44-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
 %cargo_prep
@@ -122,6 +135,12 @@ echo 'pkgconfig(pango) >= 1.36'
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Josh Stone <jistone@redhat.com> - 0.10.0-1
+- Update to 0.10.0
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

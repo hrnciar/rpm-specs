@@ -1,6 +1,6 @@
 Summary:       An old-school drum-kit sampler
 Name:          drumkv1
-Version:       0.9.14
+Version:       0.9.17
 Release:       1%{?dist}
 License:       GPLv2+
 URL:           https://%{name}.sourceforge.io
@@ -69,6 +69,15 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 %{_libdir}/lv2/%{name}.lv2/
 
 %changelog
+* Mon Sep 14 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.9.17-1
+- Update to 0.9.17
+
+* Fri Aug 28 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.9.16-1
+- Update to 0.9.16
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.14-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.9.14-1
 - Update to 0.9.14
 

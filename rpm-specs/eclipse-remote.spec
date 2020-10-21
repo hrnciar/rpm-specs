@@ -2,7 +2,7 @@
 
 Name:           eclipse-remote
 Version:        3.0.1
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Eclipse Remote Services plug-in
 License:        EPL-1.0
 URL:            https://www.eclipse.org/ptp/
@@ -20,7 +20,7 @@ BuildRequires:    jsch
 BuildRequires:    eclipse-pde
 BuildRequires:    eclipse-license
 BuildRequires:    eclipse-cdt
-BuildRequires:    eclipse-tm-terminal
+BuildRequires:    eclipse-cdt-terminal
 
 Requires:         jsch
 Requires:         eclipse-platform
@@ -68,6 +68,12 @@ find -name *.class -exec rm -rf {} \;
 %license features/org.eclipse.remote-feature/epl-v10.html
 
 %changelog
+* Fri Aug 14 2020 Mat Booth <mat.booth@redhat.com> - 3.0.1-6
+- Update dep on tm-terminal
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

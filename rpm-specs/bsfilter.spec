@@ -7,7 +7,7 @@
 
 Name:		bsfilter
 Version:	%{mainver}
-Release:	%{?prever:0.}%{fedorarel}%{?prever:.%prever}%{?dist}.10
+Release:	%{?prever:0.}%{fedorarel}%{?prever:.%prever}%{?dist}.11
 Summary:	Bayesian spam filter
 
 # bsfilter script
@@ -59,6 +59,9 @@ ruby ./test.rb || :
 %{_bindir}/%{name}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.19-1.11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.19-1.10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

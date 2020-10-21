@@ -1,11 +1,12 @@
 Name:		freedink-dfarc
 Version:	3.14
-Release:	6%{?dist}
+Release:	8%{?dist}
 Summary:	Frontend and .dmod installer for GNU FreeDink
 
 License:	GPLv3+
 URL:		http://www.gnu.org/software/freedink/
 Source0:	ftp://ftp.gnu.org/gnu/freedink/dfarc-%{version}.tar.gz
+ExcludeArch:    s390x
 
 BuildRequires:  gcc-c++
 %if 0%{?suse_version}
@@ -51,6 +52,13 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%name.desktop
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

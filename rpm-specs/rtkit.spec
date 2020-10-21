@@ -1,6 +1,6 @@
 Name:             rtkit
 Version:          0.11
-Release:          23%{?dist}
+Release:          25%{?dist}
 Summary:          Realtime Policy and Watchdog Daemon
 # The daemon itself is GPLv3+, the reference implementation for the client BSD
 License:          GPLv3+ and BSD
@@ -79,6 +79,13 @@ dbus-send --system --type=method_call --dest=org.freedesktop.DBus / org.freedesk
 %{_mandir}/man8/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-25
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

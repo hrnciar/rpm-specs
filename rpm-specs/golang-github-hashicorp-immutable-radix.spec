@@ -3,14 +3,9 @@
 
 # https://github.com/hashicorp/go-immutable-radix
 %global goipath         github.com/hashicorp/go-immutable-radix
-Version:                1.1.0
+Version:                1.2.0
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-hashicorp-go-immutable-radix-devel < 1.0.0-2
-}
 
 %global common_description %{expand:
 Provides the iradix package that implements an immutable radix tree. The package
@@ -31,7 +26,7 @@ in a more efficient manner than performing each operation one at a time.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        An immutable radix tree implementation in golang
 
 # Upstream license specification: MPL-2.0
@@ -65,6 +60,12 @@ BuildRequires:  golang(github.com/hashicorp/go-uuid)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 19:36:24 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.2.0-1
+- Update to 1.2.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

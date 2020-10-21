@@ -1,6 +1,6 @@
 Name:           kcbench
 Version:        0.9.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Benchmark that compiles a Linux kernel
 
 License:        MIT
@@ -50,6 +50,9 @@ echo "Nothing to build"
 %{_docdir}/kcbench/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 0.9.0-1
 - brown paper bag release: rebuild with increased release value for proper
   update path

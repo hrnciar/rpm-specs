@@ -5,7 +5,7 @@
 
 Name:           perl-Tk
 Version:        804.035
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Perl Graphical User Interface ToolKit
 
 License:        (GPL+ or Artistic) and SWL
@@ -84,6 +84,7 @@ BuildRequires:  perl(MIME::Base64)
 %endif
 
 Requires:       perl(:MODULE_COMPAT_%{perlver})
+Requires:       perl(locale)
 Provides:       perl(Tk::LabRadio) = 4.004
 Provides:       perl(Tk) = %{version}
 
@@ -178,6 +179,12 @@ find __demos/ -type f -exec chmod -x {} \;
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 804.035-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Petr Pisar <ppisar@redhat.com> - 804.035-3
+- Run-require locale module
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 804.035-2
 - Perl 5.32 rebuild
 

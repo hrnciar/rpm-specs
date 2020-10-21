@@ -1,7 +1,7 @@
 %global srcname wikitcms
 
 Name:           python-%{srcname}
-Version:        2.6.3
+Version:        2.6.4
 Release:        2%{?dist}
 Summary:        Fedora QA wiki test management Python library
 
@@ -65,6 +65,12 @@ sed -i -e 's., "setuptools-git"..g' pyproject.toml
 %{python3_sitelib}/%{srcname}*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Adam Williamson <awilliam@redhat.com> - 2.6.4-1
+- New release 2.6.4: include Summary pages in event category
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.6.3-2
 - Rebuilt for Python 3.9
 

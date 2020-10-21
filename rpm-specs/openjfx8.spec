@@ -2,7 +2,7 @@
 
 Name:           openjfx8
 Version:        8.0.202
-Release:        21.b07%{?dist}
+Release:        24.b07%{?dist}
 Summary:        Rich client application platform for Java
 
 #fxpackager is BSD
@@ -212,7 +212,7 @@ install -m 644 modules/fxpackager/src/main/man/ja_JP.UTF-8/man1/* %{buildroot}%{
 install -m 644 javafx-src.zip %{buildroot}%{openjfxdir}/javafx-src.zip
 
 install -d 755 %{buildroot}%{_javadocdir}/%{name}
-cp -a target/site/apidocs/. %{buildroot}%{_javadocdir}/%{name}
+cp -a target/xmvn-apidocs/. %{buildroot}%{_javadocdir}/%{name}
 
 mkdir -p %{buildroot}%{_bindir}
 ln -s %{openjfxdir}/bin/javafxpackager %{buildroot}%{_bindir}
@@ -246,6 +246,16 @@ ln -s %{openjfxdir}/bin/javapackager %{buildroot}%{_bindir}
 %license LICENSE
 
 %changelog
+* Tue Aug 04 2020 Nicolas De Amicis <deamicis@bluewin.ch> - 8.0.202-24.b07
+- Fix FTBFS in Fedora rawhide see bug 1865157
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.0.202-23.b07
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.0.202-22.b07
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Nicolas De Amicis <deamicis@bluewin.ch> - 8.0.202-21.b07
 - Added openjfx-src package (see bug 1836908)
 

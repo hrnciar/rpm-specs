@@ -1,6 +1,6 @@
 Name:           ignuit
 Version:        2.24.3
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Memorization aid based on the Leitner flashcard system
 
 License:        GPLv3+ and GPLv2
@@ -75,6 +75,9 @@ rm -f %{buildroot}%{_infodir}/dir
 %{_datadir}/appdata/%{name}.appdata.xml
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.24.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.24.3-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

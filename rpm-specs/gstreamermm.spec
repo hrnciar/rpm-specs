@@ -3,7 +3,7 @@
 
 Name:           gstreamermm
 Version:        1.10.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 
 Summary:        C++ wrapper for GStreamer library
 
@@ -85,6 +85,9 @@ find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 06 2020 Kalev Lember <klember@redhat.com> - 1.10.0-7
 - Fix incorrect gstreamer-devel (0.10) dep in the -devel subpackage
 

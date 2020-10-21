@@ -14,7 +14,7 @@
 #
 Name:           dar
 Version:        2.6.10
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Software for making/restoring incremental CD/DVD backups
 
 License:        GPLv2+
@@ -186,6 +186,9 @@ cp -a %{SOURCE1} .
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Luis Bazan <lbazan@fedoraproject.org> - 2.6.10-1
 - New upstream version
 

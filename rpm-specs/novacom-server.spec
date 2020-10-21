@@ -2,7 +2,7 @@
 
 Name:		novacom-server
 Version:	1.1.0
-Release:	0.27.rc1%{?dist}
+Release:	0.28.rc1%{?dist}
 Summary:	Service for utility that connects to WebOS devices
 License:	ASL 2.0
 URL:		https://github.com/openwebos/novacomd
@@ -66,6 +66,9 @@ install -pm 644 %{SOURCE2} $RPM_BUILD_ROOT/%{_sysconfdir}/default/novacomd
 %config(noreplace) %{_sysconfdir}/default/novacomd
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-0.28.rc1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 03 2020 Jonathan Dieter <jdieter@gmail.com> - 1.1.0-0.27.rc1
 - Work around build failure with GCC 10
 - Remove unneeded hardened_build flag (since all builds are hardened now)

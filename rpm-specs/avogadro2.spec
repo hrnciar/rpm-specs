@@ -1,3 +1,5 @@
+%global __cmake_in_source_build 1
+
 # Use devtoolset 8
 %if 0%{?rhel} && 0%{?rhel} == 7
 %global dts devtoolset-8-
@@ -5,7 +7,7 @@
 
 Name:           avogadro2
 Version:        1.93.0
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Advanced molecular editor
 License:        BSD
 URL:            http://avogadro.openmolecules.net/
@@ -113,6 +115,13 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_datadir}/icons/%{name}/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.93.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.93.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 29 2020 Antonio Trande <sagitter@fedoraproject.org> - 1.93.0-4
 - New rebuild
 

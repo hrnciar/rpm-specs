@@ -7,7 +7,7 @@
 
 Name:           perl-Class-Accessor-Grouped
 Version:        0.10014
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Build groups of accessors
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Class-Accessor-Grouped
@@ -74,14 +74,14 @@ getters and setters.
 %setup -q -n Class-Accessor-Grouped-%{version}
 # Remove bundled modules
 rm -r inc
-sed -i -e '/^inc\//d' MANIFEST
+perl -i -ne 'print $_ unless m{^inc/}' MANIFEST
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=%{buildroot}
+%{make_install}
 %{_fixperms} %{buildroot}/*
 
 %check
@@ -93,6 +93,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Fri Aug 21 2020 Petr Pisar <ppisar@redhat.com> - 0.10014-10
+- Modernize a spec file
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10014-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.10014-8
 - Perl 5.32 rebuild
 

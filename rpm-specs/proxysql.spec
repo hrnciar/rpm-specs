@@ -1,7 +1,7 @@
 Summary:       A high-performance MySQL proxy
 Name:          proxysql
-Version:       2.0.9
-Release:       4%{?dist}
+Version:       2.0.13
+Release:       1%{?dist}
 URL:           http://www.proxysql.com/
 # The entire source code is GPLv3+ except deps/re2 and deps/jemalloc which is BSD
 # and deps/mariadb-connector-c which is LGPLv2+
@@ -14,6 +14,9 @@ BuildRequires: libconfig-devel, lz4-devel
 BuildRequires: libdaemon-devel
 BuildRequires: sqlite-devel
 BuildRequires: zlib-devel
+BuildRequires: gnutls-devel
+BuildRequires: libtool
+BuildRequires: automake
 
 Suggests: mariadb, community-mysql
 
@@ -29,7 +32,7 @@ Provides:      bundled(re2) = 20180701
 # Added bundled libraries from v2.0.7
 Provides:      bundled(clickhouse-cpp)
 Provides:      bundled(cityhash) = 1.1.1
-Provides:      bundled(google-coredumper) = 1.2.1
+Provides:      bundled(libhttpserver) = 0.18.1
 Provides:      bundled(libmicrohttpd) = 0.9.55
 
 # There is inconsistency between name and URL of file
@@ -49,6 +52,7 @@ Source2:       proxysql.1
 
 # Patch provides debundling bundled libraries
 Patch0: proxysql_debundle.patch
+Patch1: libinjection_python2_to_3.patch
 %description
 ProxySQL is a high performance, high availability, protocol aware proxy for
 MySQL and forks (like Percona Server and MariaDB).
@@ -65,7 +69,7 @@ rm -rf deps/libssl deps/pcre deps/curl deps/lz4 deps/libev
 %global _configure :
 %configure help
 export CPPFLAGS=$CXXFLAGS
-make %{?_smp_mflags}
+%make_build
 
 %install
 install -p -D -m 0755 src/proxysql %{buildroot}%{_bindir}/proxysql
@@ -108,6 +112,19 @@ install -d -m 0755 %{buildroot}%{_sharedstatedir}/proxysql
 %config(noreplace) %{_sysconfdir}/%{name}.cnf
 
 %changelog
+* Tue Aug 04 2020 Filip Januš <fjanus@redhat.com> - 2.0.13-1
+- Rebase onto version 2.0.13
+- Add new patch to port bundled libinjection to python 3
+- Fix debundle patch, new bundled library (libhttpserver) - new dependencies
+- Remove bundled google-coredumper
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.9-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.9-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 02 2020 Lukas Javorsky <ljavorsk@redhat.com> - 2.0.9-4
 - Add mariadb and mysql client to suggests
 

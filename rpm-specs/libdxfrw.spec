@@ -1,6 +1,6 @@
 Name:		libdxfrw
 Version:	0.6.3
-Release:	13%{?dist}
+Release:	14%{?dist}
 Summary:	Library to read/write DXF files
 License:	GPLv2+
 URL:		http://sourceforge.net/p/libdxfrw/home/Home/
@@ -47,6 +47,9 @@ rm -rf %{buildroot}%{_libdir}/*.la
 %{_libdir}/pkgconfig/libdxfrw0.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

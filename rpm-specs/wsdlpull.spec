@@ -8,7 +8,7 @@
 #
 Name: wsdlpull
 Version: 1.23
-Release: 22%{?dist}
+Release: 23%{?dist}
 
 Summary: C++ Web Services client library
 
@@ -133,6 +133,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.23-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.23-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

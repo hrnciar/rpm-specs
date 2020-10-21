@@ -3,7 +3,7 @@
 
 Name:           %{fontname}-fonts
 Version:        3.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Foundation Icons font
 
 License:        MIT
@@ -65,6 +65,9 @@ cp -a foundation-icons.css %{buildroot}%{_datadir}/foundation-icons-web/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

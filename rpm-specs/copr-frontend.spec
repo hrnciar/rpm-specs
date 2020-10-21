@@ -43,7 +43,7 @@
 }
 
 Name:       copr-frontend
-Version:    1.166
+Version:    1.169
 Release:    1%{?dist}
 Summary:    Frontend for Copr
 
@@ -69,8 +69,6 @@ BuildRequires: python3-devel
 
 %if %{with check}
 BuildRequires: fedora-messaging
-BuildRequires: libmodulemd < 2
-BuildRequires: libmodulemd >= 1.7.0
 BuildRequires: python3-click
 BuildRequires: python3-CommonMark
 BuildRequires: python3-blinker
@@ -92,6 +90,7 @@ BuildRequires: python3-gobject
 BuildRequires: python3-html2text
 BuildRequires: python3-html5-parser
 BuildRequires: python3-humanize
+BuildRequires: python3-libmodulemd1 >= 1.7.0
 BuildRequires: python3-lxml
 BuildRequires: python3-markdown
 BuildRequires: python3-marshmallow >= 2.0.0
@@ -125,10 +124,8 @@ Requires: %flavor_guard
 Requires: (copr-selinux if selinux-policy-targeted)
 Requires: fedora-messaging
 Requires: js-html5shiv
-Requires: js-jquery1
+Requires: js-jquery
 Requires: js-respond
-Requires: libmodulemd < 2
-Requires: libmodulemd >= 1.7.0
 Requires: python3-click
 Requires: python3-CommonMark
 Requires: python3-alembic
@@ -141,7 +138,6 @@ Requires: python3-flask-caching
 %else
 Requires: python3-flask-cache
 %endif
-Requires: python3-flask-cache
 Requires: python3-flask-openid
 Requires: python3-flask-restful
 Requires: python3-flask-sqlalchemy
@@ -152,6 +148,7 @@ Requires: python3-gobject
 Requires: python3-html2text
 Requires: python3-html5-parser
 Requires: python3-humanize
+Requires: python3-libmodulemd1 >= 1.7.0
 Requires: python3-lxml
 Requires: python3-markdown
 Requires: python3-marshmallow
@@ -376,6 +373,29 @@ usermod -L copr-fe
 
 
 %changelog
+* Tue Aug 18 2020 Pavel Raiskup <praiskup@redhat.com> 1.169-1
+- fix rawhide-to-release command
+- simplify API and UI error handlers
+
+* Tue Aug 11 2020 Pavel Raiskup <praiskup@redhat.com> 1.168-1
+- get-package API to support with_latest* args
+
+* Mon Aug 10 2020 Pavel Raiskup <praiskup@redhat.com> 1.167-1
+- catch OSError when srpm_storage is full
+- drop the duplicate jquery-ui.min.js reference from html layout
+- move to jQuery 3
+- drop redundant dependency on python3-flask-cache
+- more understandable permissions error messages
+- allow users to upvote or downvote projects
+- more understandable build state descriptions in web UI
+- add new overview tab showing starting builds
+- fix avatars for copr groups
+- validate package name input
+- more effective query of packages with their latest builds
+- return user-friedly error message for non-admin exceptions
+- admins can now create projects for others via API
+- fix up libmodulemd dependency
+
 * Thu Jun 18 2020 Pavel Raiskup <praiskup@redhat.com> 1.166-1
 - show _all_ build-delete checkboxes when javascript is on
 - don't submit builds when there are no CoprChroot(s) assigned

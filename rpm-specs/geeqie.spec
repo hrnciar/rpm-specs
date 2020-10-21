@@ -6,7 +6,7 @@
 Summary: Image browser and viewer
 Name: geeqie
 Version: 1.5.1
-Release: 3%{?gitcommit:.git%{gitcommitshort}}%{?dist}
+Release: 4%{?gitcommit:.git%{gitcommitshort}}%{?dist}
 License: GPLv2+
 %if %{defined gitcommit}
 Source0: http://geeqie.org/cgi-bin/gitweb.cgi?p=geeqie.git;a=snapshot;h=%{gitcommit};sf=tbz2#/geeqie-g%{gitcommitshort}.tar.bz2
@@ -144,6 +144,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/org.geeqie
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-4.git26c4dad
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb  4 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.5.1-3.git26c4dad
 - Update to latest git snapshot (fixes build in rawhide and other minor issues).
 

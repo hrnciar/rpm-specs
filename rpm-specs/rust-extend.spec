@@ -6,13 +6,16 @@
 
 Name:           rust-%{crate}
 Version:        0.1.2
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Create extensions for types you don't own
 
 # Upstream license specification: MIT
 License:        MIT
 URL:            https://crates.io/crates/extend
 Source:         %{crates_source}
+
+# Update the expected output on compile_fail tests
+Patch1:         extend-0.1.2-update-expected-failure-output.patch
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -72,6 +75,16 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Sep 30 2020 Josh Stone <jistone@redhat.com> - 0.1.2-4
+- Update the expected output on compile_fail tests
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Josh Stone <jistone@redhat.com> - 0.1.2-1
 - Update to 0.1.2
 

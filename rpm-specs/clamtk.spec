@@ -1,6 +1,6 @@
 Name: clamtk
-Version: 6.03
-Release: 2%{dist}
+Version: 6.06
+Release: 1%{dist}
 Summary: Easy to use graphical user interface for Clam anti virus
 License: GPL+ or Artistic 2.0
 URL: https://bitbucket.org/davem_/clamtk-gtk3/
@@ -66,6 +66,21 @@ done
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Wed Sep 16 2020 Dave M. <dave.nerd@gmail.com> - 6.06-1
+- Updated to release 6.06.
+
+* Sun Aug 9 2020 Dave M. <dave.nerd@gmail.com> - 6.05-1
+- Updated to release 6.05.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.04-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Dave M. <dave.nerd@gmail.com> - 6.04-1
+- Updated to release 6.04.
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 6.03-3
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 6.03-2
 - Perl 5.32 rebuild
 

@@ -6,7 +6,7 @@
 Summary:	Dictionaries for SKK (Simple Kana-Kanji conversion program)
 Name:		skkdic
 Version:	%{cvsDATE}
-Release:	1.T%{cvsTIME}%{?dist}
+Release:	2.T%{cvsTIME}%{?dist}
 License:	GPLv2+
 # To create source tarball, use Source10
 Source0:	skkdic-%{cvsDATE}T%{cvsTIME}.tar.bz2
@@ -57,6 +57,9 @@ gzip -9 ChangeLog
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200128-2.T1339
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 20200128-1.T1339
 - Update to the latest data
 

@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.4.21
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Low level binding for the Sass library
 
 # Upstream license specification: MIT
@@ -76,6 +76,9 @@ echo 'pkgconfig(libsass)'
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.21-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 21 2020 Josh Stone <jistone@redhat.com> - 0.4.21-1
 - Update to 0.4.21
 

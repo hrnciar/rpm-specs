@@ -1,7 +1,7 @@
 Name:       beakerlib
 Summary:    A shell-level integration testing library
-Version:    1.18
-Release:    12%{?dist}
+Version:    1.20
+Release:    1%{?dist}
 License:    GPLv2
 BuildArch:  noarch
 URL:        https://github.com/%{name}
@@ -37,15 +37,6 @@ Source1:    %{name}-tmpfiles.conf
 
 Patch0: bugzilla-links.patch
 Patch1: python3.patch
-Patch2: getopt-errors.patch
-Patch3: log-command-T-option.patch
-Patch4: fix-unbound-variables.patch
-Patch5: services-state-store.patch
-Patch6: local-FileSubmit-argument.patch
-Patch7: cleanup-shell-options.patch
-Patch8: correct-exit-code-gathering.patch
-Patch9: Count-CPUs-optimization.patch
-Patch10: enahanced-library-search.patch
 
 %prep
 %autosetup -p1
@@ -92,6 +83,23 @@ Files for syntax highlighting BeakerLib tests in VIM editor
 %{_datadir}/vim/vimfiles/after/syntax/beakerlib.vim
 
 %changelog
+* Thu Sep 10 2020 Dalibor Pospisil <dapospis@redhat.com> - 1.20-1
+- Rebase to the laster upstream
+- improvements to libraries search
+- docs update
+- some optimizations
+- fixed pattern for mathing port or socket in rlWaitFor*
+- log colorizing on all screen* terminals
+- IFS fixes
+- Use /etc/os-release in rlGetDistro*() (#35)
+- support for curl 7.29.0
+- prefer curl over wget
+- silence status of service in rlService{Start,Stop,Restore} functions (#…
+- TESTPACKAGE variable to force package name (#54)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 9 2020 Dalibor Pospisil <dapospis@redhat.com> - 1.18-12
 - optiomized CPU info gathering
 - enhanced library search

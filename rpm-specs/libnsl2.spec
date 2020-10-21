@@ -3,15 +3,15 @@
 
 
 Name:       libnsl2
-Version:    1.2.0
-Release:    6.20180605git%{shortcommit0}%{?dist}
+Version:    1.3.0
+Release:    1%{?dist}
 Summary:    Public client interface library for NIS(YP) and NIS+
 
 License:    BSD and LGPLv2+
 URL:        https://github.com/thkukuk/libnsl
 
 
-Source0:    https://github.com/thkukuk/libnsl/archive/%{commit0}.tar.gz#/libnsl-%{commit0}.tar.gz
+Source0:    https://github.com/thkukuk/libnsl/archive/v%{version}.tar.gz
 
 Patch0: libnsl2-1.0.5-include_stdint.patch
 
@@ -33,7 +33,7 @@ Development files for libnsl2
 
 
 %prep
-%setup -q -n libnsl-%{commit0}
+%setup -q -n libnsl-%{version}
 
 %patch0 -p1 -b .include_stdint
 
@@ -58,8 +58,7 @@ rm %{buildroot}/%{_libdir}/libnsl.a
 rm %{buildroot}/%{_libdir}/libnsl.la
 
 %files
-%{_libdir}/libnsl.so.2
-%{_libdir}/libnsl.so.2.0.0
+%{_libdir}/libnsl.so.*
 
 %license COPYING
 
@@ -69,6 +68,16 @@ rm %{buildroot}/%{_libdir}/libnsl.la
 %{_libdir}/pkgconfig/libnsl.pc
 
 %changelog
+* Fri Sep 18 2020 Filip Janus <fjanus@redhat.com> - 1.3.0-1
+- Upstreal released new version 1.3.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-8.20180605git4a062cf
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-7.20180605git4a062cf
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-6.20180605git4a062cf
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

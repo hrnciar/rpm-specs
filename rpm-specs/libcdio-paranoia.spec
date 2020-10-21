@@ -1,6 +1,6 @@
 Name: libcdio-paranoia
 Version: 10.2+2.0.1
-Release: 1%{?dist}
+Release: 3%{?dist}
 Summary: CD paranoia on top of libcdio
 License: GPLv3+
 URL: http://www.gnu.org/software/libcdio/
@@ -45,10 +45,10 @@ iconv -f ISO88591 -t utf-8 -o THANKS.utf8 THANKS && mv THANKS.utf8 THANKS
 	--disable-dependency-tracking \
 	--disable-static \
 	--disable-rpath
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 
 find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 
@@ -63,7 +63,7 @@ chrpath --delete $RPM_BUILD_ROOT%{_bindir}/*
 chrpath --delete $RPM_BUILD_ROOT%{_libdir}/*.so.*
 
 %check
-make %{?_smp_mflags} check
+%make_build check
 
 %files
 %license COPYING
@@ -82,6 +82,13 @@ make %{?_smp_mflags} check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.2+2.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 10.2+2.0.1-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Mon Mar 30 2020 Adrian Reber <adrian@lisas.de> - 10.2+2.0.1-1
 - updated to 10.2+2.0.1
 

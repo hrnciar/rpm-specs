@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.0.1
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Testing utility classes and functions for Sphinx extensions
 
 License:        BSD
@@ -22,15 +22,12 @@ BuildRequires:  python3dist(sphinx)
 This package provides a few utility classes and functions to help
 authors of Sphinx extensions write tests for those extensions.}
 
-%description
-%common_desc
+%description %common_desc
 
 %package -n python3-%{srcname}
 Summary:        Testing utility classes and functions for Sphinx extensions
-%{?python_provide:%python_provide python3-%{srcname}}
 
-%description -n python3-%{srcname}
-%common_desc
+%description -n python3-%{srcname} %common_desc
 
 %prep
 %autosetup -p1 -n %{srcname}-%{version}
@@ -58,6 +55,9 @@ PYTHONPATH=$PWD/src pytest-%{python3_version} -v tests
 %{python3_sitelib}/sphinx_testing*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.1-8
 - Rebuilt for Python 3.9
 

@@ -1,7 +1,7 @@
 Summary: NIS (or YP) client programs
 Name: yp-tools
 Version: 4.2.3
-Release: 7%{?dist}
+Release: 8%{?dist}
 License: GPLv2
 Source: https://github.com/thkukuk/yp-tools/archive/v%{version}.tar.gz
 Patch1: yp-tools-2.12-hash.patch
@@ -79,6 +79,9 @@ make DESTDIR="$RPM_BUILD_ROOT" INSTALL_PROGRAM=install install
 /var/yp/nicknames
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.3-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

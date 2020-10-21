@@ -1,8 +1,8 @@
 %global majorversion 7.2
 
 Name:           ipe
-Version:        7.2.18
-Release:        1%{?dist}
+Version:        7.2.20
+Release:        2%{?dist}
 Summary:        Drawing editor for creating figures in PDF or PostScript formats
 # GPLv2, with an exception for the CGAL libraries.
 License:        GPLv2+ with exceptions
@@ -135,6 +135,15 @@ desktop-file-install --dir %{buildroot}%{_datadir}/applications %{SOURCE1}
 %{_datadir}/%{name}/%{version}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.2.20-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 7.2.20-1
+- Update to 7.2.20
+
+* Wed Jun 24 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 7.2.19-1
+- Update to 7.2.19
+
 * Wed May 20 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 7.2.18-1
 - Update to 7.2.18
 

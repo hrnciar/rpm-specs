@@ -1,6 +1,6 @@
 Name:          shrinkwrap
 Version:       1.2.6
-Release:       2%{?dist}
+Release:       5%{?dist}
 Summary:       Java API for Archive Manipulation
 # Some file are without license headers
 # reported @ https://issues.jboss.org/browse/SHRINKWRAP-501
@@ -10,6 +10,7 @@ URL:           http://arquillian.org/modules/shrinkwrap-shrinkwrap/
 Source0:       https://github.com/shrinkwrap/shrinkwrap/archive/%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires: maven-local
+BuildRequires: mvn(jakarta.activation:jakarta.activation-api)
 BuildRequires: mvn(junit:junit)
 BuildRequires: mvn(org.apache.maven.plugins:maven-enforcer-plugin)
 BuildRequires: mvn(org.jboss:jboss-parent:pom:)
@@ -103,12 +104,18 @@ This package contains javadoc for %{name}.
 
 # remove env.JAVA"x"_HOME
 %pom_xpath_remove "pom:requireProperty"
+
 # Option UseSplitVerifier support was removed in 8.0
 # <argLine>-XX:-UseSplitVerifier</argLine>
 %pom_xpath_remove "pom:configuration/pom:argLine" 
 %pom_xpath_remove "pom:configuration/pom:jvm" api
 %pom_xpath_remove "pom:configuration/pom:jvm" impl-base
 %pom_xpath_remove "pom:profiles" impl-base 
+
+%pom_add_dep jakarta.activation:jakarta.activation-api impl-base
+
+# remove maven-compiler-plugin configuration that is broken with Java 11
+%pom_xpath_remove 'pom:plugin[pom:artifactId="maven-compiler-plugin"]/pom:configuration'
 
 %pom_remove_plugin -r :maven-checkstyle-plugin
 %pom_remove_plugin -r :maven-release-plugin
@@ -119,11 +126,17 @@ sed -i.orig 's|\r||g' LICENSE
 touch -r LICENSE.orig LICENSE
 rm LICENSE.orig
 
+# remove a few tests that are broken with Java 9+ class loading changes
+rm impl-base/src/test/java/org/jboss/shrinkwrap/impl/base/spec/EnterpriseArchiveImplTestCase.java
+rm impl-base/src/test/java/org/jboss/shrinkwrap/impl/base/spec/JavaArchiveImplTestCase.java
+rm impl-base/src/test/java/org/jboss/shrinkwrap/impl/base/spec/ResourceAdapterArchiveImplTestCase.java
+rm impl-base/src/test/java/org/jboss/shrinkwrap/impl/base/spec/WebArchiveImplTestCase.java
+
 %mvn_package :%{name}-api::tests: %{name}-api
 %mvn_package :%{name}-impl-base::tests: %{name}-impl-base
 
 %build
-%mvn_build -s
+%mvn_build -s -- -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 %install
 %mvn_install
@@ -155,6 +168,17 @@ rm LICENSE.orig
 %license LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.6-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Fabio Valentini <decathorpe@gmail.com> - 1.2.6-4
+- Override javac source / target versions with 1.8 to fix building with Java 11.
+- Add missing dependency for javax.activation (removed with Java 11).
+- Drop a few tests that are broken with Java 9+ class loading changes.
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.2.6-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

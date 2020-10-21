@@ -1,6 +1,8 @@
+%define _legacy_common_support 1
+
 Name:		bspwm
 Version:	0.9.9
-Release:	2%{?dist}
+Release:	5%{?dist}
 Summary:	A tiling window manager based on binary space partitioning
 
 License:	BSD
@@ -59,6 +61,16 @@ desktop-file-validate %{buildroot}/%{_datadir}/xsessions/%{name}.desktop
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.9-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 0.9.9-4
+- Enable legacy common support
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.9-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.9-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

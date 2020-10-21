@@ -6,7 +6,7 @@
 
 Name:           vdr-%{pname}
 Version:        0.3.1
-Release:        12.%{gitdate}git%{shortcommit}%{?dist}
+Release:        14.%{gitdate}git%{shortcommit}%{?dist}
 Summary:        VDR plugin for doing extra fixing of EPG data
 
 License:        GPLv2+
@@ -60,6 +60,12 @@ install -Dpm 644 %{SOURCE1} \
 
 
 %changelog
+* Fri Aug 28 2020 Martin Gansser <martinkg@fedoraproject.org> - 0.3.1-14.20180416git354f28b
+- Rebuilt for new VDR API version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-13.20180416git354f28b
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-12.20180416git354f28b
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

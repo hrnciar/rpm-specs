@@ -2,7 +2,7 @@
 %global enable_tests 0
 Name:       nodejs-events
 Version:    1.0.2
-Release:    10%{?dist}
+Release:    12%{?dist}
 Summary:    Node's event emitter 
 License:    MIT
 URL:        https://github.com/Gozala/events
@@ -41,6 +41,13 @@ mocha --ui qunit -- tests/index.js
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

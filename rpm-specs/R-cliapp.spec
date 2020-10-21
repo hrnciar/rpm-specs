@@ -1,17 +1,18 @@
-%global packname  cliapp
+%global packname cliapp
+%global packver  0.1.1
 %global rlibdir  %{_datadir}/R/library
 
 # Depends on callr, which depends on this.
-%global with_loop 1
+%bcond_with bootstrap
 
 Name:             R-%{packname}
-Version:          0.1.0
-Release:          5%{?dist}
+Version:          0.1.1
+Release:          1%{?dist}
 Summary:          Create Rich Command Line Applications
 
 License:          MIT
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
@@ -36,7 +37,7 @@ BuildRequires:    R-withr
 BuildRequires:    R-xml2
 BuildRequires:    R-rstudioapi
 BuildRequires:    R-testthat
-%if %{with_loop}
+%if %{without bootstrap}
 BuildRequires:    R-callr
 %endif
 
@@ -70,7 +71,7 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %check
-%if %{with_loop}
+%if %{without bootstrap}
 %{_bindir}/R CMD check %{packname}
 %else
 _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
@@ -92,6 +93,12 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 
 
 %changelog
+* Thu Oct 08 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.1.1-1
+- Update to latest version (#1886002)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.1.0-5
 - rebuild for R 4
 

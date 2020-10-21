@@ -2,7 +2,7 @@
 
 Name:           grsync
 Version:        1.2.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A Gtk+ GUI for rsync
 
 License:        GPLv2
@@ -63,6 +63,9 @@ desktop-file-install \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Filipe Rosset <rosset.filipe@gmail.com> - 1.2.8-1
 - Update to 1.2.8 fixes rhbz#1830922
 

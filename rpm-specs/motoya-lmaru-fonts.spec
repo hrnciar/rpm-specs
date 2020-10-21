@@ -6,7 +6,7 @@
 
 Name:		%{fontname}-fonts
 Version:	1.00
-Release:	0.22.%{archivedate}git%{?dist}
+Release:	0.23.%{archivedate}git%{?dist}
 Summary:	Japanese Round Gothic-typeface TrueType fonts by MOTOYA Co,LTD
 
 License:	ASL 2.0
@@ -59,6 +59,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00-0.23.20110406git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00-0.22.20110406git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

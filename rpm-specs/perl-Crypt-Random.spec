@@ -1,7 +1,7 @@
 Summary:	Cryptographically Secure, True Random Number Generator
 Name:		perl-Crypt-Random
 Version:	1.52
-Release:	6%{?dist}
+Release:	7%{?dist}
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Crypt-Random
 Source0:	https://cpan.metacpan.org/modules/by-module/Crypt/Crypt-Random-%{version}.tar.gz
@@ -59,6 +59,9 @@ make test
 %{_mandir}/man3/Crypt::Random.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.52-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.52-6
 - Perl 5.32 rebuild
 

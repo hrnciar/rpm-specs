@@ -1,6 +1,6 @@
 Name:    vino
 Version: 3.22.0
-Release: 17%{?dist}
+Release: 19%{?dist}
 Summary: A remote desktop system for GNOME
 
 License: GPLv2+
@@ -32,6 +32,8 @@ BuildRequires: desktop-file-utils
 # For user unit.
 BuildRequires: systemd
 %{?systemd_requires}
+
+Provides: bundled(libvncserver)
 
 %description
 Vino is a VNC server for GNOME. It allows remote users to
@@ -93,6 +95,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/vino-server.desktop
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.22.0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Michael Catanzaro <mcatanzaro@redhat.com> - 3.22.0-18
+- Add bundled(libvncserver)
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.22.0-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -11,7 +11,7 @@ tool;  %{name} just makes it easy to use.
 
 Name:		python-%{pypi_name}
 Version:	0.26.1
-Release:	17%{?dist}
+Release:	18%{?dist}
 Summary:	%{global_sum}
 
 License:	LGPLv3+
@@ -70,6 +70,9 @@ BuildRequires:	python3-setuptools
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.26.1-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 0.26.1-17
 - Rebuilt for Python 3.9
 

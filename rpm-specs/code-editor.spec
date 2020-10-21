@@ -1,6 +1,6 @@
 Name:           code-editor
 Version:        2.8.1
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        Lightweight and cross-platform text and code editor based on Qt Creator
 
 License:        LGPLv2
@@ -69,6 +69,9 @@ rm -f %{buildroot}%{_bindir}/qtpromaker
 %{_datadir}/applications/code-editor.desktop
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.1-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.1-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

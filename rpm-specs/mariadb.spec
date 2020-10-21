@@ -1,3 +1,7 @@
+#   This is a fix for the https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+#   So the beaviour will be the same also in F31 nad F32
+%undefine __cmake_in_source_build
+
 # Prefix that is used for patches
 %global pkg_name %{name}
 %global pkgnamepatch mariadb
@@ -11,7 +15,7 @@
 # The last version on which the full testsuite has been run
 # In case of further rebuilds of that version, don't require full testsuite to be run
 # run only "main" suite
-%global last_tested_version 10.4.13
+%global last_tested_version 10.4.14
 # Set to 1 to force run the testsuite even if it was already tested in current version
 %global force_run_testsuite 0
 
@@ -39,7 +43,8 @@
 #   https://mariadb.com/kb/en/library/about-myrocks-for-mariadb/
 #   RocksDB engine is available only for x86_64
 #   RocksDB may be built with jemalloc, if specified in CMake
-%ifarch x86_64 && 0%{?fedora}
+%ifarch x86_64
+%if 0%{?fedora}
 %bcond_without tokudb
 %bcond_without mroonga
 %bcond_without rocksdb
@@ -47,6 +52,7 @@
 %bcond_with tokudb
 %bcond_with mroonga
 %bcond_with rocksdb
+%endif
 %endif
 
 # The Open Query GRAPH engine (OQGRAPH) is a computation engine allowing
@@ -105,7 +111,7 @@
 %bcond_without unbundled_pcre
 %else
 %bcond_with unbundled_pcre
-%global pcre_bundled_version 8.43
+%global pcre_bundled_version 8.44
 %endif
 
 # Use main python interpretter version
@@ -137,18 +143,16 @@
 # Provide mysql names for compatibility
 %if 0%{?fedora}
 %bcond_without mysql_names
-%bcond_without conflicts
 %else
 %bcond_with    mysql_names
-%bcond_with    conflicts
 %endif
 
 # Make long macros shorter
 %global sameevr   %{epoch}:%{version}-%{release}
 
 Name:             mariadb
-Version:          10.4.13
-Release:          2%{?with_debug:.debug}%{?dist}
+Version:          10.4.14
+Release:          3%{?with_debug:.debug}%{?dist}
 Epoch:            3
 
 Summary:          A very fast and robust SQL database server
@@ -295,8 +299,7 @@ Provides:         mysql-compat-client%{?_isa} = %{sameevr}
 
 Suggests:         %{name}-server%{?_isa} = %{sameevr}
 
-# MySQL (with caps) is upstream's spelling of their own RPMs for mysql
-%{?with_conflicts:Conflicts:        community-mysql}
+Conflicts:        community-mysql
 
 # Filtering: https://docs.fedoraproject.org/en-US/packaging-guidelines/AutoProvidesAndRequiresFiltering/
 %global __requires_exclude ^perl\\((hostnames|lib::mtr|lib::v1|mtr_|My::|wsrep)
@@ -453,7 +456,7 @@ Provides:         mysql-server%{?_isa} = %{sameevr}
 Provides:         mysql-compat-server = %{sameevr}
 Provides:         mysql-compat-server%{?_isa} = %{sameevr}
 %endif
-%{?with_conflicts:Conflicts:        community-mysql-server}
+Conflicts:        community-mysql-server
 
 # Bench subpackage has been deprecated in F32
 Obsoletes: %{name}-bench <= %{sameevr}
@@ -581,6 +584,7 @@ Requires:         %{name}-server%{?_isa} = %{sameevr}
 %if %{with mysql_names}
 Provides:         mysql-perl = %{sameevr}
 %endif
+Conflicts:        community-mysql-server
 # mysqlhotcopy needs DBI/DBD support
 Requires:         perl(DBI) perl(DBD::mysql)
 
@@ -602,7 +606,7 @@ Requires:         mariadb-connector-c-devel >= 3.0
 Provides:         mysql-devel = %{sameevr}
 Provides:         mysql-devel%{?_isa} = %{sameevr}
 %endif
-%{?with_conflicts:Conflicts:        community-mysql-devel}
+Conflicts:        community-mysql-devel
 
 %description      devel
 MariaDB is a multi-user, multi-threaded SQL database server.
@@ -645,7 +649,7 @@ Requires:         libaio-devel
 Provides:         mysql-embedded-devel = %{sameevr}
 Provides:         mysql-embedded-devel%{?_isa} = %{sameevr}
 %endif
-%{?with_conflicts:Conflicts:        community-mysql-embedded-devel}
+Conflicts:        community-mysql-embedded-devel
 
 %description      embedded-devel
 MariaDB is a multi-user, multi-threaded SQL database server.
@@ -672,7 +676,7 @@ Requires:         perl(Socket)
 Requires:         perl(Sys::Hostname)
 Requires:         perl(Test::More)
 Requires:         perl(Time::HiRes)
-%{?with_conflicts:Conflicts:        community-mysql-test}
+Conflicts:        community-mysql-test
 %if %{with mysql_names}
 Provides:         mysql-test = %{sameevr}
 Provides:         mysql-test%{?_isa} = %{sameevr}
@@ -761,7 +765,10 @@ fi
 
 
 %build
-%{set_build_flags}
+# This package has static probe points which do not currently
+# work with LTO and result in undefined symbols at link time.
+# This is being worked on in upstream GCC
+%define _lto_cflags %{nil}
 
 # fail quickly and obviously if user tries to build as root
 %if %runselftest
@@ -772,38 +779,6 @@ fi
         exit 1
     fi
 %endif
-
-CFLAGS="$CFLAGS -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE"
-# force PIC mode so that we can build libmysqld.so
-CFLAGS="$CFLAGS -fPIC"
-
-%if %{with debug}
-# Override all optimization flags when making a debug build
-# -D_FORTIFY_SOURCE requires optimizations enabled. Disable the fortify.
-CFLAGS=`echo "$CFLAGS" | sed -r 's/-D_FORTIFY_SOURCE=[012]/-D_FORTIFY_SOURCE=0/'`
-CFLAGS=`echo "$CFLAGS" | sed -r 's/-O[0123]//'`
-
-CFLAGS="$CFLAGS -O0 -g -D_FORTIFY_SOURCE=0"
-
-# Fixes for Fedora 32 & Rawhide (GCC 10.0):
-%if 0%{?fedora} >= 32
-CFLAGS="$CFLAGS -Wno-error=class-memaccess"
-%endif # f32
-
-%endif # debug
-
-CXXFLAGS="$CFLAGS"
-CPPFLAGS="$CFLAGS"
-
-# CFLAGS specific "-Wno-error"
-%if %{with debug}
-%if 0%{?fedora} >= 32
-CFLAGS="$CFLAGS -Wno-error=enum-conversion"
-%endif # f32
-%endif # debug
-
-export CFLAGS CXXFLAGS CPPFLAGS
-
 
 # The INSTALL_xxx macros have to be specified relative to CMAKE_INSTALL_PREFIX
 # so we can't use %%{_datadir} and so forth here.
@@ -869,12 +844,35 @@ export CFLAGS CXXFLAGS CPPFLAGS
          -DCONNECT_WITH_JDBC=OFF \
 %{?with_debug: -DCMAKE_BUILD_TYPE=Debug -DWITH_ASAN=OFF -DWITH_INNODB_EXTRA_DEBUG=ON -DWITH_VALGRIND=ON}
 
-# Print all Cmake options values
-# cmake ./ -LAH for List Advanced Help
-cmake ./ -L
 
-%make_build VERBOSE=1
+CFLAGS="$CFLAGS -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE"
+# force PIC mode so that we can build libmysqld.so
+CFLAGS="$CFLAGS -fPIC"
 
+%if %{with debug}
+# Override all optimization flags when making a debug build
+# -D_FORTIFY_SOURCE requires optimizations enabled. Disable the fortify.
+CFLAGS=`echo "$CFLAGS" | sed -r 's/-D_FORTIFY_SOURCE=[012]/-D_FORTIFY_SOURCE=0/'`
+CFLAGS=`echo "$CFLAGS" | sed -r 's/-O[0123]//'`
+
+CFLAGS="$CFLAGS -O0 -g -D_FORTIFY_SOURCE=0"
+
+# Fixes for Fedora 32 & Rawhide (GCC 10.0):
+%if 0%{?fedora} >= 32
+CFLAGS="$CFLAGS -Wno-error=class-memaccess"
+CFLAGS="$CFLAGS -Wno-error=enum-conversion"
+%endif # f32
+%endif # debug
+
+CXXFLAGS="$CFLAGS"
+CPPFLAGS="$CFLAGS"
+export CFLAGS CXXFLAGS CPPFLAGS
+
+
+# Print all Cmake options values; "-LAH" means "List Advanced Help"
+cmake -B %{_vpath_builddir} -LAH
+
+%cmake_build
 
 # build selinux policy
 %if %{with galera}
@@ -882,8 +880,10 @@ pushd selinux
 make -f /usr/share/selinux/devel/Makefile %{name}-server-galera.pp
 %endif
 
+
+
 %install
-%make_install
+%cmake_install
 
 # multilib header support #1625157
 for header in mysql/server/my_config.h mysql/server/private/config.h; do
@@ -897,7 +897,7 @@ ln -s mysql_config.1.gz %{buildroot}%{_mandir}/man1/mariadb_config.1.gz
 if [ %multilib_capable ]
 then
 mv %{buildroot}%{_bindir}/mysql_config %{buildroot}%{_bindir}/mysql_config-%{__isa_bits}
-install -p -m 0755 scripts/mysql_config_multilib %{buildroot}%{_bindir}/mysql_config
+install -p -m 0755 %{_vpath_builddir}/scripts/mysql_config_multilib %{buildroot}%{_bindir}/mysql_config
 # Copy manual page for multilib mysql_config; https://jira.mariadb.org/browse/MDEV-11961
 ln -s mysql_config.1 %{buildroot}%{_mandir}/man1/mysql_config-%{__isa_bits}.1
 fi
@@ -909,8 +909,8 @@ rm %{buildroot}%{_libdir}/pkgconfig/libmariadb.pc
 
 # install INFO_SRC, INFO_BIN into libdir (upstream thinks these are doc files,
 # but that's pretty wacko --- see also %%{name}-file-contents.patch)
-install -p -m 644 Docs/INFO_SRC %{buildroot}%{_libdir}/%{pkg_name}/
-install -p -m 644 Docs/INFO_BIN %{buildroot}%{_libdir}/%{pkg_name}/
+install -p -m 644 %{_vpath_builddir}/Docs/INFO_SRC %{buildroot}%{_libdir}/%{pkg_name}/
+install -p -m 644 %{_vpath_builddir}/Docs/INFO_BIN %{buildroot}%{_libdir}/%{pkg_name}/
 rm -r %{buildroot}%{_datadir}/doc/%{_pkgdocdirname}/MariaDB-server-%{version}/
 
 # Logfile creation
@@ -925,9 +925,9 @@ mkdir -p %{buildroot}%{pidfiledir}
 install -p -m 0755 -d %{buildroot}%{dbdatadir}
 
 %if %{with config}
-install -D -p -m 0644 scripts/my.cnf %{buildroot}%{_sysconfdir}/my.cnf
+install -D -p -m 0644 %{_vpath_builddir}/scripts/my.cnf %{buildroot}%{_sysconfdir}/my.cnf
 %else
-rm scripts/my.cnf
+rm %{_vpath_builddir}/scripts/my.cnf
 %endif
 
 # use different config file name for each variant of server (mariadb / mysql)
@@ -936,21 +936,21 @@ mv %{buildroot}%{_sysconfdir}/my.cnf.d/server.cnf %{buildroot}%{_sysconfdir}/my.
 # remove SysV init script and a symlink to that, we use systemd
 rm %{buildroot}%{_libexecdir}/rcmysql
 # install systemd unit files and scripts for handling server startup
-install -D -p -m 644 scripts/mysql.service %{buildroot}%{_unitdir}/%{daemon_name}.service
-install -D -p -m 644 scripts/mysql@.service %{buildroot}%{_unitdir}/%{daemon_name}@.service
+install -D -p -m 644 %{_vpath_builddir}/scripts/mysql.service %{buildroot}%{_unitdir}/%{daemon_name}.service
+install -D -p -m 644 %{_vpath_builddir}/scripts/mysql@.service %{buildroot}%{_unitdir}/%{daemon_name}@.service
 # Remove the upstream version
 rm %{buildroot}%{_tmpfilesdir}/mariadb.conf
 # Install downstream version
-install -D -p -m 0644 scripts/mysql.tmpfiles.d %{buildroot}%{_tmpfilesdir}/%{name}.conf
+install -D -p -m 0644 %{_vpath_builddir}/scripts/mysql.tmpfiles.d %{buildroot}%{_tmpfilesdir}/%{name}.conf
 %if 0%{?mysqld_pid_dir:1}
 echo "d %{pidfiledir} 0755 mysql mysql -" >>%{buildroot}%{_tmpfilesdir}/%{name}.conf
 %endif
 
 # helper scripts for service starting
-install -p -m 755 scripts/mysql-prepare-db-dir %{buildroot}%{_libexecdir}/mysql-prepare-db-dir
-install -p -m 755 scripts/mysql-check-socket %{buildroot}%{_libexecdir}/mysql-check-socket
-install -p -m 755 scripts/mysql-check-upgrade %{buildroot}%{_libexecdir}/mysql-check-upgrade
-install -p -m 644 scripts/mysql-scripts-common %{buildroot}%{_libexecdir}/mysql-scripts-common
+install -p -m 755 %{_vpath_builddir}/scripts/mysql-prepare-db-dir %{buildroot}%{_libexecdir}/mysql-prepare-db-dir
+install -p -m 755 %{_vpath_builddir}/scripts/mysql-check-socket %{buildroot}%{_libexecdir}/mysql-check-socket
+install -p -m 755 %{_vpath_builddir}/scripts/mysql-check-upgrade %{buildroot}%{_libexecdir}/mysql-check-upgrade
+install -p -m 644 %{_vpath_builddir}/scripts/mysql-scripts-common %{buildroot}%{_libexecdir}/mysql-scripts-common
 
 # install aditional galera selinux policy
 %if %{with galera}
@@ -1004,13 +1004,13 @@ install -p -m 0644 %{SOURCE71} %{basename:%{SOURCE71}}
 
 # install galera config file
 %if %{with galera}
-sed -i -r 's|^wsrep_provider=none|wsrep_provider=%{_libdir}/galera/libgalera_smm.so|' support-files/wsrep.cnf
-install -p -m 0644 support-files/wsrep.cnf %{buildroot}%{_sysconfdir}/my.cnf.d/galera.cnf
+sed -i -r 's|^wsrep_provider=none|wsrep_provider=%{_libdir}/galera/libgalera_smm.so|' %{_vpath_builddir}/support-files/wsrep.cnf
+install -p -m 0644 %{_vpath_builddir}/support-files/wsrep.cnf %{buildroot}%{_sysconfdir}/my.cnf.d/galera.cnf
 %endif
 # install the clustercheck script
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
 touch %{buildroot}%{_sysconfdir}/sysconfig/clustercheck
-install -p -m 0755 scripts/clustercheck %{buildroot}%{_bindir}/clustercheck
+install -p -m 0755 %{_vpath_builddir}/scripts/clustercheck %{buildroot}%{_bindir}/clustercheck
 
 # remove duplicate logrotate script
 rm %{buildroot}%{logrotateddir}/mysql
@@ -1128,6 +1128,8 @@ rm %{buildroot}%{_bindir}/{mariadb-client-test,mariadb-test}
 rm %{buildroot}%{_mandir}/man1/{mysql_client_test,mysqltest,my_safe_process}.1*
 rm %{buildroot}%{_mandir}/man1/{mariadb-client-test,mariadb-test}.1*
 rm %{buildroot}%{_mandir}/man1/{mysql-test-run,mysql-stress-test}.pl.1*
+rm %{buildroot}/suite/plugins/pam/mariadb_mtr
+rm %{buildroot}/suite/plugins/pam/pam_mariadb_mtr.so
 %endif
 
 %if %{without galera}
@@ -1168,7 +1170,7 @@ export MTR_BUILD_THREAD=%{__isa_bits}
 
 (
   set -ex
-  cd mysql-test
+  cd %{buildroot}%{_datadir}/mysql-test
 
   export common_testsuite_arguments=" --parallel=auto --force --retry=2 --suite-timeout=900 --testcase-timeout=30 --mysqld=--binlog-format=mixed --force-restart --shutdown-timeout=60 --max-test-fail=5 "
 
@@ -1342,6 +1344,7 @@ fi
 %{_bindir}/mysql_{install_db,secure_installation,tzinfo_to_sql}
 %{_bindir}/mariadb-{install-db,secure-installation,tzinfo-to-sql}
 %{_bindir}/{mysqld_,mariadbd-}safe
+%{_bindir}/{mysqld_safe_helper,mariadbd-safe-helper}
 
 %{_bindir}/innochecksum
 %{_bindir}/replace
@@ -1393,6 +1396,7 @@ fi
 %{_mandir}/man1/mysql_{install_db,secure_installation,tzinfo_to_sql}.1*
 %{_mandir}/man1/mariadb-{install-db,secure-installation,tzinfo-to-sql}.1*
 %{_mandir}/man1/{mysqld_,mariadbd-}safe.1*
+%{_mandir}/man1/{mysqld_safe_helper,mariadbd-safe-helper}.1*
 
 %{_mandir}/man1/innochecksum.1*
 %{_mandir}/man1/replace.1*
@@ -1529,9 +1533,6 @@ fi
 %{_bindir}/perror
 %{_mandir}/man1/{mysql_,mariadb-}upgrade.1*
 %{_mandir}/man1/perror.1*
-# Other utilities
-%{_bindir}/{mysqld_safe_helper,mariadbd-safe-helper}
-%{_mandir}/man1/{mysqld_safe_helper,mariadbd-safe-helper}.1*
 
 %if %{with devel}
 %files devel
@@ -1579,6 +1580,37 @@ fi
 %endif
 
 %changelog
+* Sun Sep 06 2020 Michal Schorm <mschorm@redhat.com> - 10.4.14-3
+- Resolves: #1851605
+
+* Thu Sep 03 2020 Michal Schorm <mschorm@redhat.com> - 10.4.14-2
+- Resolves: #1873999, #1874446
+
+* Thu Aug 20 2020 Michal Schorm <mschorm@redhat.com> - 10.4.14-1
+- Rebase to 10.4.14
+
+* Tue Aug 18 2020 Michal Schorm <mschorm@redhat.com> - 10.4.13-7
+- Do CMake out-of-source builds
+- Force the CMake change regarding the in-source builds also to F31 and F32
+- Use CMake macros instead of cmake & make direct commands
+- %%cmake macro covers the %%{set_build_flags}, so they are not needed
+  Other changes to compile flags must be specified *after* the %%cmake macro
+
+* Wed Aug 05 2020 Jeff Law <law@redhat.com> - 3:10.4.13-6
+- Disable LTO
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3:10.4.13-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3:10.4.13-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Michal Schorm <mschorm@redhat.com> - 10.4.13-3
+- Make conflicts between corresponding mariadb and mysql packages explicit
+- Get rid of the Conflicts macro, it was intended to mark conflicts with
+  *upstream* packages
+
 * Fri Jun 05 2020 Michal Schorm <mschorm@redhat.com> - 10.4.13-2
 - Extend Perl "Requires" filtering to wsrep
   Resolves: #1845376

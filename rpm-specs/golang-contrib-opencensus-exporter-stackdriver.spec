@@ -5,7 +5,7 @@
 # https://github.com/census-ecosystem/opencensus-go-exporter-stackdriver
 %global goipath         contrib.go.opencensus.io/exporter/stackdriver
 %global forgeurl        https://github.com/census-ecosystem/opencensus-go-exporter-stackdriver
-Version:                0.12.8
+Version:                0.13.2
 
 %gometa
 
@@ -41,8 +41,6 @@ BuildRequires:  golang(github.com/golang/protobuf/proto)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/any)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/timestamp)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/wrappers)
-BuildRequires:  golang(github.com/google/go-cmp/cmp)
-BuildRequires:  golang(github.com/google/go-cmp/cmp/cmpopts)
 BuildRequires:  golang(go.opencensus.io)
 BuildRequires:  golang(go.opencensus.io/metric/metricdata)
 BuildRequires:  golang(go.opencensus.io/metric/metricexport)
@@ -55,7 +53,6 @@ BuildRequires:  golang(go.opencensus.io/stats/view)
 BuildRequires:  golang(go.opencensus.io/tag)
 BuildRequires:  golang(go.opencensus.io/trace)
 BuildRequires:  golang(go.opencensus.io/trace/propagation)
-BuildRequires:  golang(golang.org/x/net/context)
 BuildRequires:  golang(golang.org/x/oauth2/google)
 BuildRequires:  golang(google.golang.org/api/option)
 BuildRequires:  golang(google.golang.org/api/support/bundler)
@@ -73,6 +70,8 @@ BuildRequires:  golang(google.golang.org/grpc)
 # Tests
 BuildRequires:  golang(github.com/golang/protobuf/ptypes)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/empty)
+BuildRequires:  golang(github.com/google/go-cmp/cmp)
+BuildRequires:  golang(github.com/google/go-cmp/cmp/cmpopts)
 BuildRequires:  golang(golang.org/x/net/context/ctxhttp)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/rpc/code)
 %endif
@@ -96,6 +95,12 @@ BuildRequires:  golang(google.golang.org/genproto/googleapis/rpc/code)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 21:38:06 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.13.2-1
+- Update to 0.13.2
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.8-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

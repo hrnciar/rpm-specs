@@ -2,7 +2,7 @@
 Name:    websocketpp
 Summary: C++ WebSocket Protocol Library
 Version: 0.8.2
-Release: 1%{?dist}
+Release: 4%{?dist}
 
 License: BSD
 Url:     https://www.zaphoyd.com/websocketpp
@@ -55,17 +55,12 @@ iostreams and one based on Boost Asio.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%cmake .. \
-  -DBUILD_TESTS:BOOL=ON
-
-make %{?_smp_mflags}
-popd
+%cmake -DBUILD_TESTS:BOOL=ON
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 mkdir -p %{buildroot}%{_datadir}/pkgconfig
 install -p -m 644 %{SOURCE1} %{buildroot}%{_datadir}/pkgconfig/websocketpp.pc
 
@@ -74,7 +69,7 @@ rm -rfv %{buildroot}%{_includedir}/test_connection/
 
 
 %check
-make test -C %{_target_platform}
+%ctest
 
 
 %files devel
@@ -87,6 +82,16 @@ make test -C %{_target_platform}
 
 
 %changelog
+* Mon Aug 03 2020 Wolfgang Stöggl <c72578@yahoo.de> - 0.8.2-4
+- Use %%cmake_build and %%cmake_install macros to fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Wolfgang Stöggl <c72578@yahoo.de> - 0.8.2-1
 - New upstream version
 - Drop patches (fixed upstream):

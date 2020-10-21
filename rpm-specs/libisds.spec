@@ -8,8 +8,8 @@
 %bcond_without libisds_enables_test
 
 Name:           libisds
-Version:        0.11
-Release:        3%{?dist}
+Version:        0.11.1
+Release:        1%{?dist}
 Summary:        Library for accessing the Czech Data Boxes
 # COPYING:      LGPLv3 text
 # README:       LGPLv3+
@@ -56,8 +56,6 @@ Source0:        %{url}dist/%{name}-%{version}.tar.xz
 Source1:        %{url}dist/%{name}-%{version}.tar.xz.asc
 # Key exported from Petr Pisar's keyring
 Source2:        gpgkey-4B528393E6A3B0DFB2EF3A6412C9C5C767C6FAA2.gpg
-# Fix building with GCC 10, in upstream after 0.11
-Patch0:         libisds-0.11-tests-Fix-building-with-GCC-10.patch
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  coreutils
@@ -113,7 +111,6 @@ developing applications that use %{name}.
 %prep
 %{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
 %setup -q
-%patch0 -p1
 autoreconf -fi
 
 %build
@@ -167,6 +164,12 @@ rm -rf client/.deps client/Makefile{,.in}
 %doc client
 
 %changelog
+* Wed Aug 19 2020 Petr Pisar <ppisar@redhat.com> - 0.11.1-1
+- 0.11.1 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Name:           lcdtest
 URL:            http://www.brouhaha.com/~eric/software/lcdtest/
 Version:        1.18
-Release:        24%{?dist}
+Release:        25%{?dist}
 License:        GPLv3
 Summary:        Displays monitor test patterns
 Source:         http://www.brouhaha.com/~eric/software/%{name}/download/%{name}-%{version}.tar.gz
@@ -52,6 +52,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/%{name}.svg
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

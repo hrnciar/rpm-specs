@@ -4,7 +4,7 @@
 
 Name:           libkate
 Version:        0.4.1
-Release:        19%{?dist}
+Release:        21%{?dist}
 Summary:        Libraries to handle the Kate bitstream format
 
 License:        BSD
@@ -74,6 +74,8 @@ rm tools/kate_lexer.c
 %build
 %if 0%{!?_without_python2}
 export PYTHON=python2
+%else
+export PYTHON=:
 %endif
 %configure --disable-static
 
@@ -87,6 +89,8 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %install
 %if 0%{!?_without_python2}
 export PYTHON=python2
+%else
+export PYTHON=:
 %endif
 %make_install
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
@@ -136,6 +140,12 @@ make check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Merlin Mathesius <mmathesi@redhat.com> - 0.4.1-20
+- Explicitly disable python when building without python2
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -30,7 +30,7 @@
 
 Name:           slf4j
 Version:        1.7.30
-Release:        2%{?dist}
+Release:        7%{?dist}
 Epoch:          0
 Summary:        Simple Logging Facade for Java
 # the log4j-over-slf4j and jcl-over-slf4j submodules are ASL 2.0, rest is MIT
@@ -42,13 +42,15 @@ BuildArch:      noarch
 
 BuildRequires:  maven-local
 BuildRequires:  mvn(ch.qos.cal10n:cal10n-api)
-BuildRequires:  mvn(commons-lang:commons-lang)
 BuildRequires:  mvn(commons-logging:commons-logging)
 BuildRequires:  mvn(javassist:javassist)
-BuildRequires:  mvn(log4j:log4j:1.2.17)
+BuildRequires:  mvn(org.apache.commons:commons-lang3)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-antrun-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-source-plugin)
 BuildRequires:  mvn(org.codehaus.mojo:build-helper-maven-plugin)
+
+# -log4j12 subpackage removed in fedora 34
+Obsoletes:      slf4j-log4j12 < 0:1.7.30-7
 
 %description
 The Simple Logging Facade for Java or (SLF4J) is intended to serve
@@ -79,12 +81,6 @@ Summary:        SLF4J JDK14 Binding
 
 %description jdk14
 SLF4J JDK14 Binding.
-
-%package log4j12
-Summary:        SLF4J LOG4J-12 Binding
-
-%description log4j12
-SLF4J LOG4J-12 Binding.
 
 %package jcl
 Summary:        SLF4J JCL Binding
@@ -130,11 +126,14 @@ cp -p %{SOURCE1} APACHE-LICENSE
 %pom_disable_module integration
 %pom_disable_module osgi-over-slf4j
 %pom_disable_module slf4j-android
+%pom_disable_module slf4j-log4j12
 %pom_disable_module slf4j-migrator
 
 # Because of a non-ASCII comment in slf4j-api/src/main/java/org/slf4j/helpers/MessageFormatter.java
 %pom_xpath_inject "pom:project/pom:properties" "
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>"
+
+%pom_xpath_set "pom:project/pom:properties/pom:required.jdk.version" "1.6"
 
 # Fix javadoc links
 %pom_xpath_remove "pom:links"
@@ -158,6 +157,12 @@ find -name "*.css" -o -name "*.js" -o -name "*.txt" | \
       <phase>skip</phase>
     </execution>" slf4j-api
 
+# trivial port to commons-lang3
+%pom_change_dep :commons-lang org.apache.commons:commons-lang3:3.8.1 slf4j-ext
+
+sed -i "s/org.apache.commons.lang./org.apache.commons.lang3./g" \
+    slf4j-ext/src/main/java/org/slf4j/ext/MDCStrLookup.java
+
 # The general pattern is that the API package exports API classes and does
 # not require impl classes. slf4j was breaking that causing "A cycle was
 # detected when generating the classpath slf4j.api, slf4j.nop, slf4j.api."
@@ -177,7 +182,7 @@ sed -i '/Import-Package/s/\}$/};resolution:=optional/' slf4j-api/src/main/resour
 %mvn_package :%{name}-nop
 
 %build
-%mvn_build -f -s
+%mvn_build -f -s -- -Dsource=1.6
 
 %install
 # Compat symlinks
@@ -194,7 +199,6 @@ cp -pr target/site/* $RPM_BUILD_ROOT%{_defaultdocdir}/%{name}-manual
 %license LICENSE.txt APACHE-LICENSE
 
 %files jdk14 -f .mfiles-%{name}-jdk14
-%files log4j12 -f .mfiles-%{name}-log4j12
 %files jcl -f .mfiles-%{name}-jcl
 %files ext -f .mfiles-%{name}-ext
 %files -n jcl-over-slf4j -f .mfiles-jcl-over-slf4j
@@ -212,6 +216,22 @@ cp -pr target/site/* $RPM_BUILD_ROOT%{_defaultdocdir}/%{name}-manual
 %{_defaultdocdir}/%{name}-manual
 
 %changelog
+* Wed Sep 09 2020 Fabio Valentini <decathorpe@gmail.com> - 0:1.7.30-7
+- Disable unused log4j12 module.
+
+* Thu Jul 30 2020 Fabio Valentini <decathorpe@gmail.com> - 0:1.7.30-6
+- Port to commons-lang3.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.7.30-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0:1.7.30-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jun 25 2020 Roland Grunberg <rgrunber@redhat.com> - 0:1.7.30-3
+- Use source/target of 1.6 to build against Java 11.
+- Set javadoc plugin source value to 1.6.
+
 * Fri Mar 20 2020 Mat Booth <mat.booth@redhat.com> - 0:1.7.30-2
 - Fix broken OSGi metadata
 

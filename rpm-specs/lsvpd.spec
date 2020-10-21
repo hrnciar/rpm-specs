@@ -1,18 +1,21 @@
 %define name lsvpd
-%define version 1.7.10
+%define version 1.7.11
 
 Name:		%{name}
 Version:	%{version}
-Release:	3%{?dist}
+Release:	2%{?dist}
 Summary:	VPD/hardware inventory utilities for Linux
 
 License:	GPLv2+
-URL:		https://github.com/power-ras/lsvpd
-Source0:	https://github.com/power-ras/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
+URL:    https://github.com/power-ras/%{name}/releases
+Source: https://github.com/power-ras/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:	gcc-c++
-BuildRequires:	libvpd-devel >= 2.2.1
-BuildRequires:	sg3_utils-devel zlib-devel automake libtool
+BuildRequires: gcc-c++
+BuildRequires: libvpd-devel >= 2.2.5
+BuildRequires: sg3_utils-devel
+BuildRequires: zlib-devel
+BuildRequires: automake
+BuildRequires: libtool
 BuildRequires:	librtas-devel
 
 Requires(post): %{_sbindir}/vpdupdate
@@ -67,6 +70,12 @@ exit 0
 %dir %{_sysconfdir}/lsvpd
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 08 2020 Than Ngo <than@redhat.com> - 1.7.11-1
+- update to 1.7.11
+
 * Mon Apr 20 2020 Dan Horák <dan@danny.cz> - 1.7.10-3
 - rebuilt for sg3_utils 1.45 (#1809392)
 

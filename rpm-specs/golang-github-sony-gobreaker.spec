@@ -3,8 +3,7 @@
 
 # https://github.com/sony/gobreaker
 %global goipath         github.com/sony/gobreaker
-Version:                0.4.0
-%global tag             0.4.0
+Version:                0.4.1
 
 %gometa
 
@@ -15,7 +14,7 @@ Package Gobreaker implements the Circuit Breaker pattern.}
 %global godocs          example README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Circuit Breaker implemented in Go
 
 License:        MIT
@@ -46,6 +45,12 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 21:11:11 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.4.1-1
+- Update to 0.4.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

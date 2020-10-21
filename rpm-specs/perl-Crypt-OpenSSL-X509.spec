@@ -1,6 +1,6 @@
 Name:           perl-Crypt-OpenSSL-X509
 Version:        1.813
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Perl interface to OpenSSL for X509
 License:        GPL+ or Artistic 
 URL:            https://metacpan.org/release/Crypt-OpenSSL-X509
@@ -65,6 +65,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.813-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.813-3
 - Perl 5.32 rebuild
 

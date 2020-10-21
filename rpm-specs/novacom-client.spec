@@ -1,7 +1,7 @@
 %global _gitver	ff7641193a
 Name:		novacom-client
 Version:	1.1.0
-Release:	0.21.rc1.git.%{_gitver}%{?dist}
+Release:	0.22.rc1.git.%{_gitver}%{?dist}
 Summary:	Client for utility to connect to WebOS devices
 License:	ASL 2.0
 URL:		https://github.com/openwebos/novacom
@@ -55,6 +55,9 @@ install -m 755 %{SOURCE1} $RPM_BUILD_ROOT/%{_bindir}
 %doc README.md
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-0.22.rc1.git.ff7641193a
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-0.21.rc1.git.ff7641193a
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

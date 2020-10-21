@@ -4,7 +4,7 @@
 
 Name:           nodejs-%{srcname}
 Version:        1.3.2
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Fake JavaScript timers
 License:        BSD
 URL:            https://github.com/sinonjs/lolex
@@ -59,6 +59,9 @@ npm run test-node
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           PySolFC
 Version:        2.10.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A collection of solitaire card games
 License:        GPLv2+
 URL:            https://pysolfc.sourceforge.io
@@ -82,6 +82,9 @@ pathfix.py -pni "%{__python3} %{py3_shbang_opts}" $RPM_BUILD_ROOT%{_bindir}/*
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Shlomi Fish <shlomif@shlomifish.org> 2.10.0-1
 - New upstream release
 - Add BuildRequires on setuptools

@@ -15,7 +15,7 @@ A fast, zero-allocation cron parser in ragel and golang.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.1%{?dist}
+Release:        0.3%{?dist}
 Summary:        Fast, zero-allocation cron parser in ragel and golang
 
 License:        MIT
@@ -41,5 +41,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 05 17:10:32 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.1.20200305gitded1275
 - Initial package

@@ -3,7 +3,7 @@
 Summary: Tethered shooting & control of digital cameras
 Name: entangle
 Version: 2.0
-Release: 5%{?dist}
+Release: 7%{?dist}
 License: GPLv3+
 Source: http://entangle-photo.org/download/sources/%{name}-%{version}.tar.xz
 URL: http://entangle-photo.org/
@@ -109,6 +109,13 @@ rm -f %{buildroot}%{_libdir}/libentangle_frontend.so
 %{_libdir}/girepository-1.0/Entangle-0.1.typelib
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.0-5
 - Rebuild for new LibRaw
 

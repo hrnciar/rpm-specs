@@ -2,7 +2,7 @@
 
 Name:		banshee-community-extensions
 Version:	2.4.0
-Release:	25%{?dist}
+Release:	26%{?dist}
 Summary:	Collection of extensions for the media player Banshee
 License:	GPLv2+ and MIT
 URL:		http://banshee-project.org/download/extensions/
@@ -89,6 +89,9 @@ find $RPM_BUILD_ROOT -name '*.la' -or -name '*.a' -exec rm -f {} \;
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 11 2020 Timotheus Pokorra <timotheus.pokorra@solidcharity.com> - 2.4.0-25
 - fixes to build with gstreamer1.0 using patches included in Ubuntu 18.04
 

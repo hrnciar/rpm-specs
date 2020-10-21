@@ -5,7 +5,7 @@
 
 Name:		nodejs-stream-transform
 Version:	0.1.2
-Release:	6%{?dist}
+Release:	8%{?dist}
 Summary:	Object transformations implementing the Node.js 'stream.Transform' API
 
 License:	BSD
@@ -80,6 +80,13 @@ NODE_ENV=test %{_bindir}/mocha -R spec --compilers coffee:coffee-script/register
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

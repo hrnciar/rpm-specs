@@ -2,7 +2,7 @@
 
 Name:          %{fontname}-fonts
 Version:       1.53
-Release:       11%{?dist}
+Release:       12%{?dist}
 Summary:       Artificial font consisting of vertical and horizontal bars
 License:       OFL
 URL:           http://alfabet-ozdobny.appspot.com/?str=labiryntowy
@@ -32,6 +32,9 @@ cp -p *.ttf %{buildroot}%{_fontdir}
 %doc opis.txt
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.53-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.53-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

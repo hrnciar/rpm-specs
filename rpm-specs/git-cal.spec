@@ -1,6 +1,6 @@
 Name:           git-cal
 Version:        0.9.1
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        GitHub-like contributions calendar on terminal
 License:        MIT
 URL:            https://github.com/k4rthik/git-cal
@@ -37,6 +37,9 @@ chmod +x %{buildroot}/%{_bindir}/%{name}
 %{_mandir}/man1/%{name}.1.*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

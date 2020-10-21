@@ -1,6 +1,6 @@
 Name:           zimg
 Version:        2.9.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Scaling, color space conversion, and dithering library
 License:        WTFPL
 URL:            https://github.com/sekrit-twc/zimg
@@ -66,6 +66,9 @@ rm -fr %{buildroot}%{_docdir}/%{name}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Simone Caronni <negativo17@gmail.com> - 2.9.3-2
 - Fix FTBFS in Rawhide.
 

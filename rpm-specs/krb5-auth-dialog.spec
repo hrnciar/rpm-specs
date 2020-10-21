@@ -1,7 +1,7 @@
 Summary: Kerberos 5 authentication dialog
 Name: krb5-auth-dialog
 Version: 3.26.1
-Release: 8%{?dist}
+Release: 9%{?dist}
 License: GPLv2+
 URL: https://honk.sigxcpu.org/piki/projects/krb5-auth-dialog/
 Source0: https://download.gnome.org/sources/%{name}/3.26/%{name}-%{version}.tar.xz
@@ -58,6 +58,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.26.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.26.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

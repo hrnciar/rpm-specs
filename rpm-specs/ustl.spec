@@ -1,6 +1,6 @@
 Name:           ustl
 Version:        2.8
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A size-optimized STL implementation
 License:        MIT
 URL:            http://msharov.github.io/ustl/
@@ -97,6 +97,9 @@ make check
 %{_libdir}/pkgconfig/ustl.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

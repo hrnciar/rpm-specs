@@ -1,6 +1,6 @@
 Name:           gpsman
 Version:        6.4.1
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        A GPS manager
 
 License:        GPLv2+
@@ -87,6 +87,9 @@ desktop-file-install --vendor="" \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.4.1-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.4.1-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

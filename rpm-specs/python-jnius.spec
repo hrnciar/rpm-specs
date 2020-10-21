@@ -5,7 +5,7 @@
 
 Name:           python-%{modname}
 Version:        1.3.0
-Release:        1%{?dist}
+Release:        5%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -16,7 +16,6 @@ BuildRequires:  gcc
 
 BuildRequires:  python3-devel
 BuildRequires:  python3-Cython
-BuildRequires:  python3-nose
 BuildRequires:  python3-six
 BuildRequires:  python3-pytest
 
@@ -75,7 +74,7 @@ ant all
 pushd tests
 export CLASSPATH=../build/test-classes:../build/classes
 export JAVA_HOME=%{_prefix}/lib/jvm/java
-PYTHONPATH=%{buildroot}%{python3_sitearch} %{__python3} -m nose -v
+PYTHONPATH=%{buildroot}%{python3_sitearch} pytest -v
 popd
 
 
@@ -87,6 +86,7 @@ popd
 %{python3_sitearch}/%{srcname}-%{version}-py*.egg-info/
 %{python3_sitearch}/__pycache__/%{modname}_config.cpython-*.pyc
 %exclude %{python3_sitearch}/__pycache__
+%exclude %{python3_sitearch}/setup_sdist.py
 
 %files doc
 %license LICENSE
@@ -94,6 +94,20 @@ popd
 
 
 %changelog
+* Thu Oct 01 2020 Raphael Groner <raphgro@fedoraproject.org> - 1.3.0-5
+- use pytest instead of nose as upstream decided, see changes in Makefile
+- skip useless additional setup
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.3.0-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat Jun 06 2020 Raphael Groner <raphgro@fedoraproject.org> - 1.3.0-1
 - bump to v1.3.0 
 

@@ -5,7 +5,7 @@
 
 Name:           boomaga
 Version:        3.3.0
-Release:        6.git%{shortcommit0}%{?dist}
+Release:        9.git%{shortcommit0}%{?dist}
 Summary:        A virtual printer for viewing a document before printing
 
 License:        GPLv2 and LGPLv2+
@@ -74,10 +74,10 @@ sed -i -e 's|find "/usr/local/lib" "/usr/lib" -name|find "/usr/local/lib" "%{_li
     .
 # disable parallel build, is not possible
 # make_build
-make
+%cmake_build -j1
 
 %install
-%make_install
+%cmake_install
 mkdir -p %{buildroot}%{_datadir}/%{name}/scripts
 install -m 755 scripts/installPrinter.sh %{buildroot}%{_datadir}/%{name}/scripts/
 chmod +x %{buildroot}%{_datadir}/%{name}/scripts/installPrinter.sh
@@ -162,6 +162,16 @@ fi
 %{_datadir}/selinux/*/%{modulename}.pp
 
 %changelog
+* Tue Aug 04 2020 Martin Gansser <martinkg@fedoraproject.org> - 3.3.0-9.git255b54c
+- Fixed FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.0-8.git255b54c
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.0-7.git255b54c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.0-6.git255b54c
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

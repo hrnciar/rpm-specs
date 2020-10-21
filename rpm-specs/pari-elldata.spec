@@ -1,6 +1,6 @@
 Name:		pari-elldata
 Version:	20190912
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	PARI/GP Computer Algebra System elliptic curves
 License:	GPLv2+
 URL:		http://pari.math.u-bordeaux.fr/packages.html
@@ -27,7 +27,7 @@ ellsearch and ellidentify.
 mv data/elldata/README .
 
 # Verify the source file
-gpgv2 --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
+%{gpgverify} --keyring=%{SOURCE2} --signature=%{SOURCE1} --data=%{SOURCE0}
 
 %build
 # Pari can read compressed data files, so save space
@@ -43,6 +43,9 @@ cp -a data/elldata %{buildroot}%{_datadir}/pari/
 %{_datadir}/pari/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190912-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190912-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

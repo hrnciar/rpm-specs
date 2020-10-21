@@ -2,7 +2,7 @@
 
 Name:           khard
 Version:        0.11.4
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        An address book for the Linux console
 
 License:        GPLv3
@@ -52,6 +52,13 @@ install -p -m 0644 misc/zsh/_khard %{buildroot}%{_datadir}/zsh/site-functions/_k
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.4-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.4-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.11.4-11
 - Rebuilt for Python 3.9
 

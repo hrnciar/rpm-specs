@@ -24,12 +24,12 @@ The pyvo module currently provides these main capabilities:              \
 * Get information about an object via its name                   
 
 Name:           python-%{srcname}
-Version:        1.0
-Release:        3%{?dist}
+Version:        1.1
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        BSD
-URL:            https://github.com/pyvirtobs/%{srcname}
+URL:            https://github.com/astropy/%{srcname}
 %if 0%{?relbuild}
 Source0:        %{pypi_source} 
 %else  # 0%%{?relbuild}
@@ -88,6 +88,12 @@ sed -i -e 's|mimeparse|python-mimeparse|' setup.cfg
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Christian Dersch <lupinix@fedoraproject.org> - 1.1-1
+- new version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0-3
 - Rebuilt for Python 3.9
 

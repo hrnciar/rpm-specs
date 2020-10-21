@@ -1,6 +1,6 @@
 Name:           fdk-aac-free
 Version:        2.0.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Third-Party Modified Version of the Fraunhofer FDK AAC Codec Library for Android
 
 License:        FDK-AAC
@@ -47,7 +47,8 @@ find %{buildroot} -name '*.la' -print -delete
 %files
 %doc ChangeLog README.fedora
 %license NOTICE
-%{_libdir}/*.so.*
+%{_libdir}/*.so.2
+%{_libdir}/*.so.2.0.0
 
 %files devel
 %doc documentation/*.pdf
@@ -58,6 +59,12 @@ find %{buildroot} -name '*.la' -print -delete
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 9 2019 Wim Taymans <wtaymans@redhat.com> - 2.0.0-4
+- Use explicit SONAME in files list
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

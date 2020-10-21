@@ -1,15 +1,15 @@
 Name:           doge
-Version:        3.5.0
-Release:        14%{?dist}
+Version:        3.6.0
+Release:        2%{?dist}
 Summary:        MOTD script based on the doge meme
 
 License:        MIT
 URL:            https://github.com/thiderman/doge
-Source0:        https://pypi.python.org/packages/source/d/%{name}/%{name}-%{version}.tar.gz
+Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
+BuildRequires:  pyproject-rpm-macros
 
 %description
 doge is a simple motd script based on the doge meme. It prints random
@@ -18,27 +18,37 @@ computer.
 
 
 %prep
-%setup -q
+%autosetup
 # such shebangs wow
 sed -i -e '/^#!\//, 1d' doge/*.py
 
 
+%generate_buildrequires
+%pyproject_buildrequires
+
+
 %build
-%py3_build
+%pyproject_wheel
 
 
 %install
-%py3_install
+%pyproject_install
+%pyproject_save_files doge
 
  
-%files
+%files -f %{pyproject_files}
 %license LICENSE
 %doc README.md
 %{_bindir}/%{name}
-%{python3_sitelib}/*
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Miro Hrončok <mhroncok@redhat.com> - 3.6.0-1
+- Such update, very wow
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.5.0-14
 - Rebuilt for Python 3.9
 

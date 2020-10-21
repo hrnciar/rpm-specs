@@ -16,7 +16,7 @@ requires Go 1.11+ to build.}
 %global godocs          doc CHANGELOG README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        CFSSL: Cloudflare's PKI and TLS toolkit
 
 # Upstream license specification: ISC and BSD-2-Clause
@@ -68,6 +68,7 @@ mv whitelist/LICENSE LICENSE-whitelist
 for cmd in cmd/* ; do
   %gobuild -o %{gobuilddir}/bin/$(basename $cmd) %{goipath}/$cmd
 done
+mv %{gobuilddir}/bin/mkbundle %{gobuilddir}/bin/cfssl-mkbundle
 
 %install
 %gopkginstall
@@ -83,7 +84,8 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
          -d helpers \
          -d revoke \
          -d scan/crypto/tls \
-         -d signer/local
+         -d signer/local \
+         -d api/generator
 %endif
 
 %files
@@ -94,6 +96,15 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Sat Aug 22 23:28:26 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.1-4
+- Fix FTBFS
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 16:55:37 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.1-2
+- Resolves conflict with mono-devel (#1855262)
+
 * Wed Jan 29 19:45:08 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.1-1
 - Update to 1.4.1
 - Fix Go 1.14 FTBFS

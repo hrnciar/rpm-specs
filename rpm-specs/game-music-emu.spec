@@ -1,6 +1,6 @@
 Name:           game-music-emu
 Version:        0.6.3
-Release:        1%{?dist}
+Release:        4%{?dist}
 Provides:       libgme%{?_isa} = %{version}-%{release}
 Summary:        Video game music file emulation/playback library
 License:        LGPLv2+
@@ -55,18 +55,17 @@ echo -e "\ninstall(TARGETS gme_player RUNTIME DESTINATION %{_bindir})" >> player
 
 %build
 %cmake
-make %{?_smp_mflags}
+%cmake_build
 # explicitly build the player as it has EXCLUDE_FROM_ALL set
-make %{?_smp_mflags} gme_player
+%cmake_build --target gme_player
 
 
 %install
-rm -rf %{buildroot}
-make install DESTDIR=%{buildroot}
+%cmake_install
 # explicitly install the player as it has EXCLUDE_FROM_ALL set
-cd player
+pushd %{_vpath_builddir}/player
 make install DESTDIR=%{buildroot}
-cd ..
+popd
 
 
 %ldconfig_scriptlets
@@ -87,6 +86,17 @@ cd ..
 
 
 %changelog
+* Tue Sep 08 2020 Karel Volný <kvolny@redhat.com> 0.6.3-4
+- Adapted to F33 System-Wide Change: CMake to do out-of-source builds
+  (fixes rhbz#1863593)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 Karel Volný <kvolny@redhat.com> 0.6.3-1
 - New release 0.6.3 (rhbz#1806784)
 - Fixes FTBFS (rhbz#1799384)

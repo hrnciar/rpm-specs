@@ -6,7 +6,7 @@
 Name:    xforms
 Summary: XForms toolkit library
 Version: 1.2.4
-Release: 16%{?dist}
+Release: 17%{?dist}
 
 License: LGPLv2+
 URL:     http://xforms-toolkit.org/
@@ -135,6 +135,9 @@ fi
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Robert Scheck <robert@fedoraproject.org> - 1.2.4-16
 - Declare curobj as static (#1800271, thanks to Jens Thoms Toerring)
 

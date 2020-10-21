@@ -1,6 +1,6 @@
 Name:           fityk
 Version:        1.3.1
-Release:        21%{?dist}
+Release:        25%{?dist}
 Summary:        Non-linear curve fitting and data analysis
 License:        GPLv2+
 URL:            http://fityk.nieto.pl/
@@ -58,7 +58,7 @@ use of %{name}, you will need to install %{name}-devel.
 rm -fr doc/html
 
 # change lua version in configure file
-# sed -i 's/AX_LUA_HEADERS_VERSION(501, 503)/AX_LUA_HEADERS_VERSION(501, 504)/' configure.ac
+sed -i 's/AX_PROG_LUA(5.1, 5.4)/AX_PROG_LUA(5.1, 5.5)/' configure.ac
 
 #unbundle cmpfit
 rm -fr fityk/cmpfit
@@ -68,7 +68,7 @@ sed -i 's/cmpfit\/mpfit.c cmpfit\/mpfit.h/mpfit.h/' fityk/Makefile.am
 
 
 %build
-export CFLAGS="%{optflags}" CXXFLAGS="%{optflags}" LDFLAGS="%{optflags} -lmpfit"
+export CFLAGS="%{optflags}" CXXFLAGS="%{optflags} -std=c++14" LDFLAGS="%{optflags} -lmpfit"
 autoreconf -iv
 %configure
 
@@ -76,7 +76,7 @@ autoreconf -iv
 #sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 #sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
-%make_build V=1
+%make_build
 
 # Temporarily disable building documentation
 # needs python-sphinx >=1.5
@@ -133,6 +133,19 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 1.3.1-25
+- Force C++14 as this code is not C++17 ready
+
+* Tue Aug 04 2020 Alexander Ploumistos <alexpl@fedoraproject.org> - 1.3.1-24
+- Increment max lua version (5.5) - FTBFS bug #1863560
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-23
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 21 2020 Alexander Ploumistos <alexpl@fedoraproject.org> - 1.3.1-21
 - Fix make command
 

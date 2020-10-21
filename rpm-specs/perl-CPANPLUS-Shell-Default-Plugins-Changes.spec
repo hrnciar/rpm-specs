@@ -1,6 +1,6 @@
 Name:       perl-CPANPLUS-Shell-Default-Plugins-Changes 
 Version:    0.02 
-Release:    31%{?dist}
+Release:    32%{?dist}
 # lib/CPANPLUS/Shell/Default/Plugins/Changes.pm -> GPL+ or Artistic
 License:    GPL+ or Artistic 
 Summary:    View a module's Changes file from the CPANPLUS shell 
@@ -52,6 +52,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.02-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.02-31
 - Perl 5.32 rebuild
 

@@ -1,7 +1,7 @@
 Name:    pjproject
 Summary: Libraries for building embedded/non-embedded VoIP applications
 Version: 2.9
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: GPLv2+
 URL:     http://www.pjsip.org
 
@@ -192,6 +192,9 @@ find %{buildroot} -type f -name "*.a" -delete
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

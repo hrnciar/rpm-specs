@@ -1,7 +1,7 @@
 %define _hardened_build 1
 Name:           bochs
 Version:        2.6.11
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Portable x86 PC emulator
 License:        LGPLv2+
 URL:            http://bochs.sourceforge.net/
@@ -208,6 +208,13 @@ cp -pr osdep.h $RPM_BUILD_ROOT%{_prefix}/include/bochs/disasm/
 %{_prefix}/include/bochs/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.11-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.11-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 18 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.6.11-3
 - Drop svgalib
 

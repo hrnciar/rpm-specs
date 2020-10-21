@@ -1,7 +1,7 @@
 Summary:	Scalable, accurate, flexible and efficient network probing
 Name:		unicornscan
 Version:	0.4.7
-Release:	21%{?dist}
+Release:	23%{?dist}
 License:	GPLv2+
 URL:		http://www.unicornscan.org/
 Source0:	http://www.unicornscan.org/releases/%{name}-%{version}-2.tar.bz2
@@ -53,6 +53,13 @@ cp -pf %{SOURCE2} README.fedora
 cp -pf %{SOURCE3} www-front-end/README.fedora
 
 %build
+# This package has an embedded copy of libtool which is apparently too old
+# to properly handle LTO, particularly when building shared libraries.  This
+# results in a failure to pass -fPIC when building the shared library and
+# that in turn cause a link failure when LTO is enabled.
+# Disable LTO for now
+%define _lto_cflags %{nil}
+
 # - _GNU_SOURCE is required for "ucred" from <bits/socket.h> via <sys/socket.h>
 # - Use classical non-SELinux permission schema once SELinux Reference Policy is
 #   including unicornscan support directly, maybe with Fedora 13 and/or RHEL 6
@@ -143,6 +150,12 @@ exit 0
 %attr(-,apache,apache) %dir %{_localstatedir}/lib/%{name}/web
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.7-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Jeff Law  <law@redhat.com> - 0.4.7-22
+- Disable LTO
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.7-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

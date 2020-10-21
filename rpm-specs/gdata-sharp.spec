@@ -3,7 +3,7 @@
 
 Name:           gdata-sharp
 Version:        1.4.0.2
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        .NET library for the Google Data API
 
 License:        ASL 2.0
@@ -84,6 +84,9 @@ test "%{_libdir}" = "%{_prefix}/lib" || mv $RPM_BUILD_ROOT/%{_prefix}/lib/pkgcon
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0.2-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0.2-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

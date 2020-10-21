@@ -2,14 +2,15 @@
 Name:           clazy
 Summary:        Qt oriented code checker based on clang framework
 Version:        1.6
-Release:        3%{?dist}
+Release:        6%{?dist}
 License:        LGPLv2
 URL:            https://cgit.kde.org/%{name}.git/
 Source0:        https://download.kde.org/stable/%{name}/%{version}/src/%{name}-%{version}.tar.xz
 
 Patch0:         clazy-no-rpath.patch
 # https://fedoraproject.org/wiki/Changes/Stop-Shipping-Individual-Component-Libraries-In-clang-lib-Package
-Patch1:		0001-Link-against-libclang-cpp.so.patch
+Patch1:         clazy-build-against-clang-10.patch
+Patch2:         0001-Link-against-libclang-cpp.so.patch
 
 BuildRequires: cmake
 BuildRequires: gcc-c++
@@ -29,7 +30,8 @@ refactoring.
 %setup -q -n %{name}-%{version}
 
 %patch0 -p1 -b .clazy-no-rpath
-%patch1 -p1 -b .libclang-cpp
+%patch1 -p1 -b .clazy-build-against-clang-10
+%patch2 -p1 -b .libclang-cpp
 
 %build
 mkdir %{_target_platform}
@@ -58,6 +60,16 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Jan Grulich <jgrulich@redhat.com> - 1.6-4
+- Fix build against LLVM 10
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

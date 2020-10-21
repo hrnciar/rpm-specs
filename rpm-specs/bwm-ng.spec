@@ -1,12 +1,11 @@
 Name:           bwm-ng
-Version:        0.6.1
-Release:        11%{?dist}
+Version:        0.6.2
+Release:        2%{?dist}
 Summary:        Bandwidth Monitor NG
 License:        GPLv2+
-URL:            http://www.volker-gropp.de/?id=projects&sub=bwm-ng
-Source0:        http://www.volker-gropp.de/bwm-ng/%{name}-%{version}.tar.gz
+URL:            https://github.com/vgropp/bwm-ng
+Source0:        https://github.com/vgropp/%{name}/archive/v%{version}.tar.gz
 Source1:        bwm-ng.conf
-Patch0:         bwm-ng-0.6.1-static-inline.patch
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  gcc
@@ -29,9 +28,9 @@ Features:
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
+./autogen.sh
 %configure --enable-64bit \
            --enable-netstatbyte \
            --enable-netstatlink \
@@ -57,6 +56,12 @@ install -pDm644 bwm-ng.1 %{buildroot}%{_mandir}/man1/bwm-ng.1
 %{_mandir}/man1/bwm-ng.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Sven Lankes <sven@lank.es> - 0.6.2-1
+- new upstream release
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -8,7 +8,7 @@ itself.
 
 Name:           python-%{srcname}
 Version:        0.6.3
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -55,6 +55,9 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} py.test-%{python3_version} -vv
 %{python3_sitearch}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 24 2020 Orion Poplawski <orion@nwra.com> - 0.6.3-12
 - Add BR on python-setuptools
 

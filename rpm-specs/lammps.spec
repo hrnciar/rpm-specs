@@ -1,44 +1,55 @@
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 Name:           lammps
-Version:        20200505
+Version:        20200918
 %global         uversion %(v=%{version}; \
                   months=( "" Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec ); \
                   d=${v:6:2}; \
                   m=${v:4:2};
                   y=${v:0:4};
                   echo patch_${d#0}${months[${m#0}]}${y})
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Molecular Dynamics Simulator
 License:        GPLv2
 Url:            https://lammps.sandia.gov
 Source0:        https://github.com/lammps/lammps/archive/%{uversion}.tar.gz#/%{name}-%{uversion}.tar.gz
-Source1:        https://github.com/lammps/lammps-testing/archive/%{uversion}.tar.gz#/%{name}-testing-%{uversion}.tar.gz
-# https://github.com/lammps/lammps/pull/2068
-Patch0:         2068.patch
+Source1:        https://github.com/google/googletest/archive/release-1.10.0.tar.gz
+# https://github.com/lammps/lammps/pull/2381 fix three failing tests
+Patch0:         9cdde97863825e4fdce449920d39b25414b2b0b3.patch
+Patch1:         61ce73273b3290083c01e6a2fadfb3db0889b9ba.patch
+Patch2:         7d07d04989e0063c920e4ec08d2798f739375c7c.patch
 BuildRequires:  fftw-devel
 BuildRequires:  gcc-c++
 BuildRequires:  gcc-fortran
 BuildRequires:  libpng-devel
 BuildRequires:  libjpeg-devel
 BuildRequires:  openmpi-devel
+BuildRequires:  python%{python3_pkgversion}-mpi4py-openmpi
 BuildRequires:  mpich-devel
+BuildRequires:  python%{python3_pkgversion}-mpi4py-mpich
 BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  fftw3-devel
 BuildRequires:  zlib-devel
 BuildRequires:  gsl-devel
 BuildRequires:  voro++-devel
-BuildRequires:  openblas-devel
+BuildRequires:  %{blaslib}-devel
 BuildRequires:  hdf5-devel
 BuildRequires:  kim-api-devel
+BuildRequires:  kim-api-examples
 BuildRequires:  cmake3 >= 3.1
 BuildRequires:  ocl-icd-devel
 BuildRequires:  opencl-headers
 BuildRequires:  tbb-devel
-%if 0%{?fedora} >= 31
+%if 0%{?fedora} >= 33
 %ifnarch i686 armv7hl
 %global         with_kokkos 1
 # kokkos needs a lot of memory
 %global         _smp_mflags -j1
-BuildRequires:  kokkos-devel >= 3.1
+BuildRequires:  kokkos-devel >= 3.2
 %endif
 %endif
 Requires:       %{name}-data
@@ -161,21 +172,25 @@ BuildArch:      noarch
 This package contains data files for LAMMPS.
 
 %prep
-%setup -q -a 1 -n %{name}-%{uversion}
+%setup -q -n %{name}-%{uversion}
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
+%global _vpath_srcdir cmake
+%global _vpath_builddir ${mpi:-serial}
 . /etc/profile.d/modules.sh
 for mpi in '' mpich openmpi %{?el7:openmpi3} ; do
   test -n "${mpi}" && module load mpi/${mpi}-%{_arch}
-  mkdir -p ${mpi:-serial}
-  pushd ${mpi:-serial}
-  cp -al ../lammps-testing-* tests/
   #python wrapper isn't mpi specific
   %{cmake3} \
-  -C ../cmake/presets/all_on.cmake \
-  -C ../cmake/presets/nolib.cmake \
+  -C cmake/presets/all_on.cmake \
+  -C cmake/presets/nolib.cmake \
+  -DBLAS_LIBRARIES="-l%{blaslib}" \
+  -DLAPACK_LIBRARIES="-l%{blaslib}" \
   -DCMAKE_TUNE_FLAGS='' \
+  -DEXTERNAL_FMTLIB=ON \
   -DPKG_PYTHON=ON \
   -DPKG_VORONOI=ON \
   -DPKG_USER-ATC=ON \
@@ -184,6 +199,7 @@ for mpi in '' mpich openmpi %{?el7:openmpi3} ; do
   -DPKG_KIM=ON \
   -DBUILD_TOOLS=ON \
   -DENABLE_TESTING=ON \
+  -DGTEST_URL=%{S:1} \
   -DPYTHON_INSTDIR=%{python3_sitelib} \
   -DCMAKE_INSTALL_SYSCONFDIR=/etc \
   -DPKG_GPU=ON -DGPU_API=OpenCL \
@@ -194,16 +210,15 @@ for mpi in '' mpich openmpi %{?el7:openmpi3} ; do
 %endif
     -DCMAKE_INSTALL_BINDIR=${MPI_BIN:-%{_bindir}} -DCMAKE_INSTALL_LIBDIR=${MPI_LIB:-%{_libdir}} -DLAMMPS_MACHINE="${MPI_SUFFIX#_}" -DLAMMPS_LIB_SUFFIX="${MPI_SUFFIX#_}" -DCMAKE_INSTALL_MANDIR=${MPI_MAN:-%{_mandir}} \
     ${mpi:+-DBUILD_MPI=ON -DPKG_MPIIO=ON -DCMAKE_EXE_LINKER_FLAGS="%{__global_ldflags} -Wl,-rpath -Wl,${MPI_LIB} -Wl,--enable-new-dtags" -DCMAKE_SHARED_LINKER_FLAGS="%{__global_ldflags} -Wl,-rpath -Wl,${MPI_LIB} -Wl,--enable-new-dtags"} \
-    $(test -z "${mpi}" && echo -DBUILD_MPI=OFF -DPKG_MPIIO=OFF) -DLAMMPS_TESTING_SOURCE_DIR=$PWD/tests ../cmake
-  %make_build
-  popd
+    $(test -z "${mpi}" && echo -DBUILD_MPI=OFF -DPKG_MPIIO=OFF)
+  %cmake_build
   test -n "${mpi}" && module unload mpi/${mpi}-%{_arch}
 done
 
 %install
 . /etc/profile.d/modules.sh
 for mpi in '' mpich openmpi %{?el7:openmpi3} ; do
-  %make_install -C ${mpi:-serial}
+  %cmake_install
 done
 # msi2lmp and friends doesn't use mpi
 rm -v "%{buildroot}%{_libdir}"/*mpi*/bin/{msi2lmp,binary2txt,chain.x} "%{buildroot}%{_mandir}"/*mpi*/man1/msi2lmp.1*
@@ -211,9 +226,10 @@ rm -v "%{buildroot}%{_libdir}"/*mpi*/bin/{msi2lmp,binary2txt,chain.x} "%{buildro
 %check
 . /etc/profile.d/modules.sh
 for mpi in '' mpich openmpi %{?el7:openmpi3} ; do
-  test -n "${mpi}" && module load mpi/${mpi}-%{_arch}
-  make -C ${mpi:-serial} %{?_smp_mflags} test  CTEST_OUTPUT_ON_FAILURE=1
-  test -n "${mpi}" && module unload mpi/${mpi}-%{_arch}
+  old_PYTHONPATH="${PYTHONPATH}"
+  test -n "${mpi}" && module load mpi/${mpi}-%{_arch} && export PYTHONPATH="${MPI_PYTHON3_SITEARCH}:${PYTHONPATH}"
+  %ctest
+  test -n "${mpi}" && module unload mpi/${mpi}-%{_arch} && export PYTHONPATH="${old_PYTHONPATH}"
 done
 
 %ldconfig_scriptlets
@@ -283,6 +299,34 @@ done
 %config %{_sysconfdir}/profile.d/lammps.*
 
 %changelog
+* Mon Sep 21 2020 Christoph Junghans <junghans@votca.org> - 20200918-1
+- Version bump to v20200918
+
+* Tue Aug 25 2020 Christoph Junghans <junghans@votca.org> - 20200821-2
+- Rebuild for kokkos-3.2
+
+* Fri Aug 21 2020 Christoph Junghans <junghans@votca.org> - 20200821-1
+- Version bump to 20200821, testing next stable release
+
+* Thu Aug 13 2020 Iñaki Úcar <iucar@fedoraproject.org> - 20200630-5
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Aug 04 2020 Christoph Junghans <junghans@votca.org> - 20200630-4
+- Fix out-of-source build on F33 (bug#1863958)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200630-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200630-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Christoph Junghans <junghans@votca.org> - 20200630-1
+- Version bump to 20200630
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 20200505-4
+- Rebuild for hdf5 1.10.6
+
 * Sun Jun 14 2020 Christoph Junghans <junghans@votca.org> - 20200505-3
 - disable march=native optimization by setting empty CMAKE_TUNE_FLAGS
 

@@ -4,9 +4,11 @@
 
 # https://github.com/go-resty/resty
 %global goipath         github.com/go-resty/resty
-Version:                2.2.0
+Version:                2.3.0
 
 %gometa
+
+%global goaltipaths     github.com/go-resty/resty/v2
 
 %global common_description %{expand:
 Simple HTTP and REST client library for Go.}
@@ -15,7 +17,7 @@ Simple HTTP and REST client library for Go.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Simple HTTP and REST client library
 
 License:        MIT
@@ -44,10 +46,15 @@ BuildRequires:  golang(golang.org/x/net/publicsuffix)
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 14:08:39 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.3.0-1
+- Update to 2.3.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 29 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.2.0-2
 - Add comment about tests
 - Remove file (rhbz#1816642)
 
 * Tue Mar 24 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.2.0-1
 - Initial package for Fedora
-

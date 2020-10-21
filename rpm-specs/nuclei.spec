@@ -15,7 +15,7 @@ offering massive extensibility and ease of use.}
 %global godocs          THANKS.md README.md
 
 Name:           nuclei
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tool for configurable targeted scanning
 
 License:        MIT
@@ -69,6 +69,9 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 28 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.1.7-1
 - Update to latest upstream release 1.1.7
 

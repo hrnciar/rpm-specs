@@ -1,6 +1,6 @@
 Name:           avarice
 Version:        2.13
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        Program for interfacing the Atmel JTAG ICE to GDB
 
 License:        GPLv2
@@ -24,6 +24,7 @@ debug their embedded AVR target
 
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 export LIBS="-ldl"
 %configure
 make %{?_smp_mflags}
@@ -42,6 +43,12 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 2.13-12
+- Force C++14 as the code is not ready for C++17
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.13-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.13-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

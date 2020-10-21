@@ -1,6 +1,6 @@
 Name:           perl-Text-Tree
 Version:        1.0
-Release:        34%{?dist}
+Release:        35%{?dist}
 Summary:        Format a simple tree of strings into a textual tree graph
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Text-Tree
@@ -45,6 +45,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.0-34
 - Perl 5.32 rebuild
 

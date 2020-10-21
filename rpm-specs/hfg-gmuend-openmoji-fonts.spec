@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 
-Version: 12.3.0
+Version: 12.4.0
 Release: 1%{?dist}
 URL: https://openmoji.org/
 
@@ -140,5 +140,11 @@ env PATH=`pwd`/bin:$PATH make %{?_smp_mflags} OPT_CFLAGS="$RPM_OPT_FLAGS" EMOJI=
 
 
 %changelog
+* Wed Jul 29 2020 Peter Oliver <rpm@mavit.org.uk> - 12.4.0-1
+- Update to version 12.4.0.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 26 2020 Peter Oliver <rpm@mavit.org.uk> - 12.3.0-1
 - Initial release.

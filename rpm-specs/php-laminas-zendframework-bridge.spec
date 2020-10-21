@@ -7,7 +7,7 @@
 # Please, preserve the changelog entries
 #
 %global bootstrap    0
-%global gh_commit    fcd87520e4943d968557803919523772475e8ea3
+%global gh_commit    6ede70583e101030bcace4dcddd648f760ddf642
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     laminas
 %global gh_project   laminas-zendframework-bridge
@@ -21,7 +21,7 @@
 %endif
 
 Name:           php-%{gh_project}
-Version:        1.0.4
+Version:        1.1.1
 Release:        1%{?dist}
 Summary:        Alias legacy ZF class names to Laminas Project equivalents
 
@@ -39,16 +39,21 @@ BuildArch:      noarch
 BuildRequires:  php(language) >= 5.6
 BuildRequires:  php-spl
 # From composer, "require-dev": {
-#        "phpunit/phpunit": "^5.7 || ^6.5 || ^7.5 || ^8.1",
+#        "phpunit/phpunit": "^5.7 || ^6.5 || ^7.5 || ^8.1 || ^9.3",
 #        "squizlabs/php_codesniffer": "^3.5"
+%if 0%{?fedora} >= 32
+%global phpunit %{_bindir}/phpunit9
+BuildRequires:  phpunit9 >= 9.3
+%else
 %global phpunit %{_bindir}/phpunit8
 BuildRequires:  phpunit8 >= 8.1
+%endif
 # Autoloader
 BuildRequires:  php-fedora-autoloader-devel >= 1.0.1
 %endif
 
 # From composer, "require": {
-#        "php": "^5.6 || ^7.0"
+#        "php": "^5.6 || ^7.0 || ^8.0"
 Requires:       php(language) >= 5.6
 # From phpcompatinfo report for version 1.0.0
 Requires:       php-spl
@@ -159,10 +164,10 @@ php %{buildroot}%{php_home}/%{namespace}/autoload.php
 
 : upstream test suite
 ret=0
-for cmdarg in "php %{phpunit}" php72 php73 php74; do
+for cmdarg in "php %{phpunit}" "php72 %{_bindir}/phpunit8" php73 php74 php80; do
   if which $cmdarg; then
     set $cmdarg
-    $1 ${2:-%{_bindir}/phpunit8} --verbose || ret=1
+    $1 ${2:-%{_bindir}/phpunit9} --verbose || ret=1
   fi
 done
 exit $ret
@@ -183,6 +188,16 @@ exit $ret
 
 
 %changelog
+* Tue Sep 15 2020 Remi Collet <remi@remirepo.net> - 1.1.1-1
+- update to 1.1.1 (no change)
+- switch to phpunit9
+
+* Wed Aug 19 2020 Remi Collet <remi@remirepo.net> - 1.1.0-1
+- update to 1.1.0 (no change)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Remi Collet <remi@remirepo.net> - 1.0.4-1
 - update to 1.0.4
 

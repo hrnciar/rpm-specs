@@ -2,24 +2,26 @@
 
 Name:           wsjtx
 Version:	2.2.2
-Release:	1%{?dist}
+Release:	5%{?dist}
 Summary:	Weak Signal communication by K1JT
 License:	GPLv3+
 
 URL:		http://physics.princeton.edu/pulsar/k1jt/wsjtx.html
 Source0:	http://physics.princeton.edu/pulsar/k1jt/%{name}-%{version}%{?rctag:-%{rctag}}.tgz
+Source100:	wsjtx.appdata.xml
 
 Patch0:		wsjtx-2.0.0-compile-fix.patch
 
 BuildRequires:	dos2unix, tar, cmake, gcc-c++, gcc-gfortran
-BuildRequires:  qt5-qtbase-devel
-BuildRequires:  qt5-linguist
-BuildRequires:  qt5-qtserialport-devel
-BuildRequires:  qt5-qtmultimedia-devel
+BuildRequires:	qt5-qtbase-devel
+BuildRequires:	qt5-linguist
+BuildRequires:	qt5-qtserialport-devel
+BuildRequires:	qt5-qtmultimedia-devel
 BuildRequires:	desktop-file-utils, hamlib-devel, fftw-devel, libusbx-devel
 BuildRequires:	boost-devel, portaudio-devel
 %if 0%{?fedora}
-BuildRequires:  asciidoc, rubygem-asciidoctor
+BuildRequires:	asciidoc, rubygem-asciidoctor
+BuildRequires:	libappstream-glib
 %endif
 
 %description
@@ -34,14 +36,14 @@ from the Moon.
 %setup -n %{name}-%{version}%{?rctag:-%{rctag}}
 
 # remove bundled hamlib
-rm -f src/hamlib.tgz*
+rm -f src/hamlib*.tgz* src/hamlib*.tar.gz*
 tar -xzf src/%{name}.tgz
 %patch0 -p1
 
 # remove archive
 rm -f src/wsjtx.tgz*
 
-pushd %{name}
+cd %{name}
 
 %if 0%{?fedora}
 # remove bundled boost. EL 7 is not required version.
@@ -53,28 +55,32 @@ dos2unix *.ui *.iss *.rc *.txt
 
 
 %build
+# The fortran code in this package is not type safe and will thus not work
+# with LTO.  Additionally there are numerous bogus strncat calls that also
+# need to be fixed for this package to work with LTO
+%define _lto_cflags %{nil}
+
 # Workaround for build with gcc-10, problem reported upstream
 export CFLAGS="%{optflags} -fcommon"
 export LDFLAGS="%{?__global_ldflags}"
 # workaround for hamlib check, i.e. for hamlib_LIBRARY_DIRS not to be empty
 export PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
 
-mkdir %{name}/build && cd %{name}/build
+cd %{name}
 %cmake -Dhamlib_STATIC=FALSE \
 %if 0%{?fedora}
        -DBoost_NO_SYSTEM_PATHS=FALSE \
 %else
        -DBoost_NO_SYSTEM_PATHS=TRUE \
        -DWSJT_GENERATE_DOCS=FALSE \
-       -DWSJT_SKIP_MANPAGES=TRUE \
+       -DWSJT_SKIP_MANPAGES=TRUE
 %endif
-       ..
-%make_build
+%cmake_build
 
 
 %install
-cd %{name}/build
-%make_install
+cd %{name}
+%cmake_install
 
 # Make sure the right style is used.
 desktop-file-edit --set-key=Exec --set-value="wsjtx --style=fusion" \
@@ -83,13 +89,20 @@ desktop-file-edit --set-key=Exec --set-value="wsjtx --style=fusion" \
 desktop-file-validate %{buildroot}%{_datadir}/applications/wsjtx.desktop
 desktop-file-validate %{buildroot}%{_datadir}/applications/message_aggregator.desktop
 
+# appdata file
+mkdir -p %{buildroot}%{_metainfodir}
+install -pm 0644 %{SOURCE100} %{buildroot}%{_metainfodir}/
+
 # fix docs
 rm -f %{buildroot}%{_datadir}/doc/WSJT-X/{INSTALL,COPYING,copyright,changelog.Debian.gz}
-cd ..
 mv %{buildroot}%{_datadir}/doc/WSJT-X %{buildroot}%{_datadir}/doc/%{name}
 install -p -m 0644 -t %{buildroot}%{_datadir}/doc/%{name} GUIcontrols.txt jt9.txt \
   mouse_commands.txt prefixes.txt shortcuts.txt v1.7_Features.txt \
   wsjtx_changelog.txt
+
+
+%check
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 
 
 %files
@@ -111,6 +124,7 @@ install -p -m 0644 -t %{buildroot}%{_datadir}/doc/%{name} GUIcontrols.txt jt9.tx
 %{_bindir}/wsjtx
 %{_bindir}/wsprd
 %{?fedora:%{_mandir}/man1/*.1.gz}
+%{?fedora:%{_metainfodir}/*.xml}
 %{_datadir}/applications/wsjtx.desktop
 %{_datadir}/applications/message_aggregator.desktop
 %{_datadir}/pixmaps/wsjtx_icon.png
@@ -118,6 +132,20 @@ install -p -m 0644 -t %{buildroot}%{_datadir}/doc/%{name} GUIcontrols.txt jt9.tx
 
 
 %changelog
+* Wed Aug  5 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 2.2.2-5
+- Fixed FTBFS
+  Resolves: rhbz#1865629
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 2.2.2-2
+- Disable LTO
+
 * Mon Jun 22 2020 Richard Shaw <hobbes1069@gmail.com> - 2.2.2-1
 - Update to 2.2.2.
 

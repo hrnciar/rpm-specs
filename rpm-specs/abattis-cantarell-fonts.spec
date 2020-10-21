@@ -3,7 +3,7 @@
 
 Name: abattis-cantarell-fonts
 Version: 0.201
-Release: 2%{?dist}
+Release: 4%{?dist}
 Summary: Humanist sans serif font
 
 License: OFL
@@ -53,6 +53,12 @@ appstream-util validate-relax --nonet \
 %{_datadir}/metainfo/org.gnome.cantarell.metainfo.xml
 
 %changelog
+* Fri Jul 31 2020 Akira TAGOH <tagoh@redhat.com> - 0.201-4
+- Add the substitution rule for system-ui in fontconfig config.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.201-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.201-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

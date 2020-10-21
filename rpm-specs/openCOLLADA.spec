@@ -5,8 +5,8 @@
 %global upname OpenCOLLADA
 
 Name:           openCOLLADA
-Version:        1.6.63
-Release:        5%{?dist}
+Version:        1.6.68
+Release:        1%{?dist}
 License:        MIT
 Summary:        Collada 3D import and export libraries
 Url:            https://collada.org/mediawiki/index.php/OpenCOLLADA
@@ -88,25 +88,21 @@ find htdocs/ -name *.css -exec dos2unix -f {} \;
 
 
 %build
-rm -rf build && mkdir -p build && pushd build
 %cmake -DUSE_STATIC=OFF \
        -DUSE_SHARED=ON \
        -Dsoversion=%{sover} \
        -DCMAKE_SKIP_RPATH=ON \
-       -DCMAKE_BUILD_TYPE="RelWithDebInfo" \
-       ../
+       -DCMAKE_BUILD_TYPE="RelWithDebInfo"
 
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-pushd build
-%make_install
+%cmake_install
 
 # Manually install validator binaries
 mkdir -p %{buildroot}%{_bindir}/
-install -pm 0755 bin/*Validator %{buildroot}%{_bindir}/
-popd
+install -pm 0755 %{_vpath_builddir}/bin/*Validator %{buildroot}%{_bindir}/
 
 # Install MathMLSolver headers
 mkdir -p %{buildroot}%{_includedir}/MathMLSolver
@@ -134,6 +130,16 @@ cp -a Externals/MathMLSolver/include/* %{buildroot}%{_includedir}/MathMLSolver/
 
 
 %changelog
+* Tue Aug 11 2020 Richard Shaw <hobbes1069@gmail.com> - 1.6.68-1
+- Update to 1.6.68.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.63-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.63-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.63-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

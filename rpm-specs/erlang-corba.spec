@@ -16,9 +16,9 @@
 
 
 Name:		erlang-%{realname}
-Version:	4.5.2
+Version:	5.0
 Epoch:		1
-Release:	3%{?dist}
+Release:	1%{?dist}
 Summary:	Erlang CORBA libraries
 License:	ASL 2.0
 URL:		https://github.com/%{upstream}/%{realname}
@@ -378,6 +378,19 @@ find %{buildroot}%{_libdir}/erlang -type f -name info -exec rm -f {} \;
 
 
 %changelog
+* Sun Oct  4 2020 Peter Lemenkov <lemenkov@gmail.com> - 5.0-1
+- Erlang CORBA ver. 5.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.5.2-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.5.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1:4.5.2-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.5.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

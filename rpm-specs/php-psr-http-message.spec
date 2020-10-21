@@ -21,7 +21,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       8%{?github_release}%{?dist}
+Release:       9%{?github_release}%{?dist}
 Summary:       Common interface for HTTP messages (PSR-7)
 
 License:       MIT
@@ -84,6 +84,9 @@ exit (interface_exists("Psr\\Http\\Message\\UriInterface") ? 0 : 1);
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

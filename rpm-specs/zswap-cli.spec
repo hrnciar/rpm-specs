@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name: zswap-cli
 Version: 0.4.1
-Release: 1%{?dist}
+Release: 3%{?dist}
 
 Summary: Command-line tool to control zswap options
 License: MIT
@@ -24,15 +26,11 @@ ZSwap-cli is a command-line tool to control zswap options.
 
 %prep
 %autosetup
-mkdir -p %{_target_platform}
 
 %build
-pushd %{_target_platform}
-    %cmake -G Ninja \
-    -DCMAKE_BUILD_TYPE=Release \
-    ..
-popd
-%ninja_build -C %{_target_platform}
+%cmake -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release
+%cmake_build
 
 %post
 %systemd_post %{name}.service
@@ -44,7 +42,7 @@ popd
 %systemd_postun_with_restart %{name}.service
 
 %install
-%ninja_install -C %{_target_platform}
+%cmake_install
 
 %files
 %doc README.md docs/*
@@ -55,6 +53,12 @@ popd
 %config(noreplace) %{_sysconfdir}/%{name}.conf
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.4.1-2
+- Switch to the new CMake macros.
+
 * Mon Apr 27 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 0.4.1-1
 - Updated to version 0.4.1.
 

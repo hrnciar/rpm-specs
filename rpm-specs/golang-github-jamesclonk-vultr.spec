@@ -3,7 +3,7 @@
 
 # https://github.com/JamesClonk/vultr
 %global goipath         github.com/JamesClonk/vultr
-Version:                2.0.0
+Version:                2.0.1
 
 %gometa
 
@@ -14,15 +14,17 @@ Vultr CLI and API client library, written in Go.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Vultr CLI and API client library
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/JamesClonk/vultr/issues/75
+Patch0:         0001-Convert-int-to-string-using-fmt.Sprint.patch
 
 BuildRequires:  golang(github.com/jawher/mow.cli)
-BuildRequires:  golang(github.com/juju/ratelimit)
+BuildRequires:  golang(golang.org/x/time/rate)
 
 %if %{with check}
 # Tests
@@ -36,6 +38,7 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 
 %prep
 %goprep
+%patch0 -p1
 
 %build
 %gobuild -o %{gobuilddir}/bin/vultr %{goipath}
@@ -58,6 +61,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 13:40:52 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.0.1-1
+- Update to 2.0.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

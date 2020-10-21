@@ -1,7 +1,7 @@
 
 Name:           sqlcipher 
 Version:        3.4.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        SQLCipher is an open source extension to SQLite that provides transparent 256-bit AES encryption of database files.
 
 License:        BSD
@@ -70,6 +70,9 @@ rm -fv %{buildroot}%{_libdir}/lib*.la
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

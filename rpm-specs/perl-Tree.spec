@@ -3,7 +3,7 @@
 
 Name:           perl-Tree
 Version:        1.14
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Tree data structure
 # lib/Tree/Binary2.pm:  GPL+ or Artistic
 # lib/Tree/DeepClone.pm:    GPL+ or Artistic
@@ -72,6 +72,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.14-4
 - Perl 5.32 rebuild
 

@@ -1,16 +1,11 @@
 Name:           libspng
-Version:        0.5.0
+Version:        0.6.0
 Release:        2%{?dist}
 Summary:        Simple, modern libpng alternative
 
 License:        BSD
 URL:            https://libspng.org/
 Source0:        https://github.com/randy408/libspng/archive/v%{version}/%{name}-%{version}.tar.gz
-# BigEndian problems: https://github.com/randy408/libspng/issues/29
-# fix test suite on big-endian
-Patch0:         0001-fix-test-suite-on-big-endian.patch
-# fix reading of bKGD chunks for palleted images
-Patch1:         0001-fix-reading-of-bKGD-chunks-for-palleted-images.patch
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -58,6 +53,12 @@ developing applications that use %{name}.
 %{_libdir}/pkgconfig/spng.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 20:29:55 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.6.0-1
+- Update to 0.6.0 (#1835162)
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

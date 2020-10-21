@@ -1,7 +1,7 @@
 Summary: Displays where a particular program in your path is located
 Name: which
 Version: 2.21
-Release: 19%{?dist}
+Release: 20%{?dist}
 License: GPLv3
 Source0: http://ftp.gnu.org/gnu/which/%{name}-%{version}.tar.gz
 Source1: which2.sh
@@ -39,6 +39,9 @@ rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 %{_mandir}/man1/which.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.21-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 25 2020 Than Ngo <than@redhat.com> - 2.21-19
 - fixed #1817138 - Invalid syntax in /etc/profile.d/which2
 

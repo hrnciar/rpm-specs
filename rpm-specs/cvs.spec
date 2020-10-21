@@ -7,7 +7,7 @@
 
 Name:       cvs
 Version:    1.11.23
-Release:    53%{?dist}
+Release:    54%{?dist}
 Summary:    Concurrent Versions System
 URL: http://cvs.nongnu.org/
 # Source files in zlib/ directory are licensed under zlib/libpng
@@ -299,6 +299,9 @@ exit 0
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.23-54
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.23-53
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

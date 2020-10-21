@@ -5,8 +5,8 @@
 # The tests required mongodb, and thus have been removed.
 
 Name: rubygem-%{gem_name}
-Version: 6.1.0
-Release: 8%{?dist}
+Version: 7.1.2
+Release: 1%{?dist}
 Epoch: 1
 Summary: Elegant Persistance in Ruby for MongoDB
 License: MIT
@@ -60,6 +60,12 @@ cp -a .%{gem_dir}/* %{buildroot}%{gem_dir}/
 %{gem_instdir}/spec
 
 %changelog
+* Fri Aug 21 2020 Troy Dawson <tdawson@redhat.com> - 1:7.1.2-1
+- Update to Mongoid 7.1.2 (#1870994)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:6.1.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:6.1.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           koschei
 Version:        2.4.0
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        Continuous integration for Fedora packages
 License:        GPLv2+
 URL:            https://github.com/msimacek/%{name}
@@ -345,6 +345,13 @@ exit 0
 %{python3_sitelib}/*/plugins/copr_plugin/backend*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.4.0-10
 - Rebuilt for Python 3.9
 

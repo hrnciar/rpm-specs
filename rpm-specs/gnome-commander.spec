@@ -31,7 +31,7 @@
 %global        use_autotool          0
 %global        update_po             0
 %global        if_pre                0
-%global        main_release          2
+%global        main_release          1
 #%%global        extratag              %{git_pull_JST}git%{shorthash}
 %undefine      extratag
 %global        mimeedit_rev          1958
@@ -53,10 +53,10 @@
 %global        fedora_rel            %( [ 0%{?if_pre} -gt 0 ] && echo 0. )%{main_release}%{?extratag:.%extratag}
 
 Name:          gnome-commander
-Version:       1.10.2
+Version:       1.10.3
 # Downgrade 3 times, sorry...
 Epoch:         4
-Release:       %{fedora_rel}%{?dist}.1
+Release:       %{fedora_rel}%{?dist}
 Summary:       A nice and fast file manager for the GNOME desktop
 Summary(pl):   Menadżer plików dla GNOME oparty o Norton Commander'a (TM)
 Summary(sv):   GNOME Commander är en snabb och smidig filhanderare för GNOME
@@ -78,11 +78,8 @@ BuildRequires: scrollkeeper
 
 BuildRequires: chmlib-devel
 BuildRequires: pkgconfig(exiv2)         >= %{EXIV2_REQ}
-BuildRequires: pkgconfig(gnome-keyring-1)
 BuildRequires: pkgconfig(gnome-vfs-2.0)
 BuildRequires: pkgconfig(libgsf-1)        >= %{LIBGSF_REQ}
-BuildRequires: pkgconfig(libgnome-2.0)
-BuildRequires: pkgconfig(libgnomeui-2.0)
 BuildRequires: pkgconfig(poppler-glib)       >= %{POPPLER_REQ}
 BuildRequires: pkgconfig(taglib)        >= %{TAGLIB_REQ}
 BuildRequires: pkgconfig(unique-1.0)
@@ -249,7 +246,7 @@ desktop-file-install \
 %{_mandir}/man1/%{name}.1*
 
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/appdata/%{name}.appdata.xml
+%{_datadir}/metainfo/%{name}.appdata.xml
 
 %{_datadir}/help/*/%{name}/
 
@@ -262,6 +259,9 @@ desktop-file-install \
 %{_datadir}/pixmaps/%{name}/
 
 %changelog
+* Tue Jun 30 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 4:1.10.3-1
+- 1.10.3
+
 * Mon Feb 03 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 4:1.10.2-2.1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

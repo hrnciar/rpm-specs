@@ -1,7 +1,7 @@
 Summary:       Manager for sqlite - Sqlite Databases Made Easy
 Name:          sqliteman
 Version:       1.2.2
-Release:       27%{?dist}
+Release:       29%{?dist}
 # src is GPLv2+, icons are LGPLv2+
 License:       GPLv2+ and LGPLv2+
 URL:           http://sqliteman.yarpen.cz/
@@ -28,11 +28,11 @@ the applications designed for tasks such this (Kexi, knoda).
 %patch0 -p1
 
 %build
-%cmake -DWANT_INTERNAL_QSCINTILLA=1 .
-make VERBOSE=1 %{?_smp_mflags}
+%cmake -DWANT_INTERNAL_QSCINTILLA=1
+%cmake_build
 
 %install
-make DESTDIR=%{buildroot} INSTALL="%{__install} -p" install
+%cmake_install
 desktop-file-install   \
     --delete-original  \
     --dir=%{buildroot}%{_datadir}/applications \
@@ -52,6 +52,12 @@ rm -rf %{buildroot}%{_datadir}/icons
 %{_datadir}/%{name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Terje Rosten <terje.rosten@ntnu.no> - 1.2.2-28
+- Fix cmake macro usage
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

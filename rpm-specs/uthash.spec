@@ -13,7 +13,7 @@ retrieve or delete items from the hash table.
 
 Name:		uthash
 Version:	2.0.2
-Release:	8%{?dist}
+Release:	9%{?dist}
 Summary:	A hash table for C structures
 
 License:	BSD
@@ -147,6 +147,9 @@ export CFLAGS="-fPIC ${CFLAGS}"
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

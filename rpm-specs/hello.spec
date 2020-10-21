@@ -1,6 +1,6 @@
 Name:           hello
 Version:        2.10
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Prints a familiar, friendly greeting
 # All code is GPLv3+.
 # Parts of the documentation are under GFDL
@@ -56,6 +56,9 @@ make check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr  1 2020 Jens Petersen <petersen@redhat.com> - 2.10-3
 - packaging fixes (#1810897)
 - use https urls

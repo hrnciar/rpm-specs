@@ -1,6 +1,6 @@
 Name:           graphite2
 Version:        1.3.14
-Release:        2%{?dist}
+Release:        6%{?dist}
 Summary:        Font rendering capabilities for complex non-Roman writing systems
 License:        (LGPLv2+ or GPLv2+ or MPLv1.1) and (Netscape or GPLv2+ or LGPLv2+)
 
@@ -10,32 +10,13 @@ Source0:        https://downloads.sourceforge.net/project/silgraphite/graphite2/
 Patch0:         graphite-arm-nodefaultlibs.patch
 Patch1:         graphite2-1.2.0-cmakepath.patch
 
-BuildRequires:  asciidoc
 BuildRequires:  cmake
-BuildRequires:  doxygen
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
-BuildRequires:  python3-fonttools
-
 BuildRequires:  freetype-devel
 
-BuildRequires:  texlive-helvetic
-BuildRequires:  texlive-sectsty
-BuildRequires:  texlive-tocloft
-BuildRequires:  texlive-xtab
-BuildRequires:  texlive-multirow
-
-BuildRequires:  tex(hanging.sty)
-BuildRequires:  tex(adjustbox.sty)
-BuildRequires:  tex(stackengine.sty)
-BuildRequires:  tex(ulem.sty)
-BuildRequires:  tex(wasysym.sty)
-BuildRequires:  tex(newunicodechar.sty)
-BuildRequires:  tex(etoc.sty)
-BuildRequires:  /usr/bin/gsftopk
-BuildRequires:  tex(psfonts.map)
-BuildRequires:  tex(8r.enc)
-BuildRequires:  /usr/bin/makeindex
+# needed for running the test suite
+BuildRequires:  python3-fonttools
 
 %description
 Graphite2 is a project within SIL’s Non-Roman Script Initiative and Language
@@ -59,21 +40,18 @@ Includes and definitions for developing with graphite2.
 
 
 %build
-%cmake -DGRAPHITE2_COMPARE_RENDERER=OFF  .
-%make_build
-
-make docs
-sed -i -e 's!<a id="id[a-z]*[0-9]*"></a>!!g' doc/manual.html
+%cmake -DGRAPHITE2_COMPARE_RENDERER=OFF
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 find %{buildroot} -type f -name "*.la" -print -delete
 
 
 %check
-ctest
+%ctest
 
 
 %files
@@ -86,8 +64,6 @@ ctest
 
 
 %files devel
-%doc doc/manual.html
-
 %{_includedir}/%{name}/
 
 %dir %{_libdir}/%{name}/
@@ -99,6 +75,19 @@ ctest
 
 
 %changelog
+* Wed Sep 30 2020 Fabio Valentini <decathorpe@gmail.com> - 1.3.14-6
+- Stop building the HTML manual, texlive is breaking things too frequently.
+
+* Sat Aug 01 2020 Fabio Valentini <decathorpe@gmail.com> - 1.3.14-5
+- Adapt to new cmake macros.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.14-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.14-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Fabio Valentini <decathorpe@gmail.com> - 1.3.14-2
 - Add missing build dependencies for building the manual with TeXLive 2020.
 

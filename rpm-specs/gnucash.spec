@@ -1,38 +1,38 @@
 Name: gnucash
 Summary: Finance management application
-Version: 3.10
+Version: 4.2
 URL: http://gnucash.org/
-Release: 5%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
-Source: http://downloads.sourceforge.net/sourceforge/gnucash/gnucash-%{version}.tar.bz2
-Patch0: gnucash-glib-warnings.patch
-Patch1: gnucash-odr.patch
-Patch2: gnucash-boost173.patch
+Source: https://downloads.sourceforge.net/sourceforge/gnucash/gnucash-%{version}.tar.bz2
+Patch0: gnucash-gcc11.patch
 
 # upstream git fixes
-Patch100: 06033c19cdff0abf4849ecc96e3ce0b0690fcd13.diff
-Patch101: e1b014035753beb111388c8468460b0c61d816bc.diff
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=1563466
 ExcludeArch: ppc64 s390x
 
-BuildRequires: gcc, gcc-c++, cmake
+BuildRequires: gcc >= 8, gcc-c++, cmake >= 3.10
 BuildRequires: perl-generators, perl-podlators
-BuildRequires: libxml2 >= 2.5.10, libxslt-devel, zlib-devel
-BuildRequires: gtk3 >= 3.14.0, glib2 >= 2.40.0
-BuildRequires: libofx-devel, aqbanking-devel
-# bundled for now
-#, gwenhywfar-gui-gtk3-devel
-BuildRequires: guile-devel >= 5:2.0, swig >= 2.0.10
-BuildRequires: desktop-file-utils, gettext
-BuildRequires: libdbi-devel, libdbi-dbd-mysql, libdbi-dbd-pgsql, libdbi-dbd-sqlite
-BuildRequires: ktoblzcheck-devel
-BuildRequires: libsecret-devel
+BuildRequires: libxml2 >= 2.9.4, libxslt-devel, zlib-devel
+BuildRequires: gtk3 >= 3.22.30, glib2 >= 2.56.1
+BuildRequires: libofx-devel >= 0.9.12, aqbanking-devel >= 5.7.0, gwenhywfar-gui-gtk3-devel >= 4.20
+%if 0%{?fedora} >= 32 || 0%{?rhel} > 8
+BuildRequires: guile22-devel
+%global guilever 2.2
+%else
+BuildRequires: guile-devel
+%global guilever 2.0
+%endif
+BuildRequires: swig >= 3.0.12
+BuildRequires: desktop-file-utils, gettext >= 0.9.6
+BuildRequires: libdbi-devel >= 0.8.3, libdbi-dbd-mysql, libdbi-dbd-pgsql, libdbi-dbd-sqlite
 BuildRequires: libappstream-glib
-BuildRequires: boost-devel >= 1.50.0
-BuildRequires: gtest-devel, gmock-devel
-BuildRequires: webkitgtk4-devel
-BuildRequires: python3-devel
+BuildRequires: libsecret-devel >= 0.18
+BuildRequires: boost-devel >= 1.67.0
+BuildRequires: gtest-devel >= 1.8.0, gmock-devel >= 1.8.0
+BuildRequires: webkitgtk4-devel >= 2.14.1
+BuildRequires: python3-devel >= 3.6
 
 Requires: gnucash-docs >= %{version}
 Requires: dconf
@@ -55,10 +55,10 @@ balanced books.
 # thanks gcc8
 %global optflags %{optflags} -Wno-parentheses
 %cmake -D WITH_PYTHON=ON .
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %find_lang %{name}
 
@@ -73,9 +73,10 @@ rm -rf $RPM_BUILD_ROOT/%{_infodir} \
 	$RPM_BUILD_ROOT/%{_libdir}/lib*.a \
 	$RPM_BUILD_ROOT/%{_libdir}/gnucash/lib*.a \
 	$RPM_BUILD_ROOT/%{_bindir}/gnc-test-env \
-	$RPM_BUILD_ROOT/%{_bindir}/gnc-fq-update
+	$RPM_BUILD_ROOT/%{_bindir}/gnc-fq-update \
+	$RPM_BUILD_ROOT/%{_datadir}/guile/site/%{guilever}/tests
 
-find $RPM_BUILD_ROOT/%{_libdir} -name *.la -exec rm -f {} \;
+find $RPM_BUILD_ROOT/%{_libdir} -name *.la -delete
 
 %check
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/gnucash.desktop
@@ -91,6 +92,7 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/metainfo/gnucas
 %exclude /usr/lib/debug
 %{_datadir}/glib-2.0/schemas/*
 %{_datadir}/gnucash
+%{_datadir}/guile/site/%{guilever}/gnucash
 %{_datadir}/metainfo/*
 %{_datadir}/applications/*
 %{_datadir}/icons/hicolor/*/apps/*
@@ -98,7 +100,30 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/metainfo/gnucas
 %config(noreplace) %{_sysconfdir}/gnucash/*
 
 %changelog
-* Mon Jun  1 2020 Peter Oliver <rpm@mavit.org.uk> - 3.10-4
+* Wed Oct 14 2020 Jeff Law <law@redhat.com> - 4.2-2
+- Fix misleading indentation warning from gcc-11
+
+* Sun Oct 11 2020 Bill Nottingham <notting@splat.cc> - 4.2-1
+- update to 4.2
+
+* Mon Sep 14 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 4.1-3
+- Build with guile 2.2
+
+* Thu Aug 06 2020 Stefan Bluhm <stefan.bluhm@clacee.eu> 4.1-2
+- Updated "Source" to https.
+- Updated requirements.
+- Removed ktoblzcheck-devel requirement.
+
+* Mon Jul 27 2020 Bill Nottingham <notting@splat.cc> - 4.1-1
+- update to 4.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Bill Nottingham <notting@splat.cc> - 4.0-1
+- update to 4.0
+
+* Fri Jun  5 2020 Peter Oliver <rpm@mavit.org.uk> - 3.10-5
 - Add weak dependencies on optional storage providers.
 
 * Thu Jun 04 2020 Jonathan Wakely <jwakely@redhat.com> - 3.10-4

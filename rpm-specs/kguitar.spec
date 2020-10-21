@@ -2,7 +2,7 @@
 
 Name:		  kguitar
 Version:	  0.5.1
-Release:	  31.%{svnver}%{?dist}
+Release:	  32.%{svnver}%{?dist}
 Summary:	  Guitar Tabulature Music Editor
 License:	  GPLv2+
 URL:		  http://kguitar.sf.net/
@@ -126,6 +126,9 @@ fi
 %{_texmf_main}/tex/generic/kgtabs
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-32.926svn
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-31.926svn
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

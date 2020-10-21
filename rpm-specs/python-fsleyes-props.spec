@@ -16,7 +16,7 @@ you to:
 
 Name:           python-%{srcname}
 Version:        1.7.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        [wx]Python event programming framework
 
 License:        ASL 2.0
@@ -41,6 +41,7 @@ BuildRequires:  %{py3_dist sphinx}
 BuildRequires:  %{py3_dist sphinx_rtd_theme}
 BuildRequires:  %{py3_dist mock}
 BuildRequires:  %{py3_dist pytest pytest-cov}
+BuildRequires:  %{py3_dist setuptools}
 BuildRequires:  xorg-x11-server-Xvfb
 
 Requires:  %{py3_dist six}
@@ -101,6 +102,12 @@ xvfb-run pytest-3 tests --ignore=tests/test_widget_boolean.py --ignore=tests/tes
 %doc html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.7.0-2
+- Explicitly BR setuptools
+
 * Sun Jun 21 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.7.0-1
 - Update to 1.7.0
 

@@ -1,19 +1,19 @@
 Name:           terminator
-Version:        1.92
-Release:        4%{?dist}
+Version:        2.0.1
+Release:        1%{?dist}
 Summary:        Store and run multiple GNOME terminals in one window
 
 License:        GPLv2
 URL:            https://github.com/gnome-terminator
-Source0:        https://github.com/gnome-terminator/terminator/releases/download/v1.92/terminator-1.92.tar.gz
+Source0:        https://github.com/gnome-terminator/terminator/releases/download/v%{version}/terminator-%{version}.tar.gz
 
 BuildArch:      noarch
 
 BuildRequires:  desktop-file-utils
-BuildRequires:  gettext
 BuildRequires:  gtk-update-icon-cache
-BuildRequires:  intltool
+BuildRequires:  python3-babel
 BuildRequires:  python3-devel
+BuildRequires:  python3-pytest-runner
 
 Requires:       keybinder3
 Requires:       python3-configobj
@@ -22,7 +22,7 @@ Requires:       python3-psutil
 Requires:       vte291
 
 Patch0:         0000-terminator-fix-desktop-file.patch
-Patch1:         0001-Disable-special-logic-for-pasting-on-Wayland.patch
+
 
 %description
 Multiple GNOME terminals in one window.  This is a project to produce
@@ -33,10 +33,7 @@ arrangements of terminals for different tasks.
 
 
 %prep
-%setup -q -n terminator-%{version}
-
-%patch0 -p0
-%patch1 -p1
+%autosetup -p1
 
 
 %build
@@ -44,23 +41,19 @@ arrangements of terminals for different tasks.
 
 
 %install
-rm -rf %{buildroot}
 %{__python3} setup.py install -O1 --skip-build --root %{buildroot}
-%find_lang %{name}
 rm -f %{buildroot}/%{_datadir}/icons/hicolor/icon-theme.cache
 rm -f %{buildroot}/%{_datadir}/applications/%{name}.desktop
 desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications data/%{name}.desktop
 
 
-%files -f %{name}.lang
-%doc COPYING
+%files
 %{_mandir}/man1/%{name}.*
 %{_mandir}/man5/%{name}_config.*
 %{_bindir}/%{name}*
 %{_bindir}/remotinator
 %{python3_sitelib}/*
-%{_datadir}/%{name}/terminatorlib/themes/*/gtk-3.0/apps/*.css
-%{_datadir}/appdata/%{name}.appdata.xml
+%{_datadir}/metainfo/%{name}.metainfo.xml
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/HighContrast/*/*/%{name}*.png
 %{_datadir}/icons/HighContrast/*/*/%{name}*.svg
@@ -70,7 +63,18 @@ desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications data/%{name
 %{_datadir}/icons/hicolor/16x16/status/terminal-bell.png
 %{_datadir}/pixmaps/%{name}.png
 
+
 %changelog
+* Sun Oct 11 2020 Dominic Hopf <dmaphy@fedoraproject.org> - 2.0.1-1
+- New upstream release: 2.0.1
+
+* Tue Aug 25 2020 Hans de Goede <hdegoede@redhat.com> - 1.92-6
+- Fix not being able to select text in the first column of a split terminal
+  https://github.com/gnome-terminator/terminator/issues/191
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.92-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.92-4
 - Rebuilt for Python 3.9
 

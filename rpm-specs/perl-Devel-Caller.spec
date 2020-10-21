@@ -1,6 +1,6 @@
 Name:           perl-Devel-Caller
 Version:        2.06
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        Meatier versions of caller
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Devel-Caller
@@ -54,6 +54,9 @@ make test
 %{_mandir}/man3/Devel::Caller.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.06-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.06-22
 - Perl 5.32 rebuild
 

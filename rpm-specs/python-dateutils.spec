@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.6.8
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Various utilities for working with date and datetime objects
 
 License:        Public Domain
@@ -51,6 +51,9 @@ sed -i -e '28d' setup.py
 %{python3_sitelib}/%{pypi_name}-%{version}-py*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.8-2
 - Rebuilt for Python 3.9
 

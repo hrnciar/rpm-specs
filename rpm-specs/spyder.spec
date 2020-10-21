@@ -12,8 +12,8 @@ full plugin support.
 }
 
 Name:		spyder
-Version:	4.1.3
-Release:	3%{?dist}
+Version:	4.1.5
+Release:	2%{?dist}
 Summary:	Scientific Python Development Environment
 
 Source0:	https://github.com/%{name}-ide/%{name}/archive/v%{version}.tar.gz
@@ -38,6 +38,7 @@ BuildRequires:	desktop-file-utils
 BuildRequires:	libappstream-glib
 
 Requires:	hicolor-icon-theme
+Requires:	mathjax
 Requires:	python3-atomicwrites
 Requires:	python3-chardet
 Requires:	python3-cloudpickle
@@ -84,6 +85,9 @@ for file in `find -name "*.rst" -o -name "*.py" -o -name "*.css"`; do
 	mv $file.new $file
 done
 
+# remove bundled mathjax
+rm -rvf spyder/plugins/help/utils/js/mathjax
+
 
 %build
 %py3_build
@@ -100,15 +104,41 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications scripts/%{name}3
 appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}3.appdata.xml
 
 # cleanup
-rm -rf %{buildroot}%{python3_sitelib}/spyderlib/doc/{.buildinfo,.doctrees}
-rm -rf %{buildroot}%{python_sitelib}/spyderlib/doc/{.buildinfo,.doctrees}
-rm -rf %{buildroot}%{_bindir}/spyder_win_post_install.py
+rm -rvf %{buildroot}%{python3_sitelib}/spyderlib/doc/{.buildinfo,.doctrees}
+rm -rvf %{buildroot}%{_bindir}/spyder_win_post_install.py
+
+# replace bundled mathjax with a symlink to the system mathjax
+ln -s %{_datadir}/javascript/mathjax/ \
+    %{buildroot}%{python3_sitelib}/spyder/plugins/help/utils/js/mathjax
+
 
 %ldconfig_scriptlets
+
+
+%pretrans -n python3-%{name} -p <lua>
+--[[Back up any bundled mathjax directory from the old package. See:
+https://docs.fedoraproject.org/en-US/packaging-guidelines/Directory_Replacement
+]]
+path = "%{python3_sitelib}/spyder/plugins/help/utils/js/mathjax"
+st = posix.stat(path)
+if st and st.type == "directory" then
+  status = os.rename(path, path .. ".rpmmoved")
+  if not status then
+    suffix = 0
+    while not status do
+      suffix = suffix + 1
+      status = os.rename(path .. ".rpmmoved", path .. ".rpmmoved." .. suffix)
+    end
+    os.rename(path, path .. ".rpmmoved")
+  end
+end
+
 
 %files -n python3-%{name}
 %{python3_sitelib}/spyder-*.egg-info
 %{python3_sitelib}/spyder/
+# A backed-up bundled mathjax directory from a previous upgrade may be present:
+%ghost %{python3_sitelib}/spyder/plugins/help/utils/js/mathjax.rpmmoved
 %{_bindir}/%{name}3
 %{_metainfodir}/%{name}3.appdata.xml
 %{_datadir}/applications/%{name}3.desktop
@@ -116,6 +146,25 @@ rm -rf %{buildroot}%{_bindir}/spyder_win_post_install.py
 
 
 %changelog
+* Mon Sep 14 2020 Ben Beasley <code@musicinmybrain.net> - 4.1.5-2
+- Unbundle mathjax (RHBZ #1017213)
+
+* Thu Sep 03 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 4.1.5-1
+- Update to 4.1.5
+
+* Mon Aug 03 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 4.1.4-4
+- Drop python-sitelib macro usage
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 4.1.4-1
+- Update to 4.1.4
+
 * Tue Jun 23 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 4.1.3-3
 - Add BR:python3-setuptools
 

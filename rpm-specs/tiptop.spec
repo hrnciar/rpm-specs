@@ -1,6 +1,6 @@
 Name:           tiptop
 Version:        2.3.1
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        Performance monitoring tool based on hardware counters
 License:        GPLv2
 
@@ -51,6 +51,13 @@ counters.
 %{_mandir}/man1/*tiptop.1*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

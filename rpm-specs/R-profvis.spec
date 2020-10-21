@@ -3,8 +3,8 @@
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          %{packver}
-Release:          3%{?dist}
+Version:          0.3.6
+Release:          6%{?dist}
 Summary:          Interactive Visualizations for Profiling R Code
 
 License:          GPLv3
@@ -30,13 +30,8 @@ BuildRequires:    R-devtools
 BuildRequires:    R-shiny
 BuildRequires:    R-htmltools
 
-# This is broken in Fedora.
 Provides:         bundled(js-highlight) = 6.2.0
-
-BuildRequires:    js-jquery1 >= 1.12.4
-Requires:         js-jquery1 >= 1.12.4
-
-# Not available in Fedora.
+Provides:         bundled(js-jquery1) = 1.12.4
 Provides:         bundled(js-d3) = 3.5.6
 
 %description
@@ -55,13 +50,6 @@ mkdir -p %{buildroot}%{rlibdir}
 %{_bindir}/R CMD INSTALL -l %{buildroot}%{rlibdir} %{packname}
 test -d %{packname}/src && (cd %{packname}/src; rm -f *.o *.so)
 rm -f %{buildroot}%{rlibdir}/R.css
-
-# Unbundle things; can't be done before install since it copies symlink targets.
-
-# jQuery 1
-rm %{buildroot}%{rlibdir}/%{packname}/htmlwidgets/lib/jquery/jquery.min.js
-ln -s /usr/share/javascript/jquery/1/jquery.min.js \
-    %{buildroot}%{rlibdir}/%{packname}/htmlwidgets/lib/jquery/jquery.min.js
 
 
 %check
@@ -88,6 +76,16 @@ ln -s /usr/share/javascript/jquery/1/jquery.min.js \
 
 
 %changelog
+* Thu Aug 06 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.3.6-6
+- Re-bundle js-jquery1, fixes rhbz#1866721
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.6-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.3.6-3
 - rebuild for R 4
 

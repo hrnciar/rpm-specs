@@ -1,11 +1,12 @@
 Name:		gappa
 Version:	1.3.5
-Release:	5%{?dist}
+Release:	7%{?dist}
 Summary:	Prove programs with floating-point or fixed-point arithmetic
 
 License:	GPLv2 or CeCILL
 URL:		http://gappa.gforge.inria.fr/
 Source0:	https://gforge.inria.fr/frs/download.php/file/38044/%{name}-%{version}.tar.gz
+Patch0:         gappa-gcc11.patch
 
 BuildRequires:	bison
 BuildRequires:	boost-devel
@@ -74,6 +75,12 @@ remake install
 
 
 %changelog
+* Wed Jul 29 2020 Jeff Law <law@redhat.com> - 1.3.5-7
+- Make comparison object invocable as const
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Petr Viktorin <pviktori@redhat.com> - 1.3.5-5
 - Remove BuildRequires on python2
 

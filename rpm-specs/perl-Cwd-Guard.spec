@@ -2,7 +2,7 @@
 
 Name:		perl-Cwd-Guard
 Version:	0.05
-Release:	13%{?dist}
+Release:	14%{?dist}
 Summary:	Temporarily change the current directory
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Cwd-Guard
@@ -67,6 +67,9 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/Cwd::Guard.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.05-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.05-13
 - Perl 5.32 rebuild
 

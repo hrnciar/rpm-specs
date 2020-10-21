@@ -1,6 +1,6 @@
 %global open_iscsi_version	2.1
-%global open_iscsi_build	1
-%global commit0			ac87641cd3d87b38480e212e7bdff7a44810036d
+%global open_iscsi_build	2
+%global commit0			13e7f58a1658636202994e3298237edefb985919
 %global shortcommit0		%(c=%{commit0}; echo ${c:0:7})
 
 # Disable python2 build by default
@@ -9,14 +9,14 @@
 Summary: iSCSI daemon and utility programs
 Name: iscsi-initiator-utils
 Version: 6.%{open_iscsi_version}.%{open_iscsi_build}
-Release: 0.git%{shortcommit0}%{?dist}.1
+Release: 1.git%{shortcommit0}%{?dist}
 License: GPLv2+
 URL: http://www.open-iscsi.org
 Source0: https://github.com/open-iscsi/open-iscsi/archive/%{commit0}.tar.gz#/open-iscsi-%{shortcommit0}.tar.gz
 Source4: 04-iscsi
 Source5: iscsi-tmpfiles.conf
 
-Patch0001: 0001-service-file-tweaks.patch
+Patch0001: 0001-unit-file-tweaks.patch
 Patch0002: 0002-idmb_rec_write-check-for-tpgt-first.patch
 Patch0003: 0003-idbm_rec_write-seperate-old-and-new-style-writes.patch
 Patch0004: 0004-idbw_rec_write-pick-tpgt-from-existing-record.patch
@@ -36,10 +36,9 @@ Patch0017: 0017-dont-install-scripts.patch
 Patch0018: 0018-use-var-lib-iscsi-in-libopeniscsiusr.patch
 Patch0019: 0019-Coverity-scan-fixes.patch
 Patch0020: 0020-fix-upstream-build-breakage-of-iscsiuio-LDFLAGS.patch
-Patch0021: 0021-improve-systemd-service-files-for-boot-session-handl.patch
-Patch0022: 0022-use-Red-Hat-version-string-to-match-RPM-package-vers.patch
-Patch0023: 0023-iscsi_if.h-replace-zero-length-array-with-flexible-a.patch
-Patch0024: 0001-stop-using-Werror-for-now.patch
+Patch0021: 0021-use-Red-Hat-version-string-to-match-RPM-package-vers.patch
+Patch0022: 0022-iscsi_if.h-replace-zero-length-array-with-flexible-a.patch
+Patch0023: 0001-stop-using-Werror-for-now.patch
 
 BuildRequires: flex bison doxygen kmod-devel systemd-units
 BuildRequires: autoconf automake libtool libmount-devel openssl-devel
@@ -65,21 +64,21 @@ Protocol networks.
 # I don't think we're ready to expose these just yet
 # For now just add the needed library to the base package
 
-#%package -n libopeniscsiusr
+#%%package -n libopeniscsiusr
 #Summary: library providing access to Open-iSCSI initiator functionality
 #Group: Development/Libraries
 #License: BSD
 
-#%description -n libopeniscsiusr
+#%%description -n libopeniscsiusr
 #The libopeniscsiusr library provides a C API for access to the Open-iSCSI
 #initiator. It is used by the Open-iSCSI command line tools.
 
-#%package -n libopeniscsiusr-devel
+#%%package -n libopeniscsiusr-devel
 #Summary: Development files for libopeniscsiusr
 #Group: Development/Libraries
-#Requires: libopeniscsiusr = %{version}-%{release}
+#Requires: libopeniscsiusr = %%{version}-%%{release}
 
-#%description -n libopeniscsiusr-devel
+#%%description -n libopeniscsiusr-devel
 #The libopeniscsiusr-devel package contains libraries and header files for
 #developing applications that use libopeniscsiusr.
 
@@ -111,7 +110,8 @@ BuildRequires: python2-setuptools
 %description -n python2-%{name}
 The %{name}-python2 package contains Python %{python2_version} bindings to the
 libiscsi interface for interacting with %{name}
-%endif # with python2
+%endif
+# ended with python2
 
 %package -n python3-%{name}
 %{?python_provide:%python_provide python3-%{name}}
@@ -145,7 +145,8 @@ cd ..
 pushd libiscsi
 %if %{with python2}
 %py2_build
-%endif # with python2
+%endif
+# ended with python2
 %py3_build
 touch -r libiscsi.doxy html/*
 popd
@@ -154,7 +155,7 @@ popd
 %install
 %{__make} DESTDIR=%{?buildroot} install_programs install_doc install_etc install_libopeniscsiusr
 # upstream makefile doesn't get everything the way we like it
-#rm $RPM_BUILD_ROOT%{_sbindir}/iscsi_discovery
+#rm $RPM_BUILD_ROOT%%{_sbindir}/iscsi_discovery
 rm $RPM_BUILD_ROOT%{_mandir}/man8/iscsi_discovery.8
 rm $RPM_BUILD_ROOT%{_mandir}/man8/iscsi_fw_login.8
 %{__install} -pm 755 usr/iscsistart $RPM_BUILD_ROOT%{_sbindir}
@@ -172,12 +173,13 @@ rm $RPM_BUILD_ROOT%{_mandir}/man8/iscsi_fw_login.8
 %{__install} -d $RPM_BUILD_ROOT%{_sharedstatedir}/iscsi/ifaces
 
 # for %%ghost
-%{__install} -d $RPM_BUILD_ROOT/var/lock/iscsi
-touch $RPM_BUILD_ROOT/var/lock/iscsi/lock
+%{__install} -d $RPM_BUILD_ROOT%{_rundir}/lock/iscsi
+touch $RPM_BUILD_ROOT%{_rundir}/lock/iscsi/lock
 
 
 %{__install} -d $RPM_BUILD_ROOT%{_unitdir}
 %{__install} -pm 644 etc/systemd/iscsi.service $RPM_BUILD_ROOT%{_unitdir}
+%{__install} -pm 644 etc/systemd/iscsi-init.service $RPM_BUILD_ROOT%{_unitdir}
 %{__install} -pm 644 etc/systemd/iscsi-shutdown.service $RPM_BUILD_ROOT%{_unitdir}
 %{__install} -pm 644 etc/systemd/iscsid.service $RPM_BUILD_ROOT%{_unitdir}
 %{__install} -pm 644 etc/systemd/iscsid.socket $RPM_BUILD_ROOT%{_unitdir}
@@ -201,12 +203,14 @@ touch $RPM_BUILD_ROOT/var/lock/iscsi/lock
 
 %if %{with python2}
 %{__install} -d $RPM_BUILD_ROOT%{python2_sitearch}
-%endif # with python2
+%endif
+# ended with python2
 %{__install} -d $RPM_BUILD_ROOT%{python3_sitearch}
 pushd libiscsi
 %if %{with python2}
 %py2_install
-%endif # with python2
+%endif
+# ended with python2
 %py3_install
 popd
 
@@ -214,21 +218,8 @@ popd
 %post
 %systemd_post iscsi.service iscsi-shutdown.service iscsid.service iscsid.socket
 
-if [ $1 -eq 1 ]; then
-	if [ ! -f %{_sysconfdir}/iscsi/initiatorname.iscsi ]; then
-		echo "InitiatorName=`/usr/sbin/iscsi-iname`" > %{_sysconfdir}/iscsi/initiatorname.iscsi
-	fi
-	# enable socket activation and persistant session startup by default
-	/bin/systemctl enable iscsi.service >/dev/null 2>&1 || :
-	/bin/systemctl enable iscsid.socket >/dev/null 2>&1 || :
-fi
-
 %post iscsiuio
 %systemd_post iscsiuio.service iscsiuio.socket
-
-if [ $1 -eq 1 ]; then
-	/bin/systemctl enable iscsiuio.socket >/dev/null 2>&1 || :
-fi
 
 %preun
 %systemd_preun iscsi.service iscsi-shutdown.service iscsid.service iscsiuio.service iscsid.socket iscsiuio.socket
@@ -277,9 +268,9 @@ fi
 %dir %{_sharedstatedir}/iscsi/slp
 %dir %{_sharedstatedir}/iscsi/ifaces
 %dir %{_sharedstatedir}/iscsi/send_targets
-%ghost %{_var}/lock/iscsi
-%ghost %{_var}/lock/iscsi/lock
+%ghost %{_rundir}/lock/iscsi
 %{_unitdir}/iscsi.service
+%{_unitdir}/iscsi-init.service
 %{_unitdir}/iscsi-shutdown.service
 %{_unitdir}/iscsid.service
 %{_unitdir}/iscsid.socket
@@ -303,19 +294,20 @@ fi
 %exclude %{_includedir}/libopeniscsiusr.h
 %exclude %{_includedir}/libopeniscsiusr_common.h
 %exclude %{_includedir}/libopeniscsiusr_iface.h
+%exclude %{_includedir}/libopeniscsiusr_node.h
 %exclude %{_includedir}/libopeniscsiusr_session.h
 %exclude %{_libdir}/pkgconfig/libopeniscsiusr.pc
 
-# %files -n libopeniscsiusr
-# %{_libdir}/libopeniscsiusr.so.*
+# %%files -n libopeniscsiusr
+# %%{_libdir}/libopeniscsiusr.so.*
 #
-# %files -n libopeniscsiusr-devel
-# %{_libdir}/libopeniscsiusr.so
-# %{_includedir}/libopeniscsiusr.h
-# %{_includedir}/libopeniscsiusr_common.h
-# %{_includedir}/libopeniscsiusr_iface.h
-# %{_includedir}/libopeniscsiusr_session.h
-# %{_libdir}/pkgconfig/libopeniscsiusr.pc
+# %%files -n libopeniscsiusr-devel
+# %%{_libdir}/libopeniscsiusr.so
+# %%{_includedir}/libopeniscsiusr.h
+# %%{_includedir}/libopeniscsiusr_common.h
+# %%{_includedir}/libopeniscsiusr_iface.h
+# %%{_includedir}/libopeniscsiusr_session.h
+# %%{_libdir}/pkgconfig/libopeniscsiusr.pc
 
 %files iscsiuio
 %{_sbindir}/iscsiuio
@@ -332,16 +324,40 @@ fi
 %if %{with python2}
 %files -n python2-%{name}
 %{python2_sitearch}/*
-%endif # with python2
+%endif
+# ended with python2
 
 %files -n python3-%{name}
 %{python3_sitearch}/*
 
 %changelog
+* Mon Sep 21 2020 Chris Leech <cleech@redhat.com> - 6.2.1.2-1.git13e7f58
+- iscsiadm overflow regression when discovering many targets at once
+- check for invalid session id during stop connection
+- add ability to attempt target logins asynchronously
+
+* Tue Aug 11 2020 Christian Glombek <cglombek@redhat.com> - 6.2.1.2-0.git802688d
+- Update to upstream v2.1.2
+- Remove systemctl enable calls, as this is now handled by Fedora presets
+- per the guidelines
+- Remove initiator name generation, as this is now handled by an init service
+- Install ghost lockfile and dir to /run instead of /var
+- Rebased/fixed up patches
+- Fixed macros in comments and comments after macros
+- Merged service-file-tweaks.patch and
+- improve-systemd-service-files-for-boot-session-handl.patch
+- into unit-file-tweaks.patch 
+- Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1493296
+- Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1729740
+- Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1834509
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2.1.1-0.gitac87641.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 6.2.1.1-0.gitac87641.1
 - Rebuilt for Python 3.9
 
-* Mon Mar 02 2020 Chris Leech <cleech@redhat.com> - 6.2.1.1-0.gitac87641.
+* Mon Mar 02 2020 Chris Leech <cleech@redhat.com> - 6.2.1.1-0.gitac87641
 - rebase to new upstream v2.1.1
 - enhanced CHAP options are now a configuration to deal with broken targets (#1774746)
 
@@ -367,7 +383,7 @@ fi
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
 * Thu May 30 2019 Chris Leech <cleech@redhat.com> - 6.2.0.876-9.gitf3c8e90
-- FTBFS: %systemd_postun scriptlets need service files as an argument
+- FTBFS: %%systemd_postun scriptlets need service files as an argument
 
 * Tue Feb 12 2019 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 6.2.0.876-8.gitf3c8e90
 - Remove obsolete scriptlets

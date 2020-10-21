@@ -1,6 +1,6 @@
 Name:           p0rn-comfort
 Version:        0.0.4
-Release:        36%{?dist}
+Release:        38%{?dist}
 Summary:        Support programs for browsing image-gallery sites
 License:        GPL+
 URL:            http://www.cgarbs.de/p0rn-comfort.en.html
@@ -65,6 +65,12 @@ done
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.4-38
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.0.4-37
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.0.4-36
 - Perl 5.32 rebuild
 

@@ -4,16 +4,9 @@
 # https://github.com/go-ini/ini
 %global goipath         gopkg.in/ini.v1
 %global forgeurl        https://github.com/go-ini/ini
-Version:                1.42.0
+Version:                1.57.0
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-go-ini-ini-devel < 1.39.0-3
-Obsoletes:      golang-gopkg-1-ini-devel < 1.39.0-3
-Obsoletes:      golang-gopkg-ini-1-devel < 1.39.0-3
-}
 
 %global goaltipaths     github.com/go-ini/ini
 
@@ -26,7 +19,7 @@ Package ini provides INI file read and write functionality in Go.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        Read and write INI files in Go
 
 # Upstream license specification: Apache-2.0
@@ -61,6 +54,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 17:06:35 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.57.0-1
+- Update to 1.57.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.42.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.42.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

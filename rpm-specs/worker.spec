@@ -1,5 +1,5 @@
 Name:		worker
-Version:	4.4.0
+Version:	4.5.1
 Release:	1%{?dist}
 Summary:	File Manager for the X11
 
@@ -53,6 +53,12 @@ desktop-file-install	\
 
 
 %changelog
+* Tue Aug 25 2020 Filipe Rosset <rosset.filipe@gmail.com> - 4.5.1-1
+- Update to 4.5.1 fixes rhbz#1868806
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 12 2020 Filipe Rosset <rosset.filipe@gmail.com> - 4.4.0-1
 - Update to 4.4.0 fixes rhbz#1823214
 

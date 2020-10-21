@@ -9,8 +9,8 @@ API for efficiently working with Neurodata stored in the NWB format.
 https://pynwb.readthedocs.io/en/latest/}
 
 Name:           python-%{pypi_name}
-Version:        1.2.1
-Release:        2%{?dist}
+Version:        1.4.0
+Release:        1%{?dist}
 Summary:        PyNWB is a Python package for working with NWB files
 License:        BSD
 URL:            https://github.com/NeurodataWithoutBorders/pynwb
@@ -75,6 +75,15 @@ rm -f tests/unit/__init__.py
 %{python3_sitelib}/%{pypi_name}-*.egg-info
 
 %changelog
+* Sat Aug 22 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.4.0-1
+- Update to 1.4.0
+
+* Sun Aug 09 2020 Luis Bazan <lbazan@fedoraproject.org> - 1.3.3-1
+- New upstream version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.1-2
 - Rebuilt for Python 3.9
 

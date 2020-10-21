@@ -9,7 +9,7 @@
 
 Name:           sscg
 Version:        2.6.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Simple SSL certificate generator
 
 License:        BSD
@@ -55,6 +55,9 @@ false signatures from the service certificate.
 %{_mandir}/man8/%{name}.8*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Stephen Gallagher <sgallagh@redhat.com> - 2.6.2-1
 - Update to 2.6.2
 - Handle very short and very long passphrases properly (fixes rhbz#1850183)

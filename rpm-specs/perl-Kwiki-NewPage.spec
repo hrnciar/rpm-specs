@@ -1,6 +1,6 @@
 Name:           perl-Kwiki-NewPage
 Version:        0.12
-Release:        44%{?dist}
+Release:        45%{?dist}
 Summary:        Kwiki New Page Plugin
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Kwiki-NewPage
@@ -58,6 +58,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-45
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.12-44
 - Perl 5.32 rebuild
 

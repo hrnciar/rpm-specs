@@ -4,8 +4,8 @@
 # https://github.com/kubernetes/cluster-bootstrap
 %global goipath         k8s.io/cluster-bootstrap
 %global forgeurl        https://github.com/kubernetes/cluster-bootstrap
-Version:                1.15.0
-%global tag             kubernetes-1.15.0
+Version:                1.18.9
+%global tag             kubernetes-1.18.9
 %global distprefix      %{nil}
 
 %gometa
@@ -17,7 +17,7 @@ Set of constants and helpers in support of Kubernetes bootstrap discovery.}
 %global godocs          README.md code-of-conduct.md CONTRIBUTING.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Set of constants and helpers in support of Kubernetes bootstrap discovery
 
 # Upstream license specification: Apache-2.0
@@ -25,8 +25,16 @@ License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
+BuildRequires:  golang(gopkg.in/square/go-jose.v2)
 BuildRequires:  golang(k8s.io/api/core/v1)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/util/sets)
+BuildRequires:  golang(k8s.io/klog/v2)
+
+%if %{with check}
+# Tests
+BuildRequires:  golang(github.com/stretchr/testify/assert)
+BuildRequires:  golang(k8s.io/apimachinery/pkg/apis/meta/v1)
+%endif
 
 %description
 %{common_description}
@@ -35,6 +43,7 @@ BuildRequires:  golang(k8s.io/apimachinery/pkg/util/sets)
 
 %prep
 %goprep
+sed -i 's|k8s.io/klog|k8s.io/klog/v2|' $(find . -name "*.go" -type f)
 
 %install
 %gopkginstall
@@ -47,6 +56,15 @@ BuildRequires:  golang(k8s.io/apimachinery/pkg/util/sets)
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 13:34:52 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.9-1
+- Update to 1.18.9
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 21:31:36 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-1
+- Update to 1.18.3
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

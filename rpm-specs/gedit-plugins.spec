@@ -1,17 +1,11 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
-%global __python %{__python3}
-
 Name:           gedit-plugins
-Version:        3.36.2
-Release:        2%{?dist}
+Version:        3.38.0
+Release:        1%{?dist}
 Summary:        Plugins for gedit
 
 License:        GPLv2+
 URL:            https://wiki.gnome.org/Apps/Gedit
-Source0:        https://download.gnome.org/sources/%{name}/3.36/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires:  atk-devel
 BuildRequires:  cairo-devel
@@ -204,6 +198,8 @@ The gedit wordcompletion plugin.
 %install
 %meson_install
 
+%py_byte_compile %{__python3} %{buildroot}%{_libdir}/gedit/plugins/
+
 %find_lang %{name} --with-gnome
 %find_lang gedit --with-gnome
 
@@ -325,6 +321,21 @@ The gedit wordcompletion plugin.
 %{_datadir}/metainfo/gedit-wordcompletion.metainfo.xml
 
 %changelog
+* Fri Sep 11 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Fri Sep 04 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+- Explicitly byte-compile python files using py_byte_compile macro
+- Fix FTBFS (#1863608)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Adam Williamson <awilliam@redhat.com> - 3.36.2-2
 - Rebuild for new libgedit
 

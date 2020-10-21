@@ -1,7 +1,7 @@
 Name:             libcangjie
 Summary:          Cangjie Input Method Library
 Version:          1.3
-Release:          13%{?dist}
+Release:          14%{?dist}
 License:          LGPLv3+
 URL:              http://cangjians.github.io/projects/%{name}
 Source0:          https://github.com/Cangjians/libcangjie/releases/download/v%{version}/%{name}-%{version}.tar.xz
@@ -70,6 +70,9 @@ make check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

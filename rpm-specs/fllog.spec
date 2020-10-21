@@ -1,6 +1,6 @@
 Name:           fllog
 Version:        1.2.6
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Amateur Radio Log Program
 
 License:        GPLv3+ and GPLv2+
@@ -51,6 +51,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.6-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

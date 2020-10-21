@@ -1,7 +1,7 @@
 %global shortname flare
 Name:       flare-engine
 Version:    1.07
-Release:    4%{?dist}
+Release:    6%{?dist}
 Summary:    A single player, 2D-isometric, action Role-Playing Engine
 License:    GPLv3+
 URL:        http://www.flarerpg.org
@@ -42,11 +42,11 @@ This package contains the engine only.
 
 %build
 %cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} -DBINDIR="bin" -DDATADIR="share/%{shortname}/" .
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 # Use system fonts
 find %{buildroot}%{_datadir}/%{shortname}/ -name "*.ttf" -delete -print
@@ -68,6 +68,13 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{shortname}.desktop
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.07-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.07-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.07-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

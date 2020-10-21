@@ -23,7 +23,7 @@ Liberal Go TLS + X.509 Library for Research.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.4%{?dist}
+Release:        0.5%{?dist}
 Summary:        Liberal Go TLS + X.509 Library for Research
 
 # Upstream license specification: Apache-2.0
@@ -75,6 +75,9 @@ BuildRequires:  golang(gopkg.in/check.v1)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 18:51:25 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200619git4d17126
 - Bump to commit 4d171263147247189025e53b13fd2d5828d59755
 

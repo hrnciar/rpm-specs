@@ -7,9 +7,10 @@
 # Please, preserve the changelog entries
 #
 
-%global with_tests   0%{!?_without_tests:1}
+%bcond_without       tests
+
 # Github
-%global gh_commit    7564d4a5fc8c068479698a30e5a7c589ea32a9c6
+%global gh_commit    a4adcdbb38f38a19d3f1801150822172cf1c4853
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     swaggest
 %global gh_project   php-json-schema
@@ -22,7 +23,7 @@
 %global major        %nil
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
-Version:        0.12.29
+Version:        0.12.31
 Release:        1%{?gh_date?%{gh_date}git%{gh_short}}%{?dist}
 Summary:        High definition PHP structures with JSON-schema based validation
 
@@ -32,18 +33,16 @@ Source0:        %{name}-%{version}-%{?gh_short}.tgz
 Source1:        makesrc.sh
 
 BuildArch:      noarch
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php(language) >= 5.4
 BuildRequires:  php-json
 BuildRequires:  php-mbstring
 %if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
-BuildRequires: (php-composer(phplang/scope-exit)    >  1.0   with php-composer(phplang/scope-exit)    < 2)
-BuildRequires: (php-composer(swaggest/json-diff)    >  3.5.1 with php-composer(swaggest/json-diff)    < 4)
+BuildRequires: (php-composer(phplang/scope-exit)    >= 1.0   with php-composer(phplang/scope-exit)    < 2)
+BuildRequires: (php-composer(swaggest/json-diff)    >= 3.5.1 with php-composer(swaggest/json-diff)    < 4)
 %else
-BuildRequires:  php-composer(phplang/scope-exit)    <  2
-BuildRequires:  php-composer(phplang/scope-exit)    >= 1.0
-BuildRequires:  php-composer(swaggest/json-diff)    <  4
-BuildRequires:  php-composer(swaggest/json-diff)    >= 3.5.1
+BuildRequires:  php-phplang-scope-exit              >= 1.0
+BuildRequires:  php-swaggest-json-diff              >= 3.5.1
 %endif
 # For tests, from composer.json "require-dev": {
 #    "phpunit/phpunit": "^4.8.23",
@@ -69,13 +68,11 @@ Requires:       php(language) >= 5.4
 Requires:       php-json
 Requires:       php-mbstring
 %if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
-Requires:      (php-composer(phplang/scope-exit)    >  1.0   with php-composer(phplang/scope-exit)    < 2)
-Requires:      (php-composer(swaggest/json-diff)    >  3.5.1 with php-composer(swaggest/json-diff)    < 4)
+Requires:      (php-composer(phplang/scope-exit)    >= 1.0   with php-composer(phplang/scope-exit)    < 2)
+Requires:      (php-composer(swaggest/json-diff)    >= 3.5.1 with php-composer(swaggest/json-diff)    < 4)
 %else
-Requires:       php-composer(phplang/scope-exit)    <  2
-Requires:       php-composer(phplang/scope-exit)    >= 1.0
-Requires:       php-composer(swaggest/json-diff)    <  4
-Requires:       php-composer(swaggest/json-diff)    >= 3.5.1
+Requires:       php-phplang-scope-exit              >= 1.0
+Requires:       php-swaggest-json-diff              >= 3.5.1
 %endif
 # From phpcompatinfo report for 0.12.17
 Requires:       php-date
@@ -123,7 +120,7 @@ cp -pr src       %{buildroot}%{_datadir}/php/%{ns_vendor}/%{ns_project}%{major}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 cat << 'EOF' | tee vendor/autoload.php
 <?php
@@ -152,6 +149,15 @@ exit $ret
 
 
 %changelog
+* Mon Sep 21 2020 Remi Collet <remi@remirepo.net> - 0.12.31-1
+- update to 0.12.31
+
+* Thu Sep 10 2020 Remi Collet <remi@remirepo.net> - 0.12.30-1
+- update to 0.12.30
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.29-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 19 2020 Remi Collet <remi@remirepo.net> - 0.12.29-1
 - update to 0.12.29
 

@@ -5,7 +5,7 @@
 %global crate sourceview
 
 Name:           rust-%{crate}
-Version:        0.8.0
+Version:        0.9.0
 Release:        3%{?dist}
 Summary:        Rust bindings for the GtkSourceView 3 library
 
@@ -13,10 +13,6 @@ Summary:        Rust bindings for the GtkSourceView 3 library
 License:        MIT
 URL:            https://crates.io/crates/sourceview
 Source:         %{crates_source}
-# Initial patched metadata
-# * Remove the fragile dependency, https://github.com/gtk-rs/sourceview/pull/128
-Patch0:         sourceview-fix-metadata.diff
-Patch1:         0001-Remove-the-unused-dependency-on-fragile.patch
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -232,6 +228,16 @@ which use "v3_24" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Josh Stone <jistone@redhat.com> - 0.9.0-1
+- Update to 0.9.0
+
 * Fri Apr 17 2020 Josh Stone <jistone@redhat.com> - 0.8.0-3
 - Remove the fragile dependency
 

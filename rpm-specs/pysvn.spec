@@ -1,11 +1,12 @@
 Name:           pysvn
-Version:        1.9.11
-Release:        5%{?dist}
+Version:        1.9.12
+Release:        2%{?dist}
 Summary:        Pythonic style bindings for Subversion
 License:        ASL 1.1
 URL:            https://pysvn.sourceforge.io/
 Source0:        http://pysvn.barrys-emacs.org/source_kits/%{name}-%{version}.tar.gz
 BuildRequires:  gcc-c++
+BuildRequires:  subversion
 BuildRequires:  subversion-devel
 BuildRequires:  krb5-devel
 BuildRequires:  neon-devel
@@ -63,6 +64,16 @@ CFLAGS="$RPM_OPT_FLAGS" %{__python3} setup.py configure \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Barry Scott <barry@barrys-emacs.org> - 1.9.12-1
+- Update to upstream 1.9.12 release
+- Add support for subversion 1.14
+- Tested with Python 3.9b1
+- Add support for gpg-agent auth provider
+- Fix problem building against svn 1.7 which is needed for Centos 7 support
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.9.11-5
 - Rebuilt for Python 3.9
 

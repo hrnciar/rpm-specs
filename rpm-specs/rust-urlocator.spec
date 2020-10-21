@@ -5,8 +5,8 @@
 %global crate urlocator
 
 Name:           rust-%{crate}
-Version:        0.1.3
-Release:        1%{?dist}
+Version:        0.1.4
+Release:        2%{?dist}
 Summary:        Locate URLs in character streams
 
 # Upstream license specification: MIT/Apache-2.0
@@ -36,9 +36,8 @@ This package contains library source intended for building other packages
 which use "%{crate}" crate.
 
 %files          devel
-# Licenses PR raised on upstream repo
-# https://github.com/alacritty/urlocator/pull/6
 %doc README.md
+%license LICENSE-APACHE LICENSE-MIT
 %{cargo_registry}/%{crate}-%{version_no_tilde}/
 
 %package     -n %{name}+default-devel
@@ -84,5 +83,11 @@ which use "nightly" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 14:13:00 CEST 2020 returntrip <stefano@figura.im> - 0.1.4-1
+- Update to 0.1.4
+
 * Fri May 22 16:44:13 CEST 2020 returntrip <stefano@figura.im> - 0.1.3-1
 - Initial package

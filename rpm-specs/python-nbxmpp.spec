@@ -2,26 +2,17 @@
 %global sum Python library for non-blocking use of Jabber/XMPP
 
 Name:           python-%{modname}
-Version:        0.6.10
-Release:        6%{?dist}
+Version:        1.0.0
+Release:        2%{?dist}
 Summary:        %{sum}
 License:        GPLv3
 URL:            https://dev.gajim.org/gajim/python-nbxmpp/
-Source0:        https://dev.gajim.org/gajim/python-nbxmpp/repository/archive.tar.bz2?ref=nbxmpp-%{version}#/%{name}-%{version}.tar.bz2
+Source0:        https://dev.gajim.org/gajim/python-nbxmpp/-/archive/nbxmpp-%{version}/python-nbxmpp-nbxmpp-%{version}.tar.bz2
 BuildArch:      noarch
 BuildRequires:  python3-devel
 
 %global desc python-nbxmpp is a Python library that provides a way for Python applications\
-to use Jabber/XMPP networks in a non-blocking way.\
-\
-Features:\
-- Asynchronous\
-- ANONYMOUS, EXTERNAL, GSSAPI, SCRAM-SHA-1, DIGEST-MD5, PLAIN, and\
-    X-MESSENGER-OAUTH2 authentication mechanisms.\
-- Connection via proxies\
-- TLS\
-- BOSH (XEP-0124)\
-- Stream Management (XEP-0198)
+to use Jabber/XMPP networks in a non-blocking way.
 
 %description
 %{desc}
@@ -30,29 +21,18 @@ Features:\
 Summary:        %{sum}
 Requires:       python3-pyOpenSSL
 Requires:       python3-gobject-base
+Requires:       libsoup
 Recommends:     python3-kerberos
+Obsoletes:      python-nbxmpp-doc < 1.0.0
 %{?python_provide:%python_provide python3-%{modname}}
 
 %description -n python3-%{modname}
 %{desc}
 
-%package doc
-Summary:        Developer documentation for %{name}
-
-%description doc
-%{desc}
-
-This sub-package contains the developer documentation for python-nbxmpp.
-
 %prep
-# The upstream gitlab generates tarballs with path prefixes including the git
-# commit hash. Make the path predictable by stripping the leading component.
-%setup -T -c %{name}-%{version}
-tar -xo --strip-components=1 -f %{SOURCE0}
+%autosetup -n python-nbxmpp-nbxmpp-%{version}
 
 %build
-# let's have no executable files in doc/
-find doc/ -type f -perm /111 -exec chmod -x {} +
 %{py3_build}
 
 %install
@@ -60,15 +40,17 @@ find doc/ -type f -perm /111 -exec chmod -x {} +
 
 %files -n python3-%{modname}
 %license COPYING
-%doc README ChangeLog
+%doc README.md ChangeLog nbxmpp/examples
 %{python3_sitelib}/%{modname}
 %{python3_sitelib}/%{modname}-%{version}-*.egg-info
 
-%files doc
-%license COPYING
-%doc doc/*
-
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Michal Schmidt <mschmidt@redhat.com> - 1.0.0-1
+- Upstream release 1.0.0.
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.10-6
 - Rebuilt for Python 3.9
 

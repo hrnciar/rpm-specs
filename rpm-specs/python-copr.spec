@@ -15,7 +15,7 @@
 %endif
 
 Name:       python-copr
-Version:    1.102
+Version:    1.105
 Release:    1%{?dist}
 Summary:    Python interface for Copr
 
@@ -170,11 +170,6 @@ developers only.
 %prep
 %setup -q
 
-%if %{with python3}
-rm -rf %{py3dir}
-cp -a . %{py3dir}
-%endif
-# with python3
 
 %build
 %if %{with python3}
@@ -236,6 +231,19 @@ cp -a docs/_build/html %{buildroot}%{_pkgdocdir}/
 %doc %{_pkgdocdir}
 
 %changelog
+* Tue Aug 11 2020 Pavel Raiskup <praiskup@redhat.com> 1.105-1
+- drop a redundant %%py3dir use
+
+* Tue Aug 11 2020 Pavel Raiskup <praiskup@redhat.com> 1.104-1
+- copr-cli API for get-package to support with_latest* args again
+
+* Mon Aug 10 2020 Pavel Raiskup <praiskup@redhat.com> 1.103-1
+- fix APIv3 build deletion
+- warn about deprecated APIv1
+- fix v2 client is_a_group_project usage
+- show obsolete warning on all APIv1 and APIv2 pages
+- more effective query of packages with their latest builds
+
 * Tue Jun 09 2020 Pavel Raiskup <praiskup@redhat.com> 1.102-1
 - fix large recursion problem
 - enable deleting multiple builds from cli

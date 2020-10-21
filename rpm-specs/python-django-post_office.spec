@@ -2,7 +2,7 @@
 
 Name:           python-%{app_name}
 Version:        3.4.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Allows you to log email activities and send mail asynchronously
 License:        MIT
 URL:            https://pypi.python.org/pypi/%{app_name}
@@ -55,6 +55,9 @@ find -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
 %{python3_sitelib}/django_post_office-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.4.0-3
 - Rebuilt for Python 3.9
 

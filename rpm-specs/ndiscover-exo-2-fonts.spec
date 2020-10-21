@@ -4,7 +4,7 @@
 %forgemeta
 
 Version: 2.000
-Release: 1%{?dist}
+Release: 2%{?dist}
 URL:     %{forgeurl}
 
 %global foundry           NDISCOVER
@@ -49,6 +49,9 @@ Source10: 60-%{fontpkgname}.xml
 %fontfiles
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 1.100-4.20200215git55728cf
 🐞 Workaround Fedora problems created by rpm commit 93604e2

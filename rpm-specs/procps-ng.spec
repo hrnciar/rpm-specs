@@ -3,8 +3,8 @@
 
 Summary: System and process monitoring utilities
 Name: procps-ng
-Version: 3.3.15
-Release: 7%{?dist}
+Version: 3.3.16
+Release: 1%{?dist}
 License: GPL+ and GPLv2 and GPLv2+ and GPLv3+ and LGPLv2+
 URL: https://sourceforge.net/projects/procps-ng/
 
@@ -15,6 +15,8 @@ Source1: README.md
 # wget https://gitlab.com/procps-ng/procps/raw/e0784ddaed30d095bb1d9a8ad6b5a23d10a212c4/top/README.top
 Source2: README.top
 
+Patch1: pidof-show-worker-threads.patch
+
 BuildRequires: ncurses-devel
 BuildRequires: libtool
 BuildRequires: autoconf
@@ -22,6 +24,7 @@ BuildRequires: automake
 BuildRequires: gcc
 BuildRequires: gettext-devel
 BuildRequires: systemd-devel
+BuildRequires: git
 
 %if %{tests_enabled}
 BuildRequires: dejagnu
@@ -80,7 +83,7 @@ Conflicts: man-pages-pl < 0.7-5
 Internationalization pack for procps-ng
 
 %prep
-%setup -q -n %{name}-%{version}
+%autosetup -S git
 cp -p %{SOURCE1} .
 cp -p %{SOURCE2} top/
 
@@ -114,11 +117,11 @@ make check
 
 
 %install
-make DESTDIR=%{buildroot} install
+%make_install
 
 # translated man pages
 find man-po/ -type d -maxdepth 1 -mindepth 1 | while read dirname; do cp -a $dirname %{buildroot}%{_mandir}/ ; done
-rm -f %{buildroot}%{_mandir}/{de,fr,uk}/man1/kill.1
+rm -f %{buildroot}%{_mandir}/translate/{de,fr,pl,pt_BR,sv,uk}/kill.1
 
 %find_lang %{name} --all-name --with-man
 
@@ -150,8 +153,22 @@ ln -s %{_bindir}/pidof %{buildroot}%{_sbindir}/pidof
 %{_mandir}/man3/*
 
 %files i18n -f %{name}.lang
+%exclude %{_mandir}/translated/*
 
 %changelog
+* Tue Aug 18 2020 Jan Rybar <jrybar@redhat.com> - 3.3.16-1
+- Rebase to newest upstream version
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.15-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jan Rybar <jrybar@redhat.com> - 3.3.15-8
+- pidof: show PIDs for kernel worker threads
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 3.3.15-8
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.15-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

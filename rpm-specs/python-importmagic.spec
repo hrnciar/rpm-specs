@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.1.7
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Python library to auto-magically add, remove and manage imports
 
 License:        BSD
@@ -98,6 +98,9 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python3_sitelib} py.test-3 test
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.7-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.7-16
 - Rebuilt for Python 3.9
 

@@ -9,7 +9,7 @@
 
 Name:       python-%{srcname}
 Version:    2.5.8
-Release:    5%{?dist}
+Release:    6%{?dist}
 Summary:    %{sum}
 
 License:    MIT
@@ -153,6 +153,9 @@ done
 %license LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.8-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.5.8-5
 - Rebuilt for Python 3.9
 

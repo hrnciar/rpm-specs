@@ -3,7 +3,7 @@
 %global snapshotdate 20200226
 Name:           CubicSDR
 Version:        0.2.5
-Release:        4.%{snapshotdate}git%{shortcommit}%{?dist}
+Release:        9.%{snapshotdate}git%{shortcommit}%{?dist}
 Summary:        Cross-Platform Software-Defined Radio Panadapter
 
 # The primary license of CubicSDR is GPLv2+.
@@ -45,12 +45,12 @@ in the future.
 
 
 %build
-%cmake -Wno-dev -DCMAKE_BUILD_TYPE=Release -DUSE_HAMLIB=1 -DUSE_SYSTEM_RTAUDIO=1 .
-%make_build
+%cmake -Wno-dev -DCMAKE_BUILD_TYPE=Release -DUSE_HAMLIB=1 -DUSE_SYSTEM_RTAUDIO=1
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 # Move executable to libexecdir, leave CLI start script in bindir
 mkdir -p %{buildroot}/%{_libexecdir}/%{name}
@@ -69,6 +69,22 @@ install -m 0755 %{SOURCE1} %{buildroot}/%{_bindir}/%{name}
 
 
 %changelog
+* Sun Aug 09 2020 Scott Talbert <swt@techie.net> - 0.2.5-9.20200226gitd2f9333
+- Rebuild for wxWidgets 3.1.4 (for real)
+
+* Sat Aug 08 2020 Scott Talbert <swt@techie.net> - 0.2.5-8.20200226gitd2f9333
+- Rebuild for wxWidgets 3.1.4
+
+* Sun Aug  2 2020 Matt Domsch <matt@domsch.com> - 0.2.5-7.20200226gitd2f9333
+- F33 cmakes fixes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.5-6.20200226gitd2f9333
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.5-5.20200226gitd2f9333
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Matt Domsch <matt@domsch.com> 0.2.5-4.20200407gitd2f9333
 - rebuild for hamlib-devel 4.0.0
 

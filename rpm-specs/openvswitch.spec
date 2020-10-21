@@ -44,7 +44,7 @@ Epoch:   1
 Name: openvswitch
 Summary: Open vSwitch daemon/database/utilities
 URL: http://www.openvswitch.org/
-Version: 2.13.0
+Version: 2.14.0
 Release: 2%{?commit0:.%{date}git%{shortcommit0}}%{?dist}
 
 # Nearly all of openvswitch is ASL 2.0.  The bugtool is LGPLv2+, and the
@@ -330,7 +330,7 @@ getent group openvswitch >/dev/null || groupadd -r openvswitch
 getent passwd openvswitch >/dev/null || \
     useradd -r -g openvswitch -d / -s /sbin/nologin \
     -c "Open vSwitch Daemons" openvswitch
-getent group hugetlbfs >/dev/null || groupadd hugetlbfs
+getent group hugetlbfs >/dev/null || groupadd -r hugetlbfs
 usermod -a -G hugetlbfs openvswitch
 exit 0
 
@@ -386,6 +386,7 @@ chown -R openvswitch:openvswitch /etc/openvswitch
 %{_libdir}/pkgconfig/*.pc
 %{_includedir}/openvswitch/*
 %{_includedir}/openflow/*
+%exclude %{_libdir}/*.a
 %exclude %{_libdir}/*.la
 
 %if 0%{?rhel} > 7 || 0%{?fedora} > 28
@@ -473,6 +474,20 @@ chown -R openvswitch:openvswitch /etc/openvswitch
 %endif
 
 %changelog
+* Mon Sep 14 2020 Aaron Conole <aconole@redhat.com> - 2.14.0-2
+- Merge 'https://src.fedoraproject.org/rpms/openvswitch/pull-request/11'
+  to set hugetlbfs group as a system group.
+
+* Tue Sep 01 2020 Timothy Redaelli <tredaelli@redhat.com> - 2.14.0-1
+- Updated to 2.14.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.13.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.13.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.13.0-2
 - Rebuilt for Python 3.9
 

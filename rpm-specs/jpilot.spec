@@ -1,7 +1,7 @@
 Summary: pilot desktop software
 Name: jpilot
 Version: 1.8.2
-Release: 16%{?dist}
+Release: 17%{?dist}
 License: GPLv2
 URL: http://www.jpilot.org/
 Source0: http://jpilot.org/jpilot-%{version}.tar.gz
@@ -67,6 +67,9 @@ install -m 644 icons/jpilot-icon3.xpm $RPM_BUILD_ROOT%{_datadir}/pixmaps/
 %{_datadir}/applications/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.2-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.2-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

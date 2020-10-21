@@ -1,6 +1,6 @@
 Name:           perl-Tk-ProgressBar-Mac
 Version:        1.2
-Release:        31%{?dist}
+Release:        33%{?dist}
 Summary:        Mac ProgressBar for Perl::Tk
 
 License:        GPL+ or Artistic
@@ -48,6 +48,12 @@ chmod -R u+w %{buildroot}/*
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.2-32
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

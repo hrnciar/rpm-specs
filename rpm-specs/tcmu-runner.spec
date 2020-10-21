@@ -1,13 +1,15 @@
+%global __cmake_in_source_build 1
+
 Name:           tcmu-runner
 License:        LGPLV2+ or ASL 2.0
 Summary:        A daemon that supports LIO userspace backends
 Version:        1.5.2
-Release:        2%{?dist}
+Release:        6%{?dist}
 URL:            https://github.com/open-iscsi/tcmu-runner
 Source:         https://github.com/open-iscsi/tcmu-runner/archive/v%{version}.tar.gz
 BuildRequires:  gcc
 BuildRequires:  cmake glib2-devel libnl3-devel glusterfs-api-devel kmod-devel zlib-devel librbd-devel
-BuildRequires:  gperftools-devel
+BuildRequires:  gperftools-devel systemd
 Requires:       targetcli
 # Ceph/librbd does not have 32bit builds so we cannot either
 ExcludeArch:	i686 armv7hl
@@ -76,6 +78,16 @@ cp -a libtcmu.h libtcmu_common.h libtcmu_log.h tcmu-runner.h %{buildroot}%{_incl
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 1.5.2-3
+- Use __cmake_in_source_build
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

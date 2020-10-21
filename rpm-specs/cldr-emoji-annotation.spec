@@ -1,51 +1,139 @@
+%global file_version release-38-beta2
+
 Name:       cldr-emoji-annotation
-Version:    36.12.120200305_0
+Version:    38~beta2
 Release:    1%{?dist}
+Epoch:      1
 # Annotation files are in Unicode license
 Summary:    Emoji annotation files in CLDR
-License:    LGPLv2+ and Unicode
-URL:        https://github.com/fujiwarat/cldr-emoji-annotation
-Source0:    https://github.com/fujiwarat/cldr-emoji-annotation/releases/download/%{version}/%{name}-%{version}.tar.gz
+License:    Unicode
+URL:        https://unicode.org/cldr
+Source0:    https://github.com/unicode-org/cldr/archive/%{file_version}.tar.gz#/cldr-%{file_version}.tar.gz
 #Patch0:     %%{name}-HEAD.patch
 BuildRequires: autoconf
 BuildRequires: automake
 BuildArch:  noarch
+Requires:  %{name}-dtd
 
 %description
 This package provides the emoji annotation file by language in CLDR.
 
+%package dtd
+Summary:    DTD files of CLDR common
+Requires:   %{name} = %{epoch}:%{version}-%{release}
+BuildArch:  noarch
+
+%description dtd
+This package contains DTD files of CLDR common which are required by
+cldr-emoji-annotations.
+
 %package devel
 Summary:    Files for development using cldr-annotations
-Requires:   %{name} = %{version}-%{release}
+Requires:   %{name} = %{epoch}:%{version}-%{release}
 Requires:   pkgconfig
 BuildArch:  noarch
 
 %description devel
 This package contains the pkg-config files for development
-when building programs that use cldr-annotations.
+when building programs that use cldr-emoji-annotations.
 
 
 %prep
-%autosetup
+%autosetup -n cldr-%{file_version}
 
-%build
-#autoreconf -v -i
-autoreconf -v -i
-%configure
-make %{?_smp_mflags}
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install INSTALL="install -p"
+pushd $PWD
+ANNOTATION_DIR=common/annotations
+CLDR_DIR=%{_datadir}/unicode/cldr/$ANNOTATION_DIR
+pushd $ANNOTATION_DIR
+for xml in *.xml ; do
+    install -pm 644 -D $xml $RPM_BUILD_ROOT$CLDR_DIR/$xml
+done
+popd
+
+ANNOTATION_DIR=common/annotationsDerived
+CLDR_DIR=%{_datadir}/unicode/cldr/$ANNOTATION_DIR
+pushd $ANNOTATION_DIR
+for xml in *.xml ; do
+    install -pm 644 -D $xml $RPM_BUILD_ROOT$CLDR_DIR/$xml
+done
+popd
+
+DTD_DIR=common/dtd
+CLDR_DIR=%{_datadir}/unicode/cldr/$DTD_DIR
+pushd $DTD_DIR
+for dtd in *.dtd ; do
+    install -pm 644 -D $dtd $RPM_BUILD_ROOT$CLDR_DIR/$dtd
+done
+popd
+
+install -pm 755 -d $RPM_BUILD_ROOT%{_datadir}/pkgconfig
+cat >> $RPM_BUILD_ROOT%{_datadir}/pkgconfig/%{name}.pc <<_EOF
+prefix=/usr
+
+Name: cldr-emoji-annotations
+Description: annotation files in CLDR
+Version: %{version}
+_EOF
+
+
+%check
+ANNOTATION_DIR=common/annotations
+CLDR_DIR=%{_datadir}/unicode/cldr/$ANNOTATION_DIR
+for xml in $ANNOTATION_DIR/*.xml ; do
+    xmllint --noout --valid --postvalid $xml
+done
+
+ANNOTATION_DIR=common/annotationsDerived
+CLDR_DIR=%{_datadir}/unicode/cldr/$ANNOTATION_DIR
+for xml in $ANNOTATION_DIR/*.xml ; do
+    xmllint --noout --valid --postvalid $xml
+done
+
 
 %files
-%doc AUTHORS README
+%doc CONTRIBUTING.md README.md readme.html
 %license unicode-license.txt
-%{_datadir}/unicode/
+%{_datadir}/unicode/cldr/common/annotations
+%{_datadir}/unicode/cldr/common/annotationsDerived
+
+%files dtd
+%dir %{_datadir}/unicode
+%dir %{_datadir}/unicode/cldr
+%dir %{_datadir}/unicode/cldr/common
+%{_datadir}/unicode/cldr/common/dtd
 
 %files devel
 %{_datadir}/pkgconfig/*.pc
 
 %changelog
+* Wed Oct 14 2020 Takao Fujiwara <tfujiwar@gmail.com> - 1:38~beta2-1
+- Bump release-38-beta2
+
+* Mon Sep 28 2020 Takao Fujiwara <tfujiwar@gmail.com> - 1:38~beta-3
+- Fix #1882930 - Add Epoch in Requires
+
+* Fri Sep 25 2020 Takao Fujiwara <tfujiwar@gmail.com> - 1:38~beta-2
+- Fix typo in cldr-emoji-annotation.pc
+
+* Fri Sep 25 2020 Takao Fujiwara <tfujiwar@gmail.com> - 1:38~beta-1
+- Dump release-38-beta
+- Move source URL from github.com/fujiwarat/cldr-emoji-annotation
+  to https://github.com/unicode-org/cldr
+
+* Fri Sep 11 2020 Takao Fujiwara <tfujiwar@gmail.com> - 38.0_13.0_0_1~alpha1-1
+- Dump release-38-alpha1
+
+* Sat Aug 01 2020 Takao Fujiwara <tfujiwar@gmail.com> - 37.0_13.0_0_2-1
+- Add cldr-emoji-annotation-dtd sub package and make check
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 37.0_13.0_0_1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Takao Fujiwara <tfujiwar@gmail.com> - 37.0_13.0_0_1-1
+- Integrated Emoji 13.0 CLDR 37.0
+
 * Wed Apr 22 2020 Takao Fujiwara <tfujiwar@gmail.com> - 36.12.120200305_0-1
 - Integrated Emoji 12.1 CLDR 36.1
 

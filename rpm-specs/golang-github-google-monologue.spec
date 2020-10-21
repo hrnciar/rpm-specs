@@ -3,7 +3,7 @@
 
 # https://github.com/google/monologue
 %global goipath         github.com/google/monologue
-%global commit          4b11a32b5934b50362ce8c5fa171499e4ccca727
+%global commit          e585696c5f1b58280050b5cefb3da46acdf2da6a
 
 %gometa
 
@@ -16,7 +16,7 @@ A monitor that checks that Certificate Transparency Logs are complying with RFC
 
 Name:           %{goname}
 Version:        0
-Release:        0.1%{?dist}
+Release:        0.3%{?dist}
 Summary:        Monitor that checks that Certificate Transparency Logs
 
 # Upstream license specification: Apache-2.0
@@ -24,13 +24,21 @@ License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
+BuildRequires:  golang(github.com/go-sql-driver/mysql)
 BuildRequires:  golang(github.com/golang/glog)
 BuildRequires:  golang(github.com/google/certificate-transparency-go)
+BuildRequires:  golang(github.com/google/certificate-transparency-go/ctutil)
+BuildRequires:  golang(github.com/google/certificate-transparency-go/logid)
+BuildRequires:  golang(github.com/google/certificate-transparency-go/schedule)
+BuildRequires:  golang(github.com/google/certificate-transparency-go/x509)
+BuildRequires:  golang(github.com/google/certificate-transparency-go/x509/pkix)
+BuildRequires:  golang(github.com/google/certificate-transparency-go/x509util)
+BuildRequires:  golang(github.com/google/trillian/crypto/keys/pem)
 
 %if %{with check}
 # Tests
-BuildRequires:  golang(github.com/go-sql-driver/mysql)
 BuildRequires:  golang(github.com/google/go-cmp/cmp)
+BuildRequires:  golang(github.com/kylelemons/godebug/pretty)
 %endif
 
 %description
@@ -52,5 +60,11 @@ BuildRequires:  golang(github.com/google/go-cmp/cmp)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 12:58:43 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.3.20200727gite585696
+- Bump to commit e585696c5f1b58280050b5cefb3da46acdf2da6a
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 03 18:41:27 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.1.20200303git4b11a32
 - Initial package

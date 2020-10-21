@@ -1,6 +1,6 @@
 Name:       shutter
 Version:    0.94.3
-Release:    3%{?dist}
+Release:    5%{?dist}
 Summary:    GTK+2-based screenshot application written in Perl
 License:    GPLv3+
 URL:        http://shutter-project.org
@@ -123,6 +123,12 @@ EOF
 %{_datadir}/icons/ubuntu-mono-*/*/apps/%{name}-panel.*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.94.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.94.3-4
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.94.3-3
 - Perl 5.32 rebuild
 

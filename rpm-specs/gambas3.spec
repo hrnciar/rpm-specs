@@ -2,12 +2,13 @@
 %global enablejit 1
 
 # This component depends on ancient and super-abandoned things.
-%global gtkopengl 0
+# But they're alive again, sortof...
+%global gtkopengl 1
 
 Name:		gambas3
 Summary:	IDE based on a basic interpreter with object extensions
-Version:	3.14.3
-Release:	4%{?dist}
+Version:	3.15.2
+Release:	1%{?dist}
 License:	GPL+
 URL:		http://gambas.sourceforge.net/
 Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}.tar.bz2
@@ -18,7 +19,7 @@ BuildRequires:	SDL2-devel, SDL2_mixer-devel, SDL2_image-devel, SDL2_ttf-devel
 BuildRequires:	mariadb-connector-c-devel, libpq-devel, postgresql-server-devel
 BuildRequires:	gtk2-devel, gtk3-devel
 BuildRequires:	desktop-file-utils, gettext-devel, curl-devel, librsvg2-devel
-BuildRequires:	poppler-devel, bzip2-devel, zlib-devel, pkgconfig
+BuildRequires:	poppler-devel, poppler-glib-devel, bzip2-devel, zlib-devel, pkgconfig
 BuildRequires:	unixODBC-devel, libXtst-devel, sqlite-devel, mesa-libGL-devel
 BuildRequires:	mesa-libGLU-devel, libpng-devel, libjpeg-devel, libxml2-devel
 BuildRequires:	libxslt-devel, pcre-devel, SDL_image-devel, libICE-devel
@@ -45,9 +46,7 @@ BuildRequires:	gtkglext-devel
 
 Patch1:		%{name}-3.12.2-nolintl.patch
 Patch2:		%{name}-3.12.2-noliconv.patch
-Patch4:		%{name}-3.13.0-poppler-0.73.0.patch
 Patch5:		%{name}-3.14.1-gst1.patch
-Patch6:		%{name}-3.14.3-printf.patch
 
 %description
 Gambas3 is a free development environment based on a Basic interpreter
@@ -60,7 +59,7 @@ on...
 %package runtime
 Summary:	Runtime environment for Gambas3
 Provides:	%{name}-gb-gui = %{version}-%{release}
-Obsoletes:	%{name}-gb-gui >= 3.3.3
+Obsoletes:	%{name}-gb-gui <= 3.4
 
 %description runtime
 Gambas3 is a free development environment based on a Basic interpreter
@@ -164,6 +163,7 @@ Requires:	%{name}-gb-openssl = %{version}-%{release}
 Requires:	%{name}-gb-option = %{version}-%{release}
 Requires:	%{name}-gb-pcre = %{version}-%{release}
 Requires:	%{name}-gb-pdf = %{version}-%{release}
+Requires:	%{name}-gb-poppler = %{version}-%{release}
 Requires:	%{name}-gb-qt4 = %{version}-%{release}
 Requires:	%{name}-gb-qt4-ext = %{version}-%{release}
 Requires:	%{name}-gb-qt4-opengl = %{version}-%{release}
@@ -182,6 +182,7 @@ Requires:	%{name}-gb-sdl2-audio = %{version}-%{release}
 Requires:	%{name}-gb-settings = %{version}-%{release}
 Requires:	%{name}-gb-signal = %{version}-%{release}
 Requires:	%{name}-gb-term = %{version}-%{release}
+Requires:	%{name}-gb-test = %{version}-%{release}
 Requires:	%{name}-gb-util = %{version}-%{release}
 Requires:	%{name}-gb-util-web = %{version}-%{release}
 Requires:	%{name}-gb-v4l = %{version}-%{release}
@@ -189,6 +190,7 @@ Requires:	%{name}-gb-vb = %{version}-%{release}
 Requires:	%{name}-gb-web = %{version}-%{release}
 Requires:	%{name}-gb-web-feed = %{version}-%{release}
 Requires:	%{name}-gb-web-form = %{version}-%{release}
+Requires:	%{name}-gb-web-gui = %{version}-%{release}
 Requires:	%{name}-gb-xml = %{version}-%{release}
 Requires:	%{name}-gb-xml-html = %{version}-%{release}
 Requires:	%{name}-gb-xml-rpc = %{version}-%{release}
@@ -657,10 +659,17 @@ Requires:	%{name}-runtime = %{version}-%{release}
 %{summary}
 
 %package gb-pdf
-Summary:	Gambas3 component package for pdf
+Summary:  	Gambas3 component package for pdf
 Requires:	%{name}-runtime = %{version}-%{release}
 
 %description gb-pdf
+%{summary}
+
+%package gb-poppler
+Summary:	Gambas3 component package for poppler
+Requires:	%{name}-runtime = %{version}-%{release}
+
+%description gb-poppler
 %{summary}
 
 %package gb-qt4
@@ -799,6 +808,13 @@ Requires:	%{name}-runtime = %{version}-%{release}
 %description gb-term
 %{summary}
 
+%package gb-test
+Summary:        Gambas3 component package for unit tests
+Requires:       %{name}-runtime = %{version}-%{release}
+
+%description gb-test
+%{summary}
+
 %package gb-util
 Summary:	Gambas3 component package for util
 Requires:	%{name}-runtime = %{version}-%{release}
@@ -850,6 +866,15 @@ Requires:	%{name}-gb-web = %{version}-%{release}
 %description gb-web-form
 %{summary}
 
+%package gb-web-gui
+Summary: 	Gambas3 component package for web-gui
+Requires:	%{name}-runtime = %{version}-%{release}
+Requires:       %{name}-gb-web = %{version}-%{release}
+
+%description gb-web-gui
+%{summary}
+
+
 %package gb-xml
 Summary:	Gambas3 component package for xml
 Requires:	%{name}-runtime = %{version}-%{release}
@@ -885,9 +910,7 @@ Requires:	%{name}-gb-xml = %{version}-%{release}
 %setup -q -n gambas-%{version}
 %patch1 -p1 -b .nolintl
 %patch2 -p1 -b .noliconv
-%patch4 -p1 -b .poppler_0.73.0
 %patch5 -p1 -b .gst1
-%patch6 -p1 -b .printf
 for i in `find . |grep acinclude.m4`; do
 	sed -i 's|$AM_CFLAGS -O3|$AM_CFLAGS|g' $i
 	sed -i 's|$AM_CXXFLAGS -Os -fno-omit-frame-pointer|$AM_CXXFLAGS|g' $i
@@ -1022,6 +1045,8 @@ install -m 0644 -p main/mime/application-x-gambas3.xml %{buildroot}%{_datadir}/m
 %{_datadir}/%{name}/icons/application-x-gambas3.png
 %{_datadir}/mime/packages/application-x-gambas3.xml
 %{_datadir}/%{name}/icons/application-x-gambasserverpage.png
+%{_mandir}/man1/gbr3.*
+%{_mandir}/man1/gbx3.*
 
 %files devel
 %license COPYING
@@ -1030,6 +1055,10 @@ install -m 0644 -p main/mime/application-x-gambas3.xml %{buildroot}%{_datadir}/m
 %{_bindir}/gbh3
 %{_bindir}/gbh3.gambas
 %{_bindir}/gbi3
+%{_mandir}/man1/gbc3.*
+%{_mandir}/man1/gba3.*
+%{_mandir}/man1/gbh3.*
+%{_mandir}/man1/gbi3.*
 
 %files scripter
 %{_bindir}/gbs3
@@ -1037,6 +1066,8 @@ install -m 0644 -p main/mime/application-x-gambas3.xml %{buildroot}%{_datadir}/m
 %{_bindir}/gbw3
 %{_datadir}/%{name}/icons/application-x-gambasscript.png
 %{_datadir}/mime/packages/application-x-gambasscript.xml
+%{_mandir}/man1/gbs3.*
+%{_mandir}/man1/gbw3.*
 
 %files ide
 %{_bindir}/%{name}
@@ -1046,6 +1077,7 @@ install -m 0644 -p main/mime/application-x-gambas3.xml %{buildroot}%{_datadir}/m
 # The IDE crashes if it can't find this directory.
 # Since -examples Requires: -ide, this is okay.
 %dir %{_datadir}/%{name}/examples/
+%{_mandir}/man1/gambas3.*
 
 %files gb-args
 %{_libdir}/%{name}/gb.args.*
@@ -1365,6 +1397,13 @@ install -m 0644 -p main/mime/application-x-gambas3.xml %{buildroot}%{_datadir}/m
 %{_datadir}/%{name}/info/gb.pdf.info
 %{_datadir}/%{name}/info/gb.pdf.list
 
+%files gb-poppler
+%{_libdir}/%{name}/gb.poppler.component
+%{_libdir}/%{name}/gb.poppler.so*
+%{_libdir}/%{name}/gb.poppler.la
+%{_datadir}/%{name}/info/gb.poppler.info
+%{_datadir}/%{name}/info/gb.poppler.list
+
 %files gb-qt4
 %{_libdir}/%{name}/gb.qt4.component
 # %%{_libdir}/%%{name}/gb.qt4.gambas
@@ -1463,6 +1502,11 @@ install -m 0644 -p main/mime/application-x-gambas3.xml %{buildroot}%{_datadir}/m
 %{_datadir}/%{name}/control/gb.term.*
 %{_datadir}/%{name}/info/gb.term.*
 
+%files gb-test
+%{_libdir}/%{name}/gb.test.*
+%{_datadir}/%{name}/info/gb.test.info
+%{_datadir}/%{name}/info/gb.test.list
+
 %files gb-util
 %{_libdir}/%{name}/gb.util.component
 %{_libdir}/%{name}/gb.util.gambas
@@ -1501,6 +1545,13 @@ install -m 0644 -p main/mime/application-x-gambas3.xml %{buildroot}%{_datadir}/m
 %{_datadir}/%{name}/info/gb.web.form.list
 %{_datadir}/%{name}/control/gb.web.form/
 
+%files gb-web-gui
+%{_libdir}/%{name}/gb.web.gui.component
+%{_libdir}/%{name}/gb.web.gui.gambas
+%{_datadir}/%{name}/info/gb.web.gui.info
+%{_datadir}/%{name}/info/gb.web.gui.list
+%{_datadir}/%{name}/control/gb.web.gui/
+
 %files gb-xml
 %{_libdir}/%{name}/gb.xml.component
 %{_libdir}/%{name}/gb.xml.gambas
@@ -1526,6 +1577,24 @@ install -m 0644 -p main/mime/application-x-gambas3.xml %{buildroot}%{_datadir}/m
 %{_datadir}/%{name}/info/gb.xml.xslt.*
 
 %changelog
+* Wed Sep 23 2020 Tom Callaway <spot@fedoraproject.org> - 3.15.2-1
+- update to 3.15.2
+
+* Thu Aug 13 2020 Tom Callaway <spot@fedoraproject.org> - 3.15.1-1
+- update to 3.15.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.15.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Tom Callaway <spot@fedoraproject.org> - 3.15.0-2
+- rebuild with gtkglext
+
+* Tue Jul 14 2020 Tom Callaway <spot@fedoraproject.org> - 3.15.0-1
+- update to 3.15.0
+
+* Tue Jul 14 2020 Tom Callaway <spot@fedoraproject.org> - 3.14.3-5
+- rebuild for poppler 0.90.0
+
 * Mon Jun 22 2020 Tom Callaway <spot@fedoraproject.org> - 3.14.3-4
 - do not attempt to build/package gb-gtk-opengl (dependencies are ancient and no longer in Fedora)
 - fix compile against pgsql 12 (thanks to Honza Horak)

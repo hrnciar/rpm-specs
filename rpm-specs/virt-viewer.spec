@@ -17,7 +17,7 @@
 
 Name: virt-viewer
 Version: 9.0
-Release: 1%{?dist}%{?extra_release}
+Release: 2%{?dist}%{?extra_release}
 Summary: Virtual Machine Viewer
 License: GPLv2+
 URL: http://virt-manager.org/
@@ -105,6 +105,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/remote-viewer.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May  1 2020 Daniel P. Berrangé <berrange@redhat.com> - 9.0-1
 - Update to 9.0 release
 

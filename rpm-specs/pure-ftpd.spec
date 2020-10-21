@@ -1,6 +1,6 @@
 Name:       pure-ftpd
 Version:    1.0.49
-Release:    5%{?dist}
+Release:    6%{?dist}
 Summary:    Lightweight, fast and secure FTP server
 License:    BSD
 URL:        http://www.pureftpd.org
@@ -233,6 +233,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.49-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 06 2020 Ondřej Lysoněk <olysonek@redhat.com> - 1.0.49-5
 - Fix CVE-2020-9365 and CVE-2020-9274
 - Resolves: rhbz#1828688

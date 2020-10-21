@@ -3,7 +3,7 @@ Name:           colossus
 %global         revdate    20130917
 Version:        0.14.0
 %global         branch    %{nil}
-Release:        14%{?dist}
+Release:        16%{?dist}
 Summary:        Allows people to play Titan against each other or AIs
 
 License:        GPLv2
@@ -179,6 +179,12 @@ EOF
 %{_javadocdir}/%{name}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0.14.0-15
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sun May 03 2020 Bruno Wolff III <bruno@wolff.to> - 0.14.0-14
 - New Fedora release that is hoped will work with java 11
 

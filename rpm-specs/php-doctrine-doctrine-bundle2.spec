@@ -12,8 +12,8 @@
 
 %global github_owner     doctrine
 %global github_name      DoctrineBundle
-%global github_version   2.1.0
-%global github_commit    0fb513842c78b43770597ef3c487cdf79d944db3
+%global github_version   2.1.2
+%global github_commit    f5153089993e1230f5d8acbd8e126014d5a63e17
 %global major            2
 
 %global composer_vendor  doctrine
@@ -21,12 +21,12 @@
 
 # "php": "^7.1 || ^8.0"
 %global php_min_ver 7.1
-# "doctrine/dbal": "^2.9.0"
+# "doctrine/dbal": "^2.9.0|^3.0"
 %global dbal_min_ver 2.9
-%global dbal_max_ver 3.0
-# "doctrine/persistence": "^1.3.3",
+%global dbal_max_ver 4
+# "doctrine/persistence": "^1.3.3|^2.0",
 %global persistence_min_ver 1.3.3
-%global persistence_max_ver 2
+%global persistence_max_ver 3
 # "doctrine/orm": "~2.6"
 %global orm_min_ver 2.6
 %global orm_max_ver 3.0
@@ -88,7 +88,7 @@ BuildRequires: php(language)                                >= %{php_min_ver}
 BuildRequires: php-theseer-autoload
 BuildRequires:(php-composer(doctrine/dbal)                  >= %{dbal_min_ver}          with php-composer(doctrine/dbal)                  < %{dbal_max_ver})
 BuildRequires:(php-composer(doctrine/orm)                   >= %{orm_min_ver}           with php-composer(doctrine/orm)                   < %{orm_max_ver})
-BuildRequires:(php-composer(doctrine/persistence)           >= %{persistence_min_ver}   with php-composer(doctrine/persistence)           < %{orm_max_ver})
+BuildRequires:(php-composer(doctrine/persistence)           >= %{persistence_min_ver}   with php-composer(doctrine/persistence)           < %{persistence_max_ver})
 BuildRequires:(php-composer(doctrine/sql-formatter)         >= %{sql_formatter_min_ver} with php-composer(doctrine/sql-formatter)         < %{sql_formatter_max_ver})
 BuildRequires:(php-composer(symfony/service-contracts)      >= %{contracts_min_ver}     with php-composer(symfony/service-contracts)      < %{contracts_max_ver})
 BuildRequires:(php-composer(ocramius/proxy-manager)         >= %{proxy_manager_min_ver} with php-composer(ocramius/proxy-manager)         < %{proxy_manager_max_ver})
@@ -121,12 +121,12 @@ BuildRequires: php-composer(fedora/autoloader)
 # composer.json
 Requires:      php(language)                                >= %{php_min_ver}
 Requires:     (php-composer(doctrine/dbal)                  >= %{dbal_min_ver}          with php-composer(doctrine/dbal)                  <  %{dbal_max_ver})
-Requires:     (php-composer(doctrine/persistence)           >= %{persistence_min_ver}   with php-composer(doctrine/persistence)           < %{orm_max_ver})
+Requires:     (php-composer(doctrine/persistence)           >= %{persistence_min_ver}   with php-composer(doctrine/persistence)           <  %{persistence_max_ver})
 Requires:     (php-composer(doctrine/sql-formatter)         >= %{sql_formatter_min_ver} with php-composer(doctrine/sql-formatter)         <  %{sql_formatter_max_ver})
 Requires:     (php-composer(symfony/cache)                  >= %{symfony_min_ver}       with php-composer(symfony/cache)                  <  %{symfony_max_ver})
 Requires:     (php-composer(symfony/config)                 >= %{symfony_min_ver}       with php-composer(symfony/config)                 <  %{symfony_max_ver})
 Requires:     (php-composer(symfony/console)                >= %{symfony_min_ver}       with php-composer(symfony/console)                <  %{symfony_max_ver})
-Requires:     (php-composer(symfony/service-contracts)      >= %{contracts_min_ver}     with php-composer(symfony/service-contracts)      < %{contracts_max_ver})
+Requires:     (php-composer(symfony/service-contracts)      >= %{contracts_min_ver}     with php-composer(symfony/service-contracts)      <  %{contracts_max_ver})
 Requires:     (php-composer(symfony/dependency-injection)   >= %{symfony_min_ver}       with php-composer(symfony/dependency-injection)   <  %{symfony_max_ver})
 Requires:     (php-composer(symfony/doctrine-bridge)        >= %{symfony_min_ver}       with php-composer(symfony/doctrine-bridge)        <  %{symfony_max_ver})
 Requires:     (php-composer(symfony/framework-bundle)       >= %{symfony_min_ver}       with php-composer(symfony/framework-bundle)       <  %{symfony_max_ver})
@@ -178,8 +178,13 @@ require_once '%{phpdir}/Fedora/Autoloader/autoload.php';
 \Fedora\Autoloader\Autoload::addPsr4('Doctrine\\Bundle\\DoctrineBundle\\', __DIR__);
 
 \Fedora\Autoloader\Dependencies::required([
-    '%{phpdir}/Doctrine/DBAL/autoload.php',
-    '%{phpdir}/Doctrine/Persistence/autoload.php',
+    [
+        '%{phpdir}/Doctrine/DBAL3/autoload.php',
+        '%{phpdir}/Doctrine/DBAL/autoload.php',
+    ], [
+        '%{phpdir}/Doctrine/Persistence2/autoload.php',
+        '%{phpdir}/Doctrine/Persistence/autoload.php',
+    ],
     '%{phpdir}/Doctrine/SqlFormatter/autoload.php',
     '%{phpdir}/Symfony/Contracts/autoload.php',
     [
@@ -264,6 +269,17 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Aug 25 2020 Remi Collet <remi@remirepo.net> - 2.1.2-1
+- update to 2.1.2
+
+* Tue Aug 25 2020 Remi Collet <remi@remirepo.net> - 2.1.1-1
+- update to 2.1.1
+- allow doctrine/dbal 3.0
+- allow doctrine/persistence 2.0
+
+* Tue May 26 2020 Remi Collet <remi@remirepo.net> - 2.1.0-
+- fix dependency and FTBFS #1863700
+
 * Tue May 26 2020 Remi Collet <remi@remirepo.net> - 2.1.0-1
 - update to 2.1.0
 - switch from jdorn/sql-formatter to doctrine/sql-formatter

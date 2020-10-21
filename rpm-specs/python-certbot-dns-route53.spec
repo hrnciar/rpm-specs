@@ -13,7 +13,7 @@
 %endif
 
 Name:           python-%{pypi_name}
-Version:        1.5.0
+Version:        1.9.0
 Release:        1%{?dist}
 Summary:        Route53 DNS Authenticator plugin for Certbot
 
@@ -194,6 +194,21 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version}
 %endif
 
 %changelog
+* Thu Oct 08 2020 Nick Bebout <nb@fedoraproject.org> - 1.9.0-1
+- Update to 1.9.0
+
+* Tue Oct 06 2020 Nick Bebout <nb@fedoraproject.org> - 1.8.0-1
+- Update to 1.8.0
+
+* Sun Aug 16 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.7.0-1
+- Update to 1.7.0 (#1866093)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.6.0-1
+- Update to 1.6.0 (#1854586)
+
 * Sat Jun 06 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.5.0-1
 - Update to 1.5.0 (#1843216)
 

@@ -1,6 +1,6 @@
 Name:           commissaire-client
 Version:        0.0.6
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        CLI for Commissaire
 License:        LGPLv2+
 URL:            http://github.com/projectatomic/commctl
@@ -50,6 +50,9 @@ Command line tools for Commissaire.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.6-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.0.6-12
 - Rebuilt for Python 3.9
 

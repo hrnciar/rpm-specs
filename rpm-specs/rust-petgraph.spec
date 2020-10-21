@@ -7,7 +7,7 @@
 
 Name:           rust-%{crate}
 Version:        0.5.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Graph data structure library
 
 # Upstream license specification: MIT/Apache-2.0
@@ -196,6 +196,9 @@ which use "unstable" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Josh Stone <jistone@redhat.com> - 0.5.1-1
 - Update to 0.5.1
 

@@ -1,10 +1,12 @@
 # Avogadro supports Python2 only
 
+%global __cmake_in_source_build 1
+
 %undefine _ld_as_needed
 
 Name:           avogadro
 Version:        1.2.0
-Release:        31%{?dist}
+Release:        33%{?dist}
 Summary:        An advanced molecular editor for chemical purposes
 License:        GPLv2
 URL:            http://avogadro.openmolecules.net/
@@ -208,6 +210,13 @@ end
 %{_datadir}/avogadro/i18n/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-33
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

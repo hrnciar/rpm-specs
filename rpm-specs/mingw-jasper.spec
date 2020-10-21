@@ -1,8 +1,8 @@
 %{?mingw_package_header}
 
 Name:           mingw-jasper
-Version:        2.0.16
-Release:        6%{?dist}
+Version:        2.0.22
+Release:        2%{?dist}
 Summary:        MinGW Windows Jasper library
 
 License:        JasPer
@@ -15,7 +15,7 @@ Source0:        https://github.com/mdadams/jasper/archive/version-%{version}/jas
 Patch1000:      jasper-libversion.patch
 # This patch is a bit of a hack, but it's just there to fix a demo program:
 Patch1001:      jasper-1.900.1-sleep.patch
-# Export some additional symbols, needed by mingw-gstreamer-plugins-bad-free
+# Add some missing exports, needed by mingw-gdal
 Patch1002:      jasper-exports.patch
 
 BuildArch:      noarch
@@ -77,15 +77,15 @@ Static version of the MinGW Windows Jasper library.
 jasper_cmake_args="-DJAS_ENABLE_DOC=OFF -DJAS_ENABLE_OPENGL=OFF -DJAS_ENABLE_AUTOMATIC_DEPENDENCIES=OFF"
 # Build static
 MINGW_BUILDDIR_SUFFIX=-static %mingw_cmake -DJAS_ENABLE_SHARED=OFF $jasper_cmake_args
-MINGW_BUILDDIR_SUFFIX=-static %mingw_make %{?_smp_mflags}
+MINGW_BUILDDIR_SUFFIX=-static %mingw_make_build
 # Build shared
 MINGW_BUILDDIR_SUFFIX=-shared %mingw_cmake -DJAS_ENABLE_SHARED=ON $jasper_cmake_args
-MINGW_BUILDDIR_SUFFIX=-shared %mingw_make %{?_smp_mflags}
+MINGW_BUILDDIR_SUFFIX=-shared %mingw_make_build
 
 
 %install
-MINGW_BUILDDIR_SUFFIX=-static %mingw_make DESTDIR=%{buildroot} install
-MINGW_BUILDDIR_SUFFIX=-shared %mingw_make DESTDIR=%{buildroot} install
+MINGW_BUILDDIR_SUFFIX=-static %mingw_make_install
+MINGW_BUILDDIR_SUFFIX=-shared %mingw_make_install
 
 # Remove documentation
 rm -rf %{buildroot}%{mingw32_mandir}
@@ -124,6 +124,18 @@ rmdir %{buildroot}%{mingw64_datadir}
 
 
 %changelog
+* Fri Oct 16 2020 Sandro Mani <manisandro@gmail.com> - 2.0.22-2
+- Export symbols needed by mingw-gdal
+
+* Wed Oct 07 2020 Sandro Mani <manisandro@gmail.com> - 2.0.22-1
+- Update to 2.0.22
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.17-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Sandro Mani <manisandro@gmail.com> - 2.0.17-1
+- Update to 2.0.17
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.16-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

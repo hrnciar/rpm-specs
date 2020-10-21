@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.3.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        FFI bindings to dav1d
 
 # Upstream license specification: MIT
@@ -84,6 +84,13 @@ echo 'pkgconfig(dav1d) >= 0.1.0'
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Josh Stone <jistone@redhat.com> - 0.3.2-1
 - Update to 0.3.2
 

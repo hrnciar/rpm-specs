@@ -4,7 +4,7 @@
 
 # https://github.com/aliyun/aliyun-oss-go-sdk
 %global goipath         github.com/aliyun/aliyun-oss-go-sdk
-Version:                2.0.5
+Version:                2.1.3
 
 %gometa
 
@@ -22,6 +22,7 @@ License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
+BuildRequires:  golang(github.com/aliyun/alibaba-cloud-sdk-go/services/kms)
 BuildRequires:  golang(golang.org/x/time/rate)
 
 %if %{with check}
@@ -49,6 +50,12 @@ BuildRequires:  golang(gopkg.in/check.v1)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 14:43:35 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.1.3-1
+- Update to 2.1.3
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

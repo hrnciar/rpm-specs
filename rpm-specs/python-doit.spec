@@ -1,8 +1,8 @@
 %global srcname doit
 
 Name:           python-%{srcname}
-Version:        0.32.0
-Release:        2%{?dist}
+Version:        0.33.1
+Release:        1%{?dist}
 Summary:        Automation Tool
 
 License:        MIT
@@ -117,6 +117,12 @@ install -p -D -m 0644 bash_completion_doit %{buildroot}%{_sysconfdir}/bash_compl
 %doc TODO.txt
 
 %changelog
+* Fri Sep  4 2020 José Matos <jamatos@fedoraproject.org> - 0.33.1-1
+- Update to 0.33.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.32.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.32.0-2
 - Rebuilt for Python 3.9
 

@@ -5,7 +5,7 @@
 %global __provides_exclude_from ^%{vdr_plugindir}/.*\\.so.*$
 
 Name:           vdr-%{pname}
-Version:        0.2.50
+Version:        0.2.54
 Release:        1%{?dist}
 Summary:        VDR skin interface for the browser
 License:        GPLv2+
@@ -71,6 +71,17 @@ install -Dpm 755 scripts/startBrowser.sh %{buildroot}%{vdr_plugindir}/bin/startB
 %{vdr_plugindir}/bin/startBrowser.sh
 
 %changelog
+* Sun Sep 13 2020 Martin Gansser <martinkg@fedoraproject.org> - 0.2.54-1
+- Rebuilt for new libwebsockets
+- Update to 0.2.54
+
+* Sun Aug 02 2020 Martin Gansser <martinkg@fedoraproject.org> - 0.2.52-1
+- Update to 0.2.52
+- Rebuilt for new VDR API version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.50-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 12 2020 Martin Gansser <martinkg@fedoraproject.org> - 0.2.50-1
 - Update to 0.2.50
 - Rebuilt due an SONAME bump of libwebsockets to 4.0.0

@@ -1,7 +1,7 @@
 Name:           fgrun
 Summary:        Graphical front-end for launching FlightGear flight simulator
 Version:        2016.3.1
-Release:        29%{?dist}
+Release:        32%{?dist}
 License:        GPLv2+ and CC-BY-SA
 URL:            http://sourceforge.net/projects/fgrun
 # git clone http://git.code.sf.net/p/flightgear/fgrun
@@ -44,13 +44,13 @@ cp -a %{SOURCE2} .
 
 %build 
 CXXFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64"
-%{cmake} \
-    -DSIMGEAR_SHARED=ON \
-.
-make %{?_smp_mflags}
+%cmake \
+    -DSIMGEAR_SHARED=ON
+
+%cmake_build
 
 %install 
-make install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 ln -s opengl-game-wrapper.sh $RPM_BUILD_ROOT%{_bindir}/fgrun-wrapper
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/fltk/flightgear.org
 install -m 0644 fgrun.prefs \
@@ -93,6 +93,15 @@ install -m 0644 %{SOURCE15} \
 %{_datadir}/icons/hicolor/*/apps/*
 
 %changelog
+* Mon Jul 27 2020 Fabrice Bellet <fabrice@bellet.info> - 2016.3.1-32
+- use latest cmake macros
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2016.3.1-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Fabrice Bellet <fabrice@bellet.info> - 2016.3.1-30
+- rebuild with newer SimGear
+
 * Sat May 23 2020 Fabrice Bellet <fabrice@bellet.info> - 2016.3.1-29
 - rebuild with newer SimGear
 

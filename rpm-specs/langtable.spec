@@ -1,6 +1,6 @@
 Name:           langtable
-Version:        0.0.51
-Release:        3%{?dist}
+Version:        0.0.53
+Release:        1%{?dist}
 Summary:        Guessing reasonable defaults for locale, keyboard layout, territory, and language.
 # the translations in languages.xml and territories.xml are (mostly)
 # imported from CLDR and are thus under the Unicode license, the
@@ -74,6 +74,20 @@ xmllint --noout --relaxng \
 %{python3_sitelib}/langtable-*.egg-info/*
 
 %changelog
+* Tue Sep 15 2020 Mike FABIAN <mfabian@redhat.com> - 0.0.53-1
+- Update to 0.0.53
+- Capitalize the return values of language_name() and territory_name()
+  (See: https://github.com/rhinstaller/anaconda/pull/2837).
+- Add more translations from CLDR
+- Get translation changes from CLDR
+
+* Tue Aug 18 2020 Mike FABIAN <mfabian@redhat.com> - 0.0.52-1
+- Update to 0.0.52
+- add list_common_keyboards() to public api by Sundeep ANAND <suanand@redhat.com>
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.51-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.0.51-3
 - Rebuilt for Python 3.9
 

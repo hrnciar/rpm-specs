@@ -4,7 +4,7 @@
 Summary:        ASN.1 encode/decode library
 Name:           perl-Convert-ASN1
 Version:        0.27
-Release:        19%{?dist}
+Release:        20%{?dist}
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Convert-ASN1
 Source0:        https://cpan.metacpan.org/authors/id/G/GB/GBARR/Convert-ASN1-%{version}.tar.gz
@@ -105,6 +105,9 @@ make test
 %{_libexecdir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.27-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.27-19
 - Perl 5.32 rebuild
 

@@ -3,8 +3,8 @@
 
 # https://github.com/opencontainers/runtime-spec
 %global goipath         github.com/opencontainers/runtime-spec
-Version:                1.0.1
-%global commit          a1b50f621a48ad13f8f696a162f684a241307db0
+Version:                1.0.2
+%global commit          d438e29be51289c473d4cae695514f9763598449
 
 %gometa
 
@@ -21,7 +21,7 @@ Open Container Initiative Runtime Specification.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Open Container Initiative Runtime Specification
 
 # Upstream license specification: Apache-2.0
@@ -45,15 +45,6 @@ cp %{S:1} %{S:2} .
 %install
 %gopkginstall
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck
@@ -62,6 +53,15 @@ end
 %gopkgfiles
 
 %changelog
+* Sat Aug 15 19:17:47 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.2-2.20200815gitd438e29
+- Bump to commit d438e29be51289c473d4cae695514f9763598449
+
+* Thu Jul 30 17:53:13 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.2-1
+- Update to 1.0.2
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

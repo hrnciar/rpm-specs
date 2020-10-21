@@ -1,6 +1,6 @@
 Name:           compiz-manager
 Version:        0.7.0
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        A wrapper script to start compiz with proper options
 
 License:        GPLv2+
@@ -9,7 +9,7 @@ Source0:        https://github.com/raveit65/%{name}/releases/download/v%{version
 BuildArch:      noarch
 
 Requires:       compiz
-Requires:       xorg-x11-utils
+Requires:       xdpyinfo
 Requires:       pciutils
 Requires:       glx-utils
 Requires:       libcompizconfig
@@ -35,6 +35,12 @@ cp -p %{name} %{buildroot}/%{_bindir}/
 %{_bindir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 0.7.0-12
+- Require xdpyinfo not xorg-x11-utils
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

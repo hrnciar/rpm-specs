@@ -3,7 +3,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.1.0
-Release:        20%{?dist}
+Release:        22%{?dist}
 Summary:        Automatically setup a PostgreSQL testing instance
 
 License:        ASL 2.0
@@ -16,6 +16,7 @@ BuildRequires:  postgresql-server
 BuildRequires:  python3-devel
 BuildRequires:  python3-nose
 BuildRequires:  python3-psycopg2
+BuildRequires:  python3-setuptools
 
 Requires:       postgresql-server
 Requires:       which
@@ -66,6 +67,12 @@ find . -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 - Ernestas Kulik <ekulik@redhat.com> - 1.1.0-21
+- Explicitly depend on python3-setuptools for building
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.0-20
 - Rebuilt for Python 3.9
 

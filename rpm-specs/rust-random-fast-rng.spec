@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Rust library for Blazing fast non cryptographic random number generator
 
 # Upstream license specification: MIT/Apache-2.0
@@ -94,5 +94,8 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 12 10:16:36 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.1.1-1
 - Initial package

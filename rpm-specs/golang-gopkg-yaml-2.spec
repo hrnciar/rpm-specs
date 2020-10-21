@@ -4,14 +4,9 @@
 # https://github.com/go-yaml/yaml
 %global goipath         gopkg.in/yaml.v2
 %global forgeurl        https://github.com/go-yaml/yaml
-Version:                2.2.8
+Version:                2.3.0
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-gopkg-yaml-devel-v2 < 2.2.2-28
-}
 
 %global goaltipaths     gopkg.in/v2/yaml
 
@@ -57,6 +52,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 22:32:27 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.3.0-1
+- Update to 2.3.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 16 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.2.8-1
 - Update to latest version
 

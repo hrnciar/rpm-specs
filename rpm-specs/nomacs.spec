@@ -1,20 +1,28 @@
 %global github_owner    nomacs
-%global github_name     nomacs
+# https://github.com/nomacs/nomacs/issues/530
+%global git_build    224
 
 Name:		nomacs
 Summary:	Lightweight image viewer
-Version:	3.14.2
-Release:	3%{?dist}
+Version:	3.16
+Release:	1%{?dist}
 License:	GPLv3+ and CC-BY
 Url:		http://nomacs.org
-Source0:  https://github.com/%{github_owner}/%{github_name}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
-
+Source0:	https://github.com/%{github_owner}/%{name}/archive/%{version}.%{build}.tar.gz/%{name}-%{version}.%{git_build}.tar.gz
+Source1:	https://github.com/%{github_owner}/%{name}-plugins/archive/%{version}.tar.gz/%{name}-plugins-%{version}.tar.gz
+# desktop entries rename (https://github.com/nomacs/nomacs/issues/528)
+Patch0:		%{name}-%{version}.%{git_build}-desktop.diff
+# plugins search path (https://github.com/nomacs/nomacs/issues/531)
+Patch1:		%{name}-%{version}.%{git_build}-pluginspath.diff
+# plugins install path (https://github.com/nomacs/nomacs-plugins/issues/34)
+Patch2:		%{name}-plugins-%{version}-instpath.diff
+BuildRequires:	gcc-c++
 BuildRequires:	cmake
 BuildRequires:	desktop-file-utils
+BuildRequires:	qt5-linguist
 BuildRequires:	cmake(Qt5Gui)
 # qt5-qtsvg-devel
 BuildRequires:	cmake(Qt5Svg)
-BuildRequires:	qt5-linguist
 # exiv2-devel
 BuildRequires:	pkgconfig(exiv2) >= 0.20
 # opencv-devel
@@ -25,8 +33,10 @@ BuildRequires:	pkgconfig(libraw) >= 0.12.0
 BuildRequires:	pkgconfig(libtiff-4)
 # libwebp-devel >= 0.3.1
 BuildRequires:	pkgconfig(libwebp)
-# quazip-devel >= 0.7
+# quazip-qt5-devel >= 0.7
 BuildRequires:	quazip-qt5-devel
+# libheif-devel (rpmfusion-free)
+# BuildRequires:	pkgconfig(libheif)
 BuildRequires:	lcov
 
 %description
@@ -37,34 +47,49 @@ running on the same computer or via LAN is possible.
 It allows to compare images and spot the differences
 e.g. schemes of architects to show the progress).
 
+%package	plugins
+Summary:	Plugins for nomacs image viewer.
+Requires:	%{name} = %{version}-%{release}
+
+%description	plugins
+Some usefull plugins for nomacs:
+- Affine transformations
+- RGB image from greyscales
+- Fake miniature filter
+- Page extractions
+- Painting
+
 
 %prep
-%autosetup
-# hack - wrong lang code "als" (http://www.nomacs.org/redmine/issues/228)
+%setup -n %{name}-%{version}.%{git_build}
+%patch0
+%patch1
+%setup -T -D -a 1 -n %{name}-%{version}.%{git_build}
+# plug them in
+mv nomacs-plugins-%{version}/* ImageLounge/plugins/
+%patch2
+# Be sure
+rmdir {3rd-party/*,3rd-party}
+# wrong lang code (https://github.com/nomacs/nomacs/issues/529)
 rm -fv ImageLounge/translations/nomacs_als.ts
 
 
 %build
-mkdir build
-pushd build
-# builtin quazip because of qt5
-%cmake ../ImageLounge \
+%cmake ImageLounge \
   -DCMAKE_BUILD_TYPE=Release\
   -DENABLE_RAW=1 \
   -DUSE_SYSTEM_WEBP=ON \
   -DUSE_SYSTEM_QUAZIP=ON \
   -DENABLE_TRANSLATIONS=ON
-popd
-
-%make_build -C build
+#  -DENABLE_HEIF=1
+%{cmake_build}
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C build
-
+%{cmake_install}
 %find_lang %{name} --with-qt --without-mo
 # workaround errors wrt to spaces
-sed -i -e 's|Image Lounge|Image*Lounge|g' %{name}.lang
+sed -i -e 's|Image Lounge|Image?Lounge|g' %{name}.lang
 
 
 %check
@@ -72,21 +97,37 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %files -f %{name}.lang
-%license ImageLounge/Readme/[CL]*
-%doc ImageLounge/Readme/README
+%license ImageLounge/license/*
+%doc README.md
 %{_bindir}/%{name}
-%{_libdir}/libnomac*.*
+%{_libdir}/libnomacsCore.so*
 %dir %{_datadir}/%{name}/
-%{_datadir}/%{name}/Image*Lounge/themes/
-%dir %{_datadir}/%{name}/Image*Lounge/
-%dir %{_datadir}/%{name}/Image*Lounge/translations/
+%{_datadir}/%{name}/Image?Lounge/themes/
+%dir %{_datadir}/%{name}/Image?Lounge/
+%dir %{_datadir}/%{name}/Image?Lounge/translations/
 %{_metainfodir}/%{name}.appdata.xml
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/pixmaps/%{name}.svg
+%{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 %{_mandir}/man1/%{name}.*
+
+%files	plugins
+%license ImageLounge/license/*
+%{_libdir}/nomacs-plugins/
 
 
 %changelog
+* Fri Aug 07 2020 TI_Eugene <ti.eugene@gmail.com> 3.16-1
+- Version bump
+- Plugins added
+- Spec fixes against F33
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14.2-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Nicolas Chauvet <kwizart@gmail.com> - 3.14.2-3
 - Rebuilt for OpenCV 4.3
 

@@ -2,7 +2,7 @@
 
 Name:           dleyna-renderer
 Version:        0.6.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Service for interacting with Digital Media Renderers
 
 License:        LGPLv2
@@ -89,6 +89,9 @@ rm -f $RPM_BUILD_ROOT/%{_libdir}/%{name}/libdleyna-renderer-%{api}.so
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 12 2020 Kalev Lember <klember@redhat.com> - 0.6.0-7
 - Port to gupnp 1.2
 

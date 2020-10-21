@@ -1,6 +1,6 @@
 Name:           rpl
 Version:        1.5.7
-Release:        13%{?dist}
+Release:        15%{?dist}
 Summary:        Intelligent recursive search/replace utility
 
 License:        GPLv2+
@@ -12,6 +12,7 @@ Patch0:         rpl-python3.patch
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 
 %description
 rpl is a UN*X text replacement utility. It will replace strings with
@@ -46,6 +47,12 @@ sed -i s/1\.5\.6/%{version}/ setup.py
 %{python3_sitelib}/*
 
 %changelog
+* Thu Aug 06 2020 Tim Jackson <rpm@timj.co.uk> - 1.5.7-15
+- Add explicit BuildRequires on python3-setuptools
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.7-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5.7-13
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           cbi-plugins
 Version:        1.1.7
-Release:        4%{?dist}
+Release:        7%{?dist}
 Summary:        A set of helpers for Eclipse CBI
 License:        EPL-1.0
 URL:            https://git.eclipse.org/c/cbi/org.eclipse.cbi.git/tree/maven-plugins/README.md
@@ -18,7 +18,7 @@ BuildRequires:  mvn(org.apache.maven:maven-plugin-api)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-plugin-plugin)
 BuildRequires:  mvn(org.apache.maven.plugin-tools:maven-plugin-annotations)
 BuildRequires:  mvn(org.eclipse.tycho:tycho-core)
-%if %{?rhel}%{!?rhel:0}
+%if %{?rhel}%{!?rhel:0} < 8
 # On RHEL 7 need the guava20 package
 BuildRequires:  mvn(com.google.guava:guava:20.0)
 %endif
@@ -77,6 +77,15 @@ sed -i -e 's/@Nonnull//' -e '/javax.annotation.Nonnull/d' common/src/main/java/o
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Wed Oct 07 2020 Jie Kang <jkang@redhat.com> - 1.1.7-7
+- Make RHEL dep version explicit
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.7-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.1.7-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Mar 20 2020 Mat Booth <mat.booth@redhat.com> - 1.1.7-4
 - Fix dep on RHEL and avoid using null annotations
 

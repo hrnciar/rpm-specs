@@ -1,6 +1,6 @@
 Name:           SIBsim4
 Version:        0.20
-Release:        18%{?dist}
+Release:        20%{?dist}
 Summary:        Align expressed RNA sequences on a DNA template
 License:        GPLv2+
 URL:            http://sibsim4.sourceforge.net
@@ -37,6 +37,13 @@ install -m 644 SIBsim4.1 $RPM_BUILD_ROOT/%{_mandir}/man1
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20-20
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

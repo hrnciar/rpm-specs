@@ -1,7 +1,7 @@
 Summary: Library to control and monitor control groups
 Name: libcgroup
 Version: 0.42.2
-Release: 1%{?dist}
+Release: 3%{?dist}
 License: LGPLv2+
 URL: http://libcg.sourceforge.net/
 Source0: https://github.com/%{name}/%{name}/archive/v%{version}/%{name}-v%{version}.tar.gz
@@ -65,10 +65,10 @@ autoreconf -vif
 %configure --enable-pam-module-dir=%{_libdir}/security \
            --enable-opaque-hierarchy="name=systemd" \
            --disable-daemon
-make %{?_smp_mflags}
+%make_build
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install
+%make_install
 
 # install config files
 install -d ${RPM_BUILD_ROOT}%{_sysconfdir}
@@ -158,6 +158,13 @@ getent group cgred >/dev/null || groupadd -r cgred
 %{_libdir}/pkgconfig/libcgroup.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.42.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 0.42.2-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Thu Feb 06 2020 Nikola Forró <nforro@redhat.com> - 0.42.2-1
 - resolves: #1798286
   new upstream release 0.42.2

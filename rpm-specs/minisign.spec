@@ -4,7 +4,7 @@
 
 Name:           minisign
 Version:        0.9
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        A dead simple tool to sign files and verify digital signatures
 License:        ISC
 URL:            https://github.com/jedisct1/minisign
@@ -30,10 +30,10 @@ Minisign is a dead simple tool to sign files and verify signatures.
 
 %build
 %cmake -DCMAKE_STRIP=0 .
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %files
 %{_bindir}/%{name}
@@ -42,6 +42,16 @@ Minisign is a dead simple tool to sign files and verify signatures.
 %doc README.md
 
 %changelog
+* Wed Aug 19 2020 François Kooman <fkooman@tuxed.net> - 0.9-4
+- switch to cmake_build and cmake_install
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 07 2020 François Kooman <fkooman@tuxed.net> - 0.9-1
 - update to 0.9
 - verify source tarball (when not bootstrapping)

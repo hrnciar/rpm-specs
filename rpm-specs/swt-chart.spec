@@ -1,6 +1,6 @@
 Name:           swt-chart
 Version:        0.12.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Eclipse SWTChart
 
 License:        EPL-2.0
@@ -64,6 +64,9 @@ sed -i -e '/Export-Package/a\ org.swtchart,' org.eclipse.swtchart/META-INF/MANIF
 %doc README.md CONTRIBUTING.md NEWS.md
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 31 2020 Mat Booth <mat.booth@redhat.com> - 0.12.0-3
 - Include %%doc section
 

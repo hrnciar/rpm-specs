@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        2.1.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Pest code generator
 
 # Upstream license specification: MIT/Apache-2.0
@@ -71,6 +71,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 13 2020 Josh Stone <jistone@redhat.com> - 2.1.3-1
 - Update to 2.1.3
 

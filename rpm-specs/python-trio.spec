@@ -23,9 +23,9 @@ right.}
 
 
 Name:           python-%{pkgname}
-Version:        0.15.1
+Version:        0.16.0
 Release:        1%{?dist}
-Summary:        An async/await-native I/O library for humans and snake people
+Summary:        A friendly Python library for async concurrency and I/O
 License:        MIT or ASL 2.0
 URL:            https://github.com/python-trio/trio
 Source0:        %pypi_source
@@ -76,6 +76,12 @@ rm -rf %{eggname}.egg-info
 
 
 %changelog
+* Sun Sep 06 2020 Carl George <carl@george.computer> - 0.16.0-1
+- Latest upstream
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Carl George <carl@george.computer> - 0.15.1-1
 - Latest upstream rhbz#1828266
 

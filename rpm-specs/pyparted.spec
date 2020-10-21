@@ -34,7 +34,7 @@ Summary: Python module for GNU parted
 Name:    pyparted
 Epoch:   1
 Version: 3.11.5
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+
 URL:     https://github.com/dcantrell/pyparted
 
@@ -100,12 +100,12 @@ cp -a $everything py3dir
 
 %build
 %if %{with python2}
-PYTHON=python2 make %{?_smp_mflags} CFLAGS="%{optflags} -fcommon"
+PYTHON=python2 %make_build CFLAGS="%{optflags} -fcommon"
 %endif
 
 %if %{with python3}
 pushd py3dir
-PYTHON=python3 make %{?_smp_mflags} CFLAGS="%{optflags} -fcommon"
+PYTHON=python3 %make_build CFLAGS="%{optflags} -fcommon"
 popd
 %endif
 
@@ -122,12 +122,12 @@ popd
 
 %install
 %if %{with python2}
-PYTHON=python2 make install DESTDIR=%{buildroot}
+PYTHON=python2 %make_install
 %endif
 
 %if %{with python3}
 pushd py3dir
-PYTHON=python3 make install DESTDIR=%{buildroot}
+PYTHON=python3 %make_install
 popd
 %endif
 
@@ -148,6 +148,10 @@ popd
 %endif
 
 %changelog
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1:3.11.5-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1:3.11.5-2
 - Rebuilt for Python 3.9
 

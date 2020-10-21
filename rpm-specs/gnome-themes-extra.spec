@@ -1,6 +1,6 @@
 Name:           gnome-themes-extra
 Version:        3.28
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        GNOME Extra Themes
 
 License:        LGPLv2+
@@ -105,6 +105,13 @@ gtk-update-icon-cache --force %{_datadir}/icons/HighContrast &>/dev/null || :
 %{_datadir}/themes/HighContrast/index.theme
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.28-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.28-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.28-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

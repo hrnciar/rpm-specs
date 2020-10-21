@@ -2,7 +2,7 @@
 
 Name:           vdr-skinnopacity
 Version:        1.1.3
-Release:        23%{?dist}
+Release:        26%{?dist}
 Summary:        A highly customizable native true color skin for the Video Disc Recorder
 
 License:        GPLv2+
@@ -39,7 +39,7 @@ iconv -f iso-8859-1 -t utf-8 README > README.utf8 ; mv README.utf8 README
 sed -i -e 's|std::auto_ptr|std::unique_ptr|' services/epgsearch.h
 
 %build
-make CFLAGS="%{optflags} -fPIC" CXXFLAGS="%{optflags} -fPIC" IMAGELIB=imagemagick %{?_smp_mflags} all
+make CFLAGS="%{optflags} -fPIC" CXXFLAGS="-std=c++14 %{optflags} -fPIC" IMAGELIB=imagemagick %{?_smp_mflags} all
 
 %install
 # make install would install the themes under /etc, let's not use that
@@ -71,6 +71,15 @@ install -Dpm 644 %{SOURCE1} \
 %{vdr_resdir}/plugins/skinnopacity/icons/
 
 %changelog
+* Fri Aug 28 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.1.3-26
+- Rebuilt for new VDR API version
+
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 1.1.3-25
+- Force C++14 as this code is not C++17 ready
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

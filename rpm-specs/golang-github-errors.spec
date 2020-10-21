@@ -3,14 +3,9 @@
 
 # https://github.com/go-errors/errors
 %global goipath         github.com/go-errors/errors
-Version:                1.0.1
+Version:                1.1.1
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-go-errors-errors-devel < 1.0.1-4
-}
 
 %global common_description %{expand:
 Package Errors adds stacktrace support to errors in Go.
@@ -26,7 +21,7 @@ expecting a normal error return.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        8%{?dist}
+Release:        2%{?dist}
 Summary:        Errors with stacktraces for Go
 
 License:        MIT
@@ -40,8 +35,6 @@ Source0:        %{gosource}
 
 %prep
 %goprep
-# https://github.com/go-errors/errors/issues/22
-sed -i "s,firstEntryDiff < -27 || firstEntryDiff > 27,firstEntryDiff < -54 || firstEntryDiff > 54," error_test.go
 
 %install
 %gopkginstall
@@ -54,6 +47,12 @@ sed -i "s,firstEntryDiff < -27 || firstEntryDiff > 27,firstEntryDiff < -54 || fi
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 16:36:39 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.1-1
+- Update to 1.1.1
+
 * Thu Jan 30 22:10:18 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.1-8
 - Fix FTBFS by increasing error margin
 

@@ -1,7 +1,7 @@
 %undefine _ld_as_needed
 
 Name:           cgnslib
-Version:        4.1.1
+Version:        4.1.2
 Release:        1%{?dist}
 Summary:        Computational Fluid Dynamics General Notation System
 License:        zlib
@@ -62,22 +62,19 @@ chmod a-x src/cgnstools/utilities/cgns_to_vtk.c
 %build
 # This is needed for GCC10, whenever a new cgnslib release is published, check whether it is still needed
 export FCFLAGS+=-fallow-argument-mismatch
-%cmake3 -DCMAKE_SKIP_RPATH=ON \
+%cmake -DCMAKE_SKIP_RPATH=ON \
        -DCGNS_ENABLE_TESTS=ON \
        -DCGNS_ENABLE_FORTRAN=ON \
        -DCGNS_BUILD_CGNSTOOLS=ON \
        -DCGNS_ENABLE_HDF5=ON \
-       -DCMAKE_Fortran_FLAGS_RELEASE:STRING="$FCFLAGS -DNDEBUG $LDFLAGS -lhdf5 -fPIC" \
-       .
+       -DCMAKE_Fortran_FLAGS_RELEASE:STRING="$FCFLAGS -DNDEBUG $LDFLAGS -lhdf5 -fPIC"
 
-#make_build
-
-# FIXME: Ugly workaround for build order issue which results in
-# an incomplete libcgns.so being created during the first run
-make || rm src/libcgns.so* && make
+# Parallel build broken
+%global _smp_mflags -j1
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 find %{buildroot} -name '*.a' -delete -print
 
 # Add shebang
@@ -91,10 +88,10 @@ mv %{buildroot}%{_includedir}/cgns.mod %{buildroot}%{_libdir}/gfortran/modules
 
 %check
 export LD_LIBRARY_PATH=%{buildroot}%{_libdir}
-%ifarch ppc64le
-%ctest3 --force-new-ctest-process || :
+%ifarch ppc64le aarch64
+%ctest --force-new-ctest-process || :
 %else
-%ctest3 --force-new-ctest-process
+%ctest --force-new-ctest-process
 %endif
 
 
@@ -136,6 +133,19 @@ export LD_LIBRARY_PATH=%{buildroot}%{_libdir}
 %{_fmoddir}/cgns.mod
 
 %changelog
+* Wed Aug 26 2020 Sandro Mani <manisandro@gmail.com> - 4.1.2-1
+- Update to 4.1.2
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 4.1.1-2
+- Rebuild for hdf5 1.10.6
+
 * Thu May 07 2020 Sandro Mani <manisandro@gmail.com> - 4.1.1-1
 - Update to 4.1.1
 

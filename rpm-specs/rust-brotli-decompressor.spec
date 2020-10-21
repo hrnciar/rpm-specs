@@ -10,7 +10,7 @@
 
 Name:           rust-%{crate}
 Version:        2.3.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Brotli decompressor that with an interface avoiding the rust stdlib
 
 # Upstream license specification: BSD-3-Clause/MIT
@@ -170,6 +170,9 @@ find -type f -name '*.rs' -executable -exec chmod -x '{}' +
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Josh Stone <jistone@redhat.com> - 2.3.1-1
 - Update to 2.3.1
 

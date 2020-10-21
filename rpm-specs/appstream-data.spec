@@ -1,7 +1,7 @@
 Summary:   Fedora AppStream metadata
 Name:      appstream-data
-Version:   32
-Release:   6%{?dist}
+Version:   33
+Release:   1%{?dist}
 BuildArch: noarch
 License:   CC0 and CC-BY and CC-BY-SA and GFDL
 URL:       https://github.com/hughsie/appstream-glib
@@ -46,7 +46,13 @@ fi
 %dir %{_datadir}/app-info/xmls
 
 %changelog
-* Mon April 13 2020 Richard Hughes <richard@hughsie.com> 32-6
+* Thu Oct 15 2020 Richard Hughes <richard@hughsie.com> 33-1
+- New metadata version
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 32-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Apr 13 2020 Richard Hughes <richard@hughsie.com> 32-6
 - New metadata version
 
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 32-5

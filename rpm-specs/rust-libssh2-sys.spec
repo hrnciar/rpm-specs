@@ -5,7 +5,7 @@
 %global crate libssh2-sys
 
 Name:           rust-%{crate}
-Version:        0.2.17
+Version:        0.2.19
 Release:        1%{?dist}
 Summary:        Native bindings to the libssh2 library
 
@@ -16,7 +16,7 @@ URL:            https://crates.io/crates/libssh2-sys
 Source:         %{crates_source}
 # Initial patched metadata
 # * No Windows
-# * No vendored feature
+# * No vendored/zlib-ng features
 Patch0:         libssh2-sys-fix-metadata.diff
 # Doesn't seem to be upstreamable
 Patch1:         0001-build.rs-always-use-pkg-config.patch
@@ -62,6 +62,7 @@ which use "default" feature of "%{crate}" crate.
 %autosetup -n %{crate}-%{version_no_tilde} -p1
 # No bundled deps
 rm -vrf libssh2/
+find -type f -perm /111 -exec chmod -c -x '{}' '+'
 %cargo_prep
 
 %generate_buildrequires
@@ -80,6 +81,15 @@ echo 'pkgconfig(libssh2)'
 %endif
 
 %changelog
+* Wed Aug 19 2020 Josh Stone <jistone@redhat.com> - 0.2.19-1
+- Update to 0.2.19
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.18-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.2.18-1
+- Update to 0.2.18
+
 * Wed Apr 29 2020 Josh Stone <jistone@redhat.com> - 0.2.17-1
 - Update to 0.2.17
 

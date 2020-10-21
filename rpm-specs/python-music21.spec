@@ -1,6 +1,6 @@
 Name:           python-music21
 Version:        2.2.1
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        A toolkit for computational musicology
 
 License:        BSD or LGPLv3
@@ -146,6 +146,9 @@ LC_ALL=C.utf8 \
 %{_pkgdocdir}/html/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.2.1-19
 - Rebuilt for Python 3.9
 

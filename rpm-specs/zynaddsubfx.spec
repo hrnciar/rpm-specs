@@ -1,13 +1,15 @@
 Summary:        Real-time software synthesizer
 Name:           zynaddsubfx
 Version:        3.0.5
-Release:        4%{?dist}
+Release:        8%{?dist}
 # Source is a collective work, distributed by
 License:        GPLv2 and GPLv2+
 URL:            http://zynaddsubfx.sourceforge.net
 Source0:        http://download.sf.net/sourceforge/zynaddsubfx/zynaddsubfx-%{version}.tar.bz2
 # We cannot build this from source since Fedora's texlive is too old
 Patch0:         zynaddsubfx-buildflags.patch
+# Do not ask for cortex-a9 which conflicts with the armv7a baseline
+Patch1:         zynaddsubfx-cortex.patch
 
 Requires:       hicolor-icon-theme
 Requires:       %{name}-common = %{version}-%{release}
@@ -102,18 +104,15 @@ done
 
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-   %cmake \
-      -DDefaultOutput=jack -DPluginLibDir=%{_libdir} \
-      -DBASHCOMP_PKG_PATH=%{buildroot}%{_datadir}/bash-completion/completions \
+%cmake \
+  -DDefaultOutput=jack -DPluginLibDir=%{_libdir} \
+  -DBASHCOMP_PKG_PATH=%{buildroot}%{_datadir}/bash-completion/completions \
 %ifarch %{ix86} x86_64
-      -DX86Build=ON \
+  -DX86Build=ON \
 %endif
-      ..
-popd
+  %{nil}
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 # build external programs
 %make_build -C ExternalPrograms/Controller
@@ -121,7 +120,7 @@ popd
 
 %install
 mkdir -p %{buildroot}%{_datadir}/bash-completion/completions
-%make_install -C %{_target_platform}
+%cmake_install
 
 mkdir -p %{buildroot}%{_datadir}/%{name}
 
@@ -161,6 +160,20 @@ install -d -m 0755 %{buildroot}%{_libdir}/%{name}
 %{_libdir}/vst/*.so
 
 %changelog
+* Mon Aug 31 2020 Jeff Law <law@redhat.com> - 3.0.5-8
+- Do not ask for cortex-a9 which conflicts with baseline armv7a
+- Re-enable LTO
+
+* Mon Aug 10 2020 Guido Aulisi <guido.aulisi@gmail.com> - 3.0.5-7
+- Fix FTBFS in Fedora rawhide/f33 (#1865663)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.5-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.5-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

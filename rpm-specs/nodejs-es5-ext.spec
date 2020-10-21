@@ -6,7 +6,7 @@
 
 Name:		nodejs-es5-ext
 Version:	0.10.12
-Release:	8%{?dist}
+Release:	9%{?dist}
 Summary:	ECMAScript 5 extensions and ES6 shims
 
 License:	MIT
@@ -65,6 +65,9 @@ echo "Tests are disabled..."
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.12-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.12-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

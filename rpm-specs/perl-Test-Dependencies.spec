@@ -1,17 +1,16 @@
-Name:       perl-Test-Dependencies
-Version:    0.24
-Release:    3%{?dist}
+Name:           perl-Test-Dependencies
+Version:        0.29
+Release:        1%{?dist}
 # see lib/Test/Dependencies.pm
-License:    GPL+ or Artistic
-Summary:    Ensure that your Makefile.PL specifies all module dependencies
-Source:     https://cpan.metacpan.org/authors/id/E/EH/EHUELS/Test-Dependencies-%{version}.tar.gz
-Url:        https://metacpan.org/release/Test-Dependencies
-BuildArch:  noarch
+License:        GPL+ or Artistic
+Summary:        Ensure that your Makefile.PL specifies all module dependencies
+Source:         https://cpan.metacpan.org/authors/id/E/EH/EHUELS/Test-Dependencies-%{version}.tar.gz
+Url:            https://metacpan.org/release/Test-Dependencies
+BuildArch:      noarch
 BuildRequires:  coreutils
-BuildRequires:  findutils
 BuildRequires:  make
-BuildRequires:  perl-interpreter
 BuildRequires:  perl-generators
+BuildRequires:  perl-interpreter
 BuildRequires:  perl(CPAN::Meta::Requirements) >= 2.120620
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(Module::Metadata)
@@ -21,9 +20,9 @@ BuildRequires:  perl(warnings)
 BuildRequires:  perl(base)
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(CPAN::Meta)
-BuildRequires:  perl(Exporter)
 BuildRequires:  perl(File::Find::Rule::Perl)
 BuildRequires:  perl(Module::CoreList)
+BuildRequires:  perl(parent)
 BuildRequires:  perl(Pod::Strip)
 BuildRequires:  perl(Test::Builder::Module)
 # Tests:
@@ -60,6 +59,15 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Mon Oct 12 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.29-1
+- 0.29 bump
+
+* Mon Aug 31 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.28-1
+- 0.28 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.24-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.24-3
 - Perl 5.32 rebuild
 

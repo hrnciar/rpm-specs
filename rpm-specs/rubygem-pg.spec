@@ -3,7 +3,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 1.2.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A Ruby interface to the PostgreSQL RDBMS
 # Upstream license clarification (https://bitbucket.org/ged/ruby-pg/issue/72/)
 #
@@ -116,6 +116,9 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 19 2020 Jun Aruga <jaruga@redhat.com> - 1.2.3-1
 - Update to pg 1.2.3.
 

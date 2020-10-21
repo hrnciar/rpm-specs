@@ -2,8 +2,8 @@
 %global pypi_under tox_current_env
 
 Name:           python-%{pypi_name}
-Version:        0.0.2
-Release:        5%{?dist}
+Version:        0.0.3
+Release:        1%{?dist}
 Summary:        Tox plugin to run tests in current Python environment
 
 License:        MIT
@@ -11,26 +11,28 @@ URL:            https://github.com/fedora-python/tox-current-env
 Source0:        %{pypi_source}
 BuildArch:      noarch
 
-# Don't use %%pyproject_buildrequires to avoid a build dependency loop.
-BuildRequires:  python3-devel
+BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  pyproject-rpm-macros
-BuildRequires:  python3dist(setuptools)
-BuildRequires:  python3dist(wheel)
 
 %description
 The tox-current-env plugin allows to run tests in current Python environment.
 
 
-%package -n     python3-%{pypi_name}
+%package -n     python%{python3_pkgversion}-%{pypi_name}
 Summary:        %{summary}
-%{?python_provide:%python_provide python3-%{pypi_name}}
+%{?python_provide:%python_provide python%{python3_pkgversion}-%{pypi_name}}
 
-%description -n python3-%{pypi_name}
+%description -n python%{python3_pkgversion}-%{pypi_name}
 The tox-current-env plugin allows to run tests in current Python environment.
 
 
 %prep
 %autosetup -n %{pypi_name}-%{version}
+
+
+%generate_buildrequires
+# Don't use %%pyproject_buildrequires -t/-e to avoid a build dependency loop
+%pyproject_buildrequires
 
 
 %build
@@ -46,7 +48,7 @@ The tox-current-env plugin allows to run tests in current Python environment.
 # versions installed, so we skip them.
 
 
-%files -n python3-%{pypi_name}
+%files -n python%{python3_pkgversion}-%{pypi_name}
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/%{pypi_under}/
@@ -54,6 +56,15 @@ The tox-current-env plugin allows to run tests in current Python environment.
 
 
 %changelog
+* Wed Sep 30 2020 Miro Hrončok <mhroncok@redhat.com> - 0.0.3-1
+- Update to 0.0.3
+
+* Wed Aug 12 2020 Miro Hrončok <mhroncok@redhat.com> - 0.0.2-7
+- Fix FTBFS with pyproject-rpm-macros >= 0-23
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.0.2-5
 - Rebuilt for Python 3.9
 

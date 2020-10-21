@@ -1,9 +1,15 @@
 %global		module		CoinUtils
 
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 Name:		coin-or-%{module}
 Summary:	Coin-or Utilities
 Version:	2.11.4
-Release:	1%{?dist}
+Release:	3%{?dist}
 License:	EPL-1.0
 URL:		https://github.com/coin-or/%{module}
 Source0:	%{url}/archive/releases/%{version}/%{module}-%{version}.tar.gz
@@ -15,7 +21,7 @@ BuildRequires:	gcc
 BuildRequires:	gcc-c++
 BuildRequires:	gcc-gfortran
 BuildRequires:	glpk-devel
-BuildRequires:	openblas-devel
+BuildRequires:	%{blaslib}-devel
 BuildRequires:	pkgconfig
 BuildRequires:	readline-devel
 BuildRequires:	zlib-devel
@@ -62,12 +68,12 @@ sed -i 's/ @COINUTILSLIB_PCLIBS@/\nLibs.private:&/' CoinUtils/coinutils.pc.in
 %build
 %configure \
   --enable-gnu-packages \
-  --with-blas-incdir=%{_includedir}/openblas \
-  --with-blas-lib=-lopenblas \
+  --with-blas-incdir=%{_includedir}/%{blaslib} \
+  --with-blas-lib=-l%{blaslib} \
   --with-glpk-incdir=%{_includedir} \
   --with-glpk-lib=-lglpk \
-  --with-lapack-incdir=%{_includedir}/openblas \
-  --with-lapack-lib=-lopenblas
+  --with-lapack-incdir=%{_includedir}/%{blaslib} \
+  --with-lapack-lib=-l%{blaslib}
 
 # Get rid of undesirable hardcoded rpaths; workaround libtool reordering
 # -Wl,--as-needed after all the libraries.
@@ -107,6 +113,12 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} make test
 %{_pkgdocdir}/coinutils_doxy.tag
 
 %changelog
+* Mon Aug 10 2020 Iñaki Úcar <iucar@fedoraproject.org> - 2.11.4-3
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 21 2020 Jerry James <loganjerry@gmail.com> - 2.11.4-1
 - Release 2.11.4
 - Drop unnecessary -underlink patch

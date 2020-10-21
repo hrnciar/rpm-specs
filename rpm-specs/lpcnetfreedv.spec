@@ -1,6 +1,6 @@
 Name:           lpcnetfreedv
 Version:        0.2
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        LPCNet for FreeDV
 
 License:        BSD
@@ -35,9 +35,9 @@ Summary:        Development files and tools for LPCNet
 
 
 %build
-mkdir build && pushd build
 # Add model data archive to the build directory so CMake finds it.
-cp %{SOURCE1} .
+mkdir -p %{_vpath_builddir}
+cp %{SOURCE1} %{_vpath_builddir}/
 
 # We need to force optimizations to specific values since the build system and
 # host system will likely be different.
@@ -52,13 +52,12 @@ cp %{SOURCE1} .
     %global _cpuopt ""
 %endif
 
-%cmake -DDISABLE_CPU_OPTIMIZATION=TRUE %{_cpuopt} ../
-%make_build
+%cmake -DDISABLE_CPU_OPTIMIZATION=TRUE %{_cpuopt}
+%cmake_build
 
 
 %install
-pushd build
-%make_install
+%cmake_install
 
 
 %files
@@ -73,6 +72,13 @@ pushd build
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 13 2020 Richard Shaw <hobbes1069@gmail.com> - 0.2-2
 - Update per reviewer comments.
 - Renamed package to lpcnetfreedv (same as library), repo will be renamed in

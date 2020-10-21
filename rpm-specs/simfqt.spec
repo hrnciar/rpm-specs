@@ -1,9 +1,7 @@
 #
-%global mydocs __tmp_docdir
-#
 Name:           simfqt
 Version:        1.00.4
-Release:        3%{?dist}
+Release:        5%{?dist}
 
 Summary:        C++ Simulated Fare Quote System Library
 
@@ -60,15 +58,14 @@ online (https://%{name}.org).
 
 
 %build
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
-mkdir -p %{mydocs}
-mv $RPM_BUILD_ROOT%{_docdir}/%{name}/html %{mydocs}
-rm -f %{mydocs}/html/installdox
+# Remove the Doxygen installer
+rm -f $RPM_BUILD_ROOT%{_docdir}/%{name}/html/installdox
 
 # Remove additional documentation files (those files are already available
 # in the project top directory)
@@ -98,11 +95,18 @@ ctest
 %{_mandir}/man3/%{name}-library.3.*
 
 %files doc
-%doc %{mydocs}/html
+%doc %{_docdir}/%{name}/html
 %doc COPYING
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00.4-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 06 2020 Denis Arnaud <denis.arnaud_fedora@m4x.org> - 1.00.4-3
 - Rebuilt for SOCI 4.0.1-alpha2
 

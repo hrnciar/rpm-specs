@@ -1,6 +1,6 @@
 Name:            cronolog
 Version:         1.6.2
-Release:         29%{?dist}
+Release:         30%{?dist}
 Summary:         Web log rotation program for Apache
 
 License:         ASL 1.0
@@ -41,6 +41,9 @@ rm -f %{buildroot}%{_infodir}/dir
 %{_infodir}/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.2-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.2-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

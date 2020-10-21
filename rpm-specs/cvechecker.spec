@@ -1,26 +1,29 @@
 # commit
-# Use a commit newer than 3.8 for pulling in some bugfixes
-%global _commit 0f1ae263b8279e8cca103cf28ae37ab20340ec04
-%global _shortcommit %(c=%{_commit}; echo ${c:0:7})
+# Use a commit newer than 3.8 release for pulling in some bugfixes
+#%%global _commit 0f1ae263b8279e8cca103cf28ae37ab20340ec04
+#%%global _shortcommit %%(c=%%{_commit}; echo ${c:0:7})
 
 Name:           cvechecker
-Version:        3.8
-Release:        8%{?dist}
+Version:        4.0
+Release:        2%{?dist}
 Summary:        Tool for compare packages installed in your system with CVE database
 License:        GPLv3
 URL:            https://github.com/sjvermeu/cvechecker
 #Source0:       %%{url}/archive/%%{_commit}/%%{_commit}.tar.gz
-Source0:        https://raw.githubusercontent.com/wiki/sjvermeu/%{name}/releases/%{name}-%{version}.tar.gz
-Patch1:         0001-Fixed-a-segfault-in-case-of-an-invalid-line-in-the-w.patch
-Patch2:         0002-Fixed-missing-increment-in-line-number-in-case-of-a-.patch
-Patch3:         0003-Last-addition-to-Changelog-now-use-git-commit-log.patch
-Patch4:         0004-skip-lines-with-invalid-cpe-types-in-pullcves.patch
+#Source0:        %%{name}/archive/%%{version}/%%{name}-%%{version}.tar.gz
+# The developer marked the version "cvechecker-4.0" instead of 4.0, so we need to hack the URL
+Source0:        %{url}/archive/%{name}-%{version}/%{name}-%{version}.tar.gz
 BuildRequires:  gcc
+BuildRequires:  autoconf
+BuildRequires:  automake
+BuildRequires:  pkgconf
 BuildRequires:  libconfig-devel
 BuildRequires:  mariadb-connector-c-devel
 BuildRequires:  openssl-devel
 BuildRequires:  sqlite-devel
 BuildRequires:  xmlto
+BuildRequires:  pkgconfig(libbsd)
+Requires:       jq
 
 %description
 The goal of cvechecker is to report about possible vulnerabilities on your
@@ -31,11 +34,10 @@ This is not a bullet-proof method and you will have many false positives
 to detect the revision itself).
 
 %prep
-%setup -q
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
+# The developer marked the version "cvechecker-4.0" instead of 4.0, so we need to specify the folder name
+# https://github.com/sjvermeu/cvechecker/issues/49
+%setup -q -n %{name}-%{name}-%{version}
+autoreconf --force --install
 %configure --enable-sqlite3 --enable-mysql --localstatedir=%{_sharedstatedir}
 sed -i 's/\/mysql/\/mariadb/g;s/-lmysqlclient/-lmariadb/g' Makefile
 %build
@@ -65,6 +67,15 @@ make check
 %{_sharedstatedir}/cvechecker/*
 
 %changelog
+* Tue Sep 29 2020 Zamir SUN <sztsian@gmail.com> - 4.0-2
+- Add jq to requires
+
+* Sat Sep 26 2020 Zamir SUN <sztsian@gmail.com> - 4.0-1
+- Update to 4.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

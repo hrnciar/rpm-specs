@@ -1,6 +1,6 @@
 Name:           perl-Tie-Cycle
 Version:        1.225
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Cycle through a list of values via a scalar
 License:        Artistic 2.0
 URL:            https://metacpan.org/release/Tie-Cycle
@@ -45,6 +45,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.225-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.225-10
 - Perl 5.32 rebuild
 

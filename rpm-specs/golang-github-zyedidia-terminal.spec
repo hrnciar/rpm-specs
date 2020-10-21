@@ -17,7 +17,7 @@ emulation frontend, or wherever else you need terminal emulation.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.10%{?dist}
+Release:        0.11%{?dist}
 Summary:        Vt10x terminal emulation backend
 
 License:        MIT
@@ -46,6 +46,9 @@ BuildRequires:  golang(github.com/zyedidia/pty)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -10,7 +10,7 @@
 
 Name:           php-sabredav-Sabre_VObject
 Version:        2.1.7
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        An intuitive reader for iCalendar and vCard objects
 
 License:        BSD
@@ -106,6 +106,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.7-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.7-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

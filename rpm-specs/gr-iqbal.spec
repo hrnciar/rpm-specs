@@ -1,15 +1,15 @@
 Name:             gr-iqbal
-URL:              http://cgit.osmocom.org/gr-iqbal/
-Version:          0.37.2
-Release:          39%{?dist}
+#URL:              http://cgit.osmocom.org/gr-iqbal/
+URL:              https://github.com/osmocom/gr-iqbal
+Version:          0.38.1
+Release:          2%{?dist}
 License:          GPLv3+
 BuildRequires:    cmake, gcc-c++, gnuradio-devel, doxygen, graphviz, swig, fftw-devel
 BuildRequires:    libosmo-dsp-devel, python3-devel, log4cpp-devel, gmp-devel, orc-devel
 Summary:          GNURadio block for suppressing IQ imbalance
-Source0:          http://cgit.osmocom.org/%{name}/snapshot/%{name}-%{version}.tar.bz2
-# Patch sent upstream
-Patch0:           gr-iqbal-0.37.2-soname-fix.patch
-Patch1:           gr-iqbal-0.37.2-gnuradio38.patch
+Source0:          https://github.com/osmocom/gr-iqbal/archive/v%{version}/%{name}-%{version}.tar.gz
+# https://github.com/osmocom/gr-iqbal/pull/3 and also sent to osmocom-sdr@lists.osmocom.org
+Patch0:           gr-iqbal-0.38.1-boost-fix.patch
 
 %description
 This GNURadio block can suppress IQ imbalance in the RX path of
@@ -32,19 +32,14 @@ Documentation files for gr-iqbal.
 
 %prep
 %setup -q
-%patch0 -p1 -b .soname-fix
-%patch1 -p1 -b .gnuradio38
+%patch0 -p1 -b .boost-fix
 
 %build
-mkdir build
-cd build
-%cmake -DENABLE_DOXYGEN=on -DGR_PKG_DOC_DIR=%{_docdir}/%{name} ..
-# broken parallel build
-make -j1
+%cmake -DENABLE_DOXYGEN=on -DGR_PKG_DOC_DIR=%{_docdir}/%{name}
+%cmake_build
 
 %install
-cd build
-make install DESTDIR=%{buildroot} docdir=%{buildroot}%{_docdir}/%{name}
+%cmake_install
 
 # Fix docs location
 mkdir -p %{buildroot}%{_docdir}
@@ -63,14 +58,29 @@ mv %{buildroot}%{_datadir}/doc/gr-iqbalance %{buildroot}%{_docdir}/%{name}
 %files devel
 %{_includedir}/gnuradio/iqbalance
 %{_includedir}/gnuradio/swig/*
-%{_libdir}/pkgconfig/*.pc
 %{_libdir}/*.so
+%{_libdir}/cmake/gnuradio/*.cmake
 
 %files doc
 %doc %{_docdir}/%{name}/html
 %doc %{_docdir}/%{name}/xml
 
 %changelog
+* Mon Aug 24 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 0.38.1-2
+- Rebuilt for new gnuradio
+
+* Fri Aug  7 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 0.38.1-1
+- New version
+- Fixed FTBFS
+  Resolves: rhbz#1863821
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.37.2-41
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.37.2-40
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.37.2-39
 - Rebuilt for Python 3.9
 

@@ -4,7 +4,7 @@
 Summary: Software version of a PKCS#11 Hardware Security Module
 Name: softhsm
 Version: 2.6.1
-Release: %{?prever:0.}3%{?prever:.%{prever}}%{?dist}
+Release: %{?prever:0.}3%{?prever:.%{prever}}%{?dist}.4
 License: BSD
 Url: http://www.opendnssec.org/
 Source: http://dist.opendnssec.org/source/%{?prever:testing/}%{name}-%{version}.tar.gz
@@ -54,17 +54,21 @@ autoreconf -fiv
 %endif
 
 %build
+# This package fails its testsuite with LTO enabled and needs further
+# investigation
+%define _lto_cflags %{nil}
+
 %configure --libdir=%{_libdir}/pkcs11 --with-openssl=%{_prefix} --enable-ecc --enable-eddsa --disable-gost \
            --with-migrate --enable-visibility --with-p11-kit=%{_datadir}/p11-kit/modules/
 
-make %{?_smp_mflags}
+%make_build
 
 %check
 make check
 
 %install
 rm -rf %{buildroot}
-make DESTDIR=%{buildroot} install
+%make_install
 
 rm %{buildroot}/%{_sysconfdir}/softhsm2.conf.sample
 rm -f %{buildroot}/%{_libdir}/pkcs11/*a
@@ -111,6 +115,20 @@ if [ -f /var/softhsm/slot0.db ]; then
 fi
 
 %changelog
+* Mon Aug 11 2020 Jeff Law <law@redhat.org> - 2.6.1-3.4
+- Disable LTO
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.1-3.3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.1-3.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 2.6.1-3.1
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed May 13 2020 David Woodhouse <dwmw2@infradead.org> - 2.6.1-3
 - Resolves: rhbz#1831086 softhsm use-after-free on process exit
   Fix crash introduced by initial patch

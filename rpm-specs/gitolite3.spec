@@ -8,8 +8,8 @@
 
 Name:           gitolite3
 Epoch:          1
-Version:        3.6.11
-Release:        6%{?dist}
+Version:        3.6.12
+Release:        1%{?dist}
 Summary:        Highly flexible server for git directory version tracker
 
 License:        GPLv2 and CC-BY-SA
@@ -18,10 +18,6 @@ Source0:        https://github.com/sitaramc/gitolite/archive/v%{version}.tar.gz
 Source1:        gitolite3-README-fedora
 # Upstream: https://github.com/sitaramc/gitolite/commit/c656af01b73a5cc4f80512
 Source2:        compile-1
-#Patch0:         0001-security-fix-bug-in-pattern-to-detect-path-traversal.patch
-#Patch0:         41b7885b77.patch
-# Upstream: https://github.com/sitaramc/gitolite/commit/c4b6521a4b82e639f6ed77
-#Patch1:         c4b6521a4b.patch
 
 
 BuildArch:      noarch
@@ -51,8 +47,6 @@ elsewhere in the doc/ directory.
 %setup -qn gitolite-%{version}
 cp %{SOURCE1} .
 
-#%%patch0 -p1
-#%%patch1 -p1
 
 %build
 #This page intentionally left blank.
@@ -99,6 +93,15 @@ exit 0
 
 
 %changelog
+* Tue Aug 04 2020 Gwyn Ciesla <gwync@protonmail.com> - 1:3.6.12-1
+- 3.6.12
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.6.11-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:3.6.11-7
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:3.6.11-6
 - Perl 5.32 rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.2.1.1
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        JQuery-Migrate (XStatic packaging standard)
 
 License:        MIT
@@ -82,6 +82,9 @@ chmod 644 %{buildroot}%{_jsdir}/jquery_migrate/*.js
 %{_jsdir}/jquery_migrate
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1.1-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.1.1-19
 - Rebuilt for Python 3.9
 

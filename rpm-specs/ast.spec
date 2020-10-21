@@ -1,5 +1,5 @@
 Name:           ast
-Version:        9.1.2
+Version:        9.2.3
 Release:        1%{?dist}
 Summary:        A Library for Handling World Coordinate Systems in Astronomy
 
@@ -125,6 +125,18 @@ make check
 
 
 %changelog
+* Mon Oct 12 2020 Orion Poplawski <orion@nwra.com> - 9.2.3-1
+- Update to 9.2.3
+
+* Mon Sep 21 2020 Orion Poplawski <orion@nwra.com> - 9.2.1-1
+- Update to 9.2.1
+
+* Thu Sep 10 2020 Orion Poplawski <orion@nwra.com> - 9.1.3-1
+- Update to 9.1.3
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Orion Poplawski <orion@nwra.com> - 9.1.2-1
 - Update to 9.1.2
 

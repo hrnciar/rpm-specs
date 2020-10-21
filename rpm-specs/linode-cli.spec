@@ -1,6 +1,6 @@
 Name:           linode-cli
 Version:        1.4.5
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Official command-line interface to the Linode platform
 License:        Artistic or GPLv2
 URL:            https://github.com/linode/cli/
@@ -47,6 +47,9 @@ chmod -v 755 %{buildroot}%{_bindir}/linode*
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.5-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.4.5-16
 - Perl 5.32 rebuild
 

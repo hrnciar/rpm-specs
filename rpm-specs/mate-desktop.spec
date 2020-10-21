@@ -15,11 +15,11 @@
 Summary:        Shared code for mate-panel, mate-session, mate-file-manager, etc
 Name:           mate-desktop
 License:        GPLv2+ and LGPLv2+ and MIT
-Version:        %{branch}.0
+Version:        %{branch}.1
 %if 0%{?rel_build}
 Release:        3%{?dist}
 %else
-Release:        0.10%{?git_rel}%{?dist}
+Release:        0.11%{?git_rel}%{?dist}
 %endif
 URL:            http://mate-desktop.org
 
@@ -30,14 +30,11 @@ URL:            http://mate-desktop.org
 %{!?rel_build:Source0:    http://git.mate-desktop.org/%{name}/snapshot/%{name}-%{commit}.tar.xz#/%{git_tar}}
 
 # fedora specific settings
-Source1:        mate-fedora-f30.gschema.override
-Source2:        mate-fedora-f31.gschema.override
-Source3:        mate-fedora-f32.gschema.override
+Source1:        mate-fedora-f31.gschema.override
+Source2:        mate-fedora-f32.gschema.override
+Source3:        mate-fedora-f33.gschema.override
 Source4:        mate-rhel.gschema.override
 Source5:        mate-mimeapps.list
-
-# https://github.com/mate-desktop/mate-desktop/pull/437
-Patch1:         mate-desktop_0001-mate-about.desktop-Do-not-collect-the-translation-fo.patch
 
 BuildRequires:  dconf-devel
 BuildRequires:  desktop-file-utils
@@ -56,14 +53,14 @@ Requires: mate-control-center-filesystem
 Requires: mate-panel
 Requires: mate-notification-daemon
 Requires: mate-user-guide
-%if 0%{?fedora} && 0%{?fedora} >= 32
+%if 0%{?fedora} && 0%{?fedora} >= 33
+Requires: f33-backgrounds-mate
+%endif
+%if 0%{?fedora} && 0%{?fedora} == 32
 Requires: f32-backgrounds-mate
 %endif
 %if 0%{?fedora} && 0%{?fedora} == 31
 Requires: f31-backgrounds-mate
-%endif
-%if 0%{?fedora} && 0%{?fedora} == 30
-Requires: f30-backgrounds-mate
 %endif
 
 %if 0%{?fedora}
@@ -110,9 +107,6 @@ libmatedesktop.
 NOCONFIGURE=1 ./autogen.sh
 %endif
 
-# patch1
-NOCONFIGURE=1 ./autogen.sh
-
 %build
 %configure                                                 \
      --enable-gtk-doc                                      \
@@ -142,15 +136,15 @@ desktop-file-install                                         \
         --dir=%{buildroot}%{_datadir}/applications           \
 %{buildroot}%{_datadir}/applications/mate-color-select.desktop
 
-%if 0%{?fedora} == 30
+%if 0%{?fedora} == 31
 install -D -m 0644 %SOURCE1 %{buildroot}%{_datadir}/glib-2.0/schemas/10_mate-fedora.gschema.override
 %endif
 
-%if 0%{?fedora} == 31
+%if 0%{?fedora} == 32
 install -D -m 0644 %SOURCE2 %{buildroot}%{_datadir}/glib-2.0/schemas/10_mate-fedora.gschema.override
 %endif
 
-%if 0%{?fedora} >= 32
+%if 0%{?fedora} >= 33
 install -D -m 0644 %SOURCE3 %{buildroot}%{_datadir}/glib-2.0/schemas/10_mate-fedora.gschema.override
 %endif
 
@@ -197,6 +191,21 @@ install -m 644 %SOURCE5 %{buildroot}/%{_datadir}/applications/mate-mimeapps.list
 
 
 %changelog
+* Tue Sep 15 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-3
+- update gsettings override files
+
+* Tue Aug 25 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-2
+- update fedora backgrounds requires
+
+* Wed Aug 12 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- update to 1.24.1
+
+* Sun Aug 09 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-5
+- Deactivate previews in the window-list-applet with a gsettings override
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 15 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-3
 - fix double requires of f31/32 background packages
 

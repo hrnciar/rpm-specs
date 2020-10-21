@@ -1,8 +1,6 @@
-%{?python_enable_dependency_generator}
-
 Name:           electrum
-Version:        3.3.4
-Release:        7%{?dist}
+Version:        4.0.2
+Release:        2%{?dist}
 Summary:        A lightweight Bitcoin Client
 
 License:        MIT
@@ -13,8 +11,6 @@ Source1:        https://download.electrum.org/%{version}/Electrum-%{version}.tar
 #gpg2 --export --export-options export-minimal 6694D8DE7BE8EE5631BED9502BD5824B7F9470E6 > gpgkey-electrum.gpg
 Source2:        gpgkey-electrum.gpg
 Source3:        electrum.appdata.xml
-
-Patch0:         aiorpcx-0.12.patch
 
 BuildArch:      noarch
 
@@ -49,8 +45,6 @@ rm -rf packages
 
 #qdarkstyle is an optional dependency that is not yet packed for Fedora
 sed -i '/^qdarkstyle*/d' ./contrib/requirements/requirements.txt
-
-%patch0 -p1
 
 %build
 %{py3_build}
@@ -95,6 +89,12 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/*.appdata
 %{python3_sitelib}/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Jonny Heggheim <hegjon@gmail.com> - 4.0.2-1
+- Updated to version 4.0.2
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.3.4-7
 - Rebuilt for Python 3.9
 

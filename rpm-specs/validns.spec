@@ -3,14 +3,20 @@
 Summary: DNS and DNSSEC zone file validator
 Name: validns
 Version: 0.8
-Release: 14%{?dist}
+Release: 18%{?dist}
 License: BSD
 Url:  http://www.validns.net/
 Source: http://www.validns.net/download/%{name}-%{version}.tar.gz
-Patch1: validns-0.8-timing.patch
-Patch2: validns-0.8-Wformat-truncation.patch
+
+Patch1: validns-0.8-Wformat-truncation.patch
+Patch2: validns-0.8-git20160720.patch
+Patch3: validns-0.8-Makefile.patch
+Patch4: validns-0.8-openssl-1.1.patch
+Patch5: validns-0.8-timing.patch
+Patch6: validns-0.8-s390-mempool.patch
+
 BuildRequires:  gcc
-BuildRequires: Judy-devel, compat-openssl10-devel
+BuildRequires: Judy-devel, openssl-devel
 
 %description
 DNS and DNSSEC zone file validator. It comes with no man page and no
@@ -18,9 +24,6 @@ useful README or information, but it's a nice tool anyway :)
 
 %prep
 %autosetup -p1
-#%setup -q 
-#%patch1 -p1 -b .timing
-#%patch2 -p1 -b .Wformat-truncation.patch
 
 %build
 %make_build
@@ -31,12 +34,30 @@ mkdir -p %{buildroot}/%{_bindir} %{buildroot}/%{_mandir}/man1/
 install -m 755 validns %{buildroot}/%{_bindir}/
 cp -a validns.1.gz %{buildroot}/%{_mandir}/man1/
 
-%files 
+%files
 %doc LICENSE README
 %{_bindir}/validns
 %{_mandir}/man1/validns.1.gz
 
 %changelog
+* Mon Oct  5 17:30:51 EDT 2020 Paul Wouters <pwouters@redhat.com> - 0.8-18
+- Resolves: rhbz#1879707 FTBFS: Remove compat-openssl10 requirement
+- Resolves: rhbz#1865601 validns: FTBFS in Fedora rawhide/f33
+- Resolves: rhbz#1880829 F34FailsToInstall: validns
+- Updated notiming patch (-x) notiming patch (-x)
+- Pulled in git20160720 updates
+- Workaround for s390x strcpy issues in mempool.c
+
+* Mon Oct  5 17:03:05 EDT 2020 Paul Wouters <pwouters@redhat.com> - 0.8-17
+- Port to openssl-1.1 based on github and https://github.com/tobez/validns/pull/64
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 # https://github.com/go4org/go4
 %global goipath         go4.org
 %global forgeurl        https://github.com/go4org/go4
-%global commit          94abd6928b1da39b1d757b60c93fb2419c409fa1
+%global commit          f5505b9728ddf920bb673137648788c5ac99de1b
 
 %gometa
 
@@ -16,8 +16,9 @@ Go4 hosts the go4.org packages.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.8%{?dist}
+Release:        0.11%{?dist}
 Summary:        Collection of packages for Go programmers
+
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
@@ -60,6 +61,16 @@ BuildRequires:  golang(google.golang.org/api/iterator)
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 13:53:32 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.11.20200805gitf5505b9
+- Bump to commit f5505b9728ddf920bb673137648788c5ac99de1b
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

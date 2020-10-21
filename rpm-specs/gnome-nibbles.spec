@@ -1,11 +1,11 @@
 Name:           gnome-nibbles
-Version:        3.36.0
+Version:        3.38.1
 Release:        1%{?dist}
 Summary:        GNOME Nibbles game
 
 License:        GPLv2+ and GFDL
 URL:            https://wiki.gnome.org/Apps/Nibbles
-Source0:        https://download.gnome.org/sources/gnome-nibbles/3.36/gnome-nibbles-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/gnome-nibbles/3.38/gnome-nibbles-%{version}.tar.xz
 
 BuildRequires:  clutter-gtk-devel
 BuildRequires:  desktop-file-utils
@@ -51,9 +51,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 %license COPYING
 %{_bindir}/gnome-nibbles
 %{_datadir}/applications/*.desktop
-%{_datadir}/glib-2.0/schemas/org.gnome.nibbles.gschema.xml
-%{_datadir}/gnome-nibbles
-%{_datadir}/icons/hicolor/*/apps/org.gnome.Nibbles.png
+%{_datadir}/dbus-1/services/org.gnome.Nibbles.service
+%{_datadir}/glib-2.0/schemas/org.gnome.Nibbles.gschema.xml
+%{_datadir}/gnome-nibbles/
 %{_datadir}/icons/hicolor/scalable/apps/org.gnome.Nibbles.svg
 %{_datadir}/icons/hicolor/symbolic/apps/org.gnome.Nibbles-symbolic.svg
 %{_datadir}/metainfo/*.appdata.xml
@@ -61,6 +61,25 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Mon Oct  5 2020 Kalev Lember <klember@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Kalev Lember <klember@redhat.com> - 3.36.1-1
+- Update to 3.36.1
+
 * Sun Mar 08 2020 Kalev Lember <klember@redhat.com> - 3.36.0-1
 - Update to 3.36.0
 

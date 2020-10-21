@@ -1,7 +1,7 @@
 Name:           perl-ParseUtil-Domain
 Summary:        Utility for parsing a domain name into its components
 Version:        2.427
-Release:        9%{?dist}
+Release:        10%{?dist}
 
 # - ParseUtil::Domain is GPL+ or Artistic (the "Perl" license)
 # - data/effective_tld_names.txt is MPLv2.0
@@ -86,6 +86,9 @@ TEST_AUTHOR=1 make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.427-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.427-9
 - Perl 5.32 rebuild
 

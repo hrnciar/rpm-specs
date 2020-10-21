@@ -16,7 +16,7 @@ retries and exponential backoff.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Familiar HTTP client interface
 
 License:        MPLv2.0
@@ -42,6 +42,9 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.0.1-1
 - Initial package
 

@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.1.9+1.0.8
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Bindings to libbzip2 for bzip2 compression and decompression exposed as Reader/Writer streams
 
 # Upstream license specification: MIT/Apache-2.0
@@ -77,6 +77,9 @@ rm -vr bzip2-1.0.8
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.9+1.0.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 27 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.1.9+1.0.8-2
 - devel should also pull in pkgconfig(bzip2)
 

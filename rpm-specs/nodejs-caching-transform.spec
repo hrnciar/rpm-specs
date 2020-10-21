@@ -6,7 +6,7 @@
 
 Name:		nodejs-caching-transform
 Version:	1.0.1
-Release:	8%{?dist}
+Release:	9%{?dist}
 Summary:	Wraps a transform and provides caching
 
 License:	MIT
@@ -70,6 +70,9 @@ cp -pr package.json index.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,9 +1,9 @@
 %global packname littler
 
-%global __suggests_exclude ^R\\((docopt)\\)
+%global __suggests_exclude ^R\\(.*\\)
 
 Name:		R-%{packname}
-Version:	0.3.10
+Version:	0.3.12
 Release:	1%{?dist}
 Summary:	littler: R at the Command-Line via 'r'
 
@@ -90,7 +90,23 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check --ignore-vignettes %{packname}
 %{_libdir}/R/library/%{packname}/examples
 
 %changelog
-* Mon Jun  8 2020 Tom Callaway <spot@fedoraproject.org> - 0.3.10-1
+* Tue Oct 13 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 0.3.12-1
+- New upstream release 0.3.12
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.11-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 0.3.11-1
+- New upstream release 0.3.11
+
+* Sat Jul 04 2020 José Abílio Matos <jamatos@fc.up.pt> - 0.3.10-2
+- bump version to ensure upgrade path (due to a F32 rebuild)
+
+* Mon Jun 08 2020 Tom Callaway <spot@fedoraproject.org> - 0.3.10-1
 - update to 0.3.10
 - rebuild for R 4
 

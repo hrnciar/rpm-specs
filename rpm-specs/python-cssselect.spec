@@ -4,7 +4,7 @@
 
 Name:           python-cssselect
 Version:        0.9.2
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Parses CSS3 Selectors and translates them to XPath 1.0
 
 License:        BSD
@@ -55,6 +55,9 @@ mv %{modname}/tests.py .
 %{python3_sitelib}/%{modname}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.2-15
 - Rebuilt for Python 3.9
 

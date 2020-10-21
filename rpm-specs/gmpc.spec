@@ -1,7 +1,7 @@
 Name:           gmpc
 Summary:        GNOME frontend for the MPD
 Version:        11.8.16
-Release:        22%{?dist}
+Release:        24%{?dist}
 
 License:        GPLv2+
 URL:            http://gmpclient.org/
@@ -167,6 +167,13 @@ install -D -m 644 %{SOURCE12} $RPM_BUILD_ROOT%{_datadir}/appdata/%{name}.appdata
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.8.16-24
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.8.16-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.8.16-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

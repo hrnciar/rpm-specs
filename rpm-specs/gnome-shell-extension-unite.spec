@@ -7,7 +7,7 @@
 
 Name:		gnome-shell-extension-unite
 Version:	8
-Release:	6%{?dist}
+Release:	8%{?dist}
 Summary:	GNOME Shell Extension Unite by hardpixel
 
 License:	GPLv3+
@@ -17,7 +17,7 @@ Source0:	%{giturl}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 BuildArch:	noarch
 
 Requires:	gnome-shell-extension-common
-Requires:	xorg-x11-utils
+Requires:	xprop
 
 %description
 Unite is a GNOME Shell extension which makes a few layout tweaks to the
@@ -55,6 +55,12 @@ Unity Shell.
 
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 8-8
+- Require xprop not xorg-x11-utils
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 Name:		php-zordius-lightncandy
 Version:	0.23
-Release:	10%{?dist}
+Release:	11%{?dist}
 Summary:	An extremely fast PHP implementation of handlebars and mustache
 
 License:	MIT
@@ -60,6 +60,9 @@ cp -p src/lightncandy.php %{buildroot}%{_datadir}/php/zordius/lightncandy
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.23-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.23-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 %global shortcommit %(c=%{commit}; echo ${c:0:7}) 
 Name:           wlr-randr
 Version:        0
-Release:        4.20200408git%{shortcommit}%{?dist}
+Release:        5.20200408git%{shortcommit}%{?dist}
 Summary:        An xrandr clone for wlroots compositors
 License:        MIT
 URL:            https://github.com/emersion/wlr-randr
@@ -32,6 +32,9 @@ wlr-randr is an xrandr clone for wlroots compositors
 %{_bindir}/wlr-randr
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-5.20200408git5ff601a
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 28 2020 Morian Sonnet <MorianSonnet@googlemail.com> - 0-4.20200408git5ff601a
 - Remove unnecessary BuildRequires
 

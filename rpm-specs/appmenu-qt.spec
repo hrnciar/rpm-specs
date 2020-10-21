@@ -1,6 +1,6 @@
 Name:           appmenu-qt
 Version:        0.2.7+14.04.20140305
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Global application menu to Qt
 
 License:        LGPLv2 with exceptions and GPLv3
@@ -37,6 +37,9 @@ popd
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7+14.04.20140305-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7+14.04.20140305-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

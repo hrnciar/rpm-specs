@@ -1,7 +1,13 @@
+%global srcname  Stockfish
+
+%global _vpath_srcdir src
+%undefine __cmake_in_source_build
+
 Name:            stockfish
-Version:         11
+Version:         12 
 Release:         1%{?dist}
-Source0:         %{url}/files/%{name}-%{version}-linux.zip
+#Source0:        %%{url}/files/%%{name}-%%{version}-linux.zip
+Source0:         https://github.com/official-%{name}/%{srcname}/archive/sf_%{version}.zip
 Summary:         Powerful open source chess engine
 License:         GPLv3+
 URL:             http://%{name}chess.org
@@ -20,8 +26,7 @@ BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
 
-Suggests:       polyglot-chess
-
+#Suggests:       polyglot-chess
 
 %description
 Stockfish is a free UCI chess engine derived from Glaurung 2.1. It is not a
@@ -32,7 +37,8 @@ information about how to use Stockfish with your GUI.
 
 
 %prep
-%autosetup -n%{name}-%{version}-linux
+#%%autosetup -n%%{name}-%%{version}-linux
+%autosetup -n%{srcname}-sf_%{version}
 cp -t. -p %{SOURCE10} %{SOURCE11}
 # W: wrong-file-end-of-line-encoding
 sed -i 's,\r$,,' %{name}-interface.txt
@@ -47,13 +53,13 @@ rm src/Makefile
 
 
 %build
-CXXFLAGS="%{optflags} -std=c++11" %cmake src
-%make_build
+%cmake
+%cmake_build
 
 
 %install
 mkdir -p %{buildroot}%{_bindir}
-install -m 755 -p %{name} %{buildroot}%{_bindir}
+install -m 755 -p %{_vpath_builddir}/%{name} %{buildroot}%{_bindir}
 mkdir -p %{buildroot}%{_datadir}/man/man6
 cp -p %{name}.6 %{buildroot}%{_datadir}/man/man6
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}
@@ -62,7 +68,7 @@ cp -p polyglot.ini %{buildroot}%{_sysconfdir}/%{name}
 
 %check
 # taken from official Makefile
-./%{name} bench 16 1 1000 default time
+./%{_vpath_builddir}/%{name} bench 16 1 1000 default time
 
 
 %files
@@ -75,6 +81,20 @@ cp -p polyglot.ini %{buildroot}%{_sysconfdir}/%{name}
 
 
 %changelog
+* Sun Sep 06 2020 Raphael Groner <raphgro@fedoraproject.orgi> - 12-1
+- bump to version 12
+- use c++17 for std::clamp
+
+* Wed Aug 26 2020 Jeff Law <law@redhat.com> - 11-4
+- Do not force C++11 mode
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 02 2020 Raphael Groner <projects.rg@smart.ms> - 11-1
 - new version
 

@@ -23,7 +23,7 @@
 Name:           soci
 Version:        4.0.1.alpha2
 %global ups_ver 4.0.1-alpha2
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        The database access library for C++ programmers
 License:        Boost
 URL:            https://github.com/SOCI/%{name}
@@ -31,6 +31,8 @@ Source0:        %{url}/archive/%{ups_version}.tar.gz#/%{name}-%{version}.tar.gz
 
 # Upstream issue: https://github.com/SOCI/soci/pull/815
 #Patch0:         soci-werror.patch
+# Works around a false positive -Wuninitialized error exposed by LTO
+Patch1:		soci-uninit.patch
 
 BuildRequires:  dos2unix
 BuildRequires:  gcc gcc-c++
@@ -182,6 +184,7 @@ library. The documentation is the same as at the %{name} web page.
 %prep
 %setup -q -n %{name}-%{ups_ver}
 #%%patch -p1
+%patch1 -p1
 
 # Rename change-log and license file, so that they comply with
 # packaging standard
@@ -208,8 +211,6 @@ dos2unix AUTHORS README ChangeLog COPYING NEWS
    -DSOCI_TEST_MYSQL_CONNSTR:STRING="db=soci_test user=mloskot password=pantera"
 %endif
 
-mkdir tmpbuild
-pushd tmpbuild
 %cmake \
  -DSOCI_CXX11=ON \
  -DSOCI_EMPTY=%{?with_empty:ON}%{?without_empty:OFF} \
@@ -218,14 +219,11 @@ pushd tmpbuild
  -DSOCI_MYSQL=%{?with_mysql:ON}%{?without_mysql:OFF} \
  -DSOCI_ODBC=%{?with_odbc:ON}%{?without_odbc:OFF} \
  -DWITH_ORACLE=%{?with_oracle:ON %{?_with_oracle_incdir} %{?_with_oracle_libdir}}%{?without_oracle:OFF} \
- %{soci_testflags} ..
-%make_build
-popd
+ %{soci_testflags} 
+%cmake_build
 
 %install
-pushd tmpbuild
-%make_install
-popd
+%cmake_install
 
 # CMake helpers 
 mkdir -p %{buildroot}%{_datadir}/%{name}
@@ -323,6 +321,16 @@ rm -f %{buildroot}%{_libdir}/*.a
 %doc AUTHORS ChangeLog COPYING NEWS README docs
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.1.alpha2-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.1.alpha2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 19 2020 Jeff Law <law@redhat.com> 4.0.1.alpha2-3
+- Work around false positive uninitialized warning exposed by LTO
+
 * Thu Jun 04 2020 Denis Arnaud <denis.arnaud_fedora@m4x.org> 4.0.1.alpha2-2
 - C++-11 flag is now set to on by default
 

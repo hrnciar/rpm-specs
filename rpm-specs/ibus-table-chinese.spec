@@ -3,20 +3,19 @@
 %global ibus_icons_dir %{_datadir}/ibus-table/icons
 %global createdb ibus-table-createdb
 Name:           ibus-table-chinese
-Version:        1.8.2
-Release:        15%{?dist}
+Version:        1.8.3
+Release:        5%{?dist}
 Summary:        Chinese input tables for IBus
 Summary(zh_CN): 中文码表输入法
 Summary(zh_TW): 中文碼表輸入法
 License:        GPLv3+
 URL:            https://github.com/definite/ibus-table-chinese
-# Change Source URL when upstream released tar ball
-# Source0:        https://github.com/definite/ibus-table-chinese/archive/%{version}.tar.gz#/%{name}-%{version}-Source.tar.gz
-Source0:        https://fedorahosted.org/releases/c/m/%{name}/%{name}-%{version}-Source.tar.gz
+Source0:        https://github.com/definite/ibus-table-chinese/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
 BuildRequires:  cmake >= 2.6.2
-BuildRequires:  ibus-table-devel >= 1.2.0
-Requires:       ibus-table >= 1.2.0
+BuildRequires:  cmake-fedora
+BuildRequires:  ibus-table-devel >= 1.10.0
+Requires:       ibus-table >= 1.10.0
 Obsoletes:      ibus-table-yinma < 1.3
 Obsoletes:      ibus-table-xingma < 1.3
 
@@ -296,13 +295,21 @@ YongMa input method.
 %description -l zh_TW yong
 永碼輸入法。
 
+%package cantonyale
+Summary:        Cantonese input method based on yale romanization
+License:        GPLv2
+Requires:       %{name} = %{version}-%{release}
+
+%description cantonyale
+Cantonese input method based on yale romanization
+
 %prep
-%setup -q -n %{name}-%{version}-Source
+%setup -q -n %{name}-%{version}
 %{__sed} -i 's/\r//' tables/wubi-haifeng/COPYING
 
 %build
 # $RPM_OPT_FLAGS should be loaded from cmake macro.
-%cmake -DMANAGE_MESSAGE_LEVEL=%{message_level} -DCMAKE_FEDORA_ENABLE_FEDORA_BUILD=1 .
+%cmake -B . -DMANAGE_MESSAGE_LEVEL=%{message_level} -DCMAKE_FEDORA_ENABLE_FEDORA_BUILD=1 .
 %__make VERBOSE=1  %{?_smp_mflags}
 
 %install
@@ -406,6 +413,35 @@ cat > $RPM_BUILD_ROOT%{_datadir}/appdata/wubi-jidian86.appdata.xml <<EOF
   <update_contact><!-- upstream-contact_at_email.com --></update_contact>
 </component>
 EOF
+cat > $RPM_BUILD_ROOT%{_datadir}/appdata/cantonyale.appdata.xml <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="inputmethod">
+  <id>cantonyale.db</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <name>cantonyale</name>
+  <summary>Cantonese input method based on yale romanization</summary>
+  <description>
+    <p>
+      The cantonyale input method is designed to enter Chinese text using yale romanization.
+    </p>
+    <p>
+      Input methods are typing systems allowing users to input complex languages.
+      They are necessary because these contain too many characters to simply be laid
+      out on a traditional keyboard.
+    </p>
+  </description>
+  <url type="homepage">http://code.google.com/p/ibus/</url>
+  <url type="bugtracker">https://code.google.com/p/ibus/issues/list</url>
+  <url type="help">https://code.google.com/p/ibus/wiki/FAQ</url>
+  <languages>
+    <lang percentage="100">zh_CN</lang>
+    <lang percentage="100">zh_HK</lang>
+    <lang percentage="100">zh_SG</lang>
+    <lang percentage="100">zh_TW</lang>
+  </languages>
+  <update_contact><!-- upstream-contact_at_email.com --></update_contact>
+</component>
+EOF
 
 # We install document using doc 
 rm -fr %{buildroot}%{_docdir}/*
@@ -455,6 +491,9 @@ rm -fr %{buildroot}%{_docdir}/*
 
 %post yong
 %{createdb} -i -n %{ibus_tables_dir}/yong.db
+
+%post cantonyale
+%{createdb} -i -n %{ibus_tables_dir}/cantonyale.db
 
 %files
 %doc 
@@ -527,7 +566,36 @@ rm -fr %{buildroot}%{_docdir}/*
 %{ibus_icons_dir}/yong.*
 %{ibus_tables_dir}/yong.db
 
+%files cantonyale
+%{_datadir}/appdata/cantonyale.appdata.xml
+%{ibus_icons_dir}/cantonyale.*
+%verify(not size md5 mtime) %{ibus_tables_dir}/cantonyale.db
+
 %changelog
+* Thu Jul 30 2020 Mike FABIAN <mfabian@redhat.com> - 1.8.3-5
+- Fix build on rawhide
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Mike FABIAN <mfabian@redhat.com> - 1.8.3-2
+- bump release number to force a rebuild with newer ibus-table >= 1.10.0
+
+* Thu Jul 09 2020 Mike FABIAN <mfabian@redhat.com> - 1.8.3-1
+- Update to 1.8.3
+- Turned cangjie 3 and 5's DYNAMIC_ADJUST to FALSE
+  Resolves: https://github.com/definite/ibus-table-chinese/pull/14
+- Add SUGGESTION_MODE = TRUE to the wubi tables
+  Resolves: https://github.com/definite/ibus-table-chinese/pull/15
+- Support pinyin mode also for stroke5 table
+  Resolves: https://github.com/definite/ibus-table-chinese/pull/12
+- Use nicer values for symbol and status prompt
+  Resolves: https://github.com/definite/ibus-table-chinese/pull/8
+- update jyutping table; add cantonyale table
+  Resolves: https://github.com/definite/ibus-table-chinese/pull/11
+- Update jyutping and cantonese tables
+  Resolves: https://github.com/definite/ibus-table-chinese/pull/9
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.2-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

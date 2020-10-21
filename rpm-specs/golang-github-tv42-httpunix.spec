@@ -3,7 +3,7 @@
 
 # https://github.com/tv42/httpunix
 %global goipath         github.com/tv42/httpunix
-%global commit          b75d8614f926c077e48d85f1f8f7885b758c6225
+%global commit          2ba4b9c3382c77e7b9ea89d00746e6111d142a22
 
 %gometa
 
@@ -14,7 +14,7 @@ Go library to talk http over unix domain sockets.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.4%{?dist}
+Release:        0.6%{?dist}
 Summary:        Go library to talk http over unix domain sockets
 
 License:        MIT
@@ -40,6 +40,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Aug 03 20:35:47 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.6.20200803git2ba4b9c
+- Bump to commit 2ba4b9c3382c77e7b9ea89d00746e6111d142a22
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

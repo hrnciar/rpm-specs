@@ -1,6 +1,6 @@
 Name:           xscope
 Version:        1.4.1
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        X Window Protocol Viewer
 
 License:        MIT
@@ -39,6 +39,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

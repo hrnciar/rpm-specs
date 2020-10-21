@@ -1,5 +1,5 @@
 %global pa_major   13.99
-%global pa_minor   1
+%global pa_minor   2
 
 #global snap       20200105
 #global gitrel     103
@@ -31,7 +31,7 @@
 Name:           pulseaudio
 Summary:        Improved Linux Sound Server
 Version:        %{pa_major}%{?pa_minor:.%{pa_minor}}
-Release:        4%{?snap:.%{snap}git%{shortcommit}}%{?dist}
+Release:        1%{?snap:.%{snap}git%{shortcommit}}%{?dist}
 License:        LGPLv2+
 URL:            http://www.freedesktop.org/wiki/Software/PulseAudio
 %if 0%{?gitrel}
@@ -55,14 +55,6 @@ Patch201: pulseaudio-autostart.patch
 Patch206: pulseaudio-11.1-autospawn_disable.patch
 
 ## upstream patches
-Patch207: 0001-alsa-ucm-correct-the-channel-default-logic-stereo.patch
-Patch208: 0002-alsa-ucm-do-not-assign-JackHWMute-when-JackControl-i.patch
-Patch209: 0003-ucm-Don-t-log-errors-during-normal-operation.patch
-Patch210: 0004-bluetooth-Ensure-that-only-one-A2DP-codec-is-registe.patch
-Patch211: 0005-alsa-handle-unavailbale-HW-volume-in-UCM.patch
-Patch212: 0001-alsa-ucm-use-the-right-profile-name.patch
-Patch213: 0001-ucm-fix-the-port-ucm-device-activation-on-boot.patch
-Patch214: 0002-alsa-sink-source-fix-the-mixer-initialization.patch
 
 ## upstreamable patches
 
@@ -261,14 +253,6 @@ This package contains GDM integration hooks for the PulseAudio sound server.
 %if 0%{?systemd}
 %patch206 -p1 -b .autospawn_disable
 %endif
-%patch207 -p1 -b .0007
-%patch208 -p1 -b .0008
-%patch209 -p1 -b .0009
-%patch210 -p1 -b .0010
-%patch211 -p1 -b .0011
-%patch212 -p1 -b .0012
-%patch213 -p1 -b .0013
-%patch214 -p1 -b .0014
 
 sed -i.no_consolekit -e \
   's/^load-module module-console-kit/#load-module module-console-kit/' \
@@ -660,6 +644,16 @@ systemctl --no-reload preset --global pulseaudio.socket >/dev/null 2>&1 || :
 
 
 %changelog
+* Tue Sep 22 2020 Rex Dieter <rdieter@fedoraproject.org> - 13.99.2-1
+-  13.99.2
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 13.99.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 13.99.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Wim Taymans <wtaymans@redhat.com> - 13.99.1-4
 - Add patch to fix crash with profile name (#1817092)
 

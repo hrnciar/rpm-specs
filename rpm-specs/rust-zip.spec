@@ -5,7 +5,7 @@
 %global crate zip
 
 Name:           rust-%{crate}
-Version:        0.5.6
+Version:        0.5.8
 Release:        1%{?dist}
 Summary:        Library to support the reading and writing of zip files
 
@@ -13,9 +13,6 @@ Summary:        Library to support the reading and writing of zip files
 License:        MIT
 URL:            https://crates.io/crates/zip
 Source:         %{crates_source}
-# Update walkdir to the version in Fedora
-# https://github.com/mvdnes/zip-rs/pull/169
-Patch0:         zip-update-walkdir.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -53,6 +50,18 @@ This package contains library source intended for building other packages
 which use "default" feature of "%{crate}" crate.
 
 %files       -n %{name}+default-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+bzip2-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+bzip2-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "bzip2" feature of "%{crate}" crate.
+
+%files       -n %{name}+bzip2-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %package     -n %{name}+deflate-devel
@@ -134,6 +143,12 @@ which use "time" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Fri Sep 11 2020 Josh Stone <jistone@redhat.com> - 0.5.8-1
+- Update to 0.5.8
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 27 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.5.6-1
 - Update to 0.5.6
 

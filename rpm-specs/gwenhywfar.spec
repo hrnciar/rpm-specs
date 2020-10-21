@@ -5,7 +5,7 @@
 Summary: A multi-platform helper library for other libraries
 Name: gwenhywfar
 Version: 5.3.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 
 URL: http://www.aquamaniac.de/sites/download/packages.php?package=01&showall=1
 # Download is PHP form at http://www.aquamaniac.de/sites/download/packages.php
@@ -212,6 +212,9 @@ rm -fv %{buildroot}%{_libdir}/lib*.la
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.3.0-2
 - track library sonames closer
 

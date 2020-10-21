@@ -1,19 +1,23 @@
 %global pkgname cookiecutter
 
 Name:           python-cookiecutter
-Version:        1.6.0
-Release:        13%{?dist}
+Version:        1.7.2
+Release:        1%{?dist}
 Summary:        CLI utility to create projects from templates
 License:        BSD
 URL:            https://github.com/audreyr/cookiecutter
 Source0:        https://github.com/audreyr/%{pkgname}/archive/%{version}.tar.gz
 BuildArch:      noarch
 
+BuildRequires:  git
 BuildRequires:  python3-devel
-BuildRequires:  python3-sphinx
-BuildRequires:  python3-sphinx_rtd_theme
 BuildRequires:  python3-click
-BuildRequires:  python3-whichcraft
+BuildRequires:  python3-sphinx
+BuildRequires:  python3-slugify
+BuildRequires:  python3-pytest
+BuildRequires:  python3-recommonmark
+BuildRequires:  python3-sphinx_rtd_theme
+
 BuildRequires:  python3-binaryornot
 BuildRequires:  python3-poyo
 BuildRequires:  python3-jinja2-time
@@ -38,7 +42,7 @@ Summary: Documentation for %{pkgname}
 Documentation for %{pkgname}
 
 %package     -n python3-%{pkgname}
-Summary: %{summary}
+Summary: CLI utility to create projects from templates
 Recommends: python-%{pkgname}-doc
 Requires:  python3-binaryornot
 Requires:  python3-click
@@ -47,7 +51,7 @@ Requires:  python3-jinja2
 Requires:  python3-jinja2-time
 Requires:  python3-poyo
 Requires:  python3-requests
-Requires:  python3-whichcraft
+# Requires:  python3-whichcraft
 %{?python_provide:%python_provide python3-%{pkgname}}
 %description -n python3-%{pkgname}
 A command-line utility that creates projects from cookiecutters (project
@@ -71,7 +75,7 @@ make docs
 %{py3_install}
 
 %check
-%{__python3} setup.py test
+%{python3} -m pytest tests -v
 
 %files -n python3-%{pkgname}
 %license LICENSE
@@ -82,9 +86,15 @@ make docs
 %files -n python-%{pkgname}-doc
 %license LICENSE
 %doc docs
-%doc *.rst
+%doc *.md
 
 %changelog
+* Mon Aug 03 2020 Chedi Toueiti <chedi.toueiti@gmail.com> - 1.7.2-1
+- Update to version 1.7.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.6.0-13
 - Rebuilt for Python 3.9
 

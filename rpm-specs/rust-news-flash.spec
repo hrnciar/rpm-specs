@@ -6,7 +6,7 @@
 %global crate news-flash
 
 Name:           rust-%{crate}
-Version:        1.0.3
+Version:        1.0.10
 Release:        1%{?dist}
 Summary:        Base library for a modern feed reader
 
@@ -96,6 +96,18 @@ which use "readability-fork" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Sep 16 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.10-1
+- Update to version 1.0.10.
+
+* Fri Sep 11 2020 Josh Stone <jistone@redhat.com> - 1.0.9-1
+- Update to 1.0.9
+
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 1.0.8-1
+- Update to 1.0.8
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 17:45:57 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.0.3-1
 - Update to 1.0.3
 

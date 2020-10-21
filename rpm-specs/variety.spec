@@ -1,9 +1,5 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 #For git snapshots, set to 0 to use release instead:
-%global usesnapshot 1
+%global usesnapshot 0
 %if 0%{?usesnapshot}
 %global commit0 8b8bb63a10fa22760eb976b1fd57338f3dba3233
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
@@ -13,10 +9,10 @@
 Name:           variety
 %if 0%{?usesnapshot}
 Version:        0.8.4
-Release:        0.2%{?snapshottag}%{?dist}
+Release:        0.3%{?snapshottag}%{?dist}
 %else
-Version:        0.8.3
-Release:        2%{?dist}
+Version:        0.8.4
+Release:        3%{?dist}
 %endif
 Summary:        Wallpaper changer that automatically downloads wallpapers
 License:        GPLv3
@@ -90,12 +86,17 @@ desktop is always fresh and unique.
 %endif
 
 
+%if 0%{?fedora} >= 33
+# Replace deprecated getiterator() with iter()
+sed -i -e 's|getiterator|iter|' variety_lib/Builder.py
+%endif
 
 # remove debian part
 rm -rf debian
 
 %build
-%{__python3} setup.py build
+# Bytecompile Python modules
+%py_byte_compile %{__python3} setup.py build
 
 %install
 %{__python3} setup.py install --root=%{buildroot}
@@ -122,6 +123,16 @@ appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}.appda
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 
 %changelog
+* Sun Oct 04 2020 Martin Gansser <martinkg@fedoraproject.org> - 0.8.4-3
+- Replace deprecated getiterator() with iter()
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Martin Gansser <martinkg@fedoraproject.org> - 0.8.4-1
+- Update to 0.8.4
+- Bytecompile Python modules
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.4-0.2.git8b8bb63
 - Rebuilt for Python 3.9
 

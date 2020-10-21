@@ -35,7 +35,7 @@
 
 Name:		mod_fcgid
 Version:	2.3.9
-Release:	19%{?dist}
+Release:	22%{?dist}
 Summary:	FastCGI interface module for Apache 2
 License:	ASL 2.0
 URL:		http://httpd.apache.org/mod_fcgid/
@@ -46,6 +46,8 @@ Source3:	mod_fcgid-2.1-README.SELinux
 Source4:	mod_fcgid-tmpfs.conf
 Source5:	fcgid24.conf
 Patch0:		mod_fcgid-2.3.4-fixconf-shellbang.patch
+Patch1:		mod_fcgid-2.3.9-segfault-upload.patch
+Patch2:		mod_fcgid-2.3.9-r1848298.patch
 BuildRequires:	coreutils
 BuildRequires:	gcc
 BuildRequires:	httpd-devel >= 2.0
@@ -76,12 +78,15 @@ cp -p %{SOURCE5} fcgid24.conf
 %patch0 -p1
 %endif
 
+%patch1 -p1 -b .segfault_upload
+%patch2 -p1 -b .r1848298
+
 %build
 APXS=%{_httpd_apxs} ./configure.apxs
 make
 
 %install
-make DESTDIR=%{buildroot} MKINSTALLDIRS="mkdir -p" install
+%make_install MKINSTALLDIRS="mkdir -p"
 %if %{httpd24}
 mkdir -p %{buildroot}{%{_httpd_confdir},%{_httpd_modconfdir}}
 echo "LoadModule fcgid_module modules/mod_fcgid.so" > %{buildroot}%{_httpd_modconfdir}/10-fcgid.conf
@@ -127,6 +132,16 @@ install -p -m 644 %{SOURCE4} %{buildroot}%{_tmpfilesdir}/mod_fcgid.conf
 %dir %attr(0775,root,apache) %{rundir}/mod_fcgid/
 
 %changelog
+* Thu Aug 27 2020 Joe Orton <jorton@redhat.com> - 2.3.9-22
+- merge fixes from RHEL (r1848298, etc)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.9-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 2.3.9-20
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.9-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

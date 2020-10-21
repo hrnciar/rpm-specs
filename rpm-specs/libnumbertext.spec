@@ -1,6 +1,6 @@
 Name:      libnumbertext
-Version:   1.0.5
-Release:   4%{?dist}
+Version:   1.0.6
+Release:   1%{?dist}
 Summary:   Number to number name and money text conversion library
 
 #The entire source code is dual license LGPLv3+ or BSD, except for
@@ -28,14 +28,14 @@ Includes and definitions for developing with libnumbertext
 %build
 autoreconf -v --install --force
 %configure --disable-silent-rules --disable-static --disable-werror --with-pic
-make %{?_smp_mflags}
+%make_build
 
 %check
 make check
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make DESTDIR=$RPM_BUILD_ROOT install
+%make_install
 rm -f $RPM_BUILD_ROOT/%{_libdir}/*.la
 
 %ldconfig_scriptlets
@@ -53,6 +53,16 @@ rm -f $RPM_BUILD_ROOT/%{_libdir}/*.la
 %{_libdir}/*.so
 
 %changelog
+* Sat Aug 08 2020 Caolán McNamara <caolanm@redhat.com> - 1.0.6-1
+- latest version
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1.0.5-5
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

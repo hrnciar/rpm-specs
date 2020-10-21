@@ -1,6 +1,6 @@
 Name:           azove
 Version:        2.0
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Another Zero-One Vertex Enumeration tool
 
 License:        GPLv2+
@@ -50,6 +50,9 @@ install -m 0644 -p %{SOURCE1} $RPM_BUILD_ROOT%{_mandir}/man1
 %{_mandir}/man1/%{name}2.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 18 2020 Jerry James <loganjerry@gmail.com> - 2.0-19
 - Add -memory and -map patches
 - Build with RPM_LD_FLAGS

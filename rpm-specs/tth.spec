@@ -2,23 +2,25 @@
 # tthdynamic.c and ttmdynamic.c IS a test.  We do that in %%build.
 
 Name:           tth
-Version:        4.12
-Release:        7%{?dist}
+Version:        4.15
+Release:        2%{?dist}
 Summary:        TeX to HTML/MathML translators
 
 License:        GPLv2
 URL:            http://hutchinson.belmont.ma.us/tth/
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}%{version}.tar.gz
+Source1:        http://downloads.sourceforge.net/%{name}/%{name}%{version}.tar.gz.asc
+Source2:        http://silas.psfc.mit.edu/ihutch.asc
 # Header file created by Jerry James from the source code.  It therefore has
 # the same copyright and license as tth itself.
-Source1:        tth.h
-# Avoid buffer underflow
-Patch0:         %{name}-buffer-underflow.patch
+Source3:        tth.h
 
 BuildRequires:  flex
 BuildRequires:  gcc
 BuildRequires:  ghostscript
+BuildRequires:  gnupg2
 BuildRequires:  netpbm-progs
+BuildRequires:  tex(amssym.tex)
 BuildRequires:  tex(color.sty)
 BuildRequires:  tex(epsfig.sty)
 BuildRequires:  tex(fullpage.sty)
@@ -41,6 +43,7 @@ BuildRequires:  tex-updmap-map
 Requires:       coreutils
 Requires:       ghostscript
 Requires:       netpbm-progs
+Requires:       tex(amssym.tex)
 Requires:       tex(color.sty)
 Requires:       tex(epsfig.sty)
 Requires:       tex(fullpage.sty)
@@ -90,6 +93,7 @@ Summary:        TeX to HTML/MathML translation libraries
 Requires:       coreutils
 Requires:       ghostscript-core
 Requires:       netpbm-progs
+Requires:       tex(amssym.tex)
 Requires:       tex(color.sty)
 Requires:       tex(epsfig.sty)
 Requires:       tex(fullpage.sty)
@@ -120,6 +124,9 @@ Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 Development files for building applications that use TTH.
 
 %prep
+# Verify the source file
+%{gpgverify} --data=%{SOURCE0} --signature=%{SOURCE1} --keyring=%{SOURCE2}
+
 %autosetup -n %{name} -p1
 
 fixtimestamp() {
@@ -207,7 +214,7 @@ ln -s libttm.so.0 %{buildroot}%{_libdir}/libttm.so
 
 # Install the header
 mkdir -p %{buildroot}%{_includedir}
-install -m 0644 -p %{SOURCE1} %{buildroot}%{_includedir}
+install -m 0644 -p %{SOURCE3} %{buildroot}%{_includedir}
 
 # Install the style files
 mkdir -p %{buildroot}%{_texmf_main}/tex/generic/%{name}
@@ -248,6 +255,20 @@ cp -p tthgold/tth*.sty %{buildroot}%{_texmf_main}/tex/generic/%{name}
 %{_includedir}/tth.h
 
 %changelog
+* Thu Sep 24 2020 Jerry James <loganjerry@gmail.com> - 4.15-2
+- Add dependency on amssym.tex
+
+* Sat Sep 19 2020 Jerry James <loganjerry@gmail.com> - 4.15-1
+- Version 4.15
+
+* Mon Aug 24 2020 Jerry James <loganjerry@gmail.com> - 4.14-1
+- Version 4.14
+- Drop upstreamed -buffer-underflow patch
+- Verify the tarball
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.12-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 12 2020 Jerry James <loganjerry@gmail.com> - 4.12-7
 - Update -buffer-underflow patch to upstream version
 

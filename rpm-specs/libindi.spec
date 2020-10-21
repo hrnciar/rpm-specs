@@ -1,17 +1,18 @@
+%global forgeurl https://github.com/indilib/indi/
+
 Name: libindi
-Version: 1.8.1
-Release: 3%{?dist}
+Version: 1.8.6
+Release: 1%{?dist}
 Summary: Instrument Neutral Distributed Interface
 
 License: LGPLv2+ and GPLv2+
 # See COPYRIGHT file for a description of the licenses and files covered
 
+%forgemeta -i
+
 URL: http://www.indilib.org
-Source0:       libindi-%{version}.tar.gz
-Patch0:        libindi-uaccess.patch
-# https://github.com/indilib/indi/issues/1090
-Patch1: https://github.com/indilib/indi/commit/0cc0e24260c0d71da43550e3e8c962f8d181f2d4.patch
-# Generated from git checkout using libindi-generate-tarball.sh
+Source0: %{forgesource} 
+Patch0: libindi-uaccess.patch
 
 BuildRequires: cmake
 BuildRequires: libfli-devel
@@ -60,20 +61,24 @@ Requires: %{name}-libs%{?_isa} = %{version}-%{release}
 Static library needed to develop a %{name} application
 
 %prep
-%setup -q -n %{name}-%{version}
+%forgesetup
 %patch0 -p1
-%patch1 -p1
 # For Fedora we want to put udev rules in %{_udevrulesdir}
 sed -i 's|/lib/udev/rules.d|%{_udevrulesdir}|g' CMakeLists.txt
-chmod -x drivers/telescope/lx200fs2.h
-chmod -x drivers/telescope/lx200fs2.cpp
+chmod -x drivers/telescope/pmc8driver.h
+chmod -x drivers/telescope/pmc8driver.cpp
 
 %build
-%cmake .
-make VERBOSE=1 %{?_smp_mflags}
+# This package tries to mix and match PIE and PIC which is wrong and will
+# trigger link errors when LTO is enabled.
+# Disable LTO
+%define _lto_cflags %{nil}
+
+%cmake 
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 %ldconfig_scriptlets libs
 
@@ -98,6 +103,25 @@ make install DESTDIR=%{buildroot}
 %{_libdir}/*.a
 
 %changelog
+* Mon Aug 24 2020 Sergio Pascual <sergiopr@fedoraproject.org> - 1.8.6-1
+- New upstream source (1.8.6)
+
+* Tue Aug 18 2020 Sergio Pascual <sergiopr@fedoraproject.org> - 1.8.5-4
+- Fix cmake out-of-source-build (bz #1864002)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - Packaging variables read or set by %forgemeta
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - Packaging variables read or set by %forgemeta
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Sergio Pascual <sergiopr@fedoraproject.org> 1.8.5-1
+- New upstream source (1.8.5)
+
+* Wed Jul 08 2020 Jeff Law <law@redhat.com> 1.8.1-4
+- Disable LTO
+
 * Sun Mar 01 2020 Sergio Pascual <sergiopr@fedoraproject.org> 1.8.1-3
 - Patch stime in arm (bz#1799588)
 

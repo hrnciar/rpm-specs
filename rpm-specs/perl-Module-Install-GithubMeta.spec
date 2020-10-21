@@ -1,6 +1,6 @@
 Name:       perl-Module-Install-GithubMeta 
 Version:    0.30
-Release:    16%{?dist}
+Release:    17%{?dist}
 # lib/Module/Install/GithubMeta.pm -> GPL+ or Artistic
 License:    GPL+ or Artistic 
 Summary:    A Module::Install extension to include GitHub meta information in META.yml 
@@ -67,6 +67,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.30-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.30-16
 - Perl 5.32 rebuild
 

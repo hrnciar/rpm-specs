@@ -1,6 +1,6 @@
 Name:     dunst
 Version:  1.4.1
-Release:  3%{?dist}
+Release:  4%{?dist}
 Summary:  Simple and configurable notification-daemon
 License:  BSD and MIT
 URL:      https://dunst-project.org
@@ -57,6 +57,9 @@ install -Dm755 dunstify %{buildroot}%{_bindir}/dunstify
 %{_datadir}/man/man1/%{name}.1.gz
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 15 2020 Xaver Hellauer <xaver.hellauer@gmail.com> - 1.4.1-3
 - Build including dunstify
 

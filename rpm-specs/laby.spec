@@ -4,7 +4,7 @@
 
 Name:           laby
 Version:        0.6.4
-Release:        18.%{snapinfo}%{?dist}
+Release:        22.%{snapinfo}%{?dist}
 Summary:        Learn programming, playing with ants and spider webs
 
 License:        GPLv3+
@@ -67,6 +67,19 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.6.4-22.20200413git27ecf89
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.6.4-21.20200413git27ecf89
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4-20.20200413git27ecf89
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4-19.20200413git27ecf89
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 0.6.4-18.20200413git27ecf89
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

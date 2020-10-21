@@ -19,7 +19,7 @@
 Summary:       Communicate with any AMQP compliant server
 Name:          php-pecl-amqp
 Version:       1.10.2
-Release:       1%{?dist}
+Release:       2%{?dist}
 License:       PHP
 URL:           https://pecl.php.net/package/amqp
 Source0:       https://pecl.php.net/get/%{pecl_name}-%{version}%{?prever}.tgz
@@ -226,6 +226,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr  6 2020 Remi Collet <remi@remirepo.net> - 1.10.2-1
 - update to 1.10.2
 

@@ -1,6 +1,9 @@
+# force out-of-tree build for spec compatibility with older releases
+%undefine __cmake_in_source_build
+
 Name:           ballerburg
 Version:        1.2.0
-Release:        14%{?dist}
+Release:        16%{?dist}
 Summary:        Two players, two castles, and a hill in between
 
 License:        GPLv3+
@@ -36,12 +39,12 @@ modern operating systems.
 
 
 %build
-%cmake -DCMAKE_BUILD_TYPE:STRING=Debug .
-%make_build VERBOSE=1
+%cmake -DCMAKE_BUILD_TYPE:STRING=Debug
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 # Install additional docs
 install -p -m 644 LIESMICH.txt README.txt doc/authors.txt \
@@ -86,6 +89,13 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

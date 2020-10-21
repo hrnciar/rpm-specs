@@ -1,6 +1,6 @@
 Name:       light
 Version:    1.2.2
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    Control backlight controllers
 
 License:    GPLv3
@@ -60,6 +60,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 28 2020 Jakub Kadlčík <jkadlcik@redhat.com> - 1.2.2-2
 - Fix post hook for fresh installations where /etc/light
   does not exist yet

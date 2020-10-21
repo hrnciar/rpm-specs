@@ -1,12 +1,15 @@
+# Stubby has its own package now
 %bcond_with stubby
 #%%global extraver rc1
 %global upstream_version %{version}%{?extraver:-%{extraver}}
 %global stubby_version 0.3.0
 
+%undefine __cmake_in_source_build
+
 Summary: Modern asynchronous API to the DNS
 Name: getdns
 Version: 1.6.0
-Release: 2%{?extraver:.%{extraver}}%{?dist}
+Release: 6%{?extraver:.%{extraver}}%{?dist}
 License: BSD
 Url: http://www.getdnsapi.net
 Source: http://www.getdnsapi.net/dist/%{name}-%{upstream_version}.tar.gz
@@ -73,40 +76,32 @@ Stubby is an application that acts as a local DNS Privacy stub resolver (using D
 %autosetup -p1 -n %{name}-%{upstream_version}
 
 %build
-mkdir build
-pushd build
 %cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_STATIC=OFF \
   -DPATH_TRUST_ANCHOR_FILE=%{_sharedstatedir}/unbound/root.key \
 %if %{with stubby}
   -DBUILD_STUBBY=ON \
 %endif
-..
 
-make %{?_smp_mflags}
-popd
+%cmake_build
 
 %check
-pushd build
 # make test needs a network connection - so disabled per default
 #make test
-popd
 
 %install
-pushd build
-make DESTDIR=%{buildroot} INSTALL="%{__install} -p" install
+%cmake_install
 
 %if %{with stubby}
 mkdir -p %{buildroot}%{_unitdir}
 install -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/stubby.service
 install -d -m 0750 %{buildroot}%{_localstatedir}/cache/stubby
 install -d -m 0755 %{buildroot}%{_sysconfdir}/stubby
-install -d build/stubby/stubby.yml %{buildroot}%{_sysconfdir}/stubby/stubby.yml
+install -d %__cmake_builddir/stubby/stubby.yml %{buildroot}%{_sysconfdir}/stubby/stubby.yml
 rm -rf %{buildroot}%{_docdir}/stubby
 %endif
 
 rm -rf %{buildroot}%{_libdir}/*.la
 rm -rf %{buildroot}%{_docdir}/%{name}
-popd
 
 %files
 %{_libdir}/libgetdns*so.10*
@@ -162,6 +157,19 @@ exit 0
 %endif
 
 %changelog
+* Tue Sep 15 2020 Petr Menšík <pemensik@redhat.com> - 1.6.0-6
+- Rebuilt for libevent rebase
+
+* Fri Aug 07 2020 Petr Menšík <pemensik@redhat.com> - 1.6.0-5
+- Fix cmake build (#1863610)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 19 2020 Petr Menšík <pemensik@redhat.com> - 1.6.0-2
 - Disable stubby subpackage, it has its own package
 - Move getdns_query* utilities into getdns-utils subpackage

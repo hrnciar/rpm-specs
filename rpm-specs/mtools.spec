@@ -1,7 +1,7 @@
 Summary: Programs for accessing MS-DOS disks without mounting the disks
 Name: mtools
 Version: 4.0.24
-Release: 1%{?dist}
+Release: 3%{?dist}
 License: GPLv3+
 Source0: ftp://ftp.gnu.org/gnu/mtools/mtools-%{version}.tar.gz
 Url: https://www.gnu.org/software/mtools/
@@ -25,12 +25,12 @@ Mtools should be installed if you need to use MS-DOS disks
 %build
 autoreconf -fiv
 %configure --disable-floppyd
-make %{?_smp_mflags}
+%make_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/etc $RPM_BUILD_ROOT/%{_infodir}
-%makeinstall
+%make_install
 install -m644 mtools.conf $RPM_BUILD_ROOT/etc
 gzip -9f $RPM_BUILD_ROOT/%{_infodir}/*
 
@@ -52,6 +52,13 @@ ln -s mtools.5.gz %{buildroot}%{_mandir}/man5/mtools.conf.5.gz
 %{_infodir}/mtools.info*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.24-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 4.0.24-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Sun Mar 22 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 4.0.24-1
 - Update to 4.0.24 (#1815863)
 

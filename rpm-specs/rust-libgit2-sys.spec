@@ -3,10 +3,10 @@
 %global debug_package %{nil}
 
 %global crate libgit2-sys
-%global upstream_version 0.12.7+1.0.0
+%global upstream_version 0.12.13+1.0.1
 
 Name:           rust-%{crate}
-Version:        0.12.7
+Version:        0.12.13
 Release:        1%{?dist}
 Summary:        Native bindings to the libgit2 library
 
@@ -16,6 +16,7 @@ URL:            https://crates.io/crates/libgit2-sys
 Source:         %{crates_source %{crate} %{upstream_version}}
 # Initial patched metadata
 # * Remove libgit2 version from version field
+# * Remove zlib-ng features
 Patch0:         libgit2-sys-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -33,7 +34,7 @@ Native bindings to the libgit2 library.}
 %package        devel
 Summary:        %{summary}
 BuildArch:      noarch
-Requires:       (pkgconfig(libgit2) >= 1.0.0 with pkgconfig(libgit2) < 2.0.0)
+Requires:       (pkgconfig(libgit2) >= 1.0.1 with pkgconfig(libgit2) < 2.0.0)
 
 %description    devel %{_description}
 
@@ -125,7 +126,7 @@ rm -vrf libgit2
 %generate_buildrequires
 %cargo_generate_buildrequires
 %if ! %{__cargo_skip_build}
-echo '(pkgconfig(libgit2) >= 1.0.0 with pkgconfig(libgit2) < 2.0.0)'
+echo '(pkgconfig(libgit2) >= 1.0.1 with pkgconfig(libgit2) < 2.0.0)'
 %endif
 
 %build
@@ -140,6 +141,21 @@ echo '(pkgconfig(libgit2) >= 1.0.0 with pkgconfig(libgit2) < 2.0.0)'
 %endif
 
 %changelog
+* Fri Sep 18 2020 Fabio Valentini <decathorpe@gmail.com> - 0.12.13-1
+- Update to version 0.12.13+1.0.1.
+
+* Fri Aug 21 2020 Josh Stone <jistone@redhat.com> - 0.12.12-1
+- Update to 0.12.12+1.0.1
+
+* Wed Aug 19 2020 Josh Stone <jistone@redhat.com> - 0.12.11-1
+- Update to 0.12.11+1.0.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Josh Stone <jistone@redhat.com> - 0.12.9-1
+- Update to 0.12.9+1.0.1
+
 * Thu Jun 04 2020 Josh Stone <jistone@redhat.com> - 0.12.7-1
 - Update to 0.12.7+1.0.0
 

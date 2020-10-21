@@ -3,7 +3,7 @@
 
 Name:           gela-asis
 Version:        0.3.3
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Implementation of ASIS
 License:        BSD
 URL:            http://gela.ada-ru.org/gela_asis
@@ -67,6 +67,9 @@ cd %{buildroot}/%{_libdir} && for i in `ls gela-asis/*.so*`; do ln -s $i `basena
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

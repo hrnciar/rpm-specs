@@ -1,6 +1,6 @@
 Name:           perl-RDF-Trine-Node-Literal-XML
 Version:        0.16
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        RDF node class for XML literals
 # Makefile.PL:  GPL+ or Artistic
 License:        GPL+ or Artistic
@@ -67,6 +67,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.16-5
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

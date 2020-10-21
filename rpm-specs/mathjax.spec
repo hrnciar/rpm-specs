@@ -1,6 +1,6 @@
 Name:       mathjax
 Version:    2.7.4
-Release:    6%{?dist}
+Release:    7%{?dist}
 Summary:    JavaScript library to render math in the browser
 License:    ASL 2.0
 URL:        http://mathjax.org
@@ -229,6 +229,9 @@ done
 %_font_pkg -n %{name}-STIXWeb STIXMathJax_*.eot STIXMathJax_*.otf
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.4-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

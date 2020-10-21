@@ -6,7 +6,7 @@
 
 Name:		nodejs-jschardet
 Version:	1.4.2
-Release:	7%{?dist}
+Release:	8%{?dist}
 Summary:	Character encoding auto-detection in JavaScript (port of python's chardet)
 
 License:	LGPLv2+
@@ -72,6 +72,9 @@ cp -pr package.json *.js src/ \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

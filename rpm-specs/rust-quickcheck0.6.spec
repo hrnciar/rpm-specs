@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}0.6
 Version:        0.6.2
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Automatic property based testing with shrinking
 
 # Upstream license specification: Unlicense/MIT
@@ -146,6 +146,9 @@ which use "use_logging" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 03:50:50 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.6.2-7
 - Disable tests
 

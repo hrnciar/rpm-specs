@@ -1,8 +1,8 @@
 %global srcname sphinx-copybutton
 
 Name:           python-%{srcname}
-Version:        0.2.12
-Release:        1%{?dist}
+Version:        0.3.0
+Release:        4%{?dist}
 Summary:        Add a copy button to code cells in Sphinx docs
 
 License:        MIT
@@ -10,23 +10,21 @@ URL:            https://sphinx-copybutton.readthedocs.io/en/latest/
 Source0:        %{pypi_source}
 
 BuildArch:      noarch
-BuildRequires:  pyproject-rpm-macros
+BuildRequires:  python3-devel
 BuildRequires:  python3-ipython-sphinx
+BuildRequires:  %{py3_dist setuptools}
 
 %global _description %{expand:
 Sphinx-copybutton does one thing: add a little "copy" button to the
 right of your code blocks.  If the code block overlaps to the right of
 the text area, you can just click the button to get the whole thing.}
 
-%description
-%_description
+%description %_description
 
 %package     -n python3-%{srcname}
 Summary:        Add a copy button to code cells in Sphinx docs
-%{?python_provide:%python_provide python3-%{srcname}}
 
-%description -n python3-%{srcname}
-%_description
+%description -n python3-%{srcname} %_description
 
 %package        doc
 Summary:        Documentation for %{srcname}
@@ -40,21 +38,15 @@ Documentation for %{srcname}.
 # Remove spurious executable bits
 find -O3 . -type f -perm /0111 -exec chmod a-x {} \+
 
-%generate_buildrequires
-%pyproject_buildrequires -t
-
 %build
-%pyproject_wheel
+%py3_build
 
 # Build the documentation
 PYTHONPATH=$PWD make -C doc html
 rm doc/_build/html/.buildinfo
 
 %install
-%pyproject_install
-
-%check
-%tox
+%py3_install
 
 %files       -n python3-%{srcname}
 %doc README.md
@@ -66,6 +58,18 @@ rm doc/_build/html/.buildinfo
 %license LICENSE
 
 %changelog
+* Mon Oct  5 2020 Jerry James <loganjerry@gmail.com> - 0.3.0-4
+- Explicitly BR setuptools
+
+* Mon Sep 21 2020 Jerry James <loganjerry@gmail.com> - 0.3.0-3
+- Remove pyproject and tox bits, not supported by this package (bz 1881047)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Jerry James <loganjerry@gmail.com> - 0.3.0-1
+- Version 0.3.0
+
 * Wed Jun 17 2020 Jerry James <loganjerry@gmail.com> - 0.2.12-1
 - Version 0.2.12
 

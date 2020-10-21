@@ -1,6 +1,6 @@
 Name:           sqljet
 Version:        1.1.10
-Release:        14%{?dist}
+Release:        18%{?dist}
 Summary:        Pure Java SQLite
 
 License:        GPLv2
@@ -27,8 +27,7 @@ management system. SQLJet is a software library that provides API that enables
 Java application to read and modify SQLite databases.
 
 %package        javadoc
-Summary:        Javadoc for %{name}
-
+Summary:        Javadoc for %{name} 
 %description    javadoc
 API documentation for %{name}.
 
@@ -70,6 +69,19 @@ ant jars osgi javadoc pom
 %license LICENSE.txt
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.10-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Mat Booth <mat.booth@redhat.com> - 1.1.10-17
+- Remove unneeded dep on antlr3
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.1.10-16
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Mon Jun 29 2020 Jeff Johnston <jjohnstn@redhat.com> - 1.1.10-15
+- Enable building using Java 11
+- remove classpathref for Javadoc as CLASSPATH contains all that is needed
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.10-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

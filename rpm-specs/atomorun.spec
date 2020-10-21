@@ -2,7 +2,7 @@
 
 Name:           atomorun
 Version:        1.1
-Release:        0.32.%{prever}%{?dist}
+Release:        0.33.%{prever}%{?dist}
 Summary:        Jump & Run game where you have to flee an exploding nuclear bomb
 License:        GPL+
 URL:            http://atomorun.whosme.de/index.php
@@ -63,6 +63,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-0.33.pre2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar  4 2020 Hans de Goede <hdegoede@redhat.com> - 1.1-0.32.pre2
 - Replace 128x128 icon with a better version
 - Restore original 48x48 icon for cases where we need a lower res icon

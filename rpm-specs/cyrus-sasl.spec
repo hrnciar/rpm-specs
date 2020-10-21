@@ -8,7 +8,7 @@
 Summary: The Cyrus SASL library
 Name: cyrus-sasl
 Version: 2.1.27
-Release: 5%{?dist}
+Release: 6%{?dist}
 License: BSD with advertising
 URL: https://www.cyrusimap.org/sasl/
 
@@ -372,6 +372,9 @@ getent passwd %{username} >/dev/null || useradd -r -g %{username} -d %{homedir} 
 %{_sbindir}/sasl2-shared-mechlist
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.27-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May  7 2020 Simo Sorce <simo@redhat.com> - 2.1.27-5
 - Backport GSSAPI Channel Bindings support
 - Add support for setting maxssf=0 in GSS-SPNEGO

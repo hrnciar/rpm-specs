@@ -6,13 +6,15 @@
 
 Name:           rust-%{crate}
 Version:        2.1.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Fixed size boolean arrays
 
 # Upstream license specification: MPL-2.0+
 License:        MPLv2.0
 URL:            https://crates.io/crates/bitmaps
 Source:         %{crates_source}
+# Initial patched metadata
+Patch0:         bitmaps-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -83,6 +85,12 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Fri Sep 25 2020 Fabio Valentini <decathorpe@gmail.com> - 2.1.0-3
+- Bump proptest to 0.10 and proptest-derive to 0.2.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 01 2020 Josh Stone <jistone@redhat.com> - 2.1.0-1
 - Update to 2.1.0
 

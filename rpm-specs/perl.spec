@@ -100,7 +100,7 @@ License:        GPL+ or Artistic
 Epoch:          %{perl_epoch}
 Version:        %{perl_version}
 # release number must be even higher, because dual-lived modules will be broken otherwise
-Release:        455%{?dist}
+Release:        465%{?dist}
 Summary:        Practical Extraction and Report Language
 Url:            https://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/perl-%{perl_version}.tar.xz
@@ -163,6 +163,97 @@ Patch12:        perl-5.27.8-hints-linux-Add-lphtread-to-lddlflags.patch
 
 # Pass the correct CFLAGS to dtrace
 Patch13:        perl-5.28.0-Pass-CFLAGS-to-dtrace.patch
+
+# Do not use a C compiler reserved identifiers, in upstream after 5.33.0
+Patch14:        perl-5.33.0-MUTABLE_PTR-Rmv-non-standard-syntax.patch
+
+# Fix SvUV_nomg() macro definition, in upstream after 5.33.0
+Patch15:        perl-5.33.0-sv.h-Wanted-UOK-but-said-IOK.patch
+
+# Fix SvTRUE() documentation, in upstream after 5.33.0
+Patch16:        perl-5.33.0-Update-pod-for-SvTRUE-to-indicate-single-param-evalu.patch
+
+# Fix ext/XS-APItest/t/utf8_warn_base.pl tests, in upstream after 5.33.0
+Patch17:        perl-5.33.0-ext-XS-APItest-t-utf8_warn_base.pl-Fix-a-couple-test.patch
+
+# Fix IO::Handle::error() to report write errors, GH#6799, in upstream after 5.33.0
+Patch18:        perl-5.33.0-make-fh-error-report-errors-from-both-input-and-outp.patch
+Patch19:        perl-5.33.0-IO-Handle-clear-the-error-on-both-input-and-output-s.patch
+
+# Fix a link to Unicode Technical Standard #18, GH#17881, in upstream after 5.33.0
+Patch20:        perl-5.32.0-Fix-404-and-text-in-New-Unicode-properties-section.patch
+
+# Fix setting a non-blocking mode in IO::Socket::UNIX, GH#17787,
+# in upstream after 5.33.0
+Patch21:        perl-5.33.0-IO-Socket-UNIX-synchronize-behavior-with-module-docu.patch
+
+# Fix running actions after stepping in a debugger, GH#17901,
+# in upstream after 5.33.0
+Patch22:        perl-5.33.0-After-running-an-action-in-the-debugger-turn-it-off.patch
+Patch23:        perl-5.33.0-Clearing-DB-action-at-the-end-is-no-longer-needed.patch
+Patch24:        perl-5.33.0-Add-missing-MANIFEST-entry-from-fix-for-debugger.patch
+
+# Fix a buffer size for asctime_r() and ctime_r() functions,
+# in upstream after 5.33.0
+Patch25:        perl-5.33.0-reentr.c-Buffer-sizes-for-asctime_r-ctime_r-are-smal.patch
+
+# Prevent from an integer overflow in RenewDouble() macro,
+# in upstream after 5.33.0
+Patch26:        perl-5.33.0-reentr.c-Prevent-infinite-looping.patch
+
+# Fix a buffer overread in when reallocating formats, GH#17844,
+# in upstream after 5.33.0
+Patch27:        perl-5.33.0-perl-17844-don-t-update-SvCUR-until-after-we-ve-done.patch
+
+# Fix a number of arguments passed to a BOOT XS subroutine, GH#17755,
+# in upstream after 5.33.0
+Patch28:        perl-5.33.0-XSUB.h-fix-MARK-and-items-variables-inside-BOOT-XSUB.patch
+
+# Fix an IO::Handle spurious error reported for regular file handles,
+# GH#18019, in upstream after 5.33.0
+Patch29:        perl-5.33.0-IO-Handle-Fix-a-spurious-error-reported-for-regular-.patch
+
+# Fix inheritance resolution of lexial objects in a debugger, GH#17661,
+# in upstream after 5.33.0
+Patch30:        perl-5.33.0-fix-C-i-obj-where-obj-is-a-lexical.patch
+
+# Fix a misoptimization when assignig a list in a list context, GH#17816,
+# in upstream after 5.33.0
+Patch31:        perl-5.33.0-list-assign-in-list-context-was-over-optimising.patch
+
+# Fix handling left-hand-side undef when assigning a list, GH#16685,
+# in upstream after 5.33.0
+Patch32:        perl-5.33.0-list-assign-in-list-context-honour-LHS-undef.patch
+
+# Fix a memory leak when compiling a long regular expression, GH#18054,
+# in upstream after 5.33.0
+Patch33:        perl-5.33.0-Fix-leak-GH-18054.patch
+
+# Fix handling exceptions in a global destruction, GH#18063,
+# in upstream after 5.33.1
+Patch34:        perl-5.33.1-die_unwind-global-destruction.patch
+
+# Fix sorting with a block that calls return, GH#18081,
+# in upstream after 5.33.1
+Patch35:        perl-5.33.1-sort-return-foo.patch
+
+# Fix a buffer overflow when compiling a regular expression with a bracketed
+# character class with a white space, in upstream after 5.33.1
+Patch36:        perl-5.33.1-Heap-buffer-overflow-in-regex-bracket-group-whitespa.patch
+
+# Fix a mismatch with the recursive subpatterns, GH#18096,
+# in upstream after 5.33.2
+Patch37:        perl-5.33.2-gh18096-assume-worst-case-for-GOSUBs-we-don-t-analys.patch
+
+# Fix sv_collxfrm macro to respect locale, in upstream after 5.33.2
+Patch38:        perl-5.33.2-sv.h-sv_collxfrm-didn-t-work-properly.patch
+
+# Fix an iterator signedness in handling a mro exception, GH#18155,
+# in upstream after 5.33.2
+Patch39:        perl-5.33.2-mro.xs-Fix-compiler-warning.patch
+
+# Fix a code flow in Perl_sv_inc_nomg(), in upstream after 5.33.2
+Patch40:        perl-5.33.2-sv.c-Added-missing-braces-in-Perl_sv_inc_nomg.patch
 
 # Link XS modules to libperl.so with EU::CBuilder on Linux, bug #960048
 Patch200:       perl-5.16.3-Link-XS-modules-to-libperl.so-with-EU-CBuilder-on-Li.patch
@@ -362,8 +453,6 @@ Suggests:       perl-doc = %{perl_version}-%{release}
 # We need this to break the dependency loop, and ensure that perl-libs 
 # gets installed before perl-interpreter.
 Requires(post): perl-libs
-# Same as perl-libs. We need macros in basic buildroot.
-Requires(post): perl-macros
 
 # suidperl isn't created by upstream since 5.12.0
 Obsoletes:      perl-suidperl <= 4:5.12.2
@@ -904,6 +993,15 @@ License:        GPL+ or Artistic
 Epoch:          0
 Version:        2.27
 Requires:       make
+Requires:       %perl_compat
+# Some subpackaged modules are not dual-lived. E.g. "open". If a distribution
+# on CPAN declares a dependency on such module, CPAN client will fail,
+# because the only provider is a perl distribution.
+# Another issue is with dual-lived modules whose distribution actually does
+# not declare all needed core dependencies and the installation would also
+# fail.
+# As a result, any CPAN client must run-require the complete perl.
+Requires:       perl
 # Prefer Archive::Tar and Compress::Zlib over tar and gzip
 Requires:       perl(Archive::Tar) >= 1.50
 Requires:       perl(base)
@@ -947,7 +1045,6 @@ Requires:       perl(Module::Build)
 %if ! %{defined perl_bootstrap}
 Requires:       perl(Text::Glob)
 %endif
-Requires:       %perl_compat
 Provides:       cpan = %{version}
 %if %{defined perl_bootstrap}
 %gendep_perl_CPAN
@@ -1033,6 +1130,8 @@ License:        GPL+ or Artistic
 Epoch:          0
 Version:        2.174
 Requires:       %perl_compat
+Requires:       perl(B::Deparse)
+Requires:       perl(bytes)
 Requires:       perl(Scalar::Util)
 Requires:       perl(XSLoader)
 %if %{defined perl_bootstrap}
@@ -1109,6 +1208,7 @@ Recommends:     perl(File::Basename)
 Recommends:     perl(File::Path)
 Requires:       perl(IO::Socket)
 Requires:       perl(meta_notation) = %{perl_version}
+Requires:       perl(mro)
 %if !%{defined perl_bootstrap}
 Suggests:       perl(PadWalker) >= 0.08
 %endif
@@ -2250,13 +2350,20 @@ sockets, as a drop-in replacement for IO::Socket::INET. Most constructor
 arguments and methods are provided in a backward-compatible way.
 %endif
 
+%if %{dual_life} || %{rebuild_from_scratch}
 %package IO-Zlib
 Summary:        Perl IO:: style interface to Compress::Zlib
 License:        GPL+ or Artistic
 # Epoch bump for clean upgrade over old standalone package
 Epoch:          1
 Version:        1.10
-Requires:       perl(Compress::Zlib)
+BuildRequires:  gzip
+# The code defaults to Compress::Zlib, but a user can override it to gzip by
+# importing :gzip_external symbol
+Requires:       gzip
+Requires:       perl(Compress::Zlib) >= 2
+# IO::Handle used if gzip backend is requested
+Requires:       perl(IO::Handle)
 Requires:       %perl_compat
 %if %{defined perl_bootstrap}
 %gendep_perl_IO_Zlib
@@ -2264,10 +2371,10 @@ Requires:       %perl_compat
 BuildArch:      noarch
 
 %description IO-Zlib
-This modules provides an IO:: style interface to the Compress::Zlib package.
-The main advantage is that you can use an IO::Zlib object in much the same way
-as an IO::File object so you can have common code that doesn't know which sort
-of file it is using.
+IO::Zlib provides an IO:: style interface to Compress::Zlib and hence to
+gzip/zlib-compressed files. It provides many of the same methods as the
+IO::Handle interface.
+%endif
 
 
 %if %{dual_life} || %{rebuild_from_scratch}
@@ -3855,6 +3962,7 @@ Conflicts:      perl-interpreter < 4:5.30.1-451
 This package allows a tied hash to load its values automatically on the first
 access, and to use the cached value on the following accesses.
 
+%if %{dual_life} || %{rebuild_from_scratch}
 %package Tie-RefHash
 Summary:        Use references as hash keys
 License:        GPL+ or Artistic
@@ -3876,6 +3984,7 @@ This module provides the ability to use references as hash keys if you first
 hash itself are preserved as references; to use references as keys in
 hashes-of-hashes, use Tie::RefHash::Nestable, included as part of
 Tie::RefHash.
+%endif
 
 %package Time
 Summary:        By-name interface to Perl built-in time functions
@@ -4161,6 +4270,33 @@ you're not running VMS, this module does nothing.
 %patch11 -p1
 %patch12 -p1
 %patch13 -p1
+%patch14 -p1
+%patch15 -p1
+%patch16 -p1
+%patch17 -p1
+%patch18 -p1
+%patch19 -p1
+%patch20 -p1
+%patch21 -p1
+%patch22 -p1
+%patch23 -p1
+%patch24 -p1
+%patch25 -p1
+%patch26 -p1
+%patch27 -p1
+%patch28 -p1
+%patch29 -p1
+%patch30 -p1
+%patch31 -p1
+%patch32 -p1
+%patch33 -p1
+%patch34 -p1
+%patch35 -p1
+%patch36 -p1
+%patch37 -p1
+%patch38 -p1
+%patch39 -p1
+%patch40 -p1
 %patch200 -p1
 %patch201 -p1
 
@@ -4181,6 +4317,33 @@ perl -x patchlevel.h \
     'Fedora Patch11: Replace EU::MakeMaker dependency with EU::MM::Utils in IPC::Cmd (bug #1129443)' \
     'Fedora Patch12: Link XS modules to pthread library to fix linking with -z defs' \
     'Fedora Patch13: Pass the correct CFLAGS to dtrace' \
+    'Fedora Patch14: Do not use a C compiler reserved identifiers' \
+    'Fedora Patch15: Fix SvUV_nomg() macro definition' \
+    'Fedora Patch16: Fix SvTRUE() documentation' \
+    'Fedora Patch17: Fix ext/XS-APItest/t/utf8_warn_base.pl tests' \
+    'Fedora Patch18: Fix IO::Handle::error() to report write errors (GH#6799)' \
+    'Fedora Patch19: Fix IO::Handle::error() to report write errors (GH#6799)' \
+    'Fedora Patch20: Fix a link to Unicode Technical Standard #18 (GH#17881)' \
+    'Fedora Patch21: Fix setting a non-blocking mode in IO::Socket::UNIX (GH#17787)' \
+    'Fedora Patch22: Fix running actions after stepping in a debugger (GH#17901)' \
+    'Fedora Patch23: Fix running actions after stepping in a debugger (GH#17901)' \
+    'Fedora Patch24: Fix running actions after stepping in a debugger (GH#17901)' \
+    'Fedora Patch25: Fix a buffer size for asctime_r() and ctime_r() functions' \
+    'Fedora Patch26: Prevent from an integer overflow in RenewDouble() macro' \
+    'Fedora Patch27: Fix a buffer overread in when reallocating formats (GH#17844)' \
+    'Fedora Patch28: Fix a number of arguments passed to a BOOT XS subroutine (GH#17755)' \
+    'Fedora Patch29: Fix an IO::Handle spurious error reported for regular file handles (GH#18019)' \
+    'Fedora Patch30: Fix inheritance resolution of lexial objects in a debugger (GH#17661)' \
+    'Fedora Patch31: Fix a misoptimization when assignig a list in a list context (GH#17816)' \
+    'Fedora Patch32: Fix handling left-hand-side undef when assigning a list (GH#16685)' \
+    'Fedora Patch33: Fix a memory leak when compiling a long regular expression (GH#18054)' \
+    'Fedora Patch34: Fix handling exceptions in a global destruction (GH#18063)' \
+    'Fedora Patch35: Fix sorting with a block that calls return (GH#18081)' \
+    'Fedora Patch36: Fix a buffer overflow when compiling a regular expression with a bracketed character class with a white space' \
+    'Fedora Patch37: Fix a mismatch with the recursive subpatterns (GH#18096)' \
+    'Fedora Patch38: Fix sv_collxfrm macro to respect locale' \
+    'Fedora Patch39: Fix an iterator signedness in handling a mro exception (GH#18155)' \
+    'Fedora Patch40: Fix a code flow in Perl_sv_inc_nomg()' \
     'Fedora Patch200: Link XS modules to libperl.so with EU::CBuilder on Linux' \
     'Fedora Patch201: Link XS modules to libperl.so with EU::MM on Linux' \
     %{nil}
@@ -4324,7 +4487,7 @@ BUILD_BZIP2=0
 BZIP2_LIB=%{_libdir}
 export BUILD_BZIP2 BZIP2_LIB
 
-# Prepapre a symlink from proper DSO name to libperl.so now so that new perl
+# Prepare a symlink from proper DSO name to libperl.so now so that new perl
 # can be executed from make.
 %global soname libperl.so.%{perl_abi}
 test -L %soname || ln -s libperl.so %soname
@@ -5383,6 +5546,7 @@ popd
 %endif
 
 %files ExtUtils-Constant
+%dir %{privlib}/ExtUtils
 %{privlib}/ExtUtils/Constant
 %{privlib}/ExtUtils/Constant.pm
 %{_mandir}/man3/ExtUtils::Constant::*
@@ -5632,7 +5796,6 @@ popd
 %{privlib}/File/Temp.pm
 %{_mandir}/man3/File::Temp.3*
 %else
-%dir %exclude %{privlib}/File
 %exclude %{privlib}/File/Temp.pm
 %exclude %{_mandir}/man3/File::Temp.3*
 %endif
@@ -5881,10 +6044,16 @@ popd
 %exclude %{_mandir}/man3/IO::Socket::IP.*
 %endif
 
+%if %{dual_life} || %{rebuild_from_scratch}
 %files IO-Zlib
 %dir %{privlib}/IO
 %{privlib}/IO/Zlib.pm
 %{_mandir}/man3/IO::Zlib.*
+%else
+%exclude %dir %{privlib}/IO
+%exclude %{privlib}/IO/Zlib.pm
+%exclude %{_mandir}/man3/IO::Zlib.*
+%endif
 
 %if %{dual_life} || %{rebuild_from_scratch}
 %files HTTP-Tiny
@@ -6154,7 +6323,6 @@ popd
 %{privlib}/Module/CoreList.pod
 %{_mandir}/man3/Module::CoreList*
 %else
-%exclude %dir %{privlib}/Module
 %exclude %{privlib}/Module/CoreList
 %exclude %{privlib}/Module/CoreList.pm
 %exclude %{privlib}/Module/CoreList.pod
@@ -6176,7 +6344,6 @@ popd
 %{privlib}/Module/Load.pm
 %{_mandir}/man3/Module::Load.*
 %else
-%exclude %dir %{privlib}/Module
 %exclude %{privlib}/Module/Load.pm
 %exclude %{_mandir}/man3/Module::Load.*
 %endif
@@ -6187,7 +6354,6 @@ popd
 %{privlib}/Module/Load
 %{_mandir}/man3/Module::Load::Conditional* 
 %else
-%exclude %dir %{privlib}/Module
 %exclude %{privlib}/Module/Load
 %exclude %{_mandir}/man3/Module::Load::Conditional*
 %endif
@@ -6203,7 +6369,6 @@ popd
 %{privlib}/Module/Metadata.pm
 %{_mandir}/man3/Module::Metadata.3pm*
 %else
-%exclude %dir %{privlib}/Module
 %exclude %{privlib}/Module/Metadata.pm
 %exclude %{_mandir}/man3/Module::Metadata.3pm*
 %endif
@@ -6700,7 +6865,6 @@ popd
 %{_mandir}/man3/Text::Tabs.*
 %{_mandir}/man3/Text::Wrap.*
 %else
-%exclude %dir %{privlib}/Text
 %exclude %{privlib}/Text/Tabs.pm
 %exclude %{privlib}/Text/Wrap.pm
 %exclude %{_mandir}/man3/Text::Tabs.*
@@ -6749,10 +6913,15 @@ popd
 %{privlib}/Tie/Memoize.pm
 %{_mandir}/man3/Tie::Memoize.*
 
+%if %{dual_life} || %{rebuild_from_scratch}
 %files Tie-RefHash
 %dir %{privlib}/Tie
 %{privlib}/Tie/RefHash.pm
 %{_mandir}/man3/Tie::RefHash.*
+%else
+%exclude %{privlib}/Tie/RefHash.pm
+%exclude %{_mandir}/man3/Tie::RefHash.*
+%endif
 
 %files Time
 %dir %{privlib}/Time
@@ -6784,7 +6953,6 @@ popd
 %{privlib}/Time/Local.pm
 %{_mandir}/man3/Time::Local.*
 %else
-%exclude %dir %{privlib}/Time
 %exclude %{privlib}/Time/Local.pm
 %exclude %{_mandir}/man3/Time::Local.*
 %endif
@@ -6894,6 +7062,62 @@ popd
 
 # Old changelog entries are preserved in CVS.
 %changelog
+* Wed Oct 14 2020 Petr Pisar <ppisar@redhat.com> - 4:5.32.0-465
+- Fix sv_collxfrm macro to respect locale
+- Fix an iterator signedness in handling a mro exception (GH#18155)
+- Fix a code flow in Perl_sv_inc_nomg()
+- Disable a dual-lived perl-Tie-RefHash subpackage (bug #1887937)
+
+* Fri Sep 25 2020 Petr Pisar <ppisar@redhat.com> - 4:5.32.0-464
+- Update perl-IO-Zlib metadata
+- Disable dual-lived perl-IO-Zlib (bug #1882415)
+
+* Wed Sep 23 2020 Petr Pisar <ppisar@redhat.com> - 4:5.32.0-463
+- Run-require complete perl by perl-CPAN
+- Remove a useless post-install dependency on perl-macros from
+  perl-interpreter
+- Fix ownership of /usr/share/perl5/{ExtUtils,File,Module,Text,Time} directories
+- Fix a buffer overflow when compiling a regular expression with a bracketed
+  character class with a white space
+- Fix a mismatch with the recursive subpatterns (GH#18096)
+
+* Thu Aug 27 2020 Petr Pisar <ppisar@redhat.com> - 4:5.32.0-462
+- Fix inheritance resolution of lexial objects in a debugger (GH#17661)
+- Fix a misoptimization when assignig a list in a list context (GH#17816)
+- Fix handling left-hand-side undef when assigning a list (GH#16685)
+- Fix a memory leak when compiling a long regular expression (GH#18054)
+- Fix handling exceptions in a global destruction (GH#18063)
+- Fix sorting with a block that calls return (GH#18081)
+
+* Fri Aug 21 2020 Jeff Law <law@redhat.com> - 4:5.32.0-461
+- Re-enable LTO
+
+* Thu Aug 06 2020 Petr Pisar <ppisar@redhat.com> - 4:5.32.0-460
+- Fix an IO::Handle spurious error reported for regular file handles (GH#18019)
+
+* Wed Aug 05 2020 Petr Pisar <ppisar@redhat.com> - 4:5.32.0-459
+- Do not use a C compiler reserved identifiers
+- Fix SvUV_nomg() macro definition
+- Fix SvTRUE() documentation
+- Fix ext/XS-APItest/t/utf8_warn_base.pl tests
+- Fix IO::Handle::error() to report write errors (GH#6799)
+- Fix a link to Unicode Technical Standard #18 (GH#17881)
+- Fix setting a non-blocking mode in IO::Socket::UNIX (GH#17787)
+- Fix running actions after stepping in a debugger (GH#17901)
+- Fix a buffer size for asctime_r() and ctime_r() functions
+- Prevent from an integer overflow in RenewDouble() macro
+- Fix a buffer overread in when reallocating formats (GH#17844)
+- Fix a number of arguments passed to a BOOT XS subroutine (GH#17755)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4:5.32.0-458
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 4:5.32.0-457
+- Disable LTO
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4:5.32.0-456
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4:5.32.0-455
 - 5.32.0 bump (see <https://metacpan.org/pod/release/XSAWYERX/perl-5.32.0/pod/perldelta.pod>
   or release notes)

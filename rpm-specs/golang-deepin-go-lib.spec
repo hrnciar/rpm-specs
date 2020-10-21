@@ -5,8 +5,8 @@
 
 %global goipath         pkg.deepin.io/lib
 %global forgeurl        https://github.com/linuxdeepin/go-lib
-Version:                5.0.0
-%global tag             5.0.0
+Version:                5.6.0.2
+%global tag             %{version}
 
 %gometa
 
@@ -32,14 +32,12 @@ such as glib, gettext, archive, graphic,etc.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Go bindings for Deepin Desktop Environment development
 
 License:        GPLv3
 URL:            %{gourl}
 Source0:        %{gosource}
-# Fix Warning/Info calls with formatting directives
-Patch0:         0001-fix-format-calls.patch
 
 BuildRequires:  deepin-gir-generator
 BuildRequires:  dbus-x11
@@ -53,6 +51,11 @@ BuildRequires:  golang(golang.org/x/net/context)
 BuildRequires:  golang(gopkg.in/alecthomas/kingpin.v2)
 BuildRequires:  golang(pkg.deepin.io/gir/gio-2.0)
 BuildRequires:  golang(pkg.deepin.io/gir/glib-2.0)
+BuildRequires:  golang(github.com/fsnotify/fsnotify)
+BuildRequires:  golang(github.com/godbus/dbus)
+BuildRequires:  golang(github.com/godbus/dbus/prop)
+BuildRequires:  golang(github.com/godbus/dbus/introspect)
+BuildRequires:  golang(github.com/mozillazg/go-pinyin)
 BuildRequires:  pkgconfig(gio-2.0)
 BuildRequires:  pkgconfig(gdk-3.0)
 BuildRequires:  pkgconfig(gdk-x11-3.0)
@@ -73,7 +76,6 @@ BuildRequires:  golang(gopkg.in/check.v1)
 
 %prep
 %goprep
-%patch0 -p1
 
 %install
 %gopkginstall
@@ -86,6 +88,18 @@ BuildRequires:  golang(gopkg.in/check.v1)
 %gopkgfiles
 
 %changelog
+* Fri Sep 18 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.6.0.2-1
+- new upstream release: 5.6.0.2
+
+* Thu Sep 17 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.6.0.2-4
+- new upstream release: 5.6.0.2
+
+* Sat Aug  8 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.0.0-4
+- Fix build of packages that require this module
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

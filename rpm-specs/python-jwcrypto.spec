@@ -16,7 +16,7 @@
 
 Name:           python-%{srcname}
 Version:        0.6.0
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Implements JWK, JWS, JWE specifications using python-cryptography
 
 License:        LGPLv3+
@@ -122,6 +122,9 @@ rm -rf %{buildroot}%{python3_sitelib}/%{srcname}/__pycache__/tests{,-cookbook}.*
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.0-8
 - Rebuilt for Python 3.9
 

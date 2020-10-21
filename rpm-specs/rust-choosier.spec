@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.1.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Choose your browser based on the URL given
 
 # Upstream license specification: MPL-2.0
@@ -64,6 +64,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/choosier.desktop
 %endif
 
 %changelog
+* Sun Aug 16 15:01:11 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.1.0-5
+- Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.1.0-3
 - Restore examples
 

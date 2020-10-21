@@ -9,7 +9,7 @@
 %endif
 
 Name:           wine-dxvk
-Version:        1.7
+Version:        1.7.2
 Release:        1%{?dist}
 Summary:        Vulkan-based D3D11 and D3D10 implementation for Linux / Wine
 
@@ -41,7 +41,9 @@ BuildRequires:  mingw32-gcc-c++
 BuildRequires:  mingw32-winpthreads-static
 %endif
 
-Requires:       wine >= 4.13
+Requires(pre):  vulkan-tools
+
+Requires:       wine-core >= 4.13
 Recommends:     wine-dxvk-dxgi%{?_isa} = %{version}-%{release}
 Requires:       vulkan-loader%{?_isa}
 
@@ -120,13 +122,24 @@ mv %{buildroot}%{_libdir}/wine/d3d10_1.dll %{buildroot}%{_libdir}/wine/dxvk-d3d1
 mv %{buildroot}%{_libdir}/wine/d3d11.dll %{buildroot}%{_libdir}/wine/dxvk-d3d11.dll
 
 %posttrans
-%{_sbindir}/alternatives --install %{_libdir}/wine/d3d10.dll 'wine-d3d10%{?_isa}' %{_libdir}/wine/dxvk-d3d10.dll 20 \
---slave %{_libdir}/wine/d3d10_1.dll 'wine-d3d10_1%{?_isa}' %{_libdir}/wine/dxvk-d3d10_1.dll \
---slave %{_libdir}/wine/d3d10core.dll 'wine-d3d10core%{?_isa}' %{_libdir}/wine/dxvk-d3d10core.dll
-%{_sbindir}/alternatives --install %{_libdir}/wine/d3d11.dll 'wine-d3d11%{?_isa}' %{_libdir}/wine/dxvk-d3d11.dll 20
+if vulkaninfo |& grep ERROR_INITIALIZATION_FAILED > /dev/null; then
+    %{_sbindir}/alternatives --install %{_libdir}/wine/d3d10.dll 'wine-d3d10%{?_isa}' %{_libdir}/wine/dxvk-d3d10.dll 5 \
+    --slave %{_libdir}/wine/d3d10_1.dll 'wine-d3d10_1%{?_isa}' %{_libdir}/wine/dxvk-d3d10_1.dll \
+    --slave %{_libdir}/wine/d3d10core.dll 'wine-d3d10core%{?_isa}' %{_libdir}/wine/dxvk-d3d10core.dll
+    %{_sbindir}/alternatives --install %{_libdir}/wine/d3d11.dll 'wine-d3d11%{?_isa}' %{_libdir}/wine/dxvk-d3d11.dll 5
+else
+    %{_sbindir}/alternatives --install %{_libdir}/wine/d3d10.dll 'wine-d3d10%{?_isa}' %{_libdir}/wine/dxvk-d3d10.dll 20 \
+    --slave %{_libdir}/wine/d3d10_1.dll 'wine-d3d10_1%{?_isa}' %{_libdir}/wine/dxvk-d3d10_1.dll \
+    --slave %{_libdir}/wine/d3d10core.dll 'wine-d3d10core%{?_isa}' %{_libdir}/wine/dxvk-d3d10core.dll
+    %{_sbindir}/alternatives --install %{_libdir}/wine/d3d11.dll 'wine-d3d11%{?_isa}' %{_libdir}/wine/dxvk-d3d11.dll 20
+fi
 
 %posttrans d3d9
-%{_sbindir}/alternatives --install %{_libdir}/wine/d3d9.dll 'wine-d3d9%{?_isa}' %{_libdir}/wine/dxvk-d3d9.dll 20
+if vulkaninfo |& grep ERROR_INITIALIZATION_FAILED > /dev/null; then
+    %{_sbindir}/alternatives --install %{_libdir}/wine/d3d9.dll 'wine-d3d9%{?_isa}' %{_libdir}/wine/dxvk-d3d9.dll 5
+else
+    %{_sbindir}/alternatives --install %{_libdir}/wine/d3d9.dll 'wine-d3d9%{?_isa}' %{_libdir}/wine/dxvk-d3d9.dll 20
+fi
 
 %postun
 %{_sbindir}/alternatives --remove 'wine-d3d10%{?_isa}' %{_libdir}/wine/dxvk-d3d10.dll
@@ -153,6 +166,18 @@ mv %{buildroot}%{_libdir}/wine/d3d11.dll %{buildroot}%{_libdir}/wine/dxvk-d3d11.
 
 
 %changelog
+* Thu Oct 08 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 1.7.2-1
+- Release 1.7.2
+
+* Fri Aug 14 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 1.7.1-1
+- Release 1.7.1
+
+* Sun Aug 09 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 1.7-3
+- Install dxvk as primary alternative only on systems with Vulkan support
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 17 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 1.7-1
 - Release 1.7
 - Remove winelib build and fix mingw build dll names (Matias Zuniga)

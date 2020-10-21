@@ -6,7 +6,7 @@
 %global crate git2-curl
 
 Name:           rust-%{crate}
-Version:        0.14.0
+Version:        0.14.1
 Release:        1%{?dist}
 Summary:        Backend for an HTTP transport in libgit2 powered by libcurl
 
@@ -14,6 +14,9 @@ Summary:        Backend for an HTTP transport in libgit2 powered by libcurl
 License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/git2-curl
 Source:         %{crates_source}
+# Initial patched metadata
+# * No zlib-ng feature
+Patch0:         git2-curl-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -72,6 +75,16 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Thu Aug 20 2020 Josh Stone <jistone@redhat.com> - 0.14.1-1
+- Update to 0.14.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 19 11:04:04 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.14.0-1
 - Update to 0.14.0
 

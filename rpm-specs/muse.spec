@@ -11,7 +11,7 @@ Summary:       Midi/Audio Music Sequencer
 # See: https://fedoraproject.org/wiki/AudioCreation
 Epoch:         1
 Version:       3.0.2
-Release:       10%{?dist}
+Release:       12%{?dist}
 # original freeverb plugin was public domain
 # givertcap (not built) is GPLv2
 # The rest, including the core of muse is distributed under GPLv2+
@@ -105,6 +105,13 @@ appstream-util validate-relax --nonet \
 %{_datadir}/metainfo/%{name}.appdata.xml
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.0.2-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.0.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> - 1:3.0.2-10
 - Rebuild against fluidsynth2
 

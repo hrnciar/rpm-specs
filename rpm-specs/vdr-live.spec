@@ -5,7 +5,7 @@
 
 Name:           vdr-live
 Version:        2.3.1
-Release:        13.%{gitdate}git%{shortcommit0}%{?dist}
+Release:        15.%{gitdate}git%{shortcommit0}%{?dist}
 Summary:        An interactive web interface for VDR
 
 # The entire source code is GPLv2+ except live/js/mootools/ which is MIT
@@ -86,6 +86,12 @@ cp -pR live/* %{buildroot}%{vdr_resdir}/plugins/live
 
 
 %changelog
+* Thu Aug 27 2020 Martin Gansser <martinkg@fedoraproject.org> - 2.3.1-15.20170623gite582514
+- Rebuilt for new VDR API version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-14.20170623gite582514
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-13.20170623gite582514
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

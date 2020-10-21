@@ -4,7 +4,7 @@
 
 Name:           php-pear-HTML-Template-IT
 Version:        1.3.0
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Integrated Templates
 
 License:        BSD
@@ -99,6 +99,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

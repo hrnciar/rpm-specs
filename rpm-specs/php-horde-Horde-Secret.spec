@@ -13,7 +13,7 @@
 
 Name:           php-horde-Horde-Secret
 Version:        2.0.6
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Secret Encryption API
 
 License:        LGPLv2
@@ -98,6 +98,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.6-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.6-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

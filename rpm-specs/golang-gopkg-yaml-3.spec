@@ -4,7 +4,7 @@
 # https://github.com/go-yaml/yaml
 %global goipath         gopkg.in/yaml.v3
 %global forgeurl        https://github.com/go-yaml/yaml
-%global commit          cdc409dda467df8d60dc5c7d18f38e810979de95
+%global commit          eeeca48fe7764f320e4870d231902bf9c1be2c08
 
 %gometa
 
@@ -40,7 +40,7 @@ since they're a poor design and are gone in YAML 1.2.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Yaml support for the Go language
 
 # Upstream license specification: Apache-2.0 and MIT
@@ -67,6 +67,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 22:35:54 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200805giteeeca48
+- Bump to commit eeeca48fe7764f320e4870d231902bf9c1be2c08
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

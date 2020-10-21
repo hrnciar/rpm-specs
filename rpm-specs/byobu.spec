@@ -6,7 +6,7 @@
 
 Name:		byobu
 Version:	5.133
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Light-weight, configurable window manager built upon GNU screen
 
 License:	GPLv3
@@ -112,6 +112,9 @@ cp -p usr/share/byobu/pixmaps/byobu.svg %{buildroot}%{_iconsscaldir}
 %config(noreplace) %{_sysconfdir}/%{name}/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.133-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 20 2020 Filipe Rosset <rosset.filipe@gmail.com> - 5.133-1
 - Update to 5.133 fixes rhbz#1803380
 

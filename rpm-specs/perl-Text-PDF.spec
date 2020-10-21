@@ -1,6 +1,6 @@
 Name:       perl-Text-PDF
 Version:    0.31
-Release:    12%{?dist}
+Release:    13%{?dist}
 # lib/Text/PDF.pm -> GPL+ or Artistic
 License:    GPL+ or Artistic
 Summary:    Module for manipulating PDF files
@@ -68,6 +68,9 @@ make test
 %{_bindir}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.31-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.31-12
 - Perl 5.32 rebuild
 

@@ -5,7 +5,7 @@
 %global crate serde-value
 
 Name:           rust-%{crate}
-Version:        0.6.0
+Version:        0.7.0
 Release:        1%{?dist}
 Summary:        Serialization value trees
 
@@ -71,5 +71,11 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Sep 30 2020 Fabio Valentini <decathorpe@gmail.com> - 0.7.0-1
+- Update to version 0.7.0.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 16:47:28 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 0.6.0-1
 - Initial package

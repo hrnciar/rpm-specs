@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.1
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Utility for testing command line scripts
 
 License:        BSD
@@ -29,16 +29,12 @@ Note there is no way of using this not-installed mechanism to find
 entrypoint scripts, that have not been installed.  To find these, we
 would have to run the setup.py file.}
 
-%description
-%{desc}
+%description %{desc}
 
 %package     -n python3-%{srcname}
 Summary:        Utility for testing command line scripts
 
-%{?python_provide:%python_provide python3-%{srcname}}
-
-%description -n python3-%{srcname}
-%{desc}
+%description -n python3-%{srcname} %{desc}
 
 %prep
 %autosetup -n %{srcname}-%{version}
@@ -66,6 +62,9 @@ pytest-%{python3_version}
 %{python3_sitelib}/%{srcname}*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1-8
 - Rebuilt for Python 3.9
 

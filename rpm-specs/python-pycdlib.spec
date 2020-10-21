@@ -8,8 +8,8 @@ extensions, and UDF.
 
 Summary:        A pure python ISO9660 read and write library
 Name:           python-%{srcname}
-Version:        1.9.0
-Release:        3%{?dist}
+Version:        1.11.0
+Release:        1%{?dist}
 License:        LGPLv2
 URL:            https://github.com/clalancette/%{srcname}
 Source0:        https://github.com/clalancette/%{srcname}/archive/v%{version}/%{srcname}-%{version}.tar.gz
@@ -25,7 +25,6 @@ BuildRequires:  python3-pytest
 %package -n python3-%{srcname}
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
-Requires:       python3-pysendfile
 
 %description -n python3-%{srcname}
 %{desc}
@@ -55,15 +54,20 @@ PYCDLIB_TRACK_WRITES=1 py.test-%{python3_version} -v tests
 %{python3_sitelib}/%{srcname}
 %{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info/
 
-%files -n pycdlib-tools
+%files -n %{srcname}-tools
 %license COPYING
-%{_bindir}/pycdlib-compare
 %{_bindir}/pycdlib-explorer
 %{_bindir}/pycdlib-extract-files
 %{_bindir}/pycdlib-genisoimage
 %{_mandir}/man1/*
 
 %changelog
+* Wed Oct 07 2020 Chris Lalancette <clalancette@gmail.com> - 1.11.0-1
+- Update to upstream 1.11.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 1.9.0-3
 - Rebuilt for Python 3.9
 

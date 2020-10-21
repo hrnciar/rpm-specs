@@ -2,7 +2,7 @@
 Summary: Restricted shell for ssh based file services
 Name: scponly
 Version: 4.8
-Release: 24%{?dist}
+Release: 26%{?dist}
 License: BSD
 URL: http://sublimation.org/scponly/
 Source: http://downloads.sf.net/scponly/scponly-%{version}.tgz
@@ -29,7 +29,7 @@ as a wrapper to the "tried and true" ssh suite of applications.
 
 %build
 # config.guess in tarball lacks ppc64
-cp -p /usr/lib/rpm/config.{guess,sub} .
+cp -p /usr/lib/rpm/redhat/config.{guess,sub} .
 %configure --enable-scp-compat --enable-winscp-compat --enable-chrooted-binary
 
 %{__make} %{?_smp_mflags} \
@@ -56,6 +56,13 @@ make install DESTDIR=%{buildroot}
 %config(noreplace) %{_sysconfdir}/scponly/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.8-26
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.8-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.8-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

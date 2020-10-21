@@ -1,6 +1,6 @@
 Name:           go2rpm
-Version:        1
-Release:        8%{?dist}
+Version:        1.2
+Release:        1%{?dist}
 Summary:        Convert Go packages to RPM
 
 License:        MIT
@@ -12,7 +12,6 @@ BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 Requires:       askalono-cli
 Requires:       compiler(go-compiler)
-%{?python_enable_dependency_generator}
 
 %description
 Convert Go packages to RPM.
@@ -33,6 +32,19 @@ Convert Go packages to RPM.
 %{python3_sitelib}/go2rpm/
 
 %changelog
+* Wed Sep 23 17:49:48 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.2-1
+- Update to 1.2
+- Use fetch-reset to origin instead of git pull
+
+* Tue Sep 22 07:32:43 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1-1
+- Update to 1.1
+- Use heads[0] instead of heads.master to work with repo who use main or other
+branches as default (cf Github move:
+https://github.blog/2020-07-27-highlights-from-git-2-28/ )
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1-8
 - Rebuilt for Python 3.9
 

@@ -1,7 +1,7 @@
 Name:           maven-resolver
 Epoch:          1
 Version:        1.4.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Apache Maven Artifact Resolver library
 License:        ASL 2.0
 
@@ -173,6 +173,12 @@ done
 %license LICENSE NOTICE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.4.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1:1.4.2-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat May 09 2020 Fabio Valentini <decathorpe@gmail.com> - 1:1.4.2-1
 - Update to version 1.4.2.
 

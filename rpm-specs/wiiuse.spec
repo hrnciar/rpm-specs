@@ -1,9 +1,10 @@
+%undefine __cmake_in_source_build
 %global commit dfbe3d2cd21d3d88d7ba9de39cfc8aa901a6041b
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           wiiuse
 Version:        0.15.5
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        The wiiuse library is used to access and control multiple Nintendo Wiimotes
 License:        GPLv3+
 URL:            https://github.com/rpavlik/wiiuse
@@ -46,26 +47,22 @@ for i in CHANGELOG.mkd README.mkd; do dos2unix $i; done
 for i in example*/*; do dos2unix $i; done
 for i in src/*; do dos2unix $i; done
 
-mkdir build
-
 %build
-pushd build
-%cmake ..
-%make_build
+%cmake
+%cmake_build
 
 %install
 # Can't use make install as it is a pathetic copy into fixed paths and won't
 # work on x86_64
-install -Dpm 0755 build/src/libwiiuse.so %{buildroot}%{_libdir}/libwiiuse.so.0
+install -Dpm 0755 %{_vpath_builddir}/src/libwiiuse.so %{buildroot}%{_libdir}/libwiiuse.so.0
 ln -s libwiiuse.so.0 %{buildroot}%{_libdir}/libwiiuse.so
 install -Dpm 0644 src/wiiuse.h %{buildroot}%{_includedir}/wiiuse.h
-install -Dpm 0755 build/example/wiiuseexample %{buildroot}%{_bindir}/wiiuseexample
-install -Dpm 0755 build/example-sdl/wiiuseexample-sdl %{buildroot}%{_bindir}/wiiuseexample-sdl
+install -Dpm 0755 %{_vpath_builddir}/example/wiiuseexample %{buildroot}%{_bindir}/wiiuseexample
+install -Dpm 0755 %{_vpath_builddir}/example-sdl/wiiuseexample-sdl %{buildroot}%{_bindir}/wiiuseexample-sdl
 chrpath -d %{buildroot}%{_bindir}/wiiuseexample*
 
 %files
 %{_libdir}/libwiiuse.so.0
-%{!?_licensedir:%global license %%doc}
 %license LICENSE
 %doc CHANGELOG.mkd README.mkd
 
@@ -81,6 +78,13 @@ chrpath -d %{buildroot}%{_bindir}/wiiuseexample*
 %ldconfig_scriptlets
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.5-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

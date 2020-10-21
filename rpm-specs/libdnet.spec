@@ -2,7 +2,7 @@ Summary:       Simple portable interface to lowlevel networking routines
 Name:          libdnet
 
 Version:       1.12
-Release:       34%{?dist}
+Release:       35%{?dist}
 
 License:       BSD
 URL:           https://github.com/boundary/%{name}
@@ -86,6 +86,9 @@ popd
 %{python3_sitearch}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.12-34
 - Rebuilt for Python 3.9
 

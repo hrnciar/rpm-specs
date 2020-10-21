@@ -14,7 +14,7 @@ Directory/File, DNS and VHost busting tool written in Go.}
 %global godocs          README.md TODO.md
 
 Name:           gobuster
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Directory/File, DNS and VHost busting tool written in Go
 
 License:        ASL 2.0
@@ -54,6 +54,13 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 24 2020 Fabian Affolter <mail@fabian-affolter.ch> - 3.0.1-1
 - Initial package for Fedora
 

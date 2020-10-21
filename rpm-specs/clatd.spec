@@ -9,7 +9,7 @@
 
 Name:		clatd
 Version:	1.5
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	CLAT / SIIT-DC Edge Relay implementation for Linux
 
 License:	MIT
@@ -109,6 +109,9 @@ install -p -D -m0644 scripts/%{name}.upstart %{buildroot}%{_sysconfdir}/init/%{n
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,25 +1,17 @@
 %global srcname rope
-%if 0%{?rhel} && 0%{?rhel} <= 7
-%bcond_without python2
-%else
-%bcond_with python2
-%endif
 
 Name:           python-%{srcname}
-Version:        0.17.0
-Release:        4%{?dist}
+Version:        0.18.0
+Release:        1%{?dist}
 Summary:        Python Code Refactoring Library
 
 License:        LGPLv3+
 URL:            https://github.com/python-rope/rope
-Source0:        https://files.pythonhosted.org/packages/source/r/rope/rope-%{version}.tar.gz
-
-Patch0:         isalive_fix.patch
+Source0:        %pypi_source
 
 BuildArch:      noarch
 BuildRequires:  python%{python3_pkgversion}-devel
-BuildRequires:  python3dist(pytest)
-BuildRequires:  python3-setuptools
+BuildRequires:  pyproject-rpm-macros
 
 # pysvn, hg, git, and darcs are optional.  If installed, they give integration
 # between rope and the version control system.  (So refactorings that rename a
@@ -31,56 +23,38 @@ assists.
 
 %description %_description
 
-%if %{with python2}
-%package -n python2-rope
-Summary: %summary
-%{?python_provide:%python_provide python2-rope}
-BuildRequires: python2-devel
-
-%description -n python2-rope %_description
-%endif
-
 %package -n python%{python3_pkgversion}-rope
 Summary: %summary
-%{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
 
 %description -n python%{python3_pkgversion}-rope %_description
-
 
 %prep
 %autosetup -p1 -n rope-%{version}
 
+%generate_buildrequires
+%pyproject_buildrequires -x dev
+
 %build
-%if %{with python2}
-%py2_build
-%endif
-%py3_build
+%pyproject_wheel
 
 %install
-%if %{with python2}
-%py2_install
-%endif
-%py3_install
+%pyproject_install
+%pyproject_save_files %{srcname}
 
 %check
-%if %{with python2}
-%{__python2} setup.py test
-%endif
-PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v -k "not ( advanced_oi_test )"
+%pytest -v -k "not ( advanced_oi_test )"
 
-%if %{with python2}
-%files -n python2-rope
+%files -n python%{python3_pkgversion}-rope -f %pyproject_files
 %license COPYING
 %doc README.rst docs
-%{python2_sitelib}/*
-%endif
-
-%files -n python%{python3_pkgversion}-rope
-%license COPYING
-%doc README.rst docs
-%{python3_sitelib}/*
 
 %changelog
+* Thu Oct 08 2020 Charalampos Stratakis <cstratak@redhat.com> - 0.18.0-1
+- Update to 0.18.0 and convert to pyproject macros (rhbz#1886098)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.17.0-4
 - Add BR:python3-setuptools
 

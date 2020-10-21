@@ -7,8 +7,8 @@
 
 Name:           perl-Filter
 Epoch:          2
-Version:        1.59
-Release:        456%{?dist}
+Version:        1.60
+Release:        1%{?dist}
 Summary:        Perl source filters
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Filter
@@ -95,6 +95,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Wed Aug 05 2020 Petr Pisar <ppisar@redhat.com> - 2:1.60-1
+- 1.60 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:1.59-458
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2:1.59-457
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2:1.59-456
 - Increase release to favour standalone package
 

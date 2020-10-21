@@ -4,7 +4,7 @@
 
 Name:           libzapojit
 Version:        0.0.3
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        GLib/GObject wrapper for the OneDrive and Hotmail REST APIs
 
 License:        LGPLv2+
@@ -96,6 +96,9 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/%{name}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.3-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.3-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

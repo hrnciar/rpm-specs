@@ -8,7 +8,7 @@
 Name:    eric
 Summary: Python IDE
 Version: 20.1
-Release: 4%{?dist}
+Release: 5%{?dist}
 
 License: GPLv3+
 URL:     http://eric-ide.python-projects.org
@@ -125,6 +125,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/eric6_browser.desktop
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 20.1-4
 - Rebuilt for Python 3.9
 

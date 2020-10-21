@@ -4,10 +4,13 @@
 # FIXME?  pkg-config files still report as 0.9.2
 %global tarballversion 0.9.2
 
+# set this until when/if we port to new cmake macros
+%global __cmake_in_source_build 1
+
 Summary: A Qt implementation of the DBusMenu protocol 
 Name:    dbusmenu-qt
 Version: 0.9.3
-Release: 0.22.%{snapshot}%{?dist}
+Release: 0.25.%{snapshot}%{?dist}
 
 License: LGPLv2+
 URL: https://launchpad.net/libdbusmenu-qt/
@@ -150,6 +153,16 @@ xvfb-run -a dbus-launch --exit-with-session make -C %{_target_platform} check AR
 
 
 %changelog
+* Tue Aug 11 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.9.3-0.25.20160218
+- fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3-0.24.20160218
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3-0.23.20160218
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3-0.22.20160218
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           perl-CatalystX-REPL
 Version:        0.04
-Release:        24%{?dist}
+Release:        26%{?dist}
 Summary:        Read-eval-print-loop for debugging your Catalyst application
 License:        GPL+ or Artistic
 
@@ -52,6 +52,12 @@ RELEASE_TESTING=1 make test
 %{_mandir}/man3/Catalyst*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.04-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.04-25
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.04-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

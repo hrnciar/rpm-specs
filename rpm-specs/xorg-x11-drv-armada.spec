@@ -10,7 +10,7 @@ Name:           xorg-x11-drv-armada
 # This is the version from the configure script.
 Version:        0.0.0
 # Built from unstable-devel branch that has the etnadrm backend
-Release:        3.unstable.20180829git78e7116a5%{?dist}
+Release:        5.unstable.20180829git78e7116a5%{?dist}
 Summary:        X.org graphics driver for KMS based systems with pluggable GPU backend
 
 License:        MIT
@@ -87,6 +87,13 @@ make %{?_smp_mflags}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.0-5.unstable.20180829git78e7116a5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.0-4.unstable.20180829git78e7116a5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.0-3.unstable.20180829git78e7116a5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

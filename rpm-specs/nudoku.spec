@@ -1,6 +1,6 @@
 Name:           nudoku
 Version:        2.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Ncurses based Sudoku game
 License:        GPLv3
 Url:            https://github.com/jubalh/%{name}
@@ -32,6 +32,9 @@ make DESTDIR=%{buildroot} install %{?_smp_mflags}
 %{_mandir}/man6/nudoku.6.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

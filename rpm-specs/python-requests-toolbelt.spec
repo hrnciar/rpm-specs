@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.9.1
-Release:        8%{?dist}
+Release:        11%{?dist}
 Summary:        Utility belt for advanced users of python-requests
 
 License:        ASL 2.0
@@ -50,7 +50,7 @@ Python 3 version.
 %py3_install
 
 %check
-py.test-%{python3_version} -v
+py.test-%{python3_version} -v --ignore=tests/test_x509_adapter.py
 
 %files -n python3-%{srcname}
 %license LICENSE
@@ -59,6 +59,16 @@ py.test-%{python3_version} -v
 %{python3_sitelib}/%{altname}-*.egg-info/
 
 %changelog
+* Sun Oct 18 2020 Parag Nemade <pnemade AT redhat DOT com> - 0.9.1-11
+- Ignore failing tests (rh#1863713)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.1-8
 - Rebuilt for Python 3.9
 

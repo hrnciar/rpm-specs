@@ -1,7 +1,7 @@
 #
 # Fedora spec file for php-PhpOption
 #
-# Copyright (c) 2013-2019 Shawn Iwinski <shawn.iwinski@gmail.com>
+# Copyright (c) 2013-2020 Shawn Iwinski <shawn.iwinski@gmail.com>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -11,14 +11,43 @@
 
 %global github_owner     schmittjoh
 %global github_name      php-option
-%global github_version   1.6.0
-%global github_commit    f4e7a6a1382183412246f0d361078c29fb85089e
+%global github_version   1.7.5
+%global github_commit    994ecccd8f3283ecf5ac33254543eb0ac946d525
 
 %global composer_vendor  phpoption
 %global composer_project phpoption
 
-# "php": "^5.5.9 || ^7.0"
+# "php": "^5.5.9 || ^7.0 || ^8.0"
 %global php_min_ver      5.5.9
+
+# PHPUnit
+## v9
+%if 0%{?fedora} >= 31 || 0%{?rhel} >= 8
+%global phpunit_require phpunit9
+%global phpunit_exec    phpunit9
+%else
+## v8
+%if 0%{?fedora} >= 29
+%global phpunit_require phpunit8
+%global phpunit_exec    phpunit8
+%else
+## v7
+%if 0%{?fedora} >= 28
+%global phpunit_require phpunit7
+%global phpunit_exec    phpunit7
+%else
+## v6
+%if 0%{?fedora} >= 26
+%global phpunit_require phpunit6
+%global phpunit_exec    phpunit6
+%else
+## Pre-v6
+%global phpunit_require php-composer(phpunit/phpunit)
+%global phpunit_exec    phpunit
+%endif
+%endif
+%endif
+%endif
 
 # Build using "--without tests" to disable tests
 %global with_tests 0%{!?_without_tests:1}
@@ -27,7 +56,7 @@
 
 Name:          php-PhpOption
 Version:       %{github_version}
-Release:       2%{?dist}
+Release:       1%{?dist}
 Summary:       Option type for PHP
 
 License:       ASL 2.0
@@ -41,10 +70,10 @@ Source1:       %{name}-get-source.sh
 BuildArch:     noarch
 # Tests
 %if %{with_tests}
-BuildRequires: php-composer(phpunit/phpunit)
+BuildRequires: %{phpunit_require}
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
-## phpcompatinfo (computed from version 1.6.0)
+## phpcompatinfo (computed from version 1.7.5)
 BuildRequires: php-spl
 ## Autoloader
 BuildRequires: php-composer(fedora/autoloader)
@@ -52,7 +81,7 @@ BuildRequires: php-composer(fedora/autoloader)
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
-# phpcompatinfo (computed from version 1.6.0)
+# phpcompatinfo (computed from version 1.7.5)
 Requires:      php-spl
 # Autoloader
 Requires:      php-composer(fedora/autoloader)
@@ -112,14 +141,19 @@ cp -rp src/PhpOption %{buildroot}%{phpdir}/
 
 %check
 %if %{with_tests}
+: Create tests bootstrap
+cat <<'BOOTSTRAP' | tee bootstrap.php
+<?php
+require '%{buildroot}%{phpdir}/PhpOption/autoload.php';
+\Fedora\Autoloader\Autoload::addPsr4('PhpOption\\Tests\\', __DIR__.'/tests/PhpOption/Tests/');
+BOOTSTRAP
+
 : Upstream tests
 RETURN_CODE=0
-PHPUNIT=$(which phpunit)
+PHPUNIT=$(which %{phpunit_exec})
 for PHP_EXEC in "" php56 php70 php71 php72 php73 php74; do
     if [ -z "$PHP_EXEC" ] || which $PHP_EXEC; then
-        $PHP_EXEC $PHPUNIT --verbose \
-            --bootstrap %{buildroot}%{phpdir}/PhpOption/autoload.php \
-            || RETURN_CODE=1
+        $PHP_EXEC $PHPUNIT --verbose --bootstrap bootstrap.php || RETURN_CODE=1
     fi
 done
 exit $RETURN_CODE
@@ -137,6 +171,12 @@ exit $RETURN_CODE
 
 
 %changelog
+* Mon Aug 17 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.7.5-1
+- Update to 1.7.5 (RHBZ #1782417)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

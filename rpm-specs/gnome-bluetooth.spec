@@ -1,6 +1,6 @@
 Name:		gnome-bluetooth
 Epoch:		1
-Version:	3.34.1
+Version:	3.34.3
 Release:	1%{?dist}
 Summary:	Bluetooth graphical utilities
 
@@ -74,7 +74,7 @@ install -m0644 -D %{SOURCE1} $RPM_BUILD_ROOT/usr/lib/udev/rules.d/61-gnome-bluet
 
 %files
 %license COPYING
-%doc README NEWS
+%doc README.md NEWS
 %{_bindir}/bluetooth-sendto
 %{_datadir}/applications/*.desktop
 %{_datadir}/gnome-bluetooth/
@@ -98,6 +98,21 @@ install -m0644 -D %{SOURCE1} $RPM_BUILD_ROOT/usr/lib/udev/rules.d/61-gnome-bluet
 %{_datadir}/gtk-doc
 
 %changelog
+* Thu Oct 01 2020 Bastien Nocera <bnocera@redhat.com> - 3.34.3-1
++ gnome-bluetooth-3.34.3-1
+- Update to 3.34.3
+
+* Wed Sep 23 2020 Bastien Nocera <bnocera@redhat.com> - 3.34.2-1
++ gnome-bluetooth-3.34.2-1
+- Update to 3.34.2
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.34.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.34.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 09 2020 Bastien Nocera <bnocera@redhat.com> - 3.34.1-1
 + gnome-bluetooth-3.34.1-1
 - Update to 3.34.1

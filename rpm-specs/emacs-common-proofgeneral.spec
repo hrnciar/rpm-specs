@@ -8,7 +8,7 @@ Version:        4.4
 
 %forgemeta
 
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Emacs mode for standard interaction interface for proof assistants
 
 License:        GPLv2
@@ -167,6 +167,9 @@ install -Dpm 644 %{SOURCE4} \
 %{_emacs_sitelispdir}/%{pkg}/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 20 2020 Jerry James <loganjerry@gmail.com> - 4.4-11.20200506gitea62543
 - May 6 2020 git snapshot so emacs-mmm dependency can be dropped (bz 1837683)
 - Remove the -el subpackage as required by current package guidelines

@@ -2,7 +2,7 @@
 
 Name:           apache-commons-logging
 Version:        1.2
-Release:        21%{?dist}
+Release:        24%{?dist}
 Summary:        Apache Commons Logging
 License:        ASL 2.0
 URL:            http://commons.apache.org/logging
@@ -22,7 +22,7 @@ BuildRequires:  mvn(logkit:logkit)
 %endif
 BuildRequires:  mvn(javax.servlet:servlet-api)
 BuildRequires:  mvn(junit:junit)
-BuildRequires:  mvn(log4j:log4j:12)
+BuildRequires:  mvn(org.apache.logging.log4j:log4j-1.2-api)
 BuildRequires:  mvn(org.apache.commons:commons-parent:pom:)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-failsafe-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-dependency-plugin)
@@ -59,6 +59,12 @@ rm src/main/java/org/apache/commons/logging/impl/AvalonLogger.java
 rm src/main/java/org/apache/commons/logging/impl/LogKitLogger.java
 %endif
 
+# Switch to log4j 2.x API
+%pom_change_dep log4j:log4j org.apache.logging.log4j:log4j-1.2-api
+
+# Avoid hard-coded versions in OSGi metadata
+%pom_xpath_set "pom:properties/pom:commons.osgi.import" '*;resolution:=optional'
+
 %pom_remove_plugin :cobertura-maven-plugin
 %pom_remove_plugin :maven-scm-publish-plugin
 
@@ -86,6 +92,15 @@ rm -rf src/test/java/org/apache/commons/logging/log4j/log4j12
 %doc PROPOSAL.html RELEASE-NOTES.txt
 
 %changelog
+* Thu Sep 10 2020 Mat Booth <mat.booth@redhat.com> - 1.2-24
+- Build against log4j 2
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.2-22
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jun 04 2020 Fabio Valentini <decathorpe@gmail.com> - 1.2-21
 - Override javac source and target versions to fix builds with Java 11.
 

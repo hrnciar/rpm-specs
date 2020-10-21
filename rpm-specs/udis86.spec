@@ -2,7 +2,7 @@
 
 Name:           udis86
 Version:        1.7.2
-Release:        15.%{gitrev}%{?dist}
+Release:        16.%{gitrev}%{?dist}
 Summary:        A disassembler library for x86 and x86-64
 
 License:        BSD
@@ -74,6 +74,9 @@ rm -rf %{buildroot}%{_docdir}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.2-16.56ff6c8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.2-15.56ff6c8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

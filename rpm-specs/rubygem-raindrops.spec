@@ -4,7 +4,7 @@
 Summary: Real-time stats for preforking Rack servers
 Name: rubygem-%{gem_name}
 Version: 0.13.0
-Release: 16%{?dist}
+Release: 18%{?dist}
 License: LGPLv2 or LGPLv3
 URL: http://raindrops.bogomips.org/
 Source0: http://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -142,6 +142,13 @@ popd
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-18
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

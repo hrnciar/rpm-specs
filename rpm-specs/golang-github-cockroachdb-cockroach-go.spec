@@ -4,12 +4,13 @@
 
 # https://github.com/cockroachdb/cockroach-go
 %global goipath         github.com/cockroachdb/cockroach-go
-%global commit          e0a95dfd547cc9c3ebaaba1a12c2afe4bf621ac5
+Version:                2.0.6
 
 %gometa
 
 %global goname          golang-github-cockroachdb-cockroach-go
 %global godevelname     golang-github-cockroachdb-cockroach-go-devel
+%global goaltipaths     github.com/cockroachdb/cockroach-go/v2
 
 %global common_description %{expand:
 Testing helpers for cockroach clients.}
@@ -18,8 +19,7 @@ Testing helpers for cockroach clients.}
 %global godocs          README.md crdb/README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.8%{?dist}
+Release:        1%{?dist}
 Summary:        Testing helpers for cockroach clients.
 
 # Upstream license specification: Apache-2.0
@@ -27,7 +27,9 @@ License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
-BuildRequires:  golang(github.com/jackc/pgx)
+BuildRequires:  golang(github.com/jackc/pgx/v4)
+BuildRequires:  golang(github.com/jinzhu/gorm)
+BuildRequires:  golang(github.com/jmoiron/sqlx)
 BuildRequires:  golang(github.com/lib/pq)
 
 %description
@@ -49,6 +51,12 @@ BuildRequires:  golang(github.com/lib/pq)
 %gopkgfiles
 
 %changelog
+* Wed Sep 09 12:46:30 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.0.6-1
+- Update to 2.0.6
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

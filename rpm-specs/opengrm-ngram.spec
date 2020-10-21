@@ -1,15 +1,21 @@
 %global release_date "January 2018"
 
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 Name:           opengrm-ngram
 Version:        1.3.4
-Release:        9%{?dist}
+Release:        11%{?dist}
 Summary:        Library for making and modifying n-gram language models
 
 License:        ASL 2.0
 URL:            http://www.opengrm.org/
 Source0:        http://www.openfst.org/twiki/pub/GRM/NGramDownload/%{name}-%{version}.tar.gz
 
-BuildRequires:  openblas-devel
+BuildRequires:  %{blaslib}-devel
 BuildRequires:  chrpath
 BuildRequires:  gcc-c++
 BuildRequires:  gsl-devel
@@ -46,7 +52,7 @@ NGram library functionality.
 
 %build
 %configure CXXFLAGS="%{optflags} -DHAVE_GSL" \
-  LIBS="-L%{_libdir}/fst -Wl,-rpath=%{_libdir}/fst -lfst -lgsl -lopenblas"
+  LIBS="-L%{_libdir}/fst -Wl,-rpath=%{_libdir}/fst -lfst -lgsl -l%{blaslib}"
 
 # Get rid of undesirable hardcoded rpaths; also workaround libtool reordering
 # -Wl,--as-needed after all the libraries.
@@ -104,6 +110,12 @@ LD_LIBRARY_PATH=$PWD/src/lib/.libs make check
 %{_mandir}/man1/*
 
 %changelog
+* Fri Aug 14 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.3.4-11
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.4-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.4-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

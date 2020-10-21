@@ -1,6 +1,6 @@
 Name:           security-menus
 Version:        1.3.0
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Menu Structure for the Fedora Security Lab
 
 License:        GPLv2
@@ -38,6 +38,9 @@ done
 %{_datadir}/applications/*.desktop
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

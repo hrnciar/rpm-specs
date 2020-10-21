@@ -16,7 +16,7 @@ an interval.}
 %global godocs          CONTRIBUTORS.md README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Thread-safe ratecounter implementation in Go
 
 License:        MIT
@@ -42,6 +42,13 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 02 01:02:10 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.2.0-4.20200202gita21a441
 - Bump to commit a21a441076fe606cdec3e1914ce8c27cfde47645
 

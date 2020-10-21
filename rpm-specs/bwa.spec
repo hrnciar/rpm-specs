@@ -1,6 +1,6 @@
 Name:           bwa
 Version:        0.7.17
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Burrows-Wheeler Alignment tool
 
 License:        GPLv3
@@ -40,7 +40,7 @@ CFLAGS="%{optflags} -O3"
 # https://github.com/lh3/bwa/pull/283
 CFLAGS="${CFLAGS} -DUSE_SIMDE -DSIMDE_ENABLE_NATIVE_ALIASES -fopenmp-simd -DSIMDE_ENABLE_OPENMP"
 %endif
-make %{?_smp_mflags} CFLAGS="${CFLAGS}"
+%make_build CFLAGS="${CFLAGS}"
 
 
 %install
@@ -70,6 +70,13 @@ install -m 0644 bwa.1 %{buildroot}/%{_mandir}/man1/bwa.1
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.17-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 0.7.17-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri May 22 2020 Jun Aruga <jaruga@redhat.com> - 0.7.17-2
 - Enable non-x86_64 CPU architectures with simde.
 - Set -O3 for the better performance.

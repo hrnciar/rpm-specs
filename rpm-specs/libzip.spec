@@ -1,8 +1,8 @@
-%global with_tests     0%{!?_without_tests:1}
+%bcond_without tests
 
 Name:    libzip
-Version: 1.7.1
-Release: 1%{?dist}
+Version: 1.7.3
+Release: 3%{?dist}
 Summary: C library for reading, creating, and modifying zip archives
 
 License: BSD
@@ -64,6 +64,10 @@ The %{name}-tools package provides command line tools split off %{name}:
 # unwanted in package documentation
 rm INSTALL.md
 
+# drop skipped test which make test suite fails (cmake issue ?)
+sed -e '/clone-fs-/d' \
+    -i regress/CMakeLists.txt
+
 
 %build
 %cmake \
@@ -77,19 +81,18 @@ rm INSTALL.md
   -DBUILD_TOOLS:BOOL=ON \
   -DBUILD_REGRESS:BOOL=ON \
   -DBUILD_EXAMPLES:BOOL=OFF \
-  -DBUILD_DOC:BOOL=ON \
-  .
+  -DBUILD_DOC:BOOL=ON
 
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-make install DESTDIR=%{buildroot} INSTALL='install -p'
+%cmake_install
 
 
 %check
-%if %{with_tests}
-make check
+%if %{with tests}
+%ctest
 %else
 : Test suite disabled
 %endif
@@ -121,6 +124,21 @@ make check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.7.3-2
+- use %%cmake_build, %%cmake_install, %ctest
+
+* Wed Jul 15 2020 Remi Collet <remi@remirepo.net> - 1.7.3-1
+- update to 1.7.3
+- drop patch merged upstream
+
+* Mon Jul 13 2020 Remi Collet <remi@remirepo.net> - 1.7.2-1
+- update to 1.7.2
+- fix installation layout using merged patch from
+  https://github.com/nih-at/libzip/pull/190
+
 * Mon Jun 15 2020 Remi Collet <remi@remirepo.net> - 1.7.1-1
 - update to 1.7.1
 

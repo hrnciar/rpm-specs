@@ -1,5 +1,12 @@
 %if 0%{?fedora} || 0%{?rhel} > 7
 %global with_python3 1
+
+# https://src.fedoraproject.org/rpms/future/pull-request/8
+%if %{python3_pkgversion} != 3
+%global _pathfix pathfix%{python3_version}.py
+%else
+%global _pathfix pathfix.py
+%endif
 %endif
 
 %if 0%{?fedora} && 0%{?fedora} < 31
@@ -25,7 +32,7 @@ clean Py3-style codebase, module by module.
 Name: future
 Summary: Easy, clean, reliable Python 2/3 compatibility
 Version: 0.18.2
-Release: 6%{?dist}
+Release: 8%{?dist}
 License: MIT
 URL: http://python-future.org/
 Source0: https://files.pythonhosted.org/packages/source/f/%{name}/%{name}-%{version}.tar.gz
@@ -115,18 +122,18 @@ popd
 
 %if 0%{?with_python2}
 cp -a future-%{version} python2
-find python2 -name '*.py' | xargs pathfix.py -pn -i "%{__python2}"
+find python2 -name '*.py' | xargs %{_pathfix} -pn -i "%{__python2}"
 %endif
 
 %if 0%{?with_python3}
 cp -a future-%{version} python3
-find python3 -name '*.py' | xargs pathfix.py -pn -i "%{__python3}"
+find python3 -name '*.py' | xargs %{_pathfix} -pn -i "%{__python3}"
 %endif
 # with_python3
 
 %if 0%{?with_python3_other}
 cp -a future-%{version} python%{python3_other_pkgversion}
-find python%{python3_other_pkgversion} -name '*.py' | xargs pathfix.py -pn -i "%{__python3}"
+find python%{python3_other_pkgversion} -name '*.py' | xargs %{_pathfix} -pn -i "%{__python3}"
 %endif
 
 %build
@@ -285,28 +292,34 @@ popd
 
 
 %changelog
+* Mon Aug 10 2020 Antonio Trande <sagitter@fedoraproject.org> - 0.18.2-8
+- Merge pull request #8
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 0.18.2-6
 - Rebuilt for Python 3.9
 
-* Tue Feb 11 2020 Antonio Trande <sagitterATfedoraproject.org> - 0.18.2-5
+* Tue Feb 11 2020 Antonio Trande <sagitter@fedoraproject.org> - 0.18.2-5
 - Fix Python 3.9 builds
 
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
-* Fri Jan 24 2020 Antonio Trande <sagitterATfedoraproject.org> - 0.18.2-3
+* Fri Jan 24 2020 Antonio Trande <sagitter@fedoraproject.org> - 0.18.2-3
 - Fix Python2 executable on Fedora 30
 
-* Fri Jan 24 2020 Antonio Trande <sagitterATfedoraproject.org> - 0.18.2-2
+* Fri Jan 24 2020 Antonio Trande <sagitter@fedoraproject.org> - 0.18.2-2
 - Build Python2 version on Fedora 30
 
-* Fri Jan 24 2020 Antonio Trande <sagitterATfedoraproject.org> - 0.18.2-1
+* Fri Jan 24 2020 Antonio Trande <sagitter@fedoraproject.org> - 0.18.2-1
 - Release 0.18.2
 
-* Sat Oct 12 2019 Antonio Trande <sagitterATfedoraproject.org> - 0.18.0-2
+* Sat Oct 12 2019 Antonio Trande <sagitter@fedoraproject.org> - 0.18.0-2
 - Use python3_version_nodots macro
 
-* Sat Oct 12 2019 Antonio Trande <sagitterATfedoraproject.org> - 0.18.0-1
+* Sat Oct 12 2019 Antonio Trande <sagitter@fedoraproject.org> - 0.18.0-1
 - Release 0.18.0
 
 * Thu Oct 03 2019 Miro Hrončok <mhroncok@redhat.com> - 0.17.1-0.5.20190506git23989c4
@@ -318,31 +331,31 @@ popd
 * Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.1-0.3.20190506git23989c4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
-* Tue Jul 23 2019 Antonio Trande <sagitterATfedoraproject.org> - 0.17.1-0.2.20190506git23989c4
+* Tue Jul 23 2019 Antonio Trande <sagitter@fedoraproject.org> - 0.17.1-0.2.20190506git23989c4
 - Bump to a pre-release 0.17.1, commit #23989c4
 - Unversioned commands point to Python3 on Fedora
 - Obsolete Python2 version on Fedora
 
-* Tue Apr 09 2019 Antonio Trande <sagitterATfedoraproject.org> - 0.17.1-0.1.20190313gitc423752
+* Tue Apr 09 2019 Antonio Trande <sagitter@fedoraproject.org> - 0.17.1-0.1.20190313gitc423752
 - Bump to a pre-release 0.17.1 (fix rhbz#1698160, upstream bug #488)
 
 * Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
-* Fri Oct 26 2018 Antonio Trande <sagitterATfedoraproject.org> - 0.17.0-1
+* Fri Oct 26 2018 Antonio Trande <sagitter@fedoraproject.org> - 0.17.0-1
 - Release 0.17.0
 
-* Wed Oct 24 2018 Antonio Trande <sagitterATfedoraproject.org> - 0.17.0-0.1.20181019gitbee0f3b
+* Wed Oct 24 2018 Antonio Trande <sagitter@fedoraproject.org> - 0.17.0-0.1.20181019gitbee0f3b
 - Bump to a pre-release 0.17.0
 
-* Wed Oct 24 2018 Antonio Trande <sagitterATfedoraproject.org> - 0.16.0-13.20181019gitbee0f3b
+* Wed Oct 24 2018 Antonio Trande <sagitter@fedoraproject.org> - 0.16.0-13.20181019gitbee0f3b
 - Update to the commit #bee0f3b
 - Perform all Python3 tests
 
-* Fri Sep 21 2018 Antonio Trande <sagitterATfedoraproject.org> - 0.16.0-12.20180917gitaf02ef6
+* Fri Sep 21 2018 Antonio Trande <sagitter@fedoraproject.org> - 0.16.0-12.20180917gitaf02ef6
 - Update to the commit #af02ef6
 
-* Sun Aug 26 2018 Antonio Trande <sagitterATfedoraproject.org> - 0.16.0-11
+* Sun Aug 26 2018 Antonio Trande <sagitter@fedoraproject.org> - 0.16.0-11
 - Prepare SPEC file for deprecation of Python2 on fedora 30+
 - Prepare SPEC file for Python3-modules packaging on epel7
 
@@ -355,10 +368,10 @@ popd
 * Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
-* Sun Jan 14 2018 Antonio Trande <sagitterATfedoraproject.org> - 0.16.0-7
+* Sun Jan 14 2018 Antonio Trande <sagitter@fedoraproject.org> - 0.16.0-7
 - Use versioned Python2 packages
 
-* Fri Dec 15 2017 Antonio Trande <sagitterATfedoraproject.org> - 0.16.0-6
+* Fri Dec 15 2017 Antonio Trande <sagitter@fedoraproject.org> - 0.16.0-6
 - Python3 built on epel7
 
 * Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.0-5
@@ -370,13 +383,13 @@ popd
 * Mon Dec 19 2016 Miro Hrončok <mhroncok@redhat.com> - 0.16.0-3
 - Rebuild for Python 3.6
 
-* Tue Dec 13 2016 Antonio Trande <sagitterATfedoraproject.org> - 0.16.0-2
+* Tue Dec 13 2016 Antonio Trande <sagitter@fedoraproject.org> - 0.16.0-2
 - BR Python2 dependencies unversioned on epel6
 
-* Tue Dec 13 2016 Antonio Trande <sagitterATfedoraproject.org> - 0.16.0-1
+* Tue Dec 13 2016 Antonio Trande <sagitter@fedoraproject.org> - 0.16.0-1
 - Update to 0.16.0
 
-* Wed Aug 17 2016 Antonio Trande <sagitterATfedoraproject.org> - 0.15.2-10
+* Wed Aug 17 2016 Antonio Trande <sagitter@fedoraproject.org> - 0.15.2-10
 - Rebuild for Python 3.5.2
 
 * Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.15.2-9
@@ -385,10 +398,10 @@ popd
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.2-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
-* Fri Jan 29 2016 Antonio Trande <sagitterATfedoraproject.org> - 0.15.2-7
+* Fri Jan 29 2016 Antonio Trande <sagitter@fedoraproject.org> - 0.15.2-7
 - Renamed Python2 package
 
-* Thu Dec 10 2015 Antonio Trande <sagitterATfedoraproject.org> - 0.15.2-6
+* Thu Dec 10 2015 Antonio Trande <sagitter@fedoraproject.org> - 0.15.2-6
 - SPEC file adapted to recent guidelines for Python
 
 * Fri Nov 13 2015 Antonio Trande <sagitter@fedoraproject.org> 0.15.2-5

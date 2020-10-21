@@ -1,5 +1,5 @@
 Version: 0.4.10
-Release: 6%{?dist}
+Release: 7%{?dist}
 
 # Define the directory where the OpenSSL engines are installed
 %global enginesdir %{_libdir}/engines-1.1
@@ -115,6 +115,9 @@ make check %{?_smp_mflags} || if [ $? -ne 0 ]; then cat tests/*.log; exit 1; fi;
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.10-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Anderson Sasaki <ansasaki@redhat.com> - 0.4.10-6
 - Set RSA_FLAG_FIPS_METHOD for RSA methods (#1827535)
 

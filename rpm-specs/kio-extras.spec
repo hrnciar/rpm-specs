@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 
 # uncomment to enable bootstrap mode
 #global bootstrap 1
@@ -7,7 +8,7 @@
 %endif
 
 Name:    kio-extras
-Version: 20.04.2
+Version: 20.08.1
 Release: 1%{?dist}
 Summary: Additional components to increase the functionality of KIO Framework
 
@@ -123,18 +124,14 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%{cmake_kf5} \
   -DLIBSSH_LIBRARIES="$(pkg-config --libs libssh)" \
   %{?tests:-DBUILD_TESTING:BOOL=ON}
-popd
-
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -230,6 +227,18 @@ time make test -C %{_target_platform} ARGS="--output-on-failure --timeout 10" ||
 
 
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.2-1
 - 20.04.2
 

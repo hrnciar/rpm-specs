@@ -3,7 +3,7 @@
 
 # https://github.com/DATA-DOG/go-txdb
 %global goipath         github.com/DATA-DOG/go-txdb
-Version:                0.1.2
+Version:                0.1.3
 
 %gometa
 
@@ -18,7 +18,7 @@ and rows are not holding the connection.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Immutable transaction isolated SQL driver for Go
 
 # Upstream license specification: BSD-3-Clause
@@ -45,6 +45,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 20:15:31 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.1.3-1
+- Update to 0.1.3
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

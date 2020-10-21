@@ -6,7 +6,7 @@
 Summary:	Patching status monitoring tool
 Name:		pakiti
 Version:	3.0.2
-Release:	6%{?dist}
+Release:	7%{?dist}
 URL:		https://github.com/CESNET/pakiti-client/
 License:	ASL 2.0 and BSD
 Source0:	%{name}-%{version}.tar.gz
@@ -52,6 +52,9 @@ install -D -m644 pakiti-client.1 %{buildroot}%{_mandir}/man1/pakiti-client.1
 %{_mandir}/man?/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

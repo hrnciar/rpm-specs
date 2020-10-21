@@ -1,13 +1,12 @@
 # This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
+%global py_byte_compile 1
 
 # only works with python3
 %global __python /usr/bin/python3
 
 Name:    kajongg
 Summary: Classical Mah Jongg game for four players
-Version: 20.04.2
+Version: 20.08.0
 Release: 1%{?dist}
 
 License: GPLv2 and GFDL
@@ -76,16 +75,13 @@ of other human players or computer players.
 
 
 %build
-mkdir build
-pushd build
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-%make_build -C build
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C build
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -106,6 +102,18 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.%{name}.d
 
 
 %changelog
+* Sun Aug 23 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Mon Aug 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-3
+- use cmake macros
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Marie Loise Nolden <loise@kde.org> - 20.04.3-1
+- 20.04.3 
+
 * Sat Jun 13 2020 Marie Loise Nolden <loise@kde.org> - 20.04.2-1
 - 20.04.2 
 

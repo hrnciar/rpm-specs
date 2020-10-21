@@ -1,7 +1,10 @@
+# force out-of-tree build for spec compatibility with older releases
+%undefine __cmake_in_source_build
+
 Summary: An Atari ST/STE/TT/Falcon emulator suitable for playing games
 Name: hatari
 Version: 2.2.1
-Release: 7%{?dist}
+Release: 10%{?dist}
 License: GPLv2+
 URL: http://hatari.tuxfamily.org/
 Source0: http://download.tuxfamily.org/%{name}/%{version}/%{name}-%{version}.tar.bz2
@@ -75,15 +78,14 @@ sed -i '/^MimeType=*/s/$/;/' \
 
 %build
 %cmake \
-  -DCMAKE_VERBOSE_MAKEFILE=TRUE \
   -DCMAKE_BUILD_TYPE:STRING=None \
   -DDOCDIR:PATH=%{_pkgdocdir} \
-  -DBUILD_SHARED_LIBS:BOOL=OFF .
-%make_build
+  -DBUILD_SHARED_LIBS:BOOL=OFF
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 # Fix file permissions
 chmod 644 %{buildroot}%{_datadir}/%{name}/hatariui/conftypes.py
@@ -108,7 +110,7 @@ install -p -m 644 %{SOURCE1} %{buildroot}%{_datadir}/metainfo
 
 
 %check
-make test
+%ctest
 
 # Validate desktop file
 desktop-file-validate \
@@ -151,6 +153,16 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/%{name}.a
 
 
 %changelog
+* Thu Aug 06 2020 Andrea Musuruane <musuruan@gmail.com> - 2.2.1-10
+- Fixed FTBFS for F33 (BZ #1863844)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 %bcond_without bootstrap
 
 Name:           python-pint
-Version:        0.13
+Version:        0.16
 Release:        1%{?dist}
 Summary:        Physical quantities module
 
@@ -60,7 +60,7 @@ Documentation for the pint module
 %setup -q -n %{pypi_name}-%{version}
 
 %generate_buildrequires
-%pyproject_buildrequires -t
+%pyproject_buildrequires -x test
 
 %build
 %pyproject_wheel
@@ -77,7 +77,7 @@ rm -rf html/.{doctrees,buildinfo}
 %pyproject_install
 
 %check
-%tox
+%pytest
 
 %files -n python3-pint
 %license LICENSE
@@ -92,6 +92,12 @@ rm -rf html/.{doctrees,buildinfo}
 %endif
 
 %changelog
+* Mon Sep 21 2020 Lumír Balhar <lbalhar@redhat.com> - 0.13-3
+- Fix test dependencies and execution
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.13-1
 - Update to 0.13
 

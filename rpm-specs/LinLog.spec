@@ -1,6 +1,6 @@
 Name:           LinLog
 Version:        0.5
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        A ham radio logbook for Linux
 
 License:        GPLv2
@@ -8,6 +8,7 @@ URL:            http://linlogbook.sourceforge.net/
 Source0:        http://downloads.sourceforge.net/linlogbook/linlogbook-%{version}.tar.gz
 Source1:        linlogbook.desktop
 Source2:        linlogbook.png
+Patch0:         LinLog-gcc11.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  qt4-devel >= 4.3
@@ -24,6 +25,7 @@ used but it should be possible to use other databases like mysql, for instance.
 
 %prep
 %setup -q -n linlogbook
+%patch0 -p1
 
 
 %build
@@ -57,6 +59,12 @@ install -p -m 644 sql/statistics.sql %{buildroot}%{_datadir}/%{name}
 
 
 %changelog
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 0.5-12
+- Avoid ordered comparisons against zero
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 Summary:       A to-the-point color module for node
 Name:          nodejs-%{npm_name}
 Version:       0.0.1
-Release:       14%{?dist}
+Release:       15%{?dist}
 License:       MIT
 URL:           http://github.com/einaros/tinycolor
 Source0:       http://registry.npmjs.org/%{npm_name}/-/%{npm_name}-%{version}.tgz
@@ -36,6 +36,9 @@ cp -pr tinycolor.js package.json %{buildroot}%{nodejs_sitelib}/%{npm_name}
 %{nodejs_sitelib}/%{npm_name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.1-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 Name:           perl-Crypt-PasswdMD5
 # Keep 1-digit version because of history
 Version:        %(echo '%{cpan_version}' | sed 's/\.\(.\)/.\1./')
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Provides interoperable MD5-based crypt() functions
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Crypt-PasswdMD5
@@ -56,6 +56,9 @@ make test
 %{_mandir}/man3/Crypt::PasswdMD5.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.4.0-19
 - Perl 5.32 rebuild
 

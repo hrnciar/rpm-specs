@@ -6,7 +6,7 @@
 
 Name:             R-%{packname}
 Version:          1.1
-Release:          3%{?dist}
+Release:          5%{?dist}
 Summary:          Render Markdown with the C Library 'Sundown'
 
 License:          GPLv2 and ISC
@@ -92,6 +92,13 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --ignore-vignettes
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 1.1-3
 - rebuild for R 4
 

@@ -1,6 +1,6 @@
 Name:           pbuilder
 Version:        0.230.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Personal package builder for Debian packages
 
 License:        GPLv2+
@@ -107,6 +107,9 @@ make check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.230.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 03 2020 Petr Viktorin <pviktori@redhat.com> - 0.230.4-4
 - Switch BuildRequires to python3
 

@@ -1,16 +1,13 @@
 %global glib2_version 2.61.3
 
 Name:           sysprof
-Version:        3.36.0
-Release:        1%{?dist}
+Version:        3.38.1
+Release:        2%{?dist}
 Summary:        A system-wide Linux profiler
 
 License:        GPLv3+
 URL:            http://www.sysprof.com
-Source0:        https://download.gnome.org/sources/sysprof/3.36/sysprof-%{version}.tar.xz
-# Fix the build on 32 bit hosts
-# https://gitlab.gnome.org/GNOME/sysprof/-/merge_requests/24
-Patch0:         24.patch
+Source0:        https://download.gnome.org/sources/sysprof/3.38/sysprof-%{version}.tar.xz
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -21,6 +18,7 @@ BuildRequires:  pkgconfig(gio-2.0) >= %{glib2_version}
 BuildRequires:  pkgconfig(gio-unix-2.0) >= %{glib2_version}
 BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
 BuildRequires:  pkgconfig(gobject-2.0)
+BuildRequires:  pkgconfig(gtk+-3.0) >= 3.22.0
 BuildRequires:  pkgconfig(libdazzle-1.0)
 BuildRequires:  pkgconfig(libsystemd)
 BuildRequires:  pkgconfig(polkit-gobject-1)
@@ -43,14 +41,21 @@ calltrees.
 Summary:        Sysprof command line utility
 # sysprofd needs turbostat
 Requires:       kernel-tools
+Requires:       libsysprof%{?_isa} = %{version}-%{release}
 
 %description    cli
 The %{name}-cli package contains the sysprof-cli command line utility.
 
 
+%package     -n libsysprof
+Summary:        Sysprof libraries
+
+%description -n libsysprof
+The libsysprof package contains the Sysprof libraries.
+
+
 %package     -n libsysprof-ui
 Summary:        Sysprof UI library
-BuildRequires:  pkgconfig(gtk+-3.0) >= 3.22.0
 
 %description -n libsysprof-ui
 The libsysprof-ui package contains the Sysprof UI library.
@@ -58,7 +63,8 @@ The libsysprof-ui package contains the Sysprof UI library.
 
 %package        devel
 Summary:        Development files for %{name}
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       libsysprof%{?_isa} = %{version}-%{release}
+Requires:       libsysprof-ui%{?_isa} = %{version}-%{release}
 
 %description    devel
 The %{name}-devel package contains libraries and header files for
@@ -97,12 +103,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %files cli -f %{name}.lang
 %license COPYING
 %{_bindir}/sysprof-cli
-%{_libdir}/libsysprof-3.so
-%{_libdir}/libsysprof-memory-3.so
 %{_libexecdir}/sysprofd
-%{_datadir}/dbus-1/interfaces/org.gnome.Sysprof2.xml
-%{_datadir}/dbus-1/interfaces/org.gnome.Sysprof3.Profiler.xml
-%{_datadir}/dbus-1/interfaces/org.gnome.Sysprof3.Service.xml
 %{_datadir}/dbus-1/system.d/org.gnome.Sysprof2.conf
 %{_datadir}/dbus-1/system.d/org.gnome.Sysprof3.conf
 %{_datadir}/dbus-1/system-services/org.gnome.Sysprof2.service
@@ -111,19 +112,50 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %{_unitdir}/sysprof2.service
 %{_unitdir}/sysprof3.service
 
+%files -n libsysprof
+%license COPYING
+%{_libdir}/libsysprof-4.so
+%{_libdir}/libsysprof-memory-4.so
+%{_libdir}/libsysprof-speedtrack-4.so
+
 %files -n libsysprof-ui
 %license COPYING
-%{_libdir}/libsysprof-ui-3.so
+%{_libdir}/libsysprof-ui-4.so
 
 %files devel
-%{_includedir}/sysprof-3/
-%{_libdir}/pkgconfig/sysprof-3.pc
-%{_libdir}/pkgconfig/sysprof-capture-3.pc
-%{_libdir}/pkgconfig/sysprof-ui-3.pc
-%{_libdir}/libsysprof-capture-3.a
+%{_includedir}/sysprof-4/
+%{_libdir}/pkgconfig/sysprof-4.pc
+%{_libdir}/pkgconfig/sysprof-capture-4.pc
+%{_libdir}/pkgconfig/sysprof-ui-4.pc
+%{_libdir}/libsysprof-capture-4.a
+%{_datadir}/dbus-1/interfaces/org.gnome.Sysprof2.xml
+%{_datadir}/dbus-1/interfaces/org.gnome.Sysprof3.Profiler.xml
+%{_datadir}/dbus-1/interfaces/org.gnome.Sysprof3.Service.xml
 
 
 %changelog
+* Tue Oct 20 2020 Kalev Lember <klember@redhat.com> - 3.38.1-2
+- Rebuild
+
+* Fri Oct 16 2020 Kalev Lember <klember@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Sun Sep 20 2020 Kalev Lember <klember@redhat.com> - 3.38.0-2
+- Split out a separate libsysprof package and avoid -devel subpackage depending
+  on the GUI app
+
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Mon Sep 07 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 07 2020 Kalev Lember <klember@redhat.com> - 3.36.0-1
 - Update to 3.36.0
 

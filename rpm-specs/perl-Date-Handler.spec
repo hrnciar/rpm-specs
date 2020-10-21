@@ -1,6 +1,6 @@
 Name:           perl-Date-Handler
 Version:        1.2
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Easy but complete date object
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Date-Handler
@@ -75,6 +75,9 @@ make test
 %{_mandir}/man3/Date::Handler::Test.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.2-19
 - Perl 5.32 rebuild
 

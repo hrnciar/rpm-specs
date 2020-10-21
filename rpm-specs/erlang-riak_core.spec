@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	2.1.10
-Release:	11%{?dist}
+Release:	12%{?dist}
 BuildArch:	noarch
 Summary:	Distributed systems infrastructure used by Riak
 License:	ASL 2.0
@@ -70,6 +70,9 @@ install -D -p -m 644 priv/riak_core.schema %{buildroot}%{erlang_appdir}/priv/ria
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.10-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.10-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 
 # https://github.com/go-openapi/runtime
 %global goipath         github.com/go-openapi/runtime
-Version:                0.19.0
+Version:                0.19.20
 
 %gometa
 
@@ -22,7 +22,7 @@ The runtime component for use in codegeneration or as untyped usage.}
 %global godocs          CODE_OF_CONDUCT.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Openapi runtime interfaces
 
 # Upstream license specification: MIT and Apache-2.0
@@ -72,6 +72,12 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 17:00:36 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.19.20-1
+- Update to 0.19.20
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,10 +1,13 @@
+%global _vpath_srcdir src
+%undefine __cmake_in_source_build
+
 %global srcname     polyglot
 %global commitdate  20140902
 %global commit0     f46ee068860d363ace27004ec4da588bf4b48147
 
 Name:           %{srcname}-chess
 Version:        1.4
-Release:        15.%{commitdate}git%(c=%{commit0}; echo ${c:0:7})%{?dist}
+Release:        17.%{commitdate}git%(c=%{commit0}; echo ${c:0:7})%{?dist}
 Summary:        Polyglot chess opening book program
 
 License:        GPLv2+
@@ -48,13 +51,13 @@ sed -i 's,%{srcname},%{name},' src/CMakeLists.txt
 
 
 %build
-%cmake src
-%make_build
+%cmake
+%cmake_build
 
 
 %install
 # W: unstripped-binary-or-object
-install -p -m0755 %{name} -D %{buildroot}%{_bindir}/%{name}
+install -p -m0755 %{_vpath_builddir}/%{name} -D %{buildroot}%{_bindir}/%{name}
 # W: spurious-executable-perm
 install -p -m0644 %{name}.6 -D %{buildroot}%{_mandir}/man6/%{name}.6
 
@@ -68,6 +71,13 @@ install -p -m0644 %{name}.6 -D %{buildroot}%{_mandir}/man6/%{name}.6
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-17.20140902gitf46ee06
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-16.20140902gitf46ee06
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-15.20140902gitf46ee06
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 %global commit0 90abd17b4f97671435798b6147b698aa9087612f
 
 Version:       1.100263
-Release:       0.13.20150923git%{?dist}
+Release:       0.14.20150923git%{?dist}
 URL:           https://www.google.com/fonts/specimen/Roboto+Slab
 
 %global foundry           google
@@ -49,6 +49,9 @@ cp -p %{SOURCE0} %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} .
 %fontfiles
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.100263-0.14.20150923git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Parag Nemade <pnemade AT redhat DOT com> - 1.100263-0.13.20150923git
 - Update fontconfig DTD id in conf file
 

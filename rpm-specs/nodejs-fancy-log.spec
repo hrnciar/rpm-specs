@@ -7,7 +7,7 @@
 
 Name:		nodejs-fancy-log
 Version:	1.2.0
-Release:	8%{?dist}
+Release:	9%{?dist}
 Summary:	Log things, prefixed with a timestamp
 
 License:	MIT
@@ -69,6 +69,9 @@ cp -pr package.json index.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -16,9 +16,9 @@ Name:        caja
 Summary:     File manager for MATE
 Version:     %{branch}.0
 %if 0%{?rel_build}
-Release:     4%{?dist}
+Release:     5%{?dist}
 %else
-Release:     0.12%{?git_rel}%{?dist}
+Release:     0.13%{?git_rel}%{?dist}
 %endif
 License:     GPLv2+ and LGPLv2+
 URL:         http://mate-desktop.org
@@ -181,6 +181,9 @@ EOF
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-4
 - fix dependencies, hopefully
 

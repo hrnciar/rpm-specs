@@ -8,7 +8,7 @@
 
 Name:           lua-%{luapkgname}
 Version:        0.3
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        HTTP library for Lua
 
 License:        MIT
@@ -108,6 +108,9 @@ install -p -m 0644 %{luapkgname}/compat/*.lua -t "%{buildroot}%{luacompatpkgdir}
 %doc %{_pkgdocdir}/index.html
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 07 2020 Tomas Krizek - 0.3-5
 - Fix lua-http-doc dependency (rhbz#1832456)
 

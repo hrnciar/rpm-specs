@@ -2,7 +2,7 @@
 
 Name:           mate-optimus
 Version:        20.04.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        NVIDIA Optimus GPU switcher
 
 License:        GPLv3+
@@ -70,6 +70,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 04 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 20.04.0-1
 - Update to 20.04.0
 

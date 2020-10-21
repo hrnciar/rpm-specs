@@ -1,6 +1,6 @@
 Name:       awstats
-Version:    7.7
-Release:    9%{?dist}
+Version:    7.8
+Release:    1%{?dist}
 Summary:    Advanced Web Statistics
 License:    GPLv3+
 URL:        http://awstats.sourceforge.net
@@ -8,12 +8,10 @@ Source0:    http://downloads.sourceforge.net/project/awstats/AWStats/%{version}/
 Source1:    %{name}.cron
 Patch0:     awstats-awredir.pl-sanitize-parameters.patch
 
-%if 0%{?rhel} == 7 || 0%{?fedora}
+%if 0%{?rhel} >= 7 || 0%{?fedora}
 # fix configuration for httpd 2.4 (#871366)
 Patch1:     awstats-7.0-httpd-2.4.patch
 %endif
-
-Patch2:     awstats-awstats_path.patch
 
 # distribution specific definitions
 %define use_systemd (0%{?fedora} || 0%{?rhel} >= 7)
@@ -26,7 +24,7 @@ BuildRequires:  perl-generators
 BuildRequires:  recode
 Requires:   perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:   perl-Net-IP, perl-Net-DNS, perl-Geo-IP
-Requires:   crontabs
+Requires:   crontabs  
 Requires(post): perl-interpreter
 
 %if %use_systemd
@@ -43,15 +41,15 @@ Provides:   awstats-selinux = %{version}-%{release}
 
 
 %description
-Advanced Web Statistics is a powerful and featureful tool that generates
-advanced web server graphic statistics. This server log analyzer works
-from command line or as a CGI and shows you all information your log contains,
-in graphical web pages. It can analyze a lot of web/wap/proxy servers like
-Apache, IIS, Weblogic, Webstar, Squid, ... but also mail or ftp servers.
+Advanced Web Statistics is a powerful and full-featured tool that generates
+advanced web server graphical statistics. This server log analyzer works
+from the command line or as a CGI and shows all information your log contains,
+in graphical web pages. It can analyze a lot of web/wap/proxy servers such as
+Apache, IIS, Weblogic, Webstar, Squid, ... but also mail or FTP servers.
 
-This program can measure visits, unique vistors, authenticated users, pages,
+This program can measure visits, unique visitors, authenticated users, pages,
 domains/countries, OS busiest times, robot visits, type of files, search
-engines/keywords used, visits duration, HTTP errors and more...
+engines/keywords used, visit duration, HTTP errors and more...
 Statistics can be updated from a browser or your scheduler.
 The program also supports virtual servers, plugins and a lot of features.
 
@@ -62,10 +60,9 @@ http://localhost/awstats/awstats.pl
 %prep
 %setup -q
 %patch0 -p 1
-%if 0%{?rhel} == 7 || 0%{?fedora}
+%if 0%{?rhel} >= 7 || 0%{?fedora}
 %patch1 -p 1
 %endif
-%patch2 -p 1
 
 # Fix style sheets.
 perl -pi -e 's,/icon,/awstatsicons,g' wwwroot/css/*
@@ -76,7 +73,8 @@ find tools/xslt -type f | xargs chmod -x
 perl -pi -e 's/\r//g' docs/COPYING.TXT docs/LICENSE.TXT docs/pad_awstats.xml docs/awstats_changelog.txt docs/styles.css tools/httpd_conf tools/logresolvemerge.pl tools/awstats_exportlib.pl tools/awstats_buildstaticpages.pl tools/maillogconvert.pl tools/urlaliasbuilder.pl wwwroot/cgi-bin/awredir.pl
 # Encoding
 recode ISO-8859-1..UTF-8 docs/awstats_changelog.txt
-
+# Stray version control file
+rm -f tools/webmin/.gitignore
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -116,9 +114,9 @@ perl -pi -e '
             ' $RPM_BUILD_ROOT/%{_sysconfdir}/%{name}/%{name}.model.conf
 install -p -m 644 $RPM_BUILD_ROOT/%{_sysconfdir}/%{name}/%{name}.{model,localhost.localdomain}.conf 
 
-# Fix scripts
+# Fix AWStats path in scripts
 perl -pi -e 's|/usr/local/awstats|%{_datadir}/awstats|g' \
-             $RPM_BUILD_ROOT%{_datadir}/%{name}/tools/{*.pl}
+             $RPM_BUILD_ROOT%{_datadir}/%{name}/tools/*.pl
 
 # Apache configuration
 install -p -m 644 tools/httpd_conf $RPM_BUILD_ROOT/%{_sysconfdir}/httpd/conf.d/%{name}.conf
@@ -130,7 +128,7 @@ install -m 0750 -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/cron.hourly/%{name}
 # https://bugzilla.redhat.com/show_bug.cgi?id=1196549
 cd $RPM_BUILD_ROOT%{_datadir}/%{name}/wwwroot/icon
 for i in browser/adobe.png browser/seamonkey.png os/win*.png os/macos*.png cpu/intel.png cpu/ibm.png; do
-	cp -v os/unknown.png $i
+  cp -v os/unknown.png $i
 done
 cd -
 
@@ -178,6 +176,15 @@ fi
 
 
 %changelog
+* Fri Aug 07 2020 Tim Jackson <rpm@timj.co.uk> - 7.8-1
+- Version 7.8
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.7-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 7.7-10
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 7.7-9
 - Perl 5.32 rebuild
 

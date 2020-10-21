@@ -1,6 +1,6 @@
 Name:             netgen
 Version:          1.3.7
-Release:          39%{?dist}
+Release:          40%{?dist}
 Summary:          LVS netlist comparison tool for VLSI
 
 License:          GPL+
@@ -105,6 +105,9 @@ install -p -m 644 %{SOURCE2} %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/%{
 
 
 %Changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.7-40
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.7-39
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

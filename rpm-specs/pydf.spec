@@ -3,7 +3,7 @@
 Summary:        Fully colorized df clone written in python
 Name:           pydf
 Version:        12
-Release:        8%{?dist}
+Release:        9%{?dist}
 License:        Public Domain
 URL:            https://pypi.python.org/pypi/%{srcname}/%{version}
 Source0:        http://kassiopeia.juls.savba.sk/~garabik/software/%{srcname}/%{name}_%{version}.tar.gz
@@ -38,6 +38,9 @@ install -p -m 644 pydfrc %{buildroot}/%{_sysconfdir}
 %config(noreplace) %{_sysconfdir}/pydfrc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

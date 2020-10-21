@@ -1,6 +1,6 @@
 Name:           surf
 Version:        2.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Simple web browser
 License:        MIT
 URL:            http://surf.suckless.org/
@@ -17,7 +17,7 @@ BuildRequires:  desktop-file-utils
 Requires:       st
 Requires:       dmenu
 # https://bugzilla.redhat.com/show_bug.cgi?id=841348
-Requires:       xorg-x11-utils
+Requires:       xprop
 # https://bugzilla.redhat.com/show_bug.cgi?id=884296
 Requires:       xterm
 Requires:       wget, curl
@@ -65,6 +65,9 @@ install -pm0644 %{S:2} %{buildroot}%{_datadir}/pixmaps/
 %{_datadir}/pixmaps/%{name}.svg
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 2.0-10
+- Require xprop not xorg-x11-utils
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

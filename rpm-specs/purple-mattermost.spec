@@ -7,7 +7,7 @@
 
 Name:           purple-mattermost
 Version:        1.2
-Release:        7.20190826gite21f18c%{?dist}
+Release:        8.20190826gite21f18c%{?dist}
 Summary:        Pidgin protocol plugin to connect to Mattermost
 
 License:        GPLv3+
@@ -60,6 +60,9 @@ CFLAGS="%{optflags}" LDFLAGS="%{__global_ldflags}" %make_build
 %{_datadir}/pixmaps/pidgin/protocols/*/mattermost.png
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-8.20190826gite21f18c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-7.20190826gite21f18c
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

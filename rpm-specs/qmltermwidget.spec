@@ -1,7 +1,7 @@
 Name:       qmltermwidget
 Summary:    A port of QTermWidget to QML
 Version:    0.2.0
-Release:    4%{?dist}
+Release:    5%{?dist}
 License:    GPLv2+
 URL:        https://github.com/Swordfish90/%{name}
 Source0:    %{URL}/archive/%{version}/%{name}-%{version}.tar.gz
@@ -38,6 +38,9 @@ make install INSTALL_ROOT=%{buildroot}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Artur Iwicki <fedora@svgames.pl> - 0.2.0-5
 - Fix build errors due to missing #includes
 

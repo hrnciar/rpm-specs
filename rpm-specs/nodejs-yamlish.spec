@@ -2,7 +2,7 @@
 
 Name:           nodejs-yamlish
 Version:        0.0.5
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Parser/encoder for the yamlish format
 BuildArch:      noarch
 
@@ -38,6 +38,9 @@ cp -pr package.json yamlish.js %{buildroot}%{nodejs_sitelib}/yamlish
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.5-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.5-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           celt051
 Version:        0.5.1.3
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        An audio codec for use in low-delay speech and audio communication
 
 License:        BSD
@@ -64,6 +64,9 @@ rm $RPM_BUILD_ROOT%{_libdir}/libcelt051.la
 %{_libdir}/libcelt051.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1.3-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1.3-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

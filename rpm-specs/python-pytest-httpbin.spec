@@ -25,10 +25,8 @@ provides your test with the URL in the fixture.
 %global t3_requires python3-httpbin python3-six python3-pytest
 
 Name:           python-%{github_name}
-# DO ****NOT*** BUMP THIS PAST 0.3.0 unless the python-requests test
-# suite is updated to work with later versions!
-Version:        0.3.0
-Release:        13%{?dist}
+Version:        1.0.0
+Release:        2%{?dist}
 Summary:        %{sum}
 
 # License is included in-line in README.md
@@ -41,9 +39,6 @@ URL:            https://github.com/%{github_owner}/%{github_name}
 # replace it because we can't actually securely have the test server
 # use a cert that would be trusted by the system-wide trust bundle.
 Source0:        https://github.com/%{github_owner}/%{github_name}/archive/v%{version}.tar.gz
-
-# Make the tests work with pytest >= 3.6
-Patch1:         https://github.com/kevin1024/pytest-httpbin/pull/50.patch
 
 BuildArch:      noarch
 
@@ -130,6 +125,13 @@ PYTHONPATH=./ py.test-3
 
 #################################################################################
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.0-1
+- Update to 1.0.0
+- Resolves rhbz#1676023
+
 * Sat May 30 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.0-13
 - Drop manual requires to support usage with pytest4
 

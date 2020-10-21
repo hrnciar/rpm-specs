@@ -6,7 +6,7 @@
 
 # https://github.com/rs/zerolog
 %global goipath         github.com/rs/zerolog
-Version:                1.17.2
+Version:                1.19.0
 
 %gometa
 
@@ -24,7 +24,7 @@ the next level with a simpler to use API and even better performance.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Zero allocation JSON logger
 
 License:        MIT
@@ -34,7 +34,6 @@ Source0:        %{gosource}
 BuildRequires:  golang(github.com/coreos/go-systemd/journal)
 BuildRequires:  golang(github.com/pkg/errors)
 BuildRequires:  golang(github.com/rs/xid)
-BuildRequires:  golang(github.com/zenazn/goji/web/mutil)
 BuildRequires:  golang(golang.org/x/tools/go/loader)
 
 %description
@@ -56,6 +55,12 @@ BuildRequires:  golang(golang.org/x/tools/go/loader)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 23:38:25 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.19.0-1
+- Update to 1.19.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

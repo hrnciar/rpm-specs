@@ -4,7 +4,7 @@
 
 Name:       nodejs-stack-trace
 Version:    0.0.9
-Release:    11%{?dist}
+Release:    12%{?dist}
 Summary:    Node.js module to get v8 stack traces as an array of CallSite objects
 License:    MIT
 URL:        https://github.com/felixge/node-stack-trace
@@ -70,6 +70,9 @@ cp -pr package.json lib/ \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.9-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.9-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,20 +1,16 @@
-%global commit 649b9a0e763f8a4cfdd41238b1495c58b7ea6660
-%global shortcommit %(c=%{commit}; echo ${c:0:7}) 
 %global project Fast-CDR
 %global soversion 1
 
 Name:       fast-cdr
-Version:    1.0.10
-Release:    4%{?dist}
+Version:    1.0.14
+Release:    1%{?dist}
 Summary:    Fast Common Data Representation (CDR) Serialization Library
 
 License:    ASL 2.0
 URL:        http://www.eprosima.com
-Source0:    https://github.com/eprosima/%{project}/archive/%{commit}/%{name}-%{shortcommit}.tar.gz    
+Source0:    https://github.com/eprosima/%{project}/archive/v%{version}/%{name}-%{version}.tar.gz    
 # Fix detection of big/little endianness for ppc64le
 Patch0:     %{name}-1.0.10-endian.patch
-# Install CMake scripts to lib instead of share
-Patch1:     %{name}-1.0.10-cmakeinstall.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -33,18 +29,15 @@ Requires:   %{name}%{?_isa} = %{version}-%{release}
 Development files and libraries for %{name}
 
 %prep
-%setup -q -n %{project}-%{commit} 
+%setup -q -n %{project}-%{version} 
 %patch0 -p 1 -b .endian
-%patch1 -p 1 -b .cmakeinstall
 
 %build
-mkdir build
-cd build
-%cmake ..
-make %{?_smp_mflags}
+%cmake -DCMAKE_BUILD_TYPE=Release
+%cmake_build
 
 %install
-%make_install -C build
+%cmake_install
 
 %files
 %license LICENSE
@@ -56,9 +49,20 @@ make %{?_smp_mflags}
 %files devel
 %{_libdir}/*.so
 %{_includedir}/fastcdr
-%{_libdir}/fastcdr
+%{_libdir}/cmake/fastcdr
 
 %changelog
+* Wed Aug 05 2020 Rich Mattes <richmattes@gmail.com> - 1.0.14-1
+- Update to release 1.0.14
+- Fix CMake FTBFS (rhbz#1863527)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

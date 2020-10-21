@@ -1,25 +1,33 @@
 %global systemd_unit gnome-remote-desktop.service
 
 Name:           gnome-remote-desktop
-Version:        0.1.7
-Release:        3%{?dist}
+Version:        0.1.9
+Release:        2%{?dist}
 Summary:        GNOME Remote Desktop screen share service
 
 License:        GPLv2+
 URL:            https://gitlab.gnome.org/jadahl/gnome-remote-desktop
-Source0:        https://gitlab.gnome.org/jadahl/gnome-remote-desktop/uploads/ed3e8b8ebc1a74b6f4ed7260a2739f40/gnome-remote-desktop-0.1.7.tar.xz
+Source0:        https://download.gnome.org/sources/gnome-remote-desktop/0.1/gnome-remote-desktop-0.1.9.tar.xz
+
+# Avoid race condition on disconnect
+Patch0:         0001-vnc-Drop-frames-if-client-is-gone.patch
 
 # Adds encryption support (requires patched LibVNCServer)
-Patch0:         0001-vnc-Add-anonymous-TLS-encryption-support.patch
+Patch1:         gnutls-anontls.patch
+
+# Copy using the right destination stride
+Patch2:         0001-vnc-Copy-pixels-using-the-right-destination-stride.patch
 
 BuildRequires:  git
 BuildRequires:  gcc
 BuildRequires:  meson >= 0.36.0
 BuildRequires:  pkgconfig
+BuildRequires:  pkgconfig(cairo)
 BuildRequires:  pkgconfig(glib-2.0) >= 2.32
 BuildRequires:  pkgconfig(gio-unix-2.0) >= 2.32
-BuildRequires:  pkgconfig(libpipewire-0.2) >= 0.2.5
+BuildRequires:  pkgconfig(libpipewire-0.3) >= 0.3.0
 BuildRequires:  pkgconfig(libvncserver) >= 0.9.11-7
+BuildRequires:  pkgconfig(freerdp2)
 BuildRequires:  pkgconfig(libsecret-1)
 BuildRequires:  pkgconfig(libnotify)
 BuildRequires:  pkgconfig(gnutls)
@@ -27,7 +35,7 @@ BuildRequires:  pkgconfig(gnutls)
 %{?systemd_requires}
 BuildRequires:  systemd
 
-Requires:       pipewire >= 0.2.5
+Requires:       pipewire >= 0.3.0
 
 %description
 GNOME Remote Desktop is a remote desktop and screen sharing service for the
@@ -69,6 +77,31 @@ GNOME desktop environment.
 
 
 %changelog
+* Mon Sep 14 2020 Jonas Ådahl <jadahl@redhat.com> - 0.1.9-2
+- Copy using the right destination stride
+
+* Mon Sep 14 2020 Jonas Ådahl <jadahl@redhat.com> - 0.1.9-1
+- Update to 0.1.9
+- Backport race condition crash fix
+- Rebase anon-tls patches
+
+* Thu Aug 27 2020 Ray Strode <rstrode@redhat.com> - 0.1.8-3
+- Fix crash
+  Related: #1844993
+
+* Mon Jun 1 2020 Felipe Borges <feborges@redhat.com> - 0.1.8-2
+- Fix black screen issue in remote connections on Wayland
+
+* Wed Mar 11 2020 Jonas Ådahl <jadahl@redhat.com> - 0.1.8-1
+- Update to 0.1.8
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.7-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.7-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.7-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

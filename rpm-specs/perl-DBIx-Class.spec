@@ -1,7 +1,7 @@
 Name:           perl-DBIx-Class
 Summary:        Extensible and flexible object <-> relational mapper
 Version:        0.082842
-Release:        3%{?dist}
+Release:        4%{?dist}
 License:        GPL+ or Artistic
 Source0:        https://cpan.metacpan.org/authors/id/R/RI/RIBASUSHI/DBIx-Class-%{version}.tar.gz
 URL:            https://metacpan.org/release/DBIx-Class
@@ -294,6 +294,9 @@ make test
 %{_mandir}/man[13]/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.082842-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.082842-3
 - Perl 5.32 rebuild
 

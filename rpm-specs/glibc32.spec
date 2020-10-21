@@ -1,8 +1,8 @@
 # glibc32 is maintained by the glibc team with support from tools.
 %define original_name glibc
-%define original_version 2.30
-%define original_release 6
-%define original_dist .fc31
+%define original_version 2.32
+%define original_release 1
+%define original_dist .fc33
 # Increase build_number in each new build.
 # When original version and/or release changes, set it back to 1.
 %define build_number 1
@@ -60,6 +60,16 @@ rm -rf "$RPM_BUILD_ROOT"
 /usr/include/*
 
 %changelog
+* Mon Sep 14 2020 Carlos O'Donell <carlos@redhat.com> - 2.32-1.1
+- Update to glibc-2.32-1.fc33.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.30-6.1.3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.30-6.1.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.30-6.1.1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

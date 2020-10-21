@@ -1,6 +1,6 @@
 Summary: A wiki engine
 Name: mediawiki
-Version: 1.34.1
+Version: 1.34.4
 Release: 1%{?dist}
 License: GPLv2+
 URL: http://www.mediawiki.org/
@@ -25,6 +25,7 @@ BuildRequires: php-composer(cssjanus/cssjanus) >= 1.3.0
 #BuildRequires: php-composer(leafo/lessphp) >= 0.5.0
 BuildRequires: php-composer(liuggio/statsd-php-client) >= 1.0.12
 BuildRequires: php-composer(monolog/monolog) >= 1.14.0
+BuildRequires: php-composer(monolog/monolog) <  2
 BuildRequires: php-composer(oojs/oojs-ui) >= 0.34.1
 BuildRequires: php-composer(psr/log) >= 1.0.2
 BuildRequires: php-composer(wikimedia/assert) >= 0.2.2
@@ -49,6 +50,7 @@ Requires: php-composer(cssjanus/cssjanus) >= 1.3.0
 #Requires: php-composer(leafo/lessphp) >= 0.5.0
 Requires: php-composer(liuggio/statsd-php-client) >= 1.0.18
 Requires: php-composer(monolog/monolog) >= 1.14.0
+Requires: php-composer(monolog/monolog) <  2
 Requires: php-composer(oojs/oojs-ui) >= 0.34.1
 Requires: php-composer(psr/log) >= 1.0.2
 Requires: php-composer(symfony/process) >= 2.5.0
@@ -242,9 +244,24 @@ cd tests/phpunit
 
 
 %changelog
+* Fri Sep 25 2020 Michael Cronenworth <mike@cchtml.com> - 1.34.4-1
+- Update to 1.34.4
+- https://lists.wikimedia.org/pipermail/mediawiki-announce/2020-September/000262.html
+
+* Thu Sep 24 2020 Michael Cronenworth <mike@cchtml.com> - 1.34.3-1
+- Update to 1.34.3
+- https://lists.wikimedia.org/pipermail/mediawiki-announce/2020-September/000260.html
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.34.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Michael Cronenworth <mike@cchtml.com> - 1.34.2-1
+- Update to 1.34.2
+- https://lists.wikimedia.org/pipermail/mediawiki-announce/2020-June/000252.html
+
 * Thu Mar 26 2020 Michael Cronenworth <mike@cchtml.com> - 1.34.1-1
 - Update to 1.34.1
-- https://lists.wikimedia.org/pipermail/mediawiki-announce/2020-March/000247.html
+- https://lists.wikimedia.org/pipermail/mediawiki-announce/2020-June/000252.html
 
 * Thu Mar 05 2020 Michael Cronenworth <mike@cchtml.com> - 1.34.0-1
 - Update to 1.34.0

@@ -2,7 +2,7 @@
 Summary: An implementation of Primary Rate ISDN
 Name: libpri
 Version: 1.6.0
-Release: 6%{?dist}
+Release: 8%{?dist}
 License: GPLv2+
 URL: http://www.asterisk.org/
 Source0: http://downloads.asterisk.org/pub/telephony/libpri/releases/libpri-%{version}%{?_beta:-beta%{_beta}}.tar.gz
@@ -49,6 +49,13 @@ rm %{buildroot}%{_libdir}/libpri.a
 %{_libdir}/libpri.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

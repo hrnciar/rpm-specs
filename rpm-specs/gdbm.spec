@@ -3,7 +3,7 @@
 Summary: A GNU set of database routines which use extensible hashing
 Name: gdbm
 Version: 1.18.1
-Release: 3%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPLv3+
 URL: http://www.gnu.org/software/gdbm/
@@ -74,10 +74,10 @@ gdbm database library.  You'll also need to install the gdbm package.
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
-make %{?_smp_mflags}
+%make_build
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install
+%make_install
 
 %find_lang %{name}
 
@@ -116,6 +116,13 @@ make check
 %{_mandir}/man3/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.18.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1:1.18.1-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri Feb 7 2020 Filip Januš <fjanus@redhat.com> - 1.18.1-3
 - Resolves: #1799391
 - After upgrade GCC to version gcc version 10.0.1 build fails

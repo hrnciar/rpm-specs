@@ -1,12 +1,8 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 %global snapshot 0
 
 Name:       ibus-libzhuyin
 Version:    1.9.1
-Release:    3%{?dist}
+Release:    6%{?dist}
 Summary:    New Zhuyin engine based on libzhuyin for IBus
 License:    GPLv2+
 URL:        https://github.com/libzhuyin/ibus-libzhuyin
@@ -49,10 +45,12 @@ based on libzhuyin for IBus.
            --with-python=python3
 
 # make -C po update-gmo
-make %{?_smp_mflags} V=1
+%make_build
 
 %install
-make install DESTDIR=${RPM_BUILD_ROOT} INSTALL="install -p"
+%make_install
+
+%py_byte_compile %{python3} $RPM_BUILD_ROOT%{_datadir}/ibus-libzhuyin/setup
 
 %find_lang %{name}
 
@@ -72,6 +70,16 @@ make install DESTDIR=${RPM_BUILD_ROOT} INSTALL="install -p"
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1.9.1-5
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Mon Jul 13 2020 Peng Wu <pwu@redhat.com> - 1.9.1-4
+- Switch to use py_byte_compile rpm macro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

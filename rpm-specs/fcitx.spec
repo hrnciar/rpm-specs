@@ -4,8 +4,8 @@
 
 Name:			fcitx
 Summary:		An input method framework
-Version:		4.2.9.7
-Release:		3%{?dist}
+Version:		4.2.9.8
+Release:		1%{?dist}
 License:		GPLv2+
 URL:			https://fcitx-im.org/wiki/Fcitx
 Source0:		http://download.fcitx-im.org/fcitx/%{name}-%{version}_dict.tar.xz
@@ -134,13 +134,11 @@ This package contains table engine for Fcitx.
 %setup -q
 
 %build
-mkdir -p build
-pushd build
-%cmake .. -DENABLE_GTK3_IM_MODULE=On -DENABLE_QT_IM_MODULE=On -DENABLE_OPENCC=On -DENABLE_LUA=On -DENABLE_GIR=On -DENABLE_XDGAUTOSTART=Off
-make VERBOSE=1 %{?_smp_mflags}
+%cmake -DENABLE_GTK3_IM_MODULE=On -DENABLE_QT_IM_MODULE=On -DENABLE_OPENCC=On -DENABLE_LUA=On -DENABLE_GIR=On -DENABLE_XDGAUTOSTART=Off
+%cmake_build 
 
 %install
-%make_install INSTALL="install -p" -C build
+%cmake_install 
 
 find %{buildroot}%{_libdir} -name '*.la' -delete -print
 
@@ -297,6 +295,19 @@ fi
 %{_libdir}/qt4/plugins/inputmethods/qtim-fcitx.so
 
 %changelog
+* Thu Aug 06 2020 Qiyu Yan <yanqiyu@fedoraproject.org> - 4.2.9.8-1
+- Update to 4.2.9.8 upstream release #1862666
+
+* Mon Aug 03 2020 Qiyu Yan <yanqiyu@fedoraproject.org> - 4.2.9.7-6
+- Improve compatibility with new CMake macro 
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.9.7-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.9.7-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Björn Esser <besser82@fedoraproject.org> - 4.2.9.7-3
 - Rebuild (json-c)
 

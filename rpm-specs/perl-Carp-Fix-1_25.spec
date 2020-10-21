@@ -1,6 +1,6 @@
 Name:		perl-Carp-Fix-1_25
 Version:	1.000001
-Release:	22%{?dist}
+Release:	23%{?dist}
 Summary:	Smooth over incompatible changes in Carp 1.25
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Carp-Fix-1_25
@@ -67,6 +67,9 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/Carp::Fix::1_25.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.000001-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.000001-22
 - Perl 5.32 rebuild
 

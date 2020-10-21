@@ -2,8 +2,8 @@
 
 Name:          crawl
 Summary:       Roguelike dungeon exploration game
-Version:       0.25.0
-Release:       1%{?dist}
+Version:       0.25.1
+Release:       2%{?dist}
 # Main license : GPLv2+
 # 2-clause BSD: all contributions by Steve Noonan and Jesse Luehrs
 # Public Domain|CC0: most of tiles, perlin.cc, perlin.h
@@ -246,6 +246,12 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_datadir}/%{name}/dat/tiles/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.25.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Antonio Trande <sagitter@fedoraproject.org> - 0.25.1-1
+- Release 0.25.1
+
 * Fri Jun 12 2020 Antonio Trande <sagitter@fedoraproject.org> - 0.25.0-1
 - Release 0.25.0
 

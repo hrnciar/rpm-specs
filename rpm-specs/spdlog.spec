@@ -1,15 +1,15 @@
-%global user    gabime
+%undefine __cmake_in_source_build
 
 Name:           spdlog
-Version:        1.6.1
+Version:        1.8.1
 Release:        1%{?dist}
 Summary:        Super fast C++ logging library
 License:        MIT
-URL:            https://github.com/%{user}/%{name}
+URL:            https://github.com/gabime/%{name}
 Source0:        %{url}/archive/v%{version}.tar.gz
 
 BuildRequires:  google-benchmark-devel
-BuildRequires:  fmt-devel >= 6.1.2
+BuildRequires:  fmt-devel >= 7.0.0
 BuildRequires:  ninja-build
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
@@ -31,13 +31,11 @@ applications that use %{name}.
 
 %prep
 %autosetup -p1
-mkdir -p %{_target_platform}
-find . -name '.gitignore' -exec rm {} \;
+find . -name '.gitignore' -delete
 sed -i -e "s,\r,," README.md
 
 %build
-pushd %{_target_platform}
-    %cmake -G Ninja \
+%cmake -G Ninja \
     -DCMAKE_INSTALL_LIBDIR=%{_lib} \
     -DCMAKE_BUILD_TYPE=Release \
     -DSPDLOG_BUILD_SHARED=ON \
@@ -45,18 +43,14 @@ pushd %{_target_platform}
     -DSPDLOG_BUILD_BENCH=OFF \
     -DSPDLOG_BUILD_TESTS=ON \
     -DSPDLOG_INSTALL=ON \
-    -DSPDLOG_FMT_EXTERNAL=ON \
-    ..
-popd
-%ninja_build -C %{_target_platform}
+    -DSPDLOG_FMT_EXTERNAL=ON
+%cmake_build
 
 %check
-pushd %{_target_platform}
-    ctest --output-on-failure
-popd
+%ctest
 
 %install
-%ninja_install -C %{_target_platform}
+%cmake_install
 
 %files
 %license LICENSE
@@ -71,6 +65,15 @@ popd
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Tue Oct 13 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1.8.1-1
+- Updated to version 1.8.1.
+
+* Sat Sep 05 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1.8.0-1
+- Updated to version 1.8.0.
+
+* Tue Jul 21 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1.7.0-1
+- Updated to version 1.7.0.
+
 * Tue Jun 02 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1.6.1-1
 - Updated to version 1.6.1.
 

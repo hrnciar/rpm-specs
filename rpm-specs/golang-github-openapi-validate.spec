@@ -3,7 +3,7 @@
 
 # https://github.com/go-openapi/validate
 %global goipath         github.com/go-openapi/validate
-Version:                0.19.2
+Version:                0.19.10
 
 %gometa
 
@@ -17,7 +17,7 @@ This package follows Swagger 2.0. specification (aka OpenAPI 2.0). }
 %global godocs          CODE_OF_CONDUCT.md README.md example
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Openapi toolkit validation helpers
 
 # Upstream license specification: Apache-2.0
@@ -61,6 +61,12 @@ BuildRequires:  golang(gopkg.in/yaml.v2)
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 17:24:42 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.19.10-1
+- Update to 0.19.10
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

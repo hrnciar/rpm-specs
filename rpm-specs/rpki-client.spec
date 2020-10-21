@@ -1,16 +1,19 @@
 %if 0%{?with_snapshot}
-%global gitdate              20200518
-%global portable_commit      9fd28531d42a31c6a362e6607363d796ea1c9b0d
+%global gitdate              20201011
+%global portable_commit      927f4a597d25c244e292570c6edd65064425507e
 %global portable_shortcommit %(c=%{portable_commit}; echo ${c:0:7})
-%global openbsd_commit       24126e9d30629312790021d0537b2086f70c749c
+%global openbsd_commit       f865ccea0af41e99c3c13fbfbee3fdca6362e193
 %global openbsd_shortcommit  %(c=%{openbsd_commit}; echo ${c:0:7})
 %endif
 
-Summary:        RPKI client implementation
+Summary:        RPKI validator to support BGP Origin Validation
 Name:           rpki-client
-Version:        6.7p0
+Version:        6.8p0
 Release:        1%{?with_snapshot:.git%{gitdate}}%{?dist}
-License:        ISC
+# rpki-client itself is ISC but uses other source codes, breakdown:
+# BSD: include/{sys/{queue,tree},sha2_openbsd}.h and src/main.c
+# Public Domain: include/{sys/{types,_null},sha2,unistd,string,stdlib,poll}.h and compat/explicit_bzero.c
+License:        ISC and BSD and Public Domain
 URL:            https://www.rpki-client.org/
 %if !0%{?with_snapshot}
 Source0:        https://ftp.openbsd.org/pub/OpenBSD/rpki-client/%{name}-%{version}.tar.gz
@@ -39,21 +42,17 @@ Requires:       rsync
 Requires(pre):  shadow-utils
 
 %description
-rpki-client is an implementation of RPKI (Resource Public Key
-Infrastructure), specified by RFC 6480. It implements the client
-side of RPKI, which is responsible for downloading, validating
-and converting ROAs (Route Origin Authorisations) into VRPs
-(Validated ROA Payloads). The client's output (VRPs) can be used
-to perform BGP Origin Validation (RFC 6811).
-
-The design focus of rpki-client is simplicity and security. To
-wit, it implements RPKI components necessary for validating route
-statements and omits superfluities (such as, for example, which
-X509 certificate sections must be labelled "Critical").
+The OpenBSD rpki-client is a free, easy-to-use implementation of the
+Resource Public Key Infrastructure (RPKI) for Relying Parties (RP) to
+facilitate validation of the Route Origin of a BGP announcement. The
+program queries the RPKI repository system, downloads and validates
+Route Origin Authorisations (ROAs) and finally outputs Validated ROA
+Payloads (VRPs) in the configuration format of OpenBGPD, BIRD, and
+also as CSV or JSON objects for consumption by other routing stacks.
 
 %prep
 %if !0%{?with_snapshot}
-gpgv2 --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
+%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
 %setup -q
 %else
 %setup -q -n %{name}-portable-%{portable_commit}
@@ -79,7 +78,7 @@ cp -pf %{SOURCE3} .
 
 %pre
 getent group %{name} > /dev/null || %{_sbindir}/groupadd -r %{name}
-getent passwd %{name} > /dev/null || %{_sbindir}/useradd -r -g %{name} -d %{_localstatedir}/lib/%{name} -s /sbin/nologin -c "RPKI client" %{name}
+getent passwd %{name} > /dev/null || %{_sbindir}/useradd -r -g %{name} -d %{_localstatedir}/lib/%{name} -s /sbin/nologin -c "OpenBSD RPKI validator" %{name}
 exit 0
 
 %files
@@ -92,8 +91,17 @@ exit 0
 %dir %attr(0755,%{name},%{name}) %{_localstatedir}/lib/%{name}/
 
 %changelog
+* Tue Oct 20 2020 Robert Scheck <robert@fedoraproject.org> 6.8p0-1
+- Upgrade to 6.8p0 (#1889618)
+
+* Wed Jul 29 2020 Robert Scheck <robert@fedoraproject.org> 6.7p1-1
+- Upgrade to 6.7p1 (#1861137)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.7p0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Robert Scheck <robert@fedoraproject.org> 6.7p0-1
-- Upgrade to 6.7p0
+- Upgrade to 6.7p0 (#1837150)
 
 * Sun Apr 19 2020 Robert Scheck <robert@fedoraproject.org> 6.6p2-1
 - Upgrade to 6.6p2

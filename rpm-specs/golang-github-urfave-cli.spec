@@ -3,7 +3,7 @@
 
 # https://github.com/urfave/cli
 %global goipath         github.com/urfave/cli
-Version:                1.22.3
+Version:                1.22.4
 
 %gometa
 
@@ -26,7 +26,7 @@ URL:            %{gourl}
 Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/BurntSushi/toml)
-BuildRequires:  golang(github.com/cpuguy83/go-md2man/md2man)
+BuildRequires:  golang(github.com/cpuguy83/go-md2man/v2/md2man)
 BuildRequires:  golang(gopkg.in/yaml.v2)
 
 %description
@@ -36,8 +36,6 @@ BuildRequires:  golang(gopkg.in/yaml.v2)
 
 %prep
 %goprep
-# Fix go-md2man import path
-find . -type f -name "*.go" -exec sed -i "s|github.com/cpuguy83/go-md2man/v2|github.com/cpuguy83/go-md2man|" "{}" +;
 
 %install
 %gopkginstall
@@ -50,6 +48,12 @@ find . -type f -name "*.go" -exec sed -i "s|github.com/cpuguy83/go-md2man/v2|git
 %gopkgfiles
 
 %changelog
+* Mon Aug 03 21:53:29 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.22.4-1
+- Update to 1.22.4
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.22.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 31 2020 Olivier Lemasle <o.lemasle@gmail.com> - 1.22.3-1
 - Update to release 1.22.3
 

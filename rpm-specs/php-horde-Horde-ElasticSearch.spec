@@ -12,7 +12,7 @@
 
 Name:           php-horde-Horde-ElasticSearch
 Version:        1.0.4
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Horde ElasticSearch client
 
 License:        BSD
@@ -84,6 +84,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

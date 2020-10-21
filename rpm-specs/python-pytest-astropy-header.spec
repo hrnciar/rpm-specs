@@ -2,7 +2,7 @@
 
 Name: python-%{srcname}
 Version: 0.1.2
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: pytest plugin to add diagnostic info to the header of output
 
 License: BSD
@@ -43,6 +43,9 @@ BuildRequires:  python3-devel
 %{python3_sitelib}/pytest_astropy_header-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.2-3
 - Rebuilt for Python 3.9
 

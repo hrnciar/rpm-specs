@@ -7,7 +7,7 @@
 
 Name:           rust-%{crate}
 Version:        1.0.12
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Oauth2 implementation
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -89,6 +89,9 @@ which use "openssl" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 04 2020 Josh Stone <jistone@redhat.com> - 1.0.12-1
 - Update to 1.0.12
 

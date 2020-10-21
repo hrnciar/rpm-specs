@@ -1,6 +1,6 @@
 Name:           trickle
 Version:        1.07
-Release:        30%{?dist}
+Release:        33%{?dist}
 Summary:        Portable lightweight userspace bandwidth shaper
 
 License:        BSD with advertising
@@ -81,6 +81,16 @@ install -m 644 -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}
 
 
 %changelog
+* Tue Sep 29 20:46:23 CEST 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.07-33
+- Rebuilt for libevent 2.1.12
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.07-32
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.07-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.07-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

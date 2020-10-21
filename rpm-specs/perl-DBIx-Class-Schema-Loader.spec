@@ -1,7 +1,7 @@
 Name:           perl-DBIx-Class-Schema-Loader
 Summary:        Dynamic definition of a DBIx::Class::Schema
 Version:        0.07049
-Release:        8%{?dist}
+Release:        9%{?dist}
 License:        GPL+ or Artistic
 Source0:        https://cpan.metacpan.org/authors/id/I/IL/ILMARI/DBIx-Class-Schema-Loader-%{version}.tar.gz
 URL:            https://metacpan.org/release/DBIx-Class-Schema-Loader
@@ -116,6 +116,9 @@ make test
 %{_bindir}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.07049-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.07049-8
 - Perl 5.32 rebuild
 

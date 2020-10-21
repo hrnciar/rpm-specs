@@ -10,16 +10,13 @@ FSLeyes, the FSL image viewer
 
 
 Name:           python-%{srcname}
-Version:        0.32.3
-Release:        2%{?dist}
+Version:        0.34.2
+Release:        1%{?dist}
 Summary:        FSLeyes, the FSL image viewer
 
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/%{srcname}
 Source0:        %pypi_source
-# Replace * in requirements: autogenerator no likey
-# Leave for F30, fixed in F31+
-Patch0:         fix-requirements.patch
 
 BuildArch:      noarch
 
@@ -36,6 +33,7 @@ BuildRequires:  %{py3_dist sphinx_rtd_theme}
 BuildRequires:  %{py3_dist mock}
 BuildRequires:  %{py3_dist pytest}
 BuildRequires:  %{py3_dist pytest-cov}
+BuildRequires:  %{py3_dist setuptools}
 BuildRequires:  %{py3_dist wxpython}
 BuildRequires:  freeglut-devel
 BuildRequires:  xorg-x11-server-Xvfb
@@ -56,7 +54,7 @@ This package contains documentation for %{name}.
 
 
 %prep
-%autosetup -n %{srcname}-%{version} -S patch
+%autosetup -n %{srcname}-%{version}
 rm -rfv fsleyes_widgets.egg-info
 
 # Add extra requirements for autogenerator
@@ -127,6 +125,15 @@ xvfb-run -s "-screen 0 640x480x24" pytest-3
 %doc userdoc/userdoc_html apidoc/apidoc_html
 
 %changelog
+* Fri Sep 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.34.2-1
+- Update to latest release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.32.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.32.3-3
+- Explicitly BR setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.32.3-2
 - Rebuilt for Python 3.9
 

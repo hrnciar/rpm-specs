@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        3.8.0
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        A Django plugin for pytest
 
 License:        BSD
@@ -20,7 +20,6 @@ Summary:        %{summary}
 BuildRequires:  python3-devel
 BuildRequires:  python3-django
 BuildRequires:  python3-django-configurations
-BuildRequires:  python3-pathlib2
 BuildRequires:  python3-pytest
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-setuptools_scm
@@ -71,6 +70,12 @@ rm -rf html/.{doctrees,buildinfo}
 %license LICENSE
 
 %changelog
+* Thu Aug 13 2020 Fabian Affolter <mail@fabian-affolter.ch> - 3.8.0-6
+- Remove pathlib2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.8.0-4
 - Rebuilt for Python 3.9
 

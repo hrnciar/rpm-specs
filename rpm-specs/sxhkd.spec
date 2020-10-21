@@ -1,6 +1,7 @@
+%global _legacy_common_support 1
 Name:		sxhkd
 Version:	0.6.1
-Release:	2%{?dist}
+Release:	5%{?dist}
 Summary:	Simple X hotkey daemon
 
 License:	BSD
@@ -61,6 +62,16 @@ install -p -D -m 0644 contrib/systemd/%{name}.service \
 
 
 %changelog
+* Thu Aug 06 2020 Jeff Law <law@redhat.com> - 0.6.1-5
+- Enable _legacy_common_support
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

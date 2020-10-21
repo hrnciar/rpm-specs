@@ -1,6 +1,6 @@
 
 Name:           qgnomeplatform
-Version:        0.6.1
+Version:        0.6.90
 Release:        1%{?dist}
 Summary:        Qt Platform Theme aimed to accommodate Gnome settings
 
@@ -16,13 +16,11 @@ BuildRequires:  pkgconfig(xkbcommon)
 BuildRequires:  gtk3-devel
 BuildRequires:  libinput-devel
 BuildRequires:  libXrender-devel
-# please document if/why this is needed, FTBFS against qt-5.7.0 in rawhide obviously -- rex
-#BuildRequires:  qt5-qtbase-devel >= 5.6.0 qt5-qtbase-devel <= 5.6.100
-BuildRequires:  qt5-qtbase-devel
-BuildRequires:  qt5-qtbase-static
-BuildRequires:  qt5-qtwayland-devel
-BuildRequires:  qt5-qtx11extras-devel
+BuildRequires:  qt5-qtbase-devel >= 5.12.0
+BuildRequires:  qt5-qtbase-static >= 5.12.0
+BuildRequires:  qt5-qtwayland-devel >= 5.12.0
 
+BuildRequires:  libadwaita-qt5-devel >= 1.1.90
 Requires:       adwaita-qt5%{?_isa}
 
 BuildRequires: qt5-qtbase-private-devel
@@ -57,6 +55,15 @@ make install INSTALL_ROOT=%{buildroot} -C %{_target_platform}
 %{_qt5_libdir}/qt5/plugins/wayland-decoration-client/libqgnomeplatformdecoration.so
 
 %changelog
+* Wed Sep 30 2020 Jan Grulich <jgrulich@redhat.com> - 0.6.90-1
+- 0.6.90
+
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 0.6.1-3
+- rebuild (qt5)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 11 2020 Jan Grulich <jgrulich@redhat.com> - 0.6.1-1
 - 0.6.1
 

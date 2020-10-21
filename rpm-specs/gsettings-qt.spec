@@ -7,7 +7,7 @@
 
 Name:           gsettings-qt
 Version:        0
-Release:        0.21.20180723bzr%{_revision}%{?dist}
+Release:        0.22.20180723bzr%{_revision}%{?dist}
 Summary:        Qt/QML bindings for GSettings
 License:        LGPLv3
 URL:            https://launchpad.net/gsettings-qt
@@ -64,6 +64,9 @@ find %{buildroot} -iname cpptest* -exec rm -f {} \;
 %{_libdir}/lib%{name}.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.22.20180723bzr85
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.21.20180723bzr85
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

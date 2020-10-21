@@ -3,7 +3,7 @@
 Name:		xkeycaps
 Summary: 	Graphical front end to xmodmap
 Version:	2.46
-Release:	27%{?dist}
+Release:	28%{?dist}
 License:	MIT
 Source0:	http://www.jwz.org/xkeycaps/%{name}-%{version}.tar.Z
 Source1:	xkeycaps.desktop
@@ -13,7 +13,7 @@ BuildRequires:  gcc
 BuildRequires:	xorg-x11-xbitmaps, libICE-devel, libXmu-devel, libSM-devel
 BuildRequires:	libXaw-devel, imake, libXt-devel, xorg-x11-proto-devel
 BuildRequires:	desktop-file-utils, libXext-devel
-Requires:	xorg-x11-server-utils
+Requires:	xmodmap
 
 %description
 xkeycaps is a graphical front-end to xmodmap. It opens a window that 
@@ -51,6 +51,9 @@ desktop-file-install                             \
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 2.46-28
+- Require xmodmap not xorg-x11-server-utils
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.46-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

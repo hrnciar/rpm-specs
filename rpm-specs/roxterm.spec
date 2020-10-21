@@ -1,12 +1,11 @@
 Name:           roxterm
-Version:        3.8.5
+Version:        3.10.1
 Release:        1%{?dist}
 Summary:        Terminal emulator
 
 License:        GPLv2+
 URL:            https://github.com/realh/roxterm
 Source0:        https://github.com/realh/roxterm/archive/%{version}/%{name}-%{version}.tar.gz
-Patch0:         roxterm-3.7.3-gcc10.patch
 
 BuildRequires:  cmake
 BuildRequires:  dbus-glib-devel
@@ -25,22 +24,16 @@ gnome-terminal and aimed more at "power" users who make heavy use of terminals.
 
 %prep
 %setup -q
-%patch0 -p1 -b .gcc
 
 %build
-mkdir build
-pushd build
-  %cmake ..
-  %make_build
-popd
+%cmake
+%cmake_build
 
 %install
-pushd build
-  %make_install
-popd
+%cmake_install
 
 %check
-appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/roxterm.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/roxterm.metainfo.xml
 desktop-file-validate %{buildroot}%{_datadir}/applications/roxterm.desktop
 
 %files
@@ -48,13 +41,26 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/roxterm.desktop
 %license COPYING
 %{_bindir}/roxterm
 %{_bindir}/roxterm-config
-%{_datadir}/appdata/roxterm.appdata.xml
+%{_datadir}/metainfo/roxterm.metainfo.xml
 %{_datadir}/applications/roxterm.desktop
 %{_datadir}/roxterm/
 %{_datadir}/icons/hicolor/scalable/apps/roxterm.svg
 %{_mandir}/man1/roxterm*.1*
 
 %changelog
+* Tue Sep 01 2020 Pete Walter <pwalter@fedoraproject.org> - 3.10.1-1
+- Update to 3.10.1
+
+* Tue Sep 01 2020 Than Ngo <than@redhat.com> - 3.8.5-4
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.5-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 Pete Walter <pwalter@fedoraproject.org> - 3.8.5-1
 - Update to 3.8.5
 

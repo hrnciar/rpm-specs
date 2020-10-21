@@ -1,19 +1,19 @@
 %{?mingw_package_header}
 
 Name:           mingw-gdb
-Version:        8.0
-Release:        8%{?dist}
+Version:        9.2
+Release:        3%{?dist}
 Summary:        MinGW Windows port of the GDB debugger
 
 # Same License tag as the native gdb package has:
 License:        GPLv3+ and GPLv3+ with exceptions and GPLv2+ and GPLv2+ with exceptions and GPL+ and LGPLv2+ and BSD and Public Domain
 URL:            http://gnu.org/software/gdb/
-Source0:        ftp://ftp.gnu.org/gnu/gdb/gdb-%{version}.tar.xz
-#Source0:        ftp://sourceware.org/pub/gdb/snapshots/current/gdb-%{version}.tar.bz2
+Source0:        https://ftp.gnu.org/gnu/gdb/gdb-%{version}.tar.xz
 
 BuildArch:      noarch
 
 BuildRequires:  gcc
+
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-expat
 BuildRequires:  mingw32-filesystem >= 95
@@ -56,36 +56,40 @@ Summary:        MinGW Windows port of the GDB debugger
 This is the MinGW Windows port of the GDB, the GNU debugger.
 
 
-%?mingw_debug_package
+%{?mingw_debug_package}
 
 
 %prep
-%setup -q -n gdb-%{version}
+%autosetup -p1 -n gdb-%{version}
 
 
 %build
 %mingw_configure
-%mingw_make %{?_smp_mflags}
+%mingw_make_build
 
 
 %install
-%mingw_make_install DESTDIR=$RPM_BUILD_ROOT
+%mingw_make_install
 
 # Remove bfd and opcodes libraries
-rm -rf $RPM_BUILD_ROOT%{mingw32_datadir}/locale/
-rm -rf $RPM_BUILD_ROOT%{mingw32_includedir}/
-rm -rf $RPM_BUILD_ROOT%{mingw32_libdir}/
+rm -rf %{buildroot}%{mingw32_datadir}/locale/
+rm -rf %{buildroot}%{mingw32_includedir}/
+rm -rf %{buildroot}%{mingw32_libdir}/
 
-rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/locale/
-rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/
-rm -rf $RPM_BUILD_ROOT%{mingw64_libdir}/
+rm -rf %{buildroot}%{mingw64_datadir}/locale/
+rm -rf %{buildroot}%{mingw64_includedir}/
+rm -rf %{buildroot}%{mingw64_libdir}/
 
 # Remove documentation which is duplicate with native gdb package
-rm -rf $RPM_BUILD_ROOT%{mingw32_datadir}/info/
-rm -rf $RPM_BUILD_ROOT%{mingw32_mandir}/
+rm -rf %{buildroot}%{mingw32_datadir}/info/
+rm -rf %{buildroot}%{mingw32_mandir}/
 
-rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/info/
-rm -rf $RPM_BUILD_ROOT%{mingw64_mandir}/
+rm -rf %{buildroot}%{mingw64_datadir}/info/
+rm -rf %{buildroot}%{mingw64_mandir}/
+
+# Remove unusefull gdb-add-index script
+rm %{buildroot}%{mingw64_bindir}/gdb-add-index
+rm %{buildroot}%{mingw32_bindir}/gdb-add-index
 
 
 %files -n mingw32-gdb
@@ -102,6 +106,15 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_mandir}/
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 07:40:55 GMT 2020 Sandro Mani <manisandro@gmail.com> - 9.2-2
+- Drop explicit -fstack-protector, it's in global ldflags now
+
+* Sat Jun 20 2020 Sandro Mani <manisandro@gmail.com> - 9.2-1
+- Update to 9.2
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

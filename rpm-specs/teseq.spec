@@ -1,6 +1,6 @@
 Name:			teseq
 Version:			1.1.1
-Release:			11%{?dist}
+Release:			12%{?dist}
 Summary:			An utility for rendering terminal typescripts human-readable
 
 License:			GPLv3+
@@ -46,6 +46,9 @@ rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

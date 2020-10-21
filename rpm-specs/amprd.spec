@@ -9,7 +9,7 @@
 Summary: An user-space IPIP encapsulation daemon for the ampr network
 Name: amprd
 Version: 3.0
-Release: 3%{?dist}
+Release: 5%{?dist}
 License: GPLv3+
 URL: http://www.yo2loj.ro/hamprojects/
 BuildRequires: gcc, dos2unix, systemd
@@ -65,6 +65,13 @@ install -Dpm 644 -t %{buildroot}%{_datadir}/%{name} startup_example.sh interface
 %{_unitdir}/amprd.service
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 Summary: The GNU disk partition manipulation program
 Name:    parted
 Version: 3.3
-Release: 3%{?dist}
+Release: 6%{?dist}
 License: GPLv3+
 URL:     http://www.gnu.org/software/parted
 
@@ -20,6 +20,11 @@ Patch0003: 0004-Fix-end_input-usage-in-do_resizepart.patch
 Patch0004: 0005-libparted-Add-ChromeOS-Kernel-partition-flag.patch
 Patch0005: 0006-libparted-Add-support-for-MSDOS-partition-type-bls_b.patch
 Patch0006: 0007-libparted-Add-support-for-bls_boot-to-GPT-disks.patch
+Patch0007: 0008-Removed-reference-to-ped_file_system_create.patch
+Patch0008: 0009-Add-support-for-the-F2FS-filesystem.patch
+Patch0009: 0010-tests-Add-f2fs-to-the-fs-probe-test.patch
+Patch0010: 0011-parted-Preserve-resizepart-End-when-prompted-for-bus.patch
+Patch0011: 0012-tests-Add-a-test-for-resizepart-on-a-busy-partition.patch
 
 BuildRequires: gcc
 BuildRequires: e2fsprogs-devel
@@ -67,17 +72,10 @@ Parted library, you need to install this package.
 
 
 %prep
-%setup -q
+%autosetup -S git_am
 gpg2 --import %{SOURCE2} %{SOURCE3}
 gpg2 --verify %{SOURCE1} %{SOURCE0}
-git init
-git config user.email "parted-owner@fedoraproject.org"
-git config user.name "Fedora Ninjas"
-git add .
-git commit -a -q -m "%{version} baseline."
-[ -n "%{patches}" ] && git am %{patches}
 iconv -f ISO-8859-1 -t UTF8 AUTHORS > tmp; touch -r AUTHORS tmp; mv tmp AUTHORS
-git commit -a -m "run iconv"
 
 %build
 autoreconf
@@ -87,12 +85,12 @@ CFLAGS="$RPM_OPT_FLAGS -Wno-unused-but-set-variable"; export CFLAGS
 # Don't use rpath!
 %{__sed} -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 %{__sed} -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
-V=1 %{__make} %{?_smp_mflags}
+%make_build
 
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} install DESTDIR=%{buildroot}
+%make_install
 
 # Remove components we do not ship
 %{__rm} -rf %{buildroot}%{_libdir}/*.la
@@ -131,6 +129,22 @@ make check
 
 
 %changelog
+* Fri Sep 25 2020 Brian C. Lane <bcl@redhat.com> - 3.3-6
+- tests: Add a test for resizepart on a busy partition (bcl)
+- parted: Preserve resizepart End when prompted for busy partition (bcl)
+- tests: Add f2fs to the fs probe test (romain.perier)
+- Add support for the F2FS filesystem (romain.perier)
+- Removed reference to ped_file_system_create (max)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 3.3-4
+- Use make macros
+  https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+- Switch to using %%autosetup instead of %%setup and git (bcl)
+- Update tests.yml to install git and simplify source usage (bgoncalv)
+
 * Fri Mar 06 2020 Brian C. Lane <bcl@redhat.com> - 3.3-3
 - Add chromeos_kernel partition flag for gpt disklabels
 - Add bls_boot partition flag for msdos and gpt disklabels

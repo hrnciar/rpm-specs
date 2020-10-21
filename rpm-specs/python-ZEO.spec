@@ -1,8 +1,8 @@
 %global srcname ZEO
 
 Name:           python-%{srcname}
-Version:        5.2.1
-Release:        6%{?dist}
+Version:        5.2.2
+Release:        1%{?dist}
 Summary:        Client-server storage implementation for ZODB
 
 License:        ZPLv2.1
@@ -11,25 +11,25 @@ Source0:        %pypi_source
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
-BuildRequires:  python3dist(docutils)
-BuildRequires:  python3dist(funcsigs)
-BuildRequires:  python3dist(manuel)
-BuildRequires:  python3dist(mock)
-BuildRequires:  python3dist(msgpack)
-BuildRequires:  python3dist(pbr)
-BuildRequires:  python3dist(persistent)
-BuildRequires:  python3dist(random2)
-BuildRequires:  python3dist(setuptools)
-BuildRequires:  python3dist(six)
-BuildRequires:  python3dist(transaction)
-BuildRequires:  python3dist(uvloop)
-BuildRequires:  python3dist(zc.lockfile)
-BuildRequires:  python3dist(zconfig)
-BuildRequires:  python3dist(zdaemon)
-BuildRequires:  python3dist(zodb)
-BuildRequires:  python3dist(zope.interface)
-BuildRequires:  python3dist(zope.testing)
-BuildRequires:  python3dist(zope.testrunner)
+BuildRequires:  %{py3_dist docutils}
+BuildRequires:  %{py3_dist funcsigs}
+BuildRequires:  %{py3_dist manuel}
+BuildRequires:  %{py3_dist mock}
+BuildRequires:  %{py3_dist msgpack}
+BuildRequires:  %{py3_dist pbr}
+BuildRequires:  %{py3_dist persistent}
+BuildRequires:  %{py3_dist random2}
+BuildRequires:  %{py3_dist setuptools}
+BuildRequires:  %{py3_dist six}
+BuildRequires:  %{py3_dist transaction}
+BuildRequires:  %{py3_dist uvloop}
+BuildRequires:  %{py3_dist zc.lockfile}
+BuildRequires:  %{py3_dist zconfig}
+BuildRequires:  %{py3_dist zdaemon}
+BuildRequires:  %{py3_dist zodb}
+BuildRequires:  %{py3_dist zope.interface}
+BuildRequires:  %{py3_dist zope.testing}
+BuildRequires:  %{py3_dist zope.testrunner}
 
 %global common_desc                                                   \
 ZEO is a client-server system for sharing a single storage among many \
@@ -45,8 +45,6 @@ protocol layered on top of TCP.
 %package -n python3-%{srcname}
 Summary:        Client-server storage implementation for ZODB
 
-%{?python_provide:%python_provide python3-%{srcname}}
-
 %description -n python3-%{srcname}
 %{common_desc}
 
@@ -54,7 +52,7 @@ Summary:        Client-server storage implementation for ZODB
 %autosetup -n %{srcname}-%{version}
 
 # Remove a version number that leads to an attempted download from pypi
-sed -i 's/msgpack < 0\.6/msgpack/' setup.py
+sed -i 's/msgpack < 1/msgpack/' setup.py
 
 %build
 %py3_build
@@ -79,14 +77,12 @@ done
 # Remove documentation files
 rm %{buildroot}%{python3_sitelib}/%{srcname}/asyncio/README.rst
 rm %{buildroot}%{python3_sitelib}/%{srcname}/nagios.rst
-rm %{buildroot}%{python3_sitelib}/%{srcname}/protocol.txt
 
 %check
-%{__python3} setup.py test
+%{python3} setup.py test
 
 %files -n python3-%{srcname}
 %doc CHANGES.html nagios.html README.html README-asyncio.html
-%doc src/ZEO/protocol.txt
 %license COPYRIGHT.txt LICENSE.txt
 %{_bindir}/runzeo
 %{_bindir}/zeo-nagios
@@ -95,6 +91,12 @@ rm %{buildroot}%{python3_sitelib}/%{srcname}/protocol.txt
 %{python3_sitelib}/%{srcname}*
 
 %changelog
+* Tue Aug 11 2020 Jerry James <loganjerry@gmail.com> - 5.2.2-1
+- Version 5.2.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.2.1-6
 - Rebuilt for Python 3.9
 

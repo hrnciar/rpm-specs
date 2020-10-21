@@ -1,9 +1,6 @@
-%global optflags %{optflags} -flto=auto
-%global build_ldflags %{build_ldflags} -flto
-
 Name:           bibutils
 Version:        6.10
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Bibliography conversion tools
 
 License:        GPLv2
@@ -38,9 +35,6 @@ Bibutils development files.
 %autosetup -n %{name}_%{version}
 
 %build
-export AR=%{_bindir}/gcc-ar
-export RANLIB=%{_bindir}/gcc-ranlib
-export NM=%{_bindir}/gcc-nm
 ./configure \
     --install-dir %{buildroot}%{_bindir} \
     --install-lib %{buildroot}%{_libdir} \
@@ -85,6 +79,13 @@ done
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.10-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 23 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 6.10-1
 - Update to 6.10
 

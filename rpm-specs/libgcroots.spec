@@ -1,11 +1,10 @@
 Name:		libgcroots
-Version:	0.3.1
-Release:	5%{?dist}
+Version:	0.3.2
+Release:	1%{?dist}
 License:	MIT
 URL:		https://github.com/uim/libgcroots
 
 Source0:	https://github.com/uim/libgcroots/releases/download/%{version}/%{name}-%{version}.tar.bz2
-Patch0:		%{name}-gcc10.patch
 
 BuildRequires:	gcc-c++
 
@@ -60,6 +59,13 @@ rm $RPM_BUILD_ROOT%{_libdir}/*.la
 %{_libdir}/pkgconfig/gcroots.pc
 
 %changelog
+* Mon Aug 24 2020 Akira TAGOH <tagoh@redhat.com> - 0.3.2-1
+- New upstream release.
+  Resolves: rhbz#1871411
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Akira TAGOH <tagoh@redhat.com> - 0.3.1-5
 - Fix FTBFS.
 

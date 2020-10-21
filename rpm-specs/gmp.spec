@@ -6,7 +6,7 @@
 Summary: A GNU arbitrary precision library
 Name: gmp
 Version: 6.2.0
-Release: 1%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 URL: http://gmplib.org/
 Source0: ftp://ftp.gmplib.org/pub/gmp-%{version}/gmp-%{version}.tar.bz2
@@ -94,7 +94,7 @@ sed -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -e 's|-lstdc++ -lm|-lstdc++|' \
     -i libtool
 export LD_LIBRARY_PATH=`pwd`/.libs
-make %{?_smp_mflags}
+%make_build
 
 %if %{with fips}
 %define __spec_install_post \
@@ -110,7 +110,7 @@ make %{?_smp_mflags}
 
 %install
 export LD_LIBRARY_PATH=`pwd`/.libs
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install 
 install -m 644 gmp-mparam.h ${RPM_BUILD_ROOT}%{_includedir}
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib{gmp,mp,gmpxx}.la
 rm -f $RPM_BUILD_ROOT%{_infodir}/dir
@@ -144,7 +144,7 @@ install -m644 %{SOURCE3} %{buildroot}/%{_includedir}/gmp-mparam.h
 %check
 %ifnarch ppc
 export LD_LIBRARY_PATH=`pwd`/.libs
-make %{?_smp_mflags} check
+%make_build check
 %endif
 
 %ldconfig_scriptlets
@@ -156,18 +156,18 @@ make %{?_smp_mflags} check
 %license COPYING COPYING.LESSERv3 COPYINGv2 COPYINGv3
 %doc NEWS README
 %{_libdir}/libgmp.so.*
-%{_libdir}/pkgconfig/gmp.pc
 %if %{with fips}
 %{_libdir}/.libgmp.so.*.hmac
 %endif
 
 %files c++
 %{_libdir}/libgmpxx.so.*
-%{_libdir}/pkgconfig/gmpxx.pc
 
 %files devel
 %{_libdir}/libgmp.so
 %{_libdir}/libgmpxx.so
+%{_libdir}/pkgconfig/gmp.pc
+%{_libdir}/pkgconfig/gmpxx.pc
 %{_includedir}/*.h
 %{_infodir}/gmp.info*
 
@@ -176,6 +176,18 @@ make %{?_smp_mflags} check
 %{_libdir}/libgmpxx.a
 
 %changelog
+* Tue Sep 15 2020 Kalev Lember <klember@redhat.com> - 1:6.2.0-5
+- Move gmpxx.pc to -devel subpackage as well
+
+* Fri Aug 07 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1:6.2.0-4
+- The pkgcfg file should be in devel
+
+* Tue Jul 28 2020 Jakub Martisko <jamartis@redhat.com> - 1:6.2.0-3
+- Use make macros
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:6.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Jakub Martisko <jamartis@redhat.com> - 1:6.2.0-1
 - Rebase to 6.2.0
 

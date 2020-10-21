@@ -18,7 +18,7 @@
 Summary:       The BOINC client
 Name:          boinc-client
 Version:       7.16.6
-Release:       3%{?dist}
+Release:       7%{?dist}
 License:       LGPLv2+
 URL:           http://boinc.berkeley.edu/
 
@@ -33,7 +33,7 @@ URL:           http://boinc.berkeley.edu/
 
 Source0:       https://github.com/BOINC/boinc/archive/%{gittag}/%{name}-%{version}.tar.gz
 SOURCE1:       boinc-client-logrotate-d
-SOURCE2:       boinc-manager.desktop
+SOURCE2:       boincmgr.desktop
 SOURCE3:       36x11-common_xhost-boinc
 Patch0:        disable_idle_time_detection.patch
 # disabled systemd_hardening.patch because its tests are still in early stage
@@ -89,10 +89,6 @@ BuildRequires: openssl-devel
 BuildRequires: sqlite-devel
 BuildRequires: xcb-util-devel
 
-# Read https://bugzilla.redhat.com/show_bug.cgi?id=1648290
-%if 0%{?el7}
-ExcludeArch: ppc64
-%endif
 # EPEL8 webkit2gtk3 is missing for s390x, aarch64
 %if 0%{?el8}
 ExcludeArch: s390x aarch64
@@ -301,7 +297,7 @@ fi
 %files -n boinc-manager -f BOINC-Manager.lang
 %{_bindir}/boincmgr
 %{_bindir}/boincscr
-%{_datadir}/applications/boinc-manager.desktop
+%{_datadir}/applications/boincmgr.desktop
 %{_datadir}/icons/hicolor/16x16/apps/boincmgr.png
 %{_datadir}/icons/hicolor/32x32/apps/boincmgr.png
 %{_datadir}/icons/hicolor/48x48/apps/boincmgr.png
@@ -319,6 +315,19 @@ fi
 %{_includedir}/boinc
 
 %changelog
+* Tue Oct 06 2020 Germano Massullo <germano.massullo@gmail.com> - 7.16.6-7
+-  Re-enabled ppc64 architecture on EPEL7. Read https://bugzilla.redhat.com/show_bug.cgi?id=1648290
+
+* Fri Sep 18 2020 Germano Massullo <germano.massullo@gmail.com> - 7.16.6-6
+- Renamed boinc-manager.desktop to boincmgr.desktop This fixes https://bugzilla.redhat.com/show_bug.cgi?id=1880553
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.16.6-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.16.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 23 2020 Germano Massullo <germano.massullo@gmail.com> - 7.16.6-3
 - Updated disable_idle_time_detection.patch
 

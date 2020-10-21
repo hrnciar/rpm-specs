@@ -1,7 +1,7 @@
 %global srcname colcon-core
 
 Name:           python-%{srcname}
-Version:        0.5.10
+Version:        0.6.1
 Release:        1%{?dist}
 Summary:        Command line tool to build sets of software packages
 
@@ -89,6 +89,15 @@ and sets up the environment to use the packages.
 
 
 %changelog
+* Thu Oct 15 2020 Scott K Logan <logans@cottsay.net> - 0.6.1-1
+- Update to 0.6.1 (rhbz#1885437)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Scott K Logan <logans@cottsay.net> - 0.6.0-1
+- Update to 0.6.0 (rhbz#1858471)
+
 * Fri Jun 12 2020 Scott K Logan <logans@cottsay.net> - 0.5.10-1
 - Update to 0.5.10 (rhbz#1846601)
 

@@ -2,13 +2,13 @@
 %global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
 
 # Repo tag for the release
-%global git_tag pydev_7_5_0
+%global git_tag pydev_7_7_0
 
 Epoch: 1
 Summary: Eclipse Python development plug-in
 Name:    eclipse-pydev
-Version:          7.5.0
-Release:          1%{?dist}
+Version:          7.7.0
+Release:          2%{?dist}
 License:          EPL-1.0
 URL:              http://pydev.org
 
@@ -30,14 +30,17 @@ Patch3:           fix-process-killing.patch
 # Don't package source for natives in binary plugins
 Patch4:           exclude-project-files.patch
 
+# Snakeyaml 2 not available in Fedora yet
+Patch5:           snakeyaml.patch
+
 # Port to latest lucene
-Patch5:           lucene-8.patch
+Patch6:           lucene-8.patch
 
 # Improvements for pip integration
-Patch6: better-pip-integration.patch
+Patch7: better-pip-integration.patch
 
 # Don't attempt update of outline if already disposed
-Patch7: prevent_update_outline_when_disposed.patch
+Patch8: prevent_update_outline_when_disposed.patch
 
 # Upstream Eclipse no longer supports non-64bit arches
 ExcludeArch: s390 %{arm} %{ix86}
@@ -50,8 +53,8 @@ Requires: ws-commons-util
 Requires: xmlrpc-common
 Requires: xmlrpc-client
 Requires: xmlrpc-server
-Requires: jython >= 2.7.1-3
-Requires: antlr32-java >= 3.2-12
+Requires: jython
+Requires: antlr32-java
 Recommends: python3-pylint
 Recommends: python3-django
 Recommends: python3-ipython-console
@@ -65,7 +68,7 @@ BuildRequires:  ws-commons-util
 BuildRequires:  xmlrpc-common
 BuildRequires:  xmlrpc-client
 BuildRequires:  xmlrpc-server
-BuildRequires:  jython >= 2.7.1-3
+BuildRequires:  jython
 BuildRequires:  lucene >= 8.0.0
 BuildRequires:  lucene-analysis >= 8.0.0
 
@@ -99,9 +102,10 @@ Python development.
 %patch2 -p1
 %patch3 -p1
 %patch4
-%patch5 -p1
-%patch6
+%patch5 -p1 -R
+%patch6 -p1
 %patch7
+%patch8
 
 %mvn_package "::pom:" __noinstall
 %mvn_package ":::sources{,-feature}:" __noinstall
@@ -186,9 +190,11 @@ mv LICENSE.txt.utf LICENSE.txt
 # Build native part first
 pushd plugins/org.python.pydev.core/pysrc &>/dev/null
 (cd pydevd_attach_to_process && \
-  g++ %{optflags} -std=c++11 -shared -o attach_linux.so -fPIC -nostartfiles linux_and_mac/attach.cpp)
+  g++ %{optflags} -shared -o attach_linux.so -fPIC -nostartfiles linux_and_mac/attach.cpp)
 %if 0%{?fedora}
+%if 0%{?fedora} < 33
 PYTHONPATH=. %{__python3} build_tools/build.py --no-remove-binaries
+%endif
 %endif
 popd &>/dev/null
 
@@ -253,6 +259,22 @@ sed -i -e '/.*\.py$/s/0644/0755/' .mfiles*
 %{_datadir}/appdata/eclipse-pydev.metainfo.xml
 
 %changelog
+* Wed Aug 26 2020 Jeff Law <law@redhat.com> - 1:7.7.0-2
+- Do not force C++11 mode
+
+* Fri Aug 14 2020 Mat Booth <mat.booth@redhat.com> - 1:7.7.0-1
+- Update to latest upstream release
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:7.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Mat Booth <mat.booth@redhat.com> - 1:7.6.0-2
+- Temporarily disable cython debugging extension on F33+ due to a problem
+  building against python 3.9
+
+* Thu Jun 25 2020 Mat Booth <mat.booth@redhat.com> - 1:7.6.0-1
+- Update to latest upstream release
+
 * Tue Mar 24 2020 Mat Booth <mat.booth@redhat.com> - 1:7.5.0-1
 - Update to latest upstream release
 - Drop mylyn extension

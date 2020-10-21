@@ -1,6 +1,6 @@
 Name:           perl-Mojolicious
-Version:        8.53
-Release:        2%{?dist}
+Version:        8.63
+Release:        1%{?dist}
 Summary:        A next generation web framework for Perl
 License:        Artistic 2.0
 
@@ -22,6 +22,7 @@ BuildRequires:  perl(Carp)
 BuildRequires:  perl(Compress::Raw::Zlib)
 BuildRequires:  perl(Config)
 BuildRequires:  perl(constant)
+BuildRequires:  perl(CPAN::Meta::YAML)
 BuildRequires:  perl(Cwd)
 BuildRequires:  perl(Data::Dumper)
 BuildRequires:  perl(Digest::MD5)
@@ -142,6 +143,33 @@ mv README.md lib/Mojolicious/
 %{perl_vendorlib}/Test
 
 %changelog
+* Sun Oct 18 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 8.63-1
+- Update to 8.63
+
+* Sun Oct 04 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 8.61-1
+- Update to 8.61
+
+* Sun Sep 27 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 8.60-1
+- Update to 8.60
+
+* Sun Sep 13 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 8.59-1
+- Update to 8.59
+
+* Sun Aug 16 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 8.58-1
+- Update to 8.58
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.57-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 8.57-1
+- Update to 8.57
+
+* Mon Jun 29 2020 Jitka Plesnikova <jplesnik@redhat.com> - 8.56-2
+- Perl 5.32 re-rebuild updated packages
+
+* Sun Jun 28 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 8.56-1
+- Update to 8.56
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 8.53-2
 - Perl 5.32 rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        3.0.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A mutable, self-balancing interval tree for Python
 
 License:        ASL 2.0
@@ -41,6 +41,9 @@ be by point, by range overlap, or by range envelopment.
 %doc README.md CHANGELOG.md
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 24 2020 W. Michael Petullo <mike@flyn.org> - 3.0.2-4
 - BuildRequires setuptools per email "Please BuildRequire python3-setuptools explicitly"
 

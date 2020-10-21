@@ -3,7 +3,7 @@
 Summary:       An additive synthesizer using JACK
 Name:          Add64
 Version:       3.9.3
-Release:       1%{?dist}
+Release:       2%{?dist}
 URL:           http://sourceforge.net/projects/add64
 Source0:       http://downloads.sourceforge.net/project/add64/%{name}-%{version}.tar.bz2
 Source1:       %{name}.desktop
@@ -15,6 +15,7 @@ License:       GPLv3
 BuildRequires: jack-audio-connection-kit-devel
 BuildRequires: qt5-qtbase-devel
 BuildRequires: desktop-file-utils
+Requires: jack-audio-connection-kit
 
 %description
 Add64 is an additive synthesizer using Qt and the JACK audio connection kit
@@ -82,6 +83,13 @@ EOF
 %{_datadir}/pixmaps/add64.png
 
 %changelog
+* Thu Oct 08 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 3.9.3-3
+- Rebuild to call for jack-audio-connection-kit explicitly
+  as part of experiment for pipewire-jack compatibility
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 3.9.3-1
 - New version 3.9.3
 

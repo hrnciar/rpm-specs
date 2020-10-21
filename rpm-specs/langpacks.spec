@@ -1,6 +1,6 @@
 Name:      langpacks
 Version:   3.0
-Release:   3%{?dist}
+Release:   5%{?dist}
 Summary:   Langpacks meta-package
 
 License:   GPLv2+
@@ -629,12 +629,15 @@ Summary: Khmer langpacks meta-package
 Requires: %{name}-core-km
 Recommends: google-noto-sans-khmer-vf-fonts
 Recommends: google-noto-sans-khmer-ui-vf-fonts
-Recommends: khmeros-battambang-fonts
-Recommends: khmeros-bokor-fonts
-Recommends: khmeros-handwritten-fonts
-Recommends: khmeros-metal-chrieng-fonts
-Recommends: khmeros-muol-fonts
-Recommends: khmeros-siemreap-fonts
+Recommends: khmer-os-battambang-fonts
+Recommends: khmer-os-bokor-fonts
+Recommends: khmer-os-content-fonts
+Recommends: khmer-os-fasthand-fonts
+Recommends: khmer-os-freehand-fonts
+Recommends: khmer-os-handwritten-fonts
+Recommends: khmer-os-metal-chrieng-fonts
+Recommends: khmer-os-muol-fonts-all
+Recommends: khmer-os-siemreap-fonts
 
 %description km
 This package provides Khmer langpacks meta-package.
@@ -642,7 +645,7 @@ This package provides Khmer langpacks meta-package.
 %files km
 %{_datadir}/metainfo/org.fedoraproject.LangPack-km.metainfo.xml
 
-%langcore_pkg -l km -n Khmer -f khmeros-base-fonts
+%langcore_pkg -l km -n Khmer -f khmer-os-system-fonts
 
 %package kn
 Summary: Kannada langpacks meta-package
@@ -1280,6 +1283,12 @@ DESTDIR=%{buildroot} appstream-util split-appstream %{SOURCE1}
 DESTDIR=%{buildroot} appstream-util split-appstream %{SOURCE2}
 
 %changelog
+* Wed Sep 16 2020 Parag Nemade <pnemade AT redhat DOT com> - 3.0-5
+- Resolves: Fix broken dependency for langpacks-core-font-km (#1879141)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 11 2020 Akira TAGOH <tagoh@redhat.com> - 3.0-3
 - Stop shipping core-font sub-packages in lowercase and keep same naming as others.
 

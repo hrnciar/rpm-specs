@@ -2,7 +2,7 @@
 %global clientversion 3.0.8.2
 Name: argus
 Version: 3.0.8.2
-Release: 13%{?dist}
+Release: 14%{?dist}
 Summary: Network transaction audit tool
 License: GPLv2+
 Url: http://qosient.com/argus
@@ -123,6 +123,9 @@ mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
 %{_includedir}/argus/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.8.2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.0.8.2-13
 - Fix FTBFS
 

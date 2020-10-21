@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	2.1.6
-Release:	8%{?dist}
+Release:	9%{?dist}
 BuildArch:	noarch
 Summary:	Riak Pipelines
 License:	ASL 2.0
@@ -49,6 +49,9 @@ install -p -m 644 priv/app.slave0.config %{buildroot}%{erlang_appdir}/priv
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.6-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.6-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

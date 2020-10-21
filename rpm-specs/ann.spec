@@ -1,6 +1,6 @@
 Name:           ann
 Version:        1.1.2
-Release:        16%{?dist}
+Release:        19%{?dist}
 Summary:        Library for searching Approximate Nearest Neighbors
 
 License:        LGPLv2+
@@ -44,7 +44,7 @@ Development files needed to use ANN library.
 
 
 %build
-make %{?_smp_mflags} linux CFLAGS="-fPIC -DPIC $RPM_OPT_FLAGS"
+%make_build linux CFLAGS="-fPIC -DPIC $RPM_OPT_FLAGS"
 
 
 %install
@@ -93,6 +93,17 @@ EOF
 
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-19
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Tom Stellard <tstellar@redhat.com> - 1.1.2-17
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

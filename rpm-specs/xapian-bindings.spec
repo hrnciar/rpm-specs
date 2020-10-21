@@ -2,17 +2,13 @@
 %{!?tcl_sitearch: %global tcl_sitearch %{_libdir}/tcl%{tcl_version}}
 
 Name:          xapian-bindings
-Version:       1.4.14
-Release:       4%{?dist}
+Version:       1.4.17
+Release:       1%{?dist}
 Summary:       Bindings for the Xapian Probabilistic Information Retrieval Library
 
 License:       GPLv2+
 URL:           http://www.xapian.org/
 Source0:       http://www.oligarchy.co.uk/xapian/%{version}/%{name}-%{version}.tar.xz
-
-# BZ#1800264
-# Hint for a fix: https://github.com/swig/swig/issues/1689
-Patch0:        xapian-bindings-01-swig-ruby-27.patch
 
 # Only build py3 support on Fedora and EPEL 7+
 %if 0%{?rhel} > 6 || 0%{?fedora}
@@ -128,6 +124,12 @@ rm -rf %{buildroot}%{_datadir}/doc/%{name}
 %{_libdir}/tcl%{tcl_version}/xapian%{version}/
 
 %changelog
+* Mon Sep 21 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.4.17-1
+- Update to 1.4.17
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.14-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.14-4
 - Rebuilt for Python 3.9
 

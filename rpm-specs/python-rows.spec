@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.4.1
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        A common, beautiful interface to tabular data, no matter the format
 
 License:        GPLv3+
@@ -97,6 +97,9 @@ EXCLUDE_ARG="$EXCLUDE_ARG -e test_table_add_time"
 %{_bindir}/%{pypi_name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.1-8
 - Rebuilt for Python 3.9
 

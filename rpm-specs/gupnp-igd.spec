@@ -1,19 +1,17 @@
 Name:           gupnp-igd
-Version:        0.2.5
-Release:        9%{?dist}
+Version:        1.2.0
+Release:        1%{?dist}
 Summary:        Library to handle UPnP IGD port mapping
 
 License:        LGPLv2+
 URL:            https://wiki.gnome.org/Projects/GUPnP
-Source0:        https://download.gnome.org/sources/%{name}/0.2/%{name}-%{version}.tar.xz
-# https://gitlab.gnome.org/GNOME/gupnp-igd/-/merge_requests/1
-Patch0:         switch-to-gupnp-1-2-api.patch
+Source0:        https://download.gnome.org/sources/%{name}/1.2/%{name}-%{version}.tar.xz
 
 BuildRequires:  glib2-devel
 BuildRequires:  gobject-introspection-devel
+BuildRequires:  gtk-doc
 BuildRequires:  gupnp-devel
-# for patch0
-BuildRequires:  autoconf automake libtool
+BuildRequires:  meson
 
 Provides: %{name}-python = %{version}-%{release}
 Provides: %{name}-python%{?_isa} = %{version}-%{release}
@@ -25,10 +23,10 @@ Obsoletes: %{name}-python2 < %{version}-%{release}
 %description
 %{name} is a library to handle UPnP IGD port mapping.
 
+
 %package        devel
 Summary:        Development files for %{name}
 Requires:       %{name}%{?_isa} = %{version}-%{release}
-Requires:       pkgconfig
 
 %description    devel
 The %{name}-devel package contains libraries and header files for
@@ -38,41 +36,46 @@ developing applications that use %{name}.
 %prep
 %autosetup -p1
 
-# for patch0
-autoreconf -fi
-
 
 %build
-%configure --disable-static --disable-python --enable-introspection=yes
-# quite rpmlint error about unused-direct-shlib-dependency
-sed -i -e 's! -shared ! -Wl,--as-needed\0!g' libtool
-LDFLAGS="$RPM_LD_FLAGS -lgobject-2.0" make %{?_smp_mflags}
+%meson -Dgtk_doc=true
+%meson_build
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
-find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
-
-
-%ldconfig_scriptlets
+%meson_install
 
 
 %files
 %license COPYING
 %doc README
-%{_libdir}/*.so.*
+%{_libdir}/libgupnp-igd-1.0.so.4*
+%dir %{_libdir}/girepository-1.0
 %{_libdir}/girepository-1.0/GUPnPIgd-1.0.typelib
 
 
 %files devel
 %{_includedir}/*
-%{_libdir}/*.so
+%{_libdir}/libgupnp-igd-1.0.so
 %{_libdir}/pkgconfig/%{name}-1.0*.pc
+%dir %{_datadir}/gtk-doc
+%dir %{_datadir}/gtk-doc/html
 %{_datadir}/gtk-doc/html/%{name}/
+%dir %{_datadir}/gir-1.0
 %{_datadir}/gir-1.0/GUPnPIgd-1.0.gir
 
 
 %changelog
+* Sat Sep 19 2020 Kalev Lember <klember@redhat.com> - 1.2.0-1
+- Update to 1.2.0
+- Switch to meson build system
+- Remove manual pkgconfig requires from -devel package
+- Fix various issues with directory ownership
+- Tighten soname globs
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.5-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 12 2020 Kalev Lember <klember@redhat.com> - 0.2.5-9
 - Switch to gupnp 1.2 API
 

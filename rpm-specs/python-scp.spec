@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.13.2
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        Scp module for paramiko
 
 License:        LGPLv2+
@@ -87,6 +87,12 @@ rm -r %{srcname}.egg-info
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Chedi Toueiti <chedi.toueiti@gmail.com> - 1.2.2-5
+- Replace Python version globs with macros to support python 3.10
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.13.2-6
 - Rebuilt for Python 3.9
 

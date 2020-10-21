@@ -1,6 +1,6 @@
 Name:           docker-compose
-Version:        1.25.4
-Release:        2%{?dist}
+Version:        1.27.4
+Release:        1%{?dist}
 Summary:        Multi-container orchestration for Docker
 License:        ASL 2.0
 URL:            https://github.com/docker/compose
@@ -10,32 +10,34 @@ BuildArch:      noarch
 BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-setuptools
 BuildRequires:  python%{python3_pkgversion}-pytest
+BuildRequires:  python%{python3_pkgversion}-distro
+BuildRequires:  python%{python3_pkgversion}-dotenv
 BuildRequires:  python%{python3_pkgversion}-ddt
-BuildRequires:  python%{python3_pkgversion}-cached_property >= 1.3.0
+BuildRequires:  python%{python3_pkgversion}-cached_property >= 1.5.1
 BuildRequires:  python%{python3_pkgversion}-docopt >= 0.6.2
-BuildRequires:  python%{python3_pkgversion}-yaml >= 4.2
-BuildRequires:  python%{python3_pkgversion}-requests >= 2.20.0
-BuildRequires:  python%{python3_pkgversion}-texttable >= 0.9.1
+BuildRequires:  python%{python3_pkgversion}-yaml >= 5.3.1
+BuildRequires:  python%{python3_pkgversion}-requests >= 2.22.0
+BuildRequires:  python%{python3_pkgversion}-texttable >= 1.6.2
 BuildRequires:  python%{python3_pkgversion}-websocket-client >= 0.56.0
-BuildRequires:  python%{python3_pkgversion}-docker >= 4.0.2-2
+BuildRequires:  python%{python3_pkgversion}-docker >= 4.3.1
 BuildRequires:  python%{python3_pkgversion}-dockerpty >= 0.4.1
-BuildRequires:  python%{python3_pkgversion}-six >= 1.10.0
-BuildRequires:  python%{python3_pkgversion}-jsonschema >= 2.6.0
-BuildRequires:  python%{python3_pkgversion}-pysocks >= 1.6.7
+BuildRequires:  python%{python3_pkgversion}-six >= 1.12.0
+BuildRequires:  python%{python3_pkgversion}-jsonschema >= 3.2.0
+BuildRequires:  python%{python3_pkgversion}-pysocks >= 1.7.1
 
 Requires:       python%{python3_pkgversion}-setuptools
-Requires:       python%{python3_pkgversion}-cached_property >= 1.3.0
+Requires:       python%{python3_pkgversion}-cached_property >= 1.5.1
 Requires:       python%{python3_pkgversion}-docopt >= 0.6.2
-Requires:       python%{python3_pkgversion}-yaml >= 4.2
-Requires:       python%{python3_pkgversion}-requests >= 2.20.0
-Requires:       python%{python3_pkgversion}-texttable >= 0.9.1
+Requires:       python%{python3_pkgversion}-yaml >= 5.3.1
+Requires:       python%{python3_pkgversion}-requests >= 2.22.0
+Requires:       python%{python3_pkgversion}-texttable >= 1.6.2
 Requires:       python%{python3_pkgversion}-websocket-client >= 0.56.0
-Requires:       python%{python3_pkgversion}-docker >= 4.0.2
+Requires:       python%{python3_pkgversion}-docker >= 4.3.1
 Requires:       python%{python3_pkgversion}-dockerpty >= 0.4.1
-Requires:       python%{python3_pkgversion}-six >= 1.10.0
-Requires:       python%{python3_pkgversion}-jsonschema >= 2.6.0
-Requires:       python%{python3_pkgversion}-pysocks >= 1.R6.7
-Requires:       python%{python3_pkgversion}-attrs >= 17.4.0
+Requires:       python%{python3_pkgversion}-six >= 1.12.0
+Requires:       python%{python3_pkgversion}-jsonschema >= 3.2.0
+Requires:       python%{python3_pkgversion}-pysocks >= 1.7.1
+Requires:       python%{python3_pkgversion}-attrs >= 19.3.0
 
 
 %description
@@ -92,6 +94,23 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} --verbose te
 
 
 %changelog
+* Thu Sep 24 2020 Michael Hampton <error@ioerror.us> - 1.27.4-1
+- Rebase to 1.27.4
+
+* Wed Sep 16 2020 Michael Hampton <error@ioerror.us> - 1.27.3-2
+- Requires python-docker 4.3.1
+
+* Wed Sep 16 2020 Michael Hampton <error@ioerror.us> - 1.27.3-1
+- Rebase to 1.27.3
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.25.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Michael Hampton <error@ioerror.us> - 1.26.2-1
+- Rebase to 1.26.2
+- Add python-distro build dependency
+- Add python-dotenv build dependency
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.25.4-2
 - Rebuilt for Python 3.9
 

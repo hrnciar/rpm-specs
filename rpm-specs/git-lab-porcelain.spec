@@ -1,12 +1,13 @@
-%global fullcommit 75a12220b55d8ae4df68189b9ee0358f953223c9
+%global fullcommit 51c3dc37cd68bc3fe44ef5ada61f5fff9b9b0042
 %global shortcommit %(fcstr=%{fullcommit} && echo ${fcstr:0:8})
 # %%global date        %%(date +%%Y%%m%%d) # hardcode so it matches a changelog
-%global date        2020325
+# month 33 is due to date format error in a previous rebuild
+%global date        20203301
 %global execname    git-lab
 
 Name:      git-lab-porcelain
 Version:   0
-Release:   %{date}git%{shortcommit}%{?dist}.1
+Release:   %{date}git%{shortcommit}%{?dist}
 Summary:   Git porcelain for working with git-lab
 
 License:   GPLv3
@@ -42,6 +43,12 @@ install -p -m 0644 man1/* %{buildroot}/%{_mandir}/man1/
 %license LICENSE
 
 %changelog
+* Thu Oct 01 2020 Vladis Dronov <vdronoff+fedora@gmail.com> - 0-20203301git51c3dc37
+- Update to latest upstream
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-2020325git75a12220.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 25 2020 Neil Horman <nhorman@redhat.com>
 - Update to latest upstream
 

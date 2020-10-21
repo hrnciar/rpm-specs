@@ -4,7 +4,7 @@
 
 Name:           xemacs-packages-base
 Version:        20190327
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Base lisp packages for XEmacs
 
 # dired and efs are GPL+, rest GPLv2+
@@ -103,6 +103,9 @@ sed -i -e 's/^\(.*\(\.ja\|-ja\.texi\)\)$/%lang(ja) \1/' base-files
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190327-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190327-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

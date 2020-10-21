@@ -1,20 +1,21 @@
 Name:           junit
 Epoch:          1
-Version:        4.12
-Release:        13%{?dist}
+Version:        4.13
+Release:        2%{?dist}
 Summary:        Java regression test package
 License:        EPL-1.0
 URL:            http://www.junit.org/
 BuildArch:      noarch
 
-# ./clean-tarball.sh %{version}
-Source0:        %{name}-%{version}-clean.tar.gz
+# ./clean-tarball.sh %%{version}
+Source0:        %{name}4-%{version}-clean.tar.gz
 Source3:        create-tarball.sh
 
 BuildRequires:  maven-local
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-enforcer-plugin)
 BuildRequires:  mvn(org.hamcrest:hamcrest-core)
+BuildRequires:  mvn(org.hamcrest:hamcrest-library)
 
 Obsoletes:      %{name}-demo < 4.12
 
@@ -37,10 +38,7 @@ Summary:        Javadoc for %{name}
 Javadoc for %{name}.
 
 %prep
-%setup -q -n %{name}-r%{version}
-
-# InaccessibleBaseClassTest fails with Java 8
-sed -i /InaccessibleBaseClassTest/d src/test/java/org/junit/tests/AllTests.java
+%autosetup -n %{name}4-r%{version}
 
 %pom_remove_plugin :replacer
 sed s/@version@/%{version}/ src/main/java/junit/runner/Version.java.template >src/main/java/junit/runner/Version.java
@@ -67,25 +65,62 @@ sed s/@version@/%{version}/ src/main/java/junit/runner/Version.java.template >sr
       </configuration>
     </plugin>"
 
+# Use compiler release flag when building on JDK >8 for correct cross-compiling
+%pom_xpath_inject pom:profiles "
+    <profile>
+      <id>jdk-release-flag</id>
+      <activation>
+        <jdk>[9,)</jdk>
+      </activation>
+      <properties>
+        <maven.compiler.release>\${jdkVersion}</maven.compiler.release>
+      </properties>
+    </profile>"
+
+%pom_xpath_set //pom:compilerVersion 1.8
+
 %mvn_file : %{name}
 
 %build
-%mvn_build
+%mvn_build -- -DjdkVersion=8
 
 %install
 %mvn_install
 
 %files -f .mfiles
-%doc LICENSE-junit.txt README.md
+%license LICENSE-junit.txt
+%doc README.md
 
 %files javadoc -f .mfiles-javadoc
-%doc LICENSE-junit.txt
+%license LICENSE-junit.txt
 
 %files manual
-%doc LICENSE-junit.txt
+%license LICENSE-junit.txt
 %doc doc/*
 
 %changelog
+* Sun Aug 16 2020 Fabio Valentini <decathorpe@gmail.com> - 1:4.13-2
+- Bump release to account for previously untagged 4.13-1.fc33 build.
+
+* Thu Aug 13 2020 Jerry James <loganjerry@gmail.com> - 1:4.13-1
+- Update to upstream version 4.13
+
+* Tue Aug 04 2020 Mat Booth <mat.booth@redhat.com> - 1:4.12-18
+- Add automatic module name
+
+* Tue Aug 04 2020 Mat Booth <mat.booth@redhat.com> - 1:4.12-17
+- Allow building on Java 11
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.12-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.12-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1:4.12-14
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.12-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

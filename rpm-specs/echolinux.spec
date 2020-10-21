@@ -1,7 +1,7 @@
 %define _legacy_common_support 1
 Name:		echolinux
 Version:	0.17a
-Release:	25%{?dist}
+Release:	26%{?dist}
 Summary:	Linux echoLink client
 
 License:	GPL+
@@ -76,6 +76,9 @@ desktop-file-install \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17a-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 05 2020 Lucian Langa <lucilanga@gnome.eu.org> - 0.17a-25
 - add temporary gcc10 fix
 

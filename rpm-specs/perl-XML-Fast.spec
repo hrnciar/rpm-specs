@@ -1,6 +1,6 @@
 Name:           perl-XML-Fast
 Version:        0.17
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Simple and very fast XML to hash conversion
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/XML-Fast
@@ -59,6 +59,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.17-11
 - Perl 5.32 rebuild
 

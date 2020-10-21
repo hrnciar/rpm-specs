@@ -8,8 +8,8 @@ License:          LGPLv2+
 BuildArch:        noarch
 
 Version:          7.5.0
-Release:          0.1%{?_timestamp}%{?_commit_id}%{?dist}
-%global           _phase -a1
+Release:          1%{?_timestamp}%{?_commit_id}%{?dist}
+#global           _phase -a1
 
 # To generate the source tarball:
 # $ git clone https://github.com/dogtagpki/tomcatjss.git
@@ -27,6 +27,7 @@ Source:           https://github.com/dogtagpki/tomcatjss/archive/v%{version}%{?_
 #     <version tag> \
 #     > tomcatjss-VERSION-RELEASE.patch
 # Patch: tomcatjss-VERSION-RELEASE.patch
+Patch1: 0001-Switch-to-JDK8-source-target-compatibility.patch
 
 ################################################################################
 # Build Dependencies
@@ -141,10 +142,6 @@ is a Java Secure Socket Extension (JSSE) module for Apache Tomcat that
 uses Java Security Services (JSS), a Java interface to Network Security
 Services (NSS).
 
-NOTE:  The 'tomcatjss' package conflicts with the 'tomcat-native' package
-       because it uses an underlying NSS security model rather than the
-       OpenSSL security model, so these two packages may not co-exist.
-
 ################################################################################
 %prep
 ################################################################################
@@ -185,6 +182,15 @@ ant -f build.xml \
 
 ################################################################################
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.5.0-0.6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 7.5.0-0.5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Wed Jun 10 2020 Dogtag PKI Team <pki-devel@redhat.com> - 7.5.0-0.4
+- Rebase to match latest upstream version v7.5.0-b2
+
 * Wed Jun 10 2020 Dogtag PKI Team <pki-devel@redhat.com> - 7.5.0-0.1
 - Rebase to match latest upstream version v7.5.0-a1
 - Make TomcatJSS use both SunJSSE and Mozilla-JSS

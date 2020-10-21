@@ -2,7 +2,7 @@
 
 Name:		rubygem-%{gem_name}
 Version:	1.0.9
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Native packages installation helper
 
 License:	LGPLv3+
@@ -74,6 +74,9 @@ popd
 %doc	%{gem_docdir}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.9-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.9-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

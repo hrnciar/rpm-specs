@@ -3,7 +3,7 @@
 
 # https://github.com/djherbis/buffer
 %global goipath         github.com/djherbis/buffer
-Version:                1.0.0
+Version:                1.1.0
 
 %gometa
 
@@ -15,7 +15,7 @@ complicated buffering strategies}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Composable Buffers for Go
 
 License:        MIT
@@ -41,6 +41,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 21:57:24 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.0-1
+- Update to 1.1.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

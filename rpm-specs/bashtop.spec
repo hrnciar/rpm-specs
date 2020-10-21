@@ -1,5 +1,5 @@
 Name:           bashtop
-Version:        0.9.11
+Version:        0.9.25
 Release:        1%{?dist}
 Summary:        Linux resource monitor
 
@@ -14,6 +14,7 @@ Requires: coreutils
 Requires: grep
 Requires: procps-ng
 Requires: sed
+Requires: python3-psutil
 
 Recommends: lm-sensors
 Recommends: curl
@@ -44,6 +45,21 @@ install -p -m 644 themes/* %{buildroot}%{_datadir}/%{name}/themes
 %{_datadir}/%{name}/
 
 %changelog
+* Tue Aug 11 2020 Alessio <alciregi@fedoraproject.org> - 0.9.25-1
+- 0.9.25 release
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.24-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Germano Massullo <germano.massullo@gmail.com> - 0.9.24-1
+- 0.9.24 release
+
+* Sun Jul 05 2020 Germano Massullo <germano.massullo@gmail.com> - 0.9.19-3
+- Added Requires: python3-psutil
+
+* Wed Jul 01 2020 Alessio <alciregi@fedoraproject.org> - 0.9.19-1
+- 0.9.19 release
+
 * Wed Jun 17 2020 Alessio <alciregi@fedoraproject.org> - 0.9.11-1
 - 0.9.11 release
 

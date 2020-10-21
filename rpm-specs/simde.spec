@@ -12,7 +12,7 @@ Name: simde
 Version: 0.0.0
 # Align the release format with the packages setting Source0 by commit hash
 # such as podman.spec and moby-engine.spec.
-Release: 2.git%{short_commit_simde}%{?dist}
+Release: 5.git%{short_commit_simde}%{?dist}
 Summary: SIMD Everywhere
 # find simde/ -type f | xargs licensecheck
 # simde: MIT
@@ -113,6 +113,7 @@ CC=gcc CXX=g++ cmake \
 popd
 
 # clang
+%global toolchain clang
 echo "== 2. tests on clang =="
 clang --version
 clang++ --version
@@ -128,24 +129,24 @@ popd
 
 # with flags
 echo "=== 2.2. tests on clang with flags ==="
-# Some flags and specs are not available with clang.
-# https://lists.fedoraproject.org/archives/list/packaging@lists.fedoraproject.org/message/W5UFLUADNB4VF3OBUBSNAPOQL6XBCP74/
-optflags_clang=$(echo "%{optflags}" | \
-  sed -e 's| -fstack-clash-protection||' -e 's| -specs=[^ ]*||g')
 mkdir test/build-clang-with-flags
 pushd test/build-clang-with-flags
+# arm tests fail with segmentation fault in cmake.
+%ifnarch %{arm}
 CC=clang CXX=clang++ cmake \
   -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
-  -DCMAKE_C_FLAGS="${optflags_clang}" \
-  -DCMAKE_CXX_FLAGS="${optflags_clang}" \
+  -DCMAKE_C_FLAGS="%{build_cflags}" \
+  -DCMAKE_CXX_FLAGS="%{build_cxxflags}" \
   ..
 %make_build
 # ppc64le tests fail with clang-10.0.0, -O2 and some flags
 # https://github.com/nemequ/simde/issues/273
+
 %ifarch ppc64le
 ./run-tests || true
 %else
 ./run-tests
+%endif
 %endif
 popd
 
@@ -155,6 +156,18 @@ popd
 %{_includedir}/%{name}
 
 %changelog
+* Tue Aug 04 2020 Jun Aruga <jaruga@redhat.com> - 0.0.0-5.git396e05c
+- Fix FTBFS.
+  Resolves: rhbz#1865487
+- Skip clang flags case for arm 32-bit due to the segmentation fault.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.0-4.git396e05c
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.0-3.git396e05c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 08 2020 Jun Aruga <jaruga@redhat.com> - 0.0.0-2.git396e05c
 - Update to the latest upstream commit: 396e05c.
 

@@ -3,8 +3,8 @@
 
 # https://github.com/certifi/gocertifi
 %global goipath         github.com/certifi/gocertifi
-Version:                0.0.20180118
-%global tag             2018.01.18
+Version:                0.0.20200211
+%global tag             2020.02.11
 %global distprefix      %{nil}
 
 %gometa
@@ -22,7 +22,7 @@ canonical set.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Carefully curated collection of Root Certificates
 
 License:        MPLv2.0
@@ -48,6 +48,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.20200211-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 21:48:25 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.0.20200211-1
+- Update to 2020.02.11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.20180118-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

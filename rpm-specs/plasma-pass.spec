@@ -1,8 +1,10 @@
+%undefine __cmake_in_source_build
+
 %global kf5_version_min 5.42
 
 Name:           plasma-pass
 Version:        1.1.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Plasma applet to access passwords from the Pass password manager
 
 License:        LGPLv2+
@@ -39,14 +41,11 @@ password manager.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 desktop-file-validate %{buildroot}/%{_datadir}/kservices5/plasma-applet-org.kde.plasma.pass.desktop
 
 %find_lang plasma_applet_org.kde.plasma.pass
@@ -64,6 +63,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/kservices5/plasma-applet-org.kde.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

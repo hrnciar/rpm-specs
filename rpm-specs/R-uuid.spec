@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          0.1.4
-Release:          2%{?dist}
+Release:          4%{?dist}
 Summary:          Tools for generating and handling of UUIDs
 
 License:          MIT
@@ -74,6 +74,13 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 0.1.4-2
 - rebuild for R 4
 

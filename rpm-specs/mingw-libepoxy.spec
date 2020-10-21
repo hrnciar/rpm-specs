@@ -2,7 +2,7 @@
 
 Name:           mingw-libepoxy
 Version:        1.5.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows libepoxy library
 
 License:        MIT
@@ -75,6 +75,9 @@ This package contains the MinGW Windows cross compiled libepoxy library.
 %{mingw64_includedir}/epoxy/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,10 +1,11 @@
 Name:           perl-MooX-HandlesVia
-Version:        0.001008
-Release:        17%{?dist}
+Version:        0.001009
+Release:        1%{?dist}
 Summary:        NativeTrait-like behavior for Moo
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/MooX-HandlesVia
-Source0:        https://cpan.metacpan.org/authors/id/M/MA/MATTP/MooX-HandlesVia-%{version}.tar.gz
+Source0:        https://cpan.metacpan.org/authors/id/T/TO/TOBYINK/MooX-HandlesVia-%{version}.tar.gz
+
 BuildArch:      noarch
 BuildRequires:  perl-generators
 BuildRequires:  perl(Class::Method::Modifiers)
@@ -66,6 +67,13 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Oct 20 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 0.001009-1
+- Reflect upstream URL having changed.
+- Upstream update.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.001008-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.001008-17
 - Perl 5.32 rebuild
 

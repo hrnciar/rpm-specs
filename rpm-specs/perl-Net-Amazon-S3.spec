@@ -1,11 +1,11 @@
 Name:       perl-Net-Amazon-S3
-Version:    0.89
-Release:    2%{?dist}
+Version:    0.97
+Release:    1%{?dist}
 Summary:    Use the Amazon Simple Storage Service (S3)
 # README.md reports the code is derived from an ADSL-licensed code.
 License:    (GPL+ or Artistic) and ADSL
 URL:        https://metacpan.org/release/Net-Amazon-S3
-Source0:    https://cpan.metacpan.org/authors/id/L/LL/LLAP/Net-Amazon-S3-%{version}.tar.gz
+Source0:    https://cpan.metacpan.org/authors/id/B/BA/BARNEY/Net-Amazon-S3-%{version}.tar.gz
 # Fix shebang
 Patch0:     Net-Amazon-S3-0.86-Normalize-shellbang.patch
 BuildArch:  noarch
@@ -19,6 +19,7 @@ BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
 # Run-time:
 BuildRequires:  perl(Carp)
+BuildRequires:  perl(constant)
 BuildRequires:  perl(Data::Stream::Bulk::Callback)
 BuildRequires:  perl(DateTime::Format::HTTP)
 BuildRequires:  perl(Digest::HMAC_SHA1)
@@ -42,6 +43,7 @@ BuildRequires:  perl(LWP::UserAgent::Determined)
 BuildRequires:  perl(MIME::Base64)
 BuildRequires:  perl(MIME::Types)
 BuildRequires:  perl(Moose) >= 0.85
+BuildRequires:  perl(Moose::Meta::Class)
 BuildRequires:  perl(Moose::Object)
 BuildRequires:  perl(Moose::Role)
 BuildRequires:  perl(Moose::Util)
@@ -55,12 +57,14 @@ BuildRequires:  perl(parent)
 # Pod::Usage not used at tests
 BuildRequires:  perl(Ref::Util)
 BuildRequires:  perl(Regexp::Common)
+BuildRequires:  perl(Safe::Isa)
 BuildRequires:  perl(Scalar::Util)
 BuildRequires:  perl(sort)
 BuildRequires:  perl(Sub::Override)
 # Term::Encoding is optional
 # Term::ProgressBar::Simple not used at tests
-BuildRequires:  perl(Test::Deep)
+BuildRequires:  perl(Test::Deep) >= 0.111
+BuildRequires:  perl(Test::LWP::UserAgent)
 BuildRequires:  perl(Test::More)
 BuildRequires:  perl(Time::Piece)
 BuildRequires:  perl(URI)
@@ -72,13 +76,13 @@ BuildRequires:  perl(XML::LibXML::XPathContext)
 # Tests:
 BuildRequires:  perl(File::Temp)
 BuildRequires:  perl(FindBin)
+BuildRequires:  perl(HTTP::Request)
 BuildRequires:  perl(lib)
 BuildRequires:  perl(LWP::Simple)
-BuildRequires:  perl(Moose::Meta::Class)
 BuildRequires:  perl(Test::Exception)
-BuildRequires:  perl(Test::LoadAllModules)
 BuildRequires:  perl(Test::MockTime)
 BuildRequires:  perl(Test::Warnings)
+BuildRequires:  perl(utf8)
 BuildRequires:  perl(vars)
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 # LWP 6.03 needed indirectly to support 100 Continue HTTP response
@@ -86,6 +90,9 @@ Requires:       perl(LWP) >= 6.03
 # HTTPS required because "secure" attribute is enabled by default
 Requires:       perl(LWP::Protocol::https)
 Requires:       perl(VM::EC2::Security::CredentialCache)
+
+# Filter under-specified dependencies
+%global __requires_exclude %{?__requires_exclude:%{__requires_exclude}|}^perl\\(Test::Deep\\)$
 
 %description
 This module provides a Perlish interface to Amazon S3. From the
@@ -104,6 +111,7 @@ To find out more about S3, please visit <http://s3.amazonaws.com/>.
 Summary:    Example modules for Net::Amazon::S3 Perl tool kit
 Requires:   perl-Net-Amazon-S3 = %{version}-%{release}
 Requires:   perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
+Requires:   perl(Test::Deep) >= 0.111
 
 %description -n perl-Shared-Examples-Net-Amazon-S3
 This package is an executable documentation for Net::Amazon::S3 Perl tool kit.
@@ -140,6 +148,27 @@ make test
 %{_mandir}/man3/Shared::*
 
 %changelog
+* Fri Oct 09 2020 Petr Pisar <ppisar@redhat.com> - 0.97-1
+- 0.97 bump
+
+* Thu Oct 08 2020 Petr Pisar <ppisar@redhat.com> - 0.96-1
+- 0.96 bump
+
+* Wed Oct 07 2020 Petr Pisar <ppisar@redhat.com> - 0.95-1
+- 0.95 bump
+
+* Tue Sep 29 2020 Petr Pisar <ppisar@redhat.com> - 0.94-1
+- 0.94 bump
+
+* Thu Aug 20 2020 Petr Pisar <ppisar@redhat.com> - 0.91-1
+- 0.91 bump
+
+* Wed Aug 19 2020 Petr Pisar <ppisar@redhat.com> - 0.90-1
+- 0.90 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.89-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.89-2
 - Perl 5.32 rebuild
 

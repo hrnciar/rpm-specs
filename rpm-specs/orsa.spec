@@ -1,6 +1,6 @@
 Name:			orsa
 Version:		0.7.0
-Release:		51%{?dist}
+Release:		53%{?dist}
 Summary:		Orbit Reconstruction, Simulation and Analysis
 
 License:		GPLv2+ 
@@ -27,6 +27,10 @@ Patch2:			orsa-file.patch
 Patch3:                 orsa-gsl-2.patch
 
 Patch4:                 orsa-linking.patch
+
+# Files copied in from rpm-build-4.15.1 since they are gone in later versions.
+Source2:                config.guess
+Source3:                config.sub
 
 BuildRequires:  gcc-c++
 BuildRequires:  readline-devel
@@ -119,7 +123,7 @@ This package contains files shared across the MPI/non-MPI builds of %{name}.
 install -p -m644 %{SOURCE1} .
 
 # Update config.guess/sub to fix builds on new architectures (aarch64/ppc64le)
-cp /usr/lib/rpm/config.* .
+cp %{SOURCE2} %{SOURCE3} .
 
 %build
 # We need to rebuild generated files after updating Makefile.am. Let's
@@ -145,9 +149,11 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool && \
 %make_build && \
 popd
 
-%global OpenMPI_BIN %(%{_openmpi_load} echo $MPI_BIN)
-%global OpenMPI_LIB %(%{_openmpi_load} echo $MPI_LIB)
-%global mpichdir %(%{_mpich_load} echo $MPI_HOME)
+%global openmpi_bin %{_libdir}/openmpi/bin
+%global openmpi_lib %{_libdir}/openmpi/lib
+%global mpich_bin %{_libdir}/mpich/bin
+%global mpich_lib %{_libdir}/mpich/lib
+
 ################################
 echo -e "\n##############################\nNow making the non-MPI version\n##############################\n"
 ################################
@@ -205,26 +211,32 @@ rm %{buildroot}$MPI_LIB/{liborsa.la,libxorsa.la}
 %{_includedir}/*
 
 %files openmpi
-%{OpenMPI_LIB}/liborsa.so.*
-%{OpenMPI_LIB}/libxorsa.so.*
-%{OpenMPI_BIN}/*
+%{openmpi_lib}/liborsa.so.*
+%{openmpi_lib}/libxorsa.so.*
+%{openmpi_bin}/*
 
 %files openmpi-devel
-%{OpenMPI_LIB}/*.so
+%{openmpi_lib}/*.so
 
 %files mpich
-%{mpichdir}/bin/*
-%{mpichdir}/lib/liborsa.so.*
-%{mpichdir}/lib/libxorsa.so.*
+%{mpich_lib}/liborsa.so.*
+%{mpich_lib}/libxorsa.so.*
+%{mpich_bin}/*
 
 %files mpich-devel
-%{mpichdir}/lib/*.so
+%{mpich_lib}/*.so
 
 %files common
 %license COPYING
 %doc DEVELOPERS ORSA_MPI
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-53
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 0.7.0-52
+- Fix build with rpm-4.16 (found by koschei)
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-51
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

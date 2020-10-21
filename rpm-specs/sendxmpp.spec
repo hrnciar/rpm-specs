@@ -1,12 +1,18 @@
 Summary:	A Perl script to send XMPP messages
 Name:		sendxmpp
 Version:	1.24
-Release:	10%{?dist}
+Release:	12%{?dist}
 License:	GPLv2
-URL:		http://sendxmpp.hostname.sk/
-Source:		https://github.com/lhost/%{name}/archive/v%{version}.tar.gz
+URL:		https://sendxmpp.hostname.sk/
+Source:		https://github.com/lhost/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
+Patch0:		sendxmpp-1.24-git20161113.patch
 BuildRequires:	perl-generators
-BuildRequires:	perl(ExtUtils::MakeMaker)
+%if 0%{?rhel} && 0%{?rhel} <= 7
+BuildRequires:	perl(ExtUtils::MakeMaker), findutils
+%else
+BuildRequires:	perl(ExtUtils::MakeMaker) >= 6.76
+%endif
+BuildRequires:	perl(Net::XMPP)
 BuildArch:	noarch
 
 %description
@@ -16,15 +22,17 @@ individual recipients and chat rooms.
 
 %prep
 %setup -q
+%patch0 -p1 -b .git20161113
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%make_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make pure_install PERL_INSTALL_ROOT=$RPM_BUILD_ROOT
-find $RPM_BUILD_ROOT -type f -name .packlist -exec rm -f {} ';'
+%make_install
+%if 0%{?rhel} && 0%{?rhel} <= 7
+find $RPM_BUILD_ROOT \( -name perllocal.pod -o -name .packlist \) -exec rm -f {} \;
+%endif
 chmod -R u+w $RPM_BUILD_ROOT/*
 
 %files
@@ -33,6 +41,13 @@ chmod -R u+w $RPM_BUILD_ROOT/*
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Fri Aug 07 2020 Robert Scheck <robert@fedoraproject.org> 1.24-12
+- Added upstream patch to enable SRV record lookups by default
+  and to fix support for virtual domain user names
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

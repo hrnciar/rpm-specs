@@ -23,7 +23,7 @@
 
 Name:       gprbuild
 Version:    2018
-Release:    16%{?dist}
+Release:    17%{?dist}
 Summary:    Ada project builder
 License:    GPLv3+
 URL:        http://libre.adacore.com
@@ -125,9 +125,6 @@ Requires:       libgpr%{?_isa} = %{version}-%{release}
 %patch10 -p1 -b .exe
 %patch11 -p1 -b .libusr
 
-# Update the various config.guess to upstream release for new arch support
-cp /usr/lib/rpm/config.* .
-
 %build
 %ifarch %{bootstrap_arch}
 ## Some useful output
@@ -219,6 +216,9 @@ rm -rf %{buildroot}%{_GNAT_project_dir}/manifests
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2018-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb  3 2020 Pavel Zhukov <pzhukov@redhat.com> - 2018-16
 - rebuild grpuild
 

@@ -1,6 +1,6 @@
 Name:           perl-Test-Run
-Version:        0.0304
-Release:        14%{?dist}
+Version:        0.0305
+Release:        1%{?dist}
 Summary:        Extensible and object-oriented test harness for TAP scripts
 # lib and other code:               MIT
 # lib/Test/Run/Straps_GplArt.pm:    GPLv2+ or Artistic
@@ -11,8 +11,8 @@ URL:            https://metacpan.org/release/Test-Run
 Source0:        https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/Test-Run-%{version}.tar.gz
 BuildArch:      noarch
 BuildRequires:  coreutils
-BuildRequires:  perl-interpreter
 BuildRequires:  perl-generators
+BuildRequires:  perl-interpreter
 BuildRequires:  perl(File::Spec) >= 0.6
 BuildRequires:  perl(lib)
 # Prefer Module::Build over ExtUtils::Maker because the Test::Run::Builder
@@ -91,6 +91,12 @@ perl Build.PL installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Mon Oct 19 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.0305-1
+- 0.0305 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0304-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.0304-14
 - Perl 5.32 rebuild
 

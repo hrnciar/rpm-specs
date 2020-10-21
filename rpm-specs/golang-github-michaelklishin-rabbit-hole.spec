@@ -3,10 +3,11 @@
 
 # https://github.com/michaelklishin/rabbit-hole
 %global goipath         github.com/michaelklishin/rabbit-hole
-Version:                2.0.0
-%global tag             v2.0.0-rc.2
+Version:                2.3.0
 
 %gometa
+
+%global goaltipaths     github.com/michaelklishin/rabbit-hole/v2
 
 %global common_description %{expand:
 This library is a RabbitMQ HTTP API client for the Go language.}
@@ -15,7 +16,7 @@ This library is a RabbitMQ HTTP API client for the Go language.}
 %global godocs          CONTRIBUTING.md ChangeLog.md README.md
 
 Name:           %{goname}
-Release:        0.3.rc.2%{?dist}
+Release:        1%{?dist}
 Summary:        RabbitMQ HTTP API client in Go
 
 # Upstream license specification: BSD-2-Clause
@@ -50,6 +51,12 @@ BuildRequires:  golang(github.com/streadway/amqp)
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 22:00:41 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.3.0-1
+- Update to 2.3.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-0.4.rc.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-0.3.rc.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

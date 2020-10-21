@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 Version: 7.100
-Release: 6%{?dist}
+Release: 7%{?dist}
 URL:     https://scripts.sil.org/Mondulkiri
 
 %global foundry           SIL
@@ -69,6 +69,9 @@ This package provides optional documentation files shipped with
 %doc documentation/*pdf
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 7.100-6
 🐞 Workaround Fedora problems created by rpm commit 93604e2

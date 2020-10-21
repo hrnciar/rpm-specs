@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:    kstars
 Summary: Desktop Planetarium
-Version: 3.3.6
+Version: 3.4.3
 Release: 5%{?dist}
 
 # We have to use epoch now, KStars is no longer part of KDE Applications and
@@ -88,7 +90,10 @@ Requires:  libindi
 Suggests:  astrometry
 #  https://bugzilla.redhat.com/show_bug.cgi?id=1557673
 Requires:  qt5-qtquickcontrols%{?_isa}
+%if 0%{?fedora}
 Requires:  xplanet
+%endif
+
 
 # when split occurred
 Obsoletes: kdeedu-kstars < 4.7.0-10
@@ -108,16 +113,12 @@ all 8 planets, the Sun and Moon, and thousands of comets and asteroids.
 %patch101 -p1 -b .fix_cflag_exception
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -162,6 +163,25 @@ fi
 
 
 %changelog
+* Thu Oct 01 2020 Jeff Law  <law@redhat.com> - 1:3.4.3-5
+- Avoid local symbol binding by forcing application to build with -fPIC
+- Re-enable LTO
+
+* Wed Sep 23 2020 Christian Dersch <lupinix@fedoraproject.org> - 1:3.4.3-4
+- Build with LTO disabled, fixes #1881915
+
+* Tue Aug 25 2020 Christian Dersch <lupinix@mailbox.org> - 1:3.4.3-3
+- Rebuilt for INDI 1.8.6
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.4.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Christian Dersch <lupinix@fedoraproject.org> - 1:3.4.3-1
+- new version
+
+* Fri Jun 26 2020 Marie Loise Nolden <loise@kde.org> - 1:3.4.2-1
+- Update to 3.4.2 with Qt 5.15 support
+
 * Mon May 18 2020 Mattia Verga <mattia.verga@protonmail.com> - 1:3.3.6-5
 - Rebuilt for LibRaw 0.20Beta1
 

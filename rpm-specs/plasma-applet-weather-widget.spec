@@ -1,7 +1,7 @@
 %global giturl	https://github.com/kotelnik/
 Name:			plasma-applet-weather-widget
 Version:		1.6.10
-Release:		6%{?dist}
+Release:		7%{?dist}
 Summary:		Plasma applet for displaying weather information
 License:		GPLv2+
 Url:			%{giturl}%{name}
@@ -18,11 +18,10 @@ Plasma 5 applet for displaying weather information from yr.no server
 
 %build
 %{cmake_kf5}
-
-make %{?_smp_mflags}
+%cmake_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 %find_lang %{name} --all-name
 
 %check
@@ -40,6 +39,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_kf5_datadir}\
 %{_kf5_datadir}/plasma/plasmoids/org.kde.weatherWidget/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.10-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.10-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@
 Summary:       Library for arbitrary-precision decimal and non-decimal arithmetic 
 Name:          nodejs-bignumber-js
 Version:       2.4.0
-Release:       9%{?dist}
+Release:       10%{?dist}
 License:       MIT
 URL:           http://github.com/MikeMcl/bignumber.js
 Source0:       http://registry.npmjs.org/%{npm_name}/-/%{npm_name}-%{version}.tgz
@@ -41,6 +41,9 @@ node ./test/every-test.js
 %{nodejs_sitelib}/%{npm_name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,19 +1,12 @@
 Name:		libdfp
-Version:	1.0.14
-Release:	8%{?dist}
+Version:	1.0.15
+Release:	5%{?dist}
 Summary:	Decimal Floating Point C Library
 License:	LGPLv2
 Url:		https://github.com/libdfp/libdfp
 Source0:	https://github.com/libdfp/libdfp/releases/download/%{version}/%{name}-%{version}.tar.gz
 
-# Ignore known failures on ppc, ppc64 and ppc64le.
-Patch1: libdfp-ppc-xfail.patch
-# Enable python3 usage.
-Patch2: libdfp-python3.patch
-# Add support for DESTDIR.
-Patch3: libdfp-DESTDIR.patch
-# Print summary of failing tests in the log files.
-Patch4: libdfp-tests.patch
+# Patch1: We currently need no extra patches.
 
 # Be explicit about the soname in order to avoid unintentional changes.
 %global soname libdfp.so.1
@@ -23,7 +16,7 @@ Patch4: libdfp-tests.patch
 %global cpu_variants power6
 %endif
 
-ExclusiveArch:	ppc ppc64 ppc64le s390 s390x
+ExclusiveArch:	ppc ppc64 ppc64le s390 s390x x86_64
 BuildRequires:	gcc, python3
 %if 0%{?cpu_variants:1}
 BuildRequires:	execstack
@@ -57,6 +50,10 @@ chmod +x configure \
 %configure
 
 %build
+# This package uses ASMs for symbol versioning.  It needs to be using
+# the symbol verioning attribute instead.  Until then disable LTO
+%define _lto_cflags %{nil}
+
 mkdir Build
 pushd Build
 %subdir_configure --disable-static
@@ -119,13 +116,37 @@ done
 %doc %{_docdir}/dfp/README
 %doc %{_docdir}/dfp/ChangeLog.md
 %license COPYING.txt
+%doc %{_docdir}/dfp/COPYING.txt
+%doc %{_docdir}/dfp/COPYING.libdfp.txt
+%doc %{_docdir}/dfp/COPYING.libdecnumber.txt
+%doc %{_docdir}/dfp/COPYING3
+%doc %{_docdir}/dfp/COPYING.RUNTIME
 
 %files devel
 %{_includedir}/*
 %{_libdir}/*.so
 %exclude %{_libdir}/*-*.so
+%{_libdir}/libdecnumber.a
+%{_libdir}/pkgconfig/libdfp.pc
+%{_libdir}/pkgconfig/libdecnumber.pc
 
 %changelog
+* Thu Aug 06 2020 Jeff Law <law@redhat.com> - 1.0.15-5
+- Disable LTO
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.15-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.15-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tulio Magno Quites Machado Filho <tuliom@linux.ibm.com> - 1.0.15-2
+- Enable builds for x86_64.
+
+* Tue Jul 14 2020 Stefan Liebler <stli@linux.ibm.com> - 1.0.15-1
+- Update to new release libdfp 1.0.15
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.14-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

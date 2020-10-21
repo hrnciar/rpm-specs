@@ -2,12 +2,15 @@
 
 Name:           python-%{srcname}
 Version:        0.6.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Sphinx extensions for working with LaTeX math
 
 License:        BSD
 URL:            https://github.com/matthew-brett/%{srcname}
 Source0:        %pypi_source
+# Upstream patch to fix tests with docutils 0.16
+# https://github.com/matthew-brett/texext/commit/39aa947784142babe9d1618ef0d7189d062a0e58
+Patch0:         %{name}-docutils.patch
 
 BuildArch:      noarch
 
@@ -26,13 +29,11 @@ This package contains Sphinx extensions for working with LaTeX math.
 %package -n     python3-%{srcname}
 Summary:        Sphinx extensions for working with LaTeX math
 
-%{?python_provide:%python_provide python3-%{srcname}}
-
 %description -n python3-%{srcname}
 This package contains Sphinx extensions for working with LaTeX math.
 
 %prep
-%autosetup -n %{srcname}-%{version}
+%autosetup -n %{srcname}-%{version} -p0
 
 %build
 %py3_build
@@ -50,6 +51,12 @@ pytest-%{python3_version}
 %{python3_sitelib}/%{srcname}*
 
 %changelog
+* Wed Jul 29 2020 Jerry James <loganjerry@gmail.com> - 0.6.6-3
+- Add -docutils patch to fix build
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.6-2
 - Rebuilt for Python 3.9
 

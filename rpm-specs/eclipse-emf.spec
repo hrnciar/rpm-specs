@@ -10,7 +10,7 @@
 Epoch:     1
 Name:      eclipse-emf
 Version:   2.22.0
-Release:   1%{?dist}
+Release:   2%{?dist}
 Summary:   EMF and XSD Eclipse plug-ins
 
 License:   EPL-2.0
@@ -197,6 +197,9 @@ done
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.22.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Mat Booth <mat.booth@redhat.com> - 1:2.22.0-1
 - Update to latest upstream release
 

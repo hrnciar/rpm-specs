@@ -1,6 +1,6 @@
 Name:           fntsample
 Version:        5.3
-Release:        5%{?dist}
+Release:        8%{?dist}
 Summary:        A program for making font samples that show Unicode coverage of the font
 
 License:        GPLv3+
@@ -21,13 +21,12 @@ Samples can be saved as PDF or PostScript files.
 %prep
 %autosetup -n %{name}-release-%{version}
 
-
 %build
-%cmake -DUNICODE_BLOCKS=%{_datadir}/unicode/ucd/Blocks.txt .
-%make_build
+%cmake -DUNICODE_BLOCKS=%{_datadir}/unicode/ucd/Blocks.txt
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %check
 ctest -V %{?_smp_flags}
@@ -42,6 +41,16 @@ ctest -V %{?_smp_flags}
 %{_mandir}/man1/*.gz
 
 %changelog
+* Mon Aug 03 12:32:07 GMT 2020 Parag Nemade <pnemade@fedoraproject.org> - 5.3-8
+- Fix as per https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds#Migration
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

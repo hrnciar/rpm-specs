@@ -1,9 +1,9 @@
-
+%undefine __cmake_in_source_build
 Name:           kdevelop
 Summary:        Integrated Development Environment for C++/C
 Epoch:          9
-Version:        5.5.2
-Release:        2%{?dist}
+Version:        5.6.0
+Release:        1%{?dist}
 License:        GPLv2
 URL:            http://www.kdevelop.org/
 Source0:        http://download.kde.org/stable/kdevelop/%{version}/src/kdevelop-%{version}.tar.xz
@@ -144,16 +144,12 @@ Obsoletes: kdevplatform-libs < 5.1.80-1
 %patch0 -p1 -b .qmake
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name
 
@@ -194,7 +190,6 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.kde.kdevelop.desk
 %{_datadir}/mime/packages/kdevclang.xml
 %{_datadir}/mime/packages/kdevgit.xml
 %{_datadir}/plasma/plasmoids/kdevelopsessions/*
-%{_datadir}/plasma/services/org.kde.plasma.dataengine.kdevelopsessions.operations
 %{_datadir}/knotifications5/kdevelop.notifyrc
 %{_datadir}/icons/hicolor/*/*/*
 %{_datadir}/metainfo/org.kde.kdevelop.appdata.xml
@@ -204,6 +199,8 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.kde.kdevelop.desk
 %{_datadir}/knsrcfiles/kdev*.knsrc
 %{_docdir}/HTML/*/kdevelop/
 %{_kf5_datadir}/kservicetypes5/kdevelopplugin.desktop
+%{_qt5_qmldir}/org/kde/plasma/private/kdevelopsessions/libkdevelopsessionsplugin.so
+%{_qt5_qmldir}/org/kde/plasma/private/kdevelopsessions/qmldir
 
 %ldconfig_scriptlets libs
 
@@ -211,8 +208,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.kde.kdevelop.desk
 %{_libdir}/lib*.so.*
 %{_libdir}/*.so
 %{_libdir}/libKDevClangPrivate.so*
-%{_kf5_qtplugindir}/krunner_kdevelopsessions.so
-%{_kf5_qtplugindir}/plasma/dataengine/plasma_engine_kdevelopsessions.so
+%{_kf5_qtplugindir}/kf5/krunner/krunner_kdevelopsessions.so
 %{_kf5_qtplugindir}/kdevplatform/
 %{_kf5_qtplugindir}/grantlee/%{grantlee5_plugins}/kdev_filters.so
 # FIXME/TODO: does not use standard %%{?grantlee5_plugindir}, is that a problem?  -- rex
@@ -229,6 +225,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.kde.kdevelop.desk
 %{rpm_macros_dir}/macros.kdevelop
 
 %changelog
+* Tue Sep 08 2020 Jan Grulich <jgrulich@redhat.com> - 9:5.6.0-1
+- 5.6.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9:5.5.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jan Grulich <jgrulich@redhat.com> - 9:5.5.2-2
 - Rebuild (Plasma 5.19)
 

@@ -20,15 +20,16 @@ The library generates SVG as defined by the Scalable Vector Graphics 1.1
 Specification (http://www.w3.org/TR/SVG11/). Output goes to the specified
 io.Writer.}
 
-%global golicenses      LICENSE
+%global golicenses      LICENSE-link.txt LICENSE.txt
 %global godocs          README.markdown
 
 Name:           %{goname}
 Version:        0
-Release:        0.8%{?dist}
+Release:        0.10%{?dist}
 Summary:        Go Language Library for SVG generation
 
-License:        MIT
+# Upstream license specification: CC-BY-SA-3.0
+License:        CC-BY-SA
 URL:            %{gourl}
 Source0:        %{gosource}
 
@@ -50,16 +51,19 @@ BuildRequires:  golang(honnef.co/go/tools/structlayout)
 
 %if %{with check}
 %check
-%if %{with bootstrap}
-%gocheck -d personal
-%else
-%gocheck
-%endif
+%gocheck %{?with_bootstrap:-d personal}
 %endif
 
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 08:36:41 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.9.20200723git0cbcf57
+- Bump to commit bd5c74aaa11ced81d5a9b999a5abd363a3f3c058
+- License changed for MIT to CC-BY-SA
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

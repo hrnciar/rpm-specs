@@ -1,7 +1,7 @@
 Summary:	Image viewing utility
 Name:		gliv
 Version:	1.9.7
-Release:	23%{?dist}
+Release:	25%{?dist}
 License:	GPLv2+
 URL:		http://guichaz.free.fr/gliv/
 VCS:		git://repo.or.cz/gliv.git
@@ -54,6 +54,13 @@ desktop-file-install \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.7-25
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.7-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.7-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          %{packver}
-Release:          2%{?dist}
+Release:          3%{?dist}
 Summary:          Manage the Life Cycle of your Package Functions
 
 License:          GPLv3
@@ -73,7 +73,10 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
-* Sat Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 0.2.0-2
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 06 2020 Tom Callaway <spot@fedoraproject.org> - 0.2.0-2
 - rebuild for R 4
 
 * Sat Mar 07 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.2.0-1

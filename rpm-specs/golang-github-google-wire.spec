@@ -19,7 +19,7 @@ written to be used with Wire is useful even for hand-written initialization.}
                         CONTRIBUTORS README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Compile-time Dependency Injection for Go
 
 # Upstream license specification: Apache-2.0
@@ -69,6 +69,9 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 16 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.4.0-1
 - Update to latest version
 

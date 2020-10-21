@@ -18,8 +18,8 @@
 
 Summary: A widely used Mail Transport Agent (MTA)
 Name: sendmail
-Version: 8.15.2
-Release: 44%{?dist}
+Version: 8.16.1
+Release: 2%{?dist}
 License: Sendmail
 URL: http://www.sendmail.org/
 
@@ -57,47 +57,33 @@ Source17: sendmail-etc-mail-virtusertable
 # fix man path and makemap man page
 Patch3: sendmail-8.14.4-makemapman.patch
 # fix smrsh paths
-Patch4: sendmail-8.14.3-smrsh_paths.patch
+Patch4: sendmail-8.16.1-smrsh_paths.patch
 # fix sm-client.pid path
 Patch7: sendmail-8.14.9-pid.patch
 # fix sendmail man page
 Patch10: sendmail-8.15.1-manpage.patch
 # compile with -fpie
-Patch11: sendmail-8.15.1-dynamic.patch
+Patch11: sendmail-8.16.1-dynamic.patch
 # fix cyrus path
 Patch12: sendmail-8.13.0-cyrus.patch
 # fix aliases.db path
-Patch13: sendmail-8.15.1-aliases_dir.patch
+Patch13: sendmail-8.16.1-aliases_dir.patch
 # fix vacation Makefile
 Patch14: sendmail-8.14.9-vacation.patch
 # remove version information from sendmail helpfile
 Patch15: sendmail-8.14.9-noversion.patch
 # do not accept localhost.localdomain as valid address from SMTP
-Patch16: sendmail-8.15.2-localdomain.patch
+Patch16: sendmail-8.16.1-localdomain.patch
 # build libmilter as DSO
 Patch17: sendmail-8.14.3-sharedmilter.patch
 # skip colon separator when parsing service name in ServiceSwitchFile
-Patch18: sendmail-8.15.2-switchfile.patch
+Patch18: sendmail-8.16.1-switchfile.patch
 # silence warning about missing sasl2 config in /usr/lib*, now in /etc/sasl2
-Patch23: sendmail-8.14.8-sasl2-in-etc.patch
+Patch23: sendmail-8.16.1-sasl2-in-etc.patch
 # add QoS support, patch from Philip Prindeville <philipp@fedoraproject.org>
 # upstream reserved option ID 0xe7 for testing of this new feature, #576643
-Patch25: sendmail-8.15.2-qos.patch
-Patch26: sendmail-8.15.2-libmilter-socket-activation.patch
-# patch provided by upstream
-Patch27: sendmail-8.15.2-smtp-session-reuse-fix.patch
-Patch28: sendmail-8.15.2-openssl-1.1.0-fix.patch
-# patch taken from Debian
-# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=807258
-Patch29: sendmail-8.15.2-format-security.patch
-# rhbz#1473971
-Patch30: sendmail-8.15.2-openssl-1.1.0-ecdhe-fix.patch
-# rhbz#1736650
-Patch31: sendmail-8.15.2-gethostbyname2.patch
-# upstream patch:
-Patch32: sendmail-8.15.2-fix-covscan-issues.patch
-# sent upstream
-Patch33: sendmail-8.15.2-gcc-10-fix.patch
+Patch25: sendmail-8.16.1-qos.patch
+Patch26: sendmail-8.16.1-libmilter-socket-activation.patch
 
 BuildRequires: libdb-devel
 BuildRequires: libnsl2-devel
@@ -204,13 +190,6 @@ cp devtools/M4/UNIX/{,shared}library.m4
 %patch23 -p1 -b .sasl2-in-etc
 %patch25 -p1 -b .qos
 %patch26 -p1 -b .libmilter-socket-activation
-%patch27 -p1 -b .smtp-session-reuse-fix
-%patch28 -p1 -b .openssl-1.1.0-fix
-%patch29 -p1 -b .format-security
-%patch30 -p1 -b .openssl-1.1.0-ecdhe-fix
-%patch31 -p1 -b .gethostbyname2
-%patch32 -p1 -b .fix-covscan-issues
-%patch33 -p1 -b .gcc-10-fix
 
 for f in RELEASE_NOTES contrib/etrn.0; do
 	iconv -f iso8859-1 -t utf8 -o ${f}{_,} &&
@@ -263,7 +242,7 @@ EOF
 
 %if "%{with_tls}" == "yes"
 cat >> redhat.config.m4 << EOF
-APPENDDEF(\`conf_sendmail_ENVDEF', \`-DSTARTTLS -D_FFR_TLS_1 -D_FFR_TLS_EC -D_FFR_TLS_USE_CERTIFICATE_CHAIN_FILE')dnl
+APPENDDEF(\`conf_sendmail_ENVDEF', \`-DSTARTTLS -D_FFR_TLS_1 -DTLS_EC -D_FFR_TLS_USE_CERTIFICATE_CHAIN_FILE -DDANE')dnl
 APPENDDEF(\`conf_sendmail_LIBS', \`-lssl -lcrypto')dnl
 EOF
 %endif
@@ -714,6 +693,17 @@ exit 0
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.16.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul  7 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 8.16.1-1
+- New version
+  Resolves: rhbz#1853885
+- Dropped smtp-session-reuse-fix, openssl-1.1.0-fix, openssl-1.1.0-ecdhe-fix,
+  gethostbyname2, fix-covscan-issues, gcc-10-fix patches (not needed)
+- Dropped format-security patch (upstreamed)
+- Updated patches
+
 * Fri Apr 03 2020 Tom Stellard <tstellar@redhat.com> - 8.15.2-44
 - Specify value for confCC in redhat.config.m4
 

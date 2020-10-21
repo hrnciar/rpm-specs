@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	1.0.1
-Release:	8%{?dist}
+Release:	9%{?dist}
 BuildArch:	noarch
 Summary:	Erlang module to parse command line arguments using the GNU getopt syntax
 License:	BSD
@@ -42,6 +42,9 @@ chmod 0644 examples/*.escript
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

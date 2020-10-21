@@ -1,7 +1,7 @@
 Name: ipvsadm
 Summary: Utility to administer the Linux Virtual Server
 Version: 1.31
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+
 URL: https://kernel.org/pub/linux/utils/kernel/ipvsadm/
 
@@ -72,6 +72,9 @@ services. Supported Features include:
 %{_mandir}/man8/%{name}-save.8*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.31-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.31-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           buildnumber-maven-plugin
 Version:        1.3
-Release:        14%{?dist}
+Release:        17%{?dist}
 Summary:        Build Number Maven Plugin
 License:        MIT and ASL 2.0
 URL:            http://svn.codehaus.org/mojo/tags/buildnumber-maven-plugin-%{version}
@@ -8,6 +8,8 @@ BuildArch: 	noarch
 
 Source0:        http://central.maven.org/maven2/org/codehaus/mojo/%{name}/%{version}/%{name}-%{version}-source-release.zip
 Source1:        http://www.apache.org/licenses/LICENSE-2.0.txt
+
+Patch0:         00-remove-broken-build-config.patch
 
 BuildRequires:  maven-local
 BuildRequires:  mvn(junit:junit)
@@ -60,6 +62,8 @@ API documentation for %{name}.
 
 %prep
 %setup -q
+%patch0 -p1
+
 cp -p %{SOURCE1} .
 
 %pom_remove_dep com.google.code.maven-scm-provider-svnjava:maven-scm-provider-svnjava
@@ -71,7 +75,7 @@ cp -p %{SOURCE1} .
 %pom_add_dep junit:junit::test
 
 %build
-%mvn_build
+%mvn_build -- -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 %install
 %mvn_install
@@ -83,6 +87,15 @@ cp -p %{SOURCE1} .
 %doc LICENSE.txt LICENSE-2.0.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Fabio Valentini <decathorpe@gmail.com> - 1.3-16
+- Set javac source and target to 1.8 to fix Java 11 builds.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.3-15
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,8 +1,11 @@
 
+# set this until when/if we port to new cmake macros
+%global __cmake_in_source_build 1
+
 Summary: Multimedia framework api for Qt4
 Name:    phonon-qt4
 Version: 4.10.3
-Release: 11%{?dist}
+Release: 14%{?dist}
 License: LGPLv2+
 URL:     https://community.kde.org/Phonon
 
@@ -133,6 +136,16 @@ end
 
 
 %changelog
+* Tue Aug 11 2020 Rex Dieter <rdieter@fedoraproject.org> - 4.10.3-14
+- fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.10.3-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.10.3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Rex Dieter <rdieter@fedoraproject.org> - 4.10.3-11
 - qt4-only compat package
 - fix URL

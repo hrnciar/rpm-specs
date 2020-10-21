@@ -3,7 +3,7 @@
 
 # https://github.com/antchfx/jsonquery
 %global goipath         github.com/antchfx/jsonquery
-Version:                1.1.2
+Version:                1.1.4
 
 %gometa
 
@@ -14,7 +14,7 @@ Jsonq package for Go. Golang XPath query for JSON query.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Jsonq package for Go
 
 License:        MIT
@@ -43,6 +43,11 @@ BuildRequires:  golang(github.com/golang/groupcache/lru)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 17:19:39 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.4-1
+- Update to 1.1.4
+
 * Sat Apr 04 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.1.2-1
 - Initial package
-

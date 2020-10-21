@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        1.0.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Nilpotent quotients of L-presented groups
 
 License:        GPLv2+
@@ -49,6 +49,7 @@ This package contains documentation for gap-pkg-%{pkgname}.
 %autosetup -n %{pkgname}-%{version}
 
 %build
+export LC_ALL=C.UTF-8
 mkdir -p ../pkg
 ln -s ../%{pkgname}-%{version} ../pkg
 ln -s %{_gap_dir}/pkg/ace ../pkg
@@ -67,6 +68,7 @@ rm -fr %{buildroot}%{_gap_dir}/pkg/%{pkgname}-%{version}/{COPYING,README.md,scri
 rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}-%{version}/doc/*.{aux,bbl,blg,brf,idx,ilg,ind,log,out,pnr,tex}
 
 %check
+export LC_ALL=C.UTF-8
 gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 
 %files
@@ -80,6 +82,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}-%{version}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

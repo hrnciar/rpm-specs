@@ -25,7 +25,7 @@
 
 Name:		libxsmm
 Version:	1.16
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	Small dense or sparse matrix multiplications and convolutions for x86_64
 License:	BSD
 URL:		https://github.com/hfp/libxsmm
@@ -34,7 +34,7 @@ BuildRequires:	%_bindir/python3 openblas-devel
 %if %{with devtoolset}
 # Release 6 supports avx512 and uses the same libgfortran version as
 # the system compiler.
-BuildRequires:	devtoolset-6-gcc-gfortran devtoolset-6-gcc-c++
+BuildRequires:	devtoolset-9-gcc-gfortran devtoolset-9-gcc-c++
 %else
 BuildRequires:	gcc-gfortran gcc-c++
 %endif
@@ -96,7 +96,7 @@ cp -p samples/deeplearning/gxm/README.md documentation/gxm.md
 
 %build
 %if %{with devtoolset}
-. /opt/rh/devtoolset-6/enable
+. /opt/rh/devtoolset-9/enable
 %endif
 # OpenMP is only used by libxsmmext, so no need to turn it off.
 # Avoid the ld hardening flags, which are taken care of by the library
@@ -111,7 +111,7 @@ cp -p samples/deeplearning/gxm/README.md documentation/gxm.md
 
 %install
 %if %{with devtoolset}
-. /opt/rh/devtoolset-6/enable
+. /opt/rh/devtoolset-9/enable
 %endif
 # Supply STATIC etc. since this actually builds stuff (a bug?),
 # and otherwise we end up with bits built wrongly.
@@ -134,6 +134,8 @@ You will have to adjust the make files to use an installed version." >samples/RE
 # works.
 OMP_NUM_THREADS=1 make test-cp2k %makeflags
 rm -r samples/cp2k/{.make,.state,cp2k-dbcsr,cp2k-collocate,cp2k-test.txt}
+# For some reason this only seems necessary for el8
+rm -rf samples/cp2k/obj
 
 %ldconfig_scriptlets
 
@@ -163,6 +165,13 @@ rm -r samples/cp2k/{.make,.state,cp2k-dbcsr,cp2k-collocate,cp2k-test.txt}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Dave Love <loveshack@fedoraproject.org> - 1.16-2
+- Clean samples/cp2k/obj
+- Maybe use devtoolset-9, not -6
+
 * Fri Jun 19 2020 Dave Love <loveshack@fedoraproject.org> - 1.16-1
 - New version
 

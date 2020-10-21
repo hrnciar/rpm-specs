@@ -1,6 +1,6 @@
 Name:           perl-Net-Pcap-Easy
 Version:        1.4210
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Convenience functions to make Net::Pcap easier to use
 License:        ASL 2.0
 URL:            https://metacpan.org/release/Net-Pcap-Easy
@@ -56,6 +56,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4210-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.4210-16
 - Perl 5.32 rebuild
 

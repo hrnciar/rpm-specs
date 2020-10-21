@@ -2,11 +2,13 @@
 
 Name:           deepin-control-center
 Version:        5.0.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        New control center for Linux Deepin
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/dde-control-center
 Source0:        %{url}/archive/%{version}/%{repo}-%{version}.tar.gz
+# applied in upstream 791fbcc9d24532df04b81bd9dabb99fb8aff79ab
+Patch0:         0001-build-fix-cc1plus-xxx.cpp-is-not-a-directory-warning.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  desktop-file-utils
@@ -29,6 +31,7 @@ BuildRequires:  pkgconfig(xcb-ewmh)
 BuildRequires:  pkgconfig(xext)
 BuildRequires:  cmake(KF5NetworkManagerQt)
 BuildRequires:  qt5-linguist
+BuildRequires:  qt5-qtbase-private-devel
 Requires:       deepin-account-faces
 Requires:       deepin-api
 Requires:       deepin-daemon
@@ -46,16 +49,17 @@ New control center for Linux Deepin.
 
 %prep
 %setup -q -n %{repo}-%{version}
-sed -i 's|lrelease|lrelease-qt5|' translate_generation.sh
+%patch0 -p1
 sed -i '/%{repo}/s|\.\./lib|%{_libdir}|' src/frame/pluginscontroller.cpp
 
 %build
+export PATH=%{_qt5_bindir}:$PATH
 %cmake . -DDCC_DISABLE_GRUB=YES \
          -DDISABLE_SYS_UPDATE=YES
-%make_build
+%cmake_build
 
 %install
-%make_install INSTALL_ROOT=%{buildroot}
+%cmake_install
 # place holder plugins dir
 mkdir -p %{buildroot}%{_libdir}/%{repo}/plugins
 
@@ -74,6 +78,18 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{repo}.desktop ||:
 %{_libdir}/%{repo}/
 
 %changelog
+* Thu Aug  6 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.0.0-5
+- BR: qt5-qtbase-private-devel
+- Applied an upstream patch to fix build with Qt 5.14
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

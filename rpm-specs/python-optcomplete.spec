@@ -6,7 +6,7 @@
 
 Name:           python-%{srcname}
 Version:        1.2.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Shell Completion Self-Generator for Python
 
 License:        BSD
@@ -96,6 +96,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.1-6
 - Rebuilt for Python 3.9
 

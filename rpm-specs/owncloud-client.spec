@@ -3,7 +3,7 @@
 Name:           owncloud-client
 Version:        2.6.0
 %global vertag 13018
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        The ownCloud Client
 
 # -libs are LGPLv2+, rest GPLv2
@@ -213,6 +213,13 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/owncloud.a
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

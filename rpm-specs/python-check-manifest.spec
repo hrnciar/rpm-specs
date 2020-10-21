@@ -1,8 +1,8 @@
 %global pypi_name check-manifest
 
 Name:           python-%{pypi_name}
-Version:        0.42
-Release:        2%{?dist}
+Version:        0.44
+Release:        1%{?dist}
 Summary:        Check MANIFEST.in in a Python source package
 
 License:        MIT
@@ -54,8 +54,7 @@ sed -i -e '/^#!\//, 1d' check_manifest.py
 %py3_install
 
 %check
-PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} \
-  -v tests.py -k "not vcs and not git and not sdist"
+%pytest -v tests.py -k "not vcs and not git and not sdist"
 
 %files -n python3-%{pypi_name}
 %license LICENSE.rst
@@ -68,6 +67,15 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} \
 %{_bindir}/check-manifest
 
 %changelog
+* Wed Oct 14 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.44-1
+- Update to latest upstream release 0.44 (#1884888)
+
+* Thu Sep 24 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.43-1
+- Update to latest upstream release 0.43 (#1881152)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.42-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.42-2
 - Rebuilt for Python 3.9
 

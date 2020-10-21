@@ -1,6 +1,6 @@
 Name:           ccls
 Version:        0.20190823.6
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        C/C++/ObjC language server
 
 # main package is Apache 2.0
@@ -49,14 +49,11 @@ rm -rf third_party/rapidjson
 %build
 export CLANG_MAJOR_VERSION=$(clang --version|head -1|awk '{print $3}'|awk -F'.' '{print $1}')
 
-mkdir build && pushd build
-%cmake .. -DCLANG_LINK_CLANG_DYLIB=ON -DCLANG_RESOURCE_DIR=%{_libdir}/clang/$CLANG_MAJOR_VERSION
-
-%make_build
-popd
+%cmake -DCLANG_LINK_CLANG_DYLIB=ON -DCLANG_RESOURCE_DIR=%{_libdir}/clang/$CLANG_MAJOR_VERSION
+%cmake_build
 
 %install
-%make_install -C build
+%cmake_install
 
 %files
 %{_bindir}/%{name}
@@ -64,6 +61,16 @@ popd
 %doc README.md
 
 %changelog
+* Tue Aug  4 2020 Dan Čermák <dan.cermak@cgc-instruments.com> - 0.20190823.6-4
+- Fix building with the new cmake macros (rhbz#1863312)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20190823.6-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20190823.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Dan Čermák <dan.cermak@cgc-instruments.com> - 0.20190823.6-2
 - Add link to persistent clang resource directory (proper fix for rhbz#1807574)
 

@@ -1,13 +1,13 @@
 %global srcname     notifications
 %global appname     io.elementary.notifications
 
-%global commit      a16377db0dce6c2c999f6e5cb2b9e7ee56b68ef7
+%global commit      5867ed05f2ee112479f70bb1ac5b94b80d3771a6
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global commitdate  20200512
+%global commitdate  20201007
 
 Name:           elementary-notifications
 Version:        0
-Release:        0.5.%{commitdate}.git%{shortcommit}%{?dist}
+Release:        0.7.%{commitdate}.git%{shortcommit}%{?dist}
 Summary:        GTK Notifications Server
 License:        GPLv3+
 
@@ -62,6 +62,12 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Fri Oct 09 2020 Fabio Valentini <decathorpe@gmail.com> - 0-0.7.20200512.git5867ed0
+- Bump to commit 5867ed0.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6.20200512.gita16377d
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 20 2020 Fabio Valentini <decathorpe@gmail.com> - 0-0.5.20200512.gita16377d
 - Bump to commit a16377d.
 

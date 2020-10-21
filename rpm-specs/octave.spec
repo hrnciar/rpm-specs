@@ -12,6 +12,15 @@
 %bcond_with qt5
 %endif
 
+%if 0%{?fedora} >= 33
+%bcond_without flexiblas
+%endif
+%if %{with flexiblas}
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 # Compile with ILP64 BLAS - not yet working
 %bcond_with blas64
 
@@ -22,13 +31,13 @@
 %global relsuf .rc%{?rcver}
 %endif
 
-%global optflags %{optflags} -flto=auto
+%global optflags %{optflags}
 %global build_ldflags %{build_ldflags} -flto
 
 Name:           octave
 Epoch:          6
 Version:        5.2.0
-Release:        2%{?dist}
+Release:        8%{?dist}
 Summary:        A high-level language for numerical computations
 License:        GPLv3+
 URL:            http://www.octave.org
@@ -75,7 +84,7 @@ BuildRequires:  libappstream-glib
 %endif
 
 BuildRequires:  arpack-devel
-BuildRequires:  openblas-devel
+BuildRequires:  %{blaslib}-devel
 BuildRequires:  bison
 BuildRequires:  bzip2-devel
 BuildRequires:  curl-devel
@@ -135,7 +144,6 @@ BuildRequires:  texlive-metapost
 BuildRequires:  zlib-devel
 # For check
 BuildRequires:  mesa-dri-drivers
-BuildRequires:  xorg-x11-apps
 %ifnarch s390 s390x
 BuildRequires:  xorg-x11-drv-dummy
 %endif
@@ -190,7 +198,7 @@ Requires:       gcc-c++
 Requires:       gcc-gfortran
 Requires:       fftw-devel%{?_isa}
 Requires:       hdf5-devel%{?_isa}
-Requires:       openblas-devel%{?_isa}
+Requires:       %{blaslib}-devel%{?_isa}
 Requires:       readline-devel%{?_isa}
 Requires:       zlib-devel
 Requires:       libappstream-glib
@@ -240,13 +248,19 @@ export CPPFLAGS=-I%{_includedir}/suitesparse
 # Disable _GLIBCXX_ASSERTIONS for now
 # https://savannah.gnu.org/bugs/?55547
 export CXXFLAGS="$(echo %optflags | sed s/-Wp,-D_GLIBCXX_ASSERTIONS//)"
+
+verstr=$(%{__cxx} --version | head -1)
+if [[ "$verstr" == *"GCC"* ]]; then
+  CXXFLAGS="$CXXFLAGS -flto=auto"
+else
+  CXXFLAGS="$CXXFLAGS -flto"
+fi
+
 %configure --enable-shared --disable-static \
  --enable-float-truncate \
  %{?disabledocs} \
  --disable-silent-rules \
-%if %{with blas64}
- --with-blas=openblas64 \
-%endif
+ --with-blas=%{blaslib}%{?with_blas64:64}  \
  --with-java-includedir=/usr/lib/jvm/java/include \
  --with-java-libdir=$libjvm \
  --with-qrupdate \
@@ -374,6 +388,7 @@ fi
 $Xorg -noreset +extension GLX +extension RANDR +extension RENDER -logfile ./xorg.log -config ./xorg.conf :99 &
 sleep 2
 export DISPLAY=:99
+export FLEXIBLAS=netlib
 make check %{?el7:|| :}
 
 %ldconfig_scriptlets
@@ -424,6 +439,24 @@ make check %{?el7:|| :}
 %{_pkgdocdir}/refcard*.pdf
 
 %changelog
+* Mon Oct 05 2020 Orion Poplawski <orion@nwra.com> - 6:5.2.0-8
+- Rebuild for sundials 5.4.0
+
+* Thu Aug 13 2020 Iñaki Úcar <iucar@fedoraproject.org> - 5.2.0-7
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 5.2.0-6
+- Drop unnecessary (apparently unused) BuildRequires: xorg-x11-apps
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6:5.2.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 6:5.2.0-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 6:5.2.0-3
+- Rebuild for hdf5 1.10.6
+
 * Mon Apr 13 2020 Orion Poplawski <orion@nwra.com> - 6:5.2.0-2
 - Rebuild for sundials 5.2.0
 

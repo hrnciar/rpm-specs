@@ -1,6 +1,6 @@
 Name:		nip2
 Version:	8.7.1
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	Interactive tool for working with large images
 
 License:	GPLv2+
@@ -81,6 +81,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/nip2.desktop
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.7.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr  8 2020 Adam Goode <adam@spicenitz.org> - 8.7.1-6
 - Remove goffice requirement, the package was retired
 

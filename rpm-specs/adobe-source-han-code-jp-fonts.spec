@@ -4,7 +4,7 @@
 
 Name:		adobe-source-han-code-jp-fonts
 Version:	2.011
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Adobe OpenType UI font for mixed Latin and Japanese text
 
 License:	OFL
@@ -51,6 +51,9 @@ ln -s	%{_fontconfig_templatedir}/%{fontconf} \
 %doc README.md relnotes.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.011-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.011-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

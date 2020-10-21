@@ -3,7 +3,7 @@
 
 Name:		libcue
 Version:	2.2.1
-Release:	3%{?dist}
+Release:	6%{?dist}
 Summary:	Cue sheet parser library
 
 # Files libcue/rem.{c,h} contains a BSD header
@@ -13,6 +13,9 @@ VCS:		scm:git:https://github.com/%{upstream}/%{name}.git
 Source0:	https://github.com/%{upstream}/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 BuildRequires:	bison
 BuildRequires:	cmake
+%if 0%{?rhel} && 0%{?rhel} < 8
+BuildRequires:	cmake3
+%endif
 BuildRequires:	flex
 BuildRequires:	gcc
 BuildRequires:	gcc-c++
@@ -38,16 +41,26 @@ Development files for %{name}.
 
 
 %build
-%{cmake} .
-make %{?_smp_mflags}
+%if 0%{?rhel} && 0%{?rhel} < 8
+%global cmake %cmake3
+%global cmake_build %cmake3_build
+%global cmake_install %cmake3_install
+%endif
+
+%cmake .
+%cmake_build
 
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 
 %check
-make test
+%if 0%{?rhel} == 8
+%cmake_build test  # RHBZ#1858941
+%else
+%cmake_build --target test
+%endif
 
 
 %ldconfig_scriptlets
@@ -66,6 +79,16 @@ make test
 
 
 %changelog
+* Tue Aug 04 2020 Robert Scheck <robert@fedoraproject.org> - 2.2.1-6
+- Work around CMake out-of-source builds on all branches (#1863986)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 2.2.1-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

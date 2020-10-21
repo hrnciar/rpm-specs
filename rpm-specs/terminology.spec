@@ -1,5 +1,5 @@
 Name:           terminology
-Version:        1.7.0
+Version:        1.8.1
 Release:        1%{?dist}
 License:        BSD
 Summary:        EFL based terminal emulator
@@ -63,6 +63,12 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/terminology.desktop
 
 
 %changelog
+* Mon Aug 17 2020 Tom Callaway <spot@fedoraproject.org> - 1.8.1-1
+- update to 1.8.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 10 2020 Conrad Meyer <cem@FreeBSD.org> - 1.7.0-1
 - update to 1.7.0 (#1833812)
 

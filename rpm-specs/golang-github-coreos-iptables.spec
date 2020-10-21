@@ -3,14 +3,9 @@
 
 # https://github.com/coreos/go-iptables
 %global goipath         github.com/coreos/go-iptables
-Version:                0.4.1
+Version:                0.4.5
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-coreos-go-iptables-devel < 0.4.0-3
-}
 
 %global common_description %{expand:
 Go bindings for iptables utility.
@@ -30,7 +25,7 @@ delete rules; create, clear and delete chains.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Go wrapper around iptables utility
 
 # Upstream license specification: Apache-2.0
@@ -60,6 +55,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 18:35:11 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.4.5-1
+- Update to 0.4.5
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

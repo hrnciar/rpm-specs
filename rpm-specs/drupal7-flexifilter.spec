@@ -4,7 +4,7 @@
 
 Name:    drupal7-flexifilter
 Version: 1.0
-Release: 0.15.%{alphabeta}%{prerelease}%{?dist}
+Release: 0.16.%{alphabeta}%{prerelease}%{?dist}
 Summary: Allows non-admins to create their own, configurable custom filters
 
 License: GPLv2+
@@ -42,6 +42,9 @@ cp -pr * %{buildroot}%{drupaldir}/modules/flexifilter
 %exclude %{drupaldir}/modules/flexifilter/*.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.16.beta1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.15.beta1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

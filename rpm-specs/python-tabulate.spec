@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.8.7
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Pretty-print tabular data in Python, a library and a command-line utility
 
 License:        MIT
@@ -34,11 +34,14 @@ BuildRequires:  python3dist(numpy)
 BuildRequires:  python3dist(pandas)
 BuildRequires:  python3dist(wcwidth)
 # widechars support
-Recommends:     python%{python3_version}dist(wcwidth)
+%{?python_extras_subpkg:Recommends: python3-%{srcname}+widechars}
+%{!?python_extras_subpkg:Recommends: python%{python3_version}dist(wcwidth)}
 
 %description -n python3-%{srcname} %{_description}
 
 Python 3 version.
+
+%{?python_extras_subpkg:%python_extras_subpkg -n python3-%{srcname} -i %{python3_sitelib}/%{srcname}*.egg-info widechars}
 
 %prep
 %autosetup -n %{srcname}-%{version}
@@ -61,6 +64,12 @@ Python 3 version.
 %{python3_sitelib}/__pycache__/%{srcname}.*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.7-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.7-3
+- Add tabulate[widechars] subpackage
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.7-2
 - Rebuilt for Python 3.9
 

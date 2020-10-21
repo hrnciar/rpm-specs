@@ -1,8 +1,8 @@
 Name:           perl-Unicode-MapUTF8
-Version:        1.11
-Release:        42%{?dist}
+Version:        1.14
+Release:        2%{?dist}
 Summary:        Conversions to and from arbitrary character sets and UTF8
-License:        GPL+ or Artistic
+License:        MIT
 URL:            https://metacpan.org/release/Unicode-MapUTF8
 Source0:        https://cpan.metacpan.org/modules/by-module/Unicode/Unicode-MapUTF8-%{version}.tar.gz
 BuildArch:      noarch
@@ -12,7 +12,7 @@ BuildRequires:  findutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
-BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(File::Copy)
 BuildRequires:  perl(File::Spec)
 # Module Runtime
@@ -33,7 +33,7 @@ BuildRequires:  perl(Test::Distribution)
 BuildRequires:  perl(Test::Pod) >= 1.00
 BuildRequires:  perl(Test::Pod::Coverage) >= 1.06
 # Dependencies
-Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
+Requires:       perl(:MODULE_COMPAT_%(eval "`/usr/bin/perl -V:version`"; echo $version))
 
 %description
 Unicode::MapUTF8 Provides an adapter layer between core routines for
@@ -50,18 +50,17 @@ a standardized and simple API.
 
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags}
+/usr/bin/perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 
 %install
-make pure_install DESTDIR=%{buildroot}
-find %{buildroot} -type f -name .packlist -delete
+%{make_install}
 %{_fixperms} -c %{buildroot}
 
 
 %check
-make test
+%{make_build} test
 
 
 %files
@@ -73,6 +72,17 @@ make test
 
 
 %changelog
+* Sun Sep 27 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 1.14-2
+- Update License to reflect license change in version 1.12
+
+* Sun Sep 27 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 1.14-1
+- Update to 1.14
+- Use %%{make_install} instead of "make pure_install"
+- Use %%{make_build} instead of make
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-43
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.11-42
 - Perl 5.32 rebuild
 

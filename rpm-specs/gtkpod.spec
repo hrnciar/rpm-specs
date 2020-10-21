@@ -1,6 +1,6 @@
 Name:           gtkpod
 Version:        2.1.5
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Graphical song management program for Apple's iPod
 
 # The help documentation is under GFDL, the rest of the code is GPLv2+
@@ -98,6 +98,9 @@ pathfix.py -pni "%{__python3} %{py3_shbang_opts}" %{buildroot}/usr/share/gtkpod/
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.5-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 06 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.1.5-15
 - Fix FTBFS.
 

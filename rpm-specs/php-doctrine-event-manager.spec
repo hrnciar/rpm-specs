@@ -1,6 +1,6 @@
 # remirepo/fedora spec file for php-doctrine-event-manager
 #
-# Copyright (c) 2018-2019 Remi Collet
+# Copyright (c) 2018-2020 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
@@ -8,7 +8,7 @@
 #
 
 %global bootstrap    0
-%global gh_commit    629572819973f13486371cb611386eb17851e85c
+%global gh_commit    41370af6a30faa9dc0368c4a6814d596e81aba7f
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     doctrine
 %global gh_project   event-manager
@@ -26,8 +26,8 @@
 %endif
 
 Name:           php-%{pk_vendor}-%{pk_project}
-Version:        1.1.0
-Release:        2%{?dist}
+Version:        1.1.1
+Release:        1%{?dist}
 Summary:        Simple PHP event system
 
 License:        MIT
@@ -43,7 +43,7 @@ BuildRequires:  phpunit7
 %endif
 
 # From composer.json
-#        "php": "^7.1"
+#        "php": "^7.1 || ^8.0"
 Requires:       php(language) >= 7.1
 # From phpcompatinfo report for version 1.0.0: only "core"
 # Autoloader
@@ -93,7 +93,7 @@ EOF
 
 : Run test suite
 ret=0
-for cmd in php php71 php72 php73 php74; do
+for cmd in php php71 php72 php73 php74 php80; do
   if which $cmd; then
     $cmd %{_bindir}/phpunit7 \
         --bootstrap vendor/autoload.php \
@@ -116,6 +116,12 @@ exit $ret
 
 
 %changelog
+* Tue Aug 11 2020 Remi Collet <remi@remirepo.net> - 1.1.1-1
+- update to 1.1.1 (no change)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

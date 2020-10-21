@@ -23,9 +23,9 @@
 %global github_owner    os-autoinst
 %global github_name     openQA
 %global github_version  4.6
-%global github_commit   46234f90c3852646b7f80b88dcb9d8e5dca07f10
+%global github_commit   e9b44740c89522368b2561bf94a34d86d11eb62d
 # if set, will be a post-release snapshot build, otherwise a 'normal' build
-%global github_date     20200429
+%global github_date     20200805
 %global shortcommit     %(c=%{github_commit}; echo ${c:0:7})
 
 # can't use linebreaks here!
@@ -43,15 +43,15 @@
 # The following line is generated from dependencies.yaml (upstream)
 %define assetpack_requires perl(CSS::Minifier::XS) >= 0.01 perl(JavaScript::Minifier::XS) >= 0.11 perl(Mojolicious::Plugin::AssetPack) >= 1.36
 # The following line is generated from dependencies.yaml (upstream)
-%define common_requires perl(Archive::Extract) > 0.7 perl(Config::IniFiles) perl(Cpanel::JSON::XS) perl(Cwd) perl(Data::Dump) perl(Data::Dumper) perl(Digest::MD5) perl(Getopt::Long) perl(Minion) >= 10.04 perl(Mojolicious) >= 8.24 perl(Regexp::Common) perl(Storable) perl(Try::Tiny)
+%define common_requires perl(Archive::Extract) > 0.7 perl(Config::IniFiles) perl(Cpanel::JSON::XS) perl(Cwd) perl(Data::Dump) perl(Data::Dumper) perl(Digest::MD5) perl(Getopt::Long) perl(Minion) >= 10.08 perl(Mojolicious) >= 8.55 perl(Regexp::Common) perl(Storable) perl(Try::Tiny)
 # runtime requirements for the main package that are not required by other sub-packages
 # The following line is generated from dependencies.yaml (upstream)
 %define main_requires %assetpack_requires git-core perl(BSD::Resource) perl(Carp) perl(Carp::Always) perl(CommonMark) perl(Config::Tiny) perl(DBD::Pg) >= 3.7.4 perl(DBI) >= 1.632 perl(DBIx::Class) >= 0.082801 perl(DBIx::Class::DeploymentHandler) perl(DBIx::Class::DynamicDefault) perl(DBIx::Class::OptimisticLocking) perl(DBIx::Class::ResultClass::HashRefInflator) perl(DBIx::Class::Schema::Config) perl(DBIx::Class::Storage::Statistics) perl(Date::Format) perl(DateTime) perl(DateTime::Duration) perl(DateTime::Format::Pg) perl(Exporter) perl(Fcntl) perl(File::Basename) perl(File::Copy) perl(File::Copy::Recursive) perl(File::Path) perl(File::Spec) perl(FindBin) perl(Getopt::Long::Descriptive) perl(IO::Handle) perl(IPC::Run) perl(JSON::Validator) perl(LWP::UserAgent) perl(Module::Load::Conditional) perl(Module::Pluggable) perl(Mojo::Base) perl(Mojo::ByteStream) perl(Mojo::IOLoop) perl(Mojo::JSON) perl(Mojo::Pg) perl(Mojo::RabbitMQ::Client) >= 0.2 perl(Mojo::URL) perl(Mojo::Util) perl(Mojolicious::Commands) perl(Mojolicious::Plugin) perl(Mojolicious::Static) perl(Net::OpenID::Consumer) perl(POSIX) perl(Pod::POM) perl(SQL::Translator) perl(Scalar::Util) perl(Sort::Versions) perl(Text::Diff) perl(Time::HiRes) perl(Time::ParseDate) perl(Time::Piece) perl(Time::Seconds) perl(URI::Escape) perl(YAML::PP) >= 0.020 perl(YAML::XS) perl(aliased) perl(base) perl(constant) perl(diagnostics) perl(strict) perl(warnings)
 # The following line is generated from dependencies.yaml (upstream)
-%define client_requires curl git-core jq perl(IO::Socket::SSL) >= 2.009 perl(IPC::Run) perl(JSON::Validator) perl(LWP::Protocol::https) perl(LWP::UserAgent) perl(YAML::PP) >= 0.020 perl(YAML::XS)
+%define client_requires curl git-core jq perl(Getopt::Long::Descriptive) perl(IO::Socket::SSL) >= 2.009 perl(IPC::Run) perl(JSON::Validator) perl(LWP::Protocol::https) perl(LWP::UserAgent) perl(Test::More) perl(YAML::PP) >= 0.020 perl(YAML::XS)
 # diff from SUSE: case (they have openQA-client, we have openqa-client)
 # The following line is generated from dependencies.yaml (upstream)
-%define worker_requires openqa-client optipng os-autoinst < 5 perl(Minion::Backend::SQLite) perl(Mojo::IOLoop::ReadWriteProcess) >= 0.20 perl(Mojo::SQLite)
+%define worker_requires openqa-client optipng os-autoinst < 5 perl(Minion::Backend::SQLite) >= 5.0.1 perl(Mojo::IOLoop::ReadWriteProcess) >= 0.26 perl(Mojo::SQLite)
 # The following line is generated from dependencies.yaml (upstream)
 %define build_requires %assetpack_requires rubygem(sass)
 
@@ -59,13 +59,12 @@
 # Do not require on this in individual sub-packages except for the devel
 # package.
 # Diff from SUSE: Selenium requirements dropped as not available in Fedora,
-# critic and (python) yamllint requirements dropped (except Perl::Critic
-# itself as the compile-check-all test fails on the in-tree critic module
-# if we leave that out) as we don't run those checks in our package build
-# (SUSE runs them in theirs), Test::MockObject and Test::Exception added as
-# upstream is missing them - https://github.com/os-autoinst/openQA/pull/3018
+# critic, (python) yamllint and (python) jsbeautify requirements dropped
+# (except Perl::Critic itself as the compile-check-all test fails on the
+# in-tree critic module if we leave that out) as we don't run those checks
+# in our package build (SUSE runs them in theirs)
 # The following line is generated from dependencies.yaml (upstream)
-%define test_requires %common_requires %main_requires %python_scripts_requires %worker_requires ShellCheck curl jq os-autoinst-devel perl(App::cpanminus) perl(Perl::Critic) perl(Test::Exception) perl(Test::Fatal) perl(Test::MockModule) perl(Test::MockObject) perl(Test::Mojo) perl(Test::More) perl(Test::Output) perl(Test::Pod) perl(Test::Strict) perl(Test::Warnings) postgresql-server
+%define test_requires %common_requires %main_requires %python_scripts_requires %worker_requires ShellCheck curl jq os-autoinst-devel perl(App::cpanminus) perl(Mojolicious::Plugin::OAuth2) perl(Perl::Critic) perl(Test::Exception) perl(Test::Fatal) perl(Test::MockModule) perl(Test::MockObject) perl(Test::Mojo) perl(Test::Most) perl(Test::Output) perl(Test::Pod) perl(Test::Strict) perl(Test::Warnings) >= 0.029 postgresql-server
 %ifarch x86_64
 %define qemu qemu qemu-kvm
 %else
@@ -76,13 +75,18 @@
 # xorg-x11-fonts dropped because that binary package doesn't exist in
 # Fedora (it exists as a source package generating multiple binary
 # packages) and I can't find any particular reason for it
-# chromedriver dropped as we don't package it
-# The following line is generated from dependencies.yaml
+# The following line is generated from dependencies.yaml (upstream)
 %define devel_requires %build_requires %qemu %test_requires curl perl(Devel::Cover) perl(Perl::Tidy) postgresql-devel rsync sudo tar
+%define devel_no_selenium_requires %build_requires %qemu %test_requires curl perl(Devel::Cover) perl(Perl::Tidy) postgresql-devel rsync sudo tar
+# diff from SUSE: chromedriver dropped as we don't package it
+# that makes this look fairly silly, but we want to follow the SUSE
+# spec as close as we can
+# The following line is generated from dependencies.yaml (upstream)
+%define devel_requires %devel_no_selenium_requires
 
 Name:           openqa
 Version:        %{github_version}
-Release:        49%{?github_date:.%{github_date}git%{shortcommit}}%{?dist}
+Release:        54%{?github_date:.%{github_date}git%{shortcommit}}%{?dist}
 Summary:        OS-level automated testing framework
 License:        GPLv2+
 Url:            http://os-autoinst.github.io/openQA/
@@ -104,11 +108,9 @@ Source3:        FedoraMessaging.pm
 # tests for the fedora-messaging publishing plugin
 Source4:        23-fedora-messaging.t
 
-# https://github.com/os-autoinst/openQA/pull/3017
-# Missing asset check shouldn't use 'hidden' attribute as it doesn't
-# mean what the author thought it meant, made the check ignore most
-# assets on Fedora
-Patch0:         0001-Fix-missing_assets-to-ignore-repos-not-hidden-assets.patch
+# Fix a weird perl lib path issues that breaks the tests in Fedora build env
+# https://github.com/os-autoinst/openQA/pull/3302
+Patch0:         0001-make-test-with-database-add-I-PWD-t-lib-back-to-PERL.patch
 
 BuildRequires:  %{python_scripts_requires}
 BuildRequires:  perl-generators
@@ -127,6 +129,8 @@ Requires(post): coreutils
 # Standard for packages that have systemd services
 %{?systemd_requires}
 
+# the plugin is needed if the auth method is set to "oauth2"
+Recommends:     perl(Mojolicious::Plugin::OAuth2)
 # server needs to run an rsync server if worker caching is used
 Recommends:     rsync
 
@@ -274,6 +278,15 @@ Supplements:    packageand(%name:postgresql-server)
 You only need this package if you have a local postgresql server
 next to the webui.
 
+%package single-instance
+Summary:        Convenience package for a single-instance setup
+Requires:       %{name}-local-db
+Requires:       %{name}-worker
+Requires:       httpd
+
+%description single-instance
+Use this package to setup a local instance with all services provided together.
+
 %package bootstrap
 Summary:        Automated openQA setup
 
@@ -362,11 +375,14 @@ sed -i -e 's,unshare -r -n ,,g' t/40-script_openqa-clone-custom-git-refspec.t t/
 sed -i -e '/fails without network/d' t/32-openqa_client-script.t
 # Skip tests not working currently, or flaky
 rm t/25-cache-service.t t/17-labels_carry_over.t
+# XXX for mock builds, uncomment this: see
+# https://github.com/rpm-software-management/mock/issues/612
+#rm t/40-openqa-clone-job.t
 
 # GIT_CEILING_DIRECTORIES here avoids a case where git error handling
 # can differ when you run the build in mock and cause 16-utils-runcmd
 # to fail
-make test-with-database GIT_CEILING_DIRECTORIES="/" OBS_RUN=1 PROVE_ARGS='-l -r' TEST_PG_PATH=%{buildroot}/DB
+make test-with-database GIT_CEILING_DIRECTORIES="/" CHECKSTYLE=0 PROVE_ARGS='-l -r' TEST_PG_PATH=%{buildroot}/DB
 rm -rf %{buildroot}/DB
 
 
@@ -458,17 +474,23 @@ fi
 %{_datadir}/openqa/dbicdh
 %{_datadir}/openqa/assets
 %dir %{_datadir}/openqa/script
+%{_datadir}/openqa/script/configure-web-proxy
 %{_datadir}/openqa/script/create_admin
 %{_datadir}/openqa/script/fetchneedles
 %{_datadir}/openqa/script/initdb
 %{_datadir}/openqa/script/openqa
 %{_datadir}/openqa/script/openqa-scheduler
+%{_datadir}/openqa/script/openqa-scheduler-daemon
 %{_datadir}/openqa/script/openqa-websockets
+%{_datadir}/openqa/script/openqa-websockets-daemon
 %{_datadir}/openqa/script/openqa-livehandler
+%{_datadir}/openqa/script/openqa-livehandler-daemon
 %{_datadir}/openqa/script/openqa-enqueue-asset-cleanup
 %{_datadir}/openqa/script/openqa-enqueue-audit-event-cleanup
 %{_datadir}/openqa/script/openqa-enqueue-bug-cleanup
 %{_datadir}/openqa/script/openqa-enqueue-result-cleanup
+%{_datadir}/openqa/script/openqa-gru
+%{_datadir}/openqa/script/openqa-webui-daemon
 %{_datadir}/openqa/script/upgradedb
 %{_datadir}/openqa/script/modify_needle
 %dir %{_localstatedir}/lib/openqa/share
@@ -532,6 +554,8 @@ fi
 %{_unitdir}/openqa-worker-no-cleanup@.service
 %{_unitdir}/openqa-slirpvde.service
 %{_unitdir}/openqa-vde_switch.service
+%{_datadir}/openqa/script/openqa-slirpvde
+%{_datadir}/openqa/script/openqa-vde_switch
 %{_tmpfilesdir}/openqa.conf
 %ghost %dir %{_rundir}/openqa
 # worker libs
@@ -539,6 +563,8 @@ fi
 %dir %{_datadir}/openqa/script
 %{_datadir}/openqa/script/worker
 %{_datadir}/openqa/script/openqa-workercache
+%{_datadir}/openqa/script/openqa-workercache-daemon
+%{_datadir}/openqa/script/openqa-worker-cacheservice-minion
 %dir %{_localstatedir}/lib/openqa/pool
 %defattr(-,_openqa-worker,root)
 %dir %{_localstatedir}/lib/openqa/cache
@@ -566,7 +592,6 @@ fi
 %{_datadir}/openqa/script/openqa-clone-job
 %{_datadir}/openqa/script/openqa-clone-custom-git-refspec
 %{_datadir}/openqa/script/openqa-validate-yaml
-%{_datadir}/openqa/script/configure-web-proxy
 %dir %{_datadir}/openqa/lib
 %{_datadir}/openqa/lib/OpenQA/Client.pm
 %{_datadir}/openqa/lib/OpenQA/Client
@@ -591,6 +616,8 @@ fi
 %{_datadir}/openqa/script/setup-db
 %{_bindir}/openqa-setup-db
 
+%files single-instance
+
 %files bootstrap
 %{_datadir}/openqa/script/openqa-bootstrap
 %{_datadir}/openqa/script/openqa-bootstrap-container
@@ -602,6 +629,22 @@ fi
 %{_datadir}/openqa/lib/OpenQA/WebAPI/Plugin/FedoraUpdateRestart.pm
 
 %changelog
+* Fri Aug 07 2020 Adam Williamson <awilliam@redhat.com> - 4.6-54.20200805gite9b4474
+- Fix FedoraUpdateRestart plugin for upstream code change
+
+* Wed Aug 05 2020 Adam Williamson <awilliam@redhat.com> - 4.6-53.20200805gite9b4474
+- Bump to latest git, re-sync spec with upstream
+
+* Tue Aug 04 2020 Adam Williamson <awilliam@redhat.com> - 4.6-52.20200607git5349e27
+- Bump to more recent git, re-sync spec with upstream
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6-51.20200429git46234f9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6-50.20200429git46234f9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 29 2020 Adam Williamson <awilliam@redhat.com> - 4.6-49.20200429git46234f9
 - Bump to latest git
 - Resync spec with upstream

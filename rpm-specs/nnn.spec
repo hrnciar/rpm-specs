@@ -1,5 +1,5 @@
 Name:       nnn
-Version:    3.2
+Version:    3.4
 Release:    1%{?dist}
 Summary:    The missing terminal file browser for X
 
@@ -67,6 +67,15 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
 %{_datadir}/zsh/site-functions/_nnn
 
 %changelog
+* Mon Aug 24 18:02:01 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.4-1
+- Update to 3.4 (#1869730)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 05:28:55 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.3-1
+- Update to 3.3 (#1856600)
+
 * Thu Jun 18 22:46:09 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.2-1
 - Update to 3.2 (#1823267)
 

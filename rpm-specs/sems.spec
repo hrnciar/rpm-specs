@@ -1,11 +1,7 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Summary:	SIP Express Media Server, an extensible SIP media server
 Name:		sems
 Version:	1.7.0
-Release:	0.1.20200311.git.baad471%{?dist}
+Release:	0.4.20200311.git.baad471%{?dist}
 URL:		https://github.com/sems-server/%{name}
 #Source0:	https://github.com/sems-server/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 Source0:	https://github.com/sems-server/%{name}/archive/baad471/%{name}-%{version}.tar.gz
@@ -27,6 +23,10 @@ Patch8:		sems-0008-cmake-fix-symbol-visibility.patch
 # Workaround for bug in GCC 10 on s390x (test again in the next builds)
 Patch9:		sems-0009-Don-t-copy-byte-which-will-be-replaced-with-NULL-any.patch
 
+%ifarch s390x
+%define _lto_cflags %{nil}
+%endif
+
 BuildRequires:	cmake >= 3.0
 BuildRequires:	flite-devel
 BuildRequires:	gcc-c++
@@ -45,11 +45,13 @@ BuildRequires:	opus-devel
 #BuildRequires:	python2-devel
 BuildRequires:	spandsp-devel
 BuildRequires:	speex-devel
-BuildRequires:	systemd
+BuildRequires:	systemd-rpm-macros
+BuildRequires:	/usr/bin/git
+BuildRequires:	/usr/bin/man
+BuildRequires:  git-core-doc
+BuildRequires:  groff
+BuildRequires:  python2
 Requires(pre):  /usr/sbin/useradd
-Requires(post): systemd-units
-Requires(preun): systemd-units
-Requires(postun): systemd-units
 # Disable gateway module
 Obsoletes: %{name}-gateway =< 1.3.1
 Provides: %{name}-gateway%{?_isa} = %{version}-%{release}
@@ -259,12 +261,12 @@ mv doc/README.stats core/plug-in/stats/README.stats
 	-DSEMS_AUDIO_PREFIX=%{_datadir} \
 	-DSEMS_EXEC_PREFIX=%{_prefix} \
 	-DSEMS_LIBDIR=%{_lib} \
-	-DSEMS_DOC_PREFIX=%{_docdir}
-
-make %{?_smp_mflags}
+	-DSEMS_DOC_PREFIX=%{_docdir} \
+	-DSEMS_USE_PYTHON=no
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 # FIXME disable python2 until upstream adds support for Py3
 rm -f %{buildroot}/%{_sbindir}/%{name}-get-callproperties
@@ -693,6 +695,17 @@ getent passwd %{name} >/dev/null || \
 
 
 %changelog
+* Tue Sep 29 20:44:24 CEST 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.7.0-0.4.20200311.git.baad471
+- Rebuilt for libevent 2.1.12
+- Adjust cmake and python config to fix build (#1865475)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-0.3.20200311.git.baad471
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-0.2.20200311.git.baad471
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

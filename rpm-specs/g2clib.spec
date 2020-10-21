@@ -2,7 +2,7 @@
 
 Name:           g2clib
 Version:        1.6.0
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        GRIB2 encoder/decoder and search/indexing routines in C
 
 License:        Public Domain
@@ -42,7 +42,9 @@ is described in ASCII file "grib2c.doc".
 Summary:        Development files for %{name}
 #Requires:       %%{name} = %%{version}-%%{release}
 Provides:       %{name}-static = %{version}-%{release}
-Requires:       libpng-devel jasper-devel
+Provides:       %{name}-static%{?_isa} = %{version}-%{release}
+Requires:       jasper-devel%{?_isa}
+Requires:       libpng-devel%{?_isa}
 
 %description    devel
 This library contains "C" decoder/encoder
@@ -103,6 +105,12 @@ echo %%g2clib %g2clib > $RPM_BUILD_ROOT%{macrosdir}/macros.g2clib
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 04:25:52 GMT 2020 Orion Poplawski <orion@nwra.com> - 1.6.0-9
+- Use %%{?_isa} for devel requires and provides
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

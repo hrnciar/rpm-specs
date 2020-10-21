@@ -2,7 +2,7 @@
 
 Name:           ocaml-oasis
 Version:        0.4.11
-Release:        20%{?dist}
+Release:        23%{?dist}
 Summary:        Tooling for building OCaml libraries and applications
 
 License:        LGPLv2+ with exceptions
@@ -94,6 +94,15 @@ ocaml setup.ml -test
 %{_libdir}/ocaml/*/META
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.4.11-23
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.4.11-22
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.11-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 0.4.11-20
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

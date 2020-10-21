@@ -1,10 +1,10 @@
 # -*-Mode: rpm-spec -*-
 
 Name:      azote
-Version:   1.7.12
+Version:   1.8.1
 Release:   1%{?dist}
 BuildArch: noarch
-Summary:   Wallpaper and colour manager for Sway, i3 and some other WMs
+Summary:   Wallpaper and color manager for Sway, i3 and some other WMs
 
 # GPLv3: main program
 # BSD: colorthief.py
@@ -26,8 +26,8 @@ Provides: bundled(python3-colorthief) = 0.2.1
 
 %description
 Azote is a GTK+3 - based picture browser and background setter, as the
-frontend to the swaybg (sway/Wayland) and feh (X windows) commands. It
-also includes several colour management tools.
+front-end to the swaybg (sway/Wayland) and feh (X windows) commands. It
+also includes several color management tools.
 
 The program is confirmed to work on sway, i3, Openbox, Fluxbox and dwm
 window managers, on Arch Linux, Void Linux, Debian and Fedora.
@@ -58,6 +58,21 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %license LICENSE LICENSE-COLORTHIEF
 
 %changelog
+* Tue Oct 06 2020 Bob Hepple <bob.hepple@gmail.com> - 1.8.1-1
+- new version
+
+* Mon Sep 28 2020 Bob Hepple <bob.hepple@gmail.com> - 1.8.0-1
+- new version
+
+* Sun Sep 20 2020 Bob Hepple <bob.hepple@gmail.com> - 1.7.15-1
+- new version
+
+* Mon Sep 14 2020 Bob Hepple <bob.hepple@gmail.com> - 1.7.14-1
+- new version
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 24 2020 Bob Hepple <bob.hepple@gmail.com> - 1.7.12-1
 - new release
 

@@ -1,6 +1,6 @@
 Name:           deepin-topbar
 Version:        0.6.6
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        Topbar for Deepin desktop environment
 License:        GPLv3
 URL:            https://github.com/justforlxz/deepin-topbar
@@ -43,11 +43,11 @@ Requires:       hicolor-icon-theme
 sed -i 's|lrelease|lrelease-qt5|' translate_generation.sh
 
 %build
-%cmake -DCMAKE_INSTALL_LIBDIR=%{_lib} .
-%make_build
+%cmake -DCMAKE_INSTALL_LIBDIR=%{_lib}
+%cmake_build
 
 %install
-%make_install INSTALL_ROOT=%{buildroot}
+%cmake_install
 
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
@@ -62,6 +62,19 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_datadir}/polkit-1/actions/*.service
 
 %changelog
+* Wed Sep  2 2020 Robin Lee <cheeselee@fedoraproject.org> - 0.6.6-6
+- Rebuild for libprocps
+
+* Fri Aug  7 2020 Robin Lee <cheeselee@fedoraproject.org> - 0.6.6-5
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.6-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.6-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

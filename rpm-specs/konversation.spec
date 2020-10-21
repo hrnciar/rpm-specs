@@ -1,7 +1,8 @@
+%undefine __cmake_in_source_build
 
 Name:           konversation
-Version:        1.7.5
-Release:        8%{?dist}
+Version:        1.7.6
+Release:        1%{?dist}
 Summary:        A user friendly IRC client
 
 License:        GPLv2+
@@ -16,11 +17,6 @@ Source0:        http://download.kde.org/%{?beta:un}stable/konversation/%{version
 Source1:        konversationrc
 
 ## upstream patches
-Patch7: 0007-Fix-regex-for-cap-ack.patch
-Patch16: 0016-Fix-build-with-Qt-5.13.patch
-Patch17: 0017-appdata-use-https-for-URLs.patch
-Patch19: 0019-Remove-extra-Python-shebang.patch
-Patch28: 0028-Fix-build-with-Qt-5.15-missing-header.patch
 
 BuildRequires: desktop-file-utils
 BuildRequires: extra-cmake-modules
@@ -93,16 +89,13 @@ sed -i \
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 install -p -m644 -D %{SOURCE1} %{buildroot}%{_kf5_sysconfdir}/xdg/konversationrc
 
@@ -145,6 +138,12 @@ fi
 
 
 %changelog
+* Mon Sep 28 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.7.6-1
+- 1.7.6
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.5-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.7.5-8
 - more upstream fixes (qt5.15 in particular)
 

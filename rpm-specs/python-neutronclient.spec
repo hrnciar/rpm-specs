@@ -10,7 +10,7 @@ Neutron's API.
 
 Name:       python-neutronclient
 Version:    7.1.1
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Python API and CLI for OpenStack Neutron
 
 License:    ASL 2.0
@@ -145,6 +145,9 @@ ln -s %{cname} %{buildroot}%{_bindir}/%{cname}-3
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Joel Capitao <jcapitao@redhat.com> 7.1.1-1
 - Update to upstream version 7.1.1
 

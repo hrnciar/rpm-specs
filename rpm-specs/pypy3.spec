@@ -2,7 +2,7 @@
 Name:           pypy3
 Version:        %{basever}.1
 %global pyversion 3.6
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Python 3 implementation with a Just-In-Time compiler
 
 # LGPL and another free license we'd need to ask spot about are present in some
@@ -858,6 +858,13 @@ CheckPyPy %{name}-stackless
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.3.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 15 2020 Tomas Hrnciar <thrnciar@redhat.com> - 7.3.1-1
 - Update to 7.3.1
 

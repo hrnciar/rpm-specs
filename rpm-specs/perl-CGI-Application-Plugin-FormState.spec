@@ -1,6 +1,6 @@
 Name:           perl-CGI-Application-Plugin-FormState
 Version:        0.12
-Release:        29%{?dist}
+Release:        30%{?dist}
 Summary:        Store Form State without Hidden Fields
 License:        GPL+ or Artistic
 
@@ -46,6 +46,9 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.12-29
 - Perl 5.32 rebuild
 

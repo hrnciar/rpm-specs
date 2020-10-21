@@ -1,7 +1,7 @@
 Name:     libpcap
 Epoch:    14
 Version:  1.9.1
-Release:  4%{?dist}
+Release:  6%{?dist}
 Summary:  A system-independent interface for user-level packet capture
 License:  BSD with advertising
 URL:      http://www.tcpdump.org
@@ -67,10 +67,10 @@ export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 %else
 %configure --enable-rdma
 %endif
-make %{?_smp_mflags}
+%make_build
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install
+%make_install
 rm -f $RPM_BUILD_ROOT%{_libdir}/libpcap.a
 
 %ldconfig_scriptlets
@@ -92,6 +92,13 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libpcap.a
 %{_mandir}/man5/pcap*.5*
 
 %changelog
+* Mon Oct 12 2020 Michal Ruprich <mruprich@redhat.com> - 14:1.9.1-6
+- Using make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 14:1.9.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 15 2020 Michal Ruprich <michalruprich@gmail.com> - 14:1.9.1-4
 - Enabling rdma support in libpcap
 

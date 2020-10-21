@@ -15,9 +15,9 @@
 Name:          atril
 Version:       %{branch}.0
 %if 0%{?rel_build}
-Release:       2%{?dist}
+Release:       3%{?dist}
 %else
-Release:       0.12%{?git_rel}%{?dist}
+Release:       0.13%{?git_rel}%{?dist}
 %endif
 Summary:       Document viewer
 License:       GPLv2+ and LGPLv2+ and MIT
@@ -192,6 +192,9 @@ desktop-file-validate ${RPM_BUILD_ROOT}%{_datadir}/applications/atril.desktop
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 08 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-2
 - drop libglade2 build requires
 

@@ -1,12 +1,13 @@
 Name:          perl-Verilog-Perl
-Version:       3.470
-Release:       4%{?dist}
+Version:       3.472
+Release:       1%{?dist}
 Summary:       Verilog parsing routines
 License:       LGPLv3 or Artistic 2.0
 URL:           http://www.veripool.org/wiki/verilog-perl
 Source0:       https://cpan.metacpan.org/authors/id/W/WS/WSNYDER/Verilog-Perl-%{version}.tar.gz
 
 BuildRequires: bison
+BuildRequires: coreutils
 BuildRequires: gcc-c++
 BuildRequires: gdbm-devel
 BuildRequires: findutils
@@ -87,8 +88,13 @@ make test
 %{perl_vendorarch}/auto/Verilog/*
 %{_mandir}/man?/*
 
-
 %changelog
+* Mon Oct 19 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.472-1
+- 3.472 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.470-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.470-4
 - Perl 5.32 rebuild
 

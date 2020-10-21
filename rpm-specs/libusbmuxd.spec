@@ -1,6 +1,6 @@
 Name:          libusbmuxd
 Version:       2.0.2
-Release:       1%{?dist}
+Release:       3%{?dist}
 Summary:       Client library USB multiplex daemon for Apple's iOS devices
 
 License:       LGPLv2+
@@ -43,10 +43,10 @@ NOCONFIGURE=1 ./autogen.sh
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
-make %{?_smp_mflags} V=1
+%make_build
 
 %install
-make install DESTDIR=%{buildroot} INSTALL='install -p'
+%make_install
 
 #Remove libtool archives.
 find %{buildroot} -type f -name "*.la" -delete
@@ -73,6 +73,13 @@ make check
 %{_libdir}/libusbmuxd-2.0.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 2.0.2-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jun 16 2020 Bastien Nocera <bnocera@redhat.com> - 2.0.2-1
 + libusbmuxd-2.0.2-1
 - Update to 2.0.2

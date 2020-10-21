@@ -4,7 +4,7 @@
 
 Name:           parcimonie.sh
 Version:        0
-Release:        0.14.%{checkout}%{?dist}
+Release:        0.15.%{checkout}%{?dist}
 Summary:        Refresh your GnuPG keyring over Tor
 
 License:        WTFPL
@@ -50,6 +50,9 @@ ln -sf %{_datadir}/%{name}/parcimonie.sh %{buildroot}/%{_bindir}/parcimonie.sh
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.15.20170704git5aa21ef
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.14.20170704git5aa21ef
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

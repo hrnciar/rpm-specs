@@ -10,7 +10,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        1.3.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GAP Character Table Library
 
 License:        GPLv2+
@@ -121,6 +121,9 @@ rm -fr ../pkg
 %{_gap_dir}/pkg/%{pkgname}-%{version}/htm/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 10 2020 Jerry James <loganjerry@gmail.com> - 1.3.1-1
 - Version 1.3.1
 

@@ -1,6 +1,6 @@
 Name:           vdpauinfo
 Version:        1.0
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Tool to query the capabilities of a VDPAU implementation
 
 License:        MIT
@@ -36,6 +36,9 @@ Tool to query the capabilities of a VDPAU implementation.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@
 
 Name:		ocp
 Version:	0.1.22
-Release:	0.25.git%{shortcommit0}%{?dist}
+Release:	0.27.git%{shortcommit0}%{?dist}
 Summary:	Open Cubic Player for MOD/S3M/XM/IT/MIDI music files
 
 # 2010/08/08: Verified that upstream has removed GPLv3+ gnulib and added
@@ -93,7 +93,7 @@ make
 
 %install
 mkdir -p %{buildroot}/etc
-make install DESTDIR=%{buildroot}
+%make_install
 
 # rename ultrafix.sh script to make it obvious that it belongs to this
 # package and avoid conflicts.
@@ -176,6 +176,13 @@ if [ $1 -eq 0 ]; then  # final removal
 fi
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.22-0.27.git849cc42
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 0.1.22-0.26.git849cc42
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Thu Jan 30 2020 Charles R. Anderson <cra@wpi.edu> - 0.1.22-0.25.git849cc42
 - patch out configure gcc version check
 

@@ -2,7 +2,7 @@
 
 Name:       cdargs
 Version:    1.35
-Release:    24%{?dist}
+Release:    25%{?dist}
 Summary:    The shell cd with bookmarks and browser
 License:    GPLv2+
 URL:        http://www.skamphausen.de/cgi-bin/ska/CDargs/
@@ -73,6 +73,9 @@ install -D -p -m 644 src/cdargs.h %{buildroot}%{_includedir}/cdargs.h
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.35-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.35-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

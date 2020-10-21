@@ -1,7 +1,7 @@
 Name:           lazarus
 Summary:        Lazarus Component Library and IDE for Freepascal
 
-Version:        2.0.8
+Version:        2.0.10
 Release:        4%{?dist}
 
 # The qt5pas version is taken from lcl/interfaces/qt5/cbindings/Qt5Pas.pro
@@ -11,7 +11,7 @@ Release:        4%{?dist}
 # GNU Classpath style exception, see COPYING.modifiedLGPL
 License:        GPLv2+ and MPLv1.1 and LGPLv2+ with exceptions
 URL:            http://www.lazarus-ide.org/
-Source0:        https://downloads.sourceforge.net/project/%{name}/Lazarus%20Zip%20_%20GZip/Lazarus%20%{version}/%{name}-%{version}.tar.gz
+Source0:        https://downloads.sourceforge.net/project/%{name}/Lazarus%20Zip%20_%20GZip/Lazarus%20%{version}/%{name}-%{version}-2.tar.gz
 
 Patch0:         Makefile_patch.diff
 Patch1:         lazarus-2.0.6--disable-PascalScript-on-ppc64le.patch
@@ -30,6 +30,8 @@ Requires:	binutils
 Requires:	fpc%{?_isa}
 Requires:	fpc-src
 Requires:	gdb
+Requires:	make
+
 Requires:	glibc-devel%{?_isa}
 Requires:	gtk2-devel%{?_isa}
 Requires:	qt5pas-devel%{?_isa} = %{qt5pas_version}-%{qt5pas_release}
@@ -147,6 +149,18 @@ rm -rf %{buildroot}%{_libdir}/%{name}/lcl/interfaces/qt5/cbindings/tmp/
 
 
 %changelog
+* Mon Aug 24 2020 Artur Iwicki <fedora@svgames.pl> - 2.0.10-4
+- Make the package explicitly require "make"
+
+* Mon Aug 03 2020 Artur Iwicki <fedora@svgames.pl> - 2.0.10-3
+- Fix FailsToInstall due to .1 added to qt5pas release number
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Artur Iwicki <fedora@svgames.pl> - 2.0.10-1
+- Update to v2.0.10
+
 * Sun Jun 21 2020 Artur Iwicki <fedora@svgames.pl> - 2.0.8-4
 - Rebuilt for FPC 3.2.0
 

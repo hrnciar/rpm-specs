@@ -1,6 +1,6 @@
 Name:		xournal
 Version:	0.4.8.2016
-Release:	5%{?dist}
+Release:	7%{?dist}
 Summary:	Notetaking, sketching, PDF annotation and general journal
 
 License:	GPLv2
@@ -84,6 +84,13 @@ desktop-file-install \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.8.2016-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.8.2016-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.8.2016-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

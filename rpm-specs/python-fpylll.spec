@@ -1,8 +1,8 @@
 %global	modname	fpylll
 
 Name:		python-%{modname}
-Version:	0.5.1dev
-Release:	3%{?dist}
+Version:	0.5.2dev
+Release:	1%{?dist}
 Summary:	A Python wrapper for fplll
 License:	GPLv2+
 URL:		https://github.com/fplll/%{modname}
@@ -23,18 +23,17 @@ A Python wrapper for fplll.
 
 %package	-n python3-%{modname}
 Summary:	A Python 3 wrapper for fplll
-%{?python_provide:%python_provide python3-%{modname}}
 BuildRequires:	python3-cysignals-devel
 BuildRequires:	python3-devel
-BuildRequires:	python3dist(cython)
-BuildRequires:	python3dist(numpy)
-BuildRequires:	python3dist(pytest)
+BuildRequires:	%{py3_dist cython}
+BuildRequires:	%{py3_dist numpy}
+BuildRequires:	%{py3_dist pytest}
 
-Requires:	python3dist(cysignals)
+Requires:	%{py3_dist cysignals}
 
-Recommends:	python3dist(ipython)
-Recommends:	python3dist(matplotlib)
-Recommends:	python3dist(numpy)
+Recommends:	%{py3_dist ipython}
+Recommends:	%{py3_dist matplotlib}
+Recommends:	%{py3_dist numpy}
 
 %description	-n python3-%{modname}
 A Python 3 wrapper for fplll.
@@ -69,6 +68,12 @@ popd
 %{python3_sitearch}/%{modname}-*.egg-info
 
 %changelog
+* Mon Oct  5 2020 Jerry James <loganjerry@gmail.com> - 0.5.2dev-1
+- Version 0.5.2dev
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1dev-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.1dev-3
 - Rebuilt for Python 3.9
 

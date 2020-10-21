@@ -5,7 +5,7 @@
 %global crate generic-array
 
 Name:           rust-%{crate}
-Version:        0.14.2
+Version:        0.14.4
 Release:        1%{?dist}
 Summary:        Generic types implementing functionality of arrays
 
@@ -95,6 +95,15 @@ which use "serde" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Thu Aug 20 2020 Josh Stone <jistone@redhat.com> - 0.14.4-1
+- Update to 0.14.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 08:31:13 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.14.3-1
+- Update to 0.14.3
+
 * Sun Jun 21 09:17:19 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.14.2-1
 - Update to 0.14.2
 

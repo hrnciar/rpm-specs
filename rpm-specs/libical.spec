@@ -1,12 +1,15 @@
+%undefine __cmake_in_source_build
+
 Summary:	Reference implementation of the iCalendar data type and serialization format
 Name:		libical
 Version:	3.0.8
-Release:	2%{?dist}
+Release:	5%{?dist}
 License:	LGPLv2 or MPLv2.0
 URL:		https://libical.github.io/libical/
 Source:		https://github.com/%{name}/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 Patch01:	libical-3.0.3-load-builtin-timezone.patch
+Patch02:	libical-3.0.8-invoke-python-tests.patch
 
 BuildRequires:	gcc
 BuildRequires:	gcc-c++
@@ -65,24 +68,22 @@ Development files needed for building things which link against %{name}-glib.
 %setup -q
 
 %patch01 -p1 -b .load-builtin-timezone
+%patch02 -p1 -b .invoke-python-tests
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake} .. \
+%{cmake} \
   -DUSE_INTEROPERABLE_VTIMEZONES:BOOL=true \
   -DICAL_ALLOW_EMPTY_PROPERTIES:BOOL=true \
   -DGOBJECT_INTROSPECTION:BOOL=true \
   -DICAL_GLIB:BOOL=true \
   -DICAL_GLIB_VAPI:BOOL=true \
   -DSHARED_ONLY:BOOL=true
-popd
 
 # avoid parallel-builds, gir generatation fails on slower archs
-%make_build -j1 -C %{_target_platform}
+%cmake_build -j1
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %check
 make test ARGS="-V" -C %{_target_platform}
@@ -134,6 +135,20 @@ make test ARGS="-V" -C %{_target_platform}
 %{_datadir}/gtk-doc/html/%{name}-glib
 
 %changelog
+* Tue Aug 04 2020 Milan Crha <mcrha@redhat.com> - 3.0.8-5
+- Use CMake macros for the build
+- Change how python tests are invoked (RH bug #1865924)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.8-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 3.0.8-3
+- Use __cmake_in_source_build
+
 * Fri May 15 2020 Pete Walter <pwalter@fedoraproject.org> - 3.0.8-2
 - Rebuild for ICU 67
 

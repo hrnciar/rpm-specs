@@ -1,12 +1,12 @@
-%global commit      c27bb71aa28250f6da1576e069b4b8cc61986beb
+%global commit  93d5789d60f82436e20ccad05ce9cb43c6e3656e
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global date        20190817
+%global date    20200228
 
-%global corename    desmume2015
+%global corename desmume2015
 
 Name:           libretro-%{corename}
 Version:        0
-Release:        0.3.%{date}git%{shortcommit}%{?dist}
+Release:        0.5.%{date}git%{shortcommit}%{?dist}
 Summary:        Port of Desmume to libretro
 ExclusiveArch:  i686 x86_64
 
@@ -16,8 +16,9 @@ Source0:        %{url}/archive/%{commit}/%{name}-%{version}.%{date}git%{shortcom
 Source1:        https://raw.githubusercontent.com/flathub/org.gnome.Games/master/libretro-cores/%{corename}.libretro
 
 BuildRequires:  gcc-c++
-Suggests:       gnome-games%{?_isa}
-Suggests:       retroarch%{?_isa}
+
+Supplements:    gnome-games%{?_isa}
+Supplements:    retroarch%{?_isa}
 
 %description
 Port of Desmume to libretro based on Desmume SVN circa 2015.
@@ -29,13 +30,16 @@ Port of Desmume to libretro based on Desmume SVN circa 2015.
 
 %build
 %set_build_flags
-cd desmume
-%make_build GIT_VERSION=%{shortcommit}
+%make_build \
+    -C desmume \
+    GIT_VERSION=%{shortcommit}
 
 
 %install
-cd desmume
-%make_install prefix=%{_prefix} libdir=%{_libdir}
+%make_install \
+    -C desmume \
+    prefix=%{_prefix} \
+    libdir=%{_libdir}
 install -Dp -m 0644 %{SOURCE1} %{buildroot}%{_libdir}/libretro/%{corename}.libretro
 
 
@@ -46,6 +50,12 @@ install -Dp -m 0644 %{SOURCE1} %{buildroot}%{_libdir}/libretro/%{corename}.libre
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5.20200228git93d5789
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0-0.4.20200228git93d5789
+- Update to latest git snapshot
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3.20190817gitc27bb71
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

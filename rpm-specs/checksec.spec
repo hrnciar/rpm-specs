@@ -4,7 +4,7 @@
 
 Name:           checksec
 Version:        2.2.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tool to check system for binary-hardening
 
 License:        BSD
@@ -86,6 +86,9 @@ popd
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Björn Esser <besser82@fedoraproject.org> - 2.2.2-1
 - Release 2.2.2 (BZ#1840807)
 

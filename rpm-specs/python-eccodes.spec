@@ -1,16 +1,23 @@
 Name:           python-eccodes
-Version:        0.9.7
-Release:        2%{?dist}
+Version:        0.9.9
+Release:        1%{?dist}
 Summary:        Python interface to the ecCodes GRIB and BUFR decoder/encoder
 License:        ASL 2.0
-URL:            https://pypi.org/project/eccodes-python/
-Source0:        https://files.pythonhosted.org/packages/source/e/eccodes-python/eccodes-python-%{version}.tar.gz
+# note: upstream has changed the name on pypi from eccodes-python to eccodes
+URL:            https://pypi.org/project/eccodes/
+Source0:        https://files.pythonhosted.org/packages/source/e/eccodes/eccodes-%{version}.tar.gz
 # see https://github.com/ecmwf/eccodes-python/pull/21
 Patch1:         python-eccodes-setup.patch
+# see https://github.com/ecmwf/eccodes-python/issues/36
+Patch2:         python-eccodes-sphinx-config.patch
+# see https://github.com/ecmwf/eccodes-python/issues/37
+# this patch is needed for eccodes2.19.0 (not for eccodes 2.18.0)
+Patch3:         python-eccodes-bufrtests.patch
 
 # note that the fast bindings are arch dependent
 BuildRequires:  eccodes-devel
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 # needed to build the fast bindings
 BuildRequires:  python3-cffi
 # needed for checks/tests
@@ -50,7 +57,7 @@ Summary: %summary
 %description -n python3-eccodes %_description
 
 %prep
-%autosetup -n eccodes-python-%{version} -p1
+%autosetup -n eccodes-%{version} -p1
 
 %build
 %py3_build
@@ -73,12 +80,23 @@ rm %{buildroot}%{python3_sitearch}/gribapi/*.h
 %doc README.rst
 %doc build/sphinx/html/
 %license LICENSE
-%{python3_sitearch}/eccodes_python-*-py*.egg-info
+%{python3_sitearch}/eccodes-*-py*.egg-info
 %{python3_sitearch}/eccodes
 %{python3_sitearch}/gribapi
 
 
 %changelog
+* Sun Oct 18 2020 Jos de Kloe <josdekloe@gmail.com> 0.9.9-1
+- new upstream version, and adapt to upstream project name change
+- add patch for sphinx configuration problem
+- add patch to fix test run for eccodes 2.19.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 Jos de Kloe <josdekloe@gmail.com> 0.9.8-1
+- new upstream version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.7-2
 - Rebuilt for Python 3.9
 

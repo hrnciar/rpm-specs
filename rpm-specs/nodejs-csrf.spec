@@ -5,7 +5,7 @@
 
 Name:		nodejs-csrf
 Version:	3.0.6
-Release:	7%{?dist}
+Release:	9%{?dist}
 Summary:	Primary logic behind csrf tokens
 
 License:	MIT
@@ -77,6 +77,13 @@ NODE_ENV=test %{_bindir}/mocha -R spec --trace-deprecation --bail --check-leaks 
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.6-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.6-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.6-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

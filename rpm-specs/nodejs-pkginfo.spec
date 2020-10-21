@@ -3,7 +3,7 @@
 
 Name:       nodejs-pkginfo
 Version:    0.4.1
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Expose properties on a module from a package.json
 
 License:    MIT
@@ -51,6 +51,9 @@ cp -pr package.json lib/ %{buildroot}%{nodejs_sitelib}/pkginfo
 %{nodejs_sitelib}/pkginfo
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.4.1-1
 - Update to latest upstream release 0.4.1
 

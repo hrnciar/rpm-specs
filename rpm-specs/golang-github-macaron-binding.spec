@@ -3,7 +3,7 @@
 
 # https://github.com/go-macaron/binding
 %global goipath         github.com/go-macaron/binding
-%global commit          ac54ee249c27dca7e76fad851a4a04b73bd1b183
+Version:                1.1.0
 
 %gometa
 
@@ -15,8 +15,7 @@ validation for Macaron.}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.4%{?dist}
+Release:        1%{?dist}
 Summary:        Middleware that provides request data binding and validation for Macaron
 
 # Upstream license specification: Apache-2.0
@@ -39,6 +38,7 @@ BuildRequires:  golang(github.com/smartystreets/goconvey/convey)
 
 %prep
 %goprep
+sed -i "s|github.com/unknwon/com|github.com/Unknwon/com|" $(find . -iname "*.go" -type f)
 
 %install
 %gopkginstall
@@ -51,6 +51,12 @@ BuildRequires:  golang(github.com/smartystreets/goconvey/convey)
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 16:10:50 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.0-1
+- Update to 1.1.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

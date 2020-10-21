@@ -3,14 +3,9 @@
 
 # https://github.com/pelletier/go-toml
 %global goipath         github.com/pelletier/go-toml
-Version:                1.6.0
+Version:                1.8.0
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-pelletier-go-toml-devel < 1.3.0-2
-}
 
 %global common_description %{expand:
 Go-toml provides the following features for using data parsed from TOML
@@ -38,9 +33,6 @@ Source0:        %{gosource}
 Source1:        glide.yaml
 Source2:        glide.lock
 
-# Remove in F33:
-Obsoletes:      golang-github-pelletier-go-toml < 1.3.0-2
-
 %if %{with check}
 # Tests
 BuildRequires:  golang(github.com/BurntSushi/toml)
@@ -56,6 +48,8 @@ BuildRequires:  golang(gopkg.in/yaml.v2)
 %prep
 %goprep
 cp %{S:1} %{S:2} .
+# https://github.com/pelletier/go-toml/issues/428
+sed -i 's|unknown unit z in duration 1z|unknown unit \\\"z\\\" in duration \\\"1z\\\"|' marshal_test.go
 
 %build
 for cmd in cmd/* ; do
@@ -66,15 +60,6 @@ done
 %gopkginstall
 install -m 0755 -vd                     %{buildroot}%{_bindir}
 install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
-
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
 
 %if %{with check}
 %check
@@ -89,6 +74,12 @@ end
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 21:04:59 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.8.0-1
+- Update to 1.8.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.6.0-1
 - Update to latest version
 

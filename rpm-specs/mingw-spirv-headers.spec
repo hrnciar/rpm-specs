@@ -1,5 +1,5 @@
 %{?mingw_package_header}
-%global commit 2ad0492fb00919d99500f1da74abf5ad3c870e4e
+%global commit 3fdabd0da2932c276b25b9b4a988ba134eba1aa6
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 
@@ -7,8 +7,8 @@
 %global srcname SPIRV-Headers
 
 Name:          mingw-%{pkgname}
-Version:       1.5.1
-Release:       3%{?commit:.git%{shortcommit}}%{?dist}
+Version:       1.5.3
+Release:       1%{?commit:.git%{shortcommit}}%{?dist}
 Summary:       MinGW Windows %{pkgname}
 
 License:       MIT
@@ -71,6 +71,12 @@ cp -a include/spirv %{buildroot}%{mingw64_includedir}/spirv
 
 
 %changelog
+* Mon Aug 10 2020 Sandro Mani <manisandro@gmail.com> - 1.5.3-1.git3fdabd0
+- Update to git 3fdabd0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-4.git2ad0492
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Sandro Mani <manisandro@gmail.com> - 1.5.1-3.git2ad0492
 - Update to git 2ad0492
 

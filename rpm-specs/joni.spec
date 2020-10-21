@@ -1,65 +1,90 @@
 Name:             joni
-Version:          2.1.3
-Release:          11%{?dist}
-Summary:          Java port of Oniguruma regexp library 
+Version:          2.1.20
+Release:          1%{?dist}
+Summary:          Java port of Oniguruma regexp library
+
 License:          MIT
-URL:              http://github.com/jruby/%{name}
-Source0:          https://github.com/jruby/%{name}/archive/%{version}.tar.gz#/%{name}-%{version}.zip
-Patch1:           joni-remove-useless-wagon-dependency.patch
+URL:              https://github.com/jruby/%{name}
+Source0:          https://github.com/jruby/%{name}/archive/%{name}-%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:    java-devel
-BuildRequires:    jcodings
-BuildRequires:    jpackage-utils
-BuildRequires:    junit
-BuildRequires:    maven-local
-BuildRequires:    maven-compiler-plugin
-BuildRequires:    maven-jar-plugin
-BuildRequires:    maven-surefire-plugin
-BuildRequires:    sonatype-oss-parent
+BuildRequires:  maven-local
+BuildRequires:  mvn(junit:junit)
+BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
+BuildRequires:  mvn(org.jruby.jcodings:jcodings)
+BuildRequires:  mvn(org.ow2.asm:asm)
 
-BuildRequires:    objectweb-asm
-
-Requires:         jcodings
-Requires:         jpackage-utils
-Requires:         objectweb-asm
-
-BuildArch:      noarch
-
+BuildArch: noarch
 
 %description
 joni is a port of Oniguruma, a regular expressions library,
 to java. It is used by jruby.
 
 %package javadoc
-Summary:        Javadoc for %{name}
-Requires:       jpackage-utils
+Summary: API documentation for %{name}
 
 %description javadoc
-API documentation for %{name}.
+%{summary}.
 
 %prep
 %setup -q -n %{name}-%{name}-%{version}
-%patch1 -p0
+
+find -name '*.class' -delete
+find -name '*.jar' -delete
+
+%mvn_file : %{name}
+
+# Remove pointless parent pom
+%pom_remove_parent
+
+# Remove wagon extension
+%pom_xpath_remove "pom:build/pom:extensions"
+
+# Remove plugins not relevant for downstream RPM builds
+%pom_remove_plugin :maven-javadoc-plugin
+%pom_remove_plugin :maven-source-plugin
 
 # fixes rpmlint warning about wrong-file-end-of-line-encoding
 sed -i -e 's|\r||' test/org/joni/test/TestC.java
 sed -i -e 's|\r||' test/org/joni/test/TestU.java
 sed -i -e 's|\r||' test/org/joni/test/TestA.java
 
-%mvn_file : %{name}
+# Generate OSGi metadata by using bundle packaging
+%pom_xpath_set pom:packaging "bundle"
+%pom_add_plugin org.apache.felix:maven-bundle-plugin "<extensions>true</extensions>"
 
 %build
-%mvn_build -f
+# Work around xmvn bug with generating javadoc from modular projects: https://github.com/fedora-java/xmvn/issues/58
+# Disable default javadoc generation with -j then generate separately with
+# explicit invokation of javadoc mojo without the module definition present
+%mvn_build -j
+find -name module-info.java -delete
+xmvn --batch-mode --offline org.fedoraproject.xmvn:xmvn-mojo:javadoc
 
 %install
 %mvn_install
 
 %files -f .mfiles
-%doc MANIFEST.MF
+%license LICENSE
+%doc README.md
 
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Wed Sep 02 2020 Mat Booth <mat.booth@redhat.com> - 2.1.20-1
+- Update to a version that properly supports JDK 9+
+- Modernise specfile
+- Add OSGi metadata
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.3-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.3-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.1.3-12
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.3-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

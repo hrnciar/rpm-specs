@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.1
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Yet another Python color library
 
 License:        BSD
@@ -19,31 +19,38 @@ which aims to be reasonably simple to use and "pythonic" in nature.}
 
 %package -n     python3-%{srcname}
 Summary:        %{summary}
+BuildRequires:  pyproject-rpm-macros
 BuildRequires:  python3-devel
-BuildRequires:  python3-pytest
-BuildRequires:  python3-setuptools
 
 %description -n python3-%{srcname} %_description
 
 %prep
 %autosetup -n %{srcname}-release-%{version}
 
+%generate_buildrequires
+%pyproject_buildrequires -x test
+
 %build
-%py3_build
+%pyproject_wheel
 
 %install
-%py3_install
+%pyproject_install
+%pyproject_save_files colorzero
 
 %check
 %{python3} -m pytest
 
-%files -n python3-%{srcname}
+%files -n python3-%{srcname} -f %{pyproject_files}
 %license LICENSE.txt
 %doc README.rst
-%{python3_sitelib}/%{srcname}-*.egg-info/
-%{python3_sitelib}/%{srcname}/
 
 %changelog
+* Fri Sep 04 2020 Tomas Hrnciar <thrnciar@redhat.com> - 1.1-4
+- Use pyproject-rpm-macros in specfile
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1-2
 - Rebuilt for Python 3.9
 

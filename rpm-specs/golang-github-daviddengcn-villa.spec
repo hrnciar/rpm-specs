@@ -3,7 +3,7 @@
 
 # https://github.com/daviddengcn/go-villa
 %global goipath         github.com/daviddengcn/go-villa
-%global commit          3f35da8ba982c734ee972e280e1d947e4c6cf201
+%global commit          68107afb6d76df5bc1ab7fdaae3c79793f656be9
 
 %gometa
 
@@ -15,7 +15,7 @@ Some helper types for go: priority queue, slice wrapper.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.6%{?dist}
 Summary:        Priority queue and slice wrappers for Go
 
 License:        BSD
@@ -49,10 +49,19 @@ BuildRequires:  golang(github.com/golangplus/testing/assert)
 %gopkgfiles
 
 %changelog
-* Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
+* Wed Aug 12 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0-0.6.20200812git68107af
+- Update to 68107afb6d76df5bc1ab7fdaae3c79793f656be9
+
+* Tue Aug 11 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0-0.5.20190711git3f35da8
+- Add patch to fix build with Go 1.15
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4.20190711git3f35da8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3.20190711git3f35da8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
-* Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
+* Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2.20190711git3f35da8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
 * Mon Jun 10 21:34:05 EDT 2019 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0-0.1.20190711git3f35da8

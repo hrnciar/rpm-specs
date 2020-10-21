@@ -1,6 +1,6 @@
 Name:           python-fiat
 Version:        2019.1.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Generator of arbitrary order instances of Lagrange elements on lines, triangles, and tetrahedra
 %global data_version 83d6c1d8f30d
 
@@ -18,6 +18,7 @@ URL:            https://bitbucket.org/fenics-project/fiat
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3dist(pytest)
 BuildRequires:  python3dist(pytest-cases)
 BuildRequires:  python3dist(numpy)
@@ -68,6 +69,12 @@ ln -s fenics-project-fiat-reference-data-%{data_version} fiat-reference-data
 %{python3_sitelib}/fenics_fiat-%{version}-py%{python3_version}.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2019.1.0-4
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2019.1.0-3
 - Rebuilt for Python 3.9
 

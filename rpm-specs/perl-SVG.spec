@@ -1,6 +1,6 @@
 Name:           perl-SVG
-Version:        2.84
-Release:        8%{?dist}
+Version:        2.85
+Release:        2%{?dist}
 Summary:        An extension to generate stand-alone or inline SGV
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/SVG
@@ -45,11 +45,11 @@ for i in SVG_02_sample.pl image_sample.pl inline_sample.pl inlinesvg.pl starpath
 done
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 find $RPM_BUILD_ROOT -type f -name '*.bs' -empty -delete
 
 %check
@@ -63,6 +63,12 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.85-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.85-1
+- 2.85 bump
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.84-8
 - Perl 5.32 rebuild
 

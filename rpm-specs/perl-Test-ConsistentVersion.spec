@@ -1,6 +1,6 @@
 Name:           perl-Test-ConsistentVersion
 Version:        0.3.0
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Ensures a CPAN distribution has consistent versioning
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test-ConsistentVersion
@@ -57,6 +57,9 @@ TEST_AUTHOR=1 ./Build test
 %{_mandir}/man3/Test*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.3.0-16
 - Perl 5.32 rebuild
 

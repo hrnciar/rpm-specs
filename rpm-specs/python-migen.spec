@@ -1,13 +1,13 @@
-%global commit0 4c00f5bb8af191007dc1886fbf49790326cfabf5
+%global commit0 b1b2b298b85a795239daad84c75be073ddc4f8bd
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
-%global snapdate 20191204
+%global snapdate 20200625
 
 %global srcname migen
 
 Name:           python-%{srcname}
 Version:        0.9.2
-Release:        3.%{snapdate}git%{shortcommit0}%{?dist}
+Release:        5.%{snapdate}git%{shortcommit0}%{?dist}
 Summary:        A Python toolbox for building complex digital hardware
 
 License:        BSD
@@ -16,6 +16,7 @@ Source0:        https://github.com/m-labs/%{srcname}/archive/%{commit0}/%{name}-
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  %{py3_dist sphinx}
 BuildRequires:  %{py3_dist sphinx_rtd_theme}
 BuildRequires:  %{py3_dist colorama}
@@ -63,6 +64,13 @@ install -Dpm644 -t %{buildroot}%{_mandir}/man1 _build/man/%{srcname}.1
 %{_mandir}/man1/%{srcname}.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-5.20200625gitb1b2b29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Gabriel Somlo <gsomlo@gmail.com> - 0.9.2-4.20200625gitb1b2b29
+- added setuptools build dependency
+- updated to latest snapshot
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.2-3.20191204git4c00f5b
 - Rebuilt for Python 3.9
 

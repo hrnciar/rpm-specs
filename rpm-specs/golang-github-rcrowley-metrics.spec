@@ -6,14 +6,9 @@
 
 # https://github.com/rcrowley/go-metrics
 %global goipath         github.com/rcrowley/go-metrics
-%global commit          3113b8401b8a98917cde58f8bbd42a1b1c03b1fd
+%global commit          10cdbea86bc0b922507ce91d43f4f78a5bea2e8f
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-rcrowley-go-metrics-devel < 0-0.18
-}
 
 %global common_description %{expand:
 Go port of coda hale's metrics library.}
@@ -25,7 +20,7 @@ Go port of coda hale's metrics library.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.21%{?dist}
+Release:        0.23%{?dist}
 Summary:        Go port of coda hale's metrics library
 
 License:        BSD
@@ -68,6 +63,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 19:03:44 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.23.20200801git10cdbea
+- Bump to commit 10cdbea86bc0b922507ce91d43f4f78a5bea2e8f
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

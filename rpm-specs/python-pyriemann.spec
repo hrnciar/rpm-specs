@@ -2,7 +2,7 @@
 
 Name:           python-%{modname}
 Version:        0.2.6
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Covariance matrices manipulation and Biosignal classification
 
 License:        BSD
@@ -67,6 +67,16 @@ popd
 %{python3_sitelib}/%{modname}*
 
 %changelog
+* Wed Sep 09 2020 Aniket Pradhan <major AT fedoraproject DOT org> - 0.2.6-5
+- Rebuilt for fixed python-joblib package
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.6-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.6-2
 - Rebuilt for Python 3.9
 

@@ -10,7 +10,7 @@
 Summary:        GTK+ 3 and GNOME 3 bindings for Mono
 Name:           gtk-sharp3
 Version:        2.99.3
-Release:        29%{?dist}
+Release:        30%{?dist}
 License:        LGPLv2
 
 BuildRequires:  mono-devel gtk3-devel libglade2-devel monodoc
@@ -124,6 +124,9 @@ chmod 0755 %{buildroot}%{_libdir}/*.so*
 %{_prefix}/lib/monodoc/sources/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.99.3-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 21 2020 Timotheus Pokorra <timotheus.pokorra@solidcharity.com> - 2.99.3-29
 - enable docs again
 

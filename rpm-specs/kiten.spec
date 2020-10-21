@@ -1,6 +1,6 @@
 Name:    kiten
 Summary: Japanese Reference/Study Tool
-Version: 20.04.1
+Version: 20.08.0
 Release: 1%{?dist}
 
 License: GPLv2+
@@ -65,20 +65,17 @@ Requires: %{name}-libs%{?_isa} = %{version}-%{release}
 
 
 %prep
-%setup -q
+%autosetup -p1
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -120,6 +117,19 @@ done
 
 
 %changelog
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Mon Aug 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.1-4
+- use new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.1-1
 - 20.04.1
 

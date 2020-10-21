@@ -21,7 +21,7 @@ for a high level of compatibility with the popular Velocity library for Java.
 
 Name:           python-%{pypi_name}
 Version:        0.5.16
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        A lightweight template engine compatible with Velocity
 
 License:        BSD
@@ -39,6 +39,7 @@ Summary:        %{summary}
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist cachetools}
 BuildRequires:  %{py3_dist six}
+BuildRequires:  %{py3_dist setuptools}
 %if %{with tests}
 BuildRequires:  %{py3_dist nose}
 BuildRequires:  %{py3_dist coverage}
@@ -71,6 +72,12 @@ find . -type f -name "*.py" -exec sed -i '/^#![  ]*\/usr\/bin\/env.*$/ d' {} 2>/
 %{python3_sitelib}/%{pypi_name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.16-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.5.16-2
+- Explicitly BR setuptools
+
 * Sun Jun 21 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.5.16-1
 - Update to 0.5.16
 

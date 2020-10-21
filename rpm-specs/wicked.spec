@@ -14,7 +14,7 @@
 
 Name:           wicked
 Version:        0.6.63
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Network configuration infrastructure
 License:        GPLv2+
 URL:            https://en.opensuse.org/Portal:Wicked
@@ -190,6 +190,9 @@ fi
 %{_libdir}/libwicked-%{version}.so
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.63-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 10 2020 Neal Gompa <ngompa13@gmail.com> - 0.6.63-1
 - Update to version 0.6.63
 

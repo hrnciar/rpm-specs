@@ -2,7 +2,7 @@
 
 Name:           paper-icon-theme
 Version:        1.5.0
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        Modern freedesktop icon theme
 
 License:        CC-BY-SA
@@ -12,6 +12,7 @@ Source0:        %{giturl}/archive/v.%{version}/%{name}-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  meson
+BuildRequires:  xmlstarlet
 
 Requires:       adwaita-icon-theme
 Requires:       gnome-icon-theme
@@ -32,6 +33,19 @@ desktop environment.
 
 # remove stray executable bit from files
 find -executable -type f -exec chmod -x {} +
+
+# Find files that use 'osb:' attributes but do not have the 'xmlns:osb' namespace defined and fix them.
+for FILE in $(grep --include '*.svg' --recursive --files-with-matches -e 'osb:' ./ --null | xargs --null grep -e 'xmlns:osb' --files-without-match); do
+       TEMPNAME="$(mktemp --tmpdir paper.XXXXXXXX)"
+       xmlstarlet ed \
+               -N svg='http://www.w3.org/2000/svg' \
+               --insert '/svg:svg' \
+               --type attr \
+               -n 'xmlns:osb' \
+               -v 'http://www.openswatchbook.org/uri/2009/osb' \
+               < "${FILE}" > "${TEMPNAME}" 2>/dev/null
+       mv "${TEMPNAME}" "${FILE}"
+done
 
 
 %build
@@ -71,6 +85,12 @@ gtk-update-icon-cache --force %{_datadir}/icons/Paper-Mono-Dark &>/dev/null || :
 
 
 %changelog
+* Wed Aug 19 2020 Artur Iwicki <fedora@svgames.pl> - 1.5.0-7
+- Fix some SVG icons containing invalid XML markup
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,8 +1,11 @@
+# force out-of-tree build for spec compatibility with older releases
+%undefine __cmake_in_source_build
+
 %global gittag rel_2_10_35
 
 Name:           asdcplib
 Version:        2.10.35
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        AS-DCP file access libraries
 License:        BSD
 URL:            http://www.cinecert.com/asdcplib/
@@ -59,16 +62,11 @@ find . -name "*.cpp" -exec chmod 644 {} \;
 chmod 644 README.md
 
 %build
-mkdir build
-cd build
-%cmake \
-    -DCMAKE_SKIP_RPATH=True \
-    ..
-%make_build
+%cmake -DCMAKE_SKIP_RPATH=True
+%cmake_build
 
 %install
-cd build
-%make_install
+%cmake_install
 
 install -p -D -m 644 %{SOURCE1} %{buildroot}%{_libdir}/pkgconfig/%{name}.pc
 sed -i \
@@ -118,6 +116,13 @@ rm -fr  %{buildroot}%{_prefix}/targets
 %{_bindir}/wavesplit
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.35-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.35-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 26 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.10.35-1
 - Update to 2.10.35
 

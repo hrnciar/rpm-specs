@@ -1,33 +1,25 @@
-%global gitrev   98822877a9d42
-%global alphatag 20130510git%{gitrev}
-
-%global luaver 5.2
+%global luaver 5.4
 %global lualibdir %{_libdir}/lua/%{luaver}
 
 Name:           lua-inotify
-Version:        1.0
-Release:        0.19.%{alphatag}%{?dist}
+Epoch:          1
+Version:        0.5
+Release:        2%{?dist}
 Summary:        Inotify bindings for Lua
 
 License:        MIT
 URL:            http://hoelz.ro/projects/linotify
-# Source only available from Git; instructions below
-# git clone git://github.com/hoelzro/linotify.git
-# (cd linotify && git archive --format=tar \
-#  --prefix=linotify-%%{version}-%%{gitrev}/ %%{gitrev} \
-#  | xz - ) > linotify-%%{version}-%%{gitrev}.tar.xz
-Source0:        linotify-%{version}-%{gitrev}.tar.xz
+Source0:        https://github.com/hoelzro/linotify/archive/%{version}.tar.gz#/linotify-%{version}.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  lua-devel >= %{luaver}
-Requires:       lua >= %{luaver}
 
 %description
 This is linotify, a binding for Linux's inotify library to Lua.
 
 
 %prep
-%setup -q -n linotify-%{version}-%{gitrev}
+%autosetup -p1 -n linotify-%{version}
 # do not strip when installing; preserve modtime (not strictly required)
 sed -i.nostrip -e 's|install -D -s|install -D -p|' Makefile
 
@@ -42,16 +34,25 @@ make %{?_smp_mflags} CFLAGS="%{optflags} -fPIC"
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT INSTALL_PATH=%{lualibdir}
 
 
 %files
-%doc COPYRIGHT README.md
+%license COPYRIGHT
+%doc README.md Changes
 %{lualibdir}/inotify.so
 
 
 %changelog
+* Mon Aug 24 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 1:0.5-2
+- Remove unneeded manual Requires on lua
+
+* Mon Aug 24 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 1:0.5-1
+- Upgrade to upstream's actual 0.5 release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.20.20130510git98822877a9d42
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.19.20130510git98822877a9d42
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

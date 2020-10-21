@@ -1,6 +1,6 @@
 # remirepo/fedora spec file for php-horde-Horde-Mime
 #
-# Copyright (c) 2012-2018 Nick Bebout, Remi Collet
+# Copyright (c) 2012-2020 Nick Bebout, Remi Collet
 #
 # License: MIT
 # https://fedoraproject.org/wiki/Licensing:MIT#Modern_Style_with_sublicense
@@ -19,8 +19,8 @@
 %endif
 
 Name:           php-horde-Horde-Mime
-Version:        2.11.0
-Release:        6%{?dist}
+Version:        2.11.1
+Release:        1%{?dist}
 Summary:        Horde MIME Library
 
 # lib/Horde/Mime.php is BSD and LGPLv2
@@ -36,9 +36,15 @@ BuildRequires:  php-channel(%{pear_channel})
 BuildRequires:  gettext
 %if %{with_tests}
 # To run unit tests
-BuildRequires:  php-pear(%{pear_channel}/Horde_Test) >= 2.1.0
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+BuildRequires: (php-pear(%{pear_channel}/Horde_Test)    >= 2.1.0  with php-pear(%{pear_channel}/Horde_Test)    < 3)
+BuildRequires: (php-pear(%{pear_channel}/Horde_Support) >= 2.1.0  with php-pear(%{pear_channel}/Horde_Support) < 3)
+BuildRequires: (php-pear(%{pear_channel}/Horde_Mail)    >= 2.5.0  with php-pear(%{pear_channel}/Horde_Mail)    < 3)
+%else
+BuildRequires:  php-pear(%{pear_channel}/Horde_Test)    >= 2.1.0
 BuildRequires:  php-pear(%{pear_channel}/Horde_Support) >= 2.1.0
-BuildRequires:  php-pear(%{pear_channel}/Horde_Mail) >= 2.5.0
+BuildRequires:  php-pear(%{pear_channel}/Horde_Mail)    >= 2.5.0
+%endif
 %endif
 
 Requires(post): %{__pear}
@@ -50,29 +56,44 @@ Requires:       php-pcre
 Requires:       php-spl
 Requires:       php-pear(PEAR) >= 1.7.0
 Requires:       php-channel(%{pear_channel})
-Requires:       php-pear(%{pear_channel}/Horde_Exception) >= 2.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Exception) <  3.0.0
-Requires:       php-pear(%{pear_channel}/Horde_ListHeaders) >= 1.2.0
-Requires:       php-pear(%{pear_channel}/Horde_ListHeaders) <  2.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Mail) >= 2.5.0
-Requires:       php-pear(%{pear_channel}/Horde_Mail) <  3.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Stream) >= 1.3.0
-Requires:       php-pear(%{pear_channel}/Horde_Stream) <  2.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Stream_Filter) >= 2.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Stream_Filter) <  3.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Support) >= 2.1.0
-Requires:       php-pear(%{pear_channel}/Horde_Support) <  3.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Text_Flowed) >= 2.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Text_Flowed) <  3.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Translation) >= 2.2.0
-Requires:       php-pear(%{pear_channel}/Horde_Translation) <  3.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Util) >= 2.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Util) <  3.0.0
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+Requires:      (php-pear(%{pear_channel}/Horde_Exception)     >= 2.0.0  with php-pear(%{pear_channel}/Horde_Exception)     < 3)
+Requires:      (php-pear(%{pear_channel}/Horde_ListHeaders)   >= 1.2.0  with php-pear(%{pear_channel}/Horde_ListHeaders)   < 2)
+Requires:      (php-pear(%{pear_channel}/Horde_Mail)          >= 2.5.0  with php-pear(%{pear_channel}/Horde_Mail)          < 3)
+Requires:      (php-pear(%{pear_channel}/Horde_Stream)        >= 1.3.0  with php-pear(%{pear_channel}/Horde_Stream)        < 2)
+Requires:      (php-pear(%{pear_channel}/Horde_Stream_Filter) >= 2.0.0  with php-pear(%{pear_channel}/Horde_Stream_Filter) < 3)
+Requires:      (php-pear(%{pear_channel}/Horde_Support)       >= 2.1.0  with php-pear(%{pear_channel}/Horde_Support)       < 3)
+Requires:      (php-pear(%{pear_channel}/Horde_Text_Flowed)   >= 2.0.0  with php-pear(%{pear_channel}/Horde_Text_Flowed)   < 3)
+Requires:      (php-pear(%{pear_channel}/Horde_Translation)   >= 2.2.0  with php-pear(%{pear_channel}/Horde_Translation)   < 3)
+Requires:      (php-pear(%{pear_channel}/Horde_Util)          >= 2.0.0  with php-pear(%{pear_channel}/Horde_Util)          < 3)
 # Optional
-Requires:       php-pear(%{pear_channel}/Horde_Nls) >= 2.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Nls) <  3.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Text_Filter) >= 2.0.0
-Requires:       php-pear(%{pear_channel}/Horde_Text_Filter) <  3.0.0
+Recommends:    (php-pear(%{pear_channel}/Horde_Nls)           >= 2.0.0  with php-pear(%{pear_channel}/Horde_Nls)           < 3)
+Recommends:    (php-pear(%{pear_channel}/Horde_Text_Filter)   >= 2.0.0  with php-pear(%{pear_channel}/Horde_Text_Filter)   < 3)
+%else
+Requires:       php-pear(%{pear_channel}/Horde_Exception)     <  3.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Exception)     >= 2.0.0
+Requires:       php-pear(%{pear_channel}/Horde_ListHeaders)   <  2.0.0
+Requires:       php-pear(%{pear_channel}/Horde_ListHeaders)   >= 1.2.0
+Requires:       php-pear(%{pear_channel}/Horde_Mail)          <  3.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Mail)          >= 2.5.0
+Requires:       php-pear(%{pear_channel}/Horde_Stream)        <  2.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Stream)        >= 1.3.0
+Requires:       php-pear(%{pear_channel}/Horde_Stream_Filter) <  3.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Stream_Filter) >= 2.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Support)       <  3.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Support)       >= 2.1.0
+Requires:       php-pear(%{pear_channel}/Horde_Text_Flowed)   <  3.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Text_Flowed)   >= 2.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Translation)   <  3.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Translation)   >= 2.2.0
+Requires:       php-pear(%{pear_channel}/Horde_Util)          <  3.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Util)          >= 2.0.0
+# Optional
+Requires:       php-pear(%{pear_channel}/Horde_Nls)           <  3.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Nls)           >= 2.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Text_Filter)   <  3.0.0
+Requires:       php-pear(%{pear_channel}/Horde_Text_Filter)   >= 2.0.0
+%endif
 Requires:       php-intl
 Requires:       php-pear(Net_DNS2)
 
@@ -130,7 +151,8 @@ done | tee ../%{pear_name}.lang
 cd %{pear_name}-%{version}/test/$(echo %{pear_name} | sed -e s:_:/:g)
 
 ret=0
-for cmd in php php56 php70 php71 php72; do
+# TODO: php80
+for cmd in php php72 php73 php74; do
   if which $cmd; then
     $cmd -dxdebug.max_nesting_level=256 %{_bindir}/phpunit --bootstrap bootstrap.php --verbose . || ret=1
   fi
@@ -164,6 +186,13 @@ fi
 
 
 %changelog
+* Wed Oct 14 2020 Remi Collet <remi@remirepo.net> - 2.11.1-1
+- update to 2.11.1 (no change)
+- use weak and range dependencies
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

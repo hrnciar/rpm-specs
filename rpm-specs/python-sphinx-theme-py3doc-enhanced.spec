@@ -6,7 +6,7 @@ enhancements.
 
 Name:           python-%{pkgname}
 Version:        2.3.2
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Theme based on the theme of https://docs.python.org/3/
 
 License:        BSD
@@ -51,6 +51,9 @@ Provides:       python%{python3_pkgversion}-%{pypi_name} = %{version}-%{release}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.2-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 2.3.2-17
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,7 @@
+%global __cmake_in_source_build 1
 Name: crossfire-client
 Version: 1.74.0
-Release: 4%{?dist}
+Release: 6%{?dist}
 Summary: Client for connecting to crossfire servers
 License: GPLv2+
 URL: http://crossfire.real-time.com
@@ -127,6 +128,13 @@ cp common/libcfclient.so $RPM_BUILD_ROOT%{_libdir}/
 %{_libdir}/libcfclient.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.74.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.74.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 19 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.74.0-4
 - Fix FTBFS.
 

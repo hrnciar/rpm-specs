@@ -2,7 +2,7 @@
 #%%global versioning 1.5.3.svn/
 Name:		scribus-generator
 Version:	2.9
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Open source high-quality PDF template and mail-merge alternative
 
 License:	MIT
@@ -52,6 +52,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.metain
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 22 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 2.9-1
 - Update to 2.9
 

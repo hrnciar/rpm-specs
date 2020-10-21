@@ -1,5 +1,5 @@
 Name:    twa
-Version: 1.9.3
+Version: 1.10.0
 Release: 1%{?dist}
 Summary: Tiny web auditor with strong opinions
 License: MIT
@@ -61,6 +61,12 @@ install -m 644 -p twa.1 %{buildroot}%{_mandir}/man1/
 
 
 %changelog
+* Sun Sep 13 2020 Artur Frenszek-Iwicki <fedora@svgames.pl> - 1.10.0-1
+- Update to latest upstream release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 31 2020 Artur Iwicki <fedora@svgames.pl> - 1.9.3-1
 - Update to latest upstream release
 

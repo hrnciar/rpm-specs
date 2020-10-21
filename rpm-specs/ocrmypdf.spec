@@ -1,16 +1,17 @@
 %global srcname ocrmypdf
 
 Name:           %{srcname}
-Version:        9.8.2
+Version:        11.2.1
 Release:        1%{?dist}
 Summary:        Add an OCR text layer to scanned PDF files
 
-# Main code: GPLv3; test files: all others
-License:        GPLv3 and CC-BY-SA and Public Domain
+# Main code: MPL2.0;
+# Completion files, hocrtransform.py: MIT;
+# _unicodefun.py: BSD;
+# Test files: CC-BY-SA and Public Domain
+License:        MPL2.0 and MIT and BSD and CC-BY-SA and Public Domain
 URL:            https://github.com/jbarlow83/OCRmyPDF
 Source0:        %{pypi_source}
-# Because we have older versions.
-Patch0001:      0001-Reduce-some-requirements.patch
 
 BuildArch:      noarch
 
@@ -23,20 +24,19 @@ BuildRequires:  tesseract-langpack-deu
 #BuildRequires:  unpaper >= 6.1
 BuildRequires:  python3-devel
 BuildRequires:  python3dist(cffi) >= 1.9.1
-BuildRequires:  (python3dist(img2pdf) >= 0.3 with python3dist(img2pdf) < 0.4)
-BuildRequires:  (python3dist(pdfminer.six) >= 20181108 with python3dist(pdfminer.six) <= 20200124)
-BuildRequires:  (python3dist(pikepdf) >= 1.8.1 with python3dist(pikepdf) < 2)
-BuildRequires:  python3dist(pillow) >= 4
-BuildConflicts: python3dist(pillow) = 5.1
-BuildRequires:  python3dist(pypdf2) >= 1.26
-BuildRequires:  python3dist(pytest) >= 3.9.3
-BuildRequires:  python3dist(pytest-cov) >= 2.6
+BuildRequires:  python3dist(coloredlogs) >= 14
+BuildRequires:  (python3dist(img2pdf) >= 0.3 with python3dist(img2pdf) < 0.5)
+BuildRequires:  (python3dist(pdfminer.six) >= 20191110 with python3dist(pdfminer.six) <= 20200720)
+BuildRequires:  (python3dist(pikepdf) >= 1.14 with python3dist(pikepdf) < 2)
+BuildRequires:  python3dist(pillow) >= 7
+BuildRequires:  python3dist(pluggy) >= 0.13
+BuildRequires:  python3dist(pytest) >= 5
 BuildRequires:  python3dist(pytest-helpers-namespace) >= 2019.1.8
 BuildRequires:  python3dist(pytest-runner)
-BuildRequires:  python3dist(pytest-xdist) >= 1.27
-BuildRequires:  python3dist(python-xmp-toolkit)
+BuildRequires:  python3dist(pytest-xdist) >= 1.31
+BuildRequires:  python3dist(python-xmp-toolkit) >= 2.0.1
 BuildRequires:  python3dist(reportlab) >= 3.3
-BuildRequires:  python3dist(setuptools)
+BuildRequires:  python3dist(setuptools) >= 30.3
 BuildRequires:  python3dist(setuptools-scm)
 BuildRequires:  python3dist(setuptools-scm-git-archive)
 BuildRequires:  python3dist(sphinx)
@@ -71,6 +71,7 @@ rm -rf src/%{srcname}.egg-info
 
 # We don't build docs against the installed version, so force the version.
 sed -i -e "s/release = get_distribution('ocrmypdf').version/release = '%{version}'/g" docs/conf.py
+sed -i -e "s/__version__ = .\+/__version__ = '%{version}'/" src/ocrmypdf/_version.py
 
 # Cleanup shebang and executable bits.
 for f in src/%{srcname}/*.py src/%{srcname}/*/*.py; do
@@ -99,10 +100,7 @@ install -Dpm 0644 misc/completion/ocrmypdf.fish %{buildroot}%{_datadir}/fish/ven
 
 
 %check
-PATH=%{buildroot}%{_bindir}:$PATH \
-PYTHONDONTWRITEBYTECODE=1 \
-PYTHONPATH=%{buildroot}%{python3_sitelib} \
-    %{__python3} -m pytest -ra -n auto
+%{pytest} -ra -n auto
 
 
 %files -n %{srcname}
@@ -110,7 +108,7 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} \
 %license LICENSE
 %{_bindir}/ocrmypdf
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py*.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 %{_datadir}/bash-completion/completions/ocrmypdf
 %dir %{_datadir}/fish
 %dir %{_datadir}/fish/vendor_completions.d
@@ -122,6 +120,42 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} \
 
 
 %changelog
+* Thu Oct 08 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 11.2.1-1
+- Update to latest version (#1885990)
+
+* Thu Oct 01 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 11.1.2-1
+- Update to latest version (#1884208)
+
+* Fri Sep 25 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 11.1.1-1
+- Update to latest version (#1882640)
+
+* Sat Sep 19 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 11.1.0-1
+- Update to latest version (#1880187)
+
+* Thu Sep 10 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 11.0.2-1
+- Update to latest version (#1876854)
+
+* Sat Aug 29 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 11.0.1-1
+- Update to latest version (#1868493)
+
+* Sun Aug 09 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 10.3.3-1
+- Update to latest version
+- Fixes rhbz#1866266
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 10.3.1-1
+- Update to latest version
+- Fixes rhbz#1860767
+
+* Sat Jul 25 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 10.3.0-1
+- Update to latest version
+- Fixes rhbz#1859892
+
+* Mon Jul 13 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 10.2.0-1
+- Update to latest version
+
 * Sun Jun 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 9.8.2-1
 - Update to latest version
 

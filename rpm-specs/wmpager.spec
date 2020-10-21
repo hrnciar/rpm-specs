@@ -3,7 +3,7 @@
 
 Name:		wmpager
 Version:	1.2
-Release:	14.%{snapdate}git%{treeish}%{?dist}
+Release:	15.%{snapdate}git%{treeish}%{?dist}
 Summary:	Simple pager docklet for the Window Maker
 
 License:	BSD
@@ -50,6 +50,9 @@ cd dockapps
 %{_datadir}/wmpager
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-15.20130401git88ece7e5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-14.20130401git88ece7e5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

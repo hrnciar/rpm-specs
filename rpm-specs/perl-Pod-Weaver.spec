@@ -1,6 +1,6 @@
 Name:           perl-Pod-Weaver
 Version:        4.015
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Weave together a POD document from an outline
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Pod-Weaver
@@ -88,6 +88,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.015-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.015-11
 - Perl 5.32 rebuild
 

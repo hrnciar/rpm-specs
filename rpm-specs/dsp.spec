@@ -1,6 +1,6 @@
 Name:           dsp
 Version:        1.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        An audio processing program with an interactive mode
 
 # Everything is ISC, except for g2reverb, which is GPLv2+, and reverb, which is LGPLv2+
@@ -68,6 +68,9 @@ export CXXFLAGS="%{optflags}"
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 09 2020 Nikola Forró <nforro@redhat.com> - 1.6-2
 - Fix typo in gcc-c++ build dependency
 

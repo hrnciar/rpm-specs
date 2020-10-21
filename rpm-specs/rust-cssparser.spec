@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.27.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Rust implementation of CSS Syntax Level 3
 
 # Upstream license specification: MPL-2.0
@@ -108,6 +108,13 @@ which use "serde" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.27.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.27.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 15 13:25:32 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.27.2-1
 - Update to 0.27.2
 

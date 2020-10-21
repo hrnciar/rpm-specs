@@ -8,7 +8,7 @@
 
 
 Name:           %{project}-%{shortname}
-Version:        0.5
+Version:        0.6
 Release:        4%{?dist}
 Summary:        Health check tool for %{projectname}
 BuildArch:      noarch
@@ -16,15 +16,23 @@ License:        GPLv3
 URL:            https://github.com/freeipa/freeipa-healthcheck
 Source0:        https://github.com/freeipa/freeipa-healthcheck/archive/%{version}.tar.gz#/%{project}-%{shortname}-%{version}.tar.gz
 Source1:        %{longname}.conf
+
+Patch0001:      0001-Remove-ipaclustercheck.patch
+Patch0002:      0002-Don-t-collect-the-list-of-masters-in-MetaCheck.patch
+Patch0003:      0003-Require-that-dirsrv-be-running-to-run-the-IPAMetaChe.patch
+Patch0004:      0004-Allow-consuming-projects-to-not-use-all-available-op.patch
+
 Requires:       %{project}-server
 Requires:       python3-ipalib
 Requires:       python3-ipaserver
+Requires:       python3-lib389 >= 1.4.2.14-1
 # cronie-anacron provides anacron
 Requires:       anacron
 Requires:       logrotate
 Requires(post): systemd-units
 Requires:       %{name}-core = %{version}-%{release}
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  systemd-devel
 %{?systemd_requires}
 # packages for make check
@@ -74,9 +82,9 @@ install -p -m644 %{_builddir}/%{project}-%{shortname}-%{version}/logrotate/%{lon
 
 mkdir -p %{buildroot}/%{_localstatedir}/log/ipa/%{shortname}
 
-mkdir -p %{buildroot}/%{_mandir}/man1
+mkdir -p %{buildroot}/%{_mandir}/man8
 mkdir -p %{buildroot}/%{_mandir}/man5
-install -p -m644 %{_builddir}/%{project}-%{shortname}-%{version}/man/man1/ipa-%{shortname}.1  %{buildroot}%{_mandir}/man1/
+install -p -m644 %{_builddir}/%{project}-%{shortname}-%{version}/man/man8/ipa-%{shortname}.8  %{buildroot}%{_mandir}/man8/
 install -p -m644 %{_builddir}/%{project}-%{shortname}-%{version}/man/man5/%{longname}.conf.5  %{buildroot}%{_mandir}/man5/
 
 (cd %{buildroot}/%{python3_sitelib}/ipahealthcheck && find . -type f  | \
@@ -115,7 +123,7 @@ install -p -m644 %{_builddir}/%{project}-%{shortname}-%{version}/man/man5/%{long
 %{python3_sitelib}/%{longname}-%{version}-*-nspkg.pth
 %{_unitdir}/*
 %{_libexecdir}/*
-%{_mandir}/man1/*
+%{_mandir}/man8/*
 %{_mandir}/man5/*
 
 
@@ -127,6 +135,25 @@ install -p -m644 %{_builddir}/%{project}-%{shortname}-%{version}/man/man5/%{long
 
 
 %changelog
+* Wed Jul 29 2020 Rob Crittenden <rcritten@redhat.com> - 0.6-4
+- Set minimum Requires on python3-lib389
+- Don't assume that all users of healthcheck-core provide the same
+  set of options.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Rob Crittenden <rcritten@redhat.com> - 0.6-2
+- Don't collect IPA servers in MetaCheck
+- Skip if dirsrv not available in IPAMetaCheck
+
+* Wed Jul  1 2020 Rob Crittenden <rcritten@redhat.com> - 0.6-1
+- Update to upstream 0.6
+- Don't include cluster checking yet
+
+* Tue Jun 23 2020 Rob Crittenden <rcritten@redhat.com> - 0.5-5
+- Add BuildRequires on python3-setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5-4
 - Rebuilt for Python 3.9
 

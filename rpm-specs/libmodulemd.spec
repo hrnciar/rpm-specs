@@ -14,7 +14,7 @@
 
 Name:           %{upstream_name}%{?v2_suffix}
 Version:        2.9.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Module metadata manipulation library
 
 License:        MIT
@@ -163,6 +163,9 @@ mv %{buildroot}%{_mandir}/man1/modulemd-validator.1 \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 2.9.4-2
 - Rebuilt for Python 3.9
 

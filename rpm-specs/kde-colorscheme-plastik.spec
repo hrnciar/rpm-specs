@@ -1,6 +1,6 @@
 Name:           kde-colorscheme-plastik
 Version:        0.1.2
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Plastik KDE 4 Color Scheme
 
 License:        LGPLv2+
@@ -33,6 +33,9 @@ install -m 644 %{SOURCE1} README
 %{_kde4_datadir}/kde4/apps/color-schemes/Plastik.colors
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

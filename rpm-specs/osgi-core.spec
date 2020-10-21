@@ -1,6 +1,6 @@
 Name:           osgi-core
 Version:        7.0.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        OSGi Core API
 License:        ASL 2.0
 URL:            https://www.osgi.org
@@ -71,6 +71,12 @@ mv META-INF/maven/org.osgi/osgi.core/pom.xml .
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 7.0.0-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

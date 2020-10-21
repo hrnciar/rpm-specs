@@ -2,7 +2,7 @@
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 Name:           freeopcua
 Version:        0
-Release:        0.11.20200131.%{shortcommit}%{?dist}
+Release:        0.14.20200131.%{shortcommit}%{?dist}
 Summary:        Open Source C++ OPC-UA Server and Client Library
 
 License:        LGPLv3+
@@ -48,17 +48,12 @@ rm -rf include/opc/spdlog
 
 
 %build
-mkdir -p build
-pushd build
-%cmake -DCMAKE_INSTALL_LIBDIR=%{?_lib} ..
-%make_build
-popd
+%cmake -DCMAKE_INSTALL_LIBDIR=%{?_lib}
+%cmake_build
 
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 
 
 %files
@@ -76,6 +71,16 @@ popd
 
 
 %changelog
+* Thu Aug 06 2020 Till Hofmann <thofmann@fedoraproject.org> - 0-0.14.20200131.da2b76f
+- Adapt to cmake's out-of-source builds
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.13.20200131.da2b76f
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.12.20200131.da2b76f
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Till Hofmann <thofmann@fedoraproject.org> - 0-0.11.20200131.da2b76f
 - Add patch to fix FTBFS with boost 1.73
 

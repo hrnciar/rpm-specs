@@ -3,7 +3,7 @@ License:       GPLv3
 Summary:       A backgammon game and analyser
 Epoch:         1
 Version:       1.06.001
-Release:       10%{?dist}
+Release:       12%{?dist}
 Source0:       http://gnubg.org/media/sources/gnubg-release-1.06.001-sources.tar.gz
 Source1:       gnubg.desktop
 Source2:       gnubg.png
@@ -112,6 +112,13 @@ install -p -m 644 %{SOURCE2} \
 %{_datadir}/gnubg/gnubg.css
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.06.001-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.06.001-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 1:1.06.00-10
 - Drop gtkglext.
 

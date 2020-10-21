@@ -1,6 +1,6 @@
 Name:           gcstar
 Version:        1.7.1
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Personal collections manager
 
 License:        GPLv2+
@@ -111,6 +111,9 @@ mkdir -p %{buildroot}%{_datadir}/icons/hicolor/scalable/apps
 %{_datadir}/mime/packages/%{name}.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -9,7 +9,7 @@
 
 Name:           rust-%{crate}
 Version:        0.3.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Bindings to libbzip2 for bzip2 compression and decompression exposed as Reader/Writer streams
 
 # Upstream license specification: MIT/Apache-2.0
@@ -111,5 +111,8 @@ which use "tokio-io" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 13:13:20 PDT 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.3.3-1
 - Initial package

@@ -6,7 +6,7 @@
 Summary: Library for Colour AsCii Art, text mode graphics
 Name: libcaca
 Version: 0.99
-Release: 0.48.%{beta}%{?dist}
+Release: 0.51.%{beta}%{?dist}
 License: WTFPL
 URL: http://caca.zoy.org/wiki/libcaca
 Source: http://caca.zoy.org/files/libcaca/libcaca-%{version}.%{beta}.tar.gz
@@ -97,6 +97,15 @@ for file in python/examples/*.py; do
 done
 
 %build
+# This package has a configure test which uses ASMs, but does not link the
+# resultant .o files.  As such the ASM test is always successful, even on
+# architectures were the ASM is not valid when compiling with LTO.
+#
+# -ffat-lto-objects is sufficient to address this issue.  It is the default
+# for F33, but is expected to only be enabled for packages that need it in
+# F34, so we use it here explicitly
+%define _lto_cflags -flto=auto -ffat-lto-objects
+
 export LDFLAGS="$(pkg-config --libs gio-2.0) $LDFLAGS"
 
 sed -i -e 's|Config::CONFIG\["sitearchdir"\]|Config::CONFIG["vendorarchdir"]|' \
@@ -169,6 +178,15 @@ rm -f %{buildroot}%{_docdir}/libcucul-dev
 
 
 %changelog
+* Fri Aug 21 2020 Jeff Law <aw@redhat.com> - 0.99-0.51.beta19
+- Re-enable LTO
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99-0.50.beta19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 13 2020 Jeff Law <aw@redhat.com> - 0.99-0.49.beta19
+- Disable LTO
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.99-0.48.beta19
 - Rebuilt for Python 3.9
 

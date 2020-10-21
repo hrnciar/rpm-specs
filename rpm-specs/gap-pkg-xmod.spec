@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-xmod
 Version:        2.81
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Crossed Modules and Cat1-Groups for GAP
 
 License:        GPLv2+
@@ -71,6 +71,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}-%{version}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.81-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jerry James <loganjerry@gmail.com> - 2.81-1
 - Version 2.81
 

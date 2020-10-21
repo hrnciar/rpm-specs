@@ -1,6 +1,6 @@
 Name: d-feet 
 Version: 0.3.15
-Release: 5%{?dist}
+Release: 7%{?dist}
 Summary: A powerful D-Bus Debugger
 
 License: GPLv2+
@@ -38,13 +38,6 @@ D-Bus objects of running programs and invoke methods on those objects.
 %install
 %meson_install
 
-# use noarch location
-%if "%{python3_sitearch}" != "%{python3_sitelib}"
-mkdir -p %{buildroot}%{python3_sitelib}
-mv %{buildroot}%{python3_sitearch}/dfeet/ \
-   %{buildroot}%{python3_sitelib}/
-%endif
-
 %find_lang d-feet --with-gnome
 
 %check
@@ -64,6 +57,13 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.dfeet.deskt
 %{_datadir}/metainfo/org.gnome.dfeet.appdata.xml
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.15-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.15-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.15-5
 - Rebuilt for Python 3.9
 

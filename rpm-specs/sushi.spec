@@ -1,11 +1,13 @@
 Name:           sushi
 Version:        3.34.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        A quick previewer for Nautilus
 
 License:        GPLv2+ with exceptions
 URL:            https://gitlab.gnome.org/GNOME/sushi
 Source0:        https://download.gnome.org/sources/%{name}/3.34/%{name}-%{version}.tar.xz
+
+Patch0:         sushi-define-getters.patch
 
 BuildRequires:  gettext
 BuildRequires:  gjs-devel
@@ -30,6 +32,7 @@ file manager.
 
 %prep
 %setup -q
+%patch0 -p1
 
 
 %build
@@ -54,6 +57,13 @@ file manager.
 
 
 %changelog
+* Wed Sep 23 2020 Felipe Borges <feborges@redhat.com> - 3.34.0-4
+- Fix crash
+- Related: #1880752
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.34.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.34.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

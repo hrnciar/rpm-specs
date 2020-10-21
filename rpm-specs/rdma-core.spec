@@ -1,6 +1,6 @@
 Name: rdma-core
-Version: 30.0
-Release: 1%{?dist}
+Version: 31.0
+Release: 2%{?dist}
 Summary: RDMA core userspace libraries and daemons
 
 # Almost everything is licensed under the OFA dual GPLv2, 2 Clause BSD license
@@ -28,7 +28,7 @@ BuildRequires: /usr/bin/rst2man
 BuildRequires: valgrind-devel
 BuildRequires: systemd
 BuildRequires: systemd-devel
-%if 0%{?fedora} >= 32
+%if 0%{?fedora} >= 32 || 0%{?rhel} >= 8
 %define with_pyverbs %{?_with_pyverbs: 0} %{?!_with_pyverbs: 1}
 %else
 %define with_pyverbs %{?_with_pyverbs: 1} %{?!_with_pyverbs: 0}
@@ -54,7 +54,7 @@ BuildRequires: python-docutils
 BuildRequires: perl-generators
 %endif
 
-Requires: dracut, kmod, systemd, pciutils
+Requires: pciutils
 # Red Hat/Fedora previously shipped redhat/ as a stand-alone
 # package called 'rdma', which we're supplanting here.
 Provides: rdma = %{version}-%{release}
@@ -67,8 +67,8 @@ Conflicts: infiniband-diags <= 1.6.7
 # Ninja was introduced in FC23
 BuildRequires: ninja-build
 %define CMAKE_FLAGS -GNinja
-%define make_jobs ninja-build -v %{?_smp_mflags}
-%define cmake_install DESTDIR=%{buildroot} ninja-build install
+%define make_jobs ninja-build -C %{_vpath_builddir} -v %{?_smp_mflags}
+%define cmake_install DESTDIR=%{buildroot} ninja-build -C %{_vpath_builddir} install
 %else
 # Fallback to make otherwise
 BuildRequires: make
@@ -141,8 +141,8 @@ compatibility reasons.
 
 %package -n libibverbs
 Summary: A library and drivers for direct userspace use of RDMA (InfiniBand/iWARP/RoCE) hardware
-%{?systemd_requires}
 Requires: %{name}%{?_isa} = %{version}-%{release}
+Requires: libibverbs-core%{?_isa} = %{version}-%{release}
 Provides: libcxgb4 = %{version}-%{release}
 Obsoletes: libcxgb4 < %{version}-%{release}
 Provides: libefa = %{version}-%{release}
@@ -188,6 +188,12 @@ Device-specific plug-in ibverbs userspace drivers are included:
 - libsiw: A software implementation of the iWarp protocol
 - libvmw_pvrdma: VMware paravirtual RDMA device
 
+%package -n libibverbs-core
+Summary: The main libibverbs library
+
+%description -n libibverbs-core
+The main libibverbs library.
+
 %package -n libibverbs-utils
 Summary: Examples for the libibverbs library
 Requires: libibverbs%{?_isa} = %{version}-%{release}
@@ -198,7 +204,6 @@ displays information about RDMA devices.
 
 %package -n ibacm
 Summary: InfiniBand Communication Manager Assistant
-%{?systemd_requires}
 Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %description -n ibacm
@@ -213,7 +218,6 @@ library knows how to talk directly to the ibacm daemon to retrieve data.
 
 %package -n iwpmd
 Summary: iWarp Port Mapper userspace daemon
-%{?systemd_requires}
 Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %description -n iwpmd
@@ -248,7 +252,6 @@ Summary: Tools for using the InfiniBand SRP protocol devices
 Obsoletes: srptools <= 1.0.3
 Provides: srptools = %{version}-%{release}
 Obsoletes: openib-srptools <= 0.0.6
-%{?systemd_requires}
 Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %description -n srp_daemon
@@ -266,10 +269,16 @@ easy, object-oriented access to IB verbs.
 %endif
 
 %prep
-%setup
 %autosetup -v -p1
 
 %build
+# This package uses top level ASM constructs which are incompatible with LTO.
+# Top level ASMs are often used to implement symbol versioning.  gcc-10
+# introduces a new mechanism for symbol versioning which works with LTO.
+# Converting packages to use that mechanism instead of toplevel ASMs is
+# recommended.
+# Disable LTO
+%define _lto_cflags %{nil}
 
 # New RPM defines _rundir, usually as /run
 %if 0%{?_rundir:1}
@@ -339,7 +348,7 @@ install -D -m0755 redhat/rdma.sriov-init %{buildroot}%{_libexecdir}/rdma-set-sri
 install -D -m0755 redhat/rdma.mlx4-setup.sh %{buildroot}%{_libexecdir}/mlx4-setup.sh
 
 # ibacm
-bin/ib_acme -D . -O
+%{buildroot}%{_bindir}/ib_acme -D . -O
 install -D -m0644 ibacm_opts.cfg %{buildroot}%{_sysconfdir}/rdma/
 
 # Delete the package's init.d scripts
@@ -348,14 +357,18 @@ rm -f %{buildroot}/%{_sbindir}/srp_daemon.sh
 
 %ldconfig_scriptlets -n libibverbs
 
+%ldconfig_scriptlets -n libibverbs-core
+
 %ldconfig_scriptlets -n libibumad
 
 %ldconfig_scriptlets -n librdmacm
 
 %post -n rdma-core
+if [ -x /sbin/udevadm ]; then
 /sbin/udevadm trigger --subsystem-match=infiniband --action=change || true
 /sbin/udevadm trigger --subsystem-match=net --action=change || true
 /sbin/udevadm trigger --subsystem-match=infiniband_mad --action=change || true
+fi
 
 %post -n ibacm
 %systemd_post ibacm.service
@@ -379,6 +392,7 @@ rm -f %{buildroot}/%{_sbindir}/srp_daemon.sh
 %systemd_postun_with_restart iwpmd.service
 
 %files
+%license COPYING.*
 %dir %{_sysconfdir}/rdma
 %dir %{_docdir}/%{name}
 %doc %{_docdir}/%{name}/README.md
@@ -394,13 +408,17 @@ rm -f %{buildroot}/%{_sbindir}/srp_daemon.sh
 %config(noreplace) %{_sysconfdir}/rdma/rdma.conf
 %config(noreplace) %{_sysconfdir}/rdma/sriov-vfs
 %config(noreplace) %{_sysconfdir}/udev/rules.d/*
+%dir %{_sysconfdir}/modprobe.d
 %config(noreplace) %{_sysconfdir}/modprobe.d/mlx4.conf
 %config(noreplace) %{_sysconfdir}/modprobe.d/truescale.conf
 %{_unitdir}/rdma-hw.target
 %{_unitdir}/rdma-load-modules@.service
 %{_unitdir}/rdma.service
+%dir %{dracutlibdir}
+%dir %{dracutlibdir}/modules.d
 %dir %{dracutlibdir}/modules.d/05rdma
 %{dracutlibdir}/modules.d/05rdma/module-setup.sh
+%dir %{_udevrulesdir}
 %{_udevrulesdir}/../rdma_rename
 %{_udevrulesdir}/60-rdma-ndd.rules
 %{_udevrulesdir}/60-rdma-persistent-naming.rules
@@ -409,6 +427,7 @@ rm -f %{buildroot}/%{_sbindir}/srp_daemon.sh
 %{_udevrulesdir}/90-rdma-ulp-modules.rules
 %{_udevrulesdir}/90-rdma-umad.rules
 %{_udevrulesdir}/98-rdma.rules
+%dir %{sysmodprobedir}
 %{sysmodprobedir}/libmlx4.conf
 %{_libexecdir}/rdma-init-kernel
 %{_libexecdir}/rdma-set-sriov-vf
@@ -418,7 +437,6 @@ rm -f %{buildroot}/%{_sbindir}/srp_daemon.sh
 %{_unitdir}/rdma-ndd.service
 %{_mandir}/man7/rxe*
 %{_mandir}/man8/rdma-ndd.*
-%license COPYING.*
 
 %files devel
 %doc %{_docdir}/%{name}/MAINTAINERS
@@ -557,12 +575,15 @@ rm -f %{buildroot}/%{_sbindir}/srp_daemon.sh
 %dir %{_sysconfdir}/libibverbs.d
 %dir %{_libdir}/libibverbs
 %{_libdir}/libefa.so.*
-%{_libdir}/libibverbs*.so.*
 %{_libdir}/libibverbs/*.so
 %{_libdir}/libmlx5.so.*
 %{_libdir}/libmlx4.so.*
 %config(noreplace) %{_sysconfdir}/libibverbs.d/*.driver
 %doc %{_docdir}/%{name}/libibverbs.md
+
+%files -n libibverbs-core
+%license COPYING.*
+%{_libdir}/libibverbs*.so.*
 
 %files -n libibverbs-utils
 %{_bindir}/ibv_*
@@ -652,6 +673,27 @@ rm -f %{buildroot}/%{_sbindir}/srp_daemon.sh
 %endif
 
 %changelog
+* Mon Sep 14 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 31.0-2
+- Split out libibverbs to sub package for libpcap
+
+* Wed Aug 19 2020 Honggang Li <honli@redhat.com> - 31.0-1
+- Rebase to upstream release v31.0
+
+* Thu Jul 30 2020 Honggang Li <honli@redhat.com> - 30.0-6
+- Update cmake options
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 30.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Stephen Gallagher <sgallagh@redhat.com> - 30.0-4
+- Don't throw script errors if udev is not installed
+
+* Wed Jul  1 2020 Jeff Law <law@redhat.com> - 30.0-3
+- Disable LTO
+
+* Thu Jun 25 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 30.0-2
+- Drop dependencies on systemd (#1837812)
+
 * Mon Jun 15 2020 Honggang Li <honli@redhat.com> - 30.0-1
 - Rebase to upstream release v30.0
 

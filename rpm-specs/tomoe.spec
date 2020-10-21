@@ -3,7 +3,7 @@
 
 Name:           tomoe
 Version:        0.6.0
-Release:        44%{?dist}
+Release:        46%{?dist}
 Summary:        Handwritten input system for Japanese and Chinese
 
 License:        LGPLv2+
@@ -17,6 +17,8 @@ Patch0:         tomoe-0.6.0-multiarch-conflict.patch
 Patch1:         tomoe-0.6.0-bz502662.patch
 Patch2:         tomoe-0.6.0-fixes-glib-includes.patch
 Patch3:         tomoe-0.6.0-fixes-set-parse-error.patch
+Patch4:		tomoe-strerror.patch
+
 BuildRequires:  glib2-devel, gettext, gtk-doc, libtool, intltool
 BuildRequires:  perl(XML::Parser), python3
 %if %{python_binding}
@@ -47,6 +49,7 @@ Install this package if you want to develop programs which use tomoe.
 %patch1 -p0 -b .bz502662
 %patch2 -p1 -b .glib
 %patch3 -p1 -b .compile
+%patch4 -p1 -b .strerror
 
 %build
 ./autogen.sh
@@ -98,6 +101,12 @@ find ${RPM_BUILD_ROOT}%{_libdir} -name '*.la' | xargs rm
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-46
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Jeff Law <law@redhat.com> - 0.6.0-45
+- Use strerror, not sys_errlist
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-44
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           jetring
 Version:        0.29
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GPG keyring maintenance using changesets
 
 License:        GPLv2+
@@ -48,6 +48,9 @@ install -pm 0644 jetring-*.1 %{buildroot}%{_mandir}/man1
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.29-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.29-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

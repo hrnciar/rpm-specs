@@ -6,8 +6,8 @@
 %global crate openssl
 
 Name:           rust-%{crate}
-Version:        0.10.29
-Release:        1%{?dist}
+Version:        0.10.30
+Release:        2%{?dist}
 Summary:        OpenSSL bindings
 
 # Upstream license specification: Apache-2.0
@@ -120,6 +120,12 @@ which use "v111" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.30-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.10.30-1
+- Update to 0.10.30
+
 * Wed Apr 08 2020 Josh Stone <jistone@redhat.com> - 0.10.29-1
 - Update to 0.10.29
 

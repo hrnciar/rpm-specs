@@ -29,7 +29,7 @@
 
 Name:          php-PhpCollection
 Version:       %{github_version}
-Release:       9%{?dist}
+Release:       10%{?dist}
 Summary:       General purpose collection library for PHP
 
 License:       ASL 2.0
@@ -160,6 +160,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

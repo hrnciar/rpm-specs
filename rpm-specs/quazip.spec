@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:		quazip
 Version:	0.7.6
-Release:	7%{?dist}
+Release:	9%{?dist}
 Summary:	Qt/C++ wrapper for the minizip library
 License:	GPLv2+ or LGPLv2+
 URL:		https://github.com/stachenov/quazip
@@ -63,19 +65,13 @@ for developing applications that use %{name}.
 %autosetup -p1
 
 %build
-mkdir build-qt4
-pushd build-qt4
-%cmake .. -DBUILD_WITH_QT4:BOOL=ON
+%global _vpath_builddir build-qt4
+%cmake -DBUILD_WITH_QT4:BOOL=ON
+%cmake_build
 
-%make_build
-popd
-
-mkdir build-qt5
-pushd build-qt5
-%cmake .. -DBUILD_WITH_QT4:BOOL=OFF
-
-%make_build
-popd
+%global _vpath_builddir build-qt5
+%cmake -DBUILD_WITH_QT4:BOOL=OFF
+%cmake_build
 
 doxygen Doxyfile
 for file in doc/html/*; do
@@ -83,8 +79,10 @@ for file in doc/html/*; do
 done
 
 %install
-make install/fast DESTDIR=%{buildroot} -C build-qt5
-make install/fast DESTDIR=%{buildroot} -C build-qt4
+%global _vpath_builddir build-qt4
+%cmake_install
+%global _vpath_builddir build-qt5
+%cmake_install
 
 %ldconfig_scriptlets
 
@@ -112,6 +110,13 @@ make install/fast DESTDIR=%{buildroot} -C build-qt4
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.6-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.6-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 04 2020 Sandro Mani <manisandro@gmail.com> - 0.7.6-7
 - Fix cmake module install path
 

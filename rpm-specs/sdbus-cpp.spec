@@ -1,10 +1,12 @@
+%undefine __cmake_in_source_build
+
 %global version_major 0
 %global version_minor 8
 %global version_micro 1
 
 Name:           sdbus-cpp
 Version:        %{version_major}.%{version_minor}.%{version_micro}
-Release:        1%{?dist}
+Release:        5%{?dist}
 Summary:        High-level C++ D-Bus library
 
 License:        LGPLv2
@@ -53,12 +55,12 @@ out of the D-Bus IDL XML description.
     -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_CODE_GEN=ON \
     -DBUILD_DOXYGEN_DOC=ON
-%make_build
-%make_build doc
+%cmake_build
+%cmake_build --target doc
 
 
 %install
-%make_install
+%cmake_install
 
 
 %files
@@ -87,6 +89,19 @@ out of the D-Bus IDL XML description.
 
 
 %changelog
+* Tue Oct 06 2020 Marek Blaha <mblaha@redhat.com> - 0.8.1-5
+- Switch from make_build to cmake_build
+
+* Tue Sep 22 2020 Jeff Law <law@redhat.com> - 0.8.1-4
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 7 2020 Marek Blaha <mblaha@redhat.com> - 0.8.1-1
 - Update to release 0.8.1
 

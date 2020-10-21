@@ -6,7 +6,7 @@
 
 Name:		nodejs-parse-glob
 Version:	3.0.4
-Release:	9%{?dist}
+Release:	10%{?dist}
 Summary:	Parse a glob pattern into an object of tokens
 
 License:	MIT
@@ -73,6 +73,9 @@ ln -s %{nodejs_sitelib}/should node_modules/should
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

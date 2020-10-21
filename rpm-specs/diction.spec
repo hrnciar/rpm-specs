@@ -1,6 +1,6 @@
 Name:           diction
 Version:        1.11
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Identifies diction and style errors
 
 License:        GPLv3+
@@ -49,6 +49,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

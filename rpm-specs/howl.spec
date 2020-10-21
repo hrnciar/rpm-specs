@@ -1,6 +1,6 @@
 Name:           howl
 Version:        0.6
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Lightweight editor with a keyboard-centric minimalistic UI
 
 # For a breakdown of the licensing, see LICENSE.md
@@ -77,6 +77,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_datadir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

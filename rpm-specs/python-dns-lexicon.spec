@@ -22,7 +22,7 @@
 
 Name:           python-%{pypi_name}
 Version:        3.3.17
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Manipulate DNS records on various DNS providers in a standardized/agnostic way
 
 License:        MIT
@@ -375,16 +375,34 @@ ln -s %{_bindir}/lexicon-%{python3_version} %{buildroot}/%{_bindir}/lexicon-3
 # {{{
 %if %{with extras}
 %files -n python3-%{pypi_name}+easyname
+%{?python_extras_subpkg:%ghost %{python3_sitelib}/dns_lexicon-%{version}-py%{python3_version}.egg-info}
+
 %files -n python3-%{pypi_name}+gratisdns
+%{?python_extras_subpkg:%ghost %{python3_sitelib}/dns_lexicon-%{version}-py%{python3_version}.egg-info}
+
 %files -n python3-%{pypi_name}+henet
+%{?python_extras_subpkg:%ghost %{python3_sitelib}/dns_lexicon-%{version}-py%{python3_version}.egg-info}
+
 %files -n python3-%{pypi_name}+hetzner
+%{?python_extras_subpkg:%ghost %{python3_sitelib}/dns_lexicon-%{version}-py%{python3_version}.egg-info}
+
 %files -n python3-%{pypi_name}+plesk
+%{?python_extras_subpkg:%ghost %{python3_sitelib}/dns_lexicon-%{version}-py%{python3_version}.egg-info}
+
 %files -n python3-%{pypi_name}+route53
+%{?python_extras_subpkg:%ghost %{python3_sitelib}/dns_lexicon-%{version}-py%{python3_version}.egg-info}
+
 %endif
 # }}}
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.17-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Miro Hrončok <mhroncok@redhat.com> - 3.3.17-4
+- Add metadata for Python extras subpackages
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.3.17-3
 - Rebuilt for Python 3.9
 

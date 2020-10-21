@@ -15,7 +15,7 @@ This is a memcache client library for the Go programming language.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.5%{?dist}
+Release:        0.6%{?dist}
 Summary:        High performance memcache client in Go
 
 # Upstream license specification: Apache-2.0
@@ -45,6 +45,9 @@ Patch0:         Use-Skipf-to-permit-formatting-directive.patch
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

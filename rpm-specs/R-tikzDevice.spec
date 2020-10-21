@@ -1,17 +1,18 @@
-%global packname  tikzDevice
+%global packname tikzDevice
+%global packver  0.12.3.1
 %global rlibdir  %{_libdir}/R/library
 
 # Some dependency loops.
 %global with_suggests 0
 
 Name:             R-%{packname}
-Version:          0.12.3
+Version:          0.12.3.1
 Release:          3%{?dist}
 Summary:          R Graphics Output in LaTeX Format
 
 License:          GPLv2+
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
@@ -90,6 +91,16 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --ignore-vignettes
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.3.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.12.3.1-1
+- Update to latest version
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.12.3-3
 - rebuild for R 4
 

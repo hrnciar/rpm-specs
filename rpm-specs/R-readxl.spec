@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          1.3.1
-Release:          5%{?dist}
+Release:          8%{?dist}
 Summary:          Read Excel Files
 
 License:          GPLv3
@@ -91,6 +91,16 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Fri Sep 18 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.3.1-8
+- rebuilt for libxls
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.3.1-5
 - rebuild for R 4
 

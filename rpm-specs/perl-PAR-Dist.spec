@@ -1,6 +1,6 @@
 Name:           perl-PAR-Dist
 Version:        0.49
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        Toolkit for creating and manipulating Perl PAR distributions
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/PAR-Dist
@@ -74,6 +74,9 @@ make test PERL_TEST_POD=1
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.49-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.49-22
 - Perl 5.32 rebuild
 

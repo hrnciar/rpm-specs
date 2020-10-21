@@ -1,11 +1,15 @@
+# Commit corresponding to release 2.14.1
+%global commit c9dc01f16be159a809d73ea54c8f6cf31a735812
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
+
 Name:           cppmyth
-Version:        2.13.0
-Release:        2%{?dist}
+Version:        2.14.1
+Release:        1%{?dist}
 Summary:        Client interface for the MythTV backend
 
 License:        GPLv2+
 URL:            https://github.com/janbar/%{name}/
-Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
+Source0:        %{url}/archive/%{shortcommit}/%{name}-%{version}.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -27,16 +31,16 @@ applications that use %{name}.
 
 
 %prep
-%autosetup
+%autosetup -n %{name}-%{commit}
 
 
 %build
-%cmake . -DCMAKE_INSTALL_LIBDIR=%{_lib}
-%make_build
+%cmake -DCMAKE_INSTALL_LIBDIR=%{_lib}
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %files
@@ -51,6 +55,19 @@ applications that use %{name}.
 
 
 %changelog
+* Thu Aug 20 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 2.14.1-1
+- Update to 2.14.1
+
+* Thu Aug 06 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 2.13.0-5
+- Use new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.13.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.13.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.13.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Summary:       Java library allowing analysis and manipulation of parts of an HTML document
 Name:          jericho-html
 Version:       3.3
-Release:       16%{?dist}
+Release:       19%{?dist}
 License:       EPL-1.0 or LGPLv2+
 URL:           http://jericho.htmlparser.net/
 Source0:       http://downloads.sf.net/jerichohtml/%{name}-%{version}.zip
@@ -37,7 +37,8 @@ find \( -name '*.java' -o -name '*.bat' -o -name '*.txt' -o -name '*.jsp' -o -na
 
 # fix non ASCII chars
 for s in src/java/net/htmlparser/jericho/{Renderer,StreamEncodingDetector}.java ; do
-    native2ascii -encoding UTF8 ${s} ${s}
+    iconv -f WINDOWS-1252 -t UTF-8 ${s} > ${s}.new
+    mv ${s}.new ${s}
 done
 
 %build
@@ -51,7 +52,7 @@ export CLASSPATH=$(build-classpath slf4j/api commons-logging log4j)
 %javadoc -encoding UTF-8 -classpath classes:$CLASSPATH -quiet -Xdoclint:none \
     -windowtitle "Jericho HTML Parser %version" -use -d docs/javadoc \
     -subpackages net.htmlparser.jericho -exclude net.htmlparser.jericho.nodoc \
-    -noqualifier net.htmlparser.jericho -group "Core Package" \
+    -noqualifier net.htmlparser.jericho -sourcepath src/java -group "Core Package" \
     src/java/net/htmlparser/jericho/*.java \
     src/java/net/htmlparser/jericho/nodoc/*.java
 
@@ -86,6 +87,15 @@ export CLASSPATH=classes:samples/console/classes:$(build-classpath junit hamcres
 %license licence-epl-1.0.html licence-lgpl-2.1.txt licence.txt
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 19 2020 Terje Rosten <terje.rosten@ntnu.no> - 3.3-18
+- Add patch from Severin Gehwolf to fix JDK 11 build (rhbz#1857991)
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.3-17
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon Feb 03 2020 Terje Rosten <terje.rosten@ntnu.no> - 3.3-16
 - Minor cleanup
 

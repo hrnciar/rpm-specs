@@ -10,7 +10,7 @@
 Summary:    X.Org X11 xfs font server
 Name:       xorg-x11-xfs
 Version:    1.2.0
-Release:    7%{?dist}
+Release:    9%{?dist}
 Epoch:      1
 License:    MIT
 URL:        http://www.x.org
@@ -24,6 +24,7 @@ Source10:   xfs.service
 Source11:   xfs.init
 Source12:   xfs.config
 Source13:   xfs.tmpfiles
+Patch0:     %{name}-gcc11.patch
 
 BuildRequires:  font-util >= 1.1
 BuildRequires:  libtool
@@ -59,6 +60,7 @@ X.Org X11 font server utilities.
 
 %prep
 %setup -q -c %{name}-%{version} -a1 -a2 -a3 -a4
+%patch0 -p1
 
 %build
 
@@ -127,6 +129,12 @@ exit 0
 %{_mandir}/man1/xfsinfo.1*
 
 %changelog
+* Sat Oct 17 2020 Jeff Law <law@redhat.com> - 1:1.2.0-9
+- Fix out of bounds reference diagnostic from gcc-11
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.2.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.2.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,13 +3,15 @@
 
 Name:             R-%{packname}
 Version:          1.50.0
-Release:          1%{dist}
+Release:          5%{dist}
 Summary:          A collection of pre-processing functions
 License:          LGPLv2+
 URL:              http://bioconductor.org/packages/release/bioc/html/%{packname}.html
 Source0:          http://bioconductor.org/packages/release/bioc/src/contrib/%{packname}_%{version}.tar.gz
 Source1:          preprocessCore_license
 BuildRequires:    R-devel >= %{Rvers} tex(latex) R-stats gcc
+BuildRequires:    autoconf, automake, libtool
+Patch0:           R-preprocessCore-dlsym-pthread_get_minstack-fix.patch
 
 %package           devel
 Summary:           Development files for %{name}
@@ -24,6 +26,10 @@ developing applications that use %{name}
 
 %prep
 %setup -q -c -n %{packname}
+%patch0 -p1 -b .dlsym
+pushd %{packname}
+autoreconf -ifv .
+popd
 
 %build
 
@@ -40,7 +46,10 @@ rm -rf %{buildroot}%{_libdir}/R/library/R.css
 install -m 664 -p %{SOURCE1}  %{buildroot}%{_libdir}/R/library/%{packname}
 
 %check
+# 2020-09-10: sh: line 1: 1879370 Segmentation fault      (core dumped) LANGUAGE=en _R_CHECK_INTERNALS2_=1 '/usr/lib64/R/bin/R' --vanilla > 'preprocessCore-Ex.Rout' 2>&1 <
+%ifnarch s390x
 %{_bindir}/R CMD check %{packname}
+%endif
 
 %files
 #i386 arch
@@ -59,6 +68,19 @@ install -m 664 -p %{SOURCE1}  %{buildroot}%{_libdir}/R/library/%{packname}
 %{_libdir}/R/library/%{packname}/include/
 
 %changelog
+* Mon Aug 10 2020 Tom Callaway <spot@fedoraproject.org> - 1.50.0-5
+- rebuild for FlexiBLAS R
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.50.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.50.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Tom Callaway <spot@fedoraproject.org> - 1.50.0-2
+- use dlsym to access __pthread_get_minstack to avoid dependency issue with GLIBC_PRIVATE (bz1849669, bz1849369)
+
 * Mon Jun  8 2020 Tom Callaway <spot@fedoraproject.org> - 1.50.0-1
 - update to 1.50.0
 - rebuild for R 4

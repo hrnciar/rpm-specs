@@ -4,7 +4,7 @@
 
 Name: kexec-tools
 Version: 2.0.20
-Release: 13%{?dist}
+Release: 18%{?dist}
 License: GPLv2
 Summary: The kexec/kdump userspace component
 
@@ -36,6 +36,7 @@ Source26: live-image-kdump-howto.txt
 Source27: early-kdump-howto.txt
 Source28: kdump-udev-throttler
 Source29: kdump.sysconfig.aarch64
+Source30: 60-kdump.install
 
 #######################################
 # These are sources for mkdumpramfs
@@ -60,7 +61,7 @@ Requires: dracut >= 050
 Requires: dracut-network >= 050
 Requires: dracut-squash >= 050
 Requires: ethtool
-BuildRequires: zlib-devel zlib zlib-static elfutils-devel-static glib2-devel bzip2-devel ncurses-devel bison flex lzo-devel snappy-devel
+BuildRequires: zlib-devel elfutils-devel glib2-devel bzip2-devel ncurses-devel bison flex lzo-devel snappy-devel
 BuildRequires: pkgconfig intltool gettext
 BuildRequires: systemd-units
 BuildRequires: automake autoconf libtool
@@ -157,6 +158,9 @@ make -C makedumpfile-%{mkdf_ver} LDFLAGS="$LDFLAGS -I../eppic-%{eppic_ver}/libep
 %install
 mkdir -p -m755 $RPM_BUILD_ROOT/usr/sbin
 mkdir -p -m755 $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
+mkdir -p -m755 $RPM_BUILD_ROOT%{_sysconfdir}/kdump
+mkdir -p -m755 $RPM_BUILD_ROOT%{_sysconfdir}/kdump/pre.d
+mkdir -p -m755 $RPM_BUILD_ROOT%{_sysconfdir}/kdump/post.d
 mkdir -p -m755 $RPM_BUILD_ROOT%{_localstatedir}/crash
 mkdir -p -m755 $RPM_BUILD_ROOT%{_mandir}/man8/
 mkdir -p -m755 $RPM_BUILD_ROOT%{_mandir}/man5/
@@ -200,6 +204,7 @@ install -m 644 %{SOURCE14} $RPM_BUILD_ROOT%{_udevrulesdir}/98-kexec.rules
 install -m 644 %{SOURCE15} $RPM_BUILD_ROOT%{_mandir}/man5/kdump.conf.5
 install -m 644 %{SOURCE16} $RPM_BUILD_ROOT%{_unitdir}/kdump.service
 install -m 755 -D %{SOURCE22} $RPM_BUILD_ROOT%{_prefix}/lib/systemd/system-generators/kdump-dep-generator.sh
+install -m 755 -D %{SOURCE30} $RPM_BUILD_ROOT%{_prefix}/lib/kernel/install.d/60-kdump.install
 
 %ifarch %{ix86} x86_64 ppc64 s390x ppc64le aarch64
 install -m 755 makedumpfile-%{mkdf_ver}/makedumpfile $RPM_BUILD_ROOT/usr/sbin/makedumpfile
@@ -327,6 +332,9 @@ done
 %endif
 %{dracutlibdir}/modules.d/*
 %dir %{_localstatedir}/crash
+%dir %{_sysconfdir}/kdump
+%dir %{_sysconfdir}/kdump/pre.d
+%dir %{_sysconfdir}/kdump/post.d
 %{_mandir}/man8/kdumpctl.8.gz
 %{_mandir}/man8/kexec.8.gz
 %ifarch %{ix86} x86_64 ppc64 s390x ppc64le aarch64
@@ -337,6 +345,7 @@ done
 %{_mandir}/man5/*
 %{_unitdir}/kdump.service
 %{_prefix}/lib/systemd/system-generators/kdump-dep-generator.sh
+%{_prefix}/lib/kernel/install.d/60-kdump.install
 %doc News
 %license COPYING
 %doc TODO
@@ -351,6 +360,57 @@ done
 %endif
 
 %changelog
+* Thu Aug 27 2020 Kairui Song <kasong@redhat.com> - 2.0.20-18
+- mkdumprd: Improve the warning message when using encrypted target
+- kdump-lib.sh: Remove is_atomic
+- Refactor kernel image and initrd detection code
+- early-kdump: Use consistent symbol link for kernel and initramfs
+- Add a kernel install hook to clean up kdump initramfs
+
+* Tue Aug 04 2020 Kairui Song <kasong@redhat.com> - 2.0.20-17
+- Drop static lib dependencies
+- Revert "x86_64: enable the kexec file load by default"
+- Revert "s390x: enable the kexec file load by default"
+- kdumpctl: exit if either pre.d or post.d is missing
+- kdump_pre: make notes more precise
+- dracut-kdump.sh: exit shell when machine reboot
+- kdumpctl: detect modification of scripts by its directory's timestamp
+- module-setup.sh: suppress false alarm
+- kexec-tools.spec: make the existence of pre.d and post.d mandatory
+- ppc64/kdump: use kexec_file_load when secureboot is enabled
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.20-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.20-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 1 2020 Kairui Song <kasong@redhat.com> - 2.0.20-14
+- s390x: enable the kexec file load by default
+- x86_64: enable the kexec file load by default
+- Revert "s390x: add kdump sysconfig option to use the kexec_file_load() syscall"
+- Revert "kdump-lib: switch to the kexec_file_load() syscall on x86_64 by default"
+- kdump.conf: fix a grammar issue
+- man: improve description about /etc/kdump/{pre.d,post.d}interface
+- mkdumprd: Improve the error message for umounted dump target
+- mkdumprd: Fix nfs detection in to_mount
+- Always wrap up call to dracut get_persistent_dev function
+- s390x: add kdump sysconfig option to use the kexec_file_load() syscall
+- mkdumprd: Fix dracut error on multiple extra_modules
+- Fix kdump failure when mount target specified by dracut_args
+- kdump.conf: Specify /etc/kdump/{pre.d,post.d}interface
+- dracut-kdump.sh: Execute the binary and script filesin /etc/kdump/{pre.d,post.d}
+- kdumpctl: Check the update of the binary and script files in /etc/kdump/{pre.d,post.d}
+- dracut-module-setup.sh: Install files under /etc/kdump/{pre.d,post.d} into kdump initramfs
+- Drop switch root capability for non fadump initramfs
+- fadump: update fadump-howto.txt with some more troubleshooting help
+- fadump-howto.txt: source it in spec file
+- Don't inherit swiotlb parameter form 1st kernel by default
+- module-setup.sh: Add "rd.neednet" parameter if network is needed
+- Revert "Add a hook to wait for kdump target in initqueue"
+- kdump.sysconfig: Remove the option 'log_buf_len' from kdump command line
+
 * Fri May 22 2020 Kairui Song <kasong@redhat.com> - 2.0.20-13
 - Update docs for the new noauto dump target support
 - kexec-kdump-howto.txt: Add some format to the document
@@ -377,7 +437,7 @@ done
 - Remove is_dump_target_configured
 - dracut-module-setup.sh: improve get_alias()
 
-* Thu Mar 24 2020 Kairui Song <kasong@redhat.com> - 2.0.20-11
+* Tue Mar 24 2020 Kairui Song <kasong@redhat.com> - 2.0.20-11
 - Fix a potential syntax error
 - Use read_strip_comments to filter the installed kdump.conf
 - kdumpctl: fix driver change detection on latest Fedora

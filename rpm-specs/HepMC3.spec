@@ -1,6 +1,13 @@
+%if %{?fedora}%{!?fedora:0} >= 32 || %{?rhel}%{!?rhel:0} >= 9
+%undefine __cmake_in_source_build
+%global oldcmakemacro 0
+%else
+%global oldcmakemacro 1
+%endif
+
 Name:		HepMC3
 Version:	3.2.2
-Release:	1%{?dist}
+Release:	4%{?dist}
 Summary:	C++ Event Record for Monte Carlo Generators
 
 License:	GPLv3+
@@ -186,6 +193,10 @@ This package provides HepMC manuals and examples.
 %setup -q
 
 %build
+%if %{oldcmakemacro}
+mkdir %{_vpath_builddir}
+pushd %{_vpath_builddir}
+%endif
 %if %{?fedora}%{!?fedora:0} || %{?rhel}%{!?rhel:0} >= 8
 %cmake \
 %else
@@ -208,11 +219,16 @@ This package provides HepMC manuals and examples.
 	-DHEPMC3_BUILD_DOCS:BOOL=ON \
 	-DHEPMC3_BUILD_STATIC_LIBS:BOOL=OFF \
 	-DCMAKE_INSTALL_DOCDIR:PATH=%{_pkgdocdir} \
-	-DCMAKE_SKIP_INSTALL_RPATH:BOOL=ON .
-make %{?_smp_mflags}
+	-DCMAKE_SKIP_INSTALL_RPATH:BOOL=ON \
+%if %{oldcmakemacro}
+	..
+popd
+%endif
+
+%make_build -C %{_vpath_builddir}
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install -C %{_vpath_builddir}
 
 %check
 %if %{?fedora}%{!?fedora:0} || %{?rhel}%{!?rhel:0} >= 8
@@ -387,6 +403,15 @@ ctest3 %{?_smp_mflags} --output-on-failure
 %license COPYING
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 3.2.2-3
+- Adapt to new cmake rpm macro
+
+* Tue Jul 14 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 3.2.2-2
+- Rebuild for root 6.22.00
+
 * Wed Jun 10 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 3.2.2-1
 - Update to version 3.2.2
 - Drop patches accepted upstream or previously backported

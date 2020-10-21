@@ -4,8 +4,8 @@
 %bcond_with docs
 
 Name:           python-%{pypi_name}
-Version:        8.2.1
-Release:        3%{?dist}
+Version:        8.4.2
+Release:        1%{?dist}
 Summary:        Highly-optimized, pure-python HTTP server
 
 License:        BSD
@@ -69,10 +69,6 @@ rm -rf %{pypi_name}.egg-info
 # remove backports.functools_lru_cache from setup.cfg. it's a py2 dep
 sed -i '/backports.functools_lru_cache/d' setup.cfg
 
-# ssl test fail
-# https://github.com/cherrypy/cheroot/issues/173
-sed -i '214i@pytest.mark.skip(reason="Skip test_tls_client_auth: https://github.com/cherrypy/cheroot/issues/195")' cheroot/test/test_ssl.py
-
 # testmon is not needed to tests to run successfully
 # the f31 version of testmon requires pytest < 4
 # which is not in f31
@@ -110,6 +106,12 @@ rm -rf html/.{doctrees,buildinfo}
 %endif
 
 %changelog
+* Tue Aug 04 2020 Fabien Boucher <fboucher@redhat.com> - 8.4.2-1
+- update to 8.4.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Matthias Runge <mrunge@redhat.com> - 8.2.1-3
 - skip test and rebuild to fix fail to install for cherrypy
 

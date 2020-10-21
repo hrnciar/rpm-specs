@@ -2,7 +2,7 @@
 
 Name:           adb-enhanced
 Version:        2.5.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Swiss-army knife for Android testing and development
 
 License:        ASL 2.0
@@ -46,6 +46,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests/adb
 %{python3_sitelib}/adb_enhanced*.egg-info/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.5.4-2
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           perl-Net-Statsd
 Version:        0.12
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Sends statistics to the stats daemon over UDP
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Net-Statsd
@@ -68,6 +68,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.12-13
 - Perl 5.32 rebuild
 

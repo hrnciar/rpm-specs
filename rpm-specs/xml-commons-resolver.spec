@@ -1,7 +1,7 @@
 Name:           xml-commons-resolver
 Epoch:          0
 Version:        1.2
-Release:        29%{?dist}
+Release:        32%{?dist}
 Summary:        Resolver subproject of xml-commons
 License:        ASL 2.0
 URL:            http://xerces.apache.org/xml-commons/components/resolver/
@@ -45,7 +45,7 @@ sed -i 's/\r//' KEYS LICENSE.resolver.txt NOTICE-resolver.txt
 %mvn_file : xml-commons-resolver xml-resolver
 
 %build
-%ant -f resolver.xml jar javadocs
+%ant -f resolver.xml jar javadocs -Dant.build.javac.source=1.8 -Dant.build.javac.target=1.8
 %mvn_artifact %{SOURCE5} build/resolver.jar
 
 %install
@@ -72,6 +72,16 @@ install -p -m 644 %{SOURCE8} ${RPM_BUILD_ROOT}%{_mandir}/man1/xml-xread.1
 %doc LICENSE.resolver.txt NOTICE-resolver.txt
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.2-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Mat Booth <mat.booth@redhat.com> - 0:1.2-31
+- Generate 1.8 level bytecode to avoid breaking dependent packages that require
+  Java 8
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0:1.2-30
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.2-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

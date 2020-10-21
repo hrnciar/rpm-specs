@@ -1,7 +1,7 @@
 Summary:   Themes for Enlightenment, DR16
 Name:      e16-themes
 Version:   1.0.1
-Release:   15%{?dist}
+Release:   16%{?dist}
 License:   MIT with advertising
 URL:       http://www.enlightenment.org/
 #
@@ -47,6 +47,9 @@ done
 %{_datadir}/e16/themes
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

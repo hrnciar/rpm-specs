@@ -1,11 +1,13 @@
 Name:           devilspie2
 Version:        0.43
-Release:        6%{?dist}
+Release:        9%{?dist}
 Summary:        A window-matching utility
 
 License:        GPLv3+
 URL:            http://www.nongnu.org/devilspie2/
 Source0:        http://download.savannah.nongnu.org/releases/%{name}/%{name}_%{version}-src.tar.gz
+
+Patch0:         lua_ql-deprecated.patch
 
 BuildRequires:  pkgconfig(gtk+-3.0)
 BuildRequires:  pkgconfig(lua)
@@ -22,6 +24,7 @@ Burton.
 
 %prep
 %setup -q
+%patch0 -p1
 # preserve timestamps
 sed -i 's/^\tinstall\s\+/\0-p /' Makefile
 
@@ -39,6 +42,17 @@ make install DESTDIR=%{buildroot} PREFIX=%{_prefix}
 %doc README README.translators ChangeLog COPYING AUTHORS GPL3.txt
 
 %changelog
+* Fri Oct 09 2020 Michal Minář <miminar@redhat.com> - 0.43-8
+- Fixed build error due to deprecated LUA_QL macro
+- Resolves bz#1863421
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.43-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.43-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.43-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

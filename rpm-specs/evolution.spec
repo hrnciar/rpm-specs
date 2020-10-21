@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+
 %global _changelog_trimtime %(date +%s -d "1 year ago")
 %global _python_bytecompile_extra 0
 
@@ -40,22 +42,14 @@
 ### Abstract ###
 
 Name: evolution
-Version: 3.37.2
-Release: 2%{?dist}
+Version: 3.38.1
+Release: 1%{?dist}
 Summary: Mail and calendar client for GNOME
 License: GPLv2+ and GFDL
 URL: https://wiki.gnome.org/Apps/Evolution
-Source: http://download.gnome.org/sources/%{name}/3.37/%{name}-%{version}.tar.xz
+Source: http://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 Source1: flatpak-evolution-fix-service-names.sh
 Source2: flatpak-evolution-wrapper.sh.in
-
-# Various bugfix backports from upstream mainline
-Patch0001: 0001-I-966-Composer-Correct-caret-placement-around-signat.patch
-Patch0002: 0002-I-969-Workaround-freeze-on-drag-of-message-over-comp.patch
-Patch0003: 0003-I-975-Composer-Some-user-options-not-propagated-to-t.patch
-Patch0004: 0004-I-982-Message-contains-search-broken-in-3.36.3.patch
-Patch0005: 0005-I-979-Undeletable-empty-item-in-folder-list.patch
-
 
 Obsoletes: anjal <= %{last_anjal_version}
 Obsoletes: libgal2 <= %{last_libgal2_version}
@@ -242,7 +236,7 @@ the functionality of the installed %{name} package.
 %endif
 
 %prep
-%autosetup -p1 -n %{name}-%{version}
+%autosetup -p1 -S gendiff
 
 # Remove the welcome email from Novell
 for inbox in src/mail/default/*/Inbox; do
@@ -255,9 +249,6 @@ cat data/org.gnome.Evolution.desktop.in.i | sed -e "s/Icon=evolution/Icon=org.gn
 %endif
 
 %build
-
-mkdir -p _build
-cd _build
 
 # define all of our flags, this is kind of ugly :(
 %if %{ldap_support}
@@ -298,13 +289,11 @@ CFLAGS="$RPM_OPT_FLAGS -fPIC -DLDAP_DEPRECATED -Wno-sign-compare -Wno-deprecated
 	-DVERSION_SUBSTRING=" (%{version}-%{release})" \
 	%ldap_flags %ssl_flags %gtkdoc_flags %tests_flags %tnef_flags \
 	-DENABLE_PLUGINS=all \
-	..
+	%{nil}
 
-make %{?_smp_mflags}
+%cmake_build
 
 %if %{with_docs}
-
-cd ..
 
 # Replace identical images in the help by links.
 # This reduces the RPM size by several megabytes.
@@ -327,9 +316,7 @@ done
 %endif
 
 %install
-rm -rf $RPM_BUILD_ROOT
-cd _build
-make DESTDIR=$RPM_BUILD_ROOT install
+%cmake_install
 
 %if 0%{?flatpak}
 %{S:1} <%{S:2} >flatpak-evolution-wrapper.sh
@@ -541,10 +528,10 @@ grep -v "%{_datadir}/locale" evolution.lang > help.lang
 
 %endif
 
-%files langpacks -f _build/translations.lang
+%files langpacks -f translations.lang
 
 %if %{with_docs}
-%files help -f _build/help.lang
+%files help -f help.lang
 %endif
 
 %files bogofilter
@@ -569,6 +556,27 @@ grep -v "%{_datadir}/locale" evolution.lang > help.lang
 %endif
 
 %changelog
+* Fri Oct 02 2020 Milan Crha <mcrha@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Sat Sep 26 2020 Adrian Reber <adrian@lisas.de> - 3.38.0-2
+- Rebuilt for protobuf 3.13
+
+* Fri Sep 11 2020 Milan Crha <mcrha@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Fri Sep 04 2020 Milan Crha <mcrha@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Fri Aug 07 2020 Milan Crha <mcrha@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Milan Crha <mcrha@redhat.com> - 3.37.3-1
+- Update to 3.37.3
+
 * Tue Jun 23 2020 Adam Williamson <awilliam@redhat.com> - 3.37.2-2
 - Backport several fixes for annoying bugs from mainline
 

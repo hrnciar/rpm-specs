@@ -1,7 +1,7 @@
 Summary:        A Linux entropy source using the HAVEGE algorithm
 Name:           haveged
-Version:        1.9.12
-Release:        1%{?dist}
+Version:        1.9.13
+Release:        2%{?dist}
 License:        GPLv3+
 URL:            https://github.com/jirka-h/haveged
 Source0:        https://github.com/jirka-h/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -117,6 +117,12 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jun 28 2020 Jirka Hladky <hladky.jiri@gmail.com> - 1.9.13-1
+ - Update to 1.9.13
+
 * Thu Jun 18 2020 Jirka Hladky <hladky.jiri@gmail.com> - 1.9.12-1
  - Update to 1.9.12
 

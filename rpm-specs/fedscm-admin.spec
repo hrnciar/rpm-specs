@@ -1,8 +1,8 @@
 %global distname fedscm_admin
 
 Name:           fedscm-admin
-Version:        1.0.13
-Release:        2%{?dist}
+Version:        1.0.17
+Release:        1%{?dist}
 Summary:        CLI tool to process Fedora SCM requests
 License:        GPLv2+
 URL:            https://pagure.io/fedscm-admin
@@ -70,6 +70,30 @@ unset FEDSCM_ADMIN_CONFIG
 %{_mandir}/man1/fedscm-admin.1*
 
 %changelog
+* Fri Sep 18 2020 Tomas Hrcka <thrcka@redhat.com> - 1.0.17-1
+- Update to 1.0.17
+
+* Wed Sep 16 2020 Tomas Hrcka <thrcka@redhat.com> - 1.0.16-1
+- Update to 1.0.16
+
+* Thu Aug 13 2020 Tomas Hrcka <thrcka@redhat.com> - 1.0.15-1
+- Update to 1.0.15
+
+* Thu Aug 06 2020 Tomas Hrcka <thrcka@redhat.com> - 1.0.14-4
+- rebuilt
+
+* Thu Aug 06 2020 Tomas Hrcka <thrcka@redhat.com> - 1.0.14-3
+- Rebuilt
+
+* Thu Aug 06 2020 Tomas Hrcka <thrcka@redhat.com> - 1.0.14-2
+- Rebuilt with correct sources
+
+* Wed Aug 05 2020 Tomas Hrcka <thrcka@redhat.com> - 1.0.14-1
+- Update to 1.0.14
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.13-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.13-2
 - Rebuilt for Python 3.9
 

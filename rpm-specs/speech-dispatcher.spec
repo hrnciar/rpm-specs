@@ -1,8 +1,8 @@
 %global _hardened_build 1
 
 Name:          speech-dispatcher
-Version:       0.9.1
-Release:       7%{?dist}
+Version:       0.10.1
+Release:       2%{?dist}
 Summary:       To provide a high-level device independent layer for speech synthesis
 
 # Almost all files are under GPLv2+, however 
@@ -14,14 +14,17 @@ Source0:       https://github.com/brailcom/speechd/releases/download/%{version}/
 Source1:       http://www.freebsoft.org/pub/projects/sound-icons/sound-icons-0.1.tar.gz
 
 Patch1:        0001-Remove-pyxdg-dependency.patch
-Patch2:        0002-Fix-global-variable-gcc10.patch
+# https://github.com/brailcom/speechd/pull/403
+Patch2:        fix-crash-with-python-3.9.patch
 
-BuildRequires: gcc gcc-c++
 BuildRequires: alsa-lib-devel
 BuildRequires: desktop-file-utils
 BuildRequires: dotconf-devel
 BuildRequires: espeak-ng-devel
 BuildRequires: flite-devel
+BuildRequires: gcc
+BuildRequires: gcc-c++
+BuildRequires: git-core
 Buildrequires: glib2-devel
 Buildrequires: intltool
 Buildrequires: libao-devel
@@ -30,12 +33,11 @@ Buildrequires: libsndfile-devel
 Buildrequires: pulseaudio-libs-devel
 BuildRequires: python3-devel
 BuildRequires: python3-setuptools
-BuildRequires: texinfo
 BuildRequires: systemd
-BuildRequires: git
+BuildRequires: texinfo
 BuildRequires: /usr/bin/help2man
 
-Requires: speech-dispatcher-espeak-ng
+Requires:      speech-dispatcher-espeak-ng
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
@@ -224,6 +226,15 @@ sed 's/# AudioOutputMethod "pulse,alsa"/AudioOutputMethod "pulse,alsa"/' %{build
 %{python3_sitearch}/speechd*
 
 %changelog
+* Fri Sep 11 2020 Kalev Lember <klember@redhat.com> - 0.10.1-2
+- Fix crash with python 3.9 (#1878276)
+
+* Mon Aug 10 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.10.1-1
+- Update to 0.10.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.1-7
 - Rebuilt for Python 3.9
 

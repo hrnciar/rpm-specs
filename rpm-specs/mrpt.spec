@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:      mrpt
 Version:   1.4.0
-Release:   19%{?dist}
+Release:   23%{?dist}
 License:   BSD
 Summary:   Libraries and programs for mobile robot SLAM and navigation
 URL:       http://www.mrpt.org
@@ -24,6 +26,10 @@ Patch10: mrpt-1.4.0-cpp11.patch
 # Update deprecated function calls removed in octomap-1.8
 # Not submitted upstream
 Patch12: mrpt-1.3.2-octomap18.patch
+# Fix inclusion of boost mutex
+Patch13: mrpt-1.4.0-boost173.patch
+# Fix for gcc-11
+Patch14: mrpt-gcc11.patch
 
 BuildRequires: assimp-devel
 BuildRequires: cmake
@@ -270,6 +276,8 @@ with Doxygen.
 %patch9 -p0 -b .octomap
 %patch10 -p0 -b .cpp11
 %patch12 -p0 -b .octomap18
+%patch13 -p0 -b .boost173
+%patch14 -p1 -b .gcc11
 rm -rf libs/opengl/src/{glew,glext,lib3ds}
 rm -rf libs/base/src/math/CSparse
 rm -rf libs/base/include/mrpt/otherlibs/CSparse
@@ -282,10 +290,8 @@ rm -rf libs/maps/include/mrpt/otherlibs/octomap
 
 %build
 # The flag CMAKE_MRPT_IS_RPM_PACKAGE disables global "-mtune=native"
-export VERBOSE=1
-mkdir build
-cd build
 %cmake \
+  -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_LIBDIR=%{_lib} \
   -DCSPARSE_LIBRARY=%{_libdir}/libcxsparse.so \
   -DCMAKE_MRPT_IS_RPM_PACKAGE=1 \
@@ -322,18 +328,17 @@ cd build
   -DDISABLE_OPENCV=ON \
 %endif
   -DDISABLE_FFMPEG=ON \
-  ..
 
-VERBOSE=1 make %{?_smp_mflags}
-make documentation_html
-make man_pages_all
+%cmake_build
+%cmake_build --target documentation_html
+%cmake_build --target  man_pages_all
 
 %check
 export LD_LIBRARY_PATH=$(pwd)/lib
-make -C build test VERBOSE=1 ARGS="-VV" || echo "**Warning**: unit tests failed, check whether it was only due to SSE* stuff" 
+%ctest --verbose || echo "**Warning**: unit tests failed, check whether it was only due to SSE* stuff" 
 
 %install
-make -C build install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 # Validate .g files:
 find ${RPM_BUILD_ROOT}%{_datadir}/applications/ -name "*.desktop" | xargs -I FIL desktop-file-validate FIL
 # Validate appdata files
@@ -460,6 +465,19 @@ rm -fr $RPM_BUILD_ROOT/%{_usr}/lib/python*
 %{_libdir}/*.so.*
 
 %changelog
+* Thu Oct 15 2020 Jeff Law <law@redhat.com> - 1.4.0-23
+- Fix missing #includes for gcc-11
+
+* Mon Aug 31 2020 Jeff Law <law@redhat.com> - 1.4.0-22
+- Re-enable LTO
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Nicolas Chauvet <kwizart@gmail.com> - 1.4.0-19
 - Rebuilt for OpenCV 4.3
 

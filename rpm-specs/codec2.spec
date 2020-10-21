@@ -2,7 +2,7 @@
 
 Name:           codec2
 Version:        0.9.2
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Next-Generation Digital Voice for Two-Way Radio
 License:        LGPLv2 
 
@@ -48,18 +48,14 @@ Example code for Codec 2
 
 
 %build
-mkdir build_linux && pushd build_linux
 %cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-       -DLPCNET=ON \
-    ../
+       -DLPCNET=ON
 
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-pushd build_linux
-%make_install
-popd
+%cmake_install
 
 # Create and install pkgconfig file
 mkdir -p %{buildroot}%{_libdir}/pkgconfig
@@ -94,6 +90,13 @@ EOF
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Richard Shaw <hobbes1069@gmail.com> - 0.9.2-2
 - Rebuild with lpcnetfreedv.
 

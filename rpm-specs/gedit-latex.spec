@@ -1,10 +1,10 @@
 # This package depends on automagic byte compilation
 # https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
+%global _python_bytecompile_extra 0
 
 Name:           gedit-latex
 Version:        3.20.0
-Release:        9%{?dist}
+Release:        13%{?dist}
 Summary:        gedit plugin for composing and compiling LaTeX documents
 
 License:        GPLv2+ and GPLv3+
@@ -20,7 +20,7 @@ BuildRequires:  libpeas-devel
 BuildRequires:  gtk3-devel
 BuildRequires:  glib2-devel
 
-Requires:       python3-gobject >= %{pygo_version}
+Requires:       python3-gobject
 Requires:       python3-dbus
 Requires:       texlive
 # For compiling utilities
@@ -65,6 +65,17 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_datadir}/glib-2.0/schemas/org.gnome.gedit.plugins.latex.gschema.xml
 
 %changelog
+* Fri Oct 09 2020 Sergio Pascual <sergiopr@fedoraproject.org> - 3.20.0-13
+- Set python_bytecompile_extra to 0
+- Remove pygo_version macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.20.0-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.20.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.20.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

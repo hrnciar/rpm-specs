@@ -3,7 +3,7 @@
 Summary: {OPEN} client authentication protocol for python-requests
 Name: python-edgegrid
 Version: 1.1.1
-Release: 7%{?dist}
+Release: 9%{?dist}
 Source0: %{pypi_source}
 License: ASL 2.0
 BuildArch: noarch
@@ -18,6 +18,7 @@ that provides the Akamai {OPEN} Edgegrid Authentication scheme.
 %package -n python3-edgegrid
 Summary:	%{summary}
 BuildRequires:	python3-devel
+BuildRequires:	python3-setuptools
 %{?python_provide:%python_provide python3-edgegrid}
 
 %description -n python3-edgegrid
@@ -56,6 +57,12 @@ find akamai -name '*.py' -exec sed -r -e 's|^#!/usr/bin/env.*|#|' -i '{}' ';'
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Rohan McGovern <rmcgover@redhat.com> - 1.1.1-8
+- Explicitly BuildRequires python3-setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.1-7
 - Rebuilt for Python 3.9
 

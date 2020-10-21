@@ -9,7 +9,7 @@
 
 Name:     erlang-%{realname}
 Version:  3.13.1
-Release:  3%{?dist}
+Release:  4%{?dist}
 Summary:  Tool for working with Erlang projects
 License:  ASL 2.0 and MIT
 URL:      https://github.com/erlang/%{realname}
@@ -90,6 +90,9 @@ install -p -m644 manpages/%{realname}.1 %{buildroot}%{_mandir}/man1/
 %{_mandir}/man1/%{realname}.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.13.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 13 2020 Timothée Floure <fnux@fedoraproject.org> - 3.13.1-1
 - New upstream release
 

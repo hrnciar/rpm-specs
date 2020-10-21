@@ -6,7 +6,7 @@
 Name:             fbb
 URL:              https://sourceforge.net/projects/linfbb/
 Version:          7.0.9
-Release:          %{?prerel:0.}2%{?prerel:.%{prerel}}%{?dist}
+Release:          %{?prerel:0.}2%{?prerel:.%{prerel}}%{?dist}.1
 License:          GPLv2+
 Summary:          Packet radio mailbox and utilities
 BuildRequires:  gcc
@@ -208,6 +208,9 @@ statis.dat,themes.dat,tpstat.sys,wfbid.sys,sat/satel.dat,wp/wp.sys}
 %{_datadir}/polkit-1/actions/org.fbb.gui.policy
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.9-2.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar  9 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 7.0.9-2
 - Fixed FTBFS with gcc-10
   Resolves: rhbz#1799334

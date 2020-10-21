@@ -1,12 +1,6 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
-%global __python %{__python3}
-
 Name:           transmageddon
 Version:        1.5
-Release:        19%{?dist}
+Release:        22%{?dist}
 Summary:        Video transcoder
 
 License:        LGPLv2+
@@ -48,6 +42,8 @@ make install DESTDIR=$RPM_BUILD_ROOT PYTHON=%{__python3}
 
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/transmageddon.desktop
 
+%py_byte_compile %{__python3} %{buildroot}%{_datadir}/transmageddon/
+
 %find_lang transmageddon
 
 %files -f transmageddon.lang
@@ -62,6 +58,17 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/transmageddon.desk
 
 
 %changelog
+* Fri Sep 25 2020 Kalev Lember <klember@redhat.com> - 1.5-22
+- Explicitly byte-compile python files using py_byte_compile macro
+- Fix FTBFS (#1865585)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5-19
 - Rebuilt for Python 3.9
 

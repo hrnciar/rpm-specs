@@ -3,9 +3,13 @@
 
 %global opt %(test -x %{_bindir}/ocamlopt && echo 1 || echo 0)
 
+%if 0%{?fedora} >= 33
+%bcond_without flexiblas
+%endif
+
 Name:           ocaml-lacaml
 Version:        9.3.2
-Release:        20%{?dist}
+Release:        25%{?dist}
 Summary:        BLAS/LAPACK-interface for OCaml
 
 License:        LGPLv2 with exceptions
@@ -17,8 +21,11 @@ BuildRequires:  ocaml-ocamlbuild-devel
 BuildRequires:  ocaml-findlib-devel
 BuildRequires:  ocaml-ocamldoc
 BuildRequires:  ocaml-compiler-libs
-BuildRequires:  lapack-devel
-BuildRequires:  blas-devel
+%if %{with flexiblas}
+BuildRequires:	flexiblas-devel
+%else
+BuildRequires:	blas-devel, lapack-devel
+%endif
 
 %global __ocaml_requires_opts -i Asttypes -i Parsetree -i Common -i Utils
 %global __ocaml_provides_opts -i Common -i Install_printers -i Io -i Utils
@@ -45,6 +52,11 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n lacaml-%{version}
+%if %{with flexiblas}
+for i in _oasis setup.conf setup.ml myocamlbuild.ml; do
+  sed -e 's/-lblas/-lflexiblas/g' -e 's/-llapack/-lflexiblas/g' -i $i
+done
+%endif
 ./configure --prefix %{_prefix} --destdir $RPM_BUILD_ROOT
 
 
@@ -89,6 +101,22 @@ install -m 0644 _build/*.cmx $RPM_BUILD_ROOT%{_libdir}/ocaml/lacaml
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 9.3.2-25
+- OCaml 4.11.1 rebuild
+
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 9.3.2-24
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 9.3.2-23
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.3.2-22
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.3.2-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 9.3.2-20
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

@@ -17,11 +17,11 @@
 
 # track libcantor soname, rebuild dependencies for changes, includes:
 # LabPlot
-%global soname 24
+%global soname 27
 
 Name:    cantor
 Summary: KDE Frontend to Mathematical Software
-Version: 20.04.2
+Version: 20.08.1
 Release: 1%{?dist}
 
 License: GPLv2+
@@ -128,19 +128,14 @@ Requires: %{name}-libs%{?_isa} = %{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
 # PYTHONLIBS_FOUND is used to find Python 2.7
 # PYTHONLIBS3_FOUND is used to find Python 3.x
-%{cmake_kf5} .. \
-  -DPYTHONLIBS_FOUND:BOOL=OFF
-popd
-
-%make_build -C %{_target_platform}
+%cmake_kf5 -DPYTHONLIBS_FOUND:BOOL=OFF
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -223,6 +218,22 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.%{name}.d
 
 
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.2-1
 - 20.04.2
 

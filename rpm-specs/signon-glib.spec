@@ -9,7 +9,7 @@ provided by signond. It is part of the accounts-sso project.
 Name:           signon-glib
 Summary:        Single signon authentication library for GLib applications
 Version:        2.1
-Release:        9%{?dist}
+Release:        11%{?dist}
 License:        LGPLv2+
 
 URL:            https://gitlab.com/accounts-sso/%{srcname}
@@ -121,6 +121,13 @@ popd
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1-9
 - Rebuilt for Python 3.9
 

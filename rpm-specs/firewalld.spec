@@ -1,16 +1,13 @@
 Summary: A firewall daemon with D-Bus interface providing a dynamic firewall
 Name: firewalld
-Version: 0.8.2
-Release: 4%{?dist}
+Version: 0.9.1
+Release: 1%{?dist}
 URL:     http://www.firewalld.org
 License: GPLv2+
 Source0: https://github.com/firewalld/firewalld/releases/download/v%{version}/firewalld-%{version}.tar.gz
 Source1: FedoraServer.xml
 Source2: FedoraWorkstation.xml
 Patch0: firewalld-0.2.6-MDNS-default.patch
-Patch2: 0002-fix-nftables-ipset-port-ranges-for-non-default-proto.patch
-Patch3: 0003-test-ipset-verify-port-ranges-for-non-default-protoc.patch
-Patch4: 0004-test-log-verify-logging-still-works-after-truncate.patch
 BuildArch: noarch
 BuildRequires: autoconf
 BuildRequires: automake
@@ -197,6 +194,7 @@ fi
 %{_datadir}/zsh/site-functions/_firewalld
 %{_prefix}/lib/firewalld/icmptypes/*.xml
 %{_prefix}/lib/firewalld/ipsets/README
+%{_prefix}/lib/firewalld/policies/*.xml
 %{_prefix}/lib/firewalld/services/*.xml
 %{_prefix}/lib/firewalld/zones/*.xml
 %{_prefix}/lib/firewalld/helpers/*.xml
@@ -209,6 +207,7 @@ fi
 %attr(0750,root,root) %dir %{_sysconfdir}/firewalld/helpers
 %attr(0750,root,root) %dir %{_sysconfdir}/firewalld/icmptypes
 %attr(0750,root,root) %dir %{_sysconfdir}/firewalld/ipsets
+%attr(0750,root,root) %dir %{_sysconfdir}/firewalld/policies
 %attr(0750,root,root) %dir %{_sysconfdir}/firewalld/services
 %attr(0750,root,root) %dir %{_sysconfdir}/firewalld/zones
 %defattr(0644,root,root)
@@ -251,6 +250,7 @@ fi
 %dir %{_prefix}/lib/firewalld/helpers
 %dir %{_prefix}/lib/firewalld/icmptypes
 %dir %{_prefix}/lib/firewalld/ipsets
+%dir %{_prefix}/lib/firewalld/policies
 %dir %{_prefix}/lib/firewalld/services
 %dir %{_prefix}/lib/firewalld/zones
 %{_rpmconfigdir}/macros.d/macros.firewalld
@@ -277,6 +277,18 @@ fi
 %{_mandir}/man1/firewall-config*.1*
 
 %changelog
+* Thu Oct 01 2020 Eric Garver <egarver@garver.life> - 0.9.1-1
+- rebase package to v0.9.1
+
+* Wed Sep 02 2020 Eric Garver <egarver@garver.life> - 0.9.0-1
+- rebase package to v0.9.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Eric Garver <egarver@garver.life> - 0.8.3-1
+- rebase package to v0.8.3
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.2-4
 - Rebuilt for Python 3.9
 

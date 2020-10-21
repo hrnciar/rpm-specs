@@ -4,7 +4,7 @@
 
 Name:		%{fontname}-fonts
 Version:	1.0.2.1
-Release:	17%{?dist}
+Release:	18%{?dist}
 Summary:	A Latin typeface that is decorative, surreal, and hairy
 License:	OFL
 URL:		http://www.drehatlas.de/
@@ -59,6 +59,9 @@ install -Dm 0644 -p %{SOURCE2} \
 %doc drehatlas-fonts-%{metapkgver}/WarenderBibliothek-%{version}/LICENSE drehatlas-fonts-%{metapkgver}/WarenderBibliothek-%{version}/FONTLOG
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2.1-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2.1-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

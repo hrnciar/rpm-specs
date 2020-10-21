@@ -1,7 +1,7 @@
 Summary: Tools for certain user account management tasks
 Name: usermode
 Version: 1.112
-Release: 6%{?dist}
+Release: 9%{?dist}
 License: GPLv2+
 URL: https://pagure.io/usermode/
 Source: https://releases.pagure.org/usermode/usermode-%{version}.autotoolized.tar.xz
@@ -12,6 +12,9 @@ Patch0: sysmacros.patch
 # Backport of da01d6325a1a9eb8154abb6a4590c610e8db8ec4
 # - bad FSF address fix
 Patch1: fsfaddr.patch
+# Backport of 48c4085004caad1ec928fa103b7f3e3fe684c826
+# - <selinux/flask.h> and <selinux/av_permissions.h> are now deprecated
+Patch2: selinux_deprecated.patch
 Requires: pam, passwd, util-linux
 # https://lists.fedoraproject.org/archives/list/devel@lists.fedoraproject.org/thread/IJFYI5Q2BYZKIGDFS2WLOBDUSEGWHIKV/
 BuildRequires: gcc
@@ -45,6 +48,7 @@ graphical tools for certain account management tasks.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %configure --with-selinux
@@ -98,6 +102,17 @@ done
 %{_datadir}/applications/*
 
 %changelog
+* Wed Sep 09 2020 Jiri Kucera <jkucera@redhat.com> - 1.112-9
+- Do not use deprecated selinux headers
+  Resolves #1865598
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.112-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.112-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.112-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

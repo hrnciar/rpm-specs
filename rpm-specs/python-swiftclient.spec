@@ -9,12 +9,12 @@ Client library and command line utility for interacting with Openstack \
 Object Storage API.
 
 Name:       python-swiftclient
-Version:    3.9.0
+Version:    3.10.1
 Release:    1%{?dist}
 Summary:    Client Library for OpenStack Object Storage API
 License:    ASL 2.0
 URL:        http://launchpad.net/python-swiftclient/
-Source0:    https://tarballs.openstack.org/%{name}/%{name}-%{version}.tar.gz
+Source0:    https://tarballs.opendev.org/openstack/%{name}/%{name}-%{version}.tar.gz
 
 BuildArch:  noarch
 
@@ -69,10 +69,10 @@ rm -fr %{buildroot}%{python3_sitelib}/swiftclient/tests
 
 %if 0%{?with_doc}
 %{__python3} setup.py build_sphinx -b html
-rm -rf doc/build/html/.{doctrees,buildinfo}
+rm -rf build/sphinx/.{doctrees,buildinfo}
 
 %{__python3} setup.py build_sphinx -b man
-install -p -D -m 644 doc/build/man/*.1 %{buildroot}%{_mandir}/man1/
+install -p -D -m 644 build/sphinx/man/*.1 %{buildroot}%{_mandir}/man1/
 %endif
 
 %files -n python3-%{sname}
@@ -86,10 +86,17 @@ install -p -D -m 644 doc/build/man/*.1 %{buildroot}%{_mandir}/man1/
 
 %if 0%{?with_doc}
 %files doc
-%doc doc/build/html
+%doc build/sphinx/html
 %license LICENSE
 %endif
+
 %changelog
+* Thu Sep 17 2020 Pete Zaitcev <zaitcev@redhat.com> - 3.10.1-1
+- Update to upstream version 3.10.1, fixes bz#1876999
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Joel Capitao <jcapitao@redhat.com> 3.9.0-1
 - Update to upstream version 3.9.0
 

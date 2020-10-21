@@ -1,21 +1,15 @@
-%{!?openblas_arches:%global openblas_arches x86_64 %{ix86} armv7hl %{power64} aarch64 s390x}
-%ifnarch %{openblas_arches}
-# matches openblas/scalapack ExclusiveArch
-%global with_atlas 1
-%endif
-
 %ifnarch s390 s390x
 %global with_papi 1
 %endif
 
 %bcond_without check
 
-%global sover 14
+%global sover 15
 
 Summary: High-performance library for parallel solution of eigenvalue problems
 Name: elpa
-Version: 2019.05.002
-Release: 3%{?dist}
+Version: 2020.05.001
+Release: 1%{?dist}
 URL: https://elpa.mpcdf.mpg.de/software
 Source0: https://elpa.mpcdf.mpg.de/html/Releases/%{version}/elpa-%{version}.tar.gz
 Source1: https://elpa.mpcdf.mpg.de/html/Releases/%{version}/elpa-%{version}.tar.gz.asc
@@ -24,22 +18,17 @@ Source2: gpg-keyring-26BC8F899C6A2698BDD6EF6A69260748A5F870B5.gpg
 Patch1: elpa-onenode.patch
 # fix typos in VSX code
 Patch2: elpa-vsx.patch
-# fix detection of AVX(2) compiler support and use them only in the library
-Patch3: elpa-simd.patch
-# fix test errors on aarch64
-Patch4: elpa-aarch64-no-fma.patch
-# fix test errors on x86_64
-Patch5: elpa-merge.patch
+# fix test failures on x86_64
+Patch3: elpa-c-binding.patch
+# add FlexiBLAS support
+Patch6: elpa-flexiblas.patch
 License: LGPLv3+
-%if %{with atlas}
-BuildRequires: atlas-devel
-%else
-BuildRequires: openblas-devel
-%endif
+BuildRequires: flexiblas-devel
 BuildRequires: gcc-gfortran
 BuildRequires: gnupg2
 BuildRequires: libtool
 BuildRequires: /usr/bin/execstack
+BuildRequires: /usr/bin/xxd
 %if %{with papi}
 BuildRequires: papi-devel
 %endif
@@ -160,9 +149,8 @@ mv elpa-%{version} mpich
 pushd mpich
 %patch1 -p1 -b .onenode
 %patch2 -p1 -b .vsx
-%patch3 -p1 -b .simd
-%patch4 -p1 -b .aarch64-no-fma
-%patch5 -p1 -b .merge
+%patch3 -p1 -b .cb
+%patch6 -p1 -b .fb
 autoreconf -vifs
 popd
 cp -pr mpich openmpi
@@ -171,7 +159,7 @@ mkdir _openmp
 cp -pr mpich openmpi serial _openmp/
 
 %build
-%global defopts --disable-silent-rules --disable-static --docdir=%{_pkgdocdir} --enable-legacy-interface
+%global defopts --disable-silent-rules --disable-static --docdir=%{_pkgdocdir}
 %global ldflags %{__global_ldflags}
 %if %{with atlas}
 %global ldflags %{ldflags} -L%{_libdir}/atlas
@@ -182,11 +170,15 @@ cp -pr mpich openmpi serial _openmp/
 
 for mpi in '' mpich openmpi ; do
   export CFLAGS="%{optflags}"
+%ifarch x86_64
+  export CFLAGS="${CFLAGS} -mssse3 -mavx"
+%endif
   export LDFLAGS="%{ldflags}"
   export FCFLAGS="%{fcflags}"
   if [ -n "$mpi" ]; then
     module load mpi/${mpi}-%{_arch}
     export LDFLAGS="${LDFLAGS} -L$MPI_LIB"
+    export CFLAGS="${CFLAGS} -I$MPI_INCLUDE"
     export FCFLAGS="${FCFLAGS} -I$MPI_FORTRAN_MOD_DIR"
   fi
   for s in '' _openmp ; do
@@ -204,14 +196,15 @@ for mpi in '' mpich openmpi ; do
       --enable-neon-arch64 \
 %endif
 %ifarch ppc64le
-      --enable-vsx \
+      --disable-vsx \
 %endif
 %ifnarch x86_64
       --disable-sse-assembly \
       --disable-sse \
       --disable-avx \
-      --disable-avx2 \
 %endif
+      --disable-avx2 \
+      --disable-avx512 \
       ${s:+--enable-openmp} \
 %if %{with papi}
       --with-papi \
@@ -256,22 +249,17 @@ for s in '' _openmp ; do
   done
 done
 echo ".so elpa2_print_kernels.1" > %{buildroot}%{_mandir}/man1/elpa2_print_kernels_openmp.1
+rm %{buildroot}%{_pkgdocdir}/USERS_GUIDE_DEPRECATED_LEGACY_API.md
 
 %if %{with check}
 %check
-# Test suite failures
-# Build time: minutes
-# Number of tests: serial - 83, MPI - 127
-#         build time serial serial+omp mpich mpich+omp openmpi openmpi+omp
-# aarch64         20      3          9     3         7       3           3
-# armv7hl        N/A    N/A        N/A   N/A       N/A     N/A         N/A
-# i686            24      0          8     0         8       0           0
-# ppc64le         13      9         16    10        14      10          10
-# s390x           11      0          5     0         2       0           0
-# x86_64          23      0         18     0        12       0           0
 . /etc/profile.d/modules.sh
 for s in '' _openmp ; do
+%ifarch x86_64 ppc64le
+  for mpi in '' mpich ; do
+%else
   for mpi in '' mpich openmpi ; do
+%endif
     pushd ${s:-.}/${mpi:-serial}
     if [ -n "$mpi" ]; then
       module load mpi/${mpi}-%{_arch}
@@ -323,9 +311,7 @@ done
 %{_pkgdocdir}/CONTRIBUTING.md
 %exclude %{_pkgdocdir}/INSTALL.md
 %{_pkgdocdir}/USERS_GUIDE.md
-%{_pkgdocdir}/USERS_GUIDE_DEPRECATED_LEGACY_API.md
 %{_mandir}/man3/elpa_*.3*
-%{_mandir}/man3/solve_evp_*.3*
 
 %files devel
 %{_libdir}/libelpa.so
@@ -361,6 +347,23 @@ done
 %{_fmoddir}/openmpi*/*.mod
 
 %changelog
+* Tue Sep 15 2020 Dominik Mierzejewski <rpm@greysector.net> 2020.05.001-1
+- update to 2020.05.001 (ABI and API break)
+- rebase patches and drop obsolete ones
+- legacy API removed
+- build only SSE3 and AVX SIMD kernels for x86 which should still work on 10yo machines
+- disable VSX SIMD as the kernels are broken in this release
+
+* Wed Aug 12 2020 Iñaki Úcar <iucar@fedoraproject.org> - 2019.05.002-6
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.05.002-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.05.002-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 05 2020 Dominik Mierzejewski <rpm@greysector.net> 2019.05.002-3
 - fix test failures on x86_64
 - work around compilation errors with gfortran 10

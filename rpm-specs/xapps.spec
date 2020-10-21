@@ -1,6 +1,5 @@
-# this is only turned on during transitional periods
 Name:           xapps
-Version:        1.8.7
+Version:        1.8.10
 Release:        1%{?dist}
 Summary:        Common files for XApp desktop apps
 
@@ -65,7 +64,7 @@ Provides:       python3-xapps-overrides%{?_isa} = %{version}-%{release}
 Python%{python3_version} files for XApp apps.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n xapp-%{version}
 
 %build
 %meson -D deprecated_warnings=false
@@ -120,6 +119,18 @@ find %buildroot -name '*.la' -exec rm -f {} ';'
 %{python3_sitearch}/gi/overrides/__pycache__/XApp.cpython-%{python3_version_nodots}*.py*
 
 %changelog
+* Wed Sep  9 2020 Leigh Scott <leigh123linux@gmail.com> - 1.8.10-1
+- Update to 1.8.10 release
+
+* Sat Aug 15 2020 Leigh Scott <leigh123linux@gmail.com> - 1.8.9-1
+- Update to 1.8.9 release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Leigh Scott <leigh123linux@gmail.com> - 1.8.8-1
+- Update to 1.8.8 release
+
 * Sat Jun 06 2020 Leigh Scott <leigh123linux@gmail.com> - 1.8.7-1
 - Update to 1.8.7 release
 

@@ -12,8 +12,8 @@
 %endif
 
 Name:               pagure
-Version:            5.10.0
-Release:            11%{?dist}
+Version:            5.11.3
+Release:            2%{?dist}
 Summary:            A git-centered forge
 
 License:            GPLv2+
@@ -23,33 +23,15 @@ Source0:            https://pagure.io/releases/pagure/%{name}-%{version}.tar.gz
 Source10:           pagure-README.Fedora
 
 # Backports from upstream
-## Backport fix to make stats page work
-Patch0001:          0001-Make-the-stats-page-use-the-new-stats-API-endpoint.patch
-## Backport support for STARTTLS support for SMTP servers
-Patch0002:          0001-Add-support-for-smtp-server-requiring-starttls-to-wo.patch
-Patch0003:          0002-starttls-support-via-SMTP_STARTTLS-provide-additiona.patch
-Patch0004:          0001-Do-not-assume-there-is-a-SMTP_STARTTLS-configuration.patch
-## Fix access grants for docs repo
-Patch0005:          0001-Fix-repotype-spelling.patch
-## Fix visual bug on api documentation formatting
-Patch0006:          0001-api-fix-apidoc-format-on-api_view_issues_history_det.patch
-## Add setting for changing pull mirror source for projects
-Patch0007:          0001-Allow-editing-the-URL-a-project-is-mirrored-from.patch
-## Add descriptions to API scopes listed at API token creation page
-Patch0008:          0001-Show-the-ACL-name-in-addition-to-the-description-whe.patch
-## Restore heatmap JS library
-Patch0009:          0001-Bring-back-JS-library-used-for-the-heatmap.patch
-## Ensure header keys are rendered as strings
-Patch0010:          0001-Ensure-the-title-name-of-the-headers-are-strings.patch
-## Fix title of burndown graph
-Patch0011:          0001-Fix-the-title-of-the-graph-showing-the-evolution-of-.patch
-## Fix permissions for generated authorized_keys file
-Patch0012:          0001-Make-sure-authorized_keys-file-has-mode-600.patch
-
-# Changes proposed upstream
-## Use whitenoise to render static assets
-## From: https://pagure.io/pagure/pull-request/4885
-Patch0101:          0101-Use-WhiteNoise-to-serve-static-assets-for-the-Pagure.patch
+Patch0001:          0001-Display-real-line-numbers-on-pull-request-s-diff-vie.patch
+Patch0002:          0002-Show-the-assignee-s-avatar-on-the-board.patch
+Patch0003:          0003-Allow-setting-a-status-as-closing-even-if-the-projec.patch
+Patch0004:          0004-Include-the-assignee-in-the-list-of-people-notified-.patch
+Patch0005:          0005-Introduce-the-collaborator_project_groups-mapping.patch
+Patch0006:          0006-When-a-file-a-detected-as-a-binary-file-return-the-r.patch
+Patch0007:          0007-Remove-fenced-code-block-when-checking-mention.patch
+Patch0008:          0008-Add-support-for-using-cchardet-to-detect-files-encod.patch
+Patch0009:          0009-Add-support-for-disabling-user-registration.patch
 
 BuildArch:          noarch
 
@@ -105,6 +87,9 @@ Requires:           python%{python_pkgversion}-whitenoise
 
 
 %if 0%{?fedora} || 0%{?rhel} >= 8
+# We want to use cchardet whenever it's available
+Recommends:         python3-cchardet
+
 # If using PostgreSQL, the correct driver should be installed
 Recommends:         ((python3-psycopg2 or python3-pg8000) if postgresql-server)
 
@@ -548,6 +533,7 @@ done
 %{_unitdir}/pagure_api_key_expire_mail.timer
 %{_unitdir}/pagure_mirror_project_in.service
 %{_unitdir}/pagure_mirror_project_in.timer
+%dir %{_localstatedir}/log/pagure
 
 
 %files web-apache-httpd
@@ -561,8 +547,8 @@ done
 %config(noreplace) %{_sysconfdir}/nginx/conf.d/pagure.conf
 %{_unitdir}/pagure_web.service
 %{_unitdir}/pagure_docs_web.service
-%dir %{_localstatedir}/log/pagure
-%ghost %{_localstatedir}/log/pagure/*.log
+%ghost %{_localstatedir}/log/pagure/access_*.log
+%ghost %{_localstatedir}/log/pagure/error_*.log
 
 
 %files theme-pagureio
@@ -621,6 +607,18 @@ done
 
 
 %changelog
+* Thu Sep 24 2020 Neal Gompa <ngompa13@gmail.com> - 5.11.3-2
+- Backport various fixes from upstream
+
+* Tue Aug 11 2020 Neal Gompa <ngompa13@gmail.com> - 5.11.3-1
+- Update to 5.11.3 (RH#1868029)
+
+* Tue Aug 04 2020 Neal Gompa <ngompa13@gmail.com> - 5.11.2-1
+- Update to 5.11.2 (RH#1862974)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.10.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Neal Gompa <ngompa13@gmail.com> - 5.10.0-11
 - Backport various fixes from upstream
 - Add patch to use whitenoise for serving static assets

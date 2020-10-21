@@ -1,7 +1,7 @@
 Name:           perl-podlators
 Epoch:          1
 Version:        4.14
-Release:        456%{?dist}
+Release:        457%{?dist}
 Summary:        Format POD source into various output formats
 # pod/perlpodstyle.pod:     FSFAP
 # other files:              GPL+ or Artistic
@@ -113,6 +113,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.14-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:4.14-456
 - Increase release to favour standalone package
 

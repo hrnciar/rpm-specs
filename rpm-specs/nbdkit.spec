@@ -1,12 +1,13 @@
 %global _hardened_build 1
 
-# Broken on {power64} because of
-# https://bugzilla.redhat.com/show_bug.cgi?id=1778520
-%ifarch aarch64 %{arm} x86_64 ppc
+%ifarch %{kernel_arches}
+# ... except that it doesn't work on s390, so:
+%ifnarch s390 s390x
 %global have_libguestfs 1
 %endif
+%endif
 
-# We can only compiler the OCaml plugin on platforms which have native
+# We can only compile the OCaml plugin on platforms which have native
 # OCaml support (not bytecode).
 %ifarch %{ocaml_native_compiler}
 %global have_ocaml 1
@@ -38,38 +39,43 @@ ExclusiveArch:  x86_64
 %global verify_tarball_signature 1
 
 # If there are patches which touch autotools files, set this to 1.
-%global patches_touch_autotools %{nil}
+%global patches_touch_autotools 1
 
 # The source directory.
-%global source_directory 1.21-development
+%global source_directory 1.23-development
 
 Name:           nbdkit
-Version:        1.21.12
+Version:        1.23.7
 Release:        1%{?dist}
 Summary:        NBD server
 
 License:        BSD
 URL:            https://github.com/libguestfs/nbdkit
 
+%if 0%{?rhel} >= 8
+# On RHEL 8+, we cannot build the package on i686 (no virt stack).
+ExcludeArch:    i686
+%endif
+
 Source0:        http://libguestfs.org/download/nbdkit/%{source_directory}/%{name}-%{version}.tar.gz
 %if 0%{verify_tarball_signature}
 Source1:        http://libguestfs.org/download/nbdkit/%{source_directory}/%{name}-%{version}.tar.gz.sig
 # Keyring used to verify tarball signature.
-Source2:       libguestfs.keyring
+Source2:        libguestfs.keyring
 %endif
 
 %if 0%{patches_touch_autotools}
-BuildRequires: autoconf, automake, libtool
+BuildRequires:  autoconf, automake, libtool
 %endif
 
 %ifnarch %{complete_test_arches}
 BuildRequires:  autoconf, automake, libtool
 %endif
 BuildRequires:  gcc, gcc-c++
-BuildRequires:  /usr/bin/pod2man
+BuildRequires:  %{_bindir}/pod2man
 BuildRequires:  gnutls-devel
 BuildRequires:  libselinux-devel
-%if 0%{?have_libguestfs}
+%if !0%{?rhel} && 0%{?have_libguestfs}
 BuildRequires:  libguestfs-devel
 %endif
 BuildRequires:  libvirt-devel
@@ -77,34 +83,55 @@ BuildRequires:  xz-devel
 BuildRequires:  zlib-devel
 BuildRequires:  libzstd-devel
 BuildRequires:  libcurl-devel
-BuildRequires:  libnbd-devel >= 0.9.8
+BuildRequires:  libnbd-devel >= 1.3.11
 BuildRequires:  libssh-devel
 BuildRequires:  e2fsprogs, e2fsprogs-devel
+%if !0%{?rhel}
 BuildRequires:  genisoimage
+BuildRequires:  rb_libtorrent-devel
+%endif
 BuildRequires:  bash-completion
 BuildRequires:  perl-devel
 BuildRequires:  perl(ExtUtils::Embed)
+%if 0%{?rhel} == 8
+BuildRequires:  platform-python-devel
+%else
 BuildRequires:  python3-devel
+%endif
+%if !0%{?rhel}
 %if 0%{?have_ocaml}
 # Requires OCaml 4.02.2 which contains fix for
 # http://caml.inria.fr/mantis/view.php?id=6693
 BuildRequires:  ocaml >= 4.02.2
+BuildRequires:  ocaml-ocamldoc
 %endif
 BuildRequires:  ruby-devel
 BuildRequires:  tcl-devel
 BuildRequires:  lua-devel
+%endif
 %if 0%{verify_tarball_signature}
 BuildRequires:  gnupg2
 %endif
 
 # Only for running the test suite:
-BuildRequires:  /usr/bin/certtool
+BuildRequires:  %{_bindir}/bc
+BuildRequires:  %{_bindir}/certtool
+BuildRequires:  %{_bindir}/cut
+BuildRequires:  expect
+BuildRequires:  %{_bindir}/hexdump
+BuildRequires:  %{_sbindir}/ip
 BuildRequires:  jq
-BuildRequires:  /usr/bin/nbdsh
-BuildRequires:  /usr/bin/qemu-img
-BuildRequires:  /usr/bin/socat
-BuildRequires:  /usr/sbin/ss
-BuildRequires:  /usr/bin/ssh-keygen
+BuildRequires:  %{_bindir}/nbdcopy
+BuildRequires:  %{_bindir}/nbdinfo
+BuildRequires:  %{_bindir}/nbdsh
+BuildRequires:  %{_bindir}/qemu-img
+BuildRequires:  %{_bindir}/qemu-io
+BuildRequires:  %{_bindir}/qemu-nbd
+BuildRequires:  %{_sbindir}/sfdisk
+BuildRequires:  %{_bindir}/socat
+BuildRequires:  %{_sbindir}/ss
+BuildRequires:  %{_bindir}/stat
+BuildRequires:  %{_bindir}/ssh-keygen
 
 # nbdkit is a metapackage pulling the server and a useful subset
 # of the plugins and filters.
@@ -135,8 +162,8 @@ The key features are:
 
 * Filters can be stacked in front of plugins to transform the output.
 
-In Fedora, '%{name}' is a meta-package which pulls in the core server
-and a useful subset of plugins and filters with minimal dependencies.
+'%{name}' is a meta-package which pulls in the core server and a
+useful subset of plugins and filters with minimal dependencies.
 
 If you want just the server, install '%{name}-server'.
 
@@ -166,6 +193,7 @@ Provides:       %{name}-full-plugin = %{version}-%{release}
 Provides:       %{name}-info-plugin = %{version}-%{release}
 Provides:       %{name}-memory-plugin = %{version}-%{release}
 Provides:       %{name}-null-plugin = %{version}-%{release}
+Provides:       %{name}-ondemand-plugin = %{version}-%{release}
 Provides:       %{name}-pattern-plugin = %{version}-%{release}
 Provides:       %{name}-partitioning-plugin = %{version}-%{release}
 Provides:       %{name}-random-plugin = %{version}-%{release}
@@ -196,6 +224,8 @@ nbdkit-memory-plugin       A virtual memory plugin.
 
 nbdkit-null-plugin         A null (bitbucket) plugin.
 
+nbdkit-ondemand-plugin     Create filesystems on demand.
+
 nbdkit-pattern-plugin      Fixed test pattern.
 
 nbdkit-partitioning-plugin Create virtual disks from partitions.
@@ -216,8 +246,10 @@ Summary:        Example plugins for %{name}
 License:        BSD
 
 Requires:       %{name}-server%{?_isa} = %{version}-%{release}
+%if !0%{?rhel}
 # example4 is written in Perl.
 Requires:       %{name}-perl-plugin
+%endif
 
 
 %description example-plugins
@@ -227,6 +259,7 @@ This package contains example plugins for %{name}.
 # The plugins below have non-trivial dependencies are so are
 # packaged separately.
 
+%if !0%{?rhel}
 %package cc-plugin
 Summary:        Write small inline C plugins and scripts for %{name}
 License:        BSD
@@ -240,6 +273,22 @@ Requires:       %{_bindir}/cat
 This package contains support for writing inline C plugins and scripts
 for %{name}.  NOTE this is NOT the right package for writing plugins
 in C, install %{name}-devel for that.
+%endif
+
+
+%if !0%{?rhel}
+%package cdi-plugin
+Summary:        Containerized Data Import plugin for %{name}
+License:        BSD
+
+Requires:       %{name}-server%{?_isa} = %{version}-%{release}
+Requires:       jq
+Requires:       podman
+
+
+%description cdi-plugin
+This package contains Containerized Data Import support for %{name}.
+%endif
 
 
 %package curl-plugin
@@ -253,7 +302,7 @@ Requires:       %{name}-server%{?_isa} = %{version}-%{release}
 This package contains cURL (HTTP/FTP) support for %{name}.
 
 
-%if 0%{?have_libguestfs}
+%if !0%{?rhel} && 0%{?have_libguestfs}
 %package guestfs-plugin
 Summary:        libguestfs plugin for %{name}
 License:        BSD
@@ -266,17 +315,31 @@ This package is a libguestfs plugin for %{name}.
 %endif
 
 
+%package gzip-filter
+Summary:        GZip filter for %{name}
+License:        BSD
+
+Requires:       %{name}-server%{?_isa} = %{version}-%{release}
+
+
+%description gzip-filter
+This package is a gzip filter for %{name}.
+
+
+%if 0%{?rhel} == 8
 %package gzip-plugin
-Summary:        GZip file serving plugin for %{name}
+Summary:        GZip plugin for %{name}
 License:        BSD
 
 Requires:       %{name}-server%{?_isa} = %{version}-%{release}
 
 
 %description gzip-plugin
-This package is a gzip file serving plugin for %{name}.
+This package is a gzip plugin for %{name}.
+%endif
 
 
+%if !0%{?rhel}
 %package iso-plugin
 Summary:        Virtual ISO 9660 plugin for %{name}
 License:        BSD
@@ -287,8 +350,10 @@ Requires:       genisoimage
 
 %description iso-plugin
 This package is a virtual ISO 9660 (CD-ROM) plugin for %{name}.
+%endif
 
 
+%if !0%{?rhel}
 %package libvirt-plugin
 Summary:        Libvirt plugin for %{name}
 License:        BSD
@@ -300,6 +365,7 @@ Requires:       %{name}-server%{?_isa} = %{version}-%{release}
 This package is a libvirt plugin for %{name}.  It lets you access
 libvirt guest disks readonly.  It is implemented using the libvirt
 virDomainBlockPeek API.
+%endif
 
 
 %package linuxdisk-plugin
@@ -315,6 +381,7 @@ Requires:       e2fsprogs
 This package is a virtual Linux disk plugin for %{name}.
 
 
+%if !0%{?rhel}
 %package lua-plugin
 Summary:        Lua plugin for %{name}
 License:        BSD
@@ -324,10 +391,11 @@ Requires:       %{name}-server%{?_isa} = %{version}-%{release}
 
 %description lua-plugin
 This package lets you write Lua plugins for %{name}.
+%endif
 
 
 %package nbd-plugin
-Summary:        NBD passthrough plugin for %{name}
+Summary:        NBD proxy / forward plugin for %{name}
 License:        BSD
 
 Requires:       %{name}-server%{?_isa} = %{version}-%{release}
@@ -338,7 +406,7 @@ This package lets you forward NBD connections from %{name}
 to another NBD server.
 
 
-%if 0%{?have_ocaml}
+%if !0%{?rhel} && 0%{?have_ocaml}
 %package ocaml-plugin
 Summary:        OCaml plugin for %{name}
 License:        BSD
@@ -366,6 +434,7 @@ This package lets you write OCaml plugins for %{name}.
 %endif
 
 
+%if !0%{?rhel}
 %package perl-plugin
 Summary:        Perl plugin for %{name}
 License:        BSD
@@ -375,17 +444,12 @@ Requires:       %{name}-server%{?_isa} = %{version}-%{release}
 
 %description perl-plugin
 This package lets you write Perl plugins for %{name}.
+%endif
 
 
 %package python-plugin
 Summary:        Python 3 plugin for %{name}
 License:        BSD
-
-# Remove in Fedora 33:
-Provides:       %{name}-python3-plugin = %{version}-%{release}
-Obsoletes:      %{name}-python3-plugin <= %{version}-%{release}
-Provides:       %{name}-python-plugin-common = %{version}-%{release}
-Obsoletes:      %{name}-python-plugin-common <= %{version}-%{release}
 
 Requires:       %{name}-server%{?_isa} = %{version}-%{release}
 
@@ -394,6 +458,7 @@ Requires:       %{name}-server%{?_isa} = %{version}-%{release}
 This package lets you write Python 3 plugins for %{name}.
 
 
+%if !0%{?rhel}
 %package ruby-plugin
 Summary:        Ruby plugin for %{name}
 License:        BSD
@@ -403,6 +468,7 @@ Requires:       %{name}-server%{?_isa} = %{version}-%{release}
 
 %description ruby-plugin
 This package lets you write Ruby plugins for %{name}.
+%endif
 
 
 %package ssh-plugin
@@ -416,21 +482,31 @@ Requires:       %{name}-server%{?_isa} = %{version}-%{release}
 This package contains SSH support for %{name}.
 
 
+%package tar-filter
+Summary:        Tar archive filter for %{name}
+License:        BSD
+
+Requires:       %{name}-server%{?_isa} = %{version}-%{release}
+Requires:       tar
+
+
+%description tar-filter
+This package is a tar archive filter for %{name}.
+
+
 %package tar-plugin
 Summary:        Tar archive plugin for %{name}
 License:        BSD
 
 Requires:       %{name}-server%{?_isa} = %{version}-%{release}
-# XXX These should be autogenerated.
-Requires:       %{name}-perl-plugin
-Requires:       perl(Cwd)
-Requires:       perl(IO::File)
+Requires:       tar
 
 
 %description tar-plugin
 This package is a tar archive plugin for %{name}.
 
 
+%if !0%{?rhel}
 %package tcl-plugin
 Summary:        Tcl plugin for %{name}
 License:        BSD
@@ -440,6 +516,7 @@ Requires:       %{name}-server%{?_isa} = %{version}-%{release}
 
 %description tcl-plugin
 This package lets you write Tcl plugins for %{name}.
+%endif
 
 
 %package tmpdisk-plugin
@@ -450,11 +527,27 @@ Requires:       %{name}-server%{?_isa} = %{version}-%{release}
 # For mkfs and mke2fs (defaults).
 Requires:       util-linux, e2fsprogs
 # For other filesystems.
-Suggests:       xfsprogs, ntfsprogs, dosfstools
+Suggests:       xfsprogs
+%if !0%{?rhel}
+Suggests:       ntfsprogs, dosfstools
+%endif
 
 
 %description tmpdisk-plugin
 This package is a remote temporary filesystem disk plugin for %{name}.
+
+
+%if !0%{?rhel}
+%package torrent-plugin
+Summary:        BitTorrent plugin for %{name}
+License:        BSD
+
+Requires:       %{name}-server%{?_isa} = %{version}-%{release}
+
+
+%description torrent-plugin
+This package is a BitTorrent plugin for %{name}.
+%endif
 
 
 %ifarch x86_64
@@ -484,6 +577,7 @@ Provides:       %{name}-ddrescue-filter = %{version}-%{release}
 Provides:       %{name}-delay-filter = %{version}-%{release}
 Provides:       %{name}-error-filter = %{version}-%{release}
 Provides:       %{name}-exitlast-filter = %{version}-%{release}
+Provides:       %{name}-exportname-filter = %{version}-%{release}
 Provides:       %{name}-extentlist-filter = %{version}-%{release}
 Provides:       %{name}-fua-filter = %{version}-%{release}
 Provides:       %{name}-ip-filter = %{version}-%{release}
@@ -496,10 +590,13 @@ Provides:       %{name}-noparallel-filter = %{version}-%{release}
 Provides:       %{name}-nozero-filter = %{version}-%{release}
 Provides:       %{name}-offset-filter = %{version}-%{release}
 Provides:       %{name}-partition-filter = %{version}-%{release}
+Provides:       %{name}-pause-filter = %{version}-%{release}
 Provides:       %{name}-rate-filter = %{version}-%{release}
 Provides:       %{name}-readahead-filter = %{version}-%{release}
 Provides:       %{name}-retry-filter = %{version}-%{release}
 Provides:       %{name}-stats-filter = %{version}-%{release}
+Provides:       %{name}-swab-filter = %{version}-%{release}
+Provides:       %{name}-tls-fallback-filter = %{version}-%{release}
 Provides:       %{name}-truncate-filter = %{version}-%{release}
 
 
@@ -523,6 +620,8 @@ nbdkit-delay-filter        Inject read and write delays.
 nbdkit-error-filter        Inject errors.
 
 nbdkit-exitlast-filter     Exit on last client connection.
+
+nbdkit-exportname-filter   Adjust export names between client and plugin.
 
 nbdkit-extentlist-filter   Place extent list over a plugin.
 
@@ -548,6 +647,8 @@ nbdkit-offset-filter       Serve an offset and range.
 
 nbdkit-partition-filter    Serve a single partition.
 
+nbdkit-pause-filter        Pause NBD requests.
+
 nbdkit-rate-filter         Limit bandwidth by connection or server.
 
 nbdkit-readahead-filter    Prefetch data when reading sequentially.
@@ -556,9 +657,14 @@ nbdkit-retry-filter        Reopen connection on error.
 
 nbdkit-stats-filter        Display statistics about operations.
 
+nbdkit-swab-filter         Filter for swapping byte order.
+
+nbdkit-tls-fallback-filter TLS protection filter.
+
 nbdkit-truncate-filter     Truncate, expand, round up or round down size.
 
 
+%if !0%{?rhel}
 %package ext2-filter
 Summary:        ext2, ext3 and ext4 filesystem support for %{name}
 License:        BSD
@@ -573,6 +679,7 @@ Obsoletes:      %{name}-ext2-plugin <= %{version}-%{release}
 %description ext2-filter
 This package contains ext2, ext3 and ext4 filesystem support for
 %{name}.
+%endif
 
 
 %package xz-filter
@@ -580,10 +687,6 @@ Summary:        XZ filter for %{name}
 License:        BSD
 
 Requires:       %{name}-server%{?_isa} = %{version}-%{release}
-
-# Remove in Fedora 33:
-Provides:       %{name}-xz-plugin = %{version}-%{release}
-Obsoletes:      %{name}-xz-plugin <= %{version}-%{release}
 
 
 %description xz-filter
@@ -634,20 +737,29 @@ autoreconf -i
 
 
 %build
-# Golang bindings are not enabled in the Fedora build since they don't
+# Golang bindings are not enabled in the build since they don't
 # need to be.  Most people would use them by copying the upstream
 # package into their vendor/ directory.
+export PYTHON=%{__python3}
 %configure \
-    PYTHON=%{_bindir}/python3 \
     --disable-static \
     --disable-golang \
     --disable-rust \
-%if 0%{?have_ocaml}
+%if !0%{?rhel} && 0%{?have_ocaml}
     --enable-ocaml \
 %else
     --disable-ocaml \
 %endif
-%if 0%{?have_libguestfs}
+%if 0%{?rhel}
+    --disable-lua \
+    --disable-perl \
+    --disable-ruby \
+    --disable-tcl \
+    --without-ext2 \
+    --without-iso \
+    --without-libvirt \
+%endif
+%if !0%{?rhel} && 0%{?have_libguestfs}
     --with-libguestfs \
 %else
     --without-libguestfs \
@@ -658,7 +770,7 @@ autoreconf -i
 # to avoid RHBZ#1404631 happening again silently.
 grep '^PYTHON_VERSION = 3' Makefile
 
-make %{?_smp_mflags}
+%make_build
 
 
 %install
@@ -667,9 +779,23 @@ make %{?_smp_mflags}
 # Delete libtool crap.
 find $RPM_BUILD_ROOT -name '*.la' -delete
 
-# Remove the deprecated ext2 plugin (use ext2 filter instead).
-rm $RPM_BUILD_ROOT%{_libdir}/%{name}/plugins/nbdkit-ext2-plugin.so
-rm $RPM_BUILD_ROOT%{_mandir}/man1/nbdkit-ext2-plugin.1*
+# If cargo happens to be installed on the machine then the
+# rust plugin is built.  Delete it if this happens.
+rm -f $RPM_BUILD_ROOT%{_mandir}/man3/nbdkit-rust-plugin.3*
+
+%if 0%{?rhel} != 8
+# Remove the deprecated gzip plugin (use gzip filter instead).
+rm $RPM_BUILD_ROOT%{_libdir}/%{name}/plugins/nbdkit-gzip-plugin.so
+rm $RPM_BUILD_ROOT%{_mandir}/man1/nbdkit-gzip-plugin.1*
+%endif
+
+%if 0%{?rhel}
+# In RHEL, remove some plugins we cannot --disable.
+for f in cc cdi torrent; do
+    rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/plugins/nbdkit-$f-plugin.so
+    rm -f $RPM_BUILD_ROOT%{_mandir}/man?/nbdkit-$f-plugin.*
+done
+%endif
 
 
 %check
@@ -695,7 +821,7 @@ truncate -s 0 tests/test-nbd-tls.sh tests/test-nbd-tls-psk.sh
 export LIBGUESTFS_DEBUG=1
 export LIBGUESTFS_TRACE=1
 
-make %{?_smp_mflags} check || {
+%make_build check || {
     cat tests/test-suite.log
     exit 1
   }
@@ -720,6 +846,7 @@ make %{?_smp_mflags} check || {
 %dir %{_libdir}/%{name}/filters
 %{_mandir}/man1/nbdkit.1*
 %{_mandir}/man1/nbdkit-captive.1*
+%{_mandir}/man1/nbdkit-client.1*
 %{_mandir}/man1/nbdkit-loop.1*
 %{_mandir}/man1/nbdkit-probing.1*
 %{_mandir}/man1/nbdkit-protocol.1*
@@ -739,6 +866,7 @@ make %{?_smp_mflags} check || {
 %{_libdir}/%{name}/plugins/nbdkit-info-plugin.so
 %{_libdir}/%{name}/plugins/nbdkit-memory-plugin.so
 %{_libdir}/%{name}/plugins/nbdkit-null-plugin.so
+%{_libdir}/%{name}/plugins/nbdkit-ondemand-plugin.so
 %{_libdir}/%{name}/plugins/nbdkit-partitioning-plugin.so
 %{_libdir}/%{name}/plugins/nbdkit-pattern-plugin.so
 %{_libdir}/%{name}/plugins/nbdkit-random-plugin.so
@@ -754,6 +882,7 @@ make %{?_smp_mflags} check || {
 %{_mandir}/man1/nbdkit-info-plugin.1*
 %{_mandir}/man1/nbdkit-memory-plugin.1*
 %{_mandir}/man1/nbdkit-null-plugin.1*
+%{_mandir}/man1/nbdkit-ondemand-plugin.1*
 %{_mandir}/man1/nbdkit-partitioning-plugin.1*
 %{_mandir}/man1/nbdkit-pattern-plugin.1*
 %{_mandir}/man1/nbdkit-random-plugin.1*
@@ -767,8 +896,28 @@ make %{?_smp_mflags} check || {
 %doc README
 %license LICENSE
 %{_libdir}/%{name}/plugins/nbdkit-example*-plugin.so
+%if !0%{?rhel}
 %{_libdir}/%{name}/plugins/nbdkit-example4-plugin
+%endif
 %{_mandir}/man1/nbdkit-example*-plugin.1*
+
+
+%if !0%{?rhel}
+%files cc-plugin
+%doc README
+%license LICENSE
+%{_libdir}/%{name}/plugins/nbdkit-cc-plugin.so
+%{_mandir}/man3/nbdkit-cc-plugin.3*
+%endif
+
+
+%if !0%{?rhel}
+%files cdi-plugin
+%doc README
+%license LICENSE
+%{_libdir}/%{name}/plugins/nbdkit-cdi-plugin.so
+%{_mandir}/man1/nbdkit-cdi-plugin.1*
+%endif
 
 
 %files curl-plugin
@@ -778,14 +927,7 @@ make %{?_smp_mflags} check || {
 %{_mandir}/man1/nbdkit-curl-plugin.1*
 
 
-%files cc-plugin
-%doc README
-%license LICENSE
-%{_libdir}/%{name}/plugins/nbdkit-cc-plugin.so
-%{_mandir}/man3/nbdkit-cc-plugin.3*
-
-
-%if 0%{?have_libguestfs}
+%if !0%{?rhel} && 0%{?have_libguestfs}
 %files guestfs-plugin
 %doc README
 %license LICENSE
@@ -794,25 +936,38 @@ make %{?_smp_mflags} check || {
 %endif
 
 
+%files gzip-filter
+%doc README
+%license LICENSE
+%{_libdir}/%{name}/filters/nbdkit-gzip-filter.so
+%{_mandir}/man1/nbdkit-gzip-filter.1*
+
+
+%if 0%{?rhel} == 8
 %files gzip-plugin
 %doc README
 %license LICENSE
 %{_libdir}/%{name}/plugins/nbdkit-gzip-plugin.so
 %{_mandir}/man1/nbdkit-gzip-plugin.1*
+%endif
 
 
+%if !0%{?rhel}
 %files iso-plugin
 %doc README
 %license LICENSE
 %{_libdir}/%{name}/plugins/nbdkit-iso-plugin.so
 %{_mandir}/man1/nbdkit-iso-plugin.1*
+%endif
 
 
+%if !0%{?rhel}
 %files libvirt-plugin
 %doc README
 %license LICENSE
 %{_libdir}/%{name}/plugins/nbdkit-libvirt-plugin.so
 %{_mandir}/man1/nbdkit-libvirt-plugin.1*
+%endif
 
 
 %files linuxdisk-plugin
@@ -822,11 +977,13 @@ make %{?_smp_mflags} check || {
 %{_mandir}/man1/nbdkit-linuxdisk-plugin.1*
 
 
+%if !0%{?rhel}
 %files lua-plugin
 %doc README
 %license LICENSE
 %{_libdir}/%{name}/plugins/nbdkit-lua-plugin.so
 %{_mandir}/man3/nbdkit-lua-plugin.3*
+%endif
 
 
 %files nbd-plugin
@@ -836,7 +993,7 @@ make %{?_smp_mflags} check || {
 %{_mandir}/man1/nbdkit-nbd-plugin.1*
 
 
-%if 0%{?have_ocaml}
+%if !0%{?rhel} && 0%{?have_ocaml}
 %files ocaml-plugin
 %doc README
 %license LICENSE
@@ -846,14 +1003,17 @@ make %{?_smp_mflags} check || {
 %{_libdir}/libnbdkitocaml.so
 %{_libdir}/ocaml/NBDKit.*
 %{_mandir}/man3/nbdkit-ocaml-plugin.3*
+%{_mandir}/man3/NBDKit.3*
 %endif
 
 
+%if !0%{?rhel}
 %files perl-plugin
 %doc README
 %license LICENSE
 %{_libdir}/%{name}/plugins/nbdkit-perl-plugin.so
 %{_mandir}/man3/nbdkit-perl-plugin.3*
+%endif
 
 
 %files python-plugin
@@ -863,11 +1023,13 @@ make %{?_smp_mflags} check || {
 %{_mandir}/man3/nbdkit-python-plugin.3*
 
 
+%if !0%{?rhel}
 %files ruby-plugin
 %doc README
 %license LICENSE
 %{_libdir}/%{name}/plugins/nbdkit-ruby-plugin.so
 %{_mandir}/man3/nbdkit-ruby-plugin.3*
+%endif
 
 
 %files ssh-plugin
@@ -877,18 +1039,27 @@ make %{?_smp_mflags} check || {
 %{_mandir}/man1/nbdkit-ssh-plugin.1*
 
 
+%files tar-filter
+%doc README
+%license LICENSE
+%{_libdir}/%{name}/filters/nbdkit-tar-filter.so
+%{_mandir}/man1/nbdkit-tar-filter.1*
+
+
 %files tar-plugin
 %doc README
 %license LICENSE
-%{_libdir}/%{name}/plugins/nbdkit-tar-plugin
+%{_libdir}/%{name}/plugins/nbdkit-tar-plugin.so
 %{_mandir}/man1/nbdkit-tar-plugin.1*
 
 
+%if !0%{?rhel}
 %files tcl-plugin
 %doc README
 %license LICENSE
 %{_libdir}/%{name}/plugins/nbdkit-tcl-plugin.so
 %{_mandir}/man3/nbdkit-tcl-plugin.3*
+%endif
 
 
 %files tmpdisk-plugin
@@ -896,6 +1067,15 @@ make %{?_smp_mflags} check || {
 %license LICENSE
 %{_libdir}/%{name}/plugins/nbdkit-tmpdisk-plugin.so
 %{_mandir}/man1/nbdkit-tmpdisk-plugin.1*
+
+
+%if !0%{?rhel}
+%files torrent-plugin
+%doc README
+%license LICENSE
+%{_libdir}/%{name}/plugins/nbdkit-torrent-plugin.so
+%{_mandir}/man1/nbdkit-torrent-plugin.1*
+%endif
 
 
 %ifarch x86_64
@@ -918,6 +1098,7 @@ make %{?_smp_mflags} check || {
 %{_libdir}/%{name}/filters/nbdkit-delay-filter.so
 %{_libdir}/%{name}/filters/nbdkit-error-filter.so
 %{_libdir}/%{name}/filters/nbdkit-exitlast-filter.so
+%{_libdir}/%{name}/filters/nbdkit-exportname-filter.so
 %{_libdir}/%{name}/filters/nbdkit-extentlist-filter.so
 %{_libdir}/%{name}/filters/nbdkit-fua-filter.so
 %{_libdir}/%{name}/filters/nbdkit-ip-filter.so
@@ -930,10 +1111,13 @@ make %{?_smp_mflags} check || {
 %{_libdir}/%{name}/filters/nbdkit-nozero-filter.so
 %{_libdir}/%{name}/filters/nbdkit-offset-filter.so
 %{_libdir}/%{name}/filters/nbdkit-partition-filter.so
+%{_libdir}/%{name}/filters/nbdkit-pause-filter.so
 %{_libdir}/%{name}/filters/nbdkit-rate-filter.so
 %{_libdir}/%{name}/filters/nbdkit-readahead-filter.so
 %{_libdir}/%{name}/filters/nbdkit-retry-filter.so
 %{_libdir}/%{name}/filters/nbdkit-stats-filter.so
+%{_libdir}/%{name}/filters/nbdkit-swab-filter.so
+%{_libdir}/%{name}/filters/nbdkit-tls-fallback-filter.so
 %{_libdir}/%{name}/filters/nbdkit-truncate-filter.so
 %{_mandir}/man1/nbdkit-blocksize-filter.1*
 %{_mandir}/man1/nbdkit-cache-filter.1*
@@ -943,6 +1127,7 @@ make %{?_smp_mflags} check || {
 %{_mandir}/man1/nbdkit-delay-filter.1*
 %{_mandir}/man1/nbdkit-error-filter.1*
 %{_mandir}/man1/nbdkit-exitlast-filter.1*
+%{_mandir}/man1/nbdkit-exportname-filter.1*
 %{_mandir}/man1/nbdkit-extentlist-filter.1*
 %{_mandir}/man1/nbdkit-fua-filter.1*
 %{_mandir}/man1/nbdkit-ip-filter.1*
@@ -955,18 +1140,23 @@ make %{?_smp_mflags} check || {
 %{_mandir}/man1/nbdkit-nozero-filter.1*
 %{_mandir}/man1/nbdkit-offset-filter.1*
 %{_mandir}/man1/nbdkit-partition-filter.1*
+%{_mandir}/man1/nbdkit-pause-filter.1*
 %{_mandir}/man1/nbdkit-rate-filter.1*
 %{_mandir}/man1/nbdkit-readahead-filter.1*
 %{_mandir}/man1/nbdkit-retry-filter.1*
 %{_mandir}/man1/nbdkit-stats-filter.1*
+%{_mandir}/man1/nbdkit-swab-filter.1*
+%{_mandir}/man1/nbdkit-tls-fallback-filter.1*
 %{_mandir}/man1/nbdkit-truncate-filter.1*
 
 
+%if !0%{?rhel}
 %files ext2-filter
 %doc README
 %license LICENSE
 %{_libdir}/%{name}/filters/nbdkit-ext2-filter.so
 %{_mandir}/man1/nbdkit-ext2-filter.1*
+%endif
 
 
 %files xz-filter
@@ -981,16 +1171,24 @@ make %{?_smp_mflags} check || {
 %license LICENSE
 # Include the source of the example plugins in the documentation.
 %doc plugins/example*/*.c
+%if !0%{?rhel}
 %doc plugins/example4/nbdkit-example4-plugin
 %doc plugins/lua/example.lua
-%if 0%{?have_ocaml}
+%endif
+%if !0%{?rhel} && 0%{?have_ocaml}
 %doc plugins/ocaml/example.ml
 %endif
+%if !0%{?rhel}
 %doc plugins/perl/example.pl
-%doc plugins/python/example.py
+%endif
+%doc plugins/python/examples/*.py
+%if !0%{?rhel}
 %doc plugins/ruby/example.rb
+%endif
 %doc plugins/sh/example.sh
+%if !0%{?rhel}
 %doc plugins/tcl/example.tcl
+%endif
 %{_includedir}/nbdkit-common.h
 %{_includedir}/nbdkit-filter.h
 %{_includedir}/nbdkit-plugin.h
@@ -1009,6 +1207,117 @@ make %{?_smp_mflags} check || {
 
 
 %changelog
+* Mon Oct 05 2020 Richard W.M. Jones <rjones@redhat.com> - 1.23.7-1
+- New upstream development version 1.23.7.
+- Add new NBDKit(3) man page for the OCaml plugin.
+
+* Tue Sep 22 2020 Richard W.M. Jones <rjones@redhat.com> - 1.23.6-1
+- New upstream development version 1.23.6.
+- New exportname filter.
+- Add patch to fix tests.
+
+* Wed Sep 16 2020 Richard W.M. Jones <rjones@redhat.com> - 1.23.5-1
+- New upstream development version 1.23.5.
+
+* Tue Sep 08 2020 Richard W.M. Jones <rjones@redhat.com> - 1.23.4-1
+- New upstream development version 1.23.4.
+
+* Sat Sep 05 2020 Richard W.M. Jones <rjones@redhat.com> - 1.23.3-1
+- New upstream development version 1.23.3.
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.23.2-2
+- OCaml 4.11.1 rebuild
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.23.2-1
+- New upstream development version 1.23.2.
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.22.0-2
+- Reenable sfdisk test because util-linux contains fix.
+
+* Thu Aug 27 2020 Richard W.M. Jones <rjones@redhat.com> - 1.22.0-1
+- New stable version 1.22.0.
+
+* Mon Aug 24 2020 Richard W.M. Jones <rjones@redhat.com> - 1.21.26-2
+- OCaml 4.11.0 rebuild
+
+* Thu Aug 20 2020 Richard W.M. Jones <rjones@redhat.com> - 1.21.26-1
+- New upstream version 1.21.26.
+
+* Sun Aug 16 2020 Richard W.M. Jones <rjones@redhat.com> - 1.21.25-1
+- New upstream version 1.21.25.
+- New nbdkit-ondemand-plugin.
+- New nbdkit-client(1) man page.
+
+* Tue Aug 11 2020 Richard W.M. Jones <rjones@redhat.com> - 1.21.24-1
+- New upstream version 1.21.24.
+- Add nbdkit-tls-fallback-filter.
+
+* Mon Aug 10 2020 Merlin Mathesius <mmathesi@redhat.com> - 1.21.23-1
+- Enable libguestfs tests only on %%{kernel_arches}
+
+* Sat Aug  8 2020 Richard W.M. Jones <rjones@redhat.com> - 1.21.23-1
+- New upstream version 1.21.23.
+
+* Thu Aug  6 2020 Richard W.M. Jones <rjones@redhat.com> - 1.21.22-1
+- New upstream version 1.21.22.
+- Note this requires updated libnbd 1.3.11 because of bugs in 1.3.10.
+
+* Tue Aug  4 2020 Richard W.M. Jones <rjones@redhat.com> - 1.21.21-1
+- New upstream version 1.21.21.
+- Remove patches, all upstream.
+
+* Sat Aug  1 2020 Richard W.M. Jones <rjones@redhat.com> - 1.21.20-6
+- Add upstream patches to try to track down test failure in Koji.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.21.20-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Richard W.M. Jones <rjones@redhat.com> - 1.21.20-1
+- New upstream development version 1.21.20.
+- Disable test-partition1.sh because of sfdisk bug.
+
+* Tue Jul 21 2020 Tom Stellard <tstellar@redhat.com> - 1.21.19-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Sat Jul 18 2020 Richard W.M. Jones <rjones@redhat.com> - 1.21.19-1
+- New upstream development version 1.21.19.
+- New nbdkit-cdi-plugin.
+
+* Mon Jul 13 2020 Richard W.M. Jones <rjones@redhat.com> - 1.21.18-1
+- New upstream development version 1.21.18.
+- Fixes nbdkit-gzip-filter.
+
+* Sat Jul 11 2020 Richard W.M. Jones <rjones@redhat.com> - 1.21.17-1
+- New upstream development version 1.21.17.
+- New nbdkit-gzip-filter.
+- Remove deprecated nbdkit-gzip-plugin.
+
+* Thu Jul  9 2020 Richard W.M. Jones <rjones@redhat.com> - 1.21.16-1
+- New upstream development version 1.21.16.
+- New nbdkit-tar-filter.
+- nbdkit-ext2-plugin has been removed, no need to delete it.
+
+* Mon Jul  6 2020 Richard W.M. Jones <rjones@redhat.com> - 1.21.15-1
+- New upstream development version 1.21.15.
+- New nbdkit-swab-filter.
+
+* Fri Jul  3 2020 Richard W.M. Jones <rjones@redhat.com> - 1.21.14-1
+- New upstream development version 1.21.14.
+- New nbdkit-pause-filter.
+
+* Mon Jun 29 2020 Richard W.M. Jones <rjones@redhat.com> - 1.21.13-1
+- New upstream development version 1.21.13.
+- Tar plugin rewritten again in C.
+- New nbdkit-torrent-plugin.
+- Remove various upgrade paths which are no longer needed in F33.
+
+* Sat Jun 27 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.21.12-3
+- Perl 5.32 re-rebuild updated packages
+
+* Thu Jun 25 2020 Richard W.M. Jones <rjones@redhat.com> - 1.21.12-2
+- Fix dependencies of nbdkit-tar-plugin since rewritten in Python.
+
 * Tue Jun 23 2020 Richard W.M. Jones <rjones@redhat.com> - 1.21.12-1
 - New upstream development version 1.21.12.
 - Use new --disable-rust configure option.

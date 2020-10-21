@@ -1,6 +1,6 @@
 Name:           ocaml-tplib
 Version:        1.3
-Release:        50%{?dist}
+Release:        55%{?dist}
 Summary:        Tropical Polyhedra Library
 
 License:        LGPLv2+
@@ -122,6 +122,22 @@ _build/tests/test_tplib_rational
 %doc %{_mandir}/man1/*
 
 %changelog
+* Fri Sep 25 2020 Jerry James <loganjerry@gmail.com> - 1.3-55
+- Rebuild for ocaml-zarith 1.10
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3-54
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3-53
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-52
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-51
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3-50
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

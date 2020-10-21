@@ -1,24 +1,32 @@
-%global namedreltag %nil
-%global namedversion %{version}%{?namedreltag}
+%global srcname JCTools
 
-Name:          jctools
-Version:       2.1.2
-Release:       6%{?dist}
-Summary:       Java Concurrency Tools for the JVM
-License:       ASL 2.0
-URL:           http://jctools.github.io/JCTools/
-Source0:       https://github.com/JCTools/JCTools/archive/v%{namedversion}/%{name}-%{namedversion}.tar.gz
+Name:           jctools
+Version:        3.1.0
+Release:        1%{?dist}
+Summary:        Java Concurrency Tools for the JVM
+License:        ASL 2.0
+
+URL:            https://github.com/JCTools/JCTools
+Source0:        %{url}/archive/v%{version}/%{srcname}-%{version}.tar.gz
+
+BuildArch:      noarch
 
 BuildRequires:  maven-local
-BuildRequires:  mvn(com.github.javaparser:javaparser-core)
+BuildRequires:  mvn(com.github.javaparser:javaparser-core) >= 3.14.16
 BuildRequires:  mvn(com.google.guava:guava-testlib)
 BuildRequires:  mvn(junit:junit)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.codehaus.mojo:exec-maven-plugin)
 BuildRequires:  mvn(org.hamcrest:hamcrest-all)
-BuildRequires:  mvn(org.ow2.asm:asm-util)
 
-BuildArch:     noarch
+# unused parent package was removed for fedora 33+
+Obsoletes:      %{name}-parent < 3.1.0-1
+
+# unused channels and experimental modules disabled with 3.1.0 for fedora 33+
+# Unsafe.defineClass is not available in JDK 11:
+# https://github.com/JCTools/JCTools/issues/254
+Obsoletes:      %{name}-channels < 3.1.0-1
+Obsoletes:      %{name}-experimental < 3.1.0-1
 
 %description
 This project aims to offer some concurrent data structures
@@ -32,103 +40,82 @@ currently missing from the JDK:
 ° Low contention stats counters
 ° Executor
 
-%package channels
-Summary:       JCTools Channel implementations
-
-%description channels
-Channel implementations for the
-Java Concurrency Tools Library.
-
-%package experimental
-Summary:       JCTools Experimental implementations
-
-%description experimental
-Experimental implementations for the
-Java Concurrency Tools Library.
 
 %package javadoc
-Summary:       Javadoc for %{name}
+Summary:        Javadoc for %{name}
 
 %description javadoc
 This package contains javadoc for %{name}.
 
-%package parent
-Summary:       JCTools Parent POM
-
-%description parent
-JCTools Parent POM.
 
 %prep
-%setup -q -n JCTools-%{namedversion}
-# Cleanup
-find . -name '*.class' -print -delete
-find . -name '*.jar' -print -delete
+%setup -q -n %{srcname}-%{version}
 
-# Remove failure-prone tests (race condition?)
+# drop some failure-prone tests (race conditions?)
 rm jctools-core/src/test/java/org/jctools/queues/MpqSanityTestMpscCompound.java
 rm jctools-core/src/test/java/org/jctools/queues/atomic/AtomicMpqSanityTestMpscCompound.java
 rm jctools-core/src/test/java/org/jctools/maps/NonBlockingHashMapTest.java
 
-%pom_xpath_set pom:project/pom:version %{namedversion}
-%pom_xpath_set -r pom:parent/pom:version %{namedversion} %{name}-{build,core,channels,experimental}
+# set correct version in all pom.xml files
+%pom_xpath_set pom:project/pom:version %{version}
+%pom_xpath_set pom:parent/pom:version %{version} jctools-{build,core,channels,experimental}
 
-# Remove plugins unnecessary for RPM builds
+# remove plugins unnecessary for RPM builds
+%pom_remove_plugin :coveralls-maven-plugin jctools-core
+%pom_remove_plugin :jacoco-maven-plugin jctools-core
 %pom_remove_plugin :maven-enforcer-plugin
-%pom_remove_plugin :coveralls-maven-plugin
-%pom_remove_plugin :jacoco-maven-plugin
-%pom_remove_plugin :maven-source-plugin %{name}-core
-%pom_remove_plugin :maven-javadoc-plugin %{name}-core
+%pom_remove_plugin :maven-source-plugin jctools-core
+%pom_remove_plugin :maven-javadoc-plugin jctools-core
 
-# Unavailable deps
-%pom_disable_module %{name}-benchmarks
-%pom_disable_module %{name}-concurrency-test
+# disable unused modules with unavailable dependencies
+%pom_disable_module jctools-benchmarks
+%pom_disable_module jctools-concurrency-test
 
-# Modern asm deps
-%pom_change_dep ":asm-all" ":asm-util" jctools-{channels,experimental}
+# incompatible with Java 11 and unused in fedora:
+# https://github.com/JCTools/JCTools/issues/254
+%pom_disable_module jctools-channels
+%pom_disable_module jctools-experimental
 
-# Add OSGi support
-for mod in core experimental; do
- %pom_xpath_set "pom:project/pom:packaging" bundle %{name}-${mod}
- %pom_add_plugin org.apache.felix:maven-bundle-plugin:2.3.7 %{name}-${mod} '
- <extensions>true</extensions>
- <executions>
-   <execution>
-     <id>bundle-manifest</id>
-     <phase>process-classes</phase>
-     <goals>
-       <goal>manifest</goal>
-     </goals>
-   </execution>
- </executions>
- <configuration>
-  <excludeDependencies>true</excludeDependencies>
- </configuration>'
-done
-
-# No need to package internal build tools
+# do not install internal build tools
 %mvn_package :jctools-build __noinstall
+
+# do not install unused parent POM
+%mvn_package :jctools-parent __noinstall
+
 
 %build
 %mvn_build -s
 
+
 %install
 %mvn_install
 
-%files -f .mfiles-%{name}-core
+
+%files -f .mfiles-jctools-core
 %doc README.md
 %license LICENSE
-
-%files channels -f .mfiles-%{name}-channels
-
-%files experimental -f .mfiles-%{name}-experimental
 
 %files javadoc -f .mfiles-javadoc
 %license LICENSE
 
-%files parent -f .mfiles-%{name}-parent
-%license LICENSE
 
 %changelog
+* Fri Sep 04 2020 Mat Booth <mat.booth@redhat.com> - 3.1.0-1
+- Update to latest upstream version
+- Obsolete sub-packages that cannot be built on JDK 11
+
+* Tue Jul 28 2020 Mat Booth <mat.booth@redhat.com> - 2.1.2-10
+- Patch for javaparser API changes
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.1.2-8
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Fri Jun 26 2020 Roland Grunberg <rgrunber@redhat.com> - 2.1.2-7
+- Force Java 8 as we cannot build with Java 11 due to upstream bug.
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -179,3 +166,4 @@ done
 
 * Tue May 19 2015 gil cattaneo <puntogil@libero.it> 1.1-0.1.alpha
 - initial rpm
+

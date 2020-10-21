@@ -1,6 +1,6 @@
 Name:          tnftp
 Version:       20151004
-Release:       10%{?dist}
+Release:       11%{?dist}
 Summary:       FTP (File Transfer Protocol) client from NetBSD
 
 License:       BSD and ISC
@@ -46,6 +46,9 @@ make install DESTDIR=%{buildroot}
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20151004-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20151004-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

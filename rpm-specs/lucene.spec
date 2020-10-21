@@ -3,7 +3,7 @@
 Summary:        High-performance, full-featured text search engine
 Name:           lucene
 Version:        8.4.1
-Release:        4%{?dist}
+Release:        9%{?dist}
 Epoch:          0
 License:        ASL 2.0
 URL:            http://lucene.apache.org/
@@ -240,6 +240,9 @@ mkdir -p lucene/build/analysis/{kuromoji,nori}
 # don't generate uses clauses in osgi metadata
 sed -i -e "/<Export-Package>/a<_nouses>true</_nouses>" dev-tools/maven/pom.xml.template
 
+# optional on internal APIs that might not be present
+sed -i -e "/<Export-Package>/a<Import-Package>com.sun.management;resolution:=\"optional\",sun.misc;resolution:=\"optional\",*</Import-Package>" dev-tools/maven/pom.xml.template
+
 # compatibility with existing packages
 %mvn_alias :%{name}-analyzers-common :%{name}-analyzers
 
@@ -322,8 +325,20 @@ popd
 %mvn_package :lucene-solr-grandparent __noinstall
 %endif
 
+# Use compiler release flag when building on JDK >8 for correct cross-compiling
+%pom_xpath_inject pom:profiles "
+    <profile>
+      <id>jdk-release-flag</id>
+      <activation>
+        <jdk>[9,)</jdk>
+      </activation>
+      <properties>
+        <maven.compiler.release>\${java.compat.version}</maven.compiler.release>
+      </properties>
+    </profile>"
+
 # For some reason TestHtmlParser.testTurkish fails when building inside SCLs
-%mvn_build -s -f
+%mvn_build -s -f -- -Dcheckoutid=%{version}
 
 %install
 %mvn_install
@@ -366,6 +381,23 @@ popd
 %license lucene/LICENSE.txt lucene/NOTICE.txt
 
 %changelog
+* Thu Aug 06 2020 Mat Booth <mat.booth@redhat.com> - 0:8.4.1-9
+- Add optional resolution on internal JDK APIs that might not be present on Java
+  11
+
+* Thu Aug 06 2020 Mat Booth <mat.booth@redhat.com> - 0:8.4.1-8
+- Avoid requirement on com.sun.management package
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:8.4.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Mat Booth <mat.booth@redhat.com> - 0:8.4.1-6
+- Fix NIO linkage error when running on Java 8 due to incorrect
+  cross-compilation
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0:8.4.1-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed May 06 2020 Mat Booth <mat.booth@redhat.com> - 0:8.4.1-4
 - Fix jp_minimal mode
 

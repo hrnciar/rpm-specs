@@ -3,7 +3,7 @@
 
 Name:           tkabber-plugins
 Version:        1.1.2
-Release:        10%{?fosrev:.%{fosrev}}%{?dist}
+Release:        11%{?fosrev:.%{fosrev}}%{?dist}
 Summary:        Additional plugins for tkabber
 
 # most have BSD, some GPL and tkabber-khim is under TCL
@@ -45,6 +45,9 @@ cp tkabber-khim/tklib_licence.terms license.TCL
 %{_datadir}/tkabber-plugins
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-11.fosf51aa371d9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-10.fosf51aa371d9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

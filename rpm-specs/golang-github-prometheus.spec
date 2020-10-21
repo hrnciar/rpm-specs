@@ -5,34 +5,28 @@
 
 # https://github.com/prometheus/prometheus
 %global goipath         github.com/prometheus/prometheus
-Version:                2.11.0
+Version:                2.20.0
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-prometheus-prometheus-devel < 1.8.0-5
-Obsoletes:      golang-github-prometheus-prometheus-unit-test-devel < 1.8.0-5
-}
 
 %global common_description %{expand:
 The Prometheus monitoring system and time series database.}
 
 %global golicenses      LICENSE NOTICE
-%global godocs          docs CHANGELOG.md MAINTAINERS.md code-of-conduct.md\\\
+%global godocs          docs CHANGELOG.md MAINTAINERS.md CODE_OF_CONDUCT.md\\\
                         CONTRIBUTING.md README.md RELEASE.md\\\
                         documentation
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Prometheus monitoring system and time series database
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
-# To use pre-1.0.0 github.com/prometheus/client_golang
-Patch0:         0001-Revert-372b3438e5f995f14d9317352b432dc43cfdd40d.patch
+# Go 1.15: https://github.com/prometheus/prometheus/issues/7706
+Patch0:         0001-Convert-int-to-string-using-rune.patch
 
 BuildRequires:  golang(github.com/alecthomas/units)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/aws)
@@ -47,13 +41,19 @@ BuildRequires:  golang(github.com/Azure/go-autorest/autorest)
 BuildRequires:  golang(github.com/Azure/go-autorest/autorest/adal)
 BuildRequires:  golang(github.com/Azure/go-autorest/autorest/azure)
 BuildRequires:  golang(github.com/cespare/xxhash)
-BuildRequires:  golang(github.com/cockroachdb/cockroach/pkg/util/protoutil)
+BuildRequires:  golang(github.com/davecgh/go-spew/spew)
+BuildRequires:  golang(github.com/digitalocean/godo)
+BuildRequires:  golang(github.com/docker/docker/api/types)
+BuildRequires:  golang(github.com/docker/docker/api/types/swarm)
+BuildRequires:  golang(github.com/docker/docker/client)
+BuildRequires:  golang(github.com/edsrzf/mmap-go)
 BuildRequires:  golang(github.com/go-kit/kit/log)
 BuildRequires:  golang(github.com/go-kit/kit/log/level)
 BuildRequires:  golang(github.com/go-logfmt/logfmt)
 BuildRequires:  golang(github.com/go-openapi/strfmt)
 BuildRequires:  golang(github.com/gogo/protobuf/gogoproto)
 BuildRequires:  golang(github.com/gogo/protobuf/proto)
+BuildRequires:  golang(github.com/gogo/protobuf/protoc-gen-gogo/descriptor)
 BuildRequires:  golang(github.com/gogo/protobuf/types)
 BuildRequires:  golang(github.com/golang/snappy)
 BuildRequires:  golang(github.com/google/pprof/profile)
@@ -72,15 +72,19 @@ BuildRequires:  golang(github.com/json-iterator/go)
 BuildRequires:  golang(github.com/miekg/dns)
 BuildRequires:  golang(github.com/mwitkow/go-conntrack)
 BuildRequires:  golang(github.com/oklog/run)
+BuildRequires:  golang(github.com/oklog/ulid)
 BuildRequires:  golang(github.com/opentracing-contrib/go-stdlib/nethttp)
 BuildRequires:  golang(github.com/opentracing/opentracing-go)
+BuildRequires:  golang(github.com/opentracing/opentracing-go/ext)
 BuildRequires:  golang(github.com/pkg/errors)
+BuildRequires:  golang(github.com/pmezard/go-difflib/difflib)
 BuildRequires:  golang(github.com/prometheus/alertmanager/api/v2/models)
 BuildRequires:  golang(github.com/prometheus/client_golang/api)
 BuildRequires:  golang(github.com/prometheus/client_golang/api/prometheus/v1)
 BuildRequires:  golang(github.com/prometheus/client_golang/prometheus)
 BuildRequires:  golang(github.com/prometheus/client_golang/prometheus/promauto)
 BuildRequires:  golang(github.com/prometheus/client_golang/prometheus/promhttp)
+BuildRequires:  golang(github.com/prometheus/client_golang/prometheus/testutil/promlint)
 BuildRequires:  golang(github.com/prometheus/client_model/go)
 BuildRequires:  golang(github.com/prometheus/common/config)
 BuildRequires:  golang(github.com/prometheus/common/expfmt)
@@ -90,16 +94,19 @@ BuildRequires:  golang(github.com/prometheus/common/promlog/flag)
 BuildRequires:  golang(github.com/prometheus/common/route)
 BuildRequires:  golang(github.com/prometheus/common/server)
 BuildRequires:  golang(github.com/prometheus/common/version)
-BuildRequires:  golang(github.com/prometheus/tsdb)
-BuildRequires:  golang(github.com/prometheus/tsdb/fileutil)
-BuildRequires:  golang(github.com/prometheus/tsdb/labels)
-BuildRequires:  golang(github.com/prometheus/tsdb/wal)
 BuildRequires:  golang(github.com/samuel/go-zookeeper/zk)
-BuildRequires:  golang(github.com/shurcooL/vfsgen)
 BuildRequires:  golang(github.com/simonpasquier/klog-gokit)
+BuildRequires:  golang(github.com/shurcooL/httpfs/filter)
+BuildRequires:  golang(github.com/shurcooL/httpfs/union)
+BuildRequires:  golang(github.com/shurcooL/vfsgen)
 BuildRequires:  golang(github.com/soheilhy/cmux)
+BuildRequires:  golang(github.com/uber/jaeger-client-go)
+BuildRequires:  golang(github.com/uber/jaeger-client-go/config)
+BuildRequires:  golang(github.com/uber/jaeger-lib/metrics/prometheus)
 BuildRequires:  golang(golang.org/x/net/netutil)
 BuildRequires:  golang(golang.org/x/oauth2/google)
+BuildRequires:  golang(golang.org/x/sync/errgroup)
+BuildRequires:  golang(golang.org/x/sys/unix)
 BuildRequires:  golang(golang.org/x/time/rate)
 BuildRequires:  golang(google.golang.org/api/compute/v1)
 BuildRequires:  golang(google.golang.org/api/option)
@@ -111,9 +118,11 @@ BuildRequires:  golang(google.golang.org/grpc/status)
 BuildRequires:  golang(gopkg.in/alecthomas/kingpin.v2)
 BuildRequires:  golang(gopkg.in/fsnotify/fsnotify.v1)
 BuildRequires:  golang(gopkg.in/yaml.v2)
+BuildRequires:  golang(gopkg.in/yaml.v3)
 BuildRequires:  golang(k8s.io/api/core/v1)
-BuildRequires:  golang(k8s.io/api/extensions/v1beta1)
+BuildRequires:  golang(k8s.io/api/networking/v1beta1)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/apis/meta/v1)
+BuildRequires:  golang(k8s.io/apimachinery/pkg/fields)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/runtime)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/watch)
 BuildRequires:  golang(k8s.io/client-go/kubernetes)
@@ -121,18 +130,14 @@ BuildRequires:  golang(k8s.io/client-go/rest)
 BuildRequires:  golang(k8s.io/client-go/tools/cache)
 BuildRequires:  golang(k8s.io/client-go/tools/metrics)
 BuildRequires:  golang(k8s.io/client-go/util/workqueue)
+BuildRequires:  golang(k8s.io/klog)
 
 %if %{with check}
 # Tests
 BuildRequires:  golang(github.com/prometheus/client_golang/prometheus/testutil)
-BuildRequires:  golang(github.com/stretchr/testify/assert)
-BuildRequires:  golang(github.com/stretchr/testify/require)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/types)
 BuildRequires:  golang(k8s.io/client-go/kubernetes/fake)
 %endif
-
-# Remove in F33:
-Obsoletes:      golang-github-prometheus-prometheus < 1.8.0-4
 
 %description
 %{common_description}
@@ -142,7 +147,7 @@ Obsoletes:      golang-github-prometheus-prometheus < 1.8.0-4
 %prep
 %goprep
 %patch0 -p1
-find . -name "*.go" -exec sed -i "s|\"k8s.io/klog\"|klog \"github.com/simonpasquier/klog-gokit\"|" "{}" +;
+sed -i "s|\"k8s.io/klog\"|klog \"github.com/simonpasquier/klog-gokit\"|" $(find . -iname "*.go" -type f)
 
 %build
 for cmd in cmd/* ; do
@@ -156,18 +161,29 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
-%gocheck -d cmd/promtool
+# scrape: needs network
+%gocheck -d cmd/promtool -d scrape
 %endif
 
 %files
 %license LICENSE NOTICE
-%doc docs CHANGELOG.md MAINTAINERS.md code-of-conduct.md CONTRIBUTING.md
+%doc docs CHANGELOG.md MAINTAINERS.md CODE_OF_CONDUCT.md CONTRIBUTING.md
 %doc README.md RELEASE.md documentation
 %{_bindir}/*
 
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.20.0-2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 30 22:32:01 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.20.0-1
+- Update to 2.20.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.11.0-4
 - Rebuilt for GHSA-jf24-p9p9-4rjh
 

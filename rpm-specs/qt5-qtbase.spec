@@ -2,13 +2,9 @@
 %global multilib_archs x86_64 %{ix86} %{?mips} ppc64 ppc s390x s390 sparc64 sparcv9
 %global multilib_basearchs x86_64 %{?mips64} ppc64 s390x sparc64
 
-# support openssl-1.1
-%if 0%{?fedora} > 26
-%global openssl11 1
-%endif
 %global openssl -openssl-linked
 
-%if 0%{?fedora} < 29
+%if 0%{?fedora} < 29 && 0%{?rhel} < 9
 %ifarch %{ix86}
 %global no_sse2  -no-sse2
 %endif
@@ -52,7 +48,7 @@ BuildRequires: pkgconfig(libsystemd)
 
 Name:    qt5-qtbase
 Summary: Qt5 - QtBase components
-Version: 5.14.2
+Version: 5.15.1
 Release: 6%{?dist}
 
 # See LGPL_EXCEPTIONS.txt, for exception details
@@ -125,11 +121,13 @@ Patch68: qtbase-everywhere-src-5.11.1-python3.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1732129
 Patch80: qtbase-use-wayland-on-gnome.patch
 
+# gcc-11
+Patch90: %{name}-gcc11.patch
+
 # glibc stat
 
 ## upstream patches
-Patch100: qt5-qtbase-CVE-2015-9541.patch
-Patch144: 0044-QLibrary-fix-deadlock-caused-by-fix-to-QTBUG-39642.patch
+Patch100: qtbase-emit-qscreen-geometry-changed-when-logical-dpi-changes.patch
 
 # Do not check any files in %%{_qt5_plugindir}/platformthemes/ for requires.
 # Those themes are there for platform integration. If the required libraries are
@@ -169,27 +167,15 @@ BuildRequires: pkgconfig(libproxy-1.0)
 BuildRequires: pkgconfig(ice) pkgconfig(sm)
 BuildRequires: pkgconfig(libpng)
 BuildRequires: pkgconfig(libudev)
-%if 0%{?fedora} == 26
-BuildRequires: compat-openssl10-devel
-%else
-BuildRequires: openssl-devel%{?openssl11: >= 1.1}
-%endif
+BuildRequires: openssl-devel
 BuildRequires: pkgconfig(libpulse) pkgconfig(libpulse-mainloop-glib)
-%if 0%{?fedora}
-#global xkbcommon -system-xkbcommon
 BuildRequires: pkgconfig(libinput)
 BuildRequires: pkgconfig(xcb-xkb) >= 1.10
 BuildRequires: pkgconfig(xkbcommon) >= 0.4.1
 BuildRequires: pkgconfig(xkbcommon-x11) >= 0.4.1
-%else
-# not Fedora
-%if 0%{?rhel} == 6
-%global xcb -qt-xcb
-%endif
-#global xkbcommon -qt-xkbcommon
-Provides: bundled(libxkbcommon) = 0.4.1
-%endif
+
 BuildRequires: pkgconfig(xkeyboard-config)
+BuildRequires: pkgconfig(vulkan)
 %if 0%{?fedora} || 0%{?rhel} > 6
 %global egl 1
 BuildRequires: libEGL-devel
@@ -277,6 +263,7 @@ Requires: %{name}-gui%{?_isa}
 Requires: libEGL-devel
 %endif
 Requires: pkgconfig(gl)
+Requires: pkgconfig(vulkan)
 Requires: qt5-rpm-macros
 %if 0%{?use_clang}
 Requires: clang >= 3.7.0
@@ -306,10 +293,8 @@ Summary: Static library files for %{name}
 Requires: %{name}-devel%{?_isa} = %{version}-%{release}
 Requires: pkgconfig(fontconfig)
 Requires: pkgconfig(glib-2.0)
-%if 0%{?fedora}
 Requires: pkgconfig(libinput)
 Requires: pkgconfig(xkbcommon)
-%endif
 Requires: pkgconfig(zlib)
 
 %description static
@@ -326,7 +311,7 @@ Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %package mysql
 Summary: MySQL driver for Qt5's SQL classes
-%if 0%{?fedora} > 27
+%if 0%{?fedora} > 27 || 0%{?rhel} > 8
 BuildRequires: mariadb-connector-c-devel
 %else
 BuildRequires: mysql-devel
@@ -400,9 +385,10 @@ Qt5 libraries used for drawing widgets and OpenGL items.
 %patch80 -p1 -b .use-wayland-on-gnome.patch
 %endif
 
+%patch90 -p1 -b .gcc11
+
 ## upstream patches
-%patch100 -p1 -b .CVE-2015-9541
-%patch144 -p1 -b .0044
+%patch100 -p1 -b .emit-qscreen-geometry-changed-when-logical-dpi-changes
 
 # move some bundled libs to ensure they're not accidentally used
 pushd src/3rdparty
@@ -429,6 +415,13 @@ sed -i -e "s|^#!/usr/bin/env perl$|#!%{__perl}|" \
 
 
 %build
+# QT is known not to work properly with LTO at this point.  Some of the issues
+# are being worked on upstream and disabling LTO should be re-evaluated as
+# we update this change.  Until such time...
+# Disable LTO
+## TODO: please document this in a bug -- Rex
+%define _lto_cflags %{nil}
+
 ## FIXME/TODO:
 # * for %%ix86, add sse2 enabled builds for Qt5Gui, Qt5Core, QtNetwork, see also:
 #   http://anonscm.debian.org/cgit/pkg-kde/qt/qtbase.git/tree/debian/rules (234-249)
@@ -540,7 +533,7 @@ translationdir=%{_qt5_translationdir}
 
 Name: Qt5
 Description: Qt5 Configuration
-Version: %{version}
+Version: 5.15.1
 EOF
 
 # rpm macros
@@ -606,7 +599,7 @@ popd
 install -p -m755 -D %{SOURCE6} %{buildroot}%{_sysconfdir}/X11/xinit/xinitrc.d/10-qt5-check-opengl2.sh
 
 # f29+ enables sse2 unconditionally on ix86 -- rex
-%if 0%{?fedora} < 29
+%if 0%{?fedora} < 29 && 0%{?rhel} < 9
 # fix bz#1442553 multilib issue
 privat_header_file=%{buildroot}%{_qt5_headerdir}/QtCore/%{version}/QtCore/private/qconfig_p.h
 grep -v QT_FEATURE_sse2 $privat_header_file > ${privat_header_file}.me
@@ -867,6 +860,9 @@ fi
 %{_qt5_libdir}/cmake/Qt5ThemeSupport/Qt5ThemeSupportConfig*.cmake
 %{_qt5_libdir}/cmake/Qt5XcbQpa/Qt5XcbQpaConfig*.cmake
 %{_qt5_libdir}/cmake/Qt5XkbCommonSupport/Qt5XkbCommonSupportConfig*.cmake
+%{_qt5_libdir}/metatypes/qt5core_metatypes.json
+%{_qt5_libdir}/metatypes/qt5gui_metatypes.json
+%{_qt5_libdir}/metatypes/qt5widgets_metatypes.json
 %{_qt5_libdir}/pkgconfig/Qt5.pc
 %{_qt5_libdir}/pkgconfig/Qt5Concurrent.pc
 %{_qt5_libdir}/pkgconfig/Qt5Core.pc
@@ -943,6 +939,10 @@ fi
 %{_qt5_libdir}/libQt5EdidSupport.prl
 %{_qt5_libdir}/libQt5XkbCommonSupport.*a
 %{_qt5_libdir}/libQt5XkbCommonSupport.prl
+%{_qt5_headerdir}/QtVulkanSupport/
+%{_qt5_libdir}/cmake/Qt5VulkanSupport/
+%{_qt5_libdir}/libQt5VulkanSupport.*a
+%{_qt5_libdir}/libQt5VulkanSupport.prl
 
 %if 0%{?examples}
 %files examples
@@ -988,10 +988,8 @@ fi
 %{_qt5_plugindir}/generic/libqevdevmouseplugin.so
 %{_qt5_plugindir}/generic/libqevdevtabletplugin.so
 %{_qt5_plugindir}/generic/libqevdevtouchplugin.so
-%if 0%{?fedora}
 %{_qt5_plugindir}/generic/libqlibinputplugin.so
 %{_qt5_libdir}/cmake/Qt5Gui/Qt5Gui_QLibInputPlugin.cmake
-%endif
 %{_qt5_plugindir}/generic/libqtuiotouchplugin.so
 %{_qt5_libdir}/cmake/Qt5Gui/Qt5Gui_QEvdevKeyboardPlugin.cmake
 %{_qt5_libdir}/cmake/Qt5Gui/Qt5Gui_QEvdevMousePlugin.cmake
@@ -1048,6 +1046,30 @@ fi
 
 
 %changelog
+* Sun Oct 18 2020 Jeff Law <law@redhat.com> - 5.15.1-6
+- Fix missing #includes for gcc-11
+
+* Wed Sep 30 2020 Jan Grulich <jgrulich@redhat.com> - 5.15.1-5
+- Upstream fix: Emit QScreen::geometryChanged when the logical DPI changes
+
+* Tue Sep 29 2020 Yaroslav Fedevych <yaroslav@fedevych.name> - 5.15.1-4
+- qt5-qtbase-devel requires vulkan headers
+
+* Thu Sep 17 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.15.1-3
+- enable vulkan support (#1794969)
+
+* Thu Sep 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.15.1-2
+- CentOS8 - numpad do not work in KDE Plasma (#1868371)
+
+* Thu Sep 10 2020 Jan Grulich <jgrulich@redhat.com> - 5.15.1-1
+- 5.15.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.14.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> - 5.14.2-7
+- Disable LTO
+
 * Mon Jun 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.14.2-6
 - Qt5 private header packaging breaks Qt5 Cmake files (#1846613)
 

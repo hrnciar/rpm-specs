@@ -1,6 +1,6 @@
 Name:           tldr
 Version:        0.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Simplified and community-driven man pages
 
 License:        MIT
@@ -51,6 +51,9 @@ sed -i '1{\=^#!/usr/bin/env python=d}' %{buildroot}%{python3_sitelib}/%{name}.py
 %{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5-2
 - Rebuilt for Python 3.9
 

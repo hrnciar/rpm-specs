@@ -7,7 +7,7 @@ Version:        1.3.1
 %global commit 2fdfb2525889bf19f1f2d49c546f525855654fbc
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        CLI and Python module to work with BBC micro:bit filesystem
 
 License:        MIT
@@ -60,6 +60,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.1-7
 - Rebuilt for Python 3.9
 

@@ -7,7 +7,7 @@
 # Please, preserve the changelog entries
 #
 %global bootstrap    0
-%global gh_commit    624567fe376a70e0bfb5aa8217d5afa13b9d6e61
+%global gh_commit    d8cd35ed94eef5d3d2533af4a72cf1c2932084bb
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     laminas
 %global gh_project   laminas-permissions-acl
@@ -23,7 +23,7 @@
 %endif
 
 Name:           php-%{gh_project}
-Version:        2.7.1
+Version:        2.7.2
 Release:        1%{?dist}
 Summary:        %{namespace} Framework %{library}/%{subproj} component
 
@@ -69,8 +69,8 @@ Requires:       php-spl
 Obsoletes:      php-ZendFramework2-Permissions-%{library} < 2.5
 Provides:       php-ZendFramework2-Permissions-%{library} = %{version}
 # Compatibily ensure by the bridge
-Obsoletes:      php-zendframework-%{zf_name}              < 2.7.1-99
-Provides:       php-zendframework-%{zf_name}              = %{version}-99
+Obsoletes:      php-zendframework-%{zf_name}              < 2.7.2
+Provides:       php-zendframework-%{zf_name}              = %{version}
 Provides:       php-composer(%{gh_owner}/%{gh_project})   = %{version}
 Provides:       php-composer(zendframework/%{zf_name})    = %{version}
 Provides:       php-autoloader(%{gh_owner}/%{gh_project}) = %{version}
@@ -158,6 +158,12 @@ exit $ret
 
 
 %changelog
+* Wed Sep 23 2020 Remi Collet <remi@remirepo.net> - 2.7.2-1
+- update to 2.7.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 14 2020 Remi Collet <remi@remirepo.net> - 2.7.1-1
 - switch to Laminas
 

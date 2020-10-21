@@ -8,7 +8,7 @@
 Name:       python-%{srcname}
 Summary:    Python library for manipulating iptables
 Version:    0.12.0
-Release:    11%{?dist}
+Release:    13%{?dist}
 License:    ASL 2.0
 URL:        https://github.com/ldx/%{name}
 Source0:    %{url}/archive/v%{version}.tar.gz#/%{srcname}-%{version}.tar.gz
@@ -49,6 +49,13 @@ chmod -x README.md
 %{python3_sitearch}/python_%{srcname}-%{version}-py%{python3_version}.egg-info/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.12.0-11
 - Rebuilt for Python 3.9
 

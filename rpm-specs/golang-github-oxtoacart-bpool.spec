@@ -3,7 +3,7 @@
 
 # https://github.com/oxtoacart/bpool
 %global goipath         github.com/oxtoacart/bpool
-%global commit          8c4636f812cc8920c26e2002b988c878b1fd6f5e
+%global commit          03653db5a59cd88b481403d312d7c324b56af377
 
 %gometa
 
@@ -16,13 +16,18 @@ channels.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Buffer/Byte pool for Go
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+
+%if %{with check}
+# Tests
+BuildRequires:  golang(github.com/stretchr/testify/assert)
+%endif
 
 %description
 %{common_description}
@@ -43,6 +48,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 20:22:14 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200730git03653db
+- Bump to commit 03653db5a59cd88b481403d312d7c324b56af377
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

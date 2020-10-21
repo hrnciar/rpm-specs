@@ -1,6 +1,6 @@
 Name:           ncdu
 Version:        1.15.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Text-based disk usage viewer
 
 License:        MIT
@@ -31,6 +31,9 @@ make install DESTDIR=%{buildroot}
 %{_bindir}/ncdu
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 11 2020 Richard Fearn <richardfearn@gmail.com> - 1.15.1-1
 - Update to new upstream version 1.15.1 (#1842015)
 

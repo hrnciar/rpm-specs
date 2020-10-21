@@ -1,6 +1,6 @@
 Name:           perl-List-UtilsBy
 Version:        0.11
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Higher-order list utility functions
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/List-UtilsBy
@@ -50,6 +50,9 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.11-9
 - Perl 5.32 rebuild
 

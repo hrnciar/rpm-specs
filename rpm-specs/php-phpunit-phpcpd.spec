@@ -20,7 +20,7 @@
 
 Name:           php-phpunit-%{pk_project}
 Version:        3.0.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Copy/Paste Detector (CPD) for PHP code
 
 License:        BSD
@@ -148,6 +148,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

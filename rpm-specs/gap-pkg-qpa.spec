@@ -1,18 +1,17 @@
 %global pkgname qpa
 
 Name:           gap-pkg-%{pkgname}
-Version:        1.30
-Release:        2%{?dist}
+Version:        1.31
+Release:        1%{?dist}
 Summary:        GAP package for quivers and path algebras
 
 License:        GPLv2+
 URL:            https://folk.ntnu.no/oyvinso/QPA/
 Source0:        https://github.com/gap-packages/%{pkgname}/archive/v%{version}/%{pkgname}-%{version}.tar.gz
-BuildArch:      noarch
-# Fix LaTeX errors in lecture4a.tex
-# https://github.com/gap-packages/qpa/issues/48
-Patch0:         %{name}-doc.patch
+# https://github.com/gap-packages/qpa/commit/32ec3919dce19b54b3efd5b9e1ac8615d9cb24b7
+Patch0:         %{name}-issymmetricalgebra.patch
 
+BuildArch:      noarch
 BuildRequires:  gap-devel
 BuildRequires:  GAPDoc-latex
 BuildRequires:  gap-pkg-gbnp
@@ -62,7 +61,7 @@ pdflatex lecture4a
 %install
 mkdir -p %{buildroot}%{_gap_dir}/pkg
 cp -a ../%{pkgname}-%{version} %{buildroot}%{_gap_dir}/pkg
-rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}-%{version}/{.*.yml,.gitignore,.mailmap,CHANGES,CODE_OF_CONDUCT.md,create-release.sh,LICENSE,README}
+rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}-%{version}/{.*.yml,.gitignore,.mailmap,CHANGES,CODE_OF_CONDUCT.md,CONTRIBUTING.md,create-release.sh,LICENSE,README}
 rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}-%{version}/doc/*.{aux,bbl,blg,idx,ilg,ind,log,out,pnr}
 rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}-%{version}/doc/gap-days-lectures/*.{aux,log,nav,out,snm,toc,vrb}
 
@@ -84,6 +83,14 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}-%{version}/examples/
 
 %changelog
+* Tue Sep 29 2020 Jerry James <loganjerry@gmail.com> - 1.31-1
+- Version 1.31
+- Drop upstreamed -doc patch
+- Add -issymmetricalgebra patch
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.30-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 22 2020 Jerry James <loganjerry@gmail.com> - 1.30-2
 - Drop broken "gap-pkg-core" Requires
 

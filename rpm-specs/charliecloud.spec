@@ -10,17 +10,16 @@
 %{?el7:%global __python %__python3}
 
 Name:          charliecloud
-Version:       0.15
+Version:       0.19
 Release:       1%{?dist}
 Summary:       Lightweight user-defined software stacks for high-performance computing
 License:       ASL 2.0
 URL:           https://hpc.github.io/%{name}/
 Source0:       https://github.com/hpc/%{name}/releases/downloads/v%{version}/%{name}-%{version}.tar.gz
 BuildRequires: gcc rsync /usr/bin/python3
-Patch0:        docs-sane.patch
-Patch1:        lib64.patch
+Patch0:        lib64.patch
 %if 0%{?el7}
-Patch2:        el7-pkgdir.patch
+Patch1:        el7-pkgdir.patch
 %endif
 
 %description
@@ -63,9 +62,8 @@ Test fixtures for %{name}.
 %setup -q
 
 %patch0 -p1
-%patch1 -p1
 %if 0%{?el7}
-%patch2 -p1
+%patch1 -p1
 %endif
 
 %build
@@ -75,9 +73,9 @@ CFLAGS=${CFLAGS:-%optflags -fgnu89-inline}; export CFLAGS
 %configure --docdir=%{_pkgdocdir} \
            --with-python=/usr/bin/python3 \
 %if 0%{?el7}
-            --with-sphinx-build=%{_bindir}/sphinx-build-3.6
+           --with-sphinx-build=%{_bindir}/sphinx-build-3.6
 %else
-            --with-sphinx-build=%{_bindir}/sphinx-build
+           --with-sphinx-build=%{_bindir}/sphinx-build
 %endif
 
 %install
@@ -121,8 +119,10 @@ ln -s "${sphinxdir}/js"    %{buildroot}%{_pkgdocdir}/html/_static/js
 
 # Library files.
 %{_libdir}/%{name}/base.sh
+%{_libdir}/%{name}/build.py
 %{_libdir}/%{name}/charliecloud.py
 %{_libdir}/%{name}/contributors.bash
+%{_libdir}/%{name}/misc.py
 %{_libdir}/%{name}/version.py
 %{_libdir}/%{name}/version.sh
 %{_libdir}/%{name}/version.txt
@@ -145,6 +145,13 @@ ln -s "${sphinxdir}/js"    %{buildroot}%{_pkgdocdir}/html/_static/js
 %{_mandir}/man1/ch-test.1*
 
 %changelog
+* Tue Sep 22 2020 <jogas@lanl.gov> - 0.19-1
+- package build.py and misc.py
+- remove unnecessary patch
+- New release
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 16 2020 <jogas@lanl.gov> - 0.15-1
 - Add test suite package
 - Update spec for autoconf

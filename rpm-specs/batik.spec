@@ -1,11 +1,11 @@
-# Allow conditionally building without deps on scripting libs rhino and jython
+# Allow conditionally building without optional deps on scripting libs rhino and jython
 %bcond_with jp_minimal
 
-%global classpath batik:rhino:xml-commons-apis:xml-commons-apis-ext:xmlgraphics-commons:jai_imageio
+%global classpath batik:xml-commons-apis:xml-commons-apis-ext:xmlgraphics-commons
 
 Name:           batik
-Version:        1.11
-Release:        4%{?dist}
+Version:        1.13
+Release:        1%{?dist}
 Summary:        Scalable Vector Graphics for Java
 License:        ASL 2.0 and W3C
 URL:            https://xmlgraphics.apache.org/batik/
@@ -18,10 +18,10 @@ BuildArch:      noarch
 
 BuildRequires:  maven-local
 BuildRequires:  mvn(junit:junit)
-BuildRequires:  mvn(org.apache:apache:pom:)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-assembly-plugin)
-BuildRequires:  mvn(org.apache.xmlgraphics:xmlgraphics-commons) >= 2.3
+BuildRequires:  mvn(org.apache.maven.plugins:maven-dependency-plugin)
+BuildRequires:  mvn(org.apache.xmlgraphics:xmlgraphics-commons)
 %if %{without jp_minimal}
 BuildRequires:  mvn(org.mozilla:rhino)
 BuildRequires:  mvn(org.python:jython)
@@ -30,9 +30,6 @@ BuildRequires:  mvn(xalan:xalan)
 BuildRequires:  mvn(xml-apis:xml-apis)
 BuildRequires:  mvn(xml-apis:xml-apis-ext)
 
-# full support for tiff
-Recommends:     jai-imageio-core
-
 %description
 Batik is a Java(tm) technology based toolkit for applications that want
 to use images in the Scalable Vector Graphics (SVG) format for various
@@ -40,7 +37,6 @@ purposes, such as viewing, generation or manipulation.
 
 %package util
 Summary:        Batik utility library
-Obsoletes:      %{name} < 1.11-1
 
 %description util
 Util component of the Apache Batik SVG manipulation and rendering library.
@@ -55,7 +51,13 @@ CSS component of the Apache Batik SVG manipulation and rendering library.
 Summary:        Batik SVG browser
 # Explicit requires for javapackages-tools since squiggle-script
 # uses /usr/share/java-utils/java-functions
-Requires:      javapackages-tools
+Requires:       javapackages-tools
+# Requires AWT, so can't rely on java-headless alone
+Requires:       java
+%if %{without jp_minimal}
+# Soft requirement on optional scripting libs
+Recommends: mvn(org.mozilla:rhino)
+%endif
 
 %description    squiggle
 The Squiggle SVG Browser lets you view SVG file, zoom, pan and rotate
@@ -89,6 +91,10 @@ Summary:        Batik SVG rasterizer
 # Explicit requires for javapackages-tools since rasterizer-script
 # uses /usr/share/java-utils/java-functions
 Requires:       javapackages-tools
+%if %{without jp_minimal}
+# Soft requirement on optional scripting libs
+Recommends: mvn(org.mozilla:rhino)
+%endif
 
 %description    rasterizer
 The SVG Rasterizer is a utility that can convert SVG files to a raster
@@ -102,6 +108,8 @@ Summary:        Batik SVG slideshow
 # Explicit requires for javapackages-tools since slideshow-script
 # uses /usr/share/java-utils/java-functions
 Requires:       javapackages-tools
+# Requires AWT, so can't rely on java-headless alone
+Requires:       java
 
 %description    slideshow
 Batik SVG slideshow.
@@ -147,6 +155,9 @@ for pom in `find -mindepth 2 -name pom.xml -not -path ./batik-all/pom.xml`; do
     %pom_xpath_inject pom:project '<packaging>bundle</packaging>' $pom
 done
 
+# The "old-test" module cannot be built due to missing deps in Fedora
+%pom_disable_module batik-test-old
+
 %if %{with jp_minimal}
 # Remove optional deps on rhino and jython for minimal build
 %pom_remove_dep :rhino batik-{bridge,script}
@@ -170,22 +181,26 @@ rm batik-bridge/src/main/java/org/apache/batik/bridge/WindowWrapper.java
 %mvn_package :batik-slideshow slideshow
 %mvn_package :batik-css css
 %mvn_package :batik-constants util
+%mvn_package :batik-shared-resources util
 %mvn_package :batik-i18n util
 %mvn_package :batik-util util
 %mvn_package ':batik-test*' __noinstall
 
 %mvn_file :batik-all batik-all
 
+#no jacl rpm and it breaks javadoc
+rm batik-script/src/main/java/org/apache/batik/script/jacl/JaclInterpreter.java
+
 %build
-%mvn_build --xmvn-javadoc
+%mvn_build
 
 %install
 %mvn_install
 
-%jpackage_script org.apache.batik.apps.svgbrowser.Main '' '' %{classpath} squiggle true
+%jpackage_script org.apache.batik.apps.svgbrowser.Main '' '' %{classpath}:rhino squiggle true
 %jpackage_script org.apache.batik.apps.svgpp.Main '' '' %{classpath} svgpp true
 %jpackage_script org.apache.batik.apps.ttf2svg.Main '' '' %{classpath} ttf2svg true
-%jpackage_script org.apache.batik.apps.rasterizer.Main '' '' %{classpath} rasterizer true
+%jpackage_script org.apache.batik.apps.rasterizer.Main '' '' %{classpath}:rhino rasterizer true
 %jpackage_script org.apache.batik.apps.slideshow.Main '' '' %{classpath} slideshow true
 
 # Demo
@@ -223,6 +238,16 @@ cp -pr samples $RPM_BUILD_ROOT%{_datadir}/%{name}/
 
 
 %changelog
+* Tue Aug 18 2020 Mat Booth <mat.booth@redhat.com> - 1.13-1
+- Update to latest upstream release
+- Add requirements on full JRE for subpackages that require AWT
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.11-6
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon Jun 15 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-4
 - build with --xmvn-javadoc
 

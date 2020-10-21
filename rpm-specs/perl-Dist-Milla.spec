@@ -1,6 +1,6 @@
 Name:           perl-Dist-Milla
 Version:        1.0.20
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        CPAN distribution builder
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Dist-Milla
@@ -144,6 +144,9 @@ rm $RPM_BUILD_ROOT/%{_mandir}/man3/auto::share::module::Dist-Zilla-MintingProfil
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.20-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.0.20-8
 - Perl 5.32 rebuild
 

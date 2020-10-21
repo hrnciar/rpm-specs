@@ -1,13 +1,10 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
 
 %global _hardened_build 1
 
 %global _for_fedora_koji_builds 1
 
 # uncomment and add '%' to use the %%dev for pre-releases
-%global dev rc0
+# %%global dev rc0
 
 ##-----------------------------------------------------------------------------
 ## All argument definitions should be placed here and keep them sorted
@@ -185,12 +182,12 @@
 Summary:          Distributed File System
 %if ( 0%{_for_fedora_koji_builds} )
 Name:             glusterfs
-Version:          8.0
-Release:          0.1%{?dev:%{dev}}%{?dist}
+Version:          8.2
+Release:          1%{?dev:%{dev}}%{?dist}
 %else
 Name:             @PACKAGE_NAME@
 Version:          @PACKAGE_VERSION@
-Release:          0.@PACKAGE_RELEASE@%{?dist}.3
+Release:          0.@PACKAGE_RELEASE@%{?dist}.4
 %endif
 License:          GPLv2 or LGPLv3+
 URL:              http://docs.gluster.org/
@@ -203,11 +200,14 @@ Source8:          glusterfsd.init
 %else
 Source0:          @PACKAGE_NAME@-@PACKAGE_VERSION@.tar.gz
 %endif
+Patch0002:        0002-rpc-rpc-lib-src-Makefile.am.patch
 
 Requires(pre):    shadow-utils
 BuildRequires:    systemd
 
-Requires:         %{name}-libs = %{version}-%{release}
+Requires:         libglusterfs0%{?_isa} = %{version}-%{release}
+Requires:         libgfrpc0%{?_isa} = %{version}-%{release}
+Requires:         libgfxdr0%{?_isa} = %{version}-%{release}
 %{?systemd_requires}
 Requires(post):   /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
@@ -274,42 +274,10 @@ This package includes the glusterfs binary, the glusterfsd daemon and the
 libglusterfs and glusterfs translator modules common to both GlusterFS server
 and client framework.
 
-%package api
-Summary:          GlusterFS api library
-Requires:         %{name} = %{version}-%{release}
-Requires:         %{name}-client-xlators = %{version}-%{release}
-Requires(post):   /sbin/ldconfig
-Requires(postun): /sbin/ldconfig
-
-%description api
-GlusterFS is a distributed file-system capable of scaling to several
-petabytes. It aggregates various storage bricks over TCP/IP interconnect
-into one large parallel network filesystem. GlusterFS is one of the
-most sophisticated file systems in terms of features and extensibility.
-It borrows a powerful concept called Translators from GNU Hurd kernel.
-Much of the code in GlusterFS is in user space and easily manageable.
-
-This package provides the glusterfs libgfapi library.
-
-%package api-devel
-Summary:          Development Libraries
-Requires:         %{name} = %{version}-%{release}
-Requires:         %{name}-devel = %{version}-%{release}
-Requires:         libacl-devel
-
-%description api-devel
-GlusterFS is a distributed file-system capable of scaling to several
-petabytes. It aggregates various storage bricks over TCP/IP interconnect
-into one large parallel network filesystem. GlusterFS is one of the
-most sophisticated file systems in terms of features and extensibility.
-It borrows a powerful concept called Translators from GNU Hurd kernel.
-Much of the code in GlusterFS is in user space and easily manageable.
-
-This package provides the api include files.
-
 %package cli
 Summary:          GlusterFS CLI
-Requires:         %{name}-libs = %{version}-%{release}
+Requires:         libglusterfs0%{?_isa} = %{version}-%{release}
+Requires:         libglusterd0%{?_isa} = %{version}-%{release}
 
 %description cli
 GlusterFS is a distributed file-system capable of scaling to several
@@ -347,23 +315,6 @@ It borrows a powerful concept called Translators from GNU Hurd kernel.
 Much of the code in GlusterFS is in user space and easily manageable.
 
 This package provides cloudsync plugins for archival feature.
-
-%package devel
-Summary:          Development Libraries
-Requires:         %{name} = %{version}-%{release}
-# Needed for the Glupy examples to work
-Requires:         %{name}-extra-xlators = %{version}-%{release}
-
-%description devel
-GlusterFS is a distributed file-system capable of scaling to several
-petabytes. It aggregates various storage bricks over TCP/IP interconnect
-into one large parallel network filesystem. GlusterFS is one of the
-most sophisticated file systems in terms of features and extensibility.
-It borrows a powerful concept called Translators from GNU Hurd kernel.
-Much of the code in GlusterFS is in user space and easily manageable.
-
-This package provides the development libraries and include files.
-
 
 %if ( 0%{!?_without_events:1} )
 %package events
@@ -518,12 +469,16 @@ is in user space and easily manageable.
 This package provides the glusterfs legacy gNFS server xlator
 %endif
 
-%package libs
-Summary:          GlusterFS common libraries
+%package -n libglusterfs0
+Summary:          GlusterFS libglusterfs library
 Requires(post):   /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
+Requires:         libgfrpc0%{?_isa} = %{version}-%{release}
+Requires:         libgfxdr0%{?_isa} = %{version}-%{release}
+Obsoletes:        %{name}-libs <= %{version}-%{release}
+Provides:         %{name}-libs = %{version}-%{release}
 
-%description libs
+%description -n libglusterfs0
 GlusterFS is a distributed file-system capable of scaling to several
 petabytes. It aggregates various storage bricks over TCP/IP interconnect
 into one large parallel network filesystem. GlusterFS is one of the
@@ -531,7 +486,163 @@ most sophisticated file systems in terms of features and extensibility.
 It borrows a powerful concept called Translators from GNU Hurd kernel.
 Much of the code in GlusterFS is in user space and easily manageable.
 
-This package provides the base GlusterFS libraries
+This package provides the base libglusterfs library
+
+%package -n libglusterfs-devel
+Summary:          GlusterFS libglusterfs library
+Requires:         libgfrpc-devel%{?_isa} = %{version}-%{release}
+Requires:         libgfxdr-devel%{?_isa} = %{version}-%{release}
+Obsoletes:        %{name}-devel <= %{version}-%{release}
+Provides:         %{name}-devel = %{version}-%{release}
+
+%description -n libglusterfs-devel
+GlusterFS is a distributed file-system capable of scaling to several
+petabytes. It aggregates various storage bricks over TCP/IP interconnect
+into one large parallel network filesystem. GlusterFS is one of the
+most sophisticated file systems in terms of features and extensibility.
+It borrows a powerful concept called Translators from GNU Hurd kernel.
+Much of the code in GlusterFS is in user space and easily manageable.
+
+This package provides libglusterfs.so and the gluster C header files.
+
+%package -n libgfapi0
+Summary:          GlusterFS api library
+Requires:         libglusterfs0%{?_isa} = %{version}-%{release}
+Requires:         %{name}-client-xlators%{?_isa} = %{version}-%{release}
+Obsoletes:        %{name}-api <= %{version}-%{release}
+Provides:         %{name}-api = %{version}-%{release}
+
+%description -n libgfapi0
+GlusterFS is a distributed file-system capable of scaling to several
+petabytes. It aggregates various storage bricks over TCP/IP interconnect
+into one large parallel network filesystem. GlusterFS is one of the
+most sophisticated file systems in terms of features and extensibility.
+It borrows a powerful concept called Translators from GNU Hurd kernel.
+Much of the code in GlusterFS is in user space and easily manageable.
+
+This package provides the glusterfs libgfapi library.
+
+%package -n libgfapi-devel
+Summary:          Development Libraries
+Requires:         libglusterfs-devel%{?_isa} = %{version}-%{release}
+Requires:         libacl-devel
+Obsoletes:        %{name}-api-devel <= %{version}-%{release}
+Provides:         %{name}-api-devel = %{version}-%{release}
+
+%description -n libgfapi-devel
+GlusterFS is a distributed file-system capable of scaling to several
+petabytes. It aggregates various storage bricks over TCP/IP interconnect
+into one large parallel network filesystem. GlusterFS is one of the
+most sophisticated file systems in terms of features and extensibility.
+It borrows a powerful concept called Translators from GNU Hurd kernel.
+Much of the code in GlusterFS is in user space and easily manageable.
+
+This package provides libgfapi.so and the api C header files.
+
+%package -n libgfchangelog0
+Summary:          GlusterFS libchangelog library
+Requires:         libglusterfs0%{?_isa} = %{version}-%{release}
+Obsoletes:        %{name}-libs <= %{version}-%{release}
+
+%description -n libgfchangelog0
+GlusterFS is a distributed file-system capable of scaling to several
+petabytes. It aggregates various storage bricks over TCP/IP interconnect
+into one large parallel network filesystem. GlusterFS is one of the
+most sophisticated file systems in terms of features and extensibility.
+It borrows a powerful concept called Translators from GNU Hurd kernel.
+Much of the code in GlusterFS is in user space and easily manageable.
+
+This package provides the libgfchangelog library
+
+%package -n libgfchangelog-devel
+Summary:          GlusterFS libchangelog library
+Requires:         libglusterfs-devel%{?_isa} = %{version}-%{release}
+Obsoletes:        %{name}-devel <= %{version}-%{release}
+
+%description -n libgfchangelog-devel
+GlusterFS is a distributed file-system capable of scaling to several
+petabytes. It aggregates various storage bricks over TCP/IP interconnect
+into one large parallel network filesystem. GlusterFS is one of the
+most sophisticated file systems in terms of features and extensibility.
+It borrows a powerful concept called Translators from GNU Hurd kernel.
+Much of the code in GlusterFS is in user space and easily manageable.
+
+This package provides libgfchangelog.so and changelog C header files.
+
+%package -n libgfrpc0
+Summary:          GlusterFS libgfrpc0 library
+Requires:         libglusterfs0%{?_isa} = %{version}-%{release}
+Obsoletes:        %{name}-libs <= %{version}-%{release}
+
+%description -n libgfrpc0
+GlusterFS is a distributed file-system capable of scaling to several
+petabytes. It aggregates various storage bricks over TCP/IP interconnect
+into one large parallel network filesystem. GlusterFS is one of the
+most sophisticated file systems in terms of features and extensibility.
+It borrows a powerful concept called Translators from GNU Hurd kernel.
+Much of the code in GlusterFS is in user space and easily manageable.
+
+This package provides the libgfrpc library
+
+%package -n libgfrpc-devel
+Summary:          GlusterFS libgfrpc library
+Requires:         libglusterfs0%{?_isa} = %{version}-%{release}
+Obsoletes:        %{name}-devel <= %{version}-%{release}
+
+%description -n libgfrpc-devel
+GlusterFS is a distributed file-system capable of scaling to several
+petabytes. It aggregates various storage bricks over TCP/IP interconnect
+into one large parallel network filesystem. GlusterFS is one of the
+most sophisticated file systems in terms of features and extensibility.
+It borrows a powerful concept called Translators from GNU Hurd kernel.
+Much of the code in GlusterFS is in user space and easily manageable.
+
+This package provides libgfrpc.so and rpc C header files.
+
+%package -n libgfxdr0
+Summary:          GlusterFS libgfxdr0 library
+Requires:         libglusterfs0%{?_isa} = %{version}-%{release}
+Obsoletes:        %{name}-libs <= %{version}-%{release}
+
+%description -n libgfxdr0
+GlusterFS is a distributed file-system capable of scaling to several
+petabytes. It aggregates various storage bricks over TCP/IP interconnect
+into one large parallel network filesystem. GlusterFS is one of the
+most sophisticated file systems in terms of features and extensibility.
+It borrows a powerful concept called Translators from GNU Hurd kernel.
+Much of the code in GlusterFS is in user space and easily manageable.
+
+This package provides the libgfxdr library
+
+%package -n libgfxdr-devel
+Summary:          GlusterFS libgfxdr library
+Requires:         libglusterfs0%{?_isa} = %{version}-%{release}
+Obsoletes:        %{name}-devel <= %{version}-%{release}
+
+%description -n libgfxdr-devel
+GlusterFS is a distributed file-system capable of scaling to several
+petabytes. It aggregates various storage bricks over TCP/IP interconnect
+into one large parallel network filesystem. GlusterFS is one of the
+most sophisticated file systems in terms of features and extensibility.
+It borrows a powerful concept called Translators from GNU Hurd kernel.
+Much of the code in GlusterFS is in user space and easily manageable.
+
+This package provides libgfxdr.so.
+
+%package -n libglusterd0
+Summary:          GlusterFS libglusterd library
+Requires:         libglusterfs0%{?_isa} = %{version}-%{release}
+Obsoletes:        %{name}-libs <= %{version}-%{release}
+
+%description -n libglusterd0
+GlusterFS is a distributed file-system capable of scaling to several
+petabytes. It aggregates various storage bricks over TCP/IP interconnect
+into one large parallel network filesystem. GlusterFS is one of the
+most sophisticated file systems in terms of features and extensibility.
+It borrows a powerful concept called Translators from GNU Hurd kernel.
+Much of the code in GlusterFS is in user space and easily manageable.
+
+This package provides the libglusterd library
 
 %package -n python%{_pythonver}-gluster
 Summary:          GlusterFS python library
@@ -597,12 +708,13 @@ like Pacemaker.
 %package server
 Summary:          Distributed file-system server
 Requires:         %{name} = %{version}-%{release}
-Requires:         %{name}-libs = %{version}-%{release}
+Requires:         libglusterfs0%{?_isa} = %{version}-%{release}
+Requires:         libgfchangelog0%{?_isa} = %{version}-%{release}
 Requires:         %{name}-cli = %{version}-%{release}
 # some daemons (like quota) use a fuse-mount, glusterfsd is part of -fuse
 Requires:         %{name}-fuse = %{version}-%{release}
 # self-heal daemon, rebalance, nfs-server etc. are actually clients
-Requires:         %{name}-api = %{version}-%{release}
+Requires:         libgfapi0%{?_isa} = %{version}-%{release}
 Requires:         %{name}-client-xlators = %{version}-%{release}
 # lvm2 for snapshot, and nfs-utils and rpcbind/portmap for gnfs server
 Requires:         psmisc
@@ -650,7 +762,6 @@ This package provides the glusterfs server daemon.
 %package thin-arbiter
 Summary:          GlusterFS thin-arbiter module
 Requires:         %{name}%{?_isa} = %{version}-%{release}
-Requires:         %{name}-libs%{?_isa} = %{version}-%{release}
 Requires:         %{name}-server%{?_isa} = %{version}-%{release}
 
 %description thin-arbiter
@@ -662,6 +773,7 @@ This package provides the glusterfs thin-arbiter translator.
 
 %prep
 %setup -q -n %{name}-%{version}%{?dev}
+%patch0002 -p1
 %if ( ! %{_usepython3} )
 echo "fixing python shebangs..."
 for f in api events extras geo-replication libglusterfs tools xlators; do
@@ -670,7 +782,6 @@ done
 %endif
 
 %build
-
 sed -i -e 's/--quiet//' configure.ac
 ./autogen.sh && %configure \
         %{?_with_asan} \
@@ -707,7 +818,7 @@ make check
 
 %install
 rm -rf %{buildroot}
-make install DESTDIR=%{buildroot}
+%make_install
 %if ( 0%{!?_without_server:1} )
 %if ( 0%{_for_fedora_koji_builds} )
 %if ( 0%{!?_without_server:1} )
@@ -831,8 +942,18 @@ install -p -m 0755 -D extras/command-completion/gluster.bash \
 %endif
 exit 0
 
-# post and postun scriptlets for api
-%ldconfig_scriptlets api
+# post and postun scriptlets for libs
+%ldconfig_scriptlets libglusterfs0
+
+%ldconfig_scriptlets libgfchangelog0
+
+%ldconfig_scriptlets libgfapi0
+
+%ldconfig_scriptlets libgfrpc0
+
+%ldconfig_scriptlets libgfxdr0
+
+%ldconfig_scriptlets libgfglusterd0
 
 %if ( 0%{!?_without_events:1} )
 %post events
@@ -1111,20 +1232,6 @@ exit 0
 %exclude %{_prefix}/lib/ocf/resource.d/heartbeat/*
 %endif
 
-%files api
-%exclude %{_libdir}/*.so
-# libgfapi files
-%{_libdir}/libgfapi.*
-%dir %{_libdir}/glusterfs/%{version}%{?dev}/xlator/mount
-     %{_libdir}/glusterfs/%{version}%{?dev}/xlator/mount/api.so
-
-%files api-devel
-%{_libdir}/pkgconfig/glusterfs-api.pc
-%{_libdir}/libgfapi.so
-%dir %{_includedir}/glusterfs
-%dir %{_includedir}/glusterfs/api
-     %{_includedir}/glusterfs/api/*
-
 %files cli
 %{_sbindir}/gluster
 %{_mandir}/man8/gluster.8*
@@ -1141,13 +1248,32 @@ exit 0
      %{_libdir}/glusterfs/%{version}%{?dev}/cloudsync-plugins/cloudsyncs3.so
      %{_libdir}/glusterfs/%{version}%{?dev}/cloudsync-plugins/cloudsynccvlt.so
 
-%files devel
+%files -n libglusterfs-devel
 %dir %{_includedir}/glusterfs
-     %{_includedir}/glusterfs/*
-%exclude %{_includedir}/glusterfs/api
-%exclude %{_libdir}/libgfapi.so
-%{_libdir}/*.so
+     %{_includedir}/glusterfs/*.h
+     %{_includedir}/glusterfs/server/*.h
+%{_libdir}/libglusterfs.so
+
+%files -n libgfapi-devel
+%dir %{_includedir}/glusterfs/api
+     %{_includedir}/glusterfs/api/*.h
+%{_libdir}/libgfapi.so
+%{_libdir}/pkgconfig/glusterfs-api.pc
+
+
+%files -n libgfchangelog-devel
+%dir %{_includedir}/glusterfs/gfchangelog
+     %{_includedir}/glusterfs/gfchangelog/*.h
+%{_libdir}/libgfchangelog.so
 %{_libdir}/pkgconfig/libgfchangelog.pc
+
+%files -n libgfrpc-devel
+%dir %{_includedir}/glusterfs/rpc
+     %{_includedir}/glusterfs/rpc/*.h
+%{_libdir}/libgfrpc.so
+
+%files -n libgfxdr-devel
+%{_libdir}/libgfxdr.so
 
 # Events
 %if ( 0%{!?_without_events:1} )
@@ -1243,10 +1369,26 @@ exit 0
 %ghost %dir %attr(0755,-,-) %{_sharedstatedir}/glusterd/hooks/1/gsync-create/pre
 %endif
 
-%files libs
-%{_libdir}/*.so.*
-%exclude %{_libdir}/libgfapi.*
-# libgfdb is only needed server-side
+%files -n libglusterfs0
+%{_libdir}/libglusterfs.so.*
+
+%files -n libgfapi0
+%{_libdir}/libgfapi.so.*
+%dir %{_libdir}/glusterfs/%{version}%{?prereltag}/xlator/mount
+     %{_libdir}/glusterfs/%{version}%{?prereltag}/xlator/mount/api.so
+
+%files -n libgfchangelog0
+%{_libdir}/libgfchangelog.so.*
+
+%files -n libgfrpc0
+%{_libdir}/libgfrpc.so.*
+
+%files -n libgfxdr0
+%{_libdir}/libgfxdr.so.*
+
+%files -n libglusterd0
+%{_libdir}/libglusterd.so.*
+%exclude %{_libdir}/libglusterd.so
 
 %files -n python%{_pythonver}-gluster
 # introducing glusterfs module in site packages.
@@ -1436,6 +1578,36 @@ exit 0
 %{_unitdir}/gluster-ta-volume.service
 
 %changelog
+* Thu Sep 17 2020  Kaleb S. KEITHLEY <kkeithle[at]redhat.com> - 8.2-1
+- 8.2 GA
+
+* Tue Aug 25 2020  Kaleb S. KEITHLEY <kkeithle[at]redhat.com> - 8.1-1
+- 8.1 GA
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020  Kaleb S. KEITHLEY <kkeithle[at]redhat.com> - 8.0-5
+- eliminate contrib/sunrpc/xdr_sizeof.c
+
+* Mon Jul 20 2020  Kaleb S. KEITHLEY <kkeithle[at]redhat.com> - 8.0-4
+- use %make_install macro
+
+* Wed Jul 8 2020  Kaleb S. KEITHLEY <kkeithle[at]redhat.com> - 8.0-3
+- thin-arbiter, w/o libglusterfs0
+
+* Tue Jul 7 2020  Kaleb S. KEITHLEY <kkeithle[at]redhat.com> - 8.0-2
+- 8.0, thin-arbiter
+
+* Mon Jul 6 2020  Kaleb S. KEITHLEY <kkeithle[at]redhat.com> - 8.0-1
+- 8.0 GA
+
+* Sat Jul 4 2020  Kaleb S. KEITHLEY <kkeithle[at]redhat.com> - 8.0-0.3rc0
+- 8.0 fix symbol versions, enable LTO
+
+* Wed Jul 1 2020  Jeff Law <law@redhat.com> - 8.0-0.2rc0
+- Disable LTO
+
 * Mon Jun 1 2020  Kaleb S. KEITHLEY <kkeithle[at]redhat.com> - 8.0-0.1rc0
 - 8.0 RC0
 

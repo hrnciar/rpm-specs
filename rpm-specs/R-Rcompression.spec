@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          %{packver}.%{packrel}
-Release:          28%{?dist}
+Release:          29%{?dist}
 Summary:          R Package for in-memory compression
 License:          zlib
 URL:              http://www.omegahat.net/Rcompression/
@@ -57,6 +57,9 @@ rm -rf %{buildroot}%{_libdir}/R/library/%{packname}/sampleData/
 %{_libdir}/R/library/%{packname}/libs/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.93.2-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun  8 2020 Tom Callaway <spot@fedoraproject.org> - 0.93.2-28
 - rebuild for R 4
 

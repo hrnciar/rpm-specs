@@ -3,7 +3,7 @@
 
 # https://github.com/saracen/walker
 %global goipath         github.com/saracen/walker
-%global commit          324a081bae7e580aa0bf3afe8164acb16634afca
+Version:                0.1.1
 
 %gometa
 
@@ -14,8 +14,7 @@ Walker is a faster, parallel version, of filepath.Walk.}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.1%{?dist}
+Release:        1%{?dist}
 Summary:        Walker is a faster, parallel version, of filepath.Walk
 
 License:        MIT
@@ -43,5 +42,11 @@ BuildRequires:  golang(golang.org/x/sync/errgroup)
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 16:36:40 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.1.1-1
+- Update to 0.1.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 06 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0-0.1.20200506git324a081
 - Initial package

@@ -22,8 +22,8 @@
 %global modname requests_oauthlib
 
 Name:               python-requests-oauthlib
-Version:            1.2.0
-Release:            6%{?dist}
+Version:            1.3.0
+Release:            7%{?dist}
 Summary:            OAuthlib authentication support for Requests.
 
 License:            ISC
@@ -125,6 +125,12 @@ rm -rf %{distname}.egg-info
 %endif
 
 %changelog
+* Sun Sep 27 2020 Kevin Fenzi <kevin@scrye.com> - 1.3.0-7
+- Update to 1.3.0. Fixes bug #1769415
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.0-6
 - Rebuilt for Python 3.9
 

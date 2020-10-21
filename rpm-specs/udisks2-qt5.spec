@@ -1,6 +1,6 @@
 Name:           udisks2-qt5
 Version:        5.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Qt5 binding for udisks2
 License:        GPLv3+
 URL:            https://github.com/linuxdeepin/udisks2-qt5
@@ -42,6 +42,9 @@ export PATH=%{_qt5_bindir}:$PATH
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

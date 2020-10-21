@@ -3,7 +3,7 @@
 
 # https://github.com/alecthomas/kong
 %global goipath         github.com/alecthomas/kong
-Version:                0.2.9
+Version:                0.2.11
 
 %gometa
 
@@ -14,14 +14,12 @@ Kong is a command-line parser for Go.}
 %global godocs          _examples README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Command-line parser for Go
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
-# https://github.com/alecthomas/kong/issues/77
-Patch0001:      https://github.com/alecthomas/kong/commit/2d809c073bd6f277e56b00338e3d33e055ddfda2.patch
 
 BuildRequires:  golang(github.com/pkg/errors)
 
@@ -37,7 +35,6 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 
 %prep
 %goprep
-%patch0001 -p1
 
 %install
 %gopkginstall
@@ -50,6 +47,12 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.2.11-1
+- Update to latest version
+
 * Thu Apr 30 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.2.9-1
 - Update to latest version
 

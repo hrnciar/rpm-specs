@@ -2,7 +2,7 @@
 
 Name:           gfbgraph
 Version:        %{api}.3
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        GLib/GObject wrapper for the Facebook Graph API
 
 License:        LGPLv2+
@@ -86,6 +86,9 @@ rm -rf $RPM_BUILD_ROOT%{_prefix}/doc
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.3-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

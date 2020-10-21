@@ -1,6 +1,6 @@
 Name:           glyph-keeper
 Version:        0.32
-Release:        27%{?dist}
+Release:        30%{?dist}
 Summary:        Library for text rendering
 License:        zlib
 URL:            http://www.allegro.cc/resource/Libraries/Text/GlyphKeeper
@@ -81,7 +81,7 @@ gcc -shared -o libglyph-alleg.so.0 -Wl,-soname,libglyph-alleg.so.0 \
   obj/glyph-alleg.o -lfreetype $(allegro-config --libs)
 
 make %{?_smp_mflags} -f Makefile.GNU.all TARGET=SDL FT_LIB=-lfreetype \
-  OFLAGS="$RPM_OPT_FLAGS -fpic -I/usr/include/freetype2" lib
+  OFLAGS="$RPM_OPT_FLAGS -fpic $(sdl-config --cflags) -I/usr/include/freetype2" lib
 gcc -shared -o libglyph-sdl.so.0 -Wl,-soname,libglyph-sdl.so.0 \
   obj/glyph-sdl.o -lfreetype -lSDL -lSDL_gfx
 
@@ -118,6 +118,16 @@ install -m 644 include/glyph.h $RPM_BUILD_ROOT%{_includedir}
 
 
 %changelog
+* Mon Aug 10 2020 Hans de Goede <hdegoede@redhat.com> - 0.32-30
+- Fix FTBFS (rhbz#1863639)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.32-29
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.32-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.32-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

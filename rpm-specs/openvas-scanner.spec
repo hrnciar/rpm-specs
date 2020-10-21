@@ -1,6 +1,6 @@
 Name:		openvas-scanner
 Version:	7.0.1
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	Open Vulnerability Assessment (OpenVAS) Scanner
 
 License:	GPLv2
@@ -188,6 +188,13 @@ rm -f %{buildroot}/%{_libdir}/libopenvas_*.so
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 josef radinger <cheese@nosuchhost.net> - 7.0.1-1
 - bump version
 

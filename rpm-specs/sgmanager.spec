@@ -6,7 +6,7 @@
 
 Name:           sgmanager
 Version:        2.0.0
-Release:        6+201801213git+%{revnum}.%{shortcommit}%{?dist}
+Release:        7+201801213git+%{revnum}.%{shortcommit}%{?dist}
 Summary:        OpenStack Security Groups Management Tool
 
 License:        BSD
@@ -45,6 +45,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} -m pytest -vv
 %{python3_sitelib}/sgmanager/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-7+201801213git+146.861aa67
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.0-6+201801213git+146.861aa67
 - Rebuilt for Python 3.9
 

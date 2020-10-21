@@ -1,23 +1,8 @@
-# https://github.com/falkTX/Carla/commit/f100892fbd0b10a7fdac91f1194378247f4633b5
-
-%global commit0 f100892fbd0b10a7fdac91f1194378247f4633b5
-%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global pname   carla 
-%global commitdate 20200515
-
-# Release candidate version tracking
-%global rcver rc2
-%if 0%{?rcver:0}
-%global rcrel .%{rcver}
-%global rcstr -%{rcver}
-%endif
 
 Name:           Carla
-Version:        2.2
-#Release:        0.1.%%{commitdate}git%%{shortcommit0}%%{?dist}
-#Release:        1.beta1.%%{?shortcommit0}%%{?dist}
-Release:        1.beta1%{?dist}
-#Release:        3%%{?rcrel}%%{?dist}
+Version:        2.2.0
+Release:        2%{?dist}
 Summary:        Audio plugin host
 
 # The entire source code is GPLv2+ except
@@ -65,9 +50,8 @@ Summary:        Audio plugin host
 Epoch:   1
 License:        GPLv2+ and BSD and Boost and ISC and MIT and zlib
 URL:            https://github.com/falkTX/Carla
-#Source0:        https://github.com/falkTX/%%{name}/archive/%%{commit0}/%%{name}-%%{shortcommit0}.tar.gz
-#Source0:        https://github.com/falkTX/%%{name}/archive/v%%{version}%%{?rcstr}.tar.gz#/%%{name}-%%{version}.tar.gz
-Source0:        https://github.com/falkTX/%{name}/archive/v%{version}b1.tar.gz#/%{name}-%{version}b1.tar.gz
+Source0:        https://github.com/falkTX/%{name}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Patch0: Carla-gcc11-include.patch
 
 #ExcludeArch:    ppc64le
 
@@ -153,9 +137,7 @@ Requires:       %{name}%{?_isa} = %{epoch}:%{version}-%{release}
 This package contains the Carla LV2 plugin.
 
 %prep
-#%%autosetup -p 0 -n %%{name}-%%{commit0}
-#%%autosetup -p 1 -n %%{name}-%%{version}%%{?rcstr}
-%autosetup -p 0 -n %{name}-%{version}b1
+%autosetup -p 0 -n %{name}-%{version}
 
 # remove windows stuff
 rm -rf data/{macos,windows}
@@ -204,9 +186,15 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %{_bindir}/%{pname}-rack
 %{_bindir}/%{pname}-settings
 %{_bindir}/%{pname}-single
+%{_bindir}/%{pname}-jack-patchbayplugin
+%{_bindir}/%{pname}-osc-gui
 %{_libdir}/%{pname}/
 %{_datadir}/applications/%{pname}-control.desktop
 %{_datadir}/applications/%{pname}.desktop
+%{_datadir}/applications/%{pname}-jack-multi.desktop
+%{_datadir}/applications/%{pname}-jack-single.desktop
+%{_datadir}/applications/%{pname}-patchbay.desktop
+%{_datadir}/applications/%{pname}-rack.desktop
 %{_datadir}/%{pname}/
 %{_datadir}/icons/hicolor/*/apps/%{pname}*.png
 %{_datadir}/icons/hicolor/*/apps/%{pname}*.svg
@@ -226,8 +214,20 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %{_libdir}/pkgconfig/%{pname}-native-plugin.pc
 
 %changelog
-* Sat May 16 2020 Martin Gansser <martinkg@fedoraproject.org> - 1:2.2-0.1.20200514gitf100892
-- Update to 2.2beta1
+* Mon Oct 12 2020 Jeff Law <law@redhat.com> - 1:2.2.0-2
+- Add missing #includes for gcc-11
+
+* Sun Sep 27 2020 Martin Gansser <martinkg@fedoraproject.org> - 1:2.2.0-1
+- Update to 2.2.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.2.0-0.2.rc1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 19 2020 Martin Gansser <martinkg@fedoraproject.org> - 1:2.2.0-0.1.rc1
+- Update to 2.2.0-0.1.rc1
+
+* Sat May 16 2020 Martin Gansser <martinkg@fedoraproject.org> - 1:2.2-0.1.beta1
+- Update to 2.2-0.1.beta1
 
 * Fri May 15 2020 Martin Gansser <martinkg@fedoraproject.org> - 1:2.2-0.1.20200514gitf100892
 - Update to 2.2-0.1.20200514gitf100892

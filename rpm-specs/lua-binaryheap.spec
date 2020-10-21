@@ -12,7 +12,7 @@
 
 Name:           lua-%{luapkgname}
 Version:        %{majorversion}.%{minorversion}
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Binary heap implementation for Lua
 
 License:        MIT
@@ -56,6 +56,9 @@ install -D -p -m 0644 src/binaryheap.lua %{buildroot}/%{luacompatpkgdir}/binaryh
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

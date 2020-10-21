@@ -2,7 +2,7 @@
 Summary:		A bootloader which can be started from the SRM console
 Name:			aboot
 Version:		1.0
-Release:		0.19.%{prever}%{?dist}
+Release:		0.20.%{prever}%{?dist}
 ExclusiveArch:	alpha
 License:		GPLv2+
 URL:			http://www.sf.net/projects/aboot
@@ -61,6 +61,9 @@ mv -f sdisklabel/README sdisklabel/README-sdisklabel || true
 %{_mandir}/man1/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.20.pre20040408
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.19.pre20040408
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,8 +1,8 @@
 %global srcname libsass
 
 Name:           python-%{srcname}
-Version:        0.19.4
-Release:        3%{?dist}
+Version:        0.20.0
+Release:        2%{?dist}
 Summary:        Python bindings for libsass
 
 License:        MIT
@@ -83,6 +83,12 @@ py.test-3 sasstests.py
 %exclude %{_bindir}/sassc.py
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Marcel Plch <marcel.plch@protonmail.com> - 0.20.0-1
+- Update to v0.20.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.19.4-3
 - Rebuilt for Python 3.9
 

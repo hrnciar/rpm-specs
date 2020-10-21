@@ -3,7 +3,7 @@
 
 # https://github.com/DataDog/zstd
 %global goipath         github.com/DataDog/zstd
-Version:                1.4.4
+Version:                1.4.5
 
 %gometa
 
@@ -14,7 +14,7 @@ Zstd wrapper for go.}
 %global godocs          README.md update.txt
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Zstd wrapper for go
 
 # Upstream license specification: BSD-3-Clause
@@ -23,7 +23,7 @@ URL:            %{gourl}
 Source0:        %{gosource}
 
 BuildRequires:  gcc
-Provides:       bundled(zstd) = 1.4.4
+Provides:       bundled(zstd) = 1.4.5
 
 %description
 %{common_description}
@@ -44,6 +44,12 @@ Provides:       bundled(zstd) = 1.4.4
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 20:24:07 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.5-1
+- Update to 1.4.5
+
 * Sun Feb 16 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.4.4-1
 - Update to latest version
 

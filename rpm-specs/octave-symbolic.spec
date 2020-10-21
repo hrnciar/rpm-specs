@@ -5,7 +5,7 @@
 
 Name:           octave-%{octpkg}
 Version:        2.9.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Symbolic computations for Octave
 License:        GPLv3+
 URL:            https://octave.sourceforge.io/%{octpkg}
@@ -75,6 +75,13 @@ popd
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 08 2020 Colin B. Macdonald <cbm@m.fsf.org> - 2.9.0-1
 - Update to 2.9.0 (bugz#1797854)
 

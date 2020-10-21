@@ -2,8 +2,8 @@
 %bcond_without perl_IO_Compress_Lzma_enables_optional_test
 
 Name:		perl-IO-Compress-Lzma
-Version:	2.093
-Release:	4%{?dist}
+Version:	2.096
+Release:	1%{?dist}
 Summary:	Read and write lzma compressed data
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/IO-Compress-Lzma
@@ -65,9 +65,9 @@ compressed data created with the lzma library.
 %prep
 %setup -q -n IO-Compress-Lzma-%{version}
 
-# Remove bundled modules
-rm -r t/Test
-perl -i -ne 'print $_ unless m{^/t/Test/}' MANIFEST
+# Remove bundled test modules
+rm -rv t/Test/
+perl -i -ne 'print $_ unless m{^t/Test/}' MANIFEST
 
 # Remove spurious exec permissions
 chmod -c -x examples/*
@@ -99,6 +99,19 @@ make test COMPRESS_ZLIB_RUN_MOST=1
 %{_mandir}/man3/IO::Uncompress::UnXz.3*
 
 %changelog
+* Sat Aug  1 2020 Paul Howarth <paul@city-fan.org> - 2.096-1
+- Update to 2.096
+  - Add test for Zip with XZ compression
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.095-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Paul Howarth <paul@city-fan.org> - 2.095-1
+- Update to 2.095 (no changes)
+
+* Tue Jul 14 2020 Paul Howarth <paul@city-fan.org> - 2.094-1
+- Update to 2.094 (no changes)
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.093-4
 - Perl 5.32 rebuild
 

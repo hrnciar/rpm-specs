@@ -3,9 +3,9 @@
 Summary: Secure imap and pop3 server
 Name: dovecot
 Epoch: 1
-Version: 2.3.10.1
+Version: 2.3.11.3
 %global prever %{nil}
-Release: 1%{?dist}
+Release: 5%{?dist}
 #dovecot itself is MIT, a few sources are PD, pigeonhole is LGPLv2
 License: MIT and LGPLv2
 
@@ -13,7 +13,7 @@ URL: http://www.dovecot.org/
 Source: http://www.dovecot.org/releases/2.3/%{name}-%{version}%{?prever}.tar.gz
 Source1: dovecot.init
 Source2: dovecot.pam
-%global pigeonholever 0.5.10
+%global pigeonholever 0.5.11
 Source8: http://pigeonhole.dovecot.org/releases/2.3/dovecot-2.3-pigeonhole-%{pigeonholever}.tar.gz
 Source9: dovecot.sysconfig
 Source10: dovecot.tmpfilesd
@@ -32,6 +32,9 @@ Patch6: dovecot-2.1.10-waitonline.patch
 Patch8: dovecot-2.2.20-initbysystemd.patch
 Patch9: dovecot-2.2.22-systemd_w_protectsystem.patch
 Patch10: dovecot-2.3.0.1-libxcrypt.patch
+Patch12: dovecot-2.3.11.3-ftbfs1.patch
+Patch13: dovecot-2.3.11.3-ftbfs2.patch
+Patch14: dovecot-2.3.11.3-gssapi.patch
 
 Source15: prestartscript
 
@@ -39,19 +42,16 @@ BuildRequires: gcc, gcc-c++, openssl-devel, pam-devel, zlib-devel, bzip2-devel, 
 BuildRequires: libtool, autoconf, automake, pkgconfig
 BuildRequires: sqlite-devel
 BuildRequires: libpq-devel
-%if %{?fedora}0 < 280
-BuildRequires: mysql-devel
-BuildRequires: tcp_wrappers-devel
-%else
 BuildRequires: mariadb-connector-c-devel
 BuildRequires: libxcrypt-devel
-%endif
 BuildRequires: openldap-devel
 BuildRequires: krb5-devel
 BuildRequires: quota-devel
 BuildRequires: xz-devel
 BuildRequires: lz4-devel
+BuildRequires: libzstd-devel
 BuildRequires: libsodium-devel
+BuildRequires: libicu-devel
 BuildRequires: libexttextcat-devel
 BuildRequires: libstemmer-devel
 
@@ -64,31 +64,16 @@ Requires: openssl >= 0.9.7f-4
 
 # Package includes an initscript service file, needs to require initscripts package
 Requires(pre): shadow-utils
-%if %{?fedora}0 > 140 || %{?rhel}0 > 60
 Requires: systemd
 Requires(post): systemd-units
 Requires(preun): systemd-units
 Requires(postun): systemd-units
-%else
-Requires: initscripts
-Requires(post): chkconfig
-Requires(preun): chkconfig initscripts
-Requires(postun): initscripts
-%endif
 
-%if %{?fedora}0 > 150 || %{?rhel}0 >60
-#clucene in fedora <=15 and rhel<=6 is too old
 BuildRequires: clucene-core-devel
-%endif
 
 %global ssldir %{_sysconfdir}/pki/%{name}
 
-%if %{?fedora}00%{?rhel} < 6
-%global _initddir %{_initrddir}
-BuildRequires: curl-devel expat-devel
-%else
 BuildRequires: libcurl-devel expat-devel
-%endif
 
 %global restart_flag /run/%{name}/%{name}-restart-after-rpm-install
 
@@ -134,21 +119,24 @@ This package provides the development files for dovecot.
 %patch8 -p1 -b .initbysystemd
 %patch9 -p1 -b .systemd_w_protectsystem
 #%patch10 -p1 -b .libxcrypt
+%patch12 -p1 -b .ftbfs1
+%patch13 -p1 -b .ftbfs2
+%patch14 -p1 -b .gssapi
 
 #pushd dovecot-2*3-pigeonhole-%{pigeonholever}
 #popd
 sed -i '/DEFAULT_INCLUDES *=/s|$| '"$(pkg-config --cflags libclucene-core)|" src/plugins/fts-lucene/Makefile.in
 
 %build
+# This package references hidden symbols during an LTO link.  This needs further
+# investigation.  Until then, disable LTO
+%define _lto_cflags %{nil}
 #required for fdpass.c line 125,190: dereferencing type-punned pointer will break strict-aliasing rules
 %global _hardened_build 1
 export CFLAGS="%{__global_cflags} -fno-strict-aliasing -fstack-reuse=none"
 export LDFLAGS="-Wl,-z,now -Wl,-z,relro %{?__global_ldflags}"
-# el6 autoconf too old to regen; use packaged files (#1082384)
-%if %{?fedora}00%{?rhel} > 6
 mkdir -p m4
 autoreconf -I . -fiv #required for aarch64 support
-%endif
 %configure                       \
     INSTALL_DATA="install -c -p -m644" \
     --docdir=%{_docdir}/%{name}  \
@@ -164,19 +152,14 @@ autoreconf -I . -fiv #required for aarch64 support
     --with-mysql                 \
     --with-sqlite                \
     --with-zlib                  \
+    --with-zstd                  \
     --with-libcap                \
-%if %{?fedora}0 < 280
-    --with-libwrap               \
-%endif
-%if %{?fedora}0 > 150 || %{?rhel}0 >60
+    --with-icu                   \
     --with-lucene                \
-%endif
     --with-ssl=openssl           \
     --with-ssldir=%{ssldir}      \
     --with-solr                  \
-%if %{?fedora}0 > 140 || %{?rhel}0 > 60
     --with-systemdsystemunitdir=%{_unitdir}  \
-%endif
     --with-docs
 
 sed -i 's|/etc/ssl|/etc/pki/dovecot|' doc/mkcert.sh doc/example-config/conf.d/10-ssl.conf
@@ -216,11 +199,6 @@ mv $RPM_BUILD_ROOT/%{_docdir}/%{name} $RPM_BUILD_ROOT/%{_docdir}/%{name}-pigeonh
 install -m 644 AUTHORS ChangeLog COPYING COPYING.LGPL INSTALL NEWS README $RPM_BUILD_ROOT/%{_docdir}/%{name}-pigeonhole
 popd
 
-
-%if %{?fedora}00%{?rhel} < 6
-sed -i 's|password-auth|system-auth|' %{SOURCE2}
-%endif
-
 install -p -D -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/dovecot
 
 #install man pages
@@ -237,12 +215,7 @@ chmod 600 $RPM_BUILD_ROOT%{ssldir}/certs/dovecot.pem
 touch $RPM_BUILD_ROOT%{ssldir}/private/dovecot.pem
 chmod 600 $RPM_BUILD_ROOT%{ssldir}/private/dovecot.pem
 
-%if %{?fedora}0 > 140 || %{?rhel}0 > 60
 install -p -D -m 644 %{SOURCE10} $RPM_BUILD_ROOT%{_tmpfilesdir}/dovecot.conf
-%else
-install -p -D -m 755 %{SOURCE1} $RPM_BUILD_ROOT%{_initddir}/dovecot
-install -p -D -m 600 %{SOURCE9} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/dovecot
-%endif
 
 mkdir -p $RPM_BUILD_ROOT/run/dovecot/{login,empty,token-login}
 
@@ -282,23 +255,14 @@ useradd -r -g dovenull -d /usr/libexec/dovecot -s /sbin/nologin -c "Dovecot's un
 # do not let dovecot run during upgrade rhbz#134325
 if [ "$1" = "2" ]; then
   rm -f %restart_flag
-%if %{?fedora}0 > 140 || %{?rhel}0 > 60
   /bin/systemctl is-active %{name}.service >/dev/null 2>&1 && touch %restart_flag ||:
   /bin/systemctl stop %{name}.service >/dev/null 2>&1
-%else
-  /sbin/service %{name} status >/dev/null 2>&1 && touch %restart_flag ||:
-  /sbin/service %{name} stop >/dev/null 2>&1
-%endif
 fi
 
 %post
 if [ $1 -eq 1 ]
 then
-%if %{?fedora}0 > 140 || %{?rhel}0 > 60
   %systemd_post dovecot.service
-%else
-  /sbin/chkconfig --add %{name}
-%endif
 fi
 
 install -d -m 0755 -g dovecot -d /run/dovecot
@@ -309,27 +273,16 @@ install -d -m 0750 -g dovenull -d /run/dovecot/token-login
 
 %preun
 if [ $1 = 0 ]; then
-%if %{?fedora}0 > 140 || %{?rhel}0 > 60
         /bin/systemctl disable dovecot.service dovecot.socket >/dev/null 2>&1 || :
         /bin/systemctl stop dovecot.service dovecot.socket >/dev/null 2>&1 || :
-%else
-    /sbin/service %{name} stop > /dev/null 2>&1
-    /sbin/chkconfig --del %{name}
-%endif
     rm -rf /run/dovecot
 fi
 
 %postun
-%if %{?fedora}0 > 140 || %{?rhel}0 > 60
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-%endif
 
 if [ "$1" -ge "1" -a -e %restart_flag ]; then
-%if %{?fedora}0 > 140 || %{?rhel}0 > 60
     /bin/systemctl start dovecot.service >/dev/null 2>&1 || :
-%else
-    /sbin/service %{name} start >/dev/null 2>&1 || :
-%endif
 rm -f %restart_flag
 fi
 
@@ -337,11 +290,7 @@ fi
 # dovecot should be started again in %%postun, but it's not executed on reinstall
 # if it was already started, restart_flag won't be here, so it's ok to test it again
 if [ -e %restart_flag ]; then
-%if %{?fedora}0 > 140 || %{?rhel}0 > 60
     /bin/systemctl start dovecot.service >/dev/null 2>&1 || :
-%else
-    /sbin/service %{name} start >/dev/null 2>&1 || :
-%endif
 rm -f %restart_flag
 fi
 
@@ -360,15 +309,10 @@ make check
 %{_bindir}/dovecot-sysreport
 
 
-%if %{?fedora}0 > 140 || %{?rhel}0 > 60
 %_tmpfilesdir/dovecot.conf
 %{_unitdir}/dovecot.service
 %{_unitdir}/dovecot-init.service
 %{_unitdir}/dovecot.socket
-%else
-%{_initddir}/dovecot
-%attr(0600,root,root) %config(noreplace) %{_sysconfdir}/sysconfig/dovecot
-%endif
 
 %dir %{_sysconfdir}/dovecot
 %dir %{_sysconfdir}/dovecot/conf.d
@@ -501,6 +445,35 @@ make check
 %{_libdir}/%{name}/dict/libdriver_pgsql.so
 
 %changelog
+* Wed Sep 02 2020 Michal Hlavinka <mhlavink@redhat.com> - 1:2.3.11.3-5
+- fix gssapi issue
+
+* Wed Aug 26 2020 Michal Hlavinka <mhlavink@redhat.com> - 1:2.3.11.3-4
+- fix FTBFS on 32bit systems
+
+* Mon Aug 17 2020 Jeff Law <law@redhat.com> - 1:2.3.11.3-2
+- Disable LTO
+
+* Sat Aug 15 2020 Michal Hlavinka <mhlavink@redhat.com> - 1:2.3.11.3-1
+- CVE-2020-12100: Parsing mails with a large number of MIME parts could
+  have resulted in excessive CPU usage or a crash due to running out of
+  stack memory.
+- CVE-2020-12673: Dovecot's NTLM implementation does not correctly check
+  message buffer size, which leads to reading past allocation which can
+  lead to crash.
+- CVE-2020-10967: lmtp/submission: Issuing the RCPT command with an
+  address that has the empty quoted string as local-part causes the lmtp
+  service to crash.
+- CVE-2020-12674: Dovecot's RPA mechanism implementation accepts
+  zero-length message, which leads to assert-crash later on.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.3.10.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.3.10.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Michal Hlavinka <mhlavink@redhat.com> - 1:2.3.10.1-1
 - dovecot updated to 2.3.10.1
 - fixes CVE-2020-10967, CVE-2020-10958, CVE-2020-10957

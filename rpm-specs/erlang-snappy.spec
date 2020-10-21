@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	1.1.1
-Release:	0.17.git348da43%{?dist}
+Release:	0.19.git348da43%{?dist}
 Summary:	An Erlang NIF wrapper for Google's snappy library
 License:	ASL 2.0
 URL:		https://github.com/%{upstream}/%{realname}-erlang-nif
@@ -51,6 +51,13 @@ rm -rf c_src/snappy
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-0.19.git348da43
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-0.18.git348da43
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-0.17.git348da43
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

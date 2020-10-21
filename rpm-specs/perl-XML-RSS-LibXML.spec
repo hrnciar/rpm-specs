@@ -1,6 +1,6 @@
 Name:           perl-XML-RSS-LibXML
 Version:        0.3105
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        XML::RSS with XML::LibXML
 License:        GPL+ or Artistic
 
@@ -52,6 +52,9 @@ TEST_POD=yep ./Build test
 %{_mandir}/man3/XML*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3105-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.3105-16
 - Perl 5.32 rebuild
 

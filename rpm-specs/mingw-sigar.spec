@@ -5,7 +5,7 @@
 
 Name:		mingw-%{shortname}
 Version:	1.6.5
-Release:	0.23.git58097d9%{?dist}
+Release:	0.24.git58097d9%{?dist}
 Summary:	MinGW Windows sigar library
 
 %global sigar_suffix  0-g4b67f57
@@ -96,6 +96,9 @@ popd
 %{mingw32_includedir}/sigar*.h
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.5-0.24.git58097d9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.5-0.23.git58097d9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

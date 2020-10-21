@@ -65,7 +65,7 @@
 
 
 Name:		erlang
-Version:	23.0.2
+Version:	23.1.1
 Release:	1%{?dist}
 Summary:	General-purpose programming language and runtime environment
 
@@ -1955,6 +1955,21 @@ useradd -r -g epmd -d /dev/null -s /sbin/nologin \
 
 
 %changelog
+* Sat Oct  3 2020 Peter Lemenkov <lemenkov@gmail.com> - 23.1.1-1
+- Ver. 23.1.1
+
+* Tue Sep 15 2020 Peter Lemenkov <lemenkov@gmail.com> - 23.0.4-1
+- Ver. 23.0.4
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 23.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Peter Lemenkov <lemenkov@gmail.com> - 23.0.3-1
+- Ver. 23.0.3
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 23.0.2-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu May 28 2020 Peter Lemenkov <lemenkov@gmail.com> - 23.0.2-1
 - Ver. 23.0.2
 

@@ -6,7 +6,7 @@
 
 Name:           alsa-plugins
 Version:        1.2.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        The Advanced Linux Sound Architecture (ALSA) Plugins
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 # pph plugin is BSD-like licensed
@@ -256,6 +256,13 @@ find %{buildroot} -name "*.la" -exec rm {} \;
 
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 19 2020 Jaroslav Kysela <perex@perex.cz> - 1.2.2-1
 - Updated to 1.2.2
 

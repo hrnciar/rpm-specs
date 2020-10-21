@@ -1,24 +1,28 @@
-# [Fedora] Turn off the brp-python-bytecompile script
-%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
-#global	prerelease	beta2
+# Force out of source build
+%undefine __cmake_in_source_build
+
+#global	prerelease	rc1
 
 Name:		luxcorerender
-Version:	2.3
-Release:	%{?prerelease:0.}4%{?prerelease}%{?dist}
+Version:	2.4
+Release:	%{?prerelease:0.}3%{?prerelease}%{?dist}
 Summary:	LuxCore Renderer, an unbiased rendering system
 
 License:	ASL 2.0
 URL:		http://www.luxcorerender.org
 Source0:	https://github.com/%{name}/LuxCore/archive/%{name}_v%{version}%{?prerelease}.tar.gz
 Source1:	https://github.com/%{name}/BlendLuxCore/archive/blendluxcore_v%{version}%{?prerelease}.tar.gz
-Source3:	blender-%{name}.metainfo.xml
+# https://github.com/LuxCoreRender/BlendLuxCore/issues/567
+Source3:	com.github.%{name}.blendluxcore.metainfo.xml
 
 # add python build dependency
 Patch0:	LuxCore-boost-python3.patch
-# drop eos portable archiver (Manjaro)
-Patch1:	boost016900_serialization.patch
 # Unbundle
-Patch2:	LuxCore-unbundle.patch
+Patch1:	LuxCore-unbundle.patch
+# Use C++ Standard 14
+# Changed all uses of the boost.bind placeholders to use the boost::placeholders namespace
+# https://github.com/LuxCoreRender/LuxCore/issues/449
+Patch2:	LuxCore-use-cxx-standard-14.patch
 
 # Upstream only uses 64 bit archtecture
 ExclusiveArch:	x86_64
@@ -32,10 +36,8 @@ BuildRequires:	doxygen
 BuildRequires:	flex
 BuildRequires:	gcc-c++
 BuildRequires:	libappstream-glib
-BuildRequires:	pyside2-tools
 
 BuildRequires:	boost-python3-devel
-BuildRequires:	eigen3-devel
 BuildRequires:	embree-devel
 BuildRequires:	freeimage-devel
 BuildRequires:	json-devel
@@ -44,6 +46,7 @@ BuildRequires:	opensubdiv-devel
 BuildRequires:	openvdb-devel
 BuildRequires:	pkgconfig(blosc)
 BuildRequires:	pkgconfig(glfw3)
+BuildRequires:	pkgconfig(eigen3)
 BuildRequires:	pkgconfig(gtk+-3.0)
 BuildRequires:	pkgconfig(libcdio)
 BuildRequires:	pkgconfig(libjpeg)
@@ -53,7 +56,8 @@ BuildRequires:	pkgconfig(OpenEXR)
 BuildRequires:	pkgconfig(OpenImageIO)
 BuildRequires:	pkgconfig(python3)
 BuildRequires:	pkgconfig(tbb)
-BuildRequires:	python3-pillow-devel
+BuildRequires:	python3dist(pillow)
+BuildRequires:	python3dist(pyside2)
 %{!?_without_opencl:
 BuildRequires:	pkgconfig(ocl-icd)
 BuildRequires:	opencl-headers
@@ -63,9 +67,6 @@ BuildRequires:	opencl-headers
 Requires:	%{name}-core = %{version}-%{release}
 Obsoletes:	LuxRender < 2.0
 Provides:	LuxRender = 2.0
-
-# Use python dependency generator
-%{?python_enable_dependency_generator}
 
 %description
 LuxCoreRender is a rendering system for physically correct image synthesis.
@@ -122,7 +123,6 @@ The python3-%{name} contains Python 3 API for the library.
 %setup -q -T -D -a 1 -n LuxCore-%{name}_v%{version}%{?prerelease}
 
 # Fix bundled deps
-#rm -rf deps/{eigen-*,json-*,opensubdiv-*,openvdb-*}
 rm -rf pywheel pyunittests
 rm -rf samples/luxcoreui/deps/glfw-*
 # keep imgui-1.46 nfd bundled for now
@@ -131,8 +131,6 @@ rm -rf samples/luxcoreui/deps/glfw-*
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" .
 
 %build
-mkdir -p build
-cd build
 #Building lux
 %cmake \
 	-DBUILD_SHARED_LIBS=ON \
@@ -140,14 +138,14 @@ cd build
 	-DCMAKE_C_FLAGS="%{optflags} -Wl,--as-needed" \
 	-DCMAKE_CXX_FLAGS="%{optflags} -Wl,--as-needed" \
 	-DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
-	-DOpenGL_GL_PREFERENCE=LEGACY \
+	-DOpenGL_GL_PREFERENCE=GLVND \
 	-DPYTHON_V=%{python3_version_nodots} \
-	-DEMBREE_INCLUDE_PATH=%{_includedir}/libembree3 \
-	..
-%make_build
+	-DEMBREE_INCLUDE_PATH=%{_includedir}/libembree3
+
+%cmake_build
 
 %install
-pushd build
+pushd %{_vpath_builddir}
 mkdir -p %{buildroot}%{_bindir}
 mkdir -p %{buildroot}%{_datadir}/%{name}
 mkdir -p %{buildroot}%{_libdir}
@@ -181,13 +179,13 @@ done
 rm -fr %{buildroot}%{blender_addons}/%{name}/.gitignore
 
 # Metainfo for blender addon
-install -p -m 644 -D %{SOURCE3} %{buildroot}%{_metainfodir}/blender-%{name}.metainfo.xml
+install -p -m 644 -D %{SOURCE3} %{buildroot}%{_metainfodir}/com.github.%{name}.blendluxcore.metainfo.xml
 
 # We do not want static file .a
 rm -fr %{buildroot}%{_libdir}/*.a
 
 %check
-appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/blender-%{name}.metainfo.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/com.github.%{name}.blendluxcore.metainfo.xml
 
 %ldconfig_scriptlets
 
@@ -201,7 +199,7 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/blender-%{name
 # GPLv3
 %files -n blender-%{name}
 %doc README.md
-%{_datadir}/metainfo/blender-%{name}.metainfo.xml
+%{_metainfodir}/com.github.%{name}.blendluxcore.metainfo.xml
 %{blender_addons}/%{name}
 
 %files -n python3-%{name}
@@ -212,6 +210,37 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/blender-%{name
 %{_includedir}/{luxcore,luxrays,slg}
 
 %changelog
+* Thu Oct 01 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 2.4-3
+- Rebuild for blender 2.90.1
+
+* Mon Sep 14 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 2.4-2
+- Rebuild for blender 2.90.0 and oidn 1.2.3
+- Use C++14 standard
+- Patch for boost::placeholders namespace
+
+* Fri Sep 04 2020 Richard Shaw <hobbes1069@gmail.com> - 2.4-1.3
+- Rebuild for OpenImageIO 2.2.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-1.2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.4-1
+- Update to 2.4 final
+
+* Tue Jul 21 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.4-0.2rc1
+- Update to 2.4 rc1
+
+* Wed Jul 01 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.4-0.1beta1
+- Update to 2.4 beta1
+- Requires blender 2.83
+
+* Fri Jun 26 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 2.3-5
+- Rebuild for blender-2.83.1
+
 * Tue Jun 09 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 2.3-4
 - Rebuild for blender-2.83.0
 

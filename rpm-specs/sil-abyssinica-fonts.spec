@@ -1,5 +1,5 @@
 Version:        1.200
-Release:        19%{?dist}
+Release:        20%{?dist}
 
 %global foundry           SIL
 %global fontlicense       OFL
@@ -52,6 +52,9 @@ Source1:        66-%{fontpkgname}.conf
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.200-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Parag Nemade <pnemade AT redhat DOT com> - 1.200-19
 - Update fontconfig DTD id in conf file
 

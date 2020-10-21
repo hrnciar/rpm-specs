@@ -1,5 +1,5 @@
 Name:           galera
-Version:        26.4.4
+Version:        26.4.5
 Release:        2%{?dist}
 Summary:        Synchronous multi-master wsrep provider (replication engine)
 
@@ -47,7 +47,15 @@ replication engine see http://www.codership.com.
 #   --warn=all
 #   debug=0
 
+# Workaround for FTBFS on F33+
+#   https://bugzilla.redhat.com/show_bug.cgi?id=1863592
+# Reported upstream:
+#   https://github.com/codership/galera/issues/577
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+scons-3 %{?_smp_mflags} strict_build_flags=0
+%else
 scons-3 %{?_smp_mflags} strict_build_flags=1
+%endif
 
 %install
 install -D -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/garbd.service
@@ -56,7 +64,6 @@ install -D -m 755 garb/garbd %{buildroot}%{_sbindir}/garbd
 install -D -m 755 libgalera_smm.so %{buildroot}%{_libdir}/galera/libgalera_smm.so
 install -D -m 644 garb/files/garb.cnf %{buildroot}%{_sysconfdir}/sysconfig/garb
 install -D -m 644 COPYING %{buildroot}%{_docdir}/galera/COPYING
-install -D -m 644 chromium/LICENSE %{buildroot}%{_docdir}/galera/LICENSE.chromium
 install -D -m 644 asio/LICENSE_1_0.txt %{buildroot}%{_docdir}/galera/LICENSE.asio
 install -D -m 644 www.evanjones.ca/LICENSE %{buildroot}%{_docdir}/galera/LICENSE.crc32
 install -D -m 644 scripts/packages/README %{buildroot}%{_docdir}/galera/README
@@ -86,12 +93,27 @@ install -D -m 644 scripts/packages/README-MySQL %{buildroot}%{_docdir}/galera/RE
 %doc %{_docdir}/galera/COPYING
 %doc %{_docdir}/galera/LICENSE.asio
 %doc %{_docdir}/galera/LICENSE.crc32
-%doc %{_docdir}/galera/LICENSE.chromium
 %doc %{_docdir}/galera/README
 %doc %{_docdir}/galera/README-MySQL
 
 
 %changelog
+* Thu Sep 17 2020 Michal Schorm <mschorm@redhat.com> - 26.4.5-2
+- Extend the workaround also to ELN
+
+* Wed Sep 16 2020 Michal Schorm <mschorm@redhat.com> - 26.4.5-1
+- Rebase to 26.4.5
+
+* Wed Sep 16 2020 Michal Schorm <mschorm@redhat.com> - 26.4.4-5
+- Apply workaround for FTBFS on F33+
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 26.4.4-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 26.4.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 08 2020 Michal Schorm <mschorm@redhat.com> - 26.4.4-2
 - Second rebuild for Boost 1.73
 

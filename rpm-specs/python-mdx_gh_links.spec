@@ -3,7 +3,7 @@
 
 Name:           python-%{pypiname}
 Version:        0.2
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Python-Markdown Github-Links Extension
 
 License:        BSD
@@ -22,6 +22,7 @@ shorthand links to GitHub users, repositories, issues and commits.}
 %package -n python3-%{pypiname}
 Summary:        %{summary}
 BuildRequires:  python3-devel
+BuildRequires:  python3dist(setuptools)
 %{?python_provide:%python_provide python3-%{pypiname}}
 BuildRequires:  python3-markdown
 
@@ -47,6 +48,12 @@ BuildRequires:  python3-markdown
 %{python3_sitelib}/__pycache__/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Robin Lee <cheeselee@fedoraproject.org> - 0.2-3
+- BR python3dist(setuptools)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2-2
 - Rebuilt for Python 3.9
 

@@ -3,7 +3,7 @@
 
 Name:           gtkterm
 Version:        1.0
-Release:        0.6.git%{shortcommit}%{?dist}
+Release:        0.7.git%{shortcommit}%{?dist}
 Summary:        Serial port terminal
 License:        GPLv3+
 URL:            https://github.com/Jeija/gtkterm
@@ -59,6 +59,9 @@ install -p -m 644 icon/%{name}_small.png \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.7.git7b4076d
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.6.git7b4076d
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,14 +1,14 @@
 Name:           IQmol
-Version:        2.14.3
+Version:        2.15.0
 Release:        1%{?dist}
 Summary:        A free open-source molecular editor and visualization package
 License:        BSD and GPLv2+ and GPLv3+
 URL:            http://iqmol.org
-Source0:        https://github.com/nutjunkie/IQmol/archive/v%{version}/%{name}-%{version}.tar.gz
+Source0:        https://github.com/nutjunkie/IQmol/archive/%{version}/%{name}-%{version}.tar.gz
 # Build in Fedora
 Patch0:         IQmol-2.13-fedora.patch
 # Patch in correct fragment and QChem interface setting directory
-Patch1:         IQmol-2.14.0-fragdir.patch
+Patch1:         IQmol-2.15.0-fragdir.patch
 # Don't mess with OpenBabel's directories
 Patch4:         IQmol-2.13-openbabel.patch
 # Comment out broken Boost stuff
@@ -85,6 +85,12 @@ cp -pr share %{buildroot}%{_datadir}/IQmol
 %doc samples/*
 
 %changelog
+* Tue Aug 11 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.15.0-1
+- Update to 2.15.0.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.14.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 11 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 2.14.3-1
 - Update to 2.14.3.
 

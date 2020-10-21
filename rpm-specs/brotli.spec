@@ -1,11 +1,13 @@
 Name:           brotli
-Version:        1.0.7
-Release:        11%{?dist}
+Version:        1.0.9
+Release:        3%{?dist}
 Summary:        Lossless compression algorithm
 
 License:        MIT
 URL:            https://github.com/google/brotli
 Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
+
+Patch0:        09b0992b6acb7faa6fd3b23f9bc036ea117230fc.patch
 
 %if 0%{?rhel} == 7
 BuildRequires:  devtoolset-7-toolchain, devtoolset-7-libatomic-devel
@@ -62,7 +64,7 @@ It is similar in speed with deflate but offers more dense compression.
 This package installs the development files
 
 %prep
-%autosetup
+%autosetup -p1
 # fix permissions for -debuginfo
 # rpmlint will complain if I create an extra %%files section for
 # -debuginfo for this so we'll put it here instead
@@ -74,25 +76,21 @@ chmod 644 c/tools/brotli.c
 %if 0%{?rhel} == 7
 . /opt/rh/devtoolset-7/enable
 %endif
-mkdir -p build
-cd build
-%cmake .. -DCMAKE_INSTALL_PREFIX="%{_prefix}" \
+%cmake \
+    -DCMAKE_INSTALL_PREFIX="%{_prefix}" \
     -DCMAKE_INSTALL_LIBDIR="%{_libdir}"
-%make_build
-cd ..
+%cmake_build
 %py3_build
 
 %install
 %if 0%{?rhel} == 7
 . /opt/rh/devtoolset-7/enable
 %endif
-cd build
-%make_install
+%cmake_install
 
 # I couldn't find the option to not build the static libraries
 rm "%{buildroot}%{_libdir}/"*.a
 
-cd ..
 %py3_install
 install -dm755 "%{buildroot}%{_mandir}/man3"
 cd docs
@@ -106,10 +104,7 @@ done
 %if 0%{?rhel} == 7
 . /opt/rh/devtoolset-7/enable
 %endif
-cd build
-ctest -V
-cd ..
-%{__python3} setup.py test
+%ctest
 
 %files
 %{_bindir}/brotli
@@ -137,12 +132,32 @@ cd ..
 %{_libdir}/pkgconfig/libbrotlicommon.pc
 %{_libdir}/pkgconfig/libbrotlidec.pc
 %{_libdir}/pkgconfig/libbrotlienc.pc
+%{_mandir}/man3/constants.h.3brotli*
 %{_mandir}/man3/decode.h.3brotli*
 %{_mandir}/man3/encode.h.3brotli*
 %{_mandir}/man3/types.h.3brotli*
 
 
 %changelog
+* Thu Oct 01 2020 Travis Kendrick <pouar@pouar.net> - 1.0.9-3
+- Apparently %%autosetup calls %%patch on its own
+
+* Thu Oct 01 2020 Travis Kendrick <pouar@pouar.net> - 1.0.9-2
+- Fix pc file (#1884364)
+
+* Wed Sep 30 2020 Travis Kendrick <pouar@pouar.net> - 1.0.9-1
+- Update to 1.0.9 (#1872932)
+
+* Wed Aug 12 2020 Carl George <carl@george.computer> - 1.0.7-14
+- Update cmake invocation rhbz#1863298
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.7-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.7-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.7-11
 - Rebuilt for Python 3.9
 

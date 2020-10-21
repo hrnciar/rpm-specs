@@ -1,6 +1,6 @@
 Name:           jcip-annotations
 Version:        1
-Release:        28.20060626%{?dist}
+Release:        30.20060626%{?dist}
 Summary:        Java annotations for multithreaded software
 
 License:        CC-BY
@@ -75,6 +75,12 @@ cp -pr docs/* %{buildroot}%{_javadocdir}/%{name}
 %{_javadocdir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-30.20060626
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1-29.20060626
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat May 23 2020 Richard Fearn <richardfearn@gmail.com> - 1-28.20060626
 - Enable building with JDK 11: use source/target 1.8
 

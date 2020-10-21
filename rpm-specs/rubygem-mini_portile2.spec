@@ -2,7 +2,7 @@
 
 Name:		rubygem-%{gem_name}
 Version:	2.5.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 
 Summary:	Simplistic port-like solution for developers
 License:	MIT
@@ -86,6 +86,9 @@ popd
 %doc	%{gem_docdir}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 25 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 2.5.0-1
 - 2.5.0
 

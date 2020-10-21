@@ -6,7 +6,7 @@
 
 Name:           python-%{pkgname}
 Version:        3.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python library for piecewise linear interpolation in multiple dimensions
 
 License:        BSD
@@ -55,6 +55,9 @@ interpolating data related to fonts, but if can handle any arithmetic object.
 %{python3_sitelib}/%{srcname}-*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Athos Ribeiro <athoscr@fedoraproject.org> - 3.0.1-1
 - Update version
 

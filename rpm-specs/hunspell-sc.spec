@@ -2,7 +2,7 @@ Name: hunspell-sc
 Summary: Sardinian hunspell dictionaries
 %global upstreamid 20081101
 Version: 0.%{upstreamid}
-Release: 23%{?dist}
+Release: 24%{?dist}
 Source: https://ayera.dl.sourceforge.net/project/aoo-extensions/1446/2/dict_sc_it03.oxt
 URL: http://extensions.services.openoffice.org/project/Dict_sc
 #The license included is AGPLv3 and pkg-desc/pkg-description.txt
@@ -33,6 +33,9 @@ cp -p sc_it.dic $RPM_BUILD_ROOT/%{_datadir}/myspell/sc_IT.dic
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20081101-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20081101-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

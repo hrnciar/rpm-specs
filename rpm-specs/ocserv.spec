@@ -1,5 +1,4 @@
-# This spec file has been automatically updated
-Version:	1.1.0
+Version:	1.1.1
 Release: 2%{?dist}
 %global _hardened_build 1
 
@@ -58,6 +57,7 @@ BuildRequires:	gnutls-devel
 BuildRequires:	pam-devel
 BuildRequires:	iproute
 BuildRequires:	openconnect
+BuildRequires:  gnutls-utils
 
 %if (0%{?use_local_protobuf} == 0)
 BuildRequires:	protobuf-c-devel
@@ -92,7 +92,11 @@ BuildRequires:	systemd
 BuildRequires:	systemd-devel
 BuildRequires:	liboath-devel
 BuildRequires:	uid_wrapper
+# Disable socket_wrapper on certain architectures because it
+# introduces new syscalls that the worker cannot handle.
+%ifnarch aarch64 %{ix86} %{arm}
 BuildRequires:	socket_wrapper
+%endif
 BuildRequires:	gnupg2
 
 %if 0%{?rhel} && 0%{?rhel} >= 7
@@ -204,7 +208,7 @@ mkdir -p -m 700 %{_sysconfdir}/pki/ocserv/private
 mkdir -p %{_sysconfdir}/pki/ocserv/cacerts
 
 %check
-make check %{?_smp_mflags} XFAIL_TESTS=test-sighup-key-change
+make check %{?_smp_mflags} VERBOSE=1
 
 %if %{use_systemd}
 %post
@@ -281,6 +285,17 @@ install -D -m 0755 %{SOURCE11} %{buildroot}/%{_initrddir}/%{name}
 %endif
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 1.1.1-2
+- Rebuilt for protobuf 3.13
+
+* Mon Sep 21 2020 Nikos Mavrogiannopoulos <n.mavrogiannopoulos@gmail.com> - 1.1.1-1
+- Update to upstream 1.1.1 release
+- Set default priorities to NORMAL as using @SYSTEM is no longer necessary
+  to follow crypto policies.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Adrian Reber <adrian@lisas.de> - 1.1.0-2
 - Rebuilt for protobuf 3.12
 

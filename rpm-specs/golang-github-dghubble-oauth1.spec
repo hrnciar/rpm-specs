@@ -18,7 +18,7 @@ on his/her behalf.}
 %global godocs          examples README.md CHANGES.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Go OAuth1 library
 
 License:        MIT
@@ -49,6 +49,9 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 08 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.6.0-1
 - Initial package
 

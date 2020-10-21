@@ -4,7 +4,7 @@ Name:           linkchecker
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Version:        9.4.0
-Release:        10.20191005.%{shortcommit}%{?dist}
+Release:        11.20191005.%{shortcommit}%{?dist}
 Summary:        Check HTML documents for broken links
 License:        GPLv2
 URL:            https://linkcheck.github.io/linkchecker/
@@ -89,6 +89,9 @@ export PYTHONPATH=%{buildroot}%{python3_sitelib}
 %{_datadir}/linkchecker/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.4.0-11.20191005.d13b3f5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 9.4.0-10.20191005.d13b3f5
 - Rebuilt for Python 3.9
 

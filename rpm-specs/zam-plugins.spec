@@ -1,8 +1,11 @@
-%global gittag 3.12
+%global gittag 3.13
 %global dpf DPF
 
+# Disable lto
+%define _lto_cflags %{nil}
+
 # DPF git submodule
-%global commit1 68b3a57a78d814810972584ed571662fe5cfb8f0
+%global commit1 08669d1bc30c6e971fde800eade4ca40104ba8b2
 %global shortcommit1 %(c=%{commit1}; echo ${c:0:7})
 
 Name:           zam-plugins
@@ -56,28 +59,15 @@ rmdir dpf
 mv %{dpf}-%{commit1} dpf
 
 %build
-# These are realtime audio plugins, so we need the fastest possible math,
-# flags for x86_64 are set to be compatible with most AMD and Intel CPUs,
-# and to use the best possible SIMD instruction set.
-flags=" -ffast-math"
-
-%ifarch %{ix86}
-flags+=" -msse -mfpmath=sse"
-%endif
-
-%ifarch x86_64
-flags+=" -msse2 -mfpmath=sse"
-%endif
-
 %set_build_flags
-
-%make_build PREFIX=%{_prefix} LIBDIR=%{_lib} USE_SYSTEM_LIBS=1 \
- BASE_OPTS="${flags}" LINK_OPTS="%{__global_ldflags}"
+%make_build VERBOSE=true PREFIX=%{_prefix} LIBDIR=%{_lib} USE_SYSTEM_LIBS=1 SKIP_STRIPPING=true
 
 %install
-%make_install PREFIX=%{_prefix} LIBDIR=%{_lib} USE_SYSTEM_LIBS=1
+%make_install VERBOSE=true PREFIX=%{_prefix} LIBDIR=%{_lib} USE_SYSTEM_LIBS=1
 # We don't need VST and DSSI plugins
 rm -rf %{buildroot}%{_libdir}/vst %{buildroot}/*-dssi*
+# Remove executable bit from .ttl files
+chmod -x %{buildroot}%{_libdir}/lv2/*.lv2/*.ttl
 
 %files
 %{_bindir}/*
@@ -95,6 +85,17 @@ rm -rf %{buildroot}%{_libdir}/vst %{buildroot}/*-dssi*
 %doc README.md
 
 %changelog
+* Wed Aug 05 2020 Guido Aulisi <guido.aulisi@gmail.com> - 3.13-2
+- Fix FTBFS on f33
+- Disable lto
+- Some spec cleanup
+
+* Fri Jul 31 2020 Guido Aulisi <guido.aulisi@gmail.com> - 3.13-1
+- Version 3.13
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.12-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.12-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

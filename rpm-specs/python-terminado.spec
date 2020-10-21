@@ -3,13 +3,13 @@
 # python2-tornado package is too old on EPEL
 
 Name:           python-%{srcname}
-Version:        0.8.3
-Release:        3%{?dist}
+Version:        0.9.1
+Release:        1%{?dist}
 Summary:        Terminals served to term.js using Tornado websockets
 
 License:        BSD
 URL:            https://github.com/jupyter/terminado
-Source0:        https://github.com/jupyter/terminado/archive/v%{version}/%{srcname}-%{version}.tar.gz
+Source0:        https://github.com/jupyter/terminado/archive/%{version}/%{srcname}-%{version}.tar.gz
 
 BuildArch:      noarch
 
@@ -23,8 +23,8 @@ emulator library.
 Summary:        Terminals served to term.js using Tornado websockets
 BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-pip
-BuildRequires:  python%{python3_pkgversion}-flit
 BuildRequires:  python%{python3_pkgversion}-pygments
+BuildRequires:  python%{python3_pkgversion}-setuptools
 # For tests
 BuildRequires:  python%{python3_pkgversion}-nose
 BuildRequires:  python%{python3_pkgversion}-ptyprocess
@@ -45,13 +45,11 @@ emulator library.
 
 
 %build
-# this package has no setup.py, it uses flit
-export FLIT_NO_NETWORK=1
-flit build --format wheel
+%py3_build
+
 
 %install
-# We install the wheel created at %%build
-%py3_install_wheel %{srcname}-%{version}-py2.py3-none-any.whl
+%py3_install
 
 
 %check
@@ -63,10 +61,16 @@ flit build --format wheel
 %doc README.rst
 %license LICENSE
 %{python3_sitelib}/%{srcname}/
-%{python3_sitelib}/%{srcname}-%{version}.dist-info
+%{python3_sitelib}/%{srcname}-%{version}*.egg-info/
 
 
 %changelog
+* Sun Sep 20 2020 Orion Poplawski <orion@nwra.com> - 0.9.1-1
+- Update to 0.9.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.3-3
 - Rebuilt for Python 3.9
 

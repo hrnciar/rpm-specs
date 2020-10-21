@@ -1,6 +1,6 @@
 Name:           python-olefile
 Version:        0.46
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Python package to parse, read and write Microsoft OLE2 files
 
 %global         srcname         olefile
@@ -145,6 +145,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} tests/test_olefile.py
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.46-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Sandro Mani <manisandro@gmail.com> - 0.46-11
 - Build python2 subpackage on F33, python2-pillow is still around
 

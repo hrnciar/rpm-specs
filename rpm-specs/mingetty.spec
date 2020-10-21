@@ -2,7 +2,7 @@ Summary:    A compact getty program for virtual consoles only
 Name:       mingetty
 Version:    1.08
 License:    GPLv2+
-Release:    27%{?dist}
+Release:    28%{?dist}
 URL: http://sourceforge.net/projects/mingetty/
 Source: http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 # Bug #635412
@@ -46,6 +46,9 @@ install -m 0644 mingetty.8 $RPM_BUILD_ROOT/%{_mandir}/man8/
 %{_mandir}/man8/mingetty.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.08-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.08-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,14 +1,21 @@
 Summary:       Free Music Instrument Tuner
 Name:          fmit
-Version:       1.2.13
-Release:       2%{?dist}
+Version:       1.2.14
+Release:       1%{?dist}
 License:       GPLv2+ and LGPLv2+
 URL:           http://gillesdegottex.github.io/fmit/
 Source0:       https://github.com/gillesdegottex/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires: gcc-c++
 BuildRequires: libappstream-glib
-BuildRequires: qt5-devel
+BuildRequires: qt5-linguist
+BuildRequires: pkgconfig(Qt5Core)
+BuildRequires: pkgconfig(Qt5Gui)
+BuildRequires: pkgconfig(Qt5OpenGL)
+BuildRequires: pkgconfig(Qt5Multimedia)
+BuildRequires: pkgconfig(Qt5Svg)
+BuildRequires: pkgconfig(Qt5Widgets)
+BuildRequires: gettext
 BuildRequires: itstool
 BuildRequires: freeglut-devel
 BuildRequires: libXi-devel
@@ -70,6 +77,17 @@ rm -f %{buildroot}%{_datadir}/%{name}/tr/*.ts
 
 
 %changelog
+* Mon Aug 03 2020 Damian Wrobel <dwrobel@ertelnet.rybnik.pl> - 1.2.14-1
+- Fix BuildRequires for qt5 (rhbz#1863573)
+- Update to the latest available version
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.13-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.13-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.13-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,8 +1,8 @@
 %global srcname bloom
 
 Name:           python-%{srcname}
-Version:        0.9.7
-Release:        2%{?dist}
+Version:        0.10.0
+Release:        1%{?dist}
 Summary:        Bloom is a release automation tool
 
 License:        BSD
@@ -114,6 +114,15 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} \
 
 
 %changelog
+* Wed Sep 30 2020 Scott K Logan <logans@cottsay.net> - 0.10.0-1
+- Update to 0.10.0 (rhbz#1883375)
+
+* Mon Aug 24 2020 Scott K Logan <logans@cottsay.net> - 0.9.8-1
+- Update to 0.9.8 (rhbz#1871325)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.7-2
 - Rebuilt for Python 3.9
 

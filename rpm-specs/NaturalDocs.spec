@@ -1,6 +1,6 @@
 Name:           NaturalDocs
 Version:        1.52
-Release:        18%{?dist}
+Release:        20%{?dist}
 Summary:        Documentation generator for multiple programming languages
 
 License:        GPLv2+
@@ -74,6 +74,12 @@ install -pm 755 NaturalDocs %{buildroot}%{_bindir}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.52-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.52-19
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.52-18
 - Perl 5.32 rebuild
 

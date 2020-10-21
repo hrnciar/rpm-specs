@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        1.1.0
-Release:        7%{?dist}
+Release:        10%{?dist}
 Summary:        Cross-shell customizable powerline-like prompt with icons
 
 # Upstream license specification: Unlicense
@@ -19,8 +19,10 @@ Source:         %{crates_source}
 # * Bump to hostname 0.3, humantime 2, https://github.com/reujab/silver/pull/24
 # * Drop yaml feature from clap, https://github.com/reujab/silver/pull/24
 # * Update users to 0.10, https://github.com/reujab/silver/pull/32
+# * Update rust-ini to 0.15, https://github.com/reujab/silver/commit/276ad67
 Patch0:         silver-fix-metadata.diff
 Patch1:         0001-Bump-hostname-dependency.patch
+Patch2:         0002-Bump-rust-ini-dependency.patch
 
 ExclusiveArch:  %{rust_arches}
 
@@ -65,6 +67,15 @@ License:        Unlicense and MIT
 %endif
 
 %changelog
+* Tue Sep 29 2020 Fabio Valentini <decathorpe@gmail.com> - 1.1.0-10
+- Port to rust-ini 0.15.
+
+* Sun Aug 16 15:01:43 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.1.0-9
+- Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 11:37:37 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.1.0-7
 - Update users to 0.10
 

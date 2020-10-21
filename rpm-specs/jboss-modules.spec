@@ -1,61 +1,60 @@
-%global namedreltag .Final
-%global namedversion %{version}%{?namedreltag}
-
-Name:             jboss-modules
-Version:          1.5.2
-Release:          8%{?dist}
-Summary:          A Modular Classloading System
+Name:           jboss-modules
+Version:        1.5.2
+Release:        12%{?dist}
+Summary:        Modular Classloading System
 # XPP3 License: src/main/java/org/jboss/modules/xml/MXParser.java
 #  src/main/java/org/jboss/modules/xml/XmlPullParser.java
 #  src/main/java/org/jboss/modules/xml/XmlPullParserException.java
-License:          ASL 2.0 and xpp
-URL:              https://github.com/jbossas/jboss-modules
-Source0:          https://github.com/jbossas/jboss-modules/archive/%{namedversion}/%{name}-%{namedversion}.tar.gz
+License:        ASL 2.0 and xpp
 
-BuildArch:        noarch
+%global namedreltag .Final
+%global namedversion %{version}%{?namedreltag}
 
-BuildRequires:    maven-local
-BuildRequires:    mvn(junit:junit)
-BuildRequires:    mvn(org.jboss:jboss-parent:pom:)
-BuildRequires:    mvn(org.jboss.shrinkwrap:shrinkwrap-impl-base)
-%if 0%{?fedora}
-BuildRequires:    graphviz
-BuildRequires:    mvn(jdepend:jdepend)
-BuildRequires:    mvn(org.jboss.apiviz:apiviz)
-%endif
+URL:            https://github.com/jbossas/jboss-modules
+Source0:        %{url}/archive/%{namedversion}/%{name}-%{namedversion}.tar.gz
+
+BuildArch:      noarch
+
+BuildRequires:  maven-local
+BuildRequires:  mvn(junit:junit)
+BuildRequires:  mvn(org.jboss.shrinkwrap:shrinkwrap-impl-base)
+BuildRequires:  mvn(org.jboss:jboss-parent:pom:)
 
 %description
 Ths package contains A Modular Classloading System.
 
+
 %package javadoc
-Summary:          Javadoc for %{name}
+Summary:        Javadoc for %{name}
 
 %description javadoc
 This package contains the API documentation for %{name}.
 
+
 %prep
 %setup -q -n %{name}-%{namedversion}
 
-# Conditionally remove dependency on apiviz
-if [ %{?rhel} ]; then
-    %pom_remove_plugin :maven-javadoc-plugin
-fi
+# do not build custom Javadocs with apiviz doclet
+%pom_remove_plugin :maven-javadoc-plugin
 
-# Unneeded task
-%pom_remove_plugin :maven-source-plugin
-
-# Use not available org.wildfly.checkstyle:wildfly-checkstyle-config:1.0.4.Final
+# remove unnecessary maven plugins
 %pom_remove_plugin :maven-checkstyle-plugin
+%pom_remove_plugin :maven-source-plugin
 
 # Tries to connect to remote host
 rm src/test/java/org/jboss/modules/MavenResourceTest.java \
  src/test/java/org/jboss/modules/maven/MavenSettingsTest.java
 
+# remove test that's not ready for Java 9 Modules
+rm src/test/java/org/jboss/modules/JAXPModuleTest.java
+
 %build
 %mvn_build
 
+
 %install
 %mvn_install
+
 
 %files -f .mfiles
 %doc README.md
@@ -64,7 +63,22 @@ rm src/test/java/org/jboss/modules/MavenResourceTest.java \
 %files javadoc -f .mfiles-javadoc
 %license LICENSE.txt XPP3-LICENSE.txt
 
+
 %changelog
+* Mon Aug 17 2020 Fabio Valentini <decathorpe@gmail.com> - 1.5.2-12
+- Fix FTBFS issue on fedora 33+ (drop one test that's not ready for Java 11).
+- Drop custom apiviz doclet unconditionally (it's incompatible with Java 11).
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.5.2-9
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,9 +1,9 @@
 %global packname XML
-%global packver  3.99-0.3
+%global packver  3.99-0.5
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          3.99.0.3
+Version:          3.99.0.5
 Release:          2%{?dist}
 Summary:          Tools for Parsing and Generating XML Within R and S-Plus
 
@@ -68,7 +68,17 @@ rm -f %{buildroot}%{rlibdir}/R.css
 %{rlibdir}/%{packname}/scripts
 %{rlibdir}/%{packname}/FAQ.html
 
+
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.99.0.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 3.99.0.5-1
+- Update to latest version
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 3.99.0.4-1
+- Update to latest version
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 3.99.0.3-2
 - rebuild for R 4
 

@@ -2,7 +2,7 @@
 
 Name:             flent
 Version:          1.3.2
-Release:          4%{?dist}
+Release:          5%{?dist}
 Summary:          FLExible Network Tester for bufferbloat testing and more
 
 License:          GPLv3+
@@ -86,6 +86,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %doc doc/_build/html
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Toke Høiland-Jørgensen <toke@toke.dk> 1.3.2-4
 - Add python3-setuptools to BuildRequires
 

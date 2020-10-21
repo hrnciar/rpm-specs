@@ -15,7 +15,7 @@
 %define fish_dir %{_datadir}/fish/vendor_functions.d
 
 Name:    salt
-Version: 3001%{?__rc_ver}
+Version: 3001.1%{?__rc_ver}
 Release: 1%{?dist}
 Summary: A parallel remote execution system
 Group:   System Environment/Daemons
@@ -264,7 +264,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %{python3_sitelib}/%{name}/*
-%{python3_sitelib}/%{name}-*-py%{python3_version}.egg-info
+%{python3_sitelib}/%{name}-*-py?.?.egg-info
 %{_sysconfdir}/logrotate.d/salt
 %{_sysconfdir}/bash_completion.d/salt.bash
 %{_var}/cache/salt
@@ -453,6 +453,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jul 27 2020 SaltStack Packaging Team <packaging@saltstack.com> - 3001.1-1
+- Update to feature release 3001.1-1  for Python 3
+
 * Thu Jun 18 2020 SaltStack Packaging Team <packaging@saltstack.com.com> - 30001-1
 - Update to feature release 30001-1 for Python 3
 

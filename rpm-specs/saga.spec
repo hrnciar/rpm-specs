@@ -1,6 +1,6 @@
 Name:          saga
 Version:       7.6.1
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       Geographic information system with an API for processing geodata
 
 # libsaga_api is licensed under the terms of LGPLv2. So is one single
@@ -139,6 +139,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/org.saga
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.6.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 21 2020 Sandro Mani <manisandro@gmail.com> - 7.6.1-2
 - Rebuild (gdal)
 

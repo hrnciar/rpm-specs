@@ -16,7 +16,7 @@ in Unicode.\
 
 Name:           %{fontname}-fonts
 Version:        20181223
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Hinted and Non Hinted OpenType fonts for Unicode scripts
 License:        OFL
 URL:            https://github.com/googlei18n/noto-fonts/
@@ -681,6 +681,9 @@ done
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20181223-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20181223-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

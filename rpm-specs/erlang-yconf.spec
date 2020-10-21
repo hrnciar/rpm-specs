@@ -1,9 +1,9 @@
 %global srcname yconf
 
-%global fast_yaml_ver 1.0.22
+%global fast_yaml_ver 1.0.27
 
 Name:       erlang-%{srcname}
-Version:    1.0.2
+Version:    1.0.7
 Release:    1%{?dist}
 BuildArch:  noarch
 
@@ -41,10 +41,18 @@ YAML configuration processor.
 %files
 %license LICENSE
 %doc CHANGELOG.md
+%doc README.md
 %{erlang_appdir}
 
 
 %changelog
+* Fri Jul 31 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.7-1
+- Update to 1.0.7 (#1807249).
+- https://github.com/processone/yconf/blob/1.0.7/CHANGELOG.md
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.2-1
 - Update to 1.0.2 (#1789113).
 - https://github.com/processone/yconf/blob/1.0.2/CHANGELOG.md

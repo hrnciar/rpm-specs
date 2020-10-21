@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.1.7
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Macro that enables the use of custom derive attributes
 
 # Upstream license specification: MIT/Apache-2.0
@@ -88,6 +88,13 @@ grep -IUlr $'\r' | xargs sed -i 's/\r$//'
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.7-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.7-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.7-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

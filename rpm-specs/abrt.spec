@@ -43,19 +43,19 @@
     %define docdirversion -%{version}
 %endif
 
-%define libreport_ver 2.13.0
+%define libreport_ver 2.14.0
 %define satyr_ver 0.24
 
 Summary: Automatic bug detection and reporting tool
 Name: abrt
-Version: 2.14.2
+Version: 2.14.4
 Release: 3%{?dist}
 License: GPLv2+
 URL: https://abrt.readthedocs.org/
 Source: https://github.com/abrt/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 
-Patch0: 0001-applet-Pass-instance-pointer-to-signal-handler.patch
-Patch1: 0002-applet-Chain-up-in-dispose.patch
+Patch0: 0001-hooklib-Don-t-g_autofree-backtrace.patch
+Patch1: 0002-hooklib-Proper-freeing-of-backtrace.patch
 
 BuildRequires: git-core
 BuildRequires: %{dbus_devel}
@@ -82,6 +82,7 @@ BuildRequires: libselinux-devel
 BuildRequires: python3-devel
 BuildRequires: python3-systemd
 BuildRequires: python3-argcomplete
+BuildRequires: python3-dbus
 %endif
 
 Requires: libreport >= %{libreport_ver}
@@ -105,9 +106,6 @@ Requires: python3-dbus
 Requires: dmidecode
 %endif
 Requires: libreport-plugin-ureport
-%if 0%{?rhel}
-Requires: libreport-plugin-rhtsupport
-%endif
 %if 0%{?fedora}
 Requires: libreport-plugin-systemd-journal
 %endif
@@ -273,7 +271,8 @@ Summary: %{name}'s pstore oops addon
 Requires: %{name} = %{version}-%{release}
 Requires: abrt-libs = %{version}-%{release}
 Requires: abrt-addon-kerneloops
-Obsoletes: abrt-addon-uefioops
+Obsoletes: abrt-addon-uefioops <= 2.1.6
+Provides: abrt-addon-uefioops = %{version}-%{release}
 
 %description addon-pstoreoops
 This package contains plugin for collecting kernel oopses from pstore storage.
@@ -282,7 +281,7 @@ This package contains plugin for collecting kernel oopses from pstore storage.
 %package plugin-bodhi
 Summary: %{name}'s bodhi plugin
 Requires: %{name} = %{version}-%{release}
-Obsoletes: libreport-plugin-bodhi > 0.0.1
+Obsoletes: libreport-plugin-bodhi <= 2.0.10
 Provides: libreport-plugin-bodhi = %{version}-%{release}
 
 %description plugin-bodhi
@@ -359,10 +358,7 @@ Requires: abrt-addon-ccpp
 Requires: python3-abrt-addon
 %endif
 Requires: abrt-addon-xorg
-%if 0%{?rhel}
-Requires: libreport-rhel >= %{libreport_ver}
-Requires: libreport-plugin-rhtsupport >= %{libreport_ver}
-%else
+%if ! 0%{?rhel}
 %if %{with retrace}
 Requires: abrt-retrace-client
 %endif
@@ -402,10 +398,7 @@ Requires: abrt-addon-xorg
 Requires: gdb-headless
 Requires: abrt-gui
 Requires: gnome-abrt
-%if 0%{?rhel}
-Requires: libreport-rhel >= %{libreport_ver}
-Requires: libreport-plugin-rhtsupport >= %{libreport_ver}
-%else
+%if ! 0%{?rhel}
 %if %{with retrace}
 Requires: abrt-retrace-client
 %endif
@@ -505,9 +498,6 @@ CFLAGS="%{optflags} -Werror" %configure \
 %if %{without retrace}
         --without-retrace \
 %endif
-%if 0%{?rhel}
-        --enable-authenticated-autoreporting \
-%endif
 %ifnarch %{arm}
         --enable-native-unwinder \
 %endif
@@ -560,6 +550,7 @@ make check|| {
     # find and print the logs of failed test
     # do not cat tests/testsuite.log because it contains a lot of bloat
     find tests/testsuite.dir -name "testsuite.log" -print -exec cat '{}' \;
+    cat src/cli/test-suite.log
     exit 1
 }
 
@@ -575,10 +566,12 @@ exit 0
 %systemd_post abrtd.service
 
 %post addon-ccpp
-# this is required for transition from 1.1.x to 2.x
-# because /cache/abrt-di/* was created under root with root:root
-# so 2.x fails when it tries to extract debuginfo there..
-chown -R abrt:abrt %{_localstatedir}/cache/abrt-di
+# migration from 2.14.1.18
+if [ ! -e "%{_localstatedir}/cache/abrt-di/.migration-group-add" ]; then
+  chmod -R g+w %{_localstatedir}/cache/abrt-di
+  touch "%{_localstatedir}/cache/abrt-di/.migration-group-add"
+fi
+
 %systemd_post abrt-journal-core.service
 %journal_catalog_update
 
@@ -821,8 +814,8 @@ killall abrt-dbus >/dev/null 2>&1 || :
 
 %dir %{_localstatedir}/lib/abrt
 
-# attr(6755) ~= SETUID|SETGID
-%attr(6755, abrt, abrt) %{_libexecdir}/abrt-action-install-debuginfo-to-abrt-cache
+# attr(2755) ~= SETGID
+%attr(2755, abrt, abrt) %{_libexecdir}/abrt-action-install-debuginfo-to-abrt-cache
 
 %{_bindir}/abrt-action-analyze-c
 %{_bindir}/abrt-action-trim-files
@@ -1018,6 +1011,41 @@ killall abrt-dbus >/dev/null 2>&1 || :
 %config(noreplace) %{_sysconfdir}/profile.d/abrt-console-notification.sh
 
 %changelog
+* Tue Oct 13 2020 Matěj Grabovský <mgrabovs@redhat.com> - 2.14.4-3
+- Add upstream patch for an invalid read bug
+
+* Thu Sep 24 2020 Matěj Grabovský <mgrabovs@redhat.com> - 2.14.4-2
+- Add fix for https://bugzilla.redhat.com/show_bug.cgi?id=1881745
+
+* Mon Aug 17 2020 Michal Fabik <mfabik@redhat.com> - 2.14.4-1
+- Fix broken release 2.14.3
+- oops-utils: Respect the 'world-readable' flag
+- Decommission libreport_list_free_with_free
+
+* Thu Aug 13 2020 Michal Fabik <mfabik@redhat.com> - 2.14.3-1
+- plugins: abrt-dump-journal-core: Handle zstd compression
+- applet: application: Use GLib for logging
+- Replace various utility functions with stock GLib ones
+- Various coding style improvements
+- Update documentation
+- applet: application: Fix crash when processing deferred problems
+- dbus: Remove session objects when owner disconnects
+- python-problem: Use org.freedesktop.Problems2 API 
+- abrt-console-notification: Work around noclobber
+- daemon: rpm: Use NEVRA instead of ENVRA
+- abrtd: Don't delete new problem dirs
+- Make sure that former caches are group writable
+- Various memory management fixes
+
+* Thu Aug 13 2020 Adam Williamson <awilliam@redhat.com> - 2.14.2-6
+- Rebuild for libreport soname bump
+
+* Tue Jul 28 2020 - Ernestas Kulik <ekulik@redhat.com> - 2.14.2-5
+- Add patch for https://bugzilla.redhat.com/show_bug.cgi?id=1860903
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.14.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 2.14.2-3
 - Rebuilt for Python 3.9
 

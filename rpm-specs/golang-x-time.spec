@@ -4,14 +4,9 @@
 # https://github.com/golang/time
 %global goipath         golang.org/x/time
 %global forgeurl        https://github.com/golang/time
-%global commit          555d28b269f0569763d25dbe1a237ae74c6bcc82
+%global commit          3af7569d3a1e776fc2a3c1cec133b43105ea9c2e
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-golang-time-devel < 0-0.13
-}
 
 %global common_description %{expand:
 This library provides supplementary Go time packages.}
@@ -23,7 +18,7 @@ This library provides supplementary Go time packages.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.17%{?dist}
+Release:        0.19%{?dist}
 Summary:        Go supplementary time packages
 
 # Upstream license specification: BSD-3-Clause
@@ -53,6 +48,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Fri Aug 07 21:16:13 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.19.20200807git3af7569
+- Bump to commit 3af7569d3a1e776fc2a3c1cec133b43105ea9c2e
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 2020 Marc-André Lureau <marcandre.lureau@redhat.com> - 0-0.17.20200218git555d28b
 - Bump to commit 555d28b269f0569763d25dbe1a237ae74c6bcc82
 

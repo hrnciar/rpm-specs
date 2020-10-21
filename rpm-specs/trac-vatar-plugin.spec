@@ -2,7 +2,7 @@
 
 Name:           trac-vatar-plugin
 Version:        1.9
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Add gravatar icons to various points around trac
 
 License:        BSD
@@ -32,6 +32,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python2_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           ddpt
 Version:        0.96
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Variant of the dd utility for SCSI/storage devices
 
 License:        BSD
@@ -41,6 +41,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.96-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 09 2020 Dan Horák <dan[at]danny.cz> - 0.96-1
 - updated to 0.96 (#1590043)
 

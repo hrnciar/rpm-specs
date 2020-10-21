@@ -1,6 +1,6 @@
 Name:           ocaml-curl
 Version:        0.9.1
-Release:        3%{?dist}
+Release:        8%{?dist}
 Summary:        OCaml Curl library (ocurl)
 License:        MIT
 
@@ -42,7 +42,7 @@ find -type f | xargs chmod 0644
 chmod 0755 configure install-sh
 
 # Link with debuginfo and RPM_LD_FLAGS
-sed -i "s|\$(OCAMLMKLIB)|& -g -ldopt '$RPM_LD_FLAGS'|" Makefile.in
+sed -i "s|\$(OCAMLMKLIB)|& -g -ldopt '%build_ldflags'|" Makefile.in
 
 
 %build
@@ -53,7 +53,7 @@ unset MAKEFLAGS
 # /usr/bin/ld: /usr/lib64/ocaml/curl/libcurl-helper.a(curl-helper.o):
 # relocation R_X86_64_32S against `.rodata' can not be used when
 # making a shared object; recompile with -fPIC
-CFLAGS="%{optflags} -fPIC" \
+CFLAGS="%{build_cflags} -fPIC" \
 %configure --libdir=%{_libdir} --with-findlib
 
 make
@@ -61,8 +61,8 @@ make doc
 
 
 %install
-export DESTDIR=$RPM_BUILD_ROOT
-export OCAMLFIND_DESTDIR=$RPM_BUILD_ROOT%{_libdir}/ocaml
+export DESTDIR=%buildroot
+export OCAMLFIND_DESTDIR=%buildroot%{_libdir}/ocaml
 mkdir -p $OCAMLFIND_DESTDIR $OCAMLFIND_DESTDIR/stublibs
 make install
 
@@ -94,6 +94,21 @@ make -C examples clean
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.9.1-8
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.9.1-7
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Richard W.M. Jones <rjones@redhat.com> - 0.9.1-5
+- Rebuild to resolve build order symbol problems.
+
+* Wed Jun 17 2020 Jerry James <loganjerry@gmail.com> - 0.9.1-4
+- Rebuild for ocaml-lwt 5.3.0
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 0.9.1-3
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

@@ -1,6 +1,6 @@
 Name:           squirrel
 Version:        2.2.5
-Release:        18%{?dist}
+Release:        20%{?dist}
 Summary:        High level imperative/OO programming language
 
 License:        zlib
@@ -56,6 +56,7 @@ popd
 
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 pushd SQUIRREL2
 %configure --disable-static
 make %{?_smp_mflags}
@@ -88,6 +89,12 @@ rm $RPM_BUILD_ROOT%{_libdir}/*.la
 
 
 %changelog
+* Tue Oct 06 2020 Jeff Law <law@redhat.com> - 2.2.5-20
+- Force C++14 as this code is not C++17 ready
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.5-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.5-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

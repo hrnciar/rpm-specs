@@ -1,5 +1,5 @@
 Name:		unetbootin
-Version:	677
+Version:	681
 Release:	1%{?dist}
 Summary:	Create bootable Live USB drives for a variety of Linux distributions
 License:	GPLv2+
@@ -57,6 +57,12 @@ install -D -p -m 644 unetbootin_512.png %{buildroot}%{_datadir}/pixmaps/unetboot
 %{_datadir}/pixmaps/unetbootin.png
 
 %changelog
+* Mon Aug 24 2020 Filipe Rosset <rosset.filipe@gmail.com> - 681-1
+- Update to 681 version fixes rhbz#1846251
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 677-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 03 2020 Mohan Boddu <mboddu@bhujji.com> - 677-1
 - Rebuilt for 677 version
 

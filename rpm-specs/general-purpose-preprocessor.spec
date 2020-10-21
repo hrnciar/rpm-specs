@@ -1,7 +1,7 @@
 Summary: Customizable language-agnostic preprocessor
 Name: general-purpose-preprocessor
 Version: 2.24
-Release: 15%{?dist}
+Release: 16%{?dist}
 License: LGPLv2+
 URL: http://www.nothingisreal.com/gpp/
 Source0: http://www.nothingisreal.com/gpp/gpp-%{version}.tar.bz2
@@ -33,6 +33,9 @@ make
 %doc %{_mandir}/man1/gpp.1.*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.24-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.24-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

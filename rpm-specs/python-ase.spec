@@ -12,7 +12,7 @@ ase-3.16 requires numpy 1.9 or newer
 
 Name:			python-ase
 Version:		3.19.1
-Release:		2%{?dist}
+Release:		4%{?dist}
 Summary:		Atomic Simulation Environment
 
 
@@ -30,13 +30,14 @@ Patch1:			issues-580.diff
 
 BuildArch:		noarch
 
-BuildRequires:		python3-devel
 BuildRequires:		gettext
 BuildRequires:		desktop-file-utils
 
+BuildRequires:		python3-devel
 BuildRequires:		python3-numpy
 BuildRequires:		python3-pytest
 BuildRequires:		python3-scipy
+BuildRequires:		python3-setuptools
 
 %global _description\
 The Atomic Simulation Environment (ASE) is the common part of the simulation\
@@ -127,6 +128,12 @@ cd -
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.19.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Marcin Dulak <Marcin.Dulak@gmail.com> - 3.19.1-3
+- Add explicit python3-setuptools br
+
 * Mon May 11 2020 Marcin Dulak <Marcin.Dulak@gmail.com> - 3.19.1-2
 - Restore patch for Python 3.9 (#1792937)
 

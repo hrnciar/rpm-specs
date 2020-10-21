@@ -2,13 +2,13 @@
 
 Summary: An HTTP and WebDAV client library
 Name: neon
-Version: 0.31.1
-Release: 1%{?dist}
+Version: 0.31.2
+Release: 4%{?dist}
 License: LGPLv2+
 URL: https://notroj.github.io/neon/
 Source0: https://notroj.github.io/neon/neon-%{version}.tar.gz
 Patch0: neon-0.27.0-multilib.patch
-Patch1: neon-0.31.1-endian.patch
+Patch1: neon-0.31.2-lesstests.patch
 BuildRequires:  gcc-c++
 BuildRequires: expat-devel, openssl-devel, zlib-devel, krb5-devel, libproxy-devel
 BuildRequires: pkgconfig, pakchois-devel
@@ -38,7 +38,8 @@ The development library for the C language HTTP and WebDAV client library.
 %prep
 %setup -q
 %patch0 -p1 -b .multilib
-%patch1 -p1 -b .endian
+%patch1 -p1 -b .lesstests
+
 
 # prevent installation of HTML docs
 sed -ibak '/^install-docs/s/install-html//' Makefile.in
@@ -82,6 +83,19 @@ make %{?_smp_mflags} check
 %{_libdir}/*.so
 
 %changelog
+* Wed Aug 26 2020 Joe Orton <jorton@redhat.com> - 0.31.2-4
+- fix tests with current OpenSSL (#1863681)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.31.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.31.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Joe Orton <jorton@redhat.com> - 0.31.2-1
+- update to 0.31.2
+
 * Fri Apr 17 2020 Joe Orton <jorton@redhat.com> - 0.31.1-1
 - update to 0.31.1
 

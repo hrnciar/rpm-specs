@@ -2,7 +2,7 @@
 
 Summary:   Library for querying compressed XML metadata
 Name:      libxmlb
-Version:   0.1.15
+Version:   0.2.1
 Release:   1%{?dist}
 License:   LGPLv2+
 URL:       https://github.com/hughsie/libxmlb
@@ -13,7 +13,11 @@ BuildRequires: gtk-doc
 BuildRequires: libstemmer-devel
 BuildRequires: meson
 BuildRequires: gobject-introspection-devel
-BuildRequires: python-setuptools
+%if 0%{?rhel} == 7
+BuildRequires: python36-setuptools
+%else
+BuildRequires: python3-setuptools
+%endif
 
 # needed for the self tests
 BuildRequires: shared-mime-info
@@ -66,26 +70,50 @@ Executable and data files for installed tests.
 %license LICENSE
 %{_libexecdir}/xb-tool
 %dir %{_libdir}/girepository-1.0
-%{_libdir}/girepository-1.0/*.typelib
-%{_libdir}/libxmlb.so.1*
+%{_libdir}/girepository-1.0/Xmlb-2.0.typelib
+%{_libdir}/libxmlb.so.2*
 
 %files devel
 %dir %{_datadir}/gir-1.0
-%{_datadir}/gir-1.0/*.gir
+%{_datadir}/gir-1.0/Xmlb-2.0.gir
 %dir %{_datadir}/gtk-doc
 %dir %{_datadir}/gtk-doc/html
 %{_datadir}/gtk-doc/html/libxmlb
-%{_includedir}/libxmlb-1
+%{_includedir}/libxmlb-2
 %{_libdir}/libxmlb.so
 %{_libdir}/pkgconfig/xmlb.pc
 
 %files tests
+%dir %{_libexecdir}/installed-tests/libxmlb
 %{_libexecdir}/installed-tests/libxmlb/xb-self-test
-%{_datadir}/installed-tests/libxmlb/libxmlb.test
-%{_datadir}/installed-tests/libxmlb/test.xml.gz.gz.gz
+%{_libexecdir}/installed-tests/libxmlb/test.xml.gz.gz.gz
 %dir %{_datadir}/installed-tests/libxmlb
+%{_datadir}/installed-tests/libxmlb/libxmlb.test
 
 %changelog
+* Mon Sep 07 2020 Richard Hughes <richard@hughsie.com> 0.2.1-1
+- New upstream release
+- Do not assume g_content_type_guess() always returns valid results
+- Fix getting translated results in gnome-software
+- Update the header location to reflect the new API
+
+* Tue Aug 18 2020 Richard Hughes <richard@hughsie.com> 0.2.0-1
+- New upstream release which breaks API and ABI
+- Add the missing TEXT:INTE XPath support
+- Add variant of xb_silo_query_with_root() avoiding XbNode creation
+- Add XB_BUILDER_SOURCE_FLAG_WATCH_DIRECTORY flag
+- Allow specifying the node cache behaviour for the query
+- Avoid recursion when setting flags if possible
+- Avoid using weak pointers when building the silo
+- Do not allocate opcodes individually
+- Do not show a critical warning for invalid XML
+- Do not unconditionally create GTimer objects
+- Do not use the node cache when building indexes
+- Lazy load more arrays to reduce RSS usage
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.15-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 04 2020 Richard Hughes <richard@hughsie.com> 0.1.15-1
 - New upstream release
 - Add xb_builder_source_add_simple_adapter()

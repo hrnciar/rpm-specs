@@ -5,8 +5,8 @@
 %global crate zoxide
 
 Name:           rust-%{crate}
-Version:        0.4.1
-Release:        2%{?dist}
+Version:        0.4.3
+Release:        1%{?dist}
 Summary:        Faster way to navigate your filesystem
 
 # Upstream license specification: MIT
@@ -59,6 +59,15 @@ Recommends:     fzf
 %endif
 
 %changelog
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 0.4.3-1
+- Update to 0.4.3
+
+* Sun Aug 16 15:02:00 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.4.1-4
+- Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 07 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.4.1-2
 - Recommends: fzf
 

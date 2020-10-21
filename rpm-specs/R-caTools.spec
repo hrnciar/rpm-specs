@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          1.18.0
-Release:          2%{?dist}
+Release:          3%{?dist}
 Summary:          Tools: moving window statistics, GIF, Base64, ROC AUC, etc.
 
 License:          GPLv3
@@ -64,6 +64,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun  6 2020 Tom Callaway <spot@fedoraproject.org> - 1.18.0-2
 - rebuild for R 4
 

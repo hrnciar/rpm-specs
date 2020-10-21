@@ -5,8 +5,8 @@
 
 Summary: Internationalized Domain Name support library
 Name: libidn
-Version: 1.35
-Release: 7%{?dist}
+Version: 1.36
+Release: 1%{?dist}
 URL: http://www.gnu.org/software/libidn/
 License: LGPLv2+ and GPLv3+ and GFDL
 Source0: http://ftp.gnu.org/gnu/libidn/libidn-%{version}.tar.gz
@@ -184,6 +184,18 @@ rm -rf $RPM_BUILD_ROOT%{_javadir}/libidn*.jar
 %endif
 
 %changelog
+* Tue Jul 28 2020 Miroslav Lichvar <mlichvar@redhat.com> - 1.36-1
+- update to 1.36
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.35-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.35-9
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jun 25 2020 Miroslav Lichvar <mlichvar@redhat.com> - 1.35-8
+- fix build with JDK11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.35-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

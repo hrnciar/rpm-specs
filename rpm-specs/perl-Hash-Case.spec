@@ -2,7 +2,7 @@
 
 Name:           perl-Hash-Case
 Version:        1.50.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Base class for hashes with key-casing requirements
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Hash-Case
@@ -54,6 +54,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.50.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.50.0-2
 - Perl 5.32 rebuild
 

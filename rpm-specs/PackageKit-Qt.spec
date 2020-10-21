@@ -1,8 +1,10 @@
 
+%undefine __cmake_in_source_build
+
 Summary:   Qt support library for PackageKit
 Name:      PackageKit-Qt
 Version:   1.0.1
-Release:   5%{?dist}
+Release:   8%{?dist}
 
 License:   LGPLv2+
 URL:       http://www.packagekit.org/
@@ -45,16 +47,13 @@ Requires: PackageKit-Qt5%{?_isa} = %{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} ..
-popd
+%cmake
 
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 
 %ldconfig_scriptlets -n PackageKit-Qt5
@@ -74,6 +73,16 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Fri Oct 02 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.0.1-8
+- use new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@ of Buenos Aires, Argentina
 
 Name:		%{fontname}-fonts
 Version:	7.210
-Release:	1%{?dist}
+Release:	2%{?dist}
 # Override versioning to sync with upstream
 Epoch:		1
 Summary:	Sans-serif typeface inspired from Montserrat area
@@ -100,6 +100,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/%{fontna
 %doc Montserrat-%{version}/README.md 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:7.210-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1:7.210-1
 - Update to 7.210
 

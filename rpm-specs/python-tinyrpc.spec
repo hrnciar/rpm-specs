@@ -3,7 +3,7 @@
 
 Name:       python-%{library}
 Version:    1.0.3
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    A modular RPC library
 License:    MIT
 URL:        https://github.com/mbr/%{library}
@@ -110,6 +110,9 @@ py.test-3 -rs --ignore=tests/test_wsgi_transport.py --ignore=tests/test_dispatch
 %{python3_sitelib}/%{module}/tests
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.3-3
 - Rebuilt for Python 3.9
 

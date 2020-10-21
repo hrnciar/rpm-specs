@@ -2,7 +2,7 @@
 
 Name:           ocaml-ptmap
 Version:        2.0.4
-Release:        11%{?dist}
+Release:        15%{?dist}
 Summary:        Maps over integers implemented as Patricia trees
 
 License:        LGPLv2+ with exceptions
@@ -75,6 +75,19 @@ obuild install --destdir $OCAMLFIND_DESTDIR
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 2.0.4-15
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 2.0.4-14
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.4-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.4-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 2.0.4-11
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

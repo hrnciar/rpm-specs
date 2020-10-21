@@ -15,9 +15,9 @@
 Name:           mate-utils
 Version:        %{branch}.0
 %if 0%{?rel_build}
-Release:        1%{?dist}
+Release:        2%{?dist}
 %else
-Release:        0.11%{?git_rel}%{?dist}
+Release:        0.12%{?git_rel}%{?dist}
 %endif
 Summary:        MATE utility programs
 License:        GPLv2+ and LGPLv2+
@@ -258,6 +258,9 @@ desktop-file-install                          \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-1
 - update to 1.24.0
 

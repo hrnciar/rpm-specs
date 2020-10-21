@@ -6,12 +6,14 @@
 
 Name:           jvyamlb
 Version:        0.2.5
-Release:        20%{?dist}
+Release:        23%{?dist}
 Summary:        YAML processor for JRuby
 
 License:        MIT
 URL:            http://github.com/%{cluster}/%{name}
 Source0:        %{url}/tarball/%{version}/%{cluster}-%{name}-%{git_commit}.tar.gz
+
+Patch0:         javac-1.8.patch
 
 BuildArch:      noarch
 
@@ -36,6 +38,7 @@ YAML processor extracted from JRuby.
 
 %prep
 %setup -q -n %{cluster}-%{name}-%{git_commit}
+%patch0 -p1
 
 find -name '*.class' -exec rm -f '{}' \;
 find -name '*.jar' -exec rm -f '{}' \;
@@ -62,6 +65,15 @@ build-jar-repository -s -p lib joda-time bytelist jcodings
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.5-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 19 2020 Fabio Valentini <decathorpe@gmail.com> - 0.2.5-22
+- Set javac source and target to 1.8 to fix Java 11 builds.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0.2.5-21
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.5-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

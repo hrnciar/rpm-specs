@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        4.8.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GRaph Algorithms using PErmutation groups
 
 License:        GPLv2+
@@ -70,6 +70,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}-%{version}/htm/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.8.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.8.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

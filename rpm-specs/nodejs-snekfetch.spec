@@ -5,7 +5,7 @@
 
 Name:           nodejs-%{npmname}
 Version:        4.0.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Fast, efficient, and user-friendly http requests
 
 License:        MIT
@@ -50,6 +50,9 @@ cp -a package.json %{buildroot}%{nodejs_sitelib}/%{npmname}/
 %doc README.md
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.4-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

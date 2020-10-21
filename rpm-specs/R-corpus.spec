@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          0.10.1
-Release:          2%{?dist}
+Release:          3%{?dist}
 Summary:          Text Corpus Analysis
 
 License:          ASL 2.0
@@ -69,6 +69,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun  6 2020 Tom Callaway <spot@fedoraproject.org> - 0.10.1-2
 - rebuild for R 4
 

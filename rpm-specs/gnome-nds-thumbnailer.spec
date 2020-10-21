@@ -1,6 +1,6 @@
 Name:            gnome-nds-thumbnailer
 Version:         3.0.0
-Release:         14%{?dist}
+Release:         16%{?dist}
 Summary:         Thumbnailer for Nintendo DS ROM files
 
 License:         GPLv2+
@@ -39,6 +39,13 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_datadir}/thumbnailers/gnome-nds-thumbnailer.thumbnailer
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

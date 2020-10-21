@@ -1,7 +1,7 @@
 Name:		libinstpatch
 Summary:	MIDI instrument patch library
 Version:	1.0.0
-Release:	19.20110806svn386%{?dist}
+Release:	22.20110806svn386%{?dist}
 URL:		http://www.swamiproject.org/
 License:	LGPLv2+
 # Fetch source via
@@ -43,18 +43,11 @@ This package includes the development libraries and header files for
 
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake} ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
-
+%cmake
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot} -C %{_target_platform}
-
-
+%cmake_install
 %ldconfig_scriptlets
 
 
@@ -71,6 +64,17 @@ make install DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Mon Aug 03 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 1.0.0-22.20110806svn386
+- Fix for new cmake macros
+- Resolves: #1864003
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-21.20110806svn386
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-20.20110806svn386
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-19.20110806svn386
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

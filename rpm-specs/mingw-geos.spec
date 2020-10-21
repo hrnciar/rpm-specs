@@ -4,7 +4,7 @@
 
 Name:          mingw-%{pkgname}
 Version:       3.8.1
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       MinGW Windows GEOS library
 License:       LGPLv2+
 BuildArch:     noarch
@@ -79,6 +79,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 12 2020 Sandro Mani <manisandro@gmail.com> - 3.8.1-1
 - Update to 3.8.1
 

@@ -6,8 +6,8 @@
 %global crate async-compression
 
 Name:           rust-%{crate}
-Version:        0.3.4
-Release:        1%{?dist}
+Version:        0.3.5
+Release:        2%{?dist}
 Summary:        Adaptors between compression crates and Rust's modern asynchronous IO types
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -233,6 +233,18 @@ which use "stream" feature of "%{crate}" crate.
 %files       -n %{name}+stream-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+tokio-02-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+tokio-02-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "tokio-02" feature of "%{crate}" crate.
+
+%files       -n %{name}+tokio-02-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+xz-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -312,5 +324,11 @@ which use "zstd-safe" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.3.5-1
+- Update to 0.3.5
+
 * Tue May 19 08:43:24 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 0.3.4-1
 - Initial package

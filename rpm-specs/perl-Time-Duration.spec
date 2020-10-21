@@ -1,7 +1,7 @@
 Name:           perl-Time-Duration
 Summary:        Time-Duration - rounded or exact English expression of durations
 Version:        1.21
-Release:        5%{?dist}
+Release:        6%{?dist}
 License:        GPL+ or Artistic
 Url:            https://metacpan.org/release/Time-Duration
 Buildarch:      noarch
@@ -44,6 +44,9 @@ perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
 %{perl_vendorlib}/Time
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.21-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.21-5
 - Perl 5.32 rebuild
 

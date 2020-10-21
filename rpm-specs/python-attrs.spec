@@ -9,8 +9,8 @@
 %endif
 
 Name:           python-attrs
-Version:        19.3.0
-Release:        4%{?dist}
+Version:        20.2.0
+Release:        1%{?dist}
 Summary:        Python attributes without boilerplate
 
 License:        MIT
@@ -62,6 +62,15 @@ PYTHONPATH=%{buildroot}/%{python3_sitelib} py.test-3 -v
 %{python3_sitelib}/*
 
 %changelog
+* Mon Sep 07 2020 Lumír Balhar <lbalhar@redhat.com> - 20.2.0-1
+- Update to 20.2.0 (#1876063)
+
+* Thu Aug 27 2020 Lumír Balhar <lbalhar@redhat.com> - 20.1.0-1
+- Update to 20.1.0 (#1870794)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.3.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 19.3.0-4
 - Rebuilt for Python 3.9
 

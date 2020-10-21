@@ -1,9 +1,8 @@
-# unversionned doc dir F20 change https://fedoraproject.org/wiki/Changes/UnversionedDocdirs
-%{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
+%undefine __cmake_in_source_build
 
 Name:				davix
 Version:			0.7.6
-Release:			1%{?dist}
+Release:			3%{?dist}
 Summary:			Toolkit for Http-based file management
 License:			LGPLv2+
 URL:				http://dmc.web.cern.ch/projects/davix/home
@@ -16,14 +15,11 @@ BuildRequires:                  cmake
 BuildRequires:                  doxygen
 BuildRequires:                  libxml2-devel
 BuildRequires:                  openssl-devel
-%{?el6:BuildRequires: python-argparse}
 # davix-copy dependencies
 BuildRequires:                  gsoap-devel
 BuildRequires:                  libuuid-devel
 # unit tests and abi check
-%if %{?fedora}%{!?fedora:0} >= 10 || %{?rhel}%{!?rhel:0} >= 6
 BuildRequires:                  abi-compliance-checker
-%endif
 
 Requires:                       %{name}-libs%{?_isa} = %{version}-%{release}
 Requires:                       libuuid
@@ -45,7 +41,6 @@ with Http based protocols (WebDav, Amazon S3, ...).
 %package devel
 Summary:			Development files for %{name}
 Requires:			%{name}-libs%{?_isa} = %{version}-%{release}
-Requires:			pkgconfig
 
 %description devel
 Development files for %{name}. Davix is a toolkit designed for file operations
@@ -53,44 +48,33 @@ with Http based protocols (WebDav, Amazon S3, ...).
 
 %package doc
 Summary:			Documentation for %{name}
-%if %{?fedora}%{!?fedora:0} >= 10 || %{?rhel}%{!?rhel:0} >= 6
 BuildArch:	noarch
-%endif
 
 %description doc
 Documentation and examples for %{name}. Davix is a toolkit designed 
 for file operations with Http based protocols (WebDav, Amazon S3, ...).
 
-%clean
-rm -rf %{buildroot}
-make clean
-
 %prep
-%setup -q
+%autosetup
 
 # remove useless embedded components
 rm -rf test/pywebdav/
 
 %build
 %cmake \
--DDOC_INSTALL_DIR=%{_pkgdocdir} \
--DENABLE_THIRD_PARTY_COPY=TRUE \
--DENABLE_HTML_DOCS=TRUE \
--DUNIT_TESTS=TRUE \
-.
-make %{?_smp_mflags}
-make doc
+  -DDOC_INSTALL_DIR=%{_pkgdocdir} \
+  -DENABLE_THIRD_PARTY_COPY=TRUE \
+  -DENABLE_HTML_DOCS=TRUE \
+  -DUNIT_TESTS=TRUE \
+  %{nil}
+%cmake_build
+%cmake_build --target doc
 
 %check
-%if %{?fedora}%{!?fedora:0} >= 10 || %{?rhel}%{!?rhel:0} >= 6
-#make abi-check
-%endif
-ctest -V -T Test
-
+%ctest
 
 %install
-rm -rf %{buildroot}
-make DESTDIR=%{buildroot} install
+%cmake_install
 
 %ldconfig_scriptlets libs
 
@@ -118,6 +102,13 @@ make DESTDIR=%{buildroot} install
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.6-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 29 2020 Georgios Bitzes <georgios.bitzes at cern.ch> - 0.7.6-1
 - New upstream release
 

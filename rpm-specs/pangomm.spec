@@ -8,7 +8,7 @@
 
 Name:           pangomm
 Version:        2.42.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        C++ interface for Pango
 
 License:        LGPLv2+
@@ -90,6 +90,9 @@ find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 %{_datadir}/devhelp/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.42.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 27 2020 Kalev Lember <klember@redhat.com> - 2.42.1-1
 - Update to 2.42.1
 

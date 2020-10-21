@@ -1,7 +1,7 @@
 %global modname nibabel
 
 Name:           python-%{modname}
-Version:        3.1.0
+Version:        3.1.1
 Release:        2%{?dist}
 Summary:        Python package to access a cacophony of neuro-imaging file formats
 
@@ -92,6 +92,12 @@ pytest-%{python3_version}
 %{python3_sitelib}/nisext/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.1.1-1
+- Update to 3.1.1
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.1.0-2
 - Rebuilt for Python 3.9
 

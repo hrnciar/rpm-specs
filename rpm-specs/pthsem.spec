@@ -1,7 +1,7 @@
 Summary:        The GNU Portable Threads library extended with semaphore support
 Name:           pthsem
 Version:        2.0.7
-Release:        20%{?dist}
+Release:        21%{?dist}
 License:        LGPLv2+
 URL:            http://www.auto.tuwien.ac.at/~mkoegler/index.php/pth
 Source:         http://downloads.sourceforge.net/bcusdk/pthsem_%{version}.tar.gz
@@ -102,6 +102,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.7-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.7-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

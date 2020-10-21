@@ -3,7 +3,7 @@
 
 # https://github.com/jinzhu/gorm
 %global goipath         github.com/jinzhu/gorm
-Version:                1.9.8
+Version:                1.9.15
 
 %gometa
 
@@ -16,7 +16,7 @@ The fantastic ORM library for Golang, aims to be developer friendly.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        The fantastic ORM library for Golang, aims to be developer friendly
 
 License:        MIT
@@ -26,13 +26,17 @@ Source1:        glide.yaml
 Source2:        glide.lock
 
 BuildRequires:  golang(github.com/denisenkom/go-mssqldb)
-BuildRequires:  golang(github.com/erikstmartin/go-testdb)
 BuildRequires:  golang(github.com/go-sql-driver/mysql)
 BuildRequires:  golang(github.com/jinzhu/inflection)
-BuildRequires:  golang(github.com/jinzhu/now)
 BuildRequires:  golang(github.com/lib/pq)
 BuildRequires:  golang(github.com/lib/pq/hstore)
 BuildRequires:  golang(github.com/mattn/go-sqlite3)
+
+%if %{with check}
+# Tests
+BuildRequires:  golang(github.com/erikstmartin/go-testdb)
+BuildRequires:  golang(github.com/jinzhu/now)
+%endif
 
 %description
 %{common_description}
@@ -46,15 +50,6 @@ cp %{S:1} %{S:2} .
 %install
 %gopkginstall
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck
@@ -63,6 +58,12 @@ end
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 14:38:33 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.9.15-1
+- Update to 1.9.15
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.8-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

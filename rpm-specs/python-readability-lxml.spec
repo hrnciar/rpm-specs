@@ -1,19 +1,15 @@
 %global _python_bytecompile_errors_terminate_build 0
 
-%global commit      ede4d015abd1829cc723ad59bf2db3c487fda66f
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global date        20200326
-
 %global pypi_name readability-lxml
 
 Name:           python-%{pypi_name}
-Version:        0.7.1
-Release:        3.%{date}git%{shortcommit}%{?dist}
+Version:        0.8.1
+Release:        1%{?dist}
 Summary:        Fast html to text parser (article readability tool)
 
 License:        ASL 2.0
 URL:            https://github.com/buriy/python-readability
-Source0:        %{url}/archive/%{commit}/%{name}-%{version}.%{date}git%{shortcommit}.tar.gz
+Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
@@ -43,7 +39,7 @@ This is a python port of a ruby port of arc90's readability project.
 
 
 %prep
-%autosetup -n python-readability-%{commit}
+%autosetup -n python-readability-%{version}
 
 # Remove bundled egg-info
 rm -rf %{pypi_name}.egg-info
@@ -76,6 +72,12 @@ done
 
 
 %changelog
+* Thu Aug 27 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.8.1-1
+- Update to 0.8.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-4.20200326gitede4d01
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.1-3.20200326gitede4d01
 - Rebuilt for Python 3.9
 

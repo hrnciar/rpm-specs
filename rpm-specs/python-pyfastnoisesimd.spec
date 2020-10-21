@@ -1,8 +1,10 @@
+%global _lto_cflags %{nil}
+
 %global srcname pyfastnoisesimd
 
 Name:           python-%{srcname}
 Version:        0.4.1
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        Python Fast Noise with SIMD
 
 License:        BSD
@@ -20,6 +22,9 @@ Patch0003:      0003-Add-platform-specific-flags-for-NEON.patch
 Patch0004:      0004-Use-getauxval-to-check-for-NEON-on-Linux.patch
 # https://github.com/robbmcleod/pyfastnoisesimd/pull/20
 Patch0005:      0005-Fix-alignment-on-non-optimized-systems.patch
+
+# gcc seems to enable SSE2 even when not requested.
+ExcludeArch:   %{ix86}
 
 %global _description \
 PyFastNoiseSIMD is a wrapper around Jordan Peck's synthetic noise library which \
@@ -73,7 +78,7 @@ done
 mkdir empty
 pushd empty
 PYTHONPATH="%{buildroot}%{python3_sitearch}" \
-    %{__python3} -c "import sys; import pyfastnoisesimd; sys.exit(0 if pyfastnoisesimd.test().wasSuccessful() else 1)"
+    %{python3} -c "import sys; import pyfastnoisesimd; sys.exit(0 if pyfastnoisesimd.test().wasSuccessful() else 1)"
 popd
 
 
@@ -85,6 +90,16 @@ popd
 
 
 %changelog
+* Thu Sep 10 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.4.1-9
+- Disable LTO
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.1-7
 - Rebuilt for Python 3.9
 

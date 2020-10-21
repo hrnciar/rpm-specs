@@ -3,7 +3,7 @@
 
 Name:           python-%{modname}
 Version:        0.20.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Client library for OGC web services
 License:        BSD
 URL:            https://geopython.github.io/OWSLib
@@ -53,6 +53,9 @@ find . -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
 %{python3_sitelib}/%{modname}-%{version}-py*.egg-info
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Volker Fröhlich <volker27@gmx.at> - 0.20.0-1
 - New upstream release
 

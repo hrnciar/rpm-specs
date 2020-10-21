@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        2.4.3
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Validation of Swagger specifications
 
 License:        ASL 2.0
@@ -60,6 +60,13 @@ tar -xvf %{S:1} --strip-components=1 --wildcards \
 %{python3_sitelib}/swagger_spec_validator-*.egg-info/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.4.3-2
 - Rebuilt for Python 3.9
 

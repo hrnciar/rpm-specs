@@ -1,8 +1,14 @@
 Name:			liblinear
 Version:		1.94
-Release:		24%{?dist}
+Release:		26%{?dist}
 Summary:		Library for Large Linear Classification
 %{?el5:Group:		System Environment/Libraries}
+
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib blas
+%endif
 
 License:		BSD
 URL:			http://www.csie.ntu.edu.tw/~cjlin/%{name}
@@ -18,7 +24,7 @@ Patch1:			liblinear-fix_compiler_warnings.patch
 
 %{?el5:BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)}
 BuildRequires:  gcc-c++
-BuildRequires:		blas-devel
+BuildRequires:  %{blaslib}-devel
 
 
 %description
@@ -147,6 +153,8 @@ do
   mv -f ${_file}.new ${_file}
 done
 
+# set blaslib
+sed -i 's/-lblas/-l%{blaslib}/g' Makefile
 
 %build
 # Fortran doesn't like as-needed
@@ -179,6 +187,12 @@ install -pm 0644 python/*.py %{buildroot}%{python3_sitearch}
 
 
 %changelog
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.94-26
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.94-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.94-24
 - Rebuilt for Python 3.9
 

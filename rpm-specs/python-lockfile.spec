@@ -1,3 +1,6 @@
+# allow building without running the test suite
+%bcond_without tests
+
 %global pypi_name lockfile
 
 %global common_description %{expand:
@@ -11,8 +14,8 @@ Windows) system calls.}
 Name:           python-%{pypi_name}
 Summary:        Platform-independent file locking module
 Epoch:          1
-Version:        0.11.0
-Release:        18%{?dist}
+Version:        0.12.2
+Release:        1%{?dist}
 License:        MIT
 
 URL:            https://github.com/openstack/pylockfile
@@ -22,10 +25,13 @@ BuildArch:      noarch
 
 BuildRequires:  python3-devel
 
-BuildRequires:  python3dist(nose)
 BuildRequires:  python3dist(pbr) >= 1.8
 BuildRequires:  python3dist(setuptools)
 BuildRequires:  python3dist(sphinx)
+
+%if %{with tests}
+BuildRequires:  python3dist(nose)
+%endif
 
 %description %{common_description}
 
@@ -49,11 +55,6 @@ Documentation for lockfile
 # Remove bundled egg-info
 rm -rf %{pypi_name}.egg-info
 
-# pbr isn't needed at runtime:
-# https://bugs.launchpad.net/pylockfile/+bug/1506679
-sed -i '/pbr/d' requirements.txt
-
-
 %build
 %py3_build
 
@@ -69,7 +70,9 @@ rm -rf html/.{doctrees,buildinfo}
 
 
 %check
+%if %{with tests}
 PYTHONPATH=$(pwd) nosetests-3
+%endif
 
 
 %files -n python3-%{pypi_name}
@@ -85,6 +88,15 @@ PYTHONPATH=$(pwd) nosetests-3
 
 
 %changelog
+* Thu Sep 10 2020 Yatin Karel <ykarel@redhat.com> - 0.12.2-1
+- Update to 0.12.2
+
+* Mon Aug 10 2020 Fabio Valentini <decathorpe@gmail.com> - 1:0.11.0-20
+- Allow building without running the test suite.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.11.0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1:0.11.0-18
 - Rebuilt for Python 3.9
 

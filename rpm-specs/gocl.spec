@@ -2,7 +2,7 @@
 
 Name:           gocl
 Version:        0.2.0
-Release:        15%{?dist}
+Release:        17%{?dist}
 Summary:        GLib/GObject based library for OpenCL
 
 License:        LGPLv3
@@ -76,6 +76,13 @@ find %{buildroot} -type f -name '*.la' | xargs rm -f -- || :
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-17
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

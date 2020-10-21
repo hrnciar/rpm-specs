@@ -3,14 +3,14 @@
 
 Name:		rubygem-%{gem_name}
 Version:	1.0.3
-Release:	8%{?dist}
+Release:	9%{?dist}
 
 Summary:	Ruby library to handle HTTP Cookies based on RFC 6265
 License:	MIT
 URL:		https://github.com/sparklemotion/http-cookie
 Source0:	https://rubygems.org/gems/%{gem_name}-%{version}.gem
 
-%if 0%{?fedora} >= 19
+%if 0%{?fedora} >= 19 || 0%{?rhel} >= 9
 Requires:	ruby(release)
 BuildRequires:	ruby(release)
 %else
@@ -97,6 +97,12 @@ popd
 %exclude	%{gem_instdir}/test/
 
 %changelog
+* Wed Aug 05 2020 Merlin Mathesius <mmathesi@redhat.com> - 1.0.3-9
+- Minor conditional fix for ELN
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

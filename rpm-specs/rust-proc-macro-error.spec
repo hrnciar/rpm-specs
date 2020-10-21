@@ -6,7 +6,7 @@
 %global crate proc-macro-error
 
 Name:           rust-%{crate}
-Version:        1.0.2
+Version:        1.0.4
 Release:        1%{?dist}
 Summary:        Almost drop-in replacement to panics in proc-macros
 
@@ -14,9 +14,6 @@ Summary:        Almost drop-in replacement to panics in proc-macros
 License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/proc-macro-error
 Source:         %{crates_source}
-# Initial patched metadata
-# * unpin the toml dependency
-Patch0:         proc-macro-error-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -56,6 +53,30 @@ which use "default" feature of "%{crate}" crate.
 %files       -n %{name}+default-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+syn-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+syn-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "syn" feature of "%{crate}" crate.
+
+%files       -n %{name}+syn-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+syn-error-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+syn-error-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "syn-error" feature of "%{crate}" crate.
+
+%files       -n %{name}+syn-error-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
 %cargo_prep
@@ -75,6 +96,15 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 1.0.4-1
+- Update to 1.0.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 1.0.3-1
+- Update to 1.0.3
+
 * Thu Apr 09 2020 Josh Stone <jistone@redhat.com> - 1.0.2-1
 - Update to 1.0.2
 

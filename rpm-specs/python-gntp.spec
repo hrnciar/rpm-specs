@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.0.3
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Growl Notification Transport Protocol for Python
 License:        MIT
 URL:            https://pypi.python.org/pypi/%{srcname}
@@ -72,6 +72,9 @@ ln -s ./%{srcname}-3 %{buildroot}%{_bindir}/%{srcname}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.3-13
 - Rebuilt for Python 3.9
 

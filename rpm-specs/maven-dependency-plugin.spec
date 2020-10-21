@@ -1,6 +1,6 @@
 Name:           maven-dependency-plugin
 Version:        3.1.2
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Plugin to manipulate, copy and unpack local and remote artifacts
 License:        ASL 2.0
 
@@ -13,7 +13,7 @@ BuildRequires:  maven-local
 BuildRequires:  mvn(classworlds:classworlds)
 BuildRequires:  mvn(commons-collections:commons-collections)
 BuildRequires:  mvn(commons-io:commons-io)
-BuildRequires:  mvn(commons-lang:commons-lang)
+BuildRequires:  mvn(org.apache.commons:commons-lang3)
 BuildRequires:  mvn(org.apache.maven.doxia:doxia-core)
 BuildRequires:  mvn(org.apache.maven.doxia:doxia-sink-api)
 BuildRequires:  mvn(org.apache.maven.doxia:doxia-site-renderer)
@@ -57,6 +57,18 @@ Summary:        API documentation for %{name}
 # We don't want to support legacy Maven versions (older than 3.1)
 %pom_remove_dep org.sonatype.aether:
 
+# trivial port to commons-lang3
+%pom_change_dep :commons-lang org.apache.commons:commons-lang3:3.8.1
+
+sed -i "s/org.apache.commons.lang./org.apache.commons.lang3./g" \
+    src/main/java/org/apache/maven/plugins/dependency/analyze/AbstractAnalyzeMojo.java
+sed -i "s/org.apache.commons.lang./org.apache.commons.lang3./g" \
+    src/main/java/org/apache/maven/plugins/dependency/resolvers/ResolveDependencySourcesMojo.java
+sed -i "s/org.apache.commons.lang./org.apache.commons.lang3./g" \
+    src/main/java/org/apache/maven/plugins/dependency/DisplayAncestorsMojo.java
+sed -i "s/org.apache.commons.lang./org.apache.commons.lang3./g" \
+    src/test/java/org/apache/maven/plugins/dependency/fromConfiguration/TestUnpackMojo.java
+
 %build
 # Tests require legacy Maven
 %mvn_build -f
@@ -71,6 +83,15 @@ Summary:        API documentation for %{name}
 %doc LICENSE NOTICE
 
 %changelog
+* Thu Jul 30 2020 Fabio Valentini <decathorpe@gmail.com> - 3.1.2-4
+- Port to commons-lang3.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.1.2-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu May 07 2020 Fabio Valentini <decathorpe@gmail.com> - 3.1.2-1
 - Update to version 3.1.2.
 

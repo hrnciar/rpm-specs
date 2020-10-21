@@ -1,6 +1,6 @@
 Name:           perl-Template-Tiny
 Version:        1.12
-Release:        25%{?dist}
+Release:        26%{?dist}
 Summary:        Template Toolkit re-implemented in as little code as possible
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Template-Tiny
@@ -53,6 +53,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.12-25
 - Perl 5.32 rebuild
 

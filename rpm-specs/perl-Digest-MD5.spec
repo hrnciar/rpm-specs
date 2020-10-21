@@ -1,29 +1,35 @@
 Name:           perl-Digest-MD5
-Version:        2.55
-Release:        456%{?dist}
+Version:        2.58
+Release:        1%{?dist}
 Summary:        Perl interface to the MD5 algorithm
-License:        (GPL+ or Artistic) and BSD
+# MD5.pm:       (GPL+ or Artistic) and RSA
+# MD5.xs:       (GPL+ or Artistic) and RSA
+# README:       (GPL+ or Artistic)
+## Not in any binary package
+# rfc1321.txt:  RSA
+License:        (GPL+ or Artistic) and RSA
 URL:            https://metacpan.org/release/Digest-MD5
-Source0:        https://cpan.metacpan.org/authors/id/G/GA/GAAS/Digest-MD5-%{version}.tar.gz
+Source0:        https://cpan.metacpan.org/authors/id/T/TO/TODDR/Digest-MD5-%{version}.tar.gz
+BuildRequires:  coreutils
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  perl-devel
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
-BuildRequires:  perl(strict)
 BuildRequires:  perl(Config)
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
+BuildRequires:  perl(strict)
+BuildRequires:  perl(warnings)
 # Run-time:
 BuildRequires:  perl(Digest::base) >= 1.00
 # Digest::Perl::MD5 not needed
 BuildRequires:  perl(Exporter)
-BuildRequires:  perl(vars)
 BuildRequires:  perl(XSLoader)
 # Tests:
 BuildRequires:  perl(Encode)
 BuildRequires:  perl(Test)
 BuildRequires:  perl(Test::More)
-BuildRequires:  perl(warnings)
+BuildRequires:  perl(vars)
 # Optional tests:
 BuildRequires:  perl(MIME::Base64)
 BuildRequires:  perl(threads)
@@ -43,11 +49,11 @@ input a message of arbitrary length and produces as output a 128-bit
 %setup -q -n Digest-MD5-%{version}
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 OPTIMIZE="$RPM_OPT_FLAGS"
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 OPTIMIZE="$RPM_OPT_FLAGS"
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
@@ -60,6 +66,18 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Oct 06 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.58-1
+- 2.58 bump
+
+* Tue Aug 25 2020 Petr Pisar <ppisar@redhat.com> - 2.55-459
+- Correct a license tag to "(GPL+ or Artistic) and RSA"
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.55-458
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Petr Pisar <ppisar@redhat.com> - 2.55-457
+- Modernize a spec file
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.55-456
 - Increase release to favour standalone package
 

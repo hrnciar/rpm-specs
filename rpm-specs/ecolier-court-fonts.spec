@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 Version: 20070702
-Release: 35%{?dist}
+Release: 36%{?dist}
 # This used to be published here, copies are all over the web now
 #URL:     http://perso.orange.fr/jm.douteau/page_ecolier.htm
 
@@ -71,6 +71,9 @@ install -m 0644 -p %{SOURCE0} %{SOURCE1} .
 %fontfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
  Wed Apr 22 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 20070702-35
 🐞 Workaround Fedora problems created by rpm commit 93604e2

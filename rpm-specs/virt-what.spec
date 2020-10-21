@@ -1,6 +1,6 @@
 Name:           virt-what
 Version:        1.20
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Detect if we are running in a virtual machine
 License:        GPLv2+
 
@@ -87,7 +87,7 @@ make
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 
 
 %check
@@ -104,6 +104,13 @@ fi
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.20-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1.20-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.20-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

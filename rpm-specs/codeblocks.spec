@@ -7,7 +7,7 @@
 
 Name:		codeblocks
 Version:	20.03
-Release:	2%{?svnrelease}%{?dist}
+Release:	4%{?svnrelease}%{?dist}
 Summary:	An open source, cross platform, free C++ IDE
 License:	GPLv3+
 URL:		http://www.codeblocks.org/
@@ -24,6 +24,7 @@ Patch1:		codeblocks-20.03-multi-arch.patch
 # https://sourceforge.net/p/codeblocks/tickets/936/
 # https://sourceforge.net/p/codeblocks/code/12012/
 Patch2:		codeblocks-20.03-pragma.patch
+Patch3:         codeblocks-gcc11.patch
 
 BuildRequires:	gcc
 BuildRequires:	gcc-c++
@@ -115,6 +116,7 @@ Additional Code::Blocks plug-ins.
 %endif
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 
 %if %{snapshot}
@@ -349,6 +351,12 @@ echo "%{_libdir}/%{name}/wxContribItems" > %{buildroot}/%{_sysconfdir}/ld.so.con
 
 
 %changelog
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 20.03-4
+- Make comparison object invocable as const
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.03-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 20.03-2
 - Rebuilt for Boost 1.73
 

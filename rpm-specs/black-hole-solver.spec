@@ -5,8 +5,8 @@
 %define develname lib%{basen}-devel
 
 Name: %{basen}
-Version: 1.6.0
-Release: 2%{?dist}
+Version: 1.8.0
+Release: 3%{?dist}
 # The entire source code is MIT except xxHash-0.6.5/ which is BSD
 License: MIT and BSD
 Source0: https://fc-solve.shlomifish.org/downloads/fc-solve/%{basen}-%{version}.tar.xz
@@ -91,25 +91,36 @@ Development tools for the Black Hole Solitaire Solver.
 %build
 # The game limit flags are recommended by the PySolFC README.
 %cmake -DLOCALE_INSTALL_DIR=%{_datadir}/locale -DLIB_INSTALL_DIR=%{_libdir} -DBUILD_STATIC_LIBRARY= -DDISABLE_APPLYING_RPATH=TRUE -DUSE_SYSTEM_XHASH=TRUE
-%make_build
+%cmake_build
 
 %check
 %ifarch %arm
 # valgrind suppression not working without glibc-debuginfo breaks it
-rm -f t/valgrind.t
+%__rm -f t/valgrind.t
 %endif
-rm -f t/clang-format.t
-rm -f t/perltidy.t
+%__rm -f t/clang-format.t
+%__rm -f t/perltidy.t
 # fails due to build containing binaries
-rm -f t/style-trailing-space.t
+%__rm -f t/style-trailing-space.t
 # %%make_build test
-perl ./run-tests.pl
+src="`pwd`"
+cd "%{__cmake_builddir}"
+perl "$src"/run-tests.pl
 
 %install
-%{make_install}
-rm -f %{buildroot}/%{_libdir}/*.a
+%{cmake_install}
+%__rm -f %{buildroot}/%{_libdir}/*.a
 
 %changelog
+* Tue Jul 28 2020 Shlomi Fish <shlomif@shlomifish.org> 1.8.0-3
+- Convert to the new cmake rpm macros
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jun 28 2020 Shlomi Fish <shlomif@shlomifish.org> 1.8.0-1
+- New upstream version.
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

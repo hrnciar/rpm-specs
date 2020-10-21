@@ -1,7 +1,7 @@
 Summary: Legacy version of flex, a tool for creating scanners
 Name: compat-flex
 Version: 2.5.4a
-Release: 23%{?dist}
+Release: 24%{?dist}
 License: BSD
 URL: http://www.gnu.org/software/flex/
 Source: http://downloads.sourceforge.net/flex/flex-%{version}.tar.bz2
@@ -81,6 +81,9 @@ echo ============END TESTING===========
 %{_infodir}/flex-%{version}.info*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.4a-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.4a-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

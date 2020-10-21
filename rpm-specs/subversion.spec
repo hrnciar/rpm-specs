@@ -52,7 +52,7 @@
 Summary: A Modern Concurrent Version Control System
 Name: subversion
 Version: 1.14.0
-Release: 4%{?dist}
+Release: 7%{?dist}
 License: ASL 2.0
 URL: https://subversion.apache.org/
 
@@ -69,13 +69,13 @@ Patch2: subversion-1.14.0-testwarn.patch
 Patch3: subversion-1.14.0-soversion.patch
 Patch4: subversion-1.8.0-rubybind.patch
 Patch5: subversion-1.8.5-swigplWall.patch
-BuildRequires: autoconf, libtool, texinfo, which
+BuildRequires: autoconf, libtool, texinfo, which, gcc, gcc-c++
 BuildRequires: swig >= 1.3.24, gettext
 %if %{with bdb}
 BuildRequires: libdb-devel >= 4.1.25
 %endif
 BuildRequires: %{svn_python_br}
-BuildRequires: apr-devel >= 1.3.0, apr-util-devel >= 1.3.0
+BuildRequires: apr-devel >= 1.5.0, apr-util-devel >= 1.3.0
 BuildRequires: libserf-devel >= 1.3.0, cyrus-sasl-devel
 BuildRequires: sqlite-devel >= 3.4.0, file-devel, systemd-units
 BuildRequires: utf8proc-devel, lz4-devel
@@ -104,7 +104,7 @@ compelling replacement for CVS.
 %package libs
 Summary: Libraries for Subversion Version Control system
 # APR 1.3.x interfaces are required
-Conflicts: apr%{?_isa} < 1.3.0
+Conflicts: apr%{?_isa} < 1.5.0
 # Enforced at run-time by ra_serf
 Conflicts: libserf%{?_isa} < 1.3.0
 
@@ -565,6 +565,17 @@ make check-javahl
 %endif
 
 %changelog
+* Tue Sep 29 2020 Joe Orton <jorton@redhat.com> - 1.14.0-7
+- bump required apr-devel
+- BR gcc, gcc-c++
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.14.0-4
 - Perl 5.32 rebuild
 

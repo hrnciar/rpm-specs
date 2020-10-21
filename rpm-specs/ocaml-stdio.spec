@@ -5,8 +5,8 @@
 %global srcname stdio
 
 Name:           ocaml-%{srcname}
-Version:        0.13.0
-Release:        1%{?dist}
+Version:        0.14.0
+Release:        5%{?dist}
 Summary:        Jane Street Standard I/O library for OCaml
 
 License:        MIT
@@ -14,7 +14,7 @@ URL:            https://github.com/janestreet/%{srcname}
 Source0:        %{url}/archive/v%{version}/%{srcname}-%{version}.tar.gz
 
 BuildRequires:  ocaml >= 4.04.2
-BuildRequires:  ocaml-base-devel
+BuildRequires:  (ocaml-base-devel >= 0.14 and ocaml-base-devel < 0.15)
 BuildRequires:  ocaml-dune-devel >= 2.0.0
 BuildRequires:  ocaml-odoc
 
@@ -93,5 +93,21 @@ find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod a+x {} \+
 %license LICENSE.md
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.14.0-5
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.14.0-4
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 18 2020 Jerry James <loganjerry@gmail.com> - 0.14.0-1
+- Version 0.14.0
+
 * Thu May  7 2020 Jerry James <loganjerry@gmail.com> - 0.13.0-1
 - Initial RPM

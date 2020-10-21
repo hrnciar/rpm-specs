@@ -15,7 +15,7 @@ shells and tunnels.}
 %global godocs          changelog.sh README.md
 
 Name:           shellz
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Utility to tracking and controlling shells and tunnels
 
 License:        GPLv3
@@ -61,6 +61,9 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.5.0-1
 - Initial package
 

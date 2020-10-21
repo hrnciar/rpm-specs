@@ -7,28 +7,23 @@
 # Please, preserve the changelog entries
 #
 %global bootstrap    0
-%global gh_commit    5010b4de0540a711f329a26c72bd48280a3d755a
+%global gh_commit    2e890a43cab0a2c92806d1eaf45fa1b4edd3b887
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 #global gh_date      20150331
 %global gh_owner     llaville
 %global gh_project   php-reflect
 #global prever       RC2
 %if %{bootstrap}
-%global with_tests   %{?_with_tests:1}%{!?_with_tests:0}
+%bcond_with          tests
 %else
-%global with_tests   %{?_without_tests:0}%{!?_without_tests:1}
+%bcond_without       tests
 %endif
 
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
 %global sym_prefix php-symfony4
-%global phpunit %{_bindir}/phpunit7
-%else
-%global sym_prefix php-symfony3
-%global phpunit %{_bindir}/phpunit
-%endif
+%global phpunit %{_bindir}/phpunit8
 
 Name:           php-bartlett-PHP-Reflect
-Version:        4.3.1
+Version:        4.4.1
 %global specrel 1
 Release:        %{?gh_date:1%{specrel}.%{?prever}%{!?prever:%{gh_date}git%{gh_short}}}%{!?gh_date:%{specrel}}%{?dist}
 Summary:        Adds the ability to reverse-engineer PHP
@@ -41,50 +36,52 @@ Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit
 Source1:        %{name}-autoload.php
 
 # Enable cache plugin
-Patch0:         %{name}-4.3.0-rpm.patch
+Patch0:         %{name}-4.4.0-rpm.patch
 
 BuildArch:      noarch
-BuildRequires:  php(language) >= 5.5
-%if %{with_tests}
+BuildRequires:  php(language) >= 7.1.3
+%if %{with tests}
 # to run test suite
 BuildRequires:  %{phpunit}
-BuildRequires: (php-composer(sebastian/version)                 >= 1.0   with php-composer(sebastian/version)                 < 3)
-BuildRequires: (php-composer(nikic/php-parser)                  >= 3.1   with php-composer(nikic/php-parser)                  < 4)
+BuildRequires: (php-composer(sebastian/version)                 >= 2.0   with php-composer(sebastian/version)                 < 3)
+BuildRequires: (php-composer(nikic/php-parser)                  >= 4.5   with php-composer(nikic/php-parser)                  < 5)
 BuildRequires: (php-composer(doctrine/collections)              >= 1.4   with php-composer(doctrine/collections)              < 2)
-BuildRequires: (php-composer(phpdocumentor/reflection-docblock) >= 3.0   with php-composer(phpdocumentor/reflection-docblock) < 4)
-BuildRequires: (php-composer(seld/jsonlint)                     >= 1.1   with php-composer(seld/jsonlint)                     < 2)
-BuildRequires: (php-composer(justinrainbow/json-schema)         >= 1.3   with php-composer(justinrainbow/json-schema)         < 2)
+BuildRequires: (php-composer(phpdocumentor/reflection-docblock) >= 5.2   with php-composer(phpdocumentor/reflection-docblock) < 6)
+BuildRequires: (php-composer(phpdocumentor/type-resolver)       >= 1.0   with php-composer(phpdocumentor/type-resolver)       < 2)
+BuildRequires: (php-composer(seld/jsonlint)                     >= 1.4   with php-composer(seld/jsonlint)                     < 2)
+BuildRequires: (php-composer(justinrainbow/json-schema)         >= 5.2   with php-composer(justinrainbow/json-schema)         < 6)
 BuildRequires: (php-composer(monolog/monolog)                   >= 1.10  with php-composer(monolog/monolog)                   < 2)
 BuildRequires: (php-composer(psr/log)                           >= 1.0   with php-composer(psr/log)                           < 2)
-BuildRequires: (php-composer(doctrine/cache)                    >= 1.3   with php-composer(doctrine/cache)                    <  2)
-BuildRequires:  %{sym_prefix}-event-dispatcher
-BuildRequires:  %{sym_prefix}-finder
-BuildRequires:  %{sym_prefix}-console
-BuildRequires:  %{sym_prefix}-stopwatch
-BuildRequires:  %{sym_prefix}-dependency-injection
+BuildRequires: (php-composer(doctrine/cache)                    >= 1.3   with php-composer(doctrine/cache)                    < 2)
+BuildRequires:  %{sym_prefix}-event-dispatcher                  >= 4.4
+BuildRequires:  %{sym_prefix}-finder                            >= 4.4
+BuildRequires:  %{sym_prefix}-console                           >= 4.4
+BuildRequires:  %{sym_prefix}-stopwatch                         >= 4.4
+BuildRequires:  %{sym_prefix}-dependency-injection              >= 4.4
 # For our autoloader
 BuildRequires:  php-composer(fedora/autoloader)
 %endif
 
 # From composer.json, "require": {
-#        "php": "^5.5|^7.0",
+#        "php": "^7.1.3|^8.0",
 #        "ext-tokenizer": "*",
 #        "ext-pcre": "*",
 #        "ext-spl": "*",
 #        "ext-json": "*",
 #        "ext-date": "*",
 #        "ext-reflection": "*",
-#        "sebastian/version": "^1.0|^2.0",
-#        "nikic/php-parser": "^3.1",
+#        "sebastian/version": "^2.0",
+#        "nikic/php-parser": "^4.5",
 #        "doctrine/collections": "^1.4",
-#        "symfony/event-dispatcher": "^2.5|^3.0|^4.0",
-#        "symfony/finder": "^2.5|^3.0|^4.0",
-#        "symfony/console": "^2.5|^3.0|^4.0",
-#        "symfony/stopwatch": "^2.5|^3.0|^4.0",
-#        "symfony/dependency-injection": "^2.5|^3.0|^4.0",
-#        "phpdocumentor/reflection-docblock": "^3.0",
-#        "justinrainbow/json-schema": "^1.3",
-#        "seld/jsonlint": "^1.1"
+#        "symfony/event-dispatcher": "^4.4|^5.0",
+#        "symfony/finder": "^4.4|^5.0",
+#        "symfony/console": "^4.4|^5.0",
+#        "symfony/stopwatch": "^4.4|^5.0",
+#        "symfony/dependency-injection": "^4.4|^5.0",
+#        "phpdocumentor/reflection-docblock": "^4.3|^5.2",
+#        "phpdocumentor/type-resolver": "~0.4 || ^1.0.0",
+#        "justinrainbow/json-schema": "^5.2",
+#        "seld/jsonlint": "^1.4",
 #        "psr/log": "^1.0"
 Requires:       php(language) >= 5.5
 Requires:       php-cli
@@ -95,20 +92,22 @@ Requires:       php-pcre
 Requires:       php-phar
 Requires:       php-spl
 Requires:       php-tokenizer
-Requires:      (php-composer(sebastian/version)                 >= 1.0   with php-composer(sebastian/version)                 < 3)
-Requires:      (php-composer(nikic/php-parser)                  >= 3.1   with php-composer(nikic/php-parser)                  < 4)
+Requires:      (php-composer(sebastian/version)                 >= 2.0   with php-composer(sebastian/version)                 < 3)
+Requires:      (php-composer(nikic/php-parser)                  >= 4.5   with php-composer(nikic/php-parser)                  < 5)
 Requires:      (php-composer(doctrine/collections)              >= 1.4   with php-composer(doctrine/collections)              < 2)
-Requires:      (php-composer(phpdocumentor/reflection-docblock) >= 3.0   with php-composer(phpdocumentor/reflection-docblock) < 4)
-Requires:      (php-composer(seld/jsonlint)                     >= 1.1   with php-composer(seld/jsonlint)                     < 2)
-Requires:      (php-composer(justinrainbow/json-schema)         >= 1.3   with php-composer(justinrainbow/json-schema)         < 2)
+Requires:      (php-composer(phpdocumentor/reflection-docblock) >= 5.2   with php-composer(phpdocumentor/reflection-docblock) < 6)
+Requires:      (php-composer(phpdocumentor/type-resolver)       >= 1.0   with php-composer(phpdocumentor/type-resolver)       < 2)
+Requires:      (php-composer(seld/jsonlint)                     >= 1.4   with php-composer(seld/jsonlint)                     < 2)
+Requires:      (php-composer(justinrainbow/json-schema)         >= 5.2   with php-composer(justinrainbow/json-schema)         < 6)
 Requires:      (php-composer(psr/log)                           >= 1.0   with php-composer(psr/log)                           < 2)
+Requires:      (php-composer(doctrine/cache)                    >= 1.3   with php-composer(doctrine/cache)                    < 2)
 # Mandatory for our patch
 Requires:      (php-composer(doctrine/cache)                    >= 1.3   with php-composer(doctrine/cache)                    <  2)
-Requires:       %{sym_prefix}-event-dispatcher
-Requires:       %{sym_prefix}-finder
-Requires:       %{sym_prefix}-console
-Requires:       %{sym_prefix}-stopwatch
-Requires:       %{sym_prefix}-dependency-injection
+Requires:       %{sym_prefix}-event-dispatcher                  >= 4.4
+Requires:       %{sym_prefix}-finder                            >= 4.4
+Requires:       %{sym_prefix}-console                           >= 4.4
+Requires:       %{sym_prefix}-stopwatch                         >= 4.4
+Requires:       %{sym_prefix}-dependency-injection              >= 4.4
 #    "require-dev": {
 #        "monolog/monolog": "~1.10",
 #    "suggest": {
@@ -163,12 +162,12 @@ install -D -p -m 644 bin/phpreflect.1         %{buildroot}%{_mandir}/man1/phpref
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 ret=0
-for cmdarg in "php %{phpunit}" php72 php73 php74; do
+for cmdarg in "php %{phpunit}" php72 php73 php74 php80; do
   if which $cmdarg; then
     set $cmdarg
-    $1 ${2:-%{_bindir}/phpunit7} \
+    $1 ${2:-%{_bindir}/phpunit8} \
       --include-path=%{buildroot}%{_datadir}/php \
       --verbose || ret=1
   fi
@@ -197,6 +196,25 @@ fi
 
 
 %changelog
+* Wed Oct  7 2020 Remi Collet <remi@remirepo.net> - 4.4.1-1
+- update to 4.4.1
+- raise dependency on phpdocumentor/reflection-docblock 5.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.0-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul  7 2020 Remi Collet <remi@remirepo.net> - 4.4.0-1
+- update to 4.4.0
+- raise dependency on PHP 7.1.3
+- raise dependency on sebastian/version 2.0
+- raise dependency on nikic/php-parser 4.5
+- raise dependency on phpdocumentor/reflection-docblock 4.3
+- raise dependency on justinrainbow/json-schema 5.2
+- raise dependency on seld/jsonlint 1.4
+- add dependency on phpdocumentor/type-resolver 0.4
+- raise dependency on Symfony 4.4 and allow 5
+- switch to phpunit8
+
 * Wed Feb 26 2020 Remi Collet <remi@remirepo.net> - 4.3.1-1
 - update to 4.3.1
 - drop patch merged upstream

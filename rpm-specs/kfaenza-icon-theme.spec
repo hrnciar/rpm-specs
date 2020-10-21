@@ -1,6 +1,6 @@
 Name:           kfaenza-icon-theme
 Version:        0.8.9
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Faenza-Cupertino Icon Theme for KDE
 
 License:        GPLv3
@@ -40,6 +40,9 @@ gtk-update-icon-cache %{_datadir}/icons/KFaenza &>/dev/null || :
 %{_datadir}/icons/KFaenza
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.9-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.9-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

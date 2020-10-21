@@ -17,7 +17,7 @@ The goal of this library is being an easy but extensible interface between
 Python and LaTeX.}
 
 Name:           python-%{pypi_name}
-Version:        1.3.3
+Version:        1.4.0
 Release:        1%{?dist}
 Summary:        Library for creating LaTeX files and snippets
 
@@ -73,11 +73,13 @@ Requires:       tex(xcolor.sty)
 Requires:       texlive
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 %if %{with tests}
 # Explicit requirements for tests
 BuildRequires:  %{py3_dist matplotlib}
 BuildRequires:  %{py3_dist nose}
 BuildRequires:  %{py3_dist numpy}
+BuildRequires:  %{py3_dist pytest}
 BuildRequires:  %{py3_dist quantities}
 # https://fedoraproject.org/wiki/Features/TeXLive
 BuildRequires:  tex(alltt.sty)
@@ -180,6 +182,18 @@ popd
 %endif
 
 %changelog
+* Thu Oct 01 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.4.0-1
+- Update to new release
+
+* Sat Aug 22 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.3.4-1
+- Update to new release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.3.3-2
+- Explicitly BR setuptools
+
 * Sun Jun 21 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.3.3-1
 - Update to 1.3.3
 

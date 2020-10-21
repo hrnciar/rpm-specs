@@ -1,7 +1,7 @@
 Name:          darkstat
 Summary:       Network traffic analyzer
 Version:       3.0.719
-Release:       10%{?dist}
+Release:       11%{?dist}
 License:       GPLv2
 URL:           http://unix4lyfe.org/darkstat/
 Source:        http://unix4lyfe.org/%{name}/%{name}-%{version}.tar.bz2
@@ -55,6 +55,9 @@ exit 0
 %{_unitdir}/%{name}.service
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.719-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.719-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

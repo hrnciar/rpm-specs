@@ -2,7 +2,7 @@
 Name:    lucene++
 Summary: A high-performance, full-featured text search engine written in C++
 Version: 3.0.7
-Release: 24%{?dist}
+Release: 27%{?dist}
 
 License: ASL 2.0 or LGPLv3+
 Url:     https://github.com/luceneplusplus/LucenePlusPlus
@@ -37,17 +37,12 @@ Development files for lucene++, a high-performance, full-featured text search en
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%cmake .. \
-  -DCMAKE_BUILD_TYPE:String="release"
-
-%make_build lucene++ lucene++-contrib
-popd
+%cmake -DCMAKE_BUILD_TYPE:String="release"
+%cmake_build --target lucene++ lucene++-contrib
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 
 %ldconfig_scriptlets
@@ -69,6 +64,16 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Aug 04 2020 Wolfgang Stöggl <c72578@yahoo.de> - 3.0.7-27
+- Use %%cmake_build and %%cmake_install macros to fix FTBFS (#1864096)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.7-26
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.7-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 3.0.7-24
 - Rebuilt for Boost 1.73
 

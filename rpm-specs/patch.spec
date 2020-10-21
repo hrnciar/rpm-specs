@@ -3,7 +3,7 @@
 Summary: Utility for modifying/upgrading files
 Name: patch
 Version: 2.7.6
-Release: 12%{?dist}
+Release: 13%{?dist}
 License: GPLv3+
 URL: http://www.gnu.org/software/patch/patch.html
 Source: ftp://ftp.gnu.org/gnu/patch/patch-%{version}.tar.xz
@@ -38,6 +38,8 @@ BuildRequires: libselinux-devel
 BuildRequires: libattr-devel
 BuildRequires: ed
 BuildRequires: autoconf automake
+
+Requires: ed
 
 Provides: bundled(gnulib) = %{gnulib_ver}
 
@@ -105,6 +107,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.6-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.6-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

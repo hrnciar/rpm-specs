@@ -3,7 +3,7 @@
 
 # https://github.com/nsf/termbox-go
 %global goipath         github.com/nsf/termbox-go
-%global commit          288510b9734e30e7966ec2f22b87c5f8e67345e3
+%global commit          38ba6e5628f1d70bac606cfd210b9ad1a16c3027
 
 %gometa
 
@@ -22,7 +22,7 @@ the termbox a distinct library in its area.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.11%{?dist}
+Release:        0.13%{?dist}
 Summary:        Pure Go termbox implementation
 
 License:        MIT
@@ -50,6 +50,12 @@ BuildRequires:  golang(github.com/mattn/go-runewidth)
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 12:55:26 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.13.20200730git38ba6e5
+- Bump to commit 38ba6e5628f1d70bac606cfd210b9ad1a16c3027
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

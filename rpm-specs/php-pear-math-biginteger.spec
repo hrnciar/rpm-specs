@@ -11,7 +11,7 @@
 
 Name:           php-pear-math-biginteger
 Version:        1.0.3
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Pure-PHP arbitrary precision integer arithmetic library
 
 # full license text included in single file.
@@ -95,6 +95,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 18 2020 Remi Collet <remi@remirepo.net> - 1.0.3-9
 - cleanup for EL-8
 

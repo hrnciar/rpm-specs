@@ -1,7 +1,7 @@
 Name:           mosquitto
-Version:        1.6.10
-Release:        2%{?dist}
-Summary:        An Open Source MQTT v3.1/v3.1.1 Broker
+Version:        1.6.12
+Release:        3%{?dist}
+Summary:        Open Source MQTT v3.1/v3.1.1 Broker
 
 License:        BSD
 URL:            http://mosquitto.org/
@@ -108,6 +108,24 @@ exit 0
 %{_mandir}/man3/*.3.*
 
 %changelog
+* Mon Oct 12 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.6.12-3
+- Rebuilt
+
+* Mon Sep 07 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.6.12-2
+- Rebuilt
+
+* Thu Aug 20 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.6.12-1
+- Update to new upstream version 1.6.12
+
+* Tue Aug 11 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.6.11-1
+- Update to new upstream version 1.6.11
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.10-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.6.10-3
+- Rebuilt
+
 * Mon Jun 22 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.6.10-2
 - Rebuilt
 

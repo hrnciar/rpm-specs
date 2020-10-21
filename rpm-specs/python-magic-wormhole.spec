@@ -20,7 +20,7 @@ Wormhole codes are single-use and do not need to be memorized.}
 Name:           python-%{pypi_name}
 Summary:        Securely transfer data between computers
 Version:        0.12.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        MIT
 
 URL:            https://github.com/warner/magic-wormhole
@@ -126,6 +126,9 @@ rm -rf html/.{doctrees,buildinfo}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.12.0-2
 - Rebuilt for Python 3.9
 

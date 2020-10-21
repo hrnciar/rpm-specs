@@ -11,8 +11,8 @@
 
 %global github_owner     aws
 %global github_name      aws-sdk-php
-%global github_version   3.134.0
-%global github_commit    480d4df4b7974666fa7c5e3df564d01f4f29663f
+%global github_version   3.152.0
+%global github_commit    c5b43109dc0ecf77c4a18a8504ca3023f705b306
 
 %global composer_vendor  aws
 %global composer_project aws-sdk-php
@@ -41,6 +41,10 @@
 # "mtdowling/jmespath.php": "^2.5"
 %global jmespath_min_ver 2.5
 %global jmespath_max_ver 3.0
+# "paragonie/random_compat": ">= 2"
+#     NOTE: Max version added to prevent issues if v3 is ever released for some reason
+%global paragonie_random_compat_min_ver 2.0
+%global paragonie_random_compat_max_ver 3.0
 # "psr/cache": "^1.0"
 %global psr_cache_min_ver 1.0
 %global psr_cache_max_ver 2.0
@@ -105,6 +109,7 @@ BuildRequires: php-composer(phpunit/phpunit)
 BuildRequires: (php-composer(andrewsville/php-token-reflection) >= %{tokenreflection_min_ver} with php-composer(andrewsville/php-token-reflection) < %{tokenreflection_max_ver})
 BuildRequires: (php-composer(aws/aws-php-sns-message-validator) >= %{aws_sns_message_validator_min_ver} with php-composer(aws/aws-php-sns-message-validator) < %{aws_sns_message_validator_max_ver})
 BuildRequires: (php-composer(doctrine/cache) >= %{doctrine_cache_min_ver} with php-composer(doctrine/cache) < %{doctrine_cache_max_ver})
+BuildRequires: (php-composer(paragonie/random_compat) >= %{paragonie_random_compat_min_ver} with php-composer(paragonie/random_compat) < %{paragonie_random_compat_max_ver})
 BuildRequires: (php-composer(psr/cache) >= %{psr_cache_min_ver} with php-composer(psr/cache) < %{psr_cache_max_ver})
 BuildRequires: (php-composer(psr/simple-cache) >= %{psr_simple_cache_min_ver} with php-composer(psr/simple-cache) < %{psr_simple_cache_max_ver})
 %else
@@ -114,6 +119,8 @@ BuildRequires: php-composer(aws/aws-php-sns-message-validator) <  %{aws_sns_mess
 BuildRequires: php-composer(aws/aws-php-sns-message-validator) >= %{aws_sns_message_validator_min_ver}
 BuildRequires: php-composer(doctrine/cache) <  %{doctrine_cache_max_ver}
 BuildRequires: php-composer(doctrine/cache) >= %{doctrine_cache_min_ver}
+BuildRequires: php-composer(paragonie/random_compat) <  %{paragonie_random_compat_max_ver}
+BuildRequires: php-composer(paragonie/random_compat) >= %{paragonie_random_compat_min_ver}
 BuildRequires: php-composer(psr/cache) <  %{psr_cache_max_ver}
 BuildRequires: php-composer(psr/cache) >= %{psr_cache_min_ver}
 BuildRequires: php-composer(psr/simple-cache) <  %{psr_simple_cache_max_ver}
@@ -127,7 +134,7 @@ BuildRequires: php-pcntl
 BuildRequires: php-pcre
 BuildRequires: php-simplexml
 BuildRequires: php-sockets
-## phpcompatinfo (computed from version 3.134.0)
+## phpcompatinfo (computed from version 3.152.0)
 BuildRequires: php-date
 BuildRequires: php-filter
 BuildRequires: php-hash
@@ -163,7 +170,7 @@ Requires:      php-composer(mtdowling/jmespath.php) >= %{jmespath_min_ver}
 Requires:      php-json
 Requires:      php-pcre
 Requires:      php-simplexml
-# phpcompatinfo (computed from version 3.134.0)
+# phpcompatinfo (computed from version 3.152.0)
 Requires:      php-date
 Requires:      php-filter
 Requires:      php-hash
@@ -267,6 +274,7 @@ require_once '%{buildroot}%{phpdir}/Aws3/autoload.php';
     __DIR__.'/bootstrap.classmap.php',
     '%{phpdir}/Psr/Cache/autoload.php',
     '%{phpdir}/Psr/SimpleCache/autoload.php',
+    '%{phpdir}/random_compat/autoload.php',
 ]);
 
 class_alias('PHPUnit_Framework_Error_Warning', 'PHPUnit\\Framework\\Error\\Warning');
@@ -308,7 +316,7 @@ export AWS_SECRET_ACCESS_KEY=bar
 : Upstream tests
 RETURN_CODE=0
 PHPUNIT=$(which phpunit)
-for PHP_EXEC in "" php56 php70 php71 php72 php73; do
+for PHP_EXEC in "" php56 php70 php71 php72 php73 php74; do
     if [ -z "$PHP_EXEC" ] || which $PHP_EXEC; then
         $PHP_EXEC $PHPUNIT -d memory_limit=1G --verbose  --testsuite=unit \
             --bootstrap bootstrap.php || RETURN_CODE=1
@@ -331,6 +339,12 @@ exit $RETURN_CODE
 
 
 %changelog
+* Fri Sep 04 2020 Shawn Iwinski <shawn@iwin.ski> - 3.152.0-1
+- Update to 3.152.0 (RHBZ #1819948)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.134.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 31 2020 Shawn Iwinski <shawn@iwin.ski> - 3.134.0-1
 - Update to 3.134.0 (RHBZ #1806756)
 

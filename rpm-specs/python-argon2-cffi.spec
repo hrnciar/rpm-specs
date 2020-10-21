@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        20.1.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The secure Argon2 password hashing algorithm
 
 License:        MIT
@@ -86,6 +86,9 @@ export k='not test_argument_ranges'
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 20.1.0-2
 - Rebuilt for Python 3.9
 

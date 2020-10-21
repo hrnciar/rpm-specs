@@ -18,8 +18,8 @@
 
 Summary:       Provides interface to libevent library
 Name:          php-pecl-%{pecl_name}
-Version:       2.5.6
-Release:       1%{?dist}
+Version:       2.5.7
+Release:       2%{?dist}
 License:       PHP
 URL:           https://pecl.php.net/package/event
 Source0:       https://pecl.php.net/get/%{pecl_name}-%{version}%{?prever}.tgz
@@ -188,6 +188,15 @@ REPORT_EXIT_STATUS=1 \
 
 
 %changelog
+* Tue Sep 15 2020 Remi Collet <remi@remirepo.net> - 2.5.7-2
+- rebuild for new libevent
+
+* Mon Sep  7 2020 Remi Collet <remi@remirepo.net> - 2.5.7-1
+- update to 2.5.7
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 20 2020 Remi Collet <remi@remirepo.net> - 2.5.6-1
 - update to 2.5.6
 

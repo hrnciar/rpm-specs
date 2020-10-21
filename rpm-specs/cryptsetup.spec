@@ -1,6 +1,6 @@
 Summary: A utility for setting up encrypted disks
 Name: cryptsetup
-Version: 2.3.3
+Version: 2.3.4
 Release: 1%{?dist}
 License: GPLv2+ and LGPLv2+
 URL: https://gitlab.com/cryptsetup/cryptsetup
@@ -120,6 +120,13 @@ rm -rf %{buildroot}/%{_libdir}/*.la
 %ghost %attr(700, -, -) %dir /run/cryptsetup
 
 %changelog
+* Thu Sep 03 2020 Milan Broz <gmazyland@gmail.com> - 2.3.4-1
+- Update to cryptsetup 2.3.4.
+- Fix for CVE-2020-14382 (#1874712)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Ondrej Kozina <okozina@redhat.com> - 2.3.3-1
 - Update to cryptsetup 2.3.3.
 

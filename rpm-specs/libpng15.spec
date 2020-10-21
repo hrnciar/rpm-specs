@@ -1,7 +1,7 @@
 Summary: Old version of libpng, needed to run old binaries
 Name: libpng15
 Version: 1.5.30
-Release: 9%{?dist}
+Release: 11%{?dist}
 License: zlib
 URL: http://www.libpng.org/pub/png/
 
@@ -34,10 +34,10 @@ cp -p %{SOURCE1} .
 
 %build
 %configure --disable-static
-make %{?_smp_mflags} DFA_XTRA=pngusr.dfa
+%make_build DFA_XTRA=pngusr.dfa
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install
+%make_install
 
 # We don't ship .la files.
 rm -rf $RPM_BUILD_ROOT%{_libdir}/*.la
@@ -53,6 +53,13 @@ rm -rf $RPM_BUILD_ROOT%{_bindir}/*
 %{_libdir}/libpng15.so.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.30-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.5.30-10
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.30-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

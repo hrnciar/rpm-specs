@@ -2,7 +2,7 @@
 BuildArch: noarch
 
 Version: 5.300
-Release: 7%{?dist}
+Release: 8%{?dist}
 License: OFL
 URL:     https://scripts.sil.org/Mondulkiri
 
@@ -199,6 +199,9 @@ This package provides optional documentation files shipped with
 %doc documentation/*.pdf
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 5.300-7
 🐞 Workaround Fedora problems created by rpm commit 93604e2

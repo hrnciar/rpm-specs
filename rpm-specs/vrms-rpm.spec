@@ -1,6 +1,6 @@
 Name:          vrms-rpm
-Version:       2.1
-Release:       2%{?dist}
+Version:       2.2
+Release:       3%{?dist}
 Summary:       Report non-free software
 License:       GPLv3
 
@@ -30,12 +30,21 @@ make build PREFIX=%{_prefix} DEFAULT_LICENCE_LIST=tweaked %{?_smp_mflags}
 
 %files -f %{name}.lang
 %{_bindir}/%{name}
-%{_sysconfdir}/bash_completion.d/%{name}
 %{_mandir}/man1/%{name}*
 %{_datadir}/suve/
+%{_datadir}/bash-completion/completions/%{name}
 %license LICENCE.txt
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Artur Iwicki <fedora@svgames.pl> - 2.2-2
+- Re-fetch the source tarball (upstream over-wrote the git tag without bumping version)
+
+* Fri Jul 24 2020 Artur Iwicki <fedora@svgames.pl> - 2.2-1
+- Update to upstream release v2.2
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

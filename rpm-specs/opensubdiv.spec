@@ -1,28 +1,35 @@
-%global upstream_version 3_4_0
+# Force out of source build
+%undefine __cmake_in_source_build
+
+%global upstream_version 3_4_3
 
 Name:           opensubdiv
-Version:        3.4.0
-Release:        4%{?dist}
-Summary:        An Open-Source subdivision surface library
+Version:        3.4.3
+Release:        1%{?dist}
+Summary:        High performance subdivision surface libraries
 
 License:        ASL 2.0
-URL:            http://graphics.pixar.com/%{name}
-Source0:        https://github.com/PixarAnimationStudios/OpenSubdiv/archive/v%{upstream_version}.tar.gz#/%{name}-%{version}.tar.gz/%{name}-%{version}.tar.gz
-Patch0:         %{name}-rpath.patch
+#URL:            http://graphics.pixar.com/%%{name}
+Url:		https://github.com/PixarAnimationStudios/OpenSubdiv
+Source0:        https://github.com/PixarAnimationStudios/OpenSubdiv/archive/v%{upstream_version}/%{name}-%{version}.tar.gz
 
+# fix linking against libdl (see https://github.com/PixarAnimationStudios/OpenSubdiv/issues/1196)
+Patch0:         %{name}-rpath.patch
+# Use Mageia patch for switching to python3
+Patch1:		%{name}-3.4.0-python3-doc.patch
 
 BuildRequires:  cmake
 BuildRequires:  doxygen
 BuildRequires:  gcc-c++
-BuildRequires:  glew-devel
-BuildRequires:  glfw-devel
 BuildRequires:  graphviz-devel
-BuildRequires:  opencl-headers
+BuildRequires:  pkgconfig(glew)
+BuildRequires:  pkgconfig(glfw3)
+#BuildRequires:	pkgconfig(OpenCL)
 BuildRequires:  pkgconfig(python3)
+BuildRequires:  pkgconfig(tbb)
 BuildRequires:  pkgconfig(zlib)
-BuildRequires:	python3-docutils
-BuildRequires:  tbb-devel
-
+BuildRequires:	python3dist(docutils)
+BuildRequires:	python3dist(pygments)
 
 %description
 OpenSubdiv is a set of open source libraries that implement high performance
@@ -46,60 +53,60 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
 
+%package doc
+Summary:	High performance subdivision surface libraries
+BuildArch:	noarch
+
+%description doc
+OpenSubdiv is a set of open source libraries that implement high
+performance subdivision surface (subdiv) evaluation on massively
+parallel CPU and GPU architectures. 
+This code path is optimized for
+drawing deforming surfaces with static topology at interactive
+frame rates.
+
+This package includes the documentation of OpenSubdiv.
+
 %prep
 %autosetup -p1 -n OpenSubdiv-%{upstream_version}
 
+# work around linking glitch
+# https://github.com/PixarAnimationStudios/OpenSubdiv/issues/1196
+sed -i 's|${PLATFORM_GPU_LIBRARIES}|${PLATFORM_GPU_LIBRARIES} ${CMAKE_DL_LIBS}|' opensubdiv/CMakeLists.txt
+	
 %build
-mkdir cmake-build
-pushd cmake-build
-
 %cmake \
-       -DCMAKE_BUILD_TYPE=Release \
        -DCMAKE_INSTALL_PREFIX=%{_prefix} \
        -DCMAKE_LIBDIR_BASE=%{_libdir} \
        -DGLEW_LOCATION=%{_libdir} \
        -DGLFW_LOCATION=%{_libdir} \
+       -DNO_CLEW=1 \
        -DNO_CUDA=1 \
-       -DNO_GLFW_X11=1 // disable X11 dependencies\
+       -DNO_EXAMPLES=1 \
+       -DNO_GLFW_X11=1 \
+       -DNO_OPENCL=1 \
        -DNO_PTEX=1 \
-       -DOPENCL_INCLUDE_DIRS=%{_includedir} \
+       -DNO_METAL=1 \
+       -DNO_REGRESSION=1 \
+       -DNO_TUTORIALS=1 \
        -DOpenGL_GL_PREFERENCE=GLVND \
-       -DTBB_LOCATION=%{_libdir} \
-     ..
-%make_build
-
-popd
+       -DTBB_LOCATION=%{_libdir}
+%cmake_build
 
 %{?_with_tests:
 %check
-pushd cmake-build
 make test V=1
-popd
 }
 
 %install
-pushd cmake-build
-%make_install
-
-# Let rpmbuild pick up documentation
-mv %{buildroot}%{_docdir}/%{name} docs
-
-# Move tutorials out of subdirectory
-mv %{buildroot}%{_bindir}/tutorials/* %{buildroot}%{_bindir}/
-rm -fr %{buildroot}%{_bindir}/tutorials
+%cmake_install
 
 # Remove static files
 find %{buildroot} -name '*.la' -delete
 find %{buildroot} -name '*.a' -delete
 
-popd
-
 %files
-%{_bindir}/far_perf
-%{_bindir}/far_regression
-%{_bindir}/hbr_baseline
-%{_bindir}/hbr_regression
-%{_bindir}/osd_regression
+%%license LICENSE.txt
 %{_bindir}/stringify
 
 %files libs
@@ -108,22 +115,28 @@ popd
 %{_libdir}/*.so.%{version}
 
 %files devel
-%doc NOTICE.txt cmake-build/docs/*
-%{_bindir}/farViewer
-%{_bindir}/glEvalLimit
-%{_bindir}/glFVarViewer
-%{_bindir}/glImaging
-%{_bindir}/glPaintTest
-%{_bindir}/glShareTopology
-%{_bindir}/glStencilViewer
-%{_bindir}/glViewer
-%{_bindir}/far_tutorial*
-%{_bindir}/hbr_tutorial*
-%{_bindir}/osd_tutorial*
+%doc NOTICE.txt README.md
 %{_includedir}/*
 %{_libdir}/*.so
 
+%files doc
+%dir %{_docdir}/%{name}
+%{_docdir}/%{name}/*
+
 %changelog
+* Mon Sep 21 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 3.4.3-1
+- Update to 3.4.3
+- Port Mageia patch for building with Python 3 dependency
+- Add doc subpackage
+- Disable OpenCL due to upstream bug
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -7,7 +7,7 @@
 
 Name:           gtk-nodoka-engine
 Version:        0.7.5
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        The Nodoka Gtk2 Theme Engine
 
 License:        GPLv2+
@@ -66,6 +66,9 @@ find $RPM_BUILD_ROOT -name *.la | xargs rm -f || true
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.5-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.5-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

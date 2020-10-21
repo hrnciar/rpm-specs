@@ -2,7 +2,7 @@
 
 Name: python-%{srcname}
 Version: 0.7.2
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: Astropy affiliated package for image photometry tasks
 License: BSD
 
@@ -89,6 +89,9 @@ popd
 %{python3_sitearch}/%{srcname}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.2-2
 - Rebuilt for Python 3.9
 

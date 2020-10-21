@@ -1,175 +1,183 @@
-%bcond_with bootstrap
+%bcond_without vendor
 
-%if %{without bootstrap}
+%if %{without vendor}
 %bcond_without check
-# http plugins
-%bcond_without geoip
-%bcond_without realip
-# dns plugins
-%bcond_without azure
-%bcond_without cloudflare
-%bcond_without digitalocean
-%bcond_without googlecloud
-%bcond_without pdns
-%bcond_without rackspace
-%bcond_without route53
 %endif
 
 # https://github.com/caddyserver/caddy
 %global goipath         github.com/caddyserver/caddy
 %global goaltipaths     github.com/mholt/caddy
-Version:                1.0.3
+%global basever         2.2.0
+#global prerel          rc
+#global prerelnum       3
+Version:                %{basever}%{?prerel:~%{prerel}%{prerelnum}}
 
 %gometa
 
 %global common_description %{expand:
-Caddy is the HTTP/2 web server with automatic HTTPS.}
+Caddy is the web server with automatic HTTPS.}
 
-%global golicenses      LICENSE.txt
-%global godocs          dist/README.txt dist/CHANGES.txt
+%global golicenses      LICENSE
+%global godocs          README.md AUTHORS
 
 # added in F32, remove in F34
 %global godevelheader %{expand:
 Obsoletes:      golang-github-mholt-caddy-devel < 1.0.0-3
 }
 
+%if %{with vendor}
+# added in F33, remove in F35 (or sooner if de-vendoring)
+Obsoletes:      golang-github-caddyserver-caddy-devel < 1.0.4-2
+%endif
+
+
 Name:           caddy
-Release:        3%{?dist}
-Summary:        HTTP/2 web server with automatic HTTPS
+Release:        1%{?dist}
+Summary:        Web server with automatic HTTPS
 License:        ASL 2.0
 URL:            https://caddyserver.com
-Source0:        %{gosource}
-Source1:        caddy.conf
-Source2:        caddy.service
-Source3:        index.html
-# https://github.com/caddyserver/caddy/issues/2584
-Patch0:         enable-appVersion-ldflag.patch
-# https://github.com/caddyserver/caddy/pull/2728
-Patch1:         use-gopkgin-blackfriday-import-path.patch
 
-# https://github.com/mholt/caddy/commit/80dfb8b2a7f89b120a627bc4d866a1dc5ed3d92f#diff-04c6e90faac2675aa89e2176d2eec7d8
-BuildRequires:  golang >= 1.12
+%if %{with vendor}
+# git clone https://github.com/caddyserver/caddy.git caddy-%%{version}
+# cd caddy-%%{version}
+# git checkout v%%{version}
+# go mod vendor
+# cd ..
+# tar --exclude .git -czf caddy-%%{version}-vendored.tar.gz caddy-%%{version}
+Source0:        caddy-%{version}-vendored.tar.gz
+%else
+Source0:        %{gosource}
+%endif
+
+# based on reference files upstream
+# https://github.com/caddyserver/dist
+Source1:        Caddyfile
+Source2:        caddy.service
+Source3:        caddy-api.service
+Source4:        caddy.png
+Source5:        bash-completion
+Source6:        zsh-completion
+
+# https://github.com/caddyserver/caddy/commit/e4ec08e977bcc9c798a2fca324c7105040990bcf
+BuildRequires:  golang >= 1.14
+
+%if %{with vendor}
+Provides:       bundled(golang(github.com/Masterminds/sprig/v3))
+Provides:       bundled(golang(github.com/alecthomas/chroma))
+Provides:       bundled(golang(github.com/aryann/difflib))
+Provides:       bundled(golang(github.com/caddyserver/certmagic))
+Provides:       bundled(golang(github.com/dustin/go-humanize))
+Provides:       bundled(golang(github.com/go-chi/chi))
+Provides:       bundled(golang(github.com/google/cel-go))
+Provides:       bundled(golang(github.com/jsternberg/zap-logfmt))
+Provides:       bundled(golang(github.com/klauspost/compress))
+Provides:       bundled(golang(github.com/klauspost/cpuid))
+Provides:       bundled(golang(github.com/lucas-clemente/quic-go))
+Provides:       bundled(golang(github.com/mholt/acmez))
+Provides:       bundled(golang(github.com/naoina/go-stringutil))
+Provides:       bundled(golang(github.com/naoina/toml))
+Provides:       bundled(golang(github.com/prometheus/client_golang))
+Provides:       bundled(golang(github.com/smallstep/certificates))
+Provides:       bundled(golang(github.com/smallstep/cli))
+Provides:       bundled(golang(github.com/smallstep/nosql))
+Provides:       bundled(golang(github.com/smallstep/truststore))
+Provides:       bundled(golang(github.com/yuin/goldmark))
+Provides:       bundled(golang(github.com/yuin/goldmark-highlighting))
+Provides:       bundled(golang(go.uber.org/zap))
+Provides:       bundled(golang(golang.org/x/crypto))
+Provides:       bundled(golang(golang.org/x/net))
+Provides:       bundled(golang(google.golang.org/genproto))
+Provides:       bundled(golang(google.golang.org/protobuf))
+Provides:       bundled(golang(gopkg.in/natefinch/lumberjack.v2))
+Provides:       bundled(golang(gopkg.in/yaml.v2))
+%else
+BuildRequires:  golang(github.com/Masterminds/sprig/v3)
+BuildRequires:  golang(github.com/alecthomas/chroma)
+BuildRequires:  golang(github.com/aryann/difflib)
+BuildRequires:  golang(github.com/caddyserver/certmagic)
 BuildRequires:  golang(github.com/dustin/go-humanize)
-BuildRequires:  golang(github.com/flynn/go-shlex)
-BuildRequires:  golang(github.com/go-acme/lego/certcrypto)
-BuildRequires:  golang(github.com/go-acme/lego/challenge)
-BuildRequires:  golang(github.com/go-acme/lego/challenge/tlsalpn01)
-BuildRequires:  golang(github.com/google/uuid)
-BuildRequires:  golang(github.com/gorilla/websocket)
-BuildRequires:  golang(github.com/hashicorp/go-syslog)
-BuildRequires:  golang(github.com/jimstudt/http-authentication/basic)
+BuildRequires:  golang(github.com/go-chi/chi)
+BuildRequires:  golang(github.com/google/cel-go)
+BuildRequires:  golang(github.com/jsternberg/zap-logfmt)
+BuildRequires:  golang(github.com/klauspost/compress)
 BuildRequires:  golang(github.com/klauspost/cpuid)
 BuildRequires:  golang(github.com/lucas-clemente/quic-go)
-BuildRequires:  golang(github.com/lucas-clemente/quic-go/h2quic)
-# https://github.com/caddyserver/caddy/commit/0b2e054
-# https://github.com/mholt/certmagic/commit/6a42ef9
-BuildRequires:  golang(github.com/mholt/certmagic) >= 0.6.2
+BuildRequires:  golang(github.com/mholt/acmez)
+BuildRequires:  golang(github.com/naoina/go-stringutil)
 BuildRequires:  golang(github.com/naoina/toml)
-BuildRequires:  golang(gopkg.in/russross/blackfriday.v1)
-BuildRequires:  golang(golang.org/x/net/http2)
+BuildRequires:  golang(github.com/prometheus/client_golang)
+BuildRequires:  golang(github.com/smallstep/certificates)
+BuildRequires:  golang(github.com/smallstep/cli)
+BuildRequires:  golang(github.com/smallstep/nosql)
+BuildRequires:  golang(github.com/smallstep/truststore)
+BuildRequires:  golang(github.com/yuin/goldmark)
+BuildRequires:  golang(github.com/yuin/goldmark-highlighting)
+BuildRequires:  golang(go.uber.org/zap)
+BuildRequires:  golang(golang.org/x/crypto)
+BuildRequires:  golang(golang.org/x/net)
+BuildRequires:  golang(google.golang.org/genproto)
+BuildRequires:  golang(google.golang.org/protobuf)
 BuildRequires:  golang(gopkg.in/natefinch/lumberjack.v2)
 BuildRequires:  golang(gopkg.in/yaml.v2)
-
-%if %{with check}
-BuildRequires:  golang(golang.org/x/net/websocket)
-BuildRequires:  golang(gopkg.in/mcuadros/go-syslog.v2)
-BuildRequires:  golang(gopkg.in/mcuadros/go-syslog.v2/format)
 %endif
 
-# http plugins
-%if %{with geoip}
-BuildRequires:  golang(github.com/aablinov/caddy-geoip)
-%endif
-%if %{with realip}
-BuildRequires:  golang(github.com/captncraig/caddy-realip)
-%endif
-
-# dns plugins
-%if %{with azure}
-BuildRequires:  golang(github.com/caddyserver/dnsproviders/azure)
-BuildRequires:  golang(github.com/go-acme/lego/providers/dns/azure)
-%endif
-%if %{with cloudflare}
-BuildRequires:  golang(github.com/caddyserver/dnsproviders/cloudflare)
-BuildRequires:  golang(github.com/go-acme/lego/providers/dns/cloudflare)
-%endif
-%if %{with digitalocean}
-BuildRequires:  golang(github.com/caddyserver/dnsproviders/digitalocean)
-BuildRequires:  golang(github.com/go-acme/lego/providers/dns/digitalocean)
-%endif
-%if %{with googlecloud}
-BuildRequires:  golang(github.com/caddyserver/dnsproviders/googlecloud)
-BuildRequires:  golang(github.com/go-acme/lego/providers/dns/gcloud)
-%endif
-%if %{with pdns}
-BuildRequires:  golang(github.com/caddyserver/dnsproviders/pdns)
-BuildRequires:  golang(github.com/go-acme/lego/providers/dns/pdns)
-%endif
-%if %{with rackspace}
-BuildRequires:  golang(github.com/caddyserver/dnsproviders/rackspace)
-BuildRequires:  golang(github.com/go-acme/lego/providers/dns/rackspace)
-%endif
-%if %{with route53}
-BuildRequires:  golang(github.com/caddyserver/dnsproviders/route53)
-BuildRequires:  golang(github.com/go-acme/lego/providers/dns/route53)
-%endif
-
-BuildRequires:  systemd
+BuildRequires:  systemd-rpm-macros
 %{?systemd_requires}
-
+Requires:       system-logos-httpd
 Provides:       webserver
 
 
 %description %{common_description}
 
-This package was built with the following plugins:
 
-%{?with_geoip:  http.geoip
-}%{?with_realip:  http.realip
-}%{?with_azure:  tls.dns.azure
-}%{?with_cloudflare:  tls.dns.cloudflare
-}%{?with_digitalocean:  tls.dns.digitalocean
-}%{?with_googlecloud:  tls.dns.googlecloud
-}%{?with_pdns:  tls.dns.powerdns
-}%{?with_rackspace:  tls.dns.rackspace
-}%{?with_route53:  tls.dns.route53
-}
-
-
+%if %{with vendor}
 %gopkg
+%endif
 
 
 %prep
+%if %{with vendor}
+%goprep -k
+%else
 %goprep
-%patch0 -p 1
-%patch1 -p 1
+%endif
 
-sed                     -e '/where other plugins get plugged in/ a \\t// plugins added during rpmbuild' \
-%{?with_geoip:          -e '/where other plugins get plugged in/ a \\t_ "github.com/aablinov/caddy-geoip"'} \
-%{?with_realip:         -e '/where other plugins get plugged in/ a \\t_ "github.com/captncraig/caddy-realip"'} \
-%{?with_azure:          -e '/where other plugins get plugged in/ a \\t_ "github.com/caddyserver/dnsproviders/azure"'} \
-%{?with_cloudflare:     -e '/where other plugins get plugged in/ a \\t_ "github.com/caddyserver/dnsproviders/cloudflare"'} \
-%{?with_digitalocean:   -e '/where other plugins get plugged in/ a \\t_ "github.com/caddyserver/dnsproviders/digitalocean"'} \
-%{?with_googlecloud:    -e '/where other plugins get plugged in/ a \\t_ "github.com/caddyserver/dnsproviders/googlecloud"'} \
-%{?with_pdns:           -e '/where other plugins get plugged in/ a \\t_ "github.com/caddyserver/dnsproviders/pdns"'} \
-%{?with_rackspace:      -e '/where other plugins get plugged in/ a \\t_ "github.com/caddyserver/dnsproviders/rackspace"'} \
-%{?with_route53:        -e '/where other plugins get plugged in/ a \\t_ "github.com/caddyserver/dnsproviders/route53"'} \
-                        -i caddy/caddymain/run.go
+sed -e '/mod.Version/ s/unknown/%{version}-%{release}/' -i caddy.go
 
 
 %build
-export LDFLAGS="${LDFLAGS:-} -X %{goipath}/caddy/caddymain.appVersion=v%{version} "
-%gobuild -o %{gobuilddir}/bin/caddy %{goipath}/caddy
+%gobuild -o %{gobuilddir}/bin/caddy %{goipath}/cmd/caddy
 
 
 %install
+%if %{without vendor}
 %gopkginstall
-install -D -m 0755 %{gobuilddir}/bin/caddy %{buildroot}%{_bindir}/caddy
-install -D -m 0644 %{S:1} %{buildroot}%{_sysconfdir}/caddy/caddy.conf
-install -D -m 0644 %{S:2} %{buildroot}%{_unitdir}/caddy.service
-install -D -m 0644 %{S:3} %{buildroot}%{_datadir}/caddy/index.html
-install -d -m 0755 %{buildroot}%{_sysconfdir}/caddy/conf.d
+%endif
+
+# command
+install -D -p -m 0755 %{gobuilddir}/bin/caddy %{buildroot}%{_bindir}/caddy
+
+# config
+install -D -p -m 0644 %{S:1} %{buildroot}%{_sysconfdir}/caddy/Caddyfile
+install -d -m 0755 %{buildroot}%{_sysconfdir}/caddy/Caddyfile.d
+
+# systemd units
+install -D -p -m 0644 %{S:2} %{buildroot}%{_unitdir}/caddy.service
+install -D -p -m 0644 %{S:3} %{buildroot}%{_unitdir}/caddy-api.service
+
+# data directory
 install -d -m 0750 %{buildroot}%{_sharedstatedir}/caddy
+
+# welcome page
+install -D -p -m 0644 %{S:4} %{buildroot}%{_datadir}/caddy/caddy.png
+ln -s caddy.png %{buildroot}%{_datadir}/caddy/poweredby.png
+ln -s ../fedora-testpage/index.html %{buildroot}%{_datadir}/caddy/index.html
+install -d -m 0755 %{buildroot}%{_datadir}/caddy/icons
+ln -s ../../pixmaps/poweredby.png %{buildroot}%{_datadir}/caddy/icons/poweredby.png
+
+# shell completion
+install -D -p -m 0644 %{S:5} %{buildroot}%{_datadir}/bash-completion/completions/caddy
+install -D -p -m 0644 %{S:6} %{buildroot}%{_datadir}/zsh/site-functions/_caddy
 
 
 %if %{with check}
@@ -205,8 +213,8 @@ if [ -x /usr/sbin/semanage ]; then
     # QUIC
     semanage port --add --type http_port_t --proto udp 80   2> /dev/null || :
     semanage port --add --type http_port_t --proto udp 443  2> /dev/null || :
-    # HTTP challenge alternate port
-    semanage port --add --type http_port_t --proto tcp 5033 2> /dev/null || :
+    # admin endpoint
+    semanage port --add --type http_port_t --proto tcp 2019 2> /dev/null || :
 fi
 
 
@@ -231,8 +239,8 @@ if [ $1 -eq 0 ]; then
         # QUIC
         semanage port     --delete --type http_port_t --proto udp 80   2> /dev/null || :
         semanage port     --delete --type http_port_t --proto udp 443  2> /dev/null || :
-        # HTTP challenge alternate port
-        semanage port     --delete --type http_port_t --proto tcp 5033 2> /dev/null || :
+        # admin endpoint
+        semanage port     --delete --type http_port_t --proto tcp 2019 2> /dev/null || :
     fi
 fi
 
@@ -243,16 +251,52 @@ fi
 %{_bindir}/caddy
 %{_datadir}/caddy
 %{_unitdir}/caddy.service
+%{_unitdir}/caddy-api.service
 %dir %{_sysconfdir}/caddy
-%dir %{_sysconfdir}/caddy/conf.d
-%config(noreplace) %{_sysconfdir}/caddy/caddy.conf
+%config(noreplace) %{_sysconfdir}/caddy/Caddyfile
+%dir %{_sysconfdir}/caddy/Caddyfile.d
 %attr(0750,caddy,caddy) %dir %{_sharedstatedir}/caddy
+# filesystem owns all the parent directories here
+%{_datadir}/bash-completion/completions/caddy
+# own parent directories in case zsh is not installed
+%dir %{_datadir}/zsh
+%dir %{_datadir}/zsh/site-functions
+%{_datadir}/zsh/site-functions/_caddy
 
 
+%if %{without vendor}
 %gopkgfiles
+%endif
 
 
 %changelog
+* Sat Sep 26 2020 Carl George <carl@george.computer> - 2.2.0-1
+- Latest upstream
+
+* Sat Sep 19 2020 Carl George <carl@george.computer> - 2.2.0~rc3-1
+- Latest upstream
+
+* Fri Aug 14 2020 Carl George <carl@george.computer> - 2.1.1-2
+- Add bash and zsh completion support
+
+* Sun Aug 09 2020 Carl George <carl@george.computer> - 2.1.1-1
+- Update to Caddy v2
+- Remove all v1 plugins
+- Use vendored dependencies
+- Remove devel subpackage
+- Rename config file per upstream request
+- Use webserver test page from system-logos-httpd
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 20:56:10 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.4-1
+- Update to 1.0.4 (#1803691)
+
 * Mon Feb 17 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.0.3-3
 - Rebuilt for GHSA-jf24-p9p9-4rjh
 

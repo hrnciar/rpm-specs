@@ -7,7 +7,7 @@
 
 Name:           python-%{srcname}
 Version:        1.0.2
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        Low-level CSS parser for Python
 
 License:        BSD
@@ -22,6 +22,7 @@ BuildRequires:  %{py3_prefix}-devel
 BuildRequires:  %{py3_prefix}-pytest
 BuildRequires:  %{py3_prefix}-pytest-cov
 BuildRequires:  %{py3_prefix}-pytest-runner
+BuildRequires:  %{py3_prefix}-setuptools
 BuildRequires:  %{py3_prefix}-webencodings >= 0.4
 
 %description
@@ -69,6 +70,12 @@ rm -rf %{buildroot}%{python3_sitelib}/%{srcname}/__pycache__/test.*.py?
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.0.2-7
+- add python3-setuptools to BuildRequires
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.2-6
 - Rebuilt for Python 3.9
 

@@ -17,7 +17,7 @@ to their hashes.}
 %global godocs          README.md
 
 Name:           terrier
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Image and Container analysis tool
 
 License:        ASL 2.0
@@ -56,6 +56,9 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.0.2-1
 - Initial package
 

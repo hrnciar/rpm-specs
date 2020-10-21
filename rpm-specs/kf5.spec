@@ -1,5 +1,5 @@
 Name:    kf5
-Version: 5.71.0
+Version: 5.75.0
 Release: 1%{?dist}
 Summary: Filesystem and RPM macros for KDE Frameworks 5
 License: BSD
@@ -27,6 +27,11 @@ Requires: qt5-rpm-macros >= 5.11
 Requires: cmake3
 Requires: qt5-qtbase-devel >= 5.11
 %endif
+%if 0%{?rhel} == 8
+# This is where cmake-related macros live, e.g. %%cmake_build, %%cmake_install
+# at least until fixed upstream, https://bugzilla.redhat.com/show_bug.cgi?id=1858941
+Requires: epel-rpm-macros
+%endif
 # misc build environment dependencies
 Requires: gcc-c++
 BuildArch: noarch
@@ -45,14 +50,15 @@ mkdir -p %{buildroot}%{_datadir}/kservices5/ServiceMenus
 mkdir -p %{buildroot}%{_datadir}/knsrcfiles/
 mkdir -p %{buildroot}%{_datadir}/qlogging-categories5/
 mkdir -p %{buildroot}%{_datadir}/solid/{actions,devices}
+mkdir -p %{buildroot}%{_docdir}/qt5
 mkdir -p %{buildroot}%{_libexecdir}/kf5
 mkdir -p %{buildroot}%{_sysconfdir}/xdg/plasma-workspace/{env,shutdown}
 
 install -Dpm644 %{_sourcedir}/macros.kf5 %{buildroot}%{_rpmconfigdir}/macros.d/macros.kf5
 sed -i \
   -e "s|@@KF5_VERSION@@|%{version}|g" \
-%if 0%{?rhel} || 0%{?rhel} > 7
-  -e 's|rhel:%{__cmake3}|rhel:%{__cmake}|' \
+%if 0%{?rhel} && 0%{?rhel} < 8
+  -e 's|%{__cmake}|%{__cmake3}|' \
 %endif
   %{buildroot}%{_rpmconfigdir}/macros.d/macros.kf5
 
@@ -74,12 +80,43 @@ sed -i \
 %{_datadir}/knsrcfiles/
 %{_datadir}/qlogging-categories5/
 %{_datadir}/solid/
+%{_docdir}/qt5/
 
 %files rpm-macros
 %{_rpmconfigdir}/macros.d/macros.kf5
 
 
 %changelog
+* Wed Oct 14 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.75.0-1
+- 5.75.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.74.0-1
+- 5.74.0
+
+* Sat Aug 22 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.73.0-2
+- rpm-macros: Requires: epel-rpm-macros on rhel8
+
+* Mon Aug 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.73.0-1
+- 5.73.0
+
+* Wed Jul 29 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-5
+- %%cmake_kf5: +%%undefine __cmake_in_source_build
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.72.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-3
+- own %%_docdir/qt5 aka %%_qt5_docdir (for kf5 qch docs)
+
+* Tue Jul 14 2020 Troy Dawson <tdawson@redhat.com> - 5.72.0-2
+- Clean up the conditional in macros.kf5
+
+* Tue Jul 07 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-1
+- 5.72.0
+
+* Fri Jul 03 2020 Neal Gompa <ngompa13@gmail.com> - 5.71.0-2
+- Support automatically doing out of tree builds if cmake is configured as such
+
 * Tue Jun 16 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.71.0-1
 - 5.71.0
 

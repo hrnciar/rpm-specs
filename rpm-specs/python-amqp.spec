@@ -18,7 +18,7 @@
 %global srcname amqp
 
 Name:           python-%{srcname}
-Version:        2.6.0
+Version:        5.0.1
 Release:        1%{?dist}
 Summary:        Low-level AMQP client for Python (fork of amqplib)
 
@@ -75,13 +75,13 @@ BuildRequires:  python3-nose
 BuildRequires:  python3-case
 BuildRequires:  python3-pytest
 BuildRequires:  python3-mock
-BuildRequires:  python3-vine
+BuildRequires:  python3-vine >= 5.0.0
 %endif
 %if %{with sphinx_docs}
 BuildRequires:  python3-sphinx >= 0.8
 %endif
 %{?python_provide:%python_provide python3-%{srcname}}
-Requires:    python3-vine >= 1.1.3
+Requires:    python3-vine >= 5.0.0
 
 %description -n python3-%{srcname}
 Low-level AMQP client for Python
@@ -180,6 +180,15 @@ py.test-3 t/unit
 
 
 %changelog
+* Tue Sep 29 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 5.0.1-1
+- python-amqp 5.0.1
+
+* Mon Aug 03 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 2.6.1-1
+- python-amqp 2.6.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 2.6.0-1
 - python-amqp 2.6.0
 

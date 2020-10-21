@@ -20,7 +20,7 @@
 
 Name:           vdr-%{pname}
 Version:        0.6.1
-Release:        0.23%{?gitver:.git%{gitshort}}%{?dist}
+Release:        0.26%{?gitver:.git%{gitshort}}%{?dist}
 Summary:        Streaming plug-in for VDR
 License:        GPL+ and GPLv2+
 URL:            http://projects.vdr-developer.org/projects/plg-streamdev
@@ -41,7 +41,6 @@ BuildRequires:  vdr-devel >= 1.6.0-41
 %description
 The streamdev plug-in adds streaming capabilities to your VDR.
 
-
 %package server
 Summary:        Streaming server plug-in for VDR
 Requires:       vdr(abi)%{?_isa} = %{vdr_apiversion}
@@ -50,7 +49,6 @@ Requires:       vdr(abi)%{?_isa} = %{vdr_apiversion}
 Lets your VDR act as a streaming server for other clients.
 This will let you watch TV or Recordings across the network.
 
-
 %package client
 Summary:        Streaming client plug-in for VDR
 Requires:       vdr(abi)%{?_isa} = %{vdr_apiversion}
@@ -58,7 +56,6 @@ Requires:       vdr(abi)%{?_isa} = %{vdr_apiversion}
 %description client
 Lets your VDR in conjunction with a streamdev-server act as a streaming client.
 VDR will then be able to work even without a DVB device.
-
 
 %prep
 %setup -q -n %{setuppath}
@@ -71,10 +68,8 @@ for f in CONTRIBUTORS HISTORY; do
   mv $f.conv $f
 done
 
-
 %build
-make %{?_smp_mflags} CFLAGS="%{optflags} -fPIC" CXXFLAGS="%{optflags} -fPIC"
-
+make %{?_smp_mflags} CFLAGS="%{optflags} -fPIC" CXXFLAGS="-std=c++14 %{optflags} -fPIC"
 
 %install
 %make_install
@@ -87,7 +82,6 @@ install -Dpm 644 %{SOURCE2} \
   $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/vdr-plugins.d/%{pname}-client.conf
 %find_lang %{name}-server
 %find_lang %{name}-client
-
 
 %files server -f %{name}-server.lang
 %doc CONTRIBUTORS COPYING HISTORY PROTOCOL README
@@ -102,8 +96,16 @@ install -Dpm 644 %{SOURCE2} \
 %{vdr_plugindir}/libvdr-%{pname}-client.so.%{vdr_apiversion}
 %config(noreplace) %{_sysconfdir}/sysconfig/vdr-plugins.d/%{pname}-client.conf
 
-
 %changelog
+* Fri Aug 28 2020 Martin Gansser <martinkg@fedoraproject.org> - 0.6.1-0.26.gitb84b7d85
+- Rebuilt for new VDR API version
+
+* Fri Aug 14 2020 Jeff Law <law@redhat.com> - 0.6.1-0.25.gitb84b7d85
+- Force C++14 as this code is not C++17 ready
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-0.24.gitb84b7d85
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-0.23.gitb84b7d85
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,17 +3,18 @@
 
 Name:           python-GeoIP
 Version:        1.3.2
-Release:        16%{?dist}
+Release:        18%{?dist}
 Summary:        Python bindings for the GeoIP geographical lookup libraries
 
 License:        LGPLv2+
 URL:            http://www.maxmind.com/download/geoip/api/python/
 Source0:        http://pypi.python.org/packages/source/G/GeoIP/GeoIP-%{version}.tar.gz
 
-# GeoIP 1.4.8 required by v1.2.7 of this package per README
 BuildRequires:  gcc
+# GeoIP 1.4.8 required by v1.2.7 of this package per README
 BuildRequires:  GeoIP-devel >= 1.4.8
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 
 %description
 This package contains the Python bindings for the GeoIP API, allowing IP to
@@ -43,6 +44,12 @@ location lookups to country, city and organization level within Python code.
 %{python3_sitearch}/*egg-info
 
 %changelog
+* Mon Aug 31 2020 Sérgio Basto <sergio@serjux.com> - 1.3.2-18
+- Please BuildRequire python3-setuptools explicitly
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.2-16
 - Rebuilt for Python 3.9
 

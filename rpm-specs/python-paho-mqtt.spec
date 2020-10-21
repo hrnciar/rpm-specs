@@ -1,13 +1,13 @@
 %global srcname paho-mqtt
 
 Name:           python-%{srcname}
-Version:        1.5.0
-Release:        4%{?dist}
-Summary:        A Python MQTT version 3.1/3.1.1/5.0 client class
+Version:        1.5.1
+Release:        1%{?dist}
+Summary:        Python MQTT version 3.1/3.1.1/5.0 client class
 
 License:        EPL-1.0
 URL:            http://eclipse.org/paho/
-Source0:        https://github.com/eclipse/paho.mqtt.python/archive/v%{version}.tar.gz#/%{srcname}-%{version}.tar.gz
+Source0:        https://github.com/eclipse/paho.mqtt.python/archive/v%{version}/%{srcname}-%{version}.tar.gz
 Buildarch:      noarch
 
 %description
@@ -25,6 +25,7 @@ and/or network bandwidth is at a premium.
 Summary:        %{summary}
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-pytest-runner
 %{?python_provide:%python_provide python3-%{srcname}}
 
@@ -55,6 +56,15 @@ and/or network bandwidth is at a premium.
 %{python3_sitelib}/paho*.egg-info
 
 %changelog
+* Tue Sep 29 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.5.1-1
+- Update to latest upstream release 1.5.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.5.0-5
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5.0-4
 - Rebuilt for Python 3.9
 

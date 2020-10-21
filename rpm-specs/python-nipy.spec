@@ -1,10 +1,21 @@
+# Skip tests for the time being: use deprecated numpy decorators
+# https://bugzilla.redhat.com/show_bug.cgi?id=1800845
+# WIP: https://github.com/nipy/nipy/pull/458
+%bcond_with tests
+
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 %global modname nipy
 
 %global _docdir_fmt %{name}
 
 Name:           python-%{modname}
 Version:        0.4.2
-Release:        7%{?dist}
+Release:        11%{?dist}
 Summary:        Neuroimaging in Python FMRI analysis package
 
 License:        BSD
@@ -12,7 +23,7 @@ URL:            http://nipy.org/nipy
 Source0:        https://github.com/nipy/nipy/archive/%{version}/%{modname}-%{version}.tar.gz
 BuildRequires:  git-core
 BuildRequires:  gcc
-BuildRequires:  lapack-devel blas-devel atlas-devel
+BuildRequires:  %{blaslib}-devel
 
 %description
 Neuroimaging tools for Python.
@@ -27,10 +38,12 @@ BuildRequires:  python3-devel python3-setuptools
 BuildRequires:  python3-numpy python3-scipy python3-nibabel python3-sympy
 BuildRequires:  python3-Cython
 # Test deps
+%if %{with tests}
 BuildRequires:  python3-nose
 BuildRequires:  python3-six
 BuildRequires:  python3-transforms3d
 BuildRequires:  nipy-data
+%endif
 Requires:       python3-configobj
 Requires:       python3-numpy
 Requires:       python3-scipy
@@ -91,6 +104,7 @@ done < tmp
 rm -f tmp
 
 %check
+%if %{with tests}
 TESTING_DATA=(                                             \
 nipy/testing/functional.nii.gz                             \
 nipy/modalities/fmri/tests/spm_hrfs.mat                    \
@@ -121,6 +135,7 @@ pushd build/lib.*-%{python3_version}
   done
   PATH="%{buildroot}%{_bindir}:$PATH" nosetests-%{python3_version} -v %{?skip_tests:-e %{skip_tests}}
 popd
+%endif
 
 %files -n python3-%{modname}
 %license LICENSE
@@ -133,6 +148,20 @@ popd
 %{python3_sitearch}/%{modname}*
 
 %changelog
+* Sun Aug 16 2020 Iñaki Úcar <iucar@fedoraproject.org> - 0.4.2-11
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Thu Aug 13 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.4.2-10
+- Temporarily disable tests
+- #1800845
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.2-7
 - Rebuilt for Python 3.9
 

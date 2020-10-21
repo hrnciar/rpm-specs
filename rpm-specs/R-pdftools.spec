@@ -1,15 +1,15 @@
-%global packname  pdftools
+%global packname pdftools
+%global packver  2.3.1
 %global rlibdir  %{_libdir}/R/library
-%global with_suggests 0
 
 Name:             R-%{packname}
 Version:          2.3.1
-Release:          1%{?dist}
+Release:          4%{?dist}
 Summary:          Text Extraction, Rendering and Converting of PDF Documents
 
 License:          MIT
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
@@ -22,21 +22,19 @@ BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    R-Rcpp-devel >= 0.12.12
 BuildRequires:    R-qpdf
-BuildRequires:    poppler-cpp-devel
-BuildRequires:    poppler-data
 BuildRequires:    R-jpeg
 BuildRequires:    R-png
 BuildRequires:    R-webp
-BuildRequires:    R-testthat
-%if %{with_suggests}
 BuildRequires:    R-tesseract
-%endif
+BuildRequires:    R-testthat
+BuildRequires:    poppler-cpp-devel
+BuildRequires:    poppler-data
 
 %description
-Utilities based on 'libpoppler' for extracting text, fonts, attachments
-and metadata from a PDF file. Also supports high quality rendering of PDF
-documents into PNG, JPEG, TIFF format, or into raw bitmap vectors for
-further processing in R.
+Utilities based on 'libpoppler' for extracting text, fonts, attachments and
+metadata from a PDF file. Also supports high quality rendering of PDF documents
+into PNG, JPEG, TIFF format, or into raw bitmap vectors for further processing
+in R.
 
 
 %prep
@@ -54,11 +52,8 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %check
-%if %{with_suggests}
 %{_bindir}/R CMD check %{packname}
-%else
-_R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --no-examples
-%endif
+
 
 %files
 %dir %{rlibdir}/%{packname}
@@ -76,6 +71,16 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --no-examples
 
 
 %changelog
+* Sun Aug 09 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.3.1-4
+- Re-enable full checks
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun  6 2020 Tom Callaway <spot@fedoraproject.org> - 2.2-6
 - update to 2.3.1
 - rebuild for R 4

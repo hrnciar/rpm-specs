@@ -1,7 +1,7 @@
-%global blender_api 2.83
+# Force out of source build
+%undefine __cmake_in_source_build
 
-# Turn off the brp-python-bytecompile script
-%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
+%global blender_api 2.90
 
 %global macrosdir %(d=%{_rpmconfigdir}/macros.d; [ -d $d ] || d=%{_sysconfdir}/rpm; echo $d)
 
@@ -11,13 +11,24 @@
 %global cyclesflag OFF
 %endif
 
-# Comment this to enable FFmpeg support.
-%global _without_ffmpeg 1
+%bcond_with ffmpeg
+%bcond_with openshading
+%bcond_with wayland
+
+# Only available on x86_64
+%ifarch x86_64
+%bcond_without embree
+%bcond_without oidn
+%else
+%bcond_with embree
+%bcond_with oidn
+%endif
 
 Name:       blender
 Epoch:      1
-Version:    %{blender_api}.0
-Release:    4%{?dist}
+Version:    %{blender_api}.1
+Release:    1%{?dist}
+
 
 Summary:    3D modeling, animation, rendering and post-production
 License:    GPLv2
@@ -30,13 +41,12 @@ Source3:    %{name}.xml
 Source4:    macros.%{name}
 
 # Patch to separate built-in fonts to the fonts directory
-Patch0:     %{name}-%{blender_api}-droid.patch
+Patch0:     %{name}-2.90-droid.patch
 
-# Upstream fix to support Python 3.9
-# https://developer.blender.org/rB56d0df51a36fdce7ec2d1fbb7b47b1d95b591b5f
-%if 0%{?fedora} > 32
-Patch1:     %{name}-support-building-against-python-3.9.diff
-%endif
+# Use EMBREE_LIBRARY otherwise build fails
+# based from Arch Linux patch
+# https://github.com/archlinux/svntogit-community/blob/packages/blender/trunk/embree.patch
+Patch1:      %{name}-embree-library.diff
 
 # Development stuff
 BuildRequires:  boost-devel
@@ -47,26 +57,31 @@ BuildRequires:  gettext
 BuildRequires:  git
 BuildRequires:  libtool
 BuildRequires:  libspnav-devel
+BuildRequires:  llvm-devel
 BuildRequires:  pkgconfig(blosc)
 BuildRequires:  pkgconfig(expat)
 BuildRequires:  pkgconfig(jemalloc)
 BuildRequires:  pkgconfig(libpcre)
 BuildRequires:  pkgconfig(libxml-2.0)
 BuildRequires:  pkgconfig(openssl)
-%if 0%{?fedora} > 31
+%if 0%{?fedora} >= 32
 BuildRequires:  pkgconfig(pugixml)
 %else
 BuildRequires:  pugixml-devel
 %endif
 BuildRequires:  pkgconfig(python3) >= 3.5
+%if %{with wayland}
+BuildRequires:  pkgconfig(wayland-client)
+BuildRequires:  pkgconfig(xkbcommon)
+%endif
 BuildRequires:  pkgconfig(xxf86vm)
-BuildRequires:  python3-numpy
-BuildRequires:  python3-requests
+BuildRequires:  python3dist(numpy)
+BuildRequires:  python3dist(requests)
 BuildRequires:  subversion-devel
 
 # Compression stuff
 BuildRequires:  pkgconfig(liblzma)
-%if 0%{?fedora} > 31
+%if 0%{?fedora} >= 32
 BuildRequires:  pkgconfig(lzo2)
 %else
 BuildRequires:  lzo-devel
@@ -74,13 +89,16 @@ BuildRequires:  lzo-devel
 BuildRequires:  pkgconfig(zlib)
 
 
-
-
-
 # 3D modeling stuff
-%ifarch x86_64
-BuildRequires:  embree-devel
-BuildRequires:  oidn-devel
+%if %{with embree}
+BuildRequires:  cmake(embree)
+%endif
+BuildRequires:  opensubdiv-devel
+%if %{with openshading}
+BuildRequires:  cmake(OSL)
+%endif
+%if %{with oidn}
+BuildRequires:  cmake(OpenImageDenoise)
 %endif
 BuildRequires:  openCOLLADA-devel >= svn825
 BuildRequires:  pkgconfig(fftw3)
@@ -97,15 +115,14 @@ BuildRequires:  pkgconfig(glu)
 BuildRequires:  pkgconfig(xi)
 BuildRequires:  pkgconfig(xrender)
 BuildRequires:  pkgconfig(ode)
-BuildRequires:  opensubdiv-devel
 BuildRequires:  pkgconfig(sdl2)
 BuildRequires:  pkgconfig(xproto)
 
 # Picture/Video stuff
-BuildRequires:  alembic-devel
-%{!?_without_ffmpeg:
+BuildRequires:  cmake(Alembic)
+%if %{with ffmpeg}
 BuildRequires:  ffmpeg-devel
-}
+%endif
 BuildRequires:  openvdb-devel
 BuildRequires:  pkgconfig(libjpeg)
 BuildRequires:  pkgconfig(libpng)
@@ -119,14 +136,14 @@ BuildRequires:  pkgconfig(libopenjp2)
 BuildRequires:  pkgconfig(tbb)
 
 # Audio stuff
+BuildRequires:  pkgconfig(ao)
 BuildRequires:  pkgconfig(freealut)
 BuildRequires:  pkgconfig(jack)
-BuildRequires:  pkgconfig(ao)
 BuildRequires:  pkgconfig(ogg)
+BuildRequires:  pkgconfig(opus)
 BuildRequires:  pkgconfig(samplerate)
 BuildRequires:  pkgconfig(sndfile)
 BuildRequires:  pkgconfig(vorbis)
-BuildRequires:  pkgconfig(opus)
 
 # Typography stuff
 BuildRequires:  fontpackages-devel
@@ -139,18 +156,18 @@ Requires:       google-droid-sans-fonts
 Requires:       hicolor-icon-theme
 Requires:       %{name}-fonts = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:       fontpackages-filesystem
-Requires:       python3-numpy
-Requires:       python3-requests
+Requires:       python3dist(requests)
+Requires:       python3dist(numpy)
 Provides:       blender(ABI) = %{blender_api}
 
 # Obsolete the standalone Blender player retired by upstream
 Obsoletes:      blenderplayer < 1:2.80-1
 Provides:       blenderplayer = 1:2.80-1
 
-# Temporarily exclude ARM32 architecture due to build failure
-# https://koji.fedoraproject.org/koji/taskinfo?taskID=45594704
-# https://bugzilla.redhat.com/show_bug.cgi?id=1843100
-ExcludeArch:	armv7hl
+# Starting from 2.90, Blender support only 64-bits architectures
+ExclusiveArch:  x86_64 aarch64 ppc64le
+# s390x is excluded due https://bugzilla.redhat.com/show_bug.cgi?id=1874398
+
 
 %description
 Blender is the essential software solution you need for 3D, from modeling,
@@ -189,36 +206,61 @@ rm -f build_files/cmake/Modules/FindOpenJPEG.cmake
 # Fix all Python shebangs recursively in .
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" .
 
-mkdir cmake-make
+# Use c++14 in order to fix build errors when including headers
+# from the latest version of openvdb.
+# Upstream issue: https://github.com/AcademySoftwareFoundation/openvdb/issues/795
+sed -i 's|${CMAKE_CXX_FLAGS} -std=c++11|${CMAKE_CXX_FLAGS} -std=c++14|' CMakeLists.txt
 
 %build
-pushd cmake-make
-
-%cmake .. \
+%cmake . \
 %ifnarch %{ix86} x86_64
     -DWITH_RAYOPTIMIZATION=OFF \
 %endif
+%if %{with ffmpeg}
+    -DWITH_CODEC_FFMPEG=ON \
+%else
+    -DWITH_CODEC_FFMPEG=OFF \
+%endif
+%if %{with embree}
+    -DEMBREE_LIBRARY=%{_libdir} \
+    -DEMBREE_INCLUDE_DIR=%{_includedir} \
+%endif
+    -DWITH_CYCLES_EMBREE=OFF \
+%if %{with openshading}
+    -DOSL_COMPILER=g++ \
+%endif
+%if %{with oidn}
+    -DOPENIMAGEDENOISE_LIBRARY=%{_libdir} \
+    -DOPENIMAGEDENOISE_INCLUDE_DIR=%{_includedir} \
+    -DWITH_OPENIMAGEDENOISE=ON \
+%endif
     -DBOOST_ROOT=%{_prefix} \
     -DBUILD_SHARED_LIBS=OFF \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_C_FLAGS="%{optflags} -Wl,--as-needed" \
+    -DCMAKE_CXX_FLAGS="%{optflags} -Wl,--as-needed" \
     -DCMAKE_SKIP_RPATH=ON \
-    -DPYTHON_VERSION=%{python3_version} \
     -DOpenGL_GL_PREFERENCE=GLVND \
-    %{?_without_ffmpeg:-DWITH_CODEC_FFMPEG=OFF} \
+    -DPYTHON_VERSION=%{python3_version} \
+    -DWITH_ALEMBIC=ON \
     -DWITH_CYCLES=%{cyclesflag} \
     -DWITH_DOC_MANPAGE=ON \
+%if %{with wayland}
+    -DWITH_GHOST_WAYLAND=ON \
+%endif
     -DWITH_INSTALL_PORTABLE=OFF \
+    -DWITH_OPENSUBDIV=ON \
+    -DWITH_OPENVDB=ON \
+    -DWITH_OPENVDB_BLOSC=ON \
+    -DWITH_PYTHON=ON \
     -DWITH_PYTHON_INSTALL=OFF \
     -DWITH_PYTHON_INSTALL_REQUESTS=OFF \
-    -DWITH_PYTHON_SAFETY=ON 
-%make_build
-popd
+    -DWITH_PYTHON_SAFETY=ON
 
+%cmake_build
 
 %install
-pushd cmake-make
-%make_install
-popd
-
+%cmake_install
 
 # Thumbnailer
 install -p -D -m 644 %{SOURCE1} %{buildroot}%{_datadir}/thumbnailers/%{name}.thumbnailer
@@ -240,9 +282,6 @@ install -p -m 644 -D %{SOURCE2} %{buildroot}%{_metainfodir}/%{name}-fonts.metain
 
 # Localization
 %find_lang %{name}
-
-# Avoid having locales listed twice
-rm -fr %{buildroot}%{_datadir}/%{blender_api}/locale/languages
 
 # rpmlint fixes
 find %{buildroot}%{_datadir}/%{name}/%{blender_api}/scripts -name "*.py" -exec chmod 755 {} \;
@@ -277,6 +316,73 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}-fonts.
 %{_metainfodir}/%{name}-fonts.metainfo.xml
 
 %changelog
+* Wed Sep 23 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1:2.90.1-1
+- Update to 2.90.1 (#1881831)
+
+* Sat Sep 05 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1:2.90.0-4
+- Rebuild for oidn 1.2.3
+
+* Sat Sep 05 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1:2.90.0-3
+- Build exclusively on 64-bits architectures due to upstream change
+
+* Sat Sep 05 2020 Richard Shaw <hobbes1069@gmail.com> - 1:2.90.0-2
+- Rebuild for OpenImageIO 2.2.
+
+* Mon Aug 31 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1:2.90.0-1
+- Update to 2.90.0 (#1855165)
+- Disable embree for cycle rendering
+- Add initial Wayland support and set disabled by default
+- Remove unused brp-python-bytecompile script declaration
+- Remove python 3.9 patch
+
+* Thu Aug 27 2020 Simone Caronni <negativo17@gmail.com> - 1:2.83.5-5
+- Revert change for not listing locale files twice, it's preventing localization
+  to be included in the package.
+
+* Tue Aug 25 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1:2.83.5-4
+- Temporarily exclude s390x secondary arch
+
+* Tue Aug 25 2020 Charalampos Stratakis <cstratak@redhat.com> - 1:2.83.5-3
+- Use c++14 for properly building with the latest version of openvdb
+
+* Mon Aug 24 2020 Simone Caronni <negativo17@gmail.com> - 1:2.83.5-2
+- Be consistent with build options format and distribution conditionals.
+- rpmlint fixes.
+- Fix build dependencies.
+- Fix Python 3.9 patch.
+- Disable OpenShadingLanguage, 1.11 is not supported.
+- Disable Embree, 3.11 is not supported.
+
+* Wed Aug 19 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1:2.83.5-1
+- Update to 2.83.5 (#1855165)
+
+* Wed Aug 05 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1:2.83.4-1
+- Update to 2.83.4 (#1855165)
+
+* Sat Aug 01 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1:2.83.3-4
+- Use cmake macros for build and install
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.83.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.83.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1:2.83.3-1
+- Update to 2.83.3 (#1855165)
+- Enable embree and osl for cycles rendering
+
+* Thu Jul 09 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1:2.83.2-2
+- Add openshadinglanguage dependency
+- Reenable upstream patch to build on Python 3.9 for Fedora 33+ (#1843100)
+
+* Thu Jul 09 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1:2.83.2-1
+- Update to 2.83.2 (#1855165)
+
+* Thu Jun 25 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1:2.83.1-1
+- Update to 2.83.1 (#1843623)
+
 * Sun Jun 21 2020 Luya Tshimbalanga <luya@fedoraproject.org> - 1:2.83.0-4
 - Apply upstream patch to build on Python 3.9 (#1843100)
 
@@ -336,7 +442,7 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}-fonts.
 - Use pkgconfig for many build requirements as possible
 - Replace pkgconfig(freeglut) by pkgconfig(glut) for Fedora 32 and above
 - Enable OpenImageDenoise support (rhbz #1794521)
- 
+
 * Sat Dec 14 2019 Luya Tshimbalanga <luya@fedoraproject.org> - 1:2.81a-3
 - Rebuild for openvdb 7.0.0
 
@@ -352,7 +458,7 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}-fonts.
 * Thu Nov 21 2019 Luya Tshimbalanga <luya@fedoraproject.org> - 1:2.81-1
 - Update to 2.81
 - Drop upstream patch
-- Enable oidn support for x86_64 architecture 
+- Enable oidn support for x86_64 architecture
 - Patch on appdata fixing tags
 
 * Sun Nov 03 2019 Luya Tshimbalanga <luya@fedoraproject.org> - 1:2.80-13

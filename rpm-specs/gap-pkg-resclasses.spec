@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        4.7.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Set-theoretic computations with Residue Classes
 
 License:        GPLv2+
@@ -42,6 +42,8 @@ This package contains documentation for gap-pkg-%{pkgname}.
 %autosetup -n %{pkgname}-%{version}
 
 %build
+export LC_ALL=C.UTF-8
+
 # Link to main GAP documentation
 ln -s %{_gap_dir}/doc ../../doc
 gap < makedoc.g
@@ -54,6 +56,7 @@ rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}-%{version}/{CHANGES,LICENSE,README}
 rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}-%{version}/doc/*.{aux,bbl,blg,brf,idx,ilg,ind,log,out,pnr,tex}
 
 %check
+export LC_ALL=C.UTF-8
 gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 
 %files
@@ -67,6 +70,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}-%{version}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.7.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.7.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 %forgemeta
 
 Version: 2.001
-Release: 7%{?dist}
+Release: 8%{?dist}
 URL:     %{forgeurl}
 
 %global foundry           vernnobile
@@ -45,6 +45,9 @@ Source10: 60-%{fontpkgname}.xml
 %fontfiles
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 2.001-7.20200215git580b05e
 🐞 Workaround Fedora problems created by rpm commit 93604e2

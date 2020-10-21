@@ -3,9 +3,7 @@
 
 # https://github.com/pact-foundation/pact-go
 %global goipath         github.com/pact-foundation/pact-go
-Version:                1.0.0
-%global tag             v1.0.0-beta.3
-%global distprefix      %{nil}
+Version:                1.4.3
 
 %gometa
 
@@ -19,7 +17,7 @@ service provider project.}
                         README.md
 
 Name:           %{goname}
-Release:        3.beta.3%{?dist}
+Release:        1%{?dist}
 Summary:        Contract testing framework for HTTP APIs and non-HTTP messaging systems for Go
 
 License:        MIT
@@ -27,13 +25,14 @@ URL:            %{gourl}
 Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/gin-gonic/gin)
-BuildRequires:  golang(github.com/go-kit/kit/endpoint)
-BuildRequires:  golang(github.com/go-kit/kit/log)
-BuildRequires:  golang(github.com/go-kit/kit/transport/http)
-BuildRequires:  golang(github.com/gorilla/mux)
 BuildRequires:  golang(github.com/hashicorp/go-version)
 BuildRequires:  golang(github.com/hashicorp/logutils)
 BuildRequires:  golang(github.com/spf13/cobra)
+
+%if %{with check}
+# Tests
+BuildRequires:  golang(github.com/stretchr/testify/assert)
+%endif
 
 %description
 %{common_description}
@@ -54,7 +53,7 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %if %{with check}
 %check
 # dsl: needs network
-%gocheck -d dsl
+%gocheck -d dsl -d command
 %endif
 
 %files
@@ -65,6 +64,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 20:24:22 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.3-1
+- Update to 1.4.3
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-4.beta.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3.beta.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -22,7 +22,7 @@
 Summary:    X.Org X11 X server utilities
 Name:       xorg-x11-server-utils
 Version:    7.7
-Release:    35%{?dist}
+Release:    36%{?dist}
 License:    MIT
 URL:        http://www.x.org
 
@@ -210,6 +210,9 @@ rm -f $RPM_BUILD_ROOT%{_bindir}/xkeystone
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.7-36
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 19 2020 Peter Hutterer <peter.hutterer@redhat.com> 7.7-35
 - xisxwayland 1
 

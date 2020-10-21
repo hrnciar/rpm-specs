@@ -1,13 +1,14 @@
 %global modname isort
+%global srcname isort
 
 Name:               python-%{modname}
-Version:            4.3.21
-Release:            8%{?dist}
+Version:            5.6.4
+Release:            1%{?dist}
 Summary:            Python utility / library to sort Python imports
 
 License:            MIT
 URL:                https://github.com/timothycrosley/%{modname}
-Source0:            %{url}/archive/%{version}-2/%{modname}-%{version}-2.tar.gz
+Source0:            %pypi_source
 BuildArch:          noarch
 
 %description
@@ -20,9 +21,6 @@ BuildRequires:      python%{python3_pkgversion}-devel
 BuildRequires:      python%{python3_pkgversion}-setuptools
 BuildRequires:      python%{python3_pkgversion}-mock
 BuildRequires:      python%{python3_pkgversion}-pytest
-# Explicitly conflict with the python2 package that used to ship
-# /usr/bin/isort. Drop the conflict in F32.
-Conflicts:          python2-%{modname} < 4.3.4-7
 
 %description -n python%{python3_pkgversion}-%{modname}
 %{summary}.
@@ -30,11 +28,11 @@ Conflicts:          python2-%{modname} < 4.3.4-7
 Python %{python3_pkgversion} version.
 
 %prep
-%autosetup -n %{modname}-%{version}-2
+%autosetup -n %{modname}-%{version}
 
 # Drop shebang
-sed -i -e '1{\@^#!.*@d}' %{modname}/main.py
-chmod -x LICENSE
+#sed -i -e '1{\@^#!.*@d}' %{modname}/main.py
+#chmod -x LICENSE
 
 %build
 %py3_build
@@ -50,15 +48,85 @@ ln -s %{modname}-3 %{buildroot}%{_bindir}/%{modname}
 #%{__python3} setup.py test
 
 %files -n python%{python3_pkgversion}-%{modname}
-%doc README.rst *.md
+%doc *.md
 %license LICENSE
 %{_bindir}/%{modname}
 %{_bindir}/%{modname}-%{python3_pkgversion}
 %{_bindir}/%{modname}-%{python3_version}
 %{python3_sitelib}/%{modname}/
 %{python3_sitelib}/%{modname}-*.egg-info/
+%exclude %{python3_sitelib}/tests
 
 %changelog
+* Tue Oct 13 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.6.4-1
+- 5.6.4
+
+* Sun Oct 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.6.3-1
+- 5.6.3
+
+* Sat Oct 10 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.6.2-1
+- 5.6.2
+
+* Thu Oct 08 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.6.1-1
+- 5.6.1
+
+* Wed Sep 30 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.5.4-1
+- 5.5.4
+
+* Mon Sep 21 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.5.3-1
+- 5.5.3
+
+* Thu Sep 10 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.5.2-1
+- 5.5.2
+
+* Fri Sep 04 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.5.1-1
+- 5.5.1
+
+* Thu Sep 03 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.5.0-1
+- 5.5.0
+
+* Mon Aug 17 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.4.2-1
+- 5.4.2
+
+* Thu Aug 13 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.4.1-1
+- 5.4.1
+
+* Thu Aug 13 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.4.0-1
+- 5.4.0
+
+* Fri Aug 07 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.3.2-1
+- 5.3.2
+
+* Wed Aug 05 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.3.0-1
+- 5.3.0
+
+* Thu Jul 30 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.2.2-1
+- 5.2.2
+
+* Mon Jul 27 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.2.0-1
+- 5.2.0
+
+* Mon Jul 20 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.1.4-1
+- 5.1.4
+
+* Thu Jul 16 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.1.1-1
+- 5.1.1
+
+* Wed Jul 15 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.1.0-1
+- 5.1.0
+
+* Mon Jul 13 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.0.9-1
+- 5.0.9
+
+* Fri Jul 10 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.0.7-1
+- 5.0.7
+
+* Thu Jul 09 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.0.6-1
+- 5.0.6
+
+* Wed Jul 08 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.0.5-1
+- 5.0.5
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 4.3.21-8
 - Rebuilt for Python 3.9
 

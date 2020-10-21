@@ -1,7 +1,7 @@
 Name: festival
 Summary: Speech synthesis and text-to-speech system
 Version: 2.5.0
-Release: 12%{?dist}
+Release: 13%{?dist}
 
 URL: http://www.cstr.ed.ac.uk/projects/festival/
 # The Emacs file is GPL+, there is one TCL-licensed source file, and
@@ -488,6 +488,9 @@ exit 0
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 W. Michael Petullo <mike@flyn.org> - 2.5.0-12
 - Require pulseaudio-utils for paplay
 

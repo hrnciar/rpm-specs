@@ -15,7 +15,7 @@ automata (particularly deterministic finite-state transducers).}
 
 Name:           python-%{pkgname}
 Version:        20.2.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Self-service finite-state machines for the programmer on the go
 
 License:        MIT
@@ -84,6 +84,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} --verbose au
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.2.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 20.2.0-3
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Summary: High performance compressor optimized for binary data
 Name: blosc
-Version: 1.18.1
+Version: 1.20.1
 Release: 1%{?dist}
 License: MIT
 Source: https://github.com/Blosc/c-blosc/archive/v%{version}/blosc-%{version}.tar.gz
@@ -40,7 +40,7 @@ the performance of Blosc, and compares it with memcpy.
 
 %prep
 %autosetup -n c-%{name}-%{version} -p1
-rm -r internal-complibs/snappy* internal-complibs/zlib*
+rm -r internal-complibs/lz4* internal-complibs/zstd*
 
 # Fix rpath issue
 sed -i '1i  set\(CMAKE_SKIP_RPATH true\)' bench/CMakeLists.txt
@@ -57,39 +57,32 @@ sed -i '1i  #!/usr/bin/python3' bench/plot-speeds.py
 %build
 # Use the proper library path and SSE2 instruction on 64bits systems
 %cmake \
-%ifarch x86_64
-    %{?_cmake_lib_suffix64} \
-%endif
-    -DCMAKE_BUILD_TYPE:STRING="Debug" \
-    -DCMAKE_C_FLAGS:STRING="%{optflags}" \
-    -DCMAKE_INSTALL_PREFIX=%{_prefix} \
     -DBUILD_STATIC:BOOL=OFF \
     -DPREFER_EXTERNAL_LZ4:BOOL=ON \
     -DTEST_INCLUDE_BENCH_SUITE:BOOL=OFF \
-    -DPREFER_EXTERNAL_SNAPPY:BOOL=ON \
+    -DDEACTIVATE_SNAPPY:BOOL=OFF \
     -DPREFER_EXTERNAL_ZLIB:BOOL=ON \
-    -DPREFER_EXTERNAL_ZSTD:BOOL=ON \
-    .
+    -DPREFER_EXTERNAL_ZSTD:BOOL=ON
 
-# Parallel build failed
-make VERBOSE=1 #{?_smp_mflags}
+%cmake_build
 
 %check
-LD_LIBRARY_PATH=%{buildroot}%{_libdir} make test VERBOSE=1
+export LD_LIBRARY_PATH=%{buildroot}%{_libdir}
+%ctest
 
 %install
-%make_install
+%cmake_install
 
 install -p bench/plot-speeds.py* -Dt %{buildroot}/%{_pkgdocdir}/bench/
 install -pm 0644 bench/*.c %{buildroot}/%{_pkgdocdir}/bench
 
-install -p bench/bench -D %{buildroot}/%{_bindir}/%{name}-bench
+install -p %{_vpath_builddir}/bench/bench -D %{buildroot}/%{_bindir}/%{name}-bench
 install -p bench/plot-speeds.py %{buildroot}/%{_bindir}/%{name}-plot-times
 
 %files
 %exclude %{_pkgdocdir}/bench/
 %license LICENSES/*
-%doc README.md ANNOUNCE.rst RELEASE_NOTES.rst README_HEADER.rst README_THREADED.rst
+%doc README.md ANNOUNCE.rst RELEASE_NOTES.rst README*.rst
 %{_libdir}/libblosc.so.1*
 
 %files devel
@@ -105,6 +98,23 @@ install -p bench/plot-speeds.py %{buildroot}/%{_bindir}/%{name}-plot-times
 
 
 %changelog
+* Wed Sep  9 20:41:44 MDT 2020 Orion Poplawski <orion@nwra.com> - 1.20.1-1
+- Update to 1.20.1
+
+* Tue Aug 11 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.19.0-4
+- Fix build for new CMake macros (#1863272)
+- Re-enable Snappy support (#1867915)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.19.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.19.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.19.0-1
+- Update to latest version (#1742237)
+
 * Sat May 23 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.18.1-1
 - Update to latest version (#1742237)
 

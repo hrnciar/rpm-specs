@@ -2,7 +2,7 @@
 
 Name:		mingw-portablexdr
 Version:	4.9.1
-Release:	22%{?dist}
+Release:	23%{?dist}
 Summary:	MinGW Windows PortableXDR / RPC Library
 
 License:	LGPLv2+
@@ -99,6 +99,9 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.9.1-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.9.1-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

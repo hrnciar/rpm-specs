@@ -1,5 +1,5 @@
 Name:           latexmk
-Version:        4.69a
+Version:        4.70b
 Release:        1%{?dist}
 Summary:        A make-like utility for LaTeX files
 
@@ -33,8 +33,7 @@ version of the original version of latexmk.
 Before using a previewer, read the file README.fedora.
 
 %prep
-%setup -q -n %{name}
-%patch0
+%autosetup -p0 -n %{name}
 
 fixtimestamp() {
   touch -r $1.orig $1
@@ -75,6 +74,15 @@ rm -f extra-scripts/*.bat
 %license COPYING
 
 %changelog
+* Wed Sep 30 2020 Jerry James <loganjerry@gmail.com> - 4.70b-1
+- Update to 4.70b
+
+* Wed Sep  9 2020 Jerry James <loganjerry@gmail.com> - 4.70-1
+- Update to 4.70
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.69a-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 17 2020 Jerry James <loganjerry@gmail.com> - 4.69a-1
 - Update to 4.69a
 

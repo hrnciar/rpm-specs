@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.7.4
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        A Python parser for human readable dates
 
 License:        BSD
@@ -67,6 +67,13 @@ PYTHONPATH=%{buildroot}/%{python3_sitelib} pytest-%{python3_version} tests
 %license LICENSE
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.4-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.7.4-3
 - BR python3-setuptools
 

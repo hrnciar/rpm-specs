@@ -3,17 +3,21 @@
 %define release_version %(echo %{version} | awk -F. '{print $1"."$2}')
 
 Name:           libxml++
-Version:        2.40.1
-Release:        10%{?dist}
+Version:        2.42.0
+Release:        1%{?dist}
 Summary:        C++ wrapper for the libxml2 XML parser library
 
 License:        LGPLv2+
 URL:            http://libxmlplusplus.sourceforge.net/
 Source0:        http://ftp.gnome.org/pub/GNOME/sources/libxml++/%{release_version}/libxml++-%{version}.tar.xz
 
+BuildRequires:  docbook-style-xsl
+BuildRequires:  doxygen, graphviz
 BuildRequires:  gcc-c++
-BuildRequires:  libxml2-devel >= 2.6.1
-BuildRequires:  glibmm24-devel >= 2.4.0
+BuildRequires:  glibmm24-devel
+BuildRequires:  libxml2-devel
+BuildRequires:  libxslt
+BuildRequires:  meson
 
 %description
 libxml++ is a C++ wrapper for the libxml2 XML parser library. Its original
@@ -33,7 +37,6 @@ This package contains the headers and libraries for libxml++ development.
 %package        doc
 Summary:        Documentation for %{name}, includes full API docs
 BuildArch:      noarch
-BuildRequires:  doxygen, graphviz
 Requires:       %{name} = %{version}-%{release}
 Requires:       glibmm24-doc
 
@@ -46,26 +49,22 @@ This package contains the full API documentation for %{name}.
 sed -i s'#\r##' examples/dom_parser/example_with_namespace.xml
 
 %build
-%configure --disable-static
-make %{?_smp_mflags}
+%meson -Dbuild-documentation=true
+%meson_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
-find $RPM_BUILD_ROOT -name "*.la" -o -name '*.a' | xargs rm -f
-
-
-%ldconfig_scriptlets
+%meson_install
 
 
 %files
 %license COPYING
 %doc AUTHORS NEWS README
-%{_libdir}/*.so.*
+%{_libdir}/libxml++-%{api_ver}.so.2*
 
 
 %files devel
 %{_includedir}/*
-%{_libdir}/*.so
+%{_libdir}/libxml++-%{api_ver}.so
 %{_libdir}/pkgconfig/*
 %{_libdir}/%{name}-%{api_ver}
 
@@ -76,6 +75,14 @@ find $RPM_BUILD_ROOT -name "*.la" -o -name '*.a' | xargs rm -f
 
 
 %changelog
+* Mon Oct  5 2020 Kalev Lember <klember@redhat.com> - 2.42.0-1
+- Update to 2.42.0
+- Switch to meson build system
+- Tighten soname globs
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.40.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.40.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

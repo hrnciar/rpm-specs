@@ -9,7 +9,7 @@ not a module is part of the standard library will come in}
 
 Name:       python-%{pypi_name}
 Version:    0.6.0
-Release:    5%{?dist}
+Release:    6%{?dist}
 Summary:    A list of Python Standard Libraries
 
 License:    MIT
@@ -60,6 +60,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/stdlib_list-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 06 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.6.0-5
 - Update patch to include lists required by other packages
 

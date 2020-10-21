@@ -10,7 +10,7 @@
 Summary: Parallel / Multiprocessor Ray Tracing System
 Name: tachyon
 Version: 0.99
-Release: 0.23.%{beta}%{?dist}
+Release: 0.24.%{beta}%{?dist}
 URL: http://jedi.ks.uiuc.edu/~johns/raytracer/
 Source0: http://jedi.ks.uiuc.edu/~johns/raytracer/files/%{version}%{beta}/%{name}-%{version}%{beta}.tar.gz
 # taken from Debian package
@@ -132,6 +132,9 @@ install -pm644 src/{hash,tachyon{,_dep},util}.h $RPM_BUILD_ROOT%{_includedir}/ta
 %{_datadir}/tachyon
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99-0.24.b6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99-0.23.b6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

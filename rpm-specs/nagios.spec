@@ -8,7 +8,7 @@
 
 Name:           nagios
 Version:        4.4.5
-Release:        8%{?dist}
+Release:        9%{?dist}
 
 Summary: Host/service/network monitoring program
 
@@ -478,6 +478,9 @@ fi
 %{_libdir}/%{name}/cgi/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.5-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.4.5-8
 - Perl 5.32 rebuild
 

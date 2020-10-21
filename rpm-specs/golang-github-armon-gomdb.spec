@@ -21,7 +21,7 @@ Go wrapper for OpenLDAP Lightning Memory-Mapped Database (LMDB).}
 
 Name:           %{goname}
 Version:        0
-Release:        0.20%{?dist}
+Release:        0.21%{?dist}
 Summary:        Go wrapper for LMDB: OpenLDAP Lightning Memory-Mapped Database
 
 # Upstream license specification: BSD-3-Clause
@@ -55,6 +55,9 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

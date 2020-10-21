@@ -1,7 +1,10 @@
+%undefine __cmake_in_source_build
+%undefine __cmake3_in_source_build
+
 
 Name:			gfalFS
 Version:		1.5.2
-Release:		7%{?dist}
+Release:		9%{?dist}
 Summary:		Filesystem client based on GFAL 2.0
 License:		ASL 2.0
 URL:			https://svnweb.cern.ch/trac/lcgutil/wiki/gfal2
@@ -15,7 +18,7 @@ Source0:		%{name}-%{version}.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
-BuildRequires:		cmake
+BuildRequires:		cmake3
 BuildRequires:		gfal2-devel
 BuildRequires:		fuse-devel
 
@@ -29,21 +32,20 @@ in lcg ( SRM, GRIDFTP, DCAP, RFIO, LFN, ...). The practical effect is that
 the user can seamlessly interact with grid and cloud storage systems just 
 as if they were local files.
 
-%clean
-rm -rf %{buildroot};
-make clean
+#%clean
+#rm -rf %{buildroot};
+#make clean
 
 %prep
 %setup -q
 
 %build
-%cmake \
--DDOC_INSTALL_DIR=%{_docdir}/%{name}-%{version} .
-make %{?_smp_mflags}
+%cmake3 \
+-DDOC_INSTALL_DIR=%{_docdir}/%{name}-%{version}
+%cmake3_build
 
 %install
-rm -rf %{buildroot}; 
-make DESTDIR=%{buildroot} install
+%cmake3_install
 
 %files
 %{_bindir}/gfalFS
@@ -57,6 +59,13 @@ make DESTDIR=%{buildroot} install
 %{_docdir}/%{name}-%{version}/readme.html
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Summary: Murrine GTK2 engine
 Name: gtk-murrine-engine
 Version: 0.98.2
-Release: 18%{?dist}
+Release: 20%{?dist}
 License: LGPLv2 or LGPLv3
 URL: http://www.cimitan.com/murrine/
 Source0: http://ftp.gnome.org/pub/GNOME/sources/murrine/0.98/murrine-%{version}.tar.xz
@@ -58,6 +58,13 @@ find $RPM_BUILD_ROOT/%{_datadir}/themes -type f | xargs chmod 0644 || true
 %{_datadir}/themes/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.98.2-20
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.98.2-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.98.2-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

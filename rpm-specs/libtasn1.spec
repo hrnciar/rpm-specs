@@ -1,7 +1,7 @@
 Summary:	The ASN.1 library used in GNUTLS
 Name:		libtasn1
 Version:	4.16.0
-Release:	1%{?dist}
+Release:	3%{?dist}
 
 # The libtasn1 library is LGPLv2+, utilities are GPLv3+
 License:	GPLv3+ and LGPLv2+
@@ -61,11 +61,11 @@ autoreconf -v -f --install
 # libtasn1 likes to regenerate docs
 touch doc/stamp_docs
 
-make %{?_smp_mflags}
+%make_build
 
 
 %install
-make DESTDIR="$RPM_BUILD_ROOT" install
+%make_install
 
 rm -f $RPM_BUILD_ROOT{%_libdir/*.la,%_infodir/dir}
 
@@ -92,6 +92,13 @@ make check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.16.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 4.16.0-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Sun Feb 02 2020 Nikos Mavrogiannopoulos <nmav@redhat.com> - 4.16.0-1
 - Update to 4.14 (#1621973)
 

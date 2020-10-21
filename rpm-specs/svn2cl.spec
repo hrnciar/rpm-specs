@@ -1,6 +1,6 @@
 Name:           svn2cl
 Version:        0.14
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Create a ChangeLog from a Subversion log
 
 License:        BSD
@@ -43,6 +43,9 @@ install -Dpm 644 svn2cl.1 $RPM_BUILD_ROOT%{_mandir}/man1/svn2cl.1
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

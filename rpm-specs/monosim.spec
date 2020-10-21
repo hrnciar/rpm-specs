@@ -1,7 +1,7 @@
 Summary: Manage your SIM Card contacts
 Name: monosim
 Version: 1.5.2
-Release: 21%{?dist}
+Release: 22%{?dist}
 License: GPLv2
 URL: http://www.integrazioneweb.com/monosim
 Source: http://www.integrazioneweb.com/repository/SOURCES/%{name}-%{version}.tar.gz
@@ -56,6 +56,9 @@ make DESTDIR=%{buildroot} install
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        2.3.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Safe interface to memchr
 
 # Upstream license specification: Unlicense/MIT
@@ -107,6 +107,9 @@ which use "use_std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 22 2020 Josh Stone <jistone@redhat.com> - 2.3.3-1
 - Update to 2.3.3
 

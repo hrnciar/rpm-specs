@@ -5,7 +5,7 @@
 %global crate os_info
 
 Name:           rust-%{crate}
-Version:        2.0.6
+Version:        2.0.8
 Release:        1%{?dist}
 Summary:        Detect the operating system type and version
 
@@ -86,6 +86,15 @@ which use "serde" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 2.0.8-1
+- Update to 2.0.8
+
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 2.0.7-1
+- Update to 2.0.7
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 08:19:34 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 2.0.6-1
 - Update to 2.0.6
 

@@ -1,11 +1,13 @@
 Name:		openslide
 Version:	3.4.1
-Release:	15%{?dist}
+Release:	17%{?dist}
 Summary:	C library for reading virtual slides
 
 License:	LGPLv2
 URL:		http://openslide.org/
 Source0:	https://github.com/%{name}/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.xz
+# Based on upstream a3153fa9fb8e37e14941f441a1647532a6ceaa9a
+Patch0:		3.4.1-fix-windres-s390x.patch
 
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(cairo)
@@ -49,6 +51,7 @@ with virtual slides.
 
 %prep
 %setup -q
+%patch0 -p1
 
 
 %build
@@ -79,6 +82,16 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Sun Oct 11 2020 Benjamin Gilbert <bgilbert@backtick.net> - 3.4.1-18
+- Fix build on s390x
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-17
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

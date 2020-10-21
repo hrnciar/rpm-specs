@@ -1,7 +1,7 @@
 %global srcname colcon-package-selection
 
 Name:           python-%{srcname}
-Version:        0.2.7
+Version:        0.2.10
 Release:        1%{?dist}
 Summary:        Extension for colcon to select the packages to process
 
@@ -57,6 +57,18 @@ An extension for colcon-core to select a subset of packages for processing.
 
 
 %changelog
+* Thu Oct 15 2020 Scott K Logan <logans@cottsay.net> - 0.2.10-1
+- Update to 0.2.10 (rhbz#1885820)
+
+* Wed Sep 30 2020 Scott K Logan <logans@cottsay.net> - 0.2.9-1
+- Update to 0.2.9 (rhbz#1881837)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Scott K Logan <logans@cottsay.net> - 0.2.8-1
+- Update to 0.2.8 (rhbz#1858474)
+
 * Fri Jun 12 2020 Scott K Logan <logans@cottsay.net> - 0.2.7-1
 - Update to 0.2.7 (rhbz#1846607)
 

@@ -1,13 +1,10 @@
-%global optflags        %{optflags} -flto=auto
-%global build_ldflags   %{build_ldflags} -flto
-
 %global gitcommit_full f5a28c74fba7a99736fe49d3a5243eca29517ae9
 %global gitcommit %(c=%{gitcommit_full}; echo ${c:0:7})
 %global date 20181010
 
 Name:           libcorrect
 Version:        0
-Release:        2.%{date}git%{gitcommit}%{?dist}
+Release:        4.%{date}git%{gitcommit}%{?dist}
 Summary:        C library for Convolutional codes and Reed-Solomon
 License:        BSD
 URL:            https://github.com/quiet/libcorrect
@@ -38,7 +35,6 @@ applications that want to make use of libcorrect.
 
 %prep
 %autosetup -p1 -n quiet-%{name}-%{gitcommit}
-mkdir -p %{_target_platform}
 echo "set_property(TARGET correct PROPERTY SOVERSION 0.0.0)" >> CMakeLists.txt
 sed -e "s|DESTINATION lib|DESTINATION %{_lib}|" \
     -e '/CMAKE_C_FLAGS/d' \
@@ -50,14 +46,8 @@ sed -e "s|DESTINATION lib|DESTINATION %{_lib}|" \
 
 
 %build
-pushd %{_target_platform}
-    %cmake -G Ninja \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_AR=/usr/bin/gcc-ar \
-    -DCMAKE_RANLIB=/usr/bin/gcc-ranlib \
-    -DCMAKE_NM=/usr/bin/gcc-nm \
-    ..
-popd
+%cmake -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release
 %ninja_build -C %{_target_platform}
 
 %install
@@ -73,6 +63,13 @@ popd
 %{_libdir}/libcorrect.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-4.20181010gitf5a28c7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-3.20181010gitf5a28c7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-2.20181010gitf5a28c7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

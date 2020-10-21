@@ -1,6 +1,6 @@
 Name:		adcli
 Version:	0.9.0
-Release:	2%{?dist}
+Release:	5%{?dist}
 Summary:	Active Directory enrollment
 License:	LGPLv2+
 URL:		http://cgit.freedesktop.org/realmd/adcli
@@ -14,6 +14,9 @@ Patch5:		0005-add-option-use-ldaps.patch
 Patch6:		0006-discovery-fix.patch
 Patch7:		0001-delete-do-not-exit-if-keytab-cannot-be-read.patch
 Patch8:		0001-tools-disable-SSSD-s-locator-plugin.patch
+Patch9:		0001-tools-fix-typo-in-show-password-help-output.patch
+Patch10:	0002-man-explain-optional-parameter-of-login-ccache-bette.patch
+Patch11:	0003-man-make-handling-of-optional-credential-cache-more-.patch
 
 
 BuildRequires:	gcc
@@ -72,6 +75,16 @@ documentation.
 %doc %{_datadir}/doc/adcli/*
 
 %changelog
+* Thu Aug 13 2020 Sumit Bose <sbose@redhat.com> - 0.9.0-5
+- man page and help output fixes
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 08 2020 Sumit Bose <sbose@redhat.com> - 0.9.0-2
 - Include the latest upstream patches
 

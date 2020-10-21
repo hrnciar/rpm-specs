@@ -1,8 +1,8 @@
 %global realname jiffy
 
 Name:           erlang-%{realname}
-Version:        1.0.1
-Release:        3%{?dist}
+Version:        1.0.5
+Release:        1%{?dist}
 Summary:        Erlang JSON parser
 License:        MIT and BSD
 URL:            https://github.com/davisp/%{realname}
@@ -44,6 +44,16 @@ rm -r c_src/double-conversion
 %license LICENSE
 
 %changelog
+* Fri Jul 31 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.5-1
+- Update to 1.0.5 (#1798831).
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,14 +1,15 @@
-%global packname  testit
+%global packname testit
+%global packver  0.12
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          0.11
-Release:          3%{?dist}
+Version:          0.12
+Release:          1%{?dist}
 Summary:          A Simple Package for Testing R Packages
 
 License:          GPLv3
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
@@ -59,6 +60,12 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Fri Sep 25 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.12-1
+- Update to latest version (#1882609)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 0.11-3
 - rebuild for R 4
 

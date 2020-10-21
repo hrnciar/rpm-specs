@@ -1,11 +1,7 @@
-# LTO
-%global optflags %{optflags} -flto
-%global build_ldflags %{build_ldflags} -flto
-
-%global uuid    com.github.cassidyjames.%{name}
+%global uuid com.github.cassidyjames.%{name}
 
 Name:           ephemeral
-Version:        6.4.1
+Version:        7.0.0
 Release:        1%{?dist}
 Summary:        Private-by-default, always-incognito browser
 
@@ -67,6 +63,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Wed Sep 30 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 7.0.0-1
+- Update to 7.0.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 03 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 6.4.1-1
 - Update to 6.4.1
 

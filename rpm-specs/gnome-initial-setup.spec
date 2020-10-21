@@ -5,22 +5,14 @@
 %global geoclue_version 2.3.1
 
 Name:           gnome-initial-setup
-Version:        3.37.1
-Release:        3%{?dist}
+Version:        3.38.1
+Release:        1%{?dist}
 Summary:        Bootstrapping your OS
 
 License:        GPLv2+
 URL:            https://wiki.gnome.org/Design/OS/InitialSetup
-Source0:        https://download.gnome.org/sources/%{name}/3.37/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 Source1:        vendor.conf
-Patch0:         honor-firstboot-disabled.patch
-# Fix preselection of input methods
-# https://gitlab.gnome.org/GNOME/gnome-initial-setup/-/merge_requests/83
-Patch1:         0001-Fix-default-keyboard-layout-input-source-choice-prio.patch
-# Fix supposedly-disabled timezone page trying to set timezone
-# https://gitlab.gnome.org/GNOME/gnome-initial-setup/-/issues/106
-# https://gitlab.gnome.org/GNOME/gnome-initial-setup/-/merge_requests/89
-Patch2:         0001-timezone-Don-t-set-timezone-if-tz-page-is-skipped.patch
 
 BuildRequires:  meson
 BuildRequires:  gcc
@@ -58,6 +50,8 @@ BuildRequires:  libsecret-devel
 Requires: gdm
 Requires: geoclue2-libs%{?_isa} >= %{geoclue_version}
 Requires: glib2%{?_isa} >= %{glib_required_version}
+# gnome-initial-setup runs gnome-tour at the end of an initial setup run
+Requires: gnome-tour
 # we install a rules file
 Requires: polkit-js-engine
 Requires: /usr/bin/gkbd-keyboard-display
@@ -97,7 +91,7 @@ useradd -rM -d /run/gnome-initial-setup/ -s /sbin/nologin %{name} &>/dev/null ||
 
 %files -f %{name}.lang
 %license COPYING
-%doc README
+%doc README.md
 %{_libexecdir}/gnome-initial-setup
 %{_libexecdir}/gnome-initial-setup-copy-worker
 %{_libexecdir}/gnome-welcome-tour
@@ -115,6 +109,41 @@ useradd -rM -d /run/gnome-initial-setup/ -s /sbin/nologin %{name} &>/dev/null ||
 %{_datadir}/gnome-initial-setup/vendor.conf
 
 %changelog
+* Mon Oct  5 2020 Kalev Lember <klember@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Fri Sep 11 2020 Ray Strode <rstrode@redhat.com> - 3.38.0-2
+- Remove weird, unnecessary g_idle_add which are triggering
+  some weird, not fully understood bug.
+  Resolves: #1875140
+
+* Thu Sep 10 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Sun Sep 06 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+- Drop upstreamed honor-firstboot-disabled.patch
+
+* Thu Aug 27 2020 Kalev Lember <klember@redhat.com> - 3.37.91.1-2
+- Require new gnome-tour package (#1873206)
+
+* Mon Aug 24 2020 Kalev Lember <klember@redhat.com> - 3.37.91.1-1
+- Update to 3.37.91.1
+- Rebase honor-firstboot-disabled.patch
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 3.37.91-1
+- Update to 3.37.91
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Kalev Lember <klember@redhat.com> - 3.37.3-1
+- Update to 3.37.3
+
 * Tue Jun 23 2020 Adam Williamson <awilliam@redhat.com> - 3.37.1-3
 - Backport MR #89 to fix 'disabled' timezone page setting timezone
 

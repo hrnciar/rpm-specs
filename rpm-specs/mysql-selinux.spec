@@ -5,7 +5,7 @@
 
 Name: mysql-selinux
 Version: 1.0.0
-Release: 9%{?dist}
+Release: 10%{?dist}
 License: GPLv3
 URL: https://github.com/kubco2/mysql-selinux
 Summary: SELinux policies for product
@@ -52,6 +52,9 @@ fi
 %license COPYING
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

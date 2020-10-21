@@ -1,7 +1,7 @@
 Name:           libdigidocpp
 
-Version:        3.14.2
-Release:        2%{?dist}
+Version:        3.14.4
+Release:        1%{?dist}
 
 Summary:        Library offers creating, signing and verification of digitally signed documents
 License:        LGPLv2+
@@ -72,10 +72,19 @@ rm -rf src/minizip
  -DSWIG_EXECUTABLE=SWIG_EXECUTABLE-NOTFOUND
 %endif
 
+%if ((0%{?el} >= 9) || (0%{?fedora} >= 33))
+%cmake_build
+%else
 %make_build
+%endif
 
 %install
+
+%if ((0%{?el} >= 9) || (0%{?fedora} >= 33))
+%cmake_install
+%else
 %make_install
+%endif
 
 %if 0%{?fedora} <= 28 || 0%{?el7}
 %post -p /sbin/ldconfig
@@ -106,6 +115,25 @@ rm -rf src/minizip
 
 
 %changelog
+* Sun Sep 27 2020 Dmitri Smirnov <dmitri@smirnov.ee> - 3.14.4-2
+- Fix attempting to package missing docs breaking the build
+
+* Sun Sep 27 2020 Dmitri Smirnov <dmitri@smirnov.ee> - 3.14.4-1
+- Upstream release 3.14.4
+
+* Sun Sep 27 2020 Dmitri Smirnov <dmitri@smirnov.ee> - 3.14.3-4
+- Fixing the build for F33
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Dmitri Smirnov <dmitri@smirnov.ee> - 3.14.3-1
+- Upstream release 3.14.3 
+
 * Fri Jan 31 2020 Dmitri Smirnov <dmitri@smirnov.ee> - 3.14.2-2
 - Switch to tarball with git submodules checked out
 

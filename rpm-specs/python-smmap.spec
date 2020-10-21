@@ -2,7 +2,7 @@
 
 Name:           python-%{modname}
 Version:        3.0.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Sliding window memory map manager
 
 License:        BSD
@@ -47,6 +47,9 @@ nosetests-%{python3_version} -v
 %{python3_sitelib}/%{modname}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.1-2
 - Rebuilt for Python 3.9
 

@@ -3,7 +3,7 @@
 
 Name:           go-srpm-macros
 Version:        2
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        RPM macros for building Golang packages for various architectures
 License:        GPLv3+
 Source0:        https://github.com/gofed/go-macros/archive/%{commit}/go-macros-%{shortcommit}.tar.gz
@@ -28,6 +28,9 @@ install -m 644 -D rpm/macros.d/macros.go-srpm %{buildroot}%{_rpmconfigdir}/macro
 %{_rpmconfigdir}/macros.d/macros.go-srpm
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

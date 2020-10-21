@@ -13,7 +13,7 @@
 Name:       quota
 Epoch:      1
 Version:    4.05
-Release:    12%{?dist}
+Release:    16%{?dist}
 Summary:    System administration tools for monitoring users' disk usage
 # quota_nld.c, quotaio_xfs.h:       GPLv2
 # bylabel.c copied from util-linux: GPLv2+
@@ -104,8 +104,10 @@ Patch17: quota-4.05-warnquota-Initialize-all-members-of-a-configparams-s.patch
 Patch18: quota-4.05-Fix-ignoring-disabled-quotas.patch
 # Pass quota type for Q_XFS_GETQSTAT, in upstream after 4.05
 Patch19: quota-4.05-quota-tools-pass-quota-type-to-QCMD-for-Q_XFS_GETQST.patch
-# Set kernel option when setting XFS grace times, posted to upstream
-Patch20: quota-4.05-quota-tools-Set-FS_DQ_TIMER_MASK-for-individual-xfs-grace-times.patch
+# 1/2 Support setting individual grace times for XFS, in upstream after 4.05
+Patch20: quota-4.05-quota-tools-Set-FS_DQ_TIMER_MASK-for-individual-xfs-.patch
+# 2/2 Support setting individual grace times for XFS, in upstream after 4.05
+Patch21: quota-4.05-Fix-limits-setting-on-XFS-filesystem.patch
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  bash
@@ -123,11 +125,12 @@ BuildRequires:  pkgconfig(ext2fs)
 BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  pkgconfig(libnl-3.0) >= 3.1
 BuildRequires:  pkgconfig(libnl-genl-3.0)
+BuildRequires:  systemd-rpm-macros
 %endif
 %if %{with quota_enables_rpc}
 BuildRequires:  rpcgen
 BuildRequires:  pkgconfig(libtirpc)
-BuildRequires:  systemd
+BuildRequires:  systemd-rpm-macros
 %if %{with quota_enables_tcpwrappers}
 BuildRequires:  tcp_wrappers-devel
 %endif
@@ -145,9 +148,8 @@ and limiting user and or group disk usage per file system.
 Summary:    quota_nld daemon
 License:    GPLv2 and GPLv2+
 Requires:   quota-nls = %{epoch}:%{version}-%{release}
-Requires(post):     systemd
-Requires(preun):    systemd
-Requires(postun):   systemd
+# For %%{_unitdir} directory
+Requires:   systemd
 
 %description nld
 Daemon that listens on netlink socket and processes received quota warnings.
@@ -164,12 +166,11 @@ Summary:    RPC quota daemon
 License:    LGPLv2+ and GPLv2 and GPLv2+
 Requires:   quota-nls = %{epoch}:%{version}-%{release}
 Requires:   rpcbind
+# For %%{_unitdir} directory
+Requires:   systemd
 %if %{with quota_enables_tcpwrappers}
 Requires:   tcp_wrappers
 %endif
-Requires(post):     systemd
-Requires(preun):    systemd
-Requires(postun):   systemd
 Conflicts:  quota < 1:4.02-3
 
 %description rpc
@@ -203,6 +204,8 @@ Disk quota tools messages translated into different natural languages.
 %package devel
 Summary:    Development files for quota RPC
 License:    GPLv2
+# libtirpc-devel for an included <rpc/rpc.h>
+Requires:   libtirpc-devel
 # Do not run-require main package, the header files define RPC API to be
 # implemented by the developer, not an API for an existing quota library.
 
@@ -246,6 +249,7 @@ Linux/UNIX environment.
 %patch18 -p1
 %patch19 -p1
 %patch20 -p1
+%patch21 -p1
 # Regenerate build scripts
 autoreconf -f -i
 
@@ -395,6 +399,20 @@ make check
 
 
 %changelog
+* Wed Sep 02 2020 Petr Pisar <ppisar@redhat.com> - 1:4.05-16
+- Require libtirpc-devel by quota-devel because of rpc/rpc.h
+
+* Mon Aug 24 2020 Petr Pisar <ppisar@redhat.com> - 1:4.05-15
+- Fix setting individual limits for XFS
+- Modernize systemd unit packaging
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.05-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.05-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Petr Pisar <ppisar@redhat.com> - 1:4.05-12
 - Set kernel option when setting XFS grace times
 

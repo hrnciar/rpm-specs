@@ -1,13 +1,17 @@
+# Perform optional tests
+%bcond_without perl_DBD_Pg_enables_optional_test
+
 Name:           perl-DBD-Pg
 Summary:        A PostgreSQL interface for Perl
-Version:        3.13.0
-Release:        2%{?dist}
+Version:        3.14.2
+Release:        1%{?dist}
 # Pg.pm, README:    Points to directory which contains GPLv2+ and Artistic
 # other files:      Same as Perl (GPL+ or Artistic)
 License:        GPLv2+ or Artistic
 Source0:        https://cpan.metacpan.org/authors/id/T/TU/TURNSTEP/DBD-Pg-%{version}.tar.gz 
 URL:            https://metacpan.org/release/DBD-Pg
 
+BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  gcc
 BuildRequires:  make
@@ -43,10 +47,12 @@ BuildRequires:  perl(Test::Simple)
 BuildRequires:  perl(Time::HiRes)
 BuildRequires:  perl(utf8)
 BuildRequires:  postgresql-server
+%if %{with perl_DBD_Pg_enables_optional_test}
 # Optional tests:
 BuildRequires:  perl(Encode)
 BuildRequires:  perl(File::Temp)
 BuildRequires:  perl(Time::Piece)
+%endif
 
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:       perl(DBI) >= 1.614
@@ -94,6 +100,15 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Mon Aug 17 2020 Petr Pisar <ppisar@redhat.com> - 3.14.2-1
+- 3.14.2 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Petr Pisar <ppisar@redhat.com> - 3.14.0-1
+- 3.14.0 bump
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.13.0-2
 - Perl 5.32 rebuild
 

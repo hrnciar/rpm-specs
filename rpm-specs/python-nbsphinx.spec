@@ -2,8 +2,8 @@
 %global pypi_name nbsphinx
 
 Name:           python-%{pypi_name}
-Version:        0.7.0
-Release:        1%{?dist}
+Version:        0.7.1
+Release:        2%{?dist}
 Summary:        Jupyter Notebook Tools for Sphinx
 
 License:        MIT
@@ -78,6 +78,12 @@ rm -rf html/{.doctrees,.buildinfo,conf.py}
 %doc html 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Charalampos Stratakis <cstratak@redhat.com> - 0.7.1-1
+- Update to 0.7.1 (#1847639)
+
 * Thu Jun 04 2020 Charalampos Stratakis <cstratak@redhat.com> - 0.7.0-1
 - Update to 0.7.0 (#1757082)
 

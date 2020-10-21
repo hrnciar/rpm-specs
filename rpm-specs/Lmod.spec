@@ -3,7 +3,7 @@
 %global debug_package %{nil}
 
 Name:           Lmod
-Version:        8.3.16
+Version:        8.4.9
 Release:        1%{?dist}
 Summary:        Environmental Modules System in Lua
 
@@ -140,6 +140,39 @@ fi
 
 
 %changelog
+* Thu Oct 08 2020 Orion Poplawski <orion@nwra.com> - 8.4.9-1
+- Update to 8.4.9
+
+* Tue Oct 06 2020 Orion Poplawski <orion@nwra.com> - 8.4.7-1
+- Update to 8.4.7
+
+* Thu Sep 17 2020 Orion Poplawski <orion@nwra.com> - 8.4.5-1
+- Update to 8.4.5
+
+* Sun Sep 06 2020 Orion Poplawski <orion@nwra.com> - 8.4.4-1
+- Update to 8.4.4
+
+* Thu Sep  3 2020 Orion Poplawski <orion@nwra.com> - 8.4.3-1
+- Update to 8.4.3
+
+* Wed Sep 02 2020 Orion Poplawski <orion@nwra.com> - 8.4.2-1
+- Update to 8.4.2
+
+* Sat Aug 15 2020 Orion Poplawski <orion@nwra.com> - 8.4.1-1
+- Update to 8.4.1
+
+* Tue Aug 04 2020 Orion Poplawski <orion@nwra.com> - 8.4-1
+- Update to 8.4
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.3.17-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  1 2020 Tom Callaway <spot@fedoraproject.org> - 8.3.17-2
+- add support for lua 5.4
+
+* Wed Jun 24 2020 Orion Poplawski <orion@nwra.com> - 8.3.17-1
+- Update to 8.3.17
+
 * Sat Jun 20 2020 Orion Poplawski <orion@nwra.com> - 8.3.16-1
 - Update to 8.3.16
 

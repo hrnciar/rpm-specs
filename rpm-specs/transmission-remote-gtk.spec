@@ -1,6 +1,6 @@
 Name:           transmission-remote-gtk
 Version:        1.4.1
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        GTK remote control for the Transmission BitTorrent client
 
 License:        GPLv2+
@@ -22,6 +22,7 @@ BuildRequires:  git
 Patch0: 0001-Handle-return-enter-key-press-in-torrent-add-url-dia.patch
 Patch1: 0002-Enable-curl-gzip-compression.patch
 Patch2: 0003-Fix-building-under-GCC-10-fno-common.patch
+Patch3: 0001-link-window-name-to-an-icon-in-app-menu.patch
 
 %description
 transmission-remote-gtk is a GTK client for remote management of
@@ -49,6 +50,13 @@ make %{?_smp_mflags}
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 2020 Bastien Nocera <bnocera@redhat.com> - 1.4.1-3
++ transmission-remote-gtk-1.4.1-3
+- Fix missing icon in gnome-shell
+
 * Thu Apr 02 2020 Bastien Nocera <bnocera@redhat.com> - 1.4.1-2
 + transmission-remote-gtk-1.4.1-2
 - Add missing changelog entry

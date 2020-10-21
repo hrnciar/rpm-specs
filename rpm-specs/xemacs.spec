@@ -19,11 +19,11 @@
 %bcond_without  modules
 %endif
 
-%global snap    20190323hgc0ed7ef9a5a1
+%global snap    20200331hge2ac728aa576
 
 Name:           xemacs
 Version:        21.5.34
-Release:        35%{?snap:.%{snap}}%{?dist}
+Release:        38%{?snap:.%{snap}}%{?dist}
 Summary:        Different version of Emacs
 
 %global majver %(cut -d. -f1-2 <<<%{version})
@@ -64,6 +64,8 @@ Patch6:         %{name}-21.5.34-alsaplay.patch
 Patch7:         %{name}-21.5.34-overflow.patch
 # Submitted upstream 28 Dec 2017: better computation of data start address
 Patch8:         %{name}-21.5.34-data-start.patch
+# Submitted upstream 22 Jul 2020: Use strsignal() in preference to sys_siglist
+Patch9:         %{name}-21.5.34-strsignal.patch
 
 BuildRequires:  compface-devel
 BuildRequires:  desktop-file-utils
@@ -221,18 +223,9 @@ This package contains directories that are required by other packages that
 add functionality to XEmacs.
 
 %prep
-%setup -q -n %{name}-%{?snap:beta}%{!?snap:%{version}}
+%autosetup -p0 -n %{name}-%{?snap:beta}%{!?snap:%{version}}
 find . -type f -name "*.elc" -o -name "*.info*" -delete
 sed -i -e /tetris/d lisp/menubar-items.el
-%patch0
-%patch1
-%patch2
-%patch3
-%patch4
-%patch5
-%patch6
-%patch7
-%patch8
 
 sed -e 's/"lib"/"%{_lib}"/' lisp/setup-paths.el > lisp/setup-paths.el.new
 touch -r lisp/setup-paths.el lisp/setup-paths.el.new
@@ -277,7 +270,7 @@ common_options="
     --without-canna
 %endif
     --with-clash-detection
-    --with-database=berkdb
+    --with-database=gdbm
     --with-ldap
     --without-postgresql
     --with-mail-locking=lockf
@@ -394,7 +387,7 @@ cat > macros.xemacs << EOF
 EOF
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 
 # Compress the .el files
 find %{buildroot}%{_datadir}/xemacs-%{xver} -name \*.el -exec gzip --best {} \+
@@ -613,6 +606,17 @@ install -Dpm 644 xemacs.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig/xemacs.pc
 %dir %{_datadir}/xemacs/site-packages/pkginfo
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 21.5.34-38.20200331hge2ac728aa576
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Jerry James <loganjerry@gmail.com> - 21.5.34-37.20200331hge2ac728aa576
+- Update to latest mercurial snapshot for miscellaneous bug fixes
+- Add -strsignal patch to fix build with latest glibc
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 21.5.34-36.20190323hgc0ed7ef9a5a1
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 21.5.34-35.20190323hgc0ed7ef9a5a1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           powermock
 Version:        2.0.0
-Release:        4%{?dist}
+Release:        7%{?dist}
 Summary:        A Java mocking framework
 
 # Note: api-mockito subpackage is ASL 2.0 and MIT, the rest is ASL 2.0
@@ -257,6 +257,16 @@ rm powermock-core/src/test/java/org/powermock/configuration/support/Configuratio
 %license LICENSE.txt
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 2.0.0-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -26,7 +26,7 @@ the features requiring them will be disabled.}
 %global godocs          README.rst TODO
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        UPnP DLNA Digital Media Server that includes basic video transcoding
 
 # Upstream license specification: BSD-3-Clause
@@ -63,6 +63,9 @@ rm -rf transcode
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -7,7 +7,7 @@
 %global crate rayon
 
 Name:           rust-%{crate}
-Version:        1.3.1
+Version:        1.4.1
 Release:        1%{?dist}
 Summary:        Simple work-stealing parallelism for Rust
 
@@ -73,6 +73,15 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Thu Oct 01 2020 Fabio Valentini <decathorpe@gmail.com> - 1.4.1-1
+- Update to version 1.4.1.
+
+* Tue Aug 25 2020 Josh Stone <jistone@redhat.com> - 1.4.0-1
+- Update to 1.4.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Josh Stone <jistone@redhat.com> - 1.3.1-1
 - Update to 1.3.1
 

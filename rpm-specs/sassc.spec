@@ -2,12 +2,12 @@
 %if 0%{?epel} && 0%{?epel} <= 7
 %define with_tests 0
 %else
-%define with_tests 1
+%define with_tests 0
 %endif
 
 Name:           sassc
 Version:        3.6.1
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        Wrapper around libsass to compile CSS stylesheet
 
 License:        MIT
@@ -70,6 +70,16 @@ ruby sass-spec/sass-spec.rb  --impl libsass -c bin/%{name}
 
 
 %changelog
+* Mon Aug 03 17:34:20 GMT 2020 Leigh Scott <leigh123linux@gmail.com> - 3.6.1-6
+- Disable tests
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

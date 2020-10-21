@@ -1,6 +1,6 @@
 Name:     latte-dock
 Version:  0.9.11
-Release:  1%{?dist}
+Release:  4%{?dist}
 Summary:  Latte is a dock based on plasma frameworks
 
 License:  GPLv2+
@@ -41,14 +41,11 @@ using parabolic zoom effect and tries to be there only when it is needed.
 %setup -q -n %{name}-v%{version}
 
 %build
-%{__mkdir_p} build
-pushd build
-%{cmake_kf5} ..
-%{make_build}
-popd
+%{cmake_kf5}
+%{cmake_build}
 
 %install
-make install/fast DESTDIR=%{buildroot} -C build
+%{cmake_install}
 find %{buildroot} -size 0 -delete
 
 %files
@@ -77,6 +74,16 @@ find %{buildroot} -size 0 -delete
 %{_sysconfdir}/xdg/latte-indicators.knsrc
 
 %changelog
+* Fri Sep 18 10:01:14 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.9.11-4
+- Make compatible with out of source cmake build
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.11-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Marc Deop marc@marcdeop.com - 0.9.11-1
 - Upgrade to version 0.9.11
 - Update URL and Source links

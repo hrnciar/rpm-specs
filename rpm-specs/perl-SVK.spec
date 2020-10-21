@@ -1,6 +1,6 @@
 Name:           perl-SVK
 Version:        2.2.3
-Release:        29%{?dist}
+Release:        31%{?dist}
 Summary:        A Distributed Version Control System
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/SVK
@@ -99,6 +99,12 @@ make pure_install DESTDIR=$RPM_BUILD_ROOT
 %{_bindir}/svk
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.3-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.2.3-30
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.3-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

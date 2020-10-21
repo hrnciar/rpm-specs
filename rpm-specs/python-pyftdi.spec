@@ -1,8 +1,8 @@
 %global pypi_name pyftdi
 
 Name:           python-%{pypi_name}
-Version:        0.51.2
-Release:        2%{?dist}
+Version:        0.52.0
+Release:        1%{?dist}
 Summary:        Python support for FTDI devices
 
 License:        BSD
@@ -60,29 +60,35 @@ Documentation for %{name}.
 #%license LICENSE
 
 %changelog
+* Tue Sep 29 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.52.0-1
+- Update to latest upstream release 0.52.0 (#1882892)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.51.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.51.2-2
 - Rebuilt for Python 3.9
 
 * Fri May 08 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.51.2-1
-- Update to latest upstream release 0.51.2 (rhbz#)
+- Update to latest upstream release 0.51.2 (#1826260)
 
 * Wed Apr 22 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.50.2-1
-- Update to latest upstream release 0.50.1 (rhbz#1826260)
+- Update to latest upstream release 0.50.1 (#1826260)
 
 * Fri Apr 17 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.50.1-1
-- Update to latest upstream release 0.50.1 (rhbz#1821032)
+- Update to latest upstream release 0.50.1 (#1821032)
 
 * Sun Apr 05 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.50.0-1
-- Update to latest upstream release 0.50.0 (rhbz#1821032)
+- Update to latest upstream release 0.50.0 (#1821032)
 
 * Mon Mar 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.48.3-1
-- Update to latest upstream release 0.48.3 (rhbz#1816213)
+- Update to latest upstream release 0.48.3 (#1816213)
 
 * Mon Mar 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.48.2-1
-- Update to latest upstream release 0.48.2 (rhbz#1816213)
+- Update to latest upstream release 0.48.2 (#1816213)
 
 * Tue Mar 17 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.47.2-1
-- Update to latest upstream release 0.47.2 (rhbz#1815122)
+- Update to latest upstream release 0.47.2 (#1815122)
 
 * Tue Mar 17 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.46-1
 - Update to latest upstream release 0.46
@@ -108,7 +114,7 @@ Documentation for %{name}.
 
 * Mon Aug 19 2019 Fabian Affolter <mail@fabian-affolter.ch> - 0.29.6-1
 - Update to latest upstream release 0.29.6
-- Fix license tag (rhbz#1732803)
+- Fix license tag (#1732803)
 
 * Wed Jul 24 2019 Fabian Affolter <mail@fabian-affolter.ch> - 0.29.2-1
 - Initial package for Fedora

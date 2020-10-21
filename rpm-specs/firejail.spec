@@ -3,7 +3,7 @@
 # Originally created by Firejail authors
 
 Name: firejail
-Version: 0.9.62
+Version: 0.9.62.4
 Release: 1%{?dist}
 Summary: Linux namespaces sandbox program
 BuildRequires: gcc make python3-devel
@@ -58,6 +58,15 @@ done
 %config(noreplace) %{_sysconfdir}/%{name}
 
 %changelog
+* Tue Aug 18 2020 Ondrej Dubaj <odubaj@redhat.com> - 0.9.62.4-1
+- Rebase to version 0.9.62.4
+
+* Wed Aug 12 2020 Ondrej Dubaj <odubaj@redhat.com> - 0.9.62.2-1
+- Rebase to version 0.9.62.2
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.62-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Ondrej Dubaj <odubaj@redhat.com> - 0.9.62-1
 - Rebase to version 0.9.62
 

@@ -7,14 +7,14 @@
 # For a stable, released kernel, released_kernel should be 1. For rawhide
 # and/or a kernel built from an rc or git snapshot, released_kernel should
 # be 0.
-%global released_kernel 0
-%global baserelease 2
+%global released_kernel 1
+%global baserelease 1
 %global fedora_build %{baserelease}
 
 # base_sublevel is the kernel version we're starting with and patching
 # on top of -- for example, 3.1-rc7-git1 starts with a 3.0 base,
 # which yields a base_sublevel of 0.
-%global base_sublevel 7
+%global base_sublevel 9
 
 ## If this is a released kernel ##
 %if 0%{?released_kernel}
@@ -34,7 +34,7 @@
 %global upstream_sublevel %(echo $((%{base_sublevel} + 1)))
 
 # The rc snapshot level
-%global rcrev 2
+%global rcrev 0
 # Set rpm version accordingly
 %global rpmversion 5.%{upstream_sublevel}.0
 %endif
@@ -72,6 +72,7 @@ BuildRequires: net-tools, hostname, bc, elfutils-devel
 BuildRequires: zlib-devel binutils-devel newt-devel python3-docutils perl(ExtUtils::Embed) bison flex xz-devel
 BuildRequires: audit-libs-devel glibc-devel glibc-headers glibc-static python3-devel java-devel
 BuildRequires: asciidoc xmlto libcap-devel
+BuildRequires: opencsd-devel
 # Used to mangle unversioned shebangs to be Python 3
 BuildRequires: /usr/bin/pathfix.py
 %ifnarch s390x %{arm}
@@ -105,6 +106,10 @@ Source5000: patch-5.%{upstream_sublevel}-rc%{rcrev}.xz
 
 # ongoing complaint, full discussion delayed until ksummit/plumbers
 Patch0: 0001-iio-Use-event-header-from-kernel-tree.patch
+Patch1: 0001-Filter-lto-options-from-the-perl-ccopts.patch
+
+#Revert this
+Patch2: 0001-tools-libbpf-Avoid-counting-local-symbols-in-ABI-che.patch
 
 # rpmlint cleanup
 Patch6: 0002-perf-Don-t-make-sourced-script-executable.patch
@@ -214,6 +219,8 @@ cd linux-%{kversion}
 %endif
 
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1 -R
 %patch6 -p1
 
 # END OF PATCH APPLICATIONS
@@ -228,11 +235,16 @@ pathfix.py -pni "%{__python3} %{py3_shbang_opts}" tools/ tools/perf/scripts/pyth
 ### build
 ###
 %build
+# The kernel tools build with -ggdb3 which seems to interact badly with LTO
+# causing various errors with references to discarded sections and symbol
+# type errors from the LTO plugin.  Until those issues are addressed
+# disable LTO
+%define _lto_cflags %{nil}
 
 cd linux-%{kversion}
 
 %global perf_make \
-  make EXTRA_CFLAGS="${RPM_OPT_FLAGS}" LDFLAGS="%{__global_ldflags}" %{?cross_opts} V=1 NO_PERF_READ_VDSO32=1 NO_PERF_READ_VDSOX32=1 WERROR=0 NO_LIBUNWIND=1 HAVE_CPLUS_DEMANGLE=1 NO_GTK2=1 NO_STRLCPY=1 NO_BIONIC=1 prefix=%{_prefix}
+  make EXTRA_CFLAGS="${RPM_OPT_FLAGS}" LDFLAGS="%{__global_ldflags}" %{?cross_opts} V=1 NO_PERF_READ_VDSO32=1 NO_PERF_READ_VDSOX32=1 WERROR=0 NO_LIBUNWIND=1 HAVE_CPLUS_DEMANGLE=1 NO_GTK2=1 NO_STRLCPY=1 NO_BIONIC=1 CORESIGHT=1 prefix=%{_prefix}
 %global perf_python3 -C tools/perf PYTHON=%{__python3}
 # perf
 # make sure check-headers.sh is executable
@@ -289,10 +301,10 @@ popd
 
 # Build the docs
 pushd tools/kvm/kvm_stat/
-make %{?_smp_mflags} man
+%make_build man
 popd
 pushd tools/perf/Documentation/
-make %{?_smp_mflags} man
+%make_build man
 popd
 
 ###
@@ -467,7 +479,7 @@ popd
 
 %files -n libbpf
 %{_libdir}/libbpf.so.0
-%{_libdir}/libbpf.so.0.0.9
+%{_libdir}/libbpf.so.0.1.0
 %license linux-%{kversion}/COPYING
 
 %files -n libbpf-devel
@@ -514,6 +526,61 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Mon Oct 12 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.0-1
+- Linux v5.9.0
+
+* Mon Oct  5 14:55:47 CDT 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.0-0.rc8.git0.1
+- Linux v5.9-rc8
+
+* Mon Sep 28 16:49:41 CDT 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.0-0.rc7.git0.1
+- Linux v5.9-rc7
+
+* Mon Sep 21 10:05:53 CDT 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.0-0.rc6.git0.1
+- Linux v5.9-rc6
+
+* Tue Sep 15 08:33:45 CDT 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.0-0.rc5.git0.1
+- Linux v5.9-rc5
+
+* Thu Sep 10 11:29:45 CDT 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.0-0.rc4.git0.1
+- Linux v5.9-rc4
+
+* Mon Aug 31 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.0-0.rc3.git0.1
+- Linux v5.9-rc3
+
+* Tue Aug 25 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.0-0.rc2.git0.1
+- Linux v5.9-rc2
+
+* Mon Aug 17 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.0-0.rc1.git0.1
+- Linux v5.9-rc1
+
+* Mon Aug 03 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.0-1
+- Linux v5.8.0
+
+* Mon Jul 27 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.0-0.rc7.git0.1
+- Linux v5.8-rc7
+
+* Tue Jul 21 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.0-0.rc6.git0.1
+- Linux v5.8-rc6
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 5.8.0-0.rc5.git0.2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Mon Jul 13 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.0-0.rc5.git0.1
+- Linux v5.8-rc5
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 5.8.0-0.rc4.git0.3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Mon Jul 08 2020 Jeff Law <law@redhat.com> - 5.8.0-0.rc4.git0.2
+- Disable LTO
+
+* Mon Jul 06 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.0-0.rc4.git0.1
+- Linux v5.8-rc4
+
+* Mon Jun 29 2020 Luis Claudio R. Goncalves <lclaudio@uudg.org> - 5.8.0-0.rc3.git0.1
+- Linux v5.8-rc3
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 5.8.0-0.rc2.git0.2
 - Perl 5.32 rebuild
 

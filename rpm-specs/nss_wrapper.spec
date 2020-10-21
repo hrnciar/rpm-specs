@@ -1,6 +1,6 @@
 Name:           nss_wrapper
 Version:        1.1.11
-Release:        1%{?dist}
+Release:        4%{?dist}
 
 License:        BSD
 Summary:        A wrapper for the user, group and hosts NSS API
@@ -47,31 +47,20 @@ gpgv2 --quiet --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %autosetup -p1
 
 %build
-if test ! -e "obj"; then
-    mkdir obj
-fi
-pushd obj
 %cmake \
-  -DUNIT_TESTING=ON \
-  %{_builddir}/%{name}-%{version}
+  -DUNIT_TESTING=ON
 
-make %{?_smp_mflags} VERBOSE=1
-popd
+%cmake_build
 
 %install
-pushd obj
-make DESTDIR=%{buildroot} install
+%cmake_install
 
 sed -i '1 s|/usr/bin/env\ perl|/usr/bin/perl|' %{buildroot}%{_bindir}/nss_wrapper.pl
-
-popd
 
 %ldconfig_scriptlets
 
 %check
-pushd obj
-ctest --output-on-failure
-popd
+%ctest
 
 %files
 %doc AUTHORS README.md CHANGELOG
@@ -85,6 +74,16 @@ popd
 %{_mandir}/man1/nss_wrapper.1*
 
 %changelog
+* Wed Aug 05 2020 Andreas Schneider <asn@redhat.com> - 1.1.11-4
+- Build using new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.11-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 02 2020 Andreas Schneider <asn@redhat.com> - 1.1.11-1
 - Update to version 1.1.11
   https://gitlab.com/cwrap/nss_wrapper/-/blob/master/CHANGELOG

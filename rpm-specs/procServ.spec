@@ -3,7 +3,7 @@
 Summary: Process server with telnet console and log access
 Name: procServ
 Version: 2.7.0
-Release: 10%{?dist}
+Release: 11%{?dist}
 
 License: GPLv3
 URL: https://github.com/ralphlange/procServ
@@ -41,6 +41,9 @@ make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 %{_mandir}/man1/procServ.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

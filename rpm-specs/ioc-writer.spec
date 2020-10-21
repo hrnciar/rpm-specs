@@ -2,16 +2,16 @@
 
 Name:           ioc-writer
 Version:        0.3.3
-Release:        7%{?dist}
-Summary:        A tool to create and edit OpenIOC objects
+Release:        9%{?dist}
+Summary:        Tool to create and edit OpenIOC objects
 
 License:        ASL 2.0
 URL:            https://github.com/mandiant/ioc_writer
-Source0:        https://github.com/mandiant/ioc_writer/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
-
+Source0:        %{url}/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-lxml
 
 %description
@@ -39,6 +39,12 @@ supports a basic CRUD (create, read, update, delete) for various items.
 %{python3_sitelib}/%{pypi_name}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.3.3-8
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.3-7
 - Rebuilt for Python 3.9
 

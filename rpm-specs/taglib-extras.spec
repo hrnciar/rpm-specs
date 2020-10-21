@@ -1,7 +1,9 @@
+%undefine __cmake_in_source_build
+
 Summary:        Taglib support for other formats 
 Name:           taglib-extras
 Version:        1.0.1
-Release:        22%{?dist}
+Release:        23%{?dist}
 
 # all LGPLv2, except for rmff/ which is GPLv2+/LGPLv2+
 License:        LGPLv2
@@ -45,16 +47,12 @@ Requires: taglib-devel
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}   
-%{cmake3} ..
-popd                        
-
-%make_build -C %{_target_platform}
+%{cmake3}
+%cmake3_build
 
 
 %install
-make install DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake3_install
 
 
 %ldconfig_scriptlets
@@ -71,6 +69,9 @@ make install DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

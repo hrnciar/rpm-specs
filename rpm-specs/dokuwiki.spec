@@ -1,11 +1,12 @@
-%global		releasenum 2018-04-22b
-%global		releasetag %(rel=%{releasenum}; echo ${rel//-/})
-
 Name:		dokuwiki
-Version:	%{releasetag}
-Release:	3%{?dist}
 Summary:	Standards compliant simple to use wiki
 License:	GPLv2
+
+%global		releasenum 2020-07-29
+%global		releasetag %(rel=%{releasenum}; echo ${rel//-/})
+Version:	%{releasetag}
+Release:	2%{?dist}
+
 URL:		https://www.dokuwiki.org/dokuwiki
 Source0:	https://download.dokuwiki.org/src/%{name}/%{name}-%{releasenum}.tgz
 
@@ -18,12 +19,15 @@ Requires:	php-gd
 Requires:	php-json
 Requires:	php-xml
 
-Requires:	php-composer(geshi/geshi)
+Requires:	php-composer(aziraphale/email-address-validator) >= 2.0.1
+# dokuwiki relies on a certain bugfix backported into geshi/geshi,
+# hence the requirement also includes the RPM release number
+Requires:	php-composer(geshi/geshi) >= 1.0.9.1-5
 Requires:	php-composer(marcusschwarz/lesserphp)
+Requires:	php-composer(openpsa/universalfeedcreator)
 Requires:	php-composer(paragonie/random_compat)
 Requires:	php-composer(phpseclib/phpseclib)
 Requires:	php-composer(simplepie/simplepie)
-Requires:	php-email-address-validation
 
 
 %description
@@ -49,13 +53,15 @@ Configures DokuWiki to run in SELinux enabled environments.
 %prep
 %setup -q -n %{name}-%{releasenum}
 
-# Remove bundled code
+# Remove bundled code that's available as Fedora packages
 #  email-address-validator
 rm -r vendor/aziraphale
 #  geshi
 rm -r vendor/geshi
 #  lesserphp
 rm -r vendor/marcusschwarz
+#  universalfeedcreator
+rm -r vendor/openpsa
 #  random_compat
 rm -r vendor/paragonie
 #  phpseclib
@@ -208,6 +214,17 @@ fi
 %doc DOKUWIKI-SELINUX.README
 
 %changelog
+* Sun Sep 20 2020 Artur Frenszek-Iwicki <fedora@svgames.pl> - 20200729-2
+- Switch to requiring php-email-address-validation via php-composer()
+- Add a minimum version requirement on php-email-address-validation
+
+* Wed Aug 26 2020 Artur Iwicki <fedora@svgames.pl> - 20200729-1
+- Update to latest upstream release (2020-07-29 "Hogfather")
+- Unbundle php-openpsa-universalfeedcreator
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20180422b-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 23 2020 Artur Iwicki <fedora@svgames.pl> - 20180422b-1
 - Use file-level dependencies in -selinux subpackage
 - Replace dependency on php-lessphp with php-marcusschwarz-lesserphp

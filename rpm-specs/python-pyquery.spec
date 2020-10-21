@@ -4,7 +4,7 @@
 
 Name:           python-%{real_name}
 Version:        1.4.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A jQuery-like library for python
 License:        BSD
 URL:            http://pypi.python.org/pypi/pyquery
@@ -71,6 +71,9 @@ nosetests-%{python3_version}
 %{python3_sitelib}/pyquery*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.1-3
 - Rebuilt for Python 3.9
 

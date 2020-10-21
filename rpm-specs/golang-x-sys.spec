@@ -4,14 +4,9 @@
 # https://github.com/golang/sys
 %global goipath         golang.org/x/sys
 %global forgeurl        https://github.com/golang/sys
-%global commit          c96a22e43c9c1088b5e506727c975511357d9f68
+%global commit          efd3b9a0ff205c921c51961c1c9bb8728bd0ce1b
 
 %gometa
-
-# Remove after F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-golang-sys-devel < 0-0.25
-}
 
 %global common_description %{expand:
 Go packages for low-level interactions with the operating system.}
@@ -19,11 +14,12 @@ Go packages for low-level interactions with the operating system.}
 %global golicenses      LICENSE PATENTS
 %global godocs          AUTHORS CONTRIBUTING.md CONTRIBUTORS README.md
 
-%global gosupfiles glide.lock glide.yaml
+# Add Windows file to compile Winio
+%global gosupfiles glide.lock glide.yaml ${windows[@]}
 
 Name:           %{goname}
 Version:        0
-Release:        0.31%{?dist}
+Release:        0.35%{?dist}
 Summary:        Go packages for low-level interaction with the operating system
 
 # Upstream license specification: BSD-3-Clause
@@ -47,6 +43,8 @@ Patch0:         golang-x-sys-Disable-TestOpenByHandleAt.patch
 cp %{S:1} %{S:2} .
 
 %install
+# Add Windows file to compile Winio
+mapfile -t windows <<< $(find *_windows.go -type f)
 %gopkginstall
 
 %if %{with check}
@@ -57,6 +55,18 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Thu Sep 17 19:02:18 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.35.20200917gitefd3b9a
+- Bump to commit efd3b9a0ff205c921c51961c1c9bb8728bd0ce1b
+
+* Sat Aug 22 16:06:38 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.34.20200807git5acd03e
+- Add windows only files to compile Winio
+
+* Fri Aug 07 20:59:42 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.33.20200807git5acd03e
+- Bump to commit 5acd03effb828bdfdbad4e129e7daf84af6670b4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

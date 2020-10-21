@@ -7,7 +7,7 @@
 
 Name:		perl-Test-Mojibake
 Version:	1.3
-Release:	15%{?dist}
+Release:	17%{?dist}
 Summary:	Check your source for encoding misbehavior
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Test-Mojibake
@@ -160,6 +160,12 @@ make test %{!?perl_bootstrap:AUTHOR_TESTING=1 RELEASE_TESTING=1} \
 %{_mandir}/man3/Test::Mojibake.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.3-16
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.3-15
 - Perl 5.32 rebuild
 

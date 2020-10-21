@@ -1,6 +1,6 @@
 Name:           perl-VM-EC2-Security-CredentialCache
 Version:        0.25
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Cache credentials respecting expiration time for IAM roles
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/VM-EC2-Security-CredentialCache
@@ -46,6 +46,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.25-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.25-15
 - Perl 5.32 rebuild
 

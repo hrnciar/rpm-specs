@@ -2,7 +2,7 @@
 
 Name:		usb_modeswitch
 Version:	2.6.0
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	USB Modeswitch gets mobile broadband cards in operational mode
 Summary(de):	USB Modeswitch aktiviert UMTS-Karten
 License:	GPLv2+
@@ -47,13 +47,12 @@ cp -f %{SOURCE1} device_reference.txt
 
 %build
 %{set_build_flags}
-make %{?_smp_mflags}
+%make_build
 
 
 %install
 mkdir -p $RPM_BUILD_ROOT%{_unitdir}
-make install \
-	DESTDIR=$RPM_BUILD_ROOT \
+%make_install \
 	SYSDIR=$RPM_BUILD_ROOT%{_unitdir} \
 	UDEVDIR=$RPM_BUILD_ROOT%{_prefix}/lib/udev
 
@@ -70,6 +69,13 @@ make install \
 
 
 %changelog
+* Tue Sep 29 2020 Sérgio Basto <sergio@serjux.com> - 2.6.0-3
+- Use make macros (https://src.fedoraproject.org/rpms/usb_modeswitch/pull-request/1)
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 24 2020 Lubomir Rintel <lkundrak@v3.sk> - 2.6.0-1
 - New 2.6.0 release
 

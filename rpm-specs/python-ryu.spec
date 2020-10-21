@@ -16,7 +16,7 @@ BuildRequires:   python3-devel
 
 Name:           python-%{pypi_name}
 Version:        4.29
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        Component-based Software-defined Networking Framework
 
 License:        Apache-2.0
@@ -123,6 +123,13 @@ PYTHON=%{__python} ./run_tests.sh -N -P
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.29-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.29-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.29-10
 - Rebuilt for Python 3.9
 

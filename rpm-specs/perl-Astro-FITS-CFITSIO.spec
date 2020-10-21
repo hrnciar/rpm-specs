@@ -1,6 +1,6 @@
 Name:           perl-Astro-FITS-CFITSIO
-Version:        1.12
-Release:        6%{?dist}
+Version:        1.15
+Release:        1%{?dist}
 Summary:        Perl extension for using the cfitsio library
 # tarball m51 doesn't state license https://rt.cpan.org/Public/Bug/Display.html?id=66226
 License:        GPL+ or Artistic
@@ -46,6 +46,15 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_mandir}/man3/*
 
 %changelog
+* Tue Sep 22 2020 Orion Poplawski <orion@nwra.com> - 1.15-1
+- Update to 1.15
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Orion Poplawski <orion@nwra.com> - 1.14-1
+- Update to 1.14
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.12-6
 - Perl 5.32 rebuild
 

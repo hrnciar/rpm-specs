@@ -8,7 +8,7 @@
 
 Name:           openjpeg2
 Version:        2.3.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        C-Library for JPEG 2000
 
 # windirent.h is MIT, the rest is BSD
@@ -215,8 +215,6 @@ find thirdparty/ -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} \;
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
 # TODO: Consider
 # -DBUILD_JPIP_SERVER=ON -DBUILD_JAVA=ON
 %cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DOPENJPEG_INSTALL_LIB_DIR=%{_lib} \
@@ -224,15 +222,13 @@ pushd %{_target_platform}
     -DBUILD_DOC=ON \
     -DBUILD_STATIC_LIBS=OFF \
     -DBUILD_SHARED_LIBS=ON \
-    %{?runcheck:-DBUILD_TESTING:BOOL=ON -DOPJ_DATA_ROOT=$PWD/../data} \
-    ..
-popd
+    %{?runcheck:-DBUILD_TESTING:BOOL=ON -DOPJ_DATA_ROOT=$PWD/../data}
 
-%make_build VERBOSE=1 -C %{_target_platform}
+%cmake_build
 
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 
 mv %{buildroot}%{_mandir}/man1/opj_compress.1 %{buildroot}%{_mandir}/man1/opj2_compress.1
 mv %{buildroot}%{_mandir}/man1/opj_decompress.1 %{buildroot}%{_mandir}/man1/opj2_decompress.1
@@ -257,7 +253,7 @@ chmod +x %{buildroot}%{_bindir}/opj2_jpip_viewer
 
 %check
 %if 0%{?runcheck}
-make test -C %{_target_platform}
+%ctest
 %endif
 
 
@@ -278,7 +274,7 @@ make test -C %{_target_platform}
 %{_libdir}/pkgconfig/libopenjp2.pc
 
 %files devel-docs
-%doc %{_target_platform}/doc/html
+%doc %{__cmake_builddir}/doc/html
 
 %files tools
 %{_bindir}/opj2_compress
@@ -334,6 +330,9 @@ make test -C %{_target_platform}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 13 2020 Sandro Mani <manisandro@gmail.com> - 2.3.1-6
 - Backport patch for CVE 2020-8112
 

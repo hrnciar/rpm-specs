@@ -1,16 +1,16 @@
 Name:           tortoisehg
-Version:        5.4
-Release:        2%{?dist}
+Version:        5.5.2
+Release:        1%{?dist}
 Summary:        Mercurial GUI command line tool thg
 License:        GPLv2
 # - few files are however under the more permissive GPLv2+
 URL:            https://tortoisehg.bitbucket.io/
-Source0:        https://bitbucket.org/tortoisehg/thg/get/%{version}.tar.bz2#/%{name}-%{version}.tar.bz2
+Source0:        https://www.mercurial-scm.org/release/tortoisehg/targz/tortoisehg-%{version}.tar.gz
 Source1:        thg.appdata.xml
 BuildArch:      noarch
-BuildRequires:  python3-devel, gettext, python3-sphinx, python3-qt5, desktop-file-utils, libappstream-glib
-BuildRequires:  mercurial-py3 >= 5.3, mercurial-py3 < 5.5
-Requires:       mercurial-py3 >= 5.3, mercurial-py3 < 5.5, python3-iniparse
+BuildRequires:  python3-devel, python3-setuptools, gettext, python3-sphinx, python3-qt5, desktop-file-utils, libappstream-glib
+BuildRequires:  mercurial-py3 >= 5.4, mercurial-py3 < 5.6
+Requires:       mercurial-py3 >= 5.4, mercurial-py3 < 5.6, python3-iniparse
 Requires:       python3-qt5, python3-qscintilla-qt5, python3-pygments
 Requires:       python3-gobject-base
 
@@ -30,7 +30,7 @@ with a graphical interface.
 Note that the nautilus extension has been deprecated upstream.
 
 %prep
-%autosetup -n tortoisehg-thg-68b8b70539b4 -p 1
+%autosetup -p 1
 
 # Hack to try to support Mercurial 4.7 until it gets upgraded
 #sed -i "s/testedwith = '4.8 4.9'/testedwith = '4.7 4.8 4.9'/" tortoisehg/util/hgversion.py
@@ -91,6 +91,15 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT/%{_datadir}/appdata/thg.ap
 %{_datadir}/nautilus-python/extensions/nautilus-thg.py*
 
 %changelog
+* Tue Oct  6 09:40:52 CEST 2020 Mads Kiilerich <mads@kiilerich.com> - 5.5.2-1
+- tortoisehg 5.5.2
+
+* Mon Oct  5 14:19:02 CEST 2020 Mads Kiilerich <mads@kiilerich.com> - 5.4-4
+- BuildRequires: python3-setuptools
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Mads Kiilerich <mads@kiilerich.com> - 5.4-2
 - Workaround for array.array().tostring() removed in Python 3.9
 

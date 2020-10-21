@@ -4,7 +4,7 @@
 
 Name:           mysqltuner
 Version:        1.7.17
-Release:        2%{?shortcommit:.git.%{shortcommit}}%{?dist}
+Release:        3%{?shortcommit:.git.%{shortcommit}}%{?dist}
 Summary:        MySQL configuration assistant
 
 License:        GPLv3+
@@ -48,6 +48,9 @@ install -Dpm 755 mysqltuner.pl $RPM_BUILD_ROOT%{_bindir}/mysqltuner
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.17-3.git.f18a3ef
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 21 2020 Andrew Bauer <zonexpertconsulting@outlook.com> - 1.7.17-2.git.f18a3ef
 - RHBZ 1838780 mariadb lacks mysql provides on el8
 

@@ -1,6 +1,6 @@
 Name: atk
 Version: 2.36.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Interfaces for accessibility support
 
 License: LGPLv2+
@@ -54,6 +54,9 @@ needed for development of applications or toolkits which use ATK.
 %{_datadir}/gir-1.0
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.36.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 02 2020 Kalev Lember <klember@redhat.com> - 2.36.0-1
 - Update to 2.36.0
 

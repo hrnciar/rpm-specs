@@ -2,7 +2,7 @@
 Summary:	A multi-purpose desktop calculator for GNU/Linux
 Name:		qalculate-kde
 Version:	0.9.7.10
-Release:	28.nmu1%{?dist}
+Release:	29.nmu1%{?dist}
 
 License:	GPLv2+
 URL:		http://qalculate.sourceforge.net/
@@ -56,6 +56,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.7.10-29.nmu1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 10 2020 Than Ngo <than@redhat.com> - 0.9.7.10-28.nmu1
 - Fix FTBFS
 

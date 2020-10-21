@@ -2,8 +2,8 @@
 %global gem_name linked-list
 
 Name: rubygem-%{gem_name}
-Version: 0.0.13
-Release: 2%{?dist}
+Version: 0.0.15
+Release: 1%{?dist}
 Summary: Ruby implementation of Doubly Linked List, following some Ruby idioms
 License: MIT
 URL: https://github.com/spectator/linked-list
@@ -70,6 +70,12 @@ popd
 %{gem_instdir}/test
 
 %changelog
+* Sun Aug 09 2020 Leigh Scott <leigh123linux@gmail.com> - 0.0.15-1
+- Update to 0.0.15
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.13-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.13-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

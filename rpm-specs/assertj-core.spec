@@ -1,8 +1,8 @@
 %bcond_with memoryfilesystem
 
 Name:           assertj-core
-Version:        3.16.1
-Release:        2%{?dist}
+Version:        3.17.2
+Release:        1%{?dist}
 Summary:        Library of assertions similar to fest-assert
 License:        ASL 2.0
 
@@ -16,6 +16,7 @@ BuildRequires:  mvn(junit:junit)
 BuildRequires:  mvn(net.bytebuddy:byte-buddy)
 BuildRequires:  mvn(org.hamcrest:hamcrest)
 BuildRequires:  mvn(org.junit.jupiter:junit-jupiter-api)
+BuildRequires:  mvn(org.junit.platform:junit-platform-commons)
 BuildRequires:  mvn(org.opentest4j:opentest4j)
 
 %if %{with memoryfilesystem}
@@ -43,6 +44,7 @@ This package provides API documentation for %{name}.
 
 # remove plugins that are unnecessary for RPM builds
 %pom_remove_plugin :bnd-maven-plugin
+%pom_remove_plugin :bnd-testing-maven-plugin
 %pom_remove_plugin :bnd-resolver-maven-plugin
 %pom_remove_plugin :jacoco-maven-plugin
 %pom_remove_plugin :maven-antrun-plugin
@@ -52,6 +54,7 @@ This package provides API documentation for %{name}.
 %pom_remove_plugin :maven-javadoc-plugin
 %pom_remove_plugin :maven-shade-plugin
 %pom_remove_plugin :yuicompressor-maven-plugin
+%pom_xpath_remove pom:project/pom:profiles
 
 %if %{without memoryfilesystem}
 %pom_remove_dep :memoryfilesystem
@@ -79,6 +82,21 @@ rm -r src/test/java/org/assertj/core/internal/{Paths*.java,paths}
 
 
 %changelog
+* Fri Oct 16 2020 Fabio Valentini <decathorpe@gmail.com> - 3.17.2-1
+- Update to version 3.17.2.
+
+* Sun Aug 23 2020 Fabio Valentini <decathorpe@gmail.com> - 3.17.0-1
+- Update to version 3.17.0.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.16.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Markku Korkeala <markku.korkeala@iki.fi> - 3.16.1-4
+- Remove profiles from pom.xml.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.16.1-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed May 13 2020 Fabio Valentini <decathorpe@gmail.com> - 3.16.1-2
 - Fix artifact generation by removing antrun plugin again.
 

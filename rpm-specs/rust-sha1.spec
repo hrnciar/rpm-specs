@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.6.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Minimal implementation of SHA1 for Rust
 
 # Upstream license specification: BSD-3-Clause
@@ -98,6 +98,9 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

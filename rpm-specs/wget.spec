@@ -1,7 +1,7 @@
 Summary: A utility for retrieving files using the HTTP or FTP protocols
 Name: wget
 Version: 1.20.3
-Release: 4%{?dist}
+Release: 8%{?dist}
 License: GPLv3+
 Url: http://www.gnu.org/software/wget/
 Source: ftp://ftp.gnu.org/gnu/wget/wget-%{version}.tar.gz
@@ -10,11 +10,15 @@ Patch1: wget-1.17-path.patch
 Patch2: wget-1.20.3-remove-unneeded-debug-lines.patch
 # http://git.savannah.gnu.org/cgit/wget.git/commit/?id=04b7369490344d014b05dee5d48ca78cd04733ce
 Patch3: wget-1.20.3-Fix-multiple-definition-of-with-gcc-10.patch
+# http://git.savannah.gnu.org/cgit/wget.git/commit/?id=1656a1628c1d6ab81b0126c3c4540b2becd0558d
+Patch4: wget-1.20.3-bz1475861-ftp-verifcerterr-hadling.patch
+# http://git.savannah.gnu.org/cgit/wget.git/commit/?id=706e71564cadc7192ac21efbf51b661c967f35b5
+Patch5: wget-1.20.3-fix-verbosity-with---no-verbose.patch
 
 Provides: webclient
 Provides: bundled(gnulib) 
 # needed for test suite
-BuildRequires: perl-HTTP-Daemon, python3
+BuildRequires: perl-lib, perl-English, perl-HTTP-Daemon, python3
 BuildRequires: gnutls-devel, pkgconfig, texinfo, gettext, autoconf, libidn2-devel, libuuid-devel, perl-podlators, libpsl-devel, libmetalink-devel, gpgme-devel, gcc, zlib-devel
 
 %description
@@ -68,6 +72,18 @@ make check
 %{_infodir}/*
 
 %changelog
+* Thu Jul 30 2020 Tomas Hozza <thozza@redhat.com> - 1.20.3-8
+- Fix too verbose output even with --no-verbose
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.20.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Artem Egorenkov <aegorenk@redhat.com> - 1.20.3-6
+- Fix Perl module build dependencies
+
+* Wed Jun 24 2020 Artem Egorenkov <aegorenk@redhat.com> - 1.20.3-5
+- Fix FTP VERIFCERTERR handling (#1475861)
+
 * Tue Feb 25 2020 Tomas Hozza <thozza@redhat.com> - 1.20.3-4
 - Fix FTBFS with new gcc (#1800250)
 

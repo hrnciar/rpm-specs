@@ -23,7 +23,7 @@ The Tomb package handles clean goroutine tracking and termination.}
 
 Name:           %{goname}
 Version:        1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Clean goroutine termination in the Go language
 
 # Upstream license specification: BSD-3-Clause
@@ -50,6 +50,9 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

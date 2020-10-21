@@ -1,26 +1,18 @@
-##Documents generation and Octave binding look not available yet
+%global __cmake_in_source_build 1
 
+# Documents generation and Octave binding look not available yet
 %global with_python  1
 %global with_ruby    1
 
 %ifarch s390x %{arm} aarch64 %{power64}
 %global with_java    0
 %else
-%global with_java    1
+%global with_java    0
 %endif
 
 %global with_octave  0
 %global with_perl    1
 %global with_r       1
-
-# rhbz #1588734,#1686738
-%if 0%{?fedora} && 0%{?fedora} < 30
-%ifarch %{?mono_arches}
-%global with_mono    1
-%else
-%global with_mono    0
-%endif
-%endif
 
 %if 0%{?fedora} && 0%{?fedora} >= 30
 %ifarch %{ix86} x86_64 sparc sparcv9 ia64 %{arm} aarch64 alpha s390x ppc
@@ -47,7 +39,7 @@ Obsoletes: libsedml-sharp < 1:0.4.4-1
 Name:           libsedml
 Summary:        Library that fully supports SED-ML for SBML
 Version:        0.4.4
-Release:        10%{?dist}
+Release:        12%{?dist}
 Epoch:          1
 URL:            https://github.com/fbergmann/libSEDML
 Source0:        https://github.com/fbergmann/libSEDML/archive/v%{version}/libSEDML-%{version}.tar.gz
@@ -68,6 +60,7 @@ BuildRequires: check-devel
 %endif
 
 Obsoletes:     python2-libsedml < 1:0.4.4-2
+Obsoletes:     java-SEDML < 1:0.4.4-12
 
 ##This patch sets libraries' installation paths
 Patch0: %{name}-fix_install_libpaths.patch
@@ -387,6 +380,14 @@ ctest -V --force-new-ctest-process --stop-time 2000
 %endif
 
 %changelog
+* Tue Aug 04 2020 Antonio Trande <sagitter@fedoraproject.org> - 1:0.4.4-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+- Enable cmake_in_source_build
+- Disable Java binding
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:0.4.4-11
+- Perl 5.32 rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1:0.4.4-10
 - Rebuilt for Python 3.9
 
@@ -408,7 +409,7 @@ ctest -V --force-new-ctest-process --stop-time 2000
 * Sat Jun 01 2019 Jitka Plesnikova <jplesnik@redhat.com> - 1:0.4.4-4
 - Perl 5.30 rebuild
 
-* Wed May 22 2019 Antonio Trande <sagitterATfedoraproject.org> - 1:0.4.4-3
+* Wed May 22 2019 Antonio Trande <sagitter@fedoraproject.org> - 1:0.4.4-3
 - Use Python3 abiflags
 
 * Sun May 05 2019 Antonio Trande <sagitter@fedoraproject.org> - 1:0.4.4-2
@@ -433,7 +434,7 @@ ctest -V --force-new-ctest-process --stop-time 2000
 * Tue Sep 04 2018 Patrik Novotný <panovotn@redhat.com> - 1:0.4.3-17
 - change requires to minizip-compat(-devel), rhbz#1609830, rhbz#1615381
 
-* Sun Sep 02 2018 Antonio Trande <sagitterATfedoraproject.org> - 1:0.4.3-16
+* Sun Sep 02 2018 Antonio Trande <sagitter@fedoraproject.org> - 1:0.4.3-16
 - Deprecate python2 on fedora 30+
 
 * Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.4.3-15
@@ -448,7 +449,7 @@ ctest -V --force-new-ctest-process --stop-time 2000
 * Tue Jun 19 2018 Miro Hrončok <mhroncok@redhat.com> - 1:0.4.3-12
 - Rebuilt for Python 3.7
 
-* Tue Jun 05 2018 Antonio Trande <sagitterATfedoraproject.org> - 1:0.4.3-11
+* Tue Jun 05 2018 Antonio Trande <sagitter@fedoraproject.org> - 1:0.4.3-11
 - Rebuild for libsbml-5.17.0
 
 * Fri May 18 2018 Tom Callaway <spot@fedoraproject.org> - 1:0.4.3-10
@@ -457,7 +458,7 @@ ctest -V --force-new-ctest-process --stop-time 2000
 * Fri May 18 2018 Tom Callaway <spot@fedoraproject.org> - 1:0.4.3-9
 - rebuild for R 3.5.0
 
-* Thu Feb 15 2018 Antonio Trande <sagitterATfedoraproject.org> - 1:0.4.3-8
+* Thu Feb 15 2018 Antonio Trande <sagitter@fedoraproject.org> - 1:0.4.3-8
 - Rebuild for libsbml-5.16.0
 - Use %%ldconfig_scriptlets
 
@@ -467,19 +468,19 @@ ctest -V --force-new-ctest-process --stop-time 2000
 * Fri Jan 05 2018 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1:0.4.3-6
 - F-28: rebuild for ruby25
 
-* Sun Dec 10 2017 Antonio Trande <sagitterATfedoraproject.org> - 1:0.4.3-5
+* Sun Dec 10 2017 Antonio Trande <sagitter@fedoraproject.org> - 1:0.4.3-5
 - Rebuild for libsbml-5.16.0
 
-* Wed Oct 11 2017 Antonio Trande <sagitterATfedoraproject.org> - 1:0.4.3-4
+* Wed Oct 11 2017 Antonio Trande <sagitter@fedoraproject.org> - 1:0.4.3-4
 - Split off the static library
 
-* Wed Oct 11 2017 Antonio Trande <sagitterATfedoraproject.org> - 1:0.4.3-3
+* Wed Oct 11 2017 Antonio Trande <sagitter@fedoraproject.org> - 1:0.4.3-3
 - Fix dependency's Epoch
 
-* Wed Oct 11 2017 Antonio Trande <sagitterATfedoraproject.org> - 1:0.4.3-2
+* Wed Oct 11 2017 Antonio Trande <sagitter@fedoraproject.org> - 1:0.4.3-2
 - Fix dependencies
 
-* Sun Oct 01 2017 Antonio Trande <sagitterATfedoraproject.org> - 1:0.4.3-1
+* Sun Oct 01 2017 Antonio Trande <sagitter@fedoraproject.org> - 1:0.4.3-1
 - Update to 0.4.3
 - Set new Epoch
 - Add new dependency (libnuml)
@@ -493,7 +494,7 @@ ctest -V --force-new-ctest-process --stop-time 2000
 * Sun Jun 04 2017 Jitka Plesnikova <jplesnik@redhat.com> - 0.3.1-21
 - Perl 5.26 rebuild
 
-* Fri Apr 14 2017 Antonio Trande <sagitterATfedoraproject.org> - 0.3.1-20
+* Fri Apr 14 2017 Antonio Trande <sagitter@fedoraproject.org> - 0.3.1-20
 - Rebuild for libsbml-5.15.0
 
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-19
@@ -505,7 +506,7 @@ ctest -V --force-new-ctest-process --stop-time 2000
 * Mon Dec 19 2016 Miro Hrončok <mhroncok@redhat.com> - 0.3.1-17
 - Rebuild for Python 3.6
 
-* Tue Aug 16 2016 Antonio Trande <sagitterATfedoraproject.org> - 0.3.1-16
+* Tue Aug 16 2016 Antonio Trande <sagitter@fedoraproject.org> - 0.3.1-16
 - Rebuild for Python 3.5.2
 
 * Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3.1-15
@@ -514,10 +515,10 @@ ctest -V --force-new-ctest-process --stop-time 2000
 * Tue May 17 2016 Jitka Plesnikova <jplesnik@redhat.com> - 0.3.1-14
 - Perl 5.24 rebuild
 
-* Tue Apr 19 2016 Antonio Trande <sagitterATfedoraproject.org> - 0.3.1-13
+* Tue Apr 19 2016 Antonio Trande <sagitter@fedoraproject.org> - 0.3.1-13
 - Rebuild for libSBML 5.13.0
 
-* Sat Apr 09 2016 Antonio Trande <sagitterATfedoraproject.org> - 0.3.1-12
+* Sat Apr 09 2016 Antonio Trande <sagitter@fedoraproject.org> - 0.3.1-12
 - Fixed Python2 sub-package
 - Documentation/License files moved to octpkgdir/packinfo
  -Added post/postun/preun scriptlets for Octave sub-package
@@ -528,80 +529,80 @@ ctest -V --force-new-ctest-process --stop-time 2000
 * Tue Jan 12 2016 Vít Ondruch <vondruch@redhat.com> - 0.3.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Changes/Ruby_2.3
 
-* Sat Dec 12 2015 Antonio Trande <sagitterATfedoraproject.org> - 0.3.1-9
+* Sat Dec 12 2015 Antonio Trande <sagitter@fedoraproject.org> - 0.3.1-9
 - Rebuilt with GCC-5.3
 - Added python-provides
 
-* Sat Nov 14 2015 Antonio Trande <sagitterATfedoraproject.org> - 0.3.1-8
+* Sat Nov 14 2015 Antonio Trande <sagitter@fedoraproject.org> - 0.3.1-8
 - Rebuilt for libsbml-5.12.0 and Python3.5
 
-* Wed Nov 11 2015 Antonio Trande <sagitterATfedoraproject.org> - 0.3.1-7
+* Wed Nov 11 2015 Antonio Trande <sagitter@fedoraproject.org> - 0.3.1-7
 - Set manually CC/CXX variable
 
-* Tue Nov 10 2015 Antonio Trande <sagitterATfedoraproject.org> - 0.3.1-6
+* Tue Nov 10 2015 Antonio Trande <sagitter@fedoraproject.org> - 0.3.1-6
 - Rebuilt again
 
 * Tue Nov 10 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Changes/python3.5
 
-* Sun Nov 01 2015 Antonio Trande <sagitterATfedoraproject.org> 0.3.1-4
+* Sun Nov 01 2015 Antonio Trande <sagitter@fedoraproject.org> 0.3.1-4
 - Built with clang++ on aarch64
 
-* Sun Nov 01 2015 Antonio Trande <sagitterATfedoraproject.org> 0.3.1-3
+* Sun Nov 01 2015 Antonio Trande <sagitter@fedoraproject.org> 0.3.1-3
 - Hardened builds on <F23
 
-* Sat Sep 19 2015 Antonio Trande <sagitterATfedoraproject.org> 0.3.1-2
+* Sat Sep 19 2015 Antonio Trande <sagitter@fedoraproject.org> 0.3.1-2
 - Disabled C++ namespaces (Bug2188 on copasi bug tracker)
 
-* Fri Sep 18 2015 Antonio Trande <sagitterATfedoraproject.org> 0.3.1-1
+* Fri Sep 18 2015 Antonio Trande <sagitter@fedoraproject.org> 0.3.1-1
 - Update to 0.3.1
 - Enabled tests
 
-* Sun Jul 26 2015 Antonio Trande <sagitterATfedoraproject.org> 0.3.0-13.20150422git235bb5
+* Sun Jul 26 2015 Antonio Trande <sagitter@fedoraproject.org> 0.3.0-13.20150422git235bb5
 - Rebuild after libsbml update
 
-* Fri Jun 19 2015 Antonio Trande <sagitterATfedoraproject.org> 0.3.0-12.20150422git235bb5
+* Fri Jun 19 2015 Antonio Trande <sagitter@fedoraproject.org> 0.3.0-12.20150422git235bb5
 - Debug undefined references
 - Built with clang on F23 64bit
 
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3.0-11.20150422git235bb5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
-* Fri Jun 12 2015 Antonio Trande <sagitterATfedoraproject.org> 0.3.0-10.20150422git235bb5
+* Fri Jun 12 2015 Antonio Trande <sagitter@fedoraproject.org> 0.3.0-10.20150422git235bb5
 - Fixed octpkg macro
 
-* Thu Jun 11 2015 Antonio Trande <sagitterATfedoraproject.org> 0.3.0-9.20150422git235bb5
+* Thu Jun 11 2015 Antonio Trande <sagitter@fedoraproject.org> 0.3.0-9.20150422git235bb5
 - Added missing linkage to libsbml
 - Fixed Python variables
 
-* Mon Jun 08 2015 Antonio Trande <sagitterATfedoraproject.org> 0.3.0-8.20150422git235bb5
+* Mon Jun 08 2015 Antonio Trande <sagitter@fedoraproject.org> 0.3.0-8.20150422git235bb5
 - Python2 package is named python-libsedml
 - Forced same documentation directory for all sub-packages
 - Make symlink between R libraries
 
-* Fri Jun 05 2015 Antonio Trande <sagitterATfedoraproject.org> 0.3.0-7.20150422git235bb5
+* Fri Jun 05 2015 Antonio Trande <sagitter@fedoraproject.org> 0.3.0-7.20150422git235bb5
 - Description improved
 - Sub-packages main name changed to libsedml for Python, Java
 - Packaged Python3 bindings
 
-* Fri Jun 05 2015 Antonio Trande <sagitterATfedoraproject.org> 0.3.0-6.20150422git235bb5
+* Fri Jun 05 2015 Antonio Trande <sagitter@fedoraproject.org> 0.3.0-6.20150422git235bb5
 - Set CSHARP compiler on F23
 
-* Fri May 29 2015 Antonio Trande <sagitterATfedoraproject.org> 0.3.0-5.20150422git235bb5
+* Fri May 29 2015 Antonio Trande <sagitter@fedoraproject.org> 0.3.0-5.20150422git235bb5
 - Update to commit 235bb5
 
-* Mon Feb 02 2015 Antonio Trande <sagitterATfedoraproject.org> 0.3.0-4.20141230gitb455cd
+* Mon Feb 02 2015 Antonio Trande <sagitter@fedoraproject.org> 0.3.0-4.20141230gitb455cd
 - Set installation directory of the java library
 
-* Fri Jan 09 2015 Antonio Trande <sagitterATfedoraproject.org> 0.3.0-3.20141230gitb455cd
+* Fri Jan 09 2015 Antonio Trande <sagitter@fedoraproject.org> 0.3.0-3.20141230gitb455cd
 - Package name modified
 
-* Wed Dec 31 2014 Antonio Trande <sagitterATfedoraproject.org> 0.3.0-2.20141230gitb455cd
+* Wed Dec 31 2014 Antonio Trande <sagitter@fedoraproject.org> 0.3.0-2.20141230gitb455cd
 - Excluded packaging of static file
 
-* Tue Dec 30 2014 Antonio Trande <sagitterATfedoraproject.org> 0.3.0-1.20141230gitb455cd
+* Tue Dec 30 2014 Antonio Trande <sagitter@fedoraproject.org> 0.3.0-1.20141230gitb455cd
 - Update to the commit fb91ad (post-release 0.3.0)
 
-* Sun Dec 28 2014 Antonio Trande <sagitterATfedoraproject.org> - 5.11.0-1
+* Sun Dec 28 2014 Antonio Trande <sagitter@fedoraproject.org> - 5.11.0-1
 - First package
 

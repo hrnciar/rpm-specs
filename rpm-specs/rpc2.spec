@@ -1,6 +1,8 @@
+%global optflags %{optflags} -fPIC -fPIE
+
 Name:           rpc2
 Version:        2.10
-Release:        22%{?dist}
+Release:        25%{?dist}
 Summary:        C library for remote procedure calls over UDP
 License:        LGPLv2
 URL:            http://www.coda.cs.cmu.edu/
@@ -8,6 +10,8 @@ Source0:        ftp://ftp.coda.cs.cmu.edu/pub/rpc2/src/%{name}-%{version}.tar.gz
 Source1:        ftp://ftp.coda.cs.cmu.edu/pub/rpc2/src/%{name}-%{version}.tar.gz.asc
 Patch0:		rpc2-2.10-lua-5.2-fix.patch
 Patch1:		rpc2-2.10-format-security-fix.patch
+Patch2:		rpc2-2.10-lua-5.4.patch
+Patch3:		rpc2-2.10-rp2gen-cflags.patch
 BuildRequires:  gcc-c++
 BuildRequires:  lwp-devel lua-devel flex bison
 
@@ -28,9 +32,10 @@ developing applications that use %{name}.
 %setup -q
 %patch0 -p1 -b .lua52fix
 %patch1 -p1 -b .format-security
+%patch2 -p1 -b .lua54
+%patch3 -p1 -b .cflags
 
 %build
-export CC="gcc -fPIC"
 %configure --disable-static --with-lua
 # Don't use rpath!
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
@@ -55,6 +60,16 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Mon Aug 10 2020 Tom Callaway <spot@fedoraproject.org> - 2.10-25
+- fix for lua 5.4, fixes FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10-24
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

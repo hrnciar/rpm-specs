@@ -4,7 +4,7 @@
 
 Name:          jboss-jaxrs-2.0-api
 Version:       1.0.0
-Release:       10%{?dist}
+Release:       13%{?dist}
 Summary:       JAX-RS 2.0: The Java API for RESTful Web Services
 # ASL 2.0 src/main/java/javax/ws/rs/core/GenericEntity.java
 License:       (CDDL or GPLv2 with exceptions) and ASL 2.0
@@ -14,6 +14,7 @@ Source0:       https://github.com/jboss/jboss-jaxrs-api_spec/archive/%{oname}-%{
 BuildRequires: maven-local
 BuildRequires: mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires: mvn(org.jboss:jboss-parent:pom:)
+BuildRequires: mvn(javax.xml.bind:jaxb-api)
 
 BuildArch:     noarch
 
@@ -31,6 +32,9 @@ This package contains javadoc for %{name}.
 
 # Unneeded plugin
 %pom_remove_plugin :maven-source-plugin
+
+# Fix JDK11 build, add missing javax.xml.bind
+%pom_add_dep javax.xml.bind:jaxb-api
 
 %mvn_file :%{oname} %{name}
 
@@ -51,6 +55,15 @@ This package contains javadoc for %{name}.
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Markku Korkeala <markku.korkeala@iki.fi> - 1.0.0-12
+- Fix JDK11 build by adding dependency for javax.xml.bind.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.0.0-11
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

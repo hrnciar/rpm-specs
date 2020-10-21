@@ -1,8 +1,8 @@
 %global pkg dockerfile-mode
 
 Name:           emacs-%{pkg}
-Version:        1.2
-Release:        2%{?dist}
+Version:        1.3
+Release:        1%{?dist}
 Summary:        An emacs mode for handling Dockerfiles
 
 License:        ASL 2.0
@@ -11,7 +11,9 @@ Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 Source1:        %{pkg}-init.el
 
 BuildRequires:  emacs
+BuildRequires:  emacs-s
 Requires:       emacs(bin) >= %{_emacs_version}
+Requires:       emacs-s
 BuildArch:      noarch
 
 %description
@@ -43,6 +45,12 @@ install -Dpm 0644 %{SOURCE1} $RPM_BUILD_ROOT%{_emacs_sitestartdir}/%{pkg}-init.e
 
 
 %changelog
+* Tue Oct 13 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.3-1
+- Update to 1.3
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

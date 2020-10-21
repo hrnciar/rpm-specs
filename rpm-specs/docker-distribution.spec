@@ -35,7 +35,7 @@
 
 Name:           %{project}-%{repo}
 Version:        2.6.2
-Release:        11.git%{shortcommit}%{?dist}
+Release:        12.git%{shortcommit}%{?dist}
 Summary:        Docker toolset to pack, ship, store, and deliver content
 License:        ASL 2.0
 URL:            https://%{provider_prefix}
@@ -325,6 +325,9 @@ make test
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.2-12.git48294d9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.2-11.git48294d9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

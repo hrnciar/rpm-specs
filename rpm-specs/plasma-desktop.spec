@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 
 %global kf5_version_min 5.69
 
@@ -10,7 +11,7 @@
 
 Name:    plasma-desktop
 Summary: Plasma Desktop shell
-Version: 5.19.2
+Version: 5.20.1
 Release: 1%{?dist}
 
 License: GPLv2+ and (GPLv2 or GPLv3)
@@ -156,6 +157,9 @@ Obsoletes:      kde-workspace < 5.0.0-1
 Obsoletes:      kactivities-workspace < 5.6.0
 Provides:       kactivities-workspace = %{version}-%{release}
 
+Obsoletes:      plasma-user-manager < 5.19.50
+Provides:       plasma-user-manager = %{version}-%{release}
+
 # kimpanel moved here from kdeplasma-addons-5.5.x
 Conflicts:      kdeplasma-addons < 5.6.0
 
@@ -215,17 +219,13 @@ sed -i.breeze_ver \
 %global optflags %(echo %{optflags} | sed 's/-g /-g1 /')
 %endif
 
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%{cmake_kf5} \
   %{?!synaptics:-DSynaptics_INCLUDE_DIRS:PATH="$(pwd)/../3rdparty/xorg"}
-popd
-
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --with-html --all-name
 
@@ -242,40 +242,28 @@ rm -rfv %{buildroot}%{_datadir}/locale/*/LC_SCRIPTS/kfontinst/
 
 
 %check
-desktop-file-validate %{buildroot}/%{_datadir}/applications/org.kde.{kfontview,knetattach}.desktop
+desktop-file-validate %{buildroot}/%{_datadir}/applications/org.kde.knetattach.desktop
 
 
 %ldconfig_scriptlets
 
 %files -f plasmadesktop5.lang
-%license COPYING*
+%license COPYING
 %{_bindir}/kaccess
-%{_bindir}/kcolorschemeeditor
-%{_bindir}/kfontinst
-%{_bindir}/kfontview
-%{_bindir}/krdb
 %{_bindir}/knetattach
 %{_bindir}/solid-action-desktop-gen
-%{_bindir}/lookandfeeltool
 %{_bindir}/ibus-ui-emojier-plasma
 %{_bindir}/tastenbrett
 %{_kf5_libexecdir}/kauth/kcmdatetimehelper
-%{_kf5_libexecdir}/kauth/fontinst
-%{_kf5_libexecdir}/kauth/fontinst_helper
-%{_kf5_libexecdir}/kauth/fontinst_x11
 %{_libexecdir}/kimpanel-ibus-panel
 %{_libexecdir}/kimpanel-ibus-panel-launcher
-%{_libexecdir}/plasma-changeicons
-%{_libexecdir}/kfontprint
 %{_kf5_qmldir}/org/kde/plasma/private
 %{_kf5_libdir}/libkdeinit5_kaccess.so
-%{_kf5_libdir}/kconf_update_bin/*
 # TODO: -libs subpkg -- rex
-%{_kf5_libdir}/libkfontinst.so.*
-%{_kf5_libdir}/libkfontinstui.so.*
 %{_kf5_qtplugindir}/*.so
 %{_kf5_qtplugindir}/kcms/*.so
 %{_kf5_plugindir}/kded/*.so
+%{_kf5_plugindir}/krunner/krunner*.so
 %{_kf5_qmldir}/org/kde/plasma/activityswitcher
 %{_kf5_qmldir}/org/kde/private/desktopcontainment/*
 %{_kf5_qmldir}/org/kde/activities/settings/
@@ -293,51 +281,38 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/org.kde.{kfontview,k
 %{_kf5_datadir}/kcmmouse/
 %endif
 %{_datadir}/config.kcfg/browser_settings.kcfg
-%{_datadir}/config.kcfg/colorssettings.kcfg
-%{_datadir}/config.kcfg/cursorthemesettings.kcfg
-%{_datadir}/config.kcfg/fontssettings.kcfg
-%{_datadir}/config.kcfg/iconssettingsbase.kcfg
 %{_datadir}/config.kcfg/kactivitymanagerd_plugins_settings.kcfg
 %{_datadir}/config.kcfg/kactivitymanagerd_settings.kcfg
-%{_datadir}/config.kcfg/launchfeedbacksettings.kcfg
-%{_datadir}/config.kcfg/lookandfeelsettings.kcfg
 %{_datadir}/config.kcfg/splashscreensettings.kcfg
-%{_datadir}/config.kcfg/stylesettings.kcfg
 %{_datadir}/config.kcfg/terminal_settings.kcfg
 %{_datadir}/config.kcfg/workspaceoptions_kdeglobalssettings.kcfg
 %{_datadir}/config.kcfg/workspaceoptions_plasmasettings.kcfg
+%{_datadir}/config.kcfg/launchfeedbacksettingsbase.kcfg
 %{_datadir}/kglobalaccel/org.kde.plasma.emojier.desktop
 %{_datadir}/qlogging-categories5/kcmkeys.categories
-%{_kf5_qtplugindir}/plasma/dataengine/plasma_engine_kimpanel.so
+%{_datadir}/qlogging-categories5/kcmusers.categories
 %{_kf5_datadir}/kconf_update/*
-%{_kf5_datadir}/kdisplay
-%{_kf5_datadir}/kcontrol
 %{_kf5_datadir}/kcmkeys
 %{_kf5_datadir}/kcm_componentchooser
-%{_kf5_datadir}/kfontinst
 %{_kf5_datadir}/kcmkeyboard
 %{_kf5_datadir}/kpackage/kcms/*
 %{_kf5_datadir}/knsrcfiles/
-%{_datadir}/konqsidebartng/virtual_folders/services/fonts.desktop
 %{_kf5_datadir}/kf5/kactivitymanagerd/workspace/
 %{_kf5_datadir}/kcmsolidactions/
 %{_kf5_datadir}/solid/devices/*.desktop
 %{_kf5_datadir}/dbus-1/system.d/*.conf
 %{_kf5_datadir}/kservices5/*.desktop
-%{_kf5_datadir}/kservices5/ServiceMenus/installfont.desktop
-%{_kf5_datadir}/kservices5/fonts.protocol
 %{_kf5_datadir}/kservicetypes5/*.desktop
-%{_kf5_datadir}/kxmlgui5/kfontview
-%{_kf5_datadir}/kxmlgui5/kfontinst
 %{_kf5_datadir}/knotifications5/*.notifyrc
+%ifnarch s390 s390x
 %{_datadir}/icons/hicolor/*/*/*
+%endif
 %{_kf5_metainfodir}/*.xml
 %{_datadir}/applications/*.desktop
-%{_datadir}/dbus-1/services/*.service
 %{_datadir}/dbus-1/system-services/*.service
-%{_datadir}/polkit-1/actions/org.kde.fontinst.policy
 %{_datadir}/polkit-1/actions/org.kde.kcontrol.kcmclock.policy
 %{_sysconfdir}/xdg/autostart/*.desktop
+
 
 %if 0%{?scim}
 %files kimpanel-scim
@@ -348,6 +323,27 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/org.kde.{kfontview,k
 
 
 %changelog
+* Tue Oct 20 15:29:34 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.1-1
+- 5.20.1
+
+* Sun Oct 11 19:50:04 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.0-1
+- 5.20.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.90-1
+- 5.19.90
+
+* Tue Sep 01 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.5-1
+- 5.19.5
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.19.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.4-1
+- 5.19.4
+
+* Tue Jul 07 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.3-1
+- 5.19.3
+
 * Tue Jun 23 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.2-1
 - 5.19.2
 

@@ -4,8 +4,8 @@
 %global skip_tests 1
 
 Name:           python-%{pypi_name}
-Version:        2.1
-Release:        14%{?dist}
+Version:        2.2
+Release:        1%{?dist}
 Summary:        A set of high-level abstractions for Django forms
 
 License:        BSD
@@ -85,6 +85,12 @@ rm -rf html/.{doctrees,buildinfo}
 
 
 %changelog
+* Tue Sep 08 2020 Yatin Karel <ykarel@redhat.com> - 2.2-1
+- Update to 2.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Javier Peña <jpena@redhat.com> - 2.1-14
 - Explicitly require python3-setuptools as BR
 

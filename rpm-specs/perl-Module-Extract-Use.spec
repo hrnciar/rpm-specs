@@ -1,7 +1,7 @@
 Summary:	Pull out the modules a module explicitly uses
 Name:		perl-Module-Extract-Use
 Version:	1.047
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	Artistic 2.0
 URL:		https://metacpan.org/release/Module-Extract-Use
 Source0:	https://cpan.metacpan.org/modules/by-module/Module/Module-Extract-Use-%{version}.tar.gz
@@ -66,6 +66,9 @@ make test
 %{_mandir}/man3/Module::Extract::Use.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.047-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.047-2
 - Perl 5.32 rebuild
 

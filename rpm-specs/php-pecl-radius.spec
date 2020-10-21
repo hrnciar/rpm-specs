@@ -15,7 +15,7 @@
 
 Name:           php-pecl-radius
 Version:        1.4.0
-Release:        0.12.%{prever}%{?dist}
+Release:        0.13.%{prever}%{?dist}
 Summary:        Radius client library
 
 License:        BSD
@@ -162,6 +162,9 @@ REPORT_EXIT_STATUS=1 \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-0.13.b1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-0.12.b1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

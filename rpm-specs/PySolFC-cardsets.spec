@@ -3,7 +3,7 @@
 
 Name:           PySolFC-cardsets
 Version:        2.0
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Various cardsets for PySolFC
 License:        GPLv2+
 URL:            https://pysolfc.sourceforge.io/
@@ -38,6 +38,9 @@ find $RPM_BUILD_ROOT%{_datadir}/PySolFC -type f -name 'COPYRIGHT' -exec chmod 06
 %{_datadir}/PySolFC/cardset-*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

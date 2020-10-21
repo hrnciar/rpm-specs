@@ -2,7 +2,7 @@ Name: hyphen-is
 Summary: Icelandic hyphenation rules
 %global upstreamid 20030920
 Version: 0.%{upstreamid}
-Release: 23%{?dist}
+Release: 24%{?dist}
 Source: http://download.services.openoffice.org/contrib/dictionaries/hyph_is_IS.zip
 Patch0: hyphen-is-lppl-license-fix.patch
 URL: http://wiki.services.openoffice.org/wiki/Dictionaries
@@ -41,6 +41,9 @@ cp -p *.dic $RPM_BUILD_ROOT/%{_datadir}/hyphen
 %{_datadir}/hyphen/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20030920-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20030920-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

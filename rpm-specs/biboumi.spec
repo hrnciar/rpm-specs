@@ -1,6 +1,6 @@
 Name: biboumi
 Version: 8.5
-Release: 1%{?dist}
+Release: 4%{?dist}
 Summary: An XMPP gateway that connects to IRC servers
 
 License: zlib
@@ -43,11 +43,11 @@ XMPP client as if these channels were XMPP MUCs.
     -DWITH_LIBIDN=1 \
     -DWITH_SQLITE3=1 \
     -DWITH_POSTGRESQL=1 .
-%make_build
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %check
@@ -75,6 +75,16 @@ ctest -VV %{?_smp_mflags}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.5-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Florent Le Coz <louiz@louiz.org> - 8.5-3
+- Use cmake_build/install, see https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds#Migration
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 11 2020 Jeremy Cline <jcline@redhat.com> - 8.5-1
 - Update to v8.5
 

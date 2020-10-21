@@ -1,7 +1,7 @@
 %global builddocs 1
 
 Name:           nco
-Version:        4.9.3
+Version:        4.9.5
 Release:        1%{?dist}
 Summary:        Suite of programs for manipulating NetCDF/HDF4 files
 License:        GPLv3
@@ -131,6 +131,15 @@ chrpath -d -k $RPM_BUILD_ROOT%{_bindir}/* || :
 
 
 %changelog
+* Thu Sep 24 2020 Orion Poplawski <orion@nwra.com> - 4.9.5-1
+- Update to 4.9.5
+
+* Sun Sep 06 2020 Orion Poplawski <orion@nwra.com> - 4.9.4-1
+- Update to 4.9.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.9.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 2020 Orion Poplawski <orion@nwra.com> - 4.9.3-1
 - Update to 4.9.3
 

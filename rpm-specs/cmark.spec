@@ -6,7 +6,7 @@
 
 Name:           cmark
 Version:        0.29.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        CommonMark parsing and rendering
 
 License:        BSD and MIT
@@ -50,23 +50,19 @@ This package provides the cmark library.
 
 
 %build
-mkdir build
-cd build
-%cmake %{?_without_tests:-DCMARK_TESTS=OFF} ..
-make %{?_smp_mflags}
+%cmake %{?_without_tests:-DCMARK_TESTS=OFF}
+%cmake_build
 
 
 %install
-cd build
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 rm %{buildroot}%{_libdir}/libcmark.a
 
 
 %check
 %if %{with tests}
-cd build
-make test
+%cmake_build --target test
 %endif
 
 
@@ -96,6 +92,13 @@ make test
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.29.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.29.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb  1 2020 Jens Petersen <petersen@redhat.com> - 0.29.0-1
 - https://github.com/commonmark/cmark/releases/tag/0.29.0
 - disable tests for F32: https://github.com/commonmark/cmark/issues/331

@@ -3,7 +3,7 @@
 Name:	 OpenEXR
 Summary: A high dynamic-range (HDR) image file format
 Version: 2.3.0
-Release: 5%{?dist}
+Release: 6%{?dist}
 
 License: BSD
 URL:	 http://www.openexr.com/
@@ -113,6 +113,9 @@ make %{?_smp_mflags} check || { cat IlmImfTest/test-suite.log; /bin/true; }
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

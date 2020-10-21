@@ -5,9 +5,9 @@
 
 Name: nmap
 Epoch: 2
-Version: 7.80
+Version: 7.91
 #global prerelease TEST5
-Release: 4%{?dist}
+Release: 1%{?dist}
 Summary: Network exploration tool and security scanner
 URL: http://nmap.org/
 # Uses combination of licenses based on GPL license, but with extra modification
@@ -25,19 +25,20 @@ Patch2: nmap-4.52-noms.patch
 # upstream provided patch for rhbz#845005, not yet in upstream repository
 Patch3: ncat_reg_stdin.diff
 Patch4: nmap-6.25-displayerror.patch
-# https://github.com/nmap/nmap/commit/33f421fd6e68fcb8ed50071661d9704717c81b2b.patch
-Patch5: nmap-unsolicited_arp_assert.patch
 
 BuildRequires: automake
 BuildRequires: autoconf
 BuildRequires: gcc-c++
 BuildRequires: gettext-devel
 BuildRequires: libpcap-devel
+%if 0%{?fedora} 
 BuildRequires: libssh2-devel
+%endif
 BuildRequires: libtool
 BuildRequires: lua-devel
 BuildRequires: openssl-devel
 BuildRequires: pcre-devel
+BuildRequires: zlib-devel
 Requires: %{name}-ncat = %{epoch}:%{version}-%{release}
 
 Obsoletes: nmap-frontend
@@ -87,7 +88,12 @@ export CXXFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 ### TODO ## configure  --with-libpcap=/usr ###TODO###
 %configure  --with-libpcap=yes --with-liblua=included \
   --without-zenmap --without-ndiff \
-  --enable-dbus --with-libssh2=yes 
+%if 0%{?fedora} 
+  --with-libssh2=yes  \
+%else
+  --with-libssh2=no  \
+%endif
+  --enable-dbus 
 
 %make_build
 
@@ -109,7 +115,7 @@ ln -s ncat %{buildroot}%{_bindir}/nc
 %find_lang nmap --with-man
 
 %files -f nmap.lang
-%license COPYING*
+%license LICENSE
 %doc docs/README
 %doc docs/nmap.usage.txt
 %{_bindir}/nmap
@@ -119,7 +125,7 @@ ln -s ncat %{buildroot}%{_bindir}/nc
 %{_datadir}/nmap
 
 %files ncat 
-%license COPYING
+%license LICENSE
 %doc ncat/docs/AUTHORS ncat/docs/README ncat/docs/THANKS ncat/docs/examples
 %{_bindir}/nc
 %{_bindir}/ncat
@@ -127,6 +133,12 @@ ln -s ncat %{buildroot}%{_bindir}/nc
 %{_mandir}/man1/ncat.1.gz
 
 %changelog
+* Thu Aug 20 2020 Pavel Zhukov <pzhukov@redhat.com> - 2:7.80-6
+- Drop libssh from eln 
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:7.80-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 19 2020 Pavel Zhukov <pzhukov@redhat.com> - 2:7.80-4
 - Do not assert on unsolicited ARP response (#1836989)
 

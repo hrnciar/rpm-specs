@@ -1,6 +1,6 @@
 Name:		flashrom
 Version:	1.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Simple program for reading/writing flash chips content
 License:	GPLv2
 URL:		https://flashrom.org
@@ -98,6 +98,9 @@ install -D -p -m 0644 util/z60_flashrom.rules %{buildroot}/%{_udevrulesdir}/60_f
 %{_libdir}/pkgconfig/flashrom.pc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Richard Hughes <richard@hughsie.com> - 1.2-2
 - Build the package using meson to get the libflashrom shared library support
   required by fwupd.

@@ -1,12 +1,8 @@
-# LTO
-%global optflags        %{optflags} -flto
-%global build_ldflags   %{build_ldflags} -flto
-
 %global appname YACReader
 
 Name:           yacreader
-Version:        9.6.2
-Release:        3%{?dist}
+Version:        9.7.1
+Release:        1%{?dist}
 Summary:        Cross platform comic reader and library manager
 
 # The entire source code is GPLv3+ except:
@@ -25,9 +21,11 @@ BuildRequires:  pkgconfig(Qt5Multimedia)
 BuildRequires:  pkgconfig(Qt5ScriptTools)
 BuildRequires:  pkgconfig(libunarr)
 BuildRequires:  pkgconfig(poppler-qt5)
+
 Requires:       hicolor-icon-theme
 Requires:       qt5-qtgraphicaleffects%{?_isa}
 Requires:       qt5-qtquickcontrols%{?_isa}
+
 %{?systemd_requires}
 
 %description
@@ -74,6 +72,15 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Sat Sep 12 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 9.7.1-1
+- Update to 9.7.1
+
+* Fri Sep  4 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 9.7.0-1
+- Update to 9.7.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.6.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 02 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 9.6.2-3
 - Add dep: qt5-qtgraphicaleffects
 - Add dep: qt5-qtquickcontrols

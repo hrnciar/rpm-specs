@@ -1,5 +1,7 @@
 %global framework kconfig
 
+%undefine __cmake_in_source_build
+
 # uncomment to enable bootstrap mode
 #global bootstrap 1
 
@@ -13,6 +15,7 @@
 %endif
 %endif
 #endif
+%global docs 1
 %global tests 1
 %endif
 
@@ -20,7 +23,7 @@
 %global ninja 1
 
 Name:    kf5-%{framework}
-Version: 5.71.0
+Version: 5.75.0
 Release: 1%{?dist}
 Summary: KDE Frameworks 5 Tier 1 addon with advanced configuration system
 
@@ -105,6 +108,19 @@ KConfigGui provides a way to hook widgets to the configuration so that they are
 automatically initialized from the configuration and automatically propagate
 their changes to their respective configuration files.
 
+%if 0%{?docs}
+%package doc
+Summary: API documentation for %{name}
+BuildRequires: doxygen
+BuildRequires: qt5-qdoc
+BuildRequires: qt5-qhelpgenerator
+BuildRequires: qt5-qtbase-doc
+Requires: kf5-filesystem
+BuildArch: noarch
+%description doc
+%{summary}.
+%endif
+
 %if 0%{?python_bindings}
 %package -n python2-pykf5-%{framework}
 Summary: Python2 bindings for %{framework}
@@ -137,26 +153,16 @@ PYTHONPATH=%{_datadir}/ECM/python
 export PYTHONPATH
 %endif
 
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%cmake_kf5 \
+  %{?docs:-DBUILD_QCH:BOOL=ON} \
   %{?ninja:-G Ninja} \
   %{?tests:-DBUILD_TESTING:BOOL=ON}
-popd
 
-%if 0%{?ninja}
-%ninja_build -C %{_target_platform}
-%else
-%make_build -C %{_target_platform}
-%endif
+%cmake_build
 
 
 %install
-%if 0%{?ninja}
-%ninja_install -C %{_target_platform}
-%else
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
-%endif
+%cmake_install
 
 %find_lang_kf5 kconfig5_qt
 
@@ -167,16 +173,16 @@ export CTEST_OUTPUT_ON_FAILURE=1
 ## cant use %%ninja_test here for some reason, doesn't inherit env vars from xvfb or dbus -- rex
 xvfb-run -a \
 %if 0%{?ninja}
-ninja test -v -C %{_target_platform} ||:
+ninja test -v %{?_smp_mflags} -C %{_target_platform} ||:
 %else
-make test -C %{_target_platform} ARGS="--output-on-failure --timeout 300" ||:
+make test %{?_smp_mflags} -C %{_target_platform} ARGS="--output-on-failure --timeout 300" ||:
 %endif
 %endif
 
 
 %files
 %doc DESIGN README.md TODO
-%license COPYING.LIB
+%license LICENSES/*.txt
 
 %ldconfig_scriptlets core
 
@@ -203,6 +209,12 @@ make test -C %{_target_platform} ARGS="--output-on-failure --timeout 300" ||:
 %{_kf5_archdatadir}/mkspecs/modules/qt_KConfigCore.pri
 %{_kf5_archdatadir}/mkspecs/modules/qt_KConfigGui.pri
 
+%if 0%{?docs}
+%files doc
+%{_qt5_docdir}/KF5Config.qch
+%{_qt5_docdir}/KF5Config.tags
+%endif
+
 %if 0%{?python_bindings}
 %files -n python2-pykf5-%{framework}
 %{python2_sitearch}/PyKF5/
@@ -216,6 +228,28 @@ make test -C %{_target_platform} ARGS="--output-on-failure --timeout 300" ||:
 
 
 %changelog
+* Wed Oct 14 09:48:40 CDT 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.75.0-1
+- 5.75.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.74.0-1
+- 5.74.0
+
+* Mon Aug 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.73.0-1
+- 5.73.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.72.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-3
+- -doc: Requires: kf5-filesystem
+
+* Tue Jul 21 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-2
+- use %%cmake macros more
+- enable -doc subpkg (qch docs)
+
+* Tue Jul 07 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-1
+- 5.72.0
+
 * Tue Jun 16 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.71.0-1
 - 5.71.0
 

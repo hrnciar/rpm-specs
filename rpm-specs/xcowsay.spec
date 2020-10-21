@@ -1,5 +1,5 @@
 Name:           xcowsay
-Version:        1.5
+Version:        1.5.1
 Release:        1%{?dist}
 Summary:        Displays a cute cow and message on your desktop
 
@@ -61,6 +61,12 @@ desktop-file-install --vendor=""     \
 
 
 %changelog
+* Thu Oct 01 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.5.1-1
+- 1.5.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 07 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.5-1
 - 1.5
 

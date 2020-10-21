@@ -12,11 +12,12 @@
 
 Name:		tuned-profiles-nfv-host-bin
 Version:	0
-Release:	0.5.%{git_suffix}%{?dist}
+Release:	0.8.%{git_suffix}%{?dist}
 Summary:	Binaries that are needed for the NFV host Tuned profile
 License:	GPLv2
 URL:		http://www.linux-kvm.org/page/KVM-unit-tests
 Source0:	https://git.kernel.org/pub/scm/virt/kvm/kvm-unit-tests.git/snapshot/%{src_name}-%{git_commit}.tar.gz
+Patch0:         lto.patch
 BuildRequires:	make, gcc, binutils, coreutils
 ExclusiveArch:	%{ix86} x86_64
 
@@ -26,6 +27,7 @@ host Tuned profile.
 
 %prep
 %setup -q -n %{src_name}-%{git_commit}
+%patch0 -p1
 
 %build
 ./configure
@@ -44,6 +46,15 @@ install -Dpm 0644 x86/tscdeadline_latency.flat %{buildroot}%{_datadir}/%{name}/t
 %{_datadir}/%{name}
 
 %changelog
+* Wed Sep 02 2020 Jeff Law <law@redhat.com> - 0-0.8.20180302git1edfa966
+- Re-enable LTO
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7.20180302git1edfa966
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> - 0-0.6.20180302git1edfa966
+- Disable LTO
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5.20180302git1edfa966
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

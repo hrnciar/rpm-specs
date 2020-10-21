@@ -1,6 +1,6 @@
 Name:          simple-mtpfs
 Version:       0.2
-Release:       15%{?dist}
+Release:       16%{?dist}
 Summary:       Fuse-based MTP driver
 License:       GPLv2+
 URL:           https://github.com/phatina/simple-mtpfs
@@ -35,6 +35,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_mandir}/man1/simple-mtpfs.1.gz
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

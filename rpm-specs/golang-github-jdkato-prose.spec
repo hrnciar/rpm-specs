@@ -4,6 +4,7 @@
 # https://github.com/jdkato/prose
 %global goipath         github.com/jdkato/prose
 Version:                1.1.1
+Epoch:                  1
 
 %gometa
 
@@ -16,7 +17,7 @@ extraction.}
 %global godocs          AUTHORS.md README.md requirements.txt
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Golang library for text processing
 
 License:        MIT
@@ -65,6 +66,21 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Thu Aug 21 2020 Athos Ribeiro <athoscr@fedoraproject.org> - 1:1.1.1-1
+- Bump Epoch and downgrade to 1.1.1. See BZ#1860668 for further reference.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Athos Ribeiro <athoscr@fedoraproject.org> - 2.0.0-1
+- Update to latest version
+- Use generated dynamic buildrequires
+- Remove binary package (dropped in v2)
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

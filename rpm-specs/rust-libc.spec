@@ -5,7 +5,7 @@
 %global crate libc
 
 Name:           rust-%{crate}
-Version:        0.2.71
+Version:        0.2.79
 Release:        1%{?dist}
 Summary:        Raw FFI bindings to platform libraries like libc
 
@@ -157,6 +157,27 @@ echo 'glibc-devel'
 %endif
 
 %changelog
+* Mon Oct 05 2020 Fabio Valentini <decathorpe@gmail.com> - 0.2.79-1
+- Update to version 0.2.79.
+
+* Thu Oct 01 2020 Fabio Valentini <decathorpe@gmail.com> - 0.2.78-1
+- Update to version 0.2.78.
+
+* Fri Sep 11 2020 Josh Stone <jistone@redhat.com> - 0.2.77-1
+- Update to 0.2.77
+
+* Thu Aug 20 2020 Josh Stone <jistone@redhat.com> - 0.2.76-1
+- Update to 0.2.76
+
+* Tue Jul 28 2020 Josh Stone <jistone@redhat.com> - 0.2.74-1
+- Update to 0.2.74
+
+* Wed Jul 22 2020 Josh Stone <jistone@redhat.com> - 0.2.73-1
+- Update to 0.2.73
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.2.72-1
+- Update to 0.2.72
+
 * Tue May 26 2020 Josh Stone <jistone@redhat.com> - 0.2.71-1
 - Update to 0.2.71
 

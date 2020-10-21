@@ -20,7 +20,7 @@
 Summary: Control multiple Net::SSH connections via a single interface
 Name: rubygem-%{gem_name}
 Version: 1.2.1
-Release: 5%{?dist}
+Release: 7%{?dist}
 License: MIT
 URL: https://github.com/net-ssh/net-ssh-multi
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -93,6 +93,13 @@ popd
 %{gem_instdir}/test
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 

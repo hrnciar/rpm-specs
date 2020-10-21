@@ -1,6 +1,6 @@
 Name:		CharLS
 Version:	2.0.0
-Release:	2%{?dist}
+Release:	4%{?dist}
 Summary:	An optimized implementation of the JPEG-LS standard
 License:	BSD
 URL:		https://github.com/team-charls/charls
@@ -38,18 +38,21 @@ CharLS Library Header Files and Link Libraries.
 %cmake -DBUILD_SHARED_LIBS:BOOL=ON\
 	-DCMAKE_BUILD_TYPE:STRING="Release"\
 	-DCMAKE_VERBOSE_MAKEFILE=ON\
-	-DBUILD_TESTING=ON .
+	-DBUILD_TESTING=ON
 
-%make_build
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %check
+pushd %{_vpath_builddir}
 # Enter a key + enter to finish
 echo "a" | ./charlstest
+popd
+
 
 %files
 %license License.txt
@@ -63,6 +66,13 @@ echo "a" | ./charlstest
 %{_libdir}/lib%{name}.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

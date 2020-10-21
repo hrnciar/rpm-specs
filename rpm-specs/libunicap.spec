@@ -7,7 +7,7 @@
 Summary:	Library to access different kinds of (video) capture devices
 Name:		libunicap
 Version:	0.9.12
-Release:	26%{?dist}
+Release:	27%{?dist}
 License:	GPLv2+
 URL:		http://www.unicap-imaging.org/
 Source0:	http://www.unicap-imaging.org/downloads/%{name}-%{version}.tar.gz
@@ -112,6 +112,9 @@ mv -f $RPM_BUILD_ROOT%{_sysconfdir}/udev/rules.d/50-euvccam.rules $RPM_BUILD_ROO
 %{_datadir}/gtk-doc/html/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.12-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 09 2020 Robert Scheck <robert@fedoraproject.org> - 0.9.12-26
 - Added patch to declare variable as extern in header file (#1799604)
 

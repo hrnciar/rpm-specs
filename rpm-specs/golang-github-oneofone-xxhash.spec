@@ -3,7 +3,7 @@
 
 # https://github.com/OneOfOne/xxhash
 %global goipath         github.com/OneOfOne/xxhash
-Version:                1.2.5
+Version:                1.2.8
 
 %gometa
 
@@ -16,7 +16,7 @@ limits.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Native implementation of the excellent xxhash hashing algorithm
 
 # Upstream license specification: Apache-2.0
@@ -55,6 +55,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 15:20:31 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.2.8-1
+- Update to 1.2.8
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

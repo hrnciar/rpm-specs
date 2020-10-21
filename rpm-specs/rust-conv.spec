@@ -7,7 +7,7 @@
 
 Name:           rust-%{crate}
 Version:        0.3.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Number of conversion traits with more specific semantics
 
 # Upstream license specification: MIT
@@ -78,5 +78,8 @@ dos2unix README.md
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 21 11:59:45 EST 2020 Randy Barlow <randy@electronsweatshop.com> - 0.3.3-1
 - Initial package

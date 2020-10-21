@@ -2,7 +2,7 @@
 
 Name:           perl-%{pkgname}
 Version:        3.5.8
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Scalable template engine
 License:        GPL+ or Artistic
 URL:            http://xslate.org/
@@ -124,6 +124,12 @@ find %{buildroot} -type f -name '*.bs' -size 0 -delete
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.5.8-2
+- Perl 5.32 rebuild
+
 * Tue Jun 02 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.5.8-1
 - 3.5.8 bump
 

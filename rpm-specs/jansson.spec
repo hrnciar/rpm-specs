@@ -1,11 +1,15 @@
 Name:		jansson
-Version:	2.12
-Release:	5%{?dist}
+Version:	2.13.1
+Release:	1%{?dist}
 Summary:	C library for encoding, decoding and manipulating JSON data
 
 License:	MIT
 URL:		http://www.digip.org/jansson/
 Source0:	http://www.digip.org/jansson/releases/jansson-%{version}.tar.bz2
+
+# Fix docs build failures with Sphinx 3
+# Resolved upstream: https://github.com/akheron/jansson/pull/543
+Patch0:     fix-docs-build-with-sphinx-3.patch
 
 BuildRequires:	gcc
 BuildRequires:	python3-sphinx
@@ -36,14 +40,14 @@ Development documentation for jansson.
 
 %build
 %configure --disable-static
-make %{?_smp_mflags}
+%make_build
 make html
 
 %check
 make check
 
 %install
-make install INSTALL="install -p" DESTDIR="$RPM_BUILD_ROOT"
+%make_install
 rm "$RPM_BUILD_ROOT%{_libdir}"/*.la
 
 %ldconfig_scriptlets
@@ -62,6 +66,18 @@ rm "$RPM_BUILD_ROOT%{_libdir}"/*.la
 %doc doc/_build/html/*
 
 %changelog
+* Mon Aug 24 2020 Charalampos Stratakis <cstratak@redhat.com> - 2.13.1-1
+- Update to 2.13.1 (#1831402)
+- Fix docs build failures with Sphinx 3 (#1823532)
+- Use make macros: https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

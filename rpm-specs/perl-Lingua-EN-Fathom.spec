@@ -1,6 +1,6 @@
 Name:           perl-Lingua-EN-Fathom
 Version:        1.22
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Measure readability of English text
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Lingua-EN-Fathom
@@ -57,6 +57,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.22-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.22-6
 - Perl 5.32 rebuild
 

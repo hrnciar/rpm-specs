@@ -3,13 +3,13 @@
 
 Name: totem
 Epoch: 1
-Version: 3.34.1
-Release: 5%{?dist}
+Version: 3.38.0
+Release: 1%{?dist}
 Summary: Movie player for GNOME
 
 License: GPLv2+ with exceptions
 URL: https://wiki.gnome.org/Apps/Videos
-Source0: https://download.gnome.org/sources/%{name}/3.34/%{name}-%{version}.tar.xz
+Source0: https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires: pkgconfig(cairo)
 BuildRequires: pkgconfig(clutter-1.0)
@@ -163,6 +163,15 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.Totem.de
 %{_datadir}/gir-1.0/Totem-1.0.gir
 
 %changelog
+* Thu Sep 10 2020 Kalev Lember <klember@redhat.com> - 1:3.38.0-1
+- Update to 3.38.0
+
+* Tue Sep 01 2020 Kalev Lember <klember@redhat.com> - 1:3.37.90-1
+- Update to 3.37.90
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.34.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 16 2020 Bastien Nocera <bnocera@redhat.com> - 3.34.1-5
 + totem-3.34.1-5
 - Remove automagic Python bytecompilation

@@ -3,7 +3,7 @@
 
 # https://github.com/jinzhu/inflection
 %global goipath         github.com/jinzhu/inflection
-%global commit          04140366298a54a039076d798123ffa108fff46c
+Version:                1.0.0
 
 %gometa
 
@@ -14,8 +14,7 @@ Inflection pluralizes and singularizes English nouns.}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.3%{?dist}
+Release:        1%{?dist}
 Summary:        Pluralizes and singularizes English nouns
 
 License:        MIT
@@ -41,6 +40,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 14:46:11 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-1
+- Update to 1.0.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

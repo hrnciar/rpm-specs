@@ -4,7 +4,7 @@ Name: python-ovirt-engine-sdk4
 Summary: Python SDK for version 4 of the oVirt Engine API
 Version: 4.3.2
 %global major_version %(v=%{version}; echo ${v:0:3})
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: ASL 2.0
 URL: https://www.ovirt.org/
 Source: https://resources.ovirt.org/pub/ovirt-%{major_version}/src/%{name}/%{srcname}-%{version}.tar.gz
@@ -44,6 +44,9 @@ chmod 0644 examples/*
 %{python3_sitearch}/ovirt_engine_sdk_python-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.3.2-3
 - Rebuilt for Python 3.9
 

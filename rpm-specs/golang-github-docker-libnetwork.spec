@@ -5,7 +5,7 @@
 # https://github.com/docker/libnetwork
 %global goipath         github.com/docker/libnetwork
 Version:                0.8.0
-%global commit          83d30db53600b9c084d35fb1d560f97f8b34ab24
+%global commit          6d6f28a1b61b6dd0ad562277d19592125428ed4e
 
 %gometa
 
@@ -20,7 +20,7 @@ abstractions for applications.}
 %global godocs          docs CHANGELOG.md README.md example
 
 Name:           %{goname}
-Release:        7.dev.2%{?dist}
+Release:        9.dev.2%{?dist}
 Summary:        Native Go implementation for connecting containers
 
 # Upstream license specification: BSD-3-Clause and Apache-2.0
@@ -32,7 +32,6 @@ Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/armon/go-radix)
 BuildRequires:  golang(github.com/BurntSushi/toml)
-BuildRequires:  golang(github.com/codegangsta/cli)
 BuildRequires:  golang(github.com/deckarep/golang-set)
 BuildRequires:  golang(github.com/docker/docker/api/types/network)
 BuildRequires:  golang(github.com/docker/docker/opts)
@@ -56,7 +55,7 @@ BuildRequires:  golang(github.com/docker/libkv/store/boltdb)
 BuildRequires:  golang(github.com/docker/libkv/store/consul)
 BuildRequires:  golang(github.com/docker/libkv/store/etcd)
 BuildRequires:  golang(github.com/docker/libkv/store/zookeeper)
-BuildRequires:  golang(github.com/godbus/dbus)
+BuildRequires:  golang(github.com/godbus/dbus/v5)
 BuildRequires:  golang(github.com/gogo/protobuf/gogoproto)
 BuildRequires:  golang(github.com/gogo/protobuf/proto)
 BuildRequires:  golang(github.com/gorilla/mux)
@@ -64,9 +63,11 @@ BuildRequires:  golang(github.com/hashicorp/memberlist)
 BuildRequires:  golang(github.com/hashicorp/serf/serf)
 BuildRequires:  golang(github.com/ishidawataru/sctp)
 BuildRequires:  golang(github.com/miekg/dns)
+BuildRequires:  golang(github.com/moby/ipvs)
 BuildRequires:  golang(github.com/opencontainers/runtime-spec/specs-go)
 BuildRequires:  golang(github.com/pkg/errors)
 BuildRequires:  golang(github.com/sirupsen/logrus)
+BuildRequires:  golang(github.com/urfave/cli)
 BuildRequires:  golang(github.com/vishvananda/netlink)
 BuildRequires:  golang(github.com/vishvananda/netlink/nl)
 BuildRequires:  golang(github.com/vishvananda/netns)
@@ -77,6 +78,7 @@ BuildRequires:  golang(golang.org/x/sys/unix)
 BuildRequires:  golang(golang.org/x/sync/semaphore)
 BuildRequires:  golang(gotest.tools/assert)
 BuildRequires:  golang(gotest.tools/assert/cmp)
+BuildRequires:  golang(gotest.tools/poll)
 %endif
 
 %description
@@ -99,6 +101,12 @@ mv client/mflag/LICENSE LICENSE-mflag
 %gopkgfiles
 
 %changelog
+* Wed Sep 09 19:55:16 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.8.0-9.dev.2.20200909git6d6f28a
+- Bump to commit 6d6f28a1b61b6dd0ad562277d19592125428ed4e
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-8.dev.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-7.dev.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

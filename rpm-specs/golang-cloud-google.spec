@@ -5,14 +5,9 @@
 # https://github.com/GoogleCloudPlatform/google-cloud-go
 %global goipath         cloud.google.com/go
 %global forgeurl        https://github.com/GoogleCloudPlatform/google-cloud-go
-Version:                0.52.0
+Version:                0.65.0
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-google-golangorg-cloud-devel < 0.36.0-5
-}
 
 %if %{without bootstrap}
 %global goipaths0       cloud.google.com/go
@@ -37,7 +32,6 @@ URL:            %{gourl}
 Source0:        %{gosource}
 
 %if %{without bootstrap}
-BuildRequires:  golang(github.com/andygrunwald/go-gerrit)
 BuildRequires:  golang(github.com/golang/mock/gomock)
 BuildRequires:  golang(github.com/golang/protobuf/proto)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes)
@@ -49,15 +43,16 @@ BuildRequires:  golang(github.com/golang/protobuf/ptypes/timestamp)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/wrappers)
 BuildRequires:  golang(github.com/google/btree)
 BuildRequires:  golang(github.com/google/go-cmp/cmp)
-BuildRequires:  golang(github.com/google/go-github/github)
-BuildRequires:  golang(github.com/google/martian)
-BuildRequires:  golang(github.com/google/martian/fifo)
-BuildRequires:  golang(github.com/google/martian/httpspec)
-BuildRequires:  golang(github.com/google/martian/martianhttp)
-BuildRequires:  golang(github.com/google/martian/martianlog)
-BuildRequires:  golang(github.com/google/martian/mitm)
+BuildRequires:  golang(github.com/google/go-github/v32/github)
+BuildRequires:  golang(github.com/google/martian/v3)
+BuildRequires:  golang(github.com/google/martian/v3/fifo)
+BuildRequires:  golang(github.com/google/martian/v3/httpspec)
+BuildRequires:  golang(github.com/google/martian/v3/martianhttp)
+BuildRequires:  golang(github.com/google/martian/v3/martianlog)
+BuildRequires:  golang(github.com/google/martian/v3/mitm)
 BuildRequires:  golang(github.com/google/pprof/profile)
 BuildRequires:  golang(github.com/googleapis/gax-go/v2)
+BuildRequires:  golang(github.com/shurcooL/githubv4)
 BuildRequires:  golang(go.opencensus.io/plugin/ocgrpc)
 BuildRequires:  golang(go.opencensus.io/stats)
 BuildRequires:  golang(go.opencensus.io/stats/view)
@@ -79,12 +74,14 @@ BuildRequires:  golang(google.golang.org/api/container/v1)
 BuildRequires:  golang(google.golang.org/api/googleapi)
 BuildRequires:  golang(google.golang.org/api/iterator)
 BuildRequires:  golang(google.golang.org/api/option)
+BuildRequires:  golang(google.golang.org/api/option/internaloption)
 BuildRequires:  golang(google.golang.org/api/storage/v1)
 BuildRequires:  golang(google.golang.org/api/support/bundler)
 BuildRequires:  golang(google.golang.org/api/translate/v2)
 BuildRequires:  golang(google.golang.org/api/transport)
 BuildRequires:  golang(google.golang.org/api/transport/grpc)
 BuildRequires:  golang(google.golang.org/api/transport/http)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/analytics/admin/v1alpha)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/api/expr/v1alpha1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/api/label)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/api/metric)
@@ -95,34 +92,60 @@ BuildRequires:  golang(google.golang.org/genproto/googleapis/bigtable/v2)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/asset/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/asset/v1beta1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/asset/v1p2beta1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/asset/v1p5beta1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/audit)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/automl/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/automl/v1beta1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/bigquery/connection/v1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/bigquery/connection/v1beta1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/bigquery/datatransfer/v1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/bigquery/reservation/v1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/bigquery/reservation/v1beta1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/bigquery/storage/v1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/bigquery/storage/v1alpha2)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/bigquery/storage/v1beta1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/bigquery/storage/v1beta2)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/billing/budgets/v1beta1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/billing/v1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/datacatalog/v1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/datacatalog/v1beta1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/dataproc/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/dataproc/v1beta2)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/dialogflow/v2)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/functions/v1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/gaming/v1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/gaming/v1beta)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/iot/v1)
-BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/irm/v1alpha2)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/kms/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/language/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/language/v1beta2)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/memcache/v1beta2)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/notebooks/v1beta1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/osconfig/agentendpoint/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/osconfig/agentendpoint/v1beta)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/osconfig/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/osconfig/v1beta)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/oslogin/common)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/oslogin/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/oslogin/v1beta)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/phishingprotection/v1beta1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/policytroubleshooter/v1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/pubsublite/v1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/recaptchaenterprise/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/recaptchaenterprise/v1beta1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/recommender/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/recommender/v1beta1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/redis/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/redis/v1beta1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/scheduler/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/scheduler/v1beta1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/secretmanager/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/secretmanager/v1beta1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/securitycenter/settings/v1beta1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/securitycenter/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/securitycenter/v1beta1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/securitycenter/v1p1beta1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/servicedirectory/v1beta1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/speech/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/speech/v1p1beta1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/talent/v4beta1)
@@ -135,8 +158,10 @@ BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/videointellig
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/videointelligence/v1beta2)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/vision/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/vision/v1p1beta1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/webrisk/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/cloud/webrisk/v1beta1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/container/v1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/datastore/admin/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/datastore/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/devtools/cloudbuild/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/devtools/clouddebugger/v2)
@@ -157,6 +182,7 @@ BuildRequires:  golang(google.golang.org/genproto/googleapis/iam/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/logging/type)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/logging/v2)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/longrunning)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/monitoring/dashboard/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/monitoring/v3)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/privacy/dlp/v2)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/pubsub/v1)
@@ -166,6 +192,7 @@ BuildRequires:  golang(google.golang.org/genproto/googleapis/rpc/status)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/spanner/admin/database/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/spanner/admin/instance/v1)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/spanner/v1)
+BuildRequires:  golang(google.golang.org/genproto/googleapis/type/expr)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/type/latlng)
 BuildRequires:  golang(google.golang.org/genproto/protobuf/field_mask)
 BuildRequires:  golang(google.golang.org/grpc)
@@ -175,6 +202,7 @@ BuildRequires:  golang(google.golang.org/grpc/keepalive)
 BuildRequires:  golang(google.golang.org/grpc/metadata)
 BuildRequires:  golang(google.golang.org/grpc/status)
 BuildRequires:  golang(gopkg.in/src-d/go-git.v4)
+BuildRequires:  golang(gopkg.in/yaml.v2)
 BuildRequires:  golang(rsc.io/binaryregexp)
 
 %if %{with check}
@@ -202,7 +230,6 @@ BuildRequires:  golang(google.golang.org/api/logging/v2)
 %check
 # kms/apiv1, containeranalysis/apiv1: Needs "credentials"
 # spanner/spansql: https://github.com/googleapis/google-cloud-go/issues/1729
-# profiler: https://github.com/googleapis/google-cloud-go/issues/1761
 %gocheck -d kms/apiv1 \
          -d containeranalysis/apiv1 \
          -d grafeas/apiv1 \
@@ -210,14 +237,19 @@ BuildRequires:  golang(google.golang.org/api/logging/v2)
          -d firestore \
          -d internal/uid \
          -d pubsub \
-         -t spanner \
-         -d profiler
+         -t spanner
 %endif
 %endif
 
 %gopkgfiles
 
 %changelog
+* Fri Sep 04 20:06:46 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.65.0-1
+- Update to 0.65.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.52.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 16:18:11 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.52.0-1
 - Update to 0.52.0
 - Disable profiler test until fix by upstream

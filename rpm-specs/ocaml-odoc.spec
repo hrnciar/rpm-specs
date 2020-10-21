@@ -5,16 +5,13 @@
 %global srcname odoc
 
 Name:           ocaml-%{srcname}
-Version:        1.5.0
-Release:        5%{?dist}
+Version:        1.5.1
+Release:        4%{?dist}
 Summary:        Documentation compiler for OCaml and Reason
 
 License:        MIT
 URL:            https://github.com/ocaml/odoc
 Source0:        %{url}/archive/%{version}/%{srcname}-%{version}.tar.gz
-
-# Fixes sent upstream 2020-04-22
-Patch1:         odoc-1.5.0-ocaml411.patch
 
 BuildRequires:  ocaml >= 4.02.0
 BuildRequires:  ocaml-alcotest-devel >= 0.8.3
@@ -27,9 +24,8 @@ BuildRequires:  ocaml-findlib
 BuildRequires:  ocaml-fpath-devel
 BuildRequires:  ocaml-markup-devel >= 0.8.0
 BuildRequires:  ocaml-result-devel
-BuildRequires:  ocaml-sexplib-devel
+BuildRequires:  ocaml-sexplib-devel >= 0.14.0
 BuildRequires:  ocaml-tyxml-devel >= 4.3.0
-BuildRequires:  ocaml-uuidm-devel
 BuildRequires:  tidy
 
 %description
@@ -65,7 +61,7 @@ Documentation for %{name}.
 %autosetup -n %{srcname}-%{version} -p1
 
 # The opam file has not been updated since the great renumbering.
-sed -i 's/113\.33\.00/0.13.0/' odoc.opam
+sed -i 's/113\.33\.00/0.14.0/' odoc.opam
 
 # Replace version markers
 for fil in src/html/tree.ml $(find test -name index.html -o -name mld.html); do
@@ -141,6 +137,26 @@ dune runtest
 %license LICENSE.md
 
 %changelog
+* Fri Sep 25 2020 Jerry James <loganjerry@gmail.com> - 1.5.1-4
+- Rebuild for ocaml-fpath 0.7.3
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.5.1-3
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.5.1-2
+- OCaml 4.11.0 rebuild
+
+* Wed Aug  5 2020 Jerry James <loganjerry@gmail.com> - 1.5.1-1
+- Version 1.5.1
+- Drop upstreamed odoc-1.5.0-ocaml411.patch
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 1.5.0-5
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

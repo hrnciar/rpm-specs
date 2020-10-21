@@ -1,13 +1,11 @@
 Name:           libgudev
-Version:        232
-Release:        7%{?dist}
+Version:        234
+Release:        1%{?dist}
 Summary:        GObject-based wrapper library for libudev
 
 License:        LGPLv2+
 URL:            https://wiki.gnome.org/Projects/libgudev
 Source0:        https://download.gnome.org/sources/libgudev/%{version}/libgudev-%{version}.tar.xz
-
-Patch1:         https://git.gnome.org/browse/libgudev/patch/?id=bf8664a028d8cbc55f9dbc65fef926e2119b9579#/fix-test-assertion-with-umockdev.patch
 
 BuildRequires:  glib2-devel
 BuildRequires:  gobject-introspection-devel
@@ -70,6 +68,13 @@ make check
 
 
 %changelog
+* Tue Sep 15 2020 Bastien Nocera <bnocera@redhat.com> - 234-1
++ libgudev-234-1
+- Update to 234
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 232-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 232-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

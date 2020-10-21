@@ -1,6 +1,6 @@
 Name:           SimGear
-Version:        2020.1.2
-Release:        1%{?dist}
+Version:        2020.1.3
+Release:        3%{?dist}
 License:        GPLv2+
 Summary:        Simulation library components
 URL:            http://simgear.sourceforge.net
@@ -45,16 +45,16 @@ find -name \*.cxx -o -name \*.hxx | xargs chmod -x
 rm -rf simgear/xml/*.h simgear/xml/*.c
 
 %build
-%{cmake} \
+%cmake \
     -DCMAKE_BUILD_TYPE=Release \
     -DENABLE_TESTS=OFF \
     -DSIMGEAR_SHARED=ON \
-    -DSYSTEM_EXPAT=ON \
-.
-make %{?_smp_mflags}
+    -DSYSTEM_EXPAT=ON
+
+%cmake_build
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install
+%cmake_install
 
 # These two headers have a useless conditional when they're not internal.
 # This cleans them up.
@@ -76,6 +76,15 @@ patch -p2 < %{PATCH1}
 %{_libdir}/cmake/SimGear
 
 %changelog
+* Mon Jul 27 2020 Fabrice Bellet <fabrice@bellet.info> - 2020.1.3-3
+- use latest cmake macros
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.1.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Fabrice Bellet <fabrice@bellet.info> - 2020.1.3-1
+- new upstream release
+
 * Sat May 23 2020 Fabrice Bellet <fabrice@bellet.info> - 2020.1.2-1
 - new upstream release
 

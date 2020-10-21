@@ -6,7 +6,7 @@
 
 Name:           libretro-%{corename}
 Version:        0
-Release:        0.2.%{date}git%{shortcommit}%{?dist}
+Release:        0.3.%{date}git%{shortcommit}%{?dist}
 Summary:        Standalone port of Mednafen VB to libretro
 
 License:        GPLv2
@@ -42,6 +42,9 @@ install -Dp -m 0644 %{SOURCE1} %{buildroot}%{_libdir}/libretro/mednafen_vb.libre
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3.20191115gitee8e580
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2.20191115gitee8e580
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

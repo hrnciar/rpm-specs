@@ -1,7 +1,7 @@
 Name:		globus-xio
 %global _name %(tr - _ <<< %{name})
 Version:	6.2
-Release:	3%{?dist}
+Release:	5%{?dist}
 Summary:	Grid Community Toolkit - Globus XIO Framework
 
 License:	ASL 2.0
@@ -109,6 +109,13 @@ GLOBUS_HOSTNAME=localhost make %{?_smp_mflags} check VERBOSE=1
 %{?_licensedir: %license GLOBUS_LICENSE}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 10 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 6.2-3
 - Add additional perl build dependencies due to perl package split
 

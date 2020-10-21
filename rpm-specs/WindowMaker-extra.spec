@@ -1,6 +1,6 @@
 Name:           WindowMaker-extra
 Version:        0.1
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Extra icons and themes for WindowMaker
 
 License:        GPLv2
@@ -96,6 +96,9 @@ icons and a few themes.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

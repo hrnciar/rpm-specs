@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Typed HTTP headers core trait
 
 # Upstream license specification: MIT
@@ -71,6 +71,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 11:49:57 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.0-1
 - Update to 0.2.0
 

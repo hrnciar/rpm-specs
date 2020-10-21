@@ -1,6 +1,6 @@
 Name:           perl-Math-PlanePath
-Version:        127
-Release:        3%{?dist}
+Version:        128
+Release:        1%{?dist}
 Summary:        Mathematical paths through the 2-D plane
 License:        GPLv3+
 URL:            http://user42.tuxfamily.org/math-planepath/index.html
@@ -73,11 +73,11 @@ plane. There's no drawing in Math-PlanePath, just coordinate calculations.
 find examples -type f -exec chmod 0644 -c {} +
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}" NO_PACKLIST=1
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}" NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=%{buildroot}
+%{make_install}
 find %{buildroot} -type f -name '*.bs' -size 0 -delete
 %{_fixperms} %{buildroot}/*
 
@@ -91,6 +91,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Mon Oct 05 2020 Jitka Plesnikova <jplesnik@redhat.com> - 128-1
+- 128 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 127-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 127-3
 - Perl 5.32 rebuild
 

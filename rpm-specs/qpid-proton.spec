@@ -1,4 +1,6 @@
 %global proton_datadir %{_datadir}/proton
+%global gem_name qpid_proton
+%global __cmake_in_source_build 1
 
 %global __provides_exclude_from ^%{proton_datadir}/examples/.*$
 %global __requires_exclude_from ^%{proton_datadir}/examples/.*$
@@ -11,14 +13,15 @@
 }
 
 Name:           qpid-proton
-Version:        0.31.0
-Release:        4%{?dist}
+Version:        0.32.0
+Release:        2%{?dist}
 Summary:        A high performance, lightweight messaging library
 License:        ASL 2.0
 URL:            http://qpid.apache.org/proton/
 
 Source0:        %{name}-%{version}.tar.gz
 Patch0:         proton.patch
+Patch1:         0001-Temporary-patch-to-enable-installed-examples-to-buil.patch
 
 Source1:        licenses.xml
 
@@ -39,6 +42,9 @@ BuildRequires:  python3-sphinx
 BuildRequires:  glibc-headers
 BuildRequires:  cyrus-sasl-devel
 BuildRequires:  jsoncpp-devel
+BuildRequires:  python3-setuptools
+BuildRequires:  ruby-devel
+BuildRequires:  rubygems-devel
 
 %description
 Proton is a high performance, lightweight messaging library. It can be used in
@@ -210,9 +216,34 @@ BuildArch: noarch
 %files tests
 %doc %{proton_datadir}/tests
 
+
+%package -n rubygem-%{gem_name}
+Group:   System Environment/Libraries
+Summary: Ruby language bindings for the Qpid Proton messaging framework
+Obsoletes:  rubygem-%{gem_name}-doc
+
+%description -n rubygem-%{gem_name}
+Proton is a high performance, lightweight messaging library. It can be used in
+the widest range of messaging applications including brokers, client libraries,
+routers, bridges, proxies, and more. Proton is based on the AMQP 1.0 messaging
+standard.
+
+%files -n rubygem-%{gem_name}
+%dir %{gem_instdir}
+%{gem_libdir}
+%{gem_extdir_mri}
+%exclude %{gem_cache}
+%{gem_spec}
+%doc %{gem_instdir}/LICENSE.txt
+%doc %{gem_instdir}/licenses.xml
+%doc %{gem_instdir}/examples
+%doc %{gem_instdir}/tests
+
+
 %prep
 %setup -q -n %{name}-%{version}
 %patch0 -p1
+%patch1 -p1
 
 
 %build
@@ -224,8 +255,8 @@ python_includes=$(ls -d /usr/include/python3*)
     -DSYSINSTALL_BINDINGS=ON \
     -DCMAKE_SKIP_RPATH:BOOL=OFF \
     -DENABLE_FUZZ_TESTING=NO \
-    "-DCMAKE_C_FLAGS=$CMAKE_C_FLAGS $CFLAGS -Wno-error=format-security" \
-    "-DCMAKE_CXX_FLAGS=$CMAKE_CXX_FLAGS $CXXFLAGS -Wno-error=format-security" \
+    "-DCMAKE_C_FLAGS=$CMAKE_C_FLAGS $CFLAGS -Wno-error=format" \
+    "-DCMAKE_CXX_FLAGS=$CMAKE_CXX_FLAGS $CXXFLAGS" \
     ..
 #make all docs %{?_smp_mflags}
 make all docs -j1
@@ -252,12 +283,26 @@ install -pm 644 %{SOURCE1} %{buildroot}%{proton_licensedir}
 install -pm 644 %{buildroot}%{proton_datadir}/LICENSE.txt %{buildroot}%{proton_licensedir}
 rm -f %{buildroot}%{proton_datadir}/LICENSE.txt
 
+cd ruby/gem/
+mkdir -p %{buildroot}%{gem_instdir}
+install -dm 755 %{buildroot}%{gem_dir}/specifications
+mkdir -p %{buildroot}%{gem_extdir_mri}
+cp -a ../cproton.so %{buildroot}%{gem_extdir_mri}/
+touch %{buildroot}%{gem_extdir_mri}/gem.build_complete
+chmod 644 %{buildroot}%{gem_extdir_mri}/gem.build_complete
+cp -a examples tests lib %{buildroot}%{gem_instdir}/
+install -pm 644 LICENSE.txt %{buildroot}%{gem_instdir}/
+install -pm 644 %{SOURCE1} %{buildroot}%{gem_instdir}/
+install -pm 644 %{gem_name}.gemspec %{buildroot}%{gem_spec}
+
 # clean up files that are not shipped
 rm -rf %{buildroot}%{_exec_prefix}/bindings
 rm -rf %{buildroot}%{_libdir}/java
 rm -rf %{buildroot}%{_libdir}/libproton-jni.so
 rm -rf %{buildroot}%{_datarootdir}/java
 rm -rf %{buildroot}%{_libdir}/proton.cmake
+rm -rf %{buildroot}%{_libdir}/ruby
+rm -rf %{buildroot}%{_datarootdir}/ruby
 rm -fr %{buildroot}%{proton_datadir}/examples/CMakeFiles
 rm -f  %{buildroot}%{proton_datadir}/examples/Makefile
 rm -f  %{buildroot}%{proton_datadir}/examples/*.cmake
@@ -311,7 +356,16 @@ rm -f  %{buildroot}%{proton_datadir}/CMakeLists.txt
 %check
 
 %changelog
-* Mon Jun  1 2020 Irina Boverman <iboverma@redhat.com> - 0.30.0-4
+* Fri Oct  2 2020 Irina Boverman <iboverma@redhat.com> - 0.32.0-2
+- Added temp fix to allow building c/cpp examples
+
+* Thu Sep 24 2020 Irina Boverman <iboverma@redhat.com> - 0.32.0-1
+- Rebased to 0.32.0
+
+* Tue Jul 28 2020 Irina Boverman <iboverma@redhat.com> - 0.31.0-5
+- Added rubygem-qpid_proton subpackage
+
+* Mon Jun  1 2020 Irina Boverman <iboverma@redhat.com> - 0.31.0-4
 - Corrected cmake for c/cpp examples
 - Resolved PROTON-2228
 

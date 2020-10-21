@@ -7,7 +7,7 @@
 
 Name:           perl-B-Keywords
 Version:        1.21
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Lists of reserved barewords and symbol names
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/B-Keywords
@@ -85,6 +85,12 @@ make test
 %{_mandir}/man3/B::Keywords.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.21-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.21-5
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.21-4
 - Perl 5.32 rebuild
 

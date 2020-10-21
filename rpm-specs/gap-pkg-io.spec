@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        4.7.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Unix I/O functionality for GAP
 
 License:        GPLv3+
@@ -113,6 +113,9 @@ popd
 %{_gap_dir}/pkg/%{pkgname}/example/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.7.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 13 2020 Jerry James <loganjerry@gmail.com> - 4.7.0-4
 - Rebuild for gap 4.11.0
 

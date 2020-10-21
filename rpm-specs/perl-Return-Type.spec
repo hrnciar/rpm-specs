@@ -1,6 +1,6 @@
 Name:           perl-Return-Type
-Version:        0.005
-Release:        11%{?dist}
+Version:        0.007
+Release:        1%{?dist}
 Summary:        Specify a return type for a function
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Return-Type
@@ -56,6 +56,12 @@ library are supported.
 %{_mandir}/man3/*
 
 %changelog
+* Tue Oct 20 2020 Ralf Corsépius <corsepiu@freenet.de> - 0.007-1
+- Upgrade to 0.007.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.005-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.005-11
 - Perl 5.32 rebuild
 

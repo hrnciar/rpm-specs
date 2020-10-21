@@ -1,6 +1,6 @@
 Name:       qterm
 Version:    0.7.4
-Release:    1%{?dist}
+Release:    3%{?dist}
 Summary:    BBS client for X Window System written in Qt
 License:    GPLv2+
 URL:        https://github.com/qterm/qterm
@@ -24,16 +24,11 @@ protocols. It also supports ZMODEM, URL analysis and mouse gesture.
 %setup -q
 
 %build
-mkdir build
-pushd build
-%cmake -DQT5=YES ..
-make %{?_smp_mflags}
-popd
+%cmake -DQT5=YES
+%cmake_build
 
 %install
-pushd build
-make install/fast DESTDIR=%{buildroot}
-popd
+%cmake_install
 
 # rename the executable to QTerm to prevent conflict with torque-client
 mv %buildroot%{_bindir}/{qterm,QTerm}
@@ -54,6 +49,16 @@ desktop-file-install \
 %{_datadir}/applications/%{name}.desktop
 
 %changelog
+* Thu Aug  6 2020 Robin Lee <cheeselee@fedoraproject.org> - 0.7.4-3
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 2020 Robin Lee <cheeselee@fedoraproject.org> - 0.7.4-1
 - Update to 0.7.4 (RHBZ#1834749)
 

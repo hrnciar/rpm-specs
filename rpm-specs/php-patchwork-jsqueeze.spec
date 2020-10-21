@@ -28,7 +28,7 @@
 
 Name:           php-%{composer_vendor}-%{composer_project}
 Version:        %{github_version}
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Efficient JavaScript minification
 
 License:        ASL 2.0 or GPLv2
@@ -108,6 +108,9 @@ cp -pr src/* %{buildroot}%{phpdir}/Patchwork/
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.5-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.5-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

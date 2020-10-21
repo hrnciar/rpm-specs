@@ -2,13 +2,16 @@
 # Needs to run with make which needs network access
 %bcond_with check
 
+%global golang_arches x86_64 aarch64 ppc64le s390x
+
 # https://github.com/cockroachdb/cockroach
 %global goipath         github.com/cockroachdb/cockroach
-Version:                19.2.0
-%global tag             v19.2.0-alpha.00000000
-%global distprefix      %{nil}
+Version:                20.1.5
 
 %gometa
+
+# Needs github.com/jaegertracing/jaeger/model/json
+%global goipathsex github.com/cockroachdb/cockroach/pkg/util/tracing
 
 %global common_description %{expand:
 CockroachDB is a distributed SQL database built on a transactional and
@@ -21,35 +24,51 @@ provides a familiar SQL API for structuring, manipulating, and querying data.}
 %global godocs          docs CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        6.alpha%{?dist}
+Release:        2%{?dist}
 Summary:        Open source, cloud-native SQL database
 
 # Upstream license specification: Apache-2.0 and BSD-2-Clause and BSD-3-Clause
 License:        ASL 2.0 and MIT and BSD
 Source0:        %{gosource}
-# Use int64 in union_find.go for 32 bits compatibility
-Patch0:         0001-Use-int64-in-union_find.go-for-32-bits-compatibility.patch
 
 BuildRequires:  golang(cloud.google.com/go/storage)
 BuildRequires:  golang(github.com/abourget/teamcity)
 BuildRequires:  golang(github.com/andy-kimball/arenaskl)
+BuildRequires:  golang(github.com/apache/arrow/go/arrow)
+BuildRequires:  golang(github.com/apache/arrow/go/arrow/array)
+BuildRequires:  golang(github.com/apache/arrow/go/arrow/memory)
 BuildRequires:  golang(github.com/armon/circbuf)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/aws)
-BuildRequires:  golang(github.com/aws/aws-sdk-go/aws/awsutil)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/aws/credentials)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/aws/session)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/service/s3)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/service/s3/s3manager)
 BuildRequires:  golang(github.com/axiomhq/hyperloglog)
+BuildRequires:  golang(github.com/Azure/azure-sdk-for-go/profiles/latest/compute/mgmt/compute)
+BuildRequires:  golang(github.com/Azure/azure-sdk-for-go/profiles/latest/network/mgmt/network)
+BuildRequires:  golang(github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/resources)
+BuildRequires:  golang(github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/subscriptions)
+BuildRequires:  golang(github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2019-07-01/compute)
 BuildRequires:  golang(github.com/Azure/azure-storage-blob-go/azblob)
-BuildRequires:  golang(github.com/backtrace-labs/go-bcd)
+BuildRequires:  golang(github.com/Azure/go-autorest/autorest)
+BuildRequires:  golang(github.com/Azure/go-autorest/autorest/azure/auth)
+BuildRequires:  golang(github.com/Azure/go-autorest/autorest/to)
 BuildRequires:  golang(github.com/benesch/cgosymbolizer)
 BuildRequires:  golang(github.com/biogo/store/llrb)
+BuildRequires:  golang(github.com/BurntSushi/toml)
 BuildRequires:  golang(github.com/cenkalti/backoff)
 BuildRequires:  golang(github.com/cockroachdb/apd)
 BuildRequires:  golang(github.com/cockroachdb/circuitbreaker)
 BuildRequires:  golang(github.com/cockroachdb/cmux)
-BuildRequires:  golang(github.com/cockroachdb/cockroach-go/crdb)
+BuildRequires:  golang(github.com/cockroachdb/datadriven)
+BuildRequires:  golang(github.com/cockroachdb/errors)
+BuildRequires:  golang(github.com/cockroachdb/errors/errorspb)
+BuildRequires:  golang(github.com/cockroachdb/logtags)
+BuildRequires:  golang(github.com/cockroachdb/pebble)
+BuildRequires:  golang(github.com/cockroachdb/pebble/bloom)
+BuildRequires:  golang(github.com/cockroachdb/pebble/sstable)
+BuildRequires:  golang(github.com/cockroachdb/pebble/tool)
+BuildRequires:  golang(github.com/cockroachdb/pebble/vfs)
 BuildRequires:  golang(github.com/cockroachdb/returncheck)
 BuildRequires:  golang(github.com/cockroachdb/ttycolor)
 BuildRequires:  golang(github.com/codahale/hdrhistogram)
@@ -64,6 +83,7 @@ BuildRequires:  golang(github.com/docker/docker/pkg/jsonmessage)
 BuildRequires:  golang(github.com/docker/docker/pkg/stdcopy)
 BuildRequires:  golang(github.com/docker/go-connections/nat)
 BuildRequires:  golang(github.com/dustin/go-humanize)
+BuildRequires:  golang(github.com/edsrzf/mmap-go)
 BuildRequires:  golang(github.com/elastic/gosigar)
 BuildRequires:  golang(github.com/elazarl/go-bindata-assetfs)
 BuildRequires:  golang(github.com/facebookgo/clock)
@@ -78,20 +98,22 @@ BuildRequires:  golang(github.com/gogo/protobuf/types)
 BuildRequires:  golang(github.com/gogo/protobuf/vanity)
 BuildRequires:  golang(github.com/gogo/protobuf/vanity/command)
 BuildRequires:  golang(github.com/golang-commonmark/markdown)
-BuildRequires:  golang(github.com/golang/leveldb/db)
-BuildRequires:  golang(github.com/golang/leveldb/table)
 BuildRequires:  golang(github.com/golang/protobuf/proto)
 BuildRequires:  golang(github.com/golang/snappy)
 BuildRequires:  golang(github.com/google/btree)
+BuildRequires:  golang(github.com/google/flatbuffers/go)
+BuildRequires:  golang(github.com/google/go-cmp/cmp)
+BuildRequires:  golang(github.com/google/go-cmp/cmp/cmpopts)
 BuildRequires:  golang(github.com/google/go-github/github)
 BuildRequires:  golang(github.com/google/pprof/driver)
 BuildRequires:  golang(github.com/google/pprof/profile)
 BuildRequires:  golang(github.com/grpc-ecosystem/grpc-gateway/runtime)
 BuildRequires:  golang(github.com/grpc-ecosystem/grpc-gateway/utilities)
 BuildRequires:  golang(github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc)
-BuildRequires:  golang(github.com/jackc/pgx)
-BuildRequires:  golang(github.com/jackc/pgx/pgproto3)
-BuildRequires:  golang(github.com/jackc/pgx/pgtype)
+BuildRequires:  golang(github.com/jackc/pgx-3)
+BuildRequires:  golang(github.com/jackc/pgx-3/pgproto3)
+BuildRequires:  golang(github.com/jackc/pgx-3/pgtype)
+# BuildRequires:  golang(github.com/jaegertracing/jaeger/model/json)
 BuildRequires:  golang(github.com/kisielk/gotool)
 BuildRequires:  golang(github.com/knz/go-libedit)
 BuildRequires:  golang(github.com/knz/strtime)
@@ -113,6 +135,7 @@ BuildRequires:  golang(github.com/opentracing/opentracing-go)
 BuildRequires:  golang(github.com/opentracing/opentracing-go/log)
 BuildRequires:  golang(github.com/openzipkin-contrib/zipkin-go-opentracing)
 BuildRequires:  golang(github.com/petermattis/goid)
+BuildRequires:  golang(github.com/pkg/browser)
 BuildRequires:  golang(github.com/pkg/errors)
 BuildRequires:  golang(github.com/pmezard/go-difflib/difflib)
 BuildRequires:  golang(github.com/prometheus/client_golang/prometheus)
@@ -133,10 +156,15 @@ BuildRequires:  golang(github.com/Shopify/toxiproxy/client)
 BuildRequires:  golang(github.com/spf13/cobra)
 BuildRequires:  golang(github.com/spf13/cobra/doc)
 BuildRequires:  golang(github.com/spf13/pflag)
+BuildRequires:  golang(github.com/stretchr/testify/require)
 BuildRequires:  golang(github.com/VividCortex/ewma)
 BuildRequires:  golang(go.etcd.io/etcd/raft)
+BuildRequires:  golang(go.etcd.io/etcd/raft/confchange)
+BuildRequires:  golang(go.etcd.io/etcd/raft/quorum)
 BuildRequires:  golang(go.etcd.io/etcd/raft/raftpb)
+BuildRequires:  golang(go.etcd.io/etcd/raft/tracker)
 BuildRequires:  golang(golang.org/x/crypto/bcrypt)
+BuildRequires:  golang(golang.org/x/crypto/pbkdf2)
 BuildRequires:  golang(golang.org/x/crypto/ssh)
 BuildRequires:  golang(golang.org/x/crypto/ssh/agent)
 BuildRequires:  golang(golang.org/x/crypto/ssh/knownhosts)
@@ -147,7 +175,6 @@ BuildRequires:  golang(golang.org/x/net/http2)
 BuildRequires:  golang(golang.org/x/net/trace)
 BuildRequires:  golang(golang.org/x/oauth2)
 BuildRequires:  golang(golang.org/x/oauth2/google)
-BuildRequires:  golang(golang.org/x/perf/storage)
 BuildRequires:  golang(golang.org/x/sync/errgroup)
 BuildRequires:  golang(golang.org/x/sync/syncmap)
 BuildRequires:  golang(golang.org/x/sys/unix)
@@ -156,6 +183,35 @@ BuildRequires:  golang(golang.org/x/text/language)
 BuildRequires:  golang(golang.org/x/text/unicode/norm)
 BuildRequires:  golang(golang.org/x/time/rate)
 BuildRequires:  golang(golang.org/x/tools/container/intsets)
+BuildRequires:  golang(golang.org/x/tools/go/analysis)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/asmdecl)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/assign)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/atomic)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/bools)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/buildtag)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/cgocall)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/composite)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/copylock)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/errorsas)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/httpresponse)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/inspect)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/loopclosure)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/lostcancel)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/nilfunc)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/printf)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/shadow)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/shift)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/stdmethods)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/structtag)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/tests)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/unmarshal)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/unreachable)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/unsafeptr)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/unusedresult)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/unitchecker)
+BuildRequires:  golang(golang.org/x/tools/go/ast/astutil)
+BuildRequires:  golang(golang.org/x/tools/go/ast/inspector)
+BuildRequires:  golang(golang.org/x/tools/go/packages)
 BuildRequires:  golang(google.golang.org/api/iterator)
 BuildRequires:  golang(google.golang.org/api/option)
 BuildRequires:  golang(google.golang.org/grpc)
@@ -163,6 +219,7 @@ BuildRequires:  golang(google.golang.org/grpc/codes)
 BuildRequires:  golang(google.golang.org/grpc/connectivity)
 BuildRequires:  golang(google.golang.org/grpc/credentials)
 BuildRequires:  golang(google.golang.org/grpc/encoding)
+BuildRequires:  golang(google.golang.org/grpc/encoding/proto)
 BuildRequires:  golang(google.golang.org/grpc/grpclog)
 BuildRequires:  golang(google.golang.org/grpc/keepalive)
 BuildRequires:  golang(google.golang.org/grpc/metadata)
@@ -176,8 +233,9 @@ BuildRequires:  procps-ng
 
 %if %{with check}
 # Tests
+BuildRequires:  golang(github.com/leanovate/gopter)
+BuildRequires:  golang(github.com/leanovate/gopter/prop)
 BuildRequires:  golang(github.com/stretchr/testify/assert)
-BuildRequires:  golang(github.com/stretchr/testify/require)
 %endif
 
 %description
@@ -187,11 +245,8 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 
 %prep
 %goprep
-%patch0 -p1
-# Newer grpc has moved transport to internal and StreamError has been removed
-# https://github.com/grpc/grpc-go/commit/339b6cb107199486c3b352f70db9e977191be8b7
-sed -i "/google.golang.org\/grpc\/transport/d" pkg/util/grpcutil/grpc_util.go
-sed -i "s|err.(transport.StreamError); ok && streamErr.Code|status.FromError(err); ok \&\& streamErr.Code()|" pkg/util/grpcutil/grpc_util.go
+sed -i 's|github.com/jackc/pgx|github.com/jackc/pgx-3|' $(find . -iname "*.go" -type f)
+rm -rf pkg/sql/rowexec/sample*
 
 %install
 %gopkginstall
@@ -204,6 +259,15 @@ sed -i "s|err.(transport.StreamError); ok && streamErr.Code|status.FromError(err
 %gopkgfiles
 
 %changelog
+* Wed Sep 09 18:56:14 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 20.1.5-2
+- Fix pgx import
+
+* Wed Sep 09 02:51:40 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 20.1.5-1
+- Update to 20.1.5
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.2.0-7.alpha
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.2.0-6.alpha
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

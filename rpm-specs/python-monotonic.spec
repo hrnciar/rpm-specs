@@ -3,7 +3,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.5
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        An implementation of time.monotonic() for Python 2 & < 3.3
 
 # Missing license file from source package
@@ -65,6 +65,9 @@ it will fall back to an equivalent platform specific implementation.
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5-7
 - Rebuilt for Python 3.9
 

@@ -3,7 +3,7 @@
 
 Name:           telepathy-mission-control
 Version:        5.16.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          1
 Summary:        Central control for Telepathy connection manager
 
@@ -100,6 +100,9 @@ make check ||:
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.16.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 10 2020 Kalev Lember <klember@redhat.com> - 1:5.16.5-2
 - Backport a fix for a crash due to invalid property name
 

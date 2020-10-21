@@ -5,7 +5,7 @@ marker styles, etc
 
 Name:           python-%{srcname}
 Version:        0.10.0
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        %{sum}
 
 License:        BSD
@@ -50,6 +50,9 @@ BuildRequires:  python3-nose
 %{python3_sitelib}/%{srcname}-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 0.10.0-15
 - Rebuilt for Python 3.9
 

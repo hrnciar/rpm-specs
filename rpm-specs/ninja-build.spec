@@ -3,8 +3,8 @@
 %bcond_with bootstrap
 
 Name:           ninja-build
-Version:        1.10.0
-Release:        1%{?dist}
+Version:        1.10.1
+Release:        2%{?dist}
 Summary:        Small build system with a focus on speed
 License:        ASL 2.0
 URL:            https://ninja-build.org/
@@ -58,7 +58,6 @@ FCFLAGS="${FCFLAGS:-%optflags%{?_fmoddir: -I%_fmoddir}}" ; export FCFLAGS
 %endif
 
 %install
-# TODO: Install ninja_syntax.py?
 install -Dpm0755 ninja -t %{buildroot}%{_bindir}/
 %if %{without bootstrap}
 install -Dpm0644 misc/bash-completion %{buildroot}%{_datadir}/bash-completion/completions/ninja
@@ -66,6 +65,11 @@ install -Dpm0644 misc/ninja-mode.el %{buildroot}%{_datadir}/emacs/site-lisp/ninj
 install -Dpm0644 misc/ninja.vim %{buildroot}%{_datadir}/vim/vimfiles/syntax/ninja.vim
 install -Dpm0644 %{S:1} %{buildroot}%{_datadir}/vim/vimfiles/ftdetect/ninja.vim
 install -Dpm0644 misc/zsh-completion %{buildroot}%{_datadir}/zsh/site-functions/_ninja
+%if 0%{?rhel} && 0%{?rhel} <= 7
+install -Dpm0644 misc/ninja_syntax.py %{buildroot}%{python2_sitelib}/ninja_syntax.py
+%else
+install -Dpm0644 misc/ninja_syntax.py %{buildroot}%{python3_sitelib}/ninja_syntax.py
+%endif
 %endif
 install -Dpm0644 %{S:2} %{buildroot}%{_rpmmacrodir}/macros.ninja
 
@@ -94,10 +98,24 @@ ln -s ninja %{buildroot}%{_bindir}/ninja-build
 %{_datadir}/vim/vimfiles/ftdetect/ninja.vim
 # zsh does not have a -filesystem package
 %{_datadir}/zsh/
+%if 0%{?rhel} && 0%{?rhel} <= 7
+%pycached %{python2_sitelib}/ninja_syntax.py
+%else
+%pycached %{python3_sitelib}/ninja_syntax.py
+%endif
 %endif
 %{rpmmacrodir}/macros.ninja
 
 %changelog
+* Wed Aug 19 2020 Björn Esser <besser82@fedoraproject.org> - 1.10.1-2
+- Add ninja_syntax.py
+
+* Wed Aug 19 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.10.1-1
+- Update to 1.10.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 05 2020 Björn Esser <besser82@fedoraproject.org> - 1.10.0-1
 - Update to 1.10.0
 

@@ -3,7 +3,7 @@
 
 # https://github.com/k-sone/critbitgo
 %global goipath         github.com/k-sone/critbitgo
-Version:                1.2.0
+Version:                1.4.0
 
 %gometa
 
@@ -14,7 +14,7 @@ Crit-bit for golang and its applications (sorted map, IP routing table).}
 %global godocs          CHANGES.md README.md
 
 Name:           %{goname}
-Release:        6%{?dist}
+Release:        1%{?dist}
 Summary:        Crit-bit for Golang and its applications
 
 License:        MIT
@@ -40,6 +40,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 17:11:13 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.0-1
+- Update to 1.4.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           cal10n
 Version:        0.8.1
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        Compiler assisted localization library (CAL10N)
 License:        MIT
 URL:            http://cal10n.qos.ch
@@ -81,6 +81,12 @@ find . -name \*.jar -delete
 %license LICENSE.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0.8.1-12
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jun 04 2020 Fabio Valentini <decathorpe@gmail.com> - 0.8.1-11
 - Override javac source and target versions to fix build with Java 11.
 

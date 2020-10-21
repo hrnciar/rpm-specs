@@ -1,7 +1,7 @@
 Summary:       Counting pipe
 Name:          cpipe
 Version:       3.0.1
-Release:       23%{?dist}
+Release:       24%{?dist}
 License:       GPLv2+
 URL:           http://developer.berlios.de/projects/cpipe
 Source0:       http://download.berlios.de/cpipe/cpipe-%{version}.tar.gz
@@ -33,6 +33,9 @@ chmod 0644 %{buildroot}%{_mandir}/man1/cpipe*
 %{_mandir}/man1/cpipe*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

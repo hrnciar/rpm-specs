@@ -1,13 +1,13 @@
 Name:           cksfv
-Version:        1.3.14
-Release:        20%{?dist}
+Version:        1.3.15
+Release:        1%{?dist}
 Summary:        Utility to manipulate SFV files
 
 License:        GPLv2+
-URL:            http://zakalwe.fi/~shd/foss/cksfv
-Source0:        http://zakalwe.fi/~shd/foss/%{name}/files/%{name}-%{version}.tar.bz2
-Source1:        http://zakalwe.fi/~shd/foss/%{name}/files/%{name}-%{version}.tar.bz2.asc
-Source2:        http://zakalwe.fi/~shd/keys/heikki_orsila.pub
+URL:            https://gitlab.com/heikkiorsila/cksfv/
+Source0:        https://zakalwe.fi/~shd/foss/%{name}/files/%{name}-%{version}.tar.bz2
+Source1:        https://zakalwe.fi/~shd/foss/%{name}/files/%{name}-%{version}.tar.bz2.asc
+Source2:        https://zakalwe.fi/~shd/keys/heikki-orsila-2017.pub
 BuildRequires:  gcc
 BuildRequires:  gnupg2
 
@@ -18,8 +18,7 @@ checksums.
 
 
 %prep
-gpg2 --import --import-options import-export,import-minimal %{S:2} > ./gpg-keyring.gpg
-gpgv2 --keyring ./gpg-keyring.gpg %{S:1} %{S:0}
+%{gpgverify} --keyring='%{S:2}' --signature='%{S:1}' --data='%{S:0}'
 %setup -q
 
 # fix rpmlint warnings
@@ -36,7 +35,7 @@ mv -f ChangeLog.conv ChangeLog
     --mandir=%{_mandir} \
     --prefix=%{_prefix} \
     --package-prefix=%{buildroot}
-make %{?_smp_mflags}
+%make_build
 
 
 %install
@@ -44,17 +43,25 @@ make %{?_smp_mflags}
 
 
 %check
-make check
+%make_build check
 
 
 %files
 %license COPYING
-%doc AUTHORS ChangeLog README TODO
+%doc AUTHORS ChangeLog README.md TODO
 %{_bindir}/%{name}
 %{_mandir}/man1/%{name}.1*
 
 
 %changelog
+* Sat Oct 10 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.3.15-1
+- update to 1.3.15 (#1887064)
+- update project URL and use HTTPS
+- use modern macros
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.14-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.14-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

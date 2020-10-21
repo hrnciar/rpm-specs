@@ -1,8 +1,8 @@
 %global pypi_name txaio
 
 Name:           python-%{pypi_name}
-Version:        18.8.1
-Release:        9%{?dist}
+Version:        20.4.1
+Release:        2%{?dist}
 Summary:        Compatibility API between asyncio/Twisted/Trollius
 
 License:        MIT
@@ -13,7 +13,6 @@ Patch0:         python-txaio-skip-packaging-tests.patch
 # and is undocumented intentionaly because it's private.
 # This is a hack that calls stop on the loop soon after calling run_forever().
 Patch2:         run_once.patch
-Patch3:         https://github.com/crossbario/txaio/commit/9217f054b7eccc120f84e01995479125e07de59a.patch
 
 BuildArch:      noarch
 
@@ -56,7 +55,6 @@ asyncio. Documentation in html format.
 %setup -qn %{pypi_name}-%{version}
 %patch0
 %patch2 -p1
-%patch3 -p1
 
 # Remove upstream's egg-info
 rm -rf %{pypi_name}.egg-info
@@ -101,6 +99,12 @@ PYTHONPATH=$PYTHONPATH:$(pwd):$(pwd)/test %{__python3} -mcoverage run -p --sourc
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Julien Enselme <jujens@jujens.eu> - 20.4.1-1
+- Update to 20.4.1
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 18.8.1-9
 - Rebuilt for Python 3.9
 

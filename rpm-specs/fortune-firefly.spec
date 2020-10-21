@@ -1,6 +1,6 @@
 Name:		fortune-firefly
 Version:	2.1.2
-Release:        25%{?dist}
+Release:        26%{?dist}
 Summary:	Quotes from the TV series "Firefly"
 
 # No version specified, only attribution is spec file, but maintainer is upstream.
@@ -43,6 +43,9 @@ install -m644 firefly.dat $RPM_BUILD_ROOT%{_datadir}/games/fortune/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.2-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 08 2020 Bruno Wolff III <bruno@wolff.to> - 2.1.2-25
 - strfile has moved from sbin to bin
 

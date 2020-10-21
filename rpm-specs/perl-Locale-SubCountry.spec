@@ -1,6 +1,6 @@
 Name:           perl-Locale-SubCountry
 Version:        2.06
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        ISO 3166-2 two letter subcountry codes
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Locale-SubCountry
@@ -61,6 +61,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.06-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.06-3
 - Perl 5.32 rebuild
 

@@ -3,15 +3,9 @@
 
 # https://github.com/duosecurity/duo_api_golang
 %global goipath         github.com/duosecurity/duo_api_golang
-%global commit          6c680f768e746ca8563c19035adfd94a4a4101f1
+%global commit          982114f7995f2fbee17bca19b206fa03e4cc4a12
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-duosecurity-duo_api_golang-devel < 0-0.6
-Obsoletes:      golang-github-duosecurity-duo_api_golang-unit-test-devel < 0-0.6
-}
 
 %global common_description %{expand:
 The Auth API is a low-level, RESTful API for adding strong two-factor
@@ -25,13 +19,15 @@ exported for all available endpoints.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.9%{?dist}
+Release:        0.11%{?dist}
 Summary:        Go language bindings for the Duo APIs (both auth and admin)
 
 # Upstream license specification: BSD-3-Clause
 License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: see https://github.com/duosecurity/duo_api_golang/issues/21
+Patch0:         0001-Convert-id-to-string-using-strconv.Itoa.patch
 
 %description
 %{common_description}
@@ -40,6 +36,7 @@ Source0:        %{gosource}
 
 %prep
 %goprep
+%patch0 -p1
 
 %install
 %gopkginstall
@@ -52,6 +49,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 15:19:26 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.10.20200726git982114f
+- Bump to commit 982114f7995f2fbee17bca19b206fa03e4cc4a12
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,33 +1,35 @@
 %global srcname iso-639
-%global common_summary  ISO 639 library for Python
-%global common_description %{summary}.\
-ISO 639-1, ISO 639-2, ISO 639-3, ISO 639-5 are supported.\
-\
-NOTE: this package must NOT be confused with the python-iso639 package, which is\
-different.
+%global _description %{expand:%{summary}.
+ISO 639-1, ISO 639-2, ISO 639-3, ISO 639-5 are supported.
+
+NOTE: this package must NOT be confused with the python-iso639 package, which is
+different.}
 
 Name:           python-%{srcname}
 Version:        0.4.5
-Release:        12%{?dist}
-Summary:        %{common_summary}
+Release:        14%{?dist}
+Summary:        ISO 639 library for Python
 
 License:        AGPLv3
 URL:            https://github.com/noumar/iso639/
-Source0:        https://github.com/noumar/iso639/archive/%{version}/%{srcname}-%{version}.tar.gz
+Source0:        %{url}/archive/%{version}/%{srcname}-%{version}.tar.gz
 
 BuildRequires:  python3-devel
+BuildRequires:  %{py3_dist setuptools}
+# Required for tests
+# BuildRequires:  %%{py3_dist pycountry}
 BuildArch:      noarch
 
 %description
-%{common_description}
+%{_description}
 
 
 %package -n python3-%{srcname}
-Summary:        %{common_summary}
+Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
-%{common_description}
+%{_description}
 
 
 %prep
@@ -43,10 +45,9 @@ Summary:        %{common_summary}
 
 
 %check
-# Tests mostly check compatibility with the pycountry library, not available in
-# Fedora
-# export PYTHONPATH=$PWD
-# %%{__python3} tests/tests.py
+# Tests mostly check compatibility with the pycountry <= 1.11 library, not
+# available in Fedora
+# PYTHONPATH=$RPM_BUILD_ROOT%%{python3_sitelib}/:$PWD/ %%{__python3} tests/tests.py
 
 
 %files -n python3-%{srcname}
@@ -56,6 +57,13 @@ Summary:        %{common_summary}
 
 
 %changelog
+* Tue Oct 06 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 0.4.5-14
+- Add BuildRequires on python3-setuptools
+- Spec cleanup
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.5-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.5-12
 - Rebuilt for Python 3.9
 

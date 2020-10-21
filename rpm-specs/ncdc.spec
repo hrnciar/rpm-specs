@@ -3,7 +3,7 @@
 
 Name:           ncdc
 Version:        1.20
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Modern and lightweight direct connect client
 License:        MIT
 URL:            http://dev.yorhel.nl/ncdc
@@ -41,6 +41,9 @@ friendly ncurses interface.
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.20-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.20-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

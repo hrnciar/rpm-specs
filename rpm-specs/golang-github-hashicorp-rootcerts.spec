@@ -3,15 +3,9 @@
 
 # https://github.com/hashicorp/go-rootcerts
 %global goipath         github.com/hashicorp/go-rootcerts
-Version:                1.0.1
+Version:                1.0.2
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-hashicorp-go-rootcerts-devel < 0-0.5
-Obsoletes:      golang-github-hashicorp-go-rootcerts-unit-test-devel < 0-0.5
-}
 
 %global common_description %{expand:
 Go's standard library crypto/tls provides a common mechanism for configuring TLS
@@ -26,7 +20,7 @@ that field.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Functions for loading root certificates for tls connections
 
 # Upstream license specification: MPL-2.0
@@ -53,6 +47,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 21:53:28 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.2-1
+- Update to 1.0.2
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

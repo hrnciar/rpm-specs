@@ -4,8 +4,7 @@
 
 # https://github.com/sendgrid/rest
 %global goipath         github.com/sendgrid/rest
-Version:                2.4.1
-%global commit          8f995deebcbbba440a60746115fdb5524e7cf3fc
+Version:                2.6.0
 
 %gometa
 
@@ -18,7 +17,7 @@ SendGrid's Golang HTTP Client for calling APIs.}
                         TROUBLESHOOTING.md USAGE.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        SendGrid's Golang HTTP Client for calling APIs
 
 License:        MIT
@@ -44,6 +43,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 17:41:57 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.6.0-1
+- Update to 2.6.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

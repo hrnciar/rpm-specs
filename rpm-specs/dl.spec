@@ -4,7 +4,7 @@ Summary:    Download Ticket Service
 URL:        http://www.thregr.org/~wavexx/software/dl/
 Name:       dl
 Version:    0.17.1
-Release:    9%{?dist}
+Release:    10%{?dist}
 License:    GPLv2+
 
 Source0:    http://www.thregr.org/~wavexx/software/dl/releases/dl-%{version}.zip
@@ -114,6 +114,9 @@ fi
 %dir %attr(0755,apache,apache) %{_localstatedir}/spool/dl/data
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 09 2020 Greg Bailey <gbailey@lxpro.com> - 0.17.1-9
 - Revert unbundling of php-phpass (removed from repo) (#1832436)
 

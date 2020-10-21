@@ -1,4 +1,4 @@
-%global pluginapi 3.17.5.0
+%global pluginapi 3.17.8.0
 
 %if 0%{?fedora} >= 31
 %global with_litehtml 1
@@ -22,7 +22,7 @@ Obsoletes: claws-mail-plugins-python < 3.17.4-1
 %global build_manual 1
 
 Name:           claws-mail
-Version:        3.17.5
+Version:        3.17.8
 Release:        1%{?dist}
 Summary:        Email client and news reader based on GTK+
 License:        GPLv3+
@@ -659,6 +659,21 @@ touch -r NEWS %{buildroot}%{_includedir}/%{name}/config.h
 
 
 %changelog
+* Mon Oct 19 2020 Michael Schwendt <mschwendt@fedoraproject.org> - 3.17.8-1
+- Update to 3.17.8.
+
+* Mon Sep 28 2020 Michael Schwendt <mschwendt@fedoraproject.org> - 3.17.7-1
+- Update to 3.17.7. Also for CVE-2020-16094.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.17.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Michael Schwendt <mschwendt@fedoraproject.org> - 3.17.6-1
+- Update to 3.17.6, includes fix for CVE-2020-15917.
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.17.5-2
+- Perl 5.32 rebuild
+
 * Sun Feb 23 2020 Michael Schwendt <mschwendt@fedoraproject.org> - 3.17.5-0.1
 - Update to 3.17.5.
 

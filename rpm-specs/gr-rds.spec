@@ -6,11 +6,13 @@
 
 Name:           gr-rds
 Version:        1.1.0
-Release:        11.%{git_suffix}%{?dist}
+Release:        14.%{git_suffix}%{?dist}
 Summary:        GNU Radio FM RDS Receiver
 License:        GPLv3+
 URL:            https://github.com/bastibl/gr-rds
 Source0:        https://github.com/bastibl/%{name}/archive/%{git_commit}/%{name}-%{git_suffix}.tar.gz
+# https://github.com/bastibl/gr-rds/pull/34
+Patch0:         gr-rds-1.1.0-boost173.patch
 
 BuildRequires:  gnuradio-devel
 BuildRequires:  swig
@@ -45,22 +47,17 @@ BuildArch:      noarch
 
 
 %prep
-%setup -q -n %{name}-%{git_commit}
+%autosetup -p1 -n %{name}-%{git_commit}
 
 
 %build
-mkdir build
-pushd build
-%{cmake} -DENABLE_DOXYGEN=on -DGR_PKG_DOC_DIR=%{_docdir}/%{name} ..
+%cmake -DENABLE_DOXYGEN=on -DGR_PKG_DOC_DIR=%{_docdir}/%{name}
 # parallel build is broken
-make -j1
-popd
+%cmake_build -j1
 
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 
 mkdir -p %{buildroot}%{_docdir}/%{name}/examples
 install -p -m 644 examples/* %{buildroot}%{_docdir}/%{name}/examples
@@ -81,6 +78,16 @@ install -p -m 644 examples/* %{buildroot}%{_docdir}/%{name}/examples
 %doc %{_docdir}/%{name}/examples
 
 %changelog
+* Mon Aug 24 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 1.1.0-14.20191111git649bb528
+- Rebuilt for new gnuradio
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-13.20191111git649bb528
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-12.20191111git649bb528
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.0-11.20191111git649bb528
 - Rebuilt for Python 3.9
 

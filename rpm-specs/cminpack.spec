@@ -1,16 +1,23 @@
+%undefine __cmake_in_source_build
+%global soversion 1
+
 Name:           cminpack
-Version:        1.3.4
-Release:        10%{?dist}
+Version:        1.3.6
+Release:        1%{?dist}
 Summary:        Solver for nonlinear equations and nonlinear least squares problems
 
 License:        BSD
 URL:            http://devernay.free.fr/hacks/cminpack/cminpack.html
 Source0:        http://devernay.free.fr/hacks/cminpack/%{name}-%{version}.tar.gz
+# Install CMinpackConfig.cmake to libdir instead of datadir.
+Patch0:         %{name}-1.3.6-fedora.patch
+# Update path to cblas.h for flexiblas
+Patch1:         %{name}-1.3.6-blas.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
 BuildRequires:  gcc-gfortran
-
+BuildRequires:  flexiblas-devel
 
 %description
 cminpack is an ISO C99 implementation of the FORTRAN Minpack solver package.
@@ -26,36 +33,49 @@ cminpack.
 
 %prep
 %setup -q
+%patch0 -p0 -b .fedora
+%patch1 -p0 -b .blas
 
 %build
-mkdir build
-pushd build
-%cmake -DUSE_FPIC=ON -DSHARED_LIBS=ON -DBUILD_EXAMPLES=ON -DBUILD_EXAMPLES_FORTRAN=ON -DCMINPACK_LIB_INSTALL_DIR=%{_lib} ..
-popd
-make -C build  %{?_smp_mflags}
-
+%cmake \
+  -DUSE_FPIC=ON \
+  -DSHARED_LIBS=ON \
+  -DBUILD_EXAMPLES=ON \
+  -DBUILD_EXAMPLES_FORTRAN=ON \
+  -DCMINPACK_LIB_INSTALL_DIR=%{_lib} \
+  -DUSE_BLAS=ON \
+  -DCMAKE_BUILD_TYPE=Release
+%cmake_build
 
 %install
-rm -rf %{buildroot}
-make -C build install DESTDIR=%{buildroot}
-
-
-%ldconfig_scriptlets
+%cmake_install
 
 %files
 %license CopyrightMINPACK.txt
 %doc README.md
-%{_libdir}/libcminpack.so.*
+%{_libdir}/libcminpack.so.%{version}
+%{_libdir}/libcminpack.so.%{soversion}
 
 %files devel
 %doc doc/*.html doc/*.txt
-%{_datadir}/cmake/Modules/*.cmake
 %{_libdir}/pkgconfig/*
+%{_libdir}/cmake/CMinpack
 %{_libdir}/libcminpack.so
 %{_includedir}/cminpack-1
 
 
 %changelog
+* Wed Aug 05 2020 Rich Mattes <richmattes@gmail.com> - 1.3.6-1
+- Update to 1.3.6
+- Fix CMake macro FTBFS (rhbz#1863343)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.4-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.4-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.4-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

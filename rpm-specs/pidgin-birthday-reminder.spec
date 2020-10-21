@@ -1,6 +1,6 @@
 Name:           pidgin-birthday-reminder
 Version:        1.13
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Birthday Reminder plugin for Pidgin
 
 License:        GPLv2+
@@ -49,6 +49,9 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/appdata/pidgin-
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 Kalev Lember <klember@redhat.com> - 1.13-1
 - Update to 1.13
 

@@ -3,7 +3,7 @@
 
 Name:           %{fontname}-fonts
 Version:        6.17
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        A font for Egyptian hieroglyphs
 
 # https://web.archive.org/web/20150625020428/http://users.teilar.gr/~g1951d/
@@ -64,6 +64,9 @@ appstream-util validate-relax --nonet \
 %doc *.pdf
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.17-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.17-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

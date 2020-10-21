@@ -1,6 +1,6 @@
 Name:           jzlib
 Version:        1.1.3
-Release:        12%{?dist}
+Release:        15%{?dist}
 Epoch:          0
 Summary:        Re-implementation of zlib in pure Java
 License:        BSD
@@ -43,6 +43,12 @@ Requires:       %{name} = %{epoch}:%{version}-%{release}
 %pom_add_plugin "org.apache.felix:maven-bundle-plugin" . "<extensions>true</extensions>"
 
 %mvn_file : %{name}
+sed -i -e "s|1.5|1.6|" pom.xml
+# Fix javadoc generation on java 11
+%pom_xpath_inject pom:build/pom:plugins "<plugin>
+<artifactId>maven-javadoc-plugin</artifactId>
+<configuration><source>1.8</source></configuration>
+</plugin>" 
 
 %build
 %mvn_build
@@ -64,6 +70,15 @@ cp -pr example/* %{buildroot}%{_datadir}/%{name}
 %doc %{_datadir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.1.3-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0:1.1.3-14
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jun 25 2020 Alexander Kurtakov <akurtako@redhat.com> 0:1.1.3-13
+- Fix build with Java 11.
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.1.3-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

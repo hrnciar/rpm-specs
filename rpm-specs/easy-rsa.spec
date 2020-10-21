@@ -1,5 +1,5 @@
 Name: easy-rsa
-Version:  3.0.7
+Version:  3.0.8
 Release:  1%{?dist}
 
 Summary: Simple shell based CA utility
@@ -43,6 +43,12 @@ cp -rp x509-types %{buildroot}%{_datadir}/easy-rsa/%{version}/
 %{_datadir}/easy-rsa/
 
 %changelog
+* Thu Sep 10 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.0.8-1
+- 3.0.8
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 31 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.0.7-1
 - 3.0.7
 

@@ -1,6 +1,6 @@
 Name:		tcd-utils
 Version:	20120115
-Release:	16%{?dist}
+Release:	17%{?dist}
 Summary:	TCD (Tide Constituent Database) Utils
 
 License:	Public Domain
@@ -33,6 +33,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %{_bindir}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20120115-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20120115-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

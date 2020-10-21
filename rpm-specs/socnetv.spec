@@ -2,7 +2,7 @@
 
 Name:		socnetv
 Version:	2.5
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv3
 Summary:	A Social Networks Analyser and Visualiser
 URL:		https://socnetv.org/
@@ -66,6 +66,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 16 2020 TI_Eugene <ti.eugene@gmail.com> 2.5-2
 - Spec file fixes
 

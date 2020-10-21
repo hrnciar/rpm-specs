@@ -1,6 +1,6 @@
 Name:           classification-banner
 Version:        1.7.0
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Displays Classification Banner for a Graphical Session
 
 License:        GPLv2+
@@ -13,7 +13,7 @@ BuildRequires:  python3-devel
 BuildRequires:  python3-gobject
 BuildRequires:  desktop-file-utils
 BuildRequires:  gtk3
-Requires:       xorg-x11-server-utils
+Requires:       xrandr
 Requires:       python3-gobject
 Requires:       gtk3
 
@@ -63,6 +63,12 @@ export DISPLAY=":0.0"
 %{_datadir}/%{name}/%{name}-screenshot.png
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 1.7.0-10
+- Require xrandr not xorg-x11-server-utils
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.0-8
 - Rebuilt for Python 3.9
 

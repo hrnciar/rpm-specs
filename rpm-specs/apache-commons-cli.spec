@@ -1,6 +1,6 @@
 Name:           apache-commons-cli
 Version:        1.4
-Release:        8%{?dist}
+Release:        11%{?dist}
 Summary:        Command Line Interface Library for Java
 License:        ASL 2.0
 URL:            http://commons.apache.org/cli/
@@ -29,8 +29,14 @@ command line arguments and options.
 %mvn_alias : org.apache.commons:commons-cli
 %mvn_file : commons-cli %{name}
 
+# Fix javadoc generation on java 11
+%pom_xpath_inject pom:pluginManagement/pom:plugins "<plugin>
+<artifactId>maven-javadoc-plugin</artifactId>
+<configuration><source>1.6</source></configuration>
+</plugin>" 
+
 %build
-%mvn_build
+%mvn_build -- -Dmaven.compiler.source=1.6 -Dmaven.compiler.target=1.6
 
 %install
 %mvn_install
@@ -40,6 +46,15 @@ command line arguments and options.
 %doc README.md RELEASE-NOTES.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.4-10
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Wed Jun 24 2020 Alexander Kurtakov <akurtako@redhat.com> 1.4-9
+- Fix build with Java 11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

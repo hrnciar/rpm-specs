@@ -2,7 +2,7 @@
 
 Name:           naev
 Version:        0.7.0
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        2d action, RPG space game
 License:        GPLv3
 URL:            http://naev.org
@@ -76,6 +76,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/*.appdata
 %{_mandir}/man6/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 03 2020 Jonathan Dieter <jdieter@gmail.com> - 0.7.0-11
 - Work around GCC 10 build failure
 

@@ -2,7 +2,7 @@
 
 Name:		python-%{pypi_name}
 Version:	1.3.7
-Release:	14%{?dist}
+Release:	15%{?dist}
 Summary:	Parsing and validation of URIs (RFC 3986) and IRIs (RFC 3987)
 
 License:	GPLv3+
@@ -57,6 +57,9 @@ sed -i -e '/^#!\//, 1d' %{buildroot}%{python3_sitelib}/rfc3987.py
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.7-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.7-14
 - Rebuilt for Python 3.9
 

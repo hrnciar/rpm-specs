@@ -1,10 +1,10 @@
 %global selinuxtype targeted
 %global moduletype contrib
-%define semodule_version 0.0.3
+%define semodule_version 0.0.4
 
 Name:           usbguard
 Version:        0.7.8
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        A tool for implementing USB device usage policy
 License:        GPLv2+
 ## Not installed
@@ -38,13 +38,8 @@ BuildRequires: audit-libs-devel
 # For `pkg-config systemd` only
 BuildRequires: systemd
 
-# dbus
-BuildRequires: dbus-glib-devel
-BuildRequires: dbus-devel
-BuildRequires: glib2-devel
-BuildRequires: polkit-devel
-BuildRequires: libxslt
-BuildRequires: libxml2
+Patch1: usbguard-forking-style.patch
+Patch2: usbguard-service-fips.patch
 
 %description
 The USBGuard software framework helps to protect your computer against rogue USB
@@ -74,6 +69,12 @@ software framework.
 %package        dbus
 Summary:        USBGuard D-Bus Service
 Requires:       %{name} = %{version}-%{release}
+BuildRequires:	dbus-glib-devel
+BuildRequires:	dbus-devel
+BuildRequires:	glib2-devel
+BuildRequires:	polkit-devel
+BuildRequires:	libxslt
+BuildRequires:	libxml2
 Requires:       dbus
 Requires:       polkit
 
@@ -100,6 +101,9 @@ daemon.
 
 # selinux
 %setup -q -D -T -a 1
+
+%patch1 -p1 -b .service1
+%patch2 -p1 -b .service2
 
 # Remove bundled library sources before build
 rm -rf src/ThirdParty/{Catch,PEGTL}
@@ -223,6 +227,20 @@ fi
 
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 0.7.8-5
+- Rebuilt for protobuf 3.13
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Radovan Sroka <rsroka@redhat.com> - 0.7.8-3
+- rebase selinux tarball to v0.0.4
+- enable forking style in unit file
+- set DevicePolicy to closed in unit file
+- usbguard prevented from writing conf via dontaudit rule
+Resolves: rhbz#1804713
+Resolves: rhbz#1789923
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 0.7.8-2
 - Rebuilt for protobuf 3.12
 

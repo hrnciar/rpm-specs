@@ -5,7 +5,7 @@
 
 Name:           clutter-gtk
 Version:        1.8.4
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        A basic GTK clutter widget
 
 License:        LGPLv2+
@@ -38,6 +38,11 @@ clutter-gtk.
 
 
 %build
+# gobject introspection does not work with LTO.  There is an effort to fix this
+# in the appropriate project upstreams, so hopefully LTO can be enabled someday
+# Disable LTO.
+%define _lto_cflags %{nil}
+
 %configure
 make %{?_smp_mflags} V=1
 
@@ -70,6 +75,12 @@ make check %{?_smp_mflags} V=1
 %{_datadir}/gtk-doc/html/clutter-gtk-1.0
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.4-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 1.8.4-8
+Disable LTO
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.4-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

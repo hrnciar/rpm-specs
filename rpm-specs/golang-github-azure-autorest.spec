@@ -3,7 +3,7 @@
 
 # https://github.com/Azure/go-autorest
 %global goipath         github.com/Azure/go-autorest
-Version:                13.3.2
+Version:                14.2.0
 
 %gometa
 
@@ -16,7 +16,7 @@ generated Go code.}
 %global godocs          README.md CHANGELOG.md example
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        HTTP request client for use with Autorest-generated API client packages
 
 # Upstream license specification: Apache-2.0
@@ -52,13 +52,18 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 
 %if %{with check}
 %check
-# https://github.com/Azure/go-autorest/issues/502
-%gocheck -t autorest -d tracing
+%gocheck -d tracing
 %endif
 
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 14.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 22:04:07 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 14.2.0-1
+- Update to 14.2.0
+
 * Tue Jan 28 22:38:00 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 13.3.2-1
 - Update to 13.3.2
 

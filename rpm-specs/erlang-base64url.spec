@@ -3,7 +3,7 @@
 
 Name:      erlang-%{srcname}
 Version:   1.0.1
-Release:   3%{?dist}
+Release:   4%{?dist}
 BuildArch: noarch
 
 License: MIT
@@ -41,6 +41,9 @@ Standalone URL safe base64-compatible codec.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

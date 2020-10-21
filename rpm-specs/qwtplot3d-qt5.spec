@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+
 %global commit 45df8fbad445dbb71bfc17672ea669e76688946c
 %global gittag %{commit}
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
@@ -5,7 +7,7 @@
 
 Name:           qwtplot3d-qt5
 Version:        0.3.1a
-Release:        10.%{commitdate}git%{shortcommit}%{?dist}
+Release:        12.%{commitdate}git%{shortcommit}%{?dist}
 Summary:        Extended version of the original QwtPlot3D library
 # zlib/libpng is main license
 # LGPLv2+ or GL2PS is the license for 'gl2ps/' files
@@ -37,16 +39,9 @@ The %{name}-devel package contains qt5 libraries and header files for
 developing applications that use %{name}.
 
 %prep
-%setup -qc -n qwtplot3d-qt4-%{commit}
-
-mv qwtplot3d-qt4-%{commit} qt5
-pushd qt5
-%patch0 -p0
+%autosetup -n qwtplot3d-qt4-%{commit} -p0
 
 %build
-############### QT5 ######################
-pushd qt5
-mkdir -p build && cd build
 %cmake -Wno-dev \
  -DSELECT_QT=Qt5 \
  -DQT_QMAKE_EXECUTABLE:FILEPATH=%{_bindir}/qmake-qt5 \
@@ -57,20 +52,16 @@ mkdir -p build && cd build
  -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE -DCMAKE_COLOR_MAKEFILE:BOOL=ON \
  -DCMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING="%{__global_ldflags} -lGLU" \
  -DWITH_ZLIB:BOOL=ON \
- -DCMAKE_INSTALL_LIBDIR:PATH=%{_qt5_libdir} -DCMAKE_INSTALL_INCLUDEDIR:PATH=%{_qt5_headerdir}/%{name} ..
-%make_build
-cd ..
-popd
+ -DCMAKE_INSTALL_LIBDIR:PATH=%{_qt5_libdir} -DCMAKE_INSTALL_INCLUDEDIR:PATH=%{_qt5_headerdir}/%{name}
+%cmake_build
 
 %install
-############### QT5 ######################
-pushd qt5/build
-%make_install
+%cmake_install
 
 %ldconfig_scriptlets
 
 %files
-%license qt5/COPYING qt5/3rdparty/gl2ps/COPYING.*
+%license COPYING 3rdparty/gl2ps/COPYING.*
 %{_qt5_libdir}/lib%{name}.so.*
 
 %files devel
@@ -78,6 +69,13 @@ pushd qt5/build
 %{_qt5_libdir}/lib%{name}.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1a-12.20200509git45df8fb
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1a-11.20200509git45df8fb
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 09 2020 Antonio Trande <sagitter@fedoraproject.org> - 0.3.1a-10.20200509git45df8fb
 - Build commit #45df8fb
 

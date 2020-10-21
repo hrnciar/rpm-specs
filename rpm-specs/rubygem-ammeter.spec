@@ -1,13 +1,16 @@
 # Generated from ammeter-0.2.2.gem by gem2rpm -*- rpm-spec -*-
 %global gem_name ammeter
 
-Summary: Write specs for your Rails 3+ generators
 Name: rubygem-%{gem_name}
 Version: 1.1.4
-Release: 5%{?dist}
+Release: 7%{?dist}
+Summary: Write specs for your Rails 3+ generators
 License: MIT
 URL: https://github.com/alexrothenberg/%{gem_name}
-Source0: http://rubygems.org/gems/%{gem_name}-%{version}.gem
+Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
+# Fix Rails 6+ compatibility.
+# https://github.com/alexrothenberg/ammeter/pull/62
+Patch0: rubygem-ammeter-1.1.4-Pass-source-to-template-separatedly.patch
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby
@@ -28,18 +31,27 @@ Requires: %{name} = %{version}-%{release}
 BuildArch: noarch
 
 %description doc
-Documentation for %{name}
+Documentation for %{name}.
 
 %prep
-%setup -q -c -T
-%gem_install -n %{SOURCE0}
+%setup -q -n %{gem_name}-%{version}
+
+%patch0 -p1
 
 %build
+# Create the gem as gem install only works on a gem file
+gem build ../%{gem_name}-%{version}.gemspec
+
+# %%gem_install compiles any C extensions and installs the gem into ./%%gem_dir
+# by default, so that we can move it into the buildroot in %%install
+%gem_install
 
 %install
 mkdir -p %{buildroot}%{gem_dir}
 cp -a .%{gem_dir}/* \
         %{buildroot}%{gem_dir}/
+
+
 
 %check
 pushd .%{gem_instdir}
@@ -53,23 +65,29 @@ popd
 
 %files
 %dir %{gem_instdir}
-%{gem_libdir}
-%exclude %{gem_cache}
 %exclude %{gem_instdir}/.*
 %license %{gem_instdir}/LICENSE.txt
+%{gem_libdir}
+%exclude %{gem_cache}
 %{gem_spec}
-%exclude %{gem_instdir}/ammeter.gemspec
 
 %files doc
 %doc %{gem_docdir}
+%{gem_instdir}/Gemfile
 %doc %{gem_instdir}/History.md
 %doc %{gem_instdir}/README.md
-%{gem_instdir}/Gemfile
-%{gem_instdir}/features
 %{gem_instdir}/Rakefile
+%{gem_instdir}/ammeter.gemspec
+%{gem_instdir}/features
 %{gem_instdir}/spec
 
 %changelog
+* Tue Sep 15 2020 Vít Ondruch <vondruch@redhat.com> - 1.1.4-7
+- Fix Rails 6+ compatibility.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

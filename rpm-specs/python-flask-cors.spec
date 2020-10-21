@@ -2,8 +2,8 @@
 %{?python_enable_dependency_generator}
 
 Name:           python-%{srcname}
-Version:        3.0.8
-Release:        7%{?dist}
+Version:        3.0.9
+Release:        1%{?dist}
 Summary:        Cross Origin Resource Sharing (CORS) support for Flask
 License:        MIT
 URL:            https://github.com/corydolphin/%{srcname}
@@ -22,6 +22,7 @@ Summary:        Cross Origin Resource Sharing (CORS) support for Flask
 BuildRequires:  python3-devel
 BuildRequires:  python3-flask
 BuildRequires:  python3-nose
+BuildRequires:  python3-packaging
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-six
 
@@ -38,7 +39,7 @@ Python3 flask_cors package.
 %{py3_install}
 
 %check
-%{__python3} setup.py test || :
+nosetests-%{python3_version} -v
 
 %files -n python3-%{srcname}
 %license LICENSE
@@ -47,6 +48,13 @@ Python3 flask_cors package.
 %{python3_sitelib}/Flask_Cors*.egg-info/
 
 %changelog
+* Mon Aug 31 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 3.0.9-1
+- Update to 3.0.9
+- Force tests to pass
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.8-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.8-7
 - Rebuilt for Python 3.9
 

@@ -1,7 +1,7 @@
 %define _legacy_common_support 1
 Name:           xwota
 Version:        0.4
-Release:        30%{?dist}
+Release:        31%{?dist}
 Summary:        Who's On the Air Database interface
 
 License:        GPL+
@@ -66,6 +66,9 @@ desktop-file-install \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 05 2020 Lucian Langa <lucilanga@gnome.eu.org> - 0.4-30
 - add temporary gcc10 fix
 

@@ -1,6 +1,6 @@
 Name:           perl-MouseX-NativeTraits
 Version:        1.09
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Extend your attribute interfaces for Mouse
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/MouseX-NativeTraits
@@ -66,6 +66,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.09-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.09-14
 - Perl 5.32 rebuild
 

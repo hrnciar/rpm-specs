@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.5.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Library for date and time formatting and arithmetic
 
 # Upstream license specification: MIT
@@ -146,6 +146,13 @@ which use "parse" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Josh Stone <jistone@redhat.com> - 0.5.1-1
 - Update to 0.5.1
 

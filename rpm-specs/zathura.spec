@@ -1,5 +1,5 @@
 Name:              zathura
-Version:           0.4.5
+Version:           0.4.6
 Release:           1%{?dist}
 Summary:           A lightweight document viewer
 License:           zlib
@@ -14,7 +14,6 @@ BuildRequires:     fish
 BuildRequires:     gcc
 BuildRequires:     gettext
 BuildRequires:     girara-devel >= 0.3.3
-BuildRequires:     git-core
 BuildRequires:     glib2-devel >= 2.50
 BuildRequires:     gtk3-devel >= 3.22
 BuildRequires:     intltool
@@ -102,7 +101,7 @@ Requires:          zathura = %{version}-%{release}
 This package provides %{summary}.
 
 %prep
-%autosetup -S git
+%autosetup
 
 %build
 %meson -Dsynctex=enabled -Dsqlite=enabled -Dmagic=enabled -Dseccomp=enabled -Dtests=enabled
@@ -110,19 +109,25 @@ This package provides %{summary}.
 
 %install
 %meson_install
+
+# Move fish completion file to correct location
+# https://bugzilla.redhat.com/show_bug.cgi?id=1869376
+install -m 0644 -p -D -t %{buildroot}/%{_datadir}/fish/completions/ %{buildroot}/%{_prefix}/local/share/fish/vendor_completions.d/%{name}.fish
+rm -f %{buildroot}/%{_prefix}/local/share/fish/vendor_completions.d/%{name}.fish
+
 appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata.xml
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %find_lang zathura
 
 %files -f zathura.lang
 %license LICENSE
-%doc README
+%doc README.md
 %{_bindir}/*
 %{_mandir}/man*/*
 %{_datadir}/applications/*
 %{_datadir}/dbus-1/interfaces/org.pwmt.zathura.xml
 %{_datadir}/icons/hicolor/*/apps/org.pwmt.zathura.png
-%{_datadir}/icons/scalable/apps/org.pwmt.zathura.svg
+%{_datadir}/icons/hicolor/*/apps/org.pwmt.zathura.svg
 %{_datadir}/metainfo/org.pwmt.zathura.appdata.xml
 
 %files devel
@@ -141,6 +146,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %{_datadir}/zsh/site-functions/_zathura
 
 %changelog
+* Mon Aug 17 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.4.6-1
+- Update to new upstream release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 15 2020 Petr Šabata <contyk@redhat.com> - 0.4.5-1
 - 0.4.5 bump
 - Introduce the fish-completion subpackage
@@ -253,7 +264,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 * Wed Mar 05 2014 François Cami <fcami@fedoraproject.org> - 0.2.7-1
 - Update to 0.2.7.
 
-* Sat Dec 28 2013 François Cami <fcami@fedoraproject.org> - 0.2.6-1 
+* Sat Dec 28 2013 François Cami <fcami@fedoraproject.org> - 0.2.6-1
 - Update to latest upstream.
 
 * Sat Aug 31 2013 François Cami <fcami@fedoraproject.org> - 0.2.4-1

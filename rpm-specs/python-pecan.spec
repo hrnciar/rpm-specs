@@ -3,7 +3,7 @@
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
 Name:           python-%{pypi_name}
-Version:        1.3.3
+Version:        1.4.0
 Release:        1%{?dist}
 Summary:        A lean WSGI object-dispatching web framework
 
@@ -49,6 +49,12 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Mon Aug 03 2020 Dan Radez <dradez@redhat.com> - 1.4.0-1
+- Update to 1.4.0 (rhbz#1862179)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Ken Dreyer <kdreyer@redhat.com> 1.3.3-1
 - Update to 1.3.3 (rhbz#1378265)
 - Remove explicit Requires (rhbz#1803982)

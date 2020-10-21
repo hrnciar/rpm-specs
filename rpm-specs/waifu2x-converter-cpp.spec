@@ -1,6 +1,6 @@
 Name:           waifu2x-converter-cpp
 Version:        5.3.3
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        Image Super-Resolution for Anime-style art using OpenCL and OpenCV
 
 License:        BSD and MIT
@@ -23,13 +23,11 @@ Recommends:     mesa-libOpenCL
 Provides:       bundled(picojson)
 Provides:       bundled(tclap)
 
-
 %description
 Image Super-Resolution for Anime-style art using OpenCL and OpenCV.
 
 This is a reimplementation of waifu2x (original) converter function,
 in C++, using OpenCV.
-
 
 %package        devel
 Summary:        Development files for waifu2x-converter-cpp
@@ -38,21 +36,17 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 %description    devel
 Development files for waifu2x-converter-cpp.
 
-
 %prep
 %autosetup -p1
-
+# Fix ARM build
+sed -i 's|-mfloat-abi=hard -mfloat-abi=softfp|-mfloat-abi=hard|' CMakeLists.txt
 
 %build
-mkdir _build && cd _build
 %cmake3 -DINSTALL_MODELS=true ..
-%make_build
-
+%cmake3_build
 
 %install
-cd _build
-%make_install
-
+%cmake3_install
 
 %files
 %license LICENSE include/picojson_LICENSE.txt include/tclap/tclap_LICEENSE.txt
@@ -61,13 +55,18 @@ cd _build
 %{_libdir}/libw2xc.so.1*
 %{_datadir}/waifu2x-converter-cpp
 
-
 %files devel
 %{_includedir}/w2xconv.h
 %{_libdir}/libw2xc.so
 
-
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.3-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Nicolas Chauvet <kwizart@gmail.com> - 5.3.3-6
 - Rebuilt for OpenCV 4.3
 

@@ -2,15 +2,13 @@
 %global srcname_ jupyter_console
 
 Name:           python-%{srcname}
-Version:        6.1.0
-Release:        3%{?dist}
+Version:        6.2.0
+Release:        1%{?dist}
 Summary:        Jupyter terminal console
 
 License:        BSD
 URL:            https://jupyter.org
 Source0:        %pypi_source %{srcname_}
-# https://bugzilla.redhat.com/show_bug.cgi?id=1801246
-Patch0001:      https://github.com/jupyter/jupyter_console/pull/200.patch
 
 BuildArch:      noarch
 
@@ -91,6 +89,12 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} \
 
 
 %changelog
+* Fri Aug 28 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 6.2.0-1
+- Update to latest version (#1873638)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 6.1.0-3
 - Backport Python 3.9 fix
 

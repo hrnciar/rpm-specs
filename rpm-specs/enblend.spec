@@ -1,9 +1,10 @@
 Summary: Image Blending with Multiresolution Splines
 Name: enblend
 Version: 4.2
-Release: 16%{?dist}
+Release: 19%{?dist}
 License: GPLv2+
 Source0: http://downloads.sourceforge.net/enblend/enblend-enfuse-%{version}.tar.gz
+Patch0: enblend-limits.patch
 URL: http://enblend.sourceforge.net/
 BuildRequires:  gcc-c++
 BuildRequires: libtiff-devel boost-devel lcms2-devel plotutils-devel
@@ -21,6 +22,7 @@ BuildRequires: tex(index.sty) tex(latexsym.sty) tex(listings.sty) tex(microtype.
 BuildRequires: tex(ragged2e.sty) tex(shorttoc.sty) tex(suffix.sty) tex(trivfloat.sty) tex(url.sty) tex(xstring.sty)
 BuildRequires: texlive-floatrow texlive-comment texlive-epstopdf-bin texlive-latex-fonts texlive-thumbpdf texlive-texloganalyser
 BuildRequires: perl-Readonly
+BuildRequires: perl(English) perl(Sys::Hostname) perl(File::Basename) perl(Getopt::Long) perl(IO::File)
 
 %description
 Enblend is a tool for compositing images, given a set of images that overlap in
@@ -39,9 +41,10 @@ PDF usage documentation for the enblend and enfuse command line tools
 
 %prep
 %setup -q -n enblend-enfuse-%{version}
+%patch0 -p1
 
 %build
-export CPPFLAGS=-I/usr/include/gperftools
+export CPPFLAGS="-std=gnu++14 -I/usr/include/gperftools"
 %configure --with-boost-filesystem --with-tcmalloc --enable-opencl --enable-openmp
 make %{?_smp_mflags}
 
@@ -61,6 +64,15 @@ make install DESTDIR=%{buildroot}
 #{_docdir}/enblend-enfuse/examples/enfuse/*
 
 %changelog
+* Mon Sep 14 2020 Jeff Law <law@fedoraproject.org> - 4.2-19
+- Force C++14 as this code is not C++17 ready
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2-18
+- Fix mass rebuild failure by adding core perl modules to BuildRequires. patch to #include <limits>
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

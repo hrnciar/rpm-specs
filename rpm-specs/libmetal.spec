@@ -1,6 +1,6 @@
 Name:		libmetal
 Version:	2020.04.0
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	An abstraction layer across user-space Linux, baremetal, and RTOS environments 
 
 License:	BSD
@@ -42,12 +42,12 @@ baremetal, and RTOS environments.
 mkdir build
 cd build
 %cmake -DCMAKE_INSTALL_LIBDIR=%{_libdir} -DWITH_STATIC_LIB=OFF ..
-%make_build
+%cmake_build
 
 
 %install
 cd build
-%make_install
+%cmake_install
 
 %ldconfig_scriptlets
 
@@ -70,6 +70,13 @@ cd build
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.04.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.04.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 10 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2020.04.0-1
 - Update to 2020.04.0
 

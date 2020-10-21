@@ -1,7 +1,7 @@
 Summary: An info file viewer
 Name: pinfo
 Version: 0.6.10
-Release: 25%{?dist}
+Release: 26%{?dist}
 License: GPLv2
 URL: http://pinfo.alioth.debian.org
 Source: http://alioth.debian.org/frs/download.php/3351/pinfo-0.6.10.tar.bz2
@@ -52,6 +52,9 @@ rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 # %{_mandir}/man1/pman.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.10-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Than Ngo <than@redhat.com> - 0.6.10-25
 - Fixed FTBFS
 

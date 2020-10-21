@@ -1,6 +1,6 @@
 Name:           js-jquery
 Version:        3.5.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        JavaScript DOM manipulation, event handling, and AJAX library
 BuildArch:      noarch
 
@@ -81,6 +81,9 @@ ln -s %{version} %{installdir}/%{ver_x}.%{ver_y}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 17 2020 Stephen Gallagher <sgallagh@redhat.com> - 3.5.0-3
 - Add explicit dependency on nodejs
 

@@ -3,14 +3,9 @@
 
 # https://github.com/mesos/mesos-go
 %global goipath         github.com/mesos/mesos-go
-Version:                0.0.10
+Version:                0.0.11
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-mesos-devel < 0-0.15
-}
 
 %global common_description %{expand:
 Pure Go language bindings for Apache Mesos, under development. As with other
@@ -35,6 +30,7 @@ Source0:        %{gosource}
 BuildRequires:  golang(github.com/gogo/protobuf/gogoproto)
 BuildRequires:  golang(github.com/gogo/protobuf/proto)
 BuildRequires:  golang(github.com/gogo/protobuf/sortkeys)
+BuildRequires:  golang(github.com/gogo/protobuf/types)
 BuildRequires:  golang(github.com/golang/glog)
 BuildRequires:  golang(github.com/pborman/uuid)
 BuildRequires:  golang(github.com/pquerna/ffjson/fflib/v1)
@@ -68,6 +64,12 @@ BuildRequires:  golang(github.com/gogo/protobuf/jsonpb)
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 21:44:24 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.0.11-1
+- Update to 0.0.11
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 01 03:09:18 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.0.10-1
 - Update to 0.0.10
 

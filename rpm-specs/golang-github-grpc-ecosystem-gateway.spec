@@ -3,14 +3,9 @@
 
 # https://github.com/grpc-ecosystem/grpc-gateway
 %global goipath         github.com/grpc-ecosystem/grpc-gateway
-Version:                1.8.5
+Version:                1.14.6
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-grpc-ecosystem-grpc-gateway-devel < 1.8.5-2
-}
 
 %global common_description %{expand:
 The grpc-gateway is a plugin of the Google protocol buffers compiler protoc.
@@ -24,7 +19,7 @@ according to the google.api.http annotations in your service definitions.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        5%{?dist}
+Release:        3%{?dist}
 Summary:        GRPC to JSON proxy generator
 
 # Upstream license specification: BSD-3-Clause
@@ -34,21 +29,22 @@ Source0:        %{gosource}
 Source1:        glide.yaml
 Source2:        glide.lock
 
+BuildRequires:  golang(github.com/antihax/optional)
 BuildRequires:  golang(github.com/ghodss/yaml)
 BuildRequires:  golang(github.com/golang/glog)
 BuildRequires:  golang(github.com/golang/protobuf/descriptor)
 BuildRequires:  golang(github.com/golang/protobuf/jsonpb)
 BuildRequires:  golang(github.com/golang/protobuf/proto)
 BuildRequires:  golang(github.com/golang/protobuf/protoc-gen-go/descriptor)
-BuildRequires:  golang(github.com/golang/protobuf/protoc-gen-go/generator)
 BuildRequires:  golang(github.com/golang/protobuf/protoc-gen-go/plugin)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/any)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/duration)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/empty)
+BuildRequires:  golang(github.com/golang/protobuf/ptypes/struct)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/timestamp)
 BuildRequires:  golang(github.com/golang/protobuf/ptypes/wrappers)
 BuildRequires:  golang(github.com/rogpeppe/fastuuid)
-BuildRequires:  golang(golang.org/x/net/context)
+BuildRequires:  golang(golang.org/x/oauth2)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/api/annotations)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/api/httpbody)
 BuildRequires:  golang(google.golang.org/genproto/googleapis/rpc/errdetails)
@@ -59,9 +55,6 @@ BuildRequires:  golang(google.golang.org/grpc/connectivity)
 BuildRequires:  golang(google.golang.org/grpc/grpclog)
 BuildRequires:  golang(google.golang.org/grpc/metadata)
 BuildRequires:  golang(google.golang.org/grpc/status)
-BuildRequires:  golang(gopkg.in/resty.v1)
-# Remove in F33:
-Obsoletes:      golang-github-grpc-ecosystem-grpc-gateway < 1.8.5-2
 
 %description
 %{common_description}
@@ -84,7 +77,7 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
-%gocheck
+%gocheck -d runtime
 %endif
 
 %files
@@ -95,6 +88,19 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14.6-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 21:33:16 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.14.6-1
+- Update to 1.14.6
+
+* Tue Feb 11 16:42:41 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.13.0-1
+- Update to 1.13.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.5-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

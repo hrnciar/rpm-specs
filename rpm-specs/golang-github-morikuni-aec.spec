@@ -3,7 +3,7 @@
 
 # https://github.com/morikuni/aec
 %global goipath         github.com/morikuni/aec
-%global commit          39771216ff4c63d11f5e604076f9c45e8be1067b
+Version:                1.0.0
 
 %gometa
 
@@ -14,8 +14,7 @@ Go wrapper for ANSI escape code.}
 %global godocs          README.md checkansi/README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.3%{?dist}
+Release:        1%{?dist}
 Summary:        Go wrapper for ANSI escape code
 
 License:        MIT
@@ -53,6 +52,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 23:39:42 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-1
+- Update to 1.0.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

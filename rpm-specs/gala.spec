@@ -3,14 +3,23 @@
 Name:           gala
 Summary:        Gala window manager
 Version:        3.3.2
-Release:        1%{?dist}
+Release:        4%{?dist}
 License:        GPLv3+
 
 URL:            https://github.com/elementary/%{name}
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
 # Include a patch to set some default settings to better match fedora
-Patch0:         00-fedora-default-settings.patch
+Patch1:         0001-fedora-default-settings.patch
+
+# initial port to mutter 3.38 with some ugly hacks to make it compile
+Patch2:         0002-meson-initial-support-for-libmutter-7-mutter-3.38.patch
+Patch3:         0003-adapt-to-mutter-3.38-API-changes.patch
+Patch4:         0004-BackgroundSource-use-map-values-not-map-entries.patch
+Patch5:         0005-ugly-hack-for-removed-Clutter.Stage.capture-method.patch
+Patch6:         0006-fix-for-new-Clutter.Actor.allocate_preferred_size-me.patch
+Patch7:         0007-ugly-hack-for-removed-Cogl.Path.patch
+Patch8:         0008-ugly-hack-for-removed-Meta.BackgroundManager-members.patch
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
@@ -30,10 +39,9 @@ BuildRequires:  pkgconfig(granite) >= 5.3.0
 BuildRequires:  pkgconfig(gtk+-3.0)
 BuildRequires:  pkgconfig(libbamf3)
 BuildRequires:  pkgconfig(libcanberra)
-BuildRequires:  pkgconfig(mutter-clutter-6)
-BuildRequires:  pkgconfig(mutter-cogl-6)
-BuildRequires:  pkgconfig(mutter-cogl-pango-6)
-BuildRequires:  pkgconfig(mutter-cogl-path-6)
+BuildRequires:  pkgconfig(mutter-clutter-7)
+BuildRequires:  pkgconfig(mutter-cogl-7)
+BuildRequires:  pkgconfig(mutter-cogl-pango-7)
 BuildRequires:  pkgconfig(plank) >= 0.11.0
 
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
@@ -109,7 +117,6 @@ appstream-util validate-relax --nonet \
 %{_libdir}/gala/plugins/*
 
 %{_datadir}/applications/gala*.desktop
-%{_datadir}/gala/
 %{_datadir}/glib-2.0/schemas/20_elementary.pantheon.wm.gschema.override
 %{_datadir}/glib-2.0/schemas/org.pantheon.desktop.gala.gschema.xml
 %{_datadir}/icons/hicolor/*/apps/multitasking-view.svg
@@ -140,6 +147,16 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Sat Aug 29 2020 Fabio Valentini <decathorpe@gmail.com> - 3.3.2-4
+- Initial port to mutter 3.38 (uglyyy hacks inside).
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 07 2020 Fabio Valentini <decathorpe@gmail.com> - 3.3.2-1
 - Update to version 3.3.2.
 

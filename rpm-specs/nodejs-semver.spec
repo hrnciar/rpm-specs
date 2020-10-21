@@ -2,7 +2,7 @@
 
 Name:           nodejs-semver
 Version:        7.3.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Semantic versioner for npm
 
 License:        BSD
@@ -42,6 +42,13 @@ ln -sf ../lib/node_modules/semver/bin/semver %{buildroot}%{_bindir}
 %{_bindir}/semver
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.3.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Fabian Affolter <mail@fabian-affolter.ch> - 7.3.2-1
 - Update to latest upstream release 7.3.2
 

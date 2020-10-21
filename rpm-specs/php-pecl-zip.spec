@@ -14,7 +14,7 @@
 %global with_zts  0%{?__ztsphp:1}
 %global ini_name  40-%{pecl_name}.ini
 
-%global upstream_version 1.19.0
+%global upstream_version 1.19.1
 #global upstream_prever  RC6
 
 Summary:      A ZIP archive management extension
@@ -26,8 +26,6 @@ License:      PHP
 URL:          https://pecl.php.net/package/zip
 
 Source0:      https://pecl.php.net/get/%{pecl_name}-%{upstream_version}%{?upstream_prever}.tgz
-
-Patch0:       %{pecl_name}-php8.patch
 
 BuildRequires: php-devel
 BuildRequires: pkgconfig(libzip) >= 1.0.0
@@ -60,10 +58,8 @@ sed -e 's/role="test"/role="src"/' \
     -i package.xml
 
 cd NTS
-%patch0 -p1
-
 # Sanity check, really often broken
-extver=$(sed -n '/#define PHP_ZIP_VERSION/{s/.* "//;s/".*$//;p}' php5/php_zip.h)
+extver=$(sed -n '/#define PHP_ZIP_VERSION/{s/.* "//;s/".*$//;p}' php8/php_zip.h)
 if test "x${extver}" != "x%{upstream_version}%{?upstream_prever}"; then
    : Error: Upstream extension version is ${extver}, expecting %{upstream_version}%{?upstream_prever}.
    exit 1
@@ -168,6 +164,12 @@ TEST_PHP_EXECUTABLE=%{_bindir}/zts-php \
 
 
 %changelog
+* Wed Sep 30 2020 Remi Collet <remi@remirepo.net> - 1.19.1-1
+- update to 1.19.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.19.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun  8 2020 Remi Collet <remi@remirepo.net> - 1.19.0-1
 - update to 1.19.0
 

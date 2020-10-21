@@ -3,7 +3,7 @@
 
 Name:           perl-Dancer-Session-Cookie
 Version:        0.30
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Encrypted cookie-based session back-end for Dancer
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Dancer-Session-Cookie
@@ -82,6 +82,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.30-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.30-9
+- Perl 5.32 rebuild
+
 * Fri Mar 20 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.30-8
 - Add perl(blib) for tests
 

@@ -15,7 +15,7 @@
 
 Name:           php-%{gh_project}
 Version:        5.4.12
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Free Feature-rich PHP Mailer
 
 License:        MIT
@@ -146,6 +146,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.12-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb  4 2020 Remi Collet <remi@remirepo.net> - 5.4.12-4
 - disable test suite with PHP 7.4
 

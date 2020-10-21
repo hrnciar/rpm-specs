@@ -1,13 +1,23 @@
 %global __provides_exclude_from ^%{_libdir}/%{name}/.*\\.so$
 
+# Building with LTO on will lead to segfaults at start
+# See: https://bugzilla.redhat.com/show_bug.cgi?id=1883675
+# Disabling LTO now until upstream fix
+%define _lto_cflags             %{nil}
+
 Name:           texworks
 Version:        0.6.5
-Release:        2%{?dist}
+Release:        6%{?dist}
 Summary:        A simple IDE for authoring TeX documents
 
 License:        GPLv2+
 URL:            http://tug.org/texworks/
 Source0:        https://github.com/TeXworks/texworks/archive/release-%{version}/texworks-release-%{version}.tar.gz
+
+# Fix for FTBTS with Qt 5.15.1
+# See: https://koji.fedoraproject.org/koji/taskinfo?taskID=51256818
+# See: https://bugzilla.redhat.com/show_bug.cgi?id=1883675
+Patch0:         0001-Fix-build-for-qt-5.15.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  pkgconfig
@@ -36,19 +46,14 @@ You may install the texlive-* packages to make this program useful.
 
 %prep
 %setup -q -n %{name}-release-%{version}
+%patch0 -p1
 
 %build
-mkdir build
-pushd build
-%cmake .. -DWITH_PYTHON=ON -DTW_BUILD_ID=Fedora -DTeXworks_DIC_DIR=%{_datadir}/myspell -DTeXworks_PLUGIN_DIR=%{_libdir}/texworks -DCMAKE_BUILD_TYPE=RelWithDebInfo
-
-make %{?_smp_mflags}
-popd
+%cmake -DWITH_PYTHON=ON -DTW_BUILD_ID=Fedora -DTeXworks_DIC_DIR=%{_datadir}/myspell -DTeXworks_PLUGIN_DIR=%{_libdir}/texworks -DCMAKE_BUILD_TYPE=RelWithDebInfo
+%cmake_build
 
 %install
-pushd build
-%make_install INSTALL="install -p"
-popd
+%cmake_install
 rm %{buildroot}/%{_docdir}/%{name}/COPYING
 
 %files
@@ -63,6 +68,20 @@ rm %{buildroot}/%{_docdir}/%{name}/COPYING
 
 
 %changelog
+* Wed Sep 30 2020 Qiyu Yan <yanqiyu@fedoraproject.org> - 0.6.5-6
+- fixes #1883675 by disabling LTO
+- added a fix for FTBTS with QT 5.15
+
+* Mon Aug 03 2020 Qiyu Yan <yanqiyu@fedoraproject.org> - 0.6.5-5
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.5-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.5-2
 - Rebuilt for Python 3.9
 

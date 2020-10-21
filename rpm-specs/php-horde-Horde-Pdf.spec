@@ -13,7 +13,7 @@
 
 Name:           php-horde-Horde-Pdf
 Version:        2.0.8
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Horde PDF library
 
 License:        LGPLv2
@@ -120,6 +120,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.8-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

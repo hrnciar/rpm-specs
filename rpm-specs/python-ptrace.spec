@@ -4,8 +4,8 @@
 
 Summary:       Debugger using ptrace written in Python
 Name:          python-ptrace
-Version:       0.9.5
-Release:       2%{?dist}
+Version:       0.9.7
+Release:       1%{?dist}
 License:       GPLv2
 URL:           https://bitbucket.org/haypo/python-ptrace
 Source0:       https://files.pythonhosted.org/packages/source/p/%{name}/%{name}-%{version}.tar.gz
@@ -95,6 +95,12 @@ rm -f %{buildroot}%{_bindir}/{gdb,strace}.{pyo,pyc}
 %{python3_sitearch}/cptrace-*-py*.egg-info
 
 %changelog
+* Sun Oct 11 2020 Terje Rosten <terje.rosten@ntnu.no> - 0.9.7-1
+- 0.9.7
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.5-2
 - Rebuilt for Python 3.9
 

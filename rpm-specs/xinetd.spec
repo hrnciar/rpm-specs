@@ -1,7 +1,7 @@
 Summary: A secure replacement for inetd
 Name: xinetd
 Version: 2.3.15
-Release: 32%{?dist}
+Release: 34%{?dist}
 License: xinetd
 Epoch: 2
 URL: https://github.com/xinetd-org/xinetd
@@ -162,6 +162,13 @@ rm -f $RPM_BUILD_ROOT/usr/sbin/xconv.pl
 %{_mandir}/*/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:2.3.15-34
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:2.3.15-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr  7 2020 Petr Lautrbach <plautrba@redhat.com> - 2:2.3.15-32
 - Remove deprecation warning about flask.h usage
 

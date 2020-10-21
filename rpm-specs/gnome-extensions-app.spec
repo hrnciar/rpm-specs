@@ -2,13 +2,13 @@
 %global source_name gnome-shell
 
 Name:          gnome-extensions-app
-Version:       3.37.2
+Version:       3.38.0
 Release:       1%{?dist}
 Summary:       Manage GNOME Shell extensions
 
 License:       GPLv2+
 URL:           https://gitlab.gnome.org/GNOME/%{source_name}
-Source0:       https://download.gnome.org/sources/%{source_name}/3.37/%{source_name}-%{version}.tar.xz
+Source0:       https://download.gnome.org/sources/%{source_name}/3.38/%{source_name}-%{version}.tar.xz
 
 Patch0:        0001-extensions-app-Add-compatibility-with-GNOME-3.34.patch
 
@@ -77,6 +77,19 @@ rm -rf %{buildroot}/%{_datadir}/%{name}/gir-1.0
 
 
 %changelog
+* Tue Sep 15 2020 Florian Müllner <fmuellner@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Florian Müllner <fmuellner@gnome.org> - 3.37.2-1
+- Update to 3.37.3
+
 * Wed Jun 03 2020 Florian Müllner <fmuellner@gnome.org> - 3.37.2-1
 - Update to 3.37.2
 

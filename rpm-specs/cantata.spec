@@ -2,7 +2,7 @@
 Name:    cantata
 Summary: Music Player Daemon (MPD) graphical client
 Version: 2.3.1
-Release: 6%{?dist}
+Release: 8%{?dist}
 
 License: GPLv2+
 URL:     https://github.com/cdrummond/cantata
@@ -68,12 +68,11 @@ rm -fv translations/blank.ts
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
 PATH="%{_qt5_bindir}:$PATH" ; export PATH ;
 
 CXXFLAGS="%{optflags} -I/usr/include/QtSolutions" # see bug 1077936
-%{cmake} .. \
+
+%cmake \
   -DCMAKE_BUILD_TYPE=Release \
   -DENABLE_KDE:BOOL=%{?kde:ON}%{!?kde:OFF} \
   -DENABLE_QT5:BOOL=%{?qt5:ON}%{!?qt5:OFF} \
@@ -81,13 +80,12 @@ CXXFLAGS="%{optflags} -I/usr/include/QtSolutions" # see bug 1077936
   -DENABLE_LIBVLC:BOOL=OFF \
   -DENABLE_MPG123:BOOL=OFF \
   -DDENABLE_UDISKS2:BOOL=ON
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --with-qt --all-name
 
@@ -113,6 +111,13 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/cantata.desktop
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 Adrian Reber <adrian@lisas.de> - 2.3.1-6
 - Rebuilt for libcdio-2.1.0
 

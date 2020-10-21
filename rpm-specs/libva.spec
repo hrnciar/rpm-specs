@@ -1,7 +1,7 @@
 #global pre_release .pre1
 
 Name:		libva
-Version:	2.7.1
+Version:	2.9.0
 Release:	1%{?dist}
 Summary:	Video Acceleration (VA) API for Linux
 License:	MIT
@@ -72,6 +72,18 @@ find %{buildroot} -regex ".*\.la$" | xargs rm -f --
 %{_libdir}/pkgconfig/libva*.pc
 
 %changelog
+* Sun Sep 13 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.9.0-1
+- Update to 2.9.0
+
+* Tue Sep 01 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.9.0-0.1.pre1
+- Update to 2.9.0.pre1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jun 28 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.8.0-1
+- Update to 2.8.0
+
 * Mon Apr 20 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.7.1-1
 - Update to 2.7.1
 

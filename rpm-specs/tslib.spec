@@ -1,5 +1,5 @@
 Name:           tslib
-Version:        1.21
+Version:        1.22
 Release:        2%{?dist}
 Summary:        Touchscreen Access Library
 License:        LGPLv2
@@ -61,6 +61,12 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/tslib.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.22-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Tom Callaway <spot@fedoraproject.org> - 1.22-1
+- update to 1.22
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.21-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

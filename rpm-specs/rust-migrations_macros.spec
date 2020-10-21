@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        1.4.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Codegeneration macros for diesels embedded migrations
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -70,5 +70,8 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 15 16:32:28 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 1.4.2-1
 - Initial package

@@ -5,7 +5,7 @@
 
 Name:           python-%{pkgname}
 Version:        1.4.7
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Modest Maps python port
 
 License:        BSD
@@ -50,6 +50,9 @@ additional functionality.
 %{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.7-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.7-7
 - Rebuilt for Python 3.9
 

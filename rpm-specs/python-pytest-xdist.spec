@@ -1,47 +1,47 @@
 %global pypi_name pytest-xdist
-%global desc The pytest-xdist plugin extends py.test with some unique test execution modes:\
-* test run parallelization: if you have multiple CPUs or hosts you can use\
-  those for a combined test run. This allows to speed up development or to use\
-  special resources of remote machines.\
-* --boxed: run each test in a boxed subprocess to survive SEGFAULTS or\
-  otherwise dying processes\
-* --looponfail: run your tests repeatedly in a subprocess. After each run\
-  py.test waits until a file in your project changes and then re-runs the\
-  previously failing tests. This is repeated until all tests pass after which\
-  again a full run is performed.\
-* Multi-Platform coverage: you can specify different Python interpreters or\
-  different platforms and run tests in parallel on all of them.
 
 Name:           python-%{pypi_name}
-Version:        1.32.0
-Release:        3%{?dist}
+Version:        2.1.0
+Release:        1%{?dist}
 Summary:        py.test plugin for distributed testing and loop-on-failing modes
 
 License:        MIT
 URL:            https://github.com/pytest-dev/pytest-xdist
-Source0:        https://files.pythonhosted.org/packages/source/p/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+Source0:        %{pypi_source}
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-execnet
-BuildRequires:  python3-filelock
-BuildRequires:  python3-pytest
-BuildRequires:  python3-pytest-forked
-BuildRequires:  python3-py
-BuildRequires:  python3-setuptools_scm
+BuildRequires:  %{py3_dist execnet} >= 1.1
+BuildRequires:  %{py3_dist filelock}
+BuildRequires:  %{py3_dist psutil} >= 3.0.0
+BuildRequires:  %{py3_dist pytest} >= 6.0.0
+BuildRequires:  %{py3_dist pytest-forked}
+BuildRequires:  %{py3_dist py}
+BuildRequires:  %{py3_dist setuptools}
+BuildRequires:  %{py3_dist setuptools_scm}
 
-%description
-%{desc}
+%global _description %{expand:
+The pytest-xdist plugin extends py.test with some unique test execution modes:
+* test run parallelization: if you have multiple CPUs or hosts you can use
+  those for a combined test run. This allows to speed up development or to use
+  special resources of remote machines.
+* --boxed: run each test in a boxed subprocess to survive SEGFAULTS or
+  otherwise dying processes
+* --looponfail: run your tests repeatedly in a subprocess. After each run
+  py.test waits until a file in your project changes and then re-runs the
+  previously failing tests. This is repeated until all tests pass after which
+  again a full run is performed.
+* Multi-Platform coverage: you can specify different Python interpreters or
+  different platforms and run tests in parallel on all of them.}
+
+%description %_description
 
 %package -n     python3-%{pypi_name}
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
-Requires:       python3-execnet
-Requires:       python3-pytest-forked
-Requires:       python3-py
-%description -n python3-%{pypi_name}
-%{desc}
+Requires:       %{py3_dist py}
+%description -n python3-%{pypi_name} %_description
 
 %prep
 %autosetup -n %{pypi_name}-%{version}
@@ -53,7 +53,7 @@ Requires:       python3-py
 %py3_install
 
 %check
-PYTHONPATH=%{buildroot}%{python3_sitelib} PYTHONDONTWRITEBYTECODE=1 py.test-%{python3_version} testing
+%pytest
 
 
 %files -n python3-%{pypi_name}
@@ -63,6 +63,21 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} PYTHONDONTWRITEBYTECODE=1 py.test-%{py
 %{python3_sitelib}/xdist/
 
 %changelog
+* Wed Aug 26 2020 Scott Talbert <swt@techie.net> - 2.1.0-1
+- Update to new upstream release 2.1.0 (#1872506)
+
+* Fri Aug 14 2020 Scott Talbert <swt@techie.net> - 2.0.0-1
+- Update to new upstream release 2.0.0 (#1868954)
+
+* Tue Jul 28 2020 Scott Talbert <swt@techie.net> - 1.34.0-1
+- Update to new upstream release 1.34.0 (#1861207)
+
+* Sat Jul 11 2020 Scott Talbert <swt@techie.net> - 1.33.0-1
+- Update to new upstream release 1.33.0 (#1855516)
+
+* Thu Jun 25 2020 Scott Talbert <swt@techie.net> - 1.32.0-4
+- Modernize Python packaging; BR setuptools
+
 * Fri May 29 2020 Charalampos Stratakis <cstratak@redhat.com> - 1.32.0-3
 - Drop manual requires on python3-pytest to support usage with pytest4 compat package
 

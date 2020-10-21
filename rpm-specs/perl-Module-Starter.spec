@@ -1,12 +1,14 @@
 Name:           perl-Module-Starter
 Epoch:          1
-Version:        1.76
-Release:        5%{?dist}
+Version:        1.77
+Release:        1%{?dist}
 Summary:        A simple starter kit for any module
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Module-Starter
 Source0:        https://cpan.metacpan.org/authors/id/D/DB/DBOOK/Module-Starter-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
+BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
@@ -15,22 +17,21 @@ BuildRequires:  perl(warnings)
 # Run-time:
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(Cwd)
-BuildRequires:  perl(ExtUtils::Command)
 BuildRequires:  perl(ExtUtils::Manifest)
+BuildRequires:  perl(File::Path)
 BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(Getopt::Long)
 BuildRequires:  perl(Module::Runtime)
-BuildRequires:  perl(Pod::Usage)
+BuildRequires:  perl(Pod::Usage) >= 1.21
 # Software::LicenseUtils version from Software::License in META
 BuildRequires:  perl(Software::LicenseUtils) >= 0.103005
 # Tests:
 # base not used
 BuildRequires:  perl(File::Basename)
 BuildRequires:  perl(File::Find)
-BuildRequires:  perl(File::Path)
 # File::Temp not used
 BuildRequires:  perl(parent)
-BuildRequires:  perl(Test::More)
+BuildRequires:  perl(Test::More) >= 0.94
 BuildRequires:  perl(version) >= 0.77
 Requires:  perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:  perl(ExtUtils::Manifest)
@@ -77,6 +78,12 @@ make test
 
 
 %changelog
+* Mon Sep 07 2020 Petr Pisar <ppisar@redhat.com> - 1:1.77-1
+- 1.77 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.76-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:1.76-5
 - Perl 5.32 rebuild
 

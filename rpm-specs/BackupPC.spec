@@ -10,7 +10,7 @@
 
 Name:           BackupPC
 Version:        4.4.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        High-performance backup system
 
 License:        GPLv2+
@@ -58,7 +58,12 @@ Requires:       perl(Net::FTP::AutoReconnect)
 Requires:       perl(Net::FTP::RetrHandle)
 
 Requires:       bzip2
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:       webserver
+Recommends:     httpd
+%else
 Requires:       httpd
+%endif
 Requires:       iputils
 Requires:       openssh-clients
 %if ! 0%{?el6}
@@ -323,6 +328,9 @@ fi
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Richard Shaw <hobbes1069@gmail.com> - 4.4.0-1
 - Update to 4.4.0.
 

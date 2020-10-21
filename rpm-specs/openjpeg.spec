@@ -2,14 +2,14 @@
 # use cmake-buildsys, else autofoo
 # will probably rip this macro out soon, did so to help make
 # upstreamable patches -- Rex
-%global cmake_build 1
+%global use_cmake 1
 
 # enable conformance tests
 #global runcheck 1
 
 Name:    openjpeg
 Version: 1.5.1
-Release: 25%{?dist}
+Release: 28%{?dist}
 Summary: JPEG 2000 command line tools
 
 License: BSD
@@ -56,7 +56,7 @@ Patch203: openjpeg-1.5.1-CVE-2013-1447.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1037948
 Patch204: openjpeg-1.5.1-CVE-2013-6887.patch
 
-%if 0%{?cmake_build}
+%if 0%{?use_cmake}
 BuildRequires: cmake
 %else
 BuildRequires: automake libtool
@@ -102,7 +102,7 @@ BuildArch: noarch
 %patch1 -p1 -b .soname
 %patch2 -p1 -b .offset
 
-%if 0%{?cmake_build}
+%if 0%{?use_cmake}
 %patch50 -p1 -b .cmake_libdir
 %else
 autoreconf -i -f
@@ -127,20 +127,16 @@ autoreconf -i -f
 
 %{?runcheck:export OPJ_DATA_ROOT=$(pwd)/data}
 
-%if 0%{?cmake_build}
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake} \
+%if 0%{?use_cmake}
+%cmake \
   -DBUILD_DOC:BOOL=ON \
   -DBUILD_SHARED_LIBS:BOOL=ON \
   -DBUILD_MJ2:BOOL=ON \
   %{?runcheck:-DBUILD_TESTING:BOOL=ON} \
   -DCMAKE_BUILD_TYPE=Release \
-  -DOPENJPEG_INSTALL_LIB_DIR:PATH=%{_lib} \
-   ..
-popd
+  -DOPENJPEG_INSTALL_LIB_DIR:PATH=%{_lib}
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 %else
 %configure \
@@ -152,8 +148,8 @@ popd
 
 
 %install
-%if 0%{?cmake_build}
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%if 0%{?use_cmake}
+%cmake_install
 %else
 %make_install
 %endif
@@ -202,15 +198,25 @@ test -f %{buildroot}%{_includedir}/openjpeg.h
 %{_libdir}/libopenjpeg.so
 %{_libdir}/pkgconfig/libopenjpeg.pc
 %{_libdir}/pkgconfig/libopenjpeg1.pc
-%if 0%{?cmake_build}
+%if 0%{?use_cmake}
 %{_libdir}/openjpeg-1.5/
 %endif
 
 #files devel-docs
-%doc %{?cmake_build:%{_target_platform}/}doc/html/
+%doc %{?use_cmake:%{_target_platform}/}doc/html/
 
 
 %changelog
+* Mon Aug 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.5.1-28
+- use new cmake macros, FTBFS (#1865158)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-27
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

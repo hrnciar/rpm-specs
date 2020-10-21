@@ -1,6 +1,6 @@
 Name:           perl-MooX-Locale-Passthrough
 Version:        0.001
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Provide API used in translator modules without translating
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/MooX-Locale-Passthrough
@@ -50,6 +50,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.001-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.001-10
 - Perl 5.32 rebuild
 

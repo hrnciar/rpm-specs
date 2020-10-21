@@ -1,7 +1,7 @@
 %global gitexecdir %{_libexecdir}/git-core
 
 Name:           git-filter-repo
-Version:        2.27.0
+Version:        2.28.0
 Release:        1%{?dist}
 Summary:        Quickly rewrite git repository history (git-filter-branch replacement)
 License:        MIT
@@ -51,6 +51,12 @@ install -m 0644 Documentation/man1/git-filter-repo.1 %{buildroot}%{_mandir}/man1
 %{_mandir}/man1/git-filter-repo.1*
 
 %changelog
+* Thu Aug 06 2020 Andreas Schneider <asn@redhat.com> - 2.28.0-1
+- Update to version 2.28.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.27.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Andreas Schneider <asn@redhat.com> - 2.27.0-1
 - Update to version 2.27.0
 

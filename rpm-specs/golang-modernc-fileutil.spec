@@ -19,13 +19,15 @@ Package fileutil collects some file utility functions.}
 %global godocs          AUTHORS CONTRIBUTORS README
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        File utility functions in Go
 
 # Upstream license specification: BSD-3-Clause
 License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15:
+Patch0:         0001-Fix-Error-message-in-falloc-error.go.patch
 
 BuildRequires:  golang(modernc.org/mathutil)
 
@@ -36,6 +38,7 @@ BuildRequires:  golang(modernc.org/mathutil)
 
 %prep
 %goprep
+%patch0 -p1
 
 %install
 %gopkginstall
@@ -48,6 +51,13 @@ BuildRequires:  golang(modernc.org/mathutil)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 06 02:25:05 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-4.20200206gitb2535a3
 - Bump to commit b2535a37172bf4601ebc9f64b3a0cbe5782c8e76
 

@@ -1,7 +1,7 @@
 %global         forgeurl https://github.com/osbuild/osbuild
 %global         selinuxtype targeted
 
-Version:        18
+Version:        22
 
 %forgemeta
 
@@ -23,6 +23,7 @@ BuildRequires:  python3-devel
 BuildRequires:  python3-docutils
 
 Requires:       bash
+Requires:       bubblewrap
 Requires:       coreutils
 Requires:       curl
 Requires:       dnf
@@ -31,7 +32,6 @@ Requires:       glibc
 Requires:       policycoreutils
 Requires:       qemu-img
 Requires:       systemd
-Requires:       systemd-container
 Requires:       tar
 Requires:       util-linux
 Requires:       python3-%{pypi_name} = %{version}-%{release}
@@ -171,6 +171,28 @@ fi
 %selinux_relabel_post -s %{selinuxtype}
 
 %changelog
+* Mon Oct 12 2020 Christian Kellner <ckellner@redhat.com> - 22-1
+- Upstream release 22
+
+* Thu Sep 10 2020 Christian Kellner <ckellner@redhat.com> - 21-1
+- Upstream reelase 21
+
+* Thu Aug 13 2020 Christian Kellner <ckellner@redhat.com> - 20-1
+- Upstream reelase 20
+
+* Fri Aug  7 2020 Christian Kellner <ckellner@redhat.com> - 19-1
+- Upstream release 19
+- Drop no-floats-in-sources.patch included in release 19
+- bubblewrap replaced systemd-nspawn for sandboxing; change the
+  requirements accordingly.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 18-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Christian Kellner <ckellner@redhat.com> - 18-2
+- Add patch to not pass floats to curl in the files source
+  https://github.com/osbuild/osbuild/pull/459
+
 * Tue Jun 23 2020 Christian Kellner <ckellner@redhat.com> - 18-1
 - Upstream release 18
 - All RHEL runners now use platform-python.

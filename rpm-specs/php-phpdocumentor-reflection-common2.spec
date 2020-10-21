@@ -10,16 +10,16 @@
 
 %global github_owner     phpDocumentor
 %global github_name      ReflectionCommon
-%global github_version   2.1.0
-%global github_commit    6568f4687e5b41b054365f9ae03fcb1ed5f2069b
+%global github_version   2.2.0
+%global github_commit    1d01c49d4ed62f25aa84a747ad35d5a16924662b
 
 %global composer_vendor  phpdocumentor
 %global composer_project reflection-common
 
 %global major            2
 
-# "php": ">=7.1"
-%global php_min_ver 7.1
+# "php": "^7.2 || ^8.0"
+%global php_min_ver 7.2
 
 # Build using "--without tests" to disable tests
 %global with_tests 0%{!?_without_tests:1}
@@ -28,7 +28,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}%{major}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       Common reflection classes used by phpdocumentor
 
 Group:         Development/Libraries
@@ -91,7 +91,7 @@ touch vendor/autoload.php
 
 : Upstream tests
 RETURN_CODE=0
-for PHP_EXEC in php php71 php72 php73 php74 php80; do
+for PHP_EXEC in php php72 php73 php74 php80; do
     if which $PHP_EXEC; then
         $PHP_EXEC -d auto_prepend_file=$BOOTSTRAP \
             %{_bindir}/phpunit6 --verbose || RETURN_CODE=1
@@ -120,6 +120,13 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Remi Collet <remi@remirepo.net> - 2.2.0-1
+- update to 2.2.0
+- raise dependency on PHP 7.2
+
 * Mon Apr 27 2020 Remi Collet <remi@remirepo.net> - 2.1.0-1
 - update to 2.1.0
 

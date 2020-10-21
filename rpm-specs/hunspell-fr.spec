@@ -1,7 +1,7 @@
 Name: hunspell-fr
 Summary: French hunspell dictionaries
 Version: 6.2
-Release: 5%{?dist}
+Release: 6%{?dist}
 Source: http://www.dicollecte.org/download/fr/hunspell-french-dictionaries-v%{version}.zip
 URL: http://www.dicollecte.org/home.php?prj=fr
 License: MPLv2.0
@@ -37,6 +37,9 @@ popd
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

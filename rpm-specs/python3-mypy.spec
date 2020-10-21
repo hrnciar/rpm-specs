@@ -1,5 +1,5 @@
 Name:           python3-mypy
-Version:        0.782
+Version:        0.790
 Release:        1%{?dist}
 Summary:        A static type checker for Python
 %{?python_provide:%python_provide python3-mypy}
@@ -71,6 +71,12 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} \
 %{_mandir}/man1/stubgen.1*
 
 %changelog
+* Sat Oct 10 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.790-1
+- 0.790
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.782-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.782-1
 - 0.782
 

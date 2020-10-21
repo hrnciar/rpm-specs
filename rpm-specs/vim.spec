@@ -1,4 +1,4 @@
-%define patchlevel 1009
+%define patchlevel 1815
 %if %{?WITH_SELINUX:0}%{!?WITH_SELINUX:1}
 %define WITH_SELINUX 1
 %endif
@@ -21,7 +21,7 @@ Summary: The VIM editor
 URL:     http://www.vim.org/
 Name: vim
 Version: %{baseversion}.%{patchlevel}
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: Vim and MIT
 Source0: ftp://ftp.vim.org/pub/vim/unix/vim-%{baseversion}-%{patchlevel}.tar.bz2
 Source1: vim.sh
@@ -37,8 +37,10 @@ Source13: vim-spell-files.tar.bz2
 %endif
 Source14: spec-template.new
 Source15: macros.vim
-#Source17: ftplugin-spec.vim
-#Source18: syntax-spec.vim
+Source16: vim-default-editor.sh
+Source17: vim-default-editor.csh
+Source18: vim-default-editor.fish
+Source19: vim.fish
 
 Patch2002: vim-7.0-fixkeys.patch
 Patch2003: vim-7.4-specsyntax.patch
@@ -97,8 +99,8 @@ Summary: The common files needed by any version of the VIM editor
 Conflicts: man-pages-fr < 0.9.7-14
 Conflicts: man-pages-it < 0.3.0-17
 Conflicts: man-pages-pl < 0.24-2
-Requires: %{name}-filesystem
 Conflicts: %{name}-minimal < %{epoch}:8.1.1-1
+Requires: %{name}-filesystem
 
 %description common
 VIM (VIsual editor iMproved) is an updated and improved version of the
@@ -121,10 +123,12 @@ many different languages.
 
 %package minimal
 Summary: A minimal version of the VIM editor
-Provides: vi
-Provides: %{_bindir}/vi
 # conflicts in package because of manpage move (bug #1599663)
 Conflicts: %{name}-common < %{epoch}:8.1.1-1
+# now vim-minimal ships vim.sh, vim.csh and vim.fish too, so we need to conflict
+Conflicts: vim-enhanced < 2:8.2.1815-2
+Provides: vi
+Provides: %{_bindir}/vi
 
 %description minimal
 VIM (VIsual editor iMproved) is an updated and improved version of the
@@ -137,10 +141,15 @@ only available when the vim-common package is installed.
 
 %package enhanced
 Summary: A version of the VIM editor which includes recent enhancements
-Requires: vim-common = %{epoch}:%{version}-%{release} which
+# now vim-minimal ships vim.sh, vim.csh and vim.fish too, so we need to conflict
+Conflicts: vim-minimal < 2:8.2.1815-2
+# vim bundles libvterm, which is used during build - so we need to provide
+# bundled libvterm for catching possible libvterm CVEs
+Provides: bundled(libvterm)
 Provides: vim
 Provides: %{_bindir}/mergetool
 Provides: %{_bindir}/vim
+Requires: vim-common = %{epoch}:%{version}-%{release} which
 # suggest python3, python2, lua, ruby and perl packages because of their 
 # embedded functionality in Vim/GVim
 Suggests: python3 python3-libs
@@ -151,9 +160,6 @@ Suggests: ruby-libs ruby
 %if "%{withlua}" == "1"
 Suggests: lua-libs
 %endif
-# vim bundles libvterm, which is used during build - so we need to provide
-# bundled libvterm for catching possible libvterm CVEs
-Provides: bundled(libvterm)
 
 %description enhanced
 VIM (VIsual editor iMproved) is an updated and improved version of the
@@ -180,18 +186,20 @@ packages that add vim files, p.e.  additional syntax files or filetypes.
 Summary: The VIM version of the vi editor for the X Window System - GVim
 # needed in configure script to have correct macros enabled for GUI (#1603272)
 BuildRequires: gtk3-devel
+BuildRequires: libappstream-glib
+# for sound support
+BuildRequires: libcanberra-devel
 BuildRequires: libX11-devel
 BuildRequires: libSM-devel
 BuildRequires: libXt-devel
 BuildRequires: libXpm-devel
 BuildRequires: libICE-devel
 
-Requires: vim-common = %{epoch}:%{version}-%{release} libattr >= 2.4 gtk3 
 Provides: gvim
 Provides: %{_bindir}/mergetool
 Provides: %{_bindir}/gvim
-BuildRequires: gtk3-devel libSM-devel libXt-devel libXpm-devel libappstream-glib
 Requires: hicolor-icon-theme
+Requires: vim-common = %{epoch}:%{version}-%{release} libattr >= 2.4 gtk3 
 # suggest python3, python2, lua, ruby and perl packages because of their 
 # embedded functionality in Vim/GVim
 Suggests: python3 python3-libs
@@ -216,6 +224,18 @@ Install the vim-X11 package if you'd like to try out a version of vi
 with graphics and mouse capabilities.  You'll also need to install the
 vim-common package.
 
+%package default-editor
+Summary: Set vim as the default editor
+BuildArch: noarch
+Conflicts: system-default-editor
+# conflict with nano-default-editor which doesn't provide system-default-editor
+Conflicts: nano-default-editor < 5.3-3
+Provides: system-default-editor
+Requires: vim-enhanced
+
+%description default-editor
+This subpackage contains files needed to set Vim as the default editor.
+
 %prep
 %setup -q -b 0 -n %{vimdir}
 
@@ -237,7 +257,7 @@ perl -pi -e "s,bin/nawk,bin/awk,g" runtime/tools/mve.awk
 %endif
 
 %patch3000 -p1
-%patch3002 -p1
+%patch3002 -p1 -b .nowarnings
 %patch3004 -p1
 %patch3007 -p1 -b .fstabsyntax
 %patch3008 -p1 -b .syncolor
@@ -250,10 +270,6 @@ perl -pi -e "s,bin/nawk,bin/awk,g" runtime/tools/mve.awk
 %patch3018 -p1
 
 %build
-%if 0%{?rhel} > 7
-export RHEL_ALLOW_PYTHON2_FOR_BUILD=1
-%endif
-
 cd src
 autoconf
 
@@ -292,20 +308,15 @@ perl -pi -e "s/vimrc/virc/"  os_unix.h
   --with-compiledby="<bugzilla@redhat.com>" \
   --with-modified-by="<bugzilla@redhat.com>" \
   --enable-fips-warning \
-  --enable-fail-if-missing
+  --enable-fail-if-missing \
+  --disable-canberra
 
-make VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/%{vimdir} %{?_smp_mflags}
+%make_build VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/%{vimdir}
 cp vim minimal-vim
 make clean
 
 mv -f os_unix.h.save os_unix.h
 mv -f ex_cmds.c.save ex_cmds.c
-
-%if 0%{?fedora} > 31
-export LDFLAGS="%{build_ldflags} $(python3-config --libs --embed)"
-%else
-export LDFLAGS="%{build_ldflags} $(python3-config --libs)"
-%endif
 
 # More configure options:
 # --enable-xim - enabling X Input Method - international input module for X,
@@ -342,9 +353,10 @@ export LDFLAGS="%{build_ldflags} $(python3-config --libs)"
 %else
   --disable-luainterp \
 %endif
-  --enable-fail-if-missing
+  --enable-fail-if-missing \
+  --enable-canberra
 
-make VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/%{vimdir} %{?_smp_mflags}
+%make_build VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/%{vimdir}
 cp vim gvim
 make clean
 
@@ -378,9 +390,10 @@ make clean
 %else
   --disable-luainterp \
 %endif
-  --enable-fail-if-missing
+  --enable-fail-if-missing \
+  --disable-canberra
 
-make VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/%{vimdir} %{?_smp_mflags}
+%make_build VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/%{vimdir}
 cp vim enhanced-vim
 
 %install
@@ -397,7 +410,7 @@ cd src
 # Adding STRIP=/bin/true, because Vim wants to strip the binaries by himself
 # and put the stripped files into correct dirs. Build system (koji/brew) 
 # does it for us, so there is no need to do it in Vim
-make install DESTDIR=%{buildroot} BINDIR=%{_bindir} VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/%{vimdir} STRIP=/bin/true
+%make_install BINDIR=%{_bindir} VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/%{vimdir} STRIP=/bin/true
 make installgtutorbin  DESTDIR=%{buildroot} BINDIR=%{_bindir} VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/%{vimdir}
 mkdir -p %{buildroot}%{_datadir}/icons/hicolor/{16x16,32x32,48x48,64x64}/apps
 install -m755 minimal-vim %{buildroot}%{_bindir}/vi
@@ -468,6 +481,9 @@ EOF
   rm -f .%{_mandir}/man1/rvim.1
   cp -p .%{_mandir}/man1/vim.1 .%{_mandir}/man1/vi.1
   ln -sf vi.1.gz .%{_mandir}/man1/rvi.1.gz
+  ln -sf vi.1.gz .%{_mandir}/man1/ex.1
+  ln -sf vi.1.gz .%{_mandir}/man1/view.1
+  ln -sf vi.1.gz .%{_mandir}/man1/rview.1
   ln -sf vim.1.gz .%{_mandir}/man1/vimdiff.1.gz
   ln -sf gvim ./%{_bindir}/gview
   ln -sf gvim ./%{_bindir}/gex
@@ -521,9 +537,13 @@ chmod 644 %{buildroot}/%{_datadir}/%{name}/%{vimdir}/doc/vim2html.pl \
 chmod 644 ../runtime/doc/vim2html.pl
 
 mkdir -p %{buildroot}/%{_sysconfdir}/profile.d
-cp %{SOURCE1} %{buildroot}/%{_sysconfdir}/profile.d/vim.sh
-cp %{SOURCE2} %{buildroot}/%{_sysconfdir}/profile.d/vim.csh
-chmod 0644 %{buildroot}/%{_sysconfdir}/profile.d/vim.*
+install -p -m644 %{SOURCE1} %{buildroot}/%{_sysconfdir}/profile.d/vim.sh
+install -p -m644 %{SOURCE2} %{buildroot}/%{_sysconfdir}/profile.d/vim.csh
+install -p -m644 %{SOURCE16} %{buildroot}/%{_sysconfdir}/profile.d/vim-default-editor.sh
+install -p -m644 %{SOURCE17} %{buildroot}/%{_sysconfdir}/profile.d/vim-default-editor.csh
+mkdir -p %{buildroot}/%{_datadir}/fish/vendor_conf.d/
+install -p -m644 %{SOURCE18} %{buildroot}/%{_datadir}/fish/vendor_conf.d/vim-default-editor.fish
+install -p -m644 %{SOURCE19} %{buildroot}/%{_datadir}/fish/vendor_conf.d/vim.fish
 install -p -m644 %{SOURCE4} %{buildroot}/%{_sysconfdir}/virc
 install -p -m644 %{SOURCE5} %{buildroot}/%{_sysconfdir}/vimrc
 
@@ -722,6 +742,10 @@ touch %{buildroot}/%{_datadir}/%{name}/vimfiles/doc/tags
 %endif
 
 %files minimal
+%dir %{_datadir}/fish/vendor_conf.d
+%{_datadir}/fish/vendor_conf.d/vim.fish
+%dir %{_sysconfdir}/profile.d
+%config(noreplace) %{_sysconfdir}/profile.d/vim.*
 %config(noreplace) %{_sysconfdir}/virc
 %{_bindir}/ex
 %{_bindir}/vi
@@ -736,11 +760,14 @@ touch %{buildroot}/%{_datadir}/%{name}/vimfiles/doc/tags
 %{_mandir}/man5/virc.*
 
 %files enhanced
+%dir %{_datadir}/fish/vendor_conf.d
+%{_datadir}/fish/vendor_conf.d/vim.fish
+%dir %{_sysconfdir}/profile.d
+%config(noreplace) %{_sysconfdir}/profile.d/vim.*
 %{_bindir}/vim
 %{_bindir}/rvim
 %{_bindir}/vimdiff
 %{_bindir}/vimtutor
-%config(noreplace) %{_sysconfdir}/profile.d/vim.*
 
 %files filesystem
 %{_rpmconfigdir}/macros.d/macros.vim
@@ -780,10 +807,146 @@ touch %{buildroot}/%{_datadir}/%{name}/vimfiles/doc/tags
 %{_bindir}/vimx
 %{_bindir}/evim
 %{_mandir}/man1/evim.*
+%dir %{_datadir}/icons/hicolor
+%dir %{_datadir}/icons/hicolor/*
+%dir %{_datadir}/icons/hicolor/*/apps
 %{_datadir}/icons/hicolor/*/apps/*
+%dir %{_datadir}/icons/locolor
+%dir %{_datadir}/icons/locolor/*
+%dir %{_datadir}/icons/locolor/*/apps
 %{_datadir}/icons/locolor/*/apps/*
 
+%files default-editor
+%dir %{_datadir}/fish/vendor_conf.d
+%{_datadir}/fish/vendor_conf.d/vim-default-editor.fish
+%dir %{_sysconfdir}/profile.d
+%config(noreplace) %{_sysconfdir}/profile.d/vim-default-editor.*
+
 %changelog
+* Mon Oct 19 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1815-2
+- vim.sh, vim.csh, vim.fish - drop 'which', use 'command'
+
+* Thu Oct 15 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1815-2
+- vim-default-editor.fish - dont give EDITOR universal scope
+- vim.sh, vim.csh - set aliases only for OS default vi and vim
+- add fish profile for Vim
+
+* Mon Oct 12 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1815-2
+- fix installing fish profile, set virtual provide for default editor
+  (thanks Neal Gompa and Kamil Dudka)
+- set conflicts to nano-default-editor which doesnt provide system-default-editor
+
+* Fri Oct 09 2020 Paweł Marciniak <sunwire+repo@gmail.com> - 2:8.2.1815-2
+- A new subpackage, set vim as a default editor.
+
+* Fri Oct 09 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1815-1
+- patchlevel 1815
+
+* Tue Oct 06 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1805-1
+- patchlevel 1805
+
+* Tue Sep 29 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1770-1
+- patchlevel 1770
+
+* Tue Sep 15 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1687-1
+- patchlevel 1687
+
+* Thu Sep 10 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1651-1
+- patchlevel 1651
+
+* Tue Sep 08 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1634-1
+- patchlevel 1634
+
+* Mon Aug 31 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1551-1
+- patchlevel 1551
+
+* Mon Aug 31 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1522-3
+- F33 has update-testing now
+
+* Tue Aug 25 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1522-2
+- typo in vim-update.sh
+
+* Tue Aug 25 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1522-1
+- patchlevel 1522
+
+* Mon Aug 24 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1520-1
+- patchlevel 1520
+
+* Thu Aug 20 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1484-2
+- explicitly disable canberra for vi and vim
+
+* Wed Aug 19 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1484-1
+- patchlevel 1484
+
+* Tue Aug 18 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1412-2
+- F33 got branched, updates-testing isn't enabled for it yet
+- enable sounds for gvim
+
+* Mon Aug 10 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1412-1
+- patchlevel 1412
+
+* Fri Aug 07 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1382-1
+- patchlevel 1382
+
+* Wed Aug 05 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1359-2
+- own directories for icons
+
+* Mon Aug 03 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1359-1
+- patchlevel 1359
+
+* Fri Jul 31 2020 Zane Bitter <zbitter@redhat.com> - 2:8.2.1328-2
+- Alias view to "vim -R" when available
+
+* Fri Jul 31 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1328-1
+- patchlevel 1328
+
+* Wed Jul 29 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1307-2
+- 1703774 - ex, view and rview manpages were dangling symlinks
+
+* Tue Jul 28 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1307-1
+- patchlevel 1307
+
+* Fri Jul 24 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1273-2
+- vim-update.sh: bodhi no longer sets a default automatic time to stable
+
+* Thu Jul 23 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1273-1
+- patchlevel 1273
+
+* Thu Jul 23 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1224-4
+- python3 dynamic linking patch is already in upstream, remove it
+
+* Wed Jul 22 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1224-3
+- use %%make_build and %%make_install according FPG
+
+* Thu Jul 16 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1224-2
+- proper fix for python3 dynamic linking
+
+* Thu Jul 16 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1224-1
+- patchlevel 1224
+
+* Wed Jul 15 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1217-1
+- patchlevel 1217
+
+* Wed Jul 15 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1199-1
+- fix python3 dynamic linking with python >= 3.8
+- clean up unused stuff
+
+* Tue Jul 14 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1199-1
+- FTBFS with Lua - backported patch from upstream pull request to prevent linking with lua
+
+* Mon Jul 13 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1199-1
+- patchlevel 1199
+
+* Mon Jun 29 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1081-1
+- patchlevel 1081
+
+* Thu Jun 25 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1052-2
+- remove python2 stuff for RHEL
+- %%{fedora} macro is undefined in ELN, causes python3-config to use old options
+
+* Thu Jun 25 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1052-1
+- patchlevel 1052
+
 * Fri Jun 19 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2:8.2.1009-1
 - patchlevel 1009
 

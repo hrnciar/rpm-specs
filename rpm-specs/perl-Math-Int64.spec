@@ -1,6 +1,6 @@
 Name:           perl-Math-Int64
 Version:        0.54
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Manipulate 64 bits integers in Perl
 License:        (GPL+ or Artistic) and Public Domain and BSD
 URL:            https://metacpan.org/release/Math-Int64
@@ -67,6 +67,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.54-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.54-15
 - Perl 5.32 rebuild
 

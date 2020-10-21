@@ -1,6 +1,6 @@
 Name:           permlib
 Version:        0.2.9
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Library for permutation computations
 
 License:        BSD
@@ -50,8 +50,8 @@ PermLib.
 sed "s/@VERSION@/%{version}/" %{SOURCE1} > Doxyfile
 
 %build
-%cmake .
-make %{?_smp_mflags}
+%cmake
+%cmake_build
 
 # Build the documentation
 mkdir doc
@@ -68,7 +68,7 @@ mkdir -p $RPM_BUILD_ROOT%{_includedir}
 cp -a include/%{name} $RPM_BUILD_ROOT%{_includedir}
 
 %check
-ctest
+%ctest
 
 %files devel
 %doc AUTHORS CHANGELOG doc/html
@@ -76,6 +76,9 @@ ctest
 %{_includedir}/permlib
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.9-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.9-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

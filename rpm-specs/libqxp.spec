@@ -2,7 +2,7 @@
 
 Name: libqxp
 Version: 0.0.2
-Release: 7%{?dist}
+Release: 8%{?dist}
 Summary: Library for import of QuarkXPress documents
 
 License: MPLv2.0
@@ -102,6 +102,9 @@ make %{?_smp_mflags} check
 %{_mandir}/man1/qxp2text.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 16 2020 Pete Walter <pwalter@fedoraproject.org> - 0.0.2-7
 - Rebuild for ICU 67
 

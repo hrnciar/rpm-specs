@@ -3,7 +3,7 @@
 
 Name:           eclipse-mpc
 Version:        1.8.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Eclipse Marketplace Client
 
 License:        EPL-2.0
@@ -82,6 +82,9 @@ QUALIFIER=$(date -u -d"$(stat --format=%y %{SOURCE0})" +v%Y%m%d-%H%M)
 %files -f .mfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Mat Booth <mat.booth@redhat.com> - 1.8.3-1
 - Update to latest upstream release
 

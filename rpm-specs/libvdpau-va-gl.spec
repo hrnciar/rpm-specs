@@ -1,6 +1,6 @@
 Name:           libvdpau-va-gl
 Version:        0.4.2
-Release:        15%{?dist}
+Release:        18%{?dist}
 Summary:        VDPAU driver with OpenGL/VAAPI back-end
 
 License:        MIT
@@ -28,19 +28,15 @@ VDPAU driver with OpenGL/VAAPI back-end.
 
 
 %build
-mkdir -p build
-cd build
-%{cmake} \
+%cmake \
   -DCMAKE_BUILD_TYPE=RelWithDebInfo \
   -DLIB_INSTALL_DIR=%{_libdir}/vdpau \
-   ..
 
-%make_build
+%cmake_build
 
 
 %install
-cd build
-%make_install
+%cmake_install
 
 
 %files
@@ -53,6 +49,16 @@ cd build
 
 
 %changelog
+* Sun Sep 13 2020 Nicolas Chauvet <kwizart@gmail.com> - 0.4.2-18
+- rebuilt
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-17
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 04 2020 Nicolas Chauvet <kwizart@gmail.com> - 0.4.2-15
 - Rebuilt for libva-2.7.0
 

@@ -1,10 +1,6 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:          sugar-paint
 Version:       70
-Release:       3%{?dist}
+Release:       5%{?dist}
 Summary:       Paint activity for Sugar
 License:       GPLv2
 URL:           http://wiki.sugarlabs.org/go/Activities/Paint
@@ -30,7 +26,7 @@ to express themselves creatively through drawing.
 rm -rf fill/linux* fill/arm*
 
 %build
-make %{?_smp_mflags} V=1 -C fill LD=%{__cc}
+%{make_build} -C fill LD=%{__cc}
 python3 ./setup.py build
 
 %install
@@ -42,6 +38,9 @@ python3 ./setup.py install --prefix=%{buildroot}/%{_prefix}
 rm -rf %{buildroot}%{sugaractivitydir}Paint.activity/fill
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}%{_datadir}/{sugaractivitydir}/Paint.activity/
+
 %find_lang org.laptop.Oficina
 
 %files -f org.laptop.Oficina.lang
@@ -52,6 +51,13 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 70-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 70-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 70-3
 - Rebuilt for Python 3.9
 

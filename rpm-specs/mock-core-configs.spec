@@ -1,8 +1,5 @@
-# mock group id allocate for Fedora
-%global mockgid 135
-
 Name:       mock-core-configs
-Version:    32.6
+Version:    33
 Release:    1%{?dist}
 Summary:    Mock core config files basic chroots
 
@@ -21,9 +18,10 @@ BuildArch:  noarch
 Provides: mock-configs
 
 # distribution-gpg-keys contains GPG keys used by mock configs
-Requires:   distribution-gpg-keys >= 1.36
+Requires:   distribution-gpg-keys >= 1.41
 # specify minimal compatible version of mock
-Requires:   mock >= 2.2
+Requires:   mock >= 2.5
+Requires:   mock-filesystem
 
 Requires(post): coreutils
 %if 0%{?fedora} || 0%{?mageia} || 0%{?rhel} > 7
@@ -100,12 +98,8 @@ fi
 # reference valid mock.rpm's docdir with example site-defaults.cfg
 mock_docs=%{_pkgdocdir}
 mock_docs=${mock_docs//mock-core-configs/mock}
+mock_docs=${mock_docs//-%version/-*}
 sed -i "s~@MOCK_DOCS@~$mock_docs~" %{buildroot}%{_sysconfdir}/mock/site-defaults.cfg
-
-%pre
-# check for existence of mock group, create it if not found
-getent group mock > /dev/null || groupadd -f -g %mockgid -r mock
-exit 0
 
 %post
 if [ -s /etc/os-release ]; then
@@ -147,12 +141,25 @@ fi
 
 %files -f %{name}.cfgs
 %license COPYING
-%dir  %{_sysconfdir}/mock
-%dir  %{_sysconfdir}/mock/eol
-%dir  %{_sysconfdir}/mock/templates
 %ghost %config(noreplace,missingok) %{_sysconfdir}/mock/default.cfg
 
 %changelog
+* Thu Sep 03 2020 Pavel Raiskup <praiskup@redhat.com> 33-1
+- bump version to 33, as we already ship F33 configs
+- because of the mock-filesystem change, depend on mock 2.5
+
+* Thu Sep 03 2020 Pavel Raiskup <praiskup@redhat.com> 32.8-1
+- set the DNF user_agent in dnf.conf (msuchy@redhat.com)
+- add Fedora ELN configs
+- introduce mock-filesystem subpackage (msuchy@redhat.com)
+
+* Thu Aug 06 2020 Pavel Raiskup <praiskup@redhat.com> 32.7-1
+- add branched Fedora 33 configs
+- eol Fedora 30
+- tolerate a 1-minute baseurl outages in OpenSUSE configs
+- fix site-defaults.cfg reference to docs
+- change all openSUSE configs to use the download redirector (baseurl)
+
 * Wed Apr 01 2020 Pavel Raiskup <praiskup@redhat.com> 32.6-1
 - the site-defaults.cfg file moved from mock to mock-core-configs
 - new option config_opts['isolation'], obsoletes 'use_nspawn'

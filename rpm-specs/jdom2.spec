@@ -1,6 +1,6 @@
 Name:          jdom2
 Version:       2.0.6
-Release:       16%{?dist}
+Release:       20%{?dist}
 Summary:       Java manipulation of XML made easy
 License:       Saxpath
 URL:           http://www.jdom.org/
@@ -17,6 +17,7 @@ Source4:       generate-tarball.sh
 # Disable gpg signatures
 # Process contrib and junit pom files
 Patch0:        0001-Adapt-build.patch
+Patch1:        0002-More-adapt-build-javac-1.8.patch
 
 BuildRequires: javapackages-local
 BuildRequires: ant
@@ -25,7 +26,6 @@ BuildRequires: jaxen
 BuildRequires: xalan-j2
 BuildRequires: xerces-j2
 BuildRequires: xml-commons-apis
-BuildRequires: log4j12
 BuildRequires: aqute-bnd
 
 BuildArch:     noarch
@@ -51,6 +51,7 @@ This package contains javadoc for %{name}.
 %setup -q -n jdom-JDOM-%{version}
 
 %patch0 -p1
+%patch1 -p1
 
 cp -p %{SOURCE1} maven/contrib.pom
 cp -p %{SOURCE2} maven/junit.pom
@@ -88,6 +89,18 @@ mv build/package/jdom-%{version}.bar build/package/jdom-%{version}.jar
 %license LICENSE.txt
 
 %changelog
+* Thu Sep 10 2020 Fabio Valentini <decathorpe@gmail.com> - 2.0.6-20
+- Drop log4j12 dependency and switch junit module to log4j 1.2 API shim.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.6-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 19 2020 Fabio Valentini <decathorpe@gmail.com> - 2.0.6-18
+- Set javac source and target to 1.8 to fix Java 11 builds.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.0.6-17
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu May 07 2020 Fabio Valentini <decathorpe@gmail.com> - 2.0.6-16
 - Drop optional isorelax verifier support from contrib.
 

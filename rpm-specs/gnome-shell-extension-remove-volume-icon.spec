@@ -3,7 +3,7 @@
 
 Name:           gnome-shell-extension-remove-volume-icon
 Version:        0.5.1
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        A gnome-shell extension for removing the volume icon
 
 License:        GPLv3+
@@ -32,6 +32,9 @@ make install DESTDIR=%{buildroot}
 %{_datadir}/gnome-shell/extensions/%{uuid}/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

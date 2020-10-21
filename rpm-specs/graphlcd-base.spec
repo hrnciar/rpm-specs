@@ -2,12 +2,11 @@
 
 Summary:        GraphLCD drivers and tools
 Name:           %shortname-base
-Version:        1.0.2
-Release:        7%{?dist}
+Version:        2.0.0
+Release:        2%{?dist}
 License:        GPLv2+
 URL:            http://projects.vdr-developer.org/projects/graphlcd
 Source0:        https://projects.vdr-developer.org/git/%{name}.git/snapshot/%{name}-%{version}.tar.bz2
-Patch0:         %{name}-no-io.h.patch
 BuildRequires:  gcc-c++
 BuildRequires:  freetype-devel
 BuildRequires:  fontconfig-devel
@@ -173,6 +172,15 @@ install -m644 graphlcd.conf %{buildroot}%{_sysconfdir}
 
 
 %changelog
+* Fri Aug 28 2020 Martin Gansser <martinkg@fedoraproject.org> - 2.0.0-2
+- Rebuilt for new VDR API version
+
+* Sat Aug 15 2020 Martin Gansser <martinkg@fedoraproject.org> - 2.0.0-1
+- Update to 2.0.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

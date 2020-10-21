@@ -1,11 +1,12 @@
 %global nightly 20150709
+%global _legacy_common_support 1
 
 Name: z88dk
 # We use post-release snapshot versioning, because the source code has no idea
 # what version it is supposed to be. (README.1st still claims to be from version
 # 1.9 when they already released 1.10 and 1.10.1.)
 Version: 1.10.1
-Release: 17%{?nightly:.%{nightly}cvs}%{?dist}
+Release: 20%{?nightly:.%{nightly}cvs}%{?dist}
 Summary: A Z80 cross compiler
 License: Artistic clarified
 URL: http://www.z88dk.org/
@@ -87,6 +88,16 @@ cp -p netman/man3z/* %{buildroot}%{_mandir}/man3z
 %{_mandir}/man3z/
 
 %changelog
+* Mon Aug 03 2020 Kevin Kofler <Kevin@tigcc.ticalc.org> - 1.10.1-20.20150709cvs
+- enable common symbols to fix FTBFS (#1800290)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.1-19.20150709cvs
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.1-18.20150709cvs
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.1-17.20150709cvs
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

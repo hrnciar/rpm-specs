@@ -2,8 +2,8 @@
 %global module_name caller-path
 
 Name:           nodejs-%{module_name}
-Version:        2.0.0
-Release:        10%{?dist}
+Version:        3.0.0
+Release:        1%{?dist}
 Summary:        Get the path of the caller module
 
 License:        MIT
@@ -52,6 +52,12 @@ mocha
 %{nodejs_sitelib}/%{module_name}
 
 %changelog
+* Thu Aug 20 2020 Fabian Affolter <mail@fabian-affolter.ch> - 3.0.0-1
+- Update to latest upstream release 3.0.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

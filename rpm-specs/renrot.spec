@@ -1,6 +1,6 @@
 Name:		renrot
 Version:	1.2.0
-Release:	12%{?dist}
+Release:	13%{?dist}
 Summary:	A program to rename and rotate files according to EXIF tags
 
 License:	Artistic 2.0	  
@@ -78,6 +78,9 @@ make test
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.2.0-12
 - Perl 5.32 rebuild
 

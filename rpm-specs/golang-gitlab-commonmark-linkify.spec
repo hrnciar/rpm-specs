@@ -4,7 +4,7 @@
 # https://gitlab.com/golang-commonmark/linkify
 %global goipath         gitlab.com/golang-commonmark/linkify
 %global forgeurl        https://gitlab.com/golang-commonmark/linkify
-%global commit          c22b7bdb117955ff2cc0e3724083d35e3419d71e
+%global commit          64bca66f6ad31f726def3d4a5ebc0d947fa875d7
 
 %gometa
 
@@ -18,7 +18,7 @@ Package linkify provides a way to find what looks like links in plain text.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Find what looks like links in plain text
 
 # Upstream license specification: BSD-2-Clause
@@ -59,6 +59,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 13:26:08 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200805git64bca66
+- Bump to commit 64bca66f6ad31f726def3d4a5ebc0d947fa875d7
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

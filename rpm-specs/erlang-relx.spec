@@ -3,7 +3,7 @@
 
 Name:     erlang-%{realname}
 Version:  3.32.1
-Release:  3%{?dist}
+Release:  4%{?dist}
 BuildArch: noarch
 Summary:  Release assembler for Erlang/OTP Releases
 License:  ASL 2.0
@@ -53,6 +53,9 @@ rm test/rlx_depsolver_tester.erl
 %{erlang_appdir}/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.32.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.32.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

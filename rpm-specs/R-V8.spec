@@ -1,15 +1,17 @@
 %global packname V8
-%global packver  3.1.0
+%global packver  3.2.0
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          3.1.0
-Release:          2%{?dist}
+Version:          3.2.0
+Release:          3%{?dist}
 Summary:          Embedded JavaScript and WebAssembly Engine for R
 
 License:          MIT
 URL:              https://CRAN.R-project.org/package=%{packname}
 Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
+# https://github.com/jeroen/V8/pull/98
+Patch0001:        0001-Fix-check-for-pointer-compression.patch
 
 # nodejs does not build on all arches
 ExclusiveArch:    %{nodejs_arches}
@@ -46,6 +48,10 @@ An R interface to V8: Google's open source JavaScript and WebAssembly engine.
 
 %prep
 %setup -q -c -n %{packname}
+
+pushd %{packname}
+%patch0001 -p1
+popd
 
 
 %build
@@ -88,6 +94,22 @@ export LANG=C.UTF-8
 
 
 %changelog
+* Sat Sep 12 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 3.2.0-3
+- Fix checks for pointer compression, fixing build on s390x
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 3.2.0-1
+- Update to latest version
+
+* Wed Jul  8 2020 Dennis Gilmore <dennis@ausil.us> - 3.1.0-3
+- Rebuild for nodejs deps
+
 * Sat Jun  6 2020 Tom Callaway <spot@fedoraproject.org> - 3.1.0-2
 - rebuild for R 4
 

@@ -3,7 +3,7 @@
 
 Name:		emacs-%{pkg}
 Version:	0.7.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Treats undo history as a tree of changes
 
 License:	GPLv3+
@@ -46,6 +46,9 @@ cp -p *.el *.elc $RPM_BUILD_ROOT%{_emacs_sitelispdir}/%{pkg}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

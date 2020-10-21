@@ -1,6 +1,6 @@
 Name:           netpanzer
 Version:        0.8.7
-Release:        14%{?dist}
+Release:        16%{?dist}
 Summary:        An Online Multiplayer Tactical Warfare Game
 
 License:        GPLv2+
@@ -37,7 +37,7 @@ time.
 rm -r src/Lib/lua src/Lib/physfs
 
 %build
-CCFLAGS="%{optflags}" scons datadir=%{_datadir}/netpanzer %{?_smp_mflags}
+CCFLAGS="%{optflags} -std=c++14" scons datadir=%{_datadir}/netpanzer %{?_smp_mflags}
 
 
 %install
@@ -109,6 +109,12 @@ EOF
 %{_datadir}/netpanzer
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.7-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 0.8.7-15
+- Use C++14 as this code is not C++17 ready
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.7-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

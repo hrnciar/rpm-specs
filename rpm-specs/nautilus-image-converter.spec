@@ -1,6 +1,6 @@
 Name:           nautilus-image-converter
 Version:        0.3.1
-Release:        0.19.git430afce31%{?dist}
+Release:        0.20.git430afce31%{?dist}
 Summary:        Nautilus extension to mass resize images
 
 License:        GPLv2+
@@ -54,6 +54,9 @@ cp -a %SOURCE1 $RPM_BUILD_ROOT%{_datadir}/appdata
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-0.20.git430afce31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-0.19.git430afce31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

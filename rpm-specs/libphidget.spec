@@ -1,6 +1,6 @@
 Name:           libphidget
 Version:        2.1.8.20140319
-Release:        13%{?dist}
+Release:        15%{?dist}
 Summary:        Drivers and API for Phidget devices
 
 License:        LGPLv3
@@ -88,6 +88,12 @@ install -p -m 0644 udev/99-phidgets.rules $RPM_BUILD_ROOT/lib/udev/rules.d/99-ph
 %{_jnidir}/phidget.jar
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.8.20140319-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 2.1.8.20140319-14
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.8.20140319-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

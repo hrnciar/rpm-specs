@@ -3,7 +3,7 @@
 
 # https://github.com/Azure/go-ntlmssp
 %global goipath         github.com/Azure/go-ntlmssp
-%global commit          2b2be6cc8ed4447c970df46eed569febe2fce58f
+%global commit          66371956d46c8e2133a2b72b3d320e435465011f
 
 %gometa
 
@@ -15,7 +15,7 @@ NTLM/Negotiate authentication over HTTP.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.1%{?dist}
+Release:        0.3%{?dist}
 Summary:        NTLM/Negotiate authentication over HTTP
 
 License:        MIT
@@ -43,6 +43,11 @@ BuildRequires:  golang(golang.org/x/crypto/md4)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 22:15:57 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.2.20200723git6637195
+- Bump to commit 66371956d46c8e2133a2b72b3d320e435465011f
+
 * Mon Apr 06 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0-0.1.20200406git2b2be6c
 - Initial package
-

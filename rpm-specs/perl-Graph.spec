@@ -3,7 +3,7 @@
 Name:           perl-Graph
 # Keep 2-digit precision
 Version:        %(echo '%{cpan_version}' | sed 's/\(\...\)\(.\)/\1.\2/')
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Perl module for dealing with graphs, the abstract data structures
 
 License:        GPL+ or Artistic
@@ -84,6 +84,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.97.04-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.97.04-14
 - Perl 5.32 rebuild
 

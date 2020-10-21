@@ -4,7 +4,7 @@
 
 Name:           alliance
 Version:        5.1.1
-Release:        18.%{snapdate}git%{shortcommit}%{?dist}
+Release:        22.%{snapdate}git%{shortcommit}%{?dist}
 Summary:        VLSI EDA System
 License:        GPLv2
 URL:            https://soc-extras.lip6.fr/en/alliance-abstract-en/
@@ -44,7 +44,6 @@ BuildRequires:  byacc
 BuildRequires:  desktop-file-utils
 BuildRequires:  flex
 BuildRequires:  libstdc++-devel
-BuildRequires:  libXp-devel
 BuildRequires:  libXpm-devel
 BuildRequires:  libXt-devel
 BuildRequires:  m4
@@ -190,6 +189,7 @@ find documentation/tutorials/ \
 popd > /dev/null
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 pushd src > /dev/null
 %configure --enable-alc-shared             \
            --disable-static                \
@@ -304,6 +304,19 @@ source %{_sysconfdir}/profile.d/alc_env.sh
 
 
 %changelog
+* Wed Sep 30 2020 Adam Jackson <ajax@redhat.com> - 5.1.1-22.20160506gitd8c05cd
+- Remove unused BuildRequires: libXp-devel
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.1-21.20160506gitd8c05cd
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 5.1.1-20.20160506gitd8c05cd
+- Force C++14 as the code is not ready for C++17
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.1-19.20160506gitd8c05cd
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 22 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 5.1.1-18.20160506gitd8c05cd
 - Drop lesstif.
 - Spec file cleanup.

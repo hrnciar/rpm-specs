@@ -1,6 +1,6 @@
 Name:           mockito
-Version:        2.23.9
-Release:        6%{?dist}
+Version:        3.5.5
+Release:        1%{?dist}
 Summary:        Tasty mocking framework for unit tests in Java
 License:        MIT
 URL:            https://site.mockito.org/
@@ -26,6 +26,7 @@ BuildRequires:  mvn(org.assertj:assertj-core)
 BuildRequires:  mvn(org.codehaus.mojo:exec-maven-plugin)
 BuildRequires:  mvn(org.hamcrest:hamcrest-core)
 BuildRequires:  mvn(org.objenesis:objenesis)
+BuildRequires:  mvn(org.opentest4j:opentest4j)
 BuildRequires:  mvn(org.ow2.asm:asm)
 
 %description
@@ -74,6 +75,18 @@ EOF
 %license LICENSE
 
 %changelog
+* Sun Aug 23 2020 Jerry James <loganjerry@gmail.com> - 3.5.5-1
+- Update to version 3.5.5
+
+* Fri Aug 14 2020 Jerry James <loganjerry@gmail.com> - 2.28.2-1
+- Update to version 2.28.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.23.9-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 2.23.9-7
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.23.9-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

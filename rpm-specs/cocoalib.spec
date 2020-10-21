@@ -9,7 +9,7 @@
 
 Name:           cocoalib
 Version:        0.99710
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        C++ library for computations in commutative algebra
 
 License:        GPLv3+
@@ -33,7 +33,7 @@ BuildRequires:  gmp-devel
 BuildRequires:  java-headless
 BuildRequires:  libfrobby-devel
 BuildRequires:  libgfan-devel
-BuildRequires:  openblas-devel
+BuildRequires:  pkgconfig(flexiblas)
 BuildRequires:  pkgconfig(gsl)
 BuildRequires:  pkgconfig(readline)
 BuildRequires:  tex(latex)
@@ -67,10 +67,10 @@ Documentation for %{name}.
 %prep
 %autosetup -p0 -n CoCoALib-%{version}
 
-# Use OpenBlas instead of the reference lapack/blas implementation.
+# Use FlexiBLAS instead of the reference lapack/blas implementation.
 # Do not throw away our choice of compiler flags.
 # Fix the location of the cddlib headers.
-sed -e 's,-lblas -llapack,-lopenblas,' \
+sed -e 's,-lblas -llapack,-lflexiblas,' \
     -e 's/ -Wall -pedantic/ $CXXFLAGS/' \
     -e 's,\(CDD_INC_DIR=\)".*",\1"%{_includedir}/cddlib",' \
     -i configure
@@ -152,6 +152,12 @@ make check
 %doc examples
 
 %changelog
+* Fri Aug 07 2020 Iñaki Úcar <iucar@fedoraproject.org> - 0.99710-3
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.99710-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May  7 2020 Jerry James <loganjerry@gmail.com> - 0.99710-1
 - Version 0.99710
 

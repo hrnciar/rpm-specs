@@ -1,10 +1,10 @@
 %global packname mnormt
-%global packver  1.5-7
+%global packver  2.0.2
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          1.5.7
-Release:          2%{?dist}
+Version:          2.0.2
+Release:          1%{?dist}
 Summary:          The Multivariate Normal and t Distributions
 
 License:          GPLv2 or GPLv3
@@ -13,20 +13,24 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:
+# Imports:   R-tmvnsim >= 1.0-2
 # Suggests:
 # LinkingTo:
 # Enhances:
 
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
+BuildRequires:    R-tmvnsim >= 1.0.2
 
 %description
-Functions are provided for computing the density and the distribution
-function of multivariate normal and "t" random variables, and for
-generating random vectors sampled from these distributions. Probabilities
-are computed via non-Monte Carlo methods; different routines are used in
-the case d=1, d=2, d>2, if d denotes the number of dimensions.
+Functions are provided for computing the density and the distribution function
+of d-dimensional normal and "t" random variables, possibly truncated (on one
+side or two sides), and for generating random vectors sampled from these
+distributions, except sampling from the truncated "t". Moments of arbitrary
+order of a multivariate truncated normal are computed, and converted to
+cumulants up to order 4. Probabilities are computed via non-Monte Carlo
+methods; different routines are used in the case d=1, d=2, d=3, d>3, if d
+denotes the dimensionality.
 
 
 %prep
@@ -63,6 +67,19 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Thu Sep 03 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.0.2-1
+- Update to latest version (#1874566)
+
+* Wed Aug 12 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.0.1-1
+- Update to latest version (#1843060)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.7-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 1.5.7-2
 - rebuild for R 4
 

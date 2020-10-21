@@ -1,32 +1,28 @@
-%global opt %(test -x %{_bindir}/ocamlopt && echo 1 || echo 0)
-
 Name:           ocaml-react
-Version:        1.2.0
-Release:        30%{?dist}
+Version:        1.2.1
+Release:        2%{?dist}
 Summary:        OCaml framework for Functional Reactive Programming (FRP)
 
-License:        BSD
+License:        ISC
 URL:            http://erratique.ch/software/react
 
 Source0:        http://erratique.ch/software/react/releases/react-%{version}.tbz
-Source1:        react-LICENSE
 
-Patch1:         react-1.2.0-safe-string-fix.patch
-
-BuildRequires:  ocaml >= 3.10.0
+BuildRequires:  ocaml >= 4.01.0
 BuildRequires:  ocaml-ocamlbuild
 BuildRequires:  ocaml-findlib-devel
 BuildRequires:  ocaml-ocamldoc
+BuildRequires:  ocaml-topkg-devel >= 0.9.0
 
 
 %description
 React is an OCaml module for functional reactive programming (FRP). It
-provides support to program with time varying values : applicative
+provides support to program with time varying values : declarative
 events and signals. React doesn't define any primitive event or
-signal, this lets the client chooses the concrete timeline.
+signal; it lets the client choose the concrete timeline.
 
-React is made of a single, independent, module and distributed under
-the new BSD license.
+React is made of a single, independent module and distributed under
+the ISC license.
 
 Given an absolute notion of time Rtime helps you to manage a timeline
 and provides time stamp events, delayed events and delayed signals.
@@ -43,34 +39,22 @@ developing applications that use %{name}.
 
 
 %prep
-%setup -q -n react-%{version}
-%autopatch -p1
-cp -p %{SOURCE1} LICENSE
+%autosetup -n react-%{version}
+
 # require debug info
 echo $'\ntrue: debug' >> _tags
 
 
 %build
-ocaml pkg/build.ml \
-%if 0%{?opt}
-  native=true \
-  native-dynlink=true
-%else
-  native=false \
-  native-dynlink=false
-%endif
-
-%if %opt
-# Build the tests.
-ocamlbuild -use-ocamlfind test/tests.otarget
-%endif
+ocaml pkg/pkg.ml build --tests true
 
 
 %install
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/ocaml/react
 for f in \
   pkg/META \
-%if 0%{opt}
+  opam \
+%ifarch %{ocaml_native_compiler}
   src/*.cmx \
 %endif
   src/*.{a,cma,cmi,mli,cmxa,cmxs}
@@ -80,31 +64,51 @@ done
 
 
 %check
-%if %opt
-./_build/test/test.native
-#./_build/test/clock.native
-#./_build/test/breakout.native
-%endif
+ocaml pkg/pkg.ml test
 
 
 %files
-%doc LICENSE
-%{_libdir}/ocaml/react
-%if %opt
-%exclude %{_libdir}/ocaml/react/*.cmx
+%license LICENSE.md
+%dir %{_libdir}/ocaml/react/
+%{_libdir}/ocaml/react/*.cma
+%{_libdir}/ocaml/react/*.cmi
+%ifarch %{ocaml_native_compiler}
+%{_libdir}/ocaml/react/*.cmxs
 %endif
-%exclude %{_libdir}/ocaml/react/*.mli
 
 
 %files devel
 %doc CHANGES.md README.md
-%if %opt
+%ifarch %{ocaml_native_compiler}
+%{_libdir}/ocaml/react/*.a
 %{_libdir}/ocaml/react/*.cmx
+%{_libdir}/ocaml/react/*.cmxa
 %endif
 %{_libdir}/ocaml/react/*.mli
+%{_libdir}/ocaml/react/META
+%{_libdir}/ocaml/react/opam
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.2.1-2
+- OCaml 4.11.1 rebuild
+
+* Tue Sep  1 2020 Jerry James <loganjerry@gmail.com> - 1.2.1-1
+- Version 1.2.1
+- License is now ISC
+- Build with topkg
+- Drop upstreamed safe string patch
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.2.0-33
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-32
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 1.2.0-30
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

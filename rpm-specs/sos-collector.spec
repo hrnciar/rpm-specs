@@ -1,7 +1,7 @@
 Summary: Capture sosreports from multiple nodes simultaneously
 Name: sos-collector
 Version: 1.8
-Release: 3%{?dist}
+Release: 4%{?dist}
 Source0: http://people.redhat.com/jhunsake/sos-collector/%{name}-%{version}.tar.gz
 License: GPLv2
 BuildArch: noarch
@@ -72,6 +72,9 @@ install -p -m644 man/en/sos-collector.1 ${RPM_BUILD_ROOT}%{_mandir}/man1/
 %license LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.8-3
 - Rebuilt for Python 3.9
 

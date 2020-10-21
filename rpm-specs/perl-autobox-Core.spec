@@ -1,6 +1,6 @@
 Name:           perl-autobox-Core
 Version:        1.33
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Core functions exposed as methods in primitive types
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/autobox-Core
@@ -59,6 +59,9 @@ make test
 %{_mandir}/man3/autobox::Core.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.33-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.33-13
 - Perl 5.32 rebuild
 

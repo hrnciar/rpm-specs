@@ -3,15 +3,9 @@
 
 # https://github.com/auth0/go-jwt-middleware
 %global goipath         github.com/auth0/go-jwt-middleware
-%global commit          36081240882bbf356af6efb152969e4b0bcf4456
+%global commit          d30d7b9ece63db46d9d3b6a6f9e2ab184fd8a6c5
 
 %gometa
-
-# Remove in F33
-%global godevelheader %{expand:
-Obsoletes:      golang-github-auth0-go-jwt-middleware-devel < 0.1-11
-Obsoletes:      golang-github-auth0-go-jwt-middleware-unit-test-devel < 0.1-11
-}
 
 %global common_description %{expand:
 A middleware that will check that a JWT is sent on the Authorization header and
@@ -26,7 +20,7 @@ endpoints, and are often issued using OpenID Connect.}
 
 Name:           %{goname}
 Version:        0.1
-Release:        15%{?dist}
+Release:        17%{?dist}
 Summary:        Middleware for Go to check for jwts on http requests
 
 License:        MIT
@@ -62,6 +56,12 @@ BuildRequires:  golang(github.com/smartystreets/goconvey/convey)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 18:42:44 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.1-16.20200723gitd30d7b9
+- Bump to commit d30d7b9ece63db46d9d3b6a6f9e2ab184fd8a6c5
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -106,5 +106,3 @@ BuildRequires:  golang(github.com/smartystreets/goconvey/convey)
 
 * Mon Oct 12 2015 lpabon <lpabon@redhat.com> - 0.1-1.git8c897f7
 - First package for Fedora
-
-

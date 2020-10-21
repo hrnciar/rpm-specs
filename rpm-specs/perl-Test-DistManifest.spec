@@ -3,7 +3,7 @@
 
 Name:           perl-Test-DistManifest
 Version:        1.014
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Author test that validates a package MANIFEST
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test-DistManifest
@@ -59,6 +59,9 @@ make test
 %{_mandir}/man3/Test::DistManifest.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.014-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.014-17
 - Perl 5.32 rebuild
 

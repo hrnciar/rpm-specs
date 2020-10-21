@@ -1,12 +1,13 @@
 Name:           warzone2100
 Version:        3.3.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Innovative 3D real-time strategy
 
 License:        GPLv2+ and CC-BY-SA
 URL:            http://wz2100.net/
 Source0:        http://downloads.sourceforge.net/project/%{name}/releases/%{version}/%{name}-%{version}_src.tar.xz
 Source1:        http://downloads.sourceforge.net/project/%{name}/%{name}/Videos/low-quality-en/sequences.wz
+Patch0:         %{name}-gcc11.patch
 
 BuildRequires: physfs-devel >= 2.0
 BuildRequires: qt5-qt3d-devel qt5-qtbase-devel qt5-qtscript-devel qt5-qtx11extras-devel
@@ -38,6 +39,7 @@ Video file for %{name}
 
 %prep
 %setup -q -n %{name}
+%patch0 -p1
 
 %build
 ./autogen.sh
@@ -67,6 +69,12 @@ install -p -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/
 %{_datadir}/%{name}/sequences.wz
 
 %changelog
+* Sat Oct 17 2020 Jeff Law <law@redhat.org> - 3.3.0-5
+- Fix missing #include for gcc-11
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

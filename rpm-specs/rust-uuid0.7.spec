@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}0.7
 Version:        0.7.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Library to generate and parse UUIDs
 
 # Upstream license specification: Apache-2.0 OR MIT
@@ -243,6 +243,9 @@ which use "v5" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.7.4-4
 - Disable tests
 

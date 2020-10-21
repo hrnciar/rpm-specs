@@ -13,7 +13,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.3.0
-Release:        %{date}git%{shortcommit}%{?dist}.20
+Release:        %{date}git%{shortcommit}%{?dist}.21
 Summary:        Email reply parser library for Python 2
 
 License:        MIT
@@ -64,6 +64,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-20140523git76e9481.21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.0-20140523git76e9481.20
 - Rebuilt for Python 3.9
 

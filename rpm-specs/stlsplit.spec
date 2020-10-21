@@ -1,6 +1,6 @@
 Name:           stlsplit
 Version:        1.2
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        Split STL file to more files - one shell each
 License:        AGPLv3+
 URL:            http://github.com/admesh/stlsplit/
@@ -49,6 +49,13 @@ install -Dpm 644 %{name}.h %{buildroot}%{_includedir}/%{name}.h
 %{_libdir}/lib%{name}.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

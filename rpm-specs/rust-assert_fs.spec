@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        1.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Filesystem fixtures and assertions for testing
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -74,6 +74,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 29 16:30:50 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.0.0-2
 - Update globwalk to 0.8
 

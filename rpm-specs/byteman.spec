@@ -15,7 +15,7 @@
 
 Name:             byteman
 Version:          4.0.11
-Release:          1%{?dist}
+Release:          3%{?dist}
 Summary:          Java agent-based bytecode injection tool
 License:          LGPLv2+
 URL:              http://www.jboss.org/byteman
@@ -213,6 +213,12 @@ ln -s %{_javadir}/byteman/byteman.jar $RPM_BUILD_ROOT%{homedir}/lib/byteman.jar
 %{homedir}/lib/byteman-dtest.jar
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.11-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 4.0.11-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Mar 03 2020 Jayashree Huttanagoudar <jhuttana@redhat.com> - 4.0.11-1
 - Upgrated to latest upstream version 4.0.11
 - Added a patch to fix rpm build issue caused due to misconfiguration in upstream

@@ -2,15 +2,15 @@
 %global gem_name rubyzip
 
 Name: rubygem-%{gem_name}
-Version: 2.0.0
-Release: 2%{?dist}
+Version: 2.3.0
+Release: 1%{?dist}
 Summary: A ruby module for reading and writing zip files
 License: Ruby or BSD
 URL: http://github.com/rubyzip/rubyzip
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
-# git https://github.com/rubyzip/rubyzip.git && cd rubyzip
-# git archive -v -o rubyzip-2.0.0-test.tar.gz v2.0.0 test/
-Source1: %{gem_name}-%{version}-test.tar.gz
+# git clone https://github.com/rubyzip/rubyzip.git --no-checkout
+# cd rubyzip && git archive -v -o rubyzip-2.3.0-test.txz v2.3.0 test/
+Source1: %{gem_name}-%{version}-test.txz
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby
@@ -33,19 +33,13 @@ Documentation for %{name}.
 %setup -q -n %{gem_name}-%{version} -b 1
 
 %build
-# Create the gem as gem install only works on a gem file
 gem build ../%{gem_name}-%{version}.gemspec
-
-# %%gem_install compiles any C extensions and installs the gem into ./%%gem_dir
-# by default, so that we can move it into the buildroot in %%install
 %gem_install
 
 %install
 mkdir -p %{buildroot}%{gem_dir}
 cp -a .%{gem_dir}/* \
         %{buildroot}%{gem_dir}/
-
-
 
 %check
 pushd .%{gem_instdir}
@@ -72,6 +66,13 @@ popd
 
 
 %changelog
+* Fri Jul 31 13:06:47 GMT 2020 Pavel Valena <pvalena@redhat.com> - 2.3.0-1
+- Update to Rubyzip 2.3.0.
+  Resolves: rhbz#1794962
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

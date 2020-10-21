@@ -2,7 +2,7 @@
 
 Name: mingw-osinfo-db-tools
 Version: 1.7.0
-Release: 3%{?dist}
+Release: 5%{?dist}
 Summary: MinGW Windows port of a library for managing OS information for virtualization
 License: LGPLv2+
 Source: https://releases.pagure.org/libosinfo/osinfo-db-tools-%{version}.tar.xz
@@ -95,6 +95,12 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/man
 %{mingw64_bindir}/osinfo-db-validate.exe
 
 %changelog
+* Wed Aug 12 13:44:13 GMT 2020 Sandro Mani <manisandro@gmail.com> - 1.7.0-5
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 1.7.0-3
 - Rebuild (gettext)
 

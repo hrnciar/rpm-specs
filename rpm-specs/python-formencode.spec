@@ -2,7 +2,7 @@
 
 Name:           python-formencode
 Version:        1.3.1
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        HTML form validation, generation, and convertion package  
 License:        Python
 URL:            http://formencode.org/
@@ -91,6 +91,9 @@ rm -rf $RPM_BUILD_ROOT%{python3_sitelib}/formencode/i18n
 %files -n python-formencode-langpacks -f %{srcname}.lang
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.1-12
 - Rebuilt for Python 3.9
 

@@ -5,7 +5,7 @@
 
 Name: dwlocstat
 Version: 0.1
-Release: 0.19.%{checkout}%{?dist}
+Release: 0.20.%{checkout}%{?dist}
 Summary: Tool for examining Dwarf location info coverage
 
 # The following files are dual-licensed:
@@ -50,6 +50,9 @@ install -p -m 644 -t $RPM_BUILD_ROOT%{_mandir}/man1 %{name}.1
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.20.20121105gitc55cb50
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.19.20121105gitc55cb50
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

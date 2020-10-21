@@ -6,8 +6,8 @@
 %global pkgname pillow
 
 Name:           mingw-python-%{pkgname}
-Version:        7.1.2
-Release:        2%{?dist}
+Version:        8.0.0
+Release:        1%{?dist}
 Summary:        MinGW Windows Python %{pkgname} library
 
 BuildArch:      noarch
@@ -114,6 +114,15 @@ rm -rf %{buildroot}%{mingw64_bindir}
 
 
 %changelog
+* Sat Oct 17 2020 Sandro Mani <manisandro@gmail.com> - 8.0.0-1
+- Update to 8.0.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Sandro Mani <manisandro@gmail.com> - 7.2.0-1
+- Update to 7.2.0
+
 * Sun May 31 2020 Sandro Mani <manisandro@gmail.com> - 7.1.2-2
 - Rebuild (python-3.9)
 

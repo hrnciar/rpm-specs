@@ -1,13 +1,13 @@
 Name:           libaec
 Version:        1.0.4
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        Adaptive Entropy Coding library
 License:        BSD
 Url:            https://gitlab.dkrz.de/k202009/libaec
 Source0:        https://gitlab.dkrz.de/k202009/libaec/-/archive/v%{version}/libaec-v%{version}.tar.gz
 
 BuildRequires:  gcc
-BuildRequires:  cmake3 >= 3.1
+BuildRequires:  cmake >= 3.1
 
 %description
 Libaec provides fast loss-less compression of 1 up to 32 bit wide
@@ -35,17 +35,14 @@ Devel files for libaec (Adaptive Entropy Coding library).
 %setup -q -n %{name}-v%{version}
 
 %build
-mkdir build
-pushd build
-%{cmake3} ..
-%make_build
-popd
+%{cmake}
+%cmake_build
 
 %install
-%make_install -C build
+%cmake_install
 
 %check
-make -C build test CTEST_OUTPUT_ON_FAILURE=1
+%ctest
 
 %ldconfig_scriptlets
 
@@ -61,6 +58,16 @@ make -C build test CTEST_OUTPUT_ON_FAILURE=1
 %{_libdir}/lib*.so
 
 %changelog
+* Mon Aug 03 2020 Christoph Junghans <junghans@votca.org> - 1.0.4-6
+- Fix out-of-source build on F33 (bug #1863972)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

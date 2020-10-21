@@ -3,7 +3,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        1.6.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Advanced methods for factoring integers
 
 License:        GPLv2+
@@ -56,6 +56,7 @@ This package contains documentation for gap-pkg-%{pkgname}.
 %autosetup -n %{upname}-%{version}
 
 %build
+export LC_ALL=C.UTF-8
 gap < makedoc.g
 
 %install
@@ -65,6 +66,7 @@ rm -fr %{buildroot}%{_gap_dir}/pkg/%{upname}-%{version}/{CHANGES,LICENSE,README.
 rm -f %{buildroot}%{_gap_dir}/pkg/%{upname}-%{version}/doc/*.{aux,bbl,blg,brf,idx,ilg,ind,log,out,pnr,tex}
 
 %check
+export LC_ALL=C.UTF-8
 gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" tst/testall.g
 
 %files
@@ -78,6 +80,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" tst/testall.g
 %{_gap_dir}/pkg/%{upname}-%{version}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

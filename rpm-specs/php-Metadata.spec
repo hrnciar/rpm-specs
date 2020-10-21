@@ -1,7 +1,7 @@
 #
 # Fedora spec file for php-Metadata
 #
-# Copyright (c) 2013-2017 Shawn Iwinski <shawn.iwinski@gmail.com>
+# Copyright (c) 2013-2020 Shawn Iwinski <shawn.iwinski@gmail.com>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -11,8 +11,8 @@
 
 %global github_owner     schmittjoh
 %global github_name      metadata
-%global github_version   1.6.0
-%global github_commit    6a06970a10e0a532fb52d3959547123b84a3b3ab
+%global github_version   1.7.0
+%global github_commit    e5854ab1aa643623dc64adde718a8eec32b957a8
 
 %global composer_vendor  jms
 %global composer_project metadata
@@ -31,10 +31,10 @@
 
 Name:          php-Metadata
 Version:       %{github_version}
-Release:       9%{?github_release}%{?dist}
+Release:       1%{?github_release}%{?dist}
 Summary:       Class/method/property metadata management in PHP
 
-License:       ASL 2.0
+License:       MIT
 URL:           https://github.com/%{github_owner}/%{github_name}
 Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
@@ -44,7 +44,7 @@ BuildArch:     noarch
 BuildRequires: php-composer(phpunit/phpunit)
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
-## phpcompatinfo (computed from version 1.6.0)
+## phpcompatinfo (computed from version 1.7.0)
 BuildRequires: php-date
 BuildRequires: php-reflection
 BuildRequires: php-spl
@@ -54,14 +54,14 @@ BuildRequires: php-composer(fedora/autoloader)
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
-# phpcompatinfo (computed from version 1.6.0)
+# phpcompatinfo (computed from version 1.7.0)
 Requires:      php-date
 Requires:      php-reflection
 Requires:      php-spl
 # Autoloader
 Requires:      php-composer(fedora/autoloader)
 
-%if 0%{?fedora} >= 21
+%if 0%{?fedora} >= 21 || 0%{?rhel} >= 8
 # phpcompatinfo (computed from version 1.6.0)
 Suggests:      php-composer(doctrine/cache)
 Suggests:      php-composer(psr/cache)
@@ -126,7 +126,7 @@ BOOTSTRAP
 : Upstream tests
 RETURN_CODE=0
 PHPUNIT=$(which phpunit)
-for PHP_EXEC in "" %{?rhel:php54 php55} php56 php70 php71 php72; do
+for PHP_EXEC in "" %{?rhel:php54 php55} php56 php70 php71 php72 php73 php74; do
     if [ -z "$PHP_EXEC" ] || which $PHP_EXEC; then
         $PHP_EXEC $PHPUNIT --verbose --bootstrap bootstrap.php || RETURN_CODE=1
     fi
@@ -147,6 +147,13 @@ exit $RETURN_CODE
 
 
 %changelog
+* Mon Aug 17 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.7.0-1
+- Update to 1.7.0
+- Change license from ASL 2.0 to MIT
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

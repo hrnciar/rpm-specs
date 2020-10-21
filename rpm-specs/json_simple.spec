@@ -1,6 +1,6 @@
 Name:           json_simple
 Version:        1.1.1
-Release:        20%{?dist}
+Release:        23%{?dist}
 Summary:        Simple Java toolkit for JSON
 License:        ASL 2.0
 URL:            http://code.google.com/p/json-simple/
@@ -45,21 +45,34 @@ find . -type f -exec %{__sed} -i 's/\r//' {} \;
 
 %patch0 -p1
 
+# Remove hard-coded compiler settings
+%pom_remove_plugin :maven-compiler-plugin
+
 %mvn_file : %{name}
 
 %build
-%mvn_build
+%mvn_build -- -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
 %install
 %mvn_install
 
 %files -f .mfiles
-%doc AUTHORS.txt ChangeLog.txt LICENSE.txt README.txt
+%license LICENSE.txt
+%doc AUTHORS.txt ChangeLog.txt README.txt
 
 %files javadoc -f .mfiles-javadoc
-%doc LICENSE.txt
+%license LICENSE.txt
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.1.1-22
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jun 25 2020 Mat Booth <mat.booth@redhat.com> - 1.1.1-21
+- Allow building against Java 11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

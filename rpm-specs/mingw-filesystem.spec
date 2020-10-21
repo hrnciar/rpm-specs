@@ -6,7 +6,7 @@
 %global macrosdir %(d=%{_rpmconfigdir}/macros.d; [ -d $d ] || d=%{_sysconfdir}/rpm; echo $d)
 
 Name:           mingw-filesystem
-Version:        113
+Version:        116
 Release:        1%{?dist}
 Summary:        MinGW cross compiler base filesystem and environment
 
@@ -317,6 +317,15 @@ install -m 0644 %{SOURCE19} $RPM_BUILD_ROOT%{_datadir}/mingw/
 
 
 %changelog
+* Mon Jul 27 2020 Sandro Mani <manisandro@gmail.com> - 116-1
+- Add -lssp to LDFLAGS
+
+* Thu Jul 23 2020 Sandro Mani <manisandro@gmail.com> - 115-1
+- Add -fstack-protector to LDFLAGS (since we carry -D_FORTIFY_SOURCE=2 in cflags, see https://sourceforge.net/p/mingw-w64/bugs/818/)
+
+* Tue Jul 14 2020 Daniel P. Berrangé <berrange@redhat.com> - 114-1
+- Add meson hint for libgcrypt-config on mingw cross builds (#1856446)
+
 * Sat May 23 2020 Sandro Mani <manisandro@gmail.com> - 113-1
 - Add %%mingw_make_build and %%mingw_make_install
 

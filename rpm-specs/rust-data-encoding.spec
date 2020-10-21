@@ -5,7 +5,7 @@
 %global crate data-encoding
 
 Name:           rust-%{crate}
-Version:        2.2.1
+Version:        2.3.0
 Release:        1%{?dist}
 Summary:        Efficient and customizable data-encoding functions
 
@@ -96,6 +96,16 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 2.3.0-1
+- Update to 2.3.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 20:16:22 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 2.2.1-1
 - Update to 2.2.1
 

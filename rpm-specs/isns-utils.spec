@@ -1,6 +1,6 @@
 Name:           isns-utils
-Version:        0.97
-Release:        10%{?dist}
+Version:        0.100
+Release:        0%{?dist}
 Summary:        The iSNS daemon and utility programs
 
 License:        LGPLv2+
@@ -8,12 +8,19 @@ URL:            https://github.com/open-iscsi/open-isns
 Source0:        https://github.com/open-iscsi/open-isns/archive/v%{version}.tar.gz#/open-isns-%{version}.tar.gz
 Source1:        isnsd.service
 
+Patch0001: 0001-Ignore-common-build-files.patch
+Patch0002: 0002-Fix-compiler-issue-when-not-in-security-mode.patch
+Patch0003: 0003-Do-not-ignore-write-return-value.patch
+Patch0004: 0004-Fix-586-compile-issue-and-remove-Werror.patch
+Patch0005: 0005-socket.c-include-poll.h-instead-of-sys-poll.h-for-PO.patch
+Patch0006: 0006-fix-compilation-without-deprecated-OpenSSL-APIs.patch
+Patch0007: 0007-libisns-remove-sighold-and-sigrelse.patch
+
 BuildRequires:  gcc
 BuildRequires:  openssl-devel automake pkgconfig systemd-devel systemd
 Requires(post): systemd-units
 Requires(preun): systemd-units
 Requires(postun): systemd-units
-
 
 %description
 The iSNS package contains the daemon and tools to setup a iSNS server,
@@ -36,16 +43,16 @@ Development files for iSNS
 
 
 %prep
-%setup -q -n open-isns-%{version}
+%autosetup -p1 -n open-isns-%{version}
 
 
 %build
 %configure --enable-shared --disable-static
-make %{?_smp_mflags}
+%make_build
 
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 make install_hdrs DESTDIR=%{buildroot}
 make install_lib DESTDIR=%{buildroot}
 chmod 755 %{buildroot}%{_sbindir}/isns*
@@ -103,6 +110,16 @@ install -p -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/isnsd.service
 
 
 %changelog
+* Thu Sep 17 2020 Chris Leech <cleech@redhat.com> - 0.100-0
+- rebase to upstream v0.100 + patches from git
+
+* Fri Aug 21 2020 Tom Stellard <tstellar@redhat.com> - 0.97-12
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.97-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.97-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

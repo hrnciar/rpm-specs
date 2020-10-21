@@ -16,7 +16,7 @@ A simple TUN/TAP library written in native Go.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.1%{?dist}
+Release:        0.2%{?dist}
 Summary:        TUN/TAP library
 
 License:        BSD
@@ -42,6 +42,9 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0-0.1.20200421git2b4b6d7
 - Initial package
 

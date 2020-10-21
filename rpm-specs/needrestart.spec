@@ -1,6 +1,6 @@
 Name:           needrestart
 Version:        3.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Restart daemons after library updates
 
 License:        GPLv2+
@@ -113,6 +113,9 @@ echo "IUCODE_TOOL_EXTRA_OPTIONS=--ignore-broken" >%{buildroot}/%{_sysconfdir}/de
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Miro Hrončok <mhroncok@redhat.com> - 3.5-2
 - Rebuilt for Python 3.9
 

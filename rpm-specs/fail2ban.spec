@@ -1,6 +1,6 @@
 Name: fail2ban
 Version: 0.11.1
-Release: 7%{?dist}
+Release: 10%{?dist}
 Summary: Daemon to ban hosts that cause multiple authentication errors
 
 License: GPLv2+
@@ -29,21 +29,35 @@ Patch5: https://patch-diff.githubusercontent.com/raw/fail2ban/fail2ban/pull/2605
 # https://bugzilla.redhat.com/show_bug.cgi?id=1808347
 Patch6: https://patch-diff.githubusercontent.com/raw/fail2ban/fail2ban/pull/2651.patch
 Patch7: https://github.com/fail2ban/fail2ban/commit/343ec1cdd296530f331637c725bd2bb0549e01e6.patch
+# In Fedora 32 and EL 8 nftables is the default firewall and does not accept ":" for port ranges.
+# https://bugzilla.redhat.com/show_bug.cgi?id=1850164
+Patch8: https://github.com/fail2ban/fail2ban/commit/309c8dddd7adc2de140ed5a72088cd4f2dcc9b91.patch
 
+BuildArch: noarch
+
+%if 0%{?rhel} && 0%{?rhel} < 8
+BuildRequires: python-devel
+BuildRequires: python-setuptools
+# For testcases
+BuildRequires: python-inotify
+%else
 BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 BuildRequires: /usr/bin/2to3
 # For testcases
 BuildRequires: python3-inotify
+%endif
 BuildRequires: sqlite
-BuildArch: noarch
 BuildRequires: systemd
 BuildRequires: selinux-policy-devel
+
 # Default components
 Requires: %{name}-firewalld = %{version}-%{release}
 Requires: %{name}-sendmail = %{version}-%{release}
 Requires: %{name}-server = %{version}-%{release}
 # Currently this breaks jails that don't log to the journal
 #Requires: %{name}-systemd = %{version}-%{release}
+
 
 %description
 Fail2Ban scans log files and bans IP addresses that makes too many password
@@ -73,13 +87,20 @@ SELinux policies for Fail2Ban.
 
 %package server
 Summary: Core server component for Fail2Ban
+%if 0%{?rhel} && 0%{?rhel} < 8
+Requires: systemd-python
+%else
 Requires: python3-systemd
+%endif
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
 Requires: ipset
 Requires: iptables
+
+%if 0%{?fedora}
 Requires: (%{name}-selinux if selinux-policy-%{selinuxtype})
+%endif
 
 %description server
 This package contains the core server components for Fail2Ban with minimal
@@ -97,10 +118,14 @@ Requires: %{name}-server = %{version}-%{release}
 Requires: %{name}-shorewall = %{version}-%{release}
 # Currently this breaks jails that don't log to the journal
 #Requires: %{name}-systemd = %{version}-%{release}
-# No python3 support for gamin
-#Requires: gamin-python
 Requires: perl-interpreter
+%if 0%{?rhel} && 0%{?rhel} < 8
+Requires: python-inotify
+# No python3 support for gamin so epel only
+Requires: gamin-python
+%else
 Requires: python3-inotify
+%endif
 Requires: /usr/bin/whois
 
 %description all
@@ -160,8 +185,19 @@ mail actions for Fail2Ban.
 Summary: Shorewall support for Fail2Ban
 Requires: %{name}-server = %{version}-%{release}
 Requires: shorewall
+Conflicts: %{name}-shorewall-lite
 
 %description shorewall
+This package enables support for manipulating shorewall rules.
+
+
+%package shorewall-lite
+Summary: Shorewall lite support for Fail2Ban
+Requires: %{name}-server = %{version}-%{release}
+Requires: shorewall-lite
+Conflicts: %{name}-shorewall
+
+%description shorewall-lite
 This package enables support for manipulating shorewall rules.
 
 
@@ -179,22 +215,32 @@ by default.
 
 # Use Fedora paths
 sed -i -e 's/^before = paths-.*/before = paths-fedora.conf/' config/jail.conf
+%if 0%{?fedora} || 0%{?rhel} >= 8
 2to3 --write --nobackups .
 find -type f -exec sed -i -e '1s,^#!/usr/bin/python *,#!/usr/bin/python%{python3_version},' {} +
+%endif
 
 # SELinux sources
 cp -p %SOURCE1 %SOURCE2 %SOURCE3 .
 
 
 %build
+%if 0%{?rhel} && 0%{?rhel} < 8
+%py2_build
+%else
 %py3_build
+%endif
 make -f %SOURCE4
 
 %install
-%py3_install
-
+%if 0%{?rhel} && 0%{?rhel} < 8
+%py2_install
 # Make symbolic link relative
+ln -fs python2 %{buildroot}%{_bindir}/fail2ban-python
+%else
+%py3_install
 ln -fs python3 %{buildroot}%{_bindir}/fail2ban-python
+%endif
 
 mkdir -p %{buildroot}%{_unitdir}
 cp -p build/fail2ban.service %{buildroot}%{_unitdir}/
@@ -247,7 +293,11 @@ install -m 0644 %{modulename}.pp.bz2 %{buildroot}%{_datadir}/selinux/packages/%{
 
 
 %check
+%if 0%{?rhel} && 0%{?rhel} < 8
+%python2 bin/fail2ban-testcases --verbosity=2 --no-network
+%else
 %python3 bin/fail2ban-testcases --verbosity=2 --no-network
+%endif
 
 
 %pre selinux
@@ -288,8 +338,13 @@ fi
 %{_bindir}/fail2ban-python
 %{_bindir}/fail2ban-regex
 %{_bindir}/fail2ban-server
+%if 0%{?rhel} && 0%{?rhel} < 8
+%{python2_sitelib}/*
+%exclude %{python2_sitelib}/fail2ban/tests
+%else
 %{python3_sitelib}/*
 %exclude %{python3_sitelib}/fail2ban/tests
+%endif
 %{_unitdir}/fail2ban.service
 %{_mandir}/man1/fail2ban.1*
 %{_mandir}/man1/fail2ban-client.1*
@@ -324,7 +379,11 @@ fi
 %files tests
 %{_bindir}/fail2ban-testcases
 %{_mandir}/man1/fail2ban-testcases.1*
+%if 0%{?rhel} && 0%{?rhel} < 8
+%{python2_sitelib}/fail2ban/tests
+%else
 %{python3_sitelib}/fail2ban/tests
+%endif
 
 %files mail
 %config(noreplace) %{_sysconfdir}/fail2ban/action.d/complain.conf
@@ -339,11 +398,28 @@ fi
 %files shorewall
 %config(noreplace) %{_sysconfdir}/fail2ban/action.d/shorewall.conf
 
+%files shorewall-lite
+%config(noreplace) %{_sysconfdir}/fail2ban/action.d/shorewall.conf
+
 %files systemd
 %config(noreplace) %{_sysconfdir}/fail2ban/jail.d/00-systemd.conf
 
 
 %changelog
+* Fri Aug 28 2020 Richard Shaw <hobbes1069@gmail.com> - 0.11.1-10.2
+- Create shorewall-lite subpackage package which conflicts with shorewall
+  subpackage. Fixes RHBZ#1872759.
+
+* Tue Jul 28 2020 Richard Shaw <hobbes1069@gmail.com> - 0.11.1-9.2
+- Fix python2 requires for EPEL 7.
+
+* Mon Jul 27 2020 Richard Shaw <hobbes1069@gmail.com> - 0.11.1-9
+- Add conditonals back for EL 7 as it's being brought up to date.
+- Add patch to deal with nftables not accepting ":" as a port separator.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.11.1-7
 - Rebuilt for Python 3.9
 

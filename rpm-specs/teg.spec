@@ -1,6 +1,6 @@
 Name:           teg
 Version:        0.11.2
-Release:        46%{?dist}
+Release:        48%{?dist}
 Summary:        Turn based strategy game
 License:        GPLv2
 URL:            http://teg.sourceforge.net/
@@ -96,6 +96,13 @@ gconftool-2 --makefile-install-rule \
   %{_sysconfdir}/gconf/schemas/teg.schemas > /dev/null || :
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.2-48
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.2-47
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 29 2020 josef radinger <cheese@nosuchhost.net> - 0.11.2-46
 - add patch multiple_definitions.patch to fix FTBFS
 

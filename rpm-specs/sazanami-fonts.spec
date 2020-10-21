@@ -8,7 +8,7 @@ They also contains some embedded Japanese bitmap fonts.
 
 Name:		%{fontname}-fonts
 Version:	0.20040629
-Release:	35%{?dist}
+Release:	36%{?dist}
 BuildArch:	noarch
 BuildRequires:	ttmkfdir >= 3.0.6
 BuildRequires:	mkfontdir xorg-x11-fonts-misc >= 7.5-11
@@ -138,6 +138,9 @@ ln -sf %{_fontdir}/mincho $RPM_BUILD_ROOT%{catalogue}/%{name}-mincho
 %dir %{_fontdir}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20040629-36
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20040629-35
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

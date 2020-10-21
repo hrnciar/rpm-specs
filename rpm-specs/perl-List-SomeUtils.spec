@@ -1,6 +1,6 @@
 Name:           perl-List-SomeUtils
 Version:        0.58
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Provide the stuff missing in List::Util
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/List-SomeUtils
@@ -66,6 +66,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.58-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.58-3
 - Perl 5.32 rebuild
 

@@ -10,12 +10,14 @@
 Summary:        SAX XML parser based on the Expat library
 Name:           lua-expat
 Version:        1.3.0
-Release:        18%{?dist}
+Release:        20%{?dist}
 License:        MIT
 URL:            https://matthewwild.co.uk/projects/luaexpat/
 Source0:        https://matthewwild.co.uk/projects/luaexpat/luaexpat-%{version}.tar.gz
 Source1:        https://matthewwild.co.uk/projects/luaexpat/luaexpat-%{version}.tar.gz.asc
 Source2:        gpgkey-32A9EDDE3609931EB98CEAC315907E8E7BDD6BFE.gpg
+Patch0:         lua-expat-1.3.0-fix-luajit-compatibility-issue.patch
+Patch1:         lua-expat-1.3.0-improve-test.patch
 %if 0%{?fedora} >= 16 || 0%{?rhel} >= 7
 Requires:       lua(abi) = %{lua_version}
 %else
@@ -43,6 +45,8 @@ LuaExpat is a SAX XML parser based on the Expat library for Lua %{lua_compat_ver
 %prep
 gpgv2 --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %setup -q -n luaexpat-%{version}
+%patch0 -p1 -b .fix
+%patch1 -p1 -b .improve
 
 %if 0%{?fedora} >= 20
 rm -rf %{lua_compat_builddir}
@@ -90,6 +94,12 @@ lua -e 'package.cpath="./src/?.so;" .. package.cpath; package.path="./src/?.lua;
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Tom Callaway <spot@fedoraproject.org> - 1.3.0-19
+- rebuild for lua 5.4
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

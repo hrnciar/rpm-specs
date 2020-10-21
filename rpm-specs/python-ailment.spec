@@ -1,7 +1,7 @@
 %global pypi_name ailment
 
 Name:           python-%{pypi_name}
-Version:        8.20.6.8
+Version:        9.0.4495
 Release:        1%{?dist}
 Summary:        The angr intermediate language
 
@@ -42,6 +42,15 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{pypi_name}-%{version}-py*.egg-info/
 
 %changelog
+* Sun Oct 04 2020 Fabian Affolter <mail@fabian-affolter.ch> - 9.0.4495-1
+- Update to new upstream release 9.0.4495 (#1880185)
+
+* Tue Jul 28 2020 Fabian Affolter <mail@fabian-affolter.ch> - 8.20.7.27-1
+- Update to new upstream release 8.20.7.27 (#1858211)
+
+* Fri Jul 17 2020 Fabian Affolter <mail@fabian-affolter.ch> - 8.20.7.6-1
+- Update to new upstream release 8.20.7.6 (#1858211)
+
 * Tue Jun 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 8.20.6.8-1
 - Update to latest upstream release 8.20.6.8
 

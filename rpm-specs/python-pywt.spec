@@ -4,7 +4,7 @@
 
 Name:           python-%{modname}
 Version:        1.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        PyWavelets, wavelet transform module
 License:        MIT
 URL:            https://pywavelets.readthedocs.io/en/latest
@@ -95,6 +95,9 @@ popd
 %{python3_sitearch}/%{pkgname}*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 31 2020 Orion Poplawski <orion@nwra.com> - 1.1.1-1
 - Update to 1.1.1
 

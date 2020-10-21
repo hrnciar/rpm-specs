@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        69.5.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Raw rust bindings to the oniguruma library
 
 # Upstream license specification: MIT
@@ -119,6 +119,9 @@ echo 'pkgconfig(oniguruma) >= 6.8.0'
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 69.5.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Josh Stone <jistone@redhat.com> - 69.5.0-3
 - Bump to bindgen 0.54.
 

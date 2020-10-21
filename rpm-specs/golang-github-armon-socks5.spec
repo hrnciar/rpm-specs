@@ -17,7 +17,7 @@ intermediate proxy layer. This can be used to bypass firewalls or NATs.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.2%{?dist}
+Release:        0.3%{?dist}
 Summary:        SOCKS5 server in Golang
 
 License:        MIT
@@ -45,6 +45,9 @@ BuildRequires:  golang(golang.org/x/net/context)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

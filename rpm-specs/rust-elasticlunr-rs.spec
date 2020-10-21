@@ -5,8 +5,8 @@
 %global crate elasticlunr-rs
 
 Name:           rust-%{crate}
-Version:        2.3.6
-Release:        4%{?dist}
+Version:        2.3.9
+Release:        1%{?dist}
 Summary:        Partial port of elasticlunr.js to Rust
 
 # Upstream license specification: MIT/Apache-2.0
@@ -14,7 +14,9 @@ License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/elasticlunr-rs
 Source:         %{crates_source}
 # Initial patched metadata
-# * Bump strum to 0.18, https://github.com/mattico/elasticlunr-rs/pull/25
+# * disable support for japanese / lindera
+#   (it pulls in lots of outdated packages)
+# * bump jieba-rs from 0.5.0 to 0.6.0
 Patch0:         elasticlunr-rs-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -151,6 +153,18 @@ which use "it" feature of "%{crate}" crate.
 %files       -n %{name}+it-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+jieba-rs-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+jieba-rs-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "jieba-rs" feature of "%{crate}" crate.
+
+%files       -n %{name}+jieba-rs-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+languages-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -247,6 +261,18 @@ which use "tr" feature of "%{crate}" crate.
 %files       -n %{name}+tr-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+zh-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+zh-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "zh" feature of "%{crate}" crate.
+
+%files       -n %{name}+zh-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
 %cargo_prep
@@ -266,6 +292,17 @@ which use "tr" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sun Sep 20 2020 Fabio Valentini <decathorpe@gmail.com> - 2.3.9-1
+- Update to version 2.3.9.
+- Disable support for japanese / lindera.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.6-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.6-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 03 2020 Josh Stone <jistone@redhat.com> - 2.3.6-4
 - Bump strum to 0.18
 

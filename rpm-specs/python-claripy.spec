@@ -1,7 +1,7 @@
 %global pypi_name claripy
 
 Name:           python-%{pypi_name}
-Version:        8.20.6.8
+Version:        9.0.4495
 Release:        1%{?dist}
 Summary:        Abstraction layer for constraint solvers
 
@@ -46,6 +46,24 @@ sed -i -e '/^#!\//, 1d' claripy/{*.py,frontend_mixins/*.py,frontends/*.py}
 %{python3_sitelib}/%{pypi_name}-%{version}-py*.egg-info/
 
 %changelog
+* Fri Oct 02 2020 Fabian Affolter <mail@fabian-affolter.ch> - 9.0.4495-1
+- Update to new upstream release 9.0.4495 (#1880182)
+
+* Fri Sep 25 2020 Fabian Affolter <mail@fabian-affolter.ch> - 9.0.4446-1
+- Update to new upstream release 9.0.4446 (#1880182)
+
+* Wed Sep 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 9.0.4378-1
+- Update to new upstream release 9.0.4378 (#1880182)
+
+* Fri Jul 31 2020 Fabian Affolter <mail@fabian-affolter.ch> - 8.20.7.27-1
+- Update to new upstream release 8.20.7.27
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.20.7.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Fabian Affolter <mail@fabian-affolter.ch> - 8.20.7.6-1
+- Update to new upstream release 8.20.7.6
+
 * Tue Jun 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 8.20.6.8-1
 - Update to latest upstream release 8.20.6.8
 
@@ -54,7 +72,7 @@ sed -i -e '/^#!\//, 1d' claripy/{*.py,frontend_mixins/*.py,frontends/*.py}
 - Update to latest upstream release 8.20.6.1
 
 * Mon May 18 2020 Fabian Affolter <mail@fabian-affolter.ch> - 8.20.1.7-2
-- Fix installation requirements (rhbz#1815670)
+- Fix installation requirements (#1815670)
 
 * Fri Feb 28 2020 Fabian Affolter <mail@fabian-affolter.ch> - 8.20.1.7-1
 - Initial package for Fedora

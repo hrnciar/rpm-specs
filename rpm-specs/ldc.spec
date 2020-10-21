@@ -1,24 +1,28 @@
 %global dmdfe_major 2
 %global dmdfe_minor 0
-%global dmdfe_bump  90
+%global dmdfe_bump  93
 %global dmdfe       %dmdfe_major.%dmdfe_minor.%dmdfe_bump
 
 #global pre beta1
 
-#global llvm_version 10.0
+%global llvm_version 10
 
-# Enable this for bootstrapping with an older version that doesn't require a
-# working D compiler to build itself
-%global bootstrap 0
-%global bootstrap_version 0.17.6
+# bootstrap_stage1 is for bringing up a D compiler for the very first time,
+# without having a working D compiler in the build root.
+%global bootstrap_stage1 0
+%global bootstrap_stage1_ldc_version 0.17.6
 
+# bootstrap_stage2 is for updating LDC to a newer version: it relies on an
+# older, working LDC compiler in the buildroot, which is then used to build a
+# new intermediate LDC version, and finally this in turn is used to build the
+# final compiler that gets installed in the rpm.
 %global bootstrap_stage2 0
 
 %undefine _hardened_build
 
 Name:           ldc
 Epoch:          1
-Version:        1.20.1%{?pre:~%{pre}}
+Version:        1.23.0%{?pre:~%{pre}}
 Release:        1%{?dist}
 Summary:        LLVM D Compiler
 
@@ -27,33 +31,38 @@ Summary:        LLVM D Compiler
 License:        BSD
 URL:            https://github.com/ldc-developers/ldc
 Source0:        https://github.com/ldc-developers/ldc/releases/download/v%{version}%{?pre:-%{pre}}/%{name}-%{version}%{?pre:-%{pre}}-src.tar.gz
-%if 0%{?bootstrap}
-Source1:        https://github.com/ldc-developers/ldc/releases/download/v%{bootstrap_version}/%{name}-%{bootstrap_version}-src.tar.gz
+%if 0%{?bootstrap_stage1}
+Source1:        https://github.com/ldc-developers/ldc/releases/download/v%{bootstrap_stage1_ldc_version}/%{name}-%{bootstrap_stage1_ldc_version}-src.tar.gz
 %endif
 Source3:        macros.%{name}
 
+# Make sure /usr/include/d is in the include search path
+Patch0:         ldc-include-path.patch
+
 ExclusiveArch:  %{ldc_arches}
 
-%if ! 0%{?bootstrap}
+BuildRequires:  bash-completion
+BuildRequires:  cmake
+BuildRequires:  gc
+BuildRequires:  gcc
+BuildRequires:  gcc-c++
+%if ! 0%{?bootstrap_stage1}
 BuildRequires:  ldc
 %endif
 BuildRequires:  libconfig-devel
-BuildRequires:  cmake
-BuildRequires:  gc, gcc-c++, gcc
 BuildRequires:  libcurl-devel
-BuildRequires:  zlib-devel
 BuildRequires:  libedit-devel
-BuildRequires:  bash-completion
 BuildRequires:  llvm%{?llvm_version}-devel
 BuildRequires:  llvm%{?llvm_version}-static
+BuildRequires:  zlib-devel
 
-Requires:       %{name}-druntime-devel%{?_isa} = %{epoch}:%{version}-%{release}
-Requires:       %{name}-jit-devel%{?_isa} = %{epoch}:%{version}-%{release}
-Requires:       %{name}-phobos-devel%{?_isa} = %{epoch}:%{version}-%{release}
 # Require gcc for linking
 Requires:       gcc
 
-Obsoletes:      ldc-config < 1:1.1.0
+# Removed in F33
+Obsoletes:      ldc-druntime-devel < 1:1.23.0
+Obsoletes:      ldc-jit-devel < 1:1.23.0
+Obsoletes:      ldc-phobos-devel < 1:1.23.0
 
 %description
 LDC is a portable compiler for the D programming language with modern
@@ -78,32 +87,12 @@ D. Est inclut le code système requis pour supporter le ramasse miette, tableau
 associatif, gestion des exceptions, opertation sur des vecteurs,
 démarage/extinction, etc
 
-%package        druntime-devel
-Summary:        Support for developing D application
-Requires:       %{name}-druntime%{?_isa} = %{epoch}:%{version}-%{release}
-
-%description druntime-devel
-The druntime-devel package contains header files for developing D
-applications that use druntime.
-
-%description druntime-devel -l fr
-Le paquet druntime-devel contient les fichiers d'entêtes pour développer
-des applications en D utilisant druntime.
-
 %package        jit
 Summary:        LDC JIT library
 License:        Boost
 
 %description jit
 JIT library for the LDC compiler.
-
-%package        jit-devel
-Summary:        Development files for LDC JIT library
-Requires:       %{name}-jit%{?_isa} = %{epoch}:%{version}-%{release}
-
-%description jit-devel
-The %{name}-jit-devel package contains development files for the LDC JIT
-library.
 
 %package        phobos
 Summary:        Standard Runtime Library
@@ -124,19 +113,6 @@ pas une religion, c'est un language de programmation, et il reconnaît que,
 parfois, les objectifs sont contradictoires et contre-productif dans certaines
 situations, et les programmeurs ont travail qui doit être effectué.
 
-%package        phobos-devel
-Summary:        Support for developing D application
-Requires:       %{name}-phobos%{?_isa} = %{epoch}:%{version}-%{release}
-Requires:       %{name}-druntime-devel%{?_isa} = %{epoch}:%{version}-%{release}
-
-%description phobos-devel
-The phobos-devel package contains header files for developing D
-applications that use phobos.
-
-%description phobos-devel -l fr
-Le paquet phobos-devel contient les fichiers d'entêtes pour développer
-des applications en D utilisant phobos.
-
 %package phobos-geany-tags
 Summary:        Support for enable autocompletion in geany
 Requires:       %{name} = %{epoch}:%{version}-%{release}
@@ -156,14 +132,19 @@ Active l'autocompletion pour pour la bibliothèque phobos dans geany (IDE)
 mkdir geany_config
 
 %build
+# This package appears to be failing because links to the LLVM plugins
+# are not installed which results in the tools not being able to
+# interpret the .o/.a files.  Disable LTO for now
+%define _lto_cflags %{nil}
+
 %global optflags %{optflags} -fno-strict-aliasing
 
-%if 0%{?bootstrap}
+%if 0%{?bootstrap_stage1}
 tar xf %{SOURCE1}
-mkdir build-bootstrap
-pushd build-bootstrap
+mkdir build-bootstrap1
+pushd build-bootstrap1
 cmake -DLLVM_CONFIG:PATH=%{_bindir}/llvm-config-%{?llvm_version:%{llvm_version}-}%{__isa_bits} \
-      ../%{name}-%{bootstrap_version}-src
+      ../%{name}-%{bootstrap_stage1_ldc_version}-src
 make %{?_smp_mflags}
 popd
 %endif
@@ -173,47 +154,37 @@ tar xf %{SOURCE0}
 mkdir build-bootstrap2
 pushd build-bootstrap2
 cmake -DLLVM_CONFIG:PATH=%{_bindir}/llvm-config-%{?llvm_version:%{llvm_version}-}%{__isa_bits} \
-%if 0%{?bootstrap}
-      -DD_COMPILER:PATH=`pwd`/../build-bootstrap/bin/ldmd2  \
+%if 0%{?bootstrap_stage1}
+      -DD_COMPILER:PATH=`pwd`/../build-bootstrap1/bin/ldmd2 \
 %endif
       ../%{name}-%{version}%{?pre:-%{pre}}-src
 make %{?_smp_mflags}
 popd
 %endif
 
-mkdir build
-pushd build
-    %cmake    -DMULTILIB:BOOL=OFF -DBUILD_SHARED_LIBS:BOOL=ON       \
-              -DINCLUDE_INSTALL_DIR:PATH=%{_includedir}/d           \
-              -DSYSCONF_INSTALL_DIR:PATH=%{_sysconfdir}             \
-              -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix}                \
-              -DBASH_COMPLETION_COMPLETIONSDIR:PATH=%{_datadir}/bash-completion/completions \
-              -DLLVM_CONFIG:PATH=llvm-config-%{?llvm_version:%{llvm_version}-}%{__isa_bits} \
+%cmake -DMULTILIB:BOOL=OFF \
+       -DINCLUDE_INSTALL_DIR:PATH=%{_prefix}/lib/ldc/%{_target_platform}/include/d \
+       -DLLVM_CONFIG:PATH=llvm-config-%{?llvm_version:%{llvm_version}-}%{__isa_bits} \
 %if 0%{?bootstrap_stage2}
-              -DD_COMPILER:PATH=`pwd`/../build-bootstrap2/bin/ldmd2  \
+       -DD_COMPILER:PATH=`pwd`/build-bootstrap2/bin/ldmd2 \
 %endif
-              --enable-optimized ..
-    make %{?_smp_mflags} VERBOSE=2
-popd
+       %{nil}
+
+%cmake_build
+
 # generate geany tags
 geany -c geany_config -g phobos.d.tags $(find runtime/phobos/std -name "*.d")
 
 %install
-mkdir -p %{buildroot}/%{_rpmconfigdir}/macros.d/
-mkdir -p %{buildroot}/%{_datadir}/geany/tags/
-
-pushd build
-    %make_install
-popd
+%cmake_install
 
 # macros for D package
+mkdir -p %{buildroot}/%{_rpmconfigdir}/macros.d/
 install --mode=0644 %{SOURCE3} %{buildroot}%{_rpmconfigdir}/macros.d/macros.ldc
-# geany tags
-install -m0644 phobos.d.tags %{buildroot}/%{_datadir}/geany/tags/
 
-%ldconfig_scriptlets druntime
-%ldconfig_scriptlets jit
-%ldconfig_scriptlets phobos
+# geany tags
+mkdir -p %{buildroot}/%{_datadir}/geany/tags/
+install -m0644 phobos.d.tags %{buildroot}/%{_datadir}/geany/tags/
 
 %files
 %license LICENSE
@@ -225,6 +196,21 @@ install -m0644 phobos.d.tags %{buildroot}/%{_datadir}/geany/tags/
 %{_bindir}/ldc-profdata
 %{_bindir}/ldc-prune-cache
 %{_rpmconfigdir}/macros.d/macros.ldc
+%dir %{_prefix}/lib/ldc
+%dir %{_prefix}/lib/ldc/%{_target_platform}
+%dir %{_prefix}/lib/ldc/%{_target_platform}/include
+%dir %{_prefix}/lib/ldc/%{_target_platform}/include/d
+%{_prefix}/lib/ldc/%{_target_platform}/include/d/core
+%{_prefix}/lib/ldc/%{_target_platform}/include/d/etc
+%{_prefix}/lib/ldc/%{_target_platform}/include/d/ldc
+%{_prefix}/lib/ldc/%{_target_platform}/include/d/object.d
+%{_prefix}/lib/ldc/%{_target_platform}/include/d/std
+%{_libdir}/libdruntime-ldc-debug-shared.so
+%{_libdir}/libdruntime-ldc-shared.so
+%{_libdir}/libldc-jit-rt.a
+%{_libdir}/libldc-jit.so
+%{_libdir}/libphobos2-ldc-debug-shared.so
+%{_libdir}/libphobos2-ldc-shared.so
 %dir %{_datadir}/bash-completion
 %dir %{_datadir}/bash-completion/completions
 %{_datadir}/bash-completion/completions/ldc2
@@ -234,10 +220,6 @@ install -m0644 phobos.d.tags %{buildroot}/%{_datadir}/geany/tags/
 %{_libdir}/libldc-jit.so.%dmdfe
 %{_libdir}/libldc-jit.so.%dmdfe_bump
 
-%files jit-devel
-%{_libdir}/libldc-jit-rt.a
-%{_libdir}/libldc-jit.so
-
 %files druntime
 %license runtime/druntime/LICENSE.txt
 %doc runtime/druntime/README.md runtime/README
@@ -246,13 +228,6 @@ install -m0644 phobos.d.tags %{buildroot}/%{_datadir}/geany/tags/
 %{_libdir}/libdruntime-ldc-shared.so.%dmdfe
 %{_libdir}/libdruntime-ldc-shared.so.%dmdfe_bump
 
-%files druntime-devel
-%{_includedir}/d/ldc
-%{_includedir}/d/core
-%{_includedir}/d/object.d
-%{_libdir}/libdruntime-ldc-debug-shared.so
-%{_libdir}/libdruntime-ldc-shared.so
-
 %files phobos
 %license runtime/phobos/LICENSE_1_0.txt
 %{_libdir}/libphobos2-ldc-debug-shared.so.%dmdfe
@@ -260,17 +235,29 @@ install -m0644 phobos.d.tags %{buildroot}/%{_datadir}/geany/tags/
 %{_libdir}/libphobos2-ldc-shared.so.%dmdfe
 %{_libdir}/libphobos2-ldc-shared.so.%dmdfe_bump
 
-%files phobos-devel
-%dir %{_includedir}/d
-%{_includedir}/d/std
-%{_includedir}/d/etc
-%{_libdir}/libphobos2-ldc-debug-shared.so
-%{_libdir}/libphobos2-ldc-shared.so
-
 %files phobos-geany-tags
 %{_datadir}/geany/tags/phobos.d.tags
 
 %changelog
+* Fri Aug 21 2020 Kalev Lember <klember@redhat.com> - 1:1.23.0-1
+- Update to 1.23.0
+- Merge -devel subpackages into the main ldc package
+- Move ldc internal headers to /usr/lib/ldc to avoid conflicting with gdc (#1781685)
+
+* Fri Aug 21 2020 Kalev Lember <klember@redhat.com> - 1:1.20.1-5
+- Explicitly build against llvm10 compat package
+- Fix FTBFS with new cmake macros on F33 (#1863964)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.20.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.20.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Mar 07 2020 Jeff Law <law@redhat.com> - 1:1.20.1-2
+- Disable LTO
+
 * Sat Mar 07 2020 Kalev Lember <klember@redhat.com> - 1:1.20.1-1
 - Update to 1.20.1
 

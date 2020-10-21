@@ -1,6 +1,6 @@
 Name:           monit
 Version:        5.26.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Manages and monitors processes, files, directories and devices
 
 License:        AGPLv3
@@ -75,6 +75,9 @@ mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/monit.d
 %{_mandir}/man1/monit.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.26.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 3 2020 Stewart Adam <s.adam@diffingo.com> - 5.26.0-1
 - Update to 5.26.0
 

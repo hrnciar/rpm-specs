@@ -1,11 +1,14 @@
-%global date         20190723
-%global gittag       309ecb030f38edac4c10fa741a004c5eb7a23e15
+# Force out of source build
+%undefine __cmake_in_source_build
+
+%global date         20200928
+%global gittag       290028bea888fa80a9389ddeab26b8123c7c9474
 %global short_gittag %(c=%{gittag}; echo ${c:0:7})
 
 Name:          apfs-fuse
 Summary:       A read-only FUSE driver for Apple's APFS
 Version:       0
-Release:       11.%{date}git%{short_gittag}%{?dist}
+Release:       13.%{date}git%{short_gittag}%{?dist}
 License:       GPLv2+
 URL:           https://github.com/sgan81/apfs-fuse
 Source0:       https://github.com/sgan81/%{name}/archive/%{short_gittag}/%{name}-%{short_gittag}.tar.gz
@@ -29,22 +32,16 @@ rmdir lzfse
 tar zxf %{SOURCE1}
 mv lzfse-* lzfse
 
-# Work-around -march=native usage
-cd ..
-sed -i 's,-march=native,,' CMakeLists.txt
-
 %build
-%cmake -DBUILD_SHARED_LIBS:BOOL=OFF .
-%make_build
+%cmake -DBUILD_SHARED_LIBS:BOOL=OFF
+%cmake_build
 
 %install
 mkdir -p %{buildroot}/%{_bindir}
-cp -a apfs-* %{buildroot}/%{_bindir}/
+cp -a %{_vpath_builddir}/apfs-* %{buildroot}/%{_bindir}/
 
 mkdir -p %{buildroot}/%{_sbindir}
-pushd %{buildroot}/%{_sbindir}
-ln -s ../bin/apfs-fuse mount.apfs
-popd
+ln -sr %{buildroot}/%{_bindir}/apfs-fuse %{buildroot}/%{_sbindir}/mount.apfs
 
 %files
 %{_bindir}/apfs-*
@@ -53,6 +50,13 @@ popd
 %license LICENSE
 
 %changelog
+* Mon Sep 28 2020 Bastien Nocera <bnocera@redhat.com> - 0-13.20200928git290028b
+- Update to latest version
+- Remove -march=native work-around
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-12.20190723git309ecb0
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 05 2020 Bastien Nocera <bnocera@redhat.com> - 0-11.git
 + apfs-fuse-0-11.git
 - Update to latest git version, and fuse3

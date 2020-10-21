@@ -1,7 +1,7 @@
 Name:    txt2tags
 Summary: Summary: Converts text files to HTML, XHTML, LaTeX, and other formats
 Version: 3.3
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2
 URL:     http://txt2tags.sourceforge.net/
 
@@ -49,6 +49,9 @@ Txt2tags is a document generator. It reads a text file with minimal markup as
 %{python3_sitelib}/__pycache__/%{name}*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.3-3
 - Rebuilt for Python 3.9
 

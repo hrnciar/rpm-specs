@@ -7,7 +7,7 @@
 
 Name:           rust-%{crate}
 Version:        0.2.4
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Wrapper over a platform's native TLS implementation
 
 # Upstream license specification: MIT/Apache-2.0
@@ -76,6 +76,13 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 06 2020 Josh Stone <jistone@redhat.com> - 0.2.4-1
 - Update to 0.2.4
 

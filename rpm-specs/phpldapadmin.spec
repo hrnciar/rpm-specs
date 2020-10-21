@@ -2,7 +2,7 @@
 Name: phpldapadmin
 Summary: Web-based tool for managing LDAP servers
 Version: 1.2.3
-Release: 17%{?dist}
+Release: 18%{?dist}
 License: GPLv2+
 URL: http://phpldapadmin.sourceforge.net
 
@@ -129,6 +129,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

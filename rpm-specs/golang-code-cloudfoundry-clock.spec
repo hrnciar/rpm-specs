@@ -4,7 +4,7 @@
 # https://github.com/cloudfoundry/clock
 %global goipath         code.cloudfoundry.org/clock
 %global forgeurl        https://github.com/cloudfoundry/clock
-%global commit          02e53af36e6c978af692887ed449b74026d76fec
+Version:                1.0.0
 
 %gometa
 
@@ -16,8 +16,7 @@ in tests.}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.3%{?dist}
+Release:        2%{?dist}
 Summary:        Time provider & rich fake for Go
 
 # Upstream license specification: Apache-2.0
@@ -44,6 +43,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 20:05:14 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-1
+- Update to 1.0.0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

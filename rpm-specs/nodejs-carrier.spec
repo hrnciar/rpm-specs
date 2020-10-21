@@ -1,20 +1,22 @@
 %global shortname carrier
 
 Name:           nodejs-carrier
-Version:        0.1.14
-Release:        10%{?dist}
+Version:        0.3.0
+Release:        1%{?dist}
 Summary:        Evented stream line reader for node.js
 
 License:        MIT
 URL:            https://github.com/pgte/%{shortname}
+
 Source0:        http://registry.npmjs.org/%{shortname}/-/%{shortname}-%{version}.tgz
+# Created by running the below command in the unpacked %%{SOURCE0}
+# $ npm install --save-dev && tar -czf ../%%{shortname}-%%{version}-node_modules.tar.gz node_modules
+Source1:        %{shortname}-%{version}-node_modules.tar.gz
+
 BuildArch:      noarch
 ExclusiveArch:  %{nodejs_arches} noarch
 
-BuildRequires:  nodejs-packaging
-
-# tap is a test dependency
-BuildRequires:  nodejs-tap
+BuildRequires:  nodejs-packaging nodejs(engine)
 
 %description
 %{shortname} helps you implement new-line terminated protocols over node.js.
@@ -24,6 +26,8 @@ each completed line
 %prep
 %setup -qn package
 
+# Extract cached development dependencies
+tar -xzf '%{SOURCE1}'
 
 %build
 # Nothing to do
@@ -33,12 +37,9 @@ each completed line
 mkdir -p %{buildroot}%{nodejs_sitelib}/%{shortname}/
 cp -pr package.json lib/ %{buildroot}%{nodejs_sitelib}/%{shortname}
 
-%nodejs_symlink_deps
-
 %check
-%nodejs_symlink_deps --check
 for test in $(ls test/); do
-    node test/${test}
+    %{__nodejs} test/${test}
 done
 
 %files
@@ -48,6 +49,16 @@ done
 
 
 %changelog
+* Mon Aug 17 2020 Jan Staněk <jstanek@redhat.com> - 0.3.0-1
+- Upgrade to version 0.3.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.14-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.14-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.14-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

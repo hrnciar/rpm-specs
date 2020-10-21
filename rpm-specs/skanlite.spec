@@ -1,6 +1,6 @@
 Name:           skanlite
-Version:        2.1.0.1
-Release:        4%{?dist}
+Version:        2.2.0
+Release:        2%{?dist}
 Summary:        Lightweight scanning program
 # Actually: GPLv2 or GPLv3 or any later Version approved by KDE e.V.
 License:        GPLv2 or GPLv3
@@ -34,15 +34,12 @@ Skanlite is a light-weight scanning application based on libksane.
 
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%cmake ..
-%make_build
-popd
+%cmake
+%cmake_build
 
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 %find_lang %{name} --all-name --with-html
 install -Dpm 0644 hotkeys_and_scripts/%{name}.khotkeys %{buildroot}%{_kf5_datadir}/khotkeys/%{name}.khotkeys
 
@@ -61,6 +58,12 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/org.kde.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Sandro Mani <manisandro@gmail.com> - 2.2.0-1
+- Update to 2.2.0
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

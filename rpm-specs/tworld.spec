@@ -2,7 +2,7 @@ Name:	 tworld
 %global fullname Tile World
 
 Version: 1.3.2
-Release: 13%{?dist}
+Release: 14%{?dist}
 Summary: Intellectually engaging puzzle game
 
 License: GPLv2+
@@ -117,6 +117,9 @@ EOF
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

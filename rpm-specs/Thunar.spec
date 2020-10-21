@@ -4,7 +4,7 @@
 
 Name:           Thunar
 Version:        1.8.15
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Thunar File Manager
 
 License:        GPLv2+
@@ -190,6 +190,13 @@ done
 %{_datadir}/gtk-doc/html/thunarx/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.15-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.15-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 1.8.15-1
 - Update to 1.8.15
 

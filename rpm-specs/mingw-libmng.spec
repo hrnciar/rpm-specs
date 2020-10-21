@@ -4,7 +4,7 @@
 
 Name:          mingw-%{pkgname}
 Version:       2.0.3
-Release:       10%{?dist}
+Release:       11%{?dist}
 Summary:       MinGW Windows %{pkgname} library
 
 License:       zlib
@@ -117,6 +117,9 @@ rm -rf %{buildroot}%{mingw64_datadir}
 %{mingw64_libdir}/libmng.a
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

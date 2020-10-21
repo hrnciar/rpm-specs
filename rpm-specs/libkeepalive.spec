@@ -1,6 +1,6 @@
 Name:		libkeepalive
 Version:	0.3
-Release:	12%{?dist}
+Release:	13%{?dist}
 Summary:	Enable TCP keepalive in dynamic binaries
 URL:		http://libkeepalive.sourceforge.net/
 
@@ -41,6 +41,9 @@ install -p -m 0755 -D src/libkeepalive.so %{buildroot}%{_libdir}/libkeepalive.so
 %{_libdir}/libkeepalive.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

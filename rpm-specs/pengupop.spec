@@ -1,6 +1,6 @@
 Name:           pengupop
 Version:        2.2.2
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        Networked Game in the vein of Move/Puzzle Bobble
 
 License:        GPLv2+
@@ -47,6 +47,9 @@ desktop-file-install \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

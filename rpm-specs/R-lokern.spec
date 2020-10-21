@@ -1,14 +1,15 @@
-%global packname  lokern
+%global packname lokern
+%global packver  1.1-8.1
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          1.1.8
-Release:          6%{?dist}
+Version:          1.1.8.1
+Release:          3%{?dist}
 Summary:          Kernel Regression Smoothing with Local or Global Plug-in Bandwidth
 
 License:          GPLv2+
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_1.1-8.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
@@ -26,8 +27,8 @@ BuildRequires:    R-utils
 BuildRequires:    R-sfsmisc >= 1.0.12
 
 %description
-Kernel regression smoothing with adaptive local or global plug-in
-bandwidth selection.
+Kernel regression smoothing with adaptive local or global plug-in bandwidth
+selection.
 
 
 %prep
@@ -64,6 +65,16 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.8.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.1.8.1-1
+- Update to latest version
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.1.8-6
 - rebuild for R 4
 

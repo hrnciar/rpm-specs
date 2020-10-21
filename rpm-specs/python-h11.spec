@@ -23,7 +23,7 @@ like requests or twisted.web.
 
 Name:           python-%{pkgname}
 Version:        0.9.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        A pure-Python, bring-your-own-I/O implementation of HTTP/1.1
 License:        MIT
 URL:            https://github.com/python-hyper/h11
@@ -74,6 +74,9 @@ py.test-%{python3_version} --verbose
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.0-6
 - Rebuilt for Python 3.9
 

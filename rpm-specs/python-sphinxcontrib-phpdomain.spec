@@ -1,7 +1,7 @@
 %global pypi_name sphinxcontrib-phpdomain
 
 Name:           python-%{pypi_name}
-Version:        0.7.0
+Version:        0.7.1
 Release:        2%{?dist}
 Summary:        Sphinx extension to enable documenting PHP code
 
@@ -19,8 +19,6 @@ Summary:        %{summary}
 
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
-
-Requires:      (python3dist(sphinx) >= 1.3 with python3dist(sphinx) < 2.5)
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
 %description -n python3-%{pypi_name}
@@ -45,6 +43,15 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/sphinxcontrib_phpdomain-%{version}-py*.egg-info/
 
 %changelog
+* Tue Sep 01 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.7.1-2
+- Let the dependency generator handle the requirements (rhbz#1871608)
+
+* Thu Aug 06 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.7.1-1
+- Update to latest upstream release 0.7.1 (rhbz#1866196)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.0-2
 - Rebuilt for Python 3.9
 

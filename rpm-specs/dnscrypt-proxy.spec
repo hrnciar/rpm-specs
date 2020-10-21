@@ -35,7 +35,7 @@ Features:
  - Can force outgoing connections to use TCP; useful with tunnels such as Tor.}
 
 Name:           dnscrypt-proxy
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Flexible DNS proxy, with support for encrypted DNS protocols
 
 License:        ISC
@@ -162,6 +162,9 @@ fi
 %{_unitdir}/%{name}.service
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.44-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 21:32:58 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.0.44-1
 - Release 2.0.44 (#1796742)
 

@@ -1,7 +1,7 @@
 %global srcname colcon-output
 
 Name:           python-%{srcname}
-Version:        0.2.10
+Version:        0.2.12
 Release:        1%{?dist}
 Summary:        Extension for colcon to customize the output in various ways
 
@@ -57,6 +57,15 @@ An extension for colcon-core to customize the output in various ways.
 
 
 %changelog
+* Thu Oct 15 2020 Scott K Logan <logans@cottsay.net> - 0.2.12-1
+- Update to 0.2.12 (rhbz#1885436)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Scott K Logan <logans@cottsay.net> - 0.2.11-1
+- Update to 0.2.11 (rhbz#1849121)
+
 * Fri Jun 12 2020 Scott K Logan <logans@cottsay.net> - 0.2.10-1
 - Update to 0.2.10 (rhbz#1846604)
 

@@ -3,8 +3,7 @@
 
 # https://github.com/google/flatbuffers
 %global goipath         github.com/google/flatbuffers
-Version:                1.11.0
-%global tag             1.11.0
+Version:                1.12.0
 
 %gometa
 
@@ -18,7 +17,7 @@ compatibility.}
 %global godocs          CONTRIBUTING.md readme.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Memory Efficient Serialization Library
 
 License:        ASL 2.0
@@ -48,6 +47,12 @@ find ./* -maxdepth 0 -type d -not -name "go" -and -not -name "_build" -exec rm -
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 22:30:54 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.12.0-1
+- Update to 1.12.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -5,7 +5,7 @@
 
 Name:           %{fontname}-fonts
 Version:        1.0
-Release:        40%{?dist}
+Release:        41%{?dist}
 Summary:        Central European language fonts for the X Window System
 License:        MIT
 # Upstream url http://www.biz.net.pl/images/ISO8859-2-bdf.tar.gz is dead now.
@@ -132,6 +132,9 @@ ln -sf %{_fontdir}/100dpi $RPM_BUILD_ROOT%{catalogue}/%{fontname}-100dpi-fonts
 %dir %{_fontdir}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-41
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-40
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

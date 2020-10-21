@@ -1,5 +1,5 @@
 Name:		  lxcfs
-Version:	  4.0.4
+Version:	  4.0.5
 Release:	  1%{?dist}
 Summary:	  FUSE based filesystem for LXC
 License:	  ASL 2.0
@@ -74,6 +74,12 @@ mkdir -p %{buildroot}%{_sharedstatedir}/%{name}
 
 
 %changelog
+* Wed Aug  5 2020 Thomas Moschny <thomas.moschny@gmx.de> - 4.0.5-1
+- Update to 4.0.5.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 20 2020 Thomas Moschny <thomas.moschny@gmx.de> - 4.0.4-1
 - Update to 4.0.4.
 

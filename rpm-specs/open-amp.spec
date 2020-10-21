@@ -1,15 +1,15 @@
 Name:		open-amp
 Version:	2020.04.0
-Release:	2%{?dist}
+Release:	4%{?dist}
 Summary:	Open Asymmetric Multi Processing (OpenAMP) framework project
 
 License:	BSD
 URL:		https://github.com/OpenAMP/open-amp/
 Source0:	https://github.com/OpenAMP/open-amp/archive/v%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:  gcc-c++
 BuildRequires:	cmake
 BuildRequires:	gcc
+BuildRequires:	gcc-c++
 BuildRequires:	libmetal-devel
 BuildRequires:	libsysfs-devel
 
@@ -30,19 +30,16 @@ baremetal, and RTOS environments.
 
 
 %build
-mkdir build
-cd build
 %cmake -DCMAKE_INSTALL_LIBDIR=%{_libdir} \
 	-DCMAKE_INCLUDE_PATH=%{_includedir}/libmetal/ \
 	-DCMAKE_LIBRARY_PATH=%{_libdir} \
 	-DWITH_STATIC_LIB=OFF \
 	-DWITH_APPS=ON ..
-%make_build
+%cmake_build
 
 
 %install
-cd build
-%make_install
+%cmake_install
 
 %ldconfig_scriptlets
 
@@ -69,6 +66,13 @@ cd build
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.04.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.04.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 10 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2020.04.0-1
 - Update to 2020.04.0
 

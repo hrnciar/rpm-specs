@@ -7,7 +7,7 @@ Name: unixODBC-gui-qt
 # There has not been a formal upstream release yet and we're not
 # sure what the first formal release version number will be, so using 0
 Version: 0
-Release: 0.22.%{checkout}%{?dist}
+Release: 0.26.%{checkout}%{?dist}
 URL: http://sourceforge.net/projects/unixodbc-gui-qt/
 # Programs are GPL, libraries are LGPL
 License: GPLv3 and LGPLv3
@@ -23,9 +23,10 @@ Source2: ODBCManageDataSourcesQ5.desktop
 Patch0: 0001-Turn-on-soname-versioning.patch
 
 BuildRequires: git
-BuildRequires: qt5-devel qt-assistant-adp-devel
-BuildRequires: unixODBC-devel
 BuildRequires: desktop-file-utils
+BuildRequires: qt-assistant-adp-devel
+BuildRequires: qt5-qtbase-devel
+BuildRequires: unixODBC-devel
 
 # Since unixODBC-2.3.0 does not contain GUI tools anymore, we can say
 # unixODBC-gui-qt obsoletes all versions of unixODBC-kde before 2.3.0
@@ -52,7 +53,7 @@ sed -Ei -e 's|(INSTALL_TARGET_BIN)\s*=.*$|\1 = %{_bindir}|' \
 export UNIXODBC_DIR="%{_prefix}" UNIXODBC_LIBDIR="%{_libdir}"
 
 %{qmake_qt5}
-make %{?_smp_mflags}
+%{make_build}
 
 %install
 export UNIXODBC_DIR="%{_prefix}" UNIXODBC_LIBDIR="%{_libdir}"
@@ -60,7 +61,7 @@ export UNIXODBC_DIR="%{_prefix}" UNIXODBC_LIBDIR="%{_libdir}"
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/pixmaps
 
-make INSTALL_ROOT="$RPM_BUILD_ROOT" install
+%{make_install} INSTALL_ROOT="$RPM_BUILD_ROOT"
 
 # install *.desktop files
 desktop-file-install --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{SOURCE1}
@@ -87,6 +88,20 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 %{_libdir}/libodbcinstQ*so*
 
 %changelog
+* Tue Aug 04 2020 Jan Staněk <jstanek@redhat.com> - 0-0.26.20190111svn132
+- Add back dependency on qt5-qtbase-devel (pulls qmake and necessary macros)
+- Use %%make_build and %%make_install macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.25.20190111svn132
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.24.20190111svn132
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 19 2020 Jeff Law <law@redhat.com> - 0-0.23.20190111svn132
+- Drop dependency on qt5-devel
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.22.20190111svn132
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

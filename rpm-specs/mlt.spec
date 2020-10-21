@@ -22,8 +22,8 @@
 #global gver .%%{gitdate}git%%{shortcommit}
 
 Name:           mlt
-Version:        6.20.0
-Release:        2%{?dist}
+Version:        6.22.1
+Release:        1%{?dist}
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 
 # mlt/src/win32/fnmatch.{c,h} are BSD-licensed.
@@ -34,6 +34,7 @@ URL:            http://www.mltframework.org/
 Source0:        https://github.com/mltframework/mlt/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 ##Patch1:         83eace8f2a384b46243597d6eb1fd5f0e5c9eb65.patch
 
+BuildRequires:  sed
 BuildRequires:  frei0r-devel
 BuildRequires:  opencv-devel
 BuildRequires:  qt5-qtbase-devel
@@ -45,6 +46,7 @@ BuildRequires:  SDL2-devel
 BuildRequires:  SDL2_image-devel
 BuildRequires:  gtk2-devel
 BuildRequires:  jack-audio-connection-kit-devel
+BuildRequires:  libatomic
 BuildRequires:  libogg-devel
 #Deprecated dv and kino modules are not built.
 #https://github.com/mltframework/mlt/commit/9d082192a4d79157e963fd7f491da0f8abab683f
@@ -74,6 +76,8 @@ BuildRequires:  libebur128-devel
 %if %{with freeworld}
 BuildRequires:  ffmpeg-devel
 BuildRequires:  xine-lib-devel
+Provides: mlt-freeworld = %{version}-%{release}
+Obsoletes:mlt-freeworld < %{version}-%{release}
 %endif
 
 %if !%{with python2}
@@ -227,7 +231,8 @@ EOF
 %endif
 
 mv src/modules/motion_est/README README.motion_est
-
+sed -i -e "s#melt#mlt-melt#g" docs/melt.1
+install -D -pm 0644 docs/melt.1 %{buildroot}%{_mandir}/man1/mlt-melt.1
 
 %check
 # verify pkg-config version sanity
@@ -238,13 +243,15 @@ test "$(pkg-config --modversion mlt++)" = "%{version}"
 %ldconfig_scriptlets
 
 %files
-%doc AUTHORS ChangeLog NEWS README*
+%doc AUTHORS NEWS README*
+%doc docs/*txt demo/
 %license COPYING GPL
 %{_bindir}/mlt-melt
 %{_libdir}/mlt/
 %{_libdir}/libmlt++.so.*
 %{_libdir}/libmlt.so.*
 %{_datadir}/mlt/
+%{_mandir}/man1/mlt-melt.1*
 
 %if %{with python2}
 %files -n python2-mlt
@@ -273,7 +280,6 @@ test "$(pkg-config --modversion mlt++)" = "%{version}"
 %endif
 
 %files devel
-%doc docs/* demo/
 %{_libdir}/pkgconfig/mlt-framework.pc
 %{_libdir}/pkgconfig/mlt++.pc
 %{_libdir}/libmlt.so
@@ -283,6 +289,16 @@ test "$(pkg-config --modversion mlt++)" = "%{version}"
 
 
 %changelog
+* Thu Aug 20 2020 Sérgio Basto <sergio@serjux.com> - 6.22.1-1
+- Update to 6.22.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.20.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.20.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 6.20.0-2
 - Rebuilt for Python 3.9
 - Rebuild for OpenCV 4.3

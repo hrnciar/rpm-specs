@@ -1,6 +1,6 @@
 Name:           perl-App-a2p
-Version:        1.012
-Release:        3%{?dist}
+Version:        1.013
+Release:        2%{?dist}
 Summary:        Awk to Perl translator
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/App-a2p
@@ -74,6 +74,12 @@ make test
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.013-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.013-1
+- 1.013 bump
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.012-3
 - Perl 5.32 rebuild
 

@@ -17,7 +17,7 @@
 Summary: %{sum}
 Name: python-pymilter
 Version: 1.0.4
-Release: 9%{?dist}
+Release: 10%{?dist}
 Url: http://bmsi.com/pymilter
 Source: https://github.com/sdgathman/pymilter/archive/pymilter-%{version}.tar.gz
 Source1: tmpfiles-python-pymilter.conf
@@ -156,6 +156,9 @@ if [ $1 -eq 0 ] ; then
 fi
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.4-9
 - Rebuilt for Python 3.9
 

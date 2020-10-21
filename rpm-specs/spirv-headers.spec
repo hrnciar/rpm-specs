@@ -1,11 +1,11 @@
-%global commit 2ad0492fb00919d99500f1da74abf5ad3c870e4e
+%global commit 3fdabd0da2932c276b25b9b4a988ba134eba1aa6
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global commit_date 20200414
+%global commit_date 20200803
 %global gitrel .%{commit_date}.git%{shortcommit}
 
 Name:           spirv-headers
 Version:        1.5.1
-Release:        3%{?gitrel}%{?dist}
+Release:        5%{?gitrel}%{?dist}
 Summary:        Header files from the SPIR-V registry
 
 License:        MIT
@@ -55,6 +55,12 @@ mv include/* %buildroot%{_includedir}/
 %{_includedir}/spirv/
 
 %changelog
+* Tue Aug 04 2020 Dave Airlie <airlied@redhat.com> - 1.5.1-5.20200803.git3fdabd0
+- Update to latest spirv headers
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-4.20200414.git2ad0492
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Dave Airlie <airlied@redhat.com> - 1.5.1-3
 - Update to latest spirv headers
 

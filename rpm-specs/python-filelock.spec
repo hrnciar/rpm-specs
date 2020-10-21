@@ -5,7 +5,7 @@
 
 Name:           python-%{srcname}
 Version:        3.0.12
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        A platform independent file lock
 
 License:        Unlicense
@@ -138,6 +138,9 @@ install -p -m0644 -D docs/build/man/py-%{srcname}.1 %{buildroot}%{_mandir}/man1/
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.12-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.12-7
 - Rebuilt for Python 3.9
 

@@ -4,7 +4,7 @@
 
 Name:           ladvd
 Version:        1.1.2
-Release:        7%{?dist}
+Release:        10%{?dist}
 Summary:        CDP/LLDP sender for UNIX
 
 License:        ISC
@@ -15,6 +15,7 @@ Source1:        %{name}.conf.sysusers
 Source3:        %{modulename}.te
 Source4:        %{modulename}.fc
 Source5:        %{modulename}.if
+# merged upstram https://github.com/sspans/ladvd/pull/42
 Patch0:         0001-fix-_BSD_SOURCE-and-_SVID_SOURCE-are-deprecated-use-.patch
 Patch1:         %{name}-0002-util.c-fix-for-undeclared-MAXPATHLEN.patch
 
@@ -150,6 +151,15 @@ fi
 
 
 %changelog
+* Mon Sep 28 2020 Tomasz Torcz <ttorcz@fedoraproject.org> - 1.1.2-10
+- rebuild for libevent soname change
+
+* Wed Aug 05 2020 Tomasz Torcz <ttorcz@fedoraproject.org> - 1.1.2-9
+- further SELinux fixes (rhbz#1855163 and other stuff)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 16 2020 Tomasz Torcz <ttorcz@fedoraproject.org> - 1.1.2-7
 - fixes to SELinux policy from Milos Malik (rhbz#1834325)
 - /var/run → /run cleanup

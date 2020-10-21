@@ -8,7 +8,7 @@
 
 Name:		nodejs-spdx-license-ids
 Version:	1.2.0
-Release:	11%{?dist}
+Release:	13%{?dist}
 Summary:	A list of SPDX license identifiers
 Url:		https://github.com/shinnn/spdx-license-ids
 Source0:        https://registry.npmjs.org/%{npm_name}/-/%{npm_name}-%{version}.tgz
@@ -74,6 +74,13 @@ cp -pr package.json spdx-license-ids.json %{buildroot}%{nodejs_sitelib}/%{npm_na
 %license LICENSE
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

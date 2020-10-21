@@ -7,7 +7,7 @@
 
 Name:           gnome-shell-extension-argos
 Version:        3
-Release:        2.%{snapinfo}%{?dist}
+Release:        3.%{snapinfo}%{?dist}
 Summary:        Create GNOME Shell extensions in seconds
 
 License:        GPLv3
@@ -57,6 +57,9 @@ cp -pr %{uuid} %{buildroot}%{_datadir}/gnome-shell/extensions/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3-3.20200110.fcb4751
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 28 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 3.2.20200110.fcb4751
 - add URLs to pull requests for reference
 

@@ -3,7 +3,7 @@
 
 Name:		jacop
 Version:	4.7
-Release:	1%{?dist}
+Release:	4%{?dist}
 License:	AGPLv3 with exceptions 
 Summary:	Java Constraint Programming solver
 URL:		http://jacop.osolpro.com/
@@ -43,6 +43,9 @@ This package contains the API documentation for %{name}.
 # We do not need to create a source jar
 %pom_remove_plugin org.apache.maven.plugins:maven-source-plugin
 
+# Remove unnecessary dependency on maven-javadoc-plugin
+%pom_remove_plugin :maven-javadoc-plugin
+
 # scala-xml is not available in Fedora
 %pom_remove_dep org.scala-lang.modules:scala-xml_2.12
 
@@ -64,6 +67,15 @@ This package contains the API documentation for %{name}.
 %license LICENSE.md
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.7-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Fabio Valentini <decathorpe@gmail.com> - 4.7-3
+- Remove unnecessary dependency on maven-javadoc-plugin.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 4.7-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Feb 21 2020 Jerry James <loganjerry@gmail.com> - 4.7-1
 - Version 4.7
 - Upstream now ships a license file

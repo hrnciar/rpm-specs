@@ -1,4 +1,4 @@
-%global commit0 ac1703e9d7feebbf5443a986e08332b1e1c5afcf
+%global commit0 d5e261484286d33a1fe8a02676f5907ecc02106f
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 %global fontname google-noto-emoji
@@ -11,8 +11,8 @@
 
 
 Name:           %{fontname}-fonts
-Version:        20200402
-Release:        1%{?dist}
+Version:        20200723
+Release:        2%{?dist}
 Summary:        Google “Noto Emoji” Black-and-White emoji font
 
 # In noto-emoji-fonts source
@@ -29,9 +29,10 @@ Source0:        https://github.com/googlei18n/noto-emoji/archive/%{commit0}.tar.
 Source2:        %{fontname}.metainfo.xml
 Source3:        %{fontname}-color.metainfo.xml
 
-Patch0:         noto-emoji-use-system-pngquant.patch
-Patch1:         noto-emoji-build-all-flags.patch
-Patch2:         noto-emoji-use-gm.patch
+Patch0:         noto-emoji-build-all-flags.patch
+Patch1:         noto-emoji-use-gm.patch
+Patch2:         noto-emoji-use-system-pngquant.patch
+Patch3:         noto-emoji-check-sequence.patch
 
 BuildArch:      noarch
 BuildRequires:  gcc
@@ -67,9 +68,10 @@ This package provides the Google “Noto Color Emoji” colored emoji font.
 
 %prep
 %setup -n noto-emoji-%{commit0}
-%patch0 -p1 -b .noto-emoji-use-system-pngquant
-%patch1 -p1 -b .noto-emoji-build-all-flags
-%patch2 -p1 -b .noto-emoji-use-gm.patch
+%patch0 -p1 -b .noto-emoji-build-all-flags
+%patch1 -p1 -b .noto-emoji-use-gm.patch
+%patch2 -p1 -b .noto-emoji-use-system-pngquant
+%patch3 -p1 -b .noto-emoji-check-sequence
 
 rm -rf third_party/pngquant
 
@@ -78,7 +80,7 @@ rm -rf third_party/pngquant
 # Work around UTF-8
 export LANG=C.UTF-8
 
-make %{?_smp_mflags} OPT_CFLAGS="$RPM_OPT_FLAGS"
+%make_build OPT_CFLAGS="$RPM_OPT_FLAGS" BYPASS_SEQUENCE_CHECK='True'
 %endif
 
 %install
@@ -111,6 +113,16 @@ install -m 0644 -p %{SOURCE3} %{buildroot}%{_datadir}/appdata
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200723-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Mike FABIAN <mfabian@redhat.com> - 20200723-1
+- Update to upstream snapshot tarball (Unicode 13.0.0 support)
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 20200402-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Thu Apr 02 2020 Mike FABIAN <mfabian@redhat.com> - 20200402-1
 - Update to upstream snapshot tarball (fixes U+1F9D1 U+200D U+1F3A8 "artist"
   and many other sequences)

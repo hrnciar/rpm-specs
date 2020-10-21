@@ -1,12 +1,12 @@
-%bcond_with check
+%bcond_without check
 
 %global packname xfun
-%global packver  0.14
-%global rlibdir  %{_datadir}/R/library
+%global packver  0.18
+%global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          0.14
-Release:          2%{?dist}
+Version:          0.18
+Release:          1%{?dist}
 Summary:          Miscellaneous Functions by 'Yihui Xie'
 
 License:          MIT
@@ -16,11 +16,10 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 # Here's the R view of the dependencies world:
 # Depends:
 # Imports:   R-stats, R-tools
-# Suggests:  R-testit, R-parallel, R-codetools, R-rstudioapi, R-tinytex, R-mime, R-markdown, R-knitr, R-htmltools, R-base64enc, R-remotes, R-rmarkdown
+# Suggests:  R-testit, R-parallel, R-codetools, R-rstudioapi, R-tinytex, R-mime, R-markdown, R-knitr, R-htmltools, R-remotes, R-pak, R-rmarkdown
 # LinkingTo:
 # Enhances:
 
-BuildArch:        noarch
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    R-stats
@@ -35,8 +34,8 @@ BuildRequires:    R-mime
 BuildRequires:    R-markdown
 BuildRequires:    R-knitr
 BuildRequires:    R-htmltools
-BuildRequires:    R-base64enc
 BuildRequires:    R-remotes
+BuildRequires:    R-pak
 BuildRequires:    R-rmarkdown
 %endif
 
@@ -64,6 +63,7 @@ rm -f %{buildroot}%{rlibdir}/R.css
 %{_bindir}/R CMD check %{packname}
 %endif
 
+
 %files
 %dir %{rlibdir}/%{packname}
 %doc %{rlibdir}/%{packname}/doc
@@ -77,9 +77,27 @@ rm -f %{buildroot}%{rlibdir}/R.css
 %{rlibdir}/%{packname}/R
 %{rlibdir}/%{packname}/help
 %{rlibdir}/%{packname}/scripts
+%dir %{rlibdir}/%{packname}/libs
+%{rlibdir}/%{packname}/libs/%{packname}.so
 
 
 %changelog
+* Wed Sep 30 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.18-1
+- Update to latest version (#1877265)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.16-1
+- Update to latest version
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.15-1
+- Update to latest version
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 0.14-2
 - conditionalize check to break knitr loop
 - rebuild for R 4

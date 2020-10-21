@@ -1,6 +1,6 @@
 Name:           perl-CPAN-DistnameInfo
 Version:        0.12
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Extract distribution name and version from a distribution filename
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/CPAN-DistnameInfo
@@ -51,6 +51,9 @@ make test
 %{_mandir}/man3/CPAN::DistnameInfo.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.12-19
 - Perl 5.32 rebuild
 

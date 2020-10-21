@@ -1,6 +1,6 @@
 Name:           tiled
 Version:        1.3.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tiled Map Editor
 # tiled itself is GPLv2+, libtiled and tmxviewer are BSD
 License:        GPLv2+ and BSD
@@ -190,6 +190,9 @@ rm %{buildroot}/%{_libdir}/lib%{name}.so
 %{_libdir}/%{name}/plugins/libgmx.so
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Filipe Rosset <rosset.filipe@gmail.com> - 1.3.4-1
 - Update to 1.3.4 fixes rhbz#1809805 + fix spec file changelog
 

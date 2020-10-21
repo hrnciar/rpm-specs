@@ -1,7 +1,7 @@
 Summary:       Simple word frequency counter
 Name:          wf
 Version:       0.41
-Release:       23%{?dist}
+Release:       25%{?dist}
 License:       GPLv2
 URL:           http://www.async.com.br/~marcelo/wf/
 Source0:       http://www.async.com.br/~marcelo/wf/wf-%{version}.tar.bz2
@@ -17,10 +17,10 @@ whole text.
 
 %build
 %configure
-make %{?_smp_mflags}
+%make_build
 
 %install
-make DESTDIR=%{buildroot} INSTALL="%{__install} -p" install
+%make_install
 
 %files
 %license COPYING
@@ -29,6 +29,13 @@ make DESTDIR=%{buildroot} INSTALL="%{__install} -p" install
 %{_mandir}/man1/wf.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.41-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 0.41-24
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Sat Feb 01 2020 Terje Rosten <terje.rosten@ntnu.no> - 0.41-23
 - Fix GCC 10 ftbfs
 

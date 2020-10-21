@@ -1,14 +1,7 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 %{?mingw_package_header}
 
-# See https://fedoraproject.org/wiki/Packaging:Python_Appendix#Manual_byte_compilation
-%global __python %{__python3}
-
 Name:           mingw-glib2
-Version:        2.64.3
+Version:        2.66.2
 Release:        1%{?dist}
 Summary:        MinGW Windows GLib2 library
 
@@ -165,6 +158,13 @@ find %{buildroot} -name "*.la" -delete
 
 %mingw_find_lang glib20
 
+# Manually invoke the python byte compile macro for each path that needs byte
+# compilation.
+%py_byte_compile %{__python3} %{buildroot}%{mingw32_datadir}/glib-2.0/gdb
+%py_byte_compile %{__python3} %{buildroot}%{mingw32_datadir}/glib-2.0/codegen
+%py_byte_compile %{__python3} %{buildroot}%{mingw64_datadir}/glib-2.0/gdb
+%py_byte_compile %{__python3} %{buildroot}%{mingw64_datadir}/glib-2.0/codegen
+
 
 # Win32
 %files -n mingw32-glib2 -f mingw32-glib20.lang
@@ -270,6 +270,21 @@ find %{buildroot} -name "*.la" -delete
 
 
 %changelog
+* Mon Oct 19 2020 Sandro Mani <manisandro@gmail.com> - 2.66.2-1
+- Update to 2.66.2
+
+* Mon Oct 05 2020 Sandro Mani <manisandro@gmail.com> - 2.66.1-1
+- Update to 2.66.1
+
+* Tue Sep 15 2020 Sandro Mani <manisandro@gmail.com> - 2.66.0-1
+- Update to 2.66.0
+
+* Wed Aug 12 13:36:55 GMT 2020 Sandro Mani <manisandro@gmail.com> - 2.64.3-3
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.64.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Sandro Mani <manisandro@gmail.com> - 2.64.3-1
 - Update to 2.64.3
 

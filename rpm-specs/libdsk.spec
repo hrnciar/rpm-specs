@@ -1,6 +1,6 @@
 Name:           libdsk
 Version:        1.5.10
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Library for accessing disk images
 License:        LGPLv2+
 URL:            http://www.seasip.info/Unix/LibDsk
@@ -77,6 +77,9 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.10-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.10-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

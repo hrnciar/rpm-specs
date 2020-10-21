@@ -1,7 +1,7 @@
 Name:           kim-api
 Version:        2.1.3
 %global sover   2
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Open Knowledgebase of Interatomic Models KIM API
 License:        CDDL-1.0
 Url:            https://www.openkim.org
@@ -56,13 +56,11 @@ This package contains the example models for the KIM-API.
 %setup -q
 
 %build
-mkdir build
-pushd build
-%{cmake3} -DCMAKE_SKIP_RPATH=ON -DCMAKE_INSTALL_LIBEXECDIR=%{_libexecdir} -DBASH_COMPLETION_COMPLETIONSDIR=%{b_compdir} -DZSH_COMPLETION_COMPLETIONSDIR=%{z_compdir} ..
-%make_build
+%{cmake3} -DCMAKE_SKIP_RPATH=ON -DCMAKE_INSTALL_LIBEXECDIR=%{_libexecdir} -DBASH_COMPLETION_COMPLETIONSDIR=%{b_compdir} -DZSH_COMPLETION_COMPLETIONSDIR=%{z_compdir}
+%cmake_build
 
 %install
-%make_install -C build
+%cmake_install
 
 # emacs files
 mkdir -p %{buildroot}%{_datadir}/emacs/site-lisp
@@ -99,6 +97,16 @@ mv %{buildroot}/usr/share/emacs/site-lisp/kim-api/kim-api-c-style.el %{buildroot
 %{_libdir}/kim-api/simulator-models/
 
 %changelog
+* Mon Aug 03 2020 Christoph Junghans <junghans@votca.org> - 2.1.3-5
+- Fix out-of-source build on F33 (bug #1863940)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:               nodejs-safe-buffer
-Version:            5.1.2
-Release:            3%{?dist}
+Version:            5.2.1
+Release:            1%{?dist}
 Summary:            Node.js module for a safer buffer API
 
 License:            MIT
@@ -10,40 +10,45 @@ BuildArch:          noarch
 ExclusiveArch:      %{nodejs_arches} noarch
 
 BuildRequires:      nodejs-packaging
-
 BuildRequires:      npm(tape)
-
 
 %description
 %{summary}.
-
 
 %prep
 %autosetup -n safe-buffer-%{version}
 rm -rf node_modules
 
 %build
-
+# Nothing to build
 
 %install
 mkdir -p %{buildroot}%{nodejs_sitelib}/safe-buffer
 cp -pr package.json index.js %{buildroot}%{nodejs_sitelib}/safe-buffer
 %nodejs_symlink_deps
 
-
 %check
 %nodejs_symlink_deps --check
 %{__nodejs} -e 'require("./")'
 tape test/*.js
-
 
 %files
 %doc README.md
 %license LICENSE
 %{nodejs_sitelib}/safe-buffer
 
-
 %changelog
+* Thu Aug 20 2020 Fabian Affolter <mail@fabian-affolter.ch> - 5.2.1-1
+- Fix FTBFS
+- Update to latest upstream release 5.2.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.2-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

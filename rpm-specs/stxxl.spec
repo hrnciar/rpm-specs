@@ -1,6 +1,8 @@
+%define __cmake_in_source_build 1
+
 Name:		stxxl
 Version:	1.4.1
-Release:	12%{?dist}
+Release:	15%{?dist}
 Summary:	C++ STL drop-in replacement for extremely large data sets 
 
 License:	Boost	
@@ -97,6 +99,26 @@ popd
 
 
 %changelog
+* Tue Sep 22 2020 Jeff Law <law@redhat.com> - 1.4.1-15
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

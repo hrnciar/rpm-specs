@@ -5,7 +5,7 @@
 %global crate ron
 
 Name:           rust-%{crate}
-Version:        0.6.0
+Version:        0.6.2
 Release:        1%{?dist}
 Summary:        Rusty Object Notation
 
@@ -22,9 +22,7 @@ BuildArch:      noarch
 BuildRequires:  rust-packaging
 
 %global _description %{expand:
-RON is a simple readable data serialization format that looks similar to Rust
-syntax. It's designed to support all of Serde's data model, so structs, enums,
-tuples, arrays, generic maps, and primitive values.}
+Rusty Object Notation.}
 
 %description %{_description}
 
@@ -85,6 +83,15 @@ which use "indexmap" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Fri Sep 11 2020 Josh Stone <jistone@redhat.com> - 0.6.2-1
+- Update to 0.6.2
+
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 0.6.1-1
+- Update to 0.6.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 21 2020 Josh Stone <jistone@redhat.com> - 0.6.0-1
 - Update to 0.6.0
 

@@ -1,6 +1,6 @@
 Name:           perl-Workflow
 Version:        1.48
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Simple, flexible system to implement work-flows
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Workflow
@@ -112,6 +112,12 @@ find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.48-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.48-4
+- Perl 5.32 rebuild
+
 * Fri Mar 13 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.48-3
 - Specify all dependencies
 

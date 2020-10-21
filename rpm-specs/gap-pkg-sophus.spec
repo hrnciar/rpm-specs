@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        1.24
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Computing in nilpotent Lie algebras
 
 License:        GPLv2+
@@ -42,6 +42,7 @@ This package contains documentation for gap-pkg-%{pkgname}.
 %autosetup -n %{pkgname}-%{version}
 
 %build
+export LC_ALL=C.UTF-8
 gap < makedoc.g
 
 %install
@@ -52,6 +53,7 @@ rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}/doc/*.{aux,bbl,blg,brf,idx,ilg,ind,
 rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}/gap/.\#*
 
 %check
+export LC_ALL=C.UTF-8
 gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" tst/testall.g
 
 %files
@@ -65,6 +67,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

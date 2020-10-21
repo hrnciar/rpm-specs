@@ -2,38 +2,37 @@
 %global gem_name actionpack
 
 # Circular dependency with rubygem-railties.
-%{?_with_bootstrap: %global bootstrap 1}
+%bcond_with bootstrap
 
 Name: rubygem-%{gem_name}
 Epoch: 1
-Version: 5.2.3
-Release: 5%{?dist}
+Version: 6.0.3.4
+Release: 1%{?dist}
 Summary: Web-flow and rendering framework putting the VC in MVC (part of Rails)
 License: MIT
 URL: http://rubyonrails.org
-Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
-
+Source0: https://rubygems.org/gems/%{gem_name}-%{version}%{?prerelease}.gem
 # ActionPack gem doesn't ship with the test suite.
 # You may check it out like so
 # git clone http://github.com/rails/rails.git
-# cd rails/actionpack/
-# git checkout v5.2.3 && tar czvf actionpack-5.2.3-tests.tgz test/
-Source1: actionpack-%{version}-tests.tgz
-# Fix Rack 2.2+ compatibility.
-# https://github.com/rails/rails/pull/38216
-Patch0: rubygem-actionpack-5.2.3-rack-2.1.0-changed-expires-date-format-from-rfc2822-to-httpdate.patch
-# https://github.com/rails/rails/commit/ae3f05e933ec4c42e215c853f17b5bf57e2ed451
-Patch1: rubygem-actionpack-5.2.3-Fix-test_vanilla_cookie_with_expires_set_relatively-failure.patch
-# https://github.com/rails/rails/pull/38422
-Patch2: rubygem-actionpack-5.2.3-Fix-wrong-spec-asserting-headers-maintain-original-definition.patch
-# https://github.com/rails/rails/commit/5bd29afeb4d6ddf35f2e00dbbb850e8ce9b3febd
-Patch3: rubygem-actionpack-5.2.3-Skip-cookie-comma-separation-test.patch
+# cd rails/actionpack && git archive -v -o actionpack-6.0.3.4-tests.txz v6.0.3.4 test/
+Source1: %{gem_name}-%{version}%{?prerelease}-tests.txz
+# The tools are needed for the test suite, are however unpackaged in gem file.
+# You may get them like so
+# git clone http://github.com/rails/rails.git --no-checkout
+# cd rails && git archive -v -o rails-6.0.3.4-tools.txz v6.0.3.4 tools/
+Source2: rails-%{version}%{?prerelease}-tools.txz
+# IO console tests need TTY to run
+# https://github.com/rails/rails/issues/40020
+# https://github.com/rails/rails/pull/36937/
+Patch0: rubygem-actionpack-Allow-tests-to-run-without-a-TTY.patch
+Patch1: rubygem-actionpack-Allow-tests-to-run-without-a-TTY-tests.patch
 
 # Let's keep Requires and BuildRequires sorted alphabeticaly
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby >= 2.2.2
-%if ! 0%{?bootstrap}
+%if %{without bootstrap}
 BuildRequires: rubygem(activemodel) = %{version}
 BuildRequires: rubygem(activerecord) = %{version}
 BuildRequires: rubygem(activesupport) = %{version}
@@ -44,6 +43,7 @@ BuildRequires: rubygem(rack-cache)
 BuildRequires: rubygem(rack-test)
 BuildRequires: rubygem(puma)
 BuildRequires: rubygem(capybara) >= 2.13.0
+BuildRequires: rubygem(selenium-webdriver)
 %endif
 BuildArch: noarch
 
@@ -61,18 +61,12 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -n %{gem_name}-%{version} -b 1
+%setup -q -n %{gem_name}-%{version}%{?prerelease} -b1 -b2
 
-pushd %{_builddir}
 %patch0 -p2
-%patch1 -p2
-%patch2 -p2
-%patch3 -p2
-popd
 
 %build
-gem build ../%{gem_name}-%{version}.gemspec
-
+gem build ../%{gem_name}-%{version}%{?prerelease}.gemspec
 %gem_install
 
 %install
@@ -81,14 +75,26 @@ cp -a .%{gem_dir}/* \
         %{buildroot}%{gem_dir}/
 
 
-%if ! 0%{?bootstrap}
+%if %{without bootstrap}
 %check
 pushd .%{gem_instdir}
+ln -s %{_builddir}/tools ..
+# Copy the tests into place
+cp -a %{_builddir}/test .
 
-# Move the tests into place
-cp -a %{_builddir}/test test
+cat %{PATCH1} | patch -p2 -F 0
 
-ruby -Ilib:test -e 'Dir.glob "./test/**/*_test.rb", &method(:require)'
+# TODO: relative paths to fixtures are not resolved properly
+for tname in 'rendering a relative path with dot' 'rendering a relative path'; do
+  sed -i "/^\s* test \"$tname\" do/ a \      skip" \
+    test/controller/new_base/render_file_test.rb
+done
+
+# Tests need to run in isolation
+find test -type f -name '*_test.rb' -print0 | \
+  sort -z | \
+  xargs -0 -n1 -i sh -c "echo '* Test file: {}'; ruby -Ilib:test -- '{}' || exit 255"
+
 popd
 %endif
 
@@ -105,6 +111,28 @@ popd
 %doc %{gem_instdir}/README.rdoc
 
 %changelog
+* Thu Oct  8 11:41:59 CEST 2020 Pavel Valena <pvalena@redhat.com> - 1:6.0.3.4-1
+- Update to actionpack 6.0.3.4.
+  Resolves: rhbz#1877506
+
+* Wed Sep 23 2020 Vít Ondruch <vondruch@redhat.com> - 1:6.0.3.3-2
+- Run the test suite above the currently built ActionPack.
+
+* Tue Sep 22 00:41:31 CEST 2020 Pavel Valena <pvalena@redhat.com> - 1:6.0.3.3-1
+- Update to actionpack 6.0.3.3.
+  Resolves: rhbz#1877506
+
+* Mon Aug 17 04:59:56 GMT 2020 Pavel Valena <pvalena@redhat.com> - 1:6.0.3.2-1
+- Update to actionpack 6.0.3.2.
+  Resolves: rhbz#1742790
+
+* Mon Aug 03 08:06:29 GMT 2020 Pavel Valena <pvalena@redhat.com> - 1:6.0.3.1-2
+- Update to ActionPack 6.0.3.1.
+  Resolves: rhbz#1742790
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.2.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 17 2020 Vít Ondruch <vondruch@redhat.com> - 1:5.2.3-5
 - Fix text failures for Rack 2.2+.
   Resolves: rhbz#1799984

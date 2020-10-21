@@ -4,9 +4,13 @@
 # https://github.com/theupdateframework/notary
 %global goipath         github.com/theupdateframework/notary
 Version:                0.6.1
-%global commit          f255ae779066dc28ae4aee196061e58bb38a2b49
+%global commit          84287fd8df4f172c9a8289641cdfa355fc86989d
 
 %gometa
+
+# github.com/dvsekhvalnov/jose2go is broken with Go 1.15, disable until fixed:
+# https://github.com/dvsekhvalnov/jose2go/issues/26
+%global goipathsex      github.com/theupdateframework/notary/signer/keydbstore
 
 %global common_description %{expand:
 The Notary project comprises a server and a client for running and interacting
@@ -33,7 +37,7 @@ content.}
                         README-tuf.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        9%{?dist}
 Summary:        Project that allows anyone to have trust over arbitrary collections of data
 
 # Upstream license specification: BSD-3-Clause and Apache-2.0
@@ -44,6 +48,8 @@ URL:            %{gourl}
 Source0:        %{gosource}
 # Change NewBasicKeyRequest to NewKeyRequest to use cfssl 1.4.1
 Patch0:         0001-Change-NewBasicKeyRequest-to-NewKeyRequest-to-use-cf.patch
+# Update prometheus library
+Patch1:         0001-Update-prometheus-library.patch
 
 BuildRequires:  golang(github.com/bugsnag/bugsnag-go)
 BuildRequires:  golang(github.com/docker/distribution/context)
@@ -81,7 +87,7 @@ BuildRequires:  golang(google.golang.org/grpc/codes)
 BuildRequires:  golang(google.golang.org/grpc/credentials)
 BuildRequires:  golang(google.golang.org/grpc/health)
 BuildRequires:  golang(google.golang.org/grpc/health/grpc_health_v1)
-BuildRequires:  golang(gopkg.in/gorethink/gorethink.v3)
+BuildRequires:  golang(gopkg.in/rethinkdb/rethinkdb-go.v6)
 
 %if %{with check}
 # Tests
@@ -98,10 +104,9 @@ BuildRequires:  golang(github.com/mattn/go-sqlite3)
 %prep
 %goprep
 %patch0 -p1
+%patch1 -p1
 mv tuf/LICENSE LICENSE-tuf
 mv tuf/README.md README-tuf.md
-# Fix network error for Go 1.14 beta1
-sed -i 's|" https://auth.docker.io|" \\\"https://auth.docker.io\\\"|' storage/httpstore_test.go
 
 %build
 for cmd in cmd/* ; do
@@ -116,7 +121,7 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %if %{with check}
 %check
 # cmd/notary-signer: needs network
-%gocheck -d cmd/notary -d cmd/notary-signer -d utils
+%gocheck -d cmd/notary -d cmd/notary-signer -d utils -d signer/keydbstore
 %endif
 
 %files
@@ -128,6 +133,21 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Fri Sep 18 00:22:19 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.6.1-9.20200917git84287fd
+- Reenable cmd/notary-signer
+
+* Thu Sep 17 23:45:06 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.6.1-8.20200917git84287fd
+- Bump to commit 84287fd8df4f172c9a8289641cdfa355fc86989d
+
+* Sun Aug 23 08:24:17 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.6.1-7.20200803gitc312d82
+- Disable package depending on github.com/dvsekhvalnov/jose2go until it is fixed
+
+* Mon Aug 03 15:47:32 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.6.1-6.20200803gitc312d82
+- Bump to commit c312d8211cfbaebf9825eadd0cd5eec568231cd9
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 04 21:28:21 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.6.1-4.20200204gitf255ae7
 - Bump to f255ae779066dc28ae4aee196061e58bb38a2b49
 

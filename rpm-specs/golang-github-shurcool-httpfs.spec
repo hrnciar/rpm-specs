@@ -3,7 +3,7 @@
 
 # https://github.com/shurcooL/httpfs
 %global goipath         github.com/shurcooL/httpfs
-%global commit          74dc9339e414ad069a8d04bba7e7aafd08043a25
+%global commit          8d4bc4ba774931155e6cd5ef6098cb038dd45135
 
 %gometa
 
@@ -15,7 +15,7 @@ Collection of Go packages for working with the http.FileSystem interface.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.6%{?dist}
+Release:        0.8%{?dist}
 Summary:        Collection of Go packages for working with the http.FileSystem interface
 
 License:        MIT
@@ -43,6 +43,12 @@ BuildRequires:  golang(github.com/shurcooL/httpgzip)
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 19:14:14 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.8.20200802git8d4bc4b
+- Bump to commit 8d4bc4ba774931155e6cd5ef6098cb038dd45135
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

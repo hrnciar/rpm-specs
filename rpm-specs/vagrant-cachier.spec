@@ -2,7 +2,7 @@
 
 Name: %{vagrant_plugin_name}
 Version: 1.2.1
-Release: 7%{?dist}
+Release: 8%{?dist}
 Summary: Vagrant plugin to cache packages
 License: MIT
 URL: https://github.com/fgrehm/vagrant-cachier
@@ -78,6 +78,9 @@ sed -i -e '1d' %{buildroot}%{vagrant_plugin_instdir}/development/Cheffile
 %{vagrant_plugin_instdir}/vagrant-cachier.gemspec
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

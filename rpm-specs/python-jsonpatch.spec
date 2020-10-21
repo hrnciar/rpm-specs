@@ -16,7 +16,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.21
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Applying JSON Patches in Python
 
 License:        BSD
@@ -133,6 +133,9 @@ done;
 %endif # with python3
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.21-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.21-12
 - Rebuilt for Python 3.9
 

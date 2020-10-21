@@ -3,7 +3,7 @@
 Summary: Qt5 - Canvas3d component
 Name:    qt5-%{qt_module}
 Version: 5.12.5
-Release: 4%{?dist}
+Release: 6%{?dist}
 
 License: LGPLv2 with exceptions or GPLv3 with exceptions
 Url:     http://www.qt.io
@@ -53,6 +53,12 @@ make install INSTALL_ROOT=%{buildroot}
 
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 5.12.5-6
+- rebuild (qt5)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.12.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 04 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.12.5-4
 - rebuild (qt5)
 

@@ -4,16 +4,12 @@
 %global rpm_has_recommends    %(rpm --version | awk -e '{print ($3 > 4.12)}')
 #%%global svn     15165
 
-# gcc 10 and fno-common FTBFS. This define reverts behaviour to gcc -fcommon.
-# New version from upstream should be OK with fno-common, so remove this define ASAP
-%define _legacy_common_support 1
-
 Name:           pcb-rnd
-Version:        2.2.1
+Version:        2.2.4
 Release:        1%{?dist}
 Summary:        Modular Printed Circuit Board layout tool
 
-# For a license breakdown info, please refer to https://metadata.ftp-master.debian.org/changelogs/main/p/pcb-rnd/pcb-rnd_2.2.0-1_copyright
+# For a license breakdown info, please refer to https://metadata.ftp-master.debian.org/changelogs/main/p/pcb-rnd/pcb-rnd_2.2.4-1_copyright
 License:        GPLv2+ and LGPLv2+ and BSD and MIT
 URL:            http://repo.hu/projects/pcb-rnd/index.html
 # http://repo.hu/projects/pcb-rnd/developer/packaging/packages.html
@@ -50,6 +46,9 @@ Recommends:     %{name}-doc = %{version}-%{release}
 %{name} is a highly modular PCB (Printed Circuit Board) layout tool
 with a rich set of plugins for communicating with various external
 design tools and other EDA/CAD packages.
+%{name} is an interactive (or scripted) graphical (or command line) PCB
+editor. Besides editing it offers converting between formats, running DRC
+checks, generating previews.
 
 %package core
 Summary:        Executable with the core functionality
@@ -206,7 +205,7 @@ Summary:        Support library for rendering with opengl
 Requires:       %{name}-core = %{version}-%{release}
 
 %description lib-gl
-Support library for rendering with opengl.
+Provides plugins for driving an opengl output, rendering %{name} views on opengl.
 
 %package lib-gtk
 Summary:        Support library for building the GUI with gtk
@@ -214,7 +213,7 @@ Requires:       %{name}-core = %{version}-%{release}
 Requires:       %{name}-lib-gui = %{version}-%{release}
 
 %description lib-gtk
-Support library for building the GUI with gtk.
+Provides the common gtk code (e.g. dialog box engine, input handling) for any gtk based HID plugin.
 
 %package lib-gui
 Summary:        Support library for building the GUI
@@ -243,27 +242,30 @@ Support library for alien file formats.
         --buildin-rubberband_orig --buildin-exto_std --buildin-fp_board --buildin-propedit \
         --buildin-io_lihata --buildin-autocrop --buildin-lib_polyhelp --buildin-draw_csect \
         --buildin-ddraft --buildin-hid_batch --buildin-act_draw --buildin-tool_std \
-        --buildin-query --buildin-lib_compat_help --buildin-drc_orig --buildin-shape --buildin-extedit \
-        --plugin-export_excellon --plugin-export_fidocadj --plugin-export_lpr --plugin-export_oldconn -plugin-import_pxm_gd \
+        --buildin-query --buildin-lib_compat_help --buildin-shape \
+        --buildin-lib_portynet --buildin-lib_formula --buildin-extedit \
+        --plugin-export_excellon --plugin-export_fidocadj --plugin-export_lpr --plugin-export_oldconn \
+        --plugin-irc --plugin-import_pxm_gd \
         --plugin-export_stat --plugin-io_kicad_legacy --plugin-io_eagle --plugin-io_tedax \
         --plugin-import_gnetlist --plugin-import_pxm_pnm --plugin-io_kicad \
         --plugin-import_mucs --plugin-renumber --plugin-import_calay --plugin-smartdisperse \
         --plugin-draw_fontsel --plugin-polycombine --plugin-export_gcode --plugin-export_bom \
-        --plugin-ar_cpcb --plugin-lib_hid_pcbui --plugin-import_sch --plugin-teardrops --plugin-shand_cmd \
-        --plugin-import_tinycad --plugin-export_openems --plugin-import_ltspice \
+        --plugin-ar_cpcb --plugin-lib_hid_pcbui --plugin-teardrops --plugin-shand_cmd \
+        --plugin-import_tinycad --plugin-export_openems --plugin-import_orcad_net --plugin-import_ltspice \
         --plugin-export_dxf --plugin-lib_gtk_common \
         --plugin-export_ipcd356 --plugin-import_ttf --plugin-import_mentor_sch --plugin-import_dsn \
-        --plugin-export_ps --plugin-hid_gtk2_gdk --plugin-millpath --plugin-djopt --plugin-hid_gtk2_gl \
-        --plugin-import_edif --plugin-hid_lesstif --plugin-lib_gensexpr --plugin-import_sch2 \
+        --plugin-export_ps --plugin-import_accel_net --plugin-hid_gtk2_gdk \
+        --plugin-millpath --plugin-djopt --plugin-hid_gtk2_gl --plugin-import_edif --plugin-hid_lesstif \
+        --plugin-import_protel_net --plugin-lib_gensexpr --plugin-import_sch2 \
         --plugin-diag --plugin-lib_wget --plugin-lib_hid_gl --plugin-export_stl --plugin-autoplace --plugin-export_svg \
         --plugin-import_net_cmd --plugin-fp_wget --plugin-fontmode --plugin-import_netlist --plugin-polystitch \
-        --plugin-dialogs --plugin-io_dsn --plugin-export_xy --plugin-export_png \
-        --plugin-import_hpgl --plugin-import_ipcd356 --plugin-distaligntext --plugin-export_dsn \
+        --plugin-import_pads_net --plugin-dialogs --plugin-io_dsn --plugin-export_xy --plugin-export_png \
+        --plugin-import_hpgl --plugin-import_ipcd356 --plugin-export_dsn \
         --plugin-lib_netmap --plugin-lib_hid_common --plugin-io_hyp --plugin-cam \
         --plugin-puller --plugin-import_fpcb_nl --plugin-io_pcb --plugin-distalign \
         --plugin-asm --plugin-export_openscad --plugin-jostle \
         --plugin-autoroute --plugin-io_autotrax --plugin-vendordrill --plugin-export_gerber \
-        --plugin-import_net_action \
+        --plugin-io_bxl --plugin-ar_extern --plugin-import_net_action \
 %if %{configure_debug} == 1
         prefix=%{_prefix} --debug
 %else
@@ -282,16 +284,16 @@ Support library for alien file formats.
 %doc %{_docdir}/%{name}
 
 %files core
-%{_bindir}/bxl2txt
 %{_bindir}/fp2preview
+%{_mandir}/man1/fp2preview.*
 %{_bindir}/fp2subc
-%{_bindir}/gsch2%{name}
+%{_mandir}/man1/fp2subc.*
 %{_bindir}/pcb-prj2lht
+%{_mandir}/man1/pcb-prj2lht.*
 %{_bindir}/%{name}
-%{_bindir}/txt2bxl
+%{_mandir}/man1/%{name}.*
 %{_datadir}/%{name}
 %exclude %{_datadir}/%{name}/*.conf
-%{_mandir}/man1/*
 %dir %{_prefix}/lib/%{name}
 %dir %{_prefix}/lib/%{name}/plugins
 %{_prefix}/lib/%{name}/*.scm
@@ -326,6 +328,8 @@ Support library for alien file formats.
 %files auto
 %{plugindir}/ar_cpcb.pup
 %{plugindir}/ar_cpcb.so
+%{plugindir}/ar_extern.pup
+%{plugindir}/ar_extern.so
 %{plugindir}/asm.pup
 %{plugindir}/asm.so
 %{plugindir}/autoplace.pup
@@ -396,14 +400,14 @@ Support library for alien file formats.
 %{plugindir}/export_xy.so
 %{plugindir}/millpath.pup
 %{plugindir}/millpath.so
+%{_bindir}/%{name}-svg
+%{_mandir}/man1/%{name}-svg.*
 %config(noreplace) %{_datadir}/%{name}/cam.conf
 %config(noreplace) %{_datadir}/%{name}/export_xy.conf
 
 %files extra
 %{plugindir}/distalign.pup
 %{plugindir}/distalign.so
-%{plugindir}/distaligntext.pup
-%{plugindir}/distaligntext.so
 %{plugindir}/djopt.pup
 %{plugindir}/djopt.so
 %{plugindir}/fontmode.pup
@@ -448,7 +452,11 @@ Support library for alien file formats.
 %{plugindir}/import_ttf.so
 
 %files import-net
-#FIXME: $PREFIX/bin/gsch2pcb-rnd $PREFIX/lib/pcb-rnd/*.scm $PREFIX/share/man/man1/gsch2pcb-rnd.1 
+#FIXME:  $PREFIX/lib/pcb-rnd/*.scm
+%{_bindir}/gsch2%{name}
+%{_mandir}/man1/gsch2%{name}.*
+%{plugindir}/import_accel_net.pup
+%{plugindir}/import_accel_net.so
 %{plugindir}/import_calay.pup
 %{plugindir}/import_calay.so
 %{plugindir}/import_edif.pup
@@ -469,8 +477,12 @@ Support library for alien file formats.
 %{plugindir}/import_net_cmd.so
 %{plugindir}/import_netlist.pup
 %{plugindir}/import_netlist.so
-%{plugindir}/import_sch.pup
-%{plugindir}/import_sch.so
+%{plugindir}/import_orcad_net.pup
+%{plugindir}/import_orcad_net.so
+%{plugindir}/import_pads_net.pup
+%{plugindir}/import_pads_net.so
+%{plugindir}/import_protel_net.pup
+%{plugindir}/import_protel_net.so
 %{plugindir}/import_sch2.pup
 %{plugindir}/import_sch2.so
 %{plugindir}/import_tinycad.pup
@@ -478,8 +490,14 @@ Support library for alien file formats.
 #%%config(noreplace) %%{_datadir}/%%{name}/import_gnetlist.conf
 
 %files io-alien
+%{_bindir}/bxl2txt
+%{_mandir}/man1/bxl2txt.*
+%{_bindir}/txt2bxl
+%{_mandir}/man1/txt2bxl.*
 %{plugindir}/io_autotrax.pup
 %{plugindir}/io_autotrax.so
+%{plugindir}/io_bxl.pup
+%{plugindir}/io_bxl.so
 %{plugindir}/io_dsn.pup
 %{plugindir}/io_dsn.so
 %{plugindir}/io_eagle.pup
@@ -510,6 +528,8 @@ Support library for alien file formats.
 %{plugindir}/dialogs.so
 %{plugindir}/draw_fontsel.pup
 %{plugindir}/draw_fontsel.so
+%{plugindir}/irc.pup
+%{plugindir}/irc.so
 %{plugindir}/lib_hid_common.pup
 %{plugindir}/lib_hid_common.so
 %{plugindir}/lib_hid_pcbui.pup
@@ -523,6 +543,15 @@ Support library for alien file formats.
 %{plugindir}/lib_netmap.so
 
 %changelog
+* Wed Sep 23 2020 Alain Vigne <alain vigne 14 gmail com> 2.2.4-1
+- New upstream version 2.2.4
+- Plugins: Remove: drc_orig, import_sch, distaligntext
+- Plugins: Add: irc, lib_portynet, lib_formula, import_orcad_net, import_accel_net
+-               import_protel_net, io_bxl, ar_extern
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Alain Vigne <alain vigne 14 gmail com> 2.2.1-1
 - New upstream version 2.2.1
 - Plugins: Add: drc_query, tool_std, import_gnetlist, import_sch2, import_net_cmd, import_net_action

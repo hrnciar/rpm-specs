@@ -1,7 +1,7 @@
 Name:           perl-IO-Handle-Util
 Summary:        Utilities for working with IO::Handle-like objects
 Version:        0.02
-Release:        6%{?dist}
+Release:        7%{?dist}
 License:        GPL+ or Artistic
 Source0:        https://cpan.metacpan.org/authors/id/E/ET/ETHER/IO-Handle-Util-%{version}.tar.gz
 URL:            https://metacpan.org/release/IO-Handle-Util
@@ -53,6 +53,9 @@ create IO::Handle like objects.
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.02-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.02-6
 - Perl 5.32 rebuild
 

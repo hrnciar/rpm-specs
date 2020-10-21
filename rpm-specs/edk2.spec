@@ -1,24 +1,15 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 # RPM doesn't detect that code in /usr/share is python3, this forces it
 # https://fedoraproject.org/wiki/Changes/Avoid_usr_bin_python_in_RPM_Build#Python_bytecompilation
 %global __python %{__python3}
 
-
-# global edk2_date        20180815
-# global edk2_githash     cb5f4f45ce
-
-%global edk2_stable_date 202002
+%global edk2_stable_date 202008
 %global edk2_stable_str  edk2-stable%{edk2_stable_date}
-%global openssl_version  1.1.1d
+%global openssl_version  1.1.1g
 %global qosb_version     20190521-gitf158f12
 %global softfloat_version 20180726-gitb64af41
 
 # Enable this to skip secureboot enrollment, if problems pop up
 %global skip_enroll 0
-
 
 %define qosb_testing 0
 
@@ -51,7 +42,6 @@
 %endif
 
 Name:           edk2
-#Version:       {edk2_date}git{edk2_githash}
 # Even though edk2 stable releases are YYYYMM, we need
 # to use YYYMMDD to avoid needing to bump package epoch
 # due to previous 'git' Version:
@@ -62,9 +52,7 @@ Summary:        EFI Development Kit II
 License:        BSD-2-Clause-Patent
 URL:            http://www.tianocore.org/edk2/
 
-# Tarball generated from git object update-tarball.sh script
-#Source0:        edk2-{edk2_date}-{edk2_githash}.tar.xz
-Source0:        https://github.com/tianocore/edk2/archive/%{edk2_stable_str}.tar.gz#/edk2-%{edk2_stable_str}.tar.gz
+Source0:        https://github.com/tianocore/edk2/archive/%{edk2_stable_str}.tar.gz#/%{edk2_stable_str}.tar.gz
 Source1:        openssl-%{openssl_version}-hobbled.tar.xz
 Source2:        ovmf-whitepaper-c770f8c.txt
 #Source3:        https://github.com/puiterwijk/qemu-ovmf-secureboot/archive/v{qosb_version}/qemu-ovmf-secureboot-{qosb_version}.tar.gz
@@ -96,15 +84,13 @@ Patch0006: 0006-OvmfPkg-QemuVideoDxe-enable-debug-messages-in-VbeShi.patch
 Patch0007: 0007-MdeModulePkg-TerminalDxe-add-other-text-resolutions.patch
 Patch0008: 0008-MdeModulePkg-TerminalDxe-set-xterm-resolution-on-mod.patch
 Patch0009: 0009-OvmfPkg-take-PcdResizeXterm-from-the-QEMU-command-li.patch
-Patch0010: 0010-ArmVirtPkg-QemuFwCfgLib-allow-UEFI_DRIVER-client-mod.patch
-Patch0011: 0011-ArmVirtPkg-take-PcdResizeXterm-from-the-QEMU-command.patch
-Patch0012: 0012-OvmfPkg-allow-exclusion-of-the-shell-from-the-firmwa.patch
-Patch0013: 0013-ArmPlatformPkg-introduce-fixed-PCD-for-early-hello-m.patch
-Patch0014: 0014-ArmPlatformPkg-PrePeiCore-write-early-hello-message-.patch
-Patch0015: 0015-ArmVirtPkg-set-early-hello-message-RH-only.patch
-Patch0016: 0016-Tweak-the-tools_def-to-support-cross-compiling.patch
-# openssl compilation fix
-Patch0017: 0017-fix-openssl-compilation.patch
+Patch0010: 0010-ArmVirtPkg-take-PcdResizeXterm-from-the-QEMU-command.patch
+Patch0011: 0011-OvmfPkg-allow-exclusion-of-the-shell-from-the-firmwa.patch
+Patch0012: 0012-ArmPlatformPkg-introduce-fixed-PCD-for-early-hello-m.patch
+Patch0013: 0013-ArmPlatformPkg-PrePeiCore-write-early-hello-message-.patch
+Patch0014: 0014-ArmVirtPkg-set-early-hello-message-RH-only.patch
+Patch0015: 0015-Tweak-the-tools_def-to-support-cross-compiling.patch
+Patch0016: 0016-BaseTools-do-not-build-BrotliCompress-RH-only.patch
 
 %if 0%{?cross:1}
 %endif
@@ -220,7 +206,7 @@ Summary:        AARCH64 Virtual Machine Firmware
 Provides:       AAVMF = %{version}-%{release}
 Obsoletes:      AAVMF < %{version}-%{release}
 BuildArch:      noarch
-# No Secure Boot for AAVMF yet, but we include OpenSSL for the IPv6 stack.
+# No Secure Boot for AAVMF yet, but we include OpenSSL for the IPv6/HTTP boot stack.
 License:        BSD-2-Clause-Patent and OpenSSL
 Provides:       bundled(openssl)
 %description aarch64
@@ -232,9 +218,11 @@ AARCH64 UEFI Firmware
 %package arm
 Summary:        ARM Virtual Machine Firmware
 BuildArch:      noarch
+# No Secure Boot for ARMv7, but we include OpenSSL for the IPv6/HTTP boot stack.
+License:        BSD-2-Clause-Patent and OpenSSL
 %description arm
 EFI Development Kit II
-armv7 UEFI Firmware
+ARMv7 UEFI Firmware
 %endif
 
 
@@ -250,12 +238,12 @@ rm -rf ShellBinPkg
 # copy whitepaper into place
 cp -a -- %{SOURCE2} .
 # extract openssl into place
-tar -xvf %{SOURCE1} --strip-components=1 --directory CryptoPkg/Library/OpensslLib/openssl
+tar -xf %{SOURCE1} --strip-components=1 --directory CryptoPkg/Library/OpensslLib/openssl
 # extract softfloat into place
-tar -xvf %{SOURCE4} --strip-components=1 --directory ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3/
+tar -xf %{SOURCE4} --strip-components=1 --directory ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3/
 
 # Extract QOSB
-tar -xvf %{SOURCE3}
+tar -xf %{SOURCE3}
 mv qemu-ovmf-secureboot-%{qosb_version}/README.md README.qosb
 mv qemu-ovmf-secureboot-%{qosb_version}/LICENSE LICENSE.qosb
 
@@ -289,13 +277,12 @@ fi
 # common features
 CC_FLAGS="$CC_FLAGS --cmd-len=65536 -b DEBUG --hash"
 CC_FLAGS="$CC_FLAGS -D NETWORK_IP6_ENABLE"
+CC_FLAGS="$CC_FLAGS -D NETWORK_TLS_ENABLE"
+CC_FLAGS="$CC_FLAGS -D NETWORK_HTTP_BOOT_ENABLE"
 CC_FLAGS="$CC_FLAGS -D TPM2_ENABLE"
 
 # ovmf features
 OVMF_FLAGS="${CC_FLAGS}"
-OVMF_FLAGS="${OVMF_FLAGS} -D NETWORK_TLS_ENABLE"
-OVMF_FLAGS="${OVMF_FLAGS} -D NETWORK_HTTP_BOOT_ENABLE"
-OVMF_FLAGS="${OVMF_FLAGS} -D NETWORK_IP6_ENABLE"
 OVMF_FLAGS="${OVMF_FLAGS} -D FD_SIZE_2MB"
 
 # ovmf + secure boot features
@@ -306,10 +293,9 @@ OVMF_SB_FLAGS="${OVMF_SB_FLAGS} -D EXCLUDE_SHELL_FROM_FD"
 
 # arm firmware features
 ARM_FLAGS="${CC_FLAGS}"
-ARM_FLAGS="${ARM_FLAGS} -D DEBUG_PRINT_ERROR_LEVEL=0x8040004F"
 
 unset MAKEFLAGS
-make -C BaseTools %{?_smp_mflags} \
+%make_build -C BaseTools \
   EXTRA_OPTFLAGS="%{optflags}" \
   EXTRA_LDFLAGS="%{__global_ldflags}"
 sed -i -e 's/-Werror//' Conf/tools_def.txt
@@ -386,7 +372,7 @@ dd of="aarch64/vars-template-pflash.raw" if="/dev/zero" bs=1M count=64
 %endif
 
 
-# build aarch64 firmware
+# build ARMv7 firmware
 %if 0%{?build_aavmf_arm:1}
 mkdir -p arm
 build $ARM_FLAGS -a ARM -p ArmVirtPkg/ArmVirtQemu.dsc
@@ -496,6 +482,11 @@ for f in %{_sourcedir}/*edk2-arm*.json; do
 done
 %endif
 
+%if 0%{?py_byte_compile:1}
+# https://docs.fedoraproject.org/en-US/packaging-guidelines/Python_Appendix/#manual-bytecompilation
+%py_byte_compile %{python3} %{buildroot}%{_datadir}/edk2/Python
+%endif
+
 
 install qemu-ovmf-secureboot-%{qosb_version}/ovmf-vars-generator %{buildroot}%{_bindir}
 
@@ -503,7 +494,6 @@ install qemu-ovmf-secureboot-%{qosb_version}/ovmf-vars-generator %{buildroot}%{_
 %files tools
 %license License.txt
 %license LICENSE.openssl
-%{_bindir}/Brotli
 %{_bindir}/DevicePath
 %{_bindir}/EfiRom
 %{_bindir}/GenCrc32
@@ -603,6 +593,27 @@ install qemu-ovmf-secureboot-%{qosb_version}/ovmf-vars-generator %{buildroot}%{_
 
 
 %changelog
+* Wed Sep 16 2020 Cole Robinson <crobinso@redhat.com> - 20200801stable-1
+- Update to edk2 stable 202008
+
+* Sat Sep 12 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 20200201stable-6
+- Tweaks for aarch64/ARMv7 builds
+- Minor cleanups
+
+* Tue Aug 04 2020 Cole Robinson <aintdiscole@gmail.com> - 20200201stable-5
+- Fix build failures on rawhide
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200201stable-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200201stable-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 20200201stable-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Mon Apr 13 2020 Cole Robinson <aintdiscole@gmail.com> - 20200201stable-1
 - Update to stable-202002
 

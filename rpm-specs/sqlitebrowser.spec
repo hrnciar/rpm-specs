@@ -1,6 +1,6 @@
 Name:           sqlitebrowser
 Version:        3.12.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Create, design, and edit SQLite database files
 
 License:        GPLv3+ or MPLv2.0
@@ -42,12 +42,12 @@ rm -rf libs/{qcustomplot-source,qhexedit,qscintilla}
     -DENABLE_TESTING=1 \
     -DFORCE_INTERNAL_QCUSTOMPLOT=OFF \
     -DFORCE_INTERNAL_QHEXEDIT=OFF \
-    -DQT_INCLUDE_DIR=%{_includedir}/qt5 .
-%make_build
+    -DQT_INCLUDE_DIR=%{_includedir}/qt5
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 %{_bindir}/appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/%{name}.desktop.appdata.xml
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
@@ -65,6 +65,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.12.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 16 2020 Sandro Mani <manisandro@gmail.com> - 3.12.0-1
 - Update to 3.12.0
 

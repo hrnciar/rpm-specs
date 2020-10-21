@@ -1,9 +1,9 @@
 %global owner   metabrainz
-%global commit 3881261fc00e9a42083e7ddf86888de170e6a83d
+%global commit  559126e37f32b1093589d266a75083db47a20e69
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           picard
-Version:        2.3.2
+Version:        2.4.4
 Release:        2%{?dist}
 Summary:        MusicBrainz-based audio tagger
 License:        GPLv2+
@@ -17,6 +17,7 @@ BuildRequires:  libofa-devel
 BuildRequires:  python3-qt5
 BuildRequires:  python3-qt5-webkit
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-mutagen
 Requires:       hicolor-icon-theme
 Requires:       python3-qt5
@@ -67,6 +68,21 @@ desktop-file-install \
 %{python3_sitearch}/picard/
 
 %changelog
+* Mon Oct 05 2020 Gerald Cox <gbcox@fedoraproject.org> - 2.4.4-2.git559126e
+- BuildRequire python3-setuptools explicitly
+
+* Fri Sep 04 2020 Gerald Cox <gbcox@fedoraproject.org> - 2.4.4-1.git559126e
+- Upstream release rhbz#1875866
+
+* Tue Aug 18 2020 Gerald Cox <gbcox@fedoraproject.org> - 2.4.2-1.git6d76533
+- Upstream release rhbz#1869555
+
+* Tue Aug 11 2020 Gerald Cox <gbcox@fedoraproject.org> - 2.4.1-1.git9abd145
+- Upstream release rhbz#1867989
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.3.2-2
 - Rebuilt for Python 3.9
 

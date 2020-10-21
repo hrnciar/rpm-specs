@@ -3,7 +3,7 @@
 
 # https://github.com/bifurcation/mint
 %global goipath         github.com/bifurcation/mint
-%global commit          83ba9bc2ead9cdf8b0c8bd94e8a41243e5f6ed88
+%global commit          93c820e81448f1376a058f36684e09b8ad697fe0
 
 %gometa
 
@@ -15,7 +15,7 @@ A Minimal TLS 1.3 Implementation in Go.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Minimal TLS 1.3 Implementation in Go
 
 License:        MIT
@@ -58,6 +58,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 13:43:45 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200724git93c820e
+- Bump to commit 93c820e81448f1376a058f36684e09b8ad697fe0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

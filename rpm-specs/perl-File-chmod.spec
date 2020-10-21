@@ -1,6 +1,6 @@
 Name:           perl-File-chmod
 Version:        0.42
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Implements symbolic and ls chmod modes
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/File-chmod
@@ -55,6 +55,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.42-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.42-18
 - Perl 5.32 rebuild
 

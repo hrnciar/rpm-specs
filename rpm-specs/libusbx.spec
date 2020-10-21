@@ -1,7 +1,7 @@
 Summary:        Library for accessing USB devices
 Name:           libusbx
 Version:        1.0.23
-Release:        1%{?dist}
+Release:        2%{?dist}
 # upstream libusbx has merged back with libusb and is now called libusb again
 # but we already have a libusb package for the old libusb-compat-0.1, renaming
 # that to libusb-compat while at the same time giving this its name is a bit
@@ -118,6 +118,9 @@ LD_LIBRARY_PATH=libusb/.libs $RPM_BUILD_ROOT%{_bindir}/libusb-example-listdevs
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.23-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 26 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.0.23-1
 - Update to 1.0.23
 

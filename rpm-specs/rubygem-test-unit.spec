@@ -6,7 +6,7 @@
 Summary:	Improved version of Test::Unit bundled in Ruby 1.8.x
 Name:		rubygem-%{gem_name}
 Version:	3.3.6
-Release:	200%{?dist}
+Release:	201%{?dist}
 # lib/test/unit/diff.rb is under GPLv2 or Ruby or Python
 # lib/test-unit.rb is under LGPLv2+ or Ruby
 # Other file: GPLv2 or Ruby
@@ -96,6 +96,9 @@ popd
 %{gem_docdir}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.6-201
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 12 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.3.6-200
 - 3.3.6
 

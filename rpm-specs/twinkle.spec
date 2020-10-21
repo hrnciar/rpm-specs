@@ -1,10 +1,12 @@
+%undefine __cmake_in_source_build
+
 #global commit da70392f6959e16243272e8abccebd95f8bfaf47
 #global shortcommit %(c=%{commit}; echo ${c:0:7})
 #global snap .git%{shortcommit}
 
 Name:           twinkle
 Version:        1.10.2
-Release:        4%{?snap}%{?dist}
+Release:        7%{?snap}%{?dist}
 Summary:        SIP-based VoIP client
 
 # Incorrect FSF addresses: https://github.com/LubosD/twinkle/issues/71
@@ -56,20 +58,21 @@ Twinkle is a SIP-based VoIP client.
 
 
 %build
-mkdir build
-pushd build
+# QT clients need to build with -fPIC to avoid local binding and copy
+# relocs.
+export CXXFLAGS="-fPIC $RPM_OPT_FLAGS"
+
 %cmake -DWITH_ZRTP=On \
     -DWITH_SPEEX=On \
     -DWITH_ILBC=Off \
     -DWITH_DIAMONDCARD=Off \
     -DWITH_GSM=On \
-    -DWITH_G729=Off ..
-%make_build
-popd
+    -DWITH_G729=Off
+%cmake_build
 
 
 %install
-%make_install -C build
+%cmake_install
 %find_lang %{name} --with-qt
 
 
@@ -90,6 +93,16 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop || :
 
 
 %changelog
+* Thu Oct 1 2020 Jeff Law <law@redhat.com> - 1.10.2-7
+- Build application with -fPIC to avoid local binding
+- Re-enable LTO
+
+* Mon Aug 17 2020 Sandro Mani <manisandro@gmail.com> - 1.10.2-6
+- Disable LTO, causes segfault on startup
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

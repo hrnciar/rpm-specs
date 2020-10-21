@@ -1,11 +1,13 @@
 %bcond_with check
 
 %global packname pkgbuild
-%global packver  1.0.8
+%global packver  1.1.0
 %global rlibdir  %{_datadir}/R/library
 
+%global __suggests_exclude ^R\\((cpp11)\\)
+
 Name:             R-%{packname}
-Version:          1.0.8
+Version:          1.1.0
 Release:          2%{?dist}
 Summary:          Find Tools Needed to Build R Packages
 
@@ -16,7 +18,7 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 # Here's the R view of the dependencies world:
 # Depends:
 # Imports:   R-callr >= 3.2.0, R-cli, R-crayon, R-desc, R-prettyunits, R-R6, R-rprojroot, R-withr >= 2.1.2
-# Suggests:  R-Rcpp, R-testthat, R-covr
+# Suggests:  R-Rcpp, R-cpp11, R-testthat, R-covr
 # LinkingTo:
 # Enhances:
 
@@ -33,6 +35,7 @@ BuildRequires:    R-rprojroot
 BuildRequires:    R-withr >= 2.1.2
 %if %{with check}
 BuildRequires:    R-Rcpp
+BuildRequires:    R-cpp11
 BuildRequires:    R-testthat
 %endif
 
@@ -64,6 +67,7 @@ rm -f %{buildroot}%{rlibdir}/R.css
 NOT_CRAN=true %{_bindir}/R CMD check %{packname}
 %endif
 
+
 %files
 %dir %{rlibdir}/%{packname}
 %doc %{rlibdir}/%{packname}/html
@@ -77,6 +81,12 @@ NOT_CRAN=true %{_bindir}/R CMD check %{packname}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.1.0-1
+- Update to latest version
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 1.0.8-2
 - rebuild for R 4
 - conditionalize check to break testthat loop

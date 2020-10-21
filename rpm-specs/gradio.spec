@@ -4,7 +4,7 @@
 
 Name:           gradio
 Version:        7.3
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Find and listen to internet radio stations
 
 License:        GPLv3+
@@ -13,6 +13,10 @@ Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 # Adding multiple translations which not included by upstream:
 # hi, hu, ca, cmn, fi, ga, id, ja, ko, pt_PT, ru
 Patch0:         %{name}-translations.patch
+
+# Regression in 0.55: Compiling Vala requires C
+# * https://github.com/mesonbuild/meson/issues/7495
+Patch1:         regression-in-0.55-compiling-vala-requires-c.patch
 
 BuildRequires:  /usr/bin/appstream-util
 BuildRequires:  /usr/bin/desktop-file-validate
@@ -28,6 +32,7 @@ BuildRequires:  pkgconfig(gtk+-3.0) >= 3.20
 BuildRequires:  pkgconfig(json-glib-1.0)
 BuildRequires:  pkgconfig(libsoup-2.4)
 BuildRequires:  pkgconfig(sqlite3)
+
 Requires:       dconf
 Requires:       hicolor-icon-theme
 
@@ -36,7 +41,7 @@ A GTK3 app for finding and listening to internet radio stations.
 
 
 %prep
-%autosetup -p1 -n Gradio-%{version}
+%autosetup -n Gradio-%{version} -p1
 
 
 %build
@@ -50,8 +55,8 @@ A GTK3 app for finding and listening to internet radio stations.
 
 
 %check
-appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{uuid}.appdata.xml
-desktop-file-validate %{buildroot}%{_datadir}/applications/%{uuid}.desktop
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.xml
+desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %files -f %{name}.lang
@@ -67,6 +72,16 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{uuid}.desktop
 
 
 %changelog
+* Thu Aug 06 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 7.3-5
+- Fix regression in Meson 0.55: Compiling Vala requires C
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

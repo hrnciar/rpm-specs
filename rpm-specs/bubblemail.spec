@@ -1,5 +1,5 @@
 Name:           bubblemail
-Version:        1.1
+Version:        1.3
 Release:        1%{?dist}
 Summary:        Extensible mail notification service
 
@@ -66,11 +66,23 @@ desktop-file-validate \
 %{python3_sitelib}/%{name}/
 %{_datadir}/applications/bubblemail.desktop
 %{_datadir}/%{name}/
-%{_datadir}/icons/hicolor/*/apps/%{name}.png
+%{_datadir}/icons/hicolor/*/apps/%{name}.svg
 %{_metainfodir}/%{name}.appdata.xml
 
 %changelog
-* Wed Jun 17 2020 Alexander Ploumistos <alexpl@fedoraproject.org> - 1.0-1
+* Sat Oct 17 2020 Alexander Ploumistos <alexpl@fedoraproject.org> - 1.3-1
+- Update to 1.3
+
+* Thu Aug 27 2020 Alexander Ploumistos <alexpl@fedoraproject.org> - 1.2-1
+- Update to 1.2
+- New icon
+- Bugfixes
+- Fix typo in changelog
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 17 2020 Alexander Ploumistos <alexpl@fedoraproject.org> - 1.1-1
 - Update to 1.1
 
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0-2

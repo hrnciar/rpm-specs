@@ -6,7 +6,7 @@
 Name:           elementary-photos
 Summary:        Photo manager and viewer from elementary
 Version:        2.7.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 License:        LGPLv2+
 
 URL:            https://github.com/elementary/%{srcname}
@@ -98,6 +98,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Fabio Valentini <decathorpe@gmail.com> - 2.7.0-3
 - Drop useless dependency on libunity.
 

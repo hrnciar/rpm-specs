@@ -7,7 +7,7 @@
 
 Name:           vdr-scraper2vdr
 Version:        1.0.11
-Release:        5.%{gitdate}git%{shortcommit0}%{?dist}
+Release:        7.%{gitdate}git%{shortcommit0}%{?dist}
 Summary:        A client plugin which provides scraped metadata from EPGD to other plugins
 License:        GPL+
 URL:            https://github.com/horchi/scraper2vdr
@@ -64,6 +64,12 @@ install -Dpm 644 %{SOURCE1} \
 %config(noreplace) %{vdr_configdir}/plugins/%{pname}/epg.dat
 
 %changelog
+* Fri Aug 28 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.0.11-7.20190128gitd9f6cb4
+- Rebuilt for new VDR API version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.11-6.20190128gitd9f6cb4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.11-5.20190128gitd9f6cb4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

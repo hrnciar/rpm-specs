@@ -3,7 +3,7 @@
 
 # https://github.com/biogo/store
 %global goipath         github.com/biogo/store
-%global commit          884f370e325d9036057c7cf5167ca8a05fba575a
+%global commit          1f9d7911e10f682e0391f02a169498e1b70792fa
 
 %gometa
 
@@ -16,7 +16,7 @@ analysis.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Bíogo data store repository
 
 # Upstream license specification: BSD-3-Clause
@@ -48,6 +48,12 @@ BuildRequires:  golang(gopkg.in/check.v1)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 14:02:19 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200724git1f9d791
+- Bump to commit 1f9d7911e10f682e0391f02a169498e1b70792fa
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

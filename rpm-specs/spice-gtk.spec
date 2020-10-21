@@ -2,7 +2,7 @@
 
 Name:           spice-gtk
 Version:        0.38
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        A GTK+ widget for SPICE clients
 
 License:        LGPLv2+
@@ -195,6 +195,13 @@ gpgv2 --quiet --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %{_bindir}/spicy-stats
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.38-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.38-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 16 2020 Victor Toso <victortoso@redhat.com> - 0.38-1
 - Update to v0.38
 - s390x: disable usbredir

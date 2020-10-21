@@ -4,7 +4,7 @@
 
 Name:           unicode-ucd
 Version:        13.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Unicode Character Database
 
 # https://fedoraproject.org/wiki/Licensing/MIT#Modern_Style_without_sublicense_.28Unicode.29
@@ -62,6 +62,9 @@ cp -p %{SOURCE1} .
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 13.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 11 2020 Jens Petersen <petersen@redhat.com> - 13.0.0-1
 - update to Unicode 13
 - https://www.unicode.org/versions/Unicode13.0.0/

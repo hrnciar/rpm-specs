@@ -1,5 +1,5 @@
 Name:           pylint
-Version:        2.5.3
+Version:        2.6.0
 Release:        1%{?dist}
 Summary:        Analyzes Python code looking for bugs and signs of poor quality
 License:        GPLv2+
@@ -108,6 +108,15 @@ done
 %{_mandir}/man1/*-%{python3_version}.1*
 
 %changelog
+* Fri Aug 21 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.6.0-1
+- 2.6.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 08 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.5.3-2
+- Adapt to isort 5.x
+
 * Fri Jun 19 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.5.3-1
 - 2.5.3
 

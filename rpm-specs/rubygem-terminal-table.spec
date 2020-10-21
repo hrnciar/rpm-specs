@@ -3,7 +3,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 1.8.0
-Release: 7%{?dist}
+Release: 8%{?dist}
 Summary: Simple, feature rich ASCII table generation library
 License: MIT
 URL: https://github.com/tj/terminal-table
@@ -77,6 +77,9 @@ popd
 %{gem_instdir}/examples
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

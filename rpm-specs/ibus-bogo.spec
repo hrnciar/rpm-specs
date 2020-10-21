@@ -4,7 +4,7 @@ Name:		ibus-bogo
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Version:	0.4
-Release:	21%{?dist}
+Release:	24%{?dist}
 Summary:	Vietnamese engine for IBus input platform
 
 License:	GPLv3
@@ -45,12 +45,11 @@ A Vietnamese engine for IBus input platform that uses BoGoEngine.
 %patch2 -p1 -b .3-resolving-crash-in-engine
 
 %build
-%cmake .
-make %{?_smp_mflags}
-
+%cmake
+%cmake_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
+%cmake_install
 desktop-file-install \
 --add-category="Settings" \
 --delete-original \
@@ -112,6 +111,16 @@ EOF
 
 
 %changelog
+* Tue Aug 11 2020 Parag Nemade <pnemade AT redhat DOT com> - 0.4-24
+- Update for new cmake macros (out of source builds)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-23
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

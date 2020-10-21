@@ -7,7 +7,7 @@
 
 Name:           ocaml-%{srcname}
 Version:        0.5.0
-Release:        1%{?dist}
+Release:        5%{?dist}
 Summary:        Modal Editing Witch, VI interpreter
 
 License:        MIT
@@ -16,7 +16,7 @@ Source0:        %{url}/archive/%{version}/%{upname}-%{version}.tar.gz
 
 BuildRequires:  ocaml >= 4.02.3
 BuildRequires:  ocaml-dune >= 1.1.0
-BuildRequires:  (ocaml-mew-devel >= 0.1.0 and ocaml-mew-devel < 0.2)
+BuildRequires:  ocaml-mew-devel >= 0.1.0
 BuildRequires:  ocaml-odoc
 BuildRequires:  ocaml-react-devel
 
@@ -98,5 +98,18 @@ find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod a+x {} \+
 %license LICENSE
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.5.0-5
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.5.0-4
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 2020 Jerry James <loganjerry@gmail.com> - 0.1.0-1
 - Initial RPM

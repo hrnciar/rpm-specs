@@ -1,9 +1,12 @@
+# ant scripting is unused in fedora 33+
+%bcond_with ant
+
 # bsh support is unused in fedora 33+
 %bcond_with beanshell
 
 Name:           maven-plugin-tools
 Version:        3.6.0
-Release:        4%{?dist}
+Release:        7%{?dist}
 Epoch:          0
 Summary:        Maven Plugin Tools
 License:        ASL 2.0
@@ -18,10 +21,14 @@ Patch1:         0001-Port-to-plexus-utils-3.0.24.patch
 BuildRequires:  maven-local
 BuildRequires:  mvn(com.thoughtworks.qdox:qdox)
 BuildRequires:  mvn(net.sf.jtidy:jtidy)
-BuildRequires:  mvn(org.apache.ant:ant)
-BuildRequires:  mvn(org.apache.ant:ant-launcher)
 BuildRequires:  mvn(org.apache.maven.doxia:doxia-sink-api)
 BuildRequires:  mvn(org.apache.maven.doxia:doxia-site-renderer)
+BuildRequires:  mvn(org.apache.maven.plugins:maven-enforcer-plugin)
+BuildRequires:  mvn(org.apache.maven.plugins:maven-plugin-plugin)
+BuildRequires:  mvn(org.apache.maven.plugins:maven-source-plugin)
+BuildRequires:  mvn(org.apache.maven.reporting:maven-reporting-api)
+BuildRequires:  mvn(org.apache.maven.reporting:maven-reporting-impl)
+BuildRequires:  mvn(org.apache.maven.surefire:maven-surefire-common)
 BuildRequires:  mvn(org.apache.maven:maven-artifact)
 BuildRequires:  mvn(org.apache.maven:maven-compat)
 BuildRequires:  mvn(org.apache.maven:maven-core)
@@ -29,22 +36,9 @@ BuildRequires:  mvn(org.apache.maven:maven-model)
 BuildRequires:  mvn(org.apache.maven:maven-parent:pom:)
 BuildRequires:  mvn(org.apache.maven:maven-plugin-api)
 BuildRequires:  mvn(org.apache.maven:maven-repository-metadata)
-BuildRequires:  mvn(org.apache.maven.plugins:maven-enforcer-plugin)
-BuildRequires:  mvn(org.apache.maven.plugins:maven-plugin-plugin)
-BuildRequires:  mvn(org.apache.maven.plugins:maven-source-plugin)
-BuildRequires:  mvn(org.apache.maven.reporting:maven-reporting-api)
-BuildRequires:  mvn(org.apache.maven.reporting:maven-reporting-impl)
-BuildRequires:  mvn(org.apache.maven.surefire:maven-surefire-common)
 BuildRequires:  mvn(org.apache.velocity:velocity)
-%if %{with beanshell}
-BuildRequires:  mvn(org.beanshell:bsh)
-%endif
 BuildRequires:  mvn(org.codehaus.modello:modello-maven-plugin)
-BuildRequires:  mvn(org.codehaus.plexus:plexus-ant-factory)
 BuildRequires:  mvn(org.codehaus.plexus:plexus-archiver)
-%if %{with beanshell}
-BuildRequires:  mvn(org.codehaus.plexus:plexus-bsh-factory)
-%endif
 BuildRequires:  mvn(org.codehaus.plexus:plexus-component-annotations)
 BuildRequires:  mvn(org.codehaus.plexus:plexus-component-metadata)
 BuildRequires:  mvn(org.codehaus.plexus:plexus-utils)
@@ -52,12 +46,28 @@ BuildRequires:  mvn(org.codehaus.plexus:plexus-velocity)
 BuildRequires:  mvn(org.ow2.asm:asm)
 BuildRequires:  mvn(org.ow2.asm:asm-commons)
 
+%if %{with ant}
+BuildRequires:  mvn(org.apache.ant:ant)
+BuildRequires:  mvn(org.apache.ant:ant-launcher)
+BuildRequires:  mvn(org.codehaus.plexus:plexus-ant-factory)
+%endif
+
+%if %{with beanshell}
+BuildRequires:  mvn(org.beanshell:bsh)
+BuildRequires:  mvn(org.codehaus.plexus:plexus-bsh-factory)
+%endif
+
 # removed in fedora 33 with 3.6.0
 Obsoletes:      maven-plugin-tools-javadoc < 0:3.6.0-1
 
+%if %{without ant}
+Obsoletes:      maven-plugin-tools-ant < %{epoch}:%{version}-%{release}
+Obsoletes:      maven-script-ant < %{epoch}:%{version}-%{release}
+%endif
+
 %if %{without beanshell}
-Obsoletes:      maven-plugin-tools-beanshell < 0:3.6.0-3
-Obsoletes:      maven-script-beanshell < 0:3.6.0-3
+Obsoletes:      maven-plugin-tools-beanshell < %{epoch}:%{version}-%{release}
+Obsoletes:      maven-script-beanshell < %{epoch}:%{version}-%{release}
 %endif
 
 %description
@@ -86,6 +96,7 @@ Summary:        Maven Plugin Tool for Annotations
 %description annotations
 This package provides Java 5 annotation tools for use with Apache Maven.
 
+%if %{with ant}
 %package ant
 Summary:        Maven Plugin Tool for Ant
 Obsoletes:      maven-shared-plugin-tools-ant < 0:%{version}-%{release}
@@ -93,6 +104,7 @@ Provides:       maven-shared-plugin-tools-ant = 0:%{version}-%{release}
 
 %description ant
 Descriptor extractor for plugins written in Ant.
+%endif
 
 %package api
 Summary:        Maven Plugin Tools APIs
@@ -144,12 +156,14 @@ Summary:        Maven Script Mojo Support
 Maven Script Mojo Support lets developer write Maven plugins/goals
 with scripting languages instead of compiled Java.
 
+%if %{with ant}
 %package -n maven-script-ant
 Summary:        Maven Ant Mojo Support
 
 %description -n maven-script-ant
 This package provides %{summary}, which write Maven plugins with
 Ant scripts.
+%endif
 
 %if %{with beanshell}
 %package -n maven-script-beanshell
@@ -183,6 +197,11 @@ API documentation for %{name}.
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>"
 
+%if %{without ant}
+%pom_disable_module maven-script-ant maven-script
+%pom_disable_module maven-plugin-tools-ant maven-script
+%endif
+
 %if %{without beanshell}
 %pom_disable_module maven-script-beanshell maven-script
 %pom_disable_module maven-plugin-tools-beanshell maven-script
@@ -206,7 +225,9 @@ API documentation for %{name}.
 %files annotations -f .mfiles-maven-plugin-tools-annotations
 %license LICENSE NOTICE
 
+%if %{with ant}
 %files ant -f .mfiles-maven-plugin-tools-ant
+%endif
 
 %files api -f .mfiles-maven-plugin-tools-api
 %license LICENSE NOTICE
@@ -224,8 +245,10 @@ API documentation for %{name}.
 
 %files -n maven-script -f .mfiles-maven-script
 
+%if %{with ant}
 %files -n maven-script-ant -f .mfiles-maven-script-ant
 %license LICENSE NOTICE
+%endif
 
 %if %{with beanshell}
 %files -n maven-script-beanshell -f .mfiles-maven-script-beanshell
@@ -237,6 +260,15 @@ API documentation for %{name}.
 
 
 %changelog
+* Sat Aug 22 2020 Fabio Valentini <decathorpe@gmail.com> - 0:3.6.0-7
+- Disable unused ant scripting support.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:3.6.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0:3.6.0-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu May 14 2020 Fabio Valentini <decathorpe@gmail.com> - 0:3.6.0-4
 - Ignore jTidy crashes when generating maven plugin descriptors.
 

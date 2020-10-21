@@ -1,7 +1,7 @@
 Name:           pylibacl
 Summary:        POSIX.1e ACLs library wrapper for Python
 Version:        0.5.4
-Release:        3%{?dist}
+Release:        5%{?dist}
 License:        LGPLv2+
 URL:            https://pylibacl.k1024.org
 Source0:        %{url}/downloads/%{name}-%{version}.tar.gz
@@ -13,6 +13,7 @@ BuildRequires:  libacl-devel
 BuildRequires:  python3-devel
 BuildRequires:  gnupg2
 BuildRequires:  python3dist(pytest)
+BuildRequires:  python3-setuptools
 
 %global _description %{expand:
 Python extension module for POSIX ACLs. It allows to query, list,
@@ -57,6 +58,13 @@ python3 -m pytest test -v \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Marcin Zajaczkowski <mszpak ATT wp DOTT pl> - 0.5.4-4
+- Add BuildRequire python3-setuptools in addition to python3-devel
+  (see https://lists.fedoraproject.org/archives/list/devel@lists.fedoraproject.org/thread/GCPGM34ZGEOVUHSBGZTRYR5XKHTIJ3T7/)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.4-3
 - Rebuilt for Python 3.9
 

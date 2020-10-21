@@ -3,9 +3,11 @@
 
 # https://github.com/nicksnyder/go-i18n/v2
 %global goipath         github.com/nicksnyder/go-i18n
-Version:                2.0.3
+Version:                2.1.1
 
 %gometa
+
+%global goaltipaths     github.com/nicksnyder/go-i18n/v2
 
 %global common_description %{expand:
 go-i18n is a Go package and a command that helps you translate Go programs into
@@ -23,7 +25,7 @@ multiple languages.
 
 %global godevelname %{goname}-2-devel
 Name:           %{goname}-2
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Translate your Go program into multiple languages
 
 License:        MIT
@@ -70,6 +72,15 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Fri Oct 02 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.1.1-1
+- Update to latest version (#1883383)
+
+* Thu Jul 30 12:23:33 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.0.3-4
+- Add alternative import path
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

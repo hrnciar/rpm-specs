@@ -1,5 +1,5 @@
 Name:           phodav
-Version:        2.4
+Version:        2.5
 Release:        1%{?dist}
 Summary:        A WebDAV server using libsoup
 License:        LGPLv2+
@@ -115,6 +115,12 @@ the Spice virtio channel.
 %endif
 
 %changelog
+* Thu Aug 27 2020 Marc-André Lureau <marcandre.lureau@redhat.com> - 2.5-1
+- new version
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 05 2020 Victor Toso <victortoso@redhat.com> - 2.4-1
 - v2.4 release
 

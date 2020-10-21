@@ -1,8 +1,9 @@
 %global out out123
 %global fmt fmt123
+%global syn syn123
 
 Name:           mpg123
-Version:        1.25.12
+Version:        1.26.2
 Release:        2%{?dist}
 Summary:        Real time MPEG 1.0/2.0/2.5 audio player/decoder for layers 1, 2 and 3
 
@@ -144,18 +145,28 @@ rm %{buildroot}%{_libdir}/*.la
 %doc NEWS
 %{_libdir}/lib%{name}.so.0*
 %{_libdir}/lib%{out}.so.0*
+%{_libdir}/lib%{syn}.so.0*
 
 %files devel
 %doc NEWS.lib%{name} doc/html doc/examples doc/BENCHMARKING doc/README.gain
 %{_includedir}/%{name}.h
 %{_includedir}/%{out}.h
 %{_includedir}/%{fmt}.h
+%{_includedir}/%{syn}.h
 %{_libdir}/lib%{name}.so
 %{_libdir}/lib%{out}.so
+%{_libdir}/lib%{syn}.so
 %{_libdir}/pkgconfig/lib%{name}.pc
 %{_libdir}/pkgconfig/lib%{out}.pc
+%{_libdir}/pkgconfig/lib%{syn}.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.26.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 2020 Nicolas Chauvet <kwizart@gmail.com> - 1.26.2-1
+- Update to 1.26.2
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.25.12-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

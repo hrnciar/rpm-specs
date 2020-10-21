@@ -1,7 +1,7 @@
 
 Name:           attica
 Version:        0.4.2
-Release:        19%{?dist}
+Release:        21%{?dist}
 Summary:        Implementation of the Open Collaboration Services API
 
 License:        LGPLv2+
@@ -28,17 +28,12 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} .. \
-  -DQT4_BUILD:BOOL=ON
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake -DQT4_BUILD:BOOL=ON
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 
 %check
@@ -62,6 +57,13 @@ test "$(pkg-config --modversion libattica)" = "%{version}"
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

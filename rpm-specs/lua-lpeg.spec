@@ -1,6 +1,6 @@
 %global lua_pkg_name lpeg
 
-%global lua_version 5.3
+%global lua_version 5.4
 %global lua_libdir %{_libdir}/lua/%{lua_version}
 %global lua_pkgdir %{_datadir}/lua/%{lua_version}
 
@@ -11,7 +11,7 @@
 
 Name:           lua-%{lua_pkg_name}
 Version:        1.0.2
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Parsing Expression Grammars for Lua
 
 License:        MIT
@@ -51,10 +51,10 @@ rm -rf %{lua_compat_builddir}
 cp -a . %{lua_compat_builddir}
 
 %build
-make %{?_smp_mflags} COPT="%{optflags}" LDFLAGS="%{build_ldflags}"
+%make_build COPT="%{optflags}" LDFLAGS="%{build_ldflags}"
 
 pushd %{lua_compat_builddir}
-make %{?_smp_mflags} COPT="-I%{_includedir}/lua-%{lua_compat_version} %{optflags}" LDFLAGS="-L%{lua_compat_libdir} %{build_ldflags}"
+%make_build COPT="-I%{_includedir}/lua-%{lua_compat_version} %{optflags}" LDFLAGS="-L%{lua_compat_libdir} %{build_ldflags}"
 popd
 
 %install
@@ -89,6 +89,16 @@ lua test.lua
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.0.2-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Mon Jun 29 2020 Tom Callaway <spot@fedoraproject.org> - 1.0.2-3
+- rebuild for lua 5.4
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

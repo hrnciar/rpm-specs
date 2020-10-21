@@ -1,6 +1,6 @@
 Name:		libindicator
 Version:	12.10.1
-Release:	17%{?dist}
+Release:	19%{?dist}
 Summary:	Shared functions for Ayatana indicators
 
 License:	GPLv3
@@ -79,7 +79,7 @@ tools for the GTK+3 build of %{name}.
 
 %prep
 %setup -q
-%if 0%{?fedora} >= 31
+%if 0%{?fedora} >= 31 || 0%{?rhel} >= 9
 %patch1 -p2 -b .orig
 %endif
 
@@ -214,6 +214,12 @@ find %{buildroot} -type f -name '*.la' -delete
 %{_libexecdir}/indicator-loader3
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12.10.1-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Merlin Mathesius <mmathesi@redhat.com> - 12.10.1-18
+- Minor conditional fix for ELN
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12.10.1-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

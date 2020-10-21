@@ -1,11 +1,11 @@
 Name:           tali
-Version:        3.37.1
+Version:        3.38.0
 Release:        1%{?dist}
 Summary:        GNOME Tali game
 
 License:        GPLv2+ and GFDL
 URL:            https://wiki.gnome.org/Apps/Tali
-Source0:        https://download.gnome.org/sources/tali/3.37/tali-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/tali/3.38/tali-%{version}.tar.xz
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc
@@ -53,6 +53,24 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Mon Sep 14 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Sun Sep 06 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Sun Aug 23 2020 Kalev Lember <klember@redhat.com> - 3.37.91-1
+- Update to 3.37.91
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Kalev Lember <klember@redhat.com> - 3.37.3-1
+- Update to 3.37.3
+
 * Wed May 06 2020 Kalev Lember <klember@redhat.com> - 3.37.1-1
 - Update to 3.37.1
 

@@ -1,6 +1,6 @@
 Name:           wxpdfdoc
 Version:        0.9.7
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A library for creating PDF documents in C++ with wxWidgets
 License:        wxWidgets
 URL:            https://utelle.github.io/wxpdfdoc/
@@ -78,6 +78,9 @@ rm -f %{buildroot}/%{_libdir}/*.la
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.7-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.7-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

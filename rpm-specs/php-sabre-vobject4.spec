@@ -7,14 +7,15 @@
 # Please, preserve the changelog entries
 #
 
+%bcond_without       tests
+
 # For compatibility with SCL
 %undefine __brp_mangle_shebangs
 
-%global gh_commit    5b2248d965160f93053f3a24704794a13a22a1bb
+%global gh_commit    e17daaf92a12d39e93ab404929673573e3bb85bf
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sabre-io
 %global gh_project   vobject
-%global with_tests   %{?_without_tests:0}%{!?_without_tests:1}
 
 %if 0%{?fedora} >= 26 || 0%{?rhel} >= 8
 %global with_cmd 1
@@ -24,7 +25,7 @@
 
 Name:           php-sabre-vobject4
 Summary:        Library to parse and manipulate iCalendar and vCard objects
-Version:        4.3.0
+Version:        4.3.2
 Release:        1%{?dist}
 
 URL:            http://sabre.io/vobject/
@@ -36,7 +37,7 @@ Source1:        %{name}-autoload.php
 Patch0:         %{name}-bin.patch
 
 BuildArch:      noarch
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php(language) >= 7.1
 BuildRequires:  php-mbstring
 BuildRequires:  (php-composer(sabre/xml)    >= 2.1  with php-composer(sabre/xml)     < 3)
@@ -47,14 +48,15 @@ BuildRequires:  php-spl
 BuildRequires:  php-xml
 # From composer.json, "require-dev"
 #        "friendsofphp/php-cs-fixer": "~2.16.1",
-#        "phpunit/phpunit" : "^7 || ^8"
-BuildRequires:  phpunit8
+#        "phpunit/phpunit" : "^7.5 || ^8.5 || ^9.0",
+#        "phpstan/phpstan": "^0.12"
+BuildRequires:  phpunit8 >= 8.5
 # Autoloader
 BuildRequires:  php-composer(fedora/autoloader)
 %endif
 
 # From composer.json, "require"
-#        "php"          : "^7.1",
+#        "php"          : "^7.1 || ^8.0",
 #        "ext-mbstring" : "*",
 #        "sabre/xml"    : "^2.1"
 Requires:       php(language) >= 7.1
@@ -114,7 +116,7 @@ install -Dpm 0755 bin/generate_vcards \
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 : Fix bootstrap
 cd tests
 sed -e 's:@BUILDROOT@:%{buildroot}:' -i bootstrap.php
@@ -126,7 +128,7 @@ fi
 
 : Run upstream test suite against installed library
 ret=0
-for cmd in php php72 php73 php74; do
+for cmd in php php72 php73 php74 php80; do
   if which $cmd; then
    $cmd %{_bindir}/phpunit8 $opt || ret=1
   fi
@@ -149,6 +151,15 @@ exit $ret
 %endif
 
 %changelog
+* Mon Oct  5 2020 Remi Collet <remi@remirepo.net> - 4.3.2-1
+- update to 4.3.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Remi Collet <remi@remirepo.net> - 4.3.1-1
+- update to 4.3.1
+
 * Sat Feb  1 2020 Remi Collet <remi@remirepo.net> - 4.3.0-1
 - update to 4.3.0
 - raise dependency on PHP 7.1

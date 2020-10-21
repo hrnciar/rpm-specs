@@ -2,7 +2,7 @@
 
 Name:          drupal7-theme-%{theme}
 Version:       3.4
-Release:       9%{?dist}
+Release:       10%{?dist}
 Summary:       Adaptivetheme is a powerful theme framework
 
 # Licenses:
@@ -105,6 +105,9 @@ cp -pr * %{buildroot}%{drupal7_themes}/%{theme}/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 3.4-9
 - Bump build requires drupal7-rpmbuild to ">= 7.70-2" to fix F32+ auto provides
 

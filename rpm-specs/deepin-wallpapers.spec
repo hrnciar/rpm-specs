@@ -1,13 +1,13 @@
 %global md5() {$(echo -n %1 | md5sum | awk '{print$1}')}
-%if 0%{?fedora} >= 32
-%global fedora_release_name f32
+%if 0%{?fedora} >= 33
+%global fedora_release_name f33
 %else
 %global fedora_release_name f%{?fedora}
 %endif
 
 Name:           deepin-wallpapers
 Version:        1.7.6
-Release:        9%{?dist}
+Release:        11%{?dist}
 Summary:        Deepin Wallpapers provides wallpapers of DDE
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/deepin-wallpapers
@@ -70,6 +70,12 @@ fi
 %{_var}/cache/image-blur/
 
 %changelog
+* Sat Sep 19 2020 Robin Lee <cheeselee@fedoraproject.org> - 1.7.6-11
+- Rebuild for f33-backgrounds
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.6-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 14 2020 Robin Lee <cheeselee@fedoraproject.org> - 1.7.6-9
 - Rebuild for f32-backgrounds
 

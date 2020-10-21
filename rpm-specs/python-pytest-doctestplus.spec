@@ -2,8 +2,8 @@
 %global sum The py.test doctestplus plugin
 
 Name:           python-%{srcname}
-Version:        0.3.0
-Release:        6%{?dist}
+Version:        0.7.0
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        BSD
@@ -85,6 +85,12 @@ providing the following features:
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Christian Dersch <lupinix@fedoraproject.org> - 0.7.0-1
+- new version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.0-6
 - Rebuilt for Python 3.9
 

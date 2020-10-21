@@ -1,6 +1,6 @@
 Name:           perl-Locale-Maketext-Gettext
 Version:        1.30
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Joins the gettext and Maketext frameworks
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Locale-Maketext-Gettext
@@ -64,6 +64,9 @@ rm -f debugsources.list debugfiles.list debuglinks.list
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.30-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.30-3
 - Perl 5.32 rebuild
 

@@ -9,13 +9,13 @@ It reports errors and warning including:\
 
 
 Name:           python-%{pkg_name}
-Version:        1.3.0
-Release:        6%{?dist}
+Version:        1.3.1
+Release:        2%{?dist}
 Summary:        reStructuredText linter
 
 License:        Unlicense
 URL:            https://pypi.python.org/pypi/restructuredtext_lint
-Source0:        https://files.pythonhosted.org/packages/62/76/bd8760de759fb74d7863e6935200af101cb128a7de008741a4e22341d03c/restructuredtext_lint-1.3.0.tar.gz
+Source0:        https://files.pythonhosted.org/packages/36/a6/507be0d9125cd37530e96062b7f838ee1777a0e30855197964603da7b990/restructuredtext_lint-1.3.1.tar.gz
 
 BuildArch:      noarch
 
@@ -67,6 +67,12 @@ PYTHONPATH="$(pwd)" nosetests-%{python3_version} -v .
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Julien Enselme <jujens@jujens.eu> - 1.3.1-1
+- Update to 1.3.1
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.0-6
 - Rebuilt for Python 3.9
 

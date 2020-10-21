@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 %global framework kirigami2
 
 # uncomment to enable bootstrap mode
@@ -8,7 +9,7 @@
 %endif
 
 Name:    kf5-%{framework}
-Version: 5.71.0
+Version: 5.75.0
 Release: 1%{?dist}
 Summary: QtQuick plugins to build user interfaces based on the KDE UX guidelines
 
@@ -75,17 +76,13 @@ developing applications that use %{name}.
 %if 0%{?rhel}==7
 . /opt/rh/devtoolset-7/enable
 %endif
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%{cmake_kf5} \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{!?tests:OFF}
-popd
-
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang_kf5 libkirigami2plugin_qt
 
@@ -106,7 +103,7 @@ make test ARGS="--output-on-failure --timeout 30" -C %{_target_platform} ||:
 %files -f libkirigami2plugin_qt.lang
 # README is currently only build instructions, omit for now
 #doc README.md
-%license LICENSE*
+%license LICENSES/*.txt
 %{_kf5_libdir}/libKF5Kirigami2.so.5*
 %dir %{_kf5_qmldir}/org/
 %dir %{_kf5_qmldir}/org/kde/
@@ -123,6 +120,24 @@ make test ARGS="--output-on-failure --timeout 30" -C %{_target_platform} ||:
 
 
 %changelog
+* Wed Oct 14 09:57:48 CDT 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.75.0-1
+- 5.75.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.74.0-1
+- 5.74.0
+
+* Tue Aug 04 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.73.0-2
+- rebuild
+
+* Mon Aug 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.73.0-1
+- 5.73.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.72.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-1
+- 5.72.0
+
 * Tue Jun 16 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.71.0-1
 - 5.71.0
 

@@ -1,7 +1,7 @@
 Summary: X.Org X11 driver installation package
 Name: xorg-x11-drivers
 Version: 7.7
-Release: 28%{?dist}
+Release: 29%{?dist}
 License: MIT
 
 # relevant hardware
@@ -59,6 +59,9 @@ individual driver packages to be installed.
 %files
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.7-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 03 2020 Adam Jackson <ajax@redhat.com> - 7.7-28
 - Drop geode, since F31+ no longer supports the associated CPU
 

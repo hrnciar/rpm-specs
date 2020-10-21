@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.0.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Sphinx extension for BibTeX style citations
 
 License:        BSD
@@ -27,17 +27,14 @@ command.
 For formatting, the extension relies on pybtex, written by Andrey
 Golovizin.}
 
-%description
-%common_desc
+%description %common_desc
 
 %package -n python3-%{srcname}
 Summary:        Sphinx extension for BibTeX style citations
 Provides:       bundled(jquery)
 Provides:       bundled(js-underscore)
-%{?python_provide:%python_provide python3-%{srcname}}
 
-%description -n python3-%{srcname}
-%common_desc
+%description -n python3-%{srcname} %common_desc
 
 %package doc
 Summary:        Documentation for python-%{srcname}
@@ -82,6 +79,9 @@ rst2html --no-datestamp LICENSE.rst LICENSE.html
 %doc html/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.0-4
 - Rebuilt for Python 3.9
 

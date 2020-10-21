@@ -1,7 +1,7 @@
 Summary:        Real-time Midi I/O Library
 Name:           portmidi
 Version:        217
-Release:        33%{?dist}
+Release:        38%{?dist}
 License:        MIT
 URL:            http://portmedia.sourceforge.net/
 Source0:        http://downloads.sourceforge.net/portmedia/%{name}-src-%{version}.zip
@@ -75,6 +75,9 @@ configuration utility "pmdefaults" and some test applications.
 # generate Cython C files during build
 rm -f pm_python/pyportmidi/_pyportmidi.c
 
+# we do not use setup.py
+rm -f pm_python/setup.py
+
 # ewwww... binaries
 rm -f portmidi_cdt.zip */*.exe */*/*.exe
 
@@ -100,7 +103,7 @@ sed -i -e 's|^java|#!/bin/sh\njava \\\
 
 %build
 export JAVA_HOME=%{java_home}
-%cmake -DCMAKE_SKIP_BUILD_RPATH=1 -DCMAKE_CACHEFILE_DIR=%{_builddir}/%{name}/build -DVERSION=%{version} .
+%cmake -DCMAKE_SKIP_BUILD_RPATH=1 -DCMAKE_CACHEFILE_DIR=%{_builddir}/%{name}/build -DVERSION=%{version} -B.
 make %{?_smp_flags}
 
 # Build the doxygen documentation:
@@ -177,7 +180,6 @@ rm -f %{buildroot}%{_libdir}/libportmidi_s.so
 %{_datadir}/applications/pmdefaults.desktop
 
 %files -n python3-%{name}
-%doc pm_python/README_PYTHON.txt
 %{python3_sitearch}/pyportmidi/
 
 %files devel
@@ -187,6 +189,24 @@ rm -f %{buildroot}%{_libdir}/libportmidi_s.so
 %{_libdir}/lib*.so
 
 %changelog
+* Sat Aug 01 2020 Michael J Gruber <mjg@fedoraproject.org> - 217-38
+- original PR: Thu Jul 30 2020 Michael J Gruber <mjg@fedoraproject.org> - 217-37
+- adjust to new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 217-37
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 217-36
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 217-35
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Wed Jun 24 2020 Michael J Gruber <mjg@fedoraproject.org> - 217-34
+- Make it clear that we do not use setup.py
+- Remove obsolete README.
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 217-33
 - Rebuilt for Python 3.9
 

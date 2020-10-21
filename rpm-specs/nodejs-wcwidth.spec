@@ -7,7 +7,7 @@
 
 Name:		%{?scl_prefix}nodejs-wcwidth
 Version:	1.0.0
-Release:	15%{?dist}
+Release:	17%{?dist}
 Summary:	Port of C's wcwidth() and wcswidth()
 License:	MIT
 Url:		https://www.npmjs.com/package/wcwidth
@@ -50,6 +50,13 @@ tape test/*.js
 %{nodejs_sitelib}/wcwidth
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-17
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

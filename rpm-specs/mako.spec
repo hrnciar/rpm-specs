@@ -1,6 +1,6 @@
 Name:       mako
 Version:    1.4.1
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Lightweight Wayland notification daemon
 Provides:   desktop-notification-daemon
 
@@ -67,6 +67,9 @@ install -m0644 -Dt %{buildroot}%{_userunitdir}/ %{SOURCE1}
 %{_datadir}/zsh/site-functions/_mako*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 19 2020 Stefano Figura <stefano@figura.im> - 1.4.1-1
 - Upstream 1.4.1 release
 

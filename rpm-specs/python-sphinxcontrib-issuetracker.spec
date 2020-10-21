@@ -1,19 +1,8 @@
-%if 0%{?fedora}
-%global with_python3 1
-%else
-%global with_python3 0
-%endif
-%if 0%{?fedora} < 30
-%global with_python2 1
-%else
-%global with_python2 0
-%endif
-
 %global pyname sphinxcontrib-issuetracker
 
 Name:           python-%{pyname}
 Version:        0.11
-Release:        21%{?dist}
+Release:        23%{?dist}
 Summary:        Sphinx integration with different issue trackers
 
 License:        BSD
@@ -24,16 +13,10 @@ Source0:        https://pypi.python.org/packages/source/s/%{pyname}/%{pyname}-%{
 Patch1:         920200bfa32ed99637a7df12695e07f60180ff3c.patch
 
 BuildArch:      noarch
-%if 0%{?with_python2}
-BuildRequires:  python2-devel
-BuildRequires:  python2-requests
-BuildRequires:  python2-sphinx >= 1.1
-%endif # if with_python2
-%if 0%{?with_python3}
 BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-requests
+BuildRequires:  python%{python3_pkgversion}-setuptools
 BuildRequires:  python%{python3_pkgversion}-sphinx >= 1.1
-%endif # if with_python3
 
 %global _description\
 A Sphinx extension to reference issues in issue trackers, either explicitly\
@@ -56,17 +39,6 @@ work available to other users of this extension.\
 
 %description %_description
 
-%if 0%{?with_python2}
-%package -n python2-%{pyname}
-Summary: %summary
-Requires:       python2-requests
-Requires:       python2-sphinx >= 1.1
-%{?python_provide:%python_provide python2-%{pyname}}
-
-%description -n python2-%{pyname} %_description
-%endif # if with_python2
-
-%if 0%{?with_python3}
 %package -n python%{python3_pkgversion}-%{pyname}
 Summary:        Sphinx integration with different issue trackers for Python 3
 Requires:       python%{python3_pkgversion}-requests
@@ -91,61 +63,39 @@ added support for a new tracker, please consider sending a patch to make your
 work available to other users of this extension.
 
 This package contains the Python 3 version of the module.
-%endif # with_python3
 
 
 %prep
 %setup -q -n %{pyname}-%{version}
 %patch1 -p1
-rm -rf *egg-info
 
 
 %build
-%if 0%{?with_python2}
-%py2_build
-%endif # with_python2
-
-%if 0%{?with_python3}
 %py3_build
-%endif # with_python3
 
 
 %install
-%if 0%{?with_python2}
-%py2_install
-%endif # with_python2
-
-%if 0%{?with_python3}
 %py3_install
-%endif # with_python3
 
 
 %check
-%if 0%{?with_python2}
-%{__python2} setup.py test
-%endif # with_python2
-
-%if 0%{?with_python3}
 %{__python3} setup.py test
-%endif # with_python3
 
  
-%if 0%{?with_python2}
-%files -n python2-%{pyname}
-%license LICENSE
-%doc CHANGES.rst CREDITS README.rst doc
-%{python2_sitelib}/*
-%endif # with_python2
-
-%if 0%{?with_python3}
 %files -n python%{python3_pkgversion}-%{pyname}
 %license LICENSE
 %doc CHANGES.rst CREDITS README.rst doc
 %{python3_sitelib}/*
-%endif # with_python3
 
 
 %changelog
+* Mon Oct 05 2020 Orion Poplawski <orion@nwra.com> - 0.11-23
+- Add BR on python3-setuptools
+- Drop python2/3 conditionals
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.11-21
 - Rebuilt for Python 3.9
 

@@ -1,7 +1,7 @@
 Summary:        A C++/Python build framework
 Name:           elements
-Version:        5.8
-Release:        10%{?dist}
+Version:        5.10
+Release:        4%{?dist}
 License:        LGPLv3+
 Source0:        https://github.com/degauden/Elements/archive/%{version}/%{name}-%{version}.tar.gz
 # Elements use this file to link the documentation to cppreference.com
@@ -11,22 +11,8 @@ Source1:        cppreference-doxygen-web.tag.xml
 URL:            https://github.com/degauden/Elements.git
 # Remove Example programs and scripts, otherwise they will be installed
 Patch0:         elements_remove_examples.patch
-# Elements try to guess itself the lib directory, but it does not consider
-# 64 bits architectures supported by Fedora. It will override CMAKE_LIB_INSTALL_SUFFIX,
-# and stick to its mistaken guess (i.e. /usr/lib for anything that is not x86_64),
-# unless this patch is applied
-# https://github.com/degauden/Elements/pull/5
-Patch1:         elements_do_not_force_install_suffix.patch
-# Create libraries with sonames, and versioned name
-# https://github.com/degauden/Elements/pull/6
-Patch2:         elements_soversion.patch
 # Disable the compilation of PDF documentation
 Patch3:         elements_disable_latex.patch
-# Make sure this script runs both with Python 2 and 3
-# Backport from upstream develop branch
-Patch4:         elements_CTestXML2HTML_py23.patch
-# Should not set max-page-size. Reported to upstream, they will fix this.
-Patch5:         elements_flags_remove_page_size.patch
 
 BuildRequires: CCfits-devel
 BuildRequires: boost-devel >= 1.53
@@ -56,7 +42,7 @@ Requires: cmake-filesystem%{?_isa}
 %global cmakedir %{_libdir}/cmake/ElementsProject
 
 %global makedir %{_datadir}/Elements/make
-%global confdir %{_datadir}/Elements
+%global confdir %{_datadir}/conf
 %global auxdir %{_datadir}/auxdir
 %global docdir %{_docdir}/Elements
 
@@ -85,33 +71,28 @@ Documentation for package %{name}
 
 %build
 export VERBOSE=1
-EXTRA_CMAKE_FLAGS="-DPYTHON_EXPLICIT_VERSION=3 -DUSE_ENV_FLAGS=ON"
-mkdir build
-# Copy cppreference-doxygen-web.tag.xml into the build directory
-mkdir -p build/doc/doxygen
-cp "%{SOURCE1}" "build/doc/doxygen"
-# Make sure auxiliary files used only for testing are not installed
-rm -r "ElementsKernel/auxdir/ElementsKernel/tests"
 # Build
-cd build
-%cmake -DELEMENTS_BUILD_TESTS=OFF -DSQUEEZED_INSTALL:BOOL=ON -DINSTALL_DOC:BOOL=ON \
+%cmake -DELEMENTS_BUILD_TESTS=ON -DINSTALL_TESTS=OFF -DSQUEEZED_INSTALL:BOOL=ON -DINSTALL_DOC:BOOL=ON \
     -DUSE_SPHINX=OFF -DPYTHON_EXPLICIT_VERSION=3 --no-warn-unused-cli \
     -DCMAKE_LIB_INSTALL_SUFFIX=%{_lib} -DUSE_VERSIONED_LIBRARIES=ON \
-    ..
-%make_build
+    -DUSE_ENV_FLAGS=ON
+# Copy cppreference-doxygen-web.tag.xml into the build directory
+mkdir -p "%{_vpath_builddir}/doc/doxygen"
+cp -v "%{SOURCE1}" "%{_vpath_builddir}/doc/doxygen"
+
+%cmake_build
 
 %install
 export VERBOSE=1
-cd build
-%make_install
+%cmake_install
+rm -rfv "%{buildroot}/%{confdir}/ElementsServices/testdata"
 
 %check
-export PYTHONPATH="%{buildroot}%{python3_sitearch}"
-%{buildroot}/%{_bindir}/CreateElementsProject --help
-
+export ELEMENTS_CONF_PATH="%{_builddir}/ElementsKernel/auxdir/"
+%ctest
 
 %files
-%dir %{confdir}
+%{confdir}/
 %dir %{cmakedir}
 %{cmakedir}/ElementsEnvironment.xml
 
@@ -147,6 +128,8 @@ export PYTHONPATH="%{buildroot}%{python3_sitearch}"
 %{_libdir}/libElementsServices.so
 %{_includedir}/ELEMENTS_VERSION.h
 %{_includedir}/ELEMENTS_INSTALL.h
+%{_includedir}/ElementsKernel_export.h
+%{_includedir}/ElementsServices_export.h
 %{_includedir}/ElementsKernel/
 %{_includedir}/ElementsServices/
 
@@ -174,6 +157,7 @@ export PYTHONPATH="%{buildroot}%{python3_sitearch}"
 %{cmakedir}/ElementsKernelExport.cmake
 %{cmakedir}/ElementsConfigVersion.cmake
 %{cmakedir}/ElementsConfig.cmake
+%{cmakedir}/GetGitRevisionDescription.cmake
 
 %{makedir}
 
@@ -182,6 +166,18 @@ export PYTHONPATH="%{buildroot}%{python3_sitearch}"
 %{docdir}
 
 %changelog
+* Thu Oct 15 2020 Alejandro Alvarez Ayllon <aalvarez@fedoraproject.org> 5.10-4
+- Rebuilt for Fedora 34
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.10-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Alejandro Alvarez Ayllon <aalvarez@fedoraproject.org> 5.10-2
+* Use new cmake macros
+
+* Fri Jul 17 2020 Alejandro Alvarez Ayllon <aalvarez@fedoraproject.org> 5.10-1
+- Update for upstream release 5.10
+
 * Fri May 29 2020 Jonathan Wakely <jwakely@redhat.com> - 5.8-10
 - Rebuilt for Boost 1.73 and Python 3.9 together
 
@@ -191,14 +187,14 @@ export PYTHONPATH="%{buildroot}%{python3_sitearch}"
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.8-8
 - Rebuilt for Python 3.9
 
-* Wed Feb 26 2020 Alejandro Alvarez Ayllon <a.alvarezayllon@gmail.com> 5.8-7
+* Wed Feb 26 2020 Alejandro Alvarez Ayllon <aalvarez@fedoraproject.org> 5.8-7
 - Rebuild for Fedora 33
 
-* Mon Feb 03 2020 Alejandro Alvarez Ayllon <a.alvarezayllon@gmail.com> 5.8-6
+* Mon Feb 03 2020 Alejandro Alvarez Ayllon <aalvarez@fedoraproject.org> 5.8-6
 - Remove flag max-page-size
 
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.8-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
-* Mon Oct 28 2019 Alejandro Alvarez Ayllon <a.alvarezayllon@gmail.com> 5.8-4
+* Mon Oct 28 2019 Alejandro Alvarez Ayllon <aalvarez@fedoraproject.org> 5.8-4
 - Initial RPM

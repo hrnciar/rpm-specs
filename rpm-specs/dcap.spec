@@ -1,6 +1,6 @@
 Name:		dcap
 Version:	2.47.12
-Release:	9%{?dist}
+Release:	10%{?dist}
 Summary:	Client Tools for dCache
 
 #		plugins/gssapi/{base64.[ch],gssIoTunnel.c,util.c} - BSD license
@@ -145,6 +145,9 @@ make %{?_smp_mflags} check
 %{_libdir}/%{name}/libtelnetTunnel.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.47.12-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.47.12-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

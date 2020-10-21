@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.2.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Sphinx extension for documenting Zope interfaces
 
 License:        BSD
@@ -50,6 +50,9 @@ sed -i "s/'pytest-runner'//" setup.py
 %{python3_sitelib}/sphinxcontrib_zopeext*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Jerry James <loganjerry@gmail.com> - 0.2.4-2
 - Be more specific about owned directories
 - Drop the deprecated pytest-runner BR and remove the dep from setup.py

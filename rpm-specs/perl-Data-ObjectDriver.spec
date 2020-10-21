@@ -1,6 +1,6 @@
 Name:           perl-Data-ObjectDriver
-Version:        0.19
-Release:        2%{?dist}
+Version:        0.20
+Release:        1%{?dist}
 Summary:        Simple, transparent data interface, with caching
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Data-ObjectDriver
@@ -54,6 +54,12 @@ sed -i -e '/^inc\/Test\/Builder[\.\/]/d' MANIFEST
 %{_mandir}/man3/*
 
 %changelog
+* Mon Sep 14 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 0.20-1
+- Update to 0.20
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.19-2
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:           perl-Term-Chrome
 Version:        2.01
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        DSL for colors and other terminal chrome
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Term-Chrome
@@ -53,6 +53,9 @@ export EXTENDED_TESTING=1
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.01-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.01-8
 - Perl 5.32 rebuild
 

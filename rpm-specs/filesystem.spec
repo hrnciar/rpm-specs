@@ -1,7 +1,7 @@
 Summary: The basic directory layout for a Linux system
 Name: filesystem
 Version: 3.14
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: Public Domain
 URL: https://pagure.io/filesystem
 Group: System Environment/Base
@@ -309,6 +309,9 @@ restorecon /afs 2>/dev/null >/dev/null || :
 /var/yp
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

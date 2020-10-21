@@ -15,9 +15,9 @@
 Name:       mate-polkit
 Version:    %{branch}.0
 %if 0%{?rel_build}
-Release:    2%{?dist}
+Release:    3%{?dist}
 %else
-Release:    0.10%{?git_rel}%{?dist}
+Release:    0.11%{?git_rel}%{?dist}
 %endif
 Summary:    Integrates polkit authentication for MATE desktop
 License:    LGPLv2+
@@ -90,6 +90,9 @@ desktop-file-validate %{buildroot}%{_sysconfdir}/xdg/autostart/polkit-mate-authe
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-2
 - fix desktop file in autostart
 

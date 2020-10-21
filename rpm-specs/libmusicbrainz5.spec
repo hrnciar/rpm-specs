@@ -1,10 +1,12 @@
 
 # Fedora package review: http://bugzilla.redhat.com/718395
 
+%global __cmake_in_source_build 1
+
 Summary: Library for accessing MusicBrainz servers
 Name: libmusicbrainz5
 Version: 5.1.0
-Release: 14%{?dist}
+Release: 16%{?dist}
 License: LGPLv2
 URL: http://www.musicbrainz.org/
 Source0: https://github.com/metabrainz/libmusicbrainz/releases/download/release-5.1.0/libmusicbrainz-%{version}.tar.gz
@@ -46,15 +48,15 @@ echo "HTML_TIMESTAMP      = NO" >> Doxyfile.cmake
 
 
 %build
-%{cmake} .
+%cmake
 
-make %{?_smp_mflags} V=1
-make %{?_smp_mflags} docs
+%cmake_build
+
+%cmake_build --target docs
 
 
 %install
-
-make install/fast DESTDIR=%{buildroot}
+%cmake_install
 
 rm -f docs/installdox
 
@@ -74,6 +76,12 @@ rm -f docs/installdox
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.1.0-15
+- use %%cmake_build, %%cmake_install
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

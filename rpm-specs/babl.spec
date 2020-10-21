@@ -18,7 +18,7 @@
 
 Summary:	A dynamic, any to any, pixel format conversion library
 Name:		babl
-Version:	0.1.78
+Version:	0.1.82
 Release:	1%{?dist}
 
 # Compute some version related macros
@@ -107,14 +107,14 @@ popd
 %files
 %license docs/COPYING*
 %doc AUTHORS NEWS
-%{_libdir}/*.so.*
+%{_libdir}/libbabl-%{apiver}.so.0*
 %{_libdir}/babl-%{apiver}/
 %dir %{_libdir}/girepository-1.0
 %{_libdir}/girepository-1.0/Babl-%{apiver}.typelib
 
 %files devel
 %{_includedir}/babl-%{apiver}/
-%{_libdir}/*.so
+%{_libdir}/libbabl-%{apiver}.so
 %{_libdir}/pkgconfig/%{name}.pc
 %dir %{_datadir}/gir-1.0
 %{_datadir}/gir-1.0/Babl-%{apiver}.gir
@@ -124,6 +124,13 @@ popd
 %doc %{develdocdir}
 
 %changelog
+* Fri Oct 16 2020 Kalev Lember <klember@redhat.com> - 0.1.82-1
+- Update to 0.1.82
+- Tighten soname globs
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.78-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Josef Ridky <jridky@redhat.com> - 0.1.78-1
 - New upstream release 0.1.78
 

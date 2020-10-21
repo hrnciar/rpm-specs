@@ -1,6 +1,6 @@
 Name:           vmtouch
 Version:        1.3.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Portable file system cache diagnostics and control
 
 License:        BSD
@@ -36,6 +36,9 @@ make install PREFIX=%{buildroot}%{_prefix} MANDIR=%{buildroot}%{_mandir}/man8
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

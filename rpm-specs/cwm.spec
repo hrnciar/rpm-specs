@@ -1,9 +1,9 @@
 Summary: Calm Window Manager by OpenBSD project
 Name: cwm
-Version: 6.3
-Release: 7%{?dist}
-# The entire source code is licensed under ISC license, except queue.h which is
-# BSD
+Version: 6.7
+Release: 1%{?dist}
+# The entire source code is licensed under ISC license,
+# except queue.h which is BSD
 License: ISC and BSD
 Url: https://github.com/chneukirchen/cwm
 Source0: http://chneukirchen.org/releases/%{name}-%{version}.tar.gz
@@ -47,6 +47,12 @@ install -m 644 %{SOURCE1} %{buildroot}/%{_datadir}/xsessions
 %{_mandir}/man5/*
 
 %changelog
+* Tue Aug 11 2020 Bruno Meneguele <bmeneg@redhat.com> - 6.7-1
+- New upstream release
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.3-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

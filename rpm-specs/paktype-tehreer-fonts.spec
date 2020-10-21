@@ -4,7 +4,7 @@
 
 Name:	%{fontname}-fonts
 Version:     5.0
-Release:     1%{?dist}
+Release:     2%{?dist}
 Summary:     Fonts for Arabic from PakType
 License:     GPLv2 with exceptions
 URL:		https://sourceforge.net/projects/paktype/
@@ -52,6 +52,9 @@ ln -s %{_fontconfig_templatedir}/%{fontconf}.conf \
 %doc PakType_Tehreer_License.txt PakTypeTehreerFeatures.pdf 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Vishal Vijayraghavan <vishalvvr@fedoraproject.org> - 5.0-1
 - Upstream 5.0 Release
 

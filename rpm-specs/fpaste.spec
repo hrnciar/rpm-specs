@@ -1,6 +1,6 @@
 Name:       fpaste
-Version:    0.4.0.1
-Release:    2%{?dist}
+Version:    0.4.1.0
+Release:    1%{?dist}
 Summary:    A simple tool for pasting info onto the Fedora community paste server
 BuildArch:  noarch
 License:    GPLv3+
@@ -38,6 +38,12 @@ make install BINDIR=%{buildroot}%{_bindir} MANDIR=%{buildroot}%{_mandir}
 %license COPYING
 
 %changelog
+* Mon Sep 14 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.4.1.0-1
+- Update to new release
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

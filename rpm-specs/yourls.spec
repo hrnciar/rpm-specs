@@ -1,6 +1,6 @@
 Name:       yourls
 Version:    1.7.1
-Release:    10%{?dist}
+Release:    11%{?dist}
 Summary:    Your Own URL Shortener
 # License scenario:
 #  * yourls files: GPL+
@@ -62,6 +62,9 @@ rm -f ${RPM_BUILD_ROOT}%{_datadir}/%{name}/js/ZeroClipboard.swf
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

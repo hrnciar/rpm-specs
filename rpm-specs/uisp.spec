@@ -1,6 +1,6 @@
 Name:           uisp
 Version:        20050207
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        Universal In-System Programmer for Atmel AVR and 8051
 
 
@@ -52,6 +52,9 @@ make install DESTDIR=$RPM_BUILD_ROOT DOC_INST_DIR=$RPM_BUILD_ROOT/%{_pkgdocdir}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20050207-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20050207-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

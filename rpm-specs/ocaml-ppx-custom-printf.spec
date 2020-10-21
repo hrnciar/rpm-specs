@@ -6,8 +6,8 @@
 %global upname  ppx_custom_printf
 
 Name:           ocaml-%{srcname}
-Version:        0.13.0
-Release:        1%{?dist}
+Version:        0.14.0
+Release:        3%{?dist}
 Summary:        Printf-style format-strings for user-defined string conversion
 
 License:        MIT
@@ -15,11 +15,11 @@ URL:            https://github.com/janestreet/%{upname}
 Source0:        %{url}/archive/v%{version}/%{upname}-%{version}.tar.gz
 
 BuildRequires:  ocaml >= 4.04.2
-BuildRequires:  (ocaml-base-devel >= 0.13 and ocaml-base-devel < 0.14)
-BuildRequires:  ocaml-dune >= 1.5.1
+BuildRequires:  ocaml-base-devel >= 0.14
+BuildRequires:  ocaml-dune >= 2.0.0
 BuildRequires:  ocaml-odoc
-BuildRequires:  ocaml-ppxlib-devel >= 0.9.0
-BuildRequires:  (ocaml-ppx-sexp-conv-devel >= 0.13 and ocaml-ppx-sexp-conv-devel < 0.14)
+BuildRequires:  ocaml-ppxlib-devel >= 0.11.0
+BuildRequires:  ocaml-ppx-sexp-conv-devel >= 0.14
 
 %description
 Ppx_custom_printf is a ppx rewriter that allows the use of user-defined
@@ -90,5 +90,21 @@ dune runtest
 %{_libdir}/ocaml/%{upname}/*.mli
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.14.0-3
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.14.0-2
+- OCaml 4.11.0 rebuild
+
+* Fri Aug  7 2020 Jerry James <loganjerry@gmail.com> - 0.14.0-1
+- Version 0.14.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May  7 2020 Jerry James <loganjerry@gmail.com> - 0.13.0-1
 - Initial RPM

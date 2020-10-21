@@ -6,7 +6,7 @@
 
 Name:           libretro-%{corename}
 Version:        0
-Release:        1.%{date}git%{shortcommit}%{?dist}
+Release:        2.%{date}git%{shortcommit}%{?dist}
 Summary:        Libretro core for Game & Watch simulators
 
 License:        zlib
@@ -46,5 +46,8 @@ install -m 0755 -Dp %{corename}_libretro.so %{buildroot}%{_libdir}/libretro/%{co
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-2.20200213git819b1dd
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 13 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0-1.20200213git819b1dd
 - Initial package

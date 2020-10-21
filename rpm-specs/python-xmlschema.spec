@@ -1,13 +1,14 @@
 %global pypi_name xmlschema
 Name:           python-%{pypi_name}
 Version:        1.0.18
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        A Python XML Schema validator and decoder
 
 License:        MIT
 URL:            https://github.com/brunato/xmlschema
 Source0:        %{pypi_source}
 BuildArch:      noarch
+BuildRequires:  python3-devel
 BuildRequires:  pyproject-rpm-macros
 
 %global _description %{expand:
@@ -37,7 +38,7 @@ Summary:        %{summary}
 %autosetup -n %{pypi_name}-%{version}
 sed -i 's/~=/>=/' setup.py tox.ini  # https://bugzilla.redhat.com/show_bug.cgi?id=1758141
 sed -i 's/==/>=/' tox.ini  # too strict test deps
-pathfix.py -pni %{python3} %{pypi_name}
+%py3_shebang_fix %{pypi_name}
 
 %generate_buildrequires
 %pyproject_buildrequires -t
@@ -61,6 +62,12 @@ pathfix.py -pni %{python3} %{pypi_name}
 
 
 %changelog
+* Mon Sep 21 2020 Lumír Balhar <lbalhar@redhat.com> - 1.0.18-5
+- Fix FTBFS by build-requiring python3-devel
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.18-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.18-3
 - Rebuilt for Python 3.9
 

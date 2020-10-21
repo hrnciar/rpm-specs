@@ -58,8 +58,8 @@
 
 Name:    udisks2
 Summary: Disk Manager
-Version: 2.9.0
-Release: 1%{?dist}
+Version: 2.9.1
+Release: 2%{?dist}
 License: GPLv2+
 URL:     https://github.com/storaged-project/udisks
 Source0: https://github.com/storaged-project/udisks/releases/download/udisks-%{version}/udisks-%{version}.tar.bz2
@@ -117,6 +117,12 @@ Requires: gdisk
 Requires: eject
 # For utab monitor
 Requires: libmount
+
+%if ! (0%{?rhel} && 0%{?rhel} < 8)
+# Not really needed but doesn't make much sense to use UDisks without polkit
+# (weak deps don't work on older versions of RHEL)
+Recommends: polkit
+%endif
 
 Requires: lib%{name}%{?_isa} = %{version}-%{release}
 
@@ -324,13 +330,17 @@ fi
 
 %if 0%{?with_zram}
 %post -n %{name}-zram
-%systemd_post zram-setup@.service
+%systemd_post udisks2-zram-setup@.service
+if [ -S /run/udev/control ]; then
+    udevadm control --reload
+    udevadm trigger
+fi
 
 %preun -n %{name}-zram
-%systemd_preun zram-setup@.service
+%systemd_preun udisks2-zram-setup@.service
 
 %postun -n %{name}-zram
-%systemd_postun zram-setup@.service
+%systemd_postun udisks2-zram-setup@.service
 %endif
 
 %files -f udisks2.lang
@@ -439,7 +449,8 @@ fi
 %dir %{_sysconfdir}/udisks2/modules.conf.d
 %{_libdir}/udisks2/modules/libudisks2_zram.so
 %{_datadir}/polkit-1/actions/org.freedesktop.UDisks2.zram.policy
-%{_unitdir}/zram-setup@.service
+%{_unitdir}/udisks2-zram-setup@.service
+%{_udevrulesdir}/90-udisks2-zram.rules
 %endif
 
 %if 0%{?with_vdo}
@@ -449,6 +460,16 @@ fi
 %endif
 
 %changelog
+* Mon Sep 07 2020 Neal Gompa <ngompa13@gmail.com> - 2.9.1-2
+- Fix conditional around polkit Recommends for building on EL7
+
+* Wed Aug 12 2020 Tomas Bzatek <tbzatek@redhat.com> - 2.9.1-1
+- Version 2.9.1
+- Renamed zram-setup@.service to udisks2-zram-setup@.service
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Tomas Bzatek <tbzatek@redhat.com> - 2.9.0-1
 - Version 2.9.0
 

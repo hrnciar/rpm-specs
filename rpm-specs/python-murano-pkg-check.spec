@@ -14,7 +14,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.3.0
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Murano package validator tool
 
 License:        ASL 2.0
@@ -203,6 +203,9 @@ PYTHON=python3 %{__python3} setup.py test
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 2020 Javier Peña <jpena@redhat.com> - 0.3.0-18
 - Remove python-hacking BR, it is not actually needed for unit tests (bz#1841741)
 

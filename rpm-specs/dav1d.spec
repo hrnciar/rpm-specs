@@ -1,6 +1,6 @@
 Name:           dav1d
-Version:        0.7.0
-Release:        1%{?dist}
+Version:        0.7.1
+Release:        2%{?dist}
 Summary:        AV1 cross-platform Decoder
 
 License:        BSD
@@ -10,6 +10,7 @@ Source0:        %{url}/-/archive/%{version}/%{name}-%{version}.tar.bz2
 BuildRequires:  gcc
 BuildRequires:  nasm
 BuildRequires:  doxygen
+BuildRequires:  graphviz
 BuildRequires:  meson >= 0.47.0
 
 Requires:       libdav1d%{?_isa} = %{version}-%{release}
@@ -36,9 +37,8 @@ Development files for dav1d, the AV1 cross-platform Decoder.
 
 %build
 %meson
-
 %meson_build
-%meson_build doc/html
+%ninja_build -C %{_vpath_builddir} doc/html
 
 %install
 %meson_install
@@ -61,6 +61,12 @@ Development files for dav1d, the AV1 cross-platform Decoder.
 %{_libdir}/pkgconfig/dav1d.pc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.7.1-1
+- Update to 0.7.1 (#1849403)
+
 * Fri May 22 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.7.0-1
 - Update to 0.7.0
 

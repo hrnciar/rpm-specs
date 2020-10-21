@@ -3,7 +3,7 @@
 
 # https://github.com/otiai10/mint
 %global goipath         github.com/otiai10/mint
-Version:                1.3.0
+Version:                1.3.1
 
 %gometa
 
@@ -40,5 +40,11 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 19:57:28 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.3.1-1
+- Update to 1.3.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 05:36:06 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.3.0-1
 - Initial package

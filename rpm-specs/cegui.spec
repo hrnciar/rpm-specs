@@ -1,6 +1,6 @@
 Name:           cegui
 Version:        0.8.7
-Release:        18%{?dist}
+Release:        20%{?dist}
 Summary:        Free library providing windowing and widgets for graphics APIs / engines
 License:        MIT
 URL:            http://www.cegui.org.uk
@@ -137,14 +137,13 @@ find -name "*.orig" -exec rm -f {} ';'
 -D CEGUI_OPTION_DEFAULT_IMAGECODEC=SILLYImageCodec \
 -D CEGUI_BUILD_RENDERER_NULL=true \
 -D CEGUI_BUILD_TESTS=false \
--D CEGUI_SAMPLES_ENABLED=false \
-.
+-D CEGUI_SAMPLES_ENABLED=false
 
-%make_build
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %ldconfig_scriptlets
@@ -204,6 +203,13 @@ find -name "*.orig" -exec rm -f {} ';'
 %{_libdir}/cegui-0.8/libCEGUITinyXMLParser.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.7-20
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.7-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 14 2020 Hans de Goede <hdegoede@redhat.com> - 0.8.7-18
 - Obsolete the dropped -devel-doc and -samples sub-packages (rhbz#1810754)
 

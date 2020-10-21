@@ -11,7 +11,7 @@ bits instead of primitive data types (char, int, …).
 
 Name:           python-%{pypi_name}
 Version:        7.1.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Interpret strings as packed binary data
 
 License:        MIT
@@ -83,6 +83,9 @@ BuildRequires:  python3-setuptools
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.1.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 7.1.0-6
 - Rebuilt for Python 3.9
 

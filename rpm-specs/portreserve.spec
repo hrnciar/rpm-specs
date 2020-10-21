@@ -3,7 +3,7 @@
 Summary: TCP port reservation utility
 Name: portreserve
 Version: 0.0.5
-Release: 23%{?dist}
+Release: 24%{?dist}
 License: GPLv2+
 URL: http://cyberelk.net/tim/portreserve/
 Source0: http://cyberelk.net/tim/data/portreserve/stable/%{name}-%{version}.tar.bz2
@@ -80,6 +80,9 @@ EOF
 %{_mandir}/*/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.5-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.5-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

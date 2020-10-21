@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        1.6.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Grapheme Cluster, Word and Sentence boundaries
 
 # Upstream license specification: MIT/Apache-2.0
@@ -88,6 +88,9 @@ rm -vr ./scripts/
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

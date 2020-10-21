@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 Version: 1.0
-Release: 6%{?dist}
+Release: 7%{?dist}
 
 %global foundry           SIL
 %global fontlicense       OFL
@@ -53,6 +53,9 @@ unzip -j -q %{SOURCE0}
 %fontfiles
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 1.0-6
 🐞 Workaround Fedora problems created by rpm commit 93604e2

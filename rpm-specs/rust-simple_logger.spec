@@ -5,7 +5,7 @@
 %global crate simple_logger
 
 Name:           rust-%{crate}
-Version:        1.6.0
+Version:        1.9.0
 Release:        1%{?dist}
 Summary:        Logger that prints all messages with a readable output format
 
@@ -98,6 +98,19 @@ which use "colored" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Sep 16 2020 Fabio Valentini <decathorpe@gmail.com> - 1.9.0-1
+- Update to version 1.9.0.
+
+* Tue Sep 01 2020 Josh Stone <jistone@redhat.com> - 1.7.0-1
+- Update to 1.7.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 25 13:09:23 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.6.0-1
 - Update to 1.6.0
 

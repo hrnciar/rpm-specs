@@ -1,6 +1,6 @@
 Name:    jnr-netdb
 Version: 1.1.6
-Release: 7%{?dist}
+Release: 11%{?dist}
 Summary: Network services database access for java
 License: ASL 2.0
 URL:     https://github.com/jnr/%{name}/
@@ -10,7 +10,6 @@ BuildArch: noarch
 BuildRequires:  maven-local
 BuildRequires:  mvn(com.github.jnr:jnr-ffi)
 BuildRequires:  mvn(junit:junit)
-BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
 
 %description
 jnr-netdb is a java interface to getservbyname(3), getservbyport(3)
@@ -27,8 +26,21 @@ Javadoc for %{name}.
 find ./ -name '*.jar' -exec rm -f '{}' \; 
 find ./ -name '*.class' -exec rm -f '{}' \; 
 
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
+
+# Fix javadoc generation on java 11
+%pom_xpath_inject pom:project "<build><plugins><plugin>
+<artifactId>maven-javadoc-plugin</artifactId>
+<configuration>
+<source>1.6</source>
+<detectJavaApiLink>false</detectJavaApiLink>
+</configuration>
+</plugin></plugins></build>"
+
+
 %build
-%mvn_build
+%mvn_build -- -Dmaven.compiler.source=1.6 -Dmaven.compiler.target=1.6
 
 %install
 %mvn_install
@@ -40,6 +52,19 @@ find ./ -name '*.class' -exec rm -f '{}' \;
 %license LICENSE
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 1.1.6-11
+- Remove unnecessary dependency on parent POM.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.6-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.1.6-9
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Wed Jun 24 2020 Roland Grunberg <rgrunber@redhat.com> - 1.1.6-8
+- Use source/target of 1.6 to build against Java 11.
+- Also disable detectJavaApiLink to avoid javadoc errors.
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.6-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

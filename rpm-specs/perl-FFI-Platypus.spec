@@ -6,8 +6,8 @@
 %bcond_without perl_FFI_Platypus_enables_optional_test
 
 Name:           perl-FFI-Platypus
-Version:        1.30
-Release:        2%{?dist}
+Version:        1.33
+Release:        1%{?dist}
 Summary:        Write Perl bindings to non-Perl libraries with FFI
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/FFI-Platypus
@@ -19,7 +19,7 @@ BuildRequires:  make
 BuildRequires:  perl-devel
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
-BuildRequires:  perl(:VERSION) >= 5.8.1
+BuildRequires:  perl(:VERSION) >= 5.8.4
 BuildRequires:  perl(Alien::Base::Wrapper)
 # Alien::FFI || Alien::FFI::pkgconfig
 BuildRequires:  perl(Alien::FFI) >= 0.20
@@ -134,6 +134,18 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Sep 29 2020 Petr Pisar <ppisar@redhat.com> - 1.33-1
+- 1.33 bump
+
+* Mon Sep 21 2020 Petr Pisar <ppisar@redhat.com> - 1.32-1
+- 1.32 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.31-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Petr Pisar <ppisar@redhat.com> - 1.31-1
+- 1.31 bump
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.30-2
 - Perl 5.32 rebuild
 

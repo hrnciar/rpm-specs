@@ -1,6 +1,6 @@
 Name:           perl-Alien-ROOT
 Version:        5.34.36.1
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Utility package to install and locate CERN's ROOT library
 # README:               GPLv2+
 # lib/Alien/ROOT.pm:    GPLv2+
@@ -83,6 +83,9 @@ perl Build.PL installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.34.36.1-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 5.34.36.1-20
 - Perl 5.32 rebuild
 

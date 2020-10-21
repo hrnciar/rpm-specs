@@ -3,14 +3,9 @@
 
 # https://github.com/DataDog/datadog-go
 %global goipath         github.com/DataDog/datadog-go
-Version:                2.2.0
+Version:                3.7.2
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-DataDog-datadog-go-devel < 2.1.0-3
-}
 
 %global common_description %{expand:
 Datadog-go is a library that provides a dogstatsd client in Golang.}
@@ -21,7 +16,7 @@ Datadog-go is a library that provides a dogstatsd client in Golang.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Go dogstatsd client library for datadog
 
 License:        MIT
@@ -33,6 +28,8 @@ Source2:        glide.lock
 %if %{with check}
 # Tests
 BuildRequires:  golang(github.com/stretchr/testify/assert)
+BuildRequires:  golang(github.com/stretchr/testify/mock)
+BuildRequires:  golang(github.com/stretchr/testify/require)
 BuildRequires:  golang(github.com/stretchr/testify/suite)
 %endif
 
@@ -57,6 +54,12 @@ mv statsd/README.md README-statsd.md
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 20:17:46 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.7.2-1
+- Update to 3.7.2
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

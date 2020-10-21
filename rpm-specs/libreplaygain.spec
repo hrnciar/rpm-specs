@@ -2,7 +2,7 @@
 
 Name:           libreplaygain
 Version:        0
-Release:        0.14.20110810svn%{svn_release}%{?dist}
+Release:        0.17.20110810svn%{svn_release}%{?dist}
 Summary:        Gain analysis library from Musepack
 
 License:        LGPLv2+
@@ -38,19 +38,17 @@ sed '5,9d' -ibackup CMakeLists.txt
 
 %build
 %cmake .
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install
+%cmake_install
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 # Remove static lib
 rm $RPM_BUILD_ROOT/%{_libdir}/%{name}.a
 
 mkdir -p $RPM_BUILD_ROOT/%{_includedir}/replaygain/
 cp -v include/replaygain/*.h $RPM_BUILD_ROOT/%{_includedir}/replaygain/
-
-%ldconfig_scriptlets
 
 
 %files
@@ -62,6 +60,16 @@ cp -v include/replaygain/*.h $RPM_BUILD_ROOT/%{_includedir}/replaygain/
 
 
 %changelog
+* Wed Sep 30 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0-0.17.20110810svn475
+- Fix build using required cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.16.20110810svn475
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.15.20110810svn475
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.14.20110810svn475
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

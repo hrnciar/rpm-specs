@@ -2,8 +2,8 @@
 %global _hardened_build 1
 
 Name:		xfce4-timer-plugin
-Version:	1.7.0
-Release:	23%{?dist}
+Version:	1.7.1
+Release:	3%{?dist}
 Summary:	Timer for the Xfce panel
 License:	GPLv2+
 URL:		http://goodies.xfce.org/projects/panel-plugins/%{name}
@@ -46,6 +46,16 @@ certain times.
 %{_datadir}/icons/hicolor/*/apps/xfce4-timer-plugin.*g
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 1.7.1-1
+- Update to 1.7.1
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

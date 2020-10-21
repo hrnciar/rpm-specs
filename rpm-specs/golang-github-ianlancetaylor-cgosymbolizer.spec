@@ -3,7 +3,7 @@
 
 # https://github.com/ianlancetaylor/cgosymbolizer
 %global goipath         github.com/ianlancetaylor/cgosymbolizer
-%global commit          f5072df9c550dc687157e5d7efb50825cdf8f0eb
+%global commit          be1b05b0b2790e3d9d080d29bd918304bbd35a2b
 
 %gometa
 
@@ -16,7 +16,7 @@ backtrace information.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.4%{?dist}
 Summary:        Experimental symbolizer for cgo backtraces
 
 License:        BSD
@@ -42,6 +42,9 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 23:06:24 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200727gitbe1b05b
+- Bump to commit be1b05b0b2790e3d9d080d29bd918304bbd35a2b
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

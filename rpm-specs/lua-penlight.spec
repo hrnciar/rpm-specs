@@ -1,46 +1,45 @@
-%global luaver 5.3
+Name:		lua-penlight
+Version:	1.9.2
+Release:	1%{?dist}
+Summary:	Penlight Lua Libraries
+License:	MIT
+URL:		https://github.com/lunarmodules/Penlight
+Source0:	https://github.com/lunarmodules/Penlight/archive/%{version}/Penlight-%{version}.tar.gz
+
+%global luaver 5.4
 %global luapkgdir %{_datadir}/lua/%{luaver}
 
 # there's a circular (build) dependency with lua-ldoc
-%global with_docs 1
+%bcond_without docs
 
-%{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
-
-Name:		lua-penlight
-Version:	1.5.4
-Release:	7%{?dist}
-Summary:	Penlight Lua Libraries
-License:	MIT
-URL:		https://github.com/stevedonovan/Penlight
-Source0:	https://github.com/stevedonovan/Penlight/archive/%{version}/Penlight-%{version}.tar.gz
 BuildArch:	noarch
 BuildRequires:	lua >= %{luaver}
 BuildRequires:	lua-filesystem
 BuildRequires:	lua-markdown
-%if 0%{?with_docs}
+%if %{with docs}
 BuildRequires:	lua-ldoc
-%endif # with_docs
+%endif # with docs
 Requires:	lua >= %{luaver}
 Requires:	lua-filesystem
 
+%{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
 %global __requires_exclude_from %{_docdir}
 
 %description
-Penlight brings together a set of generally useful pure Lua modules,
-focusing on input data handling (such as reading configuration
-files), functional programming (such as map, reduce, placeholder
-expressions,etc), and OS path management.  Much of the functionality
-is inspired by the Python standard libraries.
+A set of pure Lua libraries focusing on input data handling (such as
+reading configuration files), functional programming (such as map,
+reduce, placeholder expressions, etc.), and OS path management. Much
+of the functionality is inspired by the Python standard libraries.
 
 
-%if 0%{?with_docs}
+%if %{with docs}
 %package doc
 Summary:	API docs for lua-penlight
 Requires:	%{name} = %{version}-%{release}
 
 %description doc
 %{summary}
-%endif # with_docs
+%endif # with docs
 
 
 %package examples
@@ -68,37 +67,38 @@ chmod -x %{buildroot}%{luapkgdir}/pl/dir.lua
 
 # build and install README etc.
 mkdir -p %{buildroot}%{_pkgdocdir}
-markdown.lua *.md
-cp -av {README,CHANGES,CONTRIBUTING}.html %{buildroot}%{_pkgdocdir}
+markdown.lua {README,CHANGELOG,CONTRIBUTING,LICENSE}.md
+cp -av {README,CHANGELOG,CONTRIBUTING}.html %{buildroot}%{_pkgdocdir}
 
-%if 0%{?with_docs}
+%if %{with docs}
 # build and install docs
-ldoc -c doc/config.ld .
-cp -av doc/api %{buildroot}%{_pkgdocdir}
-%endif # with_docs
+ldoc .
+cp -av docs %{buildroot}%{_pkgdocdir}
+%endif # with docs
 
 # install examples
 cp -av examples %{buildroot}%{_pkgdocdir}
 
 
 %check
-LUA_PATH="%{buildroot}%{luapkgdir}/?/init.lua;%{buildroot}%{luapkgdir}/?.lua;;" \
-lua run.lua tests
+# currently disabled: missing luacov
+# LUA_PATH="%%{buildroot}%%{luapkgdir}/?/init.lua;%%{buildroot}%%{luapkgdir}/?.lua;;" \
+# lua run.lua tests
 
 
 %files
 %dir %{_pkgdocdir}
 %license LICENSE.html
 %{_pkgdocdir}/README.html
-%{_pkgdocdir}/CHANGES.html
+%{_pkgdocdir}/CHANGELOG.html
 %{_pkgdocdir}/CONTRIBUTING.html
 %{luapkgdir}/pl
 
 
-%if 0%{?with_docs}
+%if %{with docs}
 %files doc
-%{_pkgdocdir}/api
-%endif # with_docs
+%{_pkgdocdir}/docs
+%endif # with docs
 
 
 %files examples
@@ -106,6 +106,26 @@ lua run.lua tests
 
 
 %changelog
+* Fri Oct  2 2020 Thomas Moschny <thomas.moschny@gmx.de> - 1.9.2-1
+- Update to 1.9.2.
+
+* Wed Aug  5 2020 Thomas Moschny <thomas.moschny@gmx.de> - 1.8.0-2
+- Re-enable docs.
+
+* Wed Aug  5 2020 Thomas Moschny <thomas.moschny@gmx.de> - 1.8.0-1
+- Update to 1.8.0.
+
+* Wed Aug  5 2020 Thomas Moschny <thomas.moschny@gmx.de> - 1.7.0-1
+- Update to 1.7.0.
+- New upstream URLs.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.4-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.4-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.4-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

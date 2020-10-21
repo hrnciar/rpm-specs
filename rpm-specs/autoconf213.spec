@@ -1,7 +1,7 @@
 Summary:    A GNU tool for automatically configuring source code
 Name:       autoconf213
 Version:    2.13
-Release:    44%{?dist}
+Release:    45%{?dist}
 License:    GPLv2+
 URL:        http://www.gnu.org/software/autoconf/
 Source:     ftp://prep.ai.mit.edu/pub/gnu/autoconf/autoconf-%{version}.tar.gz
@@ -79,6 +79,9 @@ make check
 %doc AUTHORS COPYING NEWS README TODO
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.13-45
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.13-44
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           perl-MooX-Cmd
 Version:        0.017
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        Giving an easy Moo style way to make command organized CLI apps
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/MooX-Cmd
@@ -85,6 +85,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.017-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.017-12
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.017-11
 - Perl 5.32 rebuild
 

@@ -1,5 +1,10 @@
+# The ppc64le builders appear to run out of memory with LTO
+%ifarch ppc64le
+%global _lto_cflags %{nil}
+%endif
+
 Name:           primecount
-Version:        6.0
+Version:        6.1
 Release:        1%{?dist}
 Summary:        Fast prime counting function implementation
 
@@ -44,7 +49,6 @@ integer.  See the primecount package for a command line interface.
 %package        devel
 Summary:        Headers and library links for libprimecount
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
-Requires:       cmake-filesystem%{?_isa}
 
 %description    devel
 This package contains files necessary to develop applications that use
@@ -65,28 +69,22 @@ sed -i '/if(mpopcnt)/,/endif()/d' CMakeLists.txt
 export CFLAGS="%{optflags} -DLIBDIVIDE_SSE2"
 export CXXFLAGS="$CFLAGS"
 %endif
-mkdir build
-cd build
 %cmake -DBUILD_LIBPRIMESIEVE=OFF \
        -DBUILD_MANPAGE=ON \
        -DBUILD_SHARED_LIBS=ON \
        -DBUILD_STATIC_LIBS=OFF \
        -DBUILD_TESTS=ON \
-       -DWITH_POPCNT=OFF \
 %ifarch %{ix86} x86_64 ia64 ppc64le
        -DWITH_FLOAT128=ON \
 %endif
-       ..
-%make_build
-cd -
+       -DWITH_POPCNT=OFF
+%cmake_build
 
 %install
-cd build
-%make_install
-cd -
+%cmake_install
 
 %check
-make test
+%ctest
 
 %files
 %doc README.md
@@ -104,6 +102,16 @@ make test
 %{_libdir}/libprimecount.so
 
 %changelog
+* Wed Sep 30 2020 Jerry James <loganjerry@gmail.com> - 6.1-1
+- Version 6.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 22 2020 Jerry James <loganjerry@gmail.com> - 6.0-1
 - Version 6.0
 

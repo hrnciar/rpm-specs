@@ -1,12 +1,12 @@
-%global commit ca46005b9e492ecf2d6f14226c8b4b1e1e36957e
+%global commit ed4b0826a7ebdb66ad172a3e317cf39c6614f1bd
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global date 20200105
+%global date 20200822
 %global debug_package %{nil}
 %global py_install_args --no-glib-compile-schemas
 
 Name:           rhythmbox-ampache
 Version:        0
-Release:        24.%{date}git%{shortcommit}%{?dist}
+Release:        26.%{date}git%{shortcommit}%{?dist}
 Summary:        Ampache plugin for Rhythmbox
 License:        GPLv2+
 URL:            https://github.com/lotan/rhythmbox-ampache
@@ -39,6 +39,12 @@ from an Ampache media server.
 %{python3_sitelib}/rhythmbox_ampache-*-py*.egg-info
 
 %changelog
+* Sat Aug 22 2020 Juan Orti Alcaine <jortialc@redhat.com> - 0-26.20200822gited4b082
+- New git version ed4b082
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-25.20200105gitca46005
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0-24.20200105gitca46005
 - Rebuilt for Python 3.9
 

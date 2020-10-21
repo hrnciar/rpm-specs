@@ -3,7 +3,7 @@
 Summary: A CIM provider for libvirt
 Name: libvirt-cim
 Version: 0.6.3
-Release: 14%{?dist}%{?extra_release}
+Release: 15%{?dist}%{?extra_release}
 License: LGPLv2+
 Source: libvirt-cim-%{version}.tar.gz
 
@@ -196,6 +196,9 @@ fi
 %config(noreplace) %{_sysconfdir}/libvirt-cim.conf
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

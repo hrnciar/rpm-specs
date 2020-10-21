@@ -2,7 +2,7 @@
 
 Name:           pugixml
 Version:        1.10
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        A light-weight C++ XML processing library
 License:        MIT
 URL:            http://pugixml.org
@@ -41,21 +41,17 @@ Documentation for %{name}
 %prep
 %setup -q -n %{name}-%{version}%{?prerel:%{prerel}}
 
+# Removed upstream but should make it back next release.
+cp %{SOURCE1} .
+
 
 %build
-rm -rf build && mkdir build && pushd build
-export CXXFLAGS='%{optflags} -std=c++11'
-%cmake ../
-make %{?_smp_mflags}
+%cmake
+%cmake_build
 
 
 %install
-pushd build
-%make_install
-popd
-
-# Removed upstream but should make it back next release.
-cp %{SOURCE1} .
+%cmake_install
 
 
 %ldconfig_scriptlets
@@ -77,6 +73,16 @@ cp %{SOURCE1} .
 
 
 %changelog
+* Wed Aug 26 2020 Jeff Law <lwa@redhat.com> - 1.10-5
+- No longer force C++11 mode
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

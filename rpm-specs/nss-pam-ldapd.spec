@@ -5,7 +5,7 @@
 
 Name:           nss-pam-ldapd
 Version:        0.9.10
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        An nsswitch module which uses directory servers
 License:        LGPLv2+
 URL:            http://arthurdejong.org/nss-pam-ldapd/
@@ -104,6 +104,9 @@ getent passwd nslcd > /dev/null || \
 %systemd_postun_with_restart nslcd.service
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.10-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.10-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

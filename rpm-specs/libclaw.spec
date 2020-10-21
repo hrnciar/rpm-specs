@@ -1,6 +1,6 @@
 Name:           libclaw
 Version:        1.7.4
-Release:        27%{?dist}
+Release:        30%{?dist}
 Summary:        C++ Library of various utility functions
 License:        LGPLv2
 URL:            http://libclaw.sourceforge.net/
@@ -59,8 +59,8 @@ Wonderful).
 
 
 %build
-%cmake .
-make %{?_smp_mflags} VERBOSE=1
+%cmake
+%cmake_build
 find examples -type f |
 while read F
 do
@@ -71,7 +71,7 @@ done
 
 
 %install
-make install DESTDIR=%{buildroot} VERBOSE=1
+%cmake_install
 %find_lang %{name}
 
 
@@ -98,6 +98,16 @@ make install DESTDIR=%{buildroot} VERBOSE=1
 
 
 %changelog
+* Thu Aug 06 2020 Xavier Bachelot <xavier@bachelot.org> - 1.7.4-30
+- Use new cmake macros (RHBZ#1863983)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.4-29
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.4-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.4-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

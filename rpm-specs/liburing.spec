@@ -1,15 +1,12 @@
 Name: liburing
-Version: 0.6
-Release: 1%{?dist}
+Version: 0.7
+Release: 3%{?dist}
 Summary: Linux-native io_uring I/O access library
 License: (GPLv2 with exceptions and LGPLv2+) or MIT
 Source0: https://brick.kernel.dk/snaps/%{name}-%{version}.tar.gz
 Source1: https://brick.kernel.dk/snaps/%{name}-%{version}.tar.gz.asc
 URL: https://git.kernel.dk/cgit/liburing/
 BuildRequires: gcc
-
-# Fails to build and therefore isn't supported upstream
-ExcludeArch: armv7hl
 
 %description
 Provides native async IO for the Linux kernel, in a fast and efficient
@@ -49,6 +46,17 @@ for the Linux-native io_uring.
 %{_mandir}/man2/*
 
 %changelog
+* Mon Oct 19 2020 Davide Cavalca <dcavalca@fb.com> - 0.7-3
+- Drop exclude for armv7hl as it's no longer necessary
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Stefan Hajnoczi <stefanha@redhat.com> - 0.7-1
+- Add io_uring_cq_eventfd_toggle() helper for new IORING_CQ_EVENTFD_DISABLED flag
+- Add IORING_OP_TEE
+- Documentation fixes and improvements
+
 * Thu May 7 2020 Stefan Hajnoczi <stefanha@redhat.com> - 0.6-1
 - add io_uring_prep_splice()
 - add io_uring_prep_provide_buffers()

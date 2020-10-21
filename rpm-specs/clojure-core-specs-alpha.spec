@@ -6,7 +6,7 @@
 Name:           clojure-core-specs-alpha
 Epoch:          1
 Version:        0.2.44
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Clojure library containing specs to describe Clojure core macros and functions
 
 Group:          Development/Languages
@@ -93,6 +93,12 @@ core macros and functions.
 %doc epl-v10.html CHANGES.md README.md CONTRIBUTING.md
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.2.44-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1:0.2.44-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat May 02 2020 Markku Korkeala <markku.korkeala@iki.fi> - 1:0.2.44-2
 - Use xmvn-builddep to generate BuildRequires and drop redundant Requires.
 

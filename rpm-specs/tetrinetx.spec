@@ -1,6 +1,6 @@
 Name:           tetrinetx
 Version:        1.13.16
-Release:        24%{?dist}
+Release:        30%{?dist}
 Summary:        The GNU TetriNET server
 
 License:        GPLv2
@@ -8,11 +8,13 @@ URL:            http://tetrinetx.sourceforge.net/
 Source0:        http://switch.dl.sourceforge.net/sourceforge/tetrinetx/%{name}-%{version}+qirc-1.40c.tar.gz
 Source1:        tetrinetx.init
 Source2:        tetrinetx.logrotate
+Source3:        tetrinetx.service
+Source4:        %{name}-tmpfiles.conf
 
 Requires(pre):  shadow-utils
 %{?systemd_requires}
 BuildRequires:  gcc
-BuildRequires: systemd
+BuildRequires:  systemd-rpm-macros
 BuildRequires:  adns-devel
 Requires:       logrotate
 
@@ -43,8 +45,9 @@ sed -i "s:game\\.log:%{_localstatedir}/log/tetrinetx/game\\.log:;
 
 
 %build
+%global optflags %(echo %{optflags} | sed 's/-Wp,-D_FORTIFY_SOURCE=2//')
 cd src
-./compile.linux %{optflags} %{?_smp_mflags}
+./compile.linux "%{optflags}"
 cd ..
 
 
@@ -59,8 +62,8 @@ install -p -m 644 bin/game.motd %{buildroot}%{_sysconfdir}/tetrinetx
 install -p -m 644 bin/game.pmotd %{buildroot}%{_sysconfdir}/tetrinetx
 install -p -m 600 bin/game.secure %{buildroot}%{_sysconfdir}/tetrinetx
 # Install system init script
-mkdir -p %{buildroot}%{_initrddir}
-install -p -m 755 %{SOURCE1} %{buildroot}%{_initrddir}/tetrinetx
+mkdir -p %{buildroot}%{_unitdir}
+install -p -m 644 %{SOURCE3} %{buildroot}%{_unitdir}/tetrinetx.service
 # Install logrotate.d entry
 mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
 install -p -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/logrotate.d/tetrinetx
@@ -69,6 +72,8 @@ mkdir -p %{buildroot}%{_localstatedir}/log/tetrinetx
 # State data (winlists, etc) for the game will be placed in /var/games/tetrinetx
 mkdir -p %{buildroot}%{_localstatedir}/games/tetrinetx
 # Tetrinetx pid file goes here
+mkdir -p %{buildroot}%{_tmpfilesdir}/
+install -p -m 644 %{SOURCE4} %{buildroot}%{_tmpfilesdir}/%{name}.conf
 mkdir -p %{buildroot}%{_localstatedir}/run/tetrinetx
 
 
@@ -76,32 +81,52 @@ mkdir -p %{buildroot}%{_localstatedir}/run/tetrinetx
 getent group tetrinetx >/dev/null || groupadd -r tetrinetx
 getent passwd tetrinetx >/dev/null || \
     useradd -r -g tetrinetx -d %{_localstatedir}/games/tetrinetx -M -s /sbin/nologin \
-    -c "No-ip daemon user" tetrinetx
+    -c "Tetrinetx service account" tetrinetx
 
 %post
-%systemd_post noip.service
+%systemd_post tetrinetx.service
 
 %preun
-%systemd_preun noip.service
+%systemd_preun tetrinetx.service
 
 %postun
-%systemd_postun_with_restart noip.service
+%systemd_postun_with_restart tetrinetx.service
 
 %files
 %doc AUTHORS ChangeLog README README.qirc.spectators bin/game.allow.example bin/game.ban.compromise.example bin/game.ban.example
 %license COPYING
 %{_bindir}/tetrinetx
-%{_initrddir}/tetrinetx
+#{_initrddir}/tetrinetx
+%{_unitdir}/tetrinetx.service
 %dir %{_sysconfdir}/tetrinetx
 %config(noreplace) %{_sysconfdir}/logrotate.d/tetrinetx
-%defattr(-,tetrinetx,tetrinetx)
-%{_localstatedir}/log/tetrinetx
-%{_localstatedir}/games/tetrinetx
-%{_localstatedir}/run/tetrinetx
+%dir %attr(-,tetrinetx,tetrinetx) %{_localstatedir}/log/tetrinetx/
+%dir %attr(-,tetrinetx,tetrinetx) %{_localstatedir}/games/tetrinetx/
+%dir %attr(-,tetrinetx,tetrinetx) %{_localstatedir}/run/tetrinetx/
+%{_tmpfilesdir}/%{name}.conf
 %config(noreplace) %{_sysconfdir}/tetrinetx/*
 
 
 %changelog
+* Mon Aug 10 2020 Sérgio Basto <sergio@serjux.com> - 1.13.16-30
+- Typos fixes and remove D_FORTIFY_SOURCE from optflags because breaks tetrinetx
+
+* Sun Aug 09 2020 Sérgio Basto <sergio@serjux.com> - 1.13.16-29
+- Add tmpfiles to work out of the box
+
+* Fri Aug 07 2020 Sérgio Basto <sergio@serjux.com> - 1.13.16-28
+- Install tetrinet.service
+
+* Fri Aug 07 2020 Jeff Law <law@redhat.com> - 1.13.16-27
+- Properly quote arguments passed to compile.linux
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.16-26
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.16-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.16-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

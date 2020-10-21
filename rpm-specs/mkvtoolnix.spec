@@ -1,6 +1,6 @@
 Summary: Matroska container manipulation utilities
 Name: mkvtoolnix
-Version: 46.0.0
+Version: 51.0.0
 Release: 2%{?dist}
 License: GPLv2+
 Source0: https://mkvtoolnix.download/sources/mkvtoolnix-%{version}.tar.xz
@@ -16,20 +16,21 @@ BuildRequires: cmark-devel
 BuildRequires: docbook-style-xsl
 BuildRequires: file-devel
 BuildRequires: flac-devel
-BuildRequires: fmt-devel
+BuildRequires: fmt-devel >= 6.1.0
 BuildRequires: gcc-c++
 BuildRequires: gettext
 BuildRequires: gnupg2
 BuildRequires: gtest-devel
+BuildRequires: jpcre2-static >= 10.32.1
 BuildRequires: json-devel
 BuildRequires: libappstream-glib
 BuildRequires: libcurl-devel
-BuildRequires: libebml-devel >= 1.3.7
-BuildRequires: libmatroska-devel >= 1.5.0
+BuildRequires: libebml-devel >= 1.4.0
+BuildRequires: libmatroska-devel >= 1.6.1
 BuildRequires: libvorbis-devel
 BuildRequires: lzo-devel
 BuildRequires: po4a
-BuildRequires: pcre-devel
+BuildRequires: pkgconfig(dvdread)
 BuildRequires: pkgconfig(Qt5Multimedia)
 BuildRequires: pugixml-devel
 BuildRequires: qt5-qtbase-devel
@@ -38,8 +39,8 @@ BuildRequires: rubygem-json
 BuildRequires: utf8cpp-devel
 BuildRequires: zlib-devel
 BuildRequires: %{_bindir}/xsltproc
-Requires: libebml%{_isa} >= 1.3.7
-Requires: libmatroska%{_isa} >= 1.5.0
+Requires: libebml%{_isa} >= 1.4.0
+Requires: libmatroska%{_isa} >= 1.6.1
 # bundles a modified avilib
 Provides: bundled(avilib) = 0.6.10
 # https://www.bunkus.org/videotools/librmff/index.html
@@ -65,7 +66,7 @@ This package contains the QT graphical interface for these utilities.
 %{gpgverify} --keyring='%{S:2}' --signature='%{S:1}' --data='%{S:0}'
 %setup -q
 %patch0 -p1 -b .boost
-rm -rf lib/{boost,fmt,libebml,libmatroska,nlohmann-json,pugixml,utf8-cpp}
+rm -rf lib/{boost,fmt,jpcre2,libebml,libmatroska,nlohmann-json,pugixml,utf8-cpp}
 rm -rf rake.d/vendor drake
 
 %build
@@ -127,6 +128,30 @@ drake tests:run_unit
 %{_datadir}/mkvtoolnix
 
 %changelog
+* Sat Oct 17 2020 Dominik Mierzejewski <rpm@greysector.net> - 51.0.0-2
+- rebuild for libdvdread-6.1 ABI bump
+
+* Mon Oct 05 2020 Dominik Mierzejewski <rpm@greysector.net> - 51.0.0-1
+- update to 51.0.0 (#1876232)
+- upstream switched to pcre2 for regex
+- unbundle jpcre2
+
+* Fri Aug 21 2020 Dominik Mierzejewski <rpm@greysector.net> - 49.0.0-1
+- update to 49.0.0 (#1862797)
+- requires libmatroska 1.6.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 48.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Dominik Mierzejewski <rpm@greysector.net> - 48.0.0-1
+- update to 48.0.0 (#1842056)
+- bump minimum libebml and libmatroska versions
+
+* Sun Jun 21 2020 Dominik Mierzejewski <rpm@greysector.net> - 47.0.0-1
+- update to 47.0.0 (#1842056)
+- bump minimum fmt version
+- enable DVD chapters support via libdvdread
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 46.0.0-2
 - Rebuilt for Boost 1.73
 

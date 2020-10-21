@@ -1,7 +1,7 @@
 %global vswig   modified-7
 Name:           renderdoc
 Version:        1.8
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        A stand-alone graphics debugging tool
 
 License:        MIT
@@ -53,10 +53,12 @@ renderdoc.
 %autosetup -p1 -n %{name}-%{version}
 
 %build
-mkdir -p build
-cd build
-%cmake .. \
-       -DQMAKE_QT5_COMMAND=qmake-qt5 \
+# renderdoc does not allow in-source builds. out-of-source builds
+# are the default starting with F33, but for anything below the
+# __cmake_in_source_build macro needs to be undefined.
+%undefine __cmake_in_source_build
+
+%cmake -DQMAKE_QT5_COMMAND=qmake-qt5 \
        -DRENDERDOC_SWIG_PACKAGE=%{SOURCE1} \
        -DENABLE_GL=ON \
        -DENABLE_VULKAN=ON \
@@ -69,13 +71,13 @@ cd build
        -DCMAKE_INSTALL_PREFIX=/usr \
        -DLIB_SUBFOLDER=renderdoc \
        -DVULKAN_LAYER_FOLDER=/usr/share/vulkan/implicit_layer.d \
-       -DCMAKE_BUILD_TYPE=Release
+       -DCMAKE_BUILD_TYPE=Release \
+       %{nil}
 
-%make_build
+%cmake_build
 
 %install
-cd build
-%make_install
+%cmake_install
 rm %{buildroot}/%{_datadir}/menu/renderdoc
 
 %check
@@ -99,6 +101,17 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Fri Aug  7 2020 Christian Kellner <christian@kellner.me> - 1.8-4
+- Use cmake macros for out-of-source build
+  Resolves: rhbz#1865372
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Christian Kellner <christian@kellner.me> - 1.8-1
 - New upstream release (1.8)
 - Drop gcc-libsdc-10.patch, included in the upstream release.

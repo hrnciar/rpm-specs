@@ -1,6 +1,6 @@
 Name:           iw
 Version:        5.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A nl80211 based wireless configuration tool
 
 License:        ISC
@@ -39,6 +39,9 @@ make install DESTDIR=$RPM_BUILD_ROOT MANDIR=%{_mandir}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

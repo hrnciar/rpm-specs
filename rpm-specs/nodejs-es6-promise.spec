@@ -9,7 +9,7 @@
 Summary:       Lightweight library that provides tools for organizing asynchronous code
 Name:          nodejs-%{npm_name}
 Version:       4.1.1
-Release:       6%{?dist}
+Release:       8%{?dist}
 License:       MIT
 URL:           https://github.com/jakearchibald/ES6-Promises
 Source0:       http://registry.npmjs.org/%{npm_name}/-/%{npm_name}-%{version}.tgz
@@ -62,6 +62,13 @@ ember test
 %{nodejs_sitelib}/%{npm_name}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.1-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

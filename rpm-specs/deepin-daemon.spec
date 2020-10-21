@@ -4,7 +4,7 @@
 
 Name:           deepin-daemon
 Version:        5.0.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Daemon handling the DDE session settings
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/dde-daemon
@@ -228,6 +228,13 @@ fi
 %exclude %{_var}/lib/polkit-1/localauthority/10-vendor.d/com.deepin.daemon.Grub2.pkla
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

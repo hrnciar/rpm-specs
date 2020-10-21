@@ -1,6 +1,6 @@
 Name:      freexl
-Version:   1.0.5
-Release:   5%{?dist}
+Version:   1.0.6
+Release:   1%{?dist}
 Summary:   Library to extract data from within an Excel spreadsheet 
 License:   MPLv1.1 or GPLv2+ or LGPLv2+
 URL:       http://www.gaia-gis.it/FreeXL
@@ -76,6 +76,12 @@ rm -f %{buildroot}%{_libdir}/lib%{name}.la
 
 
 %changelog
+* Sun Aug 02 2020 Volker Fröhlich <volker27@gmx.at> - 1.0.6-1
+- New upstream release
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -18,7 +18,7 @@ Features:
 
 Name:           python-%{pypi_name}
 Version:        0.8.0
-Release:        5.20191223git%{shortcommit}%{?dist}
+Release:        6.20191223git%{shortcommit}%{?dist}
 Summary:        ZeroMQ integration with asyncio
 
 License:        BSD
@@ -74,6 +74,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v tests/ \
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-6.20191223git4e6703c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.0-5.20191223git4e6703c
 - Rebuilt for Python 3.9
 

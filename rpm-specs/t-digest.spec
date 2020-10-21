@@ -2,7 +2,7 @@
 
 Name:           t-digest
 Version:        3.0
-Release:        12%{?dist}
+Release:        15%{?dist}
 Summary:        A new data structure for on-line accumulation of statistics
 License:        ASL 2.0
 URL:            %{url}
@@ -40,7 +40,7 @@ This package contains the API documentation for %{name}.
 
 %build
 #skipping tests, they requires currently unpacked depndences
-%mvn_build  --force -- -Dmaven.javadoc.skip=true
+%mvn_build --force
 
 %install
 %mvn_install
@@ -49,10 +49,20 @@ This package contains the API documentation for %{name}.
 %doc README.md
 %license LICENSE NOTICES
 
-%files javadoc 
+%files javadoc  -f .mfiles-javadoc
 %license LICENSE NOTICES
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Fabio Valentini <decathorpe@gmail.com> - 3.0-14
+- Package javadocs again since they're built anyway.
+- Fixes building the package with Java 11.
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 3.0-13
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon May 04 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-12
 - dropping javadoc to build with jdk11
 

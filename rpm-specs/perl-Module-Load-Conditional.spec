@@ -1,6 +1,6 @@
 Name:           perl-Module-Load-Conditional
-Version:        0.70
-Release:        456%{?dist}
+Version:        0.74
+Release:        1%{?dist}
 Summary:        Looking up module information / loading at run-time
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Module-Load-Conditional
@@ -8,11 +8,10 @@ Source0:        https://cpan.metacpan.org/modules/by-module/Module/Module-Load-C
 BuildArch:      noarch
 # Build:
 BuildRequires:  coreutils
-BuildRequires:  findutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
-BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 # Run-time:
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(Config)
@@ -51,12 +50,11 @@ you have installed on your system during run-time.
 %setup -q -n Module-Load-Conditional-%{version}
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=%{buildroot}
-find %{buildroot} -type f -name .packlist -delete
+%{make_install}
 %{_fixperms} -c %{buildroot}
 
 %check
@@ -68,6 +66,18 @@ make test
 %{_mandir}/man3/Module::Load::Conditional.3*
 
 %changelog
+* Fri Aug 21 2020 Petr Pisar <ppisar@redhat.com> - 0.74-1
+- 0.74 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.72-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.72-2
+- Perl 5.32 re-rebuild updated packages
+
+* Thu Jun 25 2020 Petr Pisar <ppisar@redhat.com> - 0.72-1
+- 0.72 bump
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.70-456
 - Increase release to favour standalone package
 

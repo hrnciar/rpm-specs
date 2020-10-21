@@ -5,14 +5,9 @@
 # https://github.com/golang/appengine
 %global goipath         google.golang.org/appengine
 %global forgeurl        https://github.com/golang/appengine
-Version:                1.5.0
+Version:                1.6.6
 
 %gometa
-
-# Remove in F33
-%global godevelheader %{expand:
-Obsoletes:      golang-github-golang-appengine-devel < 1.2.0-3
-}
 
 %global goipaths0       google.golang.org/appengine
 %global goipathsex0     google.golang.org/appengine/blobstore
@@ -31,7 +26,7 @@ for interacting with App Engine services.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        Go app engine packages
 
 # Upstream license specification: Apache-2.0
@@ -46,9 +41,6 @@ BuildRequires:  golang(golang.org/x/net/context)
 %if %{without bootstrap}
 BuildRequires:  golang(golang.org/x/text/encoding/htmlindex)
 %endif
-
-# Remove in F33
-Obsoletes:      golang-github-golang-appengine < 1.2.0-3
 
 %description
 %{common_description}
@@ -72,9 +64,9 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %if %{with check}
 %check
 %if %{with bootstrap}
-%gocheck -t blobstore
+%gocheck -t blobstore -d internal
 %else
-%gocheck
+%gocheck -d internal
 %endif
 %endif
 
@@ -86,6 +78,16 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 15:39:34 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.6.6-1
+- Update to 1.6.6
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

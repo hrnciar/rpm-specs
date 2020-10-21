@@ -1,6 +1,6 @@
 Name:           perl-File-Next
 Version:        1.18
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        An iterator-based module for finding files
 License:        Artistic 2.0
 URL:            https://metacpan.org/release/File-Next
@@ -61,6 +61,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.18-4
 - Perl 5.32 rebuild
 

@@ -4,7 +4,7 @@
 
 # https://github.com/ishidawataru/sctp
 %global goipath         github.com/ishidawataru/sctp
-%global commit          6e2cb1366111dcf547c13531e3a263a067715847
+%global commit          00ab2ac2db07a138417639ef3f39672c65dbb9a0
 
 %gometa
 
@@ -16,7 +16,7 @@ Stream Control Transmission Protocol library for the Go programming language.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.4%{?dist}
+Release:        0.6%{?dist}
 Summary:        SCTP library for the Go programming language
 
 # Upstream license specification: Apache-2.0
@@ -43,6 +43,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 00:59:36 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.6.20200728git00ab2ac
+- Bump to commit 00ab2ac2db07a138417639ef3f39672c65dbb9a0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

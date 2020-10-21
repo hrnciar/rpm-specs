@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        2.3.9
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        A fast and complete Python implementation of Markdown
 License:        MIT
 URL:            https://github.com/trentm/python-%{srcname}/
@@ -10,6 +10,7 @@ Source0:        https://pypi.io/packages/source/m/%{srcname}/%{srcname}-%{versio
 BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  python3-pygments
+BuildRequires:  python3-setuptools
 
 
 %description
@@ -77,6 +78,12 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.9-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Thomas Moschny <thomas.moschny@gmx.de> - 2.3.9-3
+- Add explicit BR on python3-setuptools.
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.3.9-2
 - Rebuilt for Python 3.9
 

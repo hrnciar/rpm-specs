@@ -2,7 +2,7 @@
 
 Name:           mingw-expat
 Version:        2.2.8
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows port of expat XML parser library
 
 License:        MIT
@@ -119,6 +119,9 @@ rm -r $RPM_BUILD_ROOT%{mingw64_docdir}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.8-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

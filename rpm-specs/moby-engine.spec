@@ -15,12 +15,12 @@
 
 # moby / docker-ce / cli
 %global git_moby https://github.com/%{service_name}/%{service_name}-ce
-%global commit_moby 42e35e61f352e527082521280d5ea3761f0dee50
+%global commit_moby 4484c46d9d1a2d10b8fc662923ad586daeedb04f
 %global shortcommit_moby %(c=%{commit_moby}; echo ${c:0:7})
 
 # docker-proxy / libnetwork
 %global git_libnetwork https://github.com/%{newname}/libnetwork
-%global commit_libnetwork 2e24aed516bd5c836e11378bb457dd612aa868ed
+%global commit_libnetwork 026aabaa659832804b01754aaadd2c0f420c68b6
 %global shortcommit_libnetwork %(c=%{commit_libnetwork}; echo ${c:0:7})
 
 # tini
@@ -29,7 +29,7 @@
 %global shortcommit_tini %(c=%{commit_tini}; echo ${c:0:7})
 
 Name: %{newname}-engine
-Version: 19.03.11
+Version: 19.03.13
 Release: 1.ce.git%{shortcommit_moby}%{?dist}
 Summary: The open-source application container engine
 License: ASL 2.0
@@ -171,7 +171,7 @@ sed -i '/env bash/d' components/cli/contrib/completion/bash/docker
 (
         cd tini-%{commit_tini}
         %cmake .
-        make tini-static
+        make tini-static -C "%{__cmake_builddir}"
 )
 
 # build engine
@@ -210,7 +210,7 @@ install -p -m 755 components/engine/bundles/dynbinary-daemon/%{service_name}d %{
 install -p -m 755 libnetwork-%{commit_libnetwork}/%{service_name}-proxy %{buildroot}%{_libexecdir}/%{service_name}/%{service_name}-proxy
 
 # install tini
-install -p -m 755 tini-%{commit_tini}/tini-static %{buildroot}%{_libexecdir}/%{service_name}/%{service_name}-init
+install -p -m 755 tini-%{commit_tini}/%{__cmake_builddir}/tini-static %{buildroot}%{_libexecdir}/%{service_name}/%{service_name}-init
 
 # install udev rules
 install -dp %{buildroot}%{_prefix}/lib/udev/rules.d
@@ -311,6 +311,19 @@ getent group %{service_name} >/dev/null || groupadd -r %{service_name} || :
 %{_datadir}/nano/Dockerfile.nanorc
 
 %changelog
+* Fri Oct 02 2020 Olivier Lemasle <o.lemasle@gmail.com> - 19.03.13-1.ce.git4484c46
+- Update to upstream 19.03.13 (#1837641)
+
+* Fri Oct 02 2020 Olivier Lemasle <o.lemasle@gmail.com> - 19.03.11-4.ce.git42e35e6
+- Fix FTBFS: adapt to change to CMake builds (#1864160)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.03.11-3.ce.git42e35e6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.03.11-2.ce.git42e35e6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 07 2020 Olivier Lemasle <o.lemasle@gmail.com> - 19.03.11-1.ce.git42e35e6
 - Update to upstream 19.03.11 to prevent CVE-2020-13401
 

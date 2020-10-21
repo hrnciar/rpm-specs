@@ -1,6 +1,6 @@
 Name:          xml-commons-apis
 Version:       1.4.01
-Release:       30%{?dist}
+Release:       32%{?dist}
 Summary:       APIs for DOM, SAX, and JAXP
 License:       ASL 2.0 and W3C and Public Domain
 URL:           http://xml.apache.org/commons/
@@ -99,6 +99,12 @@ rm -rf build/docs/javadoc
 %{_javadocdir}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.01-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.4.01-31
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jun 19 2020 Mat Booth <mat.booth@redhat.com> - 1.4.01-30
 - Allow building against Java 11
 

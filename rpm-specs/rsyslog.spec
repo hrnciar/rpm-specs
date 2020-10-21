@@ -8,8 +8,8 @@
 
 Summary: Enhanced system logging and kernel message trapping daemon
 Name: rsyslog
-Version: 8.2002.0
-Release: 1%{?dist}
+Version: 8.2008.0
+Release: 2%{?dist}
 License: (GPLv3+ and ASL 2.0)
 URL: http://www.rsyslog.com/
 Source0: http://www.rsyslog.com/files/download/rsyslog/%{name}-%{version}.tar.gz
@@ -17,6 +17,7 @@ Source1: http://www.rsyslog.com/files/download/rsyslog/%{name}-doc-%{version}.ta
 Source2: rsyslog.conf
 Source3: rsyslog.sysconfig
 Source4: rsyslog.log
+Source5: rsyslog.service
 
 BuildRequires: gcc
 BuildRequires: autoconf
@@ -34,7 +35,7 @@ BuildRequires: python3-docutils
 # make sure systemd is in a version that isn't affected by rhbz#974132
 BuildRequires: systemd-devel >= 204-8
 BuildRequires: zlib-devel
-BuildRequires: qpid-proton-c-devel 
+BuildRequires: qpid-proton-c-devel
 
 Requires: logrotate >= 3.5.2
 Requires: bash >= 2.0
@@ -42,9 +43,6 @@ Requires: bash >= 2.0
 
 Provides: syslog
 Obsoletes: sysklogd < 1.5-11
-
-# tweak the upstream service file to honour configuration from /etc/sysconfig/rsyslog
-Patch0: rsyslog-8.34.0-sd-service.patch
 
 %package crypto
 Summary: Encryption support
@@ -228,15 +226,15 @@ spoof the sender address. Also, it enables to circle through a number
 of source ports.
 
 %description omamqp1
-The omamqp1 output module can be used to send log messages via an AMQP 
+The omamqp1 output module can be used to send log messages via an AMQP
 1.0-compatible messaging bus.
 
 %description kafka
-The rsyslog-kafka package provides module for Apache Kafka output. 
+The rsyslog-kafka package provides module for Apache Kafka output.
 
 %description mmkubernetes
-The rsyslog-mmkubernetes package provides module for adding kubernetes 
-container metadata. 
+The rsyslog-mmkubernetes package provides module for adding kubernetes
+container metadata.
 
 %prep
 # set up rsyslog-doc sources
@@ -245,7 +243,6 @@ rm -r LICENSE README.md source build/objects.inv
 mv build doc
 # set up rsyslog sources
 %setup -q -D
-%patch0 -p1
 
 autoreconf -iv
 
@@ -320,6 +317,7 @@ make V=1 DESTDIR=%{buildroot} install
 
 install -d -m 755 %{buildroot}%{_sysconfdir}/sysconfig
 install -d -m 755 %{buildroot}%{_sysconfdir}/logrotate.d
+install -d -m 755 %{buildroot}%{_unitdir}
 install -d -m 755 %{buildroot}%{_sysconfdir}/rsyslog.d
 install -d -m 700 %{buildroot}%{rsyslog_statedir}
 install -d -m 700 %{buildroot}%{rsyslog_pkidir}
@@ -328,6 +326,7 @@ install -d -m 755 %{buildroot}%{rsyslog_docdir}/html
 install -p -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/rsyslog.conf
 install -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/rsyslog
 install -p -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/logrotate.d/rsyslog
+install -p -m 644 %{SOURCE5} %{buildroot}%{_unitdir}/rsyslog.service
 install -p -m 644 plugins/ommysql/createDB.sql %{buildroot}%{rsyslog_docdir}/mysql-createDB.sql
 install -p -m 644 plugins/ompgsql/createDB.sql %{buildroot}%{rsyslog_docdir}/pgsql-createDB.sql
 dos2unix tools/recover_qi.pl
@@ -337,8 +336,6 @@ install -p -m 644 contrib/mmkubernetes/*.rulebase %{buildroot}%{rsyslog_docdir}
 cp -r doc/* %{buildroot}%{rsyslog_docdir}/html
 # get rid of libtool libraries
 rm -f %{buildroot}%{_libdir}/rsyslog/*.la
-# get rid of socket activation by default
-sed -i '/^Alias/s/^/;/;/^Requires=syslog.socket/s/^/;/' %{buildroot}%{_unitdir}/rsyslog.service
 # imdiag and liboverride is only used for testing
 rm -f %{buildroot}%{_libdir}/rsyslog/imdiag.so
 rm -f %{buildroot}%{_libdir}/rsyslog/liboverride_gethostname.so
@@ -487,6 +484,30 @@ done
 %doc %{rsyslog_docdir}/k8s_container_name.rulebase
 
 %changelog
+* Fri Sep 18 2020 Attila Lakatos <alakatos@redhat.com> - 8.2008.0-2
+- rebuild package
+
+* Thu Sep 17 2020 Attila Lakatos <alakatos@redhat.com> - 8.2008.0-1
+- rebase to upstream version 8.2008.0
+  resolves: rhbz#1829092
+  resolves: rhbz#1823862
+  resolves: rhbz#1876773
+- add service file back(upstream does not ship it anymore)
+
+* Thu Aug 27 2020 Josef Řídký <jridky@redhat.com> - 8.2002.0-5
+- Rebuilt for new net-snmp release
+
+* Thu Aug 20 2020 Attila Lakatos <alakatos@redhat.com> - 8.2002.0-4
+- enable configuration reload in the service
+  resolves: rhbz#1868636
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.2002.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.2002.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 27 2020 Jiri Vymazal <jvymazal@redhat.com> - 8.2002.0-1
 - rebase to upstream version 8.2002.0
   resolves: rhbz#1807097
@@ -639,7 +660,7 @@ done
 * Tue Apr 18 2017 Radovan Sroka <rsroka@redhat.com> - 8.26.0-1
 - rebase to 8.26.0
 - added doc patch rhbz#1436113
-- dropped chdir patch, https://github.com/rsyslog/rsyslog/pull/1420 
+- dropped chdir patch, https://github.com/rsyslog/rsyslog/pull/1420
 - moved dependency libgcrypt to rsyslog core
 
 * Wed Mar 01 2017 Jiri Vymazal <jvymazal@redhat.com> - 8.25.0-2
@@ -693,7 +714,7 @@ done
 
 * Tue Dec 20 2016 Radovan Sroka <rsroka@redhat.com> - 8.23.0-1
 - rebase to 8.23.0
-- change build requires from libfastjson to libfastjson-devel 
+- change build requires from libfastjson to libfastjson-devel
 
 * Thu Nov 10 2016 Tomas Sykora <tosykora@redhat.com> 8.22.0-1
 - rebase to 8.22.0
@@ -702,7 +723,7 @@ done
 
 * Wed Oct 05 2016 Radovan Sroka <rsroka@redhat.com> 8.21.0-1
 - rebase to 8.21.0
-- dropped rsyslog-8.12.0-gnutls-detection.patch 
+- dropped rsyslog-8.12.0-gnutls-detection.patch
 - dropped rsyslog-8.8.0-immutable-json-props.patch
   - remove from specs but nor from git
   - could be useful in future

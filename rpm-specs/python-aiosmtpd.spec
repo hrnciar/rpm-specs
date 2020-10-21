@@ -10,7 +10,7 @@ on asyncio for Python 3.
 
 Name:           python-%{pkgname}
 Version:        1.2.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        %{summary}
 
 License:        ASL 2.0
@@ -117,6 +117,9 @@ rm -f  %{buildroot}%{python3_other_sitelib}/aiosmtpd/docs/.gitignore
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.1-7
 - Rebuilt for Python 3.9
 

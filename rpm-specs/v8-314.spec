@@ -25,7 +25,7 @@
 
 Name:		%{truename}-314
 Version:	%{somajor}.%{sominor}.%{sobuild}.%{sotiny}
-Release:	20%{?dist}
+Release:	22%{?dist}
 Summary:	JavaScript Engine
 License:	BSD
 URL:		https://developers.google.com/v8/
@@ -160,6 +160,9 @@ Patch30:	v8-3.14.5.10-gcc8.patch
 # Python3
 Patch31:	v8-314-python3.patch
 
+# gcc-11 diagnostics
+Patch32:	v8-314-gcc11.patch
+
 %description
 V8 is Google's open source JavaScript engine. V8 is written in C++ and is used 
 in Google Chrome, the open source browser from Google. V8 implements ECMAScript 
@@ -215,6 +218,7 @@ Python libraries from v8.
 %patch29 -p1 -b .ppc-harder
 %patch30 -p1 -b .gcc8
 %patch31 -p1 -b .python3
+%patch32 -p1 -b .gcc11
 
 # Do not need this lying about.
 rm -rf src/third_party/valgrind
@@ -402,6 +406,12 @@ chmod -R -x %{buildroot}%{python_sitelib}/*.py*
 %endif
 
 %changelog
+* Sun Oct 18 2020 Jeff Law <law@redhat.com> - 3.14.5.10-22
+- Fix diagnostics reported by gcc-11
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14.5.10-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 15 2020 Pete Walter <pwalter@fedoraproject.org> - 3.14.5.10-20
 - Rebuild for ICU 67
 

@@ -1,24 +1,25 @@
 # spec file for php-pecl-apfd
 #
-# Copyright (c) 2015-2018 Remi Collet
+# Copyright (c) 2015-2020 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
 # Please, preserve the changelog entries
 #
 
+%bcond_without     tests
+
 # we don't want -z defs linker flag
 %undefine _strict_symbol_defs_build
 
 %global with_zts   0%{?__ztsphp:1}
 %global pecl_name  apfd
-%global with_tests 0%{!?_without_tests:1}
 %global ini_name   40-%{pecl_name}.ini
 
 Summary:        Always Populate Form Data
 Name:           php-pecl-%{pecl_name}
-Version:        1.0.1
-Release:        19%{?dist}
+Version:        1.0.2
+Release:        1%{?dist}
 License:        BSD
 URL:            http://pecl.php.net/package/%{pecl_name}
 Source0:        http://pecl.php.net/get/%{pecl_name}-%{version}%{?prever}.tgz
@@ -119,9 +120,9 @@ cd NTS
 : Minimal load test for NTS extension
 %{__php} --no-php-ini \
     --define extension=%{buildroot}%{php_extdir}/%{pecl_name}.so \
-    --modules | grep %{pecl_name}
+    --modules | grep '^%{pecl_name}$'
 
-%if %{with_tests}
+%if %{with tests}
 : Upstream test suite  for NTS extension
 TEST_PHP_EXECUTABLE=%{__php} \
 TEST_PHP_ARGS="-n -d extension=$PWD/modules/%{pecl_name}.so" \
@@ -135,9 +136,9 @@ cd ../ZTS
 : Minimal load test for ZTS extension
 %{__ztsphp} --no-php-ini \
     --define extension=%{buildroot}%{php_ztsextdir}/%{pecl_name}.so \
-    --modules | grep %{pecl_name}
+    --modules | grep '^%{pecl_name}$'
 
-%if %{with_tests}
+%if %{with tests}
 : Upstream test suite skipped as zts-php-cgi not available
 %endif
 %endif
@@ -158,6 +159,12 @@ cd ../ZTS
 
 
 %changelog
+* Tue Sep 22 2020 Remi Collet <remi@remirepo.net> - 1.0.2-1
+- update to 1.0.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

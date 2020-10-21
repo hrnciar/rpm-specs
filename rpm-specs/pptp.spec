@@ -1,6 +1,6 @@
 Name:		pptp
 Version:	1.10.0
-Release:	10%{?dist}
+Release:	11%{?dist}
 Summary:	Point-to-Point Tunneling Protocol (PPTP) Client
 License:	GPLv2+
 URL:		http://pptpclient.sourceforge.net/
@@ -61,6 +61,9 @@ install -p -m 644 %{SOURCE1} %{buildroot}%{_prefix}/lib/tmpfiles.d/pptp.conf
 %{_mandir}/man8/pptpsetup.8*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 14 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 1.10.0-10
 - Fixed man page and typo in the built-in help
 

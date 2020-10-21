@@ -2,8 +2,8 @@
 %global desc Quickly and easily access any RESTful or RESTful-like API.
 
 Name:           python-%{srcname}
-Version:        3.2.7
-Release:        2%{?dist}
+Version:        3.3.1
+Release:        1%{?dist}
 Summary:        HTTP REST client, simplified for Python
 License:        MIT
 URL:            https://github.com/sendgrid/%{name}
@@ -53,6 +53,12 @@ py.test-3 -v
 
 
 %changelog
+* Thu Aug 27 2020 Lumír Balhar <lbalhar@redhat.com> - 3.3.1-1
+- Update to 3.3.1 (#1870393)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.2.7-2
 - Rebuilt for Python 3.9
 

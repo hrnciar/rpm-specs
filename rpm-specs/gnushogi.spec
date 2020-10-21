@@ -4,7 +4,7 @@ Name:           gnushogi
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Version:        1.5
-Release:        0.10.git%{shortcommit}%{?dist}
+Release:        0.12.git%{shortcommit}%{?dist}
 Summary:        Shogi, the Japanese version of chess
 
 License:        GPLv3+
@@ -75,6 +75,13 @@ fi
 %{_mandir}/man6/%{name}.6.gz
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-0.12.git5bb0b5b
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-0.11.git5bb0b5b
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-0.10.git5bb0b5b
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

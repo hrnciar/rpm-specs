@@ -1,6 +1,6 @@
 Name:           icemon
 Version:        3.3
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Icecream GUI monitor
 
 License:        GPLv2+
@@ -8,7 +8,6 @@ URL:            http://kfunk.org/tag/icemon/
 Source0:        https://github.com/icecc/icemon/archive/v%{version}.tar.gz
 
 BuildRequires:    gcc-c++
-BuildRequires:    qt5-devel
 BuildRequires:    pkgconfig(icecc) >= 1.3
 BuildRequires:    docbook2X
 BuildRequires:    cmake
@@ -53,6 +52,16 @@ ctest -V %{?_smp_mflags}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Jeff Law <law@redhat.com> - 3.3-3
+- Drop build requirement for qt5-devel
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

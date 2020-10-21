@@ -2,7 +2,7 @@
 
 Name:           WALinuxAgent
 Version:        2.2.48.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The Microsoft Azure Linux Agent
 
 License:        ASL 2.0
@@ -110,6 +110,9 @@ mv %{buildroot}%{_sysconfdir}/logrotate.d/waagent-extn.logrotate %{buildroot}%{_
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.48.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 09 2020 Vitaly Kuznetsov <vkuznets@redhat.com> - 2.2.48.1-1
 - Update to 2.2.48.1 (#1641605)
 - Split udev rules to a separate subpackage (#1748432)

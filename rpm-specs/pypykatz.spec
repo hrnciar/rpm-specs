@@ -1,9 +1,9 @@
 %global pypi_name pypykatz
 
 Name:           %{pypi_name}
-Version:        0.3.9
-Release:        2%{?dist}
-Summary:        A Python implementation of Mimikatz
+Version:        0.3.13
+Release:        1%{?dist}
+Summary:        Python implementation of Mimikatz
 
 License:        MIT
 URL:            https://github.com/skelsec/pypykatz
@@ -38,27 +38,39 @@ sed -i "s|\r||g" README.md
 %{python3_sitelib}/%{pypi_name}*.egg-info
 
 %changelog
+* Wed Sep 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.3.13-1
+- Update to latest upstream release 0.3.13 (#1883308)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.3.12-1
+- Update to latest upstream release 0.3.12 (#1851710)
+
+* Mon Jun 29 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.3.10-1
+- Update to latest upstream release 0.3.10 (#1851710)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.9-2
 - Rebuilt for Python 3.9
 
 * Sun Apr 19 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.3.9-1
-- Update to latest upstream release 0.3.9 (rhbz#1800998)
+- Update to latest upstream release 0.3.9 (#1800998)
 
 * Tue Apr 14 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.3.8-1
 - LICENSE file is now part of the source tarball
-- Update to latest upstream release 0.3.8 (rhbz#1800998)
+- Update to latest upstream release 0.3.8 (#1800998)
 
 * Fri Mar 27 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.3.7-1
-- Update to latest upstream release 0.3.7 (rhbz#1800998)
+- Update to latest upstream release 0.3.7 (#1800998)
 
 * Tue Mar 03 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.3.5-1
-- Update to latest upstream release 0.3.5 (rhbz#1800998)
+- Update to latest upstream release 0.3.5 (#1800998)
 
 * Fri Feb 28 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.3.4-1
 - Update to latest upstream release 0.3.4
 
 * Thu Jan 30 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.3.3-1
-- Update to latest upstream release 0.3.3 (rhbz#1790234)
+- Update to latest upstream release 0.3.3 (#1790234)
 
 * Thu Oct 03 2019 Miro Hrončok <mhroncok@redhat.com> - 0.0.7-4
 - Rebuilt for Python 3.8.0rc1 (#1748018)

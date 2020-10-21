@@ -13,7 +13,7 @@
 
 Name:           php-horde-wicked
 Version:        2.0.8
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Wiki application
 
 License:        GPLv2
@@ -298,6 +298,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.8-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun  2 2020 Remi Collet <remi@remirepo.net> - 2.0.8-8
 - requires php(httpd)
 

@@ -10,7 +10,7 @@ compatibility and OpenType conformance.
 
 Name:		%{fontname}-fonts
 Version:	0.2.2
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	Thai Arundina fonts
 
 License:	Bitstream Vera
@@ -128,6 +128,9 @@ install -Dm 0644 -p %{SOURCE7} \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -8,7 +8,7 @@
 
 Summary:   An enterprise-strength fax server
 Name:      hylafax+
-Version:   7.0.2
+Version:   7.0.3
 Release:   1%{?dist}
 License:   libtiff and BSD with advertising
 URL:       http://hylafax.sourceforge.net
@@ -181,6 +181,12 @@ rm -f $RPM_BUILD_ROOT%{faxspool}/COPYRIGHT
 
 %if 0%{?fedora} >= 16 || 0%{?rhel} >= 7
 %post
+if [ -e %{faxspool}/etc/setup.cache ] && [ ! -e %{_sysconfdir}/hylafax/setup.cache ]; then
+    ln %{faxspool}/etc/setup.cache %{_sysconfdir}/hylafax/setup.cache
+fi
+if [ -e %{faxspool}/etc/setup.modem ] && [ ! -e %{_sysconfdir}/hylafax/setup.modem ]; then
+    ln %{faxspool}/etc/setup.modem %{_sysconfdir}/hylafax/setup.modem
+fi
 /sbin/ldconfig
 if [ 0$1 -eq 1 ]; then
     # Initial installation
@@ -209,6 +215,12 @@ fi
 
 %else
 %post
+if [ -e %{faxspool}/etc/setup.cache ] && [ ! -e %{_sysconfdir}/hylafax/setup.cache ]; then
+    ln %{faxspool}/etc/setup.cache %{_sysconfdir}/hylafax/setup.cache
+fi
+if [ -e %{faxspool}/etc/setup.modem ] && [ ! -e %{_sysconfdir}/hylafax/setup.modem ]; then
+    ln %{faxspool}/etc/setup.modem %{_sysconfdir}/hylafax/setup.modem
+fi
 /sbin/ldconfig
 if [ 0$1 -eq 1 ]; then
     /sbin/chkconfig --add hylafax+
@@ -412,6 +424,12 @@ fi
 %dir %{faxspool}/etc
 
 %changelog
+* Tue Aug 4 2020 Lee Howard <faxguy@howardsilvan.com> - 7.0.3-1
+- update to 7.0.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Lee Howard <faxguy@howardsilvan.com> - 7.0.2-1
 - update to 7.0.2
 

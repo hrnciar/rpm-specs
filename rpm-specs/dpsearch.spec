@@ -1,7 +1,7 @@
 %global snapshot 2016-12-03
 Name:           dpsearch
 Version:        4.54
-Release:        0.18.20161203snap%{?dist}
+Release:        0.19.20161203snap%{?dist}
 Summary:        DataparkSearch Engine
 
 License:        GPLv2+
@@ -94,6 +94,9 @@ install -pm 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
 %{_libdir}/%{name}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.54-0.19.20161203snap
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.54-0.18.20161203snap
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

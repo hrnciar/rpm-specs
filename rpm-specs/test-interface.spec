@@ -3,7 +3,7 @@
 
 Name:           test-interface
 Version:        %{test_interface_version}
-Release:        14%{?dist}
+Release:        16%{?dist}
 Summary:        Uniform interface to Scala and Java test frameworks
 
 License:        BSD
@@ -99,6 +99,12 @@ cp pom.xml target/%{name}-%{version}.pom
 %doc LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.0-15
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:       perl-RT-Client-REST 
 Version:    0.60
-Release:    2%{?dist}
+Release:    3%{?dist}
 License:    GPL+ or Artistic
 Summary:    Talk to RT using REST protocol 
 Url:        https://metacpan.org/release/RT-Client-REST
@@ -93,6 +93,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.60-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.60-2
 - Perl 5.32 rebuild
 

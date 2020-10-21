@@ -1,6 +1,6 @@
 Name:           perl-JSON-RPC-LWP
 Version:        0.007
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        JSON RPC over any libwww supported protocol
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/JSON-RPC-LWP
@@ -24,7 +24,6 @@ BuildRequires:  perl(Moose::Util::TypeConstraints)
 BuildRequires:  perl(namespace::clean) >= 0.20
 BuildRequires:  perl(Test::More)
 BuildRequires:  perl(URI) >= 1.58
-BuildRequires:  perl(Util)
 BuildRequires:  perl(constant)
 BuildRequires:  perl(lib)
 BuildRequires:  perl(strict)
@@ -57,6 +56,15 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.007-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Petr Pisar <ppisar@redhat.com> - 0.007-4
+- Do not build-require bundled Util
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.007-3
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.007-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

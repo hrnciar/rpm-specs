@@ -6,6 +6,8 @@
 %global yum_utils_subpackage_name yum-utils
 %endif
 
+%define __cmake_in_source_build 1
+
 %if 0%{?rhel} && 0%{?rhel} <= 7
 %bcond_with python3
 %else
@@ -31,7 +33,7 @@
 %endif
 
 Name:           dnf-plugins-core
-Version:        4.0.16
+Version:        4.0.18
 Release:        1%{?dist}
 Summary:        Core Plugins for DNF
 License:        GPLv2+
@@ -168,7 +170,7 @@ Additionally provides generate_completion_cache passive plugin.
 %if %{with yumutils}
 %package -n %{yum_utils_subpackage_name}
 %if "%{yum_utils_subpackage_name}" == "dnf-utils"
-Conflicts:      yum-utils < 1.1.31-530
+Conflicts:      yum-utils < 1.1.31-520
 %if 0%{?rhel} != 7
 Provides:       yum-utils = %{version}-%{release}
 %endif
@@ -742,6 +744,28 @@ PYTHONPATH=./plugins nosetests-%{python3_version} -s tests/
 %endif
 
 %changelog
+* Thu Oct 08 2020 Nicola Sella <nsella@redhat.com> - 4.0.18-1
+- [needs-restarting] Fix plugin fail if needs-restarting.d does not exist
+- [needs-restarting] add kernel-rt to reboot list
+- Fix debug-restore command
+- [config-manager] enable/disable comma separated pkgs (RhBug:1830530)
+- [debug] Use standard demands.resolving for transaction handling
+- [debug] Do not remove install-only packages (RhBug:1844533)
+- return error when dnf download failed
+- README: Reference Fedora Weblate instead of Zanata
+- [reposync] Add latest NEVRAs per stream to download (RhBug: 1833074)
+- copr: don't try to list runtime dependencies
+
+* Mon Aug 10 2020 Nicola Sella <nsella@redhat.com> - 4.0.16-4
+- spec: Fix building with new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.16-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.16-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 06:48:41 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 4.0.16-1
 - Update to 4.0.16
   + [versionlock] Take obsoletes into account (RhBug:1627124)

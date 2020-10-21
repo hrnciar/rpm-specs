@@ -1,8 +1,8 @@
 %global srcname colcon-lcov-result
 
 Name:           python-%{srcname}
-Version:        0.4.0
-Release:        2%{?dist}
+Version:        0.4.1
+Release:        1%{?dist}
 Summary:        Extension for colcon to provide test results using LCOV
 
 License:        ASL 2.0
@@ -69,6 +69,12 @@ the following coverage metrics:
 
 
 %changelog
+* Wed Sep 30 2020 Scott K Logan <logans@cottsay.net> - 0.4.1-1
+- Update to 0.4.1 (rhbz#1881545)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.0-2
 - Rebuilt for Python 3.9
 

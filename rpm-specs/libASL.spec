@@ -5,7 +5,7 @@
 
 Name:           lib%{upstream}
 Version:        0.1.7
-Release:        21%{?dist}
+Release:        25%{?dist}
 Summary:        Advanced Simulation Library hardware accelerated multiphysics simulation platform
 
 License:        AGPLv3 and BSD and MIT
@@ -109,20 +109,17 @@ The %{name}-examples package contains examples for %{name}
 %prep
 %setup -q -n %{upstream}-%{version}
 %patch0 -p1 -b .vtk8
-%{__mkdir_p} %{_cmake_build_subdir}
 
 %build
-pushd %{_cmake_build_subdir}
-%cmake3 -DWITH_API_DOC:BOOL=ON \
+%cmake  -DWITH_API_DOC:BOOL=ON \
         -DWITH_MATIO:BOOL=ON  \
         -DWITH_EXAMPLES=ON \
-        -DWITH_TESTS=ON ..
-make %{?_smp_mflags}
-popd
-
+        -DWITH_TESTS=ON 
+%cmake_build
+%cmake_build --target docs
 
 %install
-%make_install -C %{_cmake_build_subdir}
+%cmake_install
 find %{buildroot} -name '*.la' -delete
 
 # Move docs and examples to right places
@@ -206,6 +203,19 @@ mv %{buildroot}%{_datadir}/%{upstream}/input %{buildroot}%{_docdir}/%{name}-exam
 
 
 %changelog
+* Mon Sep 21 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.1.7-25
+- Matio rebuild.
+
+* Tue Aug 25 2020 Christian Dersch <lupinix@mailbox.org> - 0.1.7-24
+- Use cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.7-23
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.7-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 0.1.7-21
 - Rebuilt for Boost 1.73
 

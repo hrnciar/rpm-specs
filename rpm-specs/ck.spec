@@ -1,6 +1,6 @@
 Name: ck
 Version: 0.7.0
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: Library for high performance concurrent programming
 
 License: BSD
@@ -75,9 +75,10 @@ make check
 %{_libdir}/pkgconfig/%{name}.pc
 %{_mandir}/man3/*.3.gz
 
-%ldconfig_scriptlets
-
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Filip Januš <fjanus@redhat.com> - 0.7.0-3
 - Build fails due to ck_hclh test
 - github issue: https://github.com/concurrencykit/ck/issues/153

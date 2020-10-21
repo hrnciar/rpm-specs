@@ -1,23 +1,32 @@
 %global gem_name activemodel
 
-%{?_with_bootstrap: %global bootstrap 1}
+# Circular dependency with rubygem-railties.
+%bcond_with bootstrap
 
 Name: rubygem-%{gem_name}
-Version: 5.2.3
-Release: 4%{?dist}
+Version: 6.0.3.4
+Release: 1%{?dist}
 Summary: A toolkit for building modeling frameworks (part of Rails)
 License: MIT
 URL: http://rubyonrails.org
-Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
-# git clone https://github.com/rails/rails.git && cd rails/activemodel
-# git checkout v5.2.3 && tar czvf activemodel-5.2.3-tests.tgz test/
-Source1: %{gem_name}-%{version}-tests.tgz
+Source0: https://rubygems.org/gems/%{gem_name}-%{version}%{?prerelease}.gem
+# The gem doesn't ship with the test suite.
+# You may check it out like so
+# git clone https://github.com/rails/rails.git
+# cd rails/activemodel && git archive -v -o activemodel-6.0.3.4-tests.txz v6.0.3.4 test/
+Source1: %{gem_name}-%{version}%{?prerelease}-tests.txz
+# The tools are needed for the test suite, are however unpackaged in gem file.
+# You may check it out like so
+# git clone http://github.com/rails/rails.git --no-checkout
+# cd rails && git archive -v -o rails-6.0.3.4-tools.txz v6.0.3.4 tools/
+Source2: rails-%{version}%{?prerelease}-tools.txz
+
 # Let's keep Requires and BuildRequires sorted alphabeticaly
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby >= 2.2.2
 BuildRequires: rubygem(activesupport) = %{version}
-%if ! 0%{?bootstrap}
+%if %{without bootstrap}
 BuildRequires: rubygem(railties) = %{version}
 %endif
 BuildRequires: rubygem(bcrypt) => 3.1.2
@@ -39,10 +48,12 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -c -T
-%gem_install -n %{SOURCE0}
+%setup -q -n %{gem_name}-%{version} -b1 -b2
 
 %build
+gem build ../%{gem_name}-%{version}.gemspec
+%gem_install
+
 
 %install
 mkdir -p %{buildroot}%{gem_dir}
@@ -51,14 +62,15 @@ cp -a .%{gem_dir}/* \
 
 %check
 pushd .%{gem_instdir}
-tar xzvf %{SOURCE1}
+ln -s %{_builddir}/tools ..
+mv %{_builddir}/test .
 
-%if 0%{?bootstrap}
+%if %{with bootstrap}
 # This depends on Rails
 mv ./test/cases/railtie_test.rb{,.disable}
 %endif
 
-# TODO: Run test in order! Otherwise we get a lot of errors.
+# Run test in order, otherwise we get a lot of errors.
 ruby -Ilib:test -e "Dir.glob('./test/**/*_test.rb').sort.each {|t| require t}"
 popd
 
@@ -75,6 +87,25 @@ popd
 %doc %{gem_instdir}/README.rdoc
 
 %changelog
+* Thu Oct  8 10:54:54 CEST 2020 Pavel Valena <pvalena@redhat.com> - 6.0.3.4-1
+- Update to activemodel 6.0.3.4.
+  Resolves: rhbz#1877543
+
+* Fri Sep 18 18:07:35 CEST 2020 Pavel Valena <pvalena@redhat.com> - 6.0.3.3-1
+- Update to activemodel 6.0.3.3.
+  Resolves: rhbz#1877543
+
+* Mon Aug 17 04:49:08 GMT 2020 Pavel Valena <pvalena@redhat.com> - 6.0.3.2-1
+- Update to activemodel 6.0.3.2.
+  Resolves: rhbz#1742793
+
+* Mon Aug 03 07:01:37 GMT 2020 Pavel Valena <pvalena@redhat.com> - 6.0.3.1-2
+- Update to ActiveModel 6.0.3.1.
+  Resolves: rhbz#1742793
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

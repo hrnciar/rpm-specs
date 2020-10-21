@@ -8,7 +8,7 @@
 
 Name:    php-%{composer_vendor}-%{composer_project}
 Version: 0.5.4
-Release: 5%{?dist}
+Release: 6%{?dist}
 
 Summary: A compiler for LESS written in PHP
 License: MIT or GPLv3
@@ -104,6 +104,9 @@ phpunit --verbose --bootstrap %{buildroot}%{pkgdir}/autoload.php
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 13 2020 Artur Iwicki <fedora@svgames.pl> - 0.5.4-5
 - Fix FedoraAutoloader-related Requires/BuildRequires
 

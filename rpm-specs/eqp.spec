@@ -2,7 +2,7 @@
 Summary: Automated theorem prover for first-order equational logic
 Name: eqp
 Version: 09e
-Release: 14%{?dist}
+Release: 15%{?dist}
 License: Public Domain
 URL: http://www.cs.unm.edu/~mccune/eqp/
 Source0: http://www.cs.unm.edu/~mccune/old-ftp/eqp-09e.tar.gz
@@ -78,6 +78,9 @@ run_eqp "examples/robbins/eqp-lemma0.in"
 %attr(0755,root,root) %{_bindir}/eqp
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 09e-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 18 2020 John C. Peterson <jcp@eskimo.com> - 09e-14
 - Added a patch to remove a duplicate definition of the Clocks global variable
 

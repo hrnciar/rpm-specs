@@ -3,7 +3,7 @@
 
 # https://github.com/docker/licensing
 %global goipath         github.com/docker/licensing
-%global commit          340365cb8cf0b1fbb35aa9c454957e8e1be436ed
+%global commit          5f0f1276fe42dd721c1c093604995a9f758ace21
 
 %gometa
 
@@ -19,15 +19,13 @@ for Docker Enterprise Edition.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Library for interacting with Docker issued product licenses
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
-# Fix jwt.Claims to use with newer jwt-go
-Patch0:         0001-Fix-jwt.Claims-to-use-with-newer-jwt-go.patch
 
 BuildRequires:  golang(github.com/asaskevich/govalidator)
 BuildRequires:  golang(github.com/dgrijalva/jwt-go)
@@ -51,7 +49,6 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 
 %prep
 %goprep
-%patch0 -p1
 
 %install
 %gopkginstall
@@ -65,6 +62,12 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 14:12:02 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200726git5f0f127
+- Bump to commit 5f0f1276fe42dd721c1c093604995a9f758ace21
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 Name:    libb2
 Summary: C library providing BLAKE2b, BLAKE2s, BLAKE2bp, BLAKE2sp
 Version: 0.98.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: CC0
 URL:     https://blake2.net/
 Source0: https://github.com/BLAKE2/libb2/archive/v%{version}/libb2-%{version}.tar.gz
@@ -58,6 +58,9 @@ rm -f %{buildroot}%{_libdir}/*.la
 %{_includedir}/blake2.h
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.98.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.98.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

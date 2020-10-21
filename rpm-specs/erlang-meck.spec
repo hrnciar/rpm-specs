@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	0.8.13
-Release:	5%{?dist}
+Release:	7%{?dist}
 BuildArch:	noarch
 Summary:	A mocking library for Erlang
 License:	ASL 2.0
@@ -47,6 +47,13 @@ modules, such as making sure no function is called in a way it should not.
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.13-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.13-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.13-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

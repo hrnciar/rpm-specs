@@ -1,11 +1,11 @@
 %global _hardened_build 1
 
-%global EXCLUDE_MODULES cachedb_cassandra %{!?_with_oracle:db_oracle} osp python sngtc
+%global EXCLUDE_MODULES auth_jwt cachedb_cassandra %{!?_with_oracle:db_oracle} osp python sngtc
 
 Summary:  Open Source SIP Server
 Name:     opensips
-Version:  3.0.2
-Release:  7%{?dist}
+Version:  3.1.0
+Release:  2%{?dist}
 License:  GPLv2+
 Source0:  https://github.com/%{name}/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 # Fedora-specific patches
@@ -14,34 +14,19 @@ Patch002: opensips-0002-Cleanup-Oracle-s-makefiles.patch
 Patch003: opensips-0003-db_ora-null-terminating-string-is-more-safely-most-m.patch
 Patch004: opensips-0004-Return-actual-payload-ID-in-case-of-a-dynamic-payloa.patch
 Patch005: opensips-0005-Don-t-remove-pthread-library-explicitly-from-mi_xmlr.patch
-Patch006: opensips-0006-Dont-try-modifying-CFLAGS.patch
-Patch007: opensips-0007-Add-missing-typedef-keyword.patch
-Patch008: opensips-0008-Fix-building-with-gcc-10.patch
-Patch009: opensips-0009-dispatcher-Fix-missing-tmb-definition.patch
-Patch010: opensips-0010-Fix-more-gcc-10-compilation-errors.patch
-Patch011: opensips-0011-Add-support-for-upcoming-json-c-0.14.0.patch
+Patch006: opensips-0006-Add-support-for-upcoming-json-c-0.14.0.patch
 
 URL:      https://opensips.org
 
-BuildRequires: GeoIP-devel
 BuildRequires: bison
 BuildRequires: docbook-xsl
-BuildRequires: expat-devel
 BuildRequires: flex
 BuildRequires: gcc
-BuildRequires: json-c-devel
-BuildRequires: libconfuse-devel
-BuildRequires: libuuid-devel
-BuildRequires: libxml2-devel
 BuildRequires: libxslt
 BuildRequires: lynx
 BuildRequires: ncurses-devel
-BuildRequires: openldap-devel
 BuildRequires: pcre-devel
-# FIXME disable python2 until upstream adds support for Py3
-#BuildRequires: python2-devel
 BuildRequires: systemd-units
-BuildRequires: xmlrpc-c-devel
 
 # Users and groups
 Requires(pre): shadow-utils
@@ -51,9 +36,12 @@ Requires(postun): systemd
 
 Obsoletes: %{name}-auth_diameter
 Obsoletes: %{name}-event_datagram
+Obsoletes: %{name}-event_jsonrpc
 Obsoletes: %{name}-mi_xmlrpc
-Obsoletes: %{name}-xmlrpc
 Obsoletes: %{name}-python < 2.4.6-4
+Obsoletes: %{name}-seas
+Obsoletes: %{name}-sms
+Obsoletes: %{name}-xmlrpc
 Obsoletes: python2-%{name} < 2.4.6-4
 
 %description
@@ -158,6 +146,7 @@ The Call Center module implements an inbound call center system with call flows
 
 %package  carrierroute
 Summary:  Routing extension suitable for carriers
+BuildRequires: libconfuse-devel
 Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %description carrierroute
@@ -307,6 +296,7 @@ Number Association).
 
 %package  h350
 Summary:  H350 implementation
+BuildRequires: openldap-devel
 Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %description h350
@@ -324,14 +314,15 @@ This module provides an HTTP transport layer for OpenSIPS.
 
 %package  identity
 Summary:  Support for SIP Identity (see RFC 4474)
-Requires: %{name}%{?_isa} = %{version}-%{release}
 BuildRequires: pkgconfig(openssl)
+Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %description identity
 This module provides support for SIP Identity (see RFC 4474).
 
 %package  jabber
 Summary:  Gateway between OpenSIPS and a jabber server
+BuildRequires: expat-devel
 Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %description jabber
@@ -339,6 +330,7 @@ Jabber module that integrates XODE XML parser for parsing Jabber messages.
 
 %package  json
 Summary:  A JSON variables within the script
+BuildRequires: json-c-devel
 Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %description json
@@ -347,6 +339,7 @@ de-serialization from JSON format.
 
 %package  ldap
 Summary:  LDAP connector
+BuildRequires: openldap-devel
 Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %description ldap
@@ -363,6 +356,23 @@ The time needed when writing a new OpenSIPS module unfortunately is quite
 high, while the options provided by the configuration file are limited to
 the features implemented in the modules. With this Lua module, you can
 easily implement your own OpenSIPS extensions in Lua.
+
+%package  media_exchange
+Summary:  Lets exchange SDP between calls
+Requires: %{name}%{?_isa} = %{version}-%{release}
+Requires: %{name}-b2bua%{?_isa} = %{version}-%{release}
+
+%description media_exchange
+This module provides the means to exchange media SDP between different SIP
+proxied calls, and calls started or received from a Media Server. The module
+itself does not have any media capabilities, it simply exposes primitives to
+exchange the SDP body between two or more different calls.
+
+The module can both originate calls, pushing an existing SDP to a media server,
+to playback, or simply record an existing RTP, as well as take the SDP of a new
+call and inject the SDP into an existing, proxied sip call. In order to
+manipulate the new calls, either generated, or terminated, the module behaves
+as a back-to-back user agent with the aim of the OpenSIPS B2B entities module.
 
 %package  mi_html
 Summary:  A minimal web user interface for the Management Interface
@@ -384,6 +394,7 @@ GET requests and generates JSON responses.
 
 %package  mi_xmlrpc_ng
 Summary:  A xmlrpc server for the Management Interface (new version)
+BuildRequires: libxml2-devel
 Requires: %{name}%{?_isa} = %{version}-%{release}
 Requires: %{name}-httpd%{?_isa} = %{version}-%{release}
 Provides: %{name}-xmlrpc_ng%{?_isa} = %{version}-%{release}
@@ -395,6 +406,8 @@ xmlrpc responses. When a xmlrpc message is received a default method is executed
 
 %package  mmgeoip
 Summary:  Wrapper for the MaxMind GeoIP API
+BuildRequires: GeoIP-devel
+BuildRequires: libmaxminddb-devel
 Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %description mmgeoip
@@ -460,6 +473,17 @@ presence and it constructs and adds "Call-Info" headers to notification events.
 To send "call-info" notification to watchers, a third-party application must
 publish "call-info" events to the presence server.
 
+%package  presence_dfks
+Summary:  Extension to Presence server for Broadsoft's DFKS
+BuildRequires: libxml2-devel
+Requires: %{name}%{?_isa} = %{version}-%{release}
+Requires: %{name}-presence%{?_isa} = %{version}-%{release}
+
+%description presence_dfks
+The module enables handling of the "as-feature-event" event package (as defined
+by Broadsoft's Device Feature Key Synchronization protocol) by the presence
+module.
+
 %package  presence_dialoginfo
 Summary:  Extension to Presence server for Dialog-Info
 Requires: %{name}%{?_isa} = %{version}-%{release}
@@ -515,9 +539,9 @@ script.
 
 %package  proto_tls
 Summary:  An optional TLS transport module
+BuildRequires: pkgconfig(openssl)
 Requires: %{name}%{?_isa} = %{version}-%{release}
 Requires: %{name}-tls_mgm%{?_isa} = %{version}-%{release}
-BuildRequires: pkgconfig(openssl)
 Obsoletes: %{name}-tlsops
 
 %description proto_tls
@@ -529,9 +553,9 @@ script.
 
 %package  proto_wss
 Summary:  An optional Secure WebSocket transport module
+BuildRequires: pkgconfig(openssl)
 Requires: %{name}%{?_isa} = %{version}-%{release}
 Requires: %{name}-tls_mgm%{?_isa} = %{version}-%{release}
-BuildRequires: pkgconfig(openssl)
 
 %description proto_wss
 This module is an optional transport module (shared library) which exports the
@@ -607,6 +631,7 @@ transmition of presence state information.
 
 # FIXME disable python2 until upstream adds support for Py3
 #%package  -n python2-opensips
+#BuildRequires: python2-devel
 #%{?python_provide:%python_provide python2-opensips}
 # Remove before F30
 #Provides: %{name}-python = %{version}-%{release}
@@ -664,22 +689,9 @@ Requires: %{name}-xcap%{?_isa} = %{version}-%{release}
 The modules is a Resource List Server implementation following the
 specification in RFC 4662 and RFC 4826.
 
-%package  seas
-Summary:  Transfers the execution logic control to a given external entity
-Requires: %{name}%{?_isa} = %{version}-%{release}
-
-%description seas
-SEAS module enables OpenSIPS to transfer the execution logic control of a sip
-message to a given external entity, called the Application Server. When the
-OpenSIPS script is being executed on an incoming SIP message, invocation of
-the as_relay_t() function makes this module send the message along with some
-transaction information to the specified Application Server. The Application
-Server then executes some call-control logic code, and tells OpenSIPS to take
-some actions, ie. forward the message downstream, or respond to the message
-with a SIP repy, etc
-
 %package  siprec
 Summary:  Call recording using SIPREC protocol
+BuildRequires: libuuid-devel
 Requires: %{name}%{?_isa} = %{version}-%{release}
 Requires: %{name}-b2bua%{?_isa} = %{version}-%{release}
 
@@ -690,18 +702,6 @@ and callee, but it is completely separate, thus it can not affect by any means
 the quality of the conversation. This is done in a standardized manner, using
 the SIPREC Protocol, thus it can be used by any recorder that implements this
 protocol.
-
-%package  sms
-Summary:  Gateway between SIP and GSM networks via sms
-Requires: %{name}%{?_isa} = %{version}-%{release}
-
-%description sms
-This module provides a way of communication between SIP network (via SIP
-MESSAGE) and GSM networks (via ShortMessageService). Communication is
-possible from SIP to SMS and vice versa.  The module provides facilities
-like SMS confirmation--the gateway can confirm to the SIP user if his
-message really reached its destination as a SMS--or multi-part messages--if
-a SIP messages is too long it will be split and sent as multiple SMS.
 
 %package  snmpstats
 Summary:  SNMP management interface for the OpenSIPS
@@ -715,15 +715,34 @@ OpenSIPS.  Specifically, it provides general SNMP queryable scalar statistics,
 table representations of more complicated data such as user and contact
 information, and alarm monitoring capabilities.
 
+%package  stir_shaken
+Summary:  Support for implementing STIR/SHAKEN
+BuildRequires: pkgconfig(openssl)
+Requires: %{name}%{?_isa} = %{version}-%{release}
+Requires: %{name}-b2bua%{?_isa} = %{version}-%{release}
+
+%description stir_shaken
+This module provides support for implementing STIR/SHAKEN (RFC 8224, RFC 8588)
+Authentication and Verification services in OpenSIPS.
+
 %package  tls_mgm
 Summary:  Management for TLS certificates and parameters
-Requires: %{name}%{?_isa} = %{version}-%{release}
 BuildRequires: pkgconfig(openssl)
+Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %description tls_mgm
 This module provides an interfaces for all the modules that use the TLS
 protocol. It also implements TLS related functions to use in the routing
 script, and exports pseudo variables with certificate and TLS parameters.
+
+%package  uuid
+Summary:  Generates UUIDs as specified in RFC 4122
+BuildRequires: libuuid-devel
+Requires: %{name}%{?_isa} = %{version}-%{release}
+
+%description uuid
+The module generates universally unique identifiers (UUID) as specified in RFC
+4122.
 
 %package  xcap
 Summary:  XCAP common functions
@@ -755,6 +774,7 @@ take into account any DTDs or schemas in terms of validation.
 
 %package  xmpp
 Summary:  Gateway between OpenSIPS and a jabber server
+BuildRequires: expat-devel
 Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %description xmpp
@@ -876,6 +896,7 @@ useradd -r -g %{name} -d %{_localstatedir}/run/%{name} -s /sbin/nologin \
 %{_libdir}/opensips/modules/cachedb_local.so
 %{_libdir}/opensips/modules/cachedb_sql.so
 %{_libdir}/opensips/modules/call_control.so
+%{_libdir}/opensips/modules/callops.so
 %{_libdir}/opensips/modules/cfgutils.so
 %{_libdir}/opensips/modules/clusterer.so
 %{_libdir}/opensips/modules/db_cachedb.so
@@ -893,9 +914,9 @@ useradd -r -g %{name} -d %{_localstatedir}/run/%{name} -s /sbin/nologin \
 %{_libdir}/opensips/modules/enum.so
 %{_libdir}/opensips/modules/event_datagram.so
 %{_libdir}/opensips/modules/event_flatstore.so
-%{_libdir}/opensips/modules/event_jsonrpc.so
 %{_libdir}/opensips/modules/event_route.so
 %{_libdir}/opensips/modules/event_routing.so
+%{_libdir}/opensips/modules/event_stream.so
 %{_libdir}/opensips/modules/event_virtual.so
 %{_libdir}/opensips/modules/event_xmlrpc.so
 %{_libdir}/opensips/modules/exec.so
@@ -926,6 +947,8 @@ useradd -r -g %{name} -d %{_localstatedir}/run/%{name} -s /sbin/nologin \
 %{_libdir}/opensips/modules/proto_smpp.so
 %{_libdir}/opensips/modules/proto_ws.so
 %{_libdir}/opensips/modules/qos.so
+%{_libdir}/opensips/modules/qrouting.so
+%{_libdir}/opensips/modules/rate_cacher.so
 %{_libdir}/opensips/modules/ratelimit.so
 %{_libdir}/opensips/modules/registrar.so
 %{_libdir}/opensips/modules/rr.so
@@ -962,6 +985,7 @@ useradd -r -g %{name} -d %{_localstatedir}/run/%{name} -s /sbin/nologin \
 %doc docdir/README.cachedb_local
 %doc docdir/README.cachedb_sql
 %doc docdir/README.call_control
+%doc docdir/README.callops
 %doc docdir/README.cfgutils
 %doc docdir/README.clusterer
 %doc docdir/README.db_cachedb
@@ -979,9 +1003,9 @@ useradd -r -g %{name} -d %{_localstatedir}/run/%{name} -s /sbin/nologin \
 %doc docdir/README.enum
 %doc docdir/README.event_datagram
 %doc docdir/README.event_flatstore
-%doc docdir/README.event_jsonrpc
 %doc docdir/README.event_route
 %doc docdir/README.event_routing
+%doc docdir/README.event_stream
 %doc docdir/README.event_virtual
 %doc docdir/README.event_xmlrpc
 %doc docdir/README.exec
@@ -1012,6 +1036,8 @@ useradd -r -g %{name} -d %{_localstatedir}/run/%{name} -s /sbin/nologin \
 %doc docdir/README.proto_smpp
 %doc docdir/README.proto_ws
 %doc docdir/README.qos
+%doc docdir/README.qrouting
+%doc docdir/README.rate_cacher
 %doc docdir/README.ratelimit
 %doc docdir/README.registrar
 %doc docdir/README.rr
@@ -1194,6 +1220,10 @@ useradd -r -g %{name} -d %{_localstatedir}/run/%{name} -s /sbin/nologin \
 %{_libdir}/opensips/modules/lua.so
 %doc docdir/README.lua
 
+%files media_exchange
+%{_libdir}/opensips/modules/media_exchange.so
+%doc docdir/README.media_exchange
+
 %files mi_html
 %{_libdir}/opensips/modules/mi_html.so
 %doc docdir/README.mi_html
@@ -1240,6 +1270,10 @@ useradd -r -g %{name} -d %{_localstatedir}/run/%{name} -s /sbin/nologin \
 %files presence_callinfo
 %{_libdir}/opensips/modules/presence_callinfo.so
 %doc docdir/README.presence_callinfo
+
+%files presence_dfks
+%{_libdir}/opensips/modules/presence_dfks.so
+%doc docdir/README.presence_dfks
 
 %files presence_dialoginfo
 %{_libdir}/opensips/modules/presence_dialoginfo.so
@@ -1316,17 +1350,9 @@ useradd -r -g %{name} -d %{_localstatedir}/run/%{name} -s /sbin/nologin \
 %{_libdir}/opensips/modules/rls.so
 %doc docdir/README.rls
 
-%files seas
-%{_libdir}/opensips/modules/seas.so
-%doc docdir/README.seas
-
 %files siprec
 %{_libdir}/opensips/modules/siprec.so
 %doc docdir/README.siprec
-
-%files sms
-%{_libdir}/opensips/modules/sms.so
-%doc docdir/README.sms
 
 %files snmpstats
 %{_libdir}/opensips/modules/snmpstats.so
@@ -1339,9 +1365,17 @@ useradd -r -g %{name} -d %{_localstatedir}/run/%{name} -s /sbin/nologin \
 %{_datadir}/snmp/mibs/OPENSER-SIP-SERVER-MIB
 %{_datadir}/snmp/mibs/OPENSER-TC
 
+%files stir_shaken
+%{_libdir}/opensips/modules/stir_shaken.so
+%doc docdir/README.stir_shaken
+
 %files tls_mgm
 %{_libdir}/opensips/modules/tls_mgm.so
 %doc docdir/README.tls_mgm
+
+%files uuid
+%{_libdir}/opensips/modules/uuid.so
+%doc docdir/README.uuid
 
 %files xcap
 %{_libdir}/opensips/modules/xcap.so
@@ -1361,6 +1395,23 @@ useradd -r -g %{name} -d %{_localstatedir}/run/%{name} -s /sbin/nologin \
 
 
 %changelog
+* Thu Aug 27 2020 Josef Řídký <jridky@redhat.com> - 3.1.0-2
+- Rebuilt for new net-snmp release
+
+* Wed Aug 12 2020 Peter Lemenkov <lemenkov@gmail.com> - 3.1.0-1
+- Ver. 3.1.0
+- Removed upstreamed patches
+- Module event_jsonrpc renamed to event_stream
+- Removed seas, sms module
+- New module - callops, media_exchange, presense_dfks, qrouting, rate_cacher, stir_shaken, uuid
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul  2 2020 Peter Lemenkov <lemenkov@gmail.com> - 3.0.3-1
+- Ver. 3.0.3
+- Removed upstreamed patches
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.0.2-7
 - Perl 5.32 rebuild
 

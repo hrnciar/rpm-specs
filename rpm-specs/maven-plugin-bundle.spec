@@ -5,7 +5,7 @@
 
 Name:           maven-plugin-bundle
 Version:        4.2.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Maven Bundle Plugin
 License:        ASL 2.0
 
@@ -109,6 +109,12 @@ rm src/main/java/org/apache/felix/bundleplugin/baseline/BaselineReport.java
 %license LICENSE NOTICE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 4.2.1-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat May 16 2020 Fabio Valentini <decathorpe@gmail.com> - 4.2.1-1
 - Update to version 4.2.1.
 

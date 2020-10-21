@@ -1,7 +1,7 @@
 Summary: Library for processing UTF-8 encoded Unicode strings
 Name:    utf8proc
 Version: 2.4.0
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: Unicode and MIT
 URL:     http://julialang.org/utf8proc/
 Source:  https://github.com/JuliaLang/utf8proc/archive/v%{version}.tar.gz#/%{name}-v%{version}.tar.gz
@@ -60,6 +60,9 @@ rm %{buildroot}%{_libdir}/libutf8proc.a
 %{_libdir}/pkgconfig/libutf8proc.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

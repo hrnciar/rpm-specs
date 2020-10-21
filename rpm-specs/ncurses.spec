@@ -2,7 +2,7 @@
 Summary: Ncurses support utilities
 Name: ncurses
 Version: 6.2
-Release: 2.%{revision}%{?dist}
+Release: 3.%{revision}%{?dist}
 License: MIT
 URL: https://invisible-island.net/ncurses/ncurses.html
 Source0: https://invisible-mirror.net/archives/ncurses/current/ncurses-%{version}-%{revision}.tgz
@@ -282,6 +282,9 @@ xz NEWS
 %{_libdir}/lib*.a
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2-3.20200222
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Miroslav Lichvar <mlichvar@redhat.com> 6.2-2.20200222
 - move alacritty and kitty entries to -base (#1849974)
 

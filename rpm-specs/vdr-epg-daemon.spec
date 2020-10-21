@@ -2,7 +2,7 @@
 %global without_debug 1
 
 Name:           vdr-epg-daemon
-Version:        1.1.159
+Version:        1.1.163
 Release:        2%{?dist}
 Summary:        A daemon to download EPG data from internet and manage it in a mysql database
 
@@ -147,6 +147,18 @@ mkdir -p %{buildroot}%{_libdir}/mysql/plugin
 %{vdr_resdir}/epgd/
 
 %changelog
+* Fri Aug 28 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.1.163-2
+- Rebuilt for new VDR API version
+
+* Tue Aug 18 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.1.163-1
+- Update to 1.1.163
+
+* Tue Jul 28 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.1.162-1
+- Update to 1.1.162
+
+* Tue Jul 28 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.1.161-1
+- Update to 1.1.161
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.159-2
 - Rebuilt for Python 3.9
 

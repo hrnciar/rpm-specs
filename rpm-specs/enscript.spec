@@ -1,7 +1,7 @@
 Summary: A plain ASCII to PostScript converter
 Name: enscript
 Version: 1.6.6
-Release: 22%{?dist}
+Release: 24%{?dist}
 License: GPLv3+ and LGPLv2+ and GPLv2+
 URL: http://www.gnu.org/software/enscript
 # Tarball exists nowhere. You have to obtain it via:
@@ -75,12 +75,12 @@ install -pm 644 %{SOURCE2} states/hl/php.st
 autoreconf -fiv
 export CPPFLAGS='-DPROTOTYPES'
 %configure --with-media=Letter
-make %{?_smp_mflags}
+%make_build
 
 
 %install
 mkdir -p %{buildroot}%{_datadir}/locale/{de,es,fi,fr,nl,sl}/LC_MESSAGES
-make DESTDIR=%{buildroot} install
+%make_install
 rm -f %{buildroot}%{_datadir}/info/dir
 
 %find_lang %name
@@ -112,6 +112,13 @@ done
 %config(noreplace) %{_sysconfdir}/enscript.cfg
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.6-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.6.6-23
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.6-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

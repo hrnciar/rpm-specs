@@ -1,8 +1,9 @@
+%undefine __cmake_in_source_build
 %global framework kipi-plugins
 
 Name:    kf5-%{framework}
 Summary: Plugins to use with kf5-libkipi applications
-Version: 20.04.2 
+Version: 20.08.1
 Release: 1%{?dist}
 
 License: GPLv2+
@@ -67,16 +68,13 @@ iconv -f iso-8859-1 -t utf-8 ChangeLog.orig -o ChangeLog
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang all --all-name --with-html
 
@@ -103,7 +101,20 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/kipiplugins.deskt
 %{_kf5_qtplugindir}/kipiplugin_*.so
 %{_kf5_metainfodir}/org.kde.kipi_plugins.metainfo.xml
 
+
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Sat Jun 13 2020 Marie Loise Nolden <loise@kde.org> - 20.04.2-1
 - 20.04.2
 

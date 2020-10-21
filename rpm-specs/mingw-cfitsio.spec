@@ -4,7 +4,7 @@
 
 Name:          mingw-%{pkgname}
 Version:       3.470
-Release:       4%{?dist}
+Release:       5%{?dist}
 Summary:       MinGW Windows CFITSIO library
 
 License:       MIT
@@ -107,6 +107,9 @@ find zlib -type f \
 %{mingw64_bindir}/Funpack.exe
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.470-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.470-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

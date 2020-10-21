@@ -1,6 +1,6 @@
 Name:           apache-commons-codec
-Version:        1.13
-Release:        2%{?dist}
+Version:        1.15
+Release:        1%{?dist}
 Summary:        Implementations of common encoders and decoders
 License:        ASL 2.0
 URL:            http://commons.apache.org/codec/
@@ -32,6 +32,9 @@ sed -i 's/\r//' RELEASE-NOTES*.txt LICENSE.txt NOTICE.txt
 %mvn_alias : commons-codec:commons-codec
 
 %build
+# Avoid running out of heap on s390x during test suite execution
+export MAVEN_OPTS="-Xmx1024m"
+
 %mvn_build -- -Dcommons.osgi.symbolicName=org.apache.commons.codec
 
 %install
@@ -42,6 +45,15 @@ sed -i 's/\r//' RELEASE-NOTES*.txt LICENSE.txt NOTICE.txt
 %doc RELEASE-NOTES*
 
 %changelog
+* Fri Sep 04 2020 Mat Booth <mat.booth@redhat.com> - 1.15-1
+- Update to latest upstream release
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.13-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

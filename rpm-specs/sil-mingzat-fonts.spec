@@ -4,7 +4,7 @@
 
 Name:    %{fontname}-fonts
 Version: 1.000
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: A font for Lepcha script
 License: OFL
 URL:     http://scripts.sil.org/Mingzat
@@ -55,6 +55,9 @@ install -Dm 0644 -p %{SOURCE2} \
 %{_datadir}/appdata/%{fontname}.metainfo.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.000-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.000-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

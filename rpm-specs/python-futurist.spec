@@ -10,7 +10,7 @@ Code from the future, delivered to you in the now.
 
 Name:           python-%{pypi_name}
 Version:        2.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Useful additions to futures, from the future
 
 License:        ASL 2.0
@@ -83,6 +83,9 @@ rm -rf doc/build/html/.{doctrees,buildinfo}
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Joel Capitao <jcapitao@redhat.com> 2.1.1-1
 - Update to upstream version 2.1.1
 

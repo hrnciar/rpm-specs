@@ -3,15 +3,15 @@
 
 Summary: Helps troubleshoot SELinux problems
 Name: setroubleshoot
-Version: 3.3.23
-Release: 2%{?dist}
+Version: 3.3.24
+Release: 1%{?dist}
 License: GPLv2+
 URL: https://pagure.io/setroubleshoot
 Source0: https://releases.pagure.org/setroubleshoot/%{name}-%{version}.tar.gz
 Source1: %{name}.tmpfiles
-# git format-patch -N setroubleshoot-3.3.23 -- framework
+# git format-patch -N setroubleshoot-3.3.24 -- framework
 # i=1; for j in 00*patch; do printf "Patch%04d: %s\n" $i $j; i=$((i+1));done
-Patch0001: 0001-framework-Cancel-pending-alarm-during-AVC-analyses.patch
+Patch0001: 0001-framework-Update-translations.patch
 BuildRequires: gcc
 BuildRequires: libcap-ng-devel
 BuildRequires: intltool gettext python3 python3-devel
@@ -70,7 +70,7 @@ autoreconf -f
 make
 
 %install
-make DESTDIR=%{buildroot} PREFIX=/usr install
+%make_install PREFIX=/usr
 desktop-file-install --vendor="" --dir=%{buildroot}%{_datadir}/applications %{buildroot}/%{_datadir}/applications/%{name}.desktop
 mkdir -p %{buildroot}%{pkgvardatadir}
 mkdir -p %{buildroot}%{_rundir}/setroubleshoot
@@ -200,6 +200,23 @@ SELinux troubleshoot legacy applet
 %{_bindir}/seappletlegacy
 
 %changelog
+* Tue Oct 13 2020 Petr Lautrbach <plautrba@redhat.com> - 3.3.24-1
+ - Add 'fur' into shipped locales
+ - Update translations
+ - Log full reports with correct syslog identifier
+ - Cancel pending alarm during AVC analyses
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.23-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.23-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 3.3.23-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.3.23-2
 - Rebuilt for Python 3.9
 

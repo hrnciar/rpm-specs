@@ -6,8 +6,8 @@
 %global crate kv-log-macro
 
 Name:           rust-%{crate}
-Version:        1.0.6
-Release:        1%{?dist}
+Version:        1.0.7
+Release:        2%{?dist}
 Summary:        Log macro for log's kv-unstable backend
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -72,6 +72,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 1.0.7-1
+- Update to 1.0.7
+
 * Tue May 26 2020 Josh Stone <jistone@redhat.com> - 1.0.6-1
 - Update to 1.0.6
 

@@ -57,7 +57,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       Symfony BrowserKit driver for Mink framework
 
 License:       MIT
@@ -225,6 +225,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 17 2020 Shawn Iwinski <shawn@iwin.ski> - 1.3.4-2
 - Conditional Symfony 2 or not
 - Fix autoloader for PHP < 5.4

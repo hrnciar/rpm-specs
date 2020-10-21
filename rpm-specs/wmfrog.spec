@@ -1,6 +1,6 @@
 Name:       wmfrog
 Version:    0.3.1
-Release:    26%{?dist}
+Release:    27%{?dist}
 Summary:    A weather application, it shows the weather in a graphical way
 License:    GPLv2+
 URL:        http://wiki.colar.net/wmfrog_dockapp
@@ -51,6 +51,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_libexecdir}/%{name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

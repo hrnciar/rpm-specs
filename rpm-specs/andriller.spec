@@ -1,6 +1,6 @@
 Name:           andriller
 Version:        3.3.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Android Forensic Tools
 
 License:        MIT
@@ -64,6 +64,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests
 %{python3_sitelib}/*.egg-info/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 22 2020 Fabian Affolter <mail@fabian-affolter.ch> - 3.3.1-1
 - Enable tests
 - Update to latest upstream release 3.3.1

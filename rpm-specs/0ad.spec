@@ -25,7 +25,7 @@
 
 Name:		0ad
 Version:	0.0.23b
-Release:	18%{?dist}
+Release:	21%{?dist}
 # BSD License:
 #	build/premake/*
 #	libraries/source/miniupnpc/*		(not built/used)
@@ -192,6 +192,12 @@ rm -fr libraries/source/valgrind
 
 #-----------------------------------------------------------------------
 %build
+# This package appears to get a multiply defined symbol during the LTO
+# link, but only on i686.  Disable LTO on that platform for now
+%ifarch i686
+%define _lto_cflags %{nil}
+%endif
+
 export CFLAGS="%{optflags}"
 # avoid warnings with gcc 4.7 due to _FORTIFY_SOURCE in CPPFLAGS
 export CPPFLAGS="`echo %{optflags} | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'`"
@@ -285,6 +291,16 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/0ad.desktop
 %{_mandir}/man6/*.6*
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.23b-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 0.0.23b-20
+- Disable LTO on i686 for now
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.23b-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Björn Esser <besser82@fedoraproject.org> - 0.0.23b-18
 - Rebuilt for Boost 1.73 again
 

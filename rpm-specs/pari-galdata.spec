@@ -1,6 +1,6 @@
 Name:		pari-galdata
 Version:	20080411
-Release:	17%{?dist}
+Release:	18%{?dist}
 Summary:	PARI/GP Computer Algebra System Galois resolvents
 License:	GPLv2+
 URL:		http://pari.math.u-bordeaux.fr/packages.html
@@ -20,7 +20,7 @@ the Galois resolvents for the polgalois function, for degrees 8 through 11.
 %setup -cq
 
 # Verify the source file
-gpgv2 --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
+%{gpgverify} --keyring=%{SOURCE2} --signature=%{SOURCE1} --data=%{SOURCE0}
 
 %build
 
@@ -33,6 +33,9 @@ cp -a data/galdata %{buildroot}%{_datadir}/pari/
 %{_datadir}/pari/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20080411-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20080411-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

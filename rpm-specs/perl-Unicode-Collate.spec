@@ -1,6 +1,6 @@
 Name:           perl-Unicode-Collate
-Version:        1.27
-Release:        456%{?dist}
+Version:        1.29
+Release:        1%{?dist}
 Summary:        Unicode Collation Algorithm
 # Collate/allkeys.txt:  Unicode (the file contains a link to
 #                       <http://www.unicode.org/terms_of_use.html>)
@@ -65,6 +65,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Sep 29 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.29-1
+- 1.29 bump
+
+* Wed Sep 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.28-1
+- 1.28 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.27-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.27-456
 - Increase release to favour standalone package
 

@@ -1,5 +1,5 @@
 Name:           socket_wrapper
-Version:        1.2.4
+Version:        1.2.5
 Release:        1%{?dist}
 
 License:        BSD
@@ -37,31 +37,21 @@ gpgv2 --quiet --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %autosetup -p1
 
 %build
-if test ! -e "obj"; then
-mkdir obj
-fi
-pushd obj
 %cmake \
--DUNIT_TESTING=ON \
-%{_builddir}/%{name}-%{version}
+    -DUNIT_TESTING=ON
 
-make %{?_smp_mflags} VERBOSE=1
-popd
+%cmake_build
 
 %install
-pushd obj
-make DESTDIR=%{buildroot} install
-popd
+%cmake_install
 
 %ldconfig_scriptlets
 
 %check
-pushd obj
-ctest --output-on-failure
+%ctest
 
-LD_PRELOAD=src/libsocket_wrapper.so bash -c '>/dev/null'
-
-popd
+ls -l %{__cmake_builddir}/src/libsocket_wrapper.so
+LD_PRELOAD=%{__cmake_builddir}/src/libsocket_wrapper.so bash -c '>/dev/null'
 
 %files
 %doc AUTHORS README.md CHANGELOG
@@ -74,6 +64,16 @@ popd
 %{_mandir}/man1/socket_wrapper.1*
 
 %changelog
+* Wed Aug 05 2020 Andreas Schneider <asn@redhat.com> - 1.2.5-1
+- Update to version 1.2.4
+  * https://gitlab.com/cwrap/socket_wrapper/-/blob/master/CHANGELOG
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 1.2.4-2
+- Use __cmake_in_source_build
+
 * Tue Mar 24 2020 Andreas Schneider <asn@redhat.com> - 1.2.4-1
 - Update to version 1.2.4
   * https://gitlab.com/cwrap/socket_wrapper/-/blob/master/CHANGELOG

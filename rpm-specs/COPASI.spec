@@ -1,4 +1,4 @@
-%global buildid    226
+%global buildid    228
 %global octpkg  COPASI
 
 %global with_python  1
@@ -22,10 +22,20 @@
 
 %global _docdir_fmt %{name}
 
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%global lapacklib flexiblas
+%else
+%global blaslib openblas
+%global lapacklib lapack
+%define __cmake_in_source_build build
+BuildRequires: lapack-devel
+%endif
+
 Name:  COPASI
 Summary: Biochemical network simulator
-Version: 4.28.%{buildid}
-Release: 1%{?dist}
+Version: 4.29.%{buildid}
+Release: 2%{?dist}
 
 ##Artistic 2.0 is main license
 ##GPLv2+ is related to a Mixed Source Licensing Scenario
@@ -63,10 +73,8 @@ BuildRequires: cppunit-devel
 BuildRequires: libcurl-devel
 BuildRequires: libxslt-devel
 BuildRequires: pkgconf-pkg-config
-BuildRequires: openblas-devel, openblas-srpm-macros, lapack-devel
+BuildRequires: %{blaslib}-devel
 BuildRequires: crossguid2-devel >= 0:0.2.2
-# Needed until https://bugzilla.redhat.com/show_bug.cgi?id=1721342 is resolved
-BuildRequires: libuuid-devel
 BuildRequires: desktop-file-utils
 BuildRequires: swig
 BuildRequires: expat-devel
@@ -162,6 +170,7 @@ This package provides the COPASI data, example and license files.
 %package -n python3-%{name}
 Summary: %{name} Python3 Bindings
 BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 Obsoletes: python2-%{name} < 0:4.25.213-1
 %{?python_provide:%python_provide python3-%{name}}
 %description -n python3-%{octpkg}
@@ -282,11 +291,15 @@ sed -i.bak '/double pow_dd(doublereal *,/d' copasi/odepack++/CRadau5.cpp
 sed -i.bak '/C_FLOAT64 d_lg10(C_FLOAT64 *);/d' copasi/optimization/CPraxis.cpp
 
 %build
-mkdir -p build && pushd build
-export CXXFLAGS="-I$PWD/../copasi/lapack -I$PWD/../copasi/CopasiSBW -DF2C_INTEGER=int -DF2C_LOGICAL=long %{optflags} %{__global_ldflags}"
+%if 0%{?fedora} < 33
+mkdir -p build
+# This directory is outside of build dir
+ln -s ../copasi build/copasi
+%endif
+export CXXFLAGS="-I$PWD/copasi/lapack -I$PWD/copasi/CopasiSBW -DF2C_INTEGER=int -DF2C_LOGICAL=long %{optflags} %{__global_ldflags}"
 export LDFLAGS="%{__global_ldflags} -lbz2"
-%cmake \
- -DCOPASI_OVERRIDE_VERSION:STRING=%{version} \
+%cmake -B build \
+ -Wno-dev -DCOPASI_OVERRIDE_VERSION:STRING=%{version} \
 %if 0%{?with_python}
  -DENABLE_PYTHON:BOOL=ON \
  -DPYTHON_EXECUTABLE:FILEPATH=%{__python3} \
@@ -335,8 +348,8 @@ export LDFLAGS="%{__global_ldflags} -lbz2"
  -DENABLE_SBW_INTEGRATION=ON -DBUILD_CXX_EXAMPLES=OFF \
  -DENABLE_COPASI_BANDED_GRAPH:BOOL=ON -DENABLE_COPASI_SEDML:BOOL=ON \
  -DENABLE_COPASI_NONLIN_DYN_OSCILLATION:BOOL=ON -DENABLE_COPASI_EXTUNIT:BOOL=ON \
- -DBLAS_blas_LIBRARY:FILEPATH=%{_libdir}/libopenblas.so -DBLAS_INCLUDE_DIR:PATH=%{_includedir}/openblas \
- -DCLAPACK_INCLUDE_DIR:PATH="" -DLAPACK_lapack_LIBRARY:FILEPATH=%{_libdir}/liblapack.so -DCLAPACK_LIBRARIES:FILEPATH="" \
+ -DBLAS_blas_LIBRARY:FILEPATH=%{_libdir}/lib%{blaslib}.so -DBLAS_INCLUDE_DIR:PATH=%{_includedir}/%{blaslib} \
+ -DCLAPACK_INCLUDE_DIR:PATH="" -DLAPACK_lapack_LIBRARY:FILEPATH=%{_libdir}/lib%{lapacklib}.so -DCLAPACK_LIBRARIES:FILEPATH="" \
  -DCOPASI_OVERWRITE_USE_LAPACK:BOOL=ON -DNO_BLAS_WRAP:BOOL=ON -DBLA_VENDOR=Generic \
  -DCROSSGUID_INCLUDE_DIR:PATH=%{_includedir}/crossguid2 \
  -DENABLE_FLEX_BISON:BOOL=ON -DENABLE_COPASI_PARAMETERFITTING_RESIDUAL_SCALING:BOOL=ON \
@@ -347,10 +360,9 @@ export LDFLAGS="%{__global_ldflags} -lbz2"
  -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} -DENABLE_GPROF:BOOL=OFF \
  -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE -DCMAKE_COLOR_MAKEFILE:BOOL=ON \
  -DENABLE_FLEX_BISON:BOOL=ON -DBISON_EXECUTABLE:FILEPATH=%{_bindir}/bison \
- -DPREFER_STATIC:BOOL=OFF -DCMAKE_SKIP_RPATH:BOOL=YES ..
+ -DPREFER_STATIC:BOOL=OFF -DCMAKE_SKIP_RPATH:BOOL=YES .
 
-%make_build
-popd
+%make_build -C build
 
 %install
 %make_install -C build
@@ -459,6 +471,21 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_metainfodir}/*.appdata.x
 %{_datadir}/copasi/doc/
 
 %changelog
+* Wed Aug 12 2020 Antonio Trande <sagitter@fedoraproject.org> - 4.29.228-2
+- Use flexiblas on Fedora 33+
+
+* Wed Aug 12 2020 Antonio Trande <sagitter@fedoraproject.org> - 4.29.228-1
+- Release 4.29 build-228
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.28.226-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Iñaki Úcar <iucar@fedoraproject.org> - 4.28.226-3
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Wed Jun 24 2020 Antonio Trande <sagitter@fedoraproject.org> - 4.28.226-2
+- BuildRequires python-setuptools explicitly
+
 * Mon Jun 15 2020 Antonio Trande <sagitter@fedoraproject.org> - 4.28.226-1
 - Release 4.28 build-226
 

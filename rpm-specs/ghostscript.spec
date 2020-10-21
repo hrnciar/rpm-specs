@@ -39,17 +39,16 @@
 %global google_droid_fontpath %%(dirname $(fc-list : file | grep "DroidSansFallback"))
 
 # Desired jbig2dec header files and library version
-# Oldest possible, will be used in Requires and in configure script to check
-# if the correct header files and libraries are installed
+# Apparantly, ghostscript complains even about newer versions
 # Please update if needed.
-%global jbig2dec_version 0.18
+%global jbig2dec_version 0.19
 
 # =============================================================================
 
 Name:             ghostscript
 Summary:          Interpreter for PostScript language & PDF
-Version:          9.52
-Release:          4%{?dist}
+Version:          9.53.3
+Release:          1%{?dist}
 
 License:          AGPLv3+
 
@@ -57,7 +56,7 @@ URL:              https://ghostscript.com/
 Source:           https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs%{version_short}/ghostscript-%{version}.tar.xz
 
 Requires:         libgs%{?_isa} = %{version}-%{release}
-Requires:         jbig2dec-libs >= %{jbig2dec_version}
+Requires:         jbig2dec-libs = %{jbig2dec_version}
 
 # Auxiliary build requirements:
 BuildRequires:    automake
@@ -75,9 +74,10 @@ BuildRequires:    cups-devel
 BuildRequires:    dbus-devel
 BuildRequires:    fontconfig-devel
 BuildRequires:    freetype-devel
-BuildRequires:    jbig2dec-devel >= %{jbig2dec_version}
+BuildRequires:    jbig2dec-devel = %{jbig2dec_version}
+BuildRequires:    jbig2dec-libs = %{jbig2dec_version}
 BuildRequires:    lcms2-devel
-BuildRequires:    libidn-devel
+BuildRequires:    libidn2-devel
 BuildRequires:    libijs-devel
 BuildRequires:    libjpeg-turbo-devel
 BuildRequires:    libpng-devel
@@ -100,12 +100,10 @@ BuildRequires:    libXt-devel
 # Upstream patches -- official upstream patches released by upstream since the
 # ----------------    last rebase that are necessary for any reason:
 #Patch000: example000.patch
-Patch000: ghostscript-9.50-enumerate-all-fonts.patch
 
 
 # Downstream patches -- these should be always included when doing rebase:
 # ------------------
-Patch100: ghostscript-9.23-100-run-dvipdf-securely.patch
 
 
 # Downstream patches for RHEL -- patches that we keep only in RHEL for various
@@ -466,6 +464,27 @@ done
 # =============================================================================
 
 %changelog
+* Thu Oct 08 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 9.53.1-3
+- Update to 9.53.3 (#1882743)
+
+* Tue Sep 22 2020 Anna Khaitovich <akhaitov@redhat.com> - 9.53.1-2
+- Bump jbig2dec version
+
+* Thu Sep 10 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 9.53.0-1
+- Update to 9.53.1 (#1877781)
+
+* Mon Jul 27 2020 Anna Khaitovich <akhaitov@redhat.com> - 9.52-8
+- Use libidn2 instead of libidn (fixes #1860890)
+
+* Thu Jul 02 2020 Michael J Gruber <mjg@fedoraproject.org> - 9.52-7
+- really require the exact jbig2dec version
+
+* Sat Jun 27 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 9.52-6
+- standard packages should not require -devel packages
+
+* Wed Jun 24 2020 Anna Khaitovich <akhaitov@redhat.com> - 9.52-5
+- Require the exact jbig2dec version in both build and runtime dependencies
+
 * Thu May 21 2020 Anna Khaitovich <akhaitov@redhat.com> - 9.52-4
 - Define %%{jbig2dec_version} global macro
 

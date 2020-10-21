@@ -1,6 +1,6 @@
 Name:           mingw-pkg-config
 Version:        0.28
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        A tool for determining compilation options
 
 License:        GPLv2+
@@ -91,6 +91,9 @@ rm -rf ${RPM_BUILD_ROOT}%{_datadir}/doc/pkg-config
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.28-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.28-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 
 Name:		perl-Sub-Name
 Version:	0.26
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Name - or rename - a sub
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Sub-Name
@@ -77,6 +77,9 @@ make test
 %{_mandir}/man3/Sub::Name.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.26-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.26-3
 - Perl 5.32 rebuild
 

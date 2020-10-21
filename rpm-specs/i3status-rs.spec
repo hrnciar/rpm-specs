@@ -3,7 +3,7 @@
 
 Name:           i3status-rs
 Version:        0.13.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Feature-rich and resource-friendly replacement for i3status, written in Rust
 
 # Upstream license specification: GPLv3
@@ -61,6 +61,9 @@ sed -i -e '/maildir/s/0.3/0.4/' -e '/nix/s/0.16.0/0.17/' Cargo.toml
 %{_bindir}/i3status-rs
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 22 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.13.1-2
 - Update dependencies
 

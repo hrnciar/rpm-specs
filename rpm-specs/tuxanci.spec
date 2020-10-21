@@ -1,6 +1,6 @@
 Name:           tuxanci
 Version:        0.21.0
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        First Tux shooter multi-player network game
 # LICENCE:      GPLv2 text
 ## unused
@@ -36,21 +36,15 @@ Tuxanci is a first Tux shooter game supporting single player and multi-player
 modes both on a single computer and over the network.
 
 %prep
-%setup -q
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
+%autosetup -p1
 
 %build
 %cmake -DCMAKE_INSTALL_LIBDIR=%{_libdir} \
-    -DCMAKE_FONT=%{_datadir}/fonts/dejavu-sans-fonts/DejaVuSans.ttf .
-%{make_build}
+    -DCMAKE_FONT=%{_datadir}/fonts/dejavu-sans-fonts/DejaVuSans.ttf
+%cmake_build
 
 %install
-%{make_install}
+%cmake_install
 
 # Install icon
 mkdir -p %{buildroot}%{_datadir}/icons/hicolor/{scalable,48x48}/apps
@@ -80,6 +74,9 @@ appstream-util validate-relax --nonet \
 %{_datadir}/appdata/tuxanci.appdata.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.21.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Petr Pisar <ppisar@redhat.com> - 0.21.0-12
 - Convert a PNG icon with ImageMagick (bug #1800209)
 - License corrected to "GPL+"

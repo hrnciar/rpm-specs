@@ -5,7 +5,7 @@
 
 Name:           %{srcname}-factory
 Version:        0.7.0
-Release:        0.27.20200220git%{shortcommit0}%{?dist}
+Release:        0.30.20200220git%{shortcommit0}%{?dist}
 Summary:        Game engine and editors dedicated to creating great 2D games
 License:        GPLv3+ and CC-BY-SA
 URL:            https://github.com/j-jorge/bear
@@ -88,10 +88,11 @@ rm -rf bear-engine/core/src/visual/glew/
        -DBEAR_USES_FREEDESKTOP=ON \
        -DRUNNING_BEAR_ENABLED=ON \
        -DBEAR_EDITORS_ENABLED=0
-%make_build
+%cmake_build
 
 %install
-%make_install INSTALL="install -p"
+#%%make_install INSTALL="install -p"
+%cmake_install
 
 %find_lang bear-engine
 
@@ -140,6 +141,16 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %{_datadir}/cmake/%{srcname}-engine
 
 %changelog
+* Thu Aug 06 2020 Martin Gansser <martinkg@fedoraproject.org> - 0.7.0-0.30.20200220git2a78522
+- Fixes FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-0.29.20200220git2a78522
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-0.28.20200220git2a78522
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Martin Gansser <martinkg@fedoraproject.org> - 0.7.0-0.27.20200220git2a78522
 - Update to 0.7.0-0.27.20200220git2a78522
 - Add Boost bear-engine-boost.patch to fix (RHBZ#1849442)

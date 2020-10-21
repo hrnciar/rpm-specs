@@ -1,18 +1,18 @@
 %global	gem_name	unf_ext
-%if		0%{?fedora} < 19
+%if ! (0%{?fedora} >= 19 || 0%{?rhel} >= 9)
 %global	rubyabi	1.9.1
 %endif
 
 Summary:	Unicode Normalization Form support library for CRuby
 Name:		rubygem-%{gem_name}
 Version:	0.0.7.7
-Release:	1%{?dist}
+Release:	2%{?dist}
 # LICENSE.txt
 License:	MIT
 URL:		http://github.com/knu/ruby-unf_ext
 Source0:	http://rubygems.org/gems/%{gem_name}-%{version}.gem
 
-%if 0%{?fedora} >= 19
+%if 0%{?fedora} >= 19 || 0%{?rhel} >= 9
 Requires:	ruby(release)
 BuildRequires:	ruby(release)
 %else
@@ -113,6 +113,12 @@ ruby \
 %exclude	%{gem_instdir}/test/
 
 %changelog
+* Wed Aug 05 2020 Merlin Mathesius <mmathesi@redhat.com> - 0.0.7.7-2
+- Minor conditional fixes for ELN
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.7.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 10 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 0.0.7.7-1
 - 0.0.7.7
 

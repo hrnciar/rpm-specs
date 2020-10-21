@@ -1,6 +1,6 @@
 Name: libguess
 Version: 1.2
-Release: 11%{?dist}
+Release: 12%{?dist}
 
 Summary: High-speed character set detection library
 License: BSD
@@ -66,6 +66,9 @@ LD_LIBRARY_PATH=${RPM_BUILD_ROOT}%{_libdir} make
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

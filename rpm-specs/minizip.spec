@@ -1,5 +1,5 @@
 Name:           minizip
-Version:        2.9.3
+Version:        2.10.1
 Release:        1%{?dist}
 Summary:        Minizip contrib in zlib with the latest bug fixes and advanced features
 
@@ -7,7 +7,10 @@ License:        zlib
 URL:            https://github.com/nmoinvaz/%{name}
 Source0:        https://github.com/nmoinvaz/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:  cmake gcc-c++ libbsd-devel zlib-devel bzip2-devel
+# https://github.com/nmoinvaz/minizip/pull/509
+Patch0:         minizip-2.10.0-use-pkgconfig-for-zstd.patch
+
+BuildRequires:  cmake gcc-c++ libbsd-devel zlib-devel bzip2-devel libzstd-devel
 Provides:       bundled(aes-gladman)
 Provides:       bundled(sha1-gladman)
 
@@ -31,17 +34,17 @@ Development files for %{name} library.
 
 
 %prep
-%autosetup
+%autosetup -p1
 rm -rf lib/bzip2
 
 
 %build
-%cmake . -DMZ_BUILD_TEST=ON -DSKIP_INSTALL_BINARIES=ON -DINSTALL_INC_DIR=%{_includedir}/%{name}
-%make_build
+%cmake . -DMZ_BUILD_TEST=ON -DSKIP_INSTALL_BINARIES=ON -DINSTALL_INC_DIR=%{_includedir}/%{name} -DZSTD_FORCE_FETCH=OFF
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %check
@@ -68,6 +71,23 @@ make test
 %{_includedir}/%{name}/zip.h
 
 %changelog
+* Tue Oct 13 2020 Patrik Novotný <panovotn@redhat.com> - 2.10.1
+- Rebase to upstream release 2.10.1
+
+* Tue Aug 11 2020 Honza Horak <hhorak@redhat.com> - 2.10.0-4
+- Fix FTBFS caused by cmake changes
+  Resolves: #1864153
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Patrik Novotný <panovotn@redhat.com> - 2.10.0-1
+- Rebase to upstream release 2.10.0
+
 * Tue May 26 2020 Patrik Novotný <panovotn@redhat.com> - 2.9.3-1
 - Rebase to upstream release 2.9.3
 

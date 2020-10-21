@@ -3,8 +3,7 @@
 
 # https://github.com/yvasiyarov/gorelic
 %global goipath         github.com/yvasiyarov/gorelic
-Version:                0.0.6
-%global commit          635ca6035f2355e29fc558effa613d0d5867aac8
+Version:                0.0.7
 
 %gometa
 
@@ -16,7 +15,7 @@ garbage collector and memory allocator and send them to NewRelic.}
 %global godocs          examples README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        New relic agent for Go
 
 # Upstream license specification: BSD-2-Clause
@@ -46,6 +45,12 @@ BuildRequires:  golang(github.com/yvasiyarov/newrelic_platform_go)
 %gopkgfiles
 
 %changelog
+* Tue Aug 04 22:05:51 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.0.7-1
+- Update to 0.0.7
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.6-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

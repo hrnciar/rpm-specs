@@ -4,7 +4,7 @@
 
 Name: vim-fugitive
 Version: 3.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: A Git wrapper so awesome, it should be illegal
 License: Vim
 URL: http://www.vim.org/scripts/script.php?script_id=2975
@@ -99,6 +99,9 @@ vim -c ":helptags %{vimfiles_root}/doc" -c :q &> /dev/null
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

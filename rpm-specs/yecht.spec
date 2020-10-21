@@ -4,7 +4,7 @@
 
 Name:     yecht
 Version:  1.0
-Release:  11%{?dist}
+Release:  15%{?dist}
 Summary:  A YAML processor based on Syck
 License:  MIT
 URL:      http://github.com/%{cluster}/%{name}
@@ -14,7 +14,6 @@ Patch0:   disable-jruby-dep.patch
 BuildRequires: java-devel
 BuildRequires: jpackage-utils
 BuildRequires: maven-local
-BuildRequires: mvn(org.sonatype.oss:oss-parent:pom:)
 Requires: java-headless
 Requires: jpackage-utils
 
@@ -37,6 +36,9 @@ This package contains the API documentation for %{name}.
 find ./ -name '*.jar' -exec rm -f '{}' \; 
 find ./ -name '*.class' -exec rm -f '{}' \; 
 
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
+
 %build
 %mvn_build
 
@@ -48,6 +50,18 @@ find ./ -name '*.class' -exec rm -f '{}' \;
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Fri Sep 11 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0-15
+- Actually remove BR: sonatype-oss-parent.
+
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0-14
+- Remove unnecessary dependency on parent POM.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.0-12
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

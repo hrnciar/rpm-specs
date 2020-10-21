@@ -3,7 +3,7 @@
 
 # https://github.com/streadway/handy
 %global goipath         github.com/streadway/handy
-%global commit          d5acb3125c2a6654d2d691e6851674a645333da1
+%global commit          0f66f006fb2ebde51f4ce769641df75d602989e7
 
 %gometa
 
@@ -17,7 +17,7 @@ are opinionated for a specific purpose.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.6%{?dist}
 Summary:        Net/http handler filters
 
 License:        BSD
@@ -31,19 +31,29 @@ Source0:        %{gosource}
 
 %prep
 %goprep
-sed -e '0,/^# License/d' README.md > LICENSE
 
 %install
 %gopkginstall
 
 %if %{with check}
 %check
-%gocheck
+# https://github.com/streadway/handy/issues/38
+%gocheck -d retry
 %endif
 
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 22:02:17 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.6.20200802git0f66f00
+- Bump to commit 0f66f006fb2ebde51f4ce769641df75d602989e7
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

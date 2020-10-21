@@ -3,7 +3,7 @@
 Summary:       The quintessential all-purpose communications program
 Name:          ckermit
 Version:       9.0.%{patchlevel}
-Release:       22%{?dist}
+Release:       23%{?dist}
 License:       BSD with advertising and MIT
 # Most of the package is under a three-clause BSD license, but the file
 # ckaut2.h appears to be covered by three licenses:
@@ -90,6 +90,9 @@ install -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/kermit/ckermit.phone
 %doc README.fedora
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.0.302-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 David Cantrell <dcantrell@redhat.com> - 9.0.302-22
 - Drop BR libtermcap-devel (#1799227)
 

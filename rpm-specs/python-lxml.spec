@@ -2,7 +2,7 @@
 
 Name:           python-%{modname}
 Version:        4.5.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        XML processing library combining libxml2/libxslt with the ElementTree API
 
 License:        BSD
@@ -58,6 +58,9 @@ env WITH_CYTHON=true %py3_build
 %{python3_sitearch}/%{modname}-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 4.5.1-1
 - Update to 4.5.1
 

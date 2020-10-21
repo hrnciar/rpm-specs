@@ -11,7 +11,7 @@
 
 Name:           antlr4-project
 Version:        4.8
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Parser generator (ANother Tool for Language Recognition)
 
 License:        BSD
@@ -23,6 +23,8 @@ Patch0:         antlr4-unicode-properties.patch
 # Fix mono errors due to ambiguous references
 # Upstream is not yet ready to move to newer mono versions.
 Patch1:         antlr4-mono-ambiguous.patch
+# Fix some javadoc problems
+Patch2:         antlr4-javadoc.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -48,11 +50,6 @@ BuildRequires:  mvn(org.sonatype.plexus:plexus-build-api)
 BuildRequires:  pkgconfig(uuid)
 BuildRequires:  python3-devel
 BuildRequires:  python3dist(setuptools)
-
-%ifarch %{arm}
-# Speed up builds on 32bit arm
-BuildRequires: java-1.8.0-openjdk-aarch32-devel
-%endif
 
 %global _desc %{expand:
 ANTLR (ANother Tool for Language Recognition) is a powerful parser
@@ -200,6 +197,9 @@ sed -i 's,\\>,>,g' tool/resources/org/antlr/v4/tool/templates/unicodedata.st
 # sonatype-oss-parent is deprecated in Fedora
 %pom_remove_parent
 
+# Xmvn javadoc mojo is in use
+%pom_remove_plugin -r :maven-javadoc-plugin
+
 # Missing test deps: org.seleniumhq.selenium:selenium-java
 %pom_disable_module runtime-testsuite
 %pom_disable_module tool-testsuite
@@ -241,12 +241,12 @@ export JAVA_HOME=%{_jvmdir}/java
 
 # Build for Java
 # Due to the missing takari packages, we cannot run the tests
-%mvn_build -s -f
+%mvn_build -s -f -- -Dsource=1.7
 
 # Build the C++ runtime
 cd runtime/Cpp
 %cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .
-%make_build
+%cmake_build
 cd -
 
 # Build the Mono runtime
@@ -286,8 +286,10 @@ fi
 %jpackage_script org.antlr.v4.Tool "" "" antlr4/antlr4:antlr3-runtime:antlr4/antlr4-runtime:stringtemplate4:treelayout antlr4 true
 
 # Install the C++ runtime
-%make_install -C runtime/Cpp
+cd runtime/Cpp
+%cmake_install
 rm -f %{buildroot}%{_libdir}/libantlr4-runtime.a
+cd -
 
 # Install the Go runtime
 %ifarch %go_arches
@@ -399,6 +401,15 @@ rm -fr %{buildroot}%{_docdir}/libantlr4
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.8-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Jerry James <loganjerry@gmail.com> - 4.8-4
+- Fix cmake and javadoc issues
+
+* Tue Jul 21 2020 Mat Booth <mat.booth@redhat.com> - 4.8-3
+- Allow building against JDK 11
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.8-2
 - Rebuilt for Python 3.9
 

@@ -11,7 +11,7 @@
 
 Name:    qwt5-qt5
 Version: 5.2.3a
-Release: 4.%{commitdate}git%{shortcommit0}%{?dist}
+Release: 6.%{commitdate}git%{shortcommit0}%{?dist}
 Summary: Qt Widgets for Technical Applications adapted to Qt5
 
 License: LGPLv2+ with exceptions
@@ -86,6 +86,13 @@ make install INSTALL_ROOT=%{buildroot}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.3a-6.20190819giteeacc44
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.3a-5.20190819giteeacc44
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Alexander Ploumistos <alexpl@fedoraproject.org> - 5.2.3a-4.20190819giteeacc44
 - fixes based on RHBZ#1844643
 

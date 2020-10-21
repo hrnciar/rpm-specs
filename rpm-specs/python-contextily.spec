@@ -4,8 +4,8 @@
 %bcond_with network
 
 Name:           python-%{srcname}
-Version:        1.0.0
-Release:        2%{?dist}
+Version:        1.0.1
+Release:        1%{?dist}
 Summary:        Context geo-tiles in Python
 
 License:        BSD
@@ -57,18 +57,24 @@ rm -rf %{srcname}.egg-info
 
 %check
 %if %{with network}
-pytest-3
+%{pytest}
 %else
-pytest-3 -m 'not network'
+%{pytest} -m 'not network'
 %endif
 
 %files -n python3-%{srcname}
 %license LICENSE.txt
 %doc README.md
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py*.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Sat Oct 17 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.0.1-1
+- Update to latest version (#1888933)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.0-2
 - Rebuilt for Python 3.9
 

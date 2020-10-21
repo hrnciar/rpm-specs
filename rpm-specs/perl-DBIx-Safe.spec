@@ -1,7 +1,7 @@
 %define         realname DBIx-Safe
 Name:           perl-DBIx-Safe
 Version:        1.2.5
-Release:        38%{?dist}
+Release:        39%{?dist}
 Summary:        Safer access to your database through a DBI database handle
 License:        BSD
 URL:            https://metacpan.org/release/DBIx-Safe
@@ -58,6 +58,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.5-39
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.2.5-38
 - Perl 5.32 rebuild
 

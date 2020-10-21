@@ -1,7 +1,7 @@
 %global srcname mapclassify
 
 Name:           python-%{srcname}
-Version:        2.2.0
+Version:        2.3.0
 Release:        2%{?dist}
 Summary:        Classification Schemes for Choropleth Maps
 
@@ -13,19 +13,18 @@ BuildArch:      noarch
 
 BuildRequires:  python3-devel
 
-BuildRequires:  python3dist(deprecated)
+BuildRequires:  python3dist(networkx)
 BuildRequires:  python3dist(numpy) >= 1.3
-BuildRequires:  python3dist(pandas)
+BuildRequires:  python3dist(pandas) >= 1
 BuildRequires:  python3dist(scikit-learn)
-BuildRequires:  python3dist(scipy) >= 0.11
+BuildRequires:  python3dist(scipy) >= 1
 BuildRequires:  python3dist(setuptools)
 
 # Tests
 BuildRequires:  python3dist(geopandas)
 BuildRequires:  python3dist(libpysal)
-BuildRequires:  python3dist(nose)
-BuildRequires:  python3dist(nose-exclude)
-BuildRequires:  python3dist(nose-progressive)
+BuildRequires:  python3dist(rtree)
+BuildRequires:  python3dist(pytest)
 
 # Docs
 #BuildRequires:  python3dist(numpydoc)
@@ -54,12 +53,6 @@ It is part of PySAL the Python Spatial Analysis Library.
 # Remove bundled egg-info
 rm -rf %{srcname}.egg-info
 
-# Remove extra files
-# https://github.com/pysal/mapclassify/issues/56
-rm %{srcname}/deprecation.py
-rm "%{srcname}/flycheck_classifiers (serges-MacBook-Pro.local's conflicted copy 2019-07-03).py"
-rm %{srcname}/test.py
-
 
 %build
 %py3_build
@@ -68,15 +61,23 @@ rm %{srcname}/test.py
 %py3_install
 
 %check
-%{__python3} setup.py test
+# This test is flaky due to networkx:
+# https://github.com/pysal/mapclassify/pull/77
+%{pytest} -k 'not test_smallest_last'
 
 %files -n python3-%{srcname}
 %license LICENSE.txt
-%doc README.rst
+%doc README.md
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py*.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.3.0-1
+- Update to latest version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.2.0-2
 - Rebuilt for Python 3.9
 

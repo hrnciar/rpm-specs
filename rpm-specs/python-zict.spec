@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        2.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Mutable mapping tools
 
 License:        BSD
@@ -10,11 +10,13 @@ URL:            https://pypi.python.org/pypi/%{srcname}
 Source0:        %pypi_source
 
 BuildArch:      noarch
+
 BuildRequires:  python3-devel
-BuildRequires:  python3-pytest
-BuildRequires:  python3-heapdict
-BuildRequires:  python3-lmdb
-BuildRequires:  python3-psutil
+BuildRequires:  python3dist(setuptools)
+BuildRequires:  python3dist(pytest)
+BuildRequires:  python3dist(heapdict)
+BuildRequires:  python3dist(lmdb)
+BuildRequires:  python3dist(psutil)
 
 %global _description \
 Zict builds abstract MutableMapping classes that consume and build on other \
@@ -32,8 +34,6 @@ dictionary.
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
 
-Requires:       python3-heapdict
-
 %description -n python3-%{srcname} %{_description}
 
 
@@ -50,8 +50,7 @@ Requires:       python3-heapdict
 
 
 %check
-PYTHONPATH="%{buildroot}%{python3_sitelib}" \
-    py.test-%{python3_version}
+%{pytest}
 
 
 %files -n python3-%{srcname}
@@ -62,6 +61,9 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}" \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.0-2
 - Rebuilt for Python 3.9
 

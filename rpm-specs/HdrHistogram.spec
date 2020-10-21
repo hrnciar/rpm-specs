@@ -1,6 +1,6 @@
 Name:          HdrHistogram
 Version:       2.1.11
-Release:       4%{?dist}
+Release:       6%{?dist}
 Summary:       A High Dynamic Range (HDR) Histogram
 License:       BSD and CC0
 URL:           http://hdrhistogram.github.io/%{name}/
@@ -62,6 +62,12 @@ find  -name "*.jar"  -print -delete
 %license COPYING.txt LICENSE.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.11-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.1.11-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jun 11 2020 jiri vanel <jvanek@redhat.com> - 2.1.11-4
 - building javadoc with --xmvn-javadoc
 

@@ -4,7 +4,7 @@
 
 # https://github.com/docker/cli
 %global goipath         github.com/docker/cli
-Version:                19.03.5
+Version:                19.03.12
 
 %gometa
 
@@ -170,12 +170,12 @@ BuildRequires:  golang(golang.org/x/sys/unix)
 BuildRequires:  golang(golang.org/x/text/width)
 BuildRequires:  golang(golang.org/x/time/rate)
 BuildRequires:  golang(gopkg.in/yaml.v2)
-BuildRequires:  golang(gotest.tools/assert)
-BuildRequires:  golang(gotest.tools/assert/cmp)
-BuildRequires:  golang(gotest.tools/fs)
-BuildRequires:  golang(gotest.tools/icmd)
-BuildRequires:  golang(gotest.tools/poll)
-BuildRequires:  golang(gotest.tools/skip)
+BuildRequires:  golang(gotest.tools/v3/assert)
+BuildRequires:  golang(gotest.tools/v3/assert/cmp)
+BuildRequires:  golang(gotest.tools/v3/fs)
+BuildRequires:  golang(gotest.tools/v3/icmd)
+BuildRequires:  golang(gotest.tools/v3/poll)
+BuildRequires:  golang(gotest.tools/v3/skip)
 BuildRequires:  golang(k8s.io/api/apps/v1beta2)
 BuildRequires:  golang(k8s.io/api/core/v1)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/api/errors)
@@ -201,8 +201,8 @@ BuildRequires:  golang(vbom.ml/util/sortorder)
 BuildRequires:  golang(github.com/containerd/containerd/cio)
 BuildRequires:  golang(github.com/google/go-cmp/cmp)
 BuildRequires:  golang(github.com/google/go-cmp/cmp/cmpopts)
-BuildRequires:  golang(gotest.tools/env)
-BuildRequires:  golang(gotest.tools/golden)
+BuildRequires:  golang(gotest.tools/v3/env)
+BuildRequires:  golang(gotest.tools/v3/golden)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/labels)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/runtime/serializer)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/types)
@@ -219,7 +219,7 @@ BuildRequires:  golang(k8s.io/client-go/testing)
 %prep
 %goprep
 %autopatch -p1
-find . -name "*.go" -exec sed -i "s|github.com/flynn-archive/go-shlex|github.com/google/shlex|" "{}" +;
+sed -i "s|github.com/flynn-archive/go-shlex|github.com/google/shlex|" $(find . -name "*.go")
 
 # %%build
 # for cmd in cmd/* ; do
@@ -234,16 +234,10 @@ find . -name "*.go" -exec sed -i "s|github.com/flynn-archive/go-shlex|github.com
 %%if %{with check}
 %check
 %gocheck -t cmd \
-         -d cli/command/image \
-         -d cli/command/container \
-         -d cli/command/engine \
-         -d cli/command/formatter \
-         -d cli/command/node \
-         -d cli/command/plugin \
-         -d cli/command/registry \
-         -d cli/command/stack \
-         -d cli/command/system \
-         -d cli/command/trust
+         -t cli/command \
+         -t cli/context \
+         -d internal/containerizedengine \
+         -t kubernetes
 %endif
 
 # %%files
@@ -254,6 +248,12 @@ find . -name "*.go" -exec sed -i "s|github.com/flynn-archive/go-shlex|github.com
 %gopkgfiles
 
 %changelog
+* Sat Jul 25 22:24:04 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 19.03.12-1
+- Update to 19.03.12
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.03.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 14:46:13 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 19.03.5-1
 - Update to 19.03.5
 

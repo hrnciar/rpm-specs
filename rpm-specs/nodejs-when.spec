@@ -4,7 +4,7 @@
 
 Name:		nodejs-%{packagename}
 Version:	3.7.7
-Release:	9%{?dist}
+Release:	10%{?dist}
 Summary:	A lightweight Promises/A+ and when() implementation
 
 License:	MIT
@@ -70,6 +70,9 @@ NODE_ENV=test /usr/bin/mocha -R spec
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.7-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.7-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

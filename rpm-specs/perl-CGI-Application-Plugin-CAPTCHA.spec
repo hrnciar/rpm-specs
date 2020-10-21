@@ -1,6 +1,6 @@
 Name:           perl-CGI-Application-Plugin-CAPTCHA
 Version:        0.04
-Release:        28%{?dist}
+Release:        29%{?dist}
 Summary:        Easily create, use, and verify CAPTCHAs in CGI::Application-based web apps
 License:        GPL+ or Artistic
 
@@ -53,6 +53,9 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.04-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.04-28
 - Perl 5.32 rebuild
 

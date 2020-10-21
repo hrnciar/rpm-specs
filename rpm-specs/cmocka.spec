@@ -1,6 +1,6 @@
 Name:           cmocka
 Version:        1.1.5
-Release:        3%{?dist}
+Release:        7%{?dist}
 
 License:        ASL 2.0
 Summary:        An elegant unit testing framework for C with support for mock objects
@@ -84,32 +84,27 @@ Development headers for the cmocka unit testing library.
 %autosetup -p1
 
 %build
-if test ! -e "obj"; then
-  mkdir obj
-fi
-pushd obj
+# This package uses -Wl,-wrap to wrap calls at link time.  This is incompatible
+# with LTO.
+# Disable LTO
+%define _lto_cflags %{nil}
+
 %cmake \
   -DWITH_STATIC_LIB=ON \
   -DWITH_CMOCKERY_SUPPORT=ON \
-  -DUNIT_TESTING=ON \
-  %{_builddir}/%{name}-%{version}
+  -DUNIT_TESTING=ON
 
-make %{?_smp_mflags} VERBOSE=1
-make docs
-popd
+%cmake_build
+%__cmake --build %{__cmake_builddir} --target docs
 
 %install
-pushd obj
-make DESTDIR=%{buildroot} install
-popd
+%cmake_install
 ln -s libcmocka.so %{buildroot}%{_libdir}/libcmockery.so
 
 %ldconfig_scriptlets -n libcmocka
 
 %check
-pushd obj
-ctest --output-on-failure
-popd
+%ctest
 
 %files -n libcmocka
 %doc AUTHORS README.md ChangeLog
@@ -120,7 +115,7 @@ popd
 %{_libdir}/libcmocka-static.a
 
 %files -n libcmocka-devel
-%doc obj/doc/html
+%doc %{__cmake_builddir}/doc/html
 %{_includedir}/cmocka.h
 %{_includedir}/cmocka_pbc.h
 %{_includedir}/cmockery/cmockery.h
@@ -132,6 +127,19 @@ popd
 %{_libdir}/cmake/cmocka/cmocka-config.cmake
 
 %changelog
+* Wed Aug 05 2020 Andreas Schneider <asn@redhat.com> - 1.1.5-7
+- Correctly build with new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  1 2020 Jeff Law <law@redhat.com> - 1.1.5-4
+- Disable LTO
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

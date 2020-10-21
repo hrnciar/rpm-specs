@@ -1,6 +1,6 @@
 Name:       ibus-fbterm
 Version:    1.0.1
-Release:    10%{?dist}
+Release:    11%{?dist}
 Summary:    IBus front-end for fbterm
 License:    GPLv3
 URL:        https://github.com/fujiwarat/ibus-fbterm
@@ -34,6 +34,9 @@ ibus-fbterm is a input method for FbTerm based on IBus.
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

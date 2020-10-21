@@ -5,7 +5,7 @@ Name:           tetex-elsevier
 # upstream is unversioned, the version is constructed with the latest 
 # file timestamp, in the format YYYYMMDD
 Version:        0.1.20090917
-Release:        22%{?dist}
+Release:        24%{?dist}
 Summary:        Elsevier LaTeX style files and documentation
 
 License:        LPPL
@@ -83,13 +83,19 @@ mktexlsr %{texmflocal} >/dev/null 2>&1 || :
 
 
 %files
-%doc README CHANGES *.pdf template-*.tex
+%doc README README.package CHANGES *.pdf template-*.tex
 %{texmflocal}/tex/latex/elsevier/
 %{texmflocal}/bibtex/bst/elsevier/
 %{texmflocal}/doc/latex/elsevier/
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.20090917-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Michael J Gruber <mjg@fedoraproject.org> - 0.1.20090917-23
+- clarify status in README.package
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.20090917-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

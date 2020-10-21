@@ -1,6 +1,6 @@
 Name:       libyaml
 Version:    0.2.5
-Release:    1%{?dist}
+Release:    3%{?dist}
 Summary:    YAML 1.1 parser and emitter written in C
 
 License:    MIT
@@ -35,12 +35,12 @@ developing applications that use LibYAML.
 
 %build
 %configure
-make all html %{?_smp_mflags}
+%make_build all html
 
 
 %install
 rm -rf %{buildroot}
-make DESTDIR=%{buildroot} INSTALL="install -p" install
+%make_install
 rm -f %{buildroot}%{_libdir}/*.{la,a}
 
 soname=$(readelf -d %{buildroot}%{_libdir}/libyaml.so | awk '$2 == "(SONAME)" {print $NF}' | tr -d '[]')
@@ -69,6 +69,13 @@ make check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 0.2.5-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jun  2 2020 John Eckersberg <eck@redhat.com> - 0.2.5-1
 - New upstream release (rhbz#1842769)
 

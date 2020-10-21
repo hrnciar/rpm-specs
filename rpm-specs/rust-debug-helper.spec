@@ -5,7 +5,7 @@
 %global crate debug-helper
 
 Name:           rust-%{crate}
-Version:        0.3.8
+Version:        0.3.10
 Release:        1%{?dist}
 Summary:        Declarative macros to help you implement the `Debug` trait manually
 
@@ -71,5 +71,11 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 0.3.10-1
+- Update to 0.3.10
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 13 10:52:42 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 0.3.8-1
 - Initial package

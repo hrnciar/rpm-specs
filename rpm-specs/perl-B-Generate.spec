@@ -1,6 +1,6 @@
 Name:           perl-B-Generate
 Version:        1.56
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Create your own op trees
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/B-Generate
@@ -60,6 +60,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.56-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.56-10
 - Perl 5.32 rebuild
 

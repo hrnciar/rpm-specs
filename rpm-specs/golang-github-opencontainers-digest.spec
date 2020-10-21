@@ -4,7 +4,6 @@
 # https://github.com/opencontainers/go-digest
 %global goipath         github.com/opencontainers/go-digest
 Version:                1.0.0
-%global tag             v1.0.0-rc1
 
 %gometa
 
@@ -19,7 +18,7 @@ effort.}
 %global godocs          CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        1.rc1%{?dist}.2
+Release:        2%{?dist}
 Summary:        Common digest package used across the container ecosystem
 
 # Upstream license specification: Apache-2.0 and CC-BY-SA-4.0
@@ -46,6 +45,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Fri Aug 21 20:48:41 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-2
+- Update to 1.0.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-1.rc1.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-1.rc1.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

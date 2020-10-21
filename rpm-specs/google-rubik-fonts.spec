@@ -4,7 +4,7 @@
 %forgemeta
 
 Version: 2.100
-Release: 2%{?dist}
+Release: 3%{?dist}
 URL:     %{forgeurl}
 
 %global foundry           google
@@ -43,6 +43,9 @@ chmod 644 %{fontdocs} %{fontlicenses}
 %fontfiles
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.100-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 22 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 2.100-2
 ✅ Rebuild with fonts-rpm-macros 2.0.2

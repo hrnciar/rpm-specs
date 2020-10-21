@@ -2,7 +2,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 0.13.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: An IRB alternative and runtime developer console
 License: MIT
 URL: http://pryrepl.org
@@ -96,6 +96,9 @@ popd
 %doc %{gem_instdir}/README.md
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Vít Ondruch <vondruch@redhat.com> - 0.13.1-1
 - Update to Pry 0.13.1.
   Resolves: rhbz#1493806

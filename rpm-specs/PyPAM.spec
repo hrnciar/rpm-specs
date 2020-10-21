@@ -1,7 +1,7 @@
 Summary:        PAM bindings for Python
 Name:           PyPAM
 Version:        0.5.0
-Release:        46%{?dist}
+Release:        47%{?dist}
 # Note that the upstream site is dead.
 Source0:        http://www.pangalactic.org/PyPAM/%{name}-%{version}.tar.gz
 Url:            http://www.pangalactic.org/PyPAM
@@ -62,6 +62,9 @@ PYTHONPATH=build/lib.linux-`uname -m`-%{python3_version}/ %{__python3} tests/Pam
 %doc examples
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-47
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.0-46
 - Rebuilt for Python 3.9
 

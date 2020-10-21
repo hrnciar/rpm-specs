@@ -1,6 +1,6 @@
 Name:           e00compr
 Version:        1.0.1
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        Library to compress and uncompress E00 files
 
 License:        MIT
@@ -60,6 +60,9 @@ install -pm 0755 e00conv %{buildroot}%{_bindir}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

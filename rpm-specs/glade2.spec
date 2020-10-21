@@ -3,7 +3,7 @@
 Summary:        User Interface Designer for GTK+ 2, legacy version
 Name:           glade2
 Version:        2.12.2
-Release:        31%{?dist}
+Release:        33%{?dist}
 License:        GPLv2+ and GFDL
 URL:            http://glade.gnome.org/
 Source:         http://download.gnome.org/sources/glade/2.12/glade-%{version}.tar.bz2
@@ -74,6 +74,13 @@ rm -rf $RPM_BUILD_ROOT/var/scrollkeeper
 %{_bindir}/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.2-33
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.2-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.2-31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

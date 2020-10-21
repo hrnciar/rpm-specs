@@ -4,7 +4,7 @@
 Summary: Unit Testing Framework for C/C++
 Name: cutter
 Version: 1.2.7
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: LGPLv3+
 URL: http://cutter.sourceforge.net/
 Source: http://downloads.sourceforge.net/cutter/cutter-%{version}.tar.gz
@@ -141,6 +141,9 @@ make check LD_LIBRARY_PATH=$(pwd)/cppcutter/.libs:$(pwd)/cutter/.libs:$(pwd)/gdk
 %{_libdir}/cutter/module/report/pdf.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.7-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

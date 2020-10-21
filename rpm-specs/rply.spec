@@ -1,6 +1,6 @@
 Name:		rply
 Version:	1.1.2
-Release:	14%{?dist}
+Release:	17%{?dist}
 Summary:	A library to read and write PLY files
 License:	MIT
 URL:		http://www.tecgraf.puc-rio.br/~diego/professional/rply/
@@ -41,16 +41,16 @@ cp %{SOURCE2} CMake/Modules/
 cp %{SOURCE3} CMake/export/CMakeLists.txt
 
 %build
-%cmake -DCMAKE_BUILD_TYPE:STRING="Release"\
-       -DCMAKE_VERBOSE_MAKEFILE=ON .
+%cmake -DCMAKE_BUILD_TYPE:STRING="Release" \
+       -DCMAKE_VERBOSE_MAKEFILE=ON
 
-make %{?_smp_mflags}
+%cmake_build
 
 iconv -f iso8859-1 -t utf-8 LICENSE > LICENSE.conv && mv -f LICENSE.conv LICENSE
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
+
 rm $RPM_BUILD_ROOT%{_datadir}/%{name}/rplyConfig.cmake
 
 %ldconfig_scriptlets
@@ -79,6 +79,16 @@ Rply Library Header Files and Link Libraries
 %dir %{_datadir}/%{name}/
 
 %changelog
+* Tue Sep 01 2020 Than Ngo <than@redhat.com> - 1.1.2-17
+- Fixed FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 
 # https://github.com/gomodule/redigo
 %global goipath         github.com/gomodule/redigo
-Version:                1.7.0
+Version:                1.8.2
 
 %gometa
 
@@ -31,7 +31,7 @@ Features:
 Name:           %{goname}
 # Upstream yanked 2.0
 Epoch:          1
-Release:        5%{?dist}
+Release:        2%{?dist}
 Summary:        Go client for redis
 
 # Upstream license specification: Apache-2.0
@@ -61,6 +61,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.8.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 21:17:56 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.8.2-1
+- Update to 1.8.2
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.7.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

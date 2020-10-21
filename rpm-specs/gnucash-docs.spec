@@ -1,6 +1,6 @@
 Name: gnucash-docs
 Summary: Help files and documentation for the GnuCash personal finance manager
-Version: 3.10
+Version: 4.2
 URL: http://gnucash.org/
 Release: 1%{?dist}
 License: GFDL
@@ -44,6 +44,18 @@ end
 return 0
 
 %changelog
+* Sun Oct 11 2020 Bill Nottingham <notting@splat.cc> - 4.2-1
+- update to 4.2
+
+* Mon Jul 27 2020 Bill Nottingham <notting@splat.cc> - 4.1-1
+- update to 4.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Bill Nottingham <notting@splat.cc> - 4.0-1
+- update to 4.0
+
 * Mon Apr 13 2020 Bill Nottingham <notting@splat.cc> - 3.10-1
 - update to 3.10
 

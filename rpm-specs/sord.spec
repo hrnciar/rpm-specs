@@ -2,8 +2,8 @@
 %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 Name:       sord
-Version:    0.16.4
-Release:    5%{?dist}
+Version:    0.16.6
+Release:    1%{?dist}
 Summary:    A lightweight Resource Description Framework (RDF) C library
 
 License:    ISC
@@ -37,7 +37,7 @@ This package contains the headers and development libraries for %{name}.
 
 %prep
 %setup -q
-# we'll run ldconfig, and add our optflags 
+# Do not run ldconfig, and add our optflags
 sed -i -e "s|bld.add_post_fun(autowaf.run_ldconfig)||" \
        -e "s|cflags          = [ '-DSORD_INTERNAL' ]\
 |cflags          = [ '-DSORD_INTERNAL' ] + '%optflags'.split(' ') |" wscript
@@ -51,7 +51,7 @@ CFLAGS+=" -O1"
 CXXFLAGS+=" -O1"
 %endif
 export LINKFLAGS="%{__global_ldflags}"
-python3 waf configure \
+%{python3} waf configure \
     --prefix=%{_prefix} \
     --libdir=%{_libdir} \
     --mandir=%{_mandir} \
@@ -59,10 +59,10 @@ python3 waf configure \
     --docdir=%{_pkgdocdir} \
     --test \
     --docs 
-python3 waf build -v %{?_smp_mflags}
+%{python3} waf build -v %{?_smp_mflags}
 
 %install
-DESTDIR=%{buildroot} python3 waf install
+DESTDIR=%{buildroot} %{python3} waf install
 chmod +x %{buildroot}%{_libdir}/lib%{name}-%{maj}.so.*
 install -pm 644 AUTHORS NEWS README.md COPYING %{buildroot}%{_pkgdocdir}
 
@@ -84,6 +84,12 @@ install -pm 644 AUTHORS NEWS README.md COPYING %{buildroot}%{_pkgdocdir}
 %{_mandir}/man3/%{name}*.3*
 
 %changelog
+* Sun Oct 04 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.16.6-1
+- Update to 0.16.6
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.4-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.16.4-5
 - Rebuilt for possible GCC 10.1 bug on power64, arm and s390
 

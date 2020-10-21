@@ -2,7 +2,7 @@
 
 Name:		python-%{upname}
 Version:	1.2.1
-Release:	15%{?dist}
+Release:	16%{?dist}
 Summary:	Collection of fast NumPy array functions written in Cython
 
 License:	BSD
@@ -102,6 +102,9 @@ popd
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.1-15
 - Rebuilt for Python 3.9
 

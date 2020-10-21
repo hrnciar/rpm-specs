@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Asynchronous, request / response based, client or server trait
 
 # Upstream license specification: MIT
@@ -71,5 +71,8 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 24 2020 Fabio Valentini <decathorpe@gmail.com> - 0.3.0-1
 - Initial package

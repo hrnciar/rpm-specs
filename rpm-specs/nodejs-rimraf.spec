@@ -2,7 +2,7 @@
 
 Name:           nodejs-rimraf
 Version:        3.0.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        A deep deletion module for node.js
 
 License:        MIT
@@ -43,6 +43,13 @@ cp -pr package.json rimraf.js bin.js %{buildroot}%{nodejs_sitelib}/rimraf
 %{nodejs_sitelib}/rimraf
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Fabian Affolter <mail@fabian-affolter.ch> - 3.0.2-1
 - Update to latest upstream release 3.0.2
 

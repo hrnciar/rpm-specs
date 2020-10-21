@@ -5,7 +5,7 @@
 %global crate indexmap
 
 Name:           rust-%{crate}
-Version:        1.4.0
+Version:        1.6.0
 Release:        1%{?dist}
 Summary:        Hash table with consistent order and fast iteration
 
@@ -23,14 +23,13 @@ BuildRequires:  rust-packaging
 
 %global _description %{expand:
 Hash table with consistent order and fast iteration.
-The indexmap is a hash
-table where the iteration order of the key-value pairs is independent of the
-hash values of the keys. It has the usual hash table functionality, it
-preserves insertion order except after removals, and it allows lookup of its
-elements by either hash table key or numerical index. A corresponding hash set
-type is also provided.
-This crate was initially published under the name
-ordermap, but it was renamed to indexmap.}
+The indexmap is a hash table where the iteration order of the key-value pairs
+is independent of the hash values of the keys. It has the usual hash table
+functionality, it preserves insertion order except after removals, and it
+allows lookup of its elements by either hash table key or numerical index. A
+corresponding hash set type is also provided.
+This crate was initially published under the name ordermap, but it was renamed
+to indexmap.}
 
 %description %{_description}
 
@@ -96,6 +95,18 @@ which use "serde-1" feature of "%{crate}" crate.
 %files       -n %{name}+serde-1-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+std-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+std-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "std" feature of "%{crate}" crate.
+
+%files       -n %{name}+std-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+test_debug-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -139,6 +150,21 @@ which use "test_low_transition_point" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Mon Sep 28 2020 Fabio Valentini <decathorpe@gmail.com> - 1.6.0-1
+- Update to version 1.6.0.
+
+* Tue Sep 01 2020 Josh Stone <jistone@redhat.com> - 1.5.2-1
+- Update to 1.5.2
+
+* Sat Aug 08 2020 Josh Stone <jistone@redhat.com> - 1.5.1-1
+- Update to 1.5.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Josh Stone <jistone@redhat.com> - 1.5.0-1
+- Update to 1.5.0
+
 * Mon Jun 01 2020 Josh Stone <jistone@redhat.com> - 1.4.0-1
 - Update to 1.4.0
 

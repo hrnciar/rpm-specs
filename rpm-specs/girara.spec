@@ -1,6 +1,6 @@
 Name:              girara
 Version:           0.3.4
-Release:           2%{?dist}
+Release:           4%{?dist}
 Summary:           Simple user interface library
 License:           zlib
 URL:               http://pwmt.org/projects/%{name}/
@@ -55,6 +55,13 @@ developing applications that use %{name}.
 %{_libdir}/libgirara-gtk3.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Björn Esser <besser82@fedoraproject.org> - 0.3.4-2
 - Rebuild (json-c)
 

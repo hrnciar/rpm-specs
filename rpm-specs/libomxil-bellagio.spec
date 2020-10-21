@@ -2,7 +2,7 @@
 
 Name:           libomxil-bellagio
 Version:        0.9.3
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        OpenMAX Integration Layer
 
 License:        LGPLv2+
@@ -123,6 +123,9 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/%{name}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 28 2020 Nicolas Chauvet <kwizart@gmail.com> - 0.9.3-24
 - Drop Werror on configure.ac
 

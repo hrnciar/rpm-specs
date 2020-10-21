@@ -3,7 +3,7 @@
 Name:		coin-or-%{module}
 Summary:	Branch-Cut-Price Framework
 Version:	1.4.4
-Release:	3%{?dist}
+Release:	5%{?dist}
 License:	CPL
 URL:		http://projects.coin-or.org/%{module}
 Source0:	http://www.coin-or.org/download/pkgsource/%{module}/%{module}-%{version}.tgz
@@ -49,6 +49,7 @@ This package contains the documentation for %{name}.
 %autosetup -p1 -n %{module}-%{version}
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure
 
 # Get rid of undesirable hardcoded rpaths; workaround libtool reordering
@@ -89,6 +90,12 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} make test
 %{_pkgdocdir}/bcp_doxy.tag
 
 %changelog
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 1.4.4-5
+- Force C++14 as the code is not C++17 ready
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

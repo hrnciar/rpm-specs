@@ -1,13 +1,9 @@
 %bcond_with kde
 %bcond_with mpv
 
-# LTO
-%global optflags %{optflags} -flto=auto
-%global build_ldflags %{build_ldflags} -flto=auto
-
 Name:           qimgv
 Version:        0.9.1
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Qt5 image viewer with optional video support
 
 License:        GPLv3+
@@ -72,28 +68,23 @@ sed -e '/translations/d' -i qimgv/resources.qrc
 # Use default for Fedora build flags
 sed -e 's/ -O3//g' -i CMakeLists.txt
 
-mkdir -p %{_target_platform}
-
 
 %build
-pushd %{_target_platform}
-    %cmake -G Ninja \
+%cmake \
+    -G Ninja \
     -DVIDEO_SUPPORT:BOOL=%{?with_mpv:ON}%{!?with_mpv:OFF} \
     -DKDE_SUPPORT:BOOL=%{?with_kde:ON}%{!?with_kde:OFF} \
     -DOPENCV_SUPPORT=ON \
-    ..
-popd
-
-%ninja_build -C %{_target_platform}
+%ninja_build -C %{_vpath_builddir}
 
 
 %install
-%ninja_install -C %{_target_platform}
-install -m 0644 -Dp %{SOURCE1} %{buildroot}%{_metainfodir}/%{name}.appdata.xml
+%ninja_install -C %{_vpath_builddir}
+install -m0644 -Dp %{SOURCE1} %{buildroot}%{_metainfodir}/%{name}.appdata.xml
 
 
 %check
-appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.xml
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
@@ -113,6 +104,16 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.9.1-4
+- Rebuild with out-of-source builds new CMake macros
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Nicolas Chauvet <kwizart@gmail.com> - 0.9.1-2
 - Rebuilt for OpenCV 4.3.0
 

@@ -1,11 +1,11 @@
 Name:           libXpresent
 Version:        1.0.0
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        A Xlib-compatible API for the Present extension
 
 License:        MIT
-URL:            http://www.x.org
-Source0:        http://xorg.freedesktop.org/archive/individual/lib/libXpresent-%{version}.tar.bz2
+URL:            https://www.x.org
+Source0:        https://xorg.freedesktop.org/archive/individual/lib/libXpresent-%{version}.tar.bz2
 
 BuildRequires: xorg-x11-util-macros
 BuildRequires: autoconf automake libtool
@@ -55,6 +55,12 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %{_mandir}/man3/*.3*
 
 %changelog
+* Wed Aug 19 2020 Adam Jackson <ajax@redhat.com>
+- Use https URLs
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

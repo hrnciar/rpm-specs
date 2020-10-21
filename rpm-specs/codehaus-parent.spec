@@ -1,6 +1,6 @@
 Name:           codehaus-parent
 Version:        4
-Release:        17%{?dist}
+Release:        19%{?dist}
 Summary:        Parent pom file for codehaus projects
 License:        ASL 2.0
 URL:            http://codehaus.org/
@@ -33,6 +33,12 @@ cp -p %{SOURCE1} LICENSE
 %doc LICENSE
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 4-18
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

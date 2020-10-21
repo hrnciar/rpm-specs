@@ -2,7 +2,6 @@
 %global camlsuffix opt
 %else
 %global camlsuffix byte
-%global debug_package %{nil}
 %endif
 
 # .coqide-gtk2rc produces an rpmlint warning due to its name,
@@ -11,9 +10,12 @@
 # Coq installs python files into nonstandard places
 %global _python_bytecompile_extra 0
 
+# https://bugzilla.redhat.com/show_bug.cgi?id=1874879
+ExcludeArch:    s390x
+
 Name:           coq
-Version:        8.11.2
-Release:        1%{?dist}
+Version:        8.12.0
+Release:        3%{?dist}
 Summary:        Proof management system
 
 License:        LGPLv2
@@ -27,26 +29,31 @@ Source3:        coqide.appdata.xml
 Patch0:         0001-Sphinx-3-support.patch
 
 BuildRequires:  ocaml >= 4.08.0
+BuildRequires:  ocaml-dune
 BuildRequires:  ocaml-findlib
 BuildRequires:  ocaml-lablgtk3-devel >= 3.0
 BuildRequires:  ocaml-lablgtk3-sourceview3-devel >= 3.0
 BuildRequires:  ocaml-num-devel
+BuildRequires:  ocaml-ocamldoc
+BuildRequires:  ocaml-ounit-devel
 BuildRequires:  csdp-tools
 BuildRequires:  desktop-file-utils
 BuildRequires:  libicns-utils
+BuildRequires:  rsync
 BuildRequires:  time
 
 # For documentation
 BuildRequires:  antlr4
+BuildRequires:  fontconfig
 BuildRequires:  hevea
 BuildRequires:  latexmk
 BuildRequires:  python3-devel
-BuildRequires:  python3dist(antlr4-python3-runtime)
-BuildRequires:  python3dist(beautifulsoup4)
-BuildRequires:  python3dist(pexpect)
-BuildRequires:  python3dist(sphinx)
-BuildRequires:  python3dist(sphinxcontrib-bibtex)
-BuildRequires:  python3dist(sphinx-rtd-theme)
+BuildRequires:  %{py3_dist antlr4-python3-runtime}
+BuildRequires:  %{py3_dist beautifulsoup4}
+BuildRequires:  %{py3_dist pexpect}
+BuildRequires:  %{py3_dist sphinx}
+BuildRequires:  %{py3_dist sphinxcontrib-bibtex}
+BuildRequires:  %{py3_dist sphinx-rtd-theme}
 BuildRequires:  tex(latex)
 BuildRequires:  tex(adjustbox.sty)
 BuildRequires:  tex(capt-of.sty)
@@ -79,9 +86,6 @@ Requires:       texlive-base
 
 Recommends:     emacs-proofgeneral
 
-# Exclude 3 private ocaml interfaces that we don't Provide
-%global __requires_exclude ocaml\\\((Configwin_types|Interface|Richpp)\\\)
-
 # These can be removed when Fedora 30 reaches EOL
 Obsoletes:      %{name}-emacs < 8.9.0-1
 Provides:       %{name}-emacs = %{version}-%{release}
@@ -93,15 +97,26 @@ together with an environment for semi-interactive development of
 machine-checked proofs.}
 
 %description %_desc
-  Typical applications include the certification
-of properties of programming languages (e.g. the CompCert compiler
-certification project, or the Bedrock verified low-level programming
-library), the formalization of mathematics (e.g. the full formalization
-of the Feit-Thompson theorem or homotopy type theory) and teaching.
+
+Typical applications include the certification of properties of
+programming languages (e.g. the CompCert compiler certification project,
+or the Bedrock verified low-level programming library), the formalization
+of mathematics (e.g. the full formalization of the Feit-Thompson theorem
+or homotopy type theory) and teaching.
+
+%package coqide-server
+Summary:        The coqidetop language server
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description coqide-server %_desc
+
+This package provides the coqidetop language server, an implementation of
+Coq's XML protocol which allows clients, such as CoqIDE, to interact with
+Coq in a structured way.
 
 %package coqide
 Summary:        Coqide IDE for Coq proof management system
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name}-coqide-server%{?_isa} = %{version}-%{release}
 Requires:       hicolor-icon-theme
 Requires:       xdg-utils
 
@@ -114,6 +129,10 @@ development of interactive proofs.
 Summary:        Documentation for Coq proof management system
 License:        Open Publication and LGPLv2+
 BuildArch:      noarch
+Requires:       fontawesome-fonts-web
+Requires:       font(fontawesome)
+Requires:       font(lato)
+Requires:       font(robotoslab)
 
 %description doc %_desc
 
@@ -133,22 +152,18 @@ fixtimestamp() {
   rm -f $1.orig
 }
 
-# Fix a Makefile rule that causes installation to fail
-sed -ri '/FULLCONFIGDIR/s/OLDROOT|COQINSTALLPREFIX/&2/g' Makefile.install
-
-# Use Fedora compiler and linker flags.  Fix broken CAML_LD_LIBRARY_PATH.
+# Use Fedora compiler and linker flags
 sed -e 's|-Wall.*-O2|%{optflags} -Wno-unused|' \
     -e "s|-lunix|& -ccopt '$RPM_LD_FLAGS'|" \
-    -e "s|'%s/kernel/byterun'|%s/kernel/byterun|" \
     -i configure.ml
 
 # Make sure debuginfo is generated
 sed -i 's,-shared,& -g,g' tools/CoqMakefile.in Makefile.build
 
 # Do not invoke env
-for f in dev/tools/update-compat.py doc/tools/coqrst/notations/fontsupport.py;
+for f in doc/tools/coqrst/notations/fontsupport.py;
 do
-  sed -i.orig 's,/usr/bin/env python2,%{__python3},' $f
+  sed -i.orig 's,/usr/bin/env python2,%{python3},' $f
   fixtimestamp $f
 done
 for f in $(grep -Frl '%{_bindir}/env'); do
@@ -156,7 +171,13 @@ for f in $(grep -Frl '%{_bindir}/env'); do
   fixtimestamp $f
 done
 
-%build
+# Update the oUnit name
+sed -i 's/oUnit/ounit2/' test-suite/Makefile
+
+# Work around a bad path
+sed -i.orig "s,-q,& --coqlib_path $PWD/_build/default," doc/stdlib/dune
+
+# Change dune's configure invocation
 %ifarch %{ocaml_native_compiler}
 %global opt_option -native-compiler yes -natdynlink yes -coqide opt
 %else
@@ -164,50 +185,80 @@ done
 %endif
 
 %global coqdocdir %{?_pkgdocdir}%{!?_pkgdocdir:%{_docdir}/coq-%{version}}
-%global coqdatadir %{_libdir}/coq
 
-./configure -prefix %{_prefix}     \
-            -libdir %{coqdatadir}  \
-            -bindir %{_bindir}     \
-            -mandir %{_mandir}     \
-            -docdir %{coqdocdir}   \
-            -configdir %{_sysconfdir}/xdg/%{name} \
-            -coqdocdir %{_texmf_main}/tex/latex \
-            %{opt_option}          \
-            -browser "xdg-open %s" \
-            -with-doc yes
+sed -i 's,-native-compiler no,-prefix %{_prefix} -libdir %{_libdir}/ocaml/coq -docdir %{coqdocdir} -configdir %{_sysconfdir}/xdg/%{name} -coqdocdir %{_texmf_main}/tex/latex/misc %{opt_option} -browser "xdg-open %s" -with-doc yes,' config/dune
 
+%build
 # Regenerate ANTLR files
 cd doc/tools/coqrst/notations
 antlr4 -Dlanguage=Python3 -visitor -no-listener TacticNotations.g
 cd -
 
-export LD_LIBRARY_PATH=%{_libdir}/ocaml/stublibs
-export CAML_LD_LIBRARY_PATH=$PWD/kernel/byterun:${CAML_LD_LIBRARY_PATH}
-export SPHINXWARNERROR=0
+export SPHINXWARNOPT="-w$PWD/sphinx-warn.log"
+dune build %{?_smp_mflags}
 
-# Gross hack to work around intermittent build failures.  See
-# https://lists.fedoraproject.org/archives/list/devel@lists.fedoraproject.org/thread/AEPCSIRZMPRG4ZGXAPAIX45LW7ZQA5XI/
-# for details.  Revert to a single make invocation once the problem is
-# identified and fixed.
-make world VERBOSE=1 || make world VERBOSE=1 || make world VERBOSE=1
+# Relink the stublib with RPM_LD_FLAGS
+cd _build/default/kernel/byterun
+ocamlmklib -g -ldopt "$RPM_LD_FLAGS" -o byterun_stubs $(ar t libbyterun_stubs.a)
+cd -
+
+# Undo the bad path workaround now that we're done
+mv doc/stdlib/dune.orig doc/stdlib/dune
 
 %install
-make COQINSTALLPREFIX="%{buildroot}%{_prefix}" OLDROOT="%{_prefix}" \
-     COQINSTALLPREFIX2="%{buildroot}%{_sysconfdir}" OLDROOT2="%{_sysconfdir}" \
-     install
+# Installing with dune fails due to https://github.com/ocaml/dune/issues/1868.
+# We fake dune out by telling it not to install documentation, install, then
+# put the original file back.
+cp -p _build/default/coq-doc.install _build/default/coq-doc.install.orig
+chmod u+w _build/default/coq-doc.install
+sed -ri '/(html|pdf)/d' _build/default/coq-doc.install
+dune install --destdir=%{buildroot}
+mv _build/default/coq-doc.install.orig _build/default/coq-doc.install
 
 # Fix permissions
-if [ -e %{buildroot}%{coqdatadir}/kernel/byterun/dllcoqrun.so ]; then
-  chmod a+x %{buildroot}%{coqdatadir}/kernel/byterun/dllcoqrun.so
-fi
-
-# Use hardlinks rather than copying binaries
 %ifarch %{ocaml_native_compiler}
-for fil in coqtop coqidetop; do
-  rm -f %{buildroot}%{_bindir}/$fil
-  ln %{buildroot}%{_bindir}/$fil.opt %{buildroot}%{_bindir}/$fil
+find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod a+x {} \+
+%endif
+chmod a+x %{buildroot}%{_libdir}/ocaml/coq/tools/make*.py
+
+# Install the LaTeX style file
+mkdir -p %{buildroot}%{_texmf_main}/tex/latex/misc
+cp -p tools/coqdoc/coqdoc.sty %{buildroot}%{_texmf_main}/tex/latex/misc
+
+# Make a directory for site-wide configuration files
+mkdir -p %{buildroot}%{_sysconfdir}/xdg/coq
+
+# We install the documentation with the doc macro
+rm -fr %{buildroot}%{_prefix}/doc
+
+# Prepare the documentation for installation
+cp -Lpr _build/install/default/doc/coq-doc/html html
+find html -name .buildinfo -o -name .doctrees -exec rm -fr {} \+
+
+# Do not bundle fonts into the documentation
+cd html/refman/_static/fonts
+for suffix in eot svg ttf woff woff2; do
+  rm fontawesome-webfont.$suffix
+  ln -s %{_datadir}/fonts/fontawesome/fontawesome-webfont.$suffix .
 done
+rm {Lato,RobotoSlab}/*.ttf
+ln -s $(fc-match -f "%%{file}" "lato:bold") Lato/lato-bold.ttf
+ln -s $(fc-match -f "%%{file}" "lato:bold:italic") Lato/lato-bolditalic.ttf
+ln -s $(fc-match -f "%%{file}" "lato:italic") Lato/lato-italic.ttf
+ln -s $(fc-match -f "%%{file}" "lato") Lato/lato-regular.ttf
+ln -s $(fc-match -f "%%{file}" "robotoslab:bold") RobotoSlab/roboto-slab-v7-bold.ttf
+ln -s $(fc-match -f "%%{file}" "robotoslab") RobotoSlab/roboto-slab-v7-regular.ttf
+cd -
+
+# Use links rather than copying binaries
+%ifarch %{ocaml_native_compiler}
+for fil in coqtop; do
+  rm -f %{buildroot}%{_bindir}/$fil
+  ln %{buildroot}%{_bindir}/$fil.%{camlsuffix} %{buildroot}%{_bindir}/$fil
+done
+rm %{buildroot}%{_libdir}/ocaml/coq/user-contrib/Ltac2/ltac2_plugin.cmxs
+ln -s ../../plugins/ltac2/ltac2_plugin.cmxs \
+      %{buildroot}%{_libdir}/ocaml/coq/user-contrib/Ltac2
 %endif
 
 # Install desktop icons
@@ -231,57 +282,38 @@ install -pm 644 %{SOURCE3} %{buildroot}%{_datadir}/appdata
 mkdir -p %{buildroot}%{_datadir}/mime/packages
 cp -p %{SOURCE2} %{buildroot}%{_datadir}/mime/packages
 
-# Install main Coq .v files
-for f in `find plugins theories -name '*.v' -type f`; do
-mkdir -p %{buildroot}%{coqdatadir}/`dirname $f` && cp -p $f %{buildroot}%{coqdatadir}/`dirname $f`
+# Install the language bindings
+mkdir -p %{buildroot}%{_datadir}/gtksourceview-3.0/language-specs
+for fil in coq.lang coq-ssreflect.lang; do
+  ln -s ../../coq/$fil %{buildroot}%{_datadir}/gtksourceview-3.0/language-specs
 done
 
-# Install Ltac2 files missed by the makefiles
-cp -a user-contrib/Ltac2/.coq-native \
-  %{buildroot}%{coqdatadir}/user-contrib/Ltac2
-
-# Install tutorial code
-%global tutorialcodedir %{coqdatadir}/RecTutorial
-if [ ! -d %{buildroot}%{tutorialcodedir} ]; then
-  mkdir -p %{buildroot}%{tutorialcodedir}
-fi
-cp -p test-suite/success/RecTutorial.v %{buildroot}%{tutorialcodedir}
-
-# Install documentation not installed by install-doc in Makefile
-for f in dev/doc/changes.md CREDITS README.md;
-do cp -p $f %{buildroot}%{coqdocdir};
-done
-
-# We don't need both PostScript and PDF documentation
-rm -fr %{buildroot}%{coqdocdir}/ps
-
-# We don't need a hidden Sphinx marker
-rm -f %{buildroot}%{coqdocdir}/sphinx/html/.buildinfo
+# Install the style file
+mkdir -p %{buildroot}%{_datadir}/gtksourceview-3.0/styles
+ln -s ../../coq/coq_style.xml %{buildroot}%{_datadir}/gtksourceview-3.0/styles
 
 # Byte compile the tools
-%py_byte_compile %{__python3} %{buildroot}%{coqdatadir}/tools
+%py_byte_compile %{python3} %{buildroot}%{_libdir}/ocaml/coq/tools
 
 %files
-# DON'T use the doc macro here or else it wipes out all the other documentation installed!
+%doc CREDITS README.md dev/doc/changes.md
 %license LICENSE
-%{coqdatadir}/
-%{_datadir}/%{name}/
-%{_bindir}/coqc
-%{_bindir}/coqchk
+%{_libdir}/ocaml/coq/
+%{_libdir}/ocaml/stublibs/dllbyterun_stubs.so
+%{_bindir}/coqc*
 %{_bindir}/coqdep
 %{_bindir}/coqdoc
-%{_bindir}/coqidetop
-%{_bindir}/coqidetop.%{camlsuffix}
 %{_bindir}/coq_makefile
 %{_bindir}/coqpp
 %{_bindir}/coqproofworker.%{camlsuffix}
 %{_bindir}/coqqueryworker.%{camlsuffix}
 %{_bindir}/coqtacticworker.%{camlsuffix}
 %{_bindir}/coq-tex
-%{_bindir}/coqtop
-%{_bindir}/coqtop.%{camlsuffix}
+%{_bindir}/coqtop*
 %{_bindir}/coqwc
 %{_bindir}/coqworkmgr
+%{_bindir}/csdpcert
+%{_bindir}/ocamllibdep
 %{_bindir}/votour
 %{_mandir}/man1/coqc.1*
 %{_mandir}/man1/coqchk.1*
@@ -293,44 +325,61 @@ rm -f %{buildroot}%{coqdocdir}/sphinx/html/.buildinfo
 %{_mandir}/man1/coqtop.byte.1*
 %{_mandir}/man1/coqtop.opt.1*
 %{_mandir}/man1/coqwc.1*
-%exclude %{coqdatadir}/ide/
-%ifarch %{ocaml_native_compiler}
-%exclude %{coqdatadir}/*/*.cmxa
-%exclude %{coqdatadir}/*/*.a
-%endif
-%{_texmf_main}/tex/latex/coqdoc.sty
-# A few documentation files here should stay in the main package (and
-# are excluded from doc), but the bulk of the documentation is in the
-# doc subpackage
-%dir %{coqdocdir}
-%{coqdocdir}/changes.md
-%{coqdocdir}/CREDITS
-%{coqdocdir}/README.md
+%{_texmf_main}/tex/latex/misc/
+# This should really go in the doc subpackage, but because it is installed in
+# an arch-specific path, it cannot be part of a noarch package.
+%{_libdir}/ocaml/coq-doc/
+
+%files coqide-server
+%{_bindir}/coqidetop*
+%{_bindir}/fake_ide
+%{_libdir}/ocaml/coqide-server/
 
 %files coqide
 %doc ide/FAQ
 %{_bindir}/coqide
+%{_datadir}/%{name}/
 %{_datadir}/icons/hicolor/16x16/apps/coq.png
 %{_datadir}/icons/hicolor/32x32/apps/coq.png
 %{_datadir}/icons/hicolor/256x256/apps/coq.png
 %{_datadir}/icons/hicolor/512x512/apps/coq.png
 %{_mandir}/man1/coqide.1*
-%{coqdatadir}/ide/
-%exclude %{coqdatadir}/ide/ide.cmxa
-%exclude %{coqdatadir}/ide/ide.a
+%{_libdir}/ocaml/coqide/
 %{_datadir}/appdata/coqide.appdata.xml
 %{_datadir}/applications/coqide.desktop
+%{_datadir}/gtksourceview-3.0/language-specs/coq*.lang
+%{_datadir}/gtksourceview-3.0/styles/coq_style.xml
 %{_datadir}/mime/packages/coq.xml
 %{_sysconfdir}/xdg/coq/
 
 %files doc
+%doc doc/README.md html
 %license doc/LICENSE
-%{coqdocdir}/*
-%exclude %{coqdocdir}/changes.md
-%exclude %{coqdocdir}/CREDITS
-%exclude %{coqdocdir}/README.md
 
 %changelog
+* Wed Sep 02 2020 Richard W.M. Jones <rjones@redhat.com> - 8.12.0-3
+- OCaml 4.11.1 rebuild
+- ExcludeArch s390x (RHBZ#1874879).
+
+* Mon Aug 31 2020 Jerry James <loganjerry@gmail.com> - 8.12.0-1
+- Version 8.12.0
+- Build with dune
+- Add coqide-server subpackage
+- Unbundle fonts from the documentation
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 8.11.2-5
+- OCaml 4.11.0 rebuild
+
+* Thu Aug  6 2020 Jerry James <loganjerry@gmail.com> - 8.11.2-4
+- Rebuild to fix ocamlx(Dynlink) dependency
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.11.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.11.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Jerry James <loganjerry@gmail.com> - 8.11.2-1
 - Version 8.11.2
 

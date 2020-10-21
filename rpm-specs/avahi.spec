@@ -1,9 +1,22 @@
+%bcond_with bootstrap
+
+%if %{without bootstrap}
 %{?!WITH_MONO:          %global WITH_MONO 1}
+%else
+%{?!WITH_MONO:          %global WITH_MONO 0}
+%endif
+
 %{?!WITH_COMPAT_DNSSD:  %global WITH_COMPAT_DNSSD 1}
 %{?!WITH_COMPAT_HOWL:   %global WITH_COMPAT_HOWL  1}
 %{?!WITH_QT3:           %global WITH_QT3 1}
 %{?!WITH_QT4:           %global WITH_QT4 1}
+
+%if %{without bootstrap}
 %{?!WITH_QT5:           %global WITH_QT5 1}
+%else
+%{?!WITH_QT5:           %global WITH_QT5 0}
+%endif
+
 %{?!WITH_PYTHON:        %global WITH_PYTHON 1}
 
 %ifnarch %{mono_arches}
@@ -34,7 +47,7 @@
 
 Name:             avahi
 Version:          0.8
-Release:          2%{?dist}
+Release:          6%{?dist}
 Summary:          Local network service discovery
 License:          LGPLv2+
 URL:              http://avahi.org
@@ -51,8 +64,10 @@ BuildRequires:    libtool
 BuildRequires:    dbus-devel >= 0.90
 BuildRequires:    dbus-glib-devel >= 0.70
 BuildRequires:    desktop-file-utils
+%if %{without bootstrap}
 BuildRequires:    gtk2-devel
 BuildRequires:    gtk3-devel >= 2.99.0
+%endif
 #BuildRequires:    gobject-introspection-devel
 %if %{WITH_QT3}
 BuildRequires:    qt3-devel
@@ -83,8 +98,9 @@ BuildRequires:    python3-devel
 %else
 Obsoletes: python2-avahi < %{version}-%{release}
 Obsoletes: python3-avahi < %{version}-%{release}
-Obsoletes: avahi-ui-tools < %{version}-%{release}
+%if %{without bootstrap}
 BuildRequires:    pygtk2
+%endif
 %endif
 BuildRequires:    gdbm-devel
 BuildRequires:    pkgconfig(pygobject-3.0)
@@ -144,10 +160,10 @@ Requires:         %{name}-glib%{?_isa} = %{version}-%{release}
 Requires:         %{name}-ui-gtk3%{?_isa} = %{version}-%{release}
 Requires:         tigervnc
 Requires:         openssh-clients
+%if %{WITH_PYTHON}
+Requires:         gdbm
 Requires:         pygtk2
 Requires:         pygtk2-libglade
-Requires:         gdbm
-%if %{WITH_PYTHON}
 Requires:         python2-avahi = %{version}-%{release}
 Requires:         %{python2_dbus}
 Requires:         python2-gobject-base
@@ -191,6 +207,7 @@ Requires:         %{name}-gobject%{?_isa} = %{version}-%{release}
 The avahi-gobject-devel package contains the header files and libraries
 necessary for developing programs using avahi-gobject.
 
+%if %{without bootstrap}
 %package ui
 Summary:          Gtk user interface library for Avahi (Gtk+ 2 version)
 Requires:         %{name}-libs%{?_isa} = %{version}-%{release}
@@ -219,6 +236,7 @@ Requires:         %{name}-ui-gtk3%{?_isa} = %{version}-%{release}
 %description ui-devel
 The avahi-ui-devel package contains the header files and libraries
 necessary for developing programs using avahi-ui.
+%endif
 
 %if %{WITH_QT3}
 %package qt3
@@ -431,7 +449,12 @@ NOCONFIGURE=1 ./autogen.sh
         --enable-shared=yes \
         --enable-static=no \
         --disable-silent-rules \
+%if %{without bootstrap}
         --enable-gtk \
+%else
+	--disable-gtk \
+	--disable-gtk3 \
+%endif
 %if ! %{WITH_PYTHON}
 	--disable-python \
 %endif
@@ -620,22 +643,37 @@ exit 0
 %{_unitdir}/avahi-dnsconfd.service
 
 %files tools
-%{_bindir}/*
-%{_mandir}/man1/*
-%if %{WITH_PYTHON}
-%exclude %{_bindir}/b*
-%exclude %{_bindir}/avahi-discover*
-%exclude %{_bindir}/avahi-bookmarks
-%exclude %{_mandir}/man1/b*
-%exclude %{_mandir}/man1/avahi-discover*
-%exclude %{_mandir}/man1/avahi-bookmarks*
+%{_bindir}/avahi-browse
+%{_bindir}/avahi-browse-domains
+%{_bindir}/avahi-publish
+%{_bindir}/avahi-publish-address
+%{_bindir}/avahi-publish-service
+%{_bindir}/avahi-resolve
+%{_bindir}/avahi-resolve-address
+%{_bindir}/avahi-resolve-host-name
+%{_bindir}/avahi-set-host-name
+
+%{_mandir}/man1/avahi-browse.1*
+%{_mandir}/man1/avahi-browse-domains.1*
+%{_mandir}/man1/avahi-publish.1*
+%{_mandir}/man1/avahi-publish-address.1*
+%{_mandir}/man1/avahi-publish-service.1*
+%{_mandir}/man1/avahi-resolve.1*
+%{_mandir}/man1/avahi-resolve-address.1*
+%{_mandir}/man1/avahi-resolve-host-name.1*
+%{_mandir}/man1/avahi-set-host-name.1*
 
 %files ui-tools
-%{_bindir}/b*
-%{_bindir}/avahi-discover
+%{_bindir}/bshell
+%{_bindir}/bssh
+%{_bindir}/bvnc
+%{_bindir}/avahi-discover-standalone
+%{_mandir}/man1/bshell.1*
+%{_mandir}/man1/bssh.1*
+%{_mandir}/man1/bvnc.1*
+%if %{WITH_PYTHON}
 # avahi-bookmarks is not really a UI tool, but I won't create a seperate package for it...
 %{_bindir}/avahi-bookmarks
-%{_mandir}/man1/b*
 %{_mandir}/man1/avahi-discover*
 %{_mandir}/man1/avahi-bookmarks*
 %{_datadir}/applications/b*.desktop
@@ -684,6 +722,7 @@ exit 0
 #%{_datadir}/gir-1.0/Avahi-0.6.gir
 #%{_datadir}/gir-1.0/AvahiCore-0.6.gir
 
+%if %{without bootstrap}
 %files ui
 %{_libdir}/libavahi-ui.so.*
 
@@ -696,6 +735,7 @@ exit 0
 %{_includedir}/avahi-ui
 %{_libdir}/pkgconfig/avahi-ui.pc
 %{_libdir}/pkgconfig/avahi-ui-gtk3.pc
+%endif
 
 %if %{WITH_QT3}
 %ldconfig_scriptlets qt3
@@ -780,6 +820,18 @@ exit 0
 
 
 %changelog
+* Thu Oct 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.8-6
+- resurrect ui-tools, not just for python (#1885513)
+
+* Mon Sep 21 2020 Michal Sekletar <msekleta@redhat.com> - 0.8-5
+- Disable bootstrap
+
+* Mon Sep 07 2020 Ondřej Lysoněk <olysonek@redhat.com> - 0.8-4
+- Rebuilt due to libevent rebase
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 22 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.8-2
 - pull in some upstream fixes
 

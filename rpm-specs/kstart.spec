@@ -1,6 +1,6 @@
 Name: kstart
 Version: 4.2
-Release: 11%{?dist}
+Release: 13%{?dist}
 Summary: Daemon version of kinit for Kerberos v5
 License: MIT
 URL: http://www.eyrie.org/~eagle/software/kstart/
@@ -20,10 +20,10 @@ credentials until the command exits.
 %build
 %configure --enable-setpag --enable-reduced-depends --with-aklog=%{_bindir}/aklog
 
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=%{buildroot} INSTALL="install -p"
+%make_install
 
 %files
 %license LICENSE
@@ -34,6 +34,13 @@ make install DESTDIR=%{buildroot} INSTALL="install -p"
 %{_mandir}/man1/krenew.1.gz
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 4.2-12
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

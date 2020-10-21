@@ -1,6 +1,6 @@
 Name:           perl-Business-ISMN
 Version:        1.201
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Perl library for International Standard Music Numbers
 License:        Artistic 2.0
 URL:            https://metacpan.org/release/Business-ISMN
@@ -49,6 +49,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.201-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.201-6
 - Perl 5.32 rebuild
 

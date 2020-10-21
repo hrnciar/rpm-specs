@@ -5,7 +5,7 @@
 Name:           libaccounts-qt
 Summary:        Accounts framework Qt bindings
 Version:        1.16
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 License:        LGPLv2
 URL:            https://gitlab.com/accounts-sso/libaccounts-qt
@@ -99,6 +99,9 @@ rm -fv %{buildroot}%{_bindir}/accountstest
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.16-1
 - 1.16
 - use %%make_build

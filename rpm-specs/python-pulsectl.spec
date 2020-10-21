@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        20.5.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Python high-level interface and ctypes-based bindings for PulseAudio
 
 License:        MIT
@@ -50,6 +50,9 @@ samples to play, player-like client).
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.5.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Paul W. Frields <stickster@gmail.com> - 20.5.1-2
 - New upstream release 20.5.1 (#1837830)
 

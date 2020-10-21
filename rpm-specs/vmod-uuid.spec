@@ -1,7 +1,15 @@
+%if 0%{?rhel} == 7 || 0%{?rhel} == 6
+%global docutils python34-docutils
+%global rst2man rst2man-3.4
+%else
+%global docutils python3-docutils
+%global rst2man rst2man
+%endif
+
 Name: vmod-uuid
 Summary: UUID module for Varnish Cache
-Version: 1.6
-Release: 8%{?dist}
+Version: 1.8
+Release: 2%{?dist}
 License: BSD
 URL: https://github.com/otto-de/libvmod-uuid
 Source0: https://github.com/otto-de/lib%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -20,7 +28,7 @@ BuildRequires: check-devel
 # To build from a git checkout, add these
 BuildRequires: automake
 BuildRequires: libtool
-BuildRequires: python3-docutils
+BuildRequires: %docutils
 BuildRequires: autoconf-archive
 
 %description
@@ -34,6 +42,7 @@ as specified in RFC 4122. See the RFC for details about the various versions.
 
 %build
 ./autogen.sh
+export RST2MAN=%rst2man
 %configure \
   --docdir=%{?_pkgdocdir}%{!?_pkgdocdir:%{_docdir}/%{name}-%{version}}
 
@@ -65,6 +74,17 @@ find %{buildroot}/%{_libdir}/ -name  '*.a' -delete
 
 
 %changelog
+* Tue Sep 29 2020 Ingvar Hagelund <ingvar@redpill-linpro.com> - 1.8-2
+- Built for varnish-6.5.1
+
+* Mon Sep 21 2020 Ingvar Hagelund <ingvar@redpill-linpro.com> - 1.8-1
+- New upstream release 1.8
+- Built for varnish-6.5.0
+- Added hacks for newer varnish on older rhel derivates
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 26 2020 Ingvar Hagelund <ingvar@redpill-linpro.com> - 1.6-8
 - Rebuilt against varnish-6.4.0
 

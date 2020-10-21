@@ -1,5 +1,7 @@
 %global libcurl_version 7.28.0
 
+%define __cmake_in_source_build 1
+
 %if 0%{?rhel} && 0%{?rhel} <= 7
 # Do not build bindings for python3 for RHEL <= 7
 %bcond_with python3
@@ -26,7 +28,7 @@
 %global dnf_conflict 2.8.8
 
 Name:           librepo
-Version:        1.12.0
+Version:        1.12.1
 Release:        1%{?dist}
 Summary:        Repodata downloading library
 
@@ -190,6 +192,20 @@ popd
 %endif
 
 %changelog
+* Wed Oct 07 2020 Nicola Sella <nsella@redhat.com> - 1.12.1-1
+* Update to 1.12.1
+- Validate path read from repomd.xml (RhBug:1868639)
+
+* Fri Aug 07 2020 Nicola Sella <nsella@redhat.com> - 1.12.0-4
+spec: Fix building with new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Nicola Sella <nsella@redhat.com> - 1.12.0-1
 - Update to 1.12.0
 - Decode package URL when using for local filename (RhBug:1817130)

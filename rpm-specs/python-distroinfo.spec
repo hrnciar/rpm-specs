@@ -10,7 +10,7 @@ friendly way. If you consider code reviews human friendly, that is.\
 
 Name:             python-distroinfo
 Version:          0.3.2
-Release:          3%{?dist}
+Release:          4%{?dist}
 Summary:          %{summary}
 License:          ASL 2.0
 URL:              https://github.com/softwarefactory-project/distroinfo
@@ -62,6 +62,9 @@ rm -f {test-,}requirements.txt
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.2-3
 - Rebuilt for Python 3.9
 

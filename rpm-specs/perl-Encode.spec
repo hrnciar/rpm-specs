@@ -1,6 +1,6 @@
 # Because encoding sub-package has an independent version, version macro gets
 # redefined.
-%global cpan_version 3.06
+%global cpan_version 3.07
 Name:           perl-Encode
 Epoch:          4
 Version:        %{cpan_version}
@@ -8,7 +8,7 @@ Version:        %{cpan_version}
 # perl-encoding sub-package has independent version which does not change
 # often and consecutive builds would clash on perl-encoding NEVRA. This is the
 # same case as in perl.spec.
-Release:        456%{?dist}
+Release:        457%{?dist}
 Summary:        Character encodings in Perl
 # ucm:          UCD
 # bin/encguess: Artistic 2.0
@@ -170,6 +170,9 @@ make test
 %{perl_vendorarch}/Encode/encode.h
 
 %changelog
+* Mon Jul 27 2020 Petr Pisar <ppisar@redhat.com> - 4:3.07-457
+- 3.07 bump
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4:3.06-456
 - Increase release to favour standalone package
 

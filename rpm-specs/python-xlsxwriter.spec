@@ -2,7 +2,7 @@
 %global src_name XlsxWriter
 
 Name:		python-%{pypi_name}
-Version:	1.2.9
+Version:	1.3.7
 Release:	1%{?dist}
 Summary:	Python module for writing files in the Excel 2007+ XLSX file format
 License:	BSD
@@ -67,6 +67,43 @@ rm -rf %{src_name}.egg-info
 %{_bindir}/vba_extract.py
 
 %changelog
+* Sun Oct 18 2020 Rajeesh K V <rajeeshknambiar@gmail.com> - 1.3.7-1
+- Version 1.3.7
+- Fixed issue where custom chart data labels didn’t inherit the position
+- Added text alignment for textboxes
+
+* Sun Oct 04 2020 Rajeesh K V <rajeeshknambiar@gmail.com> - 1.3.6-1
+- Version 1.3.6
+- Added the worksheet unprotect_range() method
+- There are now over 1500 test cases in the test suite
+- Version 1.3.5
+- Fixed issue where relative url links in images didn’t work
+- Added use_zip64 as a constructor option
+- Added check, and warning, for worksheet tables with no data row
+- Add a warning when the string length in write_rich_string() exceeds Excel’s limit
+
+* Sun Sep 20 2020 Rajeesh K V <rajeeshknambiar@gmail.com> - 1.3.4-1
+- Replaced internal MD5 with SHA256 digest to avoid issues on OS such as Red Hat
+  in FIPS mode
+
+* Wed Aug 26 2020 Rajeesh K V <rajeeshknambiar@gmail.com> - 1.3.3-1
+- Added ignore_errors() worksheet method; Added warning when closing a file more
+  than once via close()
+
+* Tue Aug 11 2020 Rajeesh K V <rajeeshknambiar@gmail.com> - 1.3.2-1
+- Added Border, Fill, Pattern and Gradient formatting to chart data labels and
+  chart custom data labels
+
+* Tue Aug 04 2020 Rajeesh K V <rajeeshknambiar@fedoraproject.org> - 1.3.1-1
+- Fix for issue where array formulas weren’t included in the output file for
+  certain ranges/conditions
+
+* Thu Jul 30 2020 Rajeesh K V <rajeeshknambiar@fedoraproject.org> - 1.3.0-1
+- Added support for custom chart custom data labels
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Rajeesh K V <rajeeshknambiar@gmail.com> - 1.2.9-1
 - Added support for stacked and percent_stacked Line charts
 

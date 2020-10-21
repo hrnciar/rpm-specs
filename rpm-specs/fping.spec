@@ -1,13 +1,12 @@
 %global _hardened_build 1
 
 Name: fping
-Version: 4.2
-Release: 4%{?dist}
+Version: 5.0
+Release: 1%{?dist}
 Summary: Scriptable, parallelized ping-like utility
 License: BSD with advertising
 URL: http://www.fping.org/
 Source0: http://fping.org/dist/%{name}-%{version}.tar.gz
-Patch0: fping-4.2-gcc10-extern.patch
 
 BuildRequires: gcc
 
@@ -34,6 +33,16 @@ use in scripting in mind.
 %{_mandir}/man8/*
 
 %changelog
+* Sat Jul 25 2020 Charles R. Anderson <cra@alum.wpi.edu> - 5.0-1
+- Update to 5.0
+
+* Sat Jul 25 2020 Charles R. Anderson <cra@alum.wpi.edu> - 4.4-1
+- Update to 4.4
+
+* Tue Jul 21 2020 Charles R. Anderson <cra@alum.wpi.edu> - 4.3-1
+- Update to 4.3
+- No longer need GCC 10 patch
+
 * Sun Feb  2 2020 Charles R. Anderson <cra@wpi.edu> - 4.2-4
 - Patch for GCC 10 requirement to use extern in header files when declaring global variables
 

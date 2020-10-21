@@ -4,7 +4,7 @@
 Name:           perl-CGI-FormBuilder
 %global         cpanversion 3.10
 Version:        %{cpanversion}00
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Easily generate and process stateful forms
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/CGI-FormBuilder
@@ -86,6 +86,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1000-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.1000-14
 - Perl 5.32 rebuild
 

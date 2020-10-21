@@ -1,12 +1,12 @@
 
 Name:           giada
-Version:        0.16.3
+Version:        0.16.4
 Release:        1%{?dist}
 Summary:        An audio looping machine
 
 License:        GPLv3+
 URL:            https://www.giadamusic.com
-Source0:        https://github.com/monocasual/%{name}/archive/v%{version}/%{name}-v%{version}.tar.gz
+Source0:        %{url}/data/%{name}-%{version}-src.tar.gz
 # submitted upstream https://github.com/monocasual/giada/issues/5
 Source1:        giada.desktop
 
@@ -39,7 +39,7 @@ Load or record up to 32 samples, choose to play them in single mode
 keyboard as a controller. Giada aims to be a compact and portable virtual 
 device for Linux for production use and live sets. 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}-%{version}-src
 
 # convert icon
 icotool -x src/ext/giada.ico
@@ -65,6 +65,31 @@ install -D -m 644 giada_1_48x48x32.png %{buildroot}%{_datadir}/pixmaps/giada.png
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Thu Oct 08 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 0.16.4-1
+- New upstream release
+- Support for mono inputs
+- Overdub mode for Sample Channels with optional overdub protection
+- Disable record-on-signal mode when sequencer is running
+- Shift + [click on R button] kills action reading when "Treat one-shot
+  channels with actions as loops" option is on
+- Start MIDI channels automatically after action recording session
+- Fix wrong sample rate conversion when project rate != system rate
+- Fix Wrong begin/end sample markers when loading a project with samplerate != 
+  system.samplerate
+- Fix wrong MIDI learn mapping for master parameters
+- Fix BPM button disabled after audio recording session
+
+* Fri Aug 07 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 0.16.3.1-1
+- New upstream release
+- Resolves: rhbz #1863622
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 0.16.3-1
 - New upstream version
 

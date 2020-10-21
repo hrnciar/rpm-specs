@@ -1,6 +1,6 @@
 Name:		wsil4j
 Version:	1.0
-Release:	21%{?dist}
+Release:	23%{?dist}
 Summary:	Web Services Inspection Language for Java API
 
 License:	ASL 1.1
@@ -62,6 +62,12 @@ zip -u build/lib/%{name}.jar META-INF/MANIFEST.MF
 %license LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.0-22
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

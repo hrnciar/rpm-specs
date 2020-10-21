@@ -25,8 +25,34 @@
 %global LDVERSION_optimized %{pybasever}%{ABIFLAGS_optimized}
 %global LDVERSION_debug     %{pybasever}%{ABIFLAGS_debug}
 
-%global SOABI_optimized cpython-%{pyshortver}%{ABIFLAGS_optimized}-%{_arch}-linux%{_gnu}
-%global SOABI_debug     cpython-%{pyshortver}%{ABIFLAGS_debug}-%{_arch}-linux%{_gnu}
+# https://fedoraproject.org/wiki/Changes/Python_Upstream_Architecture_Names
+# For a very long time we have converted "upstream architecture names" to "Fedora names".
+# This made sense at the time, see https://github.com/pypa/manylinux/issues/687#issuecomment-666362947
+# However, with manylinux wheels popularity growth, this is now a problem.
+# Wheels built on a Linux that doesn't do this were not compatible with ours and vice versa.
+# We now have a compatibility layer to workaround a problem,
+# but we also no longer use the legacy arch names in Fedora 34+.
+# This bcond controls the behavior. The defaults should be good for anybody.
+%if 0%{?fedora} >= 34 || 0%{?rhel} >= 9
+%bcond_with legacy_archnames
+%else
+%bcond_without legacy_archnames
+%endif
+# When we use the upstream arch triplets, we convert them from the legacy ones
+# This is reversed in prep when %%with legacy_archnames, so we keep both macros
+%global platform_triplet_legacy %{_arch}-linux%{_gnu}
+%global platform_triplet_upstream %{expand:%(echo %{platform_triplet_legacy} | sed -E \\
+    -e 's/^arm(eb)?-linux-gnueabi$/arm\\1-linux-gnueabihf/' \\
+    -e 's/^mips64(el)?-linux-gnu$/mips64\\1-linux-gnuabi64/' \\
+    -e 's/^ppc(64)?(le)?-linux-gnu$/powerpc\\1\\2-linux-gnu/')}
+%if %{with legacy_archnames}
+%global platform_triplet %{platform_triplet_legacy}
+%else
+%global platform_triplet %{platform_triplet_upstream}
+%endif
+
+%global SOABI_optimized cpython-%{pyshortver}%{ABIFLAGS_optimized}-%{platform_triplet}
+%global SOABI_debug     cpython-%{pyshortver}%{ABIFLAGS_debug}-%{platform_triplet}
 
 # All bytecode files are now in a __pycache__ subdirectory, with a name
 # reflecting the version of the bytecode (to permit sharing of python libraries
@@ -83,11 +109,11 @@ Name: python%{pybasever}
 Summary: Version %{pybasever} of the Python programming language
 URL: https://www.python.org/
 
-%global general_version %{pybasever}.9
+%global general_version %{pybasever}.10
 #global prerel ...
 %global upstream_version %{general_version}%{?prerel}
 Version: %{general_version}%{?prerel:~%{prerel}}
-Release: 5%{?dist}
+Release: 2%{?dist}
 License: Python
 
 # Whether to use RPM build wheels from the python-{pip,setuptools}-wheel package
@@ -114,6 +140,7 @@ BuildRequires: gcc-c++
 %if %{with_gdbm}
 BuildRequires: gdbm-devel
 %endif
+BuildRequires: git-core
 BuildRequires: glibc-all-langpacks
 BuildRequires: glibc-devel
 BuildRequires: gmp-devel
@@ -195,32 +222,40 @@ Source7: pyfuntop.stp
 # Originally written by bkabrda
 Source8: check-pyc-timestamps.py
 
-# Fixup distutils/unixccompiler.py to remove standard library path from rpath:
-# Was Patch0 in ivazquez' python3000 specfile:
-Patch1:         Python-3.1.1-rpath.patch
+# (Patches taken from github.com/fedora-python/cpython)
 
-# 00055 #
-# Systemtap support: add statically-defined probe points
+# 00001 # 4ce8d6d97da140622e90f3bc3339d602e41f1b14
+# Fixup distutils/unixccompiler.py to remove standard library path from rpath
+# Was Patch0 in ivazquez' python3000 specfile
+Patch1: 00001-rpath.patch
+
+# 00055 # f79a3778fb58416d7d8dad1c92c1fa1e7265ef23
+# Systemtap support
+#
+# Add statically-defined probe points
 # Patch sent upstream as http://bugs.python.org/issue14776
 # with some subsequent reworking to cope with LANG=C in an rpmbuild
 # (where sys.getfilesystemencoding() == 'ascii')
 Patch55: 00055-systemtap.patch
 
+# 00102 # 073ae9c4c844f2ef3acfb24aee5e311a3403b614
+# Change the various install paths to use /usr/lib64/ instead or /usr/lib/
+#
+# Only used when "%%{_lib}" == "lib64".
 Patch102: 00102-lib64.patch
 
-# 00104 #
-# Only used when "%%{_lib}" == "lib64"
-# Another lib64 fix, for distutils/tests/test_install.py; not upstream:
-Patch104: 00104-lib64-fix-for-test_install.patch
-
-# 00111 #
-# Patch the Makefile.pre.in so that the generated Makefile doesn't try to build
-# a libpythonMAJOR.MINOR.a (bug 550692):
-# Downstream only: not appropriate for upstream
+# 00111 # 0b2461b3b5fe0241b8045b65c77e761808a67620
+# Don't try to build a libpythonMAJOR.MINOR.a
+#
+# Downstream only: not appropriate for upstream.
+#
+# See https://bugzilla.redhat.com/show_bug.cgi?id=556092
 Patch111: 00111-no-static-lib.patch
 
-# 00132 #
-# Add non-standard hooks to unittest for use in the "check" phase below, when
+# 00132 # 75c270b8641ddff06c0edf7be7cc444e6debb6d7
+# Add rpmbuild hooks to unittest
+#
+# Add non-standard hooks to unittest for use in the "check" phase, when
 # running selftests within the build:
 #   @unittest._skipInRpmBuild(reason)
 # for tests that hang or fail intermittently within the build environment, and:
@@ -233,55 +268,34 @@ Patch111: 00111-no-static-lib.patch
 # these unittest hooks in their own "check" phases)
 Patch132: 00132-add-rpmbuild-hooks-to-unittest.patch
 
-# 00133 #
-# 00133-skip-test_dl.patch is not relevant for python3: the "dl" module no
-# longer exists
-
-# 00137 #
-# Some tests within distutils fail when run in an rpmbuild:
+# 00137 # ddb14da3b15a1f6cfda5ab94919f624c91294e00
+# Skip tests within distutils failing when run in an rpmbuild
 Patch137: 00137-skip-distutils-tests-that-fail-in-rpmbuild.patch
 
-# 00143 #
-# Fix the --with-tsc option on ppc64, and rework it on 32-bit ppc to avoid
-# aliasing violations (rhbz#698726)
+# 00143 # 4f886e3c73c66a62c1cf93d700f9f20016d7e533
+# Fix the --with-tsc option on ppc64
+#
+# And rework it on 32-bit ppc to avoid aliasing violations
+# See https://bugzilla.redhat.com/show_bug.cgi?id=698726
 # Sent upstream as http://bugs.python.org/issue12872
 Patch143: 00143-tsc-on-ppc.patch
 
-# 00146 #
-# Support OpenSSL FIPS mode (e.g. when OPENSSL_FORCE_FIPS_MODE=1 is set)
-# - handle failures from OpenSSL (e.g. on attempts to use MD5 in a
-#   FIPS-enforcing environment)
-# - add a new "usedforsecurity" keyword argument to the various digest
-#   algorithms in hashlib so that you can whitelist a callsite with
-#   "usedforsecurity=False"
-# (sent upstream for python 3 as http://bugs.python.org/issue9216 ; see RHEL6
-# python patch 119)
-# - enforce usage of the _hashlib implementation: don't fall back to the _md5
-#   and _sha* modules (leading to clearer error messages if fips selftests
-#   fail)
-# - don't build the _md5 and _sha* modules; rely on the _hashlib implementation
-#   of hashlib
-# (rhbz#563986)
-# Note: Up to Python 3.4.0.b1, upstream had their own implementation of what
-# they assumed would become sha3. This patch was adapted to give it the
-# usedforsecurity argument, even though it did nothing (OpenSSL didn't have
-# sha3 implementation at that time).In 3.4.0.b2, sha3 implementation was reverted
-# (see http://bugs.python.org/issue16113), but the alterations were left in the
-# patch, since they may be useful again if upstream decides to rerevert sha3
-# implementation and OpenSSL still doesn't support it. For now, they're harmless.
-Patch146: 00146-hashlib-fips.patch
-
-# 00155 #
+# 00155 # 0ef7ae83073c1bbe610d4678ed56ae775fd6e174
+# avoid allocating thunks in ctypes unless absolutely necessary
+#
 # Avoid allocating thunks in ctypes unless absolutely necessary, to avoid
 # generating SELinux denials on "import ctypes" and "import uuid" when
-# embedding Python within httpd (rhbz#814391)
+# embedding Python within httpd
+# See https://bugzilla.redhat.com/show_bug.cgi?id=814391
 Patch155: 00155-avoid-ctypes-thunks.patch
 
-# 00157 #
-# Update uid/gid handling throughout the standard library: uid_t and gid_t are
-# unsigned 32-bit values, but existing code often passed them through C long
-# values, which are signed 32-bit values on 32-bit architectures, leading to
-# negative int objects for uid/gid values >= 2^31 on 32-bit architectures.
+# 00157 # 9e7157d043899e27b602630edb78d7c395ed2f8b
+# Update uid/gid handling throughout the standard library
+#
+# uid_t and gid_t are unsigned 32-bit values, but existing code often passed
+# them through C long values, which are signed 32-bit values on 32-bit
+# architectures, leading to negative int objects for uid/gid values >= 2^31
+# on 32-bit architectures.
 #
 # Introduce _PyObject_FromUid/Gid to convert uid_t/gid_t values to python
 # objects, using int objects where the value will fit (long objects otherwise),
@@ -290,47 +304,47 @@ Patch155: 00155-avoid-ctypes-thunks.patch
 #
 # Update standard library to use this throughout for uid/gid values, so that
 # very large uid/gid values are round-trippable, and -1 remains usable.
-# (rhbz#697470)
+# See https://bugzilla.redhat.com/show_bug.cgi?id=697470
 Patch157: 00157-uid-gid-overflows.patch
 
-# 00160 #
+# 00160 # f69288aba24c43c506c3e90e2aa658e436e76e72
+# Disable test_fs_holes in RPM build
+#
 # Python 3.3 added os.SEEK_DATA and os.SEEK_HOLE, which may be present in the
 # header files in the build chroot, but may not be supported in the running
 # kernel, hence we disable this test in an rpm build.
 # Adding these was upstream issue http://bugs.python.org/issue10142
-# Not yet sent upstream
 Patch160: 00160-disable-test_fs_holes-in-rpm-build.patch
 
-# 00163 #
+# 00163 # 88e26259f7da12e17adb936815aa421d84c69f09
+# Disable parts of test_socket in RPM build
+#
 # Some tests within test_socket fail intermittently when run inside Koji;
 # disable them using unittest._skipInRpmBuild
-# Not yet sent upstream
 Patch163: 00163-disable-parts-of-test_socket-in-rpm-build.patch
 
-# 00170 #
+# 00170 # b83c202ebc888d0ce38cc7017663c824a1df5237
+# In debug builds, try to print repr() when a C-level assert fails
+#
 # In debug builds, try to print repr() when a C-level assert fails in the
 # garbage collector (typically indicating a reference-counting error
 # somewhere else e.g in an extension module)
-# Backported to 2.7 from a patch I sent upstream for py3k
-#   http://bugs.python.org/issue9263  (rhbz#614680)
-# hiding the proposed new macros/functions within gcmodule.c to avoid exposing
+# The new macros/functions within gcmodule.c are hidden to avoid exposing
 # them within the extension API.
-# (rhbz#850013
+# Sent upstream: http://bugs.python.org/issue9263
+# See https://bugzilla.redhat.com/show_bug.cgi?id=614680
 Patch170: 00170-gc-assertions.patch
 
-# 00178 #
+# 00178 # a94ff354536408c95c354df86deb0a1633ac4c4d
 # Don't duplicate various FLAGS in sysconfig values
+#
 # http://bugs.python.org/issue17679
 # Does not affect python2 AFAICS (different sysconfig values initialization)
 Patch178: 00178-dont-duplicate-flags-in-sysconfig.patch
 
-# 00180 #
-# Enable building on ppc64p7
-# Not appropriate for upstream, Fedora-specific naming
-Patch180: 00180-python-add-support-for-ppc64p7.patch
-
-# 00186 #
+# 00186 # e84b8f1eb8d092ffde6382b983133f60c8cbc0b8
 # Fix for https://bugzilla.redhat.com/show_bug.cgi?id=1023607
+#
 # Previously, this fixed a problem where some *.py files were not being
 # bytecompiled properly during build. This was result of py_compile.compile
 # raising exception when trying to convert test file with bad encoding, and
@@ -338,7 +352,9 @@ Patch180: 00180-python-add-support-for-ppc64p7.patch
 # This was fixed upstream, but the test hasn't been merged yet, so we keep it
 Patch186: 00186-dont-raise-from-py_compile.patch
 
-# 00188 #
+# 00188 # d6d36f893f2d0413e259e73b3a6295b40488f009
+# Fix lib2to3 tests when hashlib doesn't compile properly
+#
 # Downstream only patch that should be removed when we compile all guaranteed
 # hashlib algorithms properly. The problem is this:
 # - during tests, test_hashlib is imported and executed before test_lib2to3
@@ -353,29 +369,28 @@ Patch186: 00186-dont-raise-from-py_compile.patch
 #   relying on this will fail (test_filename_changing_on_output_single_dir)
 Patch188: 00188-fix-lib2to3-tests-when-hashlib-doesnt-compile-properly.patch
 
-# 00189 #
-# Instead of bundled wheels, use our RPM packaged wheels from
-# /usr/share/python-wheels
+# 00189 # 15a0492e41d13b4513befef87bc943f19498c09b
+# Instead of bundled wheels, use our RPM packaged wheels
+#
+# We keep them in /usr/share/python-wheels
 Patch189: 00189-use-rpm-wheels.patch
+# The following versions of setuptools/pip are bundled when this patch is not applied.
+# The versions are written in Lib/ensurepip/__init__.py, this patch removes them.
+# When the bundled setuptools/pip wheel is updated, the patch no longer applies cleanly.
+# In such cases, the patch needs to be amended and the versions updated here:
+%global pip_version 9.0.1
+%global setuptools_version 28.8.0
 
-# 00205 #
+# 00205 # acb31cbf04decda6abbf87ab7682dfcba07433c8
+# Make LIBPL respect lib64
+#
 # LIBPL variable in makefile takes LIBPL from configure.ac
 # but the LIBPL variable defined there doesn't respect libdir macro
 Patch205: 00205-make-libpl-respect-lib64.patch
 
-# 00206 #
-# Remove hf flag from arm triplet which is used
-# by debian but fedora infra uses only eabi without hf
-Patch206: 00206-remove-hf-from-arm-triplet.patch
-
-# 00243 #
-# Fix the triplet used on 64-bit MIPS
-# rhbz#1322526: https://bugzilla.redhat.com/show_bug.cgi?id=1322526
-# Upstream uses Debian-like style mips64-linux-gnuabi64
-# Fedora needs the default mips64-linux-gnu
-Patch243: 00243-fix-mips64-triplet.patch
-
-# 00264 #
+# 00264 # 7abc0ebe38ad77b08cde6d3e4914e0e724154d89
+# Fix test failing on aarch64
+#
 # test_pass_by_value was added in Python 3.5.4 and on aarch64
 # it is catching an error that was there, but wasn't tested before.
 # Since the Python 3.5 branch is on security bug fix mode only
@@ -383,32 +398,43 @@ Patch243: 00243-fix-mips64-triplet.patch
 # Fixed upstream: http://bugs.python.org/issue29804
 Patch264: 00264-fix-test-failing-on-aarch64.patch
 
-# 00270 #
-# Fix test_alpn_protocols from test_ssl as openssl > 1.1.0f
-# changed the behaviour of the ALPN hook.
+# 00270 # b71de510b1d74e9c8952ccc73712c54ef181325b
+# Fix test_alpn_protocols from test_ssl
+#
+# openssl > 1.1.0f changed the behaviour of the ALPN hook.
 # Fixed upstream: http://bugs.python.org/issue30714
 Patch270: 00270-fix-ssl-alpn-hook-test.patch
 
-# 00273 #
+# 00273 # 13dac13ccb8b184ec60d3ef6920ec24cba4bdb79
 # Skip test_float_with_comma, which fails in Koji with UnicodeDecodeError
+#
 # See https://bugzilla.redhat.com/show_bug.cgi?id=1484497
 # Reported upstream: https://bugs.python.org/issue31900
 Patch273: 00273-skip-float-test.patch
 
-# 00290 #
+# 00290 # 2f09d1fb6b997ff7e57244628b8d7cd8ac6a2c11
+# Include crypt.h for declaration of crypt
+#
 # Not every target system may provide a crypt() function in its stdlibc
 # and may use an external or replacement library, like libxcrypt, for
 # providing such functions.
 # Fixed upstream: https://bugs.python.org/issue32635
 Patch290: 00290-cryptmodule-Include-crypt.h-for-declaration-of-crypt.patch
 
-# 00315 #
+# 00315 # 3958b022be96dd973bf0f0ac81a6411b5553649f
 # Fix mktime() error in test_email
+#
+# Fix mktime() overflow error in test_email: run
+# test_localtime_daylight_true_dst_true() and
+# test_localtime_daylight_false_dst_true() with a specific timezone.
+#
 # http://bugs.python.org/issue35317
 # https://bugzilla.redhat.com/show_bug.cgi?id=1652843
 Patch315: 00315-test_email-mktime.patch
 
-# 00343 #
+# 00343 # 058ff9673b969960dd94fe336cc2e93ff8a1c675
+# Fix test_faulthandler on GCC 10
+#
 # bpo-38965: Fix faulthandler._stack_overflow() on GCC 10
 # Fixed upstream and backported from the 3.7 branch:
 # https://bugs.python.org/issue38965
@@ -419,12 +445,38 @@ Patch315: 00315-test_email-mktime.patch
 # https://github.com/python/cpython/commit/ac827edc493d3ac3f5b9b0cc353df1d4b418a9aa
 Patch343: 00343-faulthandler-gcc10.patch
 
-# 00348 #
-# bpo-34652: Always disable lchmod on Linux.
+# 00348 # 4665197982c61e99325fbdf5c737550650ebdcb3
+# Always disable lchmod on Linux.
+#
 # Backport of commit, upstream is doing only security fixes for python35
 # https://bugs.python.org/issue34652
 # https://github.com/python/cpython/commit/40caa05fa4d1810a1a6bfc34e0ec930c351089b7
 Patch348: 00348-always-disable-lchmod.patch
+
+# 00353 # d246570e993ea9c55de96d39450b5cb12756a478
+# Original names for architectures with different names downstream
+#
+# https://fedoraproject.org/wiki/Changes/Python_Upstream_Architecture_Names
+#
+# Pythons in RHEL/Fedora used different names for some architectures
+# than upstream and other distros (for example ppc64 vs. powerpc64).
+# This was patched in patch 274, now it is sedded if %%with legacy_archnames.
+#
+# That meant that an extension built with the default upstream settings
+# (on other distro or as an manylinux wheel) could not been found by Python
+# on RHEL/Fedora because it had a different suffix.
+# This patch adds the legacy names to importlib so Python is able
+# to import extensions with a legacy architecture name in its
+# file name.
+# It work both ways, so it support both %%with and %%without legacy_archnames.
+#
+# WARNING: This patch has no effect on Python built with bootstrap
+# enabled because Python/importlib_external.h is not regenerated
+# and therefore Python during bootstrap contains importlib from
+# upstream without this feature. It's possible to include
+# Python/importlib_external.h to this patch but it'd make rebasing
+# a nightmare because it's basically a binary file.
+Patch353: 00353-architecture-names-upstream-downstream.patch
 
 # (New patches go here ^^^)
 #
@@ -434,11 +486,6 @@ Patch348: 00348-always-disable-lchmod.patch
 # More information, and a patch number catalog, is at:
 #
 #     https://fedoraproject.org/wiki/SIGs/Python/PythonPatches
-
-
-# add correct arch for ppc64/ppc64le
-# it should be ppc64le-linux-gnu/ppc64-linux-gnu instead powerpc64le-linux-gnu/powerpc64-linux-gnu
-Patch5001: python3-powerppc-arch.patch
 
 
 # ======================================================
@@ -455,8 +502,8 @@ Patch5001: python3-powerppc-arch.patch
 Requires: python-setuptools-wheel
 Requires: python-pip-wheel
 %else
-Provides: bundled(python3-pip) = 9.0.1
-Provides: bundled(python3-setuptools) = 28.8.0
+Provides: bundled(python3dist(pip)) = %{pip_version}
+Provides: bundled(python3dist(setuptools)) = %{setuptools_version}
 %endif
 
 %description
@@ -475,7 +522,39 @@ or older Fedora releases.
 
 %prep
 %gpgverify -k2 -s1 -d0
-%setup -q -n Python-%{upstream_version}
+%autosetup -S git_am -N -n Python-%{upstream_version}
+
+# Apply initial patches manually
+%apply_patch -q %{PATCH1}
+
+%if 0%{?with_systemtap}
+%apply_patch -q %{PATCH55}
+%endif
+
+%if "%{_lib}" == "lib64"
+%apply_patch -q %{PATCH102}
+%endif
+
+%apply_patch -q %{PATCH111}
+%apply_patch -q %{PATCH132}
+%apply_patch -q %{PATCH137}
+%apply_patch -q %{PATCH143}
+%apply_patch -q %{PATCH155}
+%apply_patch -q %{PATCH157}
+%apply_patch -q %{PATCH160}
+%apply_patch -q %{PATCH163}
+%apply_patch -q %{PATCH170}
+%apply_patch -q %{PATCH178}
+%apply_patch -q %{PATCH186}
+%apply_patch -q %{PATCH188}
+
+%if %{with rpmwheels}
+%apply_patch -q %{PATCH189}
+rm Lib/ensurepip/_bundled/*.whl
+%endif
+
+# Apply the remaining patches
+%autopatch -m 190
 
 %if 0%{?with_systemtap}
 # Provide an example of usage of the tapset:
@@ -509,51 +588,6 @@ rm -r Modules/zlib || exit 1
 #    rm Modules/$f
 #done
 
-#
-# Apply patches:
-#
-%patch1 -p1
-
-%if 0%{?with_systemtap}
-%patch55 -p1 -b .systemtap
-%endif
-
-%if "%{_lib}" == "lib64"
-%patch102 -p1
-%patch104 -p1
-%endif
-%patch111 -p1
-%patch132 -p1
-%patch137 -p1
-%patch143 -p1 -b .tsc-on-ppc
-#patch146 -p1
-%patch155 -p1
-%patch157 -p1
-%patch160 -p1
-%patch163 -p1
-%patch170 -p0
-%patch178 -p1
-%patch180 -p1
-%patch186 -p1
-%patch188 -p1
-
-%if %{with rpmwheels}
-%patch189 -p1
-rm Lib/ensurepip/_bundled/*.whl
-rmdir Lib/ensurepip/_bundled
-%endif
-
-%patch205 -p1
-%patch206 -p1
-%patch243 -p1
-%patch264 -p1
-%patch270 -p1
-%patch273 -p1
-%patch290 -p1
-%patch315 -p1
-%patch343 -p1
-%patch348 -p1
-
 # Currently (2010-01-15), http://docs.python.org/library is for 2.6, and there
 # are many differences between 2.6 and the Python 3 library.
 #
@@ -564,13 +598,25 @@ sed --in-place \
     --expression="s|http://docs.python.org/library|http://docs.python.org/%{pybasever}/library|g" \
     Lib/pydoc.py || exit 1
 
-%patch5001 -p1
+# When we use the legacy arch names, we need to change them in configure and configure.ac
+%if %{with legacy_archnames}
+sed -i configure configure.ac \
+    -e 's/\b%{platform_triplet_upstream}\b/%{platform_triplet_legacy}/'
+%endif
+
 
 # ======================================================
 # Configuring and building the code:
 # ======================================================
 
 %build
+
+# The build process embeds version info extracted from the Git repository
+# into the Py_GetBuildInfo and sys.version strings.
+# Our Git repository is artificial, so we don't want that.
+# Tell configure to not use git.
+export HAS_GIT=not-found
+
 topdir=$(pwd)
 export CFLAGS="$RPM_OPT_FLAGS -D_GNU_SOURCE -fPIC -fwrapv"
 export CXXFLAGS="$RPM_OPT_FLAGS -D_GNU_SOURCE -fPIC -fwrapv"
@@ -627,7 +673,11 @@ BuildPython() {
   #    missing symbol AnnotateRWLockDestroy
   #
   # Invoke the build:
-  make EXTRA_CFLAGS="$CFLAGS $MoreCFlags" %{?_smp_mflags}
+
+  # Regenerate generated importlib frozen modules (see patch 353)
+  %make_build EXTRA_CFLAGS="$CFLAGS $MoreCFlags" regen-importlib
+
+  %make_build EXTRA_CFLAGS="$CFLAGS $MoreCFlags"
 
   popd
   echo FINISHED: BUILD OF PYTHON FOR CONFIGURATION: $ConfDir
@@ -680,7 +730,7 @@ InstallPython() {
 
   pushd $ConfDir
 
-make install DESTDIR=%{buildroot} INSTALL="install -p" EXTRA_CFLAGS="$MoreCFlags"
+  %make_install EXTRA_CFLAGS="$MoreCFlags"
 
   popd
 
@@ -755,16 +805,6 @@ install -d -m 0755 %{buildroot}/%{_prefix}/lib/python%{pybasever}/site-packages/
 %else
 %global _pyconfig_h %{_pyconfig32_h}
 %endif
-
-# ABIFLAGS, LDVERSION and SOABI are in the upstream Makefile
-%global ABIFLAGS_optimized m
-%global ABIFLAGS_debug     dm
-
-%global LDVERSION_optimized %{pybasever}%{ABIFLAGS_optimized}
-%global LDVERSION_debug     %{pybasever}%{ABIFLAGS_debug}
-
-%global SOABI_optimized cpython-%{pyshortver}%{ABIFLAGS_optimized}-%{_arch}-linux%{_gnu}
-%global SOABI_debug     cpython-%{pyshortver}%{ABIFLAGS_debug}-%{_arch}-linux%{_gnu}
 
 %if 0%{?with_debug_build}
 %global PyIncludeDirs python%{LDVERSION_optimized} python%{LDVERSION_debug}
@@ -973,6 +1013,8 @@ CheckPython() {
   #   @unittest._expectedFailureInRpmBuild
   # test_faulthandler.test_register_chain currently fails on ppc64le and
   #   aarch64, see upstream bug http://bugs.python.org/issue21131
+  # all SSL related tests are skipped
+  #   see https://mail.python.org/archives/list/python-dev@python.org/message/3Z6X4LPSNRHHW4QPLLAVSNYY6CS6DDNR/
   WITHIN_PYTHON_RPM_BUILD= \
   LD_LIBRARY_PATH=$ConfDir $ConfDir/python -m test.regrtest \
     --verbose --findleaks \
@@ -986,6 +1028,12 @@ CheckPython() {
     %ifarch %{power64} s390 s390x armv7hl aarch64 %{mips}
     -x test_gdb \
     %endif
+    -x test_asyncio \
+    -x test_ftplib \
+    -x test_httplib \
+    -x test_poplib \
+    -x test_ssl\
+    -x test_urllib2_localnet \
 
   echo FINISHED: CHECKING OF PYTHON FOR CONFIGURATION: $ConfName
 
@@ -1069,6 +1117,31 @@ CheckPython optimized
 # ======================================================
 
 %changelog
+* Mon Oct 05 2020 Miro Hrončok <mhroncok@redhat.com> - 3.5.10-2
+- Use upstream architecture names on Fedora 34+
+- https://fedoraproject.org/wiki/Changes/Python_Upstream_Architecture_Names
+
+* Mon Sep 07 2020 Tomas Hrnciar <thrnciar@redhat.com> - 3.5.10-1
+- Update to 3.5.10
+
+* Tue Aug 25 2020 Tomas Hrnciar <thrnciar@redhat.com> - 3.5.10rc1-1
+- Update to 3.5.10rc1
+
+* Wed Aug 12 2020 Petr Viktorin <pviktori@redhat.com> - 3.5.9-9
+- In sys.version and initial REPL message, list the source commit as "default"
+
+* Thu Aug 06 2020 Lumír Balhar <lbalhar@redhat.com> - 3.5.9-8
+- Add support for upstream architectures' names (patch 353)
+
+* Tue Aug 04 2020 Miro Hrončok <mhroncok@redhat.com> - 3.5.9-7
+- Avoid infinite loop when reading specially crafted TAR files (CVE-2019-20907)
+Resolves: rhbz#1856481
+- Resolve hash collisions for Pv4Interface and IPv6Interface (CVE-2020-14422)
+Resolves: rhbz#1854926
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.9-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 06 2020 Miro Hrončok <mhroncok@redhat.com> - 3.5.9-5
 - Rename from python35 to python3.5
 

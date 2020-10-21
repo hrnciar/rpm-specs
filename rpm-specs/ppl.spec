@@ -1,6 +1,6 @@
 Name:			ppl
 Version:		1.2
-Release:		16%{?dist}
+Release:		18%{?dist}
 Summary:		The Parma Polyhedra Library: a library of numerical abstractions
 License:		GPLv3+
 URL:			http://www.bugseng.com/ppl
@@ -146,7 +146,7 @@ CPPFLAGS="$CPPFLAGS -I%{_libdir}/gprolog-`gprolog --version 2>&1 | head -1 | sed
 # The javah tool was removed in JDK 10
 if [ ! -e %{_bindir}/javah ]; then
   export JAVAH="%{_bindir}/javac"
-  sed -e 's/\$(JAVAC)/& -h ./' \
+  sed -e 's/\$(JAVAC)/& -h . -source 1.8 -target 1.8/' \
       -e '/^java_cxx_headers\.stamp$/d' \
       -i interfaces/Java/parma_polyhedra_library/Makefile.in
 fi
@@ -157,7 +157,7 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %make_build
 
 %install
-make DESTDIR=%{buildroot} INSTALL="%{__install} -p" install
+%make_install INSTALL="%{__install} -p"
 rm -f %{buildroot}%{_libdir}/*.la %{buildroot}%{_libdir}/%{name}/*.la
 
 # Do not install the swiprolog-static file, since pl-static no longer exists
@@ -281,6 +281,12 @@ mv \
 %doc %{_datadir}/doc/%{name}/ppl-user-prolog-interface-%{version}.ps.gz
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.2-17
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu May 28 2020 Jerry James <loganjerry@gmail.com> - 1.2-16
 - Rebuild for pl 8.2.0
 - Add -pl82 patch

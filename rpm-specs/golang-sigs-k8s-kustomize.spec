@@ -4,6 +4,7 @@
 # https://github.com/kubernetes-sigs/kustomize
 %global goipath         sigs.k8s.io/kustomize
 %global forgeurl        https://github.com/kubernetes-sigs/kustomize
+# Do not update to 3.x.x, needed by k8s stack at 2.x.x
 Version:                2.0.3
 
 %gometa
@@ -21,13 +22,15 @@ like sed, in that it emits edited text.}
                         README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        Customization of kubernetes YAML configurations
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+# Fix error in 2.0.3
+Patch0:         Fix-myProperties-type.patch
 
 BuildRequires:  golang(github.com/evanphx/json-patch)
 BuildRequires:  golang(github.com/ghodss/yaml)
@@ -61,6 +64,7 @@ BuildRequires:  golang(gopkg.in/yaml.v2)
 
 %prep
 %goprep
+%patch0 -p1
 
 %build
 %gobuild -o %{gobuilddir}/bin/kustomize %{goipath}
@@ -72,7 +76,7 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
-%gocheck -d pkg/fs
+%gocheck -d pkg/fs -d k8sdeps/transformer/hash
 %endif
 
 %files
@@ -83,6 +87,16 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Aug 17 23:47:23 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.0.3-6
+- Add patch to fix myProperties type
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

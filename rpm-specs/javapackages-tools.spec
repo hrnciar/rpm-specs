@@ -9,7 +9,7 @@
 %bcond_without asciidoc
 %bcond_with gradle
 %bcond_without tests
-%bcond_with xmvn_javadoc
+%bcond_without xmvn_javadoc
 
 %if 0%{?fedora} || 0%{?rhel} > 7
 %global python_prefix python3
@@ -20,12 +20,12 @@
 %global rpmmacrodir /etc/rpm
 %endif
 
-%global default_jdk %{?_root_prefix}%{!?_root_prefix:%{_prefix}}/lib/jvm/java-1.8.0-openjdk
-%global default_jre %{?_root_prefix}%{!?_root_prefix:%{_prefix}}/lib/jvm/jre-1.8.0-openjdk
+%global default_jdk %{?_root_prefix}%{!?_root_prefix:%{_prefix}}/lib/jvm/java-11-openjdk
+%global default_jre %{?_root_prefix}%{!?_root_prefix:%{_prefix}}/lib/jvm/jre-11-openjdk
 
 Name:           javapackages-tools
 Version:        5.3.0
-Release:        10%{?dist}
+Release:        13%{?dist}
 
 Summary:        Macros and scripts for Java packaging support
 
@@ -57,7 +57,7 @@ Requires:       coreutils
 Requires:       findutils
 Requires:       which
 # default JRE
-Requires:       java-1.8.0-openjdk-headless
+Requires:       java-11-openjdk-headless
 
 Provides:       jpackage-utils = %{version}-%{release}
 # These could be generated automatically, but then we would need to
@@ -144,7 +144,7 @@ Requires:       xmvn-install
 Requires:       xmvn-subst
 Requires:       xmvn-resolve
 # Java build systems don't have hard requirement on java-devel, so it should be there
-Requires:       java-1.8.0-openjdk-devel
+Requires:       java-11-openjdk-devel
 Requires:       %{python_prefix}-javapackages = %{version}-%{release}
 Requires:       %{python_interpreter}
 
@@ -204,8 +204,20 @@ rm -rf %{buildroot}%{_mandir}/man7/gradle_build.7
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 5.3.0-12
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Wed Jun 10 2020 Mikolaj Izdebski <mizdebsk@redhat.com> - 5.3.0-11
+- Use XMvn Javadoc MOJO for generating API docs
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.3.0-10
 - Rebuilt for Python 3.9
+
+* Tue Apr 28 2020 Mikolaj Izdebski <mizdebsk@redhat.com> - 5.3.0-10
+- Switch to OpenJDK 11 as default JDK
 
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild

@@ -1,6 +1,6 @@
 Name:           aterm
 Version:        1.0.1
-Release:        30%{?dist}
+Release:        31%{?dist}
 
 Summary:        Afterstep XVT, VT102 emulator for the X Window system
 License:        GPLv2+
@@ -59,6 +59,9 @@ desktop-file-install --dir=$RPM_BUILD_ROOT%{_datadir}/applications %{SOURCE1}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

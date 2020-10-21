@@ -1,6 +1,8 @@
+%define __cmake_in_source_build 1
+
 Name:           openal-soft
 Version:        1.19.1
-Release:        5%{?dist}
+Release:        9%{?dist}
 Summary:        Open Audio Library
 
 License:        LGPLv2+
@@ -12,9 +14,11 @@ Patch1:         openal-soft-fcommon-fix.patch
 BuildRequires:  alsa-lib-devel
 BuildRequires:  cmake
 BuildRequires:  fluidsynth-devel
+BuildRequires:  gcc
+BuildRequires:  gcc-c++
 BuildRequires:  portaudio-devel
 BuildRequires:  pulseaudio-libs-devel
-BuildRequires:  qt5-devel
+BuildRequires:  qt5-qtbase-devel
 BuildRequires:  SDL2-devel
 BuildRequires:  SDL_sound-devel
 Obsoletes:      openal <= 0.0.10
@@ -106,6 +110,21 @@ sed -i 's/#allow-moves = false/allow-moves = true/' \
 %{_bindir}/alsoft-config
 
 %changelog
+* Tue Aug 04 2020 François Cami <fcami@fedoraproject.org> - 1.19.1-9
+- Fix FTBFS (rhbz#1865148)
+- Set __cmake_in_source_build
+- BR qt5-qtbase-devel to keep the GUI frontend
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.19.1-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.19.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Jeff Law <law@redhat.com> - 1.19.1-6
+- Drop qt5-devel buildrequires
+
 * Sun Feb 16 2020 Hans de Goede <hdegoede@redhat.com> - 1.19.1-5
 - Fix FTBFS (rhbz#1799829)
 

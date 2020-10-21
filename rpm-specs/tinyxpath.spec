@@ -1,6 +1,6 @@
 Name:           tinyxpath
 Version:        1.3.1
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Small XPath syntax decoder
 
 License:        zlib
@@ -103,6 +103,9 @@ ln -s lib%{name}.so.0.1 %{buildroot}%{_libdir}/lib%{name}.so
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

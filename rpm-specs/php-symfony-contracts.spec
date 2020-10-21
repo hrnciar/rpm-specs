@@ -6,7 +6,7 @@
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    f51bca9de06b7a25b19a4155da7bebad099a5def
+%global gh_commit    011c20407c4b99d454f44021d023fb39ce23b73d
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     symfony
 %global gh_project   contracts
@@ -21,8 +21,8 @@
 %global with_tests   0%{!?_without_tests:1}
 
 Name:           php-%{pk_vendor}-%{pk_project}
-Version:        1.1.8
-Release:        2%{?gh_date:.%{gh_date}git%{gh_short}}%{?dist}
+Version:        1.1.10
+Release:        1%{?gh_date:.%{gh_date}git%{gh_short}}%{?dist}
 Summary:        A set of abstractions extracted out of the Symfony
 
 License:        MIT
@@ -49,7 +49,7 @@ BuildRequires:  php-composer(fedora/autoloader)
 %endif
 
 # From composer.json, "require": {
-#        "php": "^7.1.3"
+#        "php": ">=7.1.3"
 #        "psr/cache": "^1.0",
 #        "psr/container": "^1.0"
 Requires:       php(language) >= 7.1.3
@@ -154,6 +154,12 @@ exit $ret
 
 
 %changelog
+* Wed Sep  9 2020 Remi Collet <remi@remirepo.net> - 1.1.10-1
+- update to 1.1.10
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.8-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           vorbisgain
 Version:        0.36
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        Adds tags to Ogg Vorbis files to adjust the volume
 
 License:        LGPLv2
@@ -49,6 +49,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.36-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.36-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

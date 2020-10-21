@@ -7,9 +7,18 @@ to nyx.\
 From a technical standpoint, Stem is a Python implementation of Tor's\
 directory and control specifications.
 
+# Enable tests conditionally
+# https://bugzilla.redhat.com/show_bug.cgi?id=1797690
+# https://github.com/torproject/stem/issues/71
+%if 0%{?fedora} > 32 || 0%{?rhel} > 5
+%global tests_enabled 0
+%else
+%global tests_enabled 1
+%endif
+
 Name:           python-stem
 Version:        1.8.0
-Release:        4%{?dist}
+Release:        8%{?dist}
 Summary:        Python controller library for Tor
 # All source code is LGPLv3 except stem/util/ordereddict.py which is MIT
 License:        LGPLv3 and MIT
@@ -23,10 +32,12 @@ BuildRequires:  python3-devel
 # Doc building
 BuildRequires:  python3-sphinx
 # Testing
+%if %{?tests_enabled}
 BuildRequires:  python3-mock
-BuildRequires:  python3-crypto
-BuildRequires:  python3-pytest-flakes
+BuildRequires:  python3-cryptography
+BuildRequires:  python3-pyflakes
 BuildRequires:  python3-pycodestyle
+%endif
 
 %description %_description
 
@@ -60,7 +71,9 @@ find docs/_build -name .buildinfo -delete
 install -D -m 0644 docs/_build/man/%{srcname}.1 %{buildroot}%{_mandir}/man1/%{srcname}.1
 
 %check
-#%%{__python3} run_tests.py --unit
+%if %{?tests_enabled}
+%{__python3} run_tests.py --unit
+%endif
 
 %files -n python3-%{srcname}
 %license LICENSE
@@ -74,6 +87,18 @@ install -D -m 0644 docs/_build/man/%{srcname}.1 %{buildroot}%{_mandir}/man1/%{sr
 %{_mandir}/man1/%{srcname}.1*
 
 %changelog
+* Tue Aug 04 2020 Juan Orti Alcaine <jortialc@redhat.com> - 1.8.0-8
+- Fix distribution release check in spec file
+
+* Mon Aug 03 2020 Juan Orti Alcaine <jortialc@redhat.com> - 1.8.0-7
+- Disable tests in epel8
+
+* Mon Aug 03 2020 Juan Orti Alcaine <jortialc@redhat.com> - 1.8.0-6
+- Enable tests conditionally
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 31 2020 Juan Orti Alcaine <jortialc@redhat.com> - 1.8.0-4
 - Disable tests for now (RHBZ#1797690)
 

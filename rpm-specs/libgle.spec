@@ -1,7 +1,7 @@
 Summary: A Tubing and Extrusion Library for OpenGL
 Name: libgle
 Version: 3.1.0
-Release: 21%{?dist}
+Release: 22%{?dist}
 License: GPLv2 or (Artistic clarified and MIT)
 URL: http://www.linas.org/gle/
 Source: http://www.linas.org/gle/pub/gle-%{version}.tar.gz
@@ -69,6 +69,9 @@ mv $RPM_BUILD_ROOT%{_docdir}/gle docs
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:       nodejs-forever-agent
 Version:    0.6.1
-Release:    9%{?dist}
+Release:    10%{?dist}
 Summary:    HTTP Agent that keeps socket connections alive between keep-alive requests
 License:    ASL 2.0
 URL:        https://github.com/mikeal/forever-agent
@@ -35,6 +35,9 @@ cp -pr index.js package.json %{buildroot}%{nodejs_sitelib}/forever-agent
 %{nodejs_sitelib}/forever-agent
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

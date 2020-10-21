@@ -2,8 +2,8 @@
 
 Name:           python-%{pypi_name}
 Version:        0.2.0
-Release:        7%{?dist}
-Summary:        A set of third-party serializers for Betamax
+Release:        9%{?dist}
+Summary:        Set of third-party serializers for Betamax
 
 License:        ASL 2.0
 URL:            https://gitlab.com/betamax/serializers
@@ -17,6 +17,7 @@ A set of third-party serializers for Betamax.
 Summary:        %{summary}
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-PyYAML
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
@@ -39,6 +40,12 @@ A set of third-party serializers for Betamax.
 %{python3_sitelib}/betamax_serializers/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.2.0-8
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.0-7
 - Rebuilt for Python 3.9
 

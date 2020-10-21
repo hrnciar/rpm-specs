@@ -9,7 +9,7 @@
 
 Name:           rust-%{crate}
 Version:        0.4.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Sys crate for the rust_hawktracer library
 
 # Upstream license specification: MIT/Apache-2.0
@@ -140,6 +140,9 @@ rm -rf hawktracer/tools/
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Josh Stone <jistone@redhat.com> - 0.4.2-3
 - Bump bindgen to 0.54
 

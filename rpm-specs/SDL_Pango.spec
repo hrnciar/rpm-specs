@@ -1,7 +1,7 @@
 Summary: Rendering of internationalized text for SDL (Simple DirectMedia Layer)
 Name: SDL_Pango
 Version: 0.1.2
-Release: 30%{?dist}
+Release: 32%{?dist}
 License: LGPLv2+
 URL: http://sdlpango.sourceforge.net/
 
@@ -69,6 +69,13 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-32
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

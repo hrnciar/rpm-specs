@@ -2,18 +2,22 @@
 %define release_version %(echo %{version} | awk -F. '{print $1"."$2}')
 
 Name:           libsigc++20
-Version:        2.10.3
+Version:        2.10.4
 Release:        1%{?dist}
 Summary:        Typesafe signal framework for C++
 
 License:        LGPLv2+
-URL:            http://libsigc.sourceforge.net/
-Source0:        http://download.gnome.org/sources/libsigc++/%{release_version}/libsigc++-%{version}.tar.xz
+URL:            https://github.com/libsigcplusplus/libsigcplusplus
+Source0:        https://download.gnome.org/sources/libsigc++/%{release_version}/libsigc++-%{version}.tar.xz
 
+BuildRequires:  docbook-style-xsl
+BuildRequires:  doxygen
 BuildRequires:  gcc-c++
+BuildRequires:  libxslt
 BuildRequires:  m4
-BuildRequires:  perl-interpreter
+BuildRequires:  meson
 BuildRequires:  perl(Getopt::Long)
+BuildRequires:  perl-interpreter
 
 %description
 libsigc++ implements a typesafe callback system for standard C++. It
@@ -48,25 +52,24 @@ This package contains the full API documentation for %{name}.
 
 
 %build
-%configure
-make %{?_smp_mflags}
+%meson -Dbuild-documentation=true
+%meson_build
 
 
 %install
-%make_install
-find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
+%meson_install
 
 
 %files
 %license COPYING
 %doc AUTHORS README NEWS
-%{_libdir}/*.so.*
+%{_libdir}/libsigc-2.0.so.0*
 
 %files devel
 %{_includedir}/*
 %{_libdir}/sigc++-2.0/
 %{_libdir}/pkgconfig/*.pc
-%{_libdir}/*.so
+%{_libdir}/libsigc-2.0.so
 
 %files doc
 %doc %{_datadir}/doc/libsigc++-2.0/
@@ -76,6 +79,15 @@ find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 
 
 %changelog
+* Mon Sep 28 2020 Kalev Lember <klember@redhat.com> - 2.10.4-1
+- Update to 2.10.4
+- Switch to meson build system
+- Update upstream URL
+- Tighten soname globs
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 27 2020 Kalev Lember <klember@redhat.com> - 2.10.3-1
 - Update to 2.10.3
 

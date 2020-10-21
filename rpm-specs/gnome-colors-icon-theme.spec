@@ -3,7 +3,7 @@
 Name: gnome-colors-icon-theme
 Summary: GNOME-Colors icon theme
 Version: 5.5.1
-Release: 18%{?dist}
+Release: 19%{?dist}
 Url: http://code.google.com/p/gnome-colors
 Source0: http://%{real_name}.googlecode.com/files/%{real_name}-src-%{version}.tar.gz
 License: GPLv2
@@ -105,6 +105,9 @@ for THEME in %themes; do gtk-update-icon-cache --force ${THEME} &>/dev/null || :
 %ghost %{_datadir}/icons/gnome-colors-wise/icon-theme.cache
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.5.1-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 07 2020 Miro Hrončok <mhroncok@redhat.com> - 5.5.1-18
 - Fix empty trash bin icon on MATE desktop (#1645368)
 

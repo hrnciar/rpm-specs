@@ -1,8 +1,8 @@
 %global sysname sgtk_menu
 
 Name:           sgtk-menu
-Version:        1.3.1
-Release:        4%{?dist}
+Version:        1.4.1
+Release:        2%{?dist}
 Summary:        GTK launcher for sway & other WMs
 
 License:        GPLv3+
@@ -51,6 +51,12 @@ done
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.4.1-1
+- Update to 1.4.1
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.1-4
 - Rebuilt for Python 3.9
 

@@ -1,25 +1,25 @@
 # spec file for php-phpspec-php-diff
 #
-# Copyright (c) 2015-2016 Remi Collet
+# Copyright (c) 2015-2020 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
 # Please, preserve the changelog entries
 #
-%global gh_commit    0464787bfa7cd13576c5a1e318709768798bec6a
+%global gh_commit    fc1156187f9f6c8395886fe85ed88a0a245d72e9
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     phpspec
 %global gh_project   php-diff
 
 Name:           php-phpspec-php-diff
-Version:        1.1.0
-Release:        8%{?dist}
+Version:        1.1.3
+Release:        1%{?dist}
 Summary:        A library for generating differences between two hashable objects
 
 # LICENSE text is inclued in the README file
 License:        BSD
 URL:            https://github.com/%{gh_owner}/%{gh_project}
-Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit}/%{gh_project}-%{version}.tar.gz
+Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit}/%{name}-%{version}-%{gh_short}.tar.gz
 
 # Fix example to use our generated autoloader
 Patch0:         %{gh_project}-example.patch
@@ -83,6 +83,12 @@ cd example
 
 
 %changelog
+* Mon Sep 21 2020 Remi Collet <remi@remirepo.net> - 1.1.3-1
+- update to 1.1.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

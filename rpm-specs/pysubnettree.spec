@@ -1,5 +1,7 @@
+%global debug_package %{nil}
+
 Name:           pysubnettree
-Version:        0.33
+Version:        0.34
 Release:        1%{?dist}
 Summary:        Python Module for CIDR Lookups
 
@@ -8,6 +10,7 @@ URL:            https://github.com/zeek/pysubnettree
 Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  gcc-c++
 
 %description
@@ -27,9 +30,21 @@ Python objects. Lookups are performed by longest-prefix matching.
 %files
 %doc CHANGES README
 %license COPYING
-%{python3_sitearch}/*
+%{python3_sitearch}/SubnetTree.py
+%{python3_sitearch}/_SubnetTree.cpython*.so
+%{python3_sitearch}/__pycache__/*
+%{python3_sitearch}/%{name}-%{version}-py*.egg-info/
 
 %changelog
+* Sat Aug 08 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.34-1
+- Update to lastest upstream release 0.34
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.33-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.33-2
+- Add python3-setuptools as BR
+
 * Mon Jun 01 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.33-1
 - Update to lastest upstream release 0.33
 

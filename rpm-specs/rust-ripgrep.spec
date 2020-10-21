@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        12.1.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Line oriented search tool using Rust's regex library
 
 # Upstream license specification: Unlicense OR MIT
@@ -83,6 +83,12 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
 %endif
 
 %changelog
+* Sun Aug 16 15:01:39 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 12.1.1-3
+- Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 18:35:53 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 12.1.1-1
 - Update to 12.1.1
 

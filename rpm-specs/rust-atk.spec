@@ -5,7 +5,7 @@
 %global crate atk
 
 Name:           rust-%{crate}
-Version:        0.8.0
+Version:        0.9.0
 Release:        2%{?dist}
 Summary:        Rust bindings for the ATK library
 
@@ -156,6 +156,12 @@ which use "v2_34" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Josh Stone <jistone@redhat.com> - 0.9.0-1
+- Update to 0.9.0
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

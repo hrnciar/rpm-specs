@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        3.5.17.0
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        D3 (XStatic packaging standard)
 
 License:        BSD
@@ -83,6 +83,9 @@ chmod 644 %{buildroot}%{_jsdir}/d3/d3.js
 %{_jsdir}/d3
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.17.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.5.17.0-12
 - Rebuilt for Python 3.9
 

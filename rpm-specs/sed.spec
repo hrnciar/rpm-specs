@@ -3,17 +3,13 @@
 Summary: A GNU stream text editor
 Name: sed
 Version: 4.8
-Release: 1%{?dist}
+Release: 6%{?dist}
 License: GPLv3+
 URL: http://sed.sourceforge.net/
 Source0: ftp://ftp.gnu.org/pub/gnu/sed/sed-%{version}.tar.xz
 Source1: http://sed.sourceforge.net/sedfaq.txt
 Patch0: sed-b-flag.patch
 Patch1: sed-c-flag.patch
-#Patch1: sed-selinux.patch
-#Build failure with glibc-2.28
-#https://lists.gnu.org/r/bug-gnulib/2018-03/msg00000.html
-Patch2: sed-gnulib.patch
 BuildRequires: glibc-devel, libselinux-devel, libacl-devel, automake, autoconf, gcc
 BuildRequires: perl-Getopt-Long
 BuildRequires: perl(FileHandle)
@@ -34,11 +30,14 @@ specified in a script file or from the command line.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-#%patch2 -p1
+
+
+sed -e 's/1729576/EPERM/' \
+    -i gnulib-tests/test-{strerror_r,perror2}.c
 
 %build
 %configure --without-included-regex
-make %{_smp_mflags}
+%make_build
 install -m 644 -p %{SOURCE1} sedfaq.txt
 gzip -9 sedfaq.txt
 
@@ -49,7 +48,7 @@ echo ====================TESTING END=====================
 
 %install
 rm -rf ${RPM_BUILD_ROOT}
-make DESTDIR=$RPM_BUILD_ROOT install
+%make_install
 rm -f ${RPM_BUILD_ROOT}/%{_infodir}/dir
 
 %find_lang %{name}
@@ -63,6 +62,23 @@ rm -f ${RPM_BUILD_ROOT}/%{_infodir}/dir
 %{_mandir}/man1/sed.1*
 
 %changelog
+* Mon Aug 17 2020 Jakub Martisko <jamartis@redhat.com> - 4.8-6
+- Minor spec cleanup
+
+* Mon Aug 03 2020 Jakub Martisko <jamartis@redhat.com> - 4.8-5
+- Use make macros
+
+* Mon Aug 03 2020 Jakub Martisko <jamartis@redhat.com> - 4.8-4
+- Replace some hardcoded constants in the gnulib-testsuite
+  ... that caused build failures on arm7
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.8-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 2020 Jakub Martisko <jamartis@redhat.com> - 4.8-1
 - Rebase to 4.8
 - Refresh the downstream patch and split it into two

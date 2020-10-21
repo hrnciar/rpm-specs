@@ -1,16 +1,16 @@
 # Colorize terminal output. Helps to find problems during build process.
 %global optflags %{optflags} -fdiagnostics-color=always
 
-%global commit  f4c902e02372bf11f6b1afcd26d22564276fe00a
+%global commit  ddd39f209f4ce6f03ed3198d7d58c2e36565baa9
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global date    20200521
+%global date    20200806
 
-%global corename    pcsx-rearmed
-%global filename    pcsx_rearmed
+%global corename pcsx-rearmed
+%global filename pcsx_rearmed
 
 Name:           libretro-%{corename}
 Version:        15
-Release:        8.%{date}git%{shortcommit}%{?dist}
+Release:        9.%{date}git%{shortcommit}%{?dist}
 Summary:        ARM optimized PCSX fork
 
 # Public domain
@@ -104,8 +104,8 @@ rm -r deps/zlib/
 
 
 %install
-install -m 0755 -Dp %{filename}_libretro.so %{buildroot}%{_libdir}/libretro/%{filename}_libretro.so
-install -m 0644 -Dp %{SOURCE1}              %{buildroot}%{_libdir}/libretro/%{filename}.libretro
+install -m0755 -Dp %{filename}_libretro.so %{buildroot}%{_libdir}/libretro/%{filename}_libretro.so
+install -m0644 -Dp %{SOURCE1} %{buildroot}%{_libdir}/libretro/%{filename}.libretro
 
 
 %files
@@ -115,6 +115,12 @@ install -m 0644 -Dp %{SOURCE1}              %{buildroot}%{_libdir}/libretro/%{fi
 
 
 %changelog
+* Sun Aug 09 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 15-9.20200806gitddd39f2
+- Update to latest git snapshot
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 15-9.20200521gitf4c902e
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 21 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 15-8.20200521gitf4c902e
 - Update to latest git snapshot
 

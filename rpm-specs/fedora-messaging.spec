@@ -6,8 +6,8 @@ Tools and APIs to make working with AMQP in Fedora easier.
 %{?python_enable_dependency_generator}
 
 Name:           %{pkgname}
-Version:        2.0.1
-Release:        3%{?dist}
+Version:        2.0.2
+Release:        1%{?dist}
 Summary:        Set of tools for using Fedora's messaging infrastructure
 
 License:        GPLv2+
@@ -39,8 +39,6 @@ BuildRequires: systemd-rpm-macros
 %package     -n python3-%{pkgname}
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{pkgname}}
-# Drop when https://github.com/fedora-infra/fedora-messaging/pull/51 is released
-Requires: python3-service-identity
 
 %description -n python3-%{pkgname} %{desc}
 
@@ -113,6 +111,12 @@ install -D -m 644 fm-consumer@.service $RPM_BUILD_ROOT%{_unitdir}/fm-consumer@.s
 
 
 %changelog
+* Tue Aug 04 2020 Aurelien Bompard <abompard@fedoraproject.org> - 2.0.2-1
+- Update to 2.0.2
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.1-3
 - Rebuilt for Python 3.9
 

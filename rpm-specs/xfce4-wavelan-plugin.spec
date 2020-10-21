@@ -9,7 +9,7 @@
 
 Name:           xfce4-wavelan-plugin
 Version:        0.6.1
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        WaveLAN plugin for the Xfce panel
 
 License:        BSD
@@ -56,6 +56,13 @@ chmod -c +x %{buildroot}%{_libdir}/xfce4/panel/plugins/*.so
 %{_datadir}/xfce4/panel/plugins/*.desktop
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

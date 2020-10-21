@@ -1,6 +1,6 @@
 Name:           perl-Date-JD
 Version:        0.006
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Conversion between flavors of Julian Date
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Date-JD
@@ -57,6 +57,9 @@ find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.006-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.006-9
 - Perl 5.32 rebuild
 

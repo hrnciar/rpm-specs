@@ -7,7 +7,7 @@
 # Please preserve changelog entries
 #
 # Github
-%global gh_commit    c2796cb1cb99d7717290b48c4e6f32cb6c60b7b3
+%global gh_commit    917ab212fa00dc6eacbb26e8bc387ebe40993bc1
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     PHPMailer
 %global gh_project   PHPMailer
@@ -19,12 +19,12 @@
 %global ns_project   PHPMailer
 # don't change major version used in package name
 %global major        6
-%global with_tests   0%{!?_without_tests:1}
+%bcond_without       tests
 %global php_home     %{_datadir}/php
 
 Name:           php-%{pk_project}%{major}
-Version:        6.1.6
-Release:        2%{?dist}
+Version:        6.1.8
+Release:        1%{?dist}
 Summary:        Full-featured email creation and transfer class for PHP
 
 License:        LGPLv2
@@ -39,7 +39,7 @@ Source2:        PHPMailerRpmTest.php
 Patch0:         %{name}-layout.patch
 
 BuildArch:      noarch
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php(language) >= 5.5
 BuildRequires:  php-ctype
 BuildRequires:  php-date
@@ -63,13 +63,14 @@ BuildRequires:  %{_sbindir}/smtp-sink
 #    "require": {
 #        "php": ">=5.5.0",
 #        "ext-ctype": "*",
-#        "ext-filter": "*"
+#        "ext-filter": "*",
+#        "ext-hash": "*"
 Requires:       php(language) >= 5.5
 Requires:       php-ctype
 Requires:       php-filter
+Requires:       php-hash
 # from phpcompatinfo report on version 6.1.3
 Requires:       php-date
-Requires:       php-hash
 Requires:       php-imap
 Requires:       php-intl
 Requires:       php-mbstring
@@ -144,7 +145,7 @@ cp -pr language %{buildroot}/%{php_home}/%{ns_vendor}/%{ns_project}%{major}/lang
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 : Use installed tree and autoloader
 mkdir vendor
 cat << 'EOF' | tee -a vendor/autoload.php
@@ -169,7 +170,7 @@ popd
 
 : Run upstream test suite
 ret=0
-for cmd in php php71 php72 php73 php74; do
+for cmd in php php71 php72 php73 php74 php80; do
   if which $cmd; then
     $cmd  -d "sendmail_path=$PWD/test/fakesendmail.sh -t -i " \
       %{_bindir}/phpunit --exclude slow,pop3,languages --verbose || ret=1
@@ -193,6 +194,15 @@ exit $ret
 
 
 %changelog
+* Sat Oct 10 2020 Remi Collet <remi@remirepo.net> - 6.1.8-1
+- update to 6.1.8
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.1.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Remi Collet <remi@remirepo.net> - 6.1.7-1
+- update to 6.1.7
+
 * Wed May 27 2020 Remi Collet <remi@remirepo.net> - 6.1.6-2
 - update to 6.1.6
 

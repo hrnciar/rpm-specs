@@ -1,9 +1,9 @@
 Summary: Generates function prototypes and variable declarations from C code
 Name: cproto
-Version: 4.7o
-Release: 4%{?dist}
+Version: 4.7q
+Release: 1%{?dist}
 License: Public Domain
-Source: ftp://invisible-island.net/cproto/cproto-%{version}.tgz
+Source: https://invisible-island.net/datafiles/release/cproto.tar.gz
 URL: http://invisible-island.net/
 BuildRequires:  gcc-c++
 BuildRequires: byacc, flex
@@ -36,6 +36,15 @@ definitions as much as other prototype generators.
 %{_mandir}/man1/cproto.1*
 
 %changelog
+* Mon Oct 12 2020 Jindrich Novy <jnovy@redhat.com> - 4.7q-1
+- update to 4.7q
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.7p-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Jindrich Novy <jnovy@redhat.com> - 4.7p-1
+- update to 4.7p
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.7o-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

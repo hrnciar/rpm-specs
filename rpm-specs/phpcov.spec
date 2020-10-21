@@ -1,21 +1,22 @@
 # fedora/remirepo spec file for phpcov
 #
-# Copyright (c) 2013-2019 Remi Collet
+# Copyright (c) 2013-2020 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
 # Please, preserve the changelog entries
 #
 
+%bcond_without tests
+
 # For compatibility with SCL
 %undefine __brp_mangle_shebangs
 
-%global gh_commit    b91ef1640a7571f32e2eb58b107865f4c87a2eef
+%global gh_commit    742d0608238c7f045fe3115241d7ec3ec2587442
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sebastianbergmann
 %global gh_project   phpcov
 %global php_home     %{_datadir}/php
-%global with_tests   0%{!?_without_tests:1}
 # Packagist
 %global pk_vendor    phpunit
 %global pk_project   phpcov
@@ -25,13 +26,14 @@
 
 
 Name:           %{pk_project}
-Version:        7.0.2
+Version:        8.2.0
 Release:        1%{?dist}
 Summary:        CLI frontend for PHP_CodeCoverage
 
 License:        BSD
 URL:            https://github.com/%{gh_owner}/%{gh_project}
-Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit}/%{name}-%{version}-%{gh_short}.tar.gz
+Source0:        %{name}-%{version}-%{gh_short}.tgz
+Source1:        makesrc.sh
 
 # Fix autoload for RPM
 Patch0:         %{gh_project}-rpm.patch
@@ -39,31 +41,31 @@ Patch0:         %{gh_project}-rpm.patch
 BuildArch:      noarch
 BuildRequires:  php(language) >= 7.3
 BuildRequires:  php-fedora-autoloader-devel
-%if %{with_tests}
-BuildRequires:  phpunit9
-BuildRequires:  (php-composer(phpunit/php-code-coverage) >= 8.0   with php-composer(phpunit/php-code-coverage) < 9)
-BuildRequires:  (php-composer(sebastian/diff)            >= 4     with php-composer(sebastian/diff)            < 5)
-BuildRequires:  (php-composer(sebastian/finder-facade)   >= 2.0   with php-composer(sebastian/finder-facade)   < 3)
-BuildRequires:  (php-composer(sebastian/version)         >= 3.0   with php-composer(sebastian/version)         < 4)
-BuildRequires:  (php-composer(symfony/console)           >= 3.0   with php-composer(symfony/console)           < 6)
+%if %{with tests}
+BuildRequires:  phpunit9 >= 9.3
+BuildRequires:  (php-composer(phpunit/php-code-coverage) >= 9.2    with php-composer(phpunit/php-code-coverage) < 10)
+BuildRequires:  (php-composer(phpunit/php-file-iterator) >= 3.0    with php-composer(phpunit/php-file-iterator) < 4)
+BuildRequires:  (php-composer(sebastian/cli-parser)      >= 1.0    with php-composer(sebastian/cli-parser)      < 2)
+BuildRequires:  (php-composer(sebastian/diff)            >= 4      with php-composer(sebastian/diff)            < 5)
+BuildRequires:  (php-composer(sebastian/version)         >= 3.0    with php-composer(sebastian/version)         < 4)
 BuildRequires:  php-pecl(Xdebug)
 %endif
 
 # from composer.json
-#        "php": "^7.3",
+#        "php": ">=7.3",
 #        "phpunit/phpunit": "^9.0",
-#        "phpunit/php-code-coverage": "^8.0",
+#        "phpunit/php-code-coverage": "^9.2",
+#        "phpunit/php-file-iterator": "^3.0",
+#        "sebastian/cli-parser": "^1.0",
 #        "sebastian/diff": "^4.0",
-#        "sebastian/finder-facade": "^2.0",
-#        "sebastian/version": "^3.0",
-#        "symfony/console": "^3.0 || ^4.0 || ^5.0"
+#        "sebastian/version": "^3.0"
 Requires:       php(language) >= 7.3
-Requires:       phpunit9
-Requires:       (php-composer(phpunit/php-code-coverage) >= 8.0   with php-composer(phpunit/php-code-coverage) < 9)
-Requires:       (php-composer(sebastian/diff)            >= 4     with php-composer(sebastian/diff)            < 5)
-Requires:       (php-composer(sebastian/finder-facade)   >= 2.0   with php-composer(sebastian/finder-facade)   < 3)
-Requires:       (php-composer(sebastian/version)         >= 3.0   with php-composer(sebastian/version)         < 4)
-Requires:       (php-composer(symfony/console)           >= 3.0   with php-composer(symfony/console)           < 6)
+Requires:       phpunit9 >= 9.3
+Requires:       (php-composer(phpunit/php-code-coverage) >= 9.2    with php-composer(phpunit/php-code-coverage) < 10)
+Requires:       (php-composer(phpunit/php-file-iterator) >= 3.0    with php-composer(phpunit/php-file-iterator) < 4)
+Requires:       (php-composer(sebastian/cli-parser)      >= 1.0    with php-composer(sebastian/cli-parser)      < 2)
+Requires:       (php-composer(sebastian/diff)            >= 4      with php-composer(sebastian/diff)            < 5)
+Requires:       (php-composer(sebastian/version)         >= 3.0    with php-composer(sebastian/version)         < 4)
 # from phpcompatinfo report for version 4.0.0
 # none
 
@@ -92,15 +94,11 @@ cat << 'EOF' | tee -a src/autoload.php
 // Dependencies
 \Fedora\Autoloader\Dependencies::required([
     '%{php_home}/PHPUnit9/autoload.php',
-    '%{php_home}/%{ns_vendor}/CodeCoverage8/autoload.php',
+    '%{php_home}/%{ns_vendor}/CodeCoverage9/autoload.php',
+    '%{php_home}/%{ns_vendor}/FileIterator3/autoload.php',
+    '%{php_home}/%{ns_vendor}/CliParser/autoload.php',
     '%{php_home}/%{ns_vendor}/Diff4/autoload.php',
-    '%{php_home}/%{ns_vendor}/FinderFacade2/autoload.php',
     '%{php_home}/%{ns_vendor}/Version3/autoload.php',
-    [
-        '%{php_home}/Symfony5/Component/Console/autoload.php',
-        '%{php_home}/Symfony4/Component/Console/autoload.php',
-        '%{php_home}/Symfony3/Component/Console/autoload.php',
-    ]
 ]);
 EOF
 
@@ -113,7 +111,7 @@ install -D -p -m 755 %{pk_project} %{buildroot}%{_bindir}/%{pk_project}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 ln -s %{buildroot}%{php_home}/%{ns_vendor}/%{ns_project}/autoload.php vendor/autoload.php
 
@@ -121,6 +119,16 @@ if ! php -v | grep Xdebug
 then EXT="-d zend_extension=xdebug.so"
 fi
 
+# test with hardcoded path in data
+rm tests/end-to-end/execute/valid-script-argument-with-cli-include-with-text-report.phpt
+rm tests/end-to-end/merge/valid-directory-with-text-report.phpt
+rm tests/end-to-end/merge/valid-directory-with-text-report-stdout.phpt
+# test incompatible with coverage 9.2 (--cobertura)
+# https://github.com/sebastianbergmann/phpcov/issues/108
+rm tests/end-to-end/help/help.phpt
+rm tests/end-to-end/help/help2.phpt
+
+# TODO php80 when xdebug will be available
 ret=0
 for cmd in php php73 php74; do
   if which $cmd; then
@@ -142,6 +150,30 @@ exit $ret;
 
 
 %changelog
+* Fri Oct  2 2020 Remi Collet <remi@remirepo.net> - 8.2.0-1
+- update to 8.2.0
+- raise dependency on phpunit/php-code-coverage 9.2
+
+* Wed Sep 23 2020 Remi Collet <remi@remirepo.net> - 8.1.2-1
+- update to 8.1.2 (no change)
+- raise dependency on phpunit/php-code-coverage 9.1.11
+
+* Fri Sep 11 2020 Remi Collet <remi@remirepo.net> - 8.1.1-1
+- update to 8.1.1 (no change)
+
+* Thu Aug 13 2020 Remi Collet <remi@remirepo.net> - 8.1.0-1
+- update to 8.1.0
+- sources from git snapshot
+- add dependency on phpunit/php-file-iterator
+- add dependency on sebastian/cli-parser
+- drop depency on sebastian/finder-facade
+- drop dependency on Symfony
+- raise dependency on phpunit/phpunit 9.3
+- raise dependency on phpunit/php-code-coverage 9.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar  5 2020 Remi Collet <remi@remirepo.net> - 7.0.2-1
 - update to 7.0.2
 - raise dependency on PHP 7.3

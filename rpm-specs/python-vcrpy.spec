@@ -2,7 +2,7 @@
 
 Name:               python-vcrpy
 Version:            4.0.2
-Release:            2%{?dist}
+Release:            3%{?dist}
 Summary:            Automatically mock your HTTP interactions to simplify and speed up testing
 
 License:            MIT
@@ -96,6 +96,9 @@ rm -rf %{modname}.egg-info
 %{python3_sitelib}/%{modname}-%{version}*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 4.0.2-2
 - Rebuilt for Python 3.9
 

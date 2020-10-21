@@ -2,45 +2,24 @@
 %global pypi_name_dash jupyter-client
 
 Name:           python-%{pypi_name_dash}
-Version:        5.3.4
-Release:        4%{?dist}
+Version:        6.1.7
+Release:        1%{?dist}
 Summary:        Jupyter protocol implementation and client libraries
 
 License:        BSD
 URL:            http://jupyter.org
 Source0:        %pypi_source
-# Eliminate a python 3.8 warning about use of "is" with a literal
-Patch0:         %{name}-is.patch
 
 BuildArch:      noarch
 
-BuildRequires:  python3-setuptools
 BuildRequires:  python3-devel
+BuildRequires:  pyproject-rpm-macros
 
 %bcond_without doc
 %bcond_without tests
 
-%if %{with doc}
-BuildRequires:  python3-sphinx
-BuildRequires:  python3-sphinx_rtd_theme
-BuildRequires:  python3-sphinxcontrib-napoleon
-BuildRequires:  python3-sphinxcontrib-github-alt
-
-BuildRequires:  python3-dateutil
-BuildRequires:  python3-ipython-doc
-BuildRequires:  python3-traitlets
-BuildRequires:  python3-ipykernel
-BuildRequires:  python3-jupyter-core
-BuildRequires:  python3-zmq
-%endif
-
 %if %{with tests}
-BuildRequires:  python3-dateutil
-BuildRequires:  python3-ipykernel
-BuildRequires:  python3-ipython
-BuildRequires:  python3-jupyter-core >= 4.6
-BuildRequires:  python3-pytest
-BuildRequires:  python3-tornado
+# The zmq tests are split in RPM only, the dependency is not tracked on Python level:
 BuildRequires:  python3-zmq-tests
 %endif
 
@@ -68,6 +47,10 @@ for use with Jupyter frontends.
 %if %{with doc}
 %package -n python-%{pypi_name_dash}-doc
 Summary:        Documentation of the Jupyter protocol reference implementation
+BuildRequires:  python3-sphinx
+BuildRequires:  python3-sphinx_rtd_theme
+BuildRequires:  python3-sphinxcontrib-github-alt
+
 %description -n python-%{pypi_name_dash}-doc
 Documentation of the reference implementation of the Jupyter protocol
 %endif
@@ -81,8 +64,12 @@ sed -i "s|\(('http://ipython.readthedocs.io/en/stable/', \)None)|\1'/usr/share/d
 %endif
 
 
+%generate_buildrequires
+%pyproject_buildrequires %{?with_tests:-x test}
+
+
 %build
-%py3_build
+%pyproject_wheel
 
 %if %{with doc}
 PYTHONPATH=build/lib/ sphinx-build-3 docs html
@@ -92,7 +79,8 @@ rm -r html/.{doctrees,buildinfo}
 
 
 %install
-%py3_install
+%pyproject_install
+%pyproject_save_files %{pypi_name}
 
 
 %if %{with tests}
@@ -105,14 +93,12 @@ pytest-3 -v
 
 %global _docdir_fmt %{name}
 
-%files -n python3-%{pypi_name_dash}
+%files -n python3-%{pypi_name_dash} -f %{pyproject_files}
 %doc README.md
 %license COPYING.md
 %{_bindir}/jupyter-kernel
 %{_bindir}/jupyter-kernelspec
 %{_bindir}/jupyter-run
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.*.egg-info/
-%{python3_sitelib}/%{pypi_name}/
 
 %if %{with doc}
 %files -n python-%{pypi_name_dash}-doc
@@ -120,6 +106,15 @@ pytest-3 -v
 %endif
 
 %changelog
+* Thu Sep 17 2020 Tomas Hrnciar <thrnciar@redhat.com> - 6.1.7-1
+- Update to 6.1.7 (#1856627)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.1.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Lumír Balhar <lbalhar@redhat.com> - 6.1.5-1
+- Update to 6.1.5 (#1852265)
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 5.3.4-4
 - Rebuilt for Python 3.9
 

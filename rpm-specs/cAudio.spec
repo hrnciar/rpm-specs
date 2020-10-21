@@ -1,7 +1,7 @@
 # This is the upstream-preferred name of the project
 Name:           cAudio
 Version:        2.3.1
-Release:        13%{?dist}
+Release:        15%{?dist}
 Summary:        3D Audio Engine Based on Openal
 
 License:        zlib
@@ -71,24 +71,17 @@ chmod -x cAudio/Headers/cAudioStaticSource.h
 chmod -x cAudio/Headers/cOpenALUtil.h
 
 %build
-mkdir build
-cd build
-
 export CXXFLAGS="%{optflags} -Wl,--as-needed"
 
 # There is a MPEG decoder plugin that uses code derived from ffmpeg; this can't be built in Fedora.
 # There are also C# bindings. They do not compile: https://github.com/R4stl1n/cAudio/issues/42
 # The EAX legacy preset plugin  builds and works fine. However, the .so is not currently versioned.
-%cmake .. -DCAUDIO_SYSTEM_OGG=TRUE -DCAUDIO_BUILD_EAX_PLUGIN=TRUE -DCAUDIO_BUILD_MP3DECODER_PLUGIN=TRUE
-
-make %{?_smp_mflags}
-
-cd ../
+%cmake -DCAUDIO_SYSTEM_OGG=TRUE -DCAUDIO_BUILD_EAX_PLUGIN=TRUE -DCAUDIO_BUILD_MP3DECODER_PLUGIN=TRUE
+%cmake_build
 doxygen
 
 %install
-cd build
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 %ldconfig_scriptlets
 
@@ -119,6 +112,13 @@ make install DESTDIR=%{buildroot}
 %license License.txt
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-15
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

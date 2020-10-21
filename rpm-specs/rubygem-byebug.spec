@@ -22,7 +22,7 @@
 
 Name:		rubygem-%{gem_name}
 Version:	11.1.3
-Release:	%{fedorarel}%{?dist}
+Release:	%{fedorarel}%{?dist}.1
 
 Summary:	Ruby 2.0 fast debugger - base + CLI
 License:	BSD
@@ -168,6 +168,9 @@ mv {.,}Gemfile.lock
 %doc	%{gem_docdir}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.1.3-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May  3 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 11.1.3-1
 - 11.1.3
 

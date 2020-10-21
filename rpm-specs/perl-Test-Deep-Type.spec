@@ -1,6 +1,6 @@
 Name:           perl-Test-Deep-Type
 Version:        0.008
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Test::Deep plugin for validating type constraints
 License:        GPL+ or Artistic
 
@@ -62,6 +62,9 @@ make test
 %{_mandir}/man3/Test*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.008-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.008-12
 - Perl 5.32 rebuild
 

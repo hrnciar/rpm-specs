@@ -1,6 +1,6 @@
 Name:           perl-File-Finder
 Version:        0.53
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        Nice wrapper for File::Find ala find(1)
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/File-Finder
@@ -47,6 +47,9 @@ make test TEST_VERBOSE=1
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.53-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.53-27
 - Perl 5.32 rebuild
 

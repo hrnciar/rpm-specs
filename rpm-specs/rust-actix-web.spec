@@ -5,14 +5,17 @@
 %global crate actix-web
 
 Name:           rust-%{crate}
-Version:        3.0.0~alpha.3
+Version:        3.1.0
 Release:        1%{?dist}
-Summary:        Actix web is a simple, pragmatic and extremely fast web framework for Rust
+Summary:        Powerful, pragmatic, and extremely fast web framework for Rust
 
-# Upstream license specification: MIT/Apache-2.0
+# Upstream license specification: MIT OR Apache-2.0
 License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/actix-web
 Source:         %{crates_source}
+# Initial patched metadata
+# * add missing test dependencies (missing from processed Cargo.toml)
+Patch0:         actix-web-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -22,7 +25,7 @@ BuildArch:      noarch
 BuildRequires:  rust-packaging
 
 %global _description %{expand:
-Actix web is a simple, pragmatic and extremely fast web framework for Rust.}
+Actix web is a powerful, pragmatic, and extremely fast web framework for Rust.}
 
 %description %{_description}
 
@@ -143,6 +146,22 @@ which use "secure-cookies" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Oct 07 2020 Fabio Valentini <decathorpe@gmail.com> - 3.1.0-1
+- Update to version 3.1.0.
+
+* Mon Sep 21 2020 Fabio Valentini <decathorpe@gmail.com> - 3.0.2-1
+- Update to version 3.0.2.
+
+* Sat Aug 29 08:41:00 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 3.0.0~beta.3-1
+- Update to 3.0.0-beta.3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0~alpha.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0~alpha.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 12:30:02 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 3.0.0~alpha.3-1
 - Update to 3.0.0-alpha.3
 

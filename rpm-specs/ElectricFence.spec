@@ -16,7 +16,7 @@
 Summary: A debugger which detects memory allocation violations
 Name: ElectricFence
 Version: 2.2.2
-Release: 52%{?dist}
+Release: 54%{?dist}
 License: GPLv2
 URL: http://perens.com/FreeSoftware/ElectricFence/
 
@@ -44,6 +44,7 @@ Patch13: ElectricFence-2.2.2-sys_errlist.patch
 
 Patch14: ElectricFence-2.2.2-lto.patch
 
+Patch15: ElectricFence-strerror.patch
 
 BuildRequires:  gcc
 %description
@@ -59,21 +60,7 @@ Install ElectricFence if you need a debugger to find malloc()
 violations.
 
 %prep
-%setup -q
-%patch1 -p1 -b .longjmp
-%patch2 -p1 -b .vaarg
-%patch3 -p1 -b .pthread
-%patch4 -p1 -b .madvise
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
+%autosetup -p1
 
 %build
 make CFLAGS='${RPM_OPT_FLAGS} -DUSE_SEMAPHORE -fpic'
@@ -100,6 +87,13 @@ echo ".so man3/efence.3" > %{buildroot}%{_mandir}/man3/libefence.3
 %{_mandir}/*/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-54
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 23 2020 Jeff Law  <law@redhat.com> - 2.2.2-53
+- Use strerror, not sys_errlist on linux platforms
+- Use autosetup
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-52
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

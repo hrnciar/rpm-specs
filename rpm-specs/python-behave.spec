@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.2.6
-Release:        7%{?dist}
+Release:        10%{?dist}
 Summary:        Tools for the behavior-driven development, Python style
 
 License:        BSD
@@ -11,6 +11,9 @@ Source0:        https://github.com/behave/behave/archive/v%{version}/%{srcname}-
 # This patch is backport of upstream commits solving https://bugzilla.redhat.com/show_bug.cgi?id=1706085
 # Upstream issue: https://github.com/behave/behave/issues/755
 Patch0:         0001-Backport-for-py38-fixes.patch
+# This patch is backport of upstream commit solving issues with pytest 5.0 and newer
+# Upstream issue: https://github.com/behave/behave/issues/864
+Patch1:         0002-Tweak-tests-required-by-pytest-5.0.patch
 
 BuildArch:      noarch
 
@@ -100,6 +103,13 @@ install -Dpm0644 %{srcname}.1 %{buildroot}%{_mandir}/man1/
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.6-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.6-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.6-7
 - Rebuilt for Python 3.9
 

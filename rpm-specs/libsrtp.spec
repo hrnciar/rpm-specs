@@ -2,7 +2,7 @@
 
 Name:		libsrtp
 Version:	2.3.0
-Release:	2%{?dist}
+Release:	4%{?dist}
 Summary:	An implementation of the Secure Real-time Transport Protocol (SRTP)
 License:	BSD
 URL:		https://github.com/cisco/libsrtp
@@ -10,6 +10,10 @@ Source0:	https://github.com/cisco/libsrtp/archive/v%{version}.tar.gz
 BuildRequires:	gcc, nss-devel, libpcap-devel
 # Fix shared lib so ldconfig doesn't complain
 Patch0:		libsrtp-2.3.0-shared-fix.patch
+# Fix namespace issue in test/util.c
+Patch1:		libsrtp-2.3.0-test-util.patch
+# Link test binaries against shared lib
+Patch2:		libsrtp-2.3.0-shared-test-fix.patch
 
 %description
 This package provides an implementation of the Secure Real-time
@@ -25,9 +29,18 @@ Requires:	pkgconfig
 The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
 
+%package tools
+Summary:	Tools for testing and decoding SRTP
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+
+%description tools
+Tools for testing and decoding SRTP
+
 %prep
 %setup -q -n %{name}-%{version}
 %patch0 -p1 -b .sharedfix
+%patch1 -p1 -b .utilfix
+%patch2 -p1 -b .test-shared-fix
 
 %if 0%{?rhel} > 0
 %ifarch ppc64
@@ -38,11 +51,21 @@ sed -i 's/-z noexecstack//' Makefile.in
 %build
 export CFLAGS="%{optflags} -fPIC"
 %configure --enable-nss
-make %{?_smp_mflags} shared_library
+make %{?_smp_mflags} shared_library test
 
 %install
 make install DESTDIR=%{buildroot}
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
+find %{buildroot} -name '*.a' -exec rm -f {} ';'
+
+install -D -p -m 0755 test/dtls_srtp_driver %{buildroot}%{_bindir}/dtls_srtp_driver
+install -D -p -m 0755 test/rdbx_driver %{buildroot}%{_bindir}/rdbx_driver
+install -D -p -m 0755 test/replay_driver %{buildroot}%{_bindir}/replay_driver
+install -D -p -m 0755 test/roc_driver %{buildroot}%{_bindir}/roc_driver
+install -D -p -m 0755 test/rtp_decoder %{buildroot}%{_bindir}/rtp_decoder
+install -D -p -m 0755 test/rtpw %{buildroot}%{_bindir}/rtpw
+install -D -p -m 0755 test/srtp_driver %{buildroot}%{_bindir}/srtp_driver
+install -D -p -m 0755 test/test_srtp %{buildroot}%{_bindir}/test_srtp
 
 %ldconfig_scriptlets
 
@@ -56,7 +79,16 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/libsrtp2.pc
 %{_libdir}/*.so
 
+%files tools
+%{_bindir}/*
+
 %changelog
+* Mon Oct 12 2020 Tom Callaway <spot@fedoraproject.org> - 2.3.0-4
+- add -tools subpackage (thanks to Gerd v. Egidy)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

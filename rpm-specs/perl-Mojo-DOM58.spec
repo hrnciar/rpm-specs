@@ -2,7 +2,7 @@
 
 Name:           perl-Mojo-DOM58
 Version:        2.000
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Minimalistic HTML/XML DOM parser with CSS selectors
 # CONTRIBUTING.md:      CC0
 # lib/Mojo/DOM58.pm:    Artistic 2.0
@@ -73,6 +73,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.000-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.000-3
 - Perl 5.32 rebuild
 

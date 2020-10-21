@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        2.9.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        GAP package for systems of nearrings
 
 License:        GPLv2+
@@ -80,6 +80,10 @@ sed -i 's,manual\\,manual;\\,g' doc/make_doc
 cp -p %{_gap_dir}/doc/ref/manual.mst doc/ref
 cp -p %{_gap_dir}/doc/ref/manual.mst doc/tut
 
+# Ignore whitespace differences in test output
+sed -i 's/true/&, testOptions := rec( compareFunction := "uptowhitespace" )/' \
+    tst/testall.g
+
 %build
 # Build the documentation
 pushd doc
@@ -113,6 +117,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}-%{version}/htm/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

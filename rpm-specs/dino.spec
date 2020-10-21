@@ -1,6 +1,6 @@
 Name:       dino
 Version:    0.1.0
-Release:    1%{?dist}
+Release:    2%{?dist}
 
 License:    GPLv3
 Summary:    Modern XMPP ("Jabber") Chat Client using GTK+/Vala
@@ -18,6 +18,8 @@ Source1:    %{url}/releases/download/v%{version}/dino-%{version}.tar.gz.asc
 #
 # [0] https://wiki.gnupg.org/WKD
 Source2:    https://dino.im/.well-known/openpgpkey/hu/kf5ictsogs7pr4rbewa9ie1he85r9ghc
+# Allow dino to build with any libsignalprotocol-2.3 version, not just 2.3.2
+Patch0:		0000-Allow-any-version-in-the-signal-2.3-series.patch
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -112,6 +114,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/im.dino.Dino.desktop
 
 
 %changelog
+* Sat Aug 15 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 0.1.0-2
+- Fix FTBFS.
+
 * Fri Jan 31 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 0.1.0-1
 - Update to the first Dino release.
 - https://dino.im/blog/2020/01/dino-0.1-release/

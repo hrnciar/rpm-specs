@@ -1,40 +1,35 @@
 %global pypi_name pytest-forked
-%global desc The pytest-forked plugin extends py.test by adding an option to run tests in\
-isolated forked subprocesses. This is useful if you have tests involving C or\
-C++ libraries that might crash the process. To use the plugin, simply use the\
---forked argument when invoking py.test.
 
 Name:           python-%{pypi_name}
-Version:        1.1.1
-Release:        5%{?dist}
+Version:        1.3.0
+Release:        1%{?dist}
 Summary:        py.test plugin for running tests in isolated forked subprocesses
 
 License:        MIT
 URL:            https://github.com/pytest-dev/pytest-forked
-Source0:        https://files.pythonhosted.org/packages/source/p/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+Source0:        %{pypi_source}
 BuildArch:      noarch
-# Fix pytest 5 compatibility
-# From upstream PR: https://github.com/pytest-dev/pytest-forked/pull/32
-Patch0: fix-pytest5-compatibility.patch
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-py python3-pytest python3-setuptools_scm
+BuildRequires:  %{py3_dist py pytest setuptools setuptools_scm}
 
-%description
-%{desc}
+%global _description %{expand:
+The pytest-forked plugin extends py.test by adding an option to run tests in
+isolated forked subprocesses. This is useful if you have tests involving C or
+C++ libraries that might crash the process. To use the plugin, simply use the
+--forked argument when invoking py.test.}
+
+%description %_description
 
 %package -n     python3-%{pypi_name}
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
-Requires:       python3-py
-%description -n python3-%{pypi_name}
-%{desc}
+Requires:       %{py3_dist py}
+%description -n python3-%{pypi_name} %_description
 
 %prep
 %autosetup -n %{pypi_name}-%{version} -p1
-rm -f testing/conftest.pyc
-rm -rf testing/__pycache__
 
 %build
 %py3_build
@@ -43,7 +38,7 @@ rm -rf testing/__pycache__
 %py3_install
 
 %check
-PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} testing
+%pytest
 
 
 %files -n python3-%{pypi_name}
@@ -52,6 +47,15 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} testing
 %{python3_sitelib}/pytest_forked*
 
 %changelog
+* Tue Jul 28 2020 Scott Talbert <swt@techie.net> - 1.3.0-1
+- Update to new upstream release 1.3.0 (#1861096)
+
+* Thu Jun 25 2020 Scott Talbert <swt@techie.net> - 1.2.0-1
+- Update to new upstream release 1.2.0 (#1851035)
+
+* Wed Jun 24 2020 Scott Talbert <swt@techie.net> - 1.1.1-6
+- Modernize Python packaging; BR setuptools
+
 * Fri May 29 2020 Charalampos Stratakis <cstratak@redhat.com> - 1.1.1-5
 - Fix pytest 5 compatibility
 

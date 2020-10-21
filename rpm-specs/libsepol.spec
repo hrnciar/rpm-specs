@@ -1,18 +1,15 @@
 Summary: SELinux binary policy manipulation library
 Name: libsepol
-Version: 3.0
+Version: 3.1
 Release: 3%{?dist}
 License: LGPLv2+
-Source0: https://github.com/SELinuxProject/selinux/releases/download/20191204/libsepol-3.0.tar.gz
+Source0: https://github.com/SELinuxProject/selinux/releases/download/20200710/libsepol-3.1.tar.gz
 URL: https://github.com/SELinuxProject/selinux/wiki
 # $ git clone https://github.com/fedora-selinux/selinux.git
 # $ cd selinux
-# $ git format-patch -N libsepol-3.0 -- libsepol
+# $ git format-patch -N libsepol-3.1 -- libsepol
 # $ i=1; for j in 00*patch; do printf "Patch%04d: %s\n" $i $j; i=$((i+1));done
 # Patch list start
-Patch0001: 0001-libsepol-cil-Fix-bug-in-cil_copy_avrule-in-extended-.patch
-Patch0002: 0002-libsepol-fix-CIL_KEY_-build-errors-with-fno-common.patch
-Patch0003: 0003-libsepol-remove-leftovers-of-cil_mem_error_handler.patch
 # Patch list end
 BuildRequires: gcc
 BuildRequires: flex
@@ -58,8 +55,11 @@ sed -i 's/fpic/fPIC/g' src/Makefile
 %endif
 
 %build
-make clean
-make %{?_smp_mflags} CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}"
+# Disable LTO
+%define _lto_cflags %{nil}
+%set_build_flags
+CFLAGS="$CFLAGS -fno-semantic-interposition"
+%make_build
 
 %install
 mkdir -p ${RPM_BUILD_ROOT}/%{_lib} 
@@ -68,16 +68,13 @@ mkdir -p ${RPM_BUILD_ROOT}%{_includedir}
 mkdir -p ${RPM_BUILD_ROOT}%{_bindir} 
 mkdir -p ${RPM_BUILD_ROOT}%{_mandir}/man3
 mkdir -p ${RPM_BUILD_ROOT}%{_mandir}/man8
-make DESTDIR="${RPM_BUILD_ROOT}" LIBDIR="%{_libdir}" SHLIBDIR="%{_libdir}" install
+%make_install LIBDIR="%{_libdir}" SHLIBDIR="%{_libdir}"
 rm -f ${RPM_BUILD_ROOT}%{_bindir}/genpolbools
 rm -f ${RPM_BUILD_ROOT}%{_bindir}/genpolusers
 rm -f ${RPM_BUILD_ROOT}%{_bindir}/chkcon
 rm -rf ${RPM_BUILD_ROOT}%{_mandir}/man8
 rm -rf ${RPM_BUILD_ROOT}%{_mandir}/ru/man8
 
-%post
-[ -x /sbin/telinit ] && [ -p /dev/initctl ]  && /sbin/telinit U
-exit 0
 
 %files static
 %{_libdir}/libsepol.a
@@ -99,6 +96,18 @@ exit 0
 %{_libdir}/libsepol.so.1
 
 %changelog
+* Mon Jul 27 2020 Petr Lautrbach <plautrba@redhat.com> - 3.1-3
+- Disable LTO cflags
+- Drop telinit from % post sciptlet
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 3.1-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+- Use set_build_flags and -fno-semantic-interposition
+
+* Fri Jul 10 2020 Petr Lautrbach <plautrba@redhat.com> - 3.1-1
+- SELinux userspace 3.1 release
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

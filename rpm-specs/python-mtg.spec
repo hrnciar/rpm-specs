@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.6.1
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Console-based access to the Gatherer Magic Card Database
 
 License:        MIT
@@ -67,6 +67,9 @@ nosetests-3 -v
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.6.1-15
 - Rebuilt for Python 3.9
 

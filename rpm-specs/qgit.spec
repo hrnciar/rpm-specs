@@ -1,6 +1,6 @@
 Name:           qgit
 Version:        2.9
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        GUI browser for git repositories
 
 License:        GPLv2
@@ -27,12 +27,12 @@ and changed files, graphically following different development branches.
 %if 0%{?rhel} && 0%{?rhel} <= 7
 %global optflags %optflags -std=gnu++11
 %endif
-%cmake .
-make %{?_smp_mflags}
+%cmake
+%cmake_build
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 
 desktop-file-install \
         --dir $RPM_BUILD_ROOT%{_datadir}/applications           \
@@ -56,6 +56,13 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/*.appdata
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

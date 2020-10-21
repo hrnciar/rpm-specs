@@ -1,6 +1,6 @@
 Name:           perl-Class-DBI-Loader-Relationship
 Version:        1.3
-Release:        40%{?dist}
+Release:        41%{?dist}
 Summary:        Easier relationship specification in CDBI::L
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Class-DBI-Loader-Relationship
@@ -46,6 +46,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-41
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.3-40
 - Perl 5.32 rebuild
 

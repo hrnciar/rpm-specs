@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 
 #global commit0 73b70b3834a8fafdc4d6e93ee448b263cb0f9060
 #global gittag0 GIT-TAG
@@ -6,7 +7,7 @@
 
 Name:           plasma-pk-updates
 Version:        0.3.2
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        Plasma applet for system updates using PackageKit
 
 License:        GPLv2+
@@ -17,6 +18,9 @@ URL:            https://cgit.kde.org/plasma-pk-updates.git
 Source0:        plasma-pk-updates-%{version}.tar.xz
 
 # Upstream patches
+
+# Downstream patches
+Patch100: plasma-pk-updates-0.3.2-notif.patch
 
 BuildRequires:  extra-cmake-modules
 BuildRequires:  kf5-kcoreaddons-devel
@@ -43,20 +47,20 @@ Requires:       PackageKit
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
+
 %find_lang %{name} --all-name
+
 
 %check
 appstream-util validate-relax --nonet %{buildroot}%{_kf5_metainfodir}/org.kde.plasma.pkupdates.appdata.xml ||:
+
 
 %files -f %{name}.lang
 %{_kf5_datadir}/kservices5/plasma-applet-org.kde.plasma.pkupdates.desktop
@@ -66,6 +70,12 @@ appstream-util validate-relax --nonet %{buildroot}%{_kf5_metainfodir}/org.kde.pl
 
 
 %changelog
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.3.2-7
+- drop persistent notifications (#1316705,#1358146)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

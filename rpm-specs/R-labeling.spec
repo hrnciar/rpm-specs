@@ -1,29 +1,31 @@
-%global packname  labeling
+%global packname labeling
+%global packver  0.4.2
 %global rlibdir  %{_datadir}/R/library
 
-
 Name:             R-%{packname}
-Version:          0.3
-Release:          7%{?dist}
+Version:          0.4.2
+Release:          1%{?dist}
 Summary:          Axis Labeling
 
 License:          MIT
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:
+# Imports:   R-stats, R-graphics
 # Suggests:
 # LinkingTo:
 # Enhances:
 
 BuildArch:        noarch
-
-BuildRequires:    R-devel tex(latex)
+BuildRequires:    R-devel
+BuildRequires:    tex(latex)
+BuildRequires:    R-stats
+BuildRequires:    R-graphics
 
 %description
-Provides a range of axis labeling algorithms
+Functions which provide a range of axis labeling algorithms.
 
 
 %prep
@@ -57,6 +59,12 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Tue Oct 20 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.4.2-1
+- Update to latest version (#1889617)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun  4 2020 Tom Callaway <spot@fedoraproject.org> - 0.3-7
 - rebuild for R 4
 

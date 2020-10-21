@@ -1,6 +1,6 @@
 Name:           rcssmonitor
 Version:        16.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        RoboCup 2D Soccer Simulator Monitor
 
 License:        GPLv2+
@@ -8,6 +8,7 @@ URL:            http://sourceforge.net/projects/sserver/
 Source0:        http://downloads.sourceforge.net/sserver/%{name}-%{version}.tar.gz
 # Source 1 is created by me.
 Source1:        %{name}.desktop
+Patch0:         %{name}-gcc11.patch
 Provides:       rcsslogplayer = %{version}-%{release}
 Obsoletes:      rcsslogplayer <= 15.1.1-30
 
@@ -27,6 +28,7 @@ understands a very easy description language to build and move 2d objects.
 
 %prep
 %setup -q
+%patch0 -p1
 sed -i.lib \
     -e 's|\$ac_boost_path/lib|\$libdir|' \
     -e 's|$ac_boost_path_tmp/lib|\$libdir|' \
@@ -60,6 +62,12 @@ desktop-file-install \
 %{_datadir}/applications/*
 
 %changelog
+* Fri Oct 16 2020 Jeff Law <law@redhat.com> - 16.0.0-4
+- Fix missing #include for gcc-11
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 16.0.0-2
 - Rebuilt for Boost 1.73
 

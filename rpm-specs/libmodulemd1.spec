@@ -1,6 +1,6 @@
 Name:           libmodulemd1
 Version:        1.8.16
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Module metadata manipulation library
 
 License:        MIT
@@ -112,6 +112,13 @@ export MMD_SKIP_VALGRIND=1
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.16-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.16-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.16-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

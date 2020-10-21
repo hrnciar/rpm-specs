@@ -5,7 +5,7 @@
 
 %global	usegitsource	0
 
-%global	mainver	0.12.5
+%global	mainver	0.12.6
 #%%global	minorver	D%{?tardate}git%{shorthash}
 #%%global	prerelease	1
 
@@ -13,7 +13,7 @@
 
 Name:		wkhtmltopdf
 Version:	%{mainver}
-Release:	%{?prerelease:0.}%{fedorarel}%{?minorver:.%minorver}%{?dist}.3
+Release:	%{?prerelease:0.}%{fedorarel}%{?minorver:.%minorver}%{?dist}
 Summary:	Simple shell utility to convert html to pdf
 
 License:	GPLv3+
@@ -21,13 +21,9 @@ URL:		http://wkhtmltopdf.org/
 #Source0:	https://github.com/%{name}/%{name}/archive/%{githash}/%{name}-%{mainver}-D%{tardate}git%{shorthash}.tar.gz
 Source0:	https://github.com/%{name}/%{name}/archive/%{mainver}/%{name}-%{mainver}.tar.gz
 
-%if 0%{?fedora} >= 24
 BuildRequires:	qt5-qtwebkit-devel
 BuildRequires:	qt5-qtxmlpatterns-devel
 BuildRequires:	qt5-qtsvg-devel
-%else
-BuildRequires:	qtwebkit-devel
-%endif
 
 %description
 Simple shell utility to convert html to pdf using the webkit
@@ -71,11 +67,7 @@ rm -f AUTHORS.bom
 %if 0%{?usegitsource} >= 1
 cd %{name}-*/
 %endif
-%if 0%{?fedora} >= 24
 %{qmake_qt5}
-%else
-%{qmake_qt4}
-%endif
 make %{_smp_mflags}
 
 %install
@@ -114,6 +106,12 @@ make install \
 
 
 %changelog
+* Sun Aug  9 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 0.12.6-1
+- 0.12.6
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.5-1.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.5-1.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

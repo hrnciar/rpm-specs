@@ -1,6 +1,6 @@
 Name:          thinkfan
-Version:       1.1
-Release:       1%{?dist}
+Version:       1.2.1
+Release:       2%{?dist}
 Summary:       A simple fan control program
 
 License:       GPLv3+
@@ -32,14 +32,13 @@ with thinkpad_acpi. It is designed to eat as little CPU power as possible.
 
 %build
 %cmake -DUSE_ATASMART:BOOL=ON .
-%make_build
-
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 # Install configuration file
-install -Dpm 0644 examples/thinkfan.conf.simple %{buildroot}%{_sysconfdir}/thinkfan.conf
+install -Dpm 0644 examples/thinkfan.yaml %{buildroot}%{_sysconfdir}/thinkfan.conf
 
 # Install modprobe configuration file
 install -Dpm 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/modprobe.d/thinkfan.conf
@@ -63,11 +62,12 @@ rm -f %{buildroot}/%{_pkgdocdir}/COPYING
 
 %files
 %license COPYING
-%doc README
-%doc %{_pkgdocdir}/thinkfan.conf.*
+%doc README.md
+%doc %{_pkgdocdir}/thinkfan.yaml
 %{_sbindir}/thinkfan
 %{_unitdir}/thinkfan.service
 %{_unitdir}/thinkfan-wakeup.service
+%{_unitdir}/thinkfan-sleep.service
 %config(noreplace) %{_sysconfdir}/sysconfig/thinkfan
 %config(noreplace) %{_sysconfdir}/thinkfan.conf
 %config(noreplace) %{_sysconfdir}/modprobe.d/thinkfan.conf
@@ -76,6 +76,15 @@ rm -f %{buildroot}/%{_pkgdocdir}/COPYING
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Sandro Mani <manisandro@gmail.com> - 1.2.1-1
+- Update to 1.2.1
+
+* Sat Jun 06 2020 Sandro Mani <manisandro@gmail.com> - 1.2-1
+- Update to 1.2
+
 * Sat Apr 04 2020 Sandro Mani <manisandro@gmail.com> - 1.1-1
 - Update to 1.1
 

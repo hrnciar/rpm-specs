@@ -1,6 +1,6 @@
 Name:           rsnapshot
 Version:        1.4.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Local and remote filesystem snapshot utility
 License:        GPLv2+
 URL:            https://rsnapshot.org/
@@ -84,6 +84,9 @@ find utils/ -type f -print0 | xargs -r0 chmod 644
 %{_mandir}/man1/rsnapshot*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 31 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.4.3-3
 - Specify all perl dependencies needed for tests
 

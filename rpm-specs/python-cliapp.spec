@@ -2,7 +2,7 @@
 
 Name:           python-%{pkgname}
 Version:        1.20180121
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Python framework for Unix command line programs
 
 License:        GPLv2+
@@ -58,6 +58,9 @@ rm -rf .coverage
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.20180121-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.20180121-7
 - Rebuilt for Python 3.9
 

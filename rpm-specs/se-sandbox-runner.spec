@@ -1,3 +1,5 @@
+%define __cmake_in_source_build 1
+
 %global cmake_build_dir build-cmake
 %global debug_package %{nil}
 %bcond_without qt4
@@ -5,7 +7,7 @@
 
 Name:           se-sandbox-runner
 Version:        1.7.14
-Release:        10%{?dist}
+Release:        13%{?dist}
 Summary:        Qt wrapper for SELinux Sandbox
 License:        GPLv2+
 Source0:        https://github.com/F1ash/%{name}/archive/%{version}.tar.gz
@@ -105,6 +107,16 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}-qt5.desktop
 %endif
 
 %changelog
+* Tue Sep 20 2020 Jeff Law <law@redhat.com> - 1.7.14-13
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.14-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.14-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.14-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

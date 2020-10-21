@@ -2,7 +2,7 @@
 
 Name:           libtifiles2
 Version:        1.1.7
-Release:        9%{?dist}
+Release:        11%{?dist}
 Summary:        Texas Instruments calculator files library
 
 License:        GPLv2+
@@ -101,6 +101,13 @@ rm %{buildroot}/%{_pkgdocdir}/COPYING
 %{_includedir}/tilp2/typesxx.h
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.7-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.7-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.7-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

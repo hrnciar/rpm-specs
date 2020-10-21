@@ -2,7 +2,7 @@
 
 Name:           nodejs-%{npmname}
 Version:        1.0.1
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Port of TweetNaCl cryptographic library to JavaScript
 
 License:        Unlicense
@@ -63,6 +63,13 @@ tape test/*.js test/c/*.js
 %doc README.md AUTHORS.md CHANGELOG.md
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,5 +1,5 @@
 Name:		xxhash
-Version:	0.7.3
+Version:	0.8.0
 Release:	1%{?dist}
 Summary:	Extremely fast hash algorithm
 
@@ -8,6 +8,9 @@ Summary:	Extremely fast hash algorithm
 License:	BSD and GPLv2+
 URL:		http://www.xxhash.com/
 Source0:	https://github.com/Cyan4973/xxHash/archive/v%{version}/%{name}-%{version}.tar.gz
+#		Fix empty version in .pc file
+#		https://github.com/Cyan4973/xxHash/pull/442
+Patch0:		%{name}-pkgconfig-version.patch
 
 BuildRequires:	gcc
 
@@ -39,12 +42,26 @@ Development files for the xxhash library
 
 %prep
 %setup -q -n xxHash-%{version}
+%patch0 -p1
 
 %build
-make %{?_smp_mflags} CFLAGS="%{optflags}" MOREFLAGS="%{?__global_ldflags} -fPIC"
+# Enable runtime detection of sse2/avx2/avx512 on intel architectures
+%ifarch %{ix86} x86_64
+# The compiler version in EPEL 6 and 7 does not support avx
+%if %{?rhel}%{!?rhel:0} == 6 || %{?rhel}%{!?rhel:0} == 7
+%global dispatch 0
+%else
+%global dispatch 1
+%endif
+%else
+%global dispatch 0
+%endif
+
+%make_build MOREFLAGS="%{__global_cflags} %{?__global_ldflags}" \
+	    DISPATCH=%{dispatch}
 
 %install
-make install DESTDIR=%{buildroot} PREFIX=%{_prefix} LIBDIR=%{_libdir}
+%make_install PREFIX=%{_prefix} LIBDIR=%{_libdir}
 rm %{buildroot}/%{_libdir}/libxxhash.a
 
 %check
@@ -71,6 +88,20 @@ make test-xxhsum-c
 %{_libdir}/pkgconfig/libxxhash.pc
 
 %changelog
+* Tue Jul 28 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 0.8.0-1
+- Update to version 0.8.0
+- Drop patches xxhash-compiler-warning-32-bit.patch (accepted upstream)
+  and xxhash-pkgconfig.patch (issue fixed upstream)
+- Fix empty version in .pc file
+
+* Fri Jul 24 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 0.7.4-2
+- Fix libdir in pkg-config file
+
+* Sat Jun 27 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 0.7.4-1
+- Update to version 0.7.4
+- Enable runtime detection of sse2/avx2/avx512 on intel architectures
+- Fix compiler warning for 32 bit architectures
+
 * Fri Mar 06 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 0.7.3-1
 - Update to version 0.7.3
 - Drop patch xxhash-gcc10-altivec.patch (accepted upstream)

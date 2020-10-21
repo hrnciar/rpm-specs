@@ -53,7 +53,7 @@
 Summary: Intel PSM Libraries
 Name: libpsm2
 Version: 11.2.86
-Release: 4%{?dist}
+Release: 7%{?dist}
 License: BSD or GPLv2
 URL: https://github.com/01org/opa-psm2/
 
@@ -64,6 +64,8 @@ URL: https://github.com/01org/opa-psm2/
 # make dist
 Source0: %{name}-%{version}.tar.gz
 Patch0: 0001-Fix-multiple-definition-issues.patch
+Patch1: makefile-distro-from-environment.patch
+Patch2: %{name}-gcc11.patch
 
 # The OPA product is supported on x86 64 only:
 ExclusiveArch: x86_64
@@ -103,12 +105,20 @@ Support for MPIs linked with PSM versions < 2
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 %{set_build_flags}
 %{make_build}
 
 %install
+%if 0%{?fedora}
+export DISTRO=fedora
+%endif
+%if 0%{?rhel}
+export DISTRO=rhel
+%endif
 %make_install
 rm -f %{buildroot}%{_libdir}/*.a
 
@@ -142,6 +152,15 @@ rm -f %{buildroot}%{_libdir}/*.a
 %endif
 
 %changelog
+* Mon Oct 19 2020 Jeff Law <law@redhat.com> - 11.2.86-7
+- Avoid out of bounds array index diagnostic with gcc-11
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 11.2.86-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Merlin Mathesius <mmathesi@redhat.com> - 11.2.86-5
+- Minor updates to enable building for ELN
+
 * Mon Feb 10 2020 Honggang Li <honli@redhat.com> - 11.2.86-4
 - Fix FTBFS in Fedora rawhide/f32
 - Resolves: bz1799597

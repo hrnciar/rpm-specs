@@ -3,8 +3,8 @@
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           espresso
-Version:        4.1.2
-Release:        4%{?dist}
+Version:        4.1.4
+Release:        1%{?dist}
 Summary:        Extensible Simulation Package for Research on Soft matter
 # segfault on s390x: https://github.com/espressomd/espresso/issues/3753
 ExcludeArch:    s390x
@@ -15,10 +15,8 @@ URL:            http://espressomd.org
 Source0:        https://github.com/%{name}md/%{name}/archive/%{commit}/%{name}-%{commit}.tar.gz
 %else
 Source0:       https://github.com/%{name}md/%{name}/releases/download/%{version}/%{name}-%{version}.tar.gz
-# https://github.com/espressomd/espresso/pull/3725.patch on boost-1.73
-Patch0:        https://github.com/espressomd/espresso/pull/3725.patch
 %endif
-
+Patch0:         %{name}-gcc11.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  cmake3 >= 3.4
@@ -109,8 +107,8 @@ This package contains %{name} compiled against MPICH2.
 %setup -q -n espresso-%{commit}
 %else
 %setup -q -n %{name}
-%patch0 -p1
 %endif
+%patch0 -p1
 
 %build
 %global defopts \\\
@@ -120,34 +118,39 @@ This package contains %{name} compiled against MPICH2.
  -DCMAKE_SKIP_RPATH=ON \\\
  -DINSTALL_PYPRESSO=OFF \\\
  -DCYTHON_EXECUTABLE=%{cython}
+%global _vpath_builddir ${mpi:-serial}
+
+# https://github.com/espressomd/espresso/issues/3396
+%global _lto_cflags %{nil}
 
 #save some memory using -j1
-%define _smp_mflags -j1
+%global _smp_mflags -j1
 
 for mpi in mpich openmpi ; do
    module load mpi/${mpi}-%{_arch}
-   mkdir ${mpi}
-   pushd ${mpi}
    old_LDFLAGS="${LDFLAGS}"
    export LDFLAGS="${LDFLAGS} -Wl,-rpath,${MPI_PYTHON3_SITEARCH}/%{name}md"
-   %{cmake3} %{defopts} -DLIBDIR=${MPI_LIB} -DPYTHON_INSTDIR=${MPI_PYTHON3_SITEARCH} ..
-   LD_LIBRARY_PATH=$PWD/src/config %make_build
+   %{cmake3} %{defopts} -DLIBDIR=${MPI_LIB} -DPYTHON_INSTDIR=${MPI_PYTHON3_SITEARCH}
+   export LD_LIBRARY_PATH=$PWD/${mpi:-serial}/src/config
+   %cmake3_build
    export LDFLAGS="${old_LDFLAGS}"
-   popd
    module unload mpi/${mpi}-%{_arch}
 done
 
 %install
 for mpi in mpich openmpi ; do
    module load mpi/${mpi}-%{_arch}
-   %make_install -C "${mpi}"
+   %cmake3_install
    module unload mpi/${mpi}-%{_arch}
 done
 
 %check
-for mpi in mpich openmpi ; do
+export CTEST_OUTPUT_ON_FAILURE=1
+# exclude openmpi, see https://github.com/espressomd/espresso/issues/3905
+for mpi in mpich; do
    module load mpi/${mpi}-%{_arch}
-   LD_LIBRARY_PATH=${MPI_LIB}:%{buildroot}${MPI_PYTHON3_SITEARCH}/%{name}md make -C "${mpi}" check CTEST_OUTPUT_ON_FAILURE=1 %{?testargs:%{testargs}}
+   export LD_LIBRARY_PATH=${MPI_LIB}:%{buildroot}${MPI_PYTHON3_SITEARCH}/%{name}md
+   %cmake3_build --target check
    module unload mpi/${mpi}-%{_arch}
 done
 
@@ -162,6 +165,25 @@ done
 %{python3_sitearch}/mpich/%{name}md/
 
 %changelog
+* Tue Oct 20 2020 Christoph Junghans <junghans@votca.org> - 4.1.4-1
+- Version bump to v4.1.4 (bug #1889614)
+
+* Mon Oct 19 2020 Jeff Law <law@redhat.com> - 4.1.3-4
+- Fix missing #includes from gcc-10
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 08 2020 Christoph Junghans <junghans@votca.org> - 4.1.3-1
+- version bump to v4.1.3 (bug #1855054)
+
+* Fri Jul 03 2020 Christoph Junghans <junghans@votca.org> - 4.1.2-5
+- Rebuild for hdf5 1.10.6
+
 * Thu Jun 11 2020 Christoph Junghans <junghans@votca.org> - 4.1.2-4
 - fix build with boost-1.73
 

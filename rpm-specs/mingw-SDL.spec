@@ -2,7 +2,7 @@
 
 Name:           mingw-SDL
 Version:        1.2.15
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        MinGW Windows port of SDL cross-platform multimedia library
 
 URL:        https://www.libsdl.org/
@@ -234,6 +234,9 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.15-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 13 2020 Daniel P. Berrangé <berrange@redhat.com> - 1.2.15-16
 - Sync sources/patches with native package
 - Fixes CVE-2019-13616, CVE-2019-7572, CVE-2019-7572, CVE-2019-7573

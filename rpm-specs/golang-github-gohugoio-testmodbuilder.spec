@@ -15,7 +15,7 @@ Some helper scripts used for Hugo testing.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.2%{?dist}
+Release:        0.4%{?dist}
 Summary:        Some helper scripts used for Hugo testing
 
 License:        MIT
@@ -57,6 +57,13 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 18 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0-0.2.20200418git3e92b57
 - Update to latest commit
 

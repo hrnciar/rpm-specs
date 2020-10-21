@@ -1,6 +1,6 @@
 Name:           cryptominisat
 Version:        5.7.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        SAT solver
 
 License:        MIT
@@ -67,11 +67,11 @@ fi
 sed -ri 's|install |&--root %{buildroot} |' python/CMakeLists.txt
 
 %build
-%cmake . -DCMAKE_INSTALL_LIBDIR=%{_lib}
-%make_build
+%cmake -DCMAKE_INSTALL_LIBDIR=%{_lib}
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 # Move cmake files to where they should go
 if [ "%{_lib}" = "lib64" ]; then
@@ -102,6 +102,9 @@ fi
 %{python3_sitearch}/pycryptosat*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.7.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 5.7.1-3
 - Rebuilt for Boost 1.73
 

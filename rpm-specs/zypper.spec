@@ -1,17 +1,16 @@
-%global min_libzypp_ver 17.23.2
+# Force out of source build
+%undefine __cmake_in_source_build
+
+%global min_libzypp_ver 17.24.1
 
 Name:           zypper
-Version:        1.14.35
-Release:        2%{?dist}
+Version:        1.14.37
+Release:        1%{?dist}
 Summary:        Command line package manager using libzypp
 
 License:        GPLv2+
 URL:            http://en.opensuse.org/Portal:Zypper
 Source0:        https://github.com/openSUSE/zypper/archive/%{version}/%{name}-%{version}.tar.gz
-
-# Backports from upstream
-Patch0001:      0001-Fix-comparison-object-must-be-invocable-as-const-err.patch
-Patch0002:      0002-fixup-Fix-comparison-object-must-be-invocable-as-con.patch
 
 BuildRequires:  %{_bindir}/asciidoctor
 BuildRequires:  %{_bindir}/xsltproc
@@ -86,12 +85,12 @@ find -type f -exec sed -i -e "s|\${CMAKE_INSTALL_PREFIX}/lib/\${PACKAGE}|\${CMAK
 find -type f -exec sed -i -e "s|\${INSTALL_PREFIX}/share/doc/packages/\${PACKAGE}|\${INSTALL_PREFIX}/share/doc/\${PACKAGE}|g" {} ';'
 
 %build
-%cmake . -B"%{_vpath_builddir}" -DCMAKE_BUILD_TYPE=RelWithDebInfo -DDOC_INSTALL_DIR=%{_docdir} -DENABLE_BUILD_TESTS=ON -DENABLE_BUILD_TRANS=ON
-%make_build -C %{_vpath_builddir}
+%cmake  -DCMAKE_BUILD_TYPE=RelWithDebInfo -DDOC_INSTALL_DIR=%{_docdir} -DENABLE_BUILD_TESTS=ON -DENABLE_BUILD_TRANS=ON
+%cmake_build
 
 
 %install
-%make_install -C %{_vpath_builddir}
+%cmake_install
 
 mkdir -p %{buildroot}%{_libexecdir}/zypper/commands
 
@@ -156,6 +155,19 @@ popd
 
 
 %changelog
+* Sat Aug 08 2020 Neal Gompa <ngompa13@gmail.com> - 1.14.37-1
+- Update to 1.14.37 (#1823433)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14.35-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14.35-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.14.35-3
+- Perl 5.32 rebuild
+
 * Fri Mar 20 2020 Neal Gompa <ngompa13@gmail.com> - 1.14.35-2
 - Backport fixup commit for building with C++17
 

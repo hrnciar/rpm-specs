@@ -6,13 +6,16 @@
 
 Name:           rust-%{crate}
 Version:        0.20.0
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Linear algebra library with transformations and matrices
 
 # Upstream license specification: BSD-3-Clause
 License:        BSD
 URL:            https://crates.io/crates/nalgebra
 Source:         %{crates_source}
+# Initial patched metadata
+# * Update num-complex and num-rational to 0.3
+Patch0:         nalgebra-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -288,6 +291,16 @@ which use "stdweb" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Josh Stone <jistone@redhat.com> - 0.20.0-2
+- Update num-complex and num-rational to 0.3
+
 * Mon Mar 02 17:15:39 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.20.0-1
 - Update to 0.20.0
 

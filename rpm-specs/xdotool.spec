@@ -1,11 +1,11 @@
 Name:           xdotool
-Version:        3.20150503.1
+Version:        3.20160805.1
 Epoch:          1
-Release:        10%{?dist}
+Release:        1%{?dist}
 Summary:        Fake keyboard/mouse input
 License:        BSD
 URL:            http://www.semicomplete.com/projects/xdotool/
-Source0:        https://github.com/jordansissel/xdotool/archive/%{name}-%{version}.tar.gz
+Source0:        https://github.com/jordansissel/xdotool/releases/download/v%{version}/xdotool-%{version}.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  libXtst-devel, libX11-devel, libXinerama-devel, libXi-devel, /usr/bin/pod2man, libxkbcommon-devel
@@ -16,7 +16,7 @@ and mouse activity, move and re-size windows, etc.
 
 %package -n libxdo
 Summary: Keyboard input simulation library
-                                                                                                                                                                                  
+
 %description -n libxdo
 This library contains functions to simulate keyboard and mouse input
 
@@ -59,6 +59,12 @@ chmod 0644 examples/ffsp.sh
 %doc examples
 
 %changelog
+* Fri Sep 25 2020 Till Maas <opensource@till.name> - 3.20160805.1-1
+- Update to latest release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.20150503.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.20150503.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

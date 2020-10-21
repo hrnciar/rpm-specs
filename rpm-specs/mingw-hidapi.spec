@@ -4,7 +4,7 @@
 
 Name:           mingw-%{nativename}
 Version:        0.9.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Library for communicating with USB and Bluetooth HID devices
 
 License:        GPLv3 or BSD
@@ -115,6 +115,9 @@ rm -r %{buildroot}%{mingw64_datadir}/*
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

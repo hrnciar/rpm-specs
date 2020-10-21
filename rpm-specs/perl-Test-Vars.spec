@@ -1,6 +1,6 @@
 Name:		perl-Test-Vars
 Version:	0.014
-Release:	15%{?dist}
+Release:	17%{?dist}
 Summary:	Detects unused variables
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Test-Vars
@@ -84,6 +84,12 @@ prove -Ilib $(echo $(find xt/ -name '*.t'))
 %{_mandir}/man3/Test::Vars.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.014-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.014-16
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.014-15
 - Perl 5.32 rebuild
 

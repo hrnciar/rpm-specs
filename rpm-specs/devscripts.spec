@@ -1,5 +1,5 @@
 Name:           devscripts
-Version:        2.20.3
+Version:        2.20.4
 Release:        2%{?dist}
 Summary:        Scripts for Debian Package maintainers
 
@@ -160,6 +160,15 @@ rm -f %{buildroot}%{_datadir}/bash-completion/completions/bts
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.20.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Sérgio Basto <sergio@serjux.com> - 2.20.4-1
+- Update devscripts to 2.20.4 (#1851772)
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.20.3-3
+- Perl 5.32 rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.20.3-2
 - Rebuilt for Python 3.9
 

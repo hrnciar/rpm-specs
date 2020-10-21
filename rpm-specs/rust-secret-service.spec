@@ -6,13 +6,21 @@
 
 Name:           rust-%{crate}
 Version:        1.1.0
-Release:        1%{?dist}
+Release:        5%{?dist}
 Summary:        Library to interface with Secret Service API
 
 # Upstream license specification: MIT OR Apache-2.0
 License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/secret-service
 Source:         %{crates_source}
+# patch Cargo.toml to update dependencies (no code changes necessary)
+# https://github.com/hwchen/secret-service-rs/pull/21
+# - aes 0.3.2 → 0.4.0
+# - block-modes 0.3.2 → 0.5.0
+# - hkdf 0.8 → 0.9
+# - num 0.2.0 → 0.3.0
+# - sha2 0.8.0 → 0.9
+Patch0:         secret-service-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -71,6 +79,19 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Mon Aug 24 2020 Fabio Valentini <decathorpe@gmail.com> - 1.1.0-5
+- Bump dependencies in Cargo.toml to fix FTBFS issue.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Josh Stone <jistone@redhat.com> - 1.1.0-2
+- Bump num to 0.3
+
 * Thu Mar 05 2020 Josh Stone <jistone@redhat.com> - 1.1.0-1
 - Update to 1.1.0
 

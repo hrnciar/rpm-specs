@@ -5,7 +5,7 @@
 
 Name:           metslib
 Version:        0.5.3
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Metaheuristic modeling framework and optimization toolkit in modern C++
 
 License:        GPLv3+ or CPL
@@ -85,6 +85,9 @@ make test
 %doc doxydoc/html COPYING
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

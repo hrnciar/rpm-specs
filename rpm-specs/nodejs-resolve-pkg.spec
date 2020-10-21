@@ -7,7 +7,7 @@
 
 Name:		nodejs-resolve-pkg
 Version:	1.0.0
-Release:	7%{?dist}
+Release:	8%{?dist}
 Summary:	Resolve the path of a package regardless of it having an entry
 
 License:	MIT
@@ -69,6 +69,9 @@ cp -pr package.json index.js \
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

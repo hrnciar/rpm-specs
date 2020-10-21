@@ -1,6 +1,6 @@
 Name:           xalan-c
 Version:        1.11.0
-Release:        17%{?dist}
+Release:        19%{?dist}
 Summary:        Xalan XSLT processor for C
 
 License:        ASL 2.0
@@ -80,6 +80,13 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.0-19
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.0-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.0-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

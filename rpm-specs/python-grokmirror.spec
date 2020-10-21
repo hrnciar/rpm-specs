@@ -1,6 +1,6 @@
 Name:           python-grokmirror
 Version:        1.2.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Framework to smartly mirror git repositories
 
 License:        GPLv3+
@@ -53,6 +53,9 @@ Requires:       python3-GitPython, python3-anyjson, python3-setuptools, python3-
 %{_mandir}/*/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.0-6
 - Rebuilt for Python 3.9
 

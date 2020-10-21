@@ -4,7 +4,7 @@
 
 Name:           eiskaltdcpp
 Version:        2.2.11
-Release:        27.%{date}git%{gitcommit}%{?dist}
+Release:        30.%{date}git%{gitcommit}%{?dist}
 Summary:        Direct Connect client
 Summary(ru):    Клиент сети Direct Connect
 
@@ -114,13 +114,12 @@ sed -i '/SSL_CTX_set_cipher_list/d' dcpp/CryptoManager.cpp
     -DUSE_CLI_XMLRPC=ON \
     -DWITH_SOUNDS=ON \
     -DLUA_SCRIPT=ON \
-    -DWITH_LUASCRIPTS=ON \
-    .
-%make_build
+    -DWITH_LUASCRIPTS=ON
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
@@ -163,6 +162,16 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.11-30.20200616git2ec27a2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.11-29.20200616git2ec27a2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.2.11-28.20200616git2ec27a2
+- Perl 5.32 re-rebuild updated packages
+
 * Mon Apr 27 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 2.2.11-24.20200619git2ec27a2
 - Update to latest git
 

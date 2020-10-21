@@ -3,7 +3,7 @@
 Summary: Tools for Linux kernel block layer cache
 Name: bcache-tools
 Version: 1.0.8
-Release: 18%{?dist}
+Release: 19%{?dist}
 License: GPLv2
 URL: http://bcache.evilpiepirate.org/
 VCS: https://github.com/g2p/bcache-tools.git
@@ -108,6 +108,9 @@ install -p  -m 755 bcache-status %{buildroot}%{_sbindir}/bcache-status
 %{dracutlibdir}/modules.d/90bcache
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.8-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.8-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           libxfce4util
 Version:        4.14.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Utility library for the Xfce4 desktop environment
 
 License:        LGPLv2+
@@ -72,6 +72,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 %doc %{_datadir}/gtk-doc/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

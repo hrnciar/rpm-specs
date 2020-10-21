@@ -1,6 +1,12 @@
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 Name:		qrupdate
 Version:	1.1.2
-Release:	19%{?dist}
+Release:	21%{?dist}
 Summary:	A Fortran library for fast updates of QR and Cholesky decompositions
 License:	GPLv3+
 URL:		http://qrupdate.sourceforge.net/
@@ -8,7 +14,7 @@ Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 
 BuildRequires:	gcc-gfortran
 
-BuildRequires:	openblas-devel
+BuildRequires:	%{blaslib}-devel
 
 %description
 qrupdate is a Fortran library for fast updates of QR and Cholesky
@@ -17,7 +23,7 @@ decompositions.
 %package devel
 Summary:	Development libraries for %{name}
 Requires:	%{name} = %{version}-%{release}
-Requires:	openblas-devel%{?_isa}
+Requires:	%{blaslib}-devel%{?_isa}
 
 %description devel
 This package contains the development libraries for %{name}.
@@ -28,7 +34,7 @@ This package contains the development libraries for %{name}.
 sed -i 's|$(PREFIX)/lib/|$(DESTDIR)%{_libdir}/|g' src/Makefile
 
 %build
-%make_build solib FC=gfortran FFLAGS="%{optflags} -fimplicit-none -funroll-loops -fallow-argument-mismatch" BLAS="-lopenblas" LAPACK=
+%make_build solib FC=gfortran FFLAGS="%{optflags} -fimplicit-none -funroll-loops -fallow-argument-mismatch" BLAS="-l%{blaslib}" LAPACK=
 
 %install
 make install-shlib LIBDIR=%{_libdir} PREFIX="%{buildroot}"
@@ -36,7 +42,7 @@ make install-shlib LIBDIR=%{_libdir} PREFIX="%{buildroot}"
 chmod 755 %{buildroot}%{_libdir}/libqrupdate.*
 
 %check
-make test FC=gfortran FFLAGS="%{optflags} -fimplicit-none -funroll-loops -fallow-argument-mismatch" BLAS="-lopenblas" LAPACK=
+make test FC=gfortran FFLAGS="%{optflags} -fimplicit-none -funroll-loops -fallow-argument-mismatch" BLAS="-l%{blaslib}" LAPACK=
 
 %ldconfig_scriptlets
 
@@ -50,6 +56,12 @@ make test FC=gfortran FFLAGS="%{optflags} -fimplicit-none -funroll-loops -fallow
 
 
 %changelog
+* Sun Aug 16 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.1.2-21
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

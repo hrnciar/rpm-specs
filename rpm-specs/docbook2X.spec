@@ -1,6 +1,6 @@
 Name:           docbook2X
 Version:        0.8.8
-Release:        36%{?dist}
+Release:        37%{?dist}
 Summary:        Convert docbook into man and Texinfo
 
 License:        MIT
@@ -69,6 +69,9 @@ rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.8-37
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.8.8-36
 - Perl 5.32 rebuild
 

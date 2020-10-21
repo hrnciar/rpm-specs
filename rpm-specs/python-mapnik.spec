@@ -10,7 +10,7 @@
 
 Name:           python-%{srcname}
 Version:        3.0.23
-Release:        4.20200224git%{shortcommit}%{?dist}
+Release:        6.20200224git%{shortcommit}%{?dist}
 Summary:        Python bindings for Mapnik
 
 License:        LGPLv2+
@@ -36,6 +36,7 @@ ExcludeArch:    ppc ppc64 s390 s390x
 
 BuildRequires:  gcc-c++
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-nose
 BuildRequires:  python3-PyPDF2
 
@@ -94,6 +95,12 @@ PGHOST="$PWD" LANG="C.UTF-8" BOOST_PYTHON_LIB=boost_python%{python3_version_nodo
 
 
 %changelog
+* Mon Oct  5 2020 Tom Hughes <tom@compton.nu> - 3.0.23-6.20200224git7da019c
+- Require setuptools
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.23-5.20200224git7da019c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun  2 2020 Tom Hughes <tom@compton.nu> - 3.0.23-4.20200224git7da019c
 - Rebuilt for Boost 1.73
 

@@ -4,7 +4,7 @@
 
 # https://github.com/prometheus/common
 %global goipath         github.com/prometheus/common
-Version:                0.9.1
+Version:                0.10.0
 
 %gometa
 
@@ -90,6 +90,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Fri Jul 31 20:28:56 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.10.0-1
+- Update to 0.10.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 02 01:59:57 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.9.1-1
 - Update to 0.9.1
 

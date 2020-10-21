@@ -1,6 +1,6 @@
 Name:           ansible-review
 Version:        0.13.9
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Reviews Ansible playbooks, roles and inventory and suggests improvements
 License:        MIT
 URL:            https://github.com/willthames/ansible-review
@@ -60,6 +60,9 @@ nosetests-%{python3_version} -v test/
 %{python3_sitelib}/ansible_review*.egg-info
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.9-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 09 2020 Nils Philippsen <nils@redhat.com> - 0.13.9-5
 - fix crash caused by removing elements while iterating over a dictionary
 

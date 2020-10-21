@@ -7,7 +7,7 @@
 
 Name:           nodejs-%{npmname}
 Version:        1.1.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Nodejs lib which can read/write Qt formatted Datastreams
 
 License:        MIT
@@ -73,6 +73,13 @@ grunt nodeunit --force
 %doc README.md
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

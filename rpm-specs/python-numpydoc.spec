@@ -1,21 +1,17 @@
 Name:           python-numpydoc
-Version:        0.9.2
-Release:        4%{?dist}
+Version:        1.1.0
+Release:        1%{?dist}
 Summary:        Sphinx extension to support docstrings in NumPy format
 
 License:        BSD
 URL:            https://pypi.python.org/pypi/numpydoc
 Source0:        https://files.pythonhosted.org/packages/source/n/numpydoc/numpydoc-%{version}.tar.gz
-# Upstream patch for python 3.9 compatibility
-Patch0:         https://github.com/numpy/numpydoc/pull/262.patch
+# Upstream patch to ignore doc/ directory during tests
+Patch0:         https://github.com/numpy/numpydoc/pull/296.patch
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-BuildRequires:  python3-nose
-BuildRequires:  python3-pytest
-BuildRequires:  python3-sphinx
-BuildRequires:  python3-matplotlib
+BuildRequires:  pyproject-rpm-macros
 
 %description
 Numpydoc inserts a hook into Sphinx's autodoc that converts docstrings
@@ -25,8 +21,6 @@ following the NumPy/SciPy format to a form palatable to Sphinx.
 %package -n     python3-numpydoc
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-numpydoc}
-Requires:       python3-sphinx >= 1.6.5
-Requires:       python3-jinja2 >= 2.3
 %description -n python3-numpydoc
 Numpydoc inserts a hook into Sphinx's autodoc that converts docstrings
 following the NumPy/SciPy format to a form palatable to Sphinx.
@@ -35,25 +29,32 @@ following the NumPy/SciPy format to a form palatable to Sphinx.
 %prep
 %autosetup -p1 -n numpydoc-%{version}
 
+%generate_buildrequires
+%pyproject_buildrequires -x testing
+
 %build
-%py3_build
+%pyproject_wheel
 
 %install
-%py3_install
-
+%pyproject_install
+%pyproject_save_files numpydoc
 
 %check
-nosetests-3 -v
+# Deselected tests need to download an inventory from docs.python.org
+%pytest -k "not test_MyClass and not test_my_function"
 
 
-%files -n python3-numpydoc
+%files -n python3-numpydoc -f %pyproject_files
 %license LICENSE.txt
 %doc README.rst
-%{python3_sitelib}/numpydoc
-%{python3_sitelib}/numpydoc-%{version}-py%{python3_version}.egg-info
-
 
 %changelog
+* Wed Sep 09 2020 Lumír Balhar <lbalhar@redhat.com> - 1.1.0-1
+- Update to 1.1.0 (#1701764)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.2-4
 - Rebuilt for Python 3.9
 

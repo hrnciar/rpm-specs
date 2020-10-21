@@ -25,7 +25,7 @@
 
 Name:      php-%{composer_project}
 Version:   %{github_version}
-Release:   9%{?github_release}%{?dist}
+Release:   10%{?github_release}%{?dist}
 Summary:   Promoting the interoperability of container objects (DIC, SL, etc.)
 
 License:   MIT
@@ -131,6 +131,9 @@ exit (interface_exists("Interop\\Container\\ContainerInterface") ? 0 : 1);
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

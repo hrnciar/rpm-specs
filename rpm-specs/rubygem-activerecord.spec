@@ -3,19 +3,22 @@
 
 Name: rubygem-%{gem_name}
 Epoch: 1
-Version: 5.2.3
-Release: 4%{?dist}
+Version: 6.0.3.4
+Release: 1%{?dist}
 Summary: Object-relational mapper framework (part of Rails)
 License: MIT
 URL: http://rubyonrails.org
-Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
+Source0: https://rubygems.org/gems/%{gem_name}-%{version}%{?prerelease}.gem
+# The gem doesn't ship with the test suite.
+# You may check it out like so
 # git clone http://github.com/rails/rails.git
-# cd rails/activerecord/
-# git checkout v5.2.3 && tar czvf activerecord-5.2.3-tests.tgz test/
-Source1: activerecord-%{version}-tests.tgz
-# Fix Ruby 2.7 compatibility.
-# https://github.com/rails/rails/pull/37262
-Patch0: rubygem-activerecord-5.2.3-Update-for-Time-inspect.patch
+# cd rails/activerecord && git archive -v -o activerecord-6.0.3.4-tests.txz v6.0.3.4 test/
+Source1: activerecord-%{version}%{?prerelease}-tests.txz
+# The tools are needed for the test suite, are however unpackaged in gem file.
+# You may check it out like so
+# git clone http://github.com/rails/rails.git --no-checkout
+# cd rails && git archive -v -o rails-6.0.3.4-tools.txz v6.0.3.4 tools/
+Source2: rails-%{version}%{?prerelease}-tools.txz
 
 # Database dump/load reuires the executable.
 Suggests: %{_bindir}/sqlite3
@@ -23,11 +26,12 @@ BuildRequires: rubygems-devel
 BuildRequires: rubygem(bcrypt)
 BuildRequires: rubygem(activesupport) = %{version}
 BuildRequires: rubygem(activemodel)   = %{version}
+BuildRequires: rubygem(actionpack)   = %{version}
 BuildRequires: rubygem(builder)
 BuildRequires: rubygem(sqlite3)
 BuildRequires: rubygem(mocha)
-BuildRequires: rubygem(arel)
 BuildRequires: rubygem(rack)
+BuildRequires: rubygem(pg)
 BuildRequires: %{_bindir}/sqlite3
 BuildArch: noarch
 
@@ -46,14 +50,10 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -n %{gem_name}-%{version} -b 1
-
-pushd %{_builddir}
-%patch0 -p2
-popd
+%setup -q -n %{gem_name}-%{version}%{?prerelease} -b1 -b2
 
 %build
-gem build ../%{gem_name}-%{version}.gemspec
+gem build ../%{gem_name}-%{version}%{?prerelease}.gemspec
 %gem_install
 
 
@@ -64,30 +64,15 @@ cp -a .%{gem_dir}/* \
 
 %check
 pushd .%{gem_instdir}
-
+ln -s %{_builddir}/tools ..
 # Move the tests into place.
-cp -a %{_builddir}/test test
+mv %{_builddir}/test .
 
-# Tests are broken on Fedora
-# https://github.com/rails/rails/pull/34436
-sed -i '/^\s*def test_too_many_binds$/ a skip' \
-  test/cases/bind_parameter_test.rb
-# https://github.com/rails/rails/issues/25774#issuecomment-445031789
-sed -i '/^\s*def test_preloading_has_many_through_with_implicit_source$/ a skip' \
-  test/cases/associations/eager_test.rb
-sed -i '/^\s*def test_eager_habtm_with_association_inheritance$/ a skip' \
-  test/cases/associations/eager_test.rb
+# Test is failing on Fedora
+sed -i '/^\s*def test_generates_absolute_path_with_given_root$/ a skip' \
+  test/cases/tasks/sqlite_rake_test.rb
 
-ruby -Itest:lib <<EOF
-  test_files = Dir.glob( "./test/cases/**/*_test.rb" )
-  test_files.reject! { |x| x =~ %r|/adapters/| }
-
-  # Only test sqlite3 backend
-  test_files += Dir.glob("./test/cases/adapters/sqlite3/*_test.rb")
-
-  test_files.sort.each { |f| require f }
-EOF
-
+ruby -rpg -Itest:lib -e 'Dir.glob("./test/cases/**/*_test.rb").sort.each{ |f| require f }'
 popd
 
 %files
@@ -104,6 +89,25 @@ popd
 %{gem_instdir}/examples
 
 %changelog
+* Thu Oct  8 11:46:23 CEST 2020 Pavel Valena <pvalena@redhat.com> - 1:6.0.3.4-1
+- Update to activerecord 6.0.3.4.
+  Resolves: rhbz#1877501
+
+* Tue Sep 22 00:45:21 CEST 2020 Pavel Valena <pvalena@redhat.com> - 1:6.0.3.3-1
+- Update to activerecord 6.0.3.3.
+  Resolves: rhbz#1877501
+
+* Mon Aug 17 05:04:27 GMT 2020 Pavel Valena <pvalena@redhat.com> - 1:6.0.3.2-1
+- Update to activerecord 6.0.3.2.
+  Resolves: rhbz#1742794
+
+* Mon Aug 03 07:01:37 GMT 2020 Pavel Valena <pvalena@redhat.com> - 6.0.3.1-1
+- Update to ActiveRecord 6.0.3.1.
+  Resolves: rhbz#1742794
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.2.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 17 2020 Vít Ondruch <vondruch@redhat.com> - 1:5.2.3-4
 - Fix Ruby 2.7 test errors.
   Resovles: rhbz#1799986

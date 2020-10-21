@@ -1,6 +1,6 @@
 Name:           perl-Env
 Version:        1.04
-Release:        456%{?dist}
+Release:        457%{?dist}
 Summary:        Perl module that imports environment variables as scalars or arrays
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Env
@@ -45,6 +45,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.04-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.04-456
 - Increase release to favour standalone package
 

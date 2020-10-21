@@ -1,11 +1,13 @@
 Name:           python-kitchen
 Version:        1.2.6
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        Small, useful pieces of code to make python coding easier
 
 License:        LGPLv2+
 URL:            https://pypi.python.org/pypi/kitchen/
 Source0:        https://github.com/fedora-infra/kitchen/archive/%{version}.tar.gz
+
+Patch0:         kitchen-1.2.6-sphinx-ext-imgmath.patch
 
 BuildArch:      noarch
 
@@ -61,7 +63,7 @@ rm -rf *.egg*
 
 # Build docs
 %if 0%{?rhel}
-sphinx-build kitchen2/docs/ build/sphinx/html
+sphinx-build kitchen3/docs/ build/sphinx/html
 cp -pr build/sphinx/html .
 rm -rf html/.buildinfo
 %endif
@@ -89,6 +91,13 @@ rm -rf html/.buildinfo
 %endif
 
 %changelog
+* Wed Aug 19 2020 Merlin Mathesius <mmathesi@redhat.com> - 1.2.6-8
+- Build the Python3 version of the docs
+- Patch sphinx doc config to use imgmath instead of deprecated pngmath extension
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.6-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.6-6
 - Rebuilt for Python 3.9
 

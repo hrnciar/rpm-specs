@@ -1,20 +1,26 @@
 %{?filter_setup:
-%filter_provides_in %{python_sitearch}/.*\.so$ 
+%filter_provides_in %{python3_sitearch}/.*\.so$
 %filter_setup
 }
 
 Summary:       Python bindings for CUPS
 Name:          python-cups
 Version:       2.0.1
-Release:       2%{?dist}
+Release:       5%{?dist}
 # older URL, but still with useful information about pycups
 #URL:           http://cyberelk.net/tim/software/pycups/
 URL:           https://github.com/OpenPrinting/pycups/
 Source:        https://github.com/OpenPrinting/pycups/releases/download/v%{version}/pycups-%{version}.tar.gz
 License:       GPLv2+
 
+# all taken from upstream
+Patch01: 0001-examples-cupstree.py-remove-shebang.patch
+Patch02: 0001-postscriptdriver.prov-ignore-driverless-utilities.patch
+
 # gcc is no longer in buildroot by default
 BuildRequires: gcc
+# for autosetup
+BuildRequires: git
 
 BuildRequires: cups-devel
 BuildRequires: python3-devel
@@ -40,9 +46,7 @@ Summary:       Documentation for python-cups
 Documentation for python-cups.
 
 %prep
-%setup -n pycups-%{version}
-
-sed -i '/^#!\/usr\/bin\/python/d' examples/cupstree.py
+%autosetup -S git -n pycups-%{version}
 
 %build
 %py3_build
@@ -67,6 +71,15 @@ export PYTHONPATH=%{buildroot}%{python3_sitearch}
 %doc examples html
 
 %changelog
+* Fri Aug 28 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2.0.1-5
+- 1873385 - ignore driverless utilities during tags creation
+
+* Wed Jul 29 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2.0.1-4
+- use %%python3_sitearch in filter_provides_in, otherwise the package fails to build
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.1-2
 - Rebuilt for Python 3.9
 

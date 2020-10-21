@@ -17,8 +17,8 @@
 %bcond_without xinerama
 
 Name:           conky 
-Version:        1.11.5
-Release:        3%{?dist}
+Version:        1.11.6
+Release:        1%{?dist}
 Summary:        A system monitor for X 
 
 License:        GPLv3+
@@ -97,13 +97,13 @@ done
     %{?with_wlan:           -DBUILD_WLAN=ON} \
     %{?with_xdbe:           -DBUILD_XDBE=ON} \
     %{?!with_xinerama:      -DBUILD_XINERAMA=OFF} \
-    .
+    ;
 
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/conky
 install -m644 -p data/conky.conf $RPM_BUILD_ROOT%{_sysconfdir}/conky
 rm -rf $RPM_BUILD_ROOT%{_docdir}/conky-*
@@ -129,6 +129,13 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/conky.desktop
 
 
 %changelog
+* Tue Jul 28 2020 Miroslav Lichvar <mlichvar@redhat.com> - 1.11.6-1
+- update to 1.11.6
+- convert to new cmake rpm macros
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 03 2020 Miroslav Lichvar <mlichvar@redhat.com> - 1.11.5-3
 - enable cairo and imlib modules again (#1768166)
 

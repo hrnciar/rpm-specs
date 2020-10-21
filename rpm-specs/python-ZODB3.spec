@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        3.11.0
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Zope Object Database: Object Database and Persistence
 License:        ZPLv2.1
 URL:            http://www.zodb.org/
@@ -24,19 +24,12 @@ advantage of object database features with few, if any, changes to
 application logic. ZODB includes features such as a pluggable storage
 interface, rich transaction support, and undo.}
 
-%description
-%{common_desc}
+%description %{common_desc}
 
 %package -n python3-%{srcname}
 Summary:        Client-server storage implementation for ZODB
-%{?python_provide:%python_provide python3-%{srcname}}
 
-# This can be removed when F29 reached EOL
-Obsoletes:      python2-%{srcname} < 3.11.0-12
-Provides:       python2-%{srcname} = %{version}-%{release}
-
-%description -n python3-%{srcname}
-%{common_desc}
+%description -n python3-%{srcname} %{common_desc}
 
 %prep
 %autosetup -n %{srcname}-%{version}
@@ -59,6 +52,9 @@ done
 %{python3_sitelib}/%{srcname}*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.11.0-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.11.0-17
 - Rebuilt for Python 3.9
 

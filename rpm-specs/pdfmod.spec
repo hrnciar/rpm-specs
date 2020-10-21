@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 Name:		pdfmod
 Version:	0.9.1
-Release:	23%{?dist}
+Release:	24%{?dist}
 Summary:	A simple application for modifying PDF documents
 Summary(es):	Una simple aplicación para modificar documentos PDF
 License:	GPLv2+
@@ -99,6 +99,9 @@ EOF
 %{_datadir}/icons/hicolor/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

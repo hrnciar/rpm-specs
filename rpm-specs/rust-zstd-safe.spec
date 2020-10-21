@@ -7,7 +7,7 @@
 
 Name:           rust-%{crate}
 Version:        2.0.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Safe low-level bindings for the zstd compression library
 
 # Upstream license specification: MIT/Apache-2.0
@@ -125,6 +125,9 @@ which use "zstdmt" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Josh Stone <jistone@redhat.com> - 2.0.5-1
 - Update to 2.0.5+zstd.1.4.5
 

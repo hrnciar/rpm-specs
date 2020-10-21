@@ -7,8 +7,13 @@
 # Please, preserve the changelog entries
 #
 
-%global bootstrap    0
-%global gh_commit    5458bdcf176f6a53292e3f0cc73f292d6302fb0f
+%bcond_with          bootstrap
+%if %{with bootstrap}
+%bcond_with          tests
+%else
+%bcond_without       tests
+%endif
+%global gh_commit    56070bebac6e77230ed7d306ad13528e60732871
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     doctrine
 %global gh_project   sql-formatter
@@ -19,14 +24,9 @@
 # Namespace
 %global ns_vendor    Doctrine
 %global ns_project   SqlFormatter
-%if %{bootstrap}
-%global with_tests   0%{?_with_tests:1}
-%else
-%global with_tests   0%{!?_without_tests:1}
-%endif
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
-Version:        1.1.0
+Version:        1.1.1
 Release:        1%{?dist}
 Summary:        SQL highlighting library
 
@@ -37,7 +37,7 @@ Source1:        makesrc.sh
 
 BuildArch:      noarch
 BuildRequires:  php-fedora-autoloader-devel
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php(language) >= 7.1
 BuildRequires:  php-pcre
 # From composer.json
@@ -86,7 +86,7 @@ cp -pr src %{buildroot}%{_datadir}/php/%{ns_vendor}/%{ns_project}%{major}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 : Generate autoloader
 mkdir vendor
 %{_bindir}/phpab \
@@ -122,5 +122,11 @@ exit $ret
 
 
 %changelog
+* Tue Aug 11 2020 Remi Collet <remi@remirepo.net> - 1.1.1-1
+- update to 1.1.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Remi Collet <remi@remirepo.net> - 1.1.0-1
 - initial package

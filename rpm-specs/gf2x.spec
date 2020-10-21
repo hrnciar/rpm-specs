@@ -1,6 +1,6 @@
 Name:           gf2x
 Version:        1.3.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Polynomial multiplication over the binary field
 
 License:        GPLv2+
@@ -97,6 +97,9 @@ LD_LIBRARY_PATH=$PWD/.libs:$PWD/fft/.libs make check
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

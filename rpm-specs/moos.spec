@@ -1,6 +1,6 @@
 Name:     moos
 Version:  10.0.2.a
-Release:  6%{?dist}
+Release:  8%{?dist}
 Summary:  Mission Oriented Operating Suite
 
 License:  GPLv2+
@@ -71,6 +71,13 @@ Libraries for running %{name} applications.
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.2.a-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.2.a-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.2.a-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

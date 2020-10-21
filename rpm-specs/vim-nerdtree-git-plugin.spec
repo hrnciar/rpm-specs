@@ -4,7 +4,7 @@
 
 Name:           vim-nerdtree-git-plugin
 Version:        0
-Release:        2.%{date}git%{shortcommit}%{?dist}
+Release:        3.%{date}git%{shortcommit}%{?dist}
 Summary:        Plugin of NERDTree showing git status
 
 License:        WTFPL
@@ -45,6 +45,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-3.20191024gitf522a09
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-2.20191024gitf522a09
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

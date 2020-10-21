@@ -1,19 +1,22 @@
-%global commit f1ef64d7cee8f174151db42447dedd3c4ece91c2
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
+%global forgeurl https://github.com/CSSLint/csslint
+Version:        1.0.5
+
+%forgemeta
 
 Name:           csslint
-Version:        0.10.0
-Release:        11%{?dist}
+Release:        2%{?dist}
 Summary:        Detecting potential problems in CSS code
 
 License:        MIT
-URL:            http://github.com/stubbornella/csslint
-Source0:        https://github.com/stubbornella/csslint/archive/%{commit}/%{name}-%{version}-%{shortcommit}.tar.gz
-Source1:        %{name}.sh
+URL:            http://csslint.net/
+Source0:        %{forgesource}
+Source1:        %{name}.in
 
 BuildArch:      noarch
 
 Requires:       rhino
+Provides:       bundled(npm(clone)) = 2.1.0
+Provides:       bundled(npm(parserlib)) = 1.1.1
 
 
 %description
@@ -24,32 +27,41 @@ you can easily write your own or omit ones you don't want.
 
 
 %prep
-%setup -qn %{name}-%{commit}
-# Executable
-cp -p %{SOURCE1} .
-sed -i -e 's|@JS_JAR@|%{_datadir}/java/js.jar|g' %{name}.sh
-sed -i -e 's|@CSSLINT_RHINO@|%{_datadir}/%{name}/%{name}-rhino.js|g' %{name}.sh
+%forgesetup
+
+sed -e 's|@RHINO_JAR@|%{_datadir}/java/js.jar|g' \
+    -e 's|@CSSLINT_JS@|%{_datadir}/%{name}/%{name}-rhino.js|g' \
+    < %{SOURCE1} \
+    > %{name}
 
 
 %build
-# Empty build section, most likely nothing required.
 
 
 %install
-install -d %{buildroot}%{_datadir}/%{name}
-cp -a release/csslint-rhino.js %{buildroot}%{_datadir}/%{name}/
 install -d %{buildroot}%{_bindir}
-cp -a %{name}.sh %{buildroot}%{_bindir}/%{name}
-
+install -d %{buildroot}%{_datadir}/%{name}
+install -t %{buildroot}%{_bindir}/ %{name}
+install -m 0444 -t %{buildroot}%{_datadir}/%{name}/ dist/%{name}-rhino.js
 
 
 %files
 %doc CHANGELOG README.md
 %{_datadir}/%{name}
-%attr(755,root,root) %{_bindir}/%{name}
+%{_bindir}/%{name}
 
 
 %changelog
+* Wed Oct  7 2020 Peter Oliver <rpm@mavit.org.uk> - 1.0.5-2
+- Document bundled libs.
+
+* Wed Oct  7 2020 Peter Oliver <rpm@mavit.org.uk> - 1.0.5-1
+- Update to 1.0.5.
+- Tidy up build.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:          pdfbox
-Version:       2.0.20
-Release:       1%{?dist}
+Version:       2.0.21
+Release:       2%{?dist}
 Summary:       Apache PDFBox library for working with PDF documents
 License:       ASL 2.0
 URL:           http://pdfbox.apache.org/
@@ -15,12 +15,13 @@ BuildRequires:  maven-local
 BuildRequires:  mvn(commons-io:commons-io)
 BuildRequires:  mvn(commons-logging:commons-logging)
 BuildRequires:  mvn(junit:junit)
-BuildRequires:  mvn(log4j:log4j:1.2.17)
 BuildRequires:  mvn(org.apache.ant:ant)
 BuildRequires:  mvn(org.apache:apache:pom:)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.bouncycastle:bcmail-jdk15on)
 BuildRequires:  mvn(org.bouncycastle:bcprov-jdk15on)
+BuildRequires:  mvn(javax.xml.bind:jaxb-api)
+BuildRequires:  mvn(jakarta.activation:jakarta.activation-api)
 
 BuildRequires: dejavu-sans-mono-fonts
 BuildRequires: google-noto-emoji-fonts
@@ -137,7 +138,7 @@ rm fontbox/src/test/java/org/apache/fontbox/cff/CFFParserTest.java \
    pdfbox/src/test/java/org/apache/pdfbox/pdfparser/TestPDFParser.java \
    pdfbox/src/test/resources/input/rendering/{FANTASTICCMYK.ai,HOTRODCMYK.ai} \
    preflight/src/test/java/org/apache/pdfbox/preflight/TestIsartorBavaria.java
-ln -s %{_datadir}/fonts/liberation/LiberationSans-Regular.ttf pdfbox/src/test/resources/org/apache/pdfbox/ttf/LiberationSans-Regular.ttf
+ln -s %{_datadir}/fonts/liberation-sans/LiberationSans-Regular.ttf pdfbox/src/test/resources/org/apache/pdfbox/ttf/LiberationSans-Regular.ttf
 sed -i -e 's/\(testCIDFontType2VerticalSubset\)/ignore_\1/' pdfbox/src/test/java/org/apache/pdfbox/pdmodel/font/TestFontEmbedding.java
 sed -i -e 's/\(testStructureTreeMerge\)/ignore_\1/'  pdfbox/src/test/java/org/apache/pdfbox/multipdf/PDFMergerUtilityTest.java
 sed -i -e '/testPDFBOX4115/i\@org.junit.Ignore' pdfbox/src/test/java/org/apache/pdfbox/pdmodel/font/PDFontTest.java
@@ -167,6 +168,8 @@ rm pdfbox/src/test/java/org/apache/pdfbox/pdmodel/graphics/image/CCITTFactoryTes
 %mvn_file :preflight preflight
 %mvn_file :xmpbox xmpbox
 %mvn_file :fontbox fontbox
+
+%pom_add_dep jakarta.activation:jakarta.activation-api
 
 %build
 # Integration tests all require internet access to download test resources, so skip
@@ -205,6 +208,23 @@ rm pdfbox/src/test/java/org/apache/pdfbox/pdmodel/graphics/image/CCITTFactoryTes
 %license LICENSE.txt NOTICE.txt
 
 %changelog
+* Thu Sep 10 2020 Fabio Valentini <decathorpe@gmail.com> - 2.0.21-2
+- Drop log4j12 dependency, it seems to not be necessary any longer.
+
+* Wed Aug 26 2020 Sérgio Basto <sergio@serjux.com> - 2.0.21-1
+- Fix build on F33
+- Update pdfbox to 2.0.21 (#1871001)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.20-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.20-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 2.0.20-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sun Jun 21 2020 Sérgio Basto <sergio@serjux.com> - 2.0.20-1
 - Update pdfbox to 2.0.20 (#1844860)
 

@@ -15,7 +15,7 @@
 
 Name:             php-pecl-%peclName
 Version:          1.1.2
-Release:          14%{?dist}
+Release:          15%{?dist}
 Summary:          Pecl package for XML diff and merge
 
 License:          BSD
@@ -122,6 +122,9 @@ fi
 %{pecl_xmldir}/%{name}.xml
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           freedroidrpg
 Version:        1.0
-Release:        0%{?dist}.rc2.2
+Release:        0%{?dist}.rc2.4
 Summary:        Role playing game with Freedroid theme and Tux as the hero
 
 License:        GPLv2+
@@ -48,7 +48,7 @@ touch -r configure.ac aclocal.m4
 
 
 %build
-export CPPFLAGS="$CPPFLAGS -fcommon"
+export CPPFLAGS="$CPPFLAGS -fcommon -fPIE"
 %configure --disable-dependency-tracking
 make %{?_smp_mflags}
 
@@ -93,6 +93,13 @@ rm -f freedroidrpg-dialogs.lang
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.rc2.4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.rc2.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 06 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.0-0.rc2.2
 - Fix FTBFS.
 

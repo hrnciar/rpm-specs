@@ -3,7 +3,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.13.6
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Node.js virtual environment builder
 
 License:        BSD
@@ -64,6 +64,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.6-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.13.6-20
 - Rebuilt for Python 3.9
 

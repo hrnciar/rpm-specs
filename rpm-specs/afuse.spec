@@ -1,7 +1,7 @@
 Name:		afuse
 Summary:	An automounter implemented with FUSE
 Version:	0.4.1
-Release:	13%{?dist}
+Release:	15%{?dist}
 License:	GPLv2+
 Source0:	https://afuse.googlecode.com/files/%{name}-%{version}.tar.gz
 URL:		https://github.com/pcarrier/afuse/
@@ -34,6 +34,13 @@ make DESTDIR=%{buildroot} install
 %{_bindir}/afuse-avahissh
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-15
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

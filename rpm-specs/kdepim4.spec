@@ -5,7 +5,7 @@
 Name:    kdepim4
 Summary: KDE4 PIM (Personal Information Manager) applications
 Version: 4.14.10
-Release: 43%{?dist}
+Release: 45%{?dist}
 
 # code is GPLv2 and docs GFDL
 License: GPLv2 and GFDL
@@ -54,6 +54,7 @@ Patch31: 0031-CVE-2017-9604.patch
 ## upstreamable patches
 # only link minimal BALOO_PIM_LIBRARY instead of all of BALOO_LIBRARIES
 Patch50: kdepim-4.14.10-minimal_baloo_linking.patch
+Patch51: 0001-Fix-ordered-comparison-of-pointer-against-zero.patch
 
 #Requires: knode = %{version}-%{release}
 #Requires: ktimetracker = %{version}-%{release}
@@ -292,6 +293,12 @@ done
 
 
 %changelog
+* Wed Aug 19 2020 Jeff Law <law@redhat.com> - 4.14.10-45
+- Fix ordered pointer comparison against zero
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.10-44
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Petr Viktorin <pviktori@redhat.com> - 4.14.10-43
 - Remove BuildRequires on python2-devel
 

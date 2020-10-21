@@ -1,8 +1,8 @@
 %global debug_package %{nil}
 
 Name:           mapbox-variant
-Version:        1.1.6
-Release:        3%{?dist}
+Version:        1.2.0
+Release:        1%{?dist}
 Summary:        A header-only alternative to boost::variant for C++11 and C++14
 
 License:        Boost and BSD
@@ -52,6 +52,12 @@ cp -pr include/mapbox %{buildroot}%{_includedir}
 
 
 %changelog
+* Tue Aug  4 2020 Tom Hughes <tom@compton.nu> - 1.2.0-1
+- Update to 1.2.0 upstream release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.6-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

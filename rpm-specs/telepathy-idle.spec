@@ -7,11 +7,11 @@
 
 Name:           telepathy-idle
 Version:        0.2.0
-Release:        16%{?dist}
+Release:        20%{?dist}
 Summary:        IRC connection manager for Telepathy
 
 License:        LGPLv2+
-URL:            http://telepathy.freedesktop.org/wiki/FrontPage
+URL:            http://telepathy.freedesktop.org/
 Source0:        http://telepathy.freedesktop.org/releases/%{name}/%{name}-%{version}.tar.gz
 
 BuildRequires:  dbus-devel
@@ -33,6 +33,10 @@ Requires:	telepathy-filesystem
 # https://github.com/TelepathyIM/telepathy-idle/pull/8
 Patch0: 0001-tools-Fix-errors-running-glib-ginterface-gen-under-P.patch
 Patch1: 0002-tools-Remove-outdated-is-unicode-checks.patch
+# https://gitlab.freedesktop.org/telepathy/telepathy-idle/-/merge_requests/3
+Patch2: properly-handle-long-irc-messages.patch
+# https://gitlab.freedesktop.org/telepathy/telepathy-idle/-/merge_requests/2
+Patch3: fix-critical.patch
 
 %description
 A full-featured IRC connection manager for the Telepathy project.
@@ -67,6 +71,22 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Oct 13 2020 Kalev Lember <klember@redhat.com> - 0.2.0-20
+- Backport mcatanzaro patch to fix criticals when removing idle sources
+
+* Fri Oct 09 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.2.0-20
+- Correct upstream URL
+
+* Fri Oct 09 2020 Kalev Lember <klember@redhat.com> - 0.2.0-19
+- Backport mcatanzaro patch to correctly handle long IRC messages
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-18
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 17 2020 Bastien Nocera <bnocera@redhat.com> - 0.2.0-16
 + telepathy-idle-0.2.0-16
 - Disable all tests for now, as they require Python 2

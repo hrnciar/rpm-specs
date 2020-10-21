@@ -17,7 +17,7 @@ Detailed documentation is available at http://nilearn.github.io/.}
 
 Name:           python-%{srcname}
 Version:        0.6.2
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Python module for fast and easy statistical learning on NeuroImaging data
 
 License:        BSD
@@ -34,6 +34,7 @@ BuildRequires:  %{py3_dist matplotlib}
 BuildRequires:  %{py3_dist nose}
 BuildRequires:  %{py3_dist nibabel}
 BuildRequires:  %{py3_dist sphinx}
+BuildRequires:  %{py3_dist setuptools}
 Requires:  %{py3_dist numpy}
 Requires:  %{py3_dist scipy}
 Requires:  %{py3_dist scikit-learn}
@@ -82,6 +83,12 @@ find . -name "*pyc" -exec rm -f '{}' \;
 %{python3_sitelib}/%{srcname}-%{version}-py3.?.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.6.2-3
+- Explicitly BR setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.2-2
 - Rebuilt for Python 3.9
 

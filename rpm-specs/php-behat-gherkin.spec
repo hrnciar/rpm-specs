@@ -48,7 +48,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Gherkin DSL parser for PHP
 
 License:       MIT
@@ -169,6 +169,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 18 2020  Shawn Iwinski <shawn@iwin.ski> - 4.6.2-1
 - Update to 4.6.2 (RHBZ #1808131)
 

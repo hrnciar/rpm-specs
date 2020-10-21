@@ -3,7 +3,7 @@
 
 # https://github.com/mattn/go-sqlite3
 %global goipath         github.com/mattn/go-sqlite3
-Version:                1.10.0
+Version:                1.14.0
 
 %gometa
 
@@ -21,7 +21,7 @@ Package Sqlite3 provides interface to SQLite3 databases.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        5%{?dist}
+Release:        1%{?dist}
 Summary:        Sqlite3 driver for go using database/sql
 
 License:        MIT
@@ -50,6 +50,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 20:51:56 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.14.0-1
+- Update to 1.14.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

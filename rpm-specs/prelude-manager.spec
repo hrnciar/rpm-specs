@@ -1,10 +1,10 @@
 # Notes about rpmlint
 # - crypto-policy-non-compliance-gnutls-{1,2} fixed with patch
-#   prelude-manager-5.1.0-gnutls_priority_init.patch
+#   prelude-manager-5.2.0-gnutls_priority_init.patch
 
 Name:           prelude-manager
-Version:        5.1.0
-Release:        2%{?dist}
+Version:        5.2.0
+Release:        1%{?dist}
 Summary:        Bus communicator for Prelude modules and other IDMEF agents
 # Prelude is GPL-2.0+
 # libmissing is LGPL-2.1+
@@ -14,12 +14,14 @@ Source0:        https://www.prelude-siem.org/pkg/src/%{version}/%{name}-%{versio
 Source1:        %{name}.service
 Source2:        %{name}-tmpfiles.conf
 # https://www.prelude-siem.org/issues/862
-Patch0:         prelude-manager-5.1.0-gnutls_priority_init.patch
+Patch0:         prelude-manager-5.2.0-gnutls_priority_init.patch
 # https://www.prelude-siem.org/issues/870
-Patch1:         prelude-manager-5.1.0-fix_etc_perms.patch
-Patch2:         prelude-manager-5.1.0-fix_cond_test.patch
-Patch3:         prelude-manager-5.1.0-fix-test_rwlock1.patch
-Patch4:         prelude-manager-5.1.0-fix_thread_create.patch
+Patch1:         prelude-manager-5.2.0-fix_etc_perms.patch
+Patch2:         prelude-manager-5.2.0-fix_cond_test.patch
+Patch3:         prelude-manager-5.2.0-fix-test_rwlock1.patch
+Patch4:         prelude-manager-5.2.0-fix_thread_create.patch
+Patch5:         prelude-manager-5.2.0-Add_missing_gnutls_deps.patch
+Patch6:         prelude-manager-5.2.0-fix-test-perror2.patch
 BuildRequires:  gcc
 BuildRequires:  systemd
 BuildRequires:  libgcrypt-devel
@@ -28,6 +30,7 @@ BuildRequires:  pkgconfig(gnutls)
 BuildRequires:  pkgconfig(libprelude) >= %{version}
 BuildRequires:  pkgconfig(libxml-2.0)
 BuildRequires:  libpreludedb-devel >= %{version}
+BuildRequires:  net-snmp-devel
 
 %{?systemd_requires}
 Requires:       prelude-tools
@@ -37,7 +40,7 @@ BuildRequires:  valgrind
 %endif
 
 # Upstream do not use explicit version of gnulib, just checkout
-# and update files. In libprelude 5.1.0, the checkout has been done
+# and update files. In prelude-manager 5.2.0, the checkout has been done
 # on 2018-09-03
 Provides:       bundled(gnulib) = 20180903
 
@@ -68,10 +71,36 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 %description xml-plugin
 This plugin allows prelude-manager to log into XML files.
 
+%package        relaying-plugin
+Summary:        Relaying plugin for Prelude Manager
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description relaying-plugin
+This plugin allows prelude-manager relay IDMEF alerts to another
+prelude-manager.
+
+%package        script-plugin
+Summary:        Script plugin for Prelude Manager
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description script-plugin
+This plugin allows prelude-manager to execute scripts.
+
+%package        snmp-plugin
+Summary:        SNMP plugin for Prelude Manager
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       net-snmp-libs
+
+%description snmp-plugin
+This plugin allows prelude-manager to report alerts through SNMP.
+
 %package        devel
 Summary:        Libraries, includes, etc. to develop Prelude Manager plugins
 Requires:       %{name}-db-plugin%{?_isa} = %{version}-%{release}
 Requires:       %{name}-xml-plugin%{?_isa} = %{version}-%{release}
+Requires:       %{name}-relaying-plugin%{?_isa} = %{version}-%{release}
+Requires:       %{name}-script-plugin%{?_isa} = %{version}-%{release}
+Requires:       %{name}-snmp-plugin%{?_isa} = %{version}-%{release}
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description devel
@@ -88,6 +117,13 @@ Provides documentation for prelude-manager.
 %autosetup -p1
 
 %build
+# This package's testsuite seems to mishandle --as-needed for the linker and
+# as a result we don't have a DT_NEEDED for libpthread and various symbols
+# do not get properly resolved causing testsuite failures.
+# There is still a slim chance this is a linker error which we will investigate
+# once Nick returns from PTO
+%define _lto_cflags %{nil}
+
 %configure \
     --disable-static \
     --enable-shared
@@ -163,6 +199,15 @@ make check
 %dir %{_datadir}/%{name}/xmlmod
 %{_datadir}/%{name}/xmlmod/idmef-message.dtd
 
+%files relaying-plugin
+%{_libdir}/%{name}/reports/relaying.so
+
+%files script-plugin
+%{_libdir}/%{name}/reports/script.so
+
+%files snmp-plugin
+%{_libdir}/%{name}/reports/snmp.so
+
 %files devel
 %dir %{_includedir}/%{name}
 %{_includedir}/%{name}/*.h
@@ -171,12 +216,23 @@ make check
 %license COPYING HACKING.README
 %doc AUTHORS COPYING ChangeLog HACKING.README NEWS README
 %doc %{_docdir}/%{name}/smtp/template.example
+%doc %{_docdir}/%{name}/snmp/PRELUDE-SIEM-MIB.mib
 
 %changelog
+* Thu Sep 17 2020 Thomas Andrejak <thomas.andrejak@gmail.com> - 5.2.0-1
+- Bump version 5.2.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
-* Fri Nov 09 2019 Thomas Andrejak <thomas.andrejak@gmail.com> - 5.1.0-1
+* Fri Nov 08 2019 Thomas Andrejak <thomas.andrejak@gmail.com> - 5.1.0-1
 - Bump version 5.1.0
 
 * Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-2

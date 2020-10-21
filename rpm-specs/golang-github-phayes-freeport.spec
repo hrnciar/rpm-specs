@@ -15,7 +15,7 @@ Get a free and open TCP port that is ready to use.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Detect free and open TCP port
 
 # Upstream license specification: BSD-3-Clause
@@ -54,6 +54,9 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.0.2-1
 - Initial package
 

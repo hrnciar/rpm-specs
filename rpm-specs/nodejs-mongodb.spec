@@ -4,11 +4,12 @@
 
 Summary:       A node driver for MongoDB
 Name:          nodejs-%{npm_name}
-Version:       2.1.18
-Release:       9%{?dist}
-License:       ASL 2.0
+Version:       3.6.2
+Release:       1%{?dist}
+License:       ASL 2.0 and MIT and ISC
 URL:           https://github.com/mongodb/node-mongodb-native
 Source0:       http://registry.npmjs.org/%{npm_name}/-/%{npm_name}-%{version}.tgz
+Source1:       %{npm_name}-%{version}-nm-prod.tgz
 BuildRequires: nodejs-packaging
 BuildArch:     noarch
 ExclusiveArch: %{nodejs_arches} noarch
@@ -20,10 +21,6 @@ the library for ruby at http://github.com/mongodb/mongo-ruby-driver
 %prep
 %setup -q -n package
 
-%nodejs_fixdep mongodb-core '>=1.2.32'
-%nodejs_fixdep readable-stream '>=1.0.31'
-%nodejs_fixdep es6-promise '>=3.0.2'
-
 %build
 #nothing to do
 
@@ -31,12 +28,28 @@ the library for ruby at http://github.com/mongodb/mongo-ruby-driver
 mkdir -p %{buildroot}%{nodejs_sitelib}/%{npm_name}
 cp -pr index.js lib package.json %{buildroot}%{nodejs_sitelib}/%{npm_name}
 
+# Setup bundled node modules
+tar xfz %{SOURCE1}
+mkdir -p node_modules
+pushd node_modules
+ln -s ../node_modules_prod/* .
+ln -s ../node_modules_prod/.bin .
+popd
+cp -pr node_modules node_modules_prod %{buildroot}%{nodejs_sitelib}/%{npm_name}
+
 %files
 %doc HISTORY.md
-%license LICENSE
+%license LICENSE.md
 %{nodejs_sitelib}/%{npm_name}
 
 %changelog
+* Thu Sep 17 2020 Troy Dawson <tdawson@redhat.com> - 3.6.2-1
+- Update to 3.6.2
+- Use bundling for runtime deps
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.18-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.18-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

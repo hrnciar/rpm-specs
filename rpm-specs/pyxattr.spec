@@ -1,7 +1,7 @@
 Name:           pyxattr
 Summary:        Extended attributes library wrapper for Python
 Version:        0.7.1
-Release:        4%{?dist}
+Release:        6%{?dist}
 License:        LGPLv2+
 URL:            https://pyxattr.k1024.org/
 Source0:        %{URL}/downloads/%{name}-%{version}.tar.gz
@@ -11,6 +11,7 @@ Source2:        https://k1024.org/files/key.asc
 BuildRequires:  gcc
 BuildRequires:  libattr-devel
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  gnupg2
 BuildRequires:  %{py3_dist pytest}
 
@@ -51,6 +52,13 @@ python3 -m pytest test
 %doc NEWS README.md
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 23 2020 Dan Čermák <dan.cermak@cgc-instruments.com> - 0.7.1-5
+- BuildRequire python3-setuptools besides python3-devel
+  (see https://lists.fedoraproject.org/archives/list/devel@lists.fedoraproject.org/thread/GCPGM34ZGEOVUHSBGZTRYR5XKHTIJ3T7/)
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.1-4
 - Rebuilt for Python 3.9
 

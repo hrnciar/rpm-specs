@@ -1,6 +1,6 @@
 Name:           subversion-api-docs
 Version:        1.14.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Subversion API documentation
 
 License:        BSD
@@ -45,6 +45,9 @@ install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_docdir}/subversion/api-docs
 %doc %{_docdir}/subversion/api-docs/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Bojan Smojver <bojan@rexursive.com> 1.14.0-1
 - bump up to 1.14.0
 

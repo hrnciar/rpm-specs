@@ -1,6 +1,6 @@
 Name:		qroneko
 Version:	0.5.4
-Release:	21%{?dist}
+Release:	22%{?dist}
 Summary:	A qt front end to crontab
 License:	GPLv2+ 
 URL:		http://qroneko.sourceforge.net/
@@ -50,6 +50,9 @@ cp -p %{name}.png $RPM_BUILD_ROOT%{_datadir}/pixmaps
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

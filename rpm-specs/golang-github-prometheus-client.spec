@@ -3,15 +3,9 @@
 
 # https://github.com/prometheus/client_golang
 %global goipath         github.com/prometheus/client_golang
-# Do not package 1.0.0, it removes all deprecated functions used by numerous deps
-Version:                0.9.4
+Version:                1.7.1
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-prometheus-client_golang-devel < 0.9.0-0.6
-}
 
 %global common_description %{expand:
 This is the Go client library for Prometheus. It has two separate parts, one for
@@ -24,7 +18,7 @@ Prometheus HTTP API.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        Prometheus instrumentation library for go applications
 
 # Upstream license specification: Apache-2.0
@@ -35,7 +29,9 @@ Source1:        glide.yaml
 Source2:        glide.lock
 
 BuildRequires:  golang(github.com/beorn7/perks/quantile)
+BuildRequires:  golang(github.com/cespare/xxhash/v2)
 BuildRequires:  golang(github.com/golang/protobuf/proto)
+BuildRequires:  golang(github.com/golang/protobuf/ptypes)
 BuildRequires:  golang(github.com/json-iterator/go)
 BuildRequires:  golang(github.com/prometheus/client_model/go)
 BuildRequires:  golang(github.com/prometheus/common/expfmt)
@@ -55,15 +51,6 @@ mv prometheus/README.md README-prometheus.md
 %install
 %gopkginstall
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck -t prometheus
@@ -72,6 +59,12 @@ end
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 22:42:18 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.7.1-1
+- Update to 1.7.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

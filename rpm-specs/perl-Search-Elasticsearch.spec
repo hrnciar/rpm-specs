@@ -1,5 +1,5 @@
 Name:           perl-Search-Elasticsearch
-Version:        6.80
+Version:        7.30
 Release:        1%{?dist}
 Summary:        Official client for Elasticsearch
 License:        ASL 2.0
@@ -88,6 +88,21 @@ the cloud. You can read more about it on elasticsearch.org.
 %{_mandir}/man3/Search*
 
 %changelog
+* Sun Sep 20 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 7.30-1
+- Update to 7.30
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.81-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Jitka Plesnikova <jplesnik@redhat.com> - 6.81-2
+- Perl 5.32 re-rebuild updated packages
+
+* Sun Jun 28 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 6.81-1
+- Update to 6.81
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 6.80-2
+- Perl 5.32 rebuild
+
 * Sun Apr 05 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 6.80-1
 - Update to 6.80
 - Replace calls to %%{__perl} with /usr/bin/perl

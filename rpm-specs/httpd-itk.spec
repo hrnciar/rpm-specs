@@ -3,7 +3,7 @@
 Summary:		MPM Itk for Apache HTTP Server
 Name:		httpd-itk
 Version:		%( echo %ver | tr '-' '.' )
-Release:		9%{?dist}
+Release:		10%{?dist}
 URL:			http://mpm-itk.sesse.net/
 License:		ASL 2.0
 # It still needed as it targedted for EL5 too
@@ -62,6 +62,9 @@ EOF
 %config(noreplace) %{_httpd_modconfdir}/00-mpm-itk.conf
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.7.04-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.7.04-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

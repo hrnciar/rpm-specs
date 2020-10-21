@@ -6,7 +6,7 @@
 
 Name:		nodejs-escape-html
 Version:	1.0.3
-Release:	9%{?dist}
+Release:	10%{?dist}
 Summary:	Escape string for use in HTML
 
 License:	MIT
@@ -56,6 +56,9 @@ NODE_ENV=test /usr/bin/mocha -R spec
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Name:             perl-re-engine-RE2
 Summary:          RE2 regex engine
 Version:          0.13
-Release:          23%{?dist}
+Release:          24%{?dist}
 License:          GPL+ or Artistic
 URL:              https://metacpan.org/release/re-engine-RE2
 Source0:          https://cpan.metacpan.org/authors/id/D/DG/DGL/re-engine-RE2-%{version}.tar.gz
@@ -75,6 +75,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.13-23
 - Perl 5.32 rebuild
 

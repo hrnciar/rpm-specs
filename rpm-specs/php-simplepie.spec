@@ -15,7 +15,7 @@
 
 Name:       php-%{gh_project}
 Version:    %{gh_version}
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    A simple Atom/RSS parsing library for PHP
 
 Group:      Development/Libraries
@@ -126,6 +126,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:		noip
 Version:	2.1.9
-Release:	29%{?dist}
+Release:	30%{?dist}
 Summary:	A dynamic DNS update client
 License:	GPLv2+
 URL:		http://www.no-ip.com
@@ -66,6 +66,9 @@ getent passwd noip >/dev/null || \
 %{_unitdir}/noip.service
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.9-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.9-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

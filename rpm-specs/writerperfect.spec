@@ -1,6 +1,6 @@
 Name: writerperfect
 Version: 0.9.6
-Release: 6%{?dist}
+Release: 7%{?dist}
 Summary: A collection of tools to transform various file formats into ODF
 
 License: MPLv2.0 or LGPLv2+
@@ -209,6 +209,9 @@ install -m 0644 *2abw.1 *2epub.1 *2od?.1 %{buildroot}/%{_mandir}/man1
 %{_mandir}/man1/wps2abw.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.6-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.6-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

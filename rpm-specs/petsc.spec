@@ -25,6 +25,14 @@
 %bcond_without blas64
 %endif
 
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%global blasvar %{nil}
+%else
+%global blaslib openblas
+%global blasvar p
+%endif
+
 %if 0%{?rhel} && 0%{?rhel} >= 7
 %bcond_without mpich
 %bcond_without openmpi
@@ -249,7 +257,7 @@
 
 Name:    petsc
 Summary: Portable Extensible Toolkit for Scientific Computation
-Version: %{releasever}.2
+Version: %{releasever}.5
 Release: 1%{?dist}
 License: BSD
 URL:     https://www.mcs.anl.gov/petsc
@@ -287,7 +295,7 @@ BuildRequires: metis-devel >= 5.1.0
 BuildRequires: suitesparse-devel >= 5.6.0
 %endif
 %if %{with blas}
-BuildRequires: openblas-devel, openblas-srpm-macros
+BuildRequires: %{blaslib}-devel
 %endif
 BuildRequires: %{?dts}gcc, %{?dts}gcc-c++, cmake3
 BuildRequires: %{?dts}gcc-gfortran
@@ -296,6 +304,7 @@ BuildRequires: libX11-devel
 BuildRequires: python2-devel
 %else
 BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 %endif
 BuildRequires: pcre-devel
 %if 0%{?el7}
@@ -346,8 +355,6 @@ PDF and HTML documentation files.
 %if %{with arch64}
 %package -n petsc64
 Summary: Portable Extensible Toolkit for Scientific Computation (64bit INTEGER)
-BuildRequires: openblas-serial64 >= 0.2.19-1
-BuildRequires: openblas-devel >= 0.2.19-1
 %if %{with metis}
 BuildRequires: metis64-devel >= 5.1.0
 %endif
@@ -411,9 +418,6 @@ BuildRequires: fftw-openmpi-devel
 %if %{with hypre}
 BuildRequires: hypre-openmpi-devel
 %endif
-%if %{with blas}
-BuildRequires: openblas-devel, openblas-srpm-macros
-%endif
 Requires:   gcc-gfortran%{?_isa}
 
 %description openmpi
@@ -466,9 +470,6 @@ BuildRequires: hypre-mpich-devel
 %if %{with fftw}
 BuildRequires: fftw-devel
 BuildRequires: fftw-mpich-devel
-%endif
-%if %{with blas}
-BuildRequires: openblas-devel, openblas-srpm-macros
 %endif
 Requires:   gcc-gfortran%{?_isa}
 
@@ -551,7 +552,7 @@ pushd %{name}-%{version}
  %{petsc_build_options} \
  --with-64-bit-indices=0 \
 %if %{with blas}
- --with-blas-lapack-lib=-lopenblasp --known-64-bit-blas-indices=0 \
+ --with-blas-lapack-lib=-l%{blaslib}%{blasvar} --known-64-bit-blas-indices=0 \
 %endif
  %if %{with superlu}
   --with-superlu=1 \
@@ -582,7 +583,7 @@ pushd build64
  %{petsc_build_options} \
  --with-64-bit-indices=1 \
 %if %{with blas64}
- --with-blas-lapack-lib=-lopenblasp64 --known-64-bit-blas-indices=1 \
+ --with-blas-lapack-lib=-l%{blaslib}%{blasvar}64 --known-64-bit-blas-indices=1 \
 %endif
 %if %{with suitesparse64}
  --with-suitesparse=1 \
@@ -611,7 +612,7 @@ pushd buildopenmpi_dir
  %{petsc_mpibuild_options} \
  --with-64-bit-indices=0 \
 %if %{with blas}
- --with-blas-lapack-lib=-lopenblasp --known-64-bit-blas-indices=0
+ --with-blas-lapack-lib=-l%{blaslib}%{blasvar} --known-64-bit-blas-indices=0
 %endif
 #cat config.log
 #exit 1
@@ -637,7 +638,7 @@ pushd buildmpich_dir
  %{petsc_mpibuild_options} \
  --with-64-bit-indices=0 \
 %if %{with blas}
- --with-blas-lapack-lib=-lopenblasp --known-64-bit-blas-indices=0
+ --with-blas-lapack-lib=-l%{blaslib}%{blasvar} --known-64-bit-blas-indices=0
 %endif
 #cat config.log
 #exit 1
@@ -945,6 +946,27 @@ xvfb-run -a make all test -C build64 V=1
 %endif
 
 %changelog
+* Fri Sep 04 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.13.5-1
+- Release 3.13.5
+
+* Thu Aug 13 2020 Iñaki Úcar <iucar@fedoraproject.org> - 3.13.4-2
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Sun Aug 02 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.13.4-1
+- Release 3.13.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.13.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.13.3-1
+- Release 3.13.3
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 3.13.2-3
+- Rebuild for hdf5 1.10.6
+
+* Wed Jun 24 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.13.2-2
+- BuildRequires python3-setuptools explicitly
+
 * Fri Jun 05 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.13.2-1
 - Release 3.13.2
 - Compiled against openblas-threads

@@ -3,7 +3,7 @@
 
 # https://github.com/anacrolix/log
 %global goipath         github.com/anacrolix/log
-Version:                0.6.0
+Version:                0.7.0
 
 %gometa
 
@@ -13,13 +13,12 @@ Logging library for Go.}
 %global golicenses      LICENSE
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Logging library for Go
 
 License:        MPLv2.0
 URL:            %{gourl}
 Source0:        %{gosource}
-Source1:        https://raw.githubusercontent.com/anacrolix/log/master/LICENSE
 
 BuildRequires:  golang(github.com/anacrolix/missinggo/iter)
 
@@ -35,7 +34,6 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 
 %prep
 %goprep
-cp %{S:1} .
 
 %install
 %gopkginstall
@@ -48,5 +46,11 @@ cp %{S:1} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 15:10:36 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.7.0-1
+- Update to 0.7.0
+
 * Sun Jan 26 23:16:50 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.6.0-1
 - Initial package

@@ -1,6 +1,6 @@
 Name:		fcitx-unikey
 Version:	0.2.7
-Release:	7%{?dist}
+Release:	10%{?dist}
 Summary:	Vietnamese Engine for Fcitx
 License:	GPLv3+
 URL:		https://fcitx-im.org/wiki/Unikey
@@ -19,17 +19,11 @@ A Vietnamese engine for Fcitx that uses Unikey.
 
 
 %build
-mkdir -pv build
-pushd build
-%cmake ..
-make %{?_smp_mflags} VERBOSE=1
-popd
+%cmake
+%cmake_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-pushd build
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
-popd
+%cmake_install
 
 %find_lang %{name}
 
@@ -44,6 +38,16 @@ popd
 %{_datadir}/icons/hicolor/256x256/apps/fcitx-unikey.png
 
 %changelog
+* Tue Aug 04 2020 Qiyu Yan <yanqiyu@fedoraproject.org> - 0.2.7-10
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

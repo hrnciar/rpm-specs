@@ -3,8 +3,8 @@
 
 
 Name:           python-%{srcname}
-Version:        1.0.3
-Release:        6%{?dist}
+Version:        1.1.2
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        GPLv2+
@@ -52,6 +52,12 @@ sed -i "s,@LIBDIR@,%{_libdir},g" setup.py
 %{python3_sitearch}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Christian Dersch <lupinix@fedoraproject.org> - 1.1.2-1
+- new version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.3-6
 - Rebuilt for Python 3.9
 

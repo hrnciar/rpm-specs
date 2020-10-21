@@ -23,8 +23,8 @@ whistles, just a literal wrapper with ctypes. Only 122 lines of code!
 %global sname inotify_simple
 
 Name:           python-%sname
-Version:        1.3.1
-Release:        2%{?dist}
+Version:        1.3.4
+Release:        1%{?dist}
 Summary:        %{sum Python}
 BuildArch:      noarch
 
@@ -39,6 +39,7 @@ BuildRequires: python2-setuptools
 %endif
 %if %{with python3}
 BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 %endif
 
 
@@ -97,6 +98,18 @@ Summary:        %{sum Python 3}
 
 
 %changelog
+* Tue Aug 04 2020 Pavel Raiskup <praiskup@redhat.com> - 1.3.4-1
+- new upstream release, per release notes:
+  https://github.com/chrisjbillington/inotify_simple/releases/tag/1.3.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Pavel Raiskup <praiskup@redhat.com> - 1.3.3-1
+- new upstream release, per release notes:
+  https://github.com/chrisjbillington/inotify_simple/releases/tag/1.3.2
+  https://github.com/chrisjbillington/inotify_simple/releases/tag/1.3.3
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.1-2
 - Rebuilt for Python 3.9
 

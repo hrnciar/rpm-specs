@@ -1,8 +1,9 @@
 %global base_name    plymouth-kcm
+%undefine __cmake_in_source_build
 
 Name:    plymouth-kcm
 Summary: Plymouth configuration module for systemsettings
-Version: 5.19.2
+Version: 5.20.1
 Release: 1%{?dist}
 
 License: GPLv2+
@@ -51,16 +52,12 @@ plymouth splash screen.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%{cmake_kf5}
 
-%make_build -C %{_target_platform}
-
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang kcm_plymouth --all-name --with-html
 
@@ -68,7 +65,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %files -f kcm_plymouth.lang
 %license COPYING
 %{_kf5_datadir}/dbus-1/system.d/org.kde.kcontrol.kcmplymouth.conf
-%{_sysconfdir}/xdg/plymouth.knsrc
+%{_datadir}/knsrcfiles/plymouth.knsrc
 %{_bindir}/kplymouththemeinstaller
 %{_kf5_qtplugindir}/kcms/kcm_plymouth.so
 %{_kf5_libexecdir}/kauth/plymouthhelper
@@ -79,6 +76,27 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Oct 20 15:30:44 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.1-1
+- 5.20.1
+
+* Sun Oct 11 19:50:04 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.0-1
+- 5.20.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.90-1
+- 5.19.90
+
+* Tue Sep 01 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.5-1
+- 5.19.5
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.19.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.4-1
+- 5.19.4
+
+* Tue Jul 07 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.3-1
+- 5.19.3
+
 * Tue Jun 23 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.2-1
 - 5.19.2
 

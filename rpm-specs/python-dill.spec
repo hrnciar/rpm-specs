@@ -1,8 +1,8 @@
 %global srcname dill
 
 Name: python-%{srcname}
-Version: 0.3.1.1
-Release: 4%{?dist}
+Version: 0.3.2
+Release: 2%{?dist}
 Summary: Serialize all of Python
 
 License: BSD
@@ -50,6 +50,12 @@ command.
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Sergio Pascual <sergiopr@fedoraproject.org> - 0.3.2-1
+- New upstream source (0.3.2)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.1.1-4
 - Rebuilt for Python 3.9
 

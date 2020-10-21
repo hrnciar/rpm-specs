@@ -1,6 +1,6 @@
 Name:           gnome-logs
 Version:        3.36.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Log viewer for the systemd journal
 
 License:        GPLv3+
@@ -55,6 +55,13 @@ A log viewer for the systemd journal.
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 2020 David King <amigadave@amigadave.com> - 3.36.0-1
 - Update to 3.36.0 (#1834692)
 

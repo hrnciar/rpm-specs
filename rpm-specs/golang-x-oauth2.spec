@@ -4,14 +4,9 @@
 # https://github.com/golang/oauth2
 %global goipath         golang.org/x/oauth2
 %global forgeurl        https://github.com/golang/oauth2
-%global commit          9f3314589c9a9136388751d9adae6b0ed400978a
+%global commit          bf48bf16ab8d622ce64ec6ce98d2c98f916b6303
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-googlecode-goauth2-devel < 0-0.31
-}
 
 %global common_description %{expand:
 A client implementation for OAuth 2.0 spec.}
@@ -21,7 +16,7 @@ A client implementation for OAuth 2.0 spec.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.34%{?dist}
+Release:        0.36%{?dist}
 Summary:        Client implementation for OAuth 2.0 spec
 
 # Upstream license specification: BSD-3-Clause
@@ -51,6 +46,12 @@ BuildRequires:  golang(golang.org/x/net/context/ctxhttp)
 %gopkgfiles
 
 %changelog
+* Fri Aug 07 20:45:05 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.36.20200807gitbf48bf1
+- Bump to commit bf48bf16ab8d622ce64ec6ce98d2c98f916b6303
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.34
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

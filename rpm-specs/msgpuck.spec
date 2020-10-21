@@ -1,9 +1,9 @@
 Name: msgpuck
-Version: 2.0.10
-Release: 6%{?dist}
+Version: 2.0.36
+Release: 2%{?dist}
 Summary: MsgPack binary serialization library in a self-contained header
 License: BSD
-URL: https://github.com/rtsisyk/msgpuck
+URL: https://github.com/tarantool/msgpuck
 Source0: https://github.com/rtsisyk/msgpuck/archive/%{version}/msgpuck-%{version}.tar.gz
 BuildRequires:  gcc-c++
 BuildRequires: gcc
@@ -46,16 +46,17 @@ global tables needed by the some library functions.
 
 %build
 %cmake . -DCMAKE_BUILD_TYPE=RelWithDebInfo
-make %{?_smp_mflags}
-make man
+%cmake_build
+%cmake_build --target man
 
 %check
-make test
+%ctest
+make -C %{__cmake_builddir} test
 
 %install
-%make_install
+%cmake_install
 mkdir -p %{buildroot}%{_mandir}/man3
-install -Dpm 0644 doc/man/man3/msgpuck.h.3* %{buildroot}%{_mandir}/man3/
+install -Dpm 0644 %{__cmake_builddir}/doc/man/man3/msgpuck.h.3* %{buildroot}%{_mandir}/man3/
 
 %files devel
 %{_libdir}/libmsgpuck.a
@@ -66,6 +67,20 @@ install -Dpm 0644 doc/man/man3/msgpuck.h.3* %{buildroot}%{_mandir}/man3/
 %license LICENSE AUTHORS
 
 %changelog
+* Sat Sep 19 2020 Roman Tsisyk <rtsisyk@fedoraproject.org> - 2.0.36-2
+- Re-enable tests.
+
+* Sat Sep 19 2020 Roman Tsisyk <rtsisyk@fedoraproject.org> - 2.0.36-1
+- New minor release.
+- Use `cmake_build` && `cmake_install` instead of `make` && `make install`.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.10-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.10-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.10-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

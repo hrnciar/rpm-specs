@@ -1,14 +1,13 @@
 %global srcname libtmux
-%global sum Scripting library for tmux
 
 Name:           python-%{srcname}
-Version:        0.8.1
-Release:        6%{?dist}
+Version:        0.8.3
+Release:        1%{?dist}
 Summary:        Scripting library for tmux
 
 License:        BSD
 URL:            https://pypi.python.org/pypi/libtmux
-Source:         https://github.com/tony/libtmux/archive/v%{version}/%{srcname}-%{version}.tar.gz
+Source:         %{pypi_source}
 
 BuildArch:      noarch
 
@@ -23,27 +22,36 @@ mapping to traverse, inspect and interact with live tmux sessions.}
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
 BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-Requires:       tmux
+BuildRequires:  pyproject-rpm-macros
+Requires:       tmux >= 1.8
 
 %description -n python3-%{srcname} %{_description}
 
 %prep
 %autosetup -n %{srcname}-%{version}
 
+%generate_buildrequires
+%pyproject_buildrequires
+
 %build
-%py3_build
+%pyproject_wheel
 
 %install
-%py3_install
+%pyproject_install
 
 %files -n python3-%{srcname}
 %license LICENSE
-%doc README.rst
-%{python3_sitelib}/%{srcname}-*.egg-info/
+%doc README.rst CHANGES
+%{python3_sitelib}/%{srcname}-*.dist-info/
 %{python3_sitelib}/%{srcname}/
 
 %changelog
+* Mon Aug 24 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.8.3-1
+- Update to 0.8.3
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.1-6
 - Rebuilt for Python 3.9
 

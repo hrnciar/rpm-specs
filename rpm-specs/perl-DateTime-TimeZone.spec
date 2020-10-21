@@ -2,11 +2,11 @@
 %bcond_without perl_DateTime_TimeZone_enables_optional_test
 
 # Regenerate Perl library code from upstream Olson database of this date
-%global tzversion 2020a
+%global tzversion 2020c
 
 Name:           perl-DateTime-TimeZone
-Version:        2.39
-Release:        2%{?dist}
+Version:        2.42
+Release:        1%{?dist}
 Summary:        Time zone object base class and factory
 # tzdata%%{tzversion}.tar.gz archive:   Public Domain
 # other files:                          GPL+ or Artistic
@@ -23,9 +23,10 @@ Source1:        ftp://ftp.iana.org/tz/releases/tzdata%{tzversion}.tar.gz
 Patch0:         DateTime-TimeZone-2.04-Parse-etc-localtime-by-DateTime-TimeZone-Tzfile.patch
 BuildArch:      noarch
 # Build
+BuildRequires:  coreutils
 BuildRequires:  make
-BuildRequires:  perl-interpreter
 BuildRequires:  perl-generators
+BuildRequires:  perl-interpreter
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
@@ -126,11 +127,11 @@ JOBS=$(printf '%%s' "%{?_smp_mflags}" | sed 's/.*-j\([0-9][0-9]*\).*/\1/')
 perl tools/parse_olson --dir ../tzdata-%{tzversion} --version %{tzversion} \
     --jobs $JOBS --clean
 %endif
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=%{buildroot}
+%{make_install}
 %{_fixperms} %{buildroot}/*
 
 %check
@@ -143,6 +144,18 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Mon Oct 19 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.42-1
+- 2.42 bump (2020c Olson database)
+
+* Thu Oct 08 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.41-1
+- 2.41 bump (2020b Olson database)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.39-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.39-3
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.39-2
 - Perl 5.32 rebuild
 

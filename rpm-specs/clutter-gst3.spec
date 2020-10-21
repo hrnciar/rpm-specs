@@ -1,6 +1,6 @@
 Name:           clutter-gst3
 Version:        3.0.27
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        GStreamer integration library for Clutter
 
 License:        LGPLv2+
@@ -75,6 +75,9 @@ rm -rf %{buildroot}%{_libdir}/gstreamer-1.0/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.27-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.27-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

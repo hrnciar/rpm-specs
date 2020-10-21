@@ -11,7 +11,7 @@
 
 Name:           rust-%{crate}
 Version:        0.4.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Auto-generated rust bindings for libpq
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -93,5 +93,8 @@ echo 'pkgconfig(libpq)'
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 17:49:57 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 0.4.6-1
 - Initial package

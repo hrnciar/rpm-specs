@@ -19,7 +19,7 @@
 %global cname   CloudCompare
 Name:           cloudcompare
 Version:        2.9.1
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        3D point cloud and mesh processing software
 
 # Main part is GPLv2+
@@ -53,6 +53,9 @@ Patch1:         %{name}-big-endian.patch
 
 # https://github.com/CloudCompare/CloudCompare/pull/661
 Patch2:         %{name}-pcl.patch
+
+# https://github.com/CloudCompare/CloudCompare/pull/1310
+Patch3:         %{name}-pcl1.11.patch
 
 BuildRequires:  boost-devel
 BuildRequires:  desktop-file-utils
@@ -105,6 +108,9 @@ Requires:       hicolor-icon-theme
 # Do not RPM provide .so files only used internally:
 %global __provides_exclude_from ^%{_libdir}/%{name}/.*$
 %global __requires_exclude ^lib(Q)?CC_.*$
+
+# Get pre-Fedora 33 behavior of cmake
+%define __cmake_in_source_build 1
 
 %description
 CloudCompare is a 3D point cloud (and triangular mesh) processing software.
@@ -246,6 +252,12 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE4}
 %doc doc
 
 %changelog
+* Thu Aug 13 2020 Miro Hrončok <mhroncok@redhat.com> - 2.9.1-10
+- Rebuilt for pcl 1.11
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Miro Hrončok <mhroncok@redhat.com> - 2.9.1-8
 - Enable Point Cloud Library (.pcd) files support (#1827531)
 

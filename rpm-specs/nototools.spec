@@ -1,7 +1,7 @@
 %global commit0 9c4375f07c9adc00c700c5d252df6a25d7425870
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
-%if 0%{?fedora} >= 31
+%if 0%{?fedora} >= 31 || 0%{?rhel} >= 9
 %define with_python3 1
 %else
 %define with_python2 1
@@ -15,7 +15,7 @@ including the google.com/get/noto website.
 
 Name:		nototools
 Version:	0
-Release:	0.20190714.git%{shortcommit0}%{?dist}
+Release:	0.20190715.git%{shortcommit0}%{?dist}
 Summary:	Noto fonts support tools and scripts plus web site generation
 
 # In nototools source
@@ -178,6 +178,9 @@ popd
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.20190715.git9c4375f
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0-0.20190714.git9c4375f
 - Rebuilt for Python 3.9
 

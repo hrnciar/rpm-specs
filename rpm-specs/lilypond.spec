@@ -3,13 +3,13 @@
 %global _python_bytecompile_extra 0
 
 Name:		lilypond
-Version:	2.21.1
-Release:	2%{?dist}
+Version:	2.21.6
+Release:	1%{?dist}
 Summary:	A typesetting system for music notation
 
 License:	GPLv3
-URL:		http://www.lilypond.org
-Source0:	http://lilypond.org/download/sources/v2.21/lilypond-%{version}.tar.gz
+URL:		https://www.lilypond.org
+Source0:	https://lilypond.org/download/sources/v2.21/lilypond-%{version}.tar.gz
 Source1:        century-schoolbook-l.metainfo.xml
 Patch0:		lilypond-2.21.2-gcc44-relocate.patch
 #Patch1:         lilypond-emmentaler-area.patch
@@ -194,7 +194,7 @@ ln -s %{_fontdir} $RPM_BUILD_ROOT%{_datadir}/lilypond/%{version}/fonts/otf
 %files -f %{name}.lang
 %license COPYING
 %doc AUTHORS.txt DEDICATION HACKING INSTALL.txt
-%doc NEWS.txt README.txt ROADMAP VERSION
+%doc NEWS.txt README.md ROADMAP VERSION
 %{_bindir}/*
 #%{_libdir}/lilypond
 %{_datadir}/lilypond
@@ -215,6 +215,27 @@ ln -s %{_fontdir} $RPM_BUILD_ROOT%{_datadir}/lilypond/%{version}/fonts/otf
 %doc COPYING
 
 %changelog
+* Tue Sep 15 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.21.6-1
+- 2.21.6
+
+* Mon Aug 31 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.21.5-1
+- 2.21.5
+
+* Wed Aug 05 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.21.4-2
+- Patch for CVE-2020-17353.
+
+* Fri Jul 31 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.21.4-1
+- 2.21.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.21.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.21.3-1
+- 2.21.3
+
+* Wed Jul 08 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.21.2-1
+- 2.21.2
+
 * Sat Jun 20 2020 Tomas Korbar <tkorbar@redhat.com> - 2.21.1-2
 - Changed required guile version to 2.2
 

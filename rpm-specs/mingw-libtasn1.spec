@@ -2,7 +2,7 @@
 
 Name:           mingw-libtasn1
 Version:        4.16.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows libtasn1 library
 
 # The libtasn1 library is LGPLv2+, utilities are GPLv3+;
@@ -97,6 +97,9 @@ rm -f %{buildroot}%{mingw64_bindir}/*.exe
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.16.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 02 2020 Sandro Mani <manisandro@gmail.com> - 4.16.0-1
 - Update to 4.16.0
 

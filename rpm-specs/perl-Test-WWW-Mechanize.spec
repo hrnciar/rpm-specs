@@ -1,6 +1,6 @@
 Name:           perl-Test-WWW-Mechanize
 Version:        1.52
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Testing-specific WWW::Mechanize subclass
 
 License:        Artistic 2.0
@@ -66,6 +66,9 @@ features for web application testing.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.52-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.52-6
 - Perl 5.32 rebuild
 

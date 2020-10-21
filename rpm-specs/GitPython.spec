@@ -3,7 +3,7 @@
 
 Name:           %{srcname}
 Version:        3.1.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Python Git Library
 
 License:        BSD
@@ -55,6 +55,9 @@ Python 3 version.
 %{python3_sitelib}/%{modname}/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 3.1.0-2
 - Rebuilt for Python 3.9
 

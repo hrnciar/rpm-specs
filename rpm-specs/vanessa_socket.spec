@@ -1,7 +1,7 @@
 Summary:		Simplify TCP/IP socket operations
 Name:		vanessa_socket
 Version:		0.0.12
-Release:		16%{?dist}
+Release:		17%{?dist}
 License:		LGPLv2+
 URL:			http://www.vergenet.net/linux/vanessa/
 Source0:		http://www.vergenet.net/linux/vanessa/download/%{name}/%{version}/%{name}-%{version}.tar.bz2
@@ -79,6 +79,9 @@ rm -f %{buildroot}%{_libdir}/*.*a
 %doc README vanessa_socket_pipe/COPYING
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.12-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.12-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

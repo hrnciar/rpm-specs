@@ -1,11 +1,11 @@
-# https://github.com/anonbeat/guayadeque/commit/ed0b3ca443a26e4fa804dc5e577983eceb481bb5
-%global commit0 ed0b3ca443a26e4fa804dc5e577983eceb481bb5
+# https://github.com/anonbeat/guayadeque/commit/eaa8597dcbaeabc6ea8d02998f3d7f4cc7c8e95e
+%global commit0 eaa8597dcbaeabc6ea8d02998f3d7f4cc7c8e95e
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
-%global gitdate 20200528
+%global gitdate 20201013
 
 Name:           guayadeque
 Version:        0.4.7
-Release:        0.15.%{gitdate}git%{shortcommit0}%{?dist}
+Release:        0.20.%{gitdate}git%{shortcommit0}%{?dist}
 Summary:        Music player
 
 # The entire source code is GPLv3+ except hmac/ which is BSD
@@ -91,10 +91,10 @@ cp -p %{SOURCE1} PACKAGE-LICENSING
  -DCMAKE_EXE_LINKER_FLAGS:STRING=-lwx_gtk3u_aui-3.0            \
  -DCMAKE_CXX_FLAGS="%{optflags}"                               \
  -D_GUREVISION_:STRING='%{shortcommit0}'
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 mkdir -p %{buildroot}%{_datadir}/{applications,appdata}
 desktop-file-install --delete-original  \
         --dir %{buildroot}%{_datadir}/applications   \
@@ -118,6 +118,22 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/%{name}.appdata.xml
 
 %changelog
+* Sat Oct 17 2020 Martin Gansser <martinkg@fedoraproject.org> - 0.4.7-0.20.20201013giteaa8597
+- Update to 0.4.7-0.20.20201013giteaa8597
+
+* Thu Oct 01 2020 Martin Gansser <martinkg@fedoraproject.org> - 0.4.7-0.19.20200931git5bd2778
+- Update to 0.4.7-0.19.20200931git5bd2778
+
+* Tue Sep 01 2020 Martin Gansser <martinkg@fedoraproject.org> - 0.4.7-0.18.20200831git5d2432e
+- Update to 0.4.7-0.18.20200831git5d2432e
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.7-0.17.20200717git3c54f64
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Martin Gansser <martinkg@fedoraproject.org> - 0.4.7-0.16.20200716git3c54f64
+- Update to 0.4.7-0.16.20200716git3c54f64
+- Use %%cmake_build and %%cmake_install macros instead of %%make_build and %%make_install
+
 * Sat May 30 2020 Björn Esser <besser82@fedoraproject.org> - 0.4.7-0.15.20200528gited0b3ca
 - Rebuild (jsoncpp)
 

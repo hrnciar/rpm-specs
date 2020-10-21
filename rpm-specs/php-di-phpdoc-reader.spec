@@ -27,7 +27,7 @@
 
 Name:          %{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       10%{?github_release}%{?dist}
+Release:       11%{?github_release}%{?dist}
 Summary:       Parses @var and @param values in PHP docblocks
 
 License:       MIT
@@ -126,6 +126,9 @@ BOOTSTRAP
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

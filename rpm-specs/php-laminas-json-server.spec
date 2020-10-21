@@ -24,7 +24,7 @@
 
 Name:           php-%{gh_project}
 Version:        3.2.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        %{namespace} Json-Server is a JSON-RPC server implementation
 
 License:        BSD
@@ -161,6 +161,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 Remi Collet <remi@remirepo.net> - 3.2.2-1
 - update to 3.2.2
 

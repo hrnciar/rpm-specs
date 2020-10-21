@@ -1,6 +1,6 @@
 Name:           clive
 Version:        2.3.3
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        Video extraction tool for user-uploaded video hosts
 
 License:        GPLv3+
@@ -51,6 +51,9 @@ make test
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.3-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.3.3-24
 - Perl 5.32 rebuild
 

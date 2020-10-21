@@ -1,6 +1,6 @@
 Name:           ncmpcpp
 Version:        0.8.2
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Featureful ncurses based MPD client inspired by ncmpc
 License:        GPLv2+
 URL:            http://ncmpcpp.rybczak.net/
@@ -55,6 +55,9 @@ make DESTDIR="%{buildroot}" INSTALL="install -p" docdir=%{?_pkgdocdir}%{!?_pkgdo
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.2-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 0.8.2-15
 - Rebuilt for Boost 1.73
 

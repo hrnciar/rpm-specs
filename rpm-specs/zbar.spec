@@ -1,25 +1,26 @@
 Name:		zbar
 Version:	0.23
-Release:	5%{?dist}
+Release:	7%{?dist}
 Summary:	Bar code reader
 
 License:	LGPLv2+
 URL:		http://zbar.sourceforge.net/
 Source0:	https://linuxtv.org/downloads/%{name}/%{name}-%{version}.tar.bz2
 Patch0:		use_python3_on_python_script.patch
+Patch1:         zbar-tp_print.patch
 
 BuildRequires:	autoconf automake libtool gettext-devel
 BuildRequires:	qt5-qtbase-devel qt5-qtx11extras-devel
-BuildRequires:	gtk3-devel ImageMagick-devel pygobject3-devel
+BuildRequires:	gtk3-devel GraphicsMagick-devel pygobject3-devel
 BuildRequires:	libv4l-devel libXv-devel xmlto dbus-devel
 BuildRequires:	java-11-openjdk-devel
 BuildRequires:	python3-devel
 
 %description
-A layered bar code scanning and decoding library. Supports EAN, UPC, Code 128,
-Code 39 and Interleaved 2 of 5.
-Includes applications for decoding captured bar code images and using a video
-device (e. g., webcam) as a bar code scanner.
+ZBar Bar Code Reader is an open source software suite for reading bar
+codes from various sources, such as video streams, image files and raw
+intensity sensors. It supports EAN-13/UPC-A, UPC-E, EAN-8, Code 128,
+Code 93, Code 39, Codabar, Interleaved 2 of 5, QR Code and SQ Code.
 
 %package devel
 Summary: Bar code library extra development files
@@ -92,10 +93,11 @@ on Java Native Interface (JNI) applications using ZBar.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p0
 
 %build
 autoreconf -vfi
-%configure --with-python=python3 --with-gtk=auto --docdir=%{_docdir}/%{name}-%{version}
+%configure --with-python=python3 --with-gtk=auto --docdir=%{_docdir}/%{name}-%{version} --with-graphicsmagick
 
 # rpath
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
@@ -185,6 +187,14 @@ rm -rf $RPM_BUILD_ROOT/usr/share/doc/zbar-%{version}/
 %{_docdir}/test_python.py
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.23-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.23-6
+- Update description.
+- Patch for Python 3.9.
+- Move back to GraphicsMagick.
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.23-5
 - Rebuilt for Python 3.9
 

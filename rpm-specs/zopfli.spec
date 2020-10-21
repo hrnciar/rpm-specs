@@ -1,8 +1,9 @@
+%undefine __cmake_in_source_build
 %global so_ver 1.0.3
 
 Name:           zopfli
 Version:        %{so_ver}
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Zlib compatible better compressor
 
 License:        ASL 2.0
@@ -32,16 +33,13 @@ Devolopment files for zopfli and zopflipng.
 %autosetup -n %{name}-%{name}-%{version}
 
 %build
-mkdir build && cd build
-%cmake -DZOPFLI_BUILD_SHARED=ON ..
-%make_build
+%cmake -DZOPFLI_BUILD_SHARED=ON
+%cmake_build
 
 %install
-cd build
-%make_install
+%cmake_install
 
 %files
-%{!?_licensedir:%global license %%doc}
 %license COPYING
 %doc CONTRIBUTORS README README.zopflipng
 %{_bindir}/%{name}
@@ -63,6 +61,9 @@ cd build
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

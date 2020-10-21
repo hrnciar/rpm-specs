@@ -1,26 +1,20 @@
 %global pypi_name        black
-%global base_version     19.10
-%global prerel           b0
+%global base_version     20.8
+%global prerel           b1
 %global upstream_version %{base_version}%{?prerel}
 Name:           python-%{pypi_name}
 Version:        %{base_version}%{?prerel:~%{prerel}}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        The uncompromising code formatter
 License:        MIT
 URL:            https://github.com/psf/black
 Source0:        %{pypi_source %{pypi_name} %{upstream_version}}
 Source1:        black.1
 Source2:        blackd.1
-# Tweak starred expression to work with Python 3.9 parser
-# https://github.com/psf/black/pull/1477
-Patch0:         0001-expression-tests-adjust-starred-expression-for-Pytho.patch
-# FIXME: hack up beginning_backslash test to work around Python 3.9
-# parser bug https://bugs.python.org/issue40847 . Not submitted
-# upstream as this is just a hack, the new upstream Python parser
-# needs to be fixed to not treat this as a syntax error
-Patch1:         0001-HACK-nerf-beginning_backslash-test-to-pass-with-Pyth.patch
+
 BuildArch:      noarch
 
+BuildRequires:  python3-devel
 BuildRequires:  pyproject-rpm-macros
 
 %global _description %{expand:
@@ -61,10 +55,11 @@ Obsoletes:      python3-%{pypi_name} < 19.4
 
 %install
 %pyproject_install
+%pyproject_save_files 'black*' '_black*' blib2to3
 
-ln -s ./black %{buildroot}%{_bindir}/black-%{python3_version}
-ln -s ./blackd %{buildroot}%{_bindir}/blackd-%{python3_version}
-# ln -s ./black-{python3_version} {buildroot}{_bindir}/black-3
+for exe in black blackd black-primer; do
+  ln -sr %{buildroot}%{_bindir}/${exe}{,-%{python3_version}}
+done
 
 install -D -m 644 %{SOURCE1} %{buildroot}%{_mandir}/man1/black.1
 install -D -m 644 %{SOURCE2} %{buildroot}%{_mandir}/man1/blackd.1
@@ -73,10 +68,12 @@ install -D -m 644 %{SOURCE2} %{buildroot}%{_mandir}/man1/blackd.1
 %check
 export PIP_INDEX_URL=http://host.invalid./
 export PIP_NO_DEPS=yes
+export PYTHONPATH=%{buildroot}%{python3_sitelib}
+export PATH=%{buildroot}%{_bindir}:$PATH
 %{python3} setup.py test
 
 
-%files -n %{pypi_name}
+%files -n %{pypi_name} -f %{pyproject_files}
 %license LICENSE
 %doc README.md
 %{_bindir}/black
@@ -85,16 +82,22 @@ export PIP_NO_DEPS=yes
 %{_bindir}/blackd
 %{_bindir}/blackd-%{python3_version}
 %{_mandir}/man1/blackd.1*
-
-%{python3_sitelib}/__pycache__/black*
-%{python3_sitelib}/__pycache__/_black*
-%{python3_sitelib}/black*.py
-%{python3_sitelib}/_black*.py
-%{python3_sitelib}/blib2to3/
-%{python3_sitelib}/%{pypi_name}-%{upstream_version}.dist-info/
+%{_bindir}/black-primer
+%{_bindir}/black-primer-%{python3_version}
 
 
 %changelog
+* Wed Aug 26 2020 Miro Hrončok <mhroncok@redhat.com> - 20.8~b1-1
+- Update to 20.8b1
+- Fixes rhbz#1872790
+
+* Wed Aug 26 2020 Miro Hrončok <mhroncok@redhat.com> - 20.8~b0-1
+- Update to 20.8b0
+- Fixes rhbz#1872743
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.10~b0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Adam Williamson <awilliam@redhat.com> - 19.10~b0-3
 - Rebuilt for Python 3.9
 - Fix one test and hack up another one for Python 3.9 parser issues

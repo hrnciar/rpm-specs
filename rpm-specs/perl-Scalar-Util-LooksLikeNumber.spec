@@ -1,6 +1,6 @@
 Name:           perl-Scalar-Util-LooksLikeNumber
 Version:        1.39.2
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Access to looks_like_number() perl API function
 # Defined in Makefile.PL, also mentioned in LooksLikeNumber.xs
 License:        GPL+ or Artistic
@@ -54,6 +54,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.39.2-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.39.2-16
 - Perl 5.32 rebuild
 

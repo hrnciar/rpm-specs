@@ -1,21 +1,14 @@
 Summary: Tool for controlling tape drives
 Name: mt-st
-Version: 1.1
-Release: 26%{?dist}
+Version: 1.4
+Release: 2%{?dist}
 License: GPL+
-URL: ftp://ftp.ibiblio.org/pub/linux/system/backup
-Source0: ftp://metalab.unc.edu/pub/Linux/system/backup/mt-st-%{version}.tar.gz
+URL: https://github.com/iustin/mt-st
+Source0: https://github.com/iustin/mt-st/releases/download/v%{version}/%{name}-%{version}.tar.gz
 Source1: stinit.service
-Patch0: mt-st-1.1-redhat.patch
-Patch1: mt-st-1.1-SDLT.patch
-Patch2: mt-st-0.7-config-files.patch
-Patch3: mt-st-0.9b-manfix.patch
-Patch4: mt-st-1.1-include.patch
-# https://bugzilla.redhat.com/show_bug.cgi?id=948457
-Patch5: mt-st-1.1-options.patch
-Patch6: mt-st-1.1-man.patch
 BuildRequires: gcc
 BuildRequires: systemd
+BuildRequires: bash-completion
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
@@ -29,22 +22,16 @@ Install mt-st if you need a tool to  manage tape drives.
 
 
 %prep
-%autosetup -p1
-
-# fix encoding
-f=README.stinit
-iconv -f ISO8859-1 -t UTF-8 -o $f.new $f
-touch -r $f $f.new
-mv $f.new $f
+%autosetup
 
 
 %build
-make CFLAGS="%{build_cflags} %{build_ldflags}"
+make CFLAGS="%{build_cflags}" LDFLAGS="%{build_ldflags}"
 
 
 %install
-make install
-install -D -p -m 0644 %{SOURCE1} $RPM_BUILD_ROOT%{_unitdir}/stinit.service
+%make_install EXEC_PREFIX=/usr COMPLETIONINSTALLDIR=%{buildroot}$(pkg-config --variable=completionsdir bash-completion)
+install -D -p -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/stinit.service
 
 
 %post
@@ -58,14 +45,28 @@ install -D -p -m 0644 %{SOURCE1} $RPM_BUILD_ROOT%{_unitdir}/stinit.service
 
 
 %files
-%doc COPYING README README.stinit mt-st-1.1.lsm stinit.def.examples
+%doc COPYING README.md stinit.def.examples
 %{_bindir}/mt
 %{_sbindir}/stinit
-%{_mandir}/man[18]/*
+%{_mandir}/man1/mt.1*
+%{_mandir}/man8/stinit.8*
 %{_unitdir}/stinit.service
+%{_datadir}/bash-completion/
 
 
 %changelog
+* Thu Sep 24 2020 Dan Horák <dan[at]danny.cz> - 1.4-2
+- install completions to system directory
+
+* Wed Sep 16 2020 Paweł Marciniak <sunwire+repo@gmail.com> - 1.4-1
+- rebased to 1.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Dan Horák <dan[at]danny.cz> - 1.3-1
+- rebased to 1.3 (#1849416)
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

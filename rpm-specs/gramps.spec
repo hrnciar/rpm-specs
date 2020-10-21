@@ -1,7 +1,7 @@
 #global		_beta 2
 Name:           gramps
-Version:        5.1.2
-Release:        3%{?_beta:.beta%{_beta}}%{?dist}
+Version:        5.1.3
+Release:        1%{?_beta:.beta%{_beta}}%{?dist}
 Summary:        Genealogical Research and Analysis Management Programming System
 
 License:        GPLv2+
@@ -119,6 +119,12 @@ desktop-file-install --delete-original  \
 %{python3_sitelib}/gramps/plugins
 
 %changelog
+* Fri Aug 14 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.1.3-1
+- 5.1.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.1.2-3
 - Rebuilt for Python 3.9
 

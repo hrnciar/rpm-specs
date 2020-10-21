@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        2.0.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Basic/extra mitigation against the BREACH attack for Django projects
 
 License:        BSD
@@ -54,6 +54,9 @@ PYTHONPATH=. %{__python3} setup.py test
 %{python3_sitelib}/django_debreach-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.1-3
 - Rebuilt for Python 3.9
 

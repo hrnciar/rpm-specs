@@ -1,6 +1,6 @@
 Name:           pekwm
 Version:        0.1.17
-Release:        17%{?dist}
+Release:        19%{?dist}
 Summary:        A small and flexible window manager
 
 License:        GPLv2+
@@ -36,6 +36,7 @@ should when starting applications.
 %patch1 -p1 -b .gcc10
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure
 make %{?_smp_mflags}
 
@@ -86,6 +87,12 @@ find contrib/pekwm_menu_config.pl -type f | xargs chmod 0644 || true
 %{_datadir}/xsessions/%{name}.desktop
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.17-19
+- Force C++14 as this code is not C++17 ready
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.17-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.17-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

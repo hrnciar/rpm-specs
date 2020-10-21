@@ -1,5 +1,5 @@
 #%%global rc_ver 6
-%global baserelease 3
+%global baserelease 1
 %global libomp_srcdir openmp-%{version}%{?rc_ver:rc%{rc_ver}}.src
 
 
@@ -10,32 +10,32 @@
 %endif
 
 Name: libomp
-Version: 10.0.0
+Version: 11.0.0
 Release: %{baserelease}%{?rc_ver:.rc%{rc_ver}}%{?dist}
 Summary: OpenMP runtime for clang
 
 License: NCSA
 URL: http://openmp.llvm.org	
-%if 0%{?rc_ver:1}
-Source0: https://prereleases.llvm.org/%{version}/rc%{rc_ver}/%{libomp_srcdir}.tar.xz
-Source3: https://prereleases.llvm.org/%{version}/rc%{rc_ver}/%{libomp_srcdir}.tar.xz.sig
-%else
-Source0: https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}/%{libomp_srcdir}.tar.xz
-Source3: https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}/%{libomp_srcdir}.tar.xz.sig
-%endif
-Source1: run-lit-tests
-Source2: lit.fedora.cfg.py
-Source4: https://prereleases.llvm.org/%{version}/hans-gpg-key.asc
+Source0: https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}%{?rc_ver:-rc%{rc_ver}}/%{libomp_srcdir}.tar.xz
+Source1: https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}%{?rc_ver:-rc%{rc_ver}}/%{libomp_srcdir}.tar.xz.sig
+Source2: https://prereleases.llvm.org/%{version}/hans-gpg-key.asc
+Source3: run-lit-tests
+Source4: lit.fedora.cfg.py
 
 Patch0: 0001-CMake-Make-LIBOMP_HEADERS_INSTALL_PATH-a-cache-varia.patch
-Patch1: 99b03c1c18.patch
 
+BuildRequires: gcc
+BuildRequires: gcc-c++
 BuildRequires: cmake
+BuildRequires: ninja-build
 BuildRequires: elfutils-libelf-devel
 BuildRequires: perl
 BuildRequires: perl-Data-Dumper
 BuildRequires: perl-Encode
 BuildRequires: libffi-devel
+
+# For gpg source verification
+BuildRequires:	gnupg2
 
 Requires: elfutils-libelf%{?isa}
 
@@ -66,13 +66,14 @@ Requires: python3-lit
 OpenMP regression tests
 
 %prep
+%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
 %autosetup -n %{libomp_srcdir} -p1
 
 %build
-mkdir -p _build
-cd _build
+# LTO causes build failures in this package.  Disable LTO for now
+%define _lto_cflags %{nil}
 
-%cmake .. \
+%cmake  -GNinja \
 	-DLIBOMP_INSTALL_ALIASES=OFF \
 	-DLIBOMP_HEADERS_INSTALL_PATH:PATH=%{_libdir}/clang/%{version}/include \
 %if 0%{?__isa_bits} == 64
@@ -81,11 +82,11 @@ cd _build
 	-DOPENMP_LIBDIR_SUFFIX= \
 %endif
 
-%make_build
+%cmake_build
 
 
 %install
-%make_install -C _build
+%cmake_install
 
 # Test package setup
 %global libomp_srcdir %{_datadir}/libomp/src/
@@ -99,23 +100,26 @@ cp -R runtime/src  %{buildroot}%{libomp_srcdir}/runtime
 
 # Generate lit config files.  Strip off the last line that initiates the
 # test run, so we can customize the configuration.
-head -n -1 _build/runtime/test/lit.site.cfg >> %{buildroot}%{lit_cfg}
+head -n -1 %{_vpath_builddir}/runtime/test/lit.site.cfg >> %{buildroot}%{lit_cfg}
 
 # Install custom fedora config file
-cp %{SOURCE2} %{buildroot}%{lit_fedora_cfg}
+cp %{SOURCE4} %{buildroot}%{lit_fedora_cfg}
 
 # Patch lit config files to load custom fedora config
 echo "lit_config.load_config(config, '%{lit_fedora_cfg}')" >> %{buildroot}%{lit_cfg}
 
 # Install test script
 install -d %{buildroot}%{_libexecdir}/tests/libomp
-install -m 0755 %{SOURCE1} %{buildroot}%{_libexecdir}/tests/libomp
+install -m 0755 %{SOURCE3} %{buildroot}%{_libexecdir}/tests/libomp
 
 # Remove static libraries with equivalent shared libraries
 rm -rf %{buildroot}%{_libdir}/libarcher_static.a
 
+%check
+%cmake_build --target check-openmp
 
 %files
+%license LICENSE.txt
 %{_libdir}/libomp.so
 %{_libdir}/libomptarget.so
 %ifnarch %{arm}
@@ -130,6 +134,9 @@ rm -rf %{buildroot}%{_libdir}/libarcher_static.a
 %ifnarch %{arm}
 %{_libdir}/clang/%{version}/include/omp-tools.h
 %{_libdir}/clang/%{version}/include/ompt.h
+# FIXME: This is probably wrong.  Seems like LIBOMP_HEADERS_INSTALL may
+# not be respected.
+%{_includedir}/ompt-multiplex.h
 %endif
 
 %files test
@@ -137,6 +144,48 @@ rm -rf %{buildroot}%{_libdir}/libarcher_static.a
 %{_libexecdir}/tests/libomp/
 
 %changelog
+* Thu Oct 15 2020 sguelton@redhat.com - 11.0.0-1
+- Fix NVR
+
+* Mon Oct 12 2020 sguelton@redhat.com - 11.0.0-0.5
+- llvm 11.0.0 - final release
+
+* Thu Oct 08 2020 sguelton@redhat.com - 11.0.0-0.4.rc6
+- 11.0.0-rc6
+
+* Fri Oct 02 2020 sguelton@redhat.com - 11.0.0-0.3.rc5
+- 11.0.0-rc5 Release
+
+* Sun Sep 27 2020 sguelton@redhat.com - 11.0.0-0.2.rc3
+- Fix NVR
+
+* Thu Sep 24 2020 sguelton@redhat.com - 11.0.0-0.1.rc3
+- 11.0.0-rc3 Release
+
+* Tue Sep 01 2020 sguelton@redhat.com - 11.0.0-0.1.rc2
+- 11.0.0-rc2 Release
+
+* Mon Aug 10 2020 Tom Stellard <tstellar@redhat.com> - 11.0.0-0.1.rc1
+- 11.0.0-rc1 Release
+
+* Mon Aug 10 2020 sguelton@redhat.com - 10.0.0-8
+- Make gcc dependency explicit, see https://fedoraproject.org/wiki/Packaging:C_and_C%2B%2B#BuildRequires_and_Requires
+- use %%license macro
+
+* Sat Aug 08 2020 Jeff Law <releng@fedoraproject.org> - 10.0.0-7
+- Disable LTO for now
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 sguelton@redhat.com - 10.0.0-4
+- Use modern cmake macro
+- Use gnupg verify
+
 * Tue Jun 16 2020 sguelton@redhat.com - 10.0.0-3
 - Add Requires: libomp = %{version}-%{release} to libomp-test to avoid
   the need to test interoperability between the various combinations of old

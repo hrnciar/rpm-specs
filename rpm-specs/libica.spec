@@ -1,7 +1,7 @@
 Summary: Library for accessing ICA hardware crypto on IBM z Systems
 Name: libica
 Version: 3.7.0
-Release: 1%{?dist}
+Release: 4%{?dist}
 License: CPL
 URL: https://github.com/opencryptoki/
 Source0: https://github.com/opencryptoki/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -9,6 +9,9 @@ Source0: https://github.com/opencryptoki/%{name}/archive/v%{version}/%{name}-%{v
 # https://bugzilla.redhat.com/show_bug.cgi?id=1630582
 # https://github.com/opencryptoki/libica/pull/24
 Patch0: %{name}-3.7.0-annotate.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=1857130
+# https://github.com/opencryptoki/libica/pull/46
+Patch1: %{name}-3.7.0-fips.patch
 BuildRequires: gcc
 BuildRequires: openssl-devel
 BuildRequires: autoconf
@@ -43,11 +46,11 @@ sh ./bootstrap.sh
 
 %build
 %configure --disable-static --enable-fips
-make %{?_smp_mflags}
+%make_build
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 rm $RPM_BUILD_ROOT%{_libdir}/libica.la
 
 
@@ -57,11 +60,6 @@ rm $RPM_BUILD_ROOT%{_libdir}/libica.la
 if [ -c /dev/hwrng -o -c /dev/prandom ]; then
     make check
 fi
-
-
-%post -p /sbin/ldconfig
-
-%postun -p /sbin/ldconfig
 
 
 %files
@@ -79,6 +77,16 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Dan Horák <dan[at]danny.cz> - 3.7.0-3
+- Use make macros (taken from PR#1 by <tstellar at redhat.com>)
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Wed Jul 15 2020 Dan Horák <dan[at]danny.cz> - 3.7.0-2
+- fix FIPS integrity validation (#1857130)
+
 * Fri May 15 2020 Dan Horák <dan[at]danny.cz> - 3.7.0-1
 - updated to 3.7.0
 

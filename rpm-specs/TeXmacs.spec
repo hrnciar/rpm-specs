@@ -1,6 +1,6 @@
 Name:           TeXmacs
-Version:        1.99.12
-Release:        2%{?dist}
+Version:        1.99.13
+Release:        5%{?dist}
 Summary:        Structured WYSIWYG scientific text editor
 License:        GPLv2+
 URL:            http://www.texmacs.org
@@ -35,6 +35,8 @@ Provides:       texmacs = %{version}-%{release}
 Requires:       fig2ps
 # Use Guile 1.8
 Patch1:         TeXmacs-guile18.patch
+# Qt 5.15 compatibility
+Patch2:         TeXmacs-qt5.15.patch
 
 %description
 GNU TeXmacs is a free scientific text editor, which was both inspired
@@ -72,19 +74,20 @@ BuildArch:      noarch
 TeXmacs font.
 
 %prep
-%setup -q -n TeXmacs-%{version}-src
+%setup -q
 %patch1 -p1 -b .guile18
+%patch2 -p1 -b .qt5.15
 2to3 --write --nobackups plugins
 pathfix.py -i %{__python3} -p -n plugins/mathematica/bin/realpath.py
 
 
 %build
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 desktop-file-validate %{buildroot}%{_datadir}/applications/texmacs.desktop
 
 mkdir -p %{buildroot}%{_datadir}/icons/gnome/48x48/mimetypes
@@ -168,6 +171,22 @@ fi
 
 
 %changelog
+* Wed Sep 23 2020 Orion Poplawski <orion@nwra.com> - 1.99.13-5
+- Add patch for Qt 5.15 support
+
+* Wed Sep 23 2020 Orion Poplawski <orion@nwra.com> - 1.99.13-4
+- Use new cmake macros (FTBFS bz#1863124)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.99.13-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.99.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Jindrich Novy <jnovy@redhat.com> - 1.99.13-1
+- update to 1.99.13
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.99.12-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

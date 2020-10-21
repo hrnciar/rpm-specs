@@ -2,13 +2,14 @@
 
 Name:           python-%{srcname}
 Version:        3.2.3
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        A py.test fixture for benchmarking code
 License:        BSD
 URL:            https://pytest-benchmark.readthedocs.io
 Source:         https://github.com/ionelmc/%{srcname}/archive/v%{version}/%{srcname}-%{version}.tar.gz
 BuildArch:      noarch
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-cpuinfo
 BuildRequires:  python3-pytest
 
@@ -55,6 +56,12 @@ Requires:       python3-cpuinfo
 %{python3_sitelib}/pytest_benchmark-%{version}-py*.egg-info
 
 %changelog
+* Thu Oct 08 2020 Juan Orti Alcaine <jortialc@redhat.com> - 3.2.3-4
+- BR: python3-setuptools
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 3.2.3-2
 - Rebuilt for Python 3.9
 

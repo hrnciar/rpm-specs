@@ -1,45 +1,13 @@
 Summary: A C library for multiple-precision floating-point computations
 Name: mpfr
-Version: 4.0.2
-Release: 4%{?dist}
+Version: 4.1.0
+Release: 2%{?dist}
 URL: http://www.mpfr.org/
 
 License: LGPLv3+
 BuildRequires: gmp-devel gcc
 
 Source0: http://www.mpfr.org/%{name}-%{version}/%{name}-%{version}.tar.xz
-
-# https://gforge.inria.fr/scm/viewvc.php/mpfr?revision=13499&view=revision
-# https://www.mpfr.org/mpfr-4.0.2/patch01
-Patch0: %{name}-include-float.patch
-
-# https://gforge.inria.fr/scm/viewvc.php/mpfr?revision=13828&view=revision
-# https://www.mpfr.org/mpfr-4.0.2/patch02
-Patch1: %{name}-int-overflow.patch
-
-# https://gforge.inria.fr/scm/viewvc.php/mpfr?revision=13836&view=revision
-# https://gforge.inria.fr/scm/viewvc.php/mpfr?revision=13838&view=revision
-# https://www.mpfr.org/mpfr-4.0.2/patch03
-Patch2: %{name}-set-int.patch
-
-# https://gforge.inria.fr/scm/viewvc.php/mpfr?revision=13697&view=revision
-# https://gforge.inria.fr/scm/viewvc.php/mpfr?revision=13837&view=revision
-# https://gforge.inria.fr/scm/viewvc.php/mpfr?revision=13841&view=revision
-# https://www.mpfr.org/mpfr-4.0.2/patch04
-Patch3: %{name}-sub1-ubf.patch
-
-# https://gforge.inria.fr/scm/viewvc.php/mpfr?revision=13516&view=revision
-# https://gforge.inria.fr/scm/viewvc.php/mpfr?revision=13520&view=revision
-# https://www.mpfr.org/mpfr-4.0.2/patch05
-Patch4: %{name}-const.patch
-
-# https://gforge.inria.fr/scm/viewvc.php/mpfr?revision=13518&view=revision
-# https://www.mpfr.org/mpfr-4.0.2/patch06
-Patch5: %{name}-array-length.patch
-
-# https://gforge.inria.fr/scm/viewvc.php/mpfr?revision=13869&view=revision
-# https://www.mpfr.org/mpfr-4.0.2/patch07
-Patch6: %{name}-sub1-ubftest.patch
 
 # This can be removed when F32 reaches EOL
 Obsoletes: mpfr3 < 4.0.0
@@ -57,7 +25,7 @@ Summary: Development files for the MPFR library
 Requires: %{name}%{?_isa} = %{version}-%{release}
 Requires: gmp-devel%{?_isa}
 
-# This can be removed before the next build
+# This can be removed when F32 reaches EOL
 Obsoletes: mpfr3-devel < 4.0.0
 Provides: mpfr3-devel = %{version}-%{release}
 
@@ -127,6 +95,16 @@ export LD_LIBRARY_PATH=%{buildroot}%{_libdir}
 %{_infodir}/mpfr.info*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jerry James <loganjerry@gmail.com> - 4.1.0-1
+- Update to MPFR version 4.1.0
+- Drop all patches
+
+* Mon Jun 29 2020 Jerry James <loganjerry@gmail.com> - 4.0.2-5
+- Add upstream patches 8 and 9
+
 * Thu Apr 16 2020 Jerry James <loganjerry@gmail.com> - 4.0.2-4
 - Add upstream patches 2 through 7
 

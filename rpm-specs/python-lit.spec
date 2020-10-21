@@ -6,8 +6,8 @@
 %global with_python2 1
 %endif
 
-#%%global rc_ver 1
-%global baserelease 3
+%global rc_ver 1
+%global baserelease 0.2
 
 %bcond_without check
 
@@ -16,16 +16,14 @@
 %{!?py2_install: %global py2_install %{expand: CFLAGS="%{optflags}" %{__python2} setup.py %{?py_setup_args} install -O1 --skip-build --root %{buildroot}}}
 
 Name: python-%{srcname}
-Version: 0.10.0
+Version: 0.11.0
 Release: %{baserelease}%{?rc_ver:.rc%{rc_ver}}%{?dist}
 BuildArch: noarch
 
 License: NCSA
 Summary: Tool for executing llvm test suites
 URL: https://pypi.python.org/pypi/lit
-Source0: https://files.pythonhosted.org/packages/e7/56/7967ff7ea510c12a4f3d5f6582a416ff74bd6b1194be265c979df6701c56/lit-0.10.0.tar.gz
-
-Patch0: version.patch
+Source0: https://files.pythonhosted.org/packages/be/39/44e2e9c977a4beb2d60566736b78bbbd7d194034a89f409fb867e48bd167/lit-0.11.0rc1.tar.gz
 
 # for file check
 %if %{with check}
@@ -92,12 +90,14 @@ sed -i -e '1{\@^#!/usr/bin/env python@d}' %{buildroot}%{python2_sitelib}/%{srcna
 %endif
 
 %files -n python3-%{srcname}
+%license LICENSE.TXT
 %doc README.txt
 %{python3_sitelib}/*
 %{_bindir}/lit
 
 %if 0%{?with_python2}
 %files -n python2-%{srcname}
+%license LICENSE.TXT
 %doc README.txt
 %{python2_sitelib}/*
 %if %{undefined with_python2}
@@ -106,6 +106,15 @@ sed -i -e '1{\@^#!/usr/bin/env python@d}' %{buildroot}%{python2_sitelib}/%{srcna
 %endif
 
 %changelog
+* Fri Oct 09 2020 sguelton@redhat.com - 0.11.0-0.2.rc1
+- Correctly ship license
+
+* Fri Aug 07 2020 Tom Stellard <tstellar@redhat.com> - 0.11.0-0.1.rc1
+- 0.11.0 rc1 Release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 0.10.0-3
 - Rebuilt for Python 3.9
 

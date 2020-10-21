@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        5.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Advanced Coset Enumerator
 
 License:        MIT
@@ -90,6 +90,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}-%{version}/res-examples/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 11 2020 Jerry James <loganjerry@gmail.com> - 5.3-2
 - Rebuild for gap 4.11.0
 

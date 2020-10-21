@@ -2,7 +2,7 @@
 
 Name:    opensm
 Version: 3.3.23
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: OpenIB InfiniBand Subnet Manager and management utilities
 License: GPLv2 or BSD
 Url:     https://github.com/linux-rdma/opensm
@@ -120,6 +120,9 @@ fi
 %{_libdir}/lib*.a
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.23-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 16 2020 Honggang Li <honli@redhat.com> - 3.3.23-1
 - Rebase opensm to latest upstream release 3.3.23
 - Resolves: bz1813779

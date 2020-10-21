@@ -1,6 +1,6 @@
 Name:          geos
 Version:       3.8.1
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       GEOS is a C++ port of the Java Topology Suite
 
 License:       LGPLv2
@@ -63,19 +63,19 @@ rm -r include/geos/algorithm/ttmath
   -DDISABLE_GEOS_INLINE=ON \
 %endif
   -DBUILD_DOCUMENTATION=ON
-%make_build
+%cmake_build
 
 
 %install
-%make_install
-make docs
+%cmake_install
+make docs -C %{__cmake_builddir}
 
 
 %check
 %ifarch armv7hl aarch64 s390x ppc64le
-make test || :
+%ctest || :
 %else
-make test
+%ctest
 %endif
 
 
@@ -89,7 +89,7 @@ make test
 %{_libdir}/libgeos_c.so.1*
 
 %files devel
-%doc doc/doxygen_docs
+%doc %{__cmake_builddir}/doc/doxygen_docs
 %{_bindir}/geos-config
 %{_includedir}/geos/
 %{_includedir}/geos_c.h
@@ -99,6 +99,9 @@ make test
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 16 2020 Miro Hrončok <mhroncok@redhat.com> - 3.8.1-2
 - Remove ttmath in favour of DD (#1841335)
 

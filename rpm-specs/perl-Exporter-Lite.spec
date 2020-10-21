@@ -1,6 +1,6 @@
 Name:           perl-Exporter-Lite
 Version:        0.08
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Lightweight exporting of variables
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Exporter-Lite
@@ -34,6 +34,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.08-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.08-14
 - Perl 5.32 rebuild
 

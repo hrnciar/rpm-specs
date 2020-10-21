@@ -1,6 +1,6 @@
 Name:           htmlcxx
 Version:        0.86
-Release:        11%{?dist}
+Release:        13%{?dist}
 License:        LGPLv2 and GPLv2+ and ASL 2.0 and MIT
 Summary:        A simple non-validating CSS1 and HTML parser for C++
 Url:            http://htmlcxx.sourceforge.net/
@@ -25,6 +25,7 @@ developing applications that use htmlcxx.
 
 %prep
 %setup -q
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure --disable-static --enable-shared
 
 # convert to utf8 due rpmlint warning W: file-not-utf8 /usr/share/doc/htmlcxx/AUTHORS
@@ -60,6 +61,12 @@ make check
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 0.86-13
+- Force C++14 as this code is not C++17 ready
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.86-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.86-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

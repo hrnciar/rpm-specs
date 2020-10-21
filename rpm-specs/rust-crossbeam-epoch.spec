@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.8.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Epoch-based garbage collection
 
 # Upstream license specification: MIT/Apache-2.0
@@ -131,6 +131,9 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 23 11:24:42 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.8.2-1
 - Update to 0.8.2
 

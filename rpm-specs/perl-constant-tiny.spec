@@ -1,14 +1,21 @@
+# Perform optional tests
+%bcond_without perl_constant_tiny_enables_optional_test
+
 Name:           perl-constant-tiny
 Version:        1.02
-Release:        13%{?dist}
+Release:        17%{?dist}
 Summary:        Perl pragma to declare constants
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/constant-tiny
 Source0:        https://cpan.metacpan.org/authors/id/S/SA/SAPER/constant-tiny-%{version}.tar.gz
+# Restore compatibility with Perl 5.32, bug #1851246, CPAN RT#131757.
+Patch0:         constant-tiny-1.02-Fix-injecting-INC-constant.pm.patch
 BuildArch:      noarch
-BuildRequires:  perl-interpreter
+BuildRequires:  coreutils
+BuildRequires:  make
 BuildRequires:  perl-generators
-BuildRequires:  perl(Module::Build)
+BuildRequires:  perl-interpreter
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
 # Run-time:
@@ -16,9 +23,11 @@ BuildRequires:  perl(Carp)
 # Tests:
 BuildRequires:  perl(Test::More)
 BuildRequires:  perl(vars)
+%if %{with perl_constant_tiny_enables_optional_test}
 # Optional tests:
 BuildRequires:  perl(Pod::Checker)
 BuildRequires:  perl(Test::Pod) >= 1.14
+%endif
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:       perl(Carp)
 
@@ -29,17 +38,22 @@ about valid names.
 
 %prep
 %setup -q -n constant-tiny-%{version}
+%patch0 -p1
+%if !%{with perl_constant_tiny_enables_optional_test}
+rm t/pod.t
+perl -i -ne 'print $_ unless m{^t/pod\.t\b}' MANIFEST
+%endif
 
 %build
-perl Build.PL installdirs=vendor
-./Build
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-./Build install destdir=$RPM_BUILD_ROOT create_packlist=0
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
-./Build test
+make test
 
 %files
 %doc Changes eg README
@@ -47,6 +61,18 @@ perl Build.PL installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.02-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.02-16
+- Perl 5.32 re-rebuild updated packages
+
+* Fri Jun 26 2020 Petr Pisar <ppisar@redhat.com> - 1.02-15
+- Restore compatibility with Perl 5.32 (bug #1851246)
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.02-14
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.02-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

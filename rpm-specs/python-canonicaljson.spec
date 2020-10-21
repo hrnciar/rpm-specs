@@ -3,7 +3,7 @@
 
 Name:           python-%{modname}
 Version:        1.1.4
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Canonical JSON
 
 License:        ASL 2.0
@@ -63,6 +63,9 @@ nosetests-%{python3_version} -v
 %{python3_sitelib}/__pycache__/%{modname}.*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.4-8
 - Rebuilt for Python 3.9
 

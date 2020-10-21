@@ -3,7 +3,7 @@
 Version: 2.008
 %forgemeta
 
-Release: 8%{?dist}
+Release: 9%{?dist}
 URL:     https://www.huertatipografica.com/en/fonts/alegreya-sans-ht
 
 %global foundry           HT
@@ -52,6 +52,9 @@ chmod 644 %{fontdocs} %{fontlicenses}
 %fontfiles
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 7.100-6
 🐞 Workaround Fedora problems created by rpm commit 93604e2

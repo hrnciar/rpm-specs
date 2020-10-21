@@ -1,16 +1,16 @@
 Name:		qlipper
 Version:	5.1.2
-Release:	2%{?dist}
+Release:	5%{?dist}
 License:	GPLv3+
 Summary:	Lightweight clipboard history
 URL:		https://github.com/pvanek/qlipper
-Source0:	https://github.com/pvanek/%{name}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
-
+Source0:	https://github.com/pvanek/%{name}/archive/%{version}.tar.gz/%{name}-%{version}.tar.gz
+BuildRequires:	gcc-c++
 BuildRequires:	cmake
 BuildRequires:	desktop-file-utils
 BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	qt5-qttools-devel
-
+BuildRequires:	qt5-qtbase-private-devel
 # Contains a modified copy of qxt, we cannot use the Fedora one (segfaults)
 Provides:       bundled(libqxt) = 0.7.0
 
@@ -23,17 +23,12 @@ Lightweight clipboard history applet.
 
 
 %build
-mkdir build
-pushd build
-%cmake -DCMAKE_BUILD_TYPE=release -DUSE_SYSTEM_QXT=OFF -DUSE_SYSTEM_QTSA=ON ..
-make %{?_smp_mflags}
-popd
+%cmake -DCMAKE_BUILD_TYPE=release -DUSE_SYSTEM_QXT=OFF -DUSE_SYSTEM_QTSA=ON
+%cmake_build
 
 
 %install
-pushd build
-make install DESTDIR=%{buildroot}
-popd
+%cmake_install
 desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %find_lang %{name} --with-qt --without-mo
 
@@ -46,6 +41,17 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Fri Aug 07 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.2-5
+- Spec fixes against F33
+- Source URL fixed
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,5 +1,5 @@
 %global VER 6.9.11
-%global Patchlevel 16
+%global Patchlevel 27
 
 Name:		ImageMagick
 %if 0%{?fedora} >= 27
@@ -10,7 +10,7 @@ Epoch:		1
 Epoch:		0
 %endif
 Version:	%{VER}.%{Patchlevel}
-Release:	2%{?dist}
+Release:	1%{?dist}
 Summary:	An X application for displaying and manipulating images
 
 License:	ImageMagick
@@ -32,10 +32,10 @@ BuildRequires:	lcms2-devel, libxml2-devel, librsvg2-devel
 BuildRequires:	fftw-devel, ilmbase-devel, OpenEXR-devel, libwebp-devel
 BuildRequires:	jbigkit-devel
 BuildRequires:	openjpeg2-devel >= 2.1.0
-BuildRequires:  graphviz-devel >= 2.9.0
-BuildRequires:  libraqm-devel
-BuildRequires:  liblqr-1-devel
-BuildRequires:  LibRaw-devel >= 0.14.8
+BuildRequires:	graphviz-devel >= 2.9.0
+BuildRequires:	libraqm-devel
+BuildRequires:	liblqr-1-devel
+BuildRequires:	LibRaw-devel >= 0.14.8
 BuildRequires:	autoconf automake gcc gcc-c++
 
 Requires:	%{name}-libs%{?_isa} = %{epoch}:%{version}-%{release}
@@ -180,7 +180,7 @@ make
 
 
 %install
-make %{?_smp_mflags} install DESTDIR=%{buildroot} INSTALL="install -p"
+%make_install
 cp -a www/source %{buildroot}%{_datadir}/doc/%{name}-%{VER}
 # Delete *ONLY* _libdir/*.la files! .la files used internally to handle plugins - BUG#185237!!!
 rm %{buildroot}%{_libdir}/*.la
@@ -237,7 +237,7 @@ multilibFileVersions %{buildroot}%{_includedir}/%{name}-6/magick/version.h
 
 %check
 export LD_LIBRARY_PATH=%{buildroot}/%{_libdir}
-make %{?_smp_mflags} check
+%make_build check
 rm PerlMagick/demo/Generic.ttf
 
 %ldconfig_scriptlets libs
@@ -312,6 +312,24 @@ rm PerlMagick/demo/Generic.ttf
 %doc PerlMagick/demo/ PerlMagick/Changelog PerlMagick/README.txt
 
 %changelog
+* Tue Aug 11 2020 Michael Cronenworth <mike@cchtml.com> - 1:6.9.11.27-1
+- Update to 6.9.11.27
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:6.9.11.22-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul  2 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1:6.9.11.22-2
+- Backport upstream patch to make ruby rmagick test pass (bug 1844192)
+
+* Mon Jun 29 2020 Michael Cronenworth <mike@cchtml.com> - 1:6.9.11.22-1
+- Update to 6.9.11.22
+
+* Sat Jun 27 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:6.9.11.21-2
+- Perl 5.32 re-rebuild updated packages
+
+* Thu Jun 25 2020 Michael Cronenworth <mike@cchtml.com> - 1:6.9.11.21-1
+- Update to 6.9.11.21
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:6.9.11.16-2
 - Perl 5.32 rebuild
 

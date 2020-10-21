@@ -6,21 +6,24 @@
 
 # https://github.com/tinygo-org/tinygo
 %global goipath         github.com/tinygo-org/tinygo
-Version:                0.13.1
+Version:                0.15.0
 
 %global CMSIS_commit        9fe411cef1cef5de58e5957b89760759de44e393
 %global avr_commit          6624554c02b237b23dc17d53e992bf54033fc228
-%if %{fedora} > 31
-%global clang_version       10.0.0
+%if %{fedora} > 32
+%global clang_version       11
 %else
-%global clang_version       9.0.1
+%if %{fedora} > 31
+%global clang_version       10
+%else
+%global clang_version       9
 %endif
-%global clang_major_version %{lua: print(string.match(rpm.expand('%{clang_version}'), '^[^.]+'))}
-%global cmsis_svd_commit    15b462f152af86f3d15b952e1a5cf1bb9e2693e8
+%endif
+%global cmsis_svd_commit    d9b58694cef35b39ddf61c07ef7e6347d6ec3cbd
 %global compiler_rt_version 9.0.0
 %global nrfx_commit         3ab39a9d457bfe627473ed0e03a7f1161d9e4f27
 %global picolibc_commit     80528c684b10aaee977397e7eb40c4784e6dc433
-%global wasi_libc_commit    a280fead2ae71b9a230d3b48c1f95867431888e4
+%global wasi_libc_commit    215adc8ac9f91eb055311acc72683fd2eb1ae15a
 
 # No longer matching regular Go's /usr/share/gocode because it also provides
 # pre-compiled binaries, and symlinks to arch-specific clang headers.
@@ -43,7 +46,7 @@ Summary:        Go compiler for small places
 # Main files: BSD
 # CMSIS: BSD (subsetted)
 # avr-mcu: ASL 2.0 (packs) and MIT (Rust code, unused by this package)
-# cmsis-svd: ASL 2.0 (subsetted)
+# cmsis-svd: ASL 2.0 and BSD and ISC and MIT (subsetted)
 # compiler-rt: NCSA or MIT
 # nrfx: BSD and ASL 2.0
 # picolibc: BSD and ISC and MIT and GPLv2 (testing code only, unused by this package)
@@ -65,12 +68,23 @@ Patch0001:      0001-Use-Fedora-command-names.patch
 Patch0002:      0002-Skip-ARM-Linux-tests.patch
 # We can't include STM32 .svd files because of their weird license.
 Patch0003:      0003-Skip-STM32-tests.patch
+# https://github.com/tinygo-org/tinygo/pull/1399
+Patch0004:      0004-Also-check-lib64-for-clang-include-path.patch
+# https://github.com/tinygo-org/tinygo/pull/1056
+Patch0005:      0005-main-add-initial-support-for-in-development-LLVM-11.patch
+# https://github.com/tinygo-org/tinygo/pull/1424
+Patch0006:      0006-Make-lib64-clang-include-path-check-more-robust.patch
 
 # Not supported upstream yet.
 ExcludeArch:    armv7hl ppc64le s390x
 
-BuildRequires:  clang-devel = %{clang_version}
+BuildRequires:  (clang-devel >= %{clang_version} with clang-devel < %{lua: print(tonumber(rpm.expand('%{clang_version}')) + 1)})
 BuildRequires:  golang(github.com/blakesmith/ar)
+%ifnarch %{ix86}
+BuildRequires:  chromium
+BuildRequires:  golang(github.com/chromedp/chromedp)
+BuildRequires:  golang(github.com/chromedp/cdproto/cdp)
+%endif
 BuildRequires:  golang(github.com/google/shlex)
 BuildRequires:  golang(github.com/marcinbor85/gohex)
 BuildRequires:  golang(go.bug.st/serial)
@@ -87,12 +101,13 @@ BuildRequires:  lld
 BuildRequires:  nodejs
 BuildRequires:  qemu-system-arm-core
 
-Requires:       clang-libs%{?isa} = %{clang_version}
 Requires:       golang
 Requires:       lld
 Recommends:     avr-gcc
 Recommends:     avr-libc
 Recommends:     clang
+# Add this when LLVM supports ESP natively.
+# Recommends:     esptool
 Recommends:     qemu-system-arm-core
 
 %description
@@ -106,6 +121,9 @@ Recommends:     qemu-system-arm-core
 %patch0001 -p1
 %patch0002 -p1
 %patch0003 -p1
+%patch0004 -p1
+%patch0005 -p1
+%patch0006 -p1
 
 tar -C lib -xf %{SOURCE2}
 rmdir lib/CMSIS
@@ -137,14 +155,11 @@ tar -C lib -xf %{SOURCE8}
 rmdir lib/wasi-libc
 mv lib/wasi-libc-%{wasi_libc_commit} lib/wasi-libc
 
-mkdir lib/clang
-ln -s %{_libdir}/clang/%{clang_version}/include lib/clang/include
-
 
 %build
 export LDFLAGS="-X github.com/tinygo-org/tinygo/goenv.TINYGOROOT=%{tinygoroot} "
 %gobuild -o %{gobuilddir}/bin/tinygo %{goipath}
-GO111MODULE=off %make_build gen-device PYTHON=%{__python3}
+GO111MODULE=off %make_build gen-device
 for target in armv6m-none-eabi armv7m-none-eabi armv7em-none-eabi; do
     for libc in compiler-rt picolibc; do
         TINYGOROOT=$PWD \
@@ -152,7 +167,7 @@ for target in armv6m-none-eabi armv7m-none-eabi armv7em-none-eabi; do
                 build-library -target=$target -o ${target}-${libc}.a ${libc}
     done
 done
-%make_build wasi-libc CLANG=clang-%{clang_major_version} LLVM_AR=llvm-ar LLVM_NM=llvm-nm
+%make_build wasi-libc CLANG=clang-%{clang_version} LLVM_AR=llvm-ar LLVM_NM=llvm-nm
 
 
 %install
@@ -166,8 +181,6 @@ install -vdm 0755 %{buildroot}%{tinygoroot}/lib/CMSIS
 install -vpm 0644 lib/CMSIS/README.md %{buildroot}%{tinygoroot}/lib/CMSIS/
 install -vdm 0755 %{buildroot}%{tinygoroot}/lib/CMSIS/CMSIS/Include
 install -vpm 0644 lib/CMSIS/CMSIS/Include/* %{buildroot}%{tinygoroot}/lib/CMSIS/CMSIS/Include/
-install -vdm 0755 %{buildroot}%{tinygoroot}/lib/clang
-cp -pP lib/clang/include %{buildroot}%{tinygoroot}/lib/clang/
 install -vdm 0755 %{buildroot}%{tinygoroot}/lib/compiler-rt
 install -vpm 0644 lib/compiler-rt/README.txt %{buildroot}%{tinygoroot}/lib/compiler-rt/
 install -vpm 0644 lib/compiler-rt/LICENSE.TXT %{buildroot}%{tinygoroot}/lib/compiler-rt/
@@ -198,9 +211,14 @@ cp -rp targets %{buildroot}%{tinygoroot}/
 %if %{with check}
 %check
 export TINYGOROOT=%{buildroot}%{tinygoroot}
-export GOPATH=%{buildroot}%{tinygoroot}
-PATH=%{buildroot}%{_bindir}:$PATH make smoketest
+export GOPATH=%{buildroot}%{tinygoroot}:%{gopath}
+export PATH=%{buildroot}%{_bindir}:$PATH
+export GO111MODULE=off
 %gocheck -v -d tests/tinygotest
+make smoketest XTENSA=0
+%ifnarch %{ix86}
+make wasmtest
+%endif
 %endif
 
 
@@ -219,6 +237,23 @@ PATH=%{buildroot}%{_bindir}:$PATH make smoketest
 
 
 %changelog
+* Sun Sep 20 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.15.0-1
+- Update to latest version (#1866183)
+- Loosen up runtime clang requirement
+
+* Sat Aug 22 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.14.1-1
+- Update to latest version (#1866183)
+
+* Sun Aug 02 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.13.1-3
+- Patch to allow Go 1.15
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 30 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.13.1-1
 - Update to latest version
 

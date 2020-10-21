@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}1
 Version:        1.8.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Simple crate for detection of a file's MIME type by its extension
 
 # Upstream license specification: MIT
@@ -71,6 +71,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 02 2020 Josh Stone <jistone@redhat.com> - 1.8.8-1
 - Update to 1.8.8
 

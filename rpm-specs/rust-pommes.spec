@@ -5,7 +5,7 @@
 
 Name:           rust-%{crate}
 Version:        0.0.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Project object model model (and parser using serde)
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -87,6 +87,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sun Aug 16 15:01:38 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.0.2-3
+- Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 20:41:54 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.0.2-1
 - Update to 0.0.2
 

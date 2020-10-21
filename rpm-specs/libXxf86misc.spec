@@ -3,7 +3,7 @@
 Summary: X.Org X11 libXxf86misc runtime library
 Name: libXxf86misc
 Version: 1.0.4
-Release: 6%{?dist}
+Release: 7%{?dist}
 License: MIT
 URL: http://www.x.org
 Source0: https://www.x.org/pub/individual/lib/%{name}-%{version}.tar.bz2
@@ -72,6 +72,9 @@ rm -rf $RPM_BUILD_ROOT%{_mandir}/man3/*.3*
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           perl-pod2pdf
 Version:        0.42
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        Converts Pod to PDF format
 License:        Artistic 2.0
 URL:            https://metacpan.org/release/pod2pdf
@@ -65,6 +65,9 @@ make test
 %{_bindir}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.42-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.42-24
 - Perl 5.32 rebuild
 

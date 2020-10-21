@@ -1,7 +1,7 @@
 Summary: Client for sending messages to a host's logged in users
 Name: rwall
 Version: 0.17
-Release: 56%{?dist}
+Release: 57%{?dist}
 License: BSD
 Url: ftp://ftp.linux.org.uk/pub/linux/Networking/netkit/
 Source: ftp://ftp.linux.org.uk/pub/linux/Networking/netkit/netkit-rwall-%{version}.tar.gz
@@ -98,6 +98,9 @@ install -m 755 %{SOURCE1} ${RPM_BUILD_ROOT}%{_unitdir}/
 %{_unitdir}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-57
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-56
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

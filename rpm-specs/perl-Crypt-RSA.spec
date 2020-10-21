@@ -1,7 +1,7 @@
 Summary:	RSA public-key cryptosystem
 Name:		perl-Crypt-RSA
 Version:	1.99
-Release:	31%{?dist}
+Release:	32%{?dist}
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Crypt-RSA
 Source0:	https://cpan.metacpan.org/authors/id/V/VI/VIPUL/Crypt-RSA-%{version}.tar.gz
@@ -109,6 +109,9 @@ make test
 %{_mandir}/man3/crypt-rsa-interoperablity-template.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.99-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.99-31
 - Perl 5.32 rebuild
 

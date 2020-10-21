@@ -1,7 +1,7 @@
 Summary: Realtime software looping sampler
 Name: sooperlooper
 Version: 1.7.3
-Release: 14%{?dist}
+Release: 16%{?dist}
 License: GPLv2+
 URL: http://essej.net/sooperlooper/
 Source0: http://essej.net/sooperlooper/sooperlooper-%{version}.tar.gz
@@ -42,6 +42,7 @@ sed -i 's|OPT_FLAGS="$OPT_FLAGS -pipe"|OPT_FLAGS="%{optflags}"|g' \
 
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure
 make %{?_smp_mflags}
 
@@ -70,6 +71,12 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Tue Aug 14 2020 Jeff Law <law@redhat.com> - 1.7.3-16
+- Force C++14 as this code is not C++17 ready
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.3-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.3-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

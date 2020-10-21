@@ -7,14 +7,14 @@
 %global mutter_api_version 7
 
 Name:          mutter
-Version:       3.37.2
+Version:       3.38.1
 Release:       1%{?dist}
 Summary:       Window and compositing manager based on Clutter
 
 License:       GPLv2+
 #VCS:          git:git://git.gnome.org/mutter
 URL:           http://www.gnome.org
-Source0:       http://download.gnome.org/sources/%{name}/3.37/%{name}-%{version}.tar.xz
+Source0:       http://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 # Work-around for OpenJDK's compliance test
 Patch0:        0001-window-actor-Special-case-shaped-Java-windows.patch
@@ -51,7 +51,7 @@ BuildRequires: pkgconfig(glesv2)
 BuildRequires: pkgconfig(graphene-gobject-1.0)
 BuildRequires: pam-devel
 BuildRequires: pkgconfig(libpipewire-0.3) >= %{pipewire_version}
-BuildRequires: pkgconfig(sysprof-capture-3)
+BuildRequires: pkgconfig(sysprof-capture-4)
 BuildRequires: systemd-devel
 BuildRequires: upower-devel
 BuildRequires: xorg-x11-server-Xorg
@@ -151,6 +151,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %{_datadir}/glib-2.0/schemas/org.gnome.mutter.wayland.gschema.xml
 %{_datadir}/gnome-control-center/keybindings/50-mutter-*.xml
 %{_mandir}/man1/mutter.1*
+%{_udevrulesdir}/61-mutter.rules
 
 %files devel
 %{_includedir}/*
@@ -163,6 +164,30 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %{_datadir}/mutter-%{mutter_api_version}/tests
 
 %changelog
+* Mon Oct 05 2020 Florian Müllner <fmuellner@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Mon Sep 28 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 3.38.0-2
+- Upstream fix for NVidia Jetson devices
+
+* Mon Sep 14 2020 Florian Müllner <fmuellner@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Sat Sep 05 2020 Florian Müllner <fmuellner@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Mon Aug 24 2020 Florian Müllner <fmuellner@redhat.com> - 3.37.91-1
+- Update to 3.37.91
+
+* Tue Aug 11 2020 Florian Müllner <fmuellner@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Florian Müllner <fmuellner@redhat.com> - 3.37.3-1
+- Update to 3.37.3
+
 * Wed Jun 03 2020 Florian Müllner <fmuellner@redhat.com> - 3.37.2-1
 - Update to 3.37.2
 

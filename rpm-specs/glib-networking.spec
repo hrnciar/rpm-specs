@@ -1,13 +1,13 @@
 %define glib2_version 2.63.0
 
 Name:           glib-networking
-Version:        2.64.3
+Version:        2.66.0
 Release:        1%{?dist}
 Summary:        Networking support for GLib
 
 License:        LGPLv2+
 URL:            http://www.gnome.org
-Source0:        http://download.gnome.org/sources/glib-networking/2.64/%{name}-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/glib-networking/2.66/%{name}-%{version}.tar.xz
 
 BuildRequires:  meson
 BuildRequires:  gcc
@@ -66,6 +66,22 @@ the functionality of the installed glib-networking package.
 %{_datadir}/installed-tests
 
 %changelog
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 2.66.0-1
+- Update to 2.66.0
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 2.65.90-1
+- Update to 2.65.90
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.65.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.65.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Kalev Lember <klember@redhat.com> - 2.65.1-1
+- Update to 2.65.1
+
 * Fri May 29 2020 Kalev Lember <klember@redhat.com> - 2.64.3-1
 - Update to 2.64.3
 

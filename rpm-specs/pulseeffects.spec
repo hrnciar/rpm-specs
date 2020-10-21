@@ -1,8 +1,5 @@
-%global optflags        %{optflags} -flto=auto
-%global build_ldflags   %{build_ldflags} -flto
-
 Name:           pulseeffects
-Version:        4.7.2
+Version:        4.8.2
 Release:        1%{?dist}
 Summary:        Audio equalizer, filters and effects for Pulseaudio applications
 
@@ -54,7 +51,6 @@ equalizer many more effects for PulseAudio applications.
 
 %prep
 %autosetup
-sed -i 's|#include <sigc++/sigc++.h>|#include <sigc++/sigc++.h>\n#include <string>|' include/plugin_base.hpp
 
 %build
 export LC_ALL="${LC_ALL:-UTF-8}"
@@ -91,6 +87,18 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/com.githu
 
 
 %changelog
+* Wed Sep 23 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 4.8.2-1
+- Update to 4.8.2
+
+* Thu Aug 20 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 4.8.0-1
+- Update to 4.8.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.7.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 4.7.3-1
+- Update to 4.7.3
+
 * Wed Jun 03 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 4.7.2-1
 - Update to 4.7.2
 

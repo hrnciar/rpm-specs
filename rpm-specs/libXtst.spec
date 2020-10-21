@@ -5,7 +5,7 @@
 Summary: X.Org X11 libXtst runtime library
 Name: libXtst
 Version: 1.2.3
-Release: 11%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
+Release: 12%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
 License: MIT
 URL: http://www.x.org
 
@@ -73,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}
 %{_mandir}/man3/XTest*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

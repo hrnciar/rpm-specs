@@ -6,9 +6,8 @@
 # https://gitlab.com/cznic/sortutil
 %global goipath         modernc.org/sortutil
 %global forgeurl        https://gitlab.com/cznic/sortutil
-Version:                1.0.0
-%global commit          d88cd80914b344e4abf5bd4c59de6ac23def1160
-%global distprefix      %{nil}
+Version:                1.1.0
+%global tag             v1.1.0
 
 %gometa
 
@@ -19,7 +18,7 @@ Utilities supplemental to the Go standard "sort" package.}
 %global godocs          AUTHORS CONTRIBUTORS README
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Utilities supplemental to the Go standard "sort" package
 
 # Upstream license specification: BSD-3-Clause
@@ -51,6 +50,12 @@ BuildRequires:  golang(modernc.org/mathutil)
 %gopkgfiles
 
 %changelog
+* Thu Aug 06 18:57:43 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.0-1
+- Update to 1.1.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

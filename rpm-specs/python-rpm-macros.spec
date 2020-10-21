@@ -1,6 +1,6 @@
 Name:           python-rpm-macros
 Version:        3.9
-Release:        4%{?dist}
+Release:        10%{?dist}
 Summary:        The common Python RPM macros
 
 # macros and lua: MIT, compileall2.py: PSFv2
@@ -107,6 +107,31 @@ install -m 644 compileall2.py %{buildroot}%{_rpmconfigdir}/redhat/
 
 
 %changelog
+* Mon Sep 14 2020 Miro Hrončok <mhroncok@redhat.com> - 3.9-10
+- Add %%python3_platform_triplet and %%python3_ext_suffix
+- https://fedoraproject.org/wiki/Changes/Python_Upstream_Architecture_Names
+
+* Fri Jul 24 2020 Lumír Balhar <lbalhar@redhat.com> - 3.9-9
+- Adapt %%py[3]_shebang_fix to use versioned pathfixX.Y.py
+
+* Fri Jul 24 2020 Lumír Balhar <lbalhar@redhat.com> - 3.9-8
+- Disable Python hash seed randomization in %%py_byte_compile
+
+* Tue Jul 21 2020 Lumír Balhar <lbalhar@redhat.com> - 3.9-7
+- Make %%py3_dist respect %%python3_pkgversion
+
+* Thu Jul 16 2020 Miro Hrončok <mhroncok@redhat.com> - 3.9-6
+- Make the unversioned %%__python macro error
+- https://fedoraproject.org/wiki/Changes/PythonMacroError
+- Make %%python macros more consistent with %%python3 macros
+- Define %%python_platform (as a Python version agnostic option to %%python3_platform)
+- Add --no-index --no-warn-script-location pip options to %%pyX_install_wheel
+
+* Wed Jul 08 2020 Miro Hrončok <mhroncok@redhat.com> - 3.9-5
+- Introduce %%python_extras_subpkg
+- Adapt %%py_dist_name to keep square brackets
+- https://fedoraproject.org/wiki/Changes/PythonExtras
+
 * Tue Jun 16 2020 Lumír Balhar <lbalhar@redhat.com> - 3.9-4
 - Use compileall from stdlib for Python >= 3.9
 

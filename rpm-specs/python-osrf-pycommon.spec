@@ -6,7 +6,7 @@
 
 Name:           python-%{pkgname}
 Version:        0.1.10
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Commonly needed Python modules used by software developed at OSRF
 
 # The entire source code is ASL 2.0 except parts of osrf_pycommon/terminal_color/windows.py which is BSD
@@ -167,6 +167,9 @@ PYTHONASYNCIODEBUG=1 %{__python3} -m nose tests -e test_code_format
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.10-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.10-2
 - Rebuilt for Python 3.9
 

@@ -34,7 +34,7 @@
 Name:          php-%{composer_vendor}-%{composer_project}%{major}
 Epoch:         1
 Version:       %{github_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Common library for Doctrine projects version %{major}
 
 License:       MIT
@@ -135,6 +135,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun  8 2020 Remi Collet <remi@remirepo.net> - 3.0.2-1
 - update to 3.0.2
 

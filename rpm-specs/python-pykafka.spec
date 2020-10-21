@@ -17,7 +17,7 @@
 
 Name:           python-%{pypi_name}
 Version:        2.6.0
-Release:        0.12%{?alphatag}%{?dist}
+Release:        0.13%{?alphatag}%{?dist}
 Summary:        Full-Featured Pure-Python Kafka Client
 
 License:        ASL 2.0
@@ -149,6 +149,9 @@ rm %{buildroot}%{python2_sitearch}/%{pypi_name}/rdkafka/_rd_kafkamodule.c
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-0.13.dev2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.6.0-0.12.dev2
 - Rebuilt for Python 3.9
 

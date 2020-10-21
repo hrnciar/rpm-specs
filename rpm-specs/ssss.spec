@@ -1,7 +1,7 @@
 Summary: Shamir's secret sharing scheme
 Name: ssss
 Version: 0.5
-Release: 23%{?dist}.2
+Release: 24%{?dist}.2
 License: GPLv2
 Url:  http://point-at-infinity.org/%{name}
 Source: http://point-at-infinity.org/%{name}/%{name}-%{version}.tar.gz
@@ -38,6 +38,9 @@ ln  ${RPM_BUILD_ROOT}%{_mandir}/man1/ssss.1.gz ${RPM_BUILD_ROOT}%{_mandir}/man1/
 %doc %{_mandir}/man1/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-24.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-23.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

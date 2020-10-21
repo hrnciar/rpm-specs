@@ -1,6 +1,9 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 Name:           alglib
 Version:        3.16.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A numerical analysis and data processing library
 
 License:        GPLv2+
@@ -58,26 +61,22 @@ sed -i 's|\r||g' manual.cpp.html
 
 
 %build
-mkdir build
-(
-cd build
 # disable FMA support to get it pass all tests
 %ifarch aarch64 %{power64} s390 s390x
 export CXXFLAGS="$RPM_OPT_FLAGS -ffp-contract=off"
 export CFLAGS="$RPM_OPT_FLAGS -ffp-contract=off"
 %endif
-%cmake -DALGLIB_VERSION=%{version} ..
-%make_build
-)
+%cmake -DALGLIB_VERSION=%{version}
+%cmake_build
 
 
 %install
-%make_install -C build
+%cmake_install
 ln -s libalglib-%{version}.so %{buildroot}%{_libdir}/libalglib.so
 
 
 %check
-pushd build
+pushd %{_vpath_builddir}
 LD_LIBRARY_PATH=$PWD ./test_c || false
 LD_LIBRARY_PATH=$PWD ./test_i || false
 popd
@@ -100,6 +99,9 @@ popd
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.16.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.16.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

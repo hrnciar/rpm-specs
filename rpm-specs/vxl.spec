@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:       vxl
 Version:    2.0.2
-Release:    7%{?dist}
+Release:    9%{?dist}
 Summary:    C++ Libraries for Computer Vision Research and Implementation
 License:    BSD
 URL:        https://vxl.github.io/
@@ -31,6 +33,9 @@ Patch9:     0001-BUG-Logic-for-conditional-compilation-was-exactly-wr.patch
 # Remove obsolete boxm library that fails to build on ARM
 # https://github.com/vxl/vxl/commit/cdf414000606af4bad322f7ff4c1fcdeaaa286ad
 Patch10:    0009-removed-the-obsolete-octree-library-boxm.patch
+
+# Fix missing #include caught by gcc-11
+Patch11:     0010-gcc11.patch
 
 BuildRequires:  cmake
 BuildRequires:  Coin2-devel
@@ -185,7 +190,7 @@ sed -i '/add_subdirectory(minizip)/ d' contrib/brl/b3p/CMakeLists.txt
     -DVXL_BUILD_DOCUMENTATION:BOOL=ON \
     -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo" \
     -DCMAKE_CXX_FLAGS:STRING="$RPM_OPT_FLAGS -fpermissive" \
-    -DVNL_CONFIG_LEGACY_METHODS:BOOL=ON .
+    -DVNL_CONFIG_LEGACY_METHODS:BOOL=ON
 
 # Other stuff
 # -DEXPATPP_INCLUDE_DIR:PATH=%%{_includedir} \
@@ -197,10 +202,10 @@ sed -i '/add_subdirectory(minizip)/ d' contrib/brl/b3p/CMakeLists.txt
 #wxwidgets seems to be found
 #Multiple versions of QT found please set DESIRED_QT_VERSION
 
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 # Stray file installed in a random location
 rm -fv %{buildroot}/usr/contrib/brl/bseg/boxm2/ocl/boxm2_ocl_where_root_dir.h
@@ -212,8 +217,7 @@ rm -fv %{buildroot}/usr/contrib/brl/bseg/boxm2/ocl/boxm2_ocl_where_root_dir.h
 # 801 - volm_test_candidate_region_parser (Child aborted)
 # 967 - vifa_test_int_faces_attr (Child aborted)
 # 968 - vifa_test_int_faces_adj_attr (Child aborted)
-
-ctest . || exit 0
+ctest %{_vpath_builddir} || exit 0
 
 %ldconfig_scriptlets
 
@@ -828,6 +832,12 @@ ctest . || exit 0
 %doc %{_docdir}/*
 
 %changelog
+* Sat Oct 17 2020 Jeff Law <law@redhat.com> - 2.0.2-9
+- Fix missing #includes for gcc-11
+
+* Mon Jul 27 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 2.0.2-8
+- Rebuild for libdc1394 soname bump
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

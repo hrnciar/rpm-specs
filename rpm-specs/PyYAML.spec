@@ -7,7 +7,7 @@
 
 Name:           PyYAML
 Version:        5.3.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 %global uversion %{version}
 Summary:        YAML parser and emitter for Python
 
@@ -116,6 +116,9 @@ rm -rf ext/_yaml.c
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 5.3.1-3
 - Rebuilt for Python 3.9
 

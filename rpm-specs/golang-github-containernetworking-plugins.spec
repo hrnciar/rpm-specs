@@ -4,8 +4,7 @@
 
 # https://github.com/containernetworking/plugins
 %global goipath         github.com/containernetworking/plugins
-Version:                0.7.5
-%global commit          2d6d46d308b2c45a0466324c9e3f1330ab5cacd6
+Version:                0.8.6
 
 %gometa
 
@@ -16,7 +15,7 @@ Some CNI network plugins, maintained by the containernetworking team.}
 %global godocs          RELEASING.md CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Standard networking plugins, maintained by the CNI team
 
 # Upstream license specification: Apache-2.0
@@ -76,6 +75,12 @@ BuildRequires:  golang(github.com/vishvananda/netlink/nl)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 18:28:32 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.8.6-1
+- Update to 0.8.6
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

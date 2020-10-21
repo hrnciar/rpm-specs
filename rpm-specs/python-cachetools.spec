@@ -1,8 +1,8 @@
 %global srcname cachetools
 
 Name:           python-%{srcname}
-Version:        4.1.0
-Release:        3%{?dist}
+Version:        4.1.1
+Release:        2%{?dist}
 Summary:        Extensible memoizing collections and decorators
 
 License:        MIT
@@ -52,6 +52,12 @@ BuildRequires:  python3-setuptools
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 John Eckersberg <jeckersb@redhat.com> - 4.1.1-1
+- New upstream release 4.1.1 (rhbz#1851765)
+
 * Tue Jun 23 2020 John Eckersberg <jeckersb@redhat.com> - 4.1.0-3
 - Add explicit BuildRequires on python3-setuptools
 

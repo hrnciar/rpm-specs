@@ -1,5 +1,5 @@
 Name:           cura-fdm-materials
-Version:        4.6.1
+Version:        4.7.1
 Release:        1%{?dist}
 Summary:        Cura FDM Material database
 
@@ -14,6 +14,9 @@ BuildArch:      noarch
 BuildRequires:  cmake
 Requires:       cura == 1:%{version}
 
+# Get Fedora 33++ behavior on anything older
+%undefine __cmake_in_source_build
+
 %description
 Cura material files.
 
@@ -23,11 +26,11 @@ These files are needed to work with printers like Ultimaker 2+ and Ultimaker 3.
 %autosetup -n fdm_materials-%{version} -p1
 
 %build
-%{cmake} .
-make %{?_smp_mflags}
+%cmake
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 
 %files
@@ -35,6 +38,15 @@ make install DESTDIR=%{buildroot}
 %{_datadir}/cura/resources/materials/
 
 %changelog
+* Thu Sep 03 2020 Miro Hrončok <mhroncok@redhat.com> - 4.7.1-1
+- Update to 4.7.1
+
+* Mon Aug 31 2020 Gabriel Féron <feron.gabriel@gmail.com> - 4.7.0-1
+- Update to 4.7.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 5 2020 Gabriel Féron <feron.gabriel@gmail.com> - 4.6.0-1
 - Update to 4.6.1
 

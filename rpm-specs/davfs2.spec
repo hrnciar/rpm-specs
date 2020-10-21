@@ -1,6 +1,6 @@
 Name:           davfs2
-Version:        1.5.6
-Release:        2%{?dist}
+Version:        1.6.0
+Release:        1%{?dist}
 Summary:        A filesystem driver for WebDAV
 License:        GPLv3+
 URL:            https://savannah.nongnu.org/projects/davfs2
@@ -11,8 +11,6 @@ Source1:        https://download.savannah.gnu.org/releases/davfs2/%{name}-%{vers
 # Using the URL above directly as "Source2" does not work as spectool/mock do
 # no not like the query string.
 Source2:        davfs2-memberlist-gpgkeys.asc
-
-Patch0:         davfs2-gcc-10-fix.patch
 
 Conflicts:      filesystem < 3
 BuildRequires:  gcc
@@ -92,6 +90,16 @@ exit 0
 %ghost %dir %attr(01775,root,%{groupname}) %{piddir}
 
 %changelog
+* Fri Aug 07 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.6.0-1
+- update to 1.6.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.6-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.5.6-3
 - fix build with GCC 10
 

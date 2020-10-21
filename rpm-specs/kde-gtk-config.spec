@@ -1,6 +1,7 @@
+%undefine __cmake_in_source_build
 Name:    kde-gtk-config
 Summary: Configure the appearance of GTK apps in KDE
-Version: 5.19.2
+Version: 5.20.1
 Release: 1%{?dist}
 
 # KDE e.V. may determine that future GPL versions are accepted
@@ -23,6 +24,7 @@ BuildRequires:  kf5-rpm-macros
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtsvg-devel
 
+BuildRequires:  kdecoration-devel
 BuildRequires:  kf5-ki18n-devel
 BuildRequires:  kf5-kiconthemes-devel
 BuildRequires:  kf5-kio-devel
@@ -35,6 +37,7 @@ BuildRequires:  kf5-kguiaddons-devel
 
 BuildRequires:  gtk3-devel
 BuildRequires:  gtk2-devel
+BuildRequires:  sassc
 
 # need kcmshell5 from kde-cli-tools
 Requires:       kde-cli-tools
@@ -56,31 +59,46 @@ appearance of GTK apps in KDE.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 
 %files
-%license COPYING COPYING.LIB
-%{_libexecdir}/reload_gtk_apps
-%{_libexecdir}/gtk_preview
+%license LICENSES/*.txt
 %{_libexecdir}/gtk3_preview
 %{_libdir}/kconf_update_bin/gtk_theme
 %{_datadir}/kconf_update/gtkconfig.upd
-%{_datadir}/kcm-gtk-module/
 %{_qt5_plugindir}/kf5/kded/gtkconfig.so
 %{_libdir}/gtk-3.0/modules/libcolorreload-gtk-module.so
-
+%{_libdir}/gtk-3.0/modules/libwindow-decorations-gtk-module.so
+%{_datadir}/themes/Breeze/window_decorations.css
 
 %changelog
+* Tue Oct 20 15:28:11 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.1-1
+- 5.20.1
+
+* Sun Oct 11 19:50:02 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.0-1
+- 5.20.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.90-1
+- 5.19.90
+
+* Tue Sep 01 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.5-1
+- 5.19.5
+
+* Tue Jul 28 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.4-1
+- 5.19.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.19.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.3-1
+- 5.19.3
+
 * Tue Jun 23 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.2-1
 - 5.19.2
 

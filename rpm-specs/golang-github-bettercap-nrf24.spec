@@ -16,7 +16,7 @@ firmware.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.1%{?dist}
+Release:        0.2%{?dist}
 Summary:        Allows interaction with nRF24LU1+ based dongles and the RFStorm firmware
 
 License:        GPLv3
@@ -44,6 +44,9 @@ BuildRequires:  golang(github.com/google/gousb)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 04 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0-0.1.20200404gitaa37e6d
 - Initial package
 

@@ -1,6 +1,6 @@
 Name:		ebview
 Version:	0.3.6.2
-Release:	26%{?dist}
+Release:	27%{?dist}
 Summary:	EPWING CD-ROM dictionary viewer
 
 License:	GPLv2+
@@ -120,6 +120,9 @@ desktop-file-install \
 %{_datadir}/pixmaps/%{name}.xpm
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.6.2-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 20 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 0.3.6.2-26
 - Use pango instead of pangox-compat
   - pangox-compat no longer compatible with pango 1.44 (bug 1836495)

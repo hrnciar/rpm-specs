@@ -26,15 +26,15 @@
 
 Summary: A Scintilla port to Qt
 Name:    qscintilla
-Version: 2.11.2
-Release: 11%{?dist}
+Version: 2.11.5
+Release: 1%{?dist}
 
 License: GPLv3
 Url:     http://www.riverbankcomputing.com/software/qscintilla/
 %if 0%{?snap:1}
 Source0: https://www.riverbankcomputing.com/static/Downloads/QScintilla/%{version}/QScintilla_gpl-%{version}-snapshot-%{snap}.tar.gz
 %else
-Source0: https://www.riverbankcomputing.com/static/Downloads/QScintilla/%{version}/QScintilla_gpl-%{version}.tar.gz
+Source0: https://www.riverbankcomputing.com/static/Downloads/QScintilla/%{version}/QScintilla-%{version}.tar.gz
 %endif
 
 ## upstreamable patches
@@ -177,7 +177,7 @@ BuildArch: noarch
 
 
 %prep
-%setup -q -n QScintilla_gpl-%{version}%{?snap:-snapshot-%{snap}}
+%setup -q -n QScintilla-%{version}%{?snap:-snapshot-%{snap}}
 
 %patch100 -p1 -b .sip_check
 %patch101 -p1 -b .qurl
@@ -189,7 +189,7 @@ PATH=%{_qt4_bindir}:$PATH; export PATH
 %if 0%{?qt4}
 cp -a Qt4Qt5 Qt4/
 pushd Qt4
-%{qmake_qt4} qscintilla.pro
+%qmake_qt4 qscintilla.pro
 %make_build
 popd
 
@@ -198,7 +198,7 @@ QMAKEFEATURES=`pwd`/Qt4/features; export QMAKEFEATURES
 
 cp -a designer-Qt4Qt5 designer-Qt4/
 pushd designer-Qt4
-%{qmake_qt4} designer.pro INCLUDEPATH+=../Qt4 LIBS+=-L../Qt4
+%qmake_qt4 designer.pro INCLUDEPATH+=../Qt4 LIBS+=-L../Qt4
 %make_build
 popd
 
@@ -236,7 +236,7 @@ PATH=%{_qt5_bindir}:$PATH; export PATH
 
 cp -a Qt4Qt5 Qt5/
 pushd Qt5
-%{qmake_qt5} qscintilla.pro
+%qmake_qt5 qscintilla.pro
 %make_build
 popd
 
@@ -245,7 +245,7 @@ QMAKEFEATURES=`pwd`/Qt5/features; export QMAKEFEATURES
 
 cp -a designer-Qt4Qt5 designer-Qt5/
 pushd designer-Qt5
-%{qmake_qt5} designer.pro INCLUDEPATH+=../Qt5 LIBS+=-L../Qt5
+%qmake_qt5 designer.pro INCLUDEPATH+=../Qt5 LIBS+=-L../Qt5
 %make_build
 popd
 
@@ -349,7 +349,7 @@ test -x %{buildroot}%{python3_sitearch}/PyQt4/Qsci.so
 %ldconfig_scriptlets
 
 %files -f qscintilla-qt4.lang
-%doc NEWS README
+%doc NEWS
 %license LICENSE
 %{_qt4_libdir}/libqscintilla2_qt4.so.15*
 %{_qt4_plugindir}/designer/libqscintillaplugin.so
@@ -385,7 +385,7 @@ test -x %{buildroot}%{python3_sitearch}/PyQt4/Qsci.so
 %ldconfig_scriptlets qt5
 
 %files qt5 -f qscintilla-qt5.lang
-%doc NEWS README
+%doc NEWS
 %license LICENSE
 %{_qt5_libdir}/libqscintilla2_qt5.so.15*
 %{_qt5_plugindir}/designer/libqscintillaplugin.so
@@ -421,6 +421,19 @@ test -x %{buildroot}%{python3_sitearch}/PyQt4/Qsci.so
 
 
 %changelog
+* Mon Aug 17 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.11.5-1
+- 2.11.5, fix FTBFS harder
+
+* Tue Aug 11 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.11.2-14
+- fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.2-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.11.2-11
 - Rebuilt for Python 3.9
 

@@ -1,7 +1,7 @@
 Summary:	Compact and feature-rich WordStar-compatible editor
 Name:		jupp
 Version:	38
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	GPLv1
 URL:		https://www.mirbsd.org/jupp.htm
 Source0:	https://www.mirbsd.org/MirOS/dist/%{name}/joe-3.1%{name}%{version}.tgz
@@ -49,6 +49,9 @@ mv -f $RPM_BUILD_ROOT%{_mandir}/man1/{joe,%{name}}.1
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 38-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 38-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

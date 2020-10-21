@@ -1,6 +1,12 @@
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 Name:           ocaml-gsl
 Version:        1.19.1
-Release:        30%{?dist}
+Release:        34%{?dist}
 Summary:        Interface to GSL (GNU scientific library) for OCaml
 License:        GPLv2
 
@@ -23,11 +29,7 @@ BuildRequires:  ocaml-findlib-devel
 BuildRequires:  ocaml-ocamldoc
 BuildRequires:  gsl-devel >= 1.9
 BuildRequires:  /usr/bin/awk
-%ifarch %{openblas_arches}
-BuildRequires:  openblas-devel
-%else
-BuildRequires:  atlas-devel
-%endif
+BuildRequires:  %{blaslib}-devel
 
 
 %description
@@ -52,11 +54,7 @@ developing applications that use %{name}.
 
 
 %build
-%ifarch %{openblas_arches}
-export GSL_CBLAS_LIB="-lopenblas"
-%else
-export GSL_CBLAS_LIB="-lgsl -L%{_libdir}/atlas -lsatlas"
-%endif
+export GSL_CBLAS_LIB="-l%{blaslib}"
 make
 
 
@@ -91,6 +89,18 @@ make install
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.19.1-34
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.19.1-33
+- OCaml 4.11.0 rebuild
+
+* Fri Aug 14 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.19.1-32
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.19.1-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 1.19.1-30
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

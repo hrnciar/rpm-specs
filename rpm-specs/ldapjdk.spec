@@ -9,7 +9,7 @@ License:          MPLv1.1 or GPLv2+ or LGPLv2+
 BuildArch:        noarch
 
 Version:          4.22.0
-Release:          1%{?_timestamp}%{?_commit_id}%{?dist}
+Release:          4%{?_timestamp}%{?_commit_id}%{?dist}
 # global           _phase -a1
 
 %global spname		ldapsp
@@ -30,6 +30,7 @@ Source: https://github.com/dogtagpki/ldap-sdk/archive/v%{version}%{?_phase}/ldap
 #     <version tag> \
 #     > ldap-sdk-VERSION-RELEASE.patch
 # Patch: ldap-sdk-VERSION-RELEASE.patch
+Patch1: 0001-Use-JDK8-target-as-suggested-by-Fabio.patch
 
 ################################################################################
 # Build Dependencies
@@ -149,6 +150,15 @@ cp -r java-sdk/dist/doc/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}
 
 ################################################################################
 %changelog
+* Mon Aug 17 2020 Dogtag PKI Team <pki-devel@redhat.com> - 4.22.0-4
+- Rebuilt for JDK8 compatibility
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.22.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 4.22.0-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jun 10 2020 Dogtag PKI Team <pki-devel@redhat.com> - 4.22.0-1
 - Rebase to match latest upstream version: 4.22.0
 

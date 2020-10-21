@@ -3,7 +3,7 @@
 
 Name:           spasm-ng
 Version:        0.5
-Release:        0.13.beta.3%{?dist}
+Release:        0.14.beta.3%{?dist}
 Summary:        A z80 assembler with extra features for TI calculators
 
 # spasm-ng is under GPLv2.
@@ -74,6 +74,9 @@ make check
 %license LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-0.14.beta.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-0.13.beta.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

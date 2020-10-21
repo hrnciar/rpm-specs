@@ -3,7 +3,7 @@ Version:        1.14.0
 # Release candidate versions are messy. Give them a release of
 # e.g. "0.1.0%{?dist}" for RC1 (and remember to adjust the Source0
 # URL). Non-RC releases go back to incrementing integers starting at 1.
-Release:        3%{?dist}
+Release:        7%{?dist}
 Summary:        A non-linear least squares minimizer
 
 License:        BSD
@@ -12,6 +12,12 @@ URL:            http://ceres-solver.org/
 Source0:        http://%{name}.org/%{name}-%{version}.tar.gz
 # Partial backport of bbe790e0f3ba9e9565862067198d2760ab669ec8: fix possible out of bounds array access
 Patch2:         ceres-solver_bounds.patch
+
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
 
 %if 0%{?rhel} > 0 && 0%{?rhel} < 7
 # Exclude ppc64 because suitesparse is not available on ppc64
@@ -35,18 +41,12 @@ BuildRequires:  eigen3-static >= 3.2.1
 # suitesparse < 3.4.0-9 ships without *.hpp C++ headers
 # https://bugzilla.redhat.com/show_bug.cgi?id=1001869
 BuildRequires:  suitesparse-devel >= 3.4.0-9
-BuildRequires:  lapack-devel
 
 # If the suitesparse package was built with TBB then we need TBB too
 BuildRequires:  tbb-devel
 
-# Use atlas for BLAS
-BuildRequires:  openblas-srpm-macros
-%ifarch %{openblas_arches}
-BuildRequires:  openblas-devel
-%else
-BuildRequires:  atlas-devel
-%endif
+# Use FlexiBLAS or OpenBLAS for BLAS
+BuildRequires:  %{blaslib}-devel
 BuildRequires:  gflags-devel >= 2.2.1
 # Build against miniglog on RHEL6 until glog package is added to EPEL6
 %if (0%{?rhel} != 06)
@@ -95,30 +95,22 @@ developing applications that use %{name}.
 
 
 %prep
-%setup -q
-%patch2 -p1
+%autosetup -p1
 
 %build
-mkdir build
-pushd build
-
-%if (0%{?rhel} == 06)
-%{cmake28} .. -DMINIGLOG:BOOL=ON \
-%else
-%{cmake} .. \
-%endif
+%cmake \
   -DCXSPARSE_INCLUDE_DIR:PATH=%{_includedir}/suitesparse \
-  -DBLAS_LIBRARIES:PATH=%{_libdir}/atlas/libsatlas.so \
+  -DBLAS_LIBRARIES=-l%{blaslib} \
   -DGFLAGS_INCLUDE_DIR=%{_includedir}
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-make -C build install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 
 
 %check
-CTEST_OUTPUT_ON_FAILURE=1 make -C build test
+CTEST_OUTPUT_ON_FAILURE=1 %ctest
 
 
 %ldconfig_scriptlets
@@ -140,6 +132,19 @@ CTEST_OUTPUT_ON_FAILURE=1 make -C build test
 
 
 %changelog
+* Mon Oct  5 16:11:58 CEST 2020 Sandro Mani <manisandro@gmail.com> - 1.14.0-7
+- Rebuild (eigen3)
+
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.14.0-6
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Jul 28 2020 Scott K Logan <logans@cottsay.net> - 1.14.0-5
+- Drop lapack-devel now that FindLAPACK supports BLAS correctly
+- Drop BLAS_LIBRARIES var when not using ATLAS
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 11 2020 Scott K Logan <logans@cottsay.net> - 1.14.0-3
 - Add lapack-devel build dependency so that SuiteSparse builds
 - Add missing gflags-devel dependency to -devel subpackage

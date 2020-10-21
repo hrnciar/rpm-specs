@@ -1,6 +1,6 @@
 Name:           fros
 Version:        1.1
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        Universal screencasting frontend with pluggable support for various backends
 
 %global commit 30275a07dab7891b9f31ff115743f67d757c7c1a
@@ -97,6 +97,9 @@ CFLAGS="$RPM_OPT_FLAGS" %{__python3} setup.py build
 %{python3_sitelib}/pyfros/plugins/__pycache__/*gnome.cpython-%{python3_version_nodots}.*py*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1-23
 - Rebuilt for Python 3.9
 

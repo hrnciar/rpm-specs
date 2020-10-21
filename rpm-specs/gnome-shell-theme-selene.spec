@@ -4,7 +4,7 @@
 %global theme_dir gnome-shell-theme-selene-3.4.0
 Name: gnome-shell-theme-selene
 Version: 3.4.0
-Release: 18%{?dist}
+Release: 19%{?dist}
 Summary: The Selene gnome-shell theme
 License: GPLv3 and LGPLv2.1
 URL: https://launchpad.net/~tista/+archive/selene
@@ -33,6 +33,9 @@ cp -r %{_builddir}/%{theme_dir}/%{_datadir}/themes/%{theme_name}/gnome-shell/* $
 %{_datadir}/themes/%{theme_name}/gnome-shell/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.0-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

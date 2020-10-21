@@ -2,21 +2,21 @@
 
 Name:           hashid
 Version:        3.1.4
-Release:        6%{?dist}
-Summary:        A tool to identify different types of hashes
+Release:        8%{?dist}
+Summary:        Tool to identify different types of hashes
 
 License:        GPLv3+
 URL:            https://github.com/psypanda/hashID
-Source0:        https://github.com/psypanda/hashID/archive/v%{version}.tar.gz#/%{pypi_name}-%{version}.tar.gz
+Source0:        %{url}/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 
 %description
 Identify the different types of hashes used to encrypt data and especially
 passwords. hashID is a tool which supports the identification of over 220
-unique hash types using regular expressions. A detailed list of supported
-hashes can be found here.
+unique hash types using regular expressions.
 
 It is able to identify a single hash, parse a file or read multiple files in
 a directory and identify the hashes within them.
@@ -42,6 +42,12 @@ install -Dp -m 0644 doc/man/%{name}.7 %{buildroot}%{_mandir}/man7/%{name}.7
 %{python3_sitelib}/__pycache__/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.4-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 3.1.4-7
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.1.4-6
 - Rebuilt for Python 3.9
 

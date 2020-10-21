@@ -1,8 +1,8 @@
-%global  Rversion 4.0.2
+%global  Rversion 4.0.3
 
 Name:           rkward
 Version:        0.7.1
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        Graphical frontend for R language
 Summary(fr):    Interface graphique pour le langage R 
 
@@ -45,15 +45,12 @@ intégration dans les suites bureautiques.
 # %%patch0 -p1 -b .qt5fix
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%{cmake_kf5}
 
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake_build}
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%{cmake_install}
 
 # desktop-file-install \
 #   --vendor="" \
@@ -93,6 +90,17 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_libexecdir}/rkward.rbackend
 
 %changelog
+* Tue Oct 13 2020 Tom Callaway <spot@fedoraproject.org> - 0.7.1-6
+- rebuild for R 4.0.3
+- adjust for new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Tom Callaway <spot@fedoraproject.org> - 0.7.1-3
 - rebuild for R 4.0.2
 

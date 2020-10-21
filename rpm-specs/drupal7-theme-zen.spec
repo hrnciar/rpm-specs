@@ -2,7 +2,7 @@
 
 Name:          drupal7-theme-%{theme}
 Version:       6.4
-Release:       9%{?dist}
+Release:       10%{?dist}
 Summary:       Zen is a powerful, yet simple, HTML5 starting theme
 
 # Licenses:
@@ -73,6 +73,9 @@ cp -pr * %{buildroot}%{drupal7_themes}/%{theme}/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.4-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 6.4-9
 - Bump build requires drupal7-rpmbuild to ">= 7.70-2" to fix F32+ auto provides
 

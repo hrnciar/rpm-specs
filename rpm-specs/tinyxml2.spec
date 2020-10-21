@@ -1,6 +1,6 @@
 Name:           tinyxml2
 Version:        7.0.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Simple, small and efficient C++ XML parser
 
 License:        zlib
@@ -67,6 +67,9 @@ chmod -c -x *.cpp *.h
 %{_libdir}/cmake/%{name}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

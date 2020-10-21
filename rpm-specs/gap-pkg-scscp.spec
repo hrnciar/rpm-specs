@@ -4,7 +4,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        2.3.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Symbolic Computation Software Composability Protocol in GAP
 
 License:        GPLv2+
@@ -161,6 +161,9 @@ chown %{usrname}:%{usrname} %{_sharedstatedir}/%{usrname}
 %{_gap_dir}/pkg/%{PKGNAME}/example/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

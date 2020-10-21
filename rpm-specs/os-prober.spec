@@ -1,6 +1,6 @@
 Name:           os-prober
 Version:        1.77
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Probes disks on the system for installed operating systems
 
 # For more information about licensing, see copyright file.
@@ -20,6 +20,7 @@ Patch7:         os-prober-umount-fix.patch
 Patch8:         os-prober-grub2-parsefix.patch
 Patch9:         os-prober-grepfix.patch
 Patch10:        os-prober-gentoo-fix.patch
+Patch11:        os-prober-grub2-mount-workaround.patch
 
 Requires:       udev coreutils util-linux
 Requires:       grep /bin/sed /sbin/modprobe
@@ -88,6 +89,12 @@ fi
 %{_var}/lib/%{name}
 
 %changelog
+* Sat Oct 10 2020 Hedayat Vatankhah <hedayat.fwd+rpmchlog@gmail.com> - 1.77-6
+- Workaround for grub2-mount slow wildcard file matching, fixes #1770599
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.77-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.77-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -14,7 +14,7 @@
 
 Name:           php-horde-Horde-Image
 Version:        2.6.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Horde Image API
 
 License:        GPLv2+ and LGPLv2
@@ -167,6 +167,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 13 2020 Remi Collet <remi@remirepo.net> - 2.6.1-1
 - update to 2.6.1
 - drop patch merged upstream

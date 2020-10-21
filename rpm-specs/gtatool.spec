@@ -1,13 +1,14 @@
 %global completion_path %(pkg-config --variable=completionsdir bash-completion)
 
 Name:      gtatool
-Version:   2.2.3
-Release:   5%{?dist}
+Version:   2.4.0
+Release:   3%{?dist}
 Summary:   Commandline tool to manipulate GTAs
 License:   GPLv3+
 URL:       https://marlam.de/gta/
 Source0:   https://marlam.de/gta/releases/%{name}-%{version}.tar.xz
-Patch0:    gtatool-2.2.3-pcl-1.9.patch
+#Patch0:    gtatool-2.4.0-pcl-1.11.patch
+Patch1:    gtatool-gcc11.patch
 
 BuildRequires: gettext-devel
 BuildRequires: bash-completion
@@ -136,7 +137,8 @@ sound data via libsndfile.
 
 %prep
 %setup -q
-%patch0 -p1
+#%patch0 -p1
+%patch1 -p1
 
 %build
 # Stupid way to avoid overwriting the original LDFLAGS.
@@ -217,13 +219,33 @@ make check
 %{_libdir}/%{name}/conv-netcdf.so
 
 %files pcd
-%{_libdir}/%{name}/conv-pcd.so
+#%{_libdir}/%{name}/conv-pcd.so
 
 %files sndfile
 %{_libdir}/%{name}/conv-sndfile.so
 
 
 %changelog
+* Mon Sep 21 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.4.0-3
+- Matio rebuild.
+
+* Fri Sep 18 2020 Jeff Law <law@redhat.com> - 2.4.0-2
+- Add missing #include for gcc-11
+
+* Sat Aug 15 2020 Volker Froehlich <volker27@gmx.at> - 2.4.0-1
+- New upstream release
+- Temporarily disable pcl sub-package
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.3-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 2.2.3-6
+- Rebuild for hdf5 1.10.6
+
 * Thu May 21 2020 Sandro Mani <manisandro@gmail.com> - 2.2.3-5
 - Rebuild (gdal)
 

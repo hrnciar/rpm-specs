@@ -1,6 +1,6 @@
 Name: anki
 Version: 2.1.15
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: Flashcard program for using space repetition learning
 
 License: AGPLv3+ and GPLv3+ and LGPLv3 and MIT and BSD and ASL 2.0 and CC-BY-SA and CC-BY
@@ -22,6 +22,7 @@ Requires: python3-decorator, python3-markdown, python3-send2trash
 Requires:	python3-requests, python3-pygame, python3-beautifulsoup4
 Requires:	python3-httplib2, python3-pyaudio, python3-jsonschema, sox
 BuildArch: noarch
+ExclusiveArch: %{qt5_qtwebengine_arches} noarch
 
 %description
 Anki is a program designed to help you remember facts (such as words
@@ -84,6 +85,9 @@ rm -f %{buildroot}%{_pkgdocdir}/LICENSE*
 %{_metainfodir}/anki.appdata.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.15-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.15-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

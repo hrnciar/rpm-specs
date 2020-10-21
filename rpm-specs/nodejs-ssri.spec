@@ -7,7 +7,7 @@
 
 Name:		nodejs-ssri
 Version:	5.3.0
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Standard Subresource Integrity library
 
 License:	ISC
@@ -65,6 +65,9 @@ cp -pr package.json index.js \
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

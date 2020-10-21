@@ -2,7 +2,7 @@
 
 Name:           libticonv
 Version:        1.1.5
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Texas Instruments calculators charsets library
 
 License:        GPLv2+
@@ -83,6 +83,9 @@ rm %{buildroot}/%{_pkgdocdir}/COPYING
 %{_includedir}/tilp2/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 Summary: A text-based Web browser
 Name: lynx
 Version: 2.8.9
-Release: 7%{?dist}
+Release: 9%{?dist}
 License: GPLv2
 Source: https://invisible-mirror.net/archives/lynx/tarballs/lynx%{version}rel.%{devrel}.tar.bz2
 URL: http://lynx.browser.org/
@@ -40,7 +40,7 @@ BuildRequires: zip
 BuildRequires: zlib-devel
 
 # provides /usr/share/doc/HTML/en-US/index.html used as STARTFILE on RHEL
-%if 0%{?rhel}
+%if 0%{?rhel} && !0%{?eln}
 Requires: redhat-indexhtml
 %endif
 
@@ -61,7 +61,7 @@ exits quickly and swiftly displays web pages.
 
 %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
 sed -e "s,^HELPFILE:.*,HELPFILE:file://localhost%{_pkgdocdir}/lynx_help/lynx_help_main.html,g" -i lynx.cfg
-%if 0%{?rhel}
+%if 0%{?rhel} && !0%{?eln}
 sed -e 's,^STARTFILE:.*,STARTFILE:file:/usr/share/doc/HTML/en-US/index.html,' -i lynx.cfg
 %endif
 
@@ -135,6 +135,12 @@ EOF
 %config(noreplace,missingok) %{_sysconfdir}/lynx-site.cfg
 
 %changelog
+* Thu Aug 06 2020 Merlin Mathesius <mmathesi@redhat.com> - 2.8.9-9
+- Skip RHEL-specific Requires and STARTFILE edit when building for ELN
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.9-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.9-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

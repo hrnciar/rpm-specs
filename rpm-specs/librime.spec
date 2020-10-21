@@ -1,11 +1,12 @@
 Name:           librime
 Version:        1.5.3
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        Rime Input Method Engine Library
 
 License:        GPLv3
 URL:            https://rime.im/
 Source0:        https://github.com/rime/librime/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Patch0:         librime-fixes-opencc-usage.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  cmake, opencc-devel
@@ -44,20 +45,15 @@ The %{name}-tools package contains tools for %{name}.
 
 
 %prep
-%autosetup
+%autosetup -p1
 
 %build
-mkdir cmake-build
-pushd cmake-build
-%cmake ..
-make VERBOSE=1 %{?_smp_mflags}
-popd
+%cmake
+%cmake_build
+
 
 %install
-pushd cmake-build
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
-find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
-popd
+%cmake_install
 
 
 %ldconfig_scriptlets
@@ -83,6 +79,16 @@ popd
 
 
 %changelog
+* Wed Aug  5 2020 Peng Wu <pwu@redhat.com> - 1.5.3-6
+- Use cmake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.3-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 1.5.3-3
 - Rebuilt for Boost 1.73
 

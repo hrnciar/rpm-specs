@@ -24,7 +24,7 @@ compressing dynamic trie (radix tree) structure is used for efficient matching.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        High performance HTTP request router that scales well
 
 # Upstream license specification: BSD-3-Clause
@@ -51,6 +51,13 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 12 16:43:45 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.3.0-2.20190412git34e411a
 - Bump to commit 34e411acc5017cc0f5b1a447ed46757b02bb06a8
 

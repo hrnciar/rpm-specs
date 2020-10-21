@@ -13,7 +13,7 @@
 
 Name:		mecab-ipadic
 Version:	%{majorver}.%{date}
-Release:	20%{?dist}
+Release:	21%{?dist}
 Summary:	IPA dictionary for MeCab
 
 License:	mecab-ipadic
@@ -105,6 +105,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0.20070801-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0.20070801-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

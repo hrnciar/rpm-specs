@@ -27,7 +27,7 @@
 
 Name:           php-%{pk_vendor}-%{pk_project}
 Version:        1.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Additional reflection functionality
 
 License:        MIT
@@ -146,6 +146,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 27 2020 Remi Collet <remi@remirepo.net> - 1.2.1-1
 - update to 1.2.1
 

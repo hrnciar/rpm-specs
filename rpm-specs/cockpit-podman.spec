@@ -1,6 +1,23 @@
 # This spec file has been automatically updated
-Version:        18
+Version:        25
 Release: 1%{?dist}
+#
+# Copyright (C) 2017-2020 Red Hat, Inc.
+#
+# Cockpit is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2.1 of the License, or
+# (at your option) any later version.
+#
+# Cockpit is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with Cockpit; If not, see <http://www.gnu.org/licenses/>.
+#
+
 Name:           cockpit-podman
 Summary:        Cockpit component for Podman containers
 License:        LGPLv2+
@@ -12,7 +29,7 @@ BuildRequires:  libappstream-glib
 
 Requires:       cockpit-bridge >= 138
 Requires:       cockpit-shell >= 138
-Requires:       podman >= 1.3.0
+Requires:       podman >= 2.0.4
 
 %description
 The Cockpit user interface for Podman containers.
@@ -28,10 +45,50 @@ The Cockpit user interface for Podman containers.
 appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/*
 
 %files
+%doc README.md
+%license LICENSE
 %{_datadir}/cockpit/*
 %{_datadir}/metainfo/*
 
 %changelog
+* Wed Oct 14 2020 Sanne Raymaekers <sanne.raymaekers@gmail.com> - 25-1
+
+- Listen for image build event
+
+* Wed Sep 30 2020 Marius Vollmer <mvollmer@redhat.com> - 24-1
+
+- Use sentence case in the UI
+
+* Wed Sep 02 2020 Martin Pitt <martin@piware.de> - 23-1
+
+- Translation updates
+
+* Wed Aug 19 2020 Marius Vollmer <mvollmer@redhat.com> - 22-1
+
+- Support for pod group deletion
+
+* Wed Aug 05 2020 Matej Marusak <mmarusak@redhat.com> - 21-1
+
+- Support for pod groups
+- Support checkpoint and restore
+- Registry selection in "download image" dialog
+- Selected tag removal during deletion
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Katerina Koukiou <kkoukiou@redhat.com> - 20-1
+
+- Show networking information for containers
+- Enable filtering images and containers by owner
+- Optionally show intermediate images
+- Enable setting up SELinux label when mounting volumes
+
+* Wed Jul 15 2020 Matej Marusak <mmarusak@redhat.com> - 19-1
+
+- Switch to the new Podman REST API
+- Improve displaying on small screens
+
 * Mon Jun 15 2020 Matej Marusak <mmarusak@redhat.com> - 18-1
 
 - Bump NPM dependencies to their latest versions

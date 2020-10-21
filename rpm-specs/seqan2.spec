@@ -1,3 +1,5 @@
+%global __cmake_in_source_build 1
+
 # Default ld_as_needed flag breaks executables linkage
 %undefine _ld_as_needed
 
@@ -11,7 +13,7 @@ Obsoletes: seqan2-doc < 0:2.4.0-8
 Name:      seqan2
 Summary:   C++ library of efficient algorithms and data structures
 Version:   2.4.0
-Release:   9%{?dist}
+Release:   11%{?dist}
 License:   BSD
 URL:       http://www.seqan.de/
 Source0:   https://github.com/seqan/seqan/archive/seqan-v%{version}.tar.gz#/seqan-seqan-v%{version}.tar.gz
@@ -269,6 +271,13 @@ ctest --force-new-ctest-process -VV --parallel %{?_smp_mflags} -E app_test_fiona
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

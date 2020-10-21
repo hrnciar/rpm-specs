@@ -1,6 +1,6 @@
 Name:		avra
 Version:	1.3.0
-Release:	13%{?dist}
+Release:	14%{?dist}
 Summary:	Atmel AVR assembler
 
 License:	GPLv2+
@@ -47,6 +47,9 @@ install -p -m 0644 includes/*.inc $RPM_BUILD_ROOT/%{_datadir}/%{name}/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

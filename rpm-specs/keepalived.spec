@@ -9,7 +9,7 @@
 
 Name: keepalived
 Summary: High Availability monitor built upon LVS, VRRP and service pollers
-Version: 2.0.20
+Version: 2.1.5
 Release: 3%{?dist}
 License: GPLv2+
 URL: http://www.keepalived.org/
@@ -102,6 +102,15 @@ mkdir -p %{buildroot}%{_libexecdir}/keepalived
 %{_mandir}/man8/keepalived.8*
 
 %changelog
+* Thu Aug 27 2020 Josef Řídký <jridky@redhat.com> - 2.1.5-3
+- Rebuilt for new net-snmp release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Ryan O'Hara <rohara@redhat.com> - 2.1.5-1
+- Update to 2.1.5 (#1794135)
+
 * Tue Feb 18 2020 Ryan O'Hara <rohara@redhat.com> - 2.0.20-3
 - Build with nftables support instead of iptables
 

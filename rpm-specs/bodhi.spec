@@ -12,7 +12,7 @@
 
 Name:           bodhi
 Version:        5.2.2
-Release:        2%{?dist}
+Release:        4%{?dist}
 #Release:        0.beta.1.%{commit_short}%{?dist}
 BuildArch:      noarch
 
@@ -325,6 +325,13 @@ install -pm0644 docs/_build/man/*.1 %{buildroot}%{_mandir}/man1/
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 5.2.2-2
 - Rebuilt for Python 3.9
 

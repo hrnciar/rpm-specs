@@ -30,7 +30,7 @@
 
 Name:           jdom
 Version:        1.1.3
-Release:        20%{?dist}
+Release:        23%{?dist}
 Epoch:          0
 Summary:        Java alternative to DOM and SAX
 License:        Saxpath
@@ -77,6 +77,7 @@ Demonstrations and samples for %{name}.
 # remove all binary libs
 find . -name "*.jar" -exec rm -f {} \;
 find . -name "*.class" -exec rm -f {} \;
+sed -i -e "s|1.2|1.6|" build.xml
 
 %build
 export CLASSPATH=$(build-classpath xerces-j2 jaxen)
@@ -104,6 +105,15 @@ cp -pr samples $RPM_BUILD_ROOT%{_datadir}/%{name}
 %license LICENSE.txt
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.1.3-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0:1.1.3-22
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jun 25 2020 Alexander Kurtakov <akurtako@redhat.com> 0:1.1.3-21
+- Fix compilation with Java 11.
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.1.3-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

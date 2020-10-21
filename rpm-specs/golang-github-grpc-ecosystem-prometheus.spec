@@ -6,14 +6,9 @@
 # https://github.com/grpc-ecosystem/go-grpc-prometheus
 %global goipath         github.com/grpc-ecosystem/go-grpc-prometheus
 Version:                1.2.0
-%global commit          ae0d8660c5f2108ca70a3776dbe0fb53cf79f1da
+%global commit          9abf3eb82b4a313b1a28f370a7ef8ffe0667c681
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-grpc-ecosystem-prometheus-devel < 1.1-0.9
-}
 
 %global common_description %{expand:
 Prometheus monitoring for your gRPC Go servers and clients.}
@@ -22,7 +17,7 @@ Prometheus monitoring for your gRPC Go servers and clients.}
 %global godocs          examples CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        Prometheus monitoring for your gRPC Go servers and clients
 
 # Upstream license specification: Apache-2.0
@@ -66,6 +61,12 @@ BuildRequires:  golang(github.com/stretchr/testify/suite)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 18:05:02 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.2.0-6.20200727git9abf3eb
+- Bump to commit 9abf3eb82b4a313b1a28f370a7ef8ffe0667c681
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

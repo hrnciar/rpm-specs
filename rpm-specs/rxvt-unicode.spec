@@ -1,6 +1,6 @@
 Name:           rxvt-unicode
 Version:        9.22
-Release:        23%{?dist}
+Release:        25%{?dist}
 Summary:        Unicode version of rxvt
 
 License:        GPLv3
@@ -170,6 +170,12 @@ popd
 %{_libdir}/urxvt
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.22-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 9.22-24
+- Perl 5.32 rebuild
+
 * Wed Apr 15 2020 Robbie Harwood <rharwood@redhat.com> - 9.22-23
 - Restore accidentally remove 256 color capability
 - Resolves: #1824204

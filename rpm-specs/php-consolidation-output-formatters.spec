@@ -11,8 +11,8 @@
 
 %global github_owner     consolidation
 %global github_name      output-formatters
-%global github_version   4.1.0
-%global github_commit    eae721c3a916707c40d4390efbf48d4c799709cc
+%global github_version   4.1.1
+%global github_commit    9deeddd6a916d0a756b216a8b40ce1016e17c0b9
 
 %global composer_vendor  consolidation
 %global composer_project output-formatters
@@ -24,8 +24,15 @@
 %global dflydev_dot_access_data_max_ver 2.0
 # "symfony/console": "^4|^5"
 # "symfony/finder": "^4|^5"
+# "symfony/var-dumper": "^4"
+# "symfony/yaml": "^4"
 %global symfony_min_ver 4.0
 %global symfony_max_ver 6.0
+
+# "phpunit/phpunit": "^6"
+%global phpunit_require phpunit6
+%global phpunit_min_ver 6
+%global phpunit_exec    phpunit6
 
 # Build using "--without tests" to disable tests
 %global with_tests 0%{!?_without_tests:1}
@@ -57,7 +64,7 @@ BuildArch:     noarch
 %if %{with_tests}
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
-BuildRequires: phpunit6
+BuildRequires: %{phpunit_require} >= %{phpunit_min_ver}
 %if %{with_range_dependencies}
 BuildRequires: (php-composer(dflydev/dot-access-data) >= %{dflydev_dot_access_data_min_ver} with php-composer(dflydev/dot-access-data) < %{dflydev_dot_access_data_max_ver})
 BuildRequires: (php-composer(symfony/console) >= %{symfony_min_ver} with php-composer(symfony/console) < %{symfony_max_ver})
@@ -76,7 +83,7 @@ BuildRequires: php-composer(symfony/var-dumper) >= %{symfony_min_ver}
 BuildRequires: php-composer(symfony/yaml) <  %{symfony_max_ver}
 BuildRequires: php-composer(symfony/yaml) >= %{symfony_min_ver}
 %endif
-## phpcompatinfo (computed from version 4.1.0)
+## phpcompatinfo (computed from version 4.1.1)
 BuildRequires: php-dom
 BuildRequires: php-json
 BuildRequires: php-pcre
@@ -100,7 +107,7 @@ Requires:      php-composer(symfony/console) >= %{symfony_min_ver}
 Requires:      php-composer(symfony/finder) <  %{symfony_max_ver}
 Requires:      php-composer(symfony/finder) >= %{symfony_min_ver}
 %endif
-# phpcompatinfo (computed from version 4.1.0)
+# phpcompatinfo (computed from version 4.1.1)
 Requires:      php-dom
 Requires:      php-json
 Requires:      php-pcre
@@ -182,12 +189,9 @@ require_once '%{buildroot}%{phpdir}/Consolidation/OutputFormatters/autoload.php'
 ]);
 BOOTSTRAP
 
-: Skip API documentation test
-rm -f tests/APIDocsTest.php
-
 : Upstream tests
 RETURN_CODE=0
-PHPUNIT=$(which phpunit6)
+PHPUNIT=$(which %{phpunit_exec})
 for PHP_EXEC in "" php72 php73 php74; do
     if [ -z "$PHP_EXEC" ] || which $PHP_EXEC; then
         $PHP_EXEC $PHPUNIT --verbose --bootstrap bootstrap.php \
@@ -210,6 +214,12 @@ exit $RETURN_CODE
 
 
 %changelog
+* Mon Sep 07 2020 Shawn Iwinski <shawn@iwin.ski> - 4.1.1-1
+- Update to 4.1.1 (RHBZ #1851299)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Shawn Iwinski <shawn@iwin.ski> - 4.1.0-1
 - Update to 4.1.0
 - Use PHPUnit 6

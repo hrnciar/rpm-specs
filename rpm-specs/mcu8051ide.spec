@@ -1,6 +1,6 @@
 Name:           mcu8051ide
 Version:        1.4.9
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        IDE for MCS-51 based microcontrollers
 
 License:        GPLv2+
@@ -50,6 +50,13 @@ chmod 0755 `find %{buildroot} -name \*.tcl`
 %{_datadir}/appdata/mcu8051ide.appdata.xml
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.9-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.9-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.9-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

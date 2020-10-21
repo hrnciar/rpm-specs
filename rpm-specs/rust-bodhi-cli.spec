@@ -5,7 +5,7 @@
 
 Name:           rust-%{crate}
 Version:        0.3.3
-Release:        1%{?dist}
+Release:        5%{?dist}
 Summary:        Bodhi CLI client based on bodhi-rs
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -90,6 +90,19 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 0.3.3-5
+- Rebuild for bodhi 0.6.2.
+
+* Sun Aug 16 15:01:11 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.3.3-4
+- Rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Fabio Valentini <decathorpe@gmail.com> - 0.3.3-1
 - Update to version 0.3.3.
 

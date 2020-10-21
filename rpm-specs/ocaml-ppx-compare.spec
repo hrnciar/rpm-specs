@@ -2,12 +2,16 @@
 %global debug_package %{nil}
 %endif
 
+# This package is now a transitive dependency of ocaml-ppx-inline-test, so using
+# it to test this package creates a circular dependency.
+%bcond_with tests
+
 %global srcname ppx-compare
 %global upname  ppx_compare
 
 Name:           ocaml-%{srcname}
-Version:        0.13.0
-Release:        2%{?dist}
+Version:        0.14.0
+Release:        4%{?dist}
 Summary:        Generate comparison functions from types
 
 License:        MIT
@@ -15,11 +19,14 @@ URL:            https://github.com/janestreet/%{upname}
 Source0:        %{url}/archive/v%{version}/%{upname}-%{version}.tar.gz
 
 BuildRequires:  ocaml >= 4.04.2
-BuildRequires:  ocaml-base-devel >= 0.13.0
-BuildRequires:  ocaml-dune >= 1.5.1
-BuildRequires:  ocaml-ppxlib-devel >= 0.9.0
-BuildRequires:  ocaml-ppx-inline-test-devel
+BuildRequires:  (ocaml-base-devel >= 0.14.0 and ocaml-base-devel < 0.15.0)
+BuildRequires:  ocaml-dune >= 2.0.0
+BuildRequires:  ocaml-ppxlib-devel >= 0.11.0
 BuildRequires:  ocaml-odoc
+
+%if %{with tests}
+BuildRequires:  ocaml-ppx-inline-test-devel
+%endif
 
 %description
 Ppx_compare is a ppx rewriter that derives comparison and equality
@@ -63,14 +70,16 @@ rm -fr %{buildroot}%{_prefix}/doc
 find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod a+x {} \+
 %endif
 
+%if %{with tests}
 # The tests require a native build.
 %ifnarch %{ocaml_native_compiler}
 %check
 dune runtest
 %endif
+%endif
 
 %files
-%doc CHANGES.md CONTRIBUTING.md README.md
+%doc CHANGES.md README.md
 %license LICENSE.md
 %dir %{_libdir}/ocaml/%{upname}/
 %dir %{_libdir}/ocaml/%{upname}/expander/
@@ -105,6 +114,25 @@ dune runtest
 %{_libdir}/ocaml/%{upname}/*/*.mli
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.14.0-4
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.14.0-3
+- OCaml 4.11.0 rebuild
+
+* Fri Aug  7 2020 Jerry James <loganjerry@gmail.com> - 0.13.0-1
+- Rebuild against ppxlib 0.13.0
+
+* Thu Aug  6 2020 Jerry James <loganjerry@gmail.com> - 0.14.0-1
+- Version 0.14.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jerry James <loganjerry@gmail.com> - 0.13.0-2
 - Drop unnecessary patch
 

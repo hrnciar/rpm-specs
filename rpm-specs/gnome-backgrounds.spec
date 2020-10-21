@@ -1,11 +1,11 @@
 Name: gnome-backgrounds
-Version: 3.37.2
+Version: 3.38.0
 Release: 1%{?dist}
 Summary: Desktop backgrounds packaged with the GNOME desktop
 
 License: GPLv2
 URL: http://www.gnome.org
-Source0: https://download.gnome.org/sources/%{name}/3.37/%{name}-%{version}.tar.xz
+Source0: https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 Patch0: move-adwaita-backgrounds.patch
 
@@ -48,7 +48,7 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 
 %files
 %license COPYING
-%doc NEWS README AUTHORS
+%doc AUTHORS NEWS README.md
 %{_datadir}/gnome-background-properties/adwaita.xml
 %{_datadir}/backgrounds/gnome/adwaita-day.jpg
 %{_datadir}/backgrounds/gnome/adwaita-morning.jpg
@@ -57,7 +57,7 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 
 %files extras
 %license COPYING
-%doc NEWS README AUTHORS
+%doc AUTHORS NEWS README.md
 %{_datadir}/gnome-background-properties/gnome-backgrounds.xml
 %{_datadir}/backgrounds/gnome/Acrylic.jpg
 %{_datadir}/backgrounds/gnome/ColdWarm.jpg
@@ -74,6 +74,19 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/locale
 %{_datadir}/backgrounds/gnome/Wood.jpg
 
 %changelog
+* Mon Sep 14 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Tue Sep 01 2020 Kalev Lember <klember@redhat.com> - 3.37.92.1-1
+- Update to 3.37.92.1
+- Rebase move-adwaita-backgrounds.patch
+
+* Tue Sep 01 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Kalev Lember <klember@redhat.com> - 3.37.2-1
 - Update to 3.37.2
 

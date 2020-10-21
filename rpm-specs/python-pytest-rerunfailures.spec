@@ -1,7 +1,7 @@
 %global srcname pytest-rerunfailures
 
 Name:           python-%{srcname}
-Version:        9.0
+Version:        9.1.1
 Release:        1%{?dist}
 Summary:        A py.test plugin that re-runs failed tests to eliminate flakey failures
 
@@ -19,7 +19,6 @@ intermittent failures.
 %package -n python%{python3_pkgversion}-%{srcname}
 Summary:        %{summary}
 BuildRequires:  python%{python3_pkgversion}-devel
-BuildRequires:  python%{python3_pkgversion}-mock
 BuildRequires:  python%{python3_pkgversion}-pytest >= 5.0
 BuildRequires:  python%{python3_pkgversion}-setuptools >= 40.0
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
@@ -59,6 +58,12 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} test_pytest
 
 
 %changelog
+* Wed Sep 30 2020 Scott K Logan <logans@cottsay.net> - 9.1.1-1
+- Update to 9.1.1 (rhbz#1872994)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Scott K Logan <logans@cottsay.net> - 9.0-1
 - Update to 9.0 (rhbz#1773599)
 

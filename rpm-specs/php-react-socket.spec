@@ -1,7 +1,7 @@
 #
 # Fedora spec file for php-react-socket
 #
-# Copyright (c) 2017-2019 Shawn Iwinski <shawn@iwin.ski>
+# Copyright (c) 2017-2020 Shawn Iwinski <shawn@iwin.ski>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -11,8 +11,8 @@
 
 %global github_owner     reactphp
 %global github_name      socket
-%global github_version   1.3.0
-%global github_commit    10f0629ec83ea0fa22597f348623f554227e3ca0
+%global github_version   1.6.0
+%global github_commit    e2b96b23a13ca9b41ab343268dbce3f8ef4d524a
 
 %global composer_vendor  react
 %global composer_project socket
@@ -25,15 +25,18 @@
 # "evenement/evenement": "^3.0 || ^2.0 || ^1.0"
 %global evenement_min_ver 1.0
 %global evenement_max_ver 4.0
-# "react/dns": "^1.0 || ^0.4.13"
-%global react_dns_min_ver 0.4.13
+# "react/dns": "^1.1"
+%global react_dns_min_ver 1.1
 %global react_dns_max_ver 2.0
-# "react/event-loop": "^1.0 || ^0.5 || ^0.4 || ^0.3.5"
-%global react_event_loop_min_ver 0.3.5
+# "react/event-loop": "^1.0 || ^0.5"
+%global react_event_loop_min_ver 0.5
 %global react_event_loop_max_ver 2.0
 # "react/promise": "^2.6.0 || ^1.2.1"
 %global react_promise_min_ver 1.2.1
 %global react_promise_max_ver 3.0
+# "react/promise-stream": "^1.2"
+%global react_promise_stream_min_ver 1.2
+%global react_promise_stream_max_ver 2.0
 # "react/promise-timer": "^1.4.0"
 %global react_promise_timer_min_ver 1.4.0
 %global react_promise_timer_max_ver 2.0
@@ -41,38 +44,50 @@
 %global react_stream_min_ver 1.1
 %global react_stream_max_ver 2.0
 
+# "phpunit/phpunit": "^9.3 || ^5.7 || ^4.8.35"
+%global phpunit_require phpunit9
+%global phpunit_min_ver 9.3
+%global phpunit_exec    phpunit9
+
 # Build using "--without tests" to disable tests
 %global with_tests 0%{!?_without_tests:1}
+
+# Range dependencies supported?
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+%global with_range_dependencies 1
+%else
+%global with_range_dependencies 0
+%endif
 
 %{!?phpdir:  %global phpdir  %{_datadir}/php}
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       2%{?github_release}%{?dist}
+Release:       1%{?github_release}%{?dist}
 Summary:       Async, streaming plaintext TCP/IP and secure TLS socket server
 
 License:       MIT
 URL:           https://reactphp.org/socket/
-Source0:       https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
 
-# Improve test suite to exclude TLS 1.3 tests on PHP 7.3
-# https://github.com/reactphp/socket/commit/198690e6b736d3501cf272fa9e4ed59f3ee08a34
-# https://github.com/reactphp/socket/commit/198690e6b736d3501cf272fa9e4ed59f3ee08a34.patch
-Patch0:        %{name}.198690e.patch
+# GitHub export does not include tests
+# Run php-react-socket-get-source.sh to create full source
+Source0:       %{name}-%{github_version}-%{github_commit}.tar.gz
+Source1:       %{name}-get-source.sh
 
 BuildArch:     noarch
 # Tests
 %if %{with_tests}
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
-BuildRequires: phpunit6
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+BuildRequires: %{phpunit_require} >= %{phpunit_min_ver}
+%if %{with_range_dependencies}
 BuildRequires: (php-composer(clue/block-react) >= %{clue_block_react_min_ver} with php-composer(clue/block-react) < %{clue_block_react_max_ver})
 BuildRequires: (php-composer(evenement/evenement) >= %{evenement_min_ver} with php-composer(evenement/evenement) < %{evenement_max_ver})
 BuildRequires: (php-composer(react/dns) >= %{react_dns_min_ver} with php-composer(react/dns) < %{react_dns_max_ver})
 BuildRequires: (php-composer(react/event-loop) >= %{react_event_loop_min_ver} with php-composer(react/event-loop) < %{react_event_loop_max_ver})
-BuildRequires: (php-composer(react/promise) >= %{react_promise_min_ver} with php-composer(react/promise) < %{react_promise_max_ver})
+BuildRequires: (php-composer(react/promise-stream) >= %{react_promise_stream_min_ver} with php-composer(react/promise-stream) < %{react_promise_stream_max_ver})
 BuildRequires: (php-composer(react/promise-timer) >= %{react_promise_timer_min_ver} with php-composer(react/promise-timer) < %{react_promise_timer_max_ver})
+BuildRequires: (php-composer(react/promise) >= %{react_promise_min_ver} with php-composer(react/promise) < %{react_promise_max_ver})
 BuildRequires: (php-composer(react/stream) >= %{react_stream_min_ver} with php-composer(react/stream) < %{react_stream_max_ver})
 %else
 BuildRequires: php-composer(clue/block-react) <  %{clue_block_react_max_ver}
@@ -87,12 +102,13 @@ BuildRequires: php-composer(react/promise) <  %{react_promise_max_ver}
 BuildRequires: php-composer(react/promise) >= %{react_promise_min_ver}
 BuildRequires: php-composer(react/promise-timer) >= %{react_promise_timer_min_ver}
 BuildRequires: php-composer(react/promise-timer) <  %{react_promise_timer_max_ver}
+BuildRequires: php-composer(react/promise-stream) >= %{react_promise_stream_min_ver}
+BuildRequires: php-composer(react/promise-stream) <  %{react_promise_stream_max_ver}
 BuildRequires: php-composer(react/stream) <  %{react_stream_max_ver}
 BuildRequires: php-composer(react/stream) >= %{react_stream_min_ver}
 %endif
-## phpcompatinfo (computed from version 1.3.0)
+## phpcompatinfo (computed from version 1.6.0)
 BuildRequires: php-filter
-BuildRequires: php-openssl
 BuildRequires: php-pcre
 BuildRequires: php-reflection
 BuildRequires: php-sockets
@@ -103,7 +119,7 @@ BuildRequires: php-composer(fedora/autoloader)
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+%if %{with_range_dependencies}
 Requires:      (php-composer(evenement/evenement) >= %{evenement_min_ver} with php-composer(evenement/evenement) < %{evenement_max_ver})
 Requires:      (php-composer(react/dns) >= %{react_dns_min_ver} with php-composer(react/dns) < %{react_dns_max_ver})
 Requires:      (php-composer(react/event-loop) >= %{react_event_loop_min_ver} with php-composer(react/event-loop) < %{react_event_loop_max_ver})
@@ -124,7 +140,7 @@ Requires:      php-composer(react/promise-timer) <  %{react_promise_timer_max_ve
 Requires:      php-composer(react/stream) <  %{react_stream_max_ver}
 Requires:      php-composer(react/stream) >= %{react_stream_min_ver}
 %endif
-# phpcompatinfo (computed from version 1.3.0)
+# phpcompatinfo (computed from version 1.6.0)
 Requires:      php-filter
 Requires:      php-pcre
 Requires:      php-sockets
@@ -149,9 +165,6 @@ Autoloader: %{phpdir}/React/Socket/autoload.php
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
-
-# Improve test suite to exclude TLS 1.3 tests on PHP 7.3
-%patch0 -p1
 
 
 %build
@@ -193,6 +206,7 @@ require '%{buildroot}%{phpdir}/React/Socket/autoload.php';
 
 \Fedora\Autoloader\Dependencies::required(array(
     '%{phpdir}/Clue/React/Block/autoload.php',
+    '%{phpdir}/React/Promise/Stream/autoload.php',
 ));
 BOOTSTRAP
 
@@ -209,10 +223,10 @@ sed \
 
 : Upstream tests
 RETURN_CODE=0
-PHPUNIT=$(which phpunit6)
+PHPUNIT=$(which %{phpunit_exec})
 for PHP_EXEC in "" %{?rhel:php54 php55} php70 php71 php72 php73 php74; do
     if [ -z "$PHP_EXEC" ] || which $PHP_EXEC; then
-        $PHP_EXEC $PHPUNIT --verbose --bootstrap bootstrap.php \
+        $PHP_EXEC $PHPUNIT --verbose --bootstrap bootstrap.php --exclude-group internet \
             || RETURN_CODE=1
     fi
 done
@@ -231,6 +245,15 @@ exit $RETURN_CODE
 
 
 %changelog
+* Sun Sep 06 2020 Shawn Iwinski <shawn@iwin.ski> - 1.6.0-1
+- Update to 1.6.0 (RHBZ #1812925)
+- Remove patch merged upstream
+- Use PHPUnit 9
+- Exclude group "internet" in tests
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -15,7 +15,7 @@
 
 Name:           perl-Prima
 Version:        1.59
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Perl graphic toolkit
 # img/codec_jpeg.c:     EXIF parser is based on io-jpeg.c from gdk-pixbuf
 #                       (LGPLv2+)
@@ -197,6 +197,9 @@ unset DISPLAY XDG_SESSION_TYPE
 %{_mandir}/man3/Prima::Test.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.59-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.59-2
 - Perl 5.32 rebuild
 

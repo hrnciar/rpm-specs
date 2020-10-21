@@ -1,6 +1,6 @@
 Name:           perl-Tree-R
 Version:        0.072
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Perl extension for the R-tree data structure and algorithms
 License:        Artistic 2.0
 URL:            https://metacpan.org/release/Tree-R
@@ -42,6 +42,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.072-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.072-15
 - Perl 5.32 rebuild
 

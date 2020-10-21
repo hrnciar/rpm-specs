@@ -3,7 +3,7 @@
 
 Name:           java_cup
 Version:        0.11b
-Release:        12%{?dist}
+Release:        15%{?dist}
 Epoch:          1
 Summary:        LALR parser generator for Java
 License:        MIT
@@ -59,6 +59,10 @@ rm -rf java_cup-%{version}/bin/JFlex.jar
 rm -rf java_cup-%{version}/bin/java-cup-11.jar
 %endif
 
+# Use source/target 1.6 for Java 11
+sed -i 's/source="1.5"/source="1.6"/' build.xml
+sed -i 's/target="1.5"/target="1.6"/' build.xml
+
 %build
 %if ! %{with_bootstrap}
 export CLASSPATH=$(build-classpath java_cup java_cup-runtime jflex)
@@ -90,6 +94,15 @@ jar ufm dist/java-cup-%{pkg_version}-runtime.jar %{SOURCE4}
 %license licence.txt
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.11b-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1:0.11b-14
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jun 25 2020 Roland Grunberg <rgrunber@redhat.com> - 1:0.11b-13
+- Use source/target of 1.6 to build against Java 11.
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.11b-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

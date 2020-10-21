@@ -12,7 +12,7 @@
 Name:    kactivities
 Summary: API for using and interacting with Activities 
 Version: 4.13.3
-Release: 30%{?dist}
+Release: 32%{?dist}
 
 License: GPLv2+ and LGPLv2+
 URL:     https://projects.kde.org/projects/kde/kdelibs/kactivities
@@ -201,6 +201,13 @@ rm -fv %{buildroot}%{_kde4_datadir}/kde4/servicetypes/activitymanager-plugin.des
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.13.3-32
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.13.3-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.13.3-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

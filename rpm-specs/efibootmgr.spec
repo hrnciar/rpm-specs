@@ -3,7 +3,7 @@
 Summary: EFI Boot Manager
 Name: efibootmgr
 Version: 16
-Release: 7%{?dist}
+Release: 9%{?dist}
 License: GPLv2+
 URL: https://github.com/rhboot/%{name}/
 BuildRequires:  gcc
@@ -20,6 +20,10 @@ Conflicts: elilo <= 3.6-6
 Obsoletes: elilo <= 3.6-6
 
 Source0: https://github.com/rhboot/%{name}/releases/download/%{name}-%{version}/%{name}-%{version}.tar.bz2
+
+# Fixes to compiler errors manually cherry picked from upstream commit
+# https://github.com/rhboot/efibootmgr/commit/e8ce9fecebd15adb4c60a0678d4c417afe06dde4
+Patch0: efibootmgr-16-efidp_format_device_path-argfix.patch
 
 %description
 %{name} displays and allows the user to edit the Intel Extensible
@@ -48,6 +52,16 @@ rm -rf %{buildroot}
 %doc README
 
 %changelog
+* Thu Aug 06 2020 Merlin Mathesius <mmathesi@redhat.com> - 16-9
+- FTBFS fixes for Rawhide and ELN
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

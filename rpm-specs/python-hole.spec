@@ -2,12 +2,12 @@
 
 Name:           python-%{pypi_name}
 Version:        0.5.0
-Release:        5%{?dist}
-Summary:        A Python client for interacting with a *hole instance
+Release:        7%{?dist}
+Summary:        Python client for interacting with a *hole instance
 
 License:        MIT
 URL:            https://github.com/fabaff/python-hole
-Source0:        https://github.com/fabaff/python-hole/archive/%{version}/%{pypi_name}-%{version}.tar.gz
+Source0:        %{url}/archive/%{version}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
 
 %description
@@ -21,6 +21,7 @@ This module is consuming the details provided by the endpoint /api.php only.
 Summary:        %{summary}
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
 %description -n python3-%{pypi_name}
@@ -46,6 +47,12 @@ This module is consuming the details provided by the endpoint /api.php only.
 %{python3_sitelib}/%{pypi_name}*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.5.0-6
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.0-5
 - Rebuilt for Python 3.9
 

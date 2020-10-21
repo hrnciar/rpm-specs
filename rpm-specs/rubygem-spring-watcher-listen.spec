@@ -3,11 +3,17 @@
 
 Name: rubygem-%{gem_name}
 Version: 2.0.1
-Release: 9%{?dist}
+Release: 11%{?dist}
 Summary: Makes spring watch files using the listen gem
 License: MIT
 URL: https://github.com/jonleighton/spring-watcher-listen
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
+# Spring 2.1.0+ moved the spring/test to be part of the test suite. Use the
+# necessary bits as long as spring-watcher-listen is not fixed (which does not
+# look very likely ATM :/)
+# git clone https://github.com/rails/spring.git && cd spring
+# git archive -v -o spring-2.1.1-tests.tar.gz v2.1.1 test/
+Source1: spring-2.1.1-tests.tar.gz
 # Fix Ruby 2.5 compatibility.
 # https://github.com/jonleighton/spring-watcher-listen/pull/22
 Patch0: rubygem-spring-watcher-listen-2.0.1-Really-delete-the-directories.patch
@@ -37,17 +43,13 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-gem unpack %{SOURCE0}
-
-%setup -q -D -T -n  %{gem_name}-%{version}
-
-gem spec %{SOURCE0} -l --ruby > %{gem_name}.gemspec
+%setup -q -n %{gem_name}-%{version} -b 1
 
 %patch0 -p1
 
 %build
 # Create the gem as gem install only works on a gem file
-gem build %{gem_name}.gemspec
+gem build ../%{gem_name}-%{version}.gemspec
 
 # %%gem_install compiles any C extensions and installs the gem into ./%%gem_dir
 # by default, so that we can move it into the buildroot in %%install
@@ -62,11 +64,19 @@ cp -a .%{gem_dir}/* \
 %check
 pushd .%{gem_instdir}
 sed -i '/bundler\/setup/ s/^/#/' test/helper.rb
+
+# Use the Spring test suite bits.
+sed -i '/spring\/test/ s/spring/support/' test/helper.rb
+sed -i '/spring\/test/ s/^/#/' test/unit_test.rb
+# spring-watcher-listen does not support #check_stale call, comparing to
+# Spring polling or even abstract adapter.
+sed -i '/watcher.check_stale/i\        skip' %{_builddir}/test/support/watcher_test.rb
+
 # Run only unit test now, acceptance test wants to compile gems extensions
 mv test/acceptance_test.rb{,.disable}
 # Asking about tests finish with a error "undefined method callback!".
 # https://github.com/jonleighton/spring-watcher-listen/issues/12
-ruby -Ilib:test -e 'Dir.glob "./test/**/*_test.rb", &method(:require)'
+ruby -Ilib:test:%{_builddir}/test/ -e 'Dir.glob "./test/**/*_test.rb", &method(:require)'
 popd
 
 %files
@@ -86,6 +96,12 @@ popd
 %{gem_instdir}/test
 
 %changelog
+* Thu Oct 01 2020 Vít Ondruch <vondruch@redhat.com> - 2.0.1-2
+- Fix test suite compatibility with Spring 2.1.0+.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

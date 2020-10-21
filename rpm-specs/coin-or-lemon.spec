@@ -1,6 +1,6 @@
 Name:           coin-or-lemon
 Version:        1.3.1
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        A C++ template library providing many common graph algorithms
 
 License:        Boost and BSD
@@ -86,21 +86,19 @@ sed -i 's/libemon\.a/libemon.so/' cmake/LEMONConfig.cmake.in
 # the build behave the same way with and without them installed -- we
 # don't actually need them, since we don't need to rebuild the docs.
 %cmake \
-  -DCMAKE_SKIP_RPATH:BOOL=YES \
   -DDOXYGEN_EXECUTABLE= \
   -DGHOSTSCRIPT_EXECUTABLE= \
   -DPYTHON_EXECUTABLE= \
   -DLEMON_ENABLE_COIN:BOOL=YES \
   -DLEMON_ENABLE_GLPK:BOOL=YES \
   -DLEMON_ENABLE_ILOG:BOOL=NO \
-  -DLEMON_ENALBE_SOPLEX:BOOL=NO \
-  .
+  -DLEMON_ENABLE_SOPLEX:BOOL=NO
 
-%make_build
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 # Fix up the symlinks the way ldconfig wants them
 %global majver %(cut -d. -f1 <<< %{version})
@@ -128,7 +126,7 @@ cp -a AUTHORS NEWS README doc/html %{buildroot}%{_docdir}/%{name}
 
 
 %check
-LD_LIBRARY_PATH=%{buildroot}%{_libdir} make check
+make -C %{__cmake_builddir} check
 
 
 %files
@@ -155,6 +153,9 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} make check
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

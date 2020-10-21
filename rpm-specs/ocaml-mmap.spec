@@ -1,6 +1,6 @@
 Name:           ocaml-mmap
 Version:        1.1.0
-Release:        10%{?dist}
+Release:        14%{?dist}
 Summary:        File mapping functionality
 
 %global libname mmap
@@ -65,6 +65,19 @@ dune runtest
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.1.0-14
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.1.0-13
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 1.1.0-10
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

@@ -4,7 +4,7 @@
 
 Name:           procenv
 Version:        0.51
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Utility to show process environment
 
 License:        GPLv3+
@@ -48,6 +48,9 @@ make check
 %license COPYING
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.51-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Dave love <loveshack@fedoraproject.org> - 0.51-3
 - Avoid FTBFS (#1799896)
 

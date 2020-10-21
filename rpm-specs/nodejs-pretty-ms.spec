@@ -8,7 +8,7 @@
 
 Name:		nodejs-pretty-ms
 Version:	2.1.0
-Release:	9%{?dist}
+Release:	10%{?dist}
 Summary:	Convert milliseconds to a human readable string: 1337000000 → 15d 11h 23m 20s
 
 License:	MIT
@@ -69,6 +69,9 @@ cp -pr package.json index.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

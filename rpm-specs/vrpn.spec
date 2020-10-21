@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:		vrpn
 Version:	07.33
-Release:	23%{?dist}
+Release:	26%{?dist}
 Summary:	The Virtual-Reality Peripheral Network
 
 # linking to wiiuse (GPLv3+) and gpm (GPLv2+) libraries makes the vrpn server
@@ -122,9 +124,6 @@ This package contains Python 3 bindings for VRPN libraries.
 
 
 %build
-mkdir build
-pushd build
-
 %cmake \
     -DVRPN_GPL_SERVER=ON \
     -DBUILD_TESTING=ON \
@@ -135,21 +134,21 @@ pushd build
 %ifarch %{arm}
     -DJAVA_AWT_LIBRARY=%{_libdir}/jvm/java/lib/aarch32/libjawt.so \
 %endif # arch %%{arm}
-    ..
-%make_build all doc
-popd
+    %{nil}
+%cmake_build
+%cmake_build --target doc
 
 
 %install
-%make_install -C build
-install -D build/python/vrpn.so %{buildroot}%{python3_sitearch}/vrpn.so
+%cmake_install
+install -D %{_vpath_builddir}/python/vrpn.so %{buildroot}%{python3_sitearch}/vrpn.so
 install -D -m644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
 
 # generate man pages
 mkdir -p %{buildroot}%{_mandir}/man1
-for prog in ./build/server_src/vrpn_server \
-            ./build/client_src/run_auxiliary_logger \
-	    ./build/client_src/vrpn_print_{devices,messages,performance}
+for prog in ./%{_vpath_builddir}/server_src/vrpn_server \
+            ./%{_vpath_builddir}/client_src/run_auxiliary_logger \
+	    ./%{_vpath_builddir}/client_src/vrpn_print_{devices,messages,performance}
 do
     progname=$(basename "$prog")
     help2man \
@@ -162,20 +161,16 @@ done
 
 
 %check
-pushd build
-ctest -VV
-popd
+%ctest
 
 
 %post
-/sbin/ldconfig
 %systemd_post %{name}.service
 
 %preun
 %systemd_preun %{name}.service
 
 %postun
-/sbin/ldconfig
 %systemd_postun_with_restart %{name}.service
 
 
@@ -207,6 +202,16 @@ popd
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 07.33-26
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 07.33-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 07.33-24
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat May 30 2020 Björn Esser <besser82@fedoraproject.org> - 07.33-23
 - Rebuild (jsoncpp)
 

@@ -1,7 +1,7 @@
 Summary: A CD-ROM image access library
 Name: libmirage
 Version: 2.0.0
-Release: 16%{?dist}
+Release: 18%{?dist}
 License: GPLv2+
 URL: http://cdemu.sourceforge.net/pkg_libmirage.php
 Source: http://downloads.sourceforge.net/cdemu/%{name}-%{version}.tar.bz2
@@ -68,6 +68,13 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libmirage/*.la
 %doc %{_datadir}/gtk-doc/html/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-18
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

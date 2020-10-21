@@ -4,7 +4,7 @@
 
 Name:           nodejs-oauth-sign
 Version:        0.8.1
-Release:        9%{?dist}
+Release:        11%{?dist}
 Summary:        OAuth1 signing for Node.js
 License:        ASL 2.0
 URL:            https://github.com/mikeal/oauth-sign
@@ -47,6 +47,13 @@ cp -pr index.js package.json %{buildroot}%{nodejs_sitelib}/oauth-sign
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

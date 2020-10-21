@@ -1,7 +1,7 @@
 Summary:           Program for managing links into a DRBD shared partition
 Name:              drbdlinks
 Version:           1.29
-Release:           2%{?dist}
+Release:           3%{?dist}
 License:           GPLv2
 URL:               https://www.tummy.com/software/drbdlinks/
 Source0:           https://github.com/linsomniac/%{name}/archive/release-%{version}/%{name}-%{version}.tar.gz
@@ -117,6 +117,9 @@ fi
 %{_localstatedir}/lib/%{name}/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.29-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.29-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

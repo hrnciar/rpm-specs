@@ -1,6 +1,6 @@
 Name:           racket
 Version:        7.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        General purpose programming language
 
 License:        GPLv3 and LGPLv3 and MIT
@@ -248,6 +248,9 @@ A local installation of the Racket documentation system.
 %{_datadir}/doc/racket
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

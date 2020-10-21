@@ -13,14 +13,14 @@
 
 Summary: Scanner access software
 Name: sane-backends
-Version: 1.0.30
-Release: 1%{?dist}
+Version: 1.0.31
+Release: 3%{?dist}
 # lib/ is LGPLv2+, backends are GPLv2+ with exceptions
 # Tools are GPLv2+, docs are public domain
 # see LICENSE for details
 License: GPLv2+ and GPLv2+ with exceptions and Public Domain and IJG and LGPLv2+ and MIT
 # GitLab Download URLs are amazing. But the source code link has different name and doesnt have generated autotools stuff
-Source0: https://gitlab.com/sane-project/backends/uploads/c3dd60c9e054b5dee1e7b01a7edc98b0/%%{name}-%%{version}.tar.gz
+Source0: https://gitlab.com/sane-project/backends/uploads/8bf1cae2e1803aefab9e5331550e5d5d/%{name}-%{version}.tar.gz
 
 Source1: sane.png
 Source2: saned.socket
@@ -37,11 +37,9 @@ Patch1: sane-backends-1.0.23-soname.patch
 Patch2: sane-backends-1.0.23-sane-config-multilib.patch
 # saned manpage incomplete and exists when saned is not installed (#1515762)
 Patch3: sane-backends-saned-manpage.patch
-# undeclared variable on s390x, from upstream
-# https://gitlab.com/sane-project/backends/-/merge_requests/329
-Patch4: sane-genesys-s390x-ftbfs.patch
-# reported upstream https://gitlab.com/sane-project/backends/-/merge_requests/346
-Patch5: genesys-slope-assert.patch
+# 1750899 - CANOSCAN N650U scanner device not correctly detected via USB
+# reported as https://gitlab.com/sane-project/backends/-/merge_requests/535
+Patch4: sane-plustek-add-1ms.patch
 
 URL: http://www.sane-project.org
 
@@ -71,6 +69,9 @@ Requires: libpng
 Requires: systemd >= 196
 Requires: systemd-udev >= 196
 Requires: sane-backends-libs%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
+%if 0%{?fedora} >= 32 || 0%{?rhel} > 8
+Requires: sane-airscan
+%endif
 
 # workaround for Brother scanners, which drivers are built with old libnsl
 # it is ignored by DNF, but it seems GUI installation apps should offer it
@@ -124,6 +125,8 @@ Easy (SANE) modules.
 
 %package drivers-scanners
 Summary: SANE backend drivers for scanners
+# pixma backend now requires libxml2
+BuildRequires: libxml2-devel
 Requires: sane-backends = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires: sane-backends-libs%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 
@@ -155,8 +158,7 @@ access image acquisition devices available on the local host.
 %patch1 -p1 -b .soname
 %patch2 -p1 -b .sane-config-multilib
 %patch3 -p1 -b .saned-manpage
-%patch4 -p1 -b .genesys-s390x-ftbfs
-%patch5 -p1 -b .genesys-slope-assert
+%patch4 -p1 -b .sane-plustek-add-1ms
 
 %build
 CFLAGS="%optflags -fno-strict-aliasing"
@@ -175,7 +177,7 @@ LDFLAGS="-pie"
     --with-usb \
 %endif
     --enable-pthread
-make %{?_smp_mflags}
+%make_build
 
 # Write udev/hwdb files
 _topdir="$PWD"
@@ -186,7 +188,7 @@ pushd tools
 popd
 
 %install
-make DESTDIR="%{buildroot}" install
+%make_install
 
 mkdir -p %{buildroot}%{_datadir}/pixmaps
 install -m 644 %{SOURCE1} %{buildroot}%{_datadir}/pixmaps
@@ -239,6 +241,14 @@ rm -f %{buildroot}%{_libdir}/sane/libsane-qcam.so
 
 %post
 udevadm hwdb --update >/dev/null 2>&1 || :
+
+# check if there is autodiscovery enabled in epsonds.conf
+autodiscovery=`%{_bindir}/grep -E '^[[:space:]]*net[[:space:]]*autodiscovery' /etc/sane.d/epsonds.conf`
+if [ -n "$autodiscovery" ]
+then
+  # comment out 'net autodiscovery' if it is not commented out
+  %{_bindir}/sed -i 's,^[[:space:]]*net[[:space:]]*autodiscovery,#net autodiscovery,g' /etc/sane.d/epsonds.conf
+fi
 
 %postun
 udevadm hwdb --update >/dev/null 2>&1 || :
@@ -293,7 +303,7 @@ exit 0
 
 %files libs
 %{_libdir}/libsane.so.1
-%{_libdir}/libsane.so.1.0.30
+%{_libdir}/libsane.so.1.0.31
 
 %files devel
 %{_bindir}/sane-config
@@ -318,6 +328,7 @@ exit 0
 %{_libdir}/sane/libsane-canon.so
 %{_libdir}/sane/libsane-canon630u.so
 %{_libdir}/sane/libsane-canon_dr.so
+%{_libdir}/sane/libsane-canon_lide70.so
 %{_libdir}/sane/libsane-canon_pp.so
 %{_libdir}/sane/libsane-cardscan.so
 %{_libdir}/sane/libsane-coolscan.so
@@ -404,14 +415,14 @@ exit 0
 %{_libdir}/sane/libsane-v4l.so
 %{_libdir}/sane/libsane-xerox_mfp.so
 %{_libdir}/sane/*.so.1
-%{_libdir}/sane/*.so.1.0.30
+%{_libdir}/sane/*.so.1.0.31
 
 %exclude %{_libdir}/sane/*gphoto2.so*
 
 %files drivers-cameras
 %{_libdir}/sane/libsane-gphoto2.so
 %{_libdir}/sane/libsane-gphoto2.so.1
-%{_libdir}/sane/libsane-gphoto2.so.1.0.30
+%{_libdir}/sane/libsane-gphoto2.so.1.0.31
 
 %files daemon
 %{_sbindir}/saned
@@ -421,6 +432,25 @@ exit 0
 %{_unitdir}/saned@.service
 
 %changelog
+* Fri Oct 09 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.0.31-3
+- 1750899 - CANOSCAN N650U scanner device not correctly detected via USB
+
+* Mon Sep 14 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.0.31-2
+- make the base package depend on sane-airscan instead of libsane-airscan lib
+
+* Mon Aug 24 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.0.31-1
+- 1.0.31, backend cannon_lide70 added
+
+* Mon Aug 03 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.0.30-4
+- get libsane-airscan backend as one of backends
+
+* Tue Jul 28 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.0.30-3
+- add a scriptlet to disable epsonds autodiscovery in case an user changed epsonds.conf
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1.0.30-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue May 19 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1.0.30-1
 - 1.0.30
 

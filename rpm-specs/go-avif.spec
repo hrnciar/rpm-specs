@@ -15,7 +15,7 @@ libaom, the high quality AV1 codec.}
 %global godocs          README.md
 
 Name:           go-avif
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        AVIF (AV1 Still Image File Format) encoder for Go
 
 # Upstream license specification: CC0-1.0
@@ -57,6 +57,12 @@ install -m 0755 -vp %{gobuilddir}/bin/avif %{buildroot}%{_bindir}/go-avif
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 14:53:51 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.1.0-5
+- Rebuilt for aom 2.0.0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,8 +1,8 @@
-
+%undefine __cmake_in_source_build
 %global framework kdepim-apps-lib
 
 Name:    kdepim-apps-libs
-Version: 20.04.2
+Version: 20.08.1
 Release: 1%{?dist}
 Summary: KDE PIM common libraries
 
@@ -78,16 +78,12 @@ developing applications that use %{name}.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -97,20 +93,10 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %files -f %{name}.lang
 %license COPYING*
 %{_kf5_datadir}/qlogging-categories5/*%{framework}.*
-%{_kf5_libdir}/libKF5FollowupReminder.so.*
 %{_kf5_libdir}/libKF5KaddressbookImportExport.so.*
 %{_kf5_libdir}/libKF5KaddressbookGrantlee.so.*
-%{_kf5_libdir}/libKF5KdepimDBusInterfaces.so.*
-%{_kf5_libdir}/libKF5SendLater.so.*
 
 %files devel
-# FollowupReminder
-%{_kf5_libdir}/libKF5FollowupReminder.so
-%{_kf5_libdir}/cmake/KF5FollowupReminder/
-%{_kf5_includedir}/FollowupReminder/
-%{_kf5_includedir}/followupreminder/
-%{_kf5_includedir}/followupreminder_version.h
-%{_kf5_archdatadir}/mkspecs/modules/qt_FollowupReminder.pri
 
 # KaddressbookImportExport
 %{_kf5_libdir}/libKF5KaddressbookImportExport.so
@@ -128,24 +114,19 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_includedir}/kaddressbookgrantlee_version.h
 %{_kf5_archdatadir}/mkspecs/modules/qt_KaddressbookGrantlee.pri
 
-# KdepimDBusInterfaces
-%{_kf5_libdir}/libKF5KdepimDBusInterfaces.so
-%{_kf5_libdir}/cmake/KF5KdepimDBusInterfaces/
-%{_kf5_includedir}/KdepimDBusInterfaces/
-%{_kf5_includedir}/kdepimdbusinterfaces/
-%{_kf5_includedir}/kdepimdbusinterfaces_version.h
-%{_kf5_archdatadir}/mkspecs/modules/qt_KdepimDBusInterfaces.pri
-
-# SendLater
-%{_kf5_libdir}/libKF5SendLater.so
-%{_kf5_libdir}/cmake/KF5SendLater/
-%{_kf5_includedir}/SendLater/
-%{_kf5_includedir}/sendlater/
-%{_kf5_includedir}/sendlater_version.h
-%{_kf5_archdatadir}/mkspecs/modules/qt_SendLater.pri
-
-
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.2-1
 - 20.04.2
 

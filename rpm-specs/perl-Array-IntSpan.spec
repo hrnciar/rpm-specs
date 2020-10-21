@@ -1,6 +1,6 @@
 Name:           perl-Array-IntSpan
 Version:        2.004
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Handles arrays of scalars or objects using integer ranges
 License:        Artistic 2.0
 
@@ -57,6 +57,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.004-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.004-2
 - Perl 5.32 rebuild
 

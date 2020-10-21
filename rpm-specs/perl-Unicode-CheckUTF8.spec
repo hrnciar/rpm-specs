@@ -12,7 +12,7 @@
 Summary:	Checks if scalar is valid UTF-8
 Name:		perl-Unicode-CheckUTF8
 Version:	1.03
-Release:	29%{?dist}
+Release:	30%{?dist}
 License:	UCD and (GPL+ or Artistic)
 URL:		https://metacpan.org/release/Unicode-String
 Source0:	https://cpan.metacpan.org/modules/by-module/Unicode/Unicode-CheckUTF8-%{version}.tar.gz
@@ -71,6 +71,9 @@ make test
 %{_mandir}/man3/Unicode::CheckUTF8.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.03-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.03-29
 - Perl 5.32 rebuild
 

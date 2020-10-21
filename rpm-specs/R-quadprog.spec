@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          1.5.8
-Release:          3%{?dist}
+Release:          6%{?dist}
 Summary:          Functions to Solve Quadratic Programming Problems
 
 License:          GPLv2+
@@ -65,6 +65,16 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Aug 10 2020 Tom Callaway <spot@fedoraproject.org> - 1.5.8-6
+- rebuild for FlexiBLAS R
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.8-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 1.5.8-3
 - rebuild for R 4
 

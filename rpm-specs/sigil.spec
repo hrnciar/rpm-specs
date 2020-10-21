@@ -1,6 +1,8 @@
+%global __cmake_in_source_build 1
+
 Name:           sigil
 Version:        0.9.14
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        WYSIWYG ebook editor
 License:        GPLv3+
 URL:            https://sigil-ebook.com/
@@ -157,6 +159,12 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.14-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 0.9.14-6
+- Use __cmake_in_source_build
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.14-5
 - Rebuilt for Python 3.9
 

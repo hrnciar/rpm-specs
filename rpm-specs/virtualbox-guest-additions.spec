@@ -1,13 +1,13 @@
 %global __provides_exclude_from %{_libdir}/VBoxGuestAdditions
 
 Name:       virtualbox-guest-additions
-Version:    6.1.10
-Release:    2%{?dist}
+Version:    6.1.14
+Release:    1%{?dist}
 Summary:    VirtualBox Guest Additions
 License:    GPLv2 or (GPLv2 and CDDL)
 URL:        https://www.virtualbox.org/wiki/VirtualBox
 
-Source0:    https://download.virtualbox.org/virtualbox/%{version}/VirtualBox-%{version}.tar.bz2
+Source0:    https://download.virtualbox.org/virtualbox/%{version}/VirtualBox-%{version}a.tar.bz2
 Source1:    vboxservice.service
 Source3:    VirtualBox-60-vboxguest.rules
 Source4:    vboxclient.service
@@ -178,6 +178,15 @@ getent passwd vboxadd >/dev/null || \
 
 
 %changelog
+* Sun Sep 13 2020 Sérgio Basto <sergio@serjux.com> - 6.1.14-1
+- Update Virtualbox Guest Additions to 6.1.14a
+
+* Sun Aug 02 2020 Sérgio Basto <sergio@serjux.com> - 6.1.12-1
+- Update Virtualbox Guest Additions to 6.1.12
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.1.10-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 08 2020 Hans de Goede <hdegoede@redhat.com> - 6.1.10-2
 - Install the new VBoxDRMClient binary and make vboxclient.service
   run that instead of VBoxClient, this fixes VM display resizing when

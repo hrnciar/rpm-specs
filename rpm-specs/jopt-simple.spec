@@ -1,6 +1,6 @@
 Name:           jopt-simple
 Version:        5.0.4
-Release:        6%{?dist}
+Release:        9%{?dist}
 Summary:        A Java command line parser
 License:        MIT
 URL:            http://jopt-simple.github.io/jopt-simple
@@ -11,7 +11,6 @@ Source0:        https://github.com/jopt-simple/jopt-simple/archive/jopt-simple-%
 BuildRequires:  maven-local
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-source-plugin)
-BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
 
 %description
 JOpt Simple is a Java library for parsing command line options, such as those
@@ -25,6 +24,9 @@ This package contains the API documentation for %{name}.
 
 %prep
 %setup -q -n jopt-simple-jopt-simple-%{version}
+
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
 
 %pom_xpath_remove "pom:build/pom:extensions"
 %pom_remove_dep org.infinitest:continuous-testing-toolkit
@@ -47,6 +49,15 @@ This package contains the API documentation for %{name}.
 %license LICENSE.txt
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 5.0.4-9
+- Remove unnecessary dependency on parent POM.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.4-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 5.0.4-7
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.4-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

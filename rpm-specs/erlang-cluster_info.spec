@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	2.0.5
-Release:	11%{?dist}
+Release:	12%{?dist}
 BuildArch:	noarch
 Summary:	Cluster info/postmortem inspector for Erlang applications
 License:	ASL 2.0
@@ -43,6 +43,9 @@ Cluster info/postmortem inspector for Erlang applications.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.5-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.5-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

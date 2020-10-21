@@ -2,13 +2,13 @@
 %global bootstrap 0
 
 Name:           adwaita-icon-theme
-Version:        3.37.2
+Version:        3.38.0
 Release:        1%{?dist}
 Summary:        Adwaita icon theme
 
 License:        LGPLv3+ or CC-BY-SA
 URL:            http://www.gnome.org
-Source0:        http://download.gnome.org/sources/adwaita-icon-theme/3.37/%{name}-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/adwaita-icon-theme/3.38/%{name}-%{version}.tar.xz
 
 BuildArch:      noarch
 
@@ -85,6 +85,15 @@ gtk-update-icon-cache --force %{_datadir}/icons/Adwaita &>/dev/null || :
 %{_datadir}/pkgconfig/adwaita-icon-theme.pc
 
 %changelog
+* Mon Sep 14 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Tue Sep 01 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Kalev Lember <klember@redhat.com> - 3.37.2-1
 - Update to 3.37.2
 

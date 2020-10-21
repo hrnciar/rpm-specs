@@ -1,9 +1,9 @@
-%global commit c67b52658bb1b73db178ad81bfc76ae0402b2a2a
+%global commit 4194967f02db8e9f85e8bab6f3803029a4d9a243
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           koan
 Version:        2.9.0
-Release:        0.10.20200412git%{?shortcommit}%{?dist}
+Release:        0.12.20200917git%{?shortcommit}%{?dist}
 Summary:        Kickstart over a network
 
 License:        GPLv2+
@@ -28,7 +28,6 @@ BuildRequires:  python%{python3_pkgversion}-setuptools
 %{?python_enable_dependency_generator}
 %if 0%{?el7}
 Requires:       python%{python3_pkgversion}-distro
-Requires:       python%{python3_pkgversion}-ethtool
 Requires:       python%{python3_pkgversion}-libvirt
 Requires:       python%{python3_pkgversion}-netifaces
 Requires:       python%{python3_pkgversion}-simplejson
@@ -61,6 +60,12 @@ pathfix.py -pni "%{__python3} %{py3_shbang_opts}" bin
 %{python3_sitelib}/koan*.egg-info
 
 %changelog
+* Sat Sep 19 2020 Orion Poplawski <orion@nwra.com> - 2.9.0-0.12.202009017git4194967
+- Update to latest git
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.0-0.11.20200412gitc67b526
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.9.0-0.10.20200412gitc67b526
 - Rebuilt for Python 3.9
 

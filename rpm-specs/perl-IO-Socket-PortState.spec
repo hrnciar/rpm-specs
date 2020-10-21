@@ -1,6 +1,6 @@
 Name:           perl-IO-Socket-PortState
 Version:        0.03
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        Perl extension for checking the open or closed status of a port
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/IO-Socket-PortState
@@ -41,6 +41,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.03-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.03-22
 - Perl 5.32 rebuild
 

@@ -1,14 +1,10 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
-%global snapshot 0
+%global snapshot 1
 
 Name:       ibus-libpinyin
-Version:    1.11.92
-Release:    1%{?dist}
+Version:    1.11.93
+Release:    3%{?dist}
 Summary:    Intelligent Pinyin engine based on libpinyin for IBus
-License:    GPLv2+
+License:    GPLv3+
 URL:        https://github.com/libpinyin/ibus-libpinyin
 Source0:    http://downloads.sourceforge.net/libpinyin/ibus-libpinyin/%{name}-%{version}.tar.gz
 %if %snapshot
@@ -51,14 +47,16 @@ input method based on libpinyin for IBus.
            --disable-boost
 
 # make -C po update-gmo
-make %{?_smp_mflags}
+%make_build
 
 %check
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/ibus-setup-libpinyin.desktop
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/ibus-setup-libbopomofo.desktop
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
+%make_install
+
+%py_byte_compile %{python3} $RPM_BUILD_ROOT%{_datadir}/ibus-libpinyin/setup
 
 %find_lang %{name}
 
@@ -72,7 +70,7 @@ make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 
 %files -f %{name}.lang
 %doc AUTHORS COPYING README
-%{_datadir}/appdata/*.appdata.xml
+%{_datadir}/metainfo/*.appdata.xml
 %{_datadir}/glib-2.0/schemas/*.gschema.xml
 %{_datadir}/applications/ibus-setup-libpinyin.desktop
 %{_datadir}/applications/ibus-setup-libbopomofo.desktop
@@ -82,6 +80,7 @@ make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 %{_datadir}/ibus-libpinyin/setup
 %{_datadir}/ibus-libpinyin/base.lua
 %{_datadir}/ibus-libpinyin/user.lua
+%{_datadir}/ibus-libpinyin/network.txt
 %{_datadir}/ibus-libpinyin/db/english.db
 %{_datadir}/ibus-libpinyin/db/strokes.db
 %dir %{_datadir}/ibus-libpinyin
@@ -89,6 +88,28 @@ make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 %{_datadir}/ibus/component/*
 
 %changelog
+* Mon Oct 12 2020 Peng Wu <pwu@redhat.com> - 1.11.93-3
+- Fixes python3-gobject warning in setup dialog
+
+* Sun Sep 27 2020 Peng Wu <pwu@redhat.com> - 1.11.93-2
+- Fixes Shift key switch issue
+
+* Wed Aug 26 2020 Peng Wu <pwu@redhat.com> - 1.11.93-1
+- Update to 1.11.93
+- switch to use GPLv3+ license
+- support network dictionary
+- bug fixes
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.92-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1.11.92-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Mon Jul 13 2020 Peng Wu <pwu@redhat.com> - 1.11.92-2
+- Switch to use py_byte_compile rpm macro
+
 * Thu Mar 19 2020 Peng Wu <pwu@redhat.com> - 1.11.92-1
 - Update to 1.11.92
 - fixes desktop files

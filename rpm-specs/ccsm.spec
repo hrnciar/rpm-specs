@@ -2,7 +2,7 @@
 
 Name:           ccsm
 Version:        0.8.16
-Release:        7%{?dist}
+Release:        8%{?dist}
 Epoch:          1
 Summary:        Plugin and configuration tool - Compiz Reloaded Project
 
@@ -70,6 +70,9 @@ desktop-file-validate $RPM_BUILD_ROOT/%{_datadir}/applications/ccsm.desktop
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.8.16-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1:0.8.16-7
 - Rebuilt for Python 3.9
 

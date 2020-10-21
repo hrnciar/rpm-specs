@@ -18,7 +18,7 @@ This driver is distributed as part of the cyclone web framework.
 
 Name:           python-%{srcname}
 Version:        1.4.4
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Non-blocking Redis client for Python
 
 License:        ASL 2.0
@@ -59,6 +59,9 @@ rm -rf %{srcname}.egg-info
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.4-11
 - Rebuilt for Python 3.9
 

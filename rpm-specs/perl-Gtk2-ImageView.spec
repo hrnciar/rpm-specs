@@ -1,6 +1,6 @@
 Name:           perl-Gtk2-ImageView
 Version:        0.05
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Perl bindings to the GtkImageView image viewer widget
 
 License:        LGPLv3+
@@ -67,6 +67,9 @@ chmod -R u+w $RPM_BUILD_ROOT/*
 %{perl_vendorarch}/Gtk2/ImageView/Install/*.h
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.05-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.05-17
 - Perl 5.32 rebuild
 

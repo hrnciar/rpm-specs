@@ -1,8 +1,8 @@
 %global debug_package %{nil}
 
 Name:           python-basemap
-Version:        1.2.1
-Release:        4%{?dist}
+Version:        1.2.2
+Release:        1%{?dist}
 Summary:        Plots data on map projections (with continental and political boundaries) 
 License:        LGPLv2+
 URL:            https://matplotlib.org/basemap/
@@ -69,11 +69,21 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} \
 %doc Changelog README.md
 %{python3_sitearch}/mpl_toolkits/basemap
 %{python3_sitearch}/*.egg-info
-%{python3_sitearch}/basemap-%{version}-py%{python3_version}-nspkg.pth
+%{python3_sitearch}/basemap-1.2.1-py%{python3_version}-nspkg.pth
 %{python3_sitearch}/_geoslib.cpython-3*.so
 
 
 %changelog
+* Fri Aug 07 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.2.2-1
+- 1.2.2
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.2.1-4
 - BR python3-setuptools
 

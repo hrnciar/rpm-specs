@@ -19,7 +19,7 @@
 
 Name:           lxterminal
 Version:        0.3.2
-Release:        6%{?gitversion:.%{?gitversion}}%{?dist}
+Release:        7%{?gitversion:.%{?gitversion}}%{?dist}
 Summary:        Desktop-independent VTE-based terminal emulator
 Summary(de):    Desktop-unabhängiger VTE-basierter Terminal Emulator
 
@@ -145,6 +145,9 @@ cd ..
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-7.D20200316gitcb2992e
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 28 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 0.3.2-6.D20200316gitcb2992e
 - Update to the latest git
 

@@ -1,7 +1,7 @@
 Name:           python-raven
 
 Version:        6.10.0
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        Python client for Sentry
 
 License:        BSD
@@ -40,6 +40,8 @@ out-of-the-box support for many of the popular frameworks, including Django,
 and Flask. Raven also includes drop-in support for any WSGI-compatible web
 application.
 
+%{?python_extras_subpkg:%python_extras_subpkg -n python3-raven -i %{python3_sitelib}/*.egg-info flask}
+
 %prep
 %setup -q -n raven-%{version}
 %patch0 -p1
@@ -64,6 +66,12 @@ rmdir raven/data
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.10.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Miro Hrončok <mhroncok@redhat.com> - 6.10.0-8
+- Add raven[flask] subpackage
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 6.10.0-7
 - Rebuilt for Python 3.9
 

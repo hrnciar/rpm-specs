@@ -1,5 +1,5 @@
 Name:     openzwave
-Version:  1.6.1069
+Version:  1.6.1240
 Release:  1%{?dist}
 Summary:  Sample Executables for OpenZWave
 URL:      http://www.openzwave.net
@@ -141,6 +141,12 @@ rm -f %{buildroot}%{_defaultdocdir}/openzwave-%{version}/ChangeLog.old
 
 
 %changelog
+* Thu Jul 30 2020 Michael Cronenworth <mike@cchtml.com> - 1.6.1240-1
+- version update
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1069-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 24 2020 Michael Cronenworth <mike@cchtml.com> - 1.6.1069-1
 - version update
 

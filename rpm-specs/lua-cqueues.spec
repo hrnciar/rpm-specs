@@ -9,15 +9,14 @@
 %global luapkgname cqueues
 
 Name:           lua-%{luapkgname}
-Version:        20190813
-Release:        3%{?dist}
+Version:        20200603
+Release:        2%{?dist}
 Summary:        Stackable Continuation Queues for the Lua Programming Language
 
 License:        MIT
 URL:            https://github.com/wahern/%{luapkgname}
 Source0:        https://github.com/wahern/%{luapkgname}/archive/rel-%{version}/%{name}-%{version}.tar.gz
-Patch1:         0001-extern-cqueue__poll.patch
-
+Patch0:         lua-cqueues-20200603-lua-5.4.patch
 BuildRequires:  gcc
 BuildRequires:  m4
 BuildRequires:  make
@@ -26,7 +25,7 @@ BuildRequires:  lua
 BuildRequires:  lua-devel >= %{luaver}
 
 %if 0%{?fedora} || 0%{?rhel} > 7
-BuildRequires:  compat-lua
+# BuildRequires:  compat-lua
 BuildRequires:  compat-lua-devel
 %endif
 
@@ -81,7 +80,7 @@ for the Lua Programming Language
 
 %prep
 %setup -q -n %{luapkgname}-rel-%{version}
-%patch1 -p1
+%patch0 -p1 -b .lua54
 
 %build
 export CFLAGS="%{?optflags} -fPIC"
@@ -127,6 +126,16 @@ sed -i '1 s|^#!/.*$|#!/usr/bin/lua|' %{buildroot}%{_pkgdocdir}/examples/*
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200603-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Tom Callaway <spot@fedoraproject.org> - 20200603-1
+- update to 20200603
+- add support for lua 5.4
+
+* Tue Jun 30 2020 Björn Esser <besser82@fedoraproject.org> - 20190813-4
+- Rebuilt for Lua 5.4
+
 * Wed Feb 05 2020 Tomas Krizek <tomas.krizek@nic.cz> - 20190813-3
 - Add patch to mark cqueues__poll as extern
 

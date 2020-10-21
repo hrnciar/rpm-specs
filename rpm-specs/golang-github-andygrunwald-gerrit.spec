@@ -4,8 +4,7 @@
 # https://github.com/andygrunwald/go-gerrit
 %global goipath         github.com/andygrunwald/go-gerrit
 Version:                0.5.2
-%global tag             0.5.2
-%global commit          3f5e365ccf57c158d081f41b71847795b8b8a9a8
+%global commit          ed2419acda397c1a113d8e9766bb41def2543f27
 
 %gometa
 
@@ -16,7 +15,7 @@ Go(lang) client/library for Gerrit Code Review.}
 %global godocs          CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Go(lang) client/library for Gerrit Code Review
 
 License:        MIT
@@ -44,6 +43,12 @@ BuildRequires:  golang(github.com/google/go-querystring/query)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 17:01:35 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.5.2-3.20200723gited2419a
+- Bump to commit ed2419acda397c1a113d8e9766bb41def2543f27
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

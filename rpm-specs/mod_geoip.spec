@@ -8,7 +8,7 @@
 Summary:	GeoIP module for the Apache HTTP Server
 Name:		mod_geoip
 Version:	1.2.10
-Release:	11%{?dist}
+Release:	12%{?dist}
 License:	ASL 1.1
 URL:		http://dev.maxmind.com/geoip/legacy/mod_geoip2/
 Source0:	https://github.com/maxmind/geoip-api-mod_geoip2/archive/%{version}/geoip-api-mod_geoip2-%{version}.tar.gz
@@ -55,6 +55,9 @@ install -D -p -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_httpd_confdir}/geoip.conf
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.10-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.10-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           jnr-enxio
 Version:        0.19
-Release:        4%{?dist}
+Release:        7%{?dist}
 Summary:        Unix sockets for Java
 # src/main/java/jnr/enxio/channels/PollSelectionKey.java is LGPLv3
 # rest of the source code is ASL 2.0
@@ -19,7 +19,6 @@ BuildRequires:  mvn(com.github.jnr:jnr-ffi)
 BuildRequires:  mvn(junit:junit)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-source-plugin)
-BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
 
 %description
 Unix sockets for Java.
@@ -37,6 +36,9 @@ This package contains the API documentation for %{name}.
 find ./ -name '*.jar' -delete
 find ./ -name '*.class' -delete
 
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
+
 # Unnecessary for RPM builds
 %pom_remove_plugin ":maven-javadoc-plugin"
 
@@ -53,6 +55,15 @@ find ./ -name '*.class' -delete
 %license LICENSE
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 0.19-7
+- Remove unnecessary dependency on parent POM.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0.19-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

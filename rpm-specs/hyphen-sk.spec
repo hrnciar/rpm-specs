@@ -2,7 +2,7 @@ Name: hyphen-sk
 Summary: Slovak hyphenation rules
 %global upstreamid 20031227
 Version: 0.%{upstreamid}
-Release: 22%{?dist}
+Release: 23%{?dist}
 Source: http://download.services.openoffice.org/contrib/dictionaries/hyph_sk_SK.zip
 URL: http://wiki.services.openoffice.org/wiki/Dictionaries
 License: GPL+
@@ -40,6 +40,9 @@ cp -p *.dic $RPM_BUILD_ROOT/%{_datadir}/hyphen
 %{_datadir}/hyphen/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20031227-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20031227-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name: esc 
 Version: 1.1.2
-Release: 5%{?dist}
+Release: 7%{?dist}
 Summary: Enterprise Security Client Smart Card Client
 License: GPL+
 URL: http://directory.fedora.redhat.com/wiki/CoolKey 
@@ -58,6 +58,7 @@ Source0: http://pki.fedoraproject.org/pki/sources/%name/%{escname}.tar.bz2
 Source1: http://pki.fedoraproject.org/pki/sources/%name/esc
 Source2: http://pki.fedoraproject.org/pki/sources/%name/esc.desktop
 Source3: http://pki.fedoraproject.org/pki/sources/%name/esc.png
+Patch0: esc-gcc11.patch
 
 
 %description
@@ -67,10 +68,12 @@ cryptographic smartcards.
 %prep
 
 %setup -q -c -n %{escname}
+%patch0 -p1
 
 #patch esc 
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 
 echo $RPM_BUILD_DIR
 
@@ -132,6 +135,14 @@ cp %{escname}/esc/LICENSE $RPM_BUILD_ROOT/%{docdir}
 %{_datadir}/%{appdir}/esc.desktop
 
 %changelog
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 1.1.2-7
+- Force C++14 as this code is not C++17 ready
+- Fix sprintf format issue
+- Fix ordered comparison of a pointer against zero issue
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

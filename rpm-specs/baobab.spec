@@ -1,13 +1,13 @@
 %global gtk3_version 3.20
 
 Name:           baobab
-Version:        3.34.0
-Release:        2%{?dist}
+Version:        3.38.0
+Release:        1%{?dist}
 Summary:        A graphical directory tree analyzer
 
 License:        GPLv2+ and GFDL
 URL:            https://wiki.gnome.org/Apps/Baobab
-Source0:        https://download.gnome.org/sources/baobab/3.34/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/baobab/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires:  pkgconfig(gtk+-3.0) >= %{gtk3_version}
 BuildRequires:  /usr/bin/appstream-util
@@ -55,7 +55,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/org.gnome.baobab.des
 %{_bindir}/baobab
 %{_datadir}/applications/org.gnome.baobab.desktop
 %{_datadir}/dbus-1/services/org.gnome.baobab.service
-%{_datadir}/icons/hicolor/*/apps/org.gnome.baobab.svg
+%{_datadir}/icons/hicolor/*/apps/org.gnome.baobab*.svg
 %{_datadir}/icons/hicolor/symbolic/apps/org.gnome.baobab-symbolic.svg
 %{_datadir}/glib-2.0/schemas/org.gnome.baobab.gschema.xml
 %{_datadir}/metainfo/org.gnome.baobab.appdata.xml
@@ -63,6 +63,15 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/org.gnome.baobab.des
 
 
 %changelog
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 3.37.90-1
+- Update to 3.37.90
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.34.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.34.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

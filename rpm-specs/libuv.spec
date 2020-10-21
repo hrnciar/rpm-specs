@@ -5,8 +5,8 @@
 
 Name:           libuv
 Epoch:          1
-Version:        1.38.0
-Release:        2%{?dist}
+Version:        1.40.0
+Release:        1%{?dist}
 Summary:        Platform layer for node.js
 
 # the licensing breakdown is described in detail in the LICENSE file
@@ -80,6 +80,21 @@ install -Dm0644 -t %{buildroot}%{_libdir}/libuv/ %{SOURCE3}
 %{_libdir}/%{name}.a
 
 %changelog
+* Mon Sep 28 2020 Stephen Gallagher <sgallagh@redhat.com> - 1.40.0-1
+- Update to 1.40.0
+-
+- https://github.com/libuv/libuv/blob/v1.40.0/ChangeLog
+
+* Tue Sep 08 2020 Stephen Gallagher <sgallagh@redhat.com> - 1.39.0-1
+- Update to 1.39.0
+
+* Fri Jul 31 2020 Stephen Gallagher <sgallagh@redhat.com> - 1.38.1-1
+- Update to 1.38.1
+- https://github.com/libuv/libuv/blob/v1.38.1/ChangeLog
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.38.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Stephen Gallagher <sgallagh@redhat.com> - 1.38.0-2
 - Fix up gating tests
 

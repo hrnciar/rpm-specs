@@ -9,7 +9,7 @@
 
 Name:           python-pyrfc3339
 Version:        1.1
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Generate and parse RFC 3339 timestamps
 
 License:        MIT
@@ -23,12 +23,14 @@ Source1:        https://raw.githubusercontent.com/kurtraschke/pyRFC3339/e30cc155
 BuildArch:      noarch
 %if %{with python2}
 BuildRequires:  python2-devel
+BuildRequires:  python-setuptools
 # --- unit tests ---
 BuildRequires:  python-nose
 BuildRequires:  pytz
 %endif
 
 BuildRequires:  %{py3_prefix}-devel
+BuildRequires:  %{py3_prefix}-setuptools
 # --- unit tests ---
 BuildRequires:  %{py3_prefix}-nose
 BuildRequires:  %{py3_prefix}-pytz
@@ -95,6 +97,12 @@ nosetests-%{python3_version} tests.py
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 1.1-5
+- add python-setuptools to BuildRequires
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1-4
 - Rebuilt for Python 3.9
 

@@ -1,19 +1,13 @@
 %define         soversion 1.8
+%define         pkg_version 1.8.903
 
 Name:           sword
-Version:        1.8.1
-Release:        22%{?dist}
+Version:        1.9.0RC3
+Release:        1%{?dist}
 Summary:        Free Bible Software Project
 License:        GPLv2
 URL:            http://www.crosswire.org/sword/
 Source0:        http://www.crosswire.org/ftpmirror/pub/sword/source/v1.8/sword-%{version}.tar.gz
-Patch0:         sword-1.8.1-cmake.diff
-Patch1:         sword-1.8.1-icu61.diff
-Patch2:         sword-1.8.1-swig.diff
-Patch3:         sword-1.8.1-swig-perl.diff
-Patch4:         sword-1.8.1-integer-types.diff
-# svn diff -r3718:3721
-Patch5:         sword-1.8.1-fix-divs.diff
 BuildRequires:  cmake
 BuildRequires:  cmake-data
 BuildRequires:  openssl-devel
@@ -70,44 +64,33 @@ Requires: python3
 %description -n python3-sword
 Python bindings for The SWORD Library.
 
-%package -n perl-sword
-%{?perl_provide:%perl_provide perl-sword}
-Summary: Perl bindings for Sword
-Requires: %{name}%{?_isa} = %{version}-%{release}
-Requires: perl
-Requires: perl-XML-LibXML
-Requires: perl-HTML-Strip
+#%package -n perl-sword
+#%{?perl_provide:%perl_provide perl-sword}
+#Summary: Perl bindings for Sword
+#Requires: %{name}%{?_isa} = %{version}-%{release}
+#Requires: perl
+#Requires: perl-XML-LibXML
+#Requires: perl-HTML-Strip
 
-%description -n perl-sword
-Perl bindings for The SWORD Library.
+#%description -n perl-sword
+#Perl bindings for The SWORD Library.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
 
 %build
-mkdir build
-pushd build
 %cmake -DLIBSWORD_LIBRARY_TYPE=Shared \
        -DSWORD_PYTHON_3:BOOL=TRUE \
        -DSWORD_PERL:BOOL=TRUE \
-       -DSWORD_BUILD_UTILITIES="Yes" \
+       -DSWORD_BUILD_UTILS="Yes" \
        -DLIBSWORD_SOVERSION=%{soversion} \
        -DLIBDIR=%{_libdir} \
        -DSWORD_BUILD_TESTS=Yes \
-       -DSWORD_PYTHON_INSTALL_DIR="%{buildroot}%{_prefix}" \
-       ..
-make %{?_smp_mflags}
+       -DSWORD_PYTHON_INSTALL_DIR="%{buildroot}%{_prefix}"
+%cmake_build
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 mkdir -p %{buildroot}%{_datadir}/sword/modules
 
 find %{buildroot} -type f -name "*.la" -delete -print
@@ -151,17 +134,30 @@ make tests
 
 %files -n python3-sword
 %{python3_sitearch}/Sword.py
-%{python3_sitearch}/_Sword.cpython-%{python3_version_nodots}*-%{_arch}-linux-gnu*.so
+%{python3_sitearch}/_Sword%{python3_ext_suffix}
 %{python3_sitearch}/__pycache__/*
-%{python3_sitearch}/sword-%{version}-py%{python3_version}.egg-info
+%{python3_sitearch}/sword-%{pkg_version}-py%{python3_version}.egg-info
 
-%files -n perl-sword
-%{perl_vendorarch}/*
-%exclude %dir %{perl_vendorarch}/auto/
-%exclude %{_libdir}/perl5/perllocal.pod
+#%files -n perl-sword
+#%{perl_vendorarch}/*
+#%exclude %dir %{perl_vendorarch}/auto/
+#%exclude %{_libdir}/perl5/perllocal.pod
 
 
 %changelog
+* Fri Oct 2 2020 Greg Hellings <greg.hellings@gmail.com> - 1.8.903-1
+- Upstream 1.9.0RC3 release
+
+* Fri Sep 11 2020 Greg Hellings <greg.hellings@gmail.com> - 1.8.901-1
+- Upstream 1.9.0RC1 release
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-24
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.8.1-22
 - Perl 5.32 rebuild
 

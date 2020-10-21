@@ -3,7 +3,7 @@
 
 # https://github.com/nats-io/nkeys
 %global goipath         github.com/nats-io/nkeys
-Version:                0.1.0
+Version:                0.2.0
 
 %gometa
 
@@ -15,7 +15,7 @@ A public-key signature system based on Ed25519 for the NATS ecosystem.}
                         README-nk.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Public-key signature system based on Ed25519 for the NATS ecosystem
 
 # Upstream license specification: Apache-2.0
@@ -57,6 +57,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 07:09:39 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.2.0-1
+- Update to 0.2.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

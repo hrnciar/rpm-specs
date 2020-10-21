@@ -6,7 +6,7 @@
 
 Summary: Linux kernel and C library user-space interface documentation
 Name: man-pages
-Version: 5.07
+Version: 5.08
 Release: 1%{?dist}
 License: GPL+ and GPLv2+ and BSD and MIT and Copyright only and IEEE
 URL: http://www.kernel.org/doc/man-pages/
@@ -118,6 +118,13 @@ fi
 %{_mandir}/man*/*
 
 %changelog
+* Mon Aug 17 2020 Nikola Forró <nforro@redhat.com> - 5.08-1
+- update to 5.08
+  resolves: #1868674
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.07-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Nikola Forró <nforro@redhat.com> - 5.07-1
 - update to 5.07
 

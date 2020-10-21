@@ -1,7 +1,7 @@
 Summary: Python modules and utilities for Nagios plugins and configuration
 Name: pynag
 Version: 1.1.2
-Release: 4%{?dist}
+Release: 5%{?dist}
 Source0: http://pypi.python.org/packages/source/p/pynag/pynag-%{version}.tar.gz
 License: GPLv2
 BuildRequires: python3-devel
@@ -58,6 +58,9 @@ install -m 755 examples/Plugins/* $RPM_BUILD_ROOT/%{_datadir}/%{name}/examples/P
 %doc examples/README
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.2-4
 - Rebuilt for Python 3.9
 

@@ -14,9 +14,10 @@
 
 Summary: The libvirt virtualization API python3 binding
 Name: libvirt-python
-Version: 6.4.0
-Release: 1%{?dist}
+Version: 6.8.0
+Release: 2%{?dist}
 Source0: http://libvirt.org/sources/python/%{name}-%{version}.tar.gz
+Patch1: 0001-fix-constructor-param-name-for-virDomainSnapshot-vir.patch
 Url: http://libvirt.org
 License: LGPLv2+
 BuildRequires: libvirt-devel == %{version}
@@ -56,6 +57,7 @@ of recent versions of Linux (and other OSes).
 
 %prep
 %setup -q
+%patch1 -p1
 
 # Unset execute bit for example scripts; it can introduce spurious
 # RPM dependencies, like /usr/bin/python3
@@ -99,6 +101,24 @@ CFLAGS="$RPM_OPT_FLAGS" %{__python3} setup.py build
 
 
 %changelog
+* Thu Oct 15 2020 Daniel P. Berrangé <berrange@redhat.com> - 6.8.0-2
+- Fix regression with snapshot handling (rhbz #1888709)
+
+* Fri Oct 02 2020 Cole Robinson <crobinso@redhat.com> - 6.8.0-1
+- Update to version 6.8.0
+
+* Wed Sep 02 2020 Cole Robinson <crobinso@redhat.com> - 6.7.0-1
+- Update to version 6.7.0
+
+* Tue Aug 04 2020 Cole Robinson <crobinso@redhat.com> - 6.6.0-1
+- Update to version 6.6.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 Cole Robinson <crobinso@redhat.com> - 6.5.0-1
+- Update to version 6.5.0
+
 * Tue Jun 02 2020 Cole Robinson <crobinso@redhat.com> - 6.4.0-1
 - Update to version 6.4.0
 

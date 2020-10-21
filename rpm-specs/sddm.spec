@@ -1,8 +1,15 @@
-%global _hardened_build 1
+%undefine __cmake_in_source_build
+
+# Control wayland by default
+%if (0%{?fedora} && 0%{?fedora} < 34) || (0%{?rhel} && 0%{?rhel} < 9)
+%bcond_with wayland_default
+%else
+%bcond_without wayland_default
+%endif
 
 Name:           sddm
 Version:        0.18.1
-Release:        5%{?dist}
+Release:        9%{?dist}
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -10,10 +17,16 @@ Url:            https://github.com/sddm/sddm
 Source0:        https://github.com/sddm/sddm/archive/v%{version}.tar.gz
 
 ## upstream patches (in lookaside cache)
+Patch35: 0035-Prevent-duplicate-session-name.patch
+Patch37: 0037-Fix-build.patch
 
 ## upstreamable patches
 # Fixes RHBZ #1392654
 #Patch54: https://github.com/sddm/sddm/pull/735.patch
+
+# Prefer Wayland sessions by default
+# https://github.com/sddm/sddm/pull/1305
+Patch55: https://github.com/sddm/sddm/pull/1305.patch
 
 ## downstream patches
 Patch101:       sddm-0.17.0-fedora_config.patch
@@ -93,7 +106,13 @@ A collection of sddm themes, including: elarun, maldives, maya
 %prep
 %setup -q
 
+%patch35 -p1 -b .0035
+%patch37 -p1 -b .0037
+
 #patch54 -p1 -b .0054
+%if %{with wayland_default}
+%patch55 -p1 -b .0055
+%endif
 
 %patch101 -p1 -b .fedora_config
 %patch102 -p1 -b .libxau
@@ -110,21 +129,17 @@ ls -sh src/greeter/theme/background.png
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} .. \
+%{cmake} \
   -DBUILD_MAN_PAGES:BOOL=ON \
   -DCMAKE_BUILD_TYPE:STRING="Release" \
   -DENABLE_JOURNALD:BOOL=ON \
   -DSESSION_COMMAND:PATH=/etc/X11/xinit/Xsession \
   -DWAYLAND_SESSION_COMMAND:PATH=/etc/sddm/wayland-session
-popd
-
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 install -Dpm 644 %{SOURCE11} %{buildroot}%{_sysconfdir}/pam.d/sddm
 install -Dpm 644 %{SOURCE12} %{buildroot}%{_sysconfdir}/pam.d/sddm-autologin
@@ -163,6 +178,16 @@ exit 0
    %{_sysconfdir}/sddm.conf
 ) ||:
 
+%if %{with wayland_default}
+%triggerun -- plasma-workspace < 5.19.90-2
+# When upgrading, handle session filename changes
+if [ -f %{_sharedstatedir}/sddm/state.conf ]; then
+   sed \
+       -e "s|%{_datadir}/xsessions/plasma.desktop|%{_datadir}/xsessions/plasmaxorg.desktop|g" \
+       -e "s|%{_datadir}/wayland-sessions/plasmawayland.desktop|%{_datadir}/wayland-sessions/plasma.desktop|g" \
+       -i %{_sharedstatedir}/sddm/state.conf
+fi
+%endif
 
 %preun
 %systemd_preun sddm.service
@@ -210,6 +235,19 @@ exit 0
 
 
 %changelog
+* Sun Oct 18 2020 Neal Gompa <ngompa13@gmail.com> - 0.18.1-9
+- Add patch to prefer Wayland sessions on F34+
+- Correctly handle Plasma session filename changes on upgrade to F34+
+
+* Wed Aug 05 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.18.1-8
+- tmpfiles: use /run instead of /var/run
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.18.1-6
+- pull in upstream fix for duplicate session name
+
 * Wed Apr 08 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.18.1-5
 - remove pam_console dependency (#182218)
 

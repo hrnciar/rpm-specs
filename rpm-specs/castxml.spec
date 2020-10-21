@@ -1,5 +1,7 @@
+%undefine __cmake_in_source_build
+
 Name:		castxml
-Version:	0.3.1
+Version:	0.3.6
 Release:	1%{?dist}
 Summary:	C-family abstract syntax tree XML output tool
 
@@ -36,16 +38,16 @@ may support alternative output formats.
        -DCLANG_LINK_CLANG_DYLIB:BOOL=ON \
 %endif
        -DBUILD_TESTING:BOOL=ON \
-       -DSPHINX_MAN:BOOL=ON .
-make %{?_smp_mflags}
+       -DSPHINX_MAN:BOOL=ON
+%cmake_build
 
 %install
-make %{?_smp_mflags} install DESTDIR=%{buildroot}
+%cmake_install
 rm %{buildroot}%{_pkgdocdir}/LICENSE
 rm %{buildroot}%{_pkgdocdir}/NOTICE
 
 %check
-ctest %{?_smp_mflags}
+%ctest
 
 %files
 %{_bindir}/castxml
@@ -59,6 +61,23 @@ ctest %{?_smp_mflags}
 %license LICENSE NOTICE
 
 %changelog
+* Sat Aug 22 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 0.3.6-1
+- Update to version 0.3.6
+- Drop previously backported LLVM/Clang 11 patches
+
+* Tue Aug 18 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 0.3.4-4
+- Backport compatibility fixes for LLVM/Clang 11 from git master
+
+* Fri Aug 14 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 0.3.4-3
+- Use backported new cmake macros
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 0.3.4-1
+- Update to version 0.3.4
+- Adapt to new cmake rpm macro
+
 * Tue Feb 18 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 0.3.1-1
 - Update to version 0.3.1
 - Drop cling-cpp.so linking patch - accepted upstream

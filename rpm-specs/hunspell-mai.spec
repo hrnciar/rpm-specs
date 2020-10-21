@@ -1,7 +1,7 @@
 Name: hunspell-mai
 Summary: Maithili hunspell dictionaries
 Version: 1.0.1
-Release: 19%{?dist}
+Release: 20%{?dist}
 Source: https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/bhashaghar/mai_IN.oxt
 URL: https://code.google.com/archive/p/bhashaghar/wikis/Maithili.wiki
 License: GPLv2+ or LGPLv2+ or MPLv1.1
@@ -28,6 +28,9 @@ cp -p mai_IN.* $RPM_BUILD_ROOT/%{_datadir}/myspell/
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

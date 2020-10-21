@@ -1,6 +1,6 @@
 Name:		perl-Package-DeprecationManager
 Version:	0.17
-Release:	12%{?dist}
+Release:	13%{?dist}
 Summary:	Manage deprecation warnings for your distribution
 License:	Artistic 2.0
 URL:		https://metacpan.org/release/Package-DeprecationManager
@@ -67,6 +67,9 @@ make test
 %{_mandir}/man3/Package::DeprecationManager.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.17-12
 - Perl 5.32 rebuild
 

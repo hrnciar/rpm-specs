@@ -4,7 +4,7 @@
 
 Name:          gimp-separate+
 Version:       0.5.8
-Release:       26%{?dist}
+Release:       28%{?dist}
 Summary:       Rudimentary CMYK support for The GIMP
 URL:           http://cue.yellowmagic.info/softwares/separate.html
 Source0:       http://iij.dl.sourceforge.jp/separate-plus/47873/separate+-%{version}.zip
@@ -61,6 +61,13 @@ install -m 644 %{SOURCE1} %{buildroot}%{appdata_dir}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.8-28
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.8-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 05 2020 Than Ngo <than@redhat.com> - 0.5.8-26
 - built with lcms2 (lcms is dropped in fedora > 31)
 

@@ -6,7 +6,7 @@
 
 Name:           ocaml-%{srcname}
 Version:        0.8.2
-Release:        8%{?dist}
+Release:        12%{?dist}
 Summary:        Error-recovering streaming HTML5 and XML parsers for OCaml
 
 License:        MIT
@@ -176,6 +176,19 @@ make test
 %{_libdir}/ocaml/%{srcname}-lwt/unix/%{srcname}_lwt_unix.mli
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.8.2-12
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.8.2-11
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.2-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 0.8.2-8
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

@@ -1,7 +1,7 @@
 Name:           ack
-Version:        3.3.1
+Version:        3.4.0
 %global cpan_version v%{version}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        Grep-like text finder
 License:        Artistic 2.0
 URL:            http://beyondgrep.com/
@@ -87,6 +87,12 @@ make test
 
 
 %changelog
+* Sat Aug  8 2020 Robin Lee <cheeselee@fedoraproject.org> - 3.4.0-1
+- Update to 3.4.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.3.1-4
 - Perl 5.32 rebuild
 

@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          0.1.4
-Release:          1%{?dist}
+Release:          3%{?dist}
 Summary:          Quantity Calculus for R Vectors
 
 License:          MIT
@@ -56,6 +56,13 @@ export _R_CHECK_FORCE_SUGGESTS_=0
 %{rlibdir}/%{packname}/libs
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.1.4-1
 - update to 0.1.4
 - rebuild for R 4

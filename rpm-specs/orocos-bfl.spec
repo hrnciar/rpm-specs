@@ -3,7 +3,7 @@ Name:       orocos-bfl
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 %global checkout 20190423git%{shortcommit}
 Version:    0.8.99
-Release:    20.%{checkout}%{?dist}
+Release:    23.%{checkout}%{?dist}
 Summary:    A framework for inference in Dynamic Bayesian Networks
 
 # Explanation from upstream for multiple licenses:
@@ -58,18 +58,17 @@ The %{name}-doc package contains documentation for %{name}.
 export LDFLAGS='-ldl'
 %cmake \
   -DGINAC_SUPPORT:BOOL=ON \
-  -DLIBRARY_TYPE:STRING="shared" \
-  .
-make %{?_smp_mflags}
+  -DLIBRARY_TYPE:STRING="shared"
+%cmake_build
 
-doxygen
+%cmake_build --target docs
 
 %check
-make %{?_smp_mflags} check
+%cmake_build --target check
 
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 # tests are installed here, remove them
 rm -rf %{buildroot}%{_bindir}/bfl
@@ -85,11 +84,21 @@ rm -rf %{buildroot}%{_bindir}/bfl
 %{_libdir}/pkgconfig/*
 
 %files doc
-%doc doc/html
+%doc %{_vpath_builddir}/doc/html
 %license COPYING
 
 
 %changelog
+* Fri Sep 04 2020 Till Hofmann <thofmann@fedoraproject.org> - 0.8.99-23.20190423gitcf72962
+- Adapt to cmake out-of-source builds
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.99-22.20190423gitcf72962
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.99-21.20190423gitcf72962
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.99-20.20190423gitcf72962
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

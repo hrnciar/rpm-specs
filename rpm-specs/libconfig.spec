@@ -3,7 +3,7 @@
 Name:                   libconfig
 Summary:                C/C++ configuration file library
 Version:                1.7.2
-Release:                5%{?dist}
+Release:                6%{?dist}
 License:                LGPLv2+
 URL:                    http://www.hyperrealm.com/libconfig/
 Source0:                https://hyperrealm.github.io/%name/dist/%name-%version.tar.gz
@@ -78,6 +78,9 @@ make check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           shigofumi
 Version:        0.8
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Command line client for accessing the Czech Data Boxes
 # COPYING:          GPLv3 text
 # README:           GPLv3+
@@ -91,6 +91,9 @@ make %{?_smp_mflags} install DESTDIR=$RPM_BUILD_ROOT
 %{_mandir}/*/man5/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

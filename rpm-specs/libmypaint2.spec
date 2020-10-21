@@ -1,7 +1,7 @@
 %global prerel beta.1
 Name: libmypaint2
 Version: 2.0.0
-Release: 0.7.%{prerel}%{?dist}
+Release: 0.8.%{prerel}%{?dist}
 Summary: MyPaint brush engine library
 
 # Compute some version related macros.
@@ -83,6 +83,9 @@ make check
 %{_datadir}/gir-1.0/MyPaintGegl-%{major}.%{minor}.gir
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-0.8.beta.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Björn Esser <besser82@fedoraproject.org> - 2.0.0-0.7.beta.1
 - Rebuild (json-c)
 

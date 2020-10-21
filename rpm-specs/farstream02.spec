@@ -5,7 +5,7 @@
 
 Name:           %{far}02
 Version:        0.2.9
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Libraries for videoconferencing
 
 # Package is LGPLv2 except for a few files in /common/coverage/
@@ -116,6 +116,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.9-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 12 2020 Kalev Lember <klember@redhat.com> - 0.2.9-2
 - Rebuilt for gupnp 1.2
 

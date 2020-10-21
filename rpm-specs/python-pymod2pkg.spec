@@ -10,7 +10,7 @@
 
 Name:             python-pymod2pkg
 Version:          0.17.1
-Release:          6%{?dist}
+Release:          7%{?dist}
 Summary:          python module name to package name map
 License:          ASL 2.0
 URL:              https://github.com/openstack/pymod2pkg.git
@@ -115,6 +115,9 @@ ln -s ./%{sname}-%{python3_version} %{buildroot}%{_bindir}/%{sname}
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.17.1-6
 - Rebuilt for Python 3.9
 

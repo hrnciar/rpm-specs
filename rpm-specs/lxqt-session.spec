@@ -1,7 +1,7 @@
 Name:    lxqt-session
 Summary: Main session for LXQt desktop suite
 Version: 0.15.0
-Release: 1%{?dist}
+Release: 4%{?dist}
 License: LGPLv2+
 URL:     http://lxqt.org/
 Source0: https://github.com/lxqt/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
@@ -71,11 +71,11 @@ done
 mkdir %{buildroot}%{_sysconfdir}/lxqt/
 cp %{buildroot}%{_datadir}/lxqt/lxqt.conf %{buildroot}%{_datadir}/lxqt/session.conf %{buildroot}%{_sysconfdir}/lxqt/
 %if 0%{?fedora}
-sed -i 's/theme=frost/theme=Fedora/g;s/icon_theme=oxygen/icon_theme=breeze/g;s/style=Fusion/style=breeze/g' %{buildroot}%{_sysconfdir}/lxqt/lxqt.conf
+sed -i 's/theme=frost/theme=fedora-lxqt/g;s/icon_theme=oxygen/icon_theme=breeze/g' %{buildroot}%{_sysconfdir}/lxqt/lxqt.conf
 sed -i 's/cursor_theme=whiteglass/cursor_theme=breeze_cursors/g;/General/a window_manager=openbox' %{buildroot}%{_sysconfdir}/lxqt/session.conf
 %endif
 %if 0%{?el7}
-sed -i 's/theme=frost/theme=Fedora/g;s/icon_theme=oxygen/icon_theme=breeze/g' %{buildroot}%{_sysconfdir}/lxqt/lxqt.conf
+sed -i 's/theme=frost/theme=fedora-lxqt/g;s/icon_theme=oxygen/icon_theme=breeze/g' %{buildroot}%{_sysconfdir}/lxqt/lxqt.conf
 sed -i 's/cursor_theme=whiteglass/cursor_theme=Adwaita/g;/General/a window_manager=openbox' %{buildroot}%{_sysconfdir}/lxqt/session.conf
 %endif
 
@@ -118,6 +118,16 @@ sed -i 's/cursor_theme=whiteglass/cursor_theme=Adwaita/g;/General/a window_manag
 %{_datadir}/lxqt/translations/lxqt-session/lxqt-session_arn.qm
 
 %changelog
+* Tue Aug 25 2020 Zamir SUN <sztsian@gmail.com> - 0.15.0-4
+- Fix default Qt theme
+- Fixes RHBZ#1872163
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 19 2020 Zamir SUN <sztsian@gmail.com> - 0.15.0-2
+- Fix default theme name
+
 * Sun May 03 2020 Zamir SUN <sztsian@gmail.com> - 0.15.0-1
 - Update to 0.15.0
 

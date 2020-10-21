@@ -1,13 +1,13 @@
 Name: gnome-devel-docs
-Version: 3.32.1
-Release: 4%{?dist}
+Version: 3.38.1
+Release: 1%{?dist}
 Summary: GNOME developer documentation
 
 # accessibility-devel-guide and optimization-guide are under the GFDL, other
 # documents are under CC-BY-SA.
 License: GFDL and CC-BY-SA
 URL: https://developer.gnome.org
-Source0: https://download.gnome.org/sources/%{name}/3.32/%{name}-%{version}.tar.xz
+Source0: https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildArch: noarch
 BuildRequires: docbook-utils
@@ -38,6 +38,18 @@ make %{?_smp_mflags}
 %license COPYING COPYING.GFDL
 
 %changelog
+* Mon Oct  5 2020 Kalev Lember <klember@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Sun Sep 13 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Sun Sep 06 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.32.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 2020 David King <amigadave@amigadave.com> - 3.32.1-4
 - Turn off Python bytecompilation
 

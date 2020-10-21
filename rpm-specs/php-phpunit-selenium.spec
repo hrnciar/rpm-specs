@@ -17,7 +17,7 @@
 
 Name:           php-%{pk_project}
 Version:        8.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Selenium RC integration for PHPUnit
 
 License:        BSD
@@ -82,6 +82,9 @@ cp -pr PHPUnit/* %{buildroot}%{php_home}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 17 2020 Remi Collet <remi@remirepo.net> - 8.0.0-1
 - update to 8.0.0
 - raise dependency on PHP 7.2

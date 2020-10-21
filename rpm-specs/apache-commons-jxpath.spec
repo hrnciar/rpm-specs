@@ -1,6 +1,6 @@
 Name:           apache-commons-jxpath
 Version:        1.3
-Release:        35%{?dist}
+Release:        37%{?dist}
 Summary:        Simple XPath interpreter
 License:        ASL 2.0
 URL:            http://commons.apache.org/jxpath/
@@ -54,6 +54,12 @@ This package contains the API documentation for %{name}.
 %license LICENSE.txt NOTICE.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-37
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.3-36
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri May 22 2020 Fabio Valentini <decathorpe@gmail.com> - 1.3-35
 - Set javac -source and -target to 1.8.
 

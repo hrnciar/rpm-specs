@@ -3,7 +3,7 @@
 Name:           dippi
 Summary:        Calculate display info like DPI and aspect ratio
 Version:        2.7.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv3
 
 URL:            https://github.com/cassidyjames/%{name}
@@ -70,6 +70,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 20 2020 Fabio Valentini <decathorpe@gmail.com> - 2.7.4-1
 - Update to version 2.7.4.
 

@@ -6,7 +6,7 @@
 %global crate feedbin_api
 
 Name:           rust-%{crate}
-Version:        0.1.0
+Version:        0.1.3
 Release:        1%{?dist}
 Summary:        Rust implementation of the Feedbin REST API
 
@@ -74,5 +74,11 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 0.1.3-1
+- Update to 0.1.3
+
+* Wed Jul 22 2020 Josh Stone <jistone@redhat.com> - 0.1.1-1
+- Update to 0.1.1
+
 * Sun Jun 07 12:22:57 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 0.1.0-1
 - Initial package

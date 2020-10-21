@@ -1,29 +1,32 @@
+%undefine __cmake_in_source_build
+
 Summary:    Library to make writing a VNC server easy
 Name:       libvncserver
-Version:    0.9.12
-Release:    1%{?dist}
+Version:    0.9.13
+Release:    9%{?dist}
 
 # NOTE: --with-filetransfer => GPLv2
 License:    GPLv2+
 URL:        http://libvnc.github.io/
 Source0:    https://github.com/LibVNC/libvncserver/archive/LibVNCServer-%{version}.tar.gz
 
-Patch1: 3348a7e42e86dfb98dd7458ad29def476cf6096f.patch
-Patch2: 36a71279ed5b10effecd879caf6c3791842ca713.patch
-Patch3: d0a76539835d11c0f4723499f8be4bc9c7724eb9.patch
-Patch4: 15c4f144a3783d9f1f2c976acf9f4d85988fd466.patch
-
-
 ## TLS security type enablement patches
 # https://github.com/LibVNC/libvncserver/pull/234
 Patch10: 0001-libvncserver-Add-API-to-add-custom-I-O-entry-points.patch
 Patch11: 0002-libvncserver-Add-channel-security-handlers.patch
+# https://github.com/LibVNC/libvncserver/commit/87c52ee0551b7c4e76855d270d475b9e3039fe08
+Patch12: 0003-libvncserver-auth-don-t-keep-security-handlers-from-.patch
+# Fix crash on all runs after the first
+# https://github.com/LibVNC/libvncserver/pull/444
+# https://bugzilla.redhat.com/show_bug.cgi?id=1882718
+Patch13: 0004-zlib-Clear-buffer-pointers-on-cleanup-444.patch
+# Fix another crasher
+# https://gitlab.gnome.org/GNOME/gnome-remote-desktop/-/issues/45
+# https://bugzilla.redhat.com/show_bug.cgi?id=1882718
+Patch14: 0001-libvncserver-don-t-NULL-out-internal-of-the-default-.patch
 
 ## downstream patches
-Patch102:     LibVNCServer-0.9.10-system-crypto-policy.patch
-
-Patch106:     CVE-2018-15127.patch
-Patch107:     CVE-2019-15681.patch
+Patch102: libvncserver-LibVNCServer-0.9.13-system-crypto-policy.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  cmake3
@@ -79,6 +82,8 @@ Summary:    Development files for %{name}
 Requires:   %{name}%{?_isa} = %{version}-%{release}
 # libvncserver-config deps
 Requires:   coreutils
+# /usr/include/rfb/rfbproto.h:#include <zlib.h>
+Requires:   zlib-devel
 
 %description devel
 The %{name}-devel package contains libraries and header files for
@@ -88,20 +93,17 @@ developing applications that use %{name}.
 %prep
 %setup -q -n %{name}-LibVNCServer-%{version}
 
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
+%patch10 -p1 -b .tls-1
+%patch11 -p1 -b .tls-2
+%patch12 -p1 -b .handlers
+%patch13 -p1 -b .pointers
+%patch14 -p1 -b .cursor_null
 
-%patch10 -p1
-%patch11 -p1
+%patch102 -p1 -b .crypto_policy
 
 # Nuke bundled minilzo
 rm -fv common/lzodefs.h common/lzoconf.h commmon/minilzo.h common/minilzo.c
 
-%patch102 -p1
-%patch106 -p1
-%patch107 -p1
 
 # Fix encoding
 for file in ChangeLog ; do
@@ -112,22 +114,24 @@ done
 
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%cmake3 ..
-popd
-%make_build -C %{_target_platform}
+%cmake3
+
+%cmake_build
+
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
+
 
 %ldconfig_scriptlets
 
 %files
 %license COPYING
-%doc AUTHORS ChangeLog NEWS README.md TODO
-%{_libdir}/libvncclient.so.*
-%{_libdir}/libvncserver.so.*
+%doc AUTHORS ChangeLog NEWS* README* TODO*
+%{_libdir}/libvncclient.so.1
+%{_libdir}/libvncclient.so.%{version}
+%{_libdir}/libvncserver.so.1
+%{_libdir}/libvncserver.so.%{version}
 
 %files devel
 #{_bindir}/libvncserver-config
@@ -139,6 +143,36 @@ popd
 
 
 %changelog
+* Mon Oct 12 2020 Adam Williamson <awilliam@redhat.com> - 0.9.13-9
+- Backport another crasher fix (#1882718)
+
+* Fri Oct 09 2020 Adam Williamson <awilliam@redhat.com> - 0.9.13-8
+- Rebase all patches so Patch12 applies
+- Backport PR #444 to fix crash on all runs after the first (#1882718)
+
+* Mon Sep 14 2020 Jonas Ådahl <jadahl@redhat.com> - 0.9.13-7
+- Add API to unregister security handlers
+
+* Tue Aug 25 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.9.13-6
+- -devel: +Requires: zlib-devel
+
+* Mon Aug 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.9.13-5
+- use new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.13-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.13-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.9.13-2
+- tls patches rebased
+
+* Thu Jul 02 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.9.13-1
+- 0.9.13
+- FIXME/TODO: tls patches need rebasing, work-in-progress
+
 * Tue Feb 11 2020 Sérgio Basto <sergio@serjux.com> - 0.9.12-1
 - Update to 0.9.12
 

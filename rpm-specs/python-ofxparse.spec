@@ -3,7 +3,7 @@
 
 Name:           python-%{upstream_name}
 Version:        0.18
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Python library for working with the OFX (Open Financial Exchange) file format
 License:        MIT
 URL:            http://sites.google.com/site/ofxparse
@@ -57,6 +57,9 @@ accounts also provide account statements in OFX files.
 %{python3_sitelib}/%{upstream_name}*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.18-10
 - Rebuilt for Python 3.9
 

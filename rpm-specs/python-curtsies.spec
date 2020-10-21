@@ -1,9 +1,9 @@
 Summary:       Curses-like terminal wrapper, with colored strings
 Name:          python-curtsies
-Version:       0.3.1
-Release:       3%{?dist}
+Version:       0.3.4
+Release:       2%{?dist}
 License:       MIT
-URL:           https://github.com/thomasballinger/curtsies
+URL:           https://github.com/bpython/curtsies
 Source0:       https://files.pythonhosted.org/packages/source/c/curtsies/curtsies-%{version}.tar.gz
 BuildArch:     noarch
 BuildRequires: python3-devel
@@ -40,6 +40,15 @@ Requires:       python3-wcwidth >= 0.1.4
 %{python3_sitelib}/curtsies-*-py*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Terje Rosten <terje.rosten@ntnu.no> - 0.3.4-1
+- 0.3.4
+
+* Sun Jul 12 2020 Terje Rosten <terje.rosten@ntnu.no> - 0.3.3-1
+- 0.3.3
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.1-3
 - Rebuilt for Python 3.9
 

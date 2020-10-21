@@ -7,7 +7,7 @@
 
 Name:           sdljava
 Version:        0.9.1
-Release:        48%{?dist}
+Release:        50%{?dist}
 Summary:        Java binding to the SDL API
 License:        LGPLv2+
 URL:            http://sdljava.sourceforge.net/
@@ -217,6 +217,12 @@ ln -s $(fc-match -f "%{file}" "sans:bold:italic") \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-50
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0.9.1-49
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon Mar  9 2020 Hans de Goede <hdegoede@redhat.com> - 0.9.1-48
 - Use fc-match to generate dejavu font file symlinks in -demo in case the
   file-paths or names change again in the future

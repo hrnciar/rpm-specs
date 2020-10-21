@@ -4,7 +4,7 @@
 Summary:        The world's most popular Open Source IRC bot
 Name:           eggdrop
 Version:        1.8.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 URL:            https://www.eggheads.org/
 Source0:        https://ftp.eggheads.org/pub/eggdrop/source/1.8/%{name}-%{version}.tar.gz
@@ -15,7 +15,11 @@ BuildRequires:  gnupg2
 BuildRequires:  gcc
 BuildRequires:  tcl-devel >= 8.3
 BuildRequires:  zlib-devel
+%if 0%{?fedora} || 0%{?rhel} >= 8
 BuildRequires:  openssl-devel >= 0.9.8
+%else
+BuildRequires:  openssl11-devel
+%endif
 
 %description
 Eggdrop is the world's most popular Open Source IRC bot, designed
@@ -24,12 +28,17 @@ and/or C modules, has support for the big five IRC networks and is
 able to form botnets, share partylines and userfiles between bots.
 
 %prep
-gpgv2 --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
+%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
 %setup -q
 %patch0 -p1 -b .langdir
 
 %build
-%configure
+%configure \
+%if 0%{?rhel} == 7
+  --with-sslinc=%{_includedir}/openssl11 \
+  --with-ssllib=%{_libdir}/openssl11
+%endif
+
 make config
 # Parallel builds are not supported 
 make
@@ -68,6 +77,9 @@ mv -f eggdrop.conf.mod eggdrop.conf
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 03 2020 Robert Scheck <robert@fedoraproject.org> 1.8.4-1
 - Upgrade to 1.8.4 (#1546581)
 

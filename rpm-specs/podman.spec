@@ -3,7 +3,7 @@
 %global with_check 0
 %global with_unit_test 0
 
-%if 0%{?fedora} || 0%{?centos} >= 8
+%if 0%{?fedora} || 0%{?centos} >= 8 || 0%{?rhel}
 #### DO NOT REMOVE - NEEDED FOR CENTOS
 %global with_debug 1
 %else
@@ -25,26 +25,26 @@
 %global provider github
 %global provider_tld com
 %global project containers
-%global repo libpod
-# https://github.com/containers/libpod
+%global repo %{name}
+# https://github.com/containers/%%{name}
 %global import_path %{provider}.%{provider_tld}/%{project}/%{repo}
 %global git0 https://%{import_path}
 # To build a random user's fork/commit, comment out above line,
 # uncomment below line and replace the placeholders and commit0 below with the right info
 #%%global git0 https://github.com/$GITHUB_USER/$GITHUB_USER_REPO
-%global commit0 5fe122bf528a0665f7d12bc47357779b8686f6cf
+%global commit0 35b4cb196545eee3b072083e716ad4588e0bb486
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 %global repo_plugins dnsname
-# https://github.com/containers/libpod
+# https://github.com/containers/dnsname
 %global import_path_plugins %%{provider}.%{provider_tld}/%{project}/%{repo_plugins}
 %global git_plugins https://%{import_path_plugins}
-%global commit_plugins f5af33dedcfc5e707e5560baa4a72f8d96a968fe
+%global commit_plugins 8a6a8a4e1e609aaeb1f57f7e7a1c8523cd373040
 %global shortcommit_plugins %(c=%{commit_plugins}; echo ${c:0:7})
 
 # Used for comparing with latest upstream tag
 # to decide whether to autobuild (non-rawhide only)
-%define built_tag v2.0.0
+%define built_tag v2.1.1
 
 Name: podman
 %if 0%{?fedora}
@@ -52,16 +52,16 @@ Epoch: 2
 %else
 Epoch: 0
 %endif
-Version: 2.1.0
+Version: 2.2.0
 # RELEASE TAG SHOULD ALWAYS BEGIN WITH A NUMBER
 # N.foo if released, 0.N.foo if unreleased
 # Rawhide almost always ships unreleased builds,
 # so release tag should be of the form 0.N.foo
-Release: 0.16.dev.git%{shortcommit0}%{?dist}
+Release: 0.37.dev.git%{shortcommit0}%{?dist}
 Summary: Manage Pods, Containers and Container Images
 License: ASL 2.0
 URL: https://%{name}.io/
-Source0: %{git0}/archive/%{commit0}/%{repo}-%{shortcommit0}.tar.gz
+Source0: %{git0}/archive/%{commit0}/%{name}-%{shortcommit0}.tar.gz
 Source1: %{git_plugins}/archive/%{commit_plugins}/%{repo_plugins}-%{shortcommit_plugins}.tar.gz
 Provides: %{name}-manpages = %{epoch}:%{version}-%{release}
 Obsoletes: %{name}-manpages < %{epoch}:%{version}-%{release}
@@ -87,17 +87,19 @@ Requires: iptables
 Requires: nftables
 Requires: conmon >= 2:2.0.16-1
 Requires: oci-runtime
-Requires: %{name}-plugins = %{epoch}:%{version}-%{release}
+Recommends: %{name}-plugins = %{epoch}:%{version}-%{release}
 Obsoletes: oci-systemd-hook <= 0.2.0-3
-%if 0%{?fedora}
+%if 0%{?fedora} && ! 0%{?rhel}
 BuildRequires: btrfs-progs-devel
+%endif
+%if 0%{?fedora} || 0%{?rhel}
 BuildRequires: ostree-devel
 Recommends: fuse-overlayfs >= 0.3-8
-Recommends: crun >= 0.13-2
+Recommends: crun >= 0.14-2
 %endif
-%if 0%{?fedora} || 0%{?centos} >= 8
+%if 0%{?fedora} || 0%{?centos} >= 8 || 0%{?rhel}
 Recommends: catatonit
-Recommends: container-selinux
+Requires: (container-selinux if selinux-policy)
 Recommends: runc
 Recommends: slirp4netns >= 0.3.0-2
 %else
@@ -108,106 +110,67 @@ Requires: slirp4netns >= 0.3.0-2
 %endif
 
 # vendored libraries
-# awk '{print "Provides: bundled(golang("$1")) = "$2}' vendor.conf | sort
-# [thanks to Carl George <carl@george.computer> for containerd.spec]
-Provides: bundled(golang(github.com/Azure/go-ansiterm)) = 19f72df4d05d31cbe1c56bfc8045c96babff6c7e
-Provides: bundled(golang(github.com/blang/semver)) = v3.5.0
-Provides: bundled(golang(github.com/boltdb/bolt)) = master
-Provides: bundled(golang(github.com/buger/goterm)) = 2f8dfbc7dbbff5dd1d391ed91482c24df243b2d3
-Provides: bundled(golang(github.com/BurntSushi/toml)) = v0.2.0
-Provides: bundled(golang(github.com/containerd/cgroups)) = 58556f5ad8448d99a6f7bea69ea4bdb7747cfeb0
-Provides: bundled(golang(github.com/containerd/continuity)) = master
-#Provides: bundled(golang(github.com/containernetworking/cni)) = v0.7.0-alpha1
-Provides: bundled(golang(github.com/containernetworking/plugins)) = 1562a1e60ed101aacc5e08ed9dbeba8e9f3d4ec1
-Provides: bundled(golang(github.com/containers/image)) = 85d7559d44fd71f30e46e43d809bfbf88d11d916
-Provides: bundled(golang(github.com/containers/psgo)) = 5dde6da0bc8831b35243a847625bcf18183bd1ee
-Provides: bundled(golang(github.com/containers/storage)) = 243c4cd616afdf06b4a975f18c4db083d26b1641
-Provides: bundled(golang(github.com/coreos/go-iptables)) = 25d087f3cffd9aedc0c2b7eff25f23cbf3c20fe1
-Provides: bundled(golang(github.com/coreos/go-systemd)) = v14
-Provides: bundled(golang(github.com/cri-o/ocicni)) = master
-Provides: bundled(golang(github.com/cyphar/filepath-securejoin)) = v0.2.1
-Provides: bundled(golang(github.com/davecgh/go-spew)) = v1.1.0
-Provides: bundled(golang(github.com/docker/distribution)) = 7a8efe719e55bbfaff7bc5718cdf0ed51ca821df
-Provides: bundled(golang(github.com/docker/docker)) = 86f080cff0914e9694068ed78d503701667c4c00
-Provides: bundled(golang(github.com/docker/docker-credential-helpers)) = d68f9aeca33f5fd3f08eeae5e9d175edf4e731d1
-Provides: bundled(golang(github.com/docker/go-connections)) = 3ede32e2033de7505e6500d6c868c2b9ed9f169d
-Provides: bundled(golang(github.com/docker/go-units)) = v0.3.2
-Provides: bundled(golang(github.com/docker/libtrust)) = aabc10ec26b754e797f9028f4589c5b7bd90dc20
-Provides: bundled(golang(github.com/docker/spdystream)) = ed496381df8283605c435b86d4fdd6f4f20b8c6e
-Provides: bundled(golang(github.com/fatih/camelcase)) = f6a740d52f961c60348ebb109adde9f4635d7540
-Provides: bundled(golang(github.com/fsnotify/fsnotify)) = 7d7316ed6e1ed2de075aab8dfc76de5d158d66e1
-Provides: bundled(golang(github.com/fsouza/go-dockerclient)) = master
-Provides: bundled(golang(github.com/ghodss/yaml)) = 04f313413ffd65ce25f2541bfd2b2ceec5c0908c
-Provides: bundled(golang(github.com/godbus/dbus)) = a389bdde4dd695d414e47b755e95e72b7826432c
-Provides: bundled(golang(github.com/gogo/protobuf)) = c0656edd0d9eab7c66d1eb0c568f9039345796f7
-Provides: bundled(golang(github.com/golang/glog)) = 23def4e6c14b4da8ac2ed8007337bc5eb5007998
-Provides: bundled(golang(github.com/golang/groupcache)) = b710c8433bd175204919eb38776e944233235d03
-Provides: bundled(golang(github.com/golang/protobuf)) = 4bd1920723d7b7c925de087aa32e2187708897f7
-Provides: bundled(golang(github.com/googleapis/gnostic)) = 0c5108395e2debce0d731cf0287ddf7242066aba
-Provides: bundled(golang(github.com/google/gofuzz)) = 44d81051d367757e1c7c6a5a86423ece9afcf63c
-Provides: bundled(golang(github.com/gorilla/context)) = v1.1
-Provides: bundled(golang(github.com/gorilla/mux)) = v1.3.0
-Provides: bundled(golang(github.com/hashicorp/errwrap)) = 7554cd9344cec97297fa6649b055a8c98c2a1e55
-Provides: bundled(golang(github.com/hashicorp/golang-lru)) = 0a025b7e63adc15a622f29b0b2c4c3848243bbf6
-Provides: bundled(golang(github.com/hashicorp/go-multierror)) = 83588e72410abfbe4df460eeb6f30841ae47d4c4
-Provides: bundled(golang(github.com/imdario/mergo)) = 0.2.2
-Provides: bundled(golang(github.com/json-iterator/go)) = 1.0.0
-Provides: bundled(golang(github.com/kr/pty)) = v1.0.0
-Provides: bundled(golang(github.com/mailru/easyjson)) = 03f2033d19d5860aef995fe360ac7d395cd8ce65
-Provides: bundled(golang(github.com/mattn/go-runewidth)) = v0.0.1
-Provides: bundled(golang(github.com/Microsoft/go-winio)) = 78439966b38d69bf38227fbf57ac8a6fee70f69a
-Provides: bundled(golang(github.com/Microsoft/hcsshim)) = 43f9725307998e09f2e3816c2c0c36dc98f0c982
-Provides: bundled(golang(github.com/mistifyio/go-zfs)) = v2.1.1
-Provides: bundled(golang(github.com/mrunalp/fileutils)) = master
-Provides: bundled(golang(github.com/mtrmac/gpgme)) = b2432428689ca58c2b8e8dea9449d3295cf96fc9
-Provides: bundled(golang(github.com/Nvveen/Gotty)) = master
-#Provides: bundled(golang(github.com/opencontainers/go-digest)) = v1.0.0-rc0
-Provides: bundled(golang(github.com/opencontainers/image-spec)) = v1.0.0
-Provides: bundled(golang(github.com/opencontainers/runc)) = b4e2ecb452d9ee4381137cc0a7e6715b96bed6de
-Provides: bundled(golang(github.com/opencontainers/runtime-spec)) = d810dbc60d8c5aeeb3d054bd1132fab2121968ce
-Provides: bundled(golang(github.com/opencontainers/runtime-tools)) = master
-Provides: bundled(golang(github.com/opencontainers/selinux)) = b6fa367ed7f534f9ba25391cc2d467085dbb445a
-Provides: bundled(golang(github.com/openshift/imagebuilder)) = master
-Provides: bundled(golang(github.com/ostreedev/ostree-go)) = master
-Provides: bundled(golang(github.com/pkg/errors)) = v0.8.0
-Provides: bundled(golang(github.com/pmezard/go-difflib)) = 792786c7400a136282c1664665ae0a8db921c6c2
-Provides: bundled(golang(github.com/pquerna/ffjson)) = d49c2bc1aa135aad0c6f4fc2056623ec78f5d5ac
-Provides: bundled(golang(github.com/projectatomic/buildah)) = af5bbde0180026ae87b7fc81c2dc124aa73ec959
-Provides: bundled(golang(github.com/seccomp/containers-golang)) = master
-Provides: bundled(golang(github.com/seccomp/libseccomp-golang)) = v0.9.0
-Provides: bundled(golang(github.com/sirupsen/logrus)) = v1.0.0
-Provides: bundled(golang(github.com/spf13/pflag)) = 9ff6c6923cfffbcd502984b8e0c80539a94968b7
-Provides: bundled(golang(github.com/stretchr/testify)) = 4d4bfba8f1d1027c4fdbe371823030df51419987
-Provides: bundled(golang(github.com/syndtr/gocapability)) = e7cb7fa329f456b3855136a2642b197bad7366ba
-Provides: bundled(golang(github.com/tchap/go-patricia)) = v2.2.6
-Provides: bundled(golang(github.com/ulikunitz/xz)) = v0.5.4
-Provides: bundled(golang(github.com/ulule/deepcopier)) = master
-Provides: bundled(golang(github.com/urfave/cli)) = 934abfb2f102315b5794e15ebc7949e4ca253920
-Provides: bundled(golang(github.com/varlink/go)) = master
-Provides: bundled(golang(github.com/vbatts/tar-split)) = v0.10.2
-Provides: bundled(golang(github.com/vishvananda/netlink)) = master
-Provides: bundled(golang(github.com/vishvananda/netns)) = master
-Provides: bundled(golang(github.com/xeipuuv/gojsonpointer)) = master
-Provides: bundled(golang(github.com/xeipuuv/gojsonreference)) = master
-Provides: bundled(golang(github.com/xeipuuv/gojsonschema)) = master
-Provides: bundled(golang(golang.org/x/crypto)) = 81e90905daefcd6fd217b62423c0908922eadb30
-Provides: bundled(golang(golang.org/x/net)) = c427ad74c6d7a814201695e9ffde0c5d400a7674
-Provides: bundled(golang(golang.org/x/sys)) = master
-Provides: bundled(golang(golang.org/x/text)) = f72d8390a633d5dfb0cc84043294db9f6c935756
-Provides: bundled(golang(golang.org/x/time)) = f51c12702a4d776e4c1fa9b0fabab841babae631
-Provides: bundled(golang(google.golang.org/grpc)) = v1.0.4
-Provides: bundled(golang(gopkg.in/cheggaaa/pb.v1)) = v1.0.7
-Provides: bundled(golang(gopkg.in/inf.v0)) = v0.9.0
-Provides: bundled(golang(gopkg.in/mgo.v2)) = v2
-Provides: bundled(golang(gopkg.in/square/go-jose.v2)) = v2.1.3
-Provides: bundled(golang(gopkg.in/yaml.v2)) = v2
-Provides: bundled(golang(k8s.io/api)) = 5ce4aa0bf2f097f6021127b3d879eeda82026be8
-Provides: bundled(golang(k8s.io/apiextensions-apiserver)) = 1b31e26d82f1ec2e945c560790e98f34bb5f2e63
-Provides: bundled(golang(k8s.io/apimachinery)) = 616b23029fa3dc3e0ccefd47963f5651a6543d94
-Provides: bundled(golang(k8s.io/apiserver)) = 4d1163080139f1f9094baf8a3a6099e85e1867f6
-Provides: bundled(golang(k8s.io/client-go)) = 7cd1d3291b7d9b1e2d54d4b69eb65995eaf8888e
-Provides: bundled(golang(k8s.io/kube-openapi)) = 275e2ce91dec4c05a4094a7b1daee5560b555ac9
-Provides: bundled(golang(k8s.io/utils)) = 258e2a2fa64568210fbd6267cf1d8fd87c3cb86e
+# awk '{print "Provides: bundled(golang("$1")) = "$2}' go.mod | sort
+Provides: bundled(golang(github.com/BurntSushi/toml)) = v0.3.1
+#Provides: bundled(golang(github.com/blang/semver)) = v3.5.1+incompatible
+#Provides: bundled(golang(github.com/buger/goterm)) = v0.0.0-20181115115552-c206103e1f37
+#Provides: bundled(golang(github.com/checkpoint-restore/go-criu)) = v0.0.0-20190109184317-bdb7599cd87b
+#Provides: bundled(golang(github.com/codahale/hdrhistogram)) = v0.0.0-20161010025455-3a0bb77429bd
+Provides: bundled(golang(github.com/containernetworking/cni)) = v0.8.0
+Provides: bundled(golang(github.com/containernetworking/plugins)) = v0.8.7
+#Provides: bundled(golang(github.com/containers/buildah)) = v1.15.1-0.20200813183340-0a8dc1f8064c
+#Provides: bundled(golang(github.com/containers/common)) = v0.20.3-0.20200827091701-a550d6a98aa3
+#Provides: bundled(golang(github.com/containers/conmon)) = v2.0.20+incompatible
+Provides: bundled(golang(github.com/containers/image/v5)) = v5.5.2
+Provides: bundled(golang(github.com/containers/psgo)) = v1.5.1
+Provides: bundled(golang(github.com/containers/storage)) = v1.23.2
+Provides: bundled(golang(github.com/coreos/go-systemd/v22)) = v22.1.0
+Provides: bundled(golang(github.com/cri-o/ocicni)) = v0.2.0
+Provides: bundled(golang(github.com/cyphar/filepath-securejoin)) = v0.2.2
+Provides: bundled(golang(github.com/davecgh/go-spew)) = v1.1.1
+Provides: bundled(golang(github.com/docker/distribution)) = v2.7.1+incompatible
+#Provides: bundled(golang(github.com/docker/docker)) = v1.4.2-0.20191219165747-a9416c67da9f
+Provides: bundled(golang(github.com/docker/go-connections)) = v0.4.0
+Provides: bundled(golang(github.com/docker/go-units)) = v0.4.0
+Provides: bundled(golang(github.com/fsnotify/fsnotify)) = v1.4.9
+Provides: bundled(golang(github.com/ghodss/yaml)) = v1.0.0
+Provides: bundled(golang(github.com/godbus/dbus/v5)) = v5.0.3
+#Provides: bundled(golang(github.com/google/shlex)) = v0.0.0-20181106134648-c34317bd91bf
+Provides: bundled(golang(github.com/google/uuid)) = v1.1.2
+Provides: bundled(golang(github.com/gorilla/mux)) = v1.7.4
+Provides: bundled(golang(github.com/gorilla/schema)) = v1.2.0
+Provides: bundled(golang(github.com/hashicorp/go-multierror)) = v1.1.0
+Provides: bundled(golang(github.com/hpcloud/tail)) = v1.0.0
+Provides: bundled(golang(github.com/json-iterator/go)) = v1.1.10
+#Provides: bundled(golang(github.com/mrunalp/fileutils)) = v0.0.0-20171103030105-7d4729fb3618
+Provides: bundled(golang(github.com/onsi/ginkgo)) = v1.14.0
+Provides: bundled(golang(github.com/onsi/gomega)) = v1.10.1
+Provides: bundled(golang(github.com/opencontainers/go-digest)) = v1.0.0
+#Provides: bundled(golang(github.com/opencontainers/image-spec)) = v1.0.2-0.20190823105129-775207bd45b6
+#Provides: bundled(golang(github.com/opencontainers/runc)) = v1.0.0-rc91.0.20200708210054-ce54a9d4d79b
+#Provides: bundled(golang(github.com/opencontainers/runtime-spec)) = v1.0.3-0.20200817204227-f9c09b4ea1df
+Provides: bundled(golang(github.com/opencontainers/runtime-tools)) = v0.9.0
+Provides: bundled(golang(github.com/opencontainers/selinux)) = v1.6.0
+Provides: bundled(golang(github.com/opentracing/opentracing-go)) = v1.2.0
+Provides: bundled(golang(github.com/pkg/errors)) = v0.9.1
+Provides: bundled(golang(github.com/pmezard/go-difflib)) = v1.0.0
+Provides: bundled(golang(github.com/rootless-containers/rootlesskit)) = v0.10.0
+Provides: bundled(golang(github.com/sirupsen/logrus)) = v1.6.0
+Provides: bundled(golang(github.com/spf13/cobra)) = v0.0.7
+Provides: bundled(golang(github.com/spf13/pflag)) = v1.0.5
+Provides: bundled(golang(github.com/stretchr/testify)) = v1.6.1
+#Provides: bundled(golang(github.com/syndtr/gocapability)) = v0.0.0-20180916011248-d98352740cb2
+Provides: bundled(golang(github.com/uber/jaeger-client-go)) = v2.25.0+incompatible
+Provides: bundled(golang(github.com/uber/jaeger-lib)) = v2.2.0+incompatible
+#Provides: bundled(golang(github.com/varlink/go)) = v0.0.0-20190502142041-0f1d566d194b
+Provides: bundled(golang(github.com/vishvananda/netlink)) = v1.1.0
+Provides: bundled(golang(go.etcd.io/bbolt)) = v1.3.5
+#Provides: bundled(golang(golang.org/x/crypto)) = v0.0.0-20200622213623-75b288015ac9
+#Provides: bundled(golang(golang.org/x/net)) = v0.0.0-20200707034311-ab3426394381
+#Provides: bundled(golang(golang.org/x/sync)) = v0.0.0-20200317015054-43a5402ce75a
+#Provides: bundled(golang(golang.org/x/sys)) = v0.0.0-20200728102440-3e129f6d46b1
+Provides: bundled(golang(k8s.io/api)) = v0.18.8
+Provides: bundled(golang(k8s.io/apimachinery)) = v0.19.0
 
 %description
 %{name} (Pod Manager) is a fully featured container engine that is a simple
@@ -243,7 +206,7 @@ pages and %{name}.
 %package devel
 Summary: Library for applications looking to use Container Pods
 BuildArch: noarch
-Provides: %{repo}-devel = %{epoch}:%{version}-%{release}
+Provides: libpod-devel = %{epoch}:%{version}-%{release}
 
 %if 0%{?with_check} && ! 0%{?with_bundled}
 BuildRequires: golang(github.com/BurntSushi/toml)
@@ -354,17 +317,17 @@ Requires: golang(k8s.io/kubernetes/pkg/kubelet/container)
 Provides: golang(%{import_path}/cmd/%{name}/docker) = %{epoch}:%{version}-%{release}
 Provides: golang(%{import_path}/cmd/%{name}/formats) = %{epoch}:%{version}-%{release}
 Provides: golang(%{import_path}/libkpod) = %{epoch}:%{version}-%{release}
-Provides: golang(%{import_path}/libpod) = %{epoch}:%{version}-%{release}
-Provides: golang(%{import_path}/libpod/common) = %{epoch}:%{version}-%{release}
-Provides: golang(%{import_path}/libpod/driver) = %{epoch}:%{version}-%{release}
-Provides: golang(%{import_path}/libpod/layers) = %{epoch}:%{version}-%{release}
+Provides: golang(%{import_path}/%{name}) = %{epoch}:%{version}-%{release}
+Provides: golang(%{import_path}/%{name}/common) = %{epoch}:%{version}-%{release}
+Provides: golang(%{import_path}/%{name}/driver) = %{epoch}:%{version}-%{release}
+Provides: golang(%{import_path}/%{name}/layers) = %{epoch}:%{version}-%{release}
 Provides: golang(%{import_path}/pkg/annotations) = %{epoch}:%{version}-%{release}
 Provides: golang(%{import_path}/pkg/chrootuser) = %{epoch}:%{version}-%{release}
 Provides: golang(%{import_path}/pkg/registrar) = %{epoch}:%{version}-%{release}
 Provides: golang(%{import_path}/pkg/storage) = %{epoch}:%{version}-%{release}
 Provides: golang(%{import_path}/utils) = %{epoch}:%{version}-%{release}
 
-%description -n libpod-devel
+%description devel
 %{summary}
 
 This package contains library source intended for
@@ -400,7 +363,7 @@ This package contains unit tests for project
 providing packages with %{import_path} prefix.
 %endif
 
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel}
 %package tests
 Summary: Tests for %{name}
 
@@ -409,6 +372,10 @@ Requires: bats
 Requires: jq
 Requires: skopeo
 Requires: nmap-ncat
+Requires: httpd-tools
+Requires: openssl
+Requires: socat
+Requires: buildah
 
 %description tests
 %{summary}
@@ -431,6 +398,7 @@ connections as well.
 
 %package plugins
 Summary: Plugins for %{name}
+Requires: dnsmasq
 
 %description plugins
 This plugin sets up the use of dnsmasq on a given CNI network so
@@ -441,7 +409,7 @@ is removed from the network, it will remove the entry from the hosts
 file.  Each CNI network will have its own dnsmasq instance.
 
 %prep
-%autosetup -Sgit -n %{repo}-%{commit0}
+%autosetup -Sgit -n %{name}-%{commit0}
 
 # untar dnsname
 tar zxf %{SOURCE1}
@@ -458,14 +426,18 @@ popd
 ln -s vendor src
 
 # build %%{name}
-export BUILDTAGS="systemd seccomp exclude_graphdriver_devicemapper $(hack/btrfs_installed_tag.sh) $(hack/btrfs_tag.sh) $(hack/libdm_tag.sh) $(hack/selinux_tag.sh)"
+export BUILDTAGS="seccomp exclude_graphdriver_devicemapper $(hack/btrfs_installed_tag.sh) $(hack/btrfs_tag.sh) $(hack/libdm_tag.sh) $(hack/selinux_tag.sh) $(hack/systemd_tag.sh)"
 %if 0%{?centos}
-export BUILDTAGS+="exclude_graphdriver_btrfs containers_image_ostree_stub"
+export BUILDTAGS+=" containers_image_ostree_stub"
 %endif
+
+# build date. FIXME: Makefile uses '/v2/libpod', that doesn't work here?
+LDFLAGS="-X %{import_path}/libpod/define.buildInfo=$(date +%s)"
+
 %gobuild -o bin/%{name} %{import_path}/cmd/%{name}
 
 # build %%{name}-remote
-export BUILDTAGS+=" remoteclient"
+export BUILDTAGS+=" exclude_graphdriver_btrfs btrfs_noversion remote"
 %gobuild -o bin/%{name}-remote %{import_path}/cmd/%{name}
 
 pushd dnsname-%{commit_plugins}
@@ -492,7 +464,7 @@ PODMAN_VERSION=%{version} %{__make} PREFIX=%{buildroot}%{_prefix} ETCDIR=%{build
         install.systemd \
         install.completions \
         install.docker \
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel}
         install.remote-nobuild \
 %endif
 
@@ -598,8 +570,12 @@ exit 0
 %dir %{_datadir}/zsh/site-functions
 %{_datadir}/zsh/site-functions/_%{name}
 %config(noreplace) %{_sysconfdir}/cni/net.d/87-%{name}-bridge.conflist
+%{_unitdir}/%{name}-auto-update.service
+%{_unitdir}/%{name}-auto-update.timer
 %{_unitdir}/%{name}.service
 %{_unitdir}/%{name}.socket
+%{_userunitdir}/%{name}-auto-update.service
+%{_userunitdir}/%{name}-auto-update.timer
 %{_userunitdir}/%{name}.service
 %{_userunitdir}/%{name}.socket
 
@@ -622,7 +598,7 @@ exit 0
 %endif
 
 #### DO NOT REMOVE - NEEDED FOR CENTOS
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel}
 %files remote
 %license LICENSE
 %{_bindir}/%{name}-remote
@@ -641,6 +617,931 @@ exit 0
 
 # rhcontainerbot account currently managed by lsm5
 %changelog
+* Tue Oct 20 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.37.dev.git35b4cb1
+- autobuilt 35b4cb1
+
+* Mon Oct 19 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.36.dev.git7ffcab0
+- autobuilt 7ffcab0
+
+* Sun Oct 18 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.35.dev.git6ec96dc
+- autobuilt 6ec96dc
+
+* Sat Oct 17 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.34.dev.git39f1bea
+- autobuilt 39f1bea
+
+* Fri Oct 16 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.33.dev.git9f98b34
+- autobuilt 9f98b34
+
+* Thu Oct 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.32.dev.gita82d60d
+- autobuilt a82d60d
+
+* Wed Oct 14 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.31.dev.gitd30b4b7
+- autobuilt d30b4b7
+
+* Tue Oct 13 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.30.dev.git7ad631b
+- autobuilt 7ad631b
+
+* Mon Oct 12 2020 Jindrich Novy <jnovy@redhat.com> - 2:2.2.0-0.29.dev.git212011f
+- use %%rhel instead of %%eln, thanks to Adam Samalik for noticing
+
+* Mon Oct 12 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.28.dev.git212011f
+- autobuilt 212011f
+
+* Sat Oct 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.27.dev.git7876dd5
+- autobuilt 7876dd5
+
+* Fri Oct  9 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.26.dev.git71d675a
+- autobuilt 71d675a
+
+* Thu Oct  8 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.25.dev.git59b5f0a
+- autobuilt 59b5f0a
+
+* Wed Oct  7 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.24.dev.gita7500e5
+- autobuilt a7500e5
+
+* Tue Oct  6 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 2:2.2.0-0.23.dev.gitdefb754
+- btrfs deps for fedora only
+
+* Tue Oct  6 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.22.dev.gitdefb754
+- autobuilt defb754
+
+* Mon Oct  5 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.21.dev.gitcaace52
+- autobuilt caace52
+
+* Sat Oct  3 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 2:2.2.0-0.20.dev.git7c12967
+- rebuild
+
+* Sat Oct  3 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.19.dev.git7c12967
+- autobuilt 7c12967
+
+* Fri Oct  2 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.18.dev.git14fd7b4
+- autobuilt 14fd7b4
+
+* Thu Oct  1 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.17.dev.git556117c
+- autobuilt 556117c
+
+* Wed Sep 30 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.16.dev.git4d57313
+- autobuilt 4d57313
+
+* Wed Sep 30 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.15.dev.git08d036c
+- autobuilt 08d036c
+
+* Wed Sep 30 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.14.dev.git19f080f
+- autobuilt 19f080f
+
+* Wed Sep 30 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.13.dev.gite9eddda
+- autobuilt e9eddda
+
+* Wed Sep 30 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.12.dev.gitb68b6f3
+- autobuilt b68b6f3
+
+* Tue Sep 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.11.dev.git453333a
+- autobuilt 453333a
+
+* Tue Sep 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.10.dev.git12f173f
+- autobuilt 12f173f
+
+* Tue Sep 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.9.dev.git2ee415b
+- autobuilt 2ee415b
+
+* Tue Sep 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.8.dev.gitbf10168
+- autobuilt bf10168
+
+* Tue Sep 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.7.dev.git84dede4
+- autobuilt 84dede4
+
+* Tue Sep 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.6.dev.git5cf8659
+- autobuilt 5cf8659
+
+* Tue Sep 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.5.dev.git4a7fb62
+- autobuilt 4a7fb62
+
+* Mon Sep 28 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.4.dev.gite7e466e
+- autobuilt e7e466e
+
+* Mon Sep 28 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.3.dev.gitb0e70a6
+- autobuilt b0e70a6
+
+* Fri Sep 25 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.2.dev.git03d01ab
+- autobuilt 03d01ab
+
+* Fri Sep 25 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.2.0-0.1.dev.gita1045ad
+- bump to 2.2.0
+- autobuilt a1045ad
+
+* Tue Sep 22 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.287.dev.git141688c
+- autobuilt 141688c
+
+* Mon Sep 21 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.286.dev.git84c87fc
+- autobuilt 84c87fc
+
+* Mon Sep 21 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.285.dev.gitdd4dc4b
+- autobuilt dd4dc4b
+
+* Sat Sep 19 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.284.dev.git8529435
+- autobuilt 8529435
+
+* Fri Sep 18 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.283.dev.git5b7509c
+- autobuilt 5b7509c
+
+* Fri Sep 18 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.282.dev.gitfc3daae
+- autobuilt fc3daae
+
+* Fri Sep 18 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.281.dev.git273b954
+- autobuilt 273b954
+
+* Thu Sep 17 2020 Merlin Mathesius <mmathesi@redhat.com> - 2:2.1.0-0.280.dev.git1a929c7
+- Minor conditional updates to enable building for ELN
+
+* Thu Sep 17 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.279.dev.gitf84f441
+- autobuilt f84f441
+
+* Thu Sep 17 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.278.dev.git175d7b1
+- autobuilt 175d7b1
+
+* Thu Sep 17 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.277.dev.gitdc23ef1
+- autobuilt dc23ef1
+
+* Thu Sep 17 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.276.dev.git031ddf9
+- autobuilt 031ddf9
+
+* Thu Sep 17 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.275.dev.git9f745d5
+- autobuilt 9f745d5
+
+* Thu Sep 17 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.274.dev.git1a929c7
+- autobuilt 1a929c7
+
+* Wed Sep 16 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.273.dev.git8d7e795
+- autobuilt 8d7e795
+
+* Wed Sep 16 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 2:2.1.0-0.272.dev.gitacf86ef
+- fix dependencies for podman-plugins
+
+* Wed Sep 16 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 2:2.1.0-0.271.dev.gitacf86ef
+- bump dnsname plugin commit and dependency on dnsmasq
+
+* Wed Sep 16 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.270.dev.gitacf86ef
+- autobuilt acf86ef
+
+* Wed Sep 16 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.269.dev.git0d14d7b
+- autobuilt 0d14d7b
+
+* Wed Sep 16 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.268.dev.gitb9c47fa
+- autobuilt b9c47fa
+
+* Wed Sep 16 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.267.dev.git2604919
+- autobuilt 2604919
+
+* Tue Sep 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.266.dev.git2eb3339
+- autobuilt 2eb3339
+
+* Tue Sep 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.265.dev.gitbec96ab
+- autobuilt bec96ab
+
+* Tue Sep 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.264.dev.git0be5836
+- autobuilt 0be5836
+
+* Tue Sep 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.263.dev.git3f6045c
+- autobuilt 3f6045c
+
+* Tue Sep 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.262.dev.git5c47a33
+- autobuilt 5c47a33
+
+* Mon Sep 14 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.261.dev.gitfd7cdb2
+- autobuilt fd7cdb2
+
+* Mon Sep 14 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.260.dev.gitb7a7cf6
+- autobuilt b7a7cf6
+
+* Sun Sep 13 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.259.dev.git3f5f99b
+- autobuilt 3f5f99b
+
+* Fri Sep 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.258.dev.git25fb0c2
+- autobuilt 25fb0c2
+
+* Fri Sep 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.257.dev.git834c41d
+- autobuilt 834c41d
+
+* Fri Sep 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.256.dev.git4f04007
+- autobuilt 4f04007
+
+* Fri Sep 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.255.dev.git881f2df
+- autobuilt 881f2df
+
+* Fri Sep 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.254.dev.git37658c0
+- autobuilt 37658c0
+
+* Fri Sep 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.253.dev.git397de44
+- autobuilt 397de44
+
+* Thu Sep 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.252.dev.git10ba232
+- autobuilt 10ba232
+
+* Thu Sep 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.251.dev.git861451a
+- autobuilt 861451a
+
+* Thu Sep 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.250.dev.git96bc5eb
+- autobuilt 96bc5eb
+
+* Thu Sep 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.249.dev.git89a3483
+- autobuilt 89a3483
+
+* Thu Sep 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.248.dev.gitfc70360
+- autobuilt fc70360
+
+* Thu Sep 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.247.dev.gitaadf96a
+- autobuilt aadf96a
+
+* Thu Sep 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.246.dev.git3d33923
+- autobuilt 3d33923
+
+* Wed Sep  9 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.245.dev.gite1b4729
+- autobuilt e1b4729
+
+* Wed Sep  9 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.244.dev.git08b6020
+- autobuilt 08b6020
+
+* Wed Sep  9 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.243.dev.git68dace0
+- autobuilt 68dace0
+
+* Wed Sep  9 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.242.dev.git9c4c883
+- autobuilt 9c4c883
+
+* Wed Sep  9 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.241.dev.git5a09fd8
+- autobuilt 5a09fd8
+
+* Wed Sep  9 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.240.dev.git1b2b068
+- autobuilt 1b2b068
+
+* Wed Sep  9 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.239.dev.git6b1a1fc
+- autobuilt 6b1a1fc
+
+* Tue Sep  8 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.238.dev.git814784c
+- autobuilt 814784c
+
+* Tue Sep  8 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.237.dev.gite180de8
+- autobuilt e180de8
+
+* Tue Sep  8 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.236.dev.git54a61e3
+- autobuilt 54a61e3
+
+* Tue Sep  8 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.235.dev.git11679c2
+- autobuilt 11679c2
+
+* Mon Sep  7 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.234.dev.gitbe7778d
+- autobuilt be7778d
+
+* Mon Sep  7 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.233.dev.git21c6aae
+- autobuilt 21c6aae
+
+* Sun Sep  6 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.232.dev.gitba8d0bb
+- autobuilt ba8d0bb
+
+* Sat Sep  5 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.231.dev.gitf1323a9
+- autobuilt f1323a9
+
+* Wed Sep  2 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.230.dev.gitfa487a6
+- autobuilt fa487a6
+
+* Wed Sep  2 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.229.dev.git37791d7
+- autobuilt 37791d7
+
+* Wed Sep  2 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.228.dev.git1184cdf
+- autobuilt 1184cdf
+
+* Tue Sep  1 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.227.dev.gita867b16
+- autobuilt a867b16
+
+* Tue Sep  1 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.226.dev.git557cf94
+- autobuilt 557cf94
+
+* Mon Aug 31 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.225.dev.git138132e
+- autobuilt 138132e
+
+* Mon Aug 31 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.224.dev.git0c076db
+- autobuilt 0c076db
+
+* Mon Aug 31 2020 Lokesh Mandvekar <lsm5@fedoraproject.org> - 2:2.1.0-0.223.dev.git575b3a3
+- bump
+
+* Sat Aug 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.222.dev.git575b3a3
+- autobuilt 575b3a3
+
+* Fri Aug 28 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.221.dev.git4e3ea01
+- autobuilt 4e3ea01
+
+* Fri Aug 28 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.220.dev.git1f9b854
+- autobuilt 1f9b854
+
+* Fri Aug 28 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.219.dev.git522a32f
+- autobuilt 522a32f
+
+* Fri Aug 28 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.218.dev.git0640cc7
+- autobuilt 0640cc7
+
+* Fri Aug 28 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.217.dev.gitb1d6ea2
+- autobuilt b1d6ea2
+
+* Fri Aug 28 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.216.dev.git061c93f
+- autobuilt 061c93f
+
+* Thu Aug 27 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.215.dev.git72c5b35
+- autobuilt 72c5b35
+
+* Thu Aug 27 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.214.dev.git7d3cadc
+- autobuilt 7d3cadc
+
+* Thu Aug 27 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.213.dev.gitd6b0377
+- autobuilt d6b0377
+
+* Wed Aug 26 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.212.dev.gitf99954c
+- autobuilt f99954c
+
+* Wed Aug 26 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.211.dev.git3a9d524
+- autobuilt 3a9d524
+
+* Tue Aug 25 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.210.dev.git6a06944
+- autobuilt 6a06944
+
+* Mon Aug 24 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.209.dev.git8fdc116
+- autobuilt 8fdc116
+
+* Mon Aug 24 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.208.dev.git2c567dc
+- autobuilt 2c567dc
+
+* Sun Aug 23 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.207.dev.gite535f61
+- autobuilt e535f61
+
+* Sun Aug 23 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.206.dev.git80d2c01
+- autobuilt 80d2c01
+
+* Fri Aug 21 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.205.dev.git4828455
+- autobuilt 4828455
+
+* Fri Aug 21 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.204.dev.gita8619bb
+- autobuilt a8619bb
+
+* Thu Aug 20 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.203.dev.git516196f
+- autobuilt 516196f
+
+* Thu Aug 20 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.202.dev.git7ccd821
+- autobuilt 7ccd821
+
+* Thu Aug 20 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.201.dev.git7865db5
+- autobuilt 7865db5
+
+* Wed Aug 19 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.200.dev.git42690ff
+- autobuilt 42690ff
+
+* Wed Aug 19 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.199.dev.gitdcdb647
+- autobuilt dcdb647
+
+* Wed Aug 19 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.198.dev.git9babd21
+- autobuilt 9babd21
+
+* Wed Aug 19 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.197.dev.gitdd4e0da
+- autobuilt dd4e0da
+
+* Wed Aug 19 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.196.dev.git7e2a1b3
+- autobuilt 7e2a1b3
+
+* Tue Aug 18 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.195.dev.git9d096c1
+- autobuilt 9d096c1
+
+* Tue Aug 18 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.194.dev.gitff1f81b
+- autobuilt ff1f81b
+
+* Tue Aug 18 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.193.dev.git748e882
+- autobuilt 748e882
+
+* Tue Aug 18 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.192.dev.git49d6468
+- autobuilt 49d6468
+
+* Mon Aug 17 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.191.dev.git8caed30
+- autobuilt 8caed30
+
+* Mon Aug 17 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.190.dev.git47108e2
+- autobuilt 47108e2
+
+* Mon Aug 17 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.189.dev.gitfff66f1
+- autobuilt fff66f1
+
+* Sun Aug 16 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.188.dev.git96fb5dc
+- autobuilt 96fb5dc
+
+* Sat Aug 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.187.dev.gitca4423e
+- autobuilt ca4423e
+
+* Thu Aug 13 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.186.dev.git81499a5
+- autobuilt 81499a5
+
+* Thu Aug 13 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.185.dev.git9ede14e
+- autobuilt 9ede14e
+
+* Thu Aug 13 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.184.dev.git90831df
+- autobuilt 90831df
+
+* Wed Aug 12 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.183.dev.gitd777a7b
+- autobuilt d777a7b
+
+* Wed Aug 12 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.182.dev.git4ef4f52
+- autobuilt 4ef4f52
+
+* Wed Aug 12 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.181.dev.git8e4842a
+- autobuilt 8e4842a
+
+* Wed Aug 12 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.180.dev.gitac96112
+- autobuilt ac96112
+
+* Tue Aug 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.179.dev.git8eaacec
+- autobuilt 8eaacec
+
+* Tue Aug 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.178.dev.git43f2771
+- autobuilt 43f2771
+
+* Tue Aug 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.177.dev.gitaa66c06
+- autobuilt aa66c06
+
+* Tue Aug 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.176.dev.git6d3075a
+- autobuilt 6d3075a
+
+* Tue Aug 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.175.dev.git68c67d2
+- autobuilt 68c67d2
+
+* Tue Aug 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.174.dev.gita90ae00
+- autobuilt a90ae00
+
+* Tue Aug 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.173.dev.git92b088b
+- autobuilt 92b088b
+
+* Tue Aug 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.172.dev.gitdf0ad51
+- autobuilt df0ad51
+
+* Mon Aug 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.171.dev.git75d2fe6
+- autobuilt 75d2fe6
+
+* Mon Aug 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.170.dev.git68fd9aa
+- autobuilt 68fd9aa
+
+* Mon Aug 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.169.dev.git162625f
+- autobuilt 162625f
+
+* Mon Aug 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.168.dev.gitda00482
+- autobuilt da00482
+
+* Sun Aug 09 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.167.dev.git95e2e15
+- autobuilt 95e2e15
+
+* Sat Aug 08 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.166.dev.git3173a18
+- autobuilt 3173a18
+
+* Sat Aug 08 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.165.dev.git1298161
+- autobuilt 1298161
+
+* Fri Aug 07 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.164.dev.git51159e7
+- autobuilt 51159e7
+
+* Wed Aug 05 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.163.dev.git0d4a269
+- autobuilt 0d4a269
+
+* Wed Aug 05 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.162.dev.gita948635
+- autobuilt a948635
+
+* Wed Aug 05 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.161.dev.gitbae6d5d
+- autobuilt bae6d5d
+
+* Wed Aug 05 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.160.dev.gitd1aaf33
+- autobuilt d1aaf33
+
+* Wed Aug 05 2020 Eduardo Santiago <santiago@redhat.com> - 2:2.1.0-0.159.dev.git7a7c8e9
+- add openssl, httpd-tools requirements to podman-tests
+
+* Wed Aug 05 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.158.dev.git7a7c8e9
+- autobuilt 7a7c8e9
+
+* Wed Aug 05 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.157.dev.git4797190
+- autobuilt 4797190
+
+* Wed Aug 05 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.156.dev.git6260677
+- autobuilt 6260677
+
+* Wed Aug 05 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.155.dev.git0a3f3c9
+- autobuilt 0a3f3c9
+
+* Wed Aug 05 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.154.dev.git807efd6
+- autobuilt 807efd6
+
+* Mon Aug  3 2020 Peter Oliver <rpm@mavit.org.uk> - 2:2.1.0-0.153.dev.git1709335
+- Include podman-auto-update systemd service and timer.
+
+* Tue Aug 04 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.152.dev.gitd4cf3c5
+- autobuilt d4cf3c5
+
+* Tue Aug 04 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.151.dev.git93d6320
+- autobuilt 93d6320
+
+* Tue Aug 04 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.150.dev.gitf7440ff
+- autobuilt f7440ff
+
+* Tue Aug 04 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.149.dev.git1ed1e58
+- autobuilt 1ed1e58
+
+* Mon Aug 03 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.148.dev.git1709335
+- autobuilt 1709335
+
+* Mon Aug 03 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.147.dev.git2e3928e
+- autobuilt 2e3928e
+
+* Mon Aug 03 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.146.dev.git41358f5
+- autobuilt 41358f5
+
+* Mon Aug 03 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.145.dev.gitbfd3454
+- autobuilt bfd3454
+
+* Sun Aug 02 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.144.dev.gitf4d4bd2
+- autobuilt f4d4bd2
+
+* Sat Aug 01 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.143.dev.gitb425a4f
+- autobuilt b425a4f
+
+* Sat Aug 01 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.142.dev.git0d064a0
+- autobuilt 0d064a0
+
+* Fri Jul 31 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.141.dev.git4c75fe3
+- autobuilt 4c75fe3
+
+* Fri Jul 31 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.140.dev.git7a15be5
+- autobuilt 7a15be5
+
+* Fri Jul 31 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.139.dev.git3cf8237
+- autobuilt 3cf8237
+
+* Fri Jul 31 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.138.dev.gitbb96c89
+- autobuilt bb96c89
+
+* Fri Jul 31 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.137.dev.gite911875
+- autobuilt e911875
+
+* Fri Jul 31 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.136.dev.git0e009d5
+- autobuilt 0e009d5
+
+* Fri Jul 31 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.135.dev.git1b784b4
+- autobuilt 1b784b4
+
+* Thu Jul 30 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.134.dev.git4132b71
+- autobuilt 4132b71
+
+* Thu Jul 30 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.133.dev.gitca2bda6
+- autobuilt ca2bda6
+
+* Thu Jul 30 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.132.dev.git05b3e0e
+- autobuilt 05b3e0e
+
+* Thu Jul 30 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.131.dev.git1170430
+- autobuilt 1170430
+
+* Wed Jul 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.130.dev.gitc66ce8d
+- autobuilt c66ce8d
+
+* Wed Jul 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.129.dev.giteaa2f52
+- autobuilt eaa2f52
+
+* Wed Jul 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.128.dev.git044a7cb
+- autobuilt 044a7cb
+
+* Wed Jul 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.127.dev.git7f38774
+- autobuilt 7f38774
+
+* Wed Jul 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.126.dev.git83166a9
+- autobuilt 83166a9
+
+* Tue Jul 28 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.125.dev.git539bb4c
+- autobuilt 539bb4c
+
+* Tue Jul 28 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.124.dev.gitb0777ad
+- autobuilt b0777ad
+
+* Tue Jul 28 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.123.dev.git288ebec
+- autobuilt 288ebec
+
+* Tue Jul 28 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.122.dev.git6ed9868
+- autobuilt 6ed9868
+
+* Tue Jul 28 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.121.dev.gitec69497
+- autobuilt ec69497
+
+* Tue Jul 28 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.120.dev.git91c92d1
+- autobuilt 91c92d1
+
+* Tue Jul 28 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.119.dev.gitd463715
+- autobuilt d463715
+
+* Mon Jul 27 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.118.dev.git2b7bc9b
+- autobuilt 2b7bc9b
+
+* Mon Jul 27 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.117.dev.git956caf3
+- autobuilt 956caf3
+
+* Mon Jul 27 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.116.dev.gitbf92ec5
+- autobuilt bf92ec5
+
+* Mon Jul 27 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.115.dev.git5e9b54f
+- autobuilt 5e9b54f
+
+* Mon Jul 27 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.114.dev.git55a7faf
+- autobuilt 55a7faf
+
+* Mon Jul 27 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.113.dev.git71f7150
+- autobuilt 71f7150
+
+* Sun Jul 26 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.112.dev.git11e8e65
+- autobuilt 11e8e65
+
+* Fri Jul 24 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.111.dev.gitc2deeff
+- autobuilt c2deeff
+
+* Fri Jul 24 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.110.dev.gitd924476
+- autobuilt d924476
+
+* Thu Jul 23 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.109.dev.git197825d
+- autobuilt 197825d
+
+* Thu Jul 23 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.108.dev.git961fa6a
+- autobuilt 961fa6a
+
+* Wed Jul 22 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.107.dev.git1aac197
+- autobuilt 1aac197
+
+* Wed Jul 22 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.106.dev.git9223b72
+- autobuilt 9223b72
+
+* Wed Jul 22 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.105.dev.gitd493374
+- autobuilt d493374
+
+* Wed Jul 22 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.104.dev.git80add29
+- autobuilt 80add29
+
+* Wed Jul 22 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.103.dev.git9f5d146
+- autobuilt 9f5d146
+
+* Wed Jul 22 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.102.dev.gitef03815
+- autobuilt ef03815
+
+* Wed Jul 22 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.101.dev.git59bad8b
+- autobuilt 59bad8b
+
+* Tue Jul 21 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.100.dev.git344a791
+- autobuilt 344a791
+
+* Tue Jul 21 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.99.dev.gite5b3563
+- autobuilt e5b3563
+
+* Tue Jul 21 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.98.dev.gitbe5219a
+- autobuilt be5219a
+
+* Tue Jul 21 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.97.dev.gitf8e2a35
+- autobuilt f8e2a35
+
+* Tue Jul 21 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.96.dev.git644b5bc
+- autobuilt 644b5bc
+
+* Tue Jul 21 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.95.dev.gitdf6920a
+- autobuilt df6920a
+
+* Mon Jul 20 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.94.dev.git0d26a57
+- autobuilt 0d26a57
+
+* Mon Jul 20 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.93.dev.gite8de509
+- autobuilt e8de509
+
+* Mon Jul 20 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.92.dev.git17f9b80
+- autobuilt 17f9b80
+
+* Sun Jul 19 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.91.dev.gitb7b8fce
+- autobuilt b7b8fce
+
+* Sat Jul 18 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.90.dev.gitd087ade
+- autobuilt d087ade
+
+* Sat Jul 18 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.89.dev.gitdeff289
+- autobuilt deff289
+
+* Fri Jul 17 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.88.dev.git10c5f24
+- autobuilt 10c5f24
+
+* Fri Jul 17 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.87.dev.gitdfca83d
+- autobuilt dfca83d
+
+* Fri Jul 17 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.86.dev.gitd86bae2
+- autobuilt d86bae2
+
+* Thu Jul 16 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.85.dev.git0bd5181
+- autobuilt 0bd5181
+
+* Thu Jul 16 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.84.dev.gitf4766e0
+- autobuilt f4766e0
+
+* Thu Jul 16 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.83.dev.git984fffc
+- autobuilt 984fffc
+
+* Thu Jul 16 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.82.dev.git11fe857
+- autobuilt 11fe857
+
+* Wed Jul 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.81.dev.git9efeb1c
+- autobuilt 9efeb1c
+
+* Wed Jul 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.80.dev.git6dcff5c
+- autobuilt 6dcff5c
+
+* Wed Jul 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.79.dev.git9051546
+- autobuilt 9051546
+
+* Wed Jul 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.78.dev.git8704b78
+- autobuilt 8704b78
+
+* Wed Jul 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.77.dev.git60127cf
+- autobuilt 60127cf
+
+* Wed Jul 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.76.dev.git76f9f96
+- autobuilt 76f9f96
+
+* Wed Jul 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.75.dev.git4250d24
+- autobuilt 4250d24
+
+* Tue Jul 14 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.74.dev.gitc4843d4
+- autobuilt c4843d4
+
+* Tue Jul 14 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.73.dev.gita9a751f
+- autobuilt a9a751f
+
+* Tue Jul 14 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.72.dev.gitd83077b
+- autobuilt d83077b
+
+* Tue Jul 14 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.71.dev.git210f104
+- autobuilt 210f104
+
+* Mon Jul 13 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.70.dev.git3d33590
+- autobuilt 3d33590
+
+* Mon Jul 13 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.69.dev.gitd86acf2
+- autobuilt d86acf2
+
+* Mon Jul 13 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.68.dev.gite2a8e03
+- autobuilt e2a8e03
+
+* Sat Jul 11 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.67.dev.gite38001f
+- autobuilt e38001f
+
+* Fri Jul 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.66.dev.git1d71753
+- autobuilt 1d71753
+
+* Fri Jul 10 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.65.dev.git2ac8c69
+- autobuilt 2ac8c69
+
+* Thu Jul 09 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.64.dev.gitd9cd003
+- autobuilt d9cd003
+
+* Thu Jul 09 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.63.dev.gitbc3b3b3
+- autobuilt bc3b3b3
+
+* Wed Jul 08 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.62.dev.gitedf5fe8
+- autobuilt edf5fe8
+
+* Wed Jul 08 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.61.dev.gitb58d2b7
+- autobuilt b58d2b7
+
+* Wed Jul 08 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.60.dev.git85d71ae
+- autobuilt 85d71ae
+
+* Tue Jul 07 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.59.dev.git54d16f3
+- autobuilt 54d16f3
+
+* Tue Jul 07 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.58.dev.gitcd08485
+- autobuilt cd08485
+
+* Mon Jul 06 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.57.dev.git1a93857
+- autobuilt 1a93857
+
+* Mon Jul 06 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.56.dev.gitb1cc781
+- autobuilt b1cc781
+
+* Mon Jul 06 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.55.dev.gitf4708a5
+- autobuilt f4708a5
+
+* Mon Jul 06 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.54.dev.git9532509
+- autobuilt 9532509
+
+* Mon Jul 06 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.53.dev.git9eac75a
+- autobuilt 9eac75a
+
+* Mon Jul 06 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.52.dev.git4bdc119
+- autobuilt 4bdc119
+
+* Mon Jul 06 2020 Eduardo Santiago <santiago@redhat.com> - 2:2.1.0-0.51.dev.git4351e33
+- bump crun dependency to 0.14, needed for --sdnotify option
+
+* Mon Jul 06 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.50.dev.git4351e33
+- autobuilt 4351e33
+
+* Sun Jul 05 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.49.dev.git41ccc04
+- autobuilt 41ccc04
+
+* Fri Jul 03 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.48.dev.gitb9d48a9
+- autobuilt b9d48a9
+
+* Thu Jul 02 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.47.dev.gitbd2fca0
+- autobuilt bd2fca0
+
+* Thu Jul 02 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.46.dev.gitc131567
+- autobuilt c131567
+
+* Thu Jul 02 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.45.dev.git9fb0b56
+- autobuilt 9fb0b56
+
+* Wed Jul 01 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.44.dev.gite846952
+- autobuilt e846952
+
+* Wed Jul 01 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.43.dev.gitd8718fd
+- autobuilt d8718fd
+
+* Tue Jun 30 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.42.dev.git957e7a5
+- autobuilt 957e7a5
+
+* Tue Jun 30 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.41.dev.git1a1e3f4
+- autobuilt 1a1e3f4
+
+* Tue Jun 30 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.40.dev.git6fbd157
+- autobuilt 6fbd157
+
+* Tue Jun 30 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.39.dev.gitc2a0ccd
+- autobuilt c2a0ccd
+
+* Tue Jun 30 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.38.dev.git83bde3b
+- autobuilt 83bde3b
+
+* Mon Jun 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.37.dev.gitb163ec3
+- autobuilt b163ec3
+
+* Mon Jun 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.36.dev.gite0b93af
+- autobuilt e0b93af
+
+* Mon Jun 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.35.dev.gitc682ca3
+- autobuilt c682ca3
+
+* Mon Jun 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.34.dev.gitd90e8b6
+- autobuilt d90e8b6
+
+* Mon Jun 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.33.dev.git6ac009d
+- autobuilt 6ac009d
+
+* Mon Jun 29 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.32.dev.git771c887
+- autobuilt 771c887
+
+* Fri Jun 26 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.31.dev.git673116c
+- autobuilt 673116c
+
+* Fri Jun 26 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.30.dev.gitbb11b42
+- autobuilt bb11b42
+
+* Thu Jun 25 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.29.dev.git4db296f
+- autobuilt 4db296f
+
+* Thu Jun 25 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.28.dev.git358e69c
+- autobuilt 358e69c
+
+* Thu Jun 25 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.27.dev.git05e1df2
+- autobuilt 05e1df2
+
+* Thu Jun 25 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.26.dev.git7766192
+- autobuilt 7766192
+
+* Thu Jun 25 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.25.dev.gitc036eef
+- autobuilt c036eef
+
+* Thu Jun 25 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.24.dev.gitf8036c5
+- autobuilt f8036c5
+
+* Thu Jun 25 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.23.dev.gitcd36499
+- autobuilt cd36499
+
+* Thu Jun 25 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.22.dev.git35cca19
+- autobuilt 35cca19
+
+* Wed Jun 24 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.21.dev.git2df3faa
+- autobuilt 2df3faa
+
+* Wed Jun 24 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.20.dev.git4ee6659
+- autobuilt 4ee6659
+
+* Wed Jun 24 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.19.dev.gitb61e429
+- autobuilt b61e429
+
+* Wed Jun 24 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.18.dev.git6bc5dcc
+- autobuilt 6bc5dcc
+
+* Wed Jun 24 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.17.dev.git0d26b8f
+- autobuilt 0d26b8f
+
 * Tue Jun 23 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 2:2.1.0-0.16.dev.git5fe122b
 - autobuilt 5fe122b
 

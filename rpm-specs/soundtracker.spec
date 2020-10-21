@@ -1,5 +1,5 @@
 Name:    soundtracker
-Version: 1.0.0.1
+Version: 1.0.1
 Release: 1%{?dist}
 
 Summary: Sound module composer/player
@@ -7,7 +7,7 @@ Summary: Sound module composer/player
 License:   GPLv2+
 URL:       http://www.soundtracker.org/
 Source0:   http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
-Patch0:    soundtracker-1.0.0.1-desktopfile.diff
+Patch0:    soundtracker-1.0.1-print_status_formatting.diff
 
 BuildRequires: autoconf
 BuildRequires: gcc
@@ -46,6 +46,12 @@ format. The user interface makes use of GTK2.
 %{_datadir}/pixmaps/%{name}-icon.png
 
 %changelog
+* Sun Sep  6 2020 Peter Hanecak <hany@hany.sk> - 1.0.1-1
+- Update to 1.0.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 25 2020 Peter Hanecak <hany@hany.sk> - 1.0.0.1-1
 - Update to GTK2-based 1.0.0.1, latest stable release
 - Small clean-up of the spec file

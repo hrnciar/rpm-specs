@@ -1,6 +1,6 @@
 Name:           deepin-menu
-Version:        3.4.8
-Release:        2%{?dist}
+Version:        5.0.1
+Release:        1%{?dist}
 Summary:        Deepin menu service
 License:        GPLv3+
 URL:            https://github.com/linuxdeepin/deepin-menu
@@ -12,12 +12,16 @@ BuildRequires:  pkgconfig(dframeworkdbus)
 BuildRequires:  pkgconfig(Qt5Gui)
 BuildRequires:  pkgconfig(Qt5DBus)
 BuildRequires:  pkgconfig(Qt5Widgets)
+BuildRequires:  pkgconfig(Qt5Multimedia)
+BuildRequires:  pkgconfig(Qt5MultimediaWidgets)
+BuildRequires:  pkgconfig(Qt5X11Extras)
+BuildRequires:  qt5-qtbase-private-devel
 
 %description
 Deepin menu service for building beautiful menus.
 
 %prep
-%setup -q
+%autosetup
 
 # Modify lib path to reflect the platform
 sed -i 's|/usr/bin|%{_libexecdir}|' data/com.deepin.menu.service \
@@ -37,6 +41,19 @@ sed -i 's|/usr/bin|%{_libexecdir}|' data/com.deepin.menu.service \
 %{_datadir}/dbus-1/services/com.deepin.menu.service
 
 %changelog
+* Tue Sep 29 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.0.1-1
+- new upstream release: 5.0.1
+
+* Thu Aug  6 2020 Robin Lee <cheeselee@fedoraproject.org> - 3.4.8-4
+- BR: qt5-qtbase-private-devel
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.8-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.8-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

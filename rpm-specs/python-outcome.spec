@@ -15,8 +15,8 @@ call, so that it can be passed around.
 
 
 Name:           python-%{pkgname}
-Version:        1.0.0
-Release:        7%{?dist}
+Version:        1.0.1
+Release:        1%{?dist}
 Summary:        Capture the outcome of Python function calls
 License:        MIT or ASL 2.0
 URL:            https://github.com/python-trio/outcome
@@ -70,6 +70,12 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} --verbose
 
 
 %changelog
+* Fri Jul 31 2020 Charalampos Stratakis <cstratak@redhat.com> - 1.0.1-1
+- Update to 1.0.1 (#1762713)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.0-7
 - Rebuilt for Python 3.9
 

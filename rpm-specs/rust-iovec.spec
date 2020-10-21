@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.1.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Portable buffer type for scatter/gather I/O operations
 
 # Upstream license specification: MIT/Apache-2.0
@@ -72,6 +72,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

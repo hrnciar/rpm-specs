@@ -1,6 +1,6 @@
 Name:           gflags
 Version:        2.2.2
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Library for commandline flag processing
 
 License:        BSD
@@ -32,14 +32,14 @@ This package contains development files for %{name}.
 %cmake -DBUILD_TESTING:BOOL=ON \
        -DINSTALL_HEADERS:BOOL=ON \
        -DREGISTER_BUILD_DIR:BOOL=OFF \
-       -DREGISTER_INSTALL_PREFIX:BOOL=OFF .
-%make_build
+       -DREGISTER_INSTALL_PREFIX:BOOL=OFF
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %check
-ctest
+%ctest
 
 %ldconfig_scriptlets
 
@@ -59,6 +59,10 @@ ctest
 %{_libdir}/cmake/%{name}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+- Fix cmake build
+
 * Mon Mar 09 2020 Nicolas Chauvet <kwizart@gmail.com> - 2.2.2-5
 - Fix pkgconfig libdir value
 

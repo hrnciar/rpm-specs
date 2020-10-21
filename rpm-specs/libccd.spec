@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 %ifnarch s390 %{mips}
 %global with_valgrind 1
 %endif
@@ -5,7 +6,7 @@
 
 Name:           libccd
 Version:        2.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Library for collision detection between convex shapes
 
 License:        BSD
@@ -24,11 +25,7 @@ Patch1:         %{name}-2.1-pkgconfig.patch
 Patch2:         %{name}-2.1-py3.patch
 
 BuildRequires:  gcc-c++
-%if 0%{?rhel} && 0%{?rhel} < 7
-BuildRequires:  cmake28
-%else
 BuildRequires:  cmake
-%endif
 # These are required for executing the test suite
 BuildRequires:  python3
 %if 0%{?with_valgrind}
@@ -57,22 +54,14 @@ developing applications that use %{name}.
 %patch2 -p0 -b .py3
 
 %build
-mkdir build
-pushd build
-%if 0%{?rhel} && 0%{?rhel} < 7
-%cmake28 \
-%else
 %cmake \
-%endif
   -DBUILD_TESTS=ON \
-  -DCMAKE_BUILD_TYPE=None \
+  -DCMAKE_BUILD_TYPE=Release \
   ..
-popd
-make -C build %{?_smp_mflags}
+%cmake_build
 
 %install
-rm -rf %{buildroot}
-make -C build install DESTDIR=%{buildroot}
+%cmake_install
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
 rm -f %{buildroot}%{_libdir}/*.a
 rm -rf %{buildroot}%{_docdir}/ccd
@@ -83,8 +72,6 @@ rm -rf %{buildroot}%{_docdir}/ccd
 make -C build test ||exit 0
 %endif
 
-%ldconfig_scriptlets
-
 
 %files
 %doc BSD-LICENSE README.md
@@ -92,13 +79,19 @@ make -C build test ||exit 0
 %{_libdir}/*.so.%{soversion}
 
 %files devel
-%doc 
 %{_includedir}/*
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/*.pc
 %{_libdir}/ccd
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 18 2020 Rich Mattes <richmattes@gmail.com> - 2.1-1
 - Update to release 2.1
 - Update test suite to use python 3 (rhbz#1807509)

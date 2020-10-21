@@ -1,6 +1,6 @@
 Name:           perl-Kwiki-RecentChanges
 Version:        0.14
-Release:        42%{?dist}
+Release:        43%{?dist}
 Summary:        Kwiki Recent Changes Plugin
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Kwiki-RecentChanges
@@ -59,6 +59,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14-43
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.14-42
 - Perl 5.32 rebuild
 

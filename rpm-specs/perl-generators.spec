@@ -1,6 +1,6 @@
 Name:           perl-generators
 Version:        1.11
-Release:        6%{?dist}
+Release:        9%{?dist}
 Summary:        RPM Perl dependencies generators
 License:        GPL+
 URL:            http://jplesnik.fedorapeople.org/generators
@@ -8,19 +8,27 @@ Source0:        %{url}/generators-%{version}.tar.gz
 BuildArch:      noarch
 BuildRequires:  coreutils
 BuildRequires:  make
-BuildRequires:  perl-interpreter >= 4:5.22.0-351
 %if !%{defined perl_bootstrap}
 # Break build cycle: reflexive dependency
 BuildRequires:  perl-generators
 %endif
+BuildRequires:  perl-interpreter >= 4:5.22.0-351
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
-BuildRequires:  perl(Fedora::VSP)
 BuildRequires:  perl(File::Copy)
 BuildRequires:  perl(File::Find)
 BuildRequires:  perl(strict)
-BuildRequires:  perl(Test::More)
 BuildRequires:  perl(warnings)
 BuildRequires:  sed
+# Run-time:
+BuildRequires:  perl(Fedora::VSP)
+BuildRequires:  perl(File::Basename)
+# Optional run-time:
+# version not used at tests
+# Tests:
+BuildRequires:  perl(lib)
+BuildRequires:  perl(Exporter)
+BuildRequires:  perl(Test::More)
+BuildRequires:  perl(Test::Simple)
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:       perl-interpreter >= 4:5.22.0-351
 # Per Perl packaging guidelines, build-requiring perl-generators should
@@ -29,7 +37,9 @@ Requires:       perl-macros
 %if %{defined perl_bootstrap}
 # Supply run-time dependencies manually when perl-generators is not available
 Requires:       perl(Fedora::VSP)
+Requires:       perl(File::Basename)
 %endif
+Recommends:     perl(version)
 
 # The generators and attribute files were split from rpm-build
 Conflicts:      rpm-build < 4.11.2-15
@@ -43,11 +53,11 @@ getting provides and requires from Perl binaries and modules.
 
 %build
 perl Makefile.PL INSTALLDIRS=vendor INSTALLVENDORSCRIPT=%{_rpmconfigdir} \
-     NO_PACKLIST=1
-make %{?_smp_mflags}
+     NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=%{buildroot}
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 mkdir -p %{buildroot}%{_rpmconfigdir}/fileattrs/
@@ -62,6 +72,15 @@ make test
 %{_rpmconfigdir}/fileattrs/perl*.attr
 
 %changelog
+* Thu Jul 30 2020 Petr Pisar <ppisar@redhat.com> - 1.11-9
+- Specify all dependencies
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.11-7
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.11-6
 - Perl 5.32 rebuild
 

@@ -1,5 +1,10 @@
+# Desired jbig2dec header files and library version
+# Apparantly, jbig2dec complains even about newer versions.
+# Please update if needed.
+%global jbig2dec_version 0.19
+
 Name:           mupdf
-Version:        1.17.0
+Version:        1.18.0
 Release:        2%{?dist}
 Summary:        A lightweight PDF viewer and toolkit
 License:        AGPLv3+
@@ -7,23 +12,26 @@ URL:            http://mupdf.com/
 Source0:        http://mupdf.com/downloads/archive/%{name}-%{version}-source.tar.gz
 Source1:        %{name}.desktop
 Source2:        %{name}-gl.desktop
-BuildRequires:  gcc make binutils desktop-file-utils coreutils pkgconfig
-BuildRequires:  openjpeg2-devel jbig2dec-devel desktop-file-utils
+BuildRequires:  gcc gcc-c++ make binutils desktop-file-utils coreutils pkgconfig
+BuildRequires:  openjpeg2-devel desktop-file-utils
 BuildRequires:  libjpeg-devel freetype-devel libXext-devel curl-devel
 BuildRequires:  harfbuzz-devel openssl-devel mesa-libEGL-devel
 BuildRequires:  mesa-libGL-devel mesa-libGLU-devel libXi-devel libXrandr-devel
+BuildRequires:  gumbo-parser-devel
+BuildRequires:  jbig2dec-devel = %{jbig2dec_version}
+BuildRequires:  jbig2dec-libs = %{jbig2dec_version}
+Requires:       jbig2dec-libs = %{jbig2dec_version}
 # We need to build against the Artifex fork of lcms2 so that we are thread safe
 # (see bug #1553915). Artifex make sure to rebase against upstream, who refuse
 # to integrate Artifex's changes. 
-Provides:       bundled(lcms2-devel) = 2.9
+Provides:       bundled(lcms2-devel) = 2.10art
 # We need to build against the Artifex fork of freeglut so that we are unicode safe.
 Provides:       bundled(freeglut-devel) = 3.0.0
 # muPDF needs the muJS sources for the build even if we build against the system
 # version so bundling them is the safer choice.
-Provides:       bundled(mujs-devel) = 1.0.5
+Provides:       bundled(mujs-devel) = 1.0.9
 Patch0:         0001-fix-build-on-big-endian.patch
-Patch1:         0001-fix-build-with-gcc-10.patch
-Patch2:         0001-Fix-possible-crash-when-using-openssl-for-digital-si.patch
+Patch1:		0001-support-PyMuPDF.patch
 
 %description
 MuPDF is a lightweight PDF viewer and toolkit written in portable C.
@@ -56,8 +64,7 @@ do
   rm -rf thirdparty/$d
 done
 %patch0 -p1 -d thirdparty/lcms2
-%patch1 -p1 -d thirdparty/freeglut
-%patch2 -p1
+%patch1 -p1
 echo > user.make "\
   USE_SYSTEM_FREETYPE := yes
   USE_SYSTEM_HARFBUZZ := yes
@@ -70,6 +77,7 @@ echo > user.make "\
   USE_SYSTEM_ZLIB := yes
   USE_SYSTEM_GLUT := no # need freeglut2-art fork
   USE_SYSTEM_CURL := yes
+  USE_SYSTEM_GUMBO := yes
 "
 
 %build
@@ -104,6 +112,26 @@ cd %{buildroot}/%{_bindir} && ln -s %{name}-x11 %{name}
 %{_libdir}/lib%{name}*.a
 
 %changelog
+* Thu Oct 08 2020 Michael J Gruber <mjg@fedoraproject.org> - 1.18.0-2
+- support PyMuPDF
+
+* Thu Oct 08 2020 Michael J Gruber <mjg@fedoraproject.org> - 1.18.0-1
+- bugfix and feature release
+- bz #1886338 #1886339 #1886083
+
+* Sun Oct 04 2020 Michael J Gruber <mjg@fedoraproject.org> - 1.18.0-0.1.rc1
+- properly name the rc prerelease
+- update versions of bundled libs
+
+* Sat Oct 03 2020 Michael J Gruber <mjg@fedoraproject.org> - 1.18.0-rc1
+- mupdf 1.18.0-rc1 test
+
+* Fri Sep 18 2020 Michael J Gruber <mjg@fedoraproject.org> - 1.17.0-4
+- rebuild with jbig2dec 0.19
+
+* Mon Jul 27 2020 Michael J Gruber <mjg@fedoraproject.org> - 1.17.0-3
+- depend on exact jbig2dec version (bz 1861103)
+
 * Sun May 31 2020 Michael J Gruber <mjg@fedoraproject.org> - 1.17.0-2
 - fix signature check crash
 

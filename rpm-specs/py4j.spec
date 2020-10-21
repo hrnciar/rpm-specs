@@ -21,7 +21,7 @@
 
 Name:           py4j
 Version:        0.10.9
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Dynamically access in Python programs to arbitrary Java objects
 
 License:        BSD
@@ -59,7 +59,6 @@ BuildRequires:  python3-sphinx_rtd_theme
 %endif
 
 BuildRequires:  ant-junit maven-local
-BuildRequires:  sonatype-oss-parent
 
 # Fedora unbundles hamcrest from junit
 %if 0%{?fedora}
@@ -144,6 +143,9 @@ Summary:        Documentation files for %{name}
 # remove unneeded stuff
 rm -r setup.py
 find . -name \*.jar -print -delete
+
+# remove unnecessary dependency on parent POM
+%pom_remove_parent %{name}-java/pom.xml
 
 # build jar without version in name
 sed -i -r "s|(version=).*|\1|" %{name}-java/ant.properties
@@ -330,6 +332,15 @@ fi
 
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 0.10.9-5
+- Remove unnecessary dependency on parent POM.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.9-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0.10.9-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.10.9-2
 - Rebuilt for Python 3.9
 

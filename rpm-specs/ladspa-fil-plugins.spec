@@ -1,6 +1,6 @@
 Name:           ladspa-fil-plugins
 Version:        0.3.0
-Release:        22%{?dist}
+Release:        23%{?dist}
 License:        GPLv2+
 Summary:        LADSPA Filter plugins
 URL:            http://www.kokkinizita.net/linuxaudio/
@@ -44,6 +44,9 @@ sed -i -e "s|/usr/lib/ladspa|\\$\(DESTDIR\)%{_libdir}/ladspa|g" \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

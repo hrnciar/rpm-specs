@@ -1,19 +1,17 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:           sugar-fractionbounce
-Version:        25
-Release:        7%{?dist}
+Version:        28.1
+Release:        2%{?dist}
 Summary:        A game which teaches fractions and estimations
 
 License:        GPLv3+
 URL:            http://wiki.sugarlabs.org/go/Activities/FractionBounce
-Source0:        https://github.com/sugarlabs/fractionbounce/archive/v%{version}.tar.gz
+Source0:        http://download.sugarlabs.org/sources/honey/FractionBounce/FractionBounce-%{version}.tar.bz2
 
-BuildRequires:  sugar-toolkit-gtk3 gettext python2-devel
+BuildRequires:  gettext
+BuildRequires:  python3-devel
+BuildRequires:  sugar-toolkit-gtk3
 BuildArch:      noarch
-Requires:       sugar >= 0.97.0
+Requires:       sugar >= 0.116
 
 %description
 FractionBounce is a game that prompts the player to nudge a bouncing 
@@ -22,20 +20,19 @@ of a given fraction. e.g. if 1/3 is displayed, then the ball must land
 1/3 the distance along the bottom.
 
 %prep
-%autosetup -n fractionbounce-%{version}
-rm po/aym.po
-rm po/cpp.po
-rm po/nah.po
-rm po/son.po
+%autosetup -n FractionBounce-%{version}
 
-sed -i 's/python/python2/' *.py
+sed -i 's/python/python3/' *.py
 
 %build
-python2 ./setup.py build
+python3 ./setup.py build
 
 %install
-python2 ./setup.py install --prefix=%{buildroot}%{_prefix}
+python3 ./setup.py install --prefix=%{buildroot}%{_prefix}
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
+
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}/%{sugaractivitydir}/FractionBounce.activity/
 
 %find_lang org.sugarlabs.FractionBounceActivity
 
@@ -45,6 +42,19 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 %{sugaractivitydir}/FractionBounce.activity/
 
 %changelog
+* Thu Aug 20 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 28.1-2
+- Fix python3 typo
+
+* Wed Aug 12 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 28.1-1
+- Update to 28.1, move to python3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 25-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 25-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 25-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,30 +1,28 @@
-%global luaver 5.2
+%global luaver 5.4
 %global lualibdir %{_libdir}/lua/%{luaver}
 %global luapkgdir %{_datadir}/lua/%{luaver}
 
 Name:           lua-md5
-Version:        1.1.2
-Release:        21%{?dist}
+Version:        1.3
+Release:        1%{?dist}
 Summary:        Cryptographic Library for MD5 hashes for Lua
 
 License:        MIT
-URL:            http://www.keplerproject.org/md5/
-Source0:        http://luaforge.net/frs/download.php/3355/md5-1.1.2.tar.gz
+URL:            https://github.com/keplerproject/md5
+Source0:        https://github.com/keplerproject/md5/archive/1.3.tar.gz
 # https://github.com/keplerproject/md5/commit/ceb84044ad481409ea1179f1bed98440c29abb59
-Patch0:		lua-md5-lua-5.2.patch
 
 BuildRequires:  lua >= %{luaver}, lua-devel >= %{luaver}
 Requires:       lua >= %{luaver}
 BuildRequires:  gcc
 
 %description
-MD5 offers basic cryptographic facilities for Lua 5.1: a hash (digest)
+MD5 offers basic cryptographic facilities for Lua: a hash (digest)
 function, a pair crypt/decrypt based on MD5 and CFB, and a pair crypt/decrypt
 based on DES with 56-bit keys.
 
 %prep
 %setup -q -n md5-%{version}
-%patch0 -p1 -b .lua-52
 
 
 %build
@@ -40,12 +38,23 @@ make install LUA_DIR=%{buildroot}%{luapkgdir} LUA_LIBDIR=%{buildroot}%{lualibdir
 
 
 %files
-%doc README doc/us/*
+%doc README.md doc/us/*
 %{luapkgdir}/*
 %{lualibdir}/*
 
 
 %changelog
+* Tue Aug 25 2020 Kevin Fenzi <kevin@scrye.com> - 1.3-1
+- Update to 1.3 and fix links.
+- Fix Fails to install bug #1871498
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-23
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

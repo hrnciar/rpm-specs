@@ -1,19 +1,15 @@
 %global srcname typing_extensions
 
 Name:           python-typing-extensions
-Version:        3.7.4.2
-Release:        2%{?dist}
+Version:        3.7.4.3
+Release:        1%{?dist}
 Summary:        Python Typing Extensions
 
 License:        Python
 URL:            https://pypi.org/project/typing-extensions/
 Source0:        %{pypi_source}
 
-# The same fix proposed upstream: https://github.com/python/typing/pull/729
-Patch0:         fix_tests_for_py39.patch
-
 BuildArch:      noarch
-
 
 %description
 Typing Extensions - Backported and Experimental Type Hints for Python
@@ -80,6 +76,12 @@ must be compatible with multiple Python versions or requires experimental types.
 %{python3_sitelib}/__pycache__/*
 
 %changelog
+* Sun Aug 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 3.7.4.3-1
+- Update to latest upstream release 3.7.4.3 (rhbz#1871451)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.4.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.7.4.2-2
 - Rebuilt for Python 3.9
 

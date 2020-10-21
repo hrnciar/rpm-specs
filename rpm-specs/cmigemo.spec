@@ -15,7 +15,7 @@
 
 Name:		cmigemo
 Version:	%{mainver}
-Release:	%{rel}%{?dist}.3
+Release:	%{rel}%{?dist}.4
 Summary:	C interface of Ruby/Migemo Japanese incremental search tool
 
 License:	MIT
@@ -152,6 +152,9 @@ popd
 %{_libdir}/libmigemo.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-0.13.date20110227.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-0.13.date20110227.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

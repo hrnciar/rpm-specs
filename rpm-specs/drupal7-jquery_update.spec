@@ -5,7 +5,7 @@
 
 Name:          drupal7-%{module}
 Version:       3.0
-Release:       0.9%{?pre_release:.%{pre_release}}%{?dist}
+Release:       0.10%{?pre_release:.%{pre_release}}%{?dist}
 Summary:       Upgrades the version of jQuery in Drupal core to a newer version of jQuery
 
 # License breakdown:
@@ -118,6 +118,9 @@ cp -pr * %{buildroot}%{drupal7_modules}/%{module}/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-0.10.alpha5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 3.0-0.9.alpha5
 - Bump build requires drupal7-rpmbuild to ">= 7.70-2" to fix F32+ auto provides
 

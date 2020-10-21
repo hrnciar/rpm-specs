@@ -1,9 +1,10 @@
+%undefine __cmake_in_source_build
 %bcond_without static_libs # don't build static libraries
 
 Summary:        Library providing binary-decimal and decimal-binary routines for IEEE doubles
 Name:           double-conversion
 Version:        3.1.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        BSD
 Source0:        https://github.com/google/double-conversion/archive/v%{version}/%{name}-%{version}.tar.gz
 URL:            https://github.com/google/double-conversion
@@ -39,35 +40,27 @@ Static %{name} library.
 %setup -q
 
 %build
-mkdir -p build-shared
-pushd build-shared
-  %cmake -DBUILD_TESTING=ON ..
-  make %{_smp_mflags}
-popd
+%global _vpath_builddir build-shared
+%cmake -DBUILD_TESTING=ON
+%cmake_build
 
 %if %{with static_libs}
-mkdir  -p build-static
-pushd build-static
-  CXXFLAGS="%{optflags} -fPIC" %cmake -DBUILD_SHARED_LIBS=NO ..
-  make %{_smp_mflags}
-popd
+%global _vpath_builddir build-static
+CXXFLAGS="%{optflags} -fPIC" %cmake -DBUILD_SHARED_LIBS=NO
+%cmake_build
 %endif
 
 %install
 %if %{with static_libs}
-pushd build-static
-  make install DESTDIR=%{buildroot}
-popd
+%global _vpath_builddir build-static
+%cmake_install
 %endif
 
-pushd build-shared
-  make install DESTDIR=%{buildroot}
-popd
+%global _vpath_builddir build-shared
+%cmake_install
 
 %check
-pushd build-shared
-  ctest -V
-popd
+%ctest
 
 %ldconfig_scriptlets
 
@@ -86,6 +79,9 @@ popd
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           perl-boolean
 Version:        0.46
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Boolean support for Perl
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/boolean
@@ -48,6 +48,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.46-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.46-12
 - Perl 5.32 rebuild
 

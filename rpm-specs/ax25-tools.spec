@@ -4,7 +4,7 @@
 
 Name:		ax25-tools
 Version:	1.0.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Tools used to configure an ax.25 enabled computer
 
 License:	GPLv2+
@@ -173,6 +173,9 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/ax25tools
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 16 2020 Richard Shaw <hobbes1069@gmail.com> - 1.0.4-1
 - Update to 1.0.4.
 

@@ -3,7 +3,7 @@
 
 # https://github.com/containerd/typeurl
 %global goipath         github.com/containerd/typeurl
-%global commit          2a93cfde8c20b23de8eb84a5adbc234ddf7a9e8d
+Version:                1.0.1
 
 %gometa
 
@@ -18,8 +18,7 @@ protobuf.Any.}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.3%{?dist}
+Release:        2%{?dist}
 Summary:        Go package for managing marshaled types to protobuf.Any
 
 # Upstream license specification: Apache-2.0
@@ -50,6 +49,12 @@ BuildRequires:  golang(github.com/pkg/errors)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 18:00:09 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.1-1
+- Update to 1.0.1
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

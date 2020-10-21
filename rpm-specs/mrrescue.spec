@@ -1,6 +1,6 @@
 Name:           mrrescue
 Version:        1.02e
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Arcade-style fire fighting game
 
 #See LICENSE file in source for details
@@ -80,6 +80,9 @@ install -p -D -m 0644 %{name}.png \
 %{_datadir}/appdata/*.appdata.xml
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.02e-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 12 2020 Jeremy Newton <alexjnewt at hotmail dot com> - 1.02e-15
 - Rebuilt for correct exclusive arch
 - LOVE 11 fixes

@@ -15,7 +15,7 @@ of your simulations and analyses becomes a piece of cake!}
 
 Name:           python-%{pypi_name}
 Version:        0.5.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Parameter exploration toolbox
 
 License:        BSD
@@ -31,6 +31,7 @@ BuildArch:      noarch
 %package -n python3-%{pypi_name}
 Summary:        %{summary}
 BuildRequires:  python3-devel
+BuildRequires:  %{py3_dist setuptools}
 # For tests
 %if %{with tests}
 BuildRequires:  %{py3_dist brian2}
@@ -99,6 +100,12 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} pypet/tests/all_single_co
 %doc doc/build/html examples/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.5.0-2
+- Explicitly BR setuptools
+
 * Tue Jun 02 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.5.0-1
 - Update to 0.5.0
 - Enable tests

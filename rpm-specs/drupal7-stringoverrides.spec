@@ -4,7 +4,7 @@
 
 Name:          drupal7-%{module_name}
 Version:       1.8
-Release:       14%{?dist}
+Release:       15%{?dist}
 Summary:       Provides a quick and easy way of replacing text
 
 License:       GPLv2+
@@ -55,6 +55,9 @@ cp -pr * %{buildroot}%{drupal7_modules}/%{module_name}/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.8-14
 - Bump build requires drupal7-rpmbuild to ">= 7.70-2" to fix F32+ auto provides
 

@@ -1,5 +1,6 @@
 %global upstreamver 2r1p0
 %global pkgname atlasrep
+%global ctbllibver 1.3.1
 
 # When bootstrapping a new architecture, there is no gap-pkg-ctbllib package
 # yet.  We need it to generate documentation, but it needs this package to
@@ -12,7 +13,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        %(sed -r "s/r|p/./g" <<< %upstreamver)
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        GAP interface to the Atlas of Group Representations
 
 License:        GPLv3+
@@ -86,13 +87,14 @@ touch ../ctbllib/doc/manualbib.xml
 mkdir -p ../pkg/ctbllib/doc
 touch ../pkg/ctbllib/doc/manualbib.xml
 %else
-cp -a %{_gap_dir}/pkg/ctbllib ..
-ln -s %{_gap_dir}/pkg/ctbllib ../pkg
+cp -a %{_gap_dir}/pkg/ctbllib-%{ctbllibver} ..
+ln -s %{_gap_dir}/pkg/ctbllib-%{ctbllibver} ../pkg
+sed -i 's/ctbllib/&-%{ctbllibver}/' doc/main.xml
 %endif
 pushd doc
 gap -l "$PWD/../..;%{_gap_dir}" < makedocrel.g
 popd
-rm -fr ../../doc ../{ctbllib,pkg}
+rm -fr ../../doc ../{ctbllib*,pkg}
 
 # Remove the build directory from the documentation
 sed -i "s,$PWD/doc/\.\./\.\./pkg,../..,g" doc/*.html
@@ -124,6 +126,12 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}/doc/
 
 %changelog
+* Tue Jul 28 2020 Jerry James <loganjerry@gmail.com> - 2.1.0-6
+- Fix cross references to the ctbllib documentation
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 12 2020 Jerry James <loganjerry@gmail.com> - 2.1.0-4
 - BR gap-pkg-tomlib to eliminate warnings when testing
 - Add -bib patch to fix broken citations

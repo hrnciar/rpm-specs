@@ -1,7 +1,7 @@
 Name: python-urlobject
 Summary: A utility class for manipulating URLs
 Version: 2.4.3
-Release: 13%{?dist}
+Release: 14%{?dist}
 BuildArch:  noarch
 Source0: https://pypi.python.org/packages/source/U/URLObject/URLObject-%{version}.tar.gz
 License: Unlicense
@@ -45,6 +45,9 @@ A utility class for manipulating URLs
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.3-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.4.3-13
 - Rebuilt for Python 3.9
 

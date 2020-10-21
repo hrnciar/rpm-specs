@@ -2,7 +2,7 @@
 
 Name:           gnome-tweaks
 Version:        3.34.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Customize advanced GNOME 3 options
 
 # Software is GPLv3, Appdata file is CC0-1.0
@@ -91,6 +91,9 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT/%{_datadir}/metainfo/*.app
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.34.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.34.0-5
 - Rebuilt for Python 3.9
 

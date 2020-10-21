@@ -1,6 +1,6 @@
 Name:           bsp
 Version:        5.2
-Release:        24%{?dist}
+Release:        26%{?dist}
 Summary:        The most popular node builder for Doom
 
 License:        GPLv2+
@@ -32,7 +32,7 @@ mv bsp.6.tmp bsp.6
 
 %build
 %configure
-make CFLAGS='%{optflags}' LIBS="-lm" %{?_smp_mflags}
+%make_build CFLAGS='%{optflags}' LIBS="-lm"
 
 
 %install
@@ -48,6 +48,13 @@ install -D -p -m 644 bsp.6 $RPM_BUILD_ROOT/%{_mandir}/man6/bsp.6
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 5.2-25
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           perl-HTTP-OAI
 Version:        4.10
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        API for the OAI-PMH
 License:        BSD
 URL:            https://metacpan.org/release/HTTP-OAI
@@ -74,6 +74,9 @@ iconv -f iso8859-15 -t utf-8 README > README.conv && mv -f README.conv README
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.10-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.10-3
 - Perl 5.32 rebuild
 

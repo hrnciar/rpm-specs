@@ -1,6 +1,6 @@
 Name:		perl-V
 Version:	0.13
-Release:	29%{?dist}
+Release:	30%{?dist}
 Summary:	Print version of the specified Perl modules
 
 License:	GPL+ or Artistic
@@ -42,6 +42,9 @@ find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.13-29
 - Perl 5.32 rebuild
 

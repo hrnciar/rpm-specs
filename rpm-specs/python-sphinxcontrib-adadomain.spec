@@ -2,7 +2,7 @@
 
 Name:           python-%{upstream_name}
 Version:        0.2
-Release:        12%{?dist}
+Release:        13%{?dist}
 %global common_summary \
 Summary:        Ada domain for the Sphinx documentation generator \
 Summary(sv):    Adadomänen för dokumentationsgeneratorn Sphinx
@@ -59,6 +59,9 @@ rm -rf *.egg-info
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2-12
 - Rebuilt for Python 3.9
 

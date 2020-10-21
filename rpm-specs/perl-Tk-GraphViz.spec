@@ -1,6 +1,6 @@
 Name:           perl-Tk-GraphViz
 Version:        1.01
-Release:        28%{?dist}
+Release:        30%{?dist}
 Summary:        Render an interactive GraphViz graph
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Tk-GraphViz
@@ -57,6 +57,12 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.01-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.01-29
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.01-28
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

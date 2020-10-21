@@ -6,7 +6,7 @@
 
 # https://github.com/uber/jaeger-client-go
 %global goipath         github.com/uber/jaeger-client-go
-Version:                2.16.0
+Version:                2.25.0
 
 %gometa
 
@@ -20,7 +20,7 @@ Instrumentation library that implements an OpenTracing Tracer for Jaeger
 %global godocs          CONTRIBUTING.md README.md RELEASE.md CHANGELOG.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Jaeger Bindings for Go OpenTracing API
 
 # Upstream license specification: Apache-2.0
@@ -29,11 +29,13 @@ URL:            %{gourl}
 Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/crossdock/crossdock-go)
+BuildRequires:  golang(github.com/golang/mock/gomock)
 BuildRequires:  golang(github.com/opentracing/opentracing-go)
 BuildRequires:  golang(github.com/opentracing/opentracing-go/ext)
 BuildRequires:  golang(github.com/opentracing/opentracing-go/log)
 BuildRequires:  golang(github.com/pkg/errors)
 BuildRequires:  golang(github.com/uber/jaeger-lib/metrics)
+BuildRequires:  golang(go.uber.org/atomic)
 BuildRequires:  golang(go.uber.org/zap)
 BuildRequires:  golang(go.uber.org/zap/zapcore)
 
@@ -41,10 +43,11 @@ BuildRequires:  golang(go.uber.org/zap/zapcore)
 # Tests
 BuildRequires:  golang(github.com/opentracing/opentracing-go/harness)
 BuildRequires:  golang(github.com/stretchr/testify/assert)
+BuildRequires:  golang(github.com/stretchr/testify/mock)
 BuildRequires:  golang(github.com/stretchr/testify/require)
 BuildRequires:  golang(github.com/stretchr/testify/suite)
-BuildRequires:  golang(go.uber.org/atomic)
 BuildRequires:  golang(github.com/uber/jaeger-lib/metrics/metricstest)
+BuildRequires:  golang(go.uber.org/zap/zaptest/observer)
 %endif
 
 %description
@@ -68,7 +71,8 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
-%gocheck
+# .: https://github.com/jaegertracing/jaeger-client-go/issues/524
+%gocheck -d .
 %endif
 
 %files
@@ -79,6 +83,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 23:33:03 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.25.0-1
+- Update to 2.25.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

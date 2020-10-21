@@ -1,6 +1,6 @@
 Name:           smesh
 Version:        8.3.0.3
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        OpenCascade based MESH framework
 
 License:        LGPLv2
@@ -8,7 +8,8 @@ URL:            https://github.com/LaughlinResearch/SMESH
 
 Source0:        https://github.com/LaughlinResearch/SMESH/archive/v%{version}/%{name}-%{version}.tar.gz
 
-Patch0:         smesh-install.patch
+Patch0:         https://github.com/LaughlinResearch/SMESH/pull/21.patch#/smesh-netgen.patch
+Patch1:         smesh-install.patch
 
 BuildRequires:  cmake gcc-c++
 BuildRequires:  doxygen graphviz
@@ -22,8 +23,8 @@ BuildRequires:  libXmu-devel
 BuildRequires:  vtk-devel
 
 # Dependencies for optional NETGENPlugin library.
-#BuildRequires:  netgen-mesher-devel
-#BuildRequires:  netgen-mesher-devel-private
+BuildRequires:  netgen-mesher-devel
+BuildRequires:  netgen-mesher-devel-private
 
 # Documentation is no longer built
 Obsoletes:      %{name}-doc < 6.7.5-9
@@ -46,25 +47,22 @@ Development files and headers for %{name}.
 
 
 %build
-mkdir build && pushd build
 LDFLAGS='-Wl,--as-needed'; export LDFLAGS
 %cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-       -DENABLE_NETGEN=OFF \
+       -DENABLE_NETGEN=ON \
+       -DNEW_NETGEN_INTERFACE=ON \
        -DENABLE_MED=OFF \
-       -DBUILD_TESTS=TRUE \
-       ../
+       -DBUILD_TESTS=TRUE
 
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-pushd build
-%make_install
+%cmake_install
 
 
 %check
-pushd build
-make test
+%ctest
 
 
 %ldconfig_scriptlets
@@ -82,6 +80,13 @@ make test
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.3.0.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.3.0.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 8.3.0.3-2
 - Rebuilt for Boost 1.73
 

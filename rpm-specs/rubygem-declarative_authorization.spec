@@ -5,7 +5,7 @@
 Summary:       Provides readable authorization rules for Rails
 Name:          rubygem-%{gem_name}
 Version:       0.5.7
-Release:       13%{?dist}
+Release:       14%{?dist}
 License:       MIT
 
 URL:           http://github.com/stffn/declarative_authorization
@@ -74,6 +74,9 @@ cp -a ./%{gem_dir}/* %{buildroot}%{gem_dir}/
 %doc %{gem_instdir}/CHANGELOG
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.7-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.7-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

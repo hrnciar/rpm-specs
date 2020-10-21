@@ -1,9 +1,9 @@
-%global cpan_version 0.2309
+%global cpan_version 0.2311
 Name:           perl-File-Temp
 Epoch:          1
 # Normalized version, compete with perl.spec
-Version:        0.230.900
-Release:        456%{?dist}
+Version:        0.231.100
+Release:        1%{?dist}
 Summary:        Return name and handle of a temporary file safely
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/File-Temp
@@ -60,11 +60,11 @@ perl -MConfig -p -i -e 's|\A#!/usr/local/bin/perl\b|$Config{startperl}|' \
     misc/benchmark.pl
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
@@ -79,6 +79,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Mon Oct 05 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:0.231.100-1
+- 0.2311 bump
+
+* Tue Sep 29 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:0.231.000-1
+- 0.2310 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.230.900-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:0.230.900-456
 - Increase release to favour standalone package
 

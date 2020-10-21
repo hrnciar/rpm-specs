@@ -1,6 +1,6 @@
 Name:           hpx
-Version:        1.4.1
-Release:        2%{?dist}
+Version:        1.5.1
+Release:        1%{?dist}
 Summary:        General Purpose C++ Runtime System
 License:        Boost
 URL:            http://stellar.cct.lsu.edu/tag/hpx/
@@ -14,8 +14,6 @@ BuildRequires:  cmake
 BuildRequires:  fdupes
 BuildRequires:  git
 BuildRequires:  libatomic
-
-
 
 #Add libatomic since it is not installed with gcc on Fedora
 Requires: libatomic
@@ -139,6 +137,11 @@ This package contains development headers and libraries
 %setup -n %{name}-%{version} -q
 
 %build
+# This package uses -Wl,-wrap to wrap calls at link time.  This is incompatible
+# with LTO.
+# Disable LTO
+%define _lto_cflags %{nil}
+
 # use generic context for these archs
 %ifarch aarch64 
 %define cmake_opts -DHPX_WITH_GENERIC_CONTEXT_COROUTINES=ON
@@ -166,7 +169,9 @@ for mpi in '' openmpi mpich ; do
   pushd ${mpi:-serial}
   test -n "${mpi}" && export CC=mpicc && export CXX=mpicxx
   %{cmake} ${mpi:+-DHPX_WITH_PARCELPORT_MPI=ON} %{?cmake_opts:%{cmake_opts}} -DHPX_WITH_BUILD_BINARY_PACKAGE=ON -DLIB_INSTALL_DIR=%_libdir/${mpi}/${mpi:+lib/} -DLIBDIR=%_libdir/${mpi}/${mpi:+lib/} -DCMAKE_INSTALL_LIBDIR=%_libdir/${mpi}/${mpi:+lib/} ..
+  cd %{__cmake_builddir}
   %make_build
+  cd ..
   test -n "${mpi}" && unset CC CXX
   popd
   test -n "${mpi}" && module unload mpi/${mpi}-%{_arch}
@@ -178,7 +183,9 @@ done
 for mpi in openmpi mpich '' ; do
   test -n "${mpi}" && module load mpi/${mpi}-%{_arch} && mkdir -p %{buildroot}/${MPI_BIN}
   pushd ${mpi:-serial}
+  cd %{__cmake_builddir}
   %make_install
+  cd ..
   sed -i '1s@env python@python3@' %{buildroot}/%{_bindir}/{hpx*.py,hpxcxx} 
   popd
   pushd %{buildroot}/%{_bindir}
@@ -198,7 +205,7 @@ rm %{buildroot}/%{_datadir}/%{name}/LICENSE_1_0.txt
 . /etc/profile.d/modules.sh
 for mpi in '' openmpi mpich ; do
   test -n "${mpi}" && module load mpi/${mpi}-%{_arch}
-  make -C ${mpi:-serial} tests.examples
+  make -C ${mpi:-serial}/%{__cmake_builddir}/ tests.examples
   test -n "${mpi}" && module unload mpi/${mpi}-%{_arch}
 done
 
@@ -259,6 +266,22 @@ done
 %{_libdir}/lib*.so*
 
 %changelog
+* Fri Oct 2 2020 Patrick Diehl <patrickdiehl@lsu.edu> - 1.5.1-1
+- HPX 1.5.1
+
+* Wed Sep 2 2020 Patrick Diehl <patrickdiehl@lsu.edu> - 1.5.0-1
+- HPX 1.5.0
+
+* Mon Jul 27 2020 Patrick Diehl <patrickdiehl@lsu.edu> - 1.4.1-4
+- Update to the new cmake changes
+
+* Fri Jul  17 2020 Patrick Diehl <patrickdiehl@lsu.edu> - 1.4.1-3
+- Patch to compile with the latest boost version
+- Patch to compile with a newer MPICH version
+
+* Wed Jul  1 2020 Jeff Law <lwa@redhat.com> - 1.4.1-2
+- Disable LTO
+
 * Fri Feb 21 2020 Patrick Diehl <patrickdiehl@lsu.edu> - 1.4.1-1
 - HPX 1.4.1 release - Patches to the HPX 1.4.0 release 
 

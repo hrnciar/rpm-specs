@@ -4,13 +4,16 @@
 Summary: Load system gems via Bundler DSL
 Name: rubygem-%{gem_name}
 Version: 0.4.1
-Release: 8%{?dist}
+Release: 11%{?dist}
 License: MIT
 URL: https://github.com/bundlerext/bundler_ext
 Source0: http://rubygems.org/gems/%{gem_name}-%{version}.gem
+# Fix test failures due to Bundler 1.8.1+.
+# https://github.com/bundlerext/bundler_ext/pull/22
+Patch0: rubygem-bundler_ext-0.4.1-Fix-Bundler-1.8.1-test-failures.patch
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
-BuildRequires: ruby 
+BuildRequires: ruby
 BuildRequires: rubygem(rspec) < 3
 BuildRequires: rubygem(bundler)
 BuildRequires: rubygem(rails)
@@ -30,21 +33,29 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -c -T
-%gem_install -n %{SOURCE0}
+%setup -q -n %{gem_name}-%{version}
+
+%patch0 -p1
 
 %build
+# Create the gem as gem install only works on a gem file
+gem build ../%{gem_name}-%{version}.gemspec
+
+# %%gem_install compiles any C extensions and installs the gem into ./%%gem_dir
+# by default, so that we can move it into the buildroot in %%install
+%gem_install
 
 %install
 mkdir -p %{buildroot}%{gem_dir}
-cp -pa .%{gem_dir}/* \
+cp -a .%{gem_dir}/* \
         %{buildroot}%{gem_dir}/
+
+
 
 %check
 pushd .%{gem_instdir}
 rspec2 spec
 popd
-
 
 %files
 %dir %{gem_instdir}
@@ -59,9 +70,20 @@ popd
 %doc %{gem_instdir}/CHANGELOG
 %doc %{gem_instdir}/README.md
 %{gem_instdir}/Rakefile
-%{gem_instdir}/spec/
+%{gem_instdir}/spec
 
 %changelog
+* Wed Sep 16 2020 Vít Ondruch <vondruch@redhat.com> - 0.4.1-1
+- Fix FTBFS due to test failures with Bundler 1.8.1+.
+  Resolves: rhbz#1865408
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

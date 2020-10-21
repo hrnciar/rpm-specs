@@ -1,6 +1,6 @@
 Name:		perl-DateTime-Calendar-Mayan 
 Version:	0.0601 
-Release:	33%{?dist}
+Release:	34%{?dist}
 License:	GPL+ or Artistic 
 Summary:	Mayan Long Count Calendar 
 URL:		https://metacpan.org/release/DateTime-Calendar-Mayan
@@ -57,6 +57,9 @@ make test
 %{_mandir}/man3/DateTime::Calendar::Mayan.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0601-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.0601-33
 - Perl 5.32 rebuild
 

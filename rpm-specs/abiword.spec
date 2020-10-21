@@ -3,7 +3,7 @@
 
 Name: abiword
 Version: 3.0.4
-Release: 5%{?dist}
+Release: 8%{?dist}
 Epoch: 1
 Summary: Word processing program
 License: GPLv2+
@@ -122,7 +122,7 @@ popd
 aclocal
 automake
 
-export CXXFLAGS="$RPM_OPT_FLAGS -DASIO_ENABLE_BOOST"
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS -DASIO_ENABLE_BOOST"
 %configure --enable-plugins --enable-clipart --enable-templates --enable-introspection
 %{make_build} V=1
 
@@ -184,6 +184,16 @@ find %{buildroot} -name '*.a' -delete
 %pycached %{python3_sitearch}/gi/overrides/Abi.py
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.0.4-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 1:3.0.4-7
+- Force C++14 as the code is not ready for C++17
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.0.4-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1:3.0.4-5
 - Rebuilt for Python 3.9
 

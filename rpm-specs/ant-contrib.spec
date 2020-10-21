@@ -3,7 +3,7 @@
 Summary:        Collection of tasks for Ant
 Name:           ant-contrib
 Version:        1.0
-Release:        0.37.%{beta_number}%{?dist}
+Release:        0.39.%{beta_number}%{?dist}
 License:        ASL 2.0 and ASL 1.1
 
 URL:            http://ant-contrib.sourceforge.net/
@@ -84,6 +84,12 @@ echo "ant-contrib/ant-contrib" > $RPM_BUILD_ROOT%{_sysconfdir}/ant.d/ant-contrib
 %doc target/docs/LICENSE.txt LICENSE-2.0.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.39.b3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.0-0.38.b3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri May 22 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0-0.37.b3
 - Set javac -source and -target to 1.8.
 

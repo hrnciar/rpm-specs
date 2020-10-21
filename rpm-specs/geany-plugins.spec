@@ -3,7 +3,7 @@
 
 Name:           geany-plugins
 Version:        1.36
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Plugins for Geany
 
 License:        GPLv3+
@@ -81,7 +81,7 @@ Requires:  geany >= %{req_geany_ver} geany-libgeany >= %{req_geany_ver}
 Obsoletes: geany-plugins-debugger <= 1.31
 Obsoletes: geany-plugins-geanylua < 1.25
 Obsoletes: geany-plugins-geanypy <= 1.31
-Obsoletes: geany-plugins-markdown <= 1.30
+Obsoletes: geany-plugins-markdown <= 1.29
 Obsoletes: geany-plugins-multiterm <= 1.31
 Obsoletes: geany-plugins-scope <= 1.31
 Obsoletes: geany-plugins-webhelper <= 1.30
@@ -511,7 +511,7 @@ files.
 Summary:       Real time preview for Markdown documents
 Requires:      geany-plugins-common = %{version}-%{release}
 BuildRequires: webkit2gtk3-devel
-Provides:      geany-plugins-markdown >= 1.31
+Provides:      geany-plugins-markdown >= 1.34
 
 %description markdown
 The Markdown plugin provides a real-time preview of rendered Markdown, that is,
@@ -935,6 +935,9 @@ find $RPM_BUILD_ROOT -type f -empty -delete
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.36-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 15 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.36-4
 - Rebuild for libgit2 1.0.0
 

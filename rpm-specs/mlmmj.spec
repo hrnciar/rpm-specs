@@ -3,7 +3,7 @@
 
 Name:           mlmmj
 Version:        1.3.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        A simple and slim mailing list manager inspired by ezmlm
 License:        MIT
 URL:            http://mlmmj.org/
@@ -66,6 +66,9 @@ find contrib/ -type f -name *.cgi -exec chmod -x {} ";"
 %{_localstatedir}/spool/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 28 2020 Denis Fateyev <denis@fateyev.com> - 1.3.0-9
 - Add "legacy_common_support" build option
 

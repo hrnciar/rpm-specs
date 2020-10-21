@@ -5,7 +5,7 @@
 
 Name:		nodejs-parallel-transform
 Version:	1.1.0
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	Transform stream that allows you to run your transforms in parallel
 
 License:	MIT
@@ -58,6 +58,9 @@ cp -pr package.json *.js \
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

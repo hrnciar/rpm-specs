@@ -13,11 +13,11 @@
 %{!?rel_build:%global git_tar %{name}-%{version}-%{git_ver}.tar.xz}
 
 Name:           mate-applets
-Version:        %{branch}.0
+Version:        %{branch}.1
 %if 0%{?rel_build}
-Release:        3%{?dist}
+Release:        2%{?dist}
 %else
-Release:        0.12%{?git_rel}%{?dist}
+Release:        0.1%{?git_rel}%{?dist}
 %endif
 Summary:        MATE Desktop panel applets
 License:        GPLv2+ and LGPLv2+
@@ -29,20 +29,19 @@ URL:            http://mate-desktop.org
 # Source for snapshot-builds.
 %{!?rel_build:Source0:    http://git.mate-desktop.org/%{name}/snapshot/%{name}-%{commit}.tar.xz#/%{git_tar}}
 
-Source1:       mate-applets-icons.tar.xz
-
-# https://github.com/mate-desktop/mate-applets/pull/447
-Patch1:        mate-applets_0001-eyes-generate-missing-256x256-and-64x64-icons-from-s.patch
-Patch2:        mate-applets_0002-cpufreq-generate-missing-256x256-and-64x64-icons-fro.patch
+# Back ported for 1.24
+# https://github.com/mate-desktop/mate-applets/commit/bff29f926f56aba490e3f7b6f2d11e6a1aae46c7
+Patch1:        mate-applets-netspeed-add-netlink-support.patch
 
 BuildRequires: gucharmap-devel
 BuildRequires: libgtop2-devel
-BuildRequires: libnotify-devel
+BuildRequires: libICE-devel
 BuildRequires: libmateweather-devel
+BuildRequires: libnl3-devel
+BuildRequires: libnotify-devel
+BuildRequires: libSM-devel
 BuildRequires: libwnck3-devel
 BuildRequires: libxml2-devel
-BuildRequires: libICE-devel
-BuildRequires: libSM-devel
 BuildRequires: mate-common
 BuildRequires: mate-settings-daemon-devel
 BuildRequires: mate-notification-daemon
@@ -51,7 +50,6 @@ BuildRequires: polkit-devel
 BuildRequires: startup-notification-devel
 Buildrequires: upower-devel
 Buildrequires: gtksourceview3-devel
-BuildRequires: wireless-tools-devel
 %ifnarch s390 s390x sparc64
 BuildRequires: kernel-tools-libs-devel
 %endif
@@ -71,10 +69,7 @@ MATE Desktop panel applets
 %autosetup -n %{name}-%{commit} -p1
 %endif
 
-tar -xf %{SOURCE1}
-cp -rf mate-applets-icons/cpufreq .
-cp -rf mate-applets-icons/geyes .
-
+%build
 %if 0%{?rel_build}
 #NOCONFIGURE=1 ./autogen.sh
 %else # 0%{?rel_build}
@@ -82,10 +77,6 @@ cp -rf mate-applets-icons/geyes .
 NOCONFIGURE=1 ./autogen.sh
 %endif # 0%{?rel_build}
 
-# patch 1,2
-NOCONFIGURE=1 ./autogen.sh
-
-%build
 %configure   \
     --disable-schemas-compile                \
     --disable-static                         \
@@ -94,7 +85,6 @@ NOCONFIGURE=1 ./autogen.sh
     --enable-ipv6                            \
     --enable-stickynotes                     \
     --libexecdir=%{_libexecdir}/mate-applets \
-    --with-cpufreq-lib=cpupower              \
     --with-dbus-sys=%{_datadir}/dbus-1/system.d
 
 make %{?_smp_mflags} V=1
@@ -158,7 +148,16 @@ make %{?_smp_mflags} V=1
 
 
 %changelog
-* Fri Apr 25 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-3
+* Sun Aug 30 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.24.1-2
+- Migrate from wireless-tools to libnl3
+
+* Tue Aug 11 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- update to 1.24.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Apr 25 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-3
 - rebuild against latest kernel to fix cpu-freq-applet
 - fix rhbz (#1827937)
 

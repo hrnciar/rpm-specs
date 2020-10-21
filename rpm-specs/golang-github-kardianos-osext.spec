@@ -22,7 +22,7 @@ Find the current Executable and ExecutableFolder.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.28%{?dist}
+Release:        0.30%{?dist}
 Summary:        Extensions to the standard "os" package
 
 # Upstream license specification: BSD-3-Clause
@@ -52,6 +52,13 @@ Patch0:         0001-disable-broken-test.patch
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.30
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.28
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,9 +1,9 @@
 %{!?_licensedir:%global license %%doc}
-#%{!?luaver: %global luaver %(lua -e "print(string.sub(_VERSION, 5))")}
-%global luaver 5.3
+#% %{!?luaver: %%global luaver %(lua -e "print(string.sub(_VERSION, 5))")}
+%global luaver 5.4
 %global luapkgdir %{_datadir}/lua/%{luaver}
 
-%global commit a40458fdc1507e44b6a829b6c6b969b500e1c337
+%global commit 412e6aca393e365f92c0315dfe50181b193f1ace
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 %global pkg_name argparse
 
@@ -11,8 +11,8 @@
 %global gittar %{name}-%{version}.tar.gz
 
 Name:           lua-%{pkg_name}
-Version:        0.5.0
-Release:        10%{?dist}
+Version:        0.6.0
+Release:        2%{?dist}
 Summary:        Feature-rich command line parser for Lua
 
 License:        MIT
@@ -83,6 +83,13 @@ install -m 644 -D -p src/%{pkg_name}.lua %{buildroot}%{luapkgdir}/%{pkg_name}.lu
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Tom Callaway <spot@fedoraproject.org> - 0.6.0-1
+- update to 0.6.0
+- rebuild for lua 5.4
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

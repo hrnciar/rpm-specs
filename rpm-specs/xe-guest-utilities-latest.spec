@@ -12,7 +12,7 @@
 Summary: XAPI Virtual Machine Monitoring Scripts
 Name:    %{upstream_name}-latest
 Version: 7.17.0
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: BSD
 URL:     https://github.com/xenserver/%{upstream_name}
 Source0: %{url}/archive/v%{version}.tar.gz#/%{upstream_name}-%{version}.tar.gz
@@ -93,6 +93,9 @@ fi
 %ghost %{_localstatedir}/cache/%{service_name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.17.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.17.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

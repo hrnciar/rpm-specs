@@ -1,7 +1,7 @@
 Summary: Transparent SMTP/LMTP proxy filter using spamassassin
 Name: spampd
 Version: 2.30
-Release: 32%{?dist}
+Release: 33%{?dist}
 License: GPLv2+
 URL: http://www.worlddesign.com/index.cfm/rd/mta/spampd.htm
 Source0: http://www.worlddesign.com/Content/rd/mta/spampd/spampd-%{version}.tar.gz
@@ -92,6 +92,9 @@ indicating it's spam and why.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.30-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.30-32
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

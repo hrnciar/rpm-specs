@@ -5,7 +5,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 1.8.0
-Release: 3%{?dist}
+Release: 5%{?dist}
 Summary: Cucumber Generators and Runtime for Rails
 License: MIT
 URL: http://cukes.info
@@ -112,6 +112,11 @@ sed -i "/run_command_and_stop 'bundle install --local'/i\\
 sed -i "/run_command_and_stop 'bundle install --local'/i\\
     overwrite_file('Gemfile', File.read(expand_path('Gemfile')).gsub!(/gem 'puma'/, '#\\\0'))" features/support/cucumber_rails_helper.rb
 
+# No need to have Listen. The version restiction make just problems.
+# Ruby WEBrick must be just fine.
+sed -i "/run_command_and_stop 'bundle install --local'/i\\
+    overwrite_file('Gemfile', File.read(expand_path('Gemfile')).gsub!(/gem 'listen'/, '#\\\0'))" features/support/cucumber_rails_helper.rb
+
 # The test requires Firefox, which requires Xvfb, etc.
 sed -i '/^  Scenario: Use a particular driver$/i\  @firefox' features/capybara_javascript_drivers.feature
 sed -i '/^  Scenario: Mixed DB access$/i\  @firefox' features/capybara_javascript_drivers.feature
@@ -148,6 +153,17 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Tue Aug 11 2020 Vít Ondruch <vondruch@redhat.com> - 1.8.0-5
+- Remove test dependency on rubygem-listen.
+  Resolves: rhbz#1865410
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

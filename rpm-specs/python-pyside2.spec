@@ -1,3 +1,5 @@
+%global _lto_cflags %{nil}
+
 %global pypi_name pyside2
 %global camel_name PySide2
 %global qt5ver 5.14
@@ -13,7 +15,7 @@
 Name:           python-%{pypi_name}
 Epoch:          1
 Version:        5.15.0
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Python bindings for the Qt 5 cross-platform application and UI framework
 
 License:        BSD and GPLv2 and GPLv3 and LGPLv3
@@ -53,7 +55,9 @@ BuildRequires:  cmake(Qt5X11Extras) >= %{qt5ver}
 # PySide2
 BuildRequires:  qt5-qtbase-private-devel >= %{qt5ver}
 BuildRequires:  cmake(Qt5Charts) >= %{qt5ver}
+%if 0%{?fedora} > 32
 BuildRequires:  cmake(Qt5DataVisualization) >= %{qt5ver}
+%endif
 BuildRequires:  cmake(Qt5Multimedia) >= %{qt5ver}
 BuildRequires:  cmake(Qt5QuickControls2) >= %{qt5ver}
 BuildRequires:  cmake(Qt5RemoteObjects) >= %{qt5ver}
@@ -170,18 +174,16 @@ the previous versions (without the 2) refer to Qt 4.
 %else
 export CXX=/usr/bin/clang++
 %endif
-mkdir %{_target} && cd %{_target}
 %if 0%{?rhel} == 7
+mkdir %{_target} && cd %{_target}
 %cmake3 -DUSE_PYTHON_VERSION=3 ../
 %else
-%cmake -DUSE_PYTHON_VERSION=3 ../
+%cmake -DUSE_PYTHON_VERSION=3
 %endif
-%make_build
+%cmake_build
 
 %install
-cd %{_target}
-%make_install
-cd -
+%cmake_install
 
 # Generate egg-info manually and install since we're performing a cmake build.
 %{__python3} setup.py egg_info
@@ -249,6 +251,19 @@ pathfix.py -pni "%{__python3} %{py3_shbang_opts}" %{buildroot}%{_bindir}/*
 
 
 %changelog
+* Sat Sep 12 2020 Richard Shaw <hobbes1069@gmail.com> - 1:5.15.0-4
+- Rebuild for Qt 5.15.
+
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 1:5.15.0-4
+- rebuild (qt5)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.15.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.15.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Marie Loise Nolden <loise@kde.org> - 1:5.15.0-1
 - Update to 5.15.0.
 - Convert Qt BRs to cmake(Qt5...) variant.

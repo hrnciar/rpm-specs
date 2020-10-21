@@ -4,7 +4,7 @@
 # https://github.com/kubernetes-sigs/apiserver-network-proxy
 %global goipath         sigs.k8s.io/apiserver-network-proxy
 %global forgeurl        https://github.com/kubernetes-sigs/apiserver-network-proxy
-Version:                0.0.10
+Version:                0.0.12
 
 %gometa
 
@@ -14,45 +14,41 @@ Proto-type and reference implementations for server network proxies.}
 %global golicenses      LICENSE
 %global godocs          examples CONTRIBUTING.md code-of-conduct.md README.md
 
-%global gosupfiles      "${vendor[@]}"
-%global __requires_exclude %{?__requires_exclude:%{__requires_exclude}|}^golang\\(.*\\)$
-
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Proto-type and reference implementations for server network proxies
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
-# go mod vendor
-Source1:        vendor-0.0.10.tar.gz
 
-# BuildRequires:  golang(github.com/golang/mock/gomock)
-# BuildRequires:  golang(github.com/golang/protobuf/proto)
-# BuildRequires:  golang(github.com/google/uuid)
-# BuildRequires:  golang(github.com/prometheus/client_golang/prometheus)
-# BuildRequires:  golang(github.com/spf13/cobra)
-# BuildRequires:  golang(github.com/spf13/pflag)
-# BuildRequires:  golang(google.golang.org/grpc)
-# BuildRequires:  golang(google.golang.org/grpc/codes)
-# BuildRequires:  golang(google.golang.org/grpc/connectivity)
-# BuildRequires:  golang(google.golang.org/grpc/credentials)
-# BuildRequires:  golang(google.golang.org/grpc/metadata)
-# BuildRequires:  golang(google.golang.org/grpc/status)
-# BuildRequires:  golang(k8s.io/api/authentication/v1)
-# BuildRequires:  golang(k8s.io/apimachinery/pkg/util/wait)
-# BuildRequires:  golang(k8s.io/client-go/kubernetes)
-# BuildRequires:  golang(k8s.io/client-go/tools/clientcmd)
-# BuildRequires:  golang(k8s.io/klog)
+BuildRequires:  golang(github.com/golang/mock/gomock)
+BuildRequires:  golang(github.com/golang/protobuf/proto)
+BuildRequires:  golang(github.com/google/uuid)
+BuildRequires:  golang(github.com/prometheus/client_golang/prometheus)
+BuildRequires:  golang(github.com/prometheus/client_golang/prometheus/promhttp)
+BuildRequires:  golang(github.com/spf13/cobra)
+BuildRequires:  golang(github.com/spf13/pflag)
+BuildRequires:  golang(google.golang.org/grpc)
+BuildRequires:  golang(google.golang.org/grpc/codes)
+BuildRequires:  golang(google.golang.org/grpc/connectivity)
+BuildRequires:  golang(google.golang.org/grpc/credentials)
+BuildRequires:  golang(google.golang.org/grpc/metadata)
+BuildRequires:  golang(google.golang.org/grpc/status)
+BuildRequires:  golang(k8s.io/api/authentication/v1)
+BuildRequires:  golang(k8s.io/apimachinery/pkg/util/wait)
+BuildRequires:  golang(k8s.io/client-go/kubernetes)
+BuildRequires:  golang(k8s.io/client-go/tools/clientcmd)
+BuildRequires:  golang(k8s.io/klog/v2)
 
-# %%if %{with check}
-# # Tests
-# BuildRequires:  golang(k8s.io/apimachinery/pkg/runtime)
-# BuildRequires:  golang(k8s.io/client-go/kubernetes/fake)
-# BuildRequires:  golang(k8s.io/client-go/kubernetes/typed/authentication/v1/fake)
-# BuildRequires:  golang(k8s.io/client-go/testing)
-# %%endif
+%if %{with check}
+# Tests
+BuildRequires:  golang(k8s.io/apimachinery/pkg/runtime)
+BuildRequires:  golang(k8s.io/client-go/kubernetes/fake)
+BuildRequires:  golang(k8s.io/client-go/kubernetes/typed/authentication/v1/fake)
+BuildRequires:  golang(k8s.io/client-go/testing)
+%endif
 
 %description
 %{common_description}
@@ -60,33 +56,28 @@ Source1:        vendor-0.0.10.tar.gz
 %gopkg
 
 %prep
-%goprep -k
-%setup -q -T -D -a 1 -n %{extractdir}
-
-%build
-for cmd in cmd/* ; do
-  %gobuild -o %{gobuilddir}/bin/$(basename $cmd) %{goipath}/$cmd
-done
+%goprep
 
 %install
-mapfile -t vendor <<< $(find vendor -type f)
 %gopkginstall
-install -m 0755 -vd                     %{buildroot}%{_bindir}
-install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
-%gocheck -d konnectivity-client/pkg/client
+%gocheck -d konnectivity-client/pkg/client -t pkg
 %endif
-
-%files
-%license LICENSE
-%doc examples CONTRIBUTING.md code-of-conduct.md README.md
-%{_bindir}/*
 
 %gopkgfiles
 
 %changelog
+* Tue Sep 29 17:26:10 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.0.12-1
+- Update to 0.0.12
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.10-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.0.10-4
+- Do not vendor google.golang.org/grpc
+
 * Tue Jun 16 14:57:42 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.0.10-3
 - Exclude requires
 

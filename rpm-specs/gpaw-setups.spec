@@ -5,7 +5,7 @@
 
 Name:			gpaw-setups
 Version:		0.9.20000
-Release:		5%{?dist}
+Release:		6%{?dist}
 Summary:		Atomic GPAW setups
 
 License:		GPLv3+
@@ -39,6 +39,9 @@ install -p -m 444 *.{gz,pckl,txt} %{buildroot}%{_datadir}/%{name}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.20000-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.20000-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

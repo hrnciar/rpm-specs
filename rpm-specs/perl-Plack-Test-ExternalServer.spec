@@ -1,6 +1,6 @@
 Name:           perl-Plack-Test-ExternalServer
 Version:        0.02
-Release:        17%{?dist}
+Release:        20%{?dist}
 Summary:        Run HTTP tests on external live servers
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Plack-Test-ExternalServer
@@ -52,6 +52,15 @@ RELEASE_TESTING=1 make test
 %{_mandir}/man3/Plack*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.02-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.02-19
+- Perl 5.32 re-rebuild of bootstrapped packages
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.02-18
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.02-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

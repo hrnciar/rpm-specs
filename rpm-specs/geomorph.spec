@@ -1,6 +1,6 @@
 Name:           geomorph
 Version:        0.62
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        A height field editor for Linux
 License:        GPLv2
 URL:            http://geomorph.sourceforge.net
@@ -134,6 +134,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/*.appdata
 %{_datadir}/appdata/geomorph.appdata.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.62-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 07 2020 Didier Fabert <didier.fabert@gmail.com> - 0.62-11
 - Fix no-common build issue
 

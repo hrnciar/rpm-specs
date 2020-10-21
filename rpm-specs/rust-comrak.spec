@@ -4,8 +4,8 @@
 %global crate comrak
 
 Name:           rust-%{crate}
-Version:        0.7.0
-Release:        2%{?dist}
+Version:        0.8.2
+Release:        1%{?dist}
 Summary:        100% CommonMark-compatible GitHub Flavored Markdown parser and formatter
 
 # Upstream license specification: BSD-2-Clause
@@ -14,6 +14,9 @@ URL:            https://crates.io/crates/comrak
 Source:         %{crates_source}
 
 ExclusiveArch:  %{rust_arches}
+%if %{__cargo_skip_build}
+BuildArch:      noarch
+%endif
 
 BuildRequires:  rust-packaging
 
@@ -25,6 +28,11 @@ BuildRequires:  rust-packaging
 %if ! %{__cargo_skip_build}
 %package     -n %{crate}
 Summary:        %{summary}
+# * ASL 2.0 or MIT
+# * MIT
+# * MIT or ASL 2.0
+# * Unlicense or MIT
+License:        BSD and MIT
 
 %description -n %{crate} %{_description}
 
@@ -60,18 +68,6 @@ which use "default" feature of "%{crate}" crate.
 %files       -n %{name}+default-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
-%package     -n %{name}+benchmarks-devel
-Summary:        %{summary}
-BuildArch:      noarch
-
-%description -n %{name}+benchmarks-devel %{_description}
-
-This package contains library source intended for building other packages
-which use "benchmarks" feature of "%{crate}" crate.
-
-%files       -n %{name}+benchmarks-devel
-%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
-
 %package     -n %{name}+clap-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -103,6 +99,15 @@ which use "clap" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Tue Oct 20 2020 Fabio Valentini <decathorpe@gmail.com> - 0.8.2-1
+- Update to version 0.8.2.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.7.1-1
+- Update to 0.7.1
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

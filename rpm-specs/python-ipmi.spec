@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.4.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Pure python IPMI library
 
 License:        LGPLv2+
@@ -59,6 +59,9 @@ nosetests-%{python3_version} -v tests
 %{python3_sitelib}/*-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 16 2020 Charalampos Stratakis <cstratak@redhat.com> - 0.4.2-4
 - Fix compatibility with Python 3.9 (#1792985)
 

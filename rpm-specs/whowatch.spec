@@ -1,7 +1,7 @@
 Summary: Display information about users currently logged on 
 Name: whowatch
 Version: 1.8.6
-Release: 7%{?dist}
+Release: 8%{?dist}
 License: GPLv2
 URL: http://wizard.ae.krakow.pl/~mike/
 
@@ -38,6 +38,9 @@ signals.
 %{_bindir}/whowatch
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.6-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 02 2020 Richard Fearn <richardfearn@gmail.com> - 1.8.6-7
 - Use %%license
 

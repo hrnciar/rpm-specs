@@ -6,7 +6,7 @@
 
 Name:           xfce4-clipman-plugin
 Version:        1.6.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Clipboard manager plugin for the Xfce panel
 
 License:        GPLv2+
@@ -76,6 +76,9 @@ desktop-file-install \
 %{_datadir}/icons/hicolor/16x16/apps/clipman-symbolic.svg
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 07 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 1.6.1-1
 - Update to 1.6.1
 

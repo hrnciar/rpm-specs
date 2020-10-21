@@ -1,7 +1,7 @@
 %?mingw_package_header
 
 Name:           mingw-gnutls
-Version:        3.6.14
+Version:        3.6.15
 Release:        1%{?dist}
 Summary:        MinGW GnuTLS TLS/SSL encryption library
 
@@ -162,8 +162,14 @@ rm -f $RPM_BUILD_ROOT%{mingw64_libdir}/ncrypt.dll*
 
 
 %changelog
+* Fri Sep 04 2020 Michael Cronenworth <mike@cchtml.com> - 3.6.15-1
+- New upstream release 3.6.15
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.14-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Michael Cronenworth <mike@cchtml.com> - 3.6.14-1
-- New upstream release 3.6.13
+- New upstream release 3.6.14
 
 * Tue Mar 31 2020 Michael Cronenworth <mike@cchtml.com> - 3.6.13-1
 - New upstream release 3.6.13

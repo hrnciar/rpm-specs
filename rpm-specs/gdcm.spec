@@ -1,9 +1,9 @@
 # Enabled by default
-%bcond_with tests
+%bcond_without tests
 
 Name:       gdcm
-Version:    3.0.1
-Release:    8%{?dist}
+Version:    3.0.7
+Release:    5%{?dist}
 Summary:    Grassroots DiCoM is a C++ library to parse DICOM medical files
 License:    BSD
 URL:        http://gdcm.sourceforge.net/wiki/index.php/Main_Page
@@ -12,11 +12,9 @@ Source0:    https://github.com/malaterre/%{name}/archive/v%{version}/%{name}-%{v
 Source1:    http://downloads.sourceforge.net/project/gdcm/gdcmData/gdcmData/gdcmData.tar.gz
 
 Patch1: 0001-3.0.1-Use-copyright.patch
-# https://sourceforge.net/p/gdcm/bugs/487/
-Patch2: gdcm-2.8.8-dont_use_EOF.patch
 # Fix for 1687233
 Patch3: 0002-Fix-export-variables.patch
-Patch4: gdcm-3.0.1-poppler-0.84.0.patch
+Patch4: 0003-Fix-missing-include-for-gcc-11.patch
 
 BuildRequires:  CharLS-devel >= 2.0
 BuildRequires:  cmake
@@ -137,9 +135,6 @@ rm -rf Utilities/wxWidgets
 #rm -rf Utilities/gdcmmd5
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-
 %cmake  .. \
     -DCMAKE_VERBOSE_MAKEFILE=ON \
     -DGDCM_INSTALL_PACKAGE_DIR=%{_libdir}/cmake/%{name} \
@@ -176,12 +171,10 @@ pushd %{_target_platform}
 #   -DGDCM_VTK_JAVA_JAR:PATH=/usr/share/java/vtk.jar no found!
 #   yum provides */vtk.jar -> No results found
 
-popd
-
-%make_build -C %{_target_platform}
+%cmake_build
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 install -d $RPM_BUILD_ROOT%{python3_sitearch}
 
 # Install examples
@@ -192,32 +185,32 @@ cp -rv ./Examples/* $RPM_BUILD_ROOT/%{_datadir}/%{name}/Examples/
 %check
 # Making the tests informative only for now. Several failing tests (27/228):
 # 11,40,48,49,107-109,111-114,130-135,146,149,,151-154,157,194,216,219
-make test -C %{_target_platform} || exit 0
+make test -C %{__cmake_builddir} || exit 0
 %endif
 
 %files
 %doc AUTHORS README.md
 %license Copyright.txt README.Copyright.txt
 %{_libdir}/libgdcmCommon.so.3.0
-%{_libdir}/libgdcmCommon.so.3.0.1
+%{_libdir}/libgdcmCommon.so.3.0.7
 %{_libdir}/libgdcmDICT.so.3.0
-%{_libdir}/libgdcmDICT.so.3.0.1
+%{_libdir}/libgdcmDICT.so.3.0.7
 %{_libdir}/libgdcmDSED.so.3.0
-%{_libdir}/libgdcmDSED.so.3.0.1
+%{_libdir}/libgdcmDSED.so.3.0.7
 %{_libdir}/libgdcmIOD.so.3.0
-%{_libdir}/libgdcmIOD.so.3.0.1
+%{_libdir}/libgdcmIOD.so.3.0.7
 %{_libdir}/libgdcmMEXD.so.3.0
-%{_libdir}/libgdcmMEXD.so.3.0.1
+%{_libdir}/libgdcmMEXD.so.3.0.7
 %{_libdir}/libgdcmMSFF.so.3.0
-%{_libdir}/libgdcmMSFF.so.3.0.1
+%{_libdir}/libgdcmMSFF.so.3.0.7
 %{_libdir}/libgdcmjpeg12.so.3.0
-%{_libdir}/libgdcmjpeg12.so.3.0.1
+%{_libdir}/libgdcmjpeg12.so.3.0.7
 %{_libdir}/libgdcmjpeg16.so.3.0
-%{_libdir}/libgdcmjpeg16.so.3.0.1
+%{_libdir}/libgdcmjpeg16.so.3.0.7
 %{_libdir}/libgdcmjpeg8.so.3.0
-%{_libdir}/libgdcmjpeg8.so.3.0.1
+%{_libdir}/libgdcmjpeg8.so.3.0.7
 %{_libdir}/libgdcmmd5.so.3.0
-%{_libdir}/libgdcmmd5.so.3.0.1
+%{_libdir}/libgdcmmd5.so.3.0.7
 %{_libdir}/libsocketxx.so.1.2
 %{_libdir}/libsocketxx.so.1.2.0
 %dir %{_datadir}/%{name}
@@ -269,6 +262,25 @@ make test -C %{_target_platform} || exit 0
 %{python3_sitearch}/__pycache__/%{name}*
 
 %changelog
+* Wed Oct 14 2020 Jeff Law <law@redhat.com> - 3.0.7-5
+- Fix missing #include for gcc-11
+
+* Sun Sep 13 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.0.7-4
+- use cmake macros and fix build
+- Enable tests
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.7-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.0.7-1
+- Update to 3.0.7
+- drop unneeded patches.
+- Rebuild for poppler 0.90.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.1-8
 - Rebuilt for Python 3.9
 

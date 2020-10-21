@@ -1,7 +1,7 @@
 Name:           seahorse-nautilus
 Version:        3.11.92
 %global         release_version %(echo %{version} | awk -F. '{print $1"."$2}')
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        PGP encryption and signing for nautilus
 License:        GPLv2+
 URL:            https://wiki.gnome.org/Apps/Seahorse
@@ -67,6 +67,9 @@ find %{buildroot} -type f -name "*.a" -delete
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.11.92-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.11.92-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

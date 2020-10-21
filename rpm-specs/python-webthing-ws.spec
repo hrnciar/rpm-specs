@@ -2,12 +2,12 @@
 
 Name:           python-%{pypi_name}
 Version:        0.1.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        WebThing WebSocket consumer and API client
 
 License:        MIT
 URL:            https://github.com/fabaff/webthing-ws
-Source0:        https://github.com/fabaff/webthing-ws/archive/%{version}/%{pypi_name}-%{version}.tar.gz
+Source0:        %{url}/archive/%{version}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
 
 %description
@@ -17,6 +17,7 @@ A WebThing WebSocket consumer and API client.
 Summary:        %{summary}
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
 %description -n python3-%{pypi_name}
@@ -38,6 +39,12 @@ A WebThing WebSocket consumer and API client.
 %{python3_sitelib}/webthing_ws*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.1.0-4
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.0-3
 - Rebuilt for Python 3.9
 

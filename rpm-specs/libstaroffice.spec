@@ -2,7 +2,7 @@
 
 Name: libstaroffice
 Version: 0.0.7
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A library for import of binary StarOffice documents
 
 License: MPLv2.0 or LGPLv2+
@@ -98,6 +98,9 @@ install -m 0644 sd2*.1 sd?2*.1 %{buildroot}/%{_mandir}/man1
 %{_mandir}/man1/sdc2csv.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 05 2020 David Tardon <dtardon@redhat.com> - 0.0.7-1
 - new upstream release
 

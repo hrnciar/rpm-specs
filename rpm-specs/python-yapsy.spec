@@ -3,7 +3,7 @@
 
 Name:           python-%{modname}
 Version:        1.11.223
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Simple plugin system for Python applications
 
 License:        BSD and CC-BY-SA
@@ -61,6 +61,9 @@ rm -vrf *.egg-info
 %doc build/sphinx/html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.223-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.11.223-18
 - Rebuilt for Python 3.9
 

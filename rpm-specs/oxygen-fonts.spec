@@ -2,8 +2,8 @@
 %global fontconf 61-%{fontname}
 
 Name:           %{fontname}-fonts
-Version: 5.4.3
-Release: 12%{?dist}
+Version:        5.4.3
+Release:        15%{?dist}
 Summary:        Oxygen fonts created by the KDE Community
 
 # See LICENSE-GPL+FE for details about the exception
@@ -63,15 +63,12 @@ developing applications that use %{name}.
 %setup -q -n %{name}-%{version}
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. %{?fontforge} -DOXYGEN_FONT_INSTALL_DIR=%{_fontdir}
-popd
+%{cmake_kf5} %{?fontforge} -DOXYGEN_FONT_INSTALL_DIR=%{_fontdir}
+%cmake_build
 
-make %{?_smp_mflags} -C %{_target_platform}
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 install -m 0755 -d %{buildroot}%{_fontconfig_templatedir} \
                    %{buildroot}%{_fontconfig_confdir}
@@ -99,6 +96,17 @@ ln -s %{_fontconfig_templatedir}/%{fontconf}-mono.conf \
 %{_libdir}/cmake/OxygenFont/
 
 %changelog
+* Wed Aug 12 2020 Parag Nemade <pnemade AT redhat DOT com> - 5.4.3-15
+- Update for new cmake macros (out of source builds)
+- Update to use new DTD id in fontconfig files
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.3-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.3-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.3-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

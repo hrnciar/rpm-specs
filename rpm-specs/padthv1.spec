@@ -1,5 +1,5 @@
 Name:           padthv1
-Version:        0.9.15
+Version:        0.9.17
 Release:        1%{?dist}
 Summary:        An old-school polyphonic additive synthesizer
 
@@ -78,6 +78,15 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 %{_libdir}/lv2/%{name}.lv2/
 
 %changelog
+* Mon Sep 14 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.9.17-1
+- Update to 0.9.17
+
+* Fri Aug 28 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.9.16-1
+- Update to 0.9.16
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.15-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 26 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.9.15-1
 - Update to 0.9.15
 - Do not own hicolor dir entirely

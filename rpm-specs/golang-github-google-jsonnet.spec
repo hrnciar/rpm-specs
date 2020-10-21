@@ -5,7 +5,7 @@
 
 # https://github.com/google/go-jsonnet
 %global goipath         github.com/google/go-jsonnet
-Version:                0.15.0
+Version:                0.16.0
 
 %gometa
 
@@ -26,16 +26,9 @@ License:        ASL 2.0
 
 URL:            %{gourl}
 Source0:        %{gosource}
-# Prevent int overflow
-# https://github.com/google/go-jsonnet/pull/377
-Patch0:         0001-Prevent-int-overflow.patch
 
 BuildRequires:  golang(github.com/fatih/color)
-
-%if %{with check}
-# Tests
 BuildRequires:  golang(github.com/sergi/go-diff/diffmatchpatch)
-%endif
 
 %description
 %{common_description}
@@ -44,10 +37,9 @@ BuildRequires:  golang(github.com/sergi/go-diff/diffmatchpatch)
 
 %prep
 %goprep
-%patch0 -p1
 
 %build
-for cmd in cmd/* ; do
+for cmd in cmd/jsonnet cmd/jsonnetfmt ; do
   %gobuild -o %{gobuilddir}/bin/$(basename $cmd) %{goipath}/$cmd
 done
 
@@ -69,5 +61,8 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 12:35:14 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.16.0-1
+- Update to 0.16.0
+
 * Sat Feb 01 00:48:04 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.15.0-1
 - Initial package

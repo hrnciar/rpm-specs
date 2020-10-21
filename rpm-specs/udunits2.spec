@@ -1,12 +1,14 @@
 Name: udunits2
 Version: 2.2.26
-Release: 6%{?dist}
+Release: 9%{?dist}
 Summary: A library for manipulating units of physical quantities
 License: UCAR
 URL: http://www.unidata.ucar.edu/software/udunits/
 Source0: ftp://ftp.unidata.ucar.edu/pub/udunits/udunits-%{version}.tar.gz
 BuildRequires: gcc-c++, groff, byacc, expat-devel, CUnit-devel
 BuildRequires: chrpath
+BuildRequires: /usr/bin/makeinfo
+BuildRequires: /usr/bin/texi2dvi
 # workaround touching configure during build by the %%configure macro on ppc64le RHEL 7
 # can go away when upstream refreshes the autoconf/libtool files
 %if 0%{?rhel} == 7
@@ -82,6 +84,16 @@ make check
 %{_libdir}/libudunits2.so
 
 %changelog
+* Mon Aug 03 2020 Orion Poplawski <orion@nwra.com> - 2.2.26-9
+- Add BR on /usr/bin/makeinfo,texi2dvi (FTBFS bz#1865588)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.26-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.26-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.26-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

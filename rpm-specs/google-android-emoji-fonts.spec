@@ -5,7 +5,7 @@
 Name:    %{fontname}-fonts
 # No sane versionning upstream, use git clone timestamp
 Version: 1.01
-Release: 0.15.%{checkout}%{?dist}
+Release: 0.16.%{checkout}%{?dist}
 Summary: Android Emoji font released by Google
 
 License:   ASL 2.0
@@ -54,6 +54,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/AndroidEm
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.01-0.16.20120228git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.01-0.15.20120228git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

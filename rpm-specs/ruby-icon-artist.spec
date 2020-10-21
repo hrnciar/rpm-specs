@@ -1,6 +1,6 @@
 Name:           ruby-icon-artist
 Version:        0.1.92
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Supporting libraries for icon artists
 
 
@@ -46,6 +46,9 @@ DESTDIR=%{buildroot} ./install.rb
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.92-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.92-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           libkni3
 Version:        3.9.2
-Release:        43%{?dist}
+Release:        44%{?dist}
 Summary:        C++ KNI library v3 for the Katana 300 robot arm
 
 License:        GPLv2+
@@ -155,6 +155,9 @@ install -p -m 0644 libkni3.pc %{buildroot}%{_libdir}/pkgconfig
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.2-44
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.2-43
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

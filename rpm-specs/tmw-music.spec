@@ -5,7 +5,7 @@
 Name:           tmw-music
 # we do not know any newer version, latest from obsolete Sourceforge is 0.3
 Version:        0.3.0.1
-Release:        0.8.%{date0}git%(c=%{commit0}; echo ${c:0:7})%{?dist}
+Release:        0.9.%{date0}git%(c=%{commit0}; echo ${c:0:7})%{?dist}
 Summary:        Music files for The Mana World
 
 # generally license is GPLv2, most ogg files with CC-BY-SA,
@@ -62,6 +62,9 @@ cp -p *.ogg %{buildroot}%{_datadir}/tmw/data/music
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0.1-0.9.20151005git0fe3e21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0.1-0.8.20151005git0fe3e21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

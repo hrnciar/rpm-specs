@@ -1,4 +1,4 @@
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel} >= 8
 %global with_python3 1
 %global py3dir ../python3
 %else
@@ -14,19 +14,14 @@ and FAS2.\
 
 
 Name:           python-fedora
-Version:        0.10.0
-Release:        14%{?dist}
+Version:        1.0.0
+Release:        1%{?dist}
 BuildArch:      noarch
 
 License:        LGPLv2+
 Summary:        Python modules for talking to Fedora Infrastructure Services
 URL:            https://github.com/fedora-infra/python-fedora
-Source0:        https://github.com/fedora-infra/%{name}/releases/download/%{version}/%{name}-%{version}.tar.gz
-
-Patch01:        0001-Make-flask_fas_openid-compatible-with-flask-1.0.patch
-
-# https://github.com/fedora-infra/python-fedora/pull/226
-Patch02:        0002-The-encoding-arg-of-json.loads-is-ignored-and-deprecated.patch
+Source0:        https://github.com/fedora-infra/%{name}/archive/%{version}.tar.gz
 
 %if 0%{?with_python2}
 BuildRequires:  python-lockfile
@@ -43,7 +38,7 @@ BuildRequires:  python-sphinx
 %endif
 %endif
 
-%if (0%{?fedora} && (0%{?fedora} <= 30)) || (0%{?rhel} >= 7)
+%if (0%{?fedora} && (0%{?fedora} <= 30)) || (0%{?rhel} == 7)
 BuildRequires:  python-cherrypy2
 %endif
 %endif
@@ -198,10 +193,6 @@ pushd %{name}-%{version}
 popd
 mv %{name}-%{version} python2
 
-# no more python2-fedora-turbogears2 (#1634646)
-rm -r python2/fedora/wsgi
-rm -r python2/fedora/tg2
-
 # https://bugzilla.redhat.com/show_bug.cgi?id=1329549
 grep "PO-Revision-Date: \\\\n" python2/translations/*.po  -l | xargs rm -f
 
@@ -238,7 +229,7 @@ popd
 %endif
 
 pushd python2
-%if (0%{?rhel} != 6) && (0%{?fedora} < 31)
+%if (0%{?rhel} < 8) && (0%{?fedora} < 31)
 ## No docs. Sphinx 2 in Fedora 31+ doesn't support Python 2
 %{__python2} setup_docs.py build_sphinx
 %endif
@@ -270,7 +261,7 @@ pushd python2
 DESTDIR=%{buildroot} %{__python3} releaseutils.py install_catalogs
 
 # Cleanup doc
-%if (0%{?rhel} != 6) && (0%{?fedora} < 31)
+%if (0%{?rhel} < 8) && (0%{?fedora} < 31)
 mv build/sphinx/html doc/
 if test -e doc/html/.buildinfo ; then
   rm doc/html/.buildinfo
@@ -290,7 +281,7 @@ popd
 %files -f python2/%{name}.lang -n python2-fedora
 %license python2/COPYING
 %doc python2/NEWS python2/README.rst python2/AUTHORS
-%if (0%{?rhel} != 6) && (0%{?fedora} < 31)
+%if (0%{?rhel} < 8) && (0%{?fedora} < 31)
 %doc python2/doc
 %endif
 %{python2_sitelib}/fedora/
@@ -305,7 +296,7 @@ popd
 %files -f python3/%{name}.lang -n python3-fedora
 %license python3/COPYING
 %doc python2/NEWS python2/README.rst python2/AUTHORS
-%if (0%{?rhel} != 6) && (0%{?fedora} < 31)
+%if (0%{?rhel} < 8) && (0%{?fedora} < 31)
 %doc python2/doc
 %endif
 %{python3_sitelib}/fedora/
@@ -332,6 +323,12 @@ popd
 %endif
 
 %changelog
+* Sun Sep 27 2020 Kevin Fenzi <kevin@scrye.com> - 1.0.0-1
+- Update to 1.0.0. Fixes #1796367
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 0.10.0-14
 - Rebuilt for Python 3.9
 

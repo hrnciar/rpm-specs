@@ -1,12 +1,13 @@
+%undefine __cmake_in_source_build
 %bcond_without check
-%global ts_commit 0e7987efba9c13c5a65c2c14a8f2f04b3820e8d3
+%global ts_commit d2163dace09d647bccf34b9b82a6f05a3b23cf29
 %global ts_shortcommit %(c=%{ts_commit}; echo ${c:0:7})
 %global wc_commit d9a80099d496b5cdba6f3fe8fc77586e0e505ddc
 %global wc_shortcommit %(c=%{wc_commit}; echo ${c:0:7})
 
 Summary: The WebAssembly Binary Toolkit
 Name: wabt
-Version: 1.0.15
+Version: 1.0.19
 Release: 1%{?dist}
 URL: https://github.com/WebAssembly/wabt
 Source0: https://github.com/WebAssembly/wabt/archive/%{version}/%{name}-%{version}.tar.gz
@@ -15,14 +16,17 @@ Source2: https://github.com/WebAssembly/wasm-c-api/archive/%{wc_commit}/%{name}-
 # hard-code version instead of using git for release tarball
 Patch0: wabt-nogit.patch
 License: ASL 2.0
-BuildRequires: cmake
+BuildRequires: cmake3
 BuildRequires: gcc-c++
 %if %{with check}
 BuildRequires: gtest-devel
-BuildRequires: python3-ply
+BuildRequires: python%{python3_pkgversion}-ply
 %endif
 # wasm.h from https://github.com/WebAssembly/wasm-c-api/ is used for build
 Provides: bundled(wasm-c-api) = %{wc_commit}
+# too many test failures on big-endian
+# https://github.com/WebAssembly/wabt/issues/1063
+ExcludeArch: ppc64 s390x
 
 %description
 WABT (we pronounce it "wabbit") is a suite of tools for WebAssembly. These tools
@@ -44,63 +48,41 @@ mv third_party/testsuite{-%{ts_commit},}
 tar xzf %{S:2} -C third_party
 mv third_party/wasm-c-api{-%{wc_commit},}
 pushd test
-# https://github.com/WebAssembly/wabt/issues/1044
-# https://github.com/WebAssembly/wabt/issues/1045
-# https://github.com/WebAssembly/wabt/issues/1063
-pushd wasm2c/spec
 # https://github.com/WebAssembly/wabt/issues/1365
 %ifarch armv7hl
-rm skip-stack-guard-page.txt
+rm wasm2c/spec/skip-stack-guard-page.txt
 %endif
-%ifarch i686 ppc64 ppc64le
-rm conversions.txt
-%endif
+# https://github.com/WebAssembly/wabt/issues/1044
 %ifarch i686
-rm \
-  float_exprs.txt\
-  float_literals.txt\
-  float_memory.txt\
-  float_misc.txt\
-
+rm spec/float_exprs.txt
+rm spec/float_misc.txt
+rm spec/local_tee.txt
+rm spec/simd/simd_f32x4_arith.txt
+rm spec/simd/simd_f64x2_arith.txt
+rm wasm2c/spec/float_literals.txt
+rm wasm2c/spec/float_memory.txt
+rm wasm2c/spec/float_misc.txt
+rm wasm2c/spec/float_exprs.txt
 %endif
-%ifarch ppc64
-rm f{32,64}.txt
+# https://github.com/WebAssembly/wabt/issues/1045
+%ifarch ppc64le
+rm spec/conversions.txt
+rm spec/nontrapping-float-to-int-conversions/conversions.txt
+rm wasm2c/spec/conversions.txt
 %endif
-popd
-pushd spec
-%ifarch i686
-rm \
-  float_exprs.txt\
-  float_misc.txt\
-  local_tee.txt\
-  simd/simd_f32x4_arith.txt\
-  simd/simd_f64x2_arith.txt\
-
-%endif
-%ifarch ppc64 ppc64le
-rm {,nontrapping-float-to-int-conversions/}conversions.txt
-%endif
-popd
 popd
 %endif
 
 %build
-# work around https://github.com/WebAssembly/wabt/issues/988
-mkdir -p build
-cd build
-%cmake -DUSE_SYSTEM_GTEST=ON ..
-%make_build
+%cmake3 -DUSE_SYSTEM_GTEST=ON
+%cmake3_build
 
 %install
-cd build
-%make_install
+%cmake3_install
 
 %if %{with check}
-# ~250 tests fail on big-endian arches
-%ifnarch ppc64 s390x
 %check
-test/run-tests.py -v --timeout=40 %{?_smp_mflags}
-%endif
+test/run-tests.py -v --bindir %{_vpath_builddir} --timeout=40 %{?_smp_mflags}
 %endif
 
 %files
@@ -132,6 +114,23 @@ test/run-tests.py -v --timeout=40 %{?_smp_mflags}
 %{_mandir}/man1/wat2wasm.1*
 
 %changelog
+* Mon Aug 17 2020 Dominik Mierzejewski <rpm@greysector.net> 1.0.19-1
+- update to 1.0.19 (#1838384)
+- drop obsolete patches
+- adapt to https://www.fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.17-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> 1.0.17-2
+- Use __cmake_in_source_build
+
+* Tue Jul 14 2020 Dominik Mierzejewski <rpm@greysector.net> 1.0.17-1
+- update to 1.0.17 (#1838384)
+- backport a fix for 32-bit arches
+- stop pretending it works on big-endian
+- use names and macros portable across Fedora and EPEL
+
 * Wed May 06 2020 Dominik Mierzejewski <rpm@greysector.net> 1.0.15-1
 - update to 1.0.15 (#1832317)
 - pathfix.py no longer required, upstream moved to python3-only

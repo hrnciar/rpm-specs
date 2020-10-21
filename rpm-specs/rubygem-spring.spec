@@ -1,22 +1,20 @@
 %global gem_name spring
 
 Name: rubygem-%{gem_name}
-Version: 2.0.0
-Release: 8%{?dist}
+Version: 2.1.1
+Release: 1%{?dist}
 Summary: Rails application preloader
 License: MIT
 URL: https://github.com/rails/spring
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
 # git clone https://github.com/rails/spring.git && cd spring
-# git checkout v2.0.0 && tar czvf rubygem-spring-2.0.0-tests.tar.gz ./test
-Source1: rubygem-%{gem_name}-%{version}-tests.tar.gz
-Requires: ruby(release)
-Requires: ruby(rubygems)
+# git archive -v -o spring-2.1.1-tests.tar.gz v2.1.1 test/
+Source1: %{gem_name}-%{version}-tests.tar.gz
 # Needed by `spring status`
 Requires: %{_bindir}/ps
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
-BuildRequires: rubygem(minitest)
+BuildRequires: ruby >= 2.4.0
 BuildRequires: rubygem(bundler)
 BuildRequires: rubygem(activesupport)
 BuildArch: noarch
@@ -35,53 +33,60 @@ Requires: %{name} = %{version}-%{release}
 BuildArch: noarch
 
 %description doc
-Documentation for %{name}
+Documentation for %{name}.
 
 %prep
-gem unpack %{SOURCE0}
-
-%setup -q -D -T -n  %{gem_name}-%{version}
-
-gem spec %{SOURCE0} -l --ruby > %{gem_name}.gemspec
+%setup -q -n %{gem_name}-%{version} -b 1
 
 %build
-gem build %{gem_name}.gemspec
+# Create the gem as gem install only works on a gem file
+gem build ../%{gem_name}-%{version}.gemspec
 
+# %%gem_install compiles any C extensions and installs the gem into ./%%gem_dir
+# by default, so that we can move it into the buildroot in %%install
 %gem_install
 
 %install
 mkdir -p %{buildroot}%{gem_dir}
-cp -pa .%{gem_dir}/* \
+cp -a .%{gem_dir}/* \
         %{buildroot}%{gem_dir}/
 
+
 mkdir -p %{buildroot}%{_bindir}
-cp -pa .%{_bindir}/* \
+cp -a .%{_bindir}/* \
         %{buildroot}%{_bindir}/
 
 find %{buildroot}%{gem_instdir}/bin -type f | xargs chmod a+x
 
 %check
 pushd .%{gem_instdir}
-tar xf %{SOURCE1}
+ln -s %{_builddir}/test test
 
 # Run only unit test now, acceptance tests wants to compile gems extensions
-ruby -Ilib:test -e 'Dir.glob "./test/unit/**/*_test.rb", &method(:require)'
+ruby -Ilib -e 'Dir.glob "./test/unit/**/*_test.rb", &method(:require)'
 popd
 
 %files
 %dir %{gem_instdir}
 %{_bindir}/spring
+%license %{gem_instdir}/LICENSE.txt
 %{gem_instdir}/bin
 %{gem_libdir}
 %exclude %{gem_cache}
 %{gem_spec}
-%license %{gem_instdir}/LICENSE.txt
 
 %files doc
 %doc %{gem_docdir}
 %doc %{gem_instdir}/README.md
 
 %changelog
+* Wed Sep 23 2020 Vít Ondruch <vondruch@redhat.com> - 2.1.1-1
+- Update to Spring 2.1.1.
+  Resolves: rhbz#1415432
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

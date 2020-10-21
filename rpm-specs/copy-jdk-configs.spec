@@ -8,7 +8,7 @@ Name:    copy-jdk-configs
 # hash relevant to version tag
 %global  htag 1d18ce8b5dec47a0468136ab6cdadfb93defe2c4
 Version: 3.7
-Release: 5%{?dist}
+Release: 7%{?dist}
 Summary: JDKs configuration files copier
 
 License:  BSD
@@ -72,6 +72,12 @@ rm "%{rpm_state_dir}/%{file}" 2> /dev/null || :
 %license LICENSE
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Andrew Hughes <gnu.andrew@redhat.com> - 3.7-6
+- Rebuilt for lua 5.4.0.
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

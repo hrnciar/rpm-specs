@@ -3,7 +3,7 @@
 
 Name:           cave9
 Version:        0.4
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        3d game of cave exploration
 
 License:        LGPLv3 and CC-BY-SA and Public Domain
@@ -116,6 +116,9 @@ desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications  %{SOURCE2}
 %{_datadir}/applications/cave9.desktop
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

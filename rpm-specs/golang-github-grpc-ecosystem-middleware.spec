@@ -3,7 +3,7 @@
 
 # https://github.com/grpc-ecosystem/go-grpc-middleware
 %global goipath         github.com/grpc-ecosystem/go-grpc-middleware
-Version:                1.0.0
+Version:                1.2.0
 
 %gometa
 
@@ -23,16 +23,19 @@ link to useful external repos.}
 %global godocs          CONTRIBUTING.md DOC.md README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Golang gRPC Middlewares: interceptor chaining, auth, logging, retries and more
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
+BuildRequires:  golang(github.com/go-kit/kit/log)
+BuildRequires:  golang(github.com/go-kit/kit/log/level)
 BuildRequires:  golang(github.com/gogo/protobuf/gogoproto)
 BuildRequires:  golang(github.com/golang/protobuf/jsonpb)
 BuildRequires:  golang(github.com/golang/protobuf/proto)
+BuildRequires:  golang(github.com/golang/protobuf/ptypes/timestamp)
 BuildRequires:  golang(github.com/opentracing/opentracing-go)
 BuildRequires:  golang(github.com/opentracing/opentracing-go/ext)
 BuildRequires:  golang(github.com/opentracing/opentracing-go/log)
@@ -41,15 +44,14 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 BuildRequires:  golang(github.com/stretchr/testify/suite)
 BuildRequires:  golang(go.uber.org/zap)
 BuildRequires:  golang(go.uber.org/zap/zapcore)
-BuildRequires:  golang(golang.org/x/net/context)
 BuildRequires:  golang(golang.org/x/net/trace)
 BuildRequires:  golang(google.golang.org/grpc)
 BuildRequires:  golang(google.golang.org/grpc/codes)
 BuildRequires:  golang(google.golang.org/grpc/credentials)
 BuildRequires:  golang(google.golang.org/grpc/grpclog)
-BuildRequires:  golang(google.golang.org/grpc/internal/transport)
 BuildRequires:  golang(google.golang.org/grpc/metadata)
 BuildRequires:  golang(google.golang.org/grpc/peer)
+BuildRequires:  golang(google.golang.org/grpc/status)
 
 %if %{with check}
 # Tests
@@ -69,12 +71,18 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 
 %if %{with check}
 %check
-%gocheck
+%gocheck -d auth -t logging
 %endif
 
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 17:55:55 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.2.0-1
+- Update to 1.2.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

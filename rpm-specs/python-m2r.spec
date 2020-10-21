@@ -3,7 +3,7 @@
 
 Name:           python-%{pkgname}
 Version:        0.2.0
-Release:        9%{?dist}
+Release:        12%{?dist}
 Summary:        Markdown to reStructuredText converter
 
 License:        MIT
@@ -11,6 +11,7 @@ URL:            https://github.com/miyakogi/%{pkgname}
 Source0:        https://github.com/miyakogi/%{pkgname}/archive/v%{version}/%{pkgname}-%{version}.tar.gz
 
 Patch0:         sphinx-3.patch
+Patch1:         sphinx-code-block.patch
 
 BuildArch:      noarch
 
@@ -21,6 +22,7 @@ BuildArch:      noarch
 
 %package -n python3-%{pkgname}
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-docutils
 BuildRequires:  python3-mistune
 BuildRequires:  python3-pygments
@@ -68,6 +70,16 @@ PYTHONPATH=$(pwd) %{__python3} setup.py test -s tests
 
 
 %changelog
+* Fri Aug 21 2020 Nikola Forró <nforro@redhat.com> - 0.2.0-12
+- Explicitly build-require setuptools
+
+* Thu Aug 20 2020 Nikola Forró <nforro@redhat.com> - 0.2.0-11
+- Use reST literal block for Sphinx code block
+  resolves: #1870105
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.0-9
 - Rebuilt for Python 3.9
 

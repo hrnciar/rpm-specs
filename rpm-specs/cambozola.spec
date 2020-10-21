@@ -1,6 +1,6 @@
 Name:           cambozola
 Version:        0.936
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        A viewer for multipart jpeg streams
 License:        GPLv2+
 URL:            http://www.charliemouse.com/code/cambozola/index.html
@@ -67,6 +67,12 @@ cp -rp javadoc/*  \
 %{_javadocdir}/%{name}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.936-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0.936-12
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon May 04 2020 Andrew Bauer <zonexpertconsulting@outlook.com> - 0.936-11
 - Patch target and source for compatibility with newer java
 - Update specfile to recent packaging standards

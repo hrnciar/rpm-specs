@@ -2,7 +2,7 @@
 Name:    kdepim3
 Summary: Compatibility support for kdepim3 
 Version: 3.5.10
-Release: 29%{?dist}
+Release: 32%{?dist}
 
 License: GPLv2
 URL:     http://www.kde.org/
@@ -14,6 +14,8 @@ Patch1: kdepim-3.5.10-perl5_22.patch
 Patch2: kdepim3-gcc7.patch
 # FTBFS on aarch64
 Patch3: kdepim-3.5.10-aarch64.patch
+# FTBFS with perl
+Patch4: kdepim3-perl.patch
 
 BuildRequires: gcc-c++
 BuildRequires: bison flex flex-static
@@ -58,6 +60,7 @@ Conflicts: kdepimlibs-devel < 4.2.1-2
 %ifarch aarch64
 %patch3 -p1 -b .linker
 %endif
+%patch4 -p1
 
 %build
 unset QTDIR || : ; . /etc/profile.d/qt.sh
@@ -123,6 +126,16 @@ rm -f  %{buildroot}%{_bindir}/ktnef
 
 
 %changelog
+* Wed Aug 26 2020 Than Ngo <than@redhat.com> - 3.5.10-32
+- Fixed build failure
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.10-31
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.10-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.10-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

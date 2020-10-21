@@ -4,7 +4,7 @@
 # https://github.com/golang/mobile
 %global goipath         golang.org/x/mobile
 %global forgeurl        https://github.com/golang/mobile
-%global commit          0df4eb2385467a487d418c6358313e9e838256ae
+%global commit          973feb4309de5c3aad0553fc987d76abf1fa58f7
 
 %gometa
 
@@ -17,7 +17,7 @@ platforms.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.4%{?dist}
+Release:        0.6%{?dist}
 Summary:        Go support for Mobile devices
 
 # Upstream license specification: BSD-3-Clause
@@ -67,6 +67,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Fri Aug 07 19:46:00 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.6.20200807git973feb4
+- Bump to commit 973feb4309de5c3aad0553fc987d76abf1fa58f7
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 07 01:28:53 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200207git0df4eb2
 - Update to 0df4eb2385467a487d418c6358313e9e838256ae
 

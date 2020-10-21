@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:           yarock
 Version:        1.4.0
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Lightweight, beautiful music player
 # Main license is GPLv2+ in sources,
 # but GPLv3+ in README.md and BSD (3 clause) for widgets/flowlayout
@@ -37,18 +39,15 @@ sed -i 's/PHONON_INCLUDE_DIR/PHONON4QT5_INCLUDE_DIR/g' src/core/player/phonon/CM
 rm -rfv src3party
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%cmake .. \
+%cmake \
   -DENABLE_PHONON:BOOL=ON \
   -DENABLE_VLC:BOOL=OFF
-popd
-%make_build -C %{_target_platform}
+%cmake_build
 
 %install
 install -D -m0644 data/org.%{name}.desktop %{buildroot}%{_datadir}/applications/org.%{name}.desktop
 install -D -m0644 data/org.%{name}.appdata.xml %{buildroot}%{_datadir}/appdata/org.%{name}.appdata.xml
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 %find_lang %{name} --all-name --with-qt
 desktop-file-install \
   --remove-key=Version \
@@ -70,6 +69,12 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/org.%{name
 %dir %{_datadir}/%{name}/translations/
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 1.4.0-10
+- rebuild (qt5)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 1.4.0-8
 - rebuild (qt5)
 

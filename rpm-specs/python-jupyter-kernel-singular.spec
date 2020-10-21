@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.9.9
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Jupyter kernel for Singular
 
 License:        GPLv2+
@@ -20,8 +20,7 @@ BuildRequires:  python3dist(pysingular)
 This package contains a Jupyter kernel for Singular, to enable using
 Jupyter as the front end for Singular.}
 
-%description
-%_description
+%description %_description
 
 %package     -n python3-%{srcname}
 Summary:        Jupyter kernel for Singular
@@ -29,10 +28,8 @@ Requires:       python-jupyter-filesystem
 Requires:       python3dist(ipykernel)
 Requires:       python3dist(jupyter-client)
 Requires:       python3dist(pysingular)
-%{?python_provide:%python_provide python3-%{srcname}}
 
-%description -n python3-%{srcname}
-%_description
+%description -n python3-%{srcname} %_description
 
 %prep
 %autosetup -n %{upname}-%{version}
@@ -55,6 +52,9 @@ mv %{buildroot}%{_prefix}%{_sysconfdir} %{buildroot}%{_sysconfdir}
 %config(noreplace) %{_sysconfdir}/jupyter/nbconfig/notebook.d/singular-mode.json
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.9-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.9-3
 - Rebuilt for Python 3.9
 

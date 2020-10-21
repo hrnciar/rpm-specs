@@ -2,7 +2,7 @@
 
 Summary: Qt5 - Qt3D QML bindings and C++ APIs
 Name:    qt5-%{qt_module}
-Version: 5.14.2
+Version: 5.15.1
 Release: 1%{?dist}
 
 # See LICENSE.GPL LICENSE.LGPL LGPL_EXCEPTION.txt, for details
@@ -24,8 +24,9 @@ BuildRequires: qt5-qtbase-private-devel
 BuildRequires: qt5-qtdeclarative-devel
 BuildRequires: qt5-qtimageformats
 BuildRequires: qt5-qtxmlpatterns-devel
+%if 0%{?fedora}
 BuildRequires: pkgconfig(assimp) >= 3.3.1
-
+%endif
 Requires: qt5-qtimageformats%{?_isa} >= %{version}
 
 %description
@@ -51,6 +52,12 @@ Requires: %{name}%{?_isa} = %{version}-%{release}
 
 
 %build
+# QT is known not to work properly with LTO at this point.  Some of the issues
+# are being worked on upstream and disabling LTO should be re-evaluated as
+# we update this change.  Until such time...
+# Disable LTO
+%define _lto_cflags %{nil}
+
 %{qmake_qt5}
 
 %make_build
@@ -91,6 +98,7 @@ popd
 %{_qt5_qmldir}/Qt3D/
 %{_qt5_qmldir}/QtQuick/Scene3D/
 %{_qt5_qmldir}/QtQuick/Scene2D/
+%{_qt5_plugindir}/renderers/
 %{_qt5_plugindir}/sceneparsers/
 %{_qt5_plugindir}/renderplugins/
 %{_qt5_plugindir}/geometryloaders/
@@ -166,6 +174,15 @@ popd
 
 
 %changelog
+* Thu Sep 10 2020 Jan Grulich <jgrulich@redhat.com> - 5.15.1-1
+- 5.15.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.14.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> - 5.14.2-2
+- Disable LTO
+
 * Sat Apr 04 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.14.2-1
 - 5.14.2
 

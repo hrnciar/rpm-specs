@@ -3,7 +3,7 @@
 
 Name:           icu4j
 Version:        65.1
-Release:        3%{?dist}
+Release:        5%{?dist}
 Epoch:          1
 Summary:        International Components for Unicode for Java
 # ICU itself is now covered by Unicode license, but still has contributed
@@ -15,11 +15,14 @@ URL:            http://site.icu-project.org/
 Source0:        https://github.com/unicode-org/icu/releases/download/%{gittag}/%{srctgz}.tgz
 
 # Add better OSGi metadata to core jar
-Patch0:         improve-osgi-manifest.patch
+Patch0:         0001-Improve-OSGi-manifest.patch
+
+# Use default Doclet due to Doclet API changes in Java 9+
+# that prevent ICU's custom one from being built
+Patch1:         0002-Use-default-doclet.patch
 
 BuildRequires:  ant
 BuildRequires:  ant-junit
-BuildRequires:  java-javadoc
 BuildRequires:  javapackages-local
 BuildRequires:  ivy-local
 
@@ -61,7 +64,8 @@ API documentation for %{name}.
 
 %prep
 %setup -q -c
-%patch0
+%patch0 -p1
+%patch1 -p1
 
 # Ivy local does not name these libs as icu4j expects
 sed -i -e 's/junit-4.12/junit-SYSTEM/' \
@@ -81,7 +85,7 @@ rm main/tests/translit/src/com/ibm/icu/dev/test/translit/TransliteratorDisordere
 %build
 export JAVA_HOME=%{_jvmdir}/java/
 mkdir -p ~/.ant/lib
-ant -Djavac.source=8 -Djavac.target=8 -Divy.mode=local -Doffline=true -Dicu4j.api.doc.jdk.link=%{_javadocdir}/java all
+ant -Djavac.source=8 -Djavac.target=8 -Divy.mode=local -Doffline=true -Ddoclint.option='-Xdoclint:none' -Dicu4j.api.doc.jdk.link= all
 
 for jar in icu4j icu4j-charset icu4j-localespi ; do
   sed -i -e 's/@POMVERSION@/%{version}/' maven/$jar/pom.xml
@@ -108,6 +112,12 @@ install -m 644 icu4j-localespi.jar %{buildroot}%{_javadir}/icu4j/
 %license main/shared/licenses/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:65.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Mat Booth <mat.booth@redhat.com> - 1:65.1-4
+- Use default doclet to prevent doc build failures on Java 11
+
 * Wed May 20 2020 Mat Booth <mat.booth@redhat.com> - 1:65.1-3
 - Allow building on Java 11
 

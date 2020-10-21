@@ -5,8 +5,8 @@
 %global crate errno
 
 Name:           rust-%{crate}
-Version:        0.2.5
-Release:        1%{?dist}
+Version:        0.2.6
+Release:        2%{?dist}
 Summary:        Cross-platform interface to the `errno` variable
 
 # Upstream license specification: MIT/Apache-2.0
@@ -74,6 +74,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Josh Stone <jistone@redhat.com> - 0.2.6-1
+- Update to 0.2.6
+
 * Fri Mar 27 12:55:31 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.5-1
 - Update to 0.2.5
 

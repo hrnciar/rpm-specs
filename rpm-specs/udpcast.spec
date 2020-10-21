@@ -1,7 +1,7 @@
 Name:           udpcast
 Summary:        UDP broadcast file distribution and installation
 Version:        20120424
-Release:        19%{?dist}
+Release:        20%{?dist}
 License:        GPLv2+ and BSD
 URL:            http://udpcast.linux.lu/
 Source:         http://udpcast.linux.lu/download/%{name}-%{version}.tar.gz
@@ -61,6 +61,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20120424-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20120424-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

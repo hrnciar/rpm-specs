@@ -5,7 +5,7 @@
 
 Name:		nodejs-mixin-deep
 Version:	1.3.2
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	Deeply mix the properties of objects into the first object
 
 License:	MIT
@@ -64,6 +64,13 @@ cp -pr package.json index.js \
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Jared K. Smith <jsmith@fedoraproject.org> - 1.3.2-1
 - Update to upstream 1.3.2 release for CVE-2019-10746
 

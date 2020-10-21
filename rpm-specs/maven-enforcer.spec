@@ -1,6 +1,6 @@
 Name:           maven-enforcer
 Version:        3.0.0~M3
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Maven Enforcer
 License:        ASL 2.0
 
@@ -110,6 +110,12 @@ sed -e "s|<artifactId>plexus-maven-plugin</artifactId>|<artifactId>plexus-compon
 %doc LICENSE NOTICE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0~M3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.0.0~M3-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu May 07 2020 Fabio Valentini <decathorpe@gmail.com> - 3.0.0~M3-1
 - Update to version 3.0.0-M3.
 

@@ -5,7 +5,7 @@
 
 Name:		nodejs-busboy
 Version:	0.2.14
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	A streaming parser for HTML form data for node.js
 
 License:	MIT and ASL 2.0
@@ -55,6 +55,9 @@ cp -pr package.json lib/ deps/ \
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.14-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.14-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

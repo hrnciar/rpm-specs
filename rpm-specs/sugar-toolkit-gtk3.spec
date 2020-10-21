@@ -2,7 +2,7 @@
 
 Name:    sugar-toolkit-gtk3
 Version: 0.116
-Release: 10%{?dist}
+Release: 12%{?dist}
 Summary: Sugar toolkit GTK+ 3
 License: LGPLv2+
 URL:     http://wiki.laptop.org/go/Sugar
@@ -86,6 +86,13 @@ find %{buildroot} -type f -name "*.la" -delete
 %{_datadir}/gir-1.0/*.gir
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.116-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.116-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Jeff Law <law@redhat.org> - 0.116-10
 - Disable parallel builds due to missing Makefile dependencies
 

@@ -9,7 +9,7 @@
 
 Name:           beanstalk-client
 Version:        1.4.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        C/C++ client for the beanstalkd work queue
 License:        BSD
 URL:            https://github.com/deepfryed/beanstalk-client
@@ -64,5 +64,8 @@ kill %1
 %{_libdir}/pkgconfig/libbeanstalk.pc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Nov 15 2019 Dan Callaghan <dan.callaghan@opengear.com> - 1.4.0-1
 - initial version

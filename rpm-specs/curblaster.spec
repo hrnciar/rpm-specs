@@ -1,6 +1,6 @@
 Name: curblaster
 Version:  1.13
-Release:  7%{?dist}
+Release:  8%{?dist}
 Summary: Sidescrolling shooter, carry the pods through the gate
 
 License: GPLv3+
@@ -55,6 +55,9 @@ make check
 %{_datadir}/appdata/curblaster.appdata.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

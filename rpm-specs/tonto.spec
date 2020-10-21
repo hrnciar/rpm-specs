@@ -5,7 +5,7 @@
 
 Name:           tonto
 Version:        1.44
-Release:        15.%{reltag}%{?dist}
+Release:        18.%{reltag}%{?dist}
 Summary:        Tools for Pronto programmable remote controls
                 # Acme/** is BSD
                 # libs/jcomm is GPLv2+,
@@ -123,6 +123,16 @@ done
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.44-18.20150312gitbe1657a
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.44-17.20150312gitbe1657a
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.44-16.20150312gitbe1657a
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.44-15.20150312gitbe1657a
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

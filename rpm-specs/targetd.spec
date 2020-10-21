@@ -1,8 +1,8 @@
 Name:           targetd
 License:        GPLv3
 Summary:        Service to make storage remotely configurable
-Version:        0.8.11
-Release:        2%{?dist}
+Version:        0.9.0
+Release:        1%{?dist}
 URL:            https://github.com/open-iscsi/targetd
 Source:         https://github.com/open-iscsi/targetd/archive/v%{version}/targetd-%{version}.tar.gz
 Source1:        targetd.service
@@ -48,6 +48,7 @@ install -m 644 targetd.yaml.5 %{buildroot}%{_mandir}/man5/
 %{_bindir}/targetd
 %{_unitdir}/targetd.service
 %{python3_sitelib}/targetd/
+%{python3_sitelib}/targetd/backends/
 %{python3_sitelib}/*.egg-info
 %license LICENSE
 %doc README.md API.md client
@@ -56,6 +57,15 @@ install -m 644 targetd.yaml.5 %{buildroot}%{_mandir}/man5/
 %config(noreplace) %{_sysconfdir}/target/targetd.yaml
 
 %changelog
+* Thu Sep 10 2020 Tony Asleson <tasleson@redhat.com> - 0.9.0-1
+- New upstream release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Tony Asleson <tasleson@redhat.com> - 0.8.12-1
+- New upstream release
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.11-2
 - Rebuilt for Python 3.9
 

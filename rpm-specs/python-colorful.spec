@@ -10,7 +10,7 @@
 
 Name:           python-%{pkgname}
 Version:        0.5.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Terminal string styling done right
 License:        MIT
 URL:            https://github.com/timofurrer/colorful
@@ -63,6 +63,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} --verbose t
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.0-6
 - Rebuilt for Python 3.9
 

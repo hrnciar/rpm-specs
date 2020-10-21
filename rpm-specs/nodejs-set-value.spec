@@ -5,7 +5,7 @@
 
 Name:		nodejs-set-value
 Version:	2.0.1
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	Create nested values and any intermediaries using dot notation (a.b.c) paths
 
 License:	MIT
@@ -62,6 +62,13 @@ cp -pr package.json *.js \
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Jared K. Smith <jsmith@fedoraproject.org> - 2.0.1-1
 - Update to upstream 2.0.1 release for CVE-2019-10747
 

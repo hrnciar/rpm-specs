@@ -1,6 +1,6 @@
 Name:       kst
 Version:    2.0.8
-Release:    28%{?dist}
+Release:    30%{?dist}
 Summary:    A data viewing program
 
 License:    GPLv3
@@ -100,14 +100,13 @@ A plugin allowing kst to open and read data in getdata (dirfile) format.
 %cmake -Dkst_merge_files=0 -Dkst_rpath=0 \
   -Dkst_install_prefix=%{_prefix} -Dkst_install_libdir=%{_lib} \
   -Dkst_test=1 -Dkst_release=1 -Dkst_verbose=1
-make %{?_smp_mflags} kst2
+%cmake_build --target kst2
 
 %check
 #make test
 
 %install
-mkdir -p %{buildroot}
-make install/fast DESTDIR=%{buildroot}
+%cmake_install
 rm -f %{buildroot}%{_bindir}/test_*
 # omit deprecated kde3-era stuff -- rex
 rm -frv %{buildroot}%{_datadir}/{applnk,mimelink}/
@@ -172,6 +171,12 @@ rm -frv %{buildroot}%{_datadir}/{applnk,mimelink}/
 #%{_datadir}/services/kst/kstdata_dirfilesource.desktop
 
 %changelog
+* Mon Sep 21 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.0.8-30
+- Matio rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.8-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.8-28
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

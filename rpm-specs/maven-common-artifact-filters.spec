@@ -1,6 +1,6 @@
 Name:           maven-common-artifact-filters
 Version:        3.1.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Maven Common Artifact Filters
 License:        ASL 2.0
 
@@ -56,6 +56,12 @@ find -name SonatypeAether\*.java -delete
 %license LICENSE NOTICE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.1.0-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu May 07 2020 Fabio Valentini <decathorpe@gmail.com> - 3.1.0-1
 - Update to version 3.1.0.
 

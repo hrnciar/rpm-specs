@@ -1,6 +1,6 @@
 Name:           zsh-lovers
 Version:        0.9.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A collection of tips, tricks and examples for the Z shell
 License:        GPLv2
 URL:            https://grml.org/zsh/#zshlovers
@@ -29,6 +29,9 @@ install -pDm644 zsh-lovers.1 %{buildroot}%{_mandir}/man1/zsh-lovers.1
 %{_mandir}/man1/zsh-lovers.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

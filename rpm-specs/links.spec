@@ -10,7 +10,7 @@
 
 Name:           links
 Version:        2.20.2
-Release:        2%{?dist}
+Release:        4%{?dist}
 Epoch:          1
 Summary:        Web browser running in both graphics and text mode
 License:        GPLv2+
@@ -110,6 +110,12 @@ exit 0
 
 
 %changelog
+* Tue Sep 29 20:34:09 CEST 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1:2.20.2-4
+- Rebuilt for libevent 2.1.12
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.20.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.20.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

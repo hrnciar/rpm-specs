@@ -4,7 +4,7 @@
 
 # https://github.com/safchain/ethtool
 %global goipath         github.com/safchain/ethtool
-%global commit          42ed695e3de80b9d695f280295fd7994639f209d
+%global commit          ab94f15152e718963f09fc9d344e85a6f4a89f24
 
 %gometa
 
@@ -19,13 +19,15 @@ of a VETH interface.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Simple ethtool "like" library for GO
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+
+BuildRequires:  golang(golang.org/x/sys/unix)
 
 %description
 %{common_description}
@@ -46,6 +48,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 16:11:55 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200802gitab94f15
+- Bump to commit ab94f15152e718963f09fc9d344e85a6f4a89f24
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

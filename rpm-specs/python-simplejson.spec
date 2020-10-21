@@ -3,14 +3,14 @@
 %bcond_without tests
 
 Name:           python-simplejson
-Version:        3.17.0
-Release:        4%{?dist}
+Version:        3.17.2
+Release:        2%{?dist}
 Summary:        Simple, fast, extensible JSON encoder/decoder for Python
 
 # The main code is licensed MIT.
 # The docs include jquery which is licensed MIT or GPLv2
 License:        (MIT or AFL) and (MIT or GPLv2)
-URL:            http://undefined.org/python/#simplejson
+URL:            https://github.com/simplejson/simplejson
 Source0:        %pypi_source simplejson
 
 %description
@@ -90,6 +90,12 @@ rm docs/.nojekyll
 %{python3_sitearch}/simplejson-%{version}-py*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.17.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Fabian Affolter <mail@fabian-affolter.ch> - 3.17.2-1
+- Update to new upstream release 3.17.2 (rhbz#1857934)
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 3.17.0-4
 - Rebuilt for Python 3.9
 

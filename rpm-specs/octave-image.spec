@@ -2,7 +2,7 @@
 
 Name:           octave-%{octpkg}
 Version:        2.10.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Image processing for Octave
 License:        GPLv2+
 URL:            http://octave.sourceforge.net/image/
@@ -64,6 +64,9 @@ EOF
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

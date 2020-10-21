@@ -8,7 +8,7 @@
 
 Name:           tog-pegasus
 Version:        %{major_ver}.1
-Release:        52%{?dist}
+Release:        56%{?dist}
 Epoch:          2
 Summary:        OpenPegasus WBEM Services for Linux
 
@@ -99,6 +99,9 @@ Patch41:        pegasus-2.14.1-ssl-cert-path.patch
 Patch42:        pegasus-2.14.1-openssl-1.1-fix.patch
 # 43: fix -Wreserved-user-defined-literal warnings which prevents building with clang
 Patch43:	pegasus-2.14.1-fix-Wreserved-user-defined-literal.patch
+# 44: comply with Fedora crypto policy
+#  (use 'PROFILE=SYSTEM' instead of 'DEFAULT' in SSL_CTX_set_cipher_list calls)
+Patch44:	pegasus-2.14.1-crypto-policy-compliance.patch
 
 BuildRequires:  procps, libstdc++, pam-devel
 BuildRequires:  openssl, openssl-devel
@@ -250,6 +253,7 @@ yes | mak/CreateDmtfSchema 238 %{SOURCE9} cim_schema_2.38.0
 %patch41 -p1 -b .ssl-cert-path
 %patch42 -p1 -b .openssl-1.1-fix
 %patch43 -p1 -b .Wreserved-user-defined-literal-fix
+%patch44 -p1 -b .crypto-policy-compliance
 
 
 %build
@@ -270,7 +274,7 @@ export LD_LIBRARY_PATH=$PEGASUS_HOME/lib
 export PATH=$PEGASUS_HOME/bin:$PATH
 
 export PEGASUS_EXTRA_C_FLAGS="$RPM_OPT_FLAGS -fPIC -g -Wall -Wno-unused -fno-strict-aliasing"
-export PEGASUS_EXTRA_CXX_FLAGS="$PEGASUS_EXTRA_C_FLAGS"
+export PEGASUS_EXTRA_CXX_FLAGS="$PEGASUS_EXTRA_C_FLAGS -std=c++14"
 export PEGASUS_EXTRA_LINK_FLAGS="$RPM_OPT_FLAGS"
 export PEGASUS_EXTRA_PROGRAM_LINK_FLAGS="-g -pie -Wl,-z,relro,-z,now,-z,nodlopen,-z,noexecstack"
 export SYS_INCLUDES=-I/usr/kerberos/include
@@ -551,6 +555,18 @@ fi
 
 
 %changelog
+* Thu Aug 27 2020 Josef Řídký <jridky@redhat.com> - 2:2.14.1-56
+- Rebuilt for new net-snmp release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:2.14.1-55
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 2:2.14.1-54
+- Force C++14 as this code is not C++17 ready
+
+* Thu Jun 25 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 2:2.14.1-53
+- Comply with Fedora crypto policy
+
 * Wed Mar 25 2020 Tom Stellard <tstellar@redhat.com> - 2:2.14.1-52
 - Fix -Wreserved-user-defined-literal warnings
 

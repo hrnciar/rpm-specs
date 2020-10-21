@@ -1,7 +1,7 @@
 Summary:	Real-time file compressor
 Name:		lzop
 Version:	1.04
-Release:	3%{?dist}
+Release:	5%{?dist}
 License:	GPLv2+
 URL:		https://www.lzop.org/
 Source:		https://www.lzop.org/download/%{name}-%{version}.tar.gz
@@ -21,10 +21,10 @@ to gzip.
 
 %build
 %configure
-make %{?_smp_mflags}
+%make_build
 
 %install
-%make_install INSTALL='install -p' install
+%make_install
 rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}
 
 %files
@@ -35,6 +35,13 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}
 %{_mandir}/man?/%{name}.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.04-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.04-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.04-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

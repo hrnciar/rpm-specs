@@ -1,8 +1,14 @@
 %global srcname pyshtools
 
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 Name:           python-%{srcname}
 Version:        4.6.2
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Tools for working with spherical harmonics
 
 License:        BSD
@@ -12,7 +18,7 @@ Source0:        %pypi_source
 BuildRequires:  gcc
 BuildRequires:  gcc-gfortran
 BuildRequires:  fftw3-devel
-BuildRequires:  openblas-devel
+BuildRequires:  %{blaslib}-devel
 
 %description
 pysthools is a Python library that can be used to perform spherical
@@ -79,6 +85,12 @@ make -C examples/python -f Makefile no-timing PYTHON=%{python3}
 
 
 %changelog
+* Sun Aug 16 2020 Iñaki Úcar <iucar@fedoraproject.org> - 4.6.2-4
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.6.2-2
 - Rebuilt for Python 3.9
 

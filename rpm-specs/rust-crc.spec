@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        1.8.1
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Rust implementation of CRC(16, 32, 64) with support of various standards
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -83,6 +83,9 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Josh Stone <jistone@redhat.com> - 1.8.1-8
 - Revert to 1.8.1, as 1.9.0 was yanked upstream
 

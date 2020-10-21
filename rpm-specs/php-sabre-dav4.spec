@@ -6,8 +6,11 @@
 #
 # Please, preserve the changelog entries
 #
+
+%bcond_without       tests
+
 # Github
-%global gh_commit    8f6f4d272504ee8424e1d0a47d6efc7772de2270
+%global gh_commit    e1f617a4112da461bfc31aa4e87e0e6ac0bd6ed0
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sabre-io
 %global gh_project   dav
@@ -18,11 +21,10 @@
 %global ns_vendor    Sabre
 %global ns_project   DAV
 %global major        4
-%global with_tests   0%{!?_without_tests:1}
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
 Summary:        WebDAV Framework for PHP
-Version:        4.1.0
+Version:        4.1.2
 Release:        1%{?dist}
 
 URL:            https://github.com/%{gh_owner}/%{gh_project}
@@ -35,7 +37,7 @@ Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit
 Patch0:         %{name}-autoload.patch
 
 BuildArch:      noarch
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php(language) >= 7.1
 BuildRequires: (php-composer(sabre/vobject)   >= 4.2.1  with php-composer(sabre/vobject)  < 5)
 BuildRequires: (php-composer(sabre/event)     >= 5.0    with php-composer(sabre/event)    < 6)
@@ -64,14 +66,20 @@ BuildRequires:  php-json
 #        "evert/phpdoc-md" : "~0.1.0",
 #        "squizlabs/php_codesniffer": "~1.5.3"
 #        "monolog/monolog": "^1.18"
-BuildRequires:  phpunit7 >= 7.5
+%if 0%{?fedora} >= 31 || 0%{?rhel} >= 9
+BuildRequires:  phpunit9
+%global phpunit %{_bindir}/phpunit9
+%else
+BuildRequires:  phpunit8
+%global phpunit %{_bindir}/phpunit8
+%endif
 %endif
 # Autoloader
 BuildRequires:  php-fedora-autoloader-devel
 BuildRequires:  php-pdo_sqlite
 
 # From composer.json,    "require": {
-#        "php": ">=7.1.0",
+#        "php": ">=7.1.0 || ^8.0",
 #        "sabre/vobject": "^4.2.1",
 #        "sabre/event" : "^5.0",
 #        "sabre/xml"  : "^2.0.1",
@@ -183,7 +191,7 @@ cp -pr lib %{buildroot}%{_datadir}/php/%{ns_vendor}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 : Fix bootstrap
 cd tests
 sed -e 's:@BUILDROOT@:%{buildroot}:' -i bootstrap.php
@@ -192,9 +200,10 @@ sed -e 's:@BUILDROOT@:%{buildroot}:' -i bootstrap.php
 
 : Run upstream test suite against installed library
 ret=0
-for cmd in php php72 php73 php74; do
-  if which $cmd; then
-    $cmd %{_bindir}/phpunit7 \
+for cmdarg in "php %{phpunit}" "php72 %{_bindir}/phpunit8" php73 php74 php80; do
+  if which $cmdarg; then
+    set $cmdarg
+    $1 ${2:-%{_bindir}/phpunit9} \
        --filter '^((?!(testDeliverInsignificantRequest)).)*$'  \
        || ret=1
   fi
@@ -217,6 +226,16 @@ exit $ret
 
 
 %changelog
+* Mon Oct  5 2020 Remi Collet <remi@remirepo.net> - 4.1.2-1
+- update to 4.1.2
+- switch to phpunit9
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Remi Collet <remi@remirepo.net> - 4.1.1-1
+- update to 4.1.1
+
 * Fri Mar 20 2020 Remi Collet <remi@remirepo.net> - 4.1.0-1
 - update to 4.1.0
 - raise dependency on PHP 7.1

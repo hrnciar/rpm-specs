@@ -1,6 +1,6 @@
 Name:           perl-Config-INI
 Version:        0.025
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Config::INI Perl module
 License:        GPL+ or Artistic
 
@@ -46,6 +46,9 @@ make test
 %{_mandir}/man3/Config*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.025-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.025-16
 - Perl 5.32 rebuild
 

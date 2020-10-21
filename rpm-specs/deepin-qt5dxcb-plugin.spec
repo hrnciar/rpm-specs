@@ -1,14 +1,15 @@
-%global repo qt5dxcb-plugin
+%global repo qt5platform-plugins
 
-Name:           deepin-%{repo}
-Version:        5.0.1
-Release:        5%{?dist}
+Name:           deepin-qt5dxcb-plugin
+Version:        5.0.17
+Release:        1%{?dist}
 Summary:        Qt platform integration plugin for Deepin Desktop Environment
 License:        GPLv3+
 URL:            https://github.com/linuxdeepin/%{repo}
-Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:        %{url}/archive/%{version}/%{repo}-%{version}.tar.gz
 BuildRequires:  gcc-c++
 BuildRequires:  pkgconfig(Qt5X11Extras)
+BuildRequires:  pkgconfig(Qt5WaylandClient)
 BuildRequires:  pkgconfig(cairo)
 BuildRequires:  pkgconfig(egl)
 BuildRequires:  pkgconfig(gl)
@@ -34,8 +35,12 @@ BuildRequires:  qt5-qtbase-private-devel
 
 %prep
 %setup -q -n %{repo}-%{version}
-rm -r platformplugin/libqt5xcbqpa-dev
-sed -i 's|error.*|INCLUDEPATH += %{_qt5_includedir}/QtXcb|' platformplugin/linux.pri
+rm -r xcb/libqt5xcbqpa-dev wayland/qtwayland-dev
+
+# Disable wayland for now: https://github.com/linuxdeepin/qt5platform-plugins/issues/47
+sed -i '/wayland/d' qt5platform-plugins.pro
+
+sed -i 's|error(Not support Qt Version: .*)|INCLUDEPATH += %{_qt5_includedir}/QtXcb|' xcb/linux.pri
 
 %build
 # help find (and prefer) qt5 utilities, e.g. qmake, lrelease
@@ -52,6 +57,15 @@ export PATH=%{_qt5_bindir}:$PATH
 %{_qt5_plugindir}/platforms/libdxcb.so
 
 %changelog
+* Wed Sep 16 2020 Robin Lee <cheeselee@fedoraproject.org> - 5.0.17-1
+- Update to 5.0.17
+
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 5.0.1-7
+- rebuild (qt5)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.0.1-5
 - rebuild (qt5)
 

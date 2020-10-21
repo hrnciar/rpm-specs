@@ -1,6 +1,6 @@
 Name:		python-libevdev
 Version:	0.9
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Python bindings to the libevdev evdev device wrapper library
 
 License:	MIT
@@ -46,6 +46,9 @@ devices and create uinput devices.
 %{python3_sitelib}/libevdev-%{version}-py*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Peter Hutterer <peter.hutterer@redhat.com> 0.9-1
 - python-libevdev 0.9
 

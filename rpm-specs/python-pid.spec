@@ -21,17 +21,12 @@ PidFile can also be used as a context manager or a decorator.}
 %bcond_without  python2_tests
 %endif
 
-%if %{defined fedora} && 0%{?fedora} < 29
-%bcond_without  python2
-%bcond_without  python2_tests
-%endif
-
 %bcond_without  python3
 %bcond_without  python3_tests
 
 Name:           python-%{srcname}
 Version:        2.2.3
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        PID file management library
 
 License:        ASL 2.0
@@ -123,6 +118,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} nosetests-%{python3_version} --verbose
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 2.2.3-7
 - Rebuilt for Python 3.9
 

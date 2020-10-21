@@ -2,7 +2,7 @@
 %global gem_name minitest
 
 Name: rubygem-%{gem_name}
-Version: 5.14.1
+Version: 5.14.2
 Release: 200%{?dist}
 Summary: minitest provides a complete suite of testing facilities
 License: MIT
@@ -91,6 +91,12 @@ popd
 %{gem_instdir}/design_rationale.rb
 
 %changelog
+* Thu Sep 10 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 5.14.2-200
+- 5.14.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.14.1-201
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 5.14.1-200
 - 5.14.1
 

@@ -1,7 +1,7 @@
 Summary: A wrapper library for PKCS#11
 Name: pakchois
 Version: 0.4
-Release: 21%{?dist}
+Release: 22%{?dist}
 License: LGPLv2+
 URL: http://www.manyfish.co.uk/pakchois/
 Source0: http://www.manyfish.co.uk/pakchois/pakchois-%{version}.tar.gz
@@ -52,6 +52,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.la
 %{_libdir}/*.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 Name:           gnome-nettool
 Version:        3.8.1
-Release:        19%{?dist}
+Release:        21%{?dist}
 Summary:        Network information tool for GNOME
 
 License:        GPLv2+ and GFDL
@@ -105,6 +105,13 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/gnome-nettool.desk
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.1-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.1-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 20 2020 Kalev Lember <klember@redhat.com> - 3.8.1-19
 - Backport a patch to fix scalable icon (#1829838)
 - Update upstream URLs (#1836677)

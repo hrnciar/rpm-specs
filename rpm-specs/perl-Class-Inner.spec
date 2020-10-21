@@ -1,6 +1,6 @@
 Name:           perl-Class-Inner
 Version:        0.200001
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        A perlish implementation of Java like inner classes
 
 License:        GPL+ or Artistic
@@ -48,6 +48,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.200001-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.200001-27
 - Perl 5.32 rebuild
 

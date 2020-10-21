@@ -2,7 +2,7 @@
 
 Name:           ocaml-gettext
 Version:        0.4.1
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        OCaml library for i18n
 
 License:        LGPLv2+ with exceptions
@@ -25,14 +25,14 @@ BuildRequires:  libxslt
 BuildRequires:  libxml2
 BuildRequires:  chrpath
 BuildRequires:  autoconf
-%if !0%{?rhel}
+%if !0%{?rhel} || 0%{?rhel} >= 9
 BuildRequires:  ocaml-ounit-devel
 BuildRequires:  ocaml-camomile-devel >= 0.8.6-3
 BuildRequires:  ocaml-camomile-data
 %endif
 BuildRequires:  autoconf, automake
 
-%if !0%{?rhel}
+%if !0%{?rhel} || 0%{?rhel} >= 9
 # ocaml-gettext program needs camomile data files
 Requires:       ocaml-camomile-data
 %endif
@@ -66,7 +66,7 @@ The %{name}-devel package contains libraries and signature files for
 developing applications that use %{name}.
 
 
-%if !0%{?rhel}
+%if !0%{?rhel} || 0%{?rhel} >= 9
 %package        camomile
 Summary:        Parts of %{name} which depend on Camomile
 Requires:       %{name} = %{version}-%{release}
@@ -160,7 +160,7 @@ rm -rf $RPM_BUILD_ROOT/usr/doc
 %{_mandir}/man5/ocaml-gettext.5*
 
 
-%if !0%{?rhel}
+%if !0%{?rhel} || 0%{?rhel} >= 9
 %files camomile
 %doc LICENSE.txt
 %{_libdir}/ocaml/gettext-camomile
@@ -184,6 +184,15 @@ rm -rf $RPM_BUILD_ROOT/usr/doc
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.4.1-5
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.4.1-4
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 0.4.1-2
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

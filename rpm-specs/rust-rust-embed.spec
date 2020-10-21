@@ -5,17 +5,14 @@
 %global crate rust-embed
 
 Name:           rust-%{crate}
-Version:        5.5.1
-Release:        1%{?dist}
+Version:        5.6.0
+Release:        2%{?dist}
 Summary:        Rust Custom Derive Macro which loads files into the rust binary
 
 # Upstream license specification: MIT
 License:        MIT
 URL:            https://crates.io/crates/rust-embed
 Source:         %{crates_source}
-# Initial patched metadata
-# * Specify required-features for examples/tests - https://github.com/pyros2097/rust-embed/pull/109
-Patch0:         rust-embed-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 %if %{__cargo_skip_build}
@@ -231,5 +228,11 @@ which use "warp-ex" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Josh Stone <jistone@redhat.com> - 5.6.0-1
+- Update to 5.6.0
+
 * Fri May 15 18:20:09 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 5.5.1-1
 - Initial package

@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Total ordering for floating-point numbers
 
 # Upstream license specification: MIT / Apache-2.0
@@ -75,5 +75,8 @@ dos2unix README.md
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 22 09:44:50 EST 2020 Randy Barlow <randy@electronsweatshop.com> - 0.2.0-1
 - Initial package

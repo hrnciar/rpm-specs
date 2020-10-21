@@ -3,7 +3,7 @@
 
 Name:           python-shadowsocks
 Version:        2.9.1
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        %{sum}
 
 License:        ASL 2.0
@@ -55,6 +55,9 @@ rm -fr %{srcname}*.egg-info
 %{python3_sitelib}/%{srcname}*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.9.1-13
 - Rebuilt for Python 3.9
 

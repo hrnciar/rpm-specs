@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.3.3
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        SipHash-2-4, SipHash-1-3 and 128-bit variants in pure Rust
 
 # Upstream license specification: MIT/Apache-2.0
@@ -119,6 +119,13 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 29 2020 Josh Stone <jistone@redhat.com> - 0.3.3-1
 - Update to 0.3.3
 

@@ -3,7 +3,7 @@
 
 # https://github.com/aws/aws-sdk-go-v2
 %global goipath         github.com/aws/aws-sdk-go-v2
-Version:                0.18.0
+Version:                0.24.0
 
 %gometa
 
@@ -15,16 +15,17 @@ programming language.}
 %global godocs          example CHANGELOG.md CHANGELOG_PENDING.md CODE_OF_CONDUCT.md CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        AWS SDK for the Go programming language
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/aws/aws-sdk-go-v2/issues/655
+Patch0:         0001-Convert-id-to-string-using-strconv.Itoa.patch
 
 BuildRequires:  golang(github.com/jmespath/go-jmespath)
-BuildRequires:  golang(golang.org/x/net/http2)
 
 %description
 %{common_description}
@@ -33,6 +34,7 @@ BuildRequires:  golang(golang.org/x/net/http2)
 
 %prep
 %goprep
+%patch0 -p1
 
 %install
 %gopkginstall
@@ -40,12 +42,18 @@ BuildRequires:  golang(golang.org/x/net/http2)
 %if %{with check}
 %check
 # aws/external: needs network
-%gocheck -t aws/external
+%gocheck -t aws/external -d aws/retry
 %endif
 
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.24.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 19:15:58 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.24.0-1
+- Update to 0.24.0
+
 * Tue Jan 28 18:03:21 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.18.0-1
 - Update to 0.18.0
 

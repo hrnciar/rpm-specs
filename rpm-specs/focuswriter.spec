@@ -1,6 +1,6 @@
 Name:           focuswriter
 Version:        1.7.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A full screen, distraction-free writing program
 License:        GPLv3+
 URL:            http://gottcode.org/%{name}/
@@ -56,6 +56,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Vojtech Trefny <vtrefny@redhat.com> - 1.7.6-1
 - Update to 1.7.6
 

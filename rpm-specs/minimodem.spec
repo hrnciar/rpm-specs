@@ -1,6 +1,6 @@
 Name:           minimodem
 Version:        0.24
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        General-purpose software audio FSK modem
 
 License:        GPLv3+
@@ -37,6 +37,9 @@ make check-TESTS
 %doc AUTHORS ChangeLog COPYING NEWS README THANKS 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.24-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.24-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,20 +1,32 @@
 Name:           rpminspect-data-fedora
-Version:        0.10
-Release:        1%{?dist}
+Version:        1.1
+Release:        2%{?dist}
 Epoch:          1
 Summary:        Build deviation compliance tool data files
 Group:          Development/Tools
-License:        GPLv3+
+License:        CC-BY-SA
 URL:            https://github.com/rpminspect/rpminspect-data-fedora
-Source0:        https://github.com/rpminspect/rpminspect-data-fedora/releases/download/v0.10/rpminspect-data-fedora-0.10.tar.xz
+Source0:        https://github.com/rpminspect/rpminspect-data-fedora/releases/download/v1.1/rpminspect-data-fedora-1.1.tar.xz
 Source1:        changelog
-
-Provides:       rpminspect-data
-Obsoletes:      rpminspect-data-generic
 
 BuildArch:      noarch
 
 BuildRequires:  meson
+
+Requires:       rpminspect >= 1.1
+
+# Used by inspections enabled in the configuration file
+Requires:       xhtml1-dtds
+Requires:       html401-dtds
+Requires:       dash
+Requires:       ksh
+Requires:       zsh
+Requires:       tcsh
+Requires:       rc
+Requires:       bash
+Requires:       annobin-annocheck
+Requires:       libabigail
+
 
 %description
 Vendor specific configuration file for rpminspect and data files used by
@@ -22,7 +34,7 @@ the inspections provided by librpminspect.
 
 
 %prep
-%setup -q -n rpminspect-data-fedora-0.10
+%setup -q -n rpminspect-data-fedora-1.1
 
 
 %build
@@ -35,13 +47,10 @@ the inspections provided by librpminspect.
 
 
 %files
-%license COPYING
+%license CC-BY-SA-4.0.txt
 %doc AUTHORS README
 %{_datadir}/rpminspect
-%dir %{_sysconfdir}/rpminspect
-%dir %{_sysconfdir}/rpminspect/profiles
-%config(noreplace) %{_sysconfdir}/rpminspect/profiles/scl.conf
-%config(noreplace) %{_sysconfdir}/rpminspect/rpminspect.conf
+%{_bindir}/rpminspect-fedora
 
 
 %changelog

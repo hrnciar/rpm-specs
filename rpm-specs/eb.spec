@@ -1,6 +1,6 @@
 Name:           eb
 Version:        4.4.3
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Library for accessing Japanese CD-ROM electronic books
 Summary(ja):    CD-ROM 書籍にアクセスするためのライブラリ
 
@@ -87,6 +87,9 @@ cat %{name}utils.lang >> %{name}.lang
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.3-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 27 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.4.3-15
 - Specify all perl dependencies for build
 

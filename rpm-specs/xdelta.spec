@@ -1,7 +1,7 @@
 Summary: A binary file delta generator
 Name: xdelta
 Version: 3.1.0
-Release: 9%{?dist}
+Release: 11%{?dist}
 License: ASL 2.0
 Source0: https://github.com/jmacd/xdelta-devel/releases/download/v%{version}/xdelta3-%{version}.tar.gz
 URL: http://xdelta.org/
@@ -28,7 +28,7 @@ algorithm to replace the standard diff program used by RCS
 
 %build
 %configure
-make %{?_smp_mflags} V=0
+%make_build V=0
 
 %install
 mkdir -p $RPM_BUILD_ROOT/%{_bindir}
@@ -55,6 +55,13 @@ popd
 %{_mandir}/man1/xdelta*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 3.1.0-10
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

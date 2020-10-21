@@ -1,6 +1,6 @@
 Name:		freedink
 Version:	109.6
-Release:	4%{?dist}
+Release:	6%{?dist}
 Summary:	Humorous top-down adventure and role-playing game
 
 BuildRequires:	gcc-c++
@@ -16,6 +16,7 @@ License:	GPLv3+
 URL:		https://www.gnu.org/software/freedink/
 Source0:	https://ftp.gnu.org/gnu/freedink/freedink-%{version}.tar.gz
 Patch0:         sdl-android.patch
+ExcludeArch:    s390x
 
 Requires:	freedink-engine = %{version}-%{release} freedink-dfarc
 # Reference bundled copy of gnulib - cf. https://fedorahosted.org/fpc/ticket/174
@@ -106,6 +107,13 @@ rm $RPM_BUILD_ROOT%{_datadir}/%{name}/LiberationSans-Regular.ttf
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 109.6-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 109.6-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 2020 Gwyn Ciesla <gwync@protonmail.com> - 109.6-4
 - Patch for android include.
 

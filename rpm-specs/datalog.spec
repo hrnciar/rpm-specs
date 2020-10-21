@@ -3,7 +3,7 @@
 
 Name:		datalog
 Version:	2.6
-Release:	14%{?dist}
+Release:	15%{?dist}
 
 Source0:	http://downloads.sourceforge.net/datalog/%{name}-%{version}.tar.gz
 
@@ -70,6 +70,9 @@ rm -rf %{buildroot}/%{_infodir}/dir
 %{_libdir}/lib%{name}.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -13,11 +13,11 @@
 %{!?rel_build:%global git_tar %{name}-%{version}-%{git_ver}.tar.xz}
 
 Name:          mate-control-center
-Version:       %{branch}.0
+Version:       %{branch}.1
 %if 0%{?rel_build}
-Release:       3%{?dist}
+Release:       1%{?dist}
 %else
-Release:       0.14%{?git_rel}%{?dist}
+Release:       0.15%{?git_rel}%{?dist}
 %endif
 Summary:       MATE Desktop control-center
 License:       LGPLv2+ and GPLv2+
@@ -28,11 +28,6 @@ URL:           http://mate-desktop.org
 %{?rel_build:Source0:     http://pub.mate-desktop.org/releases/%{branch}/%{name}-%{version}.tar.xz}
 # Source for snapshot-builds.
 %{!?rel_build:Source0:    http://git.mate-desktop.org/%{name}/snapshot/%{name}-%{commit}.tar.xz#/%{git_tar}}
-
-# https://github.com/mate-desktop/mate-control-center/pull/546
-Patch1:        mate-control-center_0002-Do-not-collect-the-translation-for-Icon.patch
-# https://github.com/mate-desktop/mate-control-center/pull/555
-Patch2:        mate-control-center_0001-Port-libslab_handle_g_error-to-the-built-in-GLib-log-v2.patch
 
 BuildRequires: accountsservice-devel
 BuildRequires: dconf-devel
@@ -94,9 +89,6 @@ Development files for mate-control-center
 # needed for git snapshots
 NOCONFIGURE=1 ./autogen.sh
 %endif # 0%{?rel_build}
-
-# patch1,2
-NOCONFIGURE=1 ./autogen.sh
 
 %build
 %configure                           \
@@ -164,6 +156,12 @@ rm %{buildroot}%{_datadir}/applications/mimeinfo.cache
 
 
 %changelog
+* Sat Aug 15 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- update to 1.24.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 15 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-3
 - add upstream patch
 - fix terminal warning

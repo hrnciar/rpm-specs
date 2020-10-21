@@ -3,7 +3,7 @@
 Summary: C++/Qt4 wrapper around the ALSA library sequencer interface
 Name:    drumstick0
 Version: 0.5.0
-Release: 26%{?dist}
+Release: 28%{?dist}
 #define svn svn
 
 License: GPLv2+
@@ -48,17 +48,13 @@ developing applications that use %{name}.
 
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%cmake ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake 
+%cmake_build
 doxygen %{_target_platform}/Doxyfile
 
 
 %install
-make install/fast  DESTDIR=$RPM_BUILD_ROOT -C %{_target_platform}
+%cmake_install
 mv $RPM_BUILD_ROOT%{_datadir}/mime/packages/{%{realname},%{name}}.xml
 # don't include example applications in the compat package
 rm -fr $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT%{_datadir}/icons \
@@ -82,6 +78,13 @@ rm -fr $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT%{_datadir}/icons \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-28
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

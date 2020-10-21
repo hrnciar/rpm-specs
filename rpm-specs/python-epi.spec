@@ -11,7 +11,7 @@
 
 Name:           python-%{sname}
 Version:        0.1.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Tool for looking at the entry point plugins on a system
 
 License:        ASL 2.0
@@ -116,6 +116,9 @@ installed on a system.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.1-6
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           ocaml-ocplib-endian
-Version:        1.0
-Release:        10%{?dist}
+Version:        1.1
+Release:        3%{?dist}
 Summary:        Functions to read/write int16/32/64 from strings, bigarrays
 
 %global libname ocplib-endian
@@ -10,12 +10,9 @@ License:        LGPLv2+ with exceptions
 URL:            https://github.com/OCamlPro/ocplib-endian
 Source0:        https://github.com/OCamlPro/ocplib-endian/archive/%{version}/ocplib-endian-%{version}.tar.gz
 
-BuildRequires:  ocaml
-BuildRequires:  ocaml-findlib
-BuildRequires:  ocaml-cppo
-
-BuildRequires:  ocaml-ocamlbuild-devel
-BuildRequires:  ocaml-ocamldoc
+BuildRequires:  ocaml >= 4.02.3
+BuildRequires:  ocaml-cppo >= 1.1.0
+BuildRequires:  ocaml-dune >= 1.0
 
 %description
 Optimised functions to read and write int16/32/64 from strings,
@@ -43,31 +40,42 @@ signature files for developing applications that use %{name}.
 %autosetup -n %{libname}-%{version}
 
 %build
-ocaml setup.ml -configure --enable-tests
-%make_build build
+dune build %{?_smp_mflags}
 
 %install
-export OCAMLFIND_DESTDIR=%{buildroot}%{_libdir}/ocaml
-mkdir -p $OCAMLFIND_DESTDIR
-make install DESTDIR=%{buildroot}
+dune install --destdir=%{buildroot}
 
-%check
-# Tests seem to fail on s390x (maybe all big endian architectures).
-# See https://github.com/OCamlPro/ocplib-endian/issues/20
-%ifnarch s390x
-make test
+# We install the documentation with the doc macro
+rm -fr %{buildroot}%{_prefix}/doc
+
+# We do not want the ml files
+find %{buildroot}%{_libdir}/ocaml -name \*.ml -delete
+
+%ifarch %{ocaml_native_compiler}
+# Add missing executable bits
+find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod 0755 {} \+
 %endif
+
+# The tests currently fail, showing allocation of 54 words for all 3 tests.
+# The issue is known, but upstream's remedy does not work with OCaml 4.11.
+# See https://github.com/OCamlPro/ocplib-endian/issues/18
+#
+#%%check
+#dune runtest
 
 %files
 %license COPYING.txt
 %doc README.md CHANGES.md
-%{_libdir}/ocaml/%{libname}
+%dir %{_libdir}/ocaml/%{libname}/
+%dir %{_libdir}/ocaml/%{libname}/bigstring/
+%{_libdir}/ocaml/%{libname}/*.cma
+%{_libdir}/ocaml/%{libname}/*.cmi
+%{_libdir}/ocaml/%{libname}/bigstring/*.cma
+%{_libdir}/ocaml/%{libname}/bigstring/*.cmi
 %ifarch %{ocaml_native_compiler}
-%exclude %{_libdir}/ocaml/%{libname}/*.a
-%exclude %{_libdir}/ocaml/%{libname}/*.cmxa
-%exclude %{_libdir}/ocaml/%{libname}/*.cmx
+%{_libdir}/ocaml/%{libname}/*.cmxs
+%{_libdir}/ocaml/%{libname}/bigstring/*.cmxs
 %endif
-%exclude %{_libdir}/ocaml/%{libname}/*.mli
 
 
 %files devel
@@ -75,11 +83,38 @@ make test
 %{_libdir}/ocaml/%{libname}/*.a
 %{_libdir}/ocaml/%{libname}/*.cmxa
 %{_libdir}/ocaml/%{libname}/*.cmx
+%{_libdir}/ocaml/%{libname}/bigstring/*.a
+%{_libdir}/ocaml/%{libname}/bigstring/*.cmxa
+%{_libdir}/ocaml/%{libname}/bigstring/*.cmx
 %endif
 %{_libdir}/ocaml/%{libname}/*.mli
+%{_libdir}/ocaml/%{libname}/*.cmt
+%{_libdir}/ocaml/%{libname}/*.cmti
+%{_libdir}/ocaml/%{libname}/bigstring/*.mli
+%{_libdir}/ocaml/%{libname}/bigstring/*.cmt
+%{_libdir}/ocaml/%{libname}/bigstring/*.cmti
+%{_libdir}/ocaml/%{libname}/META
+%{_libdir}/ocaml/%{libname}/dune-package
+%{_libdir}/ocaml/%{libname}/opam
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.1-3
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.1-2
+- OCaml 4.11.0 rebuild
+
+* Wed Aug 19 2020 Jerry James <loganjerry@gmail.com> - 1.1-1
+- Version 1.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 1.0-10
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

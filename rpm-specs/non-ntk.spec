@@ -4,7 +4,7 @@
 
 Name:           non-ntk
 Version:        1.3.1000
-Release:        0.3.%{commitdate}git%{shortcommit}%{?dist}
+Release:        0.4.%{commitdate}git%{shortcommit}%{?dist}
 Summary:        A fork of FLTK for the non audio suite
 
 # themes are GPLv2+, FLTK derived code is LGPLv2+
@@ -111,6 +111,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/ntk-fluid.appd
 %{_bindir}/ntk-*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1000-0.4.20190925gitdae1771
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1000-0.3.20190925gitdae1771
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

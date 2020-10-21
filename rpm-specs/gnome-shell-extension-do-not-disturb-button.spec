@@ -1,7 +1,7 @@
 Name:       gnome-shell-extension-do-not-disturb-button
 Summary:    Hide desktop notifications until you're ready to look at them
 Version:    39
-Release:    1%{?dist}
+Release:    2%{?dist}
 URL:        https://extensions.gnome.org/extension/964/do-not-disturb-button/
 License:    GPLv2
 BuildArch:  noarch
@@ -11,7 +11,6 @@ BuildArch:  noarch
 # source release of Do Not Disturb Button, with changelog, here:
 # https://nls1729.github.io/DNDlatestupdate_332.html
 Source0: https://extensions.gnome.org/extension-data/donotdisturb-buttonnls1729.v%{version}.shell-extension.zip
-Source1: ./README.md
 
 BuildRequires: glib2
 
@@ -45,14 +44,34 @@ applications connected to GNOME's Online Accounts.)
 %prep
 %autosetup -c %{name}-%{version}
 
+cat > ./README-fedora.md << EOF
+After installing, each user that wants it must still manually enable
+Do Not Disturb Button before it will take effect. You can do so a few
+different ways.
+
+First, restart GNOME Shell (Open the command dialog with Alt-F2, type
+\`r\`, and hit enter), or log out and log back in. Then:
+
+- If you've already set up the GNOME Shell web browser plugin, go to
+  <https://extensions.gnome.org/local/>, find the extension, and click
+  the switch to "ON."
+- Open GNOME Tweaks, go to the Extensions tab, find the extension,
+  and click the switch to "ON."
+- Open a terminal or the desktop's command dialog, and (as your normal
+  user account) run:
+  \`gnome-extensions enable %{UUID}\`
+EOF
+
+
+
 %build
 # No compiling necessary.
+
+
 
 %install
 mkdir -p %{final_install_dir}
 cp --recursive --preserve=mode,timestamps  ./*  %{final_install_dir}
-cp --recursive --preserve=mode,timestamps  %{SOURCE1}  ./README-fedora.md
-
 
 # COPYING and README also get copied to standard documentation and license
 # locations, so we don't need them here.
@@ -81,6 +100,9 @@ mv  %{final_install_dir}/locale  %{buildroot}/%{_datadir}/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 39-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Andrew Toskin <andrew@tosk.in> - 39-1
 - Bump to upstream version 39, which fixes a bug causing preferences not
   to appear at least on some distributions.

@@ -1,6 +1,6 @@
 Name:		lrcalc
 Version:	1.2
-Release:	9%{?dist}
+Release:	10%{?dist}
 License:	GPLv2+
 Summary:	Littlewood-Richardson Calculator
 URL:		http://math.rutgers.edu/~asbuch/lrcalc
@@ -70,6 +70,9 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir}: make check
 %{_libdir}/lib%{name}.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

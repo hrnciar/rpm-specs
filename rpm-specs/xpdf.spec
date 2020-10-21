@@ -1,7 +1,9 @@
+%undefine __cmake_in_source_build
+
 Summary: A PDF file viewer for the X Window System
 Name: xpdf
 Version: 4.02
-Release: 3%{?dist}
+Release: 5%{?dist}
 License: (GPLv2 or GPLv3) and BSD
 Epoch: 1
 Url: http://www.xpdfreader.com/
@@ -53,6 +55,10 @@ Patch26: xpdf-4.02-urw-base35-fonts.patch
 
 # Security patches
 Patch100: xpdf-4.02-CVE-2019-17064.patch
+# Based on
+# https://gitlab.freedesktop.org/poppler/poppler/commit/cdb7ad95f7c8fbf63ade040d8a07ec96467042fc
+# https://gitlab.freedesktop.org/poppler/poppler/commit/bf4aae25a244b1033a2479b9a8f633224f7d5de5
+Patch101: xpdf-4.02-CVE-2019-12360.patch
 
 # Debian patches
 Patch200: xpdf-4.02-permissions.patch
@@ -66,7 +72,7 @@ Requires: xorg-x11-fonts-ISO8859-1-75dpi
 Requires: xorg-x11-fonts-ISO8859-1-100dpi
 Requires: qt5-qtsvg
 
-BuildRequires: qt5-devel, cmake
+BuildRequires: qt5-qtbase-devel, cmake
 BuildRequires: freetype-devel >= 2.1.7
 BuildRequires: desktop-file-utils
 BuildRequires: libpaper-devel
@@ -107,6 +113,7 @@ Development files for xpdf libraries.
 
 # security patches
 %patch100 -p1 -b .CVE-2019-17064
+%patch101 -p1 -b .CVE-2019-12360
 
 # debian patches
 %patch200 -p1 -b .permissions
@@ -132,8 +139,8 @@ export CFLAGS="%{optflags} -fPIC"
 export CXXFLAGS="%{optflags} -Wno-deprecated -fPIC"
 %cmake -DMULTITHREADED=ON -DOPI_SUPPORT=ON -DXPDFWIDGET_PRINTING=1 -DSYSTEM_XPDFRC="%{_sysconfdir}/xpdfrc"
 
-make %{?_smp_mflags}
-make xpdf %{?_smp_mflags}
+%cmake_build
+%cmake_build --target xpdf
 
 %install
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/xpdf/arabic \
@@ -149,13 +156,13 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/xpdf/arabic \
          $RPM_BUILD_ROOT%{_datadir}/xpdf/turkish \
          $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps
 
-make install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 
 # Y U NO INSTALL LIBS?!?
 mkdir -p $RPM_BUILD_ROOT%{_libdir}
-cp -a fofi/libfofi.so* $RPM_BUILD_ROOT%{_libdir}
-cp -a goo/libgoo.so* $RPM_BUILD_ROOT%{_libdir}
-cp -a splash/libsplash.so* $RPM_BUILD_ROOT%{_libdir}
+cp -a %{_vpath_builddir}/fofi/libfofi.so* $RPM_BUILD_ROOT%{_libdir}
+cp -a %{_vpath_builddir}/goo/libgoo.so* $RPM_BUILD_ROOT%{_libdir}
+cp -a %{_vpath_builddir}/splash/libsplash.so* $RPM_BUILD_ROOT%{_libdir}
 
 # headers
 mkdir -p $RPM_BUILD_ROOT%{_includedir}/xpdf/fofi
@@ -281,6 +288,12 @@ sed -i -e 's:/usr/local/share/:%{_datadir}/:g' $RPM_BUILD_ROOT%{_sysconfdir}/xpd
 %{_libdir}/lib*.so
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.02-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Tom Callaway <spot@fedoraproject.org> - 1:4.02-4
+- generate and apply fix based on poppler fix for CVE-2019-12360
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.02-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,9 +1,11 @@
 Name:           flatpak-runtime-config
-Version:        32
+Version:        33
 Release:        1%{?dist}
 Summary:        Configuration files that live inside the flatpak runtime
 Source1:        50-flatpak.conf
 Source2:        usercustomize.py
+Source3:        org.fedoraproject.Platform.appdata.xml
+Source4:        org.fedoraproject.Sdk.appdata.xml
 
 License:        MIT
 
@@ -34,6 +36,11 @@ for d in %{python3_sitelib} ; do
     install -t $RPM_BUILD_ROOT/$d -m 0644 %{SOURCE2}
 done
 
+# Install appdata for both the Platform and the Sdk
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/metainfo
+install -t $RPM_BUILD_ROOT%{_datadir}/metainfo -p -m 0644 %{SOURCE3}
+install -t $RPM_BUILD_ROOT%{_datadir}/metainfo -p -m 0644 %{SOURCE4}
+
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d/
 echo "/app/%{_lib}" > $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d/app.conf
 
@@ -63,10 +70,17 @@ HOME=/root /usr/bin/fc-cache -s
 %dir %{_prefix}/cache
 %dir %{_prefix}/cache/fontconfig
 %{python3_sitelib}
+%{_datadir}/metainfo/*.appdata.xml
 %{_sysconfdir}/fonts/conf.d/*
 %{_sysconfdir}/ld.so.conf.d/app.conf
 
 %changelog
+* Wed Jul 29 2020 Kalev Lember <klember@redhat.com> - 33-1
+- Install appdata for both the Platform and the Sdk
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 32-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 06 2020 Kalev Lember <klember@redhat.com> - 32-1
 - Remove Python 2 support (#1801932)
 

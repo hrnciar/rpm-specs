@@ -1,6 +1,6 @@
 Name:           six
 Version:        0.5.3
-Release:        35%{?dist}
+Release:        36%{?dist}
 Summary:        Hex playing program
 
 License:        GPL+
@@ -68,6 +68,9 @@ touch --no-create %{_datadir}/icons/locolor || :
 %{_bindir}/gtk-update-icon-cache --quiet --ignore-theme-index %{_datadir}/icons/locolor || :
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-36
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-35
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

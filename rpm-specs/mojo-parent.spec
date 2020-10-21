@@ -1,6 +1,6 @@
 Name:           mojo-parent
 Version:        50
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Codehaus MOJO parent project pom file
 License:        ASL 2.0
 
@@ -43,6 +43,12 @@ cp %SOURCE1 .
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 50-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 50-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu May 14 2020 Fabio Valentini <decathorpe@gmail.com> - 50-1
 - Update to version 50.
 

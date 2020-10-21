@@ -3,7 +3,7 @@
 
 Name:		perl-RRD-Simple
 Version:	1.44
-Release:	37%{?dist}
+Release:	39%{?dist}
 Summary:	Simple interface to create and store data in RRD files
 License:	ASL 2.0
 URL:		https://metacpan.org/release/RRD-Simple
@@ -107,6 +107,12 @@ LC_ALL=C ./Build test
 %{_mandir}/man3/RRD::Simple::Examples.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.44-39
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.44-38
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.44-37
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

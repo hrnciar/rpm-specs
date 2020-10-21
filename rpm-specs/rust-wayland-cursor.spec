@@ -5,7 +5,7 @@
 %global crate wayland-cursor
 
 Name:           rust-%{crate}
-Version:        0.26.6
+Version:        0.28.1
 Release:        1%{?dist}
 Summary:        Bindings to libwayland-cursor
 
@@ -71,6 +71,15 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Thu Oct 15 2020 Fabio Valentini <decathorpe@gmail.com> - 0.28.1-1
+- Update to version 0.28.1.
+
+* Sun Oct 04 2020 Fabio Valentini <decathorpe@gmail.com> - 0.28.0-1
+- Update to version 0.28.0.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.26.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 26 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.26.6-1
 - Update to 0.26.6
 - Package license and docs

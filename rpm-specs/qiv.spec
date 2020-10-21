@@ -1,6 +1,6 @@
 Name:           qiv
 Version:        2.3.1
-Release:        11%{?dist}
+Release:        12%{?dist}
 
 Summary:        Quick Image Viewer
 
@@ -50,6 +50,9 @@ chmod 644 contrib/qiv-command.example
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

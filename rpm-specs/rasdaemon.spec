@@ -1,6 +1,6 @@
 Name:			rasdaemon
 Version:		0.6.4
-Release:		2%{?dist}
+Release:		3%{?dist}
 Summary:		Utility to receive RAS error tracings
 License:		GPLv2
 URL:			http://git.infradead.org/users/mchehab/rasdaemon.git
@@ -62,6 +62,9 @@ rm INSTALL %{buildroot}/usr/include/*.h
 %{_sysconfdir}/ras/dimm_labels.d
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

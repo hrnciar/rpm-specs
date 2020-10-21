@@ -1,6 +1,6 @@
 Name:           GtkAda3
-Version:        2017
-Release:        10%{?dist}
+Version:        2020
+Release:        1%{?dist}
 Summary:        GTKada 3, an Ada binding to GTK+ 3
 Summary(sv):    GTKada 3, en adabindning till GTK+ 3
 
@@ -12,12 +12,12 @@ Summary(sv):    GTKada 3, en adabindning till GTK+ 3
 %bcond_with gps
 
 License:        GPLv3+ with exceptions
-URL:            http://libre.adacore.com/tools/gtkada/
-Source:         http://mirrors.cdn.adacore.com/art/591ae7a8c7a4473fcbb154c9#/gtkada-gpl-2017-src.tar.gz
+URL:            https://github.com/AdaCore/gtkada
+Source:         https://community.download.adacore.com/v1/35a07c29543ba779a96e690ea10db866fa1e92e3?filename=gtkada-2020-20200814-19A6C-src.tar.gz#/gtkada-2020-20200814-19A6C-src.tar.gz
 # The long hexadecimal number is what identifies the file on the server.
 # Don't forget to update it!
 # The latest known address of the download page is:
-# https://libre.adacore.com/download/configurations
+# https://www.adacore.com/download/more
 Source2:        testgtk_Makefile
 Source3:        testgtk.gpr
 Source4:        gtkada.gpr
@@ -25,20 +25,14 @@ Source5:        gtkada_gl.gpr
 
 # GNU-specific patch to avoid link bloat:
 Patch1:         gtkada-3.14.2-libs.patch
-# Link TestGTK to libm:
-Patch2:         gtkada-2017-lm.patch
 # Workaround for name collisions with stuff that was added to GTK+:
 Patch3:         gtkada-2017-namespace.patch
-# Patch to enable setting directory variables, proposed upstream 2016-08-03:
-# http://lists.adacore.com/pipermail/gtkada/2016-August/004616.html
-Patch4:         gtkada-2017-directories.patch
-# Patch to install complete sources of TestGTK, proposed upstream 2016-08-05:
-# http://lists.adacore.com/pipermail/gtkada/2016-August/004617.html
-Patch5:         gtkada-2017-complete_testgtk.patch
+# Port the binding generator to Python 3:
+# https://github.com/AdaCore/gtkada/pull/23
+Patch4:         gtkada-2020-python3.patch
 
 BuildRequires:  gcc-gnat gprbuild fedora-gnat-project-common
-# binding.py is written in Python 2.
-BuildRequires:  python2
+BuildRequires:  python3
 BuildRequires:  gtk3-devel
 %if %{with opengl}
 BuildRequires:  libGL-devel libGLU-devel
@@ -133,7 +127,7 @@ Paketet %{name}-doc innehåller dokumentationen till GTKada 3.x.
 
 
 %prep
-%autosetup -n gtkada-gpl-2017-src -p0
+%autosetup -n gtkada-2020-20200814-19A6C-src -p0
 
 # Transcode the author's name in comments in some source files.
 recode ISO-8859-1..UTF-8 src/opengl/{gdkgl,gtkglarea}.[hc] testgtk/opengl/lw.[hc]
@@ -143,6 +137,10 @@ chmod a-x testgtk/*.ad[sb]
 
 
 %build
+# This package triggers a GCC failure when building with LTO.  Disable
+# LTO for now.  fld_incomplete_type_of, at tree.c:5371
+%define _lto_cflags %{nil}
+
 %{configure} --disable-static --disable-static-pic %{!?with_opengl:--with-GL=no}
 
 # Regenerate the generated Ada packages to verify that they can be regenerated.
@@ -150,7 +148,7 @@ chmod a-x testgtk/*.ad[sb]
 # those specific files.
 mv src/generated src/pre-generated
 mkdir src/generated
-make generate PYTHON=python2
+make generate PYTHON=python3
 
 # Compare the generated packages to the pre-generated ones to verify that the
 # code being compiled is the same as what the developers upstream have reviewed
@@ -168,10 +166,14 @@ make GPRBUILD_FULL="gprbuild %{GPRbuild_optflags}"
 
 %install
 %global demodir %{_pkgdocdir}/examples/testgtk
+%global inst install --mode=u=rw,go=r,a-s --preserve-timestamps
 
-%{make_install} libdir=%{_libdir} PRJDIR=%{_GNAT_project_dir} docdir=%{_pkgdocdir} exampledir=%{demodir}
+%{make_install} PRJDIR=%{buildroot}%{_GNAT_project_dir} exampledir=%{demodir}
 
 # Move the binary libraries into place and fix the links.
+if test lib != '%{_lib}' ; then
+    mv %{buildroot}%{_prefix}/lib %{buildroot}%{_libdir}
+fi
 pushd %{buildroot}%{_libdir}
 mv gtkada/*/gtkada/libgtkada*.so.* .
 rm libgtkada*.so gtkada/*/gtkada/libgtkada*.so
@@ -181,8 +183,7 @@ popd
 
 # It's much easier to install our own multilib-compatible usage project files
 # than to patch the ones that GPRinstall generated.
-install --mode=u=rw,go=r,a-s --preserve-timestamps %{SOURCE4} %{buildroot}%{_GNAT_project_dir}
-install --mode=u=rw,go=r,a-s --preserve-timestamps %{SOURCE5} %{buildroot}%{_GNAT_project_dir}
+%{inst} %{SOURCE4} %{SOURCE5} --target-directory=%{buildroot}%{_GNAT_project_dir}
 
 # GPRinstall's manifest files are architecture-specific because they contain
 # what seems to be checksums of architecture-specific files, so they must not
@@ -195,10 +196,19 @@ rm -rf %{buildroot}%{_GNAT_project_dir}/manifests
 # Exclude the compiled demo programs from the documentation directory.
 rm %{buildroot}%{demodir}/test{gtk,_rtree}
 
+# Move the manuals and demo source code into place.
+mv %{buildroot}%{_prefix}/share/doc/gtkada/* --target-directory=%{buildroot}%{_pkgdocdir}
+mv %{buildroot}%{_prefix}/share/examples/gtkada/testgtk/* --target-directory=%{buildroot}%{demodir}
+
+# Add missing TestGTK sources.
+mkdir --parents %{buildroot}%{demodir}/opengl %{buildroot}%{demodir}/task_project/src
+%{inst} testgtk/opengl/*.{h,c,ads,adb,gpb} --target-directory=%{buildroot}%{demodir}/opengl
+%{inst} testgtk/task_project/src/*.ad? --target-directory=%{buildroot}%{demodir}/task_project/src
+
 # Add a standalone build system for the demo programs so that users can build
 # them and link them to the packaged libraries.
-install --mode=u=rw,go=r,a-s --preserve-timestamps %{SOURCE2} %{buildroot}%{demodir}/Makefile
-install --mode=u=rw,go=r,a-s --preserve-timestamps %{SOURCE3} %{buildroot}%{demodir}
+%{inst} --no-target-directory %{SOURCE2} %{buildroot}%{demodir}/Makefile
+%{inst} %{SOURCE3} --target-directory=%{buildroot}%{demodir}
 
 %if %{with gps}
 # Adjust the documentation directory in the GPS plug-in, and change its
@@ -217,8 +227,8 @@ rm %{buildroot}%{_pkgdocdir}/gtkada_rm/index.html.in
 
 # Include these license and documentation files.
 mkdir --parents %{buildroot}%{_licensedir}/%{name}
-install --mode=u=rw,go=r,a-s --preserve-timestamps COPYING3 %{buildroot}%{_licensedir}/%{name}
-install --mode=u=rw,go=r,a-s --preserve-timestamps AUTHORS README.md features* known-problems* %{buildroot}%{_pkgdocdir}
+%{inst} COPYING* --target-directory=%{buildroot}%{_licensedir}/%{name}
+%{inst} AUTHORS README.md features* known-problems* --target-directory=%{buildroot}%{_pkgdocdir}
 
 
 %check
@@ -265,6 +275,15 @@ install --mode=u=rw,go=r,a-s --preserve-timestamps AUTHORS README.md features* k
 
 
 %changelog
+* Fri Sep 25 2020 Björn Persson <Bjorn@Rombobjörn.se> - 2020-1
+- Upgraded to the 2020 release.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2017-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jeff Law <law@redhat.com> - 2017-11
+- Disable LTO
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2017-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

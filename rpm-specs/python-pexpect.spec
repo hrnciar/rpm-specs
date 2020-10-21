@@ -5,13 +5,13 @@
 Name:           python-%{modname}
 Summary:        Unicode-aware Pure Python Expect-like module
 Version:        4.8.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 
 License:        ISC
 URL:            https://github.com/pexpect/pexpect
 Source0:        %{url}/archive/%{version}/%{modname}-%{version}.tar.gz
 
-BuildRequires:  %{_bindir}/man
+BuildRequires:  /usr/bin/man
 %if %{with check}
 BuildRequires:  openssl
 BuildRequires:  python-unversioned-command
@@ -84,6 +84,12 @@ TRAVIS=true py.test-3 --verbose
 %{python3_sitelib}/%{modname}-*.egg-info
 
 %changelog
+* Wed Sep 16 2020 Kalev Lember <klember@redhat.com> - 4.8.0-5
+- Avoid using bindir macro in BuildRequires
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.8.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 4.8.0-3
 - Rebuilt for Python 3.9
 

@@ -19,7 +19,7 @@
 Summary:        Horde LZ4 Compression Extension
 Name:           php-horde-horde-lz4
 Version:        1.0.10
-Release:        15%{?dist}
+Release:        16%{?dist}
 License:        MIT
 URL:            http://www.horde.org
 Source0:        http://%{pecl_channel}/get/%{pecl_name}-%{version}.tgz
@@ -163,6 +163,9 @@ cd ../ZTS
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 Name:           shiny
 Version:        0.3
-Release:        27.git%{shortcommit}%{?dist}
+Release:        29.git%{shortcommit}%{?dist}
 Summary:        Shader and material management library for OGRE
 
 License:        MIT
@@ -33,21 +33,19 @@ Development files for shader and material management library for OGRE.
 %setup -q -n %{name}-%{commit}
 %patch0 -p1
 %patch1 -p1
-mkdir build
+
 
 %build
 LDFLAGS="$LDFLAGS -Wl,--as-needed"; export LDFLAGS
-pushd build
-  %cmake ../
-  make %{?_smp_mflags}
-popd
+%cmake
+%cmake_build
+
 
 %install
-pushd build
-  %make_install
-popd
+%cmake_install
 
 %ldconfig_scriptlets
+
 
 %files
 %doc License.txt Readme.txt
@@ -60,6 +58,13 @@ popd
 %{_libdir}/lib%{name}.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-29.git411ac43
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-28.git411ac43
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 0.3-27.git411ac43
 - Rebuilt for Boost 1.73
 

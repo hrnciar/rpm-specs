@@ -1,17 +1,15 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 %define isocodes_version 0.35
 
 Name:		gtranslator
-Version:	3.36.0
+Version:	3.38.0
 Release:	1%{?dist}
 Summary:	Gettext po file editor for GNOME
 
 License:	GPLv2+ and GPLv3+
 URL:		https://wiki.gnome.org/Apps/Gtranslator
-Source0:	https://download.gnome.org/sources/%{name}/3.36/%{name}-%{version}.tar.xz
+Source0:	https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
+# Backported from upstream
+Patch0:		70.patch
 
 BuildRequires:	desktop-file-utils
 BuildRequires:	gettext-devel
@@ -77,6 +75,17 @@ rm $RPM_BUILD_ROOT%{_includedir}/gtr-marshal.h
 %{_mandir}/man1/*
 
 %changelog
+* Fri Sep 18 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+- Remove unnecessary python byte compilation, fixing FTBFS (#1863841)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 14 2020 Kalev Lember <klember@redhat.com> - 3.36.0-1
 - Update to 3.36.0
 

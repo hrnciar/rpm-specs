@@ -1,13 +1,6 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
-
 Name:           sugar-abacus
 Version:        61
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A simple abacus activity for Sugar
 
 License:        LGPLv3+
@@ -18,7 +11,7 @@ BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  sugar-toolkit-gtk3
 BuildRequires:  gettext
-Requires:       sugar >= 0.96.0
+Requires:       sugar
 
 %description
 Abacus lets the learner explore different representations of numbers using 
@@ -45,6 +38,9 @@ python3 ./setup.py build
 python3 ./setup.py install --prefix=%{buildroot}/%{_prefix}
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}}/%{sugaractivitydir}/Abacus.activity/
+
 %find_lang org.sugarlabs.AbacusActivity
 
 %files -f org.sugarlabs.AbacusActivity.lang
@@ -53,6 +49,9 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 %{sugaractivitydir}/Abacus.activity/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 61-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 61-2
 - be specific for python3 files
 

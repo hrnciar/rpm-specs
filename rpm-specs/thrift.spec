@@ -65,7 +65,7 @@
 # change is a SONAME change and dependencies need to be rebuilt
 Name:    thrift
 Version: 0.13.0
-Release: 5%{?dist}
+Release: 9%{?dist}
 Summary: Software framework for cross-language services development
 
 # Parts of the source are used under the BSD and zlib licenses, but
@@ -102,7 +102,6 @@ BuildRequires: bison
 BuildRequires: boost-devel
 BuildRequires: boost-static
 BuildRequires: flex
-BuildRequires: flex-devel
 BuildRequires: gcc-c++
 BuildRequires: glib2-devel
 BuildRequires: libevent-devel
@@ -152,6 +151,7 @@ The %{name}-qt package contains GLib bindings for %{name}.
 %package -n python3-%{name}
 Summary: Python 3 support for %{name}
 BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 Requires: %{name}%{?_isa} = %{version}-%{release}
 Requires: python3
 Obsoletes: python-%{name} < 0.10.0-1%{?dist}
@@ -443,6 +443,18 @@ find %{buildroot} -name \*.py -exec grep -q /usr/bin/env {} \; -print | xargs -r
 
 
 %changelog
+* Mon Oct 05 2020 Orion Poplawski <orion@nwra.com> - 0.13.0-9
+- Add BR python3-setuptools
+
+* Wed Sep 23 2020 Christopher Tubbs <ctubbsii@fedoraproject.org> - 0.13.0-8
+- rebuilt for side tag f34-build-side-30069
+
+* Thu Sep 17  2020 Orion Poplawski <orion@nwra.com> - 0.13.0-7
+- Drop unneeded BR on flex-devel (bz#1871095)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.13.0-5
 - Perl 5.32 rebuild
 

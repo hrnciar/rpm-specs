@@ -1,6 +1,6 @@
 Name:           rmd
 Version:        0.2.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Resource Management Daemon-RMD
 License:        ASL 2.0
 URL:            https://github.com/intel/rmd
@@ -192,5 +192,12 @@ rm -rf /var/run/rmd/
 rm -rf /etc/pam.d/rmd
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 ArunPrabhu Vijayan <arunprabhu.vijayan@intel.com> - 0.2.1-1
 - RMD package version 0.2.1

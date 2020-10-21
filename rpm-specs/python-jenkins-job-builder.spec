@@ -1,7 +1,7 @@
 %global srcname jenkins-job-builder
 
 Name:           python-%{srcname}
-Version:        3.2.0
+Version:        3.5.0
 Release:        2%{dist}
 # Someone thought that 2.0.0.0b3 < 2.0.0
 Epoch:          1
@@ -9,9 +9,6 @@ Summary:        Manage Jenkins jobs with YAML
 License:        ASL 2.0
 URL:            https://docs.openstack.org/infra/jenkins-job-builder/
 Source:         %{pypi_source}
-
-Patch0001: 0001-Re-order-some-XML-attributes-to-preserve-ordering.patch
-Patch0002: 0002-conditional-publisher-sort-publisher-attributes-alph.patch
 
 BuildArch:      noarch
 
@@ -40,7 +37,7 @@ BuildRequires:  python3dist(fixtures) >= 3
 BuildRequires:  python3dist(testscenarios) >= 0.4
 BuildRequires:  python3dist(testtools) >= 1.4
 BuildRequires:  python3dist(mock) >= 2
-BuildRequires:  python3dist(pytest)
+BuildRequires:  python3dist(stestr)
 
 %description -n python3-%{srcname}
 Jenkins Job Builder takes simple descriptions of Jenkins jobs in YAML format
@@ -61,7 +58,7 @@ export PBR_VERSION=%{version}
 %py3_install
 
 %check
-PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -v tests
+stestr run
 
 %files -n python3-%{srcname}
 %license LICENSE
@@ -70,6 +67,20 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -v tests
 %{python3_sitelib}/jenkins_jobs/
 
 %changelog
+* Fri Aug 28 2020 Ken Dreyer <ktdreyer@ktdreyer.com> - 1:3.5.0-2
+- Run tests with stestr (rhbz#1865296)
+
+* Fri Aug 07 2020 Ken Dreyer <ktdreyer@ktdreyer.com> 1:3.5.0-1
+- Update to 3.5.0 (rhbz#1809853)
+- Drop upstreamed patches
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.2.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1:3.2.0-2
 - Rebuilt for Python 3.9
 

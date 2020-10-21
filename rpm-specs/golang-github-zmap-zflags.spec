@@ -15,7 +15,7 @@ Go command line option parser.}
 %global godocs          examples README.md
 
 Name:           %{goname}
-Release:        1.beta.1%{?dist}
+Release:        2.beta.1%{?dist}
 Summary:        Go command line option parser
 
 # Upstream license specification: BSD-3-Clause
@@ -44,6 +44,9 @@ BuildRequires:  golang(github.com/jessevdk/go-flags)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-2.beta.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 18:08:04 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.0-1.beta.1
 - Update to 1.4.0-beta.1
 

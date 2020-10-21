@@ -1,24 +1,19 @@
 Name:		voms-api-java
-Version:	3.3.0
-Release:	8%{?dist}
+Version:	3.3.2
+Release:	1%{?dist}
 Summary:	Virtual Organization Membership Service Java API
 
 License:	ASL 2.0
 URL:		https://wiki.italiangrid.it/VOMS
 Source0:	https://github.com/italiangrid/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
-#		Disable tests using non-local network interface
-Patch0:		%{name}-no-local.patch
-#		Add source version to javadoc configuration
-#		Backported from upstream git
-Patch1:		%{name}-javadoc-source.patch
 BuildArch:	noarch
 
 BuildRequires:	maven-local
-BuildRequires:	mvn(eu.eu-emi.security:canl) >= 2.5
+BuildRequires:	mvn(eu.eu-emi.security:canl) >= 2.6
 BuildRequires:	mvn(junit:junit)
 BuildRequires:	mvn(org.hamcrest:hamcrest-library)
 BuildRequires:	mvn(org.mockito:mockito-core)
-Requires:	mvn(eu.eu-emi.security:canl) >= 2.5
+Requires:	mvn(eu.eu-emi.security:canl) >= 2.6
 
 %description
 The Virtual Organization Membership Service (VOMS) is an attribute authority
@@ -38,8 +33,6 @@ Virtual Organization Membership Service (VOMS) Java API Documentation.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
 
 # Remove unused dependency
 %pom_remove_dep net.jcip:jcip-annotations
@@ -48,8 +41,8 @@ Virtual Organization Membership Service (VOMS) Java API Documentation.
 %pom_xpath_remove "//pom:plugin[pom:artifactId='maven-javadoc-plugin']/pom:configuration/pom:outputDirectory"
 %pom_xpath_remove "//pom:plugin[pom:artifactId='maven-javadoc-plugin']/pom:configuration/pom:reportOutputDirectory"
 
-%if %{?rhel}%{!?rhel:0} == 8
-# EPEL 8 doesn't use the maven-javadoc-plugin to generate javadoc
+%if %{?fedora}%{!?fedora:0} >= 33 || %{?rhel}%{!?rhel:0} >= 8
+# F33+ and EPEL8+ doesn't use the maven-javadoc-plugin to generate javadoc
 # Remove maven-javadoc-plugin configuration to avoid build failure
 %pom_remove_plugin org.apache.maven.plugins:maven-javadoc-plugin
 %endif
@@ -78,6 +71,19 @@ Virtual Organization Membership Service (VOMS) Java API Documentation.
 %license LICENSE
 
 %changelog
+* Tue Oct 13 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 3.3.2-1
+- Update to version 3.3.2 - matches canl-java 2.6.x
+- Drop patches voms-api-java-javadoc-source.patch and -no-local.patch
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 3.3.0-10
+- Fedora 33 builds javadoc the same way EPEL 8 does
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 3.3.0-9
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue May 05 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 3.3.0-8
 - Only remove the maven-javadoc-plugin configuration on EPEL 8
 - Add source version to javadoc configuration (backported from git)

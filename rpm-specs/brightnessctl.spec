@@ -1,6 +1,6 @@
 Name:		brightnessctl
 Version:	0.5.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Read and control device brightness
 
 License:	MIT
@@ -39,6 +39,9 @@ export ENABLE_SYSTEMD=1
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 6 2020 James Elford <james.p.elford@gmail.com> - 0.5.1-1
 - New upstream release (0.5.1)
 - Remove patches for systemd-logind interface to brightness as functionality

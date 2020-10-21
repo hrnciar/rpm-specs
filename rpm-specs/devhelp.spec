@@ -1,12 +1,12 @@
 Name: devhelp
 Epoch: 1
-Version: 3.37.1
+Version: 3.38.0
 Release: 1%{?dist}
 Summary: API documentation browser
 
 License: GPLv2+ and LGPL2+
 URL: https://wiki.gnome.org/Apps/Devhelp
-Source0: https://download.gnome.org/sources/%{name}/3.37/%{name}-%{version}.tar.xz
+Source0: https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires: chrpath
 BuildRequires: desktop-file-utils
@@ -104,6 +104,12 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.Devhelp.
 %{_datadir}/gir-1.0/Devhelp-3.0.gir
 
 %changelog
+* Fri Sep 11 2020 Kalev Lember <klember@redhat.com> - 1:3.38.0-1
+- Update to 3.38.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.37.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Kalev Lember <klember@redhat.com> - 1:3.37.1-1
 - Update to 3.37.1
 

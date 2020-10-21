@@ -1,6 +1,6 @@
 Name:           CTL
 Version:        1.5.2
-Release:        9%{?dist}
+Release:        13%{?dist}
 Summary:        The Color Transformation Language
 
 License:        AMPAS BSD
@@ -10,6 +10,7 @@ Patch0:         ctl-1.5.2-dpx.patch
 Patch1:         ctl-1.5.2-ilmctl.patch
 # https://github.com/ampas/CTL/issues/71
 Patch2:         ctl-1.5.2-ilm_230.patch
+Patch3:         ctl-gcc11.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
@@ -71,19 +72,15 @@ an OpenEXR file.
 
 
 %build
-mkdir -p build
-pushd build
 %cmake \
  -DINSTALL_LIB_DIR:PATH=%{_lib} \
- -DINSTALL_CMAKE_DIR:PATH=%{_lib}/cmake/%{name} \
-  ..
+ -DINSTALL_CMAKE_DIR:PATH=%{_lib}/cmake/%{name}
 
-%make_build
+%cmake_build
 
 
 %install
-cd build
-%make_install
+%cmake_install
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 # Move libraries in the correct place
@@ -125,6 +122,19 @@ rm -rf %{buildroot}%{_prefix}/doc
 
 
 %changelog
+* Tue Oct 13 2020 Jeff Law <law@redhat.com> - 1.5.2-13
+- Fix deprecated use of std::istream::streampos
+
+* Wed Oct 07 2020 Nicolas Chauvet <kwizart@gmail.com> - 1.5.2-12
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 02 2020 Björn Esser <besser82@fedoraproject.org> - 1.5.2-9
 - Fix string quoting for rpm >= 4.16
 

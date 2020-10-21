@@ -3,7 +3,7 @@
 
 Name:           %{fontname}-fonts
 Version:        5.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Monospaced font with programming ligatures
 
 License:        OFL
@@ -58,6 +58,9 @@ appstream-util validate-relax --nonet \
 %{_datadir}/metainfo/%{fontname}.metainfo.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 12 2020 Michael Kuhn <suraia@fedoraproject.org> - 5.2-1
 - Update to 5.2
 

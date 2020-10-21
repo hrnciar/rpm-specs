@@ -3,7 +3,7 @@
 
 Name:           rubygem-%{gem_name}
 Version:        0.7.3
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Manual authoring tool
 
 License:        MIT
@@ -74,6 +74,9 @@ rm -rf %{buildroot}%{gem_instdir}/{INSTALLING,Rakefile,test,man,ronn.gemspec,con
 %{gem_docdir}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.3-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.3-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+%bcond_without tests
 # git source
 # https://cgit.kde.org/smb4k.git/
 # bug tracker
@@ -6,7 +8,7 @@
 %global _kf5_iconsdir %{_datadir}/icons
 
 Name:       smb4k
-Version:    3.0.6
+Version:    3.0.70
 Release:    1%{?dist}
 Summary:    The SMB/CIFS Share Browser for KDE
 
@@ -40,6 +42,7 @@ BuildRequires:  cmake(KF5ConfigWidgets)
 BuildRequires:  cmake(KF5WindowSystem)
 BuildRequires:  cmake(KF5Plasma)
 BuildRequires:  cmake(KF5Crash)
+BuildRequires:  cmake(KF5DNSSD)
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Gui)
 BuildRequires:  pkgconfig(Qt5Network)
@@ -65,18 +68,15 @@ provide a program that's easy to use and has as many features as possible.
 
 
 %prep
-%autosetup -p 1
+%autosetup -p1
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} -Wno-dev ..
-popd
+%{cmake_kf5} -Wno-dev
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 # delete devel .so
 rm %{buildroot}%{_kf5_libdir}/libsmb4kcore.so
 
@@ -94,6 +94,11 @@ appstream-util validate-relax --nonet %{buildroot}/%{_kf5_metainfodir}/*.appdata
 
 # please look into kdenlive.spec to add --with-html on epel7
 %find_lang %{name} --with-html --all-name
+
+%check
+%if %{with tests}
+%ctest
+%endif
 
 %ldconfig_scriptlets
 
@@ -120,6 +125,13 @@ appstream-util validate-relax --nonet %{buildroot}/%{_kf5_metainfodir}/*.appdata
 %{_datadir}/plasma/plasmoids/org.kde.smb4kqml/
 
 %changelog
+* Sat Sep 12 2020 Marie Loise Nolden <loise@kde.org> - 3.0.70-1
+- Update to 3.0.70
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+- Fix cmake build
+
 * Thu Jun 04 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 3.0.6-1
 - Update to 3.0.6 (#1843775)
 

@@ -2,7 +2,7 @@
 %global pypi_name ldap3
 
 Name:           python-%{pypi_name}
-Version:        2.7
+Version:        2.8.1
 Release:        1%{?dist}
 Summary:        Strictly RFC 4511 conforming LDAP V3 pure Python client
 
@@ -47,6 +47,9 @@ rm -vf %{pypi_name}/utils/ordDict.py
 %{python3_sitelib}/%{pypi_name}/
 
 %changelog
+* Tue Sep 15 2020 Avram Lubkin <aviso@rockhopper.net> - 2.8.1-1
+- Update to 2.8.1
+
 * Sat Jun 20 2020 Avram Lubkin <aviso@rockhopper.net> - 2.7-1
 - Update to 2.7
 

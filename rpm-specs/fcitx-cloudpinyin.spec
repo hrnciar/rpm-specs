@@ -1,6 +1,6 @@
 Name:		fcitx-cloudpinyin
 Version:	0.3.7
-Release:	2%{?dist}
+Release:	5%{?dist}
 Summary:	Cloudpinyin module for fcitx
 License:	GPLv2+
 URL:		https://fcitx-im.org/wiki/Cloudpinyin
@@ -20,17 +20,11 @@ list. It current support four provider, Sogou, QQ, Baidu, Google.
 
 
 %build
-mkdir -pv build
-pushd build
-%cmake ..
-make %{?_smp_mflags} VERBOSE=1
-popd
+%cmake 
+%cmake_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-pushd build
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL='install -p'
-popd
+%cmake_install
 
 %find_lang %{name}
 
@@ -42,6 +36,16 @@ popd
 
 
 %changelog
+* Tue Aug 04 2020 Qiyu Yan <yanqiyu@fedoraproject.org> - 0.3.7-5
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.7-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.7-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

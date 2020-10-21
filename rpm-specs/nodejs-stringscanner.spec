@@ -5,7 +5,7 @@
 
 Name:		nodejs-stringscanner
 Version:	0.0.3
-Release:	8%{?dist}
+Release:	9%{?dist}
 Summary:	StringScanner performs lexical scanning operations on a string
 
 License:	MIT
@@ -66,6 +66,9 @@ cp -pr package.json lib/ \
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.3-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

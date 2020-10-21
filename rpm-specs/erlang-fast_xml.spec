@@ -1,9 +1,9 @@
 %global srcname fast_xml
 
-%global p1_utils_ver 1.0.17
+%global p1_utils_ver 1.0.20
 
 Name: erlang-%{srcname}
-Version: 1.1.38
+Version: 1.1.43
 Release: 1%{?dist}
 
 License: ASL 2.0
@@ -58,6 +58,17 @@ install -p -D -m 755 priv/lib/* --target-directory=$RPM_BUILD_ROOT%{_erllibdir}/
 
 
 %changelog
+* Fri Jul 31 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.1.43-1
+- Update to 1.1.43 (#1807287).
+- https://github.com/processone/fast_xml/blob/1.1.43/CHANGELOG.md
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.38-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.38-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.1.38-1
 - Update to 1.1.38 (#1789168).
 - https://github.com/processone/fast_xml/blob/1.1.38/CHANGELOG.md

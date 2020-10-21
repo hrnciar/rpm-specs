@@ -7,9 +7,10 @@
 # Please, preserve the changelog entries
 #
 
-%global with_tests   0%{!?_without_tests:1}
+%bcond_without       tests
+
 # Github
-%global gh_commit    e452a9c6444905a486280c7d56503a6468303f69
+%global gh_commit    d2184358c5ef5ecaa1f6b4c2bce175fac2d25670
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     swaggest
 %global gh_project   json-diff
@@ -22,7 +23,7 @@
 %global major        %nil
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
-Version:        3.7.5
+Version:        3.8.1
 Release:        1%{?gh_date?%{gh_date}git%{gh_short}}%{?dist}
 Summary:        JSON diff/rearrange/patch/pointer library for PHP
 
@@ -32,7 +33,7 @@ Source0:        %{name}-%{version}-%{?gh_short}.tgz
 Source1:        makesrc.sh
 
 BuildArch:      noarch
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php-json
 # For tests, from composer.json "require-dev": {
 #    "phpunit/phpunit": "^4.8.23"
@@ -79,7 +80,7 @@ cp -pr src    %{buildroot}%{_datadir}/php/%{ns_vendor}/%{ns_project}%{major}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 cat << 'EOF' | tee vendor/autoload.php
 <?php
@@ -109,6 +110,15 @@ exit $ret
 
 
 %changelog
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 3.8.1-1
+- update to 3.8.1
+
+* Fri Sep 25 2020 Remi Collet <remi@remirepo.net> - 3.8.0-1
+- update to 3.8.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 27 2020 Remi Collet <remi@remirepo.net> - 3.7.5-1
 - update to 3.7.5
 

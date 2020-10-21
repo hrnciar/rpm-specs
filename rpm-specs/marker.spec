@@ -1,12 +1,9 @@
-%global optflags %{optflags} -flto
-%global build_ldflags %{build_ldflags} -flto
-
 %global uuid    com.github.fabiocolacio.%{name}
 %global vergit  2020.04.04
 
 Name:           marker
 Version:        0.0.%{vergit}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        GTK 3 markdown editor
 
 # The entire source code is GPLv3+ except:
@@ -123,7 +120,7 @@ rm %{buildroot}%{_datadir}/%{uuid}/icons/hicolor/generate.sh
 
 
 %check
-appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.xml
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
@@ -148,6 +145,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Wed Sep  2 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.0.2020.04.04-3
+- Remove old LTO macros
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.2020.04.04-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 04 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.0.2020.04.04-1
 - Update to 2020.04.04
 

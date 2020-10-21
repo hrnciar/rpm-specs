@@ -1,19 +1,16 @@
 Name:           git-fame
-Version:        1.7.0
-Release:        6%{?dist}
+Version:        1.12.0
+Release:        2%{?dist}
 Summary:        Pretty-print git repository collaborators sorted by contributions
 
 License:        MPLv2.0
-URL:            https://github.com/casperdcl/git-fame
-Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
+URL:            https://pypi.python.org/pypi/git-fame
+Source0:        %{pypi_source}
 
 BuildArch:      noarch
  
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
-BuildRequires:  python3-Cython
-BuildRequires:  gcc
-#BuildRequires:  python3-nose
 Requires:       git-core
 Requires:       python%{python3_version}dist(argopt) >= 0.3.5
 # Only for beautifulness
@@ -24,10 +21,10 @@ Recommends:     python%{python3_version}dist(tabulate)
 Pretty-print git repository collaborators sorted by contributions.
 
 %prep
-%autosetup
+%autosetup -n %{name}-%{version}
 
 %build
-%py3_build -- --cython
+%py3_build
 
 %install
 %py3_install
@@ -37,7 +34,6 @@ install -Dpm0644 -t %{buildroot}%{_mandir}/man1 gitfame/git-fame.1
 
 %check
 # Tests depend on real git repo
-#nosetests-%{python3_version} -v gitfame/
 
 %files
 %license LICENCE
@@ -46,8 +42,15 @@ install -Dpm0644 -t %{buildroot}%{_mandir}/man1 gitfame/git-fame.1
 %{_libexecdir}/git-core/%{name}
 %{_mandir}/man1/%{name}.1*
 %{python3_sitelib}/git_fame-*.egg-info/
+%{python3_sitelib}/gitfame/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 Fabio Alessandro Locati <fale@fedoraproject.org> - 1.12.0-1
+- Update to 1.12.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.0-6
 - Rebuilt for Python 3.9
 
@@ -99,8 +102,8 @@ install -Dpm0644 -t %{buildroot}%{_mandir}/man1 gitfame/git-fame.1
 * Thu Dec 22 2016 Miro Hrončok <mhroncok@redhat.com> - 1.2.0-2
 - Rebuild for Python 3.6
 
-* Sat Dec 10 2016 Fabio Alessandro Locati <fale@redhat.com> - 1.2.0-1
+* Sat Dec 10 2016 Fabio Alessandro Locati <fale@fedoraproject.org> - 1.2.0-1
 - Update to 1.2.0
 
-* Wed Dec 07 2016 Fabio Alessandro Locati <fale@redhat.com> - 1.1.0-1
+* Wed Dec 07 2016 Fabio Alessandro Locati <fale@fedoraproject.org> - 1.1.0-1
 - Initial package.

@@ -5,17 +5,13 @@ BuildRequires: coreutils
 BuildRequires: sed
 BuildRequires: readline-devel
 BuildRequires: openssl-devel
+BuildRequires: libcurl-devel
 BuildRequires: libicu-devel
+BuildRequires: libzstd-devel
 BuildRequires: perl-podlators
 Requires(pre): %{_sbindir}/useradd
 Requires(pre): %{_sbindir}/groupadd
-
-# libcurl dependencies (except ones we have already).
-BuildRequires: autoconf
-BuildRequires: automake
-BuildRequires: libtool
-BuildRequires: zlib-devel
-Requires: zlib
+Requires: logrotate
 
 Requires(post): systemd
 Requires(preun): systemd
@@ -23,9 +19,9 @@ Requires(postun): systemd
 BuildRequires: systemd
 
 Name: tarantool
-Version: 2.2.2.62
+Version: 2.4.2.68
 Release: 2%{?dist}
-Summary: Database Server
+Summary: In-Memory Database
 License: BSD
 URL: https://tarantool.org/
 # Add dependency on network configuration files used by `socket` module
@@ -42,12 +38,18 @@ Recommends: cmake >= 2.8
 Recommends: make
 Recommends: gcc >= 4.5
 Recommends: gcc-c++ >= 4.5
-Source0: http://download.tarantool.org/tarantool/2.2/src/tarantool-%{version}.tar.gz
+Source0: http://download.tarantool.org/tarantool/2.4/src/tarantool-%{version}.tar.gz
+Patch0: 10-rundir.patch
 ExclusiveArch: %{ix86} x86_64
 %description
-Tarantool is a high performance general-purpose database and Lua
-application server. Tarantool supports replication, online backup and
-stored procedures in Lua.
+Tarantool is an open-source database that can store everything in RAM.
+You can use it as a cache with on-disk persistence. Tarantool is able to
+process up to 1 million RPS and supports SQL and secondary index searching.
+
+In Tarantool, you can run your code at the same place where your data is.
+That speeds up all the operations. Apply any business logic in Lua programming
+language. Get rid of the outdated database records. Synchronize with other
+data sources. Implement HTTP-service.
 
 This package provides the server daemon and admin tools.
 
@@ -55,15 +57,21 @@ This package provides the server daemon and admin tools.
 Summary: Server development files for %{name}
 Requires: %{name}%{?_isa} = %{version}-%{release}
 %description devel
-Tarantool is a high performance in-memory NoSQL database and Lua
-application server. Tarantool supports replication, online backup and
-stored procedures in Lua.
+Tarantool is an open-source database that can store everything in RAM.
+You can use it as a cache with on-disk persistence. Tarantool is able to
+process up to 1 million RPS and supports SQL and secondary index searching.
+
+In Tarantool, you can run your code at the same place where your data is.
+That speeds up all the operations. Apply any business logic in Lua programming
+language. Get rid of the outdated database records. Synchronize with other
+data sources. Implement HTTP-service.
 
 This package provides server development files needed to create
 C and Lua/C modules.
 
 %prep
 %setup -q -n %{name}-%{version}
+%patch0 -p1
 
 %build
 # RHBZ #1301720: SYSCONFDIR an LOCALSTATEDIR must be specified explicitly
@@ -72,17 +80,22 @@ C and Lua/C modules.
          -DCMAKE_INSTALL_SYSCONFDIR:PATH=%{_sysconfdir} \
          -DENABLE_BUNDLED_LIBYAML:BOOL=ON \
          -DENABLE_BUNDLED_MSGPUCK:BOOL=ON \
+         -DENABLE_BUNDLED_LIBCURL:BOOL=OFF \
+         -DENABLE_BUNDLED_ZSTD:BOOL=OFF \
          -DENABLE_BACKTRACE:BOOL=OFF \
          -DWITH_SYSTEMD:BOOL=ON \
          -DSYSTEMD_UNIT_DIR:PATH=%{_unitdir} \
          -DSYSTEMD_TMPFILES_DIR:PATH=%{_tmpfilesdir} \
          -DENABLE_DIST:BOOL=ON
-make %{?_smp_mflags}
+%cmake_build --target tarantool api man-tarantool man-tarantoolctl
 
 %install
-%make_install
+%cmake_install
 # %%doc and %%license macroses are used instead
 rm -rf %{buildroot}%{_datarootdir}/doc/tarantool/
+
+%check
+%ctest
 
 %pre
 /usr/sbin/groupadd -r tarantool > /dev/null 2>&1 || :
@@ -91,13 +104,14 @@ rm -rf %{buildroot}%{_datarootdir}/doc/tarantool/
 
 %post
 %tmpfiles_create tarantool.conf
-%systemd_post tarantool@.service
+%systemd_post 'tarantool@.service'
 
 %preun
-%systemd_preun tarantool@.service
+# Sic: doesn't work
+#systemd_preun 'tarantool@*.service'
 
 %postun
-%systemd_postun_with_restart tarantool@.service
+%systemd_postun_with_restart 'tarantool@*.service'
 
 %files
 %{_bindir}/tarantool
@@ -114,9 +128,8 @@ rm -rf %{buildroot}%{_datarootdir}/doc/tarantool/
 %dir %{_sysconfdir}/tarantool
 %dir %{_sysconfdir}/tarantool/instances.available
 %config(noreplace) %{_sysconfdir}/tarantool/instances.available/example.lua
-# Use 0750 for database files
-%attr(0750,tarantool,tarantool) %dir %{_localstatedir}/lib/tarantool/
-%attr(0750,tarantool,tarantool) %dir %{_localstatedir}/log/tarantool/
+%attr(-,tarantool,tarantool) %dir %{_localstatedir}/lib/tarantool/
+%attr(-,tarantool,tarantool) %dir %{_localstatedir}/log/tarantool/
 %config(noreplace) %{_sysconfdir}/logrotate.d/tarantool
 %{_unitdir}/tarantool@.service
 %{_tmpfilesdir}/tarantool.conf
@@ -132,6 +145,27 @@ rm -rf %{buildroot}%{_datarootdir}/doc/tarantool/
 %{_includedir}/tarantool/module.h
 
 %changelog
+* Tue Sep 22 2020 Roman Tsisyk <rtsisyk@fedoraproject.org> - 2.4.2.68-2
+- Use 755 for /var/lib/tarantool and /var/log/tarntool.
+- Fix /run directory.
+- Fix systemd invocations.
+- Disable bundled curl.
+- Disable bundled zstd.
+- Fix rpmlint warnings.
+- Speed up build.
+
+* Sat Sep 19 2020 Roman Tsisyk <rtsisyk@fedoraproject.org> - 2.4.2.68-1
+- New minor release.
+- Use `cmake_build` && `cmake_install` instead of `make` && `make install`.
+- Update description from the official web-site.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2.62-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.2.62-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 15 2020 Pete Walter <pwalter@fedoraproject.org> - 2.2.2.62-2
 - Rebuild for ICU 67
 

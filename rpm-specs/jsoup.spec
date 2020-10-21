@@ -1,7 +1,7 @@
 Name:           jsoup
 Summary:        Java library for working with real-world HTML
 Version:        1.13.1
-Release:        1%{?dist}
+Release:        4%{?dist}
 License:        MIT
 
 URL:            http://jsoup.org/
@@ -49,6 +49,11 @@ API documentation for %{name}.
 %pom_remove_plugin :maven-failsafe-plugin
 %pom_remove_plugin :maven-javadoc-plugin
 
+# Expose internal packages in the OSGi metadata, clearly marking them as such
+# using the x-internal attribute
+%pom_xpath_inject "pom:plugin[pom:artifactId='maven-bundle-plugin']/pom:configuration/pom:instructions" \
+  "<_exportcontents>*.internal;x-internal:=true,*</_exportcontents>"
+
 %build
 %mvn_build -f
 
@@ -63,6 +68,15 @@ API documentation for %{name}.
 %license LICENSE
 
 %changelog
+* Fri Aug 28 2020 Mat Booth <mat.booth@redhat.com> - 1.13.1-4
+- Expose internal packages in the OSGi metadata
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.13.1-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu May 14 2020 Fabio Valentini <decathorpe@gmail.com> - 1.13.1-1
 - Update to version 1.13.1.
 

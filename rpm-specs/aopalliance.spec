@@ -1,7 +1,7 @@
 Name:           aopalliance
 Epoch:          0
 Version:        1.0
-Release:        21%{?dist}
+Release:        24%{?dist}
 Summary:        Java/J2EE AOP standards
 License:        Public Domain
 URL:            http://aopalliance.sourceforge.net/
@@ -34,7 +34,7 @@ larger AOP community.
 %build
 export CLASSPATH=
 export OPT_JAR_LIST=:
-%{ant} -Dbuild.sysclasspath=only jar javadoc
+%{ant} -Dbuild.sysclasspath=only jar javadoc -Dant.build.javac.source=1.8 -Dant.build.javac.target=1.8
 
 # Inject OSGi manifest required by Eclipse.
 jar umf %{SOURCE2} build/%{name}.jar
@@ -48,6 +48,16 @@ jar umf %{SOURCE2} build/%{name}.jar
 %files -f .mfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.0-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Mat Booth <mat.booth@redhat.com> - 0:1.0-23
+- Generate 1.8 level bytecode to avoid breaking dependent packages that require
+  Java 8
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0:1.0-22
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.0-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:		perl-Module-Extract-Namespaces
 Version:	1.021
-Release:	9%{?dist}
+Release:	10%{?dist}
 Summary:	Extract the package declarations from a module
 License:	Artistic 2.0
 URL:		https://metacpan.org/release/Module-Extract-Namespaces
@@ -60,6 +60,9 @@ make test
 %{_mandir}/man3/Module::Extract::Namespaces.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.021-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.021-9
 - Perl 5.32 rebuild
 

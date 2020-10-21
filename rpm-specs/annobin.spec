@@ -1,8 +1,8 @@
 
 Name:    annobin
 Summary: Annotate and examine compiled binary files
-Version: 9.22
-Release: 1%{?dist}
+Version: 9.35
+Release: 2%{?dist}
 License: GPLv3+
 # ProtocolURL: https://fedoraproject.org/wiki/Toolchain/Watermark
 # Maintainer: nickc@redhat.com
@@ -22,31 +22,31 @@ License: GPLv3+
 # time check for debuginfod support.
 %bcond_with debuginfod
 
-# Use "--with clangplugin" to build the annobin plugin for Clang.
-%bcond_with clangplugin
+# Use "--without clangplugin" to disable the building of the annobin plugin for Clang.
+%bcond_without clangplugin
 
-# Use "--with llvmplugin" to build the annobin plugin for LLVM.
-%bcond_with llvmplugin
+# Use "--without llvmplugin" to disable the building of the annobin plugin for LLVM.
+%bcond_without llvmplugin
 
 # Set this to zero to disable the requirement for a specific version of gcc.
 # This should only be needed if there is some kind of problem with the version
 # checking logic or when building on RHEL-7 or earlier.
 %global with_hard_gcc_version_requirement 1
 
-# # Do not build the annobin plugin with annotation enabled.
-# # This is because if we are bootstrapping a new build environment we can have
-# # a new version of gcc installed, but without a new of annobin installed.
-# # (i.e. we are building the new version of annobin to go with the new version
-# # of gcc).  If the *old* annobin plugin is used whilst building this new
-# # version, the old plugin will complain that version of gcc for which it
-# # was built is different from the version of gcc that is now being used, and
-# # then it will abort.
+%bcond_without annobin_plugin
+# Allow the building of annobin without using annobin itself.
+# This is because if we are bootstrapping a new build environment we can have
+# a new version of gcc installed, but without a new of annobin installed.
+# (i.e. we are building the new version of annobin to go with the new version
+# of gcc).  If the *old* annobin plugin is used whilst building this new
+# version, the old plugin will complain that version of gcc for which it
+# was built is different from the version of gcc that is now being used, and
+# then it will abort.
 #
-# Suppress this for BZ 1630550.
-# The problem should now only arise when rebasing to a new major version
-# of gcc, in which case the undefine below can be temporarily reinstated.
-#
-# %%undefine _annotated_build
+# The default is to use annobin.  cf BZ 1630550.
+%if %{without annobin_plugin}
+%undefine _annotated_build
+%endif
 
 #---------------------------------------------------------------------------------
 
@@ -111,11 +111,13 @@ Requires: gcc
 %endif
 
 BuildRequires: gcc gcc-plugin-devel gcc-c++
+# The documentation uses pod2man...
+BuildRequires: perl perl-podlators
 %if %{with clangplugin}
-BuildRequires: clang clang-devel llvm llvm-devel compiler-rt
+BuildRequires: clang clang-devel llvm llvm-devel compiler-rt gawk
 %endif
 %if %{with llvmplugin}
-BuildRequires: clang clang-devel llvm llvm-devel compiler-rt
+BuildRequires: clang clang-devel llvm llvm-devel compiler-rt gawk
 %endif
 
 %description
@@ -167,14 +169,14 @@ hardening options.
 
 %global ANNOBIN_GCC_PLUGIN_DIR %(gcc --print-file-name=plugin)
 
-%if %{with clangplugin}
-# FIXME: Clang does not appear to have an official plugin directory.
-# Instead it just uses dlopen() with no pathname prefix.  So we
-# construct a (hopefully good) path and rely upon users of annobin
-# knowing about this location.
-# FIXME2: Currently this same path is hardcoded into the Makefile.in
-# files in the clang-plugin and llvm-plugin source directories...
-%global ANNOBIN_CLANG_PLUGIN_DIR /usr/lib64/clang/%(clang -dumpversion)/lib
+%if %{with clangplugin} || %{with llvmplugin}
+# FIXME: We currently assume that the first directory listed in clang's
+# search directory output is the one that we should use for plugins.
+# This might not be correct.
+# The gensub() below is because without it $2 would look like:
+# " =/usr/lib64/clang/8.0.0"
+# Note - we install LLVM plugins into the same directory as Clang plugins.
+%global ANNOBIN_CLANG_PLUGIN_DIR %(clang --print-search-dirs | gawk -e'BEGIN { FS = ":" } /libraries/ { print gensub(" =","",1,$2) } END { }')
 %endif
 
 #---------------------------------------------------------------------------------
@@ -225,24 +227,46 @@ CONFIG_ARGS="$CONFIG_ARGS --without-test"
 
 %make_build
 
-# Rebuild the plugin, this time using the plugin itself!  This
+# Rebuild the plugin(s), this time using the plugin itself!  This
 # ensures that the plugin works, and that it contains annotations
-# of its own.  This could mean that we end up with a plugin with
-# double annotations in it.  (If the build system enables annotations
-# for plugins by default).  I have not tested this yet, but I think
-# that it should be OK.
+# of its own.
 cp gcc-plugin/.libs/annobin.so.0.0.0 %{_tmppath}/tmp_annobin.so
 make -C gcc-plugin clean
-BUILD_FLAGS="-fplugin=%{_tmppath}/tmp_annobin.so -fplugin-arg-tmp_annobin-rename"
-# If building on RHEL7, enable the next option as the .attach_to_group assembler pseudo op is not available in the assembler.
+BUILD_FLAGS="-fplugin=%{_tmppath}/tmp_annobin.so"
+
+%if %{with annobin_plugin}
+# Disable the standard annobin plugin so that we do get conflicts.
+# Note: the "-fplugin=annobin" is here, despite the fact that it will also
+# be automatically added to the gcc command line via
+# "-specs=/usr/lib/rpm/redhat/redhat-annobin-cc1" because of a bug in gcc's
+# plugin command line options handling.  GCC will issue an error saying that
+# there is no plugin called "annobin" matching the -fplugin-arg-annobin-disable
+# option, despite the fact that there patently is.
+BUILD_FLAGS="$BUILD_FLAGS -fplugin=annobin -fplugin-arg-annobin-disable"
+%endif
+
+# If building on RHEL7, enable the next option as the .attach_to_group
+# assembler pseudo op is not available in the assembler.
 # BUILD_FLAGS="$BUILD_FLAGS -fplugin-arg-tmp_annobin-no-attach"
+
 make -C gcc-plugin CXXFLAGS="%{optflags} $BUILD_FLAGS"
 rm %{_tmppath}/tmp_annobin.so
 
+%if %{with clangplugin}
+cp clang-plugin/annobin-for-clang.so %{_tmppath}/tmp_annobin.so
+make -C clang-plugin all CXXFLAGS="%{optflags} $BUILD_FLAGS"
+%endif
+
+%if %{with llvmplugin}
+cp llvm-plugin/annobin-for-llvm.so %{_tmppath}/tmp_annobin.so
+make -C llvm-plugin all CXXFLAGS="%{optflags} $BUILD_FLAGS"
+%endif
+
 #---------------------------------------------------------------------------------
 
+# PLUGIN_INSTALL_DIR is used by the Clang and LLVM makefiles...
 %install
-%make_install
+%make_install PLUGIN_INSTALL_DIR=$RPM_BUILD_ROOT%{ANNOBIN_CLANG_PLUGIN_DIR}
 rm -f %{buildroot}%{_infodir}/dir
 
 #---------------------------------------------------------------------------------
@@ -255,10 +279,6 @@ make check
 if [ -f tests/test-suite.log ]; then
     cat tests/test-suite.log
 fi
-
-%if %{with clangplugin}
-# FIXME: Add tests of the clang plugin.
-%endif
 %endif
 
 #---------------------------------------------------------------------------------
@@ -292,6 +312,61 @@ fi
 #---------------------------------------------------------------------------------
 
 %changelog
+* Mon Oct 05 2020 Nick Clifton <nickc@redhat.com> - 9.35-2
+- Correct the directory chosen for 32-bit LLVM and Clang plugins.  (#1884951)
+
+* Thu Oct 01 2020 Nick Clifton <nickc@redhat.com> - 9.35-1
+- Allow the use of the SHF_LINK_ORDER section flag to discard unused notes.  (Experimental).
+
+* Mon Sep 28 2020 Nick Clifton <nickc@redhat.com> - 9.34-1
+- Enable the build and installation of the LLVM and Clang plugins.  (Experimental).
+
+* Mon Sep 21 2020 Nick Clifton <nickc@redhat.com> - 9.33-1
+- gcc-plugin: Fix test for empty PowerPC sections.  (#1880634)
+
+* Thu Sep 17 2020 Nick Clifton <nickc@redhat.com> - 9.32-2
+- NVR bump to allow rebuild against f34-build-side-30319.
+
+* Tue Sep 15 2020 Nick Clifton <nickc@redhat.com> - 9.32-1
+- annocheck: Add tests for the AArch64 BTI and PAC security features.  (#1862478)
+
+* Thu Sep 10 2020 Nick Clifton <nickc@redhat.com> - 9.31-1
+- gcc plugin: Use a 4 byte offset for PowerPC start symbols, so that they do not break disassemblies.
+
+* Thu Sep 10 2020 Nick Clifton <nickc@redhat.com> - 9.30-1
+- gcc plugin: Correct the detection of 32-bit x86 builds.  (#1876197)
+
+* Mon Aug 17 2020 Nick Clifton <nickc@redhat.com> - 9.29-1
+- gcc plugin: Detect any attempt to access the global_options array.
+
+* Tue Aug 11 2020 Nick Clifton <nickc@redhat.com> - 9.28-1
+- gcc plugin: Do not complain about missing pre-processor options when examining a preprocessed input file.  (#1862718)
+
+* Thu Jul 30 2020 Nick Clifton <nickc@redhat.com> - 9.27-1
+- Use more robust checks for AArch64 options.
+
+* Thu Jul 30 2020 Nick Clifton <nickc@redhat.com> - 9.26-1
+- Detect CLANG compiled assembler that is missing IBT support.
+
+* Wed Jul 29 2020 Nick Clifton <nickc@redhat.com> - 9.25-1
+- Improved target pointer size discovery.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.24-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Nick Clifton <nickc@redhat.com> - 9.24-2
+- Rebuild with plugin enabled to check that suppression works.
+
+* Sun Jul 26 2020 Nick Clifton <nickc@redhat.com> - 9.24-1
+- Add support for installing clang and llvm plugins.
+- Temporary suppression of aarch64 pointer size check.  (#1860549)
+
+* Sat Jul 25 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 9.23-2
+- Rebuild for gcc 10.2
+
+* Wed Jul 01 2020 Nick Clifton <nickc@redhat.com> - 9.23-1
+- Annocheck: Do not skip tests of the short-enums notes.  (#1743635)
+
 * Mon Jun 15 2020 Nick Clifton <nickc@redhat.com> - 9.22-1
 - Add (optional) llvm plugin.
 

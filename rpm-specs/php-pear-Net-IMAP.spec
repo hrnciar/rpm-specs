@@ -16,7 +16,7 @@
 
 Name:           php-pear-Net-IMAP
 Version:        1.1.3
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Provides an implementation of the IMAP protocol
 
 License:        GPLv2+ and PHP
@@ -90,6 +90,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

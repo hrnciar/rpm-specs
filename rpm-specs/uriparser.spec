@@ -1,8 +1,8 @@
-%global         _hardened_build 1
+%undefine __cmake_in_source_build
 
 Name:           uriparser
 Version:        0.9.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        URI parsing library - RFC 3986
 
 License:        BSD
@@ -51,15 +51,15 @@ sed -i 's/GENERATE_QHP\ =\ yes/GENERATE_QHP\ =\ no/g' doc/Doxyfile.in
 
 %build
 %cmake
-%make_build
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %check
-LD_LIBRARY_PATH=".libs" make check
+LD_LIBRARY_PATH=".libs" make check -C %{_vpath_builddir}
 
 
 %ldconfig_scriptlets
@@ -83,6 +83,9 @@ LD_LIBRARY_PATH=".libs" make check
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 31 2020 Sandro Mani <manisandro@gmail.com> - 0.9.4-1
 - Update to 0.9.4
 

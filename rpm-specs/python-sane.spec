@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        2.8.3
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Python SANE interface
 
 License:        MIT
@@ -62,6 +62,9 @@ chmod 0755 %{buildroot}%{python3_sitearch}/*.so
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.3-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.8.3-17
 - Rebuilt for Python 3.9
 

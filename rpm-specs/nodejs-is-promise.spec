@@ -6,7 +6,7 @@
 
 Name:		nodejs-is-promise
 Version:	2.1.0
-Release:	8%{?dist}
+Release:	9%{?dist}
 Summary:	Test whether an object looks like a promises-a+ promise
 
 License:	MIT
@@ -63,6 +63,9 @@ cp -pr package.json *.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

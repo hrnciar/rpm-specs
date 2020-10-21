@@ -7,7 +7,7 @@ Summary: Russian dictionaries for Aspell
 Name: aspell-%{lang}
 Epoch: 50
 Version: 0.99f7
-Release: 24%{?dist}
+Release: 25%{?dist}
 License: ARL
 URL: ftp://ftp.gnu.org/gnu/aspell/dict/0index.html#0.60
 Source0: ftp://ftp.gnu.org/gnu/aspell/dict/%{lang}/aspell%{aspellversion}-%{lang}-%{version}-%{langrelease}.tar.bz2
@@ -35,6 +35,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_libdir}/aspell-0.60/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 50:0.99f7-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 50:0.99f7-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

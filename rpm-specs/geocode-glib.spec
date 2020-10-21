@@ -2,7 +2,7 @@
 
 Name:           geocode-glib
 Version:        3.26.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Geocoding helper library
 
 License:        LGPLv2+
@@ -68,6 +68,9 @@ developing applications that use %{name}.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.26.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 09 2020 Bastien Nocera <bnocera@redhat.com> - 3.26.2-1
 + geocode-glib-3.26.2-1
 - Update to 3.26.2

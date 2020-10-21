@@ -1,6 +1,6 @@
 Name:           xmonad-log-applet
 Version:        2.1.0
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Panel applet to display Xmonad log information
 License:        BSD
 URL:            https://github.com/alexkay/xmonad-log-applet
@@ -81,6 +81,9 @@ mkdir build-{xfce4,mate}
 %{_datadir}/icons/hicolor/48x48/apps/%{name}.png
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

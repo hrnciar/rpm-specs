@@ -1,13 +1,12 @@
 %define curses 1
 Name:           hgview
-Version:        1.14
-Release:        0.20200508hg5b29e57a74ae%{?dist}
+Version:        1.14.0
+Release:        2%{?dist}
 Summary:        Mercurial interactive Qt based history viewer
 
 License:        GPLv2+
 URL:            http://www.logilab.org/project/hgview
-#Source0:        http://download.logilab.org/pub/%{name}/%{name}-%{version}.tar.gz
-Source0:        https://foss.heptapod.net/mercurial/hgview/-/archive/5b29e57a74ae6fd0875987351562ff1d697cbb6a/hgview-5b29e57a74ae6fd0875987351562ff1d697cbb6a.tar.bz2
+Source0:        http://download.logilab.org/pub/%{name}/%{name}-%{version}.tar.gz
 # http://www.logilab.org/ticket/112566
 Source1:        %{name}.png
 # http://www.logilab.org/ticket/103668
@@ -15,6 +14,7 @@ Patch1:         hgview-man-path.patch
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-PyQt5-devel
 BuildRequires:  asciidoc
 BuildRequires:  xmlto
@@ -70,7 +70,7 @@ This package provides common files for the Qt and curses based UIs.
 
 
 %prep
-%setup -q -n hgview-5b29e57a74ae6fd0875987351562ff1d697cbb6a
+%setup -q
 %patch1
 
 
@@ -188,6 +188,15 @@ rm $RPM_BUILD_ROOT%{_datadir}/doc/%{name}/examples/description.css
 
 
 %changelog
+* Mon Oct  5 14:14:38 CEST 2020 Mads Kiilerich <mads@kiilerich.com> - 1.14.0-2
+- BuildRequires:  python3-setuptools
+
+* Sat Aug 01 2020 Mads Kiilerich <mads@kiilerich.com> - 1.14.0-1
+- hgview 1.14.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14-0.20200509hg5b29e57a74ae
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.14-0.20200508hg5b29e57a74ae
 - Rebuilt for Python 3.9
 

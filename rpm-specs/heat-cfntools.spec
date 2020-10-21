@@ -1,6 +1,6 @@
 Name: heat-cfntools
 Version: 1.4.2
-Release: 13%{?dist}
+Release: 14%{?dist}
 Summary: Tools required to be installed on Heat provisioned cloud instances
 License: ASL 2.0
 URL: https://launchpad.net/heat-cfntools/
@@ -82,6 +82,9 @@ nosetests-%{python3_version}
 %dir %{_sharedstatedir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.2-13
 - Rebuilt for Python 3.9
 

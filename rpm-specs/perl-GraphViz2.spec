@@ -1,11 +1,11 @@
 Name:           perl-GraphViz2
-Version:        2.47
-Release:        8%{?dist}
+Version:        2.57
+Release:        1%{?dist}
 Summary:        GraphViz2 Perl module
 License:        GPL+ or Artistic
 
-URL:            http://search.cpan.org/dist/GraphViz2/
-Source0:        http://www.cpan.org/authors/id/R/RS/RSAVAGE/GraphViz2-%{version}.tgz
+URL:            https://metacpan.org/release/GraphViz2
+Source0:        https://cpan.metacpan.org/authors/id/E/ET/ETJ/GraphViz2-%{version}.tar.gz
 
 BuildArch:      noarch
 # build deps
@@ -18,76 +18,74 @@ BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
 BuildRequires:  perl
 # runtime deps
-BuildRequires:  perl(Algorithm::Dependency)
-BuildRequires:  perl(Algorithm::Dependency::Source::HoA)
-BuildRequires:  perl(Capture::Tiny)
-BuildRequires:  perl(Class::ISA)
-BuildRequires:  perl(Class::Load)
 BuildRequires:  perl(Config)
 BuildRequires:  perl(Config::Tiny)
-BuildRequires:  perl(DBIx::Admin::TableInfo)
 BuildRequires:  perl(Data::Section::Simple)
 BuildRequires:  perl(Date::Simple)
 BuildRequires:  perl(File::Basename)
 BuildRequires:  perl(File::HomeDir)
-BuildRequires:  perl(File::Slurp)
 BuildRequires:  perl(File::Spec)
+BuildRequires:  perl(File::Temp)
 BuildRequires:  perl(File::Which)
-BuildRequires:  perl(HTML::Entities::Interpolate)
-BuildRequires:  perl(HTML::TreeBuilder) >= 4.2
 BuildRequires:  perl(IPC::Run3)
-BuildRequires:  perl(Lingua::EN::PluralToSingular)
 BuildRequires:  perl(Moo)
-BuildRequires:  perl(Parse::RecDescent)
-BuildRequires:  perl(Scalar::Util)
-BuildRequires:  perl(Set::Array)
 BuildRequires:  perl(Text::Xslate)
-BuildRequires:  perl(Tree::DAG_Node)
-BuildRequires:  perl(Try::Tiny)
 BuildRequires:  perl(Types::Standard)
-BuildRequires:  perl(XML::Tiny)
 BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
 # test deps
-BuildRequires:  perl(File::Temp)
-BuildRequires:  perl(Log::Handler)
 BuildRequires:  perl(Test::More)
-BuildRequires:  perl(Test::Pod) >= 1.48
-BuildRequires:  perl(XML::Bare)
-BuildRequires:  perl(charnames)
-BuildRequires:  perl(open)
-BuildRequires:  perl(parent)
+BuildRequires:  perl(Test::Snapshot)
 BuildRequires:  perl(utf8)
-Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+Requires:       perl(:MODULE_COMPAT_%(eval "`/usr/bin/perl -V:version`"; echo $version))
 
 %{?perl_default_filter}
 
 %description
 This module provides a Perl interface to the amazing Graphviz, an open
 source graph visualization tool from AT&T. It is called GraphViz2 so
-that pre-existing code using (the Perl module) GraphViz continues to work.
+that preexisting code using (the Perl module) GraphViz continues to work.
 
 %prep
 %setup -q -n GraphViz2-%{version}
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
-make %{?_smp_mflags}
+/usr/bin/perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
-make test
+%{make_build} test
 
 %files
-%doc Changelog.ini Changes README
+%doc Changes README.md
 %license LICENSE
 %{perl_vendorlib}/GraphViz2*
 %{_mandir}/man3/GraphViz2*
 
 %changelog
+* Sun Oct 18 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 2.57-1
+- Update to 2.57
+
+* Sun Oct 04 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 2.50-1
+- Update to 2.50
+
+* Sun Sep 20 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 2.48-1
+- Update to 2.48
+- Use /usr/bin/perl instead of %%{__perl}
+- Use %%{make_install} instead of "make pure_install"
+- Use %%{make_build} instead of make
+- Pass NO_PERLLOCAL=1 to Makefile.PL
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.47-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.47-9
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.47-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

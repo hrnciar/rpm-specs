@@ -10,7 +10,7 @@
 
 Name: nagios-plugins
 Version: 2.3.3
-Release: 6%{?dist}
+Release: 7%{?dist}
 Summary: Host/service/network monitoring program plugins for Nagios
 
 License: GPLv2+
@@ -837,6 +837,9 @@ chmod 644 %{buildroot}/%{_libdir}/nagios/plugins/utils.pm
 %{_libdir}/nagios/plugins/check_wave
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Martin Jackson <mhjacks@swbell.net> - 2.3.3-6
 - Specify ping and ping6 commands
 

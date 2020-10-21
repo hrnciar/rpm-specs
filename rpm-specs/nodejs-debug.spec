@@ -2,7 +2,7 @@
 
 Name:       nodejs-debug
 Version:    2.6.9
-Release:    6%{?dist}
+Release:    7%{?dist}
 Summary:    A small debugging utility for Node.js
 # License text is included in Readme.md
 License:    MIT
@@ -45,6 +45,9 @@ cp -pr package.json node.js src %{buildroot}%{nodejs_sitelib}/debug
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.9-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.9-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

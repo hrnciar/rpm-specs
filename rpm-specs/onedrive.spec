@@ -2,8 +2,8 @@
 %global repo onedrive
 
 Name:           onedrive
-Version:        2.4.2
-Release:        1%{?dist}
+Version:        2.4.5
+Release:        2%{?dist}
 Summary:        OneDrive Free Client written in D
 License:        GPLv3
 URL:            https://github.com/%{project}/%{repo}
@@ -54,6 +54,15 @@ chmod a-x %{buildroot}/%{_mandir}/man1/%{name}*
 %config %{_sysconfdir}/logrotate.d/onedrive
 
 %changelog
+* Fri Aug 21 2020 Kalev Lember <klember@redhat.com> - 2.4.5-2
+- Rebuilt for ldc 1.23
+
+* Sat Aug 15 2020 Zamir SUN <sztsian@gmail.com> - 2.4.5-1
+- Update to 2.4.5
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 27 2020 Thomas Drake-Brockman <thomas@drake-brockman.id.au> - 2.4.2-1
 - Update to 2.4.2 (#1840773)
 

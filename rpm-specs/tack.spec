@@ -1,7 +1,7 @@
 %global revision 20200220
 Name:           tack
 Version:        1.09
-Release:        2.%{revision}%{?dist}
+Release:        3.%{revision}%{?dist}
 Summary:        Terminfo action checker
 
 License:        GPLv2+
@@ -32,6 +32,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_mandir}/man1/tack.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.09-3.20200220
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 26 2020 Miroslav Lichvar <mlichvar@redhat.com> 1.09-2.20200220
 - update to 1.09-20200220
 

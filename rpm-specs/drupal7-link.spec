@@ -4,7 +4,7 @@
 
 Name:          drupal7-%{module}
 Version:       1.7
-Release:       3%{?pre_release:.%{pre_release}}%{?dist}
+Release:       4%{?pre_release:.%{pre_release}}%{?dist}
 Summary:       Defines simple link field types
 
 License:       GPLv2+
@@ -60,6 +60,9 @@ cp -pr * %{buildroot}%{drupal7_modules}/%{module}/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.7-3
 - Bump build requires drupal7-rpmbuild to ">= 7.70-2" to fix F32+ auto provides
 

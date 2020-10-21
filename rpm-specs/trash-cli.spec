@@ -1,7 +1,7 @@
 Summary:        Command line interface to the freedesktop.org trashcan
 Name:           trash-cli
 Version:        0.17.1.14
-Release:        11%{?dist}
+Release:        12%{?dist}
 License:        GPLv2+
 URL  :          https://github.com/andreafrancia/trash-cli
 Source0:        https://files.pythonhosted.org/packages/source/t/%{name}/%{name}-%{version}.tar.gz
@@ -34,6 +34,9 @@ compatible with rm and you can use trash-put as an alias to rm.
 %{_mandir}/man1/trash-*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.1.14-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.17.1.14-11
 - Rebuilt for Python 3.9
 

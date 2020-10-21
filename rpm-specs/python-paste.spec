@@ -5,8 +5,8 @@ interfaces.
 %global sum Tools for using a Web Server Gateway Interface stack
 
 Name:           python-paste
-Version:        3.4.0
-Release:        2%{?dist}
+Version:        3.4.4
+Release:        1%{?dist}
 BuildArch:      noarch
 
 # Most of the code is MIT
@@ -86,6 +86,12 @@ py.test-3 -k "not test_paste_website and not test_proxy_to_website and not test_
 
 
 %changelog
+* Thu Sep 10 2020 Yatin Karel <ykarel@redhat.com> - 3.4.4-1
+- Update to 3.4.4 (#1844011)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 3.4.0-2
 - Rebuilt for Python 3.9
 

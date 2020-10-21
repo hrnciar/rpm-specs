@@ -1,6 +1,6 @@
 Name:           cpptest
 Version:        1.1.2
-Release:        15%{?dist}
+Release:        17%{?dist}
 Summary:        A portable and powerful and simple unit testing framework for C++
 
 License:        LGPLv2+
@@ -28,6 +28,7 @@ developing applications that use %{name}.
 %setup -q
 #%patch0 -p1
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure --disable-static --enable-doc
 make %{?_smp_mflags} V=1
 
@@ -51,6 +52,12 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 1.1.2-17
+- Force C++14 as code is not C++17 ready
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

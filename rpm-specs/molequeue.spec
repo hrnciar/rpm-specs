@@ -1,3 +1,5 @@
+%global __cmake_in_source_build 1
+
 # Use devtoolset 8
 %if 0%{?rhel} && 0%{?rhel} == 7
 %global dts devtoolset-8-
@@ -6,7 +8,7 @@
 Name:    molequeue
 Summary: Desktop integration of high performance computing resources
 Version: 0.9.0
-Release: 11%{?dist}
+Release: 13%{?dist}
 License: BSD
 URL:     https://github.com/OpenChemistry/molequeue
 Source0: https://github.com/OpenChemistry/molequeue/archive/%{version}/%{name}-%{version}.tar.gz
@@ -150,6 +152,13 @@ fi
 %license LICENSE
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 28 2020 Antonio Trande <sagitter@fedoraproject.org> - 0.9.0-11
 - New rebuild
 

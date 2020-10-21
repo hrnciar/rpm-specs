@@ -1,14 +1,14 @@
 Name:                  wmbusmeters
 
 %global forgeurl       https://github.com/weetmuts/%{name}
-%global tag            0.9.31
+%global tag            0.9.36
 %global the_binary     rtl_wmbus
 
 Version:               %{tag}
 
 %forgemeta
 
-Release:               2%{?dist}
+Release:               1%{?dist}
 Summary:               Read the wireless mbus protocol to acquire utility meter readings
 License:               GPLv3+
 Url:                   %{forgeurl}
@@ -91,6 +91,18 @@ install -p -m 0644 %{SOURCE2} %{buildroot}%{_unitdir}/%{name}@.service
 
 
 %changelog
+* Tue Sep 08 2020 Damian Wrobel <dwrobel@ertelnet.rybnik.pl> - 0.9.36-1
+- Update to the latest available version
+
+* Mon Aug 31 2020 Damian Wrobel <dwrobel@ertelnet.rybnik.pl> - 0.9.35-1
+- Update to the latest available version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.32-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Damian Wrobel <dwrobel@ertelnet.rybnik.pl> - 0.9.32-1
+- Update to the latest available version
+
 * Mon May 25 2020 Damian Wrobel <dwrobel@ertelnet.rybnik.pl> - 0.9.31-2
 - Add missing ncurses-devel BR
 

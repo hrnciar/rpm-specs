@@ -1,6 +1,6 @@
 Name:           perl-RDF-NS
 Version:        20190227
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Popular RDF name space prefixes from prefix.cc
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/RDF-NS
@@ -66,6 +66,12 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190227-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 20190227-5
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190227-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        2.5.4
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Nilpotent Quotients of finitely presented groups
 
 License:        GPLv2+
@@ -77,6 +77,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}-%{version}/examples/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.4-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 12 2020 Jerry James <loganjerry@gmail.com> - 2.5.4-5
 - Rebuild for gap 4.11.0
 

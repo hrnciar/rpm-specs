@@ -5,21 +5,35 @@
 %global firefox_app_id \{ec8030f7-c20a-464f-9b0e-13a3a9e97384\}
 %global firefox_inst_dir %{_datadir}/mozilla/extensions/%{firefox_app_id}
 
-%global fileid 3551054
+%global uAssets_commit 4a183b74dddc934ca2d0f3867706213e58e6e454
 
 Name:           mozilla-ublock-origin
-Version:        1.26.2
+Version:        1.29.0
 Release:        1%{?dist}
 Summary:        An efficient blocker for Firefox
 
 License:        GPLv3+ and LGPLv3 and MIT and OFL
 URL:            https://github.com/gorhill/uBlock
-Source0:        https://addons.mozilla.org/firefox/downloads/file/%{fileid}/ublock_origin-%{version}-an+fx.xpi
+Source0:        https://github.com/gorhill/uBlock/archive/%{version}/uBlock-%{version}.tar.gz
 Source1:        mozilla-ublock-origin.metainfo.xml
+Source2:        uAssets-%{uAssets_commit}.tar.gz
+# uAssets tarball contains non-free filter lists
+# thirdparties/mirror1.malwaredomains.com - http://www.malwaredomains.com/?page_id=1508
+# thirdparties/pgl.yoyo.org - https://pgl.yoyo.org/license/
+# generate a free one with the mktarball.sh script below
+Source10:       uAssets-mktarball.sh
+Patch0:         %{name}-nonfree.patch
+# call python3 instead of python
+Patch1:         %{name}-python3.patch
 
 Requires:       mozilla-filesystem
 BuildArch:      noarch
+# wabt doesn't work correctly on big-endian
+ExcludeArch:    ppc64 s390x
+BuildRequires:  binaryen
 BuildRequires:  libappstream-glib
+BuildRequires:  python3
+BuildRequires:  wabt
 # css/fonts/fontawesome-webfont.ttf http://fontawesome.io/ OFL
 # img/fontawesome/fontawesome-defs.svg
 Provides:       bundled(fontawesome-fonts) = 4.7.0
@@ -31,6 +45,10 @@ Provides:       bundled(js-github-swatinem-diff)
 Provides:       bundled(js-codemirror) = 5.37.0
 # lib/lz4 https://github.com/gorhill/lz4-wasm BSD
 Provides:       bundled(lz4-wasm)
+# usually much newer than Fedora's publicsuffix-list package
+# easy to unbundle, but might affect security
+# assets/thirdparties/publicsuffix.org/list/effective_tld_names.dat
+Provides:       bundled(publicsuffix-list) = 20200627
 
 %description
 An efficient blocker: easy on memory and CPU footprint, and yet can load and
@@ -40,23 +58,70 @@ Flexible, it's more than an "ad blocker": it can also read and create filters
 from hosts files.
 
 %prep
+# https://github.com/gorhill/uBlock/tree/master/dist#build-instructions-for-developers
 %setup -qc
+mkdir uAssets
+tar -xz -C uAssets --strip-components=1 -f %{SOURCE2}
+pushd uBlock-%{version}
+%patch0 -p1
+%patch1 -p1
+rm src/{js/wasm,lib/{lz4,publicsuffixlist/wasm}}/*.wasm
+popd
 
 %build
-echo Nothing to build
+pushd uBlock-%{version}
+for d in src/{js/wasm,lib/{lz4,publicsuffixlist/wasm}} ; do
+    pushd $d
+        for f in *.wat ; do
+            wat2wasm $f
+        done
+    popd
+done
+pushd src/lib/lz4
+wasm-opt ./lz4-block-codec.wasm -O4 -o ./lz4-block-codec.wasm
+popd
+./tools/make-firefox.sh all
+popd
 
 %install
-install -Dpm644 %{SOURCE0} %{buildroot}%{firefox_inst_dir}/%{ext_id}.xpi
+install -Dpm644 uBlock-%{version}/dist/build/uBlock0.firefox.xpi %{buildroot}%{firefox_inst_dir}/%{ext_id}.xpi
 
 install -Dpm644 %{SOURCE1} %{buildroot}%{_metainfodir}/%{name}.metainfo.xml
 appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.metainfo.xml
 
 %files
-%license LICENSE.txt css/fonts/OFL.txt lib/codemirror/LICENSE
+%license uBlock-%{version}/LICENSE.txt
+%license uBlock-%{version}/src/css/fonts/OFL.txt
+%license uBlock-%{version}/src/lib/codemirror/LICENSE
 %{firefox_inst_dir}/%{ext_id}.xpi
 %{_metainfodir}/%{name}.metainfo.xml
 
 %changelog
+* Thu Aug 20 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.29.0-1
+- update to 1.29.0 (#1867396)
+- optimize lz4 wasm code per upstream docs
+
+* Thu Aug 06 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.28.4-2
+- fix invalid JSON after Patch0 (caught by Raymond Hill)
+
+* Wed Aug 05 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.28.4-1
+- update to 1.28.4 (#1857445)
+- avoid building on big-endian, wabt doesn't work there
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.28.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.28.2-3
+- add missing explicit BR on python3
+
+* Mon Jul 13 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.28.2-2
+- use python3 in build script explicitly
+
+* Sun Jul 12 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.28.2-1
+- update to 1.28.2 (#1835275)
+- "build" from upstream "source" directly
+- drop non-free components from upstream uAssets tarball
+
 * Sun May 03 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.26.2-1
 - update to 1.26.2 (#1825039)
 

@@ -1,13 +1,13 @@
 %global packname lubridate
-%global packver  1.7.8
+%global packver  1.7.9
 %global rlibdir  %{_libdir}/R/library
 
 # knitr is not yet available.
 %global with_doc  1
 
 Name:             R-%{packname}
-Version:          %{packver}
-Release:          2%{?dist}
+Version:          1.7.9
+Release:          3%{?dist}
 Summary:          Make dealing with dates a little easier
 
 License:          GPLv2+ and ASL 2.0
@@ -17,7 +17,7 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 # Here's the R view of the dependencies world:
 # Depends:   R-methods
 # Imports:   R-generics, R-Rcpp >= 0.12.13
-# Suggests:  R-covr, R-knitr, R-testthat
+# Suggests:  R-covr, R-knitr, R-testthat >= 2.1.0, R-vctrs >= 0.3.0
 # LinkingTo:
 # Enhances:
 
@@ -27,7 +27,8 @@ BuildRequires:    tex(latex)
 BuildRequires:    R-methods
 BuildRequires:    R-generics
 BuildRequires:    R-Rcpp-devel >= 0.12.13
-BuildRequires:    R-testthat
+BuildRequires:    R-testthat >= 2.1.0
+BuildRequires:    R-vctrs >= 0.3.0
 %if %{with_doc}
 BuildRequires:    R-knitr
 %endif
@@ -98,6 +99,16 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --ignore-vignettes
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.9-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.7.9-1
+- Update to latest version
+
 * Sat Jun  6 2020 Tom Callaway <spot@fedoraproject.org>  - 1.7.8-2
 - rebuild for R 4
 

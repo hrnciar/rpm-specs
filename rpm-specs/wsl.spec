@@ -1,6 +1,6 @@
 Name:		wsl
 Version:	0.2.2
-Release:	13%{?dist}
+Release:	14%{?dist}
 Summary:	Wsman Shell Command Line "whistle"
 
 License:	BSD
@@ -64,6 +64,9 @@ install -m 644 %{_builddir}/%{name}-%{version}/wsl.1 $RPM_BUILD_ROOT%{_mandir}/m
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

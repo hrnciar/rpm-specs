@@ -1,6 +1,6 @@
 Name:           id3v2
 Version:        0.1.12
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Command line ID3 tag editor
 
 # See http://sourceforge.net/tracker/index.php?func=detail&aid=1768045&group_id=4193&atid=104193
@@ -45,6 +45,9 @@ install -Dpm 644 id3v2.1 $RPM_BUILD_ROOT%{_mandir}/man1/id3v2.1
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.12-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.12-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

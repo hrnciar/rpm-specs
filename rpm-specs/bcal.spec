@@ -1,6 +1,6 @@
 Name:       bcal
 Version:    2.2
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    Storage conversion and expression calculator
 
 License:    GPLv3+
@@ -41,6 +41,9 @@ export LDFLAGS="%{?__global_ldflags}"
 %{_mandir}/man1/%{name}.1.*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

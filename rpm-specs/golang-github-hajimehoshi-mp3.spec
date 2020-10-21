@@ -3,7 +3,7 @@
 
 # https://github.com/hajimehoshi/go-mp3
 %global goipath         github.com/hajimehoshi/go-mp3
-Version:                0.2.1
+Version:                0.3.0
 
 %gometa
 
@@ -41,6 +41,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 18:28:19 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.3.0-1
+- Update to 0.3.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

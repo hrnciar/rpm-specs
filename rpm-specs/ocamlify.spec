@@ -2,7 +2,7 @@
 
 Name:           ocamlify
 Version:        0.0.2
-Release:        21%{?dist}
+Release:        24%{?dist}
 Summary:        Include files in OCaml code
 
 License:        LGPLv2+ with exceptions
@@ -58,6 +58,15 @@ ocaml setup.ml -test
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.0.2-24
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.0.2-23
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.2-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 0.0.2-21
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

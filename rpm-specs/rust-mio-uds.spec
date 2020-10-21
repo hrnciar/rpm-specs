@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.6.8
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Unix domain socket bindings for mio
 
 # Upstream license specification: MIT/Apache-2.0
@@ -71,6 +71,13 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.8-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Josh Stone <cuviper@gmail.com> - 0.6.8-1
 - Update to 0.6.8
 

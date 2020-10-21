@@ -11,7 +11,7 @@
 
 Name:		rubygem-%{gem_name}
 Version:	0.10.0
-Release:	13%{?dist}
+Release:	14%{?dist}
 
 Summary:	An OpenGL wrapper for Ruby
 License:	MIT
@@ -164,6 +164,9 @@ popd
 %doc	%{gem_instdir}/utils/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.6.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Count occurrences of a given byte, or the number of UTF-8 code points, in a byte slice, fast
 
 # Upstream license specification: Apache-2.0/MIT
@@ -120,6 +120,9 @@ which use "runtime-dispatch-simd" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

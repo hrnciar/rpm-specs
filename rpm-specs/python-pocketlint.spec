@@ -15,7 +15,7 @@
 
 Name:      python-%{srcname}
 Version:   0.20
-Release:   4%{?dist}
+Release:   6%{?dist}
 Summary:   Support for running pylint against projects
 
 License:   GPLv2+
@@ -36,6 +36,7 @@ Summary: Support for running pylint against projects (Python 3 version)
 
 BuildRequires: python3-devel
 BuildRequires: python3-pylint
+BuildRequires: python3-setuptools
 
 Requires: python3-polib
 Requires: python3-pylint
@@ -117,6 +118,12 @@ make PYTHON=%{__python3} check
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Vojtech Trefny <vtrefny@redhat.com> - 0.20-5
+- Add build dependency on python3-setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.20-4
 - Rebuilt for Python 3.9
 

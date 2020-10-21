@@ -1,7 +1,7 @@
 Name:		perl-parent
 Epoch:		1
 Version:	0.238
-Release:	456%{?dist}
+Release:	457%{?dist}
 Summary:	Establish an ISA relationship with base classes at compile time
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/parent
@@ -56,6 +56,9 @@ make test
 %{_mandir}/man3/parent.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.238-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:0.238-456
 - Increase release to favour standalone package
 

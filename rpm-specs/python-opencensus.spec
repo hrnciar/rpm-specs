@@ -4,7 +4,7 @@ performance stats. This package contains Python related utilities and supporting
 software needed by OpenCensus.}
 
 Name:           python-%{srcname}
-Version:        0.7.7
+Version:        0.7.11
 Release:        1%{?dist}
 Summary:        A stats collection and distributed tracing framework
 
@@ -15,7 +15,7 @@ Source0:        %{url}/archive/v%{version}/%{srcname}-%{version}.tar.gz
 Patch0:         %{name}-0.7.7-unittest2.patch
 # Fix dependency names/versions in setup.py files to match those provided by
 # Fedora
-Patch1:         %{name}-0.7.7-requirements.patch
+Patch1:         %{name}-0.7.11-requirements.patch
 
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist setuptools}
@@ -268,6 +268,11 @@ This package provides documentation for %{name}.
 %prep
 %autosetup -p0 -n %{srcname}-python-%{version}
 
+# Remove bundled egg-info
+for i in $(find . -name "setup.py"); do
+    rm -rf ${i%/*}/*.egg-info
+done
+
 # Delete extensions which can't be installed because of missing dependencies in
 # Fedora
 rm -r \
@@ -284,7 +289,12 @@ for i in $(find . -name "setup.py"); do
 done
 
 # Build documentation
-PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ %make_build html
+PYTHONPATH=
+for i in $(find $PWD -name "setup.py"); do
+    PYTHONPATH+="${i%/*}:"
+done
+export PYTHONPATH=${PYTHONPATH%:}
+%make_build html
 rm docs/build/html/.buildinfo
 
 
@@ -297,7 +307,15 @@ done
 
 
 %check
-PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/unit/ context/ contrib/
+# Disable tests which take too much time to run
+%pytest tests/unit/ context/ contrib/ \
+    --deselect=contrib/opencensus-ext-azure/tests/test_storage.py::TestLocalFileStorage::test_check_storage_size_full \
+    --deselect=contrib/opencensus-ext-grpc/tests/test_client_interceptor.py::TestGrpcInterface \
+    --deselect=contrib/opencensus-ext-ocagent/tests/test_stats_exporter.py::TestExportRpcInterface \
+    --deselect=contrib/opencensus-ext-ocagent/tests/test_trace_exporter.py::TestTraceExporter::test_config_generator \
+    --deselect=contrib/opencensus-ext-ocagent/tests/test_trace_exporter.py::TestTraceExporter::test_constructor \
+    --deselect=contrib/opencensus-ext-ocagent/tests/test_trace_exporter.py::TestTraceExporter::test_export \
+    --deselect=contrib/opencensus-ext-ocagent/tests/test_trace_exporter.py::TestTraceExporter::test_span_generator
 
 
 %files -n python3-%{srcname}
@@ -313,6 +331,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-context
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/common/
 %{python3_sitelib}/%{srcname}/common/runtime_context/
 %{python3_sitelib}/%{srcname}_context-*.egg-info/
 
@@ -320,6 +339,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-correlation
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/common/
 %{python3_sitelib}/%{srcname}/common/correlationcontext/
 %{python3_sitelib}/%{srcname}_correlation-*.egg-info/
 
@@ -327,6 +347,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-azure
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/azure/
 %{python3_sitelib}/%{srcname}_ext_azure-*.egg-info/
 
@@ -334,6 +355,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-datadog
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/datadog/
 %{python3_sitelib}/%{srcname}_ext_datadog-*.egg-info/
 
@@ -341,6 +363,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-dbapi
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/dbapi/
 %{python3_sitelib}/%{srcname}_ext_dbapi-*.egg-info/
 
@@ -348,6 +371,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-django
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/django/
 %{python3_sitelib}/%{srcname}_ext_django-*.egg-info/
 
@@ -355,6 +379,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-flask
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/flask/
 %{python3_sitelib}/%{srcname}_ext_flask-*.egg-info/
 
@@ -362,6 +387,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-gevent
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/gevent/
 %{python3_sitelib}/%{srcname}_ext_gevent-*.egg-info/
 
@@ -369,6 +395,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 # %%files -n python3-%%{srcname}-ext-google-cloud-clientlibs
 # %%doc context/opencensus-context/{CHANGELOG.md,README.rst}
 # %%license LICENSE
+# %%dir %%{python3_sitelib}/%%{srcname}/ext/
 # %%{python3_sitelib}/%%{srcname}/ext/google_cloud_clientlibs/
 # %%{python3_sitelib}/%%{srcname}_ext_google_cloud_clientlibs-*.egg-info/
 
@@ -376,6 +403,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-grpc
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/grpc/
 %{python3_sitelib}/%{srcname}_ext_grpc-*.egg-info/
 
@@ -383,6 +411,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-httplib
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/httplib/
 %{python3_sitelib}/%{srcname}_ext_httplib-*.egg-info/
 
@@ -390,6 +419,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-jaeger
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/jaeger/
 %{python3_sitelib}/%{srcname}_ext_jaeger-*.egg-info/
 
@@ -397,6 +427,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-logging
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/logging/
 %{python3_sitelib}/%{srcname}_ext_logging-*.egg-info/
 
@@ -404,6 +435,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-mysql
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/mysql/
 %{python3_sitelib}/%{srcname}_ext_mysql-*.egg-info/
 
@@ -411,6 +443,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-ocagent
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/ocagent/
 %{python3_sitelib}/%{srcname}_ext_ocagent-*.egg-info/
 
@@ -418,6 +451,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-postgresql
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/postgresql/
 %{python3_sitelib}/%{srcname}_ext_postgresql-*.egg-info/
 
@@ -425,6 +459,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-prometheus
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/prometheus/
 %{python3_sitelib}/%{srcname}_ext_prometheus-*.egg-info/
 
@@ -432,6 +467,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-pymongo
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/pymongo/
 %{python3_sitelib}/%{srcname}_ext_pymongo-*.egg-info/
 
@@ -439,6 +475,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-pymysql
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/pymysql/
 %{python3_sitelib}/%{srcname}_ext_pymysql-*.egg-info/
 
@@ -446,6 +483,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-pyramid
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/pyramid/
 %{python3_sitelib}/%{srcname}_ext_pyramid-*.egg-info/
 
@@ -453,6 +491,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-requests
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/requests/
 %{python3_sitelib}/%{srcname}_ext_requests-*.egg-info/
 
@@ -460,6 +499,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-sqlalchemy
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/sqlalchemy/
 %{python3_sitelib}/%{srcname}_ext_sqlalchemy-*.egg-info/
 
@@ -467,6 +507,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 # %%files -n python3-%%{srcname}-ext-stackdriver
 # %%doc context/opencensus-context/{CHANGELOG.md,README.rst}
 # %%license LICENSE
+# %%dir %%{python3_sitelib}/%%{srcname}/ext/
 # %%{python3_sitelib}/%%{srcname}/ext/stackdriver/
 # %%{python3_sitelib}/%%{srcname}_ext_stackdriver-*.egg-info/
 
@@ -474,6 +515,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-threading
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/threading/
 %{python3_sitelib}/%{srcname}_ext_threading-*.egg-info/
 
@@ -481,6 +523,7 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 %files -n python3-%{srcname}-ext-zipkin
 %doc context/opencensus-context/{CHANGELOG.md,README.rst}
 %license LICENSE
+%dir %{python3_sitelib}/%{srcname}/ext/
 %{python3_sitelib}/%{srcname}/ext/zipkin/
 %{python3_sitelib}/%{srcname}_ext_zipkin-*.egg-info/
 
@@ -491,5 +534,24 @@ PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/ pytest-%{python3_version} tests/u
 
 
 %changelog
+* Mon Oct 19 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 0.7.11-1
+- Update to 0.7.11
+
+* Wed Aug 19 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 0.7.10-4
+- Temporarily disable tests
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.10-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 root - 0.7.10-1
+- Update to 0.7.10
+
+* Sat Jun 27 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 0.7.9-1
+- Update to 0.7.9
+
 * Mon Jun 15 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 0.7.7-1
 - Initial RPM release

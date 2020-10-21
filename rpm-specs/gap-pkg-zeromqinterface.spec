@@ -3,7 +3,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        0.12
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        ZeroMQ bindings for GAP
 
 License:        GPLv2+
@@ -79,6 +79,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{upname}-%{version}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 12 2020 Jerry James <loganjerry@gmail.com> - 0.12-3
 - Rebuild for gap 4.11.0
 

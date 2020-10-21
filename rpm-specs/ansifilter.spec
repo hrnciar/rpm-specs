@@ -3,7 +3,7 @@
 
 Name:           ansifilter
 Version:        2.16
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        ANSI terminal escape code converter
 License:        GPLv3+
 URL:            http://www.andre-simon.de/doku/ansifilter/ansifilter.php
@@ -86,6 +86,13 @@ rm -frv %{buildroot}%{_docdir}
 %endif
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 03 2020 Filipe Rosset <rosset.filipe@gmail.com> - 2.15-3
 - Update to 2.16 fixes rhbz#1796175
 

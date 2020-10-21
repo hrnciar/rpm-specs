@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.11.0
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Express.js inspired web framework
 
 # Upstream license specification: MIT
@@ -14,7 +14,7 @@ License:        MIT
 URL:            https://crates.io/crates/nickel
 Source:         %{crates_source}
 # Initial patched metadata
-# * Bump compiletest_rs to 0.4
+# * Bump compiletest_rs to 0.5
 # * Add compiletest_rs as a dev dependency
 Patch0:         nickel-fix-metadata.diff
 
@@ -99,6 +99,16 @@ which use "unstable" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Tue Sep 15 2020 Fabio Valentini <decathorpe@gmail.com> - 0.11.0-5
+- Bump to compiletest_rs 0.5.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

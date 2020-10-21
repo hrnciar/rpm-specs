@@ -1,18 +1,16 @@
+%undefine __cmake_in_source_build
+
 %global appname Quotient
 %global libname lib%{appname}
 
-%global commit0 9bcf0cbc3d690663d37d1737173ab5088fed152f
-%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
-%global date 20200207
-
 Name: libquotient
-Version: 0.6.0
-Release: 0.4.%{date}git%{shortcommit0}%{?dist}
+Version: 0.6.1
+Release: 1%{?dist}
 
 License: LGPLv2+
 URL: https://github.com/quotient-im/%{libname}
 Summary: Qt5 library to write cross-platform clients for Matrix
-Source0: %{url}/archive/%{commit0}/%{name}-%{shortcommit0}.tar.gz
+Source0: %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires: cmake(Olm)
 BuildRequires: cmake(QtOlm)
@@ -42,27 +40,23 @@ Requires: %{name}%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 %{summary}.
 
 %prep
-%autosetup -n %{libname}-%{commit0}
-mkdir -p %{_target_platform}
+%autosetup -n %{libname}-%{version}
 rm -rf 3rdparty
 
 %build
-pushd %{_target_platform}
-    %cmake -G Ninja \
+%cmake -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
-    -DQUOTIENT_INSTALL_EXAMPLE=OFF \
-    -DCMAKE_INSTALL_INCLUDEDIR:PATH="include/%{appname}" \
-    ..
-popd
-%ninja_build -C %{_target_platform}
+    -DQuotient_INSTALL_TESTS:BOOL=OFF \
+    -DQuotient_INSTALL_EXAMPLE:BOOL=OFF \
+    -DQuotient_ENABLE_E2EE:BOOL=ON \
+    -DCMAKE_INSTALL_INCLUDEDIR:PATH="include/%{appname}"
+%cmake_build
 
 %check
-pushd %{_target_platform}
-    ctest --output-on-failure
-popd
+%ctest
 
 %install
-%ninja_install -C %{_target_platform}
+%cmake_install
 rm -rf %{buildroot}%{_datadir}/ndk-modules
 
 %files
@@ -77,6 +71,12 @@ rm -rf %{buildroot}%{_datadir}/ndk-modules
 %{_libdir}/%{libname}.so
 
 %changelog
+* Sat Sep 05 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 0.6.1-1
+- Updated to version 0.6.1.
+
+* Wed Jul 29 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 0.6.0-1
+- Updated to version 0.6.0.
+
 * Sat Mar 07 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 0.6.0-0.4.20200207git9bcf0cb
 - Updated to latest Git snapshot.
 

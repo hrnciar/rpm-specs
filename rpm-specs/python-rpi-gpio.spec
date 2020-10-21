@@ -4,7 +4,7 @@
 
 Name:           python-rpi-gpio
 Version:        0.7.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Class to control the GPIO on a Raspberry Pi
 
 License:        MIT
@@ -44,6 +44,9 @@ CFLAGS="${RPM_OPT_FLAGS} -fcommon"
 %{python3_sitearch}/RPi*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 28 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.7.0-3
 - Fix FTBFS (rhbz#1799949)
 

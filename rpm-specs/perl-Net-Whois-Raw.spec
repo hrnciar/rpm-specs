@@ -1,9 +1,9 @@
-%global cpan_version 2.99028
+%global cpan_version 2.99031
 
 Name:           perl-Net-Whois-Raw
 # Keep 2-digit precision
 Version:        %(echo '%{cpan_version}' | sed 's/\(\...\)\(.\)/\1.\2/')
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Get Whois information for domains
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Net-Whois-Raw
@@ -47,6 +47,7 @@ recursive WHOIS queries. Also queries via HTTP is supported for some TLDs.
 
 %prep
 %setup -q -n Net-Whois-Raw-%{cpan_version}
+perl -pi -e 's/^#!.*perl/#!\/usr\/bin\/perl/' bin/pwhois
 
 %build
 /usr/bin/perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
@@ -89,6 +90,18 @@ server name.
 %{_bindir}/*
 
 %changelog
+* Sun Sep 20 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 2.99.031-1
+- Update to 2.99.031
+
+* Sun Aug 16 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 2.99.030-1
+- Update to 2.99.030
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.99.029-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 2.99.029-1
+- Update to 2.99.029
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.99.028-2
 - Perl 5.32 rebuild
 

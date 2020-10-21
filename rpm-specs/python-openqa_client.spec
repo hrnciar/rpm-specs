@@ -6,7 +6,7 @@ openQA web API, using the requests HTTP request library.
 
 %global github_owner    os-autoinst
 %global github_name     openQA-python-client
-%global github_version  4.1.0
+%global github_version  4.1.1
 # if set, will be a post-release snapshot build, otherwise a 'normal' build
 #global github_commit   080d03858b7b12f144770af8ceb938fe6c7dbb11
 #global github_date     20170130
@@ -14,7 +14,7 @@ openQA web API, using the requests HTTP request library.
 
 Name:           python-openqa_client
 Version:        %{github_version}
-Release:        2%{?github_date:.%{github_date}git%{shortcommit}}%{?dist}
+Release:        1%{?github_date:.%{github_date}git%{shortcommit}}%{?dist}
 Summary:        %{sum}
 
 License:        GPLv2+
@@ -62,6 +62,12 @@ sed -i -e 's., "setuptools-git"..g' pyproject.toml
 
 
 %changelog
+* Fri Aug 07 2020 Adam Williamson <awilliam@redhat.com> - 4.1.1-1
+- New release 4.1.1 (fixes job querying with recent openQA upstream)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.1.0-2
 - Rebuilt for Python 3.9
 

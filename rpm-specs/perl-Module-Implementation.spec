@@ -10,7 +10,7 @@
 
 Name:		perl-Module-Implementation
 Version:	0.09
-Release:	25%{?dist}
+Release:	27%{?dist}
 Summary:	Loads one of several alternate underlying implementations for a module
 License:	Artistic 2.0
 URL:		https://metacpan.org/release/perl-Module-Implementation
@@ -130,6 +130,12 @@ make test
 %{_mandir}/man3/Module::Implementation.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.09-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.09-26
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.09-25
 - Perl 5.32 rebuild
 

@@ -23,13 +23,15 @@ text:
 %global godocs          AUTHORS CONTRIBUTORS README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Diff, match and patch text in Go
 
 # Upstream license specification: Apache-2.0 and MIT
 License:        ASL 2.0 and MIT
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/sergi/go-diff/issues/111
+Patch0:         0001-Convert-int-to-string-using-rune.patch
 
 %if %{with check}
 # Tests
@@ -43,6 +45,7 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 
 %prep
 %goprep
+%patch0 -p1
 
 %install
 %gopkginstall
@@ -55,6 +58,13 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 16 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.1.0-1
 - Update to latest version
 

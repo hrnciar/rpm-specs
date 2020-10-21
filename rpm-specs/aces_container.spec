@@ -1,6 +1,9 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 Name:           aces_container
 Version:        1.0.2
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        ACES Container Reference
 
 License:        AMPAS BSD
@@ -43,16 +46,13 @@ chmod -x aces_writeattributes.*
 
 
 %build
-mkdir build ; cd build
-%{cmake} \
- ..
+%cmake
 
-%make_build
+%cmake_build
 
 
 %install
-cd build
-%make_install
+%cmake_install
 
 
 %ldconfig_scriptlets
@@ -73,6 +73,13 @@ cd build
 
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

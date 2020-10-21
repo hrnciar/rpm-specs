@@ -1,6 +1,6 @@
 Name:          vhd2vl
 Version:       2.5
-Release:       10%{?dist}
+Release:       11%{?dist}
 Summary:       VHDL to Verilog translator
 
 License:       GPLv2+
@@ -46,6 +46,9 @@ echo "done"
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

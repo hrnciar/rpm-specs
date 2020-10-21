@@ -3,7 +3,7 @@
 
 # https://github.com/knz/strtime
 %global goipath         github.com/knz/strtime
-%global commit          af2256ee352c7e3efc0cdeb388c71e302c1946c8
+%global commit          be999391ffa90a7880271a65d53f760fc1cf0151
 
 %gometa
 
@@ -20,7 +20,7 @@ in lieu of the platform's native C implementation.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Stable strptime / strftime for Go
 
 # Upstream license specification: BSD-2-Clause
@@ -49,6 +49,12 @@ BuildRequires:  golang(github.com/pkg/errors)
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 19:50:04 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200728gitbe99939
+- Bump to commit be999391ffa90a7880271a65d53f760fc1cf0151
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

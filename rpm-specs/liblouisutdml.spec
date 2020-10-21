@@ -1,5 +1,5 @@
 Name:           liblouisutdml
-Version:        2.8.0
+Version:        2.9.0
 Release:        2%{?dist}
 Summary:        Braille transcription library for UTDML documents
 License:        LGPLv3+
@@ -85,7 +85,7 @@ make -C doc liblouisutdml.pdf
 
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 rm -f %{buildroot}/%{_infodir}/dir
 rm -f %{buildroot}/%{_libdir}/liblouisutdml.la
 rm -rf %{buildroot}/%{_defaultdocdir}/liblouisutdml
@@ -120,6 +120,15 @@ rm -rf %{buildroot}/%{_defaultdocdir}/liblouisutdml
 
 
 %changelog
+* Mon Sep 07 2020 Martin Gieseking <martin.gieseking@uos.de> - 2.9.0-2
+- Use make_install macro.
+
+* Tue Sep 01 2020 Martin Gieseking <martin.gieseking@uos.de> - 2.9.0-1
+- Updated to 2.9.0.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

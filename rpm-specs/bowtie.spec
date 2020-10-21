@@ -1,31 +1,23 @@
 Name:		bowtie
-Version:	1.2.3
-Release:	2%{?dist}
+Version:	1.3.0
+Release:	1%{?dist}
 Summary:	An ultrafast, memory-efficient short read aligner
 
 # bowite: Artistic 2.0
 # tinythread.{h,cpp}: zlib
-# SeqAn: GPLv3 and LGPLv3+
-# SeqAn license info is not enough?
-# https://github.com/BenLangmead/bowtie/issues/106
-License:	Artistic 2.0 and zlib and GPLv3 and LGPLv3+
+License:	Artistic 2.0 and zlib
 URL:		http://bowtie-bio.sourceforge.net/index.shtml
-# bowtie v1.2.3 archive file name is wrong.
-# https://github.com/BenLangmead/bowtie/issues/101
-Source0:	http://downloads.sourceforge.net/%{name}-bio/%{name}-src-x86_64.zip
+Source0:	http://downloads.sourceforge.net/%{name}-bio/%{name}-%{version}-src.zip
 # git clone https://github.com/BenLangmead/bowtie.git
 # cd bowtie
-# git checkout v1.2.3
-# tar czvf bowtie-1.2.3-tests.tgz scripts/test/
-Source1:	bowtie-1.2.3-tests.tgz
-# Enable multiple CPU architecture builds.
-# https://github.com/BenLangmead/bowtie/pull/102
-Patch0:		bowtie-enable-multi-arch.patch
+# git checkout v1.3.0
+# tar czvf bowtie-1.3.0-tests.tgz scripts/test/
+Source1:	bowtie-%{version}-tests.tgz
+# Fix bt2_locks.h: Error: Unrecognized opcode: `pause' on ppc64le/s390x.
+# https://github.com/BenLangmead/bowtie/issues/114
+Patch0:		bowtie-fix-ppc64le-s390x-asm-pause-error.patch
 # Remove perl-Sys-Info module depenency, as it does not exist on Fedora.
 Patch1:		bowtie-test-remove-perl-Sys-Info-dep.patch
-# Fix error narrowing conversion for non x86_64 architectures.
-# https://github.com/BenLangmead/bowtie/pull/95
-Patch2:		bowtie-alphabet-error-narrowing.patch
 Requires:	python3
 BuildRequires:	gcc-c++
 BuildRequires:	hostname
@@ -45,15 +37,6 @@ ExcludeArch: i686 armv7hl
 
 # Bundled libraries
 # https://fedoraproject.org/wiki/Bundled_Libraries?rd=Packaging:Bundled_Libraries#Requirement_if_you_bundle
-# SeqAn
-# http://www.seqan.de/
-# TODO: Use system seqan instead of bundled one.
-# https://src.fedoraproject.org/rpms/seqan
-# Update to seqan 1.4.2
-# https://github.com/BenLangmead/bowtie/pull/105
-# Note SeqAn will be removed at tne next release of version 1.2.3.
-# https://github.com/BenLangmead/bowtie/issues/106#issuecomment-593426727
-Provides: bundled(seqan) = 1.1
 # TinyThread++
 # https://tinythreadpp.bitsnbites.eu/
 # https://gitorious.org/tinythread/tinythreadpp
@@ -68,23 +51,17 @@ B, et al. Ultrafast and memory-efficient alignment of short DNA
 sequences to the human genome. Genome Biol 10:R25.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}-src
 
-%patch0 -p1 -b .bowtie-enable-multi-arch.patch
-%patch2 -p1 -b .bowtie-alphabet-error-narrowing.patch
+%patch0 -p1
 
 # Remove the directory to avoid building bowtie with bundled libraries.
 rm -rf third_party/
 
 # Fix shebang to use system python3.
 for file in $(find . -name "*.py") bowtie bowtie-*; do
-  sed -i '1s|/usr/bin/env python|%{__python3}|' "${file}"
+  sed -E -i '1s|/usr/bin/env python[3]?|%{__python3}|' "${file}"
 done
-
-# Invalid double quote characters are used in the code.
-# https://github.com/BenLangmead/bowtie/issues/104
-sed -i 's/“/"/g' processor_support.h
-sed -i 's/”/"/g' processor_support.h
 
 
 %build
@@ -93,7 +70,6 @@ sed -i 's/”/"/g' processor_support.h
 # https://github.com/BenLangmead/bowtie/pull/102
 %ifnarch x86_64
 export POPCNT_CAPABILITY=0
-export NO_TBB=1
 %endif
 
 # Set debug flag "-g" to prevent the error
@@ -102,7 +78,7 @@ export NO_TBB=1
 
 
 %install
-%make_install prefix="%{_usr}" DESTDIR="%{buildroot}"
+%make_install prefix="%{_prefix}"
 
 mkdir -p %{buildroot}/%{_datadir}/bowtie
 cp -a reads %{buildroot}/%{_datadir}/bowtie/
@@ -123,18 +99,12 @@ done
 tar xzvf %{SOURCE1}
 cat %{PATCH1} | patch -p1
 
-%ifarch s390x
-# The tests works with the number of thread: 1 on s390x.
-# https://github.com/BenLangmead/bowtie/pull/105
-sed -i 's/--threads $nthreads/--threads 1/' scripts/test/simple_tests.pl
-%endif
-
 # See Makefile simple-test target.
 scripts/test/simple_tests.pl --bowtie=./bowtie --bowtie-build=./bowtie-build
 
 
 %files
-%license LICENSE SeqAn-1.1/{GPL,LGPL}.txt
+%license LICENSE
 %doc MANUAL NEWS VERSION AUTHORS TUTORIAL doc/{manual.html,style.css}
 %dir %{_datadir}/bowtie
 %{_bindir}/bowtie
@@ -159,6 +129,12 @@ scripts/test/simple_tests.pl --bowtie=./bowtie --bowtie-build=./bowtie-build
 
 
 %changelog
+* Tue Jul 28 2020 Jun Aruga <jaruga@redhat.com> - 1.3.0-1
+- Update to upstream release 1.3.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 17 2020 Jun Aruga <jaruga@redhat.com> - 1.2.3-2
 - Fix the build failure adding perl(FindBin) and perl(lib) build dependencies.
 

@@ -8,7 +8,7 @@
 Summary:   Xorg X11 fbturbo driver
 Name:      xorg-x11-drv-fbturbo
 Version:   0.5.1
-Release:   0.17%{?gitrev}%{?dist}
+Release:   0.18%{?gitrev}%{?dist}
 URL:       https://github.com/ssvb/xf86-video-fbturbo
 License:   MIT and GPLv2
 
@@ -68,6 +68,9 @@ find %{buildroot} -type f -name "*.la" -delete
 %{_mandir}/man4/fbturbo.4*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-0.18.20150221
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-0.17.20150221
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

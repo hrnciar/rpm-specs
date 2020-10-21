@@ -1,11 +1,11 @@
 Name:           multimedia-menus
-Version:        0.4.0
+Version:        0.4.2
 Release:        1%{?dist}
 Summary:        Categorization for the GNOME/KDE/MATE Sound&Video/Multimedia menu
 # Licensing of individual parts is explained in licensing.txt file
 License:        GPLv2+ and LGPLv2+ and GPL+ and LGPLv2 and LGPLv3+ and GPLv2 and MIT
 URL:            https://pagure.io/multimedia-menus
-Source0:        https://pagure.io/multimedia-menus/archive/0.3.4/%{name}-%{version}.tar.gz
+Source0:        https://pagure.io/multimedia-menus/archive/%{version}/%{name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildRequires:  intltool
 Requires:       redhat-menus hicolor-icon-theme dconf
@@ -49,6 +49,15 @@ dconf update
 
 
 %changelog
+* Tue Aug 11 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 0.4.2-1
+- Fix typographical error for appfolder name in dconf
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 0.4.1-1
+- Add X-AudioEditing to audio editors
+
 * Wed Jun 17 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 0.4.0-1
 - Add dconf db file for GNOME appfolders
 

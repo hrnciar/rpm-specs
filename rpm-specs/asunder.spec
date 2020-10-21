@@ -1,11 +1,10 @@
 Name:		asunder
 Summary:	A graphical Audio CD ripper and encoder
-Version:	2.9.5
+Version:	2.9.6
 Release:	1%{?dist}
 License:	GPLv2
 URL:		http://littlesvr.ca/asunder
 Source0:	http://littlesvr.ca/asunder/releases/asunder-%{version}.tar.bz2
-Patch0:		asunder-aarch64.patch
 Requires:	cdparanoia
 # Supported audio encoders
 Requires:	vorbis-tools
@@ -34,7 +33,7 @@ It allows to save tracks from an Audio CD as WAV, OGG, MP3, OPUS, FLAC,
 Wavpack, Musepack and/or Monkey's Audio, AAC (using third-party software).
 
 %prep
-%autosetup -p 1
+%autosetup
 
 %build
 %configure
@@ -58,8 +57,16 @@ desktop-file-install --dir %{buildroot}%{_datadir}/applications \
 %license COPYING
 %{_datadir}/applications/*asunder.desktop
 %{_datadir}/pixmaps/asunder.png
+%{_datadir}/pixmaps/asunder.svg
 
 %changelog
+* Thu Oct 08 2020 Marcin Zajaczkowski <mszapk ATT wp DOTT pl> - 2.9.6-1
+- Update to 2.9.6 (#1763713)
+- Drop patch for aarch64 - supported upstream
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Marcin Zajaczkowski <mszpak ATT wp DOTT pl> - 2.9.5-1
 - Update to 2.9.5 (#1763713)
 

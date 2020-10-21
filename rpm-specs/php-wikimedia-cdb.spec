@@ -1,7 +1,7 @@
 
 Name:		php-wikimedia-cdb
 Version:	1.4.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	CDB functions for PHP
 
 License:	GPLv2+
@@ -47,6 +47,9 @@ cp -rp src/* %{buildroot}%{_datadir}/php/Cdb
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

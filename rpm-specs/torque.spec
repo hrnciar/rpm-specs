@@ -15,6 +15,9 @@
 # that $PBS_SERVER_HOME/server_name contains the correct hostname.
 %global server_name localhost
 
+# The script checks uname -m to determine architecture
+%global uname_m_arch %(uname -m)
+
 # Build doxygen docs
 %global doxydoc 1
 
@@ -71,7 +74,7 @@
 
 Name:        torque
 Version:     4.2.10
-Release:     24%{?dist}
+Release:     29%{?dist}
 Summary:     Tera-scale Open-source Resource and QUEue manager
 Source0:     http://www.adaptivecomputing.com/download/%{name}/%{name}-%{version}.tar.gz
 Source2:     xpbs.desktop
@@ -90,6 +93,8 @@ Source24:    mom.layout
 # I'll announce to fedora-devel once this is resolved either way.
 # Fedora approval of TORQUEv1.1
 # http://lists.fedoraproject.org/pipermail/legal/2011-February/001530.html
+# This is a wrapper for multilib
+Source100:   pbs-config
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=713996
 Patch1:      torque-munge-size.patch
@@ -168,7 +173,7 @@ This package holds just a few shared files and directories.
 
 %package         client
 Summary:         Client part of TORQUE
-Requires:        %{name}-libs = %{version}-%{release}
+Requires:        torque-libs%{_isa} = %{version}-%{release}
 Requires(posttrans):  %{_sbindir}/alternatives
 Requires(preun):      %{_sbindir}/alternatives
 
@@ -200,6 +205,7 @@ This package holds the documentation files.
 %package gui
 Summary:      Graphical clients for TORQUE
 Requires:     torque-client = %{version}-%{release}
+Requires:     torque-libs%{_isa} = %{version}-%{release}
 
 %description gui
 TORQUE (Tera-scale Open-source Resource and QUEue manager) is a resource 
@@ -231,7 +237,7 @@ programs.
 
 %package devel
 Summary:     Development tools for programs which will use the %{name} library
-Requires:    torque-libs = %{version}-%{release}
+Requires:    torque-libs%{_isa} = %{version}-%{release}
 Obsoletes:   libtorque-devel < 2.4.8-2
 Provides:    libtorque-devel = %{version}-%{release}
 
@@ -248,7 +254,7 @@ necessary for developing programs which will use %{name}.
 
 %package mom
 Summary:        Node execution daemon for TORQUE
-Requires:       torque-libs = %{version}-%{release}
+Requires:       torque-libs%{_isa} = %{version}-%{release}
 Requires:       munge
 %if ! %{use_rcp}
 Requires:       openssh-clients
@@ -289,7 +295,7 @@ A simple PAM module to authorize users on PBS MOM nodes with a running job.
 
 %package scheduler
 Summary:         Simple fifo scheduler for TORQUE
-Requires:        torque-libs = %{version}-%{release}
+Requires:        torque-libs%{_isa} = %{version}-%{release}
 %if 0%{?rhel} >= 7 || 0%{?fedora}
 Requires(posttrans):  systemd
 Requires(preun):      systemd
@@ -311,7 +317,7 @@ This package holds the fifo C scheduler.
 
 %package server
 Summary:           The main part of TORQUE
-Requires:          torque-libs = %{version}-%{release}
+Requires:          torque-libs%{_isa} = %{version}-%{release}
 Requires:          munge
 %if ! %{use_rcp}
 Requires:          openssh-server
@@ -337,7 +343,7 @@ This package holds the server.
 
 %package drmaa
 Summary:           Run time files for the drmaa interface
-Requires:          torque-libs = %{version}-%{release}
+Requires:          torque-libs%{_isa} = %{version}-%{release}
 
 %description drmaa
 TORQUE (Tera-scale Open-source Resource and QUEue manager) is a resource 
@@ -512,6 +518,10 @@ rm %{buildroot}%{_mandir}/man1/basl2c.1
 
 # fix permissions for some directories in /var/lib/torque
 chmod 755 `find %{buildroot}/var/lib/torque -type d`
+
+# Use wrapper script for pbs-config and rename original script to include architecture name
+mv %{buildroot}%{_bindir}/pbs-config %{buildroot}%{_bindir}/pbs-config-%{uname_m_arch}
+install -m0755 -p %{SOURCE100} %{buildroot}%{_bindir}/pbs-config
 
 %post
 # fix mistake in previous release
@@ -750,6 +760,7 @@ fi
 %{_includedir}/torque
 %exclude %{_includedir}/torque/drmaa.h
 %{_bindir}/pbs-config
+%{_bindir}/pbs-config-%{uname_m_arch}
 %{_mandir}/man3/pbs_alterjob.3.*
 %{_mandir}/man3/pbs_connect.3.*
 %{_mandir}/man3/pbs_default.3.*
@@ -878,6 +889,22 @@ fi
 %endif
 
 %changelog
+* Mon Aug 10 2020 Tom Callaway <spot@fedoraproject.org> - 4.2.10-29
+- use %%uname_m_arch to ensure exact matching
+
+* Mon Aug 10 2020 Tom Callaway <spot@fedoraproject.org> - 4.2.10-28
+- using "%%{_arch}" resulted in a mismatch with uname -m on i386.
+  switched to "%%{_target_cpu}"
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.10-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul  9 2020 Tom Callaway <spot@fedoraproject.org> - 4.2.10-26
+- improve -libs Requires
+
+* Thu Jul  2 2020 Tom Callaway <spot@fedoraproject.org> - 4.2.10-25
+- resolve multilib conflict on pbs-config script
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.10-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

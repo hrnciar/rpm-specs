@@ -11,12 +11,12 @@
 # httpd 2.4 with httpd-filesystem
 %global with_httpd     1
 
-%global upstream_version 5.0.2
+%global upstream_version 5.0.4
 #global upstream_prever  rc1
 
 Name: phpMyAdmin
 Version: %{upstream_version}%{?upstream_prever:~%{upstream_prever}}
-Release: 2%{?dist}
+Release: 1%{?dist}
 Summary: A web interface for MySQL and MariaDB
 
 # MIT (js/jquery/, js/jqplot, js/codemirror/, js/tracekit/)
@@ -39,7 +39,7 @@ BuildRequires: gnupg2
 Requires(post): coreutils sed
 Requires:  webserver
 %if %{with_nginx}
-Requires:  nginx-filesystem
+Requires:   nginx-filesystem
 %endif
 %if %{with_httpd}
 Requires:  httpd-filesystem
@@ -58,7 +58,7 @@ Suggests:  httpd
 #        "phpmyadmin/motranslator": "^4.0",
 #        "phpmyadmin/shapefile": "^2.0",
 #        "phpmyadmin/sql-parser": "^5.0",
-#        "phpmyadmin/twig-i18n-extension": "^2.0",
+#        "phpmyadmin/twig-i18n-extension": "^2.0 || ^3.0",
 #        "phpseclib/phpseclib": "^2.0",
 #        "symfony/config": "^4.2.8",
 #        "symfony/dependency-injection": "^4.2.8",
@@ -66,7 +66,7 @@ Suggests:  httpd
 #        "symfony/polyfill-ctype": "^1.8",
 #        "symfony/polyfill-mbstring": "^1.3",
 #        "symfony/yaml": "^4.2.8",
-#        "twig/twig": "^2.4",
+#        "twig/twig": "^2.9 || ^3",
 #        "williamdes/mariadb-mysql-kbs": "^1.2"
 Requires:  php(language) >= 7.1.3
 Requires:  php-hash
@@ -79,14 +79,14 @@ Requires:  (php-composer(google/recaptcha)             >= 1.1   with php-compose
 Requires:  (php-composer(phpmyadmin/motranslator)      >= 4.0   with php-composer(phpmyadmin/motranslator)      < 5)
 Requires:  (php-composer(phpmyadmin/shapefile)         >= 2.0   with php-composer(phpmyadmin/shapefile)         < 3)
 Requires:  (php-composer(phpmyadmin/sql-parser)        >= 5.0   with php-composer(phpmyadmin/sql-parser)        < 6)
-Requires:  (php-composer(phpmyadmin/twig-i18n-extension) >= 2.0 with php-composer(phpmyadmin/twig-i18n-extension) < 3)
+Requires:  (php-composer(phpmyadmin/twig-i18n-extension) >= 2.0 with php-composer(phpmyadmin/twig-i18n-extension) < 4)
 Requires:  (php-composer(phpseclib/phpseclib)          >= 2.0.9 with php-composer(phpseclib/phpseclib)          < 3)
 Requires:  (php-composer(symfony/config)               >= 4.2.8 with php-composer(symfony/config)               < 5)
 Requires:  (php-composer(symfony/dependency-injection) >= 4.2.8 with php-composer(symfony/dependency-injection) < 5)
 Requires:  (php-composer(symfony/expression-language)  >= 4.2.8 with php-composer(symfony/expression-language)  < 5)
 Requires:  (php-composer(symfony/polyfill-mbstring)    >= 1.8   with php-composer(symfony/polyfill-mbstring)    < 2)
 Requires:  (php-composer(symfony/yaml)                 >= 4.2.8 with php-composer(symfony/yaml)                 < 5)
-Requires:  (php-composer(twig/twig)                    >= 2.4   with php-composer(twig/twig)                    < 3)
+Requires:  (php-composer(twig/twig)                    >= 2.9   with php-composer(twig/twig)                    < 4)
 Requires:  (php-composer(williamdes/mariadb-mysql-kbs) >= 1.2   with php-composer(williamdes/mariadb-mysql-kbs) < 2)
 # Autoloader
 Requires:  php-composer(fedora/autoloader)
@@ -192,7 +192,10 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
     '%{_datadir}/php/PhpMyAdmin/ShapeFile/autoload.php',
     '%{_datadir}/php/phpseclib/autoload.php',
     '%{_datadir}/php/ReCaptcha/autoload.php',
-    '%{_datadir}/php/Twig2/autoload.php',
+    [
+        '%{_datadir}/php/Twig3/autoload.php',
+        '%{_datadir}/php/Twig2/autoload.php',
+    ],
     '%{_datadir}/php/PhpMyAdmin/Twig/Extensions/autoload.php',
     '%{_datadir}/php/Symfony4/Component/Config/autoload.php',
     '%{_datadir}/php/Symfony4/Component/DependencyInjection/autoload.php',
@@ -268,7 +271,7 @@ sed -e "/'blowfish_secret'/s/MUSTBECHANGEDONINSTALL/$SECRET/" \
 %files
 %{!?_licensedir:%global license %%doc}
 %license LICENSE*
-%doc ChangeLog README CONTRIBUTING.md DCO config.sample.inc.php
+%doc ChangeLog README CONTRIBUTING.md config.sample.inc.php
 %doc doc/html/
 %doc examples/
 %doc composer.json
@@ -287,6 +290,17 @@ sed -e "/'blowfish_secret'/s/MUSTBECHANGEDONINSTALL/$SECRET/" \
 
 
 %changelog
+* Fri Oct 16 2020 Remi Collet <remi@remirepo.net> - 5.0.4-1
+- update to 5.0.4 (2020-10-15, bug fix release)
+
+* Sat Oct 10 2020 Remi Collet <remi@remirepo.net> - 5.0.3-1
+- update to 5.0.3 (2020-10-10, security release)
+- raise dependency on twig 2.9 and allow v3
+- allow phpmyadmin/twig-i18n-extension v3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 24 2020 Remi Collet <remi@remirepo.net> 5.0.2-2
 - cleanup httpd configuration
 

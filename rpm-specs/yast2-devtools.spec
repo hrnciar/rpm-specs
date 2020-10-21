@@ -37,7 +37,7 @@
 
 Name:		%{suite_name}2-%{name_suffix}
 Version:	3.1.36
-Release:	10%{?gitrel}%{?dist}
+Release:	11%{?gitrel}%{?dist}
 Summary:	YaST Development Tools
 
 License:	GPLv2+
@@ -179,6 +179,9 @@ fi
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.36-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.36-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

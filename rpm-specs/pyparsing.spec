@@ -11,7 +11,7 @@
 Summary:        %{_summary}
 Name:           pyparsing
 Version:        2.4.7
-Release:        3%{?dist}
+Release:        4%{?dist}
 
 License:        MIT
 URL:            https://github.com/pyparsing/pyparsing
@@ -19,15 +19,15 @@ Source0:        https://github.com/%{name}/%{name}/archive/%{name}_%{version}/%{
 
 BuildArch:      noarch
 BuildRequires:  dos2unix
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
 
 # python3 bootstrap: this is rebuilt before the final build of python3, which
 # adds the dependency on python3-rpm-generators, so we require it manually
 BuildRequires:  python3-rpm-generators
 
 %if %{with doc}
-BuildRequires:  python3-sphinx
+BuildRequires:  python%{python3_pkgversion}-sphinx
 %endif
 
 %if 0%{?build_wheel}
@@ -49,11 +49,11 @@ The package contains documentation for pyparsing.
 %endif
 
 
-%package -n python3-pyparsing
+%package -n python%{python3_pkgversion}-pyparsing
 Summary:        %{_summary}
-%{?python_provide:%python_provide python3-%{srcname}}
+%{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
 
-%description -n python3-pyparsing
+%description -n python%{python3_pkgversion}-pyparsing
 pyparsing is a module that can be used to easily and directly configure syntax
 definitions for any number of text parsing applications.
 
@@ -94,7 +94,7 @@ popd
 %{__python3} simple_unit_tests.py
 
 
-%files -n python3-pyparsing
+%files -n python%{python3_pkgversion}-pyparsing
 %license LICENSE
 %doc CHANGES README.rst
 %{python3_sitelib}/pyparsing.py
@@ -109,6 +109,9 @@ popd
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.7-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 2.4.7-3
 - Rebuilt for Python 3.9
 

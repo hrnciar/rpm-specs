@@ -4,14 +4,9 @@
 
 # https://github.com/hashicorp/go-plugin
 %global goipath         github.com/hashicorp/go-plugin
-Version:                1.0.0
+Version:                1.3.0
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-hashicorp-go-plugin-devel < 1.0.0-2
-}
 
 %global common_description %{expand:
 Go-plugin is a Go plugin system over RPC. It is the plugin system that has been
@@ -26,7 +21,7 @@ will lead to unexpected behavior.}
 %global godocs          docs examples README.md
 
 Name:           %{goname}
-Release:        5%{?dist}
+Release:        2%{?dist}
 Summary:        Go plugin system over rpc
 
 # Upstream license specification: MPL-2.0
@@ -35,16 +30,25 @@ URL:            %{gourl}
 Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/golang/protobuf/proto)
+BuildRequires:  golang(github.com/golang/protobuf/ptypes/empty)
 BuildRequires:  golang(github.com/hashicorp/go-hclog)
 BuildRequires:  golang(github.com/hashicorp/yamux)
 BuildRequires:  golang(github.com/mitchellh/go-testing-interface)
 BuildRequires:  golang(github.com/oklog/run)
 BuildRequires:  golang(golang.org/x/net/context)
 BuildRequires:  golang(google.golang.org/grpc)
+BuildRequires:  golang(google.golang.org/grpc/codes)
 BuildRequires:  golang(google.golang.org/grpc/credentials)
 BuildRequires:  golang(google.golang.org/grpc/health)
 BuildRequires:  golang(google.golang.org/grpc/health/grpc_health_v1)
-BuildRequires:  golang(google.golang.org/grpc/internal/transport)
+BuildRequires:  golang(google.golang.org/grpc/reflection)
+BuildRequires:  golang(google.golang.org/grpc/status)
+
+%if %{with check}
+# Tests
+BuildRequires:  golang(github.com/jhump/protoreflect/grpcreflect)
+BuildRequires:  golang(google.golang.org/grpc/reflection/grpc_reflection_v1alpha)
+%endif
 
 %description
 %{common_description}
@@ -65,6 +69,12 @@ BuildRequires:  golang(google.golang.org/grpc/internal/transport)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 21:03:08 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.3.0-1
+- Update to 1.3.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,15 +4,9 @@
 
 # https://github.com/samuel/go-zookeeper
 %global goipath         github.com/samuel/go-zookeeper
-%global commit          c4fab1ac1bec58281ad0667dc3f0907a9476ac47
+%global commit          2164a8ac840e69b0c255f9b12b3b36f969e7fd5d
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-samuel-go-zookeeper-devel < 0-0.13
-Obsoletes:      golang-github-samuel-go-zookeeper-unit-test < 0-0.13
-}
 
 %global common_description %{expand:
 Native Go Zookeeper Client Library.}
@@ -22,7 +16,7 @@ Native Go Zookeeper Client Library.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.16%{?dist}
+Release:        0.18%{?dist}
 Summary:        Native ZooKeeper client for Go
 
 # Upstream license specification: BSD-3-Clause
@@ -49,6 +43,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 16:19:01 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.18.20200802git2164a8a
+- Bump to commit 2164a8ac840e69b0c255f9b12b3b36f969e7fd5d
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

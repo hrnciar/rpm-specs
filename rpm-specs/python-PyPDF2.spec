@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        1.26.0
-Release:        14%{?dist}
+Release:        15%{?dist}
 License:        BSD
 Summary:        %{sum}
 Source:         https://pypi.python.org/packages/source/P/%{srcname}/%{srcname}-%{version}.tar.gz
@@ -86,6 +86,9 @@ chmod a-x Scripts/* Sample_Code/* LICENSE README.md CHANGELOG
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.26.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 1.26.0-14
 - Rebuilt for Python 3.9
 

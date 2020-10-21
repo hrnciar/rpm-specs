@@ -8,14 +8,14 @@
 %endif
 
 Name:           why3
-Version:        1.3.1
-Release:        10%{?dist}
+Version:        1.3.3
+Release:        1%{?dist}
 Summary:        Software verification platform
 
 # See LICENSE for the terms of the exception
 License:        LGPLv2 with exceptions
 URL:            http://why3.lri.fr/
-Source0:        https://gforge.inria.fr/frs/download.php/file/38291/%{name}-%{version}.tar.gz
+Source0:        https://gforge.inria.fr/frs/download.php/file/38367/%{name}-%{version}.tar.gz
 # Man pages written by Jerry James using text found in the sources.  Hence,
 # the copyright and license are the same as for the upstream sources.
 Source1:        %{name}-man.tar.xz
@@ -23,6 +23,9 @@ Source1:        %{name}-man.tar.xz
 Source2:        %{name}.desktop
 # AppData file written by Jerry James
 Source3:        %{name}.appdata.xml
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=1874879
+ExcludeArch: s390x
 
 BuildRequires:  coq
 BuildRequires:  emacs-proofgeneral
@@ -33,13 +36,13 @@ BuildRequires:  ocaml
 BuildRequires:  ocaml-camlp5-devel
 BuildRequires:  ocaml-findlib
 BuildRequires:  ocaml-lablgtk3-sourceview3-devel
-BuildRequires:  ocaml-ocamldoc
-BuildRequires:  ocaml-menhir-devel
+BuildRequires:  ocaml-menhir
 BuildRequires:  ocaml-num-devel
+BuildRequires:  ocaml-ocamldoc
 BuildRequires:  ocaml-zarith-devel
 BuildRequires:  ocaml-zip-devel
-BuildRequires:  python3dist(sphinx)
-BuildRequires:  python3dist(sphinxcontrib-bibtex)
+BuildRequires:  %{py3_dist sphinx}
+BuildRequires:  %{py3_dist sphinxcontrib-bibtex}
 BuildRequires:  tex(capt-of.sty)
 BuildRequires:  tex(comment.sty)
 BuildRequires:  tex(fncychap.sty)
@@ -51,6 +54,7 @@ BuildRequires:  tex(upquote.sty)
 BuildRequires:  tex(wrapfig.sty)
 BuildRequires:  tex-urlbst
 BuildRequires:  emacs xemacs xemacs-packages-extra
+BuildRequires:  graphviz
 
 Requires:       gtksourceview3%{?_isa}
 Requires:       hicolor-icon-theme
@@ -159,29 +163,16 @@ fixtimestamp() {
 }
 
 # Use the correct compiler flags, keep timestamps, and harden the build due to
-# network use.  Force native compilation when available.
-# Link the binaries with runtime compiled with -fPIC.
+# network use.  Link the binaries with runtime compiled with -fPIC.
 # This avoids many link-time errors.
 sed -e "s|-Wall|$RPM_OPT_FLAGS|;s/ -O -g//" \
     -e "s/cp /cp -p /" \
-%ifarch %{ocaml_native_compiler}
-    -e 's/\$(COQC)/& -native-compiler yes/' \
-%endif
     -e "s|^OLINKFLAGS =.*|& -runtime-variant _pic -ccopt \"$RPM_LD_FLAGS\"|" \
     -i Makefile.in
 
 # Remove spurious executable bits
 find -O3 examples -type f -perm /0111 -exec chmod a-x {} \+
 chmod a+x examples/*.sh
-
-# Remove spurious shebangs
-sed -i.orig '/#!.*/d' examples/use_api/runstrat/{echo,run}_wait.ml
-fixtimestamp examples/use_api/runstrat/echo_wait.ml
-fixtimestamp examples/use_api/runstrat/run_wait.ml
-
-# Fix end of line encodings
-sed -i.orig 's/\r//' examples/bts/20881.why
-fixtimestamp examples/bts/20881.why
 
 # Update the ProofGeneral integration instructions
 sed -i.orig 's,(MY_PATH_TO_WHY3)/share/whyitp,%{_emacs_sitelispdir},' share/whyitp/README
@@ -194,8 +185,8 @@ make doc
 rm -f doc/html/.buildinfo examples/use_api/.merlin.in
 
 %install
-make install DESTDIR=%{buildroot}
-make install-lib DESTDIR=%{buildroot}
+%make_install
+make install-lib DESTDIR=%{?buildroot} INSTALL="%{__install} -p"
 
 %ifarch %{ocaml_native_compiler}
 # Install the native coq files
@@ -326,6 +317,24 @@ chmod 0755 %{buildroot}%{_bindir}/* \
 %files all
 
 %changelog
+* Fri Sep 25 2020 Jerry James <loganjerry@gmail.com> - 1.3.3-1
+- Version 1.3.3
+
+* Wed Sep 02 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3.1-14
+- OCaml 4.11.1 rebuild
+
+* Tue Sep  1 2020  Jerry James <loganjerry@gmail.com> - 1.3.1-13
+- Rebuild for coq 8.12.0
+
+* Mon Aug 24 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3.1-13
+- OCaml 4.11.0 rebuild
+
+* Thu Aug  6 2020 Jerry James <loganjerry@gmail.com> - 1.3.1-12
+- Rebuild for ocaml-lablgtk3 3.1.1 and ocaml-menhir 20200624
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Jerry James <loganjerry@gmail.com> - 1.3.1-10
 - Rebuild for coq 8.11.2
 

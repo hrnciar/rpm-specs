@@ -1,7 +1,7 @@
 Name:           perl-MooseX-Types-JSON
 Summary:        JSON data types for Moose
 Version:        1.00
-Release:        16%{?dist}
+Release:        17%{?dist}
 # see lib/MooseX/Types/JSON.pm
 License:        GPL+ or Artistic
 
@@ -55,6 +55,9 @@ make test
 %{_mandir}/man3/MooseX*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.00-16
 - Perl 5.32 rebuild
 

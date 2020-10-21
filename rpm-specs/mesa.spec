@@ -50,9 +50,9 @@
 
 Name:           mesa
 Summary:        Mesa graphics libraries
-%global ver 20.1.1
+%global ver 20.2.1
 Version:        %{lua:ver = string.gsub(rpm.expand("%{ver}"), "-", "~"); print(ver)}
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        MIT
 URL:            http://www.mesa3d.org
 
@@ -62,8 +62,6 @@ Source0:        https://mesa.freedesktop.org/archive/%{name}-%{ver}.tar.xz
 # Fedora opts to ignore the optional part of clause 2 and treat that code as 2 clause BSD.
 Source1:        Mesa-MLAA-License-Clarification-Email.txt
 
-Patch3:         0003-evergreen-big-endian.patch
-
 BuildRequires:  meson >= 0.45
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -72,20 +70,10 @@ BuildRequires:  gettext
 %if 0%{?with_hardware}
 BuildRequires:  kernel-headers
 %endif
-%ifarch %{ix86} x86_64
-BuildRequires:  pkgconfig(libdrm_intel) >= 2.4.75
-%endif
-%if 0%{?with_radeonsi}
-BuildRequires:  pkgconfig(libdrm_amdgpu) >= 2.4.97
-%endif
-BuildRequires:  pkgconfig(libdrm_radeon) >= 2.4.71
-BuildRequires:  pkgconfig(libdrm_nouveau) >= 2.4.66
-%if 0%{?with_etnaviv}
-BuildRequires:  pkgconfig(libdrm_etnaviv) >= 2.4.89
-%endif
-%if 0%{?with_vc4}
-BuildRequires:  pkgconfig(libdrm) >= 2.4.89
-%endif
+# We only check for the minimum version of pkgconfig(libdrm) needed so that the
+# SRPMs for each arch still have the same build dependencies. See:
+# https://bugzilla.redhat.com/show_bug.cgi?id=1859515
+BuildRequires:  pkgconfig(libdrm) >= 2.4.97
 BuildRequires:  pkgconfig(expat)
 BuildRequires:  pkgconfig(zlib) >= 1.2.3
 BuildRequires:  pkgconfig(libselinux)
@@ -124,7 +112,7 @@ BuildRequires:  pkgconfig(libva) >= 0.38.0
 BuildRequires:  pkgconfig(libomxil-bellagio)
 %endif
 BuildRequires:  pkgconfig(libelf)
-BuildRequires:  pkgconfig(libglvnd) >= 0.2.0
+BuildRequires:  pkgconfig(libglvnd) >= 1.3.2
 BuildRequires:  llvm-devel >= 7.0.0
 %if 0%{?with_opencl}
 BuildRequires:  clang-devel
@@ -153,7 +141,7 @@ Obsoletes:      mesa-dri-filesystem < %{?epoch:%{epoch}:}%{version}-%{release}
 %package libGL
 Summary:        Mesa libGL runtime libraries
 Requires:       %{name}-libglapi%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       libglvnd-glx%{?_isa} >= 1:1.0.1-0.9
+Requires:       libglvnd-glx%{?_isa} >= 1:1.3.2
 
 %description libGL
 %{summary}.
@@ -161,16 +149,17 @@ Requires:       libglvnd-glx%{?_isa} >= 1:1.0.1-0.9
 %package libGL-devel
 Summary:        Mesa libGL development package
 Requires:       %{name}-libGL%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       libglvnd-devel%{?_isa}
+Requires:       libglvnd-devel%{?_isa} >= 1:1.3.2
 Provides:       libGL-devel
 Provides:       libGL-devel%{?_isa}
+Recommends:     gl-manpages
 
 %description libGL-devel
 %{summary}.
 
 %package libEGL
 Summary:        Mesa libEGL runtime libraries
-Requires:       libglvnd-egl%{?_isa}
+Requires:       libglvnd-egl%{?_isa} >= 1:1.3.2
 
 %description libEGL
 %{summary}.
@@ -178,7 +167,7 @@ Requires:       libglvnd-egl%{?_isa}
 %package libEGL-devel
 Summary:        Mesa libEGL development package
 Requires:       %{name}-libEGL%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:       libglvnd-devel%{?_isa}
+Requires:       libglvnd-devel%{?_isa} >= 1:1.3.2
 Requires:       %{name}-khr-devel%{?_isa}
 Provides:       libEGL-devel
 Provides:       libEGL-devel%{?_isa}
@@ -324,22 +313,13 @@ Headers for development with the Vulkan API.
 %autosetup -n %{name}-%{ver} -p1
 cp %{SOURCE1} docs/
 
-# Make sure the build uses gnu++14 as llvm 10 headers require that
-sed -i -e 's/cpp_std=gnu++11/cpp_std=gnu++14/g' meson.build
-
-# cElementTree no longer exists in Python 3.9
-sed -i -e 's/import xml.etree.cElementTree/import xml.etree.ElementTree/g' \
-    src/amd/vulkan/radv_extensions.py \
-    src/freedreno/vulkan/tu_extensions.py \
-    src/intel/vulkan/anv_extensions_gen.py
-
 %build
+# We've gotten a report that enabling LTO for mesa breaks some games. See
+# https://bugzilla.redhat.com/show_bug.cgi?id=1862771 for details.
+# Disable LTO for now
+%define _lto_cflags %{nil}
 
-# Build with -fcommon until the omx build with gcc10 is fixed upstream
-# https://gitlab.freedesktop.org/mesa/mesa/issues/2385
-%global optflags %{optflags} -fcommon
-
-%meson -Dcpp_std=gnu++14 \
+%meson \
   -Dplatforms=x11,wayland,drm,surfaceless \
   -Ddri3=true \
   -Ddri-drivers=%{?dri_drivers} \
@@ -599,6 +579,57 @@ popd
 %endif
 
 %changelog
+* Wed Oct 14 2020 Pete Walter <pwalter@fedoraproject.org> - 20.2.1-2
+- Update to 20.2.1
+
+* Tue Sep 29 2020 Pete Walter <pwalter@fedoraproject.org> - 20.2.0-2
+- Drop no longer needed big endian fix
+- Update glvnd required version
+
+* Tue Sep 29 2020 Pete Walter <pwalter@fedoraproject.org> - 20.2.0-1
+- Update to 20.2.0
+
+* Fri Sep 25 2020 Adam Jackson <ajax@redhat.com>
+- mesa-libGL-devel Recommends: gl-manpages
+
+* Fri Sep 04 2020 Pete Walter <pwalter@fedoraproject.org> - 20.2.0~rc4-1
+- Update to 20.2.0~rc4
+- Remove more no longer needed build hacks
+
+* Thu Sep 03 2020 Pete Walter <pwalter@fedoraproject.org> - 20.2.0~rc3-2
+- Remove -fcommon build workaround
+
+* Sat Aug 29 20:21:42 BST 2020 Pete Walter <pwalter@fedoraproject.org> - 20.2.0~rc3-1
+- Update to 20.2.0~rc3
+
+* Sun Aug 23 2020 Pete Walter <pwalter@fedoraproject.org> - 20.2.0~rc2-1
+- Update to 20.2.0~rc2
+
+* Sat Aug 22 2020 Kalev Lember <klember@redhat.com> - 20.1.6-2
+- Disable LTO as it appears to break some games (#1862771)
+
+* Thu Aug 20 2020 Pete Walter <pwalter@fedoraproject.org> - 20.1.6-1
+- Update to 20.1.6
+
+* Thu Aug 06 2020 Pete Walter <pwalter@fedoraproject.org> - 20.1.5-1
+- Update to 20.1.5
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.1.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Pete Walter <pwalter@fedoraproject.org> - 20.1.4-1
+- Update to 20.1.4
+
+* Wed Jul 22 2020 Lyude Paul <lyude@redhat.com> - 20.1.3-2
+- Only require pkgconfig(libdrm) to fix build dependencies for arches other
+  than the one our SRPM was generated with (#1859515)
+
+* Sat Jul 11 2020 Pete Walter <pwalter@fedoraproject.org> - 20.1.3-1
+- Update to 20.1.3
+
+* Thu Jun 25 2020 Pete Walter <pwalter@fedoraproject.org> - 20.1.2-1
+- Update to 20.1.2
+
 * Wed Jun 10 2020 Pete Walter <pwalter@fedoraproject.org> - 20.1.1-1
 - Update to 20.1.1
 - Fix the build with Python 3.9

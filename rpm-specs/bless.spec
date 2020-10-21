@@ -3,7 +3,7 @@
 
 Name: bless
 Version: 0.6.2
-Release: 2%{?dist}
+Release: 4%{?dist}
 Summary: High quality, full featured hex editor    
 
 License: GPLv2+        
@@ -68,6 +68,13 @@ desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications \
 %{_datadir}/omf/bless/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 08 2020 Timotheus Pokorra <timotheus.pokorra@solidcharity.com> - 0.6.2-2
 - default edit mode is now Overwrite instead of Insert
 

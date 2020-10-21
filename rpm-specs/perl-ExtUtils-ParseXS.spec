@@ -3,7 +3,7 @@ Name:           perl-ExtUtils-ParseXS
 # Epoch to compete with perl.spec
 Epoch:          1
 Version:        3.40
-Release:        456%{?dist}
+Release:        457%{?dist}
 Summary:        Module and a script for converting Perl XS code into C code
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/ExtUtils-ParseXS
@@ -80,6 +80,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.40-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:3.40-456
 - Increase release to favour standalone package
 

@@ -1,15 +1,10 @@
-# Workaround for GCC 10
-# * https://gcc.gnu.org/gcc-10/porting_to.html#common
-# * https://github.com/vifm/vifm/issues/534
-%global _legacy_common_support 1
-
 %bcond_with     gtk
 %bcond_without  libmagic
 %bcond_with     x11
 
 Name:           vifm
-Version:        0.10.1
-Release:        3%{?dist}
+Version:        0.11
+Release:        1%{?dist}
 Summary:        File manager with curses interface, which provides Vi[m]-like environment
 
 License:        GPLv2+
@@ -35,15 +30,15 @@ BuildRequires:  libX11-devel
 
 %description
 Vifm is a curses based vi[m] like file manager extended with some useful ideas
-from mutt. If you use vi[m], vifm gives you complete keyboard control over your
-files without having to learn a new set of commands. It goes not just about
-vi[m] like keybindings, but also about modes, options, registers, commands and
-other things you might already like in vi[m].
+from mutt. If you use vi[m], vifm gives you complete keyboard control over
+your files without having to learn a new set of commands. It goes not just
+about vi[m] like keybindings, but also about modes, options, registers,
+commands and other things you might already like in vi[m].
 
 Just like vi[m], vifm tries to adhere to the Unix philosophy. So instead of
 working solutions which are set in stone user is provided with a set of means
-for customization of vifm to one's likings. Though builtin functionality should
-be enough for most of use cases.
+for customization of vifm to one's likings. Though builtin functionality
+should be enough for most of use cases.
 
 
 %prep
@@ -73,8 +68,7 @@ be enough for most of use cases.
 %install
 %make_install
 
-rm  %{buildroot}%{_pkgdocdir}/COPYING \
-    %{buildroot}%{_datadir}/%{name}/vifm-media-osx
+rm %{buildroot}%{_pkgdocdir}/COPYING
 
 
 %check
@@ -94,9 +88,16 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %{_datadir}/zsh/site-functions/_%{name}
 %{_mandir}/man1/*
 %{_pkgdocdir}/
+%{_sysconfdir}/%{name}/
 
 
 %changelog
+* Thu Sep 24 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.11-1
+- Update to 0.11
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.10.1-3
 - Update package and fix FTBFS | RHBZ#1800234
 

@@ -11,8 +11,8 @@
 %global pear_channel pear.horde.org
 
 Name:           php-horde-imp
-Version:        6.2.24
-Release:        4%{?dist}
+Version:        6.2.27
+Release:        1%{?dist}
 Summary:        A web based webmail system
 
 # imp is GPLv2, murmurhash3.js is MIT
@@ -303,6 +303,15 @@ fi
 
 
 %changelog
+* Fri Aug 28 2020 Remi Collet <remi@remirepo.net> - 6.2.27-1
+- update to 6.2.27
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2.26-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Remi Collet <remi@remirepo.net> - 6.2.26-1
+- update to 6.2.26
+
 * Tue Jun  2 2020 Remi Collet <remi@remirepo.net> - 6.2.24-4
 - requires php(httpd)
 

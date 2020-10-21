@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          1.4.1
-Release:          8%{?dist}
+Release:          10%{?dist}
 Summary:          Polytomous variable Latent Class Analysis
 
 License:          GPLv2+
@@ -60,6 +60,13 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.4.1-8
 - rebuild for R 4
 

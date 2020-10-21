@@ -1,9 +1,9 @@
-%bcond_with autoconf
+%bcond_without autoconf
 
 Summary: Gives a fake root environment
 Name: fakeroot
-Version: 1.24
-Release: 3%{?dist}
+Version: 1.25.3
+Release: 1%{?dist}
 # setenv.c: LGPLv2+
 # contrib/Fakeroot-Stat-1.8.8: Perl (GPL+ or Artistic)
 # the rest: GPLv3+
@@ -14,7 +14,6 @@ Source0: https://cdn-aws.deb.debian.org/debian/pool/main/f/fakeroot/%{name}_%{ve
 # Debian package patches, from debian.tar.xz
 Patch0: debian_eglibc-fts-without-LFS.patch
 Patch2: debian_fix-shell-in-fakeroot.patch
-Patch3: debian_hide-dlsym-error.patch
 # Address some POSIX-types related problems.
 Patch4: fakeroot-inttypes.patch
 # Fix LD_LIBRARY_PATH for multilib: https://bugzilla.redhat.com/show_bug.cgi?id=1241527
@@ -58,7 +57,7 @@ This package contains the libraries required by %{name}.
 
 %build
 %if %{with autoconf}
-autoreconf -i
+./bootstrap
 pushd doc
 po4a -k 0 --rm-backups --variable "srcdir=../doc/" po4a/po4a.cfg
 popd
@@ -154,6 +153,20 @@ fi
 %ghost %{_libdir}/libfakeroot/libfakeroot-0.so
 
 %changelog
+* Wed Oct 14 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.25.3-1
+- update to 1.25.3 (#1886610)
+
+* Mon Oct 05 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.25.2-1
+- update to 1.25.2 (#1881277)
+- drop obsolete patch
+- re-enable failing tests (fixed upstream)
+
+* Sat Aug 22 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.24-5
+- disable three tests failing under glibc 2.32+ (#1871355)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -32,7 +32,7 @@
 
 Name:           xalan-j2
 Version:        2.7.2
-Release:        3%{?dist}
+Release:        6%{?dist}
 Epoch:          0
 Summary:        Java XSLT processor
 # src/org/apache/xpath/domapi/XPathStylesheetDOM3Exception.java is W3C
@@ -63,6 +63,7 @@ BuildRequires:  sed
 BuildRequires:  glassfish-servlet-api
 BuildRequires:  xerces-j2 >= 0:2.7.1
 BuildRequires:  xml-commons-apis >= 0:1.3
+BuildRequires:  java-1.8.0-openjdk-devel
 
 Requires:       xerces-j2
 
@@ -132,6 +133,7 @@ sed -i 's/\r//' KEYS LICENSE.txt NOTICE.txt xdocs/style/resources/script.js \
 %mvn_package :xsltc xsltc
 
 %build
+export JAVA_HOME=%{_jvmdir}/java-1.8.0-openjdk
 pushd lib
 ln -sf $(build-classpath java_cup-runtime) runtime.jar
 ln -sf $(build-classpath bcel) BCEL.jar
@@ -205,6 +207,15 @@ mv %{_javadir}/jaxp_transform_impl.jar{.tmp,} || :
 %{_datadir}/%{name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:2.7.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0:2.7.2-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Mon Jun 29 2020 Mat Booth <mat.booth@redhat.com> - 0:2.7.2-4
+- Peg to Java 8 due to build issues on Java 11
+
 * Fri Jun 19 2020 Mat Booth <mat.booth@redhat.com> - 0:2.7.2-3
 - Allow building against Java 11
 

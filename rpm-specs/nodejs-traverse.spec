@@ -4,7 +4,7 @@
 
 Name:           nodejs-traverse
 Version:        0.6.6
-Release:        9%{?dist}
+Release:        11%{?dist}
 Summary:        Traverse and transform objects
 
 License:        MIT
@@ -58,6 +58,13 @@ cp -pr package.json index.js %{buildroot}%{nodejs_sitelib}/traverse
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.6-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.6-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.6-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

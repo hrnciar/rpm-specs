@@ -5,7 +5,7 @@
 
 Name:                cmatrix
 Version:             1.2a
-Release:             6%{?dist}
+Release:             7%{?dist}
 Summary:             A scrolling 'Matrix'-like screen
 
 License:             GPLv2+
@@ -85,6 +85,9 @@ fi
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2a-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2a-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

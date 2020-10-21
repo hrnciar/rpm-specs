@@ -7,11 +7,6 @@ Version:                1.3.1
 
 %gometa
 
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-googlecode-gogoprotobuf-devel < 1.2.1-2
-}
-
 %global common_description %{expand:
 Gogoprotobuf is a fork of golang/protobuf with extra code generation features.
 
@@ -28,17 +23,18 @@ This code generation is used to achieve:
 %global godocs          AUTHORS CONTRIBUTORS README bench.md custom_types.md Readme.md extensions.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Protocol buffers for Go with gadgets
 
 # Upstream license specification: BSD-3-Clause
 License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/golang/go/issues/32479
+# https://github.com/gogo/protobuf/pull/704
+Patch0:         0001-Convert-int-to-string-using-rune.patch
 
 BuildRequires:  protobuf-compiler
-# Remove in F33:
-Obsoletes:      golang-googlecode-gogoprotobuf < 1.2.1-2
 
 %description
 %{common_description}
@@ -47,6 +43,7 @@ Obsoletes:      golang-googlecode-gogoprotobuf < 1.2.1-2
 
 %prep
 %goprep
+%patch0 -p1
 
 %build
 for cmd in protoc-gen-gogo protoc-gen-gofast protoc-min-version protoc-gen-combo protoc-gen-gostring protoc-gen-gogoslick protoc-gen-gogotypes protoc-gen-gogofaster gogoreplace conformance protoc-gen-gogofast; do
@@ -71,6 +68,16 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Sat Feb 01 21:46:33 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.3.1-4
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 01 21:46:33 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.3.1-1
 - Update to 1.3.1
 

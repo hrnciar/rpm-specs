@@ -1,6 +1,6 @@
 Name:           wxGlade
 Version:        0.9.5
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A wxWidgets/wxPython/wxPerl GUI designer
 License:        MIT
 URL:            http://wxglade.sourceforge.net
@@ -54,6 +54,9 @@ install -pDm 644 docs_old/man/wxglade.1 %{buildroot}%{_mandir}/man1/wxglade.1
 %{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.5-3
 - Rebuilt for Python 3.9
 

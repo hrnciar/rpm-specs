@@ -1,6 +1,6 @@
 Name:      xmlrpc-epi
 Version:   0.54.2
-Release:   11%{?dist}
+Release:   12%{?dist}
 Summary:   An implementation of the XML-RPC protocol in C
 License:   MIT
 URL:       http://xmlrpc-epi.sourceforge.net/
@@ -50,6 +50,9 @@ rm -f %{buildroot}%{_libdir}/*.la
 %{_libdir}/libxmlrpc-epi.so
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.54.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.54.2-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

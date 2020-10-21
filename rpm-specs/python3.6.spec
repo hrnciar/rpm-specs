@@ -13,11 +13,11 @@ URL: https://www.python.org/
 
 #  WARNING  When rebasing to a new Python version,
 #           remember to update the python3-docs package as well
-%global general_version %{pybasever}.11
-%global prerel rc1
+%global general_version %{pybasever}.12
+#global prerel ...
 %global upstream_version %{general_version}%{?prerel}
 Version: %{general_version}%{?prerel:~%{prerel}}
-Release: 1%{?dist}
+Release: 3%{?dist}
 License: Python
 
 
@@ -75,6 +75,19 @@ License: Python
 %bcond_with valgrind
 %endif
 
+# https://fedoraproject.org/wiki/Changes/Python_Upstream_Architecture_Names
+# For a very long time we have converted "upstream architecture names" to "Fedora names".
+# This made sense at the time, see https://github.com/pypa/manylinux/issues/687#issuecomment-666362947
+# However, with manylinux wheels popularity growth, this is now a problem.
+# Wheels built on a Linux that doesn't do this were not compatible with ours and vice versa.
+# We now have a compatibility layer to workaround a problem,
+# but we also no longer use the legacy arch names in Fedora 34+.
+# This bcond controls the behavior. The defaults should be good for anybody.
+%if 0%{?fedora} >= 34 || 0%{?rhel} >= 9
+%bcond_with legacy_archnames
+%else
+%bcond_without legacy_archnames
+%endif
 
 # ==================================
 # Notes from bootstraping Python 3.6
@@ -127,8 +140,21 @@ License: Python
 %global LDVERSION_optimized %{pybasever}%{ABIFLAGS_optimized}
 %global LDVERSION_debug     %{pybasever}%{ABIFLAGS_debug}
 
-%global SOABI_optimized cpython-%{pyshortver}%{ABIFLAGS_optimized}-%{_arch}-linux%{_gnu}
-%global SOABI_debug     cpython-%{pyshortver}%{ABIFLAGS_debug}-%{_arch}-linux%{_gnu}
+# When we use the upstream arch triplets, we convert them from the legacy ones
+# This is reversed in prep when %%with legacy_archnames, so we keep both macros
+%global platform_triplet_legacy %{_arch}-linux%{_gnu}
+%global platform_triplet_upstream %{expand:%(echo %{platform_triplet_legacy} | sed -E \\
+    -e 's/^arm(eb)?-linux-gnueabi$/arm\\1-linux-gnueabihf/' \\
+    -e 's/^mips64(el)?-linux-gnu$/mips64\\1-linux-gnuabi64/' \\
+    -e 's/^ppc(64)?(le)?-linux-gnu$/powerpc\\1\\2-linux-gnu/')}
+%if %{with legacy_archnames}
+%global platform_triplet %{platform_triplet_legacy}
+%else
+%global platform_triplet %{platform_triplet_upstream}
+%endif
+
+%global SOABI_optimized cpython-%{pyshortver}%{ABIFLAGS_optimized}-%{platform_triplet}
+%global SOABI_debug     cpython-%{pyshortver}%{ABIFLAGS_debug}-%{platform_triplet}
 
 # All bytecode files are in a __pycache__ subdirectory, with a name
 # reflecting the version of the bytecode.
@@ -186,6 +212,7 @@ BuildRequires: gcc-c++
 %if %{with gdbm}
 BuildRequires: gdbm-devel
 %endif
+BuildRequires: git-core
 BuildRequires: glibc-all-langpacks
 BuildRequires: glibc-devel
 BuildRequires: gmp-devel
@@ -248,26 +275,31 @@ Source10: idle3.desktop
 # AppData file for idle3
 Source11: idle3.appdata.xml
 
-# 00001 #
-# Fixup distutils/unixccompiler.py to remove standard library path from rpath:
-# Was Patch0 in ivazquez' python3000 specfile:
-Patch1:         00001-rpath.patch
+# (Patches taken from github.com/fedora-python/cpython)
 
-# 00102 #
-# Change the various install paths to use /usr/lib64/ instead or /usr/lib
-# Only used when "%%{_lib}" == "lib64"
-# Not yet sent upstream.
+# 00001 # d06a8853cf4bae9e115f45e1d531d2dc152c5cc8
+# Fixup distutils/unixccompiler.py to remove standard library path from rpath
+# Was Patch0 in ivazquez' python3000 specfile
+Patch1: 00001-rpath.patch
+
+# 00102 # 4a773a6f1c51615333cbae27982904a312777223
+# Change the various install paths to use /usr/lib64/ instead or /usr/lib/
+#
+# Only used when "%%{_lib}" == "lib64".
 Patch102: 00102-lib64.patch
 
-# 00111 #
-# Patch the Makefile.pre.in so that the generated Makefile doesn't try to build
-# a libpythonMAJOR.MINOR.a
+# 00111 # f07cfb42e1868a3bba0890edf4a72beaeeae370c
+# Don't try to build a libpythonMAJOR.MINOR.a
+#
+# Downstream only: not appropriate for upstream.
+#
 # See https://bugzilla.redhat.com/show_bug.cgi?id=556092
-# Downstream only: not appropriate for upstream
 Patch111: 00111-no-static-lib.patch
 
-# 00132 #
-# Add non-standard hooks to unittest for use in the "check" phase below, when
+# 00132 # 75c270b8641ddff06c0edf7be7cc444e6debb6d7
+# Add rpmbuild hooks to unittest
+#
+# Add non-standard hooks to unittest for use in the "check" phase, when
 # running selftests within the build:
 #   @unittest._skipInRpmBuild(reason)
 # for tests that hang or fail intermittently within the build environment, and:
@@ -280,28 +312,34 @@ Patch111: 00111-no-static-lib.patch
 # these unittest hooks in their own "check" phases)
 Patch132: 00132-add-rpmbuild-hooks-to-unittest.patch
 
-# 00155 #
+# 00155 # 0ef7ae83073c1bbe610d4678ed56ae775fd6e174
+# avoid allocating thunks in ctypes unless absolutely necessary
+#
 # Avoid allocating thunks in ctypes unless absolutely necessary, to avoid
 # generating SELinux denials on "import ctypes" and "import uuid" when
 # embedding Python within httpd
 # See https://bugzilla.redhat.com/show_bug.cgi?id=814391
 Patch155: 00155-avoid-ctypes-thunks.patch
 
-# 00160 #
+# 00160 # f69288aba24c43c506c3e90e2aa658e436e76e72
+# Disable test_fs_holes in RPM build
+#
 # Python 3.3 added os.SEEK_DATA and os.SEEK_HOLE, which may be present in the
 # header files in the build chroot, but may not be supported in the running
 # kernel, hence we disable this test in an rpm build.
 # Adding these was upstream issue http://bugs.python.org/issue10142
-# Not yet sent upstream
 Patch160: 00160-disable-test_fs_holes-in-rpm-build.patch
 
-# 00163 #
+# 00163 # 88e26259f7da12e17adb936815aa421d84c69f09
+# Disable parts of test_socket in RPM build
+#
 # Some tests within test_socket fail intermittently when run inside Koji;
 # disable them using unittest._skipInRpmBuild
-# Not yet sent upstream
 Patch163: 00163-disable-parts-of-test_socket-in-rpm-build.patch
 
-# 00170 #
+# 00170 # 5a71e038b7511727657466d7796cf9c11c67334a
+# In debug builds, try to print repr() when a C-level assert fails
+#
 # In debug builds, try to print repr() when a C-level assert fails in the
 # garbage collector (typically indicating a reference-counting error
 # somewhere else e.g in an extension module)
@@ -311,42 +349,48 @@ Patch163: 00163-disable-parts-of-test_socket-in-rpm-build.patch
 # See https://bugzilla.redhat.com/show_bug.cgi?id=614680
 Patch170: 00170-gc-assertions.patch
 
-# 00178 #
-# Don't duplicate various FLAGS in sysconfig values
-# http://bugs.python.org/issue17679
-# Does not affect python2 AFAICS (different sysconfig values initialization)
-Patch178: 00178-dont-duplicate-flags-in-sysconfig.patch
-
-# 00189 #
-# Instead of bundled wheels, use our RPM packaged wheels from
-# /usr/share/python-wheels
+# 00189 # dd3bacdeb7a9c0c99ab78229d3f1aa4c9761efb4
+# Instead of bundled wheels, use our RPM packaged wheels
+#
+# We keep them in /usr/share/python-wheels
 Patch189: 00189-use-rpm-wheels.patch
+# The following versions of setuptools/pip are bundled when this patch is not applied.
+# The versions are written in Lib/ensurepip/__init__.py, this patch removes them.
+# When the bundled setuptools/pip wheel is updated, the patch no longer applies cleanly.
+# In such cases, the patch needs to be amended and the versions updated here:
+%global pip_version 18.1
+%global setuptools_version 40.6.2
 
-# 00251
+# 00251 # 2eabd04356402d488060bc8fe316ad13fc8a3356
+# Change user install location
+#
 # Set values of prefix and exec_prefix in distutils install command
 # to /usr/local if executable is /usr/bin/python* and RPM build
-# is not detected to make pip and distutils install into separate location
+# is not detected to make pip and distutils install into separate location.
+#
 # Fedora Change: https://fedoraproject.org/wiki/Changes/Making_sudo_pip_safe
 Patch251: 00251-change-user-install-location.patch
 
-# 00262 #
+# 00262 # eb17e4d0defe4a58be25df5128fda6eab53acbbb
+# PEP538 - Coerce legacy C locale
+#
 # Backport of PEP 538: Coercing the legacy C locale to a UTF-8 based locale
 # https://www.python.org/dev/peps/pep-0538/
 # Fedora Change: https://fedoraproject.org/wiki/Changes/python3_c.utf-8_locale
 # Original proposal: https://bugzilla.redhat.com/show_bug.cgi?id=1404918
 Patch262: 00262-pep538_coerce_legacy_c_locale.patch
 
-# 00274 #
-# Upstream uses Debian-style architecture naming. Change to match Fedora.
-Patch274: 00274-fix-arch-names.patch
-
-# 00292 #
+# 00292 # 7bee9c57be78ac9bb512ddc08b1f73271c494e4d
+# Restore PyExc_RecursionErrorInst symbol
+#
 # Restore the public PyExc_RecursionErrorInst symbol that was removed
 # from the 3.6.4 release upstream.
 # Reported upstream: https://bugs.python.org/issue30697
 Patch292: 00292-restore-PyExc_RecursionErrorInst-symbol.patch
 
-# 00294 #
+# 00294 # dddeb1c65cb86057d5c44be91e7965e5681c87e0
+# Define TLS cipher suite on build time
+#
 # Define TLS cipher suite on build time depending
 # on the OpenSSL default cipher suite selection.
 # Fixed upstream on CPython's 3.7 branch:
@@ -354,7 +398,9 @@ Patch292: 00292-restore-PyExc_RecursionErrorInst-symbol.patch
 # See also: https://bugzilla.redhat.com/show_bug.cgi?id=1489816
 Patch294: 00294-define-TLS-cipher-suite-on-build-time.patch
 
-# 00343 #
+# 00343 # 2f4ec09a1daea8357f6a4a73c9f68d3fed3b1b96
+# Fix test_faulthandler on GCC 10
+#
 # bpo-38965: Fix faulthandler._stack_overflow() on GCC 10
 # Fixed upstream and backported from the 3.7 branch:
 # https://bugs.python.org/issue38965
@@ -364,6 +410,31 @@ Patch294: 00294-define-TLS-cipher-suite-on-build-time.patch
 # https://bugs.python.org/issue21131
 # https://github.com/python/cpython/commit/ac827edc493d3ac3f5b9b0cc353df1d4b418a9aa
 Patch343: 00343-faulthandler-gcc10.patch
+
+# 00353 # ab4cc97b643cfe99f567e3a03e5617b507183771
+# Original names for architectures with different names downstream
+#
+# https://fedoraproject.org/wiki/Changes/Python_Upstream_Architecture_Names
+#
+# Pythons in RHEL/Fedora used different names for some architectures
+# than upstream and other distros (for example ppc64 vs. powerpc64).
+# This was patched in patch 274, now it is sedded if %%with legacy_archnames.
+#
+# That meant that an extension built with the default upstream settings
+# (on other distro or as an manylinux wheel) could not been found by Python
+# on RHEL/Fedora because it had a different suffix.
+# This patch adds the legacy names to importlib so Python is able
+# to import extensions with a legacy architecture name in its
+# file name.
+# It work both ways, so it support both %%with and %%without legacy_archnames.
+#
+# WARNING: This patch has no effect on Python built with bootstrap
+# enabled because Python/importlib_external.h is not regenerated
+# and therefore Python during bootstrap contains importlib from
+# upstream without this feature. It's possible to include
+# Python/importlib_external.h to this patch but it'd make rebasing
+# a nightmare because it's basically a binary file.
+Patch353: 00353-architecture-names-upstream-downstream.patch
 
 # (New patches go here ^^^)
 #
@@ -452,8 +523,8 @@ Summary:        Python runtime libraries
 Requires: python-setuptools-wheel
 Requires: python-pip-wheel
 %else
-Provides: bundled(python3-pip) = 18.1
-Provides: bundled(python3-setuptools) = 40.6.2
+Provides: bundled(python3dist(pip)) = %{pip_version}
+Provides: bundled(python3dist(setuptools)) = %{setuptools_version}
 %endif
 
 # There are files in the standard library that have python shebang.
@@ -597,8 +668,8 @@ so extensions for both versions can co-exist in the same directory.
 Requires: python-setuptools-wheel
 Requires: python-pip-wheel
 %else
-Provides: bundled(python3-pip) = 18.1
-Provides: bundled(python3-setuptools) = 40.6.2
+Provides: bundled(python3dist(pip)) = %{pip_version}
+Provides: bundled(python3dist(setuptools)) = %{setuptools_version}
 %endif
 
 # The description for the flat package
@@ -619,44 +690,43 @@ or older Fedora releases.
 
 %prep
 %gpgverify -k2 -s1 -d0
-%setup -q -n Python-%{upstream_version}
+%autosetup -S git_am -N -n Python-%{upstream_version}
+
+# Apply initial patches manually
+%apply_patch -q %{PATCH1}
+
+%if "%{_lib}" == "lib64"
+%apply_patch -q %{PATCH102}
+%endif
+
+%apply_patch -q %{PATCH111}
+%apply_patch -q %{PATCH132}
+%apply_patch -q %{PATCH155}
+%apply_patch -q %{PATCH160}
+%apply_patch -q %{PATCH163}
+%apply_patch -q %{PATCH170}
+
+%if %{with rpmwheels}
+%apply_patch -q %{PATCH189}
+rm Lib/ensurepip/_bundled/*.whl
+%endif
+
+# Apply the remaining patches
+%autopatch -m 190
 
 # Remove bundled libraries to ensure that we're using the system copy.
 rm -r Modules/expat
 rm -r Modules/zlib
 
-#
-# Apply patches:
-#
-%patch1 -p1
-
-%if "%{_lib}" == "lib64"
-%patch102 -p1
-%endif
-%patch111 -p1
-%patch132 -p1
-%patch155 -p1
-%patch160 -p1
-%patch163 -p1
-%patch170 -p1
-%patch178 -p1
-
-%if %{with rpmwheels}
-%patch189 -p1
-rm Lib/ensurepip/_bundled/*.whl
-%endif
-
-%patch251 -p1
-%patch262 -p1
-%patch274 -p1
-%patch292 -p1
-%patch294 -p1
-%patch343 -p1
-
-
 # Remove files that should be generated by the build
 # (This is after patching, so that we can use patches directly from upstream)
 rm configure pyconfig.h.in
+
+# When we use the legacy arch names, we need to change them in configure.ac
+%if %{with legacy_archnames}
+sed -i configure.ac \
+    -e 's/\b%{platform_triplet_upstream}\b/%{platform_triplet_legacy}/'
+%endif
 
 
 # ======================================================
@@ -664,6 +734,12 @@ rm configure pyconfig.h.in
 # ======================================================
 
 %build
+
+# The build process embeds version info extracted from the Git repository
+# into the Py_GetBuildInfo and sys.version strings.
+# Our Git repository is artificial, so we don't want that.
+# Tell configure to not use git.
+export HAS_GIT=not-found
 
 # Regenerate the configure script and pyconfig.h.in
 autoconf
@@ -738,8 +814,11 @@ BuildPython() {
   $ExtraConfigArgs \
   %{nil}
 
+  # Regenerate generated importlib frozen modules (see patch 353)
+  %make_build EXTRA_CFLAGS="$CFLAGS $MoreCFlags" regen-importlib
+
   # Invoke the build
-  make EXTRA_CFLAGS="$CFLAGS $MoreCFlags" %{?_smp_mflags}
+  %make_build EXTRA_CFLAGS="$CFLAGS $MoreCFlags"
 
   popd
   echo FINISHED: BUILD OF PYTHON FOR CONFIGURATION: $ConfName
@@ -815,11 +894,7 @@ InstallPython() {
   mkdir -p $ConfDir
   pushd $ConfDir
 
-  make \
-    DESTDIR=%{buildroot} \
-    INSTALL="install -p" \
-    EXTRA_CFLAGS="$MoreCFlags" \
-    install
+  %make_install EXTRA_CFLAGS="$MoreCFlags"
 
   popd
 
@@ -1029,6 +1104,12 @@ topdir=$(pwd)
 CheckPython() {
   ConfName=$1
   ConfDir=$(pwd)/build/$ConfName
+
+  # The "modern" security policies are not handled gracefully by the test suite
+  # of an older Python version. This is fixed upstream for 3.7+.
+  # Instead of fixing the tests, we disable the system wide policy via:
+  export OPENSSL_CONF=/non-existing-file
+  # This is a compromise between skipping and fixing the ssl tests.
 
   echo STARTING: CHECKING OF PYTHON FOR CONFIGURATION: $ConfName
 
@@ -1302,8 +1383,8 @@ CheckPython optimized
 # "Makefile" and the config-32/64.h file are needed by
 # distutils/sysconfig.py:_init_posix(), so we include them in the core
 # package, along with their parent directories (bug 531901):
-%dir %{pylibdir}/config-%{LDVERSION_optimized}-%{_arch}-linux%{_gnu}/
-%{pylibdir}/config-%{LDVERSION_optimized}-%{_arch}-linux%{_gnu}/Makefile
+%dir %{pylibdir}/config-%{LDVERSION_optimized}-%{platform_triplet}/
+%{pylibdir}/config-%{LDVERSION_optimized}-%{platform_triplet}/Makefile
 %dir %{_includedir}/python%{LDVERSION_optimized}/
 %{_includedir}/python%{LDVERSION_optimized}/%{_pyconfig_h}
 
@@ -1319,9 +1400,9 @@ CheckPython optimized
 %{_bindir}/2to3-%{pybasever}
 %endif
 
-%{pylibdir}/config-%{LDVERSION_optimized}-%{_arch}-linux%{_gnu}/*
+%{pylibdir}/config-%{LDVERSION_optimized}-%{platform_triplet}/*
 %if %{without flatpackage}
-%exclude %{pylibdir}/config-%{LDVERSION_optimized}-%{_arch}-linux%{_gnu}/Makefile
+%exclude %{pylibdir}/config-%{LDVERSION_optimized}-%{platform_triplet}/Makefile
 %exclude %{_includedir}/python%{LDVERSION_optimized}/%{_pyconfig_h}
 %endif
 %{pylibdir}/distutils/command/wininst-*.exe
@@ -1485,7 +1566,7 @@ CheckPython optimized
 %{_libdir}/%{py_INSTSONAME_debug}
 
 # Analog of the -devel subpackage's files:
-%{pylibdir}/config-%{LDVERSION_debug}-%{_arch}-linux%{_gnu}
+%{pylibdir}/config-%{LDVERSION_debug}-%{platform_triplet}
 %{_includedir}/python%{LDVERSION_debug}
 %{_bindir}/python%{LDVERSION_debug}-config
 %{_bindir}/python%{LDVERSION_debug}-*-config
@@ -1529,6 +1610,40 @@ CheckPython optimized
 # ======================================================
 
 %changelog
+* Mon Oct 05 2020 Miro Hrončok <mhroncok@redhat.com> - 3.6.12-3
+- Use upstream architecture names on Fedora 34+
+- https://fedoraproject.org/wiki/Changes/Python_Upstream_Architecture_Names
+
+* Mon Sep 21 2020 Miro Hrončok <mhroncok@redhat.com> - 3.6.12-2
+- Rebuilt for new %%extension flags
+- Fixes: rhbz#1877652
+
+* Wed Aug 19 2020 Tomas Hrnciar <thrnciar@redhat.com> - 3.6.12-1
+- Update to 3.6.12
+
+* Wed Aug 12 2020 Petr Viktorin <pviktori@redhat.com> - 3.6.11-5
+- In sys.version and initial REPL message, list the source commit as "default"
+
+* Mon Aug 03 2020 Lumír Balhar <lbalhar@redhat.com> - 3.6.11-4
+- Add support for upstream architectures' names (patch 353)
+
+* Fri Jul 31 2020 Charalampos Stratakis <cstratak@redhat.com> - 3.6.11-3
+- Avoid infinite loop when reading specially crafted TAR files (CVE-2019-20907)
+Resolves: rhbz#1856481
+- Resolve hash collisions for Pv4Interface and IPv6Interface (CVE-2020-14422)
+Resolves: rhbz#1854926
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Petr Viktorin <pviktori@redhat.com> - 3.6.11-1
+- Update to 3.6.11 final
+
+* Thu Jun 25 2020 Victor Stinner <vstinner@python.org> - 3.6.11~rc1-2
+- Remove downstream 00178-dont-duplicate-flags-in-sysconfig.patch which
+  introduced a bug on distutils.sysconfig.get_config_var('LIBPL')
+  (rhbz#1851008).
+
 * Fri Jun 19 2020 Petr Viktorin <pviktori@redhat.com> - 3.6.11-1
 - Update to 3.6.11rc1
 

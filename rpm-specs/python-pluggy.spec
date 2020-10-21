@@ -5,7 +5,7 @@
 
 Name:           python-pluggy
 Version:        0.13.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The plugin manager stripped of pytest specific details
 
 License:        MIT
@@ -64,6 +64,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} -m pytest testing -k "not
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Matthias Runge <mrunge@redhat.com> - 0.13.1-1
 - update to 0.13.1
 

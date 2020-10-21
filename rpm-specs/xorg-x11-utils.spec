@@ -1,6 +1,6 @@
 # Component versions
 %global xdpyinfo 1.3.2
-%global xev 1.2.2
+%global xev 1.2.4
 %global xlsatoms 1.1.2
 %global xlsclients 1.1.4
 %global xlsfonts 1.0.6
@@ -11,7 +11,7 @@
 Summary:    X.Org X11 X client utilities
 Name:       xorg-x11-utils
 Version:    7.5
-Release:    34%{?dist}
+Release:    35%{?dist}
 License:    MIT
 URL:        http://www.x.org
 
@@ -104,6 +104,12 @@ various information.
 %{_mandir}/man1/xwininfo.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.5-35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Peter Hutterer <peter.hutterer@redhat.com> 7.5-34
+- xev 1.2.4
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.5-34
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

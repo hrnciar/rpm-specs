@@ -2,7 +2,7 @@
 
 Name:           srmio
 Version:        0.1.1.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Schoberer Radmesstechnik (SRM) PowerControl access
 
 License:        MIT
@@ -67,6 +67,9 @@ rm %{buildroot}%{_libdir}/lib%{name}.la
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

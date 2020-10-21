@@ -1,8 +1,8 @@
 %global gem_name typhoeus
 
 Name: rubygem-%{gem_name}
-Version: 1.3.1
-Release: 3%{?dist}
+Version: 1.4.0
+Release: 2%{?dist}
 Summary: Parallel HTTP library on top of libcurl multi
 License: MIT
 URL: https://github.com/typhoeus/typhoeus
@@ -55,8 +55,7 @@ sed -i -e '/^#!/d' %{buildroot}%{gem_instdir}/spec/support/server.rb
 %check
 pushd .%{gem_instdir}
 # Don't use Bundler.
-sed -i -e '/require "bundler"/ s/^/#/' \
-  -e '/Bundler\.setup/ s/^/#/' spec/spec_helper.rb
+sed -i -e '/[bB]undler/ s/^/#/' spec/spec_helper.rb
 
 rspec spec
 popd
@@ -83,6 +82,13 @@ popd
 %{gem_instdir}/typhoeus.gemspec
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Vít Ondruch <vondruch@redhat.com> - 1.4.0-1
+- Update to Typhoeus 1.4.0.
+  Resolves: rhbz#1833320
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

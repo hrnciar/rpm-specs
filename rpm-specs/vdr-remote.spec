@@ -3,7 +3,7 @@
 
 Name:           vdr-%{pname}
 Version:        0.7.0
-Release:        12%{?dist}
+Release:        15%{?dist}
 Summary:        Extended remote control plugin for VDR
 
 License:        GPL+
@@ -13,6 +13,7 @@ Source1:        %{name}.conf
 Source2:        %{name}-udev.rules
 # Status query mail sent to upstream and Debian patchkit maintainer 2008-10-25
 Patch0:         http://zap.tartarus.org/~ds/debian/dists/stable/main/source/vdr-plugin-remote_0.3.8-3.ds.diff.gz
+Patch1:         vdr-remote-gcc11.patch
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -26,7 +27,6 @@ Requires:       systemd >= 214-3
 %description
 This plugin extends VDR's remote control capabilities, adding support
 for Linux input devices, keyboards (tty), TCP connections, and LIRC.
-
 
 %prep
 %autosetup -n %{pname}-%{version} -p1
@@ -42,10 +42,8 @@ for f in CONTRIBUTORS HISTORY ; do
     iconv -f iso-8859-1 -t utf-8 $f > $f.utf-8 ; mv $f.utf-8 $f
 done
 
-
 %build
 %make_build
-
 
 %install
 %make_install
@@ -55,10 +53,8 @@ install -Dpm 644 %{SOURCE2} \
     %{buildroot}/%{_udevrulesdir}/52-%{name}.rules
 %find_lang %{name}
 
-
 %pre
 usermod -a -G input %{vdr_user} || :
-
 
 %files -f %{name}.lang
 %license COPYING
@@ -67,8 +63,16 @@ usermod -a -G input %{vdr_user} || :
 %config(noreplace) %{_udevrulesdir}/*-%{name}.rules
 %{vdr_libdir}/libvdr-%{pname}.so.%{vdr_apiversion}
 
-
 %changelog
+* Fri Aug 28 2020 Martin Gansser <martinkg@fedoraproject.org> - 0.7.0-15
+- Rebuilt for new VDR API version
+
+* Wed Aug 19 2020 Jeff Law <law@redhat.com> - 0.7.0-14
+-- Force C++14 as this code is not C++17 ready
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

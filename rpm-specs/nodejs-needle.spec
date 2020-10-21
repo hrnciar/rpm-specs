@@ -6,7 +6,7 @@
 
 Name:		nodejs-needle
 Version:	1.5.2
-Release:	7%{?dist}
+Release:	8%{?dist}
 Summary:	The leanest and most handsome HTTP client in the Nodelands
 
 License:	MIT
@@ -87,6 +87,9 @@ openssl req -new -key test/keys/ssl.key -x509 -subj /CN=test@example.com -days \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

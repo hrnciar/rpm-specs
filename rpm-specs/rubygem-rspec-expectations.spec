@@ -14,7 +14,7 @@
 Summary:	RSpec expectations (should and matchers)
 Name:		rubygem-%{gem_name}
 Version:	%{majorver}
-Release:	%{?preminorver:0.}%{fedorarel}%{?preminorver:%{rpmminorver}}%{?dist}
+Release:	%{?preminorver:0.}%{fedorarel}%{?preminorver:%{rpmminorver}}%{?dist}.1
 
 License:	MIT
 URL:		http://github.com/rspec/rspec-expectations
@@ -85,6 +85,9 @@ ruby -rrubygems -Ilib/ -S rspec spec/
 %{gem_docdir}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.2-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May  9 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.9.2-1
 - 3.9.2
 

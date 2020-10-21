@@ -11,7 +11,7 @@
 
 Name:           lua-filesystem
 Version:        1.6.3
-Release:        12%{?dist}
+Release:        14%{?dist}
 Summary:        File System Library for the Lua Programming Language
 
 License:        MIT
@@ -94,6 +94,12 @@ LUA_CPATH=$RPM_BUILD_ROOT%{lualibdir}/\?.so lua tests/test.lua
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.3-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Miro Hrončok <mhroncok@redhat.com> - 1.6.3-13
+- Rebuilt for Lua 5.4
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.3-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

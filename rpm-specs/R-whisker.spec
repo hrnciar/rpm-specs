@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          0.4
-Release:          3%{?dist}
+Release:          4%{?dist}
 Summary:          {{mustache}} for R, Logicless Templating
 
 License:          GPLv3
@@ -60,6 +60,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 0.4-3
 - rebuild for R 4
 

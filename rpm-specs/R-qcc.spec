@@ -2,7 +2,7 @@
 
 Name:             R-%{packname}
 Version:          2.7
-Release:          1%{?dist}
+Release:          2%{?dist}
 Source0:          http://cran.r-project.org/src/contrib/qcc_%{version}.tar.gz
 License:          GPLv2+
 URL:              http://cran.r-project.org/web/packages/qcc/index.html
@@ -59,6 +59,9 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/R/library/R.css
 %{_datadir}/R/library/%{packname}/help
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 2.7-1
 - update to 2.7
 - rebuild for R 4

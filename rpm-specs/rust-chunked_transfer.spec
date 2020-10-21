@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        1.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Encoder and decoder for HTTP chunked transfer coding (RFC 7230 § 4.1)
 
 # Upstream license specification: Apache-2.0
@@ -71,6 +71,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Josh Stone <jistone@redhat.com> - 1.2.0-1
 - Update to 1.2.0
 

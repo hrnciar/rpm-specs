@@ -1,6 +1,6 @@
 Name:		sqliteodbc
 Version:	0.9996
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	SQLite ODBC Driver
 
 License:	BSD
@@ -153,6 +153,9 @@ fi
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9996-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Damian Wrobel <dwrobel@ertelnet.rybnik.pl> - 0.9996-6
 - Fix CVE-2020-12050 (use mktemp(1) for temp. file name creation)
 - Use absolute paths for binaries

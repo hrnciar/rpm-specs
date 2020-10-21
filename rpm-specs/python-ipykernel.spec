@@ -2,7 +2,7 @@
 
 Name:           python-%{modname}
 Version:        5.2.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        IPython Kernel for Jupyter
 License:        BSD
 URL:            https://github.com/ipython/%{modname}
@@ -22,6 +22,7 @@ This package provides the IPython kernel for Jupyter.
 Summary:        %{summary}
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{modname}}
 BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
 BuildRequires:  python%{python3_pkgversion}-flaky
 BuildRequires:  python%{python3_pkgversion}-ipython >= 5
 BuildRequires:  python%{python3_pkgversion}-jupyter-client
@@ -106,6 +107,9 @@ cat %{buildroot}%{_datadir}/jupyter/kernels/python3/kernel.json
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.2.1-3
 - Rebuilt for Python 3.9
 

@@ -17,7 +17,7 @@ various web servers on the campus network.
 Summary: ht://Dig - Web search engine
 Name: htdig
 Version: 3.2.0
-Release: 0.36.b6%{?dist}
+Release: 0.38.b6%{?dist}
 Epoch: 4
 License: GPLv2
 Url: http://www.htdig.org/
@@ -77,7 +77,7 @@ ht://Dig on a website.
 autoreconf -fiv
 
 export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
-export CXXFLAGS="$CFLAGS"
+export CXXFLAGS="$CFLAGS -std=c++14"
 
 %configure \
 	--enable-shared \
@@ -147,6 +147,12 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/htdig_db/*.la
 %endif
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 4:3.2.0-0.38.b6
+- Force C++14 as this code is not C++17 ready
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4:3.2.0-0.37.b6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4:3.2.0-0.36.b6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

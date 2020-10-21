@@ -32,7 +32,7 @@ The properties library supports both ISO-8859-1 and UTF-8 encoded data.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Java properties scanner for Go
 
 # Upstream license specification: BSD-2-Clause
@@ -41,6 +41,8 @@ URL:            %{gourl}
 Source0:        %{gosource}
 Source1:        glide.yaml
 Source2:        glide.lock
+# fix tests for gotip and go1.15.x
+Patch0:         https://github.com/magiconair/properties/commit/7874f47fd84959aab21760b8f8f478cef76a2ba1.patch#/0001-fix-tests-for-gotip-and-go1.15.patch
 
 %description
 %{common_description}
@@ -49,6 +51,7 @@ Source2:        glide.lock
 
 %prep
 %goprep
+%patch0 -p1
 cp %{S:1} %{S:2} .
 
 %install
@@ -71,6 +74,13 @@ end
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

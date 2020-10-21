@@ -3,7 +3,7 @@
 
 # https://github.com/yuin/gopher-lua
 %global goipath         github.com/yuin/gopher-lua
-%global commit          1cd887cd7036fd4be7a0cb180dd508cb8e2e689a
+%global commit          dc2b0ca8b37e41ab0494be94fc6d8febbeb29d34
 
 %gometa
 
@@ -18,12 +18,14 @@ programs.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.11%{?dist}
+Release:        0.14%{?dist}
 Summary:        VM and compiler for Lua in Go
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/yuin/gopher-lua/issues/297
+Patch0:         0001-Convert-int-to-string-using-rune.patch
 
 BuildRequires:  golang(github.com/chzyer/readline)
 
@@ -34,6 +36,7 @@ BuildRequires:  golang(github.com/chzyer/readline)
 
 %prep
 %goprep
+%patch0 -p1
 
 %build
 for cmd in cmd/* ; do
@@ -58,6 +61,16 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Tue Aug 04 21:26:08 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.14.20200804gitdc2b0ca
+- Bump to commit dc2b0ca8b37e41ab0494be94fc6d8febbeb29d34
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

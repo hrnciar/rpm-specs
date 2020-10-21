@@ -1,10 +1,11 @@
 Name:           perl-Syntax-Keyword-Try
-Version:        0.11
-Release:        3%{?dist}
+Version:        0.18
+Release:        1%{?dist}
 Summary:        try/catch/finally syntax for perl
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Syntax-Keyword-Try/
 Source0:        https://cpan.metacpan.org/authors/id/P/PE/PEVANS/Syntax-Keyword-Try-%{version}.tar.gz
+BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  gcc
 BuildRequires:  perl-devel
@@ -15,6 +16,7 @@ BuildRequires:  perl(Module::Build)
 BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
 # Run-time
+BuildRequires:  perl(:VERSION) >= 5.14
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(XSLoader)
 # Tests
@@ -59,6 +61,24 @@ find $RPM_BUILD_ROOT -type f -name '*.bs' -size 0 -delete
 %{_mandir}/man3/*
 
 %changelog
+* Mon Aug 03 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.18-1
+- 0.18 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Petr Pisar <ppisar@redhat.com> - 0.16-1
+- 0.16 bump
+
+* Tue Jul 21 2020 Petr Pisar <ppisar@redhat.com> - 0.15-1
+- 0.15 bump
+
+* Wed Jul 08 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.14-1
+- 0.14 bump
+
+* Tue Jun 30 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.13-1
+- 0.13 bump
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.11-3
 - Perl 5.32 rebuild
 

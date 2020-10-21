@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        3.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GraphQL implementation for Python
 
 License:        MIT
@@ -62,6 +62,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests
 %license LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 06 2020 Fabian Affolter <mail@fabian-affolter.ch> - 3.1.1-1
 - Generate docs in install (rhbz#1836567)
 - Update BR name

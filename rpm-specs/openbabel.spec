@@ -6,9 +6,11 @@
 # we don't want to provide private Perl or Python extension libs
 %global __provides_exclude_from ^(%{perl_vendorarch}/auto|%{python3_sitearch})/.*\\.so$
 
+%global __cmake_in_source_build 1
+
 Name: openbabel
 Version: 2.4.1
-Release: 30%{?dist}
+Release: 32%{?dist}
 Summary: Chemistry software file format converter
 License: GPLv2
 URL: https://openbabel.org/
@@ -180,12 +182,12 @@ popd
  -DENABLE_VERSIONED_FORMATS=false \
  -DRUN_SWIG=true \
  -DENABLE_TESTS:BOOL=ON \
- -DOPTIMIZE_NATIVE=OFF \
- .
-make VERBOSE=1 %{?_smp_mflags}
+ -DOPTIMIZE_NATIVE=OFF
+
+%cmake_build
 
 %install
-make VERBOSE=1 DESTDIR=%{buildroot} install
+%cmake_install
 
 rm %{buildroot}%{_libdir}/cmake/openbabel2/*.cmake
 
@@ -244,6 +246,12 @@ export CTEST_OUTPUT_ON_FAILURE=1 PYTHONPATH=%{buildroot}%{python3_sitearch}
 %{ruby_vendorarchdir}/openbabel.so
 
 %changelog
+* Thu Jul 30 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.4.1-32
+- adjust for new %%cmake macros (#1859850)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.1-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.4.1-30
 - Perl 5.32 rebuild
 

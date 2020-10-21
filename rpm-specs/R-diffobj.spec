@@ -1,10 +1,10 @@
 %global packname diffobj
-%global packver  0.3.0
+%global packver  0.3.2
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          0.3.0
-Release:          2%{?dist}
+Version:          0.3.2
+Release:          1%{?dist}
 Summary:          Diffs for R Objects
 
 License:          GPLv2+
@@ -72,6 +72,12 @@ export LANG=C.UTF-8
 
 
 %changelog
+* Thu Oct 08 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.3.2-1
+- Update to latest version (#1885410)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun  6 2020 Tom Callaway <spot@fedoraproject.org> - 0.3.0-2
 - rebuild for R 4
 

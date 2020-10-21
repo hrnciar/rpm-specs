@@ -1,6 +1,6 @@
 Name:           mimetex
 Version:        1.74
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Easily embed LaTeX math in web pages
 License:        GPLv2+
 URL:            http://www.forkosh.com/mimetex.html
@@ -30,6 +30,9 @@ install -pDm644 mimetex.html %{buildroot}%{_localstatedir}/www/html/%{name}.html
 %{_localstatedir}/www/html/%{name}.html
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.74-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.74-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

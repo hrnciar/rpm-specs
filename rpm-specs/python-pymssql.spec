@@ -1,22 +1,17 @@
 %global srcname pymssql
-
-%global common_description A simple database interface for Python that builds on top of FreeTDS to provide\
-a Python DB-API (PEP-249) interface to Microsoft SQL Server.
+%global _description %{expand:A simple database interface for Python that builds on top of FreeTDS to provide
+a Python DB-API (PEP-249) interface to Microsoft SQL Server.}
 
 Name:           python-%{srcname}
-Version:        2.1.4
-Release:        6%{?dist}
+Version:        2.1.5
+Release:        1%{?dist}
 Summary:        DB-API interface to Microsoft SQL Server
 
 License:        LGPLv2+
 URL:            http://pymssql.org/
-Source0:        https://github.com/pymssql/%{srcname}/archive/%{version}/%{srcname}-%{version}.tar.gz
-# Allow pymssql to be built with current version of Cython provided in EPEL
-Patch0:         %{name}-2.1.3-Cython.patch
+Source0:        https://github.com/pymssql/%{srcname}/archive/v%{version}/%{srcname}-%{version}.tar.gz
 # Disable dependency on setuptools_git, actually not needed to build the library
-Patch1:         %{name}-2.1.3-disable_setuptools_git.patch
-# Fix build with Python >= 3.8
-Patch2:         %{name}-2.1.4-python38.patch
+Patch0:         %{name}-2.1.3-disable_setuptools_git.patch
 
 BuildRequires:  freetds-devel
 BuildRequires:  gcc
@@ -25,7 +20,7 @@ BuildRequires:  %{py3_dist cython}
 BuildRequires:  %{py3_dist setuptools}
 
 %description
-%{common_description}
+%{_description}
 
 
 %package -n python3-%{srcname}
@@ -33,18 +28,14 @@ Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
-%{common_description}
+%{_description}
 
 
 %prep
 %autosetup -n %{srcname}-%{version}
 
-# Delete bundled FreeTDS static library
-rm -r freetds0.95/
-
 
 %build
-export PYMSSQL_DONT_BUILD_WITH_BUNDLED_FREETDS=1
 %py3_build
 
 
@@ -63,6 +54,12 @@ export PYMSSQL_DONT_BUILD_WITH_BUNDLED_FREETDS=1
 
 
 %changelog
+* Sun Sep 20 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 2.1.5-1
+- Update to 2.1.5
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.4-6
 - Rebuilt for Python 3.9
 

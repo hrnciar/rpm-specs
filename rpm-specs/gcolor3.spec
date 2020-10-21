@@ -1,6 +1,6 @@
 Name:           gcolor3
 Version:        2.3.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        A simple color chooser written in GTK3 (like gcolor2)
 
 License:        GPLv2+
@@ -49,6 +49,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/nl.hjdske
 %{_mandir}/man1/gcolor3.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

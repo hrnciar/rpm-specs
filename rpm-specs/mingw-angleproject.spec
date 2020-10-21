@@ -13,7 +13,7 @@
 
 Name:           mingw-angleproject
 Version:        0
-Release:        0.26.git%{shortcommit}%{?dist}
+Release:        0.28.git%{shortcommit}%{?dist}
 Summary:        Almost Native Graphics Layer Engine
 
 License:        BSD
@@ -270,6 +270,12 @@ mkdir -p %{buildroot}%{mingw64_includedir}
 cp -a include/* %{buildroot}%{mingw64_includedir}/
 rm -rf %{buildroot}%{mingw64_includedir}/{platform,export.h}
 
+# Drop khrplatform.h, it is shipped by mingw-headers
+rm -f %{buildroot}%{mingw32_includedir}/KHR/khrplatform.h
+rmdir %{buildroot}%{mingw32_includedir}/KHR/
+rm -f %{buildroot}%{mingw64_includedir}/KHR/khrplatform.h
+rmdir %{buildroot}%{mingw64_includedir}/KHR/
+
 
 %files -n mingw32-angleproject
 %license LICENSE
@@ -279,7 +285,6 @@ rm -rf %{buildroot}%{mingw64_includedir}/{platform,export.h}
 %{mingw32_includedir}/GLES2
 %{mingw32_includedir}/GLES3
 %{mingw32_includedir}/GLSLANG
-%{mingw32_includedir}/KHR
 %{mingw32_includedir}/angle_gl.h
 %{mingw32_includedir}/angle_windowsstore.h
 %{mingw32_libdir}/libEGL.dll.a
@@ -297,7 +302,6 @@ rm -rf %{buildroot}%{mingw64_includedir}/{platform,export.h}
 %{mingw64_includedir}/GLES2
 %{mingw64_includedir}/GLES3
 %{mingw64_includedir}/GLSLANG
-%{mingw64_includedir}/KHR
 %{mingw64_includedir}/angle_gl.h
 %{mingw64_includedir}/angle_windowsstore.h
 %{mingw64_libdir}/libEGL.dll.a
@@ -309,6 +313,12 @@ rm -rf %{buildroot}%{mingw64_includedir}/{platform,export.h}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.28.git8613f49
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 19 2020 Sandro Mani <manisandro@gmail.com> - 0-0.27.git8613f49
+- Drop khrplatform.h, it is shipped by mingw-headers
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.26.git8613f49
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

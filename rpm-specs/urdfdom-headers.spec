@@ -1,8 +1,10 @@
+%undefine __cmake_in_source_build
+
 %global realname urdfdom_headers
 
 Name:		urdfdom-headers
-Version:	1.0.2
-Release:	4%{?dist}
+Version:	1.0.5
+Release:	1%{?dist}
 Summary:	The URDF (U-Robot Description Format) headers
 
 License:	BSD
@@ -10,7 +12,7 @@ URL:		http://ros.org/wiki/urdf
 Source0:	https://github.com/ros/%{realname}/archive/%{version}/%{realname}-%{version}.tar.gz
 BuildArch:	noarch
 
-# Install configs to arch independent paths and try to work around cmake's auto-generated architecture check
+# Install configs to arch independent paths
 # https://github.com/ros/urdfdom_headers/issues/27
 Patch0:         urdfdom-headers-fedora.patch
 
@@ -39,14 +41,11 @@ http://ros.org/wiki/urdf
 %patch0 -p1 -b .fedora
 
 %build
-mkdir build; pushd build
-%cmake ..
-popd
-make -C build %{?_smp_mflags}
-
+%cmake -DCMAKE_BUILD_TYPE=Release
+%cmake_build
 
 %install
-make -C build install DESTDIR=%{buildroot}
+%cmake_install
 
 %files devel
 %license LICENSE
@@ -60,6 +59,12 @@ make -C build install DESTDIR=%{buildroot}
 %{_datadir}/%{realname}
 
 %changelog
+* Tue Aug 04 2020 Rich Mattes <richmattes@gmail.com> - 1.0.5-1
+- Update to release 1.0.5
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

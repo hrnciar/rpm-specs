@@ -1,6 +1,6 @@
 Name:		netsniff-ng
 Version:	0.6.7
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Packet sniffing beast
 License:	GPLv2
 URL:		http://netsniff-ng.org/
@@ -53,6 +53,9 @@ make install PREFIX=%{_prefix} ETCDIR=%{_sysconfdir} DESTDIR="%{buildroot}"
 %{_mandir}/man8/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May  5 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 0.6.7-1
 - New version
   Resolves: rhbz#1831064

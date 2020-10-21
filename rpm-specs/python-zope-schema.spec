@@ -4,7 +4,7 @@
 Summary: Zope 3 schemas
 Name: python-zope-schema
 Version: 4.4.2
-Release: 18%{?dist}
+Release: 19%{?dist}
 Source0: http://pypi.python.org/packages/source/z/%{modname}/%{modname}-%{version}.tar.gz
 License: ZPLv2.1
 BuildArch: noarch
@@ -71,6 +71,9 @@ ln -s %{python3_sitearch}/zope/* src/zope >/dev/null || :
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.2-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 4.4.2-18
 - Rebuilt for Python 3.9
 

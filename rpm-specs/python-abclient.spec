@@ -8,7 +8,7 @@ create backups for databases and file systems.
 
 Name:		python-%{pypi_name}
 Version:	0.2.3
-Release:	14%{?dist}
+Release:	15%{?dist}
 Summary:	Python client library for EISOO AnyBackup API
 
 License:	ASL 2.0
@@ -54,6 +54,9 @@ rm -f requirements.txt
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.3-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.3-14
 - Rebuilt for Python 3.9
 

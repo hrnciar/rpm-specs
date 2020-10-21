@@ -1,7 +1,8 @@
 %bcond_without check
 
+# https://github.com/go-cmd/cmd
 %global goipath         github.com/go-cmd/cmd
-Version:                1.0.5
+Version:                1.2.1
 
 %gometa
 
@@ -14,15 +15,11 @@ concurrent, asynchronous, real-time applications.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Go library wrapper around os/exec.Cmd
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
-
-%if %{with check}
-BuildRequires:  golang(github.com/go-test/deep)
-%endif
 
 %description %{common_description}
 
@@ -42,6 +39,12 @@ BuildRequires:  golang(github.com/go-test/deep)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 06:19:59 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.2.1-1
+- Update to 1.2.1
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

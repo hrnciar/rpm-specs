@@ -1,7 +1,7 @@
 Summary: RADIUS protocol client library
 Name: radcli
-Version: 1.2.11
-Release: 4%{?dist}
+Version: 1.2.12
+Release: 1%{?dist}
 
 #Breakdown of licenses. Under MIT license:
 # lib/avpair.c, lib/buildreq.c, lib/clientid.c, lib/config.c, lib/dict.c,
@@ -112,6 +112,12 @@ cp -p %{buildroot}%{_datadir}/%{name}/dictionary %{buildroot}%{_sysconfdir}/%{na
 %{_libdir}/libradiusclient-ng.so
 
 %changelog
+* Fri Sep 11 2020 Nikos Mavrogiannopoulos <nmav@redhat.com> - 1.2.12-1
+- New upstream release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.11-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.11-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

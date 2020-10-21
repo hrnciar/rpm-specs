@@ -3,7 +3,7 @@
 
 # https://github.com/alecthomas/repr
 %global goipath         github.com/alecthomas/repr
-%global commit          d37bc2a10ba1a7951e19dd5dc10f7d59b142d8d7
+%global commit          4184120f674c8860a5b48142509a2411a0a1766f
 
 %gometa
 
@@ -20,7 +20,7 @@ represented directly in Go. These values will be represented as &<value>. eg.
 
 Name:           %{goname}
 Version:        0
-Release:        0.8%{?dist}
+Release:        0.10%{?dist}
 Summary:        Python's repr() for Go
 
 License:        MIT
@@ -51,6 +51,12 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 13:40:06 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.9.20200723git4184120
+- Bump to commit 4184120f674c8860a5b48142509a2411a0a1766f
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

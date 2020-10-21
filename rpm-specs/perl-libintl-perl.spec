@@ -1,7 +1,7 @@
 Summary:        Internationalization library for Perl, compatible with gettext
 Name:           perl-libintl-perl
 Version:        1.31
-Release:        7%{?dist}
+Release:        8%{?dist}
 # gettext_xs/gettext_xs.pm:     GPLv3+
 # gettext_xs/Makefile.PL:       LGPLv2+
 # lib/Locale/gettext_xs.pod:    LGPLv2+
@@ -106,6 +106,9 @@ make test
 %{_mandir}/man?/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.31-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.31-7
 - Perl 5.32 rebuild
 

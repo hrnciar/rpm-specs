@@ -1,6 +1,6 @@
 Name:		CGSI-gSOAP
 Version:	1.3.11
-Release:	8%{?dist}
+Release:	10%{?dist}
 Summary:	GSI plugin for gSOAP
 
 License:	ASL 2.0
@@ -96,6 +96,12 @@ rm %{buildroot}%{_libdir}/*.a
 %doc %{_mandir}/man*/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.11-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 1.3.11-9
+- Rebuilt for gsoap 2.8.104 (Fedora 33)
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.11-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -129,7 +135,7 @@ rm %{buildroot}%{_libdir}/*.a
 - Rebuild for gsoap 2.8.60 (Fedora 28)
 - Add workaround for changed default linker flags
 
-* Mon Nov  6 2017 Mattias Ellert <mattias.ellert@physics.uu.se> - 1.3.10-7
+* Mon Nov 06 2017 Mattias Ellert <mattias.ellert@physics.uu.se> - 1.3.10-7
 - The STACK macro was removed in globus-gsi-credential 7.13. Don't use.
 - EPEL 5 End-Of-Life specfile clean-up
   - Remove Group and BuildRoot tags

@@ -1,14 +1,14 @@
 #global gitdate  20120917
 
 Name:           libxkbcommon
-Version:        0.10.0
-Release:        2%{?gitdate:.%{gitdate}}%{?dist}
+Version:        1.0.1
+Release:        1%{?gitdate:.%{gitdate}}%{?dist}
 Summary:        X.Org X11 XKB parsing library
 License:        MIT
 URL:            http://www.x.org
 
 %if 0%{?gitdate}
-Source0:       %{name}-%{gitdate}.tar.bz2
+Source0:       %{name}-%{gitdate}.tar.xz
 %else
 Source0:        http://xkbcommon.org/download/%{name}-%{version}.tar.xz
 %endif
@@ -19,6 +19,7 @@ BuildRequires:  xorg-x11-util-macros byacc flex bison
 BuildRequires:  xorg-x11-proto-devel libX11-devel
 BuildRequires:  xkeyboard-config-devel
 BuildRequires:  pkgconfig(xcb-xkb) >= 1.10
+BuildRequires:  libxml2-devel
 
 Requires:       xkeyboard-config
 
@@ -48,6 +49,13 @@ Requires:       %{name}-x11%{?_isa} = %{version}-%{release}
 %description x11-devel
 X.Org X11 XKB keymap creation library development package
 
+%package utils
+Summary:        X.Org X11 XKB parsing utilities
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description utils
+%{name}-utils is a set of utilities to analyze and test XKB parsing.
+
 %prep
 %autosetup -S git
 
@@ -66,16 +74,21 @@ X.Org X11 XKB keymap creation library development package
 %license LICENSE
 %{_libdir}/libxkbcommon.so.0.0.0
 %{_libdir}/libxkbcommon.so.0
+%{_libdir}/libxkbregistry.so.0.0.0
+%{_libdir}/libxkbregistry.so.0
 
 %files devel
 %{_libdir}/libxkbcommon.so
+%{_libdir}/libxkbregistry.so
 %dir %{_includedir}/xkbcommon/
 %{_includedir}/xkbcommon/xkbcommon.h
 %{_includedir}/xkbcommon/xkbcommon-compat.h
 %{_includedir}/xkbcommon/xkbcommon-compose.h
 %{_includedir}/xkbcommon/xkbcommon-keysyms.h
 %{_includedir}/xkbcommon/xkbcommon-names.h
+%{_includedir}/xkbcommon/xkbregistry.h
 %{_libdir}/pkgconfig/xkbcommon.pc
+%{_libdir}/pkgconfig/xkbregistry.pc
 
 %ldconfig_scriptlets x11
 
@@ -88,7 +101,30 @@ X.Org X11 XKB keymap creation library development package
 %{_includedir}/xkbcommon/xkbcommon-x11.h
 %{_libdir}/pkgconfig/xkbcommon-x11.pc
 
+%files utils
+%{_bindir}/xkbcli
+%{_libexecdir}/xkbcommon/xkbcli-compile-keymap
+%{_libexecdir}/xkbcommon/xkbcli-how-to-type
+%{_libexecdir}/xkbcommon/xkbcli-interactive-evdev
+%{_libexecdir}/xkbcommon/xkbcli-interactive-x11
+%{_libexecdir}/xkbcommon/xkbcli-list
+%{_mandir}/man1/xkbcli-compile-keymap.1.gz
+%{_mandir}/man1/xkbcli-how-to-type.1.gz
+%{_mandir}/man1/xkbcli-interactive-evdev.1.gz
+%{_mandir}/man1/xkbcli-interactive-x11.1.gz
+%{_mandir}/man1/xkbcli-list.1.gz
+%{_mandir}/man1/xkbcli.1.gz
+
 %changelog
+* Fri Sep 11 2020 Pete Walter <pwalter@fedoraproject.org> - 1.0.1-1
+- libxkbcommon 1.0.1
+
+* Mon Sep 07 2020 Peter Hutterer <peter.hutterer@redhat.com> 1.0.0-1
+- libxkbcommon 1.0.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

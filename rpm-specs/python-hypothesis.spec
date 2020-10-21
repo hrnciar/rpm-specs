@@ -1,8 +1,8 @@
 %global srcname hypothesis
 
 Name:           python-%{srcname}
-Version:        5.15.1
-Release:        3%{?dist}
+Version:        5.29.4
+Release:        1%{?dist}
 Summary:        Library for property based testing
 
 License:        MPLv2.0
@@ -18,7 +18,8 @@ BuildArch:      noarch
 %if %{with doc}
 # Manpage
 BuildRequires:  %{_bindir}/sphinx-build
-BuildRequires:  python3-sphinx_rtd_theme
+BuildRequires:  python%{python3_pkgversion}-sphinx-hoverxref
+BuildRequires:  python%{python3_pkgversion}-sphinx_rtd_theme
 %endif
 
 %global _description \
@@ -30,12 +31,12 @@ flow.
 
 %description %{_description}
 
-%package     -n python3-%{srcname}
+%package     -n python%{python3_pkgversion}-%{srcname}
 Summary:        %{summary}
-%{?python_provide:%python_provide python3-%{srcname}}
+%{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
 Obsoletes:      platform-python-%{srcname} < %{version}-%{release}
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
 BuildRequires:  python3dist(attrs) >= 19.2.0
 BuildRequires:  python3dist(coverage)
 BuildRequires:  python3dist(sortedcontainers)
@@ -43,19 +44,21 @@ BuildRequires:  python3dist(sortedcontainers)
 #BuildRequires:  python3dist(django)
 #BuildRequires:  python3dist(dpcontracts)
 #BuildRequires:  python3dist(lark)
+BuildRequires:  black
 BuildRequires:  python3dist(mock)
 BuildRequires:  python3dist(numpy)
 BuildRequires:  python3dist(pandas)
 BuildRequires:  python3dist(pexpect)
 BuildRequires:  python3dist(pytest)
 BuildRequires:  python3dist(pytest-xdist)
+BuildRequires:  python3dist(typing-extensions)
 %endif
 Requires:       python%{python3_version}dist(sortedcontainers)
 Suggests:       python%{python3_version}dist(pytz) >= 2014.1
 Suggests:       python%{python3_version}dist(numpy) >= 1.9.0
 Suggests:       python%{python3_version}dist(pytest) >= 3.0
 
-%description -n python3-%{srcname} %{_description}
+%description -n python%{python3_pkgversion}-%{srcname} %{_description}
 
 Python 3 version.
 
@@ -81,12 +84,13 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 
 %if %{with tests}
 %check
-PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v -n auto -k "not test_healthcheck_traceback_is_hidden"
+PATH=%{buildroot}%{_bindir}:$PATH PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v -n auto -k "not test_healthcheck_traceback_is_hidden"
 %endif
 
-%files -n python3-%{srcname}
+%files -n python%{python3_pkgversion}-%{srcname}
 %license ../LICENSE.txt
 %doc README.rst
+%{_bindir}/hypothesis
 %{python3_sitelib}/hypothesis-*.egg-info
 %{python3_sitelib}/hypothesis/
 %if %{with doc}
@@ -94,6 +98,21 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v -n auto -k "not test_healt
 %endif
 
 %changelog
+* Fri Aug 28 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 5.29.4-1
+- Update to 5.29.4
+
+* Fri Aug 28 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 5.29.3-1
+- Update to 5.29.3
+
+* Tue Aug 25 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 5.29.0-1
+- Update to 5.29.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.20.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 5.20.3-1
+- Update to 5.20.3
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.15.1-3
 - Rebuilt for Python 3.9
 

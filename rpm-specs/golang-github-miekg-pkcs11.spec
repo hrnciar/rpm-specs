@@ -3,7 +3,7 @@
 
 # https://github.com/miekg/pkcs11
 %global goipath         github.com/miekg/pkcs11
-Version:                1.0.2
+Version:                1.0.3
 
 %gometa
 
@@ -20,7 +20,7 @@ Pkcs11 wrapper for Go.}
 %global gosupfiles      glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Pkcs11 wrapper for Go
 
 # Upstream license specification: BSD-3-Clause
@@ -58,6 +58,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 22:32:15 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.3-1
+- Update to 1.0.3
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

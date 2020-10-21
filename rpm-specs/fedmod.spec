@@ -2,7 +2,7 @@
 
 Name:           fedmod
 Version:        0.6.3
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Utilities for generating & maintaining modulemd files
 
 License:        GPLv2+ and GPLv3+ and MIT
@@ -114,6 +114,9 @@ fi
 %{_datadir}/fish/vendor_completions.d/fedmod.fish
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.3-10
 - Rebuilt for Python 3.9
 

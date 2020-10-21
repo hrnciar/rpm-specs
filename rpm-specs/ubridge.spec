@@ -2,7 +2,7 @@
 
 Name:           ubridge
 Version:        0.9.18
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Bridge for UDP tunnels, Ethernet, TAP and VMnet interfaces
 
 License:        GPLv3+
@@ -51,6 +51,9 @@ install -p -m4755 %{name} %{buildroot}%{_bindir}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.18-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 Nicolas Chauvet <kwizart@gmail.com> - 0.9.18-1
 - Update to 0.9.18
 

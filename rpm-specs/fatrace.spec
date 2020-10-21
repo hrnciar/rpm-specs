@@ -1,6 +1,6 @@
 Name:		fatrace
 Version:	0.15
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Reports file access events from all running processes
 
 License:	GPLv3
@@ -32,6 +32,9 @@ make install DESTDIR=%{buildroot}
 %{_mandir}/man*/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

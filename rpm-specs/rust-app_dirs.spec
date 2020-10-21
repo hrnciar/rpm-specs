@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        1.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Put your app's data in the right place on every platform
 
 # Upstream license specification: MIT
@@ -74,5 +74,8 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 04 12:41:15 EET 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.2.1-1
 - Initial package

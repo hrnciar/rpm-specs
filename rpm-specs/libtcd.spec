@@ -1,20 +1,20 @@
-%global		postver	-r2
+%global		postver	-r3
 %global		postrpmver	%(echo "%postver" | sed -e 's|-|.|g' | sed -e 's|^\.||')
 
 %global		mainver		2.2.7
 
-%global		fedorarel	2
+%global		fedorarel	3
 %global		rpmrel		%{fedorarel}%{?postver:.%postrpmver}
 
 Name:		libtcd
 Version:	%{mainver}
-Release:	%{rpmrel}%{?dist}.9
+Release:	%{rpmrel}%{?dist}
 Summary:	Tide Constituent Database Library
 BuildRequires:	gcc
 
 License:	Public Domain
 URL:		http://www.flaterco.com/xtide/
-Source0:	ftp://ftp.flaterco.com/xtide/%{name}-%{version}%{?postver}.tar.bz2
+Source0:	ftp://ftp.flaterco.com/xtide/%{name}-%{version}%{?postver}.tar.xz
 
 
 %description
@@ -45,6 +45,8 @@ make \
 
 # remove unneeded files
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.{a,la}
+# This file is to be installed later
+rm -f $RPM_BUILD_ROOT%{_datadir}/%{name}/*html
 
 %ldconfig_scriptlets
 
@@ -61,6 +63,12 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.{a,la}
 %{_libdir}/*.so
 
 %changelog
+* Mon Aug 10 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 2.2.7-3.r3
+- 2.2.7 respin r3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.7-2.r2.10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.7-2.r2.9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

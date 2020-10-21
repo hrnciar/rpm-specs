@@ -10,7 +10,7 @@ ExcludeArch: aarch64 %{power64} s390x
 
 Name:           python-%{module}
 Version:        0.7.0
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Python binding for Giac
 License:        GPLv2+
 URL:            http://webusers.imj-prg.fr/~frederic.han/xcas/giacpy/
@@ -56,6 +56,7 @@ Summary:        Python3 binding for Giac
 %{?python_provide:%python_provide python3-%{module}}
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  %{_bindir}/cython
 Requires:       python3-Cython%{?_isa}
 BuildRequires:  libqcas-devel
@@ -149,6 +150,15 @@ popd
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 19 2020 Antonio Trande <sagitter@fedoraproject.org> - 0.7.0-4
+- Rebuild for giac-1.6.0.7
+
+* Wed Jun 24 2020 Antonio Trande <sagitter@fedoraproject.org> - 0.7.0-3
+- BuildRequires python3-setuptools explicitly
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.0-2
 - Rebuilt for Python 3.9
 

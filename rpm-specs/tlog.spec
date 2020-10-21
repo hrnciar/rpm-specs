@@ -1,6 +1,6 @@
 Name:       tlog
-Version:    8
-Release:    2%{?dist}
+Version:    9
+Release:    1%{?dist}
 Summary:    Terminal I/O logger
 
 License:    GPLv2+
@@ -107,6 +107,18 @@ rm -r %{buildroot}/usr/include/%{name}
 /sbin/ldconfig
 
 %changelog
+* Tue Oct 13 2020 Justin Stephenson <jstephen@redhat.com> - 9-1
+- Release v9
+- Add libutempter support
+- Require journal match filter
+- Add file reader match functionality
+- Restore cursor visibility and color attributes on tlog-play exit
+- Add "time" real clock timestamp message field
+- Various upstream CI improvements
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Justin Stephenson <jstephen@redhat.com> - 8-2
 - Minor test fixups
 

@@ -4,7 +4,7 @@
 
 Name:          vim-jedi
 Version:       0.9.0
-Release:       7%{?dist}
+Release:       8%{?dist}
 Summary:       The Jedi vim plugin
 
 License:       LGPLv3
@@ -56,6 +56,9 @@ install -m 644 pythonx/*.py %buildroot/%python3_sitelib
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.0-7
 - Rebuilt for Python 3.9
 

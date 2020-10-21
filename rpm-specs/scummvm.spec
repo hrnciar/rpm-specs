@@ -13,26 +13,21 @@
 
 
 Name:		scummvm
-Version:	2.1.1
-Release:	6%{?dist}
+Version:	2.2.0
+Release:	1%{?dist}
 Summary:	Interpreter for several adventure games
 License:	GPLv2+
 URL:		http://www.scummvm.org/
 Source0:	http://www.scummvm.org/frs/%{name}/%{version}/%{name}-%{version}.tar.bz2
-# Fluidsynth 1&2 support. From upstream trunk.
-Patch0000:	%{git_url}/commit/8593a9e1.patch#/%{name}-2.1.1-AUDIO_Fix_Compilation_Against_Fluidsynth_v2_1_and_later.patch
-Patch0001:	%{git_url}/commit/68758a87.patch#/%{name}-2.1.1-AUDIO_Really_Fix_Compilation_Against_Fluidsynth_v2_1_and_later.patch
-# Add compatibility for RPM's configure macro.
-Patch0002:	%{git_url}/pull/2079.patch#/%{name}-2.1.1-CONFIGURE_Add_compatibility_for_RPM_configure_macro.patch
-# Properly apply LDFLAGS to plugins. From upstream pull-request.
-Patch0003:	%{git_url}/pull/2082.patch#/%{name}-2.1.1-BUILD_Use_unmodified_SAVED_LDFLAGS_from_env_for_linking_plugins.patch
-Patch0004:	gcc-lto.patch
+Patch0004:	gcc-lto-2.2.0.patch
+Patch0005:	scummvm-2.1.1-ftbfs-use-bfd-linker-on-x86.patch
+
 # Needed for AppData check.
 BuildRequires:	libappstream-glib speech-dispatcher-devel alsa-lib-devel
 BuildRequires:	SDL2-devel libvorbis-devel flac-devel zlib-devel
 BuildRequires:	fluidsynth-devel desktop-file-utils libtheora-devel
 BuildRequires:	libpng-devel freetype-devel libjpeg-devel libmad-devel
-BuildRequires:	readline-devel libcurl-devel libmpeg2-devel
+BuildRequires:	readline-devel libcurl-devel libmpeg2-devel gtk3-devel
 BuildRequires:	gcc-c++
 %ifarch %{ix86}
 BuildRequires:	nasm
@@ -72,6 +67,18 @@ This package contains the data files for %{name}.
 
 
 %build
+# LTO combined with -Wl,--gdb-index and the Gold linker sometimes triggers
+# occasional faults in the Gold linker.  We have already decided to deprecate
+# the Gold linker so it does not seem worth the effort to reproduce, reduce,
+# analyze # and report the heisenbug in Gold.
+# Disable LTO
+%define _lto_cflags %{nil}
+
+# workaround FTBFS on i386
+%ifarch %{ix86}
+export LDFLAGS="-fuse-ld=bfd"
+%endif
+
 # The configure script shall ignore the parameter for the --host option
 #passed by %%configure.
 export CONFIGURE_NO_HOST=true
@@ -97,7 +104,7 @@ export CONFIGURE_NO_HOST=true
 
 %check
 # Check the AppData add-on to comply with guidelines.
-appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/*.xml
+appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/*.xml
 
 
 %install
@@ -128,7 +135,7 @@ find $RPM_BUILD_ROOT%{_libdir} -type f -name '*.so' | xargs chmod -Rc 0755
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.svg
 %{_datadir}/pixmaps/%{name}.xpm
-%{_datadir}/appdata/%{name}.appdata.xml
+%{_metainfodir}/%{name}.appdata.xml
 
 
 %files data
@@ -136,6 +143,29 @@ find $RPM_BUILD_ROOT%{_libdir} -type f -name '*.so' | xargs chmod -Rc 0755
 
 
 %changelog
+* Sun Oct 18 2020 Christian Krause <chkr@fedoraproject.org> - 2.2.0-1
+- Update to 2.2.0 (#1819020)
+- Remove patches already included upstream
+- Update patch to disable LTO
+- Use new directory for AppData files
+- Add gtk3-devel to BuildRequires
+
+* Mon Sep 14 2020 Than Ngo <than@redhat.com> - 2.1.1-11
+- Fix FTBFS
+
+* Wed Sep 09 2020 Than Ngo <than@redhat.com> - 2.1.1-10
+- Rebuilt
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jeff Law <law@redhat.com> - 2.1.1-7
+- Disable LTO
+
 * Tue May 26 2020 Jeff Law <law@redhat.com> - 2.1.1-6
 - Fix configure test compromised by LTO
 

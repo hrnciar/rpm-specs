@@ -21,7 +21,7 @@
 
 Name:		icedtea-web
 Version:	2.0.0
-Release:	pre.0.3.alpha13.patched1%{?dist}
+Release:	pre.0.3.alpha13.patched1%{?dist}.5
 Summary:	Additional Java components for OpenJDK - Java Web Start implementation
 
 License:    LGPLv2+ and GPLv2 with exceptions
@@ -132,6 +132,12 @@ dos2unix launchers/pom.xml
 %pom_remove_dep com.github.tomakehurst:wiremock-jre8 integration/pom.xml
 %pom_remove_dep com.github.stefanbirkner:system-rules integration/pom.xml
 
+%pom_remove_plugin org.apache.maven.plugins:maven-javadoc-plugin common/pom.xml
+%pom_remove_plugin org.apache.maven.plugins:maven-javadoc-plugin core/pom.xml
+%pom_remove_plugin org.apache.maven.plugins:maven-javadoc-plugin test-extensions/pom.xml
+%pom_remove_plugin org.apache.maven.plugins:maven-javadoc-plugin xml-parser/pom.xml
+%pom_remove_plugin org.apache.maven.plugins:maven-javadoc-plugin pom.xml
+
 rm -v core/src/main/java/net/sourceforge/jnlp/util/WindowsDesktopEntry.java
 rm -r integration/src
 
@@ -198,11 +204,17 @@ cp pom.xml  $RPM_BUILD_ROOT/%{_mavenpomdir}/%{name}.pom
 %find_lang %{name} --all-name --with-man
 
 %check
-appstream-util validate $RPM_BUILD_ROOT/%{_datadir}/appdata/*.xml || :
+# takes long, and fails anyway
+# appstream-util validate $RPM_BUILD_ROOT/%{_datadir}/appdata/*.xml || :
 
 %post
+# we had changed master of alternative, thus rmoving the old ones
+# this is braking alternatives, thus variabled-out if necessary
+if [ ! "x$ITW_20_18" ==  "xtrue" ] ; then
+  alternatives --remove javaws.%{_arch} %{_prefix}/bin/javaws.itweb
+fi
 alternatives \
-  --install %{_bindir}/javaws				javaws.%{_arch}		%{_libexecdir}/%{name}/javaws %{priority}  --family %{preffered_java}.%{_arch} \
+  --install %{_bindir}/javaws				javaws.%{_arch}		%{_libexecdir}/%{name}/javaws %{priority}  --family %{preffered_jre}.%{_arch} \
   --slave   %{_bindir}/itweb-settings			itweb-settings		%{_libexecdir}/%{name}/itweb-settings \
   --slave   %{_bindir}/policyeditor			policyeditor		%{_libexecdir}/%{name}/policyeditor \
   --slave   %{_bindir}/ControlPanel			ControlPanel		%{_libexecdir}/%{name}/itweb-settings \
@@ -218,7 +230,7 @@ gconftool-2 -s %{jnlpshandler}/enabled --type Boolean true &> /dev/null || :
 %postun
 if [ $1 -eq 0 ]
 then
-  alternatives --remove javaws %{_libexecdir}/%{name}/javaws
+  alternatives --remove javaws.%{_arch} %{_libexecdir}/%{name}/javaws
   gconftool-2 -u  %{jnlphandler}/command &> /dev/null || :
   gconftool-2 -u  %{jnlphandler}/enabled &> /dev/null || :
   gconftool-2 -u %{jnlpshandler}/command &> /dev/null || :
@@ -244,6 +256,23 @@ exit 0
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-pre.0.3.alpha13.patched1.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.0.0-pre.0.3.alpha13.patched1.4
+- removed all javadocs, likely broken after usage of xmvn to javadocs generation
+- https://src.fedoraproject.org/rpms/javapackages-tools/pull-request/3#comment-46283
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.0.0-pre.0.3.alpha13.patched1.3
+- added removal of old alternatives. Sorry
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.0.0-pre.0.3.alpha13.patched1.2
+- fixed removal of alternatives, was not working for years
+- fixed unexpanded macro in alternatives, reason of non working update from 1.8
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.0.0-pre.0.3.alpha13.patched1.1
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jun 02 2020 Jiri Vanek <jvanek@fedoraproject.org> - 2.0.0-pre.0.2.alpha13.patched2
 - updated to upstream sources with proper ipaddress handling
 - still needs jdk8 to build due to bug in upstream

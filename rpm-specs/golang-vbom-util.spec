@@ -16,12 +16,14 @@ Sort orders, comparison functions, and "heavy-weight string" utilities in Go.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.5%{?dist}
+Release:        0.7%{?dist}
 Summary:        Sort orders, comparison functions, and "heavy-weight string" utilities
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/golang/go/issues/32479
+Patch0:         0001-Convert-int-to-string-using-strconv.Itoa.patch
 
 %if %{with check}
 # Tests
@@ -36,6 +38,7 @@ BuildRequires:  golang(github.com/xlab/handysort)
 
 %prep
 %goprep
+%patch0 -p1
 
 %build
 for cmd in cmd/* ; do
@@ -60,6 +63,13 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

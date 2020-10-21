@@ -7,7 +7,7 @@
 
 Name:           nodejs-hosted-git-info
 Version:        2.1.4
-Release:        10%{?dist}
+Release:        12%{?dist}
 Summary:        Provides metadata and conversions from repository urls for Github, Bitbucket and Gitlab
 Url:            https://github.com/npm/hosted-git-info
 Source0:        https://registry.npmjs.org/%{npm_name}/-/%{npm_name}-%{version}.tgz
@@ -57,6 +57,13 @@ tap test/*.js
 %license LICENSE
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.4-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.4-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.4-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

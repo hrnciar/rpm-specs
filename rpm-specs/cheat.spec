@@ -1,10 +1,10 @@
-%global sheets_commit 18c937413ef9108342c5ca671c3e68118d20ae51
-%global sheets_commit_short 18c9374
+%global sheets_commit 0703cacbaf0dfc5cd31881bad48865fd836d70ca
+%global sheets_commit_short 0703cac
 
 # https://github.com/cheat/cheat
 %global goipath         github.com/cheat/cheat
-Version:                3.6.0
-%global tag             3.6.0
+Version:                4.0.4
+%global tag             4.0.4
 
 %gometa
 
@@ -24,7 +24,7 @@ License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
 Source1:        https://github.com/cheat/cheatsheets/archive/%{sheets_commit_short}.tar.gz#/cheatsheets.tar.gz
-Patch1:         cheat-3.6.0-config.patch
+Source2:        cheat-config-FEDORA.yml
 
 BuildRequires:  golang(github.com/alecthomas/chroma/quick)
 BuildRequires:  golang(github.com/docopt/docopt-go)
@@ -60,6 +60,15 @@ Requires: fish
 %description fish-completion
 Files needed to support fish completion.
 
+%package zsh-completion
+Summary: Zsh completion support for %{name}
+BuildArch: noarch
+Requires: %{name} = %{version}-%{release}
+Requires: zsh
+
+%description zsh-completion
+Files needed to support zsh completion.
+
 %package community-cheatsheets
 Summary:   Cheatsheets created by comunity for %{name}
 URL:       https://github.com/cheat/cheatsheets
@@ -76,7 +85,6 @@ community.
 
 %prep
 %goprep
-%patch1 -p1 -b .cheat-conf
 tar -xf %{SOURCE1}
 
 %build
@@ -88,9 +96,11 @@ done
 %gopkginstall
 mkdir -m 0755 -p                            %{buildroot}%{_datadir}/bash-completion/completions
 mkdir -m 0755 -p                            %{buildroot}%{_datadir}/fish/vendor_completions.d
+mkdir -m 0755 -p                            %{buildroot}%{_datadir}/zsh/site-functions/
 
 install -m 0644 -p scripts/cheat.bash %{buildroot}%{_datadir}/bash-completion/completions/cheat
 install -m 0644 -p scripts/cheat.fish %{buildroot}%{_datadir}/fish/vendor_completions.d/cheat.fish
+install -m 0644 -p scripts/cheat.zsh  %{buildroot}%{_datadir}/zsh/site-functions/_cheat
 
 install -m 0755 -vd                         %{buildroot}%{_bindir}
 install -m 0755 -vp %{gobuilddir}/bin/cheat %{buildroot}%{_bindir}/
@@ -102,8 +112,8 @@ for sheet in cheatsheets-%{sheets_commit}/* ; do
   install -m 0644 -p $sheet %{buildroot}/%{_datadir}/cheat/
 done
 
-mkdir -m 0755 -p %{buildroot}%{_sysconfdir}/profile.d
 mkdir -m 0755 -p %{buildroot}%{_sysconfdir}/cheat
+install -m 0644 -p %{SOURCE2} %{buildroot}%{_sysconfdir}/cheat/conf.yml
 
 %check
 %gocheck
@@ -111,12 +121,12 @@ mkdir -m 0755 -p %{buildroot}%{_sysconfdir}/cheat
 %files
 %license LICENSE.txt
 %doc README.md CONTRIBUTING.md cmd/cheat/docopt.txt
+%config(noreplace) %{_sysconfdir}/cheat/conf.yml
 %{_bindir}/cheat
 
 %files community-cheatsheets
 %license cheatsheets-%{sheets_commit}/.github/LICENSE.txt
-%dir %{_datadir}/cheat
-%{_datadir}/cheat/*
+%{_datadir}/cheat/
 
 %files bash-completion
 %{_datadir}/bash-completion/completions/cheat
@@ -124,9 +134,21 @@ mkdir -m 0755 -p %{buildroot}%{_sysconfdir}/cheat
 %files fish-completion
 %{_datadir}/fish/vendor_completions.d/cheat.fish
 
+%files zsh-completion
+%{_datadir}/zsh/site-functions/_cheat
+
 %gopkgfiles
 
 %changelog
+* Mon Aug 31 2020 Tomas Korbar <tkorbar@redhat.com> - 4.0.4-1
+- Update to 4.0.4
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tomas Korbar <tkorbar@redhat.com> - 4.0.2-1
+- Update to 4.0.2
+
 * Thu Jan 30 2020 Tomas Korbar <tkorbar@redhat.com> - 3.6.0-1
 - Rebase cheat to version 3.6.0 (#1793381)
 - Rebase cheatsheets to commit 18c9374
@@ -137,7 +159,7 @@ mkdir -m 0755 -p %{buildroot}%{_sysconfdir}/cheat
 * Tue Jan 14 2020 Tomas Korbar <tkorbar@redhat.com> - 3.2.2-1
 - Rebase cheat to version 3.2.2 (#1786883)
 
-* Mon Dec 16 2019 Tomas Korbar tkorbar@redhat.com - 3.2.1-1
+* Mon Dec 16 2019 Tomas Korbar <tkorbar@redhat.com> - 3.2.1-1
 - Rebase cheat to version 3.2.1 (#1771683)
 
 * Thu Oct 03 2019 Miro Hrončok <mhroncok@redhat.com> - 2.5.1-6

@@ -7,7 +7,7 @@
 
 # https://github.com/containerd/containerd
 %global goipath         github.com/containerd/containerd
-Version:                1.3.3
+Version:                1.4.1
 %global tag             v%{version}
 
 %gometa
@@ -36,6 +36,8 @@ URL:            %{gourl}
 Source0:        %{gosource}
 Source1:        containerd.service
 Source2:        containerd.toml
+# Carve out code requiring github.com/Microsoft/hcsshim
+Patch0:         0001-Revert-commit-for-Windows-metrics.patch
 
 BuildRequires:  btrfs-progs-devel
 BuildRequires:  go-md2man
@@ -46,6 +48,9 @@ BuildRequires:  golang(github.com/containerd/aufs)
 %endif
 BuildRequires:  golang(github.com/containerd/btrfs)
 BuildRequires:  golang(github.com/containerd/cgroups)
+BuildRequires:  golang(github.com/containerd/cgroups/stats/v1)
+BuildRequires:  golang(github.com/containerd/cgroups/v2)
+BuildRequires:  golang(github.com/containerd/cgroups/v2/stats)
 BuildRequires:  golang(github.com/containerd/console)
 BuildRequires:  golang(github.com/containerd/continuity/fs)
 BuildRequires:  golang(github.com/containerd/continuity/fs/fstest)
@@ -61,8 +66,7 @@ BuildRequires:  golang(github.com/containerd/typeurl)
 %if %{without bootstrap}
 BuildRequires:  golang(github.com/containerd/zfs)
 %endif
-BuildRequires:  golang(github.com/docker/distribution/reference)
-BuildRequires:  golang(github.com/docker/distribution/registry/api/errcode)
+BuildRequires:  golang(github.com/coreos/go-systemd/v22/daemon)
 BuildRequires:  golang(github.com/docker/go-events)
 BuildRequires:  golang(github.com/docker/go-metrics)
 BuildRequires:  golang(github.com/docker/go-units)
@@ -79,13 +83,14 @@ BuildRequires:  golang(github.com/google/uuid)
 BuildRequires:  golang(github.com/grpc-ecosystem/go-grpc-prometheus)
 BuildRequires:  golang(github.com/hashicorp/go-multierror)
 BuildRequires:  golang(github.com/imdario/mergo)
+# BuildRequires:  golang(github.com/Microsoft/hcsshim/cmd/containerd-shim-runhcs-v1/stats)
 BuildRequires:  golang(github.com/opencontainers/go-digest)
 BuildRequires:  golang(github.com/opencontainers/image-spec/identity)
 BuildRequires:  golang(github.com/opencontainers/image-spec/specs-go)
 BuildRequires:  golang(github.com/opencontainers/image-spec/specs-go/v1)
-BuildRequires:  golang(github.com/opencontainers/runc/libcontainer/system)
 BuildRequires:  golang(github.com/opencontainers/runc/libcontainer/user)
 BuildRequires:  golang(github.com/opencontainers/runtime-spec/specs-go)
+BuildRequires:  golang(github.com/opencontainers/selinux/go-selinux/label)
 BuildRequires:  golang(github.com/pkg/errors)
 BuildRequires:  golang(github.com/prometheus/client_golang/prometheus)
 BuildRequires:  golang(github.com/sirupsen/logrus)
@@ -97,6 +102,7 @@ BuildRequires:  golang(golang.org/x/sync/errgroup)
 BuildRequires:  golang(golang.org/x/sync/semaphore)
 BuildRequires:  golang(golang.org/x/sys/unix)
 BuildRequires:  golang(google.golang.org/grpc)
+BuildRequires:  golang(google.golang.org/grpc/backoff)
 BuildRequires:  golang(google.golang.org/grpc/codes)
 BuildRequires:  golang(google.golang.org/grpc/credentials)
 BuildRequires:  golang(google.golang.org/grpc/grpclog)
@@ -104,8 +110,8 @@ BuildRequires:  golang(google.golang.org/grpc/health)
 BuildRequires:  golang(google.golang.org/grpc/health/grpc_health_v1)
 BuildRequires:  golang(google.golang.org/grpc/metadata)
 BuildRequires:  golang(google.golang.org/grpc/status)
-BuildRequires:  golang(gotest.tools/assert)
-BuildRequires:  golang(gotest.tools/assert/cmp)
+BuildRequires:  golang(gotest.tools/v3/assert)
+BuildRequires:  golang(gotest.tools/v3/assert/cmp)
 
 %if %{with check}
 # Tests
@@ -124,6 +130,7 @@ Requires:       runc
 
 %prep
 %goprep
+%patch0 -p1
 # Used only for generation:
 rm -rf cmd/protoc-gen-gogoctrd
 
@@ -134,10 +141,10 @@ for cmd in cmd/* ; do
   %gobuild -o %{gobuilddir}/bin/$(basename $cmd) %{goipath}/$cmd
 done
 mkdir _man
-go-md2man -in docs/man/containerd-config.1.md -out _man/containerd-config.1
+go-md2man -in docs/man/containerd-config.8.md -out _man/containerd-config.8
 go-md2man -in docs/man/containerd-config.toml.5.md -out _man/containerd-config.toml.5
-%{gobuilddir}/bin/gen-manpages containerd _man
-%{gobuilddir}/bin/gen-manpages ctr _man
+%{gobuilddir}/bin/gen-manpages containerd.8 _man
+%{gobuilddir}/bin/gen-manpages ctr.8 _man
 rm %{gobuilddir}/bin/gen-manpages
 %else
 rm -rf cmd
@@ -148,9 +155,9 @@ rm -rf cmd
 %if %{without bootstrap}
 install -m 0755 -vd                     %{buildroot}%{_bindir}
 install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
-install -D -p -m 0644 _man/containerd.1 %{buildroot}%{_mandir}/man1/containerd.1
-install -D -p -m 0644 _man/containerd-config.1 %{buildroot}%{_mandir}/man1/containerd-config.1
-install -D -p -m 0644 _man/ctr.1 %{buildroot}%{_mandir}/man1/ctr.1
+install -D -p -m 0644 _man/containerd.8 %{buildroot}%{_mandir}/man1/containerd.8
+install -D -p -m 0644 _man/containerd-config.8 %{buildroot}%{_mandir}/man1/containerd-config.8
+install -D -p -m 0644 _man/ctr.8 %{buildroot}%{_mandir}/man1/ctr.8
 install -D -p -m 0644 _man/containerd-config.toml.5 %{buildroot}%{_mandir}/man5/containerd-config.toml.5
 install -D -p -m 0644 %{S:1} %{buildroot}%{_unitdir}/containerd.service
 install -D -p -m 0644 %{S:2} %{buildroot}%{_sysconfdir}/containerd/config.toml
@@ -176,9 +183,9 @@ install -D -p -m 0644 %{S:2} %{buildroot}%{_sysconfdir}/containerd/config.toml
 %doc docs PLUGINS.md ROADMAP.md RUNC.md SCOPE.md code-of-conduct.md BUILDING.md
 %doc README.md RELEASES.md
 %{_bindir}/*
-%{_mandir}/man1/containerd.1*
-%{_mandir}/man1/containerd-config.1*
-%{_mandir}/man1/ctr.1*
+%{_mandir}/man1/containerd.8*
+%{_mandir}/man1/containerd-config.8*
+%{_mandir}/man1/ctr.8*
 %{_mandir}/man5/containerd-config.toml.5*
 %{_unitdir}/containerd.service
 %dir %{_sysconfdir}/containerd
@@ -188,6 +195,16 @@ install -D -p -m 0644 %{S:2} %{buildroot}%{_sysconfdir}/containerd/config.toml
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.1-1
+- Update to 1.4.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 01 2020 Olivier Lemasle <o.lemasle@gmail.com> - 1.3.3-1
 - Update to 1.3.3
 

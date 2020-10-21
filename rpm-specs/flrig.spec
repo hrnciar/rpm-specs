@@ -1,6 +1,6 @@
 Name:           flrig
-Version:        1.3.50
-Release:        1%{?dist}
+Version:        1.3.51
+Release:        3%{?dist}
 Summary:        Transceiver control program
 
 License:        GPLv3+
@@ -8,15 +8,20 @@ URL:            http://www.w1hkj.com/
 Source0:        http://www.w1hkj.com/files/flrig/%{name}-%{version}.tar.gz
 Source100:      flrig.appdata.xml
 
+# Various fixes I have submitted upstream via my branch:
+# https://sourceforge.net/p/fldigi/flrig/ci/pu/hb9/~/tree/
+Patch0:         flrig-fixes.patch
+
 BuildRequires:  gcc gcc-c++
 BuildRequires:  fltk-devel >= 1.3.0
+BuildRequires:  flxmlrpc-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
 
 # xdg-open is used in src/main.cxx
 Requires:       xdg-utils
 
-Provides:       bundled(xmlrpc)
+#Provides:       bundled(xmlrpc)
 
 
 %description
@@ -27,10 +32,11 @@ available for the transceiver in use.
 
 
 %prep
-%autosetup
+%autosetup -p1
 
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %{?rhel:export LDFLAGS="-lfltk"}
 %configure
 %make_build
@@ -58,6 +64,15 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata
 
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 1.3.51-3
+- Force C++14 as this code is not C++17 ready
+
+* Mon Jul 27 2020 Richard Shaw <hobbes1069@gmail.com> - 1.3.51-2
+- Add patch for various fixes.
+
+* Fri Jul 03 2020 Richard Shaw <hobbes1069@gmail.com> - 1.3.51-1
+- Update to 1.3.51.
+
 * Wed Apr 01 2020 Richard Shaw <hobbes1069@gmail.com> - 1.3.50-1
 - Update to 1.3.50.
 

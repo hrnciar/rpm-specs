@@ -1,11 +1,11 @@
 %ifnarch %{ocaml_native_compiler}
 %global debug_package %{nil}
 %endif
-%global coqver 8.11.2
+%global coqver 8.12.0
 
 Name:		zenon
 Version:	0.8.4
-Release:	13%{?dist}
+Release:	17%{?dist}
 Summary:	Automated theorem prover for first-order classical logic
 License:	BSD
 URL:		http://zenon-prover.org/
@@ -18,6 +18,11 @@ Source4:	%{name}.1
 Source5:	%{name}-format.5
 # Adapt to coq 8.9
 Patch0:		%{name}-coq89.patch
+# Adapt to ocaml 4.08 and later
+Patch1:		%{name}-ocaml.patch
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=1874879
+ExcludeArch: s390x
 
 BuildRequires:	coq = %{coqver}
 BuildRequires:	ghostscript-core
@@ -61,7 +66,7 @@ cp -p %{SOURCE3} examples/tptp-ReadMe
 make coq
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 
 install -d %{buildroot}%{_mandir}/man1/
 install -d %{buildroot}%{_mandir}/man5/
@@ -93,6 +98,22 @@ fi
 %{_mandir}/man5/*
 
 %changelog
+* Wed Sep 02 2020 Richard W.M. Jones <rjones@redhat.com> - 0.8.4-17
+- OCaml 4.11.1 rebuild
+
+* Tue Sep  1 2020 Jerry James <loganjerry@gmail.com> - 0.8.4-16
+- Rebuild for coq 8.12.0
+
+* Sat Aug 22 2020 Richard W.M. Jones <rjones@redhat.com> - 0.8.4-16
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.4-15
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.4-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Jerry James <loganjerry@gmail.com> - 0.8.4-13
 - Rebuild for coq 8.11.2
 

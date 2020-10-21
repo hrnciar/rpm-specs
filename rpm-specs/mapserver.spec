@@ -11,7 +11,7 @@
 
 Name:           mapserver
 Version:        7.4.3
-Release:        5%{?dist}
+Release:        10%{?dist}
 Summary:        Environment for building spatially-enabled internet applications
 %global dashver %(echo %version | sed 's|\\.|-|g')
 
@@ -157,10 +157,6 @@ rm -rf mapscript/perl/mapscript_wrap.c
 
 
 %build
-
-mkdir build
-cd build
-
 export CFLAGS="${CFLAGS} -ldl -fPIC -fno-strict-aliasing"
 export CXXFLAGS="%{optflags} -fno-strict-aliasing"
 
@@ -211,14 +207,13 @@ export CXXFLAGS="%{optflags} -fno-strict-aliasing"
       -DWITH_SDE=FALSE \
       -DWITH_SDE_PLUGIN=FALSE \
       -DWITH_EXEMPI=FALSE \
-      -Wno-dev \
-      ..
+      -Wno-dev
 
-%make_build
+%cmake_build
 
 
 %install
-%make_install -C build
+%cmake_install
 
 mkdir -p %{buildroot}%{_datadir}/%{name}
 install -p -m 644 xmlmapfile/mapfile.xsd %{buildroot}%{_datadir}/%{name}
@@ -226,7 +221,7 @@ install -p -m 644 xmlmapfile/mapfile.xsl %{buildroot}%{_datadir}/%{name}
 
 # install java
 mkdir -p %{buildroot}%{_javadir}
-install -p -m 644 build/mapscript/java/mapscript.jar %{buildroot}%{_javadir}/
+install -p -m 644 %{_vpath_builddir}/mapscript/java/mapscript.jar %{buildroot}%{_javadir}/
 
 %if 0%{php_mapscript}
 # install php config file
@@ -308,6 +303,22 @@ fi
 
 
 %changelog
+* Thu Oct 01 2020 Petr Pisar <ppisar@redhat.com> - 7.4.3-10
+- Adapt to new CMake (bug #1864110)
+
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 7.4.3-9
+- Rebuilt for protobuf 3.13
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.4.3-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.4.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 7.4.3-6
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 7.4.3-5
 - Perl 5.32 rebuild
 

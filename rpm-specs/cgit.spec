@@ -38,7 +38,7 @@
 
 Name:           cgit
 Version:        1.2.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A fast web interface for git
 
 License:        GPLv2
@@ -224,6 +224,9 @@ make test
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 02 2020 Björn Esser <besser82@fedoraproject.org> - 1.2.3-2
 - Fix string quoting for rpm >= 4.16
 

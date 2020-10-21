@@ -1,13 +1,15 @@
 %global gitrev 5f9c029d1
 %global gitprorev aded3b617
 %global gitbiorev 226bfbbb7
+%global gitm175rev 6f37ffb31
 %global prover 2.0.0.144
 %global biover 2.0.0.174
+%global m175ver 2.0.0.144
 %global buildfromsource 1
 
 Name:		lulzbot-marlin-firmware
 Version:	1.1.9.34
-Release:	10%{?dist}
+Release:	12%{?dist}
 Epoch:		1
 Summary:	Marlin firmware files for the Lulzbot family of 3D printers
 # this uses the arduino cross-compiler, so the output is arch-independent
@@ -39,15 +41,25 @@ URL:		https://code.alephobjects.com/diffusion/MARLIN/
 # cd ..
 # mv marlin/ lulzbot-marlin-firmware-bio-2.0.0.174
 # tar cfz lulzbot-marlin-firmware-bio-2.0.0.174.tar.gz lulzbot-marlin-firmware-bio-2.0.0.174/
+## M175 is on still another checkout
+# git clone https://gitlab.com/lulzbot3d/marlin.git
+# cd marlin
+# git checkout v2.0.0.144_M175
+# cd ..
+# mv marlin/ lulzbot-marlin-firmware-M175-2.0.0.144
+# tar cfz lulzbot-marlin-firmware-M175-2.0.0.144.tar.gz lulzbot-marlin-firmware-M175-2.0.0.144/
 
 Source0:	lulzbot-marlin-firmware-%{version}.tar.gz
 Source1:	lulzbot-marlin-firmware-pro-%{prover}.tar.gz
 Source2:	lulzbot-marlin-firmware-bio-%{biover}.tar.gz
+Source3:	lulzbot-marlin-firmware-M175-%{m175ver}.tar.gz
 # Work around https://gcc.gnu.org/bugzilla/show_bug.cgi?id=71873
 # Should not be needed when avr-gcc 7.0.0 arrives
 Patch1:		lulzbot-marlin-firmware-1.1.5.64-set-fno-move-loop-invariants.patch
 # Fix linking issue (-lgcc vs -gcc)
 Patch2:		lulzbot-marlin-firmware-2.0.0.101-fix-lgcc.patch
+# TAZ5 support for M175
+Patch3:		lulzbot-marlin-firmware-M175-TAZ5.patch
 BuildRequires:	arduino-core
 BuildRequires:	git-core
 BuildRequires:	arm-none-eabi-binutils-cs
@@ -88,9 +100,10 @@ Marlin firmware files for the Lulzbot TAZ BIO family of 3D printers
 %global platform mega2560
 
 %prep
-%setup -q -a 1 -a 2
+%setup -q -a 1 -a 2 -a 3
 %patch1 -p1 -b .nmli
 %patch2 -p1 -b .lgcc
+%patch3 -p1 -b .TAZ5
 
 %build
 ./build-lulzbot-firmware.sh 
@@ -135,13 +148,39 @@ for f in good-build/*.hex; do mv "$f" "$(echo $f | cut -d '_' -f 1,3,5,6-)"; don
 for f in good-build/*.bin; do mv "$f" "$(echo $f | cut -d '_' -f 1,3,5,6-)"; done
 popd
 
+# Bio
 pushd lulzbot-marlin-firmware-bio-%{biover}
 mkdir good-build
 ./build-lulzbot-firmware.sh KangarooPaw_Bio KangarooPaw_SingleExtruder
 cp build/* good-build/
 
-# Bio
 for f in good-build/*.hex; do mv "$f" "$(echo $f | cut -d '_' -f 1,3,5,6-)"; done
+popd
+
+# M175
+pushd lulzbot-marlin-firmware-M175-%{m175ver}
+mkdir good-build
+./build-lulzbot-firmware.sh Quiver_TAZPro Lutefisk_M175
+cp build/* good-build/
+./build-lulzbot-firmware.sh Redgum_TAZWorkhorse Lutefisk_M175
+cp build/* good-build/
+./build-lulzbot-firmware.sh Hibiscus_Mini2 Lutefisk_M175
+cp build/* good-build/
+./build-lulzbot-firmware.sh Gladiola_Mini Lutefisk_M175
+cp build/* good-build/
+./build-lulzbot-firmware.sh Gladiola_MiniLCD Lutefisk_M175
+cp build/* good-build/
+./build-lulzbot-firmware.sh Juniper_TAZ5 Lutefisk_M175
+cp build/* good-build/
+./build-lulzbot-firmware.sh Oliveoil_TAZ6 Lutefisk_M175
+cp build/* good-build/
+
+for f in good-build/*.hex; do mv "$f" "$(echo $f | cut -d '_' -f 1,3,5,6-)"; done
+for f in good-build/*.bin; do mv "$f" "$(echo $f | cut -d '_' -f 1,3,5,6-)"; done
+
+# The "new" Lulzbot does not embed versions in their firmware (at least not yet)
+# so we make symlinks to the names hardcoded in cura-lulzbot
+
 popd
 
 %install
@@ -157,6 +196,22 @@ pushd lulzbot-marlin-firmware-bio-%{biover}
 install -Dpm0644 good-build/*Bio*.hex %{buildroot}%{_datadir}/cura-lulzbot/firmware/
 popd
 
+pushd lulzbot-marlin-firmware-M175-%{m175ver}
+install -Dpm0644 good-build/* %{buildroot}%{_datadir}/cura-lulzbot/firmware/
+popd
+
+# The "new" Lulzbot does not embed versions in their firmware (at least not yet)
+# so we make symlinks to the names hardcoded in cura-lulzbot
+pushd %{buildroot}%{_datadir}/cura-lulzbot/firmware/
+ln -s Marlin_TAZPro_M175_%{m175ver}_%{gitm175rev}.bin lulzbot_quiver_lutefisk.bin
+ln -s Marlin_Mini_M175_%{m175ver}_%{gitm175rev}.hex lulzbot_mini_lutefisk.hex
+ln -s Marlin_MiniLCD_M175_%{m175ver}_%{gitm175rev}.hex lulzbot_mini_lcd_lutefisk.hex
+ln -s Marlin_TAZ5_M175_%{m175ver}_%{gitm175rev}.hex lulzbot_taz5_lutefisk.hex
+ln -s Marlin_TAZ6_M175_%{m175ver}_%{gitm175rev}.hex lulzbot_taz6_lutefisk.hex
+ln -s Marlin_Mini2_M175_%{m175ver}_%{gitm175rev}.hex lulzbot_hibiscus_lutefisk.hex
+ln -s Marlin_TAZWorkhorse_M175_%{m175ver}_%{gitm175rev}.hex lulzbot_redgum_lutefisk.hex
+popd
+
 pushd %{buildroot}%{_datadir}/cura-lulzbot/
 mkdir resources
 ln -s ../firmware resources/firmware
@@ -166,17 +221,26 @@ popd
 %doc README.md
 %license LICENSE
 %{_datadir}/cura-lulzbot/firmware/*.hex
+%exclude %{_datadir}/cura-lulzbot/firmware/*Bio*.hex
 %exclude %{_datadir}/cura-lulzbot/firmware/*TAZWorkhorse*.hex
+%exclude %{_datadir}/cura-lulzbot/firmware/lulzbot_redgum_lutefisk.hex
 %{_datadir}/cura-lulzbot/resources/firmware
 
 %files pro
 %{_datadir}/cura-lulzbot/firmware/*.bin
 %{_datadir}/cura-lulzbot/firmware/*TAZWorkhorse*.hex
+%{_datadir}/cura-lulzbot/firmware/lulzbot_redgum_lutefisk.hex
 
 %files bio
 %{_datadir}/cura-lulzbot/firmware/*Bio*.hex
 
 %changelog
+* Wed Sep 30 2020 Tom Callaway <spot@fedoraproject.org> - 1:1.1.9.34-12
+- add M175 firmware variants
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.1.9.34-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.1.9.34-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

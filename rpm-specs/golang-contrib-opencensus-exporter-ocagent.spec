@@ -4,7 +4,8 @@
 # https://github.com/census-ecosystem/opencensus-go-exporter-ocagent
 %global goipath         contrib.go.opencensus.io/exporter/ocagent
 %global forgeurl        https://github.com/census-ecosystem/opencensus-go-exporter-ocagent
-Version:                0.6.0
+Version:                0.7.1
+%global tag             0.7.1
 
 %gometa
 
@@ -23,12 +24,14 @@ Exporter to OpenCensus Go core library.}
 %global godocs          example CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        OpenCensus Go exporters for OpenCensus Agent
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+# https://github.com/census-ecosystem/opencensus-go-exporter-ocagent/issues/88 ?
+Patch0:         0001-Fix-fix_metricsAgent-struct.patch
 
 BuildRequires:  golang(github.com/census-instrumentation/opencensus-proto/gen-go/agent/common/v1)
 BuildRequires:  golang(github.com/census-instrumentation/opencensus-proto/gen-go/agent/metrics/v1)
@@ -63,6 +66,7 @@ BuildRequires:  golang(github.com/google/go-cmp/cmp)
 
 %prep
 %goprep
+%patch0 -p1
 
 %install
 %gopkginstall
@@ -75,6 +79,16 @@ BuildRequires:  golang(github.com/google/go-cmp/cmp)
 %gopkgfiles
 
 %changelog
+* Fri Aug 21 18:30:10 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.7.1-1
+- Update to 0.7.1
+- Add patch to fix metricsAgent struct
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 21:21:08 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.7.0-1
+- Update to 0.7.0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

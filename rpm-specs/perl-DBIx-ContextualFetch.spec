@@ -1,17 +1,31 @@
 Name:           perl-DBIx-ContextualFetch
 Version:        1.03
-Release:        38%{?dist}
+Release:        40%{?dist}
 Summary:        Add contextual fetches to DBI
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/DBIx-ContextualFetch
-Source0:        https://cpan.metacpan.org/authors/id/T/TM/TMTM/DBIx-ContextualFetch-%{version}.tar.gz
-
+Source0:        https://cpan.metacpan.org/modules/by-module/DBIx/DBIx-ContextualFetch-%{version}.tar.gz
 BuildArch:      noarch
+# Build
+BuildRequires:  coreutils
+BuildRequires:  make
 BuildRequires:  perl-generators
-BuildRequires:  perl(DBI), perl(ExtUtils::MakeMaker)
-BuildRequires:  perl(DBD::SQLite), perl(Test::Pod::Coverage), perl(Test::More)
-Requires:  perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
-Requires:	perl(DBI)
+BuildRequires:  perl-interpreter
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
+# Module
+BuildRequires:  perl(base)
+BuildRequires:  perl(DBI)
+BuildRequires:  perl(strict)
+BuildRequires:  perl(warnings)
+# Test Suite
+BuildRequires:  perl(File::Temp)
+BuildRequires:  perl(Test::More)
+# Optional Tests
+BuildRequires:  perl(DBD::SQLite)
+BuildRequires:  perl(Test::Pod) >= 1.00
+BuildRequires:  perl(Test::Pod::Coverage) >= 1.00
+# Dependencies
+Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 
 %{?perl_default_filter}
 %global __requires_exclude %{?__requires_exclude:%__requires_exclude|}^perl\\(DBI::(st|db)\\)
@@ -23,25 +37,34 @@ Requires:	perl(DBI)
 %setup -q -n DBIx-ContextualFetch-%{version}
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install PERL_INSTALL_ROOT=$RPM_BUILD_ROOT
-find $RPM_BUILD_ROOT -type f -name .packlist -exec rm -f {} ';'
-find $RPM_BUILD_ROOT -type d -depth -exec rmdir {} 2>/dev/null ';'
-chmod -R u+w $RPM_BUILD_ROOT/*
+%{make_install}
+%{_fixperms} -c %{buildroot}
 
 %check
 make test
 
 %files
 %doc Changes
-%{perl_vendorlib}/DBIx
-%{_mandir}/man3/*.3*
-
+%{perl_vendorlib}/DBIx/
+%{_mandir}/man3/DBIx::ContextualFetch.3*
 
 %changelog
+* Thu Aug 20 2020 Paul Howarth <paul@city-fan.org> - 1.03-40
+- Spec tidy-up
+  - Use author-independent source URL
+  - Specify all build requirements
+  - Use %%{make_build} and %%{make_install}
+  - Don't need to remove empty directories from the buildroot
+  - Fix permissions verbosely
+  - Make %%files list more explicit
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.03-39
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.03-38
 - Perl 5.32 rebuild
 

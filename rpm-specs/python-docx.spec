@@ -5,7 +5,7 @@
 
 Name:		python-docx
 Version:	0.8.5
-Release:	22%{?dist}
+Release:	23%{?dist}
 Summary:	Create and update Microsoft Word .docx files
 
 License:	MIT
@@ -58,6 +58,9 @@ BuildRequires:	python3-behave
 %{python3_sitelib}/python_%{pname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.5-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.5-22
 - Rebuilt for Python 3.9
 

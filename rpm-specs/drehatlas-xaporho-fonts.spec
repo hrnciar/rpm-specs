@@ -4,7 +4,7 @@
 
 Name:		%{fontname}-fonts
 Version:	1.0.3.3
-Release:	20%{?dist}
+Release:	21%{?dist}
 Summary:	A Latin typeface that is sharp and angular
 License:	OFL
 URL:		http://sourceforge.net/projects/drehatlas-fonts/
@@ -53,6 +53,9 @@ install -Dm 0644 -p %{SOURCE2} \
 %doc drehatlas-fonts-%{metapkgver}/Xaporho-%{version}/LICENSE drehatlas-fonts-%{metapkgver}/Xaporho-%{version}/FONTLOG
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3.3-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3.3-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

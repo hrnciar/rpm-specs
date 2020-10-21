@@ -3,7 +3,7 @@
 Summary:        SMTP client library
 Name:           libesmtp
 Version:        1.0.6
-Release:        19%{?dist}
+Release:        20%{?dist}
 License:        LGPLv2+
 Source:         http://www.stafford.uklinux.net/libesmtp/%{name}-%{version}.tar.bz2
 URL:            http://www.stafford.uklinux.net/libesmtp/
@@ -93,6 +93,9 @@ install -p -m644 -D libesmtp.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig/libesmtp.pc
 %{_libdir}/pkgconfig/libesmtp.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

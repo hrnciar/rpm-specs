@@ -2,47 +2,50 @@
 %global github_name     CssMin
 %global github_version  3.0.6
 %global github_commit   d5d9f4c3e5cedb1ae96a95a21731f8790e38f1dd
-# if set, will be a post-release snapshot build, otherwise a 'normal' build
-#global github_date     20141229
-%global shortcommit %(c=%{github_commit}; echo ${c:0:7})
+
 %global packagist_owner natxet
-%global packagist_name  CssMin
+%global packagist_name  cssmin
 
-%global lcname  %(echo %{packagist_name} | tr '[:upper:]' '[:lower:]')
+# phpcompatinfo
+%global php_min_ver    5.1.2
 
-# phpci
-%global php_min_ver    5.0.0
-
-Name:           php-%{packagist_owner}-%{lcname}
+Name:           php-%{packagist_owner}-%{packagist_name}
 Version:        %{github_version}
-Release:        3%{?github_date:.%{github_date}git%{shortcommit}}%{?dist}
+Release:        5%{?github_date:.%{github_date}git%{shortcommit}}%{?dist}
 Summary:        Configurable CSS parser and minifier
 
 Group:          Development/Libraries
 # License text is included in the sole code file
 License:        MIT
 URL:            https://github.com/%{github_owner}/%{github_name}
-# Must use commit-based not tag-based github tarball:
-# https://fedoraproject.org/wiki/Packaging:SourceURL#Github
-Source0:        https://github.com/%{github_owner}/%{github_name}/archive/%{github_commit}/%{github_name}-%{github_commit}.tar.gz
+Source0:        %{url}/archive/%{github_commit}/%{github_name}-%{github_commit}.tar.gz
 
 BuildArch:      noarch
-BuildRequires:  php-cli
+BuildRequires:  php-cli >= %{php_min_ver}
 BuildRequires:  php-pcre
+BuildRequires:  php-spl
+# Autoloader
+BuildRequires:  php-fedora-autoloader-devel
 
 Requires:       php(language) >= %{php_min_ver}
 Requires:       php-pcre
+Requires:       php-spl
+# Autoloader
+Requires:      php-composer(fedora/autoloader)
 
 Provides:       php-composer(%{packagist_owner}/%{packagist_name}) = %{version}
+# Legacy
+Provides:       php-composer(%{packagist_owner}/CssMin) = %{version}
 
-BuildRequires: %{_bindir}/phpab
 
 
 %description
 CssMin is a css parser and minifier. It minifies css by removing
 unneeded whitespace characters, comments, empty blocks and empty
 declarations. In addition declaration values can get rewritten to
-shorter notation if available. The minification is configurable. 
+shorter notation if available. The minification is configurable.
+
+Autoloader: %{_datadir}/php/%{packagist_owner}/CssMin/autoload.php
 
 
 %prep
@@ -50,31 +53,63 @@ shorter notation if available. The minification is configurable.
 
 
 %build
-# From composer.json, "autoload": {
- #        "classmap": ["src/"]
- %{_bindir}/phpab --quiet --nolower --output ./autoload.php ./
+: Create autoloader
+%{_bindir}/phpab --template fedora --output src/autoload.php src/
+
+: Legacy symlink
+ln -s . src/src
 
 
 %install
-mkdir -p %{buildroot}%{_datadir}/php/%{packagist_owner}/%{packagist_name}
-cp -pr src/ %{buildroot}%{_datadir}/php/%{packagist_owner}/%{packagist_name}
-cp -p autoload.php %{buildroot}%{_datadir}/php/%{packagist_owner}/%{packagist_name}
+mkdir -p %{buildroot}%{_datadir}/php/%{packagist_owner}
+cp -pr src %{buildroot}%{_datadir}/php/%{packagist_owner}/CssMin
+
+
+# https://docs.fedoraproject.org/en-US/packaging-guidelines/Directory_Replacement/#_working_around_it_with_scriptlets
+%pretrans -p <lua>
+path = "%{_datadir}/php/%{packagist_owner}/CssMin/src"
+st = posix.stat(path)
+if st and st.type == "directory" then
+  status = os.rename(path, path .. ".rpmmoved")
+  if not status then
+    suffix = 0
+    while not status do
+      suffix = suffix + 1
+      status = os.rename(path .. ".rpmmoved", path .. ".rpmmoved." .. suffix)
+    end
+    os.rename(path, path .. ".rpmmoved")
+  end
+end
 
 
 %check
 # Minimal test for our autoloader
 php -r '
-  require "%{buildroot}%{_datadir}/php/%{packagist_owner}/%{packagist_name}/autoload.php";
+  require "%{buildroot}%{_datadir}/php/%{packagist_owner}/CssMin/autoload.php";
   exit(class_exists("CssMin") ? 0 : 1);
 '
 
 
 %files
 %doc README composer.json
-%{_datadir}/php/%{packagist_owner}
+%dir %{_datadir}/php/%{packagist_owner}
+     %{_datadir}/php/%{packagist_owner}/CssMin
+# NOTE: %%attr is required for EPEL6 (dist-6E-epel)
+%ghost %attr(644, root, root) %{_datadir}/php/%{packagist_owner}/CssMin/src.rpmmoved
+%ghost %attr(644, root, root) %{_datadir}/php/%{packagist_owner}/CssMin/src.rpmmoved/CssMin.php
 
 
 %changelog
+* Sun Sep 06 2020 Shawn Iwinski <shawn@iwin.ski> - 3.0.6-5
+- Fix composer provides (php-composer(natxet/cssmin); and still provide previous
+  php-composer(natxet/CssMin))
+- Fix install (remove "src" dir)
+- Use Fedora Autoloader
+- Fix directory ownership
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.6-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -102,7 +137,7 @@ php -r '
 
 * Mon Apr 25 2016 James Hogarth <james.hogarth@gmail.com> - 3.0.4-1
 - new release 3.0.4
-- Add simple classmap autoloader 
+- Add simple classmap autoloader
 
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild

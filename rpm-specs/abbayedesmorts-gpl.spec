@@ -3,7 +3,7 @@
 
 Name:           abbayedesmorts-gpl
 Version:        2.0.1
-Release:        11.20170709git%{?dist}
+Release:        13.20170709git%{?dist}
 Summary:        Platform game set in 13th century
 
 # Graphics and Sounds are licensed under
@@ -69,6 +69,13 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/abbaye.ap
 
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-13.20170709git
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-12.20170709git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-11.20170709git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

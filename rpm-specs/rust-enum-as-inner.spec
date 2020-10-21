@@ -5,7 +5,7 @@
 %global crate enum-as-inner
 
 Name:           rust-%{crate}
-Version:        0.3.2
+Version:        0.3.3
 Release:        1%{?dist}
 Summary:        Proc-macro for deriving inner field accessor functions on enums
 
@@ -71,6 +71,16 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Thu Aug 20 2020 Josh Stone <jistone@redhat.com> - 0.3.3-1
+- Update to 0.3.3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 06 2020 Josh Stone <jistone@redhat.com> - 0.3.2-1
 - Update to 0.3.2
 

@@ -2,8 +2,8 @@
 %global sum Python healpix maps tools
 
 Name:           python-%{srcname}
-Version:        1.12.9
-Release:        6%{?dist}
+Version:        1.14.0
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        GPLv2+ 
@@ -20,7 +20,6 @@ ExcludeArch:    %{ix86} %{arm}
 # Common build requirements
 BuildRequires:  cfitsio-devel
 BuildRequires:  gcc-c++
-BuildRequires:  healpix-c++-devel >= 3.50
 
 # Python 3 build requirements
 BuildRequires:  python3-astropy
@@ -30,6 +29,7 @@ BuildRequires:  python3-matplotlib
 BuildRequires:  python3-pytest
 BuildRequires:  python3-pytest-astropy
 BuildRequires:  python3-pytest-runner
+BuildRequires:  python3-requests
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-six
 
@@ -66,7 +66,7 @@ rm -f %{buildroot}%{_bindir}/healpy_get_wmap_maps.sh
 %check
 # For skipped tests: They require internet access and therefore have to be disabled
 pushd %{buildroot}/%{python3_sitearch}
-py.test-%{python3_version} -k "not (test_astropy_download_file or test_rotate_map_polarization)" healpy
+py.test-%{python3_version} -k "not (test_astropy_download_file or test_rotate_map_polarization or test_pixelweights_local_datapath)" healpy
 # Remove relict from tests
 rm -rf .pytest_cache
 popd
@@ -78,6 +78,15 @@ popd
 %{python3_sitearch}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Christian Dersch <lupinix@fedoraproject.org> - 1.14.0-1
+- new version
+
+* Mon Jul 20 2020 Christian Dersch <lupinix@fedoraproject.org> - 1.13.0-1
+- new version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.12.9-6
 - Rebuilt for Python 3.9
 

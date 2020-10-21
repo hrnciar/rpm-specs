@@ -1,6 +1,6 @@
 Name:           lightning
 Version:        2.1.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Library for generating assembly code on run time
 
 License:        LGPLv3+
@@ -56,6 +56,9 @@ make check V=1 CFLAGS="-g -fno-strict-aliasing -fPIC"
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

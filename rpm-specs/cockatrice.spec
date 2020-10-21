@@ -1,4 +1,4 @@
-%global		gittag0			2020-03-20-Release-2.7.4
+%global		gittag0			2020-08-23-Release-2.7.5
 
 %define			lang_subpkg() \
 %package		langpack-%{1}\
@@ -15,7 +15,7 @@ Supplements:	(%{name} = %{version}-%{release} and langpacks-%{1})\
 %{_datadir}/oracle/translations/oracle_%{1}.qm
 
 Name:		cockatrice
-Version:	2.7.4
+Version:	2.7.5
 Release:	2%{?dist}
 Summary:	A cross-platform virtual tabletop software for multi-player card games
 
@@ -67,9 +67,9 @@ find . -iname "*.cpp" -exec chmod a-x "{}" \;
 %cmake \
 	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
 	-DBUILD_SHARED_LIBS=OFF \
-	-DWITH_SERVER=ON \
-	.
-%{make_build}
+	-DWITH_SERVER=ON
+
+%cmake_build
 
 
 %check
@@ -80,7 +80,8 @@ desktop-file-validate oracle/oracle.desktop
 
 
 %install
-%{make_install}
+%cmake_install
+
 install -m644 -D %{SOURCE1} %{buildroot}%{_datadir}/appdata/%{name}.appdata.xml
 rm %{buildroot}%{_datadir}/cockatrice/themes/Default/.gitignore
 rm %{buildroot}%{_datadir}/%{name}/translations/%{name}_en@pirate.qm
@@ -121,6 +122,19 @@ rm %{buildroot}%{_datadir}/oracle/translations/oracle_en@pirate.qm
 
 
 %changelog
+* Wed Sep 23 2020 Adrian Reber <adrian@lisas.de> - 2.7.5-2
+- Rebuilt for protobuf 3.13
+
+* Mon Sep 21 2020 Link Dupont <linkdupont@fedoraproject.org> - 2.7.5-1
+- New upstream release
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.4-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 2.7.4-2
 - Rebuilt for protobuf 3.12
 

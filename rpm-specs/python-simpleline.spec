@@ -3,14 +3,14 @@
 Name: python-%{srcname}
 Summary: A Python library for creating text UI
 Url: https://github.com/rhinstaller/python-%{srcname}
-Version: 1.6
-Release: 4%{?dist}
+Version: 1.7
+Release: 2%{?dist}
 # This tarball was created from upstream git:
 #   git clone https://github.com/rhinstaller/python-simpleline
 #   cd python-simpleline && make archive
-Source0: https://github.com/rhinstaller/python-%{srcname}/archive/%{srcname}-%{version}.tar.gz
+Source0: https://github.com/rhinstaller/python-%{srcname}/releases/download/%{srcname}-%{version}/%{srcname}-%{version}.tar.gz
 
-License: GPLv2+
+License: LGPLv3+
 BuildArch: noarch
 BuildRequires: python3-devel
 BuildRequires: gettext
@@ -54,11 +54,17 @@ make test
 
 
 %files -n python3-%{srcname} -f python-%{srcname}.lang
-%license COPYING
+%license LICENSE.md
 %doc ChangeLog README.md
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jiri Konecny <jkonecny@redhat.com> - 1.7-1
+- new upstream release: 1.7
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 1.6-4
 - Rebuilt for Python 3.9
 

@@ -3,7 +3,7 @@
 Name:           sunwait
 Summary:        Calculate sunrise, sunset, twilight
 Version:        0.1
-Release:        0.13.%{pkgdate}%{?dist}
+Release:        0.14.%{pkgdate}%{?dist}
 License:        GPLv2+
 URL:            http://www.risacher.org/sunwait/
 Source0:        http://www.risacher.org/sunwait/sunwait-%{pkgdate}.tar.gz
@@ -45,6 +45,9 @@ install -m 755 sunwait ${RPM_BUILD_ROOT}/%{_bindir}
 %{_bindir}/sunwait
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.14.20041208
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.13.20041208
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

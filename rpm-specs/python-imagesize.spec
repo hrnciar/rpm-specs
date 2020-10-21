@@ -4,7 +4,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -60,6 +60,9 @@ py.test-3
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 20 2020 Avram Lubkin <aviso@rockhopper.net> - 1.2.0-1
 - Updated to 1.2.0
 

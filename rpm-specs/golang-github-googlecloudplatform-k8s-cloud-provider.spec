@@ -3,8 +3,8 @@
 
 # https://github.com/GoogleCloudPlatform/k8s-cloud-provider
 %global goipath         github.com/GoogleCloudPlatform/k8s-cloud-provider
-Version:                1.12.0
-%global tag             1.12.0
+Version:                1.13.0
+%global tag             1.13.0
 
 %gometa
 
@@ -16,7 +16,7 @@ Platform.}
 %global godocs          CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Support code for implementing a Kubernetes cloud provider for GCP
 
 # Upstream license specification: Apache-2.0
@@ -28,7 +28,7 @@ BuildRequires:  golang(google.golang.org/api/compute/v0.alpha)
 BuildRequires:  golang(google.golang.org/api/compute/v0.beta)
 BuildRequires:  golang(google.golang.org/api/compute/v1)
 BuildRequires:  golang(google.golang.org/api/googleapi)
-BuildRequires:  golang(k8s.io/klog)
+BuildRequires:  golang(k8s.io/klog/v2)
 
 %if %{with check}
 # Tests
@@ -54,6 +54,12 @@ BuildRequires:  golang(golang.org/x/oauth2/google)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 15:16:17 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.13.0-1
+- Update to 1.13.0
+
 * Sun Apr 12 20:23:24 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.12.0-1
 - Update to 1.12.0
 

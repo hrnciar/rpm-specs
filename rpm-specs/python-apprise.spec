@@ -48,15 +48,15 @@ notification services that are out there. Apprise opens the door and makes
 it easy to access:
 
 Boxcar, ClickSend, Discord, E-Mail, Emby, Faast, Flock, Gitter, Gotify, Growl,
-IFTTT, Join, Kavenegar, KODI, Kumulos, MacOSX, Mailgun, MatterMost, Matrix,
-Microsoft Windows, Microsoft Teams, MessageBird, MSG91, MyAndroid, Nexmo,
-Nextcloud, Notica, Notifico, Office365, Prowl, Pushalot, PushBullet,
-Pushjet, Pushover, PushSafer, Rocket.Chat, SendGrid, SimplePush, Sinch, Slack,
-Super Toasty, Stride, Syslog, Techulus Push, Telegram, Twilio, Twitter, Twist,
-XBMC, XMPP, Webex Teams}
+IFTTT, Join, Kavenegar, KODI, Kumulos, LaMetric, MacOSX, Mailgun, MatterMost,
+Matrix, Microsoft Windows, Microsoft Teams, MessageBird, MSG91, MyAndroid,
+Nexmo, Nextcloud, Notica, Notifico, Office365, PopcornNotify, Prowl, Pushalot,
+PushBullet, Pushjet, Pushover, PushSafer, Rocket.Chat, SendGrid, SimplePush,
+Sinch, Slack, Spontit, SparkPost, Super Toasty, Stride, Syslog, Techulus Push,
+Telegram, Twilio, Twitter, Twist, XBMC, XMPP, Webex Teams}
 
 Name:           python-%{pypi_name}
-Version:        0.8.6
+Version:        0.8.9
 Release:        1%{?dist}
 Summary:        A simple wrapper to many popular notification services used today
 License:        MIT
@@ -82,9 +82,11 @@ BuildRequires: python-six
 BuildRequires: python2-click >= 5.0
 BuildRequires: python-markdown
 %if 0%{?rhel} && 0%{?rhel} <= 7
+BuildRequires: python-cryptography
 BuildRequires: python-babel
 BuildRequires: python-yaml
 %else
+BuildRequires: python2-cryptography
 BuildRequires: python2-babel
 BuildRequires: python2-yaml
 %endif
@@ -138,12 +140,25 @@ BuildRequires: python%{python3_pkgversion}-requests-oauthlib
 BuildRequires: python%{python3_pkgversion}-six
 BuildRequires: python%{python3_pkgversion}-click >= 5.0
 BuildRequires: python%{python3_pkgversion}-markdown
+%if 0%{?rhel} && 0%{?rhel} >= 8
+# gntp isn't available from EPEL for RHEL/CentOS 8
+%else
+# For all other distributions, include gntp
+BuildRequires: python%{python3_pkgversion}-gntp
+%endif
 BuildRequires: python%{python3_pkgversion}-yaml
 BuildRequires: python%{python3_pkgversion}-babel
+BuildRequires: python%{python3_pkgversion}-cryptography
 Requires: python%{python3_pkgversion}-requests
 Requires: python%{python3_pkgversion}-requests-oauthlib
 Requires: python%{python3_pkgversion}-six
 Requires: python%{python3_pkgversion}-markdown
+%if 0%{?rhel} && 0%{?rhel} >= 8
+# gntp isn't available from EPEL for RHEL/CentOS 8
+%else
+# For all other distributions, include gntp
+Requires: python%{python3_pkgversion}-gntp
+%endif
 Requires: python%{python3_pkgversion}-yaml
 
 %if %{with tests}
@@ -160,6 +175,8 @@ BuildRequires: python%{python3_pkgversion}-pytest-runner
 %if 0%{?rhel} && 0%{?rhel} <= 7
 # rhel7 older package work-arounds
 %patch0 -p1
+# rhel7 doesn't like the new asyncio syntax
+rm -f apprise/py3compat/asyncio.py
 %endif
 
 %build
@@ -179,7 +196,7 @@ BuildRequires: python%{python3_pkgversion}-pytest-runner
 %endif
 
 install -p -D -T -m 0644 packaging/man/%{pypi_name}.1 \
-	%{buildroot}%{_mandir}/man1/%{pypi_name}.1
+   %{buildroot}%{_mandir}/man1/%{pypi_name}.1
 
 %if %{with tests}
 %check
@@ -222,6 +239,25 @@ LANG=C.UTF-8 PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version
 %endif
 
 %changelog
+* Sun Oct  4 2020 Chris Caron <lead2gold@gmail.com> - 0.8.9-1
+- Updated to v0.8.9
+
+* Wed Sep  2 2020 Chris Caron <lead2gold@gmail.com> - 0.8.8-1
+- Updated to v0.8.8
+
+* Thu Aug 13 2020 Chris Caron <lead2gold@gmail.com> - 0.8.7-1
+- Updated to v0.8.7
+
+* Mon Aug 03 2020 Chris Caron <lead2gold@gmail.com> - 0.8.6-4
+- Updated SPEC so Fedora 33 Mass Rebuild would pass
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.6-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 13 2020 Chris Caron <lead2gold@gmail.com> - 0.8.6-1
 - Updated to v0.8.6
 

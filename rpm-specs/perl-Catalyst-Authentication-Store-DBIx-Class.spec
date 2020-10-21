@@ -2,7 +2,7 @@
 
 Name:           perl-Catalyst-Authentication-Store-DBIx-Class
 Version:        0.1506
-Release:        14%{?dist}
+Release:        16%{?dist}
 Summary:        A storage class for Catalyst Authentication using DBIx::Class
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Catalyst-Authentication-Store-DBIx-Class
@@ -71,6 +71,12 @@ TEST_POD=1 make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1506-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.1506-15
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1506-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

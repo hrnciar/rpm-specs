@@ -3,7 +3,7 @@
 
 Name:           gdl
 Version:        0.9.9
-Release:        15.20190915git%{shortcommit}%{?dist}
+Release:        20.20190915git%{shortcommit}%{?dist}
 Summary:        GNU Data Language
 
 License:        GPLv2+
@@ -45,7 +45,7 @@ BuildRequires:  shapelib-devel
 BuildRequires:  fftw-devel, hdf-static
 %if 0%{?fedora} || 0%{?rhel} >= 8
 # eccodes not available on these arches
-%ifnarch i686 ppc64 s390x armv7hl
+%ifnarch i686 ppc64 s390x armv7hl aarch64
 BuildRequires:  eccodes-devel
 %else
 BuildRequires:  grib_api-devel
@@ -74,8 +74,11 @@ BuildRequires:  udunits2-devel
 BuildRequires:  wxGTK3-devel
 BuildRequires:  cmake3
 # For tests
+# EL8 s390x missing xorg-x11-drv-dummy
+%ifnarch s390x
 BuildRequires:  xorg-x11-drv-dummy
 BuildRequires:  metacity
+%endif
 # Needed to pull in drivers
 Requires:       plplot
 Requires:       %{name}-common = %{version}-%{release}
@@ -183,10 +186,10 @@ popd
 
 %install
 pushd build
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 popd
 pushd build-python
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 # Install the python module in the right location
 install -d -m 0755 $RPM_BUILD_ROOT/%{python_sitearch}
 %if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
@@ -206,6 +209,7 @@ install -m 0644 %SOURCE1 $RPM_BUILD_ROOT/%{_sysconfdir}/profile.d
 install -m 0644 %SOURCE2 $RPM_BUILD_ROOT/%{_sysconfdir}/profile.d
 
 
+%ifnarch s390x
 %check
 cd build
 cp %SOURCE4 .
@@ -275,6 +279,7 @@ make check VERBOSE=1 ARGS="-V -R '$failing_tests' --timeout 600" || :
 %endif
 kill %1 || :
 cat xorg.log
+%endif
 
 
 %files
@@ -296,6 +301,23 @@ cat xorg.log
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.9-20.20190915git2870075
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.9-19.20190915git2870075
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 0.9.9-18.20190915git2870075
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0.9.9-17.20190915git2870075
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Fri Jun 26 2020 Orion Poplawski <orion@nwra.com> - 0.9.9-16.20190915git2870075
+- Rebuild for hdf5 1.10.6
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.9-15.20190915git2870075
 - Rebuilt for Python 3.9
 

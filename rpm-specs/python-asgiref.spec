@@ -21,7 +21,7 @@ package includes ASGI base libraries, such as:
 
 Name:           python-%{pkgname}
 Version:        3.2.10
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        ASGI specs, helper code, and adapters
 # This is BSD + bundled async-timeout ASL 2.0
 License:        BSD and ASL 2.0
@@ -75,6 +75,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} --verbose t
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Carl George <carl@george.computer> - 3.2.10-1
 - Latest upstream
 

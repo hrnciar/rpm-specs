@@ -1,8 +1,8 @@
 %global driver eqmod
 
 Name:           indi-%{driver}
-Version:        1.8.1
-Release:        2%{?dist}
+Version:        1.8.6
+Release:        1%{?dist}
 Summary:        INDI driver providing support for SkyWatcher Protocol
 
 License:        GPLv3+
@@ -39,20 +39,34 @@ SkyWatcher protocol.
 
 %build
 %cmake
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 
 %files
 %doc AUTHORS COPYING INSTALL README
 %{_bindir}/indi_eqmod_telescope
+%{_bindir}/indi_azgti_telescope
 %{_datadir}/indi/indi_*.xml
 
 
 %changelog
+* Tue Aug 25 2020 Christian Dersch <lupinix@mailbox.org> - 1.8.6-1
+- new version
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.5-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Christian Dersch <lupinix@fedoraproject.org> - 1.8.5-1
+- new version
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

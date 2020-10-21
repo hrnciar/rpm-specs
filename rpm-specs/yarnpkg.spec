@@ -11,8 +11,8 @@
 %global __requires_exclude_from ^%{nodejs_sitelib}/yarn/.*$
 
 Name:           yarnpkg
-Version:        1.22.4
-Release:        2%{?dist}
+Version:        1.22.10
+Release:        1%{?dist}
 Summary:        Fast, reliable, and secure dependency management.
 URL:            https://github.com/yarnpkg/yarn
 # we need tarball with node_modules
@@ -79,6 +79,14 @@ if [[ $(%{buildroot}%{_bindir}/%{fc_name} --version) == %{version} ]] ; then ech
 %{nodejs_sitelib}/%{npm_name}
 
 %changelog
+* Fri Oct 09 2020 zsvetlik@redhat.com - 1.22.10-1
+- Update to 1.22.10
+- Resolves: RHBZ#1816262, RHBZ#1851876
+- Long resolved CVEs, just not mentioned in changelog
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.22.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Neal Gompa <ngompa13@gmail.com> - 1.22.4-2
 - Ensure Obsoletes + Provides stanza takes effect
 - Fix broken author identity in changelog entries

@@ -1,6 +1,7 @@
+%global __cmake_in_source_build 1
 Name:           scantailor
 Version:        0.9.11.1
-Release:        26%{?dist}
+Release:        29%{?dist}
 Summary:        An interactive post-processing tool for scanned pages
 
 License:        GPLv3+ or LGPLv2.1
@@ -43,7 +44,6 @@ project.
 %patch3 -p1 -b .f30-buildfaulures
 
 %build
-export CXXFLAGS="-std=c++11 $RPM_OPT_FLAGS"
 %cmake . -DEXTRA_LIBS=Xrender -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo -DCMAKE_INSTALL_PREFIX="/usr" 
 make %{?_smp_mflags}
 mv resources/icons/COPYING resources/icons/COPYING-icons
@@ -68,6 +68,17 @@ make tests
 %{_datadir}/icons/hicolor/scalable/apps/scantailor.svg
 
 %changelog
+* Wed Aug 26 2020 Jeff Law <law@redhat.com> - 0.9.11.1-29
+- Do not force C++11 mode
+- Adjust for F33 cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.11.1-28
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.11.1-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.11.1-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

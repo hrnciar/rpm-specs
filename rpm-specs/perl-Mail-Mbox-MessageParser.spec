@@ -1,7 +1,7 @@
 Summary:	A fast and simple mbox folder reader
 Name:		perl-Mail-Mbox-MessageParser
 Version:	1.5111
-Release:	8%{?dist}
+Release:	9%{?dist}
 License:	GPLv2
 URL:		https://metacpan.org/release/Mail-Mbox-MessageParser
 Source0:	https://cpan.metacpan.org/modules/by-module/Mail/Mail-Mbox-MessageParser-%{version}.tar.gz
@@ -111,6 +111,9 @@ make test
 %{_mandir}/man3/Mail::Mbox::MessageParser::Perl.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5111-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.5111-8
 - Perl 5.32 rebuild
 

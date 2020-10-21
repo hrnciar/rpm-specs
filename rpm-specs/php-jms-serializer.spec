@@ -1,7 +1,7 @@
 #
 # Fedora spec file for php-jms-serializer
 #
-# Copyright (c) 2017 Shawn Iwinski <shawn@iwin.ski>
+# Copyright (c) 2017-2020 Shawn Iwinski <shawn@iwin.ski>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -11,13 +11,20 @@
 
 %global github_owner     schmittjoh
 %global github_name      serializer
-%global github_version   1.10.0
-%global github_commit    62c7ff6d61f8692eac8be024c542b3d9d0ab8c8a
+%global github_version   1.14.1
+%global github_commit    ba908d278fff27ec01fb4349f372634ffcd697c0
 
 %global composer_vendor  jms
 %global composer_project serializer
 
-# "php": ">=5.5.0"
+# Deprecate Symfony 2 on Fedora 32+ and EPEL 8+
+%if 0%{?fedora} >= 32 || 0%{?rhel} >= 8
+%global with_symfony2 0
+%else
+%global with_symfony2 1
+%endif
+
+# "php": "^5.5|^7.0"
 %global php_min_ver 5.5.0
 # "doctrine/annotations": "^1.0"
 #     NOTE: Min version not 1.0 because autoloader required
@@ -30,8 +37,8 @@
 #     NOTE: Min version not 2.1 because autoloader required
 %global doctrine_orm_min_ver 2.4.8
 %global doctrine_orm_max_ver 3.0
-# "jms/metadata": "~1.1"
-#     NOTE: Min version not 1.1 because autoloader required
+# "jms/metadata": "^1.3"
+#     NOTE: Min version not 1.3 because autoloader required
 %global jms_metadata_min_ver 1.6.0
 %global jms_metadata_max_ver 2.0
 # "jms/parser-lib": "1.*"
@@ -56,13 +63,18 @@
 # "symfony/translation": "^2.1|^3.0"
 # "symfony/validator": "^2.2|^3.0"
 # "symfony/yaml": "^2.1|^3.0"
+%if %{with_symfony2}
 #     NOTE: Min version not 2.6 because autoloader required
 %global symfony_min_ver 2.7.1
+%else
+%global symfony_min_ver 3.3
+%endif
 %global symfony_max_ver 4.0
+
 # "twig/twig": "~1.12|~2.0"
 #     NOTE: Min version not 1.12 because autoloader required
 %global twig_min_ver 1.18.2
-%if 0%{?fedora} >= 25
+%if 0%{?fedora} >= 25 || 0%{?rhel} >= 8
 %global twig_max_ver 3.0
 %else
 %global twig_max_ver 2.0
@@ -71,14 +83,28 @@
 # Build using "--without tests" to disable tests
 %global with_tests 0%{!?_without_tests:1}
 
+# Range dependencies supported?
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+%global with_range_dependencies 1
+%else
+%global with_range_dependencies 0
+%endif
+
+# Weak dependencies supported?
+%if 0%{?fedora} >= 21 || 0%{?rhel} >= 8
+%global with_weak_dependencies 1
+%else
+%global with_weak_dependencies 0
+%endif
+
 %{!?phpdir:  %global phpdir  %{_datadir}/php}
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       6%{?github_release}%{?dist}
+Release:       3%{?github_release}%{?dist}
 Summary:       Library for (de-)serializing data of any complexity
 
-License:       ASL 2.0
+License:       MIT
 URL:           http://jmsyst.com/libs/serializer
 
 # GitHub export contains non-allowable licened documentation.
@@ -92,6 +118,25 @@ BuildArch:     noarch
 BuildRequires: php-cli
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
+BuildRequires: php-composer(phpunit/phpunit)
+%if %{with_range_dependencies}
+BuildRequires: (php-composer(doctrine/annotations) >= %{doctrine_annotations_min_ver} with php-composer(doctrine/annotations) < %{doctrine_annotations_max_ver})
+BuildRequires: (php-composer(doctrine/instantiator) >= %{doctrine_instantiator_min_ver} with php-composer(doctrine/instantiator) < %{doctrine_instantiator_max_ver})
+BuildRequires: (php-composer(doctrine/orm) >= %{doctrine_orm_min_ver} with php-composer(doctrine/orm) < %{doctrine_orm_max_ver})
+BuildRequires: (php-composer(jms/metadata) >= %{jms_metadata_min_ver} with php-composer(jms/metadata) < %{jms_metadata_max_ver})
+BuildRequires: (php-JMSParser >= %{jms_parser_lib_min_ver} with php-composer(jms/parser-lib) < %{jms_parser_lib_max_ver})
+BuildRequires: (php-composer(phpcollection/phpcollection) >= %{phpcollection_min_ver} with php-composer(phpcollection/phpcollection) < %{phpcollection_max_ver})
+BuildRequires: (php-composer(phpoption/phpoption) >= %{phpoption_min_ver} with php-composer(phpoption/phpoption) < %{phpoption_max_ver})
+BuildRequires: (php-composer(psr/container) >= %{psr_container_min_ver} with php-composer(psr/container) < %{psr_container_max_ver})
+BuildRequires: (php-composer(symfony/dependency-injection) >= %{symfony_min_ver} with php-composer(symfony/dependency-injection) < %{symfony_max_ver})
+BuildRequires: (php-composer(symfony/expression-language) >= %{symfony_min_ver} with php-composer(symfony/expression-language) < %{symfony_max_ver})
+BuildRequires: (php-composer(symfony/filesystem) >= %{symfony_min_ver} with php-composer(symfony/filesystem) < %{symfony_max_ver})
+BuildRequires: (php-composer(symfony/form) >= %{symfony_min_ver} with php-composer(symfony/form) < %{symfony_max_ver})
+BuildRequires: (php-composer(symfony/translation) >= %{symfony_min_ver} with php-composer(symfony/translation) < %{symfony_max_ver})
+BuildRequires: (php-composer(symfony/validator) >= %{symfony_min_ver} with php-composer(symfony/validator) < %{symfony_max_ver})
+BuildRequires: (php-composer(symfony/yaml) >= %{symfony_min_ver} with php-composer(symfony/yaml) < %{symfony_max_ver})
+BuildRequires: (php-composer(twig/twig) >= %{twig_min_ver} with php-composer(twig/twig) < %{twig_max_ver})
+%else
 BuildRequires: php-composer(doctrine/annotations) <  %{doctrine_annotations_max_ver}
 BuildRequires: php-composer(doctrine/annotations) >= %{doctrine_annotations_min_ver}
 BuildRequires: php-composer(doctrine/instantiator) <  %{doctrine_instantiator_max_ver}
@@ -107,7 +152,6 @@ BuildRequires: php-composer(phpcollection/phpcollection) <  %{phpcollection_max_
 BuildRequires: php-composer(phpcollection/phpcollection) >= %{phpcollection_min_ver}
 BuildRequires: php-composer(phpoption/phpoption) <  %{phpoption_max_ver}
 BuildRequires: php-composer(phpoption/phpoption) >= %{phpoption_min_ver}
-BuildRequires: php-composer(phpunit/phpunit)
 BuildRequires: php-composer(psr/container) <  %{psr_container_max_ver}
 BuildRequires: php-composer(psr/container) >= %{psr_container_min_ver}
 BuildRequires: php-composer(symfony/dependency-injection) <  %{symfony_max_ver}
@@ -126,7 +170,10 @@ BuildRequires: php-composer(symfony/yaml) <  %{symfony_max_ver}
 BuildRequires: php-composer(symfony/yaml) >= %{symfony_min_ver}
 BuildRequires: php-composer(twig/twig) <  %{twig_max_ver}
 BuildRequires: php-composer(twig/twig) >= %{twig_min_ver}
-## phpcompatinfo (computed from version 1.7.1)
+%endif
+## phpcompatinfo (computed from version 1.14.1)
+BuildRequires: php-composer(doctrine/cache) < 2
+BuildRequires: php-composer(doctrine/persistence) < 2
 BuildRequires: php-date
 BuildRequires: php-dom
 BuildRequires: php-json
@@ -141,6 +188,14 @@ BuildRequires: php-composer(fedora/autoloader)
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
+%if %{with_range_dependencies}
+Requires:      (php-composer(doctrine/annotations) >= %{doctrine_annotations_min_ver} with php-composer(doctrine/annotations) < %{doctrine_annotations_max_ver})
+Requires:      (php-composer(doctrine/instantiator) >= %{doctrine_instantiator_min_ver} with php-composer(doctrine/instantiator) < %{doctrine_instantiator_max_ver})
+Requires:      (php-composer(jms/metadata) >= %{jms_metadata_min_ver} with php-composer(jms/metadata) < %{jms_metadata_max_ver})
+Requires:      (php-JMSParser >= %{jms_parser_lib_min_ver} with php-composer(jms/parser-lib) < %{jms_parser_lib_max_ver})
+Requires:      (php-composer(phpcollection/phpcollection) >= %{phpcollection_min_ver} with php-composer(phpcollection/phpcollection) < %{phpcollection_max_ver})
+Requires:      (php-composer(phpoption/phpoption) >= %{phpoption_min_ver} with php-composer(phpoption/phpoption) < %{phpoption_max_ver})
+%else
 Requires:      php-composer(doctrine/annotations) <  %{doctrine_annotations_max_ver}
 Requires:      php-composer(doctrine/annotations) >= %{doctrine_annotations_min_ver}
 Requires:      php-composer(doctrine/instantiator) <  %{doctrine_instantiator_max_ver}
@@ -154,7 +209,9 @@ Requires:      php-composer(phpcollection/phpcollection) <  %{phpcollection_max_
 Requires:      php-composer(phpcollection/phpcollection) >= %{phpcollection_min_ver}
 Requires:      php-composer(phpoption/phpoption) <  %{phpoption_max_ver}
 Requires:      php-composer(phpoption/phpoption) >= %{phpoption_min_ver}
-# phpcompatinfo (computed from version 1.7.1)
+%endif
+# phpcompatinfo (computed from version 1.14.1)
+Requires:      php-composer(doctrine/common) < 3
 Requires:      php-date
 Requires:      php-dom
 Requires:      php-json
@@ -165,11 +222,11 @@ Requires:      php-spl
 # Autoloader
 Requires:      php-composer(fedora/autoloader)
 
-%if 0%{?fedora}
+%if %{with_weak_dependencies}
 # Weak dependencies
 Suggests:      php-composer(symfony/yaml)
 Suggests:      php-composer(doctrine/collections)
-Suggests:      php-composer(cache)
+Suggests:      php-composer(doctrine/cache)
 %endif
 
 # Composer
@@ -218,6 +275,10 @@ require_once '%{phpdir}/Fedora/Autoloader/autoload.php';
 
 \Fedora\Autoloader\Dependencies::required([
     '%{phpdir}/Doctrine/Common/Annotations/autoload.php',
+    [
+        '%{phpdir}/Doctrine/Common/Persistence/autoload.php',
+        '%{phpdir}/Doctrine/Common/autoload.php',
+    ],
     '%{phpdir}/Doctrine/Instantiator/autoload.php',
     '%{phpdir}/JMS/Parser/autoload.php',
     '%{phpdir}/Metadata/autoload.php',
@@ -228,10 +289,14 @@ require_once '%{phpdir}/Fedora/Autoloader/autoload.php';
 \Fedora\Autoloader\Dependencies::optional([
     '%{phpdir}/Doctrine/Common/Cache/autoload.php',
     '%{phpdir}/Doctrine/Common/Collections/autoload.php',
+%if %{with_symfony2}
     [
         '%{phpdir}/Symfony3/Component/Yaml/autoload.php',
         '%{phpdir}/Symfony/Component/Yaml/autoload.php',
     ],
+%else
+    '%{phpdir}/Symfony3/Component/Yaml/autoload.php',
+%endif
 ]);
 AUTOLOAD
 
@@ -253,6 +318,7 @@ require '%{buildroot}%{phpdir}/JMS/Serializer/autoload.php';
 \Fedora\Autoloader\Dependencies::required([
     '%{phpdir}/Doctrine/ORM/autoload.php',
     '%{phpdir}/Psr/Container/autoload.php',
+%if %{with_symfony2}
     [
         '%{phpdir}/Symfony3/Component/DependencyInjection/autoload.php',
         '%{phpdir}/Symfony/Component/DependencyInjection/autoload.php',
@@ -277,6 +343,14 @@ require '%{buildroot}%{phpdir}/JMS/Serializer/autoload.php';
         '%{phpdir}/Symfony3/Component/Validator/autoload.php',
         '%{phpdir}/Symfony/Component/Validator/autoload.php',
     ],
+%else
+    '%{phpdir}/Symfony3/Component/DependencyInjection/autoload.php',
+    '%{phpdir}/Symfony3/Component/ExpressionLanguage/autoload.php',
+    '%{phpdir}/Symfony3/Component/Filesystem/autoload.php',
+    '%{phpdir}/Symfony3/Component/Form/autoload.php',
+    '%{phpdir}/Symfony3/Component/Translation/autoload.php',
+    '%{phpdir}/Symfony3/Component/Validator/autoload.php',
+%endif
     (PHP_VERSION_ID < 70000)
         ? '%{phpdir}/Twig/autoload.php'
         : [
@@ -296,7 +370,7 @@ sed 's/function testInlineArray/function SKIP_testInlineArray/' \
 : Upstream tests
 RETURN_CODE=0
 PHPUNIT=$(which phpunit)
-for PHP_EXEC in php php56 php70 php71 php72; do
+for PHP_EXEC in php php56 php70 php71 php72 php73 php74; do
     if [ "php" = "$PHP_EXEC" ] || which $PHP_EXEC; then
         if [ $($PHP_EXEC -r 'echo PHP_VERSION_ID;') -lt 70200 ]; then
             sed \
@@ -323,6 +397,26 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Aug 18 2020 Shawn Iwinski <shawn@iwin.ski> - 1.14.1-3
+- Bumping release to ensure all changes are built
+
+* Tue Aug 18 2020 Remi Collet <remi@remirepo.net> - 1.14.1-2
+- Update to 1.14.1 (previous update failed to change commit hash so 1.10.0 was built)
+- Change license from ASL 2.0 to MIT
+
+* Tue Aug 18 2020 Shawn Iwinski <shawn@iwin.ski> - 1.14.1-1
+- Update to 1.14.1
+- Fix FTBFS (RHBZ #1865219)
+- Conditionally use range dependencies
+- Conditionally drop Symfony 2 interoperability
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

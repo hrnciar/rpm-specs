@@ -14,11 +14,19 @@
 
 Summary: Generic library for reporting various problems
 Name: libreport
-Version: 2.13.1
-Release: 2%{?dist}
+Version: 2.14.0
+Release: 11%{?dist}
 License: GPLv2+
 URL: https://abrt.readthedocs.org/
 Source: https://github.com/abrt/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
+
+Patch0: 0001-gui-wizard-gtk-wizard-Remove-variable.patch
+Patch1: 0002-gui-wizard-gtk-wizard-Fix-invalid-memory-read.patch
+Patch2: 0003-gui-wizard-gtk-Fix-a-double-free-condition.patch
+Patch3: 0004-gui-wizard-gtk-Fix-a-segfault-and-memory-leak.patch
+Patch4: 0005-gui-wizard-gtk-Fix-segfault.patch
+Patch5: 0006-event_config-Null-autofree-pointers-before-returning.patch
+Patch6: 0007-gui-wizard-gtk-Don-t-autofree-URL-string.patch
 
 BuildRequires: %{dbus_devel}
 BuildRequires: gtk3-devel
@@ -52,19 +60,21 @@ BuildRequires: doxygen
 BuildRequires: systemd-devel
 BuildRequires: augeas-devel
 BuildRequires: augeas
-BuildRequires: xz
-BuildRequires: lz4
+BuildRequires: libarchive-devel
 Requires: libreport-filesystem = %{version}-%{release}
-Requires: satyr >= 0.24
-Requires: glib2 >= %{glib_ver}
-Requires: xz
-Requires: lz4
-Requires: nettle
+Requires: satyr%{?_isa} >= 0.24
+Requires: glib2%{?_isa} >= %{glib_ver}
+Requires: libarchive%{?_isa}
+Requires: nettle%{?_isa}
 
 # Required for the temporary modularity hack, see below
 %if 0%{?_module_build}
 BuildRequires: sed
 %endif
+
+Obsoletes: %{name}-compat < 2.13.2
+Obsoletes: %{name}-plugin-rhtsupport < 2.13.2
+Obsoletes: %{name}-rhel < 2.13.2
 
 %description
 Libraries providing API for reporting different problems in applications
@@ -217,31 +227,12 @@ Summary: %{name}'s micro report plugin
 BuildRequires: %{libjson_devel}
 Requires: %{name} = %{version}-%{release}
 Requires: libreport-web = %{version}-%{release}
-%if 0%{?rhel}
+%if 0%{?rhel} && ! 0%{?eln}
 Requires: python3-subscription-manager-rhsm
 %endif
 
 %description plugin-ureport
 Uploads micro-report to abrt server
-
-%package plugin-rhtsupport
-Summary: %{name}'s RHTSupport plugin
-Requires: %{name} = %{version}-%{release}
-Requires: libreport-web = %{version}-%{release}
-
-%description plugin-rhtsupport
-Plugin to report bugs into RH support system.
-
-%if %{with bugzilla}
-%package compat
-Summary: %{name}'s compat layer for obsoleted 'report' package
-Requires: libreport = %{version}-%{release}
-Requires: %{name}-plugin-bugzilla = %{version}-%{release}
-Requires: %{name}-plugin-rhtsupport = %{version}-%{release}
-
-%description compat
-Provides 'report' command-line tool.
-%endif
 
 %package plugin-reportuploader
 Summary: %{name}'s reportuploader plugin
@@ -251,7 +242,7 @@ Requires: libreport-web = %{version}-%{release}
 %description plugin-reportuploader
 Plugin to report bugs into anonymous FTP site associated with ticketing system.
 
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?eln}
 %package fedora
 Summary: Default configuration for reporting bugs via Fedora infrastructure
 Requires: %{name} = %{version}-%{release}
@@ -262,17 +253,7 @@ used to easily configure the reporting process for Fedora systems. Just
 install this package and you're done.
 %endif
 
-%if 0%{?rhel}
-%package rhel
-Summary: Default configuration for reporting bugs via Red Hat infrastructure
-Requires: %{name} = %{version}-%{release}
-Requires: %{name}-plugin-ureport
-
-%description rhel
-Default configuration for reporting bugs via Red Hat infrastructure
-used to easily configure the reporting process for Red Hat systems. Just
-install this package and you're done.
-
+%if 0%{?rhel} && ! 0%{?eln}
 %package rhel-bugzilla
 Summary: Default configuration for reporting bugs to Red Hat Bugzilla
 Requires: %{name} = %{version}-%{release}
@@ -300,9 +281,7 @@ package and you're done.
 Summary: Default configuration for reporting anaconda bugs
 Requires: %{name} = %{version}-%{release}
 Requires: libreport-plugin-reportuploader = %{version}-%{release}
-%if 0%{?rhel}
-Requires: libreport-plugin-rhtsupport = %{version}-%{release}
-%else
+%if ! 0%{?rhel} || 0%{?eln}
 Requires: libreport-plugin-bugzilla = %{version}-%{release}
 %endif
 
@@ -320,9 +299,6 @@ autoconf
 %configure \
 %if %{without bugzilla}
         --without-bugzilla \
-%endif
-%if 0%{?rhel}
-        --enable-import-rhtsupport-cert \
 %endif
         --enable-doxygen-docs \
         --disable-silent-rules
@@ -358,7 +334,7 @@ mkdir -p %{buildroot}/%{_datadir}/%{name}/workflows/
 rm -f %{buildroot}/%{_infodir}/dir
 
 # Remove unwanted Fedora specific workflow configuration files
-%if 0%{!?fedora:1}
+%if ! 0%{?fedora} && ! 0%{?eln}
 rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_FedoraCCpp.xml
 rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_FedoraKerneloops.xml
 rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_FedoraPython.xml
@@ -374,17 +350,8 @@ rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_AnacondaFedora.xml
 %endif
 
 # Remove unwanted RHEL specific workflow configuration files
-%if 0%{!?rhel:1}
-rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_RHELCCpp.xml
-rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_RHELKerneloops.xml
-rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_RHELPython.xml
-rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_RHELvmcore.xml
-rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_RHELxorg.xml
-rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_RHELLibreport.xml
-rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_RHELJava.xml
-rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_RHELJavaScript.xml
+%if ! 0%{?rhel} || 0%{?eln}
 rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_uReport.xml
-rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_AnacondaRHEL.xml
 rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_AnacondaRHELBugzilla.xml
 rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_RHELBugzillaCCpp.xml
 rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_RHELBugzillaKerneloops.xml
@@ -402,11 +369,8 @@ rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_RHELAddDataxorg.xml
 rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_RHELAddDataLibreport.xml
 rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_RHELAddDataJava.xml
 rm -f %{buildroot}/%{_datadir}/libreport/workflows/workflow_RHELAddDataJavaScript.xml
-rm -f %{buildroot}/%{_sysconfdir}/libreport/workflows.d/report_rhel.conf
-rm -f %{buildroot}/%{_sysconfdir}/libreport/workflows.d/report_rhel_add_data.conf
 rm -f %{buildroot}/%{_sysconfdir}/libreport/workflows.d/report_uReport.conf
 rm -f %{buildroot}/%{_sysconfdir}/libreport/workflows.d/report_rhel_bugzilla.conf
-rm -f %{buildroot}%{_mandir}/man5/report_rhel.conf.5
 rm -f %{buildroot}%{_mandir}/man5/report_uReport.conf.5
 rm -f %{buildroot}%{_mandir}/man5/report_rhel_bugzilla.conf.5
 %endif
@@ -569,7 +533,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_mandir}/man1/reporter-ureport.1.gz
 %{_mandir}/man5/ureport.conf.5.gz
 %{_datadir}/%{name}/events/report_uReport.xml
-%if 0%{?rhel}
+%if 0%{?rhel} && ! 0%{?eln}
 %config(noreplace) %{_sysconfdir}/libreport/workflows.d/report_uReport.conf
 %{_datadir}/%{name}/workflows/workflow_uReport.xml
 %{_mandir}/man5/report_uReport.conf.5.*
@@ -635,26 +599,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %config(noreplace) %{_sysconfdir}/libreport/events.d/centos_report_event.conf
 %{_mandir}/man5/centos_report_event.conf.5.gz
 
-%files plugin-rhtsupport
-%config(noreplace) %{_sysconfdir}/libreport/plugins/rhtsupport.conf
-%{_datadir}/%{name}/conf.d/plugins/rhtsupport.conf
-%{_datadir}/%{name}/events/report_RHTSupport.xml
-%{_datadir}/%{name}/events/report_RHTSupport_AddData.xml
-%if 0%{?rhel}
-%attr(600,root,root)%{_sysconfdir}/%{name}/cert-api.access.redhat.com.pem
-%endif
-%config(noreplace) %{_sysconfdir}/libreport/events.d/rhtsupport_event.conf
-%{_mandir}/man1/reporter-rhtsupport.1.gz
-%{_mandir}/man5/rhtsupport.conf.5.*
-%{_mandir}/man5/rhtsupport_event.conf.5.*
-%{_bindir}/reporter-rhtsupport
-
-%if %{with bugzilla}
-%files compat
-%{_bindir}/report
-%{_mandir}/man1/report.1.gz
-%endif
-
 %files plugin-reportuploader
 %{_mandir}/man*/reporter-upload.*
 %{_mandir}/man5/uploader_event.conf.5.*
@@ -671,7 +615,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %config(noreplace) %{_sysconfdir}/libreport/events/report_Uploader.conf
 %{_mandir}/man5/report_Uploader.conf.5.*
 
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?eln}
 %files fedora
 %{_datadir}/%{name}/workflows/workflow_FedoraCCpp.xml
 %{_datadir}/%{name}/workflows/workflow_FedoraKerneloops.xml
@@ -686,28 +630,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_mandir}/man5/report_fedora.conf.5.*
 %endif
 
-%if 0%{?rhel}
-%files rhel
-%{_datadir}/%{name}/workflows/workflow_RHELCCpp.xml
-%{_datadir}/%{name}/workflows/workflow_RHELKerneloops.xml
-%{_datadir}/%{name}/workflows/workflow_RHELPython.xml
-%{_datadir}/%{name}/workflows/workflow_RHELvmcore.xml
-%{_datadir}/%{name}/workflows/workflow_RHELxorg.xml
-%{_datadir}/%{name}/workflows/workflow_RHELLibreport.xml
-%{_datadir}/%{name}/workflows/workflow_RHELJava.xml
-%{_datadir}/%{name}/workflows/workflow_RHELJavaScript.xml
-%{_datadir}/%{name}/workflows/workflow_RHELAddDataCCpp.xml
-%{_datadir}/%{name}/workflows/workflow_RHELAddDataJava.xml
-%{_datadir}/%{name}/workflows/workflow_RHELAddDataKerneloops.xml
-%{_datadir}/%{name}/workflows/workflow_RHELAddDataLibreport.xml
-%{_datadir}/%{name}/workflows/workflow_RHELAddDataPython.xml
-%{_datadir}/%{name}/workflows/workflow_RHELAddDatavmcore.xml
-%{_datadir}/%{name}/workflows/workflow_RHELAddDataxorg.xml
-%{_datadir}/%{name}/workflows/workflow_RHELAddDataJavaScript.xml
-%config(noreplace) %{_sysconfdir}/libreport/workflows.d/report_rhel.conf
-%config(noreplace) %{_sysconfdir}/libreport/workflows.d/report_rhel_add_data.conf
-%{_mandir}/man5/report_rhel.conf.5.*
-
+%if 0%{?rhel} && ! 0%{?eln}
 %files rhel-bugzilla
 %{_datadir}/%{name}/workflows/workflow_RHELBugzillaCCpp.xml
 %{_datadir}/%{name}/workflows/workflow_RHELBugzillaKerneloops.xml
@@ -726,10 +649,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %if %{with bugzilla}
 %files anaconda
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?eln}
 %{_datadir}/%{name}/workflows/workflow_AnacondaFedora.xml
 %endif
-%if 0%{?rhel}
+%if 0%{?rhel} && ! 0%{?eln}
 %{_datadir}/%{name}/workflows/workflow_AnacondaRHEL.xml
 %endif
 %{_datadir}/%{name}/workflows/workflow_AnacondaUpload.xml
@@ -744,6 +667,52 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %endif
 
 %changelog
+* Fri Oct 09 2020 Matěj Grabovský <mgrabovs@redhat.com> - 2.14.0-11
+- Add fix for https://bugzilla.redhat.com/show_bug.cgi?id=1882328
+
+* Tue Sep 29 2020 Matěj Grabovský <mgrabovs@redhat.com> - 2.14.0-10
+- Add fix for https://bugzilla.redhat.com/show_bug.cgi?id=1883337
+- Add fix for https://bugzilla.redhat.com/show_bug.cgi?id=1883410
+
+* Sun Sep 27 2020 Matěj Grabovský <mgrabovs@redhat.com> - 2.14.0-9
+- Add upstream fixes for memory management
+
+* Sun Sep 27 2020 Matěj Grabovský <mgrabovs@redhat.com> - 2.14.0-8
+- Add fix for https://bugzilla.redhat.com/show_bug.cgi?id=1882950
+
+* Fri Sep 25 2020 Matěj Grabovský <mgrabovs@redhat.com> - 2.14.0-7
+- Add fix for https://bugzilla.redhat.com/show_bug.cgi?id=1882319
+
+* Wed Aug 19 2020 Merlin Mathesius <mmathesi@redhat.com> - 2.14.0-6
+- Updates so ELN builds in a Fedora-like reporting configuration, even though
+  the %%{rhel} macro is set.
+
+* Thu Aug 13 2020 Michal Fabik <mfabik@redhat.com> 2.14.0-3
+- forbidden_words: Add potentially sensitive env vars
+- lib: Add version script for libreport
+- lib: compress: Use libarchive
+- Replace various utility functions with stock GLib ones
+- gtk,lib: Update symbol list
+- dd: Update dd_get_owner to handle error return values
+- dirsize: Don't pick .lock'd dirs for deletion
+- setgid instead of setuid the abrt-action-install-debuginfo-to-abrt-cache
+- Various coding style improvements
+- Various memory management fixes
+- lib: Check for errors when opening files
+- gtk-helpers: Check return value
+- doc: Exclude more files with --without-bugzilla
+- lib: Don’t use external executables for decompression
+- lib: Decommission libreport_list_free_with_free
+- Drop Red Hat Customer Portal reporter
+- ureport: Drop Strata integration
+- lib: Remove creates-items tag parsing in event definitions
+
+* Fri Aug 07 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2.13.1-4
+- Bump to fix upgrade path
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.13.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 2.13.1-2
 - Rebuilt for Python 3.9
 

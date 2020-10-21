@@ -1,6 +1,6 @@
 Name:           ifm
 Version:        5.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Interactive Fiction Mapper
 
 License:        GPLv2+
@@ -60,6 +60,9 @@ install -p -D -m 0755 contrib/rec2scr.pl %{buildroot}%{_bindir}/%{name}-rec2scr.
 %{vimfiles_root}/syntax/%{name}.vim
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 5.4-1
 - "New" upstream release (from 2009)
 - Add flex as build-req (due to patched .l file)

@@ -9,7 +9,7 @@
 
 Name:           webextension-token-signing
 Version:        1.1.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Chrome and Firefox extension for signing with your eID on the web
 License:        LGPLv2+
 URL:            https://github.com/open-eid/chrome-token-signing
@@ -80,6 +80,9 @@ cp $RPM_BUILD_ROOT/etc/opt/chrome/native-messaging-hosts/ee.ria.esteid.json $RPM
 %license LICENSE.LGPL
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Dmitri Smirnov <dmitri@smirnov.ee> - 1.1.2-1
 - Upstream release 1.1.2
 

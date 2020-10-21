@@ -7,7 +7,7 @@
 # https://github.com/kubernetes/kube-openapi
 %global goipath         k8s.io/kube-openapi
 %global forgeurl        https://github.com/kubernetes/kube-openapi
-%global commit          656914f816f9f6bcb37ec2b40cb7c16fd9084d4c
+%global commit          64514a1d5d596b96e6f957e2be275ae14d6b0804
 
 %gometa
 
@@ -19,7 +19,7 @@ Kubernetes OpenAPI spec generation & serving.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.7%{?dist}
+Release:        0.10%{?dist}
 Summary:        Kubernetes OpenAPI spec generation & serving
 
 # Upstream license specification: Apache-2.0
@@ -31,8 +31,8 @@ BuildRequires:  golang(bitbucket.org/ww/goautoneg)
 BuildRequires:  golang(github.com/emicklei/go-restful)
 BuildRequires:  golang(github.com/go-openapi/spec)
 BuildRequires:  golang(github.com/golang/protobuf/proto)
-BuildRequires:  golang(github.com/googleapis/gnostic/compiler)
-BuildRequires:  golang(github.com/googleapis/gnostic/openapiv2)
+BuildRequires:  golang(github.com/googleapis/gnostic-0.4/compiler)
+BuildRequires:  golang(github.com/googleapis/gnostic-0.4/openapiv2)
 BuildRequires:  golang(github.com/json-iterator/go)
 BuildRequires:  golang(github.com/NYTimes/gziphandler)
 BuildRequires:  golang(github.com/spf13/pflag)
@@ -42,8 +42,8 @@ BuildRequires:  golang(k8s.io/gengo/args)
 BuildRequires:  golang(k8s.io/gengo/generator)
 BuildRequires:  golang(k8s.io/gengo/namer)
 BuildRequires:  golang(k8s.io/gengo/types)
-BuildRequires:  golang(k8s.io/klog)
-BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/schema)
+BuildRequires:  golang(k8s.io/klog/v2)
+BuildRequires:  golang(sigs.k8s.io/structured-merge-diff/v4/schema)
 
 %if %{with check}
 # Tests
@@ -67,8 +67,7 @@ BuildRequires:  golang(sigs.k8s.io/yaml)
 %prep
 %goprep
 sed -i "s|github.com/munnerz/goautoneg|bitbucket.org/ww/goautoneg|" $(find . -name "*.go")
-sed -i "s|sigs.k8s.io/structured-merge-diff/v3|sigs.k8s.io/structured-merge-diff|" $(find . -name "*.go")
-sed -i "s|k8s.io/klog/v2|k8s.io/klog|" $(find . -name "*.go")
+sed -i 's|github.com/googleapis/gnostic|github.com/googleapis/gnostic-0.4|' $(find . -iname "*.go" -type f)
 
 %build
 for cmd in cmd/* ; do
@@ -82,7 +81,7 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
-%gocheck
+%gocheck -d pkg/aggregator -d pkg/handler
 %endif
 
 %files
@@ -93,6 +92,15 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Sat Sep 19 20:13:36 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.1.20200919git64514a1
+- Bump to commit 64514a1d5d596b96e6f957e2be275ae14d6b0804
+
+* Tue Aug 18 01:21:32 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.9.20200614git656914f
+- Add patch to fix compatibility with latest gnostic
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 16:27:09 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.7.20200614git656914f
 - Bump to commit 656914f816f9f6bcb37ec2b40cb7c16fd9084d4c
 

@@ -1,6 +1,6 @@
 Name:		python-augeas
 Version:	0.5.0
-Release:	21%{?dist}
+Release:	22%{?dist}
 Summary:	Python bindings to augeas
 License:	LGPLv2+
 URL:		http://augeas.net/
@@ -48,6 +48,9 @@ pytest-3
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.0-21
 - Rebuilt for Python 3.9
 

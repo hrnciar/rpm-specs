@@ -20,22 +20,25 @@ ExcludeArch: ppc64
 %endif
 
 Name:			gpaw
-Version:		19.8.1
-Release:		7%{?dist}
+Version:		20.1.0
+Release:		2%{?dist}
 Summary:		A grid-based real-space PAW method DFT code
 
 License:		GPLv3+
 URL:			https://wiki.fysik.dtu.dk/gpaw/
+# Note that this is aadc02d3791ca874ec683ab46f1af369d2c10dd1 due to https://gitlab.com/gpaw/gpaw/-/issues/266
 Source0:		https://gitlab.com/%{name}/%{name}/-/archive/%{version}/%{name}-%{version}.tar.gz
-Patch0:			gcc10.patch
+
 
 BuildRequires:		time
 BuildRequires:		libxc-devel
-BuildRequires:		hdf5-devel
 BuildRequires:		openblas-devel
 
 BuildRequires:		python3-devel
+BuildRequires:		python3-pytest
 BuildRequires:		python3-scipy
+BuildRequires:		python3-setuptools
+
 BuildRequires:		python3-ase
 
 
@@ -79,18 +82,14 @@ BuildRequires:		openssh-clients
 BuildRequires:		openmpi-devel
 BuildRequires:		scalapack-openmpi-devel
 BuildRequires:		blacs-openmpi-devel
-BuildRequires:		hdf5-openmpi-devel
-Requires:		python3-%{name} = %{version}-%{release}
 Requires:		%{name}-common = %{version}-%{release}
 %if 0%{?el6}
 BuildRequires:		scalapack-openmpi
 BuildRequires:		blacs-openmpi
-BuildRequires:		hdf5-openmpi
 %endif
 %if 0%{?el7} || 0%{?el6}
 Requires:		scalapack-openmpi
 Requires:		blacs-openmpi
-Requires:		hdf5-openmpi
 %endif
 
 %description -n python3-%{name}-openmpi
@@ -103,18 +102,14 @@ Summary:		python3-%{name} - mpich version
 BuildRequires:		mpich-devel
 BuildRequires:		scalapack-mpich-devel
 BuildRequires:		blacs-mpich-devel
-BuildRequires:		hdf5-mpich-devel
-Requires:		python3-%{name} = %{version}-%{release}
 Requires:		%{name}-common = %{version}-%{release}
 %if 0%{?el6}
 BuildRequires:		scalapack-mpich
 BuildRequires:		blacs-mpich
-BuildRequires:		hdf5-mpich
 %endif
 %if 0%{?el7} || 0%{?el6}
 Requires:		scalapack-mpich
 Requires:		blacs-mpich
-Requires:		hdf5-mpich
 %endif
 
 %description -n python3-%{name}-mpich
@@ -125,24 +120,22 @@ This package contains the mpich Python 3 version.
 
 %prep
 %setup -qTc -a 0
-mv %{name}-%{version} python3
-%patch0 -p1
+pushd %{name}-%{version}
+popd
 
-# do not link lapack when linking to openblas
-sed -i "s/'openblas', 'lapack'/'openblas'/" python3/config.py
-# if only libpython3.4.m.so instead of libpython3.4.so present http://legacy.python.org/dev/peps/pep-3149/
-sed -i "s/' -lpython%s' % cfgDict\['VERSION'\]/' ' + cfgDict['BLDLIBRARY']/" python3/config.py
-# revert Debian-centric naming of scalapack/blacs
-sed -i "s/scalapack-openmpi/scalapack/" python3/customize.py
-sed -i "s/blacsCinit-openmpi/scalapack/" python3/customize.py
-sed -i "s/blacs-openmpi/scalapack/" python3/customize.py
-# s390x support: https://gitlab.com/gpaw/gpaw/merge_requests/245
-sed -i "s/'aarch64'/'aarch64', 's390x'/" python3/config.py
+mv %{name}-%{version} python3
+
+# create siteconfig.py
+cp python3/siteconfig_example.py python3/siteconfig.py
+# replace Debian-centric naming of scalapack/blacs
+sed -i "s/scalapack-openmpi/scalapack/" python3/siteconfig.py
+sed -i "s/blacsCinit-openmpi/scalapack/" python3/siteconfig.py
+sed -i "s/blacs-openmpi/scalapack/" python3/siteconfig.py
 
 cp -p python3/LICENSE .
 
-# fix the python version in the scripts
-find python3/tools -type f | xargs sed -i '1s|^#!/usr/bin/env python.*|#!/usr/bin/env python3|'
+# fix the shebangs python version in the scripts
+find python3/tools -type f | xargs sed -i '1s|^#!/usr/bin/env python.*|#!%{_bindir}/python3|'
 
 
 %build
@@ -150,21 +143,22 @@ find python3/tools -type f | xargs sed -i '1s|^#!/usr/bin/env python.*|#!/usr/bi
 
 # To avoid replicated code define a macro
 %global dobuild() \
+cat siteconfig.py \
 ${PYTHON} setup.py build && \
 mv build build$MPI_SUFFIX && \
 ${PYTHON} setup.py clean
 
-# build serial version (_gpaw.so/_gpaw_hdf5.so will be taken from it)
 # disable scalapack
-sed -i 's/# scalapack =.*/scalapack = False/' python3/customize.py
-# enable hdf5
-sed -i "s/.*hdf5 =.*/hdf5 = True; libraries += ['hdf5']/" python3/customize.py
-echo "extra_compile_args += ['-fPIC']" >> python3/customize.py
+sed -i 's/# scalapack =.*/scalapack = False/' python3/siteconfig.py
+# enable openblas
+echo "libraries += ['openblas']" >> python3/siteconfig.py
+# force -fPIC
+echo "extra_compile_args += ['-fPIC']" >> python3/siteconfig.py
+# specify MPI_INCLUDE (use /usr/include for serial build)
+echo "import os" >> python3/siteconfig.py
+echo "include_dirs += [os.environ.get('MPI_INCLUDE', '/usr/include')]" >> python3/siteconfig.py
 
-# disable hdf5
-# build/temp.linux-x86_64-3.4/c/hdf5.o: In function `init_gpaw_hdf5':
-# hdf5.c:(.text+0x1192): undefined reference to `Py_InitModule'
-sed -i "s/.*hdf5 =.*/hdf5 = False/" python3/customize.py
+# build serial version
 pushd python3
 MPI_SUFFIX=_serial PYTHON=python3 %dobuild
 popd
@@ -172,17 +166,15 @@ popd
 # build openmpi version
 %{_openmpi_load}
 # enable scalapack
-sed -i 's/.*scalapack =.*/scalapack = True/' python3/customize.py
+sed -i 's/.*scalapack =.*/scalapack = True/' python3/siteconfig.py
 %if 0%{?fedora} < 32
-sed -i "s/'scalapack'/%{blacs_libs}, 'scalapack'/" python3/customize.py
+sed -i "s/'scalapack'/%{blacs_libs}, 'scalapack'/" python3/siteconfig.py
 %endif
-# enable parallel hdf5
-sed -i "s|.*hdf5 =.*|hdf5 = True; import os; extra_link_args += [os.path.join(os.environ['MPI_LIB'], 'libhdf5.so')]|" python3/customize.py
 # force mpicc
-sed -i 's/# compiler =.*/compiler = "mpicc"/' python3/customize.py
-# build/temp.linux-x86_64-3.4/c/hdf5.o: In function `init_gpaw_hdf5':
-# hdf5.c:(.text+0x1192): undefined reference to `Py_InitModule'
-sed -i "s/.*hdf5 =.*/hdf5 = False/" python3/customize.py
+sed -i 's/# compiler =.*/compiler = "mpicc"/' python3/siteconfig.py
+which mpicc
+mpicc --version
+mpicc foo.c --showme
 pushd python3
 PYTHON=python3 %dobuild
 popd
@@ -191,17 +183,16 @@ popd
 # build mpich version
 %{_mpich_load}
 # enable scalapack
-sed -i 's/.*scalapack =.*/scalapack = True/' python3/customize.py
+sed -i 's/.*scalapack =.*/scalapack = True/' python3/siteconfig.py
 %if 0%{?fedora} < 32
-sed -i "s/'scalapack'/%{blacs_libs}, 'scalapack'/" python3/customize.py
+sed -i "s/'scalapack'/%{blacs_libs}, 'scalapack'/" python3/siteconfig.py
 %endif
-# enable parallel hdf5
-sed -i "s|.*hdf5 =.*|hdf5 = True; import os; extra_link_args += [os.path.join(os.environ['MPI_LIB'], 'libhdf5.so')]|" python3/customize.py
 # force mpicc
-sed -i 's/# compiler =.*/compiler = "mpicc"/' python3/customize.py
-# build/temp.linux-x86_64-3.4/c/hdf5.o: In function `init_gpaw_hdf5':
-# hdf5.c:(.text+0x1192): undefined reference to `Py_InitModule'
-sed -i "s/.*hdf5 =.*/hdf5 = False/" python3/customize.py
+sed -i 's/# compiler =.*/compiler = "mpicc"/' python3/siteconfig.py
+which mpicc
+mpicc --version
+mpicc -compile_info
+mpicc -link_info
 pushd python3
 PYTHON=python3 %dobuild
 popd
@@ -210,74 +201,56 @@ popd
 
 %install
 
-# disable scalapack
-sed -i 's/.*scalapack =.*/scalapack = False/' python3/customize.py
-# disable mpicc
-sed -i 's/compiler = "mpicc"/#compiler = "mpicc"/' python3/customize.py
-# disable hdf5
-sed -i "s|.*hdf5 =.*|#hdf5 = False|" python3/customize.py
-
-# To avoid replicated code define a macro
+# copy python scripts and modules
 %global doinstall() \
-CFLAGS="$RPM_OPT_FLAGS" ${PYTHON} setup.py install --skip-build --prefix=$RPM_BUILD_ROOT%{_prefix}
-
-pushd python3
-mv build_serial build
-PYTHON=python3 %doinstall
-popd
-
-# copy parallel executables
-%global doinstall_executable() \
 mkdir -p $RPM_BUILD_ROOT/$MPI_BIN&& \
-install -p -m 755 build$MPI_SUFFIX/bin.*/%{name}-python $RPM_BUILD_ROOT/$MPI_BIN/%{name}-${PYTHON}$MPI_SUFFIX
+install -p -m 755 build$MPI_SUFFIX/scripts-*/* $RPM_BUILD_ROOT/$MPI_BIN/&& \
+mkdir -p $RPM_BUILD_ROOT/$MPI_PYTHON3_SITEARCH&& \
+cp -rp build$MPI_SUFFIX/lib.*/%{name} $RPM_BUILD_ROOT/$MPI_PYTHON3_SITEARCH/&& \
+install -p -m 755 build$MPI_SUFFIX/lib.*/*.so $RPM_BUILD_ROOT/$MPI_PYTHON3_SITEARCH/
+
+# install serial version
+pushd python3
+PYTHON=python3 MPI_SUFFIX="_serial" MPI_BIN=%{_bindir} MPI_PYTHON3_SITEARCH=%{python3_sitearch} %doinstall
+popd
 
 # install openmpi version
 %{_openmpi_load}
 pushd python3
-PYTHON=python3 %doinstall_executable
+PYTHON=python3 %doinstall
 popd
 %{_openmpi_unload}
 
 # install mpich version
 %{_mpich_load}
 pushd python3
-PYTHON=python3 %doinstall_executable
+PYTHON=python3 %doinstall
 popd
 %{_mpich_unload}
 
-# Fix shebangs
-for f in ${RPM_BUILD_ROOT}%{_bindir}/gpaw{,-analyse-basis,-upfplot,-runscript,-mpisim,-setup,-basis,-plot-parallel-timings}; do
-    sed -i 's|^#!/usr/bin/env python3|#!%{_bindir}/python3|g' $f
-done
-for f in ${RPM_BUILD_ROOT}%{_bindir}/gpaw-runscript; do
-    sed -i 's|^#!/usr/bin/env gpaw-python|#!%{_bindir}/python3|g' $f
-done
-# Make sure python version number occurs only once
-for f in ${RPM_BUILD_ROOT}%{_bindir}/gpaw{,-analyse-basis,-upfplot,-runscript,-mpisim,-setup,-basis,-plot-parallel-timings,-runscript}; do
-    sed -i 's|^#!%{_bindir}/python33|#!%{_bindir}/python3|g' $f
-done
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}
 
 %check
 
-export NPROC=4 # test on 4 cores (scalapack test needs that)
+export NPROC_PARALLEL=2 # test on 4 cores (scalapack test needs that)
+
+export TIMEOUT_OPTS='--preserve-status --kill-after 10 1800'
 
 # To avoid replicated code define a macro
 %global docheck() \
 GPAW_PLATFORM=$($PYTHON -c "from distutils import util, sysconfig; print(util.get_platform()+'-'+sysconfig.get_python_version())")&& \
-export PYTHONPATH=`pwd`/build/lib.${GPAW_PLATFORM} \
+export PYTHONPATH=`pwd`/build$MPI_SUFFIX/lib.${GPAW_PLATFORM} \
 PATH=`pwd`/tools:${PATH} \
-time $GPAW_EXECUTABLE `which gpaw` test --range='linalg/gemm_complex.py,vdw/potential.py' 2>&1 | tee gpaw-test${NPROC}$MPI_SUFFIX.log
+timeout ${TIMEOUT_OPTS} time $GPAW_EXECUTABLE -m ci -v 2>&1 | tee gpaw-test${NPROC}$MPI_SUFFIX.log
 
 # check serial version
 pushd python3
-MPI_SUFFIX="" PYTHON="python3" GPAW_EXECUTABLE="python3" %docheck
+MPI_SUFFIX="_serial" PYTHON="python3" GPAW_EXECUTABLE="pytest" NPROC=1 %docheck
 popd
 
 # check openmpi version
 %{_openmpi_load}
 pushd python3
-PYTHON="python3" GPAW_EXECUTABLE="mpiexec -np ${NPROC} build$MPI_SUFFIX/bin.*/%{name}-python" %docheck
+PYTHON="python3" GPAW_EXECUTABLE="mpiexec -np ${NPROC_PARALLEL} pytest" NPROC=${NPROC_PARALLEL} %docheck
 popd
 %{_openmpi_unload}
 
@@ -285,7 +258,7 @@ popd
 # check mpich version
 %{_mpich_load}
 pushd python3
-PYTHON="python3" GPAW_EXECUTABLE="mpiexec -np ${NPROC} build$MPI_SUFFIX/bin.*/%{name}-python" %docheck
+PYTHON="python3" GPAW_EXECUTABLE="mpiexec -np ${NPROC_PARALLEL} pytest" NPROC=${NPROC_PARALLEL} %docheck
 popd
 %{_mpich_unload}
 
@@ -296,20 +269,45 @@ popd
 
 
 %files -n python3-%{name}
-%{python3_sitearch}/_%{name}*.so
+%exclude %{_bindir}/%{name}*
 %{python3_sitearch}/%{name}
-%{python3_sitearch}/%{name}-%{version}-py*.egg-info
+%{python3_sitearch}/_%{name}*.so
 
 
 %files -n python3-%{name}-openmpi
-%{_libdir}/openmpi%{?_opt_cc_suffix}/bin/%{name}-python3_openmpi
+%exclude %{_libdir}/openmpi/bin
+%{python3_sitearch}/openmpi/%{name}
+%{python3_sitearch}/openmpi/_%{name}*.so
 
 
 %files -n python3-%{name}-mpich
-%{_libdir}/mpich%{?_opt_cc_suffix}/bin/%{name}-python3_mpich
+%exclude %{_libdir}/mpich/bin
+%{python3_sitearch}/mpich/%{name}
+%{python3_sitearch}/mpich/_%{name}*.so
 
 
 %changelog
+* Thu Sep 10 2020 Marcin Dulak <Marcin.Dulak@gmail.com> - 20.1.0-2
+- Use timeout to kill hanging tests
+
+* Sun Sep 06 2020 Marcin Dulak <Marcin.Dulak@gmail.com> - 20.1.0-1
+- New upstream release
+- No more gpaw-python binaries
+- Instead mpi shared objects and py files are under site-packages/mpi
+- Get rid of %%{?_opt_cc_suffix} since mpi modules don't use it for mpi python
+- Remove hdf5 dependency
+- Copy files instead of python setup.py install
+- Add explicit python3-setuptools br
+- Print the used siteconfig.py
+- Add MPI_INCLUDE to include_dirs (not sure why this is suddenly needed)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.8.1-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.8.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 19.8.1-7
 - Rebuilt for Python 3.9
 
@@ -474,7 +472,7 @@ popd
 
 * Thu Nov 20 2014 Marcin Dulak <Marcin.Dulak@gmail.com> - 0.10.0.11364-8
 - new style of linking blacs on EL6
-
+v
 * Thu Oct 23 2014 Marcin Dulak <Marcin.Dulak@gmail.com> - 0.10.0.11364-7
 - mpich version 3 in EL6
 - use atlas on aarch64

@@ -1,9 +1,7 @@
 #
-%global mydocs __tmp_docdir
-#
 Name:           simcrs
 Version:        1.01.5
-Release:        2%{?dist}
+Release:        4%{?dist}
 
 Summary:        C++ Simulated Travel-Oriented Distribution System library
 
@@ -32,7 +30,7 @@ BuildRequires:  airinv-devel
 as a C++ library, of a Travel-oriented Distribution System. It
 corresponds to the simulated version of the real-world Computerized
 Reservation Systems (CRS). That library uses the Standard Airline IT
-C++ object model (http://sf.net/projects/stdair).
+C++ object model (https://www.stdair.org).
 
 %{name} makes an extensive use of existing open-source libraries for
 increased functionality, speed and accuracy. In particular the
@@ -71,19 +69,18 @@ online (https://%{name}.org).
 
 
 %build
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
-mkdir -p %{mydocs}
-mv $RPM_BUILD_ROOT%{_docdir}/%{name}/html %{mydocs}
-rm -f %{mydocs}/html/installdox
+# Remove the Doxygen installer
+rm -f %{buildroot}%{_docdir}/%{name}/html/installdox
 
 # Remove additional documentation files (those files are already available
 # in the project top directory)
-rm -f $RPM_BUILD_ROOT%{_docdir}/%{name}/{NEWS,README.md,AUTHORS}
+rm -f %{buildroot}%{_docdir}/%{name}/{NEWS,README.md,AUTHORS}
 
 %check
 #ctest
@@ -107,11 +104,18 @@ rm -f $RPM_BUILD_ROOT%{_docdir}/%{name}/{NEWS,README.md,AUTHORS}
 %{_mandir}/man3/%{name}-library.3.*
 
 %files doc
-%doc %{mydocs}/html
-%doc COPYING
+%doc %{_docdir}/%{name}/html
+%license COPYING
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.01.5-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.01.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 06 2020 Denis Arnaud <denis.arnaud_fedora@m4x.org> - 1.01.5-2
 - Rebuilt for SOCI 4.0.1-alpha2
 

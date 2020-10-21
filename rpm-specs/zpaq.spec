@@ -7,7 +7,7 @@
 
 Name:           zpaq
 Version:        7.15
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Incremental journaling back-up archiver
 # COPYING:      Unlicense text and MIT text
 # Parts of libzpaq.cpp: Public Domain
@@ -96,6 +96,9 @@ make install DESTDIR=$RPM_BUILD_ROOT PREFIX=%{_prefix} LIBDIR=%{_libdir}
 %{_libdir}/*.so
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.15-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.15-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

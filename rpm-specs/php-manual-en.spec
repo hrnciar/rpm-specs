@@ -1,6 +1,6 @@
 Name:           php-manual-en
 Version:        20140725
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Documentation for the PHP programming language
 
 License:        CC-BY
@@ -32,6 +32,9 @@ EOF
 %doc LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20140725-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20140725-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

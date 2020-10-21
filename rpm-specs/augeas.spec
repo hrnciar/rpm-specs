@@ -1,6 +1,6 @@
 Name:           augeas
 Version:        1.12.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A library for changing configuration files
 
 License:        LGPLv2+
@@ -119,6 +119,9 @@ rm -f $RPM_BUILD_ROOT/usr/bin/dump
 %{_libdir}/libfa.a
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

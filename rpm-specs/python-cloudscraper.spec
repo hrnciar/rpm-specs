@@ -3,7 +3,7 @@
 %global pypi_name cloudscraper
 
 Name:           python-%{pypi_name}
-Version:        1.2.40
+Version:        1.2.46
 Release:        1%{?dist}
 Summary:        Python module to bypass Cloudflare's anti-bot page
 
@@ -64,6 +64,15 @@ rm -rf %{pypi_name}.egg-info
 
 
 %changelog
+* Mon Jul 27 2020 Lyes Saadi <fedora@lyes.eu> - 1.2.46-1
+- Update to 1.2.46 (that was quick!)
+
+* Sun Jul 26 2020 Lyes Saadi <fedora@lyes.eu> - 1.2.44-1
+- Update to 1.2.44
+
+* Fri Jul 03 2020 Lyes Saadi <fedora@lyes.eu> - 1.2.42-1
+- Update to 1.2.42
+
 * Fri May 29 2020 Lyes Saadi <fedora@lyes.eu> - 1.2.40-1
 - Update to 1.2.40
 

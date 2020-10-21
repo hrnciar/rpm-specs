@@ -1,8 +1,9 @@
+%undefine __cmake_in_source_build
 %global abiversion 10
 
 Name:           gazebo
 Version:        10.1.0
-Release:        7%{?dist}
+Release:        11%{?dist}
 Summary:        3D multi-robot simulator with dynamics
 
 # gazebo/gui/qgv is LGPLv3+
@@ -27,6 +28,8 @@ Patch3:         %{name}-2.2.2-connection.patch
 Patch5:         %{name}-7.4.0-fixtest.patch
 Patch6:         %{name}-gaussian-noise-model-with-0-bias-stddev.patch
 Patch9:         %{name}-9.5.0-python3.patch
+# Set a default CMake policy to disable warnings about the automoc behavior
+# Disable default hidden symbol visibility (rhbz#1871291)
 Patch10:        %{name}-10.1.0-automoc.patch
 Patch11:        %{name}-10.1.0-singleton.patch
 Patch12:        %{name}-9.5.0-wayland.patch
@@ -186,8 +189,6 @@ rm -rf deps/parallel_quickstep
 rm -rf deps/libccd
 
 %build
-mkdir build
-pushd build
 %cmake  \
  -DCMAKE_VERBOSE_MAKEFILE=ON \
  -DLIB_INSTALL_DIR:STRING="%{_lib}" \
@@ -201,22 +202,19 @@ pushd build
  -DSSE4_1_FOUND=OFF \
  -DSSE4_2_FOUND=OFF \
  -Dogre_library_dirs=%{_libdir} \
- -DCMAKE_BUILD_TYPE=RelWithDebInfo \
- -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="$CXXFLAGS -std=c++11" \
+ -DCMAKE_BUILD_TYPE=Release \
  -DUSE_UPSTREAM_CFLAGS=OFF \
  -DUSE_HOST_CFLAGS=ON \
- -DCMAKE_INSTALL_DATAROOTDIR=share \
- ..
+ -DCMAKE_INSTALL_DATAROOTDIR=share 
 
-make %{?_smp_mflags}
-make doc %{?_smp_mflags} || exit 0;
-mv doxygen_msgs/html{,_msgs}
-popd
+%cmake_build
+%cmake_build --target tests
+%cmake_build --target doc || exit 0;
+%cmake_build --target man || exit 0;
+mv %{_vpath_builddir}/doxygen_msgs/html{,_msgs}
 
 %install
-pushd build
-make install DESTDIR=%{buildroot}
-popd
+%cmake_install
 
 # Get rid of SkyX media files; symlink to the files that SkyX provides
 rm -fr %{buildroot}%{_datadir}/%{name}-%{abiversion}/media/skyx
@@ -237,9 +235,9 @@ sed 'N; s/width="\([0-9\.]*\)"\n\([ ]*\)height="\([0-9\.]*\)"/width="\3"\n\2heig
 
 # Install uncompressed manpages
 rm -f %{buildroot}/%{_mandir}/man1/*.gz
-install -p -m 0644 build/tools/*[a-z].1 %{buildroot}%{_mandir}/man1/
-install -p -m 0644 build/gazebo/*[a-z].1 %{buildroot}%{_mandir}/man1/
-install -p -m 0644 build/gazebo/gui/*[a-z].1 %{buildroot}%{_mandir}/man1/
+install -p -m 0644 %{_vpath_builddir}/tools/*[a-z].1 %{buildroot}%{_mandir}/man1/
+install -p -m 0644 %{_vpath_builddir}/gazebo/*[a-z].1 %{buildroot}%{_mandir}/man1/
+install -p -m 0644 %{_vpath_builddir}/gazebo/gui/*[a-z].1 %{buildroot}%{_mandir}/man1/
 
 # Install the desktop file.
 desktop-file-install  \
@@ -257,30 +255,10 @@ rm -f %{buildroot}/%{_libdir}/*.a
 
 %check
 # Tests run for informational purposes only
-pushd build
-
-# Ignore some tests that will never succeed in the Fedora build system
-cat << EOF > CTestCustom.cmake
-SET(CTEST_CUSTOM_TESTS_IGNORE
-    # OpenAL tests will fail if the builder doesn't have an audio device.
-    UNIT_OpenAL_TEST
-    check_UNIT_OpenAL_TEST
-#    # Since the pkg-config and cmake config have absolute paths,
-#    # these tests will fail as long as Gazebo is not actually
-#    # installed on the system.
-#    EXAMPLE_example_plugins
-#    check_EXAMPLE_example_plugins
-#    REGRESSION_config-cmake
-#    check_REGRESSION_config-cmake
-#    REGRESSION_config-pkgconfig
-#    check_REGRESSION_config-pkgconfig
-    )
-EOF
-export GAZEBO_RESOURCE_PATH=%{buildroot}%{_datadir}/gazebo-%{abiversion}
-export LD_LIBRARY_PATH=%{buildroot}%{_libdir}
-export PATH=$PATH:%{buildroot}%{_bindir}
-make test || cat Testing/Temporary/LastTest.log
-popd
+# IGN_IP needs to be set on builders: https://answers.gazebosim.org/question/21103/exception-sending-a-message/
+export IGN_IP=127.0.0.1
+export GAZEBO_IP=127.0.0.1
+%ctest --verbose --parallel 1 --exclude-regex ".*OpenAL.*" || exit 0
 
 %files
 %license COPYING LICENSE
@@ -323,8 +301,8 @@ popd
 
 %files doc
 %license COPYING LICENSE
-%doc build/doxygen/html
-%doc build/doxygen_msgs/html_msgs
+%doc %{_vpath_builddir}/doxygen/html
+%doc %{_vpath_builddir}/doxygen_msgs/html_msgs
 
 %files devel
 %{_datadir}/%{name}-%{abiversion}/examples/plugins
@@ -338,6 +316,20 @@ popd
 %{_libdir}/cmake/*
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 10.1.0-11
+- Rebuilt for protobuf 3.13
+
+* Sat Aug 22 2020 Rich Mattes <richmattes@gmail.com> - 10.1.0-10
+- Disable hidden symbols by default to work around run-time errors (rhbz#1871291)
+- Explicitly build tests, and only run one test at a time in ctest
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.1.0-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.1.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Adrian Reber <adrian@lisas.de> - 10.1.0-7
 - Rebuilt for protobuf 3.12
 

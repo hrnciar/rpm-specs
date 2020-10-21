@@ -1,5 +1,5 @@
 Name:           votca-xtp
-Version:        1.6.1
+Version:        1.6.2
 %global         uversion %{version}
 %global         sover 6
 Release:        1%{?dist}
@@ -69,16 +69,14 @@ This package contains architecture independent data files for VOTCA XTP.
 %setup -qn xtp-%{uversion}
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake3} .. -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTING=ON
-%make_build
+%{cmake3} -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTING=ON
+%cmake_build
 
 %install
-%make_install -C%{_target_platform}
+%cmake_install
 
 %check
-make -C %{_target_platform} test CTEST_OUTPUT_ON_FAILURE=1 %{?testargs}
+%ctest
 
 %ldconfig_scriptlets libs
 
@@ -99,6 +97,22 @@ make -C %{_target_platform} test CTEST_OUTPUT_ON_FAILURE=1 %{?testargs}
 %{_libdir}/libvotca_xtp.so
 
 %changelog
+* Sat Aug 22 2020 Christoph Junghans <junghans@votca.org> - 1.6.2-1
+- Version bump to v1.6.2 (bug #1871343)
+
+* Tue Aug 04 2020 Christoph Junghans <junghans@votca.org> - 1.6.1-5
+- Fix out-of-source build on F33 (bug#1865611)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 1.6.1-2
+- Rebuild for hdf5 1.10.6
+
 * Sun Jun 21 2020 Christoph Junghans <junghans@votca.org> - 1.6.1-1
 - Version bump to v1.6.1
 

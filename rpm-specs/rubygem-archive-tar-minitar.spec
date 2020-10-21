@@ -5,7 +5,7 @@
 Summary: Provides POSIX tar archive management from Ruby programs
 Name: rubygem-%{gem_name}
 Version: 0.5.2
-Release: 19%{?dist}
+Release: 20%{?dist}
 License: GPLv2+ or Ruby
 URL: http://rubyforge.org/projects/ruwiki
 Source0: http://gems.rubyforge.org/gems/%{gem_name}-%{version}.gem
@@ -93,6 +93,9 @@ popd
 %{gem_docdir}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.2-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.2-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

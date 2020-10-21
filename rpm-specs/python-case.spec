@@ -6,7 +6,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.5.3
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Python unittest Utilities
 
 License:        BSD
@@ -78,6 +78,9 @@ rm -rf html/.{doctrees,buildinfo}
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5.3-8
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           perl-HTML-FormFu
 Version:        2.07
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        HTML Form Creation, Rendering and Validation Framework
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/HTML-FormFu
@@ -122,6 +122,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.07-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.07-6
 - Perl 5.32 rebuild
 

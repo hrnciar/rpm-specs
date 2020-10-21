@@ -2,7 +2,7 @@
 
 Name:           gitg
 Version:        3.32.1
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        GTK+ graphical interface for the git revision control system
 
 License:        GPLv2+
@@ -135,6 +135,13 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.32.1-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.32.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.32.1-5
 - Rebuilt for Python 3.9
 

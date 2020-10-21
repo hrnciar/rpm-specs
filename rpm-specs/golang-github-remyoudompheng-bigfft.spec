@@ -5,7 +5,7 @@
 
 # https://github.com/remyoudompheng/bigfft
 %global goipath         github.com/remyoudompheng/bigfft
-%global commit          babf20351dd7e3ac320adedbbe5eb311aec8763c
+%global commit          eec4a21b6bb01e5c1260ca5e04d0c58e11e20f30
 
 %gometa
 
@@ -17,7 +17,7 @@ Big integer multiplication library for Go using Fast Fourier transform.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Big integer multiplication library for Go using Fast Fourier transform
 
 # Upstream license specification: BSD-3-Clause
@@ -44,6 +44,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 19:28:53 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200801giteec4a21
+- Bump to commit eec4a21b6bb01e5c1260ca5e04d0c58e11e20f30
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

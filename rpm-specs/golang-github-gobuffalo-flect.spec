@@ -3,7 +3,7 @@
 
 # https://github.com/gobuffalo/flect
 %global goipath         github.com/gobuffalo/flect
-Version:                0.1.6
+Version:                0.2.1
 
 %gometa
 
@@ -14,7 +14,7 @@ An inflection engine for Golang.}
 %global godocs          SHOULDERS.md README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Inflection engine for Golang
 
 License:        MIT
@@ -45,6 +45,12 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 19:51:17 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.2.1-1
+- Update to 0.2.1
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

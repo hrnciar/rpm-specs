@@ -1,6 +1,6 @@
 Name:           python-cffi
-Version:        1.14.0
-Release:        2%{?dist}
+Version:        1.14.2
+Release:        1%{?dist}
 Summary:        Foreign Function Interface for Python to call C code
 License:        MIT
 URL:            https://cffi.readthedocs.org/
@@ -54,10 +54,7 @@ rm build/html/.buildinfo
 %py3_install
 
 %check
-# Skip for now the test_unpack_args test as it fails on Python 3.9
-# It expects a slightly different text output
-# Reported upstream: https://bitbucket.org/cffi/cffi/issues/438/test-failures-with-python-39
-PYTHONPATH=%{buildroot}%{python3_sitearch} %{__python3} -m pytest -k "not test_unpack_args" c/ testing/
+PYTHONPATH=%{buildroot}%{python3_sitearch} %{__python3} -m pytest c/ testing/
 
 %files -n python3-cffi
 %doc PKG-INFO
@@ -70,6 +67,14 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} %{__python3} -m pytest -k "not test_u
 %doc doc/build/html
 
 %changelog
+* Tue Sep 08 2020 Lumír Balhar <lbalhar@redhat.com> - 1.14.2-1
+- Update to 1.14.2 (#1869032)
+
+* Fri Aug 14 2020 Miro Hrončok <mhroncok@redhat.com> - 1.14.1-1
+- Update to 1.14.1
+- Fixes: rhbz#1860698
+- Fixes: rhbz#1865276
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.14.0-2
 - Rebuilt for Python 3.9
 

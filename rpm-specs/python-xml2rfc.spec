@@ -1,7 +1,7 @@
 %global srcname %(echo %{name} | sed 's/^python-//')
 
 Name:           python-xml2rfc
-Version:        2.44.0
+Version:        3.2.1
 Release:        1%{?dist}
 Summary:        Convert IETF RFC-7749 XML into txt format
 
@@ -50,7 +50,14 @@ BuildRequires:  libxml2-devel
 %{_bindir}/xml2rfc
 
 %changelog
-* Tue May 12 2020 Paul Wouters <pwouters@redhat.com> - 2.44.0-1
+* Thu Oct  8 11:52:49 EDT 2020 Paul Wouters <pwouters@redhat.com> - 3.2.1-1
+- Updated to 3.2.1
+- Fixup changelog anomaly
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.44.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue May 26 2020 Paul Wouters <pwouters@redhat.com> - 2.44.0-1
 - updated to 2.44.0
 
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.22.3-6

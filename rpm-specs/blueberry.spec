@@ -1,6 +1,6 @@
 Name:		blueberry
 Version:	1.3.7
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Bluetooth configuration tool
 
 License:	GPLv3+
@@ -107,6 +107,9 @@ fi
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 13 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 1.3.7-1
 - Update to 1.3.7
 

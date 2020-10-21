@@ -5,7 +5,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.0.2
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        %{desc}
 
 License:        MIT
@@ -53,6 +53,9 @@ rm -rf *.egg-info
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.0.2-7
 - BR python3-setuptools
 

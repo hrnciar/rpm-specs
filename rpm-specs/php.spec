@@ -51,11 +51,11 @@
 %bcond_with      freetds
 %bcond_with      sodium
 %bcond_with      pspell
-%bcond_with      lmdb
+%bcond_without   lmdb
 %bcond_with      tidy
 %endif
 
-%global upver        7.4.8
+%global upver        7.4.12
 %global rcver        RC1
 
 Summary: PHP scripting language for creating dynamic web sites
@@ -104,7 +104,8 @@ Patch43: php-7.4.0-phpize.patch
 # Use -lldap_r for OpenLDAP
 Patch45: php-7.4.0-ldap_r.patch
 # drop "Configure command" from phpinfo output
-Patch47: php-5.6.3-phpinfo.patch
+# and add build system and provider (from 8.0)
+Patch47: php-7.4.8-phpinfo.patch
 
 # Upstream fixes (100+)
 
@@ -818,9 +819,19 @@ cp %{SOURCE50} %{SOURCE51} %{SOURCE53} .
 
 
 %build
+# This package fails to build with LTO due to undefined symbols.  LTO
+# was disabled in OpenSuSE as well, but with no real explanation why
+# beyond the undefined symbols.  It really shold be investigated further.
+# Disable LTO
+%define _lto_cflags %{nil}
+
 # Set build date from https://reproducible-builds.org/specs/source-date-epoch/
 export SOURCE_DATE_EPOCH=$(date +%s -r NEWS)
 export PHP_UNAME=$(uname)
+export PHP_BUILD_SYSTEM=$(cat /etc/redhat-release | sed -e 's/ Beta//')
+%if 0%{?vendor:1}
+export PHP_BUILD_PROVIDER="%{vendor}"
+%endif
 
 # Force use of system libtool:
 libtoolize --force --copy
@@ -890,7 +901,7 @@ if test $? != 0; then
   exit 1
 fi
 
-make %{?_smp_mflags}
+%make_build
 }
 
 # Build /usr/bin/php-cgi with the CGI SAPI, and most shared extensions
@@ -1524,6 +1535,53 @@ systemctl try-restart php-fpm.service >/dev/null 2>&1 || :
 
 
 %changelog
+* Tue Oct 13 2020 Remi Collet <remi@remirepo.net> - 7.4.12~RC1-1
+- update to 7.4.12RC1
+
+* Tue Sep 29 2020 Remi Collet <remi@remirepo.net> - 7.4.11-1
+- Update to 7.4.11 - http://www.php.net/releases/7_4_11.php
+
+* Tue Sep 15 2020 Remi Collet <remi@remirepo.net> - 7.4.11~RC1-1
+- update to 7.4.11RC1
+
+* Thu Sep 03 2020 Josef Řídký <jridky@redhat.com> - 7.4.10-2
+- Rebuilt for new net-snmp release
+
+* Tue Sep  1 2020 Remi Collet <remi@remirepo.net> - 7.4.10-1
+- Update to 7.4.10 - http://www.php.net/releases/7_4_10.php
+
+* Thu Aug 27 2020 Josef Řídký <jridky@redhat.com> - 7.4.10~RC1-2
+- Rebuilt for new net-snmp release
+
+* Tue Aug 18 2020 Remi Collet <remi@remirepo.net> - 7.4.10~RC1-1
+- update to 7.4.10RC1
+
+* Mon Aug 10 2020 Remi Collet <remi@remirepo.net> - 7.4.9-1
+- Update to 7.4.9 - http://www.php.net/releases/7_4_9.php
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.4.9~RC1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Remi Collet <remi@remirepo.net> - 7.4.9~RC1-1
+- update to 7.4.9RC1
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 7.4.8-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Thu Jul  9 2020 Remi Collet <remi@remirepo.net> - 7.4.8-2
+- Update to 7.4.8 - http://www.php.net/releases/7_4_8.php
+  rebuild from new sources
+
+* Tue Jul  7 2020 Remi Collet <remi@remirepo.net> - 7.4.8-1
+- Update to 7.4.8 - http://www.php.net/releases/7_4_8.php
+
+* Mon Jul  6 2020 Remi Collet <remi@remirepo.net> - 7.4.8~RC1-3
+- display build system and provider in phpinfo (from 8.0)
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> - 7.4.8~RC1-2
+- Disable LTO
+
 * Tue Jun 23 2020 Remi Collet <remi@remirepo.net> - 7.4.8~RC1-1
 - update to 7.4.8RC1
 - drop patch to fix PHP_UNAME

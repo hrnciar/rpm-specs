@@ -1,11 +1,13 @@
 Name:           perl-URI-Fetch
 Version:        0.13
-Release:        12%{?dist}
+Release:        14%{?dist}
 Summary:        Smart URI fetching/caching
 License:        GPL+ or Artistic
 
 URL:            https://metacpan.org/release/URI-Fetch
 Source0:        https://cpan.metacpan.org/authors/id/N/NE/NEILB/URI-Fetch-%{version}.tar.gz
+# Adapt to ExtUtils-MakeMaker-7.48, bug #1885000, CPAN RT#133491
+Patch0:         URI-Fetch-0.13-Fix-MIN_PERL_VERSION.patch
 BuildArch:      noarch
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
@@ -36,6 +38,7 @@ saving way.
 
 %prep
 %setup -q -n URI-Fetch-%{version}
+%patch0 -p1
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
@@ -56,6 +59,12 @@ NO_NETWORK_TESTING=1 make test
 %{_mandir}/man3/URI*
 
 %changelog
+* Thu Oct 08 2020 Petr Pisar <ppisar@redhat.com> - 0.13-14
+- Adapt to ExtUtils-MakeMaker-7.48 (bug #1885000)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.13-12
 - Perl 5.32 rebuild
 

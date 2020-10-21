@@ -1,6 +1,6 @@
 Name:           purple-plugin_pack
 Version:        2.7.0
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        A set of plugins for libpurple, pidgin, and finch
 
 License:        GPLv2+
@@ -66,6 +66,9 @@ install -Dm 644 %SOURCE1 $RPM_BUILD_ROOT%{_datadir}/appdata/purple-plugin-pack.m
 %{_libdir}/pidgin/xmmsremote.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

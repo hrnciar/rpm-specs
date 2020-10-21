@@ -4,7 +4,7 @@
 Summary:        Sokoban clone
 Name:           berusky
 Version:        1.7.1
-Release:        16%{?dist}
+Release:        19%{?dist}
 License:        GPLv2+
 Source:         http://www.anakreon.cz/download/%{name}-%{version}.tar.gz
 Source1:        berusky.desktop
@@ -14,6 +14,7 @@ Source4:        http://www.anakreon.cz/download/%{name}-data-%{version_data}.tar
 Source5:        berusky.ini.in
 Patch1:         berusky-1.7.1-sdl-build.patch
 Patch2:         berusky-1.7.1-data-dir.patch
+Patch3:         berusky-1.7.1-events-num.patch
 URL:            http://www.anakreon.cz/?q=node/1
 Requires:       SDL SDL_image
 Obsoletes:      berusky-data
@@ -35,11 +36,12 @@ In addition, up to five bugs can cooperate and be controlled by the player.
 %setup -q -n %{name}-%{version} -b 4
 %patch1 -p1 -b .sdl-build
 %patch2 -p1 -b .data-dir
+%patch3 -p1 -b .events-num
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 autoconf
-%configure \
-    CFLAGS="$RPM_OPT_FLAGS"
+%configure
 
 make %{?_smp_mflags}
 
@@ -83,6 +85,15 @@ mkdir -p %{buildroot}%{_datadir}/%{name}
 %{_datadir}/%{name}/*
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 1.7.1-19
+- Force C++14 as this code is not C++17 ready
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Martin Stransky <stransky@redhat.com> 1.7.1-17
+- Fixed crash https://github.com/stransky/berusky/issues/11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

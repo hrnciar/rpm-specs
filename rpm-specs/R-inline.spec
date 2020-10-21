@@ -1,8 +1,8 @@
 %global packname inline
 
 Name:		R-%{packname}
-Version:	0.3.15
-Release:	8%{?dist}
+Version:	0.3.16
+Release:	1%{?dist}
 Summary:	Functions to Inline C, C++, Fortran Function Calls from R
 
 License:	LGPLv2+
@@ -48,7 +48,13 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 %{_datadir}/R/library/%{packname}/help
 
 %changelog
-* Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 0.3.15-8
+* Wed Oct 14 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 0.3.16-1
+- Update to version 0.3.16
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.15-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 03 2020 Tom Callaway <spot@fedoraproject.org> - 0.3.15-8
 - rebuild for R 4
 
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.15-7

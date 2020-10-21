@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        1.7.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Converts a Python dictionary or other native data type into a valid XML string
 
 License:        GPLv2
@@ -49,6 +49,9 @@ nesting for the collections.
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.4-2
 - Rebuilt for Python 3.9
 

@@ -8,7 +8,7 @@
 Name:             osmo-fl2k
 URL:              https://osmocom.org/projects/osmo-fl2k/wiki
 Version:          0.1.1
-Release:          0.6.%{git_suffix}%{?dist}
+Release:          0.9.%{git_suffix}%{?dist}
 License:          GPLv2+ and GPLv3+
 BuildRequires:    cmake, gcc-c++, libusbx-devel
 Requires:         systemd-udev
@@ -37,21 +37,18 @@ Development files for osmo-fl2k.
 %autosetup -p1 -n %{name}-%{version}-%{git_short_commit}
 
 %build
-mkdir build
-cd build
-%cmake ..
-%make_build
+%cmake
+%cmake_build
 
 %install
-cd build
-%make_install
+%cmake_install
 
 # Remove static objects
 rm -f %{buildroot}%{_libdir}/libosmo-fl2k.a
 
 # Fix udev rule
-sed -i 's/MODE:="0666"/MODE:="0660", ENV{ID_SOFTWARE_RADIO}="1"/' ../osmo-fl2k.rules
-install -Dpm 644 ../osmo-fl2k.rules %{buildroot}%{_prefix}/lib/udev/rules.d/10-osmo-fl2k.rules
+sed -i 's/MODE:="0666"/MODE:="0660", ENV{ID_SOFTWARE_RADIO}="1"/' ./osmo-fl2k.rules
+install -Dpm 644 ./osmo-fl2k.rules %{buildroot}%{_prefix}/lib/udev/rules.d/10-osmo-fl2k.rules
 
 %ldconfig_scriptlets
 
@@ -74,6 +71,17 @@ install -Dpm 644 ../osmo-fl2k.rules %{buildroot}%{_prefix}/lib/udev/rules.d/10-o
 %{_libdir}/*.so
 
 %changelog
+* Wed Aug  5 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 0.1.1-0.9.20190501gitdf33203d
+- Fixed FTBFS
+  Resolves: rhbz#1865184
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-0.8.20190501gitdf33203d
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-0.7.20190501gitdf33203d
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Jeff Law <law@redhat.com> - 0.1.1-0.6.20190501gitdf33203d
 - Fix inline vs static inline issue exposed by LTO
 

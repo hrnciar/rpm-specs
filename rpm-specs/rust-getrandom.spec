@@ -5,8 +5,8 @@
 %global crate getrandom
 
 Name:           rust-%{crate}
-Version:        0.1.14
-Release:        2%{?dist}
+Version:        0.2.0
+Release:        1%{?dist}
 Summary:        Small cross-platform library for retrieving random data from system source
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -79,28 +79,28 @@ which use "core" feature of "%{crate}" crate.
 %files       -n %{name}+core-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
-%package     -n %{name}+dummy-devel
+%package     -n %{name}+custom-devel
 Summary:        %{summary}
 BuildArch:      noarch
 
-%description -n %{name}+dummy-devel %{_description}
+%description -n %{name}+custom-devel %{_description}
 
 This package contains library source intended for building other packages
-which use "dummy" feature of "%{crate}" crate.
+which use "custom" feature of "%{crate}" crate.
 
-%files       -n %{name}+dummy-devel
+%files       -n %{name}+custom-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
-%package     -n %{name}+log-devel
+%package     -n %{name}+rdrand-devel
 Summary:        %{summary}
 BuildArch:      noarch
 
-%description -n %{name}+log-devel %{_description}
+%description -n %{name}+rdrand-devel %{_description}
 
 This package contains library source intended for building other packages
-which use "log" feature of "%{crate}" crate.
+which use "rdrand" feature of "%{crate}" crate.
 
-%files       -n %{name}+log-devel
+%files       -n %{name}+rdrand-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %package     -n %{name}+rustc-dep-of-std-devel
@@ -146,6 +146,12 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Oct 07 2020 Fabio Valentini <decathorpe@gmail.com> - 0.2.0-1
+- Update to version 0.2.0.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.14-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.14-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

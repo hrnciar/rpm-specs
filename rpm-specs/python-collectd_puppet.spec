@@ -4,7 +4,7 @@
 
 Name:           python-%{module_name}
 Version:        2.0.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Collectd plugin to monitor puppet agents
 
 License:        ASL 2.0
@@ -52,6 +52,9 @@ rm -r src/%{module_name}.egg-info
 %{python3_sitelib}/%{module_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.0-7
 - Rebuilt for Python 3.9
 

@@ -5,7 +5,7 @@
 %global crate pangocairo-sys
 
 Name:           rust-%{crate}
-Version:        0.10.1
+Version:        0.11.0
 Release:        2%{?dist}
 Summary:        FFI bindings to PangoCairo
 
@@ -84,6 +84,12 @@ echo 'pkgconfig(pangocairo) >= 1.36'
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Josh Stone <jistone@redhat.com> - 0.11.0-1
+- Update to 0.11.0
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

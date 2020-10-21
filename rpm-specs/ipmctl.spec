@@ -1,6 +1,6 @@
 Name:		ipmctl
-Version:	02.00.00.3764
-Release:	1%{?dist}
+Version:	02.00.00.3825
+Release:	2%{?dist}
 Summary:	Utility for managing Intel Optane DC persistent memory modules
 License:	BSD
 URL:		https://github.com/intel/ipmctl
@@ -15,7 +15,11 @@ BuildRequires:	python3
 BuildRequires:	gcc
 BuildRequires:	gcc-c++
 BuildRequires:	asciidoctor
+BuildRequires:	systemd
 Obsoletes:	ixpdimm-cli < 01.00.00.3000
+
+Patch0: gcc-lto.patch
+Patch1: ipmctl-gcc11.patch
 
 %description
 Utility for managing Intel Optane DC persistent memory modules
@@ -29,6 +33,8 @@ Debug and troubleshoot DCPMMs.
 
 %prep
 %setup -q -n %{name}-%{version}
+%patch0 -p1
+%patch1 -p1
 
 %package -n libipmctl
 Summary:	Library for Intel DCPMM management
@@ -65,11 +71,11 @@ API for development of Intel Optane DC persistent memory management utilities.
     -DCMAKE_INSTALL_SYSCONFDIR=%{_sysconfdir} \
     -DRELEASE=ON \
     -DRPM_BUILD=ON
-%make_build
+%cmake_build
 
 %install
 %{!?_cmake_version: cd build}
-%make_install -f Makefile
+%cmake_install
 
 %post -n libipmctl -p /sbin/ldconfig
 
@@ -83,6 +89,7 @@ API for development of Intel Optane DC persistent memory management utilities.
 %{_libdir}/libipmctl.so.4*
 %dir %{_datadir}/doc/ipmctl
 %doc %{_datadir}/doc/ipmctl/ipmctl_default.conf
+%doc %{_datadir}/doc/ipmctl/LICENSE
 %config(noreplace) %{_datadir}/ipmctl/ipmctl.conf
 %dir %{_localstatedir}/log/ipmctl
 %config(noreplace) %{_sysconfdir}/logrotate.d/ipmctl
@@ -96,6 +103,31 @@ API for development of Intel Optane DC persistent memory management utilities.
 %{_libdir}/pkgconfig/libipmctl.pc
 
 %changelog
+* Thu Oct 15 2020 Jeff Law <law@redhat.com> - 02.00.00.3825-2
+- Fix mismatched array sizes for argument to os_mkdir caught by gcc-11
+
+* Wed Sep 30 2020 Steven Pontsler <steven.pontsler@intel.com> - 02.00.00.3825-1
+- Release 02.00.00.3825
+
+* Sun Aug 30 2020 Steven Pontsler <steven.pontsler@intel.com> - 02.00.00.3809-2
+- Change to use cmake macros
+
+* Sun Aug 30 2020 Steven Pontsler <steven.pontsler@intel.com> - 02.00.00.3809-1
+- Release 02.00.00.3809
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 02.00.00.3791-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 02.00.00.3791-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Juston Li <juston.li@intel.com> - 02.00.00.3791-1
+- Release 02.00.00.3791
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 02.00.00.3764-2
+- Fix latent type mismatch problem exposed by LTO
+
 * Fri May 01 2020 Juston Li <juston.li@intel.com> - 02.00.00.3764-1
 - Release 02.00.00.3764
 
@@ -106,9 +138,6 @@ API for development of Intel Optane DC persistent memory management utilities.
 
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 01.00.00.3474-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
-
-* Wed Oct 23 2019 Juston Li <juston.li@intel.com> - 01.00.00.3474-1
-- Release 01.00.00.3474
 
 * Wed May 02 2018 Juston Li <juston.li@intel.com> - 01.00.00.3000-1
 - initial spec

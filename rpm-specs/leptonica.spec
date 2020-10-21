@@ -1,6 +1,6 @@
 Name:          leptonica
-Version:       1.79.0
-Release:       2%{?dist}
+Version:       1.80.0
+Release:       1%{?dist}
 Summary:       C library for efficient image processing and image analysis operations
 
 License:       Leptonica
@@ -96,6 +96,12 @@ make check VERBOSE=1
 
 
 %changelog
+* Thu Jul 30 2020 Sandro Mani <manisandro@gmail.com> - 1.80.0-1
+- Update to 1.80.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.79.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.79.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

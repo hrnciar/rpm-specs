@@ -5,7 +5,7 @@
 %global crate chrono-tz
 
 Name:           rust-%{crate}
-Version:        0.5.2
+Version:        0.5.3
 Release:        1%{?dist}
 Summary:        TimeZone implementations for rust-chrono from the IANA database
 
@@ -66,6 +66,18 @@ which use "serde" feature of "%{crate}" crate.
 %files       -n %{name}+serde-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+std-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+std-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "std" feature of "%{crate}" crate.
+
+%files       -n %{name}+std-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
 mkdir .tmp
@@ -89,6 +101,12 @@ mv .tmp tz
 %endif
 
 %changelog
+* Wed Sep 16 2020 Fabio Valentini <decathorpe@gmail.com> - 0.5.3-1
+- Update to version 0.5.3.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 10 2020 Josh Stone <jistone@redhat.com> - 0.5.2-1
 - Update to 0.5.2
 

@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.8
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Auto-generate Sphinx API docs from Zope interfaces
 
 License:        BSD
@@ -22,15 +22,12 @@ This package defines an extension for the Sphinx documentation system.
 The extension allows generation of API documentation by introspection of
 zope.interface instances in code.}
 
-%description
-%{common_desc}
+%description %{common_desc}
 
 %package -n python3-%{srcname}
 Summary:        Auto-generate Sphinx API docs from Zope interfaces
-%{?python_provide:%python_provide python3-%{srcname}}
 
-%description -n python3-%{srcname}
-%{common_desc}
+%description -n python3-%{srcname} %{common_desc}
 
 %prep
 %autosetup -n %{pkgname}-%{version}
@@ -49,6 +46,9 @@ rst2html --no-datestamp README.rst README.html
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8-16
 - Rebuilt for Python 3.9
 

@@ -1,16 +1,18 @@
 Name:           libhandy1
-Version:        0.82.0
-Release:        1%{?dist}
+Version:        1.0.0
+Release:        2%{?dist}
 Summary:        Building blocks for modern adaptive GNOME apps
 
 License:        LGPLv2+
 URL:            https://gitlab.gnome.org/GNOME/libhandy
-Source0:        https://download.gnome.org/sources/libhandy/0.82/libhandy-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/libhandy/1.0/libhandy-%{version}.tar.xz
+
+# https://gitlab.gnome.org/GNOME/libhandy/-/merge_requests/607
+Patch0:         0001-glade-add-conditional-support-for-gladeui-3.37.patch
 
 BuildRequires:  gcc
 BuildRequires:  gtk-doc
 BuildRequires:  meson
-BuildRequires:  python3-devel
 BuildRequires:  vala
 
 BuildRequires:  pkgconfig(gio-2.0)
@@ -56,8 +58,6 @@ developing applications that use %{name}.
 %{_libdir}/girepository-1.0/
 %{_libdir}/libhandy-1.so.0
 
-%{python3_sitearch}/gi/
-
 %files devel
 %{_includedir}/libhandy-1/
 
@@ -72,6 +72,30 @@ developing applications that use %{name}.
 
 
 %changelog
+* Sun Sep 13 2020 Kalev Lember <klember@redhat.com> - 1.0.0-2
+- Rebuilt for libgladeui soname bump
+
+* Tue Sep 08 2020 Kalev Lember <klember@redhat.com> - 1.0.0-1
+- Update to 1.0.0
+
+* Fri Sep 04 2020 Kalev Lember <klember@redhat.com> - 0.91.0-1
+- Update to 0.91.0
+
+* Thu Sep 03 2020 Fabio Valentini <decathorpe@gmail.com> - 0.90.0-2
+- Add patch to support gladeui >= 3.37.
+
+* Fri Aug 07 2020 Fabio Valentini <decathorpe@gmail.com> - 0.90.0-1
+- Update to version 0.90.0.
+
+* Fri Jul 31 2020 Kalev Lember <klember@redhat.com> - 0.85.0-1
+- Update to 0.85.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.84.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Kalev Lember <klember@redhat.com> - 0.84.0-1
+- Update to 0.84.0
+
 * Mon Jun 22 2020 Kalev Lember <klember@redhat.com> - 0.82.0-1
 - Update to 0.82.0
 

@@ -1,5 +1,5 @@
 Name:           flatpak-rpm-macros
-Version:        32
+Version:        33
 Release:        2%{?dist}
 Summary:        Macros for building RPMS for flatpaks
 Source0:        macros.flatpak
@@ -23,7 +23,7 @@ as Flatpaks.
 %install
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/rpm
 install -t $RPM_BUILD_ROOT%{_sysconfdir}/rpm -p -m 644 %{SOURCE0}
-for v in 3.8 ; do
+for v in 3.9 ; do
     mkdir -p $RPM_BUILD_ROOT%{_libdir}/python$v/distutils/
     install -t $RPM_BUILD_ROOT%{_libdir}/python$v/distutils/ %{SOURCE1}
 done
@@ -39,6 +39,19 @@ install -t $RPM_BUILD_ROOT%{_datadir}/xmvn/config.d -m 644 %{SOURCE2}
 %{_datadir}/xmvn/config.d/flatpak.xml
 
 %changelog
+* Sat Sep 19 2020 Kalev Lember <klember@redhat.com> - 33-2
+- Redefine __python2 macro to point to /app/bin/python2
+
+* Mon Sep 14 2020 Kalev Lember <klember@redhat.com> - 33-1
+- Update %%python_sitearch for python-3.9
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 32-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 32-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 18 2020 Kalev Lember <klember@redhat.com> - 32-2
 - Remove Python 2 support (#1805232)
 

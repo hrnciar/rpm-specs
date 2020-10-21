@@ -4,7 +4,7 @@
 
 Name:           non-daw
 Version:        1.2.0
-Release:        19.%{commitdate}git%{shortcommit0}%{?dist}
+Release:        20.%{commitdate}git%{shortcommit0}%{?dist}
 Summary:        A digital audio workstation for JACK
 
 License:        GPLv2+ and ISC
@@ -167,6 +167,9 @@ chmod 755 %{buildroot}%{_bindir}/*
 %{_docdir}/non-sequencer
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-20.20200307gitbbe8386
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 08 2020 Erich Eickmeyer <erich@ericheickmeyer.com> - 1.2.0-19.20200307gitbbe8386
 - New git sync, built with waf built with python3
 

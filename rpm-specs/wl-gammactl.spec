@@ -9,7 +9,7 @@
 
 Name:     wl-gammactl
 Version:  0.1
-Release:  0.4.20200406git%{shortcommit}%{?dist}
+Release:  0.5.20200406git%{shortcommit}%{?dist}
 Summary:  Set contrast, brightness and gamma for wayland compositors
 License:  MIT
 URL:      https://github.com/mischw/wl-gammactl
@@ -74,6 +74,9 @@ desktop-file-install --dir %{buildroot}/%{_datadir}/applications \
 %license LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.5.20200406git611846c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Bob Hepple <bob.hepple@gmail.com> - 0.1-0.4.20200406git611846c
 - rebuilt
 

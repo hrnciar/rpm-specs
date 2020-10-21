@@ -3,7 +3,7 @@
 
 # https://github.com/ulikunitz/xz
 %global goipath         github.com/ulikunitz/xz
-Version:                0.5.7
+Version:                0.5.8
 
 %gometa
 
@@ -57,6 +57,13 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Thu Aug 20 2020 Dominik Mierzejewski <dominik@greysector.net> - 0.5.8-1
+- Release 0.5.8 (#1870433)
+- fixes CVE-2020-16845
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 09 2020 Dominik Mierzejewski <dominik@greysector.net> - 0.5.7-1
 - update to 0.5.7 (#1806448)
 

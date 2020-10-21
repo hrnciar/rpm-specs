@@ -1,17 +1,12 @@
-%global mydocs __tmp_docdir
 Name:           stdair
 Version:        1.00.10
-Release:        3%{?dist}
+Release:        5%{?dist}
 
 Summary:        C++ Standard Airline IT Object Library
 
 License:        LGPLv2+
 URL:            https://github.com/airsim/%{name}
 Source0:        %{url}/archive/%{name}-%{version}.tar.gz
-
-# For some reason, as of November 2019, it does not compile on ARMv7hl
-# See https://koji.fedoraproject.org/koji/taskinfo?taskID=38769808
-#ExcludeArch:    armv7hl
 
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
@@ -53,36 +48,36 @@ BuildRequires:  texlive-epstopdf
 %description    doc
 This package contains HTML pages, as well as a PDF reference manual,
 for %{name}. All that documentation is generated thanks to Doxygen
-(http://doxygen.org). The content is the same as what can be browsed
-online (http://%{name}.org).
+(https://doxygen.org). The content is the same as what can be browsed
+online (https://%{name}.org).
 
 
 %prep
 %autosetup -n %{name}-%{name}-%{version} 
 
 %build
-%cmake .
-%make_build
+%cmake 
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 # Fix some permissions
-find $RPM_BUILD_ROOT%{_libexecdir}/%{name} -type f -name '*.sh' -exec chmod +x {} \;
+find %{buildroot}%{_libexecdir}/%{name} -type f -name '*.sh' -exec chmod +x {} \;
 
-mkdir -p %{mydocs}
-mv $RPM_BUILD_ROOT%{_docdir}/%{name}/html %{mydocs}
-rm -f %{mydocs}/html/installdox
+# Remove the Doxygen installer
+rm -f %{buildroot}/%{_docdir}/%{name}/html/installdox
 
 # Remove additional documentation files (those files are already available
 # in the project top directory)
-rm -f $RPM_BUILD_ROOT%{_docdir}/%{name}/{NEWS,README.md,AUTHORS}
+rm -f %{buildroot}%{_docdir}/%{name}/{NEWS,README.md,AUTHORS}
 
 %check
 ctest
 
 %files
-%doc ChangeLog COPYING AUTHORS NEWS README.md
+%doc ChangeLog AUTHORS NEWS README.md
+%license COPYING
 %{_bindir}/%{name}
 %{_libdir}/lib%{name}.so.*
 %{_libdir}/lib%{name}uicl.so.*
@@ -127,11 +122,18 @@ ctest
 %{_mandir}/man3/%{name}-library.3.*
 
 %files doc
-%doc %{mydocs}/html
-%doc COPYING
+%doc %{_docdir}/%{name}/html
+%license COPYING
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00.10-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.00.10-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Denis Arnaud <denis.arnaud_fedora@m4x.org> - 1.00.10-3
 - Rebuilt for SOCI 4.0.1.alpha1
 

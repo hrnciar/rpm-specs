@@ -2,7 +2,7 @@
 
 Name:    python3-mallard-ducktype
 Version: 1.0.2
-Release: 6%{?dist}
+Release: 8%{?dist}
 Summary: Parse Ducktype files and convert them to Mallard
 
 License: MIT
@@ -12,6 +12,7 @@ Source0: https://github.com/projectmallard/%{srcname}/archive/%{version}/%{versi
 
 BuildArch:     noarch
 BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 
 %description
 Parse Ducktype files and convert them to Mallard.
@@ -42,6 +43,12 @@ Parse Ducktype files and convert them to Mallard.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 David King <amigadave@amigadave.com> - 1.0.2-7
+- BuildRequire python3-setuptools explicitly
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.2-6
 - Rebuilt for Python 3.9
 

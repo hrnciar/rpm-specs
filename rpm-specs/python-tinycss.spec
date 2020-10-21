@@ -2,7 +2,7 @@
 Name:           python-tinycss
 Summary:        CSS parser for Python
 Version:        0.3
-Release:        27%{?dist}
+Release:        29%{?dist}
 License:        BSD
 URL:            http://pythonhosted.org/tinycss/
 Source0:        https://github.com/SimonSapin/tinycss/archive/v%{version}.tar.gz
@@ -57,6 +57,13 @@ sed -i 's/build_ext=ve_build_ext/build_ext=build_ext/' setup.py
 %{python3_sitearch}/tinycss-%{version}-py%{python3_version}.egg-info/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-29
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3-27
 - Rebuilt for Python 3.9
 

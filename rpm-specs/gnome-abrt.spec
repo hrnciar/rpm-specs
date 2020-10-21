@@ -10,8 +10,8 @@
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:       gnome-abrt
-Version:    1.3.5
-Release:    2%{?snapshot:.git%{shortcommit}}%{?dist}
+Version:    1.3.6
+Release:    1%{?snapshot:.git%{shortcommit}}%{?dist}
 Summary:    A utility for viewing problems that have occurred with the system
 
 License:    GPLv2+
@@ -38,14 +38,14 @@ BuildRequires: gtk3-devel
 %if 0%{?fedora}
 BuildRequires: python3-pylint
 BuildRequires: python3-six
-BuildRequires: python3-inotify
 BuildRequires: python3-gobject
 BuildRequires: python3-dbus
 BuildRequires: python3-humanize
 %endif
 
+Requires:   glib2%{?_isa} >= 2.63.2
+Requires:   gobject-introspection%{?_isa} >= 1.63.1
 Requires:   python3-libreport
-Requires:   python3-inotify
 Requires:   python3-gobject
 Requires:   python3-dbus
 Requires:   python3-humanize
@@ -62,7 +62,9 @@ provides them with convenient way for managing these problems.
 
 %build
 %meson \
-    %{!?fedora:-Dlint=false} \
+%if ! 0%{?fedora}
+    -Dlint=false \
+%endif
     %{nil}
 %meson_build
 
@@ -88,6 +90,22 @@ provides them with convenient way for managing these problems.
 %{_datadir}/icons/hicolor/*/apps/*
 
 %changelog
+* Mon Aug 24 2020 rebase-helper <rebase-helper@localhost.local> - 1.3.6-1
+- new upstream release: 1.3.6
+
+* Wed Aug 05 2020 Merlin Mathesius <mmathesi@redhat.com> - 1.3.5-5
+- Minor ELN conditional fixes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 - Ernestas Kulik <ekulik@redhat.com> - 1.3.5-3
+- Add patch to fix https://bugzilla.redhat.com/show_bug.cgi?id=1854949
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.5-2
 - Rebuilt for Python 3.9
 

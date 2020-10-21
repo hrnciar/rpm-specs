@@ -5,12 +5,12 @@
 %global crate crossbeam-channel
 
 Name:           rust-%{crate}
-Version:        0.4.2
+Version:        0.4.4
 Release:        1%{?dist}
 Summary:        Multi-producer multi-consumer channels for message passing
 
-# Upstream license specification: MIT/Apache-2.0 AND BSD-2-Clause
-License:        (MIT or ASL 2.0) and BSD
+# Upstream license specification: MIT OR Apache-2.0
+License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/crossbeam-channel
 Source:         %{crates_source}
 
@@ -73,6 +73,19 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Mon Sep 21 2020 Fabio Valentini <decathorpe@gmail.com> - 0.4.4-1
+- Update to version 0.4.4.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Josh Stone <jistone@redhat.com> - 0.4.3-1
+- Update to 0.4.3
+
 * Sun Feb 23 11:25:39 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.4.2-1
 - Update to 0.4.2
 

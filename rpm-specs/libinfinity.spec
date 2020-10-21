@@ -4,7 +4,7 @@
 
 Name:           libinfinity
 Version:        0.7.1
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Library implementing the infinote protocol
 
 License:        LGPLv2+
@@ -188,6 +188,9 @@ chrpath -d %{buildroot}%{_libdir}/libinftextgtk-%{libversion}.so.0.0.0
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -33,7 +33,7 @@
 Summary:	A GTK+ 2ch.net BBS Browser
 Name:		ochusha
 Version:	%{main_ver}
-Release:	%{rel}.16
+Release:	%{rel}.17
 URL:		http://ochusha.sourceforge.jp/
 %if %{pre_release}
 Source:		%{name}-%{main_ver}-%{strtag}.tar.bz2
@@ -215,6 +215,9 @@ change_encoding \
 %{_datadir}/icons/hicolor/48x48/apps/*.png
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0.1-0.14.cvs20100817T0000.1.17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0.1-0.14.cvs20100817T0000.1.16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

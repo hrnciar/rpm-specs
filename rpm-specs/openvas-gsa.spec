@@ -1,9 +1,10 @@
+%global __cmake_in_source_build 1
 %global         short_name gsad
 
 #Name not same as upstream package to match the naming convention of the OpenVAS suite
 Name:           openvas-gsa
 Version:        9.0.1
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Greenbone Security Assistant (GSA) is GUI to the OpenVAS
 
 License:        GPLv2+
@@ -46,6 +47,7 @@ Patch1:         %{name}-pki.patch
 #Patch3:         %{name}-polib.patch
 Patch4:         %{name}-doxygen_full.patch
 #Patch5:         %{name}-strncpy.patch
+Patch6:		%{name}-strsignal.patch
 
 BuildRequires:  gcc
 BuildRequires:  openvas-libraries-devel >= 7.0
@@ -100,6 +102,7 @@ gpgv2 --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 #%patch3 -p1 -b .polib
 %patch4 -p1 -b .doxyfull
 #%patch5 -p2 -b .strncpy
+%patch6 -p1 -b .strsignal
 tar -C .. -zxvf %{SOURCE8}
 
 #Fix encoding issues
@@ -207,6 +210,17 @@ fi
 %doc gsad/doc/generated/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.0.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Jeff Law <law@redhat.com> - 9.0.1-3
+- Use strsignal not sys_siglist
+- Use __cmake_in_source_build 1
+
 * Sat May 30 2020 josef radinger <cheese@nosuchhost.net> - 9.0.1-2
 - remove /etc/openvas/
 - /var/log/gvm/gsad.log instead of /var/log/openvas/openvas.log

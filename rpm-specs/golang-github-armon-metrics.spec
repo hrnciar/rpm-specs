@@ -4,14 +4,9 @@
 
 # https://github.com/armon/go-metrics
 %global goipath         github.com/armon/go-metrics
-Version:                0.3.0
+Version:                0.3.3
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-armon-go-metrics-devel < 0-0.19
-}
 
 %global common_description %{expand:
 A golang library for exporting performance and runtime metrics to external\
@@ -66,6 +61,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 18:08:03 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.3.3-1
+- Update to 0.3.3
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

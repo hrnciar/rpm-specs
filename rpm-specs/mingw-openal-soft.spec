@@ -7,7 +7,7 @@
 
 Name:           mingw-%{pkgname}
 Version:        1.18.2
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Open Audio Library
 
 License:        LGPLv2+
@@ -151,6 +151,9 @@ install -Dpm644 alsoftrc.sample %{buildroot}%{mingw64_sysconfdir}/openal/alsoft.
 %{mingw64_datadir}/openal
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

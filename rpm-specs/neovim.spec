@@ -8,14 +8,14 @@
 %if %{with luajit}
 %global luaver 5.1
 %else
-%global luaver 5.3
+%global luaver %{lua_version}
 %endif
 
 %global luv_min_ver 1.30.0
 
 Name:           neovim
-Version:        0.4.3
-Release:        6%{?dist}
+Version:        0.4.4
+Release:        3%{?dist}
 
 License:        ASL 2.0
 Summary:        Vim-fork focused on extensibility and agility
@@ -25,8 +25,8 @@ Source0:        https://github.com/neovim/neovim/archive/v%{version}/%{name}-%{v
 Source1:        sysinit.vim
 Source2:        spec-template
 
-Patch0:         https://patch-diff.githubusercontent.com/raw/neovim/neovim/pull/11890.patch
-
+# https://github.com/neovim/neovim/pull/12820
+Patch0:         neovim-0.4.4-findlua54.patch
 Patch1000:      neovim-0.1.7-bitop.patch
 
 BuildRequires:  gcc-c++
@@ -46,6 +46,11 @@ BuildRequires:  lua5.1-luv-devel >= %{luv_min_ver}
 Requires:       lua5.1-luv >= %{luv_min_ver}
 %else
 BuildRequires:  lua-devel
+%if 0%{?fedora} >= 33
+# built-in bit32 removed in Lua 5.4
+BuildRequires:  lua-bit32
+Requires:       lua-bit32
+%endif
 BuildRequires:  lua-lpeg
 BuildRequires:  lua-mpack
 BuildRequires:  lua-luv-devel >= %{luv_min_ver}
@@ -60,6 +65,7 @@ BuildRequires:  libuv-devel >= 1.28.0
 BuildRequires:  libvterm-devel >= 0.1.1
 BuildRequires:  unibilium-devel
 %if 0%{?el7}
+# Lua 5.1 doesn't have bit32
 BuildRequires:  lua-bit32
 Requires:       lua-bit32
 %else
@@ -82,30 +88,23 @@ parts of Vim, without compromise, and more.
 %prep
 %setup -q
 
-%patch0 -p1
-
 %if %{without luajit}
+%patch0 -p1 -b .findlua54
 %patch1000 -p1 -b .bitop
 %endif
 
 %build
-mkdir -p build
-pushd build
 %cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo \
        -DPREFER_LUA=%{?with_luajit:OFF}%{!?with_luajit:ON} \
        -DLUA_PRG=%{_bindir}/%{?with_luajit:luajit}%{!?with_luajit:lua} \
        -DENABLE_JEMALLOC=%{?with_jemalloc:ON}%{!?with_jemalloc:OFF} \
        -DLIBLUV_INCLUDE_DIR=%{_includedir}/lua-%{luaver} \
        -DLIBLUV_LIBRARY=%{_libdir}/lua/%{luaver}/luv.so \
-       ..
 
-%make_build VERBOSE=1
-popd
+%cmake_build
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 
 install -p -m 644 %SOURCE1 %{buildroot}%{_datadir}/nvim/sysinit.vim
 install -p -m 644 %SOURCE2 %{buildroot}%{_datadir}/nvim/template.spec
@@ -1594,6 +1593,25 @@ install -m0644 runtime/nvim.png %{buildroot}%{_datadir}/pixmaps/nvim.png
 %{_datadir}/nvim/runtime/tutor/en/vim-01-beginner.tutor.json
 
 %changelog
+* Tue Sep  1 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.4.4-3
+- When using Lua 5.4, also pull in lua-bit32 at installation
+
+* Mon Aug 31 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.4.4-2
+- Do not hardcode Lua version
+- Patch to support detecting Lua 5.4
+- Pull in lua-bit32 when built against Lua 5.4
+
+* Wed Aug 05 2020 Andreas Schneider <asn@redhat.com> - 0.4.4-1
+- Update to version 0.4.4
+- Use new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.3-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 22 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.4.3-6
 - Update build requirements
 

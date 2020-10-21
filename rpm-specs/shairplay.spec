@@ -6,7 +6,7 @@
 
 Name:           shairplay
 Version:        0.9.0
-Release:        14.%{commit_date}git%{short_commit}%{?dist}
+Release:        15.%{commit_date}git%{short_commit}%{?dist}
 Summary:        Apple AirPlay and RAOP protocol server
 
 License:        MIT and BSD and LGPLv2+
@@ -153,6 +153,9 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/appdata/airtv.a
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-15.20160101gitce80e00
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-14.20160101gitce80e00
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

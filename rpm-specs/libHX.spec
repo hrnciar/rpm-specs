@@ -1,6 +1,6 @@
 Name:           libHX
 Version:        3.22
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Useful collection of routines for C and C++ programming
 
 License:        LGPLv2 or LGPLv3
@@ -95,6 +95,9 @@ install -m 644 README.txt \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.22-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.22-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

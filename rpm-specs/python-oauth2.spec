@@ -4,7 +4,7 @@
 Name:			python-oauth2
 Summary:		Python support for improved oauth
 Version:		1.9.0
-Release:		18.%{reltag}%{?dist}
+Release:		19.%{reltag}%{?dist}
 License:		MIT
 Source0:		http://pypi.python.org/packages/source/o/oauth2/oauth2-%{version}.%{reltag}.tar.gz
 # https://github.com/pmakowski/python-oauth2/commit/7002422bb39bc137713933bc2e55251853830fcc
@@ -123,6 +123,9 @@ rm -rf %{buildroot}%{python3_sitelib}/tests/
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.0-19.post1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.9.0-18.post1
 - Rebuilt for Python 3.9
 

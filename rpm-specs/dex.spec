@@ -3,7 +3,7 @@
 
 Name:       dex
 Version:    1.0
-Release:    11%{?dist}
+Release:    12%{?dist}
 Summary:    Dextrous text editor
 License:    GPLv2
 URL:        https://github.com/tihirvon/dex
@@ -49,6 +49,9 @@ make %{?_smp_mflags} V=1
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

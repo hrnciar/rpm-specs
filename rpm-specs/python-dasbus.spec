@@ -1,8 +1,8 @@
 %global srcname dasbus
 
 Name:           python-%{srcname}
-Version:        1.3
-Release:        1%{?dist}
+Version:        1.4
+Release:        2%{?dist}
 Summary:        DBus library in Python 3
 
 License:        LGPLv2+
@@ -43,6 +43,15 @@ Requires:       python3-gobject-base
 %{python3_sitelib}/%{srcname}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Vendula Poncova <vponcova@redhat.com> - 1.4-1
+- Handle all errors of the DBus call (vponcova)
+- Fix tests for handling DBus errors on the server side (vponcova)
+- Run packit smoke tests for all Fedora (jkonecny)
+- Fix packit archive creation (jkonecny)
+- Add possibility to change setup.py arguments (jkonecny)
 * Wed Jun 17 2020 Vendula Poncova <vponcova@redhat.com> - 1.3-1
 - Document differences between dasbus and pydbus (vponcova)
 - Improve the support for interface proxies in the service identifier (vponcova)

@@ -11,7 +11,7 @@
 Name:           libgda
 Epoch:          1
 Version:        5.2.9
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Library for writing gnome database programs
 
 License:        LGPLv2+
@@ -372,6 +372,12 @@ rm -r %{buildroot}/%{_datadir}/%{name}-%{apiver}/gda_trml2pdf
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.2.9-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1:5.2.9-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.2.9-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

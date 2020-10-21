@@ -1,10 +1,10 @@
 %global srcname iconv
 
-%global p1_utils_ver 1.0.13
+%global p1_utils_ver 1.0.19
 
 Name:       erlang-%{srcname}
-Version:    1.0.10
-Release:    6%{?dist}
+Version:    1.0.11
+Release:    1%{?dist}
 
 Summary:    Fast encoding conversion library for Erlang / Elixir
 License:    ASL 2.0
@@ -52,6 +52,18 @@ install -pm755 priv/lib/iconv.so $RPM_BUILD_ROOT%{_erllibdir}/%{srcname}-%{versi
 
 
 %changelog
+* Mon Oct 05 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.11-1
+- Update to 1.0.11 (#1858904).
+- Fix FTBFS (#1863504).
+- https://github.com/processone/iconv/blob/1.0.11/CHANGELOG.md
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -66,31 +78,3 @@ install -pm755 priv/lib/iconv.so $RPM_BUILD_ROOT%{_erllibdir}/%{srcname}-%{versi
 
 * Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
-
-* Sun Oct 14 2018 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.10-1
-- Update to 1.0.10.
-- https://github.com/processone/iconv/blob/1.0.10/CHANGELOG.md
-
-* Tue Jul 31 2018 Florian Weimer <fweimer@redhat.com> - 1.0.8-2
-- Rebuild with fixed binutils
-
-* Sun Jul 29 2018 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.8-1
-- Update to 1.0.8 (#1596194).
-- https://github.com/processone/iconv/blob/1.0.8/CHANGELOG.md
-
-* Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.7-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
-
-* Tue Mar 27 2018 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.7-1
-- Update to 1.0.7 (#1559640).
-- https://github.com/processone/iconv/blob/1.0.7/CHANGELOG.md
-
-* Sun Mar 25 2018 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.6-4
-- Re-rebuild against Erlang 20, this time with feeling (and with working dependency detection).
-- Explicitly depend on the required version of p1_utils.
-
-* Thu Feb 22 2018 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.6-3
-- Rebuild for Erlang 20.
-
-* Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild

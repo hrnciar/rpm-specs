@@ -1,6 +1,6 @@
 Name:		calf
 Version:	0.90.3
-Release:	5%{?dist}
+Release:	7%{?dist}
 Summary:	Audio plugins pack
 # The jackhost code is GPLv2+ 
 # The GUI code is LGPLv2+
@@ -61,6 +61,7 @@ This package contains only LADSPA effect plugins (no GUI), with LRDF.
 %package -n lv2-%{name}-plugins
 Summary:	Calf plugins in LV2 format
 License:	GPLv2+ and LGPLv2+ and Public Domain
+Requires:	%{name} = %{version}-%{release}
 Requires:	lv2core
 
 %description -n lv2-%{name}-plugins
@@ -172,6 +173,12 @@ ln -s %{_libdir}/calf/calf.so $RPM_BUILD_ROOT/%{_libdir}/dssi/calf.so
 %{_libdir}/dssi/%{name}.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.90.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.90.3-6
+- Make lv2-calf-plugins require the main package.
+
 * Wed Apr 01 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.90.3-5
 - Move gui to subpackage (vascom)
 

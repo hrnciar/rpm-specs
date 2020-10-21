@@ -10,7 +10,7 @@
 %bcond_with bootstrap
 
 Name:           gap-pkg-%{pkgname}
-Version:        2.15.1
+Version:        2.16
 Release:        2%{?dist}
 Summary:        Algorithms on polycylic groups for GAP
 
@@ -68,6 +68,7 @@ for fil in gap/basic/colcom.gi; do
 done
 
 %build
+export LC_ALL=C.UTF-8
 gap < makedoc.g
 
 %install
@@ -78,6 +79,7 @@ rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}-%{version}/{CHANGES.md,LICENSE,READ
 
 %if %{without bootstrap}
 %check
+export LC_ALL=C.UTF-8
 gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" tst/testall.g
 %endif
 
@@ -92,6 +94,12 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}-%{version}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.16-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Jerry James <loganjerry@gmail.com> - 2.16-1
+- Version 2.16
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.15.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

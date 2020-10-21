@@ -1,6 +1,6 @@
 Name:           proj-datumgrid-world
 Version:        1.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        World datum shift grids for Proj
 
 # See README.WORLD
@@ -32,6 +32,9 @@ install -pm 0644 * %{buildroot}%{_datadir}/proj
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

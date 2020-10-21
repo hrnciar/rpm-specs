@@ -4,7 +4,7 @@
 
 Name:          drupal7-%{module}
 Version:       2.10
-Release:       9%{?dist}
+Release:       10%{?dist}
 Summary:       Provides feature management for Drupal
 
 License:       GPLv2+
@@ -66,6 +66,9 @@ cp -pr * %{buildroot}%{drupal7_modules}/%{module}/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 2.10-9
 - Bump build requires drupal7-rpmbuild to ">= 7.70-2" to fix F32+ auto provides
 

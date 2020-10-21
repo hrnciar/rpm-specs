@@ -1,6 +1,6 @@
 Name:           libevdev
-Version:        1.9.0
-Release:        2%{?dist}
+Version:        1.9.902
+Release:        1%{?dist}
 Summary:        Kernel Evdev Device Wrapper Library
 
 License:        MIT
@@ -44,7 +44,7 @@ pathfix.py -i %{__python3} -p -n $(git grep -l '#!/usr/bin/.*python.*')
 %ldconfig_scriptlets
 
 %files
-%doc COPYING 
+%doc COPYING
 %{_libdir}/libevdev.so.*
 
 %files devel
@@ -60,8 +60,25 @@ pathfix.py -i %{__python3} -p -n $(git grep -l '#!/usr/bin/.*python.*')
 %{_bindir}/touchpad-edge-detector
 %{_bindir}/mouse-dpi-tool
 %{_bindir}/libevdev-tweak-device
+%{_mandir}/man1/libevdev-tweak-device.1*
+%{_mandir}/man1/touchpad-edge-detector.1*
 
 %changelog
+* Tue Oct 20 2020 Peter Hutterer <peter.hutterer@redhat.com> 1.9.902-1
+- libevdev 1.10 rc2
+
+* Tue Oct 06 2020 Peter Hutterer <peter.hutterer@redhat.com> 1.9.901-1
+- libevdev 1.10 rc1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Peter Hutterer <peter.hutterer@redhat.com> 1.9.1-2
+- libevdev 1.9.1 - this time with sources
+
+* Thu Jul 16 2020 Peter Hutterer <peter.hutterer@redhat.com> 1.9.1-1
+- libevdev 1.9.1
+
 * Thu Jun 04 2020 Peter Hutterer <peter.hutterer@redhat.com> 1.9.0-2
 - Use meson instead of autotools
 

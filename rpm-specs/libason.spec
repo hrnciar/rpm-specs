@@ -1,6 +1,6 @@
 Name:           libason
 Version:        0.1.2
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        A library for manipulating ASON values
 
 License:        GPLv3+
@@ -60,6 +60,9 @@ done
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

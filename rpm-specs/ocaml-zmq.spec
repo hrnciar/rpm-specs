@@ -6,14 +6,13 @@
 
 Name:           ocaml-%{srcname}
 Version:        5.1.3
-Release:        4%{?dist}
+Release:        8%{?dist}
 Summary:        ZeroMQ bindings for OCaml
 
 License:        MIT
 URL:            https://github.com/issuu/%{name}
 Source0:        %{url}/releases/download/%{version}/%{srcname}-%{version}.tbz
 
-BuildRequires:  libev-devel
 BuildRequires:  ocaml >= 4.03.0
 BuildRequires:  ocaml-dune-devel
 BuildRequires:  ocaml-lwt-devel
@@ -154,6 +153,19 @@ dune runtest
 %license LICENSE.md
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 5.1.3-8
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 5.1.3-7
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.3-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 5.1.3-4
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

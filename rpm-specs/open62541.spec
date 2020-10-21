@@ -1,11 +1,10 @@
 Name:     open62541
-Version:  1.0.1
+Version:  1.1.2
 Release:  2%{?dist}
 Summary:  OPC UA implementation
 License:  MPLv2.0
 URL:      http://open62541.org
 Source0:  https://github.com/open62541/open62541/archive/v%{version}/%{name}-%{version}.tar.gz
-Patch0:   000-remove-unknown-gcc-options.patch
 
 BuildRequires: gcc-c++
 BuildRequires: cmake3
@@ -21,6 +20,7 @@ BuildRequires: python-six
 BuildRequires: python-sphinx
 BuildRequires: python-sphinx_rtd_theme
 %endif
+BuildRequires: graphviz
 
 %description
 open62541 is a C-based library (linking with C++ projects is possible)
@@ -43,7 +43,7 @@ BuildArch: noarch
 The %{name}-doc package contains documentation for %{name}.
 
 %prep
-%autosetup -n %{name}-v.%{version}
+%autosetup -n %{name}-%{version}
 
 %build
 mkdir -p build
@@ -58,20 +58,26 @@ cd build
   -DOPEN62541_VERSION=v%{version} \
   -DUA_ENABLE_AMALGAMATION=ON ..
 
-%make_build
+%cmake_build
+cd %{__cmake_builddir}
 %make_build doc
 
 %install
+mkdir stage-docs
 cd build
-%make_install
+%cmake_install
 
 # Remove build files not belonging to docs
 rm -rf doc/CMakeFiles doc/Makefile doc/*.cmake
+# stage docs
+cp -av %{__cmake_builddir}/doc/* ../stage-docs/
 
 cd -
 # Remove this from the examples installation
 rm examples/CMakeLists.txt
 rm -Rf %{buildroot}/usr/share/open62541/tools
+# fix permission
+chmod 0644 examples/nodeset/Opc.Ua.POWERLINK.NodeSet2.bsd
 
 %ldconfig_scriptlets
 
@@ -91,14 +97,20 @@ rm -Rf %{buildroot}/usr/share/open62541/tools
 %doc FEATURES.md
 
 %files doc
-%doc build/doc/*
+%doc stage-docs/*
 %doc examples/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Jens Reimann <jreimann@redhat.com> - 1.1.2-1
+- Update to 1.1.2 release
+
 * Tue Jun 02 2020 Charalampos Stratakis <cstratak@redhat.com> - 1.0.1-2
 - Fix macro typo
 
-* Thu Feb  5 2020 Peter Robinson <pbrobinson@fedoraproject.org> 1.0.1-1
+* Wed Feb  5 2020 Peter Robinson <pbrobinson@fedoraproject.org> 1.0.1-1
 - Update to 1.0.1 release
 
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-3

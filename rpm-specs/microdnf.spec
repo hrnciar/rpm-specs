@@ -2,7 +2,7 @@
 
 Name:           microdnf
 Version:        3.4.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Minimal C implementation of DNF
 
 License:        GPLv3+
@@ -53,6 +53,9 @@ capabilities are intentionally not implemented in Micro DNF.
 %{_bindir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

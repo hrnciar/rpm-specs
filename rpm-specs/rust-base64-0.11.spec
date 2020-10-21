@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}-0.11
 Version:        0.11.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Encodes and decodes base64 as bytes or utf8
 
 # Upstream license specification: MIT/Apache-2.0
@@ -95,5 +95,8 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 18 11:19:07 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.11.0-1
 - Initial package

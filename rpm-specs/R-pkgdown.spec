@@ -1,5 +1,5 @@
 %global packname pkgdown
-%global packver  1.5.1
+%global packver  1.6.1
 %global rlibdir  %{_datadir}/R/library
 
 %global __suggests_exclude ^R\\((leaflet|rticles)\\)
@@ -11,8 +11,8 @@
 %global with_loop 0
 
 Name:             R-%{packname}
-Version:          %{packver}
-Release:          2%{?dist}
+Version:          1.6.1
+Release:          1%{?dist}
 Summary:          Make Static HTML Documentation for a Package
 
 License:          MIT
@@ -21,8 +21,8 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-callr >= 2.0.2, R-cli, R-crayon, R-desc, R-digest, R-evaluate, R-fs >= 1.3.0, R-fansi, R-highlight, R-httr, R-magrittr, R-MASS, R-memoise, R-openssl, R-purrr, R-processx, R-rematch2, R-rlang >= 0.3.0, R-rmarkdown >= 1.1.9007, R-rstudioapi, R-tibble, R-tools, R-whisker, R-withr, R-xml2 >= 1.3.1, R-yaml
-# Suggests:  R-covr, R-htmlwidgets, R-jsonlite, R-knitr, R-leaflet, R-pkgload >= 1.0.2, R-testthat >= 2.1.0, R-rticles, R-rsconnect
+# Imports:   R-callr >= 2.0.2, R-crayon, R-desc, R-digest, R-downlit, R-fs >= 1.3.0, R-httr >= 1.4.2, R-magrittr, R-memoise, R-openssl, R-purrr, R-ragg, R-rematch2, R-rlang >= 0.3.0, R-rmarkdown >= 1.1.9007, R-tibble, R-tools, R-whisker, R-withr, R-xml2 >= 1.3.1, R-yaml
+# Suggests:  R-covr, R-htmlwidgets, R-jsonlite, R-knitr, R-leaflet, R-pkgload >= 1.0.2, R-testthat >= 2.1.0, R-rticles, R-rsconnect, R-rstudioapi
 # LinkingTo:
 # Enhances:
 
@@ -30,25 +30,20 @@ BuildArch:        noarch
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    R-callr >= 2.0.2
-BuildRequires:    R-cli
 BuildRequires:    R-crayon
 BuildRequires:    R-desc
 BuildRequires:    R-digest
-BuildRequires:    R-evaluate
+BuildRequires:    R-downlit
 BuildRequires:    R-fs >= 1.3.0
-BuildRequires:    R-fansi
-BuildRequires:    R-highlight
-BuildRequires:    R-httr
+BuildRequires:    R-httr >= 1.4.2
 BuildRequires:    R-magrittr
-BuildRequires:    R-MASS
 BuildRequires:    R-memoise
 BuildRequires:    R-openssl
 BuildRequires:    R-purrr
-BuildRequires:    R-processx
+BuildRequires:    R-ragg
 BuildRequires:    R-rematch2
 BuildRequires:    R-rlang >= 0.3.0
 BuildRequires:    R-rmarkdown >= 1.1.9007
-BuildRequires:    R-rstudioapi
 BuildRequires:    R-tibble
 BuildRequires:    R-tools
 BuildRequires:    R-whisker
@@ -61,6 +56,7 @@ BuildRequires:    R-knitr
 BuildRequires:    R-pkgload >= 1.0.2
 BuildRequires:    R-testthat >= 2.1.0
 BuildRequires:    R-rsconnect
+BuildRequires:    R-rstudioapi
 %if %{with_loop}
 BuildRequires:    R-leaflet
 BuildRequires:    R-rticles
@@ -118,6 +114,12 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} $ARGS
 
 
 %changelog
+* Sat Sep 12 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.6.1-1
+- Update to latest version (#1876595)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.5.1-2
 - rebuild for R 4
 

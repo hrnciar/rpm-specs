@@ -5,7 +5,7 @@
 Summary:	Erlang PostgreSQL client library
 Name:		erlang-%{realname}
 Version:	4.2.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 BuildArch:	noarch
 License:	BSD
 URL:		https://github.com/%{upstream}/%{realname}
@@ -43,6 +43,9 @@ databases by plain TCP and execute simple SQL statements.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

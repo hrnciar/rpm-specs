@@ -5,7 +5,7 @@
 
 Name:      geany
 Version:   1.36
-Release:   3%{?dist}
+Release:   4%{?dist}
 Summary:   A fast and lightweight IDE using GTK3
 
 License:   GPLv2+ and MIT
@@ -153,6 +153,9 @@ EOF
 %{_libdir}/pkgconfig/geany.pc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.36-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Dominic Hopf <dmaphy@fedoraproject.org> - 1.36-3
 - Add Recommends for xterm (RHBZ#1793743)
 

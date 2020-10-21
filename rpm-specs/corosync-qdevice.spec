@@ -10,7 +10,7 @@
 Name: corosync-qdevice
 Summary: The Corosync Cluster Engine Qdevice
 Version: 3.0.0
-Release: 8%{?gitver}%{?dist}
+Release: 10%{?gitver}%{?dist}
 License: BSD
 URL: https://github.com/corosync/corosync-qdevice
 Source0: https://github.com/corosync/corosync-qdevice/releases/download/v%{version}%{?gittarver}/%{name}-%{version}%{?gittarver}.tar.gz
@@ -59,10 +59,10 @@ BuildRequires: autoconf automake libtool
 	--with-systemddir=%{_unitdir} \
 	--docdir=%{_docdir}
 
-make %{_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 
 ## tree fixup
 # drop docs and html docs for now
@@ -190,6 +190,13 @@ fi
 %{_mandir}/man8/corosync-qnetd.8*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Jan Friesse <jfriesse@redhat.com> - 3.0.0-9
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed May 13 2020 Jan Friesse <jfriesse@redhat.com> - 3.0.0-8
 - Really rebuild for the new libqb
 

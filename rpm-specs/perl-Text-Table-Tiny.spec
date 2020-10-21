@@ -1,10 +1,10 @@
 Name:           perl-Text-Table-Tiny
-Version:        0.05
-Release:        6%{?dist}
+Version:        1.02
+Release:        1%{?dist}
 Summary:        Makes simple tables from two-dimensional arrays, with limited templating options
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Text-Table-Tiny
-Source0:        https://cpan.metacpan.org/modules/by-module/Text/Text-Table-Tiny-%{version}.tar.gz
+Source0:        https://cpan.metacpan.org/authors/id/N/NE/NEILB/Text-Table-Tiny-%{version}.tar.gz
 BuildArch:      noarch
 BuildRequires:  findutils
 BuildRequires:  make
@@ -12,35 +12,37 @@ BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(Exporter)
-BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(lib)
 BuildRequires:  perl(List::Util)
 BuildRequires:  perl(parent)
+BuildRequires:  perl(Ref::Util)
 BuildRequires:  perl(strict)
+BuildRequires:  perl(String::TtyLength)
 BuildRequires:  perl(Test::Fatal)
 BuildRequires:  perl(Test::More)
 BuildRequires:  perl(warnings)
-Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+Requires:       perl(:MODULE_COMPAT_%(eval "`/usr/bin/perl -V:version`"; echo $version))
 
 %description
-%{summary}.
+Text::Table::Tiny provides a single function, generate_table, which formats
+a two-dimensional array of data as a text table. There are a number of options
+for adjusting the output format, but the intention is that the default option
+is good enough for most uses.
 
 %prep
 %setup -q -n Text-Table-Tiny-%{version}
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags}
+/usr/bin/perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
-
-find $RPM_BUILD_ROOT -type f -name .packlist -delete
-
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
-make test
+%{make_build} test
 
 %files
 %license LICENSE
@@ -49,6 +51,19 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Sun Sep 20 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 1.02-1
+- Update to 1.02
+
+* Sun Aug 09 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 1.00-1
+- Update to 1.00
+- Replace calls to %%{__perl} with /usr/bin/perl
+- Use %%{make_install} instead of "make pure_install"
+- Use %%{make_build} instead of make
+- Pass "NO_PACKLIST=1 NO_PERLLOCAL=1" to Makefile.PL
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.05-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.05-6
 - Perl 5.32 rebuild
 

@@ -3,7 +3,7 @@
 
 Name: python-%{srcname}
 Version: 0.11.7
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: A Python data validation library
 License: BSD
 URL: http://github.com/alecthomas/voluptuous
@@ -41,6 +41,9 @@ primarily intended for validating data coming into Python as JSON, YAML, etc.
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.7-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.11.7-4
 - Rebuilt for Python 3.9
 

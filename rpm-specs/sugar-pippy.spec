@@ -1,12 +1,10 @@
 # This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
 
 %global debug_package %{nil}
 
 Name:          sugar-pippy
 Version:       75
-Release:       1%{?dist}
+Release:       3%{?dist}
 Summary:       Pippy for Sugar
 License:       GPLv2+
 URL:           http://wiki.laptop.org/go/Pippy
@@ -31,11 +29,8 @@ The user can type and execute simple Python expressions. For example,
 it would be possible for a user to write Python statements to calculate
 expressions, play sounds, or make simple text animation. 
 
-
 %prep
 %setup -q -n Pippy-%{version}
-# Fix permissions
-rm -rf library/pippy/physics
 
 # Remove pre-compiled pybox2d
 rm -rf library/box2d_*
@@ -50,7 +45,6 @@ for Files in pippy_app.py ; do
   rm ${Files}.orig
 done
 
-
 %build
 python3 ./setup.py build
 
@@ -60,6 +54,8 @@ python3 ./setup.py install --prefix=%{buildroot}/%{_prefix}
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 %find_lang org.laptop.Pippy
 
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}%{_datadir}/{sugaractivitydir}/Pippy.activity/
 
 %files -f org.laptop.Pippy.lang
 %license COPYING
@@ -68,6 +64,16 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 75-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Ibiam Chihurumnaya <ibiamchihurumnaya@gmail.com> - 75-2
+- Close braces
+
+* Sat Jul 11 2020 Ibiam Chihurumnaya <ibiamchihurumnaya@gmail.com> - 75-2
+- Change to py_byte_compile as stated in phase 3
+- Leave library/pippy/physics as removing it throws errors, activity still uses it
+
 * Tue Mar 10 2020 Ibiam Chihurumnaya <ibiamchihurumnaya@gmail.com> - 75-1
 - Release 75
 

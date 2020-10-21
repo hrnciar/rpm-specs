@@ -4,8 +4,8 @@
 %endif
 
 Name: sshguard
-Version: 2.4.0
-Release: 13%{?dist}
+Version: 2.4.1
+Release: 3%{?dist}
 # The entire source code is BSD
 # except src/parser/* which is GPLv2+
 # except src/blocker/hash_32a.c & src/blocker/fnv.h which are Public Domain
@@ -19,7 +19,6 @@ Source1: %{name}.conf.in
 Source2: %{name}.whitelist
 Source3: %{name}.init
 Source4: %{name}.logrotate
-Patch0: 00-wl-localhost.patch
 
 # fnv is a very small implementation of the fnv hash algorithm not worth splitting
 # into its own package. It has not seen updates since 2012, and upstream does not
@@ -123,26 +122,26 @@ sed -i -e "s|%%{_bindir}|%{_bindir}|g" \
 
 %install
 %{make_install}
-install -p -d -m 0755 %{buildroot}/%{_pkgdocdir}/
-install -p -d -m 0755 %{buildroot}/%{_sysconfdir}/
-install -p -d -m 0755 %{buildroot}/%{_sharedstatedir}/%{name}/
+install -p -d -m 0755 %{buildroot}%{_pkgdocdir}/
+install -p -d -m 0755 %{buildroot}%{_sysconfdir}/
+install -p -d -m 0755 %{buildroot}%{_sharedstatedir}/%{name}/
 %if 0%{?use_subpackages}
-sed -e "s|__BACKEND__|sshg-fw-firewalld|g" %{SOURCE1} > %{buildroot}/%{_sysconfdir}/%{name}.conf.firewalld
-sed -e "s|__BACKEND__|sshg-fw-nft-sets|g" %{SOURCE1} > %{buildroot}/%{_sysconfdir}/%{name}.conf.nftables
-sed -e "s|__BACKEND__|sshg-fw-iptables|g" %{SOURCE1} > %{buildroot}/%{_sysconfdir}/%{name}.conf.iptables
-chmod 0644 %{buildroot}/%{_sysconfdir}/%{name}.conf.*
+sed -e "s|__BACKEND__|sshg-fw-firewalld|g" %{SOURCE1} > %{buildroot}%{_sysconfdir}/%{name}.conf.firewalld
+sed -e "s|__BACKEND__|sshg-fw-nft-sets|g" %{SOURCE1} > %{buildroot}%{_sysconfdir}/%{name}.conf.nftables
+sed -e "s|__BACKEND__|sshg-fw-iptables|g" %{SOURCE1} > %{buildroot}%{_sysconfdir}/%{name}.conf.iptables
+chmod 0644 %{buildroot}%{_sysconfdir}/%{name}.conf.*
 %endif
-install -p -m 0644 %{SOURCE2} %{buildroot}/%{_sysconfdir}/%{name}.whitelist
+install -p -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/%{name}.whitelist
 %if 0%{?use_sysvinit}
-install -p -d -m 0755 %{buildroot}/%{_initddir}
-install -p -m 0755 %{SOURCE3} %{buildroot}/%{_initddir}/%{name}
-install -p -d -m 0755 %{buildroot}/%{_sysconfdir}/logrotate.d
-install -p -m 0644 %{SOURCE4} %{buildroot}/%{_sysconfdir}/logrotate.d/%{name}
+install -p -d -m 0755 %{buildroot}%{_initddir}
+install -p -m 0755 %{SOURCE3} %{buildroot}%{_initddir}/%{name}
+install -p -d -m 0755 %{buildroot}%{_sysconfdir}/logrotate.d
+install -p -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 %else
-install -p -d -m 0755 %{buildroot}/%{_unitdir}
+install -p -d -m 0755 %{buildroot}%{_unitdir}
 sed -i -e "/ExecStartPre=/d" examples/%{name}.service
 sed -i -e "s|ExecStart=/usr/local/sbin/sshguard|ExecStart=%{_sbindir}/%{name}|g" examples/%{name}.service
-install -p -m 0644 examples/%{name}.service %{buildroot}/%{_unitdir}/
+install -p -m 0644 examples/%{name}.service %{buildroot}%{_unitdir}/
 %endif
 
 # cleanup
@@ -240,6 +239,19 @@ fi
 
 #-- CHANGELOG -----------------------------------------------------------------#
 %changelog
+* Fri Sep 11 2020 Christopher Engelhard <ce@lcts.de> 2.4.1-3
+- Revert patch from previous release as it could cause attacks
+  to not be blocked.
+
+* Thu Sep 03 2020 Christopher Engelhard <ce@lcts.de> 2.4.1-2
+- add patch that fixes high load when banning many IPs using firewalld
+
+* Sat Aug 01 2020 Christopher Engelhard <ce@lcts.de> 2.4.1-1
+- Update to 2.4.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

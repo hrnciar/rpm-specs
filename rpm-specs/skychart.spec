@@ -2,7 +2,7 @@
 
 Name:       skychart
 Version:    4.3
-Release:    2.%{svnversion}svn%{?dist}
+Release:    3.%{svnversion}svn%{?dist}
 Summary:    Planetarium software for the advanced amateur astronomer
 License:    GPLv2+
 URL:        http://www.ap-i.net/skychart/
@@ -229,6 +229,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata
 %{_datadir}/metainfo/%{name}-data-dso.metainfo.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3-3.4108svn
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 08 2020 Mattia Verga <mattia.verga@protonmail.com> - 4.3-2.4108svn
 - ExcludeArch ppc64le due to compilation errors
 

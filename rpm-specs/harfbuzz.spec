@@ -1,5 +1,5 @@
 Name:           harfbuzz
-Version:        2.6.8
+Version:        2.7.2
 Release:        1%{?dist}
 Summary:        Text shaping library
 
@@ -87,6 +87,15 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 %{_libdir}/libharfbuzz-icu.so.*
 
 %changelog
+* Sat Aug 29 2020 Parag Nemade <pnemade AT redhat DOT com> - 2.7.2-1
+- Update to 2.7.2 version (#1873689)
+
+* Thu Aug 20 2020 Parag Nemade <pnemade AT redhat DOT com> - 2.7.1-1
+- Update to 2.7.1 version (#1860607)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Parag Nemade <pnemade AT redhat DOT com> - 2.6.8-1
 - Update to 2.6.8 version (#1849805)
 

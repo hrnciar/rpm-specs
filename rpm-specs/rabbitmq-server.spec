@@ -6,8 +6,8 @@
 
 
 Name: rabbitmq-server
-Version: 3.8.5
-Release: 1%{?dist}
+Version: 3.8.9
+Release: 2%{?dist}
 License: MPLv1.1
 Source0: https://github.com/rabbitmq/rabbitmq-server/releases/download/v%{version}/%{name}_%{version}.orig.tar.xz
 Source1: https://github.com/rabbitmq/rabbitmq-server/releases/download/v%{version}/%{name}_%{version}.orig.tar.xz.asc
@@ -15,7 +15,9 @@ Source1: https://github.com/rabbitmq/rabbitmq-server/releases/download/v%{versio
 Source3: rabbitmq-server.logrotate
 # curl -O https://raw.githubusercontent.com/rabbitmq/rabbitmq-server-release/rabbitmq_v3_6_16/packaging/RPMS/Fedora/rabbitmq-server.tmpfiles
 Source5: rabbitmq-server.tmpfiles
+Source6: rabbitmq-server-cuttlefish
 Patch1: rabbitmq-server-0001-Allow-guest-login-from-non-loopback-connections.patch
+Patch2: rabbitmq-server-0002-Use-default-EPMD-socket.patch
 Patch101: rabbitmq-common-0001-Use-proto_dist-from-command-line.patch
 Patch102: rabbitmq-common-0002-force-python3.patch
 Patch201: rabbitmq-server-release-0001-Partially-revert-Use-template-in-rabbitmq-script-wra.patch
@@ -32,7 +34,6 @@ BuildRequires: systemd
 BuildRequires: xmlto
 BuildRequires: zip
 Requires: logrotate
-Requires: erlang-cuttlefish
 Requires: erlang-erts%{?_isa} >= %{erlang_minver}
 Requires: erlang-kernel%{?_isa} >= %{erlang_minver}
 Requires: erlang-eldap%{?_isa} >= %{erlang_minver}
@@ -40,7 +41,7 @@ Requires: erlang-mnesia%{?_isa} >= %{erlang_minver}
 Requires: erlang-os_mon%{?_isa} >= %{erlang_minver}
 Requires: erlang-public_key%{?_isa} >= %{erlang_minver}
 Requires: erlang-sasl%{?_isa} >= %{erlang_minver}
-Requires: erlang-sd_notify%{?_isa}
+Requires: erlang-sd_notify
 Requires: erlang-ssl%{?_isa} >= %{erlang_minver}
 Requires: erlang-stdlib%{?_isa} >= %{erlang_minver}
 Requires: erlang-tools%{?_isa} >= %{erlang_minver}
@@ -62,6 +63,7 @@ scalable implementation of an AMQP broker.
 
 cd deps/rabbit
 %patch1 -p1
+%patch2 -p1
 cd ../..
 
 cd deps/rabbit_common
@@ -115,7 +117,7 @@ for app in rabbitmq-defaults rabbitmq-env rabbitmq-plugins rabbitmq-diagnostics 
 	ln -s %{_rabbit_libdir}/lib/rabbitmq_server-%{version}/sbin/${app} %{buildroot}%{_rabbit_libdir}/bin/${app}
 done
 
-ln -s %{_bindir}/cuttlefish %{buildroot}%{_rabbit_libdir}/bin/cuttlefish
+install -p -D -m 0755 %{S:3} %{buildroot}%{_rabbit_libdir}/bin/cuttlefish
 
 install -p -D -m 0755 scripts/rabbitmq-server.ocf %{buildroot}%{_exec_prefix}/lib/ocf/resource.d/rabbitmq/rabbitmq-server
 install -p -D -m 0755 scripts/rabbitmq-server-ha.ocf %{buildroot}%{_exec_prefix}/lib/ocf/resource.d/rabbitmq/rabbitmq-server-ha
@@ -197,6 +199,21 @@ done
 
 
 %changelog
+* Wed Oct  7 2020 Peter Lemenkov <lemenkov@gmail.com> - 3.8.9-2
+- Rely on bundled cuttlefish for now
+
+* Fri Sep 25 2020 John Eckersberg <jeckersb@redhat.com> - 3.8.9-1
+- Ver. 3.8.9
+
+* Wed Sep  9 2020 John Eckersberg <jeckersb@redhat.com> - 3.8.8-1
+- Ver. 3.8.8
+
+* Tue Sep  1 2020 Peter Lemenkov <lemenkov@gmail.com> - 3.8.7-1
+- Ver. 3.8.7
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.8.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 16 2020 Peter Lemenkov <lemenkov@gmail.com> - 3.8.5-1
 - Ver. 3.8.5
 

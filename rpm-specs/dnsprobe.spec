@@ -3,7 +3,7 @@
 
 # https://github.com/projectdiscovery/dnsprobe
 %global goipath         github.com/projectdiscovery/dnsprobe
-Version:                1.0.2
+Version:                1.0.3
 
 %gometa
 
@@ -15,7 +15,7 @@ multiple DNS queries of your choice with a list of user supplied resolvers.}
 %global godocs          README.md
 
 Name:           dnsprobe
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tool to perform multiple DNS queries
 
 License:        MIT
@@ -56,6 +56,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Fabian Affolter <mail@fabian-affolter.ch> -  1.0.3-1
+- Update to new upstream release 1.0.3
+
 * Sat May 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.0.2-1
 - Initial package
 

@@ -4,17 +4,9 @@
 # https://github.com/go-macaroon/macaroon
 %global goipath         gopkg.in/macaroon.v1
 %global forgeurl        https://github.com/go-macaroon/macaroon
-Version:                1
-%global commit          ab101776739ee61baab9bc50e4b33b5aeb3ac843
+Version:                1.0.0
 
 %gometa
-
-# Remove in F33
-%global godevelheader %{expand:
-Obsoletes:      golang-gopkg-go-macaroon-macaroon < 1-0.8
-Obsoletes:      golang-gopkg-go-macaroon-macaroon-devel < 1-0.8
-Obsoletes:      golang-gopkg-go-macaroon-macaroon-unit-test-devel < 1-0.8
-}
 
 %global common_description %{expand:
 The Macaroon package implements macaroons as described in the paper "Macaroons:
@@ -25,13 +17,15 @@ Cookies with Contextual Caveats for Decentralized Authorization in the Cloud"
 %global godocs          README.md TODO
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        Native Go implementation of macaroons
 
 # Upstream license specification: BSD-3-Clause
 License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/golang/go/issues/32479
+Patch0:         0001-Convert-int-to-string-using-rune.patch
 
 BuildRequires:  golang(golang.org/x/crypto/nacl/secretbox)
 
@@ -47,6 +41,7 @@ BuildRequires:  golang(gopkg.in/check.v1)
 
 %prep
 %goprep
+%patch0 -p1
 
 %install
 %gopkginstall
@@ -59,6 +54,16 @@ BuildRequires:  golang(gopkg.in/check.v1)
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 17:55:28 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-1
+- Update to 1.0.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

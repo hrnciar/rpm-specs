@@ -4,7 +4,7 @@
 Name:           rubygem-%{gem_name}
 Summary:        Use libsass with Ruby!
 Version:        2.4.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        MIT
 
 URL:            https://github.com/sass/sassc-ruby
@@ -96,6 +96,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 06 2020 Fabio Valentini <decathorpe@gmail.com> - 2.4.0-1
 - Update to version 2.4.0.
 

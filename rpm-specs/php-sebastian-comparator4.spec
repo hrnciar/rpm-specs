@@ -7,7 +7,7 @@
 # Please, preserve the changelog entries
 #
 %global bootstrap    0
-%global gh_commit    266d85ef789da8c41f06af4093c43e9798af2784
+%global gh_commit    7a8ff306445707539c1a6397372a982a1ec55120
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sebastianbergmann
 %global gh_project   comparator
@@ -20,15 +20,15 @@
 %global ns_vendor    SebastianBergmann
 %global ns_project   Comparator
 %if %{bootstrap}
-%global with_tests   %{?_with_tests:1}%{!?_with_tests:0}
+%bcond_with          tests
 %else
-%global with_tests   %{?_without_tests:0}%{!?_without_tests:1}
+%bcond_without       tests
 %endif
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
-Version:        4.0.2
+Version:        4.0.5
 Release:        1%{?dist}
-Summary:        Compare PHP values for equality
+Summary:        Compare PHP values for equality, version %{major}
 
 License:        BSD
 URL:            https://github.com/%{gh_owner}/%{gh_project}
@@ -41,14 +41,14 @@ BuildRequires:  php(language) >= 7.3
 BuildRequires:  (php-composer(%{pk_vendor}/diff)     >= 4.0   with php-composer(%{pk_vendor}/diff)     < 5)
 BuildRequires:  (php-composer(%{pk_vendor}/exporter) >= 4.0   with php-composer(%{pk_vendor}/exporter) < 5)
 BuildRequires:  php-fedora-autoloader-devel
-%if %{with_tests}
+%if %{with tests}
 # from composer.json, "require-dev": {
-#        "phpunit/phpunit": "^9.0"
-BuildRequires:  phpunit9
+#        "phpunit/phpunit": "^9.3"
+BuildRequires:  phpunit9 >= 9.3
 %endif
 
 # from composer.json
-#        "php": "^7.3",
+#        "php": ">=7.3",
 #        "sebastian/diff": "^4.0",
 #        "sebastian/exporter": "^4.0"
 Requires:       php(language) >= 7.3
@@ -94,7 +94,7 @@ cp -pr src %{buildroot}%{php_home}/%{ns_vendor}/%{ns_project}%{major}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 %{_bindir}/phpab --template fedora --output vendor/autoload.php tests/_fixture
 
@@ -119,6 +119,18 @@ exit $ret
 
 
 %changelog
+* Wed Sep 30 2020 Remi Collet <remi@remirepo.net> - 4.0.5-1
+- update to 4.0.5
+
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 4.0.4-1
+- update to 4.0.4 (no change)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Remi Collet <remi@remirepo.net> - 4.0.3-1
+- update to 4.0.3
+
 * Tue Jun 16 2020 Remi Collet <remi@remirepo.net> - 4.0.2-1
 - update to 4.0.2
 - sources from git snapshot

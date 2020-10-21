@@ -1,6 +1,6 @@
 Name:          nom-tam-fits
 Version:       1.15.2
-Release:       2%{?dist}
+Release:       5%{?dist}
 Summary:       Java library for reading and writing FITS files
 License:       Public Domain
 URL:           http://nom-tam-fits.github.io/nom-tam-fits/
@@ -12,7 +12,6 @@ BuildRequires: mvn(com.google.code.findbugs:annotations)
 BuildRequires: mvn(junit:junit)
 BuildRequires: mvn(org.apache.commons:commons-compress)
 BuildRequires: mvn(org.codehaus.mojo:exec-maven-plugin)
-BuildRequires: mvn(org.sonatype.oss:oss-parent:pom:)
 
 # retired in Fedora:
 # BuildRequires: mvn(org.openjdk.jmh:jmh-core)
@@ -38,6 +37,9 @@ This package contains javadoc for %{name}.
 %prep
 %autosetup -n %{name}-%{name}-%{version} -p1
 rm -r src/main/fpack
+
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
 
 # com.github.stephenc.wagon:wagon-gitsite:0.5
 %pom_xpath_remove pom:build/pom:extensions
@@ -126,6 +128,15 @@ rm src/test/java/nom/tam/manual/intergration/FitsBenchmark.java
 %license src/license/publicdomain/license.txt
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 1.15.2-5
+- Remove unnecessary dependency on parent POM.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.15.2-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Mar  5 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.15.2-2
 - Disable test which requires jmh (#1799807)
 

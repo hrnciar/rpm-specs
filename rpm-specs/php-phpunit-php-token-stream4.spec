@@ -8,7 +8,7 @@
 # Please, preserve the changelog entries
 #
 %global bootstrap    0
-%global gh_commit    e61c593e9734b47ef462340c24fca8d6a57da14e
+%global gh_commit    a853a0e183b9db7eed023d7933a858fa1c8d25a3
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sebastianbergmann
 %global gh_project   php-token-stream
@@ -20,13 +20,13 @@
 %global ns_vendor    SebastianBergmann
 %global ns_project   PhpTokenStream
 %if %{bootstrap}
-%global with_tests   0%{?_with_tests:1}
+%bcond_with          tests
 %else
-%global with_tests   0%{!?_without_tests:1}
+%bcond_without       tests
 %endif
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
-Version:        4.0.2
+Version:        4.0.4
 Release:        1%{?dist}
 Summary:        Wrapper around PHP tokenizer extension
 
@@ -37,7 +37,7 @@ Source1:        makesrc.sh
 
 BuildArch:      noarch
 BuildRequires:  php-fedora-autoloader-devel
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php(language) >= 7.3
 BuildRequires:  php-tokenizer
 BuildRequires:  php-pcre
@@ -48,7 +48,7 @@ BuildRequires:  phpunit9
 %endif
 
 # from composer.json
-#        "php": "^7.1",
+#        "php": "^7.3 || ^8.0",
 #        "ext-tokenizer": "*"
 Requires:       php(language) >= 7.3
 Requires:       php-tokenizer
@@ -82,7 +82,7 @@ cp -pr src %{buildroot}%{php_home}/%{ns_vendor}/%{ns_project}%{major}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 touch vendor/autoload.php
 
@@ -109,6 +109,15 @@ exit $ret
 
 
 %changelog
+* Mon Aug 10 2020 Remi Collet <remi@remirepo.net> - 4.0.4-1
+- update to 4.0.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Remi Collet <remi@remirepo.net> - 4.0.3-1
+- update to 4.0.3
+
 * Tue Jun 16 2020 Remi Collet <remi@remirepo.net> - 4.0.2-1
 - update to 4.0.2
 

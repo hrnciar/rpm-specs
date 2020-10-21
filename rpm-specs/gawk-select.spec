@@ -1,7 +1,7 @@
 Name:             gawk-select
 Summary:          Select I/O multiplexing library for gawk
 Version:          1.1.1
-Release:          8%{?dist}
+Release:          12%{?dist}
 License:          GPLv3+
 
 URL:              https://sourceforge.net/projects/gawkextlib
@@ -59,6 +59,19 @@ make check
 # =============================================================================
 
 %changelog
+* Mon Sep 28 2020 Jeff Law <law@redhat.com> - 1.1.1-11
+- Re-enable LTO
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 1.1.1-10
+- Disable LTO on s390/s390x
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

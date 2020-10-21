@@ -1,6 +1,6 @@
 Name:           txt2man
 Version:        1.6.0
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Convert flat ASCII text to man page format
 
 License:        GPLv2+
@@ -43,6 +43,9 @@ install -p -m 0644 -D txt2man.1 $RPM_BUILD_ROOT%{_mandir}/man1/txt2man.1
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

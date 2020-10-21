@@ -1,4 +1,6 @@
-%global major_so_ver 8
+%undefine __cmake_in_source_build
+
+%global major_so_ver 12
 
 # Place rpm-macros into proper location.
 %global macrosdir %(d=%{_rpmconfigdir}/macros.d; [ -d $d ] || d=%{_sysconfdir}/rpm; echo $d)
@@ -9,20 +11,16 @@
 # Define libsuffix.
 %global libsuffix yui
 
-# CMake-builds go out-of-tree.
-%global _cmake_build_subdir build-%{_target_platform}
-
 
 Name:		lib%{libsuffix}
-Version:	3.3.3
-Release:	8%{?dist}
+Version:	3.10.0
+Release:	2%{?dist}
 Summary:	GUI-abstraction library
 
 License:	(LGPLv2 or LGPLv3) and MIT
 URL:		https://github.com/%{name}/%{name}
-Source0:	%{url}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
-# Based on https://github.com/libyui/libyui/commit/b1f593cd99fd33cc3f0cf9b4f5151f672b68d96e
-Patch0:		fix_gcc8.patch
+Source0:	%{url}/archive/%{version}/%{name}-%{version}.tar.gz
+Patch0:         libyui-gcc11.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:	boost-devel
@@ -69,31 +67,27 @@ brief examples how to build a UI using %{name}.
 
 
 %build
-%{__mkdir} -p %{_cmake_build_subdir}
-pushd %{_cmake_build_subdir}
 %cmake							\
 	-DYPREFIX=%{_prefix}				\
 	-DLIB_DIR=%{_libdir}				\
 	-DCMAKE_BUILD_TYPE=RELEASE			\
 	-DRESPECT_FLAGS=ON				\
 	-DSKIP_LATEX=ON					\
-	..
+	%{nil}
 
-%make_build
-%make_build docs
-popd
+%cmake_build
+%cmake_build --target docs
 
 
 %install
-pushd %{_cmake_build_subdir}
-%{__mkdir} -p	%{buildroot}%{_libdir}/%{libsuffix}	\
+mkdir -p	%{buildroot}%{_libdir}/%{libsuffix}	\
 		%{buildroot}%{_datadir}/%{name}/theme
 
-%make_install
+%cmake_install
 
 # Create a macro for use in other spec-files.
-%{__mkdir} -p %{buildroot}/%{macrosdir}
-%{__cat} << EOF > %{buildroot}/%{macrosdir}/macros.%{name}
+mkdir -p %{buildroot}/%{macrosdir}
+cat << EOF > %{buildroot}/%{macrosdir}/macros.%{name}
 %_%{name}_major_so_ver %{major_so_ver}
 %_%{name}_datadir %%{_datadir}/%{name}
 %_%{name}_includedir %%{_includedir}/%{libsuffix}
@@ -102,19 +96,18 @@ pushd %{_cmake_build_subdir}
 EOF
 
 # Delete obsolete files.
-%{__rm} -rf	%{buildroot}%{_defaultdocdir}		\
-		../examples/{CMake*,.gitignore}		\
-		doc/html/*.m*
+rm -rf	%{buildroot}%{_defaultdocdir}		\
+		examples/{CMake*,.gitignore}		\
+		%{_vpath_builddir}/doc/html/*.m*
 
 # Install documentation.
-%{__mkdir} -p	%{buildroot}%{?_pkgdocdir}
-%{__cp} -a	../README.md ../package/libyui.changes	\
-		../examples/ doc/html/			\
+mkdir -p	%{buildroot}%{?_pkgdocdir}
+cp -a	README.md package/libyui.changes	\
+		examples/ %{_vpath_builddir}/doc/html/			\
 		%{buildroot}%{?_pkgdocdir}
 
 # Hard-link documentation.
 %{_bindir}/hardlink -cv %{buildroot}%{?_pkgdocdir}/html
-popd
 
 
 %ldconfig_scriptlets
@@ -149,6 +142,15 @@ popd
 
 
 %changelog
+* Mon Sep 14 2020 Jeff Law <law@redhat.com> - 3.10.0-2
+- Fix dynamic casts to avoid gcc-11 diagnostics
+
+* Sat Aug 01 2020 Neal Gompa <ngompa13@gmail.com> - 3.10.0-1
+- Rebase to 3.10.0 (#1669818)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.3-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

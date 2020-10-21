@@ -2,8 +2,8 @@
 %global sum The py.test remotedata plugin
 
 Name:           python-%{srcname}
-Version:        0.3.1
-Release:        6%{?dist}
+Version:        0.3.2
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        BSD
@@ -64,6 +64,12 @@ rm -fr %{buildroot}%{python3_sitelib}/tests
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Christian Dersch <lupinix@fedoraproject.org> - 0.3.2-1
+- new version
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.1-6
 - Rebuilt for Python 3.9
 

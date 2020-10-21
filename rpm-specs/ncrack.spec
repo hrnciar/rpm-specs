@@ -2,7 +2,7 @@
 
 Name:           ncrack
 Version:        0.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A high-speed network auth cracking tool
 
 License:        GPLv2 with exceptions
@@ -43,6 +43,9 @@ export CFLAGS="${RPM_OPT_FLAGS} -fcommon"
 %{_datadir}/%{name}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 29 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.7-1
 - Update to latest upstream release 0.7 (rhbz#1747007)
 - Fix FTBFS (rhbz#1799676)

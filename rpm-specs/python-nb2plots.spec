@@ -8,7 +8,7 @@
 
 Name:           python-%{srcname}
 Version:        0.6
-Release:        12.%{gitdate}.%{shortcommit}%{?dist}
+Release:        13.%{gitdate}.%{shortcommit}%{?dist}
 Summary:        Convert between Jupyter notebooks and sphinx docs
 
 License:        BSD
@@ -57,8 +57,6 @@ Requires:       pandoc
 Requires:       python3dist(ipykernel)
 Requires:       python3dist(jupyter-client)
 Requires:       python3dist(nbconvert)
-
-%{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
 This package contains tools for converting from Jupyter notebooks to
@@ -124,6 +122,9 @@ pytest
 %doc doc/_build/html/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-13.20200412.bdcaeb7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6-12.20200412.bdcaeb7
 - Rebuilt for Python 3.9
 

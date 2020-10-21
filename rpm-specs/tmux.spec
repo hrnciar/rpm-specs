@@ -2,7 +2,7 @@
 
 Name:           tmux
 Version:        3.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        A terminal multiplexer
 
 # Most of the source is ISC licensed; some of the files in compat/ are 2 and
@@ -60,11 +60,19 @@ fi
 
 %files
 %doc CHANGES
+%doc example_tmux.conf
 %{_bindir}/tmux
 %{_mandir}/man1/tmux.1.*
 %{_datadir}/bash-completion/completions/tmux
 
 %changelog
+* Wed Sep 16 2020 David Cantrell <dcantrell@redhat.com> - 3.1-3
+- Rebuild for new libevent
+
+* Fri Jul 17 2020 Andrew Spiers <andrew@andrewspiers.net> - 3.1-2
+- Include upstream example config file
+  Resolves: rhbz#1741836
+
 * Wed Apr 29 2020 Filipe Rosset <rosset.filipe@gmail.com> - 3.1-1
 - Update to 3.1 fixes rhbz#1715313
 

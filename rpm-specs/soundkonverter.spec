@@ -1,21 +1,23 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 # lib%%{name}core.so* is a private lib with no headers, so we should
 # not provide that.
 %global __provides_exclude ^lib%{name}.*\\.so$
 %global __requires_exclude ^lib%{name}.*\\.so$
 
+%global commit          aceda48bf37b77e042769ee5b2337b38a6d40538
+%global shortcommit     %(c=%{commit}; echo ${c:0:7})
+%global snapshotdate    20200701
+
 Name:       soundkonverter
 Version:    3.0.1
-Release:    4%{?dist}
+Release:    7.%{snapshotdate}git%{shortcommit}%{?dist}
 Summary:    Audio file converter, CD ripper and Replay Gain tool
 
 License:    GPLv2+
 URL:        http://kde-apps.org/content/show.php?content=29024
-Source0:    https://github.com/dfaust/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
-
-# https://github.com/dfaust/soundkonverter/commit/16fb09fcbd5712b7b75004229dbb74f85f213b53
-Patch0:     https://github.com/dfaust/soundkonverter/commit/16fb09fcbd5712b7b75004229dbb74f85f213b53.patch#/0001-Fix-adding-directories-to-the-Replay-Gain-tool.patch
-# https://github.com/dfaust/soundkonverter/pull/72
-Patch1:     https://patch-diff.githubusercontent.com/raw/dfaust/soundkonverter/pull/72.patch#/0002-Install-appdata-in-usr_share_metainfo.patch
+Source0:    https://github.com/dfaust/%{name}/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
 
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
@@ -66,28 +68,22 @@ The key features are:
   * Replay Gain calculation
   * CD ripping
 
-
 %prep
-%autosetup -p1
-
+%autosetup -p1 -n %{name}-%{commit}
+# sed 's|<fileref.h|<taglib/fileref.h>|' src/metadata/MetaReplayGain.h
 
 %build
-mkdir -p build
-cd build
-%cmake_kf5 ../src "-DKF5_BUILD=ON"
-%make_build
-
+%cmake_kf5 src "-DKF5_BUILD=ON"
+%cmake_build
 
 %install
-cd build
-%make_install
+%cmake_install
 %find_lang %{name}
 
 desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 appstream-util validate-relax --nonet %{buildroot}%{_kf5_metainfodir}/%{name}.appdata.xml
 
-
-%files -f build/%{name}.lang
+%files -f %{name}.lang
 %{_kf5_bindir}/%{name}
 %{_kf5_libdir}/lib%{name}core.so
 %{_kf5_libdir}/qt5/plugins/%{name}_*
@@ -104,8 +100,18 @@ appstream-util validate-relax --nonet %{buildroot}%{_kf5_metainfodir}/%{name}.ap
 %{_datadir}/icons/hicolor/*/apps/%{name}-replaygain.png
 %{_kf5_metainfodir}/%{name}.appdata.xml
 
-
 %changelog
+* Mon Aug 24 02:17:20 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.0.1-7.20200824gitaceda48
+- Bump to commit aceda48bf37b77e042769ee5b2337b38a6d40538
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 %global major   9.0
 Name:           midori
 Version:        9.0
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        a lightweight, fast and free web browser
 
 License:        LGPLv1.1
@@ -35,17 +35,12 @@ And it looks good doing that, too. Oh, and of course it's free software.
 %autosetup -n midori-v%{version}
 
 %build
-mkdir build
-cd build
-%cmake -DCMAKE_INSTALL_SYSCONFDIR=/etc ..
-
-make %{?_smp_mflags}
+%cmake -DCMAKE_INSTALL_SYSCONFDIR=/etc
+%cmake_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-cd build
-%make_install
-cd ..
+%cmake_install
+
 %find_lang %{name}
 
 desktop-file-install                                    \
@@ -73,6 +68,16 @@ rm -f %{buildroot}/%{_datadir}/doc/midori/COPYING
 %{_datadir}/metainfo/org.midori_browser.Midori.appdata.xml
 
 %changelog
+* Mon Aug 03 2020 Kevin Fenzi <kevin@scrye.com> - 9.0-5
+- Fix FTBFS with cmake. Fixes rhbz#1864133
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -21,7 +21,7 @@
 
 Name:           php-%{gh_owner}-%{gh_project}%{major}
 Version:        5.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Translation API for PHP using Gettext MO files
 
 Group:          Development/Libraries
@@ -131,6 +131,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar  4 2020 Remi Collet <remi@remirepo.net> - 5.0.0-1
 - update to 5.0.0
 - rename to php-phpmyadmin-motranslator5

@@ -13,7 +13,7 @@
 
 Name:           openni-primesense
 Version:        5.1.6.6
-Release:        17%{?gitrev}%{?dist}
+Release:        18%{?gitrev}%{?dist}
 Summary:        PrimeSensor/Kinect Modules for OpenNI
 License:        ASL 2.0
 URL:            https://github.com/PrimeSense/Sensor
@@ -121,6 +121,9 @@ fi
 %{_bindir}/XnSensorServer
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.6.6-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Rich Mattes <richmattes@gmail.com> - 5.1.6.6-17
 - Install udev rules to udevrulesdir (rhbz#1602381)
 - Add a primesense group, and lock down udev rules for only primesense group members (rhbz#1226700)

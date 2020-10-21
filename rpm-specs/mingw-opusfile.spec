@@ -3,13 +3,13 @@
 %global _basename opusfile
 
 Name:          mingw-%{_basename}
-Version:       0.11
-Release:       4%{?dist}
+Version:       0.12
+Release:       2%{?dist}
 Summary:       A high-level API for decoding and seeking within .opus files
 
 License:       BSD
-URL:           http://www.opus-codec.org/
-Source0:       https://archive.mozilla.org/pub/opus/%{_basename}-%{version}.tar.gz
+URL:           https://www.opus-codec.org/
+Source0:       https://downloads.xiph.org/releases/opus/%{_basename}-%{version}.tar.gz
 # https://bugzilla.redhat.com/show_bug.cgi?id=1675383
 Patch0:        opusfile-0.11-disable-cert-store-integration.patch
 
@@ -117,6 +117,12 @@ find %{buildroot} -name '*.la' -delete
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 David King <amigadave@amigadave.com> - 0.12-1
+- Update to 0.12
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

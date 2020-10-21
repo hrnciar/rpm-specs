@@ -1,5 +1,7 @@
+%undefine __cmake_in_source_build
+
 Name:       cscppc
-Version:    1.6.0
+Version:    1.8.1
 Release:    1%{?dist}
 Summary:    A compiler wrapper that runs cppcheck in background
 
@@ -29,8 +31,11 @@ BuildRequires: valgrind
 BuildRequires: glibc-static
 %endif
 
-# the --include option was introduced in 1.58
-Requires: cppcheck >= 1.58
+# the {cwe} field in --template option is supported since cppcheck-1.85
+Requires: cppcheck >= 1.85
+
+# older versions of csdiff do not read CWE numbers from Cppcheck output
+Conflicts: csdiff < 1.8.0
 
 %description
 This package contains the cscppc compiler wrapper that runs cppcheck in
@@ -45,6 +50,13 @@ Conflicts: csmock-plugin-clang < 1.5.0
 This package contains the csclng compiler wrapper that runs the Clang analyzer
 in background fully transparently.
 
+%package -n csgcca
+Summary: A compiler wrapper that runs 'gcc -fanalyzer' in background
+
+%description -n csgcca
+This package contains the csgcca compiler wrapper that runs 'gcc -fanalyzer'
+in background fully transparently.
+
 %package -n csmatch
 Summary: A compiler wrapper that runs smatch in background
 Requires: clang
@@ -57,32 +69,30 @@ in background fully transparently.
 %setup -q
 
 %build
-mkdir cscppc_build
-cd cscppc_build
 export CFLAGS="$RPM_OPT_FLAGS"
 CFLAGS="$CFLAGS"' -DPATH_TO_CSCPPC=\"%{_libdir}/cscppc\"'
 CFLAGS="$CFLAGS"' -DPATH_TO_CSCLNG=\"%{_libdir}/csclng\"'
+CFLAGS="$CFLAGS"' -DPATH_TO_CSGCCA=\"%{_libdir}/csgcca\"'
 CFLAGS="$CFLAGS"' -DPATH_TO_CSMATCH=\"%{_libdir}/csmatch\"'
 %ifnarch %{arm}
 export LDFLAGS="$RPM_OPT_FLAGS -static -pthread"
 %endif
-%cmake ..
-make %{?_smp_mflags} VERBOSE=yes
+%cmake
+%cmake_build
 
 %check
-cd cscppc_build
-ctest %{?_smp_mflags} --output-on-failure
+%ctest
 
 %install
-cd cscppc_build
-make install DESTDIR="$RPM_BUILD_ROOT"
+%cmake_install
 
-install -m0755 -d "$RPM_BUILD_ROOT%{_libdir}"{,/cs{cppc,clng,match}}
+install -m0755 -d "$RPM_BUILD_ROOT%{_libdir}"{,/cs{cppc,clng,gcca,match}}
 
 for i in cc gcc %{_arch}-redhat-linux-gcc
 do
     ln -s ../../bin/cscppc "$RPM_BUILD_ROOT%{_libdir}/cscppc/$i"
     ln -s ../../bin/csclng "$RPM_BUILD_ROOT%{_libdir}/csclng/$i"
+    ln -s ../../bin/csgcca "$RPM_BUILD_ROOT%{_libdir}/csgcca/$i"
     ln -s ../../bin/csmatch "$RPM_BUILD_ROOT%{_libdir}/csmatch/$i"
 done
 
@@ -95,7 +105,6 @@ done
 %files
 %{_bindir}/cscppc
 %{_datadir}/cscppc
-%{_datadir}/cscppc/default.supp
 %{_libdir}/cscppc
 %{_mandir}/man1/%{name}.1*
 %doc COPYING README
@@ -107,12 +116,26 @@ done
 %{_mandir}/man1/csclng.1*
 %doc COPYING
 
+%files -n csgcca
+%{_bindir}/csgcca
+%{_libdir}/csgcca
+%doc COPYING
+
 %files -n csmatch
 %{_bindir}/csmatch
 %{_libdir}/csmatch
 %doc COPYING
 
 %changelog
+* Tue Oct 20 2020 Kamil Dudka <kdudka@redhat.com> 1.8.1-1
+- update to latest upstream release
+
+* Wed Aug 19 2020 Kamil Dudka <kdudka@redhat.com> 1.8.0-1
+- update to latest upstream release
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 05 2020 Kamil Dudka <kdudka@redhat.com> 1.6.0-1
 - update to latest upstream release
 

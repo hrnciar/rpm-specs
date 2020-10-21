@@ -29,14 +29,10 @@
 Summary:       Tool for creating supermin appliances
 Name:          supermin
 Version:       5.2.0
-Release:       2%{?dist}
+Release:       4%{?dist}
 License:       GPLv2+
 
-%if 0%{?rhel} >= 7
-ExclusiveArch: x86_64
-%endif
-
-ExcludeArch:   %{ix86}
+ExclusiveArch: %{kernel_arches}
 
 URL:           http://people.redhat.com/~rjones/supermin/
 Source0:       http://download.libguestfs.org/supermin/%{source_directory}/%{name}-%{version}.tar.gz
@@ -168,6 +164,12 @@ make check || {
 
 
 %changelog
+* Fri Aug 07 2020 Troy Dawson <tdawson@redhat.com> - 5.2.0-4
+- Use ExclusiveArch: %{kernel_arches}
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 03 2020 Richard W.M. Jones <rjones@redhat.com> - 5.2.0-2
 - ppc64le: ibmvscsi driver missing from supermin appliance (RHBZ#1819019).
 

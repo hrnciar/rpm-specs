@@ -6,7 +6,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.3.13
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        HCL configuration parser for Python
 
 License:        MPLv2.0
@@ -57,6 +57,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{pypi_name}-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.13-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.13-4
 - Rebuilt for Python 3.9
 

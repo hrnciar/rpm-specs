@@ -5,7 +5,7 @@
 
 # https://github.com/xo/dburl
 %global goipath         github.com/xo/dburl
-%global commit          98997a05b24fc069c79fa13b05ccf376c22a326c
+%global commit          4a02649c2fead23bf8d190cf95dc4b49709e90c4
 
 %gometa
 
@@ -18,7 +18,7 @@ SQL database connection strings.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.2%{?dist}
+Release:        0.4%{?dist}
 Summary:        URL style mechanism for parsing and opening SQL database connection strings
 
 License:        MIT
@@ -44,6 +44,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Tue Aug 04 19:06:56 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200804git4a02649
+- Bump to commit 4a02649c2fead23bf8d190cf95dc4b49709e90c4
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

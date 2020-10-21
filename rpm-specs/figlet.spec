@@ -5,7 +5,7 @@
 Name:       figlet
 Summary:    A program for making large letters out of ordinary text
 Version:    2.2.5
-Release:    19%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+Release:    20%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
 License:    BSD and MIT
 URL:        http://www.figlet.org/
 
@@ -45,6 +45,9 @@ make check
 %{_datadir}/%{name}/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.5-20.20151018gita565ae1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.5-19.20151018gita565ae1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

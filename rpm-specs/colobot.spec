@@ -1,8 +1,8 @@
-Name:    colobot
+Name: colobot
 %global orgname info.colobot.Colobot
 
 Version: 0.1.12
-Release: 7%{?dist}
+Release: 10%{?dist}
 Summary: A video game that teaches programming in a fun way
 
 License: GPLv3
@@ -49,6 +49,9 @@ Patch0: colobot--do-not-translate-default-player-name.patch
 
 # GCC10 complains about unknown identifiers
 Patch1: colobot--missing-includes.patch
+
+# GCC11 complains about potential NULL from dynamic cast, fix them
+Patch2: colobot-gcc11.patch
 
 BuildRequires: boost-devel >= 1.51
 BuildRequires: boost-filesystem >= 1.51
@@ -103,6 +106,7 @@ Music files used by Colobot Gold.
 %setup -q -n colobot-%{gittag}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 rm -rf ./data
 cp %{SOURCE1} ./data.tgz
@@ -142,16 +146,12 @@ sed \
 
 
 %build
-mkdir build
-cd build
-%cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=%{__python3} ..
-make %{?_smp_mflags}
+%cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=%{__python3} ./
+%cmake_build
 
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 
 # Change the .desktop file name to match the .appdata.xml file name
 mv %{buildroot}%{_datadir}/applications/%{name}.desktop %{buildroot}%{_datadir}/applications/%{orgname}.desktop
@@ -191,6 +191,15 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{orgname}.app
 
 
 %changelog
+* Thu Sep 03 2020 Jeff Law <law@redhat.com> - 0.1.12-10
+- Fix dynamic casts to avoid gcc-11 diagnostics
+
+* Tue Jul 28 2020 Artur Iwicki <fedora@svgames.pl> - 0.1.12-9
+- Update spec to use the new cmake_build and cmake_install macros
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.12-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Artur Iwicki <fedora@svgames.pl> - 0.1.12-7
 - Edit Patch1 (missing includes) - fix build failures on Rawhide
 

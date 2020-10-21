@@ -1,6 +1,6 @@
 Name:		potrace
 Version:	1.16
-Release:	2%{?dist}
+Release:	4%{?dist}
 Summary:	Transform bitmaps into vector graphics
 # README defines license as GPLv2+
 License:	GPLv2+
@@ -55,11 +55,11 @@ cp -a %{SOURCE2} .
 %build
 %configure --enable-shared --disable-static \
  --enable-metric --with-libpotrace --with-pic
-make %{?_smp_mflags}
+%make_build
 
 %install
 rm -rf %{buildroot}
-make install DESTDIR=%{buildroot}
+%make_install
 find %{buildroot} -name *.la -exec rm -rf {} \;
 
 # Get rid of installed copy of placement.pdf
@@ -81,6 +81,13 @@ rm -rf %{buildroot}%{_docdir}/%{name}
 %doc potrace.pdf potracelib.pdf
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1.16-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

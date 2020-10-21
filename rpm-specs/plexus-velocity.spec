@@ -1,6 +1,6 @@
 Name:           plexus-velocity
 Version:        1.2
-Release:        8%{?dist}
+Release:        11%{?dist}
 Summary:        Plexus Velocity Component
 License:        ASL 2.0
 URL:            https://codehaus-plexus.github.io/plexus-velocity/
@@ -33,6 +33,9 @@ find -name '*.jar' -delete
 
 cp -p %{SOURCE1} LICENSE
 
+# Make provided scope on plexus-containers
+%pom_change_dep :plexus-container-default org.codehaus.plexus:plexus-container-default::provided
+
 %build
 %mvn_build
 
@@ -46,6 +49,16 @@ cp -p %{SOURCE1} LICENSE
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Mat Booth <mat.booth@redhat.com> - 1.2-10
+- Use 'provided' scope to avoid hard dependency on plexus-containers, which is
+  not necessarily needed at runtime
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.2-9
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

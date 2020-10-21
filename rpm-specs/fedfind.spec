@@ -17,7 +17,7 @@
 %global srcname fedfind
 
 Name:           fedfind
-Version:        4.4.2
+Version:        4.4.3
 Release:        2%{?dist}
 Summary:        Fedora compose and image finder
 
@@ -136,6 +136,12 @@ popd
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Adam Williamson <awilliam@redhat.com> - 4.4.3-1
+- New release 4.4.3: don't delete _pdccid property, just unset it
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.4.2-2
 - Rebuilt for Python 3.9
 

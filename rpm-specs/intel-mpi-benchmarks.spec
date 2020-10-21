@@ -1,7 +1,7 @@
 Summary: Intel MPI benchmarks
 Name:    intel-mpi-benchmarks
 Version: 2018.0
-Release: 7%{?dist}
+Release: 8%{?dist}
 License: CPL
 URL:     https://software.intel.com/en-us/articles/intel-mpi-benchmarks
 Source0: https://github.com/intel/mpi-benchmarks/archive/v%{version}.tar.gz
@@ -96,6 +96,9 @@ do_install
 %{_libdir}/mpich/bin/IMB-{MPI1,EXT,IO,NBC,RMA}_mpich
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2018.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2018.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

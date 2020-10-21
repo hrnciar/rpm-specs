@@ -5,7 +5,7 @@
 
 Name:           python-%{modname}
 Version:        0.4
-Release:        41%{?dist}
+Release:        42%{?dist}
 Summary:        Python Module for Accessing and Modifying Configuration Data in INI files
 License:        MIT and Python
 URL:            http://code.google.com/p/iniparse/
@@ -65,6 +65,9 @@ rm -vfr %{buildroot}%{_docdir}/*
 %{python3_sitelib}/%{modname}-%{version}-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-42
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4-41
 - Rebuilt for Python 3.9
 

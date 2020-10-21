@@ -1,14 +1,15 @@
 Name:           irclog2html
 Version:        2.17.2
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        A script to convert IRC logs to HTML and other formats
 
 License:        GPLv2+
 URL:            http://mg.pov.lt/irclog2html/
-Source0:        https://github.com/mgedmin/irclog2html/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source0:        https://github.com/mgedmin/irclog2html/archive/%{version}/%{name}-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 
 %description
 irclog2html is a nice IRC log parser and colorizer that will do the most common
@@ -41,6 +42,12 @@ install -Dpm 0644 src/%{name}/irclog.css %{buildroot}%{_datadir}/%{name}
 %{python3_sitelib}/*.egg-info
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.17.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.17.2-7
+- Add python3-setuptools as BR
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.17.2-6
 - Rebuilt for Python 3.9
 

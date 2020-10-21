@@ -10,7 +10,7 @@
 #%%global without_hscolour 1
 
 Name:           ghc-rpm-macros
-Version:        2.0.10
+Version:        2.0.14
 Release:        1%{?dist}
 Summary:        RPM macros for building Haskell packages for GHC
 
@@ -137,11 +137,17 @@ Obsoletes:      ghc-conduit-combinators < 1.3.1
 Obsoletes:      ghc-conduit-combinators-devel < 1.3.1
 %endif
 %if 0%{?fedora} >= 32
-Obsoletes:      ghc-cabal-helper < 0.8.2.0-5, ghc-cabal-helper-devel < 0.8.2.0-5, ghc-cabal-helper-prof < 0.8.2.0-5
 Obsoletes:      ghc-cabal-plan < 0.4.0.0-5, ghc-cabal-plan-devel < 0.4.0.0-5, ghc-cabal-plan-prof < 0.4.0.0-5
 Obsoletes:      ghc-derive < 2.6.5-5, ghc-derive-devel < 2.6.5-5, ghc-derive-prof < 2.6.5-5
 Obsoletes:      ghc-here < 1.2.13-17, ghc-here-devel < 1.2.13-17, ghc-here-prof < 1.2.13-17
 %endif
+%if 0%{?fedora} >= 33
+Obsoletes:      ghc-easytest < 0.2.1-4, ghc-easytest-devel < 0.2.1-4, ghc-easytest-prof < 0.2.1-4,
+Obsoletes:      ghc-EdisonAPI < 1.3.1-23, ghc-EdisonAPI-devel < 1.3.1-23, ghc-EdisonAPI-prof < 1.3.1-23
+Obsoletes:      ghc-EdisonCore < 1.3.2.1-23, ghc-EdisonCore-devel < 1.3.2.1-23, ghc-EdisonCore-prof < 1.3.2.1-23
+Obsoletes:      ghc-gtksourceview2 < 0.13.3.1-14, ghc-gtksourceview2-devel < 0.13.3.1-14, ghc-gtksourceview2-prof < 0.13.3.1-14
+%endif
+Obsoletes:      ghc-iwlib < 0.1.0-16, ghc-iwlib-devel < 0.1.0-16, ghc-iwlib-prof < 0.1.0-16
 
 %description -n ghc-obsoletes
 Meta package for obsoleting deprecated Haskell packages.
@@ -155,7 +161,7 @@ cp %{SOURCE1} %{SOURCE2} .
 
 
 %build
-echo no build stage needed
+echo no build stage
 
 
 %install
@@ -212,6 +218,31 @@ EOF
 
 
 %changelog
+* Sat Aug 29 2020 Jens Petersen <petersen@redhat.com> - 2.0.14-1
+- ghc-deps.sh: be careful when filtering out rts (#1873687)
+
+* Wed Aug 26 2020 Jens Petersen <petersen@redhat.com> - 2.0.13-2
+- obsolete ghc-iwlib (xmobar)
+
+* Tue Aug  4 2020 Jens Petersen <petersen@redhat.com> - 2.0.13-1
+- disable LTO on (unregisterised) s390x (#1863601)
+  to prevent linker warning flood for prof libraries
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.12-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Jens Petersen <petersen@redhat.com> - 2.0.12-2
+- obsoletes for ghc-EdisonAPI, ghc-EdisonCore, ghc-easytest
+
+* Tue Jul 21 2020 Jens Petersen <petersen@redhat.com> - 2.0.12-1
+- make doc packages noarch for subpackaging
+- obsoletes for ghc-gtksourceview2
+
+* Wed Jun 24 2020 Jens Petersen <petersen@redhat.com> - 2.0.11-1
+- handle meta subpackages:
+  - ghc_lib_subpackage -m
+  - only add dynlib to file-list if it exists
+
 * Thu Jun 18 2020 Jens Petersen <petersen@redhat.com> - 2.0.10-1
 - cabal-tweak script now output errors to stderr
 

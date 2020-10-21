@@ -3,7 +3,7 @@
 
 Name:		compton
 Version:	%{ver}
-Release:	0.6%{?prever:.%{prever}}%{?dist}
+Release:	0.8%{?prever:.%{prever}}%{?dist}
 Summary:	A compositor for X11
 License:	MIT
 URL:		https://github.com/AxelSilverdew/compton
@@ -26,7 +26,8 @@ BuildRequires : mesa-libGL-devel
 BuildRequires : pkgconfig(dbus-1)
 BuildRequires : asciidoc
 BuildRequires : desktop-file-utils
-Requires : xorg-x11-utils
+Requires : xprop
+Requires : xwininfo
 Requires : hicolor-icon-theme
 
 %description
@@ -63,6 +64,12 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/compton.desktop
 
 
 %changelog
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 0.1-0.8.beta3
+- Require xprop and xwininfo not xorg-x11-utils
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.7.beta3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.6.beta3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

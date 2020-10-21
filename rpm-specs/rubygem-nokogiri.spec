@@ -1,4 +1,4 @@
-%global	mainver		1.10.9
+%global	mainver		1.10.10
 #%%global	prever		.rc3
 
 %global	mainrel		1
@@ -230,6 +230,12 @@ popd
 %{gem_dir}/doc/%{gem_name}-%{mainver}%{?prever}/
 
 %changelog
+* Sat Aug  8 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.10.10-1
+- 1.10.10
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.9-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar  6 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.10.9-1
 - 1.10.9
 

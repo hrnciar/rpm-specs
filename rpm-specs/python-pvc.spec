@@ -2,7 +2,7 @@
 
 Name:           python-pvc
 Version:        0.3.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Python vSphere Client with a dialog interface
 License:        BSD
 URL:            https://github.com/dnaeon/pvc
@@ -80,6 +80,9 @@ rm -rf docs/_build/html/.{doctrees,buildinfo}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Raphael Groner <projects.rg@smart.ms> - 0.3.0-9
 - add patch to improve password input, upstream #28
 

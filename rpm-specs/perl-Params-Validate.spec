@@ -1,7 +1,7 @@
 Summary:        Params-Validate Perl module
 Name:           perl-Params-Validate
-Version:        1.29
-Release:        13%{?dist}
+Version:        1.30
+Release:        1%{?dist}
 # One file is GPL+ or Artistics (c/ppport.h)
 License:        Artistic 2.0 and (GPL+ or Artistic)
 URL:            https://metacpan.org/release/Params-Validate
@@ -14,7 +14,7 @@ BuildRequires:  perl-generators
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(ExtUtils::CBuilder)
 BuildRequires:  perl(Module::Implementation) >= 0.04
-BuildRequires:  perl(Module::Build) >= 0.28
+BuildRequires:  perl(Module::Build) >= 0.4227
 
 # Run-time:
 BuildRequires:  perl(Exporter)
@@ -73,6 +73,12 @@ find $RPM_BUILD_ROOT -type d -depth -exec rmdir {} 2>/dev/null ';'
 %{_mandir}/man3/*
 
 %changelog
+* Mon Oct 19 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 1.30-1
+- Upgrade to 1.30.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.29-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.29-13
 - Perl 5.32 rebuild
 

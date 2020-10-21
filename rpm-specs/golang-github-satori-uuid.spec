@@ -25,7 +25,7 @@ Supported versions:
 
 Name:           %{goname}
 Version:        1.2.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        UUID package for Go
 
 License:        MIT
@@ -56,6 +56,9 @@ BuildRequires:  golang(gopkg.in/check.v1)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

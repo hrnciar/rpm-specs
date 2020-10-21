@@ -1,10 +1,10 @@
-%global commit 55248db8f3492f98dd7cdf68a815b1cc65cfaead
+%global commit aeb8d1d662d5009d1122182fc5b491d010d029ae
 %global short_commit %(c=%{commit}; echo ${c:0:7})
-%global commit_date 20200506
+%global commit_date 20200730
 
 Name:           libvmi
 Version:        0.13.0
-Release:        1.%{commit_date}git%{short_commit}%{?dist}
+Release:        4.%{commit_date}git%{short_commit}%{?dist}
 Summary:        A library for performing virtual-machine introspection
 
 License:        LGPLv3+
@@ -46,10 +46,10 @@ use of %{name}.
 
 %build
 %cmake .
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 find %{buildroot}%{_libdir} -name '*.la' -delete -print
 find %{buildroot}%{_libdir} -name '*.a' -delete -print
 
@@ -70,6 +70,17 @@ find %{buildroot}%{_libdir} -name '*.a' -delete -print
 %{_bindir}/*
 
 %changelog
+* Sat Aug 01 2020 W. Michael Petullo <mike@flyn.org> - 0.13.0-4.20200730gitaeb8d1d
+- Update to Git master
+- Use cmake macros to build
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-3.20200506git55248db
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-2.20200506git55248db
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 08 2020 W. Michael Petullo <mike@flyn.org> - 0.13.0-1.20200506git55248db8
 - Update to Git master, now called 0.13.0
 

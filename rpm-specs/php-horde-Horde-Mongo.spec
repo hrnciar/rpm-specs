@@ -12,7 +12,7 @@
 
 Name:           php-horde-Horde-Mongo
 Version:        1.1.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Horde Mongo Configuration
 
 License:        LGPLv2
@@ -100,6 +100,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

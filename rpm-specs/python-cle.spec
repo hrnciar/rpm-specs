@@ -1,7 +1,7 @@
 %global srcname cle
 
 Name:           python-%{srcname}
-Version:        8.20.6.8
+Version:        9.0.4495
 Release:        1%{?dist}
 Summary:        A Python interface for analyzing binary formats
 
@@ -44,6 +44,18 @@ rm -f %{srcname}.egg-info/
 %{python3_sitelib}/cle/
 
 %changelog
+* Thu Oct 08 2020 W. Michael Petullo <mike@flyn.org> - 9.0.4495-1
+- New upstream version
+
+* Sat Aug 01 2020 W. Michael Petullo <mike@flyn.org> - 8.20.7.27-1
+- New upstream version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.20.7.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 W. Michael Petullo <mike@flyn.org> - 8.20.7.6-1
+- New upstream version
+
 * Tue Jun 23 2020 W. Michael Petullo <mike@flyn.org> - 8.20.6.8-1
 - New upstream version
 

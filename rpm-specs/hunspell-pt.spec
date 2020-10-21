@@ -2,7 +2,7 @@ Name: hunspell-pt
 Summary: Portuguese hunspell dictionaries
 %global upstreamid 20130125
 Version: 0.%{upstreamid}
-Release: 14%{?dist}
+Release: 15%{?dist}
 Source0: http://natura.di.uminho.pt/download/sources/Dictionaries/hunspell/hunspell-pt_PT-20130125.tar.gz
 # Mark following Source1 as dead link
 Source1: http://pt-br.libreoffice.org/assets/ptBR20130317AOC.zip
@@ -52,6 +52,9 @@ popd
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20130125-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20130125-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

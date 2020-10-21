@@ -1,6 +1,6 @@
 Name:           perl-Test-YAML-Meta
 Version:        0.22
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Validation of the META.yml file in a distribution
 License:        Artistic 2.0
 URL:            https://metacpan.org/release/Test-YAML-Meta
@@ -62,6 +62,9 @@ make test AUTOMATED_TESTING=1
 %{_mandir}/man3/Test::YAML::Meta.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.22-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.22-16
 - Perl 5.32 rebuild
 

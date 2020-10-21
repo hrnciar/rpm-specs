@@ -1,7 +1,7 @@
 Summary   : Base component for themonospot system, parser/editor and content descriptor
 Name      : themonospot-base
 Version   : 0.8.2
-Release   : 26%{?dist}
+Release   : 27%{?dist}
 License   : GPLv2
 Group     : Applications/Multimedia
 URL       : http://www.integrazioneweb.com/themonospot
@@ -60,6 +60,9 @@ chmod 0755 %{buildroot}%{_libdir}/themonospot/*.dll
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.2-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.2-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

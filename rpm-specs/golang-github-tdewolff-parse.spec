@@ -3,9 +3,11 @@
 
 # https://github.com/tdewolff/parse
 %global goipath         github.com/tdewolff/parse
-Version:                2.4.2
+Version:                2.5.5
 
 %gometa
+
+%global goaltipaths     github.com/tdewolff/parse/v2
 
 %global common_description %{expand:
 Go parsers for web formats.}
@@ -14,7 +16,7 @@ Go parsers for web formats.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Go parsers for web formats
 
 License:        MIT
@@ -33,8 +35,6 @@ BuildRequires:  golang(github.com/tdewolff/test) >= 1.0.6
 
 %prep
 %goprep
-# Use unversioned import path until Go modules are supported in Fedora
-sed -i -e 's|"github.com/tdewolff/parse/v2|"github.com/tdewolff/parse|' $(find . -name '*.go')
 
 %install
 %gopkginstall
@@ -47,6 +47,36 @@ sed -i -e 's|"github.com/tdewolff/parse/v2|"github.com/tdewolff/parse|' $(find .
 %gopkgfiles
 
 %changelog
+* Fri Oct 16 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.5.5-1
+- Update to latest version (#1888868)
+
+* Thu Oct 01 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.5.4-1
+- Update to latest version (#1884203)
+
+* Fri Sep 25 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.5.3-2
+- rebuilt
+
+* Wed Sep 23 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.5.3-1
+- Update to latest version (#1882117)
+
+* Sat Sep 05 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.5.2-1
+- Update to latest version (#1876038)
+
+* Sat Aug 29 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.5.1-1
+- Update to latest version (#1873760)
+
+* Thu Aug 27 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.5.0-1
+- Update to latest version (#1872962)
+
+* Mon Aug 24 11:25:45 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.4.4-3
+- Add alternate import path
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.4.4-1
+- Update to latest version
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

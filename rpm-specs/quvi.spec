@@ -1,6 +1,6 @@
 Name:           quvi
 Version:        0.9.5
-Release:        13%{?dist}
+Release:        15%{?dist}
 Summary:        Command line tool for parsing video download links
 License:        AGPLv3+
 URL:            http://quvi.sourceforge.net/
@@ -35,6 +35,13 @@ make install DESTDIR=%{buildroot}
 %{_mandir}/man5/%{name}rc.5*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.5-15
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.5-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.5-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

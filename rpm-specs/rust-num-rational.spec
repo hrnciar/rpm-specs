@@ -5,8 +5,8 @@
 %global crate num-rational
 
 Name:           rust-%{crate}
-Version:        0.2.4
-Release:        1%{?dist}
+Version:        0.3.0
+Release:        2%{?dist}
 Summary:        Rational numbers implementation for Rust
 
 # Upstream license specification: MIT/Apache-2.0
@@ -39,7 +39,6 @@ which use "%{crate}" crate.
 %license LICENSE-MIT LICENSE-APACHE
 %doc README.md RELEASES.md
 %{cargo_registry}/%{crate}-%{version_no_tilde}/
-%exclude %{cargo_registry}/%{crate}-%{version_no_tilde}/{bors.toml,ci}
 
 %package     -n %{name}+default-devel
 Summary:        %{summary}
@@ -53,42 +52,6 @@ which use "default" feature of "%{crate}" crate.
 %files       -n %{name}+default-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
-%package     -n %{name}+bigint-devel
-Summary:        %{summary}
-BuildArch:      noarch
-
-%description -n %{name}+bigint-devel %{_description}
-
-This package contains library source intended for building other packages
-which use "bigint" feature of "%{crate}" crate.
-
-%files       -n %{name}+bigint-devel
-%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
-
-%package     -n %{name}+bigint-std-devel
-Summary:        %{summary}
-BuildArch:      noarch
-
-%description -n %{name}+bigint-std-devel %{_description}
-
-This package contains library source intended for building other packages
-which use "bigint-std" feature of "%{crate}" crate.
-
-%files       -n %{name}+bigint-std-devel
-%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
-
-%package     -n %{name}+i128-devel
-Summary:        %{summary}
-BuildArch:      noarch
-
-%description -n %{name}+i128-devel %{_description}
-
-This package contains library source intended for building other packages
-which use "i128" feature of "%{crate}" crate.
-
-%files       -n %{name}+i128-devel
-%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
-
 %package     -n %{name}+num-bigint-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -99,6 +62,18 @@ This package contains library source intended for building other packages
 which use "num-bigint" feature of "%{crate}" crate.
 
 %files       -n %{name}+num-bigint-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+num-bigint-std-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+num-bigint-std-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "num-bigint-std" feature of "%{crate}" crate.
+
+%files       -n %{name}+num-bigint-std-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %package     -n %{name}+serde-devel
@@ -144,6 +119,12 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Josh Stone <jistone@redhat.com> - 0.3.0-1
+- Update to 0.3.0
+
 * Tue Mar 17 2020 Josh Stone <jistone@redhat.com> - 0.2.4-1
 - Update to 0.2.4
 

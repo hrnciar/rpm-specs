@@ -3,8 +3,7 @@
 
 # https://github.com/spf13/cobra
 %global goipath         github.com/spf13/cobra
-Version:                0.0.5
-%global commit          89c7ffb5129bebd58cd68878c13af2144a5791f3
+Version:                1.0.0
 
 %gometa
 
@@ -39,7 +38,7 @@ Cobra provides:
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        Commander for modern Go CLI interactions
 
 # Upstream license specification: Apache-2.0
@@ -49,7 +48,7 @@ Source0:        %{gosource}
 Source1:        glide.yaml
 Source2:        glide.lock
 
-BuildRequires:  golang(github.com/cpuguy83/go-md2man/md2man)
+BuildRequires:  golang(github.com/cpuguy83/go-md2man/v2/md2man)
 BuildRequires:  golang(github.com/mitchellh/go-homedir)
 BuildRequires:  golang(github.com/spf13/pflag)
 BuildRequires:  golang(github.com/spf13/viper)
@@ -64,7 +63,6 @@ BuildRequires:  golang(gopkg.in/yaml.v2)
 %goprep
 cp %{S:1} %{S:2} .
 mv cobra/README.md README-cobra.md
-find . -type f -name "*.go" -exec sed -i "s|github.com/cpuguy83/go-md2man/v2|github.com/cpuguy83/go-md2man|" "{}" +;
 
 %build
 for cmd in cobra; do
@@ -89,6 +87,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 21:23:05 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-1
+- Update to 1.0.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 03:43:43 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.0.5-4.20200210git89c7ffb
 - Fix go-md2man import path
 

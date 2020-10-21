@@ -1,5 +1,5 @@
 %global packname rmarkdown
-%global packver  2.2
+%global packver  2.4
 %global rlibdir  %{_datadir}/R/library
 
 %global __suggests_exclude ^R\\((dygraphs)\\)
@@ -8,30 +8,28 @@
 %global with_suggests 0
 
 Name:             R-%{packname}
-Version:          %{packver}
+Version:          2.4
 Release:          1%{?dist}
 Summary:          Dynamic Documents for R
 
 # Main is GPLv3; see bundled Provides below for others.
-License:          GPLv3 and ASL 2.0 and BSD and MIT and OFL and W3C
+License:          GPLv3 and ASL 2.0 and BSD and MIT and W3C
 URL:              https://CRAN.R-project.org/package=%{packname}
 Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 Patch0001:        0001-Remove-unused-minified-ioslides-files.patch
 Patch0002:        0002-Unbundle-fonts-in-ioslides.patch
-Patch0004:        0004-Unbundle-jquery.patch
-#Patch0005:        0005-Unbundle-highlight.js.patch
-Patch0006:        0006-Add-original-non-minified-Bootswatch-themes.patch
-Patch0007:        0007-Unbundle-fonts-from-bootstrap.patch
-Patch0008:        0008-Add-source-for-code-prettify.patch
-Patch0009:        0009-Skip-shiny-tests.patch
+Patch0004:        0004-Add-original-non-minified-Bootswatch-themes.patch
+Patch0005:        0005-Unbundle-fonts-from-bootstrap.patch
+Patch0006:        0006-Add-source-for-code-prettify.patch
+Patch0007:        0007-Skip-shiny-tests.patch
 %if 0%{?fedora} >= 33
-Patch0010:        R-rmarkdown-f33-Raleway-TTF.patch
+Patch0008:        0008-handle-updated-Raleway-fonts-in-f33.patch
 %endif
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-tools, R-utils, R-knitr >= 1.22, R-yaml >= 2.1.19, R-htmltools >= 0.3.5, R-evaluate >= 0.13, R-base64enc, R-jsonlite, R-mime, R-tinytex >= 0.11, R-xfun, R-methods, R-stringr >= 1.2.0
-# Suggests:  R-shiny >= 0.11, R-tufte, R-testthat, R-digest, R-dygraphs, R-tibble, R-fs, R-pkgdown, R-callr >= 2.0.0
+# Imports:   R-tools, R-utils, R-knitr >= 1.22, R-yaml >= 2.1.19, R-htmltools >= 0.3.5, R-evaluate >= 0.13, R-jsonlite, R-mime, R-tinytex >= 0.11, R-xfun, R-methods, R-stringr >= 1.2.0
+# Suggests:  R-shiny >= 0.11, R-tufte, R-testthat, R-digest, R-dygraphs, R-tibble, R-fs, R-rsconnect
 # LinkingTo:
 # Enhances:
 
@@ -44,14 +42,13 @@ BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    pandoc >= 1.12.3
 BuildRequires:    pandoc-citeproc
-BuildRequires:    ycssmin
+BuildRequires:    golang-github-tdewolff-minify
 BuildRequires:    R-tools
 BuildRequires:    R-utils
 BuildRequires:    R-knitr >= 1.22
 BuildRequires:    R-yaml >= 2.1.19
 BuildRequires:    R-htmltools >= 0.3.5
 BuildRequires:    R-evaluate >= 0.13
-BuildRequires:    R-base64enc
 BuildRequires:    R-jsonlite
 BuildRequires:    R-mime
 BuildRequires:    R-tinytex >= 0.11
@@ -60,14 +57,13 @@ BuildRequires:    R-methods
 BuildRequires:    R-stringr >= 1.2.0
 BuildRequires:    R-testthat
 BuildRequires:    R-digest
-BuildRequires:    R-callr >= 2.0.0
+BuildRequires:    R-rsconnect
 %if %{with_suggests}
 BuildRequires:    R-shiny >= 0.11
 BuildRequires:    R-tufte
 BuildRequires:    R-dygraphs
 BuildRequires:    R-tibble
 BuildRequires:    R-fs
-BuildRequires:    R-pkgdown
 %endif
 
 #BuildRequires:    fontawesome-fonts = 4.7.0
@@ -86,14 +82,14 @@ BuildRequires:    adobe-source-sans-pro-fonts
 Recommends:       adobe-source-sans-pro-fonts
 BuildRequires:    glyphicons-halflings-fonts
 Recommends:       glyphicons-halflings-fonts
+BuildRequires:    glyphography-newscycle-fonts
+Recommends:       glyphography-newscycle-fonts
 BuildRequires:    google-roboto-fonts
 Recommends:       google-roboto-fonts
 BuildRequires:    impallari-raleway-fonts
 Recommends:       impallari-raleway-fonts
 BuildRequires:    lato-fonts
 Recommends:       lato-fonts
-# OFL; inst/rmd/h/bootstrap/css/fonts/NewsCycle*.ttf
-Provides:         bundled(glyphography-news-cycle-fonts) = 0.4
 
 # BSD; inst/rmd/h/highlightjs/ (unbundled)
 #BuildRequires:    js-highlight
@@ -105,9 +101,8 @@ Provides:         bundled(js-highlight) = 9.12.0
 # http://ionicons.com/
 Provides:         bundled(ionicons-fonts) = 2.0.1
 
-# MIT; inst/rmd/h/jquery/ (unbundled)
-BuildRequires:    js-jquery1 = 1.12.4
-Requires:         js-jquery1 = 1.12.4
+# MIT; inst/rmd/h/jquery/
+Provides:         bundled(js-jquery1) = 1.12.4
 
 # MIT; inst/rmd/h/jqueryui (outdated in Fedora)
 Provides:         bundled(xstatic-jquery-ui-common) = 1.11.4
@@ -155,14 +150,24 @@ rm inst/rmd/h/bootstrap/css/fonts/Ubuntu.ttf
 chmod -x inst/rmd/h/ionicons/{LICENSE,css/*.css,fonts/*.ttf}
 chmod -x inst/rmd/ioslides/ioslides-13.5.1/js/hammer.js
 
+# Fix fonts using new paths.
+%if 0%{?fedora} >= 33
+for f in Bold It Light Regular; do
+    ln -sf /usr/share/fonts/adobe-source-sans-pro-fonts/SourceSans3-${f}.otf inst/rmd/h/bootstrap/css/fonts/SourceSansPro-${f}.otf
+done
+%endif
+
 # This does nothing but reset the -n path.
 %setup -q -D -T -n %{packname}
 
 
 %build
+gominify --type css \
+    < %{packname}/inst/rmd/h/ionicons/css/ionicons.css \
+    > %{packname}/inst/rmd/h/ionicons/css/ionicons.min.css
 pushd %{packname}/inst/rmd/h/bootstrap/css/
 for file in bootstrap bootstrap-theme cerulean cosmo darkly flatly journal lumen paper readable sandstone simplex spacelab united yeti; do
-    cssmin ${file}.css > ${file}.min.css
+    gominify --type css < ${file}.css > ${file}.min.css
 done
 popd
 
@@ -190,6 +195,8 @@ ln -sf /usr/share/fonts/adobe-source-code-pro/SourceCodePro-Regular.otf rmd/iosl
 ln -sf /usr/share/fonts/lato/Lato-Regular.ttf rmd/h/bootstrap/css/fonts/Lato.ttf
 ln -sf /usr/share/fonts/lato/Lato-Bold.ttf rmd/h/bootstrap/css/fonts/LatoBold.ttf
 ln -sf /usr/share/fonts/lato/Lato-Italic.ttf rmd/h/bootstrap/css/fonts/LatoItalic.ttf
+ln -sf /usr/share/fonts/glyphography-newscycle-fonts/newscycle-regular.ttf rmd/h/bootstrap/css/fonts/NewsCycle.ttf
+ln -sf /usr/share/fonts/glyphography-newscycle-fonts/newscycle-bold.ttf rmd/h/bootstrap/css/fonts/NewsCycleBold.ttf
 ln -sf /usr/share/fonts/open-sans/OpenSans-Regular.ttf rmd/h/bootstrap/css/fonts/OpenSans.ttf
 for f in Bold BoldItalic Italic Light LightItalic; do
     ln -sf /usr/share/fonts/open-sans/OpenSans-${f}.ttf rmd/h/bootstrap/css/fonts/OpenSans${f}.ttf
@@ -206,29 +213,23 @@ for f in Light Medium Bold; do
     ln -sf /usr/share/fonts/google-roboto/Roboto-${f}.ttf rmd/h/bootstrap/css/fonts/Roboto${f}.ttf
 done
 for f in Bold It Light Regular; do
+%if 0%{?fedora} >= 33
+    ln -sf /usr/share/fonts/adobe-source-sans-pro-fonts/SourceSans3-${f}.otf rmd/h/bootstrap/css/fonts/SourceSansPro-${f}.otf
+%else
     ln -sf /usr/share/fonts/source-sans-pro/SourceSansPro-${f}.otf rmd/h/bootstrap/css/fonts/SourceSansPro-${f}.otf
+%endif
 done
 ln -sf /usr/share/fonts/glyphicons-halflings/glyphicons-halflings-regular.ttf rmd/h/bootstrap/fonts/glyphicons-halflings-regular.ttf
 popd
 
 
 %check
-# TODO: This check keeps failing in mysterious ways, specifically, trying to copy Raleway-Regular.otf and Raleway-Bold.otf
-# despite no obvious reference remaining to those files (in f33).
-# It also throws this error in koji (f33):
-# * checking for sufficient/correct file permissions ... ERROR
-# Found the following files with insufficient permissions:
-#  NA
-#  NA
-# ... but I cannot reproduce it locally. Disabling check for now, but Elliott, if you can figure out how to fix this
-# please do so and re-enable check.
-%if 0
 %if %{with_suggests}
 %{_bindir}/R CMD check %{packname}
 %else
 _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 %endif
-%endif
+
 
 %files
 %dir %{rlibdir}/%{packname}
@@ -249,11 +250,14 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 %{rlibdir}/%{packname}/rmd/fragment
 %dir %{rlibdir}/%{packname}/rmd/h
 %{rlibdir}/%{packname}/rmd/h/_navbar.html
+%{rlibdir}/%{packname}/rmd/h/accessibility
 %{rlibdir}/%{packname}/rmd/h/default.html
 %{rlibdir}/%{packname}/rmd/h/bootstrap
 %{rlibdir}/%{packname}/rmd/h/fontawesome
 %{rlibdir}/%{packname}/rmd/h/highlightjs
 %{rlibdir}/%{packname}/rmd/h/ionicons
+%{rlibdir}/%{packname}/rmd/h/jquery
+%{rlibdir}/%{packname}/rmd/h/jquery-AUTHORS.txt
 %{rlibdir}/%{packname}/rmd/h/jqueryui
 %{rlibdir}/%{packname}/rmd/h/jqueryui-AUTHORS.txt
 %{rlibdir}/%{packname}/rmd/h/navigation-1.1
@@ -264,13 +268,31 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 %{rlibdir}/%{packname}/rmd/h/tocify
 %{rlibdir}/%{packname}/rmd/ioslides
 %{rlibdir}/%{packname}/rmd/latex
-%{rlibdir}/%{packname}/rmd/lua
 %{rlibdir}/%{packname}/rmd/site
 %{rlibdir}/%{packname}/rmd/slidy
 %{rlibdir}/%{packname}/rstudio
 
 
 %changelog
+* Wed Sep 30 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.4-1
+- Update to latest version (#1884046)
+- Fix Rawhide/f33 font unbundling for Adobe SourceSans
+- Unbundle NewsCycle font
+
+* Sat Aug 01 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.3-1
+- Update to latest version
+- Switch minification from ycssmin to gominify
+- Fix Rawhide font unbundling
+- Re-enable tests
+- Re-bundle jquery; it's retired in Rawhide
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 2.2-1
 - update to 2.2
 - move R-fs within the with_suggests conditional to simplify build

@@ -9,7 +9,7 @@
 
 # https://github.com/haproxytech/dataplaneapi
 %global goipath         github.com/haproxytech/dataplaneapi
-Version:                2.0.3
+Version:                2.1.0
 
 %gometa
 
@@ -22,7 +22,7 @@ HAProxy Data Plane API.}
 %global godocs          CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        HAProxy Data Plane API
 
 Group:          System Environment/Daemons
@@ -35,12 +35,16 @@ Source1:        %{gorepo}.service
 Source2:        %{gorepo}.logrotate
 Source3:        %{gorepo}.sysconfig
 
+Patch0:         dataplaneapi-go-openapi-errors.patch
+
 BuildRequires:  golang(github.com/docker/go-units)
 BuildRequires:  golang(github.com/dustinkirkland/golang-petname)
 BuildRequires:  golang(github.com/GehirnInc/crypt)
 BuildRequires:  golang(github.com/GehirnInc/crypt/md5_crypt)
 BuildRequires:  golang(github.com/GehirnInc/crypt/sha256_crypt)
 BuildRequires:  golang(github.com/GehirnInc/crypt/sha512_crypt)
+BuildRequires:  golang(github.com/getkin/kin-openapi/openapi2)
+BuildRequires:  golang(github.com/getkin/kin-openapi/openapi2conv)
 BuildRequires:  golang(github.com/go-openapi/errors)
 BuildRequires:  golang(github.com/go-openapi/loads)
 BuildRequires:  golang(github.com/go-openapi/runtime)
@@ -51,6 +55,7 @@ BuildRequires:  golang(github.com/go-openapi/spec)
 BuildRequires:  golang(github.com/go-openapi/strfmt)
 BuildRequires:  golang(github.com/go-openapi/swag)
 BuildRequires:  golang(github.com/go-openapi/validate)
+BuildRequires:  golang(github.com/google/renameio)
 BuildRequires:  golang(github.com/haproxytech/client-native/v2)
 BuildRequires:  golang(github.com/haproxytech/client-native/v2/configuration)
 BuildRequires:  golang(github.com/haproxytech/client-native/v2/errors)
@@ -85,6 +90,8 @@ Suggests: logrotate
 
 %prep
 %goprep
+# https://github.com/haproxytech/dataplaneapi/pull/127
+%patch0 -p1
 
 %build
 LDFLAGS="-X main.GitRepo=%{url}/archive/v%{version}/%{gorepo}-%{version}.tar.gz "
@@ -135,6 +142,23 @@ install -m 0644 %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{gorepo}
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 2020 Brandon Perkins <bperkins@redhat.com> - 2.1.0-4
+- Patch for changes in go-openapi/errors v0.19.6
+  https://github.com/haproxytech/dataplaneapi/pull/127
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Brandon Perkins <bperkins@redhat.com> - 2.1.0-1
+- Update to version 2.1.0 (#1859325)
+- Add golang(github.com/getkin/kin-openapi/openapi2),
+  golang(github.com/getkin/kin-openapi/openapi2conv), and
+  golang(github.com/google/renameio) BuildRequires
+
 * Mon Jun 01 2020 Brandon Perkins <bperkins@redhat.com> - 2.0.3-1
 - Update to version 2.0.3
 

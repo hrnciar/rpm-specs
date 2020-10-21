@@ -3,7 +3,7 @@
 
 # https://github.com/xrash/smetrics
 %global goipath         github.com/xrash/smetrics
-%global commit          a3153f7040e90324c58c6287535e26a0ac5c1cc1
+%global commit          89a2a8a1fb0b8ccbec63f75d733da7bf721ac850
 
 %gometa
 
@@ -16,7 +16,7 @@ and Soundex algorithms written in Go.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.6%{?dist}
+Release:        0.8%{?dist}
 Summary:        String metrics library written in Go
 
 License:        MIT
@@ -42,6 +42,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Tue Aug 04 21:03:45 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.8.20200804git89a2a8a
+- Bump to commit 89a2a8a1fb0b8ccbec63f75d733da7bf721ac850
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

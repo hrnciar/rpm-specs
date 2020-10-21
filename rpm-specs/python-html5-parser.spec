@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.4.9
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A fast, standards compliant, C based, HTML 5 parser for python
 
 # html5-parser-0.4.4/gumbo/utf8.c is MIT
@@ -61,6 +61,9 @@ sed -i -e '/^#!\//, 1d' src/html5_parser/*.py
 %{python3_sitearch}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.9-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.9-2
 - Rebuilt for Python 3.9
 

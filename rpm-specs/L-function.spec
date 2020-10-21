@@ -1,6 +1,6 @@
 Name:		L-function
 Version:	1.23
-Release:	28%{?dist}
+Release:	29%{?dist}
 Summary:	C++ L-function class library and command line interface
 License:	GPLv2+
 Source0:	http://oto.math.uwaterloo.ca/~mrubinst/L_function_public/CODE/L-1.23.tar.gz
@@ -110,6 +110,9 @@ chmod 644 $RPM_BUILD_ROOT%{_includedir}/libLfunction/*.h
 %{_libdir}/libLfunction.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.23-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.23-28
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

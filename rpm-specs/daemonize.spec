@@ -1,6 +1,6 @@
 Name: daemonize
 Version: 1.7.7
-Release: 10%{?dist}
+Release: 11%{?dist}
 Summary: Run a command as a Unix daemon
 
 License: BSD
@@ -52,6 +52,9 @@ make DESTDIR=%{buildroot} INSTALL="install -p" install
 %{_mandir}/man1/daemonize.1.gz
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.7-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.7-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           perl-File-DirCompare
 Version:        0.7
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Perl module to compare two directories using callbacks
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/File-DirCompare
@@ -43,6 +43,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.7-21
 - Perl 5.32 rebuild
 

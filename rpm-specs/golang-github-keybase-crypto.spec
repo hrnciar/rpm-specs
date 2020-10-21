@@ -3,14 +3,9 @@
 
 # https://github.com/keybase/go-crypto
 %global goipath         github.com/keybase/go-crypto
-%global commit          b785b22cc75714432d7ebf0b554dfafaff608671
+%global commit          de78d2cb44f4360c724f681478689e314d00bf96
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-keybase-go-crypto-devel < 0-0.5
-}
 
 %global common_description %{expand:
 This package holds supplementary Go cryptography libraries.}
@@ -22,13 +17,15 @@ This package holds supplementary Go cryptography libraries.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.9%{?dist}
+Release:        0.11%{?dist}
 Summary:        Go supplementary cryptography libraries
 
 # Upstream license specification: BSD-3-Clause
 License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
+
+BuildRequires:  golang(golang.org/x/sys/unix)
 
 %description
 %{common_description}
@@ -49,6 +46,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 18:29:54 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.11.20200728gitde78d2c
+- Bump to commit de78d2cb44f4360c724f681478689e314d00bf96
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

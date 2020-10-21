@@ -3,12 +3,13 @@
 
 Name:           python-%{srcname}
 Version:        0.2.1
-Release:        15%{?dist}
+Release:        17%{?dist}
 Summary:        %{sum}
 
 License:        GPLv3+
 URL:            https://pypi.python.org/pypi/%{srcname}
 Source0:        https://pypi.python.org/packages/source/h/%{srcname}/%{srcname}-%{version}.tar.gz
+Patch0:         humblewx-0.2.1-py39.patch
 
 BuildArch:      noarch
 
@@ -25,7 +26,7 @@ Requires:       python3-wxpython4
 Library that simplifies creating user interfaces with wxPython.
 
 %prep
-%autosetup -n %{srcname}-%{version}
+%autosetup -n %{srcname}-%{version} -p0
 
 %build
 %py3_build
@@ -39,6 +40,12 @@ Library that simplifies creating user interfaces with wxPython.
 %{python3_sitelib}/%{srcname}*/
 
 %changelog
+* Tue Sep 29 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.2.1-17
+- Patch for Python 3.9
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.1-15
 - Rebuilt for Python 3.9
 

@@ -1,3 +1,7 @@
+#   This is a fix for the https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+#   So the beaviour will be the same also in F31 nad F32
+%undefine __cmake_in_source_build
+
 # Name of the package without any prefixes
 %global pkg_name %{name}
 %global pkgnamepatch community-mysql
@@ -39,6 +43,8 @@
 # For deep debugging we need to build binaries with extra debug info
 %bcond_with debug
 
+%global boost_bundled_version 1.72.0
+
 # Include files for systemd
 %global daemon_name mysqld
 %global daemon_no_prefix mysqld
@@ -66,8 +72,8 @@
 %global sameevr   %{?epoch:%{epoch}:}%{version}-%{release}
 
 Name:             community-mysql
-Version:          8.0.20
-Release:          3%{?with_debug:.debug}%{?dist}
+Version:          8.0.21
+Release:          16%{?with_debug:.debug}%{?dist}
 Summary:          MySQL client programs and shared libraries
 URL:              http://www.mysql.com
 
@@ -105,6 +111,9 @@ Patch51:          %{pkgnamepatch}-chain-certs.patch
 Patch52:          %{pkgnamepatch}-sharedir.patch
 Patch55:          %{pkgnamepatch}-rpath.patch
 Patch75:          %{pkgnamepatch}-arm32-timer.patch
+Patch76:          %{pkgnamepatch}-certs-expired.patch
+Patch77:          %{pkgnamepatch}-lto.patch
+Patch78:	  %{pkgnamepatch}-gcc11.patch
 
 # Patches taken from boost 1.59
 Patch115: boost-1.58.0-pool.patch
@@ -136,7 +145,6 @@ BuildRequires:    libtirpc-devel
 %endif
 BuildRequires:    protobuf-lite-devel
 BuildRequires:    rapidjson-devel
-BuildRequires:    re2-devel
 BuildRequires:    zlib
 BuildRequires:    zlib-devel
 BuildRequires:    multilib-rpm-config
@@ -159,6 +167,7 @@ BuildRequires:    perl(File::Find)
 BuildRequires:    perl(File::Spec)
 BuildRequires:    perl(File::Spec::Functions)
 BuildRequires:    perl(File::Temp)
+BuildRequires:    perl(FindBin)
 BuildRequires:    perl(Data::Dumper)
 BuildRequires:    perl(Getopt::Long)
 BuildRequires:    perl(if)
@@ -187,7 +196,8 @@ BuildRequires:    systemd
 Requires:         bash coreutils grep
 Requires:         %{name}-common%{?_isa} = %{sameevr}
 
-Provides:         bundled(boost) = 1.69
+Provides:         bundled(boost) = %{boost_bundled_version}
+
 
 %if %{with mysql_names}
 Provides:         mysql = %{sameevr}
@@ -197,8 +207,6 @@ Provides:         mysql-compat-client%{?_isa} = %{sameevr}
 %endif
 
 %{?with_conflicts:Conflicts:        mariadb}
-# mysql-cluster used to be built from this SRPM, but no more
-Obsoletes:        mysql-cluster < 5.1.44
 
 # Filtering: https://fedoraproject.org/wiki/Packaging:AutoProvidesAndRequiresFiltering
 %global __requires_exclude ^perl\\((hostnames|lib::mtr|lib::v1|mtr_|My::)
@@ -296,9 +304,7 @@ Provides:         mysql-server = %{sameevr}
 Provides:         mysql-server%{?_isa} = %{sameevr}
 Provides:         mysql-compat-server = %{sameevr}
 Provides:         mysql-compat-server%{?_isa} = %{sameevr}
-Obsoletes:        mysql-bench < 5.7.8
 %endif
-Obsoletes:        community-mysql-bench < 5.7.8
 %{?with_conflicts:Conflicts:        mariadb-server}
 %{?with_conflicts:Conflicts:        mariadb-galera-server}
 
@@ -339,6 +345,7 @@ Requires:         perl(Env)
 Requires:         perl(Exporter)
 Requires:         perl(Fcntl)
 Requires:         perl(File::Temp)
+Requires:         perl(FindBin)
 Requires:         perl(Data::Dumper)
 Requires:         perl(Getopt::Long)
 Requires:         perl(IPC::Open3)
@@ -373,9 +380,12 @@ the MySQL sources.
 %patch52 -p1
 %patch55 -p1
 %patch75 -p1
+%patch76 -p1
+%patch77 -p1
+%patch78 -p1
 
 # Patch Boost
-pushd boost/boost_1_??_0
+pushd boost/boost_$(echo %{boost_bundled_version}| tr . _)
 %patch115 -p0
 %patch125 -p1
 popd
@@ -393,6 +403,9 @@ add_test innodb.redo_log_archive_04 failed since 8.0.17
 add_test clone.remote_dml_no_binlog failed since 8.0.17
 add_test auth_sec.keyring_file_data_qa sporadic since 8.0.19
 add_test collations.chinese sporadic since 8.0.19
+
+# Fails when -DENABLED_LOCAL_INFILE=ON
+add_test main.mysql_load_data_local_dir local infile on
 
 # These tests fail on armv7hl; last check 8.0.16
 %ifarch %arm aarch64
@@ -427,17 +440,25 @@ add_test main.lock_multi_bug38499
 add_test main.window_std_var
 add_test main.window_std_var_optimized
 add_test main.with_recursive
+
+# Fails since 8.0.21
+add_test x.resource_groups
+add_test gis.spatial_operators_symdifference
+add_test gis.spatial_operators_union
+
 %endif
 
-
-
+# mysql-test
 popd
 
 cp %{SOURCE2} %{SOURCE3} %{SOURCE10} %{SOURCE11} %{SOURCE12} \
    %{SOURCE14} %{SOURCE15} %{SOURCE17} %{SOURCE18} %{SOURCE31} scripts
 
 %build
-%{set_build_flags}
+# arm build ends with out of memory error for LTO enabled build
+%ifarch %arm
+%define _lto_cflags %{nil}
+%endif
 
 # fail quickly and obviously if user tries to build as root
 %if %runselftest
@@ -449,12 +470,9 @@ cp %{SOURCE2} %{SOURCE3} %{SOURCE10} %{SOURCE11} %{SOURCE12} \
     fi
 %endif
 
-# build out of source
-mkdir -p build && pushd build
-
 # The INSTALL_xxx macros have to be specified relative to CMAKE_INSTALL_PREFIX
 # so we can't use %%{_datadir} and so forth here.
-cmake .. \
+%cmake \
          -DBUILD_CONFIG=mysql_release \
          -DFEATURE_SET="community" \
          -DINSTALL_LAYOUT=RPM \
@@ -494,7 +512,8 @@ cmake .. \
 %endif
          -DWITH_ROUTER=OFF \
          -DWITH_SYSTEM_LIBS=ON \
-         -DWITH_BOOST=../boost \
+         -DWITH_MECAB=system \
+         -DWITH_BOOST=boost \
          -DREPRODUCIBLE_BUILD=OFF \
          -DCMAKE_C_FLAGS="%{optflags}%{?with_debug: -fno-strict-overflow -Wno-unused-result -Wno-unused-function -Wno-unused-but-set-variable}" \
          -DCMAKE_CXX_FLAGS="%{optflags}%{?with_debug: -fno-strict-overflow -Wno-unused-result -Wno-unused-function -Wno-unused-but-set-variable}" \
@@ -508,27 +527,24 @@ cmake .. \
 
 # Note: linking with GOLD disabled on Armv7hl because of https://bugs.mysql.com/bug.php?id=96698
 
-cmake .. -LAH
+cmake -B %{_vpath_builddir} -LAH
 
-make %{?_smp_mflags} VERBOSE=1
-
-popd
+%cmake_build
 
 %install
-pushd build
-make DESTDIR=%{buildroot} install
+%cmake_install
 
 # multilib support for shell scripts
 # we only apply this to known Red Hat multilib arches, per bug #181335
 if %multilib_capable; then
 mv %{buildroot}%{_bindir}/mysql_config %{buildroot}%{_bindir}/mysql_config-%{__isa_bits}
-install -p -m 0755 scripts/mysql_config_multilib %{buildroot}%{_bindir}/mysql_config
+install -p -m 0755 %{_vpath_builddir}/scripts/mysql_config_multilib %{buildroot}%{_bindir}/mysql_config
 fi
 
 # install INFO_SRC, INFO_BIN into libdir (upstream thinks these are doc files,
 # but that's pretty wacko --- see also %%{name}-file-contents.patch)
-install -p -m 0644 Docs/INFO_SRC %{buildroot}%{_libdir}/mysql/
-install -p -m 0644 Docs/INFO_BIN %{buildroot}%{_libdir}/mysql/
+install -p -m 0644 %{_vpath_builddir}/Docs/INFO_SRC %{buildroot}%{_libdir}/mysql/
+install -p -m 0644 %{_vpath_builddir}/Docs/INFO_BIN %{buildroot}%{_libdir}/mysql/
 
 mkdir -p %{buildroot}%{logfiledir}
 
@@ -538,21 +554,21 @@ install -p -m 0750 -d %{buildroot}%{_localstatedir}/lib/mysql-files
 install -p -m 0700 -d %{buildroot}%{_localstatedir}/lib/mysql-keyring
 
 %if %{with config}
-install -D -p -m 0644 scripts/my.cnf %{buildroot}%{_sysconfdir}/my.cnf
+install -D -p -m 0644 %{_vpath_builddir}/scripts/my.cnf %{buildroot}%{_sysconfdir}/my.cnf
 %endif
 
 # install systemd unit files and scripts for handling server startup
-install -D -p -m 644 scripts/mysql.service %{buildroot}%{_unitdir}/%{daemon_name}.service
-install -D -p -m 644 scripts/mysql@.service %{buildroot}%{_unitdir}/%{daemon_name}@.service
-install -D -p -m 0644 scripts/mysql.tmpfiles.d %{buildroot}%{_tmpfilesdir}/%{daemon_name}.conf
+install -D -p -m 644 %{_vpath_builddir}/scripts/mysql.service %{buildroot}%{_unitdir}/%{daemon_name}.service
+install -D -p -m 644 %{_vpath_builddir}/scripts/mysql@.service %{buildroot}%{_unitdir}/%{daemon_name}@.service
+install -D -p -m 0644 %{_vpath_builddir}/scripts/mysql.tmpfiles.d %{buildroot}%{_tmpfilesdir}/%{daemon_name}.conf
 rm -r %{buildroot}%{_tmpfilesdir}/mysql.conf
 
 # helper scripts for service starting
-install -D -p -m 755  scripts/mysql-prepare-db-dir %{buildroot}%{_libexecdir}/mysql-prepare-db-dir
-install -p -m 755 scripts/mysql-wait-stop %{buildroot}%{_libexecdir}/mysql-wait-stop
-install -p -m 755 scripts/mysql-check-socket %{buildroot}%{_libexecdir}/mysql-check-socket
-install -p -m 644 scripts/mysql-scripts-common %{buildroot}%{_libexecdir}/mysql-scripts-common
-install -D -p -m 0644 scripts/server.cnf %{buildroot}%{_sysconfdir}/my.cnf.d/%{pkg_name}-server.cnf
+install -D -p -m 755 %{_vpath_builddir}/scripts/mysql-prepare-db-dir %{buildroot}%{_libexecdir}/mysql-prepare-db-dir
+install -p -m 755 %{_vpath_builddir}/scripts/mysql-wait-stop %{buildroot}%{_libexecdir}/mysql-wait-stop
+install -p -m 755 %{_vpath_builddir}/scripts/mysql-check-socket %{buildroot}%{_libexecdir}/mysql-check-socket
+install -p -m 644 %{_vpath_builddir}/scripts/mysql-scripts-common %{buildroot}%{_libexecdir}/mysql-scripts-common
+install -D -p -m 0644 %{_vpath_builddir}/scripts/server.cnf %{buildroot}%{_sysconfdir}/my.cnf.d/%{pkg_name}-server.cnf
 
 rm %{buildroot}%{_libdir}/mysql/*.a
 rm %{buildroot}%{_datadir}/%{pkg_name}/mysql.server
@@ -577,15 +593,12 @@ ln -s %{_libexecdir}/mysqld %{buildroot}%{_sbindir}/mysqld
 mv %{buildroot}%{_bindir}/mysqld-debug %{buildroot}%{_libexecdir}/mysqld
 %endif
 
-# Back to src dir
-popd
-
 # copy additional docs into build tree so %%doc will find them
-install -p -m 0644 %{SOURCE6} %{basename:%{SOURCE6}}
-install -p -m 0644 %{SOURCE7} %{basename:%{SOURCE7}}
+install -p -m 0644 %{SOURCE6} %{_vpath_srcdir}/%{basename:%{SOURCE6}}
+install -p -m 0644 %{SOURCE7} %{_vpath_srcdir}/%{basename:%{SOURCE7}}
 
 # Install the list of skipped tests to be available for user runs
-install -p -m 0644 mysql-test/%{skiplist} %{buildroot}%{_datadir}/mysql-test
+install -p -m 0644 %{_vpath_srcdir}/mysql-test/%{skiplist} %{buildroot}%{_datadir}/mysql-test
 
 %if %{without clibrary}
 unlink %{buildroot}%{_libdir}/mysql/libmysqlclient.so
@@ -637,7 +650,7 @@ rm %{buildroot}%{_mandir}/man1/mysql_client_test.1*
 %check
 %if %{with test}
 %if %runselftest
-pushd build
+pushd %_vpath_builddir
 make test VERBOSE=1
 pushd mysql-test
 cp ../../mysql-test/%{skiplist} .
@@ -784,7 +797,36 @@ fi
 %dir %{_datadir}/%{pkg_name}
 %endif
 
-%{_libdir}/mysql/plugin
+%dir %{_libdir}/mysql/plugin
+%{_libdir}/mysql/plugin/adt_null.so
+%{_libdir}/mysql/plugin/auth_socket.so
+%{_libdir}/mysql/plugin/component_audit_api_message_emit.so
+%{_libdir}/mysql/plugin/component_log_filter_dragnet.so
+%{_libdir}/mysql/plugin/component_log_sink_json.so
+%{_libdir}/mysql/plugin/component_log_sink_syseventlog.so
+%{_libdir}/mysql/plugin/component_mysqlbackup.so
+%{_libdir}/mysql/plugin/component_validate_password.so
+%{_libdir}/mysql/plugin/connection_control.so
+%{_libdir}/mysql/plugin/daemon_example.ini
+%{_libdir}/mysql/plugin/ddl_rewriter.so
+%{_libdir}/mysql/plugin/group_replication.so
+%{_libdir}/mysql/plugin/ha_example.so
+%{_libdir}/mysql/plugin/ha_mock.so
+%{_libdir}/mysql/plugin/innodb_engine.so
+%{_libdir}/mysql/plugin/keyring_file.so
+%{_libdir}/mysql/plugin/keyring_udf.so
+%{_libdir}/mysql/plugin/libmemcached.so
+%{_libdir}/mysql/plugin/libpluginmecab.so
+%{_libdir}/mysql/plugin/locking_service.so
+%{_libdir}/mysql/plugin/mypluglib.so
+%{_libdir}/mysql/plugin/mysql_clone.so
+%{_libdir}/mysql/plugin/mysql_no_login.so
+%{_libdir}/mysql/plugin/rewrite_example.so
+%{_libdir}/mysql/plugin/rewriter.so
+%{_libdir}/mysql/plugin/semisync_master.so
+%{_libdir}/mysql/plugin/semisync_slave.so
+%{_libdir}/mysql/plugin/validate_password.so
+%{_libdir}/mysql/plugin/version_token.so
 
 %{_mandir}/man1/ibd2sdi.1*
 %{_mandir}/man1/myisamchk.1*
@@ -847,9 +889,146 @@ fi
 %{_bindir}/mysqld_safe
 %{_bindir}/comp_err
 %attr(-,mysql,mysql) %{_datadir}/mysql-test
+
+%dir %{_libdir}/mysql/plugin
+%{_libdir}/mysql/plugin/auth.so
+%{_libdir}/mysql/plugin/auth_test_plugin.so
+%{_libdir}/mysql/plugin/component_example_component1.so
+%{_libdir}/mysql/plugin/component_example_component2.so
+%{_libdir}/mysql/plugin/component_example_component3.so
+%{_libdir}/mysql/plugin/component_log_sink_test.so
+%{_libdir}/mysql/plugin/component_mysqlx_global_reset.so
+%{_libdir}/mysql/plugin/component_pfs_example_component_population.so
+%{_libdir}/mysql/plugin/component_pfs_example.so
+%{_libdir}/mysql/plugin/component_test_audit_api_message.so
+%{_libdir}/mysql/plugin/component_test_backup_lock_service.so
+%{_libdir}/mysql/plugin/component_test_component_deinit.so
+%{_libdir}/mysql/plugin/component_test_host_application_signal.so
+%{_libdir}/mysql/plugin/component_test_mysql_current_thread_reader.so
+%{_libdir}/mysql/plugin/component_test_mysql_runtime_error.so
+%{_libdir}/mysql/plugin/component_test_pfs_notification.so
+%{_libdir}/mysql/plugin/component_test_pfs_resource_group.so
+%{_libdir}/mysql/plugin/component_test_status_var_service_int.so
+%{_libdir}/mysql/plugin/component_test_status_var_service_reg_only.so
+%{_libdir}/mysql/plugin/component_test_status_var_service.so
+%{_libdir}/mysql/plugin/component_test_status_var_service_str.so
+%{_libdir}/mysql/plugin/component_test_status_var_service_unreg_only.so
+%{_libdir}/mysql/plugin/component_test_string_service_charset.so
+%{_libdir}/mysql/plugin/component_test_string_service_long.so
+%{_libdir}/mysql/plugin/component_test_string_service.so
+%{_libdir}/mysql/plugin/component_test_system_variable_source.so
+%{_libdir}/mysql/plugin/component_test_sys_var_service_int.so
+%{_libdir}/mysql/plugin/component_test_sys_var_service_same.so
+%{_libdir}/mysql/plugin/component_test_sys_var_service.so
+%{_libdir}/mysql/plugin/component_test_sys_var_service_str.so
+%{_libdir}/mysql/plugin/component_test_udf_registration.so
+%{_libdir}/mysql/plugin/component_test_udf_services.so
+%{_libdir}/mysql/plugin/component_udf_reg_3_func.so
+%{_libdir}/mysql/plugin/component_udf_reg_avg_func.so
+%{_libdir}/mysql/plugin/component_udf_reg_int_func.so
+%{_libdir}/mysql/plugin/component_udf_reg_int_same_func.so
+%{_libdir}/mysql/plugin/component_udf_reg_only_3_func.so
+%{_libdir}/mysql/plugin/component_udf_reg_real_func.so
+%{_libdir}/mysql/plugin/component_udf_unreg_3_func.so
+%{_libdir}/mysql/plugin/component_udf_unreg_int_func.so
+%{_libdir}/mysql/plugin/component_udf_unreg_real_func.so
+%{_libdir}/mysql/plugin/libdaemon_example.so
+%{_libdir}/mysql/plugin/libtest_framework.so
+%{_libdir}/mysql/plugin/libtest_services.so
+%{_libdir}/mysql/plugin/libtest_services_threaded.so
+%{_libdir}/mysql/plugin/libtest_session_attach.so
+%{_libdir}/mysql/plugin/libtest_session_detach.so
+%{_libdir}/mysql/plugin/libtest_session_info.so
+%{_libdir}/mysql/plugin/libtest_session_in_thd.so
+%{_libdir}/mysql/plugin/libtest_sql_2_sessions.so
+%{_libdir}/mysql/plugin/libtest_sql_all_col_types.so
+%{_libdir}/mysql/plugin/libtest_sql_cmds_1.so
+%{_libdir}/mysql/plugin/libtest_sql_commit.so
+%{_libdir}/mysql/plugin/libtest_sql_complex.so
+%{_libdir}/mysql/plugin/libtest_sql_errors.so
+%{_libdir}/mysql/plugin/libtest_sql_lock.so
+%{_libdir}/mysql/plugin/libtest_sql_processlist.so
+%{_libdir}/mysql/plugin/libtest_sql_replication.so
+%{_libdir}/mysql/plugin/libtest_sql_reset_connection.so
+%{_libdir}/mysql/plugin/libtest_sql_shutdown.so
+%{_libdir}/mysql/plugin/libtest_sql_sqlmode.so
+%{_libdir}/mysql/plugin/libtest_sql_stmt.so
+%{_libdir}/mysql/plugin/libtest_sql_stored_procedures_functions.so
+%{_libdir}/mysql/plugin/libtest_sql_views_triggers.so
+%{_libdir}/mysql/plugin/libtest_x_sessions_deinit.so
+%{_libdir}/mysql/plugin/libtest_x_sessions_init.so
+%{_libdir}/mysql/plugin/pfs_example_plugin_employee.so
+%{_libdir}/mysql/plugin/qa_auth_client.so
+%{_libdir}/mysql/plugin/qa_auth_interface.so
+%{_libdir}/mysql/plugin/qa_auth_server.so
+%{_libdir}/mysql/plugin/replication_observers_example_plugin.so
+%{_libdir}/mysql/plugin/test_security_context.so
+%{_libdir}/mysql/plugin/test_services_host_application_signal.so
+%{_libdir}/mysql/plugin/test_services_plugin_registry.so
+%{_libdir}/mysql/plugin/test_udf_services.so
+%{_libdir}/mysql/plugin/udf_example.so
 %endif
 
 %changelog
+* Tue Oct 20 2020 Jeff Law <law@redhat> - 8.0.21-16
+- Fix another missing #include for gcc-11
+
+* Thu Oct  6 2020 Jeff Law <law@redhat> - 8.0.21-15
+- Add missing #include for gcc-11
+
+* Thu Oct  1 13:33:42 CEST 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 8.0.21-14
+- Rebuilt for libevent 2.1.12 (again)
+
+* Wed Sep 23 2020 Adrian Reber <adrian@lisas.de> - 8.0.21-13
+- Rebuilt for protobuf 3.13
+
+* Tue Sep 15 2020 Michal Schorm <mschorm@redhat.com> - 8.0.21-12
+- Rebuild due to libevent soname change
+
+* Tue Aug 25 2020 Michal Schorm <mschorm@redhat.com> - 8.0.21-11
+- Start building the MeCab plugin
+
+* Mon Aug 24 2020 Michal Schorm <mschorm@redhat.com> - 8.0.21-10
+- Fix the filelist. A number of shared libraries in the plugindir
+  are part of the testsuite and thus should reside in *-test subpackage
+  It will be best to keep the file list explicit to avoid this in the future
+
+* Tue Aug 18 2020 Michal Schorm <mschorm@redhat.com> - 8.0.21-9
+- I encounter the ARM memory exaustion in the end
+  Looks like it is only issue on some machines
+
+* Tue Aug 18 2020 Michal Schorm <mschorm@redhat.com> - 8.0.21-8
+- I haven't encounter the ARM memory exaustion on Fedora build infrastructure
+  Let's enable it and see how it will work
+
+* Mon Aug 17 2020 Lars Tangvald <lars.tangvald@oracle.com> - 8.0.21-7
+- Use upstream patch to enable LTO
+- Skip LTO on ARM due to out of memory issue
+
+* Thu Aug 13 2020 Michal Schorm <mschorm@redhat.com> - 8.0.21-6
+- Do a proper out-of-source CMake builds
+- Force the CMake change regarding the in-source builds also to F31 and F32
+- Use CMake macros instead of cmake & make direct commands
+- %%cmake macro covers the %%{set_build_flags}, so they are not needed
+- Remove ancient obsoletes
+
+* Wed Aug 12 2020 Honza Horak <hhorak@redhat.com> - 8.0.21-5
+- Check that we have correct versions in bundled(*) Provides
+- Remove re2 dependency that is not needed any more
+
+* Thu Aug 06 2020 Jeff Law <law@redhat.com> - 8.0.21-4
+- Disable LTO
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.0.21-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.0.21-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Lars Tangvald <lars.tangvald@oracle.com> - 8.0.21-1
+- Update to MySQL 8.0.21
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 8.0.20-3
 - Rebuilt for protobuf 3.12
 

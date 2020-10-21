@@ -28,7 +28,7 @@
 
 Name:           %{pk_project}%{ver_major}
 Version:        8.5.8
-Release:        %{?gh_date:1%{specrel}.%{?prever}%{!?prever:%{gh_date}git%{gh_short}}}%{!?gh_date:%{specrel}}%{?dist}
+Release:        %{?gh_date:1%{specrel}.%{?prever}%{!?prever:%{gh_date}git%{gh_short}}}%{!?gh_date:%{specrel}}%{?dist}.1
 Summary:        The PHP Unit Testing framework version %{ver_major}
 
 License:        BSD
@@ -237,6 +237,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.5.8-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Remi Collet <remi@remirepo.net> - 8.5.8-1
 - update to 8.5.8
 

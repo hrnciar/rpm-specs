@@ -1,9 +1,6 @@
-%global optflags        %{optflags} -flto=auto
-%global build_ldflags   %{build_ldflags} -flto
-
 Name:           libacars
 Version:        1.3.1
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        A library for decoding various ACARS message payloads
 License:        MIT
 URL:            https://github.com/szpajder/libacars
@@ -48,16 +45,10 @@ mkdir -p %{_target_platform}
 sed -i -e "/acars_static/d" src/libacars/CMakeLists.txt
 
 %build
-pushd %{_target_platform}
-    %cmake -G Ninja \
+%cmake -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_AR=/usr/bin/gcc-ar \
-    -DCMAKE_RANLIB=/usr/bin/gcc-ranlib \
-    -DCMAKE_NM=/usr/bin/gcc-nm \
     -DCMAKE_INSTALL_LIBDIR:PATH=%{_lib} \
-    -DCMAKE_SHARED_LINKER_FLAGS="" \
-    ..
-popd
+    -DCMAKE_SHARED_LINKER_FLAGS=""
 %ninja_build -C %{_target_platform}
 
 %install
@@ -82,6 +73,13 @@ rm -rf %{buildroot}/%{_datadir}/doc
 %{_bindir}/media_advisory
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

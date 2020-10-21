@@ -6,8 +6,8 @@
 %global crate webkit2gtk-sys
 
 Name:           rust-%{crate}
-Version:        0.11.0
-Release:        1%{?dist}
+Version:        0.12.0
+Release:        2%{?dist}
 Summary:        Rust binding for webkit-gtk library
 
 # Upstream license specification: MIT
@@ -182,6 +182,19 @@ which use "v2_26" feature of "%{crate}" crate.
 %files       -n %{name}+v2_26-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+v2_28-devel
+Summary:        %{summary}
+BuildArch:      noarch
+Requires:       pkgconfig(webkit2gtk-4.0) >= 2.28
+
+%description -n %{name}+v2_28-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "v2_28" feature of "%{crate}" crate.
+
+%files       -n %{name}+v2_28-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+v2_6-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -228,5 +241,11 @@ echo 'pkgconfig(webkit2gtk-4.0) >= 2.4'
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Josh Stone <jistone@redhat.com> - 0.12.0-1
+- Update to 0.12.0
+
 * Fri May 15 16:46:42 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 0.11.0-1
 - Initial package

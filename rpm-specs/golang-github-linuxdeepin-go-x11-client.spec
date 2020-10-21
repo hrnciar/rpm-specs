@@ -3,8 +3,8 @@
 
 # https://github.com/linuxdeepin/go-x11-client
 %global goipath         github.com/linuxdeepin/go-x11-client
-Version:                0.4.1
-%global tag             0.4.1
+Version:                0.6.1
+%global tag             %{version}
 
 %gometa
 
@@ -18,7 +18,7 @@ A X11 client Go bindings for Deepin Desktop Environment.}
 %global godocs          CHANGELOG.md README debian/changelog
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        X11 client Go bindings for Deepin Desktop Environment
 
 License:        GPLv3
@@ -53,6 +53,16 @@ rm -rf tools/gen
 %gopkgfiles
 
 %changelog
+* Fri Sep 18 2020 Robin Lee <cheeselee@fedoraproject.org> - 0.6.1-1
+- new upstream release: 0.6.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

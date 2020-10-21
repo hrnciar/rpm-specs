@@ -12,8 +12,8 @@
 
 
 Name:           nml
-Version:        0.5.2
-Release:        2%{?gitver:.git%{gitshort}}%{?dist}
+Version:        0.5.3
+Release:        1%{?gitver:.git%{gitshort}}%{?dist}
 Summary:        NewGRF Meta Language compiler
 
 License:        GPLv2+
@@ -56,6 +56,12 @@ rm docs/nmlc.1.gz
 
 
 %changelog
+* Tue Sep 15 2020 Felix Kaechele <heffer@fedoraproject.org> - 0.5.3-1
+- update to 0.5.3 release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.2-2
 - Rebuilt for Python 3.9
 

@@ -1,13 +1,14 @@
 Name:           sound-juicer
-Version:        3.24.0
-Release:        9%{?dist}
+Version:        3.38.0
+Release:        1%{?dist}
 Summary:        Clean and lean CD ripper
 
 License:        GPLv2+
 URL:            https://wiki.gnome.org/Apps/SoundJuicer
-Source0:        https://download.gnome.org/sources/%{name}/3.24/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires:  gcc
+BuildRequires:  meson
 BuildRequires:  pkgconfig(gmodule-export-2.0)
 BuildRequires:  pkgconfig(gsettings-desktop-schemas)
 BuildRequires:  pkgconfig(gstreamer-1.0)
@@ -19,10 +20,6 @@ BuildRequires:  pkgconfig(libbrasero-media3)
 BuildRequires:  pkgconfig(libcanberra-gtk3)
 BuildRequires:  pkgconfig(libdiscid)
 BuildRequires:  pkgconfig(libmusicbrainz5)
-#Not strictly required when building, but avoids some
-#configure: WARNING: The 'flacenc' element was not found.
-#This will cause encoding to FLAC to fail.
-#messages in config.log
 BuildRequires:  gstreamer1-plugins-good
 BuildRequires:  gettext
 BuildRequires:  desktop-file-utils
@@ -40,44 +37,46 @@ GStreamer-based CD ripping tool. Saves audio CDs to Ogg/vorbis.
 %setup -q
 
 %build
-%configure
-
-make V=1 %{?_smp_mflags}
-
+%meson
+%meson_build
 
 %install
-%make_install
+%meson_install
 
-# Update the screenshot shown in the software center
-#
-# NOTE: It would be *awesome* if this file was pushed upstream.
-#
-# See http://people.freedesktop.org/~hughsient/appdata/#screenshots for more details.
-#
-appstream-util replace-screenshots $RPM_BUILD_ROOT%{_datadir}/appdata/org.gnome.SoundJuicer.appdata.xml \
-  https://raw.githubusercontent.com/hughsie/fedora-appstream/master/screenshots-extra/sound-juicer/a.png 
+# These are installed to the correct location with the doc macro down below
+rm $RPM_BUILD_ROOT%{_prefix}/doc/sound-juicer/AUTHORS
+rm $RPM_BUILD_ROOT%{_prefix}/doc/sound-juicer/COPYING
+rm $RPM_BUILD_ROOT%{_prefix}/doc/sound-juicer/NEWS
+rm $RPM_BUILD_ROOT%{_prefix}/doc/sound-juicer/README.md
 
 %find_lang sound-juicer --with-gnome
 
-
 %check
-appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/appdata/org.gnome.SoundJuicer.appdata.xml
+appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/metainfo/org.gnome.SoundJuicer.metainfo.xml
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.SoundJuicer.desktop
 
 %files -f sound-juicer.lang
-%doc AUTHORS README NEWS
+%doc AUTHORS NEWS README.md
 %license COPYING
 %{_bindir}/sound-juicer
 %{_datadir}/sound-juicer
-%{_datadir}/appdata/org.gnome.SoundJuicer.appdata.xml
 %{_datadir}/applications/org.gnome.SoundJuicer.desktop
 %{_datadir}/dbus-1/services/org.gnome.SoundJuicer.service
 %{_datadir}/GConf/gsettings/sound-juicer.convert
 %{_datadir}/glib-2.0/schemas/org.gnome.sound-juicer.gschema.xml
-%{_datadir}/icons/hicolor/*/apps/sound-juicer.png
+%{_datadir}/icons/hicolor/*/apps/org.gnome.SoundJuicer.png
+%{_datadir}/metainfo/org.gnome.SoundJuicer.metainfo.xml
 %{_mandir}/man1/*
 
 %changelog
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+- Switch to the meson build system
+- Use upstream appdata screenshots
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.24.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.24.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

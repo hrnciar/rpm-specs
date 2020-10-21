@@ -3,11 +3,12 @@
 
 Name:           libgdiplus
 Version:        6.0.4
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        An Open Source implementation of the GDI+ API
 License:        MIT
 URL:            http://www.mono-project.com/Main_Page
 Source0:        http://download.mono-project.com/sources/%{name}/%{name}-%{version}.tar.gz
+Patch1:         libgdiplus-6.0.4-bitmap_flush.patch
 BuildRequires:  gcc
 BuildRequires:  freetype-devel glib2-devel libjpeg-devel libtiff-devel
 BuildRequires:  libpng-devel fontconfig-devel
@@ -27,6 +28,7 @@ Development files for libgdiplus
 
 %prep
 %setup -q
+%patch1 -p1
 
 CFLAGS="$RPM_OPT_FLAGS -Wl,-z,lazy"
 CXXFLAGS="$RPM_OPT_FLAGS -Wl,-z,lazy"
@@ -55,6 +57,12 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/lib*.so
 
 %changelog
+* Tue Aug 04 2020 Timotheus Pokorra <timotheus.pokorra@solidcharity.com> - 6.0.4-4
+- add patch for drawing images
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

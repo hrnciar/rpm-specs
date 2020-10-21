@@ -1,6 +1,6 @@
 Name:           gnatcoll-db
 Version:        2018
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        The GNAT Components Collection – database packages
 Summary(sv):    GNAT Components Collection – databaspaket
 
@@ -256,6 +256,13 @@ cp --preserve=timestamps COPYING3 \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2018-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2018-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2018-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,13 +3,13 @@
 %global pkgname exiv2
 
 Name:          mingw-%{pkgname}
-Version:       0.27.2
-Release:       4%{?dist}
+Version:       0.27.3
+Release:       3%{?dist}
 Summary:       MinGW Windows %{pkgname} library
 License:       GPLv2+
 BuildArch:     noarch
 URL:           http://www.exiv2.org/
-Source0:       https://github.com/Exiv2/%{pkgname}/archive/%{version}/%{pkgname}-%{version}.tar.gz
+Source0:       https://github.com/Exiv2/%{pkgname}/archive/v%{version}/%{pkgname}-%{version}.tar.gz
 
 # Fix undefined reference to BasicError<T>::setMsg
 # (Some issue with dllexport/dllimport and a template specialization in a source
@@ -107,6 +107,15 @@ rm -f %{buildroot}%{mingw64_datadir}/man/man1/exiv2.1
 
 
 %changelog
+* Wed Aug 12 13:36:04 GMT 2020 Sandro Mani <manisandro@gmail.com> - 0.27.3-3
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.27.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Sandro Mani <manisandro@gmail.com> - 0.27.3-1
+- Update to 0.27.3
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 0.27.2-4
 - Rebuild (gettext)
 

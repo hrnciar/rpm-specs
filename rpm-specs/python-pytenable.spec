@@ -1,8 +1,8 @@
 %global pypi_name pytenable
 
 Name:           python-%{pypi_name}
-Version:        1.1.1
-Release:        2%{?dist}
+Version:        1.2.2
+Release:        1%{?dist}
 Summary:        Python library to interface with Tenable's products and applications
 
 License:        MIT
@@ -20,18 +20,20 @@ different APIs between some of the products.
 Summary:        %{summary}
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-
-BuildRequires:  python3-requests
-BuildRequires:  python3-restfly
+BuildRequires:  python3dist(setuptools)
+BuildRequires:  python3dist(requests)
+BuildRequires:  python3dist(restfly)
 BuildRequires:  python3-dateutil
-BuildRequires:  python3-defusedxml
-BuildRequires:  python3-requests-pkcs12
-BuildRequires:  python3-pytest
-BuildRequires:  python3-pytest-cov
-BuildRequires:  python3-pytest-vcr
-BuildRequires:  python3-pytest-datafiles
-BuildRequires:  python3-semver
+BuildRequires:  python3dist(defusedxml)
+BuildRequires:  python3dist(requests-pkcs12)
+BuildRequires:  python3dist(pytest)
+BuildRequires:  python3dist(pytest-cov)
+BuildRequires:  python3dist(pytest-vcr)
+BuildRequires:  python3dist(pytest-datafiles)
+BuildRequires:  python3dist(semver)
+BuildRequires:  python3dist(marshmallow)
+BuildRequires:  python3-box
+BuildRequires:  python3dist(responses)
 %{?python_provide:%python_provide python3-%{pypi_name}}
  
 %description -n python3-%{pypi_name}
@@ -52,7 +54,7 @@ Documentation for %{pypi_name}.
 %autosetup -n pyTenable-%{version}
 rm -rf %{pypi_name}.egg-info
 # Remove standard lib
-sed -i -e '43d' setup.py
+sed -i -e '42d' setup.py
 
 %build
 %py3_build
@@ -63,7 +65,7 @@ rm -rf html/.{doctrees,buildinfo,nojekyll}
 %py3_install
 
 %check
-PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests -k "not docker"
+%pytest -v tests -k "not docker"
 
 %files -n python3-%{pypi_name}
 %doc README.rst
@@ -77,12 +79,29 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests -k 
 %license LICENSE
 
 %changelog
+* Fri Sep 25 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.2.2-1
+- Update to latest upstream release 1.2.2 (#1875252)
+
+* Mon Sep 14 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.2.1-2
+- Update to latest upstream release 1.2.1 (#1875252)
+
+* Mon Aug 10 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.1.3-1
+- Fix FTBFS (#1865309)
+- Update to latest upstream release 1.1.3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.1-2
 - Rebuilt for Python 3.9
 
 * Thu Apr 02 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.1.1-1
 - Remove configuration file for publishing
-- Remove standard library (rhbz#1815272)
+- Remove standard library (#1815272)
 - Update to latest upstream release 1.1.1
 
 * Thu Mar 19 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.1.0-1

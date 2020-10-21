@@ -1,8 +1,8 @@
 %global srcname django-cacheops
 
 Name:           python-%{srcname}
-Version:        4.1
-Release:        3%{?dist}
+Version:        5.0.1
+Release:        1%{?dist}
 Summary:        ORM cache with automatic granular event-driven invalidation for Django
 
 License:        BSD
@@ -55,6 +55,12 @@ rm -vr *.egg-info
 %{python3_sitelib}/cacheops/
 
 %changelog
+* Sun Aug 30 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 5.0.1-1
+- Update to 5.0.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.1-3
 - Rebuilt for Python 3.9
 

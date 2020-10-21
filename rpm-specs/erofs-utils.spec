@@ -3,7 +3,7 @@
 
 Name:           erofs-utils
 Version:        1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 Summary:        Utilities for working with EROFS
 License:        GPLv2+
@@ -50,6 +50,9 @@ autoreconf -fi
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 13 2020 David Michael <fedora.dm0@gmail.com> - 1.1-1
 - Update to the 1.1 release.
 

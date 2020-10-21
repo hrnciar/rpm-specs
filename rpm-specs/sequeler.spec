@@ -2,8 +2,8 @@
 
 Name:           sequeler
 Summary:        SQL Client built in Vala
-Version:        0.7.91
-Release:        1%{?dist}
+Version:        0.8.0
+Release:        2%{?dist}
 License:        GPLv3
 
 URL:            https://github.com/Alecaddd/%{name}
@@ -72,11 +72,17 @@ appstream-util validate-relax --nonet \
 %{_datadir}/applications/%{appname}.desktop
 %{_datadir}/glib-2.0/schemas/%{appname}.gschema.xml
 %{_datadir}/icons/hicolor/*/*/%{appname}.svg
-%{_datadir}/icons/hicolor/16x16/status/table*.svg
+%{_datadir}/icons/hicolor/{16x16,24x24}/{actions,status}/*.svg
 %{_datadir}/metainfo/%{appname}.appdata.xml
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 Fabio Valentini <decathorpe@gmail.com> - 0.8.0-1
+- Update to version 0.8.0.
+
 * Sun May 24 2020 Fabio Valentini <decathorpe@gmail.com> - 0.7.91-1
 - Update to version 0.7.91.
 

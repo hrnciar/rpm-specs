@@ -1,17 +1,24 @@
-Name: nuttcp
-Version: 8.1.4
-Release: 3%{?dist}
-Source0: http://nuttcp.net/nuttcp/%{name}-%{version}.tar.bz2
-Source1: %{name}@.service
-Source2: %{name}.socket
-URL: http://nuttcp.net/
-Summary: Tool for testing TCP connections
-License: Public Domain
-BuildRequires:  gcc
-BuildRequires:		systemd-units
-Requires(post):		systemd-units
-Requires(preun):	systemd-units
-Requires(postun):	systemd-units
+Name:                   nuttcp
+Version:                8.2.2
+Release:                2%{?dist}
+Source0:                http://nuttcp.net/nuttcp/%{name}-%{version}.tar.bz2
+URL:                    http://nuttcp.net/
+
+Summary:                Tool for testing TCP connections
+License:                GPLv2+
+
+
+BuildRequires:          gcc
+
+%if 0%{?fedora} >= 30
+BuildRequires:          systemd-rpm-macros
+%else
+BuildRequires:          systemd
+%endif
+
+Requires(post):         systemd-units
+Requires(preun):        systemd-units
+Requires(postun):       systemd-units
 
 %description
 nuttcp is a network performance measurement tool intended for use by
@@ -28,42 +35,28 @@ CPU utilization, and loss percentage (for UDP transfers).
 %prep
 %autosetup
 
-#sed -i -e "s,/usr/local/bin,%{_bindir},g;" \
-#       -e  "s,disable\(.*\)no,disable\t\t= yes,g" xinetd.d/*
-
 %build
-make CFLAGS="$RPM_OPT_FLAGS"
+%make_build CFLAGS="$RPM_OPT_FLAGS"
 
 %install
-rm -fr $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT{%{_mandir}/man8,%{_bindir},%{_sysconfdir}/xinetd.d}
-install -m755 %{name}-%{version} $RPM_BUILD_ROOT%{_bindir}/%{name}
-install -pm644 %{name}.8 $RPM_BUILD_ROOT%{_mandir}/man8
+mkdir -p %{buildroot}{%{_mandir}/man8,%{_bindir},%{_sysconfdir}/xinetd.d}
+install -m755 %{name}-%{version} %{buildroot}%{_bindir}/%{name}
+install -pm644 %{name}.8 %{buildroot}%{_mandir}/man8
 mkdir -p %{buildroot}%{_unitdir}
-install -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_unitdir}
-install -m644 %{SOURCE2} $RPM_BUILD_ROOT%{_unitdir}
+install -m644 systemd/* %{buildroot}%{_unitdir}
 
 %post
-if [ $1 -eq 1 ] ; then
-    # Initial installation
-    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-fi
+%systemd_post %{name}@.service
 
 %preun
-if [ $1 -eq 0 ]; then
-        #Package removal, not upgrade
-        systemctl --no-reload disable %{name}@.service >/dev/null 2>&1 || :
-        systemctl stop %{name}@.service >/dev/null 2>&1 || :
-fi
+%systemd_preun %{name}@.service
 
 %postun
-if [ $1 -ge 1 ]; then
-        #Package upgrade, not uninstall
-        systemctl try-restart %{name}@.service >/dev/null 2>&1
-fi
+%systemd_postun_with_restart %{name}@.service
 
 
 %files
+%license LICENSE
 %doc README examples.txt nuttcp.html xinetd.d/nuttcp4 xinetd.d/nuttcp6
 %{_bindir}/%{name}
 %{_mandir}/man8/*
@@ -72,6 +65,13 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Qiyu Yan <yanqiyu@fedoraproject.org> - 8.2.2-1
+- Update to 8.2.2 upstream release
+- Use upstream unit files
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.1.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

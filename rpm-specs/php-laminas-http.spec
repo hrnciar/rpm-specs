@@ -7,7 +7,7 @@
 # Please, preserve the changelog entries
 #
 %global bootstrap    0
-%global gh_commit    8c66963b933c80da59433da56a44dfa979f3ec88
+%global gh_commit    33b7942f51ce905ce9bfc8bf28badc501d3904b5
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     laminas
 %global gh_project   laminas-http
@@ -22,8 +22,8 @@
 %endif
 
 Name:           php-%{gh_project}
-Version:        2.11.2
-Release:        3%{?dist}
+Version:        2.13.0
+Release:        1%{?dist}
 Summary:        %{namespace} Framework %{library} component
 
 License:        BSD
@@ -87,8 +87,8 @@ Requires:       php-spl
 Requires:       php-zlib
 
 # Compatibily ensure by the bridge
-Obsoletes:      php-zendframework-%{zf_name}              < 2.11.2-99
-Provides:       php-zendframework-%{zf_name}              = %{version}-99
+Obsoletes:      php-zendframework-%{zf_name}              < 2.11.3
+Provides:       php-zendframework-%{zf_name}              = %{version}
 Provides:       php-composer(%{gh_owner}/%{gh_project})   = %{version}
 Provides:       php-composer(zendframework/%{zf_name})    = %{version}
 Provides:       php-autoloader(%{gh_owner}/%{gh_project}) = %{version}
@@ -188,6 +188,15 @@ exit $ret
 
 
 %changelog
+* Wed Aug 19 2020 Remi Collet <remi@remirepo.net> - 2.13.0-1
+- update to 2.13.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Remi Collet <remi@remirepo.net> - 2.12.0-1
+- update to 2.12.0
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

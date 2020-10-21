@@ -2,7 +2,7 @@
 
 Name:           trac-tocmacro-plugin
 Version:        0.11.0.0.3
-Release:        20111241svn11062%{?dist}
+Release:        20111242svn11062%{?dist}
 Summary:        Trac plugin table of content macro
 
 License:        BSD
@@ -33,6 +33,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python2_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.0.0.3-20111242svn11062
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.0.0.3-20111241svn11062
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

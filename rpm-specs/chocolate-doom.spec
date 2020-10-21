@@ -1,6 +1,6 @@
 Name:		chocolate-doom
 Version:	3.0.0
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	Historically compatible Doom engine
 License:	GPLv2+
 URL:		http://chocolate-doom.org/
@@ -117,6 +117,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/screensavers/chocola
 %{_mandir}/man6/chocolate-strife.6.gz
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 19 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.0.0-5
 - GCC 10 patch to fix FTBFS.
 

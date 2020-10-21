@@ -1,6 +1,6 @@
 Name:          libgrss
 Version:       0.7.0
-Release:       10%{?dist}
+Release:       11%{?dist}
 Summary:       Library for easy management of RSS/Atom/Pie feeds
 
 License:       LGPLv3+
@@ -52,6 +52,9 @@ rm -f %{buildroot}%{_libdir}/%{name}.la
 %{_datadir}/gtk-doc/html/%{name}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

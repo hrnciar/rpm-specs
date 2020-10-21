@@ -1,6 +1,6 @@
 Name:		perl-Devel-EnforceEncapsulation
 Version:	0.51
-Release:	18%{?dist}
+Release:	19%{?dist}
 Summary:	Find access violations to blessed objects
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Devel-EnforceEncapsulation
@@ -64,6 +64,9 @@ make test AUTHOR_TEST=1 AUTHOR_TEST_CDOLAN=1
 %{_mandir}/man3/Devel::EnforceEncapsulation.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.51-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.51-18
 - Perl 5.32 rebuild
 

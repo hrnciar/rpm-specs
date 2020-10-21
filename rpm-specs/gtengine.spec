@@ -1,17 +1,13 @@
 %bcond_with debug
 
-# This flag produces undefined references to the EGL libraries
-%undefine _ld_as_needed
-
 Name: gtengine
 Summary: Library for computations in mathematics, graphics, image analysis, and physics
-Version: 4.6
+Version: 5.1
 Release: 1%{?dist}
 Epoch: 1
 License: Boost
 URL: http://www.geometrictools.com
-Source0: http://www.geometrictools.com/Downloads/GeometricToolsEngine4p6.zip
-Source1: http://www.geometrictools.com/License/Boost/LICENSE_1_0.txt#/%{name}-LICENSE_1_0.txt
+Source0: https://github.com/davideberly/GeometricTools/archive/GTE-version-%{version}/GeometricTools-GTE-version-%{version}.tar.gz
 
 BuildRequires: pkgconfig(gl)
 BuildRequires: pkgconfig(xext)
@@ -19,7 +15,10 @@ BuildRequires: pkgconfig(x11)
 BuildRequires: pkgconfig(libpng)
 BuildRequires: pkgconfig(egl)
 BuildRequires: glibc-devel
-BuildRequires: gcc-c++, dos2unix
+BuildRequires: gcc-c++
+BuildRequires: gcc
+BuildRequires: cmake
+BuildRequires: dos2unix
 BuildRequires: libstdc++-devel
 
 %description
@@ -36,7 +35,6 @@ GTEngine requires OpenGL 4.5.0 (or later).
 %package devel
 Summary: Development files for %{name}
 Requires: %{name}%{?_isa} = 1:%{version}-%{release}
-Requires: pkgconf-pkg-config%{?_isa}
 %description devel
 The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
@@ -49,71 +47,67 @@ This package contains samples files for
 testing that use %{name}.
 
 %prep
-%autosetup -n GeometricTools
-cp -p %{SOURCE1} License
+%autosetup -n GeometricTools-GTE-version-%{version}
 
 %build
+%define __cmake_in_source_build .
+pushd GTE
 %if %{with debug}
-export LDFLAGS="%{__global_ldflags} -lpthread -lGL -lEGL -lX11 -lpng -lm -Wl,--no-undefined -Wl,--no-allow-shlib-undefined"
-export CFLAGS="-g -O0 -D_DEBUG -pthread"
-mkdir -p GTE/obj/DebugDynamic
-make V=1 CFG=DebugDynamic -f makegraphics.gte -C GTE 
-make V=1 CFG=DebugDynamic -f makemathematicsgpu.gte -C GTE
-make V=1 CFG=DebugDynamic -f makeapplications.gte -C GTE
+%cmake -DCMAKE_BUILD_TYPE:STRING=Debug -DBUILD_RELEASE_LIB:BOOL=ON -DBUILD_SHARED_LIB:BOOL=ON %_vpath_srcdir
 %else
-export LDFLAGS="%{__global_ldflags} -lpthread -lGL -lEGL -lX11 -lpng -lm -Wl,--no-undefined -Wl,--no-allow-shlib-undefined"
-export CFLAGS="%{optflags} -pthread -DNDEBUG"
-mkdir -p GTE/obj/ReleaseDynamic
-make V=1 CFG=ReleaseDynamic -f makegraphics.gte -C GTE -j1
-make V=1 CFG=ReleaseDynamic -f makemathematicsgpu.gte -C GTE -j1
-make V=1 CFG=ReleaseDynamic -f makeapplications.gte -C GTE -j1
+%cmake -DCMAKE_BUILD_TYPE:STRING=Release -DBUILD_RELEASE_LIB:BOOL=ON -DBUILD_SHARED_LIB:BOOL=ON %_vpath_srcdir
 %endif
+%make_build
+popd
 
+pushd GTE/Samples
 %if %{with debug}
-make V=1 CFG=DebugDynamic -f makeallsamples.gte -C GTE/Samples -j1 \
- CFLAGS="-g -O0 -D_DEBUG -pthread -c -DGTE_USE_LINUX -DGTE_USE_OPENGL -std=c++14" LDFLAGS="%{__global_ldflags}" \
- INCPATH="-I$PWD/GTE" LIBS:="%{__global_ldflags} -L$PWD/GTE/lib/DebugDynamic -lgtgraphics -lgtmathematicsgpu -lgtapplications -L%{_libdir} -lX11 -lXext -lGL -lEGL -lpng -lpthread -lm"
+%cmake -DCMAKE_SKIP_RPATH:BOOL=ON -DCMAKE_SKIP_INSTALL_RPATH:BOOL=ON -DCMAKE_BUILD_TYPE:STRING=Debug \
+ -DBUILD_RELEASE_LIB:BOOL=ON -DBUILD_SHARED_LIB:BOOL=ON %_vpath_srcdir
 %else
-make V=1 CFG=ReleaseDynamic -f makeallsamples.gte -C GTE/Samples -j1 \
- CFLAGS="%{optflags} -DNDEBUG -pthread -c -DGTE_USE_LINUX -DGTE_USE_OPENGL -std=c++14" LDFLAGS="%{__global_ldflags}" \
- INCPATH="-I$PWD/GTE" LIBS:="%{__global_ldflags} -L$PWD/GTE/lib/ReleaseDynamic -lgtgraphics -lgtmathematicsgpu -lgtapplications -L%{_libdir} -lX11 -lXext -lGL -lEGL -lpng -lpthread -lm"
+%cmake -DCMAKE_SKIP_RPATH:BOOL=ON -DCMAKE_SKIP_INSTALL_RPATH:BOOL=ON -DCMAKE_BUILD_TYPE:STRING=Release \
+ -DBUILD_RELEASE_LIB:BOOL=ON -DBUILD_SHARED_LIB:BOOL=ON %_vpath_srcdir
 %endif
+%make_build
+popd
 
 %install
-# Manual installation
+echo 'Manual installation...'
 
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/pkgconfig
-install -pm 755 GTE/lib/ReleaseDynamic/* $RPM_BUILD_ROOT%{_libdir}/
+install -pm 755 GTE/lib/ReleaseShared/* $RPM_BUILD_ROOT%{_libdir}/
 
 ln -sf libgtapplications.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libgtapplications.so
-ln -sf libgtapplications.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libgtapplications.so.4
 ln -sf libgtgraphics.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libgtgraphics.so
-ln -sf libgtgraphics.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libgtgraphics.so.4
 ln -sf libgtmathematicsgpu.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libgtmathematicsgpu.so
-ln -sf libgtmathematicsgpu.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libgtmathematicsgpu.so.4
 
 mkdir -p $RPM_BUILD_ROOT%{_includedir}/GTE
 cp -a GTE/Applications $RPM_BUILD_ROOT%{_includedir}/GTE/
 cp -a GTE/Graphics $RPM_BUILD_ROOT%{_includedir}/GTE/
 cp -a GTE/Mathematics $RPM_BUILD_ROOT%{_includedir}/GTE/
-find $RPM_BUILD_ROOT%{_includedir}/GTE -type f -maxdepth 4 -name "*.cpp" -exec rm -f '{}' \;
+find $RPM_BUILD_ROOT%{_includedir}/GTE -type f -name "*.cpp" -exec rm -f '{}' \;
 
 ## Install samples files
 mkdir -p $RPM_BUILD_ROOT%{_libexecdir}/%{name}
 cp -a GTE/Samples $RPM_BUILD_ROOT%{_libexecdir}/%{name}/
 
 # Remove unused files
-find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -maxdepth 3 -name "*.h" -exec rm -f '{}' \;
-find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -maxdepth 3 -name "*.cpp" -exec rm -f '{}' \;
-find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -maxdepth 3 -name "*.filters" -exec rm -f '{}' \;
-find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -maxdepth 3 -name "*.vcxproj" -exec rm -f '{}' \;
-find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -maxdepth 3 -name "*.sln" -exec rm -f '{}' \;
-find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -maxdepth 3 -name "*.gte" -exec rm -f '{}' \;
-find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -maxdepth 3 -name "*.o" -exec rm -f '{}' \;
-find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type d -maxdepth 3 -name "ReleaseDynamic" -exec rmdir -v '{}' \;
+find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -name "*.h" -exec rm -f '{}' \;
+find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -name "*.cpp" -exec rm -f '{}' \;
+find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -name "*.filters" -exec rm -f '{}' \;
+find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -name "*.vcxproj" -exec rm -f '{}' \;
+find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -name "*.csproj" -exec rm -f '{}' \;
+find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -name "*.sln" -exec rm -f '{}' \;
+find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -name "*.gte" -exec rm -f '{}' \;
+find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -name "*.o" -exec rm -f '{}' \;
+find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -name "cmake*" -exec rm -f '{}' \;
+find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -name "CMake*" -exec rm -f '{}' \;
+find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -name "Makefile" -exec rm -f '{}' \;
+find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -name "*.json" -exec rm -f '{}' \;
 
-# Fix executable permissions
-find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type f -maxdepth 3 -name "*.ReleaseDynamic" -exec chmod +x '{}' \;
+for i in `find $RPM_BUILD_ROOT%{_libexecdir}/%{name}/Samples -type d -name "CMakeFiles"`; do
+ rm -rf $i
+done
 ##
 
 # Edit a pkg-config file
@@ -133,10 +127,9 @@ Libs: -lgtgraphics -lgtmathematicsgpu -lgtapplications
 Libs.private: -lpthread
 EOF
 
-%ldconfig_scriptlets
-
 %files
-%license License
+%license LICENSE
+%doc README.md
 %{_libdir}/libgt*.so.*
 
 %files devel
@@ -145,10 +138,20 @@ EOF
 %{_libdir}/pkgconfig/gtengine.pc
 
 %files samples
-%doc GTE/Gte4p6InstallationRelease.pdf
+%doc GTE/Gte5p1InstallationRelease.pdf
 %{_libexecdir}/%{name}/
 
 %changelog
+* Sun Oct 11 2020 Antonio Trande <sagitter@fedoraproject.org> 1:5.1-1
+- Release 5.1
+- Switch to CMake build method
+
+* Wed Sep 16 2020 Antonio Trande <sagitter@fedoraproject.org> 1:5.0-1
+- Release 5.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 12 2020 Antonio Trande <sagitter@fedoraproject.org> 1:4.6-1
 - Release 4.6
 

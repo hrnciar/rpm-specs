@@ -1,6 +1,6 @@
 Name:           petpvc
 Version:        1.2.4
-Release:        4%{?dist}
+Release:        7%{?dist}
 Summary:        Tools for partial volume correction (PVC) in positron emission tomography (PET) 
 
 License:        ASL 2.0
@@ -40,23 +40,21 @@ flags=( -std=gnu++11
         -Wno-unused-local-typedefs
       )
 
-mkdir -p build
-pushd build
-  export ITK_DIR=%{_libdir}/cmake/InsightToolkit
-  %cmake .. \
-    -DCMAKE_CXX_FLAGS:STRING="$CXXFLAGS ${flags[*]}"
-  # no idea where -lGTest::GTest comes from. It doesn't seem to work.
-  grep -r GTest::Main -l|xargs sed -r -i 's/GTest::Main/gtest_main/; s/GTest::GTest/gtest/'
-popd
-%make_build -C build
+export ITK_DIR=%{_libdir}/cmake/InsightToolkit
+%cmake \
+-DCMAKE_CXX_FLAGS:STRING="$CXXFLAGS ${flags[*]}"
+# no idea where -lGTest::GTest comes from. It doesn't seem to work.
+grep -r GTest::Main -l|xargs sed -r -i 's/GTest::Main/gtest_main/; s/GTest::GTest/gtest/'
+
+%cmake_build
 
 %install
-%make_install -C build
+%cmake_install
 
 %check
-pushd build
-  ctest -VV
-popd
+# Let it run serial
+%global _smp_mflags "-j1"
+%ctest
 
 %files
 %license LICENSE.txt
@@ -65,6 +63,16 @@ popd
 %{_bindir}/pvc_*
 
 %changelog
+* Fri Sep 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.2.4-7
+- Use correct cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 16 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.2.4-4
 - Add missing BR to fix FTBFS
 

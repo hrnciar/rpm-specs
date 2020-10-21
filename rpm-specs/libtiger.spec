@@ -1,6 +1,6 @@
 Name:           libtiger
 Version:        0.3.4
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Rendering library for Kate streams using Pango and Cairo
 
 License:        LGPLv2+
@@ -80,6 +80,9 @@ mv $RPM_BUILD_ROOT%{_docdir}/%{name} __doc
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

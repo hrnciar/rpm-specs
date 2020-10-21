@@ -6,7 +6,7 @@
 
 Name:           polyclipping
 Version:        6.4.2
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Polygon clipping library
 
 License:        Boost
@@ -17,6 +17,9 @@ BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
 BuildRequires:  dos2unix
+
+# Get Fedora 33++ behavior on anything older
+%undefine __cmake_in_source_build
 
 %description
 This library primarily performs the boolean clipping operations -
@@ -54,14 +57,14 @@ done
 
 %build
 pushd cpp
-  %cmake .
-  make %{?_smp_mflags}
+  %cmake
+  %cmake_build
 popd
 
 
 %install
 pushd cpp
-  make install DESTDIR=%{buildroot}
+  %cmake_install
 
 # Install agg header with corrected include statement
   sed -e 's/\.\.\/clipper\.hpp/clipper.hpp/' < cpp_agg/agg_conv_clipper.h > %{buildroot}/%{_includedir}/%{name}/agg_conv_clipper.h
@@ -82,6 +85,13 @@ popd
 %{_libdir}/lib%{name}.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.4.2-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.4.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.4.2-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

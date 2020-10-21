@@ -3,21 +3,20 @@
 
 # https://github.com/mattn/go-pointer
 %global goipath         github.com/mattn/go-pointer
-%global commit          49522c3f37914a12a6813caf41f4a9e84d39ca0a
+Version:                0.0.1
 
 %gometa
 
 %global common_description %{expand:
 Utility for cgo.}
 
+%global golicenses      LICENSE
 %global godocs          _example README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.4%{?dist}
+Release:        1%{?dist}
 Summary:        Utility for cgo
 
-# https://github.com/mattn/go-pointer/issues/5
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
@@ -41,6 +40,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 20:37:41 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.0.1-1
+- Update to 0.0.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

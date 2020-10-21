@@ -1,6 +1,6 @@
 Name:           perl-Data-Serializer
 Version:        0.65
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Modules that serialize data structures
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Data-Serializer
@@ -83,6 +83,9 @@ find lib -name \*.pm -print0 | xargs -0 chmod 0644
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.65-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.65-2
 - Perl 5.32 rebuild
 

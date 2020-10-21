@@ -5,7 +5,7 @@
 
 Name:           vdr-%{pname}
 Version:        0.1.3
-Release:        13.%{gitdate}git%{shortcommit}%{?dist}
+Release:        15.%{gitdate}git%{shortcommit}%{?dist}
 Summary:        A skin for VDR based on the Enigma text2skin add on
 
 License:        GPL+
@@ -57,7 +57,6 @@ install -dm 755 $RPM_BUILD_ROOT%{_datadir}/locale
 cp -pR locale/* $RPM_BUILD_ROOT%{_datadir}/locale
 %find_lang %{name}
 
-
 %files -f %{name}.lang
 %doc COPYING HISTORY* README*
 %config(noreplace) %{_sysconfdir}/sysconfig/vdr-plugins.d/%{pname}.conf
@@ -66,8 +65,13 @@ cp -pR locale/* $RPM_BUILD_ROOT%{_datadir}/locale
 %{vdr_resdir}/flags
 %{vdr_resdir}/icons
 
-
 %changelog
+* Fri Aug 28 2020 Martin Gansser <martinkg@fedoraproject.org> - 0.1.3-15.20180501git995b108
+- Rebuilt for new VDR API version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-14.20180501git995b108
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-13.20180501git995b108
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

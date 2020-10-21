@@ -1,5 +1,5 @@
 Name:           rednotebook
-Version:        2.19
+Version:        2.20
 Release:        1%{?dist}
 Summary:        Daily journal with calendar, templates and keyword searching
 
@@ -66,6 +66,12 @@ mv %{buildroot}/%{_datadir}/metainfo/%{name}.appdata.xml %{buildroot}/%{_datadir
 %{python3_sitelib}/%{name}/__pycache__
 
 %changelog
+* Sun Aug 09 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.20-1
+- Update to new upstream release 2.20
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.19-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.19-1
 - Update to latest upstream release 2.19
 

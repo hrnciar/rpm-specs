@@ -1,63 +1,50 @@
-%global modname argcomplete
-
 %bcond_without check
 
-Name:          python-%{modname}
+Name:          python-argcomplete
 Summary:       Bash tab completion for argparse
-Version:       1.11.1
+Version:       1.12.0
 Release:       2%{?dist}
 License:       ASL 2.0
 URL:           https://github.com/kislyuk/argcomplete
 Source0:       %pypi_source argcomplete
 
-# Fish 3.1+ compatibility, don't xfail test_special_characters_double_quoted
-# https://bugzilla.redhat.com/show_bug.cgi?id=1808322
-# https://github.com/kislyuk/argcomplete/issues/290
-Patch1:        fish3.1.patch
+BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 
 %if %{with check}
 BuildRequires: tcsh
 BuildRequires: fish
 BuildRequires: /usr/bin/pip
+BuildRequires: python3-pexpect
 %endif
 
 BuildArch:     noarch
 
-%global _description \
-Argcomplete provides easy, extensible command line tab completion of\
-arguments for your Python script.\
-\
-It makes two assumptions:\
-\
- * You are using bash as your shell\
- * You are using argparse to manage your command line arguments/options\
-\
-Argcomplete is particularly useful if your program has lots of\
-options or subparsers, and if your program can dynamically suggest\
-completions for your argument/option values (for example, if the user\
-is browsing resources over the network).
+%global _description %{expand:
+Argcomplete provides easy, extensible command line tab completion of
+arguments for your Python script.
 
-%description %{_description}
+It makes two assumptions:
 
-%package -n python3-%{modname}
+ * You are using bash as your shell
+ * You are using argparse to manage your command line arguments/options
+
+Argcomplete is particularly useful if your program has lots of
+options or subparsers, and if your program can dynamically suggest
+completions for your argument/option values (for example, if the user
+is browsing resources over the network).}
+
+%description %_description
+
+%package -n python3-argcomplete
 Summary:        %{summary}
-%{?python_provide:%python_provide python3-%{modname}}
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-%if %{with check}
-BuildRequires:  python3-pexpect
-%endif
-# pkg_resources module is used from python-argcomplete-check-easy-install-script
-Requires:       python3-setuptools
-
-%description -n python3-%{modname} %{_description}
-
-Python 3 version.
+%description -n python3-argcomplete %_description
 
 %prep
-%autosetup -p1 -n %{modname}-%{version}
+%autosetup -p1 -n argcomplete-%{version}
 # Remove useless BRs
 sed -i -r -e '/tests_require = /s/"(coverage|flake8|wheel)"[, ]*//g' setup.py
+
 # https://github.com/kislyuk/argcomplete/issues/255
 # https://github.com/kislyuk/argcomplete/issues/256
 sed -i -e "1s|#!.*python.*|#!%{__python3}|" test/prog scripts/*
@@ -69,18 +56,18 @@ sed -i -e "s|python |python3 |" test/test.py
 %install
 %py3_install
 mkdir -p %{buildroot}%{_sysconfdir}/bash_completion.d/
-install -p -m0644 %{buildroot}%{python3_sitelib}/%{modname}/bash_completion.d/python-argcomplete %{buildroot}%{_sysconfdir}/bash_completion.d/
+install -p -m0644 %{buildroot}%{python3_sitelib}/argcomplete/bash_completion.d/python-argcomplete %{buildroot}%{_sysconfdir}/bash_completion.d/
 
 %if %{with check}
 %check
-%{__python3} setup.py test
+%{python3} setup.py test
 %endif
 
-%files -n python3-%{modname}
+%files -n python3-argcomplete
 %license LICENSE.rst
 %doc README.rst
-%{python3_sitelib}/%{modname}-*.egg-info/
-%{python3_sitelib}/%{modname}/
+%{python3_sitelib}/argcomplete-*.egg-info/
+%{python3_sitelib}/argcomplete/
 %{_bindir}/activate-global-python-argcomplete
 %{_bindir}/python-argcomplete-check-easy-install-script
 %{_bindir}/python-argcomplete-tcsh
@@ -88,6 +75,13 @@ install -p -m0644 %{buildroot}%{python3_sitelib}/%{modname}/bash_completion.d/py
 %{_sysconfdir}/bash_completion.d/python-argcomplete
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Miro Hrončok <mhroncok@redhat.com> - 1.12.0-1
+- Update to 1.12.0
+- Fixes rhbz#1856103
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.11.1-2
 - Rebuilt for Python 3.9
 

@@ -1,5 +1,5 @@
 %global tarname FreeFem-sources
-%global tarvers 4.6
+%global tarvers 4.7
 
 %bcond_without serial
 
@@ -10,6 +10,14 @@
 # Allow disabling building with/against mpich
 # Build with --without openmpi to not build mpich
 %bcond_without mpich
+
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%global lapacklib flexiblas
+%else
+%global blaslib openblas
+%global lapacklib lapack
+%endif
 
 # Don't exercise %%check on the archs below.
 # They fail/hang for yet undetermined causes.
@@ -28,6 +36,10 @@ Release: 1%{?dist}
 URL: https://freefem.org
 Source0: https://github.com/FreeFem/FreeFem-sources/archive/v%{tarvers}.tar.gz#/%{tarname}-%{tarvers}.tar.gz
 
+# Upstream patch: Upstream missed to set VERSION correctly
+Patch00: 0000-pass-to-version-4-7.patch
+
+# Fedora patches
 Patch01: 0001-Build-fixes.patch
 Patch02: 0002-Fix-formating-buffers.patch
 Patch03: 0003-Wsign-compare.patch
@@ -42,10 +54,16 @@ Patch11: 0011-Install-docs-into-docdir.patch
 Patch12: 0012-Use-libdir-to-setup-ff_prefix_dir.patch
 Patch13: 0013-Misc-build-fixes.patch
 Patch14: 0014-Wmisleading-indentation.patch
+Patch15: 0015-Mark-failing-tests-XFAIL.patch
 
 # --disable-download doesn't work
 # Bundle hpddm.zip to prevent downloading during builds.
 # cf. hpddm in 3rdparty/getall
+%if "%{tarvers}" == "4.7"
+%global hpddm_gitcommit ce6ce80
+%global hpddm_gitdate 20200527
+%global ffvers 4.7
+%endif
 %if "%{tarvers}" == "4.6"
 %global hpddm_gitcommit e8639ff
 %global hpddm_gitdate 20200229
@@ -61,7 +79,7 @@ Source1: https://github.com/hpddm/hpddm/archive/%{hpddm_gitcommit}/master.zip#/h
 # FreeFEM doesn't build docs anymore.
 # Use pre-build binary, d/l'ed from
 # https://doc.freefem.org/pdf/FreeFEM-documentation.pdf
-Source2: FreeFEM-documentation-4.2.1-20190919.pdf
+Source2: FreeFEM-documentation-4.6-20200819.pdf
 
 Source3: https://www.ljll.math.upmc.fr/frey/ftp/archives/freeyams.2012.02.05.tgz
 
@@ -82,11 +100,11 @@ BuildRequires:	arpack-devel
 BuildRequires:	gmm-devel
 BuildRequires:	fftw-devel
 BuildRequires:	hdf5-devel
-BuildRequires:	lapack-devel
+BuildRequires:	%{lapacklib}-devel
 BuildRequires:	metis-devel
 BuildRequires:	MUMPS-devel
 BuildRequires:	NLopt-devel
-BuildRequires:	openblas-devel
+BuildRequires:	%{blaslib}-devel
 BuildRequires:	petsc-devel
 BuildRequires:	scotch-devel
 BuildRequires:	suitesparse-devel
@@ -111,10 +129,10 @@ Summary: PDE solving tool - OpenMPI version
 BuildRequires:	/etc/profile.d/modules.sh
 BuildRequires:	openmpi-devel
 BuildRequires:	arpack-devel
-BuildRequires:	openblas-devel
+BuildRequires:	%{blaslib}-devel
 BuildRequires:	fftw-devel
 BuildRequires:	hdf5-devel
-BuildRequires:	lapack-devel
+BuildRequires:	%{lapacklib}-devel
 BuildRequires:	suitesparse-devel
 BuildRequires:	SuperLU-devel
 
@@ -136,10 +154,10 @@ Summary: PDE solving tool - MPICH version
 BuildRequires:  /etc/profile.d/modules.sh
 BuildRequires:	mpich-devel
 BuildRequires:	arpack-devel
-BuildRequires:  openblas-devel
+BuildRequires:  %{blaslib}-devel
 BuildRequires:	fftw-devel
 BuildRequires:	hdf5-devel
-BuildRequires:	lapack-devel
+BuildRequires:	%{lapacklib}-devel
 BuildRequires:  suitesparse-devel
 BuildRequires:  SuperLU-devel
 
@@ -164,6 +182,7 @@ This package contains the MPICH version of FreeFem++.
 
 mv %{tarname}-%{tarvers} serial
 pushd serial
+%patch00 -p1
 %patch01 -p1
 %patch02 -p1
 %patch03 -p1
@@ -178,6 +197,7 @@ pushd serial
 %patch12 -p1
 %patch13 -p1
 %patch14 -p1
+%patch15 -p1
 
 # HACK: scotch.h doesn't include stdint.h and stdio.h
 # This break configure scripts
@@ -191,6 +211,9 @@ sed -i -e 's|\[scotch.h\]|\[scotch_wrapper.h\]|' configure.ac
 # SuperLU5
 # includes are in /usr/include/SuperLU
 sed -i -e 's,superlu/superlu_enum_consts.h,/usr/include/SuperLU/superlu_enum_consts.h,' configure.ac
+
+# Fedora doesn't have LargeDiag_MC64
+sed -i -e 's,LargeDiag_MC64,LargeDiag,' plugin/seq/SuperLu.cpp
 
 # Bogus permissions
 find . -type f -perm 755 \( -name "*.c*" -o -name "*.h*" -o -name "*.edp" -o -name "*.idp" \) | xargs chmod 644
@@ -217,7 +240,7 @@ pushd serial
 	--enable-hpddm --enable-download_hpddm \
 	--enable-yams --enable-download_yams \
 	--enable-gmm \
-	--with-blas="-L%{_libdir} -lopenblas" \
+	--with-blas="-L%{_libdir} -l%{blaslib}" \
 	--without-cadna \
 	--with-mpi=no \
 	--docdir=%{_pkgdocdir} \
@@ -226,7 +249,7 @@ pushd serial
 	CXXFLAGS="%{optflags} -fPIC"
 make -C 3rdparty CFLAGS="%{optflags} -fPIC"
 make -C 3rdparty/yams CFLAGS="%{optflags} -fPIC"
-make
+make %{?_smp_mflags}
 popd
 %endif
 
@@ -240,7 +263,7 @@ for mpi in %{?with_mpich:mpich} %{?with_openmpi:openmpi} ; do
 	--disable-download \
 	--enable-hpddm --enable-download_hpddm \
 	--enable-yams --enable-download_yams \
-	--with-blas="-L%{_libdir} -lopenblas" \
+	--with-blas="-L%{_libdir} -l%{blaslib}" \
 	--without-cadna \
 	--with-mpi=yes \
 	--docdir=%{_pkgdocdir} \
@@ -248,7 +271,7 @@ for mpi in %{?with_mpich:mpich} %{?with_openmpi:openmpi} ; do
 	CXXFLAGS="%{optflags} -fPIC"
   make -C 3rdparty CFLAGS="%{optflags} -fPIC"
   make -C 3rdparty/yams CFLAGS="%{optflags} -fPIC"
-  make
+  make %{?_smp_mflags}
   module unload mpi/${mpi}-%{_arch}
   popd
 done
@@ -283,7 +306,7 @@ done
 %if %{with checks}
 %if %{with serial}
 pushd serial
-make check
+FLEXIBLAS=netlib make check
 popd
 %endif
 %endif
@@ -323,6 +346,26 @@ popd
 %endif
 
 %changelog
+* Thu Sep 17 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 4.7-1
+- Update to 4.7.
+- Rebase patches.
+
+* Wed Sep 16 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 4.6-6
+- Fix previous changelog entry.
+
+* Tue Sep 15 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 4.6-5
+- Update FreeFEM-documentation.pdf
+- Add %%{?_smp_mflags} to selected make calls.
+
+* Wed Aug 12 2020 Iñaki Úcar <iucar@fedoraproject.org> - 4.6-4
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 4.6-2
+- Rebuild for hdf5 1.10.6
+
 * Sun May 03 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 4.6-1
 - Update to 4.6
 - Rebase patches.

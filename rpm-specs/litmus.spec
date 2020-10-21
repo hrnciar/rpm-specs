@@ -1,6 +1,6 @@
 Name:		litmus
 Version:	0.13
-Release:	21%{?dist}
+Release:	23%{?dist}
 Summary:	WebDAV server compliance test suite
 License:	GPLv2+
 URL:		http://www.webdav.org/neon/litmus/
@@ -48,6 +48,12 @@ make install DESTDIR=%{buildroot}
 %doc COPYING FAQ README THANKS TODO
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Joe Orton <jorton@redhat.com> - 0.13-22
+- update for neon 0.31
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

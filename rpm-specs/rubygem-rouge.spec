@@ -1,7 +1,7 @@
 %global gem_name rouge
 
 Name:           rubygem-%{gem_name}
-Version:        3.20.0
+Version:        3.24.0
 Release:        1%{?dist}
 Summary:        Pure-ruby colorizer based on pygments
 License:        MIT and BSD
@@ -85,6 +85,21 @@ help2man -N -s1 -o %{buildroot}%{_mandir}/man1/rougify.1 \
 
 
 %changelog
+* Fri Oct 16 2020 Fabio Valentini <decathorpe@gmail.com> - 3.24.0-1
+- Update to version 3.24.0.
+
+* Wed Sep 09 2020 Fabio Valentini <decathorpe@gmail.com> - 3.23.0-1
+- Update to version 3.23.0.
+
+* Wed Aug 12 2020 Fabio Valentini <decathorpe@gmail.com> - 3.22.0-1
+- Update to version 3.22.0.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.21.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Fabio Valentini <decathorpe@gmail.com> - 3.21.0-1
+- Update to version 3.21.0.
+
 * Fri Jun 12 2020 Fabio Valentini <decathorpe@gmail.com> - 3.20.0-1
 - Update to version 3.20.0.
 

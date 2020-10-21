@@ -1,6 +1,6 @@
 Name:           afflib
 Version:        3.7.18
-Release:        9%{?dist}
+Release:        11%{?dist}
 Summary:        Library to support the Advanced Forensic Format
 
 # Build also the python2 package
@@ -196,6 +196,13 @@ cd pyaff
 
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.18-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.18-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.7.18-9
 - Rebuilt for Python 3.9
 

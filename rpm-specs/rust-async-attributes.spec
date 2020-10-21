@@ -7,7 +7,7 @@
 
 Name:           rust-%{crate}
 Version:        1.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Experimental language-level polyfills for Async Rust
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -72,5 +72,8 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 29 16:53:43 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.1.1-1
 - Initial package

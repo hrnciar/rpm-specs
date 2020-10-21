@@ -4,7 +4,7 @@
 
 Name:       vapoursynth
 Version:    48
-Release:    8%{?dist}
+Release:    10%{?dist}
 Summary:    Video processing framework with simplicity in mind
 License:    LGPLv2
 URL:        http://www.vapoursynth.com
@@ -12,6 +12,7 @@ URL:        http://www.vapoursynth.com
 Source0:    https://github.com/%{name}/%{name}/archive/R%{version}/%{name}-R%{version}.tar.gz
 Patch0:     %{name}-version-info.patch
 Patch1:     https://github.com/vapoursynth/vapoursynth/commit/a53ed4dda74d61d4cb56842dc0c6e6e7c3870e11.patch#/%{name}-python38.patch
+Patch2:     %{name}-gcc11.patch
 
 ExclusiveArch:  %{ix86} x86_64
 
@@ -158,6 +159,12 @@ rm -fr %{buildroot}%{_docdir}/%{name}
 
 
 %changelog
+* Sat Oct 17 2020 Jeff Law <law@redhat.com> - 48-10
+- Fix missing #include for gcc-11
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 48-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 48-8
 - Rebuilt for Python 3.9
 

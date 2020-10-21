@@ -4,7 +4,7 @@
 Name: 		newscache
 Summary: 	Free cache server for USENET News
 Version: 	1.2
-Release: 	0.35.rc6%{?dist}
+Release: 	0.37.rc6%{?dist}
 License:	GPLv2+
 URL:		http://www.linuxhacker.at/newscache/
 Source0: 	http://src.linuxhacker.at/NewsCache/%{srcnamever}.tar.gz
@@ -14,6 +14,7 @@ Source3:	%{name}.service
 Patch1:		newscache-1.2rc6-config.patch
 Patch2:		newscache-1.2rc6-gcc43.patch
 Patch3:		socket++-1.12.12-drop_doc.patch
+Patch4:		newscache-glibc.patch
 BuildRequires:  gcc-c++
 BuildRequires:	libtool, texinfo, pam-devel
 BuildRequires:	systemd-units
@@ -52,6 +53,7 @@ pushd too/deep/socket++-%{socketver}
 %patch3 -p1
 popd
 
+%patch4 -p1
 
 %build
 
@@ -154,6 +156,12 @@ exit 0
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-0.37.rc6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Jeff Law <law@redhat.com> - 1.2-0.36.rc6
+- Use strsignal and strerror rather than sys_siglist and sys_errlist
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-0.35.rc6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

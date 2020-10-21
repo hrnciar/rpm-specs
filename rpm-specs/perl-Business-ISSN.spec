@@ -1,6 +1,6 @@
 Name:           perl-Business-ISSN
 Version:        1.004
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Perl library for International Standard Serial Numbers
 License:        Artistic 2.0
 URL:            https://metacpan.org/release/Business-ISSN
@@ -46,6 +46,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.004-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.004-2
 - Perl 5.32 rebuild
 

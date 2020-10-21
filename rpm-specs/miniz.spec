@@ -1,6 +1,6 @@
 Name:       miniz
 Version:    2.1.0
-Release:    4%{?dist}
+Release:    5%{?dist}
 Summary:    Compression library implementing the zlib and Deflate
 # LICENSE:  MIT text
 # miniz.c:  MIT
@@ -117,6 +117,9 @@ install -m 0644 %{name}.h '%{buildroot}/%{_includedir}'
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

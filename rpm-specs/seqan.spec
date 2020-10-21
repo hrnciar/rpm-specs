@@ -1,7 +1,11 @@
+# LTO flags prevent the linker's work
+# /usr/bin/ld: error: lto-wrapper failed
+%define _lto_cflags %{nil}
+
 Name:      seqan
 Summary:   Open source C++ library of efficient algorithms and data structures
 Version:   1.4.2
-Release:   40%{?dist}
+Release:   44%{?dist}
 License:   BSD and GPLv3+ and LGPLv3+
 URL:       http://www.seqan.de/
 Source0:   http://packages.seqan.de/seqan-src/seqan-src-%{version}.tar.gz
@@ -25,6 +29,7 @@ BuildRequires: coin-or-lemon-devel
 BuildRequires: libstdc++-static
 BuildRequires: java-1.8.0-openjdk-devel
 BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 
 Requires: gawk
 
@@ -80,7 +85,7 @@ SEQAN_OPT_FLAGS="$SEQAN_OPT_FLAGS -fPIC"
 %else
 SEQAN_OPT_FLAGS="$RPM_OPT_FLAGS -fPIC"
 %endif
-export CXXFLAGS="$SEQAN_OPT_FLAGS -lemon"
+export CXXFLAGS="-std=c++14 $SEQAN_OPT_FLAGS -lemon"
 export LDFLAGS="$RPM_LD_FLAGS -fPIC"
 cmake \
  -DCMAKE_CXX_FLAGS_RELEASE:STRING="$SEQAN_OPT_FLAGS" \
@@ -135,6 +140,19 @@ find %{buildroot}%{_bindir} -type f -name "*.h" -exec chmod 0755 '{}' \;
 %{_includedir}/seqan/
 
 %changelog
+* Wed Aug 19 2020 Jeff Law <law@redhat.com> - 1.4.2-44
+- Force C++14 as this code is not C++17 ready
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-43
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-42
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Antonio Trande <sagitter@fedoraproject.org> - 1.4.2-41
+- BuildRequires python3-setuptools
+
 * Fri Feb 07 2020 Antonio Trande <sagitter@fedoraproject.org> - 1.4.2-40
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 - Linker flag to liblemon

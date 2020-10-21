@@ -3,7 +3,7 @@
 
 # https://github.com/direnv/direnv
 %global goipath         github.com/direnv/direnv
-Version:                2.21.3
+Version:                2.22.1
 
 %gometa
 
@@ -60,6 +60,12 @@ install -m 0644 -vp man/*.1 %{buildroot}%{_mandir}/man1
 %gopkgfiles
 
 %changelog
+* Tue Oct 06 2020 Ed Marshall <esm@logic.net> - 2.22.1-1
+- Update to 2.22.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.21.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 08 2020 Ed Marshall <esm@logic.net> - 2.21.3-1
 - Update to 2.21.3
 - Removed now-unneeded manpage lint fix

@@ -1,7 +1,7 @@
 Summary: A suite of tools for managing dnssec aware DNS usage
 Name: dnssec-tools
 Version: 2.2.3
-Release: 8%{?dist}
+Release: 10%{?dist}
 License: BSD
 URL: http://www.dnssec-tools.org/
 #Source0: https://www.dnssec-tools.org/download/%{name}-%{version}.tar.gz
@@ -17,8 +17,7 @@ Requires: perl(GraphViz)
 BuildRequires:  gcc
 BuildRequires: openssl-devel
 BuildRequires: perl-devel
-#BuildRequires: perl-generators
-#BuildRequires: perl-generators
+BuildRequires: perl-macros
 BuildRequires: perl(Test) perl(ExtUtils::MakeMaker)
 # Makes the code installation linux filesystem friendly
 Patch5: dnssec-tools-linux-conf-paths-1.13.patch
@@ -363,6 +362,12 @@ install -m 755 %SOURCE2 ${RPM_BUILD_ROOT}/%{_bindir}/libval-config
 
 
 %changelog
+* Fri Sep 25 2020 Petr Pisar <ppisar@redhat.com> - 2.2.3-10
+- Build-require perl-macros for Perl RPM macros
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.2.3-8
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:           keepass
-Version:        2.45
-Release:        1%{?dist}
+Version:        2.46
+Release:        2%{?dist}
 Summary:        Password manager
 
 License:        GPLv2+
@@ -18,6 +18,7 @@ Patch0:         keepass-desktop-integration.patch
 Patch1:         keepass-fix-XSL-search-path.patch
 
 ExclusiveArch:  %{mono_arches}
+ExcludeArch:    armv7hl
 BuildRequires:  ImageMagick
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
@@ -29,7 +30,6 @@ BuildRequires:  xorg-x11-server-Xvfb
 Requires:       xdotool xsel hicolor-icon-theme
 Requires:       mono-winforms
 %if 0%{?fedora} >=24 || 0%{?rhel} >= 8
-Recommends:     gtk2
 Recommends:     libgcrypt
 %endif
 
@@ -108,6 +108,18 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/*.appdata
 
 
 %changelog
+* Thu Sep 17 2020 Peter Oliver <rpm@mavit.org.uk> - 2.46-2
+- Exclude from armv7hl, where this doesn't currently build.
+
+* Fri Sep 11 2020 Peter Oliver <rpm@mavit.org.uk> - 2.46-1
+- Update to version 2.46.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.45-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul  2 2020 Peter Oliver <rpm@mavit.org.uk> - 2.45-2
+- Drop Recommends on gtk2.  This no-longer seems to help nor hinder theming on Fedora 31 (where theming works for me) nor Fedora 32 (where it does not).
+
 * Sat May  9 2020 Peter Oliver <rpm@mavit.org.uk> - 2.45-1
 - Update to version 2.45.
 

@@ -2,18 +2,28 @@
 # Copyright (C) 2011-2017 Red Hat, Inc
 #
 
+#%%global version_suffix -rc2
+#%%global release_suffix .test3
+
 Summary: Device-mapper Persistent Data Tools
 Name: device-mapper-persistent-data
-Version: 0.8.5
-Release: 3%{?dist}
+Version: 0.9.0
+Release: 2%{?dist}%{?release_suffix}
 License: GPLv3+
 URL: https://github.com/jthornber/thin-provisioning-tools
-#Source0: https://github.com/jthornber/thin-provisioning-tools/archive/thin-provisioning-tools-% {version}.tar.gz
-Source0: https://github.com/jthornber/thin-provisioning-tools/archive/v%{version}.tar.gz
+#Source0: https://github.com/jthornber/thin-provisioning-tools/archive/thin-provisioning-tools-%%{version}.tar.gz
+Source0: https://github.com/jthornber/thin-provisioning-tools/archive/v%{version}%{?version_suffix}.tar.gz
+Source1: dmpd090-vendor2.tar.gz
 Patch0: device-mapper-persistent-data-avoid-strip.patch
+Patch1: 0001-Update-dependencies.patch
 
 BuildRequires: autoconf, expat-devel, libaio-devel, libstdc++-devel, boost-devel, gcc-c++
 Requires: expat
+%ifarch %{rust_arches}
+BuildRequires: rust-packaging
+BuildRequires: rust >= 1.35
+BuildRequires: cargo
+%endif
 
 %description
 thin-provisioning-tools contains check,dump,restore,repair,rmap
@@ -24,17 +34,42 @@ are included and era check, dump, restore and invalidate to manage
 snapshot eras
 
 %prep
-%setup -q -n thin-provisioning-tools-%{version}
+%setup -q -n thin-provisioning-tools-%{version}%{?version_suffix}
+%ifarch %{rust_arches}
+%patch1 -p1 -b .toml_update
+#%%cargo_prep
+#%%cargo_generate_buildrequires
+tar xf %{SOURCE1}
+mkdir -p .cargo
+cat > .cargo/config <<END
+[source.crates-io]
+replace-with = "vendored-sources"
+
+[source.vendored-sources]
+directory = "vendor"
+
+END
+%endif
 %patch0 -p1 -b .avoid_strip
 echo %{version}-%{release} > VERSION
+
+%generate_buildrequires
 
 %build
 autoconf
 %configure --with-optimisation=
 make %{?_smp_mflags} V=
+%ifarch %{rust_arches}
+%cargo_build
+%endif
 
 %install
 make DESTDIR=%{buildroot} MANDIR=%{_mandir} install
+%ifarch %{rust_arches}
+make DESTDIR=%{buildroot} MANDIR=%{_mandir} install-rust-tools
+# cargo_install installs into /usr/bin
+#%%cargo_install
+%endif
 
 %files
 %doc COPYING README.md
@@ -57,6 +92,10 @@ make DESTDIR=%{buildroot} MANDIR=%{_mandir} install
 %{_mandir}/man8/thin_restore.8.gz
 %{_mandir}/man8/thin_rmap.8.gz
 %{_mandir}/man8/thin_trim.8.gz
+%ifarch %{rust_arches}
+%{_mandir}/man8/thin_metadata_pack.8.gz
+%{_mandir}/man8/thin_metadata_unpack.8.gz
+%endif
 %{_sbindir}/pdata_tools
 %{_sbindir}/cache_check
 %{_sbindir}/cache_dump
@@ -77,9 +116,23 @@ make DESTDIR=%{buildroot} MANDIR=%{_mandir} install
 %{_sbindir}/thin_restore
 %{_sbindir}/thin_rmap
 %{_sbindir}/thin_trim
+%ifarch %{rust_arches}
+%{_sbindir}/thin_metadata_pack
+%{_sbindir}/thin_metadata_unpack
+%endif
 #% {_sbindir}/thin_show_duplicates
 
 %changelog
+* Mon Sep 21 2020 Marian Csontos <mcsontos@redhat.com> - 0.9.0-2
+- Update crc32c to version 0.5 supporting non x86 architectures
+
+* Thu Sep 17 2020 Marian Csontos <mcsontos@redhat.com> - 0.9.0-1
+- Update to latest upstream version
+- New tools thin_metadata_pack and thin_metadata_unpack
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

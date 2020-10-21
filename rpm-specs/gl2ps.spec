@@ -4,7 +4,7 @@ Summary:	An OpenGL to PostScript printing library
 Summary(pl):	Biblioteka drukowania z OpenGL-a do PostScriptu
 Name:		gl2ps
 Version:	1.4.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	LGPLv2+ or GL2PS
 Source0:	http://www.geuz.org/gl2ps/src/%{name}-%{version}.tgz
 URL:		http://www.geuz.org/gl2ps/
@@ -63,12 +63,11 @@ Pliki nagłówkowe biblioteki GL2PS.
 %setup -q
 
 %build
-%{cmake} .
-%make_build
+%cmake
+%cmake_build
 
 %install
-rm -rf %{buildroot}
-%make_install
+%cmake_install
 
 rm -r %{buildroot}%{_docdir}/gl2ps
 rm %{buildroot}%{_libdir}/libgl2ps.a
@@ -84,6 +83,9 @@ rm %{buildroot}%{_libdir}/libgl2ps.a
 %{_includedir}/gl2ps.h
 
 %changelog
+* Thu Aug 20 2020 Dominik Mierzejewski <rpm@greysector.net> 1.4.2-2
+- use new cmake macros
+
 * Thu Apr 30 2020 Dominik Mierzejewski <rpm@greysector.net> 1.4.2-1
 - updated to 1.4.2
 - include ABI version in shared library filename to prevent accidental bumps

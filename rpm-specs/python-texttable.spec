@@ -10,7 +10,7 @@ Python module to generate a formatted text table, using ASCII characters.
 
 Name:           python-%{srcname}
 Version:        1.6.2
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Python module to generate a formatted text table, using ASCII characters
 License:        MIT
 URL:            https://github.com/foutaise/%{srcname}
@@ -87,6 +87,9 @@ rm -rf %{eggname}.egg-info
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.6.2-6
 - Rebuilt for Python 3.9
 

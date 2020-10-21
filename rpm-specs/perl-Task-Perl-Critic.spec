@@ -5,7 +5,7 @@
 
 Name:           perl-Task-Perl-Critic
 Version:        1.008
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        Install everything Perl::Critic
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Task-Perl-Critic
@@ -72,6 +72,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.008-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.008-24
 - Perl 5.32 rebuild
 

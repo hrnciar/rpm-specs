@@ -1,12 +1,15 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 # Filter GLIBC_PRIVATE Requires, see wrappers/dlsym.cpp
 %define __filter_GLIBC_PRIVATE 1
 
-%global commit 433f99b4e75920fc14816012834bd88998203105
+%global commit 1aa83915bfc310ba5901136013dcd2b6ee641e00
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           apitrace
 Version:        9.0
-Release:        0.7.git%{shortcommit}%{?dist}
+Release:        0.10.git%{shortcommit}%{?dist}
 Summary:        Tools for tracing OpenGL
 
 License:        MIT
@@ -82,12 +85,17 @@ chmod -x retrace/glretrace_main.cpp
 
 
 %build
-%cmake -DENABLE_STATIC_SNAPPY=OFF .
-%make_build
+# This package has an embedded copy of libbacktrace which needs updating
+# to handle LTO better
+# Disable LTO
+%define _lto_cflags %{nil}
+
+%cmake -DENABLE_STATIC_SNAPPY=OFF
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 # Install doc through %%doc
 rm -rf %{buildroot}%{_docdir}/
@@ -104,7 +112,7 @@ chmod 0644 %{buildroot}%{_libdir}/%{name}/scripts/highlight.py
 
 
 %check
-make check
+make -C %{_vpath_builddir} check
 
 %files
 %license LICENSE
@@ -123,6 +131,15 @@ make check
 
 
 %changelog
+* Sun Oct 18 2020 Sandro Mani <manisandro@gmail.com> - 9.0-0.10.git1aa8391
+- Update to git 1aa8391
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.0-0.9.git433f99b
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 9.0.0-0.8.git433f99b
+- Disable LTO
+
 * Wed Jan 29 2020 Sandro Mani <manisandro@gmail.com> - 9.0.0-0.7.git433f99b
 - Update to git 433f99b
 

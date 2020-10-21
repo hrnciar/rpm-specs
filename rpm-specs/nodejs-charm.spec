@@ -2,7 +2,7 @@
 
 Name:           nodejs-charm
 Version:        0.1.2
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        ANSI control sequences for terminal cursor hopping and colors
 BuildArch:      noarch
 %if 0%{?fedora} >= 19
@@ -38,6 +38,9 @@ cp -pr package.json index.js lib %{buildroot}%{nodejs_sitelib}/charm
 %doc README.markdown example
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

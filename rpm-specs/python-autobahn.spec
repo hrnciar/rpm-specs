@@ -7,8 +7,8 @@
 %global _docdir_fmt %{name}
 
 Name:           python-%{pypi_name}
-Version:        19.10.1
-Release:        3%{?dist}
+Version:        20.7.1
+Release:        2%{?dist}
 Summary:        Python networking library for WebSocket and WAMP
 
 License:        MIT
@@ -16,10 +16,6 @@ URL:            https://pypi.python.org/pypi/%{pypi_name}
 # pypi release doen't include README, nor doc, so using github instead
 # See: https://github.com/tavendo/AutobahnPython/issues/429
 Source0:        https://github.com/%{project_owner}/%{github_name}/archive/v%{version}/%{github_name}-%{version}.tar.gz
-# By default it requires version 2.7 but according to tests and the requirement on twilio, it works with 2.6.1 which is in fedora.
-# Until https://bugzilla.redhat.com/show_bug.cgi?id=1715680 is done, this is required.
-# Take tare before updating that it is still the case with the updated version.
-Patch0:         lower-deps-cryptographie.patch
 
 BuildArch:      noarch
 %if 0%{with_doc}
@@ -31,7 +27,7 @@ BuildRequires:  python3-sphinx-theme-bootstrap # Not packaged yet
 BuildRequires:  python3-sphinxcontrib-spelling # Not packaged yet
 BuildRequires:  python3-repoze-sphinx-autointerface
 BuildRequires:  python3-pyenchant
-%endif # End with_doc
+%endif
 
 %description
 Autobahn a networking library that is part of the Autobahn project and provides
@@ -86,12 +82,13 @@ implementations of
 for Twisted and asyncio on Python 2 & 3 and for writing servers and clients.
 
 HTML documentation
-%endif # with doc
+%endif
+
+%{?python_extras_subpkg:%python_extras_subpkg -n python3-%{pypi_name} -i %{python3_sitelib}/%{pypi_name}-%{version}*-py%{python3_version}.egg-info twisted}
 
 
 %prep
 %setup -qn %{github_name}-%{version}
-%patch0 -p1
 
 # Remove upstream's egg-info
 rm -rf %{pypi_name}.egg-info
@@ -119,6 +116,7 @@ USE_ASYNCIO=1 PYTHONPATH=$(pwd) py.test-%{python3_version} --pyargs autobahn -k 
 %license LICENSE
 %doc README.rst DEVELOPERS.md
 %{_bindir}/wamp
+%{_bindir}/xbrnetwork
 %{python3_sitelib}/%{pypi_name}-%{version}*-py%{python3_version}.egg-info/
 %{python3_sitelib}/%{pypi_name}/
 %dir %{python3_sitelib}/twisted
@@ -135,6 +133,15 @@ USE_ASYNCIO=1 PYTHONPATH=$(pwd) py.test-%{python3_version} --pyargs autobahn -k 
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.7.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Julien Enselme <jujens@jujens.eu> - 20.7.1-1
+- Update to 20.7.1
+
+* Fri Jul 10 2020 Miro Hrončok <mhroncok@redhat.com> - 19.10.1-4
+- Add autobahn[twisted] subpackage
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 19.10.1-3
 - Rebuilt for Python 3.9
 

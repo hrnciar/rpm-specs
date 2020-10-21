@@ -1,7 +1,7 @@
 Summary:		Library of Abstract Data Types 
 Name:		vanessa_adt
 Version:		0.0.9
-Release:		11%{?dist}
+Release:		12%{?dist}
 License:		LGPLv2+
 URL:			http://www.vergenet.net/linux/vanessa/
 Source0:		http://www.vergenet.net/linux/vanessa/download/%{name}/%{version}/%{name}-%{version}.tar.gz
@@ -53,6 +53,9 @@ rm -f %{buildroot}%{_libdir}/*.*a
 %{_includedir}/*.h
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.9-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.9-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 
 Name:           ocaml-ancient
 Version:        0.9.0
-Release:        54%{?dist}
+Release:        57%{?dist}
 Summary:        OCaml library for large memory structures and sharing
 License:        LGPLv2+ with exceptions
 
@@ -118,6 +118,15 @@ chrpath --delete $OCAMLFIND_DESTDIR/stublibs/dll*.so
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.9.0-57
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.9.0-56
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-55
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 0.9.0-54
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

@@ -4,7 +4,7 @@
 %define release_version %(echo %{version} | awk -F. '{print $1"."$2}')
 
 Name:           mingw-glib-networking
-Version:        2.64.3
+Version:        2.66.0
 Release:        1%{?dist}
 Summary:        MinGW Windows glib-networking library
 
@@ -80,6 +80,15 @@ rm -f %{buildroot}%{mingw64_libdir}/gio/modules/*.la
 
 
 %changelog
+* Tue Sep 15 2020 Sandro Mani <manisandro@gmail.com> - 2.66.0-1
+- Update to 2.66.0
+
+* Wed Aug 12 13:37:20 GMT 2020 Sandro Mani <manisandro@gmail.com> - 2.64.3-3
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.64.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 31 2020 Sandro Mani <manisandro@gmail.com> - 2.64.3-1
 - Update to 2.64.3
 

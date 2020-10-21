@@ -1,6 +1,6 @@
 Name:           perl-Text-Table
 Version:        1.134
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Organize Data in Tables
 License:        ISC
 
@@ -63,6 +63,9 @@ requirements as you use them.
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.134-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.134-2
 - Perl 5.32 rebuild
 

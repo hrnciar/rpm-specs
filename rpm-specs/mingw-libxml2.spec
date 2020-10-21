@@ -2,7 +2,7 @@
 
 Name:           mingw-libxml2
 Version:        2.9.10
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows libxml2 XML processing library
 
 License:        MIT
@@ -18,6 +18,8 @@ Patch2:         mingw-libxml2-2.9.10-fix-relaxed-approach-to-nested-documents.pa
 Patch3:         mingw-libxml2-2.9.10-CVE-2019-20388.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1799788
 Patch4:         mingw-libxml2-2.9.10-CVE-2020-7595.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=1877788
+Patch6:         libxml2-2.9.10-CVE-2020-24977.patch
 
 BuildArch:      noarch
 
@@ -149,6 +151,12 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 
 
 %changelog
+* Fri Sep 11 2020 Richard W.M. Jones <rjones@redhat.com> - 2.9.10-7
+- Add fix for CVE-2020-24977 (RHBZ#1877788, RHBZ#1877789).
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 23 2020 David King <amigadave@amigadave.com> - 2.9.10-1
 - Update to 2.9.10
 - Fix CVE-2019-19956 (#1788858)

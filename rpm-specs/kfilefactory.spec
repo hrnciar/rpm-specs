@@ -1,6 +1,6 @@
 Name:           kfilefactory
 Version:        0.1.1
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        An application for sharing files on FileFactory
 
 License:        GPLv2
@@ -40,6 +40,9 @@ install -Dpm 0755 kfilefactory.desktop $RPM_BUILD_ROOT%{_kde4_datadir}/kde4/serv
 %doc CHANGELOG LICENSE README
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

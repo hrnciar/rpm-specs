@@ -7,8 +7,8 @@
 %endif
 
 Name:           perl-Alien-Build
-Version:        2.26
-Release:        2%{?dist}
+Version:        2.33
+Release:        1%{?dist}
 Summary:        Build external dependencies for use in CPAN
 # lib/Alien/Build/Plugin/Test/Mock.pm contains Base64-encoded files for tests
 # (a bash script, C source file, a gzipped tar archive, Mach-O 64-bit x86_64
@@ -18,15 +18,16 @@ URL:            https://metacpan.org/release/Alien-Build
 Source0:        https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/Alien-Build-%{version}.tar.gz
 # Support only the most advanced pkgconfig implementation,
 # the files are deleted in prep section
-Patch0:         Alien-Build-1.96-Remove-redundant-pkgconfig-implementations.patch
+Patch0:         Alien-Build-2.28-Remove-redundant-pkgconfig-implementations.patch
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  make
 # Makefile.PL executes ./inc/probebad.pl that executes XS checks
 BuildRequires:  gcc
 BuildRequires:  perl-devel
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
-BuildRequires:  perl(:VERSION) >= 5.8.1
+BuildRequires:  perl(:VERSION) >= 5.8.4
 BuildRequires:  perl(Config)
 BuildRequires:  perl(ExtUtils::CBuilder)
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
@@ -37,8 +38,6 @@ BuildRequires:  perl(File::Which) >= 1.10
 BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
 # Run-time:
-# Alien::Build::Plugin::Build::Copy executes cp
-BuildRequires:  coreutils
 %if !%{defined perl_bootstrap}
 # t/alien_build_plugin_build_cmake.t executes gcc via cmake (bug #923024)
 # Build cycle: perl-Alien-cmake3 → perl-Alien-Build
@@ -65,7 +64,7 @@ BuildRequires:  perl(File::chdir)
 BuildRequires:  perl(File::Copy)
 BuildRequires:  perl(File::Find)
 BuildRequires:  perl(JSON::PP)
-# List::Util 1.33 not used at tests
+BuildRequires:  perl(List::Util) >= 1.33
 BuildRequires:  perl(overload)
 BuildRequires:  perl(Path::Tiny) >= 0.077
 # Alien::Build::Plugin::PkgConfig::Negotiate finds a pkgconfig implementation
@@ -265,6 +264,24 @@ make test
 %{_mandir}/man3/Alien::Build::Plugin::Decode::Mojo.3pm.*
 
 %changelog
+* Mon Sep 21 2020 Petr Pisar <ppisar@redhat.com> - 2.33-1
+- 2.33 bump
+
+* Mon Sep 14 2020 Petr Pisar <ppisar@redhat.com> - 2.32-1
+- 2.32 bump
+
+* Tue Aug 11 2020 Petr Pisar <ppisar@redhat.com> - 2.29-1
+- 2.29 bump
+
+* Wed Aug 05 2020 Petr Pisar <ppisar@redhat.com> - 2.28-1
+- 2.28 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.26-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.26-3
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.26-2
 - Perl 5.32 rebuild
 

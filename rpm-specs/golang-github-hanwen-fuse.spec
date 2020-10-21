@@ -3,9 +3,14 @@
 
 # https://github.com/hanwen/go-fuse
 %global goipath         github.com/hanwen/go-fuse
-%global commit          161a164844568ebf4bfaa68c90ba3a9f2914dda4
+Version:                2.0.3
 
 %gometa
+
+%global godevelheader %{expand:
+Requires:        fuse-devel}
+
+%global goaltipaths     github.com/hanwen/go-fuse/v2
 
 %global common_description %{expand:
 FUSE bindings for Go.}
@@ -14,7 +19,6 @@ FUSE bindings for Go.}
 %global godocs     README.md
 
 Name:           %{goname}
-Version:        1.0.1
 Release:        1%{?dist}
 Summary:        FUSE bindings for Go
 
@@ -26,16 +30,22 @@ Source0:        %{gosource}
 BuildRequires:  golang(golang.org/x/sys/unix)
 BuildRequires:  fuse-devel
 
+%if %{with check}
+# Tests
+BuildRequires:  golang(github.com/kylelemons/godebug/pretty)
+BuildRequires:  golang(golang.org/x/sync/errgroup)
+%endif
+
 %description
 %{common_description}
 
-%godevelpkg
+%gopkg
 
 %prep
 %goprep
 
 %install
-%godevelinstall
+%gopkginstall
 
 %if %{with check}
 %check
@@ -45,6 +55,9 @@ BuildRequires:  fuse-devel
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 13:51:47 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.0.3-1
+- Update to 2.0.3
+
 * Thu May 21 2020 Brian (bex) Exelbierd <bex@pobox.com> - 1.0.1-0.20190319git161a164
 - Upgrade to final 1.0 series commit - no official release
 

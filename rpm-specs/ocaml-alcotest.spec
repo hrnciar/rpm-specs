@@ -11,8 +11,8 @@
 %global srcname alcotest
 
 Name:           ocaml-%{srcname}
-Version:        1.1.0
-Release:        3%{?dist}
+Version:        1.2.3
+Release:        1%{?dist}
 Summary:        Lightweight and colorful test framework for OCaml
 
 License:        ISC
@@ -28,9 +28,10 @@ BuildRequires:  ocaml-astring-devel
 BuildRequires:  ocaml-cmdliner-devel
 BuildRequires:  ocaml-dune >= 2.0
 BuildRequires:  ocaml-findlib
-BuildRequires:  ocaml-fmt-devel >= 0.8.6
+BuildRequires:  ocaml-fmt-devel >= 0.8.7
 BuildRequires:  ocaml-re-devel
 BuildRequires:  ocaml-uuidm-devel
+BuildRequires:  ocaml-uutf-devel
 
 %description
 Alcotest is a lightweight and colorful test framework.
@@ -51,6 +52,7 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       ocaml-cmdliner-devel%{?_isa}
 Requires:       ocaml-fmt-devel%{?_isa}
 Requires:       ocaml-re-devel%{?_isa}
+Requires:       ocaml-uuidm-devel%{?_isa}
 
 %description    devel
 The %{name}-devel package contains libraries and signature files for
@@ -81,7 +83,7 @@ find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod a+x {} \+
 %endif
 
 %check
-dune runtest -p alcotest
+dune runtest -j 1 -p alcotest
 
 %files
 %doc CHANGES.md README.md
@@ -90,8 +92,11 @@ dune runtest -p alcotest
 %{_libdir}/ocaml/%{srcname}/META
 %{_libdir}/ocaml/%{srcname}/%{srcname}*.cma
 %{_libdir}/ocaml/%{srcname}/%{srcname}*.cmi
+%{_libdir}/ocaml/%{srcname}/engine/%{srcname}_engine*.cma
+%{_libdir}/ocaml/%{srcname}/engine/%{srcname}_engine*.cmi
 %ifarch %{ocaml_native_compiler}
 %{_libdir}/ocaml/%{srcname}/%{srcname}*.cmxs
+%{_libdir}/ocaml/%{srcname}/engine/%{srcname}_engine*.cmxs
 %endif
 
 %files devel
@@ -101,12 +106,43 @@ dune runtest -p alcotest
 %{_libdir}/ocaml/%{srcname}/%{srcname}*.a
 %{_libdir}/ocaml/%{srcname}/%{srcname}*.cmx
 %{_libdir}/ocaml/%{srcname}/%{srcname}*.cmxa
+%{_libdir}/ocaml/%{srcname}/engine/%{srcname}_engine*.a
+%{_libdir}/ocaml/%{srcname}/engine/%{srcname}_engine*.cmx
+%{_libdir}/ocaml/%{srcname}/engine/%{srcname}_engine*.cmxa
 %endif
 %{_libdir}/ocaml/%{srcname}/%{srcname}*.cmt
 %{_libdir}/ocaml/%{srcname}/%{srcname}*.cmti
 %{_libdir}/ocaml/%{srcname}/*.mli
+%{_libdir}/ocaml/%{srcname}/engine/%{srcname}_engine*.cmt
+%{_libdir}/ocaml/%{srcname}/engine/%{srcname}_engine*.cmti
+%{_libdir}/ocaml/%{srcname}/engine/*.mli
 
 %changelog
+* Sun Sep 13 2020 Dan Čermák <dan.cermak@cgc-instruments.com> - 1.2.3-1
+- New upstream release 1.2.3 (rhbz#1876739)
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.2.2-2
+- OCaml 4.11.1 rebuild
+
+* Wed Aug 26 2020 Dan Čermák <dan.cermak@cgc-instruments.com> - 1.2.2-1
+- New upstream release 1.2.2 (rhbz#1872839)
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.2.1-4
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Dan Čermák <dan.cermak@cgc-instruments.com> - 1.2.1-1
+- New upstream release 1.2.1 (rhbz#1856364)
+
+* Fri Jun 19 2020 Jerry James <loganjerry@gmail.com> - 1.1.0-4
+- Rebuild for ocaml-astring 0.8.4
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 1.1.0-3
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

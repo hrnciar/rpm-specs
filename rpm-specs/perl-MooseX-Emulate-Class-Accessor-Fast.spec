@@ -1,6 +1,6 @@
 Name:       perl-MooseX-Emulate-Class-Accessor-Fast
 Version:    0.009032
-Release:    6%{?dist}
+Release:    7%{?dist}
 # lib/MooseX/Adopt/Class/Accessor/Fast.pm -> GPL+ or Artistic
 # lib/MooseX/Emulate/Class/Accessor/Fast.pm -> GPL+ or Artistic
 License:    GPL+ or Artistic
@@ -69,6 +69,9 @@ make test
 %{_mandir}/man3/Moose*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.009032-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.009032-6
 - Perl 5.32 rebuild
 

@@ -1,6 +1,9 @@
+# force out-of-tree build for spec compatibility with older releases
+%undefine __cmake_in_source_build
+
 Name:           gcompris-qt
 Version:        0.97
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        Educational software suite for children aged 2 to 10
 
 License:        GPLv3+
@@ -65,20 +68,14 @@ More than 100 activities are available.
 
 
 %build
-mkdir build
-pushd build
 # qml-box2d in not available in Fedora
 %cmake_kf5 \
-  -DQML_BOX2D_MODULE=disabled \
-  ..
-%make_build
-popd
+  -DQML_BOX2D_MODULE=disabled
+%cmake_build
 
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 
 # Validate desktop file
 desktop-file-validate \
@@ -106,6 +103,16 @@ appstream-util validate-relax --nonet %{buildroot}%{_kf5_metainfodir}/org.kde.gc
 
 
 %changelog
+* Thu Aug 06 2020 Andrea Musuruane <musuruan@gmail.com> - 0.97-6
+- Fixed FTBFS for F33 (BZ #1863600)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.97-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.97-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 09 2020 Andrea Musuruane <musuruan@gmail.com> - 0.97-3
 - Added missing qt5-qtsvg dependency
 

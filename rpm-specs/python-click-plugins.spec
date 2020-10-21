@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        1.1.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Click extension to register CLI commands via setuptools
 %global _description \
 An extension module for click to register external CLI commands via setuptools \
@@ -23,8 +23,9 @@ Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-click >= 4.0
-BuildRequires:  python3-pytest
+BuildRequires:  python3dist(setuptools)
+BuildRequires:  python3dist(click) >= 4.0
+BuildRequires:  python3dist(pytest)
 
 %description -n python3-%{srcname} %{_description}
 
@@ -43,8 +44,7 @@ BuildRequires:  python3-pytest
 
 %check
 export LANG=C.UTF-8
-PYTHONPATH="%{buildroot}%{python3_sitelib}" \
-    py.test-%{python3_version} -ra
+%{pytest} -ra
 
 
 %files -n python3-%{srcname}
@@ -55,6 +55,9 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}" \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.1-6
 - Rebuilt for Python 3.9
 

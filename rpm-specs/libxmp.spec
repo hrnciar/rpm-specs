@@ -1,6 +1,6 @@
 Name: libxmp
 Version: 4.4.1
-Release: 10%{?dist}
+Release: 12%{?dist}
 Summary: A multi-format module playback library
 Source0: https://downloads.sourceforge.net/project/xmp/libxmp/%{version}/libxmp-%{version}.tar.gz
 BuildRequires: gcc
@@ -37,6 +37,12 @@ for file in docs/Changelog ; do
 done
 
 %build
+# This package fails to build with LTO due to undefined symbols.  LTO
+# was disabled in OpenSuSE as well, but with no real explanation why
+# beyond the undefined symbols.  It really shold be investigated further.
+# Disable LTO
+%define _lto_cflags %{nil}
+
 %configure
 make V=1 %{?_smp_mflags}
 
@@ -61,6 +67,12 @@ make check %{?_smp_mflags}
 %{_libdir}/libxmp.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> - 4.4.1-11
+- Disable LTO
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

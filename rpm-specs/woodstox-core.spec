@@ -2,8 +2,8 @@
 
 Name:           woodstox-core
 Summary:        High-performance XML processor
-Version:        6.2.1
-Release:        3%{?dist}
+Version:        6.2.3
+Release:        1%{?dist}
 License:        ASL 2.0 or LGPLv2+ or BSD
 
 URL:            https://github.com/FasterXML/woodstox
@@ -83,6 +83,18 @@ rm -rf src/test/java/wstxtest/msv src/test/java/wstxtest/vstream/TestRelaxNG.jav
 %license LICENSE
 
 %changelog
+* Sat Oct 17 08:41:11 +03 2020 ElXreno <elxreno@gmail.com> - 6.2.3-1
+- Update to version 6.2.3
+
+* Wed Oct 14 13:48:17 +03 2020 ElXreno <elxreno@gmail.com> - 6.2.2-1
+- Update to version 6.2.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 6.2.1-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jun 23 2020 ElXreno <elxreno@gmail.com> - 6.2.1-3
 - Rebuild
 

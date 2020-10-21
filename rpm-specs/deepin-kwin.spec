@@ -2,7 +2,7 @@
 
 Name:           deepin-kwin
 Version:        0.1.0
-Release:        7%{?dist}
+Release:        10%{?dist}
 Summary:        KWin configuration for Deepin Desktop Environment
 License:        GPLv3+
 URL:            https://github.com/linuxdeepin/%{repo}
@@ -11,6 +11,8 @@ Source0:        %{url}/archive/%{version}/%{repo}-%{version}.tar.gz
 # Fix runtime issue with kwin 5.17
 Patch0:         kwin-5.17.patch
 Patch1:         https://github.com/linuxdeepin/dde-kwin/pull/106.patch
+Patch2:         deepin-kwin-fix-build-qt-5.15.patch
+
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
 BuildRequires:  kwin-devel
@@ -57,6 +59,8 @@ Header files and libraries for %{name}.
 %setup -q -n %{repo}-%{version}
 %patch0 -p2
 %patch1 -p1
+%patch2 -p1
+
 sed -i 's:/lib:/%{_lib}:' plugins/kwin-xcb/lib/CMakeLists.txt
 sed -i 's:/usr/lib:%{_libdir}:' plugins/kwin-xcb/plugin/main.cpp
 sed -i 's:/usr/lib:%{_libexecdir}:' deepin-wm-dbus/deepinwmfaker.cpp
@@ -64,11 +68,11 @@ sed -i 's:/usr/lib:%{_libexecdir}:' deepin-wm-dbus/deepinwmfaker.cpp
 %build
 # help find (and prefer) qt5 utilities, e.g. qmake, lrelease
 export PATH=%{_qt5_bindir}:$PATH
-%cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} -DCMAKE_BUILD_TYPE=Release -DKWIN_VERSION=$(rpm -q --qf '%%{version}' kwin-devel) .
-%make_build
+%cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} -DCMAKE_BUILD_TYPE=Release -DKWIN_VERSION=$(rpm -q --qf '%%{version}' kwin-devel)
+%cmake_build
 
 %install
-%make_install INSTALL_ROOT=%{buildroot}
+%cmake_install
 chmod 755 %{buildroot}%{_bindir}/kwin_no_scale
 
 %ldconfig_scriptlets
@@ -96,6 +100,19 @@ chmod 755 %{buildroot}%{_bindir}/kwin_no_scale
 %{_includedir}/%{repo}
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 0.1.0-10
+- rebuild (qt5)
+
+* Fri Aug  7 2020 Robin Lee <cheeselee@fedoraproject.org> - 0.1.0-9
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.1.0-7
 - rebuild (qt5)
 

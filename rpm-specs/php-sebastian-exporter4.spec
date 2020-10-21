@@ -6,8 +6,10 @@
 #
 # Please, preserve the changelog entries
 #
-%global bootstrap    0
-%global gh_commit    d12fbca85da932d01d941b59e4b71a0d559db091
+
+%bcond_without       tests
+
+%global gh_commit    d89cc98761b8cb5a1a235a6b703ae50d34080e65
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sebastianbergmann
 %global gh_project   exporter
@@ -21,16 +23,11 @@
 %global php_home     %{_datadir}/php
 %global pear_name    Exporter
 %global pear_channel pear.phpunit.de
-%if %{bootstrap}
-%global with_tests   %{?_with_tests:1}%{!?_with_tests:0}
-%else
-%global with_tests   %{?_without_tests:0}%{!?_without_tests:1}
-%endif
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
-Version:        4.0.1
+Version:        4.0.3
 Release:        1%{?dist}
-Summary:        Export PHP variables for visualization
+Summary:        Export PHP variables for visualization version %{major}
 
 License:        BSD
 URL:            https://github.com/%{gh_owner}/%{gh_project}
@@ -40,17 +37,17 @@ Source1:        makesrc.sh
 BuildArch:      noarch
 BuildRequires:  php(language) >= 7.3
 BuildRequires:  php-fedora-autoloader-devel >= 1.0.0
-%if %{with_tests}
+%if %{with tests}
 # from composer.json, "require-dev": {
-#        "phpunit/phpunit": "^9.0",
+#        "phpunit/phpunit": "^9.3",
 #        "ext-mbstring": "*"
-BuildRequires:  phpunit9
+BuildRequires:  phpunit9 >= 9.3
 BuildRequires:  php-mbstring
 BuildRequires:  (php-composer(%{pk_vendor}/recursion-context) >= 4.0 with php-composer(%{pk_vendor}/recursion-context) < 5)
 %endif
 
 # from composer.json
-#        "php": "^7.3",
+#        "php": ">=7.3",
 #        "sebastian/recursion-context": "^4.0"
 Requires:       php(language) >= 7.3
 Requires:       (php-composer(%{pk_vendor}/recursion-context) >= 4.0 with php-composer(%{pk_vendor}/recursion-context) < 5)
@@ -87,7 +84,7 @@ mkdir -p   %{buildroot}%{php_home}/%{ns_vendor}
 cp -pr src %{buildroot}%{php_home}/%{ns_vendor}/%{ns_project}%{major}
 
 
-%if %{with_tests}
+%if %{with tests}
 %check
 mkdir vendor
 touch vendor/autoload.php
@@ -112,6 +109,15 @@ exit $ret
 
 
 %changelog
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 4.0.3-1
+- update to 4.0.3 (no change)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Remi Collet <remi@remirepo.net> - 4.0.2-1
+- update to 4.0.2
+
 * Tue Jun 16 2020 Remi Collet <remi@remirepo.net> - 4.0.1-1
 - update to 4.0.1
 - sources from git snapshot

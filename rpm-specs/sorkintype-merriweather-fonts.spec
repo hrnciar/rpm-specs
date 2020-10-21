@@ -4,7 +4,7 @@
 %forgemeta
 
 Version: 2.008
-Release: 2%{?dist}
+Release: 3%{?dist}
 URL:     %{forgeurl}
 
 %global foundry           SorkinType
@@ -59,6 +59,9 @@ This package provides optional documentation files shipped with
 %doc documents/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.008-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 22 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 2.008-2
 ✅ Rebuild with fonts-rpm-macros 2.0.2

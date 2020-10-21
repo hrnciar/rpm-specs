@@ -14,7 +14,7 @@ callbacks” useful to integrate Psycopg with different co-routine libraries.
 
 Name:		python-%{pypi_name}
 Version:	1.0.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Psycopg2 integration with co-routine libraries
 
 License:	BSD
@@ -63,6 +63,9 @@ Requires:	python3-psycopg2
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.2-2
 - Rebuilt for Python 3.9
 

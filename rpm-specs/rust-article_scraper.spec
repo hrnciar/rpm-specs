@@ -6,8 +6,8 @@
 %global crate article_scraper
 
 Name:           rust-%{crate}
-Version:        1.1.2
-Release:        1%{?dist}
+Version:        1.1.4
+Release:        3%{?dist}
 Summary:        Scrap article contents from the web
 
 # Upstream license specification: GPL-3.0-or-later
@@ -16,6 +16,7 @@ URL:            https://crates.io/crates/article_scraper
 Source:         %{crates_source}
 # Initial patched metadata
 # * Fixup deps, https://pagure.io/fedora-rust/rust2rpm/issue/109
+# * Bump to parking_lot 0.11, https://gitlab.com/news-flash/article_scraper/-/merge_requests/6
 Patch0:         article_scraper-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -75,5 +76,14 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Fri Sep 11 2020 Josh Stone <jistone@redhat.com> - 1.1.4-3
+- Bump to parking_lot 0.11
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 19 2020 Josh Stone <jistone@redhat.com> - 1.1.4-1
+- Update to 1.1.4
+
 * Sun Jun 07 11:47:32 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 1.1.2-1
 - Initial package

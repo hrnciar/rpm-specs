@@ -1,8 +1,10 @@
 %{?python_enable_dependency_generator}
 
+%bcond_without  docs
+
 Name:           gcovr
 Version:        4.2
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        A code coverage report generator using GNU gcov
 
 License:        BSD
@@ -11,11 +13,13 @@ Source0:        https://github.com/gcovr/%{name}/archive/%{version}/%{name}-%{ve
 
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
+%if %{with docs}
 BuildRequires:  %{py3_dist lxml}
 BuildRequires:  %{py3_dist Jinja2}
 BuildRequires:  %{py3_dist Sphinx}
 BuildRequires:  %{py3_dist sphinx_rtd_theme}
 BuildRequires:  %{py3_dist sphinxcontrib-autoprogram} >= 0.1.5
+%endif
 
 # for gcov
 Requires:       gcc
@@ -34,11 +38,13 @@ human-readable summary reports, machine readable XML reports
 as a command-line alternative to the lcov utility, which runs gcov and
 generates an HTML-formatted report.
 
+%if %{with docs}
 %package        doc
 Summary:        Documentation of gcovr
 
 %description    doc
 Documentation of gcovr.
+%endif
 
 %prep
 %autosetup
@@ -50,6 +56,8 @@ Documentation of gcovr.
 
 %install
 %py3_install
+
+%if %{with docs}
 # the documentation can only be build **after** gcovr is installed
 # => need to set PATH, PYTHONPATH so that the installed binary & package are
 # found
@@ -71,6 +79,7 @@ make html
 rm build/html/.buildinfo
 
 popd
+%endif
 
 
 %files
@@ -78,13 +87,23 @@ popd
 %doc README.rst CHANGELOG.rst
 %{_bindir}/gcovr
 %{python3_sitelib}/gcovr*
+%if %{with docs}
 %{_mandir}/man1/%{name}.1*
+%endif
 
+%if %{with docs}
 %files doc
 %doc doc/build/html/*
+%endif
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Tommi Rantala <tommi.t.rantala@nokia.com> - 4.2-3
+- Add bcond to allow building without docs
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.2-2
 - Rebuilt for Python 3.9
 

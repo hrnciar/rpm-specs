@@ -20,7 +20,7 @@ TinyDir wraps dirent for POSIX and FindFirstFile for Windows.
 
 Name:		tinydir
 Version:	1.2.3
-Release:	8%{?git_rel}%{?dist}
+Release:	9%{?git_rel}%{?dist}
 Summary:	%{common_sum}
 
 License:	BSD
@@ -112,6 +112,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

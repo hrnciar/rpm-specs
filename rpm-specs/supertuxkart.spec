@@ -1,10 +1,11 @@
+%global __cmake_in_source_build 1
 #global rctag rc1
 
 %global __global_ldflags %(echo "%{__global_ldflags} -lX11")
 
 Name:           supertuxkart
-Version:        1.1
-Release:        3%{?rctag:.%{rctag}}%{?dist}
+Version:        1.2
+Release:        1%{?rctag:.%{rctag}}%{?dist}
 Summary:        Kids 3D go-kart racing game featuring Tux
 # Font licensing
 # [unbundled] GNU FreeFont - GPLv3
@@ -13,8 +14,8 @@ Summary:        Kids 3D go-kart racing game featuring Tux
 # [unbundled] Cantarell - SIL 1.1 (OFL)
 # SigmarOne - SIL 1.1 (OFL)
 License:        GPLv2+ and GPLv3 and CC-BY-SA and OFL and ASL 2.0
-URL:            http://supertuxkart.sourceforge.net/
-Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}%{?rctag:-%{rctag}}-src.tar.xz
+URL:            https://supertuxkart.sourceforge.net/
+Source0:        https://downloads.sourceforge.net/%{name}/SuperTuxKart-%{version}%{?rctag:-%{rctag}}-src.tar.xz
 Source1:        %{name}.6
 Source2:        supertuxkart-0.7.3-license-clarification.txt
 
@@ -39,6 +40,7 @@ BuildRequires:  mesa-libEGL-devel
 BuildRequires:  mesa-libGLES-devel
 BuildRequires:  wayland-devel
 BuildRequires:  harfbuzz-devel
+BuildRequires:  SDL2-devel
 Requires:       hicolor-icon-theme opengl-games-utils
 Requires:       %{name}-data = %{version}
 
@@ -63,7 +65,7 @@ BuildArch:      noarch
 This package contains the data files for SuperTuxKart.
 
 %prep
-%autosetup -n %{name}-%{version}%{?rctag:-%{rctag}}-src -p1
+%autosetup -n SuperTuxKart-%{version}%{?rctag:-%{rctag}}-src -p0
 cp -p %{SOURCE2} .
 # Delete bundled libs
 #rm -rf lib/enet lib/wiiuse lib/angelscript lib/glew
@@ -80,6 +82,9 @@ popd
 pushd build
   %make_install
 popd
+
+# Remove a too large icon that goes outside of hicolor-icon-theme spec and breaks flatpak builds
+rm %{buildroot}%{_datadir}/icons/hicolor/1024x1024/apps/supertuxkart.png
 
 ln -s opengl-game-wrapper.sh %{buildroot}%{_bindir}/%{name}-wrapper
 ln -sf %{_fontbasedir}/abattis-cantarell/Cantarell-Regular.otf %{buildroot}%{_datadir}/%{name}/Cantarell-Regular.otf
@@ -110,6 +115,16 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*%{name}.desktop
 %{_datadir}/%{name}/
 
 %changelog
+* Fri Aug 28 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.2-1
+- 1.2
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-3.2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-3.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 19 2020 Kalev Lember <klember@redhat.com> - 1.1-3
 - Re-enable GLES support
 

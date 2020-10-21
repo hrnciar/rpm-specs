@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        4.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Django app providing database and form fields for pytz timezone objects
 
 License:        BSD
@@ -43,6 +43,9 @@ rm -vr *.egg-info
 %{python3_sitelib}/timezone_field/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.0-2
 - Rebuilt for Python 3.9
 

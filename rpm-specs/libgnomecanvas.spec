@@ -3,7 +3,7 @@
 Summary: GnomeCanvas widget
 Name: libgnomecanvas
 Version: 2.30.3
-Release: 19%{?dist}
+Release: 20%{?dist}
 URL: http://www.gnome.org/
 Source0: http://download.gnome.org/sources/libgnomecanvas/2.30/%{name}-%{version}.tar.bz2
 License: LGPLv2+
@@ -60,6 +60,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %{_datadir}/gtk-doc/html/libgnomecanvas
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.30.3-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.30.3-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

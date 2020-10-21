@@ -3,7 +3,7 @@
 
 Name:           libcommuni
 Version:        3.5.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Cross-platform IRC framework written with Qt
 
 License:        LGPLv2+
@@ -61,6 +61,9 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} %make_build check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

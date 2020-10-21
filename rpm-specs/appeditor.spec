@@ -3,7 +3,7 @@
 Name:           appeditor
 Summary:        Edit application menu
 Version:        1.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        LGPLv2+
 
 URL:            https://github.com/donadigo/%{name}
@@ -67,6 +67,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 17 2020 Fabio Valentini <decathorpe@gmail.com> - 1.1.1-1
 - Update to version 1.1.1.
 

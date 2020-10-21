@@ -1,7 +1,7 @@
 Summary: A general chemistry lab experiment simulator
 Name: genchemlab
 Version: 1.0
-Release: 30%{?dist}
+Release: 31%{?dist}
 License: GPLv2+
 Source0: http://kent.dl.sourceforge.net/sourceforge/%{name}/%{name}-%{version}.tgz
 URL: http://genchemlab.sourceforge.net/
@@ -41,6 +41,9 @@ desktop-file-install \
 %{_datadir}/applications/genchemlab.desktop
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

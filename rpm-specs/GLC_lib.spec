@@ -1,6 +1,6 @@
 Name:           GLC_lib
 Version:        2.5.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        C++ class library for OpenGL application based on Qt 4
 
 License:        LGPLv3+
@@ -63,6 +63,9 @@ rm -rf src/3rdparty
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

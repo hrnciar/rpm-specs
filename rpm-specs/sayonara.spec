@@ -1,6 +1,8 @@
+%global __cmake_in_source_build 1
+
 Name:           sayonara
 Version:        1.6.0
-Release:        0.3.beta6%{?dist}
+Release:        0.6.beta6%{?dist}
 #Release:        1%%{?dist}
 Summary:        A lightweight Qt Audio player
 
@@ -42,14 +44,13 @@ that use %{name}.
 rm -rf .gitignore .gitlab-ci.yml debian
 # use system taglib
 rm -rf src/3rdParty/Taglib
-sed -i -e 's|1.6.0-beta3|1.6.0-beta4|' CMakeLists.txt
 
 %build
 %cmake . -DCMAKE_BUILD_TYPE="RelWithDebInfo" \
          -DWITH_DOC=ON                       \
          -DWITH_SYSTEM_TAGLIB=ON             \
          -DCMAKE_INSTALL_PREFIX=%{_prefix}
-%make_build
+%cmake_build
 
 # build docs
 # update Doxyfile
@@ -58,7 +59,7 @@ doxygen -u docs/doxygen.cfg
 doxygen docs/doxygen.cfg
 
 %install
-%make_install
+%cmake_install
 
 # remove menu dir, because it's not necessary
 rm -rf %{buildroot}/%{_datadir}/menu
@@ -90,6 +91,17 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/doc/sayonara/doxygen/html
 
 %changelog
+* Tue Aug 04 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.6.0-0.6.beta6
+- Use %%cmake_build and %%cmake_install macros instead of %%make_build and %%make_install
+- Add "%%global __cmake_in_source_build 1" due sayonara doesn't support out-of-src tree builds
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-0.5.beta6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-0.4.beta6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.6.0-0.3.beta6
 - Update to 1.6.0-0.3.beta6
 

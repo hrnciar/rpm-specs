@@ -1,6 +1,6 @@
 Name: python-mako
-Version: 1.1.1
-Release: 2%{?dist}
+Version: 1.1.3
+Release: 1%{?dist}
 BuildArch: noarch
 
 # Mostly MIT, but _ast_util.py is Python licensed.
@@ -91,6 +91,9 @@ pytest-3
 
 
 %changelog
+* Fri Jun 26 2020 Charalampos Stratakis <cstratak@redhat.com> - 1.1.3-1
+- Update to 1.1.3 (#1808872)
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.1-2
 - Rebuilt for Python 3.9
 

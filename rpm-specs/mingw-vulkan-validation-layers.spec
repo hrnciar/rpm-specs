@@ -7,7 +7,7 @@
 #global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:          mingw-%{pkgname}
-Version:       1.2.135.0
+Version:       1.2.148.0
 Release:       1%{?commit:.git%{shortcommit}}%{?dist}
 Summary:       MinGW Windows %{pkgname} library
 
@@ -31,12 +31,14 @@ BuildRequires: python3
 BuildRequires: mingw32-filesystem >= 95
 BuildRequires: mingw32-gcc-c++
 BuildRequires: mingw32-glslang
+BuildRequires: mingw32-spirv-headers
 BuildRequires: mingw32-spirv-tools
 BuildRequires: mingw32-vulkan-headers = %{version}
 
 BuildRequires: mingw64-filesystem >= 95
 BuildRequires: mingw64-gcc-c++
 BuildRequires: mingw64-glslang
+BuildRequires: mingw64-spirv-headers
 BuildRequires: mingw64-spirv-tools
 BuildRequires: mingw64-vulkan-headers = %{version}
 
@@ -71,14 +73,14 @@ MinGW Windows %{pkgname} library.
 
 
 %build
-MINGW32_CMAKE_ARGS="-DGLSLANG_INSTALL_DIR=%{mingw32_prefix} -DCMAKE_INSTALL_INCLUDEDIR=%{mingw32_includedir}/vulkan" \
-MINGW64_CMAKE_ARGS="-DGLSLANG_INSTALL_DIR=%{mingw64_prefix} -DCMAKE_INSTALL_INCLUDEDIR=%{mingw64_includedir}/vulkan"\
+MINGW32_CMAKE_ARGS="-DGLSLANG_INSTALL_DIR=%{mingw32_prefix} -DSPIRV_HEADERS_INSTALL_DIR=%{mingw32_includedir}/spirv -DCMAKE_INSTALL_INCLUDEDIR=%{mingw32_includedir}/vulkan" \
+MINGW64_CMAKE_ARGS="-DGLSLANG_INSTALL_DIR=%{mingw64_prefix} -DSPIRV_HEADERS_INSTALL_DIR=%{mingw64_includedir}/spirv -DCMAKE_INSTALL_INCLUDEDIR=%{mingw64_includedir}/vulkan"\
 %mingw_cmake
-%mingw_make %{?_smp_mflags}
+%mingw_make_build
 
 
 %install
-%mingw_make install DESTDIR=%{buildroot}
+%mingw_make_install
 
 
 %files -n mingw32-%{pkgname}
@@ -100,6 +102,12 @@ MINGW64_CMAKE_ARGS="-DGLSLANG_INSTALL_DIR=%{mingw64_prefix} -DCMAKE_INSTALL_INCL
 
 
 %changelog
+* Mon Aug 10 2020 Sandro Mani <manisandro@gmail.com> - 1.2.148.0-1
+- Update to 1.2.148.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.135.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Sandro Mani <manisandro@gmail.com> - 1.2.135.0-1
 - Update to 1.2.135.0
 

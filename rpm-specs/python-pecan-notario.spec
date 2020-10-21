@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.0.3
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        JSON validation for Pecan with Notario
 License:        BSD
 URL:            https://github.com/alfredodeza/pecan-notario
@@ -51,6 +51,9 @@ py.test-%{python3_version} -v pecan_notario/tests
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.3-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.0.3-19
 - Rebuilt for Python 3.9
 

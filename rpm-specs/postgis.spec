@@ -18,7 +18,7 @@
 %global		majorversion 3.0
 %global		soversion 3
 %global		prevmajorversion 2.5
-%global		prevversion %{prevmajorversion}.4
+%global		prevversion %{prevmajorversion}.5
 %global		so_files	postgis postgis_topology rtpostgis address_standardizer
 %global		configure_opts	--disable-rpath --enable-raster
 
@@ -28,14 +28,18 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		postgis
-Version:	%majorversion.1
-Release:	7%{?dist}
+Version:	%majorversion.2
+Release:	2%{?dist}
 License:	GPLv2+
 Source0:	http://download.osgeo.org/%{name}/source/%{name}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{name}/docs/%{name}-%{version}.pdf
 Source3:	http://download.osgeo.org/%{name}/source/%{name}-%{prevversion}.tar.gz
 Source4:	filter-requires-perl-Pg.sh
 URL:		http://www.postgis.net
+
+# From debian
+# This should increase chances of tests passing even on busy or slow systems.
+Patch0:         relax-test-timing-constraints.patch
 
 BuildRequires:	perl-generators
 BuildRequires:	postgresql-server-devel >= %{pg_version_minimum}
@@ -123,7 +127,7 @@ necessary for correct dump of schema from previous version of PostgreSQL.
 
 
 %prep
-%setup -q -n %{name}-%{version} -a 3
+%autosetup -p1 -n %{name}-%{version} -a 3
 
 %if %upgrade
 (
@@ -344,6 +348,22 @@ fi
 
 
 %changelog
+* Thu Oct 08 2020 Jeff Law <law@redhat.com> - 3.0.2-2
+- Re-enable LTO
+
+* Mon Aug 17 2020 Sandro Mani <manisandro@gmail.com> - 3.0.2-1
+- Update to 3.0.2
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 3.0.1-8
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu May 21 2020 Sandro Mani <manisandro@gmail.com> - 3.0.1-7
 - Rebuild (gdal)
 

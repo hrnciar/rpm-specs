@@ -3,8 +3,7 @@
 
 # https://github.com/adrianmo/go-nmea
 %global goipath         github.com/adrianmo/go-nmea
-Version:                1.1.0
-%global commit          15313add3c03abad957a328bc1ebad2517f1d66d
+Version:                1.2.0
 
 %gometa
 
@@ -15,7 +14,7 @@ A NMEA parser library in pure Go.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        NMEA parser library
 
 License:        MIT
@@ -46,6 +45,11 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 08:00:34 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.2.0-1
+- Update to 1.2.0
+
 * Sat Apr 04 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.1.0-1.20200404git15313ad
 - Initial package
-

@@ -1,7 +1,7 @@
 Summary:        Generic RADIUS proxy with RadSec support
 Name:           radsecproxy
-Version:        1.8.1
-Release:        3%{?dist}
+Version:        1.8.2
+Release:        2%{?dist}
 License:        BSD
 URL:            https://radsecproxy.github.io/
 Source0:        https://github.com/radsecproxy/radsecproxy/releases/download/%{version}/%{name}-%{version}.tar.gz
@@ -12,18 +12,19 @@ Source4:        %{name}.service
 Source5:        %{name}.logrotate
 Source6:        %{name}.tmpfilesd
 Patch0:         radsecproxy-1.8.1-paths.patch
-Patch1:         radsecproxy-1.8.1-gcc10.patch
 BuildRequires:  gnupg2
 BuildRequires:  gcc
 BuildRequires:  nettle-devel
+%if 0%{?fedora} || 0%{?rhel} >= 8
 BuildRequires:  openssl-devel
-%if 0%{?fedora}
-BuildRequires:  systemd-rpm-macros
+%else
+BuildRequires:  openssl11-devel
 %endif
-%if 0%{?rhel} > 6
+%if 0%{?fedora} || (0%{?rhel} && 0%{?rhel} > 7)
+BuildRequires:  systemd-rpm-macros
+%else
 BuildRequires:  systemd
 %endif
-%{?systemd_requires}
 Requires(pre):  shadow-utils
 Requires:       logrotate
 
@@ -34,12 +35,19 @@ The aim is for the proxy to have sufficient features to be flexible, while
 at the same time to be small, efficient and easy to configure.
 
 %prep
-gpgv2 --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
+%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
 %setup -q
 %patch0 -p1 -b .paths
-%patch1 -p1 -b .gcc10
 
 %build
+%if 0%{?rhel} == 7
+sed \
+  -e 's|include/openssl/|include/openssl11/openssl/|g' \
+  -e 's|-I$ssldir/include|-I%{_includedir}/openssl11|g' \
+  -e 's|-L$ssldir/lib|-L%{_libdir}/openssl11|g' \
+  -i configure
+%endif
+
 %configure
 %make_build
 
@@ -86,6 +94,15 @@ exit 0
 %dir %attr(0750,%{name},%{name}) %{_localstatedir}/log/%{name}/
 
 %changelog
+* Sat Oct 10 2020 Robert Scheck <robert@fedoraproject.org> 1.8.2-2
+- Build against OpenSSL 1.1 on RHEL 7 (for TLSv1.3 support)
+
+* Fri Aug 07 2020 Robert Scheck <robert@fedoraproject.org> 1.8.2-1
+- Upgrade to 1.8.2 (#1867106)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 02 2020 Robert Scheck <robert@fedoraproject.org> 1.8.1-3
 - Added patch to declare pthread_attr as extern in header file
 

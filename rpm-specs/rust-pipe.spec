@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.3.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Synchronous Read/Write memory pipe
 
 # Upstream license specification: MIT
@@ -107,6 +107,9 @@ which use "unstable-doc-cfg" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 11 2020 Robert Fairley <rfairley@redhat.com> - 0.3.0-2
 - Remove pipe-fix-metadata.diff from git repo
 - Fix dates in changelog

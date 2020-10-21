@@ -1,17 +1,20 @@
 Name:           libsigrokdecode
 Version:        0.5.3
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        Basic API for running protocol decoders
 # Combined GPLv3+ and GPLv2+
 License:        GPLv3+
 URL:            http://www.sigrok.org
 Source0:        %{url}/download/source/%{name}/%{name}-%{version}.tar.gz
+# https://github.com/sigrokproject/libsigrokdecode/pull/45
+Patch0:         %{name}-0.5.3-python39.patch
 
 BuildRequires:  gcc
 BuildRequires:  glib2-devel
 BuildRequires:  python3-devel
 BuildRequires:  doxygen
 BuildRequires:  graphviz
+BuildRequires:  autoconf libtool
 
 %description
 %{name} is a shared library written in C which provides the basic API
@@ -37,7 +40,9 @@ The %{name}-doc package contains documentation for developing software
 using %{name}.
 
 %prep
-%setup -q
+%autosetup -p1
+
+autoreconf -f
 
 # Bytecompile script yet again wants to break our build. Retarded!
 %global _python_bytecompile_errors_terminate_build 0
@@ -72,6 +77,16 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %doc doxy/html-api/
 
 %changelog
+* Tue Aug 04 2020 Dan Horák <dan[at]danny.cz> - 0.5.3-6
+- fix build with Python 3.9
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.3-3
 - Rebuilt for Python 3.9
 

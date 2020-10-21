@@ -1,9 +1,10 @@
+%undefine __cmake_in_source_build
 %global framework kfilemetadata
 
 # Define to 1 to enable ffmpeg extractor
 #global         ffmpeg 1
 
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel}
 %global         catdoc 1
 %global         ebook 1
 %global         poppler 1
@@ -12,7 +13,7 @@
 
 Name:           kf5-%{framework}
 Summary:        A Tier 2 KDE Framework for extracting file metadata
-Version: 5.71.0
+Version: 5.75.0
 Release: 1%{?dist}
 
 # # KDE e.V. may determine that future LGPL versions are accepted
@@ -79,16 +80,12 @@ Requires:       qt5-qtbase-devel
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name
 
@@ -98,7 +95,7 @@ mkdir -p %{buildroot}%{_kf5_plugindir}/kfilemetadata/writers/
 %ldconfig_scriptlets
 
 %files -f %{name}.lang
-%license COPYING.LGPL*
+%license LICENSES/*.txt
 %{_kf5_datadir}/qlogging-categories5/%{framework}*
 %{_kf5_libdir}/libKF5FileMetaData.so.*
 
@@ -118,6 +115,21 @@ mkdir -p %{buildroot}%{_kf5_plugindir}/kfilemetadata/writers/
 
 
 %changelog
+* Wed Oct 14 09:54:03 CDT 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.75.0-1
+- 5.75.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.74.0-1
+- 5.74.0
+
+* Mon Aug 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.73.0-1
+- 5.73.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.72.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-1
+- 5.72.0
+
 * Tue Jun 16 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.71.0-1
 - 5.71.0
 

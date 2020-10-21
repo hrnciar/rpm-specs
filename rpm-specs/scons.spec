@@ -1,27 +1,19 @@
-# SCons 3.0.* does not run under (3.0.0) < Python3 < (3,5,0) or Python < (2,7,0).
-# Epel7 provides Python3.6
-# Fedora provides Python3.7 and Python3.8
+# SCons 4.* works with Python3 >= (3,5,0)
+# Python2 is deprecated.
 
-%if 0%{?rhel} && 0%{?rhel} >= 8
-%global with_python3 1
-%endif
+%bcond_with debug
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%global with_python3 1
-%global with_python2 1
-%endif
+# Package documentation files
+%bcond_without doc
 
-%if 0%{?fedora} && 0%{?fedora} < 32
-%global with_python3 1
-%global with_python2 1
-%endif
+# Install prebuilt documentation
+%bcond_without prebuilt_doc
 
-%if 0%{?fedora} && 0%{?fedora} >= 32
-%global with_python3 1
-%endif
+# Additional EPEL7 builds
+%bcond_with python3_other
 
 Name:      scons
-Version:   3.1.2
+Version:   4.0.1
 Release:   3%{?dist}
 Summary:   An Open Source software construction tool
 License:   MIT
@@ -45,57 +37,34 @@ really changed, not just when the timestamp has been touched. SCons
 supports side-by-side variant builds, and is easily extended with user-
 defined Builder and/or Scanner objects.
 
+%if %{with doc}
 %package doc
 Summary: An Open Source software construction tool
 BuildArch: noarch
+%if %{without prebuilt_doc}
+BuildRequires: python%{python3_pkgversion}-sphinx
+BuildRequires: python%{python3_pkgversion}-sphinx_rtd_theme
+BuildRequires: rst2pdf, fop
+BuildRequires: python3dist(readme-renderer) 
+%endif
 %description doc
-Scons HTML documentation.
-
-%if 0%{?with_python2}
-%package -n     python2-%{name}
-Summary: An Open Source software construction tool
-
-BuildRequires: python2-devel
-%{?python_provide:%python_provide python2-%{name}}
-%if 0%{?rhel} && 0%{?rhel} == 7
-Provides:      scons = 0:%{version}-%{release}
-BuildRequires: python-lxml
-%endif
-%if 0%{?fedora} || 0%{?rhel} > 7
-Provides:      scons-python2 = 0:%{version}-%{release}
-BuildRequires: python2-lxml
+Scons documentation.
 %endif
 
-%description -n python2-%{name}
-SCons is an Open Source software construction tool--that is, a build
-tool; an improved substitute for the classic Make utility; a better way
-to build software. SCons is based on the design which won the Software
-Carpentry build tool design competition in August 2000.
-
-SCons "configuration files" are Python scripts, eliminating the need
-to learn a new build tool syntax. SCons maintains a global view of
-all dependencies in a tree, and can scan source (or other) files for
-implicit dependencies, such as files specified on #include lines. SCons
-uses MD5 signatures to rebuild only when the contents of a file have
-really changed, not just when the timestamp has been touched. SCons
-supports side-by-side variant builds, and is easily extended with user-
-defined Builder and/or Scanner objects.
-%endif
-
-%if 0%{?with_python3}
 %package -n     python%{python3_pkgversion}-%{name}
 Summary: An Open Source software construction tool
-
 BuildRequires: python%{python3_pkgversion}-devel
 BuildRequires: python%{python3_pkgversion}-lxml
-%if 0%{?fedora} || 0%{?rhel} > 7
+BuildRequires: python%{python3_pkgversion}-wheel
+BuildRequires: python%{python3_pkgversion}-setuptools
+BuildRequires: lynx
 Provides:      scons = 0:%{version}-%{release}
-Provides:      scons-python3
-Obsoletes:     scons < 0:5.0.3-3
-%endif
-%if 0%{?rhel}
-Obsoletes:     python34-%{name}
 Provides:      scons-python3 = 0:%{version}-%{release}
+Provides:      SCons = 0:%{version}-%{release}
+%if 0%{?el7}
+Obsoletes:     python34-%{name} < 0:%{version}-%{release}
+Obsoletes:     python2-%{name} < 0:%{version}-%{release}
+Obsoletes:     python-%{name} < 0:%{version}-%{release}
 %endif
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{name}}
 
@@ -113,14 +82,14 @@ uses MD5 signatures to rebuild only when the contents of a file have
 really changed, not just when the timestamp has been touched. SCons
 supports side-by-side variant builds, and is easily extended with user-
 defined Builder and/or Scanner objects.
-%endif
 
-%if 0%{?with_python3_other}
+%if %{with python3_other}
 %package -n python%{python3_other_pkgversion}-%{name}
 Summary: An Open Source software construction tool
 
 BuildRequires: python%{python3_other_pkgversion}-devel
 BuildRequires: python%{python3_other_pkgversion}-lxml
+BuildRequires: python%{python3_other_pkgversion}-setuptools
 Provides:      scons-%{__python3_other} = %{version}-%{release}
 %{?python_provide:%python_provide python%{python3_other_pkgversion}-%{name}}
 
@@ -141,10 +110,14 @@ defined Builder and/or Scanner objects.
 %endif
 
 %prep
-%setup -qc -a 1
-
-# Remove unused doc directories
-rm -rf PDF PS EPUB TEXT
+%if %{with prebuilt_doc}
+%autosetup -n %{name}-%{version} -N
+%setup -n %{name}-%{version} -q -T -D -a 1
+cd ..
+%else
+%autosetup -T -b 0
+cd ..
+%endif
 
 # Convert to UTF-8
 for file in %{name}-%{version}/src/*.txt; do
@@ -153,264 +126,134 @@ for file in %{name}-%{version}/src/*.txt; do
     mv $file.new $file
 done
 
-%if 0%{?with_python3}
-cp -a %{name}-%{version} %{name}-%{version}-py3
-%endif
-%if 0%{?with_python3_other}
+pathfix.py -i %{__python3} -pn %{name}-%{version}/scripts/scons.py
+
+%if %{with python3_other}
 cp -a %{name}-%{version} %{name}-%{version}-py%{python3_other_pkgversion}
-%endif
-%if 0%{?with_python2}
-sed -i 's|/usr/bin/env python|%{__python2}|' %{name}-%{version}/bootstrap.py
-sed -i 's|/usr/bin/env python|%{__python2}|' %{name}-%{version}/src/script/*.py
-%endif
-%if 0%{?with_python3}
-pathfix.py -i %{__python3} -pn %{name}-%{version}-py3/bootstrap.py
-pathfix.py -i %{__python3} -pn  %{name}-%{version}-py3/src/script/*.py
-%endif
-%if 0%{?with_python3_other}
-pathfix.py -i %{__python3_other} -pn %{name}-%{version}-py%{python3_other_pkgversion}/bootstrap.py
-pathfix.py -i %{__python3_other} -pn %{name}-%{version}-py%{python3_other_pkgversion}/src/script/*.py
+pathfix.py -i %{__python3_other} -pn %{name}-%{version}-py%{python3_other_pkgversion}/scripts/scons.py
 %endif
 
 %build
-%if 0%{?with_python3}
-pushd %{name}-%{version}-py3
-%{__python3} bootstrap.py --bootstrap_dir=build/scons
-popd
+%{__python3} scripts/scons.py --include-dir= -j1 \
+%if %{with debug}
+ --debug=explain
 %endif
-%if 0%{?with_python2}
-pushd %{name}-%{version}
-%{__python2} bootstrap.py --bootstrap_dir=build/scons
-popd
-%endif
-%if 0%{?with_python3_other}
+
+%if %{with python3_other}
 pushd %{name}-%{version}-py%{python3_other_pkgversion}
-%{__python3_other} bootstrap.py --bootstrap_dir=build/scons
+%{__python3_other} scripts/scons.py --include-dir= -j1 \
+%if %{with debug}
+ --debug=explain
+%endif
+
 popd
 %endif
 
 %install
-%if 0%{?fedora} || 0%{?rhel} > 7
-%if 0%{?with_python2}
-pushd %{name}-%{version}/build/scons
-%py2_install \
- --standard-lib \
- --no-install-bat \
- --no-version-script \
- --install-scripts=%{_bindir} \
- --install-data=%{_datadir}
-popd
-
-mv %{buildroot}%{_bindir}/%{name} %{buildroot}%{_bindir}/%{name}-2
-mv %{buildroot}%{_bindir}/%{name}-configure-cache %{buildroot}%{_bindir}/%{name}-configure-cache-2
-mv %{buildroot}%{_bindir}/%{name}ign %{buildroot}%{_bindir}/%{name}ign-2
-mv %{buildroot}%{_bindir}/%{name}-time %{buildroot}%{_bindir}/%{name}-time-2
-
-pushd %{buildroot}%{_bindir} 
-for i in %{name}-%{python2_version} %{name}-v%{version}-%{python2_version}; do
-  ln -fs %{_bindir}/%{name}-2 %{buildroot}%{_bindir}/$i
-done
-for i in %{name}ign-%{python2_version} %{name}ign-v%{version}-%{python2_version}; do
-  ln -fs %{_bindir}/%{name}ign-2 %{buildroot}%{_bindir}/$i
-done
-for i in %{name}-time-%{python2_version} %{name}-time-v%{version}-%{python2_version}; do
-  ln -fs %{_bindir}/%{name}-time-2 %{buildroot}%{_bindir}/$i
-done
-for i in %{name}-configure-cache-%{python2_version} %{name}-configure-cache-v%{version}-%{python2_version}; do
-  ln -fs %{_bindir}/%{name}-configure-cache-2 %{buildroot}%{_bindir}/$i
-done
-popd
-%endif
-%if 0%{?with_python3}
-pushd %{name}-%{version}-py3/build/scons
 export LDFLAGS="%{build_ldflags}"
 export CFLAGS="%{build_cflags}"
 %{__python3} setup.py  install -O1 --skip-build --root %{buildroot} \
- --standard-lib \
- --no-install-bat \
- --no-version-script \
  --install-scripts=%{_bindir} \
  --install-data=%{_datadir}
 rm -rfv %{buildroot}%{_bindir}/__pycache__
-popd
+
+# Install manpages
+mkdir -p %{buildroot}%{_mandir}/man1
+install -pm 644 build/doc/man/*.1 %{buildroot}%{_mandir}/man1/
+
 pushd %{buildroot}%{_bindir} 
 for i in %{name}-3 %{name}-v%{version}-%{python3_version} %{name}-%{python3_version}; do
-  ln -fs %{_bindir}/%{name} %{buildroot}%{_bindir}/$i
+  ln -fs %{name} %{buildroot}%{_bindir}/$i
 done
 for i in %{name}ign-3 %{name}ign-v%{version}-%{python3_version} %{name}ign-%{python3_version}; do
-  ln -fs %{_bindir}/%{name}ign %{buildroot}%{_bindir}/$i
-done
-for i in %{name}-time-3 %{name}-time-v%{version}-%{python3_version} %{name}-time-%{python3_version}; do
-  ln -fs %{_bindir}/%{name}-time %{buildroot}%{_bindir}/$i
+  ln -fs %{name}ign %{buildroot}%{_bindir}/$i
 done
 for i in %{name}-configure-cache-3 %{name}-configure-cache-v%{version}-%{python3_version} %{name}-configure-cache-%{python3_version}; do
-  ln -fs %{_bindir}/%{name}-configure-cache %{buildroot}%{_bindir}/$i
+  ln -fs %{name}-configure-cache %{buildroot}%{_bindir}/$i
 done
 popd
-%endif
-%endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%if 0%{?with_python3}
-pushd %{name}-%{version}-py3/build/scons
-%py3_install \
- --standard-lib \
- --no-install-bat \
- --no-version-script \
- --install-scripts=%{_bindir} \
- --install-data=%{_datadir}
-popd
-mv %{buildroot}%{_bindir}/%{name} %{buildroot}%{_bindir}/%{name}-3
-mv %{buildroot}%{_bindir}/%{name}-configure-cache %{buildroot}%{_bindir}/%{name}-configure-cache-3
-mv %{buildroot}%{_bindir}/%{name}ign %{buildroot}%{_bindir}/%{name}ign-3
-mv %{buildroot}%{_bindir}/%{name}-time %{buildroot}%{_bindir}/%{name}-time-3
 
-pushd %{buildroot}%{_bindir} 
-for i in %{name}-v%{version}-%{python3_version} %{name}-%{python3_version}; do
-  ln -fs %{_bindir}/%{name}-3 %{buildroot}%{_bindir}/$i
-done
-for i in %{name}ign-v%{version}-%{python3_version} %{name}ign-%{python3_version}; do
-  ln -fs %{_bindir}/%{name}ign-3 %{buildroot}%{_bindir}/$i
-done
-for i in %{name}-time-v%{version}-%{python3_version} %{name}-time-%{python3_version}; do
-  ln -fs %{_bindir}/%{name}-time-3 %{buildroot}%{_bindir}/$i
-done
-for i in %{name}-configure-cache-v%{version}-%{python3_version} %{name}-configure-cache-%{python3_version}; do
-  ln -fs %{_bindir}/%{name}-configure-cache-3 %{buildroot}%{_bindir}/$i
-done
-popd
-%endif
-%if 0%{?with_python2}
-pushd %{name}-%{version}/build/scons
-%py2_install \
- --standard-lib \
- --no-install-bat \
- --no-version-script \
- --install-scripts=%{_bindir} \
- --install-data=%{_datadir}
-popd
-pushd %{buildroot}%{_bindir} 
-for i in %{name}-2 %{name}-%{python2_version} %{name}-v%{version}-%{python2_version}; do
-  ln -fs %{_bindir}/%{name} %{buildroot}%{_bindir}/$i
-done
-for i in %{name}ign-2 %{name}ign-%{python2_version} %{name}ign-v%{version}-%{python2_version}; do
-  ln -fs %{_bindir}/%{name}ign %{buildroot}%{_bindir}/$i
-done
-for i in %{name}-time-2 %{name}-time-%{python2_version} %{name}-time-v%{version}-%{python2_version}; do
-  ln -fs %{_bindir}/%{name}-time %{buildroot}%{_bindir}/$i
-done
-for i in %{name}-configure-cache-2 %{name}-configure-cache-%{python2_version} %{name}-configure-cache-v%{version}-%{python2_version}; do
-  ln -fs %{_bindir}/%{name}-configure-cache %{buildroot}%{_bindir}/$i
-done
-popd
-%endif
-%endif
-
-%if 0%{?with_python3_other}
+%if %{with python3_other}
 pushd %{name}-%{version}-py%{python3_other_pkgversion}/build/scons
 %py3_other_install \
- --standard-lib \
- --no-install-bat \
- --no-version-script \
  --install-scripts=%{_bindir} \
  --install-data=%{_datadir}
-popd
 
-#Avoiding collisions between the python 2 and python 3 stacks
-mv %{buildroot}%{_bindir}/%{name} %{buildroot}%{_bindir}/%{name}-%{__python3_other}
-mv %{buildroot}%{_bindir}/%{name}-configure-cache %{buildroot}%{_bindir}/%{name}-configure-cache-%{__python3_other}
-mv %{buildroot}%{_bindir}/%{name}ign %{buildroot}%{_bindir}/%{name}ign-%{__python3_other}
-mv %{buildroot}%{_bindir}/%{name}-time %{buildroot}%{_bindir}/%{name}-time-%{__python3_other}
+# Install manpages
+mkdir -p %{buildroot}%{_mandir}/man1
+install -pm 644 ../build/doc/man/*.1 %{buildroot}%{_mandir}/man1/
+popd
 
 pushd %{buildroot}%{_bindir} 
 for i in %{name}-v%{version}-%{__python3_other} %{name}-%{__python3_other}; do
-  ln -fs %{_bindir}/%{name}-%{__python3_other} %{buildroot}%{_bindir}/$i
+  ln -fs %{name}-%{__python3_other} %{buildroot}%{_bindir}/$i
 done
 for i in %{name}ign-v%{version}-%{__python3_other} %{name}ign-%{__python3_other}; do
-  ln -fs %{_bindir}/%{name}ign-%{__python3_other} %{buildroot}%{_bindir}/$i
-done
-for i in %{name}-time-v%{version}-%{__python3_other} %{name}-time-%{__python3_other}; do
-  ln -fs %{_bindir}/%{name}-time-%{__python3_other} %{buildroot}%{_bindir}/$i
+  ln -fs %{name}ign-%{__python3_other} %{buildroot}%{_bindir}/$i
 done
 for i in %{name}-configure-cache-v%{version}-%{__python3_other} %{name}-configure-cache-%{__python3_other}; do
-  ln -fs %{_bindir}/%{name}-configure-cache-%{__python3_other} %{buildroot}%{_bindir}/$i
+  ln -fs %{name}-configure-cache-%{__python3_other} %{buildroot}%{_bindir}/$i
 done
 popd
 %endif
 
 %check
-%if 0%{?with_python3}
-pushd %{name}-%{version}-py3
-%{__python3} runtest.py -P %{__python3} --passed --quit-on-failure src/engine/SCons/BuilderTests.py
-popd
-%endif
-%if 0%{?with_python3_other}
+%{__python3} runtest.py -P %{__python3} --passed --quit-on-failure SCons/BuilderTests.py
+
+%if %{with python3_other}
 pushd %{name}-%{version}-py%{python3_other_pkgversion}
-%{__python3_other} runtest.py  -P %{__python3_other} --passed --quit-on-failure src/engine/SCons/BuilderTests.py
-popd
-%endif
-%if 0%{?with_python2}
-pushd %{name}-%{version}
-%{__python2} runtest.py  -P %{__python2} --passed --quit-on-failure src/engine/SCons/BuilderTests.py
+%{__python3_other} runtest.py -P %{__python3_other} --passed --quit-on-failure SCons/BuilderTests.py
 popd
 %endif
 
-%if 0%{?with_python2}
-%files -n python2-%{name}
-%doc %{name}-%{version}/src/CHANGES.txt %{name}-%{version}/src/README.txt %{name}-%{version}/src/RELEASE.txt
-%license %{name}-%{version}/src/LICENSE.txt
-%if 0%{?fedora} || 0%{?rhel} > 7
-%{_bindir}/%{name}*-2
-%endif
-%if 0%{?rhel} && 0%{?rhel} == 7
-%{_bindir}/%{name}
-%{_bindir}/%{name}ign
-%{_bindir}/%{name}-time
-%{_bindir}/%{name}-configure-cache
-%{_bindir}/%{name}*-2
-%endif
-%{_bindir}/%{name}*-%{python2_version}
-%{python2_sitelib}/SCons/
-%{python2_sitelib}/scons-%{version}*.egg-info
-%{_mandir}/man?/*
-%endif
-
-%if 0%{?with_python3}
 %files -n python%{python3_pkgversion}-%{name}
-%doc %{name}-%{version}-py3/src/CHANGES.txt %{name}-%{version}-py3/src/README.txt %{name}-%{version}-py3/src/RELEASE.txt
-%license %{name}-%{version}-py3/src/LICENSE.txt
-%if 0%{?rhel} && 0%{?rhel} == 7
-%{_bindir}/%{name}*-3
-%endif
-%if 0%{?fedora} || 0%{?rhel} > 7
-%{_bindir}/%{name}*-3
+%doc CHANGES.txt RELEASE.*
+%license LICENSE*
 %{_bindir}/%{name}
 %{_bindir}/%{name}ign
-%{_bindir}/%{name}-time
 %{_bindir}/%{name}-configure-cache
-%endif
-%{_bindir}/%{name}*-%{python3_version}
+%{_bindir}/%{name}*-3*
 %{python3_sitelib}/SCons/
-%{python3_sitelib}/scons-%{version}*.egg-info
-%{_mandir}/man?/*
-%endif
+%{python3_sitelib}/*.egg-info/
+%{_mandir}/man1/*
 
-%if 0%{?with_python3_other}
+%if %{with python3_other}
 %files -n python%{python3_other_pkgversion}-%{name}
-%doc %{name}-%{version}-py%{python3_other_pkgversion}/src/CHANGES.txt %{name}-%{version}-py%{python3_other_pkgversion}/src/README.txt %{name}-%{version}-py%{python3_other_pkgversion}/src/RELEASE.txt
-%license %{name}-%{version}-py%{python3_other_pkgversion}/src/LICENSE.txt
+%doc CHANGES.txt RELEASE.*
+%license LICENSE*
+%{_bindir}/%{name}
+%{_bindir}/%{name}ign
+%{_bindir}/%{name}-configure-cache
 %{_bindir}/%{name}*-%{__python3_other}
 %{_bindir}/%{name}*-%{python3_other_pkgversion}
 %{python3_other_sitelib}/SCons/
-%{python3_other_sitelib}/scons-%{version}*.egg-info
-%{_mandir}/man?/*
+%{python3_other_sitelib}/scons-%{version}*.egg-info/
+%{_mandir}/man1/*
 %endif
 
 %files doc
-%doc HTML
-%license %{name}-%{version}/src/LICENSE.txt
+%if %{without prebuilt_doc}
+%doc build/doc/PDF build/doc/HTML build/doc/TEXT
+%else
+%doc PDF HTML EPUB TEXT
+%endif
+%license LICENSE*
 
 %changelog
+* Mon Oct 05 2020 Antonio Trande <sagitter@fedoraproject.org> - 4.0.1-3
+- BuildRequires python3-setuptools explicitly
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Antonio Trande <sagitter@fedoraproject.org> - 4.0.1-1
+- Release 4.0.1
+
+* Mon Jul 06 2020 Antonio Trande <sagitter@fedoraproject.org> - 4.0.0-1
+- Release 4.0.0
+- Obolete Python2 builds
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.1.2-3
 - Rebuilt for Python 3.9
 

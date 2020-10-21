@@ -1,7 +1,7 @@
 Summary: Firmware for Intel® PRO/Wireless 2200 network adaptors
 Name: ipw2200-firmware
 Version: 3.1
-Release: 19%{?dist}
+Release: 20%{?dist}
 License: Redistributable, no modification permitted
 URL: http://ipw2200.sourceforge.net/firmware.php
 # License agreement must be displayed before download (referer protection)
@@ -38,6 +38,9 @@ in /lib/firmware/LICENSE.ipw2200. Please read it carefully.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

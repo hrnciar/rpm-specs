@@ -13,7 +13,7 @@
 Summary:        Abstracted logging facility for PHP
 Name:           php-pear-Log
 Version:        1.13.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        MIT
 URL:            http://pear.php.net/package/Log
 Source:         http://pear.php.net/get/Log-%{version}.tgz
@@ -97,6 +97,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun  2 2020 Remi Collet <remi@remirepo.net> - 1.13.2-1
 - version 1.13.2 (no change)
 

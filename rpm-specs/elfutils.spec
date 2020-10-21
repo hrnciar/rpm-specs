@@ -1,6 +1,6 @@
 Name: elfutils
-Version: 0.180
-%global baserelease 2
+Version: 0.181
+%global baserelease 3
 Release: %{baserelease}%{?dist}
 URL: http://elfutils.org/
 %global source_url ftp://sourceware.org/pub/elfutils/%{version}/
@@ -31,6 +31,7 @@ BuildRequires: flex
 BuildRequires: zlib-devel
 BuildRequires: bzip2-devel
 BuildRequires: xz-devel
+BuildRequires: libzstd-devel
 
 # For debuginfod
 BuildRequires: pkgconfig(libmicrohttpd) >= 0.9.33
@@ -40,10 +41,14 @@ BuildRequires: pkgconfig(libarchive) >= 3.1.2
 
 # For tests need to bunzip2 test files.
 BuildRequires: bzip2
-# For the run-debuginfod-find.sh test case in %check for /usr/sbin/ss
+BuildRequires: zstd
+# For the run-debuginfod-find.sh test case in %%check for /usr/sbin/ss
 BuildRequires: iproute
 BuildRequires: bsdtar
 BuildRequires: curl
+
+BuildRequires: automake
+BuildRequires: autoconf
 
 %global _gnu %{nil}
 %global _program_prefix eu-
@@ -55,6 +60,8 @@ BuildRequires: curl
 %endif
 
 # Patches
+Patch1: elfutils-0.181-zstd.patch
+Patch2: elfutils-0.181-array-param.patch
 
 %description
 Elfutils is a collection of utilities, including stack (to show
@@ -100,25 +107,13 @@ Recommends: elfutils-debuginfod-client-devel%{depsuffix} = %{version}-%{release}
 %else
 Requires: elfutils-debuginfod-client-devel%{depsuffix} = %{version}-%{release}
 %endif
+Obsoletes: elfutils-devel-static < 0.180-5
 
 %description devel
 The elfutils-devel package contains the libraries to create
 applications for handling compiled objects.  libdw provides access
 to the DWARF debugging information.  libasm provides a programmable
 assembler interface.
-
-%package devel-static
-Summary: Static archives to handle compiled objects
-License: GPLv2+ or LGPLv3+
-%if 0%{!?_isa:1}
-Provides: elfutils-devel-static%{depsuffix} = %{version}-%{release}
-%endif
-Requires: elfutils-devel%{depsuffix} = %{version}-%{release}
-Requires: elfutils-libelf-devel-static%{depsuffix} = %{version}-%{release}
-
-%description devel-static
-The elfutils-devel-static package contains the static archives
-with the code to handle compiled objects.
 
 %package libelf
 Summary: Library to read and write ELF files
@@ -142,24 +137,13 @@ Provides: elfutils-libelf-devel%{depsuffix} = %{version}-%{release}
 %endif
 Requires: elfutils-libelf%{depsuffix} = %{version}-%{release}
 Obsoletes: libelf-devel <= 0.8.2-2
+Obsoletes: elfutils-libelf-devel-static < 0.180-5
 
 %description libelf-devel
 The elfutils-libelf-devel package contains the libraries to create
 applications for handling compiled objects.  libelf allows you to
 access the internals of the ELF object file format, so you can see the
 different sections of an ELF file.
-
-%package libelf-devel-static
-Summary: Static archive of libelf
-License: GPLv2+ or LGPLv3+
-%if 0%{!?_isa:1}
-Provides: elfutils-libelf-devel-static%{depsuffix} = %{version}-%{release}
-%endif
-Requires: elfutils-libelf-devel%{depsuffix} = %{version}-%{release}
-
-%description libelf-devel-static
-The elfutils-libelf-static package contains the static archive
-for libelf.
 
 %if %{provide_yama_scope}
 %package default-yama-scope
@@ -246,12 +230,24 @@ such servers to download those files on demand.
 %setup -q
 
 # Apply patches
+%patch1 -p1 -b .zstd
+%patch2 -p1 -b .array_param
+
+autoreconf -f -v -i
 
 # In case the above patches added any new test scripts, make sure they
 # are executable.
 find . -name \*.sh ! -perm -0100 -print | xargs chmod +x
 
 %build
+# This package uses top level ASM constructs which are incompatible with LTO.
+# Top level ASMs are often used to implement symbol versioning.  gcc-10
+# introduces a new mechanism for symbol versioning which works with LTO.
+# Converting packages to use that mechanism instead of toplevel ASMs is
+# recommended.
+# Disable LTO
+%define _lto_cflags %{nil}
+
 # Remove -Wall from default flags.  The makefiles enable enough warnings
 # themselves, and they use -Werror.  Appending -Wall defeats the cases where
 # the makefiles disable some specific warnings for specific code.
@@ -264,13 +260,16 @@ RPM_OPT_FLAGS="${RPM_OPT_FLAGS} -Wformat"
 trap 'cat config.log' EXIT
 %configure CFLAGS="$RPM_OPT_FLAGS -fexceptions"
 trap '' EXIT
-make -s %{?_smp_mflags}
+%make_build -s
 
 %install
 rm -rf ${RPM_BUILD_ROOT}
-make -s install DESTDIR=${RPM_BUILD_ROOT}
+%make_install -s
 
 chmod +x ${RPM_BUILD_ROOT}%{_prefix}/%{_lib}/lib*.so*
+# We don't want the static libraries
+rm ${RPM_BUILD_ROOT}%{_prefix}/%{_lib}/lib{elf,dw,asm}.a
+
 
 %find_lang %{name}
 
@@ -287,7 +286,7 @@ touch ${RPM_BUILD_ROOT}%{_localstatedir}/cache/debuginfod/debuginfod.sqlite
 # Record some build root versions in build.log
 uname -r; rpm -q binutils gcc glibc
 
-make -s %{?_smp_mflags} check || (cat tests/test-suite.log; false)
+%make_build -s check || (cat tests/test-suite.log; false)
 
 # Only the latest Fedora and EPEL have these scriptlets,
 # older Fedora and plain RHEL don't.
@@ -358,10 +357,6 @@ fi
 %{_libdir}/libdw.so
 %{_libdir}/pkgconfig/libdw.pc
 
-%files devel-static
-%{_libdir}/libdw.a
-%{_libdir}/libasm.a
-
 %files -f %{name}.lang libelf
 %{!?_licensedir:%global license %%doc}
 %license COPYING-GPLV2 COPYING-LGPLV3
@@ -375,9 +370,6 @@ fi
 %{_libdir}/libelf.so
 %{_libdir}/pkgconfig/libelf.pc
 %{_mandir}/man3/elf_*.3*
-
-%files libelf-devel-static
-%{_libdir}/libelf.a
 
 %if %{provide_yama_scope}
 %files default-yama-scope
@@ -403,7 +395,6 @@ fi
 %{_bindir}/debuginfod
 %config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/sysconfig/debuginfod
 %{_unitdir}/debuginfod.service
-%{_sysconfdir}/sysconfig/debuginfod
 %{_mandir}/man8/debuginfod.8*
 
 %dir %attr(0700,debuginfod,debuginfod) %{_localstatedir}/cache/debuginfod
@@ -423,6 +414,46 @@ exit 0
 %systemd_postun_with_restart debuginfod.service
 
 %changelog
+* Mon Oct 19 2020 Mark Wielaard <mjw@fedoraproject.org> - 0.181-3
+- Add elfutils-0.181-array-param.patch.
+
+* Fri Sep 18 2020 Mark Wielaard <mjw@fedoraproject.org> - 0.181-2
+- Add ZSTD support elfutils-0.181-zstd.patch.
+
+* Tue Sep  8 2020 Mark Wielaard <mjw@fedoraproject.org> - 0.181-1
+- Upgrade to upstream 0.181
+  - libelf: elf_update now compensates (fixes up) a bad sh_addralign
+    for SHF_COMPRESSED sections.
+  - libdebuginfod: configure now takes --enable-libdebuginfod=dummy or
+    --disable-libdebuginfod for bootstrapping.
+    DEBUGINFOD_URLS now accepts "scheme-free" urls
+    (guessing at what the user meant, either http:// or file://)
+  - readelf, elflint: Handle aarch64 bti, pac bits in dynamic table and
+    gnu property notes.
+  - libdw, readelf: Recognize DW_CFA_AARCH64_negate_ra_state. Allows
+    unwinding on arm64 for code that is compiled for PAC
+    (Pointer Authentication Code) as long as it isn't enabled.
+
+* Tue Aug 25 2020 Mark Wielaard <mjw@fedoraproject.org> - 0.180-7
+- Add elfutils-0.180-shf-compressed.patch
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.180-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Mark Wielaard <mjw@fedoraproject.org> - 0.180-5
+- Remove elfutils-libelf-devel-static and elfutils-devel-static subpackages.
+- Remove duplicate listing of sysconfig/debuginfod (config) file.
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 0.180-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Fri Jul  3 2020 Mark Wielaard <mjw@fedoraproject.org> - 0.180-3
+- Add elfutils-0.180-mhd-result.patch
+
+* Wed Jul  1 2020 Jeff Law <law@redhat.com> - 0.180-2
+- Disable LTO
+
 * Thu Jun 11 2020 Mark Wielaard <mjw@fedoraproject.org> - 0.180-1
 - New upstream release.
   elflint: Allow SHF_EXCLUDE as generic section flag when --gnu is given.

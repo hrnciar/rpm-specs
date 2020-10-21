@@ -1,6 +1,6 @@
 Name:		stompclt
 Version:	1.6
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	Versatile STOMP client
 License:	GPL+ or Artistic
 URL:		https://github.com/cern-mig/%{name}
@@ -43,6 +43,9 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_mandir}/man1/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.6-5
 - Perl 5.32 rebuild
 

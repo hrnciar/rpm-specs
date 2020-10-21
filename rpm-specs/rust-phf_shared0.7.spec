@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}0.7
 Version:        0.7.24
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Support code shared by PHF libraries
 
 # Upstream license specification: MIT
@@ -97,5 +97,8 @@ which use "unicase" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.24-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 15 13:47:16 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.7.24-1
 - Initial package

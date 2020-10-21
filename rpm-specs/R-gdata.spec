@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          2.18.0
-Release:          9%{?dist}
+Release:          10%{?dist}
 Summary:          Various R Programming Tools for Data Manipulation
 
 License:          GPLv2
@@ -92,6 +92,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.18.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 2.18.0-9
 - rebuild for R 4
 

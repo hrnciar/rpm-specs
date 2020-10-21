@@ -1,6 +1,6 @@
 Name:           httrack
 Version:        3.49.2
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        Website copier and offline browser
 License:        GPLv2+
 URL:            http://www.httrack.com
@@ -41,7 +41,8 @@ iconv --from-code ISO8859-1 --to-code UTF-8 ./html/contact.html \
  %{!?_pkgdocdir: %global _pkgdocdir /usr/share/doc/httrack}
 %configure  --disable-static \
             --disable-online-unit-tests \
-            --htmldir=%{_pkgdocdir}/html
+            --htmldir=%{_pkgdocdir}/html \
+            --docdir=%{_pkgdocdir}
 
 # Remove rpath
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
@@ -141,6 +142,12 @@ end
 %{_libdir}/libhttrack.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.49.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 2020 Fabio Alessandro Locati <fale@fedoraproject.org> - 3.49.2-8
+- Do not rely on incidental default values
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.49.2-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,25 +1,30 @@
 %bcond_with devel
 
+%global basever     1.10.0
+#%%global prerel      rc
+#%%global prerelnum   5
+
 Name:           syncthing
 Summary:        Continuous File Synchronization
-Version:        1.6.1
+Version:        %{basever}%{?prerel:~%{prerel}%{prerelnum}}
 Release:        1%{?dist}
 
 %global goipath github.com/syncthing/syncthing
-%global tag     v%{version}
+%global tag     v%{basever}%{?prerel:-%{prerel}.%{prerelnum}}
 
 %gometa
 
 # syncthing (MPLv2.0) bundles
 # - angular, bootstrap, daterangepicker, fancytree, jQuery, moment (MIT),
-# - ForkAwesome (MIT/OFL/CC-BY 3.0), and
-# - a number of go packages (ASL 2.0, MPLv2.0, BSD, Unlicense, MIT, ISC)
-License:        MPLv2.0 and MIT and OFL and CC-BY and ASL 2.0 and BSD and Unlicense and ISC
+# - ForkAwesome (MIT and OFL and CC-BY 3.0), and
+# - a number of go packages (MIT and MPLv2.0 and BSD and ASL 2.0 and CC0 and ISC)
+License:        MPLv2.0 and MIT and OFL and CC-BY and BSD and ASL 2.0 and CC0 and ISC
 
 URL:            https://syncthing.net
+# use official release tarball (contains vendored dependencies)
 Source0:        %{gourl}/releases/download/%{tag}/%{name}-source-%{tag}.tar.gz
 
-# proposed patch to fix tests running out of memory on 32 bit arches
+# rejected patch to fix tests running out of memory on 32 bit arches
 # See: https://github.com/syncthing/syncthing/issues/6209
 Patch0:         https://github.com/imsodin/syncthing/commit/0d64427.patch
 
@@ -42,52 +47,145 @@ Provides:       bundled(jquery-fancytree) = 2.28.1
 Provides:       bundled(jquery-ui) = 1.12.1
 Provides:       bundled(moment) = 2.19.4
 
-# vendored dependencies: automatically generated from go.mod
-Provides:       bundled(golang(github.com/AudriusButkevicius/pfilter)) = c55ef6137fc6
+# automatically generated Provides for bundled go dependencies
+# manually check licenses for new deps and update License tag if necessary
+# generate with "./vendor2provides.py path/to/vendor/modules.txt")
+
+# github.com/AudriusButkevicius/pfilter : MIT
+Provides:       bundled(golang(github.com/AudriusButkevicius/pfilter)) = c55ef61
+# github.com/AudriusButkevicius/recli : MPLv2.0
 Provides:       bundled(golang(github.com/AudriusButkevicius/recli)) = 0.0.5
-Provides:       bundled(golang(github.com/StackExchange/wmi)) = cbe66965904d
-Provides:       bundled(golang(github.com/bkaradzic/go-lz4)) = 7224d8d8f27e
+# github.com/Azure/go-ntlmssp : MIT
+Provides:       bundled(golang(github.com/Azure/go-ntlmssp)) = 6637195
+# github.com/DataDog/zstd : BSD
+Provides:       bundled(golang(github.com/DataDog/zstd)) = 1.4.1
+# github.com/StackExchange/wmi : MIT
+Provides:       bundled(golang(github.com/StackExchange/wmi)) = cbe6696
+# github.com/beorn7/perks : MIT
+Provides:       bundled(golang(github.com/beorn7/perks)) = 1.0.1
+# github.com/bkaradzic/go-lz4 : BSD
+Provides:       bundled(golang(github.com/bkaradzic/go-lz4)) = 7224d8d
+# github.com/calmh/xdr : MIT
 Provides:       bundled(golang(github.com/calmh/xdr)) = 1.1.0
-Provides:       bundled(golang(github.com/ccding/go-stun)) = be486d185f3d
-Provides:       bundled(golang(github.com/certifi/gocertifi)) = a5e0173ced67
-Provides:       bundled(golang(github.com/chmduquesne/rollinghash)) = a60f8e7142b5
+# github.com/ccding/go-stun : ASL 2.0
+Provides:       bundled(golang(github.com/ccding/go-stun)) = be486d1
+# github.com/certifi/gocertifi : MPLv2.0
+Provides:       bundled(golang(github.com/certifi/gocertifi)) = a5e0173
+# github.com/cespare/xxhash : MIT
+Provides:       bundled(golang(github.com/cespare/xxhash)) = 1.1.0
+Provides:       bundled(golang(github.com/cespare/xxhash/v2)) = 2.1.0
+# github.com/cheekybits/genny : MIT
+Provides:       bundled(golang(github.com/cheekybits/genny)) = 1.0.0
+# github.com/chmduquesne/rollinghash : MIT
+Provides:       bundled(golang(github.com/chmduquesne/rollinghash)) = a60f8e7
+# github.com/cpuguy83/go-md2man : MIT
+Provides:       bundled(golang(github.com/cpuguy83/go-md2man/v2)) = f79a8a8
+# github.com/d4l3k/messagediff : MIT
 Provides:       bundled(golang(github.com/d4l3k/messagediff)) = 1.2.1
-Provides:       bundled(golang(github.com/flynn-archive/go-shlex)) = 3f9db97f8568
+# github.com/dchest/siphash : CC0
+Provides:       bundled(golang(github.com/dchest/siphash)) = 1.2.1
+# github.com/dgraph-io/badger : ASL 2.0
+Provides:       bundled(golang(github.com/dgraph-io/badger/v2)) = 2.0.3
+# github.com/dgraph-io/ristretto : ASL 2.0
+Provides:       bundled(golang(github.com/dgraph-io/ristretto)) = 8f368f2
+# github.com/dgryski/go-farm : MIT
+Provides:       bundled(golang(github.com/dgryski/go-farm)) = 6a90982
+# github.com/dustin/go-humanize : MIT
+Provides:       bundled(golang(github.com/dustin/go-humanize)) = 1.0.0
+# github.com/flynn-archive/go-shlex : ASL 2.0
+Provides:       bundled(golang(github.com/flynn-archive/go-shlex)) = 3f9db97
+# github.com/getsentry/raven-go : BSD
 Provides:       bundled(golang(github.com/getsentry/raven-go)) = 0.2.0
-Provides:       bundled(golang(github.com/go-ldap/ldap/v3)) = 3.1.10
+# github.com/go-asn1-ber/asn1-ber : MIT
+Provides:       bundled(golang(github.com/go-asn1-ber/asn1-ber)) = 1.5.0
+# github.com/go-ldap/ldap : MIT
+Provides:       bundled(golang(github.com/go-ldap/ldap/v3)) = 3.2.0
+# github.com/go-ole/go-ole : MIT
 Provides:       bundled(golang(github.com/go-ole/go-ole)) = 1.2.4
+# github.com/gobwas/glob : MIT
 Provides:       bundled(golang(github.com/gobwas/glob)) = 0.2.3
+# github.com/gogo/protobuf : BSD
 Provides:       bundled(golang(github.com/gogo/protobuf)) = 1.3.1
-Provides:       bundled(golang(github.com/golang/groupcache)) = 869f871628b6
-Provides:       bundled(golang(github.com/golang/protobuf)) = 1.4.0
-Provides:       bundled(golang(github.com/greatroar/blobloom)) = 0.2.1
+# github.com/golang/groupcache : ASL 2.0
+Provides:       bundled(golang(github.com/golang/groupcache)) = 611e8ac
+# github.com/golang/protobuf : BSD
+Provides:       bundled(golang(github.com/golang/protobuf)) = 1.4.2
+# github.com/golang/snappy : BSD
+Provides:       bundled(golang(github.com/golang/snappy)) = 0.0.1
+# github.com/greatroar/blobloom : ASL 2.0
+Provides:       bundled(golang(github.com/greatroar/blobloom)) = 0.3.0
+# github.com/jackpal/gateway : BSD
 Provides:       bundled(golang(github.com/jackpal/gateway)) = 1.0.6
+# github.com/jackpal/go-nat-pmp : ASL 2.0
 Provides:       bundled(golang(github.com/jackpal/go-nat-pmp)) = 1.0.2
-Provides:       bundled(golang(github.com/kballard/go-shellquote)) = 95032a82bc51
+# github.com/kballard/go-shellquote : MIT
+Provides:       bundled(golang(github.com/kballard/go-shellquote)) = 95032a8
+# github.com/kr/pretty : MIT
 Provides:       bundled(golang(github.com/kr/pretty)) = 0.2.0
+# github.com/lib/pq : MIT
 Provides:       bundled(golang(github.com/lib/pq)) = 1.2.0
-Provides:       bundled(golang(github.com/lucas-clemente/quic-go)) = 0.15.7
-Provides:       bundled(golang(github.com/maruel/panicparse)) = 1.3.0
-Provides:       bundled(golang(github.com/mattn/go-isatty)) = 0.0.11
+# github.com/lucas-clemente/quic-go : MIT
+Provides:       bundled(golang(github.com/lucas-clemente/quic-go)) = 0.18.0
+# github.com/marten-seemann/qtls : BSD
+Provides:       bundled(golang(github.com/marten-seemann/qtls)) = 0.10.0
+# github.com/marten-seemann/qtls-go1-15 : BSD
+Provides:       bundled(golang(github.com/marten-seemann/qtls-go1-15)) = 0.1.0
+# github.com/maruel/panicparse : ASL 2.0
+Provides:       bundled(golang(github.com/maruel/panicparse)) = 1.5.1
+# github.com/mattn/go-isatty : MIT
+Provides:       bundled(golang(github.com/mattn/go-isatty)) = 0.0.12
+# github.com/matttproud/golang_protobuf_extensions : ASL 2.0
+Provides:       bundled(golang(github.com/matttproud/golang_protobuf_extensions)) = 1.0.1
+# github.com/minio/sha256-simd : ASL 2.0
 Provides:       bundled(golang(github.com/minio/sha256-simd)) = 0.1.1
+# github.com/oschwald/geoip2-golang : ISC
 Provides:       bundled(golang(github.com/oschwald/geoip2-golang)) = 1.4.0
-Provides:       bundled(golang(github.com/petermattis/goid)) = b0b1615b78e5
+# github.com/oschwald/maxminddb-golang : ISC
+Provides:       bundled(golang(github.com/oschwald/maxminddb-golang)) = 1.6.0
+# github.com/petermattis/goid : ASL 2.0
+Provides:       bundled(golang(github.com/petermattis/goid)) = b0b1615
+# github.com/pkg/errors : BSD
 Provides:       bundled(golang(github.com/pkg/errors)) = 0.9.1
+# github.com/prometheus/client_golang : ASL 2.0
 Provides:       bundled(golang(github.com/prometheus/client_golang)) = 1.2.1
-Provides:       bundled(golang(github.com/rcrowley/go-metrics)) = cac0b30c2563
+# github.com/prometheus/client_model : ASL 2.0
+Provides:       bundled(golang(github.com/prometheus/client_model)) = 14fe0d1
+# github.com/prometheus/common : ASL 2.0
+Provides:       bundled(golang(github.com/prometheus/common)) = 0.7.0
+# github.com/prometheus/procfs : ASL 2.0
+Provides:       bundled(golang(github.com/prometheus/procfs)) = 0.0.5
+# github.com/rcrowley/go-metrics : BSD
+Provides:       bundled(golang(github.com/rcrowley/go-metrics)) = cac0b30
+# github.com/russross/blackfriday : BSD
+Provides:       bundled(golang(github.com/russross/blackfriday/v2)) = 2.0.1
+# github.com/sasha-s/go-deadlock : ASL 2.0
 Provides:       bundled(golang(github.com/sasha-s/go-deadlock)) = 0.2.0
-Provides:       bundled(golang(github.com/shirou/gopsutil)) = 47ef3260b6bf
-Provides:       bundled(golang(github.com/syncthing/notify)) = 69c7a957d3e2
-Provides:       bundled(golang(github.com/syndtr/goleveldb)) = 758128399b1d
+# github.com/shirou/gopsutil : BSD
+Provides:       bundled(golang(github.com/shirou/gopsutil)) = 2.20.7+incompatible
+# github.com/shurcooL/sanitized_anchor_name : MIT
+Provides:       bundled(golang(github.com/shurcooL/sanitized_anchor_name)) = 1.0.0
+# github.com/syncthing/notify : MIT
+Provides:       bundled(golang(github.com/syncthing/notify)) = 69c7a95
+# github.com/syndtr/goleveldb : BSD
+Provides:       bundled(golang(github.com/syndtr/goleveldb)) = d9e9293
+# github.com/thejerf/suture : MIT
 Provides:       bundled(golang(github.com/thejerf/suture)) = 3.0.2+incompatible
+# github.com/urfave/cli : MIT
 Provides:       bundled(golang(github.com/urfave/cli)) = 1.22.2
-Provides:       bundled(golang(github.com/vitrun/qart)) = bf64b92db6b0
-Provides:       bundled(golang(golang.org/x/crypto)) = 4bdfaf469ed5
-Provides:       bundled(golang(golang.org/x/net)) = ba9fcec4b297
-Provides:       bundled(golang(golang.org/x/sys)) = d5e6a3e2c0ae
-Provides:       bundled(golang(golang.org/x/text)) = 0.3.2
-Provides:       bundled(golang(golang.org/x/time)) = 9d24e82272b4
-Provides:       bundled(golang(gopkg.in/check.v1)) = 788fd7840127
+# github.com/vitrun/qart : ASL 2.0 and BSD
+Provides:       bundled(golang(github.com/vitrun/qart)) = bf64b92
+# golang.org/x/crypto : BSD
+Provides:       bundled(golang(golang.org/x/crypto)) = 123391f
+# golang.org/x/net : BSD
+Provides:       bundled(golang(golang.org/x/net)) = 3edf25e
+# golang.org/x/sys : BSD
+Provides:       bundled(golang(golang.org/x/sys)) = d785dc2
+# golang.org/x/text: BSD
+Provides:       bundled(golang(golang.org/x/text)) = 0.3.3
+# golang.org/x/text : BSD
+Provides:       bundled(golang(golang.org/x/time)) = 9d24e82
+# google.golang.org/protobuf : BSD
+Provides:       bundled(golang(google.golang.org/protobuf)) = 1.25.0
 
 # an inotify filesystem watcher is integrated with syncthing now
 Provides:       syncthing-inotify = 0.8.7-5
@@ -181,7 +279,7 @@ popd
 
 # set variables expected by syncthing binaries as additional FOOFLAGS
 export BUILD_HOST=fedora-koji
-export COMMON_LDFLAGS="-X %{goipath}/lib/build.Version=v%{version} -X %{goipath}/lib/build.Stamp=$SOURCE_DATE_EPOCH -X %{goipath}/lib/build.User=$USER -X %{goipath}/lib/build.Host=$BUILD_HOST"
+export COMMON_LDFLAGS="-X %{goipath}/lib/build.Version=%{tag} -X %{goipath}/lib/build.Stamp=$SOURCE_DATE_EPOCH -X %{goipath}/lib/build.User=$USER -X %{goipath}/lib/build.Host=$BUILD_HOST"
 export BUILDTAGS="noupgrade"
 
 export LDFLAGS="-X %{goipath}/lib/build.Program=syncthing $COMMON_LDFLAGS"
@@ -344,6 +442,37 @@ export GO111MODULE=off
 
 
 %changelog
+* Fri Oct 09 2020 Fabio Valentini <decathorpe@gmail.com> - 1.10.0-1
+- Update to version 1.10.0.
+
+* Tue Sep 08 2020 Fabio Valentini <decathorpe@gmail.com> - 1.9.0-1
+- Update to version 1.9.0.
+
+* Mon Sep 07 2020 Fabio Valentini <decathorpe@gmail.com> - 1.9.0~rc5-2
+- Use correct version format for build flags.
+
+* Sat Sep 05 2020 Carl George <carl@george.computer> - 1.9.0~rc5-1
+- Update to version 1.9.0-rc.5
+
+* Thu Aug 20 2020 Fabio Valentini <decathorpe@gmail.com> - 1.8.0-2
+- Include upstream patch to fix issues on ppc64le.
+
+* Sun Aug 16 2020 Fabio Valentini <decathorpe@gmail.com> - 1.8.0-1
+- Update to version 1.8.0.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Fabio Valentini <decathorpe@gmail.com> - 1.7.1-1
+- Update to version 1.7.1.
+
+* Tue Jul 07 2020 Fabio Valentini <decathorpe@gmail.com> - 1.7.0-1
+- Update to version 1.7.0.
+
 * Tue Jun 02 2020 Fabio Valentini <decathorpe@gmail.com> - 1.6.1-1
 - Update to version 1.6.1.
 

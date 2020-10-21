@@ -1,6 +1,6 @@
 Name:    banshee
 Version: 2.6.2
-Release: 35%{?dist}
+Release: 36%{?dist}
 Summary: Easily import, manage, and play selections from your music collection
 
 License: MIT
@@ -220,6 +220,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/banshee*.desktop
 %{_libdir}/pkgconfig/banshee-*.pc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.2-36
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.2-35
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

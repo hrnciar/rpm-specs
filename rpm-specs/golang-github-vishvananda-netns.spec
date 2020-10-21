@@ -4,7 +4,7 @@
 
 # https://github.com/vishvananda/netns
 %global goipath         github.com/vishvananda/netns
-%global commit          13995c7128ccc8e51e9a6bd2b551020a27180abd
+%global commit          db3c7e526aae966c4ccfa6c8189b693d6ac5d202
 
 %gometa
 
@@ -18,13 +18,15 @@ cases this code needs to be run as root.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.20%{?dist}
+Release:        0.22%{?dist}
 Summary:        Simple network namespace handling for Go
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+
+BuildRequires:  golang(golang.org/x/sys/unix)
 
 %description
 %{common_description}
@@ -45,6 +47,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Tue Aug 04 00:25:28 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.22.20200804gitdb3c7e5
+- Bump to commit db3c7e526aae966c4ccfa6c8189b693d6ac5d202
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

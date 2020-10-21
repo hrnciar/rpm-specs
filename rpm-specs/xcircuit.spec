@@ -10,7 +10,7 @@
 %undefine   __brp_mangle_shebangs
 
 Name:			xcircuit
-Version:		%{short_version}.24
+Version:		%{short_version}.29
 Release:		1%{?dist}
 Summary:		Electronic circuit schematic drawing program
 
@@ -116,6 +116,15 @@ desktop-file-install \
 %{_mandir}/man1/%{name}.1.*
 
 %changelog
+* Wed Sep 23 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.10.29-1
+- 3.10.29
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.10.28-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul  2 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.10.28-1
+- 3.10.28
+
 * Tue May  5 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.10.24-1
 - 3.10.24
 

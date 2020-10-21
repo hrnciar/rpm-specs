@@ -1,9 +1,9 @@
 Name:           perftest
 Summary:        IB Performance Tests
 Version:        4.4
-Release:        3%{?dist}
+Release:        7%{?dist}
 License:        GPLv2 or BSD
-Source:         https://github.com/linux-rdma/perftest/releases/download/4.4-0.29/perftest-4.4-0.29.g817ec38.tar.gz
+Source:         https://github.com/linux-rdma/perftest/releases/download/v4.4-0.32/perftest-4.4-0.32.g6fc89a9.tar.gz
 Url:            https://github.com/linux-rdma/perftest
 
 BuildRequires:  gcc
@@ -11,7 +11,7 @@ BuildRequires:  libibverbs-devel >= 1.2.0
 BuildRequires:  librdmacm-devel >= 1.0.21
 BuildRequires:  libibumad-devel >= 1.3.10.2
 Obsoletes:      openib-perftest < 1.3
-ExcludeArch:    s390 s390x %{arm}
+ExcludeArch:    s390 %{arm}
 
 %description
 Perftest is a collection of simple test programs designed to utilize 
@@ -25,7 +25,7 @@ find src -type f -iname '*.[ch]' -exec chmod a-x '{}' ';'
 
 %build
 %configure
-make V=1 %{?_smp_mflags}
+%make_build
 
 %install
 for file in ib_{atomic,read,send,write}_{lat,bw} raw_ethernet_{lat,bw}; do
@@ -38,6 +38,19 @@ done
 %_bindir/*
 
 %changelog
+* Sun Oct 11 2020 Honggang Li <honli@redhat.com> - 4.4-7
+- Rebase to upstream release perftest-4.4-0.32
+
+* Fri Sep 18 2020 Honggang Li <honli@redhat.com> - 4.4-6
+- Build perftest for s390x
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 4.4-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Sun May 24 2020 Honggang Li <honli@redhat.com> - 4.4-3
 - Rebase to upstream release perftest-4.4-0.29
 

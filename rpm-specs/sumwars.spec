@@ -1,6 +1,8 @@
+%define __cmake_in_source_build 1
+
 Name:           sumwars
 Version:        0.5.8
-Release:        20%{?dist}
+Release:        23%{?dist}
 Summary:        Hack and slash top-down view RPG game
 
 # Also includes "nlfg" networking layer licensed as MIT,
@@ -107,6 +109,16 @@ mv $RPM_BUILD_ROOT/%{_docdir}/%{name}-%{version} $RPM_BUILD_ROOT/%{_docdir}/%{na
 %{_datadir}/%{name}/resources/
 
 %changelog
+* Tue Sep 22 2020 Jeff Law <law@redhat.com> - 0.5.8-23
+- Use cmake_in_source_build to fix FTBFS due to recent cmake macro changes
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.8-22
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.8-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 13 2020 Bruno Wolff III <bruno@wolff.to> = 0.5.8-20
 - Automate finding fonts at build time
 - Work with more recent versions of lua

@@ -21,11 +21,11 @@
 %endif
 
 # first two digits of version
-%global release_version %(echo %{version} | awk -F. '{print $1"."$2}')
+%define release_version %(echo %{version} | awk -F. '{print $1"."$2}')
 
 Name:           mingw-qt5-qtbase
-Version:        5.14.2
-Release:        3%{?pre:.%pre}%{?dist}
+Version:        5.15.1
+Release:        1%{?pre:.%pre}%{?dist}
 Summary:        Qt5 for Windows - QtBase component
 
 # See LGPL_EXCEPTIONS.txt, for exception details
@@ -93,9 +93,13 @@ Patch15:        qt5-qtbase-no-relocatable.patch
 # Fixes crash when authenticating twice to the same target
 Patch16:        qt5-qtbase-spnego.patch
 
+# Fix undefined references when building Qt5Bootstrap
+Patch17:        qt5-qtbase-bootstrap.patch
+
 
 BuildRequires:  gcc-c++
 BuildRequires:  make
+BuildRequires:  perl-interpreter
 # For Qt5Bootstrap
 BuildRequires:  pkgconfig(zlib)
 
@@ -540,6 +544,10 @@ ln -s %{mingw64_target}-qmake-qt5 %{buildroot}%{_bindir}/mingw64-qmake-qt5
 %{mingw32_libdir}/cmake/Qt5Widgets/
 %{mingw32_libdir}/cmake/Qt5WindowsUIAutomationSupport/
 %{mingw32_libdir}/cmake/Qt5Xml/
+%dir %{mingw32_libdir}/metatypes
+%{mingw32_libdir}/metatypes/qt5core_metatypes.json
+%{mingw32_libdir}/metatypes/qt5gui_metatypes.json
+%{mingw32_libdir}/metatypes/qt5widgets_metatypes.json
 %dir %{mingw32_includedir}/qt5/
 %{mingw32_includedir}/qt5/*
 %{mingw32_docdir}/qt5/
@@ -694,6 +702,10 @@ ln -s %{mingw64_target}-qmake-qt5 %{buildroot}%{_bindir}/mingw64-qmake-qt5
 %{mingw64_libdir}/cmake/Qt5VulkanSupport/
 %{mingw64_libdir}/cmake/Qt5WindowsUIAutomationSupport/
 %{mingw64_libdir}/cmake/Qt5Xml/
+%dir %{mingw64_libdir}/metatypes
+%{mingw64_libdir}/metatypes/qt5core_metatypes.json
+%{mingw64_libdir}/metatypes/qt5gui_metatypes.json
+%{mingw64_libdir}/metatypes/qt5widgets_metatypes.json
 %dir %{mingw64_includedir}/qt5/
 %{mingw64_includedir}/qt5/*
 %{mingw64_docdir}/qt5/
@@ -761,6 +773,15 @@ ln -s %{mingw64_target}-qmake-qt5 %{buildroot}%{_bindir}/mingw64-qmake-qt5
 
 
 %changelog
+* Tue Oct 06 2020 Sandro Mani <manisandro@gmail.com> - 5.15.1-1
+- Update to 5.15.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.14.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 09:30:50 GMT 2020 Sandro Mani <manisandro@gmail.com> - 5.14.2-4
+- Add -fstack-protector to QMAKE_LFLAGS
+
 * Thu Apr 30 2020 Sandro Mani <manisandro@gmail.com> - 5.14.2-3
 - Add patch to fix Negotiate crash
 

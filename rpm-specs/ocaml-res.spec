@@ -5,7 +5,7 @@
 
 Name:           ocaml-res
 Version:        4.0.7
-Release:        28%{?dist}
+Release:        32%{?dist}
 Summary:        OCaml library for resizing arrays and strings
 License:        LGPLv2+ with exceptions
 
@@ -88,6 +88,19 @@ rm -r $RPM_BUILD_ROOT/usr/share/doc
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 4.0.7-32
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 4.0.7-31
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.7-30
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.7-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 4.0.7-28
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

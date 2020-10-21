@@ -1,11 +1,10 @@
 Name: ttyd
 Summary: Share your terminal over the web
-Version: 1.6.0
+Version: 1.6.1
 Release: 1%{?dist}
 License: MIT
 URL: https://tsl0922.github.io/ttyd/
 Source0: https://github.com/tsl0922/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
-Patch0: ttyd-ignore-libwebsockets-extensions.patch
 
 BuildRequires: json-c-devel
 BuildRequires: vim-common
@@ -14,20 +13,21 @@ BuildRequires: openssl-devel
 BuildRequires: libwebsockets-devel
 Buildrequires: gcc-c++
 Buildrequires: zlib-devel
+Patch0:       ws_ping_pong_interval.patch
 
 %description
 ttyd is a simple command-line tool for sharing terminal over the web,
 inspired by GoTTY.
 
 %prep
-%autosetup -p1
+%autosetup -p2
 
 %build
 %cmake
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %files
 %license LICENSE
@@ -36,6 +36,12 @@ inspired by GoTTY.
 %{_mandir}/man1/ttyd.1.*
 
 %changelog
+* Sat Sep 12 2020 Itamar Reis Peixoto <itamar@ispbrasil.com.br> - 1.6.1-1
+- new version 1.6.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 08 2020 Itamar Reis Peixoto <itamar@ispbrasil.com.br> - 1.6.0-1
 - new version 1.6.0
 - use autosetup macro

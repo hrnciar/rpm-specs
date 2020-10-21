@@ -10,13 +10,13 @@
 # For compatibility with SCL
 %undefine __brp_mangle_shebangs
 
-%global gh_commit    763c4e3abbf590ef8009effd295b71aed11dd595
+%global gh_commit    a40d53c8564f97eca75919769f93410dd3dba5e8
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     phpspec
 %global gh_project   phpspec
 #global prever       beta3
 # passes in local build, fails in mock
-%global with_tests   0%{?_with_tests:1}
+%bcond_with          tests
 
 # Only allow a single Symfony version
 # to ensure components consistency
@@ -25,8 +25,8 @@
 %global symfony_max 5
 
 Name:           php-phpspec
-Version:        6.2.0
-Release:        1%{?dist}
+Version:        6.2.1
+Release:        2%{?dist}
 Summary:        Specification-oriented BDD framework for PHP
 
 License:        MIT
@@ -40,7 +40,7 @@ Patch0:         %{gh_project}-4-rpm.patch
 
 BuildArch:      noarch
 BuildRequires:  php(language) >= 7.2
-%if %{with_tests}
+%if %{with tests}
 BuildRequires: (php-composer(phpspec/prophecy)         >= 1.9   with php-composer(phpspec/prophecy)         <  2)
 BuildRequires: (php-composer(phpspec/php-diff)         >= 1.0.0 with php-composer(phpspec/php-diff)         <  2)
 BuildRequires: (php-composer(sebastian/exporter)       >= 3     with php-composer(sebastian/exporter)       <  5)
@@ -133,7 +133,7 @@ install -Dpm755 bin/phpspec %{buildroot}%{_bindir}/phpspec
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 export LANG=C.UTF-8
 
 # Ignore this test which use bossa/phpspec2-expect
@@ -144,7 +144,7 @@ rm spec/PhpSpec/NamespaceProvider/ComposerPsrNamespaceProviderSpec.php
 sed -e 's/it_compare_array_of_objects_to_and_displays_its_properties/skipit1/' \
     -i spec/PhpSpec/Formatter/Presenter/Differ/ArrayEngineSpec.php
 
-for cmd in php php71 php72 php73 php74; do
+for cmd in php php72 php73 php74; do
   if which $cmd; then
     $cmd -d memory_limit=1G -d include_path=.:%{buildroot}%{_datadir}/php \
       bin/phpspec \
@@ -168,6 +168,12 @@ done
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 Remi Collet <remi@remirepo.net> - 6.2.1-1
+- update to 6.2.1
+
 * Wed Jun 17 2020 Remi Collet <remi@remirepo.net> - 6.2.0-1
 - update to 6.2.0
 - allow sebastian/exporter 4

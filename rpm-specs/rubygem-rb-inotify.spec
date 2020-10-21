@@ -1,8 +1,8 @@
 %global gem_name rb-inotify
 
 Name: rubygem-%{gem_name}
-Version: 0.10.0
-Release: 3%{?dist}
+Version: 0.10.1
+Release: 2%{?dist}
 Summary: A Ruby wrapper for Linux inotify, using FFI
 License: MIT
 URL: https://github.com/guard/rb-inotify
@@ -73,6 +73,12 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Pavel Valena <pvalena@redhat.com> - 0.10.1-1
+- Update to rb-inotify 0.10.1.
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

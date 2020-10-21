@@ -1,12 +1,12 @@
 %global srcname p1_acme
 
 %global idna_ver 6.0.0
-%global jiffy_ver 1.0.1
+%global jiffy_ver 1.0.5
 %global jose_ver 1.9.0
-%global yconf_ver 1.0.2
+%global yconf_ver 1.0.7
 
 Name:       erlang-%{srcname}
-Version:    1.0.3
+Version:    1.0.8
 Release:    1%{?dist}
 BuildArch:  noarch
 
@@ -55,6 +55,13 @@ ACME client library for Erlang.
 
 
 %changelog
+* Fri Jul 31 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.8-1
+- Update to 1.0.8 (#1807011).
+- https://github.com/processone/p1_acme/blob/1.0.8/CHANGELOG.md
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.3-1
 - Update to 1.0.3 (#1773766).
 - https://github.com/processone/p1_acme/blob/1.0.3/CHANGELOG.md

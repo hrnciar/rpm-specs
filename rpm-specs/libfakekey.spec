@@ -1,6 +1,6 @@
 Name:           libfakekey
 Version:        0.1
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        Library for converting characters to X key-presses
 License:        LGPLv2+
 URL:            http://projects.o-hand.com/matchbox/
@@ -54,6 +54,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libfakekey.la
 %{_libdir}/pkgconfig/libfakekey.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

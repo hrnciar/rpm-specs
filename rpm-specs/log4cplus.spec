@@ -2,7 +2,7 @@
 
 Name: log4cplus
 Version: 1.2.0
-Release: 11%{?prever:.%{prever}}%{?dist}
+Release: 13%{?prever:.%{prever}}%{?dist}
 Summary: Logging Framework for C++
 
 License: ASL 2.0
@@ -27,8 +27,6 @@ using log4cplus logging framework.
 %setup -q %{?prever:-n %{name}-%{version}-%{prever}}
 
 %build
-export CFLAGS=$RPM_OPT_FLAGS
-export CXXFLAGS="$RPM_OPT_FLAGS -std=c++11"
 %configure
 make %{?_smp_mflags}
 
@@ -65,6 +63,12 @@ rm -f $RPM_BUILD_ROOT/%{_libdir}/liblog4cplus.{a,la}
 %{_libdir}/pkgconfig/log4cplus.pc
 
 %changelog
+* Wed Aug 26 2020 Jeff Law <law@redhat.com> - 1.2.0-13
+- Drop forcing of C++11 mode.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name: cylindrix
 Version:  1.0
-Release: 32%{?dist}
+Release: 34%{?dist}
 Summary: A 3 degrees of freedom combat game
 
 License: LGPLv2        
@@ -87,6 +87,13 @@ install -p -m 644 %{SOURCE2} \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-34
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 06 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.0-32
 - Fix FTBFS.
 

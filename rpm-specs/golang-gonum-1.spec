@@ -7,7 +7,7 @@
 # https://github.com/gonum/gonum
 %global goipath         gonum.org/v1/gonum
 %global forgeurl        https://github.com/gonum/gonum
-%global commit          2a1643c79af27cd1a01585fcd259873bd2e29328
+Version:                0.7.0
 
 %gometa
 
@@ -23,17 +23,23 @@ integration, and optimization; network creation and analysis; and more.}
 %global godocs          AUTHORS CONDUCT.md CONTRIBUTING.md CONTRIBUTORS README.md README-*.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.3%{?dist}
+Release:        1%{?dist}
 Summary:        Set of numeric libraries for Go
 
 # Upstream license specification: MIT and BSD-3-Clause and BSL-1.0
 License:        MIT and BSD and Boost
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/gonum/gonum/issues/1419
+Patch0:         0001-graph-flow-Convert-int-to-string-using-rune.patch
 
 BuildRequires:  golang(golang.org/x/exp/rand)
 BuildRequires:  golang(golang.org/x/tools/container/intsets)
+
+%if %{with check}
+# Tests
+BuildRequires:  golang(gonum.org/v1/plot)
+%endif
 
 %description
 %{common_description}
@@ -42,6 +48,7 @@ BuildRequires:  golang(golang.org/x/tools/container/intsets)
 
 %prep
 %goprep
+%patch0 -p1
 for f in blas diff floats graph integrate lapack mat mathext optimize stat; do
   mv $f/README.md README-$f.md
 done
@@ -58,6 +65,16 @@ done
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 14:31:27 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.7.0-1
+- Update to 0.7.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

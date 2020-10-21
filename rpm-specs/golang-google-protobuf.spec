@@ -4,7 +4,7 @@
 # https://github.com/protocolbuffers/protobuf-go
 %global goipath         google.golang.org/protobuf
 %global forgeurl        https://github.com/protocolbuffers/protobuf-go
-Version:                1.21.0
+Version:                1.25.0
 
 %gometa
 
@@ -15,7 +15,7 @@ Go support for Google's protocol buffers.}
 %global godocs          AUTHORS CONTRIBUTING.md CONTRIBUTORS README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Go support for Google's protocol buffers
 
 # Upstream license specification: BSD-3-Clause
@@ -63,6 +63,14 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 1.25.0-3
+- Rebuilt for protobuf 3.13
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.25.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 13:30:02 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.25.0-1
+- Update to 1.25.0
+
 * Sun Jun 14 16:59:13 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.21.0-1
 - Initial package
-

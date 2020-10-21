@@ -1,7 +1,7 @@
 
 Name:		php-wikimedia-avro
 Version:	1.9.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	A library for using Avro with PHP
 
 License:	ASL 2.0
@@ -46,6 +46,9 @@ cp -rp lib/* %{buildroot}%{_datadir}/php/avro
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 05 2020 Michael Cronenworth <mike@cchtml.com> - 1.9.0-1
 - Version update
 

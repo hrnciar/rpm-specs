@@ -1,6 +1,6 @@
 Name:           perl-HTTP-Cache-Transparent
 Version:        1.4
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Cache the result of http get-requests persistently
 
 License:        GPL+ or Artistic
@@ -53,6 +53,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.4-11
 - Perl 5.32 rebuild
 

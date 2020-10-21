@@ -10,7 +10,7 @@
 
 Name:             R-%{packname}
 Version:          4.3
-Release:          3%{?dist}
+Release:          4%{?dist}
 Summary:          A Modern and Flexible Web Client for R
 
 License:          MIT
@@ -101,6 +101,9 @@ ARGS="$ARGS --ignore-vignettes"
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 4.3-3
 - conditionalize check to break loop with httpuv
 - rebuild for R 4

@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        1.5
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Group cohomology and Massey products
 
 License:        GPLv2+
@@ -41,6 +41,7 @@ for fil in PackageInfo.g; do
 done
 
 %build
+export LC_ALL=C.UTF-8
 mkdir -p ../pkg
 ln -s ../%{pkgname}-%{version} ../pkg
 gap -l "$PWD/..;%{_gap_dir}" < makedoc.g
@@ -53,6 +54,8 @@ rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}-%{version}/doc/*.{aux,bbl,blg,brf,i
 rm -f %{buildroot}%{_gap_dir}/pkg/%{pkgname}-%{version}/{CHANGES,COPYING,README}
 
 %check
+export LC_ALL=C.UTF-8
+
 # Do not run the batch.g test.  It never terminates.  The instructions indicate
 # it has to be interrupted manually.
 gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" << EOF
@@ -71,6 +74,9 @@ EOF
 %{_gap_dir}/pkg/%{pkgname}-%{version}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

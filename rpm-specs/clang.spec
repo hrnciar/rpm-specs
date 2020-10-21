@@ -1,10 +1,10 @@
 %global compat_build 0
 
-%global maj_ver 10
+%global maj_ver 11
 %global min_ver 0
 %global patch_ver 0
 #%%global rc_ver 6
-%global baserelease 5
+%global baserelease 1
 
 %global clang_tools_binaries \
 	%{_bindir}/clang-apply-replacements \
@@ -13,7 +13,6 @@
 	%{_bindir}/clang-doc \
 	%{_bindir}/clang-extdef-mapping \
 	%{_bindir}/clang-format \
-	%{_bindir}/clang-import-test \
 	%{_bindir}/clang-include-fixer \
 	%{_bindir}/clang-move \
 	%{_bindir}/clang-offload-bundler \
@@ -77,32 +76,22 @@ Summary:	A C language family front-end for LLVM
 
 License:	NCSA
 URL:		http://llvm.org
-%if 0%{?rc_ver:1}
-Source0:	https://prereleases.llvm.org/%{version}/rc%{rc_ver}/%{clang_srcdir}.tar.xz
-Source3:	https://prereleases.llvm.org/%{version}/rc%{rc_ver}/%{clang_srcdir}.tar.xz.sig
-%else
-Source0:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}/%{clang_srcdir}.tar.xz
-Source3:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}/%{clang_srcdir}.tar.xz.sig
-%endif
+Source0:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}%{?rc_ver:-rc%{rc_ver}}/%{clang_srcdir}.tar.xz
+Source3:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}%{?rc_ver:-rc%{rc_ver}}/%{clang_srcdir}.tar.xz.sig
 %if !0%{?compat_build}
-%if 0%{?rc_ver:1}
-Source1:	https://prereleases.llvm.org/%{version}/rc%{rc_ver}/%{clang_tools_srcdir}.tar.xz
-Source2:	https://prereleases.llvm.org/%{version}/rc%{rc_ver}/%{clang_tools_srcdir}.tar.xz.sig
-%else
-Source1:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}/%{clang_tools_srcdir}.tar.xz
-Source2:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}/%{clang_tools_srcdir}.tar.xz.sig
-%endif
+Source1:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}%{?rc_ver:-rc%{rc_ver}}/%{clang_tools_srcdir}.tar.xz
+Source2:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}%{?rc_ver:-rc%{rc_ver}}/%{clang_tools_srcdir}.tar.xz.sig
 %endif
 Source4:	https://prereleases.llvm.org/%{version}/hans-gpg-key.asc
 
 Patch4:		0002-gtest-reorg.patch
 Patch11:	0001-ToolChain-Add-lgcc_s-to-the-linker-flags-when-using-.patch
 Patch13:	0001-Make-funwind-tables-the-default-for-all-archs.patch
-Patch14:	0001-clang-fix-undefined-behaviour-in-RawComment-getForma.patch
 
 # Not Upstream
 Patch15:	0001-clang-Don-t-install-static-libraries.patch
-Patch16:	0001-Driver-Accept-multiple-config-options-if-filenames-a.patch
+Patch16:	0001-clang-Fix-spurious-test-failure.patch
+Patch17:	0001-Driver-Prefer-gcc-toolchains-with-libgcc_s.so-when-n.patch
 
 BuildRequires:	gcc
 BuildRequires:	gcc-c++
@@ -141,7 +130,23 @@ BuildRequires:	python3-devel
 
 # Needed for %%multilib_fix_c_header
 BuildRequires:	multilib-rpm-config
-BuildRequires: chrpath
+
+# For origin certification
+BuildRequires:	gnupg2
+
+# scan-build uses these perl modules so they need to be installed in order
+# to run the tests.
+BuildRequires: perl(Digest::MD5)
+BuildRequires: perl(File::Copy)
+BuildRequires: perl(File::Find)
+BuildRequires: perl(File::Path)
+BuildRequires: perl(File::Temp)
+BuildRequires: perl(FindBin)
+BuildRequires: perl(Hash::Util)
+BuildRequires: perl(lib)
+BuildRequires: perl(Term::ANSIColor)
+BuildRequires: perl(Text::ParseWords)
+BuildRequires: perl(Sys::Hostname)
 
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
@@ -150,8 +155,6 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 # - https://bugzilla.redhat.com/show_bug.cgi?id=1158594
 Requires:	libstdc++-devel
 Requires:	gcc-c++
-
-Requires:	emacs-filesystem
 
 Provides:	clang(major) = %{maj_ver}
 
@@ -237,9 +240,13 @@ Requires:      python3
 
 
 %prep
+%{gpgverify} --keyring='%{SOURCE4}' --signature='%{SOURCE3}' --data='%{SOURCE0}'
+
 %if 0%{?compat_build}
 %autosetup -n %{clang_srcdir} -p1
 %else
+
+%{gpgverify} --keyring='%{SOURCE4}' --signature='%{SOURCE2}' --data='%{SOURCE1}'
 %setup -T -q -b 1 -n %{clang_tools_srcdir}
 
 
@@ -252,9 +259,9 @@ pathfix.py -i %{__python3} -pn \
 %patch4 -p1 -b .gtest
 %patch11 -p1 -b .libcxx-fix
 %patch13 -p2 -b .unwind-all
-%patch14 -p2 -b .clangd
 %patch15 -p2 -b .no-install-static
-%patch16 -p2 -b .config-multiple
+%patch16 -p2 -b .test-fix2
+%patch17 -p1 -b .check-gcc_s
 
 mv ../%{clang_tools_srcdir} tools/extra
 
@@ -267,14 +274,16 @@ pathfix.py -i %{__python3} -pn \
 
 %build
 
+# We run the builders out of memory on armv7 and i686 when LTO is enabled
+%ifarch %{arm} i686
+%define _lto_cflags %{nil}
+%endif
+
 %if 0%{?__isa_bits} == 64
 sed -i 's/\@FEDORA_LLVM_LIB_SUFFIX\@/64/g' test/lit.cfg.py
 %else
 sed -i 's/\@FEDORA_LLVM_LIB_SUFFIX\@//g' test/lit.cfg.py
 %endif
-
-mkdir -p _build
-cd _build
 
 %ifarch s390 s390x %{arm} %ix86 ppc64le
 # Decrease debuginfo verbosity to reduce memory consumption during final library linking
@@ -285,7 +294,7 @@ cd _build
 # rpath of libraries and binaries.  llvm will skip the manual setting
 # if CAMKE_INSTALL_RPATH is set to a value, but cmake interprets this value
 # as nothing, so it sets the rpath to "" when installing.
-%cmake .. -G Ninja \
+%cmake  -G Ninja \
 	-DLLVM_PARALLEL_LINK_JOBS=1 \
 	-DLLVM_LINK_LLVM_DYLIB:BOOL=ON \
 	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
@@ -331,10 +340,11 @@ cd _build
 	-DBUILD_SHARED_LIBS=OFF \
 	-DCLANG_REPOSITORY_STRING="%{?fedora:Fedora}%{?rhel:Red Hat} %{version}-%{release}"
 
-%ninja_build
+%cmake_build
 
 %install
-%ninja_install -C _build
+
+%cmake_install
 
 %if 0%{?compat_build}
 
@@ -369,9 +379,9 @@ rm -vf %{buildroot}%{_datadir}/clang/clang-format-bbedit.applescript
 rm -vf %{buildroot}%{_datadir}/clang/clang-format-sublime.py*
 
 # TODO: Package html docs
-rm -Rvf %{buildroot}%{_pkgdocdir}
-rm -Rvf %{buildroot}%{install_prefix}/share/clang/clang-doc-default-stylesheet.css
-rm -Rvf %{buildroot}%{install_prefix}/share/clang/index.js
+rm -Rvf %{buildroot}%{_docdir}/clang/html
+rm -Rvf %{buildroot}%{_datadir}/clang/clang-doc-default-stylesheet.css
+rm -Rvf %{buildroot}%{_datadir}/clang/index.js
 
 # TODO: What are the Fedora guidelines for packaging bash autocomplete files?
 rm -vf %{buildroot}%{_datadir}/clang/bash-autocomplete.sh
@@ -399,16 +409,18 @@ popd
 
 %endif
 
+# Remove clang-tidy headers.  We don't ship the libraries for these.
+rm -Rvf %{buildroot}%{_includedir}/clang-tidy/
+
 %check
 %if !0%{?compat_build}
 # requires lit.py from LLVM utilities
-# FIXME: Fix failing ARM tests, s390x i686 and ppc64le tests
-# FIXME: Ignore test failures until rhbz#1715016 is fixed.
-LD_LIBRARY_PATH=%{buildroot}%{_libdir} ninja check-all -C _build || \
-%ifarch s390x i686 ppc64le %{arm}
+# FIXME: Fix failing ARM tests
+LD_LIBRARY_PATH=%{buildroot}/%{_libdir} %cmake_build --target check-all || \
+%ifarch %{arm}
 :
 %else
-:
+false
 %endif
 
 %endif
@@ -416,6 +428,7 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} ninja check-all -C _build || \
 
 %if !0%{?compat_build}
 %files
+%license LICENSE.TXT
 %{clang_binaries}
 %{_mandir}/man1/clang.1.gz
 %{_mandir}/man1/clang++.1.gz
@@ -482,6 +495,60 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} ninja check-all -C _build || \
 
 %endif
 %changelog
+* Thu Oct 15 2020 sguelton@redhat.com - 11.0.0-1
+- Fix NVR
+
+* Mon Oct 12 2020 sguelton@redhat.com - 11.0.0-0.7
+- llvm 11.0.0 - final release
+
+* Thu Oct 08 2020 sguelton@redhat.com - 11.0.0-0.6.rc6
+- 11.0.0-rc6
+
+* Fri Oct 02 2020 sguelton@redhat.com - 11.0.0-0.5.rc5
+- 11.0.0-rc5 Release
+
+* Sun Sep 27 2020 sguelton@redhat.com - 11.0.0-0.4.rc3
+- Fix NVR
+
+* Thu Sep 24 2020 sguelton@redhat.com - 11.0.0-0.1.rc3
+- 11.0.0-rc3 Release
+
+* Tue Sep 22 2020 sguelton@redhat.com - 11.0.0-0.3.rc2
+- Prefer gcc toolchains with libgcc_s
+
+* Tue Sep 01 2020 sguelton@redhat.com - 11.0.0-0.2.rc2
+- Normalize some doc directory locations
+
+* Tue Sep 01 2020 sguelton@redhat.com - 11.0.0-0.1.rc2
+- 11.0.0-rc2 Release
+- Use %%license macro
+
+* Tue Aug 11 2020 Tom Stellard <tstellar@redhat.com> - 11.0.0-0.2.rc1
+- Fix test failures
+
+* Mon Aug 10 2020 Tom Stellard <tstellar@redhat.com> - 11.0.0-0.1.rc1
+- 11.0.0-rc1 Release
+
+* Tue Aug 04 2020 Tom Stellard <tstellar@redhat.com> - 10.0.0-11
+- Remove Requires: emacs-filesystem
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.0-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 10.0.0-9
+- Disable LTO on arm and i686
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 sguelton@redhat.com - 10.0.0-7
+- Update cmake macro usage
+- Finalize source verification
+
+* Fri Jun 26 2020 Tom Stellard <tstellar@redhat.com> - 10.0.0-6
+- Add cet.h header
+
 * Mon Jun 08 2020 Tom Stellard <tstellar@redhat.com> - 10.0.0-5
 - Accept multiple --config options
 

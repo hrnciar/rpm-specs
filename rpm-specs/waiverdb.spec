@@ -10,7 +10,7 @@
 
 Name:           waiverdb
 Version:        1.1.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Service for waiving results in ResultsDB
 License:        GPLv2+
 URL:            https://pagure.io/waiverdb
@@ -197,6 +197,9 @@ install -D -m0644 \
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.6-2
 - Rebuilt for Python 3.9
 

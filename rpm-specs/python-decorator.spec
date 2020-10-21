@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        4.4.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Module to simplify usage of decorators
 
 License:        BSD
@@ -53,6 +53,9 @@ find %{buildroot} -name SOURCES.txt~ -exec rm -f {} \;
 %{python3_sitelib}/__pycache__/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 4.4.2-2
 - Rebuilt for Python 3.9
 

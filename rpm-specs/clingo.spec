@@ -1,6 +1,6 @@
 Name:       clingo
 Version:    5.4.0
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    A grounder and solver for logic programs
 
 License:    MIT
@@ -107,6 +107,9 @@ cmake --build release -- %{?_smp_mflags}
 %{python3_sitearch}/%{name}.*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.4.0-3
 - Rebuilt for Python 3.9
 

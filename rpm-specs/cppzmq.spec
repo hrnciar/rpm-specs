@@ -2,7 +2,7 @@
 %global debug_package %{nil}
 
 Name:           cppzmq
-Version:        4.6.0
+Version:        4.7.1
 Release:        1%{?dist}
 Summary:        Header-only C++ binding for libzmq
 
@@ -43,16 +43,16 @@ Requires:       pkgconfig(libzmq)
 
 
 %build
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %check
-ctest -V
+%ctest
 
 
 %files devel
@@ -63,6 +63,16 @@ ctest -V
 
 
 %changelog
+* Tue Oct 06 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 4.7.1-1
+- Update to latest version (#1884030)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 14 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 4.6.0-1
 - Update to latest version
 

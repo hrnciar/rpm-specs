@@ -1,6 +1,6 @@
 Name: aha
-Version: 0.5
-Release: 4%{?dist}
+Version: 0.5.1
+Release: 1%{?dist}
 Summary: Convert terminal output to HTML
 
 License: MPLv1.1 or LGPLv2+
@@ -38,6 +38,16 @@ cat aha.c | awk '1;/\*\//{exit}' > LICENSE
 
 
 %changelog
+* Thu Sep 10 2020 Artur Frenszek-Iwicki <fedora@svgames.pl> - 0.5.1-1
+- Update to latest upstream release
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

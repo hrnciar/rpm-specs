@@ -1,6 +1,6 @@
 Name:           perl-URI-db
 Version:        0.19
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Perl support for database URIs
 License:        GPL+ or Artistic
 
@@ -51,6 +51,9 @@ The specification for their format is documented in README.md.
 %{_mandir}/man3/URI*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.19-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.19-6
 - Perl 5.32 rebuild
 

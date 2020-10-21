@@ -5,7 +5,7 @@
 
 Name:           pam-cryptsetup
 Version:        0.1
-Release:        0.3.%{snapinfo}%{?dist}
+Release:        0.5.%{snapinfo}%{?dist}
 Summary:        PAM module for updating LUKS-encrypted volumes
 
 License:        ASL 2.0
@@ -65,6 +65,13 @@ rm $RPM_BUILD_ROOT%{_libdir}/security/pam_cryptsetup.la
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.5.20190823.7b42892
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.4.20190823.7b42892
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 26 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.1-0.3.20190823.7b42892
 - Add missing BR on gcc
 - Spec cleanup

@@ -1,6 +1,6 @@
 Name:           mu
 Version:        1.0.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A simple Python editor not only for micro:bit
 License:        GPLv3
 URL:            https://github.com/mu-editor/mu
@@ -110,6 +110,9 @@ xvfb-run %{__python3} -m pytest -vv tests
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.3-3
 - Allow pyflakes 2.2 and pycodestyle 2.6 (#1841648)
 

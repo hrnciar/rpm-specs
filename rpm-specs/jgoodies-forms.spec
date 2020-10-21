@@ -2,7 +2,7 @@
 
 Name:           jgoodies-forms
 Version:        1.8.0
-Release:        11%{?dist}
+Release:        14%{?dist}
 Summary:        Framework to lay out and implement elegant Swing panels in Java
 
 License:        BSD
@@ -14,7 +14,6 @@ BuildRequires:  dejavu-sans-fonts
 BuildRequires:  fontconfig
 BuildRequires:  maven-local
 BuildRequires:  mvn(com.jgoodies:jgoodies-common) >= 1.8.0
-BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
 BuildArch:      noarch
 
 %description
@@ -61,6 +60,9 @@ for file in LICENSE.txt RELEASE-NOTES.txt; do
   rm $file.orig
 done
 
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
+
 %mvn_file :%{name} %{name} %{name}
 
 
@@ -81,6 +83,15 @@ done
 
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 1.8.0-14
+- Remove unnecessary dependency on parent POM.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.8.0-12
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

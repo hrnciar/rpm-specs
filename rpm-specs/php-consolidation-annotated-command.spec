@@ -11,27 +11,32 @@
 
 %global github_owner     consolidation
 %global github_name      annotated-command
-%global github_version   4.1.0
-%global github_commit    33e472d3cceb0f22a527d13ccfa3f76c4d21c178
+%global github_version   4.2.1
+%global github_commit    ef6b7e662ce2d8b0af9004307bdf26350aad4df1
 
 %global composer_vendor  consolidation
 %global composer_project annotated-command
 
 # "php": ">=7.1.3"
 %global php_min_ver 7.1.3
-# "consolidation/output-formatters": "^4.1"
-%global consolidation_output_formatters_min_ver 4.1
+# "consolidation/output-formatters": "^4.1.1"
+%global consolidation_output_formatters_min_ver 4.1.1
 %global consolidation_output_formatters_max_ver 5.0
 # "psr/log": "^1|^2"
 #     NOTE: Min version not 1.0 because autoloader required
 #     NOTE: Max version not 3.0 because there is no version 2 at this time
 %global psr_log_min_ver 1.0.1
 %global psr_log_max_ver 2.0
-# "symfony/console": "^4|^5"
-# "symfony/event-dispatcher": "^4|^5"
-# "symfony/finder": "^4|^5"
-%global symfony_min_ver 4.0
+# "symfony/console": "^4.4.8|^5""
+# "symfony/event-dispatcher": "^4.4.8|^5""
+# "symfony/finder": "^4.4.8|^5""
+%global symfony_min_ver 4.4.8
 %global symfony_max_ver 6.0
+
+# "phpunit/phpunit": "^6"
+%global phpunit_require phpunit6
+%global phpunit_min_ver 6
+%global phpunit_exec    phpunit6
 
 # Build using "--without tests" to disable tests
 %global with_tests 0%{!?_without_tests:1}
@@ -63,7 +68,7 @@ BuildArch:     noarch
 %if %{with_tests}
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
-BuildRequires: phpunit6
+BuildRequires: %{phpunit_require} >= %{phpunit_min_ver}
 %if %{with_range_dependencies}
 BuildRequires: (php-composer(consolidation/output-formatters) >= %{consolidation_output_formatters_min_ver} with php-composer(consolidation/output-formatters) < %{consolidation_output_formatters_max_ver})
 BuildRequires: (php-composer(psr/log) >= %{psr_log_min_ver} with php-composer(psr/log) < %{psr_log_max_ver})
@@ -83,7 +88,7 @@ BuildRequires: php-composer(symfony/event-dispatcher) >= %{symfony_min_ver}
 BuildRequires: php-composer(symfony/finder) <  %{symfony_max_ver}
 BuildRequires: php-composer(symfony/finder) >= %{symfony_min_ver}
 %endif
-## phpcompatinfo (computed from version 4.1.0)
+## phpcompatinfo (computed from version 4.2.1)
 BuildRequires: php-dom
 BuildRequires: php-pcre
 BuildRequires: php-reflection
@@ -112,7 +117,7 @@ Requires:      php-composer(symfony/event-dispatcher) >= %{symfony_min_ver}
 Requires:      php-composer(symfony/finder) <  %{symfony_max_ver}
 Requires:      php-composer(symfony/finder) >= %{symfony_min_ver}
 %endif
-# phpcompatinfo (computed from version 4.1.0)
+# phpcompatinfo (computed from version 4.2.1)
 Requires:      php-dom
 Requires:      php-pcre
 Requires:      php-reflection
@@ -191,7 +196,7 @@ fi
 
 : Upstream tests
 RETURN_CODE=0
-PHPUNIT=$(which phpunit6)
+PHPUNIT=$(which %{phpunit_exec})
 for PHP_EXEC in "" php72 php73 php74; do
     if [ -z "$PHP_EXEC" ] || which $PHP_EXEC; then
         $PHP_EXEC $PHPUNIT --verbose --bootstrap bootstrap.php \
@@ -214,6 +219,12 @@ exit $RETURN_CODE
 
 
 %changelog
+* Mon Sep 07 2020 Shawn Iwinski <shawn@iwin.ski> - 4.2.1-1
+- Update to 4.2.1 (RHBZ #1850389)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Shawn Iwinski <shawn@iwin.ski> - 4.1.0-1
 - Update to 4.1.0
 - Use PHPUnit 6

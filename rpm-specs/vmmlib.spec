@@ -1,8 +1,15 @@
+%undefine __cmake_in_source_build
 %global git_commit 925a709ba0c98d8c0beabd0e34477971946c10be
 %global git_date 20140319
 
 %global git_short_commit %(echo %{git_commit} | cut -c -8)
 %global git_suffix %{git_date}git%{git_short_commit}
+
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
 
 # git clone https://github.com/VMML/vmmlib.git
 # cd %%{name}
@@ -11,15 +18,17 @@
 
 Name:          vmmlib
 Version:       1.6.2
-Release:       12.%{git_suffix}%{?dist}
+Release:       14.%{git_suffix}%{?dist}
 Summary:       A vector and matrix math library implemented using C++ templates
 License:       BSD
 #URL:           http://vmmlib.sourceforge.net/
 URL:           http://github.com/VMML/vmmlib/
 #Source0:       http://github.com/VMML/vmmlib/archive/release-%{version}.tar.gz#/%{name}-release-%{version}.tar.gz
 Source0:       %{name}-%{version}-%{git_suffix}.tar.bz2
+# BLAS/LAPACK tests are broken
+Patch0:        0001-remove-lapack-tests.patch
 BuildArch:     noarch
-BuildRequires: atlas-devel, lapack-devel, blas-devel, f2c, gcc-c++
+BuildRequires: %{blaslib}-devel, f2c, gcc-c++
 BuildRequires: doxygen, cmake
 
 %description
@@ -41,18 +50,15 @@ More advanced functionality include solvers, frustum computations and frustum
 culling classes, and spatial data structures.
 
 %prep
-%setup
+%autosetup -p1
 
 %build
-mkdir build
-cd build
-%cmake ..
-make %{?_smp_mflags}
+export CXXFLAGS="$CXXFLAGS -I%{_includedir}/%{blaslib}"
+%cmake -DBLAS_FOUND=TRUE -DLAPACK_FOUND=TRUE -DBLAS_LIBRARIES=-l%{blaslib}
+%cmake_build
 
 %install
-pushd build
-make install DESTDIR=%{buildroot}
-popd
+%cmake_install
 
 # move docs to right place
 mkdir _tmpdoc
@@ -64,8 +70,8 @@ mv %{buildroot}%{_datadir}/%{name}/CMake/*.cmake %{buildroot}%{_datadir}/cmake/M
 rmdir %{buildroot}%{_datadir}/%{name}/CMake
 
 %check
-cd build
-make test
+export FLEXIBLAS=netlib
+%ctest
 
 %files devel
 %doc RELNOTES.md CHANGES _tmpdoc/*
@@ -74,6 +80,12 @@ make test
 %{_datadir}/cmake/Modules/vmmlib*.cmake
 
 %changelog
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.6.2-14.20140319git925a709b
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.2-13.20140319git925a709b
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.2-12.20140319git925a709b
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

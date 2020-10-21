@@ -1,7 +1,7 @@
 Name:		bfa-firmware
 Summary:	Brocade Fibre Channel HBA Firmware
 Version:	3.2.21.1
-Release:	13%{?dist}
+Release:	14%{?dist}
 License:	Redistributable, no modification permitted
 Source0:	LICENSE
 # These files were taken from:
@@ -110,6 +110,9 @@ install_bfa_firmware 3.0.3.1 .
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.21.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.21.1-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,31 +1,32 @@
 # debuginfo not supported for static libraries, RB #209316
 %global debug_package %{nil}
 
-%global srcname kiss_fft
+%global srcname kissfft
 
 Name:           kiss-fft
-Version:        1.3.0
+Version:        1.3.1
 %global srcver %(echo %{version} | sed -e 's/\\.//g')
-Release:        10%{?dist}
+Release:        1%{?dist}
 Summary:        Fast Fourier Transform library
 
 License:        BSD
-URL:            https://sourceforge.net/projects/kissfft
-Source0:        http://downloads.sourceforge.net/kissfft/%{srcname}%{srcver}.zip
+URL:            https://github.com/mborgerding/%{srcname}
+Source0:        https://github.com/mborgerding/%{srcname}/archive/v%{srcver}.tar.gz#/%{srcname}-%{srcver}.tar.gz
 # build static library
 Source1:        Makefile.libs
 Source2:        README.Fedora
 # use the libraries in tests (not intended for upstream)
 Patch1:         %{name}-library.patch
-# https://sourceforge.net/p/kissfft/code/ci/fbe1bb0bc7b94ec252842b8b7e3f3347ec75d92f/tree/kissfft.hh?diff=effd3ec61a1c4a2141fb04ab9a76d78be0459cce
-Patch2:         %{name}-header.patch
+# Patch from upstream to fix python3 incompatibilities
+Patch2:         %{name}-python3-fixes.patch
 
+BuildRequires:  gcc
 # only for benchmark tests (GPLv2+ library)
 BuildRequires:  fftw-devel
 BuildRequires:  libtool
 # for tests
-BuildRequires:  numpy
-BuildRequires:  python2
+BuildRequires:  python3-numpy
+BuildRequires:  python3-devel
 %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:  procps
 %else
@@ -51,14 +52,15 @@ Header files and static library are provided.
 
 
 %prep
-%setup -q -n %{srcname}%{srcver}
+%setup -q -n %{srcname}-%{srcver}
 cp -p %{SOURCE2} .
 %patch1 -p1
 %patch2 -p1
-sed -i -e '1s,/usr/bin/env python,/usr/bin/python2,' test/*.py
+%py3_shebang_fix test/*.py
 
 
 %build
+%set_build_flags
 for type in float double int16 int32; do
     mkdir build_${type}
     pushd build_${type}
@@ -81,6 +83,7 @@ done
 
 
 %check
+%set_build_flags
 while read type suffix; do
     DATATYPE=${type} \
     SUFFIX=${suffix} \
@@ -110,6 +113,13 @@ EOF
 
 
 %changelog
+* Fri Aug 28 2020 Guido Aulisi <guido.aulisi@gmail.com> - 1.3.1-1
+- Update to 1.3.1
+- Drop python2 dependency
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

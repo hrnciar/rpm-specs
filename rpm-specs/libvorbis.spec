@@ -2,28 +2,14 @@
 
 Summary:	The Vorbis General Audio Compression Codec
 Name:		libvorbis
-Version:	1.3.6
-Release:	6%{?dist}
+Version:	1.3.7
+Release:	2%{?dist}
 Epoch:		1
 License:	BSD
 URL:		https://www.xiph.org/
 Source:		https://downloads.xiph.org/releases/vorbis/%{name}-%{version}.tar.xz
 BuildRequires:  gcc
 BuildRequires:	pkgconfig(ogg) >= 1.0
-
-# sync with git as of
-#
-# commit 46e70fa6573e206c2555cd99a53204ffd6bf58fd
-# Author: Minmin Gong <gongminmin@msn.com>
-# Date:   Wed Jul 4 21:37:54 2018 -0700
-#
-#     Fix the compiling errors on msvc ARM64 configuration.
-#
-# Fixes:
-# CVE-2017-14160
-# CVE-2018-10392
-# CVE-2018-10393
-Patch0: libvorbis-1.3.6-git.patch
 
 %description
 Ogg Vorbis is a fully open, non-proprietary, patent- and royalty-free,
@@ -52,8 +38,6 @@ Documentation for developing applications with libvorbis.
 %prep
 
 %setup -q
-%patch0 -p1
-sed -i "s|-O20|$RPM_OPT_FLAGS|" configure
 sed -i "s/-ffast-math//" configure
 sed -i "s/-mcpu=750//" configure
 
@@ -91,6 +75,12 @@ make check
 %ldconfig_scriptlets
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.3.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 David King <amigadave@amigadave.com> - 1.3.7-1
+- Update to 1.3.7
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.3.6-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

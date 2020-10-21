@@ -2,13 +2,13 @@
 %bcond_with network
 
 Name:           python-%{pypi_name}
-Version:        1.1.9
-Release:        3%{?dist}
+Version:        1.1.11
+Release:        1%{?dist}
 Summary:        Python library to fetch your external IP address
 
 License:        ASL 2.0
 URL:            https://github.com/starofrainnight/ipgetter2
-Source0:        https://github.com/starofrainnight/ipgetter2/archive/%{version}/%{pypi_name}-%{version}.zip
+Source0:        %{url}/archive/%{version}/%{pypi_name}-%{version}.zip
 BuildArch:      noarch
 
 %description
@@ -73,6 +73,12 @@ sed -i -e '/^#!\//, 1d' ipgetter2/*.py
 %{_bindir}/ipgetter2
 
 %changelog
+* Thu Oct 08 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.1.11-1
+- Update to latest upstream release 1.1.11
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.9-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.9-3
 - Rebuilt for Python 3.9
 

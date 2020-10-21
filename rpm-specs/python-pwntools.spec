@@ -1,8 +1,8 @@
 %global srcname pwntools
 
 Name:           python-%{srcname}
-Version:        4.1.0
-Release:        2%{?dist}
+Version:        4.2.1
+Release:        1%{?dist}
 Summary:        A CTF framework and exploit development library
 
 # Source contains four LICENSE*.txt files which explain the licenses which cover
@@ -74,6 +74,11 @@ rm -rf %{buildroot}%{python3_sitelib}/requirements.txt
 # %%license LICENSE-pwntools.txt
 
 %changelog
+* Thu Oct 08 2020 W. Michael Petullo <mike@flyn.org> - 4.2.1-1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.1.0-2
 - Rebuilt for Python 3.9
 

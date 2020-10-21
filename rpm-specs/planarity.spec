@@ -1,13 +1,10 @@
 Name:		planarity
 Summary:	Implementations of several planarity-related graph algorithms
-Version:	3.0.0.5
-Release:	6%{?dist}
+Version:	3.0.1.0
+Release:	1%{?dist}
 License:	BSD
 URL:		https://github.com/graph-algorithms/edge-addition-planarity-suite
 Source0:	%{url}/archive/Version_%{version}/%{name}-%{version}.tar.gz
-# sagemath patches renamed with planarity- prefix
-# https://github.com/graph-algorithms/edge-addition-planarity-suite/pull/3
-Patch0:		%{name}-extern.patch
 
 BuildRequires:	gcc
 BuildRequires:	libtool
@@ -60,24 +57,31 @@ sed -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -e 's|-nostdlib|-Wl,--as-needed &|' \
     -i libtool
 
-# Do not use hardcoded CFLAGS=-O3
-make %{?_smp_mflags} CFLAGS="%{optflags}"
+%make_build
 
 %install
-make install DESTDIR="%{buildroot}"
+%make_install
 rm %{buildroot}%{_libdir}/*.la
 
 %files
 %license LICENSE.TXT
+%doc README.md
 %{_mandir}/man1/%{name}.1*
 %{_bindir}/%{name}
-%{_libdir}/lib%{name}.so.*
+%{_libdir}/lib%{name}.so.0*
 
 %files		devel
 %{_includedir}/%{name}/
 %{_libdir}/lib%{name}.so
 
 %changelog
+* Mon Oct  5 2020 Jerry James <loganjerry@gmail.com> - 3.0.1.0-1
+- Version 3.0.1.0
+- Drop upstreamed -extern patch
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0.5-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 2020 Jerry James <loganjerry@gmail.com> - 3.0.0.5-6
 - Apply the patch to fix FTBFS with gcc 10
 - Update URLs

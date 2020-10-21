@@ -1,6 +1,6 @@
 Name:           idle3-tools
 Version:        0.9.1
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Manipulate the value of the idle3 timer found on recent WD Hard Disk Drives
 License:        GPLv3
 URL:            http://idle3-tools.sourceforge.net/
@@ -37,6 +37,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/idle3ctl*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

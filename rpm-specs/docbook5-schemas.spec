@@ -1,6 +1,6 @@
 Name: docbook5-schemas
 Version: 5.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 Summary: Norman Walsh's schemas (DTD, Relax NG, W3C schema) for Docbook 5.X
 
@@ -334,6 +334,9 @@ fi
 %{_bindir}/db4-entities.pl
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 05 2020 Ondrej Vasik <ovasik@redhat.com> - 5.1-1
 - add Docbook 5.1 (no dtd and xsd schemas provided)
 

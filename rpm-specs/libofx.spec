@@ -1,7 +1,7 @@
 Summary: A library for supporting Open Financial Exchange (OFX)
 Name: libofx
 Version: 0.9.13
-Release: 4%{?dist}
+Release: 7%{?dist}
 URL: http://libofx.sourceforge.net/
 License: GPLv2+
 Source: http://downloads.sourceforge.net/libofx/%{name}-%{version}.tar.gz
@@ -41,11 +41,11 @@ find . -name "*~" -delete
 chmod 644 ./doc/ofx_sample_files/*
 
 %build
-export CXXFLAGS="-std=c++11 %{optflags}"
+export CXXFLAGS="%{optflags}"
 %configure --with-opensp-libs=%{_libdir} --disable-static --disable-rpath
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
-make %{?_smp_mflags} CXXFLAGS="-std=c++11 %{optflags}"
+make %{?_smp_mflags} CXXFLAGS="%{optflags}"
 
 %install
 make install DESTDIR=$RPM_BUILD_ROOT
@@ -70,6 +70,16 @@ rm -rf $RPM_BUILD_ROOT%{_libdir}/lib*.la $RPM_BUILD_ROOT%{_datadir}/doc
 %{_libdir}/libofx.so
 
 %changelog
+* Wed Aug 26 2020 Jeff Law <law@redhat.com> - 0.9.13-7
+- Do not force C++11 mode
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.13-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.13-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.13-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

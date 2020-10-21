@@ -1,6 +1,6 @@
 Name:           libbsd
 Version:        0.10.0
-Release:        2%{?dist}
+Release:        6%{?dist}
 Summary:        Library providing BSD-compatible functions for portability
 URL:            http://libbsd.freedesktop.org/
 License:        BSD and ISC and Copyright only and Public Domain
@@ -8,8 +8,11 @@ License:        BSD and ISC and Copyright only and Public Domain
 Source0:        http://libbsd.freedesktop.org/releases/libbsd-%{version}.tar.xz
 Patch1:         %{name}-0.8.3-deprecated.patch
 Patch2:         %{name}-0.8.6-compat.patch
+Patch3:         %{name}-symver.patch
 
 BuildRequires:  gcc
+BuildRequires:  autoconf automake libtool
+
 %description
 libbsd provides useful functions commonly found on BSD systems, and
 lacking on others like GNU systems, thus making it easier to port
@@ -41,7 +44,10 @@ configured using "pkg-config --libs libbsd-ctor".
 %patch2 -p1 -b .compat
 %endif
 
+%patch3 -p1 -b .symver
+
 %build
+autoreconf -fiv
 %configure
 %make_build V=1
 
@@ -79,6 +85,18 @@ rm %{buildroot}%{_mandir}/man3/explicit_bzero.3bsd
 %{_libdir}/pkgconfig/%{name}-ctor.pc
 
 %changelog
+* Wed Sep 09 2020 Jeff Law <law@redhat.com> - 0.10.0-5
+- Use symver attribute for symbol versioning
+  Fix configure test compromised by LTO
+  Fix nlist test compromised by LTO
+  Re-enable LTO
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  1 2020 Jeff Law <law@redhat.com> - 0.10.0-3
+- Disable LTO
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

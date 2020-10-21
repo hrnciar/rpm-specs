@@ -4,7 +4,7 @@
 
 Name:           withlock
 Version:        0.5
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Locking wrapper script
 
 License:        ASL 2.0
@@ -47,6 +47,9 @@ gzip %{buildroot}%{_mandir}/man1/withlock.1
 %{_mandir}/man1/withlock.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

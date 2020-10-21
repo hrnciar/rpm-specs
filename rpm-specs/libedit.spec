@@ -4,7 +4,7 @@
 Summary:	The NetBSD Editline library
 Name:		libedit
 Version:	3.1
-Release:	32.%{snap}cvs%{?dist}
+Release:	33.%{snap}cvs%{?dist}
 License:	BSD
 URL:		http://www.thrysoee.dk/editline/
 Source0:	http://www.thrysoee.dk/editline/%{name}-%{snap}-%{version}.tar.gz
@@ -64,6 +64,9 @@ rm -f $RPM_BUILD_ROOT/%{_mandir}/man3/history.3*
 %{_includedir}/editline/readline.h
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-33.20191231cvs
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-32.20191231cvs
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

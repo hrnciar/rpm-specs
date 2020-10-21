@@ -1,14 +1,15 @@
 %global libname libimagequant
 
 Name:           pngquant
-Version:        2.12.6
-Release:        2%{?dist}
+Version:        2.13.0
+Release:        1%{?dist}
 Summary:        PNG quantization tool for reducing image file size
 
 License:        GPLv3+
 
 URL:            http://%{name}.org
 Source0:        https://github.com/pornel/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
+# Comment out failing test on EL < 8 due to old libpng
 Patch1:         pngquant-old_libpng.patch
 
 BuildRequires:  gcc
@@ -60,6 +61,12 @@ export CFLAGS="%{optflags} -fno-math-errno -funroll-loops -fomit-frame-pointer -
 
 
 %changelog
+* Mon Oct 19 2020 Sandro Mani <manisandro@gmail.com> - 2.13.0-1
+- Update to 2.13.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

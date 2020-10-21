@@ -1,6 +1,6 @@
 Summary: A remote mail retrieval and forwarding utility
 Name: fetchmail
-Version: 6.4.8
+Version: 6.4.12
 Release: 1%{?dist}
 Source0: http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.xz
 Source1: http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.xz.asc
@@ -61,6 +61,15 @@ rm -f $RPM_BUILD_ROOT%{python3_sitelib}/__pycache__/fetchmailconf*
 %config(noreplace) %attr(0600, mail, mail) %{_sysconfdir}/fetchmailrc.example
 
 %changelog
+* Tue Sep 15 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 6.4.12-1
+- Update to fetchmail-6.4.12
+
+* Wed Sep 02 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 6.4.11-1
+- Update to fetchmail-6.4.11
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.4.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 6.4.8-1
 - Update to fetchmail-6.4.8
   Resolves: #1846929

@@ -5,7 +5,7 @@
 
 Name:		nodejs-source-map-resolve
 Version:	0.5.0
-Release:	6%{?dist}
+Release:	8%{?dist}
 Summary:	Resolve the source map and/or sources for a generated file
 
 License:	MIT
@@ -74,6 +74,13 @@ cp -pr package.json *.js lib/ \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

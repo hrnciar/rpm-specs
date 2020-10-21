@@ -3,7 +3,7 @@
 Name:       perl-Jemplate 
 # Keep 3-digit version for history
 Version:    %{cpan_version}0
-Release:    16%{?dist}
+Release:    17%{?dist}
 # lib/Jemplate.pm -> GPL+ or Artistic
 # lib/Jemplate/Directive.pm -> GPL+ or Artistic
 # lib/Jemplate/Parser.pm -> GPL+ or Artistic
@@ -115,6 +115,9 @@ make test
 %{_mandir}/man1/jemplate.1.gz
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.300-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.300-16
 - Perl 5.32 rebuild
 

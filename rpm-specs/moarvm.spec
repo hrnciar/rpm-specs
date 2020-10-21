@@ -1,5 +1,5 @@
 %global year 2020
-%global month 02
+%global month 07
 
 
 Name:           moarvm
@@ -77,7 +77,7 @@ rm -r 3rdparty/dyncall
 %endif
 
 # --has-sha \
-CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="%{__global_ldflags}" ./Configure.pl \
+CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="%{__global_ldflags}" perl ./Configure.pl \
   --prefix=%{_usr} --libdir=%{_libdir} --has-libuv --has-libffi \
 %if 0%{?fedora}
   --has-libatomic_ops # --lua=%%{_bindir}/lua
@@ -136,6 +136,12 @@ pod2man --section=1 --name=moar docs/moar.pod | %{__gzip} -c > $RPM_BUILD_ROOT%{
 
 
 %changelog
+* Wed Aug 12 2020 Gerd Pokorra <gp@zimt.uni-siegen.de> 0.2020.07-1
+- update to 2020.07
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2020.02-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Gerd Pokorra <gp@zimt.uni-siegen.de> 0.2020.02-1
 - update to 2020.02
 

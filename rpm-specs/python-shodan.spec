@@ -5,7 +5,7 @@
 %global api_key ABCDEFGH
 
 Name:           python-%{pypi_name}
-Version:        1.23.0
+Version:        1.23.1
 Release:        1%{?dist}
 Summary:        Python library and command-line utility for Shodan.io
 
@@ -95,6 +95,12 @@ rm -rf html/.{doctrees,buildinfo}
 %license LICENSE
 
 %changelog
+* Tue Sep 08 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.23.1-1
+- Update to latest upstream release 1.23.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.23.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.23.0-1
 - Update to latest upstream release 1.23.0
 

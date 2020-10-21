@@ -1,14 +1,10 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 %global appname switchmail
 %global __python /usr/bin/python3
 
 Summary: The Mail Transport Agent Switcher
 Name: system-switch-mail
 Version: 2.0.1
-Release: 8%{?dist}
+Release: 12%{?dist}
 Url: http://than.fedorapeople.org/system-switch-mail
 Source0: http://than.fedorapeople.org/system-switch-mail/%{name}-%{version}.tar.xz
 Patch0: system-switch-mail-2.0.1-python3.patch
@@ -48,10 +44,9 @@ Mail Transport Agent Switcher.
 make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
-
 make PYTHON=%{__python3} DESTDIR=%{buildroot} mandir=%{_mandir} sysconfdir=%{_sysconfdir} install
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{appname}.desktop
+%py_byte_compile %{__python3} %{buildroot}%{_datadir}/%{name}/
 
 %find_lang %{name}
 
@@ -61,8 +56,6 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{appname}.desktop
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/backend.py*
 %{_datadir}/%{name}/%{appname}-tui.py*
-%{_datadir}/%{name}/__pycache__/backend.cpython-3*
-%{_datadir}/%{name}/__pycache__/switchmail-tui*
 %{_mandir}/man1/*
 
 %files gui
@@ -70,10 +63,23 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{appname}.desktop
 %{_datadir}/applications/*
 %{_datadir}/%{name}/%{appname}-gui.py*
 %{_datadir}/%{name}/%{appname}.glade
-%{_datadir}/%{name}/__pycache__/switchmail-gui*
+%{_datadir}/%{name}/__pycache__
 %{_datadir}/pixmaps/*.png
 
 %changelog
+* Mon Sep 07 2020 Than Ngo <than@redhat.com> - 2.0.1-12
+- added bytecode
+
+* Tue Aug 25 2020 Than Ngo <than@redhat.com> - 2.0.1-11
+- fixed bz#1865563 - FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

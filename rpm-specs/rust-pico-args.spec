@@ -5,7 +5,7 @@
 %global crate pico-args
 
 Name:           rust-%{crate}
-Version:        0.3.2
+Version:        0.3.4
 Release:        1%{?dist}
 Summary:        Ultra simple CLI arguments parser
 
@@ -64,6 +64,18 @@ which use "eq-separator" feature of "%{crate}" crate.
 %files       -n %{name}+eq-separator-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+short-space-opt-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+short-space-opt-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "short-space-opt" feature of "%{crate}" crate.
+
+%files       -n %{name}+short-space-opt-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
 %cargo_prep
@@ -83,6 +95,15 @@ which use "eq-separator" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 0.3.4-1
+- Update to 0.3.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.3.3-1
+- Update to 0.3.3
+
 * Fri Jun 19 2020 Josh Stone <jistone@redhat.com> - 0.3.2-1
 - Update to 0.3.2
 

@@ -1,9 +1,9 @@
-%global commit      788874a62eb7b7ed78ab3d7218a5cdd9fe346fb5
-%global date        20200401
-%global forgeurl    https://github.com/steinbergmedia/bravura
-
-Version:        1.360
+Version:        1.390
 URL:            https://www.smufl.org/fonts/
+
+%global tag         bravura-%{version}
+%global date        20200630
+%global forgeurl    https://github.com/steinbergmedia/bravura
 
 %forgemeta
 
@@ -96,6 +96,12 @@ cd -
 %fontfiles -z 1
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.390-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  1 2020 Jerry James <loganjerry@gmail.com> - 1.390-1
+- Version 1.390
+
 * Tue Apr  7 2020 Jerry James <loganjerry@gmail.com> - 1.360-2.20200401git788874a
 - Fix Obsoletes (bz 1821488)
 

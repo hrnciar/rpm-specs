@@ -1,7 +1,7 @@
 Name:           qhexedit2
 # Remember to also update version in qhexedit2_build.patch in the setup.py hunk
-Version:        0.8.6
-Release:        5%{?dist}
+Version:        0.8.9
+Release:        2%{?dist}
 Summary:        Binary Editor for Qt
 
 License:        LGPLv2
@@ -241,6 +241,15 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications/ %{SOURCE1}
 %{_datadir}/python3-sip/qhexedit/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 05 2020 Sandro Mani <manisandro@gmail.com> - 0.8.9-1
+- Update to 0.8.9
+
+* Thu Jun 25 2020 Sandro Mani <manisandro@gmail.com> - 0.8.8-1
+- Update to 0.8.8
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.6-5
 - Rebuilt for Python 3.9
 

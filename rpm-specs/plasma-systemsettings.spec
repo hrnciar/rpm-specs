@@ -1,8 +1,10 @@
+%undefine __cmake_in_source_build
+
 %global  base_name systemsettings
 
 Name:    plasma-%{base_name}
 Summary: KDE System Settings application
-Version: 5.19.2
+Version: 5.20.1.1
 Release: 1%{?dist}
 
 License: GPLv2+
@@ -81,16 +83,12 @@ developing applications that use %{name}.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang systemsettings5 --with-qt --with-html --all-name
 
@@ -125,6 +123,30 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/systemsettings.deskto
 
 
 %changelog
+* Tue Oct 20 15:30:56 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.1.1-1
+- 5.20.1
+
+* Tue Oct 13 14:53:27 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.0-2
+- Updated sources
+
+* Sun Oct 11 19:50:05 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.0-1
+- 5.20.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.90-1
+- 5.19.90
+
+* Tue Sep 01 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.5-1
+- 5.19.5
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.19.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.4-1
+- 5.19.4
+
+* Tue Jul 07 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.3-1
+- 5.19.3
+
 * Tue Jun 23 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.2-1
 - 5.19.2
 

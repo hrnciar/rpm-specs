@@ -6,7 +6,7 @@ BuildRequires:	%1 \
 
 Name:		rubygem-%{gem_name}
 Version:	3.0.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 
 Summary:	RD-document-based presentation application
 # CC-BY: rubykaigi2011-background-white.jpg and
@@ -171,6 +171,9 @@ popd
 %doc	%{gem_instdir}/sample/	
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.0.0-3
 - BR: rubygem(racc) for test
 

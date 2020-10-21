@@ -1,6 +1,6 @@
 Name:           perl-File-SearchPath
 Version:        0.07
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Search for a file in an environment variable path
 License:        GPLv2+
 URL:            https://metacpan.org/release/File-SearchPath
@@ -48,6 +48,9 @@ perl Build.PL installdirs=vendor
 %{_mandir}/man3/File*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.07-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.07-16
 - Perl 5.32 rebuild
 

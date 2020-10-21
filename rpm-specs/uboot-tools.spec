@@ -1,44 +1,43 @@
-%global candidate rc5
-%global _default_patch_fuzz 2
+#global candidate rc5
 
-Name:      uboot-tools
-Version:   2020.07
-Release:   0.5%{?candidate:.%{candidate}}%{?dist}
-Summary:   U-Boot utilities
-License:   GPLv2+ BSD LGPL-2.1+ LGPL-2.0+
-URL:       http://www.denx.de/wiki/U-Boot
+Name:     uboot-tools
+Version:  2020.10
+Release:  1%{?candidate:.%{candidate}}%{?dist}
+Summary:  U-Boot utilities
+License:  GPLv2+ BSD LGPL-2.1+ LGPL-2.0+
+URL:      http://www.denx.de/wiki/U-Boot
 
-Source0:   ftp://ftp.denx.de/pub/u-boot/u-boot-%{version}%{?candidate:-%{candidate}}.tar.bz2
-Source1:   arm-boards
-Source2:   arm-chromebooks
-Source3:   aarch64-boards
-Source4:   aarch64-chromebooks
-Source5:   10-devicetree.install
+Source0:  ftp://ftp.denx.de/pub/u-boot/u-boot-%{version}%{?candidate:-%{candidate}}.tar.bz2
+Source1:  arm-boards
+Source2:  arm-chromebooks
+Source3:  aarch64-boards
+Source4:  aarch64-chromebooks
+Source5:  10-devicetree.install
 
 # Fedoraisms patches
 # Needed to find DT on boot partition that's not the first partition
-Patch1:    uefi-distro-load-FDT-from-any-partition-on-boot-device.patch
+Patch1:   uefi-distro-load-FDT-from-any-partition-on-boot-device.patch
 # Needed due to issues with shim
-Patch2:    uefi-use-Fedora-specific-path-name.patch
+Patch2:   uefi-use-Fedora-specific-path-name.patch
+Patch3:   rockchip-spl-u-boot-itb-offset.patch
 
 # Board fixes and enablement
-Patch4:    usb-kbd-fixes.patch
-Patch5:    dragonboard-fixes.patch
-# mmc fix
-Patch6:    mmc-sdhci-Fix-HISPD-bit-handling.patch
-
+# RPi - uses RPI firmware device tree for HAT support
+Patch5:   rpi-Enable-using-the-DT-provided-by-the-Raspberry-Pi.patch
 # Tegra improvements
-Patch10:   arm-tegra-define-fdtfile-option-for-distro-boot.patch
-Patch11:   arm-add-BOOTENV_EFI_SET_FDTFILE_FALLBACK-for-tegra186-be.patch
+Patch6:   arm-tegra-define-fdtfile-option-for-distro-boot.patch
+Patch7:   arm-add-BOOTENV_EFI_SET_FDTFILE_FALLBACK-for-tegra186-be.patch
 # AllWinner improvements
-Patch12:   AllWinner-Pine64-bits.patch
+Patch8:   AllWinner-UpstreamSync.patch
+Patch9:   AllWinner-PinePhone.patch
+Patch10:  AllWinner-PineTab.patch
+# TI fixes
+Patch12:  0001-Fix-BeagleAI-detection.patch
 # Rockchips improvements
-Patch13:   arm-rk3399-enable-rng-on-rock960-and-firefly3399.patch
-Patch14:   rockchip-Pinebook-Pro-Fixes.patch
-# RPi4
-Patch16:   USB-host-support-for-Raspberry-Pi-4-board-64-bit.patch
-Patch17:   usb-xhci-Load-Raspberry-Pi-4-VL805-s-firmware.patch
-Patch18:   rpi-Enable-using-the-DT-provided-by-the-Raspberry-Pi.patch
+Patch13:  arm-rk3399-enable-rng-on-rock960-and-firefly3399.patch
+Patch14:  rk3399-Pinebook-pro-EDP-support.patch
+Patch15:  rk3399-reset-display-hack.patch
+Patch16:  rockchip-Rock960-Fix-up-USB-support.patch
 
 BuildRequires:  bc
 BuildRequires:  dtc
@@ -49,7 +48,7 @@ BuildRequires:  devtoolset-7-build
 BuildRequires:  devtoolset-7-binutils
 BuildRequires:  devtoolset-7-gcc
 BuildRequires:  python2-devel
-BuildRequires:  python3-setuptools
+BuildRequires:  python2-setuptools
 BuildRequires:  python2-libfdt
 %else
 BuildRequires:  gcc
@@ -81,22 +80,20 @@ and fw_printenv/fw_setenv for manipulating the boot environment variables.
 
 %ifarch aarch64
 %package     -n uboot-images-armv8
-Summary:     u-boot bootloader images for aarch64 boards
-Requires:    uboot-tools
+Summary:     U-Boot firmware images for aarch64 boards
 BuildArch:   noarch
 
 %description -n uboot-images-armv8
-u-boot bootloader binaries for aarch64 boards
+U-Boot firmware binaries for aarch64 boards
 %endif
 
 %ifarch %{arm}
 %package     -n uboot-images-armv7
-Summary:     u-boot bootloader images for armv7 boards
-Requires:    uboot-tools
+Summary:     U-Boot firmware images for armv7 boards
 BuildArch:   noarch
 
 %description -n uboot-images-armv7
-u-boot bootloader binaries for armv7 boards
+U-Boot firmware binaries for armv7 boards
 %endif
 
 %prep
@@ -128,25 +125,25 @@ do
     echo "Board: $board using sun50i_h6"
     cp /usr/share/arm-trusted-firmware/sun50i_h6/* builds/$(echo $board)/
   fi
-  rk3328=(evb-rk3328 rock64-rk3328)
+  rk3328=(evb-rk3328 rock64-rk3328 rock-pi-e-rk3328 roc-cc-rk3328)
   if [[ " ${rk3328[*]} " == *" $board "* ]]; then
     echo "Board: $board using rk3328"
     cp /usr/share/arm-trusted-firmware/rk3328/* builds/$(echo $board)/
   fi
-  rk3399=(evb-rk3399 ficus-rk3399 firefly-rk3399 khadas-edge-captain-rk3399 khadas-edge-v-rk3399 khadas-edge-rk3399 nanopc-t4-rk3399 nanopi-m4-rk3399 nanopi-neo4-rk3399 orangepi-rk3399 pinebook-pro-rk3399 puma-rk3399 rock960-rk3399 rock-pi-4-rk3399 rockpro64-rk3399 roc-pc-rk3399)
+  rk3399=(evb-rk3399 ficus-rk3399 firefly-rk3399 khadas-edge-captain-rk3399 khadas-edge-rk3399 khadas-edge-v-rk3399 nanopc-t4-rk3399 nanopi-m4-2gb-rk3399 nanopi-m4-rk3399 nanopi-neo4-rk3399 orangepi-rk3399 pinebook-pro-rk3399 puma-rk3399 rock960-rk3399 rock-pi-4c-rk3399 rock-pi-4-rk3399 rock-pi-n10-rk3399pro rockpro64-rk3399 roc-pc-mezzanine-rk3399 roc-pc-rk3399)
   if [[ " ${rk3399[*]} " == *" $board "* ]]; then
     echo "Board: $board using rk3399"
     cp /usr/share/arm-trusted-firmware/rk3399/* builds/$(echo $board)/
   fi
   # End ATF
   make $(echo $board)_defconfig O=builds/$(echo $board)/
-  make HOSTCC="gcc $RPM_OPT_FLAGS" CROSS_COMPILE="" %{?_smp_mflags} V=1 O=builds/$(echo $board)/
+  %make_build HOSTCC="gcc $RPM_OPT_FLAGS" CROSS_COMPILE="" O=builds/$(echo $board)/
 done
 
 %endif
 
-make HOSTCC="gcc $RPM_OPT_FLAGS" %{?_smp_mflags} CROSS_COMPILE="" tools-only_defconfig V=1 O=builds/
-make HOSTCC="gcc $RPM_OPT_FLAGS" %{?_smp_mflags} CROSS_COMPILE="" tools-all V=1 O=builds/
+%make_build HOSTCC="gcc $RPM_OPT_FLAGS" CROSS_COMPILE="" tools-only_defconfig O=builds/
+%make_build HOSTCC="gcc $RPM_OPT_FLAGS" CROSS_COMPILE="" tools-all O=builds/
 
 %install
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
@@ -252,6 +249,34 @@ cp -p board/warp7/README builds/docs/README.warp7
 %endif
 
 %changelog
+* Tue Oct 06 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2020.10-1
+- Update to 2020.10
+
+* Sun Sep 27 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2020.10-0.6.rc5
+- Initial support for display output on Pinebook Pro
+
+* Tue Sep 22 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2020.10-0.5.rc5
+- Update to 2020.10 RC5
+
+* Wed Sep 09 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2020.10-0.4.rc4
+- Update to 2020.10 RC4
+
+* Wed Aug 19 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2020.10-0.3.rc2
+- Enable a number of new Rockchip devices
+
+* Mon Aug 10 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2020.10-0.2.rc2
+- Update to 2020.10 RC2
+
+* Tue Jul 28 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2020.10-0.1.rc1
+- 2020.10 RC1
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 2020.07-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Mon Jul 06 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2020.07-1
+- 2020.07 GA
+
 * Tue Jun 23 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2020.07-0.5.rc5
 - 2020.07 RC5
 

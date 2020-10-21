@@ -4,14 +4,9 @@
 
 # https://github.com/circonus-labs/circonus-gometrics
 %global goipath         github.com/circonus-labs/circonus-gometrics
-Version:                3.0.0
+Version:                3.0.2
 
 %gometa
-
-# Remove in F33
-%global godevelheader %{expand:
-Obsoletes:      golang-github-circonus-labs-circonus-gometrics-devel < 0-0.10
-}
 
 %global common_description %{expand:
 A go implementation of metrics reporting for circonus.}
@@ -22,7 +17,7 @@ A go implementation of metrics reporting for circonus.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A go implementation of metrics reporting for circonus
 
 # Upstream license specification: BSD-3-Clause
@@ -47,6 +42,8 @@ BuildRequires:  golang(github.com/tv42/httpunix)
 %prep
 %goprep
 cp %{S:1} %{S:2} .
+# Go 1.15: error message new formatting
+sed -i 's|invalid duration thirty seconds|invalid duration \\\"thirty seconds\\\"|' circonus-gometrics_test.go
 
 %install
 %gopkginstall
@@ -59,6 +56,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 00:08:43 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.0.2-1
+- Update to 3.0.2
+
 * Mon Feb 10 01:33:22 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.0.0-1
 - Update to 3.0.0
 

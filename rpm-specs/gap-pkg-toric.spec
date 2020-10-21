@@ -3,7 +3,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        1.9.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Computations with toric varieties in GAP
 
 License:        MIT
@@ -39,6 +39,7 @@ This package contains documentation for gap-pkg-%{pkgname}.
 mv doc/toric.xml doc/Toric.xml
 
 %build
+export LC_ALL=C.UTF-8
 gap makedoc.g
 
 %install
@@ -48,6 +49,7 @@ rm -f %{buildroot}%{_gap_dir}/pkg/%{upname}-%{version}/{CHANGES,LICENSE,README.m
 rm -f %{buildroot}%{_gap_dir}/pkg/%{upname}-%{version}/doc/*.{aux,bbl,blg,brf,idx,ilg,ind,log,out,pnr,tex}
 
 %check
+export LC_ALL=C.UTF-8
 gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 
 %files
@@ -61,6 +63,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{upname}-%{version}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

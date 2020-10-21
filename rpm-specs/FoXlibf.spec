@@ -7,7 +7,7 @@
 
 Name:		FoXlibf
 Version:	4.1.2
-Release:	12%{?dist}
+Release:	13%{?dist}
 Summary:	A Fortran XML Library
 License:	zlib and BSD
 URL:		http://www1.gly.bris.ac.uk/~walker/FoX/
@@ -81,6 +81,9 @@ chmod -x %{buildroot}%{_libdir}/*.a
 %{_libdir}/libFoX*.a
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.2-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

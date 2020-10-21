@@ -1,6 +1,6 @@
 Name:           perl-DB_File-Lock
 Version:        0.05
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Locking with flock wrapper for DB_File
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/DB_File-Lock
@@ -50,6 +50,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.05-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.05-20
 - Perl 5.32 rebuild
 

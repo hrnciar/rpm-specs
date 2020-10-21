@@ -1,16 +1,17 @@
-%global packname  ape
+%global packname ape
+%global packver  5.4-1
 %global rlibdir  %{_libdir}/R/library
 
 %bcond_with bootstrap
 
 Name:             R-%{packname}
-Version:          5.3
-Release:          7%{?dist}
+Version:          5.4.1
+Release:          1%{?dist}
 Summary:          Analyses of Phylogenetics and Evolution
 
-License:          GPLv2+
+License:          GPLv2 or GPLv3
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
@@ -41,17 +42,17 @@ Functions for reading, writing, plotting, and manipulating phylogenetic
 trees, analyses of comparative data in a phylogenetic framework, ancestral
 character analyses, analyses of diversification and macroevolution,
 computing distances from DNA sequences, reading and writing nucleotide
-sequences as well as importing from BioConductor, and several tools such
-as Mantel's test, generalized skyline plots, graphical exploration of
+sequences as well as importing from BioConductor, and several tools such as
+Mantel's test, generalized skyline plots, graphical exploration of
 phylogenetic data (alex, trex, kronoviz), estimation of absolute
 evolutionary rates and clock-like trees using mean path lengths and
 penalized likelihood, dating trees with non-contemporaneous sequences,
 translating DNA into AA sequences, and assessing sequence alignments.
 Phylogeny estimation can be done with the NJ, BIONJ, ME, MVR, SDM, and
-triangle methods, and several methods handling incomplete distance
-matrices (NJ*, BIONJ*, MVR*, and the corresponding triangle method). Some
-functions call external applications (PhyML, Clustal, T-Coffee, Muscle)
-whose results are returned into R.
+triangle methods, and several methods handling incomplete distance matrices
+(NJ*, BIONJ*, MVR*, and the corresponding triangle method). Some functions call
+external applications (PhyML, Clustal, T-Coffee, Muscle) whose results are
+returned into R.
 
 
 %prep
@@ -94,6 +95,18 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --no-examples
 
 
 %changelog
+* Thu Aug 13 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 5.4.1-1
+- Update to latest version (#1868589)
+
+* Mon Aug 10 2020 Tom Callaway <spot@fedoraproject.org> - 5.4-3
+- rebuild for FlexiBLAS R
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 5.4-1
+- Update to latest version
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 5.3-7
 - rebuild for R 4
 - turnoff bootstrap

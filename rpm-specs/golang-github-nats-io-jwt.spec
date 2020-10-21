@@ -3,7 +3,7 @@
 
 # https://github.com/nats-io/jwt
 %global goipath         github.com/nats-io/jwt
-Version:                0.3.2
+Version:                1.0.1
 
 %gometa
 
@@ -44,6 +44,12 @@ BuildRequires:  golang(github.com/nats-io/nkeys)
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 07:02:50 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.1-1
+- Update to 1.0.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 01 20:26:10 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.3.2-1
 - Update to 0.3.2
 

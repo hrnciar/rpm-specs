@@ -1,7 +1,7 @@
 Summary:	Point Data Abstraction Library
 Name:		PDAL
-Version:	2.1.0
-Release:	8%{?dist}
+Version:	2.2.0
+Release:	1%{?dist}
 # The code is licensed BSD except for:
 # - filters/private/csf/* and plugins/i3s/lepcc/* are ASL 2.0
 # - vendor/arbiter/*, plugins/nitf/io/nitflib.h and plugins/oci/io/OciWrapper.* are Expat/MIT
@@ -61,6 +61,7 @@ BuildRequires:	python3-sphinx
 %if 0%{?fedora}
 # yet missing for EPEL8
 BuildRequires:	python3-sphinxcontrib-bibtex
+BuildRequires:  python3-sphinxcontrib-spelling
 %endif
 BuildRequires:	python3-sphinx_rtd_theme
 BuildRequires:	qhull-devel
@@ -152,7 +153,7 @@ rm -rf vendor/{eigen,gtest,pdalboost}
 	-D POSTGRESQL_INCLUDE_DIR=%{_includedir}/pgsql \
 	-D POSTGRESQL_LIBRARIES=%{_libdir}/libpq.so .
 
-%make_build
+%cmake_build
 
 # Build documentation
 %if 0%{?fedora}
@@ -164,7 +165,7 @@ sphinx-build -b html . build/html
 %endif
 
 %install
-%make_install
+%cmake_install
 
 # commented out due to size
 ## unpack vertical datums
@@ -181,11 +182,11 @@ sphinx-build -b html . build/html
 ## test the compiled code (see doc/project/testing.rst)
 # we skip tests for selected architectures which need upstream fixes
 %ifarch armv7hl aarch64 ppc64le s390x
-ctest || true
+%ctest || true
 %else
-## we skip the PG test (BUILD_PGPOINTCLOUD_TESTS:BOOL=OFF): 
+## we skip the PG test (BUILD_PGPOINTCLOUD_TESTS:BOOL=OFF):
 # PGUSER=pdal PGPASSWORD=password PGHOST=localhost PGPORT=5432 ctest -V
-ctest -V
+%ctest
 %endif
 
 %files
@@ -230,6 +231,12 @@ ctest -V
 %license LICENSE.txt
 
 %changelog
+* Sat Oct 17 2020 Markus Neteler <neteler@mundialis.de> 2.2.0-1
+- new upstream version
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Markus Neteler <neteler@mundialis.de> 2.1.0-8
 - enable EPEL8 compilation by dropping sphinx docs for now
 

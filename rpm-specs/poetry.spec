@@ -1,14 +1,12 @@
 %global pypi_name poetry
 
-%{?python_enable_dependency_generator}
-
 %global common_description %{expand:
 Poetry helps you declare, manage and install dependencies of Python
 projects, ensuring you have the right stack everywhere.}
 
 Name:           %{pypi_name}
 Summary:        Python dependency management and packaging made easy
-Version:        1.0.5
+Version:        1.0.10
 Release:        2%{?dist}
 License:        MIT
 
@@ -70,6 +68,16 @@ Requires:       python3dist(lockfile)
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.10-1
+- Update to version 1.0.10.
+
+* Sat Jul 04 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.9-1
+- Update to version 1.0.9.
+- Drop manual dependency generator enablement (it's enabled by default).
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.5-2
 - Rebuilt for Python 3.9
 

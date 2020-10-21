@@ -1,6 +1,6 @@
 Name:           vdr-tvguide
-Version:        1.3.1
-Release:        1%{?dist}
+Version:        1.3.3
+Release:        3%{?dist}
 Summary:        TvGuide is a highly customizable 2D EPG viewer plugin
 License:        GPLv2+
 URL:            http://projects.vdr-developer.org/projects/plg-tvguide
@@ -21,7 +21,7 @@ VDR plugin: tvguide - %{summary}
 iconv -f iso-8859-1 -t utf-8 README > README.utf8 ; mv README.utf8 README
 
 %build
-make CFLAGS="%{optflags} -fPIC" CXXFLAGS="%{optflags} -fPIC" IMAGELIB=graphicsmagick %{?_smp_mflags} all
+make CFLAGS="%{optflags} -fPIC" CXXFLAGS="-std=c++14 %{optflags} -fPIC" IMAGELIB=graphicsmagick %{?_smp_mflags} all
 
 %install
 # make install would install the themes under /etc, let's not use that
@@ -44,6 +44,18 @@ install -Dpm 644 %{SOURCE1} \
 %{vdr_resdir}/plugins/tvguide/
 
 %changelog
+* Fri Aug 28 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.3.3-3
+- Rebuilt for new VDR API version
+
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 1.3.3-2
+- Force C++14 as this code is not C++17 ready
+
+* Fri Aug 07 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.3.3-1
+- Update to 1.3.3
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 12 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.3.1-1
 - Update to 1.3.1
 

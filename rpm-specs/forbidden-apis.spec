@@ -1,6 +1,6 @@
 Name:          forbidden-apis
 Version:       2.5
-Release:       6%{?dist}
+Release:       9%{?dist}
 Summary:       Policeman's Forbidden API Checker
 License:       ASL 2.0
 URL:           https://github.com/policeman-tools/forbidden-apis
@@ -23,7 +23,6 @@ BuildRequires: ant-junit
 BuildRequires: objectweb-asm
 BuildRequires: plexus-utils
 BuildRequires: maven-plugin-plugin
-BuildRequires: sonatype-oss-parent
 
 %description
 Allows to parse Java byte code to find invocations of method/class/field
@@ -82,6 +81,9 @@ ant -Divy.mode=local jar
 %pom_add_dep org.codehaus.plexus:plexus-utils:1.1 build/maven/pom-deploy.xml
 %pom_add_dep commons-cli:commons-cli:1.3.1 build/maven/pom-deploy.xml
 
+# remove unnecessary dependency on parent POM
+%pom_remove_parent build/maven/pom-deploy.xml
+
 # Install maven artifacts
 %mvn_artifact build/maven/pom-deploy.xml dist/forbiddenapis-2.5.jar
 %mvn_install -J build/docs
@@ -98,6 +100,15 @@ install -pm 644 %{name}-ant %{buildroot}%{_sysconfdir}/ant.d/%{name}
 
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 2.5-9
+- Remove unnecessary dependency on parent POM.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.5-7
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Apr 02 2020 Jiri VAnek <jvanek@redhat.com> - 2.5-6
 - resurrected without gradle and docs. Not sure if it still does what it should
 

@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.1.1
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        One-file utility module filled with helper functions for Python
 
 License:        zlib
@@ -45,6 +45,9 @@ features, packed in a tiny file, and Python 2.7/3.3 compatible.
 %{python3_sitelib}/__pycache__/minibelt.*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.1-16
 - Rebuilt for Python 3.9
 

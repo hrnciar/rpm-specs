@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.3.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Library for loading XCursor themes
 
 # Upstream license specification: MIT
@@ -71,6 +71,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 26 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.3.2-1
 - Update to 0.3.2
 

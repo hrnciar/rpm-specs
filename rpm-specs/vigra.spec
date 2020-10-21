@@ -1,7 +1,7 @@
 Summary:        Generic Programming for Computer Vision
 Name:           vigra
 Version:        1.11.1
-Release:        21%{?dist}
+Release:        24%{?dist}
 License:        MIT
 # The "Lenna" files are non-free, we need to remove them from the source tarball.
 # wget https://github.com/ukoethe/vigra/releases/download/Version-1-11-1/vigra-1.11.1-src.tar.gz
@@ -87,12 +87,9 @@ sed -i '1s=^#!/usr/bin/\(python\|env python\)[0-9.]*=#!%{__python3}=' \
 sed -i 's=SET(BOOST_PYTHON_NAMES=& boost_python%{python3_version_nodots}=' \
       config/FindVIGRANUMPY_DEPENDENCIES.cmake
 
-mkdir buildpy3
-pushd buildpy3
-%cmake .. -DWITH_OPENEXR=1 -DWITH_HDF5=1 -DWITH_VALGRIND=0 -DWITH_LEMON=0 \
+%cmake -DWITH_OPENEXR=1 -DWITH_HDF5=1 -DWITH_VALGRIND=0 -DWITH_LEMON=0 \
           -DWITH_VIGRANUMPY=1 -DPYTHON_VERSION=%{python3_version}
-make VERBOSE=1 %{?_smp_mflags}
-popd
+%cmake_build
 %else
 sed -i '1s=^#!/usr/bin/\(python\|env python\)[0-9.]*=#!%{__python}=' \
       config/vigra-config.in
@@ -111,7 +108,7 @@ find ./doc/ -type f | xargs chmod -x
 rm -rf %{buildroot}
 
 %if ! 0%{?rhel}
-make -C buildpy3 install DESTDIR=%{buildroot}
+%cmake_install
 mv %{buildroot}/%{_libdir}/vigranumpy/VigranumpyConfig.cmake \
    %{buildroot}/%{_libdir}/vigranumpy/Vigranumpy3Config.cmake
 
@@ -150,6 +147,15 @@ install -p -m755 -D %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/vigra-config
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.1-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Bruno Postle <bruno@postle.net> - 1.11.1-23
+- Rebuild for changed cmake macros
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 1.11.1-22
+- Rebuild for hdf5 1.10.6
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 1.11.1-21
 - Rebuilt for Boost 1.73
 

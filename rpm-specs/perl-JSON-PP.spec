@@ -3,8 +3,8 @@
 
 Name:		perl-JSON-PP
 Epoch:		1
-Version:	4.04
-Release:	456%{?dist}
+Version:	4.05
+Release:	2%{?dist}
 Summary:	JSON::XS compatible pure-Perl module
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/JSON-PP
@@ -86,6 +86,17 @@ make test
 %{_mandir}/man3/JSON::PP::Boolean.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.05-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul  9 2020 Paul Howarth <paul@city-fan.org> - 1:4.05-1
+- Update to 4.05
+  - No code changes
+  - Modify tests for Perl 7
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:4.04-457
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:4.04-456
 - Increase release to favour standalone package
 

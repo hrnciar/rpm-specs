@@ -6,17 +6,13 @@
 %endif
 
 %global farstream 1
-%if 0%{?fedora} && 0%{?fedora} < 33
-%global qt4 1
-%endif
-%global qt5 1
 
 ## unit tests
 %global enable_tests 1
 
 Name:    telepathy-qt
 Version: 0.9.8
-Release: 3%{?dist}
+Release: 7%{?dist}
 Summary: High-level bindings for Telepathy
 
 License: LGPLv2+
@@ -36,6 +32,7 @@ Source0: http://telepathy.freedesktop.org/releases/telepathy-qt/telepathy-qt-%{v
 BuildRequires: cmake
 BuildRequires: python3-dbus, python3-devel
 BuildRequires: doxygen
+BuildRequires: dbus-daemon
 %if 0%{?farstream}
 BuildRequires: pkgconfig(gstreamer-1.0)
 BuildRequires: pkgconfig(farstream-0.2)
@@ -55,29 +52,6 @@ Telepathy-qt are high level bindings for Telepathy and provides both
 the low level 1:1 auto generated API, and a high-level API build
 on top of that, in the same library.
 
-%if 0%{?qt4}
-%package -n telepathy-qt4
-Summary: High-level Qt4 bindings for Telepathy
-BuildRequires: pkgconfig(QtDBus) pkgconfig(QtNetwork) pkgconfig(QtXml)
-Obsoletes: telepathy-qt4-farsight < 0.9.3
-Obsoletes: telepathy-qt4-farstream < 0.9.7
-Requires: telepathy-mission-control
-%description -n telepathy-qt4
-Telepathy-qt4 are high level bindings for Telepathy and provides both
-the low level 1:1 auto generated API, and a high-level API build
-on top of that, in the same library.
-
-%package -n telepathy-qt4-devel
-Summary: Development files for telepathy-qt4
-Provides: telepathy-qt-devel = %{version}-%{release}
-Requires: telepathy-qt4%{?_isa} = %{version}-%{release}
-Requires: telepathy-filesystem
-Obsoletes: telepathy-qt4-farstream-devel < 0.9.1-2
-%description -n telepathy-qt4-devel
-%{summary}.
-%endif
-
-%if 0%{?qt5}
 %package -n telepathy-qt5
 Summary: High-level Qt5 bindings for Telepathy
 BuildRequires: pkgconfig(Qt5DBus) pkgconfig(Qt5Network) pkgconfig(Qt5Xml)
@@ -104,7 +78,6 @@ Requires: telepathy-qt5%{?_isa} = %{version}-%{release}
 %description -n telepathy-qt5-farstream
 %{summary}.
 %endif
-%endif
 
 
 %prep
@@ -112,75 +85,28 @@ Requires: telepathy-qt5%{?_isa} = %{version}-%{release}
 
 
 %build
-%if 0%{?qt4}
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} .. \
-  -DCMAKE_BUILD_TYPE:STRING=release \
-  -DDESIRED_QT_VERSION=4 \
-  -DDISABLE_WERROR:BOOL=ON \
-  -DENABLE_TESTS:BOOL=OFF \
-  -DENABLE_FARSTREAM:BOOL=OFF
-popd
-
-%make_build -C %{_target_platform}
-%endif
-
-%if 0%{?qt5}
-mkdir %{_target_platform}-qt5
-pushd %{_target_platform}-qt5
-%{cmake} .. \
+%cmake \
   -DCMAKE_BUILD_TYPE:STRING=release \
   -DDESIRED_QT_VERSION=5 \
   -DDISABLE_WERROR:BOOL=ON \
   -DENABLE_TESTS:BOOL=%{?enable_tests:ON}%{!?enable_tests:OFF} \
   %{?farstream:-DENABLE_FARSTREAM:BOOL=ON} \
   %{!?farstream:-DENABLE_FARSTREAM:BOOL=OFF}
-popd
 
-%make_build -C %{_target_platform}-qt5
-%endif
+%cmake_build
 
 
 %install
-%if 0%{?qt5}
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}-qt5
-%endif
-%if 0%{?qt4}
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
-%endif
+%cmake_install
 
 
 %check
-%if 0%{?enable_tests} && 0%{?qt5}
+%if 0%{?enable_tests}
 export CTEST_OUTPUT_ON_FAILURE=1
-make test ARGS="--output-on-failure --timeout 300" -C %{_target_platform}-qt5 ||:
+%ctest ||:
 %endif
 
 
-%if 0%{?qt4}
-%ldconfig_scriptlets -n telepathy-qt4
-
-%files -n telepathy-qt4
-%doc AUTHORS NEWS README ChangeLog
-%license COPYING
-%{_libdir}/libtelepathy-qt4.so.2*
-%{_libdir}/libtelepathy-qt4-service.so.*
-
-%files -n telepathy-qt4-devel
-%doc HACKING
-%dir %{_includedir}/telepathy-qt4/
-%{_includedir}/telepathy-qt4/TelepathyQt/
-%{_libdir}/libtelepathy-qt4.so
-%{_libdir}/pkgconfig/TelepathyQt4.pc
-%{_libdir}/pkgconfig/TelepathyQt4Service.pc
-%dir %{_libdir}/cmake
-%{_libdir}/cmake/TelepathyQt4/
-%{_libdir}/cmake/TelepathyQt4Service/
-%{_libdir}/libtelepathy-qt4-service.so
-%endif
-
-%if 0%{?qt5}
 %ldconfig_scriptlets -n telepathy-qt5
 
 %files -n telepathy-qt5
@@ -215,10 +141,22 @@ make test ARGS="--output-on-failure --timeout 300" -C %{_target_platform}-qt5 ||
 %{_libdir}/pkgconfig/TelepathyQt5Farstream.pc
 %{_libdir}/cmake/TelepathyQt5Farstream/
 %endif
-%endif
 
 
 %changelog
+* Mon Sep 07 2020 Than Ngo <than@redhat.com> - 0.9.8-7
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.8-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.8-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.9.8-4
+- 0.9.8+ builds are now qt5 only (#1850943)
+
 * Mon May 11 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.9.8-3
 - track sonames closer
 

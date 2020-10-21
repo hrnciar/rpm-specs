@@ -1,5 +1,8 @@
+%global _vpath_srcdir Kvantum
+%undefine __cmake_in_source_build
+
 Name:           kvantum
-Version:        0.15.3
+Version:        0.16.1
 Release:        1%{?dist}
 Summary:        SVG-based theme engine for Qt5, KDE and LXQt
 
@@ -51,14 +54,11 @@ This package contains the data needed Kvantum.
 %autosetup -n Kvantum-%{version}
 
 %build
-cd Kvantum
-mkdir build && cd build
-%cmake ..
-%make_build
+%cmake
+%cmake_build
 
 %install
-cd Kvantum/build
-%make_install
+%cmake_install
 
 # desktop-file-validate doesn't recognize LXQt
 sed -i "s|LXQt|X-LXQt|" %{buildroot}%{_datadir}/applications/kvantummanager.desktop
@@ -73,7 +73,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/kvantummanager.deskto
 %{_bindir}/kvantumpreview
 %{_qt5_plugindir}/styles/libkvantum.so
 
-%files data -f Kvantum/build/%{name}.lang
+%files data -f %{name}.lang
 %{_datadir}/Kvantum/
 %{_datadir}/applications/kvantummanager.desktop
 %{_datadir}/color-schemes/Kv*.colors
@@ -85,6 +85,15 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/kvantummanager.deskto
 %dir %{_datadir}/kvantummanager/translations
 
 %changelog
+* Mon Aug 24 15:30:29 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.16.1-1
+- Release 0.16.1 (#1867843)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 14:24:08 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.16.0-1
+- Release 0.16.0 (#1850067)
+
 * Wed Jun 17 22:50:35 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.15.3-1
 - Release 0.15.3 (#1812291)
 

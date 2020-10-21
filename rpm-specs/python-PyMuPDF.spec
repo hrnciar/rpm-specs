@@ -1,12 +1,7 @@
 %global pypi_name PyMuPDF
-%global desc This is PyMuPDF, a Python binding for MuPDF - a lightweight PDF and XPS\
-viewer.  MuPDF can access files in PDF, XPS, OpenXPS, epub, comic and fiction\
-book formats, and it is known for its top performance and high rendering\
-quality.  With PyMuPDF you therefore can also access files with extensions\
-*.pdf, *.xps, *.oxps, *.epub, *.cbz or *.fb2 from your Python scripts.
 
 Name:           python-%{pypi_name}
-Version:        1.17.1
+Version:        1.18.0
 Release:        1%{?dist}
 Summary:        Python binding for MuPDF - a lightweight PDF and XPS viewer
 
@@ -14,8 +9,7 @@ Summary:        Python binding for MuPDF - a lightweight PDF and XPS viewer
 License:        GPLv3+ and AGPLv3+
 URL:            https://github.com/pymupdf/PyMuPDF
 Source0:        %{url}/archive/%{version}/%{pypi_name}-%{version}.tar.gz
-# Can be removed if mupdf provides a shared library
-Patch0:         fix-library-linking.patch
+Patch0:         0001-build-against-system-gumbo-library-on-Fedora.patch
 
 BuildRequires:  python3-devel
 BuildRequires:  python3-sphinx
@@ -30,16 +24,22 @@ BuildRequires:  openjpeg2-devel
 BuildRequires:  jbig2dec-devel
 BuildRequires:  freetype-devel
 BuildRequires:  harfbuzz-devel
+BuildRequires:  gumbo-parser-devel
 
-%description
-%{desc}
+%global _description %{expand:
+This is PyMuPDF, a Python binding for MuPDF - a lightweight PDF and XPS
+viewer.  MuPDF can access files in PDF, XPS, OpenXPS, epub, comic and fiction
+book formats, and it is known for its top performance and high rendering
+quality.  With PyMuPDF you therefore can also access files with extensions
+*.pdf, *.xps, *.oxps, *.epub, *.cbz or *.fb2 from your Python scripts.}
+
+%description %_description
 
 %package -n     python3-%{pypi_name}
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
-%description -n python3-%{pypi_name}
-%{desc}
+%description -n python3-%{pypi_name} %_description
 
 %package        doc
 Summary:        Documentation for python-%{pypi_name}
@@ -72,6 +72,24 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} \
 %doc demo docs_built/* README.md
 
 %changelog
+* Thu Oct 08 2020 Michael J Gruber <mjg@fedoraproject.org> - 1.18.0-1
+- Update to new upstream release 1.18.0
+
+* Fri Sep 18 2020 Michael J Gruber <mjg@fedoraproject.org> - 1.17.4-2
+- rebuild with jbig2dec 0.19
+
+* Tue Jul 28 2020 Scott Talbert <swt@techie.net> - 1.17.4-1
+- Update to new upstream release 1.17.4 (#1860498)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 08 2020 Scott Talbert <swt@techie.net> - 1.17.3-1
+- Update to new upstream release 1.17.3 (#1854562)
+
+* Fri Jun 26 2020 Scott Talbert <swt@techie.net> - 1.17.2-1
+- Update to new upstream release 1.17.2 (#1850817)
+
 * Thu Jun 18 2020 Scott Talbert <swt@techie.net> - 1.17.1-1
 - Update to new upstream release 1.17.1 (#1848770)
 

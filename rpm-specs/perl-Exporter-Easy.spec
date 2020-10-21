@@ -1,6 +1,6 @@
 Name:           perl-Exporter-Easy
 Version:        0.18
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Takes the drudgery out of Exporting symbols
 License:        GPL+ or Artistic
 
@@ -52,6 +52,9 @@ make test
 %{_mandir}/man3/Exporter*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.18-10
 - Perl 5.32 rebuild
 

@@ -1,17 +1,15 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:		sugar-xoeditor
-Version:	13
-Release:	12%{?dist}
+Version:	14
+Release:	1%{?dist}
 Summary:	Editor for XO icon colors
 
 License:	GPLv3+ and MIT
 URL:		http://wiki.sugarlabs.org/go/Activities/XoEditor
 Source0:	http://download.sugarlabs.org/sources/honey/xoEditor/xoEditor-%{version}.tar.bz2
 
-BuildRequires:	python2-devel sugar-toolkit-gtk3 gettext
+BuildRequires:	python3-devel
+BuildRequires:	sugar-toolkit-gtk3
+BuildRequires:	gettext
 BuildArch:	noarch
 Requires:	sugar
 
@@ -21,14 +19,17 @@ Editor for XO icon colors; Lets you explore different color patterns.
 
 %prep
 %setup -q -n xoEditor-%{version}
-sed -i "s|python|python2|g" setup.py
+sed -i "s|python|python3|g" setup.py
 
 %build
-%{__python2} ./setup.py build
+python3 ./setup.py build
 
 %install
-%{__python2} ./setup.py install --prefix=%{buildroot}/%{_prefix}
+python3 ./setup.py install --prefix=%{buildroot}/%{_prefix}
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
+
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}/%{sugaractivitydir}/xoEditor.activity/
 
 %find_lang org.laptop.xoEditorActivity
 
@@ -39,6 +40,16 @@ rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 %{sugaractivitydir}/xoEditor.activity/
 
 %changelog
+* Wed Aug 12 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 14-1
+- Update to xoEditor 14, migrate to python3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 13-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 13-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 13-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

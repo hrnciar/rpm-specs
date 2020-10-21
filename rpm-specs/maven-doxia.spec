@@ -4,7 +4,7 @@
 Name:           maven-doxia
 Epoch:          0
 Version:        1.9.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Content generation framework
 License:        ASL 2.0
 
@@ -245,6 +245,12 @@ rm doxia-core/src/test/java/org/apache/maven/doxia/util/XmlValidatorTest.java
 %doc LICENSE NOTICE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.9.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0:1.9.1-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu May 07 2020 Fabio Valentini <decathorpe@gmail.com> - 0:1.9.1-1
 - Update to version 1.9.1.
 

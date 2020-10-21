@@ -3,7 +3,7 @@
 
 # https://github.com/golang/protobuf
 %global goipath         github.com/golang/protobuf
-Version:                1.3.3
+Version:                1.4.2
 
 %gometa
 
@@ -30,6 +30,31 @@ Source0:        %{gosource}
 # Remove in F33:
 Obsoletes:      golang-googlecode-goprotobuf < 1.3.1-2
 
+BuildRequires:  golang(google.golang.org/protobuf/cmd/protoc-gen-go/internal_gengo)
+BuildRequires:  golang(google.golang.org/protobuf/compiler/protogen)
+BuildRequires:  golang(google.golang.org/protobuf/encoding/protojson)
+BuildRequires:  golang(google.golang.org/protobuf/encoding/prototext)
+BuildRequires:  golang(google.golang.org/protobuf/encoding/protowire)
+BuildRequires:  golang(google.golang.org/protobuf/proto)
+BuildRequires:  golang(google.golang.org/protobuf/reflect/protodesc)
+BuildRequires:  golang(google.golang.org/protobuf/reflect/protoreflect)
+BuildRequires:  golang(google.golang.org/protobuf/reflect/protoregistry)
+BuildRequires:  golang(google.golang.org/protobuf/runtime/protoiface)
+BuildRequires:  golang(google.golang.org/protobuf/runtime/protoimpl)
+BuildRequires:  golang(google.golang.org/protobuf/types/descriptorpb)
+BuildRequires:  golang(google.golang.org/protobuf/types/known/anypb)
+BuildRequires:  golang(google.golang.org/protobuf/types/known/durationpb)
+BuildRequires:  golang(google.golang.org/protobuf/types/known/emptypb)
+BuildRequires:  golang(google.golang.org/protobuf/types/known/structpb)
+BuildRequires:  golang(google.golang.org/protobuf/types/known/timestamppb)
+BuildRequires:  golang(google.golang.org/protobuf/types/known/wrapperspb)
+BuildRequires:  golang(google.golang.org/protobuf/types/pluginpb)
+
+%if %{with check}
+# Tests
+BuildRequires:  golang(github.com/google/go-cmp/cmp)
+%endif
+
 %description
 %{common_description}
 
@@ -43,13 +68,18 @@ Obsoletes:      golang-googlecode-goprotobuf < 1.3.1-2
 
 %if %{with check}
 %check
-# https://github.com/golang/protobuf/issues/1029
-%gocheck -d protoc-gen-go
+%gocheck
 %endif
 
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 14:06:07 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.2-1
+- Update to 1.4.2
+
 * Sun Jun 14 17:06:13 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.3.3-2
 - Remove binaries, superseded by google.golang.org/protobuf
 

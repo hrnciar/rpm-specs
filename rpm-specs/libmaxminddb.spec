@@ -1,7 +1,7 @@
 Name:           libmaxminddb
 Summary:        C library for the MaxMind DB file format
 Version:        1.4.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 URL:            https://maxmind.github.io/libmaxminddb
 Source:         https://github.com/maxmind/libmaxminddb/releases/download/%{version}/%{name}-%{version}.tar.gz
 
@@ -61,6 +61,9 @@ rm -v %{buildroot}%{_libdir}/*.la
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Michal Ruprich <michalruprich@gmail.com> - 1.4.2-2
 - Move manpage for mmdblookup from -devel to the main package
 

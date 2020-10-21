@@ -24,7 +24,7 @@ A command-line client, flarectl, is also available as part of this project.}
 %global godocs          CODE_OF_CONDUCT.md README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Go library for the Cloudflare v4 API
 
 # Upstream license specification: BSD-3-Clause
@@ -76,6 +76,9 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 12 00:47:07 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.11.1-1
 - Update to 0.11.1
 

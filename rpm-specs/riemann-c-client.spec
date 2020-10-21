@@ -6,7 +6,7 @@
 
 Name:		riemann-c-client
 Version:	1.9.0
-Release:	16%{?dist}
+Release:	18%{?dist}
 Summary:	The riemann C client
 License:	GPLv2
 Url:		https://github.com/algernon/riemann-c-client
@@ -65,6 +65,12 @@ rm %{buildroot}/%{_libdir}/libriemann-client.la
 %{_libdir}/pkgconfig/riemann-client.pc
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 1.9.0-18
+- Rebuilt for protobuf 3.13
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.0-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 1.9.0-16
 - Rebuilt for protobuf 3.12
 

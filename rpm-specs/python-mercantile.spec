@@ -1,7 +1,7 @@
 %global srcname mercantile
 
 Name:           python-%{srcname}
-Version:        1.1.5
+Version:        1.1.6
 Release:        1%{?dist}
 Summary:        Web Mercator XYZ tile utilities
 
@@ -54,16 +54,22 @@ rm -rf html/.{buildinfo,doctrees}
 %py3_install
 
 %check
-pytest-3
+%{pytest}
 
 %files -n python3-%{srcname}
 %doc README.rst html
 %license LICENSE.txt
 %{_bindir}/mercantile
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py*.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Aug 25 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.1.6-1
+- Update to latest version (#1871899)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.1.5-1
 - Update to latest version
 

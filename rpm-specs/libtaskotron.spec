@@ -1,7 +1,10 @@
 Name:           libtaskotron
 # NOTE: if you update version, *make sure* to also update `libtaskotron/__init__.py`
+
+ExclusiveArch: %{kernel_arches} noarch
+
 Version:        0.10.4
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Taskotron Support Library
 
 License:        GPLv3
@@ -164,6 +167,16 @@ cp -a data/* %{buildroot}%{_datarootdir}/libtaskotron
 %license LICENSE
 
 %changelog
+* Thu Aug 27 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 0.10.4-5
+- ExclusiveArch to prevent koji from trying to build this on i686
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.4-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.10.4-2
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           perl-File-FindLib
 Version:        0.001004
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Find and use a file/directory from a directory above your script file
 License:        Unlicense
 URL:            https://metacpan.org/release/File-FindLib
@@ -54,6 +54,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.001004-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.001004-18
 - Perl 5.32 rebuild
 

@@ -1,7 +1,7 @@
 Summary:	Provable prime number generator for cryptographic applications
 Name:		perl-Crypt-Primes
 Version:	0.50
-Release:	40%{?dist}
+Release:	41%{?dist}
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Crypt-Primes
 Source0:	https://cpan.metacpan.org/authors/id/V/VI/VIPUL/Crypt-Primes-%{version}.tar.gz
@@ -67,6 +67,9 @@ find %{buildroot} -type f -name .packlist -delete
 %{_mandir}/man3/Crypt::Primes.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.50-41
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.50-40
 - Perl 5.32 rebuild
 

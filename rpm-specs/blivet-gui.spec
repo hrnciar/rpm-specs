@@ -1,7 +1,7 @@
 Summary: Tool for data storage configuration
 Name: blivet-gui
-Version: 2.1.14
-Release: 2%{?dist}
+Version: 2.2.1
+Release: 1%{?dist}
 Source0: http://github.com/storaged-project/blivet-gui/releases/download/%{version}/%{name}-%{version}.tar.gz
 License: GPLv2+
 BuildArch: noarch
@@ -11,6 +11,7 @@ BuildRequires: desktop-file-utils
 BuildRequires: libappstream-glib
 
 Requires: blivet-gui-runtime = %{version}-%{release}
+Requires: PolicyKit-authentication-agent
 
 %description
 Graphical (GTK) tool for manipulation and configuration of data storage
@@ -28,10 +29,8 @@ Requires: python3-gobject
 Requires: gettext
 Requires: python3-blivet >= 1:3.1.2
 Requires: gtk3
-Requires: PolicyKit-authentication-agent
 Requires: python3-pid
 Requires: libreport
-Requires: adwaita-icon-theme
 
 %description -n blivet-gui-runtime
 This package provides a blivet-gui runtime for applications that want to use
@@ -69,6 +68,101 @@ mkdir -p %{buildroot}/%{_localstatedir}/log/blivet-gui
 %{_sysconfdir}/libreport/events.d/blivet-gui_event.conf
 
 %changelog
+* Tue Sep 29 2020 Vojtech Trefny <vtrefny@redhat.com> - 2.2.1-1
+- Translated using Weblate (Friulian) (f.t.public)
+- Fix ValueError when trying to set both upper and lower size limits (vtrefny)
+- Fix getting list of supported filesystems in installer mode (vtrefny)
+- Fix missing attribute _resizable_filesystems in BlivetUtilsAnaconda (vtrefny)
+- Translated using Weblate (Friulian) (f.t.public)
+- Update translation files (noreply)
+- Translated using Weblate (Turkish) (oguzersen)
+- Sync spec with downstream (vtrefny)
+
+* Fri Sep 11 2020 Vojtech Trefny <vtrefny@redhat.com> - 2.2.0-1
+- Handle sector mode NVDIMMs as disks (vtrefny)
+- Allow adding VG to all devices with LVMPV format (vtrefny)
+- Do not try to check parent device type for devices without parents (vtrefny)
+- Translated using Weblate (Slovak) (feonsu)
+- Translated using Weblate (Russian) (igor.gorbounov)
+- Move the PolicyKit agent dependency from runtime to blivet-gui (vtrefny)
+- Translated using Weblate (Spanish) (fitoschido)
+- Ignore fallback ITS rule warning from gettext (vtrefny)
+- Add a special icon for cached LVs (vtrefny)
+- Translated using Weblate (Hebrew) (sh.yaron)
+- Hardcode list of supported filesystems for AddDialog tests (vtrefny)
+- Always remove format when removing or formatting a device (#1796710) (vtrefny)
+- Show filesystem not supported by Blivet in the UI (vtrefny)
+- Unify/fix terminology for (un)locking encrypted devices (vtrefny)
+- Add comment explaining the "translator-credits" string (vtrefny)
+- Translated using Weblate (Hebrew) (sh.yaron)
+- Do not force "safe" names for devices (#1859963) (vtrefny)
+- Update translation files (noreply)
+- Translated using Weblate (Hungarian) (meskobalazs)
+- Translated using Weblate (Chinese (Simplified)) (lchopn)
+- Add PEP 8 Speaks config file (vtrefny)
+- Gather resizable filesystems from blivet instead of hardcoding (vtrefny)
+- Do not show parents section for disks in the info dialog (vtrefny)
+- Remove the special RawFormatDevice device (vtrefny)
+- Update translation files (noreply)
+- Translated using Weblate (French) (jean-baptiste)
+- The past tense of "choose" is "chose" (metta.crawler)
+- Translated using Weblate (Kazakh) (baurthefirst)
+- Translated using Weblate (Hungarian) (gyonkibendeguz)
+- Translated using Weblate (Turkish) (oguzersen)
+- Translated using Weblate (Ukrainian) (yurchor)
+- Translated using Weblate (Polish) (piotrdrag)
+- Update translation files (noreply)
+- Translated using Weblate (Hebrew) (sh.yaron)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.15-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Vojtech Trefny <vtrefny@redhat.com> - 2.1.15-1
+- Use "raw_device" instead of "slave" for getting LUKS backing device (vtrefny)
+- Update translation files (noreply)
+- Translated using Weblate (Chinese (Simplified)) (tiansworld)
+- POT file update (vtrefny)
+- Translated using Weblate (Hebrew) (sh.yaron)
+- Fix setting visibility for EncryptionChooser (vtrefny)
+- Make data paths in setup.py relative (vtrefny)
+- Add alternative paths to look for UI and CSS files (vtrefny)
+- Set default position of the main window to the center of the screen (vtrefny)
+- Correctly set data and metadata level when creating Btrfs volumes (vtrefny)
+- Grammar fix (sh.yaron)
+- Update translation files (noreply)
+- Translated using Weblate (Bengali (India)) (akarshan.biswas)
+- Translated using Weblate (Hebrew) (sh.yaron)
+- Update POT file before doing a release (vtrefny)
+- Added translation using Weblate (Bengali (India)) (akarshan.biswas)
+- Translated using Weblate (Hebrew) (sh.yaron)
+- Remove dependency on adwaita-icon-theme (vtrefny)
+- Add daily builds badge (jkonecny)
+- Use tests instead of COPR build in packit for PRs (jkonecny)
+- Use packit actions instead of commands (jkonecny)
+- Remove not needed packit configuration values (jkonecny)
+- Move packit general configuration to the top of .packit file (jkonecny)
+- Translated using Weblate (German) (mail)
+- Fix unlocking raw format LUKS devices in Anaconda (#1846517) (vtrefny)
+- Translated using Weblate (Portuguese (Brazil)) (lucas.af88)
+- Translated using Weblate (French) (julroy67)
+- Translated using Weblate (Portuguese (Brazil)) (noreply)
+- Translated using Weblate (Portuguese (Brazil)) (lucas.af88)
+- Update translation files (noreply)
+- Translated using Weblate (Turkish) (oguzersen)
+- Translated using Weblate (Ukrainian) (yurchor)
+- Translated using Weblate (Polish) (piotrdrag)
+- Translated using Weblate (Portuguese (Brazil)) (lucas.af88)
+- Translated using Weblate (Portuguese (Brazil)) (noreply)
+- Translated using Weblate (Portuguese (Brazil)) (lucas.af88)
+- Refactor checking for device resizability (vtrefny)
+- Update translation files (noreply)
+- Translated using Weblate (Italian) (alciregi)
+- Ellipse the device name using the GTK cell render (15699466+TownCube)
+- Fix names for icons in the password entry (vtrefny)
+- Try harder to load correct icon when applying actions (vtrefny)
+- Fix pylint failure when disabling found-_-in-module-class warning (vtrefny)
+- Fix ordering of the edit submenu in the context menu for devices (vtrefny)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.14-2
 - Rebuilt for Python 3.9
 

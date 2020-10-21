@@ -3,7 +3,7 @@
 
 # https://github.com/karlseguin/ccache
 %global goipath         github.com/karlseguin/ccache
-Version:                2.0.3
+Version:                2.0.6
 
 %gometa
 
@@ -19,7 +19,7 @@ Lock contention on the list is reduced by:
 %global godocs          readme.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Golang LRU Cache for high concurrency
 
 License:        MIT
@@ -50,6 +50,12 @@ BuildRequires:  golang(github.com/karlseguin/expect)
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 17:41:30 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.0.6-1
+- Update to 2.0.6
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -15,7 +15,7 @@
 %define with_part 1
 %define with_fs 1
 %define with_nvdimm 1
-%define with_vdo 1
+%define with_vdo 0
 %define with_gi 1
 %define with_escrow 1
 %define with_dmraid 1
@@ -125,11 +125,14 @@
 
 Name:        libblockdev
 Version:     2.24
-Release:     2%{?dist}
+Release:     7%{?dist}
 Summary:     A library for low-level manipulation with block devices
 License:     LGPLv2+
 URL:         https://github.com/storaged-project/libblockdev
 Source0:     https://github.com/storaged-project/libblockdev/releases/download/%{version}-%{release}/%{name}-%{version}.tar.gz
+Patch0:      libblockdev-gcc11.patch
+Patch1:      0001-Fix-comparing-DM-RAID-member-devices-UUID.patch
+Patch2:      0002-Fix-setting-locale-for-util-calls.patch
 
 BuildRequires: glib2-devel
 %if %{with_gi}
@@ -458,7 +461,7 @@ with the libblockdev-mdraid plugin/library.
 BuildRequires: device-mapper-devel
 Summary:     The multipath plugin for the libblockdev library
 Requires: %{name}-utils%{?_isa} >= 0.11
-Requires: device-mapper-multipath
+Recommends: device-mapper-multipath
 
 %description mpath
 The libblockdev library plugin (and in the same time a standalone library)
@@ -680,6 +683,9 @@ A meta-package that pulls all the libblockdev plugins as dependencies.
 
 %prep
 %setup -q -n %{name}-%{version}
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 autoreconf -ivf
@@ -983,6 +989,22 @@ find %{buildroot} -type f -name "*.la" | xargs %{__rm}
 %files plugins-all
 
 %changelog
+* Thu Oct 01 2020 Vojtech Trefny <vtrefny@redhat.com> - 2.24-7
+- Do not build VDO plugin
+
+* Thu Sep 17 2020 Vojtech Trefny <vtrefny@redhat.com> - 2.24-6
+- exec: Fix setting locale for util calls
+
+* Thu Aug 20 2020 Vojtech Trefny <vtrefny@redhat.com> - 2.24-5
+- dm: Fix comparing DM RAID member devices UUID
+
+* Wed Aug 19 2020 Jeff Law <law@redhat.com> - 2.24-4
+- Work around gcc-11 false positive warning
+
+* Mon Jul 27 2020 Hans de Goede <hdegoede@redhat.com> - 2.24-3
+- Change -mpath subpackage Requires: device-mapper-multipath into Recommends
+- Related: rhbz#1857393
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 2.24-2
 - Rebuilt for Python 3.9
 

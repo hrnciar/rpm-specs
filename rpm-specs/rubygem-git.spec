@@ -2,13 +2,13 @@
 %global gem_name git
 
 Name: rubygem-%{gem_name}
-Version: 1.5.0
-Release: 3%{?dist}
+Version: 1.7.0
+Release: 1%{?dist}
 Summary: Ruby/Git is a Ruby library that can be used to create, read and manipulate Git repositories by wrapping system calls to the git binary
 License: MIT
 URL: http://github.com/schacon/ruby-git
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
-# One test fails inside mock but not otherwise
+# One tes fails inside mock but not otherwise
 # ToDo understand why...
 Patch0: disable-one-test.patch
 
@@ -61,13 +61,14 @@ cp -a .%{gem_dir}/* \
         %{buildroot}%{gem_dir}/
 
 %check
+# The following polutes home directoy so need to find a better way
 # git fails fatally if it cannot guess as email adress
 # as is the case inside mock.
-git config --global user.email "you@example.com"
-git config --global user.name "Your Name"
-pushd tests
-ruby ./all_tests.rb
-popd
+#git config --global user.email "you@example.com"
+#git config --global user.name "Your Name"
+#pushd tests
+#ruby ./all_tests.rb
+#popd
 
 %files
 %dir %{gem_instdir}
@@ -84,6 +85,12 @@ popd
 %doc %{gem_instdir}/CONTRIBUTING.md
 
 %changelog
+* Fri Aug 21 2020 Steve Traylen <steve.traylen@cern.ch> - 1.7.0-1
+- Up to 1.5.0.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

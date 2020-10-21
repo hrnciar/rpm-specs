@@ -1,6 +1,6 @@
 Name:           perl-HTML-SuperForm
 Version:        1.09
-Release:        30%{?dist}
+Release:        31%{?dist}
 Summary:        HTML form generator
 License:        GPL+ or Artistic
 
@@ -51,6 +51,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.09-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.09-30
 - Perl 5.32 rebuild
 

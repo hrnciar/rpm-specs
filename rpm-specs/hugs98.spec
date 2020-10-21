@@ -2,7 +2,7 @@
 
 Name:		hugs98
 Version:	2006.09
-Release:	38%{?dist}
+Release:	40%{?dist}
 Summary:	Haskell Interpreter
 
 License:	BSD
@@ -109,7 +109,7 @@ sed -i 's|ALUT_LIBS="$ac_cv_search_alutExit"|ALUT_LIBS="$ac_cv_search_alutExit -
 # this is to avoid network lookup of the DTD
 sed -i 's|\"http://www.oasis-open.org.*\"||' docs/users_guide/users_guide.xml
 # Update config.guess/sub to fix builds on new architectures (aarch64/ppc64le)
-cp /usr/lib/rpm/config.* .
+cp /usr/lib/rpm/redhat/config.* .
 
 
 %build
@@ -191,6 +191,13 @@ sed -i "s|^bindir.*|bindir=\"%{_bindir}\"|
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2006.09-40
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2006.09-39
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Jeff Law <law@redhat.com> - 2006.09-38
 - Fix configure test compromised by LTO.
 

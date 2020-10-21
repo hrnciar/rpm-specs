@@ -2,7 +2,7 @@
 
 Name:	emacs-%{pkg}
 Version:	0.0.14
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Major mode to edit YAML files for emacs
 
 License:	GPLv2+
@@ -36,6 +36,9 @@ install -pm 644 %SOURCE1 %{buildroot}%{_emacs_sitestartdir}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.14-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.14-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

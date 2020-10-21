@@ -1,7 +1,10 @@
 # We need to rebuild this package every time the clang major version
 # changes, since clang releases are not ABI compatible between major
 # versions.  See also https://bugzilla.redhat.com/1544964
-%if 0%{?fedora} >= 32
+%if 0%{?fedora} >= 33
+%global clang_major 11
+%endif
+%if 0%{?fedora} == 32
 %global clang_major 10
 %endif
 %if 0%{?fedora} == 31
@@ -19,7 +22,7 @@
 
 Name:          american-fuzzy-lop
 Version:       2.56b
-Release:       2%{?dist}
+Release:       5%{?dist}
 
 Summary:       Practical, instrumentation-driven fuzzer for binary formats
 
@@ -91,6 +94,10 @@ assembly-level rewriting approach taken by afl-gcc and afl-clang.
 
 
 %build
+# This package appears to be failing because links to the LLVM plugins
+# are not installed which results in the tools not being able to
+# interpret the .o/.a files.  Disable LTO for now
+%define _lto_cflags %{nil}
 
 CFLAGS="%{optflags}" \
 %{__make} %{?_smp_mflags} \
@@ -211,6 +218,15 @@ ln -s %{SOURCE1} hello.cpp
 
 
 %changelog
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 2.56b-5
+- Clang 11 in Fedora 33+ (RHBZ#1870933).
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.56b-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jeff Law <law@redhat.com> - 2.56b-3
+- Disable LTO
+
 * Sat Mar 14 2020 Richard W.M. Jones <rjones@redhat.com> - 2.56b-2
 - Clang 10 in Fedora 32+ (RHBZ#1813541).
 

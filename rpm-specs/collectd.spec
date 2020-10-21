@@ -4,7 +4,7 @@
 Summary: Statistics collection daemon for filling RRD files
 Name: collectd
 Version: 5.11.0
-Release: 5%{?dist}
+Release: 11%{?dist}
 License: GPLv2
 URL: https://collectd.org/
 
@@ -21,6 +21,7 @@ Source97: rrdtool.conf
 Source98: onewire.conf
 
 Patch0: %{name}-include-collectd.d.patch
+Patch1: %{name}-gcc11.patch
 
 BuildRequires: perl-devel
 BuildRequires: perl-generators
@@ -1179,6 +1180,26 @@ make check
 
 
 %changelog
+* Wed Sep 23 2020 Adrian Reber <adrian@lisas.de> - 5.11.0-11
+- Rebuilt for protobuf 3.13
+
+* Wed Sep 02 2020 Kevin Fenzi <kevin@scrye.com> - 5.11.0-10
+- Rebuild for new net-snmp.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.11.0-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jeff Law <law@redhat.org> - 5.11.0-8
+- Fix uninitialized variable in configure test which caused
+  unexpected results for HAVE_NETSNMP_OLD_API
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.11.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 5.11.0-6
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 5.11.0-5
 - Perl 5.32 rebuild
 

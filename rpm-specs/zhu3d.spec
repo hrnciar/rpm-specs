@@ -1,6 +1,6 @@
 Name:      zhu3d
 Version:   4.2.6
-Release:   18%{dist}
+Release:   19%{dist}
 Summary:   Interactive OpenGL-based mathematical function viewer
 License:   GPLv3
 URL:       http://www.sourceforge.net/projects/zhu3d
@@ -77,6 +77,9 @@ desktop-file-validate %{SOURCE1}
 %{_datadir}/applications/zhu3d.desktop
  
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.6-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 11 2020 Filipe Rosset <rosset.filipe@gmail.com> - 4.2.6-18
 - Fix FTBFS#F33
 

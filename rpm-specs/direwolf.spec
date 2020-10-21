@@ -1,6 +1,6 @@
 Name:           direwolf
 Version:        1.5
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Sound Card-based AX.25 TNC
 
 License:        GPLv2+
@@ -90,6 +90,9 @@ others.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Björn Esser <besser82@fedoraproject.org> - 1.5-7
 - Rebuild (gpsd)
 

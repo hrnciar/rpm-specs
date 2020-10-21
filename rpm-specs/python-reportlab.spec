@@ -1,7 +1,3 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 %global cmapdir %(echo `rpm -qls ghostscript | grep CMap | awk '{print $2}'`)
 %global pypi reportlab
 
@@ -15,8 +11,8 @@
 %endif
 
 Name:           python-%{pypi}
-Version:        3.5.42
-Release:        3%{?dist}
+Version:        3.5.53
+Release:        1%{?dist}
 Summary:        Library for generating PDFs and graphics
 License:        BSD and GPLv2+
 URL:            https://www.reportlab.com/opensource/
@@ -26,9 +22,10 @@ BuildRequires:  gcc
 BuildRequires:  freetype-devel
 BuildRequires:  ghostscript
 BuildRequires:  libart_lgpl-devel
+
 Buildrequires:  fontpackages-devel
-BuildRequires:  dejavu-sans-fonts
-BuildRequires:  bitstream-vera-sans-fonts
+%global fonts font(bitstreamverasans)
+BuildRequires:  %{fonts}
 
 Obsoletes:      %{name}-doc < 0:3.5.21-1
 
@@ -42,7 +39,6 @@ formats.
 Summary:        Library for generating PDFs and graphics
 BuildRequires:  python2-devel
 BuildRequires:  python2-pillow
-Requires:       dejavu-sans-fonts
 Requires:       bitstream-vera-sans-fonts
 Requires:       python2-pillow
 %{?python_provide:%python_provide python2-%{pypi}}
@@ -56,9 +52,9 @@ formats.
 %package -n     python3-%{pypi}
 Summary:        Library for generating PDFs and graphics
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-pillow
-Requires:       dejavu-sans-fonts
-Requires:       bitstream-vera-sans-fonts
+Requires:       %{fonts}
 Requires:       python3-pillow
 %{?python_provide:%python_provide python3-%{pypi}}
 %if 0%{?fedora} >= 32
@@ -134,10 +130,11 @@ CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS} -I%{_includedir}/libart-2.0}" LDFLAGS="${LDFL
   %{__python3} setup.py --use-system-libart install -O1 --skip-build --root ${RPM_BUILD_ROOT}
 
 # Unbundled fonts
-ln -sf %{_fontbasedir}/bitstream-vera/Vera.ttf %{buildroot}%{python3_sitearch}/reportlab/fonts/Vera.ttf
-ln -sf %{_fontbasedir}/bitstream-vera/VeraBI.ttf %{buildroot}%{python3_sitearch}/reportlab/fonts/VeraBI.ttf
-ln -sf %{_fontbasedir}/bitstream-vera/VeraBd.ttf %{buildroot}%{python3_sitearch}/reportlab/fonts/VeraBd.ttf
-ln -sf %{_fontbasedir}/bitstream-vera/VeraIt.ttf %{buildroot}%{python3_sitearch}/reportlab/fonts/VeraIt.ttf
+ln -sf $(fc-match -f "%{file}" "Bitstream Vera Sans:style=Regular,Roman") %{buildroot}%{python3_sitearch}/reportlab/fonts/Vera.ttf
+ln -sf $(fc-match -f "%{file}" "Bitstream Vera Sans:style=Bold Oblique") %{buildroot}%{python3_sitearch}/reportlab/fonts/VeraBI.ttf
+ln -sf $(fc-match -f "%{file}" "Bitstream Vera Sans:style=Bold") %{buildroot}%{python3_sitearch}/reportlab/fonts/VeraBd.ttf
+ln -sf $(fc-match -f "%{file}" "Bitstream Vera Sans:style=Oblique") %{buildroot}%{python3_sitearch}/reportlab/fonts/VeraIt.ttf
+
 rm -f %{buildroot}%{python3_sitearch}/reportlab/fonts/bitstream-vera-license.txt
 
 cp -a demos %{buildroot}%{python3_sitearch}/reportlab/
@@ -187,6 +184,43 @@ rm -f src/reportlab/graphics/__init__.py
 %{python3_sitearch}/reportlab-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Mon Oct 05 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.5.53-1
+- Release 3.5.53
+
+* Fri Sep 25 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.5.51-1
+- Release 3.5.51
+
+* Fri Sep 18 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.5.50-1
+- Release 3.5.50
+
+* Fri Sep 04 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.5.49-1
+- Release 3.5.49
+
+* Wed Aug 19 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.5.48-1
+- Release 3.5.48
+
+* Fri Aug 07 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.5.47-1
+- Release 3.5.47
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.46-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.5.46-1
+- Release 3.5.46
+
+* Mon Jul 20 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.5.45-1
+- Release 3.5.45
+
+* Tue Jun 30 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.5.44-2
+- Fix symlinks to the font files
+
+* Sat Jun 27 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.5.44-1
+- Release 3.5.44
+
+* Wed Jun 24 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.5.42-4
+- BuildRequires python3-setuptools explicitly
+- Remove automagic Python bytecompilation_extra
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.5.42-3
 - Rebuilt for Python 3.9
 

@@ -7,7 +7,7 @@
 Summary: webmail client written in php
 Name: squirrelmail
 Version: 1.4.23
-Release: 4%{?dist}.%{snapshot}
+Release: 5%{?dist}.%{snapshot}
 License: GPLv2+
 URL: http://www.squirrelmail.org/
 #Source0: http://downloads.sourceforge.net/%{name}/%{name}-webmail-%{version}.tar.bz2
@@ -293,6 +293,9 @@ rm $RPM_BUILD_ROOT%{_datadir}/squirrelmail/plugins/squirrelspell/modules/.htacce
 %{_sysconfdir}/cron.daily/squirrelmail.cron
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.23-5.20190710
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Remi Collet <remi@fedoraproject.org> - 1.4.23-4.20190710
 - requires php(httpd) instead of deprecated mod_php
 

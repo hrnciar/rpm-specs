@@ -1,6 +1,6 @@
 Name:           peripety
 Version:        0.1.2
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Storage event notification daemon
 License:        MIT
 URL:            https://github.com/cathay4t/peripety
@@ -65,6 +65,9 @@ event helping user investigate storage issues.
 %systemd_postun_with_restart peripetyd.service
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

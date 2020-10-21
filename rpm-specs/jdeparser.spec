@@ -3,7 +3,7 @@
 
 Name:             jdeparser
 Version:          2.0.3
-Release:          2%{?dist}
+Release:          5%{?dist}
 Summary:          Source generator library for Java
 License:          ASL 2.0
 URL:              https://github.com/jdeparser/jdeparser2
@@ -11,6 +11,7 @@ URL:              https://github.com/jdeparser/jdeparser2
 Source0:          %{url}/archive/%{namedversion}/%{name}-%{namedversion}.tar.gz
 BuildArch:        noarch
 
+BuildRequires:    java-1.8.0-openjdk-devel
 BuildRequires:    maven-local
 BuildRequires:    mvn(junit:junit)
 BuildRequires:    mvn(org.jboss:jboss-parent:pom:)
@@ -31,6 +32,8 @@ This package contains the API documentation for %{name}.
 %setup -q -n jdeparser2-%{namedversion}
 
 %build
+# Use Java 8 as sun.reflect.Reflection is removed in Java 11.
+export JAVA_HOME=%{_jvmdir}/java-1.8.0
 %mvn_build
 
 %install
@@ -43,6 +46,15 @@ This package contains the API documentation for %{name}.
 %license LICENSE.txt
 
 %changelog
+* Tue Jul 28 2020 Markku Korkeala <markku.korkeala@iki.fi> - 2.0.3-5
+- Force Java 8 as sun.reflect.Reflection is removed in Java 11.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.0.3-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

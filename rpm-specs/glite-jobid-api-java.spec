@@ -4,7 +4,7 @@
 
 Name:           glite-jobid-api-java
 Version:        1.3.9
-Release:        12%{?dist}
+Release:        14%{?dist}
 Summary:        JAVA implementation of handling gLite jobid
 
 License:        ASL 2.0
@@ -107,6 +107,12 @@ touch .mfiles
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.9-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.3.9-13
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.9-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

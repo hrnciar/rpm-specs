@@ -1,17 +1,17 @@
 %global fontfamilyname %{name}
-%global shortver 3.4
+%global shortver 3.5
 
 Name:          mscore
 Summary:       Music Composition & Notation Software
 Version:       %{shortver}.2
-Release:       4%{?dist}
+Release:       1%{?dist}
 # rtf2html is LGPLv2+
 # paper4.png paper5.png are LGPLv3
 # the rest is GPLv2
 # Soundfont is MIT
 License:       GPLv2 and LGPLv2+ and LGPLv3 and MIT
 URL:           https://musescore.org/
-Source0:       https://github.com/musescore/MuseScore/releases/download/v%{version}/MuseScore-%{version}.zip
+Source0:       https://github.com/musescore/MuseScore/archive/v%{version}/MuseScore-%{version}.tar.gz
 # For mime types
 Source1:       %{name}.xml
 # Add metainfo file for font to show in gnome-software
@@ -22,12 +22,14 @@ Source2:       %{fontfamilyname}.metainfo.xml
 # The font files need to be separated due to the font packaging guidelines.
 Patch0:        mscore-3.4.2-separate-commonfiles.patch
 # Ensure CMake will use qmake-qt5
-Patch1:        mscore-3.4.2-fix-qmake-path.patch
+Patch1:        mscore-3.5.1-fix-qmake-path.patch
 # Unbundle gnu-free-{sans,serif}-fonts, kqoauth, QtSingleApplication, and
 # steinberg-bravura{,-text}-fonts
 Patch2:        mscore-3.4.2-unbundle.patch
 # Fix some glitches in the aeolus code
-Patch3:        mscore-3.4.2-aeolus.patch
+Patch3:        mscore-3.5.0-aeolus.patch
+# Fix some glitches in the OMR code
+Patch4:        mscore-3.5.0-omr.patch
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -119,12 +121,12 @@ MuseScore is a free cross platform WYSIWYG music notation program.
 This package contains the musical notation fonts for use of MuseScore.
 
 %prep
-%autosetup -p1 -c
+%autosetup -p1 -n MuseScore-%{version}
 
 # Remove bundled stuff
-rm -vrf thirdparty/{freetype,openssl,poppler,portmidi,singleapp}
-rm -vrf fonts/{bravura,FreeS*}
-rm -vrf cmake
+rm -rf thirdparty/{freetype,openssl,poppler,portmidi,singleapp}
+rm -rf fonts/{bravura,FreeS*}
+rm -rf cmake
 
 # Force Fedora specific flags:
 find . -name CMakeLists.txt -exec sed -i -e 's|-O3|%{optflags}|' {} \+
@@ -140,11 +142,10 @@ done
 # Build the actual program
 mkdir -p build
 pushd build
-   %cmake -DCMAKE_BUILD_TYPE=RELEASE         \
+   %cmake -B . \
+          -DCMAKE_BUILD_TYPE=RELEASE         \
           -DCMAKE_CXX_FLAGS="%{optflags} -fsigned-char"    \
           -DCMAKE_CXX_FLAGS_RELEASE="%{optflags} -std=gnu++11 -fPIC -DNDEBUG -DQT_NO_DEBUG -fsigned-char" \
-          -DCMAKE_SKIP_RPATH=ON \
-          -DCMAKE_SKIP_INSTALL_RPATH=ON \
           -DAEOLUS=ON \
 %if 0%{?__isa_bits} == 32
           -DBUILD_64=OFF \
@@ -298,6 +299,21 @@ ln -s ../soundfonts %{buildroot}%{_datadir}/%{name}-%{shortver}/sound
 %{_datadir}/appdata/%{fontfamilyname}.metainfo.xml
 
 %changelog
+* Mon Oct 19 2020 Jerry James <loganjerry@gmail.com> - 3.5.2-1
+- Version 3.5.2
+
+* Tue Oct  6 2020 Jerry James <loganjerry@gmail.com> - 3.5.1-1
+- Version 3.5.1
+
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 3.5.0-2
+- rebuild (qt5)
+
+* Fri Aug  7 2020 Jerry James <loganjerry@gmail.com> - 3.5.0-1
+- Version 3.5.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 3.4.2-4
 - rebuild (qt5)
 

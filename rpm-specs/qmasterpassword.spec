@@ -1,6 +1,6 @@
 Name:           qmasterpassword
 Version:        1.2.2
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Stateless graphical Master Password Manager
 
 %global project_name qMasterPassword
@@ -68,6 +68,9 @@ make clean && make %{?_smp_mflags} debug
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

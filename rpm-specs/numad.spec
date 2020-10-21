@@ -2,7 +2,7 @@
 
 Name: numad
 Version: 0.5
-Release: 31.20150602git%{?dist}
+Release: 33.20150602git%{?dist}
 Summary: NUMA user daemon
 
 License: LGPLv2
@@ -41,7 +41,7 @@ mkdir -p %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}%{_mandir}/man8/
 install -p -m 644 numad.service %{buildroot}%{_unitdir}/
 install -p -m 644 numad.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
-make install prefix=%{buildroot}/usr
+%make_install prefix=%{buildroot}/usr
 
 %files
 %{_bindir}/numad
@@ -59,6 +59,13 @@ make install prefix=%{buildroot}/usr
 %systemd_postun numad.service
 
 %changelog
+* Mon Aug 24 2020 Jan Synáček <jsynacek@redhat.com> - 0.5-33.20150602git
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-32.20150602git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-31.20150602git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

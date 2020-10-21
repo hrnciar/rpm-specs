@@ -1,6 +1,8 @@
+%global __cmake_in_source_build 1
+
 Name:		openvas-manager
 Version:	9.0.1
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	Manager Module for the Open Vulnerability Assessment System (OpenVAS)
 
 License:	GPLv2+
@@ -49,6 +51,8 @@ Patch3:		%{name}-03-bsdsource.patch
 Patch4:		%{name}-04-doxygen_full.patch
 
 Patch5:		%{name}-05-postgresql.patch
+
+Patch6:		%{name}-strsignal.patch
 
 BuildRequires:  gcc
 BuildRequires:	openvas-libraries-devel >= %{version}
@@ -253,6 +257,13 @@ fi
 %doc build/doc/generated/html/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tuu Jul 23 2020 Jeff Law <law@redhat.com> - 9.0.1-2
+- Use strsignal, not sys_siglist
+- Use __cmake_in_source_build
+
 * Sat May 23 2020 josef radinger <cheese@nosuchhost.net> - 9.0.1-1
 - bump version
 - dont hardcode library-version

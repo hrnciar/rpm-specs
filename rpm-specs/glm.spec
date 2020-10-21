@@ -3,7 +3,7 @@
 
 Name:           glm
 Version:        0.9.9.6
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        C++ mathematics library for graphics programming
 
 License:        MIT
@@ -128,6 +128,13 @@ rmdir $RPM_BUILD_ROOT%{_libdir}
 %doc doc/api/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.9.6-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.9.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 02 2020 Joonas Sarajärvi <muep@iki.fi> - 0.9.9.6-3
 - Remove arch check from glmConfigVersion.cmake, fix #1758009
 

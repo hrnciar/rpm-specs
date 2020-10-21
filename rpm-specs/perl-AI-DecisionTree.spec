@@ -1,6 +1,6 @@
 Name:           perl-AI-DecisionTree
 Version:        0.11
-Release:        26%{?dist}
+Release:        27%{?dist}
 Summary:        Automatically Learns Decision Trees
 
 License:        GPL+ or Artistic
@@ -69,6 +69,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.11-26
 - Perl 5.32 rebuild
 

@@ -1,30 +1,34 @@
-%global packname  gh
+%global packname gh
+%global packver  1.1.0
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          1.0.1
-Release:          5%{?dist}
+Version:          1.1.0
+Release:          1%{?dist}
 Summary:          GitHub API
 
 License:          MIT
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-ini, R-jsonlite, R-httr
-# Suggests:  R-covr, R-pingr, R-testthat
+# Imports:   R-cli, R-ini, R-jsonlite, R-httr >= 1.2
+# Suggests:  R-covr, R-keyring, R-pingr, R-testthat, R-withr
 # LinkingTo:
 # Enhances:
 
 BuildArch:        noarch
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
+BuildRequires:    R-cli
 BuildRequires:    R-ini
 BuildRequires:    R-jsonlite
-BuildRequires:    R-httr
+BuildRequires:    R-httr >= 1.2
+BuildRequires:    R-keyring
 BuildRequires:    R-pingr
 BuildRequires:    R-testthat
+BuildRequires:    R-withr
 
 %description
 Minimal client to access the GitHub API.
@@ -53,7 +57,6 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 %files
 %dir %{rlibdir}/%{packname}
-%doc %{rlibdir}/%{packname}/README.md
 %license %{rlibdir}/%{packname}/LICENSE
 %doc %{rlibdir}/%{packname}/html
 %{rlibdir}/%{packname}/DESCRIPTION
@@ -66,6 +69,12 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Sun Aug 09 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.1.0-1
+- Update to latest version (rhbz#1838485)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.0.1-5
 - rebuild for R 4
 

@@ -1,6 +1,6 @@
 Name:           perl-Catalyst-Plugin-Static-Simple
 Version:        0.36
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        Make serving static pages painless
 License:        GPL+ or Artistic
 
@@ -91,6 +91,12 @@ TEST_POD=1 make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.36-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.36-8
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.36-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

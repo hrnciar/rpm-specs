@@ -1,7 +1,7 @@
 Name:           perl-Any-Moose
 Summary:        Use Moose or Mouse automagically (DEPRECATED)
 Version:        0.27
-Release:        15%{?dist}
+Release:        17%{?dist}
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Any-Moose
 Source0:        https://cpan.metacpan.org/authors/id/E/ET/ETHER/Any-Moose-%{version}.tar.gz
@@ -61,6 +61,12 @@ make test
 %{_mandir}/man3/Any::Moose.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.27-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.27-16
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.27-15
 - Perl 5.32 rebuild
 

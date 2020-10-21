@@ -2,7 +2,7 @@
 
 Name:           sng
 Version:        1.1.0
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Lossless editing of PNGs via a textual representation
 
 License:        zlib
@@ -50,6 +50,9 @@ translates between SNG and PNG.
 %_bindir/sng
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

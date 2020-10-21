@@ -1,6 +1,6 @@
 Name:    telepathy-logger-qt
 Version: 17.09.0
-Release: 1%{?dist}
+Release: 4%{?dist}
 Summary: Telepathy Logging for Qt 5
 
 License: LGPLv2+
@@ -44,18 +44,13 @@ Requires: telepathy-logger-devel%{?_isa}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} .. \
+%{cmake} \
   -DPYTHON_EXECUTABLE:PATH=%{__python3}
 
-popd
-
-%make_build -C %{_target_platform}
-
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 
 %ldconfig_scriptlets
@@ -72,6 +67,16 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Mon Sep 07 2020 Than Ngo <than@redhat.com> - 17.09.0-4
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 17.09.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 17.09.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 17 2020 Rex Dieter <rdieter@fedoraproject.org> - 17.09.0-1
 - 19.09.0
 

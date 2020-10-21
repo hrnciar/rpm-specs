@@ -6,8 +6,8 @@
 Name: perl-%{FullName}
 Summary: Pango style text formatting
 License: (GPL+ or Artistic) and Artistic 2.0
-Version: 0.018.1
-Release: 4%{?dist}
+Version: 0.019
+Release: 1%{?dist}
 Source: %{metacpan}/%{FullName}-%{version}.tar.gz
 Url: https://metacpan.org/release/%{FullName}
 
@@ -76,6 +76,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Sun Aug 16 2020 Johan Vromans <jvromans@squirrel.nl> - 0.019-1
+- Upgrade to upstream 0.019.
+
+* Mon Aug 03 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.018.3-1
+- 0.018.3 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.018.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.018.1-4
 - Perl 5.32 rebuild
 

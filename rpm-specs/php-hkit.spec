@@ -1,7 +1,7 @@
 Name:		php-hkit
 Summary:	Simple PHP5 API for extracting common microformats from a page
 Version:	0.5
-Release:	19%{?dist}
+Release:	20%{?dist}
 License:	LGPLv2+
 Source0:	http://hkit.googlecode.com/files/hkit-v%{version}.tgz
 URL:		http://allinthehead.com/hkit
@@ -60,6 +60,9 @@ install -p -m 644 hcard.profile.php "${RPM_BUILD_ROOT}/%{_datadir}/php/hkit/"
 
 #-------------------------------------------------------------------------------
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

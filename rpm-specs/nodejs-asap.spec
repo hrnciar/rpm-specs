@@ -2,7 +2,7 @@
 
 Name:           nodejs-asap
 Version:        2.0.3
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        High-priority task queue for Node.js and browser
 License:        MIT
 URL:            https://github.com/kriskowal/asap
@@ -16,6 +16,7 @@ ExclusiveArch:  %{ix86} x86_64 %{arm} noarch
 %endif
 
 BuildRequires:  nodejs-packaging
+BuildRequires:  nodejs(engine)
 
 %description
 %{summary}.
@@ -47,6 +48,9 @@ cp -pr package.json asap.js raw.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

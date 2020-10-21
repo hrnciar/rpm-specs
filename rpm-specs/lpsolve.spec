@@ -1,7 +1,7 @@
 Name:      lpsolve
 Summary:   A Mixed Integer Linear Programming (MILP) solver
 Version:   5.5.2.0
-Release:   24%{?dist}
+Release:   25%{?dist}
 Source:    http://downloads.sourceforge.net/lpsolve/lp_solve_%{version}_source.tar.gz
 URL:       http://sourceforge.net/projects/lpsolve
 License:   LGPLv2+
@@ -56,6 +56,9 @@ install -p -m 644 \
 %{_includedir}/lpsolve
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.5.2.0-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.5.2.0-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

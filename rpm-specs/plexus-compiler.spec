@@ -2,7 +2,7 @@
 
 Name:       plexus-compiler
 Epoch:      0
-Version:    2.8.6
+Version:    2.8.8
 Release:    1%{?dist}
 Summary:    Compiler call initiators for Plexus
 # extras subpackage has a bit different licensing
@@ -12,16 +12,17 @@ URL:        https://github.com/codehaus-plexus/plexus-compiler
 BuildArch:  noarch
 
 Source0:    https://github.com/codehaus-plexus/%{name}/archive/%{name}-%{version}.tar.gz
-Source1:    http://www.apache.org/licenses/LICENSE-2.0.txt
+Source1:    https://www.apache.org/licenses/LICENSE-2.0.txt
 Source2:    LICENSE.MIT
 
 BuildRequires:  maven-local
+BuildRequires:  mvn(org.codehaus.plexus:plexus-component-annotations)
 BuildRequires:  mvn(org.codehaus.plexus:plexus-component-metadata)
 BuildRequires:  mvn(org.codehaus.plexus:plexus-components:pom:)
 BuildRequires:  mvn(org.codehaus.plexus:plexus-container-default)
 BuildRequires:  mvn(org.codehaus.plexus:plexus-utils)
 %if %{with eclipse}
-BuildRequires:  mvn(org.eclipse.tycho:org.eclipse.jdt.core)
+BuildRequires:  mvn(org.eclipse.jdt:ecj)
 %endif
 
 
@@ -70,6 +71,9 @@ cp %{SOURCE2} LICENSE.MIT
 # don't build/install compiler-test module, it needs maven2 test harness
 %pom_disable_module plexus-compiler-test
 
+# disable integration tests (they require plexus-compiler-test)
+%pom_disable_module plexus-compiler-its
+
 # don't install sources jars
 %mvn_package ":*::sources:" __noinstall
 
@@ -101,6 +105,18 @@ cp %{SOURCE2} LICENSE.MIT
 %doc LICENSE LICENSE.MIT
 
 %changelog
+* Fri Aug 28 2020 Fabio Valentini <decathorpe@gmail.com> - 0:2.8.8-1
+- Update to version 2.8.8.
+
+* Sun Aug 16 2020 Fabio Valentini <decathorpe@gmail.com> - 0:2.8.7-1
+- Update to version 2.8.7.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:2.8.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0:2.8.6-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon Feb 17 2020 Alexander Scheel <ascheel@redhat.com> - 0:2.8.6-1
 - Update to version 2.8.6
 

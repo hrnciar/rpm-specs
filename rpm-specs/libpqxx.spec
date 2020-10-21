@@ -4,8 +4,8 @@
 Name:           libpqxx
 Summary:        C++ client API for PostgreSQL
 Epoch:          1
-Version:        7.0.7
-Release:        1%{?dist}
+Version:        7.1.2
+Release:        4%{?dist}
 
 %global         forgeurl https://github.com/jtv/%{name}/
 %global         tag %{version}
@@ -54,33 +54,30 @@ BuildArch: noarch
 %forgeautosetup
 
 %build
-mkdir build
-pushd build
-%cmake -G Ninja         \
+# This package fails its testsuite on x86_64 with LTO enabled.  It needs to be
+# investigated further
+%define _lto_cflags %{nil}
+%cmake -G Ninja \
 %if %{with doc}
-  -DBUILD_DOC=ON        \
+  -DBUILD_DOC=ON
 %endif
-  ..
-%ninja_build
-popd
+%ninja_build -C "%{_vpath_builddir}"
 
 %install
-pushd build
-%ninja_install
-popd
+%ninja_install -C "%{_vpath_builddir}"
 
 %check
 %if %{with check}
 %postgresql_tests_run
-pushd build/test
-ctest -V %{?_smp_mflags}
-popd
+cd "%{_vpath_builddir}/test"
+%__ctest -V --force-new-ctest-process %{?_smp_mflags}
+cd -
 %endif
 
 %files
 %doc AUTHORS NEWS README.md VERSION
 %license COPYING
-%{_libdir}/%{name}-7.0.so
+%{_libdir}/%{name}-7.1.so
 
 %files devel
 %dir %{_libdir}/cmake/%{name}
@@ -109,6 +106,19 @@ popd
 %endif
 
 %changelog
+* Thu Aug 06 2020 Jeff Law <law@redhat.com> - 1:7.1.2-4
+- Disable LTO
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - Packaging variables read or set by %forgemeta
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - Packaging variables read or set by %forgemeta
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Matthew Krupcale <mkrupcale@matthewkrupcale.com> - 1:7.1.2-1
+- Update to v7.1.2
+
 * Sat May  9 2020 Matthew Krupcale <mkrupcale@matthewkrupcale.com> - 1:7.0.7-1
 - Update to v7.0.7
 

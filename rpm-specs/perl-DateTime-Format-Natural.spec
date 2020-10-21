@@ -1,6 +1,6 @@
 Name:           perl-DateTime-Format-Natural
-Version:        1.09
-Release:        2%{?dist}
+Version:        1.11
+Release:        1%{?dist}
 Summary:        Create machine readable date/time with natural parsing logic
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/DateTime-Format-Natural
@@ -85,6 +85,15 @@ perl Build.PL installdirs=vendor
 
 
 %changelog
+* Wed Sep 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.11-1
+- 1.11 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.10-1
+- 1.10 bump
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.09-2
 - Perl 5.32 rebuild
 

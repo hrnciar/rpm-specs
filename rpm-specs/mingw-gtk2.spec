@@ -1,8 +1,8 @@
-%?mingw_package_header
+%{?mingw_package_header}
 
 Name:           mingw-gtk2
 Version:        2.24.32
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        MinGW Windows Gtk2 library
 
 License:        LGPLv2+
@@ -23,6 +23,8 @@ Patch15:        window-dragging.patch
 # Backported from upstream:
 Patch20:        0001-calendar-Use-the-new-OB-format-if-supported.patch
 Patch21:        0001-Fix-compiler-warnings-with-GCC-8.1.patch
+#https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/2305
+Patch23:        gtk2-fix-multiple-definitions.patch
 
 # Fix use of extended buttons in gtkstatusicon.
 Patch1000:      mingw32-gtk2-2.15.0-xbuttons.patch
@@ -128,6 +130,7 @@ Static version of the MinGW Windows Gtk2 library.
 %patch15 -p1 -b .window-dragging
 %patch20 -p1 -b .cal
 %patch21 -p1 -b .gcc81
+%patch23 -p1
 
 %patch1000 -p1
 autoreconf -i --force
@@ -143,48 +146,48 @@ autoreconf -i --force
 # Force a regeneration of this file by removing the bundled copy
 rm -f gtk/gtk.def
 
-%mingw_make %{?_smp_mflags}
+%mingw_make_build
 
 
 %install
-%mingw_make DESTDIR=$RPM_BUILD_ROOT install
+%mingw_make_install
 
-rm -f $RPM_BUILD_ROOT/%{mingw32_libdir}/charset.alias
-rm -f $RPM_BUILD_ROOT/%{mingw64_libdir}/charset.alias
+rm -f %{buildroot}/%{mingw32_libdir}/charset.alias
+rm -f %{buildroot}/%{mingw64_libdir}/charset.alias
 
 # Remove manpages which duplicate those in Fedora native.
-rm -rf $RPM_BUILD_ROOT%{mingw32_mandir}
-rm -rf $RPM_BUILD_ROOT%{mingw64_mandir}
+rm -rf %{buildroot}%{mingw32_mandir}
+rm -rf %{buildroot}%{mingw64_mandir}
 
 # Remove documentation too.
-rm -rf $RPM_BUILD_ROOT%{mingw32_datadir}/gtk-doc
-rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
+rm -rf %{buildroot}%{mingw32_datadir}/gtk-doc
+rm -rf %{buildroot}%{mingw64_datadir}/gtk-doc
 
 # The .def files are only used while compiling the libraries themselves
 # (they contain a list of functions which need to be exported by the linker)
 # so they serve no purpose for other libraries and applications
-rm -f $RPM_BUILD_ROOT%{mingw32_libdir}/*.def
-rm -f $RPM_BUILD_ROOT%{mingw64_libdir}/*.def
+rm -f %{buildroot}%{mingw32_libdir}/*.def
+rm -f %{buildroot}%{mingw64_libdir}/*.def
 
 # Install the gtk.immodules file
-mkdir -p $RPM_BUILD_ROOT%{mingw32_sysconfdir}/gtk-2.0/
-mkdir -p $RPM_BUILD_ROOT%{mingw64_sysconfdir}/gtk-2.0/
-install -m 0644 %{SOURCE1} $RPM_BUILD_ROOT%{mingw32_sysconfdir}/gtk-2.0/
-install -m 0644 %{SOURCE1} $RPM_BUILD_ROOT%{mingw64_sysconfdir}/gtk-2.0/
+mkdir -p %{buildroot}%{mingw32_sysconfdir}/gtk-2.0/
+mkdir -p %{buildroot}%{mingw64_sysconfdir}/gtk-2.0/
+install -m 0644 %{SOURCE1} %{buildroot}%{mingw32_sysconfdir}/gtk-2.0/
+install -m 0644 %{SOURCE1} %{buildroot}%{mingw64_sysconfdir}/gtk-2.0/
 
 # Drop all .la files
-find $RPM_BUILD_ROOT -name "*.la" -delete
+find %{buildroot} -name "*.la" -delete
 
 # Drop the .dll.a files for all modules as nothing is supposed
 # to link directly to these modules
-rm -f $RPM_BUILD_ROOT%{mingw32_libdir}/gtk-2.0/2.10.0/*/*.dll.a
-rm -f $RPM_BUILD_ROOT%{mingw64_libdir}/gtk-2.0/2.10.0/*/*.dll.a
-rm -f $RPM_BUILD_ROOT%{mingw32_libdir}/gtk-2.0/modules/*.dll.a
-rm -f $RPM_BUILD_ROOT%{mingw64_libdir}/gtk-2.0/modules/*.dll.a
+rm -f %{buildroot}%{mingw32_libdir}/gtk-2.0/2.10.0/*/*.dll.a
+rm -f %{buildroot}%{mingw64_libdir}/gtk-2.0/2.10.0/*/*.dll.a
+rm -f %{buildroot}%{mingw32_libdir}/gtk-2.0/modules/*.dll.a
+rm -f %{buildroot}%{mingw64_libdir}/gtk-2.0/modules/*.dll.a
 
 # gtk-update-icon-cache.exe is now shipped in mingw-gtk3
-rm -f $RPM_BUILD_ROOT%{mingw32_bindir}/gtk-update-icon-cache.exe
-rm -f $RPM_BUILD_ROOT%{mingw64_bindir}/gtk-update-icon-cache.exe
+rm -f %{buildroot}%{mingw32_bindir}/gtk-update-icon-cache.exe
+rm -f %{buildroot}%{mingw64_bindir}/gtk-update-icon-cache.exe
 
 %mingw_find_lang gtk2 --all-name
 
@@ -317,6 +320,12 @@ rm -f $RPM_BUILD_ROOT%{mingw64_bindir}/gtk-update-icon-cache.exe
 
 
 %changelog
+* Wed Aug 12 13:39:01 GMT 2020 Sandro Mani <manisandro@gmail.com> - 2.24.32-7
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.24.32-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 2.24.32-5
 - Rebuild (gettext)
 

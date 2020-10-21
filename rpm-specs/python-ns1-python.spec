@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.15.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Python SDK for the NS1 DNS platform
 
 License:        MIT
@@ -50,6 +50,9 @@ sed -i -e '/setup_requires/d' setup.py
 %{python3_sitelib}/ns1/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.15.0-2
 - Rebuilt for Python 3.9
 

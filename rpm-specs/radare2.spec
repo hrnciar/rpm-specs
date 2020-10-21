@@ -3,7 +3,7 @@
 
 Name:           radare2
 Summary:        The reverse engineering framework
-Version:        4.4.0
+Version:        4.5.0
 URL:            https://radare.org/
 VCS:            https://github.com/radare/radare2
 
@@ -17,10 +17,10 @@ VCS:            https://github.com/radare/radare2
 %global         rel              2
 
 %if %{with build_release}
-Release:        %{rel}%{?dist}
+Release:        %{rel}%{?dist}.1
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 %else
-Release:        0.%{rel}.%{gitdate}git%{shortcommit}%{?dist}
+Release:        0.%{rel}.%{gitdate}git%{shortcommit}%{?dist}.1
 Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{commit}/%{name}-%{commit}.zip
 %endif
 
@@ -108,12 +108,12 @@ Requires:       %{name}-common = %{version}-%{release}
 # ./shlr/spp/README.md
 # SPP stands for Simple Pre-Processor, a templating language.
 # https://github.com/radare/spp
-Provides:       bundled(spp) = 1.0
+Provides:       bundled(spp) = 1.2.0
 
 # ./shlr/sdb/README.md
 # sdb is a simple string key/value database based on djb's cdb
 # https://github.com/radare/sdb
-Provides:       bundled(sdb) = 1.4.1
+Provides:       bundled(sdb) = 1.5.0
 
 # ./shlr/sdb/src/json/README
 # https://github.com/quartzjer/js0n
@@ -214,6 +214,7 @@ echo "Available under https://github.com/radare/radare2-webui" >> ./shlr/www/REA
     -Ddebugger=false \
 %endif
     -Duse_sys_capstone=true \
+    -Denable_tests=false \
     -Denable_r2r=false
 %meson_build
 
@@ -278,6 +279,14 @@ rm %{buildroot}/%{_datadir}/doc/%{name}/fortunes.{creepy,nsfw,fun}
 
 
 %changelog
+* Fri Oct 2 2020 Riccardo Schirone <rschirone91@gmail.com> - 4.5.0-2.1
+- Rebuilt to make sure version is no lower than F32
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.0-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Riccardo Schirone <rschirone91@gmail.com> - 4.5.0-1
+- Rebase to upstream version 4.5.0
 * Fri May 8 2020 Riccardo Schirone <rschirone91@gmail.com> - 4.4.0-2
 - Just re-build
 * Mon May 4 2020 Riccardo Schirone <rschirone91@gmail.com> - 4.4.0-1

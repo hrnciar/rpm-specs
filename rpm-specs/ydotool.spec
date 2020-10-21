@@ -1,11 +1,12 @@
 # -*-Mode: rpm-spec-mode; -*-
 
-%global commit 9c3a4e7d66f44824abece72adb810f368d437525
+%undefine __cmake_in_source_build
+%global commit 787fd2549dc0972895a94e4b0964389296608922
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:     ydotool
 Version:  0.1.9
-Release:  0.2.20200405.git.%{shortcommit}%{?dist}
+Release:  0.4.20200815.git.%{shortcommit}%{?dist}
 Summary:  Generic command-line automation tool (no X!)
 License:  MIT
 URL:      https://github.com/ReimuNotMoe/ydotool
@@ -18,7 +19,7 @@ Source0:  %{url}/archive/%{commit}/%{name}-%{version}.tar.gz
 
 # Create patch with:
 # diff -rNu -x build ydotool-%%{version}-orig ydotool-%%{version}
-Patch0:   ydotool-patch0-cmakelist.patch
+Patch0:   ydotool-patch1-cmakelist.patch
 
 BuildRequires: boost-devel
 BuildRequires: cmake
@@ -58,16 +59,13 @@ This package contains header files for %{name}.
 
 %prep
 %autosetup -n %{name}-%{commit}
-mkdir -p %{_target_platform}
 
 %build
-pushd %{_target_platform}
-%cmake ..
-popd
-%make_build -C %{_target_platform}
+%cmake
+%cmake_build
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 
 mkdir -p %{buildroot}/%{_unitdir}
 install -p -m 0644 Daemon/%{name}.service %{buildroot}/%{_unitdir}
@@ -101,6 +99,12 @@ find . -name '*.hpp' -exec cp --parents {} %{buildroot}/%{_includedir}/ydotool/ 
 %{_includedir}/%{name}/
 
 %changelog
+* Sat Aug 15 2020 Bob Hepple <bob.hepple@gmail.com> - 0.1.9-0.4.20200815.git.787fd25
+- most recent version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.9-0.3.20200405.git.9c3a4e7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Jonathan Wakely <jwakely@redhat.com> - 0.1.9-0.2.20200405.git.9c3a4e7
 - Rebuilt for Boost 1.73
 

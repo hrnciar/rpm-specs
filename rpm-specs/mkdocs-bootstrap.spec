@@ -1,6 +1,6 @@
 Name:           mkdocs-bootstrap
 Version:        1.1
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Bootstrap theme for MKDocs
 
 License:        BSD
@@ -9,6 +9,7 @@ Source0:        https://github.com/mkdocs/%{name}/archive/%{version}.tar.gz#/%{n
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
+BuildRequires:  python3dist(setuptools)
 BuildRequires:  mkdocs
 Requires:       mkdocs
 
@@ -39,6 +40,12 @@ popd
 %{python3_sitelib}/mkdocs_bootstrap-%{version}-py*.egg-info/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Robin Lee <cheeselee@fedoraproject.org> - 1.1-4
+- BR python3dist(setuptools)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1-3
 - Rebuilt for Python 3.9
 

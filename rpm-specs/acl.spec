@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.53
-Release: 6%{?dist}
+Release: 9%{?dist}
 BuildRequires: gawk
 BuildRequires: gcc
 BuildRequires: gettext
@@ -10,6 +10,12 @@ BuildRequires: libtool
 BuildRequires: perl(FileHandle)
 Requires: libacl = %{version}-%{release}
 Source: https://download-mirror.savannah.gnu.org/releases/acl/acl-%{version}.tar.gz
+
+# avoid permission denied problem with LD_PRELOAD in the test-suite
+Patch1: 0001-acl-2.2.53-test-runwrapper.patch
+
+# make __acl_create_entry_obj() work with LTO enabled (#1873975)
+Patch2: 0002-acl-2.2.53-setattr-segv.patch
 
 License: GPLv2+
 URL: https://savannah.nongnu.org/projects/acl
@@ -51,21 +57,24 @@ defined in POSIX 1003.1e draft standard 17.
 %make_build
 
 %check
+# make the test-suite use the just built library (instead of the system one)
+export LD_LIBRARY_PATH="${RPM_BUILD_ROOT}%{_libdir}:${LD_LIBRARY_PATH}"
+
 if ./setfacl -m "u:$(id -u):rwx" .; then
     if test 0 = "$(id -u)"; then
         # test/root/permissions.test requires the 'daemon' user to be a member
         # of the 'bin' group in order not to fail.  Prevent the test from
         # running if we detect that its requirements are not met (#1085389).
         if id -nG daemon | { ! grep bin >/dev/null; }; then
-	    sed -e 's|test/root/permissions.test||' \
-	        -i test/Makemodule.am Makefile.in Makefile
-	fi
+            sed -e 's|test/root/permissions.test||' \
+                -i test/Makemodule.am Makefile.in Makefile
+        fi
 
-	# test/root/setfacl.test fails if 'bin' user cannot access build dir
-	if ! runuser -u bin -- "${PWD}/setfacl" --version; then
-	    sed -e 's|test/root/setfacl.test||' \
-	        -i test/Makemodule.am Makefile.in Makefile
-	fi
+        # test/root/setfacl.test fails if 'bin' user cannot access build dir
+        if ! runuser -u bin -- "${PWD}/setfacl" --version; then
+            sed -e 's|test/root/setfacl.test||' \
+                -i test/Makemodule.am Makefile.in Makefile
+        fi
     fi
 
     # run the upstream test-suite
@@ -113,6 +122,16 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Mon Aug 31 2020 Kamil Dudka <kdudka@redhat.com> 2.2.53-9
+- make __acl_create_entry_obj() work with LTO enabled (#1873975)
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.53-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.53-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Tom Stellard <tstellar@redhat.com> - 2.2.53-6
 - Spec file cleanups and build fix
 - Add BuildRequires: perl-FileHandle to fix make check

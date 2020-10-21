@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        3.1.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Tools for working with the Ord subset of certain PartialOrd types, like floats
 
 # Upstream license specification: MIT/Apache-2.0
@@ -113,6 +113,9 @@ which use "unstable" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

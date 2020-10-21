@@ -1,6 +1,6 @@
 Name:     fuelmanager
 Version:  0.5
-Release:  4%{?dist}
+Release:  5%{?dist}
 Summary:  Manage fuel mileage
 
 License:  GPLv3+
@@ -62,6 +62,9 @@ cp fuelmanager.appdata.xml %{buildroot}%{_datadir}/appdata/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

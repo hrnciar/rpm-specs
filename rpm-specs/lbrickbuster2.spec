@@ -3,7 +3,7 @@
 
 Name:           lbrickbuster2
 Version:        2.6.5
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Brickbuster arcade game
 License:        GPLv2+
 URL:            http://lgames.sourceforge.net/
@@ -135,6 +135,9 @@ EOF
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.5-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.5-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,14 +1,14 @@
-%global _hardened_build 1
-
 Name:		workspace
 
-Version:	1.3.0
-Release:	2%{?dist}
+Version:	1.3.1
+Release:	4%{?dist}
 Summary:	A tool to create scratch directories by users with an expiration date
 
 License:	GPLv3
 URL:		https://github.com/holgerBerger/hpc-workspace
 Source0:	https://github.com/holgerBerger/hpc-workspace/archive/v%{version}/%{name}-%{version}.tar.gz
+
+Patch0:	        ws_alloc_option.patch
 
 #BuildRequires:	sed
 BuildRequires:	gcc
@@ -34,15 +34,16 @@ The project provides user and admin tools to manage those directories.
 #   override the build flags form the optflags macro and so allows the use of
 #   the cmake macro in this spec file
 sed -e '/^SET(CMAKE_CXX_FLAGS "-Wall -g")/d' -i CMakeLists.txt
+%patch0
 
 
 %build
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 install -p -m 755 contribs/ws_prepare %{buildroot}%{_sbindir}/ws_prepare
 
 
@@ -66,6 +67,21 @@ install -p -m 755 contribs/ws_prepare %{buildroot}%{_sbindir}/ws_prepare
 
 
 %changelog
+* Wed Aug 12 2020 Gerd Pokorra <gp@zimt.uni-siegen.de> - 1.3.1-4
+- Fix bug 1865626 with using new cmake macros 
+  https://bugzilla.redhat.com/show_bug.cgi?id=1865626
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Gerd Pokorra <gp@zimt.uni-siegen.de> - 1.3.1-1
+- update to version 1.3.1
+- add patch ws_alloc_option.patch
+
 * Wed Jun 03 2020 Gerd Pokorra <gp@zimt.uni-siegen.de> - 1.3.0-2
 - Rebuilt for Boost 1.73 (BUG ID: 1843150)
 

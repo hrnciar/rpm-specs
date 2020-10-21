@@ -1,6 +1,6 @@
 Name:           arc-kde
 Version:        20180614
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Port of the popular GTK theme Arc for the Plasma 5 desktop
 
 License:        GPLv3 and CC-BY-SA
@@ -169,6 +169,9 @@ cp wallpapers/Arc-Dark/LICENSE LICENSE-wallpapers
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20180614-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20180614-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

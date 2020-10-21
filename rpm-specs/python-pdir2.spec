@@ -29,7 +29,7 @@ bpython, and Jupyter Notebook.}
 
 Name:           python-%{pkgname}
 Version:        0.3.1.post2
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Pretty dir() printing with joy
 License:        MIT
 URL:            https://github.com/laike9m/pdir2
@@ -127,6 +127,9 @@ BuildRequires:  python%{python3_pkgversion}-pandas
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1.post2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.1.post2-8
 - Rebuilt for Python 3.9
 

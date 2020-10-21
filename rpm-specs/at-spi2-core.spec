@@ -1,11 +1,14 @@
 Name:           at-spi2-core
-Version:        2.36.0
-Release:        1%{?dist}
+Version:        2.38.0
+Release:        2%{?dist}
 Summary:        Protocol definitions and daemon for D-Bus at-spi
 
 License:        LGPLv2+
 URL:            http://www.linuxfoundation.org/en/AT-SPI_on_D-Bus
-Source0:        http://download.gnome.org/sources/at-spi2-core/2.36/%{name}-%{version}.tar.xz
+Source0:        http://download.gnome.org/sources/at-spi2-core/2.38/%{name}-%{version}.tar.xz
+
+# https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues/25
+Patch0:         fix-login-screen-a11y.patch
 
 BuildRequires:  dbus-devel
 BuildRequires:  gettext
@@ -15,7 +18,7 @@ BuildRequires:  gtk-doc
 BuildRequires:  libXtst-devel
 BuildRequires:  libXi-devel
 BuildRequires:  meson
-BuildRequires:  systemd
+BuildRequires:  systemd-devel
 
 Requires:       dbus
 
@@ -77,6 +80,21 @@ API documentation for libatspi.
 %{_libdir}/pkgconfig/atspi-2.pc
 
 %changelog
+* Thu Sep 24 2020 Michael Catanzaro <mcatanzaro@redhat.com> - 2.38.0-2
+- Add patch to fix a11y on login screen
+
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 2.38.0-1
+- Update to 2.38.0
+
+* Sun Sep 06 2020 Kalev Lember <klember@redhat.com> - 2.37.92-1
+- Update to 2.37.92
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 2.37.90-1
+- Update to 2.37.90
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.36.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 08 2020 Kalev Lember <klember@redhat.com> - 2.36.0-1
 - Update to 2.36.0
 

@@ -1,6 +1,6 @@
 Name:      jacoco
 Version:   0.8.3
-Release:   1%{?dist}
+Release:   4%{?dist}
 Summary:   Java Code Coverage for Eclipse 
 License:   EPL
 URL:       http://www.eclemma.org/jacoco/
@@ -67,6 +67,8 @@ A Jacoco plugin for maven.
 
 sed -i -e "s|nb-configuration.xml|nb-configuration.xml,build.xml, pom.xml|g" org.jacoco.build/pom.xml
 
+# Remove unnecessary dependency on maven-javadoc-plugin
+%pom_remove_plugin -r :maven-javadoc-plugin
 
 # Remove enforcer plugin that causes build failure of 'Jacoco :: Maven Plugin'
 %pom_remove_plugin -f -r org.apache.maven.plugins:maven-enforcer-plugin
@@ -93,7 +95,7 @@ sed -i -e "s|nb-configuration.xml|nb-configuration.xml,build.xml, pom.xml|g" org
 for x in `find | grep "/pom.xml$"` ; do sed -i "s|<manifestFile>.*/META-INF/MANIFEST.MF</manifestFile>||" $x  ; done
 
 %build
-%mvn_build -f -- -Dproject.build.sourceEncoding=UTF-8
+%mvn_build --xmvn-javadoc -f -- -Dproject.build.sourceEncoding=UTF-8
 
 # workaround missing premain in agent.rt RH1151442. Not sure where to fix this in build.
 # TODO, fix in build itself
@@ -118,13 +120,25 @@ echo %{name} %{name}/org.jacoco.ant objectweb-asm/asm-debug-all > %{buildroot}%{
 
 %files maven-plugin -f .mfiles-maven-plugin
 
+%files javadoc -f .mfiles-javadoc
+
 %changelog
-* Tue Apr 02 2020 Jiri Vanek <jvanek@redhat.com> 0.8.3-1
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Fabio Valentini <decathorpe@gmail.com> - 0.8.3-3
+- Remove unnecessary dependency on maven-javadoc-plugin.
+- Use xmvn-javadoc unconditionally, fixing javadoc generation.
+- Add files for javadoc subpackage.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0.8.3-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Apr 02 2020 Jiri Vanek <jvanek@redhat.com> 0.8.3-1
 - bumped to sources 8.3 which are aligned with currenlty shiped ojkectweb-asm
 - aligned pugins with current fedora state
 - org.apache.felix:maven-bundle-plugin should be returned, its absence is killing jdk11 exported packages generation
 - the manual manifest is not an option
-
 
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.8-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild

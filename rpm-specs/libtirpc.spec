@@ -2,7 +2,7 @@
 
 Name:			libtirpc
 Version:		1.2.6
-Release:		0%{?dist}
+Release:		2.rc4%{?dist}
 Summary:		Transport Independent RPC Library
 License:		SISSL and BSD
 URL:  			http://git.linux-nfs.org/?p=steved/libtirpc.git;a=summary
@@ -10,6 +10,9 @@ Source0:		http://downloads.sourceforge.net/libtirpc/libtirpc-%{version}.tar.bz2
 
 BuildRequires:		automake, autoconf, libtool, pkgconfig
 BuildRequires:		krb5-devel
+BuildRequires:		gcc
+
+Patch001: libtirpc-1.2.7-rc4.patch
 
 %description
 This package contains SunLib's implementation of transport-independent
@@ -110,6 +113,16 @@ mv %{buildroot}%{_mandir}/man3 %{buildroot}%{_mandir}/man3t
 %{_mandir}/*/*
 
 %changelog
+* Tue Aug 04 2020 Steve Dickson <steved@redhat.com> 1.2.6-1.rc4
+- Updated to the latest upstream RC release: libtirpc-1-2-7-rc4
+
+* Tue Aug 04 2020 Tom Stellard <tstellar@redhat.com> - 1.2.6-2
+- Add BuildRequires: gcc
+- https://docs.fedoraproject.org/en-US/packaging-guidelines/C_and_C++/#_packaging
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.6-1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 14 2020 Steve Dickson <steved@redhat.com> 1.2.6-0
 - Updated to the latest upstream release: libtirpc-1-2-6 (bz 1822751)
 

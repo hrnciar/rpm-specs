@@ -1,6 +1,6 @@
 Name:           rcssserver
 Version:        16.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Robocup 2D Soccer Simulation Server
 
 # rcssbase/ libraries are under LGPLv2+
@@ -79,6 +79,9 @@ desktop-file-install \
 %{_datadir}/applications/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 16.0.0-2
 - Rebuilt for Boost 1.73
 

@@ -4,8 +4,8 @@
 # https://github.com/kubernetes/node-api
 %global goipath         k8s.io/node-api
 %global forgeurl        https://github.com/kubernetes/node-api
-Version:                1.15.0
-%global tag             kubernetes-1.15.0
+Version:                1.17.12
+%global tag             kubernetes-1.17.12
 %global distprefix      %{nil}
 
 %gometa
@@ -17,7 +17,7 @@ Version:                1.15.0
 %global godocs          CONTRIBUTING.md README.md code-of-conduct.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        None
 
 # Upstream license specification: Apache-2.0
@@ -60,6 +60,12 @@ BuildRequires:  golang(k8s.io/client-go/util/flowcontrol)
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 03:26:38 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.17.12-1
+- Update to 1.17.12
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

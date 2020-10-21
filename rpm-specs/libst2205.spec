@@ -1,6 +1,6 @@
 Name:           libst2205
 Version:        1.4.3
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Library for accessing the display of hacked st2205 photo frames
 License:        GPLv3+
 URL:            http://picframe.spritesserver.nl/wiki/index.php
@@ -80,6 +80,9 @@ install -p -m 644 libst2205/st2205.h $RPM_BUILD_ROOT%{_includedir}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.3-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.3-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

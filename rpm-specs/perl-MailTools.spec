@@ -1,7 +1,7 @@
 Summary:	Various ancient mail-related perl modules
 Name:		perl-MailTools
 Version:	2.21
-Release:	5%{?dist}
+Release:	6%{?dist}
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/MailTools
 Source0:	https://cpan.metacpan.org/authors/id/M/MA/MARKOV/MailTools-%{version}.tar.gz
@@ -121,6 +121,9 @@ make test TEST_FILES="xt/*.t"
 %{_mandir}/man3/MailTools.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.21-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.21-5
 - Perl 5.32 rebuild
 

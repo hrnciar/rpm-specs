@@ -1,7 +1,7 @@
 #
 # Fedora spec file for php-google-apiclient-services
 #
-# Copyright (c) 2017-2019 Shawn Iwinski <shawn@iwin.ski>
+# Copyright (c) 2017-2020 Shawn Iwinski <shawn@iwin.ski>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -11,8 +11,8 @@
 
 %global github_owner     googleapis
 %global github_name      google-api-php-client-services
-%global github_version   0.102
-%global github_commit    82274e12b08c6828ebcc45a6bc01adbac63de8e9
+%global github_version   0.144
+%global github_commit    74c5fc850d9ce441c6b3e52af11b986cd11d379a
 
 %global composer_vendor  google
 %global composer_project apiclient-services
@@ -27,12 +27,16 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       3%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       Google PHP API Client Services
 
 License:       ASL 2.0
 URL:           https://github.com/%{github_owner}/%{github_name}
-Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{github_commit}.tar.gz
+
+# GitHub export does not include tests
+# Run php-google-apiclient-services-get-source.sh to create full source
+Source0:       %{name}-%{github_version}-%{github_commit}.tar.gz
+Source1:       %{name}-get-source.sh
 
 BuildArch:     noarch
 # Tests
@@ -40,7 +44,7 @@ BuildArch:     noarch
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires: php-composer(phpunit/phpunit)
-## phpcompatinfo (computed from version 0.102)
+## phpcompatinfo (computed from version 0.144)
 ##     <none>
 ## Autoloader
 BuildRequires: php-composer(fedora/autoloader)
@@ -48,7 +52,7 @@ BuildRequires: php-composer(fedora/autoloader)
 
 # composer.json
 Requires:      php(language) >= %{php_min_ver}
-# phpcompatinfo (computed from version 0.102)
+# phpcompatinfo (computed from version 0.144)
 #     <none>
 # Autoloader
 Requires:      php-composer(fedora/autoloader)
@@ -128,6 +132,15 @@ exit $RETURN_CODE
 
 
 %changelog
+* Sun Sep 06 2020 Shawn Iwinski <shawn@iwin.ski> - 0.144-2
+- Fix source
+
+* Sun Sep 06 2020 Shawn Iwinski <shawn@iwin.ski> - 0.144-1
+- Update to 0.144 (RHBZ #1720970)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.102-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.102-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 Summary: Multimedia framework api
 Name:    phonon
 Version: 4.11.1
-Release: 3%{?dist}
+Release: 6%{?dist}
 License: LGPLv2+
 URL:     https://community.kde.org/Phonon
 
@@ -58,22 +58,19 @@ Requires: %{name}-qt5%{?_isa} = %{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%cmake_kf5 \
   -DCMAKE_BUILD_TYPE:STRING="Release" \
   -DPHONON_BUILD_DECLARATIVE_PLUGIN:BOOL=%{?declarative:ON}%{!?declarative:OFF} \
   -DPHONON_BUILD_PHONON4QT5:BOOL=ON \
   -DPHONON_QT_IMPORTS_INSTALL_DIR=%{_qt5_importdir} \
   -DPHONON_QT_MKSPECS_INSTALL_DIR=%{_qt5_archdatadir}/mkspecs/modules \
   -DPHONON_QT_PLUGIN_INSTALL_DIR=%{_qt5_plugindir}/designer
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --with-qt --all-name
 
@@ -108,6 +105,16 @@ test "$(pkg-config --modversion phonon4qt5)" = "%{version}"
 
 
 %changelog
+* Tue Aug 11 2020 Rex Dieter <rdieter@fedoraproject.org> - 4.11.1-6
+- use new cmake macros 
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.11.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.11.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Rex Dieter <rdieter@fedoraproject.org> - 4.11.1-3
 - -devel: fix dep on main pkg
 - simplify, drop need for bootstrap (rely on Recommends only)

@@ -1,15 +1,15 @@
 %global pypi_name vine
 
-# Disable tests for now as tests aren't working
-%bcond_with tests
+# Enable tests by default
+%bcond_without tests
 
 # docs depend on package sphinx_celery
 # https://github.com/celery/sphinx_celery
 %bcond_with docs
 
 Name:           python-%{pypi_name}
-Version:        1.3.0
-Release:        6%{?dist}
+Version:        5.0.0
+Release:        2%{?dist}
 Summary:        Promises, promises, promises
 
 License:        BSD
@@ -28,7 +28,6 @@ BuildRequires:  python3-sphinx
 
 %package -n     python3-%{pypi_name}
 Summary:        Promises, promises, promises
-%{?python_provide:%python_provide python3-%{pypi_name}}
 
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
@@ -88,6 +87,15 @@ py.test-3 -xv --cov=vine --cov-report=xml --no-cov-on-fail
 %endif
 
 %changelog
+* Wed Sep 30 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 5.0.0-2
+- Enable tests
+
+* Tue Sep 29 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 5.0.0-1
+- python-vine 5.0.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.0-6
 - Rebuilt for Python 3.9
 

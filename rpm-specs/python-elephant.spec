@@ -8,7 +8,7 @@
 
 Name:       python-%{pypi_name}
 Version:    0.6.4
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    Elephant is a package for analysis of electrophysiology data in Python
 License:    BSD
 URL:        http://neuralensemble.org/elephant
@@ -119,6 +119,9 @@ popd
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.4-3
 - Rebuilt for Python 3.9
 

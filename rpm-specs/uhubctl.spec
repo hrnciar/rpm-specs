@@ -1,6 +1,6 @@
 Name:           uhubctl
 Version:        2.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        USB hub per-port power control
 
 License:        GPLv2
@@ -37,5 +37,8 @@ echo %{version} > VERSION
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Scott K Logan <logans@cottsay.net> - 2.2.0-1
 - Initial package (rhbz#1840296)

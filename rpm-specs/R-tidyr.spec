@@ -1,9 +1,9 @@
 %global packname tidyr
-%global packver  1.1.0
+%global packver  1.1.2
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          %{packver}
+Version:          1.1.2
 Release:          1%{?dist}
 Summary:          Tidy Messy Data
 
@@ -13,9 +13,9 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-dplyr >= 0.8.2, R-ellipsis >= 0.1.0, R-glue, R-magrittr, R-purrr, R-Rcpp, R-rlang, R-stringi, R-tibble >= 2.1.1, R-tidyselect >= 1.1.0, R-utils, R-vctrs >= 0.3.0, R-lifecycle
+# Imports:   R-dplyr >= 0.8.2, R-ellipsis >= 0.1.0, R-glue, R-magrittr, R-purrr, R-rlang, R-tibble >= 2.1.1, R-tidyselect >= 1.1.0, R-utils, R-vctrs >= 0.3.0, R-lifecycle
 # Suggests:  R-covr, R-jsonlite, R-knitr, R-repurrrsive >= 1.0.0, R-rmarkdown, R-readr, R-testthat >= 2.1.0
-# LinkingTo:
+# LinkingTo: R-cpp11 >= 0.2.1
 # Enhances:
 
 BuildRequires:    R-devel
@@ -25,14 +25,13 @@ BuildRequires:    R-ellipsis >= 0.1.0
 BuildRequires:    R-glue
 BuildRequires:    R-magrittr
 BuildRequires:    R-purrr
-BuildRequires:    R-Rcpp-devel
 BuildRequires:    R-rlang
-BuildRequires:    R-stringi
 BuildRequires:    R-tibble >= 2.1.1
 BuildRequires:    R-tidyselect >= 1.1.0
 BuildRequires:    R-utils
 BuildRequires:    R-vctrs >= 0.3.0
 BuildRequires:    R-lifecycle
+BuildRequires:    R-cpp11-devel >= 0.2.1
 BuildRequires:    R-jsonlite
 BuildRequires:    R-knitr
 BuildRequires:    R-repurrrsive >= 1.0.0
@@ -88,6 +87,19 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Fri Aug 28 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.1.2-1
+- Update to latest version (#1873198)
+
+* Mon Aug 10 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.1.1-1
+- Update to latest version (#1832848)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun  8 2020 Tom Callaway <spot@fedoraproject.org> - 1.1.0-1
 - update to 1.1.0
 

@@ -2,7 +2,7 @@
 
 Name:           perl-Data-Dumper
 Version:        2.174
-Release:        456%{?dist}
+Release:        459%{?dist}
 Summary:        Stringify perl data structures, suitable for printing and eval
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Data-Dumper
@@ -10,6 +10,15 @@ Source0:        https://cpan.metacpan.org/authors/id/X/XS/XSAWYERX/Data-Dumper-%
 # Fix a memory leak when croaking about a too deep recursion,
 # fixed in perl after 5.29.9
 Patch0:         Data-Dumper-2.173-Data-Dumper-avoid-leak-on-croak.patch
+# 1/3 Fix a memory leak when a magic throws an exception,
+# fixed in perl after 5.33.0
+Patch1:         Data-Dumper-2.173-Data-Dumper-don-t-leak-the-working-retval.patch
+# 2/3 Fix a memory leak when a magic throws an exception,
+# fixed in perl after 5.33.0
+Patch2:         Data-Dumper-2.173-make-postav-and-valstr-mortal-so-they-re-freed-sooni.patch
+# 3/3 Fix a memory leak when a magic throws an exception,
+# fixed in perl after 5.33.0
+Patch3:         Data-Dumper-2.173-Data-Dumper-XS-use-mortals-to-prevent-leaks-if-magic.patch
 BuildRequires:  findutils
 BuildRequires:  gcc
 BuildRequires:  make
@@ -58,6 +67,9 @@ structures correctly.
 %prep
 %setup -q -n Data-Dumper-%{base_version}
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 OPTIMIZE="$RPM_OPT_FLAGS"
@@ -80,6 +92,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Thu Aug 20 2020 Petr Pisar <ppisar@redhat.com> - 2.174-459
+- Fix a memory leak when a magic throws an exception
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.174-458
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.174-457
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.174-456
 - Increase release to favour standalone package
 

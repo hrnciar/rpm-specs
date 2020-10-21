@@ -2,7 +2,7 @@
 
 Name:           php-zipstream
 Version:        0.2.2
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Streaming dynamic zip from PHP without writing to the disk
 
 License:        MIT
@@ -39,6 +39,9 @@ cp -a *.php %{buildroot}%{_datadir}/php/%{shortname}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

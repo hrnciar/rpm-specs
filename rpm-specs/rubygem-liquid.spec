@@ -3,7 +3,7 @@
 Name:           rubygem-%{gem_name}
 Summary:        Secure, non-evaling end user template engine
 Version:        4.0.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 License:        MIT
 
 URL:            http://www.liquidmarkup.org
@@ -95,6 +95,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fabio Valentini <decathorpe@gmail.com> - 4.0.3-4
 - Disable two tests that are broken with ruby 2.7.
 

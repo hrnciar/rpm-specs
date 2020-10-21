@@ -5,13 +5,13 @@
 %global __provides_exclude_from ^(%{python2_sitearch}|%{python3_sitearch})/.*\\.so$
 
 Name:           python-%{srcname}
-Version:        5.6.7
+Version:        5.7.2
 Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        BSD
 URL:            https://github.com/giampaolo/psutil
-Source0:        https://github.com/giampaolo/psutil/archive/release-%{version}.tar.gz#/%{srcname}-%{version}.tar.gz
+Source0:        %{url}/archive/release-%{version}/%{srcname}-%{version}.tar.gz
 #
 # Disable upstream failing test
 # https://github.com/giampaolo/psutil/issues/946
@@ -23,11 +23,13 @@ BuildRequires:  python%{python3_pkgversion}-devel
 # Test dependencies
 BuildRequires:  procps-ng
 BuildRequires:  python%{python3_pkgversion}-mock
+BuildRequires:  python%{python3_pkgversion}-setuptools
 
-%if 0%{?fedora} < 32
+%if 0%{?fedora} < 32 && 0%{?rhel} < 9
 BuildRequires:  python2-mock
 BuildRequires:  python2-devel
 BuildRequires:  python2-ipaddress
+BuildRequires:  python2-setuptools
 %else
 # This package has an exception to use Python 2 in Fedora 32+
 # The exception is for chromium (chrome-remote-desktop)
@@ -112,6 +114,15 @@ done
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.7.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Nicolas Chauvet <kwizart@gmail.com> - 5.7.2-1
+- Update to 5.7.2
+
+* Wed Jun 24 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 5.6.7-3
+- Add BR on setuptools for all package combinations
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 5.6.7-2
 - Rebuilt for Python 3.9
 

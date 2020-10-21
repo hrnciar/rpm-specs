@@ -4,7 +4,7 @@
 
 # https://github.com/beevik/ntp
 %global goipath         github.com/beevik/ntp
-Version:                0.2.0
+Version:                0.3.0
 
 %gometa
 
@@ -17,7 +17,7 @@ about the current time.}
 %global godocs          CONTRIBUTORS RELEASE_NOTES.md README.md
 
 Name:           %{goname}
-Release:        8%{?dist}
+Release:        2%{?dist}
 Summary:        Simple ntp client written in Go
 
 # Upstream license specification: BSD-2-Clause
@@ -51,6 +51,12 @@ BuildRequires:  golang(github.com/stretchr/testify/assert)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 23:50:25 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.3.0-1
+- Update to 0.3.0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

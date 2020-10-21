@@ -19,29 +19,28 @@ Documentation is available at https://arbor.readthedocs.io/en/latest/
 
 %bcond_without tests
 
-%global commit  fb5d4ea736282dce14c3284bc5db748b082db957
-%global checkoutdate  20200225
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
+#%%global commit  fb5d4ea736282dce14c3284bc5db748b082db957
+#%%global checkoutdate  20200225
+#%%global shortcommit %%(c=%%{commit}; echo ${c:0:7})
 
 Name:           arbor
-Version:        0.2.2
-
-Release:        8.%{checkoutdate}git%{commit}%{?dist}
+Version:        0.3
+Release:        7%{?dist}
 Summary:        Multi-compartment neural network simulation library
 
 License:        BSD
 URL:            https://github.com/arbor-sim/%{name}
 %if 0%{?commit:1}
-Source0:        %{url}/archive/%{commit}/%{name}-%{shortcommit}.tar.gz 
+Source0:        %{url}/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
 %else
 Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 %endif
 # Use the system copy of pybind11
 # https://github.com/arbor-sim/arbor/issues/915
-Patch0:         0001-Use-system-pybind11.patch
-# Include missing header
-# https://github.com/arbor-sim/arbor/pull/963
-Patch1:         0001-Include-required-header.patch
+Patch0:         %{name}-0001-Use-system-pybind11.patch
+
+# This patch changes ext/CMakeLists.txt for automatically using tinyopt libraries by cmake command.
+Patch1:         %{name}-tinyopt_cmake.patch
 
 # Random123 does not support these
 ExcludeArch:    mips64r2 mips32r2 s390 s390x
@@ -54,8 +53,11 @@ BuildRequires:  json-devel
 BuildRequires:  libunwind-devel
 BuildRequires:  pybind11-devel
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  Random123-devel
 BuildRequires:  tclap-devel
+Provides:       python3-%{name} = %{version}-%{release}
+%{?python_provide:%python_provide python3-%{name}}
 # For validation, but we don't have these BRs
 # BuildRequires:  julia julia-sundials julia-unitful julia-JSON
 
@@ -87,6 +89,8 @@ BuildRequires:  python3-mpi4py-mpich
 Requires:       mpich
 Requires:       python3-mpich
 Requires:       python3-mpi4py-mpich
+Provides:       python3-%{name}-mpich = %{version}-%{release}
+%{?python_provide:%python_provide python3-%{name}-mpich}
 
 %description mpich %{_description}
 
@@ -108,6 +112,8 @@ BuildRequires:  python3-mpi4py-openmpi
 Requires:       openmpi
 Requires:       python3-openmpi
 Requires:       python3-mpi4py-openmpi
+Provides:       python3-%{name}-openmpi = %{version}-%{release}
+%{?python_provide:%python_provide python3-%{name}-openmpi}
 
 %description openmpi %{_description}
 
@@ -123,14 +129,15 @@ Provides:   %{name}-openmpi-static = %{version}-%{release}
 %if 0%{?commit:1}
 %autosetup -n %{name}-%{commit} -S git
 %else
-%autosetup -S git
+%autosetup -p1
 %endif
 
 # Do not build external libraries
 # tclap and json and random123
-sed -i -e '/add_subdirectory(ext)/ d' -e 's/ ext-random123//' CMakeLists.txt
-# Remove ext folder
-rm -vrf ext
+sed -i -e 's/ ext-random123//' CMakeLists.txt
+# Remove ext folders, unbundle libraries
+rm -vrf ext/google-benchmark ext/json ext/random123 ext/sphinx_rtd_theme
+mv ext/tinyopt/LICENSE ext/tinyopt/LICENSE-tinyopt
 # Disable doc build: we built it ourselves
 sed -i '/add_subdirectory(doc)/ d' CMakeLists.txt
 # tclap and json are both header only
@@ -159,7 +166,6 @@ mkdir build-serial
 echo
 echo "*** BUILDING %{name}-%{version}$MPI_COMPILE_TYPE ***"
 echo
-%set_build_flags
 pushd build$MPI_COMPILE_TYPE  &&
     cmake \\\
         -DCMAKE_C_FLAGS_RELEASE:STRING="-DNDEBUG" \\\
@@ -178,9 +184,14 @@ pushd build$MPI_COMPILE_TYPE  &&
 %else
         -DARB_VECTORIZE:BOOL=OFF \\\
 %endif
+%ifarch %{power64}
+        -DARB_ARCH=power8 \\\
+%endif
         -DARB_WITH_MPI:BOOL=$MPI_YES \\\
         -DARB_WITH_GPU:BOOL=OFF \\\
+%ifnarch armv7hl
         -DARB_ARCH:STRING="native" \\\
+%endif
         -DCMAKE_INSTALL_LIBDIR=%{_lib} \\\
         -DARB_WITH_PYTHON:BOOL=ON \\\
         -Darb_pyexecdir:STRING=$MPI_PYTHON3_SITEARCH \\\
@@ -204,7 +215,9 @@ popd || exit -1;
 }
 
 # Build serial version, dummy arguments
-export MPI_COMPILER=serial
+%global __cc gcc
+%global __cxx g++
+%set_build_flags
 export MPI_SUFFIX=""
 export MPI_HOME=%{_prefix}
 export MPI_INCLUDE=%{_includedir}
@@ -224,6 +237,9 @@ rm -rfv html/{.buildinfo,.doctrees}
 # Build mpich version
 %if %{with mpich}
 %{_mpich_load}
+%global __cc mpicc
+%global __cxx mpicxx
+%set_build_flags
 export CC=mpicc
 export CXX=mpicxx
 export FC=mpif90
@@ -239,6 +255,9 @@ export MPI_COMPILE_TYPE="-mpich"
 # Build OpenMPI version
 %if %{with openmpi}
 %{_openmpi_load}
+%global __cc mpicc
+%global __cxx mpicxx
+%set_build_flags
 export CC=mpicc
 export CXX=mpicxx
 export FC=mpif90
@@ -316,7 +335,7 @@ popd
 
 
 %files
-%license LICENSE
+%license LICENSE ext/tinyopt/LICENSE-tinyopt
 %doc README.md
 %{_bindir}/modcc
 %{python3_sitearch}/%{name}
@@ -337,7 +356,7 @@ popd
 %if %{with mpich}
 %files mpich
 %doc README.md
-%license LICENSE
+%license LICENSE ext/tinyopt/LICENSE-tinyopt
 %{_libdir}/mpich/bin/modcc_mpich
 %{python3_sitearch}/mpich/%{name}
 
@@ -352,7 +371,7 @@ popd
 %if %{with openmpi}
 %files openmpi
 %doc README.md
-%license LICENSE
+%license LICENSE ext/tinyopt/LICENSE-tinyopt
 %{_libdir}/openmpi/bin/modcc_openmpi
 %{python3_sitearch}/openmpi/%{name}
 
@@ -365,6 +384,35 @@ popd
 %endif
 
 %changelog
+* Mon Oct 05 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.3-7
+- Explicitly require setuptools
+
+* Fri Aug 28 2020 Jeff Law <law@redhat.com> - 0.3-6
+- Re-enable LTO
+- Do not force -march=native on armv7hl so that build architecture does not bleed
+  into the binaries.  This should probably be done on all targets
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 0.3-4
+- Disable LTO for armv7hl build
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jun 28 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.3-2
+- Update build flags to ensure CC and CXX are set correctly
+- https://lists.fedoraproject.org/archives/list/scitech@lists.fedoraproject.org/thread/BNKLXKY4O7BOTZ7LH7XDUTQO6FG2UWUT/#BNKLXKY4O7BOTZ7LH7XDUTQO6FG2UWUT
+
+* Mon Jun 08 2020 Antonio Trande <sagitter@fedoraproject.org> - 0.3-2
+- Move Provides lines to runtime packages
+- Add patch for using tinyopt libraries
+
+* Sat Jun 06 2020 Antonio Trande <sagitter@fedoraproject.org> - 0.3-1
+- Release 0.3
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.2-8.20200225gitfb5d4ea736282dce14c3284bc5db748b082db957
 - Rebuilt for Python 3.9
 

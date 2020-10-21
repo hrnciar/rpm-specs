@@ -1,6 +1,6 @@
 Name:       dontpanic   
 Version:    1.02
-Release:    5%{?dist}
+Release:    6%{?dist}
 Summary:    Very simple library and executable used in testing Alien::Base
 License:    GPL+ or Artistic    
 URL:        https://perl5-alien.github.io/page/%{name}.html
@@ -52,6 +52,9 @@ make %{?_smp_mflags} check
 %{_libdir}/pkgconfig
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.02-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.02-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

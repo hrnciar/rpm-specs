@@ -6,7 +6,7 @@
 %global crate serde_json
 
 Name:           rust-%{crate}
-Version:        1.0.55
+Version:        1.0.58
 Release:        1%{?dist}
 Summary:        JSON serialization file format
 
@@ -168,6 +168,18 @@ which use "unbounded_depth" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Thu Oct 01 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.58-1
+- Update to version 1.0.58.
+
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 1.0.57-1
+- Update to 1.0.57
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.56-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 1.0.56-1
+- Update to 1.0.56
+
 * Thu Jun 11 2020 Josh Stone <jistone@redhat.com> - 1.0.55-1
 - Update to 1.0.55
 

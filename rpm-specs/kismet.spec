@@ -1,4 +1,4 @@
-%global _version        2020-04-R3
+%global _version        2020-09-R4
 
 ## {Local macros...
 %global cfgdir          %_sysconfdir/%name
@@ -15,10 +15,6 @@ Release:        2%{?dist}
 License:        GPLv2+
 URL:            http://www.kismetwireless.net/
 Source0:        http://www.kismetwireless.net/code/%{name}-%_version.tar.xz
-
-# Remove at f32
-Obsoletes:      %{name}-plugins <= %{version}
-Provides:       %{name}-plugins = %{version}
 
 Patch0:         kismet-include.patch
 Patch1:         kismet-install.patch
@@ -45,12 +41,10 @@ networks, and infering the presence of nonbeaconing networks via data
 traffic.
 
 %prep
-%setup -qn %{name}-%_version
+%setup -qn %{name}-%{_version}
 
 %patch0 -p0
 %patch1 -p0
-
-#/bin/cp -a /usr/lib/rpm/config.sub .
 
 sed -i 's!\$(prefix)/lib/!%{_libdir}/!g' plugin-*/Makefile
 
@@ -87,6 +81,31 @@ BIN=$RPM_BUILD_ROOT/bin ETC=$RPM_BUILD_ROOT/etc %make_install
 %{_libdir}/pkgconfig/kismet.pc
 
 %changelog
+* Fri Sep 25 2020 Adrian Reber <adrian@lisas.de> - 0.0.2020.09.R4-2
+- Rebuilt(2) for protobuf 3.13
+
+* Fri Sep 25 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.0.2020.09.R4-1
+- 2020-09-R4
+
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 0.0.2020.09.R3-2
+- Rebuilt for protobuf 3.13
+
+* Mon Sep 21 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.0.2020.09.R3-1
+- 2020-09-R3
+
+* Fri Sep 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.0.2020.09.R2-1
+- 2020-09-R2
+
+* Wed Sep 02 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.0.2020.09.R1-1
+- 2020-09-R1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.2020.04.R3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.2020.04.R3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 0.0.2020.04.R3-2
 - Rebuilt for protobuf 3.12
 

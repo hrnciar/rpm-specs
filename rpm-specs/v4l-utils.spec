@@ -2,15 +2,14 @@
 %global __brp_strip_lto %{nil}
 
 Name:           v4l-utils
-Version:        1.18.0
-Release:        4%{?dist}
+Version:        1.20.0
+Release:        2%{?dist}
 Summary:        Utilities for video4linux and DVB devices
 # libdvbv5, dvbv5 utils, ir-keytable and v4l2-sysfs-path are GPLv2 only
 License:        GPLv2+ and GPLv2
 URL:            http://www.linuxtv.org/downloads/v4l-utils/
 
 Source0:        http://linuxtv.org/downloads/v4l-utils/v4l-utils-%{version}.tar.bz2
-Patch0:         v4l-utils-1.18.0-gcc10.patch
 
 BuildRequires:  alsa-lib-devel
 BuildRequires:  desktop-file-utils
@@ -115,18 +114,19 @@ files for developing applications that use libdvbv5.
 %autosetup -p1
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure --disable-static --enable-libdvbv5 --enable-doxygen-man
 # Don't use rpath!
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
-make %{?_smp_mflags}
+%make_build
 make doxygen-run
 
 
 %install
 %{!?_udevrulesdir: %global _udevrulesdir /lib/udev/rules.d}
 %make_install
-find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
+find $RPM_BUILD_ROOT -name '*.la' -delete
 rm -f $RPM_BUILD_ROOT%{_libdir}/{v4l1compat.so,v4l2convert.so}
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man3/
 cp -arv %{_builddir}/%{name}-%{version}/doxygen-doc/man/man3 $RPM_BUILD_ROOT%{_mandir}/
@@ -204,6 +204,15 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/qv4l2.desktop
 
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 1.20.0-2
+- Force C++14 as this code is not C++17 ready
+
+* Wed Aug 12 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.20.0-1
+- Update to 1.20.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 25 2020 Than Ngo <than@redhat.com> - 1.18.0-4
 - Fixed FTBFS
 

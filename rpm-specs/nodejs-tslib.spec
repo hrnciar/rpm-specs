@@ -5,7 +5,7 @@
 
 Name:		nodejs-tslib
 Version:	1.11.1
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	Runtime library for TypeScript helper functions
 
 License:	ASL 2.0
@@ -55,6 +55,13 @@ cp -pr package.json *.js *.ts \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 27 2020 Tom Hughes <tom@compton.nu> - 1.11.1-1
 - Update to 1.11.1 upstream release
 

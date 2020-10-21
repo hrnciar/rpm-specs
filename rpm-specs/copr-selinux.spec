@@ -11,7 +11,7 @@
 
 Name:       copr-selinux
 Version:    1.53
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    SELinux module for COPR
 
 License:    GPLv2+
@@ -111,6 +111,9 @@ done
 %{_mandir}/man8/%{name}-relabel.8*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.53-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.53-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

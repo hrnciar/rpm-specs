@@ -1,6 +1,6 @@
 Name:           perl-pmtools
 Version:        2.2.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        A suite of small programs to help manage Perl modules
 
 License:        GPL+ or Artistic
@@ -76,6 +76,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.2.0-9
 - Perl 5.32 rebuild
 

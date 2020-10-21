@@ -2,7 +2,7 @@
 
 Name:           grfcodec
 Version:        6.0.6
-Release:        13%{?prever}%{?dist}
+Release:        15%{?prever}%{?dist}
 Summary:        A suite of programs to modify Transport Tycoon Deluxe's GRF files
 License:        GPLv2+
 URL:            http://dev.openttdcoop.org/projects/grfcodec
@@ -26,7 +26,7 @@ A suite of programs to modify Transport Tycoon Deluxe's GRF files.
 cat << EOF >> Makefile.local
 STRIP=true
 V=1
-CXXFLAGS=%{optflags}
+CXXFLAGS=-std=c++14 %{optflags}
 prefix=%{_prefix}
 DO_NOT_INSTALL_DOCS=1
 DO_NOT_INSTALL_CHANGELOG=1
@@ -52,6 +52,12 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 6.0.6-15
+- Force C++14 as this code is not C++17 ready
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.6-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.6-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

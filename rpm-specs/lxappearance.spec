@@ -16,7 +16,7 @@
  
 Name:           lxappearance
 Version:        0.6.3
-Release:        10%{?git_version:.%{?git_version}}%{?dist}
+Release:        11%{?git_version:.%{?git_version}}%{?dist}
 Summary:        Feature-rich GTK+ theme switcher for LXDE
 
 License:        GPLv2+
@@ -105,6 +105,9 @@ desktop-file-install \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

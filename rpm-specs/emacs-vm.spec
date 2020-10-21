@@ -20,7 +20,7 @@ Summary(sv): Emacs postläsare VM
 Name: emacs-vm
 Version: 8.2.0
 %global date 20190602
-Release: 0.5.%{date}bzr%{?dist}
+Release: 0.6.%{date}bzr%{?dist}
 License: GPLv2+
 URL: https://launchpad.net/vm
 # The source for this package was pulled from upstream's vcs.  Use the
@@ -115,6 +115,9 @@ appstream-util validate-relax --nonet \
 %{_datadir}/metainfo/%{name}.metainfo.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.2.0-0.6.20190602bzr
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb  4 2020 Göran Uddeborg <goeran@uddeborg.se> - 8.2.0-0.5.20190602bzr
 - Convert the vm.texinfo file to UTF-8, current texinfo seems to require that.
 

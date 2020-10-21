@@ -6,7 +6,7 @@
 
 Name:             R-%{packname}
 Version:          0.11
-Release:          2%{?dist}
+Release:          3%{?dist}
 Summary:          Safely Access the RStudio API
 
 License:          MIT
@@ -70,6 +70,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 0.11-2
 - conditionalize check to break testthat loop
 - rebuild for R 4

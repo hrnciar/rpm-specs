@@ -3,7 +3,7 @@
 
 Name:       nodejs-mustache
 Version:    2.2.1
-Release:    8%{?dist}
+Release:    9%{?dist}
 Summary:    mustache.js is an implementation of the mustache template system in JavaScript
 License:    MIT
 URL:        https://github.com/janl/mustache.js
@@ -49,6 +49,9 @@ mocha test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

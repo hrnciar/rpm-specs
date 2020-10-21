@@ -2,7 +2,7 @@
 
 Name:           vym
 Version:        2.7.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        View your mind
 
 License:        GPLv2+
@@ -104,6 +104,9 @@ mv %{buildroot}/usr/vym %{buildroot}%{_datadir}/vym
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

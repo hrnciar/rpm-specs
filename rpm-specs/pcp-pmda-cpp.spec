@@ -9,7 +9,7 @@
 Summary: PMDA++ Library
 Name: pcp-pmda-cpp
 Version: 0.4.4
-Release: 8%{?dist}
+Release: 10%{?dist}
 License: Boost
 URL: https://github.com/pcolby/%{name}
 Source: https://github.com/pcolby/%{name}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
@@ -65,6 +65,13 @@ Examples from the PMDA++ project.
 %{_pmdasdir}/%{name}-examples
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.4-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.4-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 0.4.4-8
 - Rebuilt for Boost 1.73
 

@@ -3,7 +3,7 @@
 
 # https://github.com/mdlayher/raw
 %global goipath         github.com/mdlayher/raw
-%global commit          64193704e47285d33feb098cd01306301cdeba4b
+%global commit          50f2db8cc0658568575938a39dbaa46172921d98
 
 %gometa
 
@@ -16,7 +16,7 @@ network interface.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.6%{?dist}
+Release:        0.8%{?dist}
 Summary:        Read and write data at the device driver level for a network interface
 
 License:        MIT
@@ -50,6 +50,12 @@ BuildRequires:  golang(github.com/google/go-cmp/cmp)
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 21:34:48 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.8.20200729git50f2db8
+- Bump to commit 50f2db8cc0658568575938a39dbaa46172921d98
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

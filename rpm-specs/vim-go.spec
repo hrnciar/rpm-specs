@@ -5,8 +5,8 @@
 %global debug_package %{nil}
 
 Name:           vim-go
-Version:        1.23
-Release:        2%{?dist}
+Version:        1.24
+Release:        1%{?dist}
 Summary:        Go development plugin for Vim
 
 License:        BSD 
@@ -89,6 +89,13 @@ vim -c ":helptags %{vimfiles_root}/doc" -c ":q" &> /dev/null || :
 
 
 %changelog
+* Wed Sep 23 2020 Nikola Forró <nforro@redhat.com> - 1.24-1
+- Update to 1.24
+  Resolves: #1876683
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.23-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 20 2020 Nikola Forró <nforro@redhat.com> - 1.23-2
 - Fix symlink -> directory conflict
 

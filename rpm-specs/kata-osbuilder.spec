@@ -5,7 +5,7 @@
 %global rcstr -%{rcver}
 %endif
 
-Version: 1.11.0
+Version: 1.11.1
 
 %global katalibexecdir          %{_libexecdir}/kata-containers
 %global kataosbuilderdir        %{katalibexecdir}/osbuilder
@@ -16,7 +16,7 @@ Version: 1.11.0
 
 
 Name: kata-osbuilder
-Release: 2%{?rcrel}%{?dist}
+Release: 1%{?rcrel}%{?dist}.1
 License: ASL 2.0
 Summary: Kata guest initrd and image build scripts
 URL: %{git0}
@@ -26,7 +26,7 @@ ExcludeArch: %{arm}
 ExcludeArch: %{ix86}
 
 Source0: %{git0}/archive/%{version}%{?rcstr}/osbuilder-%{version}%{?rcstr}.tar.gz
-Source2: fedora-kata-osbuilder.sh
+Source2: kata-osbuilder.sh
 Source3: kata-osbuilder-generate.service
 %if 0%{?fedora}
 Source5: 15-dracut-fedora.conf
@@ -96,7 +96,7 @@ for kernelpath in /lib/modules/*/vmlinu*; do
     KVERSION="$(echo $kernelpath | cut -d "/" -f 4)"
     break
 done
-TEST_MODE=1 %{buildroot}%{kataosbuilderdir}/fedora-kata-osbuilder.sh \
+TEST_MODE=1 %{buildroot}%{kataosbuilderdir}/kata-osbuilder.sh \
     -o %{buildroot}%{kataosbuilderdir} \
     -k "$KVERSION"
 
@@ -112,7 +112,7 @@ if test -w %{katalocalstatecachedir}; then
 
     TMPOUT="$(mktemp -t kata-rpm-post-XXXXXX.log)"
     echo "Creating kata appliance initrd..."
-    bash %{kataosbuilderdir}/fedora-kata-osbuilder.sh > ${TMPOUT} 2>&1
+    bash %{kataosbuilderdir}/kata-osbuilder.sh > ${TMPOUT} 2>&1
     if test "$?" != "0" ; then
         echo "Building failed. Here is the log details:"
         cat ${TMPOUT}
@@ -145,6 +145,14 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.1-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Pavel Mores <pmores@redhat.com> - 1.11.1-1
+- Update to version 1.11.1
+- Make fedora-kata-osbuilder.sh distro-agnostic
+- Rename fedora-kata-osbuilder.sh to kata-osbuilder.sh
+
 * Tue Jun 02 2020 Fabiano Fidêncio <fidencio@redhat.com> - 1.11.0-2
 - Add VFIO modules to the initrd
 

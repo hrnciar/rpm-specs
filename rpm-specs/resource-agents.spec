@@ -52,25 +52,27 @@
 Name:		resource-agents
 Summary:	Open Source HA Reusable Cluster Resource Scripts
 Version:	4.6.1
-Release:	1%{?rcver:%{rcver}}%{?numcomm:.%{numcomm}}%{?alphatag:.%{alphatag}}%{?dirty:.%{dirty}}%{?dist}
+Release:	4%{?rcver:%{rcver}}%{?numcomm:.%{numcomm}}%{?alphatag:.%{alphatag}}%{?dirty:.%{dirty}}%{?dist}
 License:	GPLv2+ and LGPLv2+
 URL:		https://github.com/ClusterLabs/resource-agents
-%if 0%{?fedora} || 0%{?centos_version} || 0%{?rhel}
-%else
-%endif
 Source0:	%{upstream_prefix}-%{upstream_version}.tar.gz
 Obsoletes:	heartbeat-resources <= %{version}
 Provides:	heartbeat-resources = %{version}
 
 # Build dependencies
 BuildRequires: automake autoconf pkgconfig gcc
-BuildRequires: perl-interpreter python3-devel
+BuildRequires: perl
 BuildRequires: libxslt glib2-devel
 BuildRequires: systemd
 BuildRequires: which
 
-%if 0%{?fedora} || 0%{?centos_version} || 0%{?rhel}
-#BuildRequires: cluster-glue-libs-devel
+%if 0%{?fedora} || 0%{?centos} > 7 || 0%{?rhel} > 7 || 0%{?suse_version}
+BuildRequires: python3-devel
+%else
+BuildRequires: python-devel
+%endif
+
+%if 0%{?fedora} || 0%{?centos} || 0%{?rhel}
 BuildRequires: docbook-style-xsl docbook-dtds
 %if 0%{?rhel} == 0
 BuildRequires: libnet-devel
@@ -78,11 +80,7 @@ BuildRequires: libnet-devel
 %endif
 
 %if 0%{?suse_version}
-%if 0%{?suse_version} >= 1140
-BuildRequires:  libnet1
-%else
-BuildRequires:  libnet
-%endif
+BuildRequires:  libnet-devel
 BuildRequires:  libglue-devel
 BuildRequires:  libxslt docbook_4 docbook-xsl-stylesheets
 %endif
@@ -97,7 +95,10 @@ Requires: /usr/sbin/fuser /bin/mount
 Requires: /sbin/fsck
 Requires: /usr/sbin/fsck.ext2 /usr/sbin/fsck.ext3 /usr/sbin/fsck.ext4
 Requires: /usr/sbin/fsck.xfs
-Requires: /sbin/mount.nfs /sbin/mount.nfs4 /usr/sbin/mount.cifs
+Requires: /sbin/mount.nfs /sbin/mount.nfs4
+%if 0%{?fedora} < 33 || (0%{?rhel} && 0%{?rhel} < 9) || (0%{?centos} && 0%{?centos} < 9) || 0%{?suse_version}
+Recommends: /usr/sbin/mount.cifs
+%endif
 
 # IPaddr2
 Requires: /sbin/ip
@@ -107,6 +108,9 @@ Requires: /usr/sbin/lvm
 
 # nfsserver / netfs.sh
 Requires: /usr/sbin/rpc.nfsd /sbin/rpc.statd /usr/sbin/rpc.mountd
+
+# ocf-distro
+Requires: /usr/bin/lsb_release
 
 # rgmanager
 %if %{with rgmanager}
@@ -128,18 +132,18 @@ service managers.
 %package -n ldirectord
 License:	GPLv2+
 Summary:	A Monitoring Daemon for Maintaining High Availability Resources
-%if 0%{?fedora} || 0%{?centos_version} || 0%{?rhel}
+%if 0%{?fedora} || 0%{?centos} || 0%{?rhel}
 %else
 %endif
 Obsoletes:	heartbeat-ldirectord <= %{version}
 Provides:	heartbeat-ldirectord = %{version}
-%if 0%{?fedora} > 18 || 0%{?centos_version} > 6 || 0%{?rhel} > 6
+%if 0%{?fedora} > 18 || 0%{?centos} > 6 || 0%{?rhel} > 6
 BuildRequires: perl-podlators
 %endif
 Requires:       %{SSLeay} perl-libwww-perl perl-MailTools
 Requires:       ipvsadm logrotate
-%if 0%{?fedora_version}
-Requires:	perl-Net-IMAP-Simple-SSL
+%if 0%{?fedora}
+Requires:	perl-Net-IMAP-Simple-SSL perl-IO-Socket-INET6
 Requires(post):	/sbin/chkconfig
 Requires(preun):/sbin/chkconfig
 %endif
@@ -161,7 +165,7 @@ See 'ldirectord -h' and linux-ha/doc/ldirectord for more information.
 %endif
 
 %prep
-%if 0%{?suse_version} == 0 && 0%{?fedora} == 0 && 0%{?centos_version} == 0 && 0%{?rhel} == 0
+%if 0%{?suse_version} == 0 && 0%{?fedora} == 0 && 0%{?centos} == 0 && 0%{?rhel} == 0
 %{error:Unable to determine the distribution/version. This is generally caused by missing /etc/rpm/macros.dist. Please install the correct build packages or define the required macros manually.}
 exit 1
 %endif
@@ -173,7 +177,7 @@ if [ ! -f configure ]; then
 	./autogen.sh
 fi
 
-%if 0%{?fedora} >= 11 || 0%{?centos_version} > 5 || 0%{?rhel} > 5
+%if 0%{?fedora} >= 11 || 0%{?centos} > 5 || 0%{?rhel} > 5
 CFLAGS="$(echo '%{optflags}')"
 %global conf_opt_fatal "--enable-fatal-warnings=no"
 %else
@@ -193,7 +197,10 @@ CFLAGS="${CFLAGS} ${RPM_OPT_FLAGS}"
 
 export CFLAGS
 
-%configure PYTHON="%{__python3}" \
+%configure \
+%if 0%{?fedora} || 0%{?centos} > 7 || 0%{?rhel} > 7 || 0%{?suse_version}
+	PYTHON="%{__python3}" \
+%endif
 	%{conf_opt_fatal} \
 %if %{defined _unitdir}
     --with-systemdsystemunitdir=%{_unitdir} \
@@ -276,8 +283,9 @@ test -d %{buildroot}/sbin || mkdir %{buildroot}/sbin
 
 %{_sbindir}/ocf-tester
 %{_sbindir}/ocft
-#%%{_sbindir}/sfex_init
-#%%{_sbindir}/sfex_stat
+%if 0%{?suse_version}
+%{_sbindir}/sfex_*
+%endif
 
 %{_includedir}/heartbeat
 
@@ -289,7 +297,9 @@ test -d %{buildroot}/sbin || mkdir %{buildroot}/sbin
 
 %{_mandir}/man7/*.7*
 %{_mandir}/man8/ocf-tester.8*
-#%%{_mandir}/man8/sfex_init.8*
+%if 0%{?suse_version}
+%{_mandir}/man8/sfex_init.8*
+%endif
 
 # For compatability with pre-existing agents
 %dir %{_sysconfdir}/ha.d
@@ -355,6 +365,21 @@ ccs_update_schema > /dev/null 2>&1 ||:
 %endif
 
 %changelog
+* Mon Aug 24 2020 Oyvind Albrigtsen <oalbrigt@redhat.com> - 4.6.1-4
+- spec: improvements from upstream project
+
+* Mon Aug 24 2020 Oyvind Albrigtsen <oalbrigt@redhat.com> - 4.6.1-3
+- ldirectord: add dependency for perl-IO-Socket-INET6
+
+  Resolves: rhbz#1868063
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.1-2.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Oyvind Albrigtsen <oalbrigt@redhat.com> - 4.6.1-2
+- Make Samba/CIFS dependency weak for Fedora 32 and remove the
+  dependency from 33+
+
 * Thu Jun 18 2020 Oyvind Albrigtsen <oalbrigt@redhat.com> - 4.6.1-1
 - Rebase to resource-agents 4.6.1 upstream release.
 

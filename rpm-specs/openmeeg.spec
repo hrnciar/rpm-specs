@@ -1,3 +1,5 @@
+%global __cmake_in_source_build 1
+
 %bcond_without vtk
 %bcond_without python
 %bcond_without hdf5
@@ -8,6 +10,14 @@
 
 %bcond_with debug
 
+%if 0%{?fedora} >= 33
+%global blasname FlexiBLAS
+%global blaslib flexiblas
+%else
+%global blasname OpenBLAS
+%global blaslib openblas
+%endif
+
 ## https://github.com/openmeeg/openmeeg/issues/346
 ExcludeArch: s390x
 
@@ -15,7 +25,7 @@ ExcludeArch: s390x
 
 Name:    openmeeg
 Version: 2.4.2
-Release: 0.3%{?dist}
+Release: 0.9%{?dist}
 Summary: Low-frequency bio-electromagnetism solving forward problems in the field of EEG and MEG
 License: CeCILL-B
 URL:     http://openmeeg.github.io/
@@ -23,17 +33,21 @@ Source0: https://github.com/%{name}/%{name}/archive/%{version}/%{name}-%{version
 
 # Do not require lapacke library
 Patch0: %{name}-openblas_libraries.patch
+# Use FlexiBLAS when available
+Patch1: %{name}-flexiblas_libraries.patch
 
 # Set private directory for Python files
-Patch1: %{name}-python_install_destination.patch
+Patch2: %{name}-python_install_destination.patch
+Patch3: %{name}-bug385.patch
 
-Patch2: %{name}-bug385.patch
+# https://github.com/openmeeg/openmeeg/issues/421
+Patch4: %{name}-fix_libmatio1518_compatibility.patch
 
 BuildRequires: cmake3
 BuildRequires: gcc-c++, git, chrpath
 BuildRequires: gnuplot, wget, graphviz
 BuildRequires: expat-devel
-BuildRequires: openblas-devel
+BuildRequires: %{blaslib}-devel
 %{?fedora:BuildRequires: gifticlib-devel}
 %{?fedora:BuildRequires: nifticlib-devel}
 BuildRequires: zlib-devel
@@ -58,7 +72,6 @@ BuildRequires:  python%{python3_other_pkgversion}-devel
 %global openmeeg_cmake_options \\\
         -DCMAKE_BUILD_TYPE=Release \\\
         -DUSE_PROGRESSBAR=ON \\\
-        -DBUILD_DOCUMENTATION:BOOL=ON \\\
         -DBUILD_SHARED_LIBS:BOOL=ON \\\
         -DBUILD_SHARED_LIBS_OpenMEEG:BOOL=ON \\\
         -DBUILD_SHARED_LIBS_matio:BOOL=ON \\\
@@ -66,8 +79,9 @@ BuildRequires:  python%{python3_other_pkgversion}-devel
         -DCMAKE_SKIP_INSTALL_RPATH:BOOL=YES \\\
         -DCMAKE_INSTALL_LIBDIR:PATH=%{_lib} \\\
         -DCMAKE_INSTALL_INCLUDEDIR:PATH=include/%{name} \\\
-        -DBLA_VENDOR=OpenBLAS \\\
-        -DBLAS_openblas_LIBRARY:FILEPATH=%{_libdir}/libopenblas.so \\\
+        -DBLA_VENDOR=%{blasname} \\\
+        -DOpenMP_CXX_LIB_NAMES:STRING=gomp \\\
+        -DUSE_OMP:BOOL=ON \\\
 %if %{with python} \
         -DENABLE_PYTHON:BOOL=ON \\\
         -DPYTHON_EXECUTABLE:FILEPATH=%{__python3} \\\
@@ -85,7 +99,6 @@ BuildRequires:  python%{python3_other_pkgversion}-devel
         -DUSE_CGAL:BOOL=ON \\\
 %endif \
         %{?fedora:-DUSE_GIFTI:BOOL=ON} \\\
-        -DUSE_OMP:BOOL=ON \\\
 %if %{with hdf5} \
         -DUSE_SYSTEM_hdf5:BOOL=ON \\\
 %endif \
@@ -96,7 +109,7 @@ BuildRequires:  python%{python3_other_pkgversion}-devel
         -DUSE_VTK:BOOL=ON \\\
 %endif \
         -DUSE_SYSTEM_zlib:BOOL=ON \\\
-        -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
+        -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -Wno-dev
 
 %description
 The OpenMEEG software is a C++ package for solving the forward
@@ -152,6 +165,9 @@ BuildArch:      noarch
 %autosetup -n %{name}-%{version} -p1
 
 %build
+# This package fails its testsuite with LTO.  Disable LTO for now
+%define _lto_cflags %{nil}
+
 mkdir -p build && pushd build
 %cmake3 %{openmeeg_cmake_options} ..
 
@@ -172,11 +188,9 @@ export LD_LIBRARY_PATH=%{buildroot}%{_libdir}/%{name}:%{_libdir}
 %if %{with debug}
 ctest3 -VV --force-new-ctest-process -j1 --output-on-failure --debug
 %else
-ctest3 --force-new-ctest-process --parallel %{?_smp_mflags}
+ctest3 --force-new-ctest-process --parallel %{?_smp_mflags} -E 'openmeeg_python_test_python2.py'
 %endif
 %endif
-
-%ldconfig_scriptlets
 
 %files
 %license LICENSE.txt
@@ -206,6 +220,25 @@ ctest3 --force-new-ctest-process --parallel %{?_smp_mflags}
 %endif
 
 %changelog
+* Mon Sep 28 2020 Antonio Trande <sagitter@fedoraproject.org> - 2.4.2-0.9
+- Rebuilt and patched for matio-1.5.18 (rhbz#1880819)
+
+* Fri Aug 14 2020 Iñaki Úcar <iucar@fedoraproject.org> - 2.4.2-0.8
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Mon Aug 10 2020 Antonio Trande <sagitter@fedoraproject.org> - 2.4.2-0.7
+- Disable debug builds
+
+* Mon Aug 10 2020 Jeff Law <law@redhat.com> - 2.4.2-0.6
+- Disable LTO
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.2-0.5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.2-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.4.2-0.3
 - Rebuilt for Python 3.9
 

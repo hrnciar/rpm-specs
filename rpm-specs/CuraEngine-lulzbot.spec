@@ -6,7 +6,7 @@
 
 Name:           CuraEngine-lulzbot
 Version:        3.6.21
-Release:        4%{?dist}
+Release:        6%{?dist}
 Epoch:          1
 Summary:        Engine for processing 3D models into G-code instructions for 3D printers
 License:        AGPLv3+
@@ -56,6 +56,9 @@ Patch4:         CuraEngine-lulzbot-gcc9.patch
 Patch5:         CuraEngine-lulzbot-3.6.12-arcus-lulzbot.patch
 %endif
 
+# Get Fedora 33++ behavior on anything older
+%undefine __cmake_in_source_build
+
 %description
 %{name} is a C++ console application for 3D printing G-code generation. It
 has been made as a better and faster alternative to the old Skeinforge engine.
@@ -84,12 +87,12 @@ sed -i 's|#include <clipper/clipper.hpp>|#include <polyclipping/clipper.hpp>|' s
 sed -i 's/"DEV"/"%{version}"/' src/settings/Settings.h
 
 %build
-%{cmake} -DUSE_DISTRO_OPTIMIZATION_FLAGS:BOOL=ON -DUSE_SYSTEM_LIBS:BOOL=ON -DBUILD_SHARED_LIBS:BOOL=OFF -DStb_INCLUDE_DIRS:PATH=./stb -DCURA_ENGINE_VERSION:STRING=%{version} . # The lib is only intermediate
-make %{?_smp_mflags}
+%cmake -DUSE_DISTRO_OPTIMIZATION_FLAGS:BOOL=ON -DUSE_SYSTEM_LIBS:BOOL=ON -DBUILD_SHARED_LIBS:BOOL=OFF -DStb_INCLUDE_DIRS:PATH=${PWD} -DCURA_ENGINE_VERSION:STRING=%{version} # The lib is only intermediate
+%cmake_build
 
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 mv %{buildroot}%{_bindir}/CuraEngine %{buildroot}%{_bindir}/CuraEngine-lulzbot
 mkdir -p %{buildroot}%{_datadir}/%{name}/
 cp -a version.json %{buildroot}%{_datadir}/%{name}/
@@ -105,6 +108,12 @@ cp -a version.json %{buildroot}%{_datadir}/%{name}/
 %{_datadir}/%{name}
 
 %changelog
+* Wed Sep 23 2020 Adrian Reber <adrian@lisas.de> - 1:3.6.21-6
+- Rebuilt for protobuf 3.13
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.6.21-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 1:3.6.21-4
 - Rebuilt for protobuf 3.12
 

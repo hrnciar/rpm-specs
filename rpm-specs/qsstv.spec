@@ -1,6 +1,6 @@
 Name:           qsstv
 Version:        9.4.4
-Release:        3%{?dist}
+Release:        6%{?dist}
 Summary:        Qt-based slow-scan TV and fax
 
 License:        GPLv2+
@@ -45,7 +45,12 @@ sed -i "s/\-O0/\-O2/g" qsstv/qsstv.pro
 
 
 %build 
-qmake-qt5 PREFIX=%{_prefix} CONFIG+=debug QMAKE_CXXFLAGS+="%{optflags}" 
+# mode_and_occupancy_code_table has different sizes  in its declaration
+# vs its definition.  This is a hard error when using LTO and must be
+# resolved before this package can use LTO
+%define _lto_cflags %{nil}
+
+qmake-qt5 PREFIX=%{_prefix} CONFIG+=debug QMAKE_CXXFLAGS+="-std=c++14 %{optflags}"
 make %{?_smp_mflags}
 
 
@@ -80,6 +85,15 @@ find %{buildroot} -type f -name "*.a" -exec rm -f {} \;
 
 
 %changelog
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 9.4.4-6
+- Force C++14 as this code is not C++17 ready
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.4.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Jeff Law <law@redhat.com> - 9.4.4-4
+- Disable LTO
+
 * Tue Mar 31 2020 Richard Shaw <hobbes1069@gmail.com> - 9.4.4-3
 - Rebuild for hamlib 4.
 

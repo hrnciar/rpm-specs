@@ -1,15 +1,18 @@
 Summary:	Utilities for managing the XFS filesystem
 Name:		xfsprogs
-Version:	5.6.0
-Release:	2%{?dist}
+Version:	5.9.0
+Release:	1%{?dist}
 License:	GPL+ and LGPLv2+
 URL:		https://xfs.wiki.kernel.org
 Source0:	http://kernel.org/pub/linux/utils/fs/xfs/xfsprogs/%{name}-%{version}.tar.xz
+Source1:	http://kernel.org/pub/linux/utils/fs/xfs/xfsprogs/%{name}-%{version}.tar.sign
+Source2:	https://git.kernel.org/pub/scm/docs/kernel/pgpkeys.git/tree/keys/20AE1692E13DDEE0.asc
 Requires:	util-linux
 BuildRequires:	gcc
 BuildRequires:	libtool, gettext, libattr-devel, libuuid-devel
-BuildRequires:	readline-devel, libblkid-devel >= 2.17-0.1.git5e51568
+BuildRequires:	libedit-devel, libblkid-devel >= 2.17-0.1.git5e51568
 Buildrequires:	lvm2-devel, libicu-devel >= 4.6
+BuildRequires:	gnupg2, xz
 Provides:	xfs-cmds
 Obsoletes:	xfs-cmds <= %{version}
 Provides:	xfsprogs-qa-devel
@@ -52,17 +55,18 @@ WARNING!  This program is EXPERIMENTAL, which means that its behavior and
 interface could change at any time!
 
 %prep
+xzcat '%{SOURCE0}' | %{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data=-
 %setup -q
 
 %build
 export tagname=CC
 
 %configure \
-        --enable-readline=yes	\
+	--enable-editline=yes	\
 	--enable-blkid=yes	\
 	--enable-lto=no
 
-make %{?_smp_mflags}
+%make_build
 
 %install
 make DIST_ROOT=$RPM_BUILD_ROOT install install-dev \
@@ -110,6 +114,7 @@ rm -rf $RPM_BUILD_ROOT/%{_datadir}/doc/xfsprogs/
 %{_includedir}/xfs/xfs.h
 %{_includedir}/xfs/xfs_arch.h
 %{_includedir}/xfs/xfs_fs.h
+%{_includedir}/xfs/xfs_fs_compat.h
 %{_includedir}/xfs/xfs_types.h
 %{_includedir}/xfs/xfs_format.h
 %{_includedir}/xfs/xfs_da_format.h
@@ -119,6 +124,21 @@ rm -rf $RPM_BUILD_ROOT/%{_datadir}/doc/xfsprogs/
 %{_libdir}/*.so
 
 %changelog
+* Tue Oct 20 2020 Eric Sandeen <sandeen@redhat.com> 5.9.0-1
+- New upstream release
+
+* Fri Sep 04 2020 Eric Sandeen <sandeen@redhat.com> 5.8.0-1
+- New upstream release
+
+* Fri Jul 24 2020 Eric Sandeen <sandeen@redhat.com> 5.7.0-1
+- New upstream release
+- Replace libreadline with libedit
+- Add tarball signature checking
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 5.6.0-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Sat May 16 2020 Pete Walter <pwalter@fedoraproject.org> - 5.6.0-2
 - Rebuild for ICU 67
 

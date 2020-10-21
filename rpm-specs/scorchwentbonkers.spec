@@ -1,6 +1,6 @@
 Name:           scorchwentbonkers
 Version:        1.3
-Release:        13%{?dist}
+Release:        15%{?dist}
 Summary:        Realtime remake of Scorched Earth
 License:        zlib
 URL:            http://wasyl.eu/games/scorch-went-bonkers.html
@@ -12,6 +12,7 @@ Patch0:         %{name}-no-fmod.patch
 Patch1:         %{name}-support-16bpp.patch
 Patch2:         %{name}-unixify.patch
 Patch3:         %{name}-gcc6.patch
+Patch4:         %{name}-gcc11.patch
 BuildRequires:  gcc-c++
 BuildRequires:  alleggl-devel jpgalleg-devel dumb-devel AllegroOGG-devel 
 BuildRequires:  libGLU-devel desktop-file-utils libappstream-glib
@@ -31,6 +32,7 @@ for controlling your tank. The game is real-time instead of turn based.
 %patch1 -p1 -z .16bpp
 %patch2 -p1 -z .unix
 %patch3 -p1
+%patch4 -p1
 mv src/menu/Splashscreen.h src/menu/SplashScreen.h
 
 
@@ -62,6 +64,12 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Wed Jul 29 2020 Jeff Law <law@redhat.com> - 1.3-15
+- Make comparison object invocable as const
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

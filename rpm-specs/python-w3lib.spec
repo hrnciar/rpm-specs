@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        1.17.0
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Library of web-related functions
 
 License:        BSD
@@ -75,6 +75,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.17.0-14
 - Rebuilt for Python 3.9
 

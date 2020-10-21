@@ -10,7 +10,7 @@
 Name: xsane
 Summary: X Window System front-end for the SANE scanner interface
 Version: 0.999
-Release: 35%{?dist}
+Release: 37%{?dist}
 Source0: http://www.xsane.org/download/%{name}-%{version}.tar.gz
 Source1: xsane-256x256.png
 # use "xdg-open" instead of "netscape" to launch help browser
@@ -148,7 +148,7 @@ export CFLAGS
 
 pushd build-with-gimp
 %configure --enable-gimp
-make %{?_smp_mflags}
+%make_build
 popd
 
 pushd build-without-gimp
@@ -161,7 +161,7 @@ cp %{SOURCE1} src/
 %install
 
 pushd build-without-gimp
-make DESTDIR=%{buildroot} install
+%make_install
 popd
 
 # install GIMP plugin
@@ -250,6 +250,13 @@ fi
 %{_datadir}/sane/xsane
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.999-37
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 0.999-36
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.999-35
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

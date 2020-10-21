@@ -2,7 +2,7 @@ Summary: Automatic mail answering program
 Summary(de): Programm zum automatisierten Beantworten von Mails
 Name: vacation
 Version: 1.2.7.1
-Release: 18%{?dist}
+Release: 19%{?dist}
 License: BSD
 Source: http://downloads.sourceforge.net/vacation/%{name}-1.2.7.1.tar.gz
 Source1: license-clarification
@@ -46,6 +46,9 @@ install -D -p -m 444 vacation-de.man $RPM_BUILD_ROOT%{_mandir}/de/man1/vacation.
 %doc COPYING README README.smrsh ChangeLog license-clarification
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.7.1-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.7.1-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

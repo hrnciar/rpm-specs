@@ -5,7 +5,7 @@
 
 Name:		nodejs-passport-http-bearer
 Version:	1.0.1
-Release:	6%{?dist}
+Release:	8%{?dist}
 Summary:	HTTP Bearer authentication strategy for Passport
 
 License:	MIT
@@ -68,6 +68,13 @@ cp -pr package.json lib/ \
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           perl-Text-Iconv
 Version:        1.7
-Release:        39%{?dist}
+Release:        40%{?dist}
 Summary:        Perl interface to iconv() codeset conversion function
 
 License:        GPL+ or Artistic
@@ -73,6 +73,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-40
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.7-39
 - Perl 5.32 rebuild
 

@@ -4,7 +4,7 @@
 
 # https://github.com/hashicorp/yamux
 %global goipath         github.com/hashicorp/yamux
-%global commit          2f1d1f20f75d5404f53b9edf6b53ed5505508675
+%global commit          aecfd211c9ce5303cd19780c8fc96a01b42fa298
 
 %gometa
 
@@ -21,7 +21,7 @@ by SPDY but is not interoperable with it.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.19%{?dist}
+Release:        0.21%{?dist}
 Summary:        Golang connection multiplexing library
 
 # Upstream license specification: MPL-2.0
@@ -43,15 +43,6 @@ cp %{S:1} %{S:2} .
 %install
 %gopkginstall
 
-# Remove in F33
-# Remove erroneous glide.lock folder
-%pretrans devel -p <lua>
-path = "%{gopath}/src/%{goipath}/glide.lock"
-st = posix.stat(path)
-if st and st.type == "directory" then
-  os.remove(path)
-end
-
 %if %{with check}
 %check
 %gocheck
@@ -60,6 +51,12 @@ end
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 22:11:34 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.20.20200727gitaecfd21
+- Bump to commit aecfd211c9ce5303cd19780c8fc96a01b42fa298
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

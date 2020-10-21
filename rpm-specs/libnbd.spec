@@ -5,11 +5,11 @@
 %global patches_touch_autotools %{nil}
 
 # The source directory.
-%global source_directory 1.3-development
+%global source_directory 1.5-development
 
 Name:           libnbd
-Version:        1.3.7
-Release:        3%{?dist}
+Version:        1.5.4
+Release:        1%{?dist}
 Summary:        NBD client library in userspace
 
 License:        LGPLv2+
@@ -45,6 +45,7 @@ BuildRequires:  python3-devel
 # For the OCaml bindings.
 BuildRequires:  ocaml
 BuildRequires:  ocaml-findlib-devel
+BuildRequires:  ocaml-ocamldoc
 
 # Only for building the examples.
 BuildRequires:  glib2-devel
@@ -206,9 +207,6 @@ for f in fuse/test-*.sh; do
     chmod +x $f
 done
 
-# Disable the tests on 32 bit because:
-# https://github.com/ocaml/ocaml/issues/9460
-%ifarch aarch64 ppc64 ppc64le riscv64 s390x x86_64
 make %{?_smp_mflags} check || {
     for f in $(find -name test-suite.log); do
         echo
@@ -217,13 +215,16 @@ make %{?_smp_mflags} check || {
     done
     exit 1
   }
-%endif
 
 
 %files
 %doc README
 %license COPYING.LIB
+%{_bindir}/nbdcopy
+%{_bindir}/nbdinfo
 %{_libdir}/libnbd.so.*
+%{_mandir}/man1/nbdcopy.1*
+%{_mandir}/man1/nbdinfo.1*
 
 
 %files devel
@@ -256,6 +257,8 @@ make %{?_smp_mflags} check || {
 %{_libdir}/ocaml/nbd/*.cmx
 %{_libdir}/ocaml/nbd/*.mli
 %{_mandir}/man3/libnbd-ocaml.3*
+%{_mandir}/man3/NBD.3*
+%{_mandir}/man3/NBD.*.3*
 
 
 %files -n python3-%{name}
@@ -274,11 +277,62 @@ make %{?_smp_mflags} check || {
 
 %files bash-completion
 %dir %{_datadir}/bash-completion/completions
+%{_datadir}/bash-completion/completions/nbdcopy
 %{_datadir}/bash-completion/completions/nbdfuse
+%{_datadir}/bash-completion/completions/nbdinfo
 %{_datadir}/bash-completion/completions/nbdsh
 
 
 %changelog
+* Mon Oct 05 2020 Richard W.M. Jones <rjones@redhat.com> - 1.5.4-1
+- New upstream development version 1.5.4.
+- More OCaml man pages.
+
+* Sat Sep 26 2020 Richard W.M. Jones <rjones@redhat.com> - 1.5.3-1
+- New upstream development version 1.5.3.
+
+* Thu Sep 10 2020 Richard W.M. Jones <rjones@redhat.com> - 1.5.2-1
+- New upstream development version 1.5.2.
+
+* Tue Sep 08 2020 Richard W.M. Jones <rjones@redhat.com> - 1.5.1-1
+- New upstream development version 1.5.1.
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.4.0-2
+- OCaml 4.11.1 rebuild
+
+* Tue Aug 25 2020 Richard W.M. Jones <rjones@redhat.com> - 1.4.0-1
+- New stable release 1.4.0.
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3.12-3
+- Bump release and rebuild.
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3.12-2
+- OCaml 4.11.0 rebuild
+
+* Thu Aug 20 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3.12-1
+- New upstream version 1.3.12.
+
+* Thu Aug  6 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3.11-1
+- New upstream version 1.3.11.
+
+* Tue Aug  4 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3.10-1
+- New upstream version 1.3.10.
+
+* Wed Jul 29 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3.9-3
+- Bump and rebuild.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3.9-1
+- New upstream version 1.3.9.
+- New tool: nbdinfo.
+
+* Fri Jul 17 2020 Richard W.M. Jones <rjones@redhat.com> - 1.3.8-2
+- New upstream version 1.3.8.
+- New tool: nbdcopy
+- Add upstream patch to fix compilation with glibc from Rawhide.
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.7-3
 - Rebuilt for Python 3.9
 

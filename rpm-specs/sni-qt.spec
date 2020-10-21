@@ -1,10 +1,13 @@
 
 %global snap 20170217
 
+# set this until when/if we port to new cmake macros
+%global __cmake_in_source_build 1
+
 Name:    sni-qt
 Summary: Plugin for Qt4 that turns QSystemTrayIcons into status notifiers
 Version: 0.2.7
-Release: 0.4.%{snap}%{?dist}
+Release: 0.7.%{snap}%{?dist}
 
 License: LGPLv3
 URL:     https://launchpad.net/sni-qt
@@ -45,7 +48,8 @@ install -m644 -D -p %{SOURCE1} %{buildroot}%{_sysconfdir}/xdg/sni-qt.conf
 
 
 %check
-xvfb-run -a dbus-launch --exit-with-session make check ARGS="--output-on-failure --timeout 300" -C %{_target_platform} ||:
+xvfb-run -a dbus-launch --exit-with-session \
+make check ARGS="--output-on-failure --timeout 300" -C %{_target_platform} ||:
 
 
 %files
@@ -56,6 +60,16 @@ xvfb-run -a dbus-launch --exit-with-session make check ARGS="--output-on-failure
 
 
 %changelog
+* Tue Aug 11 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.2.7-0.7.20170217
+- FTBFS: set __cmake_in_source_build, cosmetics
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-0.6.20170217
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-0.5.20170217
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-0.4.20170217
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

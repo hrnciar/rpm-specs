@@ -1,8 +1,6 @@
-%{!?python2_sitelib: %global python2_sitelib %{python_sitelib}}
-
 Name:           RBTools
 Version:        1.0.3
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Tools for use with ReviewBoard
 
 License:        MIT
@@ -72,6 +70,16 @@ cp rbtools/commands/conf/_rbt-zsh-completion \
 %{python3_sitelib}/RBTools*.egg-info/
 
 %changelog
+* Mon Aug 03 2020 Stephen Gallagher <sgallagh@redhat.com> - 1.0.3-5
+- Drop old python2 references
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.3-2
 - Rebuilt for Python 3.9
 

@@ -17,13 +17,17 @@
 Summary: Tools for building live CDs
 Name: livecd-tools
 Version: 27.1
-Release: 6%{?dist}
+Release: 8%{?dist}
 %if 0%{?fedora}
 Epoch: 1
 %endif
 License: GPLv2
 URL: https://github.com/livecd-tools/livecd-tools
 Source0: https://releases.pagure.org/%{name}/%{name}-%{version}.tar.gz
+# Fix `DnfLiveCD.selectGroup` with DNF 4.4.0+
+# https://github.com/livecd-tools/livecd-tools/pull/168
+# https://bugzilla.redhat.com/show_bug.cgi?id=1886567
+Patch0: 0001-Pass-package_types-to-dnf-base-group_install-as-tupl.patch
 
 %if %{with python2}
 BuildRequires: python2-devel
@@ -219,6 +223,12 @@ rm -rfv %{buildroot}%{_mandir}/man8/livecd-iso-to-*
 %endif
 
 %changelog
+* Thu Oct 08 2020 Adam Williamson <awilliam@redhat.com> - 1:27.1-8
+- Backport PR #168 to fix a compatibility issue with DNF 4.4.0+
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:27.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1:27.1-6
 - Rebuilt for Python 3.9
 

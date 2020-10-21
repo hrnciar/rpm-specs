@@ -1,6 +1,6 @@
 Name:           SFML
 Version:        2.5.1
-Release:        4%{?dist}
+Release:        7%{?dist}
 Summary:        Simple and Fast Multimedia Library
 
 # src/SFML/Audio/stb_vorbis/stb_vorbis.{c,h} are Public Domain
@@ -80,25 +80,21 @@ find extlibs/ -type f ! -name 'stb_image*' -print0 | xargs -0 rm
 
 %build
 %cmake -DSFML_BUILD_DOC=TRUE .
-make %{?_smp_mflags}
+%cmake_build
 
 
 %install
-%make_install
-# remove duplicated documentation
-rm -rf $RPM_BUILD_ROOT%{_datadir}/%{name}/*.md
-rm -rf $RPM_BUILD_ROOT%{_datadir}/%{name}/doc
-
+%cmake_install
 
 %ldconfig_scriptlets
 
-
 %files
-%doc license.md readme.md
+%doc %{_datadir}/%{name}/license.md 
+%doc %{_datadir}/%{name}/readme.md
 %{_libdir}/*.so.*
 
 %files devel
-%doc doc/html/*
+%doc %{_datadir}/%{name}/doc/html/*
 %{_libdir}/cmake/%{name}/*.cmake
 %{_includedir}/%{name}/
 %{_libdir}/pkgconfig/sfml-*.pc
@@ -106,6 +102,17 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/%{name}/doc
 
 
 %changelog
+* Tue Oct 13 2020 Wim Taymans <wtaymans@redhat.com> - 2.5.1-7
+- Fix build with cmake out-of-source builds
+- Fixes rhbz#1884368
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

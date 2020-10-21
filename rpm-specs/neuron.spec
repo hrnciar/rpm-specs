@@ -21,8 +21,8 @@ Please install the %{name}-devel package to compile nmodl files and so on.
 %bcond_with music
 
 Name:       neuron
-Version:    7.7.2
-Release:    7%{?dist}
+Version:    7.8.1
+Release:    4%{?dist}
 Summary:    A flexible and powerful simulator of neurons and networks
 
 License:    GPLv3+
@@ -33,12 +33,19 @@ Patch0:     0001-Unbundle-Random123.patch
 # libstdc++ bundled is from 1988: seems heavily modified. Headers from there
 # are not present in the current version
 # https://github.com/neuronsimulator/nrn/issues/145
-# Upstream changes the soname etc., so this will not conflict with the packaged
-# version
-# Unbundle readline
-Patch1:     0002-Unbundle-readline.patch
-Patch2:     0003-Remove-duplicate-file-installation.patch
-Patch3:     0004-Build-python-bits-in-the-source-tree.patch
+
+# Use system copy of Catch
+Patch1:     0002-Unbundle-catch.patch
+# We install the python bits ourselves
+Patch2:     0003-Disable-python-build-and-install.patch
+# Set soversions for all shared objects
+Patch3:     0004-Set-soversions-for-libs.patch
+# Set the right path for libdir
+# Upstreamable
+Patch4:     0005-Correct-librxdmath-path-for-64bit.patch
+
+# Quite a lot of files have been dropped in 7.8.1
+# https://github.com/neuronsimulator/nrn/issues/719
 
 # Random123 does not build on these, so neither can NEURON
 # https://github.com/neuronsimulator/nrn/issues/114
@@ -48,13 +55,19 @@ BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  bison
 BuildRequires:  bison-devel
+BuildRequires:  cmake
+BuildRequires:  catch-devel
+# Needs to be packaged separately
+# BuildRequires:  coreneuron-devel
 BuildRequires:  flex
-BuildRequires:  flex-devel
+BuildRequires:  (flex-devel or libfl-devel)
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  git-core
-BuildRequires:  iv-devel
+# the cmake build requires iv with cmake too
+BuildRequires:  iv-devel >= 0.1
 BuildRequires:  libX11-devel
+BuildRequires:  libXext-devel
 BuildRequires:  libtool
 %if %{with metis}
 BuildRequires:  metis-devel
@@ -75,7 +88,10 @@ Summary:    Development files for %{name}
 Requires: %{name}%{?_isa} = %{version}-%{release}
 Requires:  ncurses-devel
 Requires:  readline-devel
+Requires:  gcc-c++
 Requires:  libtool
+Requires:  libX11-devel
+Requires:  libXext-devel
 
 %description devel
 Headers and development shared libraries for the %{name} package
@@ -93,6 +109,7 @@ Requires:  %{name}%{?_isa} = %{version}-%{release}
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-Cython
+BuildRequires:  python3-pytest
 
 %description -n python3-%{name} %_description
 
@@ -106,9 +123,6 @@ find src -type f -executable ! -name '*.sh' -exec chmod -x {} +
 # Remove bundled Random123
 rm -rf src/Random123
 rm -rf src/readline
-
-# Stop build file from generating version header
-sed -i '/git2nrnversion_h.sh/ d' build.sh
 
 # Create version file ourselves
 export TIMESTAMP=$(date +%Y-%m-%d)
@@ -125,45 +139,47 @@ for f in bin/*_makefile.in; do
     sed -r -i 's|(LIBTOOL.*=.*)\$\(pkgdatadir\)(.*)|\1$(bindir)\2|' $f
 done
 
+# Stop system from using hard coded flags
+sed -i '/CompilerFlagsHelpers/ d' cmake/ReleaseDebugAutoFlags.cmake
+
 %build
 # Not yet to be used
 # export SUNDIALS_SYSTEM_INSTALL="yes"
-./build.sh
 
-%if %{with metis}
-%global metis_flags --with-metis
-%else
-%global metis_flags " "
-%endif
-
-# --disable-pytsetup simply prevents the post-exec hook where it wants to run
-# python setup.py. We do that ourselves in our two sections
-%configure %{metis_flags} \
---with-gnu-ld --disable-pysetup \
---with-nrnpython=%{__python3} \
---disable-rpm-rules --without-paranrn
+%cmake \
+-DNRN_ENABLE_SHARED=ON \
+-DNRN_ENABLE_INTERVIEWS=ON \
+-DNRN_ENABLE_PYTHON=ON \
+-DNRN_ENABLE_PYTHON_DYNAMIC=OFF \
+-DNRN_ENABLE_THREADS=ON \
+-DNRN_ENABLE_MEMACS=ON \
+-DNRN_ENABLE_RX3D=ON \
+-DNRN_ENABLE_CORENEURON=OFF \
+-DNRN_ENABLE_TESTS=ON \
+-DNRN_ENABLE_REL_RPATH=ON \
+-DNRN_ENABLE_MODULE_INSTALL=ON \
+-DNRN_ENABLE_INTERNAL_READLINE=OFF \
+-DNRN_ENABLE_MPI=OFF \
 
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool && \
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
-%make_build
-# For cythonisation
-%make_build -C share/lib/python
+%cmake_build
 
 # MUSIC support
 %if %{with music}
-%make_build -C src/neuronmusic
-pushd src/neuronmusic
+%cmake_build -C src/neuronmusic
+pushd %{__cmake_builddir}/src/neuronmusic
 %{py3_build}
 popd
 %endif
 
 %install
-%make_install
+%cmake_install
 
 # Music support
 %if %{with music}
-pushd src/neuronmusic
+pushd %{__cmake_builddir}/src/neuronmusic
 %{py3_install}
 popd
 %endif
@@ -176,16 +192,13 @@ popd
 
 # It can't find these somehow.
 RPM_LD_FLAGS="%{?__global_ldflags} -L$RPM_BUILD_ROOT/%{_libdir}"
-pushd src/nrnpython/
+pushd %{__cmake_builddir}/src/nrnpython/
 %{py3_build}
 %{py3_install}
 popd
 
 # Remove installed libtool copy
 rm -fv $RPM_BUILD_ROOT/%{_datadir}/%{tarname}/libtool
-
-# Move to includedir
-mv $RPM_BUILD_ROOT/%{_libdir}/nrnconf.h $RPM_BUILD_ROOT/%{_includedir}/%{tarname}/nrnconf.h
 
 # Post install clean up
 # Remove stray object files
@@ -195,63 +208,39 @@ find . $RPM_BUILD_ROOT/%{_libdir}/ -name "*.o" -exec rm -f '{}' \;
 # Remove libtool archives
 find . $RPM_BUILD_ROOT/%{_libdir}/ -name "*.la" -exec rm -f '{}' \;
 # Remove duplicate files. These are installed in the correct python locations already
-rm -rf $RPM_BUILD_ROOT/%{_datadir}/%{tarname}/lib/python/%{name}
+# rm -rf $RPM_BUILD_ROOT/%{_datadir}/%{tarname}/lib/python/%{name}
 
-# Rename oc to hoc to prevent conflicts with origin-client binary oc
-# rhbz: 1696118
-mv $RPM_BUILD_ROOT/%{_bindir}/oc $RPM_BUILD_ROOT/%{_bindir}/hoc
+# Remove installed libfiles
+rm -rfv $RPM_BUILD_ROOT/%{_prefix}/lib/python/neuron/
 
+# set up second symlink for shared objects
+pushd $RPM_BUILD_ROOT/%{_libdir}/
+    ln -sv ./libnrniv.so.0.0.0 libnrniv.so.0
+    ln -sv ./librxdmath.so.0.0.0 librxdmath.so.0
+popd
+
+# Remove stray cpp file
+rm -fv $RPM_BUILD_ROOT/%{_datadir}/%{tarname}/*.cpp
+
+# Remove iv header provided by iv package
+rm -rf $RPM_BUILD_ROOT/%{_includedir}/ivstream.h
 
 # The makefiles do not have shebangs
 %files
 %license Copyright
-# Binaries, scripts
-%{_bindir}/mos2nrn
-%{_bindir}/mos2nrn2.sh
-%{_bindir}/bbswork.sh
 %{_bindir}/modlunit
-%{_bindir}/ivoc
-%{_bindir}/memacs
 %{_bindir}/neurondemo
-%{_bindir}/nrndiagnose.sh
 %{_bindir}/nrngui
 %{_bindir}/nrniv
-%{_bindir}/nrnoc
-%{_bindir}/hoc
 %{_bindir}/sortspike
 # Not needed but I'll include them for completeness anyway
 %{_bindir}/nrnpyenv.sh
 %{_bindir}/set_nrnpyenv.sh
 # Libs
-%{_libdir}/libivoc.so.0.0.0
-%{_libdir}/libivoc.so.0
-%{_libdir}/libmemacs.so.0.0.0
-%{_libdir}/libmemacs.so.0
-%{_libdir}/libmeschach.so.0.0.0
-%{_libdir}/libmeschach.so.0
-%{_libdir}/libneuron_gnu.so.0.0.0
-%{_libdir}/libneuron_gnu.so.0
 %{_libdir}/libnrniv.so.0.0.0
 %{_libdir}/libnrniv.so.0
-%{_libdir}/libnrnmpi.so.0.0.0
-%{_libdir}/libnrnmpi.so.0
-%{_libdir}/libnrnoc.so.0.0.0
-%{_libdir}/libnrnoc.so.0
-%{_libdir}/libnrnpython.so.0.0.0
-%{_libdir}/libnrnpython.so.0
-%{_libdir}/liboc.so.0.0.0
-%{_libdir}/liboc.so.0
-%{_libdir}/libocxt.so.0.0.0
-%{_libdir}/libocxt.so.0
 %{_libdir}/librxdmath.so.0.0.0
 %{_libdir}/librxdmath.so.0
-%{_libdir}/libsparse13.so.0.0.0
-%{_libdir}/libsparse13.so.0
-%{_libdir}/libscopmath.so.0
-%{_libdir}/libscopmath.so.0.0.0
-# Bundles
-%{_libdir}/libsundials.so.0
-%{_libdir}/libsundials.so.0.0.0
 # other hoc files and data
 %dir %{_datadir}/%{tarname}
 %{_datadir}/%{tarname}/lib
@@ -263,44 +252,48 @@ mv $RPM_BUILD_ROOT/%{_bindir}/oc $RPM_BUILD_ROOT/%{_bindir}/hoc
 # The libraries are here
 %{python3_sitearch}/%{name}
 # Egg info
-%{python3_sitearch}/NEURON-7.7-py%{python3_version}.egg-info
+%{python3_sitearch}/NEURON-7.8-py%{python3_version}.egg-info
 
 %files devel
 %license Copyright
 %doc README.md
-%{_bindir}/hel2mos1.sh
 %{_bindir}/mkthreadsafe
 %{_bindir}/nocmodl
 %{_bindir}/nrnivmodl
-%{_bindir}/nrnocmodl
 %{_bindir}/nrnmech_makefile
-%{_bindir}/nrniv_makefile
-%{_bindir}/nrnoc_makefile
 # Headers
-%{_includedir}/%{tarname}
+%{_includedir}/*.h
+%{_includedir}/nrncvode/
 # Shared objects
-%{_libdir}/libivoc.so
-%{_libdir}/libmemacs.so
-%{_libdir}/libmeschach.so
-%{_libdir}/libneuron_gnu.so
 %{_libdir}/libnrniv.so
-%{_libdir}/libnrnmpi.so
-%{_libdir}/libnrnoc.so
-%{_libdir}/libnrnpython.so
-%{_libdir}/liboc.so
-%{_libdir}/libocxt.so
 %{_libdir}/librxdmath.so
-%{_libdir}/libsparse13.so
-%{_libdir}/libscopmath.so
-# Bundles
-%{_libdir}/libsundials.so
 
 %files doc
 %license Copyright
-%{_datadir}/%{tarname}/examples
 %{_datadir}/%{tarname}/demo
 
 %changelog
+* Thu Oct 08 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 7.8.1-4
+- Add missing g++ and X dependencies
+- Patch to let it correctly find librxdmath
+
+* Thu Oct 08 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 7.8.1-3
+- Remove iv header
+- disable dynamic build, not needed for Fedora: we support the default python version
+- disble hard coded compiler flags
+
+* Fri Sep 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 7.8.1-2
+- Correct flex dependency
+- #1871091
+
+* Tue Aug 18 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 7.8.1-1
+- Update to new release
+- Move to cmake build system
+- use new cmake out of source build
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.7.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 7.7.2-7
 - Bump to build in py3.9 side tag
 

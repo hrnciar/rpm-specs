@@ -3,7 +3,7 @@
 
 Name:           pmount
 Version:        0.9.23
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Enable normal user mount
 
 # realpath.c is GPLv2+. Others are GPL+;
@@ -62,6 +62,9 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.23-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.23-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,8 +1,9 @@
-%global min_libpmemobj_ver 1.8
-%global upstreamversion 1.9
+%global __cmake_in_source_build 1
+%global min_libpmemobj_ver 1.9
+%global upstreamversion 1.11
 
 Name:		libpmemobj-cpp
-Version:	1.9
+Version:	1.11
 Release:	1%{?dist}
 Summary:	C++ bindings for libpmemobj
 # Note: tests/external/libcxx is dual licensed using University of Illinois "BSD-Like" license and the MIT license. It's used only during development/testing and is NOT part of the binary RPM.
@@ -10,6 +11,7 @@ License:	BSD
 URL:		http://pmem.io/pmdk/cpp_obj/
 
 Source0:	https://github.com/pmem/%{name}/archive/%{upstreamversion}.tar.gz#/%{name}-%{upstreamversion}.tar.gz
+Patch0:		radix-fix.patch
 
 BuildRequires:	libpmemobj-devel >= %{min_libpmemobj_ver}
 BuildRequires:	cmake >= 3.3
@@ -94,6 +96,7 @@ HTML documentation for libpmemobj++.
 
 %prep
 %setup -q -n libpmemobj-cpp-%{upstreamversion}
+%patch0 -p1
 
 %build
 mkdir build
@@ -109,9 +112,31 @@ cd build
 %check
 cd build
 # https://github.com/pmem/libpmemobj-cpp/issues/469
-ctest -V %{?_smp_mflags} -E concurrent_hash_map_rehash_0_helgrind -E concurrent_hash_map_insert_lookup_0_helgrind
+#ctest -V %{?_smp_mflags} -E concurrent_hash_map_rehash_0_helgrind -E concurrent_hash_map_insert_lookup_0_helgrind
+ctest -V -E concurrent_hash_map_rehash_0_helgrind -E concurrent_hash_map_insert_lookup_0_helgrind -E enumerable_thread_specific_access_0_drd
 
 %changelog
+* Fri Oct  9 2020 Adam Borowski <kilobyte@angband.pl> - 1.11-1
+- Update to version 1.11.
+- Disable enumerable_thread_specific_access_0_drd
+- Fix internal find in radix_tree
+
+* Mon Aug 31 2020 Adam Borowski <kilobyte@angband.pl> - 1.10-1
+- Update to version 1.10.
+
+* Mon Aug 31 2020 Adam Borowski <kilobyte@angband.pl> - 1.9-5
+- Fix FTBFS with new libunwind.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 1.9-2
+- Use __cmake_in_source_build
+
 * Wed Feb 12 2020 Marcin Ślusarz <marcin.slusarz@intel.com> - 1.9-1
 - Update to version 1.9.
 

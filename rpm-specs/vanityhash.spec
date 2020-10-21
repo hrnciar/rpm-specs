@@ -1,6 +1,6 @@
 Name:           vanityhash  
 Version:        1.1
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Hexadecimal hash fragment creation tool
 License:        GPLv2+
 URL:            http://www.finnie.org/software/%{name}/
@@ -44,6 +44,9 @@ make install DESTDIR=%{buildroot} PREFIX=%{_prefix}
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -8,8 +8,8 @@
 %bcond_with pdfdoc
 
 Name: dpdk
-Version: 19.11.1
-Release: 5%{?dist}
+Version: 19.11.3
+Release: 2%{?dist}
 Epoch: 2
 URL: http://dpdk.org
 Source: https://fast.dpdk.org/rel/dpdk-%{version}.tar.xz
@@ -354,6 +354,18 @@ sed -i -e 's:-%{machine_tmpl}-:-%{machine}-:g' %{buildroot}/%{_sysconfdir}/profi
 %endif
 
 %changelog
+* Tue Sep 01 2020 Jeff Law <law@redhat.com> - 2:19.11.3-2
+- Re-enable LTO
+
+* Tue Sep 01 2020 Timothy Redaelli <tredaelli@redhat.com> - 2:19.11.3-1
+- Update to latest 19.11 LTS (bz1874499)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:19.11.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> - 2:19.11.1-6
+- Disable LTO
+
 * Tue Jun 23 2020 Timothy Redaelli <tredaelli@redhat.com> - 2:19.11.1-5
 - Fix missing Requires for dpdk-devel (bz1843590)
 

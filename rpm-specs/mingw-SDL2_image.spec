@@ -2,7 +2,7 @@
 
 Name:           mingw-SDL2_image
 Version:        2.0.5
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows port of the Image loading library for SDL2
 
 License:        LGPLv2+
@@ -106,6 +106,9 @@ sed -i 's/\r$//' README.txt CHANGES.txt COPYING.txt
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

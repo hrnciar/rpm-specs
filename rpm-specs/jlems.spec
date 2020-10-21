@@ -10,7 +10,7 @@
 
 Name:           jlems
 Version:        0.9.9.1
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Java Interpreter for the Low Entropy Model Specification language
 
 
@@ -116,6 +116,12 @@ sed -i 's|%{_javadir}|%{buildroot}/%{_javadir}|' lems
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.9.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0.9.9.1-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.9.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,24 +2,31 @@
 %global debug_package %{nil}
 %endif
 
+# This package is now a transitive dependency of ocaml-ppx-inline-test, so using
+# it to test this package creates a circular dependency.
+%bcond_with tests
+
 %global srcname ppx-sexp-conv
 %global upname  ppx_sexp_conv
 
 Name:           ocaml-%{srcname}
-Version:        0.13.0
-Release:        2%{?dist}
+Version:        0.14.0
+Release:        4%{?dist}
 Summary:        Generate S-expression conversion functions from type definitions
 License:        MIT
 URL:            https://github.com/janestreet/%{upname}
 Source0:        %{url}/archive/v%{version}/%{upname}-%{version}.tar.gz
 
 BuildRequires:  ocaml >= 4.04.2
-BuildRequires:  (ocaml-base-devel >= 0.13 and ocaml-base-devel < 0.14)
-BuildRequires:  ocaml-dune >= 1.5.1
-BuildRequires:  ocaml-ppxlib-devel >= 0.9.0
-BuildRequires:  ocaml-ppx-inline-test-devel
+BuildRequires:  (ocaml-base-devel >= 0.14 and ocaml-base-devel < 0.15)
+BuildRequires:  ocaml-dune >= 2.0.0
+BuildRequires:  ocaml-ppxlib-devel >= 0.11.0
 BuildRequires:  ocaml-odoc
-BuildRequires:  (ocaml-sexplib0-devel >= 0.13 and ocaml-sexplib0-devel < 0.14)
+BuildRequires:  (ocaml-sexplib0-devel >= 0.14 and ocaml-sexplib0-devel < 0.15)
+
+%if %{with tests}
+BuildRequires:  ocaml-ppx-inline-test-devel
+%endif
 
 %description
 Ppx_sexp_conv is a PPX syntax extension that generates code for
@@ -60,8 +67,10 @@ rm -fr %{buildroot}%{_prefix}/doc
 find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod a+x {} \+
 %endif
 
+%if %{with tests}
 %check
 dune runtest
+%endif
 
 %files
 %doc CHANGES.md README.org
@@ -99,6 +108,25 @@ dune runtest
 %{_libdir}/ocaml/%{upname}/*/*.mli
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.14.0-4
+- OCaml 4.11.1 rebuild
+
+* Sat Aug 22 2020 Richard W.M. Jones <rjones@redhat.com> - 0.14.0-3
+- Bump and rebuild.
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.14.0-2
+- OCaml 4.11.0 rebuild
+
+* Thu Aug  6 2020 Jerry James <loganjerry@gmail.com> - 0.14.0-1
+- Version 0.14.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Jerry James <loganjerry@gmail.com> - 0.13.0-2
 - Drop CONTRIBUTING.md
 - Use boolean dependencies to more fully reflect upstream version dependencies

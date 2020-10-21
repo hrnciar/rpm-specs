@@ -1,4 +1,6 @@
 
+%undefine __cmake_in_source_build
+
 # undef or set to 0 to disable items for a faster build
 %global apidocs 1
 # upstream says tests busted, maybe to be fixed in some future point release
@@ -10,7 +12,7 @@
 Summary: Qt wrapper API to different RDF storage solutions
 Name:    soprano
 Version: 2.9.4
-Release: 22%{?dist}
+Release: 25%{?dist}
 
 License: LGPLv2+
 URL:     https://quickgit.kde.org/?p=soprano.git
@@ -106,22 +108,19 @@ format for easy browsing.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} .. \
+%cmake \
   -DDATA_INSTALL_DIR:PATH=%{_kde4_appsdir} \
   -DQT_DOC_DIR=%{?_qt4_docdir}%{!?_qt4_docdir:%(pkg-config --variable=docdir Qt)} \
   -DSOPRANO_BUILD_API_DOCS:BOOL=%{!?apidocs:0}%{?apidocs} \
   -DSOPRANO_BUILD_TESTS:BOOL=%{?tests:ON}%{!?tests:OFF} \
   -DSOPRANO_DISABLE_SESAME2_BACKEND:BOOL=ON \
   %{!?virtuoso:-DSOPRANO_DISABLE_VIRTUOSO_BACKEND:BOOL=ON}
-popd
 
-make %{?_smp_mflags} -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=$RPM_BUILD_ROOT -C %{_target_platform}
+%cmake_install
 
 %if 0%{?apidocs}
 mkdir -p %{buildroot}%{_kde4_docdir}/HTML/en
@@ -191,6 +190,16 @@ time make -C %{_target_platform} test ARGS="--timeout 300 --output-on-failure -R
 
 
 %changelog
+* Mon Aug 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.9.4-25
+- use new %%cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.4-24
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.4-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.4-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

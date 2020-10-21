@@ -1,23 +1,22 @@
 
 %global qt_module qtconfiguration
 
+%undefine __cmake_in_source_build
+
 Summary:        Qt5 - QtConfiguration module
 Name:           qt5-%{qt_module}
 Version:        0.3.1
-Release:        11%{?dist}
+Release:        13%{?dist}
 
 # See LGPL_EXCEPTIONS.txt, LICENSE.GPL3, respectively, for exception details
 License:        LGPLv2 with exceptions or GPLv3 with exceptions
 URL:            https://github.com/mauios/qtconfiguration
 Source0:        http://downloads.sourceforge.net/project/mauios/hawaii/%{qt_module}/%{qt_module}-%{version}.tar.gz
+
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(dconf)
 BuildRequires:  cmake
-
-# Assuming this is not required, please add a comment to justify in case
-# it really is -- rdieter
-#{?_qt5_version:Requires: qt5-qtbase%{?_isa} >= %{_qt5_version}}
 
 %description
 Settings API with change notifications.
@@ -37,17 +36,16 @@ Requires:       qt5-qtbase-devel%{?_isa}
 
 
 %build
-%cmake .
+%cmake
 
-%make_build LINK='g++ -Wl,--as-needed'
+%cmake_build
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 
 
 %ldconfig_scriptlets
-
 
 %files
 %{_libdir}/libqtconfiguration.so.0*
@@ -64,6 +62,16 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Aug 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.3.1-14
+- FTBFS, use new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

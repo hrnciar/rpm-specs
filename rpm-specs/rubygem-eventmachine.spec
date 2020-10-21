@@ -6,7 +6,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 1.2.7
-Release: 7%{?dist}
+Release: 10%{?dist}
 Summary: Ruby/EventMachine library
 License: GPLv2 or Ruby
 URL: http://rubyeventmachine.com
@@ -20,6 +20,13 @@ Patch1: rubygem-eventmachine-1.2.7-Update-runtime-files-for-TLS13-no-SSL-OpenSSL
 Patch2: rubygem-eventmachine-1.2.7-Move-console-SSL-Info-code-to-em_test_helper.patch
 # https://github.com/eventmachine/eventmachine/pull/867/commits/dd6cec8d5278e11f2a1752aa7b4a712d53b1f1d3
 Patch3: rubygem-eventmachine-1.2.7-Openssl-1.1.1-updates.patch
+# Extend certificate length.
+# https://github.com/eventmachine/eventmachine/pull/923
+Patch4: rubygem-eventmachine-1.2.7-Increase-certificate-length.patch
+# Fix `test_case_insensitivity(TestSslProtocols)` test case.
+# This small change is part of big upstream commit:
+# https://github.com/eventmachine/eventmachine/pull/868/commits/a7da18ed78a60f25162c944f497154f7769f08f0
+Patch5: rubygem-eventmachine-1.2.7-Bump-TLS-version.patch
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby-devel
@@ -62,6 +69,8 @@ sed -i '/SSL_CTX_set_cipher_list/ s/".*"/"PROFILE=SYSTEM"/' ext/ssl.cpp
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
+%patch5 -p1
 
 %build
 # Create the gem as gem install only works on a gem file
@@ -108,9 +117,13 @@ ruby -Ilib:$(dirs +1)%{gem_extdir_mri}:tests -e "Dir.glob './tests/**/test_*.rb'
   --ignore-name=/^test_failure_timer_cleanup$/ \
   --ignore-name=/^test_timer_cleanup$/ \
   --ignore-name=/^test_nameserver$/ \
+  --ignore-name=/^test_invalid_address_bind_connect_dst$/ \
+  --ignore-name=/^test_invalid_address_bind_connect_src$/ \
 %endif
 
 # TODO: This fails on ppc64 :/
+# Moreover it appears abandoned upstream:
+# https://github.com/eventmachine/eventmachine/issues/924
 #EM_PURE_RUBY=true ruby -Ilib:tests -e "(Dir.glob('./tests/**/test_pure*.rb') + Dir.glob('./tests/**/test_ssl*.rb')).each {|f| require f}" -- \
 #   --verbose \
 #   --ignore-name /^test_.*v3.*$/ \
@@ -139,6 +152,20 @@ popd
 %{gem_instdir}/tests
 
 %changelog
+* Tue Aug 04 2020 Vít Ondruch <vondruch@redhat.com> - 1.2.7-10
+- Disable two more test cases failing without network connectivity with
+  systemd-resolved.
+  Resolves: rhbz#1866021
+- Adjust to tightened Fedora crypto policies.
+  Resovles: rhbz#1863726
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.7-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.7-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.7-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

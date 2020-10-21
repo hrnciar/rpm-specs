@@ -1,18 +1,19 @@
 Name:           eccodes
-Version:        2.17.0
+Version:        2.19.0
 Release:        1%{?dist}
 Summary:        WMO data format decoding and encoding
 
 # force the shared libraries to have these so versions
 %global so_version       0.1
 %global so_version_f90   0.1
-%global datapack_date    20181010
+%global datapack_date    20200626
 
-# latest rawhide grib_api version is 1.27.0-7
+# latest fedora-33 grib_api version is 1.27.0-8
 # but this version number is to be updated as soon as we know
 # what the final release of grib_api by upstream will be.
 # latest upstream grib_api release is 1.28.0 (05-Dec-2018)
-# see https://confluence.ecmwf.int/display/GRIB/Home
+# is was written on https://confluence.ecmwf.int/display/GRIB/Home
+# (Note that this page is no longer available, 17-Oct-2020)
 %global final_grib_api_version 1.28.1-1%{?dist}
 
 %ifarch i686 ppc64 s390x armv7hl
@@ -37,13 +38,10 @@ Source0:        https://software.ecmwf.int/wiki/download/attachments/45757960/ec
 # now and then so rename the datapack using the download date
 # to make it versioned in fedora
 Source1:        http://download.ecmwf.org/test-data/eccodes/eccodes_test_data.tar.gz#/eccodes_test_data_%{datapack_date}.tar.gz
-# Support 32-bit
-# https://software.ecmwf.int/issues/browse/SUP-1813
-# (unfortunately this issue is not public)
-Patch1:         eccodes-32bit.patch
+
 # Add soversion to the shared libraries, since upstream refuses to do so
 # https://software.ecmwf.int/issues/browse/SUP-1809
-Patch2:         eccodes-soversion.patch
+Patch1:         eccodes-soversion.patch
 
 # note that the requests to make the other issues public are filed here:
 # https://software.ecmwf.int/issues/browse/SUP-2073
@@ -176,12 +174,12 @@ in C, and Fortran 90.
 %autosetup -n %{name}-%{version}-Source -p1
 
 # unpack the test data below build
-mkdir build
-cd build
+mkdir -p %{_vpath_builddir}
+pushd %{_vpath_builddir}
 tar xf %SOURCE1
+popd
 
 # remove executable permissions from c files
-cd ..
 chmod 644 tigge/*.c
 chmod 644 tools/*.c
 
@@ -189,7 +187,6 @@ chmod 644 tools/*.c
 chmod 644 AUTHORS LICENSE
 
 %build
-cd build
 
 #-- The following features are disabled by default and not switched on:
 #
@@ -233,6 +230,11 @@ cd build
 #     export FCFLAGS="%%{build_fflags} -fallow-argument-mismatch"
 # defining the -DCMAKE_Fortran_FLAGS for camke is required to let it compile.
 
+# added -DCMAKE_Fortran_FLAGS="-fPIC"
+# because the koji build crashes with the error that it needs this setting
+# when I try to build for armv7hl (other archs do not complain ......)
+# I have no idea what causes this difference in behaviour.
+
 %cmake3 -DINSTALL_LIB_DIR=%{_lib} \
         -DENABLE_ECCODES_OMP_THREADS=ON \
         -DENABLE_EXTRA_TESTS=ON \
@@ -244,19 +246,21 @@ cd build
         -DECCODES_SOVERSION=%{so_version} \
         -DECCODES_SOVERSION_F90=%{so_version_f90} \
         -DCMAKE_Fortran_FLAGS="-fallow-argument-mismatch" \
-        -DENABLE_PYTHON=OFF \
-        ..
+        -DCMAKE_Fortran_FLAGS="-fPIC" \
+        -DENABLE_PYTHON=OFF
 
-%make_build
+# note the final '..' is no longer needed to the cmake3 call.
+# this is now hidden in the %%cmake3 macro
+
+%cmake_build
 
 # copy some include files to the build dir
-# that are otherwise not found when creating the debugsource subpackage
-cd ..
-cp fortran/eccodes_constants.h build/fortran/
-cp fortran/grib_api_constants.h build/fortran/
+# that are otherwise not found when creating the debugsource sub-package
+cp fortran/eccodes_constants.h %{_vpath_builddir}/fortran/
+cp fortran/grib_api_constants.h %{_vpath_builddir}/fortran/
 
 %install
-%make_install -C build
+%cmake_install
 mkdir -p %{buildroot}%{_fmoddir}
 mv %{buildroot}%{_includedir}/*.mod %{buildroot}%{_fmoddir}/
 
@@ -307,7 +311,7 @@ sed -i 's|^libs=.*$|libs=-L${libdir} -leccodes_f90 -leccodes|g' %{buildroot}/%{_
 %ldconfig_scriptlets
 
 %check
-cd build
+cd  %{_vpath_builddir}
 
 # notes:
 # * the LD_LIBRARY_PATH setting is required to let the tests
@@ -317,6 +321,8 @@ cd build
 #   'eccodes_t_bufr_dump_(de|en)code_C' tests run.
 #   These tests compile on the fly generated C code, and
 #   without this setting the loader does not find the libraries.
+# * this is a 'non-standard' use of ctest3 so it does currently not
+#   work with the %%ctest macro.
 
 LD_LIBRARY_PATH=%{buildroot}/%{_libdir} \
 LIBRARY_PATH=%{buildroot}/%{_libdir} \
@@ -348,6 +354,26 @@ ctest3 -V %{?_smp_mflags}
 %doc %{_datadir}/doc/%{name}/
 
 %changelog
+* Sat Oct 17 2020 Jos de Kloe <josdekloe@gmail.com> - 2.19.0-1
+- Upgrade to upstream version 2.19.0 and remove patch 1
+- Add -fpic to the fortran flags (needed for compiling on armv7hl)
+
+* Wed Aug 05 2020 Jos de Kloe <josdekloe@gmail.com> - 2.18.0-5
+- Adapt the spec file to use the new style cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.18.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.18.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Jos de Kloe <josdekloe@gmail.com> - 2.18.0-2
+- Rebuild after fixing mistake in ExcludeArch statements
+
+* Sat Jun 27 2020 Jos de Kloe <josdekloe@gmail.com> - 2.18.0-1
+- Upgrade to upstream version 2.18.0
+
 * Sun Mar 15 2020 Jos de Kloe <josdekloe@gmail.com> - 2.17.0-1
 - Upgrade to upstream version 2.17.0
 - Add explcit BR to perl(File::Compare) as needed by the tests now

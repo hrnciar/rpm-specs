@@ -1,5 +1,5 @@
 Name:           pytest
-Version:        5.4.3
+Version:        6.0.2
 Release:        1%{?dist}
 Summary:        Simple powerful testing with Python
 License:        MIT
@@ -35,10 +35,12 @@ BuildRequires:  python3-setuptools_scm
 # We keep them unconditionality, so we don't accidentally build pytest
 # before them and get broken dependencies
 BuildRequires:  python3-attrs
+BuildRequires:  python3-iniconfig
 BuildRequires:  python3-more-itertools
 BuildRequires:  python3-packaging
 BuildRequires:  python3-pluggy >= 0.12
 BuildRequires:  python3-py >= 1.5.0
+BuildRequires:  python3-toml
 BuildRequires:  python3-wcwidth
 
 %if %{with tests}
@@ -53,7 +55,6 @@ BuildRequires:  python3-mock
 BuildRequires:  python3-nose
 BuildRequires:  python3-numpy
 BuildRequires:  python3-pexpect
-BuildRequires:  python3-pytest-xdist
 BuildRequires:  python3-twisted
 %endif
 %if %{with timeout}
@@ -64,6 +65,7 @@ BuildRequires:  python3-pytest-timeout
 %if %{with docs}
 BuildRequires:  %{_bindir}/rst2html
 BuildRequires:  python3-pygments-pytest
+BuildRequires:  python3-Pallets-Sphinx-Themes
 BuildRequires:  python3-sphinx
 BuildRequires:  python3-sphinx-removed-in
 BuildRequires:  python3-sphinxcontrib-trio
@@ -86,7 +88,7 @@ Conflicts:      python-pytest < 4.6
 py.test provides simple, yet powerful testing for Python.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name}-%{version}
 
 %build
 %py3_build
@@ -127,13 +129,8 @@ find %{buildroot}%{python3_sitelib} \
 
 %if %{with tests}
 %check
-PYTHONDONTWRITEBYTECODE=1 \
-PATH=%{buildroot}%{_bindir}:${PATH} \
-PYTHONPATH=%{buildroot}%{python3_sitelib} \
-  %{buildroot}%{_bindir}/pytest-%{python3_version} -r s testing \
-  %if %{with timeout}
-  --timeout=30
-  %endif
+%global __pytest %{buildroot}%{_bindir}/pytest
+%pytest testing %{?with_timeout:--timeout=30}
 %endif
 
 %files -n python3-%{name}
@@ -155,6 +152,18 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} \
 %{python3_sitelib}/pytest/
 
 %changelog
+* Sat Sep 12 2020 Thomas Moschny <thomas.moschny@gmx.de> - 6.0.2-1
+- Update to 6.0.2.
+
+* Thu Aug 06 2020 Miro Hrončok <mhroncok@redhat.com> - 6.0.1-1
+- Update to 6.0.1 (#1862097)
+
+* Mon Jul 28 2020 Miro Hrončok <mhroncok@redhat.com> - 6.0.0~rc1-1
+- Update to 6.0.0rc1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Thomas Moschny <thomas.moschny@gmx.de> - 5.4.3-1
 - Update to 5.4.3.
 

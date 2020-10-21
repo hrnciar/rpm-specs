@@ -6,7 +6,7 @@
 
 Name:           libretro-%{corename}
 Version:        0
-Release:        0.2.%{date}git%{shortcommit}%{?dist}
+Release:        0.3.%{date}git%{shortcommit}%{?dist}
 Summary:        Standalone port of Mednafen NGP to the libretro API, itself a fork of Neopop
 
 License:        GPLv2
@@ -44,6 +44,9 @@ install -m 0644 -Dp %{SOURCE1} %{buildroot}%{_libdir}/libretro/mednafen_ngp.libr
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3.20200518git3d31f4a
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 21 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0-0.2.20200518git3d31f4a
 - Update to latest git snapshot
 

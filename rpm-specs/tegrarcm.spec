@@ -1,6 +1,6 @@
 Name:           tegrarcm
 Version:        1.8
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        Send code to a Tegra device in recovery mode
 
 # Most of the code here is BSD, except for the firmware in
@@ -52,6 +52,13 @@ device.
 %{_mandir}/man1/tegrarcm.1.*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -7,7 +7,7 @@
 Summary:   Xorg X11 vesa video driver
 Name:      xorg-x11-drv-vesa
 Version:   2.4.0
-Release:   8%{?dist}
+Release:   9%{?dist}
 URL:       https://www.x.org
 Source0:   https://xorg.freedesktop.org/releases/individual/driver/%{tarball}-%{version}.tar.bz2
 License: MIT
@@ -48,6 +48,9 @@ find $RPM_BUILD_ROOT -regex ".*\.la$" | xargs rm -f --
 %{_mandir}/man4/vesa.4*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -12,7 +12,7 @@
 Name:           cld2
 # When upstream has never chosen a version, you MUST use Version: 0.
 Version:        0
-Release:        0.15%{?usesnapshot:.%{commitdate0}git%{shortcommit0}}%{?dist}
+Release:        0.18%{?usesnapshot:.%{commitdate0}git%{shortcommit0}}%{?dist}
 Summary:        A library to detect the natural language of text
 License:        ASL 2.0
 URL:            https://github.com/CLD2Owners/cld2/
@@ -48,29 +48,26 @@ This sub-package contains the headers for cld2.
 
 %prep
 %if 0%{?usesnapshot}
-    %autosetup -n %name-%{commit0}
+    %autosetup -n %{name}-%{commit0}
 %else
     %autosetup
 %endif
 cp %{SOURCE1} .
 
 %build
-mkdir build
-cd build
 # https://fedoraproject.org/wiki/Common_Rpmlint_issues#unused-direct-shlib-dependency
 # Add Wl,--as-needed to CXX_FLAGS
 # Fix build with gcc-6, build with -std=c++98. See Github, CLD2 issue #47
 # https://github.com/CLD2Owners/cld2/issues/47
 export CXXFLAGS="%{optflags} -std=c++98 -Wl,--as-needed"
-%cmake .. -DCMAKE_BUILD_TYPE=release -DCMAKE_INSTALL_LIBDIR:PATH=%{_libdir}
-make %{?_smp_mflags}
+%cmake -DCMAKE_BUILD_TYPE=release -DCMAKE_INSTALL_LIBDIR:PATH=%{_libdir}
+%cmake_build
 
 %install
-cd build
-make %{?_smp_mflags} DESTDIR=%{buildroot} install
+%cmake_install
 
 %check
-cd build
+cd %{_vpath_builddir}
 # Tests from: internal/compile_and_test_all.sh
 echo "this is some english text" | ./compact_lang_det_test_chrome_2
 echo "this is some english text" | ./compact_lang_det_test_chrome_16
@@ -101,6 +98,16 @@ echo "this is some english text" | ./compact_lang_det_dynamic_test_chrome --data
 %{_libdir}/libcld2_full.so
 
 %changelog
+* Mon Aug 03 2020 Wolfgang Stöggl <c72578@yahoo.de> - 0-0.18.20150821gitb56fa78
+- Use %%cmake_build and %%cmake_install macros to fix FTBFS (#1863337)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.17.20150821gitb56fa78
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.16.20150821gitb56fa78
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.15.20150821gitb56fa78
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

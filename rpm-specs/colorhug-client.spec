@@ -1,7 +1,7 @@
 Summary:   Tools for the Hughski Colorimeter
 Name:      colorhug-client
 Version:   0.2.8
-Release:   11%{?dist}
+Release:   12%{?dist}
 License:   GPLv2+
 URL:       http://www.hughski.com/
 Source0:   http://people.freedesktop.org/~hughsient/releases/%{name}-%{version}.tar.xz
@@ -139,6 +139,9 @@ find %{buildroot} -type f -name "*.la" -delete
 %{_datadir}/bash-completion/completions/colorhug-cmd
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.8-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.8-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

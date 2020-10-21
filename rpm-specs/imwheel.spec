@@ -3,7 +3,7 @@
 
 Name:           imwheel
 Version:        %{pkgrel}
-Release:        0.5.%{extver}%{?dist}
+Release:        0.6.%{extver}%{?dist}
 Summary:        Mouse Event to Key Event Mapper Daemon
 License:        GPLv2+
 Url:            http://imwheel.sourceforge.net
@@ -61,6 +61,9 @@ autoreconf -fiv
 %{_mandir}/man1/imwheel.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-0.6.pre12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 14 2020 Robin Lee <cheeselee@fedoraproject.org> - 1.0.0-0.5.pre12
 - Requires xorg-x11-fonts-75dpi (RHBZ#1823983)
 - BR only gcc instead of gcc-c++

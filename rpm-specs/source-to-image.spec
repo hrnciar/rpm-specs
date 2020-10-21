@@ -40,7 +40,7 @@
 
 Name:           %{repo}
 Version:        1.1.7
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        A tool for building artifacts from source and injecting into docker images
 License:        ASL 2.0
 URL:            https://%{provider_prefix}
@@ -252,6 +252,9 @@ export GOPATH=%{buildroot}/%{gopath}:$(pwd)/Godeps/_workspace:%{gopath}
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.7-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.7-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

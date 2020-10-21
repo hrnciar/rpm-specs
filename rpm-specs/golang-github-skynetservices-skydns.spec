@@ -4,7 +4,7 @@
 # https://github.com/skynetservices/skydns
 %global goipath         github.com/skynetservices/skydns
 Version:                2.5.3
-%global commit          15f42ac021b1f17a8b329f409539aa1624458da0
+%global commit          94b2ea0d8bfa43395656ea94d4a6235bdda47129
 
 %gometa
 
@@ -15,7 +15,7 @@ DNS service discovery for etcd.}
 %global godocs          AUTHORS CONTRIBUTORS README.md
 
 Name:           %{goname}
-Release:        3.a%{?dist}
+Release:        6.a%{?dist}
 Summary:        DNS service discovery for etcd
 
 License:        MIT
@@ -26,8 +26,8 @@ Source2:        skydns.conf
 Source3:        skydns.socket
 # Fix for new github.com/coreos/go-systemd
 Patch0:         0001-Fix-for-new-github.com-coreos-go-systemd.patch
-# Remove ErrTruncated, obsolete in new github.com/miekg/dns
-Patch1:         0001-Remove-ErrTruncated.patch
+# Use new field for TLSInfo
+Patch1:         Fix-TLSInfo.patch
 
 BuildRequires:  golang(go.etcd.io/etcd/client)
 BuildRequires:  golang(go.etcd.io/etcd/clientv3)
@@ -62,7 +62,7 @@ Provides:       skydns = %{version}-%{release}
 %goprep
 %patch0 -p1
 %patch1 -p1
-find . -name "*.go" -exec sed -i "s|github.com/coreos/etcd|go.etcd.io/etcd|" "{}" +;
+sed -i "s|github.com/coreos/etcd|go.etcd.io/etcd|" $(find . -iname "*.go" -type f)
 
 %build
 %gobuild -o %{gobuilddir}/bin/skydns %{goipath}
@@ -110,6 +110,16 @@ getent passwd skydns >/dev/null || useradd -r -g skydns -d %{_sharedstatedir}/sk
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 20:12:17 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.5.3-6.a.20200802git94b2ea0
+- Bump to commit 94b2ea0d8bfa43395656ea94d4a6235bdda47129
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.3-5.a
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.3-4.a
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.3-3.a
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

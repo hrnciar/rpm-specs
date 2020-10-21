@@ -6,7 +6,7 @@
 
 Name:           xfce4-weather-plugin
 Version:        0.10.1
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Weather plugin for the Xfce panel
 
 License:        BSD
@@ -59,6 +59,13 @@ chmod -c +x %{buildroot}%{_libdir}/xfce4/panel/plugins/*.so
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 10 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.10.1-2
 - Enable scrolling in details pane
 

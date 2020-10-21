@@ -3,7 +3,7 @@
 
 Name:           nauty
 Version:        %(tr r . <<< %{nautybasever})
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Graph canonical labeling and automorphism group computation
 
 License:        ASL 2.0
@@ -127,6 +127,9 @@ LD_LIBRARY_PATH=$PWD/.libs make check
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun  2 2020 Jerry James <loganjerry@gmail.com> - 2.7.1-1
 - Version 2.7.1
 

@@ -1,9 +1,9 @@
 Name:           perl-Catalyst-Plugin-Session-State-Cookie
 Summary:        Maintain session IDs using cookies
-Version:        0.17
-Release:        30%{?dist}
+Version:        0.18
+Release:        1%{?dist}
 License:        GPL+ or Artistic
-Source0:        https://cpan.metacpan.org/authors/id/M/MS/MSTROUT/Catalyst-Plugin-Session-State-Cookie-%{version}.tar.gz 
+Source0:        https://cpan.metacpan.org/authors/id/H/HA/HAARG/Catalyst-Plugin-Session-State-Cookie-%{version}.tar.gz
 URL:            https://metacpan.org/release/Catalyst-Plugin-Session-State-Cookie
 BuildArch:      noarch
 
@@ -11,11 +11,6 @@ BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-interpreter
 BuildRequires:  perl-generators
-# perl-podlators for pod2text is not used
-BuildRequires:  perl(inc::Module::Install) >= 0.87
-BuildRequires:  perl(Module::Install::AutoInstall)
-BuildRequires:  perl(Module::Install::Metadata)
-BuildRequires:  perl(Module::Install::WriteAll)
 BuildRequires:  sed
 # Run-time:
 # This is a Catalyst plugin
@@ -35,11 +30,7 @@ BuildRequires:  perl(lib)
 BuildRequires:  perl(strict)
 BuildRequires:  perl(Test::More)
 BuildRequires:  perl(warnings)
-# Optional tests:
-BuildRequires:  perl(Test::Pod) >= 1.14
-BuildRequires:  perl(Test::Pod::Coverage) >= 1.04
-BuildRequires:  perl(Test::WWW::Mechanize::Catalyst) >= 0.40
-Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+Requires:       perl(:MODULE_COMPAT_%(eval "`/usr/bin/perl -V:version`"; echo $version))
 # This is a Catalyst plugin
 Requires:       perl(Catalyst) >= 5.80005
 # This is a Catalyst::Plugin::Session extension
@@ -48,7 +39,6 @@ Requires:       perl(Catalyst::Plugin::Session::State)
 
 
 %{?perl_default_filter}
-%{?perl_default_subpackage_tests}
 
 %description
 In order for Catalyst::Plugin::Session to work the session ID needs to
@@ -58,27 +48,38 @@ client, through a cookie.
 
 %prep
 %setup -q -n Catalyst-Plugin-Session-State-Cookie-%{version}
-# Remove bundled modules
-rm -r ./inc/*
-sed -i -e '/^inc\\/d' MANIFEST
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
-make %{?_smp_mflags}
+/usr/bin/perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=%{buildroot}
+%{make_install}
 %{_fixperms} %{buildroot}/*
 
 %check
-TEST_POD=1 make test
+%{make_build} test
 
 %files
+%license LICENSE
 %doc Changes README t/
 %{perl_vendorlib}/*
 %{_mandir}/man3/*
 
 %changelog
+* Sun Aug 30 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 0.18-1
+- Replace %%{__perl} with /usr/bin/perl
+- Use %%{make_install} instead of "make pure_install"
+- Use %%{make_build} instead of make
+- Drop tests subpackage
+- Tag LICENSE file with %%license
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.17-31
+- Perl 5.32 rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

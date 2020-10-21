@@ -1,6 +1,6 @@
 Name:           perl-MooseX-SimpleConfig
 Version:        0.11
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Moose role for setting attributes from a simple configfile
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/MooseX-SimpleConfig
@@ -62,6 +62,9 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/MooseX::SimpleConfig.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.11-17
 - Perl 5.32 rebuild
 

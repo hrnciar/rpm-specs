@@ -1,6 +1,6 @@
 Name:	jitterentropy
 Version:	2.2.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Library implementing the jitter entropy source
 
 License:	BSD or GPLv2
@@ -46,6 +46,9 @@ mkdir -p %{buildroot}/usr/include/
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 
 Name:          mingw-%{pkgname}
 Version:       6.3.2
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Cartographic projection software (PROJ.4)
 
 BuildArch:     noarch
@@ -115,6 +115,9 @@ rm -r %{buildroot}%{mingw64_datadir}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 03 2020 Sandro Mani <manisandro@gmail.com> - 6.3.2-1
 - Update to 6.3.2
 

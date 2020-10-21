@@ -5,7 +5,7 @@
 
 # https://github.com/disintegration/imaging
 %global goipath         github.com/disintegration/imaging
-Version:                1.6.0
+Version:                1.6.2
 
 %gometa
 
@@ -21,7 +21,7 @@ that implements image.Image interface as an input, and return a new image of
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Simple image processing package for Go
 
 License:        MIT
@@ -51,6 +51,12 @@ sed -i 's|\r||g' README.md
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 21:53:50 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.6.2-1
+- Update to 1.6.2
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -12,7 +12,7 @@
 
 Name:           eclipse-ecf
 Version:        3.14.8
-Release:        1%{?dist}
+Release:        6%{?dist}
 Summary:        Eclipse Communication Framework (ECF) Eclipse plug-in
 
 # Note: The org.jivesoftware.smack bundle is Apache licensed
@@ -150,6 +150,16 @@ sed -i -e '/provider.dnssd/d' doc/bundles/org.eclipse.ecf.doc/build.properties
 # Use system libs
 ln -s $(build-classpath osgi-annotation) osgi/bundles/org.eclipse.osgi.services.remoteserviceadmin/osgi/osgi.annotation.jar
 
+# Fix doc-build on Java 11
+%if 0%{?fedora} >= 33 || 0%{?eln}
+%pom_xpath_inject "pom:configuration/pom:dependencies" "<dependency><artifactId>jakarta.annotation-api</artifactId><type>eclipse-plugin</type></dependency>" doc/bundles/org.eclipse.ecf.doc
+%else
+%pom_xpath_inject "pom:configuration/pom:dependencies" "<dependency><artifactId>javax.annotation-api</artifactId><type>eclipse-plugin</type></dependency>" doc/bundles/org.eclipse.ecf.doc
+%endif
+
+# Fix dep on ASM 8
+sed -i -e '/org.objectweb.asm/s/8\.0\.0/9.0.0/' protocols/bundles/ch.ethz.iks.r_osgi.remote/META-INF/MANIFEST.MF
+
 %if %{with bootstrap}
 # Only build core modules when bootstrapping
 %pom_xpath_replace "pom:modules" "<modules>
@@ -247,6 +257,22 @@ popd
 %endif
 
 %changelog
+* Wed Oct 07 2020 Jie Kang <jkang@redhat.com> - 3.14.8-6
+- Update fedora macro to include eln
+
+* Sun Aug 16 2020 Mat Booth <mat.booth@redhat.com> - 3.14.8-5
+- Fix build against ASM 8
+
+* Mon Aug 10 2020 Mat Booth <mat.booth@redhat.com> - 3.14.8-4
+- Allow building on JDK 11
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14.8-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Mat Booth <mat.booth@redhat.com> - 3.14.8-1
 - Update to latest upstream release
 - License switch to EPL 2

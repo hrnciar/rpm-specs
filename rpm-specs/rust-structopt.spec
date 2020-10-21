@@ -5,7 +5,7 @@
 %global crate structopt
 
 Name:           rust-%{crate}
-Version:        0.3.15
+Version:        0.3.18
 Release:        1%{?dist}
 Summary:        Parse command line argument by defining a struct
 
@@ -124,6 +124,18 @@ which use "paw" feature of "%{crate}" crate.
 %files       -n %{name}+paw-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+paw_dep-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+paw_dep-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "paw_dep" feature of "%{crate}" crate.
+
+%files       -n %{name}+paw_dep-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+suggestions-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -181,6 +193,19 @@ which use "yaml" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Sep 23 2020 Fabio Valentini <decathorpe@gmail.com> - 0.3.18-1
+- Update to version 0.3.18.
+
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 0.3.17-1
+- Update to 0.3.17
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.15-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.15-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Josh Stone <jistone@redhat.com> - 0.3.15-1
 - Update to 0.3.15
 

@@ -1,12 +1,17 @@
-%bcond_without clang
+%undefine __cmake_in_source_build
+%bcond_with clang
 
 %if %{with clang}
+%if 0%{?fedora} && 0%{?fedora} >= 33
+%global toolchain clang
+%else
 %global optflags %(echo %{optflags} | sed -e 's/-mcet//g' -e 's/-fcf-protection//g' -e 's/-fstack-clash-protection//g' -e 's/$/ -Qunused-arguments -Wno-unknown-warning-option -Wno-deprecated-declarations/')
+%endif
 %endif
 
 Name: nheko
 Version: 0.7.2
-Release: 1%{?dist}
+Release: 3%{?dist}
 
 Summary: Desktop client for the Matrix protocol
 License: GPLv3+
@@ -55,6 +60,9 @@ BuildRequires: clang
 BuildRequires: llvm
 %endif
 
+# Require exact version of Qt due to compiled QML usage.
+%{?_qt5:Requires: %{_qt5}%{?_isa} = %{_qt5_version}}
+
 Requires: hicolor-icon-theme
 
 %description
@@ -63,11 +71,9 @@ for Matrix that feels more like a mainstream chat app.
 
 %prep
 %autosetup -p1
-mkdir -p %{_target_platform}
 
 %build
-pushd %{_target_platform}
-    %cmake -G Ninja \
+%cmake -G Ninja \
 %if %{with clang}
     -DCMAKE_C_COMPILER=%{_bindir}/clang \
     -DCMAKE_CXX_COMPILER=%{_bindir}/clang++ \
@@ -94,13 +100,11 @@ pushd %{_target_platform}
     -DUSE_BUNDLED_TWEENY:BOOL=OFF \
     -DUSE_BUNDLED_JSON:BOOL=OFF \
     -DUSE_BUNDLED_OPENSSL:BOOL=OFF \
-    -DUSE_BUNDLED_SODIUM:BOOL=OFF \
-    ..
-popd
-%ninja_build -C %{_target_platform}
+    -DUSE_BUNDLED_SODIUM:BOOL=OFF
+%cmake_build
 
 %install
-%ninja_install -C %{_target_platform}
+%cmake_install
 
 %check
 appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdata.xml
@@ -115,6 +119,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.*
 
 %changelog
+* Sat Oct 17 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 0.7.2-3
+- Rebuilt due to Qt update.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 0.7.2-1
 - Updated to version 0.7.2.
 

@@ -1,8 +1,12 @@
 %global debug_package %{nil}
 
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+%bcond_without flexiblas
+%endif
+
 Name:           CImg
 Epoch:          1
-Version:        2.9.1
+Version:        2.9.2
 Release:        1%{?dist}
 Summary:        C++ Template Image Processing Toolkit
 # CImg.h: Dual licensed
@@ -16,7 +20,12 @@ BuildRequires:  gcc-c++
 BuildRequires:  cmake
 BuildRequires:  fftw-devel
 BuildRequires:  ImageMagick-c++-devel
+%if %{with flexiblas}
+BuildRequires:	flexiblas-devel
+%else
+BuildRequires:	blas-devel
 BuildRequires:  lapack-devel
+%endif
 BuildRequires:  libjpeg-devel
 BuildRequires:  libpng-devel
 BuildRequires:  libtiff-devel
@@ -45,6 +54,9 @@ developing applications that use %{name}.
 %prep
 %setup -q
 sed -i 's|$(X11PATH)/lib|$(X11PATH)/%{_lib}|g' examples/Makefile
+%if %{with flexiblas}
+sed -i 's|-lblas -llapack|-lflexiblas|g' examples/Makefile
+%endif
 
 %build
 # This is a headers only package.
@@ -66,6 +78,19 @@ make -C examples linux %{?_smp_mflags}
 %{_includedir}/%{name}/
 
 %changelog
+* Tue Sep 08 2020 josef radinger <cheese@nosuchhost.net> - 1:2.9.2-1
+- bump version
+
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1:2.9.1-4
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.9.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 12 2020 josef radinger <cheese@nosuchhost.net> - 1:2.9.1-1
 - bump version
 

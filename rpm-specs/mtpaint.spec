@@ -7,7 +7,7 @@
 Summary:       Painting program for creating icons and pixel-based artwork
 Name:          mtpaint
 Version:       3.49.13
-Release:       9%{?dist}
+Release:       10%{?dist}
 License:       GPLv3+
 URL:           http://mtpaint.sourceforge.net/
 Source0:       https://github.com/wjaguar/mtPaint/archive/%{commit}/%{name}-%{version}.tar.gz
@@ -132,6 +132,9 @@ EOF
 %license %{name}_handbook-%{docver}/COPYING
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.49.13-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 01 2020 Terje Rosten <terje.rosten@ntnu.no> - 3.49.13-9
 - Add GCC 10 workaround
 

@@ -2,7 +2,7 @@ Name: hunspell-hil
 Summary: Hiligaynon hunspell dictionaries
 Epoch: 1
 Version: 0.14
-Release: 18%{?dist}
+Release: 19%{?dist}
 Source: https://addons.mozilla.org/firefox/downloads/file/108895/litreoir_hiligaynon-%{version}-tb+fx+sm.xpi
 URL: http://extensions.services.openoffice.org/project/hunspell-hil
 License: GPLv2+
@@ -40,6 +40,9 @@ cp -p dictionaries/hil.aff $RPM_BUILD_ROOT/%{_datadir}/myspell/hil_PH.aff
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.14-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.14-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

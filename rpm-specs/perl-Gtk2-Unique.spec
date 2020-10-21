@@ -3,7 +3,7 @@
 
 Name:			perl-Gtk2-Unique
 Version:		0.05
-Release:		30%{?dist}
+Release:		31%{?dist}
 Summary:		Perl bindings for the C library "libunique"
 License:		GPL+ or Artistic
 URL:			https://metacpan.org/release/Gtk2-Unique
@@ -104,6 +104,9 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{perl_vendorarch}/Gtk2/Unique/Install/*.h
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.05-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.05-30
 - Perl 5.32 rebuild
 

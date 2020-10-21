@@ -1,15 +1,8 @@
-%global _hardened_build 1
-%global cmake_pkg cmake
-%if 0%{?rhel}
-%if 0%{?rhel} < 7
-%global cmake_pkg cmake28
-%global legacy_el 1
-%endif
-%endif
+%undefine __cmake_in_source_build
 
 Name:		zbackup
 Version:	1.4.4
-Release:	18%{?dist}
+Release:	21%{?dist}
 Summary:	A versatile deduplicating backup tool
 
 License:	GPLv2+ with exceptions
@@ -18,7 +11,7 @@ Source0:	https://github.com/zbackup/zbackup/archive/%{version}.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
-BuildRequires:	%{cmake_pkg} >= 2.8.2
+BuildRequires:	cmake >= 2.8.2
 BuildRequires:	xz-devel
 BuildRequires:	openssl-devel
 BuildRequires:	protobuf-devel
@@ -39,43 +32,38 @@ required is very low.
 %setup -q
 
 %build
-mkdir -p objdir tartool/objdir
-pushd objdir
-%{?cmake28}%{!?cmake28:%{?cmake}} ..
-make %{?_smp_mflags}
-popd
-pushd tartool/objdir
-%{?cmake28}%{!?cmake28:%{?cmake}} ..
-make %{?_smp_mflags}
-popd
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
+%cmake
+%cmake_build
+cd tartool
+%cmake
+%cmake_build
+cd -
 
 %install
-%if 0%{?legacy_el}
-rm -rf %{buildroot}
-%endif
-make install -C objdir DESTDIR=%{buildroot}
-install tartool/objdir/tartool %{buildroot}%{_bindir}/
-%if 0%{?legacy_el}
-grep -v travis README.md | pandoc -s -f markdown -t man -o %{name}.1 \
--V title=%{name} -V section=1 -V date="$(LANG=C date -d @$(stat -c'%Z' README.md) +'%B %d, %Y')"
-%else
+%cmake_install
+install -Dpm0755 tartool/%{_vpath_builddir}/tartool %{buildroot}%{_bindir}/
 grep -v travis README.md | pandoc -s -f markdown_github -t man -o %{name}.1 \
 -V title=%{name} -V section=1 -V date="$(LANG=C date -d @$(stat -c'%Z' README.md) +'%B %d, %Y')"
-%endif
-install -D -m 644 %{name}.1 %{buildroot}%{_mandir}/man1/%{name}.1
+install -D -p -m 644 %{name}.1 %{buildroot}%{_mandir}/man1/%{name}.1
 ln -s %{name}.1 %{buildroot}%{_mandir}/man1/tartool.1
 
 %files
-%{_bindir}/*
-%{_mandir}/man1/*.1.*
-%if 0%{?legacy_el}
-%doc LICENSE LICENSE-GPL* CONTRIBUTORS
-%else
 %license LICENSE LICENSE-GPL*
 %doc CONTRIBUTORS
-%endif
+%{_bindir}/*
+%{_mandir}/man1/*.1*
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 1.4.4-21
+- Rebuilt for protobuf 3.13
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-20
+- Force C++14 as this code is not yet C++17 ready
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 1.4.4-18
 - Rebuilt for protobuf 3.12
 

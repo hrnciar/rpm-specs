@@ -1,7 +1,7 @@
 Name: gthumb
 Epoch: 1
-Version: 3.10.0
-Release: 2%{?dist}
+Version: 3.10.1
+Release: 1%{?dist}
 Summary: Image viewer, editor, organizer
 
 License: GPLv2+
@@ -76,6 +76,12 @@ package.
 %{_datadir}/aclocal/*
 
 %changelog
+* Sun Sep 20 2020 Kalev Lember <klember@redhat.com> - 1:3.10.1-1
+- Update to 3.10.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.10.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 1:3.10.0-2
 - Rebuild for new LibRaw
 

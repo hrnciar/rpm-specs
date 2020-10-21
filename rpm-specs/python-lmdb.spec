@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.92
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        %{sum}
 
 License:        OpenLDAP
@@ -64,6 +64,9 @@ nosetests-%{python3_version} -v
 %{python3_sitearch}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.92-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.92-13
 - Rebuilt for Python 3.9
 

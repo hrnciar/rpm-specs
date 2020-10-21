@@ -2,13 +2,13 @@
 %global gtk3_version 3.24.0
 
 Name:           libdazzle
-Version:        3.36.0
+Version:        3.38.0
 Release:        1%{?dist}
 Summary:        Experimental new features for GTK+ and GLib
 
 License:        GPLv3+
 URL:            https://git.gnome.org/browse/libdazzle/
-Source0:        https://download.gnome.org/sources/%{name}/3.36/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires:  gtk-doc
 BuildRequires:  meson
@@ -84,6 +84,15 @@ xvfb-run -w 10 ninja test %{__ninja_common_opts} -C %{_vpath_builddir}
 
 
 %changelog
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Kalev Lember <klember@redhat.com> - 3.37.1-1
+- Update to 3.37.1
+
 * Fri Mar 06 2020 Kalev Lember <klember@redhat.com> - 3.36.0-1
 - Update to 3.36.0
 

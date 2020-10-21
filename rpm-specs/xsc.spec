@@ -1,6 +1,6 @@
 Name: xsc
 Version:  1.6
-Release:  10%{?dist}
+Release:  11%{?dist}
 Summary: A clone of the old vector graphics video game Star Castle
 
 License: GPLv2+
@@ -47,6 +47,9 @@ install -p -m 644 %{SOURCE2} \
 %{_datadir}/icons/hicolor/32x32/apps/xsc.png
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

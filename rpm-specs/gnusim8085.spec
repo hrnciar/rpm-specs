@@ -1,101 +1,75 @@
 Name:		gnusim8085
-Version:	1.3.7
-Release:	21%{?dist}
+Version:	1.4.1
+Release:	1%{?dist}
 Summary:	Graphical simulator for 8085 assembly language
 
 License:	GPLv2+
-URL:		http://gnusim8085.org/
-Source0:	http://launchpad.net/%{name}/trunk/%{version}/+download/%{name}-%{version}.tar.gz
+URL:		http://gnusim8085.srid.ca/
+Source0:	https://github.com/GNUSim8085/GNUSim8085/archive/%{version}/%{name}-%{version}.tar.gz
 
 %{!?_pkgdocdir:%global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 BuildRequires:  gcc
-BuildRequires:	gtksourceview2-devel
+BuildRequires:  automake
+BuildRequires:	gtksourceview3-devel
 BuildRequires:	desktop-file-utils
 BuildRequires:	gettext-devel
+BuildRequires:  libappstream-glib
 
 Requires:	electronics-menu
 
 %description
-GNUSim8085 is a graphical simulator for Intel 8085
-microprocessor assembly language. It has some very
-nice features including a keypad which can be used
-to write assembly language programs with much ease.
-It also has stack, memory and port viewers which
-can be used for debugging the programs.
-
+GNUSim8085 is a graphical simulator for Intel 8085 microprocessor assembly
+language. It has some very nice features including a keypad which can be used
+to write assembly language programs with much ease. It also has stack, memory
+and port viewers which can be used for debugging the programs.
 
 %prep
-%setup -q
+%autosetup -n GNUSim8085-%{version}
 
 %build
+aclocal -I m4
+autoheader
+autoconf
+automake -a -c
 %configure --docdir %{_pkgdocdir} --disable-silent-rules
-make %{?_smp_mflags} CFLAGS="%{optflags}"
+%make_build
 
 %install
-rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_datadir}/pixmaps/%{name}
-make INSTALL="install -p" DESTDIR=%{buildroot} install
-install -p -m 0644 COPYING %{buildroot}%{_pkgdocdir}
+%make_install
+%find_lang %{name}
 
+%check
 desktop-file-install --vendor "" \
 --add-category "Electronics" \
 --delete-original \
 --dir %{buildroot}%{_datadir}/applications/ \
 %{buildroot}%{_datadir}/applications/GNUSim8085.desktop
-
-# Register as an application to be visible in the software center
-#
-# NOTE: It would be *awesome* if this file was maintained by the upstream
-# project, translated and installed into the right place during `make install`.
-#
-# See http://www.freedesktop.org/software/appstream/docs/ for more details.
-#
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/appdata
-cat > $RPM_BUILD_ROOT%{_datadir}/appdata/GNUSim8085.appdata.xml <<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2014 Ryan Lerch <rlerch@redhat.com> -->
-<!--
-BugReportURL: https://bugs.launchpad.net/gnusim8085/+bug/1322687
-SentUpstream: 2014-07-02
--->
-<application>
-  <id type="desktop">GNUSim8085.desktop</id>
-  <metadata_license>CC0-1.0</metadata_license>
-  <summary>Intel 8085 microprocessor simulator</summary>
-  <description>
-    <p>
-      GNUSim8085 is a simulator for that emulates the Intel 8085 -- an 8 bit
-      microprocessor that was first released in 1977. This simulator features
-      a keypad for writing assembly code with ease, as well as stack, memory
-      and port viewers which are useful for debugging 8085 assembly code.
-    </p>
-  </description>
-  <url type="homepage">http://gnusim8085.org/</url>
-  <url type="bugtracker">https://bugs.launchpad.net/gnusim8085</url>
-  <screenshots>
-    <screenshot type="default">https://raw.githubusercontent.com/hughsie/fedora-appstream/master/screenshots-extra/GNUSim8085/a.png</screenshot>
-  </screenshots>
-  <!-- FIXME: change this to an upstream email address for spec updates
-  <updatecontact>someone_who_cares@upstream_project.org</updatecontact>
-   -->
-</application>
-EOF
-
-%find_lang %{name}
-
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 
 %files -f %{name}.lang
-%{_pkgdocdir}
+%doc ABOUT-NLS AUTHORS ChangeLog NEWS README.md TODO asm-guide.txt examples/
+%license COPYING
 %{_mandir}/man1/%{name}.1*
 %{_bindir}/gnusim8085
-%{_datadir}/appdata/*.appdata.xml
+%{_metainfodir}/gnusim8085.appdata.xml
 %{_datadir}/applications/GNUSim8085.desktop
 %{_datadir}/gnusim8085/
 %{_datadir}/pixmaps/gnusim8085/
 %{_datadir}/icons/hicolor/scalable/apps/gnusim8085.svg
 
 %changelog
+* Sun Aug 09 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.4.1-1
+- Update to latest upstream release 1.4.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.7-23
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.7-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.7-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 Name:           python-%{pypi_name}
 Version:        4.0.3
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        Python Publish-Subscribe Package
 
 License:        BSD
@@ -13,6 +13,7 @@ BuildArch:      noarch
 
 BuildRequires:  python3-devel
 BuildRequires:  python3-pytest
+BuildRequires:  python3-setuptools
 
 %description
 PyPubSub provides a publish - subscribe API that facilitates the development of
@@ -58,6 +59,12 @@ popd
 %{python3_sitelib}/pubsub/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Scott Talbert <swt@techie.net> - 4.0.3-8
+- Add missing BR for setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.0.3-7
 - Rebuilt for Python 3.9
 

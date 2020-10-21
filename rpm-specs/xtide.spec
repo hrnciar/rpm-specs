@@ -1,14 +1,8 @@
-%define          mainver   2.15.2
+%define          mainver   2.15.3
 #%%define          betatag   dev-20160114
 %define          dwfdate   20191229
 
-%global          use_systemd_unit 1
-%if 0%{?fedora} <= 23
-%global          use_systemd_unit 0
-%endif
-
-
-%define          fedorarel 2
+%define          fedorarel 1
 
 
 %define          rel        %{?betatag:0.}%{fedorarel}%{?betatag:.%(echo %betatag | sed -e 's|-||g')}
@@ -20,7 +14,7 @@ Version:         %{mainver}
 Release:         %{rel}%{?dist}
 
 URL:             http://www.flaterco.com/xtide/
-Source0:         ftp://ftp.flaterco.com/xtide/%{name}-%{version}%{?betatag:-%betatag}.tar.bz2
+Source0:         ftp://ftp.flaterco.com/xtide/%{name}-%{version}%{?betatag:-%betatag}.tar.xz
 
 Source14:        xtide-get_harmonics-data.sh
 Source20:        %{name}.desktop
@@ -35,8 +29,6 @@ Source30:        xtide-README.fedora
 #Source40:        Harminics-USpart-recreate-sh.tar.bz2
 #Source41:        harmonics-dwf-%{dwfdate}-dump-US.tar.bz2
 Source42:        ftp://ftp.flaterco.com/xtide/harmonics-dwf-%{dwfdate}-free.tar.xz
-# new systemd ( >= 37.4? ) needs pidfile
-Patch0:          xtide-2.12.1-rcscript-pidfile.patch
 
 License:         GPLv3+
 
@@ -49,10 +41,8 @@ BuildRequires:   desktop-file-utils
 BuildRequires:   libdstr-devel
 BuildRequires:   libtcd-devel
 BuildRequires:   gpsd-devel >= 3
-%if %{?use_systemd_unit}
 BuildRequires:   systemd
 BuildRequires:   systemd-devel
-%endif
 # By SOURCE1
 BuildRequires:   automake
 BuildRequires:   autoconf
@@ -67,16 +57,9 @@ Requires:        xtide-common = %{version}-%{release}
 Requires:        libxtide%{?_isa} = %{version}-%{release}
 
 Requires(pre):      shadow-utils
-%if %{?use_systemd_unit}
 Requires(preun):    systemd
 Requires(postun):   systemd
 Requires(post):     systemd
-%else
-Requires(preun):    /sbin/service
-Requires(preun):    /sbin/chkconfig
-Requires(postun):   /sbin/service
-Requires(post):     /sbin/chkconfig
-%endif
 
 %package -n      libxtide
 Summary:         XTide library
@@ -158,8 +141,6 @@ grep -rl 'include.*<Dstr>' . | while read f ; do
 	sed -i.name -e 's|\(include.*\)<Dstr>|\1<Dstr.h>|' $f
 done
 
-%patch0 -p1 -b .pid
-
 # Embed version
 sed -i.ver \
 	-e "\@^PACKAGE_VERSION=@s|'.*'$|'%{version}-%{release}'|" \
@@ -185,11 +166,7 @@ export CFLAGS="%{optflags} -DJGFeatures"
 export CXXFLAGS="%{optflags} -DJGFeatures"
 
 %configure \
-%if %{use_systemd_unit}
    --enable-systemd \
-%else
-   --disable-systemd \
-%endif
 %if 0
    --enable-moon-age \
 %endif
@@ -210,9 +187,6 @@ echo "%{_datadir}/wvs-data/" >> %{name}.conf
    install
 
 %{__mkdir_p} $RPM_BUILD_ROOT%{_sbindir}
-%if ! 0%{?use_systemd_unit}
-%{__mkdir_p} $RPM_BUILD_ROOT%{_libexecdir}
-%endif
 
 # xttpd treatment
 # xttpd is wrapped
@@ -221,19 +195,12 @@ echo "%{_datadir}/wvs-data/" >> %{name}.conf
 %{__install} -c -p -m 755 xtide-get_harmonics-data.sh \
    $RPM_BUILD_ROOT%{_sbindir}
 
-%if ! 0%{?use_systemd_unit}
-%{__mv} $RPM_BUILD_ROOT%{_sbindir}/xttpd $RPM_BUILD_ROOT%{_libexecdir}
-%{__install} -c -p -m 755 scripts/Fedora/xttpd-wrapper.sh \
-   $RPM_BUILD_ROOT%{_sbindir}/xttpd
-%endif
-
 # ensure xttpd binary installation directory (original
 # wrapper script is hardcorded)
 %{__sed} -i -e 's|/usr/libexec|%{_libexecdir}|' \
    $RPM_BUILD_ROOT%{_sbindir}/xttpd
 
 # Install systemd unit file
-%if 0%{?use_systemd_unit}
 %{__mkdir_p} ${RPM_BUILD_ROOT}%{_unitdir}
 %{__install} -c -p -m 644 \
 	scripts/systemd/xttpd.socket \
@@ -249,7 +216,6 @@ echo "%{_datadir}/wvs-data/" >> %{name}.conf
 %{__install} -c -p -m 644 \
 	scripts/systemd/xttpd.socket \
 	$RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/xttpd.socket
-%endif
 
 # 1A Install harmonics file
 %{__mkdir_p} ${RPM_BUILD_ROOT}%{_datadir}/%{name}
@@ -284,13 +250,6 @@ done
 %{__mkdir_p} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
 %{__mkdir_p} $RPM_BUILD_ROOT%{_sysconfdir}/xtide
 
-%if ! 0%{?use_systemd_unit}
-%{__install} -c -p -m 755 scripts/Fedora/rc.xttpd \
-   $RPM_BUILD_ROOT%{_initddir}/xttpd
-%{__install} -c -p -m 644 scripts/Fedora/xttpd.conf \
-   $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/xttpd
-%endif
-
 # 1F and others
 %{__install} -c -p -m 644 %{SOURCE30} README.fedora
 
@@ -313,21 +272,11 @@ cp -a harmonics-dwf-%{dwfdate}/[A-Z]* \
 rm -rf $RPM_BUILD_ROOT%{_libdir}/libxtide.{a,la}
 
 %post
-%if 0%{?use_systemd_unit}
 %systemd_post xttpd.socket xttpd.service
-%else
-/sbin/chkconfig --add xttpd
-%endif
 exit 0
 
 %postun
-%if 0%{?use_systemd_unit}
 %systemd_postun xttpd.socket xttpd.service
-%else
-if [ $1 -ge 1 ] ; then
-   /sbin/service xttpd condrestart &>/dev/null || :
-fi
-%endif
 exit 0
 
 
@@ -345,14 +294,7 @@ getent passwd xttpd &> /dev/null || \
 exit 0
 
 %preun
-%if 0%{?use_systemd_unit}
 %systemd_preun xttpd.socket xttpd.service
-%else
-if [ $1 = 0 ] ; then
-   /sbin/service xttpd stop &>/dev/null
-   /sbin/chkconfig --del xttpd
-fi
-%endif
 exit 0
 
 %ldconfig_scriptlets -n libxtide
@@ -382,7 +324,6 @@ exit 0
 %defattr(-,root,root,-)
 
 %doc AUTHORS README README-QUICK
-%doc scripts/DOS/.xtide.xml
 %license COPYING
 # xtide
 %{_mandir}/man1/*tide.1*
@@ -394,26 +335,21 @@ exit 0
 %{_bindir}/*tide
 
 # xttpd
-%if 0%{?use_systemd_unit}
 %config(noreplace) %{_sysconfdir}/sysconfig/xttpd.service.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/xttpd.socket
-%else
-%config(noreplace) %{_sysconfdir}/sysconfig/xttpd
-%endif
-%if 0%{?use_systemd_unit}
 %{_unitdir}/xttpd.service
 %{_unitdir}/xttpd.socket
-%else
-%{_initddir}/xttpd
-%endif
 
 %{_sbindir}/xttpd
-%if ! 0%{?use_systemd_unit}
-%{_libexecdir}/xttpd
-%endif
 %{_datadir}/man/man8/xttpd.8*
 
 %changelog
+* Sun Aug  9 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 2.15.3-1
+- 2.15.3
+
+* Fri Aug 07 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 2.15.2-2.1
+- F-33: mass rebuild
+
 * Tue Jan 28 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 2.15.2-2
 - harmonics data update (20191229)
 

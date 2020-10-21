@@ -1,9 +1,9 @@
 %global srcname cache_tab
 
-%global p1_utils_ver 1.0.17
+%global p1_utils_ver 1.0.20
 
 Name: erlang-cache_tab
-Version: 1.0.21
+Version: 1.0.25
 Release: 1%{?dist}
 
 License: ASL 2.0
@@ -52,6 +52,17 @@ install -p -D -m 755 priv/lib/* --target-directory=%{buildroot}%{erlang_appdir}/
 
 
 %changelog
+* Fri Jul 31 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.25-1
+- Update to 1.0.25 (#1807250).
+- https://github.com/processone/cache_tab/blob/1.0.25/CHANGELOG.md
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.21-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.21-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 14 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.21-1
 - Update to 1.0.21 (#1789138).
 - https://github.com/processone/cache_tab/blob/1.0.21/CHANGELOG.md

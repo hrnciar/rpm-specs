@@ -12,12 +12,12 @@
 
 Name:           librsvg2
 Summary:        An SVG library based on cairo
-Version:        2.48.7
+Version:        2.50.1
 Release:        1%{?dist}
 
 License:        LGPLv2+
 URL:            https://wiki.gnome.org/Projects/LibRsvg
-Source0:        https://download.gnome.org/sources/librsvg/2.48/librsvg-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/librsvg/2.50/librsvg-%{version}.tar.xz
 
 BuildRequires:  chrpath
 BuildRequires:  gcc
@@ -32,7 +32,6 @@ BuildRequires:  pkgconfig(gio-2.0)
 BuildRequires:  pkgconfig(gio-unix-2.0)
 BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  pkgconfig(gthread-2.0)
-BuildRequires:  pkgconfig(libcroco-0.6)
 BuildRequires:  pkgconfig(libxml-2.0)
 BuildRequires:  pkgconfig(pangocairo)
 BuildRequires:  pkgconfig(pangoft2)
@@ -135,6 +134,18 @@ rm -vrf %{buildroot}%{_datadir}/doc
 %{_mandir}/man1/rsvg-convert.1*
 
 %changelog
+* Mon Oct  5 2020 Kalev Lember <klember@redhat.com> - 2.50.1-1
+- Update to 2.50.1
+
+* Fri Sep 11 2020 Kalev Lember <klember@redhat.com> - 2.50.0-1
+- Update to 2.50.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.48.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Kalev Lember <klember@redhat.com> - 2.48.8-1
+- Update to 2.48.8
+
 * Fri Jun 05 2020 Kalev Lember <klember@redhat.com> - 2.48.7-1
 - Update to 2.48.7
 

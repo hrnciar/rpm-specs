@@ -10,9 +10,12 @@
 %bcond_without python2
 %endif
 
+# Don't have sphinx-sitemaps for now...
+%bcond_with docs
+
 Name:           python-deepdiff
-Version:        4.3.1
-Release:        2%{?dist}
+Version:        5.0.2
+Release:        1%{?dist}
 Summary:        Deep Difference and search of any Python object/data
 License:        MIT
 URL:            https://github.com/seperman/deepdiff/
@@ -27,7 +30,11 @@ BuildRequires:  python2dist(jsonpickle)
 BuildRequires:  python2dist(mock)
 BuildRequires:  python2dist(setuptools)
 # For docs
+%if %{with docs}
 BuildRequires:  python2dist(sphinx)
+BuildRequires:  python2-dotenv
+BuildRequires:  python2-sphinx-sitemap
+%endif
 # For tests
 BuildRequires:  python2dist(numpy)
 %endif
@@ -39,7 +46,11 @@ BuildRequires:  python3dist(jsonpickle)
 BuildRequires:  python3dist(mock)
 BuildRequires:  python3dist(setuptools)
 # For docs
+%if %{with docs}
 BuildRequires:  python3dist(sphinx)
+BuildRequires:  python3-dotenv
+BuildRequires:  python3-sphinx-sitemap
+%endif
 # For tests
 BuildRequires:  python3dist(numpy)
 %endif
@@ -58,7 +69,8 @@ Deep Difference of dictionaries, iterables, strings and other
 objects. It will recursively look for all the changes.
 
 This is the Python 2 package.
-%endif # with python2
+%endif
+# end with python2
 
 %if %{with python3}
 %package     -n python3-deepdiff
@@ -70,7 +82,8 @@ Deep Difference of dictionaries, iterables, strings and other
 objects. It will recursively look for all the changes.
 
 This is the Python 3 package.
-%endif # with python3
+%endif 
+# end with python3
 
 
 %prep
@@ -84,12 +97,15 @@ find deepdiff/ -name \*.py -exec sed -i '/#!\/usr\/bin\/env /d' {} \;
 
 %if %{with python3}
 %{py3_build}
-%endif # with python3
+%endif
+# end with python3
 
+%if %{with docs}
 # Build docs
 make -C docs html
 # remove the sphinx-build leftovers
 rm -rf docs/_build/html/.{doctrees,buildinfo}
+%endif
 
 %install
 # Must do the python3 install first because the scripts in /usr/bin are
@@ -97,11 +113,13 @@ rm -rf docs/_build/html/.{doctrees,buildinfo}
 # to be the default for now).
 %if %{with python3}
 %{py3_install}
-%endif # with python3
+%endif 
+# end with python3
 
 %if %{with python2}
 %{py2_install}
-%endif # with python2
+%endif
+# end with python2
 
 %check
 %if %{with python3}
@@ -114,7 +132,10 @@ rm -rf docs/_build/html/.{doctrees,buildinfo}
 %if %{with python2}
 %files -n python2-deepdiff
 %license LICENSE
-%doc AUTHORS README.md docs/_build/html
+%doc AUTHORS README.md
+%if %{with docs}
+%doc docs/_build/html
+%endif
 %{python2_sitelib}/deepdiff/
 %{python2_sitelib}/deepdiff-%{version}-py*.egg-info
 %endif
@@ -122,13 +143,22 @@ rm -rf docs/_build/html/.{doctrees,buildinfo}
 %if %{with python3}
 %files -n python3-deepdiff
 %license LICENSE
-%doc AUTHORS README.md docs/_build/html
+%doc AUTHORS README.md
+%if %{with docs}
+%doc docs/_build/html
+%endif
 %{python3_sitelib}/deepdiff/
 %{python3_sitelib}/deepdiff-%{version}-py*.egg-info
-%endif # with python3
-
+%endif
+# end with python3
 
 %changelog
+* Tue Aug 11 2020 Susi Lehtola <jussilehtola@fedoraproject.org> - 5.0.2-1
+- Update to 5.0.2.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.3.1-2
 - Rebuilt for Python 3.9
 

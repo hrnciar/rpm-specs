@@ -24,7 +24,7 @@ setting values. That's it.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Embedded key/value database for Go
 
 License:        MIT
@@ -76,6 +76,9 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 01:30:16 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.3.1-10
 - Add patch to build with Go 1.14
 

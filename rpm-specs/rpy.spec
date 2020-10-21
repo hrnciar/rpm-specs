@@ -1,10 +1,10 @@
 %global srcname rpy
 %global sum Python interface to the R language
-%global rver   4.0.2
+%global rver   4.0.3
 
 Name:          rpy
-Version:       3.3.3
-Release:       6%{?dist}
+Version:       3.3.6
+Release:       1%{?dist}
 Summary:       %{sum}
 License:       GPLv2+
 Url:           https://pypi.python.org/pypi/rpy2
@@ -30,7 +30,9 @@ converted to Python exceptions.
 %package -n python3-%{srcname}
 Summary:       %{sum}
 Requires:      R-core = %{rver}
+%if (0%{?fedora} && 0%{?fedora} < 33)
 %{?python_provide:%python_provide python3-%{srcname}}
+%endif
 
 %description -n python3-%{srcname}
 RPy provides a robust Python interface to the R
@@ -53,7 +55,7 @@ export CFLAGS="$RPM_OPT_FLAGS -DHAVE_UINTPTR_T=1"
 %check
 # The tests are in the source and they work after the installation
 # cd %{srcname}2
-# export PYTHONPATH=%{buildroot}%{python_sitearch}
+# export PYTHONPATH=%{buildroot}%{python3_sitearch}
 # pytest
 
 
@@ -68,6 +70,23 @@ export CFLAGS="$RPM_OPT_FLAGS -DHAVE_UINTPTR_T=1"
 %{python3_sitearch}/__pycache__/*
 
 %changelog
+* Tue Oct 13 2020 Tom Callaway <spot@fedoraproject.org> - 3.3.6-1
+- update to 3.3.6
+- R 4.0.3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.5-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 José Matos <jamatos@fedoraproject.org> - 3.3.5-1
+- update to 3.3.5
+
+* Thu Jun 25 2020 José Matos <jamatos@fedoraproject.org> - 3.3.4-1
+- update to 3.3.4
+
 * Tue Jun 23 2020 Tom Callaway <spot@fedoraproject.org> - 3.3.3-6
 - rebuild for R 4.0.2
 

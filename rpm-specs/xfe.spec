@@ -3,7 +3,7 @@
 
 Name:		xfe
 Version:	1.43.2
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	X File Explorer File Manager
 
 License:	GPLv2+
@@ -143,6 +143,9 @@ ln -sf %{_sysconfdir}/xferc %{buildroot}%{_datadir}/%{name}/xferc
 %exclude	%{_datadir}/%{name}/icons/gnome*-theme/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.43.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.43.2-3
 - Fix libreoffice binding (bug 1788292)
 

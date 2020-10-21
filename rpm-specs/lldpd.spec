@@ -10,7 +10,7 @@
 
 Name:     lldpd
 Version:  1.0.4
-Release:  2%{?dist}
+Release:  5%{?dist}
 Summary:  ISC-licensed implementation of LLDP
 
 License:  ISC
@@ -172,6 +172,15 @@ fi
 
 
 %changelog
+* Tue Sep 29 20:35:23 CEST 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.0.4-5
+- Rebuilt for libevent 2.1.12
+
+* Wed Sep 02 2020 Josef Ridky <jridky@redhat.com> - 1.0.4-4
+- Rebuilt for new net-snmp release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

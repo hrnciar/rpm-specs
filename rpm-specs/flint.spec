@@ -6,54 +6,29 @@
 %global hm_date 20140328
 
 Name:           flint
-Version:        2.5.2
-Release:        31%{?dist}
+Version:        2.6.3
+Release:        1%{?dist}
 Summary:        Fast Library for Number Theory
-License:        GPLv2+
+
+# Flint itself is LGPLv2+.  The hmod_mat extension is GPLv2+.
+License:        LGPLv2+ and GPLv2+
 URL:            http://www.flintlib.org/
 Source0:        http://www.flintlib.org/%{name}-%{version}.tar.gz
 Source1:        https://github.com/%{hm_user}/%{hm_name}/archive/%{hm_commit}/%{hm_name}-%{hm_shortcommit}.tar.gz
 # Make the hmod_mat extension use gmp instead of mpir
 Patch0:         %{name}-hmod_mat.patch
-# Bug fixes from upstream git
-Patch1:         %{name}-2.5.2-bugfix.patch
-# Fix an endless loop with 80-bit floating point on i386
-Patch2:         %{name}-float.patch
-# https://bugzilla.redhat.com/show_bug.cgi?id=1270271
-Patch3:         %{name}-gcc5.patch
 # Use the popcnt instruction when available
-Patch4:         %{name}-popcnt.patch
-# Adapt to recent LaTeX encoding changes and fix other LaTeX problems
-Patch5:         %{name}-latex.patch
-# Fix issues with longlong.h
-# https://sources.debian.org/patches/flint/2.5.2-19/undef_count_leading_zeros.patch/
-# https://sources.debian.org/patches/flint/2.5.2-19/asm_volatile_div.patch/
-Patch6:         %{name}-longlong.patch
-# Fix buffer overruns
-Patch7:         %{name}-overrun.patch
-# Fix a typo that could cause a crash
-Patch8:         %{name}-fmpz-poly-q-clear.patch
-# Fix bugs in tests
-Patch9:         %{name}-test.patch
-# Sagemath patch to fix conflict between -pie and -Wl,-r
-Patch10:        %{name}-pie-hardening-conflict.patch
-# Adapt to mpfr 4
-Patch11:        %{name}-mpfr4.patch
+Patch1:         %{name}-popcnt.patch
 
-BuildRequires:  gc-devel
+
+BuildRequires:  flexiblas-devel
 BuildRequires:  gcc-c++
 BuildRequires:  gmp-devel
-BuildRequires:  mpfr-devel
 BuildRequires:  ntl-devel
-BuildRequires:  openblas-devel
+BuildRequires:  pkgconfig(bdw-gc)
+BuildRequires:  pkgconfig(mpfr)
+BuildRequires:  %{py3_dist sphinx}
 BuildRequires:  tex(latex)
-BuildRequires:  tex(cases.sty)
-BuildRequires:  tex(epigraph.sty)
-BuildRequires:  tex(multirow.sty)
-BuildRequires:  tex(sectsty.sty)
-BuildRequires:  tex(tocloft.sty)
-BuildRequires:  tex(xy.sty)
-
 
 %description
 FLINT is a C library for doing number theory, written by William Hart
@@ -87,42 +62,30 @@ developing applications that use %{name}.
 %setup -q -c
 %setup -q -T -D -a 1
 
-# Use gmp instead of mpir with hmod_mat
-for fil in $(grep -Frl mpir.h hmod_mat-%{hm_commit}); do
-  sed -i.orig 's/mpir\.h/gmp.h/' $fil
-  touch -r $fil.orig $fil
-  rm -f $fil.orig
-done
-
-mv hmod_mat-%{hm_commit} %{name}-%{version}/hmod_mat
-pushd %{name}-%{version}
-
-%patch0
-%patch1 -p1
-%patch2
-%patch3
-%patch4
-%patch5
-%patch6
-%patch7
-%patch8
-%patch9
-%patch10
-%patch11
-
-# Do not use rpaths
-sed -i 's/ -Wl,-rpath,[^"]*\("\)/\1/' configure
-
 fixtimestamp() {
   touch -r $1.orig $1
   rm -f $1.orig
 }
 
+# Use gmp instead of mpir with hmod_mat
+for fil in $(grep -Frl mpir.h hmod_mat-%{hm_commit}); do
+  sed -i.orig 's/mpir\.h/gmp.h/' $fil
+  fixtimestamp $fil
+done
+
+mv hmod_mat-%{hm_commit} %{name}-%{version}/hmod_mat
+pushd %{name}-%{version}
+
+%autopatch -p0
+
+# Do not use rpaths.  Use flexiblas instead of openblas
+sed -i '/ -Wl,-rpath,[^"]*\("\)/d;s/openblas/flexiblas/' configure
+
 # sanitize header files
 ln -sf $PWD flint
 # sanitize references to external headers
 for fil in $(find . -name \*.c -o -name \*.h -o -name \*.in); do
-  sed -ri.orig 's/"((gc|getopt|gmp|limits|math|stdlib)\.h)"/<\1>/' $fil
+  sed -ri.orig 's/"((gc|gmp|limits|math|stdlib|string)\.h)"/<\1>/' $fil
   fixtimestamp $fil
 done
 # sanitize references to flintxx headers
@@ -139,6 +102,13 @@ for fil in $(find . -name \*.c -o -name \*.h); do
   fixtimestamp $fil
 done
 # "
+
+# Use the classic sphinx theme
+sed -i "s/'default'/'classic'/" doc/source/conf.py
+
+# Rename hmod_mat files for doc
+cp -p hmod_mat/LICENSE LICENSE.hmod_mat
+cp -p hmod_mat/README.md README.hmod_mat.md
 popd
 
 # Prepare to build two versions of the library
@@ -149,10 +119,10 @@ done
 
 
 %build
-export CFLAGS="%{optflags} -fwrapv -D_FILE_OFFSET_BITS=64"
+export CFLAGS="%{build_cflags} -fwrapv -D_FILE_OFFSET_BITS=64"
 # We set HAVE_FAST_COMPILER to 0 on i686, ARM, s390, and 32-bit MIPS because
 # otherwise the tests exhaust virtual memory.  If other architectures run out
-#of virtual memory while building flintxx/test/t-fmpzxx.cpp, then do likewise.
+# of virtual memory while building flintxx/test/t-fmpzxx.cpp, then do likewise.
 %ifarch %{ix86} %{arm} s390 %{mips32}
 CFLAGS="$CFLAGS -DHAVE_FAST_COMPILER=0"
 %endif
@@ -174,11 +144,10 @@ sh -x ./configure \
     CXXFLAGS="$CXXFLAGS"
 
 # FIXME: %%{?_smp_mflags} sometimes fails
-make verbose LDFLAGS="$RPM_LD_FLAGS" LIBDIR=%{_lib}
+make verbose LDFLAGS="%{build_ldflags}" LIBDIR=%{_lib}
 
 # Build the documentation
-ln -sf . doc/latex/flint
-make -C doc/latex manual CFLAGS="%{optflags} -I$PWD/doc/latex"
+make -C doc html
 popd
 
 # Build the gc version
@@ -197,19 +166,19 @@ sh -x ./configure \
     CXXFLAGS="$CXXFLAGS"
 
 # FIXME: %%{?_smp_mflags} sometimes fails
-make verbose LDFLAGS="$RPM_LD_FLAGS" LIBDIR=%{_lib}
+make verbose LDFLAGS="%{build_ldflags}" LIBDIR=%{_lib}
 popd
 
 
 %install
 # Install the gc version
 pushd %{name}-%{version}-gc
-make install DESTDIR=%{buildroot} LIBDIR=%{_lib}
+%make_install LIBDIR=%{_lib}
 popd
 
 # Install the non-gc version
 pushd %{name}-%{version}
-make install DESTDIR=%{buildroot} LIBDIR=%{_lib}
+%make_install LIBDIR=%{_lib}
 
 # Fix permissions
 chmod 0755 %{buildroot}%{_libdir}/libflint*.so.*
@@ -220,25 +189,31 @@ cp -p qadic/CPimport.txt %{buildroot}%{_datadir}/flint
 popd
 
 
+%ifnarch %{arm} %{ix86}
+# Tests temporarily disabled on 32-bit builders.
+# See https://github.com/wbhart/flint2/issues/786
 %check
 pushd %{name}-%{version}
+export LD_LIBRARY_PATH=$PWD
 make check QUIET_CC= QUIET_CXX= QUIET_AR= \
-  LDFLAGS="$RPM_LD_FLAGS" LIBDIR=%{_lib}
+  LDFLAGS="%{build_ldflags}" LIBDIR=%{_lib}
 popd
+%endif
 
 
 %files
 %doc %{name}-%{version}/AUTHORS
 %doc %{name}-%{version}/NEWS
 %doc %{name}-%{version}/README
-%license %{name}-%{version}/gpl-2.0.txt
-%{_libdir}/libflint.so.13*
-%{_libdir}/libflint-gc.so.13*
+%doc %{name}-%{version}/README.hmod_mat.md
+%license %{name}-%{version}/LICENSE %{name}-%{version}/LICENSE.hmod_mat
+%{_libdir}/libflint.so.14*
+%{_libdir}/libflint-gc.so.14*
 %{_datadir}/flint
 
 
 %files devel
-%doc %{name}-%{version}/doc/latex/%{name}-manual.pdf
+%doc %{name}-%{version}/doc/build/html
 %{_includedir}/flint/
 %{_libdir}/libflint.so
 %{_libdir}/libflint-gc.so
@@ -250,6 +225,32 @@ popd
 
 
 %changelog
+* Wed Aug 12 2020 Jerry James <loganjerry@gmail.com> - 2.6.3-1
+- Version 2.6.3
+
+* Fri Jul 31 2020 Jerry James <loganjerry@gmail.com> - 2.6.2-1
+- Version 2.6.2
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Jerry James <loganjerry@gmail.com> - 2.6.1-1
+- Version 2.6.1
+- Drop patches added in 2.6.0-1
+- Drop no longer needed -latex patch
+
+* Wed Jul 22 2020 Tom Stellard <tstellar@redhat.com> - 2.6.0-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Wed Jul  8 2020 Jerry James <loganjerry@gmail.com> - 2.6.0-1
+- Version 2.6.0
+- Add upstream patches to fix bugs discovered after release:
+  -fmpq-poly-add-fmpq.patch, -nmod-mpolyn-interp-crt-lg-poly.patch,
+  -fmpz-mpoly-div-monagan-pearce.patch, -fmpz-poly-factor.patch,
+  -fmpz-mod-poly-gcdiv-euclidean.patch
+- Disable tests on 32-bit arches until upstream can diagnose a failure
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.2-31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

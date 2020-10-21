@@ -3,7 +3,7 @@
 
 # https://github.com/containerd/zfs
 %global goipath         github.com/containerd/zfs
-%global commit          31af176f2ae84fe142ef2655bf7bb2aa618b3b1f
+%global commit          0a33824f23a2ab8ec84166f47b571ecb793b0354
 
 %gometa
 
@@ -15,7 +15,7 @@ ZFS snapshotter plugin for containerd.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.4%{?dist}
 Summary:        ZFS snapshotter plugin for containerd
 
 # Upstream license specification: Apache-2.0
@@ -58,6 +58,12 @@ BuildRequires:  golang(github.com/containerd/continuity/testutil/loopback)
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 23:57:31 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200930git0a33824
+- Bump to commit 0a33824f23a2ab8ec84166f47b571ecb793b0354
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

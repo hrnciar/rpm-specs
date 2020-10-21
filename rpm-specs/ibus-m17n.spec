@@ -2,7 +2,7 @@
 
 Name:       ibus-m17n
 Version:    1.4.3
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    The M17N engine for IBus platform
 License:    GPLv2+
 URL:        https://github.com/ibus/ibus-m17n
@@ -71,6 +71,9 @@ make check
 %{_datadir}/glib-2.0/schemas/org.freedesktop.ibus.engine.m17n.gschema.xml
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 20 2020 Mike FABIAN <mfabian@redhat.com> - 1.4.3-1
 - Update to  1.4.3
 - New translation: es (Spanish) 100%.

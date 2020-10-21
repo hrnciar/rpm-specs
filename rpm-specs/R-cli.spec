@@ -1,12 +1,12 @@
 %bcond_with check
 
 %global packname cli
-%global packver  2.0.2
+%global packver  2.1.0
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          2.0.2
-Release:          2%{?dist}
+Version:          2.1.0
+Release:          1%{?dist}
 Summary:          Helpers for Developing Command Line Interfaces
 
 License:          MIT
@@ -16,7 +16,7 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 # Here's the R view of the dependencies world:
 # Depends:
 # Imports:   R-assertthat, R-crayon >= 1.3.4, R-glue, R-methods, R-utils, R-fansi
-# Suggests:  R-callr, R-covr, R-htmlwidgets, R-knitr, R-mockery, R-rmarkdown, R-rstudioapi, R-prettycode >= 1.1.0, R-testthat, R-withr
+# Suggests:  R-callr, R-covr, R-htmlwidgets, R-knitr, R-mockery, R-ps >= 1.3.4.9000, R-rmarkdown, R-rstudioapi, R-prettycode >= 1.1.0, R-testthat, R-withr
 # LinkingTo:
 # Enhances:
 
@@ -34,6 +34,7 @@ BuildRequires:    R-callr
 BuildRequires:    R-htmlwidgets
 BuildRequires:    R-knitr
 BuildRequires:    R-mockery
+BuildRequires:    R-ps >= 1.3.4.9000
 BuildRequires:    R-rmarkdown
 BuildRequires:    R-rstudioapi
 BuildRequires:    R-prettycode >= 1.1.0
@@ -73,9 +74,9 @@ export LANG=C.UTF-8
 %{_bindir}/R CMD check %{packname}
 %endif
 
+
 %files
 %dir %{rlibdir}/%{packname}
-%doc %{rlibdir}/%{packname}/doc
 %doc %{rlibdir}/%{packname}/html
 %{rlibdir}/%{packname}/DESCRIPTION
 %license %{rlibdir}/%{packname}/LICENSE
@@ -91,6 +92,12 @@ export LANG=C.UTF-8
 
 
 %changelog
+* Mon Oct 12 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.1.0-1
+- Update to latest version (#1887512)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 2.0.2-2
 - conditionalize check to break testthat loop
 - rebuild for R 4

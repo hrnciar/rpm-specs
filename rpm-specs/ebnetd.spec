@@ -7,7 +7,7 @@
 
 Name:		ebnetd
 Version:	1.0
-Release:	38%{?dist}
+Release:	39%{?dist}
 License:	GPLv2+
 URL:		http://www.sra.co.jp/people/m-kasahr/ebnetd/
 # For systemd.macros
@@ -197,6 +197,9 @@ exit 0
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-39
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Akira TAGOH <tagoh@redhat.com> - 1.0-38
 - Fix FTBFS.
 

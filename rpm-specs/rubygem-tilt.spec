@@ -5,7 +5,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 2.0.10
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Generic interface to multiple Ruby template engines
 License: MIT
 URL: http://github.com/rtomayko/tilt/
@@ -124,6 +124,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 30 2020 Vít Ondruch <vondruch@redhat.com> - 2.0.10-1
 - Update to tilt 2.0.10.
   Resolves: rhbz#1754628

@@ -6,14 +6,9 @@
 
 # https://github.com/aws/aws-sdk-go
 %global goipath         github.com/aws/aws-sdk-go
-Version:                1.28.9
+Version:                1.33.10
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-aws-aws-sdk-go-devel < 1.17.4-2
-}
 
 %global common_description %{expand:
 Aws-sdk-go is the official AWS SDK for the Go programming language.}
@@ -57,6 +52,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.33.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 18:52:09 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.33.10-1
+- Update to 1.33.10
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.28.9-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

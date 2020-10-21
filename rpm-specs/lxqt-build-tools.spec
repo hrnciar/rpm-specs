@@ -1,6 +1,6 @@
 Name:           lxqt-build-tools
 Version:        0.7.0
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Packaging tools for LXQt
 
 License:        BSD
@@ -39,18 +39,17 @@ EOF
 scl enable devtoolset-7 - <<\EOF
 %endif
 
-pushd %{_target_platform}
-%{?fedora:%{cmake}}%{!?fedora:%{cmake3}} ..
-popd
-%make_build -C %{_target_platform}
+%cmake3 -DPULL_TRANSLATIONS=NO
+
+%cmake_build
+
 
 %if 0%{?el7}
 EOF
 %endif
 
 %install
-%make_install -C %{_target_platform}
-
+%cmake_install
 
 %files
 %license BSD-3-Clause
@@ -60,6 +59,16 @@ EOF
 
 
 %changelog
+* Tue Aug 11 2020 Zamir SUN <sztsian@gmail.com> - 0.7.0-4
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 03 2020 Zamir SUN <sztsian@gmail.com> - 0.7.0-1
 - Update to 0.7.0
 

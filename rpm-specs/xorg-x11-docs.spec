@@ -4,7 +4,7 @@
 Summary:    X.Org X11 documentation
 Name:       xorg-x11-docs
 Version:    1.7.1
-Release:    11%{?dist}
+Release:    12%{?dist}
 License:    MIT
 URL:        http://www.x.org
 
@@ -45,6 +45,9 @@ find %{buildroot} -name "*.db" -delete
 %{_mandir}/man7/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

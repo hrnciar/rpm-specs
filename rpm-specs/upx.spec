@@ -1,6 +1,6 @@
 Name:           upx
 Version:        3.96
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Ultimate Packer for eXecutables
 
 License:        GPLv2+ and Public Domain
@@ -10,6 +10,7 @@ Source1:        https://github.com/upx/upx-lzma-sdk/archive/v%{version}/upx-lzma
 Patch0:		upx-whitespace.patch
 Patch1:         upx-nohtml.patch
 Patch2:         dadfd43ecb9909b0fab18e77753953a91322c628.patch
+Patch3:         2fcaa16c13eda34307ccceea2263e474c54ee075.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  ucl-devel >= 1.01
@@ -32,6 +33,7 @@ tar xfz %{SOURCE1} --strip-components=1 -C src/lzma-sdk/
 %patch0 -p0
 %patch1 -p0
 %patch2 -p1
+%patch3 -p1
 
 %build
 export CXX="g++"
@@ -55,6 +57,12 @@ install -Dpm 755 src/upx.out $RPM_BUILD_ROOT%{_bindir}/upx
 
 
 %changelog
+* Mon Aug 10 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.96-6
+- Make PE load config directory address dword aligned
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.96-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.96-4
 - Patch for segfault using preserve-build-id.
 

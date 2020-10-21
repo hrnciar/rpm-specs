@@ -1,5 +1,5 @@
 Name:           global
-Version:        6.6.4
+Version:        6.6.5
 Release:        1%{?dist}
 Summary:        Source code tag system
 # The entire source code is GPLv3+ except
@@ -10,14 +10,13 @@ Summary:        Source code tag system
 License:        GPLv3+ and LGPLv2+ and BSD and GPLv2+ and MIT
 URL:            http://www.gnu.org/software/global
 Source:         ftp://ftp.gnu.org/pub/gnu/global/global-%{version}.tar.gz
-Patch1:         %{name}-gcc10.patch
 BuildRequires:  gcc
 BuildRequires:  ncurses-devel, ctags-etags
 BuildRequires:  libtool-ltdl-devel
 BuildRequires:  python3-devel
 BuildRequires:  emacs, xemacs
 BuildRequires:  sqlite-devel
-BuildRequires: /usr/bin/pathfix.py
+BuildRequires:  /usr/bin/pathfix.py
 Requires:       emacs-filesystem >= %{_emacs_version}
 Requires:       xemacs-filesystem >= %{_xemacs_version}
 Obsoletes:      emacs-global <= 6.5.1-1
@@ -46,7 +45,8 @@ pathfix.py -pni "%{__python3} %{py3_shbang_opts}" plugin-factory/pygments_parser
 %build
 export PYTHON=%{__python3}
 %configure --with-posix-sort=/bin/sort --with-exuberant-ctags=/bin/ctags \
-           --localstatedir=/var/tmp/  --without-included-ltdl --with-sqlite3
+           --localstatedir=/var/tmp/  --without-included-ltdl --with-sqlite3 \
+	   --disable-static 
 make %{?_smp_mflags}
 
 %install
@@ -97,6 +97,16 @@ chmod -x %{buildroot}/%{_sysconfdir}/gtags.conf
 %{_libdir}/gtags/*
 
 %changelog
+* Mon Sep 14 2020 Pavel Zhukov <pzhukov@redhat.com> - 6.6.5-1
+- New version v6.6.5 (#1875256)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.6.4-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.6.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 2020 Pavel Zhukov <pzhukov@redhat.com> - 6.6.4-1
 - New version 6.6.4 (#1786393)
 

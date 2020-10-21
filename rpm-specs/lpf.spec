@@ -3,7 +3,7 @@
 
 Name:           lpf
 Version:        0.2
-Release:        12.%{shortcommit}%{?dist}
+Release:        14.%{shortcommit}%{?dist}
 Summary:        Local package factory - build non-redistributable rpms
 
                 # Icon from iconarchive.com
@@ -19,7 +19,7 @@ BuildArch:      noarch
 
 BuildRequires:  appdata-tools
 BuildRequires:  desktop-file-utils
-Buildrequires:  python2-devel
+BuildRequires:  python3-devel
 Requires:       hicolor-icon-theme
 Requires:       inotify-tools
 Requires:       polkit
@@ -90,6 +90,12 @@ exit 0
 
 
 %changelog
+* Wed Sep 09 2020 Petr Viktorin <pviktori@redhat.com> - 0.2-14.%{shortcommit}
+- Switch BuildRequires to python3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-13.f1f5dd9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-12.f1f5dd9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

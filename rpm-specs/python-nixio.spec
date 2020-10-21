@@ -3,7 +3,7 @@
 
 Name:       python-%{srcname}
 Version:    1.4.9
-Release:    9%{?dist}
+Release:    11%{?dist}
 Summary:    Python bindings for NIX
 
 License:    BSD
@@ -30,7 +30,11 @@ a storage backend.
 Summary:        %{summary}
 BuildRequires:  python3-devel
 BuildRequires:  gcc
-BuildRequires:  %{py3_dist pytest numpy h5py pytest-runner}
+BuildRequires:  %{py3_dist h5py}
+BuildRequires:  %{py3_dist numpy}
+BuildRequires:  %{py3_dist pytest}
+BuildRequires:  %{py3_dist pytest-runner}
+BuildRequires:  %{py3_dist setuptools}
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
@@ -85,6 +89,12 @@ done
 %license LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.9-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.4.9-10
+- Explicitly BR setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.9-9
 - Rebuilt for Python 3.9
 

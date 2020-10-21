@@ -8,7 +8,7 @@
 Summary: Apache module to retrieve additional information about the authenticated user
 Name: mod_lookup_identity
 Version: 1.0.0
-Release: 11%{?dist}
+Release: 12%{?dist}
 License: ASL 2.0
 URL: http://www.adelton.com/apache/mod_lookup_identity/
 Source0: http://www.adelton.com/apache/mod_lookup_identity/%{name}-%{version}.tar.gz
@@ -65,6 +65,9 @@ install -Dp -m 0644 lookup_identity.confx $RPM_BUILD_ROOT%{_httpd_confdir}/looku
 %{_httpd_moddir}/*.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

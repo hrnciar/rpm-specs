@@ -15,7 +15,7 @@ functions implemented with the KISS principle in mind.}
 %global godocs          examples README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Go library containing a set of opinionated packages
 
 License:        GPLv3
@@ -43,6 +43,9 @@ BuildRequires:  golang(github.com/robertkrimen/otto)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 03 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.10.6-1
 - Initial package
 

@@ -1,6 +1,6 @@
 Name:           thonny
 Version:        3.2.7
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Python IDE for beginners
 
 # Code is MIT, toolbar icons are EPL
@@ -11,6 +11,7 @@ Source0:        %{pypi_source}
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-pytest
 BuildRequires:  python3-tkinter
 BuildRequires:  python3-jedi
@@ -76,6 +77,9 @@ xvfb-run py.test-3 --pyargs thonny
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.7-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 3.2.7-4
 - Rebuilt to fix dependencies (#1841813)
 

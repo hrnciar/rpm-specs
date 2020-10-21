@@ -1,6 +1,6 @@
 Name: indi-apogee
-Version: 1.8.1
-Release: 2%{?dist}
+Version: 1.8.6
+Release: 1%{?dist}
 Summary: The INDI driver for Apogee Alta (U & E) line of CCDs
 
 License: LGPLv2+
@@ -33,10 +33,10 @@ Alta (U & E) line of CCDs.
 
 %build
 %cmake
-make VERBOSE=1 %{?_smp_mflags}
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 %files
 %license COPYING.LIB
@@ -45,6 +45,19 @@ make install DESTDIR=%{buildroot}
 %{_datadir}/indi/*
 
 %changelog
+* Tue Aug 25 2020 Christian Dersch <lupinix@mailbox.org> - 1.8.6-1
+- new version
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.5-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Sergio Pascual <sergiopr@fedoraproject.org> 1.8.5-1
+- Rebuilt to match new libindi
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

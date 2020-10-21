@@ -4,7 +4,7 @@
 # https://github.com/uber-go/ratelimit
 %global goipath         go.uber.org/ratelimit
 %global forgeurl        https://github.com/uber-go/ratelimit
-%global commit          c15da02342779cb6dc027fc95ee2277787698f36
+Version:                0.1.0
 
 %gometa
 
@@ -18,8 +18,7 @@ discretely.}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.3%{?dist}
+Release:        1%{?dist}
 Summary:        Golang blocking leaky-bucket rate limit implementation
 
 License:        MIT
@@ -45,6 +44,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Fri Aug 07 17:04:06 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.1.0-1
+- Update to 0.1.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

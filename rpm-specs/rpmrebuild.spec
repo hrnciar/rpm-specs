@@ -1,6 +1,6 @@
 Name:           rpmrebuild
-Version:        2.11
-Release:        13%{?dist}
+Version:        2.15
+Release:        1%{?dist}
 Summary:        A tool to build rpm file from rpm database
 
 License:        GPLv2+
@@ -10,7 +10,7 @@ Source0:        http://downloads.sourceforge.net/rpmrebuild/%{name}-%{version}.t
 
 
 BuildArch:      noarch
-Requires:       rpm >= 4.0, grep, bash, cpio, rpm-build
+Requires:       rpm >= 4.0, rpm-build, coreutils, util-linux
 
 %description
 A tool to build an RPM file from a package that has already been installed.
@@ -18,33 +18,18 @@ A tool to build an RPM file from a package that has already been installed.
 %prep
 %setup -q -c 
 
-
 %build
 make %{?_smp_mflags}
 
-
 %install
-rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
+[ "$RPM_BUILD_ROOT" != "/" ] && rm -rf "$RPM_BUILD_ROOT"
+make install DESTDIR="$RPM_BUILD_ROOT"
 
-#fix for .src without shebangs
-chmod a+w $RPM_BUILD_ROOT%{_prefix}/lib/rpmrebuild/rpmrebuild_parser.src
-awk '{if (NR==1) print "#!/bin/bash\n" $0; else print $0;}' < $RPM_BUILD_ROOT%{_prefix}/lib/rpmrebuild/rpmrebuild_parser.src > $RPM_BUILD_ROOT%{_prefix}/lib/rpmrebuild/rpmrebuild_parser.src.new
-mv $RPM_BUILD_ROOT%{_prefix}/lib/rpmrebuild/rpmrebuild_parser.src.new $RPM_BUILD_ROOT%{_prefix}/lib/rpmrebuild/rpmrebuild_parser.src
-chmod a-w $RPM_BUILD_ROOT%{_prefix}/lib/rpmrebuild/rpmrebuild_parser.src
+%clean
+[ "$RPM_BUILD_ROOT" != "/" ] && rm -rf "$RPM_BUILD_ROOT"
 
-#remove non-UTF8 man files
-rm -f $RPM_BUILD_ROOT%{_mandir}/fr_FR/man1/{demo,nodoc,file2pacDep,set_tag,uniq}.plug.1rrp.gz
-rm -f $RPM_BUILD_ROOT%{_mandir}/fr_FR/man1/rpmrebuild{,_plugins}.1.gz
-rm -rf $RPM_BUILD_ROOT%{_mandir}/fr_FR/man1/
-
-#move UTF8 man files to the correct location
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/fr/man1/
-mv $RPM_BUILD_ROOT%{_mandir}/fr_FR.UTF-8/man1/*  $RPM_BUILD_ROOT%{_mandir}/fr/man1/
-rm -rf $RPM_BUILD_ROOT%{_mandir}/fr_FR.UTF-8/man1/
-
-%files
-%doc AUTHORS Changelog COPYING COPYRIGHT News Todo README
+%files -f rpmrebuild.files
+%doc AUTHORS COPYING COPYRIGHT Changelog LISEZ.MOI News README Todo rpmrebuild.lsm
 %dir %{_prefix}/lib/rpmrebuild/
 %dir %{_prefix}/lib/rpmrebuild/plugins/
 %dir %{_prefix}/lib/rpmrebuild/locale/
@@ -71,7 +56,6 @@ rm -rf $RPM_BUILD_ROOT%{_mandir}/fr_FR.UTF-8/man1/
 %attr(0755,root,root) %{_prefix}/lib/rpmrebuild/rpmrebuild_ghost.sh
 %attr(0755,root,root) %{_prefix}/lib/rpmrebuild/rpmrebuild_files.sh
 %attr(0755,root,root) %{_prefix}/lib/rpmrebuild/plugins/compat_digest.sh
-%{_prefix}/lib/rpmrebuild/VERSION
 %{_prefix}/lib/rpmrebuild/plugins/set_tag.plug
 %{_prefix}/lib/rpmrebuild/plugins/compat_digest.plug
 %{_prefix}/lib/rpmrebuild/plugins/nodoc.plug
@@ -84,32 +68,45 @@ rm -rf $RPM_BUILD_ROOT%{_mandir}/fr_FR.UTF-8/man1/
 %{_prefix}/lib/rpmrebuild/locale/en/rpmrebuild.lang
 %{_prefix}/lib/rpmrebuild/locale/fr_FR.UTF-8/rpmrebuild.lang
 %{_prefix}/lib/rpmrebuild/locale/fr_FR/rpmrebuild.lang
-%{_mandir}/man1/demo.plug.1rrp.gz
-%{_mandir}/man1/file2pacDep.plug.1rrp.gz
-%{_mandir}/man1/nodoc.plug.1rrp.gz
-%{_mandir}/man1/rpmrebuild.1.gz
-%{_mandir}/man1/rpmrebuild_plugins.1.gz
-%{_mandir}/man1/uniq.plug.1rrp.gz
-%{_mandir}/man1/compat_digest.plug.1rrp.gz
-%{_mandir}/man1/un_prelink.plug.1rrp.gz
-%{_mandir}/man1/unset_tag.plug.1rrp.gz
-%{_mandir}/fr/man1/demo.plug.1rrp.gz
-%{_mandir}/fr/man1/demofiles.plug.1rrp.gz
-%{_mandir}/fr/man1/file2pacDep.plug.1rrp.gz
-%{_mandir}/fr/man1/nodoc.plug.1rrp.gz
-%{_mandir}/fr/man1/rpmrebuild.1.gz
-%{_mandir}/fr/man1/rpmrebuild_plugins.1.gz
-%{_mandir}/fr/man1/set_tag.plug.1rrp.gz
-%{_mandir}/fr/man1/uniq.plug.1rrp.gz
-%{_mandir}/fr/man1/compat_digest.plug.1rrp.gz
-%{_mandir}/fr/man1/un_prelink.plug.1rrp.gz
-%{_mandir}/fr/man1/unset_tag.plug.1rrp.gz
-%{_mandir}/man1/demofiles.plug.1rrp.gz
-%{_mandir}/man1/set_tag.plug.1rrp.gz
+
+%doc %{_mandir}/man1/rpmrebuild.1*
+%doc %{_mandir}/fr_FR/man1/rpmrebuild.1*
+%doc %{_mandir}/fr_FR.UTF-8/man1/rpmrebuild.1*
+%doc %{_mandir}/man1/rpmrebuild_plugins.1*
+%doc %{_mandir}/fr_FR/man1/rpmrebuild_plugins.1*
+%doc %{_mandir}/fr_FR.UTF-8/man1/rpmrebuild_plugins.1*
+%doc %{_mandir}/man1/compat_digest.plug.1rrp*
+%doc %{_mandir}/fr_FR/man1/compat_digest.plug.1rrp*
+%doc %{_mandir}/fr_FR.UTF-8/man1/compat_digest.plug.1rrp*
+%doc %{_mandir}/man1/demo.plug.1rrp*
+%doc %{_mandir}/fr_FR/man1/demo.plug.1rrp*
+%doc %{_mandir}/fr_FR.UTF-8/man1/demo.plug.1rrp*
+%doc %{_mandir}/man1/file2pacDep.plug.1rrp*
+%doc %{_mandir}/man1/demofiles.plug.1rrp*
+%doc %{_mandir}/fr_FR/man1/demofiles.plug.1rrp*
+%doc %{_mandir}/fr_FR.UTF-8/man1/demofiles.plug.1rrp*
+%doc %{_mandir}/fr_FR/man1/file2pacDep.plug.1rrp*
+%doc %{_mandir}/fr_FR.UTF-8/man1/file2pacDep.plug.1rrp*
+%doc %{_mandir}/man1/nodoc.plug.1rrp*
+%doc %{_mandir}/fr_FR/man1/nodoc.plug.1rrp*
+%doc %{_mandir}/fr_FR.UTF-8/man1/nodoc.plug.1rrp*
+%doc %{_mandir}/man1/set_tag.plug.1rrp*
+%doc %{_mandir}/fr_FR/man1/set_tag.plug.1rrp*
+%doc %{_mandir}/fr_FR.UTF-8/man1/set_tag.plug.1rrp*
+%doc %{_mandir}/man1/un_prelink.plug.1rrp*
+%doc %{_mandir}/fr_FR/man1/un_prelink.plug.1rrp*
+%doc %{_mandir}/fr_FR.UTF-8/man1/un_prelink.plug.1rrp*
+%doc %{_mandir}/man1/unset_tag.plug.1rrp*
+%doc %{_mandir}/fr_FR/man1/unset_tag.plug.1rrp*
+%doc %{_mandir}/fr_FR.UTF-8/man1/unset_tag.plug.1rrp*
+%doc %{_mandir}/man1/uniq.plug.1rrp*
+%doc %{_mandir}/fr_FR/man1/uniq.plug.1rrp*
+%doc %{_mandir}/fr_FR.UTF-8/man1/uniq.plug.1rrp*
+
 
 %changelog
-* Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11-13
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+* Sat Aug 22 2020 Anderson Silva <ansilva@redhat.com> - 2.15.1
+- Latest package from upstream.
 
 * Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2.11-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild

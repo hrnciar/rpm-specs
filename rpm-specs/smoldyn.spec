@@ -1,3 +1,5 @@
+%global __cmake_in_source_build 1
+
 # Smoldyn provides the SFMT-1.3.3 (SIMD-oriented Fast Mersenne Twister) source code;
 # currently unavailable on Fedora.
 # http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/SFMT/index.html
@@ -15,7 +17,7 @@
 Name:  smoldyn
 Summary: A particle-based spatial stochastic simulator
 Version: 2.61
-Release: 3%{?dist}
+Release: 5%{?dist}
 
 # The rxnparam.c and SurfaceParam.c source code files are in the public domain.
 #
@@ -185,6 +187,12 @@ popd
 %doc documentation/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.61-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 2.61-4
+- Use  __cmake_in_source_build
+
 * Mon May 25 2020 Antonio Trande <sagitter@fedoraproject.org> - 2.61-3
 - Fix patch for EPEL7
 

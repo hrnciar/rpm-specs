@@ -12,14 +12,14 @@
 
 %global github_owner     doctrine
 %global github_name      dbal
-%global github_version   2.10.2
-%global github_commit    aab745e7b6b2de3b47019da81e7225e14dcfdac8
+%global github_version   2.11.2
+%global github_commit    b88a45cbc395e850b2d958dcd7b9d49d09ff23e0
 
 %global composer_vendor  doctrine
 %global composer_project dbal
 
-# "php": "^7.2"
-%global php_min_ver 7.2
+# "php": "^7.3"
+%global php_min_ver 7.3
 # "doctrine/cache": "^1.0"
 %global doctrine_cache_min_ver 1.0
 %global doctrine_cache_max_ver 2
@@ -33,7 +33,7 @@
 %{!?phpdir:  %global phpdir  %{_datadir}/php}
 
 # Build using "--without tests" to disable tests
-%global with_tests 0%{!?_without_tests:1}
+%bcond_without tests
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
@@ -54,8 +54,8 @@ Patch0:        %{name}-bin.patch
 
 BuildArch: noarch
 # Tests
-%if %{with_tests}
-BuildRequires: phpunit8 >= 8.4.1
+%if %{with tests}
+BuildRequires: phpunit9 >= 9.4
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 BuildRequires:(php-composer(doctrine/cache) >= %{doctrine_cache_min_ver} with php-composer(doctrine/cache) <  %{doctrine_cache_max_ver})
@@ -157,7 +157,7 @@ install -pm 0755 bin/doctrine-dbal.php %{buildroot}/%{_bindir}/doctrine-dbal
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 cat > bs.php <<'BOOTSTRAP'
 <?php
 require_once '%{buildroot}/%{phpdir}/Doctrine/DBAL/autoload.php';
@@ -168,11 +168,12 @@ require_once '%{buildroot}/%{phpdir}/Doctrine/DBAL/autoload.php';
 BOOTSTRAP
 
 : Upstream tests
+# TODO php 8 (Doctrine\DBAL\Driver\PDOConnection::query() must be compatible with PDO::query)
 RETURN_CODE=0
-for PHP_EXEC in php php72 php73 php74; do
+for PHP_EXEC in php php73 php74; do
     rm -f /tmp/test_nesting.sqlite
     if which $PHP_EXEC; then
-        $PHP_EXEC %{_bindir}/phpunit8 \
+        $PHP_EXEC %{_bindir}/phpunit9 \
             --bootstrap bs.php \
             --verbose || RETURN_CODE=1
     fi
@@ -193,6 +194,26 @@ exit $RETURN_CODE
 
 
 %changelog
+* Mon Oct 19 2020 Remi Collet <remi@remirepo.net> - 2.11.2-1
+- update to 2.11.2
+
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 2.11.1-1
+- update to 2.11.1
+
+* Mon Sep 21 2020 Remi Collet <remi@remirepo.net> - 2.11.0-1
+- update to 2.11.0
+- raise dependency on PHP 7.3
+- switch to phpunit9
+
+* Mon Sep 14 2020 Remi Collet <remi@remirepo.net> - 2.10.4-1
+- update to 2.10.4
+
+* Wed Sep  2 2020 Remi Collet <remi@remirepo.net> - 2.10.3-1
+- update to 2.10.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Remi Collet <remi@remirepo.net> - 2.10.2-1
 - update to 2.10.2
 

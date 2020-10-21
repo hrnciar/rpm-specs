@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:    umbrello
 Summary: UML modeler and UML diagram tool
-Version: 20.04.2
+Version: 20.08.1
 Release: 1%{?dist}
 
 License: GPLv2+ and LGPLv2+
@@ -47,6 +49,20 @@ BuildRequires: cmake(Qt5Widgets)
 BuildRequires: cmake(Qt5Xml)
 BuildRequires: cmake(Qt5WebKitWidgets)
 
+%ifnarch s390x
+BuildRequires: cmake(KDevelop-PG-Qt)
+BuildRequires: cmake(KDevPlatform)
+%endif
+BuildRequires: cmake(KF5ThreadWeaver)
+BuildRequires: cmake(KF5KCMUtils)
+
+BuildRequires: cmake(LLVM)
+BuildRequires: cmake(Clang)
+
+# API doc generation - for later use
+#BuildRequires: doxygen
+#BuildRequires: cmake(Qt5Help)
+
 Conflicts:      kdesdk-common < 4.10.80
 Provides:       kdesdk-umbrello = %{version}-%{release}
 Obsoletes:      kdesdk-umbrello < 4.10.80
@@ -63,16 +79,12 @@ GUI for diagramming Unified Modeling Language (UML)
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -94,6 +106,21 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.umbrello.
 
 
 %changelog
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.1-1
+- 20.08.1
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.08.0-1
+- 20.08.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.3-1
+- 20.04.3
+
+* Sat Jun 27 2020 Marie Loise Nolden <loise@kde.org> - 20.04.2-2
+- add KDevelop PHP and LLVM/Clang Support
+ 
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 20.04.2-1
 - 20.04.2
 

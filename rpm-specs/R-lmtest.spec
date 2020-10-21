@@ -3,13 +3,13 @@
 # This is the main version
 %global packver 0.9
 # Note that some R packages do not use packrel
-%define packrel 37
+%define packrel 38
 
 %global __suggests_exclude ^R\\((AER|dynlm|strucchange)\\)
 
 Name:             R-%{packname}
 Version:          %{packver}.%{packrel}
-Release:          6%{?dist}
+Release:          1%{?dist}
 Source0:          http://cran.r-project.org/src/contrib/%{packname}_%{packver}-%{packrel}.tar.gz
 License:          GPLv2
 URL:              http://cran.r-project.org/web/packages/lmtest/index.html
@@ -56,6 +56,16 @@ rm -rf $RPM_BUILD_ROOT%{_libdir}/R/library/R.css
 %{_libdir}/R/library/%{packname}/libs
 
 %changelog
+* Fri Oct 02 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.9.38-1
+- Update to latest version (#1877252)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.37-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.37-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.9.37-6
 - rebuild for R 4
 

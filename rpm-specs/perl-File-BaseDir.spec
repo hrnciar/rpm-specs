@@ -2,7 +2,7 @@
 %{bcond_without perl_File_BaseDir_enables_xdg_user_dirs}
 Name:           perl-File-BaseDir
 Version:        0.08
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Use the Freedesktop.org base directory specification
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/File-BaseDir
@@ -88,6 +88,9 @@ make test
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.08-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.08-8
 - Perl 5.32 rebuild
 

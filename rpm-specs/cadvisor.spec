@@ -3,15 +3,9 @@
 
 # https://github.com/google/cadvisor
 %global goipath         github.com/google/cadvisor
-%global commit          2ccad4b42fe52b312f6d75a312c61a54fd123dc5
-Version:                0.33.1
+Version:                0.37.0
 
 %gometa
-
-# Remove in F33
-%global godevelheader %{expand:
-Obsoletes:      cadvisor-devel < 0.22.2-10
-}
 
 %global common_description %{expand:
 cAdvisor (Container Advisor) provides container users an understanding of the
@@ -32,7 +26,7 @@ hierarchically.}
 %global godocs          docs AUTHORS CHANGELOG.md CONTRIBUTING.md README.md
 
 Name:           cadvisor
-Release:        5%{?dist}
+Release:        1%{?dist}
 Summary:        Analyzes resource usage and performance characteristics of running containers
 
 # Upstream license specification: Apache-2.0
@@ -43,7 +37,9 @@ Source1:        cadvisor
 Source2:        cadvisor.service
 # Use github.com/influxdata/influxdb1-client as influx client
 Patch0:         0001-Use-github.com-influxdata-influxdb1-client-as-influx.patch
-Patch1:         0001-Fix-for-using-with-newer-github.com-opencontainers-r.patch
+# Replace obsolete DefaultScratchBufferSize with MinimumScratchBufferSize
+# used in karrick/godirwalk
+Patch1:         0001-Replace-obsolete-DefaultScratchBufferSize.patch
 
 BuildRequires:  git-core
 BuildRequires:  systemd
@@ -58,15 +54,12 @@ BuildRequires:  golang(github.com/containerd/containerd/api/services/containers/
 BuildRequires:  golang(github.com/containerd/containerd/api/services/tasks/v1)
 BuildRequires:  golang(github.com/containerd/containerd/api/services/version/v1)
 BuildRequires:  golang(github.com/containerd/containerd/containers)
-BuildRequires:  golang(github.com/containerd/containerd/pkg/dialer)
 BuildRequires:  golang(github.com/containerd/containerd/errdefs)
 BuildRequires:  golang(github.com/containerd/containerd/namespaces)
-BuildRequires:  golang(github.com/coreos/rkt/api/v1alpha)
+BuildRequires:  golang(github.com/containerd/containerd/pkg/dialer)
 BuildRequires:  golang(github.com/docker/docker/api/types)
 BuildRequires:  golang(github.com/docker/docker/api/types/container)
 BuildRequires:  golang(github.com/docker/docker/client)
-BuildRequires:  golang(github.com/docker/docker/pkg/mount)
-BuildRequires:  golang(github.com/docker/docker/pkg/parsers/operatingsystem)
 BuildRequires:  golang(github.com/docker/go-connections/tlsconfig)
 BuildRequires:  golang(github.com/docker/go-units)
 BuildRequires:  golang(github.com/euank/go-kmsg-parser/kmsgparser)
@@ -85,7 +78,9 @@ BuildRequires:  golang(github.com/mistifyio/go-zfs)
 BuildRequires:  golang(github.com/opencontainers/runc/libcontainer)
 BuildRequires:  golang(github.com/opencontainers/runc/libcontainer/cgroups)
 BuildRequires:  golang(github.com/opencontainers/runc/libcontainer/cgroups/fs)
+BuildRequires:  golang(github.com/opencontainers/runc/libcontainer/cgroups/fs2)
 BuildRequires:  golang(github.com/opencontainers/runc/libcontainer/configs)
+BuildRequires:  golang(github.com/opencontainers/runc/libcontainer/intelrdt)
 BuildRequires:  golang(github.com/opencontainers/runtime-spec/specs-go)
 BuildRequires:  golang(github.com/pkg/errors)
 BuildRequires:  golang(github.com/prometheus/client_golang/prometheus)
@@ -97,7 +92,6 @@ BuildRequires:  golang(github.com/Rican7/retry)
 BuildRequires:  golang(github.com/Rican7/retry/strategy)
 BuildRequires:  golang(github.com/SeanDolphin/bqschema)
 BuildRequires:  golang(github.com/Shopify/sarama)
-BuildRequires:  golang(github.com/sigma/go-inotify)
 BuildRequires:  golang(github.com/stretchr/testify/assert)
 BuildRequires:  golang(github.com/stretchr/testify/mock)
 BuildRequires:  golang(golang.org/x/net/context)
@@ -106,15 +100,17 @@ BuildRequires:  golang(golang.org/x/oauth2/jwt)
 BuildRequires:  golang(golang.org/x/sys/unix)
 BuildRequires:  golang(google.golang.org/api/bigquery/v2)
 BuildRequires:  golang(google.golang.org/grpc)
+BuildRequires:  golang(google.golang.org/grpc/backoff)
 BuildRequires:  golang(gopkg.in/olivere/elastic.v2)
-BuildRequires:  golang(k8s.io/klog)
+BuildRequires:  golang(k8s.io/klog/v2)
 BuildRequires:  golang(k8s.io/utils/clock)
+BuildRequires:  golang(k8s.io/utils/inotify)
+BuildRequires:  golang(k8s.io/utils/mount)
 
 %if %{with check}
 # Tests
 BuildRequires:  golang(github.com/containerd/typeurl)
-BuildRequires:  golang(github.com/kr/pretty)
-BuildRequires:  golang(github.com/opencontainers/runc/libcontainer/system)
+BuildRequires:  golang(github.com/prometheus/client_golang/prometheus/testutil)
 BuildRequires:  golang(github.com/stretchr/testify/require)
 BuildRequires:  golang(k8s.io/utils/clock/testing)
 %endif
@@ -128,10 +124,9 @@ BuildRequires:  golang(k8s.io/utils/clock/testing)
 %goprep
 %patch0 -p1
 %patch1 -p1
-find . -name "*.go" -exec sed -i "s|github.com/containerd/containerd/dialer|github.com/containerd/containerd/pkg/dialer|" "{}" +;
 
 %build
-%gobuild -o %{gobuilddir}/bin/cadvisor %{goipath}
+%gobuild -o %{gobuilddir}/bin/cadvisor %{goipath}/cmd
 
 %install
 %gopkginstall
@@ -168,6 +163,16 @@ install -p -m 0644 %{SOURCE2} %{buildroot}%{_unitdir}/%{name}.service
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 18:00:24 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.37.0-1
+- Release 0.37.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.33.1-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.33.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.33.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

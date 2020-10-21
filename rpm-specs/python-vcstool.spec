@@ -4,7 +4,7 @@
 %global srcname vcstool
 
 Name:           python-%{srcname}
-Version:        0.2.11
+Version:        0.2.14
 Release:        1%{?dist}
 Summary:        Tool to invoke vcs commands on multiple repositories
 
@@ -206,6 +206,15 @@ ln -s vcs %{buildroot}%{_datadir}/bash-completion/completions/vcs-%{python3_vers
 
 
 %changelog
+* Sun Aug 16 2020 Scott K Logan <logans@cottsay.net> - 0.2.14-1
+- Update to 0.2.14 (rhbz#1862412)
+
+* Mon Jul 27 2020 Scott K Logan <logans@cottsay.net> - 0.2.13-1
+- Update to 0.2.13 (rhbz#1859022)
+
+* Thu Jul 02 2020 Scott K Logan <logans@cottsay.net> - 0.2.12-1
+- Update to 0.2.12 (rhbz#1853214)
+
 * Thu Jun 18 2020 Scott K Logan <logans@cottsay.net> - 0.2.11-1
 - Update to 0.2.11 (rhbz#1847809)
 

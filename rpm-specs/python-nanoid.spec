@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        2.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Unique string ID generator for Python
 
 License:        MIT
@@ -47,6 +47,9 @@ cp -a %{SOURCE1} LICENSE
 %{python3_sitelib}/%{pypi_name}-%{version}-py*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.0.0-2
 - Add license (rhbz#1830267)
 

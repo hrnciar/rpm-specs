@@ -3,7 +3,7 @@
 
 Name:           monobristol
 Version:        0.60.3.1
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        GUI launcher for Bristol in Mono
 
 License:        GPL+
@@ -65,6 +65,9 @@ desktop-file-install    \
 %{_datadir}/appdata/monoBristol.appdata.xml
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.60.3.1-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.60.3.1-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

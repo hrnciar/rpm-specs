@@ -2,8 +2,8 @@
 %global simple_name qtawesome
 
 Name:		python-%{pypi_name}
-Version:	0.7.2
-Release:	2%{?dist}
+Version:	0.7.3
+Release:	1%{?dist}
 
 Summary:	FontAwesome icons in PyQt and PySide applications
 License:	MIT and OFL
@@ -61,6 +61,12 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Sep 22 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.7.3-1
+- Update to 0.7.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.2-2
 - Rebuilt for Python 3.9
 

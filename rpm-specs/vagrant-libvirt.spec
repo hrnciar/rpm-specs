@@ -1,30 +1,27 @@
 %global vagrant_plugin_name vagrant-libvirt
 
-%global vagrant_spec_commit 94a9d31ba18b4130b14da12a2f7b4001c3d2ff12
+%global vagrant_spec_commit 148cb63d6d06a767dfaa6bcc7eecc3fb2137112e
 
 Name: %{vagrant_plugin_name}
-Version: 0.0.45
-Release: 4%{?dist}
+Version: 0.1.2
+Release: 2%{?dist}
 Summary: libvirt provider for Vagrant
 License: MIT
 URL: https://github.com/vagrant-libvirt/vagrant-libvirt
 Source0: https://rubygems.org/gems/%{vagrant_plugin_name}-%{version}.gem
 # The library has no official release yet. But since it is just test
 # dependency, it should be fine to include the source right here.
-# wget https://github.com/mitchellh/vagrant-spec/archive/9bba7e1228379c0a249a06ce76ba8ea7d276afb/vagrant-spec-f1a18fd3e5387328ca83e016e48373aadb67112a.tar.gz
+# wget https://github.com/mitchellh/vagrant-spec/archive/148cb63d6d06a767dfaa6bcc7eecc3fb2137112e/vagrant-spec-148cb63d6d06a767dfaa6bcc7eecc3fb2137112e.tar.gz
 Source2: https://github.com/mitchellh/vagrant-spec/archive/%{vagrant_spec_commit}/vagrant-spec-%{vagrant_spec_commit}.tar.gz
 # Enable QEMU Session by default
 # https://github.com/vagrant-libvirt/vagrant-libvirt/pull/969
 Patch0: vagrant-libvirt-0.0.45-enable-qemu-session-by-default.patch
-# Allow customizing of virt-sysprep behaviour on package.
-# Backport of https://github.com/vagrant-libvirt/vagrant-libvirt/commit/deb36bef8b6c0b696ea0045563fb5cc0e4895f73.
-Patch1: 0001-Allow-customizing-of-virt-sysprep-behaviour-on-packa.patch
-# Use fetch to obtain environment variable value in package_domain.
-# Backport of https://github.com/vagrant-libvirt/vagrant-libvirt/commit/f8eae9984d7f9f0bcc83fa3082592968487c0fb2.
-Patch2: 0002-Use-fetch-to-obtain-environment-variable-value-in-pa.patch
 # Halt a domain before packaging it as a box to avoid hard to debug issues.
 # https://github.com/vagrant-libvirt/vagrant-libvirt/pull/1034.
 Patch3: 0003-Halt-a-domain-before-packaging-it-as-a-box.patch
+# Drop dependency on Erubis.
+# https://github.com/vagrant-libvirt/vagrant-libvirt/pull/1144
+Patch4: rubygem-vagrant-libvirt-0.1.2-Use-Vagrant-Util-TemplateRenderer-instead-of-Erubis.patch
 
 Requires: ruby(release)
 Requires: ruby(rubygems)
@@ -60,13 +57,8 @@ Documentation for %{name}.
 %setup -q -n %{vagrant_plugin_name}-%{version} -b 2
 
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
 %patch3 -p1
-
-# Relax fog-core dependency to work with recently rebased one
-%gemspec_remove_dep -s ../%{vagrant_plugin_name}-%{version}.gemspec -g fog-core '~> 1.43.0'
-%gemspec_add_dep -s ../%{vagrant_plugin_name}-%{version}.gemspec -g fog-core '>= 1.43.0'
+%patch4 -p1
 
 %build
 gem build ../%{vagrant_plugin_name}-%{version}.gemspec
@@ -85,8 +77,8 @@ sed -i '/git/ s/^/#/' vagrant-spec.gemspec
 
 # Relax the Childprocess dependency, since Fedora currently ships with different version
 # https://src.fedoraproject.org/rpms/rubygem-childprocess/pull-request/1
-%gemspec_remove_dep -s vagrant-spec.gemspec -g childprocess '~> 0.6.0'
-%gemspec_add_dep -s vagrant-spec.gemspec -g childprocess '>= 0.5.0'
+%gemspec_remove_dep -s vagrant-spec.gemspec -g childprocess '~> 3.0.0'
+%gemspec_add_dep -s vagrant-spec.gemspec -g childprocess '>= 0.6.0'
 
 # Relax the dependencies, since Fedora ships with newer versions.
 sed -i '/thor/ s/~>/>=/' vagrant-spec.gemspec
@@ -98,18 +90,21 @@ cp ../%{vagrant_plugin_name}-%{version}.gemspec .%{vagrant_plugin_instdir}/%{vag
 
 pushd .%{vagrant_plugin_instdir}
 # Create dummy Gemfile and load dependencies via gemspec file
-echo "gem 'vagrant'" > Gemfile
-echo "gem 'rdoc'" >> Gemfile
-echo "gem 'vagrant-spec', :path => '%{_builddir}/vagrant-spec-%{vagrant_spec_commit}'" >> Gemfile
-echo "gemspec" >> Gemfile
-
+cat > Gemfile <<EOG
+gem 'vagrant'
+gem 'rdoc'
+gem 'vagrant-spec', :path => '%{_builddir}/vagrant-spec-%{vagrant_spec_commit}'
+gemspec
+EOG
 # We don't care about code coverage.
 sed -i '/[cC]overalls/ s/^/#/' spec/spec_helper.rb
 
 # Relax developement rspec dependency
 sed -i '/rspec/ s/~>/>=/' %{vagrant_plugin_name}.gemspec
 
-GEM_PATH=%{vagrant_plugin_dir}:`ruby -e "print Gem.path.join(':')"` bundle exec rspec spec
+# Suppress deprecation warnings
+GEM_PATH=%{vagrant_plugin_dir}:`ruby -e "print Gem.path.join(':')"` \
+bundle exec rspec spec
 popd
 
 %files
@@ -118,20 +113,25 @@ popd
 %license %{vagrant_plugin_instdir}/LICENSE
 %{vagrant_plugin_libdir}
 %{vagrant_plugin_instdir}/locales
-%{vagrant_plugin_instdir}/tools
 %exclude %{vagrant_plugin_cache}
 %{vagrant_plugin_spec}
 
 %files doc
 %doc %{vagrant_plugin_docdir}
-%doc %{vagrant_plugin_instdir}/example_box
-%{vagrant_plugin_instdir}/Gemfile
 %doc %{vagrant_plugin_instdir}/README.md
-%{vagrant_plugin_instdir}/Rakefile
 %{vagrant_plugin_instdir}/spec
-%{vagrant_plugin_instdir}/vagrant-libvirt.gemspec
 
 %changelog
+* Tue Aug 18 2020 Vít Ondruch <vondruch@redhat.com> - 0.1.2-2
+- Drop dependency on Erubis.
+
+* Thu Aug 06 2020 Pavel Valena <pvalena@redhat.com> - 0.1.2-1
+- Update to vagrant-libvirt 0.1.2.
+  Resolves: rhbz#1833807
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.45-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.45-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,11 +1,11 @@
 Name:           perl-MooseX-MethodAttributes
 Summary:        Introspect your method code attributes
-Version:        0.31
-Release:        14%{?dist}
+Version:        0.32
+Release:        1%{?dist}
 License:        GPL+ or Artistic
 Source0:        https://cpan.metacpan.org/authors/id/E/ET/ETHER/MooseX-MethodAttributes-%{version}.tar.gz
 URL:            https://metacpan.org/release/MooseX-MethodAttributes
-Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+Requires:       perl(:MODULE_COMPAT_%(eval "`/usr/bin/perl -V:version`"; echo $version))
 BuildArch:      noarch
 
 BuildRequires:  perl-generators
@@ -14,12 +14,12 @@ BuildRequires:  perl(lib)
 BuildRequires:  perl(Module::Build::Tiny)
 BuildRequires:  perl(Moose) >= 0.98
 BuildRequires:  perl(MooseX::Role::Parameterized)
-BuildRequires:  perl(MooseX::Types::Moose) >= 0.21
 BuildRequires:  perl(namespace::autoclean)
 BuildRequires:  perl(namespace::clean) >= 0.10
 BuildRequires:  perl(Test::Exception)
 BuildRequires:  perl(Test::Fatal)
 BuildRequires:  perl(Test::More) >= 0.88
+BuildRequires:  perl(Test::Needs)
 BuildRequires:  perl(Test::Requires)
 
 %{?perl_default_filter}
@@ -33,18 +33,18 @@ Moose meta method objects.
 %setup -q -n MooseX-MethodAttributes-%{version}
 
 # silence rpmlint warning
-sed -i '1s,#!.*perl,#!%{__perl},' t/*.t
+sed -i '1s,#!.*perl,#!/usr/bin/perl,' t/*.t
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
-make %{?_smp_mflags}
+/usr/bin/perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
-make test
+%{make_build} test
 
 %files
 %doc Changes README t/
@@ -53,6 +53,16 @@ make test
 %{_mandir}/man3/MooseX*.3*
 
 %changelog
+* Sun Aug 30 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 0.32-1
+- Update to 0.32
+- Replace %%{__perl} with /usr/bin/perl
+- Pass NO_PERLLOCAL to Makefile.PL
+- Use %%{make_install} instead of "make pure_install"
+- Use %%{make_build} instead of make
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.31-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.31-14
 - Perl 5.32 rebuild
 

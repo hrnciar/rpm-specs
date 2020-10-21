@@ -1,6 +1,6 @@
 Name:           taxipilot
 Version:        0.9.2
-Release:        32%{?dist}
+Release:        35%{?dist}
 Summary:        Game where you pilot a taxi in space
 License:        GPLv2+
 URL:            http://taxipilot.sourceforge.net/
@@ -8,9 +8,8 @@ Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.
 Source1:        %{name}.appdata.xml
 Patch1:         taxipilot-0.9.1-desktop.patch
 Patch2:         taxipilot-0.9.1-weaksym.patch
-Patch3:         taxipilot-0.9.2-kdemm.patch
-Patch4:         taxipilot-0.9.2-arts-startup.patch
-Patch5:         taxipilot-0.9.2-gcc45.patch
+Patch3:         taxipilot-0.9.2-arts-startup.patch
+Patch4:         taxipilot-0.9.2-gcc45.patch
 BuildRequires:  gcc gcc-c++ kdelibs3-devel arts-devel
 BuildRequires:  desktop-file-utils libappstream-glib
 Requires:       hicolor-icon-theme
@@ -61,6 +60,20 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Mon Aug 24 2020 Hans de Goede <hdegoede@redhat.com> - 0.9.2-35
+- Drop taxipilot-0.9.2-kdemm.patch, it was trying to fix taxipilot_LDADD in the
+  Makefile, but we override taxipilot_LDADD on the cmdline later
+- Dropping this fixes a race where sometimes the build fails because it cannot
+  find automake to regenerate Makefile.in because the patch touched Makefile.am
+- Fix FTBFS (rhbz#1865568)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-34
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-32
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

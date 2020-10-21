@@ -16,7 +16,7 @@ notifications.}
 %global godocs          AUTHORS CONTRIBUTING.md CHANGELOG.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Cross-platform file system notifications for Go
 
 # Upstream license specification: BSD-3-Clause
@@ -44,6 +44,9 @@ rm example_test.go
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

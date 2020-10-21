@@ -1,6 +1,6 @@
 Name:           perl-Parse-DebControl
 Version:        2.005
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Easy OO parsing of debian control-like files
 
 License:        GPL+ or Artistic
@@ -54,6 +54,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.005-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.005-20
 - Perl 5.32 rebuild
 

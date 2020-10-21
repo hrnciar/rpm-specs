@@ -1,6 +1,6 @@
 Name:           perl-Symbol-Util
 Version:        0.0203
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        Additional utilities for Perl symbols manipulation
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Symbol-Util
@@ -41,6 +41,9 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0203-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.0203-23
 - Perl 5.32 rebuild
 

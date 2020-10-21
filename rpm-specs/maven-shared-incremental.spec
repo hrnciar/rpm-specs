@@ -1,6 +1,6 @@
 Name:           maven-shared-incremental
 Version:        1.1
-Release:        18%{?dist}
+Release:        20%{?dist}
 Summary:        Maven Incremental Build support utilities
 License:        ASL 2.0
 URL:            http://maven.apache.org/shared/maven-shared-incremental/
@@ -43,6 +43,12 @@ This package provides %{summary}.
 %doc LICENSE NOTICE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.1-19
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,5 +1,5 @@
 Name:           python-virtualenv
-Version:        20.0.23
+Version:        20.0.32
 Release:        1%{?dist}
 Summary:        Tool to create isolated Python environments
 
@@ -97,9 +97,9 @@ Documentation for python virtualenv.
 %{__sed} -i -e "1s|#!/usr/bin/env python||" tasks/update_embedded.py
 
 # Remove the wheels provided by RPM packages
-rm src/virtualenv/seed/embed/wheels/pip-*
-rm src/virtualenv/seed/embed/wheels/setuptools-*
-rm src/virtualenv/seed/embed/wheels/wheel-*
+rm src/virtualenv/seed/wheels/embed/pip-*
+rm src/virtualenv/seed/wheels/embed/setuptools-*
+rm src/virtualenv/seed/wheels/embed/wheel-*
 
 test ! -f src/virtualenv/seed/embed/wheels/*.whl
 
@@ -125,17 +125,15 @@ unset SOURCE_DATE_EPOCH
 
 # Skip tests which requires internet or some extra dependencies
 # Requires internet:
-# - test_base_bootstrap_via_pip_invoke
-# - test_seed_link_via_app_data
-# Detects system Python even it should not (problem with mock?):
-# - test_py_info_to_system_raises
+# - test_download_*
 # Uses disabled functionalities around bundled wheels:
-# - test_wheel_support_no_python_requires
-# Requires xonsh (FTBFS with Py 3.9)
-# - test_xonsh
-# Does not work with beta release of Python:
-# - test_version_satisfies_nok
-%pytest -vv -k "not test_base_bootstrap_via_pip_invoke and not test_seed_link_via_app_data and not test_py_info_to_system_raises and not test_wheel_support_no_python_requires and not test_xonsh and not test_version_satisfies_nok"
+# - test_wheel_*
+# - test_seed_link_via_app_data
+# - test_base_bootstrap_via_pip_invoke
+# - test_acquire_find_wheel.py (whole file)
+# Uses disabled functionalities around automatic updates:
+# - test_periodic_update.py (whole file)
+%pytest -vv -k "not test_acquire_find_wheel and not test_periodic_update and not test_wheel_ and not test_download_ and not test_base_bootstrap_via_pip_invoke and not test_seed_link_via_app_data"
 
 rm -r tmp_path
 %endif
@@ -154,6 +152,28 @@ rm -r tmp_path
 
 
 %changelog
+* Fri Oct 02 2020 Lumír Balhar <lbalhar@redhat.com> - 20.0.32-1
+- Update to 20.0.32 (#1884449)
+
+* Thu Sep 03 2020 Lumír Balhar <lbalhar@redhat.com> - 20.0.31-1
+- Update to 20.0.31 (#1869352)
+
+* Thu Aug 06 2020 Lumír Balhar <lbalhar@redhat.com> - 20.0.30-1
+- Update to 20.0.30 (#1862562)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.0.28-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Miro Hrončok <mhroncok@redhat.com> - 20.0.28-1
+- Update to 20.0.28
+- Fixes rhbz#1860272
+
+* Thu Jul 23 2020 Lumír Balhar <lbalhar@redhat.com> - 20.0.27-1
+- Update to 20.0.27 (#1854551)
+
+* Tue Jun 23 2020 Lumír Balhar <lbalhar@redhat.com> - 20.0.25-1
+- Update to 20.0.25
+
 * Mon Jun 15 2020 Lumír Balhar <lbalhar@redhat.com> - 20.0.23-1
 - Update to 20.0.23 (#1742034)
 

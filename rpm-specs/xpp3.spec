@@ -3,7 +3,7 @@
 Summary:        XML Pull Parser
 Name:           xpp3
 Version:        1.1.4
-Release:        22.c%{?dist}
+Release:        26.c%{?dist}
 License:        ASL 1.1
 URL:            http://www.extreme.indiana.edu/xgws/xsoap/xpp/mxp1/index.html
 Source0:        http://www.extreme.indiana.edu/dist/java-repository/xpp3/distributions/xpp3-%{oversion}_src.tgz
@@ -54,8 +54,12 @@ sed -i 's|depends="junit_main,junit_addons"|depends="junit_main"|' build.xml
 # relax javadoc linting
 sed -i '/<javadoc/aadditionalparam="-Xdoclint:none"' build.xml
 
+# allow building on JDK 11
+sed -i -e '/source="1.2" target="1.1"/s/1\../1.8/g' build.xml
+
 %build
 export CLASSPATH=$(build-classpath junit)
+export ANT_OPTS="-Dfile.encoding=iso-8859-1"
 ant xpp3 junit apidoc
 
 # Add OSGi metadata
@@ -83,6 +87,18 @@ jar ufm build/%{name}-%{oversion}.jar %{SOURCE4}
 %license LICENSE.txt
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-26.c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Jiri Vanek <jvanek@redhat.com> - 1.1.4-25.c
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Mon Jul 13 2020 Mat Booth <mat.booth@redhat.com> - 1.1.4-24.c
+- Allow building on Java 11
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.1.4-23.c
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-22.c
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

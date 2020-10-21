@@ -5,7 +5,7 @@
 
 Name: liblangtag
 Version: 0.6.3
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: An interface library to access tags for identifying languages
 
 License: LGPLv3+ or MPLv2.0
@@ -125,6 +125,9 @@ make %{?_smp_mflags} check
 %{_datadir}/gtk-doc/html/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

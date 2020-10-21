@@ -4,7 +4,7 @@
 
 # https://github.com/containerd/cgroups
 %global goipath         github.com/containerd/cgroups
-%global commit          4994991857f9b0ae8dc439551e8bebdbb4bf66c1
+%global commit          318312a373405e5e91134d8063d04d59768a1bff
 
 %gometa
 
@@ -16,7 +16,7 @@ Go package for creating, managing, inspecting, and destroying cgroups.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Cgroups package for Go
 
 # Upstream license specification: Apache-2.0
@@ -24,14 +24,23 @@ License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
-BuildRequires:  golang(github.com/coreos/go-systemd/dbus)
+BuildRequires:  golang(github.com/cilium/ebpf)
+BuildRequires:  golang(github.com/cilium/ebpf/asm)
+BuildRequires:  golang(github.com/coreos/go-systemd/v22/dbus)
 BuildRequires:  golang(github.com/docker/go-units)
-BuildRequires:  golang(github.com/godbus/dbus)
+BuildRequires:  golang(github.com/godbus/dbus/v5)
 BuildRequires:  golang(github.com/gogo/protobuf/gogoproto)
 BuildRequires:  golang(github.com/gogo/protobuf/proto)
 BuildRequires:  golang(github.com/opencontainers/runtime-spec/specs-go)
 BuildRequires:  golang(github.com/pkg/errors)
+BuildRequires:  golang(github.com/sirupsen/logrus)
+BuildRequires:  golang(github.com/urfave/cli)
 BuildRequires:  golang(golang.org/x/sys/unix)
+
+%if %{with check}
+# Tests
+BuildRequires:  golang(github.com/stretchr/testify/assert)
+%endif
 
 %description
 %{common_description}
@@ -52,6 +61,12 @@ BuildRequires:  golang(golang.org/x/sys/unix)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 14:24:41 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200725git318312a
+- Bump to commit 318312a373405e5e91134d8063d04d59768a1bff
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

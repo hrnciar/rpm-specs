@@ -5,7 +5,7 @@
 
 Name:		nodejs-parseqs
 Version:	0.0.5
-Release:	6%{?dist}
+Release:	8%{?dist}
 Summary:	Methods for parsing a query string into an object, and vice versa
 
 License:	MIT
@@ -57,6 +57,13 @@ ln -s %{nodejs_sitelib}/expect.js node_modules/expect.js
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.5-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.5-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.5-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

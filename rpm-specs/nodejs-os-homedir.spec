@@ -6,7 +6,7 @@
 
 Name:		nodejs-os-homedir
 Version:	1.0.1
-Release:	10%{?dist}
+Release:	11%{?dist}
 Summary:	An io.js 2.3.0 os.homedir() ponyfill
 
 License:	MIT
@@ -65,6 +65,9 @@ cp -pr package.json index.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2019, Intel Corporation
+# Copyright (c) 2016-2020, Intel Corporation
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -24,7 +24,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 %global githubname   intel-cmt-cat
-%global githubver    3.1.1
+%global githubver    4.0.0
 
 %if %{defined githubsubver}
 %global githubfull   %{githubname}-%{githubver}.%{githubsubver}
@@ -115,7 +115,7 @@ install -m 0644 %{_builddir}/%{githubfull}/LICENSE %{buildroot}/%{_licensedir}/%
 install -d %{buildroot}/%{_libdir}
 install -s %{_builddir}/%{githubfull}/lib/libpqos.so.* %{buildroot}/%{_libdir}
 cp -a %{_builddir}/%{githubfull}/lib/libpqos.so %{buildroot}/%{_libdir}
-cp -a %{_builddir}/%{githubfull}/lib/libpqos.so.3 %{buildroot}/%{_libdir}
+cp -a %{_builddir}/%{githubfull}/lib/libpqos.so.4 %{buildroot}/%{_libdir}
 
 # Install the header file
 install -d %{buildroot}/%{_includedir}
@@ -156,7 +156,7 @@ install -m 0644 %{_builddir}/%{githubfull}/examples/c/CMT_MBM/monitor_app.c %{bu
 
 %files -n intel-cmt-cat-devel
 %{_libdir}/libpqos.so
-%{_libdir}/libpqos.so.3
+%{_libdir}/libpqos.so.4
 %{_includedir}/pqos.h
 %{_usrsrc}/%{githubfull}/c/CAT_MBA/Makefile
 %{_usrsrc}/%{githubfull}/c/CAT_MBA/reset_app.c
@@ -169,6 +169,12 @@ install -m 0644 %{_builddir}/%{githubfull}/examples/c/CMT_MBM/monitor_app.c %{bu
 %doc %{_usrsrc}/%{githubfull}/LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Khawar Abbasi <khawar.abbasi@intel.com> - 4.0.0-1
+- New release 4.0.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

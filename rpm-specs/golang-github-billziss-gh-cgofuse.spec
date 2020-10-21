@@ -5,8 +5,7 @@
 
 # https://github.com/billziss-gh/cgofuse
 %global goipath         github.com/billziss-gh/cgofuse
-Version:                1.1.0
-%global commit          dd0c76f07d34a74e62f4dd700ebe09a44925900c
+Version:                1.4.0
 
 %gometa
 
@@ -19,7 +18,7 @@ has cgo and !cgo ("nocgo") variants depending on the platform.}
 %global godocs          examples Changelog.md README.md
 
 Name:           %{goname}
-Release:        8%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform FUSE library for Go
 
 License:        MIT
@@ -45,6 +44,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 13:52:13 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.0-1
+- Update to 1.4.0
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

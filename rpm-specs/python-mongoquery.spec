@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.3.6
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        A python implementation of mongodb queries
 
 License:        Unlicense
@@ -13,6 +13,7 @@ BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  python3-six
 BuildRequires:  python3-pytest
+BuildRequires:  python3-setuptools
 
 Requires:       python3-six
 
@@ -52,6 +53,12 @@ PYTHONPATH=. pytest-3
 %{python3_sitelib}/%{srcname}-*.egg-info/
 
 %changelog
+* Wed Aug 05 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 1.3.6-4
+- BuildRequires python3-setuptools, fix RHBZ#1850951
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.6-2
 - Rebuilt for Python 3.9
 

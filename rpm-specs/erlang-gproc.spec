@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	0.8.0
-Release:	4%{?dist}
+Release:	6%{?dist}
 BuildArch:	noarch
 Summary:	Extended process registry for Erlang
 License:	ASL 2.0
@@ -49,6 +49,13 @@ rm -f doc/README.md
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

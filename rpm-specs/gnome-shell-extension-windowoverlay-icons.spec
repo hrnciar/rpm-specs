@@ -4,8 +4,8 @@
 
 Name:       gnome-shell-extension-windowoverlay-icons
 Summary:    Show app icons on top of the windows thumbnails in Activities Overview
-Version:    34
-Release:    4%{?dist}
+Version:    35
+Release:    1%{?dist}
 URL:        https://github.com/sustmi/gnome-shell-extension-windowoverlay-icons
 License:    GPLv3+
 BuildArch:  noarch
@@ -13,7 +13,6 @@ BuildArch:  noarch
 # You can see the latest releases here:
 # https://github.com/sustmi/gnome-shell-extension-windowoverlay-icons/releases
 Source0: https://github.com/sustmi/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
-Source1: ./README.md
 
 BuildRequires: gettext
 BuildRequires: glib2
@@ -42,6 +41,24 @@ every window thumbnail, making it easier to tell them apart.
 %prep
 %autosetup
 
+cat > ./README-fedora.md << EOF
+After installing, each user that wants it must still manually enable
+WindowOverlay Icons before it will take effect. You can do so a few
+different ways.
+
+First, restart GNOME Shell (Open the command dialog with Alt-F2, type
+\`r\`, and hit enter), or log out and log back in. Then:
+
+- If you've already set up the GNOME Shell web browser plugin, go to
+  <https://extensions.gnome.org/local/>, find the extension, and click
+  the switch to "ON."
+- Open GNOME Tweaks, go to the Extensions tab, find the extension,
+  and click the switch to "ON."
+- Open a terminal or the desktop's command dialog, and (as your normal
+  user account) run:
+  \`gnome-extensions enable %{UUID}\`
+EOF
+
 
 
 %build
@@ -53,7 +70,6 @@ every window thumbnail, making it easier to tell them apart.
 mkdir -p %{install_destination}
 mkdir -p %{buildroot}/%{_datadir}/glib-2.0/schemas/
 cp --recursive --preserve=mode,timestamps  ./*  %{install_destination}/
-cp --recursive --preserve=mode,timestamps  %{SOURCE1}  ./README-fedora.md
 
 # Remove duplicates of README and license.
 rm  %{install_destination}/README.md  %{install_destination}/COPYING
@@ -94,6 +110,12 @@ rm --recursive  %{install_destination}/po/  %{install_destination}/locale/
 
 
 %changelog
+* Mon Aug 03 2020 Andrew Toskin <andrew@tosk.in> - 35-1
+- Bump to upstream version 35.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 34-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Andrew Toskin <andrew@tosk.in> - 34-4
 - Add Recommended packages for EPEL8+.
 
@@ -106,13 +128,3 @@ rm --recursive  %{install_destination}/po/  %{install_destination}/locale/
 * Wed Apr 24 2019 Andrew Toskin <andrew@tosk.in> - 34-1
 - Bump to upstream version 34, which updated to keep up with
   backwards-incompatible changes to the shell API in GNOME 3.32
-
-* Mon Apr 22 2019 Andrew Toskin <andrew@tosk.in> - 33-1
-- Bump to upstream version 33, which fixes a minor bug that was throwing
-  junk messages into the error logs.
-
-* Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org> - 31-3
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
-
-* Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 31-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild

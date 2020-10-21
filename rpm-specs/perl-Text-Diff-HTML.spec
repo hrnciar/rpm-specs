@@ -1,6 +1,6 @@
 Name:           perl-Text-Diff-HTML
 Version:        0.08
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        XHTML format for Text::Diff::Unified
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Text-Diff-HTML
@@ -50,6 +50,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/Text::Diff::HTML.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.08-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.08-6
 - Perl 5.32 rebuild
 

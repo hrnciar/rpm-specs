@@ -7,7 +7,7 @@
 
 Name:		xorg-x11-drv-amdgpu
 Version:	19.1.0
-Release:	4%{?dist}
+Release:	5%{?dist}
 
 Summary:	AMD GPU video driver
 License:	MIT
@@ -55,6 +55,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_mandir}/man4/amdgpu.4*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 12 2020 Petr Viktorin <pviktori@redhat.com> - 19.1.0-4
 - Remove BuildRequires on python2
 

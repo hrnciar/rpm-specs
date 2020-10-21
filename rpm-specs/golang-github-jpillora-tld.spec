@@ -14,7 +14,7 @@ TLD Parser in Go.}
 %global godocs          example README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        TLD Parser in Go
 
 License:        MIT
@@ -42,6 +42,13 @@ BuildRequires:  golang(golang.org/x/net/publicsuffix)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.0.0-1
 - Update to latest upstream release (rhbz#1820850)
 

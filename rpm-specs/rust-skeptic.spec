@@ -7,7 +7,7 @@
 
 Name:           rust-%{crate}
 Version:        0.13.4
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Test your Rust markdown documentation via Cargo
 
 # Upstream license specification: MIT/Apache-2.0
@@ -81,6 +81,13 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.4-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.4-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 22 19:15:34 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.13.4-8
 - Update pulldown-cmark to 0.7
 

@@ -1,15 +1,15 @@
 Name:           gpscorrelate
-Version:        1.6.1
-Release:        29%{?dist}
+Version:        2.0
+Release:        2%{?dist}
 Summary:        A GPS photo correlation / geotagging tool
 
 License:        GPLv2+
-URL:            http://freefoote.dview.net/linux_gpscorr.html
-Source0:        http://freefoote.dview.net/linux/gpscorrelate-%{version}.tar.gz
+URL:            https://dfandrich.github.com/gpscorrelate/
+Source0:        https://github.com/dfandrich/gpscorrelate/releases/download/%{version}/gpscorrelate-%{version}.tar.xz
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
-BuildRequires:  exiv2-devel libxml2-devel gtk2-devel
+BuildRequires:  exiv2-devel libxml2-devel gtk3-devel
 # For the .desktop file
 BuildRequires:  desktop-file-utils
 # For the manpage
@@ -39,7 +39,7 @@ make install-desktop-file DESTDIR=$RPM_BUILD_ROOT datadir=%{_datadir}
 
 
 %files
-%doc COPYING RELEASES doc/*.html doc/*.png
+%doc %{_pkgdocdir}
 %{_bindir}/%{name}
 %{_bindir}/%{name}-gui
 %{_datadir}/applications/gpscorrelate.desktop
@@ -48,6 +48,12 @@ make install-desktop-file DESTDIR=$RPM_BUILD_ROOT datadir=%{_datadir}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Till Maas <opensource@till.name> - 2.0-1
+- Update to new upstream with new release
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

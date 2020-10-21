@@ -2,7 +2,7 @@
 
 Name:          rubygem-%{gem_name}
 Version:       3.2.1
-Release:       3%{?dist}
+Release:       4%{?dist}
 Summary:       A convenient way to diff string in ruby
 License:       MIT
 URL:           http://github.com/samg/diffy
@@ -73,6 +73,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

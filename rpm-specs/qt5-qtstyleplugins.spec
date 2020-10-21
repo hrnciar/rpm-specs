@@ -1,7 +1,7 @@
 Name:	 qt5-qtstyleplugins
 Summary: Classic Qt widget styles
 Version: 5.0.0
-Release: 39%{?dist}
+Release: 42%{?dist}
 License: LGPLv2 or GPLv2
 URL:	 https://github.com/qtproject/qtstyleplugins
 Source0: http://download.qt.io/community_releases/additional_qt_src_pkgs/qtstyleplugins-src-%{version}.tar.gz
@@ -31,6 +31,7 @@ Patch20: 0020-QPlastiqueStyle-Use-QCommonStyle-instead-of-QProxySt.patch
 Patch21: 0021-Plastique-Fix-QSpinBox-height-in-layout.patch
 Patch22: 0022-Motif-CDE-Fix-QSpinBox-height-in-layout.patch
 Patch23: 0023-Fix-plastique-cleanlooks-and-motif-animation-timer.patch
+Patch24: 0024-Fix-build-qt-5.15.patch
 
 ## upstreamable patches
 
@@ -83,6 +84,16 @@ popd
 
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 5.0.0-42
+- rebuild (qt5)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-41
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-40
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.0.0-39
 - rebuild (qt5)
 

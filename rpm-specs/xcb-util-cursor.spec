@@ -1,6 +1,6 @@
 Name:		xcb-util-cursor
 Version:	0.1.3
-Release:	10%{?dist}
+Release:	11%{?dist}
 Summary:	Cursor library on top of libxcb
 License:	MIT
 URL:		http://xcb.freedesktop.org
@@ -64,6 +64,9 @@ rm %{buildroot}%{_libdir}/*.la
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

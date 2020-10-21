@@ -2,7 +2,7 @@
 
 Name:		php-channel-symfony
 Version:	1.3
-Release:	16%{?dist}
+Release:	17%{?dist}
 Summary:	Adds symfony project channel to PEAR
 
 License:	MIT
@@ -57,6 +57,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

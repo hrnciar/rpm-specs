@@ -1,7 +1,7 @@
 %global uuid    com.github.calo001.%{name}
 
 Name:           fondo
-Version:        1.3.9
+Version:        1.3.10
 Release:        1%{?dist}
 Summary:        Find the most beautiful wallpapers
 
@@ -66,6 +66,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Sun Oct 11 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.3.10-1
+- build(update): 1.3.10
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.3.9-1
 - Update to 1.3.9
 

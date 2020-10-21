@@ -1,12 +1,12 @@
-%global commit      708424d7b48f4772690b0e24574b9ab7b43b2f52
+%global commit  132f36e990dfc6effdafa6cf261373432464f9bf
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global date        20191129
+%global date    20200207
 
-%global corename    gambatte
+%global corename gambatte
 
 Name:           libretro-%{corename}
 Version:        0
-Release:        0.2.%{date}git%{shortcommit}%{?dist}
+Release:        0.4.%{date}git%{shortcommit}%{?dist}
 Summary:        Libretro implementation of libgambatte
 
 License:        GPLv2
@@ -15,8 +15,9 @@ Source0:        %{url}/archive/%{commit}/%{name}-%{version}.%{date}git%{shortcom
 Source1:        https://raw.githubusercontent.com/flathub/org.gnome.Games/master/libretro-cores/%{corename}.libretro
 
 BuildRequires:  gcc-c++
-Suggests:       gnome-games%{?_isa}
-Suggests:       retroarch%{?_isa}
+
+Supplements:    gnome-games%{?_isa}
+Supplements:    retroarch%{?_isa}
 
 %description
 Gambatte is an accuracy-focused, open-source, cross-platform Game Boy Color
@@ -58,6 +59,12 @@ install -Dp -m 0644 %{SOURCE1} %{buildroot}%{_libdir}/libretro/%{corename}.libre
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4.20200207git132f36e
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0-0.3.20200207git132f36e
+- Update to latest git snapshot
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2.20191129git708424d
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

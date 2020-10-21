@@ -1,6 +1,6 @@
 Name:			tuxcut
 Version:		5.1
-Release:		12%{?dist}
+Release:		13%{?dist}
 URL:			https://bitbucket.org/a_atalla/tuxcut/overview
 Summary:		Arpspoof attacks protector
 License:		GPLv3
@@ -76,6 +76,9 @@ done;
 %doc LICENSE README
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

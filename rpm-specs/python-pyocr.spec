@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.7.2
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Python wrapper for OCR engines (Tesseract, Cuneiform, etc)
 
 License:        GPLv3+
@@ -75,6 +75,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} PYTHONDONTWRITEBYTECODE=1 \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 27 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.7.2-6
 - Stop testing against now-unavailable cuneiform
 

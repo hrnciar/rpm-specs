@@ -22,7 +22,7 @@ The Freetype font rasterizer in the Go programming language.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.11%{?dist}
+Release:        0.12%{?dist}
 Summary:        Freetype font rasterizer in the Go programming language
 
 License:        GPLv2 or FTL
@@ -50,6 +50,9 @@ BuildRequires:  golang(golang.org/x/image/math/fixed)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           vmpk
 Version:        0.7.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Virtual MIDI Piano Keyboard
 License:        GPLv3+
 URL:            http://vmpk.sourceforge.net/
@@ -32,11 +32,11 @@ display the played MIDI notes from another instrument or MIDI file player.
 %setup -q
 
 %build
-%cmake .
-make %{?_smp_mflags}
+%cmake
+%cmake_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 
 %check
 desktop-file-validate $RPM_BUILD_ROOT/%{_datadir}/applications/%{name}.desktop
@@ -51,6 +51,9 @@ desktop-file-validate $RPM_BUILD_ROOT/%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

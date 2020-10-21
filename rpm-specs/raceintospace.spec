@@ -1,19 +1,19 @@
 %bcond_with copr
 %bcond_with snapshot
 
+%undefine __cmake_in_source_build
+
 %global archive_suffix tar.gz
 %global commit 623777f
 %global date 20191012
+%global extra a3
+%global github_owner raceintospace
 
 %if %{without snapshot} && %{without copr}
-%global gittag v1.2.0-test2-fedora
+%global gittag v%{version}%{?extra}
 %global pkgversion %(echo %{gittag} | sed -e 's/^v//' -e 's/-/./g')
-%global github_owner pemensik
 %else
 # Use direct commits
-%global github_owner raceintospace
-#%%global snapinfo %%{date}git%%{commit}
-%global snapinfo test1.g0b4a6ba
 %if %{with copr}
 # Use fixed archive name, make srpm from current repository
 %global pkgversion git
@@ -23,19 +23,19 @@
 %endif
 
 # Since gcc build is broken, use clang by default
-%bcond_without clang
+%bcond_with clang
 
 Name:		raceintospace
-Version:	1.2.0
-Release:	2%{?snapinfo:.%{snapinfo}}%{?dist}
+Version:	2.0.0
+Release:	1%{?extra:.%extra}%{?dist}
 Summary:	Race into Space game
 
 License:	GPLv2+
 #URL:		https://github.com/raceintospace/raceintospace
 URL:		http://www.raceintospace.org/
 
-#Source0:	https://github.com/%%{github_owner}/%%{name}/archive/%%{gittag}/%%{name}-%%{pkgversion}.%%{archive_suffix}
-Source0:	raceintospace-1.2.0.test2.fedora.tar.gz
+Source0:	https://github.com/%{github_owner}/%{name}/archive/%{gittag}/%{name}-%{pkgversion}.%{archive_suffix}
+#Patch1:	# No patches
 
 BuildRequires:	cmake
 BuildRequires:	SDL-devel protobuf-devel boost-devel
@@ -94,29 +94,20 @@ export CFLAGS=`echo '%optflags' | sed -e 's/ -fstack-clash-protection//'`
 export CXXFLAGS="$CFLAGS"
 %endif
 %autosetup -p1 -n %{name}-%{pkgversion}
-mkdir build
-pushd build
-%cmake -DBUILD_PHYSFS=OFF ..
-popd
 
 %build
-pushd build
-%make_build
-popd
+%cmake -DBUILD_PHYSFS=OFF
+%cmake_build
 pushd doc/manual
 pandoc -o manual.html manual.md
 popd
 
 %install
-pushd build
-%make_install
-popd
-install -d %{buildroot}%{_metainfodir}
-install -m 0644 doc/raceintospace.appdata.xml %{buildroot}%{_metainfodir}/%{name}.appdata.xml
+%cmake_install
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
-appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/org.raceintospace.Raceintospace.metainfo.xml
 
 %files
 %doc AUTHORS README.md
@@ -124,7 +115,7 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 %{_bindir}/raceintospace
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/%{name}.*
-%{_metainfodir}/%{name}.*
+%{_metainfodir}/*.xml
 
 %files data
 %{_datadir}/%{name}
@@ -133,6 +124,19 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 %doc doc/manual
 
 %changelog
+* Sun Oct 11 22:05:33 CEST 2020 Petr Menšík <pemensik@redhat.com> - 2.0.0-1.a3
+- Update to 2.0.0 alpha3
+
+* Tue Aug 11 2020 Petr Menšík <pemensik@redhat.com> - 1.2.0-5
+- Update macros, fix build in rawhide (#1865359)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 31 2020 Petr Menšík <pihhan@gmail.com> - 1.2test1.fedora.2.g0b4a6ba-2
 - Development snapshot (0b4a6ba8)
 

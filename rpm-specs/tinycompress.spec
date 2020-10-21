@@ -1,6 +1,6 @@
 Name:          tinycompress
-Version:       1.2.2
-Release:       1%{?dist}
+Version:       1.2.4
+Release:       2%{?dist}
 Summary:       A library for compress audio offload in alsa
 License:       BSD and LGPLv2
 URL:           http://alsa-project.org/
@@ -60,6 +60,12 @@ make check
 %{_bindir}/crecord
 
 %changelog
+* Wed Feb 19 2020 Jaroslav Kysela <perex@perex.cz> 1.2.4-2
+- 1.2.4 release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 19 2020 Jaroslav Kysela <perex@perex.cz> 1.2.2-1
 - 1.2.2 release
 

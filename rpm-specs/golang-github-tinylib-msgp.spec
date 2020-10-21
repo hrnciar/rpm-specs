@@ -3,7 +3,7 @@
 
 # https://github.com/tinylib/msgp
 %global goipath         github.com/tinylib/msgp
-Version:                1.1.0
+Version:                1.1.2
 
 %gometa
 
@@ -14,7 +14,7 @@ This is a code generation tool and serialization library for MessagePack.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        Go code generator for MessagePack
 License:        MIT
 URL:            %{gourl}
@@ -51,6 +51,7 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %if %{with check}
 %check
 export PATH=$PATH:%{buildroot}%{_bindir}
+export GOPATH=$GOPATH:%{_datadir}/gocode:%{buildroot}%{_datadir}/gocode
 go generate ./msgp
 go generate ./_generated
 %gocheck
@@ -64,6 +65,12 @@ go generate ./_generated
 %gopkgfiles
 
 %changelog
+* Mon Aug 03 18:35:43 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.1.2-1
+- Update to 1.1.2
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

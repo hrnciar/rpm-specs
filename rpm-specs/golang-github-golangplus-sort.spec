@@ -14,7 +14,7 @@ Plus to standard sort package.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Plus to standard sort package
 
 # Upstream license specification: BSD-3-Clause
@@ -46,6 +46,9 @@ BuildRequires:  golang(github.com/golangplus/testing/assert)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 08 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.0.0-1
 - Update to first tagged version
 

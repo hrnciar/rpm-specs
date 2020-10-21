@@ -9,7 +9,7 @@
 
 Name:			cairo-dock
 Version:		3.4.1
-Release:		13%{?dist}
+Release:		15%{?dist}
 Summary:		Light eye-candy fully themable animated dock
 
 License:		GPLv3+
@@ -114,12 +114,11 @@ sed -i.stat \
 
 %build
 rm -f CMakeCache.txt
-%cmake -DCMAKE_SKIP_RPATH:BOOL=ON .
-make %{?_smp_mflags}
+%cmake -DCMAKE_SKIP_RPATH:BOOL=ON
+%cmake_build
 
 %install
-%make_install \
-	INSTALL="install -c -p"
+%cmake_install
 chmod 0755 ${RPM_BUILD_ROOT}%{_libdir}/lib*.so.*
 
 ## Desktop files
@@ -203,6 +202,13 @@ popd
 %{_libdir}/pkgconfig/gldi.pc
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-15
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

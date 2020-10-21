@@ -23,7 +23,7 @@
 %bcond_with bootstrap
 
 Name:           gap-pkg-%{pkgname}
-Version:        1.8.9
+Version:        1.8.11
 Release:        1%{?dist}
 Summary:        GAP browser for 2-dimensional arrays of data
 
@@ -47,6 +47,8 @@ BuildRequires:  ghostscript
 BuildRequires:  libtool
 BuildRequires:  netpbm-progs
 BuildRequires:  pkgconfig(ncurses)
+BuildRequires:  pkgconfig(readline)
+BuildRequires:  pkgconfig(zlib)
 
 Requires:       gap-core%{?_isa}
 
@@ -107,10 +109,13 @@ sed -i '1i#!/bin/sh' bibl/getnewestbibfile
 %build
 # This is NOT an autoconf-generated configure script
 ./configure %{_gap_dir}
-make %{?_smp_mflags} LDFLAGS="$RPM_LD_FLAGS" GAPPATH="%{_gap_dir}"
+%make_build LDFLAGS="$RPM_LD_FLAGS" GAPPATH="%{_gap_dir}"
 
-# Fix permissions on the shared object
-chmod 0755 bin/*/ncurses.so
+# Relink with the right flags
+gcc %{optflags} -I%{_gap_dir}/gen -I%{_gap_dir}/src -I%{_gap_dir} \
+    -DHAVE_CONFIG_H -DSYS_DEFAULT_PATHS=%{_gap_dir} -fPIC -DPIC -shared \
+    src/ncurses.c $RPM_LD_FLAGS -lgmp -lz -lreadline -lm -ldl -lutil -lpanel \
+    -lncurses -Wl,-soname -Wl,ncurses.so -o bin/%{_gap_arch}/ncurses.so
 
 # Link to main GAP documentation
 mkdir ../pkg
@@ -129,7 +134,7 @@ sed -i "s,$PWD/\.\./pkg,..,g" doc/*.html
 
 %install
 mkdir -p %{buildroot}%{_gap_dir}/pkg/%{upname}/bin/%{_gap_arch}
-cp -p bin/%{_gap_arch}/.libs/ncurses.so \
+cp -p bin/%{_gap_arch}/ncurses.so \
    %{buildroot}%{_gap_dir}/pkg/%{upname}/bin/%{_gap_arch}
 cp -a app bibl doc lib tst version *.g %{buildroot}%{_gap_dir}/pkg/%{upname}
 rm -f %{buildroot}%{_gap_dir}/pkg/%{upname}/doc/*.{aux,bbl,blg,brf,idx,ilg,ind,log,out,pnr,tex}
@@ -146,6 +151,15 @@ rm -f %{buildroot}%{_gap_dir}/pkg/%{upname}/tst/*~
 %{_gap_dir}/pkg/%{upname}/doc/
 
 %changelog
+* Fri Aug 28 2020 Jerry James <loganjerry@gmail.com> - 1.8.11-1
+- Version 1.8.11
+
+* Wed Aug 19 2020 Jerry James <loganjerry@gmail.com> - 1.8.10-1
+- Version 1.8.10
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 11 2020 Jerry James <loganjerry@gmail.com> - 1.8.9-1
 - Version 1.8.9
 

@@ -1,6 +1,6 @@
 Name:           jsl
 Version:        0.3.0
-Release:        24%{?dist}
+Release:        26%{?dist}
 Summary:        Check JavaScript code for common mistakes
 
 License:        MPLv1.1
@@ -58,6 +58,13 @@ perl run_tests.pl ../src/jsl
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-26
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

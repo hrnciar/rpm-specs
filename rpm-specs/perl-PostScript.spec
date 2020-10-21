@@ -1,6 +1,6 @@
 Name:           perl-PostScript
 Version:        0.06
-Release:        33%{?dist}
+Release:        34%{?dist}
 Summary:        PostScript Perl module
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/PostScript
@@ -43,6 +43,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.06-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.06-33
 - Perl 5.32 rebuild
 

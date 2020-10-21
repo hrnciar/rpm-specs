@@ -3,8 +3,8 @@
 %global pkgname poppler
 
 Name:          mingw-%{pkgname}
-Version:       0.84.0
-Release:       2%{?dist}
+Version:       0.90.1
+Release:       3%{?dist}
 Summary:       MinGW Windows Poppler library
 
 License:       (GPLv2 or GPLv3) and GPLv2+ and LGPLv2+ and MIT
@@ -134,11 +134,11 @@ MinGW Windows C++ Poppler library.
   -DENABLE_UNSTABLE_API_ABI_HEADERS=ON \
   -DENABLE_ZLIB=OFF \
 
-%mingw_make %{?_smp_mflags} V=1
+%mingw_make_build
 
 
 %install
-%mingw_make DESTDIR=%{buildroot} install
+%mingw_make_install
 
 # Delete *.la files
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
@@ -155,7 +155,7 @@ rm -f %{buildroot}%{mingw64_bindir}/*.exe
 %files -n mingw32-%{pkgname}
 %license COPYING
 %doc README.md
-%{mingw32_bindir}/libpoppler-94.dll
+%{mingw32_bindir}/libpoppler-101.dll
 %{mingw32_includedir}/poppler/
 %exclude %{mingw32_includedir}/poppler/cpp/
 %exclude %{mingw32_includedir}/poppler/glib/
@@ -186,7 +186,7 @@ rm -f %{buildroot}%{mingw64_bindir}/*.exe
 %files -n mingw64-%{pkgname}
 %license COPYING
 %doc README.md
-%{mingw64_bindir}/libpoppler-94.dll
+%{mingw64_bindir}/libpoppler-101.dll
 %{mingw64_includedir}/poppler/
 %exclude %{mingw64_includedir}/poppler/cpp/
 %exclude %{mingw64_includedir}/poppler/glib/
@@ -216,6 +216,15 @@ rm -f %{buildroot}%{mingw64_bindir}/*.exe
 
 
 %changelog
+* Wed Aug 12 13:45:03 GMT 2020 Sandro Mani <manisandro@gmail.com> - 0.90.1-3
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.90.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Sandro Mani <manisandro@gmail.com> - 0.90.1-1
+- Update to 0.90.1
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.84.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

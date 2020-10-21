@@ -12,7 +12,7 @@ A collection of go utilities.}
 
 %global golicenses      LICENSE
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Collection of Go utilities
 
 # Upstream license specification: Apache-2.0
@@ -41,6 +41,13 @@ BuildRequires:  golang(github.com/pkg/errors)
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 09 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.0.6-1
 - update to 1.0.6 (#1814461)
 

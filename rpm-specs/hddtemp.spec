@@ -3,7 +3,7 @@
 
 Name:           hddtemp
 Version:        0.3
-Release:        0.44.%{beta}%{?dist}
+Release:        0.46.%{beta}%{?dist}
 Summary:        Hard disk temperature tool
 License:        GPLv2+
 URL:            http://savannah.nongnu.org/projects/hddtemp/
@@ -16,22 +16,20 @@ Source4:        %{name}.pam
 Source5:        %{name}.consoleapp
 
 Patch0:         0001-Try-attribute-190-if-194-doesn-t-exist.patch
-Patch1:         http://ftp.debian.org/debian/pool/main/h/hddtemp/hddtemp_0.3-beta15-52.diff.gz
+Patch1:         http://ftp.debian.org/debian/pool/main/h/hddtemp/hddtemp_0.3-beta15-53.diff.gz
 # https://bugzilla.redhat.com/show_bug.cgi?id=717479
 # https://bugzilla.redhat.com/show_bug.cgi?id=710055
 Patch2:         %{name}-0.3-beta15-autodetect-717479.patch
 Patch3:         0001-Allow-binding-to-a-listen-address-that-doesn-t-exist.patch
 Patch4:         fix-model-length.patch
-# https://bugzilla.redhat.com/show_bug.cgi?id=1555871
-Patch5:         %{name}-user-context-type.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=1634377
+Patch5:         ru.po.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=1801116
+Patch6:         %{name}-nvme.patch
 
 BuildRequires:  gcc
 BuildRequires:  gettext
-# systemd >= 186 for scriptlet macros
-BuildRequires:  systemd >= 186
-Requires(post): systemd
-Requires(preun): systemd
-Requires(postun): systemd
+BuildRequires:  systemd-rpm-macros
 Requires:       %{_bindir}/consolehelper
 
 
@@ -48,9 +46,10 @@ reading S.M.A.R.T. information.
 %patch3 -p1
 %patch0 -p1
 %patch4 -p1
-%patch5 -p1
+%patch5 -p0
+%patch6 -p1
 
-sed -i -e 's|/etc/hddtemp.db|/usr/share/misc/hddtemp.db|' doc/hddtemp.8
+sed -i -e 's|/etc/hddtemp.db|%{_datadir}/misc/hddtemp.db|' doc/hddtemp.8
 chmod -x contribs/analyze/*
 rm COPYING ; cp -p GPL-2 COPYING
 cp -p debian/changelog changelog.debian
@@ -58,18 +57,18 @@ cp -p debian/changelog changelog.debian
 
 %build
 %configure --disable-dependency-tracking
-make %{?_smp_mflags}
+%make_build
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
-install -Dpm 644 %{SOURCE1} $RPM_BUILD_ROOT/usr/share/misc/hddtemp.db
-install -Dpm 644 %{SOURCE2} $RPM_BUILD_ROOT%{_unitdir}/hddtemp.service
-install -Dpm 644 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/hddtemp
-install -dm 755 $RPM_BUILD_ROOT%{_bindir}
-ln -s consolehelper $RPM_BUILD_ROOT%{_bindir}/hddtemp
-install -Dpm 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/hddtemp
-install -Dpm 644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/security/console.apps/hddtemp
+%make_install
+install -Dpm 644 %{S:1} %{buildroot}%{_datadir}/misc/hddtemp.db
+install -Dpm 644 %{S:2} %{buildroot}%{_unitdir}/hddtemp.service
+install -Dpm 644 %{S:3} %{buildroot}%{_sysconfdir}/sysconfig/hddtemp
+install -dm 755 %{buildroot}%{_bindir}
+ln -s consolehelper %{buildroot}%{_bindir}/hddtemp
+install -Dpm 644 %{S:4} %{buildroot}%{_sysconfdir}/pam.d/hddtemp
+install -Dpm 644 %{S:5} %{buildroot}%{_sysconfdir}/security/console.apps/hddtemp
 %find_lang %{name}
 
 
@@ -91,11 +90,22 @@ install -Dpm 644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/security/console.apps/
 %{_unitdir}/hddtemp.service
 %{_bindir}/hddtemp
 %{_sbindir}/hddtemp
-%config(noreplace) /usr/share/misc/hddtemp.db
+%config(noreplace) %{_datadir}/misc/hddtemp.db
 %{_mandir}/man8/hddtemp.8*
 
 
 %changelog
+* Sat Aug 22 2020 Dominik Mierzejewski <rpm@greysector.net> - 0.3-0.46.beta15
+- update Debian patch to latest
+- drop obsolete patch
+- fix Russian translation (#1634377)
+- add support for NVME drives (#1801116)
+- correct build depdendency for systemd macros
+- use modern macros
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-0.45.beta15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-0.44.beta15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

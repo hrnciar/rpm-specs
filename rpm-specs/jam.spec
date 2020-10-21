@@ -1,6 +1,6 @@
 Name:		jam
 Version:	2.5
-Release:	27%{?dist}
+Release:	28%{?dist}
 License:	Copyright only
 Summary:	Program construction tool, similar to make
 URL:		http://public.perforce.com/public/jam/index.html
@@ -37,6 +37,9 @@ install -m0755 bin.linux*/mkjambase $RPM_BUILD_ROOT/%{_bindir}
 %{_bindir}/mkjambase
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

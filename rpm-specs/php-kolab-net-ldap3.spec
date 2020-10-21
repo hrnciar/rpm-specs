@@ -12,7 +12,7 @@
 
 Name:           php-kolab-net-ldap3
 Version:        1.1.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Advanced functionality for accessing LDAP directories
 
 License:        GPLv3+
@@ -63,6 +63,9 @@ cp -pr lib/Net %{buildroot}%{_datadir}/php/Net
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

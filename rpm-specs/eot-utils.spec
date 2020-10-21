@@ -1,6 +1,6 @@
 Name:           eot-utils
 Version:        1.1
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Tools to convert OTF/TTF to EOT font format and show its metadata
 
 License:        W3C
@@ -34,6 +34,9 @@ make install DESTDIR=%{buildroot} INSTALL="install -p"
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

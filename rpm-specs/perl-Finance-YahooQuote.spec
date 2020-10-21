@@ -1,6 +1,6 @@
 Name:           perl-Finance-YahooQuote
 Version:        0.26
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Perl interface to get stock quotes from Yahoo! Finance
 
 License:        GPLv2+
@@ -51,6 +51,9 @@ chmod -R u+w $RPM_BUILD_ROOT/*
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.26-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.26-9
 - Perl 5.32 rebuild
 

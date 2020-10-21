@@ -1,6 +1,6 @@
 Name:			mpir
 Version:		3.0.0
-Release:		8%{?dist}
+Release:		10%{?dist}
 Summary:		A library for arbitrary precision arithmetic
 
 License:		LGPLv3+
@@ -8,6 +8,7 @@ URL:			http://mpir.org/
 Source0:		http://mpir.org/%{name}-%{version}.tar.bz2
 # Enable aarch64 support
 Patch0:			%{name}-aarch64.patch
+Patch1:			%{name}-config.patch
 
 # ppc64 assembly has not yet been ported to little endian
 ExcludeArch:		ppc64le
@@ -32,6 +33,7 @@ developing applications that use %{name}.
 %prep
 %setup -q
 %patch0
+%patch1 -p1
 
 # Convert ISO-8859-1 files to UTF-8, preserving timestamps
 for fil in NEWS doc/devel/projects.html doc/devel/tasks.html; do
@@ -85,6 +87,12 @@ make check
 %{_infodir}/mpir.info*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 3.0.0-9
+- Fix broken configure test compromised by LTO
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

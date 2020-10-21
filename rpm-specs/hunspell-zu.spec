@@ -2,7 +2,7 @@ Name: hunspell-zu
 Summary: Zulu hunspell dictionaries
 %global upstreamid 20100126
 Version: 0.%{upstreamid}
-Release: 20%{?dist}
+Release: 21%{?dist}
 Source: https://downloads.sourceforge.net/project/aoo-extensions/3132/3/dict-zu_za-2010.01.26.oxt
 URL: https://extensions.openoffice.org/en/project/zulu-spell-checker
 # There is no License information in this new sourceforge Source: archive
@@ -43,6 +43,9 @@ cp -p zu_ZA.dic $RPM_BUILD_ROOT/%{_datadir}/myspell/zu.dic
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20100126-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20100126-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

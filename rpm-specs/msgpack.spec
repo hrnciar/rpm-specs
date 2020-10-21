@@ -1,6 +1,8 @@
+%global __cmake_in_source_build 1
+
 Name:		msgpack
 Version:	3.1.0
-Release:	4%{?dist}
+Release:	6%{?dist}
 Summary:	Binary-based efficient object serialization library
 
 License:	Boost
@@ -32,13 +34,13 @@ Libraries and header files for %{name}
 %prep
 %autosetup -p1
 
+sed -i "s|-std=c++98|-std=gnu++11|g" CMakeLists.txt
 
 %build
 if test ! -e "obj"; then
   mkdir obj
 fi
 pushd obj
-
 %cmake .. -DCMAKE_INSTALL_LIBDIR=%{_libdir} -Dlibdir=%{_libdir} -DBUILD_SHARED_LIBS=ON
 %make_build
 
@@ -62,7 +64,6 @@ make install/fast DESTDIR=$RPM_BUILD_ROOT -C obj
 
 
 %files
-%{!?_licensedir:%global license %doc}
 %license LICENSE_1_0.txt COPYING
 %doc AUTHORS ChangeLog NOTICE README README.md
 %{_libdir}/*.so.*
@@ -75,6 +76,13 @@ make install/fast DESTDIR=$RPM_BUILD_ROOT -C obj
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

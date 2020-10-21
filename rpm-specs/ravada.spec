@@ -1,6 +1,6 @@
 Name:           ravada
-Version:        0.8.2
-Release:        1%{?dist}
+Version:        0.8.3
+Release:        3%{?dist}
 Summary:        Remote Virtual Desktops Manager
 # AGPLv3: main program
 # ASL 2.0: public/css/sb-admin.css
@@ -150,6 +150,19 @@ exit 0
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 17:04:59 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.8.3-1
+- Update to 0.8.3 (#18525875)
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.8.2-2
+- Perl 5.32 rebuild
+
 * Thu Jun 18 15:48:06 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.8.2-1
 - Update to 0.8.2
 

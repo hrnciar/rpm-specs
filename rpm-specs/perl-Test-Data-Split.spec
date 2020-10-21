@@ -1,8 +1,8 @@
 %define upstream_name    Test-Data-Split
 
 Name:       perl-%{upstream_name}
-Version:    0.2.1
-Release:    6%{?dist}
+Version:    0.2.2
+Release:    1%{?dist}
 
 Summary:    Split data-driven tests into several test scripts
 License:    MIT
@@ -42,7 +42,6 @@ file per (key+value) for easy parallelization.
 
 %build
 perl Build.PL --installdirs=vendor
-
 ./Build
 
 %check
@@ -58,6 +57,15 @@ perl Build.PL --installdirs=vendor
 %perl_vendorlib/*
 
 %changelog
+* Tue Oct 20 2020 Shlomi Fish <shlomif@shlomifish.org> 0.2.2-1
+- New version
+
+* Thu Aug 06 2020 Shlomi Fish <shlomif@shlomifish.org> 0.2.1-8
+- Rebuild due to Koschei build failure.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.2.1-6
 - Perl 5.32 rebuild
 

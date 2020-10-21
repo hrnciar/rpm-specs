@@ -2,7 +2,7 @@
 
 Name:           python-dialog
 Version:        3.5.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Python interface to the Unix dialog utility
 
 License:        LGPLv2+
@@ -46,6 +46,9 @@ find examples -name '*.py' -print -exec sed -r -i 's|(.!)\s+/usr/bin/env python.
 %{python3_sitelib}/pythondialog-*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.5.1-2
 - Rebuilt for Python 3.9
 

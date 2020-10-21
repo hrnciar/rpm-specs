@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.5.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Providing the features between "full" and "derive" of syn
 
 # Upstream license specification: Apache-2.0 OR MIT
@@ -83,6 +83,13 @@ which use "clone-impls" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Josh Stone <jistone@redhat.com> - 0.5.0-1
 - Update to 0.5.0
 

@@ -6,7 +6,7 @@
 Name:             mpc
 Summary:          Command-line client for MPD
 Version:          0.33
-Release:          3%{?dist}
+Release:          4%{?dist}
 
 License:          GPLv2+
 URL:              http://www.musicpd.org/
@@ -50,6 +50,9 @@ rm -f %{buildroot}%{_pkgdocdir}/html/.buildinfo
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.33-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 29 2020 Todd Zullinger <tmz@pobox.com> - 0.33-3
 - Update bash-completion path
 

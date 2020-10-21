@@ -1,7 +1,7 @@
 Summary: Console-based network traffic monitor
 Name: vnstat
 Version: 2.6
-Release: 2%{?dist}
+Release: 3%{?dist}
 
 License: GPLv2
 URL: http://humdi.net/vnstat/
@@ -84,6 +84,9 @@ exit 0
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

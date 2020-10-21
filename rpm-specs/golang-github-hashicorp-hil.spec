@@ -27,7 +27,7 @@ possible some of these may be added later but the right use case must exist.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.12%{?dist}
+Release:        0.14%{?dist}
 Summary:        Small embedded language for string interpolations
 
 # Upstream license specification: MPL-2.0
@@ -69,6 +69,13 @@ end
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

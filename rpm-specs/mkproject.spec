@@ -1,6 +1,6 @@
 Name:           mkproject
 Version:        0.4.6
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Make project skeletons
 
 License:        GPLv3+
@@ -46,6 +46,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.6-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.6-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

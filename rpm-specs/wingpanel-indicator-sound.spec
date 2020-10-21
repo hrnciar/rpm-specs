@@ -4,7 +4,7 @@
 
 Name:           wingpanel-indicator-sound
 Summary:        Sound Indicator for wingpanel
-Version:        2.1.5
+Version:        2.1.7
 Release:        1%{?dist}
 License:        GPLv3
 
@@ -48,6 +48,9 @@ A sound indicator for wingpanel.
 
 %find_lang sound-indicator
 
+# remove the specified stock icon from appdata (invalid in libappstream-glib)
+sed -i '/icon type="stock"/d' %{buildroot}/%{_datadir}/metainfo/%{appname}.appdata.xml
+
 
 %check
 appstream-util validate-relax --nonet \
@@ -65,6 +68,15 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Fri Oct 09 2020 Fabio Valentini <decathorpe@gmail.com> - 2.1.7-1
+- Update to version 2.1.7.
+
+* Wed Aug 12 2020 Fabio Valentini <decathorpe@gmail.com> - 2.1.6-1
+- Update to version 2.1.6.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 03 2020 Fabio Valentini <decathorpe@gmail.com> - 2.1.5-1
 - Update to version 2.1.5.
 

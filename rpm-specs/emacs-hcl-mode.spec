@@ -2,7 +2,7 @@
 
 Name:           emacs-%{pkg}
 Version:        0.03
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Emacs major mode of HCL (Hashicorp Configuration Language)
 
 License:        GPLv3+
@@ -40,6 +40,9 @@ install -Dpm 0644 %{SOURCE1} $RPM_BUILD_ROOT%{_emacs_sitestartdir}/%{pkg}-init.e
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.03-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.03-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

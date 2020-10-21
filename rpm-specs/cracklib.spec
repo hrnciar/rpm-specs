@@ -5,7 +5,7 @@
 Summary: A password-checking library
 Name: cracklib
 Version: 2.9.6
-Release: 22%{?dist}
+Release: 24%{?dist}
 Source0: https://github.com/cracklib/cracklib/releases/download/cracklib-%{version}/cracklib-%{version}.tar.gz
 Source1: https://github.com/cracklib/cracklib/releases/download/cracklib-%{version}/cracklib-words-%{version}.gz
 
@@ -110,7 +110,7 @@ make
 
 %install
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT 'pythondir=${pyexecdir}'
+%make_install 'pythondir=${pyexecdir}'
 ./util/cracklib-format cracklib-dicts/* | \
 ./util/cracklib-packer $RPM_BUILD_ROOT/%{dictpath}
 ./util/cracklib-format $RPM_BUILD_ROOT/%{dictdir}/cracklib-small | \
@@ -175,6 +175,13 @@ make test DESTDIR=$RPM_BUILD_ROOT
 %{_sbindir}/packer
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.6-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 2.9.6-23
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.6-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,15 +1,12 @@
 %global packname tibble
-%global packver  3.0.1
+%global packver  3.0.4
 %global rlibdir  %{_libdir}/R/library
 
-%global __suggests_exclude ^R\\((bench)\\)
-
-# Unavailable and/or loops.
-%global with_suggests 0
+%bcond_with bootstrap
 
 Name:             R-%{packname}
-Version:          3.0.1
-Release:          2%{?dist}
+Version:          3.0.4
+Release:          1%{?dist}
 Summary:          Simple Data Frames
 
 License:          MIT
@@ -18,8 +15,8 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 
 # Here's the R view of the dependencies world:
 # Depends:   
-# Imports:   R-cli, R-crayon >= 1.3.4, R-ellipsis >= 0.2.0, R-fansi >= 0.4.0, R-lifecycle >= 0.2.0, R-magrittr, R-methods, R-pillar >= 1.4.3, R-pkgconfig, R-rlang >= 0.4.3, R-utils, R-vctrs >= 0.2.4
-# Suggests:  R-bench, R-bit64, R-blob, R-covr, R-dplyr, R-evaluate, R-hms, R-htmltools, R-import, R-knitr, R-mockr, R-nycflights13, R-purrr, R-rmarkdown, R-testthat >= 2.1.0, R-tidyr, R-withr
+# Imports:   R-cli, R-crayon >= 1.3.4, R-ellipsis >= 0.2.0, R-fansi >= 0.4.0, R-lifecycle >= 0.2.0, R-magrittr, R-methods, R-pillar >= 1.4.3, R-pkgconfig, R-rlang >= 0.4.3, R-utils, R-vctrs >= 0.3.2
+# Suggests:  R-bench, R-bit64, R-blob, R-covr, R-dplyr, R-evaluate, R-formattable, R-hms, R-htmltools, R-import, R-knitr, R-lubridate, R-mockr, R-nycflights13, R-purrr, R-rmarkdown, R-testthat >= 2.1.0, R-tidyr, R-withr
 # LinkingTo:
 # Enhances:
 
@@ -36,24 +33,26 @@ BuildRequires:    R-pillar >= 1.4.3
 BuildRequires:    R-pkgconfig
 BuildRequires:    R-rlang >= 0.4.3
 BuildRequires:    R-utils
-BuildRequires:    R-vctrs >= 0.2.4
+BuildRequires:    R-vctrs >= 0.3.2
 BuildRequires:    R-bit64
 BuildRequires:    R-blob
 BuildRequires:    R-evaluate
+BuildRequires:    R-formattable
 BuildRequires:    R-hms
 BuildRequires:    R-htmltools
 BuildRequires:    R-import
 BuildRequires:    R-knitr
+BuildRequires:    R-lubridate
 BuildRequires:    R-mockr
 BuildRequires:    R-purrr
 BuildRequires:    R-rmarkdown
 BuildRequires:    R-testthat >= 2.1.0
 BuildRequires:    R-withr
-%if %{with_suggests}
-BuildRequires:    R-tidyr
+%if %{without bootstrap}
 BuildRequires:    R-bench
 BuildRequires:    R-dplyr
 BuildRequires:    R-nycflights13
+BuildRequires:    R-tidyr
 %endif
 
 %description
@@ -80,10 +79,10 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 %check
 export LANG=C.UTF-8
-%if %{with_suggests}
+%if %{without bootstrap}
 %{_bindir}/R CMD check %{packname}
 %else
-_R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --no-examples
+_R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --no-examples --no-vignettes
 %endif
 
 
@@ -104,6 +103,20 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --no-examples
 
 
 %changelog
+* Mon Oct 12 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 3.0.4-1
+- Update to latest version (#1887474)
+- Disable bootstrap
+
+* Mon Aug 03 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 3.0.3-1
+- Update to latest version
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 3.0.1-2
 - move tidyr under with_suggests to break loop
 - rebuild for R 4

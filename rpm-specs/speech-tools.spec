@@ -1,6 +1,6 @@
 Name:           speech-tools
 Version:        2.5
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Edinburgh speech tools library
 
 License:        MIT
@@ -103,6 +103,9 @@ but they might be depended upon by some third-party developers as well.
 %{_libdir}/*.a
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 05 2020 Lukáš Tyrychtr <lukastyrychtr@gmail.com> - 2.5-13
 Fix building with the latest GCC.
 

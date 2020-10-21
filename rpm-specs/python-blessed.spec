@@ -39,8 +39,8 @@ It provides: \
 %endif
 
 Name:       python-%{pypi_name}
-Version:    1.17.8
-Release:    2%{?dist}
+Version:    1.17.10
+Release:    1%{?dist}
 Summary:    %{summary}
 
 License:    MIT
@@ -206,6 +206,12 @@ export TERM=xterm-256color
 
 
 %changelog
+* Mon Sep 14 2020 Avram Lubkin <aviso@rockhopper.net> - 1.17.10-1
+- Updated to 1.17.10
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Avram Lubkin <aviso@rockhopper.net> - 1.17.8-2
 - Add EL7 pytest patch
 

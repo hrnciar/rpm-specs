@@ -2,8 +2,8 @@
 
 Summary: A free and portable font rendering engine
 Name: freetype
-Version: 2.10.1
-Release: 2%{?dist}
+Version: 2.10.2
+Release: 3%{?dist}
 License: (FTL or GPLv2+) and BSD and MIT and Public Domain and zlib with acknowledgement
 URL: http://www.freetype.org
 Source:  http://download.savannah.gnu.org/releases/freetype/freetype-%{version}.tar.xz
@@ -31,6 +31,7 @@ BuildRequires: libX11-devel
 BuildRequires: libpng-devel
 BuildRequires: zlib-devel
 BuildRequires: bzip2-devel
+BuildRequires: brotli-devel
 
 Provides: %{name}-bytecode
 Provides: %{name}-subpixel
@@ -91,10 +92,11 @@ popd
            --with-bzip2=yes \
            --with-png=yes \
            --enable-freetype-config \
-           --with-harfbuzz=no
+           --with-harfbuzz=no \
+           --with-brotli=yes
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' builds/unix/libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' builds/unix/libtool
-make %{?_smp_mflags}
+%make_build
 
 %if %{with_xfree86}
 # Build demos
@@ -195,6 +197,18 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.{a,la}
 %{_mandir}/man1/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Tom Stellard <tstellar@redhat.com> - 2.10.2-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Wed Jul 15 2020 Marek Kasik <mkasik@redhat.com> - 2.10.2-1
+- Update to 2.10.2
+- Enable support for WOFF2 streams
+- Resolves: #1725983
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.10.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

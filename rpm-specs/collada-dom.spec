@@ -1,6 +1,6 @@
 Name:           collada-dom
 Version:        2.5.0
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        COLLADA Document Object Model Library
 
 License:        MIT
@@ -44,17 +44,13 @@ dos2unix licenses/license_e.txt
 
 
 %build
-mkdir build
-cd build
-%cmake \
-  -DCMAKE_SKIP_INSTALL_RPATH:BOOL=ON \
-  ..
+%cmake -DCMAKE_SKIP_INSTALL_RPATH:BOOL=ON
+%cmake_build
 
-make  %{?_smp_mflags}
 
 %install
-cd build
-make install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
+
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 mv $RPM_BUILD_ROOT%{_libdir}/cmake/collada_dom-* $RPM_BUILD_ROOT%{_libdir}/cmake/collada_dom
 
@@ -71,6 +67,13 @@ mv $RPM_BUILD_ROOT%{_libdir}/cmake/collada_dom-* $RPM_BUILD_ROOT%{_libdir}/cmake
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-13
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 2.5.0-11
 - Rebuilt for Boost 1.73
 

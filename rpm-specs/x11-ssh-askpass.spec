@@ -5,7 +5,7 @@
 
 Name:		x11-ssh-askpass
 Version:	1.2.4.1
-Release:	%release_func 30
+Release:	%release_func 31
 Summary:	A passphrase dialog for X and not only for OpenSSH
 
 
@@ -59,6 +59,9 @@ rm -f $RPM_BUILD_ROOT{%_libexecdir/openssh,%_mandir/man1}/ssh-askpass*
 %_mandir/*/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4.1-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4.1-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

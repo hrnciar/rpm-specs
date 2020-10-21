@@ -1,7 +1,7 @@
 Name: hunspell-cop
 Summary: Coptic hunspell dictionaries
 Version: 0.3
-Release: 17%{?dist}
+Release: 18%{?dist}
 Source: http://www.moheb.de/download/dict-cop_EG_v03.oxt
 URL: http://www.moheb.de/coptic_oo.html
 License: GPLv3+
@@ -34,6 +34,9 @@ cp -p cop_EG-Bohairic/cop_EG.* $RPM_BUILD_ROOT/%{_datadir}/myspell
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

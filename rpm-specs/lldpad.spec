@@ -7,7 +7,7 @@
 
 Name:               lldpad
 Version:            1.0.1
-Release:            17.git%{checkout}%{?dist}
+Release:            20.git%{checkout}%{?dist}
 Summary:            Intel LLDP Agent
 License:            GPLv2
 URL:                http://open-lldp.org/
@@ -85,7 +85,7 @@ that use %{name}.
 
 %build
 ./bootstrap.sh
-CFLAGS=${CFLAGS:-%optflags -Wno-error}; export CFLAGS;
+CFLAGS=${CFLAGS:-%optflags -Wno-error -fcommon}; export CFLAGS;
 %configure --disable-static
 # fix the hardened build flags
 sed -i -e 's! \\\$compiler_flags !&\\\$CFLAGS \\\$LDFLAGS !' libtool
@@ -122,6 +122,16 @@ rm -f %{buildroot}%{_libdir}/liblldp_clif.la
 %{_libdir}/liblldp_clif.so
 
 %changelog
+* Fri Aug 07 2020 Jeff Law <law@redhat.com> - 1.0.1-20.git036e314
+- Enable _legacy_common_support
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-19.git036e314
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-18.git036e314
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-17.git036e314
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -34,7 +34,7 @@
 Summary: A dynamic adaptive system tuning daemon
 Name: tuned
 Version: 2.14.0
-Release: 1%{?prerel1}%{?dist}
+Release: 3%{?prerel1}%{?dist}
 License: GPLv2+
 Source0: https://github.com/redhat-performance/%{name}/archive/v%{version}%{?prerel2}/%{name}-%{version}%{?prerel2}.tar.gz
 
@@ -79,6 +79,8 @@ Recommends: kernel-tools
 %if 0%{?rhel} > 7
 Requires: python3-syspurpose
 %endif
+Patch0: tuned-2.14.0-amd-performance-regression-fix.patch
+Patch1: tuned-2.14.0-scheduler-isolated-cores-cgroups-fix.patch
 
 %description
 The tuned package contains a daemon that tunes system settings dynamically.
@@ -491,6 +493,15 @@ fi
 %{_mandir}/man7/tuned-profiles-compat.7*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.14.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul  3 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 2.14.0-2
+- scheduler: fixed isolated_cores to work with cgroups
+  related: rhbz#1784648
+- throughput-performance: fix performance regression on AMD platforms
+  related: rhbz#1746957
+
 * Mon Jun 22 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 2.14.0-1
 - new release
   - rebased tuned to latest upstream

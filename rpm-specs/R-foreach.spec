@@ -1,14 +1,14 @@
+%bcond_without bootstrap
+
 %global packname foreach
-%global packver  1.5.0
+%global packver  1.5.1
 %global rlibdir  %{_datadir}/R/library
 
-%global __suggests_exclude ^R\\((randomForest)\\)
-
-%global with_suggests 0
+%global __suggests_exclude ^R\\((doMC|randomForest)\\)
 
 Name:             R-%{packname}
-Version:          1.5.0
-Release:          2%{?dist}
+Version:          1.5.1
+Release:          1%{?dist}
 Summary:          Provides Foreach Looping Construct
 
 License:          ASL 2.0
@@ -28,7 +28,7 @@ BuildRequires:    tex(latex)
 BuildRequires:    R-codetools
 BuildRequires:    R-utils
 BuildRequires:    R-iterators
-%if %{with_suggests}
+%if %{without bootstrap}
 BuildRequires:    R-randomForest
 BuildRequires:    R-doMC
 BuildRequires:    R-doParallel
@@ -62,7 +62,7 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %check
-%if %{with_suggests}
+%if %{without bootstrap}
 %{_bindir}/R CMD check %{packname}
 %else
 _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --ignore-vignettes --no-tests
@@ -85,6 +85,12 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --ignore-vignettes
 
 
 %changelog
+* Thu Oct 15 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.5.1-1
+- Update to latest version (#1888528)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun  6 2020 Tom Callaway <spot@fedoraproject.org> - 1.5.0-2
 - rebuild for R 4
 

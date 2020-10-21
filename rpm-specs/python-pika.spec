@@ -7,7 +7,7 @@ library.
 
 Name:           python-%{srcname}
 Version:        1.0.1
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        AMQP 0-9-1 client library for Python
 
 License:        BSD
@@ -90,6 +90,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} nosetests-3
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.1-8
 - Rebuilt for Python 3.9
 

@@ -1,7 +1,7 @@
 Summary: A utility to collect various Linux performance data
 Name: collectl
 Version: 4.3.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2+ or Artistic
 Source0: http://downloads.sourceforge.net/%{name}/%{name}-%{version}.src.tar.gz
 Source1: %{name}.service
@@ -76,6 +76,9 @@ install -p -m 644  %{SOURCE2}        $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/%{n
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

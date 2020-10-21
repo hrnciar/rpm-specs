@@ -1,6 +1,7 @@
+%undefine __cmake_in_source_build
 Name:           tlsh
-Version:        3.17.0
-Release:        4%{?dist}
+Version:        4.2.1
+Release:        2%{?dist}
 Summary:        Fuzzy text matching library
 
 License:        ASL 2.0
@@ -48,11 +49,8 @@ echo 'set(CMAKE_CXX_FLAGS "%{optflags} -fPIC")' | \
 sed -r -i '/CMAKE_EXE_LINKER_FLAGS.*-static-libstdc/d' CMakeLists.txt
 
 %build
-mkdir build
-pushd build
-%cmake ..
-popd
-%make_build -C build
+%cmake
+%cmake_build
 pushd py_ext
 %py3_build
 popd
@@ -65,8 +63,8 @@ popd
 %global _docdir_fmt %{name}
 
 %check
-bin/tlsh_version
 bin/simple_unittest
+bin/timing_unittest
 # just check if we get 0 for identical files, and non-zero for different files
 bin/tlsh_unittest -c bin/tlsh_unittest -f bin/tlsh_unittest | grep -E '\b0\b'
 bin/tlsh_unittest -c bin/tlsh_unittest -f bin/simple_unittest | grep -vE '\b0\b'
@@ -89,6 +87,12 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} %{__python3} \
 %{python3_sitearch}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 4.2.1-1
+- Update to latest version (#1817255)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.17.0-4
 - Rebuilt for Python 3.9
 

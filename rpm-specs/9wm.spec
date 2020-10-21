@@ -1,7 +1,7 @@
 Name:		9wm
 Summary:	Emulation of the Plan 9 window manager 8 1/2
 Version:	1.4.1
-Release:	5%{?dist}
+Release:	7%{?dist}
 License:	MIT
 # Source0:	https://woozle.org/neale/g.cgi/x11/9wm/snapshot/9wm-%{version}.tar.gz
 Source0:	https://github.com/9wm/9wm/archive/%{version}.tar.gz
@@ -22,7 +22,7 @@ decorations or title-bars. Or icons.  And it's click-to-type.
 %setup -q -n 9wm-%{version}
 
 %build
-make %{?_smp_mflags} CFLAGS="$RPM_OPT_FLAGS -DSHAPE"
+%make_build CFLAGS="$RPM_OPT_FLAGS -DSHAPE"
 
 %install
 mkdir -p %{buildroot}%{_bindir} %{buildroot}%{_mandir}/man1
@@ -39,6 +39,13 @@ desktop-file-install					\
 %{_mandir}/man1/9wm.*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.4.1-6
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

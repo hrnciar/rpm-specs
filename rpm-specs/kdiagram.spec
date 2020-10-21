@@ -1,4 +1,4 @@
-
+%undefine __cmake_in_source_build
 # uncomment to enable bootstrap mode
 #global bootstrap 1
 
@@ -9,7 +9,7 @@
 Name:    kdiagram
 Summary: Powerful libraries (KChart, KGantt) for creating business diagrams
 Version: 2.7.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 License: GPLv2+
 
@@ -49,17 +49,13 @@ Requires: cmake(Qt5PrintSupport)
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%{cmake_kf5} \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{?!tests:OFF}
-popd
-
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang_kf5 kchart_qt
 %find_lang_kf5 kgantt_qt
@@ -96,6 +92,9 @@ make test ARGS="--output-on-failure --timeout 20" -C %{_target_platform} ||:
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.7.0-1
 - 2.7.0
 

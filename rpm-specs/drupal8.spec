@@ -90,6 +90,13 @@ AutoReqProv: no
 # Build using "--with tests" to enable tests
 %global with_tests 0%{?_with_tests:1}
 
+# Range dependencies supported?
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+%global with_range_dependencies 1
+%else
+%global with_range_dependencies 0
+%endif
+
 # Drupal 8 directories
 %global drupal8      %{_datadir}/%{name}
 %global drupal8_var  %{_localstatedir}/lib/%{name}
@@ -99,7 +106,7 @@ AutoReqProv: no
 
 
 Name:      drupal8
-Version:   8.9.0
+Version:   8.9.5
 Release:   1%{?dist}
 Summary:   An open source content management platform
 
@@ -156,7 +163,7 @@ BuildRequires: php-cli
 # Needed for %%pear_phpdir macro
 BuildRequires: php-pear
 # Scripts
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+%if %{with_range_dependencies}
 BuildRequires: (php-composer(symfony/console) >= %{symfony_min_ver} with php-composer(symfony/console) < %{symfony_max_ver})
 %else
 BuildRequires: php-composer(symfony/console) >= %{symfony_min_ver}
@@ -183,7 +190,7 @@ Requires:  php-simplexml
 Requires:  php-spl
 Requires:  php-tokenizer
 Requires:  php-xml
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+%if %{with_range_dependencies}
 Requires:  (php-composer(asm89/stack-cors) >= %{asm89_stack_cors_min_ver} with php-composer(asm89/stack-cors) < %{asm89_stack_cors_max_ver})
 Requires:  (php-composer(composer/semver) >= %{composer_semver_min_ver} with php-composer(composer/semver) < %{composer_semver_max_ver})
 Requires:  (php-composer(doctrine/annotations) >= %{doctrine_annotations_min_ver} with php-composer(doctrine/annotations) < %{doctrine_annotations_max_ver})
@@ -276,7 +283,7 @@ Requires:  php-composer(typo3/phar-stream-wrapper) >= %{typo3_phar_stream_wrappe
 Requires:  php-pear(Archive_Tar) <  %{pear_archive_tar_max_ver}
 Requires:  php-pear(Archive_Tar) >= %{pear_archive_tar_min_ver}
 %endif
-# phpcompatinfo (computed from version 8.4.5)
+# phpcompatinfo (computed from version 8.9.5)
 Requires:  php-bz2
 Requires:  php-ctype
 Requires:  php-curl
@@ -930,7 +937,7 @@ Provides:  bundled(js-backbone) = 1.4.0
 ### core/assets/vendor/ckeditor
 ###     License:  GPLv2+
 ###     Upstream: https://github.com/ckeditor/ckeditor-dev
-Provides:  bundled(ckeditor) = 4.14.0
+Provides:  bundled(ckeditor) = 4.14.1
 ### core/assets/vendor/classList
 ###     License:  Public Domain
 ###     Upstream: https://github.com/eligrey/classList.js
@@ -1283,6 +1290,12 @@ popd
 #-------------------------------------------------------------------------------
 
 %changelog
+* Fri Sep 04 2020 Shawn Iwinski <shawn@iwin.ski> - 8.9.5-1
+- Update to 8.9.5 (RHBZ #1848156)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 06 2020 Shawn Iwinski <shawn@iwin.ski> - 8.9.0-1
 - Update to 8.9.0
 - https://www.drupal.org/sa-core-2020-002 / CVE-2020-11022 / CVE-2020-11023

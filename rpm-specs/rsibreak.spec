@@ -1,7 +1,7 @@
 Name:           rsibreak
 Summary:        A small utility which bothers you at certain intervals
 Version:        0.12.13
-Release:        1%{?dist}
+Release:        4%{?dist}
 
 License:        GPLv2+
 URL:            https://userbase.kde.org/RSIBreak
@@ -50,16 +50,13 @@ This can help people to prevent Repetive Strain Injury.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang rsibreak --with-html
 
@@ -96,6 +93,16 @@ fi
 
 
 %changelog
+* Fri Oct 02 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.12.13-4
+- use new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.13-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.12.13-1
 - 0.12.13
 - renamed .desktop, +appdata

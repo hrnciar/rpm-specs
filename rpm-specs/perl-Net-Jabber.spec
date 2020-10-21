@@ -1,6 +1,6 @@
 Name:           perl-Net-Jabber
 Version:        2.0
-Release:        42%{?dist}
+Release:        43%{?dist}
 Summary:        Net::Jabber - Jabber Perl Library
 License:        (GPL+ or Artistic) or LGPLv2+
 URL:            https://metacpan.org/release/Net-Jabber
@@ -87,6 +87,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-43
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.0-42
 - Perl 5.32 rebuild
 

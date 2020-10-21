@@ -3,7 +3,7 @@
 Name:           folks
 Epoch:          1
 Version:        0.14.0
-Release:        1%{?dist}
+Release:        5%{?dist}
 Summary:        GObject contact aggregation library
 
 License:        LGPLv2+
@@ -13,6 +13,9 @@ Source0:        https://download.gnome.org/sources/folks/0.14/folks-%{version}.t
 # Bump EDS test timeout to 60 secs so add-contacts-stress-test
 # doesn't time out on some arches
 Patch02:        folks-eds-test-timeout.patch
+
+# https://gitlab.gnome.org/GNOME/folks/-/merge_requests/40
+Patch03:        folks-eds-add-persona-test-libphonenumber.patch
 
 BuildRequires:  gcc
 BuildRequires:  meson
@@ -62,6 +65,9 @@ developing applications that use %{name}.
 %autosetup -p1
 
 %build
+# This package uses gobject introspection and is thus currently incompatible with LTO
+%define _lto_cflags %{nil}
+
 %meson
 %meson_build
 
@@ -115,6 +121,19 @@ developing applications that use %{name}.
 %{_datadir}/vala/vapi/%{name}*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.14.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.14.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Jeff Law <law@redhat.com> - 1:0.14.0-3
+- Disable LTO
+
+* Tue Jul 07 2020 Milan Crha <mcrha@redhat.com> - 1:0.14.0-2
+- Rebuilt for evolution-data-server soname version bump
+
 * Wed Mar 11 2020 Kalev Lember <klember@redhat.com> - 1:0.14.0-1
 - Update to 0.14.0
 - Update download URLs

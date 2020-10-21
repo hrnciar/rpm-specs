@@ -13,7 +13,7 @@ Version: 2.37
 
 %global source_name dejavu-fonts
 
-Release: 13%{?dist}
+Release: 15%{?dist}
 # original bitstream glyphs are Bitstream Vera
 # glyphs modifications by dejavu project are Public Domain
 # glyphs imported from Arev fonts are under BitStream Vera compatible license
@@ -120,9 +120,6 @@ Suggests:  font(dejavusansmono)
 This package consists of the DejaVu sans-serif mono-space font faces, with
 Unicode coverage restricted to Latin, Greek and Cyrillic.}
 
-%fontmeta
-
-%global source_files %{expand:
 Source0:  %{forgesource}
 Source11: 57-%{fontpkgname1}.xml
 Source12: 57-%{fontpkgname2}.xml
@@ -131,14 +128,13 @@ Source14: 58-%{fontpkgname4}.xml
 Source15: 58-%{fontpkgname5}.xml
 Source16: 58-%{fontpkgname6}.xml
 Patch0:   %{source_name}-urn-dtd.patch
-}
 
-%new_package
+Name:     dejavu-fonts
 Summary:  The DejaVu font families
 %description
 %wordwrap -v common_description
 
-%fontpkg
+%fontpkg -a
 
 %fontmetapkg -z 1,2,3
 
@@ -151,7 +147,7 @@ Cyrillic.
 
 %fontmetapkg -n dejavu-lgc-fonts-all -s lgcmetasummary -d lgcmetadescription -z 4,5,6
 
-%new_package doc
+%package   doc
 Summary:   Optional documentation files of %{source_name}
 BuildArch: noarch
 %description doc
@@ -168,16 +164,16 @@ make %{?_smp_mflags} VERSION=%{version} FC-LANG="" \
      UNICODEDATA=/usr/share/unicode/ucd/UnicodeData.txt \
      BUILDDIR=.
 xz -9 *.txt
-%fontbuild
+%fontbuild -a
 
 %install
-%fontinstall
+%fontinstall -a
 
 %check
 make check
-%fontcheck
+%fontcheck -a
 
-%fontfiles
+%fontfiles -a
 
 %files doc
 %defattr(644, root, root, 0755)
@@ -185,6 +181,13 @@ make check
 %doc *.txt.xz
 
 %changelog
+* Fri Sep 04 2020 Parag Nemade <pnemade AT redhat DOT com>
+- 2.37-15
+- Fix this spec file to build for F33+
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 2.37-13
 🐞 Workaround Fedora problems created by rpm commit 93604e2

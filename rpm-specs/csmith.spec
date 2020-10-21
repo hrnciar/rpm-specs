@@ -1,6 +1,6 @@
 Name:    csmith
 Version: 2.3.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: Tool to generate random C programs for compiler testing
 
 # Most of the source code is under BSD while few header files are GPLv2+ and LGPLv2+
@@ -64,6 +64,9 @@ rm -rf %{buildroot}%{_docdir}/%{name}
 %{_libdir}/libcsmith.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

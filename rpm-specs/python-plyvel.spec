@@ -3,7 +3,7 @@
 
 Name:           python-%{upstream_name}
 Version:        1.2.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Python interface to the LevelDB embedded database library
 License:        BSD
 URL:            https://github.com/wbolster/plyvel
@@ -55,6 +55,9 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} py.test-3 -vv test/
 %{python3_sitearch}/%{module_name}*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.0-2
 - Rebuilt for Python 3.9
 

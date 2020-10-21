@@ -1,6 +1,6 @@
 Name: 		perl-prefork
 Version: 	1.05
-Release: 	6%{?dist}
+Release: 	7%{?dist}
 Summary: 	Optimized module loading for forking or non-forking processes
 License: 	GPL+ or Artistic
 URL: 		https://metacpan.org/release/prefork
@@ -57,6 +57,9 @@ chmod -R u+w $RPM_BUILD_ROOT/*
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.05-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.05-6
 - Perl 5.32 rebuild
 

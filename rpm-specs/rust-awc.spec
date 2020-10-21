@@ -6,11 +6,11 @@
 %global crate awc
 
 Name:           rust-%{crate}
-Version:        2.0.0~alpha.2
+Version:        2.0.0
 Release:        1%{?dist}
-Summary:        Actix http client
+Summary:        Async HTTP client library that uses the Actix runtime
 
-# Upstream license specification: MIT/Apache-2.0
+# Upstream license specification: MIT OR Apache-2.0
 License:        MIT or ASL 2.0
 URL:            https://crates.io/crates/awc
 Source:         %{crates_source}
@@ -23,7 +23,7 @@ BuildArch:      noarch
 BuildRequires:  rust-packaging
 
 %global _description %{expand:
-Actix http client.}
+Async HTTP client library that uses the Actix runtime.}
 
 %description %{_description}
 
@@ -132,6 +132,19 @@ which use "rustls" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Mon Sep 21 2020 Fabio Valentini <decathorpe@gmail.com> - 2.0.0-1
+- Update to version 2.0.0.
+
+* Sat Aug 29 08:43:05 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 2.0.0~beta.3-1
+- Update to 2.0.0-beta.3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0~alpha.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0~alpha.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 12:35:20 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 2.0.0~alpha.2-1
 - Update to 2.0.0-alpha.2
 

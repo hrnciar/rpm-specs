@@ -6,16 +6,13 @@ Data readers extracted from the pandas codebase, should be compatible with   \
 recent pandas versions.
 
 Name: python-%{srcname}
-Version: 0.8.0
-Release: 3%{?dist}
+Version: 0.9.0
+Release: 2%{?dist}
 Summary: %{summary}
 License: BSD
 
 URL: https://github.com/pydata/pandas-datareader
 Source0: %{pypi_source}
-# requirements.txt is missing from tarball
-# https://github.com/pydata/pandas-datareader/issues/712
-Patch0: requirements.patch
 
 BuildArch: noarch
 BuildRequires: python3-devel
@@ -44,7 +41,6 @@ BuildRequires: python3-wrapt
 %prep
 %autosetup -n %{srcname}-%{version}
 
-
 %build
 %py3_build
 
@@ -55,11 +51,8 @@ BuildRequires: python3-wrapt
 # Avoid writing bad pyc files during testing
 export PYTHONDONTWRITEBYTECODE=1
 export PYTEST_ADDOPTS='-p no:cacheprovider'
-# Run tests in source code dir, some tests are not installed
-
-pushd %{buildroot}/%{python3_sitelib}
- pytest-%{python3_version} -v pandas_datareader || :
-popd
+export PYTHONPATH="${PYTHONPATH:-%{buildroot}%{python3_sitearch}:%{buildroot}%{python3_sitelib}}"
+pytest-%{python3_version} -v pandas_datareader || :
 
 %files -n python3-%{srcname}
 %doc README.rst 
@@ -68,6 +61,12 @@ popd
 %{python3_sitelib}/pandas_datareader-%{version}-py%{python3_version}.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Sergio Pascual <sergiopr@fedoraproject.org> - 0.9.0-1
+- New upstream source (0.9.0)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.0-3
 - Rebuilt for Python 3.9
 

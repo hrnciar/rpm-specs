@@ -1,6 +1,6 @@
 Name: kpassgen
 Version: 1.4
-Release: 18%{dist}
+Release: 19%{dist}
 Summary: Random password creator
 
 License: GPLv2
@@ -53,6 +53,9 @@ gtk-update-icon-cache %{_datadir}/pixmaps &>/dev/null || :
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

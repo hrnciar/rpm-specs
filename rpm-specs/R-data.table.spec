@@ -1,4 +1,5 @@
-%global packname  data.table
+%global packname data.table
+%global packver  1.13.2
 %global rlibdir  %{_libdir}/R/library
 
 %global __suggests_exclude ^R\\((xts)\\)
@@ -7,36 +8,34 @@
 %global with_loop 0
 
 Name:             R-%{packname}
-Version:          1.12.8
-Release:          3%{?dist}
+Version:          1.13.2
+Release:          1%{?dist}
 Summary:          Extension of `data.frame`
 
 License:          MPLv2.0
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 # https://github.com/Rdatatable/data.table/issues/4032
 Patch0001:        0001-Fix-test-1729-on-ppc64le.patch
-# https://github.com/Rdatatable/data.table/pull/4165
-Patch0002:        0002-Improve-fread-for-very-small-or-very-large-fp-number.patch
-# https://github.com/Rdatatable/data.table/pull/4213
-Patch0003:        0003-Use-consistent-types-with-fwriteMainArgs.nrow.patch
 
 # Here's the R view of the dependencies world:
 # Depends:
 # Imports:   R-methods
-# Suggests:  R-bit64, R-curl, R-R.utils, R-knitr, R-xts, R-nanotime, R-zoo, R-yaml
+# Suggests:  R-bit64, R-curl, R-R.utils, R-xts, R-nanotime, R-zoo, R-yaml, R-knitr, R-rmarkdown
 # LinkingTo:
 # Enhances:
 
+BuildRequires:    pkgconfig(zlib)
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    R-methods
 BuildRequires:    R-bit64
 BuildRequires:    R-curl
 BuildRequires:    R-R.utils
-BuildRequires:    R-knitr
-BuildRequires:    R-yaml
 BuildRequires:    R-zoo
+BuildRequires:    R-yaml
+BuildRequires:    R-knitr
+BuildRequires:    R-rmarkdown
 %if %{with_loop}
 BuildRequires:    R-xts
 BuildRequires:    R-nanotime
@@ -49,14 +48,20 @@ columns, friendly and fast character-separated-value read/write. Offers a
 natural and flexible syntax, for faster development.
 
 
+%package devel
+Summary:          Development files for %{name}
+Requires:         %{name}%{?_isa} = %{version}-%{release}
+
+%description devel
+Development files for %{name}.
+
+
 %prep
 %setup -q -c -n %{packname}
 
 pushd %{packname}
 bunzip2 inst/tests/tests.Rraw.bz2
 %patch0001 -p1
-%patch0002 -p1
-%patch0003 -p1
 bzip2 inst/tests/tests.Rraw
 popd
 
@@ -70,8 +75,13 @@ mkdir -p %{buildroot}%{rlibdir}
 test -d %{packname}/src && (cd %{packname}/src; rm -f *.o *.so)
 rm -f %{buildroot}%{rlibdir}/R.css
 
+# Useless.
+rm %{buildroot}%{rlibdir}/%{packname}/cc
+
 
 %check
+# Workaround /etc/localtime not being a symlink in koji.
+export TZ=Etc/UTC
 %if %{with_loop}
 %{_bindir}/R CMD check %{packname}
 %else
@@ -94,9 +104,35 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 %dir %{rlibdir}/%{packname}/libs
 %{rlibdir}/%{packname}/libs/datatable.so
 %{rlibdir}/%{packname}/tests
+%dir %{rlibdir}/%{packname}/po
+%dir %{rlibdir}/%{packname}/po/en@quot
+%dir %{rlibdir}/%{packname}/po/en@quot/LC_MESSAGES
+%lang(en@quot) %{rlibdir}/%{packname}/po/en@quot/LC_MESSAGES/*.mo
+%dir %{rlibdir}/%{packname}/po/zh_CN
+%dir %{rlibdir}/%{packname}/po/zh_CN/LC_MESSAGES
+%lang(zh_CN) %{rlibdir}/%{packname}/po/zh_CN/LC_MESSAGES/*.mo
+
+%files devel
+%{rlibdir}/%{packname}/include
 
 
 %changelog
+* Tue Oct 20 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.13.2-1
+- Update to latest version (#1889519)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.13.0-1
+- Update to latest version
+
+* Sat Jul  4 2020 José Matos <jamatos@fedoraproject.org> - 1.12.8-4
+- disable checks that are failing in R 4.0 (bug in R)
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.12.8-3
 - rebuild for R 4
 

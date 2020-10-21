@@ -11,7 +11,7 @@ however it is much faster.}
 
 Name:       python-%{srcname}
 Version:    0.23.3
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    %{sum}
 
 # https://github.com/tebeka/fastavro/issues/60
@@ -98,6 +98,9 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} pytest-3 tests
 %doc docs/_build/html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.23.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.23.3-2
 - Rebuilt for Python 3.9
 

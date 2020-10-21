@@ -1,9 +1,20 @@
+%if 0%{?epel}
+# disable build of docs and tests for epel because of missing dependencies:
+# - python3-ipykernel
+# - python3-jupyter-client
+# - python3-nbformat
+# - python3-testpath
+# tests and docs subpackages are also disabled
+%bcond_with check
+%bcond_with doc
+%else
 %bcond_without check
 %bcond_without doc
+%endif
 
 Name:           ipython
-Version:        7.15.0
-Release:        2%{?dist}
+Version:        7.18.1
+Release:        1%{?dist}
 Summary:        An enhanced interactive Python shell
 
 # See bug #603178 for a quick overview for the choice of licenses
@@ -21,6 +32,8 @@ BuildRequires:  python3-setuptools
 BuildRequires:  python3-sphinx
 BuildRequires:  python3-sphinx_rtd_theme
 BuildRequires:  python3-ipykernel
+BuildRequires:  python3-matplotlib
+BuildRequires:  python3-numpy
 %endif
 
 %if %{with check}
@@ -96,6 +109,8 @@ Requires:       (tex(bm.sty)      if /usr/bin/dvipng)
 
 This package provides IPython for in a terminal.
 
+%{?python_extras_subpkg:%python_extras_subpkg -n python3-ipython -i %{python3_sitelib}/*.egg-info notebook}
+
 %package -n python3-ipython-sphinx
 Summary:        Sphinx directive to support embedded IPython code
 %{?python_provide:%python_provide python3-ipython-sphinx}
@@ -108,7 +123,7 @@ Requires:       python3-sphinx
 
 This package contains the ipython sphinx extension.
 
-
+%if %{with check}
 %package -n python3-ipython-tests
 Summary:        Tests for %{name}
 %{?python_provide:%python_provide python3-ipython-tests}
@@ -130,6 +145,7 @@ Requires:       tex(bm.sty)
 %description -n python3-ipython-tests
 This package contains the tests of %{name}.
 You can check this way, if ipython works on your platform.
+%endif
 
 %if %{with doc}
 %package -n python3-ipython-doc
@@ -191,7 +207,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} \
     PATH="%{buildroot}%{_bindir}:$PATH" \
     %{buildroot}%{_bindir}/iptest3
 popd
-
+%else
+rm -f %{buildroot}%{_bindir}/iptest*
+rm -r %{buildroot}%{python3_sitelib}/IPython/*/tests
 %endif
 
 %files -n python3-ipython
@@ -226,12 +244,12 @@ popd
 %files -n python3-ipython-sphinx
 %{python3_sitelib}/IPython/sphinxext/
 
-
+%if %{with check}
 %files -n python3-ipython-tests
 %{_bindir}/iptest3
 %exclude %{_bindir}/iptest
 %{python3_sitelib}/IPython/*/tests
-
+%endif
 
 %if %{with doc}
 %files -n python3-ipython-doc
@@ -240,6 +258,24 @@ popd
 
 
 %changelog
+* Tue Sep 08 2020 Lumír Balhar <lbalhar@redhat.com> - 7.18.1-1
+- Update to 7.18.1 (#1873693)
+
+* Mon Aug 31 2020 Lumír Balhar <lbalhar@redhat.com> - 7.18.0-1
+- Update to 7.18.0 (#1873693)
+
+* Tue Aug 04 2020 Lumír Balhar <lbalhar@redhat.com> - 7.17.0-1
+- Update to 7.17.0 (#1862672)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.16.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Miro Hrončok <mhroncok@redhat.com> - 7.16.1-2
+- Add ipython[notebook] subpackage
+
+* Tue Jul 07 2020 Lumír Balhar <lbalhar@redhat.com> - 7.16.1-1
+- Update to 7.16.1 (#1851577)
+
 * Wed Jun 03 2020 Miro Hrončok <mhroncok@redhat.com> - 7.15.0-2
 - Switch to runtime requires generated from upstream metadata
 - Drop unused (Build)Requires

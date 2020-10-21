@@ -6,13 +6,13 @@
 
 Summary: Utility for secure communication and data storage
 Name:    gnupg2
-Version: 2.2.20
-Release: 3%{?dist}
+Version: 2.2.23
+Release: 1%{?dist}
 
 License: GPLv3+
 Source0: ftp://ftp.gnupg.org/gcrypt/%{?pre:alpha/}gnupg/gnupg-%{version}%{?pre}.tar.bz2
 Source1: ftp://ftp.gnupg.org/gcrypt/%{?pre:alpha/}gnupg/gnupg-%{version}%{?pre}.tar.bz2.sig
-Patch1:  gnupg-2.1.21-insttools.patch
+Patch1:  gnupg-2.2.23-insttools.patch
 # needed for compatibility with system FIPS mode
 Patch3:  gnupg-2.1.10-secmem.patch
 # non-upstreamable patch adding file-is-digest option needed for Copr
@@ -21,14 +21,14 @@ Patch4:  gnupg-2.2.20-file-is-digest.patch
 Patch5:  gnupg-2.2.16-ocsp-keyusage.patch
 Patch6:  gnupg-2.1.1-fips-algo.patch
 # allow 8192 bit RSA keys in keygen UI with large RSA
-Patch9:  gnupg-2.1.21-large-rsa.patch
+Patch9:  gnupg-2.2.23-large-rsa.patch
 # fix missing uid on refresh from keys.openpgp.org
 # https://salsa.debian.org/debian/gnupg2/commit/f292beac1171c6c77faf41d1f88c2e0942ed4437
 Patch20: gnupg-2.2.18-tests-add-test-cases-for-import-without-uid.patch
 Patch21: gnupg-2.2.18-gpg-allow-import-of-previously-known-keys-even-without-UI.patch
 Patch22: gnupg-2.2.18-gpg-accept-subkeys-with-a-good-revocation-but-no-self-sig.patch
 # Fixes for issues found in Coverity scan - reported upstream
-Patch30: gnupg-2.2.20-coverity.patch
+Patch30: gnupg-2.2.21-coverity.patch
 
 
 URL:     http://www.gnupg.org/
@@ -135,12 +135,11 @@ sed -i -e 's/"libpcsclite\.so"/"%{pcsclib}"/' scd/scdaemon.c
 # need scratch gpg database for tests
 mkdir -p $HOME/.gnupg
 
-make %{?_smp_mflags}
+%make_build
 
 
 %install
-make install DESTDIR=%{buildroot} \
-  INSTALL="install -p" \
+%make_install \
   docdir=%{_pkgdocdir}
 
 %if %{without unversioned_gpg}
@@ -224,6 +223,23 @@ make -k check
 
 
 %changelog
+* Fri Sep  4 2020 Tomáš Mráz <tmraz@redhat.com> - 2.2.23-1
+- upgrade to 2.2.23
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.21-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.21-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Tom Stellard <tstellar@redhat.com> - 2.2.21-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Mon Jul 20 2020 Tomáš Mráz <tmraz@redhat.com> - 2.2.21-1
+- upgrade to 2.2.21
+
 * Mon May  4 2020 Tomáš Mráz <tmraz@redhat.com> - 2.2.20-3
 - fixes for issues found in Coverity scan
 

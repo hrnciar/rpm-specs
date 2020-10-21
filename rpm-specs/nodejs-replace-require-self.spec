@@ -5,7 +5,7 @@
 
 Name:		nodejs-replace-require-self
 Version:	1.1.1
-Release:	8%{?dist}
+Release:	9%{?dist}
 Summary:	Require($THIS_PACKAGE) -> require('./')
 
 License:	MIT
@@ -63,6 +63,9 @@ ln -sf %{nodejs_sitelib}/%{packagename}/cli.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

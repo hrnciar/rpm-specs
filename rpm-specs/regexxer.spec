@@ -1,6 +1,6 @@
 Name:           regexxer
 Version:        0.9
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        A nifty GUI search/replace tool
 
 License:        GPLv2+
@@ -80,6 +80,9 @@ fi
 %{_datadir}/icons/hicolor/48x48/apps/%{name}.png
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,9 +1,18 @@
+# NOTE: the only library that we can't build in Fedora
+# is the FLI interface to modelsim. See:
+# https://github.com/cocotb/cocotb/blob/master/cocotb_build_libs.py#L339
+# One way to work around that would be to ship the cocotb_build_libs.py
+# script and install it system-wide. I have't decided if that makes sense.
+# But I believe that this package will actually still work with modelsim
+# through VPI; so ultimately I don't think there's a huge reduction in
+# functionality. Still, I wanted to write this down somewhere.
+
 # Created by pyp2rpm-3.3.2
 %global pypi_name cocotb
 
 Name:           python-%{pypi_name}
-Version:        1.3.1
-Release:        2%{?dist}
+Version:        1.4.0
+Release:        3%{?dist}
 Summary:        Coroutine Co-simulation Test Bench
 
 License:        BSD
@@ -16,15 +25,17 @@ BuildRequires:  python3dist(setuptools)
 BuildRequires:  gcc, gcc-c++, make
 
 # iverilog and ghdl are the FOSS simulators. cocotb supports both.
-# We need them to run the tests.
-BuildRequires:  iverilog, ghdl
+# We need them to run the tests... although the main one we need
+# is iverilog. ghdl is apparently not currently built on armv7hl.
+%ifnarch armv7hl
+BuildRequires:  ghdl
+%endif
+BuildRequires:  iverilog
 
-# So this package doesn't actually contain compiled code (at the moment).
-# But it does contain source code that users compile when running a
-# simulator. So maybe arguably it should be arched.
-# Future versions of cocotb may contain the option to have precompiled
-# libraries.
-BuildArch:      noarch
+# Test failure on s390x with iverilog-- needs more investigation,
+# will disable build for now.
+# See https://github.com/cocotb/cocotb/issues/2044
+ExcludeArch:    s390x
 
 %package -n     python3-%{pypi_name}
 Summary:        %{summary}
@@ -63,12 +74,6 @@ sed "/env python/d" -i cocotb/drivers/*.py
 sed "/env python/d" -i cocotb/generators/*.py
 sed "/env python/d" -i cocotb/monitors/*.py
 
-# PyEval_InitThreads() is deprecated in 3.9.
-sed "/PyEval_InitThreads/d" -i cocotb/share/lib/embed/gpi_embed.c
-
-# This is deprecated in 3.9 too.
-sed "s/cElementTree/ElementTree/g" -i bin/combine_results.py
-
 %build
 %py3_build
 
@@ -77,17 +82,32 @@ sed "s/cElementTree/ElementTree/g" -i bin/combine_results.py
 
 %check
 # Run tests with the FOSS simulators.
+# To do this, we need cocotb-config to be on the path.
 export PYTHON_BIN=python3
+export PATH=$PATH:%{buildroot}%{_bindir}
+export PYTHONPATH=$PYTHONPATH:%{buildroot}%{python3_sitearch}
+# Run tests with iverilog on all supported architectures.
 make SIM=icarus
 
 %files -n python3-%{pypi_name}
 %doc README.md
 %license LICENSE
 %{_bindir}/cocotb-config
-%{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{version}-py*.*.egg-info
+%{python3_sitearch}/%{pypi_name}
+%{python3_sitearch}/%{pypi_name}-%{version}-py*.*.egg-info
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Ben Rosser <rosser.bjr@gmail.com> - 1.4.0-1
+- Update to latest upstream release.
+- Package is now arched; simulator libraries compiled at install time.
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.1-2
 - Rebuilt for Python 3.9
 

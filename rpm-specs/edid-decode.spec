@@ -1,10 +1,10 @@
-%global codate 20200518
-%global commit 188950472c19492547e298b27f9da0d72cf826df
+%global codate 20200908
+%global commit 3265be5a91fd681835c610cd790a74e97dd2bb8b
 %global shortcommit %(c=%{commit}; echo ${c:0:8})
 
 Name:           edid-decode
 Version:        0
-Release:        4.%{codate}git%{shortcommit}%{?dist}
+Release:        6.%{codate}git%{shortcommit}%{?dist}
 Summary:        Decode EDID data in human-readable format
 
 License:        MIT
@@ -41,6 +41,15 @@ Decodes raw monitor EDID data in human-readable format.
 
 
 %changelog
+* Mon Sep  8 2020 Yanko Kaneti <yaneti@declera.com> - 0-6.20200908git3265be5a
+- New snapshot.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-6.20200717git4ee445ea
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Yanko Kaneti <yaneti@declera.com> - 0-5.20200717git4ee445ea
+- New snapshot.
+
 * Mon May 18 2020 Yanko Kaneti <yaneti@declera.com> - 0-4.20200518git18895047
 - New snapshot.
 

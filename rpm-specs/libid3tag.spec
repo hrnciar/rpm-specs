@@ -1,6 +1,6 @@
 Name:           libid3tag
 Version:        0.15.1b
-Release:        32%{?dist}
+Release:        33%{?dist}
 Summary:        ID3 tag manipulation library
 
 License:        GPLv2+
@@ -88,6 +88,9 @@ install -Dpm 644 %{name}.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig/id3tag.pc
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.1b-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.1b-32
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 Name:           perl-Storable
 Epoch:          1
 Version:        3.21
-Release:        456%{?dist}
+Release:        457%{?dist}
 Summary:        Persistence for Perl data structures
 # Storable.pm:  GPL+ or Artistic
 License:        GPL+ or Artistic
@@ -103,6 +103,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.21-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:3.21-456
 - Upgrade to 3.21 as provided in perl-5.32.0
 

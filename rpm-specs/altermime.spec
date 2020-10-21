@@ -1,6 +1,6 @@
 Name:           altermime
 Version:        0.3.10
-Release:        22%{?dist}
+Release:        24%{?dist}
 Summary:        Alter MIME-encoded mailpacks
 
 License:        BSD
@@ -47,6 +47,13 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.10-24
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.10-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.10-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

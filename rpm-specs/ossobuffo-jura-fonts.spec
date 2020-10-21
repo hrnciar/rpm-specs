@@ -4,7 +4,7 @@
 %forgemeta
 
 Version: 5.103
-Release: 3%{?dist}
+Release: 4%{?dist}
 URL:     %{forgeurl}
 
 %global foundry           ossobuffo
@@ -54,6 +54,9 @@ chmod 644 %{fontdocs} %{fontlicenses}
 %doc documentation/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.103-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 22 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 5.103-3
 ✅ Rebuild with fonts-rpm-macros 2.0.2

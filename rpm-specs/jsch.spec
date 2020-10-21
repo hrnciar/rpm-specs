@@ -1,6 +1,6 @@
 Name:           jsch
 Version:        0.1.54
-Release:        11%{?dist}
+Release:        14%{?dist}
 Summary:        Pure Java implementation of SSH2
 License:        BSD
 URL:            http://www.jcraft.com/jsch/
@@ -22,7 +22,6 @@ Source2:        plugin.properties
 BuildRequires:  maven-local
 BuildRequires:  mvn(com.jcraft:jzlib)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-source-plugin)
-BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
 BuildRequires:  zip
 
 Requires:       jzlib >= 0:1.0.5
@@ -42,6 +41,9 @@ Summary:        Javadoc for %{name}
 %prep
 %setup -q
 %mvn_file : jsch
+
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
 
 %pom_remove_plugin :maven-javadoc-plugin
 
@@ -73,6 +75,15 @@ zip target/%{name}-%{version}.jar plugin.properties
 %license LICENSE.txt
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 0.1.54-14
+- Remove unnecessary dependency on parent POM.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.54-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0.1.54-12
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.54-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

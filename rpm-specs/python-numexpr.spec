@@ -1,7 +1,7 @@
 Summary:        Fast numerical array expression evaluator for Python and NumPy
 Name:           python-numexpr
 Version:        2.7.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 URL:            https://github.com/pydata/numexpr
 Source0:        https://github.com/pydata/numexpr/archive/v%{version}/numexpr-%{version}.tar.gz
 License:        MIT
@@ -53,6 +53,9 @@ popd
 %{python3_sitearch}/numexpr-%{version}-py*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 2.7.1-3
 - Rebuilt for Python 3.9
 

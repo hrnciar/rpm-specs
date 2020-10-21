@@ -1,10 +1,10 @@
 # Notes about rpmlint
 # - crypto-policy-non-compliance-gnutls-{1,2} fixed with patch
-#   prelude-lml-5.1.0-gnutls_priority_set_direct.patch
+#   prelude-lml-5.2.0-gnutls_priority_set_direct.patch
 
 Name:           prelude-lml
-Version:        5.1.0
-Release:        3%{?dist}
+Version:        5.2.0
+Release:        2%{?dist}
 Summary:        Log analyzer sensor with IDMEF output
 # Prelude is GPL-2.0+
 # libmissing is LGPL-2.1+
@@ -14,13 +14,15 @@ Source0:        https://www.prelude-siem.org/pkg/src/%{version}/%{name}-%{versio
 Source1:        %{name}.service
 Source2:        %{name}-tmpfiles.conf
 # https://www.prelude-siem.org/issues/862
-Patch0:         prelude-lml-5.1.0-gnutls_priority_set_direct.patch
+Patch0:         prelude-lml-5.2.0-gnutls_priority_set_direct.patch
 # https://www.prelude-siem.org/issues/870
-Patch1:         prelude-lml-5.1.0-fix_etc_perms.patch
+Patch1:         prelude-lml-5.2.0-fix_etc_perms.patch
 # https://www.prelude-siem.org/issues/872
-Patch2:         prelude-lml-5.1.0-fix_check.patch
-Patch3:         prelude-lml-5.1.0-fix-test_rwlock1.patch
-Patch4:         prelude-lml-5.1.0-fix_thread_create.patch
+Patch2:         prelude-lml-5.2.0-fix_check.patch
+Patch3:         prelude-lml-5.2.0-fix-test_rwlock1.patch
+Patch4:         prelude-lml-5.2.0-fix_thread_create.patch
+Patch5:         prelude-lml-5.2.0-fix_gnutls_deps.patch
+Patch6:         prelude-lml-5.2.0-fix_test_perror2.patch
 %{?systemd_requires}
 BuildRequires:  gcc
 BuildRequires:  chrpath
@@ -37,7 +39,7 @@ BuildRequires:  valgrind
 %endif
 
 # Upstream do not use explicit version of gnulib, just checkout
-# and update files. In prelude-lml 5.0.0, the checkout has been done
+# and update files. In prelude-lml 5.2.0, the checkout has been done
 # on 2018-09-03
 Provides:       bundled(gnulib) = 20180903
 
@@ -140,6 +142,22 @@ make check
 %doc ChangeLog README NEWS AUTHORS
 
 %changelog
+* Fri Oct 09 2020 Jeff Law <law@redhat.com> - 5.2.0-2
+- Re-enable LTO
+
+* Thu Sep 17 2020 Thomas Andrejak <thomas.andrejak@gmail.com> - 5.2.0-1
+- Bump version 5.2.0
+
+* Tue Aug 04 2020 Jeff Law <law@redhat.com> - 5.1.0-6
+- Disable LTO
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 15 2020 Pete Walter <pwalter@fedoraproject.org> - 5.1.0-3
 - Rebuild for ICU 67
 

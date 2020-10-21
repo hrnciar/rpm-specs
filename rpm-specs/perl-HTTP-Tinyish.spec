@@ -1,5 +1,5 @@
 Name:           perl-HTTP-Tinyish
-Version:        0.16
+Version:        0.17
 Release:        2%{?dist}
 Summary:        HTTP::Tiny compatible HTTP client wrappers
 License:        GPL+ or Artistic
@@ -114,6 +114,12 @@ Provides:       perl(:HTTP-Tinyish:backend) = %{version}
 %{perl_vendorlib}/HTTP/Tinyish/Wget.pm
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 12 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 0.17-1
+- Update to 0.17
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.16-2
 - Perl 5.32 rebuild
 

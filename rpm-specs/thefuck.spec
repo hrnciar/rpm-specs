@@ -1,6 +1,6 @@
 Name: thefuck
 Version: 3.15
-Release: 11%{?dist}
+Release: 12%{?dist}
 Summary: App that corrects your previous console command
 License: MIT
 URL: https://github.com/nvbn/thefuck
@@ -47,6 +47,9 @@ sed -i -e '/^#!\//, 1d' *.py
 %license LICENSE.md
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.15-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.15-11
 - Rebuilt for Python 3.9
 

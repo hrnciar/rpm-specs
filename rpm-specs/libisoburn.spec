@@ -1,7 +1,7 @@
 Summary:         Library to enable creation and expansion of ISO-9660 filesystems
 Name:            libisoburn
 Version:         1.5.2
-Release:         2%{?dist}
+Release:         4%{?dist}
 License:         GPLv2+
 URL:             http://libburnia-project.org/
 Source0:         http://files.libburnia-project.org/releases/%{name}-%{version}.tar.gz
@@ -51,8 +51,8 @@ documentation for developing applications that use libisoburn.
 Summary:         ISO-9660 and Rock Ridge image manipulation tool
 URL:             http://scdbackup.sourceforge.net/xorriso_eng.html
 Requires:        %{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} == 7 || 0%{?fedora}
 Requires:        kde-filesystem >= 4
-%if 0%{?rhel} >= 7 || 0%{?fedora}
 Requires:        kf5-filesystem >= 5
 %endif
 %if 0%{?rhel} && 0%{?rhel} <= 7
@@ -103,9 +103,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}.la
 # Clean up for later usage in documentation
 rm -rf $RPM_BUILD_ROOT%{_defaultdocdir}
 
+%if 0%{?rhel} == 7 || 0%{?fedora}
 # Install the KDE service menu handler
 install -D -p -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/kde4/services/ServiceMenus/xorriso_extract_iso_image.desktop
-%if 0%{?rhel} >= 7 || 0%{?fedora}
 install -D -p -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/kservices5/ServiceMenus/xorriso_extract_iso_image.desktop
 %endif
 
@@ -177,12 +177,18 @@ fi
 %{_infodir}/xorrecord.info*
 %{_infodir}/xorriso.info*
 %{_infodir}/xorrisofs.info*
+%if 0%{?rhel} == 7 || 0%{?fedora}
 %{_datadir}/kde4/services/ServiceMenus/xorriso_extract_iso_image.desktop
-%if 0%{?rhel} >= 7 || 0%{?fedora}
 %{_datadir}/kservices5/ServiceMenus/xorriso_extract_iso_image.desktop
 %endif
 
 %changelog
+* Mon Sep 28 2020 Troy Dawson <tdawson@redhat.com> - 1.5.2-4
+- No kde or kf5 filesystem for RHEL 8 or above.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

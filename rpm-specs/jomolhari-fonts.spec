@@ -1,5 +1,5 @@
 Version:        0.003
-Release:        30%{?dist}
+Release:        31%{?dist}
 # Try following URL for this package
 #URL:           https://sites.google.com/site/chrisfynn2/home/fonts/jomolhari
 # Looks like currently following URL is gone now. Maybe temporary issue
@@ -42,6 +42,9 @@ Source1:        65-0-%{fontpkgname}.conf
 %fontfiles
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.003-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Parag Nemade <pnemade AT redhat DOT com> - 0.003-30
 - Update fontconfig DTD id in conf file
 

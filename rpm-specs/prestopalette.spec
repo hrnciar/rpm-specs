@@ -1,7 +1,7 @@
 
 Name:		prestopalette
 Version:	0.1.31
-Release:	7%{?dist}
+Release:	10%{?dist}
 Summary:	An artist's tool for creating harmonious color palettes
 
 License:	MIT
@@ -13,11 +13,11 @@ Source2:	https://raw.githubusercontent.com/PrestoPalette/PrestoPalette-Packaging
 BuildRequires: desktop-file-utils
 BuildRequires: libappstream-glib
 BuildRequires: gcc-c++
+BuildRequires: qt5-qtbase-devel
+BuildRequires: qt5-qtmultimedia-devel
 
-%{?fedora:BuildRequires: qt5-devel}
+ExcludeArch: i686
 
-%{?el7:BuildRequires: qt5-qtbase-devel}
-%{?el7:BuildRequires: qt5-qtmultimedia-devel}
 %{?el7:BuildRequires: tar}
 
 %description
@@ -57,6 +57,17 @@ install -Dp -m 644 %{SOURCE2} %{buildroot}/%{_datadir}/pixmaps/
 %license LICENSE
 
 %changelog
+* Sat Aug 01 2020 Darryl T. Agostinelli <dagostinelli@gmail.com> - 0.1.31-10
+- qt5-devel metapackage was dropped. Replaced dependencies
+  https://bugzilla.redhat.com/show_bug.cgi?id=1865253
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.31-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.31-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.31-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

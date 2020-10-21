@@ -3,7 +3,7 @@
 
 Name:        %{fontname}-fonts
 Version:     0.91
-Release:     20%{?dist}
+Release:     21%{?dist}
 Summary:     Free Punjabi Unicode OpenType Font
 
 
@@ -46,6 +46,9 @@ ln -s %{_fontconfig_templatedir}/%{fontconf} \
 %doc License_font_exception.txt
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.91-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.91-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,8 +1,8 @@
 %global srcname mpd2
 
 Name:           python-%{srcname}
-Version:        1.0.0
-Release:        6%{?dist}
+Version:        1.1.0
+Release:        2%{?dist}
 Summary:        Python library providing a client interface for MPD
 
 License:        LGPLv3+
@@ -68,6 +68,12 @@ TOX_TESTENV_PASSENV=PYTHONPATH TOXENV=py%{python3_version_nodots} tox --sitepack
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.1.0-1
+- Update to 1.1.0
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.0-6
 - Rebuilt for Python 3.9
 

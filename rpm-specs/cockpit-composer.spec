@@ -1,5 +1,5 @@
 # This spec file has been automatically updated
-Version:        21
+Version:        25
 Release: 1%{?dist}
 Name:           cockpit-composer
 Summary:        Composer GUI for use with Cockpit
@@ -12,8 +12,12 @@ BuildArch:      noarch
 BuildRequires:  libappstream-glib
 
 Requires:       cockpit
-Requires:       weldr
-Suggests:       osbuild-composer >= 14
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 8
+Requires: osbuild-composer >= 14
+%else
+Requires: weldr
+Suggests: osbuild-composer >= 14
+%endif
 
 %description
 Composer generates custom images suitable for deploying systems or uploading to
@@ -39,6 +43,47 @@ cp -a io.weldr.cockpit-composer.metainfo.xml %{buildroot}/%{_datadir}/metainfo/
 %{_datadir}/metainfo/*
 
 %changelog
+* Tue Oct 06 2020 Jacob Kozol <jacobdkozol@gmail.com> - 25-1
+
+- Improve error state messages
+- Add additional console error logging
+- Update CDP testing library
+- Update translations from weblate
+- Update minor NPM dependencies
+
+* Fri Sep 11 2020 Jacob Kozol <jacobdkozol@gmail.com> - 24-1
+
+- Improve text strings for image and upload types
+- Standardize font families with those used by patternfly
+- Add string translations
+- Update minor NPM dependencies
+
+* Thu Jul 30 2020 Jacob Kozol <jacobdkozol@gmail.com> - 23-1
+
+- Update pagination component for pf4
+- Add wildcards and support for multiple values to input filter
+- Upgrade patternfly 4 package
+- Add and improve tests
+- Update minor NPM dependencies
+- Update translations from weblate
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 22-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Jacob Kozol <jacobdkozol@gmail.com> - 22-1
+
+- Patternfly imports are standardized to be consistent with cockpit
+- Cancel image build button bug fixed
+- Empty components state provides a help message
+- Wizard component has bug fixes and is refactored for future scalability
+- Test updates
+- ESLint upgraded to version 7 and the code style is improved across the
+  project
+- Translation files are updated from fedora weblate
+- Cockpit-composer's dependency on osbuild-composer and the weldr group
+  is more specific for fedora rawhide and rhel 8
+- Coverity scan is now supported to help improve code quality
+
 * Sun Jun 14 2020 Lars Karlitski <lars@karlitski.net> - 21-1
 
 - Support setting parameters (ref and parent) for ostree images

@@ -4,7 +4,7 @@
 
 Name:           sidc
 Version:        1.8
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        A VLF signal monitor for recording sudden ionospheric disturbances
 
 License:        GPLv2
@@ -77,6 +77,9 @@ exit 0
 %systemd_postun_with_restart sidc.service
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

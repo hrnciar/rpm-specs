@@ -9,8 +9,8 @@
 %endif
 
 Name:		libpfm
-Version:	4.10.1
-Release:	11%{?dist}
+Version:	4.11.0
+Release:	1%{?dist}
 
 Summary:	Library to encode performance events for use by perf tool
 
@@ -73,7 +73,7 @@ Python bindings for libpfm4 and perf_event_open system call.
 %else
 %global python_config CONFIG_PFMLIB_NOPYTHON=y
 %endif
-make %{python_config} %{?_smp_mflags} \
+%make_build %{python_config} \
      OPTIM="%{optflags}" LDFLAGS="%{build_ldflags}"
 
 
@@ -113,6 +113,16 @@ make \
 %endif
 
 %changelog
+* Tue Sep 08 2020 William Cohen <wcohen@redhat.com> - 4.11.0-1
+- Rebase on libpfm-4.11.0.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.10.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 4.10.1-12
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.10.1-11
 - Rebuilt for Python 3.9
 

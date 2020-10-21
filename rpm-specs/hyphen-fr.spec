@@ -1,7 +1,7 @@
 Name: hyphen-fr
 Summary: French hyphenation rules
 Version: 3.0
-Release: 5%{?dist}
+Release: 6%{?dist}
 Source: http://www.dicollecte.org/download/fr/hyph-fr-v3.0.zip
 URL: http://www.dicollecte.org/download.php?prj=fr
 License: LGPLv2+
@@ -35,6 +35,9 @@ popd
 %{_datadir}/hyphen/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

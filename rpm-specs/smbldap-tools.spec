@@ -1,7 +1,7 @@
 Summary:	User and group administration tools for Samba/OpenLDAP
 Name:		smbldap-tools
 Version:	0.9.11
-Release:	16%{?dist}
+Release:	17%{?dist}
 License:	GPLv2+
 URL:		http://gna.org/projects/smbldap-tools/
 Source0:	http://download.gna.org/smbldap-tools/sources/%{version}/smbldap-tools-%{version}.tar.gz
@@ -126,6 +126,9 @@ chmod 755 %{buildroot}%{_sbindir}/smbldap-upgrade-0.9.6.pl
 %{_mandir}/man8/smbldap-usershow.8*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.11-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.9.11-16
 - Perl 5.32 rebuild
 

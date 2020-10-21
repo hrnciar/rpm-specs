@@ -15,7 +15,7 @@ Name:			clover2
 
 # For Version, see README.md and so on
 Version:		%{mainver}
-Release:		2.D%{gitdate}git%{shortcommit}%{?dist}
+Release:		6.D%{gitdate}git%{shortcommit}%{?dist}
 Summary:		Yet another compiler language
 
 License:		GPLv2
@@ -23,6 +23,8 @@ URL:			https://github.com/ab25cq/clover2/wiki
 #Source0:		https://github.com/ab25cq/%{name}/archive/%{gitcommit}/%{name}-%{version}-git%{shortcommit}.tar.gz
 Source0:		%{name}-%{tarballdate}T%{tarballtime}.tar.gz
 Source1:		create-clover-git-bare-tarball.sh
+# parser.c: fix memset size
+Patch1:		clover2-10.4.6-0001-parser.c-fix-memset-size.patch
 
 # Upstream suggests to use clang
 BuildRequires:	clang
@@ -64,6 +66,9 @@ This package contains libraries and header files for
 developing applications that use %{name}.
 
 %prep
+# Disable lfto, clang compiler option does not support these
+%define _lto_cflags -flto
+
 %setup -q -c -T -a 0
 git clone ./clover2.git
 cd clover2
@@ -94,8 +99,7 @@ sed -i.lib Makefile.in -e 's|/lib$|/%{_lib}|'
 
 git commit -m "Apply Fedora specific configuration" -a
 
-#%%patch0 -p1
-#git commit -m "temp fix" -a
+cat %PATCH1 | git am
 
 %build
 cd clover2
@@ -153,6 +157,21 @@ LANG=C.utf8 make -C clover2 test
 %{_includedir}/clover2/
 
 %changelog
+* Thu Sep 03 2020 Jeff Law <law@redhat.com> - 10.4.6-6.D20190613git6f483b4
+- Enable LTO, but not -ffat-lto-objects.  This package really should set
+  %toolchain to clang, but that doesn't work yet.
+
+* Fri Aug  7 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 10.4.6-5.D20190613git6f483b4
+- Disable lto, clang does not support these options
+- parser.c: fix memset size
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.4.6-4.D20190613git6f483b4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.4.6-3.D20190613git6f483b4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.4.6-2.D20190613git6f483b4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

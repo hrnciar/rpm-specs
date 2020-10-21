@@ -1,10 +1,14 @@
+%global commit 934450798654bcc819fb81ad66a2bf5e5b4d39d7
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
+
 Name:		xclip
 Version:	0.13
-Release:	9%{?dist}
+Release:	11.git%{shortcommit}%{?dist}
 License:	GPLv2+
 Summary:	Command line clipboard grabber
 URL:		http://sourceforge.net/projects/xclip
-Source0:	https://github.com/astrand/xclip/archive/%{version}.tar.gz
+# Source0:	https://github.com/astrand/xclip/archive/%%{version}.tar.gz
+Source0:	https://github.com/astrand/xclip/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
 BuildRequires:	libXmu-devel, libICE-devel, libX11-devel, libXext-devel
 BuildRequires:	autoconf, automake, libtool
 
@@ -17,7 +21,7 @@ an X selection to standard out, which can then be redirected to a file or
 another program.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{commit}
 autoreconf -ifv
 
 %build
@@ -38,6 +42,12 @@ make DESTDIR=$RPM_BUILD_ROOT install.man
 %{_mandir}/man1/xclip*.1*
 
 %changelog
+* Mon Sep 21 2020 Tom Callaway <spot@fedoraproject.org> - 0.13-11.git9344507
+- update to latest from git
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

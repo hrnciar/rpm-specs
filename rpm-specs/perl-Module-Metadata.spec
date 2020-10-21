@@ -1,6 +1,6 @@
 Name:		perl-Module-Metadata
 Version:	1.000037
-Release:	456%{?dist}
+Release:	457%{?dist}
 Summary:	Gather package and POD information from perl module files
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Module-Metadata
@@ -68,6 +68,9 @@ make test
 %{_mandir}/man3/Module::Metadata.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.000037-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.000037-456
 - Increase release to favour standalone package
 

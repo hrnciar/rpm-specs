@@ -1,6 +1,7 @@
+%define _legacy_common_support 1
 Name:           fatsort
 Version:        1.6.2.605
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        FAT sorter for FAT16 and FAT32 filesystems
 
 License:        GPLv2+
@@ -37,6 +38,16 @@ make %{?_smp_mflags} CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="$RPM_OPT_FLAGS"
 
 
 %changelog
+* Thu Aug 06 2020 Jeff Law <law@redhat.com> - 1.6.2.605-4
+- Enable legacy_common_support
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.2.605-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.2.605-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 01 2020 Till Maas <opensource@till.name> - 1.6.2.605-1
 - Update to latest release
 

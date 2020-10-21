@@ -6,7 +6,7 @@
 
 Name:           nodejs-callsite
 Version:        1.0.0
-Release:        15%{?dist}
+Release:        17%{?dist}
 Summary:        Provides access to V8's "raw" CallSites from Node.js
 
 #No license file included, "MIT" indicated in README and package.json
@@ -71,6 +71,13 @@ mocha --require should
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-17
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

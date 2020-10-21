@@ -1,14 +1,13 @@
 Name:       perl-Module-Util
 Version:    1.09
-Release:    21%{?dist}
+Release:    24%{?dist}
 # see lib/Module/Util.pm
 License:    GPL+ or Artistic
 Summary:    Module name tools and transformations
 Source:     https://cpan.metacpan.org/authors/id/M/MA/MATTLAW/Module-Util-%{version}.tar.gz
 Url:        https://metacpan.org/release/Module-Util
-Requires:   perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+Requires:   perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 BuildArch:  noarch
-
 BuildRequires: perl-interpreter
 BuildRequires: perl-generators
 BuildRequires: perl(Module::Build)
@@ -16,8 +15,12 @@ BuildRequires: perl(strict)
 BuildRequires: perl(warnings)
 # Run-time
 BuildRequires: perl(Exporter)
+# ExtUtils::MakeMaker not used at tests
 BuildRequires: perl(File::Find)
 BuildRequires: perl(File::Spec::Functions)
+# Getopt::Long not used at tests
+# List::Util not used at tests
+# Pod::Usage not used at tests
 # Tests
 BuildRequires: perl(Test::More)
 
@@ -33,7 +36,7 @@ names to relative paths.
 %setup -q -n Module-Util-%{version}
 
 %build
-%{__perl} Build.PL installdirs=vendor
+perl Build.PL installdirs=vendor
 ./Build
 
 %install
@@ -50,6 +53,15 @@ names to relative paths.
 %{_mandir}/man[13]/*.[13]*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.09-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.09-23
+- Perl 5.32 re-rebuild updated packages
+
+* Thu Jun 25 2020 Petr Pisar <ppisar@redhat.com> - 1.09-22
+- Modernize a spec file
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.09-21
 - Perl 5.32 rebuild
 

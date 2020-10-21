@@ -9,7 +9,7 @@
 
 %global with_tests   0%{!?_without_tests:1}
 # Github
-%global gh_commit    152fa144bd5f9fbdd3b5e764a506e239a730df83
+%global gh_commit    2653637d537329b2b2ba7290dc70eacf09c74072
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     williamdes
 %global gh_project   mariadb-mysql-kbs
@@ -22,7 +22,7 @@
 %global major        %nil
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
-Version:        1.2.10
+Version:        1.2.11
 Release:        1%{?gh_date?%{gh_date}git%{gh_short}}%{?dist}
 Summary:        An index of the MariaDB and MySQL Knowledge bases
 
@@ -40,25 +40,30 @@ BuildRequires:  php(language) >= 7.1
 BuildRequires:  php-json
 BuildRequires:  php-pcre
 # For tests, from composer.json "require-dev": {
-#        "phpunit/phpunit": "^7 || ^8",
+#        "phpunit/phpunit": "^7 || ^8 || ^9",
 #        "phpstan/phpstan": "^0.12",
-#        "slevomat/coding-standard": "^6.0",
-#        "squizlabs/php_codesniffer": "^3.3",
-#        "swaggest/json-schema": "^0.12.9"
+#        "slevomat/coding-standard": "^6.3",
+#        "squizlabs/php_codesniffer": "^3.4",
+#        "swaggest/json-schema": "^0.12.29"
+%if 0%{?fedora} >= 32 || 0%{?rhel} >= 9
+BuildRequires:  phpunit9
+%global phpunit %{_bindir}/phpunit9
+%else
 BuildRequires:  phpunit8
 %global phpunit %{_bindir}/phpunit8
+%endif
 %if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
-BuildRequires: (php-composer(swaggest/json-schema)    >  0.12.9 with php-composer(swaggest/json-schema)    < 1)
+BuildRequires: (php-composer(swaggest/json-schema)    >  0.12.29 with php-composer(swaggest/json-schema)    < 1)
 %else
 BuildRequires:  php-composer(swaggest/json-schema)    <  1
-BuildRequires:  php-composer(swaggest/json-schema)    >= 0.12.9
+BuildRequires:  php-composer(swaggest/json-schema)    >= 0.12.29
 %endif
 # For autoloader
 BuildRequires:  php-composer(fedora/autoloader)
 %endif
 
 # From composer.json, "require": {
-#        "php": "^7.1"
+#        "php": ">=7.1"
 Requires:       php(language) >= 7.1
 # From phpcompatinfo report for 1.2.7
 Requires:       php-json
@@ -123,9 +128,10 @@ EOF
 export RPM_BUILDROOT=%{buildroot}
 
 ret=0
-for cmd in php php72 php73 php74; do
-   if which $cmd; then
-      $cmd %{phpunit} --no-coverage --verbose || ret=1
+for cmdarg in "php %{phpunit}" "php72 %{_bindir}/phpunit8" php73 php74 php80; do
+   if which $cmdarg; then
+      set $cmdarg
+      $1 ${2:-%{_bindir}/phpunit9} --no-coverage --verbose || ret=1
    fi
 done
 exit $ret
@@ -149,6 +155,13 @@ exit $ret
 
 
 %changelog
+* Mon Sep 14 2020 Remi Collet <remi@remirepo.net> - 1.2.11-1
+- update to 1.2.11
+- switch to phpunit9
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 27 2020 Remi Collet <remi@remirepo.net> - 1.2.10-1
 - update to 1.2.10
 - sources from git snapshot

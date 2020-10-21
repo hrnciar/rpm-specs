@@ -13,7 +13,7 @@ Supports both python 2 and 3 (tested with 2.7 and 3.5) }
 Summary: %{sum}
 Name: python-%{srcname}
 Version: 0.2.7
-Release: 2%{?dist}
+Release: 3%{?dist}
 Source0: https://gitlab.com/tgc-dk/%{srcname}/repository/archive.tar.gz?ref=%{version}#/%{srcname}-%{version}.tar.gz
 Source1: testdata-0.2.7.tar.gz
 License: GPLv2
@@ -54,6 +54,9 @@ Summary:        %{sum}
 %{python3_sitelib}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.7-2
 - Rebuilt for Python 3.9
 

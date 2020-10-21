@@ -4,7 +4,7 @@
 
 Name:           python-pyzolib
 Version:        0.3.3
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Utilities for the Pyzo environment
 
 License:        BSD
@@ -56,6 +56,9 @@ framework.
 %{python3_sitelib}/pyzolib-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.3-19
 - Rebuilt for Python 3.9
 

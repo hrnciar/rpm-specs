@@ -1,6 +1,6 @@
 Name:           safecopy
 Version:        1.7
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Safe copying of files and partitions
 
 License:        GPL+
@@ -38,6 +38,9 @@ make install DESTDIR=%{buildroot} INSTALL="install -p"
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

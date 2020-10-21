@@ -1,7 +1,7 @@
 %bcond_with check
 
 %global packname knitr
-%global packver  1.28
+%global packver  1.30
 %global rlibdir  %{_datadir}/R/library
 
 %global __suggests_exclude ^R\\((JuliaCall|gifski|magick|rgl|sass|webshot)\\)
@@ -11,8 +11,8 @@
 %global with_suggests 0
 
 Name:             R-%{packname}
-Version:          1.28
-Release:          2%{?dist}
+Version:          1.30
+Release:          1%{?dist}
 Summary:          A General-Purpose Package for Dynamic Report Generation in R
 
 License:          GPLv2+
@@ -21,8 +21,8 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-evaluate >= 0.10, R-highr, R-markdown, R-stringr >= 0.6, R-yaml >= 2.1.19, R-methods, R-xfun, R-tools
-# Suggests:  R-formatR, R-testit, R-digest, R-rgl >= 0.95.1201, R-codetools, R-rmarkdown, R-htmlwidgets >= 0.7, R-webshot, R-tikzDevice >= 0.10, R-tinytex, R-reticulate >= 1.4, R-JuliaCall >= 0.11.1, R-magick, R-png, R-jpeg, R-gifski, R-xml2 >= 1.2.0, R-httr, R-DBI >= 0.4-1, R-showtext, R-tibble, R-sass, R-styler >= 1.2.0
+# Imports:   R-evaluate >= 0.10, R-highr, R-markdown, R-stringr >= 0.6, R-yaml >= 2.1.19, R-methods, R-xfun >= 0.15, R-tools
+# Suggests:  R-formatR, R-testit, R-digest, R-rgl >= 0.95.1201, R-codetools, R-rmarkdown, R-htmlwidgets >= 0.7, R-webshot, R-tikzDevice >= 0.10, R-tinytex, R-reticulate >= 1.4, R-JuliaCall >= 0.11.1, R-magick, R-png, R-jpeg, R-gifski, R-xml2 >= 1.2.0, R-httr, R-DBI >= 0.4-1, R-showtext, R-tibble, R-sass, R-ragg, R-styler >= 1.2.0
 # LinkingTo:
 # Enhances:
 
@@ -37,7 +37,7 @@ BuildRequires:    R-markdown
 BuildRequires:    R-stringr >= 0.6
 BuildRequires:    R-yaml >= 2.1.19
 BuildRequires:    R-methods
-BuildRequires:    R-xfun
+BuildRequires:    R-xfun >= 0.15
 BuildRequires:    R-tools
 %if %{with check}
 BuildRequires:    R-testit
@@ -65,6 +65,7 @@ BuildRequires:    R-gifski
 BuildRequires:    R-httr
 BuildRequires:    R-tibble
 BuildRequires:    R-sass
+BuildRequires:    R-ragg
 BuildRequires:    R-styler >= 1.2.0
 # Mostly examples.
 BuildRequires;    R-Cairo
@@ -140,6 +141,15 @@ ARGS=--no-examples
 
 
 %changelog
+* Wed Sep 23 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.30-1
+- Update to latest version (#1881633)
+
+* Fri Aug 14 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.29-1
+- Update to latest version (#1849954)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.28-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 1.28-2
 - conditionalize check to get this built (half the R universe depends on it)
 - rebuild for R 4

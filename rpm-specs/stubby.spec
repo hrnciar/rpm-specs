@@ -7,7 +7,7 @@
 
 Name:           stubby
 Version:        0.3.1
-Release:        0.2.%{git_suffix}%{?dist}
+Release:        0.7.%{git_suffix}%{?dist}
 Summary:        Application that act as a local DNS Privacy stub resolver
 
 License:        BSD
@@ -16,6 +16,8 @@ Source0:        https://github.com/getdnsapi/stubby/archive/%{git_commit}/%{name
 
 Provides:       getdns-stubby = 1.6.0-2
 Obsoletes:      getdns-stubby < 1.6.0-2
+Requires:	systemd
+%{?systemd_requires}
 
 BuildRequires:  gcc
 BuildRequires:  make
@@ -25,6 +27,7 @@ BuildRequires:  libyaml-devel
 BuildRequires:  systemd-rpm-macros
 
 Patch1:         stubby-0.3.1-dnssec-ta.patch
+
 
 
 %description
@@ -39,19 +42,32 @@ DNS Privacy resolver increasing end user privacy.
 
 %build
 %cmake -DCMAKE_BUILD_TYPE:STRING=Release .
-%make_build
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 find %{buildroot} -size 0 -delete
 mkdir -p %{buildroot}%{_unitdir}
 install -pm 0644 systemd/stubby.service %{buildroot}%{_unitdir}/stubby.service
 
+%preun
+%systemd_preun %{name}
+
+%post
+# systemd would replace it with symlink
+if [ ! -L "%{_localstatedir}/cache/%{name}" -a -d "%{_localstatedir}/cache/%{name}" ]; then
+	mv "%{_localstatedir}/cache/%{name}"{,.rpmsave}
+fi
+%systemd_post %{name}
+
+%postun
+%systemd_postun_with_restart %{name}
 
 %files
 %{_bindir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}
+%ghost %{_localstatedir}/cache/%{name}
 %{_unitdir}/stubby.service
 %{_mandir}/man1/%{name}.1.gz
 %dir %{_docdir}/%{name}
@@ -62,6 +78,22 @@ install -pm 0644 systemd/stubby.service %{buildroot}%{_unitdir}/stubby.service
 
 
 %changelog
+* Fri Oct 16 2020 Petr Menšík <pemensik@redhat.com> - 0.3.1-0.7.20200318git7939e965
+- Move only directory, not symlink on upgrade (#1884575)
+
+* Mon Oct 05 2020 Petr Menšík <pemensik@redhat.com> - 0.3.1-0.6.20200318git7939e965
+- Move old cache directory on upgrade (#1884575)
+
+* Mon Aug 10 2020 Artem Egorenkov <aegorenk@redhat.com> - 0.3.1-0.5.20200318git7939e965
+- cmake macros are used instead of make
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-0.4.20200318git7939e965
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-0.3.20200318git7939e965
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 18 2020 Artem Egorenkov <aegorenk@redhat.com> - 0.3.1-0.2.20200318git7939e965
 - Snapshot information field added
 - systemd-rpm-macros added to build requirements

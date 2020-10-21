@@ -1,6 +1,6 @@
 Name:           libfido2
 
-Version:        1.4.0
+Version:        1.5.0
 Release:        1%{?dist}
 Summary:        FIDO2 library
 
@@ -9,6 +9,10 @@ URL:            https://github.com/Yubico/%{name}
 Source0:        https://developers.yubico.com/%{name}/Releases/%{name}-%{version}.tar.gz
 Source1:        https://developers.yubico.com/%{name}/Releases/%{name}-%{version}.tar.gz.sig
 Source2:        gpgkey-7FBB6186957496D58C751AC20E777DD85755AA4A.gpg
+#
+# Upstream patch for building on 32-bit platforms
+#
+Patch0001:      0001-add-two-casts-to-silence-warnings-on-32-bit.patch
 
 BuildRequires:  cmake
 BuildRequires:  hidapi-devel
@@ -57,14 +61,12 @@ gpgv2 --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 
 
 %build
-mkdir build
-cd build
-%cmake ..
-%make_build
+%cmake
+%cmake_build
 
 
 %install
-%make_install -C build
+%cmake_install
 # Remove static files per packaging guidelines
 find %{buildroot} -type f -name "*.a" -delete -print
 
@@ -86,6 +88,19 @@ find %{buildroot} -type f -name "*.a" -delete -print
 
 
 %changelog
+* Fri Sep 11 2020 Gary Buhrmaster <gary.buhrmaster@gmail.com> 1.5.0-1
+- 1.5.0 release (#1824326)
+- include upstream patch to fix 32-bit platform compile, reported at
+  https://github.com/Yubico/libfido2/issues/210
+
+* Tue Sep 08 2020 Kalev Lember <klember@redhat.com> - 1.4.0-4
+- Rebuilt for libcbor soname bump
+
+* Wed Jul 29 2020 Gary Buhrmaster <gary.buhrmaster@gmail.com> 1.4.0-3
+- adapt to new Fedora cmake rpm macros
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
 * Wed Apr 15 2020 Gary Buhrmaster <gary.buhrmaster@gmail.com> 1.4.0-1
 - 1.4.0 release (#1824326)

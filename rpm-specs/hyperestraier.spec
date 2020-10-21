@@ -6,7 +6,7 @@
 
 Name:		hyperestraier
 Version:	1.4.13
-Release:	39%{?dist}
+Release:	41%{?dist}
 Summary:	A full-text search system
 
 License:	LGPLv2+
@@ -265,6 +265,12 @@ popd
 
 
 %changelog
+* Fri Aug 07 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.4.13-41
+- F-33: mass rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.4.13-40
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.4.13-39
 - Perl 5.32 rebuild
 

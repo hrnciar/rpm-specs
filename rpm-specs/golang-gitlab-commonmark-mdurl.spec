@@ -4,7 +4,7 @@
 # https://gitlab.com/golang-commonmark/mdurl
 %global goipath         gitlab.com/golang-commonmark/mdurl
 %global forgeurl        https://gitlab.com/golang-commonmark/mdurl
-%global commit          e5bce34c34f29ecf232fec34f3982e55533ec14e
+%global commit          932350d1cb841423f436264e83e4f0bdbc798f67
 
 %gometa
 
@@ -18,7 +18,7 @@ Package Mdurl provides functions for parsing, decoding and encoding URLs.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Utilities for parsing, decoding and encoding URLs
 
 # Upstream license specification: BSD-2-Clause
@@ -45,6 +45,16 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 13:32:15 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200805git932350d
+- Bump to commit 932350d1cb841423f436264e83e4f0bdbc798f671
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

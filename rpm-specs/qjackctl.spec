@@ -1,13 +1,11 @@
 Summary:       Qt based JACK control application
 Name:          qjackctl
-Version:       0.6.2
-Release:       1%{?dist}
+Version:       0.6.3
+Release:       2%{?dist}
 URL:           http://qjackctl.sourceforge.net
 Source0:       http://downloads.sourceforge.net/qjackctl/files/%{name}-%{version}.tar.gz
 License:       GPLv2+
 Requires:      hicolor-icon-theme
-
-Source20:      qmake-qt5.sh
 
 # Appdata fix. Upstreamable
 Patch0:        qjackctl-appdata-fix.patch
@@ -19,6 +17,8 @@ BuildRequires: jack-audio-connection-kit-devel
 BuildRequires: portaudio-devel
 BuildRequires: qt5-qttools-devel
 BuildRequires: qt5-qtx11extras-devel
+BuildRequires: libappstream-glib
+
 
 %description
 Qjackctl is a simple application to control the JACK sound server daemon,
@@ -26,11 +26,11 @@ specific for the Linux Audio Desktop infrastructure. It provides a simple GUI
 dialog for setting several JACK daemon parameters, which are properly saved
 between sessions, and a way to control the status of the audio server daemon.
 With time, this primordial interface has become richer by including a enhanced
-patchbay and connection control features.
+patch bay and connection control features.
+
 
 %prep
-%setup -q
-%patch0 -p1 -b .appdata_fix
+%autosetup -p1
 
 # configure hard-codes prepending searches of /usr (already implicit, causes problems),
 # and /usr/local (not needed here), so force it's non-use -- rex
@@ -38,25 +38,23 @@ sed -i.ac_with_paths -e "s|^ac_with_paths=.*|ac_with_paths=|g" configure
 
 
 %build
-CFLAGS="%{optflags}"; export CFLAGS
-CXXFLAGS="%{optflags}"; export CXXFLAGS
-LDFLAGS="%{?__global_ldflags}"; export LDFLAGS
-
-# force use of custom/local qmake, to inject proper build flags (above)
-install -m755 -D %{SOURCE20} bin/qmake-qt5
-PATH=`pwd`/bin:%{_qt5_bindir}:$PATH; export PATH
+%{set_build_flags}
 
 %configure \
-           --enable-jack-version \
-           --localedir=%{_datadir}/%{name}/locale/
+  --enable-jack-version \
+  --localedir=%{_datadir}/%{name}/locale/ \
+  --enable-debug
 
-make %{?_smp_mflags} QMAKE=`pwd`/bin/qmake-qt5
+%{make_build}
 
 %install
-make DESTDIR=%{buildroot} install
+%{make_install}
 
 desktop-file-install \
   %{buildroot}%{_datadir}/applications/qjackctl.desktop
+
+%check
+appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/qjackctl.appdata.xml
 
 # Handle locale's
 %find_lang %{name} --with-qt
@@ -72,7 +70,20 @@ desktop-file-install \
 %{_mandir}/man1/%{name}*
 %{_datadir}/metainfo/qjackctl.appdata.xml
 
+
 %changelog
+* Wed Oct 07 2020 Christoph Karl <pampelmuse [AT] gmx [DOT] at> - 0.6.3-2
+- New version
+
+* Tue Oct 06 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.6.3-1
+- Move check section after install section
+
+* Tue Sep 29 2020 Christoph Karl <pampelmuse [AT] gmx [DOT] at> - 0.6.3-1
+- New version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> - 0.6.2-1
 - New version
 

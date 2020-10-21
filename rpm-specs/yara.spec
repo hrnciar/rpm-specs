@@ -1,6 +1,6 @@
 Name:           yara
-Version:        4.0.1
-Release:        2%{?dist}
+Version:        4.0.2
+Release:        3%{?dist}
 Summary:        Pattern matching Swiss knife for malware researchers
 
 # yara package itself is licensed as ASL 2.0
@@ -129,7 +129,13 @@ autoreconf --force --install
 
 
 %build
-# macro \configure already does use CFLAGS="\{optflags}" and yara build
+
+# Add missing definition on RHEL7                                                                                                      
+%if 0%{?rhel} && 0%{?rhel} == 7                                                                                                        
+export CFLAGS="$CFLAGS -D PROTOBUF_C_FIELD_FLAG_ONEOF=4"                                                                               
+%endif    
+
+# macro %%configure already does use CFLAGS="\{optflags}" and yara build
 # scripts configure/make already honors that CFLAGS
 %configure --enable-magic --enable-cuckoo --enable-debug --enable-dotnet \
         --enable-macho --enable-dex --enable-pb-tests \
@@ -180,6 +186,16 @@ rm -f %{buildroot}%{_datadir}/doc/%{name}/html/.buildinfo
 
 
 %changelog
+* Thu Sep 24 2020 Adrian Reber <adrian@lisas.de> - 4.0.2-3
+- Rebuilt for protobuf 3.13
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Michal Ambroz <rebus at, seznam.cz> - 4.0.2-1
+- bump to yara bugfix 4.0.2 release
+- fix build on epel7
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 4.0.1-2
 - Rebuilt for protobuf 3.12
 

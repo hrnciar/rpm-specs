@@ -3,10 +3,10 @@
 %global majorver 4.0
 Summary: An X Window System based IBM 3278/3279 terminal emulator
 Name: x3270
-Version: 4.0ga9
+Version: 4.0ga12
 Release: 1%{?dist}
 License: BSD
-URL: http://x3270.sourceforge.net/
+URL: https://x3270.miraheze.org/wiki/Main_Page
 Source0: http://downloads.sourceforge.net/%{name}/suite3270-%{version}-src.tgz
 Source1: x3270.png
 Source2: x3270.desktop
@@ -127,6 +127,18 @@ desktop-file-install \
 
 
 %changelog
+* Mon Sep 28 2020 Dan Horák <dan[at]danny.cz> - 4.0ga12-1
+- updated to 4.0ga12 (#1882956)
+
+* Tue Aug 18 2020 Dan Horák <dan[at]danny.cz> - 4.0ga11-1
+- updated to 4.0ga11 (#1869461)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0ga10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Dan Horák <dan[at]danny.cz> - 4.0ga10-1
+- updated to 4.0ga10 (#1860639)
+
 * Fri May 29 2020 Dan Horák <dan[at]danny.cz> - 4.0ga9-1
 - updated to 4.0ga9 (#1840492)
 

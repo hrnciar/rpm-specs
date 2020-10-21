@@ -5,7 +5,7 @@
 # strip the automatically generated dep here and instead co-own the
 # directory.
 %global __requires_exclude pkg-config
-%define dist_free_release 61.git20200529
+%define dist_free_release 167.git20201006
 
 Name: dracut
 Version: 050
@@ -88,6 +88,112 @@ Patch57: 0057.patch
 Patch58: 0058.patch
 Patch59: 0059.patch
 Patch60: 0060.patch
+Patch61: 0061.patch
+Patch62: 0062.patch
+Patch63: 0063.patch
+Patch64: 0064.patch
+Patch65: 0065.patch
+Patch66: 0066.patch
+Patch67: 0067.patch
+Patch68: 0068.patch
+Patch69: 0069.patch
+Patch70: 0070.patch
+Patch71: 0071.patch
+Patch72: 0072.patch
+Patch73: 0073.patch
+Patch74: 0074.patch
+Patch75: 0075.patch
+Patch76: 0076.patch
+Patch77: 0077.patch
+Patch78: 0078.patch
+Patch79: 0079.patch
+Patch80: 0080.patch
+Patch81: 0081.patch
+Patch82: 0082.patch
+Patch83: 0083.patch
+Patch84: 0084.patch
+Patch85: 0085.patch
+Patch86: 0086.patch
+Patch87: 0087.patch
+Patch88: 0088.patch
+Patch89: 0089.patch
+Patch90: 0090.patch
+Patch91: 0091.patch
+Patch92: 0092.patch
+Patch93: 0093.patch
+Patch94: 0094.patch
+Patch95: 0095.patch
+Patch96: 0096.patch
+Patch97: 0097.patch
+Patch98: 0098.patch
+Patch99: 0099.patch
+Patch100: 0100.patch
+Patch101: 0101.patch
+Patch102: 0102.patch
+Patch103: 0103.patch
+Patch104: 0104.patch
+Patch105: 0105.patch
+Patch106: 0106.patch
+Patch107: 0107.patch
+Patch108: 0108.patch
+Patch109: 0109.patch
+Patch110: 0110.patch
+Patch111: 0111.patch
+Patch112: 0112.patch
+Patch113: 0113.patch
+Patch114: 0114.patch
+Patch115: 0115.patch
+Patch116: 0116.patch
+Patch117: 0117.patch
+Patch118: 0118.patch
+Patch119: 0119.patch
+Patch120: 0120.patch
+Patch121: 0121.patch
+Patch122: 0122.patch
+Patch123: 0123.patch
+Patch124: 0124.patch
+Patch125: 0125.patch
+Patch126: 0126.patch
+Patch127: 0127.patch
+Patch128: 0128.patch
+Patch129: 0129.patch
+Patch130: 0130.patch
+Patch131: 0131.patch
+Patch132: 0132.patch
+Patch133: 0133.patch
+Patch134: 0134.patch
+Patch135: 0135.patch
+Patch136: 0136.patch
+Patch137: 0137.patch
+Patch138: 0138.patch
+Patch139: 0139.patch
+Patch140: 0140.patch
+Patch141: 0141.patch
+Patch142: 0142.patch
+Patch143: 0143.patch
+Patch144: 0144.patch
+Patch145: 0145.patch
+Patch146: 0146.patch
+Patch147: 0147.patch
+Patch148: 0148.patch
+Patch149: 0149.patch
+Patch150: 0150.patch
+Patch151: 0151.patch
+Patch152: 0152.patch
+Patch153: 0153.patch
+Patch154: 0154.patch
+Patch155: 0155.patch
+Patch156: 0156.patch
+Patch157: 0157.patch
+Patch158: 0158.patch
+Patch159: 0159.patch
+Patch160: 0160.patch
+Patch161: 0161.patch
+Patch162: 0162.patch
+Patch163: 0163.patch
+Patch164: 0164.patch
+Patch165: 0165.patch
+Patch166: 0166.patch
 
 Source1: https://www.gnu.org/licenses/lgpl-2.1.txt
 
@@ -264,11 +370,10 @@ cp %{SOURCE1} .
 %endif
             ${NULL}
 
-make %{?_smp_mflags}
+%make_build
 
 %install
-make %{?_smp_mflags} install \
-     DESTDIR=$RPM_BUILD_ROOT \
+%make_install %{?_smp_mflags} \
      libdir=%{_prefix}/lib
 
 echo "DRACUT_VERSION=%{version}-%{release}" > $RPM_BUILD_ROOT/%{dracutlibdir}/dracut-version.sh
@@ -340,7 +445,7 @@ rm -f -- $RPM_BUILD_ROOT%{_mandir}/man1/lsinitrd.1*
 echo 'hostonly="no"' > $RPM_BUILD_ROOT%{dracutlibdir}/dracut.conf.d/02-generic-image.conf
 echo 'dracut_rescue_image="yes"' > $RPM_BUILD_ROOT%{dracutlibdir}/dracut.conf.d/02-rescue.conf
 
-%if 0%{?fedora} <= 30 || 0%{?rhel} <= 8
+%if 0%{?rhel} > 0 && 0%{?rhel} <= 8
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/kernel/postinst.d
 install -m 0755 51-dracut-rescue-postinst.sh $RPM_BUILD_ROOT%{_sysconfdir}/kernel/postinst.d/51-dracut-rescue-postinst.sh
 %endif
@@ -409,6 +514,7 @@ install -m 0755 51-dracut-rescue-postinst.sh $RPM_BUILD_ROOT%{_sysconfdir}/kerne
 %{dracutlibdir}/modules.d/03modsign
 %{dracutlibdir}/modules.d/03rescue
 %{dracutlibdir}/modules.d/04watchdog
+%{dracutlibdir}/modules.d/04watchdog-modules
 %{dracutlibdir}/modules.d/05busybox
 %{dracutlibdir}/modules.d/06rngd
 %{dracutlibdir}/modules.d/10i18n
@@ -427,7 +533,6 @@ install -m 0755 51-dracut-rescue-postinst.sh $RPM_BUILD_ROOT%{_sysconfdir}/kerne
 %{dracutlibdir}/modules.d/90mdraid
 %{dracutlibdir}/modules.d/90multipath
 %{dracutlibdir}/modules.d/90nvdimm
-%{dracutlibdir}/modules.d/90stratis
 %{dracutlibdir}/modules.d/90ppcmac
 %{dracutlibdir}/modules.d/90qemu
 %{dracutlibdir}/modules.d/91crypt-gpg
@@ -435,6 +540,7 @@ install -m 0755 51-dracut-rescue-postinst.sh $RPM_BUILD_ROOT%{_sysconfdir}/kerne
 %{dracutlibdir}/modules.d/95debug
 %{dracutlibdir}/modules.d/95fstab-sys
 %{dracutlibdir}/modules.d/95lunmask
+%{dracutlibdir}/modules.d/95nvmf
 %{dracutlibdir}/modules.d/95resume
 %{dracutlibdir}/modules.d/95rootfs-block
 %{dracutlibdir}/modules.d/95terminfo
@@ -538,12 +644,34 @@ install -m 0755 51-dracut-rescue-postinst.sh $RPM_BUILD_ROOT%{_sysconfdir}/kerne
 %files config-rescue
 %{dracutlibdir}/dracut.conf.d/02-rescue.conf
 %{_prefix}/lib/kernel/install.d/51-dracut-rescue.install
-%if 0%{?fedora} <= 30 || 0%{?rhel} <= 8
-# FIXME: remove after F30
+%if 0%{?rhel} > 0 && 0%{?rhel} <= 8
 %{_sysconfdir}/kernel/postinst.d/51-dracut-rescue-postinst.sh
 %endif
 
 %changelog
+* Tue Oct 06 2020 Harald Hoyer <harald@redhat.com> - 050-167.git20201006
+- git snapshot
+
+* Fri Oct 02 2020 Harald Hoyer <harald@redhat.com> - 050-157.git20201002
+- git snapshot
+
+* Tue Sep 29 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 050-63.git20200529
+- Fixes for Arm GPUs in early boot
+
+* Fri Sep 25 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 050-62.git20200529
+- Fix for Rockchip devices
+
+* Wed Aug 19 2020 Merlin Mathesius <mmathesi@redhat.com> - 050-61.git20200529.3
+- Correct conditionals to drop 51-dracut-rescue-postinst.sh for Fedora and
+  recent RHEL releases
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 050-61.git20200529.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 050-61.git20200529.1
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri May 29 2020 Harald Hoyer <harald@redhat.com> - 050-61.git20200529
 - git snapshot
 

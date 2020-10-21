@@ -1,12 +1,13 @@
 Name:           mmapper
-Version:        20.05.0
-Release:        1%{?dist}
+Version:        20.10.0
+Release:        2%{?dist}
 Summary:        Graphical MUME mapper
 
 License:        GPLv2+
 URL:            https://github.com/MUME/MMapper
 Source0:        https://github.com/MUME/MMapper/archive/v%{version}/MMapper-%{version}.tar.gz
 Source1:        https://github.com/g-truc/glm/releases/download/0.9.9.7/glm-0.9.9.7.zip
+Patch0:         mmapper-gcc11.patch
 
 BuildRequires:  /usr/bin/appstream-util
 BuildRequires:  cmake
@@ -18,7 +19,7 @@ BuildRequires:  zlib-devel
 
 Requires:       hicolor-icon-theme
 
-Provides:       bundled(glm) = 0.9.9-a2
+Provides:       bundled(glm) = 0.9.9.7
 
 %description
 MMapper is a graphical mapper for a MUD named MUME (Multi-Users in Middle
@@ -33,23 +34,23 @@ data in real time and show player's position in a map.
 
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-mkdir -p external/glm/glm-prefix/src
-cp -a %{S:1} external/glm/glm-prefix/src/
+mkdir -p %{__cmake_builddir}/external/glm/glm-prefix/src
+cp -a %{S:1} %{__cmake_builddir}/external/glm/glm-prefix/src/
+
 %{cmake} \
   -DCMAKE_BUILD_TYPE=Release \
   -DWITH_MAP=OFF \
   -DWITH_UPDATER=OFF \
-  ..
-popd
+  %{nil}
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 
+
+%check
 appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/metainfo/org.mume.MMapper.appdata.xml
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.mume.MMapper.desktop
 
@@ -64,6 +65,22 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.mume.MMapper.d
 
 
 %changelog
+* Thu Oct 15 2020 Jeff Law <law@redhat.com> - 20.10.0-2
+- Add missing #include for gcc-11
+
+* Wed Oct 14 2020 Kalev Lember <klember@redhat.com> - 20.10.0-1
+- Update to 20.10.0
+
+* Wed Aug 26 2020 Kalev Lember <klember@redhat.com> - 20.08.0-1
+- Update to 20.08.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.05.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.05.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 21 2020 Kalev Lember <klember@redhat.com> - 20.05.0-1
 - Update to 20.05.0
 

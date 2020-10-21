@@ -1,6 +1,6 @@
 Name:          crrcsim
 Version:       0.9.13
-Release:       12%{?dist}
+Release:       13%{?dist}
 Summary:       Model-Airplane Flight Simulation Program
 License:       GPLv2
 URL:           http://sourceforge.net/apps/mediawiki/crrcsim/
@@ -187,6 +187,9 @@ EOF
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.13-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Damian Wrobel <dwrobel@ertelnet.rybnik.pl> - 0.9.13-12
 - Use CGAL (>=5.0x) in header mode only
 

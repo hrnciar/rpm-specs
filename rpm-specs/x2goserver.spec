@@ -2,7 +2,7 @@
 
 Name:           x2goserver
 Version:        4.1.0.3
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        X2Go Server
 
 License:        GPLv2+
@@ -570,6 +570,9 @@ exit 0
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4.1.0.3-7
 - Perl 5.32 rebuild
 

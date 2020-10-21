@@ -1,6 +1,6 @@
 Name:           perl-Dist-Zilla-Config-Slicer
 Version:        0.202
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Config::MVP::Slicer customized for Dist::Zilla
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Dist-Zilla-Config-Slicer
@@ -57,6 +57,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.202-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.202-10
 - Perl 5.32 rebuild
 

@@ -37,7 +37,7 @@ fi \
 
 Name:           mpsolve
 Version:        3.2.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Multiprecision polynomial solver
 
 License:        GPLv3+
@@ -261,6 +261,13 @@ make check
 %doc %{octpkgdir}/doc-cache
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 12 2020 Jerry James <loganjerry@gmail.com> - 3.2.1-1
 - Version 3.2.1
 - The formerly missing files are now included in the tarball

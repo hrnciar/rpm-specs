@@ -1,6 +1,6 @@
 Name:		luabind
 Version:	0.9.1
-Release:	33%{?dist}
+Release:	36%{?dist}
 Summary:	A library that helps create bindings between C++ and Lua
 License:	MIT
 URL:		http://www.rasterbar.com/products/luabind.html
@@ -20,6 +20,7 @@ Patch6:		006-luabind-luaL_newstate.patch
 Patch7:		007-luabind-lua-52-fix-test.patch
 Patch8:		008-luabind-lua_pushglobaltable.patch
 Patch9:		luabind-0.9.1-boost157fix.patch
+Patch10:	luabind-0.9.1-lua-5.4.patch
 
 %description
 Luabind is a library that helps you create bindings between C++ and Lua. It 
@@ -49,16 +50,17 @@ This package contains the development libraries and headers for luabind.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1 -b .lua54
 sed -i 's|$(prefix)/lib|$(prefix)/%{_lib}|g' Jamroot
 
 # Perms cleanup
 chmod -x doc/*.rst doc/*.png src/*.cpp luabind/*.hpp luabind/detail/*.hpp
 
 %build
-bjam %{?jobs:-j%{jobs}} -d+2 "cxxflags=%{optflags}" release
+b2 %{?jobs:-j%{jobs}} -d+2 "cxxflags=%{optflags}" release
 
 %install
-bjam -d2 --prefix=%{buildroot}%{_prefix} --libdir=%{buildroot}%{_libdir} release install
+b2 -d2 --prefix=%{buildroot}%{_prefix} --libdir=%{buildroot}%{_libdir} release install
 
 %ldconfig_scriptlets
 
@@ -72,6 +74,16 @@ bjam -d2 --prefix=%{buildroot}%{_prefix} --libdir=%{buildroot}%{_libdir} release
 %{_libdir}/*.so
 
 %changelog
+* Mon Aug 10 2020 Tom Callaway <spot@fedoraproject.org> - 0.9.1-36
+- fix FTBFS, fix build against lua 5.4
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-35
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-33
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -13,7 +13,7 @@
 Summary:     Abstraction of various SASL mechanism responses
 Name:        php-pear-Auth-SASL
 Version:     1.1.0
-Release:     7%{?dist}
+Release:     8%{?dist}
 License:     BSD
 URL:         http://pear.php.net/package/Auth_SASL
 Source:      http://pear.php.net/get/%{pear_name}-%{version}.tgz
@@ -84,6 +84,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

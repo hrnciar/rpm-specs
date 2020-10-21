@@ -6,7 +6,7 @@
 Summary: A DomainKeys Identified Mail (DKIM) milter to sign and/or verify mail
 Name: opendkim
 Version: 2.11.0
-Release: 0.12%{?dist}
+Release: 0.17%{?dist}
 License: BSD and Sendmail
 URL: http://%{name}.org/
 Source0: https://github.com/trusteddomainproject/OpenDKIM/archive/%{full_version}.tar.gz
@@ -17,7 +17,8 @@ Source4: KeyTable
 Source5: TrustedHosts
 Source6: README.fedora
 
-Patch0:  opendkim.lua_load_dump.patch
+# https://github.com/trusteddomainproject/OpenDKIM/pull/70
+Patch0: 0001-support-for-lua-5.3.patch
 
 # Required for all versions
 Requires: lib%{name}%{?_isa} = %{version}-%{release}
@@ -91,9 +92,9 @@ install -m 0644 %{SOURCE5} %{buildroot}%{_sysconfdir}/%{name}/TrustedHosts
 
 cp %{SOURCE6} ./README.fedora
 
-install -p -d %{buildroot}%{_sysconfdir}/tmpfiles.d
-cat > %{buildroot}%{_sysconfdir}/tmpfiles.d/%{name}.conf <<'EOF'
-D %{_localstatedir}/run/%{name} 0700 %{name} %{name} -
+install -p -d %{buildroot}/usr/lib/tmpfiles.d
+cat > %{buildroot}/usr/lib/tmpfiles.d/%{name}.conf <<'EOF'
+D %{_rundir}/%{name} 0750 %{name} %{name} -
 EOF
 
 rm -r %{buildroot}%{_prefix}/share/doc/%{name}
@@ -101,7 +102,7 @@ rm %{buildroot}%{_libdir}/*.a
 rm %{buildroot}%{_libdir}/*.la
 
 mkdir -p %{buildroot}%{_localstatedir}/spool/%{name}
-mkdir -p %{buildroot}%{_localstatedir}/run/%{name}
+mkdir -p %{buildroot}%{_rundir}/%{name}
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}
 mkdir %{buildroot}%{_sysconfdir}/%{name}/keys
 
@@ -114,7 +115,7 @@ chmod 0644 contrib/convert/convert_keylist.sh
 %pre
 getent group %{name} >/dev/null || groupadd -r %{name}
 getent passwd %{name} >/dev/null || \
-	useradd -r -g %{name} -G mail -d %{_localstatedir}/run/%{name} -s /sbin/nologin \
+	useradd -r -g %{name} -G mail -d %{_rundir}/%{name} -s /sbin/nologin \
 	-c "%{upname} Milter" %{name}
 exit 0
 
@@ -143,7 +144,7 @@ exit 0
 %doc %{name}/README contrib/lua/*.lua
 %doc README.fedora
 %config(noreplace) %{_sysconfdir}/%{name}.conf
-%config(noreplace) %{_sysconfdir}/tmpfiles.d/%{name}.conf
+%config(noreplace) /usr/lib/tmpfiles.d/%{name}.conf
 %config(noreplace) %attr(0640,%{name},%{name}) %{_sysconfdir}/%{name}/SigningTable
 %config(noreplace) %attr(0640,%{name},%{name}) %{_sysconfdir}/%{name}/KeyTable
 %config(noreplace) %attr(0640,%{name},%{name}) %{_sysconfdir}/%{name}/TrustedHosts
@@ -152,9 +153,9 @@ exit 0
 %{_sbindir}/*
 %{_mandir}/*/*
 %dir %attr(-,%{name},%{name}) %{_localstatedir}/spool/%{name}
-%dir %attr(0775,%{name},%{name}) %{_localstatedir}/run/%{name}
+%dir %attr(0750,%{name},%{name}) %{_rundir}/%{name}
 %dir %attr(-,root,%{name}) %{_sysconfdir}/%{name}
-%dir %attr(0750,%name,%{name}) %{_sysconfdir}/%{name}/keys
+%dir %attr(0750,root,%{name}) %{_sysconfdir}/%{name}/keys
 %attr(0755,root,root) %{_sbindir}/%{name}-default-keygen
 
 %attr(0644,root,root) %{_unitdir}/%{name}.service
@@ -172,6 +173,23 @@ exit 0
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.0-0.17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Tomas Korbar <tkorbar@redhat.com> - 2.11.0-0.16
+- Change location of tmpfiles definiton (#1736767)
+
+* Wed Jun 24 2020 Tomas Korbar <tkorbar@redhat.com> - 2.11.0-0.15
+- Change permissions of /var/run/opendkim directory (#1744391)
+
+* Wed Jun 24 2020 Tomas Korbar <tkorbar@redhat.com> - 2.11.0-0.14
+- Change ownership of the keys directory to root (#1711713)
+
+* Wed Jun 24 2020 Tomas Korbar <tkorbar@redhat.com> - 2.11.0-0.13
+- Change /run/opendkim permissions to group writable
+- Improve the patch which adds support for lua
+- Credit: mdomsch
+
 * Mon Jun 22 2020 Tomas Korbar <tkorbar@redhat.com> - 2.11.0-0.12
 - Rebase to 2.11.0-beta2 version
 - Clean specfile and move configuration to their own files

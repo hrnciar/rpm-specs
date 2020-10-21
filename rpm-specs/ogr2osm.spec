@@ -3,7 +3,7 @@
 
 Name:           ogr2osm
 Version:        0.1
-Release:        0.8.20200130gitf82e052%{?dist}
+Release:        0.10.20200130gitf82e052%{?dist}
 Summary:        Convert ogr-readable files like shapefiles into .osm data
 
 License:        MIT
@@ -13,6 +13,7 @@ Source0:        https://github.com/pnorman/ogr2osm/archive/%{commit}/%{name}-%{v
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 Requires:       python3-gdal
 
 %description
@@ -47,6 +48,12 @@ sed -i -e '/^#!\//, 1d' *.py
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.10.20200130gitf82e052
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Andrea Musuruane <musuruan@gmail.com> - 0.1-0.9.20200130gitf82e052
+- BR python3-setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1-0.8.20200130gitf82e052
 - Rebuilt for Python 3.9
 

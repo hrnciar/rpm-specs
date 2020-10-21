@@ -1,6 +1,6 @@
 Name:     mod_mono
 Version:  3.13
-Release:  5%{?dist}
+Release:  6%{?dist}
 Summary:  A module to deploy an ASP.NET application on Apache with Mono
 
 License:  MIT
@@ -60,6 +60,9 @@ install -d -m 0755 %{buildroot}/run/%{name}/
 %doc %{_mandir}/man8/mod_mono.8*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.13-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.13-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           libglademm24
 Version:        2.6.7
-Release:        23%{?dist}
+Release:        24%{?dist}
 
 Summary:        C++ wrapper for libglade
 
@@ -57,6 +57,9 @@ rm -f ${RPM_BUILD_ROOT}%{_datadir}/devhelp/books/libglademm-2.4/*
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.7-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.7-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

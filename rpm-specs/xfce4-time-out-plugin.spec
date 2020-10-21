@@ -4,8 +4,8 @@
 %global xfceversion 4.14
 
 Name:           xfce4-time-out-plugin
-Version:        1.1.0
-Release:        2%{?dist}
+Version:        1.1.1
+Release:        3%{?dist}
 Summary:        Xfce panel plugin for taking breaks from the computer
 
 License:        GPLv2+
@@ -54,6 +54,16 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 1.1.1-1
+- Update to 1.1.1
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

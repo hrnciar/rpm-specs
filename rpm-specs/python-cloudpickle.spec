@@ -8,8 +8,8 @@ supports pickling for lambda expressions, functions and classes defined \
 interactively in the __main__ module.
 
 Name:           python-%{pypi_name}
-Version:        1.4.1
-Release:        2%{?dist}
+Version:        1.6.0
+Release:        1%{?dist}
 Summary:        Extended pickling support for Python objects
 
 License:        BSD
@@ -49,7 +49,7 @@ rm -rf %{pypi_name}.egg-info
 %check
 # file_handles tests fail, TypeError: cannot pickle '_io.FileIO' object
 # GH issue: https://github.com/cloudpipe/cloudpickle/issues/114
-%{__python3} -m pytest -v -k "not file_handles"
+PYTHONPATH=tests/cloudpickle_testpkg %{__python3} -m pytest -v -k "not file_handles"
 
 %files -n python3-%{pypi_name}
 %license LICENSE
@@ -58,6 +58,15 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Thu Aug 27 2020 Lumír Balhar <lbalhar@redhat.com> - 1.6.0-1
+- Update to 1.6.0 (#1872513)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Lumír Balhar <lbalhar@redhat.com> - 1.5.0-1
+- Update to 1.5.0 (#1852954)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.1-2
 - Rebuilt for Python 3.9
 

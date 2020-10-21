@@ -1,6 +1,6 @@
 Name:           perl-B-Utils
 Version:        0.27
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Helper functions for op tree manipulation
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/B-Utils
@@ -63,6 +63,9 @@ make test
 %{_mandir}/man3/B::Utils::OP.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.27-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.27-17
 - Perl 5.32 rebuild
 

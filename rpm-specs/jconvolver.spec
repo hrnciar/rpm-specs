@@ -1,7 +1,7 @@
 Summary:       Real-time Convolution Engine
 Name:          jconvolver
 Version:       1.0.3
-Release:       3%{?dist}
+Release:       4%{?dist}
 License:       GPLv2+
 URL:           http://www.kokkinizita.net/linuxaudio/
 Source0:       http://www.kokkinizita.net/linuxaudio/downloads/%{name}-%{version}.tar.bz2
@@ -64,6 +64,9 @@ cp -a config-files/* %{buildroot}%{_datadir}/%{name}
 %{_datadir}/%{name}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

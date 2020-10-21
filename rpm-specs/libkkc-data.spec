@@ -2,7 +2,7 @@
 
 Name:		libkkc-data
 Version:	0.2.7
-Release:	16%{?dist}
+Release:	18%{?dist}
 Epoch:		1
 Summary:	Language model data for libkkc
 
@@ -28,11 +28,11 @@ at run time.
 %build
 export PYTHON=%{__python3}
 %configure --disable-static
-make %{?_smp_mflags}
+%make_build
 
 
 %install
-%make_install INSTALL="install -p"
+%make_install
 
 
 %files
@@ -41,6 +41,13 @@ make %{?_smp_mflags}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.2.7-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1:0.2.7-17
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.2.7-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

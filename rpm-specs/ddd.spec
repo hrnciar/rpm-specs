@@ -2,7 +2,7 @@
 Summary: GUI for several command-line debuggers
 Name: ddd
 Version: 3.3.12
-Release: 34%{?dist}
+Release: 38%{?dist}
 License: GPLv2+
 URL: http://www.gnu.org/software/ddd/
 #Source0: http://dl.sf.net/ddd/ddd-%{version}.tar.gz
@@ -16,12 +16,13 @@ Patch3: ddd-3.3.11-htmlview.patch
 Patch4: ddd-3.3.12-rc1-strclass-includes.patch
 Patch5: ddd-3.3.12-debuginfo.patch
 Patch6: ddd-3.3.12-GDBAgent-fix.patch
+Patch7: ddd-lto.patch
 
-Requires: gdb, xorg-x11-utils, xterm, gnuplot, xdg-utils, xorg-x11-fonts-ISO8859-1-75dpi, xorg-x11-fonts-ISO8859-1-100dpi, xorg-x11-apps
+Requires: gdb, xterm, gnuplot, xdg-utils, xorg-x11-fonts-ISO8859-1-75dpi, xorg-x11-fonts-ISO8859-1-100dpi, xclipboard, xfontsel
 BuildRequires:  gcc-c++
 BuildRequires: motif-devel, ncurses-devel, libXaw-devel
 BuildRequires: elfutils-libelf-devel, xterm 
-BuildRequires: desktop-file-utils, gdb, xorg-x11-utils, readline-devel, texinfo, autoconf, automake, libtool
+BuildRequires: desktop-file-utils, gdb, readline-devel, texinfo, autoconf, automake, libtool
 
 %description
 The Data Display Debugger (DDD) is a popular GUI for command-line
@@ -47,6 +48,7 @@ interface with full editing, history and completion capabilities.
 %patch4 -p0
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 libtoolize --force
@@ -89,6 +91,21 @@ install -D -m 0644 %{SOURCE2} \
 %{_mandir}/man1/ddd.1*
 
 %changelog
+* Tue Sep 29 2020 Jeff Law <law@redhat.com> - 3.3.12-38
+- Include @MINIMAL_TOC@ when compiling vsl-DocSpace to fix ppc vs LTO issues
+- Re-enable LTO
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.12-37
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Adam Jackson <ajax@redhat.com> - 3.3.12-36
+- Don't require xorg-x11-utils at all, doesn't seem to be necessary
+- Require xclipboard xfontsel not xorg-x11-apps
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.12-35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.12-34
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

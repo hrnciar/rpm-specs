@@ -13,7 +13,7 @@
 Summary: Bonobo user interface components
 Name: libbonoboui
 Version: 2.24.5
-Release: 18%{?dist}
+Release: 19%{?dist}
 URL: http://www.gnome.org
 #VCS: git:git://git.gnome.org/libbonoboui
 Source0: http://download.gnome.org/sources/libbonoboui/2.24/%{name}-%{version}.tar.bz2
@@ -110,6 +110,9 @@ done
 %{_datadir}/gtk-doc/html/libbonoboui
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.24.5-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.24.5-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

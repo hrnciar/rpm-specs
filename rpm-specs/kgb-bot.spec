@@ -1,7 +1,7 @@
 Name:		kgb-bot
 Summary:	IRC Collaboration Bot
 Version:	1.51
-Release:	9%{dist}
+Release:	13%{dist}
 License:	GPLv2+
 URL:	    https://salsa.debian.org/kgb-team/kgb
 Buildarch:	noarch
@@ -9,6 +9,9 @@ Source:		%{name}-%{version}.tar.gz
 Source1:	%{name}.service
 Source2:	%{name}.init
 Source3:	%{name}.logrotate
+# Adjust tests to changes in git-2.28.0, bug #1859842, upstream bug #965350,
+# fixed in upstream release 1.57.
+Patch0:		%{name}-1.51-Update-tests-to-changed-output-in-merge-messages.patch
 AutoReq:	0
 BuildRequires:  coreutils
 BuildRequires:  perl-interpreter
@@ -172,6 +175,7 @@ This package adds support of Git version control system to kgb-client.
 
 %prep
 %setup -q -n App-KGB-%{version}
+%patch0 -p1
 
 %pre
 getent group Fedora-kgb >/dev/null || groupadd -r Fedora-kgb
@@ -292,6 +296,19 @@ LANG=C.UTF-8 LC_ALL=C.utf8
 %{perl_vendorlib}/App/KGB/Client/Git.pm
 
 %changelog
+* Thu Oct 01 2020 Petr Pisar <ppisar@redhat.com> - 1.51-13
+- Adjust tests to changes in git-2.28.0 (bug #1859842)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.51-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.51-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.51-10
+- Perl 5.32 rebuild
+
 * Thu Jun 18 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.51-9
 - Add missing test BR svnadmin
 

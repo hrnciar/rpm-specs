@@ -5,7 +5,7 @@
 
 Name:    mingw-gstreamer-plugins-base
 Version: %{gstreamer_version}
-Release: 17%{?dist}
+Release: 20%{?dist}
 Summary: Cross compiled GStreamer media framework base plug-ins
 
 License: LGPLv2+
@@ -277,6 +277,16 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 %{mingw64_datadir}/gst-plugins-base
 
 %changelog
+* Wed Aug 12 13:38:48 GMT 2020 Sandro Mani <manisandro@gmail.com> - 0.10.36-20
+- Rebuild (mingw-gettext)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.36-19
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.36-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 0.10.36-17
 - Rebuild (gettext)
 

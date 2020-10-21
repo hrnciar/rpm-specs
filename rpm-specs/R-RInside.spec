@@ -2,7 +2,7 @@
 
 Name:		R-%{packname}
 Version:	0.2.16
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	C++ Classes to Embed R in C++ (and C) Applications
 
 License:	GPLv2+
@@ -91,6 +91,9 @@ rmdir %{buildroot}%{_libdir}/R/library/%{packname}/lib
 %{_libdir}/R/library/%{packname}/examples
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.16-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 0.2.16-2
 - rebuild for R 4
 

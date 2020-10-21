@@ -11,7 +11,7 @@ registered via an entry point.
 
 Name: python-%{srcname}
 Version: 0.5
-Release: 11%{?dist}
+Release: 12%{?dist}
 BuildArch: noarch
 
 License: MIT
@@ -99,6 +99,9 @@ PYTHONPATH="./src" py.test-3
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5-11
 - Rebuilt for Python 3.9
 

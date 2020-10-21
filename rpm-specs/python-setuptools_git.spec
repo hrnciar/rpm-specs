@@ -9,7 +9,7 @@ inclusion specifications with MANIFEST.in.
 
 Name:           python-%{srcname}
 Version:        1.1
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Setuptools revision control system plugin for Git
 
 License:        BSD
@@ -70,6 +70,9 @@ unset LANG
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1-17
 - Rebuilt for Python 3.9
 

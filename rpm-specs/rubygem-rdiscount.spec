@@ -2,8 +2,8 @@
 
 Summary: Converts documents in Markdown syntax to HTML
 Name: rubygem-%{gem_name}
-Version: 2.2.0.1
-Release: 8%{?dist}
+Version: 2.2.0.2
+Release: 1%{?dist}
 License: ASL 1.1
 URL: http://github.com/rtomayko/rdiscount
 Source0: http://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -114,8 +114,11 @@ popd
 
 
 %changelog
-* Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0.1-8
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+* Wed Aug 12 2020 Gerd Pokorra <gp@zimt.uni-siegen.de> - 2.2.0.2-1
+- Update to 2.2.0.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
 * Fri Jan 17 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 2.2.0.1-7
 - F-32: rebuild against ruby27

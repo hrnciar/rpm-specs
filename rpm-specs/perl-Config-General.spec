@@ -1,6 +1,6 @@
 Name:           perl-Config-General
 Version:        2.63
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Generic configuration module for Perl
 
 License:        GPL+ or Artistic
@@ -85,6 +85,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.63-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.63-12
 - Perl 5.32 rebuild
 

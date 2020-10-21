@@ -1,5 +1,5 @@
 Name:           libxls
-Version:        1.5.3
+Version:        1.6.1
 Release:        1%{?dist}
 Summary:        Read binary Excel files from C/C++
 
@@ -50,8 +50,8 @@ PATH=%{buildroot}%{_bindir}:$PATH LD_LIBRARY_PATH=%{buildroot}%{_libdir} \
 %doc README.md AUTHORS
 %license LICENSE
 %{_bindir}/libxls2csv
-%{_libdir}/libxlsreader.so.1
-%{_libdir}/libxlsreader.so.1.*
+%{_libdir}/libxlsreader.so.8
+%{_libdir}/libxlsreader.so.8.*
 %{_mandir}/man1/libxls2csv.1*
 
 %files devel
@@ -62,6 +62,12 @@ PATH=%{buildroot}%{_bindir}:$PATH LD_LIBRARY_PATH=%{buildroot}%{_libdir} \
 
 
 %changelog
+* Wed Sep 09 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.6.1-1
+- Update to latest version (#1873754)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 20 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.5.3-1
 - Update to latest version
 

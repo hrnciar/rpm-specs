@@ -3,8 +3,8 @@
 
 Summary: PDF rendering library
 Name:    poppler
-Version: 0.84.0
-Release: 2%{?dist}
+Version: 0.90.0
+Release: 6%{?dist}
 License: (GPLv2 or GPLv3) and GPLv2+ and LGPLv2+ and MIT
 URL:     http://poppler.freedesktop.org/
 Source0: http://poppler.freedesktop.org/poppler-%{version}.tar.xz
@@ -15,15 +15,17 @@ Source1: %{name}-test-%{test_date}-%{test_sha}.tar.xz
 Patch0:  poppler-0.30.0-rotated-words-selection.patch
 Patch1:  0001-Revert-Remove-the-Qt4-frontend.patch
 
-# https://bugzilla.redhat.com/show_bug.cgi?id=1557355
-Patch2:  poppler-0.63.0-tiling-patterns.patch
-
 Patch3:  poppler-0.67.0-qt4-const.patch
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=1696636
 Patch4:  poppler-0.73.0-PSOutputDev-buffer-read.patch
 
 Patch5:  poppler-0.84.0-MacroPushRequiredVars.patch
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=1673727
+Patch6:  poppler-0.90.0-qt4-update.patch
+
+Patch7:  poppler-0.90.0-position-independent-code.patch
 
 BuildRequires: cmake
 BuildRequires: gcc-c++
@@ -155,9 +157,6 @@ other formats.
 %autosetup -p1 -b 1
 
 %build
-mkdir build
-cd build
-export CC="gcc -fPIC" # hack to make the cmake call pass
 %cmake \
   -DENABLE_CMS=lcms2 \
   -DENABLE_DCTDECODER=libjpeg \
@@ -166,11 +165,10 @@ export CC="gcc -fPIC" # hack to make the cmake call pass
   -DENABLE_UNSTABLE_API_ABI_HEADERS=ON \
   -DENABLE_ZLIB=OFF \
   ..
-unset CC
-%make_build
+%cmake_build
 
 %install
-%make_install -C build
+%cmake_install
 
 %check
 %make_build test
@@ -198,7 +196,7 @@ test "$(pkg-config --modversion poppler-splash)" = "%{version}"
 %files
 %doc README.md
 %license COPYING
-%{_libdir}/libpoppler.so.94*
+%{_libdir}/libpoppler.so.101*
 
 %files devel
 %{_libdir}/pkgconfig/poppler.pc
@@ -255,6 +253,31 @@ test "$(pkg-config --modversion poppler-splash)" = "%{version}"
 %{_mandir}/man1/*
 
 %changelog
+* Tue Aug 04 2020 Marek Kasik <mkasik@redhat.com> - 0.90.0-6
+- Align poppler with
+- https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+- Resolves: #1865248
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.90.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.90.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Marek Kasik <mkasik@redhat.com> - 0.90.0-3
+- Fix some other issues.
+- Resolves: #1673727
+
+* Fri Jul 10 2020 Marek Kasik <mkasik@redhat.com> - 0.90.0-2
+- Compile poppler with position independent code turned on.
+- Otherwise it doesn't build on Fedora 33.
+- Resolves: #1673727
+
+* Wed Jul 08 2020 Marek Kasik <mkasik@redhat.com> - 0.90.0-1
+- Update to 0.90.0
+- Resolves: #1673727
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.84.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

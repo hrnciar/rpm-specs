@@ -6,9 +6,11 @@
 #
 # Please, preserve the changelog entries
 #
-%global bootstrap    0
+
+%bcond_without       tests
+
 # Sources
-%global gh_commit    16eb0fa43e29c33d7f2117ed23072e26fc5ab34e
+%global gh_commit    388b6ced16caa751030f6a69e588299fa09200ac
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sebastianbergmann
 %global gh_project   environment
@@ -20,16 +22,11 @@
 %global php_home     %{_datadir}/php
 %global ns_vendor    SebastianBergmann
 %global ns_project   Environment
-%if %{bootstrap}
-%global with_tests   0%{?_with_tests:1}
-%else
-%global with_tests   0%{!?_without_tests:1}
-%endif
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
-Version:        5.1.1
+Version:        5.1.3
 Release:        1%{?dist}
-Summary:        Handle HHVM/PHP environments
+Summary:        Handle HHVM/PHP environments version %{major}
 
 License:        BSD
 URL:            https://github.com/%{gh_owner}/%{gh_project}
@@ -43,14 +40,14 @@ BuildRequires:  php-pcre
 BuildRequires:  php-posix
 # Autoloader
 BuildRequires:  php-fedora-autoloader-devel >= 1.0.0
-%if %{with_tests}
+%if %{with tests}
 # from composer.json, "require-dev": {
-#        "phpunit/phpunit": "^9.0"
-BuildRequires:  phpunit9
+#        "phpunit/phpunit": "^9.3"
+BuildRequires:  phpunit9 >= 9.3
 %endif
 
 # from composer.json, "require": {
-#        "php": "^7.3"
+#        "php": ">=7.3"
 Requires:       php(language) >= 7.3
 # From phpcompatinfo report for 4.0.1
 Requires:       php-pcre
@@ -83,7 +80,7 @@ mkdir -p   %{buildroot}%{php_home}/%{ns_vendor}
 cp -pr src %{buildroot}%{php_home}/%{ns_vendor}/%{ns_project}%{major}
 
 
-%if %{with_tests}
+%if %{with tests}
 %check
 mkdir vendor
 touch vendor/autoload.php
@@ -109,6 +106,15 @@ exit $ret
 
 
 %changelog
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 5.1.3-1
+- update to 5.1.3 (no change)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Remi Collet <remi@remirepo.net> - 5.1.2-1
+- update to 5.1.2
+
 * Tue Jun 16 2020 Remi Collet <remi@remirepo.net> - 5.1.1-1
 - update to 5.1.1
 - sources from git snapshot

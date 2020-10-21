@@ -2,7 +2,7 @@
 
 Name:           mingw-librsvg2
 Version:        2.40.19
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        SVG library based on cairo for MinGW
 
 License:        LGPLv2+
@@ -126,6 +126,12 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/man
 %{mingw64_libdir}/librsvg-2.a
 
 %changelog
+* Wed Aug 12 13:43:13 GMT 2020 Sandro Mani <manisandro@gmail.com> - 2.40.19-9
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.40.19-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 2.40.19-7
 - Rebuild (gettext)
 

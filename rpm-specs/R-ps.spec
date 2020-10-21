@@ -1,16 +1,16 @@
 %global packname ps
-%global packver  1.3.3
+%global packver  1.4.0
 %global rlibdir  %{_libdir}/R/library
 
 # Tests requires processx which requires this package.
-%global with_test 0
+%bcond_with bootstrap
 
 Name:             R-%{packname}
-Version:          1.3.3
-Release:          2%{?dist}
+Version:          1.4.0
+Release:          1%{?dist}
 Summary:          List, Query, Manipulate System Processes
 
-License:          BSD
+License:          MIT
 URL:              https://CRAN.R-project.org/package=%{packname}
 Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 # No network on builders.
@@ -26,15 +26,15 @@ Patch0001:        0001-Don-t-run-example-that-uses-the-network.patch
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    R-utils
-%if %{with_test}
-BuildRequires:    R-R6
-BuildRequires:    R-rlang
-BuildRequires:    R-tibble
+%if %{without bootstrap}
 BuildRequires:    R-callr
 BuildRequires:    R-curl
 BuildRequires:    R-pingr
 BuildRequires:    R-processx >= 3.1.0
+BuildRequires:    R-R6
+BuildRequires:    R-rlang
 BuildRequires:    R-testthat
+BuildRequires:    R-tibble
 %endif
 
 %description
@@ -67,10 +67,10 @@ rm %{buildroot}%{rlibdir}/%{packname}/tools/winver.R
 
 
 %check
-%if %{with_test}
+%if %{without bootstrap}
 %{_bindir}/R CMD check %{packname}
 %else
-# _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --no-tests
+_R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --no-examples --no-tests
 %endif
 
 
@@ -94,6 +94,20 @@ rm %{buildroot}%{rlibdir}/%{packname}/tools/winver.R
 
 
 %changelog
+* Thu Oct 08 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.4.0-1
+- Update to latest version (#1886009)
+
+* Thu Aug 13 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.3.4-1
+- Update to latest version (#1868090)
+- Rename with_test to bootstrap conditional
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 1.3.3-2
 - expand with_test to cover all BR, then disable to break testthat loop
 - rebuild for R 4

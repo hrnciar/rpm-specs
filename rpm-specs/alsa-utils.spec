@@ -1,11 +1,11 @@
-%define   baseversion     1.2.3
+%define   baseversion     1.2.4
 #define   fixversion      .2
 %global   _hardened_build 1
 
 Summary: Advanced Linux Sound Architecture (ALSA) utilities
 Name:    alsa-utils
 Version: %{baseversion}%{?fixversion}
-Release: 3%{?dist}
+Release: 1%{?dist}
 License: GPLv2+
 URL:     http://www.alsa-project.org/
 Source:  ftp://ftp.alsa-project.org/pub/utils/alsa-utils-%{version}.tar.bz2
@@ -190,7 +190,20 @@ fi
 %postun
 %systemd_postun_with_restart alsa-state.service
 
-%changelog0
+%changelog
+* Thu Oct 15 2020 Jaroslav Kysela <perex@perex.cz> - 1.2.4-1
+* Updated to 1.2.4
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul  3 2020 Jaroslav Kysela <perex@perex.cz> - 1.2.3-4
+* Fix the .spec (changelog0)
+
 * Sun Jun  7 2020 Jaroslav Kysela <perex@perex.cz> - 1.2.3-3
 * Updated to 1.2.3
 

@@ -4,11 +4,11 @@
 %global srcname GeoIP2-python
 %global desc This package provides an API for the GeoIP2 web services.
 %global test_data MaxMind-DB
-%global test_data_rls f6ed981c23b0eb33d7c07568e2177236252afda6
+%global test_data_rls cbaa463dc6950ababbf678ca85fb3833b81c76d3
 
 Name:           python-%{pypi_name}
-Version:        3.0.0
-Release:        2%{?dist}
+Version:        4.1.0
+Release:        1%{?dist}
 Summary:        MaxMind GeoIP2 API
 
 License:        ASL 2.0
@@ -28,6 +28,7 @@ BuildRequires:  python3-setuptools
 BuildRequires:  python3-requests
 BuildRequires:  python3-maxminddb
 BuildRequires:  python3-requests-mock
+BuildRequires:  python3-aiohttp
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
 %description -n python3-%{pypi_name}
@@ -54,7 +55,8 @@ rm -rf html/.{buildinfo,doctrees}
 %py3_install
 
 %check
-PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} setup.py test
+# tests/webservice_test.py requires mocket not available in Fedora
+PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} -m unittest tests/database_test.py tests/models_test.py
 
 %files -n python3-%{pypi_name}
 %doc README.rst
@@ -67,6 +69,15 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} setup.py test
 %license LICENSE
 
 %changelog
+* Tue Sep 29 2020 Lumír Balhar <lbalhar@redhat.com> - 4.1.0-1
+- Update to 4.1.0 (#1882861)
+
+* Wed Jul 22 2020 Lumír Balhar <lbalhar@redhat.com> - 4.0.2-1
+- Update to 4.0.2 (#1859400)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.0-2
 - Rebuilt for Python 3.9
 

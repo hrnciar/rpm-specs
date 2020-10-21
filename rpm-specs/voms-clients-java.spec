@@ -1,25 +1,19 @@
 Name:		voms-clients-java
-Version:	3.3.0
-Release:	7%{?dist}
+Version:	3.3.2
+Release:	1%{?dist}
 Summary:	Virtual Organization Membership Service Java clients
 
 License:	ASL 2.0
 URL:		https://wiki.italiangrid.it/VOMS
 Source0:	https://github.com/italiangrid/voms-clients/archive/v%{version}/%{name}-%{version}.tar.gz
-#		Use a more sensible timeout
-#		Backport from upstream git
-Patch0:		%{name}-use-a-more-sensible-timeout.patch
-#		Change default proxy cert key length to 2048 bits
-#		https://github.com/italiangrid/voms-clients/pull/20
-Patch1:		%{name}-change-default-proxy-cert-key-length-to-2048-bits.patch
 BuildArch:	noarch
 
 BuildRequires:	maven-local
 BuildRequires:	mvn(commons-cli:commons-cli)
 BuildRequires:	mvn(commons-io:commons-io)
 BuildRequires:	mvn(org.italiangrid:voms-api-java)
-BuildRequires:	voms-api-java >= 3.3.0
-Requires:	voms-api-java >= 3.3.0
+BuildRequires:	voms-api-java >= 3.3.2
+Requires:	voms-api-java >= 3.3.2
 
 Requires(post):		%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
@@ -42,8 +36,6 @@ voms-proxy-init, voms-proxy-destroy and voms-proxy-info.
 
 %prep
 %setup -q -n voms-clients-%{version}
-%patch0 -p1
-%patch1 -p1
 
 # Remove maven-javadoc-plugin configuration
 # We are not building the javadoc for this package
@@ -155,6 +147,17 @@ fi
 %license LICENSE
 
 %changelog
+* Tue Oct 13 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 3.3.2-1
+- Update to version 3.3.2
+- Drop patches voms-clients-java-use-a-more-sensible-timeout.patch and
+  voms-clients-java-change-default-proxy-cert-key-length-to-2048-bits.patch
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 3.3.0-8
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

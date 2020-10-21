@@ -4,7 +4,7 @@
 
 Name:           healpix
 Version:        3.50
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Hierarchical Equal Area isoLatitude Pixelization of a sphere
 
 License:        GPLv2+
@@ -318,6 +318,12 @@ popd
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.50-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.50-5
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu May 07 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.50-4
 - Disable javadoc for jdk11
 

@@ -1,6 +1,6 @@
 Name:           perl-Net-DNS-SEC
-Version:        1.12
-Release:        6%{?dist}
+Version:        1.18
+Release:        1%{?dist}
 Summary:        DNSSEC modules for Perl
 License:        MIT
 URL:            https://metacpan.org/release/Net-DNS-SEC
@@ -37,6 +37,7 @@ BuildRequires:  perl(Test::More)
 Requires:       perl(:MODULE_COMPAT_%(eval "$(perl -V:version)"; echo $version))
 Requires:       perl(File::Spec) >= 0.86
 Requires:       perl(Net::DNS) >= 1.08
+Patch1:         gost-rm.patch
 
 # Remove under-specified dependencies
 %global __requires_exclude %{?__requires_exclude:%{__requires_exclude}|}^perl\\((File::Spec|Net::DNS)\\)
@@ -54,6 +55,7 @@ using RSA, DSA, ECDSA, and Edwards curve algorithms.
 %prep
 %setup -q -n Net-DNS-SEC-%{version}
 rm -f lib/Net/DNS/SEC/ECCGOST.pm t/41-ECC-GOST.t
+%patch1 -p0
 
 %build
 perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
@@ -73,6 +75,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Wed Oct 14 2020 Wes Hardaker <wjhnns174@hardakers.net> - 1.18-1
+- version bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Wes Hardaker <wjhnns174@hardakers.net> - 1.17-1
+- version bump
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.12-6
 - Perl 5.32 rebuild
 

@@ -6,8 +6,10 @@
 #
 # Please, preserve the changelog entries
 #
-%global bootstrap    0
-%global gh_commit    a32789e5f0157c10cf216ce6c5136db12a12b847
+
+%bcond_without       tests
+
+%global gh_commit    ed8c9cd355089134bc9cba421b5cfdd58f0eaef7
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sebastianbergmann
 %global gh_project   recursion-context
@@ -19,16 +21,11 @@
 %global ns_project   RecursionContext
 %global major        4
 %global php_home     %{_datadir}/php
-%if %{bootstrap}
-%global with_tests   %{?_with_tests:1}%{!?_with_tests:0}
-%else
-%global with_tests   %{?_without_tests:0}%{!?_without_tests:1}
-%endif
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
-Version:        4.0.1
+Version:        4.0.3
 Release:        1%{?dist}
-Summary:        Recursively process PHP variables
+Summary:        Recursively process PHP variables, version %{major}
 
 License:        BSD
 URL:            https://github.com/%{gh_owner}/%{gh_project}
@@ -38,14 +35,14 @@ Source1:        makesrc.sh
 BuildArch:      noarch
 BuildRequires:  php(language) >= 7.3
 BuildRequires:  php-fedora-autoloader-devel
-%if %{with_tests}
+%if %{with tests}
 # from composer.json, "require-dev": {
-#        "phpunit/phpunit": "^9.0"
-BuildRequires:  phpunit9
+#        "phpunit/phpunit": "^9.3"
+BuildRequires:  phpunit9 >= 9.3
 %endif
 
 # from composer.json
-#        "php": "^7.3"
+#        "php": ">=7.3"
 Requires:       php(language) >= 7.3
 # from phpcompatinfo report for version 4.0.0
 Requires:       php-spl
@@ -74,7 +71,7 @@ cp -pr src %{buildroot}%{php_home}/%{ns_vendor}/%{ns_project}%{major}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 touch vendor/autoload.php
 
@@ -100,6 +97,15 @@ exit $ret
 
 
 %changelog
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 4.0.3-1
+- update to 4.0.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Remi Collet <remi@remirepo.net> - 4.0.2-1
+- update to 4.0.2
+
 * Tue Jun 16 2020 Remi Collet <remi@remirepo.net> - 4.0.1-1
 - update to 4.0.1
 - sources from git snapshot

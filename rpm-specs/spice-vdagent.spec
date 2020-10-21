@@ -1,6 +1,6 @@
 Name:           spice-vdagent
 Version:        0.20.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Agent for Spice guests
 License:        GPLv3+
 URL:            https://spice-space.org/
@@ -76,6 +76,9 @@ make install DESTDIR=$RPM_BUILD_ROOT V=2
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 26 2020 Victor Toso <victortoso@redhat.com> 0.20.0-2
 - Fix agent shutdown
   Resolves: rhbz#1813667

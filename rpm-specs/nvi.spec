@@ -1,6 +1,6 @@
 Name:           nvi
 Version:        1.81.6
-Release:        22%{?dist}
+Release:        24%{?dist}
 Summary:		4.4BSD re-implementation of vi
 
 License:        BSD
@@ -127,6 +127,13 @@ chmod 775 $RPM_BUILD_ROOT%{_bindir}/nvi.recover
 %{_bindir}/nvi.recover
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.81.6-24
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.81.6-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.81.6-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,8 +4,8 @@
 %endif
 
 Name:		perl-Net-SFTP-Foreign
-Version:	1.90
-Release:	6%{?dist}
+Version:	1.91
+Release:	3%{?dist}
 Summary:	SSH File Transfer Protocol client
 
 License:	GPL+ or Artistic
@@ -100,6 +100,15 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.91-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.91-2
+- Perl 5.32 re-rebuild updated packages
+
+* Wed Jun 24 2020 Andrew Bauer <zonexpertconsulting@outlook.com> - 1.91-1
+- new  release 1.91
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.90-6
 - Perl 5.32 rebuild
 

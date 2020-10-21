@@ -2,7 +2,7 @@
 
 Name:           mpris-scrobbler
 Version:        0.4.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        User daemon to submit currently playing song to LastFM, LibreFM, ListenBrainz
 
 %forgemeta
@@ -77,6 +77,12 @@ player that exposes this interface.
 
 
 %changelog
+* Tue Sep 29 20:36:39 CEST 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 0.4.0-3
+- Rebuilt for libevent 2.1.12
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 2020 Justin W. Flory <jflory7@fedoraproject.org> - 0.4.0-1
 - Update to latest upstream stable release
 - Temporary ExcludeArch for s390x architecture build failures

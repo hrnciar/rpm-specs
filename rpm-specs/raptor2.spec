@@ -2,7 +2,7 @@
 Summary: RDF Parser Toolkit for Redland
 Name:    raptor2
 Version: 2.0.15
-Release: 23%{?dist}
+Release: 26%{?dist}
 
 License: GPLv2+ or LGPLv2+ or ASL 2.0
 Source:  http://download.librdf.org/source/raptor2-%{version}.tar.gz
@@ -19,7 +19,9 @@ BuildRequires: curl-devel
 BuildRequires: gtk-doc
 BuildRequires: libicu-devel
 BuildRequires: pkgconfig(libxslt)
+%if ! 0%{?rhel}
 BuildRequires: yajl-devel
+%endif
 
 # when /usr/bin/rappor moved here  -- rex
 Conflicts: raptor < 1.4.21-10
@@ -46,10 +48,18 @@ sed -i -e 's|"/lib /usr/lib|"/%{_lib} %{_libdir}|' configure
 
 
 %build
+
+%if 0%{?rhel}
+%define distrooptions --with-yajl=no
+%else
+%define distrooptions --with-yajl=yes
+%endif
+
 %configure \
   --disable-static \
   --enable-release \
-  --with-icu-config=/usr/bin/icu-config
+  --with-icu-config=/usr/bin/icu-config \
+  %{distrooptions}
 
 %make_build
 
@@ -88,6 +98,16 @@ make check
 
 
 %changelog
+* Mon Aug 10 2020 Caolán McNamara <caolanm@redhat.com> - 2.0.15-26
+- Resolves: rhbz#1560206 drop requirement on yajl
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.15-25
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.15-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 15 2020 Pete Walter <pwalter@fedoraproject.org> - 2.0.15-23
 - Rebuild for ICU 67
 

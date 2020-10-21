@@ -19,7 +19,7 @@ Data model artifacts for prometheus.}
 %global godocs          CONTRIBUTING.md MAINTAINERS.md README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Data model artifacts for prometheus
 
 # Upstream license specification: Apache-2.0
@@ -49,6 +49,9 @@ BuildRequires:  golang(github.com/golang/protobuf/ptypes/timestamp)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 02 02:09:29 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.2.0-1
 - Update to 0.2.0
 

@@ -1,7 +1,7 @@
 %global srcname pyudev
 Name:             python-%{srcname}
 Version:          0.22.0
-Release:          2%{?dist}
+Release:          3%{?dist}
 Summary:          A libudev binding
 
 License:          LGPLv2+
@@ -108,6 +108,9 @@ rm -rf pyudev.egg-info
 %{python3_sitelib}/pyudev/__pycache__/pyqt5.*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.22.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.22.0-2
 - Rebuilt for Python 3.9
 

@@ -10,7 +10,7 @@ implementation of the URL, with an emphasis on correctness.}
 
 Name:           python-%{pypi_name}
 Version:        19.0.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        A featureful, immutable, and correct URL for Python
 
 # MIT: main library
@@ -112,6 +112,9 @@ ln -s /usr/share/javascript/jquery/3.2.1/jquery.js html/_static/jquery-3.2.1.js
 %endif # with docs
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.0.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 19.0.0-7
 - Rebuilt for Python 3.9
 

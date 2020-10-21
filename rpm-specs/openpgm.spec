@@ -4,7 +4,7 @@ Version:       5.2.122
 %global version_main      5.2
 %global version_dash_main 5-2
 %global version_dash      %{version_dash_main}-122
-Release:       22%{?dist}
+Release:       25%{?dist}
 Summary:       An implementation of the PGM reliable multicast protocol
 
 # The license is LGPLv2.1
@@ -57,6 +57,15 @@ autoconf
 %configure
 
 %build
+# This package has a configure test which uses ASMs, but does not link the
+# resultant .o files.  As such the ASM test is always successful, even on
+# architectures were the ASM is not valid when compiling with LTO.
+#
+# -ffat-lto-objects is sufficient to address this issue.  It is the default
+# for F33, but is expected to only be enabled for packages that need it in
+# F34, so we use it here explicitly
+%define _lto_cflags -flto=auto -ffat-lto-objects
+
 %make_build
 
 %install
@@ -81,6 +90,15 @@ mv -f %{buildroot}%{_includedir}/%{name_alias}-%{version_main}/%{name_alias} %{b
 
 
 %changelog
+* Fri Aug 21 2020 Jeff Law <law@redhat.com> - 5.2.122-25
+- Re-enable LTO
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.122-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Jeff Law <law@redhat.com> - 5.2.122-23
+- Disable LTO
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.122-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

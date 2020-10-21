@@ -1,7 +1,7 @@
 Name:           perl-Config-Any
 Summary:        Load configuration from different file formats, transparently
 Version:        0.32
-Release:        12%{?dist}
+Release:        13%{?dist}
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Config-Any
 Source0:        https://cpan.metacpan.org/modules/by-module/Config/Config-Any-%{version}.tar.gz
@@ -79,6 +79,9 @@ make test
 %{_mandir}/man3/Config::Any::YAML.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.32-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.32-12
 - Perl 5.32 rebuild
 

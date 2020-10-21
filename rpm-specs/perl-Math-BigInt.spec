@@ -3,7 +3,7 @@ Epoch:          1
 %global cpan_version 1.999818
 # Keep 4-digit version to compete with perl.spec
 Version:        %(echo %{cpan_version} | sed 's/\(\.....\)/\1./')
-Release:        456%{?dist}
+Release:        457%{?dist}
 Summary:        Arbitrary-size integer and float mathematics
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Math-BigInt
@@ -74,6 +74,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.9998.18-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:1.9998.18-456
 - Increase release to favour standalone package
 

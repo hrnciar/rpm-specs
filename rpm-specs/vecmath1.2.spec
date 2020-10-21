@@ -1,11 +1,12 @@
 Name:           vecmath1.2
 Version:        1.14
-Release:        23%{?dist}
+Release:        26%{?dist}
 Summary:        Free version of vecmath from the Java3D 1.2 specification
 License:        MIT
 URL:            http://www.objectclub.jp/download/vecmath_e
 Source0:        http://www.objectclub.jp/download/files/vecmath//%{name}-%{version}.tar.gz
 Patch0:         vecmath1.2-1.14-javadoc-fixes.patch
+Patch1:         vecmath1.2-1.14-javac-1.8.patch
 BuildArch:      noarch
 BuildRequires:  java-devel >= 1:1.6.0
 Requires:       java-headless >= 1:1.6.0
@@ -34,6 +35,7 @@ This package contains the API documentation for %{name}.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 find -name *.jar -delete
 find -name *.class -delete
 
@@ -63,6 +65,15 @@ cp -r docs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}/
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Fabio Valentini <decathorpe@gmail.com> - 1.14-25
+- Set javac source / target version to 1.8 to fix issues on Java 11.
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.14-24
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

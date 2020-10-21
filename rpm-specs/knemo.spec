@@ -1,6 +1,8 @@
+%undefine __cmake_in_source_build
+
 Name:             knemo
 Version:          0.7.7
-Release:          13.20170520git%{?dist}
+Release:          16.20170520git%{?dist}
 Summary:          A KDE network monitoring tool
 License:          GPLv2+
 URL:              http://extragear.kde.org/apps/knemo/
@@ -12,7 +14,6 @@ BuildRequires:    desktop-file-utils
 BuildRequires:    extra-cmake-modules
 BuildRequires:    gettext
 BuildRequires:    libnl3-devel
-BuildRequires:    wireless-tools-devel
 BuildRequires:    cmake(KF5KCMUtils)
 BuildRequires:    cmake(KF5KDELibs4Support)
 BuildRequires:    cmake(KF5NotifyConfig)
@@ -33,15 +34,11 @@ and iwconfig tools.
 %patch0 -p1
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 %install
-make install DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 #find_lang %{name}
 #find_lang kcm_%{name}
@@ -72,6 +69,15 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/%{name}.desktop
 %{_kf5_datadir}/icons/oxygen/scalable/status/%{name}*
 
 %changelog
+* Sat Aug 29 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.7.7-16.20170520git
+- Drop wireless-tools, functionality superseeded by libnl3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.7-15.20170520git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Alexey Kurov <nucleo@fedoraproject.org> - 0.7.7-14.20170520git
+- Rebuilt for libksysguard 5.19
+
 * Mon Feb 17 2020 Than Ngo <than@redhat.com> - 0.7.7-13.20170520git
 - Fixed FTBFS
 

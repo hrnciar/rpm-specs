@@ -4,7 +4,7 @@
 
 Name:           vim-gv
 Version:        0
-Release:        5.%{date}git%{shortcommit}%{?dist}
+Release:        6.%{date}git%{shortcommit}%{?dist}
 Summary:        Git commit browser in Vim
 
 License:        MIT
@@ -44,6 +44,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-6.20200522git61d877d
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0-5.20200522git61d877d
 - Update to latest git snapshot
 

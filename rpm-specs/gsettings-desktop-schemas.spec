@@ -1,14 +1,14 @@
 %global debug_package %{nil}
 
 Name:           gsettings-desktop-schemas
-Version:        3.37.1
+Version:        3.38.0
 Release:        1%{?dist}
 Summary:        A collection of GSettings schemas
 
 License:        LGPLv2+
 # no homepage exists for this component
 URL:            https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas
-Source0:        https://download.gnome.org/sources/%{name}/3.37/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires:  gettext
 BuildRequires:  glib2-devel >= 2.31.0
@@ -71,6 +71,18 @@ glib-compile-schemas --dry-run --strict %{buildroot}%{_datadir}/glib-2.0/schemas
 
 
 %changelog
+* Mon Sep 14 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Mon Sep 07 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Kalev Lember <klember@redhat.com> - 3.37.2-1
+- Update to 3.37.2
+
 * Tue May 05 2020 Kalev Lember <klember@redhat.com> - 3.37.1-1
 - Update to 3.37.1
 

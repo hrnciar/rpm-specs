@@ -1,17 +1,18 @@
 Name:           perl-Pod-Checker
 # Compete with perl.spec
 Epoch:          4
-Version:        1.73
-Release:        456%{?dist}
+Version:        1.74
+Release:        1%{?dist}
 Summary:        Check POD documents for syntax errors
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Pod-Checker
 Source0:        https://cpan.metacpan.org/authors/id/M/MA/MAREKR/Pod-Checker-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  make
-BuildRequires:  perl-interpreter
 BuildRequires:  perl-generators
+BuildRequires:  perl-interpreter
 BuildRequires:  perl(Config)
 BuildRequires:  perl(Cwd)
 BuildRequires:  perl(ExtUtils::MakeMaker)
@@ -23,7 +24,7 @@ BuildRequires:  perl(base)
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(Exporter)
 # Getopt::Long not used at tests
-BuildRequires:  perl(Pod::Simple) >= 3.28
+BuildRequires:  perl(Pod::Simple) >= 3.4
 BuildRequires:  perl(Pod::Simple::Methody)
 # Pod::Usage not used at tests
 BuildRequires:  perl(strict)
@@ -47,12 +48,11 @@ for F in CHANGES README; do
 done
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
-find $RPM_BUILD_ROOT -type f -name .packlist -delete
+%{make_install}
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %check
@@ -66,6 +66,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Oct 06 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4:1.74-1
+- 1.74 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4:1.73-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4:1.73-456
 - Increase release to favour standalone package
 

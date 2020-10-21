@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Compiletime string literal obfuscation for Rust
 
 # Upstream license specification: MIT
@@ -95,5 +95,8 @@ which use "unsafe_static_str" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 17:44:52 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 0.1.1-1
 - Initial package

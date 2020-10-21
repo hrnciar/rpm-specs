@@ -1,13 +1,13 @@
 Name:		jbig2dec
-Version:	0.18
-Release:	1%{?dist}
+Version:	0.19
+Release:	2%{?dist}
 Summary:	A decoder implementation of the JBIG2 image compression format 
-License:	GPLv2
+License:	AGPLv3+
 URL:		http://jbig2dec.sourceforge.net/
 Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs952/%{name}-%{version}.tar.gz
-Patch1:		jbig2dec-0.17-Restore-ABI-compatibility.patch
 Requires:	%{name}-libs = %{version}-%{release}
 BuildRequires:	libtool
+BuildRequires:	libpng-devel
 
 %description
 jbig2dec is a decoder implementation of the JBIG2 image compression format.
@@ -80,6 +80,21 @@ rm -f %{buildroot}%{_libdir}/*.la
 
 
 %changelog
+* Fri Sep 18 2020 Michael J Gruber <mjg@fedoraproject.org> - 0.19-2
+- remove ABI patch (and coordinate builds)
+
+* Thu Sep 17 2020 Anna Khaitovich <akhaitov@redhat.com> - 0.19-1
+- Rebase to 0.19
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 08 2020 Michael J Gruber <mjg@fedoraproject.org> - 0.18-3
+- build with libpng
+
+* Wed Jul 08 2020 Nikola Forró <nforro@redhat.com> - 0.18-2
+- fix License
+
 * Mon May 11 2020 Michael J Gruber <mjg@fedoraproject.org> - 0.18-1
 - rebase to 0.18 (bz #1818706)
 

@@ -5,7 +5,7 @@
 Name:          mingw-python-%{pkgname}
 Summary:       MinGW Windows Python %{pkgname} library
 Version:       1.0.1
-Release:       3%{?dist}
+Release:       4%{?dist}
 BuildArch:     noarch
 
 # Code is BSD, bundled fonts are OFL
@@ -71,6 +71,9 @@ rm build
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 25 2020 Sandro Mani <manisandro@gmail.com> - 1.0.1-3
 - Be more specific in %%files
 - Add FONT_LICENSE to %%license

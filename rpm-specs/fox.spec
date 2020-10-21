@@ -2,7 +2,7 @@ Name:		fox
 # http://www.fox-toolkit.org/faq.html#VERSION
 # For now, use stable one
 Version:	1.6.57
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	C++ based Toolkit for developing Graphical User Interfaces
 
 # http://lists.fedoraproject.org/pipermail/legal/2010-October/001419.html
@@ -207,6 +207,9 @@ exit 0
 %doc	doc-files/html
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.57-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.57-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

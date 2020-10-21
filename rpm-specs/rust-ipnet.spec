@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        2.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Provides types and useful methods for working with IP prefixes
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -90,6 +90,9 @@ which use "serde" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 17 2020 Josh Stone <jistone@redhat.com> - 2.3.0-1
 - Update to 2.3.0
 

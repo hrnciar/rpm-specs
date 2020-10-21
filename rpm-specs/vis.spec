@@ -1,6 +1,9 @@
+%global commit ee461564febb8b2ef30d45051a85c543c5192349
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
+
 Name:           vis
 Version:        0.6
-Release:        1%{?dist}
+Release:        4.20201001gitee46156%{?dist}
 Summary:        A vim-like editor with structural regex from plan9
 
 # The entire source code is ISC except for the following exceptions,
@@ -12,7 +15,7 @@ Summary:        A vim-like editor with structural regex from plan9
 # All files under lua/lexers/ are MIT licensed
 License:        ISC and MIT and CC0
 URL:            https://github.com/martanne/%{name}/
-Source0:        https://github.com/martanne/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.gz
+Source0:        https://github.com/martanne/%{name}/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  pkgconfig(termkey)
@@ -37,7 +40,7 @@ BuildArch:      noarch
 %{summary}
 
 %prep
-%autosetup -n vis-%{version}
+%autosetup -n vis-%{commit}
 
 %build
 %configure
@@ -66,6 +69,16 @@ BuildArch:      noarch
 %doc lua/doc/index.html lua/doc/ldoc_fixed.css
 
 %changelog
+* Thu Oct 01 2020 Jani Juhani Sinervo <jani@sinervo.fi> - 0.6-4.20201001gitee46156
+- Fix FSFTB rhbz#186506
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Jani Juhani Sinervo <jani@sinervo.fi> - 0.6-1
 - Update to 0.6
 

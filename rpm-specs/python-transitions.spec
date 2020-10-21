@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.7.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Object-oriented finite state machine implementation in Python
 
 License:        MIT
@@ -58,6 +58,9 @@ pytest-%{python3_version} -v --doctest-modules
 %doc examples Changelog.md README.md
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.2-2
 - Rebuilt for Python 3.9
 

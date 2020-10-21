@@ -8,7 +8,7 @@
 
 Name:             R-%{packname}
 Version:          0.8.16
-Release:          3%{?dist}
+Release:          4%{?dist}
 Summary:          Deployment Interface for R Markdown Documents and Shiny Applications
 
 License:          GPLv2
@@ -100,6 +100,9 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.16-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.8.16-3
 - rebuild for R 4
 

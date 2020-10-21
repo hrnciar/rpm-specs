@@ -8,7 +8,7 @@
 Summary:   Xorg X11 Intel video driver
 Name:      xorg-x11-drv-intel
 Version:   2.99.917
-Release:   45%{?gitrev}%{?dist}
+Release:   48%{?gitrev}%{?dist}
 URL:       http://www.x.org
 License:   MIT
 
@@ -71,6 +71,11 @@ X.Org X11 Intel video driver.
 %patch4 -p1
 
 %build
+# This package causes LTO to thrash sucking up enormous amounts of VM.  This
+# is almost certainly a GCC bug that will need to be analyzed/fixed.  Until
+# then, disable LTO.
+%define _lto_cflags %{nil}
+
 autoreconf -f -i -v
 %configure --enable-kms-only --with-default-dri=3 --enable-tools
 make %{?_smp_mflags} V=1
@@ -97,6 +102,16 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libI*XvMC.so
 %{_bindir}/intel-virtual-output
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.99.917-48.20200205
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.99.917-47.20200205
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jeff Law <law@redhat.com> - 2.99.917-46
+- Disable LTO
+
 * Fri Apr 10 2020 Olivier Fourdan <ofourdan@redhat.com> - 2.99.917-45
 - Rebuild with newer gcc (bug #1808767)
 

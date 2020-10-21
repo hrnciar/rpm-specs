@@ -14,7 +14,7 @@ Name:             ddccontrol
 #URL:              http://ddccontrol.sourceforge.net/
 URL:              https://github.com/ddccontrol/ddccontrol
 Version:          0.4.4
-Release:          3%{?dist}
+Release:          4%{?dist}
 License:          GPLv2+
 BuildRequires:    gtk2-devel, pkgconfig, pciutils-devel, desktop-file-utils
 BuildRequires:    perl(XML::Parser), gettext, libtool, libxml2-devel, tidy
@@ -130,6 +130,9 @@ rm -rf %{buildroot}%{_datadir}/icons/Bluecurve
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 0.4.4-3
 - Fixed FTBFS with gcc-10
   Resolves: rhbz#1799275

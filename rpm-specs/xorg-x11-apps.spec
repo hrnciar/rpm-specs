@@ -22,7 +22,7 @@
 Summary:    X.Org X11 applications
 Name:       xorg-x11-apps
 Version:    7.7
-Release:    27%{?dist}
+Release:    28%{?dist}
 License:    MIT
 URL:        https://www.x.org
 
@@ -185,6 +185,9 @@ done
 %{_mandir}/man1/xwud.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.7-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.7-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

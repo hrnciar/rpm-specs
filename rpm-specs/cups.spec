@@ -15,8 +15,8 @@ Summary: CUPS printing system
 Name: cups
 Epoch: 1
 Version: 2.3.3
-Release: 6%{?dist}
-License: ASL 2.0 with exceptions for GPL2/LGPL2
+Release: 15%{?dist}
+License: ASL 2.0
 Url: http://www.cups.org/
 Source0: https://github.com/apple/cups/releases/download/v%{VERSION}/cups-%{VERSION}-source.tar.gz
 # Pixmap for desktop file
@@ -109,6 +109,10 @@ Patch27: cups-webui-uri.patch
 # ipptool doesn't support mdns uris
 # https://github.com/apple/cups/pull/5793
 Patch28: cups-ipptool-mdns-uri.patch
+# ppd generator creates invalid cupsManualCopies entry, causing
+# printing only one copy everytime
+# https://github.com/apple/cups/pull/5807
+Patch29: cups-manual-copies.patch
 
 # selinux and audit enablement for CUPS - needs work and CUPS upstream wants
 # to have these features implemented their way in the future
@@ -178,6 +182,7 @@ Requires: cups-filters
 # it is needed only for new devices (2012+), so make it only recommended for
 # users with older devices
 Recommends: nss-mdns
+# avahi is needed for mDNS discovery
 Recommends: avahi
 
 %package client
@@ -197,7 +202,6 @@ Requires: %{name}-libs%{?_isa} = %{epoch}:%{version}-%{release}
 Requires: gnutls-devel
 Requires: krb5-devel
 Requires: zlib-devel
-Provides: cupsddk-devel
 
 %package libs
 Summary: CUPS printing system - libraries
@@ -222,8 +226,11 @@ Summary: CUPS printing system - tools for printer application
 Requires: %{name}-libs%{?_isa} = %{epoch}:%{version}-%{release}
 # ippeveprinter needs avahi for registering and sharing printer
 Requires: avahi
-# needed for mdns hostname translation
+# needed for mdns hostname translation - replaced by systemd-resolved in F34
+# remove after F33 EOL
+%if 0%{?fedora} <= 33 || 0%{?rhel} <= 8
 Requires: nss-mdns
+%endif
 
 %description
 CUPS printing system provides a portable printing layer for
@@ -327,6 +334,7 @@ to CUPS daemon. This solution will substitute printer drivers and raw queues in 
 %patch26 -p1 -b .etimedout
 %patch27 -p1 -b .webui-uri
 %patch28 -p1 -b .ipptool-mdns-uri
+%patch29 -p1 -b .manual-copies
 
 #### UPSTREAMED PATCHES ####
 
@@ -389,10 +397,14 @@ export CFLAGS="$RPM_OPT_FLAGS -fstack-protector-all -DLDAP_DEPRECATED=1"
 	localedir=%{_datadir}/locale
 
 # If we got this far, all prerequisite libraries must be here.
-make %{?_smp_mflags}
+%make_build
 
 %install
-make BUILDROOT=%{buildroot} install
+# %%make_install macro results into permission error during install phase,
+# because it sets INSTALL env to 'install -p'.
+# use the old make invocation for now, fix this upstream when upstream will
+# have a time for github issues
+make install DESTDIR=%{buildroot}
 
 rm -rf	%{buildroot}%{_initddir} \
 	%{buildroot}%{_sysconfdir}/init.d \
@@ -614,7 +626,6 @@ rm -f %{cups_serverbin}/backend/smb
 %verify(not md5 size mtime) %config(noreplace) %attr(0644,root,lp) %{_sysconfdir}/cups/snmp.conf
 %attr(0640,root,lp) %{_sysconfdir}/cups/snmp.conf.default
 %verify(not md5 size mtime) %config(noreplace) %attr(0640,root,lp) %{_sysconfdir}/cups/subscriptions.conf
-#%%{_sysconfdir}/cups/interfaces
 %verify(not md5 size mtime) %config(noreplace) %attr(0644,root,lp) %{_sysconfdir}/cups/lpoptions
 %dir %attr(0755,root,lp) %{_sysconfdir}/cups/ppd
 %dir %attr(0700,root,lp) %{_sysconfdir}/cups/ssl
@@ -624,6 +635,7 @@ rm -f %{cups_serverbin}/backend/smb
 %dir %{_datadir}/%{name}/www/de
 %dir %{_datadir}/%{name}/www/es
 %dir %{_datadir}/%{name}/www/ja
+%dir %{_datadir}/%{name}/www/pt_BR
 %dir %{_datadir}/%{name}/www/ru
 %{_datadir}/%{name}/www/images
 %{_datadir}/%{name}/www/*.css
@@ -645,7 +657,6 @@ rm -f %{cups_serverbin}/backend/smb
 %{_unitdir}/%{name}.socket
 %{_unitdir}/%{name}.path
 %{_bindir}/cupstestppd
-#%%{_bindir}/cupstestdsc
 %{_bindir}/ppd*
 %{cups_serverbin}/backend/*
 %{cups_serverbin}/cgi-bin
@@ -674,6 +685,7 @@ rm -f %{cups_serverbin}/backend/smb
 %dir %{_datadir}/cups/templates
 %dir %{_datadir}/cups/templates/de
 %dir %{_datadir}/cups/templates/es
+%dir %{_datadir}/cups/templates/fr
 %dir %{_datadir}/cups/templates/ja
 %dir %{_datadir}/cups/templates/ru
 %dir %{_datadir}/cups/templates/pt_BR
@@ -716,8 +728,6 @@ rm -f %{cups_serverbin}/backend/smb
 %dir %{cups_serverbin}/driver
 %dir %{cups_serverbin}/filter
 %dir %{_datadir}/cups
-#%%dir %%{_datadir}/cups/banners
-#%%dir %%{_datadir}/cups/charsets
 %dir %{_datadir}/cups/data
 %dir %{_datadir}/cups/drv
 %dir %{_datadir}/cups/mime
@@ -755,6 +765,38 @@ rm -f %{cups_serverbin}/backend/smb
 %{_mandir}/man7/ippevepcl.7.gz
 
 %changelog
+* Thu Sep 03 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1:2.3.3-14
+- revert previous commit - resolved doesn't work with avahi due missing link
+  in NetworkManager
+
+* Mon Aug 31 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1:2.3.3-14
+- MDNS resolving should be done by systemd-resolved now
+
+* Mon Aug 10 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1:2.3.3-14
+- CUPS exception isn't in spdx database, use only ASL 2.0
+
+* Wed Aug 05 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1:2.3.3-13
+- own 'new' directories
+
+* Tue Aug 04 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1:2.3.3-12
+- typo in DESTDIR during 'make install'
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.3.3-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.3.3-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1:2.3.3-9
+- use %%make_build and %%make_install macros
+
+* Mon Jul 20 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1:2.3.3-8
+- 1848575 - [cups, cups-filters] PPD generators creates invalid cupsManualCopies entry
+
+* Fri Jul 17 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1:2.3.3-7
+- spec cleanup
+
 * Thu Jun 11 2020 Zdenek Dohnal <zdohnal@redhat.com> - 1:2.3.3-6
 - fix patch errors in failover patch
 - cgi script creates a bad uri in web ui

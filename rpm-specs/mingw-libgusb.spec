@@ -2,7 +2,7 @@
 
 Name:           mingw-libgusb
 Version:        0.2.11
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        GLib wrapper around libusb1 for MinGW
 
 License:        LGPLv2+
@@ -107,6 +107,12 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 
 
 %changelog
+* Wed Aug 12 13:42:38 GMT 2020 Sandro Mani <manisandro@gmail.com> - 0.2.11-8
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.11-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.11-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

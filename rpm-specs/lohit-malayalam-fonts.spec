@@ -4,7 +4,7 @@
 
 Name:           %{fontname}-fonts
 Version:        2.92.2
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Free Malayalam font
 License:        OFL
 URL:            https://pagure.io/lohit
@@ -49,6 +49,9 @@ install -Dm 0644 -p %{metainfo}.xml \
 %{_datadir}/metainfo/%{metainfo}.xml
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.92.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.92.2-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,9 +1,9 @@
 Name:           dlm
 Version:        4.0.9
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        GPLv2 and GPLv2+ and LGPLv2+
 # For a breakdown of the licensing, see README.license
-Summary:        dlm control daemon and tool
+Summary:        Kernel Distributed Lock Manager control daemon and tool
 URL:            https://fedorahosted.org/cluster
 BuildRequires:  gcc
 BuildRequires:  glibc-kernheaders
@@ -98,6 +98,9 @@ developing applications that use %{name}.
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.9-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.9-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

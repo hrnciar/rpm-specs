@@ -14,7 +14,7 @@
 
 Name:           php-horde-mnemo
 Version:        4.2.14
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        A web based notes manager
 
 License:        ASL 1.0
@@ -198,6 +198,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.14-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun  2 2020 Remi Collet <remi@remirepo.net> - 4.2.14-7
 - requires php(httpd)
 

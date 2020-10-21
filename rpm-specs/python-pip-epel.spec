@@ -14,7 +14,7 @@
 
 Name:           python-%{srcname}-epel
 Version:        8.1.2
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        A tool for installing and managing Python packages
 
 # We bundle a lot of libraries with pip, which itself is under MIT license.
@@ -73,6 +73,14 @@ Patch3:         CVE-2019-11236.patch
 # and the subsequent regression
 # https://github.com/psf/requests/pull/4851
 Patch4:         CVE-2018-18074.patch
+
+# Patch for pip install <url> allow directory traversal, leading to arbitrary file write
+# - Upstream PR: https://github.com/pypa/pip/pull/6418/files
+# - Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1868016
+# Patch9 fixes the issue
+# Patch10 adds unit tests for the issue
+Patch9:         pip-directory-traversal-security-issue.patch
+Patch10:        pip-directory-traversal-security-issue-tests.patch
 
 %description
 Pip is a replacement for easy_install.  It uses mostly the
@@ -249,6 +257,11 @@ pushd pip/_vendor/requests/
 %patch4 -p1
 popd
 
+%patch9 -p1
+%if 0%{?with_tests}
+%patch10 -p1
+%endif
+
 sed -i '1d' pip/__init__.py
 
 
@@ -399,6 +412,10 @@ py.test -m 'not network'
 %endif # with_python3_other
 
 %changelog
+* Wed Sep 02 2020 Tomas Orsava <torsava@redhat.com> - 8.1.2-14
+- Patch for pip install <url> allow directory traversal, leading to arbitrary file write
+Resolves: rhbz#1868137
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.1.2-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

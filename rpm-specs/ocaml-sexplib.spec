@@ -5,9 +5,9 @@
 %global srcname sexplib
 
 Name:           ocaml-%{srcname}
-Version:        0.13.0
+Version:        0.14.0
 Epoch:          1
-Release:        9%{?dist}
+Release:        3%{?dist}
 Summary:        Automated S-expression conversion
 
 # The project as a whole is MIT, but code in the src subdirectory is BSD.
@@ -20,6 +20,7 @@ BuildRequires:  ocaml-dune >= 2.0.0
 BuildRequires:  ocaml-findlib
 BuildRequires:  ocaml-num-devel
 BuildRequires:  ocaml-parsexp-devel
+BuildRequires:  ocaml-sexplib0-devel
 BuildRequires:  vim-filesystem
 
 %description
@@ -113,6 +114,25 @@ find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod 0755 {} \+
 %{vimfiles_root}/syntax/sexplib.vim
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1:0.14.0-3
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1:0.14.0-2
+- OCaml 4.11.0 rebuild
+
+* Tue Aug  4 2020 Jerry James <loganjerry@gmail.com> - 1:0.14.0-1
+- Version 0.14.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.13.0-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.13.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Richard W.M. Jones <rjones@redhat.com> - 1:0.13.0-10
+- Rebuild to resolve build order symbol problems.
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 1:0.13.0-9
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

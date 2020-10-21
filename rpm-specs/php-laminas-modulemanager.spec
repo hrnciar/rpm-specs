@@ -7,8 +7,10 @@
 # Please, preserve the changelog entries
 #
 # When build without laminas-mvc
-%global bootstrap    1
-%global gh_commit    92b1cde1aab5aef687b863face6dd5d9c6751c78
+%bcond_with          bootstrap
+%bcond_without       tests
+
+%global gh_commit    637aaaf2c85d13694b096e253e5884653f93bb92
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     laminas
 %global gh_project   laminas-modulemanager
@@ -16,11 +18,10 @@
 %global php_home     %{_datadir}/php
 %global namespace    Laminas
 %global library      ModuleManager
-%global with_tests   0%{!?_without_tests:1}
 
 Name:           php-%{gh_project}
-Version:        2.8.4
-Release:        2%{?dist}
+Version:        2.10.1
+Release:        1%{?dist}
 Summary:        %{namespace} Framework %{library} component
 
 License:        BSD
@@ -30,46 +31,51 @@ Source1:        makesrc.sh
 
 BuildArch:      noarch
 # Tests
-%if %{with_tests}
-BuildRequires:  php(language) >= 5.6
+%if %{with tests}
+BuildRequires:  php(language) >= 7.3
 BuildRequires:  php-spl
-BuildRequires: (php-autoloader(%{gh_owner}/laminas-config)               >= 2.6     with php-autoloader(%{gh_owner}/laminas-config)               < 4)
-BuildRequires: (php-autoloader(%{gh_owner}/laminas-eventmanager)         >= 3.2     with php-autoloader(%{gh_owner}/laminas-eventmanager)         < 4)
-BuildRequires: (php-autoloader(%{gh_owner}/laminas-stdlib)               >= 3.1     with php-autoloader(%{gh_owner}/laminas-stdlib)               < 4)
-BuildRequires: (php-autoloader(%{gh_owner}/laminas-zendframework-bridge) >= 1.0     with php-autoloader(%{gh_owner}/laminas-zendframework-bridge) < 2)
+BuildRequires: (php-composer(brick/varexporter)                          >= 0.3.2   with php-composer(brick/varexporter)                          < 1)
+BuildRequires: (php-autoloader(%{gh_owner}/laminas-config)               >= 3.4     with php-autoloader(%{gh_owner}/laminas-config)               < 4)
+BuildRequires: (php-autoloader(%{gh_owner}/laminas-eventmanager)         >= 3.3     with php-autoloader(%{gh_owner}/laminas-eventmanager)         < 4)
+BuildRequires: (php-autoloader(%{gh_owner}/laminas-stdlib)               >= 3.3     with php-autoloader(%{gh_owner}/laminas-stdlib)               < 4)
+BuildRequires: (php-autoloader(%{gh_owner}/laminas-zendframework-bridge) >= 1.1     with php-autoloader(%{gh_owner}/laminas-zendframework-bridge) < 2)
+BuildRequires: (php-composer(webimpress/safe-writer)                     >= 2.1     with php-composer(webimpress/safe-writer)                     < 3)
 # From composer, "require-dev": {
 #        "laminas/laminas-coding-standard": "~1.0.0",
-#        "laminas/laminas-console": "^2.6",
-#        "laminas/laminas-di": "^2.6",
-#        "laminas/laminas-loader": "^2.5",
-#        "laminas/laminas-mvc": "^3.0 || ^2.7",
-#        "laminas/laminas-servicemanager": "^3.0.3 || ^2.7.5",
-#        "phpunit/phpunit": "^5.7.27 || ^6.5.14 || ^7.5.16"
-BuildRequires: (php-autoloader(%{gh_owner}/laminas-console)              >= 2.6     with php-autoloader(%{gh_owner}/laminas-console)              < 3)
-BuildRequires: (php-autoloader(%{gh_owner}/laminas-di)                   >= 2.6     with php-autoloader(%{gh_owner}/laminas-di)                   < 3)
-BuildRequires: (php-autoloader(%{gh_owner}/laminas-loader)               >= 2.5     with php-autoloader(%{gh_owner}/laminas-loader)               < 3)
-%if ! %{bootstrap}
-# ignore max version, test suite pass with 3.1
-BuildRequires: (php-autoloader(%{gh_owner}/laminas-mvc)                  >= 2.7     with php-autoloader(%{gh_owner}/laminas-mvc)                  < 4)
+#        "laminas/laminas-console": "^2.8",
+#        "laminas/laminas-di": "^2.6.1",
+#        "laminas/laminas-loader": "^2.6.1",
+#        "laminas/laminas-mvc": "^3.1.1",
+#        "laminas/laminas-servicemanager": "^3.4.1",
+#        "phpunit/phpunit": "^9.3.7"
+BuildRequires: (php-autoloader(%{gh_owner}/laminas-console)              >= 2.8     with php-autoloader(%{gh_owner}/laminas-console)              < 3)
+BuildRequires: (php-autoloader(%{gh_owner}/laminas-di)                   >= 2.6.1   with php-autoloader(%{gh_owner}/laminas-di)                   < 3)
+BuildRequires: (php-autoloader(%{gh_owner}/laminas-loader)               >= 2.6.1   with php-autoloader(%{gh_owner}/laminas-loader)               < 3)
+%if %{without bootstrap}
+BuildRequires: (php-autoloader(%{gh_owner}/laminas-mvc)                  >= 3.1.1     with php-autoloader(%{gh_owner}/laminas-mvc)                < 4)
 %endif
-BuildRequires: (php-autoloader(%{gh_owner}/laminas-servicemanager)       >= 3.0.3   with php-autoloader(%{gh_owner}/laminas-servicemanager)       < 4)
-%global phpunit %{_bindir}/phpunit7
-BuildRequires:  phpunit7 >= 7.5.16
+BuildRequires: (php-autoloader(%{gh_owner}/laminas-servicemanager)       >= 3.4.1   with php-autoloader(%{gh_owner}/laminas-servicemanager)       < 4)
+%global phpunit %{_bindir}/phpunit9
+BuildRequires:  phpunit9 >= 9.3.7
 %endif
 # Autoloader
 BuildRequires:  php-fedora-autoloader-devel
 
 # From composer, "require": {
-#        "php": "^5.6 || ^7.0",
-#        "laminas/laminas-config": "^3.1 || ^2.6",
-#        "laminas/laminas-eventmanager": "^3.2 || ^2.6.3",
-#        "laminas/laminas-stdlib": "^3.1 || ^2.7",
-#        "laminas/laminas-zendframework-bridge": "^1.0"
-Requires:       php(language) >= 5.6
-Requires:      (php-autoloader(%{gh_owner}/laminas-config)               >= 2.6     with php-autoloader(%{gh_owner}/laminas-config)               < 4)
-Requires:      (php-autoloader(%{gh_owner}/laminas-eventmanager)         >= 3.2     with php-autoloader(%{gh_owner}/laminas-eventmanager)         < 4)
-Requires:      (php-autoloader(%{gh_owner}/laminas-stdlib)               >= 3.1     with php-autoloader(%{gh_owner}/laminas-stdlib)               < 4)
-Requires:      (php-autoloader(%{gh_owner}/laminas-zendframework-bridge) >= 1.0     with php-autoloader(%{gh_owner}/laminas-zendframework-bridge) < 2)
+#        "php": "^7.3 || ^8.0",
+#        "brick/varexporter": "^0.3.2",
+#        "laminas/laminas-config": "^3.4",
+#        "laminas/laminas-eventmanager": "^3.3",
+#        "laminas/laminas-stdlib": "^3.3",
+#        "laminas/laminas-zendframework-bridge": "^1.1",
+#        "webimpress/safe-writer": "^1.0.2 || ^2.1"
+Requires:       php(language) >= 7.3
+Requires:      (php-composer(brick/varexporter)                          >= 0.3.2   with php-composer(brick/varexporter)                          < 1)
+Requires:      (php-autoloader(%{gh_owner}/laminas-config)               >= 3.4     with php-autoloader(%{gh_owner}/laminas-config)               < 4)
+Requires:      (php-autoloader(%{gh_owner}/laminas-eventmanager)         >= 3.3     with php-autoloader(%{gh_owner}/laminas-eventmanager)         < 4)
+Requires:      (php-autoloader(%{gh_owner}/laminas-stdlib)               >= 3.3     with php-autoloader(%{gh_owner}/laminas-stdlib)               < 4)
+Requires:      (php-autoloader(%{gh_owner}/laminas-zendframework-bridge) >= 1.1     with php-autoloader(%{gh_owner}/laminas-zendframework-bridge) < 2)
+Requires:      (php-composer(webimpress/safe-writer)                     >= 2.1     with php-composer(webimpress/safe-writer)                     < 3)
 # From composer, "suggest": {
 #        "laminas/laminas-console": "Laminas\\Console component",
 #        "laminas/laminas-loader": "Laminas\\Loader component if you are not using Composer autoloading for your modules",
@@ -85,9 +91,9 @@ Requires:       php-composer(fedora/autoloader)
 Requires:       php-spl
 
 # Compatibily ensure by the bridge
-Obsoletes:      php-zendframework-%{zf_name}              < 2.8.4-99
-Provides:       php-zendframework-%{zf_name}              = %{version}-99
-Provides:       php-composer(%{gh_owner}/%{gh_project}) = %{version}
+Obsoletes:      php-zendframework-%{zf_name}              < 2.8.5
+Provides:       php-zendframework-%{zf_name}              = %{version}
+Provides:       php-composer(%{gh_owner}/%{gh_project})   = %{version}
 Provides:       php-composer(zendframework/%{zf_name})    = %{version}
 Provides:       php-autoloader(%{gh_owner}/%{gh_project}) = %{version}
 Provides:       php-autoloader(zendframework/%{zf_name})  = %{version}
@@ -118,12 +124,11 @@ mv LICENSE.md LICENSE
 phpab --template fedora --output src/autoload.php src
 cat << 'EOF' | tee -a src/autoload.php
 \Fedora\Autoloader\Dependencies::required([
-    [
-        '%{php_home}/%{namespace}/Config3/autoload.php',
-        '%{php_home}/%{namespace}/Config/autoload.php',
-    ],
+    '%{php_home}/Brick/VarExporter/autoload.php',
+    '%{php_home}/%{namespace}/Config3/autoload.php',
     '%{php_home}/%{namespace}/EventManager/autoload.php',
     '%{php_home}/%{namespace}/Stdlib/autoload.php',
+    '%{php_home}/Webimpress/SafeWriter/autoload.php',
 ]);
 \Fedora\Autoloader\Dependencies::optional([
     '%{php_home}/%{namespace}/Console/autoload.php',
@@ -154,7 +159,7 @@ cp -pr zf.php %{buildroot}%{php_home}/Zend/%{library}/autoload.php
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 cat << 'EOF' | tee vendor/autoload.php
 <?php
@@ -175,16 +180,12 @@ require "%{buildroot}%{php_home}/Zend/%{library}/autoload.php";
 exit (class_exists("\\Zend\\%{library}\\ModuleEvent") ? 0 : 1);
 '
 
-%if %{bootstrap}
-rm -r test/Listener/
-%endif
-
 : upstream test suite
 ret=0
-for cmdarg in "php %{phpunit}" php72 php73 php74; do
+for cmdarg in "php %{phpunit}" php73 php74 php80; do
   if which $cmdarg; then
     set $cmdarg
-    $1 ${2:-%{_bindir}/phpunit7} --verbose || ret=1
+    $1 ${2:-%{_bindir}/phpunit9} --verbose || ret=1
   fi
 done
 exit $ret
@@ -202,6 +203,26 @@ exit $ret
 
 
 %changelog
+* Wed Sep  2 2020 Remi Collet <remi@remirepo.net> - 2.10.1-1
+- update to 2.10.1
+
+* Tue Aug 25 2020 Remi Collet <remi@remirepo.net> - 2.10.0-1
+- update to 2.10.0
+- raise dependency on PHP 7.3
+- add dependency on brick/varexporter
+- raise dependency on laminas/laminas-config 3.4
+- raise dependency on laminas/laminas-eventmanager 3.3
+- raise dependency on laminas/laminas-stdlib 3.3
+- raise dependency on laminas/laminas-zendframework-bridge 1.1
+- switch to phpunit 9.3
+
+* Tue Aug 25 2020 Remi Collet <remi@remirepo.net> - 2.9.0-1
+- update to 2.9.0
+- add dependency on webimpress/safe-writer
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           libunarr
 Version:        1.0.1
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        Decompression library for rar, tar and zip archives
 
 License:        LGPLv3+
@@ -27,8 +27,8 @@ it's focus has now been extended to provide code maintenance and to continue the
 development of unarr, which no longer is maintained.
 
 %package        devel
-
 Summary:        Development files for %{name}
+
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description    devel
@@ -37,17 +37,18 @@ applications that use %{name}.
 
 %prep
 %setup -n unarr-%{version}
+
 # wrong-file-end-of-line-encoding fix
 sed -i 's/\r$//' README.md
 
 
 %build
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 
 %files
@@ -62,6 +63,12 @@ sed -i 's/\r$//' README.md
 
 
 %changelog
+* Wed Jul 29 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.0.1-10
+- Rebuild with out-of-source builds new CMake macros
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

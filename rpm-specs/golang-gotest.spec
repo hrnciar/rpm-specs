@@ -4,10 +4,11 @@
 # https://github.com/gotestyourself/gotest.tools
 %global goipath         gotest.tools
 %global forgeurl        https://github.com/gotestyourself/gotest.tools
-Version:                3.0.0
-%global commit          a1378ce1d2f4f9e556528a94613c9e7536aa6b9d
+Version:                3.0.2
 
 %gometa
+
+%global goaltipaths     gotest.tools/v3
 
 %global common_description %{expand:
 A collection of packages to augment the Go testing package and support common
@@ -17,7 +18,7 @@ patterns.}
 %global godocs          CONTRIBUTING.md README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A collection of packages to augment the Go testing package
 
 # Upstream license specification: BSD-3-Clause and Apache-2.0
@@ -42,20 +43,33 @@ BuildRequires:  golang(golang.org/x/tools/imports)
 %prep
 %goprep
 mv internal/difflib/LICENSE LICENSE-difflib
-find . -name "*.go" -exec sed -i "s|gotest.tools/v3|gotest.tools|" "{}" +;
 
 %install
 %gopkginstall
 
 %if %{with check}
 %check
+sed -i "s|gotest.tools/v3|gotest.tools|" $(find . -iname "*.go" -type f)
 # poll: needs network
-%gocheck -d poll
+%gocheck -d poll -d assert/cmp -d assert/opt
 %endif
 
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 23:30:04 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.0.2-2
+- Add alternative import path
+
+* Sat Jul 25 22:43:31 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.0.2-1
+- Update to 3.0.2
+
 * Thu Jan 30 01:46:48 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.0.0-1.20200130gita1378ce
 - Bump to commit a1378ce1d2f4f9e556528a94613c9e7536aa6b9d
 

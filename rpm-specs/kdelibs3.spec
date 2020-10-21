@@ -18,7 +18,7 @@
 Summary: KDE 3 Libraries
 Name:    kdelibs3
 Version: 3.5.10
-Release: 105%{?dist}
+Release: 108%{?dist}
 
 License: LGPLv2
 Url: http://www.kde.org/
@@ -84,6 +84,8 @@ Patch108: kdelibs-3.5.10-dtoa.patch
 Patch109: kdelibs-3.5.10-kabc.patch
 # kde4.4 backport
 Patch111: kdelibs-3.5.10-kde-config_kde-version.patch
+# ftbfs
+Patch112: kdelibs-3.5.10-dup-ftbfs.patch
 
 ## Trinity backports
 # build fix for CUPS 1.6 by Timothy Pearson, backported by Kevin Kofler
@@ -325,6 +327,7 @@ This package includes tools kgrantpty and kpac_dhcp_helper.
 %patch108 -p1 -b .alias
 %patch109 -p1 -b .kabc
 %patch111 -p1 -b .kde-config_kde-version
+%patch112 -p1 -b .dup
 
 %patch150 -p1 -b .cups16
 %patch151 -p1 -b .cups22
@@ -691,6 +694,16 @@ fi
 %attr(4755,root,root) %{_bindir}/kpac_dhcp_helper
 
 %changelog
+* Tue Sep 15 2020 Than Ngo <than@redhat.com> - 3.5.10-108
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.10-107
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.10-106
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Kevin Kofler <Kevin@tigcc.ticalc.org> - 3.5.10-105
 - Process the new (libice 1.0.10) location of the ICEauthority file (#1768193)
 

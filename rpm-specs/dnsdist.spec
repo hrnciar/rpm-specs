@@ -1,15 +1,17 @@
 %ifarch %{nodejs_arches}
+# Fedora 33 does not have uglifyjs
+%if 0%{?fedora} <= 32
 %global uglify 1
+%endif
 %endif
 
 Name: dnsdist
-Version: 1.4.0
+Version: 1.5.0
 Release: 5%{?dist}
 Summary: Highly DNS-, DoS- and abuse-aware loadbalancer
 License: GPLv2
 URL: https://dnsdist.org
 Source0: https://downloads.powerdns.com/releases/%{name}-%{version}.tar.bz2
-Patch0: fix-build-with-gcc10.patch
 
 BuildRequires: boost-devel
 BuildRequires: fstrm-devel
@@ -21,8 +23,7 @@ BuildRequires: libcap-devel
 BuildRequires: libedit-devel
 BuildRequires: libsodium-devel
 BuildRequires: lmdb-devel
-BuildRequires: lua-devel
-%ifarch %{arm} %{ix86} x86_64 %{mips} aarch64
+%ifarch %{ix86} x86_64 %{mips} aarch64
 BuildRequires: luajit-devel
 %else
 BuildRequires: lua-devel
@@ -61,13 +62,6 @@ sed -i '/^ExecStart/ s/dnsdist/dnsdist -u dnsdist -g dnsdist/' dnsdist.service.i
     --disable-silent-rules \
     --enable-dnscrypt \
     --enable-dns-over-tls \
-    --enable-libsodium \
-    --enable-libssl \
-%ifarch %{arm} %{ix86} x86_64 %{mips} aarch64
-    --with-luajit \
-%else
-    --with-lua \
-%endif
     --enable-unit-tests \
     --with-re2
 
@@ -116,6 +110,25 @@ exit 0
 
 
 %changelog
+* Wed Sep 23 2020 Adrian Reber <adrian@lisas.de> - 1.5.0-5
+- Rebuilt for protobuf 3.13
+
+* Wed Aug 05 2020 Sander Hoentjen <sander@hoentjen.eu> - 1.5.0-4
+- Fix building
+
+* Wed Aug 05 2020 Sander Hoentjen <sander@hoentjen.eu> - 1.5.0-3
+- Don't build on armv7hl, dnsdist fails to compile there
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 31 2020 ander Hoentjen <sander@hoentjen.eu> - 1.5.0-1
+- Update to 1.5.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 14 2020 Adrian Reber <adrian@lisas.de> - 1.4.0-5
 - Rebuilt for protobuf 3.12
 

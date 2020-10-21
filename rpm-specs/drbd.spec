@@ -1,7 +1,7 @@
 Name: drbd
 Summary: DRBD user-land tools and scripts
 Version: 9.13.1
-Release: 1%{?dist}
+Release: 3%{?dist}
 Source0: http://www.linbit.com/downloads/%{name}/utils/%{name}-utils-%{version}.tar.gz
 Source1: drbd.service
 Source2: drbd.ocf
@@ -202,6 +202,13 @@ management utility.
 %systemd_preun drbd.service
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.13.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.13.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 17 2020 Peter Hanecak <hany@hany.sk> - 9.13.1-1
 - Upstream release of 9.13.1
 

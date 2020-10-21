@@ -5,7 +5,7 @@
 %global crate lock_api
 
 Name:           rust-%{crate}
-Version:        0.3.4
+Version:        0.4.1
 Release:        1%{?dist}
 Summary:        Wrappers to create fully-featured Mutex and RwLock types
 
@@ -107,6 +107,12 @@ which use "serde" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Tue Aug 25 2020 Josh Stone <jistone@redhat.com> - 0.4.1-1
+- Update to 0.4.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 14 2020 Josh Stone <jistone@redhat.com> - 0.3.4-1
 - Update to 0.3.4
 

@@ -5,7 +5,7 @@
 
 Name:		tcl-%{realname}
 Version:	0.4
-Release:	0.27.%{betaver}%{?dist}
+Release:	0.28.%{betaver}%{?dist}
 Summary:	QT widget support for Tile Toolkit
 License:	MIT
 URL:		http://www.ellogon.org/petasis/index.php?option=com_content&task=view&id=24&Itemid=40
@@ -48,6 +48,9 @@ chmod -x %{buildroot}%{tcl_sitearch}/%{realname}%{version}/pkgIndex.tcl
 %{tcl_sitearch}/%{realname}%{version}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-0.28.b1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-0.27.b1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,37 +1,45 @@
-%global commit b93c2719933d8824d749bfa8573cc02e4f050c10
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global bashcompdir %(pkg-config --variable=completionsdir bash-completion)
-%if "%{bashcompdir}" == ""
-%define bashcompdir "/etc/bash_completion.d"
-%endif
+%global forgeurl    https://github.com/ggreer/the_silver_searcher
+%global commit      5a1c8d83ba1514ca8d045ba80403f93772fb371a
+%global date        2020704
+%forgemeta
+
+%bcond_without  tests
 
 Name:           the_silver_searcher
 Version:        2.2.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Super-fast text searching tool (ag)
 License:        ASL 2.0 and BSD
-URL:            https://github.com/ggreer/the_silver_searcher
-Source:         https://github.com/ggreer/the_silver_searcher/archive/%{commit}/%{version}-%{shortcommit}.tar.gz
-# My (= shlomif) pull request to fix the build
-Patch1:         https://patch-diff.githubusercontent.com/raw/ggreer/the_silver_searcher/pull/1377.diff
+URL:            %{forgeurl}
+Source0:        %{forgesource}
+# https://github.com/ggreer/the_silver_searcher/pull/1410
+Patch0:         0001-Install-shell-completion-files-to-correct-locations.patch
 
 BuildRequires:  gcc
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  pcre-devel
-%if ! 0%{?el6}
-BuildRequires:  pkgconfig(bash-completion)
-%endif
 BuildRequires:  xz-devel
 BuildRequires:  zlib-devel
+%if %{with tests}
+BuildRequires:  python3-cram
+BuildRequires:  git-core
+%endif
+
+Provides:       ag
+# TODO: unbundle src/uthash.h and build require uthash-devel
+# https://github.com/ggreer/the_silver_searcher/issues/1411
+Provides:       bundled(uthash)
+
 
 %description
 The Silver Searcher is a code searching tool similar to ack,
 with a focus on speed.
 
+
 %prep
-%setup -q -n %{name}-%{commit}
-%patch1 -p1 -b .GLOBALS
+%forgeautosetup -p 1
+
 
 %build
 aclocal
@@ -39,28 +47,38 @@ autoconf
 autoheader
 automake --add-missing
 %configure --disable-silent-rules
-make %{?_smp_mflags}
+%make_build
+
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT%{bashcompdir}
-install -pm 0644 ag.bashcomp.sh $RPM_BUILD_ROOT%{bashcompdir}/ag
-rm -rf $RPM_BUILD_ROOT%{_datadir}/%{name}
+%make_install
+
+
+%if %{with tests}
+%check
+make test
+%endif
+
 
 %files
+%license LICENSE
+%doc README.md
 %{_bindir}/ag
 %{_mandir}/man1/ag.1*
-%(dirname %{bashcompdir})
-%if 0%{?fedora} >= 17 || 0%{?rhel} >= 7
-%doc README.md
-%license LICENSE
-%else
-%doc README.md LICENSE
-%endif
-# zsh completion
-%{_datadir}/zsh/site-functions/_%{name}
+%{_datadir}/bash-completion/completions/ag
+%{_datadir}/zsh/site-functions/_ag
+
 
 %changelog
+* Tue Sep 29 2020 Carl George <carl@george.computer> - 2.2.0-3.2020704git5a1c8d8
+- Update to latest upstream commit
+- Add patch to use correct shell completion locations
+- Run test suite
+- Add provides for ag and bundled uthash
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 15 2020 Shlomi Fish <shlomif@cpan.org> - 2.2.0-1
 - New upstream version
 

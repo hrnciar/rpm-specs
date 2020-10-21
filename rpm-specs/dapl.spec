@@ -1,6 +1,6 @@
 Name: dapl
 Version: 2.1.9
-Release: 11%{?dist}
+Release: 12%{?dist}
 Summary: Library providing access to the DAT 2.0 API
 License: GPLv2 or BSD or CPL
 Url: https://www.openfabrics.org/
@@ -73,6 +73,9 @@ rm -f %{buildroot}%{_libdir}/*.la
 %{_mandir}/man1/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.9-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.9-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

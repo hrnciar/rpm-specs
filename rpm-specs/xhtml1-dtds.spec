@@ -2,7 +2,7 @@
 
 Name:           xhtml1-dtds
 Version:        1.0
-Release:        %{date}.13%{?dist}.8
+Release:        %{date}.13%{?dist}.9
 Summary:        XHTML 1.0 document type definitions
 
 # W3C Software License for DTDs etc:
@@ -112,6 +112,9 @@ cd - >/dev/null
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-20020801.13.9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-20020801.13.8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

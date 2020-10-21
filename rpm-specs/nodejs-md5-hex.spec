@@ -6,7 +6,7 @@
 
 Name:		nodejs-md5-hex
 Version:	1.3.0
-Release:	8%{?dist}
+Release:	9%{?dist}
 Summary:	Create a MD5 hash with hex encoding
 
 License:	MIT
@@ -68,6 +68,9 @@ cp -pr package.json index.js browser.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

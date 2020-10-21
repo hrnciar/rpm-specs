@@ -1,6 +1,6 @@
 Name:       vconfig
 Version:    1.9
-Release:    28%{?dist}
+Release:    29%{?dist}
 Summary:    Linux 802.1q VLAN configuration utility
 License:    GPLv2+
 URL:        http://www.candelatech.com/~greear/vlan.html
@@ -34,6 +34,9 @@ install -D -m644 vconfig.8 ${RPM_BUILD_ROOT}%{_mandir}/man8/vconfig.8
 %{_mandir}/man8/vconfig.8*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-28
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

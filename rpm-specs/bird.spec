@@ -2,7 +2,7 @@
 
 Name:             bird
 Version:          2.0.7
-Release:          3%{?dist}
+Release:          4%{?dist}
 Summary:          BIRD Internet Routing Daemon
 
 License:          GPLv2+
@@ -111,6 +111,9 @@ exit 0
 %doc obj/doc/prog.pdf
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.7-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 03 2020 Robert Scheck <robert@fedoraproject.org> - 2.0.7-3
 - Added patch to declare variable as extern in header file
 

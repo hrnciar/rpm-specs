@@ -1,6 +1,6 @@
 Name:           ocaml-migrate-parsetree
-Version:        1.7.1
-Release:        3%{?dist}
+Version:        1.7.3
+Release:        2%{?dist}
 Summary:        Convert OCaml parsetrees between different major versions
 
 License:        LGPLv2+ with exceptions
@@ -78,6 +78,27 @@ find %{buildroot} -name '*.cmxs' -exec chmod 0755 {} \;
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.7.3-2
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.7.3-1
+- Upgrade to 1.7.3 (but not 2.0.0) because of:
+  https://github.com/ocaml-ppx/ocaml-migrate-parsetree/pull/96
+- OCaml 4.11.0 rebuild
+
+* Mon Aug 03 2020 Richard W.M. Jones <rjones@redhat.com> - 1.7.1-7
+- Bump and rebuild to fix dependencies.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Richard W.M. Jones <rjones@redhat.com> - 1.7.1-4
+- Rebuild to resolve build order symbol problems.
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 1.7.1-3
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

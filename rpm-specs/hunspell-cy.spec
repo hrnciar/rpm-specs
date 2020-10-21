@@ -2,7 +2,7 @@ Name: hunspell-cy
 Summary: Welsh hunspell dictionaries
 %global upstreamid 20040425
 Version: 0.%{upstreamid}
-Release: 22%{?dist}
+Release: 23%{?dist}
 Source: http://download.services.openoffice.org/contrib/dictionaries/cy_GB.zip
 URL: http://www.e-gymraeg.co.uk/
 License: GPL+
@@ -40,6 +40,9 @@ cp -p *.dic *.aff $RPM_BUILD_ROOT/%{_datadir}/myspell
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20040425-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20040425-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

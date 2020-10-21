@@ -7,11 +7,12 @@
 Summary:        Java CIM Client library
 Name:           sblim-cim-client
 Version:        1.3.9.3
-Release:        18%{?dist}
+Release:        20%{?dist}
 License:        EPL
 URL:            http://sourceforge.net/projects/sblim/
 Source0:        http://downloads.sourceforge.net/project/sblim/%{name}/%{version}/%{name}-%{version}-src.zip
 Source1:        http://downloads.sourceforge.net/project/sblim/%{name}/%{version}/%{name}-samples-%{version}-src.zip
+Patch0:         sblim-cim-client-1.3.9.3-fix-for-java-11-openjdk.patch
 
 BuildArch:      noarch
 
@@ -51,6 +52,7 @@ Manual and sample code for sblim-cim-client.
 %setup -q -n %{archive_folder_name}
 rm version.txt
 %setup -q -T -D -b 1 -n %{archive_folder_name}
+%patch -p1 -b .fix-for-java-11-openjdk
 
 %build
 export ANT_OPTS="-Xmx256m"
@@ -111,6 +113,13 @@ cp -pr %{archive_folder_name}/doc/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}
 %{_datadir}/%{name}
 
 %changelog
+* Mon Jul 27 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 1.3.9.3-20
+- Fix for java-11-openjdk as sytem JDK
+  Resolves: #1858088
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.3.9.3-19
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.9.3-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,9 +1,10 @@
+%undefine __cmake_in_source_build
 %global _docdir_fmt %{name}
 %global abiver 4
 
 Name:		ignition-math
 Version:	4.0.0
-Release:	4%{?dist}
+Release:	6%{?dist}
 Summary:	Small, Fast, High Performance Math Library
 
 License:	ASL 2.0
@@ -49,9 +50,7 @@ sed -i 's/unset/#unset/g' CMakeLists.txt
 %patch0 -p0 -b .387
 
 %build
-mkdir build
-pushd build
-%cmake .. \
+%cmake \
 %ifnarch x86_64
   -DSSE2_FOUND=FALSE \
 %endif
@@ -61,22 +60,22 @@ pushd build
   -DSSE4_2_FOUND=FALSE \
   -DCMAKE_C_FLAGS_ALL="%{optflags}" \
   -DCMAKE_CXX_FLAGS_ALL="%{optflags}" \
-  -DCMAKE_BUILD_TYPE=RelWithDebInfo
-popd
+  -DCMAKE_BUILD_TYPE=Release
 
-make -C build %{?_smp_mflags}
-make -C build doc
+%cmake_build
+%cmake_build --target doc
 
 %install
-make -C build install DESTDIR=%{buildroot}
+%cmake_install
 
 %check
-make -C build test ARGS="-V" || exit 0
+%ctest --verbose || exit 0
 
 %files
 %license COPYING
 %doc README.md Changelog.md
-%{_libdir}/*.so.*
+%{_libdir}/*.so.%{version}
+%{_libdir}/*.so.%{abiver}
 
 %files devel
 %{_libdir}/pkgconfig
@@ -86,9 +85,16 @@ make -C build test ARGS="-V" || exit 0
 
 %files doc
 %license COPYING
-%doc build/doxygen/html
+%doc %{_vpath_builddir}/doxygen/html
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           toppler
 Version:        1.1.5
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Platform game
 License:        GPLv2+
 URL:            http://toppler.sf.net
@@ -69,6 +69,9 @@ rm -rf %{buildroot}%{_datadir}/doc/toppler
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

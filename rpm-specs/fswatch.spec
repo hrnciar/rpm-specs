@@ -2,7 +2,7 @@
 
 Name:		fswatch
 Version:	1.14.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	A cross-platform file change monitor
 License:	GPLv3+
 URL:		https://github.com/emcrisostomo/fswatch
@@ -66,6 +66,9 @@ make check
 %{_libdir}/*.a
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.14.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 21 2020 Darryl T. Agostinelli <dagostinelli@gmail.com> 1.14.0-3
 - Corrections made for package review process
 

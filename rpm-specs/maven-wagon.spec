@@ -4,7 +4,7 @@
 Name:           maven-wagon
 Epoch:          0
 Version:        3.4.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Tools to manage artifacts and deployment
 License:        ASL 2.0
 
@@ -201,6 +201,12 @@ Javadoc for %{name}.
 %doc LICENSE NOTICE DEPENDENCIES
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:3.4.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0:3.4.1-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon Jun 08 2020 Fabio Valentini <decathorpe@gmail.com> - 0:3.4.1-1
 - Update to version 3.4.1.
 

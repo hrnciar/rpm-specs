@@ -1,5 +1,5 @@
 Name:           Zim
-Version:        0.73.0
+Version:        0.73.3
 Release:        1%{?dist}
 Summary:        Desktop wiki & notekeeper
 
@@ -31,9 +31,7 @@ and feel of an outliner. This tool is intended to keep track of TODO lists
 or to serve as a personal scratch book.
 
 %prep
-%setup -q -n zim-%{version}
-# https://github.com/zim-desktop-wiki/zim-desktop-wiki/issues/1114
-sed -i 's/cElementTree/ElementTree/' zim/parser.py
+%autosetup -p1 -n zim-%{version}
 
 %build
 ./setup.py build
@@ -49,7 +47,8 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/zim.desktop
 %check
 # Tests do not pass
 # https://github.com/zim-desktop-wiki/zim-desktop-wiki/issues/814
-#xvfb-run ./test.py
+#mkdir -p /tmp/home-$USER /tmp/zim-$USER
+#XDG_RUNTIME_DIR=/tmp/zim-$USER HOME=/tmp/home-$USER xvfb-run ./test.py
 
 %if 0%{?rhel} && 0%{?rhel} <= 7
 %post
@@ -89,6 +88,25 @@ update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 %{_datadir}/metainfo/*
 
 %changelog
+* Wed Oct 14 2020 Robin Lee <cheeselee@fedoraproject.org> - 0.73.3-1
+- New release 0.73.3
+
+* Tue Oct  6 2020 Robin Lee <cheeselee@fedoraproject.org> - 0.73.2-5
+- Actually apply
+  0001-Fix-reading-preformatted-text-under-Python-3.9-1261.patch
+
+* Sun Sep 27 2020 Robin Lee <cheeselee@fedoraproject.org> - 0.73.2-4
+- Fix preformatted text under Python 3.9
+
+* Sat Sep 12 2020 Robin Lee <cheeselee@fedoraproject.org> - 0.73.2-3
+- Fix compatibility with Python 3.9
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.73.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Robin Lee <cheeselee@fedoraproject.org> - 0.73.2-1
+- Update to 0.73.2
+
 * Tue Jun  9 2020 Robin Lee <cheeselee@fedoraproject.org> - 0.73.0-1
 - Update to 0.73.0
 

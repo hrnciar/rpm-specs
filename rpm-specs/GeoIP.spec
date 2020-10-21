@@ -3,7 +3,7 @@
 
 Name:		GeoIP
 Version:	1.6.12
-Release:	7%{?dist}
+Release:	8%{?dist}
 Summary:	Library for country/city/organization to IP address or hostname mapping
 License:	LGPLv2+
 URL:		http://www.maxmind.com/app/c
@@ -86,6 +86,9 @@ rm -f %{buildroot}%{_libdir}/*.la
 %{_libdir}/pkgconfig/geoip.pc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.12-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.12-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

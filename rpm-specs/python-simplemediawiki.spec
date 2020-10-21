@@ -4,7 +4,7 @@
 
 Name:           python-%{tarball_name}
 Version:        1.2.0
-Release:        0.23.b2%{?dist}
+Release:        0.24.b2%{?dist}
 Summary:        Extremely low-level wrapper to the MediaWiki API
 
 License:        LGPLv2+
@@ -52,6 +52,9 @@ This is the Python 3 version.
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-0.24.b2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.0-0.23.b2
 - Rebuilt for Python 3.9
 

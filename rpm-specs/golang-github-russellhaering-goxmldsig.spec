@@ -15,7 +15,7 @@ Pure Go implementation of XML Digital Signatures.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.1%{?dist}
+Release:        0.2%{?dist}
 Summary:        Pure Go implementation of XML Digital Signatures
 
 # Upstream license specification: Apache-2.0
@@ -50,6 +50,9 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 07 17:03:25 CET 2020 Andreas Gerstmayr <agerstmayr@redhat.com> - 0-0.1.20200207git7acd5e4
 - Initial package
 

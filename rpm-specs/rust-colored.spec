@@ -7,7 +7,7 @@
 
 Name:           rust-%{crate}
 Version:        1.9.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Most simple way to add colors in your terminal
 
 # Upstream license specification: MPL-2.0
@@ -88,6 +88,9 @@ find -type f -executable -exec chmod -v -x '{}' +
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 07:03:52 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.9.3-1
 - Update to 1.9.3
 

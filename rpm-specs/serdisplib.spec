@@ -1,6 +1,6 @@
 Name:           serdisplib
 Version:        1.97.9
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Library to drive serial displays with built-in controllers
 License:        GPLv2+
 URL:            http://serdisplib.sourceforge.net/
@@ -70,6 +70,9 @@ rm $RPM_BUILD_ROOT%{_libdir}/libserdisp.a
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.97.9-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.97.9-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@
 
 Name:          waffle
 Version:       1.6.1
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Platform independent GL API layer
 
 License:       MIT
@@ -69,15 +69,15 @@ Example programs using %{name}.
 %if %{with wayland}
     -Dwaffle_has_wayland=1 \
 %endif
-    -Dwaffle_build_manpages=1 -Dwaffle_build_htmldocs=1 .
+    -Dwaffle_build_manpages=1 -Dwaffle_build_htmldocs=1
 
-make VERBOSE=1 %{?_smp_mflags}
+%cmake_build
 
 # We don’t want to install binary files in %%docdir
 rm -rf examples/CMakeFiles
 
 %install
-make install DESTDIR=%{buildroot}
+%cmake_install
 # Fedora now uses unversioned doc dirs, make install shouldn’t try to
 # install there anyway.
 rm -rf %{buildroot}%{_docdir}/%{name}*
@@ -109,6 +109,9 @@ rm -rf %{buildroot}%{_docdir}/%{name}*
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 01 2020 Kalev Lember <klember@redhat.com> - 1.6.1-1
 - Update to 1.6.1
 - Use license macro for LICENSE.txt

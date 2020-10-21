@@ -3,7 +3,7 @@
 
 # https://github.com/kr/pretty
 %global goipath         github.com/kr/pretty
-Version:                0.1.0
+Version:                0.2.1
 
 %gometa
 
@@ -17,7 +17,7 @@ debugging, to avoid wrapping long output lines in the terminal.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        5%{?dist}
+Release:        1%{?dist}
 Summary:        Pretty printing for go values
 
 License:        MIT
@@ -48,6 +48,15 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Sun Aug 23 12:35:10 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.2.1-1
+- Update to 0.2.1
+
+* Tue Jul 28 20:23:58 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.2.0-1
+- Update to 0.2.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:		python-makefun
 Version:	1.6.11
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Dynamically create python functions with a proper signature
 
 License:	BSD
@@ -52,6 +52,9 @@ sed -r -i "s/'pandoc', //" setup.py
 %{python3_sitelib}/makefun-%{version}.dist-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.11-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.6.11-3
 - Rebuilt for Python 3.9
 

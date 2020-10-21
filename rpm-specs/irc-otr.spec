@@ -1,7 +1,7 @@
 
 Name:           irc-otr
 Version:        1.0.2
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Off-The-Record Messaging plugin for irssi
 License:        GPLv2+
 URL:            https://github.com/cryptodotis/irssi-otr
@@ -42,6 +42,9 @@ chmod +x $RPM_BUILD_ROOT%{_libdir}/irssi/modules/libotr.so
 %{_datadir}/irssi/help/otr
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

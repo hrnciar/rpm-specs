@@ -1,29 +1,30 @@
-Name:           python-pyro 
-Version:        4.71
-Release:        11%{?dist}
+%global pypi_name pyro
+
+Name:           python-%{pypi_name}
+Version:        4.80
+Release:        1%{?dist}
 Summary:        PYthon Remote Objects
 
 License:        MIT 
-URL:            http://packages.python.org/Pyro4/ 
-Source0:        http://pypi.python.org/packages/source/P/Pyro4/Pyro4-%{version}.tar.gz
-
+URL:            https://github.com/irmen/Pyro4/
+Source0:        %{pypi_source Pyro4}
 BuildArch:      noarch 
-BuildRequires: python3-devel
-BuildRequires: python3-setuptools
-BuildRequires: /usr/bin/2to3
 
-%global _description\
-Pyro provides an object-oriented form of RPC. You can use Pyro within a\
-single system but also use it for IPC. For those that are familiar with\
-Java, Pyro resembles Java's Remote Method Invocation (RMI). It is less\
-similar to CORBA - which is a system- and language independent Distributed\
+%description
+Pyro provides an object-oriented form of RPC. You can use Pyro within a
+single system but also use it for IPC. For those that are familiar with
+Java, Pyro resembles Java's Remote Method Invocation (RMI). It is less
+similar to CORBA - which is a system- and language independent Distributed
 Object Technology and has much more to offer than Pyro or RMI.
 
-%description %_description
-
-%package -n python3-pyro
+%package -n python3-%{pypi_name}
 Summary:        Python Remote Objects
-%description -n python3-pyro
+
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
+%{?python_provide:%python_provide python3-%{pypi_name}}
+
+%description -n python3-%{pypi_name}
 Pyro provides an object-oriented form of RPC. You can use Pyro within a
 single system but also use it for IPC. For those that are familiar with
 Java, Pyro resembles Java's Remote Method Invocation (RMI). It is less
@@ -52,13 +53,19 @@ chmod -x examples/echoserver/{Readme.txt,client.py}
 chmod -x examples/gui_eventloop/{gui_threads.py,gui_nothreads.py}
 chmod -x examples/maxsize/Readme.txt
 
-%files -n python3-pyro
+%files -n python3-%{pypi_name}
 %doc docs/* examples LICENSE
 %{python3_sitelib}/Pyro4
 %{python3_sitelib}/Pyro4-*.egg-info
 %{_bindir}/pyro4*
 
 %changelog
+* Thu Jul 16 2020 Fabian Affolter <mail@fabian-affolter.ch> - 4.80-1
+- Update to latest upstream release 4.80 (rhbz#1857281)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.71-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.71-11
 - Rebuilt for Python 3.9
 

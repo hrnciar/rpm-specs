@@ -6,7 +6,7 @@
 %define __perl_provides %{nil}
 
 Name:           moodle
-Version:        3.9
+Version:        3.9.2
 Release:       	1%{?dist}
 Summary:        A Course Management System
 
@@ -214,6 +214,15 @@ end
 %{_datadir}/php/php-simplepie/moodle_simplepie.php
 
 %changelog
+* Mon Sep 14 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.9.2-1
+- 3.9.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.9.1-1
+- 3.9.1
+
 * Fri Jun 19 2020 Gwyn Ciesla <gwync@protonmail.com> - 3.9-1
 - 3.9
 

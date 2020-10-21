@@ -2,14 +2,13 @@
 %global gem_name ruby-dbus
 
 Name: rubygem-%{gem_name}
-Version: 0.11.0
-Release: 9%{?dist}
+Version: 0.16.0
+Release: 2%{?dist}
 Summary: Ruby module for interaction with D-Bus
 # MIT: lib/dbus/core_ext/*
 License: LGPLv2+ and MIT
-URL: https://trac.luon.net/ruby-dbus
+URL: https://github.com/mvidner/ruby-dbus
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
-Patch0: rubygem-ruby-dbus-0.11.0-RSpec-3-compatibility.patch
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby
@@ -19,8 +18,7 @@ BuildRequires: %{_bindir}/dbus-daemon
 BuildArch: noarch
 
 %description
-Ruby D-Bus provides an implementation of the D-Bus protocol such that the
-D-Bus system can be used in the Ruby programming language.
+Pure Ruby module for interaction with D-Bus IPC system.
 
 
 %package doc
@@ -32,26 +30,34 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -c -T
-%gem_install -n %{SOURCE0}
+%setup -q -n %{gem_name}-%{version}
 
-pushd .%{gem_instdir}
-%patch0 -p1
-popd
+# Rakefile should not be executable.
+sed -i '1d' Rakefile
+chmod a-x Rakefile
 
-# fix rpmlint issue with Rakefile (should not have shebang)
-sed -i '1d' .%{gem_instdir}/Rakefile
+# Fix shebangs.
+find {examples,spec} -type f -executable -exec sed -i 's|env ||' '{}' \;
+find {examples,spec} -type f -executable -exec sed -r -i 's|#!.?/bin|#!/usr/bin|' '{}' \;
 
 %build
+# Create the gem as gem install only works on a gem file
+gem build ../%{gem_name}-%{version}.gemspec
+
+# %%gem_install compiles any C extensions and installs the gem into ./%%gem_dir
+# by default, so that we can move it into the buildroot in %%install
+%gem_install
 
 %install
 mkdir -p %{buildroot}%{gem_dir}
 cp -a .%{gem_dir}/* \
         %{buildroot}%{gem_dir}/
 
+
+
 %check
-pushd .%{gem_instdir}/test/tools
-./test_env rspec ../../test/
+pushd .%{gem_instdir}
+COVERAGE=false spec/tools/test_env rspec spec
 popd
 
 %files
@@ -63,16 +69,24 @@ popd
 
 %files doc
 %doc %{gem_docdir}
-%doc %{gem_instdir}/NEWS
+%exclude %{gem_instdir}/.rspec
+%doc %{gem_instdir}/NEWS.md
 %doc %{gem_instdir}/README.md
 %{gem_instdir}/VERSION
 %{gem_instdir}/Rakefile
 %doc %{gem_instdir}/doc
 %{gem_instdir}/examples
 %{gem_instdir}/ruby-dbus.gemspec
-%{gem_instdir}/test
+%{gem_instdir}/spec
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Vít Ondruch <vondruch@redhat.com> - 0.16.0-1
+- Update to ruby-dubs 0.16.0.
+  Resolves: rhbz#1336069
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

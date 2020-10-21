@@ -1,8 +1,14 @@
 %global octavedir %{_datadir}/octave/site/m/Csdp
 
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 Name:           csdp
 Version:        6.2.0
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        C library for SemiDefinite Programming
 
 License:        CPL
@@ -21,7 +27,7 @@ Source6:        %{name}-rand_graph.1
 Patch0:         %{name}-printf.patch
 
 BuildRequires:  gcc
-BuildRequires:  openblas-devel
+BuildRequires:  %{blaslib}-devel
 
 Provides:       coin-or-Csdp = %{version}-%{release}
 
@@ -78,18 +84,18 @@ SemiDefinite Programming.
 # libs.  We build by hand to contain the pain.
 
 # Choose the CFLAGS we want
-CFLAGS="%{optflags} -I../include -I%{_includedir}/openblas -DNOSHORTS -DUSESIGTERM -DUSEGETTIME"
+CFLAGS="%{optflags} -I../include -I%{_includedir}/%{blaslib} -DNOSHORTS -DUSESIGTERM -DUSEGETTIME"
 if [ %{__isa_bits} = "64" ]; then
   CFLAGS+=" -DBIT64"
 fi
 sed -i -e "s|^CFLAGS=.*|CFLAGS=${CFLAGS}|" \
-       -e "s|^LIBS=.*|LIBS=-Wl,--as-needed $RPM_LD_FLAGS -L../lib -lsdp -lopenblas -lm|" \
+       -e "s|^LIBS=.*|LIBS=-Wl,--as-needed $RPM_LD_FLAGS -L../lib -lsdp -l%{blaslib} -lm|" \
     solver/Makefile theta/Makefile
 
 # Build the shared library
 cd lib
 gcc ${CFLAGS} -DUSEOPENMP -fopenmp -fPIC -shared -Wl,--soname=libsdp.so.6 *.c \
-  -o libsdp.so.%{version} -Wl,--as-needed $RPM_LD_FLAGS -lgomp -lopenblas -lm
+  -o libsdp.so.%{version} -Wl,--as-needed $RPM_LD_FLAGS -lgomp -l%{blaslib} -lm
 ln -s libsdp.so.%{version} libsdp.so.6
 ln -s libsdp.so.6 libsdp.so
 
@@ -152,6 +158,12 @@ cp -p %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} \
 %{octavedir}
 
 %changelog
+* Mon Aug 10 2020 Iñaki Úcar <iucar@fedoraproject.org> - 6.2.0-10
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

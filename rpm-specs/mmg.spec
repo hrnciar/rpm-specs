@@ -1,5 +1,5 @@
 Name:           mmg
-Version:        5.4.3
+Version:        5.5.0
 Release:        1%{?dist}
 Summary:        Surface and volume remeshers
 
@@ -7,16 +7,15 @@ License:        LGPLv3+
 URL:            https://www.mmgtools.org/
 Source0:        https://github.com/MmgTools/mmg/archive/v%{version}/%{name}-%{version}.tar.gz
 
-# Set project language to C
-Patch0:         mmg_cmake.patch
-# Avoid multiple definition errors caused by including source file
-Patch1:         mmg_multiple-definitions.patch
 # Escape %% in docstring, else pdflatex fails
-Patch2:         mmg_docstring.patch
+Patch0:         mmg_docstring.patch
+# Avoid narrowing-conversion errors on platforms where char is unsigned
+Patch1:         mmg_signedchar.patch
 
 BuildRequires:  doxygen
 BuildRequires:  cmake
 BuildRequires:  gcc
+BuildRequires:  gcc-c++
 BuildRequires:  make
 BuildRequires:  scotch-devel
 
@@ -136,14 +135,14 @@ LDFLAGS="%{__global_ldflags} -Wl,--as-needed" %cmake \
     -Dlibmmg2d_so_SOVER=%{mmg2d_sover} \
     -Dlibmmg3d_so_SOVER=%{mmg3d_sover} \
     -Dlibmmgs_so_SOVER=%{mmgs_sover} \
-    -Dlibmmg_so_SOVER=%{mmg_sover} .
+    -Dlibmmg_so_SOVER=%{mmg_sover}
 
-%make_build
-make doc
+%cmake_build
+make doc -C %{__cmake_builddir}
 
 
 %install
-%make_install
+%cmake_install
 
 # Install suffix-less symlinks
 ln -s mmg2d_O3 %{buildroot}/%{_bindir}/mmg2d
@@ -188,7 +187,7 @@ install -Dpm 0644 doc/man/mmg3d.1.gz %{buildroot}%{_mandir}/man1/mmg3d.1.gz
 %{_libdir}/libmmg2d.so
 
 %files -n mmg2d-devel-doc
-%doc doc/mmg2d/html
+%doc %{__cmake_builddir}/doc/mmg2d/html
 
 %files -n mmgs
 %doc AUTHORS README.md
@@ -204,7 +203,7 @@ install -Dpm 0644 doc/man/mmg3d.1.gz %{buildroot}%{_mandir}/man1/mmg3d.1.gz
 %{_libdir}/libmmgs.so
 
 %files -n mmgs-devel-doc
-%doc doc/mmgs/html
+%doc %{__cmake_builddir}/doc/mmgs/html
 
 %files -n mmg3d
 %doc AUTHORS README.md
@@ -220,10 +219,16 @@ install -Dpm 0644 doc/man/mmg3d.1.gz %{buildroot}%{_mandir}/man1/mmg3d.1.gz
 %{_libdir}/libmmg3d.so
 
 %files -n mmg3d-devel-doc
-%doc doc/mmg3d/html
+%doc %{__cmake_builddir}/doc/mmg3d/html
 
 
 %changelog
+* Mon Oct 12 2020 Sandro Mani <manisandro@gmail.com> - 5.5.0-1
+- Update to 5.5.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 02 2020 Sandro Mani <manisandro@gmail.com> - 5.4.3-1
 - Update to 5.4.3
 

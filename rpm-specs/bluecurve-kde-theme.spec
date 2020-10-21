@@ -1,7 +1,7 @@
 Summary: Bluecurve KDE 3 theme
 Name: bluecurve-kde-theme
 Version: 1.0.0
-Release: 24%{?dist}
+Release: 26%{?dist}
 License: GPLv2
 # There is no official upstream yet
 Source0: %{name}-%{version}.tar.bz2
@@ -37,6 +37,13 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{_libdir}/qt-3.*/plugins/styles/bluecurve.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-26
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

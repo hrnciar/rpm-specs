@@ -1,13 +1,7 @@
-# The packaged OpenBLAS gives what appear to be optimal results on AVX
-# and older x86 systems -- essentially the same as the proprietary
-# BLAS. The packaged Atlas doesn't have AVX support and, in general,
-# needs to be built natively for optimal results.  However, OpenBLAS
-# is currently only packaged for x86.
-%{!?openblas_arches:%global openblas_arches x86_64 %{ix86} armv7hl %{power64} aarch64}
-%ifarch %{openblas_arches}
-%bcond_without openblas
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
 %else
-%bcond_with openblas
+%global blaslib openblas
 %endif
 
 %global _docdir_fmt %{name}
@@ -15,15 +9,11 @@
 Name:           hpl
 URL:            http://www.netlib.org/benchmark/hpl/
 Version:        2.2
-Release:        6%{?dist}
+Release:        9%{?dist}
 License:        BSD with advertising
 Requires:       %{name}-common = %{version}-%{release}
 BuildRequires:  mpich-devel, openmpi-devel
-%if %{with openblas}
-BuildRequires:  openblas-devel
-%else
-BuildRequires:  atlas-devel
-%endif
+BuildRequires:  %{blaslib}-devel
 Summary:        A Portable Implementation of the High-Performance Linpack Benchmark
 Source0:        http://www.netlib.org/benchmark/hpl/%{name}-%{version}.tar.gz
 # setup/Make.Linux_PII_CBLAS_gm tuned for Fedora
@@ -89,9 +79,7 @@ sed -i "s|\"hpl-%{version}.tar.gz\"|\"http://www.netlib.org/benchmark/hpl/hpl-%{
 %global dobuild() \
 cp setup/Make.Linux_PII_CBLAS_gm Make.$MPI_COMPILER \
 make TOPdir="%{_builddir}/%{name}-%{version}" arch=$MPI_COMPILER ARCH=$MPI_COMPILER \\\
-%if %{with openblas} \
- LAlib=-lopenblas \
-%endif
+  LAlib=-l%{blaslib}
 
 # Build OpenMPI version
 %{_openmpi_load}
@@ -161,6 +149,16 @@ popd
 
 
 %changelog
+* Wed Aug 12 2020 Iñaki Úcar <iucar@fedoraproject.org> - 2.2-9
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

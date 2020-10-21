@@ -15,7 +15,7 @@ Slowloris for NGINX DoS. Written in go.}
 
 Name:           goloris
 Version:        0
-Release:        0.1%{?dist}
+Release:        0.2%{?dist}
 Summary:        Slowloris for NGINX DoS
 
 License:        MIT
@@ -51,6 +51,9 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 16 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0-0.1.20200316gita59fafb
 - Initial package for Fedora
 

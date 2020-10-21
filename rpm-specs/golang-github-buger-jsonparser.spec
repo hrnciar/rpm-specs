@@ -3,7 +3,7 @@
 
 # https://github.com/buger/jsonparser
 %global goipath         github.com/buger/jsonparser
-%global commit          f7e751efca132eb5c767c4b0b20f68524ba89742
+Version:                1.0.0
 
 %gometa
 
@@ -19,8 +19,7 @@ and usage), allocates no memory.}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.9%{?dist}
+Release:        2%{?dist}
 Summary:        Alternative JSON parser for Go that does not require schema
 
 License:        MIT
@@ -48,6 +47,12 @@ rm benchmark/benchmark_{codecgen,easyjson,ffjson,{large,medium,small}_payload_te
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 18:24:02 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-1
+- Update to 1.0.0
+
 * Mon Apr 06 2020 Dominik Mierzejewski <dominik@greysector.net> - 0-0.9.20200406gitf7e751e
 - Bump to commit f7e751efca132eb5c767c4b0b20f68524ba89742 (fixes CVE-2020-10675)
 

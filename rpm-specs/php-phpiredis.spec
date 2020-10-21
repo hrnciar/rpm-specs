@@ -3,17 +3,19 @@
 #
 # remirepo spec file for php-phpiredis
 #
-# Copyright (c) 2016-2018 Remi Collet
+# Copyright (c) 2016-2020 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
 # Please, preserve the changelog entries
 #
 
+%bcond_without     tests
+
 # we don't want -z defs linker flag
 %undefine _strict_symbol_defs_build
 
-%global gh_commit  981d455034a48bb19db39c578e9c16d889289b99
+%global gh_commit  4b6e81fc73b9473123a353c7c71112bf66a420ae
 %global gh_short   %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner   nrk
 %global gh_project phpiredis
@@ -25,11 +27,10 @@
 %else
 %global ini_name   40-%{pecl_name}.ini
 %endif
-%global with_tests 0%{!?_without_tests:1}
 
 Name:           php-%{pecl_name}
-Version:        1.0.0
-Release:        15%{?dist}
+Version:        1.0.1
+Release:        1%{?dist}
 
 Summary:        Client extension for Redis
 
@@ -40,7 +41,7 @@ Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit
 BuildRequires:  php-devel
 BuildRequires:  php-pear
 BuildRequires:  hiredis-devel
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  redis
 %endif
 
@@ -55,7 +56,7 @@ Requires:       php(api) = %{php_core_api}
 
 
 %description
-Phpiredis is an extension for PHP 5.x and 7.x based on hiredis
+Phpiredis is an extension for PHP based on hiredis
 that provides a simple and efficient client for Redis and a fast
 incremental parser / serializer for the RESP protocol.
 
@@ -124,7 +125,7 @@ install -Dpm 644 %{ini_name} %{buildroot}%{php_ztsinidir}/%{ini_name}
     --modules | grep %{pecl_name}
 %endif
 
-%if %{with_tests}
+%if %{with tests}
 : Upstream test suite for NTS extension
 pidfile=$PWD/redis.pid
 port=$(%{__php} -r 'echo 9000 + PHP_MAJOR_VERSION*100 + PHP_MINOR_VERSION*10 + PHP_INT_SIZE;')
@@ -181,6 +182,16 @@ exit $ret
 
 
 %changelog
+* Mon Sep 21 2020 Remi Collet <remi@remirepo.net> - 1.0.1-1
+- update to 1.0.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-17
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

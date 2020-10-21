@@ -2,19 +2,20 @@
 
 Name:           jgoodies-looks
 Version:        2.6.0
-Release:        11%{?dist}
+Release:        15%{?dist}
 Summary:        Free high-fidelity Windows and multi-platform appearance
 
 License:        BSD
 URL:            http://www.jgoodies.com/freeware/looks/
 Source0:        http://www.jgoodies.com/download/libraries/%{shortname}/%{name}-%(tr "." "_" <<<%{version}).zip
+# Fix build with JDK 11
+Patch0:         %{name}-2.6.0-jdk11.patch
 
 # Fontconfig and DejaVu fonts needed for tests
 BuildRequires:  dejavu-sans-fonts
 BuildRequires:  fontconfig
 BuildRequires:  maven-local
 BuildRequires:  mvn(com.jgoodies:jgoodies-common) >= 1.8.0
-BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
 # JGoodies Looks >= 2.4.2 doesn't provide demo jars anymore
 Provides:       %{name}-demo = %{version}-%{release}
 Obsoletes:      %{name}-demo < 2.4.2
@@ -51,8 +52,13 @@ mv src/main/java/com/jgoodies/looks/plastic/icons/ src/main/resources/com/jgoodi
 mkdir -p src/main/resources/com/jgoodies/looks/common
 mv src/main/java/com/jgoodies/looks/common/*.png src/main/resources/com/jgoodies/looks/common/
 
+%patch0 -p0 -b .jdk11
+
 # Delete prebuild JARs
 find -name "*.jar" -exec rm {} \;
+
+# Drop Windows L&F support files (unsupported on JDK 11)
+rm -r src/main/java/com/jgoodies/looks/windows/
 
 # Fix wrong end-of-line encoding
 for file in LICENSE.txt RELEASE-NOTES.txt; do
@@ -60,6 +66,9 @@ for file in LICENSE.txt RELEASE-NOTES.txt; do
   touch -r $file.orig $file && \
   rm $file.orig
 done
+
+# remove unnecessary dependency on parent POM
+%pom_remove_parent
 
 %mvn_file :%{name} %{name} %{name}
 
@@ -81,6 +90,18 @@ done
 
 
 %changelog
+* Sun Aug 30 2020 Fabio Valentini <decathorpe@gmail.com> - 2.6.0-15
+- Remove unnecessary dependency on parent POM.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 2.6.0-13
+- Fix build with JDK11
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.6.0-12
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

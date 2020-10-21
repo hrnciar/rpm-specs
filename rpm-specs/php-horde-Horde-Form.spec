@@ -15,7 +15,7 @@
 
 Name:           php-horde-Horde-Form
 Version:        2.0.20
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Horde Form API
 
 License:        LGPLv2
@@ -140,6 +140,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.20-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar  9 2020 Remi Collet <remi@remirepo.net> - 2.0.20-1
 - update to 2.0.20
 

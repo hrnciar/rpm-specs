@@ -2,7 +2,7 @@
 
 Name:             python-%{modname}
 Version:          0.18.3
-Release:          4%{?dist}
+Release:          5%{?dist}
 Summary:          Mock D-Bus objects
 
 License:          LGPLv3+
@@ -55,6 +55,9 @@ rm -rf python-%{modname}.egg-info
 %{python3_sitelib}/*%{modname}*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.18.3-4
 - Rebuilt for Python 3.9
 

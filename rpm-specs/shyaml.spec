@@ -1,6 +1,6 @@
 Name:           shyaml
 Version:        0.6.1
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        YAML for command line
 
 License:        BSD
@@ -14,6 +14,7 @@ Patch1:         %{name}.filelist.patch
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  %{py3_dist d2to1}
 BuildRequires:  %{py3_dist pyyaml}
 
@@ -45,6 +46,12 @@ of YAML file.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Till Hofmann <thofmann@fedoraproject.org> - 0.6.1-7
+- Explicitly BR python3-setuptools (https://lists.fedoraproject.org/archives/list/devel@lists.fedoraproject.org/message/GCPGM34ZGEOVUHSBGZTRYR5XKHTIJ3T7/)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6.1-6
 - Rebuilt for Python 3.9
 

@@ -4,7 +4,7 @@
 
 Name:           pyproj
 Version:        2.6.1.post1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cython wrapper to provide python interfaces to Proj
 License:        MIT
 URL:            https://github.com/jswhit/%{name}
@@ -16,6 +16,7 @@ BuildRequires:  gcc
 BuildRequires:  proj-devel >= %{minimal_needed_proj_version}
 BuildRequires:  proj >= %{minimal_needed_proj_version}
 
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-devel
 BuildRequires:  python3-numpy
 BuildRequires:  python3-Cython
@@ -149,6 +150,9 @@ py.test-3
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.1.post1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.6.1.post1-2
 - Rebuilt for Python 3.9
 

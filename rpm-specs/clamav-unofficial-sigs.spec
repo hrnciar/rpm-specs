@@ -9,7 +9,7 @@
 %endif
 Name:           clamav-unofficial-sigs
 Version:        7.0.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Scripts to download unofficial clamav signatures 
 Group:          Applications/System
 License:        BSD
@@ -109,6 +109,9 @@ rm -rf %{buildroot}
 %{_mandir}/man*/%{name}*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 23 2020 Ján ONDREJ (SAL) <ondrejj(at)salstar.sk> - 7.0.1-5
 - Remove delay from cron script, doesn't work as expected.
 

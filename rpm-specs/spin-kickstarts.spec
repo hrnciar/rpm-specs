@@ -1,6 +1,6 @@
 Name:       spin-kickstarts
 Version:    0.31.0
-Release:    0.3%{?dist}
+Release:    0.4%{?dist}
 License:    GPLv2+
 Summary:    Kickstart files and templates for creating your own Fedora Spins
 URL:        https://pagure.io/fedora-kickstarts
@@ -64,6 +64,9 @@ make install DESTDIR=$RPM_BUILD_ROOT/usr
 %doc %{_datadir}/%{name}/l10n/README
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.31.0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.31.0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

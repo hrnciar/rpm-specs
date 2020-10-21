@@ -16,7 +16,7 @@ theory that these may well be added to native async generators one day).
 
 Name:           python-%{pkgname}
 Version:        1.10
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Async generators and context managers
 License:        MIT or ASL 2.0
 URL:            https://github.com/python-trio/async_generator
@@ -63,6 +63,9 @@ py.test-%{python3_version} --verbose
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 1.10-7
 - Rebuilt for Python 3.9
 

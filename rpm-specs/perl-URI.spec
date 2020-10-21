@@ -1,9 +1,13 @@
-# Utilize Business::ISBN that needs gd library
+# Support isbn URN via Business::ISBN that needs gd library
+%if 0%{?rhel}
+%bcond_with perl_URI_enables_Business_ISBN
+%else
 %bcond_without perl_URI_enables_Business_ISBN
+%endif
 
 Name:           perl-URI
 Version:        1.76
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        A Perl module implementing URI parsing and manipulation
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/URI
@@ -70,10 +74,10 @@ chmod -c 644 uri-test
 
 %build
 perl Makefile.PL INSTALLDIRS=perl NO_PACKLIST=true NO_PERLLOCAL=true
-make %{?_smp_mflags}
+%{make_build}
 
 %install
-make install DESTDIR=%{buildroot}
+%{make_install}
 %{_fixperms} -c %{buildroot}
 
 %check
@@ -97,6 +101,12 @@ make test
 %{_mandir}/man3/URI::ldap.3*
 
 %changelog
+* Tue Jul 28 2020 Petr Pisar <ppisar@redhat.com> - 1.76-9
+- Modernize a spec file
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.76-8
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.76-7
 - Perl 5.32 rebuild
 

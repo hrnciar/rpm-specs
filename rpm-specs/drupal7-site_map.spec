@@ -4,7 +4,7 @@
 
 Name:          drupal7-%{module}
 Version:       1.3
-Release:       10%{?dist}
+Release:       11%{?dist}
 Summary:       Provides a site map that gives visitors an overview of your site
 
 License:       GPLv2+
@@ -46,6 +46,9 @@ cp -pr * %{buildroot}%{drupal7_modules}/%{module}/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Shawn Iwinski <shawn.iwinski@gmail.com> - 1.3-10
 - Bump build requires drupal7-rpmbuild to ">= 7.70-2" to fix F32+ auto provides
 

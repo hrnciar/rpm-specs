@@ -1,5 +1,5 @@
 Name:     nng
-Version:  1.3.0
+Version:  1.3.2
 Release:  1%{?dist}
 Summary:  nanomsg next generation: light-weight brokerless messaging
 
@@ -47,10 +47,10 @@ sockets and bindings, which can include local and remote connections.
        -DNNG_SUPP_TLS=ON -DNNG_SUPP_WEBSOCKET=ON -DNNG_ENABLE_NNGCAT=ON \
        -DNNG_TESTS=ON -DNNG_ENABLE_DOC=ON .
 
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 # No need to ship dev docs as both html and man format
 rm -rf %{buildroot}/%{_mandir}/man[3-7]*
 
@@ -71,6 +71,19 @@ rm -rf %{buildroot}/%{_mandir}/man[3-7]*
 %{_mandir}/man1/nngcat.1.gz
 
 %changelog
+* Tue Sep 08 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.3.2-1
+- Update to 1.3.2
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.3.1-1
+- Update to 1.3.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 03 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.3.0-1
 - Update to latest upstream release 1.3.0 (rhbz#1808813)
 

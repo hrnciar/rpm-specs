@@ -1,13 +1,11 @@
 Name:       ibus-handwrite
 Version:    3.0.0
-Release:    13%{?dist}
+Release:    15%{?dist}
 Summary:    IBus handwrite project
 License:    GPLv2+
 URL:        http://code.google.com/p/ibus-handwrite/
 Source0:    https://github.com/microcai/ibus-handwrite/releases/download/3.0/%{name}-%{version}.tar.bz2
-#Patch0:     ibus-handwrite-2.0.1-fixes-ibus-component-xml.patch
-#Patch1:     ibus-handwrite-add-tooltip.patch
-#Patch2:     fixes-escape-input.patch
+Patch0:     fixes-blink-issue.patch
 
 BuildRequires:  autoconf
 BuildRequires:  gcc
@@ -37,9 +35,7 @@ The %{name}-zh_CN package provide Simplified Chinese handwrite input method.
 
 %prep
 %setup -q
-#%patch0 -p1 -b .component
-#%patch1 -p1 -b .tooltip
-#%patch2 -p1 -b .esc
+%patch0 -p1 -b .blink
 
 %build
 #./autogen.sh
@@ -122,6 +118,12 @@ EOF
 %{_datadir}/ibus/component/handwrite-zh.xml
 
 %changelog
+* Wed Aug 26 2020 Peng Wu <pwu@redhat.com> - 3.0.0-15
+- Fixes blink issue
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

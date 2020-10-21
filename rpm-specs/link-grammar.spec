@@ -1,7 +1,7 @@
 Summary: A full-service natural language dependency parser
 Name: link-grammar
 Version: 5.8.0
-Release: 2%{?dist}
+Release: 4%{?dist}
 License: LGPLv2+
 Source: http://www.abisource.com/downloads/link-grammar/%{version}/link-grammar-%{version}.tar.gz
 URL: http://abisource.com/projects/link-grammar/
@@ -104,6 +104,12 @@ find $RPM_BUILD_ROOT/%{_libdir}/ -name '*.la' | xargs rm -f
 %ldconfig_scriptlets java
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.8.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 5.8.0-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.8.0-2
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           libssh
-Version:        0.9.4
-Release:        2%{?dist}
+Version:        0.9.5
+Release:        1%{?dist}
 Summary:        A library implementing the SSH protocol
 License:        LGPLv2+
 URL:            http://www.libssh.org
@@ -10,9 +10,6 @@ Source1:        https://www.libssh.org/files/0.9/%{name}-%{version}.tar.xz.asc
 Source2:        https://cryptomilk.org/gpgkey-8DFF53E18F2ABC8D8F3C92237EE0FC4DCC014E3D.gpg#/%{name}.keyring
 Source3:        libssh_client.config
 Source4:        libssh_server.config
-
-Patch0:         libssh-0.9.4-enable-sshd-sha1-algorithms.patch
-Patch1:         libssh-0.9.4-fix-version.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -69,24 +66,17 @@ gpgv2 --quiet --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %autosetup -p1
 
 %build
-if test ! -e "obj"; then
-  mkdir obj
-fi
-pushd obj
-
-%cmake .. \
+%cmake \
     -DUNIT_TESTING=ON \
     -DCLIENT_TESTING=ON \
     -DSERVER_TESTING=ON \
     -DGLOBAL_CLIENT_CONFIG="%{_sysconfdir}/libssh/libssh_client.config" \
     -DGLOBAL_BIND_CONFIG="%{_sysconfdir}/libssh/libssh_server.config"
 
-%make_build VERBOSE=1
-
-popd
+%cmake_build
 
 %install
-make DESTDIR=%{buildroot} install/fast -C obj
+%cmake_install
 install -d -m755 %{buildroot}%{_sysconfdir}/libssh
 install -m644 %{SOURCE3} %{buildroot}%{_sysconfdir}/libssh/libssh_client.config
 install -m644 %{SOURCE4} %{buildroot}%{_sysconfdir}/libssh/libssh_server.config
@@ -112,9 +102,9 @@ popd
 %ldconfig_scriptlets
 
 %check
-pushd obj
-ctest --output-on-failure
-popd
+# Tests are randomly failing when run in parallel
+%global _smp_build_ncpus 1
+%ctest
 
 %files
 %doc AUTHORS BSD ChangeLog README
@@ -137,6 +127,25 @@ popd
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/libssh/libssh_server.config
 
 %changelog
+* Thu Sep 10 2020 Anderson Sasaki <ansasaki@redhat.com> - 0.9.5-1
+- Update to version 0.9.5
+  https://www.libssh.org/2020/09/10/libssh-0-9-5/
+- Removed patch to re-enable algorithms using sha1 in sshd for testing
+- The algorithms supported by sshd are now automatically detected for testing
+- Resolves: #1862457 - CVE-2020-16135
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 22 2020 Anderson Sasaki <ansasaki@redhat.com> - 0.9.4-3
+- Do not return error when server properly closed the channel (#1849069)
+- Add a test for CVE-2019-14889
+- Do not parse configuration file in torture_knownhosts test
+
 * Wed Apr 15 2020 Anderson Sasaki <ansasaki@redhat.com> - 0.9.4-2
 - Added patch to fix returned version
 

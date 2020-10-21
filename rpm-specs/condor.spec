@@ -1,5 +1,5 @@
 %global newname         htcondor
-%global srcver          8_8_8
+%global srcver          8_8_10
 
 %ifarch %{arm} %{ix86} x86_64
 %global with_mongodb    1
@@ -19,8 +19,8 @@
 
 #######################
 Name:           condor
-Version:        8.8.8
-Release:        4%{?dist}
+Version:        8.8.10
+Release:        2%{?dist}
 Summary:        HTCondor: High Throughput Computing
 License:        ASL 2.0
 URL:            http://research.cs.wisc.edu/htcondor/
@@ -38,9 +38,9 @@ Patch1:         condor-gahp.patch
 # breaks the new cflag "-Werror=format-security" passed in from build system:
 Patch2:         Werror_replace.patch
 Patch3:         libdl.patch
-Patch4:         python-boost.patch
+Patch4:		python-boost.patch
 Patch5:         python-scripts.patch
-Patch7:         boost-python38.patch
+Patch6:         boost-python38.patch
 
 #######################
 BuildRequires: gcc gcc-c++
@@ -57,6 +57,7 @@ BuildRequires: libX11-devel
 BuildRequires: libcurl-devel
 BuildRequires: expat-devel
 BuildRequires: openldap-devel
+BuildRequires: python3-setuptools
 BuildRequires: python3-sphinx
 BuildRequires: python3-sphinx_rtd_theme
 BuildRequires: boost-devel
@@ -365,7 +366,6 @@ exit 0
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch7 -p1
 cp %{SOURCE1} %{name}-tmpfiles.conf
 cp %{SOURCE2} %{name}.service
 cp %{SOURCE3} .
@@ -409,7 +409,7 @@ make -C docs man
        -DWITH_PYTHON_BINDINGS:BOOL=TRUE \
        -DWITH_LIBCGROUP:BOOL=TRUE
 
-make %{?_smp_mflags}
+%cmake_build
 
 %install
 # installation happens into a temporary location, this function is
@@ -421,7 +421,7 @@ function populate {
 }
 
 rm -rf %{buildroot}
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 # The install target puts etc/ under usr/, let's fix that.
 mv %{buildroot}/usr/etc %{buildroot}/%{_sysconfdir}
@@ -773,6 +773,7 @@ rm -rf %{buildroot}/etc/examples
 %_bindir/condor_job_router_info
 %_bindir/condor_update_machine_ad
 %_bindir/condor_annex
+%_bindir/condor_nsenter
 %_sbindir/condor_advertise
 %_sbindir/condor_aklog
 %_sbindir/condor_c-gahp
@@ -985,6 +986,7 @@ rm -rf %{buildroot}/etc/examples
 %_includedir/classad/lexer.h
 %_includedir/classad/lexerSource.h
 %_includedir/classad/literals.h
+
 %_includedir/classad/matchClassad.h
 %_includedir/classad/operators.h
 %_includedir/classad/query.h
@@ -1058,6 +1060,22 @@ rm -rf %{buildroot}/etc/examples
 /sbin/ldconfig
 
 %changelog
+* Mon Oct 05 2020 Ben Cotton <bcotton@fedoraproject.org> - 8.8.10-2
+- Add explicit BR for python3-setuptools
+
+* Thu Aug 06 2020 Ben Cotton <bcotton@fedoraproject.org> - 8.8.10-1
+- Update to latest upstream 8.8.10
+
+* Mon Aug 03 2020 Ben Cotton <bcotton@fedoraproject.org> 8.8.8-7
+- Fix cmake build issues
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.8.8-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.8.8-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Jonathan Wakely <jwakely@redhat.com> - 8.8.8-4
 - Rebuilt for Boost 1.73
 

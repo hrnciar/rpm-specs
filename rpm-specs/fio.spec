@@ -1,11 +1,15 @@
 Name:		fio
-Version:	3.20
-Release:	1%{?dist}
+Version:	3.23
+Release:	5%{?dist}
 Summary:	Multithreaded IO generation tool
 
 License:	GPLv2
 URL:		http://git.kernel.dk/?p=fio.git;a=summary
 Source:		http://brick.kernel.dk/snaps/%{name}-%{version}.tar.bz2
+
+# Not upstream yet, see:
+# https://bugzilla.redhat.com/show_bug.cgi?id=1884954#c8
+Patch1:         0001-fio-fix-dynamic-engines-soname-definition.patch
 
 BuildRequires:	gcc
 BuildRequires:	libaio-devel
@@ -28,6 +32,30 @@ BuildRequires:	numactl-devel
 BuildRequires:	librdmacm-devel
 %endif
 
+# Don't create automated dependencies for the fio engines.
+# https://bugzilla.redhat.com/show_bug.cgi?id=1884954
+%global __provides_exclude_from ^%{_libdir}/fio/
+
+# Main fio package has soft dependencies on all the engine
+# subpackages, but allows the engines to be uninstalled if not needed
+# or if the dependencies are too onerous.
+Recommends:     %{name}-engine-libaio
+%ifarch x86-64
+Recommends:     %{name}-engine-dev-dax
+Recommends:     %{name}-engine-http
+%endif
+Recommends:     %{name}-engine-nbd
+%ifarch x86_64
+Recommends:     %{name}-engine-pmemblk
+%endif
+%ifnarch %{arm} %{ix86}
+Recommends:     %{name}-engine-rados
+Recommends:     %{name}-engine-rbd
+%endif
+%ifnarch %{arm}
+Recommends:     %{name}-engine-rdma
+%endif
+
 %description
 fio is an I/O tool that will spawn a number of threads or processes doing
 a particular type of io action as specified by the user.  fio takes a
@@ -36,8 +64,72 @@ otherwise parameters given to them overriding that setting is given.
 The typical use of fio is to write a job file matching the io load
 one wants to simulate.
 
+%package engine-libaio
+Summary:        Linux libaio engine for %{name}.
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description engine-libaio
+Linux libaio engine for %{name}.
+
+%ifarch x86_64
+%package engine-dev-dax
+Summary:        PMDK dev-dax engine for %{name}.
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description engine-dev-dax
+PMDK dev-dax engine for %{name}.
+
+%package engine-http
+Summary:        HTTP engine for %{name}.
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description engine-http
+HTTP engine for %{name}.
+%endif
+
+%package engine-nbd
+Summary:        Network Block Device engine for %{name}.
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description engine-nbd
+Network Block Device (NBD) engine for %{name}.
+
+%ifarch x86_64
+%package engine-pmemblk
+Summary:        PMDK pmemblk engine for %{name}.
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description engine-pmemblk
+PMDK pmemblk engine for %{name}.
+%endif
+
+%ifnarch %{arm} %{ix86}
+%package engine-rados
+Summary:        Rados engine for %{name}.
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description engine-rados
+Rados engine for %{name}.
+
+%package engine-rbd
+Summary:        Rados Block Device engine for %{name}.
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description engine-rbd
+Rados Block Device (RBD) engine for %{name}.
+%endif
+
+%ifnarch %{arm}
+%package engine-rdma
+Summary:        RDMA engine for %{name}.
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description engine-rdma
+RDMA engine for %{name}.
+%endif
+
 %prep
-%setup -q
+%autosetup -p1
 
 pathfix.py -i %{__python3} -pn \
  tools/fio_jsonplus_clat2csv \
@@ -46,22 +138,80 @@ pathfix.py -i %{__python3} -pn \
  tools/plot/fio2gnuplot \
  t/steadystate_tests.py
 
+# Edit /usr/lib path in os/os-linux.h to match Fedora conventions.
+sed -e 's,/usr/lib/,%{_libdir}/,g' -i os/os-linux.h
+
+
 %build
-./configure --disable-optimizations --enable-libnbd
+./configure --disable-optimizations --enable-libnbd --dynamic-libengines
 EXTFLAGS="$RPM_OPT_FLAGS" LDFLAGS="$RPM_LD_FLAGS" make V=1 %{?_smp_mflags}
 
 %install
-make install prefix=%{_prefix} mandir=%{_mandir} DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
+make install prefix=%{_prefix} mandir=%{_mandir} libdir=%{_libdir}/fio DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 
 %files
-%doc README REPORTING-BUGS COPYING HOWTO examples
+%doc README REPORTING-BUGS HOWTO examples
 %doc MORAL-LICENSE GFIO-TODO SERVER-TODO STEADYSTATE-TODO
+%license COPYING
 %dir %{_datadir}/%{name}
+%dir %{_libdir}/fio/
 %{_bindir}/*
 %{_mandir}/man1/*
 %{_datadir}/%{name}/*
 
+%files engine-libaio
+%{_libdir}/fio/libaio.so
+
+%ifarch x86_64
+%files engine-dev-dax
+%{_libdir}/fio/libdev-dax.so
+
+%files engine-http
+%{_libdir}/fio/libhttp.so
+%endif
+
+%files engine-nbd
+%{_libdir}/fio/libnbd.so
+
+%ifarch x86_64
+%files engine-pmemblk
+%{_libdir}/fio/libpmemblk.so
+%endif
+
+%ifnarch %{arm} %{ix86}
+%files engine-rados
+%{_libdir}/fio/librados.so
+
+%files engine-rbd
+%{_libdir}/fio/librbd.so
+%endif
+
+%ifnarch %{arm}
+%files engine-rdma
+%{_libdir}/fio/librdma.so
+%endif
+
 %changelog
+* Mon Oct 05 2020 Richard W.M. Jones <rjones@redhat.com> 3.23-5
+- Disable automatic provides for fio engines (RHBZ#1884954).
+- Apply patch to change SONAME of fio engines (see comment 8 of above bug).
+
+* Thu Oct 01 2020 Richard W.M. Jones <rjones@redhat.com> 3.23-3
+- Add soft dependencies from main package to all the subpackages.
+
+* Thu Oct 01 2020 Richard W.M. Jones <rjones@redhat.com> 3.23-2
+- Enable dynamically loaded engines support.
+- Move license to %%license section.
+
+* Tue Sep 08 2020 Eric Sandeen <sandeen@redhat.com> 3.23-1
+- New upstream version
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.21-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Eric Sandeen <sandeen@redhat.com> 3.21-1
+- New upstream version
+
 * Wed Jun 03 2020 Eric Sandeen <sandeen@redhat.com> 3.20-1
 - New upstream version
 

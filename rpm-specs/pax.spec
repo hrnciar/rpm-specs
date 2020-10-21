@@ -3,7 +3,7 @@
 Summary: POSIX File System Archiver
 Name: pax
 Version: 3.4
-Release: 35%{?dist}
+Release: 36%{?dist}
 License: BSD
 
 # 2018-07-24 upstream maintainer contacted about non-working URLs
@@ -102,6 +102,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4-36
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Petr Kubat <pkubat@redhat.com> - 3.4-35
 - Move upstream URLs to fedora git
 

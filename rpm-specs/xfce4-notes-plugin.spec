@@ -5,7 +5,7 @@
 
 Name:           xfce4-notes-plugin
 Version:        1.8.1
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        Notes plugin for the Xfce panel
 
 License:        GPLv2+
@@ -63,6 +63,9 @@ desktop-file-validate \
 %{_datadir}/%{name}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

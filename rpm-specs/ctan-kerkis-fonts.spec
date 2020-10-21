@@ -13,7 +13,7 @@ that occur in variant forms.
 
 Name:           ctan-kerkis-fonts
 Version:        2.0
-Release:        38%{?dist}
+Release:        39%{?dist}
 Summary:        Kerkis Type 1 fonts
 License:        LPPL
 URL:            http://www.ctan.org/pkg/kerkis
@@ -111,6 +111,9 @@ done
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-39
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-38
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:       perl-File-RsyncP
-Version:    0.74
-Release:    19%{?dist}
+Version:    0.76
+Release:    1%{?dist}
 Summary:    A perl implementation of an Rsync client
 # https://fedoraproject.org/wiki/Licensing:FAQ?rd=Licensing/FAQ#What_about_the_RSA_license_on_their_MD5_implementation.3F_Isn.27t_that_GPL-incompatible.3F
 License:    GPLv2 and GPLv3 and (GPL+ or Artistic)
@@ -63,6 +63,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Sep 29 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.76-1
+- 0.76 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.74-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.74-19
 - Perl 5.32 rebuild
 

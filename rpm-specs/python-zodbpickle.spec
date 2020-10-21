@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        2.0.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Fork of Python 2 pickle module for ZODB
 
 # Code taken from the python 3 sources is covered by the Python license.
@@ -30,16 +30,12 @@ This package presents a uniform pickling interface for ZODB:
   extension) from Python 3.5, 3.6, 3.7, and 3.8.  The fork adds support
   for the noload operations used by ZODB.}
 
-%description
-%{common_desc}
+%description %{common_desc}
 
 %package -n python3-%{srcname}
 Summary:        Fork of Python 3 pickle module for ZODB
 
-%{?python_provide:%python_provide python3-%{srcname}}
-
-%description -n python3-%{srcname}
-%{common_desc}
+%description -n python3-%{srcname} %{common_desc}
 
 %prep
 %autosetup -p0 -n %{srcname}-%{version}
@@ -63,6 +59,9 @@ chmod 0755 %{buildroot}%{python3_sitearch}/%{srcname}/*.so
 %{python3_sitearch}/%{srcname}*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jerry James <loganjerry@gmail.com> - 2.0.0-4
 - BR setuptools
 - Drop unneeded nose BR

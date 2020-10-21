@@ -4,25 +4,25 @@
 # debuginfo package for the empty main package.
 %global debug_package %{nil}
 
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 Name:           eigen3
-Version:        3.3.7
-Release:        4%{?dist}
+Version:        3.3.8
+Release:        2%{?dist}
 Summary:        A lightweight C++ template library for vector and matrix math
 
 License:        MPLv2.0 and LGPLv2+ and BSD
 URL:            http://eigen.tuxfamily.org/index.php?title=Main_Page
 Source0:        https://gitlab.com/libeigen/eigen/-/archive/%{version}/eigen-%{version}.tar.bz2
 
-# Install FindEigen3.cmake
-# Adapted from Debian eigen3 package
-Patch0:         01_install_FindEigen3.patch
+# Drop reference to undefined Eigen::eigen_assert_exception (FIXME??)
+Patch0:         eigen_assert_exception.patch
 
-# Fix pkg-config file
-Patch1:         eigen_pkgconfig.patch
-# Fix the include paths in the new Eigen3Config.cmake file
-Patch2:         eigen3-3.3.1-fixcmake.patch
-
-BuildRequires:  atlas-devel
+BuildRequires:  %{blaslib}-devel
 BuildRequires:  fftw-devel
 BuildRequires:  glew-devel
 BuildRequires:  gmp-devel
@@ -72,46 +72,58 @@ Developer documentation for Eigen.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%cmake .. -DINCLUDE_INSTALL_DIR=%{_includedir}/eigen3 \
-  -DBLAS_LIBRARIES="cblas" \
-  -DSUPERLU_INCLUDES=%{_includedir}/SuperLU \
-  -DSCOTCH_INCLUDES=%{_includedir} -DSCOTCH_LIBRARIES="scotch" \
-  -DMETIS_INCLUDES=%{_includedir} -DMETIS_LIBRARIES="metis" \
-  -DCMAKEPACKAGE_INSTALL_DIR=%{_datadir}/%{name}
-popd
+%cmake \
+    -DINCLUDE_INSTALL_DIR=include/%{name} \
+    -DBLAS_LIBRARIES="-l%{blaslib}" \
+    -DSUPERLU_INCLUDES=%{_includedir}/SuperLU \
+    -DSCOTCH_INCLUDES=%{_includedir} -DSCOTCH_LIBRARIES="scotch" \
+    -DMETIS_INCLUDES=%{_includedir} -DMETIS_LIBRARIES="metis" \
+    -DCMAKEPACKAGE_INSTALL_DIR=share/cmake/%{name}
 
-%make_build -C %{_target_platform}
-%make_build doc -C %{_target_platform}
+%cmake_build
+%cmake_build --target doc
 
-rm -f %{_target_platform}/doc/html/installdox
-rm -f %{_target_platform}/doc/html/unsupported/installdox
+rm -f %{_vpath_builddir}/doc/html/installdox
+rm -f %{_vpath_builddir}/doc/html/unsupported/installdox
 
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 
 
 %check
 # Run tests but make failures non-fatal. Note that upstream doesn't expect the
 # tests to pass consistently since they're seeded randomly.
-#make_build buildtests -C %{_target_platform}
-#make_build test -C %{_target_platform} test ARGS="-V" || :
+#cmake_build --target buildtests
+#cmake_build --target test -- test ARGS="-V" || :
 
 
 %files devel
 %license COPYING.README COPYING.BSD COPYING.MPL2 COPYING.LGPL
-%{_includedir}/eigen3
-%{_datadir}/%{name}
-%{_datadir}/pkgconfig/*
-%{_datadir}/cmake/Modules/*.cmake
+%{_includedir}/%{name}
+%{_datadir}/cmake/%{name}
+%{_datadir}/pkgconfig/%{name}.pc
 
 %files doc
-%doc %{_target_platform}/doc/html
+%doc %{_vpath_builddir}/doc/html
 
 
 %changelog
+* Mon Oct 05 2020 Sandro Mani <manisandro@gmail.com> - 3.3.8-2
+- Drop reference to undefined Eigen::eigen_assert_exception
+
+* Mon Oct 05 2020 Sandro Mani <manisandro@gmail.com> - 3.3.8-1
+- Update to 3.3.8
+
+* Tue Sep 01 2020 Iñaki Úcar <iucar@fedoraproject.org> - 3.3.7-7
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Sat Aug 29 2020 Fabio Valentini <decathorpe@gmail.com> - 3.3.7-6
+- Adapt to CMake macros changes in fedora 33+.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.7-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.7-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

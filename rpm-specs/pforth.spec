@@ -7,7 +7,7 @@
 
 Name:           pforth
 Version:        28
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Portable ANS-like Forth
 
 License:        Public Domain
@@ -53,6 +53,13 @@ install -pm644 build/unix/pforth.dic %{buildroot}%{pforth_datadir}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 28-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 28-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 28-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

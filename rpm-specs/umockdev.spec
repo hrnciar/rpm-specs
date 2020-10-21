@@ -1,5 +1,5 @@
 Name:             umockdev
-Version:          0.14.1
+Version:          0.14.3
 Release:          1%{?dist}
 Summary:          Mock hardware devices
 
@@ -81,6 +81,17 @@ rm -rf $RPM_BUILD_ROOT/%{_datadir}/doc/umockdev
 %{_datadir}/vala/vapi/umockdev-1.0.vapi
 
 %changelog
+* Mon Aug 24 2020 Bastien Nocera <bnocera@redhat.com> - 0.14.3-1
++ umockdev-0.14.3-1
+- Update to 0.14.3
+
+* Fri Jul 31 2020 Bastien Nocera <bnocera@redhat.com> - 0.14.2-1
++ umockdev-0.14.2-1
+- Update to 0.14.2 (#1861973)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 12 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 0.14.1-1
 - Update to 0.14.1 (#1802194)
 

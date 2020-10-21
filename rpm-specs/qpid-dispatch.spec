@@ -1,6 +1,7 @@
 # This package depends on automagic byte compilation
 # https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
+%global py_byte_compile 1
+%global __cmake_in_source_build 1
 
 # Define pkgdocdir for releases that don't define it already
 %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
@@ -32,8 +33,8 @@
 %global libwebsockets_minimum_version 3.2.0
 
 Name:          qpid-dispatch
-Version:       1.12.0
-Release:       2%{?dist}
+Version:       1.14.0
+Release:       1%{?dist}
 Summary:       Dispatch router for Qpid
 License:       ASL 2.0
 URL:           http://qpid.apache.org/
@@ -58,6 +59,7 @@ Source1:       docs-%{version}-1.tar.gz
 Patch4:        console-listener.patch
 
 BuildRequires: gcc
+BuildRequires: gcc-c++
 BuildRequires: make
 BuildRequires: cmake
 BuildRequires: qpid-proton-c-devel >= %{proton_minimum_version}
@@ -295,6 +297,16 @@ rm -fr %{buildroot}/%{_datarootdir}/qpid-dispatch/console/stand-alone
 
 
 %changelog
+* Wed Sep 16 2020 Irina Boverman <iboverma@redhat.com> - 1.14.0-1
+- Rebased to 1.14.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.12.0-2
 - Rebuilt for Python 3.9
 

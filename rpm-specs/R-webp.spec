@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          1.0
-Release:          5%{?dist}
+Release:          7%{?dist}
 Summary:          A New Format for Lossless and Lossy Image Compression
 
 License:          MIT
@@ -63,6 +63,13 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 1.0-5
 - rebuild for R 4
 

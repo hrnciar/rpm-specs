@@ -1,6 +1,6 @@
 Name:		3Depict
 Version:	0.0.22
-Release:	6%{?dist}
+Release:	8%{?dist}
 Summary:	Valued 3D point cloud visualization and analysis
 
 
@@ -72,6 +72,7 @@ touch -r aclocal.m4 configure configure.ac
 %endif
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure --disable-debug-checks --enable-openmp-parallel 
 make %{?_smp_mflags}
 
@@ -125,6 +126,12 @@ mv docs/manual-latex/manual.pdf %{name}-%{version}-manual.pdf
 
 
 %changelog
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 0.0.22-8
+- Force C++14 as this code is not C++17 ready
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.22-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.22-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 Name:          %{srcname}
 Version:       0.5
 # Used like this because upstream releases like 0.5-0
-Release:       0.48%{?dist}
+Release:       0.49%{?dist}
 Summary:       Python xmlstream and jabber IM protocol libs
 
 License:       LGPLv2+
@@ -55,6 +55,9 @@ chmod -x examples/*.py
 %{python3_sitelib}/jabber*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-0.49
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5-0.48
 - Rebuilt for Python 3.9
 

@@ -6,7 +6,7 @@
 Name:           mingw-%{mingw_pkg_name}
 Version:        2.11
 #Release:        0.2.%{prerelease}%{?dist}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Color Management Engine
 License:        MIT
 URL:            http://www.littlecms.com/
@@ -110,6 +110,9 @@ rm -rf ${RPM_BUILD_ROOT}/%{mingw64_mandir}
 %{mingw64_libdir}/liblcms2.a
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 17 2020 Thomas Sailer <t.sailer@alumni.ethz.ch> - 2.11-1
 - update to 2.11
 

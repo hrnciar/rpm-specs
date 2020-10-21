@@ -4,8 +4,8 @@
 %global _firmwarepath  /usr/lib/firmware
 
 
-%global sof_version 1.5
-%global sof_commit e6d11bf44f0c7ad6032d201e753aa254bb075ee7
+%global sof_version 1.6
+%global sof_commit 47b436af36c18c3b4f409e1d9452aea18e17abc8
 %global sof_shortcommit %(c=%{sof_commit}; echo ${c:0:7})
 
 Summary:        Firmware and topology files for Sound Open Firmware project
@@ -16,7 +16,6 @@ Release:        1%{?dist}
 License:        BSD
 URL:            https://github.com/thesofproject/sof-bin
 Source:         https://github.com/thesofproject/sof-bin/archive/%{sof_commit}/sof-bin-%{sof_shortcommit}.tar.gz
-Source10:       https://www.alsa-project.org/files/pub/misc/sof/sof-bin-topology-1.5-dmic-20db-fix.tar.gz
 Conflicts:      alsa-firmware <= 1.2.1-6
 
 # noarch, since the package is firmware
@@ -43,13 +42,13 @@ mv intel/sof/v%{sof_version}/* intel/sof
 rmdir intel/sof/v%{sof_version}
 
 # rename intel signed firmware files
-for platform in apl cnl icl; do
+for platform in apl cnl icl tgl; do
   mv intel/sof/intel-signed/sof-$platform-v%{sof_version}.ri intel/sof/intel-signed/sof-$platform.ri
   ln -sf intel-signed/sof-$platform.ri intel/sof/sof-$platform.ri
 done
 
 # rename public signed firmware files
-for platform in apl cnl icl; do
+for platform in apl cnl icl tgl; do
   mv intel/sof/public-signed/sof-$platform-v%{sof_version}.ri intel/sof/public-signed/sof-$platform.ri
 done
 
@@ -72,10 +71,8 @@ rm -f intel/sof-tplg
 mv intel/sof-tplg-v%{sof_version} intel/sof-tplg
 
 # remove NXP firmware files
-rm -rf nxp
-
-# patch the topology files (DMIC equalizer fix)
-tar xvzf %{SOURCE10} -C intel/sof-tplg
+rm -rf nxp ../../LICENCE.NXP
+rm -rf intel/sof-tplg/sof-imx8*
 
 %build
 
@@ -118,6 +115,12 @@ if st and st.type == "link" then
 end
 
 %changelog
+* Wed Oct 14 2020 Jaroslav Kysela <perex@perex.cz> - 1.6-1
+- Update to v1.6 (Oct 13)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun  1 2020 Jaroslav Kysela <perex@perex.cz> - 1.5-1
 - Update to v1.5
 

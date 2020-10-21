@@ -9,7 +9,7 @@
 
 Name:           mingw-wpcap
 Version:        %{versionmajor}.%{versionminor}.final%{versionsuffix}
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        MinGW user-level packet capture
 
 License:        BSD with advertising
@@ -202,6 +202,9 @@ rm -rf $RPM_BUILD_ROOT/%{wpcapexamples}/pcap/stats
 %{mingw64_includedir}/wpcap
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.final3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.final3-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

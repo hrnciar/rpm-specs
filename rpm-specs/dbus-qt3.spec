@@ -9,7 +9,7 @@
 Name:    dbus-qt3
 Summary: Qt3 DBus Bindings
 Version: 0.9
-Release: 25%{?dist}
+Release: 26%{?dist}
 
 License: GPLv2+
 Url:     http://www.freedesktop.org/wiki/Software/DBusBindings
@@ -78,6 +78,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.la
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

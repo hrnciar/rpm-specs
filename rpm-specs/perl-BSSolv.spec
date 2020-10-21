@@ -5,7 +5,7 @@
 #global commitdate 20191121
 
 # for rpmdev-bumpspec to handle properly...
-%global baserelease 2
+%global baserelease 3
 
 Name:           perl-BSSolv
 Version:        0.17
@@ -67,6 +67,9 @@ make test
 %doc README dist/perl-BSSolv.changes
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.17-2
 - Perl 5.32 rebuild
 

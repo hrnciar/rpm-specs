@@ -3,7 +3,7 @@
 Summary: Really simple JSON and XML parsing, ripped from Merb and Rails
 Name: rubygem-%{gem_name}
 Version: 0.4.2
-Release: 11%{?dist}
+Release: 12%{?dist}
 License: MIT
 URL: http://github.com/jnunemaker/crack
 Source0: http://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -67,6 +67,9 @@ popd
 %{gem_instdir}/test
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.4.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.4.2-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

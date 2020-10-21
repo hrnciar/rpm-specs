@@ -5,12 +5,12 @@
 
 Name:           APLpy
 Version:        2.0.3
-Release:        8%{?dist}
+Release:        10%{?dist}
 Summary:        The Astronomical Plotting Library in Python
 
 License:        MIT
 URL:            http://aplpy.github.com
-Source0:        https://pypi.io/packages/source/A/%{name}/%{name}-%{version}.tar.gz
+Source0:        %{pypi_source}
 
 BuildArch:      noarch
 BuildRequires:  python3-devel 
@@ -25,11 +25,14 @@ PDF, PS, PNG, and SVG.
 %package -n python3-APLpy
 Summary:        The Astronomical Plotting Library in Python
 %{?python_provide:%python_provide python3-%{srcname}}
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-numpy
 BuildRequires:  python3-matplotlib
 BuildRequires:  python3-astropy
-BuildRequires:  python3-pillow
+# Testing
 BuildRequires:  python3-pytest
+BuildRequires:  python3-pillow
+BuildRequires:  python3-reproject
 
 Requires:  python3-numpy
 Requires:  python3-matplotlib
@@ -44,7 +47,7 @@ capable of creating output files in several graphical formats, including EPS,
 PDF, PS, PNG, and SVG.
 
 %prep
-%setup -q -n %{name}-%{version}
+%autosetup -n %{srcname}-%{version}
 
 %build
 %py3_build
@@ -57,10 +60,12 @@ PDF, PS, PNG, and SVG.
 mkdir matplotlib
 touch matplotlib/matplotlibrc
 export XDG_CONFIG_HOME=`pwd`
-# Avoid writing bad pyc files
 export PYTHONDONTWRITEBYTECODE=1
+export PYTEST_ADDOPTS='-p no:cacheprovider'
 pushd %{buildroot}/%{python3_sitelib}
-py.test-%{python3_version} aplpy || :
+  pytest-%{python3_version} aplpy || :
+  # This file is created by the tests
+  rm %{buildroot}/%{python3_sitelib}/test_label_format.png
 popd
 
 %files -n python3-APLpy
@@ -70,6 +75,13 @@ popd
 %{python3_sitelib}/aplpy/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Sergio Pascual <sergiopr@fedoraproject.org> - 2.0.3-9
+- Add BR python3-setuptools
+- Add BR python3-reproject
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.3-8
 - Rebuilt for Python 3.9
 

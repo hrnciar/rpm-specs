@@ -1,6 +1,6 @@
 Name:           plexus-build-api
 Version:        0.0.7
-Release:        27%{?dist}
+Release:        30%{?dist}
 Summary:        Plexus Build API
 License:        ASL 2.0
 URL:            https://github.com/sonatype/sisu-build-api
@@ -19,7 +19,7 @@ Patch1:         %{name}-utils-3.3.0.patch
 BuildRequires:  maven-local
 BuildRequires:  mvn(org.codehaus.plexus:plexus-component-metadata)
 BuildRequires:  mvn(org.codehaus.plexus:plexus-container-default)
-BuildRequires:  mvn(org.codehaus.plexus:plexus-utils) >= 3.3.0
+BuildRequires:  mvn(org.codehaus.plexus:plexus-utils)
 
 %description
 Plexus Build API
@@ -57,6 +57,16 @@ cp -p %{SOURCE1} .
 %doc LICENSE-2.0.txt
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.7-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Mat Booth <mat.booth@redhat.com> - 0.0.7-29
+- Unecessary restriction on plexus-util, with the patch it's actually still
+  source compatible with older versions
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 0.0.7-28
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.7-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

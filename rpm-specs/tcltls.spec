@@ -1,31 +1,30 @@
-%{!?tcl_version: %global tcl_version %(echo 'puts $tcl_version' | tclsh)}
+%{!?tcl_version: %global tcl_version %((echo '8.5'; echo 'puts $tcl_version' | tclsh 2>/dev/null) | tail -1)}
 %{!?tcl_sitearch: %global tcl_sitearch %{_libdir}/tcl%{tcl_version}}
 
 Name:           tcltls
-Version:        1.7.18
-Release:        3%{?dist}
+Version:        1.7.21
+Release:        2%{?dist}
 Summary:        OpenSSL extension for Tcl
 
 License:        BSD
 URL:            https://core.tcl.tk/tcltls/home
 Source0:        https://core.tcl.tk/tcltls/uv/%{name}-%{version}.tar.gz
 
+Patch0:         tcltls-1.7.21-cipher-tests.patch
+Patch1:         tcltls-1.7.21-hostname-tests.patch
+
 BuildRequires:  openssl-devel
 BuildRequires:  tcl-devel
 BuildRequires:  gcc
 
-%if 0%{?el7}
-Requires: tcl(abi) = 8.5
-%else
-Requires: tcl(abi) = 8.6
-%endif
+Requires:       tcl(abi) = %{tcl_version}
 
 %description
 A TLS OpenSSL extension for Tcl
 
 %package devel
 Summary:        Header files for the OpenSSL extension for Tcl
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description devel
 The TLS OpenSSL extension to Tcl
@@ -33,30 +32,35 @@ The TLS OpenSSL extension to Tcl
 This package contains the development files for tls.
 
 %prep
-%autosetup
+%autosetup -p1
 
 %build
-%configure --disable-rpath --with-ssl-dir=%{_prefix}
-make %{?_smp_mflags}
+%configure --disable-rpath --with-ssl-dir=%{_prefix} --enable-debug
+%make_build
 
 %check
 make test
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make install libdir=${RPM_BUILD_ROOT}%{tcl_sitearch}/ includedir=${RPM_BUILD_ROOT}%{_includedir}
+%make_install libdir=%{tcl_sitearch}
 
-%{__install} -d -p %{buildroot}%{_includedir}
-%{__install} -m 0644 tls.h %{buildroot}%{_includedir}/tls.h
+%{__install} -D -p -m 0644 tls.h %{buildroot}%{_includedir}/tls.h
 
 %files
-%doc README.txt ChangeLog license.terms
+%license license.terms
+%doc README.txt ChangeLog
 %{tcl_sitearch}/%{name}%{version}
 
 %files devel
 %{_includedir}/tls.h
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.21-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Robert Scheck <robert@fedoraproject.org> - 1.7.21-1
+- Upgrade to 1.7.21 and spec file modernization (#1753651)
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.18-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

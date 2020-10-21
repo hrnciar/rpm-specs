@@ -5,8 +5,8 @@
 
 # https://github.com/apache/arrow/go/arrow
 %global goipath         github.com/apache/arrow
-Version:                0.16.0
-%global tag             apache-arrow-0.16.0
+Version:                1.0.0
+%global tag             apache-arrow-1.0.0
 %global distprefix      %{nil}
 
 %gometa
@@ -22,20 +22,19 @@ messaging and inter-process communication.}
 %global godocs          _examples go/README.md
 
 Name:           %{goname}
-Release:        1%{?dist}
-Summary:        None
+Release:        2%{?dist}
+Summary:        Cross-language development platform for in-memory data
 
-License:        Go development platform for in-memory data
+License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/google/flatbuffers/go)
-BuildRequires:  golang(github.com/pkg/errors)
+BuildRequires:  golang(golang.org/x/xerrors)
 
 %if %{with check}
 # Tests
 BuildRequires:  golang(github.com/stretchr/testify/assert)
-BuildRequires:  golang(golang.org/x/xerrors)
 %endif
 
 %description
@@ -59,6 +58,12 @@ find ./* -maxdepth 0 -type d -not -name "go" -and -not -name "_build" -exec rm -
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 17:37:53 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-1
+- Update to 1.0.0
+
 * Fri Jan 31 20:06:02 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.16.0-1
 - Update to 0.16.0
 

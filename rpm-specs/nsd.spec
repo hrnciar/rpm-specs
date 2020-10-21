@@ -6,7 +6,7 @@
 
 Summary: Fast and lean authoritative DNS Name Server
 Name: nsd
-Version: 4.2.4
+Version: 4.3.2
 Release: 2%{?dist}
 License: BSD
 Url: http://www.nlnetlabs.nl/nsd/
@@ -30,7 +30,7 @@ BuildRequires: systemd-devel
 Requires(post): systemd-units
 Requires(preun): systemd-units
 Requires(postun): systemd-units
-#workaround for 4.1.24 bug in systemd detection :/
+#workaround for broken system detection, introduced in 4.1.24 :/
 BuildRequires: autoconf automake
 %else
 Requires(post): /sbin/chkconfig
@@ -48,7 +48,7 @@ consult the REQUIREMENTS document which is a part of this distribution.
 
 %prep
 %setup -q -n %{name}-%{version}%{?prever}
-#workaround for 4.1.24 bug in systemd detection :/
+#workaround for broken system detection, introduced in 4.1.24 :/
 autoreconf
 
 %build
@@ -168,6 +168,18 @@ fi
 chown nsd:nsd %{_sharedstatedir}/nsd/* 2>&1 || :
 
 %changelog
+* Tue Sep 29 20:38:53 CEST 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 4.3.2-2
+- Rebuilt for libevent 2.1.12
+
+* Wed Jul 29 2020 Paul Wouters <pwouters@redhat.com> - 4.3.2-1
+- Resolves: rhbz#1854415 nsd-4.3.2 is available
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Fabio Alessandro Locati <me@fale.io> - 4.3.1-1
+- Update to current version
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,13 +2,13 @@
 %global at_spi2_core_version 2.33.2
 
 Name:           at-spi2-atk
-Version:        2.34.2
+Version:        2.38.0
 Release:        1%{?dist}
 Summary:        A GTK+ module that bridges ATK to D-Bus at-spi
 
 License:        LGPLv2+
 URL:            https://wiki.linuxfoundation.org/en/AT-SPI_on_D-Bus
-Source0:        https://download.gnome.org/sources/at-spi2-atk/2.34/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/at-spi2-atk/2.38/%{name}-%{version}.tar.xz
 
 BuildRequires:  atk-devel >= %{atk_version}
 BuildRequires:  at-spi2-core-devel >= %{at_spi2_core_version}
@@ -69,6 +69,15 @@ The %{name}-devel package includes the header files for the %{name} library.
 %{_libdir}/pkgconfig/atk-bridge-2.0.pc
 
 %changelog
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 2.38.0-1
+- Update to 2.38.0
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 2.37.90-1
+- Update to 2.37.90
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.34.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 02 2020 Kalev Lember <klember@redhat.com> - 2.34.2-1
 - Update to 2.34.2
 

@@ -1,6 +1,6 @@
 Name:           lastpass-cli
 Version:        1.3.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Command line interface to LastPass.com
 
 License:        GPLv2
@@ -59,6 +59,9 @@ install -Dpm0644 contrib/lpass_zsh_completion \
 %{_datadir}/zsh/site-functions/_lpass
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

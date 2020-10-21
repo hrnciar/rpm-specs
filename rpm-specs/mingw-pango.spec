@@ -1,8 +1,8 @@
 %{?mingw_package_header}
 
 Name:           mingw-pango
-Version:        1.44.7
-Release:        2%{?dist}
+Version:        1.46.2
+Release:        1%{?dist}
 Summary:        MinGW Windows Pango library
 
 License:        LGPLv2+
@@ -127,7 +127,9 @@ mkdir -p %{buildroot}%{mingw64_sysconfdir}/pango/
 %{mingw32_libdir}/libpangowin32-1.0.dll.a
 %{mingw32_libdir}/pkgconfig/pango.pc
 %{mingw32_libdir}/pkgconfig/pangocairo.pc
+%{mingw32_libdir}/pkgconfig/pangofc.pc
 %{mingw32_libdir}/pkgconfig/pangoft2.pc
+%{mingw32_libdir}/pkgconfig/pangoot.pc
 %{mingw32_libdir}/pkgconfig/pangowin32.pc
 %{mingw32_sysconfdir}/pango/
 
@@ -153,7 +155,9 @@ mkdir -p %{buildroot}%{mingw64_sysconfdir}/pango/
 %{mingw64_libdir}/libpangowin32-1.0.dll.a
 %{mingw64_libdir}/pkgconfig/pango.pc
 %{mingw64_libdir}/pkgconfig/pangocairo.pc
+%{mingw64_libdir}/pkgconfig/pangofc.pc
 %{mingw64_libdir}/pkgconfig/pangoft2.pc
+%{mingw64_libdir}/pkgconfig/pangoot.pc
 %{mingw64_libdir}/pkgconfig/pangowin32.pc
 %{mingw64_sysconfdir}/pango/
 
@@ -165,6 +169,21 @@ mkdir -p %{buildroot}%{mingw64_sysconfdir}/pango/
 
 
 %changelog
+* Fri Sep 18 2020 Sandro Mani <manisandro@gmail.com> - 1.46.2-1
+- Update to 1.46.2
+
+* Fri Aug 21 2020 Sandro Mani <manisandro@gmail.com> - 1.46.1-1
+- Update to 1.46.1
+
+* Mon Aug 17 2020 Sandro Mani <manisandro@gmail.com> - 1.46.0-1
+- Update to 1.46.0
+
+* Wed Aug 12 13:44:25 GMT 2020 Sandro Mani <manisandro@gmail.com> - 1.44.7-4
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.44.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.44.7-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,23 +1,12 @@
 Summary: Shared MIME information database
 Name: shared-mime-info
 Version: 2.0
-Release: 1%{?dist}
+Release: 4%{?dist}
 License: GPLv2+
 URL: http://freedesktop.org/Software/shared-mime-info
 Source0: https://gitlab.freedesktop.org/xdg/shared-mime-info/uploads/0440063a2e6823a4b1a6fb2f2af8350f/shared-mime-info-2.0.tar.xz
-Source1: gnome-mimeapps.list
-# Generated with:
-# for i in `cat /home/hadess/Projects/jhbuild/totem/data/mime-type-list.txt | grep -v audio/flac | grep -v ^#` ; do if grep MimeType /home/hadess/Projects/jhbuild/rhythmbox/data/rhythmbox.desktop.in.in | grep -q "$i;" ; then echo "$i=org.gnome.Rhythmbox3.desktop;rhythmbox.desktop;org.gnome.Totem.desktop;" >> totem-defaults.list ; else echo "$i=org.gnome.Totem.desktop;" >> totem-defaults.list ; fi ; done ; for i in `cat /home/hadess/Projects/jhbuild/totem/data/uri-schemes-list.txt | grep -v ^#` ; do echo "x-scheme-handler/$i=org.gnome.Totem.desktop;" >> totem-defaults.list ; done
-Source2: totem-defaults.list
-# Generated with:
-# for i in `cat /home/hadess/Projects/jhbuild/file-roller/data/supported-mime-types | sed 's/;//g'` application/x-source-rpm ; do if grep MimeType /usr/share/applications/org.gnome.Nautilus.desktop | grep -q "$i;" ; then echo "$i=org.gnome.Nautilus.desktop;org.gnome.FileRoller.desktop;" >> file-roller-defaults.list ; elif ! `grep -q $i gnome-mimeapps.list` ; then echo $i=org.gnome.FileRoller.desktop\; >> file-roller-defaults.list ; fi ; done && for i in `grep MimeType= /usr/share/applications/org.gnome.Nautilus.desktop | sed 's/MimeType=//' | sed 's/;/ /g'` ; do if ! `grep -q $i file-roller-defaults.list || grep -q $i gnome-mimeapps.list` ; then echo "missing handler $i" ; fi ; done
-Source3: file-roller-defaults.list
-# Generated with:
-# for i in `grep MimeType= /usr/share/applications/org.gnome.eog.desktop | sed 's/MimeType=//' | sed 's/;/ /g'` ; do echo $i=org.gnome.eog.desktop\; >> eog-defaults.list ; done
-Source4: eog-defaults.list
-# Generated with:
-# for i in `grep MimeType= /usr/share/applications/org.gnome.Evince.desktop | sed 's/MimeType=//' | sed 's/;/ /g'` ; do echo $i=org.gnome.Evince.desktop\; >> evince-defaults.list ; done
-Source5: evince-defaults.list
+
+Source1: mimeapps.list
 
 # Tarball for https://gitlab.freedesktop.org/xdg/xdgmime/-/tree/6663a2288d11b37bc07f5a01b4b85dcd377787e1
 Source6: https://gitlab.freedesktop.org/xdg/xdgmime/-/archive/6663a2288d11b37bc07f5a01b4b85dcd377787e1/xdgmime-6663a2288d11b37bc07f5a01b4b85dcd377787e1.tar.bz2
@@ -69,17 +58,13 @@ find $RPM_BUILD_ROOT%{_datadir}/mime -type f -not -path "*/packages/*" \
 | sed -e "s|^$RPM_BUILD_ROOT|%%ghost |" >> %{name}.files
 
 mkdir -p $RPM_BUILD_ROOT/%{_datadir}/applications
-install -m 644 %SOURCE1 $RPM_BUILD_ROOT/%{_datadir}/applications/gnome-mimeapps.list
-cat %SOURCE2 >> $RPM_BUILD_ROOT/%{_datadir}/applications/gnome-mimeapps.list
-cat %SOURCE3 >> $RPM_BUILD_ROOT/%{_datadir}/applications/gnome-mimeapps.list
-cat %SOURCE4 >> $RPM_BUILD_ROOT/%{_datadir}/applications/gnome-mimeapps.list
-cat %SOURCE5 >> $RPM_BUILD_ROOT/%{_datadir}/applications/gnome-mimeapps.list
+install -m 644 %SOURCE1 $RPM_BUILD_ROOT/%{_datadir}/applications/mimeapps.list
 
-# Support fallback/generic mimeapps.list (currently based on gnome-mimeapps.list), see
+# Support fallback/generic mimeapps.list (currently based on an old version of
+# gnome-mimeapps.list), see:
 # https://lists.fedoraproject.org/pipermail/devel/2015-July/212403.html
 # https://bugzilla.redhat.com/show_bug.cgi?id=1243049
-cp $RPM_BUILD_ROOT%{_datadir}/applications/gnome-mimeapps.list \
-   $RPM_BUILD_ROOT%{_datadir}/applications/mimeapps.list
+cp %SOURCE1 $RPM_BUILD_ROOT%{_datadir}/applications/mimeapps.list
 
 ## remove bogus translation files
 ## translations are already in the xml file installed
@@ -103,7 +88,6 @@ update-mime-database -n %{_datadir}/mime &> /dev/null ||:
 %{_bindir}/*
 %{_datadir}/mime/packages/*
 %{_datadir}/applications/mimeapps.list
-%{_datadir}/applications/gnome-mimeapps.list
 # better to co-own this dir than to pull in pkgconfig
 %dir %{_datadir}/pkgconfig
 %{_datadir}/pkgconfig/shared-mime-info.pc
@@ -112,6 +96,17 @@ update-mime-database -n %{_datadir}/mime &> /dev/null ||:
 %{_datadir}/gettext/its/shared-mime-info.loc
 
 %changelog
+* Tue Aug 25 2020 Bastien Nocera <bnocera@redhat.com> - 2.0-4
++ shared-mime-info-2.0-4
+- Remove GNOME specific defaults apps list, move to gnome-desktop3
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 06 2020 Bastien Nocera <bnocera@redhat.com> - 2.0-1
 + shared-mime-info-2.0-1
 - Update to 2.0

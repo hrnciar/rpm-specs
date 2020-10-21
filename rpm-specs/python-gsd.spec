@@ -25,8 +25,8 @@ and writes hoomd schema gsd files with an easy to use syntax.\
 * Fast random access to frames.
 
 Name: python-gsd
-Version: 2.1.1
-Release: 2%{?dist}
+Version: 2.2.0
+Release: 1%{?dist}
 Summary: Read and write hoomd schema gsd files with an easy to use syntax 
 License: BSD
 URL: https://gsd.readthedocs.io/
@@ -74,6 +74,7 @@ make -C doc html
 %else
 unzip -qq %{S:1}
 mv %{pname}-v%{version}/index.html doc/
+rm doc/_static/css/gsd-theme.css
 mv %{pname}-v%{version}/_static/*  doc/_static/
 %endif
 
@@ -106,10 +107,17 @@ and not test_gsd_v1_upgrade_write'
 %files -n python3-%{pname}
 %license LICENSE
 %doc CHANGELOG.rst README.md
+%{_bindir}/%{pname}
 %{python3_sitearch}/%{pname}-%{version}-py%{python3_version}.egg-info
 %{python3_sitearch}/%{pname}
 
 %changelog
+* Fri Aug 07 2020 Dominik Mierzejewski <rpm@greysector.net> - 2.2.0-1
+- update to 2.2.0 (#1866366)
+
+* Thu Jul 23 2020 Dominik Mierzejewski <dominik@greysector.net> 2.1.2-1
+- update to 2.1.2 (#1851376)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.1-2
 - Rebuilt for Python 3.9
 

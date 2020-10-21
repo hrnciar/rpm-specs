@@ -4,7 +4,7 @@ BuildArch:      noarch
 Summary: A cross-platform C++ header library for JSON
 Name: cajun-jsonapi
 Version: 2.0.3
-Release: 11%{?dist}
+Release: 12%{?dist}
 URL: https://github.com/cajun-jsonapi/cajun-jsonapi
 Source0: https://github.com/cajun-jsonapi/cajun-jsonapi/archive/%{version}.tar.gz
 License: BSD
@@ -46,6 +46,9 @@ make %{?_smp_mflags}
 %{_includedir}/cajun/json/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

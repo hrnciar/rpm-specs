@@ -1,6 +1,6 @@
 Name:		perl-ExtUtils-Config
 Version:	0.008
-Release:	20%{?dist}
+Release:	21%{?dist}
 Summary:	A wrapper for perl's configuration
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/ExtUtils-Config
@@ -57,6 +57,9 @@ make test
 %{_mandir}/man3/ExtUtils::Config.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.008-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.008-20
 - Perl 5.32 rebuild
 

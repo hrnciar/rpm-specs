@@ -5,7 +5,7 @@
 
 Name:           nodejs-form-data
 Version:        0.2.0
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        A module to create readable "multipart/form-data" streams
 
 License:        MIT
@@ -68,6 +68,9 @@ cp -pr package.json lib %{buildroot}%{nodejs_sitelib}/form-data
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

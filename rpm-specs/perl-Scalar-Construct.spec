@@ -1,6 +1,6 @@
 Name:           perl-Scalar-Construct
 Version:        0.000
-Release:        26%{?dist}
+Release:        27%{?dist}
 Summary:        Build custom kinds of scalar
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Scalar-Construct
@@ -53,6 +53,9 @@ find $RPM_BUILD_ROOT -type f -name '*.bs' -size 0 -delete
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.000-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.000-26
 - Perl 5.32 rebuild
 

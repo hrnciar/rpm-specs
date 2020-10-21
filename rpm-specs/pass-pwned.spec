@@ -4,7 +4,7 @@ Version:            0.1.1
 %forgemeta
 
 Name:           pass-pwned
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Password-Store extension for Have I Been Pwned
 
 License:        MIT
@@ -42,6 +42,9 @@ SHA-1 password hash (not case-sensitive) to be passed to the API.
 %{_sysconfdir}/bash_completion.d/pass-pwned
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,12 +1,12 @@
 Name:           tikzit
 URL:            https://tikzit.github.io/
-Version:        2.1.5
+Version:        2.1.6
 Release:        1%{?dist}
 License:        GPLv3+
 Summary:        Diagram editor for pgf/TikZ
 Source:         https://github.com/%{name}/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 
-Requires:       hicolor-icon-theme
+Requires:       hicolor-icon-theme qt5-qtsvg
 BuildRequires:  gcc-c++
 BuildRequires:  flex
 BuildRequires:  bison
@@ -31,7 +31,7 @@ sed -i "s|\r||g" README.md
 
 %install
 %make_install INSTALL_ROOT="%{buildroot}"
-
+install -m 644 -D tex/sample/tikzit.sty %{buildroot}%{_datadir}/texlive/texmf-local/tex/latex/tikzit/tikzit.sty
 desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 
 %files
@@ -42,9 +42,20 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 %{_datadir}/icons/hicolor/*/apps/%{name}.svg
 %{_datadir}/applications/%{name}.desktop
+%{_datadir}/texlive/texmf-local/tex/latex/tikzit/tikzit.sty
 %{_mandir}/man1/tikzit.1.gz
 
 %changelog
+* Thu Sep 10 2020 W. Michael Petullo <mike@flyn.org> 2.1.6-3
+- New upstream version
+- Include tikzit.sty in package
+
+* Thu Aug 13 2020 W. Michael Petullo <mike@flyn.org> 2.1.5-3
+- Require qt5-qtsvg to fix https://github.com/tikzit/tikzit/issues/84
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 08 2020 W. Michael Petullo <mike@flyn.org> 2.1.5-1
 - New upstream version
 

@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.9.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Extra iterator adaptors, iterator methods, free functions, and macros
 
 # Upstream license specification: MIT/Apache-2.0
@@ -85,6 +85,9 @@ which use "use_std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 17 17:20:47 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.9.0-1
 - Update to 0.9.0
 

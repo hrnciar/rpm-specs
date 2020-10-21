@@ -1,3 +1,8 @@
+# qtwebkit is known not to work properly with LTO at this point.  Some of the issues
+# are being worked on upstream and disabling LTO should be re-evaluated as
+# we update this change.  Until such time...
+# Disable LTO
+%global _lto_cflags %{nil}
 
 %global _hardened_build 1
 
@@ -5,7 +10,7 @@ Name: qtwebkit
 Summary: Qt WebKit bindings
 
 Version: 2.3.4
-Release: 29%{?dist}
+Release: 32%{?dist}
 
 License: LGPLv2 with exceptions or GPLv3 with exceptions
 URL: http://trac.webkit.org/wiki/QtWebKit
@@ -39,6 +44,8 @@ Patch14: webkit-qtwebkit-23-no_rpath.patch
 Patch100: webkit-qtwebkit-23-gcc5.patch
 # backport from qt5-qtwebkit: URLs visited during private browsing show up in WebpageIcons.db
 Patch101: webkit-qtwebkit-23-private_browsing.patch
+# fix FTBFS with bison-3.7
+Patch102: qtwebkit-bison-3.7.patch
 
 BuildRequires: bison
 BuildRequires: flex
@@ -80,6 +87,7 @@ BuildRequires: pkgconfig(QtSensors) >= 1.2
 # workaround bad embedded png files, https://bugzilla.redhat.com/1639422
 BuildRequires:  findutils
 BuildRequires:  pngcrush
+BuildRequires:  perl-File-Find perl-FindBin perl-lib perl-English
 
 Obsoletes: qt-webkit < 1:4.9.0
 Provides: qt-webkit = 2:%{version}-%{release}
@@ -125,6 +133,9 @@ Provides:  qt4-webkit-devel%{?_isa} = 2:%{version}-%{release}
 
 %patch100 -p1 -b .gcc5
 %patch101 -p1 -b .private_browsing
+%if 0%{?fedora} > 33 || 0%{?rhel} > 8
+%patch102 -p1 -b .bison37
+%endif
 
 install -m755 -D %{SOURCE1} bin/qmake
 
@@ -190,6 +201,16 @@ popd
 
 
 %changelog
+* Mon Aug 31 2020 Than Ngo <than@redhat.com> - 2.3.4-32
+- Fixed FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.4-31
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.4-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.4-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

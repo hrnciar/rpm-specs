@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}0.3
 Version:        0.3.5
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        YAML 1.2 parser for rust
 
 # Upstream license specification: MIT/Apache-2.0
@@ -111,6 +111,9 @@ which use "preserve_order" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.5-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 04:04:49 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.3.5-15
 - Disable tests
 

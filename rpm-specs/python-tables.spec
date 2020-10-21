@@ -7,7 +7,7 @@
 Summary:        HDF5 support in Python
 Name:           python-tables
 Version:        3.5.2
-Release:        8%{?dist}%{?gitcommit:.git%{shortcommit}}
+Release:        10%{?dist}%{?gitcommit:.git%{shortcommit}}
 #Source0:        https://github.com/PyTables/PyTables/archive/%{commit}/PyTables-%{commit}.tar.gz
 Source0:        https://github.com/PyTables/PyTables/archive/v%{version}/python-tables-%{version}.tar.gz
 
@@ -106,6 +106,12 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} %{__python3} bench/check_all.py
 %doc examples/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 3.5.2-9
+- Rebuild for hdf5 1.10.6
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 3.5.2-8
 - Rebuilt for Python 3.9
 

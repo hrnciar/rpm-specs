@@ -1,7 +1,8 @@
+%undefine __cmake_in_source_build
 %global unstable 0
 
 Name:           kde-partitionmanager
-Version:        4.1.0
+Version:        4.2.0
 Release:        1%{?dist}
 Summary:        KDE Partition Manager
 
@@ -17,7 +18,7 @@ BuildRequires:  cmake >= 3.1
 BuildRequires:  desktop-file-utils
 BuildRequires:  extra-cmake-modules
 BuildRequires:  gettext
-BuildRequires:  kf5-kconfig-devel >= 5.56
+BuildRequires:  kf5-kconfig-devel >= 5.71
 BuildRequires:  kf5-kconfigwidgets-devel
 BuildRequires:  kf5-kcoreaddons-devel
 BuildRequires:  kf5-kcrash-devel
@@ -30,13 +31,13 @@ BuildRequires:  kf5-kio-devel
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  kf5-kxmlgui-devel
 BuildRequires:  kf5-kwidgetsaddons-devel
-BuildRequires:  kpmcore-devel >= 4.1.0
+BuildRequires:  kpmcore-devel >= 4.2.0
 BuildRequires:  qt5-qtbase-devel >= 5.10
 
 BuildRequires:  pkgconfig(appstream-glib)
 BuildRequires:  pkgconfig(blkid)
 
-Requires:       kpmcore >= 4.1.0
+Requires:       kpmcore >= 4.2.0
 Requires:       kf5-filesystem
 
 %description
@@ -57,16 +58,12 @@ manipulate filesystems.
 
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast -C %{_target_platform} DESTDIR=%{buildroot}
+%cmake_install
 %find_lang partitionmanager --with-kde --with-html
 
 %check
@@ -77,9 +74,8 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/*partitionmanager
 appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/*.appdata.xml
 
 
-
 %files -f partitionmanager.lang
-%license COPYING.md
+%license LICENSES/*
 %{_kf5_bindir}/partitionmanager
 %{_kf5_datadir}/applications/*partitionmanager.desktop
 %{_kf5_datadir}/kxmlgui5/partitionmanager/
@@ -87,7 +83,14 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/*.appdat
 %{_datadir}/icons/hicolor/*/*/*
 %{_datadir}/metainfo/*partitionmanager.appdata.xml
 
+
 %changelog
+* Sat Oct 17 2020 Mattia Verga <mattia.verga@protonmail.com> - 4.2.0-1
+- Update to stable release 4.2.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Mattia Verga <mattia.verga@protonmail.com> - 4.1.0-1
 - Update to stable release 4.1.0
 

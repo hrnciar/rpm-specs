@@ -1,10 +1,11 @@
 Name:		perl-Apache-Session-Browseable
-Version:	1.3.5
-Release:	3%{?dist}
+Version:	1.3.8
+Release:	1%{?dist}
 Summary:	Add index and search methods to Apache::Session
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Apache-Session-Browseable
 Source0:	https://cpan.metacpan.org/modules/by-module/Apache/Apache-Session-Browseable-%{version}.tar.gz
+Patch0:		Apache-Session-Browseable-1.3.6-synopsis-cafile.patch
 BuildArch:	noarch
 # Module Build
 BuildRequires:	coreutils
@@ -62,12 +63,16 @@ faster.
 %prep
 %setup -q -n Apache-Session-Browseable-%{version}
 
+# Fix certificate bundle location in SYNOPSIS
+%patch0
+
 %build
 perl Build.PL --installdirs=vendor
 ./Build
 
 %install
 ./Build install --destdir=%{buildroot} --create_packlist=0
+%{_fixperms} -c %{buildroot}
 
 %check
 ./Build test
@@ -97,6 +102,21 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/Apache::Session::Serialize::JSON.3*
 
 %changelog
+* Mon Sep  7 2020 Paul Howarth <paul@city-fan.org> - 1.3.8-1
+- Update to 1.3.8
+  - Fix ldap+tls:// regression in 1.3.6 (GH#27)
+  - Add specific error handling for old versions (GH#28)
+
+* Fri Sep  4 2020 Paul Howarth <paul@city-fan.org> - 1.3.6-1
+- Update to 1.3.6
+  - Improve logs (GH#26)
+  - Add ldapVerify option for SSL certificate validation (GH#25)
+- Add patch to fix example certificate bundle location in SYNOPSIS to reflect
+  distribution defaults
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.3.5-3
 - Perl 5.32 rebuild
 

@@ -3,7 +3,7 @@
 
 Name:      %{fontname}-fonts
 Version:   20120503
-Release:   22%{?dist}
+Release:   23%{?dist}
 Summary:   Free UCS Outline Fonts
 
 # Standard font exception
@@ -151,6 +151,9 @@ install -Dm 0644 -p %{SOURCE8} \
 %{_datadir}/appdata/%{fontname}.metainfo.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20120503-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20120503-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

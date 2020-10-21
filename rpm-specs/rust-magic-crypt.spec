@@ -5,7 +5,7 @@
 %global crate magic-crypt
 
 Name:           rust-%{crate}
-Version:        3.1.1
+Version:        3.1.5
 Release:        1%{?dist}
 Summary:        Library to encrypt/decrpyt strings, files, or data, using DES or AES
 
@@ -14,7 +14,7 @@ License:        ASL 2.0
 URL:            https://crates.io/crates/magic-crypt
 Source:         %{crates_source}
 # Initial patched metadata
-# * Drop digest 0.7 since we patch tiger-digest
+# * Upgrade digest-old to digest 0.8 to match our tiger-digest
 Patch0:         magic-crypt-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -58,13 +58,20 @@ which use "default" feature of "%{crate}" crate.
 %files       -n %{name}+default-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+std-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+std-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "std" feature of "%{crate}" crate.
+
+%files       -n %{name}+std-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
-# It is used for tiger-digest, but we patch it to use new digest
-sed -i \
-  -e "s/digest_old::FixedOutput as OldFixedOutput/digest::FixedOutput/" \
-  -e "/digest_old/d" \
-  src/ciphers/aes192.rs
 %cargo_prep
 
 %generate_buildrequires
@@ -82,6 +89,21 @@ sed -i \
 %endif
 
 %changelog
+* Wed Sep 16 2020 Fabio Valentini <decathorpe@gmail.com> - 3.1.5-1
+- Update to version 3.1.5.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Josh Stone <jistone@redhat.com> - 3.1.4-1
+- Update to 3.1.4
+
+* Mon Jul 20 2020 Josh Stone <jistone@redhat.com> - 3.1.2-2
+- Upgrade to block-modes 0.5
+
+* Wed Jun 24 07:21:29 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 3.1.2-1
+- Update to 3.1.2
+
 * Sun May 31 10:13:38 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 3.1.1-1
 - Update to 3.1.1
 

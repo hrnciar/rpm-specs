@@ -2,18 +2,18 @@
 %global pypi_name sockjs-tornado
 
 Name:           python-%{pypi_name}
-Version:        1.0.3
-Release:        16%{?dist}
+Version:        1.0.7
+Release:        1%{?dist}
 Summary:        SockJS python server implementation on top of Tornado framework
 
 License:        MIT
 
 URL:            http://github.com/mrjoes/sockjs-tornado/
-Source0:        https://files.pythonhosted.org/packages/source/s/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+Source0:        %pypi_source
 BuildArch:      noarch
 
-BuildRequires:  python3-setuptools
 BuildRequires:  python3-devel
+BuildRequires:  pyproject-rpm-macros
 
 %description
 SockJS-tornado is a Python server side counterpart of SockJS-client
@@ -21,35 +21,39 @@ browser library running on top of Tornado framework.
 
 %package -n     python3-%{pypi_name}
 Summary:        SockJS python server implementation on top of Tornado framework
-%{?python_provide:%python_provide python3-%{pypi_name}}
 
-Requires:       python3-tornado >= 2.1.1
 %description -n python3-%{pypi_name}
 SockJS-tornado is a Python server side counterpart of SockJS-client
 browser library running on top of Tornado framework.
 
 %prep
 %autosetup -n %{pypi_name}-%{version}
-# Remove bundled egg-info
-rm -rf %{pypi_name}.egg-info
+
+%generate_buildrequires
+%pyproject_buildrequires
 
 %build
-%py3_build
+%pyproject_wheel
 
 %install
-# Must do the subpackages' install first because the scripts in /usr/bin are
-# overwritten with every setup.py install.
-%py3_install
+%pyproject_install
+%pyproject_save_files sockjs
 
 
-%files -n python3-%{pypi_name}
+%files -n python3-%{pypi_name} -f %pyproject_files
 %doc README.rst
 %license LICENSE
-%{python3_sitelib}/sockjs
-%{python3_sitelib}/sockjs_tornado-%{version}-py%{python3_version}.egg-info
 %{python3_sitelib}/sockjs_tornado-%{version}-py%{python3_version}-nspkg.pth
 
 %changelog
+* Thu Sep 24 2020 Charalampos Stratakis <cstratak@redhat.com> - 1.0.7-1
+- Update to 1.0.7 (#1827702)
+- Fix for CVE-2020-8823 (#1813979)
+- Convert to pyproject macros
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.3-16
 - Rebuilt for Python 3.9
 

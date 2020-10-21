@@ -4,7 +4,7 @@
 
 Name:           radium-compressor
 Version:        0.5.1
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        An audio compressor for JACK
 
 License:        GPLv3+
@@ -44,6 +44,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %SOURCE1
 %{_datadir}/applications/%{name}.desktop
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

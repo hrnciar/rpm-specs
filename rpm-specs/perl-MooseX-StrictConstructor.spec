@@ -1,6 +1,6 @@
 Name:           perl-MooseX-StrictConstructor 
 Version:        0.21
-Release:        11%{?dist}
+Release:        12%{?dist}
 # see lib/MooseX/StrictConstructor.pm
 License:        Artistic 2.0
 Summary:        Make your object constructors blow up on unknown attributes 
@@ -55,6 +55,9 @@ make test
 %{_mandir}/man3/MooseX*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.21-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.21-11
 - Perl 5.32 rebuild
 

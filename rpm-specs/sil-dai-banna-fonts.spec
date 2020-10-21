@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 Version: 2.200
-Release: 6%{?dist}
+Release: 7%{?dist}
 
 %global foundry           SIL
 %global fontlicense       OFL
@@ -67,6 +67,9 @@ This package provides optional documentation files shipped with
 %doc doc/*.pdf doc/*.txt
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 2.200-6
 🐞 Workaround Fedora problems created by rpm commit 93604e2

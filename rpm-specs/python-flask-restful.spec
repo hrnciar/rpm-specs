@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.3.8
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        %{sum}
 
 License:        BSD
@@ -63,6 +63,9 @@ rm -rf docs/_themes/.gitignore
 %{python3_sitelib}/Flask_RESTful-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.8-3
 - Rebuilt for Python 3.9
 

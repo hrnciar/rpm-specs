@@ -5,7 +5,7 @@
 %global crate chrono
 
 Name:           rust-%{crate}
-Version:        0.4.11
+Version:        0.4.19
 Release:        1%{?dist}
 Summary:        Date and time library for Rust
 
@@ -15,6 +15,7 @@ URL:            https://crates.io/crates/chrono
 Source:         %{crates_source}
 # Initial patched metadata
 # * No wasm
+# * No windows
 Patch0:         chrono-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -67,18 +68,6 @@ which use "alloc" feature of "%{crate}" crate.
 %files       -n %{name}+alloc-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
-%package     -n %{name}+bench-devel
-Summary:        %{summary}
-BuildArch:      noarch
-
-%description -n %{name}+bench-devel %{_description}
-
-This package contains library source intended for building other packages
-which use "bench" feature of "%{crate}" crate.
-
-%files       -n %{name}+bench-devel
-%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
-
 %package     -n %{name}+clock-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -89,6 +78,42 @@ This package contains library source intended for building other packages
 which use "clock" feature of "%{crate}" crate.
 
 %files       -n %{name}+clock-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+libc-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+libc-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "libc" feature of "%{crate}" crate.
+
+%files       -n %{name}+libc-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+oldtime-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+oldtime-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "oldtime" feature of "%{crate}" crate.
+
+%files       -n %{name}+oldtime-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
+%package     -n %{name}+pure-rust-locales-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+pure-rust-locales-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "pure-rust-locales" feature of "%{crate}" crate.
+
+%files       -n %{name}+pure-rust-locales-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
 %package     -n %{name}+rustc-serialize-devel
@@ -139,12 +164,24 @@ which use "time" feature of "%{crate}" crate.
 %files       -n %{name}+time-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+unstable-locales-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+unstable-locales-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "unstable-locales" feature of "%{crate}" crate.
+
+%files       -n %{name}+unstable-locales-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
 %cargo_prep
 
 %generate_buildrequires
-%cargo_generate_buildrequires
+%cargo_generate_buildrequires -a
 
 %build
 %cargo_build
@@ -154,10 +191,19 @@ which use "time" feature of "%{crate}" crate.
 
 %if %{with check}
 %check
-%cargo_test
+%cargo_test -a
 %endif
 
 %changelog
+* Thu Oct 01 2020 Fabio Valentini <decathorpe@gmail.com> - 0.4.19-1
+- Update to version 0.4.19.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.4.13-1
+- Update to 0.4.13
+
 * Tue Mar 10 2020 Josh Stone <jistone@redhat.com> - 0.4.11-1
 - Update to 0.4.11
 

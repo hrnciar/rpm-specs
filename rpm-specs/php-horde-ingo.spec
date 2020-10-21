@@ -13,7 +13,7 @@
 
 Name:           php-horde-ingo
 Version:        3.2.16
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        An email filter rules manager
 
 License:        BSD
@@ -204,6 +204,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.16-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun  2 2020 Remi Collet <remi@remirepo.net> - 3.2.16-7
 - requires php(httpd)
 

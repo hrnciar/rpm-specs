@@ -1,6 +1,6 @@
 Name:           usbview
 Version:        2.0
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        USB topology and device viewer
 License:        GPLv2
 URL:            http://www.kroah.com/linux-usb/
@@ -67,6 +67,9 @@ desktop-file-install                                    \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

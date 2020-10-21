@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	1.5.0
-Release:	9%{?dist}
+Release:	11%{?dist}
 BuildArch:	noarch
 Summary:	Easy and efficient instrumentation of Erlang code
 License:	MPLv2.0
@@ -57,6 +57,13 @@ etc.
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

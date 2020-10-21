@@ -1,6 +1,6 @@
 Name:		libpari23
 Version:	2.3.5
-Release:	18%{?dist}
+Release:	19%{?dist}
 Summary:	Number Theory-oriented Computer Algebra Library
 # No version is specified
 License:	GPL+
@@ -173,6 +173,9 @@ make dotest-round4
 %{_datadir}/%{name}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.5-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb  4 2020 Paul Howarth <paul@city-fan.org> - 2.3.5-18
 - Update optflags patch to support GCC 10 and above
 - Upstream shuffled files around, update source URL

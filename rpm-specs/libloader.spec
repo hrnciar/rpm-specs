@@ -1,6 +1,6 @@
 Name: libloader
 Version: 1.1.3
-Release: 23%{?dist}
+Release: 27%{?dist}
 Summary: Resource Loading Framework
 License: LGPLv2
 #Original source: http://downloads.sourceforge.net/jfreereport/%%{name}-%%{version}.zip
@@ -61,6 +61,18 @@ cp -rp bin/javadoc/docs/api $RPM_BUILD_ROOT%{_javadocdir}/%{name}
 %{_javadocdir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Caolán McNamara <caolanm@redhat.com> - 1.1.3-26
+- Related: rhbz#1858035 build in side-tag
+
+* Fri Jul 17 2020 Caolán McNamara <caolanm@redhat.com> - 1.1.3-25
+- Resolves: rhbz#1858035 disable failing javadoc parts
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.1.3-24
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue May 05 2020 Caolán McNamara <caolanm@redhat.com> - 1.1.3-23
 - allow rebuild with java 11
 

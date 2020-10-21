@@ -5,7 +5,7 @@
 
 Name:           guitarix
 Version:        0.40.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        A virtual guitar amplifier
 License:        GPLv2+
 URL:            http://guitarix.sourceforge.net/
@@ -139,6 +139,12 @@ rm -fr src/zita-convolver src/zita-resampler
 sed -i -e 's|-O3||' wscript
 
 %build
+# This package uses a custom linker script.  At first glance I would expect
+# what the script is doing to work.  Unfortunately the build system does not
+# make it easy to run specific steps by hand, so I can't really dig into
+# what's going on.  Disable LTO for now.
+%define _lto_cflags %{nil}
+
 %set_build_flags
 CXXFLAGS+=" -fomit-frame-pointer -ftree-loop-linear -ffinite-math-only -fno-math-errno -fno-signed-zeros -fstrength-reduce"
 %ifarch %{ix86}
@@ -215,6 +221,12 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 %{_libdir}/lv2/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.40.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 10 2020 Jeff Law <law@redhat.com> - 0.40.0-4
+- Disable LTO
+
 * Fri Jun 12 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.40.0-3
 - Fix FTBFS on i686 (2nd attempt)
 

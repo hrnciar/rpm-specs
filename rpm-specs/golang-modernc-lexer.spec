@@ -4,9 +4,8 @@
 # https://gitlab.com/cznic/lexer
 %global goipath         modernc.org/lexer
 %global forgeurl        https://gitlab.com/cznic/lexer
-Version:                1.0.0
-%global commit          e92e62e6ff2ca3fbfa05edf504fede744b99936b
-%global distprefix      %{nil}
+Version:                1.0.1
+%global tag             v1.0.1
 
 %gometa
 
@@ -17,15 +16,13 @@ Run time generator of action less scanners (lexeme recognizers).}
 %global godocs          AUTHORS CONTRIBUTORS README
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        Run time generator of action less scanners
 
 # Upstream license specification: BSD-3-Clause
 License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
-# https://gitlab.com/cznic/lexer/issues/1
-Patch0:         0001-Fix-flag.parse-in-init.patch
 
 BuildRequires:  golang(golang.org/x/exp/ebnf)
 BuildRequires:  golang(modernc.org/fileutil)
@@ -37,19 +34,29 @@ BuildRequires:  golang(modernc.org/fileutil)
 
 %prep
 %goprep
-%patch0 -p1
 
 %install
 %gopkginstall
 
 %if %{with check}
 %check
-%gocheck
+#Go 1.15 .: https://gitlab.com/cznic/lexer/-/issues/2
+%gocheck -d .
 %endif
 
 %gopkgfiles
 
 %changelog
+* Thu Aug 06 15:56:31 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.1-1
+- Updat to 1.0.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 06 19:13:51 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-4
 - Add workaround for calling flag.Parse() in init
 

@@ -1,7 +1,7 @@
 Summary:	Execution analysis and debugging tool-suite
 Name:		frysk
 Version:	0.4
-Release:	71%{?dist}
+Release:	74%{?dist}
 
 # Fedora 17+ is still waiting for vte et.al. bindings.
 %define enable_gnome %{fedora}0 < 170
@@ -65,6 +65,8 @@ Patch43:	frysk-0.4-disable-arch32-tests.patch
 Patch44:	frysk-0.4-steptester-indentation.patch
 Patch45:	frysk-0.4-gcc-fcommon.patch
 Patch46:	frysk-0.4-javac.patch
+Patch47:	frysk-0.4-jnixx-union-as-reserved-word.patch
+Patch48:	frysk-0.4-jnixx-dont-emit-nested-classes.patch
 
 Patch100:	frysk-0.4-aclocaljavac.patch
 Patch101:	frysk-0.4-cxx-scope.patch
@@ -265,6 +267,8 @@ mv frysk-imports/libunwind/configure.{in,ac}
 %patch44 -p1 -z .steptester-indentation
 %patch45 -p1 -z .gcc-fcommon
 %patch46 -p1 -z .javac
+%patch47 -p1 -z .jnixx-union-as-reserved-word
+%patch48 -p1 -z .jnixx-dont-emit-nested-classes
 
 echo "%{version}-%{release}" > frysk-common/version.in
 
@@ -447,6 +451,16 @@ rm $RPM_BUILD_ROOT%{_libdir}/%{name}/funit-*-nodebug
 %endif
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-74
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Andrew Cagney <cagney@fedoraproject.org> - 0.4-73
+- 'union' onto 'union$' - frysk-0.4-jnixx-union-as-reserved-word.patch
+- omit nested local classes - frysk-0.4-jnixx-dont-emit-nested-classes.patch
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0.4-72
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jun 9 2020 Andrew Cagney <cagney@fedoraproject.org> - 0.4-71
 - drop -source 1.4 -- frysk-0.4-javac.patch
 

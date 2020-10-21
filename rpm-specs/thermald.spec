@@ -7,8 +7,8 @@
 
 
 Name:		thermald
-Version:	2.2
-Release:	1%{?dist}
+Version:	2.3
+Release:	2%{?dist}
 Summary:	Thermal Management daemon
 
 License:	GPLv2+
@@ -26,11 +26,17 @@ BuildRequires:	gcc-c++
 BuildRequires:	glib-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	systemd-devel
+BuildRequires:  upower-devel
+BuildRequires:  libevdev-devel
+BuildRequires:  gtk-doc
 
 Requires:	dbus%{?_isa}
 
 Requires(pre):	glibc-common
 Requires(pre):	shadow-utils
+
+Patch0:         0001-adaptive-Fix-64bit-printing-on-non-64bit-machines.patch
+Patch1:         0001-Fix-path-for-Lenovo-kill-switch-heuristic.patch
 
 %{?systemd_requires}
 
@@ -144,7 +150,7 @@ of the "power" group.  So make sure to add your user id to this
 group before using the thermald-monitor-app.
 EOF
 
-%{_bindir}/autoreconf -fiv
+NO_CONFIGURE=1 ./autogen.sh
 
 
 %build
@@ -240,6 +246,16 @@ exit 0
 
 
 %changelog
+* Tue Sep 01 2020 Benjamin Berg <bberg@redhat.com> - 2.3-2
+- Fix Lenovo kill switch (#1874462)
+
+* Tue Aug 25 2020 Benjamin Berg <bberg@redhat.com> - 2.3-1
+- New upstream release 2.3 (rhbz#1866784)
+- Add patch to fix printf on non-64 bit
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 08 2020 Benjamin Berg <bberg@redhat.com> - 2.2-1
 - New upstream release 2.2 (rhbz#1827883)
 

@@ -1,6 +1,6 @@
 Name:       nss-pem
 Version:    1.0.6
-Release:    1%{?dist}
+Release:    3%{?dist}
 Summary:    PEM file reader for Network Security Services (NSS)
 
 License:    MPLv1.1
@@ -30,12 +30,12 @@ module.
 %build
 mkdir build
 cd build
-%cmake ../src
-make %{?_smp_mflags} VERBOSE=yes
+%cmake ../src -B.
+%make_build
 
 %install
 cd build
-make install DESTDIR=%{buildroot}
+%make_install
 
 %check
 cd build
@@ -46,6 +46,12 @@ ctest %{?_smp_mflags} --output-on-failure
 %license COPYING
 
 %changelog
+* Thu Jul 30 2020 Kamil Dudka <kdudka@redhat.com> 1.0.6-3
+- fix build failure on Fedora rawhide
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 13 2020 Kamil Dudka <kdudka@redhat.com> 1.0.6-1
 - update to latest upstream bugfix release
 

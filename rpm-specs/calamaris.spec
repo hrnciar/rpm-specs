@@ -7,7 +7,7 @@
 Summary:	Squid native log format (NLF) analyzer and report generator
 Name:		calamaris
 Version:	2.59
-Release:	20%{?dist}
+Release:	21%{?dist}
 License:	GPLv2+
 URL:		https://cord.de/calamaris-english
 Source0:	https://cord.de/files/calamaris/%{name}-%{version}.tar.gz
@@ -44,6 +44,9 @@ touch -r EXAMPLES EXAMPLES.utf8; mv -f EXAMPLES.utf8 EXAMPLES
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.59-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.59-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

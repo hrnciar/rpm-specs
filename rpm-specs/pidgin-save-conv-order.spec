@@ -1,6 +1,6 @@
 Name:           pidgin-save-conv-order
 Version:        1.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Pidgin plugin to save order
 Summary(de):    Pidgin Konversationsreihenfolge speichern
 Summary(sr):    Сачувај редослед разговора
@@ -54,6 +54,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.me
 %{_datadir}/appdata/%{name}.metainfo.xml
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

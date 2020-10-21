@@ -4,7 +4,7 @@
 
 Name: gamin
 Version: 0.1.10
-Release: 36%{?dist}
+Release: 37%{?dist}
 Summary: Library providing the FAM File Alteration Monitor API
 License: LGPLv2
 URL: http://www.gnome.org/~veillard/gamin/
@@ -119,6 +119,9 @@ rm -fv %{buildroot}%{_libdir}/libgamin_shared.a
 %{_libdir}/pkgconfig/gamin.pc
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.10-37
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.10-36
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

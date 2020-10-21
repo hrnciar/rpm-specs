@@ -7,10 +7,10 @@
 %global firefox_app_id \{ec8030f7-c20a-464f-9b0e-13a3a9e97384\}
 %global firefox_inst_dir %{moz_extensions}/%{firefox_app_id}
 
-%global file_id 3509922
+%global file_id 3656444
 
 Name:           mozilla-privacy-badger
-Version:        2020.2.19
+Version:        2020.10.7
 Release:        1%{?dist}
 Summary:        Protects your privacy by blocking spying ads and invisible trackers
 
@@ -103,6 +103,15 @@ install -Dpm644 %{SOURCE0} %{buildroot}%{firefox_inst_dir}/%{ext_id}.xpi
 %{firefox_inst_dir}/%{ext_id}.xpi
 
 %changelog
+* Fri Oct 09 2020 Dominik 'Rathann' Mierzejewski <rpm@greysector.net> - 2020.10.7-1
+- update to 2020.10.7 (#1886250)
+
+* Wed Sep 02 2020 Dominik 'Rathann' Mierzejewski <rpm@greysector.net> - 2020.8.25-1
+- update to 2020.8.25 (#1872503)
+
+* Mon Jul 27 2020 Dominik 'Rathann' Mierzejewski <rpm@greysector.net> - 2020.7.21-1
+- update to 2020.7.21 (#1835050)
+
 * Tue Apr 21 2020 Dominik 'Rathann' Mierzejewski <rpm@greysector.net> - 2020.2.19-1
 - update to 2020.2.19 (#1788939)
 - update bundled deps

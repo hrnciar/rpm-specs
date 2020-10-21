@@ -2,7 +2,7 @@
 
 Name:           mingw-spice-gtk
 Version:        0.37
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        A GTK+ widget for SPICE clients
 
 License:        LGPLv2+
@@ -190,6 +190,12 @@ find $RPM_BUILD_ROOT -name "*.1" -delete
 %{mingw64_includedir}/spice-client-gtk-3.0
 
 %changelog
+* Wed Aug 12 13:45:50 GMT 2020 Sandro Mani <manisandro@gmail.com> - 0.37-5
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.37-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 10 2020 Eduardo Lima (Etrunko) <etrunko@redhat.com> - 0.37-3
 - Fix spec issue with more than one package installing the same files
 

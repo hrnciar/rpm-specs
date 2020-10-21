@@ -1,6 +1,6 @@
 Name:           perl-Crypt-OpenSSL-Bignum
 Version:        0.09
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Perl interface to OpenSSL for Bignum
 License:        GPL+ or Artistic 
 URL:            https://metacpan.org/release/Crypt-OpenSSL-Bignum
@@ -35,13 +35,13 @@ OpenSSL modules, such as key parameters from Crypt::OpenSSL::RSA.
 %prep
 %setup -q -n Crypt-OpenSSL-Bignum-%{version}
 
+chmod a-x LICENSE README Changes
+
 %build
 %{__perl} Makefile.PL INSTALLDIRS=vendor
 %make_build
 
 %install
-rm -rf %{buildroot}
-
 make pure_install DESTDIR=%{buildroot}
 
 find %{buildroot} -type f -name .packlist -delete
@@ -61,6 +61,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.09-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.09-11
 - Perl 5.32 rebuild
 

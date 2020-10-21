@@ -1,7 +1,7 @@
 Name:           perl-ClamAV-Client
 Summary:        Client class for the ClamAV clamd virus scanner daemon
 Version:        0.11
-Release:        22%{?dist}
+Release:        23%{?dist}
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/ClamAV-Client
 Source0:        https://cpan.metacpan.org/authors/id/J/JM/JMEHNLE/clamav-client/ClamAV-Client-%{version}.tar.gz
@@ -52,6 +52,9 @@ perl Build.PL installdirs=vendor
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.11-22
 - Perl 5.32 rebuild
 

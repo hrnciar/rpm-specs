@@ -8,7 +8,7 @@
 
 Name:           perl-AnyEvent
 Version:        7.17
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Framework for multiple event loops
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/AnyEvent
@@ -192,6 +192,12 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.17-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 7.17-4
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 7.17-3
 - Perl 5.32 rebuild
 

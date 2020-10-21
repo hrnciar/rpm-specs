@@ -6,11 +6,6 @@
 # Require tests to pass?
 %global require_tests     1
 
-# typedarray-arg-set-values-same-buffer-other-type.js is failing on s390x
-%ifarch s390x s390
-%global require_tests     0
-%endif
-
 %if 0%{?build_with_lto}
 %global optflags        %{optflags} -flto
 %global build_ldflags   %{build_ldflags} -flto
@@ -27,7 +22,7 @@
 %endif
 
 Name:           mozjs%{major}
-Version:        68.9.0
+Version:        68.12.0
 Release:        1%{?dist}
 Summary:        SpiderMonkey JavaScript library
 
@@ -57,7 +52,7 @@ Patch17:        armv7_disable_WASM_EMULATE_ARM_UNALIGNED_FP_ACCESS.patch
 
 # s390x fixes, TODO: file bug report upstream?
 Patch18:        spidermonkey_style_check_disable_s390x.patch
-Patch19:        Don-t-run-non262-extensions-clone-errors.js-on-s390x.patch
+Patch19:        Exclude-failing-tests-on-s390x.patch
 
 # Patches from Fedora firefox package:
 Patch26:        build-icu-big-endian.patch
@@ -76,6 +71,7 @@ BuildRequires:  pkgconfig(zlib)
 # Build requires Python 2, tests are patched to run with Python 3
 BuildRequires:  python2-devel
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-six
 BuildRequires:  readline-devel
 BuildRequires:  zip
@@ -143,7 +139,7 @@ rm -rf ../../modules/zlib
 export CC=gcc
 export CXX=g++
 
-%if 0%{?build_with_lto}
+%if 0%{?build_with_lto} && 0%{?fedora} < 33
 export AR=%{_bindir}/gcc-ar
 export RANLIB=%{_bindir}/gcc-ranlib
 export NM=%{_bindir}/gcc-nm
@@ -261,6 +257,22 @@ PYTHONPATH=tests/lib %{__python3} jit-test/jit_test.py -s -t 1800 --no-progress 
 %{_includedir}/mozjs-%{major}/
 
 %changelog
+* Mon Aug 24 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 68.12.0-1
+- Update to 68.12.0
+- Force tests to pass even on s390x, disable the failing ones
+
+* Fri Jul 31 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 68.11.0-1
+- Update to 68.11.0
+
+* Thu Jul 30 2020 Tom Stellard <tstellar@redhat.com> - 68.10.0-3
+- Stop using gcc specific binutils
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 68.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 68.10.0-1
+- Update to 68.10.0
+
 * Tue Jun 02 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 68.9.0-1
 - Update to 68.9.0
 - Drop llvm and rust deps

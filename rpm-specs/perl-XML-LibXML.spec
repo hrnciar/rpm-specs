@@ -7,8 +7,8 @@ Name:           perl-XML-LibXML
 # https://bugzilla.redhat.com/show_bug.cgi?id=469480
 # it might not be needed anymore
 # this module is maintained, the other is not
-Version:        2.0205
-Release:        2%{?dist}
+Version:        2.0206
+Release:        1%{?dist}
 Epoch:          1
 Summary:        Perl interface to the libxml2 library
 License:        (GPL+ or Artistic) and MIT
@@ -133,6 +133,12 @@ fi
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Sep 15 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:2.0206-1
+- 2.0206 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.0205-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:2.0205-2
 - Perl 5.32 rebuild
 

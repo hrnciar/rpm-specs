@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.4.5
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        DEFLATE decoding
 
 # Upstream license specification: MIT
@@ -83,6 +83,9 @@ which use "unstable" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.5-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

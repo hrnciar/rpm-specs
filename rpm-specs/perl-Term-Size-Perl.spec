@@ -1,11 +1,12 @@
 Name:           perl-Term-Size-Perl
 Version:        0.031
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Perl extension for retrieving terminal size (Perl version)
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Term-Size-Perl
 Source0:        https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/Term-Size-Perl-%{version}.tar.gz
 # Build
+BuildRequires:  coreutils
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  perl-generators
@@ -31,11 +32,11 @@ exception of a C probe run on build time.
 %setup -q -n Term-Size-Perl-%{version}
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-make pure_install DESTDIR=%{buildroot}
+%{make_install}
 %{_fixperms} %{buildroot}/*
 
 %check
@@ -48,6 +49,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Petr Pisar <ppisar@redhat.com> - 0.031-9
+- Modernize a spec file
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.031-8
 - Perl 5.32 rebuild
 

@@ -5,7 +5,7 @@
 Summary:       Graphics Layout Engine
 Name:          gle
 Version:       4.2.5
-Release:       12%{?dist}
+Release:       16%{?dist}
 License:       GPLv2+
 URL:           http://www.gle-graphics.org/
 Source0:       http://downloads.sourceforge.net/glx/gle-graphics-%{version}f-src.tar.gz
@@ -87,6 +87,7 @@ install -p -m 0644 %{SOURCE1} .
 touch -r README.txt configure.ac
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %configure --with-qt=%{_libdir}/qt4 \
            --with-jpeg              \
            --with-png               \
@@ -98,7 +99,7 @@ touch -r README.txt configure.ac
            --with-libgle=yes        \
            --with-extrafonts=yes    \
            --docdir=%{_pkgdocdir}   \
-           CPPFLAGS="%{optflags}"   \
+           CPPFLAGS="%{optflags} -std=c++14" \
            CXXFLAGS="%{optflags}"
 make
 # %{?_smp_mflags} build fails
@@ -107,7 +108,7 @@ make
 make doc
 
 %install
-make DESTDIR=%{buildroot} install
+%make_install
 mv %{buildroot}/%{_pkgdocdir}/gle-manual.pdf .
 rm -rf %{buildroot}/%{_pkgdocdir}
 
@@ -134,6 +135,19 @@ rm -f %{buildroot}%{_libdir}/pkgconfig/gle-graphics.pc
 %doc gle-manual.pdf GLEusersguide.pdf
 
 %changelog
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 4.2.5-16
+- Use C++14 as this code is not C++17 ready
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.5-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Tom Stellard <tstellar@redhat.com> - 4.2.5-14
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Sun Jul 12 2020 Terje Rosten <terje.rosten@ntnu.no> - 4.2.5-13
+- Rebuilt for Fedora 33
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.5-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

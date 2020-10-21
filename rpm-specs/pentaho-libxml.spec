@@ -2,7 +2,7 @@
 
 Name: pentaho-libxml
 Version: 1.1.3
-Release: 24%{?dist}
+Release: 26%{?dist}
 Summary: Namespace aware SAX-Parser utility library
 License: LGPLv2
 #Original source: http://downloads.sourceforge.net/jfreereport/%%{origname}-%%{version}.zip
@@ -60,6 +60,12 @@ cp -rp bin/javadoc/docs/api $RPM_BUILD_ROOT%{_javadocdir}/%{origname}
 %{_javadocdir}/%{origname}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 1.1.3-25
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue May 05 2020 Caolán McNamara <caolanm@redhat.com> - 1.1.3-24
 - allow rebuild with java 11
 

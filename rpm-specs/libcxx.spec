@@ -7,25 +7,30 @@
 %global libcxx_srcdir libcxx-%{version}%{?rc_ver:rc%{rc_ver}}.src
 
 Name:		libcxx
-Version:	10.0.0
+Version:	11.0.0
 Release:	%{baserelease}%{?rc_ver:.rc%{rc_ver}}%{?dist}
 Summary:	C++ standard library targeting C++11
 License:	MIT or NCSA
 URL:		http://libcxx.llvm.org/
-%if 0%{?rc_ver:1}
-Source0:	https://prereleases.llvm.org/%{version}/rc%{rc_ver}/%{libcxx_srcdir}.tar.xz
-Source1:	https://prereleases.llvm.org/%{version}/rc%{rc_ver}/%{libcxx_srcdir}.tar.xz.sig
-%else
-Source0:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}/%{libcxx_srcdir}.tar.xz
-Source3:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}/%{libcxx_srcdir}.tar.xz.sig
-%endif
+Source0:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}%{?rc_ver:-rc%{rc_ver}}/%{libcxx_srcdir}.tar.xz
+Source1:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}%{?rc_ver:-rc%{rc_ver}}/%{libcxx_srcdir}.tar.xz.sig
 Source2:	https://prereleases.llvm.org/%{version}/hans-gpg-key.asc
 
-BuildRequires:	gcc-c++ llvm-devel cmake llvm-static
+Patch0:		0001-libcxx-Remove-monorepo-requirement.patch
+
+BuildRequires:	gcc-c++ llvm-devel cmake llvm-static ninja-build
+# We need python3-devel for pathfix.py.
+BuildRequires:  python3-devel
+
 %if %{bootstrap} < 1
 BuildRequires:	libcxxabi-devel
 BuildRequires:	python3
 %endif
+
+
+# For origin certification
+BuildRequires:	gnupg2
+
 # PPC64 (on EL7) doesn't like this code.
 # /builddir/build/BUILD/libcxx-3.8.0.src/include/thread:431:73: error: '(9.223372036854775807e+18 / 1.0e+9)' is not a constant expression
 # _LIBCPP_CONSTEXPR duration<long double> _Max = nanoseconds::max();
@@ -53,14 +58,16 @@ Summary:	Static libraries for libcxx
 %{summary}.
 
 %prep
-%setup -q -n %{name}-%{version}%{?rc_ver:rc%{rc_ver}}.src
+%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
+%autosetup -n %{libcxx_srcdir} -p2
+
+pathfix.py -i %{__python3} -pn \
+	utils/*.py
 
 %build
-mkdir _build
-cd _build
 
-%cmake .. \
-	-DLLVM_CONFIG=%{_bindir}/llvm-config \
+%cmake  -GNinja \
+	-DLIBCXX_STANDALONE_BUILD=ON \
 %if %{bootstrap} < 1
 	-DLIBCXX_CXX_ABI=libcxxabi \
 	-DLIBCXX_CXX_ABI_INCLUDE_PATHS=%{_includedir} \
@@ -74,11 +81,11 @@ cd _build
 	-DCMAKE_BUILD_TYPE=RelWithDebInfo
 
 
-make %{?_smp_mflags}
+%cmake_build
 
 %install
-cd _build
-make install DESTDIR=%{buildroot}
+
+%cmake_install
 
 %ldconfig_scriptlets
 
@@ -97,6 +104,37 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Thu Oct 15 2020 sguelton@redhat.com - 11.0.0-1
+- Fix NVR
+
+* Mon Oct 12 2020 sguelton@redhat.com - 11.0.0-0.5
+- llvm 11.0.0 - final release
+
+* Thu Oct 08 2020 sguelton@redhat.com - 11.0.0-0.4.rc6
+- 11.0.0-rc6
+
+* Fri Oct 02 2020 sguelton@redhat.com - 11.0.0-0.3.rc5
+- 11.0.0-rc5 Release
+
+* Sun Sep 27 2020 sguelton@redhat.com - 11.0.0-0.2.rc3
+- Fix NVR
+
+* Thu Sep 24 2020 sguelton@redhat.com - 11.0.0-0.1.rc3
+- 11.0.0-rc3 Release
+
+* Tue Sep 01 2020 sguelton@redhat.com - 11.0.0-0.1.rc2
+- 11.0.0-rc2 Release
+
+* Tue Aug 11 2020 Tom Stellard <tstellar@redhat.com> - 11.0.0-0.1.rc1
+- 11.0.0-rc1 Release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 sguelton@redhat.com - 10.0.0-2
+- Use modern cmake macros
+- Finalize source verification
+
 * Mon Mar 30 2020 sguelton@redhat.com - 10.0.0-1
 - 10.0.0 final
 

@@ -1,6 +1,6 @@
 Name: python-nitrate
 Version: 1.6
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 Summary: Python API for the Nitrate test case management system
 License: LGPLv2+
@@ -126,6 +126,9 @@ pathfix.py -pni "%{__python3} %{py3_shbang_opts}i" %{buildroot}%{_bindir}/nitrat
 %license LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 09 2020 Petr Šplíchal <psplicha@redhat.com> - 1.6-1
 - Handle wrongly encoded messages in log [fix #20]
 - Make teiid Python 3 compatible [fix #13]

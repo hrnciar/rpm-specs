@@ -1,11 +1,11 @@
 Name:           gnome-taquin
-Version:        3.37.1
+Version:        3.38.1
 Release:        1%{?dist}
 Summary:        Sliding-block puzzle game
 
 License:        GPLv3+ and GPLv2+ and CC-BY-SA 
 URL:            https://wiki.gnome.org/Apps/Taquin
-Source0:        https://download.gnome.org/sources/gnome-taquin/3.37/gnome-taquin-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/gnome-taquin/3.38/gnome-taquin-%{version}.tar.xz
 
 BuildRequires:  pkgconfig(glib-2.0) >= 2.42
 BuildRequires:  pkgconfig(gtk+-3.0) >= 3.15
@@ -56,6 +56,22 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.Taquin.d
 
 
 %changelog
+* Mon Oct  5 2020 Kalev Lember <klember@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Sat Sep 12 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Sat Aug 29 2020 Kalev Lember <klember@redhat.com> - 3.37.91-1
+- Update to 3.37.91
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Kalev Lember <klember@redhat.com> - 3.37.1-1
 - Update to 3.37.1
 

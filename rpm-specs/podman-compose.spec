@@ -1,9 +1,9 @@
-%global commit 12036aa54ea93eff417ffae9e6aee3127fb57921
+%global commit 294f8ee37bb37ab0535558182cf41d99dfb3cb11
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           podman-compose
-Version:        0.1.5
-Release:        4.git20191107%{?dist}
+Version:        0.1.6
+Release:        1.git20200615%{?dist}
 Summary:        Run docker-compose.yml using podman
 License:        GPLv2
 URL:            https://github.com/containers/podman-compose
@@ -42,6 +42,13 @@ sed -i /python3/d %{buildroot}%{python3_sitelib}/podman_compose.py
 %{python3_sitelib}/podman_compose*
 
 %changelog
+* Wed Jul 29 2020 Pavel Raiskup <praiskup@redhat.com> - 0.1.6-1.git20200615
+- update to the latest git HEAD; namely to allow spawning privileged containers
+  and to fix volume initialization
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.5-5.git20191107
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.5-4.git20191107
 - Rebuilt for Python 3.9
 

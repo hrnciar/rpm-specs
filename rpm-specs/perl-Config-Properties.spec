@@ -1,6 +1,6 @@
 Name:           perl-Config-Properties
 Version:        1.80
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Read and write property files
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Config-Properties
@@ -62,6 +62,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.80-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.80-14
 - Perl 5.32 rebuild
 

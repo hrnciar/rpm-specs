@@ -1,10 +1,7 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
+%undefine __cmake_in_source_build
 
 Name:       kdevelop-python
-Version:    5.5.2
+Version:    5.6.0
 %global py3_suffix -py3
 %global py3_tag .py3
 Release:    1%{?dist}
@@ -69,16 +66,13 @@ Python 3 language support for the KDevelop Integrated Development Environment.
 %patch2 -p1
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%{cmake_kf5}
+%cmake_build
 
-make %{?_smp_mflags} -C %{_target_platform}
-
+%py_byte_compile %{__python3} %{buildroot}%{_datadir}/kdevpythonsupport
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 # don't ship this Python 2 script, it is only used to generate the
 # documentation_files, it is not needed at runtime
@@ -96,12 +90,25 @@ rm -f %{buildroot}%{_datadir}/kdevpythonsupport/documentation_files/PyKDE4/parse
 %{_libdir}/libkdevpythoncompletion.so
 %{_datadir}/kdevpythonsupport
 %{_datadir}/kdevappwizard/templates/*
-%{_kf5_qtplugindir}/kdevplatform/33/kdevpdb.so
-%{_kf5_qtplugindir}/kdevplatform/33/kdevpythonlanguagesupport.so
+%{_kf5_qtplugindir}/kdevplatform/34/kdevpdb.so
+%{_kf5_qtplugindir}/kdevplatform/34/kdevpythonlanguagesupport.so
 %{_datadir}/qlogging-categories5/kdevpythonsupport.categories
 %{_datadir}/metainfo/org.kde.kdev-python.metainfo.xml
 
 %changelog
+* Tue Sep 08 2020 Jan Grulich <jgrulich@redhat.com> - 5.6.0-1
+- 5.6.0
+
+* Mon Aug 24 2020 Jan Grulich <jgrulich@redhat.com> - 5.5.2-4
+- Support Python 3.9
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.5.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.5.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Jan Grulich <jgrulich@redhat.com> - 5.5.2-1
 - 5.5.2
 

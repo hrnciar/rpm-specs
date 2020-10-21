@@ -4,6 +4,7 @@
 # https://github.com/docker/distribution
 %global goipath         github.com/docker/distribution
 Version:                2.7.1
+%global commit          35b26def43c1f0bff65f349a058644cf45181338
 
 %gometa
 
@@ -18,16 +19,15 @@ project with a new API design, focused around security and performance.}
 %global godocs          docs BUILDING.md CONTRIBUTING.md README.md ROADMAP.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Docker toolset to pack, ship, store, and deliver content
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
-# Needed by containerd
-Patch0:         https://github.com/docker/distribution/commit/0ac367fd6bee057d404c405a298b4b7aedf301ec.patch#/0001-Add-reference-ParseDockerRef-utility-function.patch
-
+# To use github.com/bshuster-repo/logrus-logstash-hook v1.0.0
+Patch0:         0001-Fix-for-new-logrus-logstash-hook.patch
 
 BuildRequires:  golang(github.com/aws/aws-sdk-go/aws)
 BuildRequires:  golang(github.com/aws/aws-sdk-go/aws/awserr)
@@ -43,6 +43,8 @@ BuildRequires:  golang(github.com/aws/aws-sdk-go/service/s3)
 BuildRequires:  golang(github.com/Azure/azure-sdk-for-go/storage)
 BuildRequires:  golang(github.com/bshuster-repo/logrus-logstash-hook)
 BuildRequires:  golang(github.com/bugsnag/bugsnag-go)
+BuildRequires:  golang(github.com/denverdino/aliyungo/cdn/auth)
+BuildRequires:  golang(github.com/docker/go-events)
 BuildRequires:  golang(github.com/docker/go-metrics)
 BuildRequires:  golang(github.com/docker/libtrust)
 BuildRequires:  golang(github.com/garyburd/redigo/redis)
@@ -56,10 +58,11 @@ BuildRequires:  golang(github.com/Shopify/logrus-bugsnag)
 BuildRequires:  golang(github.com/sirupsen/logrus)
 BuildRequires:  golang(github.com/spf13/cobra)
 BuildRequires:  golang(github.com/yvasiyarov/gorelic)
+BuildRequires:  golang(golang.org/x/crypto/acme)
+BuildRequires:  golang(golang.org/x/crypto/acme/autocert)
 BuildRequires:  golang(golang.org/x/crypto/bcrypt)
 BuildRequires:  golang(gopkg.in/check.v1)
 BuildRequires:  golang(gopkg.in/yaml.v2)
-BuildRequires:  golang(rsc.io/letsencrypt)
 
 %if %{with check}
 # Tests
@@ -100,6 +103,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Sun Aug 16 01:37:07 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.7.1-5.20200816git35b26de
+- Bump to commit 35b26def43c1f0bff65f349a058644cf45181338
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

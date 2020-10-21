@@ -6,7 +6,7 @@
 Summary:        Perl module to load and save configuration files in a standard format
 Name:           perl-Config-Std
 Version:        0.903
-Release:        9%{?dist}
+Release:        10%{?dist}
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/%{pkgname}
 Source:         https://cpan.metacpan.org/authors/id/B/BR/BRICKER/%{pkgname}-%{version}.tar.gz
@@ -66,6 +66,9 @@ make test
 %{_mandir}/man3/*.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.903-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.903-9
 - Perl 5.32 rebuild
 

@@ -1,20 +1,16 @@
-%global gitfullver e0580929f451e685d92cd10d80b76f39e9b09a97
-%global gitver %(c=%{gitfullver}; echo ${c:0:6})
-%global gitdate 20191225
 %global _hardened_build 1
-%global testsuite_ver a7f6e1
-%global clknetsim_ver 79ffe4
+%global testsuite_ver ff37e2
+%global clknetsim_ver c4ccc2
 
 Name:		linuxptp
-Version:	2.0
-Release:	7.%{gitdate}git%{gitver}%{?dist}
+Version:	3.1
+Release:	1%{?dist}
 Summary:	PTP implementation for Linux
 
 License:	GPLv2+
 URL:		http://linuxptp.sourceforge.net/
 
-#Source0:	https://downloads.sourceforge.net/%{name}/%{name}-%{version}.tgz
-Source0:	https://github.com/richardcochran/%{name}/archive/%{gitver}/%{name}-%{gitver}.tar.gz
+Source0:	https://downloads.sourceforge.net/%{name}/%{name}-%{version}.tgz
 Source1:	phc2sys.service
 Source2:	ptp4l.service
 Source3:	timemaster.service
@@ -92,12 +88,18 @@ PATH=..:$PATH ./run
 %{_sbindir}/phc_ctl
 %{_sbindir}/pmc
 %{_sbindir}/ptp4l
-%{_sbindir}/snmp4lptp
 %{_sbindir}/timemaster
+%{_sbindir}/ts2phc
 %{_mandir}/man5/*.5*
 %{_mandir}/man8/*.8*
 
 %changelog
+* Tue Sep 29 2020 Miroslav Lichvar <mlichvar@redhat.com> 3.1-1
+- update to 3.1
+
+* Mon Jul 27 2020 Miroslav Lichvar <mlichvar@redhat.com> 3.0-1
+- update to 3.0
+
 * Mon Feb 03 2020 Miroslav Lichvar <mlichvar@redhat.com> 2.0-7.20191225gite05809
 - update to 20191225gite05809
 - fix testing with new glibc

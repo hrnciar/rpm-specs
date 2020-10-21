@@ -2,13 +2,12 @@
 
 Name:           python-%{srcname}
 Version:        0.5.12
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        Configuration parser
 
 License:        BSD
-URL:            https://pypi.python.org/pypi/kaptan
-Source:         https://github.com/emre/kaptan/archive/v%{version}/%{srcname}-%{version}.tar.gz
-
+URL:            https://github.com/emre/kaptan
+Source:         %{url}/archive/v%{version}/%{srcname}-%{version}.tar.gz
 BuildArch:      noarch
 
 %description
@@ -16,10 +15,11 @@ BuildArch:      noarch
 
 %package -n python3-%{srcname}
 Summary:        %{summary}
+
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 BuildRequires:  (python3dist(pyyaml) >= 3.13 with python3dist(pyyaml) < 6)
-BuildRequires:  python3dist(pytest) >= 4.4.1
+BuildRequires:  python3dist(pytest)
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
@@ -37,7 +37,7 @@ sed -i -e 's/==/>=/' requirements/test.txt
 %py3_install
 
 %check
-%{__python3} setup.py test
+%pytest -v tests
 
 # A man page has been requested upstream here:
 # https://github.com/emre/kaptan/issues/44
@@ -49,6 +49,12 @@ sed -i -e 's/==/>=/' requirements/test.txt
 %{_bindir}/%{srcname}
 
 %changelog
+* Sat Sep 19 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.5.12-8
+- Update spec file
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.12-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.12-6
 - Rebuilt for Python 3.9
 

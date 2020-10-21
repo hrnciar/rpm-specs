@@ -1,7 +1,7 @@
 #%%global rc_ver 6
 %global baserelease 1
 %global lld_srcdir lld-%{version}%{?rc_ver:rc%{rc_ver}}.src
-%global maj_ver 10
+%global maj_ver 11
 %global min_ver 0
 %global patch_ver 0
 
@@ -16,27 +16,23 @@ Summary:	The LLVM Linker
 
 License:	NCSA
 URL:		http://llvm.org
-%if 0%{?rc_ver:1}
-Source0:	https://prereleases.llvm.org/%{version}/rc%{rc_ver}/%{lld_srcdir}.tar.xz
-Source3:	https://prereleases.llvm.org/%{version}/rc%{rc_ver}/%{lld_srcdir}.tar.xz.sig
-%else
-Source0:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}/%{lld_srcdir}.tar.xz
-Source3:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}/%{lld_srcdir}.tar.xz.sig
-%endif
-Source1:	run-lit-tests
-Source2:	lit.lld-test.cfg.py
-Source4:	https://prereleases.llvm.org/%{version}/hans-gpg-key.asc
+Source0:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}%{?rc_ver:-rc%{rc_ver}}/%{lld_srcdir}.tar.xz
+Source1:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}%{?rc_ver:-rc%{rc_ver}}/%{lld_srcdir}.tar.xz.sig
+Source2:	https://prereleases.llvm.org/%{version}/hans-gpg-key.asc
+Source3:	run-lit-tests
+Source4:	lit.lld-test.cfg.py
 
 Patch0:		0001-CMake-Check-for-gtest-headers-even-if-lit.py-is-not-.patch
+Patch1:		0001-Revert-lld-Initial-commit-for-new-Mach-O-backend.patch
 
 BuildRequires:	gcc
 BuildRequires:	gcc-c++
 BuildRequires:	cmake
+BuildRequires:	ninja-build
 BuildRequires:	llvm-devel = %{version}
 BuildRequires:	llvm-test = %{version}
 BuildRequires:	ncurses-devel
 BuildRequires:	zlib-devel
-BuildRequires:	chrpath
 
 # For make check:
 BuildRequires:	python3-rpm-macros
@@ -56,7 +52,10 @@ The LLVM project linker.
 
 %package devel
 Summary:	Libraries and header files for LLD
-Requires: lld-libs = %{version}-%{release}
+Requires: lld-libs%{?_isa} = %{version}-%{release}
+# lld tools are referenced in the cmake files, so we need to add lld as a
+# dependency.
+Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %description devel
 This package contains library and header files needed to develop new native
@@ -79,17 +78,26 @@ Requires:	lld-libs = %{version}-%{release}
 LLVM regression tests.
 
 %prep
-%{gpgverify} --keyring='%{SOURCE4}' --signature='%{SOURCE3}' --data='%{SOURCE0}'
-%autosetup -n %{lld_srcdir} -p1
+%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
+%setup -q -n %{lld_srcdir}
+
+%patch0 -p1 -b .gtest-fix
+# Remove the MachO backend since it doesn't seem to work on big-endian hosts.
+%ifarch s390x
+%patch1 -p2 -b .remove-MachO
+%endif
+
 
 %build
 
-mkdir %{_target_platform}
-cd %{_target_platform}
+# Disable lto since it causes the COFF/libpath.test lit test to crash.
+%global _lto_cflags %{nil}
 
-%cmake .. \
+%cmake \
+	-GNinja \
 	-DLLVM_LINK_LLVM_DYLIB:BOOL=ON \
 	-DLLVM_DYLIB_COMPONENTS="all" \
+	-DCMAKE_SKIP_RPATH:BOOL=ON \
 	-DPYTHON_EXECUTABLE=%{__python3} \
 	-DLLVM_INCLUDE_TESTS=ON \
 	-DLLVM_MAIN_SRC_DIR=%{_datadir}/llvm/src \
@@ -102,10 +110,10 @@ cd %{_target_platform}
 	-DLLVM_LIBDIR_SUFFIX=
 %endif
 
-%make_build
+%cmake_build
 
 # Build the unittests so we can install them.
-%make_build lld-test-depends
+%cmake_build --target lld-test-depends
 
 %install
 
@@ -125,11 +133,16 @@ done
 
 # Install test files
 install -d %{buildroot}%{_datadir}/lld/src
-cp %{SOURCE2} %{buildroot}%{_datadir}/lld/
+cp %{SOURCE4} %{buildroot}%{_datadir}/lld/
 
-tar -czf %{buildroot}%{_datadir}/lld/src/test.tar.gz test/
+# The various tar options are there to make sur the archive is the same on 32 and 64 bit arch, i.e.
+# the archive creation is reproducible. Move arch-specific content out of the tarball
+mv %{lit_cfg} %{buildroot}%{_datadir}/lld/src/%{_arch}.site.cfg.py
+mv %{lit_unit_cfg} %{buildroot}%{_datadir}/lld/src/%{_arch}.Unit.site.cfg.py
+tar --sort=name --mtime='UTC 2020-01-01' -c test/ | gzip -n > %{buildroot}%{_datadir}/lld/src/test.tar.gz
+
 install -d %{buildroot}%{_libexecdir}/tests/lld
-cp %{SOURCE1} %{buildroot}%{_libexecdir}/tests/lld
+cp %{SOURCE3} %{buildroot}%{_libexecdir}/tests/lld
 
 # Install unit test binaries
 install -d %{buildroot}%{_libdir}/lld/
@@ -140,13 +153,7 @@ rm -rf `find %{buildroot}%{_libdir}/lld/ -iname '*make*'`
 cp %{_target_platform}/%{_lib}/libgtest*so* %{buildroot}%{_libdir}/lld/
 
 # Install libraries and binaries
-cd %{_target_platform}
-%make_install
-
-# Remove rpath
-chrpath --delete %{buildroot}%{_bindir}/*
-chrpath --delete %{buildroot}%{_libdir}/*.so*
-chrpath --delete `find %{buildroot}%{_libdir}/lld/ -type f`
+%cmake_install
 
 # Required when using update-alternatives:
 # https://docs.fedoraproject.org/en-US/packaging-guidelines/Alternatives/
@@ -164,12 +171,13 @@ fi
 
 # armv7lhl tests disabled because of arm issue, see https://koji.fedoraproject.org/koji/taskinfo?taskID=33660162
 %ifnarch %{arm}
-make -C %{_target_platform} %{?_smp_mflags} check-lld
+%cmake_build --target check-lld
 %endif
 
 %ldconfig_scriptlets libs
 
 %files
+%license LICENSE.TXT
 %ghost %{_bindir}/ld
 %{_bindir}/lld*
 %{_bindir}/ld.lld
@@ -179,6 +187,7 @@ make -C %{_target_platform} %{?_smp_mflags} check-lld
 %files devel
 %{_includedir}/lld
 %{_libdir}/liblld*.so
+%{_libdir}/cmake/lld/
 
 %files libs
 %{_libdir}/liblld*.so.*
@@ -187,9 +196,59 @@ make -C %{_target_platform} %{?_smp_mflags} check-lld
 %{_libexecdir}/tests/lld/
 %{_libdir}/lld/
 %{_datadir}/lld/src/test.tar.gz
+%{_datadir}/lld/src/%{_arch}.site.cfg.py
+%{_datadir}/lld/src/%{_arch}.Unit.site.cfg.py
 %{_datadir}/lld/lit.lld-test.cfg.py
 
 %changelog
+* Thu Oct 15 2020 sguelton@redhat.com - 11.0.0-1
+- Fix NVR
+
+* Mon Oct 12 2020 sguelton@redhat.com - 11.0.0-0.6
+- llvm 11.0.0 - final release
+
+* Thu Oct 08 2020 sguelton@redhat.com - 11.0.0-0.5.rc6
+- 11.0.0-rc6
+
+* Wed Oct 07 2020 sguelton@redhat.com - 11.0.0-0.4.rc5
+- Update CI tests
+
+* Fri Oct 02 2020 sguelton@redhat.com - 11.0.0-0.3.rc5
+- 11.0.0-rc5 Release
+
+* Sun Sep 27 2020 sguelton@redhat.com - 11.0.0-0.2.rc3
+- Fix NVR
+
+* Thu Sep 24 2020 sguelton@redhat.com - 11.0.0-0.1.rc3
+- 11.0.0-rc3 Release
+
+* Tue Sep 01 2020 sguelton@redhat.com - 11.0.0-0.1.rc2
+- 11.0.0-rc2 Release
+
+* Mon Aug 10 2020 Tom Stellard <tstellar@redhat.com> - 11.0.0-0.1.rc1
+- 11.0.0-rc1 Release
+
+* Mon Aug 10 2020 sguelton@redhat.com - 10.0.0-7
+- use %%license macro
+
+* Mon Aug 10 2020 Tom Stellard <tstellar@redhat.com> - 10.0.0-6
+- Disable LTO
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 sguelton@redhat.com - 10.0.0-3
+- Use generic cmake macros
+- Use Ninja as build system
+- Remove chrpath dependency
+
+* Fri Jul 17 2020 sguelton@redhat.com - 10.0.0-2
+- Make test archive arch-independent
+
 * Mon Mar 30 2020 sguelton@redhat.com - 10.0.0-1
 - 10.0.0 final
 

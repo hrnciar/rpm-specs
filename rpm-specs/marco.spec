@@ -13,11 +13,11 @@
 %{!?rel_build:%global git_tar %{name}-%{version}-%{git_ver}.tar.xz}
 
 Name:          marco
-Version:       %{branch}.0
+Version:       %{branch}.1
 %if 0%{?rel_build}
-Release:       4%{?dist}
+Release:       2%{?dist}
 %else
-Release:       0.12%{?git_rel}%{?dist}
+Release:       0.13%{?git_rel}%{?dist}
 %endif
 Summary:       MATE Desktop window manager
 License:       LGPLv2+ and GPLv2+
@@ -29,27 +29,12 @@ URL:           http://mate-desktop.org
 # Source for snapshot-builds.
 %{!?rel_build:Source0:    http://git.mate-desktop.org/%{name}/snapshot/%{name}-%{commit}.tar.xz#/%{git_tar}}
 
-# https://github.com/mate-desktop/marco/commit/faee4a8
-Patch1:        marco_0001-frames-don-t-bother-painting-the-background.patch
-# https://github.com/mate-desktop/marco/commit/7ffa179
-Patch2:        marco_0002-theme-avoid-deprecated-g_memmove.patch
-# https://github.com/mate-desktop/marco/commit/3b6919c
-Patch3:        marco_0001-remove-warning-GTimeVal-is-deprecated.patch
-# https://github.com/mate-desktop/marco/commit/159addc
-Patch4:        marco_0001-util-meta_bug-raises-SIGABRT-so-it-shouldn-t-return.patch
-# https://github.com/mate-desktop/marco/commit/280e5db
-Patch5:        marco_0001-Introduce-nullpointer-checks-and-return-null-if-vali.patch
-# https://github.com/mate-desktop/marco/commit/821f582
-Patch6:        marco_0002-Guard-against-null-changes-introduced-by-previous-co.patch
-# https://github.com/mate-desktop/marco/pull/605
-Patch7:       marco_0001-Remove-unnecessary-warnings-about-visible-region.patch
-# https://github.com/mate-desktop/marco/pull/601
-Patch8:        marco_0001-window-fix-crash-if-workspace-is-null.patch
-Patch9:        marco_0002-compositor-fix-possible-crash-closing-destroying-win.patch
-Patch10:       marco_0003-stack-make-meta_window_raise-and-meta_window_lower-s.patch
-Patch11:       marco_0004-workspace-Don-t-try-to-use-per-workspace-MRU-lists-a.patch
-# https://github.com/mate-desktop/marco/commit/92c984c
-Patch12:       marco_0001-In-the-pop-up-workspace-switcher-show-the-selected-w.patch
+# https://github.com/mate-desktop/marco/pull/625
+Patch1:        marco_0001-compositor-xrender.c-Make-sure-tooltips-are-visible-.patch
+# https://github.com/mate-desktop/marco/commit/17b7c90
+Patch2:        marco_0001-Do-not-call-cairo-paint-on-generate_pixmaps.patch
+# https://github.com/mate-desktop/marco/commit/634057c
+Patch3:        marco_0002-window-do-not-unfocus-on-new-window.patch
 
 BuildRequires: desktop-file-utils
 BuildRequires: gtk3-devel
@@ -172,6 +157,18 @@ desktop-file-install                                \
 
 
 %changelog
+* Sun Sep 27 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-2
+- add 2 upstream fixes
+
+* Mon Aug 10 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- update to 1.24.1
+
+* Fri Jul 31 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-6
+- fix tooltips with HIDPI displays
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 1 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-4
 - fix rhbz (#1836408)
 

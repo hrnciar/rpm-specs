@@ -1,6 +1,6 @@
 Name:           perl-Perlilog
 Version:        1.0
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Verilog environment and IP core handling in Perl
 License:        GPLv2
 URL:            https://metacpan.org/release/Perlilog
@@ -64,6 +64,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.0-13
 - Perl 5.32 rebuild
 

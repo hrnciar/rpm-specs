@@ -1,6 +1,6 @@
 Summary: A graphical X3D/VRML97 editor, simple 3D modeler and animation tool
 Name: wdune
-Version: 1.876
+Version: 1.958
 Release: 3%{?dist}
 License: GPLv2+ and GPLv3+ and LGPLv3+ and BSD and Public Domain and ASL 2.0
 URL: http://wdune.ourproject.org/
@@ -34,6 +34,11 @@ BuildRequires: grep
 BuildRequires: pkg-config
 BuildRequires: pkgconfig(eigen3) pkgconfig(vcglib)
 BuildRequires: freeglut-devel
+Requires: bash
+Requires: kdialog
+Requires: git
+Requires: povray
+Requires: gawk
 Requires: git
 Requires: gedit
 Requires: ImageMagick
@@ -117,10 +122,14 @@ mkdir -p $RPM_BUILD_ROOT/%{_includedir}/white_dune
 mkdir -p $RPM_BUILD_ROOT/%{_datadir}/white_dune/opengl_example
 mkdir -p $RPM_BUILD_ROOT/%{_datadir}/applications
 mkdir -p $RPM_BUILD_ROOT/%{_datadir}/pixmaps/
+mkdir -p $RPM_BUILD_ROOT/%{_datadir}/white_dune/shaders
 
 install -m 755 -p bin/dune $RPM_BUILD_ROOT/%{_bindir}/dune
 install -m 755 -p bin/dune4kids $RPM_BUILD_ROOT/%{_bindir}/dune4kids
+install -m 755 -p bin/gitview.sh $RPM_BUILD_ROOT/%{_bindir}/gitview.sh
+install -m 644 -p tools/phong.slx $RPM_BUILD_ROOT/%{_datadir}/white_dune/shaders/phong.slx
 install -m 755 -p tools/run_dune_and_aqsis.sh $RPM_BUILD_ROOT/usr/bin/run_dune_and_aqsis.sh
+install -m 755 -p tools/run_dune_and_povray.sh $RPM_BUILD_ROOT/usr/bin/run_dune_and_povray.sh
 install -m 755 -p bin/illegal2vrml $RPM_BUILD_ROOT/%{_bindir}/illegal2vrml
 install -m 644 -p desktop/kde/dune.desktop $RPM_BUILD_ROOT/%{_datadir}/applications/dune.desktop
 install -m 644 -p desktop/kde/dune.png $RPM_BUILD_ROOT/%{_datadir}/pixmaps/dune.png
@@ -129,6 +138,7 @@ install -m 644 -p desktop/kde/dune4kids.png $RPM_BUILD_ROOT/%{_datadir}/pixmaps/
 install -m 644 -p man/dune.1 $RPM_BUILD_ROOT/%{_mandir}/man1/dune.1
 install -m 644 -p man/dune4kids.1 $RPM_BUILD_ROOT/%{_mandir}/man1/dune4kids.1
 install -m 644 -p man/illegal2vrml.1 $RPM_BUILD_ROOT/%{_mandir}/man1/illegal2vrml.1
+install -m 644 -p man/gitview.1 $RPM_BUILD_ROOT/%{_mandir}/man1/gitview.1
 install -m 644 -p include/white_dune/libC++RWD.h $RPM_BUILD_ROOT/%{_includedir}/white_dune/libC++RWD.h
 install -m 644 -p include/white_dune/libCRWD.h $RPM_BUILD_ROOT/%{_includedir}/white_dune/libCRWD.h
 install -m 644 -p include/white_dune/libC++RWD_namespace.h $RPM_BUILD_ROOT/%{_includedir}/white_dune/libC++RWD_namespace.h
@@ -159,7 +169,10 @@ $RPM_BUILD_ROOT/%{_datadir}/applications/dune4kids.desktop
 %license COPYING
 %{_bindir}/dune
 %{_bindir}/dune4kids
+%{_bindir}/gitview.sh
+%{_datadir}/white_dune/shaders/phong.slx
 %{_bindir}/run_dune_and_aqsis.sh
+%{_bindir}/run_dune_and_povray.sh
 %{_bindir}/illegal2vrml
 %{_datadir}/applications/dune.desktop
 %{_datadir}/pixmaps/dune.png
@@ -168,6 +181,7 @@ $RPM_BUILD_ROOT/%{_datadir}/applications/dune4kids.desktop
 %{_mandir}/man1/dune.1*
 %{_mandir}/man1/dune4kids.1*
 %{_mandir}/man1/illegal2vrml.1*
+%{_mandir}/man1/gitview.1*
 
 %files devel
 %{_includedir}/white_dune/libC++RWD.h
@@ -196,7 +210,7 @@ $RPM_BUILD_ROOT/%{_datadir}/applications/dune4kids.desktop
 %doc README.txt docs
 
 %changelog
-* Wed Jun 17 2020 J. Scheurich <mufti11@web.de> - 1.876-3
+* Thu Sep  3 16:45:22 CEST 2020 J. Scheurich <mufti11@web.de> - 1.958-3
 - Initial RPM release
 
 

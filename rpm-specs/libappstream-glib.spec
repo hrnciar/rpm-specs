@@ -5,7 +5,7 @@
 
 Summary:   Library for AppStream metadata
 Name:      libappstream-glib
-Version:   0.7.17
+Version:   0.7.18
 Release:   1%{?dist}
 License:   LGPLv2+
 URL:       http://people.freedesktop.org/~hughsient/appstream-glib/
@@ -131,6 +131,19 @@ from a directory of packages.
 %{_mandir}/man1/appstream-builder.1.gz
 
 %changelog
+* Mon Sep 07 2020 Richard Hughes <richard@hughsie.com> 0.7.18-1
+- New upstream release
+- Add content rating system APIs from gnome-software
+- Add "validate-version" command
+- Allow timestamp in the future in validate-relax
+- Don't ignore localized strings that are the same as original
+- Fix crash with invalid children of <ul/>
+- Properly initialize mutexes
+- Test launchable tags in validation
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.17-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 20 2020 Richard Hughes <richard@hughsie.com> 0.7.17-1
 - New upstream release
 - Add "icon-theme" as recognised component type

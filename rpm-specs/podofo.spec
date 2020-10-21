@@ -1,6 +1,6 @@
 Name:           podofo
 Version:        0.9.6
-Release:        10%{?dist}
+Release:        13%{?dist}
 Summary:        Tools and libraries to work with the PDF file format
 
 # The library is licensed under the LGPL.
@@ -50,6 +50,11 @@ Patch19:        podofo_CVE-2019-9687.patch
 # Downstream patch for CVE-2019-20093
 # https://sourceforge.net/p/podofo/tickets/75/
 Patch20:        podofo_CVE-2019-20093.patch
+# Proposed patch for CVE-2018-12983
+# https://sourceforge.net/p/podofo/tickets/23/
+Patch21:        podofo_CVE-2018-12983.diff
+# https://sourceforge.net/p/podofo/tickets/101/
+Patch22:        podofo_maxbytes.patch
 
 BuildRequires:  gcc-c++
 %if %{?el7:1}%{!?el7:0}
@@ -116,16 +121,12 @@ rm cmake/modules/FindZLIB.cmake
 
 
 %build
-%if %{?el7:1}%{!?el7:0}
-%cmake3 -DPODOFO_BUILD_SHARED=1 \
-%else
-%cmake -DPODOFO_BUILD_SHARED=1 \
-%endif
+%cmake \
 %if 0%{?__isa_bits} == 64
 -DWANT_LIB64=1 \
 %endif
-.
-%make_build
+-DPODOFO_BUILD_SHARED=1
+%cmake_build
 
 # build the docs
 doxygen
@@ -135,7 +136,7 @@ find doc/html -exec touch -r %{SOURCE0} {} \;
 
 
 %install
-%make_install
+%cmake_install
 
 
 %check
@@ -161,6 +162,15 @@ find doc/html -exec touch -r %{SOURCE0} {} \;
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.6-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 Sandro Mani <manisandro@gmail.com> - 0.9.6-12
+- Add podofo_maxbytes.patch
+
+* Thu Jul 02 2020 Sandro Mani <manisandro@gmail.com> - 0.9.6-11
+- Backport proposed patch for CVE-2018-12983
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.6-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

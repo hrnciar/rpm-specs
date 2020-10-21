@@ -1,12 +1,8 @@
-%global luaver 5.3
-%global luapkgdir %{_datadir}/lua/%{luaver}
-
 %global pkgname moonscript
-#global src_suffix -2
 
 Name:           lua-%{pkgname}
 Version:        0.5.0
-Release:        4%{?dist}
+Release:        8%{?dist}
 Summary:        A little language that compiles to Lua
 
 # license text part of README.md
@@ -15,15 +11,16 @@ URL:            http://moonscript.org/
 Source0:        https://github.com/leafo/moonscript/archive/v%{version}.tar.gz#/%{pkgname}-%{version}.tar.gz
 
 BuildArch:      noarch
-BuildRequires:  lua >= 5.1
+BuildRequires:  lua-devel >= 5.1
 BuildRequires:  lua-alt-getopt >= 0.7
 BuildRequires:  lua-filesystem >= 1.5
 # avoid lpeg 0.11 per upstream rockspec
 BuildRequires:  lua-lpeg >= 0.12
-%if 0%{?el6}
-Requires:       lua >= %{luaver}
-%else
-Requires:       lua(abi) = %{luaver}
+%if 0%{?rhel} && 0%{?rhel} < 8
+# no automatic lua(abi)
+Requires:       lua >= 5.1
+Requires:       lua < 5.2
+%global lua_pkgdir %{_datadir}/lua/5.1
 %endif
 Requires:       lua-alt-getopt >= 0.7
 Requires:       lua-filesystem >= 1.5
@@ -54,15 +51,11 @@ command line, like any first-class scripting language.
 %autosetup -n %{pkgname}-%{version}
 
 
-%build
-# tarball already ships with precompiled sources
-# make compile
-
 %install
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
 cp -p bin/moon{,c} $RPM_BUILD_ROOT%{_bindir}/
-mkdir -p $RPM_BUILD_ROOT%{luapkgdir}
-cp -pr moon moonscript $RPM_BUILD_ROOT%{luapkgdir}/
+mkdir -p $RPM_BUILD_ROOT%{lua_pkgdir}
+cp -pr moon moonscript $RPM_BUILD_ROOT%{lua_pkgdir}/
 
 
 %check
@@ -74,11 +67,23 @@ cp -pr moon moonscript $RPM_BUILD_ROOT%{luapkgdir}/
 %doc CHANGELOG.md README.md docs/*
 %{_bindir}/moon
 %{_bindir}/moonc
-%{luapkgdir}/moon
-%{luapkgdir}/moonscript
+%{lua_pkgdir}/moon
+%{lua_pkgdir}/moonscript
 
 
 %changelog
+* Thu Aug 27 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.5.0-8
+- Fix Lua version requirement for building on EL6 and EL7
+
+* Wed Aug 26 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.5.0-7
+- Future-proof by not hardcoding Lua version
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Björn Esser <besser82@fedoraproject.org> - 0.5.0-5
+- Rebuilt for Lua 5.4
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

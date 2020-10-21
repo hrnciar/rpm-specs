@@ -1,8 +1,8 @@
 %define __perl_requires %{SOURCE98}
 
 Name:     squid
-Version:  4.12
-Release:  1%{?dist}
+Version:  4.13
+Release:  2%{?dist}
 Summary:  The Squid proxy caching server
 Epoch:    7
 # See CREDITS for breakdown of non GPLv2+ code
@@ -33,6 +33,7 @@ Patch202: squid-3.1.0.9-location.patch
 Patch203: squid-3.0.STABLE1-perlpath.patch
 Patch204: squid-3.5.9-include-guards.patch
 Patch205: squid-4.0.21-large-acl.patch
+Patch206: squid-gcc11.patch
 
 # cache_swap.sh
 Requires: bash gawk
@@ -102,12 +103,16 @@ lookup program (dnsserver), a program for retrieving FTP data
 %patch203 -p1 -b .perlpath
 %patch204 -p0 -b .include-guards
 %patch205 -p1 -b .large_acl
+%patch206 -p1 -b .gcc11
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=1679526
 # Patch in the vendor documentation and used different location for documentation
 sed -i 's|@SYSCONFDIR@/squid.conf.documented|%{_pkgdocdir}/squid.conf.documented|' src/squid.8.in
 
 %build
+# This package fails its testsuite when LTO is enabled.  This needs further
+# investigation
+%define _lto_cflags %{nil}
 
 # NIS helper has been removed because of the following bug
 # https://bugzilla.redhat.com/show_bug.cgi?id=1531540
@@ -294,6 +299,22 @@ fi
 
 
 %changelog
+* Sat Oct 17 2020 Jeff Law <law@redhat.com> - 7:4.13-2
+- Fix missing #includes for gcc-11
+
+* Tue Aug 25 2020 Lubos Uhliarik <luhliari@redhat.com> - 7:4.13-1
+- new version 4.13
+
+* Fri Aug 07 2020 Jeff law <law@redhat.com> - 7:4.12-4
+- Disable LTO
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7:4.12-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7:4.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Lubos Uhliarik <luhliari@redhat.com> - 7:4.12-1
 - new version 4.12
 

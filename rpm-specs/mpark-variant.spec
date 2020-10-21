@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+
 # This is a header-only library, but it install also cmake
 # scripts to %%{_libdir}, so it cannot be noarch.
 %global debug_package %{nil}
@@ -5,11 +7,11 @@
 Name: mpark-variant
 Summary: C++17 std::variant for C++11/14/17
 Version: 1.4.0
-Release: 3%{?dist}
+Release: 4%{?dist}
 
 License: Boost
 URL: https://github.com/mpark/variant
-Source0: %{url}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source0: %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires: ninja-build
 BuildRequires: gcc-c++
@@ -28,24 +30,18 @@ Provides: %{name}-static = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %prep
 %autosetup -n variant-%{version} -p1
-mkdir -p %{_target_platform}
 sed -i 's@lib/@%{_libdir}/@g' CMakeLists.txt
 
 %build
-pushd %{_target_platform}
-    %cmake -G Ninja \
-    -DCMAKE_BUILD_TYPE=Release \
-    ..
-popd
-%ninja_build -C %{_target_platform}
+%cmake -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release
+%cmake_build
 
 %check
-pushd %{_target_platform}
-    ctest --output-on-failure
-popd
+%ctest
 
 %install
-%ninja_install -C %{_target_platform}
+%cmake_install
 
 %files devel
 %doc README.md
@@ -54,6 +50,9 @@ popd
 %{_libdir}/cmake/mpark_variant
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

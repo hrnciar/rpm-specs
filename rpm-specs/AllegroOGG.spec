@@ -1,6 +1,6 @@
 Name:           AllegroOGG
 Version:        1.0.3
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        Ogg library for use with the Allegro game library
 License:        BSD
 URL:            http://www.allegro.cc/resource/Libraries/Audio/alogg
@@ -64,6 +64,9 @@ install -m 644 include/* $RPM_BUILD_ROOT%{_includedir}/%{name}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

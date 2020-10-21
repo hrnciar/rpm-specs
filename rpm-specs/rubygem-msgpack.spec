@@ -3,7 +3,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 1.1.0
-Release: 12%{?dist}
+Release: 13%{?dist}
 Summary: MessagePack, a binary-based efficient data interchange format
 License: ASL 2.0
 URL: http://msgpack.org/
@@ -57,12 +57,10 @@ mkdir -p %{buildroot}%{gem_dir}
 cp -a .%{gem_dir}/* \
         %{buildroot}%{gem_dir}/
 
-%if 0%{?fedora} > 0
+%if 0%{?fedora} || 0%{?rhel} >= 8
 mkdir -p %{buildroot}%{gem_extdir_mri}
 cp -ar .%{gem_extdir_mri}/{gem.build_complete,%{gem_name}} %{buildroot}%{gem_extdir_mri}/
-%endif
-
-%if 0%{?rhel} >= 7
+%else
 mkdir -p %{buildroot}%{gem_extdir_mri}/lib/%{gem_name}
 cp -ar .%{gem_instdir}/lib/%{gem_name}/%{gem_name}.so %{buildroot}%{gem_extdir_mri}/lib/%{gem_name}
 %endif
@@ -102,6 +100,12 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Wed Aug 05 2020 Merlin Mathesius <mmathesi@redhat.com> - 1.1.0-13
+- Minor conditional fixes for ELN
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

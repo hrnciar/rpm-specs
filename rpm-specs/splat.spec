@@ -1,6 +1,6 @@
 Name:		splat
 Version:	1.4.2
-Release:	12%{?dist}
+Release:	13%{?dist}
 Summary:	Analyze point-to-point terrestrial RF communication links
 License:	GPLv2+
 
@@ -89,6 +89,9 @@ mv utils/README utils/README-utils
 %{_mandir}/man1/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

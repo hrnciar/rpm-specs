@@ -19,8 +19,8 @@
 %endif
 
 Name:       tor
-Version:    0.4.3.5
-Release:    1%{?dist}
+Version:    0.4.4.5
+Release:    2%{?dist}
 License:    BSD
 Summary:    Anonymizing overlay network for TCP
 URL:        https://www.torproject.org
@@ -178,6 +178,18 @@ fi
 
 
 %changelog
+* Wed Sep 23 2020 Marcel Härry <mh+fedora@scrit.ch> - 0.4.4.5-2
+- Rebuild for libevent soname change
+
+* Tue Sep 15 2020 Marcel Härry <mh+fedora@scrit.ch> - 0.4.4.5-1
+- update to latest upstream release (bz#1879125)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.3.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Marcel Härry <mh+fedora@scrit.ch> - 0.4.3.6-1
+- update to latest upstream release (bz#1855385)
+
 * Fri May 15 2020 Marcel Härry <mh+fedora@scrit.ch> - 0.4.3.5-1
 - update to latest upstream release (bz#1836206)
 

@@ -3,7 +3,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.0.4
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Colour formatting for unittest tests
 
 License:        MIT
@@ -61,6 +61,9 @@ find . -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.4-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.0.4-20
 - Rebuilt for Python 3.9
 

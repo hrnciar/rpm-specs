@@ -1,13 +1,12 @@
 Name:           ocl-icd
-Version:        2.2.12
-Release:        9%{?dist}
+Version:        2.2.13
+Release:        1%{?dist}
 Summary:        OpenCL Library (Installable Client Library) Bindings
 
 License:        BSD
-URL:            https://forge.imag.fr/projects/ocl-icd/
-Source0:        https://forge.imag.fr/frs/download.php/836/%{name}-%{version}.tar.gz
+URL:            https://github.com/OCL-dev/%{name}/
+Source0:        https://github.com/OCL-dev/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 
-Patch0: 	fix-ocl-icd-gcc10.patch
 BuildRequires:  gcc
 BuildRequires:  automake
 BuildRequires:  autoconf
@@ -58,6 +57,12 @@ make check
 %{_libdir}/pkgconfig/OpenCL.pc
 
 %changelog
+* Tue Oct 06 2020 Dave Airlie <airlied@redhat.com> - 2.2.13-1
+- update to 2.2.13
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.12-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 07 2020 Dave Airlie <airlied@redhat.com> - 2.2.12-9
 - Fix build with gcc10
 

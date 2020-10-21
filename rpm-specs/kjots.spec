@@ -1,7 +1,9 @@
+%undefine __cmake_in_source_build
+
 Name:           kjots
 Summary:        KDE Notes application
 Version:        5.0.2
-Release:        13%{?dist}
+Release:        14%{?dist}
 License:        GPLv2
 URL:            https://userbase.kde.org/KJots
 
@@ -45,20 +47,16 @@ KJots is an application for writing and organizing notes.
 
 
 %prep
-%autosetup -n %{name}-%{version} -p1
+%autosetup -p1
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-make %{?_smp_mflags} -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang kjots --with-kde
 
@@ -94,6 +92,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_kf5_metainfodir}/org.kde.k
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.2-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

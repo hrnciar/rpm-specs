@@ -1,12 +1,15 @@
 Name:           perl-IO-Async
 Version:        0.77
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        A collection of modules that implement asynchronous filehandle IO
 
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/IO-Async
 Source0:        https://cpan.metacpan.org/authors/id/P/PE/PEVANS/IO-Async-%{version}.tar.gz
 Patch0:         IO-Async-0.72-resolver-timeout.patch
+# Adapt tests to getaddrinfo() returning EAI_AGAIN in case of an unavailable
+# DNS server, bug #1865207, CPAN RT#131109, proposed to the upstream
+Patch1:         IO-Async-0.77-Adjust-t-50resolver.t-test-for-an-unavailable-DNS-se.patch
 
 BuildArch:      noarch
 BuildRequires:  make
@@ -69,6 +72,7 @@ A collection of modules that implement asynchronous filehandle IO
 %prep
 %setup -q -n IO-Async-%{version}
 %patch0
+%patch1 -p1
 
 
 %build
@@ -94,6 +98,17 @@ A collection of modules that implement asynchronous filehandle IO
 
 
 %changelog
+* Thu Sep 24 2020 Petr Pisar <ppisar@redhat.com> - 0.77-5
+- Adapt tests to getaddrinfo() returning EAI_AGAIN in case of an unavailable
+  DNS server (bug #1865207)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.77-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.77-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.77-2
 - Perl 5.32 rebuild
 

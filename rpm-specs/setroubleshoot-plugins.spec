@@ -6,7 +6,7 @@
 Summary: Analysis plugins for use with setroubleshoot
 Name: setroubleshoot-plugins
 Version: 3.3.12
-Release: 1%{?dist}
+Release: 3%{?dist}
 License: GPLv2+
 URL: https://github.com/fedora-selinux/setroubleshoot
 Source0: https://releases.pagure.org/setroubleshoot/%{name}-%{version}.tar.gz
@@ -37,7 +37,7 @@ make PYTHON=%{__python3}
 
 %install 
 rm -rf %{buildroot}
-make DESTDIR=%{buildroot} PYTHON=%{__python3} pkgdocdir=%{_pkgdocdir} install
+%make_install PYTHON=%{__python3} pkgdocdir=%{_pkgdocdir}
 %find_lang %{name}
 # Manually invoke the python byte compile macro for each path that needs byte
 # compilation.
@@ -48,6 +48,13 @@ make DESTDIR=%{buildroot} PYTHON=%{__python3} pkgdocdir=%{_pkgdocdir} install
 %{_datadir}/setroubleshoot/plugins
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.12-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 3.3.12-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Apr 21 2020 Vit Mojzis <vmojzis@redhat.com> - 3.3.12-1
 - Use get_package_nvr* functions instead of get_rpm_nvr*
 - Update deprecated type references

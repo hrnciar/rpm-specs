@@ -8,7 +8,7 @@ Summary(fr):    Ce programme accélère l'écriture des bandes sur des périphé
 
 Name:           buffer
 Version:        1.19
-Release:        18%{?dist}
+Release:        19%{?dist}
 License:        GPL+
 Url:            http://hello-penguin.com/software/buffer
 Source:         http://hello-penguin.com/software/buffer/%{name}-%{version}.tar.gz
@@ -54,6 +54,9 @@ install -p -m 644 -D buffer.man %{buildroot}/%{_mandir}/man1/buffer.1
 %{_mandir}/man1/buffer.1*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.19-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.19-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

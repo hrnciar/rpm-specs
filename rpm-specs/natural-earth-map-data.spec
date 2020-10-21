@@ -1,6 +1,6 @@
 Name:           natural-earth-map-data
 Version:        4.1.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Free vector and raster map data at 1:10m, 1:50m, and 1:110m scales
 
 License:        Public Domain
@@ -138,6 +138,9 @@ done
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

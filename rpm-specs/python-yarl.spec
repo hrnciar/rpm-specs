@@ -1,9 +1,9 @@
 %global srcname yarl
 
 Name:           python-%{srcname}
-Version:        1.4.2
-Release:        3%{?dist}
-Summary:        A Python module to handle URLs
+Version:        1.6.0
+Release:        1%{?dist}
+Summary:        Python module to handle URLs
 
 License:        ASL 2.0
 URL:            https://yarl.readthedocs.io
@@ -24,6 +24,7 @@ BuildRequires:  python3-pytest
 BuildRequires:  python3-pytest-runner
 BuildRequires:  python3-multidict
 BuildRequires:  python3-idna
+BuildRequires:  python3-typing-extensions
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
@@ -48,6 +49,18 @@ The module provides handy URL class for URL parsing and changing.
 %{python3_sitearch}/%{srcname}-*.egg-info/
 
 %changelog
+* Thu Sep 24 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.6.0-1
+- Update to latest upstream release 1.6.0 (#1882235)
+
+* Sun Aug 09 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.5.1-1
+- Update to latest upstream release 1.5.1 (rhbz#1860699)
+
+* Thu Aug 06 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.5.0-1
+- Update to latest upstream release 1.5.0 (rhbz#1860699)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.2-3
 - Rebuilt for Python 3.9
 

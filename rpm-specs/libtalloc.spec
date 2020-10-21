@@ -4,7 +4,7 @@
 
 Name: libtalloc
 Version: 2.3.1
-Release: 3%{?dist}
+Release: 5%{?dist}
 Summary: The talloc library
 License: LGPLv3+
 URL: https://talloc.samba.org/
@@ -71,14 +71,14 @@ export python_LDFLAGS=""
            --builtin-libraries=replace \
            --disable-silent-rules
 
-make %{?_smp_mflags} V=1
+%make_build
 doxygen doxy.config
 
 %check
-make %{?_smp_mflags} check
+%make_build check
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 
 # Install API docs
 cp -a doc/man/* $RPM_BUILD_ROOT/%{_mandir}
@@ -111,6 +111,13 @@ cp -a doc/man/* $RPM_BUILD_ROOT/%{_mandir}
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 2.3.1-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.3.1-3
 - Rebuilt for Python 3.9
 

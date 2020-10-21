@@ -3,7 +3,7 @@
 
 Name:             R-%{packname}
 Version:          1.17
-Release:          3%{?dist}
+Release:          5%{?dist}
 Summary:          Interface to Unidata netCDF (Version 4 or Earlier) Format Data Files
 
 License:          GPLv3+
@@ -70,6 +70,13 @@ chrpath -d %{buildroot}%{rlibdir}/%{packname}/libs/%{packname}.so
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.17-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 1.17-3
 - rebuild for R 4
 

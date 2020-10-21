@@ -1,6 +1,6 @@
 Name:           libgweather
 Version:        3.36.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        A library for weather information
 
 License:        GPLv2+
@@ -70,6 +70,13 @@ developing applications that use %{name}.
 %{_datadir}/vala/vapi/gweather-3.0.vapi
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 20 2020 Bastien Nocera <bnocera@redhat.com> - 3.36.1-1
 + libgweather-3.36.1-1
 - Update to 3.36.1

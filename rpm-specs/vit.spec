@@ -7,7 +7,7 @@
 
 Name:           vit
 Version:        2.0.0
-Release:        6.%{checkout_date}git%{shortcommit}%{?dist}
+Release:        7.%{checkout_date}git%{shortcommit}%{?dist}
 Summary:        Visual Interactive Taskwarrior full-screen terminal interface
 
 
@@ -71,6 +71,9 @@ LC_ALL=C PYTHONPATH=. %{__python3} -m unittest
 %{_datadir}/bash-completion/completions/%{name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-7.20200430git7200949
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.0-6.20200430git7200949
 - Rebuilt for Python 3.9
 

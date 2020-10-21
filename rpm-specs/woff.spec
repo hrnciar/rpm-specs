@@ -1,6 +1,6 @@
 Name:           woff
 Version:        0.20091126
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Encoding and Decoding for Web Open Font Format(Woff)
 
 License:        GPLv2+ or LGPLv2+ or MPLv1.1
@@ -29,6 +29,9 @@ install -m755 sfnt2woff woff2sfnt $RPM_BUILD_ROOT/%{_bindir}/
 %{_bindir}/woff2sfnt
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20091126-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20091126-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

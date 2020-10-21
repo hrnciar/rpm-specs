@@ -1,6 +1,6 @@
 Name:             fossil
 Version:          2.8
-Release:          3%{?dist}
+Release:          5%{?dist}
 Summary:          A distributed SCM with bug tracking and wiki
 
 License:          BSD
@@ -47,6 +47,13 @@ cp /usr/lib/rpm/config.* autosetup
 %doc www
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

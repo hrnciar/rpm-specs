@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        4.1.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Disk and file backed persistent cache
 
 License:        ASL 2.0
@@ -54,6 +54,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{pypi_name}-%{version}-py*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.1.0-3
 - Rebuilt for Python 3.9
 

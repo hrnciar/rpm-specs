@@ -2,7 +2,7 @@
 
 Name:           nodejs-buffer-equal
 Version:        0.0.0
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Returns whether two buffers are equal
 BuildArch:      noarch
 %if 0%{?fedora} >= 19
@@ -43,6 +43,9 @@ cp -pr package.json index.js %{buildroot}%{nodejs_sitelib}/buffer-equal
 %doc README.markdown example
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.0-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.0-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

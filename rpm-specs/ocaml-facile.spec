@@ -4,7 +4,7 @@
 
 Name:          ocaml-facile
 Version:       1.1
-Release:       64%{?dist}
+Release:       67%{?dist}
 Summary:       OCaml library for constraint programming
 Summary(fr):   Librairie OCaml de programmation par contraintes
 License:       LGPLv2+
@@ -103,6 +103,15 @@ make install
 %{_libdir}/ocaml/facile/*.mli
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.1-67
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.1-66
+- OCaml 4.11.0 rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-65
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 1.1-64
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

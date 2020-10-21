@@ -1,11 +1,11 @@
 # github repo with selinux-policy base sources
 %global git0 https://github.com/fedora-selinux/selinux-policy
-%global commit0 7dd92fda6b04b5c90feb038aabefb728a8773750
+%global commit0 9bb39f6de7ebfb2f108ee5762cb25f7d343f6ede
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 # github repo with selinux-policy contrib sources
 %global git1 https://github.com/fedora-selinux/selinux-policy-contrib
-%global commit1 22a72723552b1c4bc6dd42f7f55fd9dd42426c3c
+%global commit1 ed1077e91e1c95362ab220d8200175d7d02eaf41
 %global shortcommit1 %(c=%{commit1}; echo ${c:0:7})
 
 %define distro redhat
@@ -24,12 +24,12 @@
 %define BUILD_MLS 1
 %endif
 %define POLICYVER 32
-%define POLICYCOREUTILSVER 3.0
-%define CHECKPOLICYVER 3.0
+%define POLICYCOREUTILSVER 3.1
+%define CHECKPOLICYVER 3.1
 Summary: SELinux policy configuration
 Name: selinux-policy
-Version: 3.14.6
-Release: 15%{?dist}
+Version: 3.14.7
+Release: 5%{?dist}
 License: GPLv2+
 Source: %{git0}/archive/%{commit0}/%{name}-%{shortcommit0}.tar.gz
 Source29: %{git1}/archive/%{commit1}/%{name}-contrib-%{shortcommit1}.tar.gz
@@ -75,13 +75,16 @@ BuildRequires: gcc
 Requires(pre): policycoreutils >= %{POLICYCOREUTILSVER}
 Requires(post): /bin/awk /usr/bin/sha512sum
 Requires: rpm-plugin-selinux
+Requires: selinux-policy-any = %{version}-%{release}
+Provides: selinux-policy-base = %{version}-%{release}
+Suggests: selinux-policy-targeted
 
-%description 
-SELinux Base package for SELinux Reference Policy - modular.
-Based off of reference policy: Checked out revision  2.20091117
+%description
+SELinux core policy package.
+Originally based off of reference policy,
+the policy has been adjusted to provide support for Fedora.
 
-
-%files 
+%files
 %{!?_licensedir:%global license %%doc}
 %license COPYING
 %dir %{_datadir}/selinux
@@ -93,12 +96,12 @@ Based off of reference policy: Checked out revision  2.20091117
 %{_rpmconfigdir}/macros.d/macros.selinux-policy
 
 %package sandbox
-Summary: SELinux policy sandbox
+Summary: SELinux sandbox policy
 Requires(pre): selinux-policy-base = %{version}-%{release}
 Requires(pre): selinux-policy-targeted = %{version}-%{release}
 
 %description sandbox
-SELinux sandbox policy used for the policycoreutils-sandbox package
+SELinux sandbox policy for use with the sandbox utility.
 
 %files sandbox
 %verify(not md5 size mtime) %{_datadir}/selinux/packages/sandbox.pp
@@ -122,7 +125,7 @@ fi;
 exit 0
 
 %package devel
-Summary: SELinux policy devel
+Summary: SELinux policy development files
 Requires(pre): selinux-policy = %{version}-%{release}
 Requires: selinux-policy = %{version}-%{release}
 Requires: m4 checkpolicy >= %{CHECKPOLICYVER}
@@ -130,7 +133,12 @@ Requires: /usr/bin/make
 Requires(post): policycoreutils-devel >= %{POLICYCOREUTILSVER}
 
 %description devel
-SELinux policy development and man page package
+SELinux policy development package.
+This package contains:
+- interfaces, macros, and patterns for policy development
+- a policy example
+- the macro-expander utility
+and some additional files.
 
 %files devel
 %{_bindir}/macro-expander
@@ -155,7 +163,8 @@ Requires(pre): selinux-policy = %{version}-%{release}
 Requires: selinux-policy = %{version}-%{release}
 
 %description doc
-SELinux policy documentation package
+SELinux policy documentation package.
+This package contains manual pages and documentation of the policy modules.
 
 %files doc
 %{_mandir}/man*/*
@@ -268,7 +277,9 @@ rm -f %{buildroot}%{_sharedstatedir}/selinux/%1/active/*.linked \
 %nil
 
 %define relabel() \
-. %{_sysconfdir}/selinux/config &> /dev/null || true; \
+if [ -s %{_sysconfdir}/selinux/config ]; then \
+    . %{_sysconfdir}/selinux/config &> /dev/null || true; \
+fi; \
 FILE_CONTEXT=%{_sysconfdir}/selinux/%1/contexts/files/file_contexts; \
 if %{_sbindir}/selinuxenabled && [ "${SELINUXTYPE}" = %1 -a -f ${FILE_CONTEXT}.pre ]; then \
      %{_sbindir}/fixfiles -C ${FILE_CONTEXT}.pre restore &> /dev/null > /dev/null; \
@@ -280,7 +291,7 @@ fi;
 
 %define preInstall() \
 if [ $1 -ne 1 ] && [ -s %{_sysconfdir}/selinux/config ]; then \
-     for MOD_NAME in ganesha ipa_custodia; do \
+     for MOD_NAME in ganesha ipa_custodia kdbus; do \
         if [ -d %{_sharedstatedir}/selinux/%1/active/modules/100/$MOD_NAME ]; then \
            %{_sbindir}/semodule -n -d $MOD_NAME; \
         fi; \
@@ -302,7 +313,9 @@ if [ $1 -ne 1 ] && [ -s %{_sysconfdir}/selinux/config ]; then \
 fi;
 
 %define postInstall() \
-. %{_sysconfdir}/selinux/config &> /dev/null || true; \
+if [ -s %{_sysconfdir}/selinux/config ]; then \
+    . %{_sysconfdir}/selinux/config &> /dev/null || true; \
+fi; \
 if [ -e %{_sysconfdir}/selinux/%2/.rebuild ]; then \
    rm %{_sysconfdir}/selinux/%2/.rebuild; \
    %{_sbindir}/semodule -B -n -s %2; \
@@ -386,7 +399,7 @@ end
 
 %build
 
-%prep 
+%prep
 %setup -n %{name}-contrib-%{commit1} -q -b 29
 tar -xf %{SOURCE35}
 contrib_path=`pwd`
@@ -494,16 +507,31 @@ echo "
 #     enforcing - SELinux security policy is enforced.
 #     permissive - SELinux prints warnings instead of enforcing.
 #     disabled - No SELinux policy is loaded.
+# See also:
+# https://docs.fedoraproject.org/en-US/quick-docs/getting-started-with-selinux/#getting-started-with-selinux-selinux-states-and-modes
+#
+# NOTE: In earlier Fedora kernel builds, SELINUX=disabled would also
+# fully disable SELinux during boot. If you need a system with SELinux
+# fully disabled instead of SELinux running with no policy loaded, you
+# need to pass selinux=0 to the kernel command line. You can use grubby
+# to persistently set the bootloader to boot with selinux=0:
+#
+#    grubby --update-kernel ALL --args selinux=0
+#
+# To revert back to SELinux enabled:
+#
+#    grubby --update-kernel ALL --remove-args selinux
+#
 SELINUX=enforcing
 # SELINUXTYPE= can take one of these three values:
 #     targeted - Targeted processes are protected,
-#     minimum - Modification of targeted policy. Only selected processes are protected. 
+#     minimum - Modification of targeted policy. Only selected processes are protected.
 #     mls - Multi Level Security protection.
 SELINUXTYPE=targeted
 
 " > %{_sysconfdir}/selinux/config
 
-     ln -sf ../selinux/config %{_sysconfdir}/sysconfig/selinux 
+     ln -sf ../selinux/config %{_sysconfdir}/sysconfig/selinux
      %{_sbindir}/restorecon %{_sysconfdir}/selinux/config 2> /dev/null || :
 else
      . %{_sysconfdir}/selinux/config
@@ -523,7 +551,7 @@ exit 0
 
 %if %{BUILD_TARGETED}
 %package targeted
-Summary: SELinux targeted base policy
+Summary: SELinux targeted policy
 Provides: selinux-policy-base = %{version}-%{release}
 Obsoletes: selinux-policy-targeted-sources < 2
 Requires(pre): policycoreutils >= %{POLICYCOREUTILSVER}
@@ -538,7 +566,7 @@ Conflicts:  389-ds-base < 1.2.7, 389-admin < 1.1.12
 Conflicts: container-selinux < 2:1.12.1-22
 
 %description targeted
-SELinux Reference policy targeted base module.
+SELinux targeted policy package.
 
 %pretrans targeted -p <lua>
 %backupConfigLua
@@ -556,7 +584,9 @@ exit 0
 
 %postun targeted
 if [ $1 = 0 ]; then
-    source %{_sysconfdir}/selinux/config &> /dev/null || true
+    if [ -s %{_sysconfdir}/selinux/config ]; then
+        source %{_sysconfdir}/selinux/config &> /dev/null || true
+    fi
     if [ "$SELINUXTYPE" = "targeted" ]; then
         %{_sbindir}/setenforce 0 2> /dev/null
         if [ ! -s %{_sysconfdir}/selinux/config ]; then
@@ -600,14 +630,14 @@ exit 0
 
 %files targeted -f %{buildroot}%{_datadir}/selinux/targeted/nonbasemodules.lst
 %config(noreplace) %{_sysconfdir}/selinux/targeted/contexts/users/unconfined_u
-%config(noreplace) %{_sysconfdir}/selinux/targeted/contexts/users/sysadm_u 
+%config(noreplace) %{_sysconfdir}/selinux/targeted/contexts/users/sysadm_u
 %fileList targeted
 %verify(not md5 size mtime) %{_sharedstatedir}/selinux/targeted/active/modules/100/permissivedomains
 %endif
 
 %if %{BUILD_MINIMUM}
 %package minimum
-Summary: SELinux minimum base policy
+Summary: SELinux minimum policy
 Provides: selinux-policy-base = %{version}-%{release}
 Requires(post): policycoreutils-python-utils >= %{POLICYCOREUTILSVER}
 Requires(pre): coreutils
@@ -617,7 +647,7 @@ Conflicts:  seedit
 Conflicts: container-selinux <= 1.9.0-9
 
 %description minimum
-SELinux Reference policy minimum base module.
+SELinux minimum policy package.
 
 %pretrans minimum -p <lua>
 %backupConfigLua
@@ -666,7 +696,9 @@ exit 0
 
 %postun minimum
 if [ $1 = 0 ]; then
-    source %{_sysconfdir}/selinux/config &> /dev/null || true
+    if [ -s %{_sysconfdir}/selinux/config ]; then
+        source %{_sysconfdir}/selinux/config &> /dev/null || true
+    fi
     if [ "$SELINUXTYPE" = "minimum" ]; then
         %{_sbindir}/setenforce 0 2> /dev/null
         if [ ! -s %{_sysconfdir}/selinux/config ]; then
@@ -701,13 +733,13 @@ exit 0
 
 %files minimum -f %{buildroot}%{_datadir}/selinux/minimum/nonbasemodules.lst
 %config(noreplace) %{_sysconfdir}/selinux/minimum/contexts/users/unconfined_u
-%config(noreplace) %{_sysconfdir}/selinux/minimum/contexts/users/sysadm_u 
+%config(noreplace) %{_sysconfdir}/selinux/minimum/contexts/users/sysadm_u
 %fileList minimum
 %endif
 
 %if %{BUILD_MLS}
-%package mls 
-Summary: SELinux mls base policy
+%package mls
+Summary: SELinux MLS policy
 Provides: selinux-policy-base = %{version}-%{release}
 Obsoletes: selinux-policy-mls-sources < 2
 Requires: policycoreutils-newrole >= %{POLICYCOREUTILSVER} setransd
@@ -718,16 +750,16 @@ Requires: selinux-policy = %{version}-%{release}
 Conflicts:  seedit
 Conflicts: container-selinux <= 1.9.0-9
 
-%description mls 
-SELinux Reference policy mls base module.
+%description mls
+SELinux MLS (Multi Level Security) policy package.
 
 %pretrans mls -p <lua>
 %backupConfigLua
 
-%pre mls 
+%pre mls
 %preInstall mls
 
-%post mls 
+%post mls
 %checkConfigConsistency mls
 %postInstall $1 mls
 exit 0
@@ -737,7 +769,9 @@ exit 0
 
 %postun mls
 if [ $1 = 0 ]; then
-    source %{_sysconfdir}/selinux/config &> /dev/null || true;
+    if [ -s %{_sysconfdir}/selinux/config ]; then
+        source %{_sysconfdir}/selinux/config &> /dev/null || true
+    fi
     if [ "$SELINUXTYPE" = "mls" ]; then
         %{_sbindir}/setenforce 0 2> /dev/null
         if [ ! -s %{_sysconfdir}/selinux/config ]; then
@@ -774,6 +808,167 @@ exit 0
 %endif
 
 %changelog
+* Tue Oct 06 2020 Zdenek Pytela <zpytela@redhat.com> - 3.14.7-5
+- Remove empty line from rshd.fc
+- Allow systemd-logind read swap files
+- Add fstools_read_swap_files() interface
+- Allow dyntransition from sshd_t to unconfined_t
+- Removed adding to attribute unpriv_userdomain from userdom_unpriv_type template
+
+* Fri Sep 25 2020 Zdenek Pytela <zpytela@redhat.com> - 3.14.7-4
+- Allow chronyd_t to accept and make NTS-KE connections
+- Allow domain write to an automount unnamed pipe
+- Label /var/run/zincati/public/motd.d/* as motd_var_run_t
+- Allow login programs to (only) read MOTD files and symlinks
+- Relabel /usr/sbin/charon-systemd as ipsec_exec_t
+- Confine systemd-sleep service
+- Add fstools_rw_swap_files() interface
+- Label 4460/tcp port as ntske_port_t
+- Add lvm_dbus_send_msg(), lvm_rw_var_run() interfaces
+
+* Mon Sep 21 2020 Zdenek Pytela <zpytela@redhat.com> - 3.14.7-3
+- Check out the right -contrib branch in Travis
+
+* Fri Sep 18 2020 Zdenek Pytela <zpytela@redhat.com> - 3.14.7-2
+- Allow openvswitch fowner capability and create netlink sockets
+- Allow additional permissions for gnome-initial-setup
+- Add to map non_security_files to the userdom_admin_user_template template
+- kernel/filesystem: Add exfat support (no extended attributes)
+
+* Tue Sep 08 2020 Zdenek Pytela <zpytela@redhat.com> - 3.14.7-1
+- Bump version as Fedora 33 has been branched
+- Allow php-fpm write access to /var/run/redis/redis.sock
+- Allow journalctl to read and write to inherited user domain tty
+- Update rkt policy to allow rkt_t domain to read sysfs filesystem
+- Allow arpwatch create and use rdma socket
+- Allow plymouth sys_chroot capability
+- Allow gnome-initial-setup execute in a xdm sandbox
+- Add new devices and filesystem interfaces
+
+* Mon Aug 24 2020 Zdenek Pytela <zpytela@redhat.com> - 3.14.6-25
+- Allow certmonger fowner capability
+- The nfsdcld service is now confined by SELinux
+- Change transitions for ~/.config/Yubico
+- Allow all users to connect to systemd-userdbd with a unix socket
+- Add file context for ~/.config/Yubico
+- Allow syslogd_t domain to read/write tmpfs systemd-bootchart files
+- Allow login_pgm attribute to get attributes in proc_t
+- Allow passwd to get attributes in proc_t
+- Revert "Allow passwd to get attributes in proc_t"
+- Revert "Allow login_pgm attribute to get attributes in proc_t"
+- Allow login_pgm attribute to get attributes in proc_t
+- Allow passwd to get attributes in proc_t
+- Allow traceroute_t and ping_t to bind generic nodes.
+- Create macro corenet_icmp_bind_generic_node()
+- Allow unconfined_t to node_bind icmp_sockets in node_t domain
+
+* Thu Aug 13 2020 Zdenek Pytela <zpytela@redhat.com> - 3.14.6-24
+- Add ipa_helper_noatsecure() interface unconditionally
+- Conditionally allow nagios_plugin_domain dbus chat with init
+- Revert "Update allow rules set for nrpe_t domain"
+- Add ipa_helper_noatsecure() interface to ipa.if
+- Label /usr/libexec/qemu-pr-helper with virtd_exec_t
+- Allow kadmind manage kerberos host rcache
+- Allow nsswitch_domain to connect to systemd-machined using a unix socket
+- Define named file transition for sshd on /tmp/krb5_0.rcache2
+- Allow systemd-machined create userdbd runtime sock files
+- Disable kdbus module before updating
+
+* Mon Aug 03 2020 Zdenek Pytela <zpytela@redhat.com> - 3.14.6-23
+- Revert "Add support for /sys/fs/kdbus and allow login_pgm domain to access it."
+- Revert "Add interface to allow types to associate with cgroup filesystems"
+- Revert "kdbusfs should not be accessible for now."
+- Revert "kdbusfs should not be accessible for now by default for shipped policies. It should be moved to kdbus.pp"
+- Revert "Add kdbus.pp policy to allow access /sys/fs/kdbus. It needs to go with own module because this is workaround for now to avoid SELinux in enforcing mode."
+- Remove the legacy kdbus module
+- Remove "kdbus = module" from modules-targeted-base.conf
+
+* Thu Jul 30 2020 Zdenek Pytela <zpytela@redhat.com> - 3.14.6-22
+- Allow virtlockd only getattr and lock block devices
+- Allow qemu-ga read all non security file types conditionally
+- Allow virtlockd manage VMs posix file locks
+- Allow smbd get attributes of device files labeled samba_share_t
+- Label /tmp/krb5_0.rcache2 with krb5_host_rcache_t
+- Add a new httpd_can_manage_courier_spool boolean
+- Create interface courier_manage_spool_sockets() in courier policy to allow to search dir and allow manage sock files
+- Revert "Allow qemu-kvm read and write /dev/mapper/control"
+- Revert "Allow qemu read and write /dev/mapper/control"
+- Revert "Dontaudit and disallow sys_admin capability for keepalived_t domain"
+- Dontaudit pcscd_t setting its process scheduling
+- Dontaudit thumb_t setting its process scheduling
+- Allow munin domain transition with NoNewPrivileges
+- Add dev_lock_all_blk_files() interface
+- Allow auditd manage kerberos host rcache files
+- Allow systemd-logind dbus chat with fwupd
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14.6-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Lukas Vrabec <lvrabec@redhat.com> - 3.14.6-20
+- Align gen_tunable() syntax with sepolgen
+
+* Fri Jul 10 2020 Zdenek Pytela <zpytela@redhat.com> - 3.14.6-19
+- Additional support for keepalived running in a namespace
+- Remove systemd_dbus_chat_resolved(pcp_pmie_t)
+- virt: remove the libvirt qmf rules
+- Allow certmonger manage dirsrv services
+- Run ipa_helper_noatsecure(oddjob_t) only if the interface exists
+- Allow domain dbus chat with systemd-resolved
+- Define file context for /var/run/netns directory only
+- Revert "Add support for fuse.glusterfs"
+
+* Tue Jul 07 2020 Zdenek Pytela <zpytela@redhat.com> - 3.14.6-18
+- Allow oddjob_t process noatsecure permission for ipa_helper_t
+- Allow keepalived manage its private type runtime directories
+- Update irqbalance runtime directory file context
+- Allow irqbalance file transition for pid sock_files and directories
+- Allow systemd_private_tmp(dirsrv_tmp_t) instead of dirsrv_t
+- Allow virtlogd_t manage virt lib files
+- Allow systemd set efivarfs files attributes
+- Support systemctl --user in machinectl
+- Allow chkpwd_t read and write systemd-machined devpts character nodes
+- Allow init_t write to inherited systemd-logind sessions pipes
+
+* Fri Jun 26 2020 Zdenek Pytela <zpytela@redhat.com> - 3.14.6-17
+- Allow pdns server to read system state
+- Allow irqbalance nnp_transition
+- Fix description tag for the sssd_connect_all_unreserved_ports tunable
+- Allow journalctl process set its resource limits
+- Add sssd_access_kernel_keys tunable to conditionally access kernel keys
+- Make keepalived work with network namespaces
+- Create sssd_connect_all_unreserved_ports boolean
+- Allow hypervkvpd to request kernel to load a module
+- Allow systemd_private_tmp(dirsrv_tmp_t)
+- Allow microcode_ctl get attributes of sysfs directories
+- Remove duplicate files_dontaudit_list_tmp(radiusd_t) line
+- Allow radiusd connect to gssproxy over unix domain stream socket
+- Add fwupd_cache_t file context for '/var/cache/fwupd(/.*)?'
+- Allow qemu read and write /dev/mapper/control
+- Allow tlp_t can_exec() tlp_exec_t
+- Dontaudit vpnc_t setting its process scheduling
+- Remove files_mmap_usr_files() call for particular domains
+- Allow dirsrv_t list cgroup directories
+- Crete the kerberos_write_kadmind_tmp_files() interface
+- Allow realmd_t dbus chat with accountsd_t
+- Label systemd-growfs and systemd-makefs       as fsadm_exec_t
+- Allow staff_u and user_u setattr generic usb devices
+- Allow sysadm_t dbus chat with accountsd
+- Modify kernel_rw_key() not to include append permission
+- Add kernel_rw_key() interface to access to kernel keyrings
+- Modify systemd_delete_private_tmp() to use delete_*_pattern macros
+- Allow systemd-modules to load kernel modules
+- Add cachefiles_dev_t as a typealias to cachefiles_device_t
+- Allow libkrb5 lib read client keytabs
+- Allow domain mmap usr_t files
+- Remove files_mmap_usr_files() call for systemd domains
+- Allow sshd write to kadmind temporary files
+- Do not audit staff_t and user_t attempts to manage boot_t entries
+- Add files_dontaudit_manage_boot_dirs() interface
+- Allow systemd-tty-ask-password-agent read efivarfs files
+
+* Thu Jun 25 2020 Adam Williamson <awilliam@redhat.com> - 3.14.6-16
+- Fix scriptlets when /etc/selinux/config does not exist
+
 * Thu Jun 04 2020 Zdenek Pytela <zpytela@redhat.com> - 3.14.6-15
 - Add fetchmail_uidl_cache_t type for /var/mail/.fetchmail.pid
 - Support multiple ways of tlp invocation
@@ -2425,7 +2620,7 @@ Resolves: rhbz#1683365
 
 
 * Tue May 22 2018 Lukas Vrabec <lvrabec@redhat.com> - 3.14.2-19
-- Increase dependency versions of policycoreutils and checkpolicy packages 
+- Increase dependency versions of policycoreutils and checkpolicy packages
 
 * Mon May 21 2018 Lukas Vrabec <lvrabec@redhat.com> - 3.14.2-18
 - Disable secure mode environment cleansing for dirsrv_t
@@ -4688,7 +4883,7 @@ Resolves: rhbz#1314372
 - Fix neverallow assertion for sys_module capability for openvswitch.
 - kernel_load_module() needs to be called out of boolean for svirt_lxc_net_t.
 - Fix neverallow assertion for sys_module capability.
-- Add more attributes for sandbox domains to avoid neverallow assertion issues.  
+- Add more attributes for sandbox domains to avoid neverallow assertion issues.
 - Add neverallow asserition fixes related to storage.
 - Allow exec pidof under hypervkvp domain. Allow hypervkvp daemon create connection to the system DBUS
 - Allow openhpid_t to read system state.
@@ -4976,7 +5171,7 @@ Resolves: rhbz#1314372
 
 * Tue Jun 09 2015 Miroslav Grepl <mgrepl@redhat.com> 3.13.1-128
 - Add ipsec_rw_inherited_pipes() interface.
-- Allow ibus-x11 running as xdm_t to connect uder session buses. We already allow to connect to userdomains over unix_stream_socket. 
+- Allow ibus-x11 running as xdm_t to connect uder session buses. We already allow to connect to userdomains over unix_stream_socket.
 - Label /usr/libexec/Xorg.wrap as xserver_exec_t.
 - Allow systemd-networkd to bind dhcpc ports if DHCP=yes in *.network conf file.
 - Add fixes for selinux userspace moving the policy store to /var/lib/selinux.
@@ -4984,13 +5179,13 @@ Resolves: rhbz#1314372
 - Label all gluster hooks in /var/lib/gluster as bin_t. They are not created on the fly.
 - Access required to run with unconfine.pp disabled
 - Fix selinux_search_fs() interface.
-- Update selinux_search_fs(domain) rule to have ability to search /etc/selinuc/ to check if /etc/selinux/config exists. 
+- Update selinux_search_fs(domain) rule to have ability to search /etc/selinuc/ to check if /etc/selinux/config exists.
 - Add seutil_search_config() interface.
 - Make ssh-keygen as nsswitch domain to access SSSD.
 - Label ctdb events scripts as bin_t.
 - Add support for /usr/sbin/lvmpolld.
 - Allow gvfsd-fuse running as xdm_t to use /run/user/42/gvfs as mountpoint.
-- Add support for ~/.local/share/networkmanagement/certificates and update filename transitions rules. 
+- Add support for ~/.local/share/networkmanagement/certificates and update filename transitions rules.
 - Allow login_pgm domains to access kernel keyring for nsswitch domains.
 - Allow hypervkvp to read /dev/urandom and read  addition states/config files.
 - Add cgdcbxd policy.
@@ -5005,26 +5200,26 @@ Resolves: rhbz#1314372
 - Allow fowner capability for sssd because of selinux_child handling.
 - Allow pki-tomcat relabel pki_tomcat_etc_rw_t.
 - Allow cluster domain to dbus chat with systemd-logind.
-- Allow tmpreaper_t to manage ntp log content 
+- Allow tmpreaper_t to manage ntp log content
 - Allow openvswitch_t to communicate with sssd.
 - Allow isnsd_t to communicate with sssd.
 - Allow rwho_t to communicate with sssd.
 - Allow pkcs_slotd_t to communicate with sssd.
-- Add httpd_var_lib_t label for roundcubemail 
+- Add httpd_var_lib_t label for roundcubemail
 - Allow puppetagent_t to transfer firewalld messages over dbus.
 - Allow glusterd to have mknod capability. It creates a special file using mknod in a brick.
 - Update rules related to glusterd_brick_t.
 - Allow glusterd to execute lvm tools in the lvm_t target domain.
 - Allow glusterd to execute xfs_growfs in the target domain.
 - Allow sysctl to have running under hypervkvp_t domain.
-- Allow smartdnotify to use user terminals. 
-- Allow pcp domains to create root.socket in /var/lip/pcp directroy. 
+- Allow smartdnotify to use user terminals.
+- Allow pcp domains to create root.socket in /var/lip/pcp directroy.
 - Allow NM to execute dnssec-trigger-script in dnssec_trigger_t domain.
-- Allow rpcbind to create rpcbind.xdr as a temporary file. 
-- Allow dnssec-trigger connections to the system DBUS. It uses libnm-glib Python bindings. 
-- Allow hostapd net_admin capability. hostapd needs to able to set an interface flag. 
+- Allow rpcbind to create rpcbind.xdr as a temporary file.
+- Allow dnssec-trigger connections to the system DBUS. It uses libnm-glib Python bindings.
+- Allow hostapd net_admin capability. hostapd needs to able to set an interface flag.
 - rsync server can be setup to send mail
-- Make "ostree admin upgrade -r" command which suppose to upgrade the system and reboot working again. 
+- Make "ostree admin upgrade -r" command which suppose to upgrade the system and reboot working again.
 - Remove ctdbd_manage_var_files() interface which is not used and is declared for the wrong type.
 - Fix samba_load_libgfapi decl in samba.te.
 - Fix typo in nagios_run_sudo() boolean.
@@ -5060,19 +5255,19 @@ Resolves: rhbz#1314372
 - Allow gluster rpm scripletto create glusterd socket with correct labeling. This is a workaround until we get fix in glusterd.
 - Add glusterd_filetrans_named_pid() interface.
 - Allow antivirus_t to read system state info.
-- Dontaudit use console for chrome-sandbox. 
-- Add support for ~/.local/share/libvirt/images and for ~/.local/share/libvirt/boot. 
-- Clamd needs to have fsetid capability. 
-- Allow cinder-backup to dbus chat with systemd-logind. 
+- Dontaudit use console for chrome-sandbox.
+- Add support for ~/.local/share/libvirt/images and for ~/.local/share/libvirt/boot.
+- Clamd needs to have fsetid capability.
+- Allow cinder-backup to dbus chat with systemd-logind.
 - Update httpd_use_openstack boolean to allow httpd to bind commplex_main_port and read keystone log files.
 - Allow gssd to access kernel keyring for login_pgm domains.
 - Add more fixes related to timemaster+ntp+ptp4l.
 - Allow docker sandbox domains to search all mountpoiunts
 - update winbind_t rules to allow IPC for winbind.
 - Add rpm_exec_t labeling for /usr/bin/dnf-automatic,/usr/bin/dnf-2 and /usr/bin/dnf-3.
-- Allow inet_gethost called by couchdb to access /proc/net/unix. 
-- Allow eu-unstrip running under abrt_t to access /var/lib/pcp/pmdas/linux/pmda_linux.so 
-- Label /usr/bin/yum-deprecated as rpm_exec_t. 
+- Allow inet_gethost called by couchdb to access /proc/net/unix.
+- Allow eu-unstrip running under abrt_t to access /var/lib/pcp/pmdas/linux/pmda_linux.so
+- Label /usr/bin/yum-deprecated as rpm_exec_t.
 
 * Tue May 05 2015 Lukas Vrabec <lvrabec@redhat.com> 3.13.1-127
 - Add missing typealiases in apache_content_template() for script domain/executable.
@@ -5702,9 +5897,9 @@ Resolves: rhbz#1314372
 - Allow mdadm to connect to own socket created by mdadm running as kernel_t.
 - Fix pkcs, Remove pkcs_lock_filetrans and Add files_search_locks
 - Allow bacula manage bacula_log_t dirs
-- Allow pkcs_slotd_t read /etc/passwd, Label /var/lock/opencryptoki as pkcs_slotd_lock_t 
+- Allow pkcs_slotd_t read /etc/passwd, Label /var/lock/opencryptoki as pkcs_slotd_lock_t
 - Fix mistakes keystone and quantum
-- Label neutron var run dir 
+- Label neutron var run dir
 - Label keystone var run dir
 - Fix bad labeling for /usr/s?bin/(oo|rhc)-restorer-wrapper.sh in openshift.fc.
 - Dontaudit attempts to access check cert dirs/files for sssd.
@@ -5715,13 +5910,13 @@ Resolves: rhbz#1314372
 - Label also /var/run/glusterd.socket file as gluster_var_run_t
 - Fix policy for pkcsslotd from opencryptoki
 - Update cockpik policy from cockpit usptream.
-- Allow certmonger to exec ldconfig to make  ipa-server-install  working. 
-- Added support for Naemon policy 
+- Allow certmonger to exec ldconfig to make  ipa-server-install  working.
+- Added support for Naemon policy
 - Allow keepalived manage snmp files
 - Add setpgid process to mip6d
 - remove duplicate rule
-- Allow postfix_smtpd to stream connect to antivirus 
-- Dontaudit list /tmp for icecast 
+- Allow postfix_smtpd to stream connect to antivirus
+- Dontaudit list /tmp for icecast
 - Allow zabbix domains to access /proc//net/dev.
 
 * Wed Jul 23 2014 Lukas Vrabec <lvrabec@redhat.com> 3.13.1-67
@@ -5743,7 +5938,7 @@ Resolves: rhbz#1314372
 * Fri Jul 18 2014 Lukas Vrabec <lvrabec@redhat.com> 3.13.1-65
 - Allow sysadm to dbus chat with systemd
 - Add logging_dontaudit_search_audit_logs()
-- Add new files_read_all_mountpoint_symlinks() 
+- Add new files_read_all_mountpoint_symlinks()
 - Fix labeling path from /var/run/systemd/initctl/fifo to /var/run/initctl/fifo.
 - Allow ndc to read random and urandom device (#1110397)
 - Allow zabbix to read system network state
@@ -6981,7 +7176,7 @@ type in docker.te
 - Add new attribute to discover confined_admins
 - Fix labeling for /etc/strongswan/ipsec.d
 - systemd_logind seems to pass fd to anyone who dbus communicates with it
-- Dontaudit leaked write descriptor to dmesg 
+- Dontaudit leaked write descriptor to dmesg
 
 * Mon Oct 14 2013 Miroslav Grepl <mgrepl@redhat.com> 3.12.1-89
 - Fix gnome_read_generic_data_home_files()
@@ -7100,7 +7295,7 @@ type in docker.te
 - Match upstream labeling
 
 * Wed Sep 25 2013 Miroslav Grepl <mgrepl@redhat.com> 3.12.1-83
-- Do not build sanbox pkg on MLS 
+- Do not build sanbox pkg on MLS
 
 * Wed Sep 25 2013 Miroslav Grepl <mgrepl@redhat.com> 3.12.1-82
 - wine_tmp is no longer needed
@@ -7256,7 +7451,7 @@ type in docker.te
 - Add selinux-policy-sandbox pkg
 
 * Tue Aug 27 2013 Miroslav Grepl <mgrepl@redhat.com> 3.12.1-73
-0 
+0
 - Allow rhsmcertd to read init state
 - Allow fsetid for pkcsslotd
 - Fix labeling for /usr/lib/systemd/system/pkcsslotd.service
@@ -7547,17 +7742,17 @@ type in docker.te
 - fix selinuxuser_use_ssh_chroot boolean
 
 * Fri Jun 28 2013 Miroslav Grepl <mgrepl@redhat.com> 3.12.1-58
-- Shrink the size of policy by moving to attributes, also add dridomain so that mozilla_plugin can follow selinuxuse_dri boolean. 
-- Allow bootloader to manage generic log files 
-- Allow ftp to bind to port 989 
-- Fix label of new gear directory 
-- Add support for new directory /var/lib/openshift/gears/ 
-- Add openshift_manage_lib_dirs() 
-- allow virtd domains to manage setrans_var_run_t 
-- Allow useradd to manage all openshift content 
-- Add support so that mozilla_plugin_t can use dri devices 
-- Allow chronyd to change the scheduler 
-- Allow apmd to shut downthe system 
+- Shrink the size of policy by moving to attributes, also add dridomain so that mozilla_plugin can follow selinuxuse_dri boolean.
+- Allow bootloader to manage generic log files
+- Allow ftp to bind to port 989
+- Fix label of new gear directory
+- Add support for new directory /var/lib/openshift/gears/
+- Add openshift_manage_lib_dirs()
+- allow virtd domains to manage setrans_var_run_t
+- Allow useradd to manage all openshift content
+- Add support so that mozilla_plugin_t can use dri devices
+- Allow chronyd to change the scheduler
+- Allow apmd to shut downthe system
 - Devicekit_disk_t needs to manage /etc/fstab
 
 * Wed Jun 26 2013 Miroslav Grepl <mgrepl@redhat.com> 3.12.1-57
@@ -7948,7 +8143,7 @@ type in docker.te
 - label shared libraries in /opt/google/chrome as testrel_shlib_t
 
 * Thu Apr 18 2013 Miroslav Grepl <mgrepl@redhat.com> 3.12.1-34
-- Allow certmonger to dbus communicate with realmd 
+- Allow certmonger to dbus communicate with realmd
 - Make realmd working
 
 * Thu Apr 18 2013 Miroslav Grepl <mgrepl@redhat.com> 3.12.1-33
@@ -7967,7 +8162,7 @@ type in docker.te
 - Allow sandbox domains to use inherted terminals
 - Allow pscd to use devices labeled svirt_image_t in order to use cat cards.
 - Add label for new alsa pid
-- Alsa now uses a pid file and needs to setsched 
+- Alsa now uses a pid file and needs to setsched
 - Fix oracleasmfs_t definition
 - Add support for sshd_unit_file_t
 - Add oracleasmfs_t
@@ -8524,7 +8719,7 @@ type in docker.te
 - Allow certwatch to read meminfo
 - Fix nscd_dontaudit_write_sock_file() interfac
 - Fix gnome_filetrans_home_content() to include also "fontconfig" dir as cache_home_t
-- llow mozilla_plugin_t to create HOMEDIR/.fontconfig with the proper labeling 
+- llow mozilla_plugin_t to create HOMEDIR/.fontconfig with the proper labeling
 
 * Fri Jan 11 2013 Miroslav Grepl <mgrepl@redhat.com> 3.12.1-3
 - Allow gnomeclock to talk to puppet over dbus
@@ -8683,7 +8878,7 @@ type in docker.te
 - Allow firewalld to dbus chat with devicekit_power
 - Allow tuned to call lsblk
 - Allow tor to read /proc/sys/kernel/random/uuid
-- Add tor_can_network_relay boolean  
+- Add tor_can_network_relay boolean
 
 * Wed Dec 5 2012 Miroslav Grepl <mgrepl@redhat.com> 3.11.1-60
 - Add openshift_initrc_signal() interface
@@ -8788,7 +8983,7 @@ type in docker.te
 - Fix filetrans interface definitions
 - Dontaudit xdm_t to getattr on BOINC lib files
 - Add systemd_reload_all_services() interface
-- Dontaudit write access on /var/lib/net-snmp/mib_indexes 
+- Dontaudit write access on /var/lib/net-snmp/mib_indexes
 - Only stop mcsuntrustedproc from relableing files
 - Allow accountsd to dbus chat with gdm
 - Allow realmd to getattr on all fs
@@ -8953,7 +9148,7 @@ type in docker.te
 - Clean up for tunable+optional statements
 - Add labeling for /usr/sbin/mkhomedir_helper
 - Allow antivirus domain to managa amavis spool files
-- Allow rpcbind_t to read passwd 
+- Allow rpcbind_t to read passwd
 - Allow pyzor running as spamc to manage amavis spool
 
 
@@ -9100,7 +9295,7 @@ type in docker.te
 - Stop using attributes form netlabel_peer and syslog, auth_use_nsswitch setsup netlabel_peer
 - Move netlable_peer check out of booleans
 - Remove call to recvfrom_netlabel for kerberos call
-- Remove use of attributes when calling syslog call 
+- Remove use of attributes when calling syslog call
 - Move -miscfiles_read_localization to domain.te to save hundreds of allow rules
 - Allow all domains to read locale files.  This eliminates around 1500 allow rules- Cleanup nis_use_ypbind_uncond interface
 - Allow rndc to block suspend
@@ -9180,7 +9375,7 @@ type in docker.te
 
 * Fri Aug 31 2012 Dan Walsh <dwalsh@redhat.com> 3.11.1-15
 - Separate sandbox policy into sandbox and sandboxX, and disable sandbox by default on fresh installs
-- Allow domains that can read etc_t to read etc_runtime_t 
+- Allow domains that can read etc_t to read etc_runtime_t
 - Allow all domains to use inherited tmpfiles
 
 * Wed Aug 29 2012 Miroslav Grepl <mgrepl@redhat.com> 3.11.1-14
@@ -9223,7 +9418,7 @@ type in docker.te
 - Allow xserver to communicate with secure_firmware
 - Allow fsadm tools (fsck) to read /run/mount contnet
 - Allow sysadm types to read /dev/kmsg
-- 
+-
 
 * Thu Aug 16 2012 Dan Walsh <dwalsh@redhat.com> 3.11.1-9
 - Allow postfix, sssd, rpcd to block_suspend
@@ -9580,7 +9775,7 @@ type in docker.te
 - Allow l2tpd_t to read system state
 - Allow tuned to run ls /dev
 - Allow sudo domains to read usr_t files
-- Add label to machine-id 
+- Add label to machine-id
 - Fix corecmd_read_bin_symlinks cut and paste error
 
 * Wed May 16 2012 Miroslav Grepl <mgrepl@redhat.com> 3.10.0-125
@@ -9899,7 +10094,7 @@ type in docker.te
 * Fri Mar 9 2012 Miroslav Grepl <mgrepl@redhat.com> 3.10.0-98
 - Add policy for nove-cert
 - Add labeling for nova-openstack  systemd unit files
-- Add policy for keystoke 
+- Add policy for keystoke
 
 * Thu Mar 8 2012 Miroslav Grepl <mgrepl@redhat.com> 3.10.0-97
 - Fix man pages fro domains
@@ -10071,7 +10266,7 @@ type in docker.te
 - Add support for selinux_avcstat munin plugin
 - Treat hearbeat with corosync policy
 - Allow corosync to read and write to qpidd shared mem
--  mozilla_plugin is trying to run pulseaudio 
+-  mozilla_plugin is trying to run pulseaudio
 - Fixes for new sshd patch for running priv sep domains as the users context
 - Turn off dontaudit rules when turning on allow_ypbind
 - udev now reads /etc/modules.d directory
@@ -10127,7 +10322,7 @@ type in docker.te
 - Add ubac_constrained rules for chrome_sandbox
 - Need interface to allow domains to use tmpfs_t files created by the kernel, used by libra
 - Allow postgresql to be executed by the caller
-- Standardize interfaces of daemons 
+- Standardize interfaces of daemons
 - Add new labeling for mm-handler
 - Allow all matahari domains to read network state and etc_runtime_t files
 
@@ -10244,7 +10439,7 @@ type in docker.te
 
 * Fri Nov 11 2011 Dan Walsh <dwalsh@redhat.com> 3.10.0-57
 - Pulseaudio changes
-- Merge patches 
+- Merge patches
 
 * Thu Nov 10 2011 Dan Walsh <dwalsh@redhat.com> 3.10.0-56
 - Merge patches back into git repository.
@@ -10289,7 +10484,7 @@ type in docker.te
 - Check in fixed for Chrome nacl support
 
 * Thu Oct 27 2011 Miroslav Grepl <mgrepl@redhat.com> 3.10.0-51
--  Begin removing qemu_t domain, we really no longer need this domain.  
+-  Begin removing qemu_t domain, we really no longer need this domain.
 - systemd_passwd needs dac_overide to communicate with users TTY's
 - Allow svirt_lxc domains to send kill signals within their container
 
@@ -10297,7 +10492,7 @@ type in docker.te
 - Remove qemu.pp again without causing a crash
 
 * Wed Oct 26 2011 Dan Walsh <dwalsh@redhat.com> 3.10.0-50.1
-- Remove qemu.pp, everything should use svirt_t or stay in its current domain	
+- Remove qemu.pp, everything should use svirt_t or stay in its current domain
 
 * Wed Oct 26 2011 Miroslav Grepl <mgrepl@redhat.com> 3.10.0-50
 - Allow policykit to talk to the systemd via dbus
@@ -10377,7 +10572,7 @@ type in docker.te
 - Don't check md5 size or mtime on certain config files
 
 * Tue Oct 11 2011 Dan Walsh <dwalsh@redhat.com> 3.10.0-39.1
-- Remove allow_ptrace and replace it with deny_ptrace, which will remove all 
+- Remove allow_ptrace and replace it with deny_ptrace, which will remove all
 ptrace from the system
 - Remove 2000 dontaudit rules between confined domains on transition
 and replace with single
@@ -10604,7 +10799,7 @@ dontaudit domain domain:process { noatsecure siginh rlimitinh } ;
 
 * Wed Aug 10 2011 Miroslav Grepl <mgrepl@redhat.com> 3.10.0-17
 - livecd fixes
-- spec file fixes 
+- spec file fixes
 
 * Thu Aug 4 2011 Miroslav Grepl <mgrepl@redhat.com> 3.10.0-16
 - fetchmail can use kerberos
@@ -10681,7 +10876,7 @@ dontaudit domain domain:process { noatsecure siginh rlimitinh } ;
 - Allow asterisk to read /dev/random if it uses TLS
 - Allow colord to read ini files which are labeled as bin_t
 - Allow dirsrvadmin sys_resource and setrlimit to use ulimit
-- Systemd needs to be able to create sock_files for every label in /var/run directory, cupsd being the first.  
+- Systemd needs to be able to create sock_files for every label in /var/run directory, cupsd being the first.
 - Also lists /var and /var/spool directories
 - Add openl2tpd to l2tpd policy
 - qpidd is reading the sysfs file
@@ -10722,7 +10917,7 @@ dontaudit domain domain:process { noatsecure siginh rlimitinh } ;
 * Wed Jun 8 2011 Miroslav Grepl <mgrepl@redhat.com> 3.9.16-27
 - Fixes for zabbix
 - init script needs to be able to manage sanlock_var_run_...
-- Allow sandlock and wdmd to create /var/run directories... 
+- Allow sandlock and wdmd to create /var/run directories...
 - mixclip.so has been compiled correctly
 - Fix passenger policy module name
 
@@ -10819,17 +11014,17 @@ dontaudit domain domain:process { noatsecure siginh rlimitinh } ;
 - Virt_admin should be allowed to manage images and processes
 
 * Fri Apr 15 2011 Miroslav Grepl <mgrepl@redhat.com> 3.9.16-15
-- xdm_t needs getsession for switch user 
-- Every app that used to exec init is now execing systemdctl 
-- Allow squid to manage krb5_host_rcache_t files 
+- xdm_t needs getsession for switch user
+- Every app that used to exec init is now execing systemdctl
+- Allow squid to manage krb5_host_rcache_t files
 - Allow foghorn to connect to agentx port - Fixes for colord policy
 
 * Mon Apr 11 2011 Miroslav Grepl <mgrepl@redhat.com> 3.9.16-14
 - Add Dan's patch to remove 64 bit variants
-- Allow colord to use unix_dgram_socket 
-- Allow apps that search pids to read /var/run if it is a lnk_file 
-- iscsid_t creates its own directory 
-- Allow init to list var_lock_t dir 
+- Allow colord to use unix_dgram_socket
+- Allow apps that search pids to read /var/run if it is a lnk_file
+- iscsid_t creates its own directory
+- Allow init to list var_lock_t dir
 - apm needs to verify user accounts auth_use_nsswitch
 - Add labeling for systemd unit files
 - Allow gnomeclok to enable ntpd service using systemctl - systemd_systemctl_t domain was added
@@ -10879,7 +11074,7 @@ dontaudit domain domain:process { noatsecure siginh rlimitinh } ;
 * Wed Mar 23 2011 Miroslav Grepl <mgrepl@redhat.com> 3.9.16-6
 - Remove some unconfined domains
 - Remove permissive domains
-- Add policy-term.patch from Dan 
+- Add policy-term.patch from Dan
 
 * Thu Mar 17 2011 Miroslav Grepl <mgrepl@redhat.com> 3.9.16-5
 - Fix multiple specification for boot.log
@@ -11017,7 +11212,7 @@ assembled or disassembled.
 * Thu Jan 27 2011 Miroslav Grepl <mgrepl@redhat.com> 3.9.13-6
 - Fix xserver_dontaudit_read_xdm_pid
 - Change oracle_port_t to oracledb_port_t to prevent conflict with satellite
-- Allow dovecot_deliver_t to read/write postfix_master_t:fifo_file. 
+- Allow dovecot_deliver_t to read/write postfix_master_t:fifo_file.
 	* These fifo_file is passed from postfix_master_t to postfix_local_t to dovecot_deliver_t
 - Allow readahead to manage readahead pid dirs
 - Allow readahead to read all mcs levels
@@ -11110,7 +11305,7 @@ assembled or disassembled.
 - fix name of plymouth log file
 - teamviewer is a wine app
 - allow dmesg to read system state
-- Stop labeling files under /var/lib/mock so restorecon will not go into this 
+- Stop labeling files under /var/lib/mock so restorecon will not go into this
 - nsplugin needs to read network state for google talk
 
 * Thu Dec 23 2010 Dan Walsh <dwalsh@redhat.com> 3.9.12-3
@@ -11333,7 +11528,7 @@ assembled or disassembled.
 - Fix label on /var/log/wicd.log
 - Transition to initrc_t from init when executing bin_t
 - Add audit_access permissions to file
-- Make removable_t a device_node 
+- Make removable_t a device_node
 - Fix label on /lib/systemd/*
 
 * Fri Oct 22 2010 Dan Walsh <dwalsh@redhat.com> 3.9.7-6
@@ -11409,8 +11604,8 @@ assembled or disassembled.
 - Add /etc/localtime as locale file context
 
 * Thu Sep 30 2010 Dan Walsh <dwalsh@redhat.com> 3.9.5-9
-- Turn off default transition to mozilla_plugin and telepathy domains from unconfined user 
-- Turn off iptables from unconfined user 
+- Turn off default transition to mozilla_plugin and telepathy domains from unconfined user
+- Turn off iptables from unconfined user
 - Allow sudo to send signals to any domains the user could have transitioned to.
 - Passwd in single user mode needs to talk to console_device_t
 - Mozilla_plugin_t needs to connect to web ports, needs to write to video device, and read alsa_home_t alsa setsup pulseaudio
@@ -11492,7 +11687,7 @@ Bz #637339
 Allow iptables to read shorewall tmp files
 Change chfn and passwd to use auth_use_pam so they can send dbus messages to fpr
 intd
-label vlc as an execmem_exec_t 
+label vlc as an execmem_exec_t
 Lots of fixes for mozilla_plugin to run google vidio chat
 Allow telepath_msn to execute ldconfig and its own tmp files
 Fix labels on hugepages
@@ -11571,7 +11766,7 @@ Add boolean to allow icecast to connect to any port
 
 * Wed Aug 4 2010 Dan Walsh <dwalsh@redhat.com> 3.8.8-10
 - Allow pcscd to read sysfs
-- systemd fixes 
+- systemd fixes
 - Fix wine_mmap_zero_ignore boolean
 
 * Tue Aug 3 2010 Dan Walsh <dwalsh@redhat.com> 3.8.8-9
@@ -11772,7 +11967,7 @@ Resolves: #585963
 - Allow rlogind_t to search /root for .rhosts
 Resolves: #582760
 - Fix path for cached_var_t
-- Fix prelink paths /var/lib/prelink	
+- Fix prelink paths /var/lib/prelink
 - Allow confined users to direct_dri
 - Allow mls lvm/cryptosetup to work
 
@@ -11830,7 +12025,7 @@ Resolves: #582145
 - Fixes for labels during install from livecd
 
 * Thu Apr 1 2010 Dan Walsh <dwalsh@redhat.com> 3.7.17-4
-- Fix /cgroup file context 
+- Fix /cgroup file context
 - Fix broken afs use of unlabled_t
 - Allow getty to use the console for s390
 
@@ -11969,7 +12164,7 @@ Resolves: #582145
 - Merge with upstream
 
 * Thu Feb 11 2010 Dan Walsh <dwalsh@redhat.com> 3.7.8-11
-- Allow sandbox to work with MLS 
+- Allow sandbox to work with MLS
 
 * Tue Feb 9 2010 Dan Walsh <dwalsh@redhat.com> 3.7.8-9
 - Make Chrome work with staff user
@@ -11993,7 +12188,7 @@ Resolves: #582145
 
 * Mon Jan 25 2010 Dan Walsh <dwalsh@redhat.com> 3.7.8-3
 - Allow abrt_helper to getattr on all filesystems
-- Add label for /opt/real/RealPlayer/plugins/oggfformat\.so     
+- Add label for /opt/real/RealPlayer/plugins/oggfformat\.so
 
 * Thu Jan 21 2010 Dan Walsh <dwalsh@redhat.com> 3.7.8-2
 - Add gstreamer_home_t for ~/.gstreamer
@@ -12109,7 +12304,7 @@ Resolves: #582145
 - Fix request_module line to module_request
 
 * Fri Sep 18 2009 Dan Walsh <dwalsh@redhat.com> 3.6.32-3
-- Fix sandbox policy to allow it to run under firefox.  
+- Fix sandbox policy to allow it to run under firefox.
 - Dont audit leaks.
 
 * Thu Sep 17 2009 Dan Walsh <dwalsh@redhat.com> 3.6.32-2
@@ -12147,7 +12342,7 @@ Resolves: #582145
 - Allow xserver to use  netlink_kobject_uevent_socket
 
 * Thu Sep 3 2009 Dan Walsh <dwalsh@redhat.com> 3.6.30-3
-- Fixes for sandbox 
+- Fixes for sandbox
 
 * Mon Aug 31 2009 Dan Walsh <dwalsh@redhat.com> 3.6.30-2
 - Dontaudit setroubleshootfix looking at /root directory
@@ -12195,7 +12390,7 @@ Resolves: #582145
 - Add policycoreutils-python to pre install
 
 * Thu Aug 13 2009 Dan Walsh <dwalsh@redhat.com> 3.6.26-11
-- Make all unconfined_domains permissive so we can see what AVC's happen 
+- Make all unconfined_domains permissive so we can see what AVC's happen
 
 * Mon Aug 10 2009 Dan Walsh <dwalsh@redhat.com> 3.6.26-10
 - Add pt_chown policy
@@ -12314,7 +12509,7 @@ Resolves: #582145
 - Allow setroubleshoot to run mlocate
 
 * Mon Jun 8 2009 Dan Walsh <dwalsh@redhat.com> 3.6.14-1
-- Update to upstream 
+- Update to upstream
 
 * Tue Jun 2 2009 Dan Walsh <dwalsh@redhat.com> 3.6.13-3
 - Add fish as a shell
@@ -12554,7 +12749,7 @@ Resolves: #582145
 - Add git web policy
 
 * Mon Feb 9 2009 Dan Walsh <dwalsh@redhat.com> 3.6.5-1
-- Add setrans contains from upstream 
+- Add setrans contains from upstream
 
 * Mon Feb 9 2009 Dan Walsh <dwalsh@redhat.com> 3.6.4-6
 - Do transitions outside of the booleans
@@ -12572,7 +12767,7 @@ Resolves: #582145
 - More fixes for devicekit
 
 * Tue Feb 3 2009 Dan Walsh <dwalsh@redhat.com> 3.6.4-1
-- Upgrade to latest upstream 
+- Upgrade to latest upstream
 
 * Mon Feb 2 2009 Dan Walsh <dwalsh@redhat.com> 3.6.3-13
 - Add boolean to disallow unconfined_t login
@@ -12587,7 +12782,7 @@ Resolves: #582145
 - Fixes for wicd daemon
 
 * Mon Jan 26 2009 Dan Walsh <dwalsh@redhat.com> 3.6.3-9
-- More mls/rpm fixes 
+- More mls/rpm fixes
 
 * Fri Jan 23 2009 Dan Walsh <dwalsh@redhat.com> 3.6.3-8
 - Add policy to make dbus/nm-applet work
@@ -12650,7 +12845,7 @@ Resolves: #582145
 * Thu Dec 4 2008 Dan Walsh <dwalsh@redhat.com> 3.6.1-7
 - Allow iptables to talk to terminals
 - Fixes for policy kit
-- lots of fixes for booting. 
+- lots of fixes for booting.
 
 * Wed Dec 3 2008 Dan Walsh <dwalsh@redhat.com> 3.6.1-4
 - Cleanup policy
@@ -12666,7 +12861,7 @@ Resolves: #582145
 
 * Wed Nov 5 2008 Dan Walsh <dwalsh@redhat.com> 3.5.13-17
 - Allow lvm to dbus chat with hal
-- Allow rlogind to read nfs_t 
+- Allow rlogind to read nfs_t
 
 * Wed Nov 5 2008 Dan Walsh <dwalsh@redhat.com> 3.5.13-16
 - Fix cyphesis file context
@@ -12689,7 +12884,7 @@ Resolves: #582145
 - Add certmaster policy
 
 * Wed Oct 29 2008 Dan Walsh <dwalsh@redhat.com> 3.5.13-11
-- Fix confined users 
+- Fix confined users
 - Allow xguest to read/write xguest_dbusd_t
 
 * Mon Oct 27 2008 Dan Walsh <dwalsh@redhat.com> 3.5.13-9
@@ -12717,7 +12912,7 @@ Resolves: #582145
 - Fix dovecot access
 
 * Fri Oct 17 2008 Dan Walsh <dwalsh@redhat.com> 3.5.13-1
-- Policy cleanup 
+- Policy cleanup
 
 * Thu Oct 16 2008 Dan Walsh <dwalsh@redhat.com> 3.5.12-3
 - Remove Multiple spec
@@ -12734,7 +12929,7 @@ Resolves: #582145
 - Update to upstream policy
 
 * Mon Oct 6 2008 Dan Walsh <dwalsh@redhat.com> 3.5.10-3
-- Fixes for confined xwindows and xdm_t 
+- Fixes for confined xwindows and xdm_t
 
 * Fri Oct 3 2008 Dan Walsh <dwalsh@redhat.com> 3.5.10-2
 - Allow confined users and xdm to exec wm
@@ -12745,7 +12940,7 @@ Resolves: #582145
 - Allow domains to search other domains keys, coverup kernel bug
 
 * Wed Oct 1 2008 Dan Walsh <dwalsh@redhat.com> 3.5.9-4
-- Fix labeling for oracle 
+- Fix labeling for oracle
 
 * Wed Oct 1 2008 Dan Walsh <dwalsh@redhat.com> 3.5.9-3
 - Allow nsplugin to comminicate with xdm_tmp_t sock_file
@@ -12808,7 +13003,7 @@ Resolves: #582145
 - Update to upstream
 
 * Thu Aug 7 2008 Dan Walsh <dwalsh@redhat.com> 3.5.3-1
-- Update to upstream 
+- Update to upstream
 
 * Sat Aug 2 2008 Dan Walsh <dwalsh@redhat.com> 3.5.2-2
 - Allow system-config-selinux to work with policykit
@@ -12880,7 +13075,7 @@ Resolves: #582145
 - Add /var/lib/selinux context
 
 * Wed Jun 11 2008 Dan Walsh <dwalsh@redhat.com> 3.4.2-1
-- Update to upstream 
+- Update to upstream
 
 * Wed Jun 4 2008 Dan Walsh <dwalsh@redhat.com> 3.4.1-5
 - Add livecd policy
@@ -12957,7 +13152,7 @@ Resolves: #582145
 - dontaudit setfiles reading links
 - allow semanage sys_resource
 - add allow_httpd_mod_auth_ntlm_winbind boolean
-- Allow privhome apps including dovecot read on nfs and cifs home 
+- Allow privhome apps including dovecot read on nfs and cifs home
 dirs if the boolean is set
 
 * Tue Apr 1 2008 Dan Walsh <dwalsh@redhat.com> 3.3.1-27
@@ -12982,14 +13177,14 @@ dirs if the boolean is set
 
 * Tue Mar 18 2008 Dan Walsh <dwalsh@redhat.com> 3.3.1-22
 - Allow stunnel to transition to inetd children domains
-- Make unconfined_dbusd_t an unconfined domain 
+- Make unconfined_dbusd_t an unconfined domain
 
 * Mon Mar 17 2008 Dan Walsh <dwalsh@redhat.com> 3.3.1-21
 - Fixes for qemu/virtd
 
 * Fri Mar 14 2008 Dan Walsh <dwalsh@redhat.com> 3.3.1-20
 - Fix bug in mozilla policy to allow xguest transition
-- This will fix the 
+- This will fix the
 
 libsemanage.dbase_llist_query: could not find record value
 libsemanage.dbase_llist_query: could not query record value (No such file or
@@ -13016,7 +13211,7 @@ directory)
 - Allow syslog to connect to mysql
 - Allow lvm to manage its own fifo_files
 - Allow bugzilla to use ldap
-- More mls fixes 
+- More mls fixes
 
 * Tue Mar 11 2008 Bill Nottingham <notting@redhat.com> 3.3.1-14
 - fixes for init policy (#436988)
@@ -13048,7 +13243,7 @@ directory)
 * Tue Feb 26 2008 Dan Walsh <dwalsh@redhat.com> 3.3.1-5
 - Allow nsplugin_config execstack/execmem
 - Allow nsplugin_t to read alsa config
-- Change apache to use user content 
+- Change apache to use user content
 
 * Tue Feb 26 2008 Dan Walsh <dwalsh@redhat.com> 3.3.1-4
 - Add cyphesis policy
@@ -13259,7 +13454,7 @@ directory)
 - Fix xguest to be able to connect to sound port
 
 * Fri Oct 19 2007 Dan Walsh <dwalsh@redhat.com> 3.0.8-28
-- Fixes for hald_mac 
+- Fixes for hald_mac
 - Treat unconfined_home_dir_t as a home dir
 - dontaudit rhgb writes to fonts and root
 
@@ -13331,7 +13526,7 @@ directory)
 
 * Fri Sep 21 2007 Dan Walsh <dwalsh@redhat.com> 3.0.8-8
 - Allow also to search var_lib
-- New context for dbus launcher 
+- New context for dbus launcher
 
 * Fri Sep 21 2007 Dan Walsh <dwalsh@redhat.com> 3.0.8-7
 - Allow cupsd_config_t to read/write usb_device_t
@@ -13374,7 +13569,7 @@ directory)
 - Allow wine to run in system role
 
 * Thu Sep 6 2007 Dan Walsh <dwalsh@redhat.com> 3.0.7-5
-- Fix java labeling 
+- Fix java labeling
 
 * Thu Sep 6 2007 Dan Walsh <dwalsh@redhat.com> 3.0.7-4
 - Define user_home_type as home_type
@@ -13416,7 +13611,7 @@ directory)
 - Fix Makefile for building policy modules
 
 * Fri Aug 10 2007 Dan Walsh <dwalsh@redhat.com> 3.0.5-5
-- Fix dhcpc startup of service 
+- Fix dhcpc startup of service
 
 * Fri Aug 10 2007 Dan Walsh <dwalsh@redhat.com> 3.0.5-4
 - Fix dbus chat to not happen for xguest and guest users
@@ -13493,7 +13688,7 @@ directory)
 - Allow prelink to read kernel sysctls
 
 * Mon Jul 2 2007 Dan Walsh <dwalsh@redhat.com> 3.0.1-5
-- Default to user_u:system_r:unconfined_t 
+- Default to user_u:system_r:unconfined_t
 
 * Sun Jul 1 2007 Dan Walsh <dwalsh@redhat.com> 3.0.1-4
 - fix squid
@@ -13510,7 +13705,7 @@ directory)
 - Remove ifdef strict policy from upstream
 
 * Fri May 18 2007 Dan Walsh <dwalsh@redhat.com> 2.6.5-3
-- Remove ifdef strict to allow user_u to login 
+- Remove ifdef strict to allow user_u to login
 
 * Fri May 18 2007 Dan Walsh <dwalsh@redhat.com> 2.6.5-2
 - Fix for amands
@@ -13526,7 +13721,7 @@ directory)
 * Wed May 16 2007 Dan Walsh <dwalsh@redhat.com> 2.6.4-5
 - More fixes for alsactl
 - Transition from hal and modutils
-- Fixes for suspend resume.  
+- Fixes for suspend resume.
      - insmod domtrans to alsactl
      - insmod writes to hal log
 
@@ -13702,7 +13897,7 @@ Resolves: #227237
 
 * Sun Feb 4 2007 Dan Walsh <dwalsh@redhat.com> 2.5.2-5
 - Fix ssh_agent to be marked as an executable
-- Allow Hal to rw sound device 
+- Allow Hal to rw sound device
 
 * Thu Feb 1 2007 Dan Walsh <dwalsh@redhat.com> 2.5.2-4
 - Fix spamassisin so crond can update spam files
@@ -13724,7 +13919,7 @@ Resolves: #227237
 - Continue fixing, additional user domains
 
 * Wed Jan 10 2007 Dan Walsh <dwalsh@redhat.com> 2.5.1-4
-- Begin adding user confinement to targeted policy 
+- Begin adding user confinement to targeted policy
 
 * Wed Jan 10 2007 Dan Walsh <dwalsh@redhat.com> 2.5.1-2
 - Fixes for prelink, ktalkd, netlabel
@@ -13771,7 +13966,7 @@ Resolves: #220080
 Resolves: #219999
 
 * Thu Dec 14 2006 Dan Walsh <dwalsh@redhat.com> 2.4.6-14
-- Allow cron to polyinstatiate 
+- Allow cron to polyinstatiate
 - Fix creation of boot flags
 Resolves: #207433
 
@@ -13825,7 +14020,7 @@ Resolves: #216184
 Resolves: #212957
 
 * Tue Nov 28 2006 Dan Walsh <dwalsh@redhat.com> 2.4.6-1
-- Dontaudit appending hal_var_lib files 
+- Dontaudit appending hal_var_lib files
 Resolves: #217452
 Resolves: #217571
 Resolves: #217611
@@ -13873,7 +14068,7 @@ Resolves: #217725
 - Allow xen to search automount
 
 * Thu Nov 9 2006 Dan Walsh <dwalsh@redhat.com> 2.4.3-7
-- Fix spec of jre files 
+- Fix spec of jre files
 
 * Wed Nov 8 2006 Dan Walsh <dwalsh@redhat.com> 2.4.3-6
 - Fix unconfined access to shadow file
@@ -13934,7 +14129,7 @@ Resolves: #217725
 - Update xen to read nfs files
 
 * Mon Oct 23 2006 Dan Walsh <dwalsh@redhat.com> 2.4-4
-- Allow noxattrfs to associate with other noxattrfs 
+- Allow noxattrfs to associate with other noxattrfs
 
 * Mon Oct 23 2006 Dan Walsh <dwalsh@redhat.com> 2.4-3
 - Allow hal to use power_device_t
@@ -14027,10 +14222,10 @@ Resolves: #217725
 - Update with upstream
 
 * Mon Sep 25 2006 Dan Walsh <dwalsh@redhat.com> 2.3.15-2
-- mls fixes 
+- mls fixes
 
 * Fri Sep 22 2006 Dan Walsh <dwalsh@redhat.com> 2.3.15-1
-- Update from upstream 
+- Update from upstream
 
 * Fri Sep 22 2006 Dan Walsh <dwalsh@redhat.com> 2.3.14-8
 - More fixes for mls
@@ -14067,7 +14262,7 @@ Resolves: #217725
 
 * Thu Sep 7 2006 Dan Walsh <dwalsh@redhat.com> 2.3.13-3
 - Fix location of xel log files
-- Fix handling of sysadm_r -> rpm_exec_t 
+- Fix handling of sysadm_r -> rpm_exec_t
 
 * Thu Sep 7 2006 Dan Walsh <dwalsh@redhat.com> 2.3.13-2
 - Fixes for autofs, lp
@@ -14125,7 +14320,7 @@ Resolves: #217725
 - More java fixes
 
 * Fri Aug 11 2006 Dan Walsh <dwalsh@redhat.com> 2.3.6-4
-- Change allow_execstack to default to on, for RHEL5 Beta.  
+- Change allow_execstack to default to on, for RHEL5 Beta.
   This is required because of a Java compiler problem.
   Hope to turn off for next beta
 
@@ -14152,7 +14347,7 @@ Resolves: #217725
 
 * Wed Aug 2 2006 Dan Walsh <dwalsh@redhat.com> 2.3.3-18
 - yet more xen rules
- 
+
 * Tue Aug 1 2006 Dan Walsh <dwalsh@redhat.com> 2.3.3-17
 - more xen rules
 
@@ -14172,7 +14367,7 @@ Resolves: #217725
 -  fixes for setroubleshoot
 
 * Wed Jul 26 2006 Dan Walsh <dwalsh@redhat.com> 2.3.3-11
-- Added Paul Howarth patch to only load policy packages shipped 
+- Added Paul Howarth patch to only load policy packages shipped
   with this package
 - Allow pidof from initrc to ptrace higher level domains
 - Allow firstboot to communicate with hal via dbus
@@ -14568,7 +14763,7 @@ Resolves: #217725
 - Fix semoudle polcy
 
 * Thu Feb 16 2006 Dan Walsh <dwalsh@redhat.com> 2.2.16-1
-- Update to upstream 
+- Update to upstream
 - fix sysconfig/selinux link
 
 * Wed Feb 15 2006 Dan Walsh <dwalsh@redhat.com> 2.2.15-4
@@ -14631,7 +14826,7 @@ Resolves: #217725
 - Put back in changes for pup/zen
 
 * Tue Jan 24 2006 Dan Walsh <dwalsh@redhat.com> 2.2.5-1
-- Many changes for MLS 
+- Many changes for MLS
 - Turn on strict policy
 
 * Mon Jan 23 2006 Dan Walsh <dwalsh@redhat.com> 2.2.4-1
@@ -14681,7 +14876,7 @@ Resolves: #217725
 
 * Mon Jan 9 2006 Dan Walsh <dwalsh@redhat.com> 2.1.8-1
 - Update to upstream
-- Apply 
+- Apply
 * Fri Jan 6 2006 Dan Walsh <dwalsh@redhat.com> 2.1.7-4
 - Add wine and fix hal problems
 
@@ -14752,7 +14947,7 @@ Resolves: #217725
 - Fixes to start kernel in s0-s15:c0.c255
 
 * Wed Dec 14 2005 Dan Walsh <dwalsh@redhat.com> 2.1.6-3
-- Add java unconfined/execmem policy 
+- Add java unconfined/execmem policy
 
 * Wed Dec 14 2005 Dan Walsh <dwalsh@redhat.com> 2.1.6-2
 - Add file context for /var/cvs
@@ -14781,7 +14976,7 @@ Resolves: #217725
 - Allow unconfined_t to execmod texrel_shlib_t
 
 * Sat Dec  10 2005 Dan Walsh <dwalsh@redhat.com> 2.1.2-1
-- Update to upstream 
+- Update to upstream
 - Turn off allow_execmem and allow_execmod booleans
 - Add tcpd and automount policies
 
@@ -14829,7 +15024,7 @@ Update from upstream
 - Fixes for dovecot and saslauthd
 
 * Wed Nov 23 2005 Dan Walsh <dwalsh@redhat.com> 2.0.5-4
-- Cleanup pegasus and named 
+- Cleanup pegasus and named
 - Fix spec file
 - Fix up passwd changing applications
 

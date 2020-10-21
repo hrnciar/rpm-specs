@@ -3,7 +3,7 @@
 
 # https://github.com/chromedp/cdproto
 %global goipath         github.com/chromedp/cdproto
-%global commit          7e00b02ea7d290cf17b5a5c6f81d7a18b6810379
+%global commit          d1f6fc58448b0ca91a99956f311b951fd1b3378d
 
 %gometa
 
@@ -16,7 +16,7 @@ Chrome DevTools Protocol domains.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.1%{?dist}
+Release:        0.3%{?dist}
 Summary:        Generated commands, types, and events for the Chrome DevTools Protocol domains
 
 License:        MIT
@@ -25,6 +25,8 @@ Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/knq/sysutil)
 BuildRequires:  golang(github.com/mailru/easyjson)
+BuildRequires:  golang(github.com/mailru/easyjson/jlexer)
+BuildRequires:  golang(github.com/mailru/easyjson/jwriter)
 
 %description
 %{common_description}
@@ -45,6 +47,11 @@ BuildRequires:  golang(github.com/mailru/easyjson)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 23:18:38 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com>- 0-0.2.20200724gitd1f6fc5
+- Bump to commit d1f6fc58448b0ca91a99956f311b951fd1b3378d
+
 * Mon Apr 06 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0-0.1.20200406git7e00b02
 - Initial package
-

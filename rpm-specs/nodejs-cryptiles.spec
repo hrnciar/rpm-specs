@@ -2,7 +2,7 @@
 
 Name:       nodejs-cryptiles
 Version:    2.0.5
-Release:    10%{?dist}
+Release:    11%{?dist}
 Summary:    General purpose cryptography utilities for Node.js
 License:    BSD
 
@@ -44,6 +44,9 @@ cp -pr lib package.json %{buildroot}%{nodejs_sitelib}/cryptiles
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.5-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.5-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

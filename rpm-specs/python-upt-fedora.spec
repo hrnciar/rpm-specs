@@ -4,7 +4,7 @@
 
 Name:		python-upt-fedora	
 Version:	0.3
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Fedora backend for upt
 
 License:	BSD
@@ -47,6 +47,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} %{__python3} -m unittest
 %{python3_sitelib}/upt_fedora/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3-3
 - Rebuilt for Python 3.9
 

@@ -6,7 +6,7 @@
 
 Name:             R-%{packname}
 Version:          1.1.0.1
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          Utilities for Scheduling Functions to Execute Later with Event Loops
 
 License:          GPLv2+
@@ -95,7 +95,10 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --ignore-vignettes
 
 
 %changelog
-* Thu Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 1.1.0.1-1
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 05 2020 Tom Callaway <spot@fedoraproject.org> - 1.1.0.1-1
 - update to 1.1.0.1
 - rebuild for R 4
 

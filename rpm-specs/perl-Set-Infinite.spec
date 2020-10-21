@@ -1,6 +1,6 @@
 Name:           perl-Set-Infinite
 Version:        0.65
-Release:        29%{?dist}
+Release:        30%{?dist}
 Summary:        Sets of intervals
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Set-Infinite
@@ -51,6 +51,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.65-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.65-29
 - Perl 5.32 rebuild
 

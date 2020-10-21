@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}1
 Version:        1.7.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        URL library for Rust, based on the WHATWG URL Standard
 
 # Upstream license specification: MIT/Apache-2.0
@@ -146,6 +146,9 @@ which use "serde" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

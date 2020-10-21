@@ -1,6 +1,6 @@
 Name:           atinject
 Version:        1
-Release:        33.20100611svn86%{?dist}
+Release:        35.20100611svn86%{?dist}
 Summary:        Dependency injection specification for Java (JSR-330)
 License:        ASL 2.0
 URL:            http://code.google.com/p/atinject/
@@ -81,6 +81,12 @@ mv build/tck/javadoc build/javadoc/tck
 %files tck -f .mfiles-tck
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1-35.20100611svn86
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1-34.20100611svn86
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Sat Jun 20 2020 Mat Booth <mat.booth@redhat.com> - 1-33.20100611svn86
 - Allow building against Java 11
 

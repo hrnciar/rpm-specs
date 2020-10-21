@@ -1,7 +1,7 @@
 Summary:	Library for extracting extra information from image files
 Name:		libexif
 Version:	0.6.22
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	LGPLv2+
 URL:		https://libexif.github.io/
 %global tarball_version %(echo %{version} | sed -e 's|\\.|_|g')
@@ -77,6 +77,9 @@ make check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.22-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.6.22-1
 - 0.6.22
 - .spec cleanup

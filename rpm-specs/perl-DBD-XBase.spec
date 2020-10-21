@@ -1,6 +1,6 @@
 Name:           perl-DBD-XBase
 Version:        1.08
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Perl module for reading and writing the dbf files
 
 License:        GPL+ or Artistic
@@ -63,6 +63,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.08-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.08-12
 - Perl 5.32 rebuild
 

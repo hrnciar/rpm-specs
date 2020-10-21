@@ -5,7 +5,7 @@
 Summary: Utilities to generate, maintain and access the AppStream database
 Name:    appstream
 Version: 0.12.11
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 # lib LGPLv2+, tools GPLv2+
 License: GPLv2+ and LGPLv2+
@@ -172,6 +172,9 @@ mv %{buildroot}%{_datadir}/metainfo/*.xml \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 14 2020 Rex Dieter <rdieter@fedoraproject.org> - 0.12.11-1
 - 0.12.11
 

@@ -1,6 +1,6 @@
 Name: scitokens-cpp
-Version: 0.4.0
-Release: 2%{?dist}
+Version: 0.5.1
+Release: 1%{?dist}
 Summary: C++ Implementation of the SciTokens Library
 License: ASL 2.0
 URL: https://github.com/scitokens/scitokens-cpp
@@ -77,6 +77,12 @@ do_build
 %dir %{_includedir}/scitokens
 
 %changelog
+* Wed Jun 24 2020 Derek Weitzel <dweitzel@unl.edu> - 0.5.1-1
+- Add storage.modify as write permission
+
+* Fri Feb 28 2020 Derek Weitzel <dweitzel@unl.edu> - 0.5.0-1
+- Add API for retrieving string list attributes
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

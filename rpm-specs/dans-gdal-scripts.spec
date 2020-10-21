@@ -1,6 +1,6 @@
 Name:           dans-gdal-scripts
 Version:        0.24
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Utilities for use in conjunction with GDAL
 
 License:        BSD
@@ -49,6 +49,9 @@ pushd src/tests
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.24-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 21 2020 Sandro Mani <manisandro@gmail.com> - 0.24-11
 - Rebuild (gdal)
 

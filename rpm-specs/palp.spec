@@ -1,6 +1,6 @@
 Name:           palp
 Version:        2.1
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        A Package for Analyzing Lattice Polytopes
 License:        GPLv3+
 URL:            http://hep.itp.tuwien.ac.at/~kreuzer/CY/CYpalp.html
@@ -86,6 +86,9 @@ cp -p man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 2020 Jerry James <loganjerry@gmail.com> - 2.1-15
 - Add -fno-common patch to fix FTBFS with GCC 10 (bz 1799844)
 - Add -buffer-overflow, -unlink, and -latte patches

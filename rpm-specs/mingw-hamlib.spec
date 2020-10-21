@@ -2,7 +2,7 @@
 
 Name:           mingw-hamlib
 Version:        3.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Run-time library to control radio transceivers and receivers
 
 License:        GPLv2+ and LGPLv2+
@@ -87,6 +87,9 @@ rm -rf %{buildroot}%{mingw64_datadir}/{doc,info,man}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Nov 21 2018 Richard Shaw <hobbes1069@gmail.com> - 3.3-1
 - Update to 3.3.
 

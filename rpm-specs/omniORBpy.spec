@@ -1,6 +1,6 @@
 Name:           omniORBpy
 Version:        4.2.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        CORBA ORB for Python
 
 License:        LGPLv2+
@@ -93,6 +93,9 @@ find %{buildroot}%{python3_sitelib} -type d -exec chmod 755 {} \;
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.2.4-2
 - Rebuilt for Python 3.9
 

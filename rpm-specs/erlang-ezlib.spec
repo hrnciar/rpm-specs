@@ -2,8 +2,8 @@
 
 
 Name:       erlang-%{srcname}
-Version:    1.0.6
-Release:    3%{?dist}
+Version:    1.0.8
+Release:    1%{?dist}
 
 License:    ASL 2.0
 Summary:    Native zlib driver for Erlang
@@ -52,6 +52,17 @@ install -pm755 priv/lib/ezlib_drv.so \
 
 
 %changelog
+* Fri Jul 31 2020 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.8-1
+- Update to 1.0.8 (#1807016).
+- https://github.com/processone/ezlib/blob/1.0.8/CHANGELOG.md
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
@@ -68,17 +79,3 @@ install -pm755 priv/lib/ezlib_drv.so \
 
 * Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
-
-* Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
-
-* Thu Mar 29 2018 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.4-1
-- Update to 1.0.4 (#1559855).
-- https://github.com/processone/ezlib/blob/1.0.4/CHANGELOG.md
-
-* Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
-
-* Sun Jan 14 2018 Randy Barlow <bowlofeggs@fedoraproject.org> - 1.0.3-1
-- Update to 1.0.3 (#1515231).
-- https://github.com/processone/ezlib/blob/1.0.3/CHANGELOG.md

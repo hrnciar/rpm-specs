@@ -1,11 +1,11 @@
-# unversionned doc dir F20 change https://fedoraproject.org/wiki/Changes/UnversionedDocdirs
-%{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
+%undefine __cmake_in_source_build
+%undefine __cmake3_in_source_build
 
 %bcond_with tests
 
 Name:               gfal2
-Version:            2.18.0
-Release:            3%{?dist}
+Version:            2.18.1
+Release:            6%{?dist}
 Summary:            Grid file access library 2.0
 License:            ASL 2.0
 URL:                http://dmc.web.cern.ch/projects/gfal-2/home
@@ -18,7 +18,7 @@ Source0:            %{name}-%{version}.tar.gz
 
 #main lib dependencies
 BuildRequires:      gcc-c++
-BuildRequires:      cmake
+BuildRequires:      cmake3
 BuildRequires:      doxygen
 BuildRequires:      json-c-devel
 %if %{?fedora}%{!?fedora:0} >= 13 || %{?rhel}%{!?rhel:0} >= 6
@@ -57,7 +57,7 @@ BuildRequires:      globus-gass-copy-devel
 #http plugin dependencies
 BuildRequires:      davix-devel >= 0.6.8
 #xrootd plugin dependencies
-BuildRequires:      xrootd-client-devel >= 1:4.1.1
+BuildRequires:      xrootd-client-devel >= 1:5.0.2
 # sftp plugin dependencies
 BuildRequires:      libssh2-devel
 #tests dependencies
@@ -226,9 +226,9 @@ Requires:           gfal2-plugin-mock%{?_isa} = %{version}-%{release}
 gfal2 tests
 %endif
 
-%clean
-rm -rf %{buildroot};
-make clean
+#%clean
+#rm -rf %{buildroot};
+#make clean
 
 %prep
 %setup -q
@@ -250,24 +250,24 @@ export CXX=/usr/bin/g++44
 %endif
 
 %if (0%{?fedora} && (0%{?fedora} <= 30)) || (0%{?rhel} && (0%{?rhel} <= 7))
-%cmake \
+%cmake3 \
     -DDOC_INSTALL_DIR=%{_pkgdocdir} \
     -DUNIT_TESTS=TRUE \
     -DPLUGIN_MOCK=TRUE \
-    -DFUNCTIONAL_TESTS=%{?with_tests:ON}%{?!with_tests:OFF} \
-    .
+    -DFUNCTIONAL_TESTS=%{?with_tests:ON}%{?!with_tests:OFF} 
 %else
-%cmake \
+%cmake3 \
     -DDOC_INSTALL_DIR=%{_pkgdocdir} \
     -DUNIT_TESTS=TRUE \
     -DPLUGIN_MOCK=TRUE \
     -DPLUGIN_LFC=FALSE \
     -DPLUGIN_RFIO=FALSE \
-    -DFUNCTIONAL_TESTS=%{?with_tests:ON}%{?!with_tests:OFF} \
-    .
+    -DFUNCTIONAL_TESTS=%{?with_tests:ON}%{?!with_tests:OFF}
 %endif
-make %{?_smp_mflags}
-make doc
+%cmake3_build
+
+#make %{?_smp_mflags}
+#make doc
 
 %check
 export GFAL_PLUGIN_DIR=${PWD}/plugins/
@@ -279,9 +279,9 @@ cd test/unit
 ctest -V
 
 %install
-rm -rf %{buildroot}
-make DESTDIR=%{buildroot} install
-
+#rm -rf %{buildroot}
+#make DESTDIR=%{buildroot} install
+%cmake3_install
 
 %ldconfig_scriptlets
 
@@ -374,6 +374,13 @@ make DESTDIR=%{buildroot} install
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.18.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.18.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 16 2020 Michal Simon <michal.simon@cern.ch> - 2.18.0-1
 - Upgrade to upstream release 2.18.0
 

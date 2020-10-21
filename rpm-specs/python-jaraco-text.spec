@@ -7,7 +7,7 @@
 
 Name:           python-%{pkg_name}
 Version:        3.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Module for text manipulation
 
 License:        MIT
@@ -95,5 +95,8 @@ install jaraco/text/Lorem\ ipsum.txt \
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 13 2020 Matthias Runge <mrunge@redhat.com> - 3.2.0-1
 - Initial package.

@@ -3,7 +3,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.8.8
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Python client library/interface to the Mesos Marathon REST API
 
 License:        MIT
@@ -46,6 +46,9 @@ cp %{SOURCE1} README
 %{python3_sitelib}/%{pypi_name}-*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.8-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.8-14
 - Rebuilt for Python 3.9
 

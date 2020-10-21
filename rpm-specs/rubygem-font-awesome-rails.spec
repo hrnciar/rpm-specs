@@ -2,14 +2,14 @@
 
 Name: rubygem-%{gem_name}
 Version: 4.7.0.5
-Release: 4%{?dist}
+Release: 6%{?dist}
 Summary: An asset gemification of the font-awesome icon font library
 # Fonts are licensed with SIL Open Font License 1.1
 License: MIT and OFL
 URL: https://github.com/bokmann/font-awesome-rails
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
-Requires: fontawesome-fonts >= 4.7.0
-Requires: fontawesome-fonts < 4.8.0
+Requires: fontawesome-fonts >= 1:4.7.0
+Requires: fontawesome-fonts < 1:4.8.0
 BuildRequires: rubygems-devel
 BuildRequires: rubygem(bigdecimal)
 BuildRequires: rubygem(railties)
@@ -78,6 +78,12 @@ popd
 %{gem_instdir}/test
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.7.0.5-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Fabio Alessandro Locati <fale@fedoraproject.org> - 4.7.0.5-5
+- Epoch fontawesome dependency
+
 * Fri Apr 17 2020 Vít Ondruch <vondruch@redhat.com> - 4.7.0.5-4
 - did_you_mean is now bundled in Ruby.
 

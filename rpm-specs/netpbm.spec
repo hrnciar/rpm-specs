@@ -1,6 +1,6 @@
 Summary:         A library for handling different graphics file formats
 Name:            netpbm
-Version:         10.90.00
+Version:         10.92.00
 Release:         1%{?dist}
 # See copyright_summary for details
 License:         BSD and GPLv2 and IJG and MIT and Public Domain
@@ -24,14 +24,13 @@ Patch9:          netpbm-xwdfix.patch
 Patch10:         netpbm-multilib.patch
 Patch11:         netpbm-glibc.patch
 Patch12:         netpbm-docfix.patch
-Patch13:         netpbm-fiasco-overflow.patch
-Patch14:         netpbm-cmuwtopbm.patch
-Patch15:         netpbm-pamtojpeg2k.patch
-Patch16:         netpbm-manfix.patch
-Patch17:         netpbm-manual-pages.patch
-Patch18:         netpbm-jasper.patch
-Patch19:	 netpbm-userguide.patch
-Patch20:	 netpbm-libdir-so.patch
+Patch13:         netpbm-cmuwtopbm.patch
+Patch14:         netpbm-pamtojpeg2k.patch
+Patch15:         netpbm-manfix.patch
+Patch16:         netpbm-manual-pages.patch
+Patch17:         netpbm-jasper.patch
+Patch18:	 netpbm-userguide.patch
+Patch19:	 netpbm-libdir-so.patch
 
 BuildRequires:   libjpeg-devel, libpng-devel, libtiff-devel, flex, gcc, jbigkit-devel
 BuildRequires:   libX11-devel, perl-generators, python3, jasper-devel, libxml2-devel
@@ -230,6 +229,12 @@ popd
 %doc userguide/*
 
 %changelog
+* Wed Oct 07 2020 Josef Ridky <jridky@redhat.com> - 10.92.00-1
+- New upstream release 10.92.00 (#1851753)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.90.00-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 26 2020 Josef Ridky <jridky@redhat.com> - 10.90.00-1
 - New upstream release 10.90.00 (#1817279)
 

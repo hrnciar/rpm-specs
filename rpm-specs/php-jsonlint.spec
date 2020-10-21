@@ -12,18 +12,18 @@
 
 %global github_owner   Seldaek
 %global github_name    jsonlint
-%global github_version 1.7.2
-%global github_commit  e2e5d290e4d2a4f0eb449f510071392e00e10d19
+%global github_version 1.8.2
+%global github_commit  590cfec960b77fd55e39b7d9246659e95dd6d337
 
-# "php": "^5.3 || ^7.0"
+# "php": "^5.3 || ^7.0 || ^8.0"
 %global php_min_ver    5.3
 
 # Build using "--without tests" to disable tests
-%global with_tests     %{?_without_tests:0}%{!?_without_tests:1}
+%bcond_without tests
 
 Name:          php-%{github_name}
 Version:       %{github_version}
-Release:       2%{?dist}
+Release:       1%{?dist}
 Summary:       JSON Lint for PHP
 
 License:       MIT
@@ -34,7 +34,7 @@ Source0:       %{url}/archive/%{github_commit}/%{name}-%{github_version}-%{githu
 Patch0:        %{name}-bin-without-composer-autoloader.patch
 
 BuildArch:     noarch
-%if %{with_tests}
+%if %{with tests}
 # For tests: composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 %if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
@@ -44,15 +44,15 @@ BuildRequires: phpunit6
 %global phpunit %{_bindir}/phpunit
 BuildRequires: php-phpunit-PHPUnit >= 4.8.35
 %endif
-# For tests: phpcompatinfo (computed from version 1.6.0)
+# For tests: phpcompatinfo (computed from version 1.8.2)
 BuildRequires: php-json
 BuildRequires: php-pcre
 # For autoloader
-BuildRequires: php-composer(fedora/autoloader)
+BuildRequires: php-fedora-autoloader-devel
 %endif
 
 Requires:      php(language) >= %{php_min_ver}
-# phpcompatinfo (computed from version 1.7.0)
+# phpcompatinfo (computed from version 1.8.2)
 Requires:      php-cli
 Requires:      php-pcre
 # For autoloader
@@ -83,13 +83,10 @@ Autoloader: %{_datadir}/php/Seld/JsonLint/autoload.php
 
 %build
 : Generate autoloader
-cat << 'EOF' | tee src/Seld/JsonLint/autoload.php
-<?php
-/* Autoloader for %{name} and its dependencies */
-
-require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
-\Fedora\Autoloader\Autoload::addPsr4('Seld\\JsonLint\\', __DIR__);
-EOF
+phpab \
+  --template fedora \
+  --output src/Seld/JsonLint/autoload.php \
+  src/Seld/JsonLint
 
 
 %install
@@ -103,10 +100,10 @@ install -pm 0755 bin/jsonlint %{buildroot}%{_bindir}/jsonlint-php
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 
 ret=0
-for cmd in "php %{phpunit}" "php56 %{_bindir}/phpunit" php70 php71 php72 php73 php74; do
+for cmd in "php %{phpunit}" php72 php73 php74 php80; do
   if which $cmd; then
     set $cmd
     $1 ${2:-%{_bindir}/phpunit6} \
@@ -122,7 +119,6 @@ exit $ret
 
 
 %files
-%{!?_licensedir:%global license %%doc}
 %license LICENSE
 %doc *md
 %doc composer.json
@@ -132,6 +128,13 @@ exit $ret
 
 
 %changelog
+* Wed Aug 26 2020 Remi Collet <remi@remirepo.net> - 1.8.2-1
+- update to 1.8.2
+- switch to classmap autoloader
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

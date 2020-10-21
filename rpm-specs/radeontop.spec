@@ -1,16 +1,16 @@
 %global with_snapshot 1
-%global commit f2d55d67be896d73df0be99b86af4c29e1ec6bf0
+%global commit ef27e8b8ff189cfef409f2fb503ccfe445bcb1ec
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global checkout .20191218git%{shortcommit}
+%global checkout .20200415git%{shortcommit}
 %global debug_package %{nil}
 
 Summary:	AMD Radeon videocards monitoring utility
 Name:		radeontop
 Version:	1.2
 %if %{with_snapshot}
-Release:	5%{checkout}%{?dist}
+Release:	7%{checkout}%{?dist}
 %else
-Release:	3%{?dist}
+Release:	4%{?dist}
 %endif
 License:	GPLv3
 URL:		https://github.com/clbr/%{name}
@@ -24,6 +24,7 @@ Source0:	%{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:	asciidoc gettext
 BuildRequires:	gcc
+BuildRequires:  git-core
 BuildRequires:	libappstream-glib
 BuildRequires:	pkgconfig(ncurses)
 BuildRequires:	pkgconfig(pciaccess)
@@ -67,6 +68,13 @@ appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}.metai
 %{_metainfodir}/%{name}.metainfo.xml
 
 %changelog
+* Fri Oct 09 2020 Luya Tshimbalanga <luya@fedoraproject.org> 1.2-7.20200415gitef27e8
+- Latest upstream git snapshot for better amdgpu support
+- Add git dependency to detect versioning
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-6.20191218gitf2d55d6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-5.20191218gitf2d55d6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

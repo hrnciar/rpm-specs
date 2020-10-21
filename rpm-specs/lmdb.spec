@@ -1,14 +1,17 @@
 # The files themselves are in several subdirectories and need to be prefixed wit this.
 %global archive_path libraries/lib%{name}
 
+# Archive from GitLab tag contains the commit hash in the top-level directory name
+%global commit_hash 20403b7b3818fdddb11288245061b31a36066472
+
 Name:           lmdb
-Version:        0.9.24
-Release:        3%{?dist}
+Version:        0.9.26
+Release:        1%{?dist}
 Summary:        Memory-mapped key-value database
 
 License:        OpenLDAP
 URL:            http://symas.com/mdb/
-Source0:        https://github.com/LMDB/lmdb/archive/LMDB_%{version}.tar.gz
+Source0:        https://git.openldap.org/openldap/openldap/-/archive/LMDB_%{version}.tar.gz
 Source1:        lmdb.pc.in
 # Patch description in the corresponding file
 Patch0:         lmdb-make.patch
@@ -49,7 +52,7 @@ The %{name}-doc package contains automatically generated documentation for %{nam
 
 
 %prep
-%autosetup -p1 -n %{name}-LMDB_%{version}
+%autosetup -p1 -n openldap-LMDB_%{version}-%{commit_hash}
 
 
 %build
@@ -68,7 +71,7 @@ pushd %{archive_path}
 # make install expects existing directory tree
 mkdir -m 0755 -p %{buildroot}{%{_bindir},%{_includedir}}
 mkdir -m 0755 -p %{buildroot}{%{_libdir}/pkgconfig,%{_mandir}/man1}
-make DESTDIR=%{buildroot} prefix=%{_prefix} libdir=%{_libdir} mandir=%{_mandir} install
+%make_install prefix=%{_prefix} libdir=%{_libdir} mandir=%{_mandir}
 popd
 
 # Install pkgconfig file
@@ -117,6 +120,20 @@ popd
 
 
 %changelog
+* Wed Aug 12 2020 Jan Staněk <jstanek@redhat.com> - 0.9.26-1
+- Upgrade to version 0.9.26
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.25-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 0.9.25-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
+* Tue Jul 07 2020 Jan Staněk <jstanek@redhat.com> - 0.9.25-1
+- Upgrade to version 0.9.25
+- Use OpenLDAP git directly in place of GitHub mirror
+
 * Mon Jun 15 2020 Jan Staněk <jstanek@redhat.com> - 0.9.24-3
 - Properly %%set_build_flags
 

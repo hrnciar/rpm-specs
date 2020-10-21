@@ -1,6 +1,6 @@
 Name:           easystroke
 Version:        0.6.0
-Release:        31%{?dist}
+Release:        32%{?dist}
 Summary:        Gesture-recognition application for X11
 License:        ISC
 URL:            https://github.com/thjaeger/easystroke
@@ -116,6 +116,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/*.appdata
 %{_datadir}/appdata/%{name}.appdata.xml
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Jonathan Wakely <jwakely@redhat.com> - 0.6.0-31
 - Rebuilt for Boost 1.73
 

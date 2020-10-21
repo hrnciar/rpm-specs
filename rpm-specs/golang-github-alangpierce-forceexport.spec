@@ -22,7 +22,7 @@ name.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.1%{?dist}
+Release:        0.2%{?dist}
 Summary:        Access unexported functions from other packages
 
 License:        MIT
@@ -54,5 +54,8 @@ Patch1:         https://patch-diff.githubusercontent.com/raw/alangpierce/go-forc
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 04 17:20:04 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.1.20200304git8f1d694
 - Initial package

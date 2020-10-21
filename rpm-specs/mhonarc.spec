@@ -1,6 +1,6 @@
 Name:           mhonarc
 Version:        2.6.19
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Perl mail-to-HTML converter
 
 License:        GPLv2+
@@ -65,6 +65,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.19-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.6.19-19
 - Perl 5.32 rebuild
 

@@ -1,8 +1,9 @@
+%undefine __cmake_in_source_build
 %global minorversion	2.4
 
 Name:		xfce4-whiskermenu-plugin
-Version:	2.4.4
-Release:	1%{?dist}
+Version:	2.4.6
+Release:	2%{?dist}
 Summary:	An alternate application launcher for Xfce
 
 License:	GPLv2+
@@ -34,15 +35,11 @@ that you’ve launched from it
 %setup -q
 
 %build
-mkdir build && pushd build
-%cmake ..
-%make_build
-popd
+%cmake
+%cmake_build
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 
 %find_lang %{name}
 
@@ -60,6 +57,15 @@ popd
 %{_mandir}/man1/xfce4-popup-whiskermenu.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Filipe Rosset <rosset.filipe@gmail.com> - 2.4.6-1
+- Update to 2.4.6
+
+* Wed Jul 22 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 2.4.5-1
+- Update to 2.4.5
+
 * Wed Apr 22 2020 Filipe Rosset <rosset.filipe@gmail.com> - 2.4.4-1
 - Update to 2.4.4
 

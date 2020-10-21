@@ -3,7 +3,7 @@
 Summary: Tiny mocking library
 Name: rubygem-%{gem_name}
 Version: 0.5.0
-Release: 16%{?dist}
+Release: 17%{?dist}
 License: MIT
 URL: http://github.com/chuyeow/facon/
 Source0: http://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -66,6 +66,9 @@ popd
 %{gem_docdir}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

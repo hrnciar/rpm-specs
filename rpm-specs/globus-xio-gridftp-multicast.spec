@@ -1,7 +1,7 @@
 Name:		globus-xio-gridftp-multicast
 %global _name %(tr - _ <<< %{name})
 Version:	2.1
-Release:	2%{?dist}
+Release:	4%{?dist}
 Summary:	Grid Community Toolkit - Globus XIO GridFTP Multicast Driver
 
 License:	ASL 2.0
@@ -82,6 +82,13 @@ install -m 644 -p %{SOURCE8} %{buildroot}%{_pkgdocdir}/README
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

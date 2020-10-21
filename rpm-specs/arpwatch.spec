@@ -4,7 +4,7 @@
 Name: arpwatch
 Epoch: 14
 Version: 2.1a15
-Release: 46%{?dist}
+Release: 47%{?dist}
 Summary: Network monitoring tools for tracking IP addresses on a network
 License: BSD with advertising
 URL: http://ee.lbl.gov/
@@ -148,6 +148,9 @@ fi
 %attr(0644,-,arpwatch) %verify(not md5 size mtime) %config(noreplace) %{_vararpwatch}/ethercodes.dat
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 14:2.1a15-47
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 14:2.1a15-46
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

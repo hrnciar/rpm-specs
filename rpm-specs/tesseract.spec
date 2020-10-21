@@ -2,7 +2,7 @@
 
 Name:          tesseract
 Version:       4.1.1
-Release:       3%{?pre:.%pre}%{?dist}
+Release:       4%{?pre:.%pre}%{?dist}
 Summary:       Raw OCR Engine
 
 License:       ASL 2.0
@@ -112,6 +112,9 @@ mkdir -p %{buildroot}/%{_datadir}/%{name}/tessdata/
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 16 2020 Pete Walter <pwalter@fedoraproject.org> - 4.1.1-3
 - Rebuild for ICU 67
 

@@ -17,9 +17,9 @@
 Name:           mate-themes
 Version:        %{rel_ver}
 %if 0%{?rel_build}
-Release:        1%{?dist}
+Release:        2%{?dist}
 %else
-Release:        0.8%{?git_rel}%{?dist}
+Release:        0.9%{?git_rel}%{?dist}
 %endif
 Summary:        MATE Desktop themes
 License:        GPLv2+
@@ -95,6 +95,9 @@ find %{buildroot} -name '*.a' -exec rm -rf {} ';'
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.22.21-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 22 2020 Wolfgang Ulbrich <fedora@raveit.de> - 3.22.21-1
 - update to 3.22.21
 

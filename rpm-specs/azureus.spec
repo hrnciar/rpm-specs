@@ -2,7 +2,7 @@
 
 Name:		azureus
 Version:	5.7.6.0
-Release:	9%{?dist}
+Release:	13%{?dist}
 Summary:	A BitTorrent Client
 
 #Exception for using Eclipse SWT
@@ -97,6 +97,13 @@ rm -rf org/gudy/azureus2/ui/console/multiuser/TestUserManager.java
 #hacks to org.eclipse.swt.widgets.Tree2 don't compile.
 rm -fR org/eclipse
 
+# NameService SPI was removed in Java 9; there is no replacement
+rm META-INF/services/sun.net.spi.nameservice.NameServiceDescriptor \
+   org/gudy/azureus2/core3/util/spi/AENameServiceDescriptor.java
+
+# Point compression was removed in bouncycastle, avoid use of removed API
+sed -i -e 's/getEncoded()/getEncoded(false)/' com/aelitis/azureus/core/security/CryptoECCUtils.java
+
 # Convert line endings...
 sed -i 's/\r//' ChangeLog.txt
 chmod 644 *.txt
@@ -111,14 +118,7 @@ rm -fR org/json
 %build
 mkdir -p build/libs
 build-jar-repository -p build/libs bcprov apache-commons-cli log4j12-1.2.17 \
-  junit apache-commons-lang json_simple
-
-#ppc seems to have eclipse-swt.ppc64 installed so libdir can't be used
-if [ -e /usr/lib/eclipse/swt.jar ];then
-  ln -s /usr/lib/eclipse/swt.jar build/libs
-else
-  ln -s /usr/lib64/eclipse/swt.jar build/libs
-fi
+  junit apache-commons-lang json_simple swt
 
 ant jar
 
@@ -156,6 +156,20 @@ install -m644 %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/application-registry
 %{_datadir}/azureus
 
 %changelog
+* Tue Sep 08 2020 Mat Booth <mat.booth@redhat.com> - 5.7.6.0-13
+- Fix failure to build from source on Java 11
+- Port to latest bouncycastle API
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.7.6.0-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.7.6.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 5.7.6.0-10
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.7.6.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

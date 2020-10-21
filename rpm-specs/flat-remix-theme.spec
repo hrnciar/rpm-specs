@@ -1,19 +1,20 @@
-%global vergit  20191224
+%global vergit 20201001
 
-Name:           flat-remix-theme
-Version:        0.0.%{vergit}
-Release:        2%{?dist}
-Summary:        Pretty simple theme inspired on material design
+Name: flat-remix-theme
+Version: 0.0.%{vergit}
+Release: 1%{?dist}
+Summary: Pretty simple theme inspired on material design
+BuildArch: noarch
 
-License:        GPLv3+
-URL:            https://drasite.com/flat-remix-gtk
-Source:         https://github.com/daniruiz/flat-remix-gtk/archive/%{vergit}/%{name}-%{version}.tar.gz
-BuildArch:      noarch
+License: GPLv3+
+URL: https://drasite.com/flat-remix-gtk
+Source: https://github.com/daniruiz/flat-remix-gtk/archive/%{vergit}/%{name}-%{version}.tar.gz
 
-Requires:       flat-remix-gtk2-theme
-Requires:       flat-remix-gtk3-theme
-Requires:       flat-remix-icon-theme
-Recommends:     gnome-shell-theme-flat-remix
+Requires: flat-remix-gtk2-theme
+Requires: flat-remix-gtk3-theme
+Requires: flat-remix-icon-theme
+
+Recommends: gnome-shell-theme-flat-remix
 
 %global _description %{expand:
 Flat Remix GTK theme is a pretty simple GTK window theme inspired on material
@@ -35,22 +36,24 @@ Variants:
 This meta package contains complete Flat Remix theme.
 
 
-%package     -n flat-remix-gtk2-theme
-Summary:        GTK+ 2 support for the Flat Remix GTK theme
-Requires:       adwaita-gtk2-theme
-Requires:       gtk2%{?_isa}
-Recommends:     flat-remix-gtk3-theme
+%package -n flat-remix-gtk2-theme
+Summary: GTK+ 2 support for the Flat Remix GTK theme
+
+Requires: adwaita-gtk2-theme
+Requires: gtk2%{?_isa}
+Recommends: flat-remix-gtk3-theme
 
 %description -n flat-remix-gtk2-theme %{_description}
 
 This package contains GTK+ 2 theme.
 
 
-%package     -n flat-remix-gtk3-theme
-Summary:        GTK+ 3 support for the Flat Remix GTK theme
-Requires:       gtk3%{?_isa}
-Recommends:     flat-remix-gtk2-theme
-Suggests:       flat-remix-theme
+%package -n flat-remix-gtk3-theme
+Summary: GTK+ 3 support for the Flat Remix GTK theme
+
+Requires: gtk3%{?_isa}
+Recommends: flat-remix-gtk2-theme
+Suggests: flat-remix-theme
 
 %description -n flat-remix-gtk3-theme %{_description}
 
@@ -86,6 +89,15 @@ This package contains GTK+ 3 theme.
 
 
 %changelog
+* Sat Oct  3 17:39:13 EEST 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.0.20201001-1
+- Update to 20201001
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.20200718-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.0.20200718-1
+- Update to 20200718
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.20191224-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

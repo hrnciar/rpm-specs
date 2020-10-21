@@ -7,7 +7,7 @@ toml file.
 
 Name:           python-%{pypi_name}
 Version:        0.10.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Python Library for Tom's Obvious, Minimal Language
 
 License:        MIT
@@ -17,56 +17,64 @@ Source0:        %{pypi_source}
 BuildArch:      noarch
 
 BuildRequires:  python%{python3_pkgversion}-devel
-BuildRequires:  python%{python3_pkgversion}-setuptools
+BuildRequires:  pyproject-rpm-macros
 
 %bcond_without tests
 %if %{with tests}
-BuildRequires:  python%{python3_pkgversion}-numpy
-BuildRequires:  python%{python3_pkgversion}-pytest
 BuildRequires:  /usr/bin/toml-test
 %endif
 
 %description
 %desc
 
+
 %package -n     python%{python3_pkgversion}-%{pypi_name}
 Summary:        %{summary}
-BuildRequires:  python%{python3_pkgversion}-devel
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{pypi_name}}
 
 %description -n python%{python3_pkgversion}-%{pypi_name}
 %desc
 
+
 %prep
-%setup -q -n %{pypi_name}-%{version}
+%autosetup -p1 -n %{pypi_name}-%{version}
+
+
+%generate_buildrequires
+%pyproject_buildrequires %{?with_tests:-t}
 
 
 %build
-%py3_build
+%pyproject_wheel
 
 
 %install
-%py3_install
+%pyproject_install
+%pyproject_save_files %{pypi_name}
 
 
 %if %{with tests}
 %check
 ln -s /usr/share/toml-test/ .  # python tests require test cases here
-%pytest
+%tox
 # Also using the language independent toml-test suite to launch tests
 ln -s /usr/share/toml-test/tests/* tests/  # toml-test requires them here
 toml-test $(pwd)/tests/decoding_test3.sh
 %endif
 
 
-%files -n python%{python3_pkgversion}-%{pypi_name}
+%files -n python%{python3_pkgversion}-%{pypi_name} -f %{pyproject_files}
 %license LICENSE
 %doc README.rst
-%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
-%{python3_sitelib}/%{pypi_name}/
 
 
 %changelog
+* Thu Sep 03 2020 Miro Hrončok <mhroncok@redhat.com> - 0.10.1-3
+- Use pyproject-rpm-macros
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Miro Hrončok <mhroncok@redhat.com> - 0.10.1-1
 - Update to 0.10.1 (#1835567)
 

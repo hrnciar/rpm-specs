@@ -3,7 +3,7 @@
 
 Name:           wxsqlite3
 Version:        4.5.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        C++ wrapper around the SQLite 3.x database
 
 License:        wxWidgets
@@ -125,6 +125,9 @@ mv %{name}.pc %{buildroot}%{_libdir}/pkgconfig/%{name}.pc
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 04 2020 Martin Gansser <martinkg@fedoraproject.org> 4.5.1-1
 - Update to 4.5.1
 

@@ -1,6 +1,6 @@
 Name:		perl-IO-InSitu
 Version:	0.0.2
-Release:	30%{?dist}
+Release:	31%{?dist}
 Summary:	Avoid clobbering files opened for both input and output
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/IO-InSitu
@@ -54,6 +54,9 @@ rm -rf %{buildroot}
 %{_mandir}/man3/IO::InSitu.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.2-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.0.2-30
 - Perl 5.32 rebuild
 

@@ -24,7 +24,7 @@ Name:           sbd
 Summary:        Storage-based death
 License:        GPLv2+
 Version:        1.4.1
-Release:        %{buildnum}%{?dist}
+Release:        %{buildnum}%{?dist}.1
 Url:            https://github.com/%{github_owner}/%{name}
 Source0:        https://github.com/%{github_owner}/%{name}/archive/%{commit}/%{name}-%{commit}.tar.gz
 Patch0:         0001-Fix-regressions.sh-make-parameter-passing-consistent.patch
@@ -149,6 +149,9 @@ fi
 %{_libdir}/libsbdtestbed*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-7.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 14 2020 Klaus Wenninger <kwenning@redhat.com> - 1.4.1-7
 - Rebuild against libqb2.0 (f33-build-side-23348)
 

@@ -3,9 +3,7 @@
 
 # https://github.com/storageos/go-api
 %global goipath         github.com/storageos/go-api
-Version:                1.0.0
-%global tag             1.0.0-rc1
-%global distprefix      %{nil}
+Version:                2.1.0
 
 %gometa
 
@@ -16,14 +14,16 @@ Golang API for StorageOS.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        2.rc1%{?dist}
+Release:        1%{?dist}
 Summary:        Golang API for StorageOS
 
 License:        MIT and BSD
 URL:            %{gourl}
 Source0:        %{gosource}
 
+BuildRequires:  golang(github.com/antihax/optional)
 BuildRequires:  golang(github.com/Sirupsen/logrus)
+BuildRequires:  golang(golang.org/x/oauth2)
 
 %description
 %{common_description}
@@ -45,6 +45,12 @@ BuildRequires:  golang(github.com/Sirupsen/logrus)
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 21:51:53 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.1.0-1
+- Update to 2.1.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2.rc1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 04 21:02:57 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-2.rc1
 - Disable failing tests until fix from upstream
 

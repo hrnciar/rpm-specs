@@ -4,7 +4,7 @@
 
 Name:           carat
 Version:        2.1b1.2019.12.16
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Crystallographic AlgoRithms And Tables
 
 License:        GPLv3+
@@ -102,6 +102,9 @@ cd -
 %license LICENSE
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1b1.2019.12.16-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1b1.2019.12.16-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

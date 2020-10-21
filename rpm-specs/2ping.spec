@@ -1,16 +1,18 @@
 Name:           2ping
-Version:        4.3
-Release:        7%{?dist}
+Version:        4.5
+Release:        2%{?dist}
 Summary:        Bi-directional ping utility
 License:        GPLv2+
 URL:            https://www.finnie.org/software/2ping
 Source0:        https://www.finnie.org/software/%{name}/%{name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildRequires:  python3-devel
+BuildRequires:  python3-pytest
 BuildRequires:  python3-setuptools
+BuildRequires:  systemd
 
 %description
-2ping is a bi-directional ping utility. It uses 3-way pings (akin to TCP SYN, 
+2ping is a bi-directional ping utility. It uses 3-way pings (akin to TCP SYN,
 SYN/ACK, ACK) and after-the-fact state comparison between a 2ping listener and
 a 2ping client to determine which direction packet loss occurs.
 
@@ -22,22 +24,41 @@ a 2ping client to determine which direction packet loss occurs.
 
 %install
 %py3_install
+install -Dp -m 0644 2ping.service %{buildroot}/%{_unitdir}/2ping.service
 install -Dp -m 0644 doc/2ping.1 %{buildroot}/%{_mandir}/man1/2ping.1
 install -Dp -m 0644 doc/2ping.1 %{buildroot}/%{_mandir}/man1/2ping6.1
 
 %check
-%{__python3} setup.py test
+%{__python3} -mpytest
+
+%post
+%systemd_post 2ping.service
+
+%preun
+%systemd_preun 2ping.service
+
+%postun
+%systemd_postun 2ping.service
 
 %files
-%doc ChangeLog README
+%doc ChangeLog README.md
 %license COPYING
 %{python3_sitelib}/*
 %{_bindir}/%{name}
 %{_bindir}/%{name}6
 %{_mandir}/man1/%{name}.1*
 %{_mandir}/man1/%{name}6.1*
+%{_unitdir}/2ping.service
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 18 2020 Ryan Finnie <ryan@finnie.org> - 4.5-1
+- Update to 4.5
+- Install supplied systemd 2ping.service
+- Use pytest for test suite
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.3-7
 - Rebuilt for Python 3.9
 

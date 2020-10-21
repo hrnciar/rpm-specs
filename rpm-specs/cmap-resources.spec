@@ -6,7 +6,7 @@ Name:           cmap-resources
 # It'd be nice to write some fancy macro to put them there!
 Version:        2019.07.30
 
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        CMap Resources for Adobe's public character collections
 
 License:        BSD
@@ -179,6 +179,9 @@ ln -s %{_datadir}/cmap/Adobe-Japan2-0 %{buildroot}%{_datadir}/cmap/cmap-japan2-0
 %{_datadir}/cmap/cmap-japan2-0
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.07.30-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.07.30-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

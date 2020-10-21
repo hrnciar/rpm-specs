@@ -6,7 +6,7 @@
 
 Name:           libapreq2
 Version:        2.13
-Release:        40%{?dist}
+Release:        41%{?dist}
 Summary:        Apache HTTP request library
 
 License:        ASL 2.0
@@ -171,6 +171,9 @@ chmod -R u+w $RPM_BUILD_ROOT/*
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.13-41
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.13-40
 - Perl 5.32 rebuild
 

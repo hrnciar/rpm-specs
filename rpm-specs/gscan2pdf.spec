@@ -3,7 +3,7 @@
 %bcond_without gscan2pdf_enables_test
 
 Name:           gscan2pdf
-Version:        2.8.0
+Version:        2.9.1
 Release:        1%{?dist}
 Summary:        GUI for producing a multipage PDF from a scan
 # icons/180_degree.svg: GPLv3
@@ -20,9 +20,9 @@ Source1:        https://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar
 # Key exported from Petr Pisar's keyring
 Source2:        gpgkey-463293E4AE33871846F30227B321F203110FCAF3.gpg
 # Use a specific font for ImageMagick, bug #1494563
-Patch0:         gscan2pdf-2.7.0-Use-a-specific-font-by-ImageMagick.patch
+Patch0:         gscan2pdf-2.8.1-Use-a-specific-font-by-ImageMagick.patch
 # Do not warn about missing pdftk, bug #1708054, not upstreamable
-Patch1:         gscan2pdf-2.5.2-Do-not-warn-about-missing-pdftk.patch
+Patch1:         gscan2pdf-2.9.0-Do-not-warn-about-missing-pdftk.patch
 BuildArch:      noarch
 BuildRequires:  coreutils
 BuildRequires:  desktop-file-utils
@@ -81,6 +81,7 @@ BuildRequires:  perl(JSON::PP)
 BuildRequires:  perl(List::MoreUtils)
 BuildRequires:  perl(List::Util)
 BuildRequires:  perl(Locale::gettext) >= 1.05
+BuildRequires:  perl(Locale::Language)
 BuildRequires:  perl(Log::Log4perl)
 BuildRequires:  perl(PDF::API2)
 BuildRequires:  perl(POSIX)
@@ -91,7 +92,6 @@ BuildRequires:  perl(Socket)
 BuildRequires:  perl(Storable)
 BuildRequires:  perl(strict)
 BuildRequires:  perl(Symbol)
-BuildRequires:  perl(Text::Balanced)
 BuildRequires:  perl(Text::ParseWords)
 BuildRequires:  perl(Thread::Queue)
 BuildRequires:  perl(threads)
@@ -107,6 +107,8 @@ BuildRequires:  poppler-utils
 BuildRequires:  unpaper
 # xz not used at tests
 # Tests:
+# fontconfig for a fc-list tool
+BuildRequires:  fontconfig
 BuildRequires:  file
 # We need to pass a specific font name to ImageMagick, bug #1494563
 BuildRequires:  font(dejavusans)
@@ -144,7 +146,7 @@ Requires:       perl(if)
 Recommends:     perl(Image::Magick)
 Recommends:     ImageMagick
 Recommends:     ImageMagick-djvu
-# poppler-utils for pdfinfo
+# poppler-utils for pdfimages, pdfinfo, and pdftotext
 Recommends:     poppler-utils
 Requires:       sane-backends >= 1.0.17
 Requires:       sane-frontends
@@ -227,6 +229,22 @@ fi
 %{_mandir}/man1/*.1*
 
 %changelog
+* Fri Sep 25 2020 Petr Pisar <ppisar@redhat.com> - 2.9.1-1
+- 2.9.1 bump
+
+* Mon Sep 21 2020 Petr Pisar <ppisar@redhat.com> - 2.9.0-1
+- 2.9.0 bump
+- Fix an error message about an empty LANGUAGE variable (upstream bug #360)
+
+* Mon Jul 27 2020 Petr Pisar <ppisar@redhat.com> - 2.8.2-1
+- 2.8.2 bump
+
+* Mon Jul 13 2020 Petr Pisar <ppisar@redhat.com> - 2.8.1-1
+- 2.8.1 bump
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.8.0-2
+- Perl 5.32 rebuild
+
 * Thu Jun 11 2020 Petr Pisar <ppisar@redhat.com> - 2.8.0-1
 - 2.8.0 bump
 

@@ -5,7 +5,7 @@
 
 Name:           module-build-service
 Version:        2.32.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The Module Build Service for Modularity
 
 License:        MIT
@@ -277,6 +277,9 @@ done
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.32.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.32.0-2
 - Rebuilt for Python 3.9
 

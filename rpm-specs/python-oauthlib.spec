@@ -20,7 +20,7 @@
 
 Name:               python-oauthlib
 Version:            3.0.2
-Release:            6%{?dist}
+Release:            8%{?dist}
 Summary:            An implementation of the OAuth request-signing logic
 
 License:            BSD
@@ -88,8 +88,9 @@ BuildRequires:      python3-blinker
 BuildRequires:      python3-jwt >= 1.6.0
 BuildRequires:      python3-cryptography >= 1.4.0
 
-Requires:           python3-jwt >= 1.6.0
-Requires:           python3-cryptography >= 1.4.0
+%{?python_extras_subpkg:Recommends: python3-oauthlib+signedtoken}
+%{!?python_extras_subpkg:Requires:  python3-jwt >= 1.6.0}
+%{!?python_extras_subpkg:Requires:  python3-cryptography >= 1.4.0}
 
 %description -n python3-oauthlib
 OAuthLib is a generic utility which implements the logic of OAuth without
@@ -98,6 +99,8 @@ OAuth client support onto your favorite HTTP library, or provider support
 onto your favourite web framework. If you're a maintainer of such a
 library, write a thin veneer on top of OAuthLib and get OAuth support for
 very little effort.
+
+%{?python_extras_subpkg:%python_extras_subpkg -n python3-oauthlib -i %{python3_sitelib}/%{modname}-%{version}-*.egg-info signedtoken}
 
 %endif # with python3
 
@@ -152,6 +155,12 @@ rm -rf %{modname}.egg-info
 %endif # with python3
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.2-7
+- Add oauthlib[signedtoken] subpackage
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 3.0.2-6
 - Rebuilt for Python 3.9
 

@@ -5,7 +5,7 @@
 %global crate parking_lot
 
 Name:           rust-%{crate}
-Version:        0.10.2
+Version:        0.11.0
 Release:        1%{?dist}
 Summary:        Compact and efficient implementations of standard synchronization primitives
 
@@ -89,6 +89,18 @@ which use "owning_ref" feature of "%{crate}" crate.
 %files       -n %{name}+owning_ref-devel
 %ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
 
+%package     -n %{name}+send_guard-devel
+Summary:        %{summary}
+BuildArch:      noarch
+
+%description -n %{name}+send_guard-devel %{_description}
+
+This package contains library source intended for building other packages
+which use "send_guard" feature of "%{crate}" crate.
+
+%files       -n %{name}+send_guard-devel
+%ghost %{cargo_registry}/%{crate}-%{version_no_tilde}/Cargo.toml
+
 %package     -n %{name}+serde-devel
 Summary:        %{summary}
 BuildArch:      noarch
@@ -120,6 +132,12 @@ which use "serde" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Tue Aug 25 2020 Josh Stone <jistone@redhat.com> - 0.11.0-1
+- Update to 0.11.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 14 2020 Josh Stone <jistone@redhat.com> - 0.10.2-1
 - Update to 0.10.2
 

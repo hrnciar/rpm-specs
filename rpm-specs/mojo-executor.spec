@@ -4,16 +4,20 @@
 
 Name:           mojo-executor
 Version:        2.3.1
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Execute other plugins within a maven plugin
 
 License:        ASL 2.0
 URL:            https://github.com/TimMoore/%{name}
 Source0:        %{url}/archive/%{name}-parent-%{version}.tar.gz
+# Convert from commons-lang to commons-lang3
+# https://pagure.io/java-maint-sig/issue/4
+Patch0:         %{name}-commons-lang3.patch
 
 BuildArch:      noarch
 BuildRequires:  maven-local
 BuildRequires:  mvn(ant-contrib:ant-contrib)
+BuildRequires:  mvn(org.apache.commons:commons-lang3)
 BuildRequires:  mvn(org.apache.maven:maven-parent:pom:)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-antrun-plugin)
 BuildRequires:  mvn(org.apache.maven.plugins:maven-dependency-plugin)
@@ -46,7 +50,7 @@ Summary:        API documentation for %{name}
 This package contains %{summary}.
 
 %prep
-%autosetup -n %{name}-%{name}-parent-%{version}
+%autosetup -n %{name}-%{name}-parent-%{version} -p1
 
 # sonatype-oss-parent is deprecated in Fedora
 %pom_remove_parent
@@ -82,6 +86,12 @@ sed -i 's,classpath.*,classpath="%{_javadir}/ant-contrib/ant-contrib.jar" />,' \
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Sun Aug  2 2020 Jerry James <loganjerry@gmail.com> - 2.3.1-4
+- Add -commons-lang3 patch
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 30 2020 Jerry James <loganjerry@gmail.com> - 2.3.1-2
 - Drop unnecessary maven-release-plugin BR
 

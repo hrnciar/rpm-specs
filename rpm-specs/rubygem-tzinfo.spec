@@ -3,7 +3,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 2.0.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Daylight savings aware timezone library
 License: MIT
 URL: http://tzinfo.github.io
@@ -70,6 +70,9 @@ popd
 %doc %{gem_instdir}/README.md
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 03 2020 Pavel Valena <pvalena@redhat.com> - 2.0.1-1
 - Update to tzinfo 2.0.1.
 

@@ -1,6 +1,6 @@
 Name: iperf
 Version: 2.0.13
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: Measurement tool for TCP/UDP bandwidth performance
 License: BSD
 URL: http://sourceforge.net/projects/iperf2
@@ -32,6 +32,9 @@ autoconf
 %{_mandir}/man*/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.13-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.13-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

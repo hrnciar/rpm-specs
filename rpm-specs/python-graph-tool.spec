@@ -25,6 +25,9 @@
 %global modname graph-tool
 %global pymodname graph_tool
 
+# Builds fail with LTO
+%global _lto_cflags %{nil}
+
 %global _description %{expand:
 Graph-tool is an efficient Python module for manipulation and statistical
 analysis of graphs (a.k.a. networks). Contrary to most other python modules
@@ -38,11 +41,11 @@ Please refer to https://graph-tool.skewed.de/static/doc/index.html for
 documentation.}
 
 Name:           python-%{modname}
-Version:        2.29
-Release:        5%{?dist}
+Version:        2.33
+Release:        1%{?dist}
 Summary:        Efficient network analysis tool written in Python
 
-License:        GPLv3+
+License:        LGPLv3+
 URL:            https://graph-tool.skewed.de/
 Source0:        https://downloads.skewed.de/%{modname}/%{modname}-%{version}.tar.bz2
 
@@ -124,12 +127,25 @@ find $RPM_BUILD_ROOT -name "*.la" -delete
 
 
 %files -n python3-%{modname}
-%license LICENSE
+%license COPYING
 %doc README.md ChangeLog AUTHORS
 %{python3_sitearch}/%{pymodname}
 %{_libdir}/pkgconfig/%{modname}-py%{python3_version}.pc
 
 %changelog
+* Fri Sep 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 2.33-1
+- Update to latest release
+- Disable LTO
+- update COPYING file name
+- Update license
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.29-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.29-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Jonathan Wakely <jwakely@redhat.com> - 2.29-5
 - Rebuilt for Boost 1.73
 - Simplify shell command to determine number of threads to use

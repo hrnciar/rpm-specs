@@ -1,6 +1,6 @@
 Name:           jargs
 Version:        1.0
-Release:        26%{?dist}
+Release:        28%{?dist}
 Summary:        Java command line option parsing suite
 
 License:        BSD
@@ -56,6 +56,12 @@ find -name '*.jar' -o -name '*.class' -exec rm -f '{}' \;
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1.0-27
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed May 06 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 1.0-26
 - Update source and target for JDK 11
 

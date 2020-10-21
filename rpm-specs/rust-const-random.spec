@@ -5,8 +5,8 @@
 %global crate const-random
 
 Name:           rust-%{crate}
-Version:        0.1.8
-Release:        2%{?dist}
+Version:        0.1.10
+Release:        1%{?dist}
 Summary:        Provides compile time random number generation
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -71,6 +71,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Oct 07 2020 Fabio Valentini <decathorpe@gmail.com> - 0.1.10-1
+- Update to version 0.1.10.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.8-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

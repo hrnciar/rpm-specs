@@ -1,5 +1,5 @@
 Name:           ensmallen
-Version:        2.12.0
+Version:        2.14.2
 Release:        1%{?dist}
 Summary:        Header-only C++ library for efficient mathematical optimization
 
@@ -34,10 +34,10 @@ gradient-free optimizers, and constrained optimization.
 
 # Technically we don't need to build anything but it's a good sanity check to
 # just build the tests to make sure they compile.
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %check
 # Disable the SmallLovaszThetaSdp test---it exposes a bug in one of ensmallen's
@@ -48,7 +48,9 @@ gradient-free optimizers, and constrained optimization.
 # There's an issue with the tests on armv7hl.
 %else
 success=0;
+cd %{_vpath_builddir};
 for i in `seq 1 5`; do
+  code=""; # Reset exit code.
   ./ensmallen_tests ~SmallLovaszThetaSdp ~BBSBBLogisticRegressionTest || code=$?
   if [ "a$code" == "a" ]; then
     success=1;
@@ -58,6 +60,7 @@ done
 if [ $success -eq 0 ]; then
   false # Force a build error.
 fi
+cd ..;
 %endif
 
 %package devel
@@ -81,6 +84,19 @@ gradient-free optimizers, and constrained optimization.
 %{_libdir}/cmake/ensmallen/ensmallen-targets.cmake
 
 %changelog
+* Mon Sep 07 2020 Ryan Curtin <ryan@ratml.org> - 2.14.2-1
+- Update to latest stable version.
+
+* Mon Aug 03 2020 Ryan Curtin <ryan@ratml.org> - 2.12.0-4
+- Fix build failures for mass rebuild issues.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 08 2020 Ryan Curtin <ryan@ratml.org> - 2.12.0-0
 - Update to latest stable version.
 

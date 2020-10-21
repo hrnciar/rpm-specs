@@ -1,9 +1,10 @@
+%global __cmake_in_source_build 1
 %global macrosdir %(d=%{_rpmconfigdir}/macros.d; [ -d $d ] || d=%{_sysconfdir}/rpm; echo $d)
 
 Name:       scl-utils
 Epoch:      1
 Version:    2.0.2
-Release:    13%{dist}
+Release:    16%{dist}
 Summary:    Utilities for alternative packaging
 
 License:    GPLv2+
@@ -16,6 +17,9 @@ Buildrequires:  rpm-devel
 Requires:   %{_bindir}/modulecmd
 
 Patch1:     0003-Scl-utils-layout-patch-from-fedora-famillecollet.com.patch
+
+# https://github.com/sclorg/scl-utils/pull/25
+Patch100:   scl-utils-2.0.2-rhbz-1728450.patch
 
 %description
 Run-time utility for alternative packaging.
@@ -74,6 +78,15 @@ ln -s prefixes conf
 %{_rpmconfigdir}/brp-scl-python-bytecompile
 
 %changelog
+* Wed Jul 29 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 1:2.0.2-16
+- Backported upstream patches to resolve RHBZ#1728450.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.0.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Jeff Law <law@redhat.com> - 1:2.0.2-14
+- Use __cmake_in_source_build
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.0.2-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,13 +1,10 @@
 %bcond_with jar
 %bcond_with java
 
-%global tarversion 0.20.2
-%global archiveversion 0.20
-
 Summary: GNU libraries and utilities for producing multi-lingual messages
 Name: gettext
-Version: %{tarversion}
-Release: 1%{?dist}
+Version: 0.21
+Release: 3%{?dist}
 # The following are licensed under LGPLv2+:
 # - libintl and its headers
 # - libasprintf and its headers
@@ -29,6 +26,9 @@ Source3: msghack.1
 
 # this patch has merged upstream
 # Patch1: gettext-msgmerge-for-msgfmt.patch
+
+# https://lists.gnu.org/archive/html/bug-gnulib/2020-07/msg00195.html
+Patch1: gettext-0.21-gnulib-perror-tests.patch
 
 # for bootstrapping
 # BuildRequires: autoconf >= 2.62
@@ -65,7 +65,6 @@ BuildRequires: ncurses-devel
 BuildRequires: libxml2-devel
 BuildRequires: glib2-devel
 BuildRequires: libacl-devel
-BuildRequires: libcroco-devel
 BuildRequires: libunistring-devel
 # for the tests
 BuildRequires: glibc-langpack-de
@@ -77,8 +76,8 @@ BuildRequires: glibc-langpack-tr
 BuildRequires: glibc-langpack-zh
 # Depend on the exact version of the library sub package
 Requires: %{name}-libs%{_isa} = %{version}-%{release}
-# exception for bundled gnulib copylib
 Provides: bundled(gnulib)
+Provides: bundled(libcroco) = 0.6.12
 
 %description
 The GNU gettext package provides a set of tools and documentation for
@@ -176,14 +175,13 @@ think about.
 
 
 %prep
-%autosetup -n %{name}-%{tarversion} -S git
+%autosetup -S git
 
-# Defeat libtextstyle attempt to bundle libcroco and libxml2.  The comments
+# Defeat libtextstyle attempt to bundle libxml2.  The comments
 # indicate this is done because the libtextstyle authors do not want
 # applications using their code to suffer startup delays due to the
-# relocations in the two libraries.  This is not a sufficient reason for Fedora.
-sed -e 's/\(gl_cv_libcroco_force_included=\)yes/\1no/' \
-    -e 's/\(gl_cv_libxml_force_included=\)yes/\1no/' \
+# relocations.  This is not a sufficient reason for Fedora.
+sed -e 's/\(gl_cv_libxml_force_included=\)yes/\1no/' \
     -i libtextstyle/configure
 
 
@@ -198,11 +196,10 @@ export JAR=fastjar
 # prevent test-isinf from failing with gcc-5.3.1 on ppc64le (#1294016)
 export CFLAGS="$RPM_OPT_FLAGS -D__SUPPORT_SNAN__"
 %endif
-# Fedora's libcroco-devel has an extra "libcroco" path component, and the
-# libxml2-devel package has an extra "libxml2" path component.
-export CPPFLAGS="-I$(ls -1d %{_includedir}/libcroco-*/libcroco) -I%{_includedir}/libxml2"
-# Side effect of unbundling libcroco and libxml2 from libtextstyle.
-export LIBS="-lcroco-0.6 -lxml2"
+# Fedora's libxml2-devel package has an extra "libxml2" path component.
+export CPPFLAGS="-I%{_includedir}/libxml2"
+# Side effect of unbundling libxml2 from libtextstyle.
+export LIBS="-lxml2"
 %configure --without-included-gettext --enable-nls --disable-static \
     --enable-shared --disable-csharp --disable-rpath \
 %if %{with java}
@@ -300,7 +297,7 @@ make check LIBUNISTRING=-lunistring
 %files -f %{name}.lang
 %doc AUTHORS gettext-runtime/BUGS
 %doc COPYING gettext-tools/misc/DISCLAIM README
-%doc NEWS THANKS 
+%doc NEWS THANKS
 %doc gettext-runtime/man/*.1.html
 %doc gettext-runtime/intl/COPYING*
 %{_bindir}/envsubst
@@ -337,8 +334,8 @@ make check LIBUNISTRING=-lunistring
 %{_datadir}/%{name}/ABOUT-NLS
 %{_datadir}/%{name}/po
 %{_datadir}/%{name}/styles
-%dir %{_datadir}/%{name}-%{tarversion}
-%{_datadir}/%{name}-%{tarversion}/its
+%dir %{_datadir}/%{name}-%{version}
+%{_datadir}/%{name}-%{version}/its
 
 %files common-devel
 %{_datadir}/%{name}/archive.*.tar.xz
@@ -398,6 +395,25 @@ make check LIBUNISTRING=-lunistring
 %{_mandir}/man1/msghack.1*
 
 %changelog
+* Mon Sep  7 2020 Sundeep Anand <suanand@redhat.com> - 0.21-3
+- include patch to fix gnulib perror tests (rhbz#1867021)
+
+* Thu Aug  6 2020 Jens Petersen <petersen@redhat.com> - 0.21-2
+- reenable testsuite except for armv7hl which is failing
+
+* Mon Aug 03 2020 Sundeep Anand <suanand@redhat.com> - 0.21-1
+- gettext-0.21 is available (rhbz#1860728)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Michael Catanzaro <mcatanzaro@redhat.com> - 0.20.2-3
+- Bundle libcroco so we can remove the system package
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 14 2020 Sundeep Anand <suanand@redhat.com> - 0.20.2-1
 - gettext-0.20.2 is available (rhbz#1823721)
 
@@ -722,13 +738,13 @@ make check LIBUNISTRING=-lunistring
 - Fix the build failure with koji.
 
 * Fri Aug 29 2008 Ding-Yi Chen <dchen at redhat dot com> - 0.17-7
-- Remove the gettext-libs docs, as they are talking about autoconf, libtool, 
+- Remove the gettext-libs docs, as they are talking about autoconf, libtool,
   which are not directly related to the gettext-libs.
 - Remove unused definition and trailing space.
 - Fix the build failure with mock .
 
 * Tue Aug 19 2008 Ding-Yi Chen <dchen at redhat dot com> - 0.17-6
-- Fixed Bug 456666 msghack doesn't check for mandatory cmd line params 
+- Fixed Bug 456666 msghack doesn't check for mandatory cmd line params
   by adding checking statements and display usage (msghack.py modified)
 - rpath patch for binary-or-shlib-defines-rpath in x86_64.
 
@@ -846,7 +862,7 @@ make check LIBUNISTRING=-lunistring
 - rebuild
 
 * Wed Feb 22 2006 Karsten Hopp <karsten@redhat.de> 0.14.5-3
-- --disable-csharp, otherwise it'll build a dll when mono is 
+- --disable-csharp, otherwise it'll build a dll when mono is
   installed in the buildroot.
 
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 0.14.5-2.2.2
@@ -1011,7 +1027,7 @@ make check LIBUNISTRING=-lunistring
   without
 
 * Thu Aug  9 2001 Trond Eivind Glomsrød <teg@redhat.com>
-- Added "--append" and "-o" to msghack, which should address 
+- Added "--append" and "-o" to msghack, which should address
   initial concerns in #50065
 
 * Thu Jul 19 2001 Trond Eivind Glomsrød <teg@redhat.com>
@@ -1101,7 +1117,7 @@ make check LIBUNISTRING=-lunistring
 * Thu May 06 1999 Cristian Gafton <gafton@redhat.com>
 - msghack updates
 
-* Sun Mar 21 1999 Cristian Gafton <gafton@redhat.com> 
+* Sun Mar 21 1999 Cristian Gafton <gafton@redhat.com>
 - auto rebuild in the new build environment (release 8)
 
 * Mon Mar 08 1999 Cristian Gafton <gafton@redhat.com>

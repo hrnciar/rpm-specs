@@ -3,7 +3,7 @@
 
 # https://github.com/bradfitz/gomemcache
 %global goipath         github.com/bradfitz/gomemcache
-%global commit          bc664df9673713a0ccf26e3b55a673ec7301088b
+%global commit          a41fca850d0b6f392931a78cbae438803ea0b886
 
 %gometa
 
@@ -17,13 +17,15 @@ This is a memcache client library for the Go programming language.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.9%{?dist}
+Release:        0.11%{?dist}
 Summary:        Go Memcached client library
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/bradfitz/gomemcache/issues/122
+Patch0:         0001-Convert-to-string-using-rune.patch
 
 %description
 %{common_description}
@@ -32,6 +34,7 @@ Source0:        %{gosource}
 
 %prep
 %goprep
+%patch0 -p1
 
 %install
 %gopkginstall
@@ -44,6 +47,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 14:30:52 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.10.20200724gita41fca8
+- Bump to commit a41fca850d0b6f392931a78cbae438803ea0b886
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

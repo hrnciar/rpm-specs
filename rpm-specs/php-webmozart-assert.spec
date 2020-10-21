@@ -11,16 +11,15 @@
 
 # enable bootstrap when need to provide a new autoloader
 %global bootstrap 0
-
 %global github_owner     webmozart
 %global github_name      assert
-%global github_version   1.7.0
-%global github_commit    aed98a490f9a8f78468232db345ab9cf606cf598
+%global github_version   1.9.1
+%global github_commit    bafc69caeb4d49c39fd0779086c03a3738cbb389
 
 %global composer_vendor  webmozart
 %global composer_project assert
 
-# "php": "^5.3.3 || ^7.0"
+# "php": "^5.3.3 || ^7.0 || ^8.0"
 %global php_min_ver 5.3.3
 
 # PHPUnit
@@ -44,7 +43,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       Assertions to validate method input/output with nice error messages
 
 License:       MIT
@@ -126,12 +125,13 @@ cp -rp src %{buildroot}%{phpdir}/Webmozart/Assert
 cat <<'BOOTSTRAP' | tee bootstrap.php
 <?php
 \Fedora\Autoloader\Autoload::addPsr4('Webmozart\\Assert\\Tests\\', __DIR__.'/tests');
+\Fedora\Autoloader\Autoload::addPsr4('Webmozart\\Assert\\Bin\\', __DIR__.'/bin/src');
 BOOTSTRAP
 
 : Upstream tests
 RETURN_CODE=0
 PHPUNIT=$(which %{phpunit_exec})
-for PHP_EXEC in php %{?rhel:php54 php55 php56} php70 php71 php72 php73 php74; do
+for PHP_EXEC in php %{?rhel:php54 php55 php56 php70 php71 php72} php73 php74 php80; do
     if [ -z "$PHP_EXEC" ] || which $PHP_EXEC; then
         $PHP_EXEC \
             -d auto_prepend_file=%{buildroot}%{phpdir}/Webmozart/Assert/autoload.php \
@@ -156,6 +156,12 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Remi Collet <remi@remirepo.net> - 1.9.1-1
+- update to 1.9.1 (RHBZ #1825544)
+
 * Sun Feb 23 2020 Shawn Iwinski <shawn@iwin.ski> - 1.7.0-1
 - Update to 1.7.0 (RHBZ #1746998)
 - Disable bootstrap so tests run by default

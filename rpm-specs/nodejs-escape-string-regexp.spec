@@ -6,7 +6,7 @@
 
 Name:		nodejs-escape-string-regexp
 Version:	1.0.5
-Release:	8%{?dist}
+Release:	9%{?dist}
 Summary:	Escape RegExp special characters
 
 License:	MIT
@@ -18,6 +18,7 @@ ExclusiveArch:	%{nodejs_arches} noarch
 BuildArch:	noarch
 
 BuildRequires:	nodejs-packaging
+BuildRequires:  nodejs(engine)
 %if 0%{?enable_tests}
 BuildRequires:	npm(ava)
 %endif
@@ -61,6 +62,9 @@ cp -pr package.json index.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.5-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

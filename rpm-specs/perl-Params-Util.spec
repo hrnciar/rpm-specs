@@ -1,6 +1,6 @@
 Name:		perl-Params-Util
 Version:	1.07
-Release:	30%{?dist}
+Release:	31%{?dist}
 Summary:	Simple standalone parameter-checking functions
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Params-Util
@@ -65,6 +65,9 @@ chmod -R u+w $RPM_BUILD_ROOT/*
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.07-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.07-30
 - Perl 5.32 rebuild
 

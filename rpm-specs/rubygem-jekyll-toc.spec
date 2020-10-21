@@ -2,7 +2,7 @@
 
 Name:           rubygem-%{gem_name}
 Version:        0.14.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Jekyll Table of Contents plugin
 License:        MIT
 
@@ -92,6 +92,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Fabio Valentini <decathorpe@gmail.com> - 0.14.0-1
 - Update to version 0.14.0.
 

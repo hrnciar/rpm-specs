@@ -1,6 +1,6 @@
 Name: qlandkartegt
 Version: 1.8.1
-Release: 26%{?dist}
+Release: 28%{?dist}
 Summary: GPS device mapping tool
 
 License: GPLv3+
@@ -61,20 +61,15 @@ GDAL tools, but it will simplify their use to the demands of most users.
 # remove unbundled stuff
 rm -rf 3rdparty/qtsoap 3rdparty/SerialPort/qextserialport
 
-# create build direcotory
-mkdir build
-
 
 %build
 %global optflags %{optflags} -DACCEPT_USE_OF_DEPRECATED_PROJ_API_H
-cd build
 %cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DGPX_EXTENSIONS=ON ..
-make VERBOSE=1 %{?_smp_mflags}
+%cmake_build
 
 
 %install
-cd build
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
@@ -95,6 +90,13 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-28
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Björn Esser <besser82@fedoraproject.org> - 1.8.1-26
 - Rebuild (gpsd)
 

@@ -4,7 +4,7 @@
 
 Name:           leafpad
 Version:        0.8.18.1
-Release:        25%{?dist}
+Release:        26%{?dist}
 
 Summary:        GTK+ based simple text editor
 
@@ -62,6 +62,9 @@ desktop-file-install --delete-original \
 %{_datadir}/pixmaps/leafpad.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.18.1-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.18.1-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,22 +4,23 @@
 
 Name:           python-%{srcname}
 Version:        0.3.3
-Release:        18%{?dist}
+Release:        20%{?dist}
 # append my cmake path before swig is included
 Summary:        Python library parsing HL7 v2.x and v3.x messages
 
 License:        BSD
 URL:            http://pypi.python.org/pypi/%{srcname}
 
-Source0:        http://pypi.python.org/packages/source/h/%{srcname}/%{srcname}-%{version}.tar.gz
+Source0:        %{pypi_source %{srcname}}
 Source1:        https://raw.githubusercontent.com/johnpaulett/python-hl7/master/AUTHORS
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  python3-sphinx
+BuildRequires:  python3-setuptools
 
 %description
-python-%{srcname} is a simple library for parsing messages of 
+python-%{srcname} is a simple library for parsing messages of
 Health Level 7 (HL7) v2.x into Python objects.
 
 %package -n python3-%{srcname}
@@ -27,7 +28,7 @@ Summary: %{sum}
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
-python-%{srcname} is a simple library for parsing messages of 
+python-%{srcname} is a simple library for parsing messages of
 Health Level 7 (HL7) v2.x into Python objects.
 
 %package doc
@@ -59,7 +60,7 @@ popd
 
 # Delete buildinfo file
 find docs/_build/ -name ".buildinfo" -execdir rm -fv '{}' \;
- 
+
 %files -n python3-%{srcname}
 %{_bindir}/mllp_send
 %{python3_sitelib}/%{srcname}/
@@ -71,6 +72,12 @@ find docs/_build/ -name ".buildinfo" -execdir rm -fv '{}' \;
 %license LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.3.3-19
+- Explicitly BR setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.3-18
 - Rebuilt for Python 3.9
 

@@ -1,7 +1,7 @@
 %global pypi_name genty
 Name:           python-%{pypi_name}
 Version:        1.3.2
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Allows you to run a test with multiple data sets
 License:        ASL 2.0
 URL:            https://github.com/box/genty
@@ -56,6 +56,9 @@ sed -i 's/from mock/from unittest.mock/' test/test_genty.py
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.2-7
 - Rebuilt for Python 3.9
 

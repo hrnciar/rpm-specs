@@ -5,7 +5,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.14.1
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Drop-in replacement for Python 2.7's csv module which supports unicode strings
 License:        BSD
 URL:            https://github.com/jdunck/python-unicodecsv
@@ -55,6 +55,9 @@ python3 -m unittest
 %{python3_sitelib}/%{pypi_name}-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.1-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.14.1-21
 - Rebuilt for Python 3.9
 

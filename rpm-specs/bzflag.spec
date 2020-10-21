@@ -1,7 +1,7 @@
 Summary: 3D multi-player tank battle game
 Name: bzflag
 Version: 2.4.18
-Release: 7%{?dist}
+Release: 9%{?dist}
 License: LGPLv2
 URL: http://bzflag.org
 Source0: https://download.bzflag.org/bzflag/source/%{version}/bzflag-%{version}.tar.bz2
@@ -59,7 +59,7 @@ SDL_CFLAGS='-I%{_prefix}/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT' \
 %configure --libdir=%{_libdir}/%{name} --with-SDL=2 \
     --prefix=%{_prefix} --exec-prefix=%{_prefix} \
     --with-sdl-prefix=%{_prefix} --with-sdl-exec-prefix=%{_prefix}
-make %{?_smp_mflags}
+%make_build
 
 %install
 %make_install
@@ -159,6 +159,13 @@ exit 0
 %{_datadir}/bzflag/maps/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.18-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.18-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.18-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

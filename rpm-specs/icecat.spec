@@ -1,12 +1,62 @@
+### Naming ###
 # Set to true if it's going to be submitted as update
 %global release_build 1
 
 # Set to true if it's going to be submitted as release candidate
 %global release_candidate 0
 
+# Set new source-code build version
+# This tag indicates a new rebuild for Fedora
+%global redhat_ver rh1
+
+# Set extra version tag
+# This tag comes from Mozilla's releases
+%if 0%{?release_candidate}
+%global extra_ver .rc1
+%else
+%global extra_ver %{nil}
+%endif
+
+%global pre_tag %{nil}
+
+####################
+
+### Optimization ###
+# Builds for debugging
+%global debug_build   0
+
+# Downgrade optimization
+%global less_optbuild 0
+
+# Use mozilla hardening option?
+%global hardened_build 1
+####################
+
+# Build PGO+LTO on x86_64 and aarch64 only due to build issues
+# on other arches.
+%ifarch x86_64
+%if 0%{?release_build}
+%global build_with_pgo 1
+%global pgo_wayland    0
+%else
+%global build_with_pgo 0
+%endif
+%endif
+%global wayland_backend_default 1
+
+# Disable LTO to work around rhbz#1883904
+%define _lto_cflags %{nil}
+####################
+
 # Exclude ARM builds for rhbz #1658940
 # Exclude s390x for https://pagure.io/koji/issue/1974
-ExcludeArch: %{arm} s390x
+ExcludeArch: s390x
+
+# PPC64le does not compile on Fedora 33 yet.
+# Temporarily disabled, filed as rhbz#1862012
+%if 0%{?fedora} == 33
+ExcludeArch: ppc64le
+%endif
 
 # Active/Deactive language files handling
 %global build_langpacks 1
@@ -22,9 +72,6 @@ ExcludeArch: %{arm} s390x
 %global langpackdir  %{icecatappdir}/langpacks
 
 %global toolkit_gtk3  1
-
-# Builds for debugging
-%global debug_build   0
 
 # Big endian platforms
 %ifarch ppc64 s390x
@@ -43,15 +90,19 @@ ExcludeArch: %{arm} s390x
 %endif
 
 # Use system libicu?
+%if 0%{?fedora} > 32
 %global system_libicu 1
+%else
+%global system_libicu 0
+%endif
 
 # Use system nspr/nss?
 %global system_nss    1
 
-%if 0%{?system_nss}
-%global nspr_version 4.21
+%if %{?system_nss}
+%global nspr_version 4.25.0
 %global nspr_build_version %{nspr_version}
-%global nss_version 3.50
+%global nss_version 3.53.0
 %global nss_build_version %{nss_version}
 %endif
 
@@ -61,15 +112,11 @@ ExcludeArch: %{arm} s390x
 %bcond_with alsa
 
 %global with_vpx 1
-%if 0%{?with_vpx}
+%if %{?with_vpx}
 %global libvpx_version 1.8.2
 %endif
 
-%global wayland_backend_default 1
 %global disable_elfhack 1
-
-# Use mozilla hardening option?
-%global hardened_build 1
 
 # cbingen
 %global use_bundled_cbindgen 1
@@ -77,24 +124,8 @@ ExcludeArch: %{arm} s390x
 # Use clang?
 %global build_with_clang  0
 
-# Set new source-code build version
-# This tag indicates a new rebuild for Fedora
-%global redhat_ver rh2
-
-# Set extra version tag
-# This tag comes from Mozilla's releases
-%if 0%{?release_candidate}
-%global extra_ver .rc1
-%else
-%global extra_ver %{nil}
-%endif
-
-%if !%{release_build}
-%global pre_tag .test
-%endif
-
 Name: icecat
-Version: 68.9.0
+Version: 78.4.0
 Release: 1%{extra_ver}.%{redhat_ver}%{?pre_tag}%{?dist}
 Summary: GNU version of Firefox browser
 
@@ -151,39 +182,44 @@ Patch7: %{name}-fix_jar.patch
 # Fix files list for installer
 Patch8: %{name}-fix_installer.patch
 
-Patch26: %{name}-68.4.0-build-icu-big-endian.patch
-
 Patch40: build-aarch64-skia.patch
 Patch41: build-disable-elfhack.patch
 Patch44: build-arm-libopus.patch
-Patch45: %{name}-68.4.0-mozilla-1526653_arm_disable_wasm.patch
+
+Patch54: mozilla-1669639.patch
+Patch55: mozilla-1669442.patch
 
 # Fedora specific patches
 Patch219: rhbz-1173156.patch
+Patch220: firefox-nss-version.patch
 
 # ARM run-time patch
 Patch226: rhbz-1354671.patch
 
 # Upstream patches
+Patch401: mozilla-1526653.patch
+Patch402: mozilla-1196777.patch
+Patch403: mozilla-1640567.patch
+Patch412: mozilla-1337988.patch
 Patch414: Bug-1238661_fix-mozillaSignalTrampoline-to-work-.patch
-
-# Patches for compatibility with Rust-1.39
-Patch419: mozilla-1564873.patch
-#
-
+Patch422: mozilla-1580174-webrtc-popup.patch
 # Fix crash on ppc64le (mozilla#1512162)
 Patch423: mozilla-1512162.patch
-Patch424: mozilla-1566876-webrtc-ind.patch
-Patch425: mozilla-1568569.patch
+
+Patch424: icecat-mozilla-1669471.patch
+
+# PGO/LTO patches
+Patch600:        %{name}-pgo.patch
+Patch602:        mozilla-1516803.patch
 
 # Wayland specific upstream patches
 Patch565: firefox-pipewire.patch
-Patch575: mozilla-1548475.patch
-Patch576: mozilla-1562827.patch
-Patch578: mozilla-1567434-1.patch
-Patch579: mozilla-1567434-2.patch
-Patch580: mozilla-1573813.patch
 #
+
+#VA-API patches
+Patch584: firefox-disable-ffvpx-with-vapi.patch
+Patch585: firefox-vaapi-extra-frames.patch
+Patch589: mozilla-1634213.patch
 
 BuildRequires: alsa-lib-devel
 BuildRequires: autoconf213
@@ -227,7 +263,7 @@ BuildRequires: libXinerama-devel
 BuildRequires: libffi-devel
 BuildRequires: libnotify-devel
 BuildRequires: libpng-devel
-%if 0%{?with_vpx}
+%if %{?with_vpx}
 BuildRequires: libvpx-devel >= %{libvpx_version}
 %endif
 BuildRequires: libzip-devel
@@ -235,7 +271,8 @@ BuildRequires: mesa-libGL-devel
 BuildRequires: nodejs
 BuildRequires: nasm >= 1.13
 BuildRequires: strace
-%if 0%{?system_nss}
+
+%if %{?system_nss}
 BuildRequires: pkgconfig(nspr) >= %{nspr_version}
 BuildRequires: pkgconfig(nss) >= %{nss_version}
 BuildRequires: nss-static >= %{nss_version}
@@ -244,7 +281,8 @@ BuildRequires: nss-static >= %{nss_version}
 BuildRequires: openjpeg-devel
 BuildRequires: pango-devel
 BuildRequires: pipewire-devel
-BuildRequires: python2-devel
+BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 BuildRequires: perl-interpreter
 BuildRequires: pkgconfig(xrender)
 BuildRequires: pkgconfig(libstartup-notification-1.0)
@@ -266,20 +304,34 @@ BuildRequires: clang-devel
 BuildRequires: lld
 %endif
 BuildRequires: rust
+%if 0%{?pgo_wayland}
+BuildRequires:  mutter
+BuildRequires:  gsettings-desktop-schemas
+BuildRequires:  gnome-settings-daemon
+BuildRequires:  mesa-dri-drivers
+%endif
+%if 0%{?build_with_pgo}
+BuildRequires:  xorg-x11-server-Xvfb
+%endif
 
 %if 0%{?system_sqlite}
 BuildRequires: pkgconfig(sqlite3) >= %{sqlite_version}
 Requires: sqlite >= %{sqlite_build_version}
 %endif
 
+%if 0%{?big_endian}
+BuildRequires: icu
+%endif
+
 Requires: dconf
 Requires: mozilla-filesystem
 Requires: p11-kit-trust
 
-%if 0%{?system_nss}
+%if %{?system_nss}
 Requires: nspr >= %{nspr_build_version}
 Requires: nss >= %{nss_build_version}
 %endif
+
 Requires: fedora-bookmarks
 Suggests: mozilla-ublock-origin
 
@@ -287,22 +339,29 @@ Provides: webclient
 Provides: mozilla-https-everywhere = 20191107
 
 %description
-GNUZilla Icecat is a fully-free fork of Mozilla Firefox ESR.
+GNU IceCat is the GNU version of the Firefox ESR browser.
 Extensions included to this version of IceCat:
 
  * LibreJS
    GNU LibreJS aims to address the JavaScript problem described in the article
-   "The JavaScript Trap" of Richard Stallman
+   "The JavaScript Trap" of Richard Stallman.
 
  * HTTPS Everywhere
    HTTPS Everywhere is an extension that encrypts your communications with
-   many major websites, making your browsing more secure
-
- * Onion Browser Button
-   Easily browse the internet using TOR proxy with just one click
+   many major websites, making your browsing more secure.
 
  * ViewTube
-   Watch videos from video sharing websites with extra options
+   Watch videos from video sharing websites with extra options.
+
+ * A set of companion extensions for LibreJS by Nathan Nichols
+   are pre-installed, and provide workarounds to use some services at USPS,
+   RSF.org, SumOfUs.org, pay.gov, McDonald's, goteo.org and Google Docs
+   without using nonfree JavaScript.
+
+ * A series of configuration changes and tweaks were applied to ensure that
+   IceCat does not initiate network connections that the user has not explicitly
+   requested. This implies not downloading feeds, updates, blacklists or any
+   other similar data needed during startup.
 
 %if 0%{?wayland_backend_default}
 %package x11
@@ -327,7 +386,7 @@ to run GNU IceCat native on Wayland.
 find . -type f -name "*.h" -exec chmod 0644 '{}' \;
 find . -type f -name "*.cpp" -exec chmod 0644 '{}' \;
 find . -type f -name "*.cc" -exec chmod 0644 '{}' \;
-find . -type f -name "*.c" -exec chmod 0644 '{}' \; 
+find . -type f -name "*.c" -exec chmod 0644 '{}' \;
 
 # Copy license files
 tar -xf %{SOURCE5}
@@ -341,52 +400,57 @@ tar -xf %{SOURCE5}
 %patch7 -p0 -b .fix_jar
 %patch8 -p0 -b .fix_installer
 
-%ifarch aarch64
-%patch40 -p1 -b .aarch64-skia
-%endif
 %if 0%{?disable_elfhack}
 %patch41 -p1 -b .disable-elfhack
 %endif
 
 # Fedora patches
 %patch219 -p1 -b .rhbz-1173156
+%patch220 -p1 -b .nss-version
 
 # ARM run-time patch
 %ifarch aarch64
+%patch40 -p1 -b .aarch64-skia
 %patch226 -p1 -b .1354671
 %endif
 
 %ifarch %{arm}
+%patch401 -p1 -b .1526653
 %patch414 -p1 -b .Bug-1238661---fix-mozillaSignalTrampoline-to-work
 %patch44  -p1 -b .build-arm-libopus
-%patch45  -p1 -b .mozilla-1526653_arm
 %endif
 
-# Patch for big endian platforms only
-%if 0%{?big_endian}
-%patch26 -p1 -b .icu
-%endif
-
-%patch419 -p1 -b .mozilla-1564873
-
+%patch402 -p1 -b .1196777
+%patch403 -p1 -b .1640567
 %patch423 -p1 -b .mozilla-1596503
-%patch424 -p1 -b .mozilla-1566876-webrtc-ind
-%patch425 -p1 -b .mozilla-1568569
+%patch424 -p1 -b .mozilla-1669471
 
 # Wayland specific upstream patches
 %patch565 -p1 -b .firefox-pipewire
-%patch575 -p1 -b .mozilla-1548475
-%patch576 -p1 -b .mozilla-1562827
-%patch578 -p1 -b .mozilla-1567434-1
-%patch579 -p1 -b .mozilla-1567434-2
-%patch580 -p1 -b .mozilla-1573813
+
+%patch584 -p1 -b .firefox-disable-ffvpx-with-vapi
+%patch585 -p1 -b .firefox-vaapi-extra-frames
+%patch589 -p1 -b .mozilla-1634213
+
+%patch54 -p1 -b .1669639
+%patch55 -p1 -b .1669442
+
+# PGO patches
+%if 0%{?build_with_pgo}
+%if !%{build_with_clang}
+%patch600 -p1 -b .pgo
+%patch602 -p1 -b .1516803
+%endif
+%endif
 
 # Remove default configuration and copy the customized one
 rm -f .mozconfig
 cp -p %{SOURCE3} .mozconfig
 
-# Disable signature checking for extensions that are bundled with IceCat
-echo "ac_add_options --with-unsigned-addon-scopes=app" >> .mozconfig
+# Disable signature checking for extensions that are bundled with IceCat.
+# Add these options to allow loading unsigned add-ons in app and system scopes.
+echo "ac_add_options --with-unsigned-addon-scopes=app,system" >> .mozconfig
+echo "ac_add_options --allow-addon-sideload" >> .mozconfig
 
 echo "ac_add_options --enable-default-toolkit=cairo-gtk3-wayland" >> .mozconfig
 echo "ac_add_options --enable-official-branding" >> .mozconfig
@@ -408,13 +472,14 @@ echo "ac_add_options --enable-alsa" >> .mozconfig
 echo "ac_add_options --disable-jemalloc" >> .mozconfig
 %endif
 
-%if 0%{?system_nss}
+%if %{?system_nss}
 echo "ac_add_options --with-system-nspr" >> .mozconfig
 echo "ac_add_options --with-system-nss" >> .mozconfig
 %else
 echo "ac_add_options --without-system-nspr" >> .mozconfig
 echo "ac_add_options --without-system-nss" >> .mozconfig
 %endif
+
 %if 0%{?system_libicu}
 echo "ac_add_options --with-system-icu" >> .mozconfig
 %else
@@ -422,54 +487,31 @@ echo "ac_add_options --without-system-icu" >> .mozconfig
 %endif
 echo "ac_add_options --disable-system-cairo" >> .mozconfig
 echo "ac_add_options --enable-system-pixman" >> .mozconfig
-%if 0%{?system_sqlite}
-echo "ac_add_options --enable-system-sqlite" >> .mozconfig
-%else
-echo "ac_add_options --disable-system-sqlite" >> .mozconfig
-%endif
-echo "ac_add_options --with-system-zlib" >> .mozconfig
-echo "ac_add_options --with-system-bz2" >> .mozconfig
 echo "ac_add_options --with-system-libevent=%{_prefix}" >> .mozconfig
-echo "ac_add_options --enable-llvm-hacks" >> .mozconfig
 %if %{?with_vpx}
 echo "ac_add_options --with-system-libvpx" >> .mozconfig
 %else
 echo "ac_add_options --without-system-libvpx" >> .mozconfig
 %endif
-echo "ac_add_options --disable-libjpeg-turbo" >> .mozconfig
 echo "ac_add_options --with-system-jpeg" >> .mozconfig
-echo "ac_add_options --disable-crashreporter" >> .mozconfig
-%ifnarch %{power64} aarch64 s390x %{arm}
-echo "ac_add_options --disable-eme" >> .mozconfig
-%endif
 
 # This option works on these architectures only
-%ifarch %{ix86} x86_64 %{arm}
+%ifarch %{arm}
 echo "ac_add_options --disable-elf-hack" >> .mozconfig
+echo "ac_add_options --disable-av1" >> .mozconfig
 %endif
-
-%ifarch aarch64 ppc64 s390x %{arm} %{ix86}
-#echo "ac_add_options --disable-skia" >> .mozconfig
+%ifnarch %{arm}
+echo "ac_add_options --enable-av1" >> .mozconfig
 %endif
 
 %if 0%{?debug_build}
 echo "ac_add_options --enable-debug" >> .mozconfig
 echo "ac_add_options --disable-optimize" >> .mozconfig
-echo "ac_add_options --enable-dtrace" >> .mozconfig
 %else
 %global optimize_flags "none"
-%ifnarch s390x
-%define optimize_flags "-g -O2"
-%endif
-%ifarch %{arm}
+%ifarch %{arm} s390x
 # ARMv7 need that (rhbz#1426850)
-%define optimize_flags "-g -O2 -fno-schedule-insns"
-%endif
-%ifarch s390x
-%define optimize_flags "-g1 -O1 -fno-schedule-insns"
-%endif
-%ifarch ppc64le aarch64
-%define optimize_flags "-g -O2"
+%define optimize_flags " -fno-schedule-insns"
 %endif
 %if %{?optimize_flags} != "none"
 echo 'ac_add_options --enable-optimize=%{?optimize_flags}' >> .mozconfig
@@ -478,36 +520,35 @@ echo 'ac_add_options --enable-optimize' >> .mozconfig
 %endif
 echo "ac_add_options --disable-debug" >> .mozconfig
 %endif
-%ifarch %{arm}
-echo "ac_add_options --enable-linker=gold" >> .mozconfig
-# mzbz #1436511
-echo "ac_add_options --disable-av1" >> .mozconfig
-%endif
-
 echo "ac_add_options --disable-strip" >> .mozconfig
 echo "ac_add_options --disable-install-strip" >> .mozconfig
 echo "ac_add_options --disable-tests" >> .mozconfig
+echo "ac_add_options --disable-crashreporter" >> .mozconfig
 
 # Localization
 %if 0%{?build_langpacks}
 echo "ac_add_options --with-l10n-base=$PWD/l10n" >> .mozconfig
 %endif
 
-echo "ac_add_options --disable-rust-tests" >> .mozconfig
-echo "ac_add_options --disable-gtest-in-build" >> .mozconfig
-
-%if 0%{?hardened_build}
-echo "ac_add_options --enable-hardening" >> .mozconfig
+%ifarch s390x
+echo "ac_add_options --disable-ion" >> .mozconfig
 %endif
 
-%ifarch s390 s390x
-echo "ac_add_options --disable-ion" >> .mozconfig
+%if 0%{?build_with_pgo}
+echo "ac_add_options MOZ_PGO=1" >> .mozconfig
+echo "ac_add_options --enable-lto" >> .mozconfig
+%else
+echo "ac_add_options --disable-lto" >> .mozconfig
 %endif
 
 echo 'export NODEJS="%{_buildrootdir}/bin/node-stdout-nonblocking-wrapper"' >> .mozconfig
 
 # Remove executable bit to make brp-mangle-shebangs happy.
 chmod -x third_party/rust/itertools/src/lib.rs
+chmod a-x third_party/rust/gfx-backend-vulkan/src/*.rs
+chmod a-x third_party/rust/gfx-hal/src/*.rs
+chmod a-x third_party/rust/ash/src/extensions/ext/*.rs
+chmod a-x third_party/rust/ash/src/extensions/khr/*.rs
 
 # Remove unrecognized files
 find extensions/gnu -name cose.manifest -delete
@@ -535,9 +576,9 @@ env CARGO_HOME=.cargo cargo install cbindgen
 export PATH=`pwd`/.cargo/bin:$PATH
 %endif
 
-echo "Generate big endian version of config/external/icu/data/icud58l.dat"
+echo "Generate big endian version of config/external/icu/data/icudt67l.dat"
 %if 0%{?big_endian}
-  ./mach python intl/icu_sources_data.py .
+  icupkg -tb config/external/icu/data/icudt67l.dat config/external/icu/data/icudt67b.dat
   ls -l config/external/icu/data
   rm -f config/external/icu/data/icudt*l.dat
 %endif
@@ -549,6 +590,13 @@ cp %{SOURCE18} %{_buildrootdir}/bin || :
 find ./ -name config.guess -exec cp /usr/lib/rpm/config.guess {} ';'
 
 MOZ_OPT_FLAGS=$(echo "%{optflags}" | %{__sed} -e 's/-Wall//')
+%if %{?less_optbuild}
+MOZ_OPT_FLAGS=$(echo "$MOZ_OPT_FLAGS" | %{__sed} -e 's/-O2/-O1/')
+%endif
+%if %{?debug_build}
+MOZ_OPT_FLAGS=$(echo "$MOZ_OPT_FLAGS" | %{__sed} -e 's/-O2/-O0/')
+%endif
+
 #rhbz#1037063
 # -Werror=format-security causes build failures when -Wno-format is explicitly given
 # for some sources
@@ -558,11 +606,10 @@ MOZ_OPT_FLAGS=$(echo "%{optflags}" | %{__sed} -e 's/-Wall//')
 MOZ_OPT_FLAGS=$(echo "$MOZ_OPT_FLAGS" | %{__sed} -e 's/-Werror=format-security//')
 
 # Use hardened build?
+%if %{?hardened_build}
 MOZ_OPT_FLAGS="$MOZ_OPT_FLAGS -fPIC -Wl,-z,relro -Wl,-z,now"
-
-%if %{?debug_build}
-MOZ_OPT_FLAGS=$(echo "$MOZ_OPT_FLAGS" | %{__sed} -e 's/-O2//')
 %endif
+
 %ifarch s390x %{arm}
 MOZ_OPT_FLAGS=$(echo "$MOZ_OPT_FLAGS" | %{__sed} -e 's/-g/-g1/' -e 's/-O2/-O1/')
 # If MOZ_DEBUG_FLAGS is empty, firefox's build will default it to "-g" which
@@ -570,26 +617,31 @@ MOZ_OPT_FLAGS=$(echo "$MOZ_OPT_FLAGS" | %{__sed} -e 's/-g/-g1/' -e 's/-O2/-O1/')
 # (OOM when linking, rhbz#1238225)
 export MOZ_DEBUG_FLAGS=" "
 %endif
+
+# We don't wantfirefox to use CK_GCM_PARAMS_V3 in nss
+MOZ_OPT_FLAGS="$MOZ_OPT_FLAGS -DNSS_PKCS11_3_0_STRICT"
+
 %if !0%{?build_with_clang}
 %ifarch s390x %{power64} aarch64 %{ix86}
 MOZ_LINK_FLAGS="-Wl,--no-keep-memory -Wl,--reduce-memory-overheads -Wl,--print-memory-usage"
 %endif
 %ifarch %{arm}
-MOZ_LINK_FLAGS="-Wl,-fuse-ld=gold -Wl,--no-keep-memory -Wl,--no-map-whole-files -Wl,--no-mmap-output-file"
+MOZ_LINK_FLAGS="-Wl,--no-keep-memory"
+echo "ac_add_options --enable-linker=gold" >> .mozconfig
 %endif
 %endif
-%ifarch %{arm} %{ix86}
+%ifarch %{arm} %{ix86} %{power64}
 export RUSTFLAGS="-Cdebuginfo=0"
 export MOZ_RUST_DEFAULT_FLAGS="-Cdebuginfo=0 -Copt-level=0"
 %endif
 export CFLAGS=$MOZ_OPT_FLAGS
-export CXXFLAGS=$MOZ_OPT_FLAGS
+export CXXFLAGS="$MOZ_OPT_FLAGS -fpermissive"
 export LDFLAGS=$MOZ_LINK_FLAGS
 
 export PREFIX='%{_prefix}'
 export LIBDIR='%{_libdir}'
 export PKG_CONFIG='%{_bindir}/pkg-config'
-export PYTHON='%{__python2}'
+export PYTHON='%{__python3}'
 
 %if 0%{?build_with_clang}
 export LLVM_PROFDATA="llvm-profdata"
@@ -604,10 +656,22 @@ export AR="gcc-ar"
 export NM="gcc-nm"
 export RANLIB="gcc-ranlib"
 %endif
+%if 0%{?build_with_pgo}
+# PGO build doesn't work with ccache
+export CCACHE_DISABLE=1
+%endif
 
+%if %{?less_optbuild}
 MOZ_SMP_FLAGS=-j1
-# On x86 architectures, Mozilla can build up to 4 jobs at once in parallel,
+%else
+MOZ_SMP_FLAGS=-j1
+# On x86_64 architectures, Mozilla can build up to 4 jobs at once in parallel,
 # however builds tend to fail on other arches when building in parallel.
+%ifarch %{ix86}
+[ -z "$RPM_BUILD_NCPUS" ] && \
+     RPM_BUILD_NCPUS="`/usr/bin/getconf _NPROCESSORS_ONLN`"
+[ "$RPM_BUILD_NCPUS" -ge 2 ] && MOZ_SMP_FLAGS=-j2
+%endif
 %ifarch x86_64 %{power64} aarch64
 [ -z "$RPM_BUILD_NCPUS" ] && \
      RPM_BUILD_NCPUS="`/usr/bin/getconf _NPROCESSORS_ONLN`"
@@ -615,11 +679,31 @@ MOZ_SMP_FLAGS=-j1
 [ "$RPM_BUILD_NCPUS" -ge 4 ] && MOZ_SMP_FLAGS=-j4
 [ "$RPM_BUILD_NCPUS" -ge 8 ] && MOZ_SMP_FLAGS=-j8
 %endif
+%endif
 
-export MOZ_MAKE_FLAGS="$MOZ_SMP_FLAGS"
-export MOZ_OPTIMIZE_FLAGS=" -freorder-blocks -fno-reorder-functions"
-export STRIP=/bin/true
-MOZ_RUN_GTEST=0 ./mach -v build
+echo "mk_add_options MOZ_MAKE_FLAGS=\"$MOZ_SMP_FLAGS\"" >> .mozconfig
+echo "mk_add_options MOZ_SERVICES_SYNC=1" >> .mozconfig
+echo "export STRIP=/bin/true" >> .mozconfig
+
+export MACH_USE_SYSTEM_PYTHON=1
+%if 0%{?build_with_pgo}
+%if 0%{?pgo_wayland}
+if [ -z "$XDG_RUNTIME_DIR" ]; then
+  export XDG_RUNTIME_DIR=$HOME
+fi
+xvfb-run mutter --wayland --nested &
+if [ -z "$WAYLAND_DISPLAY" ]; then
+  export WAYLAND_DISPLAY=wayland-0
+else
+  export WAYLAND_DISPLAY=wayland-1
+fi
+MOZ_ENABLE_WAYLAND=1 ./mach build  2>&1 | cat -
+%else
+GDK_BACKEND=x11 xvfb-run ./mach build  2>&1 | cat -
+%endif
+%else
+./mach build -v 2>&1 | cat -
+%endif
 
 %install
 # set up our default bookmarks
@@ -790,13 +874,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %{icecatappdir}/plugin-container
 %{icecatappdir}/pingsender
 %{icecatappdir}/gmp-clearkey/
-%{icecatappdir}/chrome.manifest
 %{icecatappdir}/gtk2/*.so
-%if !%{?system_nss}
-%{icecatappdir}/libfreeblpriv3.chk
-%{icecatappdir}/libnssdbm3.chk
-%{icecatappdir}/libsoftokn3.chk
-%endif
 %if 0%{?build_langpacks}
 %dir %{langpackdir}
 %endif
@@ -812,6 +890,58 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %endif
 
 %changelog
+* Mon Oct 19 2020 Antonio Trande <sagitter@fedoraproject.org> - 78.4.0-1.rh1
+- Mozilla Release 78.4.0ESR
+
+* Wed Oct 07 2020 Antonio Trande <sagitter@fedoraproject.org> - 78.3.1-2.rh1.test
+- PGO build test
+
+* Thu Oct 01 2020 Antonio Trande <sagitter@fedoraproject.org> - 78.3.1-1.rh1
+- Mozilla Release 78.3.1ESR (rh1)
+- Patched for mzbz#1640567
+
+* Wed Sep 23 2020 Antonio Trande <sagitter@fedoraproject.org> - 78.3.0-2.rh1
+- Rebuild for libevent-2.1.12
+
+* Mon Sep 21 2020 Antonio Trande <sagitter@fedoraproject.org> - 78.3.0-1.rh1
+- Mozilla Release 78.3.0ESR (rh1)
+
+* Fri Sep 18 2020 Miro Hrončok <mhroncok@redhat.com> - 78.2.0-7.rh6
+- Use python3 instead of python2 for build
+
+* Wed Sep 09 2020 Antonio Trande <sagitter@fedoraproject.org> - 78.2.0-6.rh6
+- Build Release 78.2.0ESR-rh6
+
+* Tue Sep 08 2020 Antonio Trande <sagitter@fedoraproject.org> - 78.2.0-5.rh5
+- Add configure options to allow loading unsigned bundled addons
+
+* Sun Sep 06 2020 Antonio Trande <sagitter@fedoraproject.org> - 78.2.0-4.rh5
+- Build Release 78.2.0ESR-rh5
+
+* Sun Sep 06 2020 Antonio Trande <sagitter@fedoraproject.org> - 78.2.0-3.rh4
+- Build Release 78.2.0ESR-rh4
+- PPC64le build disabled on Fedora 33
+
+* Thu Sep 03 2020 Antonio Trande <sagitter@fedoraproject.org> - 78.2.0-2.rh3
+- Build Release 78.2.0ESR-rh3
+- Reintroduce PPC64LE builds
+
+* Tue Aug 25 2020 Antonio Trande <sagitter@fedoraproject.org> - 78.2.0-1.rh2
+- Mozilla Release 78.2.0ESR
+
+* Sun Aug 23 2020 Antonio Trande <sagitter@fedoraproject.org> - 78.2.0-0.1.rc1.rh1.test
+- Mozilla Release Candidate 78.2.0ESR
+
+* Wed Jul 29 2020 Antonio Trande <sagitter@fedoraproject.org> - 78.0.1-2.rh1.test
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Antonio Trande <sagitter@fedoraproject.org> - 78.0.1-1.rh1.test
+- Mozilla Release 78.0.1ESR
+- Disable crash reporter
+
+* Wed Jul 01 2020 Antonio Trande <sagitter@fedoraproject.org> - 78.0-1.rh1.test
+- Mozilla Release 78.0ESR
+
 * Tue Jun 02 2020 Antonio Trande <sagitter@fedoraproject.org> - 68.9.0-1.rh2
 - Mozilla release 68.9.0ESR
 

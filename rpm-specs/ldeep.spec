@@ -2,7 +2,7 @@
 
 Name:           %{pypi_name}
 Version:        1.0.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        LDAP enumeration utility
 
 License:        MIT
@@ -45,6 +45,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 1.0.8-1
 - Initial package for Fedora
 

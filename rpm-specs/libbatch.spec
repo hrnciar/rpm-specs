@@ -1,14 +1,14 @@
 Name:           libbatch
-Version:        2.4.2
-Release:        3%{?dist}
+Version:        2.4.3
+Release:        2%{?dist}
 Summary:        Generic batch management library
 
 License:        LGPLv2
 URL:            http://git.salome-platform.org/gitweb/?p=tools/libbatch.git
 # Get source as follows
-# $ git clone --branch V2_4_1 git://git.salome-platform.org/tools/libbatch.git
+# $ git clone --branch V2_4_3 git://git.salome-platform.org/tools/libbatch.git
 # $ rm -rf libbatch/.git
-# $ tar cjf libbatch-2.4.1.tar.bz2 libbatch
+# $ tar cjf libbatch-2.4.3.tar.bz2 libbatch
 Source0:        %{name}-%{version}.tar.bz2
 # Use lib64 on x86_64
 Patch0:         libbatch_libdir.patch
@@ -34,7 +34,7 @@ Requires:       filesystem
 
 # Do not check .so files in the python_sitelib directory
 # or any files in the application's directory for provides
-%global __provides_exclude_from ^(%{python_sitearch}/.*\\.so|%{_datadir}/myapp/.*)$
+%global __provides_exclude_from ^(%{python3_sitearch}/.*\\.so|%{_datadir}/myapp/.*)$
 
 %description    devel
 The %{name}-devel package contains libraries and header files for
@@ -42,19 +42,18 @@ developing applications that use %{name}.
 
 
 %prep
-%setup -q -n %{name}
-%patch0 -p1
-%patch1 -p1
+%autosetup -p1 -n %{name}
 
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 export LDFLAGS='-Wl,--as-needed'
 %cmake -DLIBBATCH_PYTHONPATH=%{python3_sitearch} .
-%make_build
+%cmake_build
 
 
 %install
-%make_install
+%cmake_install
 
 # Move autoconf macros to correct place
 install -Dpm 0644 %{buildroot}%{_datadir}/%{name}/misc/check_libbatch.m4 %{buildroot}%{_datadir}/aclocal/check_libbatch.m4
@@ -79,6 +78,15 @@ rm -rf %{buildroot}%{_datadir}/%{name}
 
 
 %changelog
+* Thu Jul 30 2020 Sandro Mani <manisandro@gmail.com> - 2.4.3-2
+- Force C++14 as this code is not C++17 ready
+
+* Wed Jul 29 2020 Sandro Mani <manisandro@gmail.com> - 2.4.3-1
+- Update to 2.4.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.4.2-3
 - Rebuilt for Python 3.9
 

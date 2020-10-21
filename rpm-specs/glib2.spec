@@ -1,14 +1,11 @@
 Name: glib2
-Version: 2.65.0
-Release: 2%{?dist}
+Version: 2.66.2
+Release: 1%{?dist}
 Summary: A library of handy utility functions
 
 License: LGPLv2+
 URL: http://www.gtk.org
-Source0: http://download.gnome.org/sources/glib/2.65/glib-%{version}.tar.xz
-
-# Avoid requiring a too new gtk-doc version for building glib
-Patch0: gtk-doc-1-32.patch
+Source0: http://download.gnome.org/sources/glib/2.66/glib-%{version}.tar.xz
 
 BuildRequires: chrpath
 BuildRequires: gcc
@@ -217,6 +214,47 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %{_datadir}/installed-tests
 
 %changelog
+* Mon Oct 19 2020 Kalev Lember <klember@redhat.com> - 2.66.2-1
+- Update to 2.66.2
+- Drop gtk-doc patch as we finally have a new enough gtk-doc
+
+* Wed Oct 14 2020 Michael Catanzaro <mcatanzaro@redhat.com> - 2.66.1-3
+- Fix yet another timezone bug
+
+* Wed Oct 14 2020 Michael Catanzaro <mcatanzaro@redhat.com> - 2.66.1-2
+- Fix timezone-related bugs in many applications caused by new glib timezone cache
+
+* Thu Oct  1 2020 Kalev Lember <klember@redhat.com> - 2.66.1-1
+- Update to 2.66.1
+
+* Thu Sep 10 2020 Kalev Lember <klember@redhat.com> - 2.66.0-1
+- Update to 2.66.0
+
+* Wed Sep 02 2020 Kalev Lember <klember@redhat.com> - 2.65.3-1
+- Update to 2.65.3
+
+* Tue Aug 25 2020 Adam Williamson <awilliam@redhat.com> - 2.65.2-3
+- Backport fix for GGO #2189 (error accessing some filesystems)
+
+* Thu Aug 20 2020 Jeff Law <law@redhat.com> - 2.65.2-2
+- Re-enable LTO
+
+* Tue Aug 18 2020 Kalev Lember <klember@redhat.com> - 2.65.2-1
+- Update to 2.65.2
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 2.65.1-1
+- Update to 2.65.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.65.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.65.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <aw@redhat.com> - 2.65.0-3
+Disable LTO
+
 * Mon Jun 22 2020 Kalev Lember <klember@redhat.com> - 2.65.0-2
 - Update gio-2.0.pc with correct gio-querymodules name when renaming it
   (#1849441)

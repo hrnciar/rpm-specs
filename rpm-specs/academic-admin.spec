@@ -2,7 +2,7 @@
 
 Name:           %{srcname}
 Version:        0.5.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Admin tool for the Academic website builder
 
 License:        MIT
@@ -37,6 +37,9 @@ An admin tool for the Academic website builder.
 %{_bindir}/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 25 2020 W. Michael Petullo <mike@flyn.org> - 0.5.1-1
 - New upstream version
 - Patch out shebang lines from non-executable Python files

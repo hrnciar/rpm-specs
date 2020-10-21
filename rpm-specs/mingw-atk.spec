@@ -5,7 +5,7 @@
 
 Name:           mingw-atk
 Version:        2.36.0
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows Atk library
 
 License:        LGPLv2+
@@ -114,6 +114,15 @@ Static version of the MinGW Windows Atk library.
 
 
 %changelog
+* Wed Aug 12 13:44:01 GMT 2020 Sandro Mani <manisandro@gmail.com> - 2.36.0-5
+- Rebuild (mingw-gettext)
+
+* Wed Aug 12 13:31:51 GMT 2020 Sandro Mani <manisandro@gmail.com> - 2.36.0-4
+- Rebuild (mingw-gettext)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.36.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Sandro Mani <manisandro@gmail.com> - 2.36.0-2
 - Rebuild (gettext)
 

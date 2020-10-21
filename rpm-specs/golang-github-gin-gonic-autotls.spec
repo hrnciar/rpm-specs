@@ -15,7 +15,7 @@ Package Autotls support Let's Encrypt for a Go server application.}
 %global godocs          example README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Support Let's Encrypt for a Go server application
 
 License:        MIT
@@ -43,6 +43,9 @@ BuildRequires:  golang(golang.org/x/crypto/acme/autocert)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

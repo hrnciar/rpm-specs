@@ -1,6 +1,7 @@
+%undefine __cmake_in_source_build
 Name:    kdeplasma-addons
 Summary: Additional Plasmoids for Plasma 5
-Version: 5.19.2
+Version: 5.20.1
 Release: 1%{?dist}
 
 License: GPLv2+
@@ -78,16 +79,12 @@ developing applications that use %{name}.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
-
-%make_build -C %{_target_platform}
+%{cmake_kf5}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang kdeplasmaaddons5_qt --with-qt --all-name
 
@@ -95,7 +92,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %ldconfig_scriptlets
 
 %files -f kdeplasmaaddons5_qt.lang
-%license COPYING COPYING.LIB
+%license LICENSES/*.txt
 %{_kf5_datadir}/plasma/plasmoids/*
 %{_kf5_datadir}/plasma/desktoptheme/default/widgets/*
 %{_kf5_datadir}/plasma/desktoptheme/default/weather/*
@@ -105,6 +102,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_qtplugindir}/plasma/applets/*.so
 %{_kf5_qtplugindir}/*.so
 %{_kf5_qtplugindir}/potd/
+%{_kf5_plugindir}/krunner/krunner_*.so
 %{_kf5_datadir}/kservices5/*.desktop
 %{_kf5_datadir}/kservices5/kwin/*.desktop
 %{_kf5_qmldir}/org/kde/plasma/*
@@ -133,6 +131,27 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Oct 20 15:28:14 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.1-1
+- 5.20.1
+
+* Sun Oct 11 19:50:02 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.0-1
+- 5.20.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.90-1
+- 5.19.90
+
+* Tue Sep 01 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.5-1
+- 5.19.5
+
+* Tue Jul 28 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.4-1
+- 5.19.4
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.19.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.3-1
+- 5.19.3
+
 * Tue Jun 23 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.2-1
 - 5.19.2
 

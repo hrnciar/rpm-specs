@@ -1,6 +1,6 @@
 Name:          libiio
 Version:       0.21
-Release:       1%{?dist}
+Release:       3%{?dist}
 Summary:       Library for Industrial IO
 License:       LGPLv2
 URL:           https://analogdevicesinc.github.io/libiio/
@@ -66,10 +66,10 @@ sed -i 's/${LIBIIO_VERSION_MAJOR}-doc//' CMakeLists.txt
 
 %build
 %cmake -DPYTHON_BINDINGS=on -DWITH_DOC=on .
-%make_build
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 #Remove libtool archives.
 find %{buildroot} -name '*.la' -delete
@@ -99,6 +99,13 @@ find %{buildroot} -name '*.la' -delete
 %{python3_sitelib}/libiio*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.21-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.21-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.21-1
 - Update to 0.21
 

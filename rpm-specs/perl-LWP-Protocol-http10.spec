@@ -1,6 +1,6 @@
 Name:           perl-LWP-Protocol-http10
 Version:        6.03
-Release:        25%{?dist}
+Release:        26%{?dist}
 Summary:        Legacy HTTP/1.0 support for LWP
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/LWP-Protocol-http10
@@ -49,6 +49,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.03-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 6.03-25
 - Perl 5.32 rebuild
 

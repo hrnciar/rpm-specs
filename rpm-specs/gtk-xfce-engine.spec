@@ -2,7 +2,7 @@
 
 Name:           gtk-xfce-engine
 Version:        3.2.0
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Xfce GTK theme engine
 
 License:        GPLv2+
@@ -40,6 +40,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,9 +1,10 @@
 %undefine _ld_as_needed
+%global __cmake_in_source_build 1
 
 Name:      percolator
 Summary:   Software for postprocessing of shotgun proteomics data
 Version:   3.05
-Release:   2%{?dist}
+Release:   5%{?dist}
 
 ## Code under src/ (except RAMP and Fido sub-directories) is licensed under a ASL 2.0 license.
 ## Code under src/Fido under MIT license.
@@ -91,6 +92,7 @@ sed -e 's|${ELUDE_MODELS_PATH}..|${ELUDE_MODELS_PATH}|g' -i src/elude_tool/CMake
 sed -e 's|${CMAKE_INSTALL_PREFIX}/share/elude/models/|${CMAKE_INSTALL_PREFIX}/share/elude|g' -i src/elude_tool/CMakeLists.txt
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 mkdir -p percolator && pushd percolator
 %cmake3 -Wno-dev \
  -DCMAKE_COLOR_MAKEFILE:BOOL=ON \
@@ -269,6 +271,16 @@ mkdir -p test && cd test
 %{_libdir}/percolator/
 
 %changelog
+* Wed Aug 19 2020 Jeff Law <law@redhat.com> - 3.05-5
+- Force C++14 as this code is not C++17 ready
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.05-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.05-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 19 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.05-2
 - Fix EPEL7 builds (use boost169)
 

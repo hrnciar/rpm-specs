@@ -1,6 +1,6 @@
 Name:           perl-Acme-PlayCode
 Version:        0.12
-Release:        29%{?dist}
+Release:        30%{?dist}
 Summary:        Play code to win
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Acme-PlayCode
@@ -54,6 +54,9 @@ perl Build.PL installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.12-29
 - Perl 5.32 rebuild
 

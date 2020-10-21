@@ -3,13 +3,16 @@
 
 Name:           python-%{srcname}
 Version:        0.3.0
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        CSS selectors for Python ElementTree
 License:        BSD
 URL:            https://%{srcname}.readthedocs.io/
 BuildArch:      noarch
 Source0:        %pypi_source
-# Fedora does not ship pytest's flake8/isort modules
+
+# patch present in master:
+# https://github.com/Kozea/cssselect2/commit/6a8b3769a51420702ab5644af41200053809c6d2
+Patch0:         cssselect2-fix-isort.patch
 
 BuildRequires:  %{py3_prefix}-devel
 BuildRequires:  %{py3_prefix}-setuptools >= 39.2.0
@@ -37,8 +40,10 @@ including cElementTree, lxml, html5lib_, etc.
 
 
 %prep
-%autosetup -n %{srcname}-%{version}
-# Skip the flake8 plugin:
+%autosetup -p1 -n %{srcname}-%{version}
+# Skip the flake8 plugin: linting is useful for upstream only. Also flake8 was
+# not available in time for the Python 3.9 rebuild (and that might be the case
+# for Python 3.10+) so let's just remove it.
 sed -i 's/--flake8//' setup.cfg
 
 %build
@@ -63,6 +68,16 @@ rm -rf %{buildroot}%{python3_sitelib}/%{srcname}/tests
 
 
 %changelog
+* Mon Aug 03 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 0.3.0-5
+- add patch from upstream to fix isort test failure
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.0-2
 - Rebuilt for Python 3.9
 

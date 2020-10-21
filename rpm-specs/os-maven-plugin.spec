@@ -1,17 +1,14 @@
-%global vertag Final
-
 Name:           os-maven-plugin
-Version:        1.2.3
-Release:        14%{?dist}
+Version:        1.6.2
+Release:        2%{?dist}
 Summary:        Maven plugin for generating platform-dependent properties
 License:        ASL 2.0
 URL:            https://github.com/trustin/os-maven-plugin/
 BuildArch:      noarch
 
-Source0:        https://github.com/trustin/%{name}/archive/%{name}-%{version}.Final.tar.gz
+Source0:        https://github.com/trustin/%{name}/archive/%{name}-%{version}.tar.gz
 
-Patch0:         0001-Port-to-current-plexus-utils.patch
-Patch1:         0002-Don-t-fail-on-unknown-arch.patch
+Patch0:         0001-Don-t-fail-on-unknown-arch.patch
 
 BuildRequires:  maven-local
 BuildRequires:  mvn(junit:junit)
@@ -40,10 +37,9 @@ Summary:        API documentation for %{name}
 This package provides %{summary}.
 
 %prep
-%setup -q -n %{name}-%{name}-%{version}.%{vertag}
+%setup -q -n %{name}-%{name}-%{version}
 
 %patch0 -p1
-%patch1 -p1
 
 # remove unnecessary dependency on parent POM
 %pom_remove_parent
@@ -54,6 +50,8 @@ This package provides %{summary}.
 find -name EclipseStartup.java -delete
 find -name plugin.xml -delete
 
+%pom_remove_plugin org.codehaus.mojo:animal-sniffer-maven-plugin
+
 %build
 %mvn_build
 
@@ -61,28 +59,20 @@ find -name plugin.xml -delete
 %mvn_install
 
 %files -f .mfiles
-%dir %{_javadir}/%{name}
-%dir %{_mavenpomdir}/%{name}
 %doc LICENSE.txt
 
 %files javadoc -f .mfiles-javadoc
 %doc LICENSE.txt
 
 %changelog
-* Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-14
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+* Tue Nov 05 2019 Mikolaj Izdebski <mizdebsk@redhat.com> - 1.6.2-2
+- Mass rebuild for javapackages-tools 201902
 
-* Thu Nov 21 2019 Fabio Valentini <decathorpe@gmail.com> - 1.2.3-13
-- Remove unnecessary dependency on parent POM.
+* Thu Jun 27 2019 Marian Koncek <mkoncek@redhat.com> - 1.6.2-1
+- Update to upstream version 1.6.2
 
-* Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-12
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
-
-* Fri Feb 01 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-11
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
-
-* Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-10
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+* Fri May 24 2019 Mikolaj Izdebski <mizdebsk@redhat.com> - 1.2.3-10
+- Mass rebuild for javapackages-tools 201901
 
 * Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.3-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild

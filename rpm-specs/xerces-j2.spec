@@ -1,10 +1,8 @@
-%global cvs_version 2_12_0
-
 %define __requires_exclude system.bundle
 
 Name:          xerces-j2
-Version:       2.12.0
-Release:       4%{?dist}
+Version:       2.12.1
+Release:       1%{?dist}
 Summary:       Java XML parser
 # Most of the source is ASL 2.0
 # W3C licensed files:
@@ -13,18 +11,16 @@ Summary:       Java XML parser
 License:       ASL 2.0 and W3C
 URL:           http://xerces.apache.org/xerces2-j/
 
+%global cvs_version %(tr . _ <<< %{version})
+
 Source0:       http://mirror.ox.ac.uk/sites/rsync.apache.org/xerces/j/source/Xerces-J-src.%{version}.tar.gz
-Source1:       %{name}-version.sh
-Source2:       %{name}-constants.sh
+Source1:       http://www.apache.org/dist/xerces/j/source/Xerces-J-src.%{version}.tar.gz.asc
+Source2:       http://www.apache.org/dist/xerces/j/binaries/KEYS
 Source11:      %{name}-version.1
 Source12:      %{name}-constants.1
 
 # Custom javac ant task used by the build
 Source3:       https://svn.apache.org/repos/asf/xerces/java/tags/Xerces-J_%{cvs_version}/tools/src/XJavac.java
-
-# Custom doclet tags used in javadocs
-Source5:       https://svn.apache.org/repos/asf/xerces/java/tags/Xerces-J_%{cvs_version}/tools/src/ExperimentalTaglet.java
-Source6:       https://svn.apache.org/repos/asf/xerces/java/tags/Xerces-J_%{cvs_version}/tools/src/InternalTaglet.java
 
 Source7:       %{name}-pom.xml
 
@@ -34,6 +30,9 @@ Patch0:        %{name}-build.patch
 # Patch the manifest so that it includes OSGi stuff
 Patch1:        %{name}-manifest.patch
 
+# Patch build.xml to patch modules as needed during javadoc generation
+Patch2:        %{name}-modulefix.patch
+
 BuildArch:     noarch
 
 BuildRequires: javapackages-local
@@ -42,6 +41,8 @@ BuildRequires: apache-parent
 BuildRequires: xalan-j2 >= 2.7.1
 BuildRequires: xml-commons-apis >= 1.4.01
 BuildRequires: xml-commons-resolver >= 1.2
+BuildRequires: java-devel
+BuildRequires: gnupg2
 
 Requires:      xalan-j2 >= 2.7.1
 Requires:      xml-commons-apis >= 1.4.01
@@ -108,20 +109,23 @@ Requires:       %{name} = %{version}-%{release}
 %{summary}.
 
 %prep
-%setup -q -n xerces-%{cvs_version}
-%patch0 -p0 -b .orig
-%patch1 -p0 -b .orig
+# Verify the source file
+%{gpgverify} --data=%{SOURCE0} --signature=%{SOURCE1} --keyring=%{SOURCE2}
 
-# Copy the custom ant tasks into place
+%autosetup -p0 -n xerces-%{cvs_version}
+
+# Copy the custom ant task into place
 mkdir -p tools/org/apache/xerces/util
 mkdir -p tools/bin
-cp -a %{SOURCE3} %{SOURCE5} %{SOURCE6} tools/org/apache/xerces/util
+cp -a %{SOURCE3} tools/org/apache/xerces/util
 
 # Make sure upstream hasn't sneaked in any jars we don't know about
-find -name '*.class' -exec rm -f '{}' \;
-find -name '*.jar' -exec rm -f '{}' \;
+find . \( -name '*.class' -o -name '*.jar' \) -delete
 
 sed -i 's/\r//' LICENSE README NOTICE
+
+# Disable javadoc linting
+sed -i -e "s|additionalparam='|additionalparam='-Xdoclint:none |" build.xml
 
 # legacy aliases for compatability
 %mvn_alias : xerces:xerces xerces:xmlParserAPIs apache:xerces-j2
@@ -134,10 +138,6 @@ pushd tools
 javac -classpath $(build-classpath ant) org/apache/xerces/util/XJavac.java
 jar cf bin/xjavac.jar org/apache/xerces/util/XJavac.class
 
-# Build custom doc taglets
-javac -classpath /usr/lib/jvm/java/lib/tools.jar org/apache/xerces/util/*Taglet.java
-jar cf bin/xerces2taglets.jar org/apache/xerces/util/*Taglet.class
-
 ln -sf $(build-classpath xalan-j2-serializer) serializer.jar
 ln -sf $(build-classpath xml-commons-apis) xml-apis.jar
 ln -sf $(build-classpath xml-commons-resolver) resolver.jar
@@ -145,8 +145,8 @@ ln -sf $(build-classpath xerces-j2) x.jar
 popd
 
 # Build everything
-export ANT_OPTS="-Xmx256m -Djava.endorsed.dirs=$(pwd)/tools -Djava.awt.headless=true -Dbuild.sysclasspath=first -Ddisconnected=true"
-ant -Djavac.source=1.5 -Djavac.target=1.5 \
+export ANT_OPTS="-Xmx512m -Djava.awt.headless=true -Dbuild.sysclasspath=first -Ddisconnected=true"
+ant -Djavac.source=1.8 -Djavac.target=1.8 \
     -Dbuild.compiler=modern \
     clean jars javadocs
 
@@ -168,8 +168,8 @@ cp -pr build/docs/javadocs/xni/* %{buildroot}%{_javadocdir}/%{name}/xni
 cp -pr build/docs/javadocs/other/* %{buildroot}%{_javadocdir}/%{name}/other
 
 # scripts
-install -pD -m755 -T %{SOURCE1} %{buildroot}%{_bindir}/%{name}-version
-install -pD -m755 -T %{SOURCE2} %{buildroot}%{_bindir}/%{name}-constants
+%jpackage_script org.apache.xerces.impl.Version "" "" %{name} %{name}-version 1
+%jpackage_script org.apache.xerces.impl.Constants "" "" %{name} %{name}-constants 1
 
 # manual pages
 install -d -m 755 %{buildroot}%{_mandir}/man1
@@ -181,7 +181,7 @@ install -pD -T build/xercesSamples.jar %{buildroot}%{_datadir}/%{name}/%{name}-s
 cp -pr data %{buildroot}%{_datadir}/%{name}
 
 %post
-# alternatives suppoort removed in f26
+# alternatives support removed in f26
 update-alternatives --remove jaxp_parser_impl %{_javadir}/%{name}.jar >/dev/null 2>&1 || :
 # it deletes the link, set it up again
 ln -sf %{name}.jar %{_javadir}/jaxp_parser_impl.jar
@@ -198,6 +198,33 @@ ln -sf %{name}.jar %{_javadir}/jaxp_parser_impl.jar
 %{_datadir}/%{name}
 
 %changelog
+* Mon Sep 14 2020 Jerry James <loganjerry@gmail.com> - 2.12.1-1
+- Version 2.12.1
+- Drop upstreamed getcontentdocument patch
+- Drop no longer used taglet sources
+- Verify the source tarball
+- Compute cvs_version so it doesn't have to be updated in sync with Version
+- Build with JDK 11
+- Generate the scripts with jpackage_script
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Mat Booth <mat.booth@redhat.com> - 2.12.0-8
+- Peg to Java 8 due to use of 'com.sun.tools.doclets.Taglet' that was removed in
+  Java 11
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 2.12.0-7
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Wed Jun 24 2020 Mat Booth <mat.booth@redhat.com> - 2.12.0-6
+- Turn off javadoc linting
+
+* Wed Jun 24 2020 Jeff Johnston <jjohnstn@redhat.com> - 2.12.0-5
+- Change to build using Java 11
+- Fix some impl classes that require getContentDocument() method
+- Add a patch-module option for Javadoc generation
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.12.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 Name: python-%{srcname}
 Version: 1.7.0
-Release: 6%{?dist}
+Release: 7%{?dist}
 Summary: %{summary}
 
 License: BSD
@@ -16,6 +16,7 @@ Source: https://files.pythonhosted.org/packages/source/m/%{srcname}/%{srcname}-%
 
 BuildArch: noarch
 
+BuildRequires: python3-setuptools
 BuildRequires: python3-devel python3-pytest
 
 %global _description \
@@ -68,6 +69,9 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}" %{_bindir}/pytest-3
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.0-6
 - Rebuilt for Python 3.9
 

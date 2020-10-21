@@ -2,7 +2,7 @@
 
 Name:		rubygem-%{gem_name}
 Version:	1.5.0
-Release:	200%{?dist}
+Release:	201%{?dist}
 
 Summary:	LALR(1) parser generator
 License:	BSD
@@ -126,6 +126,9 @@ popd
 %doc	%{gem_instdir}/web
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-201
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.5.0-200
 - 1.5.0
 - racc2y, y2racc removed

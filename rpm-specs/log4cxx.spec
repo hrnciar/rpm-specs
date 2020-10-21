@@ -1,21 +1,18 @@
+%global sover 11
+
 Name: log4cxx
-Version: 0.10.0
-Release: 30%{?dist}
+Version: 0.11.0
+Release: 1%{?dist}
 Summary: A port to C++ of the Log4j project
 
 License: ASL 2.0
 URL: http://logging.apache.org/log4cxx/index.html
 Source0: http://www.apache.org/dist/logging/log4cxx/%{version}/apache-%{name}-%{version}.tar.gz
-# Filed into upstream bugtracker at:
-# https://issues.apache.org/jira/browse/LOGCXX-332
-Patch0: log4cxx-cstring.patch
-# From Debian:
-# https://anonscm.debian.org/cgit/collab-maint/log4cxx.git/plain/debian/patches/170-gcc6-fix.patch
-Patch1: log4cxx-gcc6.patch
-Patch2: log4cxx-gcc6-tests.patch
+Patch0: log4cxx.cmake-configure.patch
 
 BuildRequires: apr-devel
 BuildRequires: apr-util-devel
+BuildRequires: cmake
 BuildRequires: doxygen
 BuildRequires: gcc-c++
 
@@ -42,27 +39,22 @@ Documentation for %{name}.
 
 
 %prep
-%setup -q -n apache-%{name}-%{version}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
+%autosetup -n apache-%{name}-%{version}
 
 %build
-sed -i.libdir_syssearch -e \
- '/sys_lib_dlsearch_path_spec/s|/usr/lib |/usr/lib /usr/lib64 /lib /lib64 |' \
- configure
-%configure --disable-static
-sed -i -e 's! -shared ! -Wl,--as-needed\0!g' libtool
-%make_build
+%cmake
+%cmake_build
+doxygen %{_vpath_builddir}/Doxyfile
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
-mv $RPM_BUILD_ROOT%{_datadir}/%{name}/html .
-rm $RPM_BUILD_ROOT/%{_libdir}/liblog4cxx.la
+%cmake_install
+
+%check
+# Tests are flaky, run for informational purposes.
+%ctest || true
 
 %files
-%{_libdir}/liblog4cxx.so.10.0.0
-%{_libdir}/liblog4cxx.so.10
+%{_libdir}/liblog4cxx.so.%{sover}*
 
 %doc NOTICE KEYS
 %license LICENSE
@@ -72,12 +64,21 @@ rm $RPM_BUILD_ROOT/%{_libdir}/liblog4cxx.la
 %{_includedir}/log4cxx
 %{_libdir}/liblog4cxx.so
 %{_libdir}/pkgconfig/liblog4cxx.pc
+%{_libdir}/cmake/log4cxx
 
 %files doc
 %license LICENSE
 %doc html/
 
 %changelog
+* Sat Oct 17 2020 Till Hofmann <thofmann@fedoraproject.org> - 0.11.0-1
+- Update to 0.11.0
+- Switch to cmake
+- Run tests
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

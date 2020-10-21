@@ -1,6 +1,6 @@
 Name:           python-flexmock
 Version:        0.10.4
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Testing library that makes it easy to create mocks, stubs and fakes
 
 License:        BSD
@@ -59,6 +59,9 @@ PYEXECS=%{__python3} ./tests/run_tests.sh
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.4-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.10.4-7
 - Rebuilt for Python 3.9
 

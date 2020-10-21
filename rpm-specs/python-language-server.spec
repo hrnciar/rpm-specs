@@ -7,8 +7,8 @@ A Python implementation of the Language Server Protocol.
 }
 
 Name:           %{pypi_name}
-Version:        0.31.10
-Release:        4%{?dist}
+Version:        0.34.1
+Release:        2%{?dist}
 Summary:        Python Language Server for the Language Server Protocol
 
 License:        MIT
@@ -75,6 +75,7 @@ rm -rf %{pypi_name}.egg-info
 # disable incompatible tests
 # https://github.com/palantir/python-jsonrpc-server/issues/33
 # https://github.com/palantir/python-jsonrpc-server/pull/37
+# https://github.com/palantir/python-language-server/issues/825
 PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v -k 'not ( test_missing_message or test_syntax_error_pylint_py )'
 
 
@@ -86,6 +87,15 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v -k 'not ( test_missing_mes
 %{python3_sitelib}/python_language_server-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.34.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.34.1-1
+- Update to 0.34.1
+
+* Mon Jun 29 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.31.10-5
+- Drop failing list temporarily
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.31.10-4
 - Rebuilt for Python 3.9
 

@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Easy way to make anonymous functions by partial application of operators
 
 License:        BSD
@@ -52,6 +52,9 @@ tar -xvf %{S:1} --strip-components=1 --wildcards '%{srcname}-%{version}/test*' '
 %{python3_sitelib}/%{srcname}-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.6-2
 - Rebuilt for Python 3.9
 

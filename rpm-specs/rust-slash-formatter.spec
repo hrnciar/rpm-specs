@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        2.2.6
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Functions to deal with slashes and backslashes in strings
 
 # Upstream license specification: MIT
@@ -71,5 +71,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.6-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 19:44:12 CEST 2020 Igor Raits <i.gnatenko.brain@gmail.com> - 2.2.6-1
 - Initial package

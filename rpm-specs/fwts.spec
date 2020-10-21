@@ -2,7 +2,7 @@ Summary: Firmware Test Suite
 
 Name:    fwts
 Version: 20.02.00
-Release: 2%{?dist}
+Release: 5%{?dist}
 # Asked upstream for inclusion of full license texts:
 # https://bugs.launchpad.net/bugs/1712604
 # The ACPICA code is licensed under both GPLv2 and Intel ACPI, a few
@@ -32,6 +32,11 @@ firmware troubleshooting tool.
 %autosetup -a 0 -c -p1
 
 %build
+# This package has cases where a symbol is used as both a function
+# and a simple integer (with global visibility).  This is broken and
+# LTO flags it as an error.  Disable LTO for now
+%define _lto_cflags %{nil}
+
 autoreconf -ivf
 %configure
 %make_build
@@ -58,6 +63,16 @@ autoreconf -ivf
 %doc debian/copyright
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.02.00-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 20.02.00-4
+- Disable LTO
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.02.00-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 21 2020 Björn Esser <besser82@fedoraproject.org> - 20.02.00-2
 - Rebuild (json-c)
 - Add patch for compatibility with json-c 0.14

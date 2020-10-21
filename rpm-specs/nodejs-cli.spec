@@ -2,7 +2,7 @@
 
 Name:       nodejs-cli
 Version:    0.5.0
-Release:    11%{?dist}
+Release:    12%{?dist}
 Summary:    Node.js module for rapidly building command line apps
 # License text is included in README.md
 License:    MIT
@@ -51,6 +51,9 @@ cp -pr package.json cli.js index.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

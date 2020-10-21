@@ -2,8 +2,8 @@
 %global pypi_name rjsmin
 
 Name:           python-%{pypi_name}
-Version:        1.0.12
-Release:        19%{?dist}
+Version:        1.1.0
+Release:        1%{?dist}
 Summary:        Javascript Minifier
 
 License:        ASL 2.0
@@ -45,6 +45,10 @@ same results as the original jsmin.c.
 
 %package docs
 Summary:    Javascript Minifier - docs
+
+BuildRequires: python3-sphinx
+BuildRequires: python3-sphinx_rtd_theme
+
 %description docs
 Docs for rJSmin, which is a javascript minifier written in python.
 
@@ -68,17 +72,15 @@ sed -i '1d' rjsmin.py
 %build
 %py3_build
 
+sphinx-build -b html docs/_userdoc docs/_userdoc/html
+
 %install
 # Must do the subpackages' install first because the scripts in /usr/bin are
 # overwritten with every setup.py install.
 %py3_install
 
-
-# remove upstream developer documentation
-rm -r %{buildroot}/%{_docdir}/%{pypi_name}/
-
 %files -n python3-%{pypi_name}
-%doc README.rst
+%doc README.md
 %license LICENSE
 %{python3_sitearch}/%{pypi_name}.py
 %{python3_sitearch}/_%{pypi_name}.cpython*
@@ -86,9 +88,15 @@ rm -r %{buildroot}/%{_docdir}/%{pypi_name}/
 %{python3_sitearch}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %files docs
-%doc README.rst docs
+%doc README.md docs/_userdoc/html
 
 %changelog
+* Tue Sep 08 2020 Yatin Karel <ykarel@redhat.com> - 1.1.0-1
+- Update to 1.1.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.12-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.12-19
 - Rebuilt for Python 3.9
 

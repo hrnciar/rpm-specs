@@ -1,6 +1,6 @@
 Name:           dumpet
 Version:        2.1
-Release:        20%{?dist} 
+Release:        21%{?dist} 
 Summary:        A tool to dump and debug bootable CD images
 License:        GPLv2+
 URL:            https://fedorahosted.org/dumpet/
@@ -36,6 +36,9 @@ make DESTDIR=%{buildroot} install
 %{_bindir}/dumpet
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

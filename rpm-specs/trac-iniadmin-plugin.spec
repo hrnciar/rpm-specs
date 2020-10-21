@@ -4,7 +4,7 @@
 
 Name:           trac-iniadmin-plugin
 Version:        0.5.1
-Release:        1.%{svndate}svn%{svnrev}%{?dist}
+Release:        2.%{svndate}svn%{svnrev}%{?dist}
 Summary:        Expose all TracIni options using the Trac 0.11 config option API
 
 License:        BSD
@@ -50,6 +50,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-2.20190925svn17525
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Aaron D. Marasco <fedora-rpm-trac@marascos.net> - 0.5.1-1.20190925svn17525
 - Bump to upstream 0.5.1 (svn 17525)
 - Add build-time check for version numbering

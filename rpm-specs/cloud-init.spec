@@ -1,6 +1,6 @@
 Name:           cloud-init
 Version:        19.4
-Release:        4%{?dist}
+Release:        7%{?dist}
 Summary:        Cloud instance init scripts
 License:        ASL 2.0 or GPLv3
 URL:            http://launchpad.net/cloud-init
@@ -18,6 +18,15 @@ Patch2:         cloud-init-19.4-nm-controlled.patch
 # Keep old properties in /etc/sysconfig/network
 # https://bugzilla.redhat.com/show_bug.cgi?id=1558641
 Patch3:         cloud-init-19.4-no-override-default-network.patch
+
+# Backport for CVE-2020-8631 and CVE-2020-8632
+# https://bugzilla.redhat.com/show_bug.cgi?id=1798729
+# https://bugzilla.redhat.com/show_bug.cgi?id=1798732
+Patch4:         cloud-init-19.4-cc_set_password-increase-random-pwlength-from-9-to-2.patch
+Patch5:         cloud-init-19.4-utils-use-SystemRandom-when-generating-random-passwo.patch
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=1869757
+Patch6:         cloud-init-19.4-Scaleway-Fix-DatasourceScaleway-to-avoid-backtrace-1.patch
 
 BuildArch:      noarch
 
@@ -161,6 +170,15 @@ nosetests-%{python3_version} tests/unittests/
 
 
 %changelog
+* Mon Sep 07 2020 Eduardo Otubo <otubo@redhat.com> - 19.4-7
+- Fix execution fail with backtrace
+
+* Mon Sep 07 2020 Eduardo Otubo <otubo@redhat.com> - 19.4-6
+- Adding missing patches to spec file
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 19.4-4
 - Rebuilt for Python 3.9
 

@@ -5,7 +5,7 @@
 
 # https://github.com/cockroachdb/apd
 %global goipath         github.com/cockroachdb/apd
-Version:                2.0.1
+Version:                2.0.2
 
 %gometa
 
@@ -20,7 +20,7 @@ decimal module and GCC’s decimal extension.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Arbitrary-precision decimals for Go
 
 # Upstream license specification: Apache-2.0
@@ -49,6 +49,12 @@ BuildRequires:  golang(github.com/pkg/errors)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 06:26:17 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.0.2-1
+- Update to 2.0.2
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

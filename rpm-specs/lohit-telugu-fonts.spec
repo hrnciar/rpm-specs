@@ -4,7 +4,7 @@
 
 Name:           %{fontname}-fonts
 Version:        2.5.5
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Free Telugu font
 
 License:        OFL
@@ -53,6 +53,9 @@ install -Dm 0644 -p %{metainfo}.xml \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.5-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.5-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

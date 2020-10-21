@@ -10,7 +10,7 @@
 # we don't want -z defs linker flag
 %undefine _strict_symbol_defs_build
 
-%global upstream_version 2.1.0
+%global upstream_version 2.1.1
 #global upstream_prever  beta1
 #global upstream_lower   beta1
 
@@ -24,7 +24,7 @@
 Summary:       API for communicating with MessagePack serialization
 Name:          php-pecl-msgpack
 Version:       %{upstream_version}%{?upstream_lower:~%{upstream_lower}}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Source:        https://pecl.php.net/get/%{pecl_name}-%{upstream_version}%{?upstream_prever}.tgz
 License:       BSD
 URL:           https://pecl.php.net/package/msgpack
@@ -209,6 +209,12 @@ REPORT_EXIT_STATUS=0 \
 
 
 %changelog
+* Mon Aug 10 2020 Remi Collet <remi@remirepo.net> - 2.1.1-1
+- update to 2.1.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar  2 2020 Remi Collet <remi@remirepo.net> - 2.1.0-1
 - update to 2.1.0
 

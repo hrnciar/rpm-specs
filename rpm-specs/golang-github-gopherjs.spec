@@ -3,7 +3,7 @@
 
 # https://github.com/gopherjs/gopherjs
 %global goipath         github.com/gopherjs/gopherjs
-%global commit          ce3c9ade29deed38a85f259f40e823cc17213830
+%global commit          fce0ec30dd00773d3fa974351d04ce2737b5c4d9
 
 %gometa
 
@@ -17,15 +17,13 @@ which will still run in all browsers.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.11%{?dist}
+Release:        0.13%{?dist}
 Summary:        Compiler from Go to JavaScript for running Go code in a browser
 
 # Upstream license specification: BSD-2-Clause
 License:        BSD
 URL:            %{gourl}
 Source0:        %{gosource}
-# Target Go 1.14 Beta 1
-Patch0:         0001-Target-Go-1.14-Beta-1.patch
 
 BuildRequires:  golang(github.com/fsnotify/fsnotify)
 BuildRequires:  golang(github.com/kisielk/gotool)
@@ -47,7 +45,6 @@ BuildRequires:  golang(golang.org/x/tools/go/types/typeutil)
 
 %prep
 %goprep
-%patch0 -p1
 # Remove extra dependencies
 rm tests/misc_test.go build/build_test.go
 
@@ -72,6 +69,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 16:09:45 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.12.20200727gitfce0ec3
+- Bump to commit fce0ec30dd00773d3fa974351d04ce2737b5c4d9
+
 * Fri Jan 31 16:53:37 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.11.20200131gitce3c9ad
 - Bump to commit ce3c9ade29deed38a85f259f40e823cc17213830
 - Add patch for Golang 1.14

@@ -1,6 +1,6 @@
 Name:           perl-HTML-Prototype
 Version:        1.48
-Release:        30%{?dist}
+Release:        31%{?dist}
 Summary:        Generate HTML and Javascript for the Prototype library
 
 License:        GPL+ or Artistic
@@ -47,6 +47,9 @@ make test
 %{_mandir}/man3/*.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.48-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.48-30
 - Perl 5.32 rebuild
 

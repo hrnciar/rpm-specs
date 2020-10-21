@@ -4,7 +4,7 @@
 
 Name:           python-%{srcname}
 Version:        4.9.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Extensible application framework
 
 # Images have different licenses. For image license breakdown check
@@ -133,6 +133,9 @@ xvfb-run %{__python3} -m nose.core envisage
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.9.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.9.2-2
 - Rebuilt for Python 3.9
 

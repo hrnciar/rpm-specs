@@ -13,7 +13,7 @@
 
 Name:           php-horde-Horde-Stream
 Version:        1.6.3
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Horde stream handler
 
 License:        LGPLv2
@@ -100,6 +100,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.3-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

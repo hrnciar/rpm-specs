@@ -1,6 +1,6 @@
 Name:           perl-OpenOffice-UNO
 Version:        0.07
-Release:        32%{?dist}
+Release:        34%{?dist}
 Summary:        Interface to OpenOffice's UNO run-time
 License:        LGPLv2+ and SISSL
 URL:            https://metacpan.org/release/OpenOffice-UNO
@@ -77,6 +77,13 @@ make test
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.07-34
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.07-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.07-32
 - Perl 5.32 rebuild
 

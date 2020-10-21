@@ -19,7 +19,7 @@
 Summary:        Lockless user data cache
 Name:           php-pecl-%{pecl_name}
 Version:        2.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 License:        PHP
 URL:            https://pecl.php.net/package/%{pecl_name}
@@ -200,6 +200,9 @@ REPORT_EXIT_STATUS=1 \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 15 2020 Remi Collet <remi@remirepo.net> - 2.2.1-1
 - update to 2.2.1
 

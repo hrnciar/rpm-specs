@@ -1,6 +1,6 @@
 Name: rp-pppoe
 Version: 3.14
-Release: 1%{?dist}
+Release: 3%{?dist}
 Summary: A PPP over Ethernet client (for xDSL support).
 License: GPLv2+
 Url: http://www.roaringpenguin.com/pppoe/
@@ -99,6 +99,13 @@ rm -rf %{buildroot}/etc/ppp/pppoe.conf \
 %{_mandir}/man?/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.14-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Than Ngo <than@redhat.com> - 3.14-1
 - update to 3.14
 

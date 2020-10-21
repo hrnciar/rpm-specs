@@ -2,20 +2,20 @@
 %{!?_pkgdocdir:%global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
 # CMake-builds go out-of-tree.
-%global _cmake_build_subdir build-%{_target_platform}
+%undefine __cmake_in_source_build
 
 
 Name:		libyui-qt-graph
-Version:	2.44.6
-Release:	7%{?dist}
+Version:	2.45.5
+Release:	1%{?dist}
 Summary:	Qt Graph Widget for libyui
 
 License:	LGPLv2 or LGPLv3
 URL:		https://github.com/libyui/%{name}
-Source0:	%{url}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source0:	%{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:	boost-devel
-BuildRequires:	cmake
+BuildRequires:	cmake3
 BuildRequires:	graphviz-devel
 BuildRequires:	libyui-devel
 BuildRequires:	libyui-qt-devel
@@ -64,43 +64,39 @@ for %{name}.
 
 
 %build
-%{__mkdir} -p %{_cmake_build_subdir}
-pushd %{_cmake_build_subdir}
-%cmake							\
+%cmake3							\
 	-DENABLE_WERROR=OFF				\
 	-DYPREFIX=%{_prefix}				\
 	-DLIB_DIR=%{_libdir}				\
 	-DCMAKE_BUILD_TYPE=RELEASE			\
 	-DRESPECT_FLAGS=ON				\
-	-DSKIP_LATEX=ON					\
-	..
+	-DSKIP_LATEX=ON
 
-%make_build
-%make_build docs
-popd
-
+%cmake3_build
+%cmake3_build --target docs
 
 %install
-pushd %{_cmake_build_subdir}
 %{__mkdir} -p	%{buildroot}%{_libdir}/yui		\
 		%{buildroot}%{_datadir}/%{name}/theme
 
-%make_install
+%cmake3_install
+
+# Move doc
+%{__mv} %{_vpath_builddir}/doc/ .
 
 # Delete obsolete files.
 %{__rm} -rf	%{buildroot}%{_defaultdocdir}		\
-		../examples/{CMake*,.gitignore}		\
+		./examples/{CMake*,.gitignore}		\
 		doc/html/*.m*
 
 # Install documentation.
 %{__mkdir} -p	%{buildroot}%{?_pkgdocdir}
-%{__cp} -a	../package/%{name}.changes doc/html/	\
-		../examples/				\
+%{__cp} -a	./package/%{name}.changes doc/html/	\
+		./examples/				\
 		%{buildroot}%{?_pkgdocdir}
 
 # Hard-link documentation.
 %{_bindir}/hardlink -cv %{buildroot}%{?_pkgdocdir}/html
-popd
 
 
 %files
@@ -125,6 +121,17 @@ popd
 
 
 %changelog
+* Thu Aug 06 2020 Leigh Scott <leigh123linux@gmail.com> - 2.45.5-1
+- Update to 2.45.5
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.44.6-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.44.6-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.44.6-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

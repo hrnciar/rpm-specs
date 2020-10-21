@@ -1,19 +1,23 @@
 %global forgeurl https://github.com/pwr/Solaar
-%global commit 563ef0d8ef45d6d7244a068a745a1788bfcf6a8a
-%global date 20200322
-#%%global tag 1.0.2
+#%%global commit e763aeadb4b89b3436c167bcd8c59fa22c92b47a
+#%%global date 20200802
+#%%global distprefix .rc3
+%global tag 1.0.3
 
 Name:           solaar
-Version:        1.0.2
-Release:        0.3.rc1%{?dist}
+Version:        1.0.3
+Release:        1%{?dist}
 Summary:        Device manager for a wide range of Logitech devices
 %forgemeta
 URL:            %forgeurl
 Source:         %forgesource
 
+Patch0:         solaar-paths.patch
 # Fedora-specific patch; remove udev-acl tag from upsteam udev rules as it only
 # applies to some old version of ubuntu.
 Patch1:         patch-udev-rules
+# https://github.com/pwr-Solaar/Solaar/issues/905
+Patch10:        https://github.com/pwr-Solaar/Solaar/commit/83fbc5af61667937e24584ed3273d2a991e77556.patch
 
 BuildArch:      noarch
 License:        GPLv2
@@ -72,9 +76,6 @@ rm docs/.gitignore
 
 install -pm755 tools/hidconsole %{buildroot}%{_bindir}
 
-# This just spews a warning; there is no real reason to install it.
-rm %buildroot/%_bindir/solaar-cli
-
 # Remove pointless shebangs
 sed -i -e '1d' %buildroot/%python3_sitelib/solaar/{gtk,tasks}.py
 
@@ -83,8 +84,7 @@ sed -i -e '1s,^#!.*$,#!/usr/bin/python3,' %buildroot/%_bindir/hidconsole
 
 desktop-file-validate %buildroot/%_datadir/applications/solaar.desktop
 
-install -pm644 -D -t %{buildroot}%{_udevrulesdir} rules.d/42-logitech-unify-permissions.rules
-
+desktop-file-validate %{buildroot}%{_sysconfdir}/xdg/autostart/solaar.desktop
 
 %posttrans udev
 # This is needed to apply permissions to existing devices when the package is
@@ -120,6 +120,17 @@ fi
 
 
 %changelog
+* Sun Aug 16 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.0.3-1
+- update to 1.0.3 release (#1860667)
+- backport patch to fix exception with missing locale (#1811313)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 02 2020 Dominik Mierzejewski <rpm@greysector.net> - 1.0.2-1
+- update to 1.0.2 release
+- fix install path for udev rules in setup.py
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.2-0.3.rc1
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name: libcss
 Version: 0.9.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: A CSS parser and selection engine
 
 License: MIT
@@ -62,6 +62,9 @@ make %{?_smp_mflags} test %{make_vars} %{build_vars}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 David Tardon <dtardon@redhat.com> - 0.9.1-1
 - new upstream release
 

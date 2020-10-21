@@ -1,6 +1,6 @@
 Name:           perl-Fedora-VSP
 Version:        0.001
-Release:        18%{?dist}
+Release:        20%{?dist}
 Summary:        Perl version normalization for RPM
 License:        GPLv3+
 URL:            https://ppisar.fedorapeople.org/Fedora-VSP/
@@ -9,7 +9,9 @@ BuildArch:      noarch
 BuildRequires:  findutils
 BuildRequires:  make
 BuildRequires:  perl-interpreter
-%if !%{defined perl_bootstrap}
+%if %{defined perl_bootstrap}
+BuildRequires:  perl-macros
+%else
 # Break build cycle: perl-Fedora-VSP → perl-generators → perl-Fedora-VSP
 BuildRequires:  perl-generators
 %endif
@@ -53,6 +55,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.001-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.001-19
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.001-18
 - Perl 5.32 rebuild
 

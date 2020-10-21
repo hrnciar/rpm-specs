@@ -1,7 +1,7 @@
 Summary: Utility to display new messages of a logfile since last run
 Name: fetchlog
 Version: 1.4
-Release: 17%{?dist}
+Release: 18%{?dist}
 License: GPLv2+
 Url: http://sourceforge.net/projects/fetchlog
 Source: http://dl.sf.net/sourceforge/fetchlog/fetchlog-%{version}.tar.gz
@@ -48,6 +48,9 @@ make testall
 %{_mandir}/*/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

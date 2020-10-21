@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.5.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Exclude specific directories from nosetests runs
 
 License:        LGPLv2
@@ -46,6 +46,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/__pycache__/nose_exclude*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5.0-9
 - Rebuilt for Python 3.9
 

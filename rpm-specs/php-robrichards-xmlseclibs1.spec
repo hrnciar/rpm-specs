@@ -27,7 +27,7 @@
 
 Name:          php-%{composer_vendor}-%{composer_project}1
 Version:       %{github_version}
-Release:       1%{?github_release}%{?dist}
+Release:       2%{?github_release}%{?dist}
 Summary:       A PHP library for XML Security (version 1)
 
 License:       BSD
@@ -128,6 +128,9 @@ done
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 05 2020 Shawn Iwinski <shawn@iwin.ski> - 1.4.3-1
 - Update to 1.4.3 (RHBZ #1771533, CVE-2019-3465)
 - https://nvd.nist.gov/vuln/detail/CVE-2019-3465

@@ -1,16 +1,8 @@
 %bcond_without check
 
-%if 0%{?fedora} >= 30
-# NOTE: Since pythonz-bd dependency is not available in Fedora 30+, the Python
-# version management functionality must be removed.
-%bcond_with py_ver_management
-%else
-%bcond_without py_ver_management
-%endif
-
 Name: pew
 Version: 1.2.0
-Release: 6%{?dist}
+Release: 9%{?dist}
 Summary: Tool to manage multiple virtualenvs written in pure Python
 
 License: MIT
@@ -33,27 +25,12 @@ BuildRequires: python3-devel
 BuildRequires: python3dist(setuptools)
 BuildRequires: python3dist(virtualenv) >= 1.11
 BuildRequires: python3dist(virtualenv-clone) >= 0.2.5
-%if %{with py_ver_management}
-BuildRequires: python3dist(pythonz-bd) >= 1.10.2
-%endif
 # Required for %%autosetup.
 BuildRequires:  git-core
 
 %if %{with check}
 BuildRequires: python3dist(pytest)
 BuildRequires: python3dist(pip)
-%endif
-
-# NOTE: The automatic Python dependency generator is enabled by default in
-# Fedora 30+.
-%if 0%{?fedora} == 29
-%{?python_enable_dependency_generator}
-%endif
-
-%if %{with py_ver_management}
-# NOTE: The pythonz-bd dependency is not included by automatic dependency
-# generator because it is defined as the pythonz extra requirement in setup.py.
-Requires: python3dist(pythonz-bd) >= 1.10.2
 %endif
 
 %{?python_provide:%python_provide python3-%{name}}
@@ -106,6 +83,17 @@ py.test-3 -v tests
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Tadej Janež <tadej.j@nez.si> - 1.2.0-7
+- Replace Python version glob with macro to support Python 3.10
+- Drop conditionals for EOL Fedora releases
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.0-6
 - Rebuilt for Python 3.9
 

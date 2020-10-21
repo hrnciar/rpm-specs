@@ -2,7 +2,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 1.1.2
-Release: 7%{?dist}
+Release: 8%{?dist}
 Summary: A Ruby client for Apache Solr
 License: ASL 2.0
 URL: https://github.com/rsolr/rsolr
@@ -70,6 +70,9 @@ popd
 %{gem_instdir}/tasks
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.2-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 

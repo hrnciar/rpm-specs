@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 %global framework kdeclarative
 
 # uncomment to enable bootstrap mode
@@ -8,7 +9,7 @@
 %endif
 
 Name:    kf5-%{framework}
-Version: 5.71.0
+Version: 5.75.0
 Release: 1%{?dist}
 Summary: KDE Frameworks 5 Tier 3 addon for Qt declarative
 
@@ -36,6 +37,7 @@ BuildRequires:  kf5-kguiaddons-devel >= %{majmin}
 BuildRequires:  kf5-ki18n-devel >= %{majmin}
 BuildRequires:  kf5-kiconthemes-devel >= %{majmin}
 BuildRequires:  kf5-kio-devel >= %{majmin}
+BuildRequires:  kf5-knotifications-devel >= %{majmin}
 BuildRequires:  kf5-kpackage-devel >= %{majmin}
 BuildRequires:  kf5-kwidgetsaddons-devel >= %{majmin}
 BuildRequires:  kf5-kwindowsystem-devel >= %{majmin}
@@ -73,17 +75,13 @@ developing applications that use %{name}.
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%{cmake_kf5} \
   -DBUILD_TESTING:BOOL=%{?tests:ON}%{!?tests:OFF}
-popd
-
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name
 
@@ -102,7 +100,7 @@ make test ARGS="--output-on-failure --timeout 10 --verbose" -C %{_target_platfor
 
 %files -f %{name}.lang
 %doc README.md
-%license COPYING*
+%license LICENSES/*.txt
 %{_kf5_bindir}/kpackagelauncherqml
 %{_kf5_libdir}/libKF5Declarative.so.*
 %{_kf5_libdir}/libKF5QuickAddons.so.*
@@ -132,6 +130,24 @@ make test ARGS="--output-on-failure --timeout 10 --verbose" -C %{_target_platfor
 
 
 %changelog
+* Wed Oct 14 09:50:44 CDT 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.75.0-1
+- 5.75.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.74.0-1
+- 5.74.0
+
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 5.73.0-2
+- rebuild (qt5)
+
+* Mon Aug 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.73.0-1
+- 5.73.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.72.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.72.0-1
+- 5.72.0
+
 * Tue Jun 16 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.71.0-1
 - 5.71.0
 

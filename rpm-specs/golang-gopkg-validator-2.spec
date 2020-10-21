@@ -5,7 +5,7 @@
 %global goipath         gopkg.in/validator.v2
 %global forgeurl        https://github.com/go-validator/validator
 Version:                2.0.0
-%global commit          135c24b11c19e52befcae2ec3fca5d9b78c4e98e
+%global commit          2b28d334fa054977b7c725c7639a1ca4efc18bad
 
 %gometa
 
@@ -16,7 +16,7 @@ Package Validator implements value validations based on struct tags.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Struct field validations
 
 # Upstream license specification: Apache-2.0
@@ -43,6 +43,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Wed Aug 05 22:21:36 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.0.0-5.20200805git2b28d33
+- Bump to commit 2b28d334fa054977b7c725c7639a1ca4efc18bad
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

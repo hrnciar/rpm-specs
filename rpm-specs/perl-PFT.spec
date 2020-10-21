@@ -1,7 +1,7 @@
 %global module PFT
 Name:           perl-%{module}
 Version:        1.4.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Hacker friendly static blog generator, core library
 
 License:        GPLv3+
@@ -84,6 +84,9 @@ LC_ALL=C.UTF-8 make test
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.4.1-3
 - Perl 5.32 rebuild
 

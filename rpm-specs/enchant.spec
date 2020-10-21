@@ -1,7 +1,7 @@
 Summary: An Enchanting Spell Checking Library
 Name: enchant
 Version: 1.6.0
-Release: 25%{?dist}
+Release: 26%{?dist}
 Epoch: 1
 License: LGPLv2+
 Source: http://www.abisource.com/downloads/enchant/%{version}/enchant-%{version}.tar.gz
@@ -75,6 +75,9 @@ rm -f $RPM_BUILD_ROOT/%{_libdir}/enchant/*.la
 %ldconfig_scriptlets
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.6.0-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.6.0-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

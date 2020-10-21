@@ -1,8 +1,8 @@
-%global gitdate   20200527
-%global gitversion 7325acb477
+%global gitdate   20200731
+%global gitversion 1d392d466a
 
 Name:           libtpms
-Version:        0.7.2
+Version:        0.7.3
 Release:        0.%{gitdate}git%{gitversion}%{?dist}
 
 Summary: Library providing Trusted Platform Module (TPM) functionality
@@ -54,6 +54,12 @@ find %{buildroot} -type f -name '*.la' | xargs rm -f -- || :
 %{_mandir}/man3/*
 
 %changelog
+* Fri Jul 31 2020 Stefan Berger <stefanb@linux.ibm.com> - 0.7.3-0.20200731git1d392d466a
+- Follow stable-0.7.0 branch to v0.7.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-0.20200527git7325acb477.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 27 2020 Stefan Berger <stefanb@linux.ibm.com> - 0.7.2-0.20200527git7325acb477
 - Following stable-0.7.0 branch for TPM 2 related fixes: RSA decryption,
   PSS salt length, symmetric decryption (padding)

@@ -1,6 +1,6 @@
 Name: prettyping
 Version: 1.0.1
-Release: 5%{?dist}
+Release: 6%{?dist}
 Summary: Compact, colorful ping tool for your terminal
 License: MIT
 
@@ -42,6 +42,9 @@ install -m 755 ./%{name}  %{buildroot}%{_bindir}/%{name}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

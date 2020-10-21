@@ -21,8 +21,8 @@
 
 Summary:	Rake-based Ruby C Extension task generator
 Name:		rubygem-%{gemname}
-Version:	1.1.0
-Release:	2%{?dist}
+Version:	1.1.1
+Release:	1%{?dist}
 License:	MIT
 URL:		http://rake-compiler.rubyforge.org/
 Source0:	https://rubygems.org/gems/%{gemname}-%{version}.gem
@@ -76,6 +76,10 @@ find ./lib/rake -name \*.rb | xargs sed -i -e '\@/usr/bin/env@d'
 # Permission
 find . -name \*.rb -print0 | xargs --null chmod 0644
 
+# Don't strip binary for default. Also kill unneeded "-pipe" from LDFLAGS
+sed -i tasks/bin/cross-ruby.rake \
+	-e '\@LDFLAGS=@d'
+
 gem specification -l --ruby %{SOURCE0} > %{gem_name}.gemspec
 gem build %{gem_name}.gemspec
 mv %{gem_name}-%{version}.gem $TOPDIR
@@ -123,6 +127,13 @@ popd
 
 
 %changelog
+* Sun Aug 9 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.1.1-1
+- 1.1.1
+- Don't strip binary for default, and kill unneeded "-pipe" from LDFLAGS
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

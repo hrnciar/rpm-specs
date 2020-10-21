@@ -20,7 +20,6 @@
 %bcond_without lzma
 %bcond_without bzip2
 %bcond_without zstd
-%bcond_with kronosnetd
 %bcond_without libnozzle
 %bcond_with runautogen
 %bcond_with rpmdebuginfo
@@ -37,7 +36,7 @@
 
 Name: kronosnet
 Summary: Multipoint-to-Multipoint VPN daemon
-Version: 1.16
+Version: 1.20
 Release: 1%{?dist}
 License: GPLv2+ and LGPLv2+
 URL: https://kronosnet.org
@@ -47,7 +46,7 @@ Source0: https://kronosnet.org/releases/%{name}-%{version}.tar.xz
 BuildRequires: gcc libqb-devel
 # required to build man pages
 %if %{with buildman}
-BuildRequires: libxml2-devel doxygen
+BuildRequires: libxml2-devel doxygen doxygen2man
 %endif
 %if %{with sctp}
 BuildRequires: lksctp-tools-devel
@@ -75,9 +74,6 @@ BuildRequires: bzip2-devel
 %endif
 %if %{with zstd}
 BuildRequires: libzstd-devel
-%endif
-%if %{with kronosnetd}
-BuildRequires: pam-devel
 %endif
 %if %{with libnozzle}
 BuildRequires: libnl3-devel
@@ -150,11 +146,6 @@ BuildRequires: autoconf automake libtool
 %else
 	--disable-compress-zstd \
 %endif
-%if %{with kronosnetd}
-	--enable-kronosnetd \
-%else
-	--disable-kronosnetd \
-%endif
 %if %{with libnozzle}
 	--enable-libnozzle \
 %else
@@ -184,48 +175,6 @@ rm -rf %{buildroot}/usr/share/doc/kronosnet
 # main empty package
 %description
  The kronosnet source
-
-%if %{with kronosnetd}
-## Runtime and subpackages section
-%package -n kronosnetd
-Summary: Multipoint-to-Multipoint VPN daemon
-License: GPLv2+
-Requires(post):   systemd-sysv
-Requires(post):   systemd-units
-Requires(preun):  systemd-units
-Requires(postun): systemd-units
-Requires(post):   shadow-utils
-Requires(preun):  shadow-utils
-Requires: pam, /etc/pam.d/passwd
-
-%description -n kronosnetd
- The kronosnet daemon is a bridge between kronosnet switching engine
- and kernel network tap devices, to create and administer a
- distributed LAN over multipoint-to-multipoint VPNs.
- The daemon does a poor attempt to provide a configure UI similar
- to other known network devices/tools (Cisco, quagga).
- Beside looking horrific, it allows runtime changes and
- reconfiguration of the kronosnet(s) without daemon reload
- or service disruption.
-
-%post -n kronosnetd
-%systemd_post kronosnetd.service
-getent group kronosnetadm >/dev/null || groupadd --force --system kronosnetadm
-
-%preun -n kronosnetd
-%systemd_preun kronosnetd.service
-
-%files -n kronosnetd
-%license COPYING.* COPYRIGHT
-%dir %{_sysconfdir}/kronosnet
-%dir %{_sysconfdir}/kronosnet/*
-%config(noreplace) %{_sysconfdir}/sysconfig/kronosnetd
-%config(noreplace) %{_sysconfdir}/pam.d/kronosnetd
-%config(noreplace) %{_sysconfdir}/logrotate.d/kronosnetd
-%{_unitdir}/kronosnetd.service
-%{_sbindir}/*
-%{_mandir}/man8/*
-%endif
 
 %if %{with libnozzle}
 %package -n libnozzle1
@@ -486,6 +435,33 @@ Requires: libknet1%{_isa} = %{version}-%{release}
 %endif
 
 %changelog
+* Mon Oct 19 2020 Fabio M. Di Nitto <fdinitto@redhat.com> - 1.20-1
+- New upstream release
+- Fix TX/RX stats collections
+- Minor test suite improvements
+- Minor build fixes
+
+* Mon Aug 17 2020 Fabio M. Di Nitto <fdinitto@redhat.com> - 1.19-1
+- New upstream release
+- Add native support for openssl 3.0 (drop API COMPAT macros).
+- Code cleanup of public APIs. Lots of lines of code moved around, no
+  functional changes.
+- Removed kronosnetd unsupported code completely
+- Removed unused poc-code from the source tree
+- Make sure to initialize epoll events structures
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Fabio M. Di Nitto <fdinitto@redhat.com> - 1.18-1
+- New upstream release
+- Add ability to change crypto configuration at runtime without
+  restarting knet and without packet drop
+- Add compatibility support for openssl 3.0
+- Add functional testing framework and new test cases
+- Minor build fixes
+- Fix BuildRequires to use libqb doxygen2man vs internal copy
+
 * Thu Apr 23 2020 Fabio M. Di Nitto <fdinitto@redhat.com> - 1.16-1
 - New upstream release
 - Fix major issues with SCTP transport

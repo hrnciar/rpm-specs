@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.16.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Review tool for the insta snapshot testing library for Rust
 
 # Upstream license specification: Apache-2.0
@@ -62,5 +62,8 @@ License:        MIT and ASL 2.0
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 23:56:08 EEST 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.16.0-1
 - Initial package

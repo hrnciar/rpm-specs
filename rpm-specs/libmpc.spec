@@ -5,7 +5,7 @@
 Summary: C library for multiple precision complex arithmetic
 Name: libmpc
 Version: 1.1.0
-Release: 8%{?dist}
+Release: 9%{?dist}
 License: LGPLv3+
 URL: http://www.multiprecision.org/mpc/
 Source0: https://ftp.gnu.org/gnu/mpc/mpc-%{version}.tar.gz
@@ -126,6 +126,9 @@ make check
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

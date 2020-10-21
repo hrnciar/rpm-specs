@@ -7,7 +7,7 @@
 
 Name:           python-%{srcname}
 Version:        1.5.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Python interface to the pkg-config command line tool
 
 License:        MIT
@@ -108,6 +108,9 @@ sed -i -e s/distutils.core/setuptools/ setup.py
 %{python3_sitelib}/%{srcname}/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5.1-7
 - Rebuilt for Python 3.9
 

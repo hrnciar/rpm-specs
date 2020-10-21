@@ -1,8 +1,8 @@
 %global pypi_name django-filter
 
 Name:           python-%{pypi_name}
-Version:        2.2.0
-Release:        5%{?dist}
+Version:        2.3.0
+Release:        1%{?dist}
 Summary:        A Django application for allowing users to filter queryset dynamically
 
 License:        BSD
@@ -69,6 +69,12 @@ rm -rf html/.{doctrees,buildinfo}
 %license LICENSE
 
 %changelog
+* Sat Aug 08 2020 Luis Bazan <lbazan@fedoraproject.org> - 2.3.0-1
+- New upstream version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.2.0-5
 - Rebuilt for Python 3.9
 

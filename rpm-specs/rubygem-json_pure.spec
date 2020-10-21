@@ -3,7 +3,7 @@
 Summary: JSON Implementation for Ruby
 Name: rubygem-%{gem_name}
 Version: 1.8.1
-Release: 12%{?dist}
+Release: 13%{?dist}
 # TODO: License should be probably updated.
 # https://github.com/flori/json/issues/213
 License: GPLv2 or Ruby
@@ -82,6 +82,9 @@ popd
 %{gem_instdir}/json*.gemspec
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Apr 14 2020 Vít Ondruch <vondruch@redhat.com> - 1.8.1-12
 - Avoid unexpected JRuby dependency.
 

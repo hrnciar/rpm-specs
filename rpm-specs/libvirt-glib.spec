@@ -15,7 +15,7 @@
 
 Name: libvirt-glib
 Version: 3.0.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: libvirt glib integration for events
 License: LGPLv2+
 URL: http://libvirt.org/
@@ -190,6 +190,9 @@ fi
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

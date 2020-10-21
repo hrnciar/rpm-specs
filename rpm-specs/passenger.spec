@@ -29,7 +29,7 @@
 Summary: Phusion Passenger application server
 Name: passenger
 Version: 6.0.4
-Release: 2%{?dist}
+Release: 3%{?dist}
 # Passenger code uses MIT license.
 # Bundled(Boost) uses Boost Software License
 # BCrypt and Blowfish files use BSD license.
@@ -244,6 +244,9 @@ sed -i 's|^#!/usr/bin/env python$|#!/usr/bin/python3|' %{buildroot}%{_datadir}/p
 %{_httpd_moddir}/mod_passenger.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Björn Esser <besser82@fedoraproject.org> - 6.0.4-2
 - Rebuild (jsoncpp)
 

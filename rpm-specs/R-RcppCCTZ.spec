@@ -1,10 +1,10 @@
 %global packname RcppCCTZ
-%global packver  0.2.7
+%global packver  0.2.9
 %global rlibdir  %{_libdir}/R/library
 
 Name:             R-%{packname}
-Version:          %{packver}
-Release:          2%{?dist}
+Version:          0.2.9
+Release:          1%{?dist}
 Summary:          'Rcpp' Bindings for the 'CCTZ' Library
 
 License:          GPLv2+
@@ -28,6 +28,15 @@ BuildRequires:    cctz-devel
 'Rcpp' Access to the 'CCTZ' timezone library is provided. 'CCTZ' is a C++
 library for translating between absolute and civil times using the rules of a
 time zone.
+
+
+%package devel
+Summary:          Development files for %{name}
+Requires:         %{name}%{?_isa} = %{version}-%{release}
+Requires:         cctz-devel
+
+%description devel
+Development files for %{name}.
 
 
 %prep
@@ -67,13 +76,28 @@ rm -f %{buildroot}%{rlibdir}/R.css
 %{rlibdir}/%{packname}/Meta
 %{rlibdir}/%{packname}/R
 %{rlibdir}/%{packname}/help
-%{rlibdir}/%{packname}/include
 %{rlibdir}/%{packname}/tinytest
 %dir %{rlibdir}/%{packname}/libs
 %{rlibdir}/%{packname}/libs/%{packname}.so
 
+%files devel
+%{rlibdir}/%{packname}/include
+
 
 %changelog
+* Sun Aug 30 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.2.9-1
+- Update to latest version (#1873902)
+
+* Fri Aug 14 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.2.8-2
+- Add proper devel subpackage
+
+* Tue Aug 04 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.2.8-1
+- Update to latest version
+- rhbz#1866140
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 0.2.7-2
 - rebuild for R 4
 

@@ -1,6 +1,6 @@
 Name:           espresso-ab
 Version:        1.0
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        A boolean minimization tool
 
 License:        BSD
@@ -33,6 +33,9 @@ representation. It is a boolean logic minimization tool.
 %{_bindir}/espresso
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

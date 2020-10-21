@@ -4,7 +4,7 @@
 Summary: Daredevil SKK - Simple Kana to Kanji conversion program for Emacs
 Name: emacs-common-ddskk
 Version: 16.2
-Release: 7%{?dist}
+Release: 8%{?dist}
 License: GPLv2+
 URL: http://openlab.ring.gr.jp/skk/main.html
 Source0: http://openlab.ring.gr.jp/skk/maintrunk/ddskk-%{version}.tar.gz
@@ -129,6 +129,9 @@ rm -f %{buildroot}%{_infodir}/dir
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16.2-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

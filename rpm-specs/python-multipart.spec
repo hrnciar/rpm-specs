@@ -23,7 +23,7 @@ python-multipart is an Apache2 licensed streaming multipart parser for Python.
 
 Name:           python-%{pkgname}
 Version:        0.0.5
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        A streaming multipart parser for Python
 License:        ASL 2.0
 URL:            https://github.com/andrew-d/python-multipart
@@ -144,6 +144,9 @@ rm -rf %{eggname}.egg-info
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.5-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.0.5-8
 - Rebuilt for Python 3.9
 

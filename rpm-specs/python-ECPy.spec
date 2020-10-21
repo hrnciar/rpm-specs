@@ -6,7 +6,7 @@ operations.
 
 Name:     python-%{srcname}
 Version:  0.10.0
-Release:  7%{?dist}
+Release:  8%{?dist}
 Summary:  Python Elliptic Curve Library
 
 License:  ASL 2.0
@@ -60,6 +60,9 @@ rm -f doc/build/singlehtml/{.buildinfo,.nojekyll}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.10.0-7
 - Rebuilt for Python 3.9
 

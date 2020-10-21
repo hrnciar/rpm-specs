@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 
 # do not use webkit on rhel
 %if 0%{?fedora} || 0%{?epel}
@@ -10,8 +11,8 @@
 Name:    k3b
 Summary: CD/DVD/Blu-ray burning application
 Epoch:   1
-Version: 20.04.2
-Release: 1%{?dist}
+Version: 20.08.1
+Release: 2%{?dist}
 
 License: GPLv2+
 URL:     http://www.k3b.org/
@@ -116,20 +117,15 @@ Requires: %{name}-libs%{?_isa} = %{epoch}:%{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-
-%{cmake_kf5} .. \
+%{cmake_kf5} \
   -DK3B_BUILD_FFMPEG_DECODER_PLUGIN:BOOL=OFF \
   -DK3B_BUILD_LAME_ENCODER_PLUGIN:BOOL=ON \
   -DK3B_BUILD_MAD_DECODER_PLUGIN:BOOL=ON
-popd
-
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -176,6 +172,21 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.k3b.deskt
 
 
 %changelog
+* Sat Oct 17 2020 Dominik Mierzejewski <rpm@greysector.net> - 1:20.08.1-2
+- rebuild for libdvdread-6.1 ABI bump
+
+* Tue Sep 15 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:20.08.1-1
+- 20.08.1
+
+* Tue Aug 18 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:20.08.0-1
+- 20.08.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:20.04.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:20.04.3-1
+- 20.04.3
+
 * Fri Jun 12 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:20.04.2-1
 - 20.04.2
 

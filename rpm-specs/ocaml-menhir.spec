@@ -2,11 +2,11 @@
 %global debug_package %{nil}
 %endif
 
-%bcond_without coq
+%bcond_with coq
 
 Name:           ocaml-menhir
-Version:        20200612
-Release:        1%{?dist}
+Version:        20200624
+Release:        3%{?dist}
 Summary:        LR(1) parser generator for OCaml
 
 # The generator is GPLv2
@@ -162,6 +162,22 @@ find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod a+x {} \+
 %endif
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 20200624-3
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 20200624-2
+- OCaml 4.11.0 rebuild
+
+* Thu Aug  6 2020 Jerry James <loganjerry@gmail.com> - 20200624-1
+- Version 20200624
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200612-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200612-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Jerry James <loganjerry@gmail.com> - 20200612-1
 - Version 20200612
 

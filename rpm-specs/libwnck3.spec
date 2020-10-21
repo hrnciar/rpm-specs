@@ -3,7 +3,7 @@
 Summary: Window Navigator Construction Kit
 Name: libwnck3
 Version: 3.36.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 URL: http://download.gnome.org/sources/%{source_name}/
 Source0: http://download.gnome.org/sources/%{source_name}/3.36/%{source_name}-%{version}.tar.xz
 License: LGPLv2+
@@ -70,6 +70,9 @@ developing applications that use %{name}.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 28 2020 Wolfgang Ulbrich <fedora@raveit.de> - 3.36.0-1
 - update to 3.36.0
 

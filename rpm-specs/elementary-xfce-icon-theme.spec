@@ -1,6 +1,6 @@
 Name:           elementary-xfce-icon-theme
-Version:        0.15
-Release:        2%{?dist}
+Version:        0.15.1
+Release:        3%{?dist}
 Summary:        Icons for Xfce based on the elementary Project Icon Theme
  
 
@@ -25,12 +25,11 @@ and integrate them occasionally.
 
 %prep
 %setup -c -q %{name}/
-mkdir -p doc/elementary-xfce{,-dark,-darker}
+mkdir -p doc/elementary-xfce{,-dark}
 # fix for the wrong naming inside the tar.gz
 mv elementary-xfce-%{version}/{README.md,LICENSE,CONTRIBUTORS,AUTHORS} doc/elementary-xfce/
 # Create symbolic links for each theme variant
 ln -s ../elementary-xfce/{README.md,LICENSE,CONTRIBUTORS,AUTHORS} doc/elementary-xfce-dark/
-ln -s ../elementary-xfce/{README.md,LICENSE,CONTRIBUTORS,AUTHORS} doc/elementary-xfce-darker/
 
 %build
 
@@ -39,68 +38,59 @@ ln -s ../elementary-xfce/{README.md,LICENSE,CONTRIBUTORS,AUTHORS} doc/elementary
 mkdir -p  %{buildroot}%{_datadir}/icons
 cp -a elementary-xfce-%version/elementary-xfce/  %{buildroot}%{_datadir}/icons
 cp -a elementary-xfce-%version/elementary-xfce-dark/  %{buildroot}%{_datadir}/icons
-cp -a elementary-xfce-%version/elementary-xfce-darker/  %{buildroot}%{_datadir}/icons
+
 chmod 0644  %{buildroot}%{_datadir}/icons/elementary-xfce/index.theme
 chmod 0644  %{buildroot}%{_datadir}/icons/elementary-xfce-dark/index.theme
-chmod 0644  %{buildroot}%{_datadir}/icons/elementary-xfce-darker/index.theme
 
-#additional steps to prevent the conflicting file problem
-mv  %{buildroot}%{_datadir}/icons/elementary-xfce-darker/actions/16 \
-    %{buildroot}%{_datadir}/icons/elementary-xfce-darker/actions/16_folder
-ln -s ../../elementary-xfce/actions/16 \
-       %{buildroot}%{_datadir}/icons/elementary-xfce-darker/actions/16
 
-cp %{buildroot}%{_datadir}/icons/elementary-xfce-darker/actions/16_folder/zoom-fit.svg \
-%{buildroot}%{_datadir}/icons/elementary-xfce-darker/actions/16/
-
-rm -rf  %{buildroot}%{_datadir}/icons/elementary-xfce-darker/actions/16_folder
-
-# Dark panel icons for all dark themes
-ln -s ../elementary-xfce-dark/panel \
-       %{buildroot}%{_datadir}/icons/elementary-xfce-darker/panel
-
-# Remove darkest theme
+# Remove darker and darkest theme
 rm -rf %{buildroot}%{_datadir}/icons/elementary-xfce-darkest/
+rm -rf %{buildroot}%{_datadir}/icons/elementary-xfce-darker
+
 # Remove broken links
 rm -rf %{buildroot}%{_datadir}/icons/elementary-xfce/{README.md,LICENSE,CONTRIBUTORS,AUTHORS}
 rm -rf %{buildroot}%{_datadir}/icons/elementary-xfce-dark/{README.md,LICENSE,CONTRIBUTORS,AUTHORS}
-rm -rf %{buildroot}%{_datadir}/icons/elementary-xfce-darker/{README.md,LICENSE,CONTRIBUTORS,AUTHORS}
 
 
 
 %post
 touch --no-create %{_datadir}/icons/elementary-xfce &>/dev/null ||:
 touch --no-create %{_datadir}/icons/elementary-xfce-dark &>/dev/null ||:
-touch --no-create %{_datadir}/icons/elementary-xfce-darker &>/dev/null ||:
+
 
 
 %postun
 if [ $1 -eq 0 ] ; then
          touch --no-create %{_datadir}/icons/elementary-xfce &>/dev/null
-         touch --no-create %{_datadir}/icons/elementary-xfce-dark &>/dev/null
-         touch --no-create %{_datadir}/icons/elementary-xfce-darker &>/dev/null
+         touch --no-create %{_datadir}/icons/elementary-xfce-dark &>/dev/null     
          gtk-update-icon-cache -q %{_datadir}/icons/elementary-xfce &>/dev/null
          gtk-update-icon-cache -q %{_datadir}/icons/elementary-xfce-dark
 &>/dev/null
-         gtk-update-icon-cache -q %{_datadir}/icons/elementary-xfce-darker
-&>/dev/null ||:
+
 fi
 
 %posttrans
          gtk-update-icon-cache -q %{_datadir}/icons/elementary-xfce &>/dev/null
          gtk-update-icon-cache -q %{_datadir}/icons/elementary-xfce-dark
 &>/dev/null
-         gtk-update-icon-cache -q %{_datadir}/icons/elementary-xfce-darker
-&>/dev/null ||:
+
 
 %files
 %{_datadir}/icons/elementary-xfce/
 %{_datadir}/icons/elementary-xfce-dark/
-%{_datadir}/icons/elementary-xfce-darker/
 %doc doc/*
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 05 2020 Johannes Lips <hannes@fedoraproject.org> - 0.15.1-2
+- removal of the darker theme - no benefit and lots of issues
+
+* Sun Jul 05 2020 Johannes Lips <hannes@fedoraproject.org> - 0.15.1-1
+- update to latest upstream version 0.15.1
+
 * Tue Apr 14 2020 Johannes Lips <hannes@fedoraproject.org> - 0.15-2
 - minor fixes
 

@@ -2,7 +2,7 @@
 
 Name:           OpenNL
 Version:        3.2.1
-Release:        23%{?dist}
+Release:        26%{?dist}
 Summary:        A library for solving sparse linear systems
 
 License:        BSD
@@ -53,20 +53,17 @@ This package contains the %{name} shared library that one can link against.
 %patch0 -p1
 
 %build
-mkdir -p build/linux-Release
-cd build/linux-Release
-%cmake -DCMAKE_BUILD_TYPE:STRING=Release ../../
-
-make %{?_smp_mflags}
+%cmake -DCMAKE_BUILD_TYPE:STRING=Release
+%cmake_build
 
 
 %install
 # Install library
 mkdir -p $RPM_BUILD_ROOT/%{_libdir}/
-install -p -m 0755  build/linux-Release/binaries/lib/libopennl.so.%{version} \
+install -p -m 0755  %{__cmake_builddir}/binaries/lib/libopennl.so.%{version} \
 $RPM_BUILD_ROOT/%{_libdir}/
 
-find  build/linux-Release/binaries/lib -type l -exec cp -a '{}' \
+find  %{__cmake_builddir}/binaries/lib -type l -exec cp -a '{}' \
 $RPM_BUILD_ROOT/%{_libdir}/ \;
 
 # Correct encoding
@@ -79,11 +76,10 @@ install -d $RPM_BUILD_ROOT/%{_includedir}/NL/
 cp -av src/NL/nl.h $RPM_BUILD_ROOT/%{_includedir}/
 find src/NL/ -name "*.h" ! -name "nl.h" -execdir cp -av '{}' $RPM_BUILD_ROOT/%{_includedir}/NL/ \;
 
-%ldconfig_scriptlets
-
 %files
 %doc doc/*
-%{_libdir}/%soname.*
+%{_libdir}/%soname.3.2.1
+%{_libdir}/%soname.3
 
 %files devel
 %doc examples
@@ -91,6 +87,16 @@ find src/NL/ -name "*.h" ! -name "nl.h" -execdir cp -av '{}' $RPM_BUILD_ROOT/%{_
 %{_includedir}/*
 
 %changelog
+* Wed Sep 30 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.2.1-26
+- Fix build
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-25
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

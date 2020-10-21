@@ -1,35 +1,55 @@
+# Perform optional tests
+%bcond_without perl_MooseX_Types_DateTime_enables_optional_test
+
 Name:       perl-MooseX-Types-DateTime
 Version:    0.13
-Release:    14%{?dist}
+Release:    17%{?dist}
 # see, e.g., lib/MooseX/Types/DateTime.pm
 License:    GPL+ or Artistic
 
 Summary:    DateTime related constraints and coercions for Moose
 Source:     https://cpan.metacpan.org/authors/id/E/ET/ETHER/MooseX-Types-DateTime-%{version}.tar.gz
 Url:        https://metacpan.org/release/MooseX-Types-DateTime
-Requires:   perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+Requires:   perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 BuildArch:  noarch
 
+BuildRequires: coreutils
+BuildRequires: findutils
+BuildRequires: make
 BuildRequires: perl-generators
-BuildRequires: perl(DateTime)
-BuildRequires: perl(DateTime::Duration)
-BuildRequires: perl(DateTime::Locale)
+BuildRequires: perl-interpreter
+BuildRequires: perl(:VERSION) >= 5.8.3
+BuildRequires: perl(Config)
+BuildRequires: perl(ExtUtils::MakeMaker) >= 6.76
+BuildRequires: perl(strict)
+BuildRequires: perl(warnings)
+# Run-time:
+BuildRequires: perl(DateTime) >= 0.43
+BuildRequires: perl(DateTime::Duration) >= 0.43
+BuildRequires: perl(DateTime::Locale) >= 0.40
 BuildRequires: perl(DateTime::TimeZone) >= 0.95
-BuildRequires: perl(Module::Build::Tiny)
+BuildRequires: perl(if)
 BuildRequires: perl(Moose) >= 0.41
 BuildRequires: perl(MooseX::Types) >= 0.30
 BuildRequires: perl(MooseX::Types::Moose) >= 0.30
-BuildRequires: perl(namespace::clean) >= 0.08
-BuildRequires: perl(Pod::Coverage)
+BuildRequires: perl(namespace::clean) >= 0.19
+BuildRequires: perl(namespace::autoclean)
+# Tests:
+BuildRequires: perl(File::Spec)
+BuildRequires: perl(Moose::Util::TypeConstraints)
+BuildRequires: perl(ok)
 BuildRequires: perl(Test::Fatal)
-BuildRequires: perl(Test::More)
-BuildRequires: perl(Test::Exception) >= 0.27
-BuildRequires: perl(Test::use::ok) >= 0.02
-
+BuildRequires: perl(Test::More) >= 0.88
+# Test::Warnings not used
+%if %{with perl_MooseX_Types_DateTime_enables_optional_test}
+# Optional tests:
+BuildRequires: perl(Locale::Maketext)
+%endif
 # Clamp version to decimal 2 digits
 Requires:   perl(DateTime) >= 0.43
 Requires:   perl(DateTime::Duration) >= 0.43
 Requires:   perl(DateTime::Locale) >= 0.40
+Requires:   perl(namespace::autoclean)
 
 %{?perl_default_filter}
 
@@ -44,19 +64,21 @@ and coercions designed to work with the DateTime suite of objects.
 %prep
 %setup -q -n MooseX-Types-DateTime-%{version}
 
-sed -i '1s,#!.*perl,#!%{__perl},' t/*.t
+perl -MConfig -i -pe 's{^#!.*perl}{$Config{startperl}}' t/*.t
 find . -type f -exec chmod -c -x {} +
 
 %build
-perl Build.PL --installdirs=vendor
-./Build
+PERL_MM_FALLBACK_SILENCE_WARNING=1 perl Makefile.PL \
+    INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-./Build install --destdir=%{buildroot} --create_packlist=0
+%{make_install}
 %{_fixperms} %{buildroot}/*
 
 %check
-./Build test
+unset AUTHOR_TESTING
+make test
 
 %files
 %doc Changes t/
@@ -65,6 +87,17 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/MooseX*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.13-16
+- Perl 5.32 re-rebuild updated packages
+
+* Thu Jun 25 2020 Petr Pisar <ppisar@redhat.com> - 0.13-15
+- Specify all dependencies
+- Patch shebangs properly
+- Build using ExtUtils::MakeMaker
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.13-14
 - Perl 5.32 rebuild
 

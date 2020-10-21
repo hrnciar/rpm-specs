@@ -1,6 +1,15 @@
+%if 0%{?fedora} >= 33
+%bcond_without flexiblas
+%endif
+%if %{with flexiblas}
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 Name:           ncl
 Version:        6.6.2
-Release:        10%{?dist}
+Release:        15%{?dist}
 Summary:        NCAR Command Language and NCAR Graphics
 
 License:        BSD
@@ -35,6 +44,10 @@ Patch3:         ncl-libs.patch
 Patch4:         ncl-format.patch
 # Fix use of BOZ constans
 Patch5:         ncl-boz.patch
+# Change link order of g2clib and gdal to work around gdal's modified g2_getfld()
+# https://bugzilla.redhat.com/show_bug.cgi?id=1856959
+# https://github.com/OSGeo/gdal/issues/2775
+Patch6:         ncl-gdal.patch
 # don't have the installation target depends on the build target since
 # for library it implies running ranlib and modifying the library timestamp
 Patch10:        ncl-5.0.0-no_install_dep.patch
@@ -69,7 +82,7 @@ BuildRequires:  byacc, flex
 %if 0%{?fedora} || 0%{?rhel} >= 7
 BuildRequires:  flex-static
 %endif
-BuildRequires:  openblas-devel
+BuildRequires:  %{blaslib}-devel
 BuildRequires:  udunits2-devel
 Requires:       %{name}-common = %{version}-%{release}
 Requires:       udunits2
@@ -129,14 +142,15 @@ Example programs and data using NCL.
 %patch3 -p1 -b .libs
 %patch4 -p1 -b .format
 %patch5 -p1 -b .boz
+%patch6 -p1 -b .gdal
 %patch10 -p1 -b .no_install_dep
 %patch11 -p1 -b .build_n_scripts
 %patch12 -p1 -b .netcdff
 %patch13 -p1 -b .includes
 %patch16 -p1 -b .secondary
 
-sed -ri -e 's,-lblas_ncl,-lopenblas,' \
-        -e 's,-llapack_ncl,-lopenblas,' config/Project
+sed -ri -e 's,-lblas_ncl,-l%{blaslib},' \
+        -e 's,-llapack_ncl,-l%{blaslib},' config/Project
 #Spurrious exec permissions
 find -name '*.[fh]' -exec chmod -x {} +
 
@@ -188,7 +202,7 @@ make Build CCOPTIONS="$RPM_OPT_FLAGS -std=c99 -fPIC -fno-strict-aliasing -fopenm
 
 %install
 export NCARG=`pwd`
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 install -m 0644 ncarg.csh ncarg.sh $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 # database, fontcaps, and graphcaps are arch dependent
@@ -351,6 +365,21 @@ done
 
 
 %changelog
+* Thu Sep 17 2020 Orion Poplawski <orion@nwra.com> - 6.6.2-15
+- Use %%make_install
+
+* Fri Aug 14 2020 Iñaki Úcar <iucar@fedoraproject.org> - 6.6.2-14
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.6.2-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Orion Poplawski <orion@nwra.com> - 6.6.2-12
+- Change link order to fix issue with gdal and g2clib (bz#1856959)
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 6.6.2-11
+- Rebuild for hdf5 1.10.6
+
 * Fri Jun  5 2020 Orion Poplawski <orion@nwra.com> - 6.6.2-10
 - Add extra needed symlinks to /usr/lib/ncarg (bz#1288083)
 

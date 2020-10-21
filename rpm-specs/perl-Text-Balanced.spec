@@ -1,6 +1,6 @@
 Name:           perl-Text-Balanced
 Version:        2.03
-Release:        456%{?dist}
+Release:        457%{?dist}
 Summary:        Extract delimited text sequences from strings
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Text-Balanced
@@ -55,6 +55,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.03-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.03-456
 - Increase release to favour standalone package
 

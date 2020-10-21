@@ -1,6 +1,6 @@
 Name:		perl-Digest-MD4
 Version:	1.9
-Release:	25%{?dist}
+Release:	26%{?dist}
 Summary:	Perl interface to the MD4 Algorithm
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/Digest-MD4
@@ -65,6 +65,9 @@ make test
 %{_mandir}/man3/Digest::MD4.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.9-25
 - Perl 5.32 rebuild
 

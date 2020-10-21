@@ -1,11 +1,15 @@
 # Testing
-%ifnarch %{arm}
 %global with_check 1
+
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
 %endif
 
 Name: qrmumps
 Version: 2.0
-Release: 19%{?dist}
+Release: 21%{?dist}
 Summary: A multithreaded multifrontal QR solver
 License: LGPLv3+
 URL: http://buttari.perso.enseeiht.fr/qr_mumps/
@@ -18,18 +22,16 @@ Source1: %{name}-Makefile.inc
 
 Patch0: %{name}-gcc10.patch
 
+# Exclude the examples
+Patch1: %{name}-exclude_examples.patch
+
 # Files for testing
 Source2: http://www.cise.ufl.edu/research/sparse/MM/vanHeukelum/cage6.tar.gz
 Source3: http://www.cise.ufl.edu/research/sparse/MM/Meszaros/pltexpa.tar.gz
 Source4: http://www.cise.ufl.edu/research/sparse/MM/Yoshiyasu/image_interp.tar.gz
 
-BuildRequires: gcc-gfortran
-%ifarch %{openblas_arches}
-BuildRequires: openblas-devel
-%else
-BuildRequires: blas-devel
-BuildRequires: lapack-devel
-%endif
+BuildRequires: gcc-gfortran, valgrind
+BuildRequires: %{blaslib}-devel
 BuildRequires: metis-devel >= 5.1.0-12
 BuildRequires: scotch-devel
 BuildRequires: suitesparse-devel
@@ -73,21 +75,18 @@ PDF documentation files of %{name}.
 %prep
 %autosetup -n qr_mumps-%{version} -p1
 
+# Do not build examples
+rm -rf src/examples
+
 cp -p %{SOURCE1} makeincs/Make.inc.fedora
 
 %build
-
-%ifarch %{openblas_arches}
-export LIBBLAS=-lopenblas
-export INCBLAS=-I%{_includedir}/openblas
-%else
-export LIBBLAS=-lblas
-export LIBLAPACK=-llapack
-export INCBLAS=-I%{_includedir}
-%endif
+export LIBBLAS=-l%{blaslib}
+export INCBLAS=-I%{_includedir}/%{blaslib}
+export FLEXIBLAS=netlib
 
 # Parallel Make is not supported
-make BUILD=build PLAT=fedora ARITH='d s c z' \
+make -j1 BUILD=build PLAT=fedora ARITH='d s c z' \
  topdir=$PWD \
  CC=gcc \
  FC=gfortran \
@@ -97,7 +96,8 @@ make BUILD=build PLAT=fedora ARITH='d s c z' \
  FDEFS=" -Dhave_metis -Dhave_scotch -Dhave_colamd" \
  LCOLAMD=-lcolamd \
  ICOLAMD=" -I%{_includedir}/suitesparse" \
- LBLAS=$LIBBLAS \
+ LBLAS="%{__global_ldflags} $LIBBLAS" \
+ INCBLAS=$INCBLAS \
  LLAPACK=$LIBLAPACK \
  LMETIS=" -lmetis" \
  IMETIS=" -I%{_includedir}" \
@@ -111,15 +111,15 @@ export LCOLAMD=-lcolamd
 export LMETIS=-lmetis
 export LSCOTCH="-lscotch -lscotcherr"
 
-gfortran -shared %{__global_ldflags} -fPIC -Wl,-z,now -Wl,--whole-archive libqrm_common.a -Wl,-no-whole-archive -L%{_libdir} $LMETIS $LCOLAMD -lgfortran -lm -Wl,-soname,libqrm_common.so.%{version} -o libqrm_common.so.%{version}
+gfortran -shared %{__global_ldflags} -fPIC -Wl,--whole-archive libqrm_common.a -Wl,-no-whole-archive -L%{_libdir} $LMETIS $LCOLAMD -lgfortran -lm -Wl,-soname,libqrm_common.so.%{version} -o libqrm_common.so.%{version}
 
-gfortran -shared %{__global_ldflags} -fPIC -Wl,-z,now -Wl,--whole-archive libdqrm.a libqrm_common.a -Wl,-no-whole-archive -L./ -lqrm_common -L%{_libdir} $LIBBLAS $LIBLAPACK $LSCOTCH $LMETIS $LCOLAMD -lgfortran -lm -Wl,-soname,libdqrm.so.%{version} -o libdqrm.so.%{version}
+gfortran -shared %{__global_ldflags} -fPIC -Wl,--whole-archive libdqrm.a libqrm_common.a -Wl,-no-whole-archive -L./ -lqrm_common -L%{_libdir} $LIBBLAS $LIBLAPACK $LSCOTCH $LMETIS $LCOLAMD -lgfortran -lm -Wl,-soname,libdqrm.so.%{version} -o libdqrm.so.%{version}
 
-gfortran -shared %{__global_ldflags} -fPIC -Wl,-z,now -Wl,--whole-archive libcqrm.a libqrm_common.a -Wl,-no-whole-archive -L./ -lqrm_common -L%{_libdir} $LIBBLAS $LIBLAPACK $LSCOTCH $LMETIS $LCOLAMD -lgfortran -lm -Wl,-soname,libcqrm.so.%{version} -o libcqrm.so.%{version}
+gfortran -shared %{__global_ldflags} -fPIC -Wl,--whole-archive libcqrm.a libqrm_common.a -Wl,-no-whole-archive -L./ -lqrm_common -L%{_libdir} $LIBBLAS $LIBLAPACK $LSCOTCH $LMETIS $LCOLAMD -lgfortran -lm -Wl,-soname,libcqrm.so.%{version} -o libcqrm.so.%{version}
 
-gfortran -shared %{__global_ldflags} -fPIC -Wl,-z,now -Wl,--whole-archive libzqrm.a libqrm_common.a -Wl,-no-whole-archive -L./ -lqrm_common -L%{_libdir} $LIBBLAS $LIBLAPACK $LSCOTCH $LMETIS $LCOLAMD -lgfortran -lm -Wl,-soname,libzqrm.so.%{version} -o libzqrm.so.%{version}
+gfortran -shared %{__global_ldflags} -fPIC -Wl,--whole-archive libzqrm.a libqrm_common.a -Wl,-no-whole-archive -L./ -lqrm_common -L%{_libdir} $LIBBLAS $LIBLAPACK $LSCOTCH $LMETIS $LCOLAMD -lgfortran -lm -Wl,-soname,libzqrm.so.%{version} -o libzqrm.so.%{version}
 
-gfortran -shared %{__global_ldflags} -fPIC -Wl,-z,now -Wl,--whole-archive libsqrm.a libqrm_common.a -Wl,-no-whole-archive -L./ -lqrm_common -L%{_libdir} $LIBBLAS $LIBLAPACK $LSCOTCH $LMETIS $LCOLAMD -lgfortran -lm -Wl,-soname,libsqrm.so.%{version} -o libsqrm.so.%{version}
+gfortran -shared %{__global_ldflags} -fPIC -Wl,--whole-archive libsqrm.a libqrm_common.a -Wl,-no-whole-archive -L./ -lqrm_common -L%{_libdir} $LIBBLAS $LIBLAPACK $LSCOTCH $LMETIS $LCOLAMD -lgfortran -lm -Wl,-soname,libsqrm.so.%{version} -o libsqrm.so.%{version}
 popd
 
 %ldconfig_scriptlets
@@ -128,26 +128,22 @@ popd
 %check
 pushd build/testing
 
-%ifarch %{openblas_arches}
-export LIBBLAS=-lopenblas
-export INCBLAS=-I%{_includedir}/openblas
-%else
-export LIBBLAS=-lblas
-export LIBLAPACK=-llapack
-export INCBLAS=-I%{_includedir}
-%endif
+export LIBBLAS=-l%{blaslib}
+export INCBLAS=-I%{_includedir}/%{blaslib}
+export FLEXIBLAS=netlib
 
 make BUILD=./ PLAT=fedora ARITH='d s c z' \
  topdir=../../ \
  CC=gcc \
  FC=gfortran \
- FCFLAGS="-O0 -g -Wno-unused-variable -I%{_fmoddir} -fopenmp -fPIC -Wl,-z,now" \
- CFLAGS="-O0 -g -fopenmp -fPIC -Wl,-z,now" \
+ FCFLAGS="-O2 -g -Wno-unused-variable -I%{_fmoddir} -fopenmp -fPIC -Wl,-z,now" \
+ CFLAGS="-O2 -g -fopenmp -fPIC -Wl,-z,now" \
  CDEFS=" -Dhave_metis -Dhave_scotch -Dhave_colamd" \
  FDEFS=" -Dhave_metis -Dhave_scotch -Dhave_colamd" \
  LCOLAMD=-lcolamd \
  ICOLAMD=" -I%{_includedir}/suitesparse" \
- LBLAS=$LIBBLAS \
+ LBLAS="%{__global_ldflags} $LIBBLAS" \
+ INCBLAS=$INCBLAS \
  LLAPACK=$LIBLAPACK \
  LMETIS=" -lmetis" \
  IMETIS=" -I%{_includedir}" \
@@ -160,11 +156,21 @@ tar -zxf %{SOURCE3}; echo pltexpa/pltexpa.mtx >> matfile.txt
 tar -zxf %{SOURCE4}; echo image_interp/image_interp.mtx >> matfile.txt
 
 export LD_LIBRARY_PATH=$RPM_BUILD_ROOT%{_libdir}:%{_libdir}
-export QRM_NUM_THREADS=2
+export QRM_NUM_THREADS="`/usr/bin/getconf _NPROCESSORS_ONLN`"
 ./dqrm_testing
 ./sqrm_testing
 ./cqrm_testing
+
+# TEST  7 (pipe.) CASE  2 SUBCASE  1 MATRIX 13 : FAILED
+# Test failed
+# ERROR STOP 
+# Error termination. Backtrace:
+# 0  0xb6a4838b in ???
+# 1  0xb6a491f3 in ???
+# 2  0xb6a4a493 in ???
+%ifnarch %{arm}
 ./zqrm_testing
+%endif
 %endif
 
 %install
@@ -210,6 +216,14 @@ install -pm 644 build/include/*.mod $RPM_BUILD_ROOT%{_fmoddir}/%{name}/
 %doc doc/pdf/*.pdf
 
 %changelog
+* Sun Aug 16 2020 Antonio Trande <sagitter@fedoraproject.org> - 2.0-21
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+- Exclude examples
+- Fix Flexiblas include dir flags
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 03 2020 Antonio Trande <sagitter@fedoraproject.org> - 2.0-19
 - Patched for GCC 10
 

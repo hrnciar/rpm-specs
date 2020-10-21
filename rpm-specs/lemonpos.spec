@@ -1,6 +1,6 @@
 Name:       lemonpos  
 Version:    0.9.4  
-Release:    22%{dist}  
+Release:    23%{dist}  
 Summary:    Point Of Sale Application For KDE4  
  
 License:    GPLv2  
@@ -73,6 +73,9 @@ cat lemon.lang squeeze.lang > %{name}.lang
 %{_kde4_datadir}/kde4/apps/squeeze  
  
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

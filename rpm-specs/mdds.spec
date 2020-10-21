@@ -4,8 +4,8 @@
 %global apiversion 1.5
 
 Name: mdds
-Version: 1.5.0
-Release: 2%{?dist}
+Version: 1.7.0
+Release: 1%{?dist}
 Summary: A collection of multi-dimensional data structures and indexing algorithms
 
 License: MIT
@@ -61,6 +61,12 @@ make check %{?_smp_mflags}
 %license LICENSE
 
 %changelog
+* Mon Sep 21 2020 Caolán McNamara <caolanm@redhat.com> - 1.7.0-1
+- new upstream release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

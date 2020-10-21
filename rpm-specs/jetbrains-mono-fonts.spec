@@ -3,7 +3,7 @@
 Version:            1.0.5
 %forgemeta
 
-Release: 5%{?dist}
+Release: 6%{?dist}
 URL:     https://jetbrains.com/mono/
 
 %global foundry           JetBrains
@@ -81,6 +81,9 @@ Source11: 58-%{fontpkgname1}.xml
 %fontfiles
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 1.0.5-1
 🐞 Workaround Fedora problems created by rpm commit 93604e2

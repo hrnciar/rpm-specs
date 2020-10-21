@@ -5,7 +5,7 @@
 Summary: Real-time Game Server Status for FPS game servers
 Name: qstat
 Version: 2.15
-Release: 11.%{gitstring}%{?dist}
+Release: 12.%{gitstring}%{?dist}
 License: Artistic 2.0
 URL: https://github.com/multiplay/qstat
 # git clone https://github.com/multiplay/qstat.git
@@ -44,6 +44,9 @@ find template -name "Makefile*" -type f | xargs rm -f
 %{_bindir}/quakestat
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.15-12.20200131gitd1469ab
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Tom Callaway <spot@fedoraproject.org> - 2.15-11.20200131gitd1469ab
 - update to latest git to fix FTBFS
 

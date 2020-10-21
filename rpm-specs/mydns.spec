@@ -3,7 +3,7 @@
 Summary: A Database based DNS server
 Name: mydns
 Version: 1.2.8.32
-Release: 8%{?dist}
+Release: 9%{?dist}
 License: GPLv2+
 URL: http://mydns-ng.com/
 #URL: http://mydns.bboy.net/  this is the original website, but mydns is no more  maintaned by it's original creator
@@ -187,6 +187,9 @@ exit 0
 %{_sbindir}/mydns-pgsql
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.8.32-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Mar 29 2020  Itamar Reis Peixoto <itamar@ispbrasil.com.br> - 1.2.8.32-8
 - fix FTBS rhbz#1799670
 

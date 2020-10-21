@@ -1,6 +1,6 @@
 Name:       ibus-table-latin
 Version:    1.2.0.20100305
-Release:    17%{?dist}
+Release:    18%{?dist}
 Summary:    The Latin tables for IBus-Table
 License:    GPLv3
 URL:        http://code.google.com/p/ibus/
@@ -41,6 +41,9 @@ cd $RPM_BUILD_ROOT/%{_datadir}/ibus-table/tables/
 %{_datadir}/ibus-table/icons/ipa-x-sampa.png
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0.20100305-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0.20100305-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

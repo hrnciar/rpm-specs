@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	3.3.0
-Release:	5%{?dist}
+Release:	6%{?dist}
 BuildArch:	noarch
 Summary:	Parse transform utilities for Erlang
 License:	EPL 1.1 and ASL 2.0
@@ -42,6 +42,9 @@ Parse transform utilities for Erlang.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

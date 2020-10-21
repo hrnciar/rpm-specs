@@ -4,7 +4,7 @@
 
 Name:           xde-menu
 Version:        0.12
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Menu system for the X Desktop Environment
 
 License:        GPLv3+
@@ -80,6 +80,9 @@ rm %{buildroot}%{_libdir}/%{name}/modules/*.la
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.12-1
 - Update to 0.12
 

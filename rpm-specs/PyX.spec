@@ -1,6 +1,6 @@
 Name:           PyX
 Version:        0.15
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Python graphics package
 
 License:        GPLv2+
@@ -103,6 +103,9 @@ done
 %doc examples/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.15-2
 - Rebuilt for Python 3.9
 

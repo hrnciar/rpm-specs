@@ -3,7 +3,7 @@
 %global _docdir_fmt %{name}
 
 Name:           python-%{modname}
-Version:        1.44.0
+Version:        1.45.1
 Release:        2%{?dist}
 Summary:        Mutagen is a Python module to handle audio meta-data
 
@@ -29,6 +29,7 @@ Summary:        %{summary}
 BuildRequires:  python3-devel
 BuildRequires:  python3-hypothesis
 BuildRequires:  python3-pytest
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-sphinx_rtd_theme
 Obsoletes:      python2-mutagen < 1.42.0-10
 
@@ -81,6 +82,15 @@ rm -rv tests/quality/
 %doc docs/_build/*
 
 %changelog
+* Mon Oct 05 2020 Michele Baldessari <michele@acksyn.org> - 1.45.1-2
+- Add explicit python3-setuptools BR
+
+* Mon Aug 03 2020 Michele Baldessari <michele@acksyn.org> - 1.45.1-1
+- New upstream
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.44.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.44.0-2
 - Rebuilt for Python 3.9
 

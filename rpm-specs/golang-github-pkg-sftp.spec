@@ -3,7 +3,7 @@
 
 # https://github.com/pkg/sftp
 %global goipath         github.com/pkg/sftp
-Version:                1.10.0
+Version:                1.11.0
 
 %gometa
 
@@ -18,7 +18,7 @@ files from the filesystem.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        1%{?dist}
 Summary:        SFTP support for the  Go crypto/ssh package
 
 # Upstream license specification: BSD-2-Clause
@@ -58,6 +58,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 22:11:24 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.11.0-1
+- Update to 1.11.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 Summary: Bluecurve GNOME theme
 Name: bluecurve-gnome-theme
 Version: 1.0.0
-Release: 19%{?dist}
+Release: 20%{?dist}
 BuildArch: noarch
 License: GPL+
 # There is no official upstream yet
@@ -42,6 +42,9 @@ rm -f ChangeLog NEWS README
 %{_datadir}/themes/Bluecurve
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

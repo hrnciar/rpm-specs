@@ -1,22 +1,23 @@
-%global packname  foghorn
+%global packname foghorn
+%global packver  1.3.1
 %global rlibdir  %{_datadir}/R/library
 
 # Tests and vignettes use the network.
 %bcond_with network
 
 Name:             R-%{packname}
-Version:          1.1.0
-Release:          5%{?dist}
+Version:          1.3.1
+Release:          1%{?dist}
 Summary:          Summarize CRAN Check Results in the Terminal
 
 License:          MIT
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-clisymbols >= 1.0.0, R-crayon >= 1.3.2, R-curl >= 2.2, R-httr >= 1.2.1, R-jsonlite >= 1.5, R-rvest >= 0.3.2, R-tibble >= 1.2, R-xml2 >= 1.0.0
-# Suggests:  R-progress, R-testthat, R-covr, R-knitr, R-rmarkdown, R-dplyr
+# Imports:   R-clisymbols >= 1.0.0, R-crayon >= 1.3.2, R-curl >= 2.2, R-httr >= 1.2.1, R-jsonlite >= 1.5, R-rlang >= 0.4.3, R-rvest >= 0.3.2, R-tibble >= 1.2, R-xml2 >= 1.0.0
+# Suggests:  R-covr, R-dplyr, R-knitr, R-progress, R-rmarkdown, R-testthat
 # LinkingTo:
 # Enhances:
 
@@ -28,17 +29,19 @@ BuildRequires:    R-crayon >= 1.3.2
 BuildRequires:    R-curl >= 2.2
 BuildRequires:    R-httr >= 1.2.1
 BuildRequires:    R-jsonlite >= 1.5
+BuildRequires:    R-rlang >= 0.4.3
 BuildRequires:    R-rvest >= 0.3.2
 BuildRequires:    R-tibble >= 1.2
 BuildRequires:    R-xml2 >= 1.0.0
-BuildRequires:    R-progress
-BuildRequires:    R-testthat
-BuildRequires:    R-knitr
-BuildRequires:    R-rmarkdown
 BuildRequires:    R-dplyr
+BuildRequires:    R-knitr
+BuildRequires:    R-progress
+BuildRequires:    R-rmarkdown
+BuildRequires:    R-testthat
 
 %description
-The CRAN check results in your R terminal.
+The CRAN check results and where your package stands in the CRAN submission
+queue in your R terminal.
 
 
 %prep
@@ -78,9 +81,19 @@ rm -f %{buildroot}%{rlibdir}/R.css
 %{rlibdir}/%{packname}/Meta
 %{rlibdir}/%{packname}/R
 %{rlibdir}/%{packname}/help
+%{rlibdir}/%{packname}/WORDLIST
 
 
 %changelog
+* Wed Sep 09 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.3.1-1
+- Update to latest version (#1877063)
+
+* Mon Aug 03 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.2.3-1
+- Update to latest version
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 1.1.0-5
 - rebuild for R 4
 

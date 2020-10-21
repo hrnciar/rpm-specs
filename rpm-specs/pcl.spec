@@ -1,8 +1,11 @@
+%undefine __cmake_in_source_build
+# LTO fails with /usr/bin/ld: error: lto-wrapper failed
+%undefine _lto_cflags
 %global apiversion 1.11
 
 Name:           pcl
 Version:        1.11.0
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Library for point cloud processing
 License:        BSD
 URL:            http://pointclouds.org/
@@ -92,9 +95,10 @@ rm -fr recognition/include/pcl/recognition/3rdparty/metslib
 rm -fr surface/src/3rdparty/opennurbs
 rm -rf surface/include/pcl/surface/3rdparty/opennurbs
 
+# Exclude build directory from doxygen generation
+sed -i 's|@PCL_SOURCE_DIR@/build|@PCL_SOURCE_DIR@/%{_vpath_builddir}|' doc/doxygen/doxyfile.in
+
 %build
-mkdir build
-pushd build
 # try to reduce memory usage of compile process (can cause OOM errors
 # esp. on ARM builders)
 %global optflags %(echo %{optflags} | sed -e 's/-g /-g1 /' -e 's/-pipe //')
@@ -115,16 +119,12 @@ pushd build
 %endif
   -DPCL_PKGCONFIG_SUFFIX:STRING="" \
   -DBUILD_documentation=ON \
-  -DCMAKE_SKIP_RPATH=ON \
-  ..
+  -DCMAKE_SKIP_RPATH=ON
 
-# Don't use mflags, we're hitting out of memory errors on the koji builders
-%make_build
-popd
+%cmake_build
 
 %install
-pushd build
-%make_install
+%cmake_install
 
 # Remove libtool archives
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
@@ -135,6 +135,7 @@ rm -f $RPM_BUILD_ROOT%{_bindir}/timed_trigger_test
 # Remove installed documentation (will use %doc)
 rm -rf $RPM_BUILD_ROOT%{_datadir}/doc
 
+pushd %{_vpath_builddir}
 # Rename the documentation folders from "html"
 mv doc/doxygen/html doc/doxygen/api
 mv doc/tutorials/html doc/tutorials/tutorials
@@ -158,7 +159,7 @@ mv $RPM_BUILD_ROOT%{_datadir}/%{name}-*/*.cmake $RPM_BUILD_ROOT%{_libdir}/cmake/
 mv $RPM_BUILD_ROOT%{_datadir}/%{name}-*/Modules $RPM_BUILD_ROOT%{_libdir}/cmake/pcl/
 
 %check
-ARGS='-V' make -C build test || true
+%ctest || true
 
 %ldconfig_scriptlets
 
@@ -181,11 +182,22 @@ ARGS='-V' make -C build test || true
 # to understand a particular feature of PCL.
 
 %files doc
-%doc build/doc/doxygen/api
-%doc build/doc/tutorials/tutorials
-%doc build/doc/advanced/advanced
+%doc %{_vpath_builddir}/doc/doxygen/api
+%doc %{_vpath_builddir}/doc/tutorials/tutorials
+%doc %{_vpath_builddir}/doc/advanced/advanced
 
 %changelog
+* Fri Aug 07 2020 Orion Poplawski <orion@nwra.com> - 1.11.0-4
+- Use new cmake macros
+- Disable LTO for now - build fails
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Rich Mattes <richmattes@gmail.com> - 1.11.0-1
 - Update to release 1.11.0
 

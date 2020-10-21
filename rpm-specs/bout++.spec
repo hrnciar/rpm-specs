@@ -1,6 +1,6 @@
 Name:           bout++
 Version:        4.3.1
-Release:        2%{?dist}
+Release:        8%{?dist}
 Summary:        Library for the BOUndary Turbulence simulation framework
 
 # BOUT++ itself is LGPL, but we are linking with GPLed code, so the distributed library is GPL
@@ -11,32 +11,28 @@ Source0:        https://github.com/boutproject/BOUT-dev/releases/download/v%{ver
 # Do not install mpark
 Patch0:  remove-mpark.patch
 
+%if 0%{?fedora} >= 33
+%bcond_without flexiblas
+%else
+%bcond_with flexiblas
+%endif
+
 # Disable tests and manual on epel < 8
 %if 0%{?rhel} && 0%{?rhel} < 8
 %bcond_with manual
 %bcond_with test
+%bcond_with sundials
+%bcond_with petsc
 %else
 %bcond_without manual
 %bcond_without test
+%bcond_without sundials
+%bcond_without petsc
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%ifarch ppc64
-# No mpich on ppc64 in EL6
-%bcond_with mpich
-%else
+# Enable both mpi every where
 %bcond_without mpich
-%endif
-%else
-%bcond_without mpich
-%endif
-
-%ifarch s390 s390x
-# No openmpi on s390(x)
-%bcond_with openmpi
-%else
 %bcond_without openmpi
-%endif
 
 # Enable weak dependencies
 %if 0%{?fedora} || ( 0%{?rhel} && 0%{?rhel} > 7 )
@@ -73,8 +69,12 @@ BuildRequires:  python%{python3_pkgversion}-numpy
 BuildRequires:  python%{python3_pkgversion}-Cython
 BuildRequires:  python%{python3_pkgversion}-netcdf4
 BuildRequires:  python%{python3_pkgversion}-scipy
+%if %{with flexiblas}
+BuildRequires:  flexiblas-devel
+%else
 BuildRequires:  blas-devel
 BuildRequires:  lapack-devel
+%endif
 BuildRequires:  gcc-c++
 %if %{with system_mpark}
 BuildRequires:  mpark-variant-devel
@@ -86,7 +86,24 @@ BuildRequires:  python%{python3_pkgversion}-jinja2
 BuildRequires:  doxygen
 BuildRequires:  python3-sphinx
 %endif
-
+%if %{with petsc} && %{with mpich}
+BuildRequires: petsc-mpich-devel
+BuildRequires: hdf5-mpich-devel
+%endif
+%if %{with petsc} && %{with openmpi}
+BuildRequires: petsc-openmpi-devel
+BuildRequires: hdf5-openmpi-devel
+%endif
+%if %{with sundials} && %{with mpich}
+BuildRequires: sundials-mpich-devel
+# https://bugzilla.redhat.com/show_bug.cgi?id=1839131
+BuildRequires: sundials-devel
+%endif
+%if %{with sundials} && %{with openmpi}
+BuildRequires: sundials-openmpi-devel
+# https://bugzilla.redhat.com/show_bug.cgi?id=1839131
+BuildRequires: sundials-devel
+%endif
 
 #
 #           DESCRIPTIONS
@@ -290,12 +307,6 @@ autoreconf
 #
 
 %build
-%global configure_opts \\\
-           --with-netcdf \\\
-           --with-hdf5 \\\
-           --enable-shared
-
-%{nil}
 
 # MPI builds
 export CC=mpicc
@@ -318,12 +329,32 @@ do
       exit 1
   fi
 
-  %configure %{configure_opts} \
+  %configure \
+	     --with-netcdf \
+             --with-hdf5 \
+             --enable-shared \
     --libdir=%{_libdir}/$mpi/lib \
     --bindir=%{_libdir}/$mpi/bin \
     --sbindir=%{_libdir}/$mpi/sbin \
     --includedir=%{_includedir}/$mpi-%{_arch} \
-    --datarootdir=%{_datadir}
+    --datarootdir=%{_datadir} \
+%if %{with petsc}
+           --with-petsc \
+%endif
+%if %{with sundials}
+           --with-sundials \
+%endif
+
+  sed -e "s| -L%{_libdir} | |g" \
+      -e 's|@$(LD)|$(LD)|'  \
+      -i make.config
+
+  %if %{with flexiblas}
+  sed -e 's|-lblas|-lflexiblas|g' \
+      -e 's|-llapack|-lflexiblas|g' \
+      -i make.config
+  %endif
+  cat make.config
 
   make %{?_smp_mflags} shared python
   export LD_LIBRARY_PATH=$(pwd)/lib
@@ -420,7 +451,7 @@ do
     export OMPI_MCA_rmaps_base_oversubscribe=yes
     pushd build_$mpi
     make %{?_smp_mflags} build-check
-    make check
+    SEGFAULT_SIGNALS="segv" LD_PRELOAD=%{_libdir}/libSegFault.so make check
     popd
     if [ $mpi = mpich ] ; then
         %_mpich_unload
@@ -501,6 +532,26 @@ done
 #
 
 %changelog
+* Wed Oct  7 2020 Orion Poplawski <orion@nwra.com> - 4.3.1-8
+- Rebuild for sundials 5.4.0
+
+* Thu Aug 20 2020 Iñaki Úcar <iucar@fedoraproject.org> - 4.3.1-7
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Sat Aug 15 2020 David Schwörer <davidsch@fedoraproject.org> 4.3.1-6
+- Enable sundials and petsc
+- Rebuild with flexiblas
+
+* Sat Aug 08 2020 David Schwörer <schword2mail.dcu.ie> - 4.3.1-5
+- Disable lto for s390x
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.3.1-2
 - Rebuilt for Python 3.9
 

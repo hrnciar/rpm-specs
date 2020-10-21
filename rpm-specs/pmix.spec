@@ -1,10 +1,12 @@
+%global name_version %{name}-%{version}rc1
+
 Name:           pmix
-Version:        3.1.5
-Release:        1%{?dist}
+Version:        3.1.6
+Release:        0.2.rc1%{?dist}
 Summary:        Process Management Interface Exascale (PMIx)
 License:        BSD
 URL:            https://pmix.org/
-Source0:        https://github.com/pmix/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.bz2
+Source0:        https://github.com/pmix/%{name}/releases/download/v%{version}/%{name_version}.tar.bz2
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -70,13 +72,13 @@ based starters (e.g., mpirun).
 * pevent - inject an event into the system
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name_version}
 
-echo touching lexer sources to recompile them ...
+# touch lexer sources to recompile them
 find src -name \*.l -print -exec touch --no-create {} \;
 
 %build
-%{_builddir}/%{name}-%{version}/autogen.pl
+%{_builddir}/%{name_version}/autogen.pl
 %configure \
     --prefix=%{_prefix} \
     --sysconfdir=%{_sysconfdir}/%{name} \
@@ -131,6 +133,28 @@ find %{buildroot} -name '*.la' | xargs rm -f
 %{_bindir}/*
 
 %changelog
+* Tue Sep 15 2020 Philip Kovacs <pkfed@fedoraproject.org> - 3.1.6.0.2.rc1
+* Bump for libevent changes
+
+* Mon Aug 10 2020 Philip Kovacs <pkfed@fedoraproject.org> - 3.1.6.0.1.rc1
+* Update to 3.1.6rc1
+
+* Fri Aug 7 2020 Philip Kovacs <pkfed@fedoraproject.org> - 3.1.5-6
+- Give post-build checks more time to complete
+
+* Thu Aug 6 2020 Philip Kovacs <pkfed@fedoraproject.org> - 3.1.5-5
+- Restore armv7hl without post-build checks
+
+* Tue Aug 4 2020 Philip Kovacs <pkfed@fedoraproject.org> - 3.1.5-4
+- Exclude armv7hl
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.5-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 24 2020 Philip Kovacs <pkfed@fedoraproject.org> - 3.1.5-1
 - Update to 3.1.5
 

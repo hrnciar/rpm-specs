@@ -1,6 +1,6 @@
 Name:		mdk
-Version:	1.2.9
-Release:	11%{?dist}
+Version:	1.2.10
+Release:	1%{?dist}
 Summary:	GNU MIX Development Kit
 
 License:	GPLv3+ and GFDL
@@ -8,8 +8,9 @@ URL:		http://www.gnu.org/software/mdk/
 Source0:	http://ftp.gnu.org/gnu/mdk/v%{version}/%{name}-%{version}.tar.gz
 Source1:	mdk.desktop
 Patch0:		glib-deprecated.patch
+
 BuildRequires:  gcc
-BuildRequires:	guile-devel
+BuildRequires:	guile22-devel
 BuildRequires:	libglade2-devel
 BuildRequires:	gettext
 BuildRequires:	desktop-file-utils
@@ -44,16 +45,15 @@ file system).
 Samples and documentation for the MDK package.
 
 %prep
-%setup -q
-%patch0 -p1
-autoconf
+%autosetup -p1
 
 %build
+autoconf
 %configure
-make %{?_smp_mflags}
+%{make_build}
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
+%{make_install}
 rm -f $RPM_BUILD_ROOT/%{_infodir}/dir
 desktop-file-install \
 	--dir=${RPM_BUILD_ROOT}%{_datadir}/applications \
@@ -62,7 +62,8 @@ desktop-file-install \
 %find_lang %{name}
 
 %files -f %{name}.lang
-%doc AUTHORS COPYING README THANKS
+%license COPYING
+%doc AUTHORS README THANKS
 %{_bindir}/mixasm
 %{_bindir}/mixvm
 %{_bindir}/gmixvm
@@ -75,6 +76,13 @@ desktop-file-install \
 %doc samples doc
 
 %changelog
+* Sun Sep 13 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.2.10-1
+- Update to 1.2.10
+- Build with guile 2.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.9-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.9-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

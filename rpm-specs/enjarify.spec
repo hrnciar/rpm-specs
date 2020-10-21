@@ -1,7 +1,7 @@
 Summary: Translate Dalvik bytecode to equivalent Java bytecode
 Name: enjarify
 Version: 1.0.3
-Release: 12%{?dist}
+Release: 15%{?dist}
 License: ASL 2.0
 URL: https://github.com/Storyyeller/enjarify
 # Upstream uses gitattribues to remove test files from archive…
@@ -26,14 +26,14 @@ BuildRequires: java-headless
 
 Requires: python3-enjarify = %{version}-%{release}
 
-%global _description\
-Android applications are Java programs that run on a customized\
-virtual machine, which is part of the Android operating system, the\
-Dalvik VM. Their bytecode differs from the bytecode of normal Java\
-applications.\
-\
-Enjarify can translate the Dalvik bytecode back to equivalent Java\
-bytecode, which simplifies the analysis of Android applications.
+%global _description %{expand:
+Android applications are Java programs that run on a customized
+virtual machine, which is part of the Android operating system, the
+Dalvik VM. Their bytecode differs from the bytecode of normal Java
+applications.
+
+Enjarify can translate the Dalvik bytecode back to equivalent Java
+bytecode, which simplifies the analysis of Android applications.}
 
 %description %_description
 
@@ -83,6 +83,21 @@ export PYTHONPATH=. LC_CTYPE="C.UTF-8"
 %doc README.md
 
 %changelog
+* Fri Sep 18 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.3-15
+- Enable tests (#1808128)
+
+* Wed Aug 26 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.0.3-14
+- Disable tests (#1808128). The tests are right and the package is broken
+  with python3.9 (https://bugs.python.org/issue41531). Hopefully python3.9
+  will be fixed before the final release.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.3-12
 - Rebuilt for Python 3.9
 

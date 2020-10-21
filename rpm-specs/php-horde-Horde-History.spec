@@ -13,7 +13,7 @@
 
 Name:           php-horde-Horde-History
 Version:        2.3.6
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        API for tracking the history of an object
 
 License:        LGPLv2
@@ -112,6 +112,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.6-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.6-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

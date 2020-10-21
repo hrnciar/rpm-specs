@@ -1,6 +1,9 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 Name:           liborigin
 Version:        3.0.0
-Release:        7%{?dist}
+Release:        10%{?dist}
 Epoch:          1
 Summary:        Library for reading OriginLab OPJ project files
 
@@ -46,10 +49,10 @@ The %{name}-doc package contains documentation for %{name}.
 
 %build
 %cmake .
-make origin opj2dat doc
+%cmake_build --target origin opj2dat doc
 
 %install
-%make_install
+%cmake_install
 
 %ldconfig_scriptlets
 
@@ -74,6 +77,16 @@ make origin opj2dat doc
 %{_docdir}/%{name}/html/
 
 %changelog
+* Mon Aug 03 2020 Alexander Ploumistos <alexpl@fedoraproject.org> - 1:3.0.0-10
+- Fix for https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.0.0-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.0.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.0.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

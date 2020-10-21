@@ -8,7 +8,7 @@
 
 Name:           perl-GStreamer1
 Version:        0.003
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Perl binding for GStreamer 1.x
 # lib/GStreamer1.pm:                BSD
 # lib/GStreamer1/Caps/Simple.pm:    BSD
@@ -74,6 +74,9 @@ make test
 %{_mandir}/man3/GStreamer1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.003-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.003-18
 - Perl 5.32 rebuild
 

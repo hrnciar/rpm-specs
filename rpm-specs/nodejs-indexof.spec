@@ -5,7 +5,7 @@
 
 Name: nodejs-%{packagename}
 Version: 0.0.1
-Release: 6%{?dist}
+Release: 9%{?dist}
 Summary: Lame indexOf thing
     
 License: MIT
@@ -15,7 +15,7 @@ Source0: http://registry.npmjs.org/%{packagename}/-/%{packagename}-%{version}.tg
 BuildArch:  noarch
 ExclusiveArch: %{nodejs_arches} noarch
 
-BuildRequires: nodejs-packaging
+BuildRequires: nodejs
 
 %description
 %{summary}.
@@ -44,6 +44,17 @@ cp -pr index.js package.json %{buildroot}%{nodejs_sitelib}/%{packagename}
 
 
 %changelog
+* Thu Aug 06 2020 Martin Gansser <martinkg@fedoraproject.org> - 0.0.1-9
+- Fixes FTBFS
+- Use BR nodejs instead of nodejs-packaging
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.1-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,7 +3,7 @@
 
 Name:           python-%{modname}
 Version:        1.7.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Simple schema-based serialization and deserialization library
 
 License:        BSD
@@ -59,6 +59,9 @@ rm -rf docs/.static
 %{python3_sitelib}/%{modname}-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.7.0-6
 - Rebuilt for Python 3.9
 

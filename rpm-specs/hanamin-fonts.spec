@@ -1,5 +1,5 @@
 Version:	20170904
-Release:	9%{?dist}
+Release:	10%{?dist}
 URL:		http://fonts.jp/hanazono/
 
 %global	foundry		hanamin
@@ -60,6 +60,9 @@ done
 %fontfiles -a
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20170904-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 13 2020 Akira TAGOH <tagoh@redhat.com> - 20170904-9
 - Fix CRLF to LF in docs. (#1825183)
 

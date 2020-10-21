@@ -1,6 +1,6 @@
 %global pypi_name dropbox
 Name:           python-%{pypi_name}
-Version:        10.2.0
+Version:        10.6.0
 Release:        1%{?dist}
 Summary:        Official Dropbox REST API Client
 License:        MIT
@@ -48,6 +48,24 @@ A Python library for Dropbox's HTTP-based Core and Datastore APIs.
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Mon Oct 12 2020 Gwyn Ciesla <gwync@protonmail.com> - 10.6.0-1
+- 10.6.0
+
+* Tue Oct 06 2020 Gwyn Ciesla <gwync@protonmail.com> - 10.5.0-1
+- 10.5.0
+
+* Fri Aug 28 2020 Gwyn Ciesla <gwync@protonmail.com> - 10.4.1-1
+- 10.4.1
+
+* Tue Aug 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 10.3.1-1
+- 10.3.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Gwyn Ciesla <gwync@protonmail.com> - 10.3.0-1
+- 10.3.0
+
 * Sun May 31 2020 Gwyn Ciesla <gwync@protonmail.com> - 10.2.0-1
 - 10.2.0
 

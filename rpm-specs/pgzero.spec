@@ -1,6 +1,6 @@
 Name:           pgzero
 Version:        1.2
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        A zero-boilerplate 2D games framework
 
 License:        LGPLv3 and ASL 2.0 and CC-BY-SA and CC0 and MIT and OFL
@@ -59,6 +59,9 @@ sed -i -e 's/valid note, /valid note. /' test/test_tone.py
 %{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2-9
 - Rebuilt for Python 3.9
 

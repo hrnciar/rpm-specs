@@ -1,6 +1,9 @@
+%global _vpath_srcdir src
+%undefine __cmake_in_source_dir
+
 Name:           voro++
 Version:        0.4.6
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Library for 3D computations of the Voronoi tessellation
 
 License:        LBNL BSD
@@ -43,24 +46,17 @@ Documentation for %{name}.
 
 
 %prep
-%setup -q -n %{name}-%{version}
-%patch0 -p1
-%patch1 -p1
+%autosetup -p1
 
 cp -a %{SOURCE1} src
 
 
 %build
-pushd src
-mkdir build
-pushd build
-%cmake ..
-make %{?_smp_mflags}
-popd
-popd
+%cmake
+%cmake_build
 
 %install
-%make_install -C src/build
+%cmake_install
 install -Dpm 0644 man/voro++.1 %{buildroot}%{_mandir}/man1/voro++.1
 
 # Fix path in examples
@@ -90,6 +86,9 @@ find examples -name "Makefile" -exec sed -i 's/..\/..\/config.mk/..\/config.mk/g
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.6-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.6-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

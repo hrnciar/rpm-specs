@@ -1,12 +1,13 @@
 Name:           perl-Log-Dispatchouli
-Version:        2.019
-Release:        3%{?dist}
+Version:        2.022
+Release:        1%{?dist}
 Summary:        Simple wrapper around Log::Dispatch
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Log-Dispatchouli
 Source0:        https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Log-Dispatchouli-%{version}.tar.gz
 BuildArch:      noarch
 # Build
+BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -72,6 +73,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Aug 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.022-1
+- 2.022 bump
+
+* Mon Aug 17 2020 Petr Pisar <ppisar@redhat.com> - 2.021-1
+- 2.021 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.019-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.019-3
 - Perl 5.32 rebuild
 

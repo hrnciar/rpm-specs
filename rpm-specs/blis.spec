@@ -15,12 +15,9 @@
 %endif
 %endif
 
-# Avoid failure with missing pthread_once in check
-%undefine _ld_as_needed
-
 Name:		blis
 Version:	0.7.0
-Release:	2%{?dist}
+Release:	6%{?dist}
 Summary:	BLAS-like Library Instantiation Software Framework
 License:	BSD
 URL:		https://github.com/flame/blis
@@ -29,14 +26,16 @@ Source0:	https://github.com/flame/blis/archive/%commit/%name-%shortcommit.tar.gz
 %else
 Source0:	https://github.com/flame/blis/archive/%version/%name-%version.tar.gz
 %endif
+# Don't identify s390x as 32-bit
+Patch1:		blis-s390x.patch
 BuildRequires:	perl
 BuildRequires:	%{?dts:devtoolset-%{?dts}-binutils devtoolset-%{?dts}-}gcc
 BuildRequires:	/usr/bin/python3 gcc-gfortran chrpath
 # memkind is currently only relevant for KNL as far as I know, but
 # might be relevant in future for other targets with HBM.  It needs
-# updating in el7, and building for el8.  It should also support
-# ppc64le and s390x, but they're not built.
-%ifarch %{?el7:x86_64}  %{?fedora:x86_64}
+# updating in el7.  It should support other targets, but only x86_64
+# is packaged.
+%ifarch x86_64
 BuildRequires: memkind-devel
 %endif
 
@@ -131,6 +130,7 @@ BLIS architecture macros.
 # 0.6.0: removed bli_thread_get_env, bli_thread_init_rntm; indirect
 # sub-types in bli_addd_ex; ARCH enum in bli_arch_query_id.
 echo %sover | awk -F. '{printf("%s\n%s.%s\n", $2,$3,$4)}' >so_version
+%patch1 -p1
 
 
 %build
@@ -139,6 +139,7 @@ case %_arch in
 x86_64) arch=x86_64 ;;
 # a57 runs on all aarch64 and the optimized micro-kernel should be a
 # better default than generic.
+# Fixme:  Include my changes for arm and ppc micro-arch dispatch.
 aarch64) arch=cortexa57 ;;
 armv7hl) arch=cortexa9 ;;	# Similarly to aarch64
 *) arch=generic ;;
@@ -200,7 +201,7 @@ for d in 64 o64 p64; do
   ln -s libblis$d.so%sover libblis$d.so%soshort
   rm -f libblis.*
   cd ../..
-  cc -shared -Wl,-soname=libblas64.so%soshort -L$(pwd)/$d/lib -lblis$d -o blisblas$d/libblas64.so.3 $LDFLAGS
+  cc -shared -Wl,-soname=libblas64.so.3 -L$(pwd)/$d/lib -lblis$d -o blisblas$d/libblas64.so.3 $LDFLAGS
   ln -s libblas64.so.3 blisblas$d/libblas64.so
 done
 
@@ -256,7 +257,7 @@ potential advantage generally, but it isn't currently used by any
 Fedora packages.
 
 There are shared library shims in %_libdir/blisblas* for each version
-that provide sonames libblas.so.3 or libblas64.so%soshort and so may be
+that provide sonames libblas.so.3 or libblas64.so.3 and so may be
 linked dynamically instead of the reference libblas.  You can use an
 ldconfig file so that this will be done automatically if the blis or
 blis64 packages are installed, which will usually be a lot faster than
@@ -378,8 +379,24 @@ export LD_LIBRARY_PATH=`pwd`/serial/lib
 %{macrosdir}/macros.blis-srpm
 
 %changelog
+* Sun Aug 16 2020 Dave Love <loveshack@fedoraproject.org> - 0.7.0-6
+- Fix libblas64 soname
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul  6 2020 Dave Love <loveshack@fedoraproject.org> - 0.7.0-4
+- Change conditional BR of memkind-devel
+
+* Wed Jul  1 2020 Dave Love <loveshack@fedoraproject.org> - 0.7.0-3
+- Patch to build 64-, not 32-bit version on s390x (#1852549)
+
 * Wed May 27 2020 Dave Love <loveshack@fedoraproject.org> - 0.7.0-2
-- Revert build for arches that don't actually have had memkind packages
+- Revert build for arches that don't actually have memkind packages
 
 * Wed May 20 2020 Dave Love <loveshack@fedoraproject.org> - 0.7.0-1
 - New version

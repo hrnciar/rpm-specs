@@ -6,8 +6,11 @@
 #
 # Please, preserve the changelog entries
 #
+
+%bcond_without       tests
+
 # Github
-%global gh_commit    059d11012603be2e32ddb7543602965563ddbb09
+%global gh_commit    f502edffafea8d746825bd5f0b923a60fd2715ff
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sabre-io
 %global gh_project   uri
@@ -18,11 +21,10 @@
 %global ns_vendor    Sabre
 %global ns_project   Uri
 %global major        2
-%global with_tests   0%{!?_without_tests:1}
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
 Summary:        Functions for making sense out of URIs
-Version:        2.2.0
+Version:        2.2.1
 Release:        1%{?dist}
 
 URL:            https://github.com/%{gh_owner}/%{gh_project}
@@ -32,19 +34,26 @@ Source0:        %{name}-%{version}-%{gh_short}.tgz
 Source1:        makesrc.sh
 
 BuildArch:      noarch
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php(language) >= 7.1
 # From composer.json, "require-dev": {
 #        "friendsofphp/php-cs-fixer": "~2.16.1",
-#        "phpunit/phpunit" : "^7 || ^8"
+#        "phpstan/phpstan": "^0.12",
+#        "phpunit/phpunit" : "^7.5 || ^8.5 || ^9.0"
 BuildRequires:  php-pcre
-BuildRequires:  phpunit8
+%if 0%{?fedora} >= 31 || 0%{?rhel} >= 9
+BuildRequires:  phpunit9
+%global phpunit %{_bindir}/phpunit9
+%else
+BuildRequires:  phpunit8 >= 8.5
+%global phpunit %{_bindir}/phpunit8
+%endif
 %endif
 # Autoloader
 BuildRequires:  php-fedora-autoloader-devel
 
 # From composer.json, "require" : {
-#        "php": "^7.1"
+#        "php": "^7.1 || ^8.0"
 Requires:       php(language) > 7.1
 # From phpcompatinfo report for version 2.1.2
 Requires:       php-pcre
@@ -96,16 +105,17 @@ cp -pr lib %{buildroot}%{_datadir}/php/%{ns_vendor}/%{ns_project}%{major}
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 : Run upstream test suite against installed library
 mkdir vendor
 ln -s %{buildroot}%{_datadir}/php/%{ns_vendor}/%{ns_project}%{major}/autoload.php vendor/autoload.php
 
 cd tests
-for cmd in php php72 php73 php74
+for cmdarg in "php %{phpunit}" "php72 %{_bindir}/phpunit8" php73 php74 php80
 do
-  if which $cmd; then
-    $cmd %{_bindir}/phpunit8 --verbose || ret=1
+  if which $cmdarg; then
+    set $cmdarg
+    $1 ${2:-%{_bindir}/phpunit9} --verbose || ret=1
   fi
 done
 exit $ret
@@ -123,6 +133,13 @@ exit $ret
 
 
 %changelog
+* Mon Oct  5 2020 Remi Collet <remi@remirepo.net> - 2.2.1-1
+- update to 2.2.1
+- switch to phpunit9
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb  1 2020 Remi Collet <remi@remirepo.net> - 2.2.0-1
 - update to 2.2.0
 - raise dependency on PHP 7.1

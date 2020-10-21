@@ -8,7 +8,7 @@
 
 # https://github.com/vmware/govmomi
 %global goipath         github.com/vmware/govmomi
-Version:                0.21.0
+Version:                0.23.1
 
 %gometa
 
@@ -22,13 +22,15 @@ A Go library for interacting with VMware vSphere APIs (ESXi and/or vCenter).}
                         README-vcsim.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Go library for the VMware vSphere API
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+# Go 1.15: https://github.com/vmware/govmomi/issues/2075
+Patch0:         0001-Convert-int-to-string-using-rune.patch
 
 BuildRequires:  golang(github.com/davecgh/go-xdr/xdr2)
 BuildRequires:  golang(github.com/google/uuid)
@@ -43,6 +45,7 @@ BuildRequires:  golang(github.com/vmware/vmw-guestinfo/vmcheck)
 
 %prep
 %goprep
+%patch0 -p1
 mv govc/README.md README-govc.md
 mv govc/CHANGELOG.md CHANGELOG-govc.md
 mv govc/USAGE.md USAGE-govc.md
@@ -82,6 +85,16 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Tue Aug 04 17:25:08 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.23.1-1
+- Update to 0.23.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.21.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.21.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.21.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

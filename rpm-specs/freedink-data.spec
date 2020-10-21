@@ -1,6 +1,6 @@
 Name:		freedink-data
 Version:	1.08.20190120
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Adventure and role-playing game (assets)
 
 License:	zlib and CC-BY-SA and (GPLv3+ or Free Art or CC-BY-SA) and OAL and Public Domain and CC-BY and GPLv2+
@@ -40,6 +40,9 @@ make install PREFIX=%{_prefix} DESTDIR=%{buildroot}
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.08.20190120-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.08.20190120-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

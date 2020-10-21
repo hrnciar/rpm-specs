@@ -1,6 +1,6 @@
 Name:		erlang-rpm-macros
 Version:	0.3.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Macros for simplifying building of Erlang packages
 License:	MIT
 URL:		https://github.com/fedora-erlang/erlang-rpm-macros
@@ -57,6 +57,9 @@ make check
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

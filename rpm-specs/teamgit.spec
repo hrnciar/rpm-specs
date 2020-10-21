@@ -4,7 +4,7 @@
 Summary:       Visual tool for Git
 Name:          teamgit
 Version:       0.0.12
-Release:       27.%{date}%{?dist}
+Release:       29.%{date}%{?dist}
 Epoch:         1
 License:       GPLv2
 URL:           http://gitorious.org/projects/teamgit
@@ -32,6 +32,7 @@ control system.
 %patch01 -p1
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 %{qmake_qt4} ./teamgit.pro
 make
 #{?_smp_mflags} don't work
@@ -50,6 +51,12 @@ desktop-file-install --dir %{buildroot}%{_datadir}/applications \
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.0.12-29.20130626
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 1:0.0.12-28.20130626
+- Force C++14 as this code is not C++17 ready
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.0.12-27.20130626
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

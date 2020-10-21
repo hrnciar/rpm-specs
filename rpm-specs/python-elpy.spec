@@ -9,7 +9,7 @@ Details of...}
 
 Name:           python-%{pypi_name}
 Version:        1.34.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Backend for the elpy Emacs mode
 
 License:        GPLv3
@@ -76,6 +76,9 @@ find . -type f -name "*.py" -exec sed -i '/^#![  ]*\/usr\/bin\/env.*$/ d' {} ';'
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.34.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 03 2020 Luis Bazan <lbazan@fedoraproject.org> - 1.34.0-1
 - New upstream version
 

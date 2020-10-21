@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}0.3
 Version:        0.3.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Types and traits for working with bytes
 
 # Upstream license specification: MIT
@@ -71,6 +71,9 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 03:40:29 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.3.0-9
 - Disable tests
 

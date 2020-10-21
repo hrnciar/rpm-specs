@@ -1,6 +1,6 @@
 Name:       slop
 Version:    7.4
-Release:    10%{?dist}
+Release:    11%{?dist}
 Summary:    Command line tool to perform region SeLect OPeration with mouse
 URL:        https://github.com/naelstrof/slop
 
@@ -40,18 +40,19 @@ from the user and prints the region to stdout.
 This sub-package contains development files for libslopy library.
 
 %prep
-%autosetup -n %{name}-%{version}
+%autosetup
 
 %build
-%cmake .
+%cmake
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %ldconfig_scriptlets -n libslopy
 
 %check
-ctest -V %{?_smp_mflags}
+%ctest
 
 %files
 %doc README.md
@@ -67,6 +68,9 @@ ctest -V %{?_smp_mflags}
 %{_includedir}/slop.hpp
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.4-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 15 2020 Pete Walter <pwalter@fedoraproject.org> - 7.4-10
 - Rebuild for ICU 67
 

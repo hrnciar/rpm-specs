@@ -1,20 +1,16 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
-
 Name:           sugar-xoirc
-Version:        12
-Release:        12%{?dist}
+Version:        14
+Release:        1%{?dist}
 Summary:        IRC client for Sugar
 License:        GPLv2+
-URL:            http://git.sugarlabs.org/projects/irc
+URL:            https://github.com/sugarlabs/irc-activity/
 Source0:        http://download.sugarlabs.org/sources/honey/IRC/IRC-%{version}.tar.bz2
 BuildArch:      noarch
 
 BuildRequires:  gobject-introspection-devel
-BuildRequires:  python2-devel
+BuildRequires:  python3-devel
 BuildRequires:  sugar-toolkit-gtk3-devel
-Requires:       sugar
+Requires:       sugar >= 0.116
 Requires:       sugar-toolkit-gtk3
 
 
@@ -26,22 +22,40 @@ on the internet, and chat with them.
 %prep
 %setup -q -n IRC-%{version}
 
-sed -i 's/python/python2/' *.py
+sed -i 's/python/python3/' *.py
 
 %build
-python2 ./setup.py build
+python3 ./setup.py build
 
 
 %install
-python2 ./setup.py install --prefix=%{buildroot}/%{_prefix}
+python3 ./setup.py install --prefix=%{buildroot}/%{_prefix}
 rm %{buildroot}%{_prefix}/share/applications/*.desktop || true
 
+# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
+%py_byte_compile %{python3} %{buildroot}/%{sugaractivitydir}/IRC.activity/
 
 %files
+%license COPYING
 %doc README TODO
 %{sugaractivitydir}/IRC.activity/
 
 %changelog
+* Sat Oct 10 2020 Ibiam Chihurumnaya <ibiamchihurumnaya@gmail.com> - 14-1
+- Release version 14
+- Change to py_byte_compile as stated in phase 3
+  (See https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3)
+
+* Wed Aug 12 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 13-1
+- Update to IRC 13
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12-14
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 12-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

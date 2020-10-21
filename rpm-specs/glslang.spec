@@ -1,11 +1,11 @@
-%global commit c9b28b9f3388c607ea5506f5e6197b7150238ad3
+%global commit 5743eed4d16757402517a1068137f4bc1645ee87
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global commit_date 2020421
+%global commit_date 20200803
 %global gitrel .%{commit_date}.git%{shortcommit}
 
 Name:           glslang
-Version:        8.13.3559
-Release:        2%{?gitrel}%{?dist}
+Version:        11.0.0
+Release:        1%{?gitrel}%{?dist}
 Summary:        OpenGL and OpenGL ES shader front end and validator
 
 License:        BSD and GPLv3+ and ASL 2.0
@@ -41,18 +41,11 @@ interpretation of the specifications for these languages.
 find . -name '*.h' -or -name '*.cpp' -or -name '*.hpp'| xargs chmod a-x
 
 %build
-%__mkdir_p build
-pushd build
-%cmake3 -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_INSTALL_LIBDIR=%{_libdir} \
-        -DCMAKE_SKIP_RPATH:BOOL=yes \
-        -DBUILD_SHARED_LIBS=OFF \
-        -GNinja ..
-%{ninja_build}
-popd
+%cmake3 -DBUILD_SHARED_LIBS=OFF
+%cmake_build
 
 %install
-%{ninja_install} -C build
+%{cmake_install}
 
 # we don't want them in here
 rm -rf %{buildroot}%{_includedir}/SPIRV
@@ -60,12 +53,12 @@ rm -rf %{buildroot}%{_includedir}/SPIRV
 %ifnarch s390x ppc64
 %check
 pushd Test
-./runtests localResults ../build/StandAlone/glslangValidator ../build/StandAlone/spirv-remap
+./runtests localResults ../%{_vpath_builddir}/StandAlone/glslangValidator ../%{_vpath_builddir}/StandAlone/spirv-remap
 popd
 %endif
 
 # Install libglslang-default-resource-limits.a
-install -pm 0644 build/StandAlone/libglslang-default-resource-limits.a %{buildroot}%{_libdir}/
+install -pm 0644 %{_vpath_builddir}/StandAlone/libglslang-default-resource-limits.a %{buildroot}%{_libdir}/
 
 %files
 %doc README.md README-spirv-remap.txt
@@ -80,12 +73,27 @@ install -pm 0644 build/StandAlone/libglslang-default-resource-limits.a %{buildro
 %{_libdir}/libSPIRV.a
 %{_libdir}/libSPVRemapper.a
 %{_libdir}/libglslang.a
+%{_libdir}/libGenericCodeGen.a
+%{_libdir}/libMachineIndependent.a
 %{_libdir}/libglslang-default-resource-limits.a
 %{_libdir}/pkgconfig/glslang.pc
 %{_libdir}/pkgconfig/spirv.pc
 %{_libdir}/cmake/*
 
 %changelog
+* Wed Aug 05 2020 Dave Airlie <airlied@redhat.com> - 11.0.0-1
+- Latest upstream snapshot
+
+* Tue Aug 04 2020 Dave Airlie <airlied@redhat.com> - 8.13.3559-5
+- Use cmake macros.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.13.3559-4.2020421.gitc9b28b9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.13.3559-3.2020421.gitc9b28b9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 22 2020 Dave Airlie <airlied@redhat.com> - 8.13.3559-2
 - Update to latest git snapshot
 

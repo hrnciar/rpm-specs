@@ -4,7 +4,7 @@
 
 Name:           web-assets
 Version:        5
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        A simple framework for bits pushed to browsers
 BuildArch:      noarch
 
@@ -91,6 +91,9 @@ systemctl reload-or-try-restart httpd.service || :
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

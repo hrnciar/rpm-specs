@@ -14,7 +14,7 @@ Utilities for manipulating POSIX capabilities in Go.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.25%{?dist}
+Release:        0.26%{?dist}
 Summary:        Utilities for manipulating POSIX capabilities in Go
 
 # Upstream license specification: BSD-2-Clause
@@ -41,6 +41,9 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

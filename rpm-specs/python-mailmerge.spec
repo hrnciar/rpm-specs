@@ -2,15 +2,13 @@
 %{?python_enable_dependency_generator}
 
 Name:          python-%{srcname}
-Version:       2.1.0
-Release:       3%{?dist}
+Version:       2.1.1
+Release:       1%{?dist}
 Summary:       Simple command line mail merge tool
 
 License:       MIT
 URL:           https://github.com/awdeorio/mailmerge
 Source0:       %{pypi_source}
-# https://github.com/awdeorio/mailmerge/pull/91
-Patch0: configparser.patch
 BuildArch:     noarch
 
 %description
@@ -27,7 +25,6 @@ BuildRequires: python3-devel
 
 %prep
 %autosetup -n %{srcname}-%{version} -p1
-rm -vr *.egg-info
 
 %build
 %{py3_build}
@@ -43,6 +40,12 @@ rm -vr *.egg-info
 %{python3_sitelib}/mailmerge-*.egg-info/
 
 %changelog
+* Thu Aug 27 2020 Brian Exelbierd <bexelbie@redhat.com> - 2.1.1-1
+- Update to 2.1.1
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.0-3
 - Rebuilt for Python 3.9
 

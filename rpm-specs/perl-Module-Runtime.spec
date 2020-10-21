@@ -9,7 +9,7 @@
 
 Name:           perl-Module-Runtime
 Version:        0.016
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Runtime module handling
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Module-Runtime
@@ -57,6 +57,9 @@ make test
 %{_mandir}/man3/Module::Runtime.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.016-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.016-9
 - Perl 5.32 rebuild
 

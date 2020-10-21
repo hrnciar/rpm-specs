@@ -5,8 +5,8 @@
 Name: chordpro
 Summary: Print songbooks (lyrics + chords)
 License: Artistic 2.0
-Version: 0.974.1
-Release: 6%{?dist}
+Version: 0.977
+Release: 1%{?dist}
 Source: https://cpan.metacpan.org/authors/id/J/JV/JV/%{FullName}-%{version}.tar.gz
 URL: https://www.chordpro.org
 
@@ -23,7 +23,7 @@ Requires: perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 
 Requires: perl(App::Packager)               >= 1.430
 Requires: perl(PDF::API2)                   >= 2.036
-Requires: perl(Text::Layout)                >= 0.016
+Requires: perl(Text::Layout)                >= 0.019
 Requires: perl(JSON::PP)                    >= 2.27203
 Requires: perl(String::Interpolate::Named)  >= 0.05
 Requires: perl(File::LoadLines)             >= 0.02
@@ -45,7 +45,7 @@ BuildRequires: perl(JSON::PP)                    >= 2.27203
 BuildRequires: perl(PDF::API2)                   >= 2.036
 BuildRequires: perl(String::Interpolate::Named)  >= 0.05
 BuildRequires: perl(Test::More)
-BuildRequires: perl(Text::Layout)                >= 0.016
+BuildRequires: perl(Text::Layout)                >= 0.019
 BuildRequires: perl(base)
 BuildRequires: perl(constant)
 BuildRequires: perl(lib)
@@ -118,7 +118,7 @@ done
 # End of install section.
 
 %files
-%doc CHANGES README
+%doc Changes README.md
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf
 %{share}/
@@ -126,6 +126,15 @@ done
 %{_mandir}/man1/chordpro*
 
 %changelog
+* Thu Aug 27 2020 Johan Vromans <jvromans@squirrel.nl> - 0.977.1-1
+- Upgrade to upstream.
+
+* Thu Aug 13 2020 Johan Vromans <jvromans@squirrel.nl> - 0.975.1-8
+- Upgrade to upstream.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.974.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.974.1-6
 - Perl 5.32 rebuild
 

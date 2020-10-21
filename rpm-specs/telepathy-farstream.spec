@@ -1,6 +1,6 @@
 Name:           telepathy-farstream
 Version:        0.6.1
-Release:        16%{?dist}
+Release:        19%{?dist}
 Summary:        Telepathy client library to handle Call channels
 
 License:        LGPLv2+
@@ -12,7 +12,6 @@ BuildRequires:  farstream02-devel >= 0.2.7
 BuildRequires:  dbus-devel
 BuildRequires:  dbus-glib-devel
 BuildRequires:  gobject-introspection-devel
-BuildRequires:  python2-devel
 
 ## Obsolete telepathy-farsight(-python) with Fedora 17.
 Provides:       telepathy-farsight = %{version}
@@ -84,6 +83,16 @@ make check
 
 
 %changelog
+* Wed Sep 9 2020 Petr Viktorin <pviktori@redhat.com> - 0.6.1-19
+- Remove BuildRequires on python2-devel
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-18
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.1-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.3.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python bindings for the XML Security Library
 
 License:        MIT
@@ -56,6 +56,9 @@ Requires: %{py3_dist lxml}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 1 2020 Martin Kutlak <mkfedora@outlook.com> - 1.3.8-1
 - Update spec file
 - Update to 1.3.8 (#1838368)

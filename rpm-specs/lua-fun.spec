@@ -1,4 +1,4 @@
-%define luaver 5.3
+%define luaver 5.4
 %define luapkgdir %{_datadir}/lua/%{luaver}
 # LuaJIT is compatible with Lua 5.1 and uses the same directory for modules
 %global ljpkgdir %{_datadir}/lua/5.1
@@ -12,7 +12,7 @@
 
 Name: lua-fun
 Version: 0.1.3
-Release: 12%{?dist}
+Release: 14%{?dist}
 Summary: Functional programming library for Lua
 License: MIT
 URL: https://github.com/rtsisyk/luafun
@@ -92,6 +92,12 @@ cd tests
 %endif # with luajit
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.3-13
+- Rebuilt for Lua 5.4
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

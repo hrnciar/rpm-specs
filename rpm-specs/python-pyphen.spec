@@ -3,7 +3,7 @@
 
 Name:           python-pyphen
 Version:        0.9.5
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Pure Python module to hyphenate text
 License:        GPLv2+ or LGPLv2+ or MPLv1.1
 URL:            https://github.com/Kozea/Pyphen
@@ -54,6 +54,9 @@ nosetests test.py
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.5-3
 - Rebuilt for Python 3.9
 

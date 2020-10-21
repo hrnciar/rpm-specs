@@ -1,6 +1,6 @@
 Name:		totem-pl-parser
 Version:	3.26.5
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	Totem Playlist Parser library
 
 License:	LGPLv2+
@@ -12,9 +12,6 @@ BuildRequires:	libxml2-devel
 BuildRequires:	gobject-introspection-devel
 BuildRequires:	gettext
 BuildRequires:	gtk-doc
-%if ! 0%{?rhel}
-BuildRequires:	libquvi-devel
-%endif
 BuildRequires:	libarchive-devel
 BuildRequires:	libgcrypt-devel
 BuildRequires:	meson
@@ -37,12 +34,7 @@ developing applications that use %{name}.
 
 %build
 %meson -Denable-gtk-doc=true \
-%if 0%{?rhel}
 	-Denable-quvi=no \
-%endif
-%if ! 0%{?rhel}
-	-Denable-quvi=yes \
-%endif
 	-Denable-libarchive=yes \
 	-Denable-libgcrypt=yes \
 	-Dintrospection=true
@@ -51,9 +43,7 @@ developing applications that use %{name}.
 %install
 %meson_install
 
-%if 0%{?rhel}
 mkdir -p %{buildroot}/%{_libexecdir}/totem-pl-parser/
-%endif
 
 %find_lang %{name} --with-gnome
 
@@ -64,12 +54,7 @@ mkdir -p %{buildroot}/%{_libexecdir}/totem-pl-parser/
 %doc AUTHORS NEWS README
 %{_libdir}/*.so.*
 %{_libdir}/girepository-1.0/*.typelib
-%if 0%{?fedora}
-%{_libexecdir}/totem-pl-parser/
-%endif
-%if 0%{?rhel}
 %dir %{_libexecdir}/totem-pl-parser/
-%endif
 
 %files devel
 %{_includedir}/*
@@ -80,6 +65,13 @@ mkdir -p %{buildroot}/%{_libexecdir}/totem-pl-parser/
 %{_datadir}/gir-1.0/*.gir
 
 %changelog
+* Tue Sep 29 2020 Bastien Nocera <bnocera@redhat.com> - 3.26.5-3
++ totem-pl-parser-3.26.5-3
+- Disable quvi, upstream is dead, and it doesn't compile with lua 5.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.26.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 28 2020 Bastien Nocera <bnocera@redhat.com> - 3.26.5-1
 + totem-pl-parser-3.26.5-1
 - Update to 3.26.5

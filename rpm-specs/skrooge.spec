@@ -1,7 +1,7 @@
 Name:    skrooge
 Summary: Personal finances manager
-Version: 2.22.1
-Release: 1%{?dist}
+Version: 2.23.0
+Release: 2%{?dist}
 
 License: GPLv2+
 URL:     http://skrooge.org
@@ -78,17 +78,14 @@ Requires: %{name} = %{version}-%{release}
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%cmake_kf5 \
   -DCMAKE_BUILD_TYPE:STRING="Release"
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast -C %{_target_platform} DESTDIR=%{buildroot}
+%cmake_install
 
 %find_lang %{name} --with-html
 
@@ -138,6 +135,19 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.skrooge.d
 
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 2.23.0-2
+- rebuild (qt5)
+
+* Tue Aug 11 2020 Marie Loise Nolden <loise@kde.org> - 2.23.0-1
+- 2.23.0, use new macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.22.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.22.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 20 2020 Rex Dieter <rdieter@fedoraproject.org> - 2.22.1-1
 - 2.22.1
 

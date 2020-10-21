@@ -1,6 +1,6 @@
 Name:           perl-File-Map
-Version:        0.66
-Release:        6%{?dist}
+Version:        0.67
+Release:        3%{?dist}
 Summary:        Memory mapping made simple and safe
 License:        GPL+ or Artistic
 
@@ -39,7 +39,7 @@ BuildRequires:  perl(Test::Warnings) >= 0.005
 BuildRequires:  perl(threads)
 BuildRequires:  perl(Time::HiRes)
 BuildRequires:  perl(utf8)
-Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+Requires:       perl(:MODULE_COMPAT_%(eval "`/usr/bin/perl -V:version`"; echo $version))
 
 %{?perl_default_filter}
 
@@ -53,15 +53,13 @@ chmod -x examples/fastsearch.pl
 
 
 %build
-%{__perl} Build.PL installdirs=vendor optimize="$RPM_OPT_FLAGS"
+/usr/bin/perl Build.PL installdirs=vendor optimize="$RPM_OPT_FLAGS"
 ./Build
 
 
 %install
 ./Build install destdir=$RPM_BUILD_ROOT create_packlist=0
 find $RPM_BUILD_ROOT -type f -name '*.bs' -size 0 -exec rm -f {} \;
-find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
-
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 
@@ -78,6 +76,16 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.67-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.67-2
+- Perl 5.32 re-rebuild updated packages
+
+* Sun Jun 28 2020 Emmanuel Seyman <emmanuel@seyman.fr> - 0.67-1
+- Replace %%{__perl} with /usr/bin/perl
+- Update to 0.67
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.66-6
 - Perl 5.32 rebuild
 

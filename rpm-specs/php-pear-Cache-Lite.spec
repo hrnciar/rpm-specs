@@ -13,7 +13,7 @@ Summary:        Fast and Safe little cache system for PHP
 Summary(fr):    Méthode de cache rapide et sécurisée pour PHP
 Name:           php-pear-Cache-Lite
 Version:        1.8.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        PHP
 URL:            http://pear.php.net/package/Cache_Lite
 Source:         http://pear.php.net/get/%{pear_name}-%{version}.tgz
@@ -90,6 +90,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

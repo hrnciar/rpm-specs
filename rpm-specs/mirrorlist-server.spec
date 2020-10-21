@@ -4,7 +4,7 @@
 
 Name:           mirrorlist-server
 Version:        3.0.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Mirrorlist Server
 
 # Upstream license specification: MIT
@@ -16,6 +16,10 @@ Summary:        Mirrorlist Server
 License:        MIT and ASL 2.0 and ISC
 URL:            https://github.com/adrianreber/mirrorlist-server
 Source:         %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+
+# For rust-ipnetwork 0.17.0
+# https://github.com/adrianreber/mirrorlist-server/pull/48
+Patch0:         mirrorlist-server-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
 
@@ -75,6 +79,12 @@ than the Python version.}
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Dusty Mabe <dusty@dustymabe.com> - 3.0.1-2
+- Respin. We updated rust-ipnetwork to 0.17.0
+
 * Thu Jun 18 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 3.0.1-1
 - Update to 3.0.1
 

@@ -1,6 +1,6 @@
 Name:       ddate   
 Version:    0.2.2
-Release:    9%{?dist}
+Release:    11%{?dist}
 Summary:    Convert Gregorian dates to Discordian dates
 License:    Public Domain
 URL:        https://github.com/bo0ts/%{name}
@@ -8,7 +8,6 @@ Source0:    %{url}/archive/v%{version}.tar.gz
 BuildRequires:  cmake   
 BuildRequires:  gcc
 BuildRequires:  gzip
-BuildRequires:  make
 
 %description
 This tool prints a date in the Discordian date format.
@@ -17,14 +16,14 @@ This tool prints a date in the Discordian date format.
 %setup -qn %{name}-%{version}
 
 %build
-%cmake .
-make %{?_smp_mflags}
+%{cmake}
+%{cmake_build}
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%{cmake_install}
 
 %check
-ctest
+%{ctest}
 
 %files
 %doc README.org
@@ -32,6 +31,12 @@ ctest
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jul 28 2020 Petr Pisar <ppisar@redhat.com> - 0.2.2-11
+- Adapt to CMake macros that perform out-of-source builds now
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

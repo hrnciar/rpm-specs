@@ -1,19 +1,20 @@
+%undefine __cmake_in_source_build
+%global _lto_cflags %{nil}
 %global srcname flann
+%global soversion 1.9
 
 Name:           flann
-Version:        1.8.4
-Release:        26%{?dist}
+Version:        1.9.1
+Release:        1%{?dist}
 Summary:        Fast Library for Approximate Nearest Neighbors
 
 License:        BSD
-URL:            http://www.cs.ubc.ca/~mariusm/index.php/FLANN/FLANN
-Source0:        http://www.cs.ubc.ca/~mariusm/uploads/FLANN/%{name}-%{version}-src.zip
+URL:            http://www.cs.ubc.ca/research/flann
+Source0:        https://www.github.com/mariusmuja/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 
 # Prevent the buildsysem from running setup.py, and use system-installed libflann.so
 # Not submitted upstream
-Patch0:         flann-1.8.4-fixpyflann.patch
-# Fix build failures with c++11/gcc6
-Patch1:         flann-1.8.4-gcc6.patch
+Patch0:         flann-1.9.1-fixpyflann.patch
 # Add a file to shared library targets
 Patch2:         flann-1.8.4-srcfile.patch
 BuildRequires:  gcc-c++
@@ -22,6 +23,8 @@ BuildRequires:  zlib-devel
 
 BuildRequires:  hdf5-devel
 BuildRequires:  gtest-devel
+
+BuildRequires:  texlive-scheme-tetex
 
 BuildRequires:  python3-devel
 
@@ -58,30 +61,26 @@ Requires: python3-numpy
 Python 3 bindings for flann
 
 %prep
-%setup -q -n %{name}-%{version}-src
+%setup 
 %patch0 -p0 -b .fixpyflann
-%patch1 -p0 -b .gcc6
 %patch2 -p0 -b .srcfile
 
 # Fix library install directory
 sed -i 's/"lib"/"%{_lib}"/' cmake/flann_utils.cmake
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%cmake -DBUILD_MATLAB_BINDINGS=OFF  -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_PYTHON_BINDINGS=ON ..
-popd
-make -C %{_target_platform}
-
+%cmake -DBUILD_MATLAB_BINDINGS=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_PYTHON_BINDINGS=ON 
+%cmake_build
+%cmake_build --target doc
 
 %install
-make install DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 rm -rf %{buildroot}%{_datadir}/%{name}/python
 
 # install the python bindings
 cp -r src/python src/python3
 
-cp %{_target_platform}/src/python/setup.py src/python3
+cp %{_vpath_builddir}/src/python/setup.py src/python3
 
 pushd src/python3
 %{__python3} setup.py install --prefix=/usr --root=%{buildroot} --install-lib=%{python3_sitearch}
@@ -94,11 +93,10 @@ rm -rf %{buildroot}%{_bindir}*
 # Remove installed documentation, we'll install it later with the doc macro
 rm -rf %{buildroot}%{_datadir}/doc/flann
 
-%ldconfig_scriptlets
-
 %files
 %doc doc/manual.pdf
-%{_libdir}/*.so.*
+%{_libdir}/*.so.%{version}
+%{_libdir}/*.so.%{soversion}
 
 %files devel
 %{_libdir}/*.so
@@ -113,6 +111,17 @@ rm -rf %{buildroot}%{_datadir}/doc/flann
 %{python3_sitearch}/flann-%{version}*.egg-info
 
 %changelog
+* Thu Aug 06 2020 Rich Mattes <richmattes@gmail.com> - 1.9.1-1
+- Update to release 1.9.1
+- Fix CMake macros (rhbz#1863563)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.4-28
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.4-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.8.4-26
 - Rebuilt for Python 3.9
 

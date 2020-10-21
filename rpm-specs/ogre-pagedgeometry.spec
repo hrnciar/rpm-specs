@@ -6,7 +6,7 @@
 Name:           ogre-pagedgeometry
 Epoch:          1
 Version:        1.1.4
-Release:        14.20131226hg%{snap}%{?dist}
+Release:        16.20131226hg%{snap}%{?dist}
 Summary:        Ogre addon for realtime rendering of dense forests
 License:        zlib
 URL:            https://code.google.com/p/ogre-paged/
@@ -132,6 +132,13 @@ cp -p sse2/lib/libPagedGeometry.so %{buildroot}%{_libdir}/sse2/OGRE/
 %ldconfig_scriptlets
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.1.4-16.20131226hg3ad14141c027
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.1.4-15.20131226hg3ad14141c027
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.1.4-14.20131226hg3ad14141c027
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -5,7 +5,7 @@
 
 Name:		nodejs-has-glob
 Version:	1.0.0
-Release:	7%{?dist}
+Release:	8%{?dist}
 Summary:	Returns `true` if an array has a glob pattern
 
 License:	MIT
@@ -67,6 +67,9 @@ NODE_ENV=test %{_bindir}/mocha -R spec
 %{nodejs_sitelib}/%{packagename}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

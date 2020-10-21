@@ -1,6 +1,6 @@
 Name:           fuse-encfs
 Version:        1.9.5
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        Encrypted pass-thru filesystem in userspace
 
 License:        GPLv3+
@@ -35,20 +35,17 @@ rm -rf vendor/github.com/leethomasson
 mkdir %{_target_platform}
 
 %build
-pushd %{_target_platform}
-        %cmake \
-        -DCMAKE_SKIP_RPATH=ON \
-        -DBUILD_STATIC_LIBS=OFF \
-        -DBUILD_SHARED_LIBS=ON \
-        -DINSTALL_LIBENCFS=ON \
-        -DUSE_INTERNAL_TINYXML=OFF \
-        ..
-popd
+%cmake \
+    -DCMAKE_SKIP_RPATH=ON \
+    -DBUILD_STATIC_LIBS=OFF \
+    -DBUILD_SHARED_LIBS=ON \
+    -DINSTALL_LIBENCFS=ON \
+    -DUSE_INTERNAL_TINYXML=OFF
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 rm -f %{buildroot}/%{_libdir}/*.la
 rm -f %{buildroot}/%{_libdir}/*.so
 
@@ -62,6 +59,13 @@ rm -f %{buildroot}/%{_libdir}/*.so
 %{_mandir}/man1/encfs*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.5-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.5-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.5-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

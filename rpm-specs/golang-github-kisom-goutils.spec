@@ -3,7 +3,7 @@
 
 # https://github.com/kisom/goutils
 %global goipath         github.com/kisom/goutils
-Version:                1.3.0
+Version:                1.4.0
 
 %gometa
 
@@ -15,7 +15,7 @@ a number of command-line utilities.}
 %global godocs          CHANGELOG README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Collection of small utility code written in Go
 
 License:        ISC
@@ -76,6 +76,12 @@ rm -rf cmd
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 18:46:15 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.4.0-1
+- Update to 1.4.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

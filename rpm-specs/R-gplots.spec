@@ -1,10 +1,10 @@
 %global packname gplots
-%global packver  3.0.3
+%global packver  3.1.0
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          %{packver}
-Release:          2%{?dist}
+Version:          3.1.0
+Release:          1%{?dist}
 Summary:          Various R Programming Tools for Plotting Data
 
 License:          GPLv2
@@ -13,7 +13,7 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.
 
 # Here's the R view of the dependencies world:
 # Depends:
-# Imports:   R-gtools, R-gdata, R-stats, R-caTools, R-KernSmooth
+# Imports:   R-gtools, R-stats, R-caTools, R-KernSmooth
 # Suggests:  R-grid, R-MASS, R-knitr
 # LinkingTo:
 # Enhances:
@@ -22,7 +22,6 @@ BuildArch:        noarch
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
 BuildRequires:    R-gtools
-BuildRequires:    R-gdata
 BuildRequires:    R-stats
 BuildRequires:    R-caTools
 BuildRequires:    R-KernSmooth
@@ -91,6 +90,15 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Fri Sep 18 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 3.1.0-1
+- Update to latest version (#1880401)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 3.0.4-1
+- Update to latest version
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 3.0.3-2
 - rebuild for R 4
 

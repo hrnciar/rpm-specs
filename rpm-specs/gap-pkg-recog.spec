@@ -8,7 +8,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        1.3.2
-Release:        4.%{gitdate}.%{shortcommit}%{?dist}
+Release:        5.%{gitdate}.%{shortcommit}%{?dist}
 Summary:        Group recognition methods
 
 License:        GPLv3+
@@ -87,6 +87,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}-%{version}/examples/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-5.20200127.168ed62
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 12 2020 Jerry James <loganjerry@gmail.com> - 1.3.2-4.20200127.168ed62
 - Rebuild for gap 4.11.0
 - Add missing gap-pkg-orb dependency

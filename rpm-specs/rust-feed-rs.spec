@@ -5,11 +5,12 @@
 %global crate feed-rs
 
 Name:           rust-%{crate}
-Version:        0.3.0
+Version:        0.4.0
 Release:        1%{?dist}
 Summary:        Unified feed parser that handles Atom, RSS 2.0, RSS 1.0, RSS 0.x and JSON Feed
 
 # Upstream license specification: MIT
+# https://github.com/feed-rs/feed-rs/issues/75
 License:        MIT
 URL:            https://crates.io/crates/feed-rs
 Source:         %{crates_source}
@@ -36,7 +37,6 @@ This package contains library source intended for building other packages
 which use "%{crate}" crate.
 
 %files          devel
-%license LICENSE
 %doc README.md
 %{cargo_registry}/%{crate}-%{version_no_tilde}/
 
@@ -71,6 +71,12 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Sep 16 2020 Fabio Valentini <decathorpe@gmail.com> - 0.4.0-1
+- Update to version 0.4.0.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 09:08:26 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.3.0-1
 - Update to 0.3.0
 

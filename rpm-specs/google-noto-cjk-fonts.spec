@@ -14,7 +14,7 @@ supported for compatibility with CJK standards. \
 
 Name:           google-noto-cjk-fonts
 Version:        20190416
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Google Noto Sans CJK Fonts
 
 License:        OFL
@@ -237,6 +237,9 @@ ln -s %{_fontconfig_templatedir}/%{fontconf2} \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190416-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190416-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

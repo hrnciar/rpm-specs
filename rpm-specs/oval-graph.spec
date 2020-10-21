@@ -3,8 +3,8 @@
 
 Summary:            Tool for visualization of SCAP rule evaluation results
 Name:               %{name}
-Version:            1.1.1
-Release:            2%{?dist}
+Version:            1.2.2
+Release:            1%{?dist}
 # The entire source code is ASL 2.0 except schemas/ which is Public Domain
 License:            ASL 2.0 and Public Domain
 
@@ -13,7 +13,7 @@ Source0:            https://files.pythonhosted.org/packages/source/o/%{name}/%{m
 
 BuildArch:          noarch
 
-BuildRequires:      python3-devel
+BuildRequires:      python3-devel, python3-setuptools
 Requires:           python3-lxml
 
 %description
@@ -44,6 +44,21 @@ Use `arf-to-json` to generate a rule result in json. Using the
 %{_bindir}/json-to-graph
 
 %changelog
+* Mon Oct 12 2020 Packit Service <user-cont-team+packit-service@redhat.com> - 1.2.2-1
+- new upstream release: 1.2.2
+
+* Mon Sep 21 2020 Packit Service <user-cont-team+packit-service@redhat.com> - 1.2.1-1
+- new upstream release: 1.2.1
+
+* Thu Sep 03 2020 rebase-helper <rebase-helper@localhost.local> - 1.2.0-1
+- new upstream release: 1.2.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Jan Rodak <jrodak@redhat.com> - 1.1.1-3
+- Update BuildRequires
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.1-2
 - Rebuilt for Python 3.9
 
@@ -71,4 +86,3 @@ Use `arf-to-json` to generate a rule result in json. Using the
 
 * Wed Oct 23 2019  Jan Rodak <jrodak@redhat.com> - 0.0.1-1
 - Initial version of the package.
-

@@ -3,7 +3,7 @@
 
 Name:           php-channel-dropbox-php
 Version:        1.3
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Adds the Dropbox-PHP channel to PEAR
 
 License:        Public Domain
@@ -54,6 +54,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

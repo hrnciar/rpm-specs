@@ -1,11 +1,12 @@
 Name:       swaylock
 Version:    1.5
-Release:    2%{?dist}
+Release:    4%{?dist}
 Summary:    Screen locker for Wayland
 
 License:    MIT
 URL:        https://github.com/swaywm/swaylock
 Source0:    %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+Patch1:     swaylock-1.5-fix-version-number.diff
 
 # Older versions were part of the sway package
 Conflicts:      sway < 1.0
@@ -55,6 +56,12 @@ swaylock is a screen locking utility for Wayland compositors.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Fabio Alessandro Locati <me@fale.io> - 1.5-3
+- Fix #1806110
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

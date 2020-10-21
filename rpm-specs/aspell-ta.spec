@@ -4,7 +4,7 @@
 
 Name:           aspell-ta
 Version:        20040424
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        GNU Aspell Tamil Dictionary Package
 
 License:        GPLv2+
@@ -44,6 +44,9 @@ make install DESTDIR=%{buildroot}
 %{_libdir}/aspell-0.60/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20040424-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20040424-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

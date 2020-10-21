@@ -3,7 +3,7 @@
 
 # https://github.com/google/shlex
 %global goipath         github.com/google/shlex
-%global commit          c34317bd91bf98fab745d77b03933cf8769299fe
+%global commit          e7afc7fbc51079733e9468cdfd1efcd7d196cd1d
 
 %gometa
 
@@ -16,7 +16,7 @@ and escaping.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.4%{?dist}
 Summary:        Simple lexer for Go
 
 # Upstream license specification: Apache-2.0
@@ -43,6 +43,9 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 13:32:53 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200727gite7afc7f
+- Bump to commit e7afc7fbc51079733e9468cdfd1efcd7d196cd1d
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

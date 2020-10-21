@@ -1,6 +1,6 @@
 Name:           cxxtools
 Version:        2.2.1
-Release:        20%{?dist}
+Release:        23%{?dist}
 Summary:        A collection of general-purpose C++ classes
 Epoch:          1
 
@@ -35,6 +35,14 @@ find -name "*.cpp" -exec chmod -x {} \;
 find -name "*.h" -exec chmod -x {} \;
 
 %build
+# configure tests try to compile code containing ASMs to a .o file
+# In an LTO world, that always works as compilation does not happen until
+# link time.  As a result we get the wrong results from configure.
+# This can be fixed by using -ffat-lto-objects
+# -ffat-lto-objects forces compilation even with LTO.  It is the default
+# for F33, but not expected to be enabled by default for F34
+%define _lto_cflags -flto=auto -ffat-lto-objects
+
 %configure --disable-static \
 %ifarch s390 s390x aarch64
     --with-atomictype=pthread \
@@ -67,6 +75,15 @@ find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} ';'
 %{_includedir}/cxxtools/
 
 %changelog
+* Fri Aug 21 2020 Jeff Law <law@redhat.com> - 1:2.2.1-23
+- Re-enable LTO
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.2.1-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 1:2.2.1-21
+- Disable LTO
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.2.1-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

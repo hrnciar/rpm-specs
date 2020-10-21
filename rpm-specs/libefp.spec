@@ -1,6 +1,6 @@
 Name:    libefp
 Version: 1.5.0
-Release: 7%{?dist}
+Release: 9%{?dist}
 Summary: A full implementation of the Effective Fragment Potential (EFP) method
 License: BSD 
 URL:     https://libefp.github.io/
@@ -13,7 +13,7 @@ Patch1: libefp-1.5.0-shared.patch
 
 # For testing
 BuildRequires: gcc-gfortran
-BuildRequires: openblas-devel
+BuildRequires: flexiblas-devel
 
 Requires: %{name}-data = %{version}-%{release}
 
@@ -66,7 +66,7 @@ PREFIX=%{_prefix}
 # fragment library path
 FRAGLIB=%{_prefix}/share/libefp/fraglib
 # additional link libraries
-MYLIBS=-lopenblaso -lgfortran
+MYLIBS=-lflexiblas -lgfortran
 # additional linker flags
 MYLDFLAGS=
 # additional C flags
@@ -113,6 +113,12 @@ make check
 %ldconfig_postun
 
 %changelog
+* Wed Aug 12 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.5.0-9
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

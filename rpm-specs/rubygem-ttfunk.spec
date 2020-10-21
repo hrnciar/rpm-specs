@@ -2,17 +2,23 @@
 
 Summary: Font Metrics Parser for Prawn
 Name: rubygem-%{gem_name}
-Version: 1.5.1
-Release: 4%{?dist}
+Version: 1.6.2.1
+Release: 1%{?dist}
 License: GPLv2 or GPLv3 or Ruby
 URL: https://github.com/prawnpdf/ttfunk
 Source0: http://rubygems.org/gems/%{gem_name}-%{version}.gem
-Requires: rubygems
-Requires: ruby(release)
+# Test suite is not packaged with the gem, you may check otu it like so:
+# git clone --no-checkout https://github.com/prawnpdf/ttfunk
+# cd ttfunk && git archive -v -o ttfunk-1.6.2.1-spec.txz 1.6.2.1 spec
+Source1: %{gem_name}-%{version}-spec.txz
+
+BuildRequires: ruby
+BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: rubygems
+BuildRequires: rubygem(rspec)
+BuildRequires: rubygem(bigdecimal)
 BuildArch: noarch
-Provides: rubygem(%{gem_name}) = %{version}
 
 %description
 TTFunk is a TrueType font parser written in pure ruby.
@@ -26,34 +32,46 @@ Summary:    Documentation for rubygem-%{gem_name}
 This package contains documentation for rubygem-%{gem_name}.
 
 %prep
-%setup -q -n  %{gem_name}-%{version}
+%setup -q -n %{gem_name}-%{version} -b1
 
 %build
-
-# Create the gem as gem install only works on a gem file
 gem build ../%{gem_name}-%{version}.gemspec
 
 %gem_install
 rm -rf ./%{gem_dir}/gems/%{gem_name}-%{version}/.yardoc
 
+%check
+pushd .%{gem_instdir}
+ln -s %{_builddir}/spec .
+
+rspec spec
+popd
+
 %install
 mkdir -p %{buildroot}%{gem_dir}
 cp -a ./%{gem_dir}/* %{buildroot}%{gem_dir}/
-mv %{buildroot}%{gem_instdir}/{CHANGELOG.md,COPYING,GPLv2,GPLv3,LICENSE,README.md} ./
 
 %files
-%license COPYING GPLv2 GPLv3 LICENSE
+%license %{gem_instdir}/{COPYING,GPLv2,GPLv3,LICENSE}
 %dir %{gem_instdir}
 %{gem_instdir}/lib
 %exclude %{gem_cache}
+%exclude %{gem_instdir}/.*
 %{gem_spec}
 
 %files doc
-%doc README.md CHANGELOG.md
+%doc %{gem_instdir}/{README.md,CHANGELOG.md}
 %doc %{gem_docdir}
 
 
 %changelog
+* Mon Aug 03 06:53:36 GMT 2020 Pavel Valena <pvalena@redhat.com> - 1.6.2.1-1
+- Update to ttfunk 1.6.2.1.
+  Resolves: rhbz#1787872
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

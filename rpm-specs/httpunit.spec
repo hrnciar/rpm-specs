@@ -30,7 +30,7 @@
 
 Name:           httpunit
 Version:        1.7
-Release:        29%{?dist}
+Release:        32%{?dist}
 Epoch:          0
 Summary:        Automated web site testing toolkit
 License:        MIT and ASL 2.0
@@ -43,6 +43,7 @@ Source3:        https://raw.github.com/apache/tomcat/TOMCAT_7_0_42/java/javax/se
 Source4:        https://raw.github.com/apache/tomcat/TOMCAT_7_0_42/java/javax/servlet/resources/web-app_2_4.xsd
 # sources 2-4 are licensed under ASL 2.0
 Source5:        http://www.apache.org/licenses/LICENSE-2.0.txt
+Patch0:         %{name}-javac-1.8.patch
 Patch1:         %{name}-rhino-1.7.7.patch
 Patch2:         %{name}-servlettest.patch
 Patch3:         %{name}-servlet31.patch
@@ -59,6 +60,7 @@ BuildRequires:  javamail >= 0:1.3
 BuildRequires:  rhino
 BuildRequires:  java-devel >= 1:1.6.0
 BuildRequires:  javapackages-local
+BuildRequires:  jakarta-activation
 
 Requires:       junit >= 0:3.8
 Requires:       glassfish-servlet-api
@@ -92,6 +94,7 @@ Documentation for %{name}
 
 %prep
 %setup -q
+%patch0 -p1
 # patch to work with rhino 1.7.7
 %patch1 -p1
 # add META-INF
@@ -124,7 +127,7 @@ mv %{SOURCE5} LICENSE-ASL
 
 
 %build
-export CLASSPATH=$(build-classpath javamail)
+export CLASSPATH=$(build-classpath javamail jakarta-activation)
 export ANT_OPTS="-Dfile.encoding=iso-8859-1"
 ant -Dbuild.compiler=modern -Dbuild.sysclasspath=last \
   jar javadocs test servlettest
@@ -153,6 +156,16 @@ popd
 %doc doc/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.7-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Fabio Valentini <decathorpe@gmail.com> - 0:1.7-31
+- Set javac source / target versions to 1.8 explicitly.
+- Add missing javax.activation dependency.
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 0:1.7-30
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0:1.7-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

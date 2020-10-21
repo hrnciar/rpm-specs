@@ -3,7 +3,7 @@
 Summary: Driver for QPDL/SPL2 printers (Samsung and several Xerox printers)
 Name: splix
 Version: 2.0.1
-Release: 0.40.%{checkout}%{?dist}
+Release: 0.42.%{checkout}%{?dist}
 License: GPLv2
 URL: http://splix.sourceforge.net/
 
@@ -54,13 +54,13 @@ popd
 %build
 %set_build_flags
 # *.drv.in -> *.drv
-make drv
+%make_build drv
 
 CXXFLAGS="%{optflags} -fno-strict-aliasing" \
-make all V=1 DRV_ONLY=1 %{?_smp_mflags}
+%make_build all V=1 DRV_ONLY=1
 
 %install
-make install DRV_ONLY=1 CUPSDRV=%{_datadir}/cups/drv/splix DESTDIR=%{buildroot}
+%make_install DRV_ONLY=1 CUPSDRV=%{_datadir}/cups/drv/splix
 
 %files
 %license COPYING
@@ -70,6 +70,12 @@ make install DRV_ONLY=1 CUPSDRV=%{_datadir}/cups/drv/splix DESTDIR=%{buildroot}
 %{_datadir}/cups/drv/splix
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-0.42.20130902svn
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Zdenek Dohnal <zdohnal@redhat.com> - 2.0.1-0.41.20130902svn
+- use a proper build macros
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-0.40.20130902svn
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

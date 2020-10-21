@@ -1,3 +1,4 @@
+%undefine __cmake_in_source_build
 
 %global kbanking 1
 
@@ -10,8 +11,8 @@
 
 Summary: Personal finance 
 Name:    kmymoney
-Version: 5.0.8
-Release: 5%{?dist}
+Version: 5.1.0
+Release: 3%{?dist}
 
 # kmm itself is GPLv2+ 
 # bundled kdchart is GPLv2 or GPLv3, but currently not using it
@@ -21,8 +22,6 @@ Source0: http://download.kde.org/stable/kmymoney/%{version}/src/kmymoney-%{versi
 
 ## upstreamable patches
 
-## upstream patches
-Patch100: 0100-Fix-transaction-filter-due-to-compiler-issue-with-g-.patch
 
 BuildRequires: boost-devel
 BuildRequires: cppunit-devel
@@ -79,7 +78,6 @@ BuildRequires: cmake(Qt5Xml)
 BuildRequires: cmake(Qt5Test)
 BuildRequires: cmake(Qt5PrintSupport)
 
-BuildRequires: pkgconfig(ktoblzcheck)
 BuildRequires: pkgconfig(libalkimia5) >= 8.0
 BuildRequires: pkgconfig(libical)
 BuildRequires: pkgconfig(libofx)
@@ -150,17 +148,14 @@ BuildArch: noarch
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} .. \
+%cmake_kf5 \
   %{?tests:-DBUILD_TESTING:BOOL=ON}
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang kmymoney --with-html --without-mo && mv kmymoney.lang kmymoney-doc.lang
 %find_lang kmymoney --with-man
@@ -224,6 +219,18 @@ make test -C %{_target_platform} ARGS="--output-on-failure --timeout 300" ||:
 
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 5.1.0-3
+- rebuild (qt5)
+
+* Mon Aug 10 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.1.0-2
+- drop (unused) BR: ktoblzcheck, .spec cosmetics
+
+* Sun Aug 02 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 5.1.0-1
+- Update to 5.1.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.8-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 21 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.0.8-5
 - pull in upstream gcc10 fix (kde#420761)
 

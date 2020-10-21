@@ -1,6 +1,6 @@
 Name:           perl-Wiki-Toolkit
 Version:        0.85
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Toolkit for building Wikis
 # Wiki/Toolkit pod
 License:        GPL+ or Artistic
@@ -84,6 +84,9 @@ make test
 %{_mandir}/man3/Wiki*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.85-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.85-6
 - Perl 5.32 rebuild
 

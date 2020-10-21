@@ -1,6 +1,6 @@
 Name:           ski
 Version:        1.3.2
-Release:        31%{?dist}
+Release:        32%{?dist}
 Summary:        IA-64 user and system mode simulator
 
 License:        GPLv2+
@@ -92,6 +92,9 @@ rm $RPM_BUILD_ROOT%{_libdir}/*.la
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 03 2020 Dan Horák <dan[at]danny.cz> - 1.3.2-31
 - fix build with gcc 10
 

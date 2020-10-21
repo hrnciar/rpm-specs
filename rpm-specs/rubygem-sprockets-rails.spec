@@ -2,16 +2,16 @@
 %global gem_name sprockets-rails
 
 Name: rubygem-%{gem_name}
-Version: 3.2.1
-Release: 5%{?dist}
+Version: 3.2.2
+Release: 1%{?dist}
 Summary: Sprockets Rails integration
 License: MIT
 URL: https://github.com/rails/sprockets-rails
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
 # Get the tests
-# git clone https://github.com/rails/sprockets-rails.git && cd sprockets-rails/
-# git checkout v3.2.1 && tar czvf sprockets-rails-3.2.1-tests.tgz test/
-Source1: sprockets-rails-%{version}-tests.tgz
+# git clone --no-checkout https://github.com/rails/sprockets-rails.git
+# cd sprockets-rails && git archive -v -o sprockets-rails-3.2.2-tests.txz v3.2.2 test/
+Source1: sprockets-rails-%{version}-tests.txz
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby
@@ -35,7 +35,6 @@ Documentation for %{name}.
 
 %prep
 %setup -q -n %{gem_name}-%{version} -b 1
-
 
 %build
 gem build ../%{gem_name}-%{version}.gemspec
@@ -65,6 +64,13 @@ popd
 %doc %{gem_instdir}/README.md
 
 %changelog
+* Fri Oct  9 04:24:35 CEST 2020 Pavel Valena <pvalena@redhat.com> - 3.2.2-1
+- Update to sprockets-rails 3.2.2.
+  Resolves: rhbz#1878349
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

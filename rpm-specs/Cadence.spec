@@ -6,7 +6,7 @@
 
 Name:    Cadence
 Version: 1.0.0
-Release: 0.11.%{commitdate}git%{shortcommit0}%{?dist}
+Release: 0.12.%{commitdate}git%{shortcommit0}%{?dist}
 Summary: A set of tools useful for audio production
 # The entire source code is GPLv2+ except c++/jackbridge/ which is ISC License
 # Following files are licensed under LGPLv2+
@@ -151,6 +151,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %config(noreplace) %{_sysconfdir}/xdg/autostart/cadence-session-start.desktop
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-0.12.20200504git5787908
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 15 2020 Martin Gansser <martinkg@fedoraproject.org> - 1.0.0-0.11.20200504git5787908
 - Update to 1.0.0-0.11.20200504git5787908
 

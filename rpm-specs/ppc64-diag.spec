@@ -1,6 +1,6 @@
 Name:           ppc64-diag
 Version:        2.7.6
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        PowerLinux Platform Diagnostics
 URL:            https://github.com/power-ras/%{name}
 License:        GPLv2
@@ -169,6 +169,9 @@ if [ "$1" = "0" ]; then # last uninstall
 fi
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7.6-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 Than Ngo <than@redhat.com> - 2.7.6-5
 - add requirement on powerpc-utils in main package
 

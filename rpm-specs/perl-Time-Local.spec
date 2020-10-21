@@ -2,7 +2,7 @@
 Name:           perl-Time-Local
 Epoch:          2
 Version:        %{cpan_version}0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Efficiently compute time from local and GMT time
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Time-Local
@@ -56,6 +56,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:1.300-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2:1.300-3
 - Perl 5.32 rebuild
 

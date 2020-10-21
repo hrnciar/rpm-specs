@@ -5,7 +5,7 @@
 
 Name:           lib%{libname}
 Version:        0
-Release:        15.20161213git%{shortcommit}%{?dist}
+Release:        16.20161213git%{shortcommit}%{?dist}
 Summary:        Fast C parser using Ragel to generate the state machine.
 
 License:        BSD
@@ -56,6 +56,9 @@ Requires:       %{name}%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 %{_libdir}/%{name}.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-16.20161213git03e8a3a
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 15 2020 Pete Walter <pwalter@fedoraproject.org> - 0-15.20161213git03e8a3a
 - Rebuild for ICU 67
 

@@ -3,7 +3,7 @@
 %global pkgname Xfce-Theme-Manager
 Name:		xfce-theme-manager
 Version:	0.3.8
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	A theme manager for Xfce
 
 License:	GPLv3	
@@ -61,6 +61,9 @@ desktop-file-install	\
 %{_mandir}/*/man1/%{name}.1.*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.8-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.8-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -2,13 +2,14 @@ Name:       lector
 Summary:    Ebook reader and collection manager
 URL:        https://github.com/BasioMeusPuga/Lector
 Version:    0.5.1
-Release:    1%{?dist}
+Release:    2%{?dist}
 BuildArch:  noarch
 
 # Lector uses GPLv3, the bundled Rarfile library uses the MIT license.
 License: GPLv3 and MIT
 
 Source0: https://github.com/BasioMeusPuga/Lector/archive/%{version}/%{name}-%{version}.tar.gz
+# TODO: Remove after it's fully merged into upstream's build scripts, in the next release.
 Source1: https://raw.githubusercontent.com/terrycloth/Lector/packaging/lector/resources/raw/io.github.BasioMeusPuga.Lector.metainfo.xml
 
 BuildRequires: desktop-file-utils
@@ -78,11 +79,21 @@ mv  ./lector/rarfile/LICENSE  ./LICENSE-rarfile
 
 %install
 %py3_install
-# NOTE: Upstream hasn't merged the .metainfo.xml file nor renamed the .desktop to match, yet.
+
+# TODO: When upstream merges the .metainfo.xml and .desktop file changes and adds them to setup.py, I won't need to manually install SOURCE1 metainfo, nor rename the .desktop file anymore.
+# Solved by a pull request here <https://github.com/BasioMeusPuga/Lector/pull/120>
+# and should be part of the next upstream release.
 mkdir -p %{buildroot}/%{_metainfodir}/
 cp --archive  %{SOURCE1}  %{buildroot}/%{_metainfodir}/
 mv  %{buildroot}/%{_datadir}/applications/lector.desktop  %{buildroot}/%{_datadir}/applications/io.github.BasioMeusPuga.Lector.desktop
 
+# TODO: When upstream moves the install location for the icon or switches to an actual scalable format, I won't need to move the icon anymore.
+# See <https://github.com/BasioMeusPuga/Lector/issues/138>
+mv  %{buildroot}/%{_datadir}/icons/hicolor/scalable/apps/Lector.png  %{buildroot}/%{_datadir}/icons/hicolor/512x512/apps/Lector.png
+
+# TODO: I won't need to remove these duplicate files when upstream fixes their build script.
+# See <https://github.com/BasioMeusPuga/Lector/issues/63>
+rm -rf  %{buildroot}/%{python3_sitelib}/lector/resources/raw/
 
 
 %check
@@ -96,12 +107,15 @@ appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/io.github.Bas
 %license  LICENSE  LICENSE-rarfile
 %{_bindir}/%{name}
 %{_datadir}/applications/io.github.BasioMeusPuga.Lector.desktop
-%{_datadir}/icons/hicolor/scalable/apps/Lector.png
+%{_datadir}/icons/hicolor/512x512/apps/Lector.png
 %{_metainfodir}/io.github.BasioMeusPuga.Lector.metainfo.xml
 %{python3_sitelib}/lector*
 
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Dec 18 2019 Andrew Toskin <andrew@tosk.in> - 0.5.1-1
-- First (mostly) working build.
+- New package.

@@ -1,6 +1,6 @@
 Name:           perl-Dist-Zilla-App-Command-cover
 Version:        1.101001
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Code coverage metrics for your distribution
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Dist-Zilla-App-Command-cover
@@ -55,6 +55,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.101001-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.101001-14
 - Perl 5.32 rebuild
 

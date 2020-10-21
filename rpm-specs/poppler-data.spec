@@ -3,7 +3,7 @@
 Name:             poppler-data
 Summary:          Encoding files for use with poppler
 Version:          0.4.9
-Release:          5%{?dist}
+Release:          6%{?dist}
 
 # NOTE: The licensing details are explained in COPYING file in source archive.
 License:          BSD and GPLv2
@@ -84,6 +84,9 @@ pkgconfig utility allowing your software to be build with poppler-data.
 # =============================================================================
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.9-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.9-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

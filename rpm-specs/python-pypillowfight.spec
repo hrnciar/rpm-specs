@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.3.0
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Various image processing algorithms
 
 License:        GPLv2+
@@ -56,18 +56,8 @@ echo "#define INTERNAL_PILLOWFIGHT_VERSION \"%{version}\"" > src/pillowfight/_ve
 
 %check
 # https://gitlab.gnome.org/World/OpenPaperwork/libpillowfight/issues/11
-%ifarch i686
-PYTHONPATH=%{buildroot}%{python3_sitearch} \
-    nosetests-3 -v -P tests -e test_swt2
-%else
-%ifarch aarch64 ppc64le
 PYTHONPATH=%{buildroot}%{python3_sitearch} \
     nosetests-3 -v -P tests -I 'tests_swt.py' -I 'tests_canny.py'
-%else
-PYTHONPATH=%{buildroot}%{python3_sitearch} \
-    nosetests-3 -v -P tests
-%endif
-%endif
 
 
 %files -n python3-%{srcname}
@@ -78,6 +68,13 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.0-3
 - Rebuilt for Python 3.9
 

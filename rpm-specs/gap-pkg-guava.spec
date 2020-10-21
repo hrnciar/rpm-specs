@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        3.15
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Computing with error-correcting codes
 
 License:        GPLv2+
@@ -117,6 +117,13 @@ EOF
 %{_gap_dir}/pkg/%{pkgname}-%{version}/doc/
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.15-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.15-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Mar 12 2020 Jerry James <loganjerry@gmail.com> - 3.15-3
 - Rebuild for gap 4.11.0
 

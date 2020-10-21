@@ -16,8 +16,8 @@
 %define configure_opts %{?python3_opts} %{?tools_opts}
 
 Name:        libbytesize
-Version:     2.3
-Release:     2%{?dist}
+Version:     2.4
+Release:     1%{?dist}
 Summary:     A library for working with sizes in bytes
 License:     LGPLv2+
 URL:         https://github.com/storaged-project/libbytesize
@@ -75,7 +75,7 @@ for doing calculations with storage sizes.
 
 %build
 %configure %{?configure_opts}
-%{__make} %{?_smp_mflags}
+%make_build
 
 %install
 %{make_install}
@@ -114,6 +114,23 @@ find %{buildroot} -type f -name "*.la" | xargs %{__rm}
 %endif
 
 %changelog
+* Fri Jul 31 2020 Vojtech Trefny <vtrefny@redhat.com> - 2.4-1
+- Add Travis build status badge (vtrefny)
+- Add Travis CI config and Dockerfiles for running tests (vtrefny)
+- Add ansible playbook for installing test dependencies (vtrefny)
+- remove msgcat dependency (Aduskett)
+- Translated using Weblate (Bengali (India)) (akarshan.biswas)
+- Update translation files (noreply)
+- Added translation using Weblate (Bengali (India)) (akarshan.biswas)
+- Fix library version in pkgconfig file (vtrefny)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 2.3-3
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 2.3-2
 - Rebuilt for Python 3.9
 

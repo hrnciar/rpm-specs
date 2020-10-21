@@ -3,7 +3,7 @@
 
 # https://github.com/peterh/liner
 %global goipath         github.com/peterh/liner
-Version:                1.1.0
+Version:                1.2.0
 
 %gometa
 
@@ -18,7 +18,7 @@ is not pretending to be a VT100, change it. Liner also support Windows.}
 %global gosupfiles glide.lock glide.yaml
 
 Name:           %{goname}
-Release:        5%{?dist}
+Release:        1%{?dist}
 Summary:        Pure go line editor with history, inspired by linenoise
 
 License:        MIT
@@ -49,6 +49,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 21:14:56 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.2.0-1
+- Update to 1.2.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

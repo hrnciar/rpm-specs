@@ -1,5 +1,5 @@
 Name:           dgit
-Version:        9.10
+Version:        9.12
 Release:        1%{?dist}
 Summary:        Integration between git and Debian-style archives
 License:        GPLv3+
@@ -64,6 +64,12 @@ make install DESTDIR="%{buildroot}" \
 
 
 %changelog
+* Mon Aug 24 2020 Filipe Rosset <rosset.filipe@gmail.com> - 9.12-1
+- Update to 9.12 fixes rhbz#1849759
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 03 2020 Filipe Rosset <rosset.filipe@gmail.com> - 9.10-1
 - Update to 9.10 fixes rhbz#1797498
 

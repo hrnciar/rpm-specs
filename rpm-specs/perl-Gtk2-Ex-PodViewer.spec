@@ -1,6 +1,6 @@
 Name:           perl-Gtk2-Ex-PodViewer
 Version:        0.18
-Release:        33%{?dist}
+Release:        34%{?dist}
 Summary:        Gtk2 widget for displaying Plain Old Documentation (POD)
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Gtk2-Ex-PodViewer
@@ -71,6 +71,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.18-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.18-33
 - Perl 5.32 rebuild
 

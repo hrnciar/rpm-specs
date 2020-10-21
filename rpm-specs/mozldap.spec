@@ -16,7 +16,7 @@ ExcludeArch: i686
 Summary:          Mozilla LDAP C SDK
 Name:             mozldap
 Version:          %{major}.%{minor}.%{submin}
-Release:          27%{?dist}
+Release:          28%{?dist}
 License:          MPLv1.1 or GPLv2+ or LGPLv2+
 URL:              http://www.mozilla.org/directory/csdk.html
 Requires:         %{nspr_name} >= %{nspr_version}
@@ -181,6 +181,9 @@ cp -r mozilla/directory/c-sdk/ldap/examples $RPM_BUILD_ROOT%{_datadir}/%{name}
 %{_datadir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.5-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 13 2020 Mark Reynolds <mreynolds@redhat.com> 0 6.0.5-27
 - Marking package as deprecated
 

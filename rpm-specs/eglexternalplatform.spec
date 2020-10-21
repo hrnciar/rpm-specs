@@ -5,7 +5,7 @@
 
 Name:           eglexternalplatform
 Version:        1.1
-Release:        0.4%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+Release:        0.5%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        EGL External Platform Interface headers
 
 License:        MIT
@@ -45,6 +45,9 @@ install -p -m 0644 eglexternalplatform.pc %{buildroot}%{_datadir}/pkgconfig/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-0.5.20180916git7c8f8e2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-0.4.20180916git7c8f8e2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

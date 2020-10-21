@@ -1,13 +1,13 @@
 Name:           ocaml-qcheck
-Version:        0.13
-Release:        6%{?dist}
+Version:        0.15
+Release:        1%{?dist}
 Summary:        QuickCheck inspired property-based testing for OCaml
 
 License:        BSD
 URL:            https://github.com/c-cube/qcheck
 Source0:        https://github.com/c-cube/qcheck/archive/%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:  ocaml
+BuildRequires:  ocaml >= 4.03.0
 BuildRequires:  ocaml-dune
 BuildRequires:  ocaml-odoc
 BuildRequires:  ocaml-alcotest-devel
@@ -40,10 +40,7 @@ Documentation for %{name}.
 
 
 %prep
-%setup -q -n qcheck-%{version}
-
-# Work around name change in recent ounit versions
-sed -i 's/oUnit/ounit2/' src/ounit/dune
+%autosetup -n qcheck-%{version}
 
 
 %build
@@ -107,6 +104,28 @@ dune runtest --no-buffer --profile release
 
 
 %changelog
+* Fri Sep 25 2020 Jerry James <loganjerry@gmail.com> - 0.15-1
+- Version 0.15
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.14-4
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 28 2020 Jerry James <loganjerry@gmail.com> - 0.14-3
+- Rebuild for alcotest 1.2.2
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.14-2
+- OCaml 4.11.0 rebuild
+
+* Wed Aug  5 2020 Jerry James <loganjerry@gmail.com> - 0.14-1
+- Version 0.14
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 0.13-6
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

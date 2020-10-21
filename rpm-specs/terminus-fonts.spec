@@ -3,7 +3,7 @@
 ########################################################################
 
 Version: 4.48
-Release: 7%{?dist}
+Release: 8%{?dist}
 URL:     http://terminus-font.sourceforge.net/
 
 %global foundry           %{nil}
@@ -779,6 +779,9 @@ ln -s %{legacy_x11_fontdir} %{buildroot}%{catalog}/%{fontfamily}:unscaled
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.48-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun  2 2020 Akira TAGOH <tagoh@redhat.com> - 4.48-7
 - Workaround wrong weight in Terminus.otb in fontconfig config file.
   Resolves: rhbz#1823637

@@ -1,21 +1,27 @@
-Name:             maven-filtering
-Version:          3.1.1
-Release:          9%{?dist}
-Summary:          Shared component providing resource filtering
-License:          ASL 2.0
-URL:              http://maven.apache.org/shared/%{name}/index.html
-BuildArch:        noarch
+Name:           maven-filtering
+Version:        3.2.0
+Release:        1%{?dist}
+Summary:        Shared component providing resource filtering
+License:        ASL 2.0
 
-Source0:          http://repo1.maven.org/maven2/org/apache/maven/shared/%{name}/%{version}/%{name}-%{version}-source-release.zip
+URL:            https://maven.apache.org/shared/%{name}/index.html
+Source0:        https://repo1.maven.org/maven2/org/apache/maven/shared/%{name}/%{version}/%{name}-%{version}-source-release.zip
+
+BuildArch:      noarch
 
 BuildRequires:  maven-local
 BuildRequires:  mvn(com.google.code.findbugs:jsr305)
-BuildRequires:  mvn(org.apache.maven:maven-core)
+BuildRequires:  mvn(commons-io:commons-io)
 BuildRequires:  mvn(org.apache.maven.shared:maven-shared-components:pom:)
 BuildRequires:  mvn(org.apache.maven.shared:maven-shared-utils)
+BuildRequires:  mvn(org.apache.maven:maven-core)
+BuildRequires:  mvn(org.apache.maven:maven-model)
+BuildRequires:  mvn(org.apache.maven:maven-settings)
+BuildRequires:  mvn(org.codehaus.plexus:plexus-component-annotations)
 BuildRequires:  mvn(org.codehaus.plexus:plexus-component-metadata)
 BuildRequires:  mvn(org.codehaus.plexus:plexus-interpolation)
 BuildRequires:  mvn(org.codehaus.plexus:plexus-utils)
+BuildRequires:  mvn(org.eclipse.sisu:org.eclipse.sisu.plexus)
 BuildRequires:  mvn(org.sonatype.plexus:plexus-build-api)
 
 %description
@@ -23,21 +29,26 @@ These Plexus components have been built from the filtering process/code in
 Maven Resources Plugin. The goal is to provide a shared component for all 
 plugins that needs to filter resources.
 
+
 %package javadoc
 Summary:          Javadoc for %{name}
 
 %description javadoc
 This package contains the API documentation for %{name}.
 
+
 %prep
 %setup -q
+
 
 %build
 # Tests use a package that is no longer present in plexus-build-api (v0.0.7)
 %mvn_build -f
 
+
 %install
 %mvn_install
+
 
 %files -f .mfiles
 %license LICENSE NOTICE
@@ -45,7 +56,17 @@ This package contains the API documentation for %{name}.
 %files javadoc -f .mfiles-javadoc
 %license LICENSE NOTICE
 
+
 %changelog
+* Tue Aug 11 2020 Fabio Valentini <decathorpe@gmail.com> - 3.2.0-1
+- Update to version 3.2.0.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.1.1-10
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.1-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

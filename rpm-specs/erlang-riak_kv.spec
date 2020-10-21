@@ -4,7 +4,7 @@
 
 Name:		erlang-%{realname}
 Version:	2.1.8
-Release:	11%{?dist}
+Release:	12%{?dist}
 BuildArch:	noarch
 Summary:	Riak Key/Value Store
 License:	ASL 2.0
@@ -69,6 +69,9 @@ install -D -p -m 0644 priv/multi_backend.schema %{buildroot}%{erlang_appdir}/pri
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.8-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.8-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

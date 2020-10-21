@@ -1,3 +1,6 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 %global snap       20200617
 %global gitcommit  c6d79008dfb9fa393eb467ae17201fc693f19f47
 %global shortcommit %(c=%{gitcommit}; echo ${c:0:5})
@@ -7,7 +10,7 @@
 
 Name:         antimicroX
 Version:      3.0
-Release:      2%{?snap:.%{snap}git%{shortcommit}}%{?dist}
+Release:      4%{?snap:.%{snap}git%{shortcommit}}%{?dist}
 Summary:      Graphical program used to map keyboard buttons and mouse controls to a gamepad
 # Build failure, https://bugzilla.redhat.com/show_bug.cgi?id=1849216
 ExcludeArch:  %{arm}
@@ -71,16 +74,11 @@ The %{libname}-devel package contains libraries and header files for %{libname}.
 %setup -n %{archivename} -q
 
 %build
-%{__mkdir} -p build-%{name}-%{_target}
-pushd build-%{name}-%{_target}
-%cmake3 ..
-%make_build
-popd
+%cmake3
+%cmake3_build
 
 %install
-pushd build-%{name}-%{_target}
-%make_install
-popd
+%cmake3_install
 
 %find_lang %{name} --with-qt
 
@@ -114,6 +112,13 @@ popd
 %{_bindir}/appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{appname}.appdata.xml
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-4.20200617gitc6d79
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0-3.20200617gitc6d79
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Gergely Gombos <gombosg@disroot.org> - 3.0-2.20200617gitc6d79
 - Final review fixes, first build
 

@@ -2,7 +2,7 @@
 
 Name:           orafce
 Version:        3.9.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Implementation of some Oracle functions into PostgreSQL
 License:        BSD
 URL:            http://github.com/orafce/orafce
@@ -43,6 +43,9 @@ for production work.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 11 2020 - Devrim Gündüz <devrim@gunduz.org> - 3.9.0-1
 - Update to 3.9.0, to fix #1811800
 

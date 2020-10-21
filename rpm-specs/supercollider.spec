@@ -8,17 +8,12 @@
 
 Summary: Object oriented programming environment for real-time audio and video processing
 Name: supercollider
-Version: 3.10.4
-Release: 3%{?dist}
+Version: 3.11.1
+Release: 1%{?dist}
 License: GPLv2+
 URL: https://supercollider.github.io/
 
-Source0: https://github.com/supercollider/supercollider/releases/download/Version-%{version}/SuperCollider-%{version}-Source-linux.tar.bz2
-
-# https://github.com/supercollider/supercollider/pull/4983
-Patch1: 0001-Fix-boost-1.73.0-support.patch
-# https://github.com/supercollider/supercollider/pull/4990
-Patch2: 0001-boost_sync-workaround-to-build-with-Boost-1.72.0.patch
+Source0: https://github.com/supercollider/supercollider/releases/download/Version-%{version}/SuperCollider-%{version}-Source.tar.bz2
 
 ExclusiveArch: %{qt5_qtwebengine_arches}
 
@@ -99,10 +94,7 @@ Requires: supercollider%{?_isa} = %{version}-%{release}
 SuperCollider support for the Vim text editor.
 
 %prep
-%setup -q -n SuperCollider-Source
-
-%patch1 -p1
-%patch2 -p1
+%setup -q -n SuperCollider-%{version}-Source
 
 # Ensure external libraries bundle are not used
 rm -Rf external_libraries/boost external_libraries/boost*.patch external_libraries/yaml-cpp
@@ -115,8 +107,8 @@ sed -e 's/ test_exec_monitor//'                  \
 %build
 mkdir build
 pushd build
-export CFLAGS="%{build_cflags} -fext-numeric-literals"
-export CXXFLAGS="%{build_cxxflags} -fext-numeric-literals"
+export CFLAGS="%{build_cflags} -fext-numeric-literals -fPIC"
+export CXXFLAGS="%{build_cxxflags} -fext-numeric-literals -fPIC"
 %cmake -DCMAKE_SKIP_RPATH:BOOL=ON \
        -DSYSTEM_BOOST=ON \
        -DSYSTEM_YAMLCPP=ON \
@@ -124,12 +116,12 @@ export CXXFLAGS="%{build_cxxflags} -fext-numeric-literals"
        -DCMAKE_VERBOSE_MAKEFILE=TRUE \
        %{cmakearch} %{?geditver} \
        ..
-%make_build
+%cmake_build
 popd
 
 %install
 pushd build
-%make_install
+%cmake_install
 popd
 # install external header libraries needed to build external ugens
 mkdir -p %{buildroot}/%{_includedir}/SuperCollider/external_libraries
@@ -191,6 +183,20 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/SuperColliderIDE.des
 %{_datadir}/gtksourceview*/language-specs/supercollider.lang
 
 %changelog
+* Tue Oct 13 2020 Tristan Cacqueray <tdecacqu@redhat.com> - 3.11.1-1
+- Bump to 3.11.1
+- Force application to build with -fPIC to close #1887877
+
+* Mon Aug  3 2020 Tristan Cacqueray <tdecacqu@redhat.com> - 3.10.4-6
+- Use the new cmake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.10.4-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.10.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun  1 2020 Tristan Cacqueray <tdecacqu@redhat.com> - 3.10.4-3
 - Add fix for boost 1.73.0
 

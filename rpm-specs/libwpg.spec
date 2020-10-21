@@ -2,7 +2,7 @@
 
 Name:           libwpg
 Version:        0.3.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A library for import of WordPerfect Graphics images
 
 License:        LGPLv2+ or MPLv2.0
@@ -104,6 +104,9 @@ install -m 0644 wpg2*.1 %{buildroot}/%{_mandir}/man1
 %{_mandir}/man1/wpg2svgbatch.pl.1*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

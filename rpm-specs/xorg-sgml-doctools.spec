@@ -1,7 +1,7 @@
 Summary:    X.Org SGML documentation generation tools
 Name:       xorg-sgml-doctools
 Version:    1.11
-Release:    10%{?dist}
+Release:    11%{?dist}
 License:    MIT
 URL:        http://www.x.org
 
@@ -34,6 +34,9 @@ source.
 %{_datadir}/pkgconfig/%{name}.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

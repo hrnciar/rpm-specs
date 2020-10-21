@@ -1,6 +1,6 @@
 Name:           qtsoap
 Version:        2.7
-Release:        22%{?dist}
+Release:        24%{?dist}
 Summary:        The Simple Object Access Protocol Qt4-based client side library
 
 License:        LGPLv2 with exceptions or GPLv3
@@ -108,6 +108,13 @@ popd
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7-24
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.7-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

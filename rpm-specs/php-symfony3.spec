@@ -12,8 +12,8 @@
 
 %global github_owner     symfony
 %global github_name      symfony
-%global github_version   3.4.42
-%global github_commit    79b0cc53dfc1bc69509d91c4a967b659a9540910
+%global github_version   3.4.45
+%global github_commit    acaf962168168e4a5cd4b0a6d349dfc11fcc774d
 
 %global composer_vendor  symfony
 %global composer_project symfony
@@ -39,9 +39,9 @@
 # "doctrine/common": "~2.4"
 %global doctrine_common_min_ver 2.4
 %global doctrine_common_max_ver 3.0
-# "doctrine/data-fixtures": "1.0.*"
+# "doctrine/data-fixtures": "^1.1"
 # ignore max version
-%global doctrine_datafixtures_min_ver 1.0.0
+%global doctrine_datafixtures_min_ver 1.1.0
 %global doctrine_datafixtures_max_ver 2
 # "doctrine/dbal": "^2.4|^3.0"
 # ignore 3.0 for now, no yet packaged
@@ -177,8 +177,7 @@ BuildRequires: php-composer(egulias/email-validator) <  %{email_validator_max_ve
 BuildRequires: php-composer(egulias/email-validator) >= %{email_validator_min_ver}
 BuildRequires: php-composer(fig/link-util) <  %{fig_link_util_max_ver}
 BuildRequires: php-composer(fig/link-util) >= %{fig_link_util_min_ver}
-BuildRequires: php-composer(monolog/monolog) <  %{monolog_max_ver}
-BuildRequires: php-composer(monolog/monolog) >= %{monolog_min_ver}
+BuildRequires: php-Monolog >= %{monolog_min_ver}
 BuildRequires: php-composer(ocramius/proxy-manager) <  %{proxy_manager_max_ver}
 BuildRequires: php-composer(ocramius/proxy-manager) >= %{proxy_manager_min_ver}
 BuildRequires: php-composer(phpdocumentor/reflection-docblock) <  %{phpdocumentor_reflection_docblock_max_ver}
@@ -373,8 +372,7 @@ Suggests: php-composer(%{composer_vendor}/symfony/security-core)
 Suggests: php-composer(%{composer_vendor}/var-dumper)
 %else
 # composer.json
-Requires: php-composer(monolog/monolog) >= %{monolog_min_ver}
-Requires: php-composer(monolog/monolog) <  %{monolog_max_ver}
+Requires: php-Monolog >= %{monolog_min_ver}
 %endif
 
 # phpcompatinfo (computed from version 3.3.6)
@@ -2876,6 +2874,19 @@ exit $RET
 # ##############################################################################
 
 %changelog
+* Mon Sep 28 2020 Remi Collet <remi@remirepo.net> - 3.4.45-1
+- update to 3.4.45
+
+* Mon Aug 31 2020 Remi Collet <remi@remirepo.net> - 3.4.44-1
+- update to 3.4.44
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.43-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Remi Collet <remi@remirepo.net> - 3.4.43-1
+- update to 3.4.43
+- raise dependency on doctrine/data-fixtures 1.1
+
 * Mon Jun 15 2020 Remi Collet <remi@remirepo.net> - 3.4.42-1
 - update to 3.4.42
 

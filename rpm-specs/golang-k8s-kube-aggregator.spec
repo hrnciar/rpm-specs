@@ -4,8 +4,8 @@
 # https://github.com/kubernetes/kube-aggregator
 %global goipath         k8s.io/kube-aggregator
 %global forgeurl        https://github.com/kubernetes/kube-aggregator
-Version:                1.15.0
-%global tag             kubernetes-1.15.0
+Version:                1.18.9
+%global tag             kubernetes-1.18.9
 %global distprefix      %{nil}
 
 %gometa
@@ -18,7 +18,7 @@ summarization, secure proxy.}
 %global godocs          README.md code-of-conduct.md CONTRIBUTING.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Aggregator for Kubernetes-style API servers
 
 # Upstream license specification: Apache-2.0
@@ -29,7 +29,7 @@ Source0:        %{gosource}
 BuildRequires:  golang(github.com/emicklei/go-restful)
 BuildRequires:  golang(github.com/go-openapi/spec)
 BuildRequires:  golang(github.com/gogo/protobuf/proto)
-BuildRequires:  golang(github.com/prometheus/client_golang/prometheus)
+BuildRequires:  golang(github.com/json-iterator/go)
 BuildRequires:  golang(github.com/spf13/cobra)
 BuildRequires:  golang(github.com/spf13/pflag)
 BuildRequires:  golang(k8s.io/api/core/v1)
@@ -40,7 +40,6 @@ BuildRequires:  golang(k8s.io/apimachinery/pkg/api/meta/table)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/api/validation)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/api/validation/path)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/apis/meta/v1)
-BuildRequires:  golang(k8s.io/apimachinery/pkg/apis/meta/v1beta1)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/conversion)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/fields)
 BuildRequires:  golang(k8s.io/apimachinery/pkg/labels)
@@ -70,6 +69,7 @@ BuildRequires:  golang(k8s.io/apiserver/pkg/registry/generic)
 BuildRequires:  golang(k8s.io/apiserver/pkg/registry/generic/registry)
 BuildRequires:  golang(k8s.io/apiserver/pkg/registry/rest)
 BuildRequires:  golang(k8s.io/apiserver/pkg/server)
+BuildRequires:  golang(k8s.io/apiserver/pkg/server/egressselector)
 BuildRequires:  golang(k8s.io/apiserver/pkg/server/filters)
 BuildRequires:  golang(k8s.io/apiserver/pkg/server/options)
 BuildRequires:  golang(k8s.io/apiserver/pkg/server/storage)
@@ -89,6 +89,8 @@ BuildRequires:  golang(k8s.io/client-go/transport)
 BuildRequires:  golang(k8s.io/client-go/util/flowcontrol)
 BuildRequires:  golang(k8s.io/client-go/util/workqueue)
 BuildRequires:  golang(k8s.io/component-base/logs)
+BuildRequires:  golang(k8s.io/component-base/metrics)
+BuildRequires:  golang(k8s.io/component-base/metrics/legacyregistry)
 BuildRequires:  golang(k8s.io/klog)
 BuildRequires:  golang(k8s.io/kube-openapi/pkg/aggregator)
 BuildRequires:  golang(k8s.io/kube-openapi/pkg/builder)
@@ -133,6 +135,15 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 09:00:40 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.9-1
+- Update to 1.18.9
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 15 17:00:43 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-1
+- Update to 1.18.3
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

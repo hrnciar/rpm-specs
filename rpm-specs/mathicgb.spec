@@ -1,23 +1,34 @@
-%global gitdate         20181123
-%global gittag          636952f94bf6bb6d82a84f0c9ac7f44373f8a34f
+# The ARM builders appear to run out of memory with LTO
+%ifarch %{arm}
+%global _lto_cflags %{nil}
+%endif
+
+%global gitdate         20200526
+%global gittag          0d70da731a84008143a00cf1effd978dc8607879
 %global shorttag        %(c=%{gittag}; echo ${c:0:7})
 %global user            Macaulay2
 
 Name:           mathicgb
 Version:        1.0
-Release:        19.%{gitdate}.git%{shorttag}%{?dist}
+Release:        23.%{gitdate}.git%{shorttag}%{?dist}
 Summary:        Groebner basis computations
 
 License:        GPLv2+
 URL:            https://github.com/%{user}/%{name}
 Source0:        https://github.com/%{user}/%{name}/tarball/%{gittag}/%{user}-%{name}-%{shorttag}.tar.gz
-# The tests are incompatible with gtest-1.8.0+, so do this instead
-Source1:        https://github.com/google/googletest/archive/release-1.6.0.tar.gz
+
 # Fix build failure on big endian machines.
 # See https://github.com/Macaulay2/mathicgb/issues/3
 Patch0:         %{name}-endian.patch
+# Upstream wants to download gtest and compile it in; we don't
+Patch1:         %{name}-gtest.patch
+# Remove pessimizing moves
+Patch2:         %{name}-move.patch
+# Fix missing #includes for gcc-11
+Patch3:         %{name}-gcc11.patch
 
 BuildRequires:  gcc-c++
+BuildRequires:  gtest-devel
 BuildRequires:  libtool
 BuildRequires:  mathic-devel
 BuildRequires:  tbb-devel
@@ -44,19 +55,13 @@ Library interface to mathicgb.
 %prep
 %autosetup -p0 -n %{user}-%{name}-%{shorttag}
 
-# Unpack gtest
-rm -fr libs
-tar xzf %{SOURCE1}
-mv googletest-release-1.6.0 libs
-
 # Fix end-of-line encoding
 sed -i.orig 's/\r//' doc/description.txt
 touch -r doc/description.txt.orig doc/description.txt
 rm -f doc/description.txt.orig
 
-# Nearly every file is marked executable; only a few need to be.
-find . -type f -perm /0111 | xargs chmod a-x
-chmod a+x autogen.sh fixspace replace build/setup/make-Makefile.sh
+# Remove spurious executable bit
+chmod a-x src/test/gtestInclude.cpp
 
 # Upstream doesn't generate the configure script
 autoreconf -fi
@@ -64,7 +69,9 @@ autoreconf -fi
 %build
 export CFLAGS="%{optflags} -fwrapv"
 export CXXFLAGS="%{optflags} -fwrapv"
-%configure --disable-static --enable-shared --with-gtest
+export GTEST_PATH=%{_prefix}
+export GTEST_VERSION=$(gtest-config --version)
+%configure --disable-static --enable-shared --with-gtest=yes GTEST_LIBS=-lgtest
 
 # Get rid of undesirable hardcoded rpaths; workaround libtool reordering
 # -Wl,--as-needed after all the libraries.
@@ -74,7 +81,7 @@ sed -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -i libtool
 sed -i 's|g++$|& -Wl,--as-needed|' Makefile
 
-make %{?_smp_mflags}
+%make_build
 
 %install
 %make_install
@@ -85,8 +92,6 @@ rm -f %{buildroot}%{_libdir}/lib%{name}.la
 %check
 export LD_LIBRARY_PATH=$PWD/.libs
 make check
-
-%ldconfig_scriptlets libs
 
 %files
 %doc README.md doc/description.txt doc/slides.pdf
@@ -99,9 +104,23 @@ make check
 %{_libdir}/pkgconfig/%{name}.pc
 
 %files libs
-%{_libdir}/lib%{name}.so.*
+%{_libdir}/lib%{name}.so.0*
 
 %changelog
+* Thu Oct 15 2020 Jeff Law <law@redhat.com> - 1.0-23.20200526.git0d70da7
+- Fix missing #includes for gcc-11
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-22.20200526.git0d70da7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-21.20200526.git0d70da7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  8 2020 Jerry James <loganjerry@gmail.com> - 1.0-20.20200526.git0d70da7
+- Update to latest upstream snapshot
+- Add -gtest and -move patches
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-19.20181123.git636952f
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

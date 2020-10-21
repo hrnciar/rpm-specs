@@ -1,16 +1,13 @@
 %global pypi_name convertdate
-# See https://bugzilla.redhat.com/show_bug.cgi?id=1748948
-%{?python_disable_dependency_generator}
 
 Name:           python-%{pypi_name}
-Version:        2.2.0
-Release:        4%{?dist}
+Version:        2.2.2
+Release:        1%{?dist}
 Summary:        Python module to convert date formats and calculating holidays
-
 
 License:        MIT
 URL:            https://github.com/fitnr/convertdate
-Source0:        https://github.com/fitnr/convertdate/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
+Source0:        %{url}/archive/v%{version}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
 
 %description
@@ -22,14 +19,11 @@ Julian, Mayan and Persian.
 Summary:        %{summary}
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-pytest
 BuildRequires:  python3-pytz
-BuildRequires:  python3-pyephem
+BuildRequires:  python3-ephem
 BuildRequires:  python3-pymeeus
-
-Requires:       python3-pytz
-Requires:       python3-pyephem
-Requires:       python3-pymeeus
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
 %description -n python3-%{pypi_name}
@@ -47,7 +41,7 @@ Julian, Mayan and Persian.
 %py3_install
 
 %check
-PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} tests
+%pytest -v tests
 
 %files -n python3-%{pypi_name}
 %doc HISTORY.rst README.md
@@ -56,6 +50,22 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} tests
 %{python3_sitelib}/%{pypi_name}/
 
 %changelog
+* Wed Sep 16 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.2.2-1
+- Update to latest upstream release 2.2.2 (#1880240)
+
+* Wed Sep 16 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.2.0-7
+- Enable dependency generator
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 2.2.0-5
+- Add python3-setuptools as BR
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 2.2.0-4
 - Rebuilt for Python 3.9
 

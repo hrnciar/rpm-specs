@@ -19,7 +19,7 @@
 
 Name:           %{project}
 Version:        0.7.15
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Koji support for building layered container images
 
 License:        LGPLv2
@@ -103,6 +103,9 @@ build layered container images.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.15-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7.15-3
 - Rebuilt for Python 3.9
 

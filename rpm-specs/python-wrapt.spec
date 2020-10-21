@@ -9,7 +9,7 @@
 
 Name:           python-%{sname}
 Version:        1.12.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A Python module for decorators, wrappers and monkey patching
 
 License:        BSD
@@ -78,6 +78,9 @@ popd
 %{python3_sitearch}/%{sname}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.12.1-2
 - Rebuilt for Python 3.9
 

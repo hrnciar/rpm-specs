@@ -3,7 +3,7 @@
 
 # https://github.com/nats-io/nats-streaming-server
 %global goipath         github.com/nats-io/nats-streaming-server
-Version:                0.17.0
+Version:                0.18.0
 
 %gometa
 
@@ -27,12 +27,13 @@ Source0:        %{gosource}
 BuildRequires:  golang(github.com/go-sql-driver/mysql)
 BuildRequires:  golang(github.com/gogo/protobuf/gogoproto)
 BuildRequires:  golang(github.com/gogo/protobuf/proto)
+BuildRequires:  golang(github.com/hashicorp/go-hclog)
 BuildRequires:  golang(github.com/hashicorp/go-msgpack/codec)
 BuildRequires:  golang(github.com/hashicorp/raft)
 BuildRequires:  golang(github.com/lib/pq)
-BuildRequires:  golang(github.com/nats-io/nats-server/conf)
-BuildRequires:  golang(github.com/nats-io/nats-server/logger)
-BuildRequires:  golang(github.com/nats-io/nats-server/server)
+BuildRequires:  golang(github.com/nats-io/nats-server/v2/conf)
+BuildRequires:  golang(github.com/nats-io/nats-server/v2/logger)
+BuildRequires:  golang(github.com/nats-io/nats-server/v2/server)
 BuildRequires:  golang(github.com/nats-io/nats.go)
 BuildRequires:  golang(github.com/nats-io/nuid)
 BuildRequires:  golang(github.com/nats-io/stan.go/pb)
@@ -42,7 +43,7 @@ BuildRequires:  golang(golang.org/x/crypto/chacha20poly1305)
 
 %if %{with check}
 # Tests
-BuildRequires:  golang(github.com/nats-io/nats-server/test)
+BuildRequires:  golang(github.com/nats-io/nats-server/v2/test)
 BuildRequires:  golang(github.com/nats-io/stan.go)
 %endif
 
@@ -53,7 +54,6 @@ BuildRequires:  golang(github.com/nats-io/stan.go)
 
 %prep
 %goprep
-sed -i "s|github.com/nats-io/nats-server/v2|github.com/nats-io/nats-server|" $(find . -type f -iname "*.go")
 
 %build
 %gobuild -o %{gobuilddir}/bin/nats-streaming-server %{goipath}
@@ -77,6 +77,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 07:18:45 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.18.0-1
+- Update to 0.18.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Apr 04 22:00:36 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.17.0-1
 - Update to 0.17.0
 

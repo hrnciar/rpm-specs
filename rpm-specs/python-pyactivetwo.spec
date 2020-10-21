@@ -2,7 +2,7 @@
 
 Name:           python-pyactivetwo
 Version:        0.1
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Python library for reading signal from BioSemi ActiveTwo EEG device
 
 License:        MIT
@@ -47,6 +47,9 @@ cp -p %{SOURCE1} .
 %{python3_sitelib}/%{srcname}*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1-16
 - Rebuilt for Python 3.9
 

@@ -1,6 +1,6 @@
 Name:           fips
 Version:        3.4.0
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        OpenGL-based FITS image viewer
 License:        LGPLv3+
 Url:            https://github.com/matwey/fips3
@@ -26,15 +26,15 @@ FITS image extension has basic limited support.
 %setup -q -n fips3-%{version}
 
 %build
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 %install
-%make_install
-desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications ./space.fips.Fips.desktop
+%cmake_install
+desktop-file-validate ${RPM_BUILD_ROOT}%{_datadir}/applications/space.fips.Fips.desktop
 
 %check
-ctest -V %{?_smp_mflags}
+%ctest
 
 %files
 %license LICENSE.txt
@@ -45,6 +45,12 @@ ctest -V %{?_smp_mflags}
 %{_datadir}/icons/hicolor/*/apps/space.fips.Fips.*
 
 %changelog
+* Tue Jul 28 2020 Matwey V. Kornilov <matwey.kornilov@gmail.com> - 3.4.0-9
+- Use %cmake_build/%cmake_install macroes to fix f33 build
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Matwey V. Kornilov <matwey.kornilov@gmail.com> - 3.4.0-7
 - Require qt5-qtbase-devel instead of qt5-devel (fc32+)
 
@@ -54,7 +60,7 @@ ctest -V %{?_smp_mflags}
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
-* Thu Aug 03 2019 Matwey V. Kornilov <matwey.kornilov@gmail.com> - 3.3.1-4
+* Sat Aug 03 2019 Matwey V. Kornilov <matwey.kornilov@gmail.com> - 3.3.1-4
 - Update package description
 
 * Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.1-3

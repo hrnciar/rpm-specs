@@ -1,7 +1,7 @@
 Summary:        Google C++ testing framework
 Name:           gtest
 Version:        1.10.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 # scripts/generator/* are ASL 2.0
 License:        BSD and ASL 2.0
 URL:            https://github.com/google/googletest
@@ -68,19 +68,16 @@ sed -e "s/set(GOOGLETEST_VERSION .*)/set(GOOGLETEST_VERSION %{version})/" -i CMa
 
 
 %build
-mkdir build && cd build
 %cmake -DBUILD_SHARED_LIBS=ON \
        -DPYTHON_EXECUTABLE=%{__python3} \
-       -Dgtest_build_tests=ON ..
-%make_build
+       -Dgtest_build_tests=ON
+%cmake_build
 
 %install
-cd build
-%make_install
+%cmake_install
 
 %check
-cd build
-make test
+%ctest
 
 %files
 %license googletest/LICENSE
@@ -113,6 +110,12 @@ make test
 %{_libdir}/pkgconfig/gmock_main.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 2020 Terje Rosten <terje.rosten@ntnu.no> - 1.10.0-2
+- Use new set of cmake macros
+
 * Sat Mar 21 2020 Neal Gompa <ngompa13@gmail.com> - 1.10.0-1
 - Rebase to 1.10.0 (rhbz#1810432)
 - Remove upstreamed patches

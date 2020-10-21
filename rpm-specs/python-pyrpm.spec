@@ -11,7 +11,7 @@ access to various bits of information that is contained in the spec file.}
 
 Name:           python-%{pypi_name}
 Version:        0.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python module for parsing RPM spec files
 
 License:        MIT
@@ -57,6 +57,9 @@ Summary:        %{summary}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 23:43:38 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.9-1
 - Update to 0.9 (#1830524)
 

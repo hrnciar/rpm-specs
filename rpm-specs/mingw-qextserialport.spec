@@ -6,7 +6,7 @@
 
 Name:          mingw-%{pkgname}
 Version:       1.2
-Release:       0.8%{?pre:.%pre}%{?dist}
+Release:       0.9%{?pre:.%pre}%{?dist}
 Summary:       MinGW Windows %{pkgname} library
 BuildArch:     noarch
 
@@ -98,6 +98,9 @@ rm -f %{buildroot}%{mingw64_libdir}/Qt5ExtSerialPort.prl
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-0.9.rc
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-0.8.rc
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

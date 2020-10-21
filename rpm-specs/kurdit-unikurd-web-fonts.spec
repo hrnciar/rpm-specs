@@ -1,5 +1,5 @@
 Version:       20020502
-Release:       25%{?dist}
+Release:       26%{?dist}
 # Below is only working Source URL
 URL:           http://www.kurditgroup.org/node/1337
 
@@ -36,6 +36,9 @@ Source1:       65-%{fontpkgname}.conf
 %fontfiles
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20020502-26
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Parag Nemade <pnemade AT redhat DOT com> - 20020502-25
 - Update fontconfig DTD id in conf file
 

@@ -2,7 +2,7 @@
 
 Name:           publicsuffix-list
 Version:        20190417
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Cross-vendor public domain suffix database
 
 License:        MPLv2.0
@@ -82,6 +82,9 @@ ln -s public_suffix_list.dat $RPM_BUILD_ROOT/%{_datadir}/publicsuffix/effective_
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190417-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190417-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

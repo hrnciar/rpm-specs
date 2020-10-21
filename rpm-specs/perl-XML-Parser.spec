@@ -1,6 +1,6 @@
 Name:           perl-XML-Parser
 Version:        2.46
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Perl module for parsing XML documents
 
 License:        GPL+ or Artistic
@@ -22,7 +22,6 @@ BuildRequires:  perl(Devel::CheckLib)
 BuildRequires:  perl(English)
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(lib)
-BuildRequires:  sed
 # Runtime
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(FileHandle)
@@ -30,7 +29,7 @@ BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(if)
 BuildRequires:  perl(IO::File)
 BuildRequires:  perl(IO::Handle)
-# The script LWPExternEnt.pl is loaded by Parser.pm
+# LWPExternEnt.pl script is loaded by Parser.pm
 BuildRequires:  perl(LWP::UserAgent)
 BuildRequires:  perl(overload)
 BuildRequires:  perl(strict)
@@ -64,25 +63,25 @@ creation time.
 %prep
 %setup -q -n XML-Parser-%{version} 
 chmod 644 samples/{canonical,xml*}
-perl -pi -e 's|^#!/usr/local/bin/perl\b|#!%{__perl}|' samples/{canonical,xml*}
+perl -MConfig -pi -e 's|^#!/usr/local/bin/perl\b|$Config{startperl}|' samples/{canonical,xml*}
 
 # Remove bundled library
 rm -r inc
-sed -i -e '/^inc\// d' MANIFEST
+perl -i -ne 'print $_ unless m{^inc/}' MANIFEST
 
 %build
-CFLAGS="$RPM_OPT_FLAGS" perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
-make %{?_smp_mflags} OPTIMIZE="$RPM_OPT_FLAGS"
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 OPTIMIZE="$RPM_OPT_FLAGS"
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 find $RPM_BUILD_ROOT -type f -name '*.bs' -a -size 0 -delete
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 for file in samples/REC-xml-19980210.xml; do
   iconv -f iso-8859-1 -t utf-8 < "$file" > "${file}_"
   mv -f "${file}_" "$file"
-  sed -i -e "s/encoding='ISO-8859-1'/encoding='UTF-8'/" "$file"
+  perl -i -pe "s/encoding='ISO-8859-1'/encoding='UTF-8'/" "$file"
 done
 
 %check
@@ -96,6 +95,12 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.46-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Petr Pisar <ppisar@redhat.com> - 2.46-5
+- Modernize a spec file
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.46-4
 - Perl 5.32 rebuild
 

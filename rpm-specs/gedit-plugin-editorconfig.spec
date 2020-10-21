@@ -5,7 +5,7 @@
 
 Name:           gedit-plugin-editorconfig
 Version:        0.5.3
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        EditorConfig plugin for Gedit
 
 License:        BSD
@@ -22,6 +22,7 @@ Patch1:         gedit-newlinetype-deprecated.patch
 Patch2:         gedit-3.36-location-api.patch
 
 BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}dist(setuptools)
 Requires:       python%{python3_pkgversion}-editorconfig
 Requires:       gedit%{_isa} >= 3.8
 
@@ -63,6 +64,12 @@ cp editorconfig_gedit3.py %{buildroot}%{_libdir}/gedit/plugins/
 %{_libdir}/gedit/plugins/editorconfig_plugin/__pycache__/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 0.5.3-5
+- Add setuptools build requirement
+
 * Fri Jun 05 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 0.5.3-4
 - Patch around gedit 3.36 get_location() API change
 

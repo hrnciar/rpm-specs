@@ -7,7 +7,7 @@
 # Please, preserve the changelog entries
 #
 # Github
-%global gh_commit    41c6ba148966b10cafd31d1a4e5feb1e2138d95c
+%global gh_commit    c3b959f821c19b36952ec4a595edd695c216bfc6
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sabre-io
 %global gh_project   xml
@@ -22,7 +22,7 @@
 
 Name:           php-%{pk_vendor}-%{pk_project}%{major}
 Summary:        XML library that you may not hate
-Version:        2.2.1
+Version:        2.2.3
 Release:        1%{?dist}
 
 URL:            https://github.com/%{gh_owner}/%{gh_project}
@@ -50,7 +50,7 @@ BuildRequires:  phpunit8 >= 8.5
 BuildRequires:  php-fedora-autoloader-devel
 
 # From composer.json, "require" : {
-#        "php" : "^7.1",
+#        "php" : "^7.1 || ^8.0",
 #        "ext-xmlwriter" : "*",
 #        "ext-xmlreader" : "*",
 #        "ext-dom" : "*",
@@ -140,6 +140,12 @@ exit $ret
 
 
 %changelog
+* Mon Oct  5 2020 Remi Collet <remi@remirepo.net> - 2.2.3-1
+- update to 2.2.3
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 11 2020 Remi Collet <remi@remirepo.net> - 2.2.1-1
 - update to 2.2.1
 

@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          0.1.2
-Release:          7%{?dist}
+Release:          8%{?dist}
 Summary:          Finite Moment Stable Distributions
 
 License:          GPLv3
@@ -62,6 +62,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 0.1.2-7
 - Rebuild for R 4
 

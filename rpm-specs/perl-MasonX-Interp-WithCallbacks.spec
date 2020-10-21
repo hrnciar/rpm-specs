@@ -1,6 +1,6 @@
 Name:           perl-MasonX-Interp-WithCallbacks
 Version:        1.19
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Mason callback support via Params::CallbackRequest
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/MasonX-Interp-WithCallbacks
@@ -72,6 +72,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/MasonX::Interp::WithCallbacks.3pm*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.19-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.19-18
 - Perl 5.32 rebuild
 

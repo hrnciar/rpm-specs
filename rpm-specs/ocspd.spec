@@ -4,7 +4,7 @@
 
 Name:		ocspd
 Version:	1.9.0
-Release:	17%{?alphatag:.}%{?alphatag}%{?dist}
+Release:	18%{?alphatag:.}%{?alphatag}%{?dist}
 Summary:	OpenCA OCSP Daemon
 License:	ASL 1.0
 Source:		http://downloads.sourceforge.net/openca/openca-ocspd-%{version}%{revision}.tar.gz
@@ -155,6 +155,9 @@ exit 0
 
 #-------------------------------------------------------------------------------
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.0-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.0-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

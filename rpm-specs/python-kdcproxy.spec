@@ -2,7 +2,7 @@
 
 Name:           python-%{realname}
 Version:        0.4.2
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        MS-KKDCP (kerberos proxy) WSGI module
 
 License:        MIT
@@ -12,12 +12,13 @@ Source0:        https://github.com/npmccallum/%{realname}/archive/%{realname}-%{
 BuildArch:      noarch
 BuildRequires:  git
 
-BuildRequires:  python3-devel
-BuildRequires:  python3-pytest
-BuildRequires:  python3-coverage
 BuildRequires:  python3-asn1crypto
+BuildRequires:  python3-coverage
+BuildRequires:  python3-devel
 BuildRequires:  python3-dns
 BuildRequires:  python3-mock
+BuildRequires:  python3-pytest
+BuildRequires:  python3-setuptools
 
 
 %description
@@ -56,6 +57,12 @@ KDCPROXY_ASN1MOD=asn1crypto %{__python3} -m pytest
 %{python3_sitelib}/%{realname}-%{version}-*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Robbie Harwood <rharwood@redhat.com> - 0.4.2-5
+- Explicitly depend on python3-setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.2-4
 - Rebuilt for Python 3.9
 

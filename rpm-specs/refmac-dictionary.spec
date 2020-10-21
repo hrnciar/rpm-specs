@@ -1,7 +1,7 @@
 Name: refmac-dictionary
 Summary: Refmac ligand dictionaries
 Version: 5.41
-Release: 12%{?dist}
+Release: 13%{?dist}
 License: LGPLv2+
 URL: http://www2.mrc-lmb.cam.ac.uk/groups/murshudov/content/refmac/refmac.html
 Source0: http://www2.mrc-lmb.cam.ac.uk/groups/murshudov/content/refmac/Dictionary/refmac_dictionary_v%{version}.tar.gz
@@ -48,6 +48,9 @@ cp -pr monomers %{buildroot}%{_datadir}/%{name}-%{version}/data
 %{_datadir}/%{name}-%{version}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.41-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.41-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

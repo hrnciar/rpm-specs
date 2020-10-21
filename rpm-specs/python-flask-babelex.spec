@@ -4,7 +4,7 @@
 
 Name:       python-%{pkg_name}
 Version:    0.9.4
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    Adds i18n/l10n support to Flask applications
 License:    BSD
 URL:        http://github.com/mrjoes/%{pkg_name}
@@ -58,6 +58,9 @@ This is fork of official Flask-Babel extension with following features:
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.4-2
 - Rebuilt for Python 3.9
 

@@ -29,7 +29,7 @@
 Name:           arduino
 Epoch:          1
 Version:        1.8.13
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        An IDE for Arduino-compatible electronics prototyping platforms
 
 License:        GPLv2+ and LGPLv2+ and CC-BY-SA
@@ -348,6 +348,12 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.8.13-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1:1.8.13-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jun 17 2020 ElXreno <elxreno@gmail.com> - 1:1.8.13-2
 - Rebuild
 

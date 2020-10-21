@@ -1,6 +1,6 @@
 Name:           perl-Carton
 Version:        1.0.34
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Perl module dependency manager (aka Bundler for Perl)
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Carton
@@ -95,6 +95,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.34-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.0.34-8
 - Perl 5.32 rebuild
 

@@ -2,7 +2,7 @@
 
 Name:		nvidia-texture-tools
 Version:	2.0.8
-Release:	22%{?dist}
+Release:	25%{?dist}
 Summary:	Collection of image processing and texture manipulation tools
 License:	MIT
 URL:		http://code.google.com/p/nvidia-texture-tools/
@@ -75,16 +75,13 @@ Headers and libraries for development with %{name}.
 %patch10 -p1
 
 %build
-mkdir -p build
-pushd build
-    %cmake -DNVTT_SHARED=1 -DCMAKE_SKIP_RPATH=1 ..
-    make %{?_smp_mflags}
-popd
+%cmake -DNVTT_SHARED=1 -DCMAKE_SKIP_RPATH=1
+%cmake_build
 
 sed -e 's/\r//' -i NVIDIA_*.txt
 
 %install
-make -C build install DESTDIR=$RPM_BUILD_ROOT
+%cmake_install
 mkdir -p $RPM_BUILD_ROOT/%{_mandir}/man1
 pushd $RPM_BUILD_ROOT/%{_bindir}
     export LD_LIBRARY_PATH=$RPM_BUILD_ROOT/%{_libdir}:
@@ -94,7 +91,7 @@ pushd $RPM_BUILD_ROOT/%{_bindir}
 popd
 
 %check
-make -C build filtertest
+%ctest
 
 %ldconfig_scriptlets
 
@@ -112,6 +109,16 @@ make -C build filtertest
 %{_libdir}/lib*.so
 
 %changelog
+* Mon Oct 19 2020 Kalev Lember <klember@redhat.com> - 2.0.8-25
+- Fix FTBFS with new cmake macros (#1865080)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.8-24
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.8-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.8-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

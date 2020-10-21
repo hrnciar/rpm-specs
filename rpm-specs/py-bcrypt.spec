@@ -1,7 +1,7 @@
 Summary:	Python bindings for OpenBSD's Blowfish password hashing code
 Name:		py-bcrypt
 Version:	0.4
-Release:	26%{?dist}
+Release:	28%{?dist}
 License:	BSD with advertising
 URL:		http://code.google.com/p/py-bcrypt/
 Source:		http://py-bcrypt.googlecode.com/files/py-bcrypt-%{version}.tar.gz
@@ -59,6 +59,13 @@ This package allows for use of py-bcrypt with Python 3.
 %{python3_sitearch}/bcrypt
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-28
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Gwyn Ciesla <gwync@protonmail.com> - 0.4-26
 - BR python3-setuptools
 

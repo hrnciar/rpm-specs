@@ -1,6 +1,6 @@
 Name:		edg-mkgridmap
 Version:	4.0.4
-Release:	8%{?dist}
+Release:	9%{?dist}
 Summary:	A tool to build the grid map-file from VO servers
 License:	ASL 2.0
 Url:		http://svnweb.cern.ch/world/wsvn/curios/edg-mkgridmap
@@ -46,6 +46,9 @@ make install prefix=%{buildroot}
 %{_mandir}/man8/edg-mkgridmap.8*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.4-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.4-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

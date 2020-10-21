@@ -1,6 +1,6 @@
 Name:    sugar-datastore
 Version: 0.116
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: Sugar Datastore
 License: GPLv2+
 URL:     http://sugarlabs.org/
@@ -39,6 +39,9 @@ find %{buildroot} -type f -name "*.la" -delete
 %{_datadir}/dbus-1/services/*.service
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.116-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.116-3
 - Rebuilt for Python 3.9
 

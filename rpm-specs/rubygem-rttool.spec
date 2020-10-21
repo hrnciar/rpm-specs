@@ -9,7 +9,7 @@
 
 Name:		rubygem-%{gem_name}
 Version:	1.0.3.0
-Release:	13%{?dist}
+Release:	14%{?dist}
 
 Summary:	Converter from RT into various formats
 # See rttool.en.rd
@@ -110,6 +110,9 @@ popd
 %exclude	%{gem_instdir}/test/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3.0-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.0.3.0-13
 - R,BR rubygem(racc)
 

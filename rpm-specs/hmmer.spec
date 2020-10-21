@@ -1,6 +1,6 @@
 Name:           hmmer
 Version:        3.1b2
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Profile HMM software for protein sequence analysis
 
 License:        GPLv3
@@ -68,6 +68,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1b2-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1b2-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

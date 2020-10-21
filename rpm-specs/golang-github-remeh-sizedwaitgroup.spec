@@ -3,7 +3,7 @@
 
 # https://github.com/remeh/sizedwaitgroup
 %global goipath         github.com/remeh/sizedwaitgroup
-%global commit          5e7302b12ccef91dce9fde2f5bda6d5c7ea5d2eb
+Version:                1.0.0
 
 %gometa
 
@@ -20,8 +20,7 @@ overload the given database.}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.6%{?dist}
+Release:        1%{?dist}
 Summary:        Golang WaitGroup with throttling
 
 License:        MIT
@@ -47,6 +46,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 19:18:08 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-1
+- Update to 1.0.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

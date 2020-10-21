@@ -1,6 +1,6 @@
 Name:           highlight
 Summary:        Universal source code to formatted text converter
-Version:        3.56
+Version:        3.57
 Release:        1%{?dist}
 License:        GPLv3
 URL:            http://www.andre-simon.de/
@@ -81,6 +81,12 @@ desktop-file-install \
 
 
 %changelog
+* Sat Aug 22 2020 Filipe Rosset <rosset.filipe@gmail.com> - 3.57-1
+- Update to 3.57
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.56-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Filipe Rosset <rosset.filipe@gmail.com> - 3.56-1
 - Update to 3.56
 

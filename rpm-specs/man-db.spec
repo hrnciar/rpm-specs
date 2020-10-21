@@ -3,8 +3,8 @@
 
 Summary: Tools for searching and reading man pages
 Name: man-db
-Version: 2.9.2
-Release: 1%{?dist}
+Version: 2.9.3
+Release: 2%{?dist}
 # GPLv2+ .. man-db
 # GPLv3+ .. gnulib
 License: GPLv2+ and GPLv3+
@@ -69,13 +69,13 @@ This package provides periodic update of man-db cache.
     --with-systemdsystemunitdir=no \
     --with-browser=elinks --with-lzip=lzip \
     --with-override-dir=overrides
-make CC="%{__cc} %{optflags}" %{?_smp_mflags} V=1
+%make_build CC="%{__cc} %{optflags}"
 
 %check
 make check
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT prefix=%{_prefix} INSTALL='install -p'
+%make_install prefix=%{_prefix}
 
 # rename files for alternative usage
 for f in man apropos whatis; do
@@ -231,6 +231,30 @@ fi
 %config(noreplace) %{_sysconfdir}/cron.daily/man-db.cron
 
 %changelog
+* Fri Oct 09 2020 Jeff Law <law@redhat.com> - 2.9.3-2
+- Re-enable LTO
+
+* Tue Oct 06 2020 Nikola Forró <nforro@redhat.com> - 2.9.3-1
+- update to 2.9.3
+  resolves #1849809
+
+* Thu Sep 03 2020 Nikola Forró <nforro@redhat.com> - 2.9.2-6
+- disable LTO to workaround a possible linker bug
+  related to #1871971
+
+* Tue Aug 04 2020 Nikola Forró <nforro@redhat.com> - 2.9.2-5
+- reenable LTO
+
+* Tue Jul 28 2020 Nikola Forró <nforro@redhat.com> - 2.9.2-4
+- disable LTO to avoid linker bug
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 2.9.2-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jun 02 2020 Nikola Forró <nforro@redhat.com> - 2.9.2-1
 - update to 2.9.2
   resolves #1842624

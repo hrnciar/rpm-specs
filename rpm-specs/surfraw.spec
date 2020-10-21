@@ -1,6 +1,6 @@
 Name:           surfraw
 Version:        2.3.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Shell Users Revolutionary Front Rage Against the Web
 License:        Public Domain
 URL:            https://gitlab.com/surfraw/Surfraw
@@ -71,6 +71,9 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -6,7 +6,7 @@
 
 Name:             R-%{packname}
 Version:          0.3.0
-Release:          8%{?dist}
+Release:          9%{?dist}
 Summary:          Default Color Maps from 'matplotlib' (Lite Version)
 
 License:          MIT
@@ -80,6 +80,9 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname} --no-examples
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.3.0-8
 - rebuild for R 4
 

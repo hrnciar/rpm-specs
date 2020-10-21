@@ -1,7 +1,7 @@
 Summary: A mouse server for the Linux console
 Name: gpm
 Version: 1.20.7
-Release: 22%{?dist}
+Release: 24%{?dist}
 License: GPLv2 and GPLv2+ with exceptions and GPLv3+ and Verbatim and Copyright only
 URL: http://www.nico.schottelius.org/software/gpm/
 #URL2 : http://freecode.com/projects/gpm
@@ -45,7 +45,7 @@ includes a program to allow pop-up menus to appear at the click of a
 mouse button.
 
 %package libs
-Summary: Dynamic library for for the gpm
+Summary: Dynamic library for gpm
 
 %description libs
 This package contains the libgpm.so dynamic library which contains
@@ -150,6 +150,12 @@ rm -rf %{buildroot}%{_mandir}
 %{_libdir}/libgpm.a
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.20.7-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.20.7-23
+- Do not run gpm in the container (#1524034)
+
 * Thu Jun 18 2020 Sérgio Basto <sergio@serjux.com> - 1.20.7-22
 - Two patches have been upstreamed
 

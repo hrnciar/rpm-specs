@@ -14,11 +14,11 @@
 
 Summary:  Text editor for the MATE desktop
 Name:     pluma
-Version:  %{branch}.0
+Version:  %{branch}.1
 %if 0%{?rel_build}
 Release:  1%{?dist}
 %else
-Release:  0.9%{?git_rel}%{?dist}
+Release:  0.10%{?git_rel}%{?dist}
 %endif
 License:  GPLv2+ and LGPLv2+
 URL:      http://mate-desktop.org
@@ -47,10 +47,7 @@ Requires: mate-desktop-libs
 Requires: caja-schemas
 # the run-command plugin uses zenity
 Requires: zenity
-# libpeas isn't splited in rhel7
-%if 0%{?fedora} && 0%{?fedora} <= 29
-Requires:      libpeas-loader-python3
-%endif
+Requires: libpeas-loader-python3
 
 %description
 pluma is a small, but powerful text editor designed specifically for
@@ -153,6 +150,12 @@ find %{buildroot} -name '*.a' -exec rm -f {} ';'
 
 
 %changelog
+* Tue Aug 25 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.1-1
+- update to 1.24.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.24.0-1
 - update to 1.24.0
 

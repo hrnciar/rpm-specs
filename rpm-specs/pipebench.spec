@@ -1,6 +1,6 @@
 Name:		pipebench
 Version:	0.40
-Release:	21%{?dist}
+Release:	22%{?dist}
 Summary:	Measures the speed of STDIN/STDOUT communication
 
 License:	GPLv2+
@@ -50,6 +50,9 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.40-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.40-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

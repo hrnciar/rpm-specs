@@ -2,7 +2,7 @@
 %undefine		minorver	
 %undefine		ifpre	
 
-%define		fedorarel	2
+%define		fedorarel	3
 %define		rel		%{?ifpre:0.}%{fedorarel}%{?minorver:.%minorver}
 
 
@@ -125,10 +125,7 @@ Requires:	rubygem(goocanvas) >= 2
 Requires:	rubygem(gstreamer)
 Requires:	rubygem(gtk3)
 # Uses syck (bug 922217)
-# Once kill this with 0.7.4
-%if 0%{?fedora} < 32
 Requires:	rubygem(syck)
-%endif
 
 Requires(pre):		GConf2
 Requires(post):		GConf2
@@ -286,6 +283,12 @@ EOF
 %{_datadir}/icons/hicolor/*/apps/%{name}.*
 
 %changelog
+* Sun Aug  9 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 0.7.4-3
+- syck is needed, adding to Requires again
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.4-2.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 11 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 0.7.4-2
 - Fix Requires, expecially, add R: rubygem(gtk3) (bug 1833761)
 

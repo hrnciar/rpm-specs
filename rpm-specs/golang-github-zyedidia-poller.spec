@@ -6,8 +6,7 @@
 
 # https://github.com/zyedidia/poller
 %global goipath         github.com/zyedidia/poller
-Version:                2.0.0
-%global commit          ab09682913b79f402713d1df1977dedc19eb25ac
+Version:                1.0.1
 
 %gometa
 
@@ -18,7 +17,9 @@ Package Poller is a file-descriptor multiplexer.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+# Fork downgraded version
+Epoch:          1
+Release:        1%{?dist}
 Summary:        Epoll(7)-based file-descriptor multiplexer
 
 # Upstream license specification: BSD-2-Clause
@@ -33,8 +34,6 @@ Source0:        %{gosource}
 
 %prep
 %goprep
-find . -name "*.go" -exec sed -i "s|github.com/npat-efault/poller|github.com/zyedidia/poller|" "{}" +;
-
 
 %install
 %gopkginstall
@@ -47,6 +46,12 @@ find . -name "*.go" -exec sed -i "s|github.com/npat-efault/poller|github.com/zye
 %gopkgfiles
 
 %changelog
+* Tue Aug 04 23:10:38 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1:1.0.1-1
+- Update to 1.0.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

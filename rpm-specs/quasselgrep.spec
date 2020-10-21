@@ -9,7 +9,7 @@
 
 Name:           quasselgrep
 Version:        0.1
-Release:        0.10.20170411git%{shortcommit0}%{?dist}
+Release:        0.11.20170411git%{shortcommit0}%{?dist}
 Summary:        Tool for searching quassel logs from the commandline
 
 License:        GPLv2 and BSD
@@ -62,6 +62,9 @@ sed "/env python/d" -i quasselgrep/quasselgrep.py
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-0.11.20170411git502c88b
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1-0.10.20170411git502c88b
 - Rebuilt for Python 3.9
 

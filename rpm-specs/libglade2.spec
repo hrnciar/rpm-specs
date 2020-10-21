@@ -1,7 +1,7 @@
 Summary: The libglade library for loading user interfaces
 Name: libglade2
 Version: 2.6.4
-Release: 23%{?dist}
+Release: 24%{?dist}
 License: LGPLv2+
 Source: http://download.gnome.org/sources/libglade/2.6/libglade-%{version}.tar.bz2
 URL: http://www.gnome.org
@@ -75,6 +75,9 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %{_datadir}/gtk-doc/html/libglade
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.4-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.4-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

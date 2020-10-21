@@ -2,7 +2,7 @@
 
 Name:           cbios
 Version:        0.29a
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A third party BIOS compatible with the MSX BIOS
 License:        BSD
 URL:            http://cbios.sourceforge.net/
@@ -67,6 +67,9 @@ done
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.29a-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.29a-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

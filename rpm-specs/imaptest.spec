@@ -2,7 +2,7 @@ Summary:	A generic IMAP server compliancy tester
 Name:		imaptest
 # Upstream is not really planning on adding version numbers
 Version:	20190614
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	MIT
 URL:		https://www.imapwiki.org/ImapTest
 Source0:	https://dovecot.org/nightly/%{name}/%{name}-%{version}.tar.gz
@@ -47,6 +47,9 @@ $RPM_BUILD_ROOT%{_bindir}/%{name} --help
 %{_datadir}/%{name}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190614-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20190614-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

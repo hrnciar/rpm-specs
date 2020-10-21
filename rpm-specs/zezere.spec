@@ -1,10 +1,12 @@
 Name:          zezere
 Version:       0.5
-Release:       3%{?dist}
+Release:       6%{?dist}
 Summary:       A provisioning service for Fedora IoT
 License:       MIT
 URL:           https://github.com/fedora-iot/zezere
 Source0:       https://github.com/fedora-iot/zezere/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+# Show all unclaimed devices to admins in the web UI
+Patch0:        0001-Allow-superuser-to-claim-any-unclaimed-device.patch
 
 BuildArch: noarch
 BuildRequires: python3-devel
@@ -38,6 +40,12 @@ install zezere_ignition/zezere_ignition* %{buildroot}%{_unitdir}/
 mkdir -p %{buildroot}%{_sharedstatedir}/zezere
 mkdir -p %{buildroot}%{_sysconfdir}/issue.d/
 ln -s /run/zezere-ignition-banner %{buildroot}%{_sysconfdir}/issue.d/zezere_ignition.issue
+# install the templates - they ought to be installed by %py3_install
+# but for some reason I cannot figure out, are not:
+# https://bugzilla.redhat.com/show_bug.cgi?id=1855927
+cp -R zezere/templates %{buildroot}%{python3_sitelib}/zezere/
+# Ditto the fixtures:
+cp -R zezere/fixtures %{buildroot}%{python3_sitelib}/zezere/
 
 %files
 %license LICENSE
@@ -52,6 +60,16 @@ ln -s /run/zezere-ignition-banner %{buildroot}%{_sysconfdir}/issue.d/zezere_igni
 %{_unitdir}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Adam Williamson <awilliam@redhat.com> - 0.5-5
+- Backport patch to show all unclaimed devices to admins in web UI
+- Also include the fixtures in the package as they're necessary
+
+* Mon Jul 13 2020 Adam Williamson <awilliam@redhat.com> - 0.5-4
+- Install the HTML template files (#1855927)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.5-3
 - Rebuilt for Python 3.9
 

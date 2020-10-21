@@ -3,7 +3,7 @@
 
 # https://github.com/serialx/hashring
 %global goipath         github.com/serialx/hashring
-%global commit          8b2912629002c928de72c69aae20c8600bef41a6
+%global commit          22c0c7ab6b1be4be7b950bae8b117767da7b18b6
 
 %gometa
 
@@ -17,12 +17,17 @@ built using the same algorithm as libketama.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Consistent hashing "hashring" implementation in Go
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
+
+%if %{with check}
+# Tests
+BuildRequires:  golang(github.com/stretchr/testify/assert)
+%endif
 
 %description
 %{common_description}
@@ -43,6 +48,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 17:48:53 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.5.20200802git22c0c7a
+- Bump to commit 22c0c7ab6b1be4be7b950bae8b117767da7b18b6
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

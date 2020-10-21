@@ -1,6 +1,6 @@
 Name:           cmake-fedora
 Version:        2.9.3
-Release:        7%{?dist}
+Release:        10%{?dist}
 Summary:        CMake helper modules for fedora developers
 License:        BSD
 URL:            https://pagure.io/%{name}/
@@ -31,11 +31,10 @@ helper macros and targets for fedora developers.
 %build
 # $RPM_OPT_FLAGS should be loaded from cmake macro.
 %cmake -DCMAKE_FEDORA_ENABLE_FEDORA_BUILD=1 .
-make VERBOSE=1 %{?_smp_mflags}
+%cmake_build
 
 %install
-rm -rf %{buildroot}
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 # We install document using doc
 rm -fr %{buildroot}%{_docdir}/*
@@ -94,6 +93,16 @@ ctest --output-on-failure
 %{_datadir}/cmake/Templates/fedora/project.spec.in
 
 %changelog
+* Fri Aug 07 2020 Takao Fujiwara <fujiwara@redhat.com> - 2.9.3-10
+- Resolves: #1863341 FTBFS replace make with cmake_build
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.3-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Takao Fujiwara <fujiwara@redhat.com> - 2.9.3-7
 - Resolves: #1832434 - FTI: Delete Requires packagedb-cli
 

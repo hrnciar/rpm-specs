@@ -2,7 +2,7 @@
 
 Name:           pantheon-session-settings
 Summary:        Pantheon session configuration files
-Version:        32.1
+Version:        33.1
 Release:        1%{?dist}
 License:        GPLv3
 
@@ -118,6 +118,15 @@ fi
 
 
 %changelog
+* Mon Aug 31 2020 Fabio Valentini <decathorpe@gmail.com> - 33.1-1
+- Update to version 33.1.
+
+* Sun Aug 09 2020 Fabio Valentini <decathorpe@gmail.com> - 32.2-1
+- Update to version 32.2.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 32.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 30 2020 Fabio Valentini <decathorpe@gmail.com> - 32.1-1
 - Update to version 32.1.
 

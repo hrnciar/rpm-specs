@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}0.2
 Version:        0.2.6
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Strongly Typed Mimes
 
 # Upstream license specification: MIT
@@ -119,6 +119,9 @@ which use "serde" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.6-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 03:46:55 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.2.6-9
 - Disable tests for real
 

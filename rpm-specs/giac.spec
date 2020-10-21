@@ -2,12 +2,16 @@
 # See http://pcm1.e.ujf-grenoble.fr/forum/viewtopic.php?f=19&t=1733&sid=3257f5085f4ae208dc36665f2873252f
 %bcond_with check
 
-%global subversion .85
+%if 0%{?fedora} >= 33
+%bcond_without flexiblas
+%endif
+
+%global subversion .7
 
 Name:          giac
 Summary:       Computer Algebra System, Symbolic calculus, Geometry
-Version:       1.5.0%{subversion}
-Release:       3%{?dist}
+Version:       1.6.0%{subversion}
+Release:       4%{?dist}
 # LGPLv3+: src/Fl_GDI_Printer.cxx, src/Flv_List.cc, src/Flv_Table.cc
 # BSD: src/tinymt32*
 License:       GPLv3+
@@ -25,6 +29,9 @@ Patch0:        %{name}-iszero.patch
 # Adapt to cocoalib 0.99700
 Patch1:        %{name}-cocoalib.patch
 
+# Deal with LTO compromised configure test
+Patch2:        %{name}-config.patch
+
 BuildRequires: readline-devel
 BuildRequires: gettext-devel
 BuildRequires: gcc-c++
@@ -37,7 +44,11 @@ BuildRequires: libnauty-devel
 BuildRequires: mpfr-devel
 BuildRequires: ntl-devel
 BuildRequires: pari-devel
-BuildRequires: lapack-devel
+%if %{with flexiblas}
+BuildRequires:  flexiblas-devel
+%else
+BuildRequires:  blas-devel, lapack-devel
+%endif
 BuildRequires: mpfi-devel
 BuildRequires: mesa-libGL-devel
 BuildRequires: libao-devel
@@ -163,6 +174,13 @@ rm -f examples/Exemples/demo/._*
 rm -f examples/Exemples/analyse/._*
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
+
+%if %{with flexiblas}
+sed -e 's|LIB(blas|LIB(flexiblas|g' -e 's|LIB(lapack|LIB(flexiblas|g' -i configure.in
+sed -e 's|-lblas|-lflexiblas|g' -e 's|-llapack|-lflexiblas|g' -i configure
+%endif
+
 %configure --enable-static=no --with-included-gettext=no --enable-nls=yes \
  --enable-tommath=no --enable-debug=no --enable-gc=no --enable-sscl=no \
  --enable-dl=yes --enable-gsl=yes --enable-lapack=yes --enable-pari=yes \
@@ -387,6 +405,25 @@ make -C check check
 %{_datadir}/giac/examples/
 
 %changelog
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 1.6.0.7-5
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Aug 18 2020 Jeff Law <law@redhat.com> - 1.6.0.7-4
+- Force C++14 as this code is not C++17 ready
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0.7-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 19 2020 Antonio Trande <sagitter@fedoraproject.org> 1.6.0.7-1
+- Update to 1.6.0 sub-7
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 1.5.0.85-4
+- Fix broken configure test compromised by LTO
+
 * Tue Jun  2 2020 Jerry James <loganjerry@gmail.com> - 1.5.0.85-3
 - Rebuild for nauty 2.7.1
 

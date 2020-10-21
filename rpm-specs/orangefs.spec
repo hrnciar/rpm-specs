@@ -1,6 +1,6 @@
 Name: orangefs
-Version: 2.9.7
-Release: 8%{?dist}
+Version: 2.9.8
+Release: 1%{?dist}
 Summary: Parallel network file system client
 URL: https://www.orangefs.org/
 # BSD (2 clause) maint/config/ssl.m4
@@ -19,11 +19,13 @@ BuildRequires: bison flex libattr-devel openssl-devel
 BuildRequires: perl(Math::BigInt) perl(Getopt::Long) perl(Term::ReadLine) perl(FindBin)
 BuildRequires: systemd
 BuildRequires: libselinux-devel
-BuildRequires: lmdb-devel fuse-devel
+BuildRequires: lmdb-devel
+BuildRequires: fuse-devel
 %ifnarch armv7hl
 BuildRequires: libibverbs-devel
 %endif
 BuildRequires: texlive latex2html ghostscript-tools-dvipdf
+BuildRequires: texlive-dvips
 
 Source0: https://s3.amazonaws.com/download.orangefs.org/current/source/orangefs-%version.tar.gz
 Source1: orangefs-server.service
@@ -61,7 +63,7 @@ the kernel module.
 %desc
 
 %prep
-%autosetup -N -n orangefs-%version
+%autosetup -N -n orangefs-v.%version
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -146,7 +148,7 @@ install -p -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}
 %{_sbindir}/pvfs2-client-core
 %{_unitdir}/orangefs-client.service
 %{_libdir}/libpvfs2.so.2
-%{_libdir}/libpvfs2.so.%version
+%{_libdir}/libpvfs2.so.2.9.7
 %dir %{_docdir}/orangefs
 %license %{_docdir}/orangefs/COPYING
 %{_docdir}/orangefs/pvfs2-guide.pdf
@@ -286,6 +288,12 @@ This package contains the FUSE client.
 %{_bindir}/pvfs2fuse
 
 %changelog
+* Thu Sep 17 2020 David Schwörer <davidsch@fedoraproject.org> - 2.9.8-1
+- update to new upstream release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.7-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 15 2020 David Schwörer <davidsch@fedoraproject.org> - 2.9.7-8
 - enable -fcommon to work around build failure
 

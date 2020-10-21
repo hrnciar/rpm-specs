@@ -1,6 +1,6 @@
 Name:           perl-Net-SNMP
 Version:        6.0.1
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        Object oriented interface to SNMP
 
 License:        GPL+ or Artistic
@@ -90,6 +90,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.1-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 6.0.1-27
 - Perl 5.32 rebuild
 

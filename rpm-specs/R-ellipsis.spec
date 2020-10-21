@@ -6,7 +6,7 @@
 
 Name:             R-%{packname}
 Version:          0.3.1
-Release:          2%{?dist}
+Release:          3%{?dist}
 Summary:          Tools for Working with ...
 
 License:          GPLv3
@@ -72,6 +72,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun  3 2020 Tom Callaway <spot@fedoraproject.org> - 0.3.1-2
 - conditionalize check (so we can break the loop for testthat)
 - rebuild for R 4

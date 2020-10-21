@@ -1,11 +1,13 @@
 Name:           nanomsg
-Summary:        Socket library that provides several common communication patterns
 Version:        1.1.5
-Release:        3%{?dist}
+Release:        6%{?dist}
+Summary:        Socket library that provides several common communication patterns
+
 License:        MIT
 URL:            https://nanomsg.org/
 Source0:        https://github.com/nanomsg/nanomsg/archive/%{version}/%{name}-%{version}.tar.gz
-BuildRequires:  cmake
+
+BuildRequires:  cmake3
 BuildRequires:  gcc
 # For docs only, can be skipped
 BuildRequires:  rubygem-asciidoctor
@@ -37,39 +39,58 @@ This package contains documentation for %{name}.
 
 
 %prep
-%setup -q
+%autosetup -p1
+
 
 %build
-%cmake -DTHREADSAFE=ON .
-%make_build
+%cmake3 \
+  -DTHREADSAFE=ON \
+  %{nil}
+%cmake3_build
+
 
 %install
-%make_install
+%cmake3_install
+
 
 %check
-ctest .
+%ctest3
 
 
 %files
 %license COPYING
 %{_bindir}/nanocat
-%{_libdir}/libnanomsg.so.5*
-%{_mandir}/man1/*.1*
+%{_libdir}/lib%{name}.so.*
+%{_mandir}/man1/nanocat.1*
 
 %files devel
 %doc tests
-%{_libdir}/libnanomsg.so
-%{_libdir}/pkgconfig/nanomsg.pc
-%{_libdir}/cmake/nanomsg-%{version}/
-%{_includedir}/nanomsg/
-%{_defaultdocdir}/nanomsg/
-%{_mandir}/man3/*.3*
-%{_mandir}/man7/*.7*
+%{_libdir}/lib%{name}.so
+%{_libdir}/pkgconfig/%{name}.pc
+%{_libdir}/cmake/%{name}-%{version}/
+%{_includedir}/%{name}/
+%{_defaultdocdir}/%{name}/
+%{_mandir}/man3/nn_*.3*
+%{_mandir}/man7/nn_*.7*
+%{_mandir}/man7/%{name}.7*
 
 %files doc
 %doc AUTHORS doc README.md RELEASING SUPPORT
 
+
 %changelog
+* Mon Aug 24 2020 Scott K Logan <logans@cottsay.net> - 1.1.5-6
+- Fix FTBFS (rhbz#1864185)
+- Use EPEL 7 compatible CMake macros
+- Add an rpmlintrc to suppress spelling suggestions
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

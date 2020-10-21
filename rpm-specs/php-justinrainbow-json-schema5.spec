@@ -28,7 +28,7 @@
 
 Name:           php-%{gh_owner}-%{gh_project}%{major}
 Version:        5.2.10
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A library to validate a json schema
 License:        MIT
 URL:            https://github.com/%{gh_owner}/%{gh_project}
@@ -177,6 +177,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Remi Collet <remi@remirepo.net> - 5.2.10-1
 - update to 5.2.10
 

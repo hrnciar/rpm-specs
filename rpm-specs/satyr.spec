@@ -14,8 +14,8 @@
 %endif
 
 Name: satyr
-Version: 0.30
-Release: 4%{?dist}
+Version: 0.31
+Release: 3%{?dist}
 Summary: Tools to create anonymous, machine-friendly problem reports
 License: GPLv2+
 URL: https://github.com/abrt/satyr
@@ -39,8 +39,8 @@ BuildRequires: pkgconfig(json-c)
 %if %{with python3}
 BuildRequires: python3-sphinx
 %endif # with python3
-Requires: json-c
-Requires: nettle
+Requires: json-c%{?_isa}
+Requires: nettle%{?_isa}
 
 %description
 Satyr is a library that can be used to create and process microreports.
@@ -123,6 +123,13 @@ make check|| {
 %endif
 
 %changelog
+* Tue Aug 18 2020 Michal Fabik <mfabik@redhat.com> - 0.31-1
+- Remove #define PyString_AsString PyUnicode_AsUTF8
+- python: Adapt to changes made in PEP 590
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.30-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.30-4
 - Rebuilt for Python 3.9
 

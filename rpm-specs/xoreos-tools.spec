@@ -1,6 +1,6 @@
 Name:           xoreos-tools
 Version:        0.0.5
-Release:        4%{?dist}
+Release:        6%{?dist}
 
 Summary:        Tools to help the development of xoreos
 
@@ -128,6 +128,13 @@ rm -rf %{buildroot}%{_docdir}/xoreos-tools
 %license COPYING
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.5-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Jonathan Wakely <jwakely@redhat.com> - 0.0.5-4
 - Rebuilt for Boost 1.73
 

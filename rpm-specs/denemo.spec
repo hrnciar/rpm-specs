@@ -1,7 +1,7 @@
 Summary:	Graphical music notation program
 Name:		denemo
 Version:	2.4.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv3+
 Source:		ftp://ftp.gnu.org/gnu/denemo/denemo-%{version}.tar.gz
 Source1:	%{name}-feta.metainfo.xml
@@ -151,6 +151,9 @@ install -Dm 0644 -p %{SOURCE3} \
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 18 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.4.0-1
 - 2.4.0
 

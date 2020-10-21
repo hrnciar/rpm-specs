@@ -1,6 +1,6 @@
 Name:		node	
 Version:	0.3.2
-Release:	27%{?dist}
+Release:	28%{?dist}
 Summary:	Simple node front end, modelled after the node shells of TheNet and G8BPQ nodes
 
 License:	GPLv2+
@@ -75,6 +75,9 @@ mv $RPM_BUILD_ROOT%{_mandir}/man8/node.8 $RPM_BUILD_ROOT%{_mandir}/man8/ax25-nod
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

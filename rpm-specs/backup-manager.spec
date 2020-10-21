@@ -3,7 +3,7 @@
 
 Name:           backup-manager
 Version:        0.7.10
-Release:        30%{?dist}
+Release:        31%{?dist}
 Summary:        A command line backup tool for GNU/Linux
 
 License:        GPLv2+
@@ -116,6 +116,9 @@ chmod 755 %{buildroot}%{_datadir}/%{name}/sanitize.sh
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.10-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.7.10-30
 - Perl 5.32 rebuild
 

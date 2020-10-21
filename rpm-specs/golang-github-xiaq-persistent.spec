@@ -3,23 +3,22 @@
 
 # https://github.com/xiaq/persistent
 %global goipath         github.com/xiaq/persistent
-%global commit          a1d9ac4077fcad050b845856c51643c30795a171
-%global golicenses      epl-v10.html
+%global commit          14b5bdc771d3d31df26872d83c271412832bf6fe
 
 %gometa
 
 %global common_description %{expand:
 Persistent data structure in Go.}
 
+%global golicenses      epl-v10.html
 %global godocs          README.md
 
 Name:           %{goname}
 Version:        0
-Release:        0.1%{?dist}
+Release:        0.3%{?dist}
 Summary:        Persistent data structure in Go
 
 License:        EPL-1.0
-
 URL:            %{gourl}
 Source0:        %{gosource}
 
@@ -42,6 +41,11 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Tue Aug 04 18:59:40 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.3.20200804git14b5bdc
+- Bump to commit 14b5bdc771d3d31df26872d83c271412832bf6fe
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 19 21:43:53 EDT 2020 Carson Black <uhhadd@gmail.com> - 0-0.1.20200519gita1d9ac4
 - Initial package
-

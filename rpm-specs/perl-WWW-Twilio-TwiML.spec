@@ -1,6 +1,6 @@
 Name:           perl-WWW-Twilio-TwiML
 Version:        1.05
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Light and fast TwiML generator
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/WWW-Twilio-TwiML
@@ -55,6 +55,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.05-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.05-14
 - Perl 5.32 rebuild
 

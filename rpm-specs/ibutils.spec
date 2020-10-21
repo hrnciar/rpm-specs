@@ -21,7 +21,7 @@
 Summary: OpenIB Mellanox InfiniBand Diagnostic Tools
 Name: ibutils
 Version: 1.5.7
-Release: 33%{?dist}
+Release: 34%{?dist}
 # This is dual-licensed upstream, all code available under either license
 License: GPLv2 or BSD
 Url: https://www.openfabrics.org/
@@ -155,6 +155,9 @@ install -m 0755 ibdev2netdev %{buildroot}%{_bindir}
 %{_libdir}/*.a
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.7-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Mar 06 2020 Than Ngo <than@redhat.com> - 1.5.7-33
 - Fixed FTBFS against gcc10
 

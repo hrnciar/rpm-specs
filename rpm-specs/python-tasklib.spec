@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        1.3.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -12,10 +12,11 @@ Source0:        https://files.pythonhosted.org/packages/source/t/%{srcname}/%{sr
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 # Tests
-BuildRequires:  python3-tzlocal
-BuildRequires:  python3-six
 BuildRequires:  python3-pytz
+BuildRequires:  python3-six
+BuildRequires:  python3-tzlocal
 BuildRequires:  task
 
 
@@ -58,6 +59,12 @@ rm *egg-info -rf
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.3.0-3
+- Explicitly BR setuptools
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.0-2
 - Rebuilt for Python 3.9
 

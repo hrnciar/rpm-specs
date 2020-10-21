@@ -1,6 +1,6 @@
 Name:           eg
 Version:        1.7.5.2
-Release:        26%{?dist}
+Release:        28%{?dist}
 Summary:        Git for mere mortals
 License:        GPLv2
 URL:            http://www.gnome.org/~newren/eg/
@@ -56,6 +56,12 @@ fi
 %{_bindir}/eg
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.5.2-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.7.5.2-27
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.7.5.2-26
 - Perl 5.32 rebuild
 

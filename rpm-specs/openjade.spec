@@ -1,7 +1,7 @@
 Summary: A DSSSL implementation
 Name: openjade
 Version: 1.3.2
-Release: 62%{?dist}
+Release: 65%{?dist}
 Requires: sgml-common
 URL: http://openjade.sourceforge.net/
 Source: http://download.sourceforge.net/openjade/openjade-%{version}.tar.gz
@@ -32,6 +32,8 @@ BuildRequires:  gcc-c++
 BuildRequires: opensp-devel
 
 BuildRequires: perl-interpreter
+BuildRequires: perl-POSIX
+BuildRequires: perl-Getopt-Std
 
 %description
 OpenJade is an implementation of the ISO/IEC 10179:1996 standard DSSSL
@@ -105,6 +107,16 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.so $RPM_BUILD_ROOT%{_libdir}/*.la
 %{_datadir}/sgml/%{name}-%{version}
 
 %changelog
+* Thu Aug 27 2020 Than Ngo <than@redhat.com> - 1.3.2-65
+- fixed FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-64
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-63
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-62
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

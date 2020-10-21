@@ -7,7 +7,7 @@
 
 Name:           python-%{pkgname}
 Version:        0.13.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Framework for fast, easy and documented API development with Flask
 License:        BSD
 URL:            https://github.com/noirbizarre/flask-restplus
@@ -56,6 +56,9 @@ rm -f %{libname}/static/files/.npmignore
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.13.0-4
 - Rebuilt for Python 3.9
 

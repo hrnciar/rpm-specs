@@ -4,8 +4,8 @@
 %global cppmajor                2
 
 Name:           libpreludedb
-Version:        5.1.0
-Release:        4%{?dist}
+Version:        5.2.0
+Release:        3%{?dist}
 Summary:        Framework for easy access to the IDMEF database
 # Prelude is GPL-2.0+
 # libmissing is LGPL-2.1+
@@ -13,15 +13,14 @@ License:        GPLv2+
 URL:            https://www.prelude-siem.org/
 Source0:        https://www.prelude-siem.org/pkg/src/%{version}/%{name}-%{version}.tar.gz
 # https://www.prelude-siem.org/issues/867
-Patch0:         libpreludedb-5.1.0-undefined_non_weak_symbol.patch
-Patch1:         libpreludedb-5.1.0-fix_py38.patch
-Patch2:         libpreludedb-5.1.0-fix_gtkdoc_1.32.patch
-Patch3:         libpreludedb-5.1.0-force_preludedb_admin_with_py3.patch
-Patch4:         libpreludedb-5.1.0-update_m4_postgresql.patch
-Patch5:         libpreludedb-5.1.0-Add-pkg-config-file.patch
-Patch6:         libpreludedb-5.1.0-Fix_libdir_definition.patch
-Patch7:         libpreludedb-5.1.0-fix-test_rwlock1.patch
-Patch8:         libpreludedb-5.1.0-fix_thread_create.patch
+Patch0:         libpreludedb-5.2.0-undefined_non_weak_symbol.patch
+Patch1:         libpreludedb-5.2.0-fix_gtkdoc_1.32.patch
+Patch2:         libpreludedb-5.2.0-force_preludedb_admin_with_py3.patch
+Patch3:         libpreludedb-5.2.0-update_m4_postgresql.patch
+Patch4:         libpreludedb-5.2.0-Add-pkg-config-file.patch
+Patch5:         libpreludedb-5.2.0-fix-test_rwlock1.patch
+Patch6:         libpreludedb-5.2.0-fix_thread_create.patch
+Patch7:         libpreludedb-5.2.0-Clean_libpreludedb-config.patch
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  bison
@@ -51,7 +50,7 @@ Suggests: preludedb-pgsql
 Suggests: preludedb-sqlite3
 
 # Upstream do not use explicit version of gnulib, just checkout
-# and update files. In libprelude 5.1.0, the checkout has been done
+# and update files. In libprelude 5.2.0, the checkout has been done
 # on 2018-09-03
 Provides:       bundled(gnulib) = 20180903
 
@@ -209,6 +208,18 @@ chmod +x %{buildroot}%{_datadir}/%{name}/classic/mysql2sqlite.sh
 %doc ChangeLog README NEWS
 
 %changelog
+* Mon Sep 21 2020 Thomas Andrejak <thomas.andrejak@gmail.com> - 5.2.0-3
+- Fix libpreludedb-config
+
+* Fri Sep 18 2020 Thomas Andrejak <thomas.andrejak@gmail.com> - 5.2.0-2
+- Clean libpreludedb-config
+
+* Thu Sep 17 2020 Thomas Andrejak <thomas.andrejak@gmail.com> - 5.2.0-1
+- Bump version 5.2.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 5.1.0-4
 - Rebuilt for Python 3.9
 

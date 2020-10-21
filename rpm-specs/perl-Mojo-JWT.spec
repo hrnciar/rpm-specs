@@ -1,6 +1,6 @@
 Name:           perl-Mojo-JWT
 Version:        0.08
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        JSON Web Token the Mojo way
 License:        GPL+ or Artistic
 
@@ -55,6 +55,9 @@ string rather than a cookie.
 %{_mandir}/man3/Mojo*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.08-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.08-4
 - Perl 5.32 rebuild
 

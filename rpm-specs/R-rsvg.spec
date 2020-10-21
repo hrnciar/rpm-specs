@@ -1,10 +1,11 @@
 %global packname  rsvg
 %global rlibdir  %{_libdir}/R/library
-%global with_suggests 0
+
+%bcond_with bootstrap
 
 Name:             R-%{packname}
 Version:          2.1
-Release:          1%{?dist}
+Release:          4%{?dist}
 Summary:          Render SVG Images into PDF, PNG, PostScript, or Bitmap Arrays
 
 License:          MIT
@@ -20,7 +21,7 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.
 
 BuildRequires:    R-devel
 BuildRequires:    tex(latex)
-%if %{with_suggests}
+%if %{without bootstrap}
 BuildRequires:    R-spelling
 BuildRequires:    R-svglite
 BuildRequires:    R-magick
@@ -51,7 +52,7 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %check
-%if %{with_suggests}
+%if %{without bootstrap}
 %{_bindir}/R CMD check %{packname}
 %endif
 
@@ -74,6 +75,16 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Sun Aug 09 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.1-4
+- Enable full checks again
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 2.1-5
 - update to 2.1
 - conditionalize check around suggests (magick is not in Fedora)

@@ -1,7 +1,7 @@
 Summary:        Cluster synchronization tool
 Name:           csync2
 Version:        1.34
-Release:        26%{?dist}
+Release:        27%{?dist}
 License:        GPLv2+
 URL:            http://oss.linbit.com/csync2/
 Source0:        http://oss.linbit.com/csync2/%{name}-%{version}.tar.gz
@@ -110,6 +110,9 @@ fi
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.34-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.34-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

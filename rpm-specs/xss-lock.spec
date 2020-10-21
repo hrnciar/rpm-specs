@@ -16,7 +16,7 @@
 
 Name:		xss-lock
 Version:	0.3.0
-Release:	13.%{checkout}%{?dist}
+Release:	14.%{checkout}%{?dist}
 Summary:	Use external locker as X screen saver
 
 #Group:		
@@ -60,11 +60,11 @@ preconfigured delay.
 %setup -qn raymonad-%{name}-%{shortcommit0}
 
 %build
-%cmake .
-%make_build
+%cmake
+%cmake_build
 
 %install
-%make_install
+%cmake_install
 
 %files
 %{_bindir}/xss-lock
@@ -79,6 +79,9 @@ preconfigured delay.
 %license LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-14.20140302git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-13.20140302git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

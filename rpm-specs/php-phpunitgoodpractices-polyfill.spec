@@ -1,6 +1,6 @@
 # remirepo/fedora spec file for php-phpunitgoodpractices-polyfill
 #
-# Copyright (c) 2018 Remi Collet
+# Copyright (c) 2018-2020 Remi Collet
 # License: CC-BY-SA
 # http://creativecommons.org/licenses/by-sa/4.0/
 #
@@ -9,7 +9,7 @@
 
 # Polyfill
 # https://github.com/PHPUnitGoodPractices/polyfill/releases
-%global gh_commit    1613c59be473c6b238c119607de820b9274c81fd
+%global gh_commit    0e3754f1e31b0051eeb5a7223f9b45ba6442af0d
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     PHPUnitGoodPractices
 %global gh_project   polyfill
@@ -23,13 +23,13 @@
 %global with_tests   0%{!?_without_tests:1}
 # Traits
 # https://github.com/PHPUnitGoodPractices/Traits/releases
-%global tr_commit    7bdb460da0f9d4cfa2f11ca1ecb69a6d7f126925
+%global tr_commit    1f56f643aaa3e98f22acf71129109479afb9ef33
 %global tr_short     %(c=%{tr_commit}; echo ${c:0:7})
-%global tr_version   1.8.0
+%global tr_version   1.9.1
 
 Name:           php-%{pk_vendor}-%{pk_project}
-Version:        1.2.0
-Release:        3%{?dist}
+Version:        1.4.0
+Release:        1%{?dist}
 Summary:        Lacking future-compat polyfills for PHPUnit
 
 License:        MIT
@@ -51,16 +51,16 @@ BuildRequires:  php-fedora-autoloader-devel
 %endif
 
 # From composer.json,     "require": {
-#        "php": "^5.5 || ^7.0",
-#        "phpunit/phpunit": ""~4.0.0 || ~4.1.0 || ~4.2.0 || ~4.3.0 || ~4.4.0 || ~4.5.0 || ~4.6.0 || ~4.8.0 || ~5.3.0 || ~5.4.0 || ~5.5.0 || ~5.6.0 || ~5.7.0 || ~6.0.0 || ~6.1.0 || ~6.2.0 || ~6.3.0 || ~6.4.0 || ~6.5.0 || ~7.0.0 || ~7.1.0 || ~7.2.6 || ~7.3.0 || ~7.4.0 || ~7.5.0"
+#        "php": "^5.5 || ^7.0 || ^8.0",
+#        "phpunit/phpunit": "^4.8.36 || ^5.7.27 || ^6.5.14 || ^7.5.20 || ^8.0 || ^9.0"
 Requires:       php(language) >= 5.5
-Requires:      (phpunit8 or phpunit7 or phpunit6 or php-phpunit-PHPUnit)
-# From phpcompatinfo report for version 1.0.0
+Requires:      (phpunit9 or phpunit8 or phpunit7 or phpunit6 or php-phpunit-PHPUnit)
+# From phpcompatinfo report for version polyfill 1.4.0 and traits1.9.1
 # nothing
 # Autoloader
 Requires:       php-composer(fedora/autoloader)
 
-Provides:       php-%{pk_vendor}-traits = %{tr_version}
+Provides:       php-%{pk_vendor}-traits = %{tr_version}-%{release}
 Provides:       php-composer(%{pk_vendor}/traits) = %{tr_version}
 Provides:       php-composer(%{pk_vendor}/%{pk_project}) = %{version}
 
@@ -88,6 +88,7 @@ require_once '%{php_home}/Fedora/Autoloader/autoload.php';
 if (!class_exists('PHPUnit\\Framework\\TestCase')) { // Call outside of phpunit command
     \Fedora\Autoloader\Dependencies::required([
         [
+            '%{php_home}/PHPUnit9/autoload.php',
             '%{php_home}/PHPUnit8/autoload.php',
             '%{php_home}/PHPUnit7/autoload.php',
             '%{php_home}/PHPUnit6/autoload.php',
@@ -142,6 +143,14 @@ if (!class_exists("PHPUnitGoodPractices\\Traits\\PHPUnitVersionRetriever")) {
 
 
 %changelog
+* Tue Oct 20 2020 Remi Collet <remi@remirepo.net> - 1.4.0-1
+- update phpunitgoodpractices/polyfill to 1.4.0
+- update phpunitgoodpractices/traits to 1.9.1
+- allow PHPUnit 9
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

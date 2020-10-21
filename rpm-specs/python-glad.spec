@@ -1,11 +1,12 @@
 %global srcname glad
 
 Name:           python-%{srcname}
-Version:        0.1.33
-Release:        4%{?dist}
+Version:        0.1.34
+Release:        1%{?dist}
 Summary:        Multi-Language GL/GLES/EGL/GLX/WGL Loader-Generator
 
-License:        MIT
+# Mostly MIT, ASL 2.0 for Khronos and EGL specifications/headers.
+License:        MIT and ASL 2.0
 URL:            https://github.com/Dav1dde/glad
 Source0:        %pypi_source
 BuildArch:      noarch
@@ -66,6 +67,12 @@ sed -i -e '/^#!\//, 1d' %{srcname}/__main__.py
 
 
 %changelog
+* Mon Sep 07 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.1.34-1
+- Update to latest version (#1876669)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.33-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.33-4
 - Rebuilt for Python 3.9
 

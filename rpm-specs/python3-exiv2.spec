@@ -1,8 +1,8 @@
 %global tar_name py3exiv2
 
 Name:           python3-exiv2
-Version:        0.7.2
-Release:        3%{?dist}
+Version:        0.8.0
+Release:        1%{?dist}
 License:        GPLv2+ and GPLv3+
 Summary:        Python3 bindings for the exiv2 library
 Url:            https://launchpad.net/py3exiv2
@@ -15,6 +15,7 @@ BuildRequires:  pkgconfig
 BuildRequires:  pkgconfig(exiv2)
 BuildRequires:  python3-rpm-macros
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 
 %description
 python3-exiv2 is a Python 3 binding to exiv2, the C++ library for manipulation
@@ -42,6 +43,15 @@ sed -i 's|boost_python3|boost_python%{python3_version_nodots}|' setup.py
 %{python3_sitearch}/*
 
 %changelog
+* Tue Oct 20 2020 Andreas Schneider <asn@redhat.com> - 0.8.0-1
+- Update to version 0.8.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Andreas Schneider <asn@redhat.com> - 0.7.2-4
+- Add BR for python3-setuptools
+
 * Sat May 30 2020 Jonathan Wakely <jwakely@redhat.com> - 0.7.2-3
 - Rebuilt for Boost 1.73
 

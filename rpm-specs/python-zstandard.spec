@@ -14,7 +14,7 @@ compression library. A C extension and CFFI interface are provided.
 
 Name: python-%{pypi_name}
 Version: 0.13.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Zstandard bindings for Python
 License: BSD
 URL: https://github.com/indygreg/python-zstandard
@@ -71,10 +71,13 @@ export ZSTD_SLOW_TESTS=1
 %doc NEWS.rst README.rst
 %{python3_sitearch}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 %{python3_sitearch}/%{pypi_name}
-%{python3_sitearch}/_zstd_cffi.cpython-%{python3_version_nodots}-%{_arch}-linux%{_gnu}.so
-%{python3_sitearch}/zstd.cpython-%{python3_version_nodots}-%{_arch}-linux%{_gnu}.so
+%{python3_sitearch}/_zstd_cffi%{python3_ext_suffix}
+%{python3_sitearch}/zstd%{python3_ext_suffix}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Dominik Mierzejewski <dominik@greysector.net> 0.13.0-1
 - initial build
 - skip some tests on s390x (https://github.com/indygreg/python-zstandard/issues/105)

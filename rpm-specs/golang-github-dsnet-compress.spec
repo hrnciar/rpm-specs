@@ -34,7 +34,7 @@ performance or flexibility benefits are not significant enough.}
 %global godocs          doc README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Collection of compression related Go packages
 
 # Upstream license specification: BSD-3-Clause
@@ -70,6 +70,9 @@ BuildRequires:  zlib-devel
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

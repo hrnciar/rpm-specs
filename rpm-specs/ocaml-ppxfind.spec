@@ -6,7 +6,7 @@
 
 Name:           ocaml-%{srcname}
 Version:        1.4
-Release:        7%{?dist}
+Release:        11%{?dist}
 Summary:        Tool to apply OCaml ppx rewriters to a file
 
 License:        BSD
@@ -63,6 +63,19 @@ cp -p ppxfind.1 %{buildroot}%{_mandir}/man1
 %{_mandir}/man1/%{srcname}.1*
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.4-11
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.4-10
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 1.4-7
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

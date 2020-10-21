@@ -1,6 +1,6 @@
 Name:           perl-Test-PostgreSQL
 Version:        1.27
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        PostgreSQL runner for Perl tests
 # lib/Test/PostgreSQL.pm:   Artistic 2.0
 License:        Artistic 2.0
@@ -64,6 +64,9 @@ unset POSTGRES_HOME TEST_POSTGRESQL_PRESERVE
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.27-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.27-7
 - Perl 5.32 rebuild
 

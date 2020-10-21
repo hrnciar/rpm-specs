@@ -4,19 +4,19 @@
 %global upstream_name qdigidoc4
 
 Name:           qdigidoc
-Version:        4.2.4
-Release:        1%{?dist}
+Version:        4.2.7
+Release:        2%{?dist}
 Summary:        Estonian digital signature and encryption application
 License:        LGPLv2+
 URL:            https://github.com/open-eid/DigiDoc4-Client
 Source0:        %{url}/releases/download/v%{version}/%{upstream_name}-%{version}.tar.gz
-Source1:        EE.xml
-Source2:        config.json
-Source3:        config.pub
-Source4:        config.rsa
-Source5:        config.qrc
+Source1:        config.json
+Source2:        config.pub
+Source3:        config.rsa
+Source4:        config.qrc
+Source5:        EE.xml
 Source6:        TSL.qrc
-Source7:        tl-mp.xml
+Source7:        eu-lotl.xml
 
 Patch0:         sandbox-qdigidoc4.patch
 Patch1:         qdigidoc-nautilus-extension.patch
@@ -24,7 +24,7 @@ Patch1:         qdigidoc-nautilus-extension.patch
 BuildRequires:  cmake3 >= 3.5
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
-BuildRequires:  libdigidocpp-devel >= 3.14.2
+BuildRequires:  libdigidocpp-devel >= 3.14.4
 BuildRequires:  openldap-devel
 BuildRequires:  pkgconfig(openssl)
 BuildRequires:  pkgconfig(Qt5Svg)
@@ -60,29 +60,64 @@ extension for the nautilus file manager.
 %setup -q -n %{upstream_name}-%{version}
 
 %patch0 -p1
-# Fedora uses python3 for nautilus-extensions starting version 30
-%if 0%{?fedora} >= 30
 %patch1 -p1
-%endif
 
-cp %{S:1} client/
-cp %{S:2} common/
-cp %{S:3} common/
-cp %{S:4} common/
-cp %{S:5} common/
-cp %{S:6} client/
-cp %{S:7} client/
-
-# Remove bundled qtsingleapplication to make sure it isn't used
-rm -rf qtsingleapplication
+cp %{S:1} %{S:2} %{S:3} %{S:4} common/
+cp %{S:5} %{S:6} %{S:7} client/
 
 %build
-%{cmake3} . -DBREAKPAD=FALSE
+%if 0%{?el7}
+. /opt/rh/devtoolset-7/enable
+mkdir %{_target_platform} 
+pushd %{_target_platform}
+%cmake3 \
+        -DCMAKE_LIBRARY_PATH:PATH=%{_libdir} \
+        -DUSE_GEO:BOOLEAN=ON \
+        -DCMAKE_BUILD_TYPE:STRING=Release \
+        -DBINARY_PACKAGE_BUILD=1 \
+        -DDONT_USE_INTERNAL_LUA=OFF \
+        -DBUILD_NOISE_TOOLS=ON \
+        -DRAWSPEED_ENABLE_LTO=ON \
+        %ifarch ppc64le
+        -DUSE_OPENCL=OFF \
+        %endif
+        ..
+%endif
+#
+# Germano Massullo: I wanted to use %%elseif but it is not yet active in
+# Fedora, etc., despite is supported upstream. I did not compare the Fedora RPM version
+# but I empirically verified that %%elseif and %%elif do not work here, even if you don't get
+# errors during builds
+# https://github.com/rpm-software-management/rpm/issues/311
+# https://github.com/debbuild/debbuild/issues/182
+# 
+#
+%if (0%{?el8} || (0%{?fedora} < 33))
+mkdir %{_target_platform} 
+pushd %{_target_platform}
+%cmake \
+        -DCMAKE_LIBRARY_PATH:PATH=%{_libdir}
+        ..
+%else
+%cmake \
+        -DCMAKE_LIBRARY_PATH:PATH=%{_libdir}
+%endif
 
+%if ((0%{?el} > 8) || (0%{?fedora} > 32))
+%cmake_build
+%else
 %make_build
+popd
+%endif
 
 %install
+%if ((0%{?el} > 8) || (0%{?fedora} > 32))
+%cmake_install
+%else
+pushd %{_target_platform}
 %make_install
+popd
+%endif
 
 desktop-file-validate %{buildroot}/%{_datadir}/applications/qdigidoc4.desktop
 
@@ -90,7 +125,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/qdigidoc4.desktop
 
 %files
 %doc README.md CONTRIBUTING.md RELEASE-NOTES.md
-%license COPING LICENSE.LGPL
+%license COPYING LICENSE.LGPL
 %{_bindir}/*
 %{_datadir}/applications/*.desktop
 %{_datadir}/mime/packages/*.xml
@@ -102,6 +137,25 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/qdigidoc4.desktop
 %{_datadir}/nautilus-python/extensions/*
 
 %changelog
+* Mon Oct 12 2020 Dmitri Smirnov <dmitri@smirnov.ee> - 4.2.7-2
+- Reinistate sandbox build patch
+
+* Fri Oct 09 2020 Dmitri Smirnov <dmitri@smirnov.ee> - 4.2.7-1
+- Upstream release 4.2.7
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.5-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jun 28 2020 Dmitri Smirnov <dmitri@smirnov.ee> - 4.2.5-2
+- Update dependency to latest libdigidocpp (3.14.3)
+
+* Fri Jun 26 2020 Dmitri Smirnov <dmitri@smirnov.ee> - 4.2.5-1
+- Upstream release 4.2.5
+
 * Thu Jan 30 2020 Dmitri Smirnov <dmitri@smirnov.ee> - 4.2.4-1
 - Upstream release 4.2.4
 

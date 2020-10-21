@@ -1,6 +1,6 @@
 Name:           capstone
-Version:        4.0.1
-Release:        12%{?dist}
+Version:        4.0.2
+Release:        3%{?dist}
 Summary:        A lightweight multi-platform, multi-architecture disassembly framework
 
 %global         gituser         aquynh
@@ -24,7 +24,7 @@ Source0:        https://github.com/%{gituser}/%{gitname}/archive/%{version}.tar.
 
 # Upstream patch which fixes libcapstone.pc.
 # See: https://github.com/aquynh/capstone/issues/1339
-Patch1:         0001-Fix-include-path-in-pkg-config-for-Makefile-too-1339.patch
+# Patch1:         0001-Fix-include-path-in-pkg-config-for-Makefile-too-1339.patch
 
 %global         common_desc %{expand:
 Capstone is a disassembly framework with the target of becoming the ultimate
@@ -132,7 +132,7 @@ The %{name}-java package contains java bindings for %{name}.
 #DESTDIR="%{buildroot}"
 V=1 CFLAGS="%{optflags}" \
 PREFIX="%{_prefix}" LIBDIRARCH="%{_lib}" INCDIR="%{_includedir}" \
-make PYTHON2=%{__python2} PYTHON3=%{__python3} %{?_smp_mflags}
+%make_build PYTHON2=%{__python2} PYTHON3=%{__python3}
 
 # Fix pkgconfig file
 sed -i 's;%{buildroot};;' capstone.pc
@@ -155,9 +155,9 @@ popd
 # build java bindings needs some python
 pushd bindings/java
 %if 0%{?with_python3}
-make PYTHON2=%{__python3} PYTHON3=%{__python3} CFLAGS="%{optflags}" # %{?_smp_mflags} parallel seems broken
+%make_build PYTHON2=%{__python3} PYTHON3=%{__python3} CFLAGS="%{optflags}" # %{?_smp_mflags} parallel seems broken
 %else
-make PYTHON2=%{__python2} PYTHON3=%{__python2} CFLAGS="%{optflags}" # %{?_smp_mflags} parallel seems broken
+%make_build PYTHON2=%{__python2} PYTHON3=%{__python2} CFLAGS="%{optflags}" # %{?_smp_mflags} parallel seems broken
 %endif
 popd
 
@@ -235,6 +235,18 @@ install -D -p -m 0644 bindings/java/%{name}.jar  %{buildroot}/%{_javadir}/%{name
 %{_javadir}/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Riccardo Schirone <rschirone91@gmail.com> - 4.0.2-2
+- Use make_build macro instead of make (thanks to tstellar)
+
+* Mon Jul 20 2020 Riccardo Schirone <rschirone91@gmail.com> - 4.0.2-1
+- Rebase to upstream version 4.0.2
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 4.0.1-13
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 4.0.1-12
 - Rebuilt for Python 3.9
 

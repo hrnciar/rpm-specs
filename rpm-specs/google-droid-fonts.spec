@@ -3,7 +3,7 @@ BuildArch: noarch
 
 # No sane versionning upstream, use git clone timestamp
 Version: 20200215
-Release: 6%{?dist}
+Release: 8%{?dist}
 License: ASL 2.0
 URL:     https://android.googlesource.com/
 
@@ -76,9 +76,7 @@ Droid Naskh name.}
 
 %global archivename google-droid-fonts-%{version}
 
-%fontmeta
 
-%global source_files %{expand:
 Source0:  %{archivename}.tar.xz
 # Brutal script used to pull sources from upstream git
 # Needs at least 2 Gib of space in /var/tmp
@@ -86,14 +84,13 @@ Source1:  getdroid.sh
 Source11: 65-%{fontpkgname1}.xml
 Source12: 60-%{fontpkgname2}.xml
 Source13: 65-%{fontpkgname3}.xml
-}
 
-%new_package
+Name:     google-droid-fonts
 Summary:  A set of general-purpose font families released by Google as part of Android
 %description
 %wordwrap -v common_description
 
-%fontpkg
+%fontpkg -a
 
 %fontmetapkg
 
@@ -101,17 +98,24 @@ Summary:  A set of general-purpose font families released by Google as part of A
 %setup -q -n %{archivename}
 
 %build
-%fontbuild
+%fontbuild -a
 
 %install
-%fontinstall
+%fontinstall -a
 
 %check
-%fontcheck
+%fontcheck -a
 
-%fontfiles
+%fontfiles -a
 
 %changelog
+* Fri Sep 11 2020 Parag Nemade <pnemade AT redhat DOT com>
+- 20200215-8
+- Fix this spec file to build for F33+
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 27 2020 Nicolas Mailhot <nim@fedoraproject.org>
 - 20200215-6
 🐞 Workaround Fedora problems created by rpm commit 93604e2

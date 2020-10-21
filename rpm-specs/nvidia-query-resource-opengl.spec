@@ -4,7 +4,7 @@
 
 Name:           nvidia-query-resource-opengl
 Version:        1.0.0
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        Querying OpenGL resource usage of applications using the NVIDIA OpenGL driver
 
 License:        BSD
@@ -37,28 +37,23 @@ This package contains library for %{name}.
 
 
 %prep
-%autosetup
+%autosetup -p1
 
 
 %build
-mkdir -p build
-cd build
-%cmake \
- ..
+%cmake
 
-%make_build
+%cmake_build
 
 
 %install
-cd build
 mkdir -p %{buildroot}%{_bindir}
 mkdir -p %{buildroot}%{_libdir}/%{name}
 
-install -pm 0755 %{name} \
-  %{buildroot}%{_bindir}
+find . -name %{name} -exec mv {} %{buildroot}%{_bindir} ';'
 
-install -pm 0755 libnvidia-query-resource-opengl-preload.so \
-  %{buildroot}%{_libdir}/%{name}/lib%{name}-preload.so
+find . -name libnvidia-query-resource-opengl-preload.so -exec mv {} \
+  %{buildroot}%{_libdir}/%{name}/lib%{name}-preload.so ';'
 
 
 %files
@@ -72,6 +67,13 @@ install -pm 0755 libnvidia-query-resource-opengl-preload.so \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

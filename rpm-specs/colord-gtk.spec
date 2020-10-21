@@ -1,7 +1,7 @@
 Summary:   GTK support library for colord
 Name:      colord-gtk
 Version:   0.2.0
-Release:   3%{?dist}
+Release:   4%{?dist}
 License:   LGPLv2+
 URL:       http://www.freedesktop.org/software/colord/
 Source0:   http://www.freedesktop.org/software/colord/releases/%{name}-%{version}.tar.xz
@@ -65,6 +65,9 @@ Files for development with %{name}.
 %dir %{_datadir}/gtk-doc/html
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

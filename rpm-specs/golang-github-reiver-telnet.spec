@@ -17,7 +17,7 @@ that is part of the Go standard library, including support for middleware.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.1%{?dist}
+Release:        0.2%{?dist}
 Summary:        Telnet(s) client and server implementations
 
 License:        MIT
@@ -45,6 +45,9 @@ BuildRequires:  golang(github.com/reiver/go-oi)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Apr 06 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0-0.1.20200406git9ff0b2a
 - Initial package
 

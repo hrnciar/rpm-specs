@@ -1,6 +1,6 @@
 Name:           qcommandline
 Version:        0.3.0
-Release:        21%{?dist}
+Release:        24%{?dist}
 Summary:        Command line parser for Qt programs
 License:        LGPLv2+
 URL:            http://xf.iksaif.net/dev/qcommandline.html
@@ -66,23 +66,18 @@ sed -i -e 's/-lqcommandline/-lqcommandline-qt5/' QCommandLine.pc.in
 sed -i -e 's/QCommandLine\.pc$/QCommandLine-qt5.pc/' CMakeLists.txt
 
 %build
-mkdir build
-cd build
-%cmake .. -DCMAKE_MODULES_INSTALL_DIR=%{_datadir}/cmake/Modules
-make %{?_smp_mflags}
+%cmake -DCMAKE_MODULES_INSTALL_DIR=%{_datadir}/cmake/Modules
+%cmake_build
 
 cd %{qt5dir}
-mkdir build
-cd build
-%cmake .. -DCMAKE_MODULES_INSTALL_DIR=%{_datadir}/cmake/Modules
-make %{?_smp_mflags}
+%cmake -DCMAKE_MODULES_INSTALL_DIR=%{_datadir}/cmake/Modules
+%cmake_build
 
 %install
-cd build
-make DESTDIR=%{buildroot} install
+%cmake_install
 
-cd %{qt5dir}/build
-make DESTDIR=%{buildroot} install
+cd %{qt5dir}
+%cmake_install
 
 %files
 %doc COPYING
@@ -110,6 +105,16 @@ make DESTDIR=%{buildroot} install
 %ldconfig_scriptlets -n %{name}-qt5
 
 %changelog
+* Thu Sep 10 2020 Dan Callaghan <djc@djc.id.au> - 0.3.0-24
+- fix for cmake out-of-source builds
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-23
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

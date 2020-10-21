@@ -5,7 +5,7 @@
 
 Name:           python-%{srcname}
 Version:        0.3.0
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -54,6 +54,9 @@ This has the python libraries for interacting with Windows Remote Management
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.0-10
 - Rebuilt for Python 3.9
 

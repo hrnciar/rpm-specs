@@ -18,7 +18,7 @@
 
 Name:           php-znerol-php-stringprep
 Version:        0
-Release:        0.11.%{gh_date}git%{gh_short}%{?dist}
+Release:        0.12.%{gh_date}git%{gh_short}%{?dist}
 Summary:        Implementation of RFC 3454 Preparation of Internationalized Strings
 
 License:        LGPLv3
@@ -85,6 +85,9 @@ cp -pr Profile RFC3454 *php \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.12.20150618gitfe3f274
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.11.20150618gitfe3f274
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

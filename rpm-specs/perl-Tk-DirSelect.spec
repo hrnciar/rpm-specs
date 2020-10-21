@@ -1,16 +1,48 @@
+# Perform optional tests
+%bcond_with perl_Tk_DirSelect_enables_optional_test
+
 Name:           perl-Tk-DirSelect
 Version:        1.12
-Release:        28%{?dist}
+Release:        31%{?dist}
 Summary:        Cross-platform directory selection widget
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Tk-DirSelect
 Source0:        https://cpan.metacpan.org/authors/id/M/MJ/MJCARMAN/Tk-DirSelect-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
+BuildRequires:  findutils
+BuildRequires:  make
 BuildRequires:  perl-generators
+BuildRequires:  perl-interpreter
 BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  sed
+# Run-time:
+BuildRequires:  perl(:VERSION) >= 5.4
+BuildRequires:  perl(base)
+BuildRequires:  perl(Cwd)
+BuildRequires:  perl(File::Spec)
+BuildRequires:  perl(strict)
 BuildRequires:  perl(Tk) >= 800
+BuildRequires:  perl(Tk::BrowseEntry)
+BuildRequires:  perl(Tk::Button)
+BuildRequires:  perl(Tk::DirTree)
+BuildRequires:  perl(Tk::Frame)
+BuildRequires:  perl(Tk::Label)
+BuildRequires:  perl(Tk::Toplevel)
+BuildRequires:  perl(vars)
+# Win32API::File not used
+# Tests:
 BuildRequires:  perl(Test::More) 
+BuildRequires:  perl(warnings)
+%if %{with perl_Tk_DirSelect_enables_optional_test}
+# Optional tests:
+BuildRequires:  perl(Pod::Coverage) >= 0.18
+# Test::CheckManifest not used
+BuildRequires:  perl(Test::Pod) >= 1.22
+BuildRequires:  perl(Test::Pod::Coverage) >= 1.08
+%endif
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+Requires:       perl(:VERSION) >= 5.4
 
 %description
 This module provides a cross-platform directory selection widget. For
@@ -21,6 +53,10 @@ creation, renaming, and deletion of directories while browsing.
 %prep
 %setup -q -n Tk-DirSelect-%{version}
 sed -i 's/\r//' README Changes
+%if !%{with perl_Tk_DirSelect_enables_optional_test}
+rm t/pod*
+perl -i -ne 'print $_ unless m{^t/pod}' MANIFEST
+%endif
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS=vendor
@@ -39,6 +75,7 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 #sed -i 's/\r//' README Changes
 
 %check
+unset RELEASE_TESTING
 make test
 
 %files
@@ -47,6 +84,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Petr Pisar <ppisar@redhat.com> - 1.12-30
+- Specify all dependencies
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.12-29
+- Perl 5.32 rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12-28
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

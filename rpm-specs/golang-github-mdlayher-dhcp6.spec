@@ -16,7 +16,7 @@ The package dhcp6 implements a DHCPv6 server, as described in RFC 3315.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.2%{?dist}
+Release:        0.4%{?dist}
 Summary:        DHCPv6 server, as described in RFC 3315
 
 License:        MIT
@@ -56,6 +56,13 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 28 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0-0.2.20200404git2a67805
 - Disable tests for now because there is a failure
 

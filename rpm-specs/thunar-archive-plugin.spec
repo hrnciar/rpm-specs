@@ -6,7 +6,7 @@
 
 Name:           thunar-archive-plugin
 Version:        0.4.0
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        Archive plugin for the Thunar file manager
 
 License:        LGPLv2+
@@ -64,6 +64,9 @@ mv %{buildroot}%{_libexecdir}/thunar-archive-plugin/file-roller.tap \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

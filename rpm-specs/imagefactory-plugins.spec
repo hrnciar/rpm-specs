@@ -34,7 +34,7 @@ exit 0
 
 Name: imagefactory-plugins
 Version: 1.1.15
-Release: 5%{?dist}
+Release: 8%{?dist}
 Summary: Default plugins for the Image Factory system image generation tool
 License: ASL 2.0
 URL: https://github.com/redhat-imaging/imagefactory
@@ -42,12 +42,12 @@ URL: https://github.com/redhat-imaging/imagefactory
 Source0: https://github.com/redhat-imaging/imagefactory/archive/imagefactory-%{version}-2.tar.gz
 Patch0: imagefactory-1.1.14-utf8-config-id.patch
 Patch1: container-github-pr434.patch
+Patch2: fix-armv7l.patch
 
 BuildArch: noarch
 BuildRequires: python3
 BuildRequires: python3-setuptools
-BuildRequires: python3-rpm-macros
-BuildRequires: python-rpm-macros
+BuildRequires: python3-devel
 Requires: imagefactory
 
 # Obsolete the old EC2 plugins as they need python2 based euca2ools thats not in Fedora anymore.
@@ -224,6 +224,7 @@ mv ../imagefactory_plugins/* .
 rmdir ../imagefactory_plugins/
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %py3_build
@@ -401,6 +402,15 @@ rm -rf %{buildroot}%{python3_sitelib}/imagefactory_plugins/EC2
 %{python3_sitelib}/imagefactory_plugins/GCE/*
 
 %changelog
+* Tue Oct 06 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.1.15-8
+- Add armv7l arch mapping
+
+* Sat Oct 03 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.1.15-7
+- Minor build fixes
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.15-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 30 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.1.15-5
 - Update container patch to latest rev
 

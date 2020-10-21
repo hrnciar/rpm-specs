@@ -1,6 +1,6 @@
 Name:           perl-File-Type-WebImages
 Version:        1.01
-Release:        28%{?dist}
+Release:        29%{?dist}
 Summary:        Determine web image file types using magic
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/File-Type-WebImages
@@ -47,6 +47,9 @@ perl Build.PL installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.01-29
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.01-28
 - Perl 5.32 rebuild
 

@@ -4,7 +4,7 @@
 
 Name:          mingw-%{pkgname}
 Version:       2.4.1
-Release:       1%{?dist}
+Release:       3%{?dist}
 Summary:       MinGW Windows %{pkgname} library
 
 License:       BSD
@@ -15,6 +15,16 @@ Source0:       https://github.com/openexr/openexr/archive/v%{version}/openexr-%{
 Patch0:        openexr_autogen-headers.patch
 # Remove libsuffix from library names in pc file, the autotools build does not add them
 Patch1:        openexr_pc-libsuffix.patch
+
+# Backport patch for CVE-2020-15306
+# https://github.com/AcademySoftwareFoundation/openexr/pull/738
+Patch2:        CVE-2020-15306.patch
+# Backport patch for CVE-2020-15305
+# https://github.com/AcademySoftwareFoundation/openexr/pull/730
+Patch3:        CVE-2020-15305.patch
+# Backport patch for CVE-2020-15304
+# https://github.com/AcademySoftwareFoundation/openexr/pull/727
+Patch4:        CVE-2020-15304.patch
 
 BuildRequires: autoconf automake libtool
 BuildRequires: gcc-c++
@@ -161,6 +171,12 @@ rm -rf %{buildroot}%{mingw64_docdir}/openexr
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Sandro Mani <manisandro@gmail.com> - 2.4.1-2
+- Backport patches for CVE-2020-15306, CVE-2020-15305, CVE-2020-15304
+
 * Wed Feb 12 2020 Sandro Mani <manisandro@gmail.com> - 2.4.1-1
 - Update to 2.4.1
 

@@ -5,7 +5,7 @@
 
 Name:          mate-user-admin
 Version:       1.5.1
-Release:       3%{?dist}
+Release:       4%{?dist}
 Summary:       User management tool
 License:       GPLv3+ 
 URL:           https://github.com/zhuyaliang/%{project_name}
@@ -64,6 +64,9 @@ desktop-file-install                               \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 02 2020 Wolfgang Ulbrich <fedora@raveit.de> - 1.5.1-3
 - fix building for f32
 

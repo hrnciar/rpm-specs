@@ -1,7 +1,7 @@
 Epoch:          1
 Name:           apache-sshd
 Version:        2.4.0
-Release:        1%{?dist}
+Release:        5%{?dist}
 Summary:        Apache SSHD
 
 # One file has ISC licensing:
@@ -71,6 +71,7 @@ rm -rf sshd-core/src/main/java/org/apache/sshd/agent/unix
 %pom_remove_plugin :maven-checkstyle-plugin
 %pom_remove_plugin :maven-enforcer-plugin
 %pom_remove_plugin :maven-pmd-plugin
+%pom_remove_plugin :maven-antrun-plugin
 %pom_remove_plugin :animal-sniffer-maven-plugin
 
 # Suppress generation of uses clauses
@@ -78,7 +79,7 @@ rm -rf sshd-core/src/main/java/org/apache/sshd/agent/unix
 
 %build
 # Can't run tests, they require ch.ethz.ganymed:ganymed-ssh2
-%mvn_build -f -- -Dworkspace.root.dir=$(pwd)
+%mvn_build -f -- -Dworkspace.root.dir=$(pwd) -Dsource=1.8
 
 %install
 %mvn_install
@@ -91,6 +92,18 @@ rm -rf sshd-core/src/main/java/org/apache/sshd/agent/unix
 %license LICENSE.txt NOTICE.txt assembly/src/main/legal/licenses/jbcrypt.txt
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2.4.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 1:2.4.0-4
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jul 09 2020 Mat Booth <mat.booth@redhat.com> - 1:2.4.0-3
+- Build against any JDK
+
+* Wed Jun 24 2020 Alexander Kurtakov <akurtako@redhat.com> 1:2.4.0-2
+- Fix build against Java 11.
+
 * Mon Jun 22 2020 Mat Booth <mat.booth@redhat.com> - 1:2.4.0-1
 - Update to latest upstream release
 

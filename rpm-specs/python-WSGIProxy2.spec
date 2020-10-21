@@ -3,7 +3,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.4.6
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        WSGI Proxy that supports several HTTP backends
 
 License:        MIT
@@ -45,6 +45,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{pypi_name}-*.egg-info/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.6-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.6-4
 - Rebuilt for Python 3.9
 

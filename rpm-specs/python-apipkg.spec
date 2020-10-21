@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.5
-Release:        9%{?dist}
+Release:        11%{?dist}
 Summary:        A Python namespace control and lazy-import mechanism
 
 License:        MIT
@@ -21,6 +21,7 @@ custom importers (PEP302) and common command line completion tools.
 Summary:        %{summary}
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-setuptools_scm
 %{?python_provide:%python_provide python3-%{srcname}}
 
@@ -49,6 +50,12 @@ export SETUPTOOLS_SCM_PRETEND_VERSION=%{version}
 %{python3_sitelib}/%{srcname}/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Thomas Moschny <thomas.moschny@gmx.de> - 1.5-10
+- Add explicit BR on python3-setuptools.
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.5-9
 - Rebuilt for Python 3.9
 

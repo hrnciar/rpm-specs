@@ -51,13 +51,20 @@
 %global use_subman_gui 1
 %endif
 
+# Install subscription-manager-migration only for rhel8 and lower
+%if 0%{?rhel} && 0%{?rhel} <= 8
+%global use_subscription_manager_migration 1
+%else
+%global use_subscription_manager_migration 0
+%endif
+
 %if 0%{?suse_version} && 0%{?suse_version} < 1200
 %global completion_dir %{_sysconfdir}/bash_completion.d
 %else
 %global completion_dir %{_datadir}/bash-completion/completions
 %endif
 
-%if 0%{?suse_version} > 1110
+%if 0%{?suse_version} > 1110 || 0%{?rhel} >= 7 || 0%{?fedora}
 %global run_dir /run
 %else
 %global run_dir /var/run
@@ -93,6 +100,7 @@
 %endif
 
 %global use_dnf (%{with python3} && (0%{?fedora} || (0%{?rhel}))) || (0%{?rhel} >= 7)
+%global use_libdnf (0%{?fedora} >= 29 || 0%{?rhel} >= 8)
 %global use_yum (0%{?rhel} && 0%{?rhel} <= 7)
 %global use_cockpit 0%{?fedora} || 0%{?rhel} >= 7
 
@@ -138,7 +146,11 @@
 %if %{use_initial_setup}
 %global post_boot_tool INSTALL_INITIAL_SETUP=true INSTALL_FIRSTBOOT=false
 %else
+%if %{use_firstboot}
 %global post_boot_tool INSTALL_INITIAL_SETUP=false INSTALL_FIRSTBOOT=true
+%else
+%global post_boot_tool INSTALL_INITIAL_SETUP=false INSTALL_FIRSTBOOT=false
+%endif
 %endif
 
 %if 0%{?suse_version}
@@ -172,6 +184,12 @@
 %global with_subman_gui WITH_SUBMAN_GUI=true
 %else
 %global with_subman_gui WITH_SUBMAN_GUI=false
+%endif
+
+%if %{use_subscription_manager_migration}
+%global with_subman_migration WITH_SUBMAN_MIGRATION=true
+%else
+%global with_subman_migration WITH_SUBMAN_MIGRATION=false
 %endif
 
 %if %{use_cockpit} && !0%{use_subman_gui}
@@ -209,7 +227,11 @@
 %endif
 
 %if !%{use_container_plugin}
-%global exclude_packages %{exclude_packages}*.plugin.container,}
+%global exclude_packages %{exclude_packages}*.plugin.container,
+%endif
+
+%if !%{use_subscription_manager_migration}
+%global exclude_packages %{exclude_packages}subscription_manager.migrate,
 %endif
 
 # add new exclude_packages items before me
@@ -222,8 +244,8 @@
 %global use_rhsm_icons 0%{use_cockpit} || 0%{use_rhsm_gtk}
 
 Name: subscription-manager
-Version: 1.27.1
-Release: 3%{?dist}
+Version: 1.28.4
+Release: 1%{?dist}
 Summary: Tools and libraries for subscription and repository management
 %if 0%{?suse_version}
 Group:   Productivity/Networking/System
@@ -245,7 +267,7 @@ Source0: %{name}-%{version}.tar.gz
 %if %{use_cockpit}
 Source1: %{name}-cockpit-%{version}.tar.gz
 %endif
-%if 0%{?suse_version}
+%if (0%{?suse_version} && 0%{?suse_version} < 1500)
 Source2: subscription-manager-rpmlintrc
 %endif
 
@@ -285,7 +307,7 @@ Requires: %{py_package_prefix}-dateutil
 Requires: %{py_package_prefix}-syspurpose
 
 # rhel 8 has different naming for setuptools going forward
-%if (0%{?rhel} && 0%{?rhel} >= 8)
+%if (0%{?rhel} && 0%{?rhel} == 8)
 Requires:  platform-python-setuptools
 %else
 Requires:  %{py_package_prefix}-setuptools
@@ -301,8 +323,10 @@ Requires: %{?suse_version:dbus-1-python} %{!?suse_version:dbus-python}
 Requires: %{?suse_version:yum} %{!?suse_version:yum >= 3.2.29-73}
 %endif
 
-%if (%{use_dnf} && (0%{?fedora} || 0%{?rhel} >= 8))
-Requires: dnf-plugin-subscription-manager = %{version}
+%if %{use_dnf}
+Requires: dnf >= 1.0.0
+Requires: python3-dnf-plugins-core
+Requires: python3-librepo
 %endif
 
 # Support GTK2 and GTK3 on both SUSE and RHEL...
@@ -349,19 +373,21 @@ BuildRequires: %{py_package_prefix}-six
 BuildRequires: desktop-file-utils
 %endif
 
-BuildRequires: %{?suse_version:dbus-1-glib-devel} %{!?suse_version:dbus-glib-devel}
 %if 0%{?suse_version} <= 1110
 BuildRequires: %{?suse_version:sles-release} %{!?suse_version:system-release}
 %else
 BuildRequires: %{?suse_version:distribution-release} %{!?suse_version:system-release}
 %endif
-BuildRequires: %{?suse_version:gconf2-devel} %{!?suse_version:GConf2-devel}
-BuildRequires: %{?suse_version:update-desktop-files} %{!?suse_version:scrollkeeper}
-
-BuildRequires: %{?gtk3:gtk3-devel} %{!?gtk3:gtk2-devel}
 
 %if 0%{?suse_version}
 BuildRequires: libzypp
+%endif
+
+%if %{use_subman_gui}
+BuildRequires: %{?suse_version:gconf2-devel} %{!?suse_version:GConf2-devel}
+BuildRequires: %{?suse_version:update-desktop-files} %{!?suse_version:scrollkeeper}
+BuildRequires: %{?suse_version:dbus-1-glib-devel} %{!?suse_version:dbus-glib-devel}
+BuildRequires: %{?gtk3:gtk3-devel} %{!?gtk3:gtk2-devel}
 %endif
 
 %if %use_systemd
@@ -374,6 +400,15 @@ BuildRequires: systemd
 
 %if !%{use_container_plugin}
 Obsoletes: subscription-manager-plugin-container
+%endif
+
+%if %{use_dnf}
+# The libdnf plugin is in separate RPM, but shubscription-manager should be dependent
+# on this RPM, because somebody can install microdnf on host and installing of product
+# certs would not work as expected without libdnf plugin
+Requires: libdnf-plugin-subscription-manager = %{version}
+# The dnf plugin is now part of subscription-manager
+Obsoletes: dnf-plugin-subscription-manager
 %endif
 
 %description
@@ -389,6 +424,7 @@ Group: Productivity/Networking/System
 %else
 Group: System Environment/Base
 %endif
+Requires: %{name} = %{version}-%{release}
 %description -n %{py_package_prefix}-syspurpose
 Provides the syspurpose commandline utility. This utility manages the
 system syspurpose.
@@ -467,6 +503,7 @@ subscriptions.
 %endif
 
 
+%if %{use_subscription_manager_migration}
 %package -n subscription-manager-migration
 Summary: Migration scripts for moving to certificate based subscriptions
 %if 0%{?suse_version}
@@ -486,45 +523,28 @@ Requires: subscription-manager-migration-data
 %description -n subscription-manager-migration
 This package contains scripts that aid in moving to certificate based
 subscriptions
+%endif
 
 
-%if %use_dnf
-%package -n dnf-plugin-subscription-manager
-Summary: Subscription Manager plugins for DNF
+%if %{use_libdnf}
+%package -n libdnf-plugin-subscription-manager
+Summary: Subscription Manager plugin for libdnf
 %if 0%{?suse_version}
 Group: Productivity/Networking/System
 %else
 Group: System Environment/Base
 %endif
-%if (0%{?fedora} >= 29 || 0%{?rhel} >= 8)
 BuildRequires: cmake
 BuildRequires: gcc
 BuildRequires: json-c-devel
 BuildRequires: libdnf-devel >= 0.22.5
 Requires: json-c
 Requires: libdnf >= 0.22.5
-%endif
-# See BZ 1581410 - avoid a circular dependency
-%if (0%{?rhel} < 8)
-Requires: %{name} >= %{version}-%{release}
-%endif
-%if %{with python3}
-Requires: python3-dnf-plugins-core
-Requires: python3-librepo
-%else
-Requires: python2-dnf-plugins-core
-%if (0%{?rhel} == 7)
-Requires: python-librepo
-%else
-Requires: python2-librepo
-%endif
-%endif
-Requires: dnf >= 1.0.0
 
-%description -n dnf-plugin-subscription-manager
-This package provides plugins to interact with repositories and subscriptions
-from the Red Hat entitlement platform; contains subscription-manager and
-product-id plugins.
+%description -n libdnf-plugin-subscription-manager
+This package provides a plugin to interact with repositories from the Red Hat
+entitlement platform; contains only one product-id binary plugin used by
+e.g. microdnf.
 %endif
 
 
@@ -718,21 +738,24 @@ subscription-manager-initial-setup-addon, and subscription-manager-cockpit-plugi
 make -f Makefile VERSION=%{version}-%{release} CFLAGS="%{optflags}" \
     LDFLAGS="%{__global_ldflags}" OS_DIST="%{dist}" PYTHON="%{__python}" \
     %{?gtk_version} %{?subpackages} %{?include_syspurpose:INCLUDE_SYSPURPOSE="1"} \
-    %{exclude_packages}
+    %{exclude_packages} %{?with_subman_gui} %{?with_subman_migration}
 
 %if %{with python2_rhsm}
 python2 ./setup.py build --quiet --gtk-version=%{?gtk3:3}%{?!gtk3:2} --rpm-version=%{version}-%{release}
 %endif
 
-%if (%{use_dnf} && (0%{?fedora} >= 29 || 0%{?rhel} >= 8))
+%if %{use_libdnf}
 pushd src/dnf-plugins/product-id
-%cmake -DCMAKE_BUILD_TYPE="Release" .
+%cmake -DCMAKE_BUILD_TYPE="Release"
+%if (0%{?rhel} && 0%{?rhel} <= 8)
 %make_build
+%else
+%cmake_build
+%endif
 popd
 %endif
 
 %install
-rm -rf %{buildroot}
 make -f Makefile install VERSION=%{version}-%{release} \
     PYTHON=%{__python} PREFIX=%{_prefix} \
     DESTDIR=%{buildroot} PYTHON_SITELIB=%{python_sitearch} \
@@ -744,15 +767,20 @@ make -f Makefile install VERSION=%{version}-%{release} \
     %{?install_zypper_plugins} \
     %{?with_systemd} \
     %{?with_subman_gui} \
+    %{?with_subman_migration} \
     %{?with_cockpit} \
     %{?subpackages} \
     %{?include_syspurpose:INCLUDE_SYSPURPOSE="1"} \
     %{?exclude_packages}
 
-%if (%{use_dnf} && (0%{?fedora} >= 29 || 0%{?rhel} >= 8))
+%if %{use_libdnf}
 pushd src/dnf-plugins/product-id
 mkdir -p %{buildroot}%{_libdir}/libdnf/plugins
+%if (0%{?rhel} && 0%{?rhel} <= 8)
 %make_install
+%else
+%cmake_install
+%endif
 popd
 %endif
 
@@ -765,7 +793,9 @@ cp %{buildroot}%{python_sitearch}/rhsm/*.py %{buildroot}%{python2_sitearch}/rhsm
 %endif
 
 %if 0%{?suse_version}
+%if %use_subman_gui
 %suse_update_desktop_file -n -r subscription-manager-gui Settings PackageManager
+%endif
 %endif
 
 %if %use_subman_gui
@@ -777,13 +807,6 @@ desktop-file-validate %{buildroot}/usr/share/applications/subscription-manager-g
 desktop-file-validate %{buildroot}/usr/share/applications/subscription-manager-cockpit.desktop
 %endif
 
-%endif
-
-# libexec directory does not exist on sles based distros
-%if 0%{?suse_version}
-%if %use_subman_gui
-    sed -i 's/libexec/lib/g' %{buildroot}/%{_sysconfdir}/cron.daily/rhsmd
-%endif
 %endif
 
 %find_lang rhsm
@@ -890,10 +913,6 @@ find %{buildroot} -name \*.py* -exec touch -r %{SOURCE0} '{}' \;
 
 %attr(755,root,root) %{_libexecdir}/rhsmcertd-worker
 
-%if %{use_subman_gui}
-    %attr(755,root,root) %{_libexecdir}/rhsmd
-%endif
-
 
 # our config dirs and files
 %attr(755,root,root) %dir %{_sysconfdir}/pki/consumer
@@ -938,9 +957,6 @@ find %{buildroot} -name \*.py* -exec touch -r %{SOURCE0} '{}' \;
 
 # misc system config
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/subscription-manager
-%if %{use_subman_gui}
-    %attr(700,root,root) %{_sysconfdir}/cron.daily/rhsmd
-%endif
 
 %attr(755,root,root) %dir %{_var}/log/rhsm
 %attr(755,root,root) %dir %{_var}/spool/rhsm/debug
@@ -954,8 +970,11 @@ find %{buildroot} -name \*.py* -exec touch -r %{SOURCE0} '{}' \;
 %{completion_dir}/subscription-manager
 %{completion_dir}/rct
 %{completion_dir}/rhsm-debug
-%{completion_dir}/rhn-migrate-classic-to-rhsm
 %{completion_dir}/rhsmcertd
+
+%if %{use_subscription_manager_migration}
+%{completion_dir}/rhn-migrate-classic-to-rhsm
+%endif
 
 %if %use_subman_gui
 %{completion_dir}/rhsm-icon
@@ -1005,6 +1024,10 @@ find %{buildroot} -name \*.py* -exec touch -r %{SOURCE0} '{}' \;
     %{_prefix}/lib/yum-plugins/subscription-manager.py*
     %{_prefix}/lib/yum-plugins/product-id.py*
     %{_prefix}/lib/yum-plugins/search-disabled-repos.py*
+%endif
+
+%if %{use_dnf}
+%{python_sitelib}/dnf-plugins/*
 %endif
 
 # zypper plugins
@@ -1161,7 +1184,7 @@ find %{buildroot} -name \*.py* -exec touch -r %{SOURCE0} '{}' \;
 
 %endif
 
-
+%if 0%{?use_subscription_manager_migration}
 %files -n subscription-manager-migration
 %defattr(-,root,root,-)
 %dir %{python_sitearch}/subscription_manager/migrate
@@ -1176,6 +1199,7 @@ find %{buildroot} -name \*.py* -exec touch -r %{SOURCE0} '{}' \;
 %doc LICENSE
 %if 0%{?fedora}
 %doc README.Fedora
+%endif
 %endif
 
 %files -n %{py_package_prefix}-syspurpose -f syspurpose.lang
@@ -1244,13 +1268,10 @@ find %{buildroot} -name \*.py* -exec touch -r %{SOURCE0} '{}' \;
 %endif
 
 
-%if %use_dnf
-%files -n dnf-plugin-subscription-manager
+%if %{use_libdnf}
+%files -n libdnf-plugin-subscription-manager
 %defattr(-,root,root,-)
-%{python_sitelib}/dnf-plugins/*
-%if (0%{?fedora} >= 29 || 0%{?rhel} >= 8)
 %{_libdir}/libdnf/plugins/product-id.so
-%endif
 %endif
 
 
@@ -1279,12 +1300,10 @@ find %{buildroot} -name \*.py* -exec touch -r %{SOURCE0} '{}' \;
 %dir %{_datadir}/cockpit/subscription-manager
 %{_datadir}/cockpit/subscription-manager/index.html
 %{_datadir}/cockpit/subscription-manager/index.min.js.gz
-%{_datadir}/cockpit/subscription-manager/subscriptions.css
 %{_datadir}/cockpit/subscription-manager/index.css
 %{_datadir}/cockpit/subscription-manager/manifest.json
 %{_datadir}/cockpit/subscription-manager/po.*.js
 %{_datadir}/cockpit/subscription-manager/po.js
-%{_datadir}/cockpit/subscription-manager/node_modules/*
 %{_datadir}/metainfo/org.candlepinproject.subscription_manager.metainfo.xml
 %if ! %use_subman_gui
 %{_datadir}/applications/subscription-manager-cockpit.desktop
@@ -1324,6 +1343,18 @@ find %{buildroot} -name \*.py* -exec touch -r %{SOURCE0} '{}' \;
         chkconfig --add rhsmcertd
     %endif
 %endif
+
+# When subscription-manager is upgraded on RHEL 8 (from RHEL 8.2 to RHEL 8.3), then kill
+# instance of rhsmd, because it is not necessary anymore and it can cause issues.
+# See: https://bugzilla.redhat.com/show_bug.cgi?id=1840364
+%if ( 0%{?rhel} >= 8 || 0%{?fedora} )
+if [ "$1" = "2" ] ; then
+    killall rhsmd 2> /dev/null || true
+fi
+%endif
+
+# Make all entitlement certificates and keys files readable by group and other
+chmod go+r /etc/pki/entitlement/*.pem || true
 
 if [ -x /bin/dbus-send ] ; then
     dbus-send --system --type=method_call --dest=org.freedesktop.DBus / org.freedesktop.DBus.ReloadConfig > /dev/null 2>&1 || :
@@ -1410,11 +1441,164 @@ gtk-update-icon-cache -f %{_datadir}/icons/hicolor &>/dev/null || :
 %endif
 
 %changelog
+* Wed Oct 07 2020 Christopher Snyder <csnyder@redhat.com> 1.28.4-1
+- Revert the --no-insights feature (csnyder@redhat.com)
+- adding Jenkinsfile and CI test scripts (jmolet@redhat.com)
+- 1847910: DNF plugins are part of sub-man RPM, libdnf RPM; ENT-2536
+  (jhnidek@redhat.com)
+- 1826300: Ignore auto-attach, when SCA mode is used; ENT-2341
+  (jhnidek@redhat.com)
+- 1862431: option validation error from unexpected config entry; ENT-2712
+  (wpoteat@redhat.com)
+- 1844508: sub-man sends version in the User-Agent header; ENT-2486
+  (wpoteat@redhat.com)
+- 1855437: syspurpose CLI should require sub-man rpm; ENT-2602
+  (jhnidek@redhat.com)
+- 1870567: Fix issue with locale and D-Bus method GetStatus; ENT-2772
+  (jhnidek@redhat.com)
+- 1868734: Fix issue with syspurpose attrs. set in act. key; ENT-2851
+  (jhnidek@redhat.com)
+
+* Wed Sep 02 2020 William Poteat <wpoteat@redhat.com> 1.28.3-1
+- 1753236: D-Bus Register properly, when org not specified; ENT-2096
+  (jhnidek@redhat.com)
+- Additional updates for fedora (wpoteat@redhat.com)
+- added default for repo_gpgcheck (p.seiler@linuxmail.org)
+- support to disable repo_gpgcheck for zypper repositories
+  (p.seiler@linuxmail.org)
+
+* Fri Aug 21 2020 William Poteat <wpoteat@redhat.com> 1.28.2-1
+- Sync spec with fedora spec (csnyder@redhat.com)
+- 1841601: Set default encoding properly; ENT-2499 (jhnidek@redhat.com)
+- 1615429: Part 2: Added unit tests not only for this case (jhnidek@redhat.com)
+- 1868936: Do not print traceback, when profile upload failed; ENT-2754
+  (jhnidek@redhat.com)
+- 1839199: More rhsmd cleanup (wpoteat@redhat.com)
+- 1615429: Fix sorting of plugin hooks (csnyder@redhat.com)
+- Two fixes of issues related to suse (jhnidek@redhat.com)
+
+* Mon Aug 17 2020 Christopher Snyder <csnyder@redhat.com> 1.28.1-1
+- 1832990: Only register insights when server supports "insights_auto_register"
+  (csnyder@redhat.com)
+- 1855893: Generate redhat.repo properly; ENT-2636 (jhnidek@redhat.com)
+- 1862415: Print proper message, when consumer is deleted; ENT-2709
+  (jhnidek@redhat.com)
+- 1841600: D-Bus - update ent. cert., when act. key is used; ENT-2453
+  (jhnidek@redhat.com)
+- 1862419: Make repo-override working again; ENT-2710 (jhnidek@redhat.com)
+- 1858231: Disable repository metadata gpg validation (suttner@atix.de)
+- 1862425: Fix setting service-level; ENT-1862425 (jhnidek@redhat.com)
+- 1832990: Add rhsm.no_insights config option, improve messaging
+  (csnyder@redhat.com)
+- 1858296: Do not print unchanged profile; ENT-2639 (jhnidek@redhat.com)
+- 1860434: Create rhsm.conf, when config command is used; ENT-2698
+  (jhnidek@redhat.com)
+- 1861255: Catch all exception and print traceback to rhsm.log
+  (jhnidek@redhat.com)
+- 1780028: Remove man page entries for rhsmd (wpoteat@redhat.com)
+- 1859532: Role --list handle wrong proxy conf (unregistered case)
+  (jhnidek@redhat.com)
+- cockpit: Stop importing cockpit's base1/patternfly.css (kkoukiou@redhat.com)
+- cockpit: Bump up webpack to 4 and adjust the config as needed
+  (kkoukiou@redhat.com)
+- 1838423: Fix getting list of releases from CDN; ENT-2601 (jhnidek@redhat.com)
+- 1859532: No traceback, when wrong proxy conf is used; ENT-2654
+  (jhnidek@redhat.com)
+- set permissions on rhsm.conf (jbastian@redhat.com)
+- 1857100: Do not print empty string as valid value; ENT-2634
+  (jhnidek@redhat.com)
+- Fix zypper ascii issue (suttner@atix.de)
+- 1847636: error when registering in intial-setup-graphical
+  (wpoteat@redhat.com)
+- 1838967: Sync syspurpose cache on registration (wpoteat@redhat.com)
+- cockpit: Fix AppStream launchable metainfo (martin@piware.de)
+- Use list of valid syspurpose values provided by candlepin server; ENT-2371
+  (jhnidek@redhat.com)
+- Added unit test for this case. (jhnidek@redhat.com)
+- 1845399: List available subscription ondate options failed
+  (wpoteat@redhat.com)
+- Mark node_modules as part of rpm package. (jhnidek@redhat.com)
+- cockpit: change button order to conform with patternfly guidelines
+  (anilsson@redhat.com)
+- 1657269: Do not use /var/run, but use /run; ENT-1086 (jhnidek@redhat.com)
+- WIP: remove useless closing bracket. (jhnidek@redhat.com)
+- 1840364: Kill rhsmd during post-install on rhel8; ENT-2449
+  (jhnidek@redhat.com)
+- 1848636, 1849074: Update insights machine-id path (csnyder@redhat.com)
+- Address review feedback (khowell@redhat.com)
+- Add insights-client messaging on registration (khowell@redhat.com)
+- 1741364: Make existing ent. cert/keys readable by others; ENT-1593
+  (jhnidek@redhat.com)
+- 1838423: Correct method call signature for release (wpoteat@redhat.com)
+- 1840859: Custom repo parameters are not deletable (wpoteat@redhat.com)
+- Add --no-insights option; ENT-2471 (khowell@redhat.com)
+- 1700441: Create directories, when missing; ENT-2461 (jhnidek@redhat.com)
+- 1770864: Do not create sub-man-migration rpm for Fedora; ENT-1961
+  (jhnidek@redhat.com)
+- Ignore missing repo if manage_repo is false (suttner@atix.de)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.27.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.27.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 11 2020 Christopher Snyder <csnyder@redhat.com> 1.28.0-1
+- 1804454: collect uuid on aarch64 system (wpoteat@redhat.com)
+- WIP: Try to fix build of rpms on suse. (jhnidek@redhat.com)
+- 1842474: Update local and cache file during sync(); ENT-2433
+  (jhnidek@redhat.com)
+- 1725525: Mark one string for translation; ENT-1680 (jhnidek@redhat.com)
+- 1789457: Syspurpose exception message parsing (wpoteat@redhat.com)
+- Fix building sub-man on Fedora 32 (jhnidek@redhat.com)
+- cockpit: Call run-tests from common to run cockpit integration tests
+  (sanne.raymaekers@gmail.com)
+
+* Sun May 31 2020 Christopher Snyder <csnyder@redhat.com> 1.27.5-1
+- Revert "1667792: added --disable-auto-attach option to register command;
+  ENT-1684" (csnyder@redhat.com)
+- 1834792: Try to terminate rhsmd after timeout; ENT-2368 (jhnidek@redhat.com)
+- 1837244: Fix wrong version provided by subscription-manager version; ENT-2388
+  (jhnidek@redhat.com)
+- 1838012: prevent redundant remote syspurpose sync (pmoravec@redhat.com)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.27.1-3
 - Rebuilt for Python 3.9
 
+* Wed May 20 2020 Christopher Snyder <csnyder@redhat.com> 1.27.4-1
+- Fix unit test of getting release information (jhnidek@redhat.com)
+- Send Service-level during registration only once (csnyder@redhat.com)
+- Refactoring of save_sla_to_syspurpose_metadata; ENT-2228 (jhnidek@redhat.com)
+- 1823523: Detect rhsm-icon running without psutil (csnyder@redhat.com)
+- 1830994: Fix warning messages in dnf/yum (jhnidek@redhat.com)
+- 1815624: When in Simple Content Access mode, subscription-manager should not
+  complain that subscriptions aren't attached (wpoteat@redhat.com)
+- Bump jquery from 3.4.1 to 3.5.0 in /cockpit
+  (49699333+dependabot[bot]@users.noreply.github.com)
+- Bug fix of Makefile for Debian (63191606+mallmaluss@users.noreply.github.com)
+
+* Mon Apr 27 2020 William Poteat <wpoteat@redhat.com> 1.27.3-1
+- 1771921: Package profiles sends too early when registering a client
+  (wpoteat@redhat.com)
+- 1827708: Make rhsmd cron read 'processTimeout' case-
+  insensitive (csnyder@redhat.com)
+- Reduced REST API calls during register, when SLA is set; ENT-2229
+  (jhnidek@redhat.com)
+- cockpit: Show more Insights details (mvollmer@redhat.com)
+- integration-test: Update mock-insights to use regexp routing
+  (mvollmer@redhat.com)
+- 1688702: Generate redhat.repo in off-line mode; ENT-2302 (jhnidek@redhat.com)
+- Fix issue with getPoolsList (jhnidek@redhat.com)
+- 1818932: 1820267: Using 'Simple Content Access' for access mode
+  (wpoteat@redhat.com)
+
 * Tue Apr 21 2020 Björn Esser <besser82@fedoraproject.org> - 1.27.1-2
 - Rebuild (json-c)
+
+* Wed Apr 15 2020 William Poteat <wpoteat@redhat.com> 1.27.2-1
+- Update releasers for 8.3 (wpoteat@redhat.com)
+- 1821747: Automatically create /etc/rhsm/syspurpose (jhnidek@redhat.com)
 
 * Tue Apr 14 2020 Christopher Snyder <csnyder@redhat.com> 1.27.1-1
 - Fix broken zypepr repo print (suttner@atix.de)

@@ -1,6 +1,6 @@
 Name:           perl-MCE
-Version:        1.872
-Release:        2%{?dist}
+Version:        1.874
+Release:        1%{?dist}
 Summary:        Many-core Engine for Perl providing parallel processing capabilities
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/MCE
@@ -171,6 +171,17 @@ make test
 %{_bindir}/mce_zfgrep
 
 %changelog
+* Wed Aug 19 2020 Paul Howarth <paul@city-fan.org> - 1.874-1
+- Update to 1.874
+  - Improved MCE->yield when used together with MCE::Relay
+
+* Sun Aug  2 2020 Paul Howarth <paul@city-fan.org> - 1.873-1
+- Update to 1.873
+  - Removed unused variable in MCE::Mutex::Channel
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.872-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.872-2
 - Perl 5.32 rebuild
 
@@ -180,7 +191,7 @@ make test
   - Set default encodings on standard filehandles in tests using UTF-8
   - Bumped minimal Perl version to 5.8.1
   - Bumped MCE version to 1.872 to align with MCE::Shared
-  - The MCE project is completed
+  - The MCE project is feature complete
 
 * Mon May 11 2020 Paul Howarth <paul@city-fan.org> - 1.868-1
 - Update to 1.868

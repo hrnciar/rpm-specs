@@ -5,32 +5,30 @@ EditorConfig makes it easy to maintain the correct coding style when
 switching between different text editors and between different projects.
 The EditorConfig project maintains a file format and plugins for various
 text editors which allow this file format to be read and used by those
-editors.
-}
+editors.}
 
 Name:           editorconfig
 Summary:        Parser for EditorConfig files written in C
-Version:        0.12.3
-Release:        4%{?dist}
+Version:        0.12.4
+Release:        1%{?dist}
 License:        BSD
 
-URL:            https://github.com/%{name}/%{srcname}
-Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
+URL:            https://github.com/editorconfig/editorconfig-core-c
+Source0:        %{url}/archive/v%{version}/%{srcname}-%{version}.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  doxygen
 BuildRequires:  gcc
 BuildRequires:  pcre2-devel
 
+Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 
-%description
-%common_description
+%description %common_description
 
 
 %package        libs
 Summary:        Parser library for EditorConfig files (shared library)
-%description    libs
-%common_description
+%description    libs %common_description
 
 This package contains the shared library.
 
@@ -41,33 +39,31 @@ Summary:        Parser library for EditorConfig files (development files)
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 Requires:       cmake
 
-%description    devel
-%common_description
+%description    devel %common_description
 
 This package contains the files needed for development.
 
 
 %prep
-%autosetup -n %{srcname}-%{version}
+%autosetup -n %{srcname}-%{version} -p1
 
 
 %build
-mkdir build && pushd build
-%cmake ..
-make
-popd
+%cmake
+%cmake_build
 
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 
 # Remove static library
 rm %{buildroot}/%{_libdir}/libeditorconfig_static.a
 
 
 %files
+%doc README.md
+%license LICENSE
+
 %{_bindir}/editorconfig
 %{_bindir}/editorconfig-%{version}
 
@@ -91,6 +87,19 @@ rm %{buildroot}/%{_libdir}/libeditorconfig_static.a
 
 
 %changelog
+* Mon Aug 31 2020 Fabio Valentini <decathorpe@gmail.com> - 0.12.4-1
+- Update to version 0.12.4.
+
+* Sat Aug 01 2020 Fabio Valentini <decathorpe@gmail.com> - 0.12.3-7
+- Adapt to new cmake macros.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.3-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

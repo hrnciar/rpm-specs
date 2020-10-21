@@ -1,6 +1,6 @@
 Name:           arduino-builder
 Version:        1.3.25
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        A command line tool for compiling Arduino sketches
 License:        GPLv2+
 URL:            http://www.arduino.cc
@@ -74,6 +74,9 @@ install -p src/arduino.cc/builder/hardware/*.txt %{buildroot}%{_datadir}/arduino
 %{_datadir}/arduino/hardware
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.25-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.25-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

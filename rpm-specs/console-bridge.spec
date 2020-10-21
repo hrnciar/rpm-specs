@@ -1,18 +1,21 @@
-%global commit ed29e639dfaefbe16db182d360af0d03417e7cd8
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
+%undefine __cmake_in_source_build
 %global realname console_bridge
-Name:		console-bridge
-Version:	0.3.2
-Release:	14%{?dist}
-Summary:	Lightweight set of macros used for reporting information in libraries
+%global libversion 1.0
 
-License:	BSD
-URL:		http://ros.org/wiki/console_bridge
-Source0:        https://github.com/ros/%{realname}/archive/%{commit}/%{realname}-%{version}-%{shortcommit}.tar.gz
+Name:       console-bridge
+Version:    1.0.1
+Release:    1%{?dist}
+Summary:    Lightweight set of macros used for reporting information in libraries
+
+License:    BSD
+URL:        http://ros.org/wiki/console_bridge
+Source0:    https://github.com/ros/%{realname}/archive/%{version}/%{name}-%{version}.tar.gz
+# Install the generated export header to the same location as the rest of the package's headers.
+Patch0:     console-bridge-1.0.1-exportheader.patch
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
-BuildRequires:	cmake
+BuildRequires:  cmake
 
 %description
 A very lightweight set of macros that can be used for reporting information 
@@ -27,22 +30,21 @@ The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
 
 %prep
-%setup -qn %{realname}-%{commit}
+%setup -qn %{realname}-%{version}
+%patch0 -p0 -b .exportheader
 
 %build
-mkdir build; pushd build
-%cmake .. -DUSE_GNU_INSTALL_DIRS=ON
-popd
-make -C build %{?_smp_mflags}
-
+%cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
+%cmake_build
 
 %install
-make -C build install DESTDIR=%{buildroot}
+%cmake_install
 
-%ldconfig_scriptlets
+%check
+%ctest || /bin/true
 
 %files
-%{_libdir}/*.so.*
+%{_libdir}/*.so.%{libversion}
 
 %files devel
 %{_includedir}/%{realname}
@@ -51,6 +53,17 @@ make -C build install DESTDIR=%{buildroot}
 %{_libdir}/%{realname}
 
 %changelog
+* Tue Aug 04 2020 Rich Mattes <richmattes@gmail.com> - 1.0.1-1
+- Update to release 1.0.1
+- Fix CMake FTBFS (1863360)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-16
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.2-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

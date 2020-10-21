@@ -1,6 +1,6 @@
 Name:           legofy
 Version:        1.0.0
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Takes a image and makes it so that it looks as if it was built out of LEGO
 
 License:        MIT
@@ -39,6 +39,9 @@ install -pDm644 %{SOURCE1} %{buildroot}%{_mandir}/man1/legofy.1
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.0-14
 - Rebuilt for Python 3.9
 

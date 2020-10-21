@@ -1,6 +1,6 @@
 Name:           feedreader
 Version:        2.11.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        RSS desktop client
 
 # Some of the source files are GPLv3+ and some are LGPLv3+, which makes the
@@ -75,6 +75,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.FeedRead
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.11.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Pete Walter <pwalter@fedoraproject.org> - 2.11.0-1
 - Update to 2.11.0
 

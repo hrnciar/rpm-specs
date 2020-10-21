@@ -5,7 +5,7 @@
 
 Name:           python-%{modname}
 Version:        0.7.3
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        %{sum}
 
 # setup.py mentions BSD license
@@ -124,6 +124,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 06 2020 Raphael Groner <raphgro@fedoraproject.org> - 0.7.3-11
 - add patch for python 3.8
 

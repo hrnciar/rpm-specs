@@ -5,7 +5,7 @@
 
 Name:           perl-%{cpan_name}
 Epoch:          2
-Version:        7.46
+Version:        7.48
 Release:        1%{?dist}
 Summary:        Create a module Makefile
 License:        GPL+ or Artistic
@@ -213,6 +213,15 @@ make test
 %{_mandir}/man3/ExtUtils::MM::Utils.*
 
 %changelog
+* Tue Oct 06 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2:7.48-1
+- 7.48 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:7.46-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2:7.46-2
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Petr Pisar <ppisar@redhat.com> - 2:7.46-1
 - 7.46 bump
 

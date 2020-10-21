@@ -3,7 +3,7 @@
 
 Name:           ngrep
 Version:        1.47
-Release:        4.1.20180101git%{shortcommit}%{?dist}
+Release:        5.1.20180101git%{shortcommit}%{?dist}
 Summary:        Network layer grep tool
 License:        BSD with advertising
 URL:            https://github.com/jpr5/ngrep
@@ -49,6 +49,9 @@ make install DESTDIR=%{buildroot} BINDIR_INSTALL=%{_sbindir}
 %{_mandir}/man8/ngrep.8*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.47-5.1.20180101git9b59468
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.47-4.1.20180101git9b59468
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

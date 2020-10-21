@@ -2,7 +2,7 @@
 
 Name:           gap-pkg-%{pkgname}
 Version:        2.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Line by line profiling and code coverage for GAP
 
 # src/md5.{cc,h} is Public Domain.
@@ -95,6 +95,9 @@ gap -l "%{buildroot}%{_gap_dir};%{_gap_dir}" < tst/testall.g
 %{_gap_dir}/pkg/%{pkgname}-%{version}/doc/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr  3 2020 Jerry James <loganjerry@gmail.com> - 2.3-1
 - Version 2.3
 

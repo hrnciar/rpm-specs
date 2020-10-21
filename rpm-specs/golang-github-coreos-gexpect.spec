@@ -16,7 +16,7 @@ It makes it simpler to create and control other terminal applications.}
 %global godocs          examples README.md
 
 Name:           %{goname}
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Pure Golang expect library, for easily starting and controlling subprocesses
 
 License:        MIT
@@ -46,6 +46,9 @@ BuildRequires:  golang(github.com/kr/pty)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -5,7 +5,7 @@
 
 Name:           scalpel
 Version:        2.1
-Release:        0.rc1.2.%{shortcommit}%{?dist}.8
+Release:        0.rc1.2.%{shortcommit}%{?dist}.11
 Summary:        Fast file carver working on disk images
 
 License:        GPLv2+
@@ -45,6 +45,7 @@ sed -i -e "s/^#[ ]*$//;
 
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 ./bootstrap
 %configure --with-pic
 %{__make} %{?_smp_mflags} OPTS="%{optflags}"
@@ -72,6 +73,15 @@ rm -f  %{buildroot}/%{_libdir}/libscalpel*.la
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-0.rc1.2.47815c2.11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 2.1-0.rc1.2.47815c2.10
+- Force C++14 as this code is not C++17 ready
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 2.1-0.rc1.2.47815c2.9
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-0.rc1.2.47815c2.8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

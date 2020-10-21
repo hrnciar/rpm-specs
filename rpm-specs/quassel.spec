@@ -4,11 +4,16 @@
 Name:    quassel
 Summary: A modern distributed IRC system
 Version: 0.13.1
-Release: 4%{?dist}
+Release: 5%{?dist}
 
 License: GPLv2 or GPLv3
 URL:     http://quassel-irc.org/
 Source0: http://quassel-irc.org/pub/quassel-%{version}.tar.bz2
+
+# patch from freebsd ports treee
+#https://github.com/freebsd/freebsd-ports/blob/b6c49e02ef34b163293e453c7245093cb7668a40/irc/quassel/files/patch-src_common_types.h
+Patch0: https://raw.githubusercontent.com/freebsd/freebsd-ports/b6c49e02ef34b163293e453c7245093cb7668a40/irc/quassel/files/patch-src_common_types.h
+Patch1: %{name}-gcc11.patch
 
 BuildRequires: cmake
 BuildRequires: dbusmenu-qt5-devel
@@ -93,18 +98,16 @@ Quassel client
 
 
 %prep
-%setup -q -n %{name}-%{version}
+%autosetup -p0 -n %{name}-%{version}
 
 %build
-mkdir build
-pushd build
-%{cmake_kf5} .. -DWANT_MONO=1 -DUSE_QT5=1 -DWITH_KDE=1 -DHAVE_SSL=1
-popd
+%cmake_kf5 \
+  -DWANT_MONO=1 -DUSE_QT5=1 -DWITH_KDE=1 -DHAVE_SSL=1
 
-make %{?_smp_mflags} -C build
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C build
+%cmake_install
 
 # unpackaged files
 rm -f %{buildroot}/%{_datadir}/pixmaps/quassel.png
@@ -171,6 +174,12 @@ exit 0
 
 
 %changelog
+* Fri Oct 16 2020 Jeff Law <law@redhat.com> - 0.13.1-6
+- Fix missing #include for gcc-11
+
+* Mon Jul 13 2020 Marie Loise Nolden <loise@kde.org> - 0.13.1-5
+- Fix for Qt 5.14.2 from FreeBSD ports tree
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

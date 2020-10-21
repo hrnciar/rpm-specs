@@ -4,9 +4,13 @@
 
 %global srcname tyxml
 
+# This package is needed to build ocaml-odoc, but ocaml-odoc is needed to build
+# documentation for this package.  Skip building documentation for now until we
+# develop a strategy for handling dependency loops.
+
 Name:           ocaml-%{srcname}
-Version:        4.3.0
-Release:        7%{?dist}
+Version:        4.4.0
+Release:        3%{?dist}
 Summary:        Build valid HTML and SVG documents
 
 License:        LGPLv2 with exceptions
@@ -19,17 +23,17 @@ Patch1:         tyxml-4.3.0-ocaml-4.11-ignore-deprecated.patch
 
 BuildRequires:  ocaml >= 4.02
 BuildRequires:  ocaml-alcotest-devel
-BuildRequires:  ocaml-astring-devel
 BuildRequires:  ocaml-dune
-BuildRequires:  ocaml-findlib
 BuildRequires:  ocaml-markup-devel >= 0.7.2
-BuildRequires:  ocaml-ocamldoc
-BuildRequires:  ocaml-ppx-derivers-devel
 BuildRequires:  ocaml-ppx-tools-versioned-devel
 BuildRequires:  ocaml-re-devel >= 1.5.0
 BuildRequires:  ocaml-seq-devel
-BuildRequires:  ocaml-uuidm-devel
 BuildRequires:  ocaml-uutf-devel >= 1.0.0
+
+# See comment above about dependency loops.  If the issue is not resolved by
+# Fedora 36, this can be removed.
+Obsoletes:      %{name}-doc < 4.4.0-1
+Provides:       %{name}-doc = %{version}-%{release}
 
 %description
 TyXML provides a set of convenient combinators that uses the OCaml type
@@ -51,16 +55,49 @@ Requires:       ocaml-uutf-devel%{?_isa}
 The %{name}-devel package contains libraries and signature files for
 developing applications that use %{name}.
 
-%package        doc
-Summary:        HTML documentation for %{name}
-BuildArch:      noarch
+%package        syntax
+Summary:        Common layer for the JSX and PPX syntaxes for TyXML
 
-%description    doc
-HTML documentation for %{name}.
+%description    syntax
+This package contains common code used by both the JSX and the PPX
+syntaxes for TyXML.
+
+%package        syntax-devel
+Summary:        Development files for %{name}-syntax
+Requires:       %{name}-syntax%{?_isa} = %{version}-%{release}
+Requires:       ocaml-ppx-tools-versioned-devel%{?_isa}
+
+%description    syntax-devel
+The %{name}-syntax-devel package contains libraries and signature files
+for developing applications that use %{name}-syntax.
+
+%package        jsx
+Summary:        JSX syntax for writing TyXML documents
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       %{name}-syntax%{?_isa} = %{version}-%{release}
+
+%description    jsx
+This package enables writing TyXML documents with reasons's JSX syntax,
+from textual trees to reactive virtual DOM trees.
+
+  open Tyxml
+  let to_ocaml = <a href="ocaml.org"> "OCaml!" </a>;
+
+%package        jsx-devel
+Summary:        Development files for %{name}-jsx
+Requires:       %{name}-devel%{?_isa} = %{version}-%{release}
+Requires:       %{name}-syntax-devel%{?_isa} = %{version}-%{release}
+Requires:       %{name}-jsx%{?_isa} = %{version}-%{release}
+Requires:       ocaml-ppx-tools-versioned-devel%{?_isa}
+
+%description    jsx-devel
+The %{name}-ppx-devel package contains libraries and signature files for
+developing applications that use %{name}-jsx.
 
 %package        ppx
 Summary:        PPX for writing TyXML documents with HTML syntax
 Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       %{name}-syntax%{?_isa} = %{version}-%{release}
 
 %description    ppx
 This package contains PPX for writing TyXML documents with HTML syntax.
@@ -74,9 +111,9 @@ to reactive virtual DOM trees.
 %package        ppx-devel
 Summary:        Development files for %{name}-ppx
 Requires:       %{name}-devel%{?_isa} = %{version}-%{release}
+Requires:       %{name}-syntax-devel%{?_isa} = %{version}-%{release}
 Requires:       %{name}-ppx%{?_isa} = %{version}-%{release}
 Requires:       ocaml-markup-devel%{?_isa}
-Requires:       ocaml-ppx-derivers-devel%{?_isa}
 Requires:       ocaml-ppx-tools-versioned-devel%{?_isa}
 
 %description    ppx-devel
@@ -86,29 +123,14 @@ developing applications that use %{name}-ppx.
 %prep
 %autosetup -n %{srcname}-%{version} -p1
 
-# Fix typo in 4.3.0; fixed upstream, so remove this when updating
-sed -i 's/onmousdown/onmousedown/' lib/svg_f.ml
-
-# Fix deprecation warning treated as an error by dune.
-# Fixed upstream after the 4.3.0 release; remove this when updating
-sed -i 's/Re\.get/Re.Group.get/' ppx/tyxml_ppx.ml
-
 %build
 dune build %{?_smp_mflags}
 
-# Build the documentation.
-mkdir html
-ocamldoc -html -d html \
-  -colorize-code -short-functors -charset utf-8 -intro docs/indexdoc \
-  -I _build/install/default/lib/tyxml \
-  -I _build/install/default/lib/tyxml/functor \
-  -I _build/install/default/lib/tyxml/tools \
-  _build/install/default/lib/tyxml/*.mli \
-  _build/install/default/lib/tyxml/functor/*.mli \
-  _build/install/default/lib/tyxml/tools/*.mli
-
 %install
 dune install --destdir=%{buildroot}
+
+# We do not want the ml files
+find %{buildroot}%{_libdir}/ocaml -name \*.ml -delete
 
 # We install the documentation with the doc macro
 rm -fr %{buildroot}%{_prefix}/doc
@@ -118,30 +140,25 @@ rm -fr %{buildroot}%{_prefix}/doc
 find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod 0755 {} \+
 %endif
 
-%check
-dune runtest
+# As of version 4.4.0, the tests fail due to lack of the reason package in
+# Fedora.  Tests are disabled until we can figure out how to work around that.
+
+#%%check
+#dune runtest
 
 %files
 %doc CHANGES.md README.md
 %license LICENSE
 %dir %{_libdir}/ocaml/%{srcname}/
 %dir %{_libdir}/ocaml/%{srcname}/functor/
-%dir %{_libdir}/ocaml/%{srcname}/tools/
-%dir %{_libdir}/ocaml/%{srcname}/top/
 %{_libdir}/ocaml/%{srcname}/META
 %{_libdir}/ocaml/%{srcname}/%{srcname}*.cma
 %{_libdir}/ocaml/%{srcname}/%{srcname}*.cmi
 %{_libdir}/ocaml/%{srcname}/functor/*.cma
 %{_libdir}/ocaml/%{srcname}/functor/*.cmi
-%{_libdir}/ocaml/%{srcname}/tools/*.cma
-%{_libdir}/ocaml/%{srcname}/tools/*.cmi
-%{_libdir}/ocaml/%{srcname}/top/*.cma
-%{_libdir}/ocaml/%{srcname}/top/*.cmi
 %ifarch %{ocaml_native_compiler}
 %{_libdir}/ocaml/%{srcname}/%{srcname}*.cmxs
 %{_libdir}/ocaml/%{srcname}/functor/*.cmxs
-%{_libdir}/ocaml/%{srcname}/tools/*.cmxs
-%{_libdir}/ocaml/%{srcname}/top/*.cmxs
 %endif
 
 %files devel
@@ -154,27 +171,54 @@ dune runtest
 %{_libdir}/ocaml/%{srcname}/functor/*.a
 %{_libdir}/ocaml/%{srcname}/functor/*.cmx
 %{_libdir}/ocaml/%{srcname}/functor/*.cmxa
-%{_libdir}/ocaml/%{srcname}/tools/*.a
-%{_libdir}/ocaml/%{srcname}/tools/*.cmx
-%{_libdir}/ocaml/%{srcname}/tools/*.cmxa
-%{_libdir}/ocaml/%{srcname}/top/*.a
-%{_libdir}/ocaml/%{srcname}/top/*.cmx
-%{_libdir}/ocaml/%{srcname}/top/*.cmxa
 %endif
 %{_libdir}/ocaml/%{srcname}/%{srcname}*.cmt
 %{_libdir}/ocaml/%{srcname}/%{srcname}*.cmti
-%{_libdir}/ocaml/%{srcname}/%{srcname}*.ml
 %{_libdir}/ocaml/%{srcname}/%{srcname}*.mli
 %{_libdir}/ocaml/%{srcname}/functor/*.cmt
 %{_libdir}/ocaml/%{srcname}/functor/*.cmti
-%{_libdir}/ocaml/%{srcname}/functor/*.ml
 %{_libdir}/ocaml/%{srcname}/functor/*.mli
-%{_libdir}/ocaml/%{srcname}/tools/*.cmt
-%{_libdir}/ocaml/%{srcname}/tools/*.cmti
-%{_libdir}/ocaml/%{srcname}/tools/*.ml
-%{_libdir}/ocaml/%{srcname}/tools/*.mli
-%{_libdir}/ocaml/%{srcname}/top/*.cmt
-%{_libdir}/ocaml/%{srcname}/top/*.ml
+
+%files syntax
+%dir %{_libdir}/ocaml/%{srcname}-syntax/
+%{_libdir}/ocaml/%{srcname}-syntax/META
+%{_libdir}/ocaml/%{srcname}-syntax/%{srcname}*.cma
+%{_libdir}/ocaml/%{srcname}-syntax/%{srcname}*.cmi
+%ifarch %{ocaml_native_compiler}
+%{_libdir}/ocaml/%{srcname}-syntax/%{srcname}*.cmxs
+%endif
+
+%files syntax-devel
+%{_libdir}/ocaml/%{srcname}-syntax/dune-package
+%{_libdir}/ocaml/%{srcname}-syntax/opam
+%ifarch %{ocaml_native_compiler}
+%{_libdir}/ocaml/%{srcname}-syntax/%{srcname}*.a
+%{_libdir}/ocaml/%{srcname}-syntax/%{srcname}*.cmx
+%{_libdir}/ocaml/%{srcname}-syntax/%{srcname}*.cmxa
+%endif
+%{_libdir}/ocaml/%{srcname}-syntax/%{srcname}*.cmt
+%{_libdir}/ocaml/%{srcname}-syntax/%{srcname}*.cmti
+%{_libdir}/ocaml/%{srcname}-syntax/*.mli
+
+%files jsx
+%dir %{_libdir}/ocaml/%{srcname}-jsx/
+%{_libdir}/ocaml/%{srcname}-jsx/META
+%{_libdir}/ocaml/%{srcname}-jsx/ppx.exe
+%{_libdir}/ocaml/%{srcname}-jsx/%{srcname}*.cma
+%{_libdir}/ocaml/%{srcname}-jsx/%{srcname}*.cmi
+%ifarch %{ocaml_native_compiler}
+%{_libdir}/ocaml/%{srcname}-jsx/%{srcname}*.cmxs
+%endif
+
+%files jsx-devel
+%{_libdir}/ocaml/%{srcname}-jsx/dune-package
+%{_libdir}/ocaml/%{srcname}-jsx/opam
+%ifarch %{ocaml_native_compiler}
+%{_libdir}/ocaml/%{srcname}-jsx/%{srcname}*.a
+%{_libdir}/ocaml/%{srcname}-jsx/%{srcname}*.cmx
+%{_libdir}/ocaml/%{srcname}-jsx/%{srcname}*.cmxa
+%endif
+%{_libdir}/ocaml/%{srcname}-jsx/%{srcname}*.cmt
 
 %files ppx
 %dir %{_libdir}/ocaml/%{srcname}-ppx/
@@ -202,17 +246,29 @@ dune runtest
 %{_libdir}/ocaml/%{srcname}-ppx/internal/*.cmxa
 %endif
 %{_libdir}/ocaml/%{srcname}-ppx/%{srcname}*.cmt
-%{_libdir}/ocaml/%{srcname}-ppx/%{srcname}*.ml
 %{_libdir}/ocaml/%{srcname}-ppx/internal/*.cmt
 %{_libdir}/ocaml/%{srcname}-ppx/internal/*.cmti
-%{_libdir}/ocaml/%{srcname}-ppx/internal/*.ml
 %{_libdir}/ocaml/%{srcname}-ppx/internal/*.mli
 
-%files doc
-%doc html/*
-%license LICENSE
-
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 4.4.0-3
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 4.4.0-2
+- OCaml 4.11.0 rebuild
+
+* Tue Aug  4 2020 Jerry James <loganjerry@gmail.com> - 4.4.0-1
+- Version 4.4.0
+- Drop documentation subpackage until dependency loop can be handled
+- Disable tests since no reason package is available
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.0-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 4.3.0-7
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

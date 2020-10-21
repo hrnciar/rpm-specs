@@ -1,8 +1,8 @@
 %global srcname tornado
 
 Name:           python-%{srcname}
-Version:        6.0.3
-Release:        2%{?dist}
+Version:        6.0.4
+Release:        1%{?dist}
 Summary:        Scalable, non-blocking web server and tools
 
 License:        ASL 2.0
@@ -77,6 +77,12 @@ export ASYNC_TEST_TIMEOUT=10
 %doc demos
 
 %changelog
+* Sun Sep 13 2020 Fabian Affolter <mail@fabian-affolter.ch> - 6.0.4-1
+- Update to latest upstream release 6.0.3 (rhbz#1809858)
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 6.0.3-2
 - Rebuilt for Python 3.9
 

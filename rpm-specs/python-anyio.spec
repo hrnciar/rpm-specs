@@ -16,7 +16,7 @@ libraries written against it to run unmodified on asyncio, curio and trio.}
 
 Name:           python-%{pkgname}
 Version:        1.3.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Compatibility layer for multiple asynchronous event loop implementations
 License:        MIT
 URL:            https://github.com/agronholm/anyio
@@ -79,6 +79,9 @@ py.test-%{python3_version} --verbose tests
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Carl George <carl@george.computer> - 1.3.1-1
 - Latest upstream
 

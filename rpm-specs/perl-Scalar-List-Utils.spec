@@ -1,7 +1,7 @@
 Name:           perl-Scalar-List-Utils
 Epoch:          4
 Version:        1.55
-Release:        456%{?dist}
+Release:        457%{?dist}
 Summary:        A selection of general-utility scalar and list subroutines
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Scalar-List-Utils
@@ -75,6 +75,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4:1.55-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 4:1.55-456
 - Increase release to favour standalone package
 

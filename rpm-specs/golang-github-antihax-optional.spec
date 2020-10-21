@@ -13,7 +13,7 @@ Optional parameters for Go.}
 %global golicenses      LICENSE
 
 Name:           %{goname}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Optional parameters for Go
 
 License:        MIT
@@ -39,5 +39,8 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 16:45:39 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.0.0-1
 - Initial package

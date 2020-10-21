@@ -5,7 +5,7 @@
 
 Name:           python-mdp
 Version:        3.5
-Release:        19%{?dist}
+Release:        21%{?dist}
 Summary:        Library for building data processing pipelines for machine learning
 
 License:        BSD
@@ -108,6 +108,13 @@ rm build/html/.buildinfo
 %doc mdp-docs-MDP-%{version}/build/html
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.5-19
 - Rebuilt for Python 3.9
 

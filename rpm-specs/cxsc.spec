@@ -1,8 +1,14 @@
 %global upstreamver 2-5-4
 
+%if 0%{?fedora} >= 33
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 Name:           cxsc
 Version:        %(tr - . <<< %{upstreamver})
-Release:        12%{?dist}
+Release:        15%{?dist}
 Summary:        C++ library for Extended Scientific Computing
 
 %global majver  %(cut -d. -f1 <<< %{version})
@@ -24,7 +30,7 @@ Patch4:         %{name}-euro.patch
 BuildRequires:  doxygen-latex
 BuildRequires:  gcc-c++
 BuildRequires:  ghostscript
-BuildRequires:  openblas-devel
+BuildRequires:  %{blaslib}-devel
 
 %description
 C-XSC is the C language variant of the XSC (eXtensions for Scientific
@@ -75,9 +81,9 @@ sed -i '/LINKERPATH=-Wl,-R/d' install_cxsc
 sed -i 's/ -mfpmath=sse -msse2//' install_cxsc.in
 %endif
 
-# Link with the openblas and OpenMP libraries
-sed -i 's/\$(RARI)/& -lopenblaso -lgomp/' src/Makefile
-sed -i 's/(LIBS)/& -lopenblaso/' CToolbox/Makefile
+# Link with the BLAS and OpenMP libraries
+sed -i 's/\$(RARI)/& -l%{blaslib} -lgomp/' src/Makefile
+sed -i 's/(LIBS)/& -l%{blaslib}/' CToolbox/Makefile
 
 # Install in the right place on 64-bit systems
 if [ %{_libdir} != "%{_prefix}/lib" ]; then
@@ -110,15 +116,15 @@ gnu\n\
 no\n\
 yes\n\
 %ifarch x86_64
-%{optflags} -DCXSC_USE_BLAS -DCXSC_USE_LAPACK -DCXSC_USE_OPENMP -DCXSC_USE_FMA -DIS_64_BIT -fopenmp -Wl,--as-needed\n\
+%{optflags} -std=c++14 -DCXSC_USE_BLAS -DCXSC_USE_LAPACK -DCXSC_USE_OPENMP -DCXSC_USE_FMA -DIS_64_BIT -fopenmp -Wl,--as-needed\n\
 64\n\
 asm\n\
 %else
 %ifarch %{ix86} ppc64 ppc64le
-%{optflags} -DCXSC_USE_BLAS -DCXSC_USE_LAPACK -DCXSC_USE_OPENMP -DCXSC_USE_FMA $use64 -fopenmp -Wl,--as-needed\n\
+%{optflags} -std=c++14 -DCXSC_USE_BLAS -DCXSC_USE_LAPACK -DCXSC_USE_OPENMP -DCXSC_USE_FMA $use64 -fopenmp -Wl,--as-needed\n\
 asm\n\
 %else
-%{optflags} -DCXSC_USE_BLAS -DCXSC_USE_LAPACK -DCXSC_USE_OPENMP -DCXSC_USE_FMA $use64 -fopenmp -frounding-math -fno-inline -Wl,--as-needed\n\
+%{optflags} -std=c++14 -DCXSC_USE_BLAS -DCXSC_USE_LAPACK -DCXSC_USE_OPENMP -DCXSC_USE_FMA $use64 -fopenmp -frounding-math -fno-inline -Wl,--as-needed\n\
 hard\n\
 safe\n\
 %endif
@@ -180,6 +186,15 @@ make toolboxtest_dyn
 %doc docu/apidoc docu/images
 
 %changelog
+* Mon Aug 10 2020 Iñaki Úcar <iucar@fedoraproject.org> - 2.5.4-15
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Tue Jul 28 2020 Jeff Law <lwa@redhat.com> - 2.5.4-14
+- Force C++14 as this code is not C++17 ready
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.4-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.4-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

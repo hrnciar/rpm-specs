@@ -2,7 +2,7 @@
 
 Name:           flatbuffers
 Version:        1.12.0
-Release:        1%{?dist}
+Release:        5%{?dist}
 Summary:        Memory efficient serialization library
 URL:            http://google.github.io/flatbuffers
 
@@ -18,7 +18,9 @@ Patch0:		0002-Handle-git-program-or-.git-folder-absence-5878.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  cmake >= 2.8.9
-BuildRequires:	git
+BuildRequires:  git
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 
 # The library contains pieces of gRPC project, with some additions.
 # It is not easy to identify the version, which was used to take the code,
@@ -38,10 +40,17 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 %description    devel
 %{summary}.
 
+%package        python3
+Summary:        Python files for %{name}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description    python3
+This package contains python files for %{name}.
+
 %prep
 %autosetup -S git_am
 # cleanup distribution
-rm -rf js net php python docs go java js biicode {samples/,}android
+rm -rf js net php docs go java js biicode {samples/,}android
 chmod -x readme.md
 
 %cmake -DCMAKE_BUILD_TYPE=Release \
@@ -52,10 +61,16 @@ chmod -x readme.md
        .
 
 %build
-%make_build
+%cmake_build
+pushd python
+%{__python3} setup.py build
+popd
 
 %install
-%make_install
+%cmake_install
+pushd python
+%{__python3} setup.py install --root %{buildroot}
+popd
 mkdir -p %{buildroot}%{_mandir}/man{1,7}
 cp -p %SOURCE1 %{buildroot}%{_mandir}/man1/flatc.1
 cp -p %SOURCE2 %{buildroot}%{_mandir}/man7/flatbuffers.7
@@ -81,7 +96,23 @@ make test
 %{_mandir}/man7/flatbuffers.7*
 %{_libdir}/cmake/flatbuffers/*.cmake
 
+%files python3
+%{python3_sitelib}/*
+
 %changelog
+* Mon Aug 10 2020 Cristian Balint <cristian.balint@gmail.com> - 1.12.0-5
+- Enable python module
+
+* Sat Aug 01 2020 Benjamin lowry <ben@ben.gmbh> - 1.12.0-4
+- Update to new cmake macros, fix build error
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.12.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 2020 Benjamin Lowry <ben@ben.gmbh> - 1.12.0-1
 - Upgrade to 1.12.0, fix compilation on F32
 

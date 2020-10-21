@@ -5,7 +5,7 @@
 Summary: Graphical Boot Animation and Logger
 Name: plymouth
 Version: 0.9.4
-Release: 14.%{commitdate}git%{shortcommit}%{?dist}
+Release: 16.%{commitdate}git%{shortcommit}%{?dist}
 License: GPLv2+
 URL: http://www.freedesktop.org/wiki/Software/Plymouth
 
@@ -397,6 +397,13 @@ fi
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-16.20200325gite31c81f
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.4-15.20200325gite31c81f
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Mar 25 2020 Hans de Goede <jwrdegoede@fedoraproject.org> - 0.9.4-14.20200306git58a7289
 - New upstream git snapshot
 - Add RemainAfterExit=yes to plymouth's systemd service files (rhbz#1807771)

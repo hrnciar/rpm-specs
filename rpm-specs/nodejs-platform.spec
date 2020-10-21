@@ -6,7 +6,7 @@
 
 Name:		nodejs-platform
 Version:	1.3.5
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	A platform detection library that works on nearly all JavaScript platforms
 
 License:	MIT
@@ -73,6 +73,9 @@ cp -pr package.json *.js \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

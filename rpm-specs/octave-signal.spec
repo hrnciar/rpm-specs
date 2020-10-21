@@ -2,7 +2,7 @@
 
 Name:           octave-%{octpkg}
 Version:        1.4.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Signal processing tools for Octave
 License:        GPLv3+
 URL:            http://octave.sourceforge.net/signal/
@@ -63,6 +63,9 @@ done;
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -17,7 +17,7 @@
 Name:		php-captchaphp
 Summary:	PHP very user-friendly CAPTCHA solution
 Version:	2.3
-Release:	16%{?dist}
+Release:	17%{?dist}
 
 #	Public Domain or any FOSS License, see README
 #	We're choosing MIT because it is universally compatible with other FOSS 
@@ -89,6 +89,9 @@ install -p -m 644 captcha.php "${RPM_BUILD_ROOT}/%{_datadir}/php/captchaphp/"
 
 #-------------------------------------------------------------------------------
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

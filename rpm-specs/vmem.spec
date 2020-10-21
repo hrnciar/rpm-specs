@@ -6,12 +6,13 @@
 
 Name:		vmem
 Version:	%{upstreamversion}
-Release:	1%{?dist}
+Release:	4%{?dist}
 Summary:	Volatile Memory Development Kit
 License:	BSD
 URL:		http://pmem.io/vmem
 
 Source0:	https://github.com/pmem/vmem/archive/%{upstreamversion}.tar.gz
+Patch0:		0001-Fix-scope-tests-wrt-binutils-2.35.patch
 
 
 BuildRequires:	gcc
@@ -166,9 +167,15 @@ debug version is to set the environment variable LD_LIBRARY_PATH to
 
 %prep
 %setup -q -n vmem-%{upstreamversion}
+%patch0 -p1
 
 
 %build
+# This package has undefined symbols showing up in debug sections which is
+# a known upstream bug with LTO.  It should be fixed relatively soon, but
+# until then, disable LTO
+%define _lto_cflags %{nil}
+
 # For debug build default flags may be overriden to disable compiler
 # optimizations.
 CFLAGS="%{optflags}" \
@@ -212,6 +219,19 @@ make install DESTDIR=%{buildroot} \
 
 
 %changelog
+* Sun Aug 16 2020 Adam Borowski <kilobyte@angband.pl> - 1.8-5
+- Fix FTBFS with new binutils.
+
+* Sat Aug 08 2020 Jeff Law <law@redhat.com> - 1.8-4
+- Disable LTO
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 11 2020 Adam Borowski <kilobyte@angband.pl> - 1.8-1
 - Upstream release 1.8
 - Re-add libunwind-devel to BReqs.

@@ -1,8 +1,8 @@
 %global debug_package   %{nil}
 
 Name:           PEGTL
-Version:        2.8.1
-Release:        2%{?dist}
+Version:        2.8.3
+Release:        1%{?dist}
 Summary:        Parsing Expression Grammar Template Library
 License:        MIT
 URL:            https://github.com/taocpp/%{name}/
@@ -10,6 +10,8 @@ Source0:        https://github.com/taocpp/%{name}/archive/%{version}.tar.gz
 
 BuildRequires:  gcc-c++
 BuildRequires: /usr/bin/make
+
+Patch0: PEGTL-compiler-warning.patch
 
 %description
 The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency
@@ -29,6 +31,8 @@ applications that use %{name}.
 %prep
 %setup -q -n %{name}-%{version}
 
+%patch0 -p1 -b .compiler
+
 %check
 make
 
@@ -45,6 +49,17 @@ popd
 %{_includedir}/tao/pegtl
 
 %changelog
+* Thu Sep 03 2020 Attila Lakatos <alakatos@redhat.com> - 2.8.3-1
+- Update to 2.8.3
+Resolves: rhbz#1742557
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

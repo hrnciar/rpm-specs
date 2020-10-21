@@ -58,20 +58,11 @@
 
 Summary: Liberty Alliance Single Sign On
 Name: lasso
-Version: 2.6.0
-Release: 23%{?dist}
+Version: 2.6.1
+Release: 7%{?dist}
 License: GPLv2+
 URL: http://lasso.entrouvert.org/
 Source: http://dev.entrouvert.org/lasso/lasso-%{version}.tar.gz
-
-Patch1: use-specified-python-interpreter.patch
-Patch2: build-scripts-py3-compatible.patch
-Patch3: duplicate-python-LogoutTestCase.patch
-Patch4: versioned-python-configure.patch
-Patch5: 0005-tests-use-self-generated-certificate-to-sign-federat.patch
-Patch6: 0006-Fix-ECP-signature-not-found-error-when-only-assertio.patch
-Patch7: 0007-PAOS-Do-not-populate-Destination-attribute.patch
-Patch8: 0008-Explicitly-define-tests-cases-and-add-them-to-tests.patch
 
 BuildRequires: autoconf
 BuildRequires: automake
@@ -127,7 +118,7 @@ Perl language bindings for the lasso (Liberty Alliance Single Sign On) library.
 %if %{with_java}
 %package -n java-%{name}
 Summary: Liberty Alliance Single Sign On (lasso) Java bindings
-BuildRequires: java-devel
+Buildrequires: java-1.8.0-openjdk-devel
 BuildRequires: jpackage-utils
 Requires: java-headless
 Requires: jpackage-utils
@@ -205,6 +196,7 @@ sed -i -E -e '/^#![[:blank:]]*(\/usr\/bin\/env[[:blank:]]+python[^3]?\>)|(\/usr\
   `grep -r -l -E '^#![[:blank:]]*(/usr/bin/python[^3]?)|(/usr/bin/env[[:blank:]]+python[^3]?)' *`
 
 %build
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
 ./autogen.sh
 %if 0%{?with_python2}
   %configure %{configure_args} --with-python=%{__python2}
@@ -315,6 +307,30 @@ rm -fr %{buildroot}%{_defaultdocdir}/%{name}
 %endif
 
 %changelog
+* Thu Aug 13 2020 Jakub Hrozek <jhrozek@redhat.com> - 2.6.1-7
+- Temporarily build with OpenJDK 8
+- upstream ticket for OpenJDK11 support: https://dev.entrouvert.org/issues/45876
+
+* Fri Aug 07 2020 Jeff Law <law@redhat.com> - 2.6.1-6
+- Revert last change.  I lost the patchfile and I can't reproduce the gcc-11
+  problem which almost certainly prompted it
+
+* Fri Aug 07 2020 Jeff Law <law@redhat.com> - 2.6.1-5
+- Fix format string problem
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.6.1-2
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Fri Jul 03 2020 Xavier Bachelot <xavier@bachelot.org> - 2.6.1-1
+- Update to 2.6.1
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.6.0-23
 - Perl 5.32 rebuild
 

@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        0.6.2
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        TUI system monitor written in Rust
 
 # Upstream license specification: MIT
@@ -15,6 +15,7 @@ URL:            https://crates.io/crates/ytop
 Source:         %{crates_source}
 # Initial patched metadata
 # * No MacOS
+# * Bump num-rational to 0.3
 Patch0:         ytop-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -61,6 +62,15 @@ License:        MIT and BSD and (ASL 2.0 or Boost)
 %endif
 
 %changelog
+* Sun Aug 16 15:01:54 GMT 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.6.2-4
+- Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Josh Stone <jistone@redhat.com> - 0.6.2-2
+- Bump num-rational to 0.3
+
 * Sun May 17 07:16:48 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.6.2-1
 - Update to 0.6.2
 

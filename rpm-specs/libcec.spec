@@ -3,8 +3,8 @@
 %endif
 
 Name:          libcec
-Version:       5.0.0
-Release:       3%{?dist}
+Version:       6.0.2
+Release:       1%{?dist}
 Summary:       Library and utilities for HDMI-CEC device control
 License:       GPLv2+
 URL:           http://libcec.pulse-eight.com/
@@ -59,10 +59,10 @@ rm -rf driver
 %build
 %cmake -DHAVE_LINUX_API=on .
 
-%{make_build}
+%cmake_build
 
 %install
-%{make_install}
+%cmake_install
 
 #Remove libtool archives.
 find %{buildroot} -name '*.la' -delete
@@ -93,6 +93,16 @@ mv %{buildroot}/%{_bindir}/cecc-client-%{version} %{buildroot}/%{_bindir}/cecc-c
 %endif
 
 %changelog
+* Wed Aug 26 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 6.0.2-1
+- Update to 6.0.2
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 02 2020 Charalampos Stratakis <cstratak@redhat.com> - 5.0.0-3
 - Improve python libs dir detection for pre-releases (#1791947)
 

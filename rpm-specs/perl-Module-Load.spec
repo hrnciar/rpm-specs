@@ -1,13 +1,14 @@
 Name:           perl-Module-Load
 # Epoch to compete with perl.spec
 Epoch:          1
-Version:        0.34
-Release:        456%{?dist}
+Version:        0.36
+Release:        1%{?dist}
 Summary:        Run-time require of both modules and files
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Module-Load
-Source0:        https://cpan.metacpan.org/authors/id/B/BI/BINGOS/Module-Load-%{version}.tar.gz
+Source0:        https://cpan.metacpan.org/modules/by-module/Module/Module-Load-%{version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -18,6 +19,7 @@ BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(warnings)
 # Tests:
 BuildRequires:  perl(Config)
+BuildRequires:  perl(Data::Dumper)
 BuildRequires:  perl(Exporter)
 BuildRequires:  perl(lib)
 BuildRequires:  perl(Test::More) >= 0.94
@@ -57,6 +59,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Sep 29 2020 Paul Howarth <paul@city-fan.org> - 1:0.36-1
+- 0.36 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.34-457
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1:0.34-456
 - Increase release to favour standalone package
 

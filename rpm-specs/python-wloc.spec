@@ -5,7 +5,7 @@
 
 Name: python-%{appname}
 Version: 0.4.0
-Release: 3%{?dist}
+Release: 5%{?dist}
 
 BuildArch: noarch
 Summary: %{appsum}
@@ -16,6 +16,7 @@ Source0: %{url}/archive/v%{version}/%{appname}-%{version}.tar.gz
 BuildRequires: python3dist(python-networkmanager)
 BuildRequires: python3dist(requests)
 BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 BuildRequires: doxygen
 
 %description
@@ -48,6 +49,12 @@ doxygen
 %{python3_sitelib}/%{appname}-*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 0.4.0-4
+- Added python3-setuptools to build requirements.
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.0-3
 - Rebuilt for Python 3.9
 

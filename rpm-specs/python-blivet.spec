@@ -19,11 +19,11 @@
 Summary:  A python module for system storage configuration
 Name: python-blivet
 Url: https://storageapis.wordpress.com/projects/blivet
-Version: 3.2.2
+Version: 3.3.1
 
 #%%global prerelease .b2
 # prerelease, if defined, should be something like .a1, .b1, .b2.dev1, or .c2
-Release: 2%{?prerelease}%{?dist}
+Release: 1%{?prerelease}%{?dist}
 Epoch: 1
 License: LGPLv2+
 %global realname blivet
@@ -179,18 +179,102 @@ configuration.
 %if %{with python2}
 %files -n python2-%{realname}
 %license COPYING
-%doc README ChangeLog examples
+%doc README.md ChangeLog examples
 %{python2_sitelib}/*
 %endif
 
 %if %{with python3}
 %files -n python3-%{realname}
 %license COPYING
-%doc README ChangeLog examples
+%doc README.md ChangeLog examples
 %{python3_sitelib}/*
 %endif
 
 %changelog
+* Tue Oct 20 2020 Vojtech Trefny <vtrefny@redhat.com> - 3.3.1-1
+- Make sure the product name is safe when using it for device name (vtrefny)
+- Run packit RPM builds on Fedora ELN (vtrefny)
+- Allow specifying 'mode' for the sdist command (vtrefny)
+- Enable packit RPM builds on pull requests (vtrefny)
+- Start the iscsi-init service (#1880673) (vponcova)
+- Let parted fix fixable issues with partition table (vtrefny)
+- edd: Fix UnboundLocalError when trying to close fd in collect_mbrs (vtrefny)
+- Use UnusableConfigurationError for partially hidden multipath devices (vtrefny)
+- Close fd if it fails to read the device (nashok)
+- Do not run udev.settle in StorageDevice._pre_teardown (vtrefny)
+- Try to not use udev.resolve_devspec when querying MountsCache (vtrefny)
+- Remove Zanata config file (vtrefny)
+- Ignore new pylint warning W0707 "raise-missing-from" (vtrefny)
+- Use SSH "link" for l10n repository in Makefile (vtrefny)
+- Fix source tarball cleanup in srpm and rpm Makefile targets (vtrefny)
+
+* Wed Sep 16 2020 Vojtech Trefny <vtrefny@redhat.com> - 3.3.0-2
+- Avoid using unnecessary udev.settle calls (#1876162)
+
+* Thu Aug 20 2020 Vojtech Trefny <vtrefny@redhat.com> - 3.3.0-1
+- Account for pmspare grow when adjusting thinpool metadata size (vtrefny)
+- Fix ignoring disk devices with parents or children (vtrefny)
+- Terminology cleanup, part 3 (vtrefny)
+- Terminology cleanups, part 2. (dlehman)
+- Clean up some terminology. (dlehman)
+- Add tests for udev.device_get_name for RAID devices (vtrefny)
+- Fix name resolution for MD devices and partitions on them (vtrefny)
+- Fix reading hidden sysfs attribute (vtrefny)
+- Add support for specifying sector size for LUKS 2 devices (vtrefny)
+- Do not ignore unknown/unsupported device mapper devices (vtrefny)
+- Allow specifying custom hash function for LUKS 2 format (vtrefny)
+- Ignore devices marked as hidden in sysfs (#1856974) (vtrefny)
+- Add basic F2FS support (#1794950) (vtrefny)
+- Make safe_device_name device type specific (vtrefny)
+- Add exFAT to filesystems we recognize (vtrefny)
+- Use xfs_db in read-only mode when getting XFS information (vtrefny)
+- Add support for checking and fixing XFS using xfs_repair (vtrefny)
+- Ignore zRAM devices in VMBackedTestCase (vtrefny)
+- Add tests for XFS resize (vtrefny)
+- Add support for XFS format grow (vtrefny)
+- Typo fix (vtrefny)
+- tests: Skip test_reset when running as non-root (vtrefny)
+- tests: Patch LVM availability functions for some tests (vtrefny)
+- tests: Patch LVM lvs call for some non-LVM tests (vtrefny)
+- Do not propagate ped exception from add_partition (vtrefny)
+- Do not use BlockDev.utils_have_kernel_module to check for modules (vtrefny)
+- set allowed disk labels for s390x as standard ones (msdos + gpt) plus dasd (dan)
+- Do not use FSAVAIL and FSUSE%% options when running lsblk (vtrefny)
+- Rewrite README and add it as a long_description in setup.py (vtrefny)
+- Round down to nearest MiB value when writing ks parittion info. (sbueno+anaconda)
+- Add _teardown method to IntegrityDevice (vtrefny)
+- Fix status for DM Integrity format (#1814005) (vtrefny)
+- udev: Add function to get list of device's holders (vtrefny)
+- Add basic support for LVM writecache devices (vtrefny)
+- Add test for SwapSpace max size (vtrefny)
+- Do not limit swap to 128 GiB (vtrefny)
+- Fix possible UnicodeDecodeError when reading model from sysfs (vtrefny)
+- Add install_requires and classifiers to setup.py (vtrefny)
+- Import setuptools in setup.py to make bdist_wheel work (vtrefny)
+- Set device.original_format to the new format in ActionCreateFormat (vtrefny)
+- Fix resizable property for partitions (vtrefny)
+- Update TODO. (dlehman)
+- Ignore pycodestyle warning E741 (vtrefny)
+- Skip test_mounting for filesystems that are not mountable (vtrefny)
+- Sync specfile with downstream (japokorn)
+- Make extended partitions resizable (vtrefny)
+- Fix LV min size for resize in test_action_dependencies (vtrefny)
+- Fix checking for filesystem support in action_test (vtrefny)
+- Add basic support for LVM VDO devices (vtrefny)
+- Update POT file in the Weblate repo during "make potfile" (vtrefny)
+- Skip translation canary check if POT file is not available (vtrefny)
+- Add blivet-weblate repository as a submodule (vtrefny)
+- Remove Zanata from our build process (vtrefny)
+- Remove po folder (vtrefny)
+- More consistent lvm errors (API break) (japokorn)
+- Added support for device tags (japokorn)
+
+* Wed Jul 29 2020 Vojtech Trefny <vtrefny@redhat.com> - 3.2.2-4
+- set allowed disk labels for s390x as standard ones (msdos + gpt) plus dasd
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:3.2.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1:3.2.2-2
 - Rebuilt for Python 3.9
 

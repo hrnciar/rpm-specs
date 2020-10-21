@@ -1,7 +1,7 @@
 Summary: Library for parsing IDL (Interface Definition Language)
 Name: libIDL
 Version: 0.8.14
-Release: 21%{?dist}
+Release: 22%{?dist}
 URL: http://ftp.gnome.org/pub/gnome/sources/libIDL/0.8/
 Source: http://download.gnome.org/sources/libIDL/0.8/%{name}-%{version}.tar.bz2
 Patch0: libIDL-0.8.6-multilib.patch
@@ -58,6 +58,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*a
 %{_infodir}/libIDL2.info.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.14-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.14-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

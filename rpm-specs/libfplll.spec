@@ -1,6 +1,9 @@
+# The ARM and s390x builders appear to run out of memory with LTO
+%global _lto_cflags %{nil}
+
 Name:           libfplll
-Version:        5.3.2
-Release:        2%{?dist}
+Version:        5.3.3
+Release:        3%{?dist}
 Summary:        LLL-reduces euclidean lattices
 License:        LGPLv2+
 URL:            https://github.com/fplll/fplll
@@ -118,6 +121,16 @@ LD_LIBRARY_PATH=$PWD/src/.libs make check
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul  1 2020 Jerry James <loganjerry@gmail.com> - 5.3.3-1
+- Version 5.3.3
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

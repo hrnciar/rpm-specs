@@ -1,6 +1,6 @@
 Name:           deepin-gettext-tools
 Version:        1.0.8
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Deepin Gettext Tools
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/deepin-gettext-tools
@@ -60,6 +60,9 @@ install -m755 src/update_pot.py %{buildroot}%{_bindir}/deepin-update-pot
 %{_bindir}/deepin-generate-mo
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.8-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.8-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

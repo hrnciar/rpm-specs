@@ -6,7 +6,7 @@
 
 Name:           xfce4-diskperf-plugin
 Version:        2.6.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Disk performance plugin for the Xfce panel
 
 License:        BSD
@@ -54,6 +54,9 @@ chmod -c +x %{buildroot}%{_libdir}/xfce4/panel/plugins/*.so
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

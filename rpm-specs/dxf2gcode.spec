@@ -6,7 +6,7 @@
 
 Name:           dxf2gcode
 Version:        %{date}
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        2D drawings to CNC machine compatible G-Code converter
 License:        GPLv3+ and MIT
 Url:            https://sourceforge.net/p/dxf2gcode/wiki/Home/
@@ -79,6 +79,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/metainfo/*.appdat
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20191025-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 20191025-3
 - Rebuilt for Python 3.9
 

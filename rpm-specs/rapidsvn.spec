@@ -2,7 +2,7 @@
 
 Name:           rapidsvn
 Version:        0.13.0
-Release:        0.20181128git%{gitsnap}%{?dist}
+Release:        0.20181131git%{gitsnap}%{?dist}
 Summary:        Graphical interface for the Subversion revision control system
 
 License:        GPLv3+
@@ -74,6 +74,8 @@ Version=0.9.4
 EOF
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
+
 # The upstream Makefile is currently set up for OS/X and tries to use an old
 # version of Python-native msgfmt.py, which doesn't work with Python3. Instead,
 # we switch back to using the gettext version of 'msgfmt'
@@ -150,6 +152,16 @@ rm -f %{buildroot}%{_libdir}/librapidsvn.so
 %{_libdir}/libsvncpp.so
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-0.20181131git1b6dfc1
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-0.20181130git1b6dfc1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 0.13.0-0.20181129git1b6dfc1
+- Force C++14 as this code is not C++17 ready
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.13.0-0.20181128git1b6dfc1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

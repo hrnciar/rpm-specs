@@ -1,6 +1,6 @@
 Name:           npth
 Version:        1.6
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        The New GNU Portable Threads library
 License:        LGPLv2+
 URL:            https://git.gnupg.org/cgi-bin/gitweb.cgi?p=npth.git
@@ -57,6 +57,9 @@ make check
 %{_datadir}/aclocal/%{name}.m4
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

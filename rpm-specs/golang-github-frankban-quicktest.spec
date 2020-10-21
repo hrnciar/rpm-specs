@@ -3,7 +3,7 @@
 
 # https://github.com/frankban/quicktest
 %global goipath         github.com/frankban/quicktest
-Version:                1.7.2
+Version:                1.10.1
 
 %gometa
 
@@ -38,12 +38,24 @@ BuildRequires:  golang(github.com/kr/pretty)
 
 %if %{with check}
 %check
+# https://github.com/frankban/quicktest/issues/74
+rm report_test.go
 %gocheck
 %endif
 
 %gopkgfiles
 
 %changelog
+* Sun Aug 23 12:24:44 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.10.1-1
+- Update to 1.10.1
+- Workaround FTBFS until fixed upstream
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 17:42:23 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.10.0-1
+- Update to 1.10.0
+
 * Mon Feb 17 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.7.2-1
 - Update to latest version
 

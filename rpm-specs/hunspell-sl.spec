@@ -2,7 +2,7 @@ Name: hunspell-sl
 Summary: Slovenian hunspell dictionaries
 %global upstreamid 20070127
 Version: 0.%{upstreamid}
-Release: 22%{?dist}
+Release: 23%{?dist}
 Source: http://download.services.openoffice.org/contrib/dictionaries/sl_SI.zip
 URL: http://ftp.services.openoffice.org/pub/OpenOffice.org/contrib/dictionaries/
 License: GPL+ or LGPLv2+
@@ -30,6 +30,9 @@ cp -p *.dic *.aff $RPM_BUILD_ROOT/%{_datadir}/myspell
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20070127-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20070127-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

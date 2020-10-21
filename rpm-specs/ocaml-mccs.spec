@@ -2,7 +2,7 @@
 
 Name:           ocaml-mccs
 Version:        1.1
-Release:        26.%{extraver}%{?dist}
+Release:        30.%{extraver}%{?dist}
 Summary:        Multi Criteria CUDF Solver with OCaml bindings
 
 %global libname %(echo %{name} | sed -e 's/^ocaml-//')
@@ -19,6 +19,7 @@ Source0:        https://github.com/AltGr/ocaml-mccs/archive/%{version}+%{extrave
 # Hacky workaround for:
 # https://lists.fedoraproject.org/archives/list/devel@lists.fedoraproject.org/thread/M2VM5DNB7HSAJIFDGT4WAIZDA5JPE5KM/
 Patch1:         ocaml-mccs-1.1-c++-flags.patch
+Patch2:         ocaml-mccs-gcc11.patch
 
 BuildRequires:  ocaml
 BuildRequires:  ocaml-dune
@@ -79,6 +80,18 @@ cp -aLr _build/install/default/lib/* %{buildroot}%{_libdir}/ocaml/
 %{_libdir}/ocaml/*/*.mli
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.1-30.11
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.1-29.11
+- OCaml 4.11.0 rebuild
+
+* Wed Jul 29 2020 Jeff Law <law@redha.com> - 1.1-27.12
+- Make comparison object be invocable as const
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-27.11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Richard W.M. Jones <rjones@redhat.com> - 1.1-26.11
 - Rebuild for updated ocaml-extlib (RHBZ#1837823).
 

@@ -1,9 +1,9 @@
-%global hash 5ab8724
-%global snapshotdate 20200611
+%global hash 19eab9e
+%global snapshotdate 20200806
 
 Name: cros-guest-tools		
 Version: 1.0
-Release: 0.35.%{snapshotdate}git%{hash}%{?dist}
+Release: 0.39.%{snapshotdate}git%{hash}%{?dist}
 Summary: Chromium OS integration meta package
 
 License: BSD	
@@ -33,6 +33,7 @@ Recommends: xz
 %if 0%{?fedora}
 Requires: cros-adapta = %{version}-%{release}
 %endif
+Requires: cros-logging = %{version}-%{release}
 Requires: cros-garcon = %{version}-%{release}
 Requires: cros-host-fonts = %{version}-%{release}
 Requires: cros-notificationd = %{version}-%{release}
@@ -65,6 +66,16 @@ systemctl mask systemd-journald-audit.socket
 if [ $1 -eq 0 ] ; then
 systemctl unmask systemd-journald-audit.socket
 fi
+
+%package -n cros-logging
+Summary: Journald config for Chromium OS integration
+Requires: systemd
+BuildArch: noarch
+
+%description -n cros-logging
+This package installs configuration for logging integration
+with Chrome OS so e.g. filing feedback reports can collect
+error logs from within the container.
 
 %if 0%{?fedora}
 %package -n cros-adapta
@@ -116,6 +127,12 @@ BuildArch: noarch
 
 %description -n cros-notificationd
 This package installs D-Bus on-demand service specification for notificationd.
+
+%post -n cros-notificationd
+%systemd_user_post cros-notificationd.service
+
+%preun -n cros-notificationd
+%systemd_user_preun cros-notificationd.service
 
 %package -n cros-pulse-config
 Summary: PulseAudio helper for Chromium OS integration.
@@ -231,6 +248,7 @@ mkdir -p %{buildroot}%{_sysconfdir}/polkit-1/localauthority/50-local.d
 mkdir -p %{buildroot}%{_sysconfdir}/xdg
 mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 mkdir -p %{buildroot}%{_sysconfdir}/skel/.config/pulse
+mkdir -p %{buildroot}%{_sysconfdir}/tmpfiles.d
 mkdir -p %{buildroot}%{_udevrulesdir}
 mkdir -p %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}%{_userunitdir}
@@ -284,7 +302,8 @@ install -m 644 cros-sommelier-config/cros-sommelier-override.conf %{buildroot}%{
 install -m 644 cros-sommelier-config/cros-sommelier-x-override.conf %{buildroot}%{_userunitdir}/sommelier-x@0.service.d/cros-sommelier-x-override.conf
 install -m 644 cros-sommelier-config/cros-sommelier-low-density-override.conf %{buildroot}%{_userunitdir}/sommelier@1.service.d/cros-sommelier-low-density-override.conf
 install -m 644 cros-sommelier-config/cros-sommelier-low-density-override.conf %{buildroot}%{_userunitdir}/sommelier-x@1.service.d/cros-sommelier-low-density-override.conf
-
+install -m 644 cros-notificationd/cros-notificationd.service %{buildroot}%{_userunitdir}/cros-notificationd.service
+install -m 644 cros-logging/00-create-logs-dir.conf %{buildroot}%{_sysconfdir}/tmpfiles.d/00-create-logs-dir.conf
 sed -i 's/OnlyShowIn=Never/OnlyShowIn=X-Never/g' cros-garcon/garcon_host_browser.desktop
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications cros-garcon/garcon_host_browser.desktop
 
@@ -307,6 +326,11 @@ echo "fi" >> %{buildroot}%{_sysconfdir}/profile.d/sommelier.sh
 %doc README.md
 %endif
 
+%files -n cros-logging
+%license LICENSE
+%doc README.md
+%{_sysconfdir}/tmpfiles.d/00-create-logs-dir.conf
+
 %files -n cros-garcon
 %{_bindir}/garcon-terminal-handler
 %{_bindir}/garcon-url-handler
@@ -325,6 +349,7 @@ echo "fi" >> %{buildroot}%{_sysconfdir}/profile.d/sommelier.sh
 
 %files -n cros-notificationd
 %{_datarootdir}/dbus-1/services/org.freedesktop.Notifications.service
+%{_userunitdir}/cros-notificationd.service
 %license LICENSE
 %doc README.md
 
@@ -383,6 +408,18 @@ echo "fi" >> %{buildroot}%{_sysconfdir}/profile.d/sommelier.sh
 %doc README.md
 
 %changelog
+* Thu Aug 06 2020 Jason Montleon jmontleo@redhat.com - 1.0-0.39.20200806git19eab9e
+- Fix changelog error
+
+* Thu Aug 06 2020 Jason Montleon jmontleo@redhat.com - 1.0-0.38.20200806git19eab9e
+- Update to master 19eab9e
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.37.20200716git74ea274
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 16 2020 Jason Montleon jmontleo@redhat.com - 1.0-0.36.20200716git74ea274
+- Update to master 74ea274
+
 * Thu Jun 11 2020 Jason Montleon jmontleo@redhat.com - 1.0-0.35.20200611git5ab8724
 - Update to master 5ab8724
 

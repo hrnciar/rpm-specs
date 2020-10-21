@@ -1,6 +1,6 @@
 Name:           rnv
 Version:        1.7.11
-Release:        19%{?dist}
+Release:        21%{?dist}
 Summary:        Implementation of Relax NG Compact Syntax validator in ANSI C
 
 License:        BSD
@@ -82,6 +82,13 @@ install -m644 %SOURCE4 %{buildroot}%{_datadir}/appdata/vim-rnv.metainfo.xml
 %{_datadir}/appdata/vim-rnv.metainfo.xml
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.11-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.11-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.11-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

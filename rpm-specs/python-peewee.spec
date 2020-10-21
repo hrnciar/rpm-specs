@@ -2,7 +2,7 @@
 
 Name:		python-%{pypi_name}
 Version:	3.13.3
-Release:	2%{?dist}
+Release:	4%{?dist}
 Summary:	A small, expressive orm
 
 License:	MIT
@@ -87,6 +87,12 @@ mv %{buildroot}%{_bindir}/{pwiz.py,pwiz}
 %{_bindir}/pwiz
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.13.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Viliam Krizan <vkrizan@redhat.com> - 3.13.3-3
+- Replaced Python version globs with macros to support 3.10
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.13.3-2
 - Rebuilt for Python 3.9
 

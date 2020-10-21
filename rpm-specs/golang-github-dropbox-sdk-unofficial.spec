@@ -3,7 +3,7 @@
 
 # https://github.com/dropbox/dropbox-sdk-go-unofficial
 %global goipath         github.com/dropbox/dropbox-sdk-go-unofficial
-Version:                5.4.0
+Version:                5.6.0
 
 %gometa
 
@@ -14,7 +14,7 @@ An unofficial Go SDK for integrating with the Dropbox API v2.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Unofficial Dropbox v2 API SDK for Go
 
 License:        MIT
@@ -43,6 +43,12 @@ BuildRequires:  golang(golang.org/x/oauth2)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 15:06:45 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 5.6.0-1
+- Update to 5.6.0
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.4.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

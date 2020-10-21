@@ -2,23 +2,26 @@
 
 %global gettext_version 0.19.8
 %define glib2_version 2.52.0
-%define gtk3_version 3.22.27
-%define vte_version 0.60.1
+%define gtk3_version 3.24.0
+%define vte_version 0.62.1
 %define desktop_file_utils_version 0.2.90
 
 Name: gnome-terminal
-Version: 3.36.1.1
-Release: 2%{?dist}
+Version: 3.38.1
+Release: 1%{?dist}
 Summary: Terminal emulator for GNOME
 
 License: GPLv3+ and GFDL and LGPLv2+
 URL: http://www.gnome.org/
-Source0: http://download.gnome.org/sources/gnome-terminal/3.36/gnome-terminal-%{version}.tar.xz
+Source0: http://download.gnome.org/sources/gnome-terminal/3.38/gnome-terminal-%{version}.tar.xz
 Source1: org.gnome.Terminal.gschema.override
+
+Patch0:  gnome-terminal-backports-from-upstream.patch
 
 Patch100: gnome-terminal-cntr-ntfy-autottl-ts.patch
 Patch101: 0001-build-Don-t-treat-warnings-as-errors.patch
 
+BuildRequires: docbook-style-xsl
 BuildRequires: glib2-devel >= %{glib2_version}
 BuildRequires: gtk3-devel >= %{gtk3_version}
 BuildRequires: gsettings-desktop-schemas-devel
@@ -29,6 +32,7 @@ BuildRequires: autoconf automake libtool
 BuildRequires: itstool
 BuildRequires: dconf-devel
 BuildRequires: libuuid-devel
+BuildRequires: libxslt
 BuildRequires: nautilus-devel
 BuildRequires: gnome-shell
 BuildRequires: pcre2-devel
@@ -59,6 +63,7 @@ option to the right-click context menu in Nautilus.
 
 %prep
 %setup -q
+%patch0 -p1 -b .backports
 %patch100 -p1 -b .cntr-ntfy-autottl-ts
 %patch101 -p1 -b .warnings
 
@@ -100,6 +105,7 @@ make check
 %{_datadir}/gnome-shell
 %{_datadir}/icons/hicolor/scalable/apps/org.gnome.Terminal.svg
 %{_datadir}/icons/hicolor/symbolic/apps/org.gnome.Terminal-symbolic.svg
+%{_datadir}/man/man1/gnome-terminal.1*
 %{_userunitdir}/gnome-terminal-server.service
 
 %files nautilus
@@ -107,6 +113,30 @@ make check
 %{_datadir}/metainfo/org.gnome.Terminal.Nautilus.metainfo.xml
 
 %changelog
+* Mon Oct 12 2020 Debarshi Ray <rishi@fedoraproject.org> - 3.38.1-1
+- Update to 3.38.1
+- Backport yet-to-be-released patches from upstream
+
+* Sat Sep 26 2020 Debarshi Ray <rishi@fedoraproject.org> - 3.38.0-1
+- Update to 3.38.0
+- Rebase the patches
+- Backport yet-to-be-released patches from upstream
+
+* Sat Sep 26 2020 Debarshi Ray <rishi@fedoraproject.org> - 3.37.90-1
+- Update to 3.37.90
+- Rebase the patches
+
+* Fri Sep 25 2020 Debarshi Ray <rishi@fedoraproject.org> - 3.36.2-1
+- Update to 3.36.2
+- Rebase the patches
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.1.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.36.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Debarshi Ray <rishi@fedoraproject.org> - 3.36.1.1-2
 - Enable debugging
 

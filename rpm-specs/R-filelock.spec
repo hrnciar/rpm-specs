@@ -4,7 +4,7 @@
 
 Name:             R-%{packname}
 Version:          1.0.2
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          Portable File Locking
 
 License:          MIT
@@ -66,5 +66,11 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.0.2-2
+- Rebuild for R 4
+
 * Sun May 24 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.0.2-1
 - initial package for Fedora

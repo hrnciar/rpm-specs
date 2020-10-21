@@ -1,6 +1,6 @@
 Name:           perl-Module-Install
 Version:        1.19
-Release:        13%{?dist}
+Release:        15%{?dist}
 Summary:        Standalone, extensible Perl module installer
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Module-Install
@@ -129,6 +129,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.19-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.19-14
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.19-13
 - Perl 5.32 rebuild
 

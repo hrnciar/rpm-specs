@@ -2,8 +2,8 @@
 %global commit_hx3compat f1f18201e5c0479cb5adf5f6028788b37f37b730
 
 Name:           haxe
-Version:        4.1.2
-Release:        1%{?dist}
+Version:        4.1.3
+Release:        6%{?dist}
 Summary:        Multi-target universal programming language
 
 # As described in https://haxe.org/foundation/open-source.html:
@@ -71,8 +71,8 @@ pushd extra/haxelib_src/hx3compat && tar -xf %{SOURCE2} --strip-components=1 && 
 make
 
 # Compile haxelib
-pushd extra/haxelib_src && %cmake . && %make_build && popd
-cp extra/haxelib_src/haxelib haxelib
+%cmake -S extra/haxelib_src -DHAXE_COMPILER="$(realpath haxe)" -DCMAKE_BINARY_DIR="$(pwd)"
+%cmake_build
 
 chmod 755 haxe haxelib
 
@@ -112,6 +112,25 @@ popd
 %{_datadir}/%{name}/
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 4.1.3-6
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 4.1.3-5
+- OCaml 4.11.0 rebuild
+
+* Thu Jul 30 2020 Richard W.M. Jones <rjones@redhat.com> - 4.1.3-4
+- Enable debuginfo again.
+
+* Thu Jul 30 2020 Andy Li <andy@onthewings.net> - 4.1.3-3
+- Disable debug package. (Empty debugsourcefiles.list)
+- Do not strip since haxelib fails to run after stripping.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 26 2020 Andy Li <andy@onthewings.net> - 4.1.3-1
+- New upstream version 4.1.3. (RHBZ#1859658)
+
 * Sat Jun 20 2020 Andy Li <andy@onthewings.net> - 4.1.2-1
 - New upstream version 4.1.2. (RHBZ#1849186)
 

@@ -1,6 +1,6 @@
 Name:           GtkAda
 Version:        2.24.2
-Release:        33%{?dist}
+Release:        35%{?dist}
 Summary:        GTKada 2, an Ada binding to GTK+ 2
 Summary(sv):    GTKada 2, en adabindning till GTK+ 2
 License:        GPLv2+
@@ -174,6 +174,10 @@ recode ISO-8859-1..UTF-8 testgtk/opengl/lw.[hc]
 
 
 %build
+# This package triggers a GCC failure when building with LTO.  Disable
+# LTO for now.  fld_incomplete_type_of, at tree.c:5371
+%define _lto_cflags %{nil}
+
 %{configure} --enable-build=Debuginfo --disable-subdirs --disable-static
 make src "GPRbuild_optflags=%{GPRbuild_optflags}"
 
@@ -250,6 +254,12 @@ install --mode=u=rw,go=r,a-s --preserve-timestamps COPYING %{buildroot}%{_licens
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.24.2-35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jeff Law <law@redhat.com> - 2.24.2-34
+- Disable LTO
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.24.2-33
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

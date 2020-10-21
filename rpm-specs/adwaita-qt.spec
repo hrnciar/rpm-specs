@@ -1,82 +1,94 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 Name:           adwaita-qt
-Version:        1.1.3
-Release:        2%{?dist}
-License:        LGPLv2+
+Version:        1.1.90
+Release:        1%{?dist}
+License:        LGPLv2+ and GPLv2+
 Summary:        Adwaita theme for Qt-based applications
 
 Url:            https://github.com/FedoraQt/adwaita-qt
 Source0:        https://github.com/FedoraQt/adwaita-qt/archive/%{version}/adwaita-qt-%{version}.tar.gz
 
-Patch0:         adwaita-qt-views-do-not-set-colors-to-views-with-custom-colors.patch
+Patch0:         adwaita-qt-upstream-fixes.patch
 
 BuildRequires:  cmake
-BuildRequires:  qt4-devel
 
 BuildRequires:  qt5-qtbase-devel
+BuildRequires:  qt5-qtx11extras-devel
 
-Requires:       adwaita-qt4
+BuildRequires:  libxcb-devel
+
+Obsoletes:      adwaita-qt4 < 1.1.90
+Obsoletes:      adwaita-qt-common < 1.1.90
+
+Requires:       adwaita-qt5
 
 %description
 Theme to let Qt applications fit nicely into Fedora Workstation
 
-
-%package -n adwaita-qt4
-Summary:        Adwaita Qt4 theme
-
-%description -n adwaita-qt4
-Adwaita theme variant for applications utilizing Qt4
-
-
+# Use -qt5 naming in case we provide -qt6 version in the future
 %package -n adwaita-qt5
 Summary:        Adwaita Qt5 theme
+Requires:       libadwaita-qt5%{?_isa} = %{version}-%{release}
 
 %description -n adwaita-qt5
-Adwaita theme variant for applications utilizing Qt5
+Adwaita theme variant for applications utilizing Qt5.
 
+%package -n libadwaita-qt5
+Summary:        Adwaita Qt5 library
 
-%package -n adwaita-qt-common
-Summary:        Adwaita Qt common files
+%description -n libadwaita-qt5
+%{summary}.
 
-%description -n adwaita-qt-common
+%package -n libadwaita-qt5-devel
+Summary:        Development files for libadwaita-qt5
+Requires:       libadwaita-qt5%{?_isa} = %{version}-%{release}
 
+%description -n libadwaita-qt5-devel
+The libadwaita-qt5-devel package contains libraries and header files for
+developing applications that use libadwaita-qt5.
 
 %prep
 %autosetup -n %{name}-%{version} -p1
 
 %build
-mkdir -p "%{_target_platform}-qt4"
-pushd "%{_target_platform}-qt4"
-%{cmake} -DUSE_QT4=true ..
-popd
+%cmake
 
-mkdir -p "%{_target_platform}-qt5"
-pushd "%{_target_platform}-qt5"
-%{cmake} ..
-popd
-
-make %{?_smp_mflags} -C "%{_target_platform}-qt4"
-make %{?_smp_mflags} -C "%{_target_platform}-qt5"
-
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C "%{_target_platform}-qt4"
-make install/fast DESTDIR=%{buildroot} -C "%{_target_platform}-qt5"
-
-
-%files -n adwaita-qt4
-%doc LICENSE.LGPL2 README.md
-%{_qt4_plugindir}/styles/adwaita.so
+%cmake_install
 
 %files -n adwaita-qt5
 %doc LICENSE.LGPL2 README.md
 %{_qt5_plugindir}/styles/adwaita.so
 
-%files -n adwaita-qt-common
+%files -n libadwaita-qt5
+%{_libdir}/libadwaitaqt.so.*
+%{_libdir}/libadwaitaqtpriv.so.*
 
-%files
+%files -n libadwaita-qt5-devel
+%dir %{_includedir}/AdwaitaQt
+%{_includedir}/AdwaitaQt/*.h
+%dir %{_libdir}/cmake/AdwaitaQt
+%{_libdir}/cmake/AdwaitaQt/*.cmake
+%{_libdir}/pkgconfig/adwaita-qt.pc
+%{_libdir}/libadwaitaqt.so
+%{_libdir}/libadwaitaqtpriv.so
 
 %changelog
-* Tue May 20 2020 Jan Grulich <jgrulich@redhat.com> - 1.1.3-2
+* Wed Sep 30 2020 Jan Grulich <jgrulich@redhat.com> - 1.1.90-1
+- 1.1.90
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed May 20 2020 Jan Grulich <jgrulich@redhat.com> - 1.1.3-2
 - Views: do not set color to views which don't use our palette
 
 * Fri May 15 2020 Jan Grulich <jgrulich@redhat.com> - 1.1.3-1

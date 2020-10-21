@@ -1,11 +1,10 @@
 Name: htop
-Version: 2.2.0
-Release: 8%{?dist}
+Version: 3.0.2
+Release: 1%{?dist}
 Summary: Interactive process viewer
 License: GPLv2+
 URL: http://hisham.hm/htop/
-Source0: http://hisham.hm/htop/releases/%{version}/%{name}-%{version}.tar.gz
-Patch0: %{name}-gcc10.patch
+Source0: https://github.com/htop-dev/htop/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
 BuildRequires: desktop-file-utils
 BuildRequires: ncurses-devel
@@ -23,7 +22,6 @@ top(1).
 
 %prep
 %autosetup
-sed -i s#"INSTALL_DATA = @INSTALL_DATA@"#"INSTALL_DATA = @INSTALL_DATA@ -p"# Makefile.in
 %if 0%{?rhel} >= 8
 pathfix.py -pni "/usr/libexec/platform-python" scripts/
 %endif
@@ -34,6 +32,8 @@ pathfix.py -pni "/usr/libexec/platform-python" scripts/
 sed -i 's/hvCst:/hvCts/' htop.c
 
 %build
+autoreconf -vfi
+
 %configure \
 	--enable-openvz \
 	--enable-vserver \
@@ -57,6 +57,18 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %{_mandir}/man1/htop.1*
 
 %changelog
+* Tue Sep 22 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 3.0.2-1
+- Update to 3.0.2
+
+* Thu Sep 03 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 3.0.1-1
+- Update to 3.0.1
+
+* Tue Sep 01 2020 Jozef Mlich <imlich@fit.vutbr.cz> - 3.0.0-1
+- see release notes at https://www.freelists.org/post/htop/htop300-released
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 04 2020 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 2.2.0-8
 - Add patch to build against gcc-10
 

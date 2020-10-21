@@ -4,7 +4,7 @@
 
 Name:           mingw-%{pkgname}
 Version:        1.3.0
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        MinGW Windows %{pkgname} library
 BuildArch:      noarch
 
@@ -138,6 +138,9 @@ MINGW_BUILDDIR_SUFFIX=py3 %mingw_make DESTDIR=%{buildroot} install
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Sandro Mani <manisandro@gmail.com> - 1.3.0-12
 - Rebuild (python-3.9)
 

@@ -6,7 +6,7 @@
 
 Name: python-%{srcname}
 Version: 0.8.2
-Release: 9%{?dist}
+Release: 11%{?dist}
 Summary: Open source control for Belkin WeMo devices
 
 License: BSD and ASL 2.0 and MIT
@@ -25,6 +25,9 @@ Patch2:  python-ouimeaux-move-statechange.patch
 
 # https://github.com/iancmcc/ouimeaux/commit/531c9d2c12d11ddaa6a5eaf2f87d5afc386f1d9a.patch
 Patch3: python-ouimeaux-jquery.patch
+
+# https://github.com/iancmcc/ouimeaux/commit/40cdcf352cc883bfc815c1a7a15aeb5520a63aaa.patch
+Patch4: python-ouimeaux-getchildren.patch
 
 BuildArch: noarch
 BuildRequires: python3-devel
@@ -109,6 +112,12 @@ install -pm 0644 %{SOURCE2} %{buildroot}%{fw_services}/
 %{fw_services}/%{srcname}.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jul 05 2020 Andrew Bauer <zonexpertconsulting@outlook.com> - 0.8.2-10
+- ElementTree getchildren method deprecated. Use list instead.
+
 * Mon Jun 22 2020 Andrew Bauer <zonexpertconsulting@outlook.com> - 0.8.2-9
 - Patch3 was missing in last build
 

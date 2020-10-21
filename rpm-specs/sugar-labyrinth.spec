@@ -4,7 +4,7 @@
 
 Name:		sugar-labyrinth
 Version:	16
-Release:        13%{?dist}
+Release:        15%{?dist}
 Summary:        A lightweight mind-mapping activity for Sugar
 
 License:        GPLv2+
@@ -61,6 +61,13 @@ rm $RPM_BUILD_ROOT/%{_datadir}/sugar/activities/Labyrinth.activity/port/TODO
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16-15
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 16-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

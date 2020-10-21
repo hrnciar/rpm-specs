@@ -14,7 +14,7 @@ Fetch many paths for many hosts without killing the hosts.}
 %global godocs          README.mkd
 
 Name:           meg
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Fetch many paths for many hosts
 
 License:        MIT
@@ -52,6 +52,9 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.2.4-1
 - Initial package
 

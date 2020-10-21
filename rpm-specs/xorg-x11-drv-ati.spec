@@ -13,7 +13,7 @@
 Summary:   Xorg X11 ati video driver
 Name:      xorg-x11-drv-ati
 Version:   19.1.0
-Release:   1%{?gver}%{?dist}
+Release:   2%{?gver}%{?dist}
 URL:       http://www.x.org
 License:   MIT
 
@@ -65,6 +65,9 @@ find $RPM_BUILD_ROOT -regex ".*\.la$" | xargs rm -f --
 %{_datadir}/X11/xorg.conf.d/10-radeon.conf
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 19.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Michel Dänzer <mdaenzer@redhat.com> - 19.1.0-1
 - ati 19.1.0
 - Drop patch 0001-dri3-Always-flush-glamor-before-sharing-pixmap-stora.patch,

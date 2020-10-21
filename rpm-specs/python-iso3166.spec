@@ -6,7 +6,7 @@ codes and the corresponding country name.
 
 Name:           python-%{srcname}
 Version:        1.0.1
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Self-contained ISO 3166-1 country definitions
 
 License:        MIT
@@ -14,7 +14,8 @@ URL:            https://github.com/deactivated/%{name}/
 Source0:        %{pypi_source}
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-pytest
+BuildRequires:  %{py3_dist pytest}
+BuildRequires:  %{py3_dist setuptools}
 BuildArch:      noarch
 
 %description
@@ -42,7 +43,7 @@ Summary:        %{summary}
 
 
 %check
-PYTHONPATH=$PWD py.test-%{python3_version}
+%pytest
 
 
 %files -n python3-%{srcname}
@@ -53,6 +54,13 @@ PYTHONPATH=$PWD py.test-%{python3_version}
 
 
 %changelog
+* Tue Oct 06 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 1.0.1-5
+- Add BuildRequires on python3-setuptools
+- Spec cleanup
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.0.1-3
 - Rebuilt for Python 3.9
 

@@ -1,7 +1,7 @@
 %global pkgname martian
 Name:          python-%{pkgname}
 Version:       0.15
-Release:       11%{?dist}
+Release:       12%{?dist}
 Summary:       A library to grok configuration from Python code
 License:       ZPLv2.1
 URL:           https://pypi.python.org/pypi/%{pkgname}
@@ -55,6 +55,9 @@ rm src/%{pkgname}/testing_compat3.py
 %{python3_sitelib}/%{pkgname}-*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.15-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.15-11
 - Rebuilt for Python 3.9
 

@@ -3,7 +3,7 @@
 
 Name:             jboss-logging
 Version:          3.4.1
-Release:          2%{?dist}
+Release:          5%{?dist}
 Summary:          The JBoss Logging Framework
 License:          ASL 2.0
 
@@ -13,8 +13,8 @@ Source0:          %{url}/archive/%{namedversion}/%{name}-%{namedversion}.tar.gz
 BuildArch:        noarch
 
 BuildRequires:    maven-local
-BuildRequires:    mvn(log4j:log4j:1.2.16)
 BuildRequires:    mvn(org.apache.felix:maven-bundle-plugin)
+BuildRequires:    mvn(org.apache.logging.log4j:log4j-1.2-api)
 BuildRequires:    mvn(org.apache.logging.log4j:log4j-api)
 BuildRequires:    mvn(org.jboss:jboss-parent:pom:)
 BuildRequires:    mvn(org.jboss.logmanager:jboss-logmanager)
@@ -35,6 +35,9 @@ This package contains the API documentation for %{name}.
 # Unneeded task
 %pom_remove_plugin :maven-source-plugin
 
+# switch from log4j 1.2 compat package to log4j 1.2 API shim
+%pom_change_dep log4j:log4j org.apache.logging.log4j:log4j-1.2-api
+
 cp -p src/main/resources/META-INF/LICENSE.txt .
 sed -i 's/\r//' LICENSE.txt
 
@@ -51,6 +54,15 @@ sed -i 's/\r//' LICENSE.txt
 %license LICENSE.txt
 
 %changelog
+* Wed Sep 09 2020 Fabio Valentini <decathorpe@gmail.com> - 3.4.1-5
+- Switch from log4j 1.2 compat package to log4j 1.2 API shim.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.4.1-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -9,7 +9,7 @@
 
 Name:		kubernetes-ansible
 Version:	0.7.0
-Release:	0.11.git%{shortcommit}%{?dist}
+Release:	0.12.git%{shortcommit}%{?dist}
 Summary:	Playbook and set of roles for seting up a Kubernetes cluster onto machines
 License:	ASL 2.0
 URL:		https://%{provider_prefix}
@@ -73,6 +73,9 @@ popd
 %{_datadir}/%{name}/vagrant
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-0.12.git1958461
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.0-0.11.git1958461
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

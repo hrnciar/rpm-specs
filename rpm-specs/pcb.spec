@@ -4,7 +4,7 @@
 
 Name:           pcb
 Version:        %{pcbver}
-Release:        5%{?dist}
+Release:        6%{?dist}
 
 Summary:        An interactive printed circuit board editor
 License:        GPLv2+
@@ -170,6 +170,9 @@ mv %{buildroot}%{_pkgdocdir}/refcard.pdf %{buildroot}%{_pkgdocdir}/pcb-reference
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.2.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 25 2020 Jeff Law <law@redhat.com> - 4.2.0-5
 - Touch pcb.pdf pcb.info pcb.html after the main build is complete so
   that they don't need rebuilding if %configure changes any configure files

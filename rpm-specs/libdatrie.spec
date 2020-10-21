@@ -1,6 +1,6 @@
 Name:           libdatrie
 Version:        0.2.9
-Release:        11%{?dist}
+Release:        13%{?dist}
 Summary:        Implementation of Double-Array structure for representing trie
 License:        LGPLv2+
 URL:            http://linux.thai.net/projects/datrie
@@ -61,9 +61,15 @@ LD_LIBRARY_PATH=../datrie/.libs %make_build check
 %{_libdir}/pkgconfig/datrie-0.2.pc
 %{_bindir}/trietool*
 %{_mandir}/man1/trietool*
-%{_pkgdocdir}-devel/*.{html,css,png,js}
+%{_pkgdocdir}-devel/*.{html,css,png,js,svg}
 
 %changelog
+* Wed Oct 14 2020 Peng Wu <pwu@redhat.com> - 0.2.9-13
+- Fixes FTBFS
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.9-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.9-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

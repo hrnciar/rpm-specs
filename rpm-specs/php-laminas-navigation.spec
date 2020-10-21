@@ -20,7 +20,7 @@
 
 Name:           php-%{gh_project}
 Version:        2.9.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        %{namespace} Framework %{library} component
 
 License:        BSD
@@ -209,6 +209,9 @@ exit $ret
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.9.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,7 +1,7 @@
 %define tarname Perl6-Junction
 Name:           perl-Perl6-Junction
 Version:        1.60000
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Perl6 style Junction operators in Perl5
 
 License:        GPL+ or Artistic
@@ -54,6 +54,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.60000-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.60000-19
 - Perl 5.32 rebuild
 

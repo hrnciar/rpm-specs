@@ -1,6 +1,6 @@
 Name:           nekovm
 Version:        2.3.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Neko embedded scripting language and virtual machine
 
 License:        LGPLv2+
@@ -75,16 +75,15 @@ ulimit -s unlimited
     -DRELOCATABLE=OFF \
     -DRUN_LDCONFIG=OFF \
     -DCMAKE_INSTALL_LIBDIR:PATH=%{_lib}
-
-%ninja_build
+%cmake_build
 
 
 %check
-%ninja_test
+%ninja_test -C "%{_vpath_builddir}"
 
 
 %install
-%ninja_install
+%ninja_install -C "%{_vpath_builddir}"
 
 
 %files
@@ -106,6 +105,13 @@ ulimit -s unlimited
 
 
 %changelog
+* Thu Jul 30 2020 Richard W.M. Jones <rjones@redhat.com> - 2.3.0-4
+- Use updated cmake macros
+  https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

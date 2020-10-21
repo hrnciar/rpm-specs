@@ -1,10 +1,12 @@
 Name:           perl-SQL-Abstract-Classic
 Version:        1.91
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Generate SQL from Perl data structures
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/SQL-Abstract-Classic/
 Source0:        https://cpan.metacpan.org/authors/id/R/RI/RIBASUSHI/SQL-Abstract-Classic-%{version}.tar.gz
+# Inhibit installing dependencies from CPAN, bug #1873016
+Patch0:         SQL-Abstract-Classic-1.91-Inhibit-installing-dependencies-from-CPAN.patch
 BuildArch:      noarch
 # Build
 BuildRequires:  coreutils
@@ -12,7 +14,6 @@ BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
 BuildRequires:  perl(:VERSION) >= 5.6.0
 BuildRequires:  perl(inc::Module::Install) >= 1.06
-BuildRequires:  perl(Module::Install::AutoInstall)
 BuildRequires:  perl(Module::Install::Makefile)
 BuildRequires:  perl(Module::Install::Metadata)
 BuildRequires:  perl(Module::Install::WriteAll)
@@ -49,6 +50,7 @@ interface. So, I set out to create an abstract SQL generation module.
 
 %prep
 %setup -q -n SQL-Abstract-Classic-%{version}
+%patch0 -p1
 # Remove bundled libraries
 rm -r inc
 sed -i -e '/^inc\// d' MANIFEST
@@ -70,6 +72,12 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Thu Aug 27 2020 Petr Pisar <ppisar@redhat.com> - 1.91-4
+- Inhibit installing dependencies from CPAN (bug #1873016)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.91-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.91-2
 - Perl 5.32 rebuild
 

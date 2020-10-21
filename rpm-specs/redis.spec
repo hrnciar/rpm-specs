@@ -8,25 +8,25 @@
 #
 
 # Tests fail in mock, not in local build.
-%global with_tests %{?_with_tests:1}%{!?_with_tests:0}
+%bcond_with    tests
 
 # Commit IDs for the (unversioned) redis-doc repository
 # https://fedoraproject.org/wiki/Packaging:SourceURL "Commit Revision"
-%global doc_commit f092dd3227cc74978853e379c0a7731bdaa324af
+%global doc_commit 25555fe05a571454fa0f11dca28cb5796e04112f
 %global short_doc_commit %(c=%{doc_commit}; echo ${c:0:7})
 
 # %%{rpmmacrodir} not usable on EL-6
 %global macrosdir %(d=%{_rpmconfigdir}/macros.d; [ -d $d ] || d=%{_sysconfdir}/rpm; echo $d)
 
 Name:              redis
-Version:           6.0.5
-Release:           1%{?dist}
+Version:           6.0.8
+Release:           2%{?dist}
 Summary:           A persistent key-value database
-# redis, linenoise, lzf, hiredis are BSD
+# redis, jemalloc, linenoise, lzf, hiredis are BSD
 # lua is MIT
 License:           BSD and MIT
 URL:               https://redis.io
-Source0:           http://download.redis.io/releases/%{name}-%{version}.tar.gz
+Source0:           https://download.redis.io/releases/%{name}-%{version}.tar.gz
 Source1:           %{name}.logrotate
 Source2:           %{name}-sentinel.service
 Source3:           %{name}.service
@@ -48,10 +48,9 @@ Source10:          https://github.com/antirez/%{name}-doc/archive/%{doc_commit}/
 Patch0001:         0001-1st-man-pageis-for-redis-cli-redis-benchmark-redis-c.patch
 # https://github.com/antirez/redis/pull/3494 - symlink
 Patch0002:         0002-install-redis-check-rdb-as-a-symlink-instead-of-dupl.patch
-# https://github.com/antirez/redis/pull/7168 - notify systemd
-Patch0003:         0003-Notify-systemd-on-sentinel-startup.patch
+
 BuildRequires:     gcc
-%if 0%{?with_tests}
+%if %{with tests}
 BuildRequires:     procps-ng
 BuildRequires:     tcl
 %endif
@@ -67,10 +66,14 @@ Requires(pre):     shadow-utils
 Requires(post):    systemd
 Requires(preun):   systemd
 Requires(postun):  systemd
-Provides:          bundled(hiredis)
-Provides:          bundled(jemalloc)
-Provides:          bundled(lua-libs)
-Provides:          bundled(linenoise)
+# from deps/hiredis/hiredis.h
+Provides:          bundled(hiredis) = 0.14.0
+# from deps/jemalloc/VERSION
+Provides:          bundled(jemalloc) = 5.1.0
+# from deps/lua/src/lua.h
+Provides:          bundled(lua-libs) = 5.1.5
+# from deps/linenoise/linenoise.h
+Provides:          bundled(linenoise) = 1.0
 Provides:          bundled(lzf)
 
 %global redis_modules_abi 1
@@ -123,15 +126,16 @@ Conflicts:         redis < 4.0
 Manual pages and detailed documentation for many aspects of Redis use,
 administration and development.
 
+
 %prep
 %setup -q -b 10
 %setup -q
 mv ../%{name}-doc-%{doc_commit} doc
 %patch0001 -p1
 %patch0002 -p1
-%patch0003 -p1
 
 mv deps/lua/COPYRIGHT    COPYRIGHT-lua
+mv deps/jemalloc/COPYING COPYING-jemalloc
 mv deps/hiredis/COPYING  COPYING-hiredis
 
 # Configuration file changes
@@ -209,11 +213,7 @@ mkdir -p %{buildroot}%{macrosdir}
 install -pDm644 %{S:9} %{buildroot}%{macrosdir}/macros.%{name}
 
 %check
-%if 0%{?with_tests}
-# ERR Active defragmentation cannot be enabled: it requires a Redis server compiled
-# with a modified Jemalloc like the one shipped by default with the Redis source distribution
-sed -e '/memefficiency/d' -i tests/test_helper.tcl
-
+%if %{with tests}
 # https://github.com/antirez/redis/issues/1417 (for "taskset -c 1")
 taskset -c 1 make %{make_flags} test
 make %{make_flags} test-sentinel
@@ -242,6 +242,9 @@ exit 0
 %files
 %{!?_licensedir:%global license %%doc}
 %license COPYING
+%license COPYRIGHT-lua
+%license COPYING-jemalloc
+%license COPYING-hiredis
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %attr(0640, redis, root) %config(noreplace) %{_sysconfdir}/%{name}.conf
 %attr(0640, redis, root) %config(noreplace) %{_sysconfdir}/%{name}-sentinel.conf
@@ -265,18 +268,37 @@ exit 0
 %dir %attr(0755, redis, redis) %ghost %{_localstatedir}/run/%{name}
 
 %files devel
+# main package is not required
 %license COPYING
-%license COPYRIGHT-lua
-%license COPYING-hiredis
 %{_includedir}/%{name}module.h
 %{macrosdir}/*
 
 %files doc
+# main package is not required
+%license COPYING
 %docdir %{_docdir}/%{name}
 %{_docdir}/%{name}
 
 
 %changelog
+* Tue Oct 20 2020 Remi Collet <remi@remirepo.net> - 6.0.8-2
+- add missing LICENSE files in main package
+
+* Thu Sep 10 2020 Remi Collet <remi@remirepo.net> - 6.0.8-1
+- Upstream 6.0.8 release.
+
+* Tue Sep  1 2020 Remi Collet <remi@remirepo.net> - 6.0.7-1
+- Upstream 6.0.7 release.
+- drop patch merged upstream
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Remi Collet <rcollet@redhat.com> - 6.0.6-1
+- Upstream 6.0.6 release.
+- drop patch merged upstream
+- open https://github.com/redis/redis/pull/7543 fix deprecated tail syntax
+
 * Wed Jun 10 2020 Nathan Scott <nathans@redhat.com> - 6.0.5-1
 - Upstream 6.0.5 release.
 

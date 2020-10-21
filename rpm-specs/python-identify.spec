@@ -2,8 +2,8 @@
 %global pypi_name identify
 
 Name:           python-%{pypi_name}
-Version:        1.4.16
-Release:        2%{?dist}
+Version:        1.5.6
+Release:        1%{?dist}
 Summary:        File identification library for Python
 
 License:        MIT
@@ -61,7 +61,32 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{pypi_name}/
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info/
 
+
 %changelog
+* Sat Oct 10 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.5.6-1
+- build(update): 1.5.6
+
+* Thu Sep 24 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.5.5-1
+- Update to 1.5.5
+
+* Sun Sep 13 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.5.2-1
+- Update to 1.5.2
+
+* Sun Sep  6 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.5.0-1
+- Update to 1.5.0
+
+* Thu Aug 27 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.4.29-1
+- Update to 1.4.29
+
+* Fri Aug 14 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.4.26-1
+- Update to 1.4.26
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.24-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 1.4.24-1
+- Update to 1.4.24
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.16-2
 - Rebuilt for Python 3.9
 

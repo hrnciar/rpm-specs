@@ -3,12 +3,12 @@
 
 Name: rubygem-%{gem_name}
 Epoch: 1
-Version: 5.2.3
-Release: 3%{?dist}
+Version: 6.0.3.4
+Release: 1%{?dist}
 Summary: Full-stack web application framework
 License: MIT
 URL: http://rubyonrails.org
-Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
+Source0: https://rubygems.org/gems/%{gem_name}-%{version}%{?prerelease}.gem
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel >= 1.8.11
 BuildRequires: ruby >= 2.2.2
@@ -31,10 +31,11 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -c -T
-%gem_install -n %{SOURCE0}
+%setup -q -n %{gem_name}-%{version}%{?prerelease}
 
 %build
+gem build ../%{gem_name}-%{version}%{?prerelease}.gemspec
+%gem_install
 
 %install
 mkdir -p %{buildroot}%{gem_dir}
@@ -51,6 +52,25 @@ cp -a .%{gem_dir}/* \
 %doc %{gem_instdir}/README.md
 
 %changelog
+* Thu Oct  8 10:58:41 CEST 2020 Pavel Valena <pvalena@redhat.com> - 1:6.0.3.4-1
+- Update to rails 6.0.3.4.
+  Resolves: rhbz#1886130
+
+* Fri Sep 18 18:11:47 CEST 2020 Pavel Valena <pvalena@redhat.com> - 1:6.0.3.3-1
+- Update to rails 6.0.3.3.
+  Resolves: rhbz#1877515
+
+* Mon Aug 17 04:53:04 GMT 2020 Pavel Valena <pvalena@redhat.com> - 1:6.0.3.2-1
+- Update to rails 6.0.3.2.
+  Resolves: rhbz#1742800
+
+* Mon Aug 03 07:01:37 GMT 2020 Pavel Valena <pvalena@redhat.com> - 6.0.3.1-1
+- Update to Rails 6.0.3.1.
+  Resolves: rhbz#1742800
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.2.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.2.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

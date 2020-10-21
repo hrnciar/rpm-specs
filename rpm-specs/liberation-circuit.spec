@@ -4,12 +4,12 @@ License: GPLv3
 
 URL: https://linleyh.itch.io/liberation-circuit
 
-%global git_date 20191015
-%global git_commit_long 4ff5a1143986042d26fbe02199927838d535e8b7
+%global git_date 20200131
+%global git_commit_long f930e6e1aeb74d8962c96c66b3a342485a422e23
 %global git_commit_short %(c="%{git_commit_long}"; echo "${c:0:8}")
 
 Version: 1.3
-Release: 4.%{git_date}git%{git_commit_short}%{?dist}
+Release: 6.%{git_date}git%{git_commit_short}%{?dist}
 
 %global repo_url https://github.com/linleyh/%{name}
 Source0: %{repo_url}/archive/%{git_commit_long}/%{name}-%{git_commit_long}.tar.gz
@@ -18,9 +18,6 @@ Source0: %{repo_url}/archive/%{git_commit_long}/%{name}-%{git_commit_long}.tar.g
 # version of Allegro and don't work properly with the split "base + addons"
 # version that Fedora uses, so they need to be tweaked a bit
 Patch0: libcirc--CMakeLists-nonmonolith-Allegro.patch
-
-# Upstream code suffers from a couple redefined variables
-Patch1: libcirc--fix-multiple-definitions.patch
 
 BuildRequires: allegro5-devel
 BuildRequires: allegro5-addon-acodec-devel
@@ -61,11 +58,8 @@ required to play Liberation Circuit.
 
 
 %build
-mkdir build/
-pushd build/
-  %{cmake} ..
-  %make_build
-popd
+%cmake ./
+%cmake_build
 
 cat > bin/%{name}-wrapper << EOF
 #!%{_bindir}/sh
@@ -120,6 +114,14 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
+* Wed Jul 29 2020 Artur Iwicki <fedora@svgames.pl> - 1.3-6.20200131gitf930e6e1
+- Update to latest upstream snapshot
+- Drop Patch1 (build failures due to symbol redefinitions - merged upstream)
+- Update spec to work with CMake out-of-source builds
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-5.20191015git4ff5a114
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Artur Iwicki <fedora@svgames.pl> - 1.3.4-20191015git4ff5a114
 - Fix build failures due to redefined variables
 - Update to latest upstream git snapshot

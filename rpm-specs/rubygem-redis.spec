@@ -1,21 +1,21 @@
 %global gem_name redis
 
 Name: rubygem-%{gem_name}
-Version: 4.1.3
-Release: 2%{?dist}
+Version: 4.2.2
+Release: 1%{?dist}
 Summary: A Ruby client library for Redis
 License: MIT
 URL: https://github.com/redis/redis-rb
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
 # git clone https://github.com/redis/redis-rb.git && cd redis-rb
-# git archive -v -o redis-rb-4.1.3-tests.txz v4.1.3 makefile test/ bin/
+# git archive -v -o redis-rb-4.2.2-tests.txz v4.2.2 makefile test/ bin/
 Source1: %{gem_name}-rb-%{version}-tests.txz
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby
-BuildRequires: rubygem(mocha)
-BuildRequires: rubygem(minitest)
 BuildRequires: rubygem(hiredis)
+BuildRequires: rubygem(minitest)
+BuildRequires: rubygem(mocha)
 BuildRequires: %{_bindir}/redis-server
 BuildArch: noarch
 
@@ -73,9 +73,9 @@ LANG=C.UTF-8
 # Test ruby and hiredis drivers
 for driver in ruby hiredis ; do
 export DRIVER=$driver
-# test_bzpopmax(TestBlockingCommands) test fails unless timeout is increased.
-# https://github.com/redis/redis-rb/pull/794
-make TIMEOUT=15 BINARY=$(which redis-server) REDIS_CLIENT=$(which redis-cli) BUILD_DIR='${TMP}'
+make BINARY=$(which redis-server) REDIS_CLIENT=$(which redis-cli) BUILD_DIR='${TMP}'
+# Give some time for Redis shutdown.
+sleep 1
 done
 popd
 
@@ -92,13 +92,25 @@ popd
 %doc %{gem_instdir}/README.md
 
 %changelog
+* Thu Sep 10 2020 Vít Ondruch <vondruch@redhat.com> - 4.2.2-1
+- Update to redis 4.2.2.
+  Resolves: rhbz#1846288
+  Resolves: rhbz#1863730
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
 * Wed Jul 24 2019 Pavel Valena <pvalena@redhat.com> - 4.1.3-1
 - Update to redis-rb 4.1.3.
 
-* Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.1-2
+* Wed Jul 24 2019 Fedora Release Engineering <releng@fedoraproject.org> - 4.1.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
 * Thu May 09 2019 Vít Ondruch <vondruch@redhat.com> - 4.1.1-1

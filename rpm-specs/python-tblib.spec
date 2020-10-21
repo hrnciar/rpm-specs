@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        1.6.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Traceback serialization library
 
 License:        BSD
@@ -26,13 +26,14 @@ Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-pytest
-BuildRequires:  python3-six
-BuildRequires:  python3-twisted
-BuildRequires:  python3-sphinx >= 1.3
-BuildRequires:  python3-sphinx-theme-py3doc-enhanced
+BuildRequires:  python3dist(setuptools)
+BuildRequires:  python3dist(pytest)
+BuildRequires:  python3dist(six)
+BuildRequires:  python3dist(twisted)
+BuildRequires:  python3dist(sphinx) >= 1.3
+BuildRequires:  python3dist(sphinx-py3doc-enhanced-theme)
 
-Requires:       python3-six
+Requires:       python3dist(six)
 
 %description -n python3-%{srcname} %{_description}
 
@@ -65,6 +66,9 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}:tests" \
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.6.0-3
 - Rebuilt for Python 3.9
 

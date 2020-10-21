@@ -1,6 +1,6 @@
 Name:		usbmon
 Version:	6.1
-Release:	10%{dist}
+Release:	11%{dist}
 Summary:	A basic front-end to usbmon
 
 License:	GPLv2
@@ -34,6 +34,9 @@ install -p -m 755 -t $RPM_BUILD_ROOT/%{_sbindir} usbmon
 %{_mandir}/man8/usbmon.8*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.1-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

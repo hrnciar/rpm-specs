@@ -13,7 +13,7 @@
 Name:             libijs
 Summary:          IJS Raster Image Transport Protocol Library
 Version:          0.35
-Release:          11%{?dist}
+Release:          12%{?dist}
 
 License:          AGPLv3+
 
@@ -132,6 +132,9 @@ install -m 0644 -p ijs_spec.pdf %{buildroot}%{_docdir}/%{name}
 # =============================================================================
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.35-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.35-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

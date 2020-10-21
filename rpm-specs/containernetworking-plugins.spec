@@ -26,7 +26,7 @@
 %global repo plugins
 %global import_path %{provider}.%{provider_tld}/%{project}/%{repo}
 %global git0 https://%{import_path}
-%global commit0 1fb9793607361bc8ae032a12964c67e7f2b92079
+%global commit0 a9abbaf19b305e45ff174694ebb5e8d6a21c892e
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 # Used for comparing with latest upstream tag
@@ -34,8 +34,8 @@
 %global built_tag v0.8.6
 
 Name: %{project}-%{repo}
-Version: 0.8.6
-Release: 3.1.git%{shortcommit0}%{?dist}
+Version: 0.8.7
+Release: 15.1.git%{shortcommit0}%{?dist}
 Summary: Libraries for writing CNI plugin
 License: ASL 2.0
 URL: %{git0}
@@ -280,6 +280,43 @@ export GOPATH=%{buildroot}/%{gopath}:$(pwd)/vendor:%{gopath}
 %endif
 
 %changelog
+* Thu Oct 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 0.8.7-15.1.gita9abbaf
+- autobuilt a9abbaf
+
+* Thu Oct  8 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 0.8.7-14.1.git6df03d7
+- autobuilt 6df03d7
+
+* Wed Sep 16 16:12:38 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 0.8.7-13.1.gite78e6aa
+- bump to 0.8.7
+- autobuilt e78e6aa
+
+* Wed Aug 26 16:11:38 UTC 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 0.8.6-12.1.git9b8de6a
+- autobuilt 9b8de6a
+
+* Wed Aug 05 20:10:15 GMT 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 0.8.6-11.1.gitbd58999
+- autobuilt bd58999
+
+* Wed Aug 05 16:10:19 GMT 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 0.8.6-10.1.git8a88f90
+- autobuilt 8a88f90
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.6-9.1.gitd713ec6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 15:10:04 GMT 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 0.8.6-8.1.gitd713ec6
+- autobuilt d713ec6
+
+* Wed Jul 15 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 0.8.6-7.1.git6eb8e31
+- autobuilt 6eb8e31
+
+* Wed Jul 08 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 0.8.6-6.1.gitc90b165
+- autobuilt c90b165
+
+* Wed Jul 01 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 0.8.6-5.1.git28773dc
+- autobuilt 28773dc
+
+* Wed Jun 24 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 0.8.6-4.1.gite1f8f9b
+- autobuilt e1f8f9b
+
 * Wed Jun 03 2020 RH Container Bot <rhcontainerbot@fedoraproject.org> - 0.8.6-3.1.git1fb9793
 - autobuilt 1fb9793
 

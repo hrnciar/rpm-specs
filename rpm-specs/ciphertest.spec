@@ -1,6 +1,6 @@
 Name:           ciphertest
 Version:        0.2.2
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        An SSL cipher checker
 
 License:        GPLv3+
@@ -34,6 +34,9 @@ install -Dp -m 0755 cipherTest.sh %{buildroot}%{_bindir}/ciphertest
 %{_bindir}/%{name}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.2-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

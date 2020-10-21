@@ -1,7 +1,7 @@
 Summary: Italian man (manual) pages from the Linux Documentation Project
 Name: man-pages-it
 Version: 4.08
-Release: 10%{?dist}
+Release: 11%{?dist}
 # inherit the license tags from the man-pages package
 License: GPL+ and GPLv2 and GPLv2+ and LGPLv2+ and GPLv3+ and BSD and MIT and Copyright only and IEEE
 URL: http://www.pluto.linux.it/ildp/man/
@@ -66,6 +66,9 @@ rm -f $RPM_BUILD_ROOT/%{_mandir}/it/man1/hman.1*
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.08-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.08-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

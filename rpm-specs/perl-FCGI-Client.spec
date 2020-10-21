@@ -1,7 +1,7 @@
 Name:           perl-FCGI-Client 
 Summary:        Client library for the fastcgi protocol 
 Version:        0.09
-Release:        6%{?dist}
+Release:        7%{?dist}
 # lib/FCGI/Client.pm -> GPL+ or Artistic
 License:        GPL+ or Artistic 
 Source0:        https://cpan.metacpan.org/authors/id/T/TO/TOKUHIROM/FCGI-Client-%{version}.tar.gz 
@@ -55,6 +55,9 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/FCGI*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.09-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.09-6
 - Perl 5.32 rebuild
 

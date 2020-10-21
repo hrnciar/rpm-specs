@@ -3,7 +3,7 @@
 
 Name:		tkimg
 Version:	1.4
-Release:	32%{?dist}
+Release:	33%{?dist}
 Summary:	Image support library for Tk
 License:	BSD
 URL:		http://sourceforge.net/projects/tkimg
@@ -108,6 +108,9 @@ done
 %{tcl_sitearch}/Img1.4/*.a
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Tom Callaway <spot@fedoraproject.org> - 1.4-32
 - fix FTBFS
 

@@ -3,7 +3,7 @@
 
 Name:           eclipse-findbugs
 Version:        3.0.1
-Release:        20%{?dist}
+Release:        22%{?dist}
 Summary:        Eclipse plugin for FindBugs
 
 License:        LGPLv2+
@@ -79,6 +79,12 @@ cp %{SOURCE1} $RPM_BUILD_ROOT%{droplet_dir}/
 %{droplet_dir}
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.0.1-21
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.1-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

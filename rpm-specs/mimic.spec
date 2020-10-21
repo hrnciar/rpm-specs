@@ -1,6 +1,6 @@
 Name:           mimic
 Version:        1.3.0.1
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Mycroft's TTS engine
 
 License:        BSD
@@ -34,6 +34,10 @@ Development files for Mimic, a small, fast speech synthesis engine.
 %autosetup -p1 -n %{name}1-%{version}
 
 %build
+# This package triggers a fault in GCC when building with LTO enabled.
+# Disable LTO until GCC is fixed
+%define _lto_cflags %{nil}
+
 autoreconf -vif
 %configure --enable-shared --with-audio=alsa --with-audio=pulseaudio
 %{make_build}
@@ -65,6 +69,16 @@ find %{buildroot} -type f -name "*.la" -delete
 %{_includedir}/ttsmimic
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0.1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jeff Law <law@redhat.com> - 1.3.0.1-2
+- Disable LTO
+
 * Sun May 10 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.3.0.1-1
 - New upstream 1.3.0.1
 

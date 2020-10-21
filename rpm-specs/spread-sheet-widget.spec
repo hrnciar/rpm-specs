@@ -1,15 +1,14 @@
 Name:		spread-sheet-widget
-Version:	0.3
-Release:	4%{?dist}
+Version:	0.6
+Release:	1%{?dist}
 Summary:	A library for Gtk+ which provides a spread sheet widget
 License:	GPLv3+
 URL:		https://www.gnu.org/software/ssw/
 Source0:	https://alpha.gnu.org/gnu/ssw/%{name}-%{version}.tar.gz
 Source1:	https://alpha.gnu.org/gnu/ssw/%{name}-%{version}.tar.gz.sig
-Patch1:		spread-sheet-widget-0001-Install-the-pc-file-without-executable-permission.patch
-Patch2:		spread-sheet-widget-0002-No-need-to-specify-gtk3-lib-in-pc-file.patch
-Patch3:		spread-sheet-widget-0003-Generate-pc-file-in-a-standard-way.patch
-Patch4:		spread-sheet-widget-0004-Link-library-against-GTK3-and-GLIB2-libs.patch
+Patch1:		spread-sheet-widget-0001-No-need-to-specify-gtk3-lib-in-pc-file.patch
+Patch2:		spread-sheet-widget-0002-Added-library-dependencies-for-GTK-and-GLIB.patch
+Patch3:		spread-sheet-widget-0003-Use-more-standard-macros-in-pc-file.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gcc
@@ -71,12 +70,19 @@ make check
 %{_includedir}/ssw-axis-model.h
 %{_includedir}/ssw-sheet-axis.h
 %{_includedir}/ssw-sheet.h
+%{_includedir}/ssw-virtual-model.h
 %{_infodir}/%{name}.info*
 %{_libdir}/lib%{name}.so
 %{_libdir}/pkgconfig/%{name}.pc
 
 
 %changelog
+* Mon Aug 17 2020 Peter Lemenkov <lemenkov@gmail.com> - 0.6-1
+- Ver. 0.6
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

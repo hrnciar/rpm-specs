@@ -11,7 +11,7 @@
 Name:  wildmagic5
 Summary:  Wild Magic libraries
 Version:  5.17
-Release:  9%{?dist}
+Release:  10%{?dist}
 License:  Boost
 URL: https://www.geometrictools.com
 Source0:  https://www.geometrictools.com/Downloads/WildMagic5p17.zip
@@ -292,6 +292,9 @@ done
 %{_datadir}/WildMagic/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.17-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.17-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

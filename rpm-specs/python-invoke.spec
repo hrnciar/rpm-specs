@@ -1,6 +1,6 @@
 Name:		python-invoke
 Version:	1.4.1
-Release:	2%{?dist}
+Release:	4%{?dist}
 Summary:	A Python task execution tool and library
 License:	BSD
 URL:		http://pyinvoke.org/
@@ -9,15 +9,15 @@ Patch0:		0001-Fallback-to-system-lib-if-vendorized-one-does-not-ex.patch
 Patch2:		invoke-1.4.1-pytest-too-recent.patch
 BuildArch:	noarch
 BuildRequires:	python3-devel
-BuildRequires:	python3-setuptools
-BuildRequires:	python3-fluidity-sm
-BuildRequires:	python3-lexicon
-BuildRequires:	python3-PyYAML
-BuildRequires:	python3-six
+BuildRequires:	%{py3_dist setuptools}
+BuildRequires:	%{py3_dist fluidity-sm}
+BuildRequires:	%{py3_dist lexicon}
+BuildRequires:	%{py3_dist PyYAML}
+BuildRequires:	%{py3_dist six}
 # For test suite
-BuildRequires:	python3-mock
-BuildRequires:	python3-pytest
-BuildRequires:	python3-pytest-relaxed
+BuildRequires:	%{py3_dist mock}
+BuildRequires:	%{py3_dist pytest}
+BuildRequires:	%{py3_dist pytest-relaxed}
 
 %description
 Invoke is a Python task execution tool and library, drawing inspiration from
@@ -27,10 +27,10 @@ various sources to arrive at a powerful and clean feature set.
 Summary:	A Python task execution tool and library
 %{?python_provide:%python_provide python3-invoke}
 Obsoletes:	python2-invoke < 1.2.0-5
-Requires:	python3-fluidity-sm
-Requires:	python3-lexicon
-Requires:	python3-PyYAML
-Requires:	python3-six
+Requires:	%{py3_dist fluidity-sm}
+Requires:	%{py3_dist lexicon}
+Requires:	%{py3_dist PyYAML}
+Requires:	%{py3_dist six}
 
 %description -n python3-invoke
 Invoke is a Python task execution tool and library, drawing inspiration from
@@ -79,6 +79,12 @@ pytest-3
 %{python3_sitelib}/invoke-%{version}-*.egg-info/
 
 %changelog
+* Thu Jul 30 2020 Paul Howarth <paul@city-fan.org> - 1.4.1-4
+- Use new-style dependencies, fixes FTBFS due to conflicting pytest requirements
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 1.4.1-2
 - Rebuilt for Python 3.9
 

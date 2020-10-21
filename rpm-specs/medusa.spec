@@ -1,7 +1,7 @@
 Summary:        Parallel brute forcing password cracker
 Name:           medusa
 Version:        2.2
-%global         baserelease     12
+%global         baserelease     13
 License:        GPLv2
 URL:            http://www.foofus.net/jmk/medusa/medusa.html
 #               https://github.com/jmk-foofus/medusa/releases
@@ -100,6 +100,9 @@ make DESTDIR=%{buildroot} install
 %{_libdir}/medusa/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-13.20181216git292193b
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 2020 Simone Caronni <negativo17@gmail.com> - 2.2-12.20181216git292193b
 - Rebuild for updated FreeRDP.
 - Fix for "warning: extra tokens at the end of endif directive in line 34".

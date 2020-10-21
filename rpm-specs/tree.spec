@@ -1,7 +1,7 @@
 Summary: File system tree viewer
 Name: tree
 Version: 1.8.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: GPLv2+
 URL: http://mama.indstate.edu/users/ice/tree/
 Source: ftp://mama.indstate.edu/linux/tree/tree-%{version}.tgz
@@ -54,6 +54,9 @@ chmod -x $RPM_BUILD_ROOT%{_mandir}/man1/tree.1
 %doc README LICENSE
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

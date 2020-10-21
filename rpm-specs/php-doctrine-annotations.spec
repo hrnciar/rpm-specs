@@ -1,7 +1,7 @@
 #
 # Fedora spec file for php-doctrine-annotations
 #
-# Copyright (c) 2013-2019 Shawn Iwinski <shawn.iwinski@gmail.com>
+# Copyright (c) 2013-2020 Shawn Iwinski <shawn.iwinski@gmail.com>
 #
 # License: MIT
 # http://opensource.org/licenses/MIT
@@ -9,10 +9,13 @@
 # Please preserve changelog entries
 #
 
+# Build using "--without tests" to disable tests
+%bcond_without tests
+
 %global github_owner     doctrine
 %global github_name      annotations
-%global github_version   1.10.3
-%global github_commit    5db60a4969eba0e0c197a19c077780aadbc43c5d
+%global github_version   1.10.4
+%global github_commit    bfe91e31984e2ba76df1c1339681770401ec262f
 
 %global composer_vendor  doctrine
 %global composer_project annotations
@@ -28,8 +31,6 @@
 %global lexer_min_ver    1.0.1
 %global lexer_max_ver    2.0
 
-# Build using "--without tests" to disable tests
-%global with_tests 0%{!?_without_tests:1}
 
 %{!?phpdir:  %global phpdir  %{_datadir}/php}
 
@@ -48,19 +49,24 @@ Source1:       %{name}-get-source.sh
 
 BuildArch:     noarch
 # Tests
-%if %{with_tests}
+%if %{with tests}
 ## composer.json
 BuildRequires: php(language) >= %{php_min_ver}
 %if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
 BuildRequires:(php-composer(doctrine/cache) >= %{cache_min_ver} with php-composer(doctrine/cache) < %{cache_max_ver})
 BuildRequires:(php-composer(doctrine/lexer) >= %{lexer_min_ver} with php-composer(doctrine/lexer) < %{lexer_max_ver})
+# "phpunit/phpunit": "^7.5 || ^9.1.5"
+%global phpunit %{_bindir}/phpunit9
+BuildRequires: phpunit9 >= 9.1.5
 %else
 BuildRequires: php-composer(doctrine/cache) <  %{cache_max_ver}
 BuildRequires: php-composer(doctrine/cache) >= %{cache_min_ver}
 BuildRequires: php-composer(doctrine/lexer) <  %{lexer_max_ver}
 BuildRequires: php-composer(doctrine/lexer) >= %{lexer_min_ver}
+%global phpunit %{_bindir}/phpunit7
+BuildRequires: phpunit7 >= 7.5
 %endif
-BuildRequires: phpunit7
+
 ## phpcompatinfo (computed from version 1.10.0)
 BuildRequires: php-ctype
 BuildRequires: php-date
@@ -133,7 +139,7 @@ cp -rp lib/* %{buildroot}%{phpdir}/
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 : Modify tests init
 sed "s#require.*autoload.*#require_once '%{buildroot}%{phpdir}/Doctrine/Common/Annotations/autoload.php';#" \
     -i tests/Doctrine/Tests/TestInit.php
@@ -147,9 +153,10 @@ BOOTSTRAP
 
 : Upstream tests
 RETURN_CODE=0
-for PHP_EXEC in "" php71 php72 php73 php74 php80; do
-    if [ -z "$PHP_EXEC" ] || which $PHP_EXEC; then
-        $PHP_EXEC %{_bindir}/phpunit7 --verbose \
+for CMD in "php %{phpunit}" "php72 %{_bindir}/phpunit8" php73 php74 php80; do
+    if which $CMD; then
+        set $CMD
+        $1 ${2:-%{_bindir}/phpunit9} --verbose \
             -d pcre.recursion_limit=10000 \
             --bootstrap bootstrap.php \
             || RETURN_CODE=1
@@ -170,6 +177,13 @@ exit $RETURN_CODE
 
 
 %changelog
+* Wed Aug 12 2020 Remi Collet <remi@remirepo.net> - 1.10.4-1
+- update to 1.10.4
+- switch to phpunit9
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.10.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Remi Collet <remi@remirepo.net> - 1.10.3-1
 - update to 1.10.3 (no change)
 

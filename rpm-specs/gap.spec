@@ -31,7 +31,7 @@
 
 Name:           gap
 Version:        4.11.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Computational discrete algebra
 
 %global majver %(cut -d. -f1-2 <<< %{version})
@@ -444,6 +444,9 @@ make check
 %{_libdir}/libgap.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.11.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 29 2020 Jerry James <loganjerry@gmail.com> - 4.11.0-4
 - Incorporate upstream changes and cleanups
 - Drop the libgap-devel subpackage; it is not useful

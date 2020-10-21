@@ -38,7 +38,7 @@ Dynamic plugin-loading like a boss.
 
 Name:		dynaplugz
 Version:	0.0.0.0
-Release:	0.13%{?gitrel}%{?dist}
+Release:	0.15%{?gitrel}%{?dist}
 Summary:	Dynamic plugin-loading like a boss
 
 License:	BSD
@@ -208,6 +208,13 @@ popd
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.0.0-0.15.git20160309.597ce9f
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.0.0-0.14.git20160309.597ce9f
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.0.0-0.13.git20160309.597ce9f
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

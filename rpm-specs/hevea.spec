@@ -4,7 +4,7 @@
 
 Name:		hevea
 Version:	2.34
-Release:	5%{?dist}
+Release:	9%{?dist}
 Summary:	LaTeX to HTML translator
 License:	QPL
 URL:		http://hevea.inria.fr/
@@ -32,6 +32,8 @@ mv -f CHANGES.utf8 CHANGES
 
 
 %build
+# The next line causes ocamlbuild to pass -g everywhere:
+echo true: debug >> _tags
 ulimit -s unlimited
 make %{?_smp_mflags} \
 %ifnarch %{ocaml_native_compiler}
@@ -39,8 +41,7 @@ make %{?_smp_mflags} \
 %endif
 	PREFIX=%{_prefix} \
 	LIBDIR=%{_datadir}/%{name} \
-	LATEXLIBDIR=%{_texmf}/tex/latex/hevea \
-	OCAMLFLAGS="-g -w +a-4-9"
+	LATEXLIBDIR=%{_texmf}/tex/latex/hevea
 
 
 %install
@@ -63,6 +64,18 @@ make install \
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 2.34-9
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 2.34-8
+- OCaml 4.11.0 rebuild
+
+* Wed Jul 29 2020 Richard W.M. Jones <rjones@redhat.com> - 2.34-7
+- Force -g flag everywhere.
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.34-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 2.34-5
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

@@ -1,3 +1,5 @@
+%global __cmake_in_source_build 1
+
 # 'libmp.so' from 'gmp' conflicts with same library provided by this package.
 # mp's libraries are so installed in a private directory on epel6.
 # https://lists.centos.org/pipermail/centos-devel/2016-June/014820.html
@@ -14,6 +16,12 @@
 %endif
 %endif
 
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+%global blaslib flexiblas
+%else
+%global blaslib openblas
+%endif
+
 %if 0%{?rhel} && 0%{?rhel} < 7
 %{!?__global_ldflags: %global __global_ldflags -Wl,-z,relro}
 %endif
@@ -28,7 +36,7 @@
 
 Name: mp
 Version: 3.1.0
-Release: 27.%{date}git%{shortcommit}%{?dist}
+Release: 31.%{date}git%{shortcommit}%{?dist}
 License: MIT and BSD
 Summary: An open-source library for mathematical programming
 URL: https://github.com/ampl/mp
@@ -81,7 +89,7 @@ BuildRequires: git-core
 BuildRequires: jacop
 BuildRequires: java-devel
 %endif
-BuildRequires: openblas-devel
+BuildRequires: %{blaslib}-devel
 BuildRequires: pkgconfig(gsl)
 %if 0%{?fedora}
 BuildRequires: pkgconfig(odbc)
@@ -181,12 +189,7 @@ sed -i 's,returncode == 0,False,' support/build-docs.py
 %endif
 
 %build
-%if 0%{?fedora} || 0%{?rhel} >= 7
-export LIBS="-lgsl -lopenblas"
-%else
-export LIBS="-lgsl -L%{_libdir}/atlas -lcblas -latlas"
-%endif
-
+export LIBS="-lgsl -l%{blaslib}"
 mkdir -p build && pushd build
 BUILD="asl,gsl,smpswriter"
 %if 0%{?with_gecode}
@@ -335,7 +338,13 @@ ctest3 --force-new-ctest-process -E gsl
 ctest3 --force-new-ctest-process
 %endif
 %else
-ctest --force-new-ctest-process
+# jacop-test is failing with new java-11-openjdk-11.0.8.10 (rhbz#1859925)
+#ctest --force-new-ctest-process -j1 -VV --output-on-failure --debug -R 'jacop-test' && exit 1
+%ifarch %{power64}
+ctest --force-new-ctest-process -j1 -E 'jacop-test'
+%else
+ctest --force-new-ctest-process -j1
+%endif
 %endif
 
 %ldconfig_scriptlets
@@ -372,6 +381,21 @@ ctest --force-new-ctest-process
 %endif
 
 %changelog
+* Thu Aug 27 2020 Iñaki Úcar <iucar@fedoraproject.org> - 3.1.0-31.20200303git7fd4828
+- https://fedoraproject.org/wiki/Changes/FlexiBLAS_as_BLAS/LAPACK_manager
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-30.20200303git7fd4828
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+- Enable __cmake_in_source_build
+- Exclude jacop-test on ppc64le (rhbz#1859925)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.0-29.20200303git7fd4828
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 3.1.0-28.20200303git7fd4828
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
 * Mon Apr 27 2020 Jerry James <loganjerry@gmail.com> - 3.1.0-27.20200303git7fd4828
 - Update git snapshot for gecode 6.x support
 - Drop upstreamed -gecode5 patch

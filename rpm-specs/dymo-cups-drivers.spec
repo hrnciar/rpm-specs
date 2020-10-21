@@ -6,7 +6,7 @@
 
 Name: dymo-cups-drivers
 Version: %{short_version}.5
-Release: 10%{?dist}
+Release: 11%{?dist}
 Summary: DYMO LabelWriter Drivers for CUPS
 License: GPLv2+
 URL: http://www.dymo.com
@@ -63,6 +63,9 @@ autoreconf --force --install
 %{_datadir}/cups/model/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0.5-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Andrew Bauer <zonexpertconsulting@outlook.com> - 1.4.0.5-10
 - Fix FTBS cupsBackChannelRead was not declared in this scope
 

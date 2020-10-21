@@ -1,3 +1,4 @@
+%global __cmake_in_source_build 1
 %global _legacy_common_support 1
 
 %global warsow_libdir %{_prefix}/lib/warsow
@@ -6,7 +7,7 @@
 
 Name:           warsow
 Version:        2.1.2
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        Fast paced 3D first person shooter
 
 License:        GPLv2+
@@ -143,6 +144,13 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/appdata/warsow.
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.2-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.2-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

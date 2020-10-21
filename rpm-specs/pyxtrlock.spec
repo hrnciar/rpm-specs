@@ -1,6 +1,6 @@
 Name:           pyxtrlock
 Version:        0.2
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        The X transparent screen lock rewritten in Python
 
 License:        GPLv3+
@@ -70,6 +70,9 @@ cp -a %{SOURCE1} %{buildroot}%{_datadir}/pixmaps/
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2-23
 - Rebuilt for Python 3.9
 

@@ -3,7 +3,7 @@
 
 # https://github.com/mholt/certmagic
 %global goipath         github.com/mholt/certmagic
-Version:                0.9.3
+Version:                0.11.2
 
 %gometa
 
@@ -18,7 +18,7 @@ Go.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Automatic HTTPS for any Go program
 
 # Upstream license specification: Apache-2.0
@@ -26,15 +26,14 @@ License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
 
-BuildRequires:  golang(github.com/go-acme/lego/acme)
-BuildRequires:  golang(github.com/go-acme/lego/certcrypto)
-BuildRequires:  golang(github.com/go-acme/lego/certificate)
-BuildRequires:  golang(github.com/go-acme/lego/challenge)
-BuildRequires:  golang(github.com/go-acme/lego/challenge/dns01)
-BuildRequires:  golang(github.com/go-acme/lego/challenge/http01)
-BuildRequires:  golang(github.com/go-acme/lego/challenge/tlsalpn01)
-BuildRequires:  golang(github.com/go-acme/lego/lego)
-BuildRequires:  golang(github.com/go-acme/lego/registration)
+BuildRequires:  golang(github.com/go-acme/lego/v3/acme)
+BuildRequires:  golang(github.com/go-acme/lego/v3/certificate)
+BuildRequires:  golang(github.com/go-acme/lego/v3/challenge)
+BuildRequires:  golang(github.com/go-acme/lego/v3/challenge/dns01)
+BuildRequires:  golang(github.com/go-acme/lego/v3/challenge/http01)
+BuildRequires:  golang(github.com/go-acme/lego/v3/challenge/tlsalpn01)
+BuildRequires:  golang(github.com/go-acme/lego/v3/lego)
+BuildRequires:  golang(github.com/go-acme/lego/v3/registration)
 BuildRequires:  golang(github.com/klauspost/cpuid)
 BuildRequires:  golang(golang.org/x/crypto/ocsp)
 
@@ -45,7 +44,6 @@ BuildRequires:  golang(golang.org/x/crypto/ocsp)
 
 %prep
 %goprep
-find . -name "*.go" -exec sed -i "s|github.com/go-acme/lego/v3|github.com/go-acme/lego|" "{}" +;
 
 %install
 %gopkginstall
@@ -58,6 +56,16 @@ find . -name "*.go" -exec sed -i "s|github.com/go-acme/lego/v3|github.com/go-acm
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.2-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 19:04:23 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.11.2-1
+- Update to 0.11.2
+
 * Thu Feb 13 12:36:46 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.9.3-1
 - Update to 0.9.3
 

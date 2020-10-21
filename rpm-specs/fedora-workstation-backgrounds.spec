@@ -1,6 +1,6 @@
 Name: fedora-workstation-backgrounds
 Version: 1.1
-Release: 7%{?dist}
+Release: 8%{?dist}
 Summary: Desktop backgrounds for Fedora Workstation
 
 License: CC-BY-SA and CC-BY and CC0
@@ -30,6 +30,9 @@ wallpapers for Fedora Workstation.
 %{_datadir}/backgrounds/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

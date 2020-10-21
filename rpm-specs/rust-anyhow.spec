@@ -5,7 +5,7 @@
 %global crate anyhow
 
 Name:           rust-%{crate}
-Version:        1.0.31
+Version:        1.0.33
 Release:        1%{?dist}
 Summary:        Flexible concrete Error type built on std::error::Error
 
@@ -83,6 +83,12 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Oct 07 2020 Fabio Valentini <decathorpe@gmail.com> - 1.0.33-1
+- Update to version 1.0.33.
+
+* Wed Jul 29 2020 Josh Stone <jistone@redhat.com> - 1.0.32-1
+- Update to 1.0.32
+
 * Fri May 15 2020 Josh Stone <jistone@redhat.com> - 1.0.31-1
 - Update to 1.0.31
 

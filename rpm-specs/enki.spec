@@ -4,7 +4,7 @@
 
 Name:           enki
 Version:        20.03.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Text editor for programmers
 
 License:        GPLv2+
@@ -143,6 +143,9 @@ xvfb-run -s '-screen :0 1024x768x16' %{__python3} run_all.py
 %doc html/
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20.03.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 20.03.1-2
 - Rebuilt for Python 3.9
 

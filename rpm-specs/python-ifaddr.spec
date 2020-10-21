@@ -4,11 +4,10 @@ ifaddr is a small Python library that allows you to find all the IP addresses\
 of the computer.
 
 Name:           python-%{srcname}
-Version:        0.1.6
-Release:        7%{?dist}
+Version:        0.1.7
+Release:        2%{?dist}
 Summary:        Python library that allows you to find all the IP addresses of the computer
 
-# https://github.com/pydron/ifaddr/pull/18
 License:        MIT
 URL:            https://pypi.org/project/ifaddr/
 Source:         %{pypi_source}
@@ -37,11 +36,18 @@ Python 3 version.
 %py3_install
 
 %files -n python3-%{srcname}
+%license LICENSE.txt
 %doc README.rst
 %{python3_sitelib}/%{srcname}/
 %{python3_sitelib}/%{srcname}-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 0.1.7-1
+- Update to 0.1.7
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.6-7
 - Rebuilt for Python 3.9
 

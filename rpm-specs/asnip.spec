@@ -18,7 +18,7 @@ converts them to IPs.}
 
 Name:           asnip
 Version:        0
-Release:        0.1%{?dist}
+Release:        0.2%{?dist}
 Summary:        ASN detail retriever
 
 License:        MIT
@@ -54,6 +54,9 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 07 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0-0.1.20200607git44ba98b
 - Initial package
 

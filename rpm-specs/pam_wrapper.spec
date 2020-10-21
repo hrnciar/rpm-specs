@@ -1,6 +1,6 @@
 Name:           pam_wrapper
 Version:        1.1.3
-Release:        2%{?dist}
+Release:        5%{?dist}
 
 Summary:        A tool to test PAM applications and PAM modules
 License:        GPLv3+
@@ -84,25 +84,16 @@ gpgv2 --quiet --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 
 
 %build
-if test ! -e "obj"; then
-  mkdir obj
-fi
-pushd obj
 %cmake \
   -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-  -DUNIT_TESTING=ON \
-  %{_builddir}/%{name}-%{version}
+  -DUNIT_TESTING=ON
 
-make %{?_smp_mflags} VERBOSE=1
-make doc VERBOSE=1
-popd
+%cmake_build
+%__cmake --build %{__cmake_builddir} --target doc
 
 
 %install
-pushd obj
-make DESTDIR=%{buildroot} install
-popd
-
+%cmake_install
 
 %ldconfig_scriptlets
 
@@ -110,9 +101,7 @@ popd
 
 
 %check
-pushd obj
-ctest --output-on-failure
-popd
+%ctest
 
 %files
 %{_libdir}/libpam_wrapper.so*
@@ -143,12 +132,22 @@ popd
 %{_includedir}/libpamtest.h
 
 %files -n libpamtest-doc
-%doc obj/doc/html
+%doc %{__cmake_builddir}/doc/html
 
 %files -n python3-libpamtest
 %{python3_sitearch}/pypamtest.so
 
 %changelog
+* Wed Aug 05 2020 Andreas Schneider <asn@redhat.com> - 1.1.3-5
+- Build using new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.1.3-2
 - Rebuilt for Python 3.9
 

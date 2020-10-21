@@ -1,6 +1,6 @@
 Name:       ibus-table-cyrillic
 Version:    1.2.0.20100305
-Release:    18%{?dist}
+Release:    19%{?dist}
 Summary:    The Cyrillic tables for IBus-Table
 License:    GPLv3
 URL:        http://github.com/kaio/ibus-table-cyrillic/
@@ -54,6 +54,9 @@ cd /$RPM_BUILD_ROOT/%{_datadir}/ibus-table/tables/
 %{_datadir}/ibus-table/tables/yawerty.db
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0.20100305-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0.20100305-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

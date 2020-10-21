@@ -1,6 +1,6 @@
 Name:		mdevctl
-Version:	0.61
-Release:	2%{?dist}
+Version:	0.69
+Release:	1%{?dist}
 Summary:	Mediated device management and persistence utility
 
 Group:		System Environment/Kernel
@@ -38,9 +38,16 @@ vfio-mdev for assignment to virtual machines.
 %{_mandir}/man8/lsmdev.8*
 
 %changelog
-* Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.61-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
+* Fri Jul 17 2020 Cornelia Huck <cohuck@redhat.com> - 0.69-1
+- a2621934aa37 ("Merge pull request #18 from cohuck/validate")
+- ffbcef5a1c84 ("Merge pull request #25 from etrunko/master")
+- 5ec75a83bf30 ("Remove never used 'available' option")
+- d49b0f0db6b3 ("Merge pull request #23 from eskultety/man-fix")
+- 4cfe37eb2d99 ("man: Point --verbose to the 'list' command rather than 'types'")
+- a0ae49eb7178 ("Merge pull request #17 from cohuck/install_symlinks")
+- 504beba6e8f9 ("Force symlink cretion")
+- 522c5ded00ff ("Fix attribute validation")
 
 * Thu Dec 19 2019 Alex Williamson <alex.williamson@redhat.com> - 0.61-1
 - d7dfac5f5bfb ("Merge pull request #15 from cohuck/attr_sanity")

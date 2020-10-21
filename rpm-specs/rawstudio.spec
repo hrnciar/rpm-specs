@@ -7,7 +7,7 @@
 
 Name:           rawstudio
 Version:        2.1
-Release:        0.24.20200305.g%{shortcommit1}_rawspeed.20161119.g%{shortcommit2}%{?dist}
+Release:        0.25.20200305.g%{shortcommit1}_rawspeed.20161119.g%{shortcommit2}%{?dist}
 Summary:        Read, manipulate and convert digital camera raw images
 
 License:        GPLv2+
@@ -111,6 +111,9 @@ desktop-file-install \
 %{_libdir}/pkgconfig/rawstudio-%{version}.pc
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-0.25.20200305.g6e16257_rawspeed.20161119.gfa23d1c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Sérgio Basto <sergio@serjux.com> - 2.1-0.24.20200305.g6e16257_rawspeed.20161119.gfa23d1c
 - Organize sources and update official git commit, but dont expect anything new.
 

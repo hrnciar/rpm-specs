@@ -1,24 +1,29 @@
 Name:		perl-Devel-GlobalDestruction-XS
 Version:	0.03
-Release:	13%{?dist}
+Release:	17%{?dist}
 License:	GPL+ or Artistic
 Summary:	Faster implementation of the Devel::GlobalDestruction API
 URL:		https://metacpan.org/release/Devel-GlobalDestruction-XS
-Source0:	http://cpan.metacpan.org/authors/id/H/HA/HAARG/Devel-GlobalDestruction-XS-%{version}.tar.gz
-# Build (perl-devel split from main perl package at F-7)
+Source0:	https://cpan.metacpan.org/modules/by-module/Devel/Devel-GlobalDestruction-XS-%{version}.tar.gz
+# Build
 BuildRequires:	coreutils
 BuildRequires:	findutils
 BuildRequires:	gcc
 BuildRequires:	make
-BuildRequires:	perl-interpreter
-BuildRequires:	perl(ExtUtils::MakeMaker)
-%if 0%{?fedora} > 6 || 0%{?rhel} > 5
 BuildRequires:	perl-devel
-%endif
 BuildRequires:	perl-generators
+BuildRequires:	perl-interpreter
+BuildRequires:	perl(:VERSION) >= 5.6
+BuildRequires:	perl(ExtUtils::MakeMaker)
 # Module
+BuildRequires:	perl(strict)
+BuildRequires:	perl(warnings)
 BuildRequires:	perl(XSLoader)
 # Test suite
+BuildRequires:	perl(B)
+BuildRequires:	perl(Config)
+BuildRequires:	perl(POSIX)
+# Optional tests
 BuildRequires:	perl(threads)
 BuildRequires:	perl(threads::shared)
 # Runtime
@@ -39,7 +44,6 @@ perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}"
 make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
 make pure_install DESTDIR=%{buildroot}
 find %{buildroot} -type f -name .packlist -delete
 find %{buildroot} -type f -name '*.bs' -empty -delete
@@ -55,6 +59,20 @@ make test
 %{_mandir}/man3/Devel::GlobalDestruction::XS.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.03-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.03-16
+- Perl 5.32 re-rebuild updated packages
+
+* Fri Jun 26 2020 Paul Howarth <paul@city-fan.org> - 0.03-15
+- Spec clean-up
+  - Use author-independent source URL
+  - Drop redundant buildroot cleaning in %%install section
+
+* Fri Jun 26 2020 Petr Pisar <ppisar@redhat.com> - 0.03-14
+- Specify all dependencies
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.03-13
 - Perl 5.32 rebuild
 

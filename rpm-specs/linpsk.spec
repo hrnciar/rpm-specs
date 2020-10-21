@@ -1,6 +1,6 @@
 Name:           linpsk
 Version:        1.3.5
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        Psk31 and RTTY program for Linux
 
 License:        GPLv2+
@@ -15,6 +15,7 @@ Source3:        %{name}_64x64.png
 
 # Patch asoundrc file for default sound card (device 0)
 Patch0:         linpsk-1.1-3.sound.conf.patch
+Patch1:         linpsk-comparison.patch
 
 
 BuildRequires:  fftw-devel
@@ -47,6 +48,7 @@ At the Moment RTTY only supports 45 baud and 1.5 stop-bits.
 chmod 0644 src/{rttydemodulator.cpp,rttydemodulator.h}
 
 %patch0 -p1 -b 3.sound.conf
+%patch1 -p1 -b comparison
 
 %build
 %{qmake_qt4} -unix -o Makefile %{name}.pro
@@ -88,6 +90,12 @@ find %{buildroot} -type f -name "*.a" -exec rm -f {} ';'
 %{_libexecdir}/%{name}-bin
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 1.3.5-7
+- Avoid ordered pointer comparison against 0 which is an error in C++17
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.5-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

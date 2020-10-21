@@ -2,7 +2,7 @@
 
 Name:           python-webassets
 Version:        0.12.1
-Release:        15%{?dist}
+Release:        18%{?dist}
 Summary:        Media asset management for python
 License:        BSD
 URL:            http://github.com/miracle2k/%{mod_name}
@@ -25,9 +25,15 @@ BuildRequires:  /usr/bin/sass
 # rubygem-compass is broken/retired in Fedora, although webassets still supports it
 #BuildRequires:  /usr/bin/compass
 BuildRequires:  /usr/bin/uglifyjs
+# lessc is retired in Fedora 33
+%if 0%{?fedora} < 33
 BuildRequires:  /usr/bin/lessc
+%endif
 BuildRequires:  /usr/bin/coffee
+# handlebars is retired in Fedora >=33
+%if 0%{?fedora} < 33
 BuildRequires:  /usr/bin/handlebars
+%endif
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 # test requirements
@@ -97,6 +103,16 @@ py.test-3
 %{python3_sitelib}/%{mod_name}/
 
 %changelog
+* Mon Sep 28 2020 Than Ngo <than@redhat.com> - 0.12.1-18
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.1-17
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.1-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.12.1-15
 - Rebuilt for Python 3.9
 

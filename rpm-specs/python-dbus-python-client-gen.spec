@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.7
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Python Library for Generating dbus-python Client Code
 
 License:        MPLv2.0
@@ -50,6 +50,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -v tests
 %{python3_sitelib}/dbus_python_client_gen-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.7-8
 - Rebuilt for Python 3.9
 

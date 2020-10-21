@@ -1,5 +1,5 @@
-%global git_date 20200610
-%global git_commit 7f9d4740ab57287dffac13490bc82bf3f5f1b014
+%global git_date 20200918
+%global git_commit 85dccc5a5b7127e54e0c82b2b5ab5f5fb6fb5490
 %{?git_commit:%global git_commit_hash %(c=%{git_commit}; echo ${c:0:7})}
 
 %global _python_bytecompile_extra 0
@@ -34,10 +34,6 @@ Conflicts: gnutls < 3.6.11
 # Most users want this, the split is mostly for Fedora CoreOS
 Recommends: crypto-policies-scripts
 
-# Self-obsolete to install both subpackages after split.
-# Remove in F32.
-Obsoletes: %{name} < 20190211-3.gite3eacfc
-
 %description
 This package provides pre-built configuration files with
 cryptographic policies for various cryptographic back-ends,
@@ -46,7 +42,11 @@ such as SSL/TLS libraries.
 %package scripts
 Summary: Tool to switch between crypto policies
 Requires: %{name} = %{version}-%{release}
-Recommends: fips-mode-setup
+Recommends: grubby
+
+# fips-mode-setup merged into the scripts subpackage
+Obsoletes: fips-mode-setup < 20200702-1.c40cede
+Provides: fips-mode-setup = %{version}-%{release}
 
 %description scripts
 This package provides a tool update-crypto-policies, which applies
@@ -54,19 +54,8 @@ the policies provided by the crypto-policies package. These can be
 either the pre-built policies from the base package or custom policies
 defined in simple policy definition files.
 
-%package -n fips-mode-setup
-Summary: Enable or disable system FIPS mode
-Requires: %{name} = %{version}-%{release}
-Requires: %{name}-scripts = %{version}-%{release}
-Requires: grubby
-Requires: dracut
-
-# Self-obsolete to install both subpackages after split.
-# Remove in F32.
-Obsoletes: %{name} < 20190211-3.gite3eacfc
-
-%description -n fips-mode-setup
-The package provides a tool to enable or disable the system FIPS mode.
+The package also provides a tool fips-mode-setup, which can be used
+to enable or disable the system FIPS mode.
 
 %prep
 %setup -q -n fedora-crypto-policies-%{git_commit_hash}-%{git_commit}
@@ -89,8 +78,11 @@ install -p -m 644 default-config %{buildroot}%{_sysconfdir}/crypto-policies/conf
 touch %{buildroot}%{_sysconfdir}/crypto-policies/state/current
 touch %{buildroot}%{_sysconfdir}/crypto-policies/state/CURRENT.pol
 
+# Drop pre-generated GOST-ONLY policy, we do not need to ship the files
+rm -rf %{buildroot}%{_datarootdir}/crypto-policies/GOST-ONLY
+
 # Create back-end configs for mounting with read-only /etc/
-for d in LEGACY DEFAULT NEXT FUTURE FIPS ; do
+for d in LEGACY DEFAULT FUTURE FIPS ; do
     mkdir -p -m 755 %{buildroot}%{_datarootdir}/crypto-policies/back-ends/$d
     for f in %{buildroot}%{_datarootdir}/crypto-policies/$d/* ; do
         ln $f %{buildroot}%{_datarootdir}/crypto-policies/back-ends/$d/$(basename $f .txt).config
@@ -169,7 +161,6 @@ end
 %{_mandir}/man7/crypto-policies.7*
 %{_datarootdir}/crypto-policies/LEGACY
 %{_datarootdir}/crypto-policies/DEFAULT
-%{_datarootdir}/crypto-policies/NEXT
 %{_datarootdir}/crypto-policies/FUTURE
 %{_datarootdir}/crypto-policies/FIPS
 %{_datarootdir}/crypto-policies/EMPTY
@@ -185,13 +176,47 @@ end
 %{_mandir}/man8/update-crypto-policies.8*
 %{_datarootdir}/crypto-policies/python
 
-%files -n fips-mode-setup
 %{_bindir}/fips-mode-setup
 %{_bindir}/fips-finish-install
 %{_mandir}/man8/fips-mode-setup.8*
 %{_mandir}/man8/fips-finish-install.8*
 
 %changelog
+* Wed Sep 23 2020 Tomáš Mráz <tmraz@redhat.com> - 20200918-1.git85dccc5
+- add RSA-PSK algorithm support
+- add GOST algorithms support for openssl
+- add GOST-ONLY policy and fix GOST subpolicy
+- update-crypto-policies: added --check parameter to perform
+  comparison of actual configuration files with the policy
+
+* Thu Aug 13 2020 Tomáš Mráz <tmraz@redhat.com> - 20200813-1.git66d4068
+- libreswan: enable X25519 group
+- libreswan: properly disable FFDH in ECDHE-ONLY subpolicy
+- libreswan: add generation of authby parameter based on sign property
+- libssh: Add diffie-hellman-group14-sha256
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200702-2.gitc40cede
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tomáš Mráz <tmraz@redhat.com> - 20200702-1.gitc40cede
+- OSPP subpolicy: remove AES-CCM
+- openssl: handle the AES-CCM removal properly
+- openssh/libssh: drop CBC ciphersuites from DEFAULT and FIPS
+- add AD-SUPPORT subpolicy which re-enables RC4 for Kerberos
+- gnutls: disallow X448/ED448 in FIPS policy
+- merge fips-mode-setup package into the scripts subpackage
+
+* Thu Jun 25 2020 Tomáš Mráz <tmraz@redhat.com> - 20200625-1.gitb298a9e
+- DEFAULT policy: Drop DH < 2048 bits, TLS 1.0, 1.1, SHA-1
+- make the NEXT policy just an alias for DEFAULT as they are now identical
+- policies: introduce sha1_in_dnssec value for BIND
+- add SHA1 and FEDORA32 policy modules to provide backwards compatibility
+  they can be applied as DEFAULT:SHA1 or DEFAULT:FEDORA32
+- avoid duplicates of list items in resulting policy
+
+* Wed Jun 24 2020 Tomáš Mráz <tmraz@redhat.com> - 20200619-1.git781bbd4
+- gnutls: enable DSA signatures in LEGACY
+
 * Wed Jun 10 2020 Tomáš Mráz <tmraz@redhat.com> - 20200610-1.git7f9d474
 - openssh server: new format of configuration to be loaded by config include
 - fallback to FIPS policy instead of the default-config in FIPS mode

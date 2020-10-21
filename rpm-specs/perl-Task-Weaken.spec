@@ -1,6 +1,6 @@
 Name:           perl-Task-Weaken
 Version:        1.06
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Ensure that a platform has weaken support
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Task-Weaken
@@ -55,6 +55,9 @@ make test
 %{_mandir}/man3/Task::Weaken.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.06-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.06-8
 - Perl 5.32 rebuild
 

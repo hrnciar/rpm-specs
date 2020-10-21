@@ -2,7 +2,7 @@
 
 Name:           python-flask-assets
 Version:        0.10
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Asset management for flask
 
 License:        BSD
@@ -50,6 +50,9 @@ mkdir -p $RPM_BUILD_ROOT%{python3_sitelib}
 %{python3_sitelib}/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.10-20
 - Rebuilt for Python 3.9
 

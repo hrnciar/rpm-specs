@@ -1,6 +1,6 @@
 Name:           mujs
 Version:        1.0.4
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        An embeddable Javascript interpreter
 License:        AGPLv3+
 URL:            http://mujs.com/
@@ -48,6 +48,9 @@ make install DESTDIR=%{buildroot} prefix="%{_prefix}" libdir="%{_libdir}" \
 %{_libdir}/lib%{name}.a
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.4-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

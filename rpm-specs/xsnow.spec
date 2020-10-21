@@ -1,5 +1,5 @@
 Name:           xsnow
-Version:        2.0.22
+Version:        3.0.3
 Release:        1%{?dist}
 Summary:        Let it snow on your desktop
 
@@ -8,7 +8,7 @@ URL:            https://sourceforge.net/projects/xsnow/
 Source0:        https://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Source1:        %{name}.appdata.xml
 
-BuildRequires:  gcc
+BuildRequires:  gcc-c++
 BuildRequires:  libX11-devel
 BuildRequires:  libXt-devel
 BuildRequires:  libXpm-devel
@@ -64,6 +64,12 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 
 
 %changelog
+* Sun Aug 09 2020 Andrea Musuruane <musuruan@gmail.com> - 3.0.3-1
+- Updated to new upstream release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.22-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 31 2020 Andrea Musuruane <musuruan@gmail.com> - 2.0.22-1
 - Updated to new upstream release
 

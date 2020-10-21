@@ -1,6 +1,6 @@
 Name:           sigrok-cli
 Version:        0.7.1
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Basic hardware access drivers for logic analyzers
 License:        GPLv3+
 URL:            http://www.sigrok.org
@@ -37,6 +37,13 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_datadir}/icons/*/*/*/%{name}.svg
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

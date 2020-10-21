@@ -1,6 +1,6 @@
 # This spec file has been automatically updated
 Version:	0.9.10
-Release: 7%{?dist}
+Release: 9%{?dist}
 Name: libunistring
 Summary: GNU Unicode string library
 License: GPLV2+ or LGPLv3+
@@ -28,10 +28,10 @@ Development files for programs using libunistring.
 
 %build
 %configure --disable-static --disable-rpath
-make %{?_smp_mflags}
+%make_build
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
+%make_install
 rm -f $RPM_BUILD_ROOT/%{_infodir}/dir
 rm -f $RPM_BUILD_ROOT/%{_libdir}/%{name}.la
 # Move staged docs so not picked up by %%doc in main package
@@ -53,6 +53,13 @@ mv $RPM_BUILD_ROOT%{_datadir}/doc/%{name} __doc
 %ldconfig_scriptlets
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.10-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 0.9.10-8
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.10-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

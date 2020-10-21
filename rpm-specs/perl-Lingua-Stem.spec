@@ -1,6 +1,6 @@
 Name:           perl-Lingua-Stem
-Version:        2.30
-Release:        2%{?dist}
+Version:        2.31
+Release:        1%{?dist}
 Summary:        Stemming of words
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Lingua-Stem
@@ -73,6 +73,12 @@ TEST_POD_COVERAGE=1 ./Build test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Sep 29 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.31-1
+- 2.31 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.30-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.30-2
 - Perl 5.32 rebuild
 

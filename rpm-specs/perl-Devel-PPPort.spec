@@ -2,12 +2,13 @@
 %bcond_without perl_Devel_PPPort_enables_optional_test
 
 Name:           perl-Devel-PPPort
-Version:        3.58
-Release:        2%{?dist}
+Version:        3.62
+Release:        1%{?dist}
 Summary:        Perl Pollution Portability header generator
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Devel-PPPort
 Source0:        https://cpan.metacpan.org/authors/id/A/AT/ATOOMIC/Devel-PPPort-%{version}.tar.gz
+BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  gcc
 BuildRequires:  make
@@ -72,6 +73,21 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Mon Oct 19 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.62-1
+- 3.62 bump
+
+* Thu Aug 13 2020 Petr Pisar <ppisar@redhat.com> - 3.60-1
+- 3.60 bump
+
+* Tue Aug 11 2020 Petr Pisar <ppisar@redhat.com> - 3.59-1
+- 3.59 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.58-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.58-3
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.58-2
 - Perl 5.32 rebuild
 

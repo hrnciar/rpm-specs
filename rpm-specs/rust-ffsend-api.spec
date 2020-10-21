@@ -5,7 +5,7 @@
 %global crate ffsend-api
 
 Name:           rust-%{crate}
-Version:        0.6.0
+Version:        0.6.2
 Release:        1%{?dist}
 Summary:        Fully featured Firefox Send API client
 
@@ -15,6 +15,8 @@ URL:            https://crates.io/crates/ffsend-api
 Source:         %{crates_source}
 # Initial patched metadata
 # * OpenSSL by default
+# * bump hkdf from 0.8 to 0.9
+# * bump sha2 from 0.8 to 0.9
 Patch0:         ffsend-api-fix-metadata.diff
 
 ExclusiveArch:  %{rust_arches}
@@ -158,6 +160,16 @@ which use "websocket" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Sep 16 2020 Fabio Valentini <decathorpe@gmail.com> - 0.6.2-1
+- Update to version 0.6.2.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 17 18:45:57 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.6.0-1
 - Update to 0.6.0
 

@@ -1,12 +1,6 @@
-#
-# Needed until upstream gcc10 porting is doen
-# https://github.com/ngircd/ngircd/issues/266
-#
-%define _legacy_common_support 1
-
 Name:           ngircd
-Version:        25
-Release:        7%{?dist}
+Version:        26
+Release:        4%{?dist}
 Summary:        Next Generation IRC Daemon
 License:        GPLv2+
 URL:            http://ngircd.barton.de/
@@ -26,7 +20,7 @@ BuildRequires:  zlib-devel, avahi-compat-howl-devel
 BuildRequires:  gnutls-devel
 BuildRequires:  pam-devel
 # Needed for tests
-BuildRequires:  expect procps-ng telnet
+BuildRequires:  expect procps-ng telnet openssl
 %if 0%{?rhel} > 6 || 0%{?fedora}
 BuildRequires: systemd
 Requires(post): systemd
@@ -89,7 +83,7 @@ mkdir -p %{buildroot}%{_sysconfdir}/pam.d
 install -D -m 660 ./contrib/Debian/ngircd.pam %{buildroot}%{_sysconfdir}/pam.d/ngircd
 
 touch  %{buildroot}%{_sysconfdir}/ngircd.motd
-rm %{buildroot}%{_docdir}/ngircd/INSTALL
+rm %{buildroot}%{_docdir}/ngircd/INSTALL.md
 %if 0%{?rhel} > 6 || 0%{?fedora}
 mkdir -p %{buildroot}%{_tmpfilesdir}
 echo d /run/ngircd 0750 ngircd ngircd - > %{buildroot}%{_tmpfilesdir}/ngircd.conf
@@ -98,7 +92,12 @@ mkdir -p %{buildroot}%{_localstatedir}/run/ngircd
 %endif
 
 %check
+#
+# Disable i686 tests pending https://github.com/ngircd/ngircd/issues/280
+#
+%ifnarch %{ix86}
 make check
+%endif
 
 %pre
 getent group ngircd >/dev/null || groupadd -r ngircd
@@ -156,6 +155,19 @@ fi
 %endif
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 26-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jun 28 2020 Kevin Fenzi <kevin@scrye.com> - 26-3
+- Fix arch conditional for tests. :( 
+
+* Sun Jun 28 2020 Kevin Fenzi <kevin@scrye.com> - 26-2
+- Drop gcc10 workaround (fixed upstream)
+- Disable tests on i686 for now as they seem sporadically broken. ( https://github.com/ngircd/ngircd/issues/280 )
+
+* Wed Jun 24 2020 Kevin Fenzi <kevin@scrye.com> - 26-1
+- Update to 26. Fixes bug 1849314
+
 * Sat May 16 2020 Kevin Fenzi <kevin@scrye.com> - 25-7
 - rhel8 also has system cypher support, so add that before initial epel8 package.
 

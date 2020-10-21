@@ -4,7 +4,7 @@ Summary: A signing server and related software client
 Name: sigul
 
 Version: 1.0a1
-Release: 2%{?dist}
+Release: 4%{?dist}
 License: GPLv2
 
 URL: https://pagure.io/sigul/
@@ -187,6 +187,13 @@ exit 0
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0a1-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0a1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 09 2020 Patrick Uiterwijk <patrick@puiterwijk.org> - 1.0a1-2
 - Add server_gpg.py
 

@@ -4,7 +4,7 @@
 
 Name:       nodejs-isodate
 Version:    0.1.4
-Release:    15%{?dist}
+Release:    16%{?dist}
 Summary:    JavaScript ISO 8601 date/time parser for Node.js
 
 License:    MIT
@@ -48,6 +48,9 @@ cp -pr package.json isodate.js %{buildroot}%{nodejs_sitelib}/isodate
 %{nodejs_sitelib}/isodate
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.4-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.1.4-15
 - Clean-up
 

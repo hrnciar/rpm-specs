@@ -9,7 +9,7 @@
 
 Name:           python-genshi
 Version:        0.7.3
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Toolkit for stream-based generation of output for the web
 
 License:        BSD
@@ -122,6 +122,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.3-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 15 2020 Felix Schwarz <fschwarz@fedoraproject.org> - 0.7.3-7
 - add patches for Python 3.9 compatibility
 

@@ -1,8 +1,8 @@
 %bcond_with tests
 
 Name:           python-soupsieve
-Version:        1.9.2
-Release:        6%{?dist}
+Version:        2.0.1
+Release:        2%{?dist}
 Summary:        CSS selector library
 
 License:        MIT
@@ -65,6 +65,12 @@ pytest-3 -v tests -k 'not test_namespace_xml_with_namespace'
 %license LICENSE.md
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Charalampos Stratakis <cstratak@redhat.com> - 2.0.1-1
+- Update to 2.0.1 (#1814999)
+
 * Sat May 23 2020 Miro Hrončok <mhroncok@redhat.com> - 1.9.2-6
 - Rebuilt for Python 3.9
 

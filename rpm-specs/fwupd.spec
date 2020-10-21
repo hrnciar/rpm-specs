@@ -6,6 +6,10 @@
 %global systemd_version 231
 %global json_glib_version 1.1.1
 
+# although we ship a few tiny python files these are utilities that 99.99%
+# of users do not need -- use this to avoid dragging python onto CoreOS
+%global __requires_exclude ^%{python3}$
+
 # PPC64 is too slow to complete the tests under 3 minutes...
 %ifnarch ppc64le
 %global enable_tests 1
@@ -40,7 +44,7 @@
 
 Summary:   Firmware update daemon
 Name:      fwupd
-Version:   1.4.4
+Version:   1.4.6
 Release:   1%{?dist}
 License:   LGPLv2+
 URL:       https://github.com/fwupd/fwupd
@@ -56,7 +60,6 @@ BuildRequires: libsoup-devel >= %{libsoup_version}
 BuildRequires: libjcat-devel >= %{libjcat_version}
 BuildRequires: polkit-devel >= 0.103
 BuildRequires: sqlite-devel
-BuildRequires: gpgme-devel
 BuildRequires: systemd >= %{systemd_version}
 BuildRequires: libarchive-devel
 BuildRequires: gobject-introspection-devel
@@ -121,6 +124,9 @@ Obsoletes: fwupd-sign < 0.1.6
 Obsoletes: libebitdo < 0.7.5-3
 Obsoletes: libdfu < 1.0.0
 Obsoletes: fwupd-labels < 1.1.0-1
+
+Obsoletes: dbxtool < 9
+Provides: dbxtool
 
 %description
 fwupd is a daemon to allow session software to update device firmware.
@@ -210,7 +216,10 @@ Data files for installed tests.
 %global efiarch aa64
 %endif
 %global fwup_efi_fn $RPM_BUILD_ROOT%{_libexecdir}/fwupd/efi/fwupd%{efiarch}.efi
-%pesign -s -i %{fwup_efi_fn} -o %{fwup_efi_fn}.signed
+%pesign -s -i %{fwup_efi_fn} -o %{fwup_efi_fn}.tmp
+%define __pesign_client_cert fwupd-signer
+%pesign -s -i %{fwup_efi_fn}.tmp -o %{fwup_efi_fn}.signed
+rm -vf %{fwup_efi_fn}.tmp
 %endif
 
 mkdir -p --mode=0700 $RPM_BUILD_ROOT%{_localstatedir}/lib/fwupd/gnupg
@@ -253,6 +262,9 @@ mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/cache/fwupd
 %{_bindir}/fwupdtpmevlog
 %endif
 %{_bindir}/dfu-tool
+%if 0%{?have_uefi}
+%{_bindir}/dbxtool
+%endif
 %{_bindir}/fwupdmgr
 %{_bindir}/fwupdtool
 %{_bindir}/fwupdagent
@@ -284,6 +296,9 @@ mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/cache/fwupd
 %{_datadir}/man/man1/fwupdtool.1.gz
 %{_datadir}/man/man1/fwupdagent.1.gz
 %{_datadir}/man/man1/dfu-tool.1.gz
+%if 0%{?have_uefi}
+%{_datadir}/man/man1/dbxtool.1.gz
+%endif
 %{_datadir}/man/man1/fwupdmgr.1.gz
 %if 0%{?have_uefi}
 %{_datadir}/man/man1/fwupdate.1.gz
@@ -363,11 +378,11 @@ mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/cache/fwupd
 %endif
 %{_libdir}/fwupd-plugins-3/libfu_plugin_thelio_io.so
 %{_libdir}/fwupd-plugins-3/libfu_plugin_thunderbolt.so
-%{_libdir}/fwupd-plugins-3/libfu_plugin_thunderbolt_power.so
 %if 0%{?have_uefi}
 %{_libdir}/fwupd-plugins-3/libfu_plugin_tpm.so
 %{_libdir}/fwupd-plugins-3/libfu_plugin_tpm_eventlog.so
 %{_libdir}/fwupd-plugins-3/libfu_plugin_uefi.so
+%{_libdir}/fwupd-plugins-3/libfu_plugin_uefi_dbx.so
 %{_libdir}/fwupd-plugins-3/libfu_plugin_uefi_recovery.so
 %endif
 %{_libdir}/fwupd-plugins-3/libfu_plugin_logind.so
@@ -403,6 +418,55 @@ mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/cache/fwupd
 %endif
 
 %changelog
+* Mon Sep 07 2020 Richard Hughes <richard@hughsie.com> 1.4.6-1
+- New upstream release
+- Add a re-implementation of the rhboot dbxtool
+- Add missing Synaptics Prometheus GUIDs for ConfigId
+- Add support for the LabTop Mk IV
+- Add support for the Realtek RTD21XX I²C protocol
+- Allow blocking specific firmware releases by checksum
+- Allow DFU device to attach to runtime without a bus reset
+- Allow plugins to set remove delay only on the child
+- Cancel the file monitor before disposal to avoid a potential deadlock
+- Correctly label the vebdor for more NVMe devices
+- Specify a remove delay for Poly USB Cameras
+- Support download of large DFU firmware
+- Support polling the status from device in dfuManifest state
+- Use newer libxmlb features to properly display more AppStream markup
+
+* Tue Aug 18 2020 Richard Hughes <richard@hughsie.com> 1.4.5-4
+- Rebuild for the libxmlb API bump.
+
+* Mon Aug 03 2020 Peter Jones <pjones@redhat.com> - 1.4.5-3
+- Make dual signing happen.
+  Related: CVE-2020-10713
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.5-2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 30 2020 Richard Hughes <richard@hughsie.com> 1.4.5-1
+- New upstream release
+- Add dual-image feature for VL103 backup firmware
+- Add more CCGX hybrid dock support
+- Add support for a delayed activation flow for Thunderbolt
+- Allow firmware to require specific features from front-end clients
+- Be more defensive when remotes are missing required keys
+- Check all AppStream components when verifying
+- Check for free space after cleaning up ESP
+- Fix TPM PCR0 calculation
+- Modernize the thunderbolt plugin for future hardware
+- Only show UpdateMessage when state is success
+- Read the modem vendor ID correctly
+- Set the runtime version to 0.0.0 for pre-1.0.0 Thelio Io firmware
+- Support compiling libqmi-glib 1.26.0 and later
+- Support LVFS::UpdateImage in GUI clients
+- Use the GPIOB reset for the MiniDock VL103
+- Wait for the root device to be replugged when updating the MSP430
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 10 2020 Richard Hughes <richard@hughsie.com> 1.4.4-1
 - New upstream release
 - Fix refreshing when checking for downgraded metadata

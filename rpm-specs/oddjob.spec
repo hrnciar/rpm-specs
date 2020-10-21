@@ -22,7 +22,7 @@
 
 Name: oddjob
 Version: 0.34.6
-Release: 1%{?dist}
+Release: 2%{?dist}
 Source0: https://releases.pagure.org/oddjob/oddjob-%{version}.tar.gz
 Source1: https://releases.pagure.org/oddjob/oddjob-%{version}.tar.gz.sig
 Summary: A D-Bus service which runs odd jobs on behalf of client applications
@@ -246,6 +246,9 @@ fi
 exit 0
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.34.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May  7 2020 Nalin Dahyabhai <nalin@redhat.com> - 0.34.6-1
 - update license on src/buffer.h
 - change /var/run -> /run in systemd service file (Orion Poplawski)

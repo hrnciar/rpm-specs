@@ -1,6 +1,6 @@
 Name: uml_utilities
 Version: 20070815
-Release: 27%{?dist}
+Release: 28%{?dist}
 License: GPL+
 URL: http://user-mode-linux.sourceforge.net/index.html
 Source0: http://user-mode-linux.sourceforge.net/%{name}_%{version}.tar.bz2
@@ -62,6 +62,9 @@ getent group uml-net >/dev/null || groupadd -r uml-net
 exit 0
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20070815-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20070815-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

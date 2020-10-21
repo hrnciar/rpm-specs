@@ -3,7 +3,7 @@
 
 # https://github.com/containerd/continuity
 %global goipath         github.com/containerd/continuity
-%global commit          aaeac12a7ffcd198ae25440a9dff125c2e2703a7
+%global commit          efbc4488d8fe1bdc16bde3b2d2990d9b3a899165
 
 %gometa
 
@@ -15,7 +15,7 @@ A transport-agnostic, filesystem metadata manifest system.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.5%{?dist}
 Summary:        Transport-agnostic, filesystem metadata manifest system
 
 # Upstream license specification: Apache-2.0
@@ -66,6 +66,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 25 16:29:57 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200725gitefbc448
+- Bump to commit efbc4488d8fe1bdc16bde3b2d2990d9b3a899165
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

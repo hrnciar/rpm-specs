@@ -1,7 +1,7 @@
 %global pypi_name archinfo
 
 Name:           python-%{pypi_name}
-Version:        8.20.6.8
+Version:        9.0.4495
 Release:        1%{?dist}
 Summary:        Collection of classes that contain architecture-specific information
 
@@ -42,7 +42,22 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/%{pypi_name}-%{version}-py*.egg-info/
 
 %changelog
-* Tue Jun 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.4.1-1
+* Fri Oct 02 2020 Fabian Affolter <mail@fabian-affolter.ch> - 9.0.4495-1
+- Update to new upstream release 9.0.4495 (#1880178)
+
+* Fri Sep 25 2020 Fabian Affolter <mail@fabian-affolter.ch> - 9.0.4446-1
+- Update to new upstream release 9.0.4446 (#1880178)
+
+* Wed Sep 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 9.0.4378-1
+- Update to new upstream release 9.0.4378 (#1880178)
+
+* Tue Jul 28 2020 Fabian Affolter <mail@fabian-affolter.ch> - 8.20.7.27-1
+- Update to new upstream release 8.20.7.27 (#1858194)
+
+* Fri Jul 17 2020 Fabian Affolter <mail@fabian-affolter.ch> - 8.20.7.6-1
+- Update to new upstream release 8.20.7.6 (#1858194)
+
+* Tue Jun 23 2020 Fabian Affolter <mail@fabian-affolter.ch> - 8.20.6.8-1
 - Update to latest upstream release 8.20.6.8
 
 * Wed Jun 03 2020 Fabian Affolter <mail@fabian-affolter.ch> - 8.20.6.1-1

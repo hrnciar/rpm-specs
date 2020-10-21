@@ -1,7 +1,7 @@
 Summary:    DSSI implementation of Fluidsynth
 Name:       fluidsynth-dssi
 Version:    1.0.0
-Release:    22%{?dist}
+Release:    23%{?dist}
 License:    GPLv2+
 URL:        http://dssi.sourceforge.net/download.html#FluidSynth-DSSI
 Source0:    http://download.sf.net/dssi/fluidsynth-dssi-%{version}.tar.gz
@@ -44,6 +44,9 @@ rm $RPM_BUILD_ROOT%{_libdir}/dssi/fluidsynth-dssi.la
 %{_libdir}/dssi/fluidsynth-dssi*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 20 2020 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> - 1.0.0-22
 - Rebuild against fluidsynth2
 - Some SPEC cleanup

@@ -1,6 +1,6 @@
 Name:           viewnior
 Version:        1.7
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Elegant image viewer
 
 License:        GPLv3+
@@ -63,6 +63,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

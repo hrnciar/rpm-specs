@@ -1,12 +1,12 @@
 %global opt %(test -x %{_bindir}/ocamlopt && echo 1 || echo 0)
 
 # We're packaging git releases which support OCaml 4.10.
-%global commit 6718331f8b574fa4100c7aa82ee4c833a6652ac0
-%global shortcommit 6718331f
+%global commit d0fd4c7dfa70763870914eedee7022fa35f700e2
+%global shortcommit d0fd4c7d
 
 Name:           coccinelle
 Version:        1.0.9
-Release:        0.9.%{commit}%{?dist}
+Release:        0.14.git%{shortcommit}%{?dist}
 Summary:        Semantic patching for Linux (spatch)
 
 License:        GPLv2
@@ -19,14 +19,6 @@ Source0:        https://github.com/%{name}/%{name}/archive/%{commit}/%{name}-%{s
 # Used for running Python tests.
 Source1:        test.c
 Source2:        testpy.cocci
-
-# Patches to fix Python 3.9.
-# From upstream branch update_pyml_python39.
-Patch1:         0001-Update-pyml-bundle-to-pyml-master.patch
-Patch2:         0002-Forgot-to-mark-PyImport_Cleanup-optional.patch
-Patch3:         0003-Update-to-stdcompat-13-needed-by-pyml.patch
-Patch4:         0004-Add-stdcompat.h-to-SIDEPRODUCTS.patch
-Patch5:         0005-stdcompat.h-is-from-stdcompat-not-pyml.patch
 
 BuildRequires:  git
 BuildRequires:  autoconf
@@ -201,10 +193,8 @@ done
 # replace tabs with spaces
 find . -iname '*.py' | xargs -I {} sh -exc 'expand -t8 {} > tempfile && mv tempfile {}'
 
-# Hack added in 1.0.3 then readded again in 1.0.5 to properly rebuild
-# removed in 1.0.7 again
-# Menhir generated files XXX
-#rm parsing_cocci/parser_cocci_menhir.ml parsing_cocci/parser_cocci_menhir.mli
+# Properly rebuild Menhir generated files.
+rm -f parsing_cocci/parser_cocci_menhir.ml parsing_cocci/parser_cocci_menhir.mli
 
 
 %build
@@ -213,11 +203,13 @@ find . -iname '*.py' | xargs -I {} sh -exc 'expand -t8 {} > tempfile && mv tempf
 %configure \
     --with-python=%{_bindir}/python3 \
     --with-menhir=%{_bindir}/menhir
+
 %{__sed} -i \
   -e 's,LIBDIR=.*,LIBDIR=%{_libdir},' \
   -e 's,MANDIR=.*,MANDIR=%{_mandir},' \
   -e 's,SHAREDIR=.*,SHAREDIR=%{_libdir}/%{name},' \
   -e 's,DYNLINKDIR=.*,DYNLINKDIR=%{_libdir}/ocaml,' \
+  -e 's,BASH_COMPLETION_DIR=.*,BASH_COMPLETION_DIR=%{_datadir}/bash-completion/completions,' \
   Makefile.config
 
 # Pass -g option everywhere.
@@ -331,6 +323,24 @@ $spatch --sp-file %{SOURCE2} %{SOURCE1}
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.0.9-0.14.gitd0fd4c7d
+- OCaml 4.11.1 rebuild
+
+* Sat Aug 22 2020 Richard W.M. Jones <rjones@redhat.com> - 1.0.9-0.13.gitd0fd4c7d
+- OCaml 4.11.0 rebuild
+
+* Mon Aug 03 2020 Richard W.M. Jones <rjones@redhat.com> - 1.0.9-0.12.gitd0fd4c7d
+- Bump and rebuild to fix Dynlink dependency.
+
+* Tue Jul 28 2020 Richard W.M. Jones <rjones@redhat.com> - 1.0.9-0.11
+- Move to git d0fd4c7dfa70763870914eedee7022fa35f700e2.
+- Includes the Python 3.9 patches already, so remove those.
+- Rewrite BASH_COMPLETION_DIR in configuration.
+- Properly rebuild menhir-generated files.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.9-0.10.6718331f8b574fa4100c7aa82ee4c833a6652ac0
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 30 2020 Richard W.M. Jones <rjones@redhat.com> - 1.0.9-0.9.6718331f8b574fa4100c7aa82ee4c833a6652ac0
 - Rebuild for updated ocaml-extlib (RHBZ#1837823).
 

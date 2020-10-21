@@ -3,7 +3,7 @@
 
 Name:           sblim-gather
 Version:        2.2.9
-Release:        16%{?dist}
+Release:        19%{?dist}
 Summary:        SBLIM Gatherer
 
 License:        EPL
@@ -119,9 +119,8 @@ make %{?_smp_mflags}
 
 # for missing providers
 pushd missing-providers
-  mkdir -p %{_target_platform}
+  %{cmake}
   pushd %{_target_platform}
-    %{cmake} ..
     make %{?_smp_mflags}
   popd
 popd
@@ -296,6 +295,17 @@ fi
 %ldconfig_postun provider
 
 %changelog
+* Thu Aug 06 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.2.9-19
+- Fix FTBFS
+  Resolves: #1865457
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.9-18
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.9-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Feb 13 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.2.9-16
 - Fix multiple definiton of variables (FTBFS with GCC 10)
   Resolves: #1800073

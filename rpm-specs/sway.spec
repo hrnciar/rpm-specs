@@ -1,42 +1,36 @@
 Name:           sway
-Version:        1.4
-Release:        7%{?dist}
+Version:        1.5
+Release:        2%{?dist}
 Summary:        i3-compatible window manager for Wayland
 License:        MIT
 URL:            https://github.com/swaywm/sway
 Source0:        %{url}/releases/download/%{version}/%{name}-%{version}.tar.gz
-Patch1:         https://github.com/swaywm/sway/commit/29a5ce5f65d04b046271fbe53850836c77bbee80.patch#/link-with-fno-common.patch
-Patch2:         https://github.com/swaywm/sway/pull/4991.patch#/sway.fix-null-strcmp.patch
-Patch3:         %{url}/pull/4781.patch#/render-layer-shell-popups-over-the-top-layer.patch
+Source1:        %{url}/releases/download/%{version}/%{name}-%{version}.tar.gz.sig
+# Drew DeVault (sway signing key) <sway@cmpwn.com>
+# Imported from http://pgp.mit.edu/pks/lookup?op=vindex&search=0x52CB6609B22DA89A
+Source2:        gpgkey-9DDA3B9FA5D58DD5392C78E652CB6609B22DA89A.gpg
 
-# FIXME: wlroots require `pkgconfig(egl)`, but assumes mesa provides it
-# (and uses it's extension header `<EGL/eglmesaext.h>).
-# Upstream is working on not needing that: https://github.com/swaywm/wlroots/issues/1899
-# Until it is fixed, pull mesa-libEGL-devel manually
-BuildRequires:  pkgconfig(egl) mesa-libEGL-devel
-BuildRequires:  cmake
 BuildRequires:  gcc-c++
-BuildRequires:  make
-BuildRequires:  meson >= 0.48.0
-BuildRequires:  pam-devel
+BuildRequires:  gnupg2
+BuildRequires:  meson >= 0.53.0
 BuildRequires:  pkgconfig(cairo)
-BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  pkgconfig(gdk-pixbuf-2.0)
 BuildRequires:  pkgconfig(json-c) >= 0.13
-BuildRequires:  pkgconfig(libcap)
+BuildRequires:  pkgconfig(libevdev)
 BuildRequires:  pkgconfig(libinput) >= 1.6.0
 BuildRequires:  pkgconfig(libpcre)
+BuildRequires:  pkgconfig(libsystemd) >= 239
 BuildRequires:  pkgconfig(pango)
+BuildRequires:  pkgconfig(pangocairo)
+BuildRequires:  pkgconfig(scdoc)
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-cursor)
 BuildRequires:  pkgconfig(wayland-egl)
 BuildRequires:  pkgconfig(wayland-server)
 BuildRequires:  pkgconfig(wayland-protocols) >= 1.14
-BuildRequires:  pkgconfig(wlroots) >= 0.10.0
-BuildRequires:  wayland-devel
-BuildRequires:  libevdev-devel
-BuildRequires:  git
-BuildRequires:  scdoc
+BuildRequires:  pkgconfig(wlroots) >= 0.11.0
+BuildRequires:  pkgconfig(xcb)
+BuildRequires:  pkgconfig(xkbcommon)
 # Dmenu is the default launcher in sway
 Recommends:     dmenu
 # In addition, xargs is recommended for use in such a launcher arrangement
@@ -52,7 +46,8 @@ Recommends:     mesa-dri-drivers
 # dmenu (as well as rxvt any many others) requires XWayland on Sway
 Requires:       xorg-x11-server-Xwayland
 # Sway binds the terminal shortcut to one specific terminal. In our case urxvtc-ml
-Recommends:     rxvt-unicode-256color-ml
+# Use file dependency because the package rxvt-unicode-256color-ml does not exist in f32+
+Recommends:     %{_bindir}/urxvt256c-ml
 # grim is the recommended way to take screenshots on sway 1.0+
 Recommends:     grim
 
@@ -61,7 +56,8 @@ Sway is a tiling window manager supporting Wayland compositor protocol and
 i3-compatible configuration.
 
 %prep
-%autosetup -p 1
+%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
+%autosetup -p1
 
 %build
 %meson
@@ -79,8 +75,6 @@ sed -i "s|^output \* bg .*|output * bg /usr/share/backgrounds/default.png fill|"
 %doc README.md
 %dir %{_sysconfdir}/sway
 %config(noreplace) %{_sysconfdir}/sway/config
-%dir %{_sysconfdir}/sway/security.d
-%config(noreplace) %{_sysconfdir}/sway/security.d/00-defaults
 %{_mandir}/man1/*
 %{_mandir}/man5/*
 %{_mandir}/man7/*
@@ -101,6 +95,15 @@ sed -i "s|^output \* bg .*|output * bg /usr/share/backgrounds/default.png fill|"
 %{_datadir}/backgrounds/sway
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 15 2020 Aleksei Bavshin <alebastr89@gmail.com> - 1.5-1
+- Update to 1.5
+- Fix urxvt256c-ml dependency for f32+
+- Add source verification
+- Cleanup build dependencies
+
 * Sat May 30 2020 Jan Pokorný <jpokorny@fedoraproject.org> 1.4-7
 - Enhance greenfield readiness with optional pull of default driver set & xargs
 

@@ -1,7 +1,7 @@
 %global apiversion 0.3
 
 Name: libmwaw
-Version: 0.3.16
+Version: 0.3.17
 Release: 1%{?dist}
 Summary: A library for import of many old Mac document formats
 
@@ -56,7 +56,7 @@ sed -i \
     -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -e 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' \
     libtool
-make %{?_smp_mflags} V=1
+%make_build
 
 export LD_LIBRARY_PATH=`pwd`/src/lib/.libs${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 help2man -N -n 'convert Mac spreadsheet into CSV' -o mwaw2csv.1 ./src/conv/csv/.libs/mwaw2csv
@@ -66,7 +66,7 @@ help2man -N -n 'convert Mac drawing into SVG' -o mwaw2svg.1 ./src/conv/svg/.libs
 help2man -N -n 'convert Mac text document into plain text' -o mwaw2text.1 ./src/conv/text/.libs/mwaw2text
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 rm -f %{buildroot}/%{_libdir}/*.la
 # it seems this tool is only useful on MacOS
 rm -f %{buildroot}/%{_bindir}/mwawFile
@@ -106,6 +106,16 @@ install -m 0644 mwaw2*.1 %{buildroot}/%{_mandir}/man1
 %{_mandir}/man1/mwaw2text.1*
 
 %changelog
+* Mon Sep 21 2020 David Tardon <dtardon@redhat.com> - 0.3.17-1
+- new upstream release
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.16-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 0.3.16-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Sun Apr 05 2020 David Tardon <dtardon@redhat.com> - 0.3.16-1
 - new upstream release
 

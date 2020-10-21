@@ -8,8 +8,8 @@ PyBIDS is a Python module to interface with datasets conforming BIDS.
 %global srcname     pybids
 
 Name:       python-%{srcname}
-Version:    0.10.2
-Release:    2%{?dist}
+Version:    0.12.1
+Release:    1%{?dist}
 Summary:    Interface with datasets conforming to BIDS
 
 License:    MIT
@@ -70,7 +70,7 @@ popd
 %py3_build
 
 pushd doc && \
-    sphinx-build-3 . html
+    PYTHONPATH=.. sphinx-build-3 . html
     rm -fv .buildinfo
 popd
 
@@ -86,6 +86,7 @@ PYTHONPATH=. py.test-3 -s -v -k-test_split .
 %files -n python3-%{srcname}
 %doc README.md
 %license LICENSE
+%{_bindir}/pybids
 %{python3_sitelib}/%{srcname}-%{version}-py3.?.egg-info
 %{python3_sitelib}/bids/
 
@@ -94,6 +95,15 @@ PYTHONPATH=. py.test-3 -s -v -k-test_split .
 %license LICENSE
 
 %changelog
+* Sun Sep 13 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.12.1-1
+- Update to new release
+
+* Fri Sep 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.12.0-1
+- Update to 0.12.0
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.10.2-2
 - Rebuilt for Python 3.9
 

@@ -1,7 +1,7 @@
 Summary:        Utility to force unused ext2/3/4 inodes and blocks to zero
 Name:           zerofree
 Version:        1.1.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 License:        GPLv2
 
 URL:            https://frippery.org/uml/
@@ -59,6 +59,9 @@ install -D -p -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_mandir}/man8/zerofree.8
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

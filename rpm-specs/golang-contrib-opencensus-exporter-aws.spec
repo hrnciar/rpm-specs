@@ -4,7 +4,7 @@
 # https://github.com/census-ecosystem/opencensus-go-exporter-aws
 %global goipath         contrib.go.opencensus.io/exporter/aws
 %global forgeurl        https://github.com/census-ecosystem/opencensus-go-exporter-aws
-%global commit          c50fb1bd7f2166f05435d6965cbcdda1abc19092
+%global commit          c478e41e60e91b4554715146f0308c275f07e3a8
 
 %gometa
 
@@ -16,7 +16,7 @@ OpenCensus Go exporters for AWS (XRay only for now).}
 
 Name:           %{goname}
 Version:        0
-Release:        0.2%{?dist}
+Release:        0.4%{?dist}
 Summary:        OpenCensus Go exporters for AWS
 
 # Upstream license specification: Apache-2.0
@@ -51,6 +51,12 @@ BuildRequires:  golang(go.opencensus.io/trace/propagation)
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 20:58:17 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.3.20200722gitc478e41
+- Bump to commit c478e41e60e91b4554715146f0308c275f07e3a8
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

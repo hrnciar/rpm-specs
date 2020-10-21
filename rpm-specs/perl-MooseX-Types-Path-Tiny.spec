@@ -1,7 +1,7 @@
 Name:		perl-MooseX-Types-Path-Tiny
 Summary:	Path::Tiny types and coercions for Moose
 Version:	0.012
-Release:	12%{?dist}
+Release:	13%{?dist}
 License:	ASL 2.0
 URL:		https://metacpan.org/release/MooseX-Types-Path-Tiny
 Source0:	https://cpan.metacpan.org/modules/by-module/MooseX/MooseX-Types-Path-Tiny-%{version}.tar.gz
@@ -67,6 +67,9 @@ perl Build.PL --installdirs=vendor
 %{_mandir}/man3/MooseX::Types::Path::Tiny.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.012-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.012-12
 - Perl 5.32 rebuild
 

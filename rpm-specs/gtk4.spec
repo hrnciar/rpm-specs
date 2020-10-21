@@ -1,11 +1,9 @@
 %if 0%{?fedora}
-%global with_wayland 1
 %global with_broadway 1
 %endif
 
-%global glib2_version 2.63.1
-%global pango_version 1.45.0
-%global atk_version 2.15.1
+%global glib2_version 2.65.0
+%global pango_version 1.47.0
 %global cairo_version 1.14.0
 %global gdk_pixbuf_version 2.30.0
 %global wayland_protocols_version 1.20
@@ -18,13 +16,13 @@
 %global __provides_exclude_from ^%{_libdir}/gtk-4.0
 
 Name:           gtk4
-Version:        3.98.5
+Version:        3.99.3
 Release:        1%{?dist}
 Summary:        GTK graphical user interface library
 
 License:        LGPLv2+
 URL:            https://www.gtk.org
-Source0:        https://download.gnome.org/sources/gtk/3.98/gtk-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/gtk/3.99/gtk-%{version}.tar.xz
 
 BuildRequires:  cups-devel
 BuildRequires:  desktop-file-utils
@@ -33,12 +31,11 @@ BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  gettext
 BuildRequires:  meson
-BuildRequires:  pkgconfig(atk) >= %{atk_version}
-BuildRequires:  pkgconfig(atk-bridge-2.0)
 BuildRequires:  pkgconfig(avahi-gobject)
 BuildRequires:  pkgconfig(cairo) >= %{cairo_version}
 BuildRequires:  pkgconfig(cairo-gobject) >= %{cairo_version}
 BuildRequires:  pkgconfig(colord)
+BuildRequires:  pkgconfig(egl)
 BuildRequires:  pkgconfig(epoxy)
 BuildRequires:  pkgconfig(gdk-pixbuf-2.0) >= %{gdk_pixbuf_version}
 BuildRequires:  pkgconfig(glib-2.0) >= %{glib2_version}
@@ -48,23 +45,21 @@ BuildRequires:  pkgconfig(gstreamer-player-1.0)
 BuildRequires:  pkgconfig(json-glib-1.0)
 BuildRequires:  pkgconfig(pango) >= %{pango_version}
 BuildRequires:  pkgconfig(rest-0.7)
+BuildRequires:  pkgconfig(vulkan)
+BuildRequires:  pkgconfig(wayland-client) >= %{wayland_version}
+BuildRequires:  pkgconfig(wayland-cursor) >= %{wayland_version}
+BuildRequires:  pkgconfig(wayland-egl) >= %{wayland_version}
+BuildRequires:  pkgconfig(wayland-protocols) >= %{wayland_protocols_version}
 BuildRequires:  pkgconfig(xcomposite)
 BuildRequires:  pkgconfig(xcursor)
 BuildRequires:  pkgconfig(xdamage)
 BuildRequires:  pkgconfig(xfixes)
 BuildRequires:  pkgconfig(xi)
 BuildRequires:  pkgconfig(xinerama)
+BuildRequires:  pkgconfig(xkbcommon)
 BuildRequires:  pkgconfig(xrandr)
 BuildRequires:  pkgconfig(xrender)
 BuildRequires:  pkgconfig(xrender)
-%if 0%{?with_wayland}
-BuildRequires:  pkgconfig(egl)
-BuildRequires:  pkgconfig(wayland-client) >= %{wayland_version}
-BuildRequires:  pkgconfig(wayland-cursor) >= %{wayland_version}
-BuildRequires:  pkgconfig(wayland-egl) >= %{wayland_version}
-BuildRequires:  pkgconfig(wayland-protocols) >= %{wayland_protocols_version}
-BuildRequires:  pkgconfig(xkbcommon)
-%endif
 BuildRequires:  sassc
 BuildRequires:  /usr/bin/xsltproc
 
@@ -75,16 +70,13 @@ Requires: hicolor-icon-theme
 # split out in a subpackage
 Requires: gtk-update-icon-cache
 
-Requires: atk%{?_isa} >= %{atk_version}
 Requires: cairo%{?_isa} >= %{cairo_version}
 Requires: cairo-gobject%{?_isa} >= %{cairo_version}
 Requires: glib2%{?_isa} >= %{glib2_version}
 Requires: libepoxy%{?_isa} >= %{epoxy_version}
-Requires: pango%{?_isa} >= %{pango_version}
-%if 0%{?with_wayland}
 Requires: libwayland-client%{?_isa} >= %{wayland_version}
 Requires: libwayland-cursor%{?_isa} >= %{wayland_version}
-%endif
+Requires: pango%{?_isa} >= %{pango_version}
 
 # required to support all the different image formats
 Requires: gdk-pixbuf2-modules%{?_isa}
@@ -128,14 +120,12 @@ for writing applications with version 4 of the GTK widget toolkit.
 export CFLAGS='-fno-strict-aliasing %optflags'
 %meson \
         -Dx11-backend=true \
-%if 0%{?with_wayland}
         -Dwayland-backend=true \
-%endif
 %if 0%{?with_broadway}
         -Dbroadway-backend=true \
 %endif
-        -Dxinerama=yes \
-        -Dcolord=yes \
+        -Dxinerama=enabled \
+        -Dcolord=enabled \
         -Dgtk_doc=false \
         -Dman-pages=true \
         -Dinstall-tests=false
@@ -180,6 +170,8 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %{_datadir}/glib-2.0/schemas/org.gtk.gtk4.Settings.Debug.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gtk.gtk4.Settings.EmojiChooser.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gtk.gtk4.Settings.FileChooser.gschema.xml
+%dir %{_datadir}/gtk-4.0
+%{_datadir}/gtk-4.0/emoji/
 %if 0%{?with_broadway}
 %{_bindir}/gtk4-broadwayd
 %{_mandir}/man1/gtk4-broadwayd.1*
@@ -196,22 +188,23 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %{_bindir}/gtk4-query-settings
 %{_datadir}/applications/org.gtk.Demo4.desktop
 %{_datadir}/applications/org.gtk.IconBrowser4.desktop
+%{_datadir}/applications/org.gtk.PrintEditor4.desktop
 %{_datadir}/applications/org.gtk.WidgetFactory4.desktop
-%{_datadir}/icons/hicolor/*/apps/org.gtk.Demo4.svg
-%{_datadir}/icons/hicolor/*/apps/org.gtk.IconBrowser4.svg
-%{_datadir}/icons/hicolor/*/apps/org.gtk.WidgetFactory4.svg
-%{_datadir}/icons/hicolor/symbolic/apps/org.gtk.Demo4-symbolic.svg
-%{_datadir}/icons/hicolor/symbolic/apps/org.gtk.IconBrowser4-symbolic.svg
-%{_datadir}/icons/hicolor/symbolic/apps/org.gtk.WidgetFactory4-symbolic.svg
+%{_datadir}/icons/hicolor/*/apps/org.gtk.Demo4*.svg
+%{_datadir}/icons/hicolor/*/apps/org.gtk.IconBrowser4*.svg
+%{_datadir}/icons/hicolor/*/apps/org.gtk.PrintEditor4*.svg
+%{_datadir}/icons/hicolor/*/apps/org.gtk.WidgetFactory4*.svg
 %{_bindir}/gtk4-demo-application
+%{_bindir}/gtk4-print-editor
 %{_bindir}/gtk4-widget-factory
 %{_datadir}/gettext/
 %{_datadir}/gir-1.0
 %{_datadir}/glib-2.0/schemas/org.gtk.Demo4.gschema.xml
-%dir %{_datadir}/gtk-4.0
 %{_datadir}/gtk-4.0/gtk4builder.rng
 %{_datadir}/gtk-4.0/valgrind/
 %{_datadir}/metainfo/org.gtk.Demo4.appdata.xml
+%{_datadir}/metainfo/org.gtk.IconBrowser4.appdata.xml
+%{_datadir}/metainfo/org.gtk.PrintEditor4.appdata.xml
 %{_datadir}/metainfo/org.gtk.WidgetFactory4.appdata.xml
 %{_mandir}/man1/gtk4-builder-tool.1*
 %{_mandir}/man1/gtk4-demo.1*
@@ -222,6 +215,35 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 %{_mandir}/man1/gtk4-widget-factory.1*
 
 %changelog
+* Fri Oct 16 2020 Kalev Lember <klember@redhat.com> - 3.99.3-1
+- Update to 3.99.3
+
+* Thu Oct 01 2020 Kalev Lember <klember@redhat.com> - 3.99.2-2
+- Update required pango and glib2 versions
+
+* Tue Sep 29 2020 Kalev Lember <klember@redhat.com> - 3.99.2-1
+- Update to 3.99.2
+
+* Mon Sep 28 2020 Jeff Law <law@redhat.com> - 3.99.1-2
+- Re-enable LTO as upstream GCC target/96939 has been fixed
+
+* Thu Sep 03 2020 Kalev Lember <klember@redhat.com> - 3.99.1-1
+- Update to 3.99.1
+- Drop wayland build conditionals
+
+* Mon Aug 17 2020 Jeff Law <law@redhat.com> - 3.99.0-2
+- Disable LTO on armv7hl
+
+* Sat Aug 01 2020 Kalev Lember <klember@redhat.com> - 3.99.0-1
+- Update to 3.99.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.98.5-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.98.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 07 2020 Kalev Lember <klember@redhat.com> - 3.98.5-1
 - Update to 3.98.5
 

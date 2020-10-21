@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.4.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Making animating in Matplotlib easy
 
 License:        MIT
@@ -81,6 +81,9 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=%{buildroot}%{python3_sitelib} \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.1-7
 - Rebuilt for Python 3.9
 

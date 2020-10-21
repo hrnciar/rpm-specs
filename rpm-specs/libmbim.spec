@@ -1,7 +1,7 @@
 %global _hardened_build 1
 
 Name: libmbim
-Version: 1.22.0
+Version: 1.24.2
 Release: 1%{?dist}
 Summary: Support library for the Mobile Broadband Interface Model protocol
 License: LGPLv2+
@@ -9,7 +9,7 @@ URL: http://freedesktop.org/software/libmbim
 Source: http://freedesktop.org/software/libmbim/%{name}-%{version}.tar.xz
 
 BuildRequires: gcc
-BuildRequires: glib2-devel
+BuildRequires: glib2-devel >= 2.48.0
 BuildRequires: pkgconfig
 BuildRequires: automake autoconf libtool
 %if 0%{?rhel} > 0 && 0%{?rhel} < 8
@@ -89,6 +89,9 @@ make check
 
 
 %changelog
+* Mon Jul 27 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 1.24.2-1
+- Update to 1.24.2
+
 * Thu Mar  5 2020 Peter Robinson <pbrobinson@fedoraproject.org> 1.22.0-1
 - Update to 1.22.0 release
 - Fix shipped license, use %%license

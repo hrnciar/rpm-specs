@@ -1,20 +1,20 @@
-%if 0%{?fedora} >= 31
-%bcond_with python2
-%else
+%if 0%{?rhel} && 0%{?rhel} <= 7
 %bcond_without python2
+%else
+%bcond_with python2
 %endif
 %bcond_without  python3
 
 %global srcname productmd
 
 Name:           python-%{srcname}
-Version:        1.26
+Version:        1.28
 Release:        2%{?dist}
 Summary:        Library providing parsers for metadata related to OS installation
 
 License:        LGPLv2+
 URL:            https://github.com/release-engineering/productmd
-Source0:        https://files.pythonhosted.org/packages/source/p/%{srcname}/%{srcname}-%{version}.tar.bz2
+Source0:        https://files.pythonhosted.org/packages/source/p/%{srcname}/%{srcname}-%{version}.tar.gz
 
 BuildArch:      noarch
 
@@ -102,6 +102,19 @@ Requires:       python%{python3_pkgversion}-six
 %endif
 
 %changelog
+* Tue Sep 29 2020 Lubomír Sedlář <lsedlar@redhat.com> - 1.28-2
+- Fix Python 2 conditional for ELN
+
+* Fri Sep 25 2020 Lubomír Sedlář <lsedlar@redhat.com> - 1.28-1
+- New upstream release
+
+* Wed Aug 19 2020 Lubomír Sedlář <lsedlar@redhat.com> - 1.27-1
+- New upstream release 1.27
+- Switch sources to tar.gz
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.26-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 1.26-2
 - Rebuilt for Python 3.9
 

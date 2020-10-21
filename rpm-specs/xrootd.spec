@@ -1,39 +1,26 @@
-%if %{?fedora}%{!?fedora:0} >= 21 || %{?rhel}%{!?rhel:0} >= 7
-%global use_systemd 1
-%else
-%global use_systemd 0
+%ifarch %{ix86} %{arm}
+# LTO does not work for the POSIX preload code on 32 bit architectures
+%define _lto_cflags %{nil}
 %endif
 
-%if %{?fedora}%{!?fedora:0} >= 22 || %{?rhel}%{!?rhel:0} >= 7
-%global use_libc_semaphore 1
-%else
-%global use_libc_semaphore 0
-%endif
-
-%if %{?fedora}%{!?fedora:0} >= 30 || %{?rhel}%{!?rhel:0} >= 8
-%global py2 0
-%else
-%global py2 1
-%endif
-
-%if %{?fedora}%{!?fedora:0} >= 28 || %{?rhel}%{!?rhel:0} >= 7
-%global macaroons 1
-%else
-%global macaroons 0
-%endif
+%undefine __cmake_in_source_build
+%undefine __cmake3_in_source_build
 
 Name:		xrootd
 Epoch:		1
-Version:	4.12.2
-Release:	3%{?dist}
+Version:	5.0.2
+Release:	1%{?dist}
 Summary:	Extended ROOT file server
 
 License:	LGPLv3+
 URL:		http://xrootd.org/
 Source0:	http://xrootd.org/download/v%{version}/%{name}-%{version}.tar.gz
+#		Fix 32 bit compilation
+#		https://github.com/xrootd/xrootd/pull/1273
+Patch0:		%{name}-format.patch
 
 BuildRequires:	gcc-c++
-BuildRequires:	cmake
+BuildRequires:	cmake3 >= 3.1
 BuildRequires:	fuse-devel
 BuildRequires:	krb5-devel
 BuildRequires:	libcurl-devel
@@ -46,34 +33,24 @@ BuildRequires:	zlib-devel
 BuildRequires:	doxygen
 BuildRequires:	graphviz
 BuildRequires:	selinux-policy-devel
-%if %{use_systemd}
 BuildRequires:	systemd-devel
-%endif
-%if %{py2}
-BuildRequires:	python2-devel
-%endif
 %if %{?fedora}%{!?fedora:0} || %{?rhel}%{!?rhel:0} >= 8
 BuildRequires:	python3-devel
 BuildRequires:	python3-sphinx
 %endif
 %if %{?rhel}%{!?rhel:0} == 7
+BuildRequires:	python2-devel
 BuildRequires:	python%{python3_pkgversion}-devel
 BuildRequires:	python%{python3_other_pkgversion}-devel
 BuildRequires:	python2-sphinx
 %endif
-%if %{?rhel}%{!?rhel:0} == 6
-BuildRequires:	python-sphinx10
-%endif
-%if %{macaroons}
 BuildRequires:	json-c-devel
 BuildRequires:	libmacaroons-devel
-%endif
 BuildRequires:	libuuid-devel
 BuildRequires:	voms-devel >= 2.0.6
 
 Requires:	%{name}-server%{?_isa} = %{epoch}:%{version}-%{release}
 Requires:	%{name}-selinux = %{epoch}:%{version}-%{release}
-Obsoletes:	%{name} < 1:4.0.0
 
 %description
 The Extended root file server consists of a file server called xrootd
@@ -95,16 +72,8 @@ Requires:	%{name}-client-libs%{?_isa} = %{epoch}:%{version}-%{release}
 Requires:	%{name}-server-libs%{?_isa} = %{epoch}:%{version}-%{release}
 Requires:	expect
 Requires:	logrotate
-Requires(pre):		shadow-utils
-%if %{use_systemd}
+Requires(pre):	shadow-utils
 %{?systemd_requires}
-%else
-Requires(pre):		chkconfig
-Requires(post):		chkconfig
-Requires(preun):	chkconfig
-Requires(preun):	initscripts
-Requires(postun):	initscripts
-%endif
 
 %description server
 This package contains the xrootd servers without the SELinux support.
@@ -123,15 +92,6 @@ This package contains SELinux policy module for the xrootd server package.
 
 %package libs
 Summary:	Libraries used by xrootd servers and clients
-#		Java admin client no longer supported
-Obsoletes:	%{name}-client-admin-java < 1:3.3.0
-#		Perl admin client no longer supported
-Obsoletes:	%{name}-client-admin-perl < 1:4.0.0
-%if ! %{py2}
-#		Python 2 bindings not built for Fedora 30+
-Obsoletes:	%{name}-python < 1:4.6.1-6
-Obsoletes:	python2-%{name} < %{epoch}:%{version}-%{release}
-%endif
 
 %description libs
 This package contains libraries used by the xrootd servers and clients.
@@ -220,14 +180,16 @@ tool.
 Summary:	VOMS attribute extractor plug-in for XRootD
 Provides:	vomsxrd = %{epoch}:%{version}-%{release}
 Provides:	%{name}-voms-plugin = %{epoch}:%{version}-%{release}
+Provides:	xrdhttpvoms = %{epoch}:%{version}-%{release}
 Obsoletes:	vomsxrd < 1:0.6.0-4
 Obsoletes:	%{name}-voms-plugin < 1:0.6.0-3
+Obsoletes:	xrdhttpvoms < 0.2.5-9
 Requires:	%{name}-libs%{?_isa} = %{epoch}:%{version}-%{release}
 
 %description voms
 The VOMS attribute extractor plug-in for XRootD.
 
-%if %{py2}
+%if %{?rhel}%{!?rhel:0} == 7
 %package -n python2-%{name}
 Summary:	Python 2 bindings for xrootd
 %{?python_provide:%python_provide python2-%{name}}
@@ -240,7 +202,6 @@ Requires:	%{name}-client-libs%{?_isa} = %{epoch}:%{version}-%{release}
 This package contains Python 2 bindings for xrootd.
 %endif
 
-%if %{?fedora}%{!?fedora:0} || %{?rhel}%{!?rhel:0} >= 7
 %package -n python%{python3_pkgversion}-%{name}
 Summary:	Python 3 bindings for xrootd
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{name}}
@@ -249,7 +210,6 @@ Requires:	%{name}-client-libs%{?_isa} = %{epoch}:%{version}-%{release}
 
 %description -n python%{python3_pkgversion}-%{name}
 This package contains Python 3 bindings for xrootd.
-%endif
 
 %if %{?rhel}%{!?rhel:0} == 7
 %package -n python%{python3_other_pkgversion}-%{name}
@@ -271,77 +231,50 @@ This package contains the API documentation of the xrootd libraries.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
-mkdir build
-
-pushd build
-%cmake -DUSE_LIBC_SEMAPHORE:BOOL=%{use_libc_semaphore} \
-%if %{py2}
-    -DPYTHON_EXECUTABLE=%{__python2} ..
-%else
-    -DPYTHON_EXECUTABLE=%{__python3} ..
-%endif
-make %{?_smp_mflags}
-popd
-
-%if %{py2}
-%if %{?fedora}%{!?fedora:0} || %{?rhel}%{!?rhel:0} >= 7
-pushd build/bindings/python
-%py3_build
+%cmake3 \
+    -DUSE_LIBC_SEMAPHORE:BOOL=ON \
 %if %{?rhel}%{!?rhel:0} == 7
+    -DPYTHON_EXECUTABLE=%{__python2}
+%else
+    -DPYTHON_EXECUTABLE=%{__python3}
+%endif
+%cmake3_build
+
+%if %{?rhel}%{!?rhel:0} == 7
+pushd %{_vpath_builddir}/bindings/python
+%py3_build
 %py3_other_build
-%endif
 popd
-%endif
 %endif
 
-pushd packaging/common
-make -f /usr/share/selinux/devel/Makefile
-popd
+make -C packaging/common -f /usr/share/selinux/devel/Makefile
 
 doxygen Doxyfile
 
+export LD_LIBRARY_PATH=${PWD}/%{_vpath_builddir}/src/XrdCl:${PWD}/%{_vpath_builddir}/src
 %if %{?fedora}%{!?fedora:0} || %{?rhel}%{!?rhel:0} >= 8
-export PYTHONPATH=$(cd build/bindings/python/build/lib.*-%{python3_version} ; pwd)
-%else
-export PYTHONPATH=$(cd build/bindings/python/build/lib.*-%{python2_version} ; pwd)
-%endif
-export LD_LIBRARY_PATH=${PWD}/build/src/XrdCl:${PWD}/build/src
-pushd bindings/python/docs
-%if %{?fedora}%{!?fedora:0} || %{?rhel}%{!?rhel:0} >= 8
-make html SPHINXBUILD=sphinx-build-3
+export PYTHONPATH=$(cd %{_vpath_builddir}/bindings/python/build/lib.*-%{python3_version} ; pwd)
+make -C bindings/python/docs html SPHINXBUILD=sphinx-build-3
 %endif
 %if %{?rhel}%{!?rhel:0} == 7
-make html
+export PYTHONPATH=$(cd %{_vpath_builddir}/bindings/python/build/lib.*-%{python2_version} ; pwd)
+make -C bindings/python/docs html
 %endif
-%if %{?rhel}%{!?rhel:0} == 6
-make html SPHINXBUILD=sphinx-1.0-build
-%endif
-popd
 
 %install
-pushd build
-make install DESTDIR=%{buildroot}
-popd
+%cmake3_install
 
-# Workaround for EPEL 6
-[ -h %{buildroot}%{_libdir}/libXrdSecgsiVOMS-4.so ] || \
-    ln -s libXrdVoms-4.so %{buildroot}%{_libdir}/libXrdSecgsiVOMS-4.so
-
-%if %{py2}
-%if %{?fedora}%{!?fedora:0} || %{?rhel}%{!?rhel:0} >= 7
-pushd build/bindings/python
-%py3_install
 %if %{?rhel}%{!?rhel:0} == 7
+pushd %{_vpath_builddir}/bindings/python
+%py3_install
 %py3_other_install
-%endif
 popd
 %endif
-%endif
 
-# Service start-up scripts / unit files
-%if %{use_systemd}
+# Service unit files
 mkdir -p %{buildroot}%{_unitdir}
 install -m 644 packaging/common/xrootd@.service %{buildroot}%{_unitdir}
 install -m 644 packaging/common/xrootd@.socket %{buildroot}%{_unitdir}
@@ -351,19 +284,6 @@ install -m 644 packaging/common/frm_xfrd@.service %{buildroot}%{_unitdir}
 install -m 644 packaging/common/frm_purged@.service %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}%{_tmpfilesdir}
 install -m 644 packaging/rhel/xrootd.tmpfiles %{buildroot}%{_tmpfilesdir}/%{name}.conf
-%else
-mkdir -p %{buildroot}%{_initddir}
-mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
-install -p packaging/rhel/xrootd.init %{buildroot}%{_initddir}/xrootd
-install -p packaging/rhel/cmsd.init %{buildroot}%{_initddir}/cmsd
-install -p packaging/rhel/frm_purged.init %{buildroot}%{_initddir}/frm_purged
-install -p packaging/rhel/frm_xfrd.init %{buildroot}%{_initddir}/frm_xfrd
-sed s/%{name}.functions/%{name}-functions/ -i %{buildroot}%{_initddir}/*
-install -m 644 -p packaging/rhel/%{name}.functions \
-    %{buildroot}%{_initddir}/%{name}-functions
-install -m 644 -p packaging/rhel/%{name}.sysconfig \
-    %{buildroot}%{_sysconfdir}/sysconfig/%{name}
-%endif
 
 # Server config
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}
@@ -375,10 +295,8 @@ install -m 644 -p packaging/common/%{name}-filecache-clustered.cfg \
     %{buildroot}%{_sysconfdir}/%{name}/%{name}-filecache-clustered.cfg
 install -m 644 -p packaging/common/%{name}-filecache-standalone.cfg \
     %{buildroot}%{_sysconfdir}/%{name}/%{name}-filecache-standalone.cfg
-%if %{use_systemd}
-install -m 644 -p packaging/common/%{name}-http.cfg \
+sed 's!/usr/lib64!%{_libdir}!' packaging/common/%{name}-http.cfg > \
     %{buildroot}%{_sysconfdir}/%{name}/%{name}-http.cfg
-%endif
 
 # Client config
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}/client.plugins.d
@@ -427,24 +345,6 @@ getent group %{name} >/dev/null || groupadd -r %{name}
 getent passwd %{name} >/dev/null || useradd -r -g %{name} -s /sbin/nologin \
   -d %{_localstatedir}/spool/%{name} -c "XRootD runtime user" %{name}
 
-# Remove obsolete service
-/sbin/service olbd stop >/dev/null 2>&1 || :
-/sbin/chkconfig --del olbd >/dev/null 2>&1 || :
-
-%if %{use_systemd}
-# Remove old init config when systemd is used
-/sbin/service xrootd stop >/dev/null 2>&1 || :
-/sbin/service cmsd stop >/dev/null 2>&1 || :
-/sbin/service frm_purged stop >/dev/null 2>&1 || :
-/sbin/service frm_xfrd stop >/dev/null 2>&1 || :
-/sbin/chkconfig --del xrootd >/dev/null 2>&1 || :
-/sbin/chkconfig --del cmsd >/dev/null 2>&1 || :
-/sbin/chkconfig --del frm_purged >/dev/null 2>&1 || :
-/sbin/chkconfig --del frm_xfrd >/dev/null 2>&1 || :
-%endif
-
-%if %{use_systemd}
-
 %post server
 if [ $1 -eq 1 ] ; then
     systemctl daemon-reload >/dev/null 2>&1 || :
@@ -452,7 +352,7 @@ fi
 
 %preun server
 if [ $1 -eq 0 ] ; then
-    for DAEMON in xrootd cmsd frm_purged frm xfrd; do
+    for DAEMON in xrootd cmsd frm_purged frm_xfrd; do
 	for INSTANCE in `systemctl | grep $DAEMON@ | awk '{print $1;}'`; do
 	    systemctl --no-reload disable $INSTANCE > /dev/null 2>&1 || :
 	    systemctl stop $INSTANCE > /dev/null 2>&1 || :
@@ -463,44 +363,12 @@ fi
 %postun server
 if [ $1 -ge 1 ] ; then
     systemctl daemon-reload >/dev/null 2>&1 || :
-    for DAEMON in xrootd cmsd frm_purged frm xfrd; do
+    for DAEMON in xrootd cmsd frm_purged frm_xfrd; do
 	for INSTANCE in `systemctl | grep $DAEMON@ | awk '{print $1;}'`; do
 	    systemctl try-restart $INSTANCE >/dev/null 2>&1 || :
 	done
     done
 fi
-
-%else
-
-%post server
-if [ $1 -eq 1 ]; then
-    /sbin/chkconfig --add xrootd
-    /sbin/chkconfig --add cmsd
-    /sbin/chkconfig --add frm_purged
-    /sbin/chkconfig --add frm_xfrd
-fi
-
-%preun server
-if [ $1 -eq 0 ]; then
-    /sbin/service xrootd stop >/dev/null 2>&1 || :
-    /sbin/service cmsd stop >/dev/null 2>&1 || :
-    /sbin/service frm_purged stop >/dev/null 2>&1 || :
-    /sbin/service frm_xfrd stop >/dev/null 2>&1 || :
-    /sbin/chkconfig --del xrootd
-    /sbin/chkconfig --del cmsd
-    /sbin/chkconfig --del frm_purged
-    /sbin/chkconfig --del frm_xfrd
-fi
-
-%postun server
-if [ $1 -ge 1 ]; then
-    /sbin/service xrootd condrestart >/dev/null 2>&1 || :
-    /sbin/service cmsd condrestart >/dev/null 2>&1 || :
-    /sbin/service frm_purged condrestart >/dev/null 2>&1 || :
-    /sbin/service frm_xfrd condrestart >/dev/null 2>&1 || :
-fi
-
-%endif
 
 %post selinux
 /usr/sbin/semodule -i %{_datadir}/selinux/packages/%{name}/%{name}.pp >/dev/null 2>&1 || :
@@ -539,13 +407,8 @@ fi
 %{_mandir}/man8/xrootd.8*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/utils
-%if %{use_systemd}
 %{_unitdir}/*
 %{_tmpfilesdir}/%{name}.conf
-%else
-%{_initddir}/*
-%config(noreplace) %{_sysconfdir}/sysconfig/%{name}
-%endif
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %dir %{_sysconfdir}/%{name}/config.d
 %attr(-,xrootd,xrootd) %config(noreplace) %{_sysconfdir}/%{name}/*.cfg
@@ -562,17 +425,17 @@ fi
 %{_libdir}/libXrdUtils.so.*
 %{_libdir}/libXrdXml.so.*
 # Plugins
-%{_libdir}/libXrdCksCalczcrc32-4.so
-%{_libdir}/libXrdCryptossl-4.so
-%{_libdir}/libXrdSec-4.so
-%{_libdir}/libXrdSecProt-4.so
-%{_libdir}/libXrdSecgsi-4.so
-%{_libdir}/libXrdSecgsiAUTHZVO-4.so
-%{_libdir}/libXrdSecgsiGMAPDN-4.so
-%{_libdir}/libXrdSeckrb5-4.so
-%{_libdir}/libXrdSecpwd-4.so
-%{_libdir}/libXrdSecsss-4.so
-%{_libdir}/libXrdSecunix-4.so
+%{_libdir}/libXrdCksCalczcrc32-5.so
+%{_libdir}/libXrdCryptossl-5.so
+%{_libdir}/libXrdSec-5.so
+%{_libdir}/libXrdSecProt-5.so
+%{_libdir}/libXrdSecgsi-5.so
+%{_libdir}/libXrdSecgsiAUTHZVO-5.so
+%{_libdir}/libXrdSecgsiGMAPDN-5.so
+%{_libdir}/libXrdSeckrb5-5.so
+%{_libdir}/libXrdSecpwd-5.so
+%{_libdir}/libXrdSecsss-5.so
+%{_libdir}/libXrdSecunix-5.so
 %license COPYING* LICENSE
 
 %files devel
@@ -597,7 +460,6 @@ fi
 
 %files client-libs
 %{_libdir}/libXrdCl.so.*
-%{_libdir}/libXrdClient.so.*
 %{_libdir}/libXrdFfs.so.*
 %{_libdir}/libXrdPosix.so.*
 %{_libdir}/libXrdPosixPreload.so.*
@@ -606,7 +468,7 @@ fi
 %{_libdir}/libXrdSsiLib.so.*
 %{_libdir}/libXrdSsiShMap.so.*
 # Plugins
-%{_libdir}/libXrdClProxyPlugin-4.so
+%{_libdir}/libXrdClProxyPlugin-5.so
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/client.conf
 %dir %{_sysconfdir}/%{name}/client.plugins.d
@@ -614,10 +476,8 @@ fi
 
 %files client-devel
 %{_includedir}/%{name}/XrdCl
-%{_includedir}/%{name}/XrdClient
 %{_includedir}/%{name}/XrdPosix
 %{_libdir}/libXrdCl.so
-%{_libdir}/libXrdClient.so
 %{_libdir}/libXrdFfs.so
 %{_libdir}/libXrdPosix.so
 
@@ -625,30 +485,29 @@ fi
 %{_libdir}/libXrdHttpUtils.so.*
 %{_libdir}/libXrdServer.so.*
 # Plugins
-%{_libdir}/libXrdBlacklistDecision-4.so
-%{_libdir}/libXrdBwm-4.so
-%{_libdir}/libXrdCmsRedirectLocal-4.so
-%{_libdir}/libXrdFileCache-4.so
-%{_libdir}/libXrdHttp-4.so
-%{_libdir}/libXrdHttpTPC-4.so
-%if %{macaroons}
-%{_libdir}/libXrdMacaroons-4.so
-%endif
-%{_libdir}/libXrdN2No2p-4.so
-%{_libdir}/libXrdOssSIgpfsT-4.so
-%{_libdir}/libXrdPss-4.so
-%{_libdir}/libXrdSsi-4.so
-%{_libdir}/libXrdSsiLog-4.so
-%{_libdir}/libXrdThrottle-4.so
-%{_libdir}/libXrdXrootd-4.so
+%{_libdir}/libXrdBlacklistDecision-5.so
+%{_libdir}/libXrdBwm-5.so
+%{_libdir}/libXrdCmsRedirectLocal-5.so
+%{_libdir}/libXrdFileCache-5.so
+%{_libdir}/libXrdHttp-5.so
+%{_libdir}/libXrdHttpTPC-5.so
+%{_libdir}/libXrdMacaroons-5.so
+%{_libdir}/libXrdN2No2p-5.so
+%{_libdir}/libXrdOssSIgpfsT-5.so
+%{_libdir}/libXrdPfc-5.so
+%{_libdir}/libXrdPss-5.so
+%{_libdir}/libXrdSsi-5.so
+%{_libdir}/libXrdSsiLog-5.so
+%{_libdir}/libXrdThrottle-5.so
+%{_libdir}/libXrdXrootd-5.so
 
 %files server-devel
 %{_includedir}/%{name}/XrdAcc
 %{_includedir}/%{name}/XrdCms
-%{_includedir}/%{name}/XrdFileCache
 %{_includedir}/%{name}/XrdHttp
 %{_includedir}/%{name}/XrdOfs
 %{_includedir}/%{name}/XrdOss
+%{_includedir}/%{name}/XrdPfc
 %{_includedir}/%{name}/XrdSfs
 %{_includedir}/%{name}/XrdXrootd
 %{_libdir}/libXrdHttpUtils.so
@@ -660,52 +519,44 @@ fi
 %{_libdir}/libXrdSsiShMap.so
 
 %files client
-%{_bindir}/xprep
-%{_bindir}/xrd
 %{_bindir}/xrdadler32
 %{_bindir}/xrdcopy
 %{_bindir}/xrdcp
-%{_bindir}/xrdcp-old
 %{_bindir}/xrdfs
 %{_bindir}/xrdgsiproxy
 %{_bindir}/xrdgsitest
 %{_bindir}/xrdmapc
-%{_bindir}/xrdstagetool
-%{_mandir}/man1/xprep.1*
-%{_mandir}/man1/xrd.1*
+%{_bindir}/xrdpinls
 %{_mandir}/man1/xrdadler32.1*
 %{_mandir}/man1/xrdcopy.1*
 %{_mandir}/man1/xrdcp.1*
-%{_mandir}/man1/xrdcp-old.1*
 %{_mandir}/man1/xrdfs.1*
 %{_mandir}/man1/xrdgsiproxy.1*
 %{_mandir}/man1/xrdgsitest.1*
 %{_mandir}/man1/xrdmapc.1*
-%{_mandir}/man1/xrdstagetool.1*
 
 %files fuse
 %{_bindir}/xrootdfs
 %{_mandir}/man1/xrootdfs.1*
 
 %files voms
-%{_libdir}/libXrdVoms-4.so
-%{_libdir}/libXrdSecgsiVOMS-4.so
+%{_libdir}/libXrdVoms-5.so
+%{_libdir}/libXrdHttpVOMS-5.so
+%{_libdir}/libXrdSecgsiVOMS-5.so
 %doc %{_mandir}/man1/libXrdVoms.1*
 %doc %{_mandir}/man1/libXrdSecgsiVOMS.1*
 
-%if %{py2}
+%if %{?rhel}%{!?rhel:0} == 7
 %files -n python2-%{name}
 %{python2_sitearch}/xrootd-*.egg-info
 %{python2_sitearch}/pyxrootd
 %{python2_sitearch}/XRootD
 %endif
 
-%if %{?fedora}%{!?fedora:0} || %{?rhel}%{!?rhel:0} >= 7
 %files -n python%{python3_pkgversion}-%{name}
 %{python3_sitearch}/xrootd-*.egg-info
 %{python3_sitearch}/pyxrootd
 %{python3_sitearch}/XRootD
-%endif
 
 %if %{?rhel}%{!?rhel:0} == 7
 %files -n python%{python3_other_pkgversion}-%{name}
@@ -718,6 +569,40 @@ fi
 %doc %{_pkgdocdir}
 
 %changelog
+* Fri Sep 18 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 1:5.0.2-1
+- Update to version 5.0.2
+- Drop patches (accepted upstream or previously backported)
+- Obsolete xrdhttpvoms in xrootd-voms package
+
+* Thu Aug 27 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 1:5.0.1-1
+- Update to version 5.0.1
+- Remove conditionals for building on EPEL 6
+- Drop patches (accepted upstream or previously backported)
+- Fix 32 bit compilation (format error)
+- Fix compilation on ARM, PPC and S390X (char is unsigned)
+
+* Wed Aug 26 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 1:4.12.3-5
+- Use new CMake macros where available
+- Backport minor fixes from upstream git
+  - Correct flag reset code for ssq monitor option
+  - Fix typo in xrootd-config help
+- Prevent deadlock in Python bindings
+- Fix plugin path in xrootd-http.cfg for 32 bit architectures
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.12.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 1:4.12.3-3
+- Fix one definition rule (ODR) violation for LTO
+- Disable LTO for 32 bit architectures due to the POSIX preload code
+
+* Thu Jul 16 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 1:4.12.3-2
+- Fix a typo in the rpm scriptlets (missing underscore)
+
+* Mon Jul 13 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 1:4.12.3-1
+- Update to version 4.12.3 (no code changes w.r.t. 4.12.2)
+- Backport XrdVoms fixes from upstream git
+
 * Thu Jun 11 2020 Mattias Ellert <mattias.ellert@physics.uu.se> - 1:4.12.2-3
 - Provide/Obsolete xrootd-voms-plugin and vomsxrd
 

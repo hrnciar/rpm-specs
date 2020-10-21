@@ -1,6 +1,6 @@
 Name:           perl-XML-Writer
-Version:        0.625
-Release:        17%{?dist}
+Version:        0.900
+Release:        2%{?dist}
 Summary:        A simple Perl module for writing XML documents
 License:        CC0
 URL:            https://metacpan.org/release/XML-Writer
@@ -42,7 +42,7 @@ find examples -type f -exec chmod -x {} +
 
 %build
 perl Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags} 
+%make_build
 
 %install
 make pure_install DESTDIR=$RPM_BUILD_ROOT
@@ -53,12 +53,22 @@ find $RPM_BUILD_ROOT -type f -a \( -name .packlist \
 make test
 
 %files
-%doc Changes examples LICENSE README TODO
+%doc Changes examples README TODO
+%license LICENSE
 %{perl_vendorlib}/*
 %{_mandir}/man3/*.3*
 
 
 %changelog
+* Mon Oct 12 2020 Xavier Bachelot <xavier@bachelot.org> - 0.900-2
+- Use %%license
+
+* Mon Oct 12 2020 Xavier Bachelot <xavier@bachelot.org> - 0.900-1
+- Update to 0.900
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.625-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.625-17
 - Perl 5.32 rebuild
 

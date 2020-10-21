@@ -1,7 +1,7 @@
 %define  cvs 20051105
 Name:    hping3
 Version: 0.0.%{cvs}
-Release: 35%{?dist}
+Release: 36%{?dist}
 Summary: TCP/IP stack auditing and much more
 
 License: GPLv2
@@ -60,6 +60,9 @@ ln -sf hping3 $RPM_BUILD_ROOT%{_sbindir}/hping2
 %{_mandir}/man8/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.20051105-36
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Jeff Law <law@redhat.com> - 0.0.20051105-35
 - Avoid multiple definitions of delaytable.
 

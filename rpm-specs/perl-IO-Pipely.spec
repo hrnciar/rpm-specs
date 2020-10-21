@@ -1,6 +1,6 @@
 Name:           perl-IO-Pipely
 Version:        0.005
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Portably create pipe() or pipe-like handles, one way or another
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/IO-Pipely
@@ -60,6 +60,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.005-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.005-19
 - Perl 5.32 rebuild
 

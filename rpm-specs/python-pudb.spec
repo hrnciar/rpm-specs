@@ -6,7 +6,7 @@
 
 Name:          python-pudb
 Version:       2017.1.4
-Release:       10%{?dist}
+Release:       11%{?dist}
 Summary:       A full-screen, console-based Python debugger
 License:       MIT
 URL:           http://mathema.tician.de/software/pudb
@@ -54,6 +54,9 @@ sed -i '1{\@^#! /usr/bin/env python@d}' pudb/debugger.py
 %{_bindir}/pudb3
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2017.1.4-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2017.1.4-10
 - Rebuilt for Python 3.9
 

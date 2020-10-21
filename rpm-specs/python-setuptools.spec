@@ -4,6 +4,10 @@
 #           because tests need pip.
 %bcond_with bootstrap
 %bcond_without tests
+# Similar to what we have in pythonX.Y.spec files.
+# If enabled, provides unversioned executables and other stuff.
+# Disable it if you build this package in an alternative stack.
+%bcond_without main_python
 
 %if %{without bootstrap}
 %global python_wheelname %{srcname}-%{version}-py3-none-any.whl
@@ -13,14 +17,16 @@
 
 Name:           python-setuptools
 # When updating, update the bundled libraries versions bellow!
-Version:        47.1.1
+Version:        50.1.0
 Release:        1%{?dist}
 Summary:        Easily build and distribute Python packages
 # setuptools is MIT
+# appdirs is MIT
 # packaging is BSD or ASL 2.0
 # pyparsing is MIT
-# six is MIT
-# ordered-set is MIT
+# the setuptools logo has unknown license and possible TM problems,
+# but the sdist **does not** contain it,
+# see https://github.com/pypa/setuptools/issues/2227
 License:        MIT and (BSD or ASL 2.0)
 URL:            https://pypi.python.org/pypi/%{srcname}
 Source0:        %{pypi_source %{srcname} %{version} zip}
@@ -29,20 +35,22 @@ BuildArch:      noarch
 
 BuildRequires:  gcc
 
-BuildRequires:  python3-devel
+BuildRequires:  python%{python3_pkgversion}-devel
 %if %{with tests}
-BuildRequires:  python3-pip
-BuildRequires:  python3-pytest
-BuildRequires:  python3-mock
-BuildRequires:  python3-pytest-fixture-config
-BuildRequires:  python3-pytest-virtualenv
+BuildRequires:  python%{python3_pkgversion}-pip
+BuildRequires:  python%{python3_pkgversion}-pytest
+BuildRequires:  python%{python3_pkgversion}-mock
+BuildRequires:  python%{python3_pkgversion}-pytest-fixture-config
+BuildRequires:  python%{python3_pkgversion}-pytest-virtualenv
+BuildRequires:  python%{python3_pkgversion}-jaraco-envs
 %endif # with tests
 %if %{without bootstrap}
-BuildRequires:  python3-pip
-BuildRequires:  python3-wheel
+BuildRequires:  python%{python3_pkgversion}-pip
+BuildRequires:  python%{python3_pkgversion}-wheel
 # python3 bootstrap: this is built before the final build of python3, which
 # adds the dependency on python3-rpm-generators, so we require it manually
-BuildRequires:  python3-rpm-generators
+# The minimal version is for bundled provides verification script
+BuildRequires:  python3-rpm-generators >= 11-8
 %endif # without bootstrap
 
 %description
@@ -54,17 +62,16 @@ This package also contains the runtime components of setuptools, necessary to
 execute the software that requires pkg_resources.
 
 # Virtual provides for the packages bundled by setuptools.
-# You can find the versions in setuptools/setuptools/_vendor/vendored.txt
+# You can generate it with:
+# %%{_rpmconfigdir}/pythonbundles.py --namespace 'python%%{python3_pkgversion}dist' pkg_resources/_vendor/vendored.txt
 %global bundled %{expand:
-Provides: bundled(python3dist(packaging)) = 16.8
-Provides: bundled(python3dist(pyparsing)) = 2.2.1
-Provides: bundled(python3dist(six)) = 1.10.0
-Provides: bundled(python3dist(appdirs)) = 1.4.3
+Provides: bundled(python%{python3_pkgversion}dist(appdirs)) = 1.4.3
+Provides: bundled(python%{python3_pkgversion}dist(packaging)) = 20.4
+Provides: bundled(python%{python3_pkgversion}dist(pyparsing)) = 2.2.1
 }
 
-%package -n python3-setuptools
+%package -n python%{python3_pkgversion}-setuptools
 Summary:        Easily build and distribute Python 3 packages
-Conflicts:      python-setuptools < %{version}-%{release}
 %{bundled}
 
 %if %{with bootstrap}
@@ -73,7 +80,7 @@ Provides:       python%{python3_version}dist(setuptools) = %{version}
 %endif
 
 
-%description -n python3-setuptools
+%description -n python%{python3_pkgversion}-setuptools
 Setuptools is a collection of enhancements to the Python 3 distutils that allow
 you to more easily build and distribute Python 3 packages, especially ones that
 have dependencies on other packages.
@@ -101,8 +108,9 @@ find setuptools pkg_resources -name \*.py | xargs sed -i -e '1 {/^#!\//d}'
 rm -f setuptools/*.exe
 # These tests require internet connection
 rm setuptools/tests/test_integration.py 
-# We don't do linting here
-sed -i 's/ --flake8//' pytest.ini
+# We don't do linting or coverage here
+sed -i pytest.ini -e 's/ --flake8//' \
+                  -e 's/ --cov//'
 
 %build
 # Warning, different bootstrap meaning here, has nothing to do with our bcond
@@ -141,24 +149,34 @@ mkdir -p %{buildroot}%{python_wheeldir}
 install -p dist/%{python_wheelname} -t %{buildroot}%{python_wheeldir}
 %endif
 
+%if %{without main_python}
+rm %{buildroot}%{_bindir}/easy_install
+%endif
 
 %if %{with tests}
 %check
+# Verify bundled provides are up to date
+%{_rpmconfigdir}/pythonbundles.py pkg_resources/_vendor/vendored.txt --compare-with '%{bundled}'
+
+# Upstream tests
 # --ignore=pavement.py:
 #   pavement.py is only used by upstream to do releases and vendoring, we don't ship it
-PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=$(pwd) pytest-%{python3_version} \
-    --ignore=pavement.py
+PYTHONPATH=$(pwd) %pytest --ignore=pavement.py
 %endif # with tests
 
 
-%files -n python3-setuptools
+%files -n python%{python3_pkgversion}-setuptools
 %license LICENSE
 %doc docs/* CHANGES.rst README.rst
 %{python3_sitelib}/easy_install.py
 %{python3_sitelib}/pkg_resources/
 %{python3_sitelib}/setuptools*/
+%{python3_sitelib}/_distutils_hack/
+%{python3_sitelib}/distutils-precedence.pth
 %{python3_sitelib}/__pycache__/*
+%if %{with main_python}
 %{_bindir}/easy_install
+%endif
 %{_bindir}/easy_install-3.*
 
 %if %{without bootstrap}
@@ -171,6 +189,23 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=$(pwd) pytest-%{python3_version} \
 
 
 %changelog
+* Fri Sep 04 2020 Tomas Hrnciar <thrnciar@redhat.com> - 50.1.0-1
+- Update to 50.1.0 (#1873889)
+
+* Fri Aug 21 2020 Petr Viktorin <pviktori@redhat.com> - 49.6.0-1
+- Update to 49.6.0 (#1862791)
+
+* Wed Jul 29 2020 Miro Hrončok <mhroncok@redhat.com> - 49.1.3-1
+- Update to 49.1.3 (#1853597)
+- https://setuptools.readthedocs.io/en/latest/history.html#v49-1-3
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 47.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Miro Hrončok <mhroncok@redhat.com> - 47.3.1-1
+- Update to 47.3.1 (#1847049)
+- https://setuptools.readthedocs.io/en/latest/history.html#v47-3-1
+
 * Mon Jun 01 2020 Charalampos Stratakis <cstratak@redhat.com> - 47.1.1-1
 - Update to 47.1.1 (#1841123)
 - https://setuptools.readthedocs.io/en/latest/history.html#v47-1-1

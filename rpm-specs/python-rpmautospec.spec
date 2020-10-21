@@ -13,7 +13,7 @@
 
 Name:           python-rpmautospec
 Version:        0.1.3
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Package and CLI tool to generate release fields and changelogs
 
 License:        MIT
@@ -22,6 +22,7 @@ Source0:        https://releases.pagure.org/Fedora-Infra/rpmautospec/rpmautospec
 
 BuildArch:      noarch
 BuildRequires:  python3-devel >= 3.6.0
+BuildRequires:  python3-setuptools
 %if %{with epel_le_7}
 BuildRequires:  python2-devel
 %endif
@@ -181,6 +182,12 @@ install -m 644  rpm/macros.d/macros.rpmautospec %{buildroot}%{rpmmacrodir}/
 %endif
 
 %changelog
+* Tue Oct 13 2020 Nils Philippsen <nils@redhat.com> - 0.1.3-4
+- explicitly BR: python3-setuptools
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1.3-2
 - Rebuilt for Python 3.9
 

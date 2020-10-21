@@ -1,8 +1,8 @@
 # Upstream doesn't make releases.  We have to check the code out of git.
 %global owner    berkeley-abc
-%global gittag   8eb6aed5d116afc0933b49c6973af08cf2eff471
+%global gittag   448f26344325cc78942d576740457036671b0976
 %global shorttag %(cut -b -7 <<< %{gittag})
-%global gitdate  20200127
+%global gitdate  20200720
 
 # WARNING: When updating to a newer snapshot, because upstream doesn't do
 # shared library versioning, run abipkgdiff (from libabigail) against the
@@ -22,7 +22,7 @@
 
 Name:           abc
 Version:        1.01
-Release:        26.git%{gitdate}%{?dist}
+Release:        27.git%{gitdate}%{?dist}
 Summary:        Sequential logic synthesis and formal verification
 
 License:        MIT
@@ -41,6 +41,9 @@ Patch2:         %{name}-header.patch
 Patch3:         %{name}-build.patch
 # Fix sprintf calls that can overflow their buffers
 Patch4:         %{name}-format.patch
+# Fix an out-of-bounds array access in the gia code
+# https://github.com/berkeley-abc/abc/pull/89
+Patch5:         %{name}-gia.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -66,8 +69,9 @@ their needs as if it were a toolbox rather than a complete tool.
 
 %package libs
 Summary:        Library for sequential synthesis and verification
-# ABC includes a bundled and modified version of CUDD 2.4.2, which is
-# incompatible with the Fedora-provided CUDD 3.0.0.
+# ABC includes a bundled and modified version of CUDD 2.4.2.  The CUDD package
+# is no longer available from Fedora since the disappearance of the upstream
+# web site (and the last released version was 3.0.0).
 Provides:       bundled(cudd) = 2.4.2
 
 %description libs
@@ -90,29 +94,36 @@ rm -fr lib src/misc/{bzlib,zlib}
 sed 's/@VERSION@/%{version} (%{gitdate})/' %{SOURCE1} > %{name}.1
 touch -r %{SOURCE1} %{name}.1
 
+# Do not override Fedora optimization flags
+sed -i 's/ -O//' Makefile
+
 %build
 export CFLAGS="%{optflags} -DNDEBUG"
 export CXXFLAGS="$CFLAGS"
-%cmake -DCMAKE_SKIP_RPATH:BOOL=YES -DCMAKE_SKIP_INSTALL_RPATH:BOOL=YES .
-%make_build ABC_MAKE_VERBOSE=1 ABC_USE_STDINT_H=1
+export ABC_MAKE_VERBOSE=1
+export ABC_USE_STDINT_H=1
+%cmake
+%cmake_build
 
 %install
+# %%cmake_install does not install anything.  Install by hand.
+
+# Install the binary
+cd %{__cmake_builddir}
+mkdir -p %{buildroot}%{_bindir}
+install -p -m 0755 %{name} %{buildroot}%{_bindir}
+
 # Install the library
 mkdir -p %{buildroot}%{_libdir}
-install -p -m 0755 lib%{name}.so.0.0.0 %{buildroot}%{_libdir}
-ln -s lib%{name}.so.0.0.0 %{buildroot}%{_libdir}/lib%{name}.so.0
-ln -s lib%{name}.so.0 %{buildroot}%{_libdir}/lib%{name}.so
+cp -pd lib%{name}.so* %{buildroot}%{_libdir}
+cd -
 
 # Install the header files
-pushd src
+cd src
 mkdir -p %{buildroot}%{_includedir}/%{name}
 tar -cBf - $(find -O3 . -name \*.h) | \
   (cd %{buildroot}%{_includedir}/%{name}; tar -xBf -)
-popd
-
-# Install the binary
-mkdir -p %{buildroot}%{_bindir}
-install -p -m 0755 %{name} %{buildroot}%{_bindir}
+cd -
 
 # Install the man page
 mkdir -p %{buildroot}%{_mandir}/man1
@@ -132,6 +143,14 @@ install -p -m 0644 %{name}.1 %{buildroot}%{_mandir}/man1
 %{_libdir}/lib%{name}.so
 
 %changelog
+* Mon Jul 27 2020 Jerry James <loganjerry@gmail.com> - 1.01-27.git20200720
+- Update to latest git snapshot
+- Add -gia patch to fix crash
+- Adapt to cmake changes in Rawhide
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.01-27.git20200127
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Gabriel Somlo <gsomlo@gmail.com> - 1.01-26.git20200127
 - Update to latest git snapshot
 

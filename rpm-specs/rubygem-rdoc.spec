@@ -3,7 +3,7 @@
 
 Name: rubygem-%{gem_name}
 Version: 6.2.1
-Release: 200%{?dist}
+Release: 201%{?dist}
 Summary: RDoc produces HTML and command-line documentation for Ruby projects
 # OFL: lib/rdoc/generator/template/darkfish/css/fonts.css
 License: GPLv2 and Ruby and MIT and OFL
@@ -105,6 +105,9 @@ popd
 %{gem_instdir}/rdoc.gemspec
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.2.1-201
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 09 2020 Pavel Valena <pvalena@redhat.com> - 6.2.1-1
 - Update to rdoc 6.2.1.
 

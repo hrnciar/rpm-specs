@@ -1,7 +1,7 @@
 Summary: 	CVS Utilities
 Name: 		cvsutils
 Version: 	0.2.6
-Release: 	10%{?dist}
+Release: 	11%{?dist}
 License: 	GPLv3+
 URL: 		http://www.red-bean.com/cvsutils
 Source: 	http://www.red-bean.com/cvsutils/releases/cvsutils-%{version}.tar.gz
@@ -35,6 +35,9 @@ done
 %{_mandir}/man1/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.6-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.6-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

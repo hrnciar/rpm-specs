@@ -1,6 +1,6 @@
 Name:		vimpal		
 Version:	1.5.0
-Release:	14%{?dist}
+Release:	15%{?dist}
 Summary:	Separate application providing a file tree for VIM
 License:	GPLv3+
 URL:		http://vimpal.sourceforge.net
@@ -41,6 +41,9 @@ desktop-file-install \
 %{_datadir}/applications/%{name}.desktop
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

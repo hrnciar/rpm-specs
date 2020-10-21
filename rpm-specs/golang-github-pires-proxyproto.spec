@@ -3,7 +3,7 @@
 
 # https://github.com/pires/go-proxyproto
 %global goipath         github.com/pires/go-proxyproto
-%global commit          833e5d06d8f0c387ec75861fd9b5632921665aaa
+Version:                0.1.3
 
 %gometa
 
@@ -14,8 +14,7 @@ A Go library implementation of the PROXY protocol, versions 1 and 2.}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.1%{?dist}
+Release:        1%{?dist}
 Summary:        Go library implementation of the PROXY protocol, versions 1 and 2
 
 # Upstream license specification: Apache-2.0
@@ -42,5 +41,11 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Thu Jul 30 21:54:24 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.1.3-1
+- Update 0.1.3
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 07 21:13:21 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.1.20200307git833e5d0
 - Initial package

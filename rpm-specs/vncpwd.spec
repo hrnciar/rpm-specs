@@ -6,7 +6,7 @@
 
 Name:           vncpwd
 Version:        0.0
-Release:        7.%{commitdate}git%{shortcommit}%{?dist}
+Release:        8.%{commitdate}git%{shortcommit}%{?dist}
 Summary:        VNC Password Decrypter
 
 License:        GPLv3
@@ -46,6 +46,9 @@ make install DESTDIR="%{buildroot}"
 %{_bindir}/%{name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0-8.20170607git596854c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0-7.20170607git596854c
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

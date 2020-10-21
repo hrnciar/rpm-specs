@@ -8,7 +8,7 @@
 
 Name:		tcl-%{realname}
 Version:	2.0.1
-Release:	0.25.svn40%{?dist}
+Release:	0.26.svn40%{?dist}
 Summary:	Tcl extension for zlib support
 License:	MIT
 URL:		http://svn.scheffers.net/
@@ -57,6 +57,9 @@ chmod -x %{buildroot}%{tcl_sitearch}/%{realname}%{version}/libzlibstub*.a
 %{_includedir}/*.h
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-0.26.svn40
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.1-0.25.svn40
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

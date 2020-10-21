@@ -20,7 +20,7 @@ Gatt is a Go package for building Bluetooth Low Energy peripherals.}
 
 Name:           %{goname}
 Version:        0
-Release:        0.3%{?dist}
+Release:        0.4%{?dist}
 Summary:        Go package for building Bluetooth Low Energy peripherals
 
 # Upstream license specification: MIT and BSD-3-Clause
@@ -50,6 +50,9 @@ mv %{_builddir}/gatt-%{commit}/linux/gioctl/LICENSE.md LICENSE-gioctl.md
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 02 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0-0.3.20200404git569d3d9
 - Add more details about licenses
 

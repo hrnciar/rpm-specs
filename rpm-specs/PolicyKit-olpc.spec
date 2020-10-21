@@ -1,6 +1,6 @@
 Name:           PolicyKit-olpc
 Version:        1.7
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        OLPC-specific PolicyKit overrides
 
 License:        MIT
@@ -31,6 +31,9 @@ install -m 0644 -D olpc.rules %{buildroot}%{_datadir}/polkit-1/rules.d/10-olpc.r
 %{_datadir}/polkit-1/rules.d/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

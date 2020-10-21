@@ -1,6 +1,6 @@
 Name:		rtags
 Version:	2.33
-Release:	3%{?dist}
+Release:	6%{?dist}
 Summary:	A indexer for the c language family with Emacs integration
 
 License:	GPLv3+
@@ -38,15 +38,15 @@ follow-symbol and find-references support.
 %setup -q
 
 %build
-mkdir -p build
-cd build
-%cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
+# default to out-of-source builds, the default starting F33, but
+# for older releases we need to explicitly opt-in
+%undefine __cmake_in_source_build
 
-make %{?_smp_mflags}
+%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo
+%cmake_build
 
 %install
-cd build
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 mkdir -p %{buildroot}%{_userunitdir}
 install -p -m644 -t %{buildroot}%{_userunitdir} %{SOURCE1} %{SOURCE2}
@@ -70,6 +70,17 @@ install -p -m644 -t %{buildroot}%{_userunitdir} %{SOURCE1} %{SOURCE2}
 %{_userunitdir}/rtags.socket
 
 %changelog
+* Fri Aug  7 2020 Christian Kellner <ckellner@redhat.com> - 2.33-6
+- Use proper cmake macros for out-of-source builds
+  Resolves: rhbz#1865403
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.33-5
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.33-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.33-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

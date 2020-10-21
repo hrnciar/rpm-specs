@@ -1,7 +1,7 @@
 Name:           mint-themes
 Epoch:          1
 Version:        1.8.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Mint themes
 
 License:        GPLv3+
@@ -85,6 +85,9 @@ make
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.8.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Leigh Scott <leigh123linux@gmail.com> - 1:1.8.6-1
 - Update to 1.8.6
 

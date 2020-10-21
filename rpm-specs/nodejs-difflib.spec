@@ -5,7 +5,7 @@
 
 Name:		nodejs-difflib
 Version:	0.2.4
-Release:	10%{?dist}
+Release:	12%{?dist}
 Summary:	Text diff library ported from Python's difflib module
 
 License:	Python
@@ -75,6 +75,13 @@ cp -pr package.json *.js lib/ \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.4-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.4-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.4-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -4,23 +4,18 @@
 
 %global srcname ppx-tools
 %global upname  ppx_tools
-%global ocamlvr 4.10.0
 
 Name:           ocaml-%{srcname}
-Version:        6.1
-Release:        5%{?dist}
+Version:        6.2
+Release:        4%{?dist}
 Summary:        Tools for authors of ppx rewriters
 
 License:        MIT
 URL:            https://github.com/ocaml-ppx/%{upname}
-Source0:        %{url}/archive/%{version}+%{ocamlvr}/%{upname}-%{version}.tar.gz
+Source0:        %{url}/archive/%{version}/%{upname}-%{version}.tar.gz
 
-# Sent upstream 2020-04-22.
-Patch1:         ppx_tools-6.1-ocaml-4.11.patch
-
-BuildRequires:  ocaml >= %{ocamlvr}
+BuildRequires:  ocaml >= 4.08.0
 BuildRequires:  ocaml-dune >= 1.6
-BuildRequires:  ocaml-findlib
 BuildRequires:  ocaml-odoc
 
 %description
@@ -42,7 +37,7 @@ BuildArch:      noarch
 Documentation for %{name}.
 
 %prep
-%autosetup -n %{upname}-%{version}-%{ocamlvr} -p1
+%autosetup -n %{upname}-%{version}
 
 %build
 dune build %{?_smp_mflags}
@@ -112,6 +107,26 @@ dune runtest
 %license LICENSE
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 6.2-4
+- OCaml 4.11.1 rebuild
+
+* Sat Aug 22 2020 Richard W.M. Jones <rjones@redhat.com> - 6.2-3
+- Bump and rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 6.2-2
+- OCaml 4.11.0 rebuild
+
+* Wed Aug  5 2020 Jerry James <loganjerry@gmail.com> - 6.2-1
+- Version 6.2
+- Drop upstreamed ppx_tools-6.1-ocaml-4.11.patch
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.1-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 6.1-5
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

@@ -2,7 +2,7 @@
 %global         base_name breeze-plymouth
 
 Name:    plymouth-theme-breeze
-Version: 5.19.2
+Version: 5.20.1
 Release: 1%{?dist}
 Summary: Breeze theme for Plymouth
 
@@ -38,24 +38,19 @@ Requires:       plymouth-plugin-script
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-
-make %{?_smp_flags} -C %{_target_platform}
-
+%cmake_build
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 install -D -m644 -p %{SOURCE10} \
   %{buildroot}%{_prefix}/lib/dracut/dracut.conf.d/10-plymouth-theme-breeze.conf
 
 
 %files
-%license COPYING
+%license LICENSES/*.txt
 %doc README
 %{_libdir}/plymouth/breeze-text.so
 %{_datadir}/plymouth/themes/breeze-text/
@@ -64,6 +59,30 @@ install -D -m644 -p %{SOURCE10} \
 
 
 %changelog
+* Tue Oct 20 15:27:27 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.1-1
+- 5.20.1
+
+* Sun Oct 11 19:50:01 CEST 2020 Jan Grulich <jgrulich@redhat.com> - 5.20.0-1
+- 5.20.0
+
+* Fri Sep 18 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.90-1
+- 5.19.90
+
+* Tue Sep 01 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.5-1
+- 5.19.5
+
+* Mon Aug 03 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.19.4-3
+- rebuild, macro cosmetics
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.19.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.4-1
+- 5.19.4
+
+* Tue Jul 07 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.3-1
+- 5.19.3
+
 * Tue Jun 23 2020 Jan Grulich <jgrulich@redhat.com> - 5.19.2-1
 - 5.19.2
 

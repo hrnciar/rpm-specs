@@ -8,7 +8,7 @@
 
 Name:           rust-%{crate}
 Version:        0.5.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        X11 clipboard support for Rust
 
 # Upstream license specification: MIT
@@ -73,5 +73,8 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri May 22 12:46:34 PDT 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 0.5.1-1
 - Initial package

@@ -1,24 +1,29 @@
 %global gem_name actionview
 
-%{?_with_bootstrap: %global bootstrap 1}
+# Circular dependency with rubygem-railties.
+%bcond_with bootstrap
 
 Name: rubygem-%{gem_name}
-Version: 5.2.3
-Release: 4%{?dist}
+Version: 6.0.3.4
+Release: 1%{?dist}
 Summary: Rendering framework putting the V in MVC (part of Rails)
 License: MIT
 URL: http://rubyonrails.org
-Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
-# git clone http://github.com/rails/rails.git && cd rails/actionview/
-# git checkout v5.2.3 && tar czvf actionview-5.2.3-tests.tgz test/
-Source1: %{gem_name}-%{version}-tests.tgz
-# Fix ResolverCacheTest#test_inspect_shields_cache_internals test failures
-# due to negative object ID.
-# https://github.com/rails/rails/pull/28902
-Patch0: rubygem-actionview-5.1.2-Prevent-negative-IDs-in-output-of-inspect.patch
+Source0: https://rubygems.org/gems/%{gem_name}-%{version}%{?prerelease}.gem
+# The gem doesn't ship with the test suite.
+# You may check it out like so
+# git clone http://github.com/rails/rails.git
+# cd rails/actionview && git archive -v -o actionview-6.0.3.4-tests.txz v6.0.3.4 test/
+Source1: %{gem_name}-%{version}%{?prerelease}-tests.txz
+# The tools are needed for the test suite, are however unpackaged in gem file.
+# You may get them like so
+# git clone http://github.com/rails/rails.git --no-checkout
+# cd rails && git archive -v -o rails-6.0.3.4-tools.txz v6.0.3.4 tools/
+Source2: rails-%{version}%{?prerelease}-tools.txz
+
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
-%if ! 0%{?bootstrap}
+%if %{without bootstrap}
 BuildRequires: rubygem(activesupport) = %{version}
 BuildRequires: rubygem(activerecord) = %{version}
 BuildRequires: rubygem(actionpack) = %{version}
@@ -40,33 +45,33 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -c -T
-%gem_install -n %{SOURCE0}
-
-pushd .%{gem_instdir}
-%patch0 -p2
-popd
+%setup -q -n %{gem_name}-%{version}%{?prerelease} -b1 -b2
 
 %build
+gem build ../%{gem_name}-%{version}%{?prerelease}.gemspec
+%gem_install
+
 
 %install
 mkdir -p %{buildroot}%{gem_dir}
 cp -pa .%{gem_dir}/* \
         %{buildroot}%{gem_dir}/
 
-%if ! 0%{?bootstrap}
+%if %{without bootstrap}
 %check
 # This requires activerecord in rails git structure
-ln -s %{gem_dir}/gems/activerecord-%{version}/ .%{gem_dir}/gems/activerecord
+ln -s %{gem_dir}/gems/activerecord-%{version}%{?prerelease}/ .%{gem_dir}/gems/activerecord
 
 pushd .%{gem_instdir}
+ln -s %{_builddir}/tools ..
+mv %{_builddir}/test .
 
-tar xzvf %{SOURCE1} -C .
+mv test/activerecord/controller_runtime_test.rb{,.disable}
 
 # Run separately as we need to avoid superclass mismatch errors
-for t in {actionpack,activerecord,template}; do
-  ruby -Ilib:test -e "Dir.glob('./test/$t/**/*_test.rb').each {|t| require t}"
-done
+find test -type f -name '*_test.rb' -print0 | \
+  sort -z | \
+  xargs -0 -n1 -i sh -c "echo '* Test file: {}'; ruby -Itest -- '{}' || exit 255"
 
 popd
 %endif
@@ -84,6 +89,25 @@ popd
 %doc %{gem_instdir}/CHANGELOG.md
 
 %changelog
+* Thu Oct  8 11:38:41 CEST 2020 Pavel Valena <pvalena@redhat.com> - 6.0.3.4-1
+- Update to actionview 6.0.3.4.
+  Resolves: rhbz#1877500
+
+* Tue Sep 22 00:37:39 CEST 2020 Pavel Valena <pvalena@redhat.com> - 6.0.3.3-1
+- Update to actionview 6.0.3.3.
+  Resolves: rhbz#1877500
+
+* Mon Aug 17 04:56:29 GMT 2020 Pavel Valena <pvalena@redhat.com> - 6.0.3.2-1
+- Update to actionview 6.0.3.2.
+  Resolves: rhbz#1742791
+
+* Mon Aug 03 07:01:37 GMT 2020 Pavel Valena <pvalena@redhat.com> - 6.0.3.1-1
+- Update to ActionView 6.0.3.1.
+  Resolves: rhbz#1742791
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

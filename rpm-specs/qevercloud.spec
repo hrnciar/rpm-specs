@@ -1,9 +1,12 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 %global altname  QEverCloud
 
 Name:       qevercloud
 Summary:    Unofficial Evernote Cloud API for Qt5
 Version:    6.1.0
-Release:    1%{?dist}
+Release:    2%{?dist}
 
 License:    MIT
 URL:        https://github.com/d1vanov/QEverCloud
@@ -44,23 +47,22 @@ Requires: qt5-qtbase
 %autosetup -n %{altname}-%{version}
 
 %build
-mkdir build && cd build
-%cmake ../  -DBUILD_QCH_DOCUMENTATION=ON \
-            -DCMAKE_INSTALL_LIBDIR=%{_qt5_libdir} \
-            -DQHELPGENERATOR_EXECUTABLE=%{_bindir}/qhelpgenerator-qt5
-%make_build
-make doc
+%cmake -DBUILD_QCH_DOCUMENTATION=ON \
+       -DCMAKE_INSTALL_LIBDIR=%{_qt5_libdir} \
+       -DQHELPGENERATOR_EXECUTABLE=%{_bindir}/qhelpgenerator-qt5
+%cmake_build
+make doc -C %{_vpath_builddir}
 
 %install
-%make_install -C build
+%cmake_install
 
 install -Dpm0644 -t %{buildroot}%{_qt5_docdir} \
-  build/%{altname}.qch
+  %{_vpath_builddir}/%{altname}.qch
 mkdir -p %{buildroot}%{_qt5_docdir}/%{altname}
-cp -aR build/doc/html/* %{buildroot}%{_qt5_docdir}/%{altname}
+cp -aR %{_vpath_builddir}/doc/html/* %{buildroot}%{_qt5_docdir}/%{altname}
 
 %check
-build/QEverCloud/test_QEverCloud
+%{_vpath_builddir}/QEverCloud/test_QEverCloud
 
 %files
 %license LICENSE
@@ -78,6 +80,9 @@ build/QEverCloud/test_QEverCloud
 %{_qt5_docdir}/%{altname}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jun 17 17:31:31 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 6.1.0-1
 - Update to 6.1.0 (#1790089)
 

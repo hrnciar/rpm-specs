@@ -1,6 +1,6 @@
 Name:           cpu-x
 Version:        4.0.1
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Gathers information on CPU, motherboard and more
 ExclusiveArch:  i686 x86_64
 
@@ -37,8 +37,8 @@ CPU-X is similar to CPU-Z (Windows), but CPU-X is a Free and Open Source
 software designed for GNU/Linux; also, it works on *BSD.
 
 This software is written in C and built with CMake tool. It can be used in
-graphical mode by using GTK or in text-based mode by using NCurses. A dump mode
-is present from command line.
+graphical mode by using GTK or in text-based mode by using NCurses. A dump
+mode is present from command line.
 
 
 %package        data
@@ -53,20 +53,16 @@ Data files for %{name}.
 
 %prep
 %autosetup -n CPU-X-%{version} -p1
-mkdir -p %{_target_platform}
 
 
 %build
-pushd %{_target_platform}
 %cmake \
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-    ..
-popd
-%make_build -C %{_target_platform}
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo
+%cmake_build
 
 
 %install
-%make_install -C %{_target_platform}
+%cmake_install
 rm -r %{buildroot}%{_datadir}/icons/hicolor/384x384
 
 # invalid-lc-messages-dir
@@ -76,7 +72,7 @@ rm -r %{buildroot}%{_datadir}/locale/zh_Hant/
 
 
 %check
-appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.xml
 desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
@@ -107,6 +103,15 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Wed Sep  2 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 4.0.1-4
+- Rebuild | Fix RH#1871467
+
+* Mon Jul 27 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 4.0.1-3
+- Rebuild with out-of-source builds new CMake macros
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun 13 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 4.0.1-1
 - Update to 4.0.1
 

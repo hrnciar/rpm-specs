@@ -2,7 +2,7 @@
 
 Name:    testssl
 Version: 3.0.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 Summary: Testing TLS/SSL encryption
 License: GPLv2
@@ -67,6 +67,9 @@ install -m 644 doc/%{name}.1 %{buildroot}%{_mandir}/man1/
 %{_mandir}/man1/testssl.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat May 09 2020 Christian Krause <chkr@fedoraproject.org> - 3.0.2-1
 - Updated to 3.0.2 (BZ #1750167)
 - Updated installed documentation files

@@ -5,7 +5,7 @@
 
 Name:           %{fontname}-fonts
 Version:        2.95.4
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Free Devanagari Script Font
 License:        OFL
 URL:            https://pagure.io/lohit
@@ -58,6 +58,9 @@ install -Dm 0644 -p %{metainfo}.xml \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.95.4-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.95.4-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -8,7 +8,7 @@
 Name:		perl-common-sense
 Summary:	"Common sense" Perl defaults 
 Version:	%{rpmversion}
-Release:	2%{?dist}
+Release:	4%{?dist}
 License:	GPL+ or Artistic
 URL:		https://metacpan.org/release/common-sense
 Source0:	https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/common-sense-%{cpanversion}.tar.gz
@@ -47,7 +47,7 @@ It's supposed to be mostly the same, with much lower memory usage, as:
 	no feature qw(array_base);
 	no warnings;
 	use warnings qw(FATAL closed threads internal debugging pack
-			portable prototype inplace io pipe unpack malloc
+			prototype inplace io pipe unpack malloc
 			deprecated glob digit printf layer
 			reserved taint closure semicolon);
 	no warnings qw(exec newline unopened);
@@ -86,13 +86,19 @@ make test
 %{_mandir}/man3/common::sense.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.7.5-3
+- Perl 5.32 re-rebuild updated packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.7.5-2
 - Perl 5.32 rebuild
 
 * Thu Apr  2 2020 Paul Howarth <paul@city-fan.org> - 3.7.5-1
 - Update to 3.75
   - Make build (more) reproducible
-  - Removed "portable" from the warnngs list, as 32-bit perls (as opposed to
+  - Removed "portable" from the warnings list, as 32-bit perls (as opposed to
     32-bit platforms) are practically extinct and it warns about a weird subset
     of operations, e.g. 64-bit hex() is not ok, 64-bit addition is fine, makes
     no sense; additionally, other than hex/oct etc. harassment, there is

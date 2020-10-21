@@ -1,6 +1,6 @@
 Name:           libbraiding
-Version:        1.0
-Release:        4%{?dist}
+Version:        1.1
+Release:        1%{?dist}
 Summary:        Library for computations on braid groups
 
 License:        GPLv2+
@@ -24,13 +24,6 @@ developing applications that use %{name}.
 
 %prep
 %autosetup -p0
-
-# Fix the FSF's address
-for fil in lib/*.{cpp,h}; do
-  sed -i.orig 's/59 Temple Place, Suite 330, Boston, MA 02111-1307/51 Franklin Street, Suite 500, Boston, MA 02110-1335/' $fil
-  touch -r $fil.orig $fil
-  rm $fil.orig
-done
 
 # Upstream does not generate the configure script
 autoreconf -fi .
@@ -62,6 +55,12 @@ rm -f %{buildroot}%{_libdir}/*.la
 %{_libdir}/%{name}.so
 
 %changelog
+* Sat Sep 12 2020 Jerry James <loganjerry@gmail.com> - 1.1-1
+- Version 1.1
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

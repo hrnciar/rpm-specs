@@ -1,6 +1,6 @@
 Name:           glog
 Version:        0.3.5
-Release:        9%{?dist}
+Release:        12%{?dist}
 Summary:        A C++ application logging library
 License:        BSD
 URL:            https://github.com/google/glog
@@ -31,6 +31,7 @@ developing applications that use %{name}.
 %autosetup
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
 autoconf
 %configure --disable-static
 %make_build
@@ -55,6 +56,16 @@ rm -rf $RPM_BUILD_ROOT/%{_docdir}/%{name}-%{version}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.5-12
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 0.3.5-11
+- Force C++14 as this code is not C++17 ready
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.5-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.5-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

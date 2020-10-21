@@ -2,7 +2,7 @@
 
 Name:           perl-Geo-METAR
 Version:        1.15
-Release:        35%{?dist}
+Release:        36%{?dist}
 Summary:        Perl module for accessing aviation weather information
 License:        GPLv2+
 URL:            https://metacpan.org/release/Geo-METAR
@@ -46,6 +46,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15-36
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.15-35
 - Perl 5.32 rebuild
 

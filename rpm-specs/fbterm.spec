@@ -2,10 +2,10 @@
 
 Name:       fbterm
 Version:    1.7
-Release:    18%{?dist}
+Release:    21%{?dist}
 License:    GPLv2+
 URL:        http://code.google.com/p/fbterm/
-Source0:    https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/%{name}/%{name}-%{version}.tar.gz
+Source0:    https://github.com/fujiwarat/fbterm/releases/download/v%{version}/%{name}-%{version}.tar.gz
 
 #Patch0:    %%{name}-1.2-kernel-header.patch
 #Patch1:    %%{name}-1.3-setcap.patch
@@ -24,6 +24,8 @@ BuildRequires: fontconfig-devel gpm-devel
 BuildRequires: gcc-c++
 BuildRequires: pkgconfig(udev)
 Requires: fontconfig
+# ncurses-term has /usr/share/terminfo/f/fbterm
+Requires: ncurses-term
 Obsoletes: fbterm-udevrules < %{version}-%{release}
 
 %description
@@ -77,8 +79,6 @@ make %{?_smp_mflags}
 %__rm -rf %{buildroot}
 %__make DESTDIR=%{buildroot} install
 %__chmod 755 %{buildroot}/%{_bindir}/%{name}
-mkdir -p %{buildroot}/%{_datadir}/terminfo/f
-cp terminfo/fbterm %{buildroot}/%{_datadir}/terminfo/f/
 
 %if 0%{?fedora} >= 9
 %post
@@ -92,10 +92,15 @@ setcap 'cap_sys_tty_config+ep' %{_bindir}/%{name}
 %else
 %attr(4755,root,root) %{_bindir}/%{name}
 %endif
-%{_datadir}/terminfo/f/fbterm
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-21
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Takao Fujiwara <tfujiwar@redhat.com> - 1.7-20
+- Reverted the previous change and requires ncurses-term
+
 * Sun Jun 21 2020 Nick Black <nickblack@linux.com> - 1.7-19
 - Install terminfo description, fix source URI
 

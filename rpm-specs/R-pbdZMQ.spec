@@ -5,7 +5,7 @@
 
 Name:             R-%{packname}
 Version:          0.3.3
-Release:          8%{?dist}
+Release:          10%{?dist}
 Summary:          Programming with Big Data -- Interface to ZeroMQ
 
 License:          GPLv3
@@ -77,6 +77,13 @@ rm -r %{buildroot}%{rlibdir}/%{packname}/zmq_copyright
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun  5 2020 Tom Callaway <spot@fedoraproject.org> - 0.3.3-8
 - rebuild for R 4
 

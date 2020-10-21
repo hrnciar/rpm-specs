@@ -1,7 +1,7 @@
 %global archivename afdko
 
 Name:		adobe-afdko
-Version:	3.3.0
+Version:	3.5.1
 Release:	1%{?dist}
 Summary:	Adobe Font Development Kit for OpenType
 License:	ASL 2.0
@@ -36,6 +36,19 @@ find ./ -type f -executable -exec install -p -m 0755 "{}" \
 %{_bindir}/*
 
 %changelog
+* Fri Oct 16 2020 Vishal Vijayraghavan <vishalvvr@fedoraproject.org> - 3.5.1-1
+- Build for latest release 3.5.1
+
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Vishal Vijayraghavan <vishalvvr@fedoraproject.org> - 3.4.0-1
+- Build for latest release 3.4.0
+
 * Mon May 18 2020 Vishal Vijayraghavan <vishalvvr@fedoraproject.org> - 3.3.0-1
 - Build for latest release 3.3.0
 

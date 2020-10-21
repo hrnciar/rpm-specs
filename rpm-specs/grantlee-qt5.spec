@@ -4,7 +4,7 @@
 Name:    grantlee-qt5
 Summary: Qt5 string template engine based on the Django template system
 Version: 5.2.0
-Release: 5%{?dist}
+Release: 9%{?dist}
 
 License: LGPLv2+
 URL:     https://github.com/steveire/grantlee
@@ -75,25 +75,22 @@ format for easy browsing.
 %autosetup -n grantlee-%{version} -p1
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake} .. \
+%cmake \
   -DCMAKE_BUILD_TYPE=release
-popd
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 %if 0%{?apidocs}
-make docs -C %{_target_platform}
+make docs -C %{__cmake_builddir}
 %endif
 
 
 %install
-make install/fast -C %{_target_platform} DESTDIR=%{buildroot}
+%cmake_install
 
 %if 0%{?apidocs}
 mkdir -p %{buildroot}%{_docdir}/HTML/en/Grantlee5/
-cp -prf %{_target_platform}/apidox/* %{buildroot}%{_docdir}/HTML/en/Grantlee5/
+cp -prf %{__cmake_builddir}/apidox/* %{buildroot}%{_docdir}/HTML/en/Grantlee5/
 %endif
 
 # rpm macros
@@ -111,7 +108,7 @@ sed -i \
 
 %check
 export CTEST_OUTPUT_ON_FAILURE=1
-xvfb-run -a make test -C %{_target_platform} ||:
+xvfb-run -a make test -C %{__cmake_builddir} ||:
 
 
 %ldconfig_scriptlets
@@ -140,6 +137,19 @@ xvfb-run -a make test -C %{_target_platform} ||:
 
 
 %changelog
+* Mon Sep 07 2020 Than Ngo <than@redhat.com> - 5.2.0-9
+- use cmake macro
+
+* Tue Aug 11 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.2.0-8
+- FTBFS, define %__cmake_in_source_build until we have time to port to new cmake macros
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.0-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 02 2020 Rex Dieter <rdieter@fedoraproject.org> - 5.2.0-5
 - BR: Qt5Qml, use cmake-style Qt5 deps
 

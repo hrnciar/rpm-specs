@@ -1,6 +1,6 @@
 Name:		mg
-Version:	20200215
-Release:	1%{?dist}
+Version:	20200723
+Release:	2%{?dist}
 Summary:	Tiny Emacs-like editor
 
 License:	BSD and ISC and MirOS
@@ -19,12 +19,11 @@ reason to learn more editor types than Emacs or vi.
 %setup -q
 
 %build
-make %{?_smp_mflags} CFLAGS="%{optflags}" LDFLAGS="%{optflags} -lncurses" libdir="%{_libdir}"
+%make_build CFLAGS="%{optflags}" LDFLAGS="%{optflags} -lncurses" libdir="%{_libdir}"
 
 %install
 rm -rf %{buildroot}
-make install DESTDIR=%{buildroot} prefix=%{_prefix} mandir=%{_mandir} \
-     INSTALL='install -p'
+%make_install prefix=%{_prefix} mandir=%{_mandir}
 
 %files
 %doc README tutorial
@@ -32,6 +31,16 @@ make install DESTDIR=%{buildroot} prefix=%{_prefix} mandir=%{_mandir} \
 %{_mandir}/man1/mg.1.*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200723-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 2020 Mark McKinstry <mmckinst@fedoraproject.org> - 20200723-1
+- upgrade to 20200723 (RHBZ#1860213)
+
+* Wed Jul 22 2020 Tom Stellard <tstellar@redhat.com> - 20200215-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Thu Mar 26 2020 Mark McKinstry <mmckinst@fedoraproject.org> - 20200215-1
 - upgrade to 20200215 (RHBZ#1803396)
 - remove _legacy_common_support workaround for https://github.com/hboetes/mg/issues/12

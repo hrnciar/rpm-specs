@@ -5,8 +5,8 @@
 %bcond_without menhir
 
 Name:           ocaml-%{libname}
-Version:        2.6.0
-Release:        1%{?dist}
+Version:        2.7.1
+Release:        2%{?dist}
 Summary:        A composable build system for OCaml
 
 # Dune itself is MIT.  Some bundled libraries have a different license:
@@ -22,11 +22,16 @@ License:        MIT and LGPLv2 and LGPLv2 with exceptions and ISC
 URL:            https://dune.build
 Source0:        https://github.com/ocaml/%{libname}/archive/%{version}/%{libname}-%{version}.tar.gz
 
+# Fix path to the configuration file
+# https://github.com/ocaml/dune/pull/3757
+Patch0:         9749697c9f6cd5848d2083faa84836b7dd8fbd4b.patch
+
 BuildRequires:  emacs
-BuildRequires:  ocaml >= 4.07
+BuildRequires:  ocaml >= 4.08
+BuildRequires:  ocaml-csexp-devel
 BuildRequires:  ocaml-findlib
-BuildRequires:  python3dist(sphinx)
-BuildRequires:  python3dist(sphinx-rtd-theme)
+BuildRequires:  %{py3_dist sphinx}
+BuildRequires:  %{py3_dist sphinx-rtd-theme}
 
 %if %{without menhir}
 # Required by tests.
@@ -39,7 +44,6 @@ BuildRequires:  ocaml-menhir
 # doesn't seem to be able to detect libraries installed systemwide.
 # https://github.com/ocaml/dune/issues/220
 Provides:      bundled(ocaml-build-path-prefix-map) = 0.2
-Provides:      bundled(ocaml-csexp) = 1.0.0
 Provides:      bundled(ocaml-opam-file-format) = 2.0.0
 Provides:      bundled(ocaml-cmdliner) = 1.0.3
 Provides:      bundled(ocaml-re) = 1.7.1
@@ -63,6 +67,7 @@ productive.
 %package        devel
 Summary:        Development files for %{name}
 Requires:       %{name}%{?isa} = %{version}-%{release}
+Requires:       ocaml-csexp-devel%{?_isa}
 
 %description    devel
 The %{name}-devel package contains libraries and
@@ -191,6 +196,41 @@ cp -ar README.md CHANGES.md MIGRATION.md doc/_build/* %{buildroot}%{_pkgdocdir}/
 %{_emacs_sitelispdir}/dune*
 
 %changelog
+* Fri Sep 18 2020 Jerry James <loganjerry@gmail.com> - 2.7.1-2
+- Add ocaml-csexp-devel R to the -devel subpackage
+
+* Mon Sep 14 2020 Jerry James <loganjerry@gmail.com> - 2.7.1-1
+- Version 2.7.1
+- Csexp is no longer vendored in
+- Drop upstreamed patches for issue 3736 and pull request 3739
+- Fix configuration with patch from pull request 3757
+
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 2.7.0-6
+- OCaml 4.11.1 rebuild
+
+* Mon Aug 24 2020 Richard W.M. Jones <rjones@redhat.com> - 2.7.0-5
+- Add fix for https://github.com/ocaml/dune/issues/3736
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 2.7.0-2
+- OCaml 4.11.0 rebuild
+
+* Fri Aug 14 2020 Jerry James <loganjerry@gmail.com> - 2.7.0-1
+- Version 2.7.0
+- Drop upstreamed patch for issue 3671
+
+* Tue Aug  4 2020 Richard W.M. Jones <rjones@redhat.com> - 2.6.2-2
+- Pass -g option when compiling ppx extensions.
+  https://github.com/ocaml/dune/pull/3671
+
+* Mon Aug  3 2020 Jerry James <loganjerry@gmail.com> - 2.6.2-1
+- New version 2.6.2
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul  2 2020 Jerry James <loganjerry@gmail.com> - 2.6.1-1
+- New version 2.6.1
+
 * Sat Jun  6 2020 Jerry James <loganjerry@gmail.com> - 2.6.0-1
 - New version 2.6.0
 

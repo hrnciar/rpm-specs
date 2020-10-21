@@ -3,7 +3,7 @@
 
 # https://github.com/rogpeppe/go-internal
 %global goipath         github.com/rogpeppe/go-internal
-Version:                1.5.2
+Version:                1.6.1
 
 %gometa
 
@@ -56,6 +56,12 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Sat Aug 01 23:06:57 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.6.1-1
+- Update to 1.6.1
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 17 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.5.2-1
 - Update to latest version
 

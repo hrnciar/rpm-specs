@@ -1,5 +1,5 @@
 Name:       ddgr
-Version:    1.8.1
+Version:    1.9
 Release:    1%{?dist}
 Summary:    DuckDuckGo from the terminal
 
@@ -64,6 +64,12 @@ make test
 
 
 %changelog
+* Mon Aug 24 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.9-1
+- Update to 1.9 (#1860636)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 18 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.8.1-1
 - Update to 1.8.1
 

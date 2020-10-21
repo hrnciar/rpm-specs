@@ -3,7 +3,7 @@
 Name:           emerald-themes
 License:        GPLv2
 Version:        0.8.16
-Release:        3%{?dist}
+Release:        4%{?dist}
 Epoch:          1
 Summary:        Themes for Emerald, a window decorator for Compiz Fusion
 URL:            https://gitlab.com/compiz/%{name}
@@ -45,6 +45,9 @@ make %{?_smp_mflags} V=1
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.8.16-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.8.16-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -11,7 +11,7 @@
 
 Name:		mono-addins
 Version:	1.1
-Release:	13%{?dist}
+Release:	14%{?dist}
 Summary:	Addins for mono
 License:	MIT
 URL:		http://www.mono-project.com/Main_Page
@@ -109,6 +109,9 @@ make DESTDIR=%{buildroot} install
 %{_libdir}/pkgconfig/mono-addins*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

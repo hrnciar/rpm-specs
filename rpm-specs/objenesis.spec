@@ -31,7 +31,7 @@
 Summary:        A library for instantiating Java objects
 Name:           objenesis
 Version:        3.1
-Release:        1%{?dist}
+Release:        4%{?dist}
 License:        ASL 2.0
 URL:            http://objenesis.org/
 Source0:        https://github.com/easymock/%{name}/archive/%{version}.tar.gz
@@ -86,9 +86,15 @@ This package contains the API documentation for %{name}.
 %pom_xpath_remove "pom:dependency[pom:scope='test']" tck
 %pom_xpath_remove pom:build/pom:extensions
 
+# Fix javadoc generation on java 11
+%pom_xpath_inject pom:pluginManagement/pom:plugins "<plugin>
+<artifactId>maven-javadoc-plugin</artifactId>
+<configuration><source>1.8</source></configuration>
+</plugin>" 
+
 %build
 # tests are skipped because of missing dependency spring-osgi-test
-%mvn_build -- -Dyear=2009 -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+%mvn_build -- -Dyear=2009 -Dmaven.test.skip=true
 
 %install
 %mvn_install
@@ -97,11 +103,20 @@ This package contains the API documentation for %{name}.
 %files -f .mfiles
 %doc LICENSE.txt
 
-%files javadoc
+%files javadoc -f .mfiles-javadoc
 %doc LICENSE.txt
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 11 2020 Jiri Vanek <jvanek@redhat.com> - 3.1-3
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jun 25 2020 Alexander Kurtakov <akurtako@redhat.com> 3.1-2
+- Fix build with Java 11.
+
 * Mon May 04 2020 Jiri Vanek <jvanek@fedoraproject.org> - 3.1-1
 - bumped  to 3.1
 - disabled javadoc generation. It requires maven pomming beyond my skills

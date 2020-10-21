@@ -6,11 +6,10 @@
 Name:             python-rtslib
 License:          ASL 2.0
 Summary:          API for Linux kernel LIO SCSI target
-Version:          2.1.fb69
-Release:          9%{?dist}
+Version:          2.1.74
+Release:          1%{?dist}
 URL:              https://github.com/open-iscsi/%{oname}
 Source:           %{url}/archive/v%{version}/%{oname}-%{version}.tar.gz
-Source1:          target.service
 Patch0:           0001-disable-xen_pvscsi.patch
 BuildArch:        noarch
 %if %{with apidocs}
@@ -91,7 +90,7 @@ mkdir -p %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}%{_sysconfdir}/target/backup
 mkdir -p %{buildroot}%{_localstatedir}/target/pr
 mkdir -p %{buildroot}%{_localstatedir}/target/alua
-install -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/target.service
+install -m 644 systemd/target.service %{buildroot}%{_unitdir}/target.service
 install -m 644 doc/targetctl.8 %{buildroot}%{_mandir}/man8/
 install -m 644 doc/saveconfig.json.5 %{buildroot}%{_mandir}/man5/
 
@@ -127,6 +126,16 @@ install -m 644 doc/saveconfig.json.5 %{buildroot}%{_mandir}/man5/
 %endif
 
 %changelog
+* Mon Aug 31 2020 Maurizio Lombardi <mlombard@redhat.com> - 2.1.74-1
+- New upstream version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.73-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Matt Coleman <matt@datto.com> - 2.1.73-1
+- New upstream version
+- Use upstream's systemd service
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.1.fb69-9
 - Rebuilt for Python 3.9
 

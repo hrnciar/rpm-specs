@@ -1,14 +1,15 @@
-%global packname  spelling
+%global packname spelling
+%global packver  2.2
 %global rlibdir  %{_datadir}/R/library
 
 Name:             R-%{packname}
-Version:          2.1
-Release:          5%{?dist}
+Version:          2.2
+Release:          1%{?dist}
 Summary:          Tools for Spell Checking in R
 
 License:          MIT
 URL:              https://CRAN.R-project.org/package=%{packname}
-Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.tar.gz
+Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{packver}.tar.gz
 
 # Here's the R view of the dependencies world:
 # Depends:
@@ -69,6 +70,12 @@ NOT_CRAN=1 %{_bindir}/R CMD check %{packname}
 
 
 %changelog
+* Tue Oct 20 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2.2-1
+- Update to latest version (#1889189)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jun  6 2020 Tom Callaway <spot@fedoraproject.org> - 2.1-5
 - rebuild for R 4
 

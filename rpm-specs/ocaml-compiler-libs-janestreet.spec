@@ -6,7 +6,7 @@
 
 Name:           %{srcname}-janestreet
 Version:        0.12.1
-Release:        1%{?dist}
+Release:        5%{?dist}
 Summary:        OCaml compiler libraries repackaged
 
 License:        MIT
@@ -94,5 +94,18 @@ find %{buildroot}%{_libdir}/ocaml -name \*.cmxs -exec chmod a+x {} \+
 %license LICENSE.md
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 0.12.1-5
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 0.12.1-4
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May  7 2020 Jerry James <loganjerry@gmail.com> - 0.12.1-1
 - Initial RPM

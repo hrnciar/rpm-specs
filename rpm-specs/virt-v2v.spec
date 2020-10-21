@@ -5,12 +5,12 @@
 %global patches_touch_autotools %{nil}
 
 # The source directory.
-%global source_directory 1.42-stable
+%global source_directory 1.43-development
 
 Name:          virt-v2v
 Epoch:         1
-Version:       1.42.0
-Release:       4%{?dist}
+Version:       1.43.1
+Release:       5%{?dist}
 Summary:       Convert a virtual machine to run on KVM
 
 License:       GPLv2+
@@ -227,6 +227,22 @@ rm -r $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs/dllv2v_test_harness*
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1:1.43.1-5
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1:1.43.1-4
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.43.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.43.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 06 2020 Richard W.M. Jones <rjones@redhat.com> - 1.43.1-1
+- New development branch 1.43.
+
 * Wed May 06 2020 Richard W.M. Jones <rjones@redhat.com> - 1.42.0-4
 - Re-add Epoch.  Forgotten when we split this package from libguestfs.
 

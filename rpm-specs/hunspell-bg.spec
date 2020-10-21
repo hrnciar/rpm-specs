@@ -1,7 +1,7 @@
 Name: hunspell-bg
 Summary: Bulgarian hunspell dictionaries
 Version: 4.3
-Release: 18%{?dist}
+Release: 19%{?dist}
 Source: http://downloads.sourceforge.net/bgoffice/OOo-spell-bg-%{version}.zip
 URL: http://bgoffice.sourceforge.net/
 License: GPLv2+ or LGPLv2+ or MPLv1.1
@@ -45,6 +45,9 @@ cp -p *.dic *.aff $RPM_BUILD_ROOT/%{_datadir}/myspell
 %{_datadir}/myspell/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.3-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

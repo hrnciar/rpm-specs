@@ -4,7 +4,7 @@
 Name:           elementary-print
 Summary:        Simple shim for printing support via Contractor
 Version:        0.1.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 License:        GPLv3+
 
 URL:            https://github.com/elementary/%{srcname}
@@ -43,6 +43,9 @@ Simple shim for printing support via Contractor.
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

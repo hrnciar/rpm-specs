@@ -7,18 +7,19 @@
 # Please, preserve the changelog entries
 #
 
-%global gh_commit    11457e9bbedc182b48c04db3a2621d17b58b0808
+%bcond_without       tests
+
+%global gh_commit    32175ee13bde3aef7bdff492ce2d0f0c9cb5cbf4
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     phpmyadmin
 #global gh_date      20150820
 %global gh_project   sql-parser
-%global with_tests   0%{!?_without_tests:1}
 %global ns_vendor    PhpMyAdmin
 %global ns_project   SqlParser
 %global major        5
 
 Name:           php-%{gh_owner}-%{gh_project}%{major}
-Version:        5.3.1
+Version:        5.4.1
 Release:        1%{?gh_date?%{gh_date}git%{gh_short}}%{?dist}
 Summary:        A validating SQL lexer and parser with a focus on MySQL dialect
 
@@ -31,21 +32,26 @@ Patch0:         %{name}-autoload.patch
 
 BuildArch:      noarch
 BuildRequires:  gettext
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php(language) >= 7.1
 BuildRequires:  php-composer(phpmyadmin/motranslator) >= 3.0
 BuildRequires:  php-mbstring
 BuildRequires:  php-spl
 # For tests, from composer.json "require-dev": {
-#        "phpmyadmin/coding-standard": "^1.0",
+#        "phpmyadmin/coding-standard": "^2.0",
 #        "phpmyadmin/motranslator": "^4.0 || ^5.0",
 #        "phpstan/extension-installer": "^1.0",
-#        "phpstan/phpstan": "^0.12.3",
-#        "phpstan/phpstan-phpunit": "^0.12.1",
+#        "phpstan/phpstan": "^0.12.40",
+#        "phpstan/phpstan-phpunit": "^0.12.16",
 #        "phpunit/php-code-coverage": "*",
 #        "phpunit/phpunit": "^7.4 || ^8 || 9"
+%if 0%{?fedora} >= 31 || 0%{?rhel} >= 9
+BuildRequires:  phpunit9
+%global phpunit %{_bindir}/phpunit9
+%else
 BuildRequires:  phpunit8
 %global phpunit %{_bindir}/phpunit8
+%endif
 %endif
 # For autoloader
 BuildRequires:  php-composer(fedora/autoloader)
@@ -132,7 +138,7 @@ install -Dpm 0755 bin/tokenize-query  %{buildroot}%{_bindir}/%{name}-tokenize-qu
 
 
 %check
-%if %{with_tests}
+%if %{with tests}
 mkdir vendor
 cat << 'EOF' | tee vendor/autoload.php
 <?php
@@ -144,10 +150,10 @@ EOF
 sed -e 's:%{_datadir}/php:%{buildroot}%{_datadir}/php:' -i bin/*query
 
 ret=0
-for cmdarg in "php %{phpunit}" "php71 %{_bindir}/phpunit7" php72 php73 php74; do
+for cmdarg in "php %{phpunit}" "php72 %{_bindir}/phpunit8" php73 php74 php80; do
    if which $cmdarg; then
       set $cmdarg
-      $1 ${2:-%{_bindir}/phpunit8} --no-coverage --verbose || ret=1
+      $1 ${2:-%{_bindir}/phpunit9} --no-coverage --verbose || ret=1
    fi
 done
 exit $ret
@@ -169,6 +175,7 @@ exit $ret
      %{_datadir}/php/%{ns_vendor}/%{ns_project}%{major}/Contexts/
      %{_datadir}/php/%{ns_vendor}/%{ns_project}%{major}/Exceptions/
      %{_datadir}/php/%{ns_vendor}/%{ns_project}%{major}/Statements/
+     %{_datadir}/php/%{ns_vendor}/%{ns_project}%{major}/Tools/
      %{_datadir}/php/%{ns_vendor}/%{ns_project}%{major}/Utils/
 %dir %{_datadir}/php/%{ns_vendor}/%{ns_project}%{major}/locale/
 %dir %{_datadir}/php/%{ns_vendor}/%{ns_project}%{major}/locale/*/
@@ -176,6 +183,16 @@ exit $ret
 
 
 %changelog
+* Fri Oct 16 2020 Remi Collet <remi@remirepo.net> - 5.4.1-1
+- update to 5.4.1
+
+* Fri Oct  9 2020 Remi Collet <remi@remirepo.net> - 5.4.0-1
+- update to 5.4.0
+- switch to phpunit9
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.3.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Mar 21 2020 Remi Collet <remi@remirepo.net> - 5.3.1-1
 - update to 5.3.1
 

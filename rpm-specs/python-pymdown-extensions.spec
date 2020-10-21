@@ -3,7 +3,7 @@
 
 Name:           python-%{pypi_name}
 Version:        7.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Extension pack for Python Markdown
 
 # Most of the package is MIT, three files (extrarawhtml.py, highlight.py and
@@ -57,6 +57,9 @@ rm -rf %{pypi_name}.egg-info
 %{python3_sitelib}/pymdown_extensions-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 7.0-2
 - Rebuilt for Python 3.9
 

@@ -12,7 +12,7 @@
 %define my_subversion b7
 Name:           html2ps
 Version:        1.0
-Release:        0.36.%{my_subversion}%{?dist}
+Release:        0.38.%{my_subversion}%{?dist}
 Summary:        HTML to PostScript converter
 License:        GPLv2+
 URL:            http://user.it.uu.se/~jan/%{name}.html
@@ -145,6 +145,12 @@ desktop-file-install \
 %{_datadir}/applications/*xhtml2ps.desktop
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-0.38.b7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.0-0.37.b7
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.0-0.36.b7
 - Perl 5.32 rebuild
 

@@ -17,7 +17,7 @@ status monitoring and operational maintenance.}
 Name:           python-%{pypi_name}
 Summary:        Securely transfer data between computers
 Version:        0.4.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 License:        MIT
 
 URL:            https://github.com/warner/magic-wormhole-mailbox-server
@@ -101,6 +101,9 @@ rm -rf html/.{doctrees,buildinfo}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.4.1-3
 - Rebuilt for Python 3.9
 

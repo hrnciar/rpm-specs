@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.2.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Python API for interacting with Netdata
 
 License:        MIT
@@ -18,6 +18,7 @@ allmetrics and the alarms endpoint supported.
 Summary:        %{summary}
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
 %description -n python3-%{pypi_name}
@@ -40,6 +41,12 @@ allmetrics and the alarms endpoint supported.
 %{python3_sitelib}/%{pypi_name}*.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.2.0-2
+- Add python3-setuptools as BR
+
 * Mon Jun 17 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.2.0-1
 - Update URL
 - UPdate to latest upstream release 0.2.0

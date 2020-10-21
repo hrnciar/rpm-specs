@@ -21,7 +21,7 @@
 
 Name:           mingw-qt5-%{qt_module}
 Version:        5.212.0
-Release:        0.9%{?pre:.%pre}%{?commit:.git%{shortcommit}}%{?dist}
+Release:        0.11%{?pre:.%pre}%{?commit:.git%{shortcommit}}%{?dist}
 Summary:        Qt5 for Windows - QtWebKit component
 
 License:        GPLv3 with exceptions or LGPLv2 with exceptions
@@ -37,6 +37,10 @@ Source0:        https://github.com/%{qt_module}/%{qt_module}/releases/download/%
 Patch1:         qtwebkit_cmake_cmp0071.patch
 # Don't override import lib suffix
 Patch2:         qtwebkit_libsuffix.patch
+# Backport python 3.9 build fix
+Patch3:         qtwebkit_python.patch
+# Fix build with bison 3.7
+Patch4:         qtwebkit-bison37.patch
 
 BuildArch:      noarch
 
@@ -169,11 +173,11 @@ export MINGW64_CXXFLAGS="$mingw64_cflags_ -D_WIN32_WINNT=0x0600"
     -DRUBY_LIBRARY:FILEPATH=/usr/lib64/libruby.so \
     -DRUBY_INCLUDE_DIR:PATH=/usr/include
 
-%mingw_make %{?_smp_mflags}
+%mingw_make_build
 
 
 %install
-%mingw_make install DESTDIR=%{buildroot}
+%mingw_make_install
 
 # Copy over and rename various files for %%license inclusion
 %add_to_license_files Source/JavaScriptCore/COPYING.LIB
@@ -248,6 +252,12 @@ rmdir %{buildroot}%{mingw64_libdir}/qt5/bin/
 
 
 %changelog
+* Wed Oct  7 14:44:56 CEST 2020 Sandro Mani <manisandro@gmail.com> - 5.212.0-0.11.alpha4
+- Rebuild (qt5)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.212.0-0.10.alpha4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 19 2020 Sandro Mani <manisandro@gmail.com> - 5.212.0-0.9.alpha4
 - Rebuild (icu)
 

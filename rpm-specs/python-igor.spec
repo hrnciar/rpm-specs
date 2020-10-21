@@ -4,7 +4,7 @@
 
 Name:           python-igor
 Version:        0.3
-Release:        13.%{gitdate}git%{shortcommit}%{?dist}
+Release:        14.%{gitdate}git%{shortcommit}%{?dist}
 Summary:        Parser for Igor Binary Waves (.ibw) and Packed Experiment (.pxp) files
 
 # igor-0.2/igor/igorpy.py is PD, the restis LGPLv3+
@@ -73,6 +73,9 @@ head -n1 %{buildroot}%{_bindir}/igorpackedexperiment | grep %{__python3} -q
 %{_bindir}/igorpackedexperiment
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-14.20150408git2c2a79d
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3-13.20150408git2c2a79d
 - Rebuilt for Python 3.9
 

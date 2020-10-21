@@ -2,7 +2,7 @@
 
 Name:           fido
 Version:        1.1.5
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Multi-threaded file watch utility
 
 License:        GPLv2+ and LGPLv2+
@@ -124,6 +124,9 @@ fi
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.5-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

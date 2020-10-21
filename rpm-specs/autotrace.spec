@@ -1,6 +1,6 @@
 Name:           autotrace
 Version:        0.31.1
-Release:        56%{?dist}
+Release:        57%{?dist}
 Summary:        Utility for converting bitmaps to vector graphics
 License:        GPLv2+ and LGPLv2+
 URL:            http://autotrace.sourceforge.net/
@@ -95,6 +95,9 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -exec rm -f {} ';'
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.31.1-57
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.31.1-56
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

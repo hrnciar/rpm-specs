@@ -5,7 +5,7 @@
 
 Name:           php-pear-Crypt-Blowfish
 Version:        1.1.0
-Release:        0.21.rc2%{?dist}
+Release:        0.22.rc2%{?dist}
 Summary:        Quick two-way blowfish encryption
 
 License:        BSD
@@ -80,6 +80,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-0.22.rc2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-0.21.rc2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

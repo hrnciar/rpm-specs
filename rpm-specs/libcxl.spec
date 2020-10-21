@@ -2,11 +2,12 @@
 
 Name:           libcxl
 Version:        1.7
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        Coherent accelerator interface
 License:        ASL 2.0
 URL:            https://github.com/ibm-capi/libcxl
 Source0:        https://github.com/ibm-capi/libcxl/archive/v%{version}.tar.gz
+Patch1:         remove_2_backslashes_in_shell_call.patch
 ExclusiveArch:  %{power64}
 BuildRequires:  gcc
 
@@ -30,6 +31,7 @@ developing applications that use %{name}.
 
 %prep
 %setup -q
+%patch1 -p1
 
 %build
 LDFLAGS="%{__global_ldflags}" CFLAGS="%{optflags}" CXXFLAGS="%{optflags}" make %{?_smp_mflags} V=1
@@ -56,6 +58,13 @@ cp -a build/man3 $RPM_BUILD_ROOT%{_mandir}/
 %{_libdir}/libcxl.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Michel Normand <normand@linux.vnet.ibm.com> 1.7-6
+  Add remove_2_backslashes_in_shell_call.patch
+  to avoid rawhide build failure.
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

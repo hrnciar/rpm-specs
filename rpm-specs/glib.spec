@@ -2,14 +2,23 @@ Summary:	A library of handy utility functions
 Name:		glib
 Epoch:		1
 Version:	1.2.10
-Release:	58%{?dist}
+Release:	61%{?dist}
 License:	LGPLv2+
 URL:		http://www.gtk.org/
-Source:		ftp://ftp.gimp.org/pub/gtk/v1.2/glib-%{version}.tar.gz
+Source0:	https://ftp.gnome.org/pub/gnome/sources/glib/1.2/glib-%{version}.tar.gz
 BuildRequires:	coreutils
 BuildRequires:	gcc
 BuildRequires:	libtool
 BuildRequires:	make
+
+# We need newer versions of config.guess and config.sub to be able to
+# handle exotic new architectures (at the time this software was released)
+# such as x86_64
+#
+# http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD
+Source1:	config.guess
+# http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD
+Source2:	config.sub
 
 # Suppress warnings about varargs macros for -pedantic
 Patch1: glib-1.2.10-isowarning.patch
@@ -28,8 +37,11 @@ Patch8: glib-1.2.10-format.patch
 Patch9: glib-1.2.10-gcc5.patch
 # gcc9: '__const__' is not an asm qualifier
 Patch10: glib-1.2.10-gcc9.patch
-# C99 compiler support.
+# C99 compiler support
 Patch11: glib-1.2.10-c99.patch
+
+# Fix EL-6 compatibility (%%make_build only defined from EL-7, F-21 onwards)
+%{!?make_build:%global make_build make %{_smp_mflags}}
 
 %description
 GLib is a handy library of utility functions. This C library is
@@ -61,18 +73,17 @@ Requires: pkgconfig
 
 # The original config.{guess,sub} do not work on x86_64, aarch64 etc.
 #
-# The following /usr/lib cannot be %%_libdir !!
-cp -p /usr/lib/rpm/config.{guess,sub} .
+cp -p %{SOURCE1} %{SOURCE2} .
+chmod -c +x config.{guess,sub}
 
 %build
 LIBTOOL=%{_bindir}/libtool \
 %configure --disable-static
 
-make %{?_smp_mflags} LIBTOOL=%{_bindir}/libtool
+%make_build LIBTOOL=%{_bindir}/libtool
 
 %install
-make install \
-	DESTDIR=%{buildroot} \
+%make_install \
 	INSTALL="install -p" \
 	LIBTOOL=%{_bindir}/libtool
 
@@ -115,6 +126,19 @@ make check LIBTOOL=%{_bindir}/libtool
 %{_datadir}/aclocal/*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.2.10-61
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Paul Howarth <paul@city-fan.org> - 1:1.2.10-60
+- The config.guess and config.sub scripts are no longer packaged with rpm 4.16
+  onwards so we have to supply them ourselves
+- Fix source URL to point to somewhere that still works
+- Fix EL-6 compatibility (%%make_build only defined from EL-7, F-21 onwards)
+
+* Wed Jul 22 2020 Tom Stellard <tstellar@redhat.com> - 1:1.2.10-59
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.2.10-58
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

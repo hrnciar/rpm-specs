@@ -8,7 +8,7 @@
 Name:           perl-Class-Method-Modifiers
 Summary:        Provides Moose-like method modifiers
 Version:        2.13
-Release:        3%{?dist}
+Release:        5%{?dist}
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Class-Method-Modifiers
 Source0:        https://cpan.metacpan.org/modules/by-module/Class/Class-Method-Modifiers-%{version}.tar.gz
@@ -85,6 +85,12 @@ make test
 %{_mandir}/man3/Class::Method::Modifiers.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.13-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.13-4
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.13-3
 - Perl 5.32 rebuild
 

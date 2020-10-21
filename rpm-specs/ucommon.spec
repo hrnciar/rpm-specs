@@ -10,7 +10,7 @@
 
 Name:          ucommon
 Version:       7.0.0
-Release:       13%{?dist}
+Release:       15%{?dist}
 Summary:       Portable C++ framework for threads and sockets
 
 License:       LGPLv3+
@@ -22,7 +22,7 @@ BuildRequires: gcc-c++
 BuildRequires: doxygen
 BuildRequires: graphviz-gd
 BuildRequires: make
-BuildRequires: compat-openssl10-devel
+BuildRequires: gnutls-devel
 
 
 %description
@@ -70,13 +70,14 @@ HTML format.
 
 
 %build
-%cmake .
-make %{?_smp_mflags}
-make doc
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS"
+%cmake
+%cmake_build
+%cmake_build --target doc
 
 
 %install
-%make_install INSTALL="install -p"
+%cmake_install
 
 %ldconfig_scriptlets
 
@@ -120,10 +121,19 @@ make doc
 %{_mandir}/man1/commoncpp-config.*
 
 %files doc
-%doc doc/html/*
+%doc %{_vpath_builddir}/doc/html/*
 
 
 %changelog
+* Tue Sep 22 2020 Sandro Mani <manisandro@gmail.com> - 7.0.0-16
+- Switch to gnutls
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Jeff Law <law@redhat.com> - 7.0.0-14
+- Force C++14 as this code is not C++17 ready
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.0-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

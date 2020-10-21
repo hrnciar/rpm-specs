@@ -4,7 +4,7 @@
 
 Name:           mingw-%{base}
 Version:        1.1.1
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Theora Video Compression Codec
 
 License:        BSD
@@ -180,6 +180,9 @@ rm -fv %{buildroot}/%{mingw64_libdir}/*.la
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

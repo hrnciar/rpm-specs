@@ -1,10 +1,12 @@
 %global packname  rprintf
 %global rlibdir  %{_datadir}/R/library
 
+# When we are bootstrapping, we drop some dependencies, and/or build time tests.
+%bcond_with bootstrap
 
 Name:             R-%{packname}
 Version:          0.2.1
-Release:          8%{?dist}
+Release:          10%{?dist}
 Summary:          Adaptive Builder for Formatted Strings
 
 License:          MIT
@@ -20,9 +22,13 @@ Source0:          https://cran.r-project.org/src/contrib/%{packname}_%{version}.
 
 BuildArch:        noarch
 
-BuildRequires:    R-devel tex(latex)
+BuildRequires:    R-devel
+BuildRequires:    tex(latex)
 BuildRequires:    R-stringi
-BuildRequires:    R-testthat R-knitr
+%if %{without bootstrap}
+BuildRequires:    R-knitr
+BuildRequires:    R-testthat
+%endif
 
 %description
 Provides a set of functions to facilitate building formatted strings under
@@ -55,7 +61,9 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %check
+%if %{without bootstrap}
 %{_bindir}/R CMD check %{packname}
+%endif
 
 
 %files
@@ -72,6 +80,12 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul  3 2020 José Matos <jamatos@fedoraproject.org> - 0.2.1-9
+- add bootstrap support (for new R releases)
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.2.1-8
 - rebuild for R 4
 

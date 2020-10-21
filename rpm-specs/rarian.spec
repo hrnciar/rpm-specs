@@ -1,7 +1,7 @@
 
 Name: rarian
 Version: 0.8.1
-Release: 24%{?dist}
+Release: 26%{?dist}
 License: LGPLv2+
 Summary: Documentation meta-data library
 URL: http://rarian.freedesktop.org/
@@ -115,6 +115,13 @@ fi
 %{_libdir}/pkgconfig/rarian.pc
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-26
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-25
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-24
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

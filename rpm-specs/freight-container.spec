@@ -3,7 +3,7 @@
 
 Name: freight-container
 Version: 0
-Release: 0.8.20180613git%{shortcommit}%{?dist}
+Release: 0.9.20180613git%{shortcommit}%{?dist}
 Summary: RPM macro set and commands for creating containers using rpm-build/mock
 BuildArch: noarch
 
@@ -50,6 +50,9 @@ install -m 0644 doc/freight-cmd.1 %{buildroot}/%{_mandir}/man1/
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.9.20180613gitd1d03af
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.8.20180613gitd1d03af
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

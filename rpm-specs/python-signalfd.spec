@@ -9,7 +9,7 @@
 
 Name:           python-signalfd
 Version:        0.1
-Release:        26%{?dist}
+Release:        27%{?dist}
 Summary:        Python bindings to the Linux signalfd library/system call
 License:        MIT
 URL:            https://launchpad.net/python-signalfd
@@ -50,6 +50,9 @@ This is the python3 version of the module.
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.1-26
 - Rebuilt for Python 3.9
 

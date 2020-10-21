@@ -1,13 +1,11 @@
 Name:           sonic-visualiser
-Version:        4.0.1
+Version:        4.2
 Release:        1%{?dist}
 Summary:        A program for viewing and exploring audio data
 
 License:        GPLv2+
 URL:            https://sonicvisualiser.org/
-Source0:        https://code.soundsoftware.ac.uk/attachments/download/2607/sonic-visualiser-%{version}.tar.gz
-# https://bugzilla.redhat.com/show_bug.cgi?id=1161119
-# Patch0:         sonic-visualiser-2.4.1-fix_tests_for_s390_ppc64.patch
+Source0:        https://code.soundsoftware.ac.uk/attachments/download/2755/sonic-visualiser-%{version}.tar.gz
 
 BuildRequires:  alsa-lib-devel
 BuildRequires:  bzip2-devel
@@ -63,16 +61,19 @@ analysis plugin format – as well as applying standard audio effects.
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
 %make_install INSTALL_ROOT=$RPM_BUILD_ROOT
 # fix permissions
 chmod +x %{buildroot}%{_bindir}/*vamp*
+
+
+%check
 desktop-file-validate \
   %{buildroot}%{_datadir}/applications/sonic-visualiser.desktop
 
+
 %files
 %license COPYING
-%doc CHANGELOG CITATION README.md README.OSC
+%doc CHANGELOG CITATION README.*
 %{_bindir}/piper-vamp-simple-server
 %{_bindir}/sonic-visualiser
 %{_bindir}/vamp-plugin-load-checker
@@ -81,7 +82,19 @@ desktop-file-validate \
 
 
 %changelog
-* Sun Feb  2 2020 Michel Alexandre Salim - 4.0.1-1
+* Tue Aug 18 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 4.2-1
+- Update to 4.2
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Neal Gompa <ngompa13@gmail.com> - 4.1-1
+- Update to 4.1
+
+* Sat Jul 18 2020 Neal Gompa <ngompa13@gmail.com> - 4.0.1-2
+- Rebuilt for capnproto 0.8.0
+
+* Sun Feb  2 2020 Michel Alexandre Salim <salimma@fedoraproject.org> - 4.0.1-1
 - Update to 4.0.1
 
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3-3

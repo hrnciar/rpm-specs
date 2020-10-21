@@ -4,8 +4,8 @@
 # https://github.com/kubernetes/code-generator
 %global goipath         k8s.io/code-generator
 %global forgeurl        https://github.com/kubernetes/code-generator
-Version:                1.15.0
-%global tag             kubernetes-1.15.0
+Version:                1.18.9
+%global tag             kubernetes-1.18.9
 %global distprefix      %{nil}
 
 %gometa
@@ -18,22 +18,22 @@ Golang code-generators used to implement Kubernetes-style API types.}
                         conduct.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Generators for kube-like API types
 
 # Upstream license specification: Apache-2.0
 License:        ASL 2.0
 URL:            %{gourl}
 Source0:        %{gosource}
+# switch over k/k to use klog v2
+# https://github.com/kubernetes/code-generator/commit/ccc3d18f174d3ada388c4b6ba3bd3af5484670d1
+Patch0:         0001-switch-over-k-k-to-use-klog-v2.patch
 
 BuildRequires:  golang(github.com/gogo/protobuf/gogoproto)
 BuildRequires:  golang(github.com/gogo/protobuf/proto)
 BuildRequires:  golang(github.com/gogo/protobuf/sortkeys)
 BuildRequires:  golang(github.com/gogo/protobuf/vanity/command)
 BuildRequires:  golang(github.com/spf13/pflag)
-BuildRequires:  golang(gonum.org/v1/gonum/graph)
-BuildRequires:  golang(gonum.org/v1/gonum/graph/simple)
-BuildRequires:  golang(gonum.org/v1/gonum/graph/topo)
 BuildRequires:  golang(k8s.io/gengo/args)
 # BuildRequires:  golang(k8s.io/gengo/examples/deepcopy-gen/generators)
 # BuildRequires:  golang(k8s.io/gengo/examples/defaulter-gen/generators)
@@ -43,7 +43,14 @@ BuildRequires:  golang(k8s.io/gengo/generator)
 BuildRequires:  golang(k8s.io/gengo/namer)
 BuildRequires:  golang(k8s.io/gengo/parser)
 BuildRequires:  golang(k8s.io/gengo/types)
-BuildRequires:  golang(k8s.io/klog)
+BuildRequires:  golang(k8s.io/klog/v2)
+BuildRequires:  golang(k8s.io/kube-openapi/cmd/openapi-gen/args)
+BuildRequires:  golang(k8s.io/kube-openapi/pkg/generators)
+
+%if %{with check}
+# Tests
+BuildRequires:  golang(sigs.k8s.io/yaml)
+%endif
 
 %description
 %{common_description}
@@ -52,6 +59,7 @@ BuildRequires:  golang(k8s.io/klog)
 
 %prep
 %goprep
+%patch0 -p1
 
 %build
 for cmd in cmd/* ; do
@@ -76,6 +84,18 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 17:47:55 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.9-2
+- Fix klog import path
+
+* Wed Sep 30 13:58:20 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.9-1
+- Update to 1.18.9
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 22:11:11 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.18.3-1
+- Update to 1.18.3
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

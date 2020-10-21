@@ -7,7 +7,7 @@
 
 Name:           chicken
 Version:        %{shortversion}
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A practical and portable Scheme system
 
 License:        BSD
@@ -129,6 +129,9 @@ make PLATFORM=linux check
 %{_libdir}/libchicken.so*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

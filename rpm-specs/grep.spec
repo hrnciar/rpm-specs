@@ -1,6 +1,6 @@
 Summary: Pattern matching utilities
 Name: grep
-Version: 3.4
+Version: 3.5
 Release: 1%{?dist}
 License: GPLv3+
 URL: http://www.gnu.org/software/grep/
@@ -11,9 +11,9 @@ Source2: colorgrep.csh
 Source3: GREP_COLORS
 Source4: grepconf.sh
 # upstream ticket 39444
-Patch0: grep-3.4-man-fix-gs.patch
+Patch0: grep-3.5-man-fix-gs.patch
 # upstream ticket 39445
-Patch1: grep-3.4-help-align.patch
+Patch1: grep-3.5-help-align.patch
 
 BuildRequires: gcc
 BuildRequires: pcre-devel >= 3.9-10, texinfo, gettext
@@ -50,10 +50,10 @@ GNU grep is needed by many scripts, so it shall be installed on every system.
 
 %configure --without-included-regex --disable-silent-rules \
   CPPFLAGS="-I%{_includedir}/pcre" CFLAGS="%{BUILD_FLAGS}"
-make %{?_smp_mflags}
+%make_build
 
 %install
-make %{?_smp_mflags} DESTDIR=$RPM_BUILD_ROOT install
+%make_install %{?_smp_mflags}
 gzip $RPM_BUILD_ROOT%{_infodir}/grep*
 rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
@@ -79,6 +79,27 @@ make check
 %{_libexecdir}/grepconf.sh
 
 %changelog
+* Wed Sep 30 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 3.5-1
+- New version
+  Resolves: rhbz#1883086
+
+* Wed Aug 26 2020 Adam Williamson <awilliam@redhat.com> - 3.4-5
+- Backport fix for upstream #28105 to fix zgrep
+  Resolves: rhbz#1872913
+- Remove some non-portable tests that fail on armv7hl (Paul Eggert)
+  Resolves: rhbz#1863830
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 3.4-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Apr  1 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 3.4-1
 - New version
   Resolves: rhbz#1818417

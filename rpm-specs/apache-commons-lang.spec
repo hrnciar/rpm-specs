@@ -1,17 +1,18 @@
-
 %global base_name       lang
 %global short_name      commons-%{base_name}
 
 Name:           apache-%{short_name}
 Version:        2.6
-Release:        27%{?dist}
+Release:        32%{?dist}
 Summary:        Provides a host of helper utilities for the java.lang API
 License:        ASL 2.0
-URL:            http://commons.apache.org/%{base_name}
-Source0:        http://archive.apache.org/dist/commons/%{base_name}/source/%{short_name}-%{version}-src.tar.gz
-Patch1:         0002-Fix-FastDateFormat-for-Java-7-behaviour.patch
+
+URL:            https://commons.apache.org/%{base_name}
+Source0:        https://archive.apache.org/dist/commons/%{base_name}/source/%{short_name}-%{version}-src.tar.gz
+Patch0:         0000-Fix-FastDateFormat-for-Java-7-behaviour.patch
 
 BuildArch:      noarch
+
 BuildRequires:  maven-local
 BuildRequires:  apache-commons-parent
 BuildRequires:  maven-surefire-provider-junit
@@ -36,19 +37,32 @@ Summary:        API documentation for %{name}
 
 %prep
 %setup -q -n %{short_name}-%{version}-src
-%patch1 -p1
+%patch0 -p1
+
 sed -i 's/\r//' *.txt *.html
-
-# "enum" is used as a Java identifier, which is prohibited in Java >= 1.5
-%pom_add_plugin org.apache.maven.plugins:maven-javadoc-plugin . "
-    <configuration><source>1.3</source></configuration>"
-
 
 %mvn_file  : %{name} %{short_name}
 %mvn_alias : org.apache.commons: %{base_name}:%{base_name}
 
+# remove org.apache.commons.lang.enum package
+# "enum" is a keyword since Java 4 and cannot be used as an identifier
+rm -r src/main/java/org/apache/commons/lang/enum/
+rm -r src/test/java/org/apache/commons/lang/enum/
+rm src/test/java/org/apache/commons/lang/enums/EnumTest.java
+
+# convert some stray ISO-8859-1 characters to UTF-8
+iconv -f ISO-8859-1 -t UTF-8 \
+    src/main/java/org/apache/commons/lang/Entities.java > \
+    src/main/java/org/apache/commons/lang/Entities.java.utf-8
+mv src/main/java/org/apache/commons/lang/Entities.java.utf-8 \
+    src/main/java/org/apache/commons/lang/Entities.java
+
 %build
-%mvn_build -- -Dcommons.osgi.symbolicName=org.apache.commons.lang -Dmaven.compiler.source=1.3 -Dmaven.compiler.target=1.3
+%mvn_build -- \
+    -Dcommons.osgi.symbolicName=org.apache.commons.lang \
+    -Dmaven.compiler.source=1.8 \
+    -Dmaven.compiler.target=1.8 \
+    -Dsource=1.8
 
 %install
 %mvn_install
@@ -61,6 +75,24 @@ sed -i 's/\r//' *.txt *.html
 %license LICENSE.txt NOTICE.txt
 
 %changelog
+* Sat Aug 15 2020 Fabio Valentini <decathorpe@gmail.com> - 2.6-32
+- Remove unused org.apache.commons.lang.enum package.
+- Compile with Java 11, target Java 8 (instead of Java 8 targeting Java 3).
+- Remove stray encoding issues, convert to UTF-8.
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6-31
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 2.6-30
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jul 09 2020 Mat Booth <mat.booth@redhat.com> - 2.6-29
+- Pass javadoc source parameter as a property so it can be used by the xmvn
+  javadoc mojo
+
+* Thu Jun 25 2020 Roland Grunberg <rgrunber@redhat.com> - 2.6-28
+- Force Java 8 as we cannot build for Java 11 without breaking API.
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.6-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

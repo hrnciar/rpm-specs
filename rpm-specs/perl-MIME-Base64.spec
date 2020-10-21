@@ -1,12 +1,13 @@
 Name:           perl-MIME-Base64
-Version:        3.15
-Release:        456%{?dist}
+Version:        3.16
+Release:        1%{?dist}
 Summary:        Encoding and decoding of Base64 and quoted-printable strings
 # Base.xs:      (GPL+ or Artistic) and MIT (Bellcore's part)
 # Other files:  GPL+ or Artistic
 License:        (GPL+ or Artistic) and MIT
 URL:            https://metacpan.org/release/MIME-Base64
-Source0:        https://cpan.metacpan.org/authors/id/G/GA/GAAS/MIME-Base64-%{version}.tar.gz
+Source0:        https://cpan.metacpan.org/authors/id/C/CA/CAPOEIRAB/MIME-Base64-%{version}.tar.gz
+BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  gcc
 BuildRequires:  make
@@ -14,14 +15,16 @@ BuildRequires:  perl-devel
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
+BuildRequires:  perl(strict)
+BuildRequires:  perl(warnings)
 # Run-time:
 BuildRequires:  perl(Exporter)
-BuildRequires:  perl(strict)
-BuildRequires:  perl(vars)
 BuildRequires:  perl(XSLoader)
 # Tests:
 BuildRequires:  perl(Encode)
+BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(Test)
+BuildRequires:  perl(Test::More)
 # Optional tests:
 # Perl::API not yet packaged and does not work since perl 5.8.8
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
@@ -36,11 +39,11 @@ encoder/decoder. These encoding methods are specified in RFC 2045 - MIME
 %setup -q -n MIME-Base64-%{version}
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 OPTIMIZE="$RPM_OPT_FLAGS"
-make %{?_smp_mflags}
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 OPTIMIZE="$RPM_OPT_FLAGS"
+%{make_build}
 
 %install
-make pure_install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 find $RPM_BUILD_ROOT -type f -name '*.bs' -size 0 -delete
 %{_fixperms} $RPM_BUILD_ROOT/*
 
@@ -54,6 +57,15 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Tue Sep 29 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.16-1
+- 3.16 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.15-458
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Petr Pisar <ppisar@redhat.com> - 3.15-457
+- Modernize a spec file
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.15-456
 - Increase release to favour standalone package
 

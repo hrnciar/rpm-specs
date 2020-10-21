@@ -2,7 +2,7 @@
 
 Name:           sblim-cmpi-params
 Version:        1.3.0
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        SBLIM params instrumentation
 
 License:        EPL
@@ -72,6 +72,9 @@ rm -f $RPM_BUILD_ROOT/%{provider_dir}/*.la
 %sblim_preun
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

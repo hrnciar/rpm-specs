@@ -1,15 +1,15 @@
 %global packname rgeos
-%global packver  0.5-3
+%global packver  0.5-5
 %global rlibdir  %{_libdir}/R/library
 
 %global __suggests_exclude ^R\\((maptools)\\)
 
 # Suggests loops with maps and maptools.
-%global with_loop 0
+%bcond_without bootstrap
 
 Name:             R-%{packname}
-Version:          0.5.3
-Release:          2%{?dist}
+Version:          0.5.5
+Release:          1%{?dist}
 Summary:          Interface to Geometry Engine - Open Source ('GEOS')
 
 License:          GPLv2+
@@ -36,7 +36,7 @@ BuildRequires:    R-graphics
 BuildRequires:    R-testthat
 BuildRequires:    R-XML
 BuildRequires:    R-rgdal
-%if %{with_loop}
+%if %{without bootstrap}
 BuildRequires:    R-maptools >= 0.8.5
 BuildRequires:    R-maps
 %endif
@@ -68,7 +68,7 @@ rm -f %{buildroot}%{rlibdir}/R.css
 
 
 %check
-%if %{with_loop}
+%if %{without bootstrap}
 %{_bindir}/R CMD check %{packname}
 %else
 _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
@@ -94,6 +94,16 @@ _R_CHECK_FORCE_SUGGESTS_=0 %{_bindir}/R CMD check %{packname}
 
 
 %changelog
+* Mon Sep 07 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 0.5.5-1
+- Update to latest version (#1876574)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun  7 2020 Tom Callaway <spot@fedoraproject.org> - 0.5.3-2
 - rebuild for R 4
 

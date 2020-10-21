@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}
 Version:        1.0.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Quasi-quoting macro quote!(...)
 
 # Upstream license specification: MIT OR Apache-2.0
@@ -83,6 +83,9 @@ which use "proc-macro" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 11 2020 Josh Stone <jistone@redhat.com> - 1.0.7-1
 - Update to 1.0.7
 

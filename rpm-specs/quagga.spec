@@ -8,7 +8,7 @@
 
 Name: quagga
 Version: 1.2.4
-Release: 13%{?dist}
+Release: 16%{?dist}
 Summary: Routing daemon
 License: GPLv2+
 URL: http://www.quagga.net
@@ -23,6 +23,7 @@ BuildRequires: readline readline-devel ncurses ncurses-devel
 BuildRequires: git
 BuildRequires: c-ares-devel
 BuildRequires: gcc
+BuildRequires: pcre-devel
 Requires: net-snmp ncurses c-ares
 Requires(post): systemd
 Requires(preun): systemd
@@ -214,6 +215,16 @@ fi
 %{_includedir}/quagga/ospfd/*.h
 
 %changelog
+* Tue Sep 01 2020 Michal Ruprich <mruprich@redhat.com> - 1.2.4-16
+- Adding pcre-devel so that net-snmp can use -lpcre
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4-15
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 19 2020 Michal Ruprich <mruprich@redhat.com> - 1.2.4-13
 - Rebuilding due to new version of gcc
 

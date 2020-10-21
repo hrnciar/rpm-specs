@@ -1,6 +1,6 @@
 Name: remctl
 Version: 3.15
-Release: 10%{?dist}
+Release: 12%{?dist}
 Summary: Client/server for Kerberos-authenticated command execution
 
 License: MIT
@@ -209,6 +209,12 @@ install -p php/remctl.ini %{buildroot}%{php_inidir}/%{ini_name}
 
 
 %changelog
+* Tue Sep 29 20:43:13 CEST 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 3.15-12
+- Rebuilt for libevent 2.1.12
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.15-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.15-10
 - Perl 5.32 rebuild
 

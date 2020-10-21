@@ -1,23 +1,28 @@
 # Setup _pkgdocdir if not defined already.
 %{!?_pkgdocdir:%global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
+# release commit because SUSE didn't tag it :(
+%global relcommit 58463ca0a1d6815404c5f90fa7e2881429b74d54
+
 # CMake-builds go out-of-tree.
-%global _cmake_build_subdir build-%{_target_platform}
+%undefine __cmake_in_source_build
 
 Name:		libyui-ncurses
-Version:	2.48.3
-Release:	9%{?dist}
+Version:	2.55.0
+Release:	1%{?dist}
 Summary:	Character Based User Interface for libyui
 
 License:	LGPLv2 or LGPLv3
 URL:		https://github.com/libyui/%{name}
-Source0:	%{url}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
-Patch0:		%{url}/commit/6444e043b58bf7703e4fc9035f380f3817207525.patch#/fix_build_with_new_ncurses.patch
+# No tag :(
+#Source0:	%{url}/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:	%{url}/archive/%{relcommit}/%{name}-%{version}.tar.gz
+
 
 BuildRequires:  gcc-c++
 BuildRequires:	boost-devel
 BuildRequires:	cmake
-BuildRequires:	libyui-devel
+BuildRequires:	libyui-devel >= 3.10.0
 BuildRequires:	ncurses-devel
 
 Supplements:	(libyui%{?_isa} and ncurses-libs%{?_isa})
@@ -58,33 +63,29 @@ for %{name}.
 
 
 %prep
-%autosetup -p 1
+%autosetup -n %{name}-%{relcommit} -p1
 ./bootstrap.sh
 
 
 %build
-%{__mkdir} -p %{_cmake_build_subdir}
-pushd %{_cmake_build_subdir}
 %cmake							\
 	-DYPREFIX=%{_prefix}				\
 	-DLIB_DIR=%{_libdir}				\
 	-DCMAKE_BUILD_TYPE=RELEASE			\
 	-DRESPECT_FLAGS=ON				\
-	-DSKIP_LATEX=ON					\
-	..
+	-DSKIP_LATEX=ON
 
-%make_build
-%make_build docs
-popd
+%cmake_build
+%cmake_build --target docs
 
 
 %install
-pushd %{_cmake_build_subdir}
 %{__mkdir} -p	%{buildroot}%{_libdir}/yui		\
 		%{buildroot}%{_datadir}/%{name}/theme
 
-%make_install
+%cmake_install
 
+pushd %{_vpath_builddir}
 # Delete obsolete files.
 %{__rm} -rf	%{buildroot}%{_defaultdocdir}		\
 		doc/html/*.m*
@@ -123,6 +124,16 @@ popd
 
 
 %changelog
+* Sat Aug 01 2020 Neal Gompa <ngompa13@gmail.com> - 2.55.0-1
+- Rebase to 2.55.0 (#1669820)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.48.3-11
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.48.3-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.48.3-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -8,7 +8,7 @@
 
 Name:		nodejs-whet-dot-extend
 Version:	0.9.9
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	A sharped version of port of jQuery.extend
 
 License:	MIT
@@ -79,6 +79,9 @@ ln -s %{_bindir}/mocha node_modules/.bin/mocha
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.9-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.9-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

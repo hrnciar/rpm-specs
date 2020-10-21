@@ -1,17 +1,20 @@
 %bcond_without tests
 
+%if 0%{?fedora} <= 32
 # Enable LTO. Profit ~8%
 %global optflags        %{optflags} -flto
 %global build_ldflags   %{build_ldflags} -flto
+%endif
 
 Name:           kakoune
-Version:        2020.01.16
-Release:        3%{?dist}
+Version:        2020.09.01
+Release:        2%{?dist}
 Summary:        Code editor heavily inspired by Vim
 
 License:        Unlicense
 URL:            https://kakoune.org/
 Source0:        https://github.com/mawww/kakoune/archive/v%{version}/%{name}-%{version}.tar.gz
+Patch0:         kakoune-gcc11.patch
 
 BuildRequires:  asciidoc
 BuildRequires:  gcc-c++ >= 7
@@ -81,6 +84,18 @@ popd
 
 
 %changelog
+* Wed Oct 14 2020 Jeff Law <law@gmail.com> - 2020.09.01-1
+- Fix missing #includes for gcc-11
+
+* Tue Sep  1 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2020.09.01-1
+- Update to 2020.09.01
+
+* Tue Aug 04 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 2020.08.04-1
+- Update to 2020.08.04
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.01.16-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.01.16-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

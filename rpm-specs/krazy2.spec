@@ -1,9 +1,11 @@
+%global __cmake_in_source_build 1
+
 %global snapdate 20140114
 %global snaphash 35d9080f1870d44c384da8f17a46388ba97b9647
 
 Name:           krazy2
 Version:        2.97
-Release:        0.21.%{snapdate}git%(echo %{snaphash} | cut -c -13)%{?dist}
+Release:        0.22.%{snapdate}git%(echo %{snaphash} | cut -c -13)%{?dist}
 Summary:        Krazy is a tool for checking code against the KDE coding guidelines
 
 License:        GPLv2+
@@ -136,6 +138,9 @@ find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.97-0.22.20140114git35d9080f1870d
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.97-0.21.20140114git35d9080f1870d
 - Perl 5.32 rebuild
 

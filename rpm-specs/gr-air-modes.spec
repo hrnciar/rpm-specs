@@ -1,6 +1,6 @@
 # git ls-remote git://github.com/bistromath/gr-air-modes.git
-%global git_commit a2f2627c5421368b8af1b57ca9818e1c79d4f4f0
-%global git_date 20191111
+%global git_commit 9e2515a56609658f168f0c833a14ca4d2332713e
+%global git_date 20200807
 
 %global git_short_commit %(echo %{git_commit} | cut -c -8)
 %global git_suffix %{git_date}git%{git_short_commit}
@@ -8,7 +8,7 @@
 Name:             gr-air-modes
 URL:              http://github.com/bistromath/gr-air-modes
 Version:          0
-Release:          0.72.%{git_suffix}%{?dist}
+Release:          0.76.%{git_suffix}%{?dist}
 License:          GPLv3+
 BuildRequires:    cmake, gcc-c++, python3-devel, python3-numpy, python3-scipy, gnuradio-devel
 BuildRequires:    sqlite-devel, uhd-devel, boost-devel, doxygen, graphviz
@@ -46,15 +46,11 @@ Documentation files for gr-air-modes.
 %autosetup -p1 -n %{name}-%{git_commit}
 
 %build
-mkdir build
-cd build
-%cmake -DENABLE_DOXYGEN=on ..
-# parallel build is currently broken
-make
+%cmake -DENABLE_DOXYGEN=on
+%cmake_build
 
 %install
-cd build
-make install DESTDIR=%{buildroot}
+%cmake_install
 
 # remove hashbangs
 pushd %{buildroot}%{python3_sitearch}/air_modes
@@ -87,6 +83,21 @@ popd
 %doc %{_docdir}/%{name}/xml
 
 %changelog
+* Mon Aug 24 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 0-0.76.20200807git9e2515a5
+- Rebuilt for new gnuradio
+
+* Thu Aug  6 2020 Jaroslav Škarvada <jskarvad@redhat.com> - 0-0.75.20200807git9e2515a5
+- New version
+- Fixed FTBFS
+  Resolves: rhbz#1863817
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.74.20191111gita2f2627c
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.73.20191111gita2f2627c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0-0.72.20191111gita2f2627c
 - Rebuilt for Python 3.9
 

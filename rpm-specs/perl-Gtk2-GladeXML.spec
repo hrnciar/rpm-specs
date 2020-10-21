@@ -2,7 +2,7 @@
 
 Name:           perl-Gtk2-GladeXML
 Version:        1.007
-Release:        37%{?dist}
+Release:        38%{?dist}
 Summary:        Create user interfaces directly from Glade XML files
 License:        LGPLv2+
 URL:            https://metacpan.org/release/Gtk2-GladeXML
@@ -84,6 +84,9 @@ find %{buildroot} -type f -name '*.bs' -empty -delete
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.007-38
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.007-37
 - Perl 5.32 rebuild
 

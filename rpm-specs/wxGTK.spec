@@ -1,10 +1,10 @@
 %global srcname wxWidgets
 %global wxbasename wxBase
 %global gtk3dir bld_gtk3
-%global sover 3
+%global sover 4
 
 Name:           wxGTK
-Version:        3.1.3
+Version:        3.1.4
 Release:        1%{?dist}
 Summary:        GTK port of the wxWidgets GUI library
 License:        wxWidgets
@@ -17,9 +17,8 @@ Source10:       wx-config
 # Backport from wxGTK
 Patch0:         %{name}-3.0.3-abicheck.patch
 Patch1:         disable-tests-failing-mock.patch
-Patch2:         update-license-text.patch
-Patch3:         fix-tests-ppc64le.patch
-Patch4:         fix-tests-s390x.patch
+Patch2:         fix-webview-tests.patch
+Patch3:         skip-test-s390x.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  gtk3-devel
@@ -39,6 +38,10 @@ BuildRequires:  cppunit-devel
 BuildRequires:  libmspack-devel
 BuildRequires:  doxygen
 BuildRequires:  graphviz
+BuildRequires:  libsecret-devel
+# For Tests
+BuildRequires:  xorg-x11-apps
+BuildRequires:  xorg-x11-server-Xvfb
 
 Provides:       %{srcname} = %{version}-%{release}
 Provides:       bundled(scintilla) = 3.7.2
@@ -219,7 +222,10 @@ cat wxmsw31.lang >> wxstd31.lang
 %check
 pushd %{gtk3dir}/tests
 make %{?_smp_mflags}
-LD_LIBRARY_PATH=%{buildroot}%{_libdir} TZ=UTC ./test
+LD_LIBRARY_PATH=%{buildroot}%{_libdir} TZ=UTC wxUSE_XVFB=1 xvfb-run -a ./test
+LD_LIBRARY_PATH=%{buildroot}%{_libdir} wxUSE_XVFB=1 xvfb-run -a ./test_gui \
+  ~wxDVC::GetItemRect ~wxHtmlPrintout::Pagination ~wxExecute::RedirectUTF8 \
+  ~WebViewTestCase
 popd
 
 %post -n %{wxbasename}-devel
@@ -296,5 +302,15 @@ fi
 %doc html
 
 %changelog
+* Wed Jul 22 2020 Scott Talbert <swt@techie.net> - 3.1.4-1
+- Update to new upstream release 3.1.4 (#1859715)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.1.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 03 2020 Scott Talbert <swt@techie.net> - 3.1.3-1
 - Initial packaging of wxWidgets 3.1.x (dev version) (#1714714)

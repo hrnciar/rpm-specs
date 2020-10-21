@@ -1,7 +1,7 @@
 Summary: A version of the MIT Athena widget set for X
 Name: Xaw3d
 Version: 1.6.3
-Release: 2%{?dist}
+Release: 4%{?dist}
 Source0: https://xorg.freedesktop.org/archive/individual/lib/libXaw3d-%{version}.tar.bz2
 Source1: https://xorg.freedesktop.org/archive/individual/lib/libXaw3d-%{version}.tar.bz2.sig
 Source2: mattst88.asc
@@ -95,6 +95,13 @@ rm -r $RPM_BUILD_ROOT%{_docdir}
 %{_includedir}/X11/Xaw3d
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

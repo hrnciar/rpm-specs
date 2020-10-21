@@ -1,18 +1,22 @@
 %global debug_package %{nil}
 
-%global commit 5aaf20dca19adfd99433bb962306d859cf014d1b
+%global commit cd5a8c6f5c67cbaa87755aafa8765e812ceaa2dc
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           dotnet-build-reference-packages
 Version:        0
-Release:        4.20200608git%{shortcommit}%{?dist}
+Release:        7.20200608git%{shortcommit}%{?dist}
 Summary:        Reference packages needed by the .NET Core SDK build
 
 License:        MIT
 URL:            https://github.com/dotnet/source-build-reference-packages
 Source0:        https://github.com/dotnet/source-build-reference-packages/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
 
-ExclusiveArch:  x86_64 aarch64
+%if 0%{?fedora} > 32 || 0%{?rhel} > 8
+ExclusiveArch:  aarch64 x86_64
+%else
+ExclusiveArch:  x86_64
+%endif
 
 BuildRequires:  dotnet-sdk-3.1
 BuildRequires:  dotnet-sdk-3.1-source-built-artifacts
@@ -58,6 +62,15 @@ cp -a Private.SourceBuild.ReferencePackages.%{version}.tar.gz %{buildroot}/%{_li
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-7.20200608gitcd5a8c6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Omair Majid <omajid@redhat.com> - 0-6.20200608gitcd5a8c6
+- Update to upstream commit cd5a8c6
+
+* Mon Jul 20 2020 Omair Majid <omajid@redhat.com> - 0-5.20200608git1b1a695
+- Update to upstream commit 1b1a695
+
 * Fri Jun 19 2020 Omair Majid <omajid@redhat.com> - 0-4.20200608git5aaf20d
 - Enable building on aarch64
 

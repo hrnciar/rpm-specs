@@ -5,7 +5,7 @@
 Name:		gabedit
 Summary:	GUI for computational chemistry
 Version:	2.5.1
-Release:	5%{?dist}
+Release:	7%{?dist}
 Source0:        https://sites.google.com/site/allouchear/Home/gabedit/download/GabeditSrc%{tarver}%{?snap:_%{snap}}.tar.gz
 # fix csh shebang
 Patch2:		%{name}-csh.patch
@@ -42,6 +42,11 @@ rm -r utils/InnosSetupScriptWin32 utils/Others/gabedit64.bat
 echo "external_gtkglarea=1" >> CONFIG
 echo "external_gl2ps=1" >> CONFIG
 
+sed -i \
+  -e 's, -lpangox-1.0 ,,' \
+  -e "s,/usr/lib,%{_libdir},g" \
+  CONFIG
+
 pushd utils/Others
 tr -d '\r' < isotopNIST.txt > isotopNIST.txt.unix && touch -r isotopNIST.txt isotopNIST.txt.unix && mv isotopNIST.txt.unix isotopNIST.txt
 popd
@@ -71,6 +76,13 @@ done
 %{_datadir}/icons/hicolor/*/apps/*.png
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 23 2020 Ralf Corsépius <corsepiu@fedoraproject.org> - 2.5.1-6
+- Remove refs to pangox.
+- Fix library search path.
+
 * Sun Mar 29 2020 Itamar Reis Peixoto <itamar@ispbrasil.com.br> - 2.5.1-5
 - fix FTBS rhbz#1799382
 

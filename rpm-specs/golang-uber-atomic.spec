@@ -4,7 +4,7 @@
 # https://github.com/uber-go/atomic
 %global goipath         go.uber.org/atomic
 %global forgeurl        https://github.com/uber-go/atomic
-Version:                1.5.1
+Version:                1.6.0
 
 %gometa
 
@@ -13,7 +13,7 @@ Package Atomic provides simple wrappers around numerics to enforce atomic
 access.}
 
 %global golicenses      LICENSE.txt
-%global godocs          README.md
+%global godocs          README.md CHANGELOG.md
 
 Name:           %{goname}
 Release:        1%{?dist}
@@ -48,6 +48,12 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 %gopkgfiles
 
 %changelog
+* Fri Aug 07 16:45:29 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1.6.0-1
+- Update to 1.6.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Feb 16 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 1.5.1-1
 - Update to latest version
 

@@ -1,17 +1,26 @@
 # Generated from activejob-4.2.0.gem by gem2rpm -*- rpm-spec -*-
 %global gem_name activejob
 
+#%%global prerelease .rc1
+
 Name: rubygem-%{gem_name}
-Version: 5.2.3
-Release: 3%{?dist}
+Version: 6.0.3.4
+Release: 1%{?dist}
 Summary: Job framework with pluggable queues
 License: MIT
 URL: http://rubyonrails.org
-Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
+Source0: https://rubygems.org/gems/%{gem_name}-%{version}%{?prerelease}.gem
+# Tests are not shipped with the gem
+# You may get them like so
+# git clone https://github.com/rails/rails.git
+# cd rails/activejob && git archive -v -o activejob-6.0.3.4-tests.txz v6.0.3.4 test/
+Source1: %{gem_name}-%{version}%{?prerelease}-tests.txz
+# The tools are needed for the test suite, are however unpackaged in gem file.
+# You may check it out like so
+# git clone http://github.com/rails/rails.git --no-checkout
+# cd rails && git archive -v -o rails-6.0.3.4-tools.txz v6.0.3.4 tools/
+Source2: rails-%{version}%{?prerelease}-tools.txz
 
-# git clone https://github.com/rails/rails.git && cd rails/activejob && git checkout v5.2.3
-# tar czvf activejob-5.2.3-tests.tgz test/
-Source1: %{gem_name}-%{version}-tests.tgz
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby >= 2.2.2
@@ -32,10 +41,10 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -n %{gem_name}-%{version}
+%setup -q -n %{gem_name}-%{version}%{?prerelease} -b1 -b2
 
 %build
-gem build ../%{gem_name}-%{version}.gemspec
+gem build ../%{gem_name}-%{version}%{?prerelease}.gemspec
 %gem_install
 
 %install
@@ -47,7 +56,10 @@ cp -a .%{gem_dir}/* \
 # Run the test suite
 %check
 pushd .%{gem_instdir}
-tar xzvf %{SOURCE1}
+ln -s %{_builddir}/tools ..
+mv %{_builddir}/test .
+
+sed -i '/ActiveJob::QueueAdapters::SneakersAdapter/ d' test/cases/exceptions_test.rb
 
 # Do not execute integration tests, otherwise Rails's generators are required.
 ADAPTERS='async inline test'
@@ -71,6 +83,25 @@ popd
 %doc %{gem_instdir}/README.md
 
 %changelog
+* Thu Oct  8 10:51:00 CEST 2020 Pavel Valena <pvalena@redhat.com> - 6.0.3.4-1
+- Update to activejob 6.0.3.4.
+  Resolves: rhbz#1886135
+
+* Fri Sep 18 18:03:51 CEST 2020 Pavel Valena <pvalena@redhat.com> - 6.0.3.3-1
+- Update to activejob 6.0.3.3.
+  Resolves: rhbz#1877504
+
+* Mon Aug 17 04:45:46 GMT 2020 Pavel Valena <pvalena@redhat.com> - 6.0.3.2-1
+- Update to activejob 6.0.3.2.
+  Resolves: rhbz#1742792
+
+* Mon Aug 03 07:01:37 GMT 2020 Pavel Valena <pvalena@redhat.com> - 6.0.3.1-1
+- Update to ActiveJob 6.0.3.1.
+  Resolves: rhbz#1742792
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.3-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

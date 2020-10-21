@@ -4,7 +4,7 @@
 
 Name:          mingw-%{pkgname}
 Version:       0.9.6
-Release:       14%{?dist}
+Release:       17%{?dist}
 Summary:       MinGW Windows %{pkgname} library
 
 # The library is licensed under the LGPL.
@@ -55,6 +55,13 @@ Patch19:        podofo_CVE-2019-9687.patch
 # Downstream patch for CVE-2019-20093
 # https://sourceforge.net/p/podofo/tickets/75/
 Patch20:        podofo_CVE-2019-20093.patch
+# Proposed patch for CVE-2018-12983
+# https://sourceforge.net/p/podofo/tickets/23/
+Patch21:        podofo_CVE-2018-12983.diff
+
+# https://sourceforge.net/p/podofo/tickets/101/
+Patch22:        podofo_maxbytes.patch
+
 
 BuildRequires: cmake
 
@@ -155,6 +162,15 @@ rm -rf %{buildroot}%{mingw64_datadir}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.6-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 Sandro Mani <manisandro@gmail.com> - 0.9.6-16
+- Add podofo_maxbytes.patch
+
+* Thu Jul 02 2020 Sandro Mani <manisandro@gmail.com> - 0.9.6-15
+- Backport proposed patch for CVE-2018-12983
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.6-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

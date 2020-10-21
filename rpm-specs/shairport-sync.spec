@@ -1,6 +1,6 @@
 Name:           shairport-sync
 Version:        3.3.6
-Release:        0%{?dist}
+Release:        1%{?dist}
 Summary:        AirTunes emulator. Multi-Room with Audio Synchronisation
 # MIT licensed except for tinysvcmdns under BSD, 
 # FFTConvolver/ under GPLv3+ and audio_sndio.c 
@@ -74,6 +74,9 @@ exit 0
 %attr(-, %{name}, %{name}) %{_sharedstatedir}/%{name}
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.6-1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 21 2020 Bill Peck <bpeck@redhat.com> - 3.3.6-0
 - New upstream release
 - gcc10 fixes

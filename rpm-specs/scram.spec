@@ -2,7 +2,7 @@
 
 Name:       scram
 Version:    0.16.2
-Release:    7%{?dist}
+Release:    8%{?dist}
 Summary:    Probabilistic Risk Analysis Tool
 
 License:    GPLv3+
@@ -45,22 +45,17 @@ scram GUI.
 sed -i 's|BOOST_THROW_EXCEPTION_CURRENT_FUNCTION|BOOST_CURRENT_FUNCTION|' src/error.h
 
 %build
-mkdir build
-pushd build
-    export CXXFLAGS="%{__global_compiler_flags} -I/usr/include/catch"
-    %cmake \
-        -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+export CXXFLAGS="%{__global_compiler_flags} -I/usr/include/catch"
+%cmake \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
 %if 0%{?enable_tests}
-        -DBUILD_TESTING=ON \
+    -DBUILD_TESTING=ON \
 %endif
-        ..
-    %make_build
-popd
+    %{nil}
+%cmake_build
 
 %install
-pushd build
-    %make_install
-popd
+%cmake_install
 install -p -D -m 644 %{SOURCE1} -t %{buildroot}%{_mandir}/man1/
 install -p -D -m 644 scripts/%{name} %{buildroot}%{_datadir}/bash-completion/completions/%{name}
 %if 0%{?enable_tests}
@@ -97,6 +92,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}-gui.desktop
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Vasiliy N. Glazov <vascom2@gmail.com> - 0.16.2-7
 - Rebuilt for Boost 1.73
 

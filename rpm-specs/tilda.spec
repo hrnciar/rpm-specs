@@ -1,6 +1,6 @@
 Name:           tilda
 Version:        1.5.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A Gtk based drop down terminal for Linux and Unix
 
 License:        GPLv2 and MIT
@@ -66,6 +66,9 @@ install -D -p -m 644 %{name}.png \
 %{_datadir}/metainfo/tilda.appdata.xml
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Johannes Lips <hannes@fedoraproject.org> - 1.5.1-1
 - update to upstream version 1.5.1
 - added the provides for bundled libraries

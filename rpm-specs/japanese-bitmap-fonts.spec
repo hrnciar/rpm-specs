@@ -15,11 +15,11 @@
 
 Name:           %{fontname}-fonts
 Version:        0.20080710
-Release:        25%{?dist}
+Release:        27%{?dist}
 License:        Public Domain and BSD and mplus
 BuildArch:      noarch
 BuildRequires:  xorg-x11-font-utils mkfontdir gawk fontpackages-devel
-BuildRequires:	gcc
+BuildRequires:	gcc perl
 
 ## files in ttfonts-ja
 Source2:        FAPIcidfmap.ja
@@ -335,6 +335,12 @@ ln -sf %{_fontdir} $RPM_BUILD_ROOT%{cataloguedir}/%{fontname}
 %{cataloguedir}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20080710-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Akira TAGOH <tagoh@redhat.com> - 0.20080710-26
+- Add BR: perl
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.20080710-25
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

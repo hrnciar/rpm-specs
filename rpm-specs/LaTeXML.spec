@@ -1,6 +1,6 @@
 Name:           LaTeXML
 Version:        0.8.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Converts TeX and LaTeX to XML/HTML/ePub/MathML
 
 License:        Public Domain
@@ -111,6 +111,9 @@ mktexlsr >/dev/null 2>&1 || :
 mktexlsr >/dev/null 2>&1 || :
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.8.4-4
 - Perl 5.32 rebuild
 

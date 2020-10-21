@@ -4,7 +4,7 @@
 
 Name:           wingpanel-indicator-power
 Summary:        Power indicator for wingpanel
-Version:        2.1.5
+Version:        2.2.0
 Release:        1%{?dist}
 License:        GPLv2+
 
@@ -46,6 +46,9 @@ A power indicator for wingpanel.
 
 %find_lang power-indicator
 
+# remove the specified stock icon from appdata (invalid in libappstream-glib)
+sed -i '/icon type="stock"/d' %{buildroot}/%{_datadir}/metainfo/%{appname}.appdata.xml
+
 
 %check
 appstream-util validate-relax --nonet \
@@ -63,6 +66,12 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Fri Sep 04 2020 Fabio Valentini <decathorpe@gmail.com> - 2.2.0-1
+- Update to version 2.2.0.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Apr 03 2020 Fabio Valentini <decathorpe@gmail.com> - 2.1.5-1
 - Update to version 2.1.5.
 
@@ -134,5 +143,4 @@ appstream-util validate-relax --nonet \
 
 * Sun Aug 21 2016 Fabio Valentini <decathorpe@gmail.com> - 2.0-1
 - Update to version 2.0.
-
 

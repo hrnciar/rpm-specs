@@ -11,7 +11,7 @@
 
 Name:           mozilla-lightbeam
 Version:        2.1.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        An add-on for visualizing HTTP requests between websites in real time
 
 License:        MPLv2.0 and BSD and ASL 2.0
@@ -58,6 +58,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/%{name}.m
 %{_datadir}/metainfo/%{name}.metainfo.xml
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

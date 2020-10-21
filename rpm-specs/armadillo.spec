@@ -1,23 +1,26 @@
 Name:           armadillo
-Version:        9.880.1
-Release:        1%{?dist}
+Version:        9.900.3
+Release:        2%{?dist}
 Summary:        Fast C++ matrix library with syntax similar to MATLAB and Octave
 
 License:        ASL 2.0
 URL:            http://arma.sourceforge.net/
 Source:         http://sourceforge.net/projects/arma/files/%{name}-%{version}.tar.xz
 
-%if 0%{?rhel} && 0%{?rhel} < 7
-%define old_epel 1
+%if (0%{?rhel} || (0%{?fedora} && 0%{?fedora} < 33))
+%undefine __cmake_in_source_build
+%endif
+
+%if 0%{?fedora} > 32
+%global extra_options -DALLOW_FLEXIBLAS_LINUX=ON
+BuildRequires:  flexiblas-devel
 %else
-%define old_epel 0
+%global extra_options %{nil}
 %endif
 
 BuildRequires:  gcc-c++
 BuildRequires:  cmake, lapack-devel, arpack-devel
-%if %{old_epel} == 0
-BuildRequires: hdf5-devel
-%endif
+BuildRequires:  hdf5-devel
 %{!?openblas_arches:%global openblas_arches x86_64 %{ix86} armv7hl %{power64} aarch64}
 %ifarch %{openblas_arches}
 BuildRequires:  openblas-devel
@@ -45,9 +48,7 @@ than another language like Matlab or Octave.
 Summary:        Development headers and documentation for the Armadillo C++ library
 Requires:       %{name} = %{version}-%{release}
 Requires:       lapack-devel, arpack-devel, libstdc++-devel
-%if %{old_epel} == 0
 Requires:       hdf5-devel
-%endif
 %ifarch %{openblas_arches}
 Requires:       openblas-devel
 %endif
@@ -61,37 +62,27 @@ and user documentation (API reference guide).
 
 
 %prep
-%setup -q
-
-# convert DOS end-of-line to UNIX end-of-line
-
-for file in README.md; do
-  sed 's/\r//' $file >$file.new && \
-  touch -r $file $file.new && \
-  mv $file.new $file
-done
+%autosetup -p1
+sed -i 's/\r//' README.md
+rm -rf examples/*win64*
 
 
 %build
-%if %{old_epel} == 1
-%{cmake} -DDETECT_HDF5=OFF .
-%else
-%{cmake}
-%endif
-%{__make} VERBOSE=1 %{?_smp_mflags}
+%cmake %{extra_options}
+%cmake_build
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
-rm -f examples/Makefile.cmake
-rm -f examples/example1_win64.sln
-rm -f examples/example1_win64.vcxproj
-rm -f examples/example1_win64.README.txt
-rm -rf examples/lib_win64
+%cmake_install
 
 
-%if ((0%{?rhel} && 0%{?rhel} <= 7) || (0%{?fedora} && 0%{?fedora} < 28))
+%check
+%cmake %{extra_options} -DBUILD_SMOKE_TEST=ON
+make -C "%{_vpath_builddir}"
+%ctest
+
+
+%if (0%{?rhel} && 0%{?rhel} <= 7)
 %post -p /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
@@ -108,14 +99,51 @@ rm -rf examples/lib_win64
 %{_includedir}/armadillo
 %{_includedir}/armadillo_bits/
 %{_datadir}/Armadillo/
-%doc README.md index.html docs.html
-%doc examples armadillo_icon.png
-%doc armadillo_nicta_2010.pdf rcpp_armadillo_csda_2014.pdf
-%doc armadillo_joss_2016.pdf armadillo_spcs_2017.pdf armadillo_lncs_2018.pdf
+%doc README.md
+%doc index.html
+%doc docs.html
+%doc examples
+%doc armadillo_icon.png
 %doc mex_interface
+%doc armadillo_nicta_2010.pdf
+%doc rcpp_armadillo_csda_2014.pdf
+%doc armadillo_joss_2016.pdf
+%doc armadillo_spcs_2017.pdf
+%doc armadillo_lncs_2018.pdf
+%doc armadillo_solver_2020.pdf
 
 
 %changelog
+* Fri Sep  4 2020 José Matos <jamatos@fedoraproject.org> - 9.900.3-2
+- make extra_options empty in the correct way
+
+* Thu Sep  3 2020 José Matos <jamatos@fedoraproject.org> - 9.900.3-1
+- update to 9.900.3
+
+* Wed Aug  5 2020 José Matos <jamatos@fedoraproject.org> - 9.900.2-5
+- add upstream patch to support flexiblas
+- enable tests
+
+* Wed Aug  5 2020 José Matos <jamatos@fedoraproject.org> - 9.900.2-4
+- clean the spec file and remove support for epel 6
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.900.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.900.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+- Adapt cmake to work with out of tree builds (and other minor cleanups)
+
+* Fri Jul 17 2020 José Matos <jamatos@fedoraproject.org> - 9.900.2-1
+- update to 9.900.2
+
+* Fri Jul  3 2020 José Matos <jamatos@fedoraproject.org> - 9.900.1-1
+- update to 9.900.1
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 9.880.1-2
+- Rebuild for hdf5 1.10.6
+
 * Sat May 16 2020 José Matos <jamatos@fedoraproject.org> - 9.880.1-1
 - update to 9.880.1
 

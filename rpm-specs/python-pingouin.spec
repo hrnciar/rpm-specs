@@ -26,7 +26,7 @@ Pingouin is designed for users who want simple yet exhaustive statistical
 functions.}
 
 Name:           python-%{srcname}
-Version:        0.3.5
+Version:        0.3.8
 Release:        1%{?dist}
 Summary:        Statistical package for Python
 
@@ -47,6 +47,7 @@ BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist numpy}
 BuildRequires:  %{py3_dist pandas}
 BuildRequires:  %{py3_dist seaborn}
+BuildRequires:  %{py3_dist setuptools}
 
 %if %{with tests}
 BuildRequires:  %{py3_dist pandas-flavor}
@@ -60,6 +61,7 @@ BuildRequires:  %{py3_dist openpyxl}
 BuildRequires:  %{py3_dist mpmath}
 BuildRequires:  %{py3_dist scikit-learn}
 BuildRequires:  %{py3_dist tabulate}
+BuildRequires:  %{py3_dist scipy} >= 1.5
 # Only required and works in TRAVIS, so not needed here
 # BuildRequires:  python3-pytest-travis-fold
 %endif
@@ -115,6 +117,22 @@ pytest-%{python3_version}
 %endif
 
 %changelog
+* Sun Sep 13 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.3.8-1
+- Update to new release
+- Fix BR on scipy
+
+* Fri Sep 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.3.7-1
+- Update to new release
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 04 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.3.6-1
+- Update to new release
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.3.5-2
+- Explicitly BR setuptools
+
 * Sun Jun 21 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.3.5-1
 - Update to 0.3.5
 

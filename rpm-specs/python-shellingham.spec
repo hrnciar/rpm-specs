@@ -1,16 +1,16 @@
 %global pypi_name shellingham
 
 Name:           python-%{pypi_name}
-Version:        1.2.7
-Release:        7%{?dist}
+Version:        1.3.2
+Release:        1%{?dist}
 Summary:        Tool to detect surrounding Shell
 License:        ISC
 URL:            https://github.com/sarugaku/shellingham
 Source0:        %{url}/archive/%{version}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
 
+BuildRequires:  pyproject-rpm-macros
 BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
 BuildRequires:  python3-pytest
 BuildRequires:  python3-pytest-mock
 
@@ -19,7 +19,6 @@ Shellingham detects what shell the current Python executable is running in.
 
 %package -n     python3-%{pypi_name}
 Summary:        %{summary}
-%{?python_provide:%python_provide python3-%{pypi_name}}
 
 %description -n python3-%{pypi_name}
 Shellingham detects what shell the current Python executable is running in.
@@ -28,23 +27,31 @@ Shellingham detects what shell the current Python executable is running in.
 %prep
 %autosetup -n %{pypi_name}-%{version}
 
+%generate_buildrequires
+%pyproject_buildrequires
+
 %build
-%py3_build
+%pyproject_wheel
 
 %install
-%py3_install
+%pyproject_install
+%pyproject_save_files %{pypi_name}
 
 %check
-export PYTHONPATH=%{buildroot}%{python3_sitelib}
-%{__python3} -m pytest -v
+%pytest -v
 
-%files -n python3-%{pypi_name}
+%files -n python3-%{pypi_name} -f %{pyproject_files}
 %license LICENSE
 %doc README.rst CHANGELOG.rst
-%{python3_sitelib}/%{pypi_name}/
-%{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info/
 
 %changelog
+* Tue Aug 04 2020 Tomas Orsava <torsava@redhat.com> - 1.3.2-1
+- Update to 1.3.2 (rhbz#1802130)
+- Switch spec file to pyproject-rpm-macros
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.7-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 25 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.7-7
 - Rebuilt for Python 3.9
 

@@ -1,7 +1,7 @@
 Name:        mdadm
 Version:     4.1
 #define subversion rc2
-Release:     5%{?subversion:.%{subversion}}%{?dist}
+Release:     6%{?subversion:.%{subversion}}%{?dist}
 Summary:     The mdadm program controls Linux md devices (software RAID arrays)
 URL:         http://www.kernel.org/pub/linux/utils/raid/mdadm/
 License:     GPLv2+
@@ -89,6 +89,9 @@ install -m644 %{SOURCE6} %{buildroot}/etc/libreport/events.d
 /etc/libreport/events.d/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May 27 2020 Xiao Ni <xni@redhat.com> - 4.1-5
 - Don't enable raid-check.service to avoid raid check after every boot
 - Resolves bz1838409

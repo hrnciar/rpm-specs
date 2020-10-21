@@ -1,6 +1,6 @@
 Name:           xarchiver
 Version:        0.5.4.14
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Archive manager for Xfce
 
 License:        GPLv2+
@@ -78,6 +78,9 @@ rm %{buildroot}%{_docdir}/%{name}/{COPYING,ChangeLog,README}
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4.14-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.4.14-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

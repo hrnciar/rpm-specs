@@ -1,12 +1,13 @@
 Name:           perl-Test2-Harness
-%global cpan_version 1.000019
-Version:        1.0.19
+%global cpan_version 1.000029
+Version:        1.0.29
 Release:        1%{?dist}
 Summary:        Test2 Harness designed for the Test2 event system
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Test2-Harness
 Source0:        https://cpan.metacpan.org/authors/id/E/EX/EXODIST/Test2-Harness-%{cpan_version}.tar.gz
 BuildArch:      noarch
+BuildRequires:  coreutils
 BuildRequires:  make
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
@@ -21,8 +22,9 @@ BuildRequires:  perl(Carp)
 BuildRequires:  perl(constant)
 BuildRequires:  perl(Cwd)
 BuildRequires:  perl(Data::Dumper)
-BuildRequires:  perl(Data::UUID) >= 1.148
+BuildRequires:  perl(Data::UUID)
 BuildRequires:  perl(Devel::Cover)
+# Devel::NYTProf not used at tests
 # Email::Stuffer 0.016 not used at tests
 BuildRequires:  perl(Exporter)
 BuildRequires:  perl(Fcntl)
@@ -58,6 +60,8 @@ BuildRequires:  perl(Test2::API) >= 1.302170
 BuildRequires:  perl(Test2::Event) >= 1.302170
 BuildRequires:  perl(Test2::Formatter) >= 1.302170
 BuildRequires:  perl(Test2::Hub)
+# Test2::Plugin::Cover not used at tests
+# Test2::Plugin::DBIProfile not used at tests
 BuildRequires:  perl(Test2::Plugin::IOEvents) >= 0.001001
 BuildRequires:  perl(Test2::Plugin::MemUsage) >= 0.002003
 BuildRequires:  perl(Test2::Plugin::UUID) >= 0.002001
@@ -93,8 +97,8 @@ Suggests:       git-core
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Suggests:       perl(Cpanel::JSON::XS)
 Requires:       perl(Data::Dumper)
-Requires:       perl(Data::UUID) >= 1.148
 Suggests:       perl(Devel::Cover)
+Suggests:       perl(Devel::NYTProf)
 Suggests:       perl(Email::Stuffer) >= 0.016
 Requires:       perl(Exporter)
 Requires:       perl(File::Find)
@@ -120,6 +124,8 @@ Requires:       perl(Test2::API) >= 1.302170
 Requires:       perl(Test2::Event) >= 1.302170
 Requires:       perl(Test2::Formatter) >= 1.302170
 Requires:       perl(Test2::Hub)
+Suggests:       perl(Test2::Plugin::Cover) >= 0.000007
+Suggests:       perl(Test2::Plugin::DBIProfile) >= 0.002002
 Requires:       perl(Test2::Plugin::IOEvents) >= 0.001001
 Requires:       perl(Test2::Plugin::MemUsage) >= 0.002003
 Requires:       perl(Test2::Plugin::UUID) >= 0.002001
@@ -128,7 +134,7 @@ Requires:       perl(Test2::Util::Term) >= 0.000127
 Requires:       perl(Test::Builder::Formatter) >= 1.302170
 
 # Filter underspecified dependencies
-%global __requires_exclude %{?__requires_exclude:%{__requires_exclude}|}^perl\\((Data::UUID|File::Path|goto::file|Importer|IO::Handle|Long::Jump|Term::Table|Test2::API|Test2::Formatter|Test2::Util|Test2::Util::Term)\\)$
+%global __requires_exclude %{?__requires_exclude:%{__requires_exclude}|}^perl\\((File::Path|goto::file|Importer|IO::Handle|Long::Jump|Term::Table|Test2::API|Test2::Formatter|Test2::Util|Test2::Util::Term)\\)$
 
 %description
 This is a test harness toolkit for Perl Test2 system. It provides a yath tool,
@@ -148,7 +154,7 @@ perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
 %check
 unset AUTHOR_TESTING AUTOMATED_TESTING DBI_PROFILE FAIL_ALWAYS FAIL_ONCE \
     FAILURE_DO_PASS GIT_BRANCH GIT_LONG_SHA GIT_SHORT_SHA GIT_STATUS \
-    HARNESS_IS_VERBOSE \
+    HARNESS_IS_VERBOSE RESOURCE_TEST \
     T2_HARNESS_IS_VERBOSE T2_HARNESS_JOB_IS_TRY T2_HARNESS_STAGE
 export T2_HARNESS_JOB_COUNT=$(perl -e \
     'for (@ARGV) { $j=$1 if m/\A-j(\d+)\z/; }; $j=1 unless $j; print "$j"' -- \
@@ -160,13 +166,40 @@ make test
 
 %files
 %license LICENSE
-%doc Changes README
+%doc Changes README TODO
 %{_bindir}/yath
 %{perl_vendorlib}/*
 %{_mandir}/man1/*
 %{_mandir}/man3/*
 
 %changelog
+* Mon Oct 19 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.0.29-1
+- 1.000029 bump
+
+* Tue Sep 29 2020 Petr Pisar <ppisar@redhat.com> - 1.0.28-1
+- 1.000028 bump
+
+* Tue Sep 22 2020 Petr Pisar <ppisar@redhat.com> - 1.0.27-1
+- 1.000027 bump
+
+* Wed Sep 09 2020 Petr Pisar <ppisar@redhat.com> - 1.0.26-1
+- 1.000026 bump
+
+* Tue Aug 25 2020 Petr Pisar <ppisar@redhat.com> - 1.0.24-1
+- 1.000024 bump
+
+* Tue Aug 18 2020 Petr Pisar <ppisar@redhat.com> - 1.0.23-1
+- 1.000023 bump
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.20-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jul 09 2020 Petr Pisar <ppisar@redhat.com> - 1.0.20-1
+- 1.000020 bump
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.0.19-2
+- Perl 5.32 rebuild
+
 * Mon Jun 01 2020 Petr Pisar <ppisar@redhat.com> - 1.0.19-1
 - 1.000019 bump
 

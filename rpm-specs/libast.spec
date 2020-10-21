@@ -7,7 +7,7 @@
 Summary:        Library of Assorted Spiffy Things
 Name:           libast
 Version:        0.7.1
-Release:        0.26.%{cvs}cvs%{?dist}
+Release:        0.27.%{cvs}cvs%{?dist}
 License:        BSD
 URL:            http://www.eterm.org/
 # Sources are pulled from cvs:
@@ -79,6 +79,9 @@ touch -r ChangeLog %{buildroot}%{_bindir}/%{name}-config
 %exclude %{_libdir}/*.a
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-0.27.20080502cvs
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.1-0.26.20080502cvs
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

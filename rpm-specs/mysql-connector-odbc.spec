@@ -1,8 +1,15 @@
+# Disable CMake in-source builds
+#   This is a fix for the https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+#   So the beaviour will be the same also in F31 nad F32
+%undefine __cmake_in_source_build
+
+
+
 # About:
 #   https://dev.mysql.com/doc/connectors/en/connector-odbc-installation-source-unix.html
 Name:           mysql-connector-odbc
-Version:        8.0.20
-Release:        1%{?dist}
+Version:        8.0.21
+Release:        2%{?dist}
 Summary:        ODBC driver for MySQL
 License:        GPLv2 with exceptions
 URL:            https://dev.mysql.com/downloads/connector/odbc/
@@ -31,41 +38,35 @@ An ODBC (rev 3) driver for MySQL, for use with unixODBC.
 %patch0 -p1
 
 %build
-%{set_build_flags}
-mkdir build && pushd build
-export LDFLAGS="%__global_ldflags"
-cmake .. \
+%cmake \
         -DCMAKE_BUILD_TYPE=RelWithDebinfo \
-        -DWITH_UNIXODBC=1 \
-        -DRPM_BUILD=1 \
-        -DCMAKE_INSTALL_PREFIX="%{_prefix}" \
+        -DWITH_UNIXODBC=YES \
+        -DRPM_BUILD=YES \
         -DMYSQLCLIENT_STATIC_LINKING=OFF \
-        -DCMAKE_C_FLAGS="%{optflags}" \
-        -DCMAKE_CXX_FLAGS="%{optflags}" \
-        -DDISABLE_GUI=1
+        -DDISABLE_GUI=YES \
+        -DBUILD_SHARED_LIBS=OFF
 
-cmake .. -LH
+cmake -B %_vpath_builddir -LAH
 
-make %{?_smp_mflags} VERBOSE=1
+%cmake_build
 
 %install
-pushd build
-make DESTDIR=$RPM_BUILD_ROOT install
+%cmake_install
 
 # Remove stuff not to be packaged, this tool is for archive distribution
 # https://dev.mysql.com/doc/connector-odbc/en/connector-odbc-installation-binary-unix-tarball.html
-rm -f $RPM_BUILD_ROOT%{_bindir}/myodbc-installer
+rm %{buildroot}%{_bindir}/myodbc-installer
 
 # Remove any file in /usr
-find $RPM_BUILD_ROOT/usr/ -maxdepth 1 -type f -delete
+find %{buildroot}/usr/ -maxdepth 1 -type f -delete
 
 # Create a symlink for library to offer name that users are used to
-ln -sf libmyodbc8w.so $RPM_BUILD_ROOT%{_libdir}/libmyodbc8.so
+ln -sf libmyodbc8w.so %{buildroot}%{_libdir}/libmyodbc8.so
 
 # Upstream provides a test suite with functional and regression tests.
 # However, some tests fail, so it would deserve some more investigation.
 # We don't include the test suite until it works fine.
-rm -rf $RPM_BUILD_ROOT/usr/test
+rm -rf %{buildroot}/usr/test
 
 %files
 %license LICENSE.txt
@@ -73,6 +74,20 @@ rm -rf $RPM_BUILD_ROOT/usr/test
 %{_libdir}/lib*so
 
 %changelog
+* Tue Aug 25 2020 Michal Schorm <mschorm@redhat.com> 8.0.21-2
+- Stop building "libmysql_strings.so" and "libmysql_sys.so" as dynamic libraries.
+  They are only used inside of this package and we don't ship them, so it's
+  perfectly fine to build them statically.
+
+* Mon Aug 10 2020 Michal Schorm <mschorm@redhat.com> 8.0.21-1
+- Rebase to 8.0.21
+- Force the CMake change regarding the in-source builds also to F31 and F32
+- Use CMake macros instead of cmake & make direct commands
+- %%cmake macro covers the %%{set_build_flags}, so they are not needed
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.0.20-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 2020 Michal Schorm <mschorm@redhat.com> 8.0.20-1
 - Rebase to 8.0.20
 

@@ -1,7 +1,7 @@
 Summary:       List or change SCSI/SATA disk parameters
 Name:          sdparm
 Version:       1.11
-Release:       1%{?dist}
+Release:       2%{?dist}
 License:       BSD
 URL:           http://sg.danny.cz/sg/sdparm.html
 Source0:       http://sg.danny.cz/sg/p/sdparm-%{version}.tgz
@@ -41,6 +41,9 @@ make install DESTDIR=%{buildroot} INSTALL="%{__install} -p"
 %{_mandir}/man8/scsi_ch_swp*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 09 2020 Terje Rosten <terje.rosten@ntnu.no> - 1.11-1
 - 1.11
 

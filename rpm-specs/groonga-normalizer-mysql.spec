@@ -2,7 +2,7 @@
 
 Name:		groonga-normalizer-mysql
 Version:	1.1.3
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	MySQL compatible normalizer plugin for Groonga
 
 License:	LGPLv2
@@ -48,6 +48,9 @@ rm $RPM_BUILD_ROOT%{_libdir}/groonga/plugins/*/*.la
 %{_libdir}/pkgconfig/groonga-normalizer-mysql.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

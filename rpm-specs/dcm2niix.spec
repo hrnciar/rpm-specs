@@ -1,6 +1,6 @@
 Name:           dcm2niix
 Version:        1.0.20190902
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        DICOM to NIfTI converter
 
 License:        BSD
@@ -36,15 +36,11 @@ sed -i 's/sphinx-build/sphinx-build-3/' docs/CMakeLists.txt
 mkdir build/
 
 %build
-pushd build/
-  %cmake -DUSE_STATIC_RUNTIME=OFF -DUSE_TURBOJPEG=ON -DUSE_OPENJPEG=ON  -DUSE_JPEGLS=ON -DZLIB_IMPLEMENTATION=System -DBATCH_VERSION=ON -DBUILD_DOCS=ON ../
-  %make_build
-popd
+%cmake -DUSE_STATIC_RUNTIME=OFF -DUSE_TURBOJPEG=ON -DUSE_OPENJPEG=ON  -DUSE_JPEGLS=ON -DZLIB_IMPLEMENTATION=System -DBATCH_VERSION=ON -DBUILD_DOCS=ON
+%cmake_build
 
 %install
-pushd build/
-  %make_install
-popd
+%cmake_install
 
 %files
 %doc README.md VERSIONS.md
@@ -56,6 +52,16 @@ popd
 
 
 %changelog
+* Sat Aug 22 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.0.20190902-4
+- Fix FTBFS
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.20190902-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.20190902-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Feb 01 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 1.0.20190902-1
 - Update to new version
 

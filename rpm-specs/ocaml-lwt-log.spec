@@ -1,6 +1,6 @@
 Name:           ocaml-lwt-log
 Version:        1.1.1
-Release:        8%{?dist}
+Release:        12%{?dist}
 Summary:        Lwt logging library
 
 %global libname %(echo %{name} | sed -e 's/^ocaml-//')
@@ -69,6 +69,19 @@ find %{buildroot} -name '*.cmxs' -exec chmod 0755 {} \;
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.1.1-12
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.1.1-11
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 05 2020 Richard W.M. Jones <rjones@redhat.com> - 1.1.1-8
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

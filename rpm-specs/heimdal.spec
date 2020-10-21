@@ -9,7 +9,7 @@
 
 Name: heimdal
 Version: 7.7.0
-Release: 6%{?dist}
+Release: 7%{?dist}
 Summary: A Kerberos 5 implementation without export restrictions
 License: BSD and MIT
 URL: http://www.heimdal.software/
@@ -499,6 +499,9 @@ fi
 %{_sysconfdir}/profile.d/%{name}.csh
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.7.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Mar 31 2020 Alexander Boström <abo@root.snowtree.se> - 7.7.0-6
 - Do not buildrequire openldap-servers on RHEL8+
 

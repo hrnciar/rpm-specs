@@ -3,7 +3,7 @@
 
 # https://github.com/snapcore/go-gettext
 %global goipath         github.com/snapcore/go-gettext
-%global commit          a77afd68d2bd1740e0d843e28cc756ee59493e24
+%global commit          82bbea49e7854ab527f73d3ce03c57c4fd852aab
 
 %gometa
 
@@ -16,7 +16,7 @@ A native Go library for accessing gettext internationalization files.
 
 Name:           %{goname}
 Version:        0
-Release:        0.2%{?dist}
+Release:        0.4%{?dist}
 Summary:        Native Go library for accessing gettext internationalization files
 # Upstream license specification: BSD-3-Clause
 License:        BSD
@@ -42,6 +42,12 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Sun Aug 02 21:02:54 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0-0.4.20200802git82bbea4
+- Bump to commit 82bbea49e7854ab527f73d3ce03c57c4fd852aab
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

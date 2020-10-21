@@ -2,8 +2,8 @@
 
 Summary: A portable x86 assembler which uses Intel-like syntax
 Name: nasm
-Version: 2.14.02
-Release: 3%{?dist}
+Version: 2.15.03
+Release: 2%{?dist}
 License: BSD
 URL: http://www.nasm.us
 Source0: https://www.nasm.us/pub/nasm/releasebuilds/%{version}/%{name}-%{version}.tar.xz
@@ -11,6 +11,7 @@ Source1: https://www.nasm.us/pub/nasm/releasebuilds/%{version}/%{name}-%{version
 
 BuildRequires: perl(Env)
 BuildRequires: autoconf
+BuildRequires: automake
 BuildRequires: asciidoc
 BuildRequires: xmlto
 BuildRequires: gcc
@@ -22,6 +23,7 @@ Summary: Documentation for NASM
 BuildRequires: perl(Font::TTF::Font)
 BuildRequires: perl(Sort::Versions)
 BuildRequires: perl(File::Spec)
+BuildRequires: perl(sort)
 BuildRequires: adobe-source-sans-pro-fonts
 BuildRequires: adobe-source-code-pro-fonts
 BuildRequires: ghostscript
@@ -50,12 +52,11 @@ is sometimes used with the Netwide Assembler (NASM). These tools
 include linker, library manager, loader, and information dump.
 
 %prep
-%setup -q
+%autosetup
 
 tar xJf %{SOURCE1} --strip-components 1
 
 %build
-autoreconf
 %configure
 %if %{with documentation}
 make everything %{?_smp_mflags}
@@ -68,7 +69,8 @@ make all %{?_smp_mflags}
 %make_install install_rdf
 
 %files
-%doc AUTHORS CHANGES README TODO
+%license LICENSE
+%doc AUTHORS CHANGES README.md
 %{_bindir}/nasm
 %{_bindir}/ndisasm
 %{_mandir}/man1/nasm*
@@ -93,6 +95,12 @@ make all %{?_smp_mflags}
 %{_mandir}/man1/ld*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.15.03-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 2.15.03-1
+- Update to 2.15.03
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.14.02-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

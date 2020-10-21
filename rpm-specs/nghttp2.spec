@@ -1,7 +1,7 @@
 Summary: Experimental HTTP/2 client, server and proxy
 Name: nghttp2
 Version: 1.41.0
-Release: 1%{?dist}
+Release: 3%{?dist}
 License: MIT
 URL: https://nghttp2.org/
 Source0: https://github.com/tatsuhiro-t/nghttp2/releases/download/v%{version}/nghttp2-%{version}.tar.xz
@@ -60,7 +60,7 @@ sed -i libtool                              \
     -e 's/^runpath_var=.*/runpath_var=/'    \
     -e 's/^hardcode_libdir_flag_spec=".*"$/hardcode_libdir_flag_spec=""/'
 
-make %{?_smp_mflags} V=1
+%make_build
 
 
 %install
@@ -86,7 +86,7 @@ rm -f "$RPM_BUILD_ROOT%{_datadir}/doc/nghttp2/README.rst"
 %check
 # test the just built library instead of the system one, without using rpath
 export "LD_LIBRARY_PATH=$RPM_BUILD_ROOT%{_libdir}:$LD_LIBRARY_PATH"
-make %{?_smp_mflags} check
+%make_build check
 
 
 %files
@@ -114,6 +114,13 @@ make %{?_smp_mflags} check
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.41.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 14 2020 Tom Stellard <tstellar@redhat.com> - 1.41.0-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jun 02 2020 Kamil Dudka <kdudka@redhat.com> 1.41.0-1
 - update to the latest upstream release
 

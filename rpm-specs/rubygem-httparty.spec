@@ -2,12 +2,17 @@
 %global gem_name httparty
 
 Name: rubygem-%{gem_name}
-Version: 0.16.4
-Release: 3%{?dist}
+Version: 0.18.1
+Release: 2%{?dist}
 Summary: Makes http fun! Also, makes consuming restful web services dead easy
 License: MIT
 URL: https://github.com/jnunemaker/httparty
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
+# git clone https://github.com/jnunemaker/httparty.git && cd httparty
+# git archive -v -o httparty-0.18.1-spec.tar.gz v0.18.1 spec/
+Source1: %{gem_name}-%{version}-spec.tar.gz
+# lib/httparty.rb:require 'json'
+Requires: rubygem(json)
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: ruby >= 2.0.0
@@ -30,7 +35,7 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -n %{gem_name}-%{version}
+%setup -q -n %{gem_name}-%{version} -b 1
 
 %build
 # Create the gem as gem install only works on a gem file
@@ -54,12 +59,21 @@ find %{buildroot}%{gem_instdir}/bin -type f | xargs chmod a+x
 
 %check
 pushd .%{gem_instdir}
+# Move the tests into place
+ln -s %{_builddir}/spec spec
+
 # We are not interested in code coverage.
 sed -i '/[sS]imple[cC]ov/ s/^/#/' spec/spec_helper.rb
+
+# We don't need Pry to execute test suite.
+sed -i '/pry/ s/^/#/' spec/spec_helper.rb
 
 # UTF8 is required for ./spec/httparty/request/body_spec.rb:63
 # The encoding should be probably fixed upstream.
 LC_ALL=C.UTF-8 rspec spec
+
+# This would require Mongrel we don't have and don't want.
+# cucumber
 popd
 
 %files
@@ -75,21 +89,29 @@ popd
 %files doc
 %doc %{gem_docdir}
 %doc %{gem_instdir}/CONTRIBUTING.md
+%doc %{gem_instdir}/Changelog.md
 %{gem_instdir}/Gemfile
 %{gem_instdir}/Guardfile
-%doc %{gem_instdir}/Changelog.md
 %doc %{gem_instdir}/README.md
 %{gem_instdir}/Rakefile
 %{gem_instdir}/cucumber.yml
 %doc %{gem_instdir}/docs
 %{gem_instdir}/examples
-%{gem_instdir}/features
 %{gem_instdir}/httparty.gemspec
 %{gem_instdir}/script
-%{gem_instdir}/spec
 %{gem_instdir}/website
 
 %changelog
+* Thu Jul 30 2020 Vít Ondruch <vondruch@redhat.com> - 0.18.1-2
+- Drop `BR: %%{_bindir}/cucumber` accidental testing leftover.
+
+* Thu Jul 30 2020 Vít Ondruch <vondruch@redhat.com> - 0.18.1-1
+- Update to HTTParty 0.18.1.
+  Resolves: rhbz#1701659
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

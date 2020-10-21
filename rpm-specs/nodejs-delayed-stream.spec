@@ -2,7 +2,7 @@
 
 Name:           nodejs-delayed-stream
 Version:        1.0.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Buffers events from a stream until you are ready to handle them
 BuildArch:      noarch
 ExclusiveArch:  %{nodejs_arches} noarch
@@ -33,6 +33,9 @@ cp -pr package.json lib %{buildroot}%{nodejs_sitelib}/delayed-stream
 %{nodejs_sitelib}/delayed-stream
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

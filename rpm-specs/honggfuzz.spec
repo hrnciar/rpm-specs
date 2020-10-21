@@ -4,7 +4,7 @@
 
 Name:          honggfuzz
 Version:       2.2
-Release:       0.1.%{gitdate}git%{shorttag}%{?dist}
+Release:       0.4.%{gitdate}git%{shorttag}%{?dist}
 Summary:       General-purpose, easy-to-use fuzzer
 
 License:       ASL 2.0
@@ -57,6 +57,8 @@ Development files for %{name}.
 
 
 %prep
+# Disable LTO since it breaks linking.
+%define _lto_cflags %{nil}
 %autosetup
 
 
@@ -117,6 +119,16 @@ hfuzz_cc/hfuzz-g++ hello.cpp -o hello
 
 
 %changelog
+* Mon Aug 03 2020 Richard W.M. Jones <rjones@redhat.com> 2.2-0.4.20200511gita299f3f
+- Disable LTO.
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-0.3.20200511gita299f3f
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2-0.2.20200511gita299f3f
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 12 2020 Richard W.M. Jones <rjones@redhat.com> 2.2-0.1.20200511gita299f3f
 - New upstream version.
 

@@ -1,10 +1,11 @@
 Name:         liblo
-Version:      0.29
-Release:      4%{?dist}
+Version:      0.31
+Release:      1%{?dist}
 Summary:      Open Sound Control library
 License:      LGPLv2+
 URL:          http://liblo.sourceforge.net
 Source0:      http://download.sf.net/sourceforge/liblo/liblo-%{version}.tar.gz
+Patch0:       %{name}-maybe-uninitialized.patch
 
 BuildRequires: gcc
 BuildRequires: doxygen
@@ -22,7 +23,7 @@ Libraries, include files, etc you can use to develop liblo
 based Open Sound Control applications.
 
 %prep
-%setup -q
+%autosetup -p 1
 
 %build
 %configure --disable-static
@@ -33,7 +34,7 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %make_build
 
 %install
-%make_install INSTALL="install -p"
+%make_install
 
 # install man pages by hand
 mkdir -p %{buildroot}%{_mandir}/man3/
@@ -60,6 +61,19 @@ find %{buildroot} -type f -name "*.la" -delete
 %{_mandir}/man3/*
 
 %changelog
+* Wed Aug 26 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.31-1
+- Update to 0.31
+
+* Fri Aug 07 2020 Guido Aulisi <guido.aulisi@gmail.com> - 0.29-7
+- Fix FTBFS in Fedora rawhide/f33
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.29-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.29-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.29-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,5 +1,5 @@
 Name:		maradns
-Version:	3.5.0005
+Version:	3.5.0012
 Release:	1%{?dist}
 Summary:	Authoritative and recursive DNS server made with security in mind
 
@@ -40,7 +40,7 @@ chmod 0644 doc/en/webpage/make.page
 # recursive resolver is shipped in versioned directory
 # first compile Deadwood, otherwise we have no control over make flags
 pushd deadwood-%{version}/src
-make %{?_smp_mflags} FLAGS="%{optflags} -DIPV6 -lrt"
+make %{?_smp_mflags} FLAGS="%{optflags} -lrt"
 popd
 make %{?_smp_mflags} FLAGS="%{optflags} -DSELECT_PROBLEM -DAUTHONLY"
 
@@ -162,6 +162,13 @@ fi
 
 
 %changelog
+* Thu Aug 13 2020 Tomasz Torcz <ttorcz@fedoraproject.org> - 3.5.0012-1
+- new version; IPv6 is default for Deadwood now
+- do not package bundled Lua runtime and tools (would require unbundling Lua first)
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.0005-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 05 2020 Tomek Torcz <ttorcz@fedoraproject.org> - 3.5.0005-2
 - Bump to latest stable version (rhbz#1797903)
 - remove merged patches

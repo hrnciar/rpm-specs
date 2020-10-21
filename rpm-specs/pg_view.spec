@@ -1,7 +1,7 @@
 %global version_tag PG_VIEW_1_4_0
 Name:           pg_view
 Version:        1.4.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Command-line tool to display the state of the PostgreSQL processes
 
 License:        ASL 2.0
@@ -39,6 +39,9 @@ install -D -p -m 755 %{_builddir}/%{name}-%{version_tag}/pg_view.py \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

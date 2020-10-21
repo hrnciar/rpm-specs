@@ -1,6 +1,7 @@
-%bcond_with tests
+%bcond_without tests
 
 # Fail to build
+# Requires sphinx-automodapi
 %bcond_with docs
 
 %global pypi_name chaospy
@@ -10,7 +11,7 @@ Chaospy is a numerical tool for performing uncertainty quantification using
 polynomial.}
 
 Name:           python-%{pypi_name}
-Version:        3.2.12
+Version:        3.3.8
 Release:        1%{?dist}
 Summary:        Numerical tool for performing uncertainty quantification using polynomial
 License:        MIT
@@ -30,12 +31,12 @@ BuildRequires: %{py3_dist pep517}
 BuildRequires: %{py3_dist poetry}
 BuildRequires: %{py3_dist scipy}
 BuildRequires: %{py3_dist numpoly}
- 
+
 %if %{with tests}
 BuildRequires:  %{py3_dist pytest}
 BuildRequires:  %{py3_dist pylint}
 BuildRequires:  %{py3_dist pytest-cov}
-BuildRequires:	%{py3_dist pep517}
+BuildRequires:  %{py3_dist pep517}
 %endif
 
 %if %{with docs}
@@ -73,25 +74,17 @@ rm -rf %{pypi_name}.egg-info
 %pyproject_wheel
 
 %if %{with docs}
-pushd doc
-    make SPHINXBUILD=sphinx-build-3 html
-    rm -rf build/.doctrees
-    rm -rf build/.buildinfo
-popd
+make SPHINXBUILD=sphinx-build-3 html -C docs
+rm -rf html/build/.doctrees
+rm -rf html/build/.buildinfo
 %endif
 
 %install
 %pyproject_install
 
-find tutorial/Heaviside.py -type f | xargs chmod 0644 || true
-find tutorial/flow_in_serial_layers.py -type f | xargs chmod 0644 || true
-find tutorial/src/make.sh -type f | xargs chmod 0644 || true
-
 %check
 %if %{with tests}
 export PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}
-# Test fails on arm
-# https://github.com/jonathf/chaospy/issues/183
 pytest-%{python3_version} tests --deselect tests/quad/test_interface.py::test_1d_gauss_hermite_quadrature
 %endif
 
@@ -103,12 +96,29 @@ pytest-%{python3_version} tests --deselect tests/quad/test_interface.py::test_1d
 
 %files doc
 %license LICENSE.txt
-%doc tutorial
+%doc docs/tutorials
 %if %{with docs}
 %doc doc/build/html
 %endif
 
 %changelog
+* Wed Aug 12 2020 Luis Bazan <lbazan@fedoraproject.org> - 3.3.8-1
+- New usptream version
+
+* Sat Aug 08 2020 Luis Bazan <lbazan@fedoraproject.org> - 3.3.6-1
+- New usptream version
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.3.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 03 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 3.3.3-1
+- Update to latest upstream
+- Fix FTI
+- Re-enable tests
+
+* Fri Jun 26 2020 Luis Bazan <lbazan@fedoraproject.org> - 3.3.2-1
+- New usptream version
+
 * Thu Jun 04 2020 Luis Bazan <lbazan@fedoraproject.org> - 3.2.12-1
 - New usptream version
 

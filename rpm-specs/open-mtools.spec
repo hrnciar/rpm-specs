@@ -1,7 +1,7 @@
 %global tarname mtools
 Name:       open-%{tarname}
 Version:    1.0
-Release:    14%{?dist}
+Release:    15%{?dist}
 Summary:    Tools for testing IP multicast
 # README.txt:           Public Domain
 # mpong.c:              BSD
@@ -49,6 +49,9 @@ done
 %{_bindir}/*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

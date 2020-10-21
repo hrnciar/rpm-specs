@@ -3,9 +3,11 @@
 
 # https://github.com/checkpoint-restore/go-criu
 %global goipath         github.com/checkpoint-restore/go-criu
-Version:                3.11
+Version:                4.1.0
 
 %gometa
+
+%global goaltipaths     github.com/checkpoint-restore/go-criu/v4
 
 %global common_description %{expand:
 This repository provides Go bindings for CRIU. The code is based on the Go based
@@ -20,7 +22,7 @@ CRIU.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        Go Bindings for CRIU
 
 # Upstream license specification: Apache-2.0
@@ -29,6 +31,7 @@ URL:            %{gourl}
 Source0:        %{gosource}
 
 BuildRequires:  golang(github.com/golang/protobuf/proto)
+BuildRequires:  golang(github.com/thoas/go-funk)
 
 %description
 %{common_description}
@@ -49,6 +52,15 @@ BuildRequires:  golang(github.com/golang/protobuf/proto)
 %gopkgfiles
 
 %changelog
+* Wed Sep 30 18:32:54 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 4.1.0-1
+- Update to 4.1.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 24 22:38:10 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 4.0.2-1
+- Update to 4.0.2
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.11-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

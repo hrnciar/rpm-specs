@@ -5,7 +5,7 @@
 
 Name:       cryptlib
 Version:    3.4.5  
-Release:    10%{?dist}
+Release:    14%{?dist}
 Summary:    Security library and toolkit for encryption and authentication services    
 
 License:    Sleepycat and OpenSSL     
@@ -224,7 +224,7 @@ cp -r %{_builddir}/%{name}-%{version}/bindings/javadoc/* %{buildroot}%{_javadocd
 
 # install python3 module
 mkdir -p %{buildroot}%{python3_sitelib}
-cp %{_builddir}/%{name}-%{version}/bindings/build/lib.linux-*%{python3_version}/cryptlib_py.cpython-3*-%{_arch}-linux-gnu.so %{buildroot}%{python3_sitelib}/cryptlib_py.so
+cp %{_builddir}/%{name}-%{version}/bindings/build/lib.linux-*%{python3_version}/cryptlib_py%{python3_ext_suffix} %{buildroot}%{python3_sitelib}/cryptlib_py.so
 
 # install Perl module
 mkdir -p %{buildroot}/usr/local/lib64
@@ -310,6 +310,18 @@ tar xpzf %{SOURCE4}
 
 
 %changelog
+* Fri Oct 16 2020 Ralf Senderek <innovation@senderek.ie> - 3.4.5-14
+- Fix Python Upstream Architecture Names for powerpc architecture 
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.5-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Jiri Vanek <jvanek@redhat.com> - 3.4.5-12
+- Rebuilt for JDK-11, see https://fedoraproject.org/wiki/Changes/Java11
+
+* Thu Jun 25 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.4.5-11
+- Perl 5.32 rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 3.4.5-10
 - Rebuilt for Python 3.9
 

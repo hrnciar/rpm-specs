@@ -1,6 +1,6 @@
 Name:		fcitx-ui-light
 Version:	0.1.3
-Release:	18%{?dist}
+Release:	21%{?dist}
 Summary:	Light UI for fcitx
 License:	GPLv2+
 URL:		http://code.google.com/p/fcitx/
@@ -19,18 +19,12 @@ Light UI is a light-weight user interface for fcitx.
 %prep
 %setup -q -n %{name}-%{version}
 
-
 %build
-mkdir -pv build
-pushd build
-%cmake ..
-make %{?_smp_mflags} VERBOSE=1
+%cmake
+%cmake_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-pushd build
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
-popd
+%cmake_install
 
 desktop-file-install --delete-original \
   --dir ${RPM_BUILD_ROOT}%{_datadir}/applications \
@@ -49,6 +43,16 @@ EOF
 %{_datadir}/applications/fcitx-light.desktop
 
 %changelog
+* Tue Aug 04 2020 Qiyu Yan <yanqiyu@fedoraproject.org> - 0.1.3-21
+- Improve compatibility with new CMake macro
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-20
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.3-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

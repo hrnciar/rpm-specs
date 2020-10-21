@@ -5,36 +5,36 @@
 #	- Provides tclspice capabilities
 # Chitlesh Goorah
 
-%global	userelease	0
-%global	usegitbare	1
+%global	userelease	1
+%global	usegitbare	0
 
 %if 0%{?usegitbare} < 1
 # force
 %global	userelease	1
 %endif
 
-%global	mainver	32.2
-%global	docver		32
+%global	mainver	33
+%global	docver		33
 %undefine	prever
 %global	prerpmver	%(echo "%{?prever}" | sed -e 's|-||g')
 
 %global	mainrel	1
 
 %if 0%{?usegitbare} >= 1
-%global	gitcommit	5c3e2b6526b22015ddec692450f5c5077efa1d80
-%global	gitdate	20200505
+%global	gitcommit	798d2b2db121b4c6514f977e30d0636edf3ca789
+%global	gitdate	20201016
 %global	shortcommit	%(c=%{gitcommit}; echo ${c:0:7})
 
-%global	tarballdate	20200506
-%global	tarballtime	0950
+%global	tarballdate	20201017
+%global	tarballtime	1145
 %endif
 
 %if 0%{?userelease} >= 1
 %global	fedorarel	%{?prever:0.}%{mainrel}%{?prever:.%{prerpmver}}
 %endif
 %if 0%{?usegitbare} >= 1
-#%global	fedorarel	%{?prever:0.}%{mainrel}.D%{gitdate}git%{shortcommit}
-%global	fedorarel	%{?prever:0.}%{mainrel}%{?prever:.%{prerpmver}}
+%global	fedorarel	%{?prever:0.}%{mainrel}.D%{gitdate}git%{shortcommit}
+#%%global	fedorarel	%{?prever:0.}%{mainrel}%{?prever:.%{prerpmver}}
 %endif
 
 %undefine       _changelog_trimtime
@@ -398,6 +398,16 @@ cd tests
 %{_includedir}/ngspice/
 
 %changelog
+* Mon Oct 19 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 33-1
+- Update to 33
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 32.2-1.2
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 32.2-1.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed May  6 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 32.2-1
 - 32.2 tagged
 

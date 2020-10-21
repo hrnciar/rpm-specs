@@ -1,6 +1,6 @@
 Name:           usbguard-notifier
 Version:        0.0.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A tool for detecting usbguard policy and device presence changes
 
 License:        GPLv2+
@@ -69,6 +69,9 @@ execstack -c %{buildroot}%{_bindir}/usbguard-notifier-cli
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Apr 29 2020 Attila Lakatos <alakatos@redhat.com> 0.0.6-1
 - Rebase to 0.0.6
 

@@ -1,19 +1,18 @@
 Summary: A collection of programs for manipulating patch files
 Name: patchutils
-Version: 0.3.4
-Release: 15%{?dist}
+Version: 0.4.2
+Release: 4%{?dist}
 License: GPLv2+
 URL: http://cyberelk.net/tim/patchutils/
 Source0: http://cyberelk.net/tim/data/patchutils/stable/%{name}-%{version}.tar.xz
-Patch1: patchutils-bz1226985.patch
-Patch2: patchutils-format-str.patch
 Obsoletes: interdiff <= 0.0.10
 Provides: interdiff = 0.0.11
 Requires: patch
-BuildRequires:  gcc
+BuildRequires: gcc
 BuildRequires: perl-generators
 BuildRequires: xmlto
-BuildRequires: automake, autoconf
+BuildRequires: automake
+BuildRequires: autoconf
 
 %description
 This is a collection of programs that can manipulate patch files in
@@ -24,24 +23,16 @@ patches, and simply listing the files modified by a patch.
 %prep
 %setup -q
 
-# Fixed handling of delete-file diffs from git (bug #1226985).
-%patch1 -p1 -b .bz1226985
-
-# Don't use regerror() result as format string.
-%patch2 -p1 -b .format-str
-
-autoreconf
-
 %build
-touch doc/patchutils.xml
 %configure
-make %{?_smp_mflags}
+%make_build
 
 %check
 make check
 
 %install
-make DESTDIR=%{buildroot} install
+%make_install
+
 
 %files
 %{!?_licensedir:%global license %doc}
@@ -51,6 +42,22 @@ make DESTDIR=%{buildroot} install
 %{_mandir}/*/*
 
 %changelog
+* Thu Oct  8 2020 Tim Waugh <twaugh@redhat.com> - 0.4.2-4
+- Fix build
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 17 2020 Tim Waugh <twaugh@redhat.com> - 0.4.2-1
+- 0.4.2.
+
+* Thu Jul 16 2020 Tim Waugh <twaugh@redhat.com> - 0.4.0-1
+- 0.4.0.
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.4-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

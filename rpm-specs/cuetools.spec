@@ -2,7 +2,7 @@
 
 Name: cuetools
 Version: 1.4.0
-Release: 0.24.svn305%{?dist}
+Release: 0.25.svn305%{?dist}
 Summary: Utilities to work with cue and TOC files
 License: GPLv2
 URL: http://developer.berlios.de/projects/cuetools/
@@ -53,6 +53,9 @@ rm $RPM_BUILD_ROOT/%{_libdir}/*.so
 %{_libdir}/*.so.*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-0.25.svn305
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.0-0.24.svn305
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

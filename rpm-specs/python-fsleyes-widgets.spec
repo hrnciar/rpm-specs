@@ -9,7 +9,7 @@ A collection of custom wx widgets and utilities used by FSLeyes.
 
 Name:           python-%{srcname}
 Version:        0.9.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        A collection of custom wx widgets and utilities used by FSLeyes
 
 License:        ASL 2.0
@@ -18,16 +18,17 @@ Source0:        %pypi_source
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
+BuildRequires:  %{py3_dist deprecation}
+BuildRequires:  %{py3_dist matplotlib}
+BuildRequires:  %{py3_dist mock}
+BuildRequires:  %{py3_dist numpy}
+BuildRequires:  %{py3_dist pytest}
+BuildRequires:  %{py3_dist pytest-cov}
+BuildRequires:  %{py3_dist six}
+BuildRequires:  %{py3_dist setuptools}
 BuildRequires:  %{py3_dist sphinx}
 BuildRequires:  %{py3_dist sphinx_rtd_theme}
-BuildRequires:  %{py3_dist pytest}
-BuildRequires:  %{py3_dist mock}
-BuildRequires:  %{py3_dist pytest-cov}
-BuildRequires:  %{py3_dist numpy}
 BuildRequires:  %{py3_dist wxpython}
-BuildRequires:  %{py3_dist matplotlib}
-BuildRequires:  %{py3_dist six}
-BuildRequires:  %{py3_dist deprecation}
 BuildRequires:  xorg-x11-server-Xvfb
 
 %description
@@ -93,6 +94,12 @@ xvfb-run -a -s "-screen 0 1920x1200x24" pytest-3 tests --ignore=tests/test_autot
 %doc html
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Thu Jun 25 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.9.0-2
+- Explicitly BR setuptools
+
 * Sun Jun 07 2020 Ankur Sinha <ankursinha AT fedoraproject DOT org> - 0.9.0-1
 - Update to new release
 

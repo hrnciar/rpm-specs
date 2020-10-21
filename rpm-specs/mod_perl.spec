@@ -14,7 +14,7 @@
 
 Name:           mod_perl
 Version:        2.0.11
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        An embedded Perl interpreter for the Apache HTTP Server
 # other files:                  ASL 2.0
 ## Not in binary packages
@@ -28,6 +28,8 @@ Source2:        perl.module.conf
 # Normalize documentation encoding
 Patch0:         mod_perl-2.0.10-Convert-documentation-to-UTF-8.patch
 Patch1:         mod_perl-2.0.4-inline.patch
+# Do not use deprecated ap_get_server_version(), CPAN RT#124972
+Patch2:         mod_perl-2.0.11-Do-not-use-deprecated-ap_get_server_version-in-Serve.patch
 BuildRequires:  apr-devel >= 1.2.0
 BuildRequires:  apr-util-devel
 BuildRequires:  coreutils
@@ -173,6 +175,7 @@ This mod_perl extension allows to reload Perl modules that changed on the disk.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 # Remove docs/os. It's only win32 info with non-ASL-2.0 license. Bug #1199044.
 rm -rf docs/os
 # Remove bundled Apache-Reload
@@ -180,9 +183,13 @@ rm -rf docs/os
 rm -rf Apache-Reload
 sed -i -e '/Apache-Reload/d' Makefile.PL MANIFEST
 %endif
-# Remove a failing test that's not a regression, CPAN RT#118919
-for F in t/filter/in_bbs_inject_header.t \
-        t/filter/TestFilter/in_bbs_inject_header.pm; do
+# Remove failing tests, CPAN RT#118919, CPAN RT#132919
+for F in \
+    ModPerl-Registry/t/closure.t \
+    ModPerl-Registry/t/special_blocks.t \
+    t/filter/in_bbs_inject_header.t \
+    t/filter/TestFilter/in_bbs_inject_header.pm \
+;do
     rm "$F"
     sed -i -e '\,^'"$F"',d' MANIFEST
 done
@@ -301,8 +308,19 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.11-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 01 2020 Petr Pisar <ppisar@redhat.com> - 2.0.11-4
+- Enable tests
+- Do not use deprecated ap_get_server_version() (CPAN RT#124972)
+- Use httpd 2.4 access rules in an example in perl.conf
+- Disable ModPerl-Registry/t/closure.t and ModPerl-Registry/t/special_blocks.t
+  tests (CPAN RT#132919)
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 2.0.11-3
 - Perl 5.32 rebuild
+- Disable tests
 
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.11-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild

@@ -1,4 +1,5 @@
 %global gittagdate 20200327
+%global gittagdate 20200717
 
 # Disable debuginfo because it is of no use to us.
 %global debug_package %{nil}
@@ -35,7 +36,8 @@ ExclusiveArch:  ppc64le
 %endif
 
 BuildRequires:  gcc
-BuildRequires:  perl
+BuildRequires:  perl-interpreter
+BuildRequires:  perl(Getopt::Std)
 BuildRequires:  perl(Data::Dumper)
 
 
@@ -76,6 +78,12 @@ cp -a boot_rom.bin %{buildroot}%{_datadir}/qemu/slof.bin
 
 
 %changelog
+* Mon Aug 03 2020 Cole Robinson <aintdiscole@gmail.com> - 0.1.git20200717-1
+- Update to SLOF 20200717
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.git20200327-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Mar 30 2020 Cole Robinson <aintdiscole@gmail.com> - 0.1.git20200327-1
 - Update to SLOF 20200327
 

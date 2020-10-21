@@ -1,6 +1,6 @@
 Name:           iperf3
 Version:        3.7
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Measurement tool for TCP/UDP bandwidth performance
 
 License:        BSD
@@ -51,6 +51,9 @@ rm -f %{buildroot}%{_libdir}/libiperf.la
 %{_libdir}/*.so
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.7-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb 19 2020 Michal Ruprich <mruprich@redhat.com> - 3.7-4
 - Add openssl-devel to BuildRequires to enable authentization of client
 

@@ -1,49 +1,53 @@
 Name:           hackrf
 Version:        2018.01.1
-Release:        5%{?dist}
+Release:        8%{?dist}
 Summary:        HackRF Utilities
 
 License:        GPLv2
 URL:            https://greatscottgadgets.com/hackrf/
 Source0:        https://github.com/mossmann/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 
+BuildRequires:  cmake
+BuildRequires:  fftw3-devel
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
-BuildRequires:  cmake
 BuildRequires:  libusbx-devel
-BuildRequires:  fftw3-devel
 BuildRequires:  systemd
 
 %description
 Hardware designs and software for HackRF, a project to produce a low cost, open
 source software radio platform.
 
+
 %package devel
+Summary:        Development files for %{name}
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       libusbx-devel
-Summary:        Development files for %{name}
-
-%package doc
-Requires:       %{name} = %{version}-%{release}
-Summary:        Supplemental documentation for HackRF
-BuildArch:      noarch
-
-%package static
-Requires:       %{name}-devel%{?isa} = %{version}-%{release}
-Summary:        Static libraries for libhackrf
 
 %description devel
 Files needed to develop software against libhackrf.
+
+
+%package doc
+Summary:        Supplemental documentation for HackRF
+BuildArch:      noarch
+Requires:       %{name} = %{version}-%{release}
 
 %description doc
 Supplemental documentation for HackRF. For more information, visit the wiki at
 https://github.com/mossmann/hackrf/wiki
 
+
+%package static
+Summary:        Static libraries for libhackrf
+Requires:       %{name}-devel%{?_isa} = %{version}-%{release}
+
 %description static
 Static libraries for libhackrf.
 
+
 %prep
-%autosetup
+%autosetup -p1
 
 # Fix "plugdev" nonsense
 %if 0%{?fedora} >= 20
@@ -54,27 +58,33 @@ sed -i -e 's/GROUP="@HACKRF_GROUP@"/TAG+="uaccess"/g' host/libhackrf/53-hackrf.r
 sed -i -e 's/GROUP="plugdev"/TAG+="uaccess"/g' host/libhackrf/53-hackrf.rules
 %endif
 
-%build
-%cmake host \
-    -DINSTALL_UDEV_RULES=on \
-    -DUDEV_RULES_PATH:PATH=%{_udevrulesdir} \
-    -DUDEV_RULES_GROUP=plugdev \
 
-%make_build
+%build
+%cmake \
+  -DINSTALL_UDEV_RULES=on \
+  -DUDEV_RULES_PATH:PATH=%{_udevrulesdir} \
+  -DUDEV_RULES_GROUP=plugdev \
+  host
+
+%cmake_build
+
 
 %install
-%make_install
+%cmake_install
+
 
 %post
-/sbin/ldconfig
+%{?ldconfig}
 %udev_rules_update
 
 %postun
-/sbin/ldconfig
+%{?ldconfig}
 %udev_rules_update
 
+
 %files
-%doc COPYING TRADEMARK Readme.md
+%license COPYING TRADEMARK
+%doc Readme.md
 %{_bindir}/hackrf_*
 %{_libdir}/libhackrf.so.*
 %{_udevrulesdir}/53-hackrf.rules
@@ -90,7 +100,20 @@ sed -i -e 's/GROUP="plugdev"/TAG+="uaccess"/g' host/libhackrf/53-hackrf.rules
 %files doc
 %doc doc/*
 
+
 %changelog
+* Mon Aug 03 2020 Scott K Logan <logans@cottsay.net> - 2018.01.1-8
+- Resolve build issues due to CMake out-of-source build changes
+- Re-arranged spec to better align to modern patterns
+- Fix %%{_isa} in static subpackage dependency
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2018.01.1-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2018.01.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2018.01.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

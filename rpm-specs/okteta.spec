@@ -1,8 +1,10 @@
+%undefine __cmake_in_source_build
+
 Name:    okteta
 Summary: Binary/hex editor
 Epoch:   1
-Version: 0.26.0
-Release: 3%{?dist}
+Version: 0.26.4
+Release: 2%{?dist}
 
 License: GPLv2+ and GFDL
 URL:     https://cgit.kde.org/%{name}.git
@@ -14,13 +16,15 @@ URL:     https://cgit.kde.org/%{name}.git
 %global stable stable
 %endif
 Source0: http://download.kde.org/%{stable}/okteta/%{version}/src/%{name}-%{version}.tar.xz
+Patch0: okteta-gcc11.patch
 
 BuildRequires: desktop-file-utils
+BuildRequires: libappstream-glib
 BuildRequires: gettext
 
 BuildRequires: extra-cmake-modules
 BuildRequires: kf5-rpm-macros
-BuildRequires: cmake(KF5Crash)
+BuildRequires: kf5-kcrash-devel
 BuildRequires: kf5-kbookmarks-devel
 BuildRequires: kf5-kcodecs-devel
 BuildRequires: kf5-kcompletion-devel
@@ -47,9 +51,6 @@ BuildRequires: pkgconfig(Qt5ScriptTools)
 BuildRequires: pkgconfig(Qt5Test)
 BuildRequires: pkgconfig(Qt5Widgets)
 BuildRequires: pkgconfig(Qt5Xml)
-%if 0%{?fedora} > 19
-BuildRequires: libappstream-glib
-%endif
 
 # translations moved here
 Conflicts: kde-l10n < 17.03
@@ -60,10 +61,10 @@ Provides:       kdesdk-okteta = %{epoch}:%{version}-%{release}
 
 Requires:       %{name}-libs%{?_isa} = %{epoch}:%{version}-%{release}
 # struct2osd.sh deps
-%if 0%{?fedora} > 20
-Recommends: gccxml libxslt
+%if 0%{?fedora} > 20  || 0%{?rhel} > 7
+Recommends: castxml libxslt
 %else
-Requires: gccxml libxslt
+Requires: castxml libxslt
 %endif
 
 %description
@@ -89,20 +90,17 @@ Requires:  %{name}-libs%{?_isa} = %{epoch}:%{version}-%{release}
 
 
 %prep
-%autosetup
+%autosetup -p1
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
-%{cmake_kf5} ..
-popd
+%cmake_kf5
 
-%make_build -C %{_target_platform}
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 %find_lang %{name} --all-name --with-html
 
@@ -119,6 +117,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.kde.okteta.deskto
 %{_bindir}/struct2osd
 %{_datadir}/mime/packages/okteta.xml
 %{_kf5_metainfodir}/org.kde.okteta.appdata.xml
+%{_kf5_datadir}/knsrcfiles/okteta-structures.knsrc
 %{_datadir}/applications/org.kde.okteta.desktop
 #{_datadir}/kxmlgui5/okteta/
 %{_datadir}/icons/hicolor/*/apps/okteta.*
@@ -128,7 +127,6 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.kde.okteta.deskto
 %files libs
 %dir %{_datadir}/okteta/
 %{_datadir}/okteta/structures/
-%{_sysconfdir}/xdg/okteta-structures.knsrc
 %{_datadir}/config.kcfg/structureviewpreferences.kcfg
 %{_libdir}/libKasten4*.so.*
 %{_libdir}/libOkteta3*.so.*
@@ -155,6 +153,22 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.kde.okteta.deskto
 
 
 %changelog
+* Thu Oct 15 2020 Jeff Law <law@redhat.com> - 1:0.26.4-2
+- Adjust includes for gcc-11
+
+* Sun Aug 09 2020 Marie Loise Nolden <loise@kde.org> - 1:0.26.4-1
+- 0.26.4
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.26.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.26.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jun 27 2020 Marie Loise Nolden <loise@kde.org> - 1:0.26.3-1
+- 0.26.3 and cleanup
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.26.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

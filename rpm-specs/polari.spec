@@ -1,5 +1,5 @@
 Name:          polari
-Version:       3.37.2
+Version:       3.38.0
 Release:       1%{?dist}
 Summary:       Internet Relay Chat client for GNOME
 
@@ -7,7 +7,7 @@ Summary:       Internet Relay Chat client for GNOME
 # all program sources are GPLv2+
 License:       GPLv2+ and LGPLv2+
 URL:           https://wiki.gnome.org/Apps/Polari
-Source0:       http://download.gnome.org/sources/%{name}/3.37/%{name}-%{version}.tar.xz
+Source0:       http://download.gnome.org/sources/%{name}/3.38/%{name}-%{version}.tar.xz
 
 BuildRequires: meson
 BuildRequires: pkgconfig(gtk+-3.0)
@@ -79,6 +79,15 @@ rm -rf %{buildroot}/%{_datadir}/%{name}/gir-1.0
 %{_datadir}/telepathy/clients/Polari.client
 
 %changelog
+* Thu Sep 17 2020 Florian Müllner <fmuellner@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 07 2020 Florian Müllner <fmuellner@redhat.com> - 3.37.3-1
+- Update to 3.37.3
+
 * Wed Jun 03 2020 Florian Müllner <fmuellner@redhat.com> - 3.37.2-1
 - Update to 3.37.2
 

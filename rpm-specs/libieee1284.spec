@@ -1,7 +1,7 @@
 Summary: A library for interfacing IEEE 1284-compatible devices
 Name: libieee1284
 Version: 0.2.11
-Release: 32%{?dist}
+Release: 34%{?dist}
 License: GPLv2+
 URL: http://cyberelk.net/tim/libieee1284/
 Source0: http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
@@ -32,11 +32,11 @@ developing applications that use libieee1284.
 %build
 touch doc/interface.xml
 %configure --without-python
-make %{?_smp_mflags}
+%make_build
 
 %install
 rm -rf %{buildroot}
-make DESTDIR=%{buildroot} INSTALL="install -p" install
+%make_install
 rm -f %{buildroot}%{_libdir}/python*/*/*a
 rm -f %{buildroot}%{_libdir}/*.a
 rm -f %{buildroot}%{_libdir}/*.la
@@ -54,6 +54,13 @@ rm -f %{buildroot}%{_libdir}/*.la
 %ldconfig_scriptlets
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.11-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 0.2.11-33
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.11-32
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

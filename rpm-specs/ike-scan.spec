@@ -2,7 +2,7 @@
 
 Name:           ike-scan
 Version:        1.9.4
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        IKE protocol tool to discover, fingerprint and test IPsec VPN servers
 License:        GPLv3+
 URL:            http://www.nta-monitor.com/wiki/index.php/Ike-scan_User_Guide
@@ -47,6 +47,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{_datadir}/ike-scan
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.4-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.4-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

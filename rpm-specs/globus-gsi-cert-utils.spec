@@ -1,7 +1,7 @@
 Name:		globus-gsi-cert-utils
 %global _name %(tr - _ <<< %{name})
 Version:	10.3
-Release:	2%{?dist}
+Release:	4%{?dist}
 Summary:	Grid Community Toolkit - Globus GSI Cert Utils Library
 
 License:	ASL 2.0
@@ -146,6 +146,13 @@ make %{?_smp_mflags} check VERBOSE=1
 %{?_licensedir: %license GLOBUS_LICENSE}
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.3-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

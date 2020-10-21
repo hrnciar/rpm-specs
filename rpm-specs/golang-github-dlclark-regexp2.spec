@@ -3,7 +3,7 @@
 
 # https://github.com/dlclark/regexp2
 %global goipath         github.com/dlclark/regexp2
-Version:                1.2.0
+Version:                1.2.1
 
 %gometa
 
@@ -18,7 +18,7 @@ complex patterns or require compatibility with .NET.}
 %global godocs          README.md
 
 Name:           %{goname}
-Release:        7%{?dist}
+Release:        1%{?dist}
 Summary:        Regex engine for Go based on the .NET engine
 
 License:        MIT
@@ -44,6 +44,13 @@ Source0:        %{gosource}
 %gopkgfiles
 
 %changelog
+* Tue Aug 25 2020 Athos Ribeiro <athoscr@fedoraproject.org> - 1.2.1-1
+- Update to latest version
+- Remove patch applied upstream
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -3,14 +3,14 @@
 
 Name:           speedcrunch
 Version:        0.12
-Release:        7%{?dist}
+Release:        10%{?dist}
 Summary:        A fast power user calculator
 
 License:        GPLv2+
 URL:            http://www.speedcrunch.org
 Source0:        https://bitbucket.org/heldercorreia/speedcrunch/get/release-%{version}.0.tar.bz2
 
-BuildRequires:  cmake qt5-devel desktop-file-utils ImageMagick gcc-c++
+BuildRequires:  cmake desktop-file-utils ImageMagick gcc-c++
 
 # to be paranoid and include a minimal qt4 dep (ie, require at least the
 # same or higher qt4 version than what was used to build it) -- Rex
@@ -64,6 +64,16 @@ make test -C %{_target_platform}
 %{_datadir}/appdata/speedcrunch.appdata.xml
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-10
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sat Jul 18 2020 Jeff Law <law@redhat.com> - 0.12-8
+- Drop build requirement for qt5-devel
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

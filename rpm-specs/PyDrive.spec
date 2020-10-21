@@ -3,7 +3,7 @@
 
 Name:           PyDrive
 Version:        1.3.1
-Release:        13%{?dist}
+Release:        15%{?dist}
 Summary:        %{sum}
 
 License:        ASL 2.0 and BSD
@@ -45,6 +45,13 @@ A wrapper library of google-api-python-client for Google Drive API tasks
 %{python3_sitelib}/*
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-15
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.1-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.3.1-13
 - Rebuilt for Python 3.9
 

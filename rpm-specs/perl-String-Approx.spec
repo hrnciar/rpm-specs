@@ -1,6 +1,6 @@
 Name:           perl-String-Approx
 Version:        3.28
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Perl extension for approximate matching (fuzzy matching)
 License:        LGPLv2+ or Artistic
 URL:            https://metacpan.org/release/String-Approx
@@ -51,6 +51,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.28-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3.28-12
 - Perl 5.32 rebuild
 

@@ -7,7 +7,7 @@
 
 Name:           rust-%{crate}
 Version:        1.1.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Simple, lightweight template engine
 
 # Upstream license specification: Apache-2.0 OR MIT
@@ -73,6 +73,13 @@ find -type f -executable -print -exec chmod 0644 "{}" +
 %endif
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 01 14:01:16 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 1.1.0-1
 - Update to 1.1.0
 

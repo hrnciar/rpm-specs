@@ -1,6 +1,6 @@
 Name:           ortp
 Version:        0.23.0
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        A C library implementing the RTP protocol (RFC3550)
 Epoch:          2
 
@@ -82,6 +82,13 @@ rm -r %{buildroot}%{_datadir}/doc/%{name}-%{version}
 %{_libdir}/pkgconfig/ortp.pc
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:0.23.0-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:0.23.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb  3 2020 Stuart Gathman <stuart@gathman.org> - 2:0.23.0-4
 - Fix gcc-10 warn on use of strncpy with no NULL expected.
 

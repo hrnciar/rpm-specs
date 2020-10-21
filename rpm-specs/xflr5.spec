@@ -1,6 +1,6 @@
 Name:           xflr5
 Version:        6.47
-Release:        5%{?dist}
+Release:        7%{?dist}
 Summary:        Analysis tool for airfoils, wings and planes
 
 License:        GPLv3+
@@ -19,6 +19,7 @@ BuildRequires:  qt5-qtscript-devel
 BuildRequires:  qt5-qttools-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  texlive-scheme-basic
+BuildRequires:  texlive-cm-super
 BuildRequires:  tex(inputenc.sty)
 BuildRequires:  tex(babel.sty)
 BuildRequires:  tex(graphicx.sty)
@@ -93,6 +94,13 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications/ %{SOURCE1}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.47-7
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.47-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.47-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

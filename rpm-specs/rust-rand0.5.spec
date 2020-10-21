@@ -6,7 +6,7 @@
 
 Name:           rust-%{crate}0.5
 Version:        0.5.6
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Random number generators and other randomness functionality
 
 # Upstream license specification: MIT/Apache-2.0
@@ -183,6 +183,9 @@ which use "std" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.6-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Feb 18 03:54:19 CET 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.5.6-8
 - Disable tests
 

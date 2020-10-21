@@ -2,7 +2,7 @@
 
 Name:           mingw-c-ares
 Version:        1.13.0
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        Library that performs asynchronous DNS operations
 
 # ares_getopt.c ares_getopt.h are BSD (3 clause)
@@ -12,6 +12,10 @@ License:        MIT and BSD and ISC
 URL:            http://c-ares.haxx.se/
 Source0:        http://c-ares.haxx.se/download/c-ares-%{version}.tar.gz
 Patch0:         0001-Use-RPM-compiler-options.patch
+# Don't fail on -lssp in LDFLAGS
+# It's probably true that -lxxx belongs to LIBS, but we don't have that in the mingw macros,
+# and no-one else seems to care with link libs are added to LDFLAGS
+Patch1:         mingw-c-ares_libs-in-ldflags.patch
 
 BuildArch:      noarch
 
@@ -61,6 +65,7 @@ This package is MinGW compiled c-ares library for the Win64 target.
 %prep
 %setup -q -n c-ares-%{version}
 %patch0 -p1 -b .optflags
+%patch1 -p1 -b .ldflags
 
 
 %build
@@ -104,6 +109,13 @@ rm -rf ${RPM_BUILD_ROOT}%{mingw64_mandir}
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.0-9
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.13.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

@@ -1,6 +1,6 @@
 Name:           wordgrinder
 Version:        0.7.2
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        A command line word processor
 
 License:        MIT
@@ -11,7 +11,7 @@ Source:         https://github.com/davidgiven/%{name}/archive/%{name}-%{version}
 BuildRequires:  gcc make ncurses-devel ninja-build
 BuildRequires:  lua-devel lua-libs lua lua-filesystem
 BuildRequires:  zlib-devel libXft-devel
-Requires:       ncurses lua-filesystem
+Requires:       ncurses-libs lua-filesystem
 # luaJIT is not available on all architectures
 #ExcludeArch:   s390x ppc64 ppc64le
 
@@ -59,6 +59,12 @@ make install PREFIX=$RPM_BUILD_ROOT/%{_prefix}
 %_bindir/xwordgrinder
 ###############################################################################
 %changelog
+* Tue Sep 29 2020 Ben Cotton <bcotton@fedoraproject.org> - 0.7.2-6
+- Change ncurses dependency to be more specific
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

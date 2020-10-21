@@ -1,8 +1,8 @@
 %global pypi_name asteval
 
 Name:           python-%{pypi_name}
-Version:        0.9.18
-Release:        2%{?dist}
+Version:        0.9.19
+Release:        1%{?dist}
 Summary:        Evaluator of Python expression using ast module
 
 License:        MIT
@@ -54,7 +54,7 @@ rm -rf html/.{doctrees,buildinfo} html/_static/empty
 %py3_install
 
 %check
-PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests
+%pytest -v tests
 
 %files -n python3-%{pypi_name}
 %license LICENSE
@@ -67,6 +67,20 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-%{python3_version} -v tests
 %license LICENSE
 
 %changelog
+* Fri Sep 11 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.9.19-1
+- Tests were fixed upstream for Python 3.9
+- Update to latest upstream release 0.9.19
+
+* Tue Aug 25 2020 Fabian Affolter <mail@fabian-affolter.ch> - 0.9.18-5
+- Fix FTBFS (rhbz#1819177)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.18-4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.18-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.9.18-2
 - Rebuilt for Python 3.9
 

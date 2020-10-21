@@ -29,7 +29,7 @@
 
 Name:          php-JMSParser
 Version:       %{github_version}
-Release:       17%{?dist}
+Release:       18%{?dist}
 Summary:       Library for writing recursive-descent parsers
 
 License:       ASL 2.0
@@ -135,6 +135,9 @@ exit $RETURN_CODE
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.0-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

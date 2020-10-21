@@ -5,7 +5,7 @@
 %global crate proc-macro-error-attr
 
 Name:           rust-%{crate}
-Version:        1.0.2
+Version:        1.0.4
 Release:        1%{?dist}
 Summary:        Attribute macro for proc-macro-error crate
 
@@ -70,6 +70,15 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Wed Aug 26 2020 Josh Stone <jistone@redhat.com> - 1.0.4-1
+- Update to 1.0.4
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 1.0.3-1
+- Update to 1.0.3
+
 * Thu Apr 09 2020 Josh Stone <jistone@redhat.com> - 1.0.2-1
 - Update to 1.0.2
 

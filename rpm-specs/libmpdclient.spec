@@ -1,10 +1,10 @@
 Summary:       Library for interfacing Music Player Daemon
 Name:          libmpdclient
-Version:       2.18
-Release:       1%{?dist}
+Version:       2.19
+Release:       2%{?dist}
 License:       BSD
-URL:           http://www.musicpd.org/
-Source0:       http://www.musicpd.org/download/libmpdclient/2/libmpdclient-%{version}.tar.xz
+URL:           https://www.musicpd.org/
+Source0:       %{url}download/libmpdclient/2/libmpdclient-%{version}.tar.xz
 
 BuildRequires: doxygen
 BuildRequires: meson
@@ -32,10 +32,10 @@ libraries for developing programs with %{name}.
 %install
 %meson_install
 # move the API documentation to the devel package
-%{__mkdir_p} %{buildroot}%{_defaultdocdir}/%{name}-devel
-%{__mv} %{buildroot}%{_defaultdocdir}/%{name}/html %{buildroot}%{_defaultdocdir}/%{name}-devel
+mkdir -p %{buildroot}%{_defaultdocdir}/%{name}-devel
+mv %{buildroot}%{_defaultdocdir}/%{name}/html %{buildroot}%{_defaultdocdir}/%{name}-devel
 # COPYING is handled by the license tag
-%{__rm} %{buildroot}%{_defaultdocdir}/%{name}/COPYING
+rm %{buildroot}%{_defaultdocdir}/%{name}/COPYING
 
 %files
 %license COPYING
@@ -50,6 +50,12 @@ libraries for developing programs with %{name}.
 %{_includedir}/mpd/
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.19-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue May 19 2020 Vasiliy Glazov <vascom2@gmail.com> - 2.19-1
+- Update to 2.19
+
 * Tue May 19 2020 Vasiliy Glazov <vascom2@gmail.com> - 2.18-1
 - Update to 2.18
 

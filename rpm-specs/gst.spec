@@ -1,8 +1,8 @@
 %global uuid    com.leinardi.%{name}
 
 Name:           gst
-Version:        0.7.3
-Release:        1%{?dist}
+Version:        0.7.4
+Release:        2%{?dist}
 Summary:        System utility designed to stress and monitoring various hardware components
 
 License:        GPLv3+
@@ -88,6 +88,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/*.desktop
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Sun Jun 28 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.7.4-1
+- Update to 0.7.4
+
 * Sat May 30 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0.7.3-1
 - Update to 0.7.3
 

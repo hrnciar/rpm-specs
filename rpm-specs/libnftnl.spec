@@ -1,6 +1,6 @@
 Name:           libnftnl
 Version:        1.1.7
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Library for low-level interaction with nftables Netlink's API over libmnl
 
 License:        GPLv2+
@@ -34,10 +34,10 @@ developing applications that use %{name}.
 
 %build
 %configure --disable-static --disable-silent-rules --with-json-parsing
-make %{?_smp_mflags}
+%make_build
 
 %check
-make %{?_smp_mflags} check
+%make_build check
 # JSON parsing is broken on big endian, causing tests to fail. Fixes awaiting
 # upstream acceptance: https://marc.info/?l=netfilter-devel&m=152968610931720&w=2
 #cd tests
@@ -57,6 +57,13 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %{_includedir}/libnftnl
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 13 2020 Tom Stellard <tstellar@redhat.com> - 1.1.7-2
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri Jun 05 2020 Phil Sutter <psutter@redhat.com> - 1.1.7-1
 - Rebase onto upstream version 1.1.7
 

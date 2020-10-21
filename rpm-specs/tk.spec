@@ -4,7 +4,7 @@
 Summary: The graphical toolkit for the Tcl scripting language
 Name: tk
 Version: %{vers}
-Release: 3%{?dist}
+Release: 5%{?dist}
 Epoch:   1
 License: TCL
 URL: http://tcl.sourceforge.net
@@ -52,7 +52,7 @@ The package contains the development files and man pages for tk.
 cd unix
 autoconf
 %configure --enable-threads
-make %{?_smp_mflags} CFLAGS="%{optflags}" TK_LIBRARY=%{_datadir}/%{name}%{majorver}
+%make_build CFLAGS="%{optflags}" TK_LIBRARY=%{_datadir}/%{name}%{majorver}
 
 %check
 # do not run "make test" by default since it requires an X display
@@ -107,6 +107,13 @@ sed -i -e "s|$PWD/unix|%{_libdir}|; s|$PWD|%{_includedir}/%{name}-private|" %{bu
 %{_datadir}/%{name}%{majorver}/tkAppInit.c
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:8.6.10-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 22 2020 Tom Stellard <tstellar@redhat.com> - 1:8.6.10-4
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:8.6.10-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

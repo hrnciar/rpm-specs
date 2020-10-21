@@ -1,6 +1,6 @@
 Name:           python-oletools
 Version:        0.55
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Tools to analyze Microsoft OLE2 files
 
 # oletools/*.py: BSD
@@ -67,6 +67,7 @@ BuildArch:      noarch
 
 %if 0%{?with_python3}
 BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
 BuildRequires:  python%{python3_pkgversion}-colorclass
 BuildRequires:  python%{python3_pkgversion}-easygui
 BuildRequires:  python%{python3_pkgversion}-olefile
@@ -83,6 +84,7 @@ BuildRequires:  python%{python3_pkgversion}-msoffcrypto
 # python2-prettytable and python3-prettytable at Fedora, python-prettytable at EPEL 7
 %if 0%{?with_python2}
 BuildRequires:  python2-devel
+BuildRequires:  python2-setuptools
 BuildRequires:  python2-colorclass
 BuildRequires:  python2-easygui
 BuildRequires:  python2-olefile
@@ -443,6 +445,12 @@ PYTHONIOENCODING=utf8 %{__python2} setup.py test || true
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.55-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jun 29 2020 Robert Scheck <robert@fedoraproject.org> 0.55-4
+- Require python-setuptools during build-time explicitly
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.55-3
 - Rebuilt for Python 3.9
 

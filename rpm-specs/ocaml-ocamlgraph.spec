@@ -2,7 +2,7 @@
 
 Name:           ocaml-ocamlgraph
 Version:        1.8.8
-Release:        19%{?dist}
+Release:        23%{?dist}
 Summary:        OCaml library for arc and node graphs
 
 License:        LGPLv2 with exceptions
@@ -87,10 +87,13 @@ make depend
 make %{opt_option}
 make doc
 
-%check
+# Skip the tests on i386; see https://github.com/ocaml/ocaml/issues/9800
+%ifnarch %{ix86}
 %ifarch %{ocaml_native_compiler}
+%check
 make --no-print-directory check >& test
 diff -u test ocamlgraph-test.result
+%endif
 %endif
 
 
@@ -151,6 +154,19 @@ install -m 0755 -p view_graph/viewgraph.byte \
 
 
 %changelog
+* Tue Sep 01 2020 Richard W.M. Jones <rjones@redhat.com> - 1.8.8-23
+- OCaml 4.11.1 rebuild
+
+* Fri Aug 21 2020 Richard W.M. Jones <rjones@redhat.com> - 1.8.8-22
+- OCaml 4.11.0 rebuild
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.8-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.8-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon May 04 2020 Richard W.M. Jones <rjones@redhat.com> - 1.8.8-19
 - OCaml 4.11.0+dev2-2020-04-22 rebuild
 

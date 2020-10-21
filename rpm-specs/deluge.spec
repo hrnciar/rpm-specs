@@ -1,6 +1,6 @@
 Name:           deluge
 Version:        2.0.3
-Release:        8%{?dist}
+Release:        12%{?dist}
 Summary:        A GTK+ BitTorrent client with support for DHT, UPnP, and PEX
 License:        GPLv3 with exceptions
 URL:            http://deluge-torrent.org/
@@ -11,15 +11,20 @@ Source3:        deluge-web.service
 
 # https://git.deluge-torrent.org/deluge/patch/?id=eeeb7fb69b73cca40a27662997f2d21cec6ed33f
 Patch0:         deluge-2.0.3-gtk-status.patch
+# https://git.deluge-torrent.org/deluge/patch/?id=d6c96d629183e8bab2167ef56457f994017e7c85
+Patch1:         deluge-2.0.3-python38.patch
+# https://git.deluge-torrent.org/deluge/patch/?id=23a48dd01c86ef01cd1d13371de51247ec9a503b
+Patch2:         deluge-2.0.3-gtk-cmp-none-types.patch
 
 BuildArch:     noarch
 BuildRequires: desktop-file-utils
+BuildRequires: intltool
+BuildRequires: libappstream-glib
 BuildRequires: python3-devel
 BuildRequires: python3-setuptools
 BuildRequires: python3-wheel
-BuildRequires: intltool
 BuildRequires: rb_libtorrent-python3
-BuildRequires: libappstream-glib
+BuildRequires: systemd-rpm-macros
 
 ## add Requires to make into Meta package
 Requires: %{name}-common = %{version}-%{release}
@@ -41,18 +46,9 @@ even from behind a router with virtually zero configuration of port-forwarding.
 %package common
 Summary:    Files common to Deluge sub packages
 License:    GPLv3 with exceptions
-Requires:   python3-setuptools
-Requires:   python3-pyOpenSSL
-Requires:   python3-chardet
-Requires:   python3-pygame
-Requires:   python3-setproctitle
-Requires:   python3-pyxdg
 Requires:   rb_libtorrent-python3
-Requires:   python3-twisted
-Requires:   python3-GeoIP
-Requires:   python3-rencode
 Requires:   python3-service-identity
-
+Recommends: python3-GeoIP
 
 %description common
 Common files needed by the Deluge bittorrent client sub packages
@@ -70,6 +66,8 @@ Requires:   python3-cairo
 Requires:   python3-gobject
 Requires:   libappindicator-gtk3
 Requires:   librsvg2
+Recommends: python3-dbus
+Recommends: python3-pygame
 
 %description gtk
 Deluge bittorent client GTK graphical user interface
@@ -104,10 +102,6 @@ Summary:    The Deluge daemon
 License:    GPLv3 with exceptions
 Requires:   %{name}-common = %{version}-%{release}
 Requires(pre): shadow-utils
-Requires(post): systemd
-Requires(preun): systemd
-Requires(postun): systemd
-BuildRequires: systemd
 
 %description daemon
 Files for the Deluge daemon
@@ -116,16 +110,16 @@ Files for the Deluge daemon
 %autosetup -p1
 
 %build
-CFLAGS="%{optflags}" %{__python3} setup.py build
+%py3_build
 
 %install
+%py3_install
+
 # http://dev.deluge-torrent.org/ticket/2034
 mkdir -p %{buildroot}%{_unitdir}
 install -m644 %{SOURCE2} %{buildroot}%{_unitdir}/%{name}-daemon.service
 install -m644 %{SOURCE3} %{buildroot}%{_unitdir}/%{name}-web.service
 mkdir -p %{buildroot}/var/lib/%{name}
-
-%{__python3} setup.py install -O1 --skip-build --root %{buildroot}
 
 desktop-file-install  \
     --dir %{buildroot}%{_datadir}/applications    \
@@ -189,13 +183,13 @@ popd && mv %{buildroot}/%{name}.lang .
 %{python3_sitelib}/%{name}/ui/data
 # if someone decides to only install images
 %dir %{python3_sitelib}/%{name}
-%{_datadir}/icons/hicolor/*/apps/%{name}*
-%{_datadir}/pixmaps/%{name}.*
 
 %files gtk
 %{_bindir}/%{name}
 %{_bindir}/%{name}-gtk
 %{_datadir}/applications/%{name}.desktop
+%{_datadir}/icons/hicolor/*/apps/%{name}*
+%{_datadir}/pixmaps/%{name}.*
 %{_metainfodir}/%{name}.appdata.xml
 %{python3_sitelib}/%{name}/ui/gtk3
 %{_mandir}/man?/%{name}-gtk*
@@ -245,6 +239,19 @@ exit 0
 %systemd_postun_with_restart deluge-web.service
 
 %changelog
+* Tue Aug 18 2020 Michael Cronenworth <mike@cchtml.com> - 2.0.3-12
+- Restructure Requires
+- Add patch for GTK comparing None types (RHBZ#1812790)
+
+* Tue Aug 18 2020 Michael Cronenworth <mike@cchtml.com> - 2.0.3-11
+- Update patch for Python 3.8 compatibility (RHBZ#1868902)
+
+* Sun Aug 09 2020 Michael Cronenworth <mike@cchtml.com> - 2.0.3-10
+- Add patch for minor Python 3.8+ compatibility (RHBZ#1867427)
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2.0.3-8
 - Rebuilt for Python 3.9
 

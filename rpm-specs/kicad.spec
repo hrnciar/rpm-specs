@@ -1,6 +1,6 @@
 Name:           kicad
-Version:        5.1.6
-Release:        4%{?dist}
+Version:        5.1.7
+Release:        1%{?dist}
 Epoch:          1
 Summary:        EDA software suite for creation of schematic diagrams and PCBs
 
@@ -10,15 +10,12 @@ URL:            http://www.kicad-pcb.org
 Source0:        https://gitlab.com/kicad/code/kicad/-/archive/%{version}/kicad-%{version}.tar.bz2
 Source1:        https://gitlab.com/kicad/services/kicad-doc/-/archive/%{version}/kicad-doc-%{version}.tar.bz2
 Source2:        https://gitlab.com/kicad/code/kicad-i18n/-/archive/%{version}/kicad-i18n-%{version}.tar.bz2
-Source3:        https://github.com/KiCad/kicad-templates/archive/%{version}.tar.gz#/kicad-templates-%{version}.tar.gz
-Source4:        https://github.com/KiCad/kicad-symbols/archive/%{version}.tar.gz#/kicad-symbols-%{version}.tar.gz
-Source5:        https://github.com/KiCad/kicad-footprints/archive/%{version}.tar.gz#/kicad-footprints-%{version}.tar.gz
-Source6:        https://github.com/KiCad/kicad-packages3D/archive/%{version}.tar.gz#/kicad-packages3D-%{version}.tar.gz
+Source3:        https://gitlab.com/kicad/libraries/kicad-templates/-/archive/%{version}/kicad-templates-%{version}.tar.bz2
+Source4:        https://gitlab.com/kicad/libraries/kicad-symbols/-/archive/%{version}/kicad-symbols-%{version}.tar.bz2
+Source5:        https://gitlab.com/kicad/libraries/kicad-footprints/-/archive/%{version}/kicad-footprints-%{version}.tar.bz2
+Source6:        https://gitlab.com/kicad/libraries/kicad-packages3D/-/archive/%{version}/kicad-packages3D-%{version}.tar.bz2
 
 Patch1:         0001-Do-not-strip-executables.patch
-Patch2:         0001-include-algorithm-so-std-sort-is-found.patch
-# Add compatibility for Python 3.9
-Patch3:         python-3.9-compat.patch
 
 # kicad is only available on the following architectures (see https://bugs.launchpad.net/kicad/+bug/1755752):
 ExclusiveArch:  %{ix86} x86_64 %{arm} aarch64 ppc64le
@@ -97,8 +94,6 @@ Documentation for KiCad.
 %setup -q -a 1 -a 2 -a 3 -a 4 -a 5 -a 6
 
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
 
 
 %build
@@ -116,7 +111,7 @@ Documentation for KiCad.
     -DKICAD_VERSION_EXTRA=%{release} \
     -DCMAKE_BUILD_TYPE=Release \
     .
-%make_build
+%cmake_build
 
 # Localization
 mkdir %{name}-i18n-%{version}/build/
@@ -124,31 +119,31 @@ pushd %{name}-i18n-%{version}/build/
 %cmake \
     -DKICAD_I18N_UNIX_STRICT_PATH=ON \
     ..
-%make_build
+%cmake_build
 popd
 
 # Templates
 pushd %{name}-templates-%{version}/
 %cmake .
-%make_build
+%cmake_build
 popd
 
 # Symbol libraries
 pushd %{name}-symbols-%{version}/
 %cmake .
-%make_build
+%cmake_build
 popd
 
 # Footprint libraries
 pushd %{name}-footprints-%{version}/
 %cmake .
-%make_build
+%cmake_build
 popd
 
 # 3D models
 pushd %{name}-packages3D-%{version}/
 %cmake .
-%make_build
+%cmake_build
 popd
 
 # Documentation (HTML only)
@@ -158,18 +153,18 @@ pushd %{name}-doc-%{version}/build/
     -DPDF_GENERATOR=none \
     -DBUILD_FORMATS=html \
     ..
-%make_build
+%cmake_build
 popd
 
 
 %install
 
 # KiCad application
-%make_install
+%cmake_install
 
 # Localization
 pushd %{name}-i18n-%{version}/build/
-%make_install
+%cmake_install
 popd
 
 # install desktop
@@ -183,27 +178,27 @@ done
 
 # Templates
 pushd %{name}-templates-%{version}/
-%make_install
+%cmake_install
 popd
 
 # Symbol libraries
 pushd %{name}-symbols-%{version}/
-%make_install
+%cmake_install
 popd
 
 # Footprint libraries
 pushd %{name}-footprints-%{version}/
-%make_install
+%cmake_install
 popd
 
 # 3D models
 pushd %{name}-packages3D-%{version}/
-%make_install
+%cmake_install
 popd
 
 # Documentation
 pushd %{name}-doc-%{version}/build/
-%make_install
+%cmake_install
 popd
 
 %find_lang %{name}
@@ -240,6 +235,15 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/*.appdata
 
 
 %changelog
+* Sat Sep 26 2020 Steven A. Falco <stevenfalco@gmail.com> - 1:5.1.7-1
+- Update to 5.1.7
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:5.1.6-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 21 2020 Steven A. Falco <stevenfalco@gmail.com> - 1:5.1.6-5
+- Prepare for new cmake macros
+
 * Thu May 28 2020 Charalampos Stratakis <cstratak@redhat.com> - 1:5.1.6-4
 - Add Python 3.9 compatibility
 

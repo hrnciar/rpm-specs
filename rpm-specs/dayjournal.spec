@@ -1,6 +1,6 @@
 Name:       dayjournal
 Version:    23.0.6
-Release:    9%{?dist}
+Release:    10%{?dist}
 Summary:    Digital journal that uses plain text files
 
 License:    GPLv3+
@@ -94,6 +94,9 @@ fi
 %license COPYING
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 23.0.6-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 23.0.6-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

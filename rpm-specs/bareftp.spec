@@ -2,7 +2,7 @@
 
 Name:           bareftp
 Version:        0.3.12
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        File transfer client supporting the FTP, FTP over SSL/TLS (FTPS) and SSH
 
 
@@ -76,6 +76,9 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %{_mandir}/man1/bareftp*
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.12-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.12-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

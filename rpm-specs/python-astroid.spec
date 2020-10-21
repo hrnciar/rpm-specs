@@ -9,7 +9,7 @@
 Name:           python-astroid
 Version:        2.4.2
 # Note: please check that this doesn't break pylint before committing and building! -GC
-Release:        1.git%{shortcommit}%{?dist}
+Release:        2.git%{shortcommit}%{?dist}
 Summary:        Common base representation of python source code for pylint and other projects
 License:        GPLv2+
 URL:            https://github.com/%{github_owner}/%{github_name}
@@ -75,6 +75,9 @@ rm -rf %{buildroot}%{python3_sitelib}/tests
 %{python3_sitelib}/astroid*.egg-info
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.2-2.git2d25e84
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jun 19 2020 Gwyn Ciesla <gwync@protonmail.com> - 2.4.2-1
 - 2.4.2
 

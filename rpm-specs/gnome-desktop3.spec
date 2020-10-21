@@ -5,13 +5,27 @@
 %global po_package                        gnome-desktop-3.0
 
 Name: gnome-desktop3
-Version: 3.37.2
+Version: 3.38.1
 Release: 1%{?dist}
 Summary: Library with common API for various GNOME modules
 
 License: GPLv2+ and LGPLv2+
 URL: http://www.gnome.org
-Source0: http://download.gnome.org/sources/gnome-desktop/3.37/gnome-desktop-%{version}.tar.xz
+Source0: http://download.gnome.org/sources/gnome-desktop/3.38/gnome-desktop-%{version}.tar.xz
+
+Source1: gnome-mimeapps.list
+# Generated with:
+# for i in `cat /home/hadess/Projects/jhbuild/totem/data/mime-type-list.txt | grep -v audio/flac | grep -v ^#` ; do if grep MimeType /home/hadess/Projects/jhbuild/rhythmbox/data/rhythmbox.desktop.in.in | grep -q "$i;" ; then echo "$i=org.gnome.Rhythmbox3.desktop;rhythmbox.desktop;org.gnome.Totem.desktop;" >> totem-defaults.list ; else echo "$i=org.gnome.Totem.desktop;" >> totem-defaults.list ; fi ; done ; for i in `cat /home/hadess/Projects/jhbuild/totem/data/uri-schemes-list.txt | grep -v ^#` ; do echo "x-scheme-handler/$i=org.gnome.Totem.desktop;" >> totem-defaults.list ; done
+Source2: totem-defaults.list
+# Generated with:
+# for i in `cat /home/hadess/Projects/jhbuild/file-roller/data/supported-mime-types | sed 's/;//g'` application/x-source-rpm ; do if grep MimeType /usr/share/applications/org.gnome.Nautilus.desktop | grep -q "$i;" ; then echo "$i=org.gnome.Nautilus.desktop;org.gnome.FileRoller.desktop;" >> file-roller-defaults.list ; elif ! `grep -q $i gnome-mimeapps.list` ; then echo $i=org.gnome.FileRoller.desktop\; >> file-roller-defaults.list ; fi ; done && for i in `grep MimeType= /usr/share/applications/org.gnome.Nautilus.desktop | sed 's/MimeType=//' | sed 's/;/ /g'` ; do if ! `grep -q $i file-roller-defaults.list || grep -q $i gnome-mimeapps.list` ; then echo "missing handler $i" ; fi ; done
+Source3: file-roller-defaults.list
+# Generated with:
+# for i in `grep MimeType= /usr/share/applications/org.gnome.eog.desktop | sed 's/MimeType=//' | sed 's/;/ /g'` ; do echo $i=org.gnome.eog.desktop\; >> eog-defaults.list ; done
+Source4: eog-defaults.list
+# Generated with:
+# for i in `grep MimeType= /usr/share/applications/org.gnome.Evince.desktop | sed 's/MimeType=//' | sed 's/;/ /g'` ; do echo $i=org.gnome.Evince.desktop\; >> evince-defaults.list ; done
+Source5: evince-defaults.list
 
 BuildRequires: gcc
 BuildRequires: gettext
@@ -28,6 +42,9 @@ BuildRequires: pkgconfig(iso-codes)
 BuildRequires: pkgconfig(libseccomp)
 BuildRequires: pkgconfig(libudev)
 BuildRequires: pkgconfig(xkeyboard-config)
+
+Conflicts: shared-mime-info < 2.0-4
+Requires: shared-mime-info
 
 %if !0%{?flatpak}
 Requires: bubblewrap
@@ -77,12 +94,20 @@ the functionality of the installed %{name} package.
 %install
 %meson_install
 
+mkdir -p $RPM_BUILD_ROOT/%{_datadir}/applications
+install -m 644 %SOURCE1 $RPM_BUILD_ROOT/%{_datadir}/applications/gnome-mimeapps.list
+cat %SOURCE2 >> $RPM_BUILD_ROOT/%{_datadir}/applications/gnome-mimeapps.list
+cat %SOURCE3 >> $RPM_BUILD_ROOT/%{_datadir}/applications/gnome-mimeapps.list
+cat %SOURCE4 >> $RPM_BUILD_ROOT/%{_datadir}/applications/gnome-mimeapps.list
+cat %SOURCE5 >> $RPM_BUILD_ROOT/%{_datadir}/applications/gnome-mimeapps.list
+
 %find_lang %{po_package} --all-name --with-gnome
 
 %files -f %{po_package}.lang
 %doc AUTHORS NEWS README
 %license COPYING COPYING.LIB
 %{_datadir}/gnome/gnome-version.xml
+%{_datadir}/applications/gnome-mimeapps.list
 %{_libexecdir}/gnome-rr-debug
 # LGPL
 %{_libdir}/libgnome-desktop-3.so.19{,.*}
@@ -102,6 +127,35 @@ the functionality of the installed %{name} package.
 %{_datadir}/installed-tests
 
 %changelog
+* Mon Oct  5 2020 Kalev Lember <klember@redhat.com> - 3.38.1-1
+- Update to 3.38.1
+
+* Mon Sep 14 2020 Kalev Lember <klember@redhat.com> - 3.38.0-1
+- Update to 3.38.0
+
+* Mon Sep 07 2020 Kalev Lember <klember@redhat.com> - 3.37.92-1
+- Update to 3.37.92
+
+* Wed Aug 26 2020 Kalev Lember <klember@redhat.com> - 3.37.91-1
+- Update to 3.37.91
+
+* Tue Aug 25 2020 Bastien Nocera <bnocera@redhat.com> - 3.37.90.1-2
++ gnome-desktop3-3.37.90.1-2
+- Add GNOME specific defaults apps list, moved from shared-mime-info
+
+* Mon Aug 17 2020 Kalev Lember <klember@redhat.com> - 3.37.90.1-1
+- Update to 3.37.90.1
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.37.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Kalev Lember <klember@redhat.com> - 3.37.3-1
+- Update to 3.37.3
+
 * Fri Jun 05 2020 Kalev Lember <klember@redhat.com> - 3.37.2-1
 - Update to 3.37.2
 

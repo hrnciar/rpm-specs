@@ -1,6 +1,6 @@
 Name:           xgalaxy
 Version:        2.0.34
-Release:        32%{?dist}
+Release:        34%{?dist}
 Summary:        Arcade game: shoot down the space ships attacking the planet
 License:        GPL+
 URL:            http://sourceforge.net/projects/xgalaga/
@@ -95,6 +95,13 @@ install -p -m 644 %{name}.png \
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.34-34
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.34-33
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.34-32
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

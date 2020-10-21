@@ -2,7 +2,7 @@
 %global	header_dir	%{ruby_vendorarchdir}
 
 %global	gem_name		cairo
-%global	gemver		1.16.5
+%global	gemver		1.16.6
 #%%global	gem_githash	af3e3fc059
 
 # Upstream GIT http://github.com/rcairo/
@@ -224,6 +224,12 @@ ruby ./test/run-test.rb
 %{header_dir}/rb_cairo.h
 
 %changelog
+* Sun Aug  9 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.16.6-1
+- 1.16.6
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.16.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Feb  5 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1.16.5-1
 - 1.16.5
 

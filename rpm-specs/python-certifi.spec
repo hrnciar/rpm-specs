@@ -1,7 +1,7 @@
 %global pypi_name certifi
 
 Name:           python-%{pypi_name}
-Version:        2020.4.5.1
+Version:        2020.6.20
 Release:        1%{?dist}
 Summary:        Python package for providing Mozilla's CA Bundle
 
@@ -9,7 +9,7 @@ License:        MPLv2.0
 #https://www.mozilla.org/MPL/2.0/
 URL:            http://certifi.io/en/latest/
 Source0:        %pypi_source
-Patch1:         certifi-2020.4.5.1-use-system-cert.patch
+Patch1:         certifi-2020.6.20-use-system-cert.patch
 
 BuildArch:      noarch
 
@@ -62,6 +62,14 @@ find %{_builddir}/%{pypi_name}-%{version} -name '*.py' \
 %install
 %py3_install
 
+%check
+# sanity check
+export PYTHONPATH=%{buildroot}%{python3_sitelib}
+test $(%{python3} -m certifi) == /etc/pki/tls/certs/ca-bundle.crt
+test $(%{python3} -c 'import certifi; print(certifi.where())') == /etc/pki/tls/certs/ca-bundle.crt
+%{python3} -c 'import certifi; print(certifi.contents())' > contents
+diff --ignore-blank-lines /etc/pki/tls/certs/ca-bundle.crt contents
+
 %files -n python%{python3_pkgversion}-%{pypi_name}
 %license LICENSE
 %doc README.rst
@@ -69,6 +77,12 @@ find %{_builddir}/%{pypi_name}-%{version} -name '*.py' \
 %{python3_sitelib}/%{pypi_name}-*-py%{python3_version}.egg-info/
 
 %changelog
+* Thu Aug 13 2020 Elliott Sales de Andrade <quantum.analyst@gmail.com> - 2020.6.20-1
+- Update to 2020.6.20
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.4.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jun 04 2020 Miro Hrončok <mhroncok@redhat.com> - 2020.4.5.1-1
 - Update to 2020.4.5.1 (#1843713)
 

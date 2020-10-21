@@ -3,7 +3,7 @@
 
 # https://github.com/zmap/zlint
 %global goipath         github.com/zmap/zlint
-%global commit          9971d62266e74547157ff95b5413227e21d8fe23
+Version:                1.1.0
 
 %gometa
 
@@ -15,8 +15,8 @@ with RFC 5280 and the CA/Browser Forum Baseline Requirements (v.1.4.8).}
 %global godocs          README.md
 
 Name:           %{goname}
-Version:        0
-Release:        0.2%{?dist}
+Epoch:          1
+Release:        1%{?dist}
 Summary:        X.509 Certificate Linter based on CA/B Forum Baseline Requirements and RFC 5280
 
 # Upstream license specification: Apache-2.0
@@ -59,7 +59,8 @@ help2man --no-discard-stderr --no-info --version-string=%{version} %{buildroot}%
 
 %if %{with check}
 %check
-%gocheck
+# https://github.com/zmap/zlint/issues/461
+%gocheck -d lints
 %endif
 
 %files
@@ -72,6 +73,19 @@ help2man --no-discard-stderr --no-info --version-string=%{version} %{buildroot}%
 %gopkgfiles
 
 %changelog
+* Thu Aug 06 14:49:06 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 1:1.1.0-1
+- v1 package: downgrade to to 1.1.0
+
+* Tue Aug 04 22:24:53 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2.1.0-1
+- Update to 2.1.0
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.4
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

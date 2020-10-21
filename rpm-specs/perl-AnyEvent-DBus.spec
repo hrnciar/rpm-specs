@@ -1,6 +1,6 @@
 Name:           perl-AnyEvent-DBus
 Version:        0.31
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        Adapt Net::DBus to AnyEvent
 License:        GPL+ or Artistic
 
@@ -49,6 +49,9 @@ make test
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.31-28
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.31-27
 - Perl 5.32 rebuild
 

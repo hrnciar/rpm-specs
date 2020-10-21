@@ -1,12 +1,12 @@
-%global commit      f7d0de1f6a69e24d2dd962a308e7f3206c8d2fc8
+%global commit  98ff3de818ff158c22bd7c3ad61f2bb37d8bcb1f
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global date        20191113
+%global date    20200701
 
-%global corename    beetle-wswan
+%global corename beetle-wswan
 
 Name:           libretro-%{corename}
 Version:        0
-Release:        0.2.%{date}git%{shortcommit}%{?dist}
+Release:        0.3.%{date}git%{shortcommit}%{?dist}
 Summary:        Standalone port of Mednafen WonderSwan to libretro, itself a fork of Cygne
 
 License:        GPLv2
@@ -15,8 +15,9 @@ Source0:        %{url}/archive/%{commit}/%{name}-%{version}.%{date}git%{shortcom
 Source1:        https://raw.githubusercontent.com/flathub/org.gnome.Games/master/libretro-cores/mednafen_wswan.libretro
 
 BuildRequires:  gcc-c++
-Suggests:       gnome-games%{?_isa}
-Suggests:       retroarch%{?_isa}
+
+Supplements:    gnome-games%{?_isa}
+Supplements:    retroarch%{?_isa}
 
 %description
 %{summary}.
@@ -32,16 +33,24 @@ Suggests:       retroarch%{?_isa}
 
 
 %install
-%make_install prefix=%{_prefix} libdir=%{_libdir}
-install -Dp -m 0644 %{SOURCE1} %{buildroot}%{_libdir}/libretro/mednafen_wswan.libretro
+%make_install \
+    libdir=%{_libdir} \
+    prefix=%{_prefix}
+install -Dp -m0644 %{SOURCE1} %{buildroot}%{_libdir}/libretro/mednafen_wswan.libretro
 
 
 %files
 %license COPYING
-%{_libdir}/libretro
+%{_libdir}/libretro/
 
 
 %changelog
+* Sun Aug 09 2020 Artem Polishchuk <ego.cordatus@gmail.com> - 0-0.3.20200701git98ff3de
+- Update to latest git snapshot
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.3.20191113gitf7d0de1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.2.20191113gitf7d0de1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

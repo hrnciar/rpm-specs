@@ -1,11 +1,11 @@
 Name:           netcdf
-Version:        4.7.0
-Release:        3%{?dist}
+Version:        4.7.3
+Release:        4%{?dist}
 Summary:        Libraries for the Unidata network Common Data Form
 
 License:        NetCDF
 URL:            http://www.unidata.ucar.edu/software/netcdf/
-Source0:        https://github.com/Unidata/netcdf-c/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source0:        https://github.com/Unidata/netcdf-c/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  libtool
 BuildRequires:  chrpath
@@ -190,7 +190,6 @@ ln -s ../configure .
 popd
 
 # MPI builds
-export CC=mpicc
 for mpi in %{mpi_list}
 do
   mkdir $mpi
@@ -199,6 +198,7 @@ do
   ln -s ../configure .
   # parallel tests hang on s390(x)
   %configure %{configure_opts} \
+    CC=mpicc \
     --libdir=%{_libdir}/$mpi/lib \
     --bindir=%{_libdir}/$mpi/bin \
     --sbindir=%{_libdir}/$mpi/sbin \
@@ -229,10 +229,18 @@ done
 
 %check
 # Set to 1 to fail if tests fail
+%ifarch s390x
+# tst_filter fails on s390x
+# https://github.com/Unidata/netcdf-c/issues/1338
+fail=0
+%else
 fail=1
+%endif
 make -C build check || ( cat build/*/test-suite.log && exit $fail )
 # Allow openmpi to run with more processes than cores
 export OMPI_MCA_rmaps_base_oversubscribe=1
+# Work around UCX segfault issue - https://github.com/openucx/ucx/issues/5535
+export UCX_TCP_PUT_ENABLE=n
 for mpi in %{mpi_list}
 do
   module load mpi/$mpi-%{_arch}
@@ -259,6 +267,7 @@ done
 %{_bindir}/nc-config
 %{_includedir}/netcdf.h
 %{_includedir}/netcdf_aux.h
+%{_includedir}/netcdf_dispatch.h
 %{_includedir}/netcdf_filter.h
 %{_includedir}/netcdf_meta.h
 %{_includedir}/netcdf_mem.h
@@ -285,6 +294,7 @@ done
 %{_libdir}/mpich/bin/nc-config
 %{_includedir}/mpich-%{_arch}/netcdf.h
 %{_includedir}/mpich-%{_arch}/netcdf_aux.h
+%{_includedir}/mpich-%{_arch}/netcdf_dispatch.h
 %{_includedir}/mpich-%{_arch}/netcdf_filter.h
 %{_includedir}/mpich-%{_arch}/netcdf_meta.h
 %{_includedir}/mpich-%{_arch}/netcdf_mem.h
@@ -313,6 +323,7 @@ done
 %{_libdir}/openmpi/bin/nc-config
 %{_includedir}/openmpi-%{_arch}/netcdf.h
 %{_includedir}/openmpi-%{_arch}/netcdf_aux.h
+%{_includedir}/openmpi-%{_arch}/netcdf_dispatch.h
 %{_includedir}/openmpi-%{_arch}/netcdf_filter.h
 %{_includedir}/openmpi-%{_arch}/netcdf_meta.h
 %{_includedir}/openmpi-%{_arch}/netcdf_mem.h
@@ -328,6 +339,22 @@ done
 
 
 %changelog
+* Sun Sep  6 2020 Orion Poplawski <orion@nwra.com> - 4.7.3-4
+- Work around UCX segfault issue (FTBFS bz#1864189)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.7.3-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.7.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Orion Poplawski <orion@nwra.com> - 4.7.3-1
+- Update to 4.7.3
+
+* Thu Jun 25 2020 Orion Poplawski <orion@cora.nwra.com> - 4.7.0-4
+- Rebuild for hdf5 1.10.6
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.7.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

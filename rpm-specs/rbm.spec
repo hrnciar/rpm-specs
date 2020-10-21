@@ -3,7 +3,7 @@
 
 Name:       rbm
 Version:    0.4
-Release:    16.20190910git%{shortcommit0}%{?dist}
+Release:    18.20190910git%{shortcommit0}%{?dist}
 Summary:    Reproducible Build Manager
 License:    CC0
 URL:        https://rbm.torproject.org/
@@ -74,6 +74,12 @@ allow reproducing the build.
 %{_mandir}/man7/*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.4-18.20190910gite04f03f
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jun 26 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.4-17.20190910gite04f03f
+- Perl 5.32 re-rebuild of bootstrapped packages
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 0.4-16.20190910gite04f03f
 - Perl 5.32 rebuild
 

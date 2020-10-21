@@ -3,30 +3,30 @@
 
 # https://github.com/hashicorp/go-hclog
 %global goipath         github.com/hashicorp/go-hclog
-Version:                0.9.2
+Version:                0.14.1
 
 %gometa
-
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-hashicorp-go-hclog-devel < 0-0.5
-Obsoletes:      golang-github-hashicorp-go-hclog-unit-test-devel < 0-0.5
-}
 
 %global common_description %{expand:
 Go-hclog is a package for Go that provides a simple key/value logging interface
 for use in development and production environments.}
 
 %global golicenses      LICENSE
-%global godocs          README.md README-hclogvet
+%global godocs          README.md README-hclogvet.md
 
 Name:           %{goname}
-Release:        4%{?dist}
+Release:        2%{?dist}
 Summary:        Common logging package for hashicorp tools
 
 License:        MIT
 URL:            %{gourl}
 Source0:        %{gosource}
+
+BuildRequires:  golang(github.com/fatih/color)
+BuildRequires:  golang(github.com/mattn/go-isatty)
+BuildRequires:  golang(golang.org/x/tools/go/analysis)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/passes/inspect)
+BuildRequires:  golang(golang.org/x/tools/go/analysis/singlechecker)
 
 %if %{with check}
 # Tests
@@ -41,7 +41,7 @@ BuildRequires:  golang(github.com/stretchr/testify/require)
 
 %prep
 %goprep
-mv hclogvet/README README-hclogvet
+mv hclogvet/README.md README-hclogvet.md
 
 %build
 for cmd in hclogvet; do
@@ -55,17 +55,24 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
 %if %{with check}
 %check
-%gocheck
+# .: TestInterceptLogger fixed next release
+%gocheck -d .
 %endif
 
 %files
 %license LICENSE
-%doc README.md README-hclogvet
+%doc README.md README-hclogvet.md
 %{_bindir}/*
 
 %gopkgfiles
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 19:24:24 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 0.14.1-1
+- Update to 0.14.1
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

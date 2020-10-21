@@ -1,6 +1,6 @@
 Name:		coan
 Version:	6.0.1
-Release:	21%{?dist}
+Release:	22%{?dist}
 Summary:	A command line tool for simplifying the pre-processor conditionals in source code
 License:	BSD
 URL:		http://coan2.sourceforge.net/
@@ -56,6 +56,7 @@ for i in AUTHORS LICENSE.BSD README ChangeLog ; do
 done
 
 %build
+export CXXFLAGS="-std=c++14 $RPM_OPT_FLAGS
 %configure
 %make_build
 
@@ -82,6 +83,12 @@ done
 %{_mandir}/man1/%{name}.1.*
 
 %changelog
+* Mon Jul 27 2020 Jeff Law <law@redhat.com> - 6.0.1-23
+- Force C++14 as the code is not ready for C++17
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.1-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.1-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

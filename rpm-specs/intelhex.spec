@@ -1,10 +1,11 @@
 Name:          intelhex
 Version:       2.2.1
-Release:       4%{?dist}
+Release:       7%{?dist}
 Summary:       Utilities for manipulating Intel HEX file format
 License:       BSD
 URL:           https://github.com/python-intelhex/intelhex
 Source0:       https://github.com/python-intelhex/intelhex/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Patch0:        intelhex-2.2.1-tostring.patch
 
 BuildArch: noarch
 BuildRequires: dos2unix
@@ -47,7 +48,7 @@ Summary:  Manuak for the IntelHex python library
 User manual for IntelHex
 
 %prep
-%autosetup
+%autosetup -p1
 dos2unix Readme.rst
 dos2unix NEWS.rst
 sed -i '1d' intelhex/bench.py
@@ -75,6 +76,16 @@ popd
 %doc docs/manual/.build/html/searchindex.js
 
 %changelog
+* Mon Sep 28 2020 Than Ngo <than@redhat.com> - 2.2.1-7
+- fixed FTBFS, python 3.2: tostring() is renamed to tobytes()
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 10 2020 Peter Robinson <pbrobinson@fedoraproject.org> - 2.2.1-4
 - Review updates, URL update
 

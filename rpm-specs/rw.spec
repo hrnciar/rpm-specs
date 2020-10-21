@@ -1,7 +1,7 @@
 Name:		rw
 Summary:	Program that calculates rank-width and rank-decompositions
 Version:	0.7
-Release:	10%{?dist}
+Release:	11%{?dist}
 License:	GPLv2+
 URL:		http://pholia.tdi.informatik.uni-frankfurt.de/~philipp/software/%{name}.shtml
 Source0:	http://pholia.tdi.informatik.uni-frankfurt.de/~philipp/software/%{name}-%{version}.tar.gz
@@ -62,6 +62,9 @@ cp -p AUTHORS NEWS %{buildroot}%{_docdir}/%{name}/
 %{_libdir}/lib%{name}.so
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.7-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

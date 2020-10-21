@@ -11,7 +11,7 @@
 
 Name:           php-%{libname}
 Version:        1.2.4.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        PHP code to purify and filter HTML
 License:        LGPLv3 and GPLv2+
 URL:            http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/
@@ -66,6 +66,9 @@ install -pm 0644 %{libname}.php %{buildroot}%{_datadir}/php/%{libname}
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.4.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

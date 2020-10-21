@@ -6,7 +6,7 @@
 
 Name:		hidrd
 Version:	0.2.0
-Release:	12.%{git_suffix}%{?dist}
+Release:	13.%{git_suffix}%{?dist}
 Summary:	HID report descriptor I/O library and conversion tool
 License:	GPLv2+
 URL:		https://github.com/DIGImend/hidrd
@@ -56,6 +56,9 @@ rm -vf %{buildroot}%{_libdir}/*.{a,la}
 %{_includedir}/%{name}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-13.20180117git7e94881a
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-12.20180117git7e94881a
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

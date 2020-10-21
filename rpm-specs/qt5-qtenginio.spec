@@ -7,7 +7,7 @@ Summary: Qt5 - Enginio component
 Name:    qt5-%{qt_module}
 Epoch:   1
 Version: 1.6.2
-Release: 29%{?dist}
+Release: 32%{?dist}
 
 # See LICENSE.GPL LICENSE.LGPL LGPL_EXCEPTION.txt, for details
 # See also http://doc.qt.io/qt-5/licensing.html
@@ -127,6 +127,16 @@ popd
 
 
 %changelog
+* Fri Sep 11 2020 Jan Grulich <jgrulich@redhat.com> - 1:1.6.2-32
+- rebuild (qt5)
+
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.6.2-31
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.6.2-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Apr 05 2020 Rex Dieter <rdieter@fedoraproject.org> - 1:1.6.2-29
 - rebuild (qt5)
 

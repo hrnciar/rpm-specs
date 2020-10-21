@@ -1,6 +1,6 @@
 Name:           bcm43xx-fwcutter
 Version:        006
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        Firmware extraction tool for Broadcom wireless driver
 
 License:        GPLv2+
@@ -40,6 +40,9 @@ install -m0644 bcm43xx-fwcutter.1 $RPM_BUILD_ROOT%{_mandir}/man1
 %doc README README.Fedora COPYING
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 006-24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 006-23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

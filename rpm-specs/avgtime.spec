@@ -3,7 +3,7 @@
 
 Name:           avgtime
 Version:        0.5.1
-Release:        0.24.git%{verdate}%{?dist}
+Release:        0.26.git%{verdate}%{?dist}
 Summary:        Time a command and print average, standard deviation
 
 License:        Boost
@@ -22,8 +22,6 @@ Source0:        avgtime-%{verdate}.tar.gz
 ExclusiveArch:  %{ldc_arches}
 
 BuildRequires:  ldc
-BuildRequires:  ldc-druntime
-BuildRequires:  ldc-phobos-devel
 
 
 %description
@@ -56,6 +54,12 @@ cp -a avgtime $RPM_BUILD_ROOT%{_bindir}
 
 
 %changelog
+* Fri Aug 21 2020 Kalev Lember <klember@redhat.com> - 0.5.1-0.26.git20150501
+- Rebuilt for ldc 1.23
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-0.25.git20150501
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Feb 10 2020 Kalev Lember <klember@redhat.com> - 0.5.1-0.24.git20150501
 - Rebuilt for ldc 1.20
 

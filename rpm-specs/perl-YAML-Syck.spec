@@ -7,7 +7,7 @@
 
 Name:           perl-YAML-Syck
 Version:        1.32
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Fast, lightweight YAML loader and dumper
 License:        BSD and MIT
 URL:            https://metacpan.org/release/YAML-Syck
@@ -92,6 +92,9 @@ make test
 %{_mandir}/man3/YAML::Syck.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.32-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.32-2
 - Perl 5.32 rebuild
 

@@ -11,23 +11,25 @@
 ##########################################
 # Defined by upsteam
 #
-%define         main_ver      0.3.0
+%define         main_ver      0.4.0
 #%%define         strtag        20200118
 ##########################################
 #
-%global		reponame      JDim
-%global         gitdate       20200118
-%global         gitcommit     4ce7f5f017dde79f125274048dd3d3e51501826b
+%global         reponame      JDim
+%global         gitdate       20200202
+#%%global         gitcommit     c9d9ec65c4acb06a126aecacdf4b722660961f85
+%global         gitcommit     JDim-v%{main_ver}
 %global         shortcommit   %(c=%{gitcommit}; echo ${c:0:7})
 
-%global         tarballdate   20200131
-%global         tarballtime   1441
+%global         tarballdate   20200811
+%global         tarballtime   1400
 
 ##########################################
 # Defined by vendor
 #
 %define         vendor_rel    1
 %define         extra_rel     %{nil}
+%define         use_gitcommit_as_rel  0
 # Tag name changed from vendor to vendorname so as not to
 # overwrite Vendor entry in Summary
 %define         vendorname    fedora
@@ -36,8 +38,11 @@
 ##########################################
 
 ##########################################
-#%global         rel           %{vendor_rel}.D%{gitdate}git%{shortcommit}%{?dist}
+%if 0%{?use_gitcommit_as_rel} >= 1
+%global         rel           %{vendor_rel}.D%{gitdate}git%{shortcommit}%{?dist}
+%else
 %define         rel           %{vendor_rel}%{?dist}
+%endif
 
 %define         _with_migemo  1
 %define         _with_onig    0
@@ -63,7 +68,6 @@ Source1:        create-JD-git-bare-tarball.sh
 
 Patch0:         jdim-0.3.0-env-pkg-distro-specific.patch
 # Upstream patch
-Patch1007:      0007-MISC-remove_space-handle-the-case-str-consists-of-ju.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  %{gtkmmdevel}
@@ -102,8 +106,8 @@ cd JDim
 git config user.name "%{name} Fedora maintainer"
 git config user.email "%{name}-owner@fedoraproject.org"
 
-#git checkout -b %{version}-fedora %{gitcommit}
-git checkout -b %{version}-fedora-local %{reponame}-v%{main_ver}
+git checkout -b %{version}-fedora-local %{gitcommit}
+#git checkout -b %{version}-fedora-local %{reponame}-v%{main_ver}
 
 cp -a [A-Z]* ..
 
@@ -112,11 +116,11 @@ if ( uname -n | grep -q 'fedoraproject\.org' ) ; then
 %patch0 -p2 -b .env_fedora
 git commit -m "apply Fedora specific config" -a
 fi
-cat %PATCH1007 | git am
 
 # reset to base, as git information is embedded in the source
 git checkout -b %{version}-fedora
-git reset %{reponame}-v%{main_ver}
+#git reset %{reponame}-v%{main_ver}
+git reset %{gitcommit}
 
 autoreconf -i
 
@@ -168,6 +172,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/jdim.metainfo.
 %{_datadir}/icons/hicolor/*/apps/jdim.*
 
 %changelog
+* Tue Aug 11 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1:0.4.0-1
+- JDim 0.4.0
+
 * Mon Feb  3 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 1:0.3.0-1
 - Use JDim, introduce Epoch
 - 0.3.0

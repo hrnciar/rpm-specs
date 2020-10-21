@@ -1,6 +1,6 @@
 Name:           perl-Clone-PP
 Version:        1.07
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Recursively copy Perl data-types
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Clone-PP
@@ -51,6 +51,9 @@ make test
 %{_mandir}/man3/Clone::PP.3*
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.07-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.07-12
 - Perl 5.32 rebuild
 

@@ -1,6 +1,6 @@
 Name:           pipenightdreams
 Version:        0.10.0
-Release:        30%{?dist}
+Release:        32%{?dist}
 Summary:        Connect the waterpipes to create a proper pipeline
 License:        GPLv2+
 URL:            http://www.libsdl.org/projects/pipenightdreams/
@@ -10,6 +10,7 @@ Patch0:         pipenightdreams-0.10.0-gcc41.patch
 Patch1:         pipenightdreams-0.10.0-datadir.patch
 Patch2:         pipenightdreams-0.10.0-sanitize.patch
 Patch3:         pipenightdreams-0.10.0-quit.patch
+Patch4:         pipenightdreams-0.10.0-config.patch
 BuildRequires:  SDL_image-devel desktop-file-utils flex gcc-c++
 Requires:       hicolor-icon-theme
 
@@ -27,6 +28,7 @@ lives, required pipes per level and an easy and fast interface.
 %patch1 -p1 -z .datadir
 %patch2 -p1 -z .sanitize
 %patch3 -p1 -z .quit
+%patch4 -p1 -z .config
 
 
 %build
@@ -62,6 +64,12 @@ install -p -m 644 images/pipes_space/horizontal.png \
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-32
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 0.10.0-31
+- Fix broken configure test compromised by LTO
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

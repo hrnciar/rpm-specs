@@ -1,6 +1,6 @@
 Name:           gnome-subtitles
 Version:        1.6
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        Subtitle editor for Gnome
 
 #Files under src/External/NCharDet are MPLv1.1 or GPLv2+ or LGPLv2+
@@ -66,6 +66,13 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_metainfodir}/*.appdata.x
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-6
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.6-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Apr 02 2020 Julian Sikorski <belegdol@fedoraproject.org> - 1.6-4
 - Add missing gstreamer1-plugins-good-gtk dependency (RH #1819653)
 

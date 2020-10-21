@@ -16,7 +16,7 @@
 Name:           gnome-shell-extension-system-monitor-applet
 Epoch:          1
 Version:        38
-Release:        8%{?gitsnapinfo}%{?dist}
+Release:        9%{?gitsnapinfo}%{?dist}
 Summary:        A Gnome shell system monitor extension
 
 # The entire source code is GPLv3+ except convenience.js, which is BSD
@@ -88,6 +88,9 @@ fi
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:38-9.20200503git7f8f0a7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun May 03 2020 Nicolas Viéville <nicolas.vieville@uphf.fr> - 1:38-8.20200503git7f8f0a7
 - Updated to last upstream commits
 - Fix string warning: Use ByteArray

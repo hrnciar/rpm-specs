@@ -1,8 +1,8 @@
 %global sum Graphical user interface to version control systems
 
 Name:           rabbitvcs
-Version:        0.17.1
-Release:        16%{?dist}
+Version:        0.18
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        GPLv2+
@@ -24,11 +24,6 @@ and straightforward access to the version control systems you use.
 %package        core
 Summary:        Common package of RabbitVCS
 Requires:       meld
-Requires:       git
-Requires:       mercurial
-Requires:       subversion
-# rhbz#1226816 - Gedit plugin not working with Gedit later than version 3.12
-Obsoletes:      rabbitvcs-gedit < %{version}-%{release}
 
 %description    core
 Contains files shared between the RabbitVCS extensions.
@@ -85,7 +80,7 @@ Summary:        Nemo extension for RabbitVCS
 # nemo needs python3 for plugins
 Requires:       python3-rabbitvcs = %{version}-%{release}
 Requires:       python3-dbus
-Requires:       python3-nemo
+Requires:       nemo-python
 Requires:       nemo
 
 %description    nemo
@@ -115,7 +110,7 @@ pathfix.py -pni "%{__python3} %{py3_shbang_opts}" .
 %py3_install
 install -p -m0755 clients/cli/rabbitvcs -D %{buildroot}%{_bindir}/rabbitvcs
 install -p -m0644 clients/caja/RabbitVCS.py -D %{buildroot}%{_datadir}/caja-python/extensions/RabbitVCS.py
-install -p -m0644 clients/nautilus-3.0/RabbitVCS.py -D %{buildroot}%{_datadir}/nautilus-python/extensions/RabbitVCS.py
+install -p -m0644 clients/nautilus/RabbitVCS.py -D %{buildroot}%{_datadir}/nautilus-python/extensions/RabbitVCS.py
 install -p -m0644 clients/nemo/RabbitVCS.py -D %{buildroot}%{_datadir}/nemo-python/extensions/RabbitVCS.py
 install -p -m0644 clients/thunar/RabbitVCS.py -D %{buildroot}%{_datadir}/thunarx-python/extensions/RabbitVCS.py
 
@@ -149,6 +144,18 @@ pathfix.py -pni "%{__python3} %{py3_shbang_opts}" %{buildroot}%{_bindir}/rabbitv
 %{_datadir}/thunarx-python/extensions/*.py*
 
 %changelog
+* Fri Sep 04 2020 Pete Walter <pwalter@fedoraproject.org> - 0.18-2
+- Don't require git/svn/mercurial and instead rely on the user installing what
+  they actually need (#1874760)
+- Require nemo-python instead of renamed python3-nemo
+- Remove old rabbitvcs-gedit obsoletes
+
+* Mon Aug 31 2020 Pete Walter <pwalter@fedoraproject.org> - 0.18-1
+- Update to 0.18
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.17.1-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.17.1-16
 - Rebuilt for Python 3.9
 

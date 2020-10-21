@@ -1,7 +1,7 @@
 Name:           cagibi
 Summary:        SSDP (UPnP discovery) cache/proxy daemon
 Version:        0.2.0
-Release:        19%{?dist}
+Release:        21%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.kde.org/
@@ -22,18 +22,15 @@ Cagibi is a cache/proxy daemon for SSDP (the discovery part of UPnP).
 
 
 %build
-mkdir %{_target_platform}
-pushd %{_target_platform}
 # disable copious debug output,  http://bugzilla.redhat.com/865964
 export CXXFLAGS="%{optflags} -DQT_NO_DEBUG_OUTPUT"
-%{cmake} ..
-popd
 
-%make_build  -C %{_target_platform}
+%cmake
+%cmake_build
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%cmake_install
 
 # unpackaged files
 rm -f %{buildroot}%{_libdir}/pkgconfig/cagibi.pc
@@ -49,6 +46,13 @@ rm -f %{buildroot}%{_libdir}/pkgconfig/cagibi.pc
 
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-21
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-20
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.0-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

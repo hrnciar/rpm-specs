@@ -5,7 +5,7 @@
 
 Name: python-%{appname}
 Version: 0.8.0
-Release: 3%{?dist}
+Release: 5%{?dist}
 Summary: %{appsum}
 
 License: MIT
@@ -14,6 +14,7 @@ Source0: %{url}/archive/%{version}/%{appname}-%{version}.tar.gz
 BuildArch: noarch
 
 BuildRequires: python3-devel
+BuildRequires: python3-setuptools
 BuildRequires: python3dist(pytest)
 
 %description
@@ -45,6 +46,12 @@ Summary: %{appsum}
 %{python3_sitelib}/node_semver-*.egg-info/
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Wed Jun 24 2020 Vitaly Zaitsev <vitaly@easycoding.org> - 0.8.0-4
+- Added python3-setuptools to build requirements.
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.8.0-3
 - Rebuilt for Python 3.9
 

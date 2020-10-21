@@ -1,6 +1,6 @@
 Name:           make-it-quick
-Version:        0.2.5
-Release:        3%{?dist}
+Version:        0.2.6
+Release:        2%{?dist}
 Summary:        A make-only build system for C/C++ programs
 License:        GPLv3+
 URL:            https://github.com/c3d/%{name}
@@ -51,6 +51,12 @@ Development files for make-it-quick
 %{_datadir}/pkgconfig/%{name}.pc
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 6 2020 Christophe de Dinechin <dinechin@redhat.com> - 0.2.6-1
+- Minor fixes and typos
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

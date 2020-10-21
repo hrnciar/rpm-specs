@@ -13,7 +13,7 @@
 
 Name:           php-pear-Net-Sieve
 Version:        1.4.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Handles talking to a sieve server
 
 License:        BSD
@@ -81,6 +81,9 @@ fi
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.4.4-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

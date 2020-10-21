@@ -5,7 +5,7 @@
 %global crate mailparse
 
 Name:           rust-%{crate}
-Version:        0.12.1
+Version:        0.13.0
 Release:        1%{?dist}
 Summary:        Simple parser for MIME e-mail messages
 
@@ -71,6 +71,15 @@ which use "default" feature of "%{crate}" crate.
 %endif
 
 %changelog
+* Mon Oct 19 2020 Fabio Valentini <decathorpe@gmail.com> - 0.13.0-1
+- Update to version 0.13.0.
+
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.12.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Fri Jul 10 2020 Josh Stone <jistone@redhat.com> - 0.12.2-1
+- Update to 0.12.2
+
 * Mon May 18 07:39:42 CEST 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 0.12.1-1
 - Update to 0.12.1
 

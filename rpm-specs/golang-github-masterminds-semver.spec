@@ -3,15 +3,11 @@
 
 # https://github.com/Masterminds/semver
 %global goipath         github.com/Masterminds/semver
-Version:                3.0.3
+Version:                3.1.0
 
 %gometa
 
-# Remove in F33:
-%global godevelheader %{expand:
-Obsoletes:      golang-github-Masterminds-semver-devel < 2.0.0-0.2
-Conflicts:      golang-github-Masterminds-semver-1-devel
-}
+%global goaltipaths     github.com/Masterminds/semver/v3
 
 %global common_description %{expand:
 The semver package provides the ability to work with Semantic Versions in Go.
@@ -57,6 +53,12 @@ cp %{S:1} %{S:2} .
 %gopkgfiles
 
 %changelog
+* Wed Jul 29 19:11:03 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.1.0-1
+- Update to 3.1.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue Jan 28 23:46:22 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 3.0.3-1
 - Update to 3.0.3
 

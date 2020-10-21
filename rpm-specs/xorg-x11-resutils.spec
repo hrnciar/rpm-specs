@@ -7,7 +7,7 @@
 Summary:    X.Org X11 X resource utilities
 Name:       xorg-x11-resutils
 Version:    7.7
-Release:    5%{?dist}
+Release:    6%{?dist}
 License:    MIT
 URL:        https://www.x.org
 
@@ -74,6 +74,9 @@ A collection of utilities for managing X resources.
 %{_mandir}/man1/viewres.1*
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.7-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.7-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

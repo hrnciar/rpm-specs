@@ -3,7 +3,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.2.9
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        run headless display inside X virtual framebuffer (Xvfb)
 
 License:        MIT
@@ -59,6 +59,9 @@ nosetests-%{python3_version}
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.2.9-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 0.2.9-11
 - Rebuilt for Python 3.9
 

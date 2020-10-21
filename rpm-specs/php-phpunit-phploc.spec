@@ -8,26 +8,31 @@
 # Please, preserve the changelog entries
 #
 
+%bcond_without tests
+
 # For compatibility with SCL
 %undefine __brp_mangle_shebangs
 
-%global gh_commit    00e3bade7b22a6f23b17c3bf2fa4dba24ead8a29
+%global gh_commit    e3c1dc59ddd33e12abf5325a3f42261b8ef26142
 %global gh_short     %(c=%{gh_commit}; echo ${c:0:7})
 %global gh_owner     sebastianbergmann
 %global gh_project   phploc
-%global php_home     %{_datadir}/php/SebastianBergmann
+%global php_home     %{_datadir}/php
 %global pear_name    phploc
 %global pear_channel pear.phpunit.de
-%global with_tests   %{?_without_tests:0}%{!?_without_tests:1}
+# Namespace
+%global ns_vendor    SebastianBergmann
+%global ns_project   PHPLOC
 
 Name:           php-phpunit-phploc
-Version:        6.0.2
+Version:        7.0.1
 Release:        1%{?dist}
 Summary:        A tool for quickly measuring the size of a PHP project
 
 License:        BSD
 URL:            https://github.com/%{gh_owner}/%{gh_project}
-Source0:        https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit}/%{name}-%{version}-%{gh_short}.tar.gz
+Source0:        %{name}-%{version}-%{gh_short}.tgz
+Source1:        makesrc.sh
 
 # Fix for RPM, use autoload
 Patch0:         %{gh_project}-rpm.patch
@@ -35,15 +40,15 @@ Patch0:         %{gh_project}-rpm.patch
 BuildArch:      noarch
 BuildRequires:  php(language) >= 7.3
 BuildRequires:  php-fedora-autoloader-devel
-%if %{with_tests}
+%if %{with tests}
 BuildRequires:  php-dom
 BuildRequires:  php-json
 BuildRequires:  php-spl
 BuildRequires:  php-tokenizer
-BuildRequires:  (php-composer(sebastian/finder-facade) >= 2.0   with php-composer(sebastian/finder-facade) < 3)
-BuildRequires:  (php-composer(sebastian/version)       >= 3.0   with php-composer(sebastian/version)       < 4)
-BuildRequires:  (php-composer(symfony/console)         >= 4.0   with php-composer(symfony/console)         < 6)
-%global phpunit %{_bindir}/phpunit8
+BuildRequires:  (php-composer(sebastian/cli-parser)      >= 1.0   with php-composer(sebastian/cli-parser)      < 2)
+BuildRequires:  (php-composer(sebastian/version)         >= 3.0   with php-composer(sebastian/version)         < 4)
+BuildRequires:  (php-composer(phpunit/php-file-iterator) >= 3.0   with php-composer(phpunit/php-file-iterator) < 4)
+%global phpunit %{_bindir}/phpunit9
 BuildRequires: %{phpunit}
 %endif
 
@@ -58,10 +63,10 @@ Requires:       php(language) >= 7.3
 Requires:       php-cli
 Requires:       php-dom
 Requires:       php-json
-Requires:       (php-composer(sebastian/finder-facade) >= 2.0   with php-composer(sebastian/finder-facade) < 3)
-Requires:       (php-composer(sebastian/version)       >= 3.0   with php-composer(sebastian/version)       < 4)
-Requires:       (php-composer(symfony/console)         >= 4.0   with php-composer(symfony/console)         < 6)
-# From phpcompatinfo report for version 6.0.2
+Requires:       (php-composer(sebastian/cli-parser)      >= 1.0   with php-composer(sebastian/cli-parser)      < 2)
+Requires:       (php-composer(sebastian/version)         >= 3.0   with php-composer(sebastian/version)         < 4)
+Requires:       (php-composer(phpunit/php-file-iterator) >= 3.0   with php-composer(phpunit/php-file-iterator) < 4)
+# From phpcompatinfo report for version 7.0.0
 Requires:       php-spl
 Requires:       php-tokenizer
 # For our autoloader
@@ -96,33 +101,31 @@ need to get a quick understanding of a project's size.
 cat << 'EOF' | tee -a src/autoload.php
 
 \Fedora\Autoloader\Dependencies::required([
-    '%{_datadir}/php/SebastianBergmann/FinderFacade2/autoload.php',
-    '%{_datadir}/php/SebastianBergmann/Version3/autoload.php',
-    '%{_datadir}/php/TheSeer/fDOMDocument/autoload.php',
-    [
-        '%{_datadir}/php/Symfony5/Component/Console/autoload.php',
-        '%{_datadir}/php/Symfony4/Component/Console/autoload.php',
-    ],
+    '%{php_home}/%{ns_vendor}/CliParser/autoload.php',
+    '%{php_home}/%{ns_vendor}/FileIterator3/autoload.php',
+    '%{php_home}/%{ns_vendor}/Version3/autoload.php',
 ]);
 EOF
 
 
 %install
-mkdir -p   %{buildroot}%{php_home}
-cp -pr src %{buildroot}%{php_home}/PHPLOC
+mkdir -p   %{buildroot}%{php_home}/%{ns_vendor}
+cp -pr src %{buildroot}%{php_home}/%{ns_vendor}/%{ns_project}
 
 install -D -p -m 755 phploc %{buildroot}%{_bindir}/phploc
 
 
-%if %{with_tests}
+%if %{with tests}
 %check
+mkdir vendor
+ln -s %{buildroot}%{php_home}/%{ns_vendor}/%{ns_project}/autoload.php vendor/autoload.php
+
 ret=0
-for cmd in "php %{phpunit}" php73 php74; do
+for cmd in "php %{phpunit}" php73 php74 php80; do
   if which $cmd; then
     set $cmd
     $1 ${2:-%{_bindir}/phpunit9} \
-      --bootstrap %{buildroot}%{php_home}/PHPLOC/autoload.php \
-      --verbose tests || ret=1
+      --verbose || ret=1
   fi
 done
 exit $ret
@@ -140,11 +143,22 @@ fi
 %license LICENSE
 %doc README.md
 %doc composer.json
-%{php_home}/PHPLOC
+%{php_home}/%{ns_vendor}/%{ns_project}
 %{_bindir}/phploc
 
 
 %changelog
+* Tue Aug 18 2020 Remi Collet <remi@remirepo.net> - 7.0.1-1
+- update to 7.0.1
+- sources from git snapshot
+- add dependency on sebastian/cli-parser
+- add dependency on phpunit/php-file-iterator
+- drop depency on sebastian/finder-facade
+- drop depency on symfony/console
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 28 2020 Remi Collet <remi@remirepo.net> - 6.0.2-1
 - update to 6.0.2
 - raise depency on PHP 7.3

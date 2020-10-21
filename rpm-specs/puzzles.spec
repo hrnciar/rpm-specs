@@ -1,6 +1,6 @@
 Name: puzzles
 Version: 9023
-Release: 22%{?dist}
+Release: 23%{?dist}
 Summary: A collection of one-player puzzle games
 
 License: MIT
@@ -65,6 +65,9 @@ done
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9023-23
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9023-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
